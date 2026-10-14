@@ -2,8 +2,8 @@
 ==============================================================================
 HOW TO USE THIS TEMPLATE (delete this comment block once you've read it)
 
-1. Click "Use this template" on GitHub to create your own PUBLIC repository.
-2. Read docs/REPO_SETUP_GUIDE.md and turn on the repository security settings (secret scanning, push protection, code scanning). These are settings, not files, so the template cannot enable them for you.
+1. Click "Use this template" on GitHub to create your own PUBLIC repository. DONE
+2. Read docs/REPO_SETUP_GUIDE.md and turn on the repository security settings (secret scanning, push protection, code scanning). These are settings, not files, so the template cannot enable them for you. DONE
 3. Replace every [bracketed placeholder] below with your project's details.
 4. Fill in the "Command contract" so anyone can set up, run, and test your tool with the exact commands you list.
 5. Work through SUBMISSION_CHECKLIST.md before you submit.
@@ -12,13 +12,18 @@ This template is language-agnostic. Use Python, JavaScript, Go, R, or anything e
 ==============================================================================
 -->
 
-# [Project name]
+# Missing Middleware
 
-[One or two sentences: what your tool does and who it is for. Example: "A state-level simulator that estimates how many additional homes a set of pro-housing reforms could unlock in [state], with a county-level breakdown."]
+A state-level simulator for Wisconsin legislators and legislative aides to compare how pro-housing reforms, individually and in combination, could change housing supply over five years and explain those impacts in specific legislative districts. The planned tool connects a diagnostic map of existing housing and development opportunities to policy scenarios with explicit assumptions and ranges of possible outcomes.
 
 ## What this tool does
 
-[Short description of the tool, the state(s) it covers, and the benchmark policy scenarios it addresses. List which of the five benchmark scenarios you implemented (at least three are required).]
+The project is in planning. The intended workflow has two parts:
+
+1. **Configure My State:** use Census housing and permit data, Wisconsin parcels, transit access, and available local records to establish a baseline and investigate development opportunities.
+2. **Model the Future:** compare a no-reform baseline with individual reforms and combinations addressing ADUs, transit-oriented density, and parking reduction, with statewide and district explanations. Development-fee reduction and missing middle remain additional candidates. An expanded economic-scenario layer is optional.
+
+See the [Project Plan](docs/PROJECT_PLAN.md) for the data strategy, research milestones, and unresolved modeling choices. No policy scenarios are implemented yet.
 
 ## Command contract
 
@@ -36,10 +41,13 @@ If your tool needs environment variables, copy `.env.example` to `.env` and fill
 
 ## Data
 
-[How to obtain the data your tool uses. Do not commit raw or large data — see data/README.md. Point to the datasets and describe any download or preparation steps. Full provenance goes in docs/DATA_PROVENANCE.md.]
+The planned baseline combines Census annual housing-stock estimates, ACS neighborhood housing characteristics, 2020 Census block housing counts, and the Building Permits Survey with Wisconsin parcel data. Local records will add detail where available. See the [data-source plan](data/DATA_SOURCES.md#project-data-plan-for-wisconsin) and [Project Plan](docs/PROJECT_PLAN.md).
+
+Automated acquisition and preparation commands are still to be implemented. Do not commit raw or large datasets; follow [data/README.md](data/README.md). Record the exact releases and transformations used in [Data Provenance](docs/DATA_PROVENANCE.md).
 
 ## Documentation
 
+- [Project Plan](docs/PROJECT_PLAN.md) — scope, two-part workflow, data strategy, and next milestones
 - [Model & Assumptions Overview](docs/MODEL_AND_ASSUMPTIONS.md) — how the tool works and what it assumes
 - [Policy Scenario Comparison](docs/POLICY_SCENARIO_COMPARISON.md) — scenario ranking and drivers
 - [Data Provenance](docs/DATA_PROVENANCE.md) — sources, licenses, and cleaning steps

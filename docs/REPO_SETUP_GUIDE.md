@@ -55,8 +55,8 @@ Use this to complete the dependency table in `docs/DISCLOSURES.md`.
 Before you submit, confirm each of these shows as enabled under
 **Settings → Code security**:
 
-- [ ] Secret scanning
-- [ ] Push protection
-- [ ] Code scanning (CodeQL default setup **or** the advanced workflow)
-- [ ] Dependabot alerts
-- [ ] Private vulnerability reporting
+- [x] Secret scanning
+- [x] Push protection
+- [x] Code scanning (CodeQL default setup **or** the advanced workflow)
+- [x] Dependabot alerts
+- [x] Private vulnerability reporting

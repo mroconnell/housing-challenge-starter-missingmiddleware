@@ -3,9 +3,9 @@
 This is a required deliverable and the basis for the Policy Insight &
 Interpretation criterion. Rank the benchmark scenarios you addressed, explain what drives the differences, identify which assumptions matter most, and be honest about what the tool cannot say.
 
-You must address at least three of the five benchmark scenarios:
+Model a Status Quo baseline plus at least three of the five benchmark reforms:
 
-1. Status Quo (Baseline)
+1. Accessory Dwelling Units (ADUs)
 1. Missing Middle / Gentle Density
 1. Transit-Oriented Density
 1. Parking Requirement Reduction
@@ -13,7 +13,11 @@ You must address at least three of the five benchmark scenarios:
 
 # Scenarios Addressed
 
-[List the scenarios you modeled. If you defined additional scenarios with your mentor, list them here too.]
+The planned Wisconsin comparison prioritizes ADUs, Transit-Oriented Density, and Parking Requirement Reduction. Missing Middle and Development Fee Reduction remain additional candidates. No scenarios have been modeled yet; see the [Project Plan](PROJECT_PLAN.md).
+
+Replace this planning statement with the implemented scenarios and their precise definitions when model results are available. List any additional scenarios developed with mentor guidance.
+
+The planned comparison also includes combinations of provisions and statewide results explained by legislative district. Package results must account for overlapping mechanisms rather than sum individual reform estimates. Identify documented defaults used where local evidence is limited and show whether reasonable changes alter the ranking. Expanded economic scenarios are optional.
 
 # Ranking of Results
 
