@@ -1,6 +1,6 @@
 # Submission Checklist
 
-This checklist is advisory and is not a guarantee that a submission will be deemed complete. Refer to the [Official Rules](https://housingchallenge.turnout.rocks/rules) for all submission requirements.
+This checklist is advisory and is not a guarantee that a submission will be deemed complete. Refer to the [Official Rules](https://housingchallenge.turnout.rocks/rules.html) for all submission requirements. Our team digest of the Handbook and Rules is in [docs/CHALLENGE_HANDBOOK.md](docs/CHALLENGE_HANDBOOK.md).
 
 ## Eligibility gates
 

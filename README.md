@@ -40,6 +40,8 @@ If your tool needs environment variables, copy `.env.example` to `.env` and fill
 
 ## Documentation
 
+- [Challenge Handbook and Rules digest](docs/CHALLENGE_HANDBOOK.md) — key dates, deliverables, gates, and scoring in one place
+- [Challenge Specification](docs/CHALLENGE_SPEC.md) — what to build and how it is scored
 - [Model & Assumptions Overview](docs/MODEL_AND_ASSUMPTIONS.md) — how the tool works and what it assumes
 - [Policy Scenario Comparison](docs/POLICY_SCENARIO_COMPARISON.md) — scenario ranking and drivers
 - [Data Provenance](docs/DATA_PROVENANCE.md) — sources, licenses, and cleaning steps

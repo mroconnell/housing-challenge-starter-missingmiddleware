@@ -1,6 +1,6 @@
 # Challenge Specification
 
-This document is the self-contained technical specification for the Housing Data and Technology Innovation Challenge. It lets this repository stand on its own: you should not need any other document to understand what to build and how your submission will be evaluated. The official [Challenge Handbook](https://housingchallenge.turnout.rocks/handbook.html) and the [Official Rules](https://housingchallenge.turnout.rocks/rules.html) remain authoritative for logistics, eligibility, and legal terms; where this spec and those documents conflict, they govern.
+This document is the self-contained technical specification for the Housing Data and Technology Innovation Challenge. It lets this repository stand on its own: you should not need any other document to understand what to build and how your submission will be evaluated. The official [Challenge Handbook](https://housingchallenge.turnout.rocks/handbook.html) and the [Official Rules](https://housingchallenge.turnout.rocks/rules.html) remain authoritative for logistics, eligibility, and legal terms; where this spec and those documents conflict, they govern. For a plain-language digest of the Handbook and Official Rules (dates, submission process, and eligibility), see [CHALLENGE_HANDBOOK.md](CHALLENGE_HANDBOOK.md).
 
 # The Problem
 
