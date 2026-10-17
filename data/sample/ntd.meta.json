@@ -1,0 +1,533 @@
+{
+  "source_id": "ntd",
+  "fetched_at": "2026-10-17T00:09:22+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "dataset_id": "8bui-9xvu",
+  "name": "Complete Monthly Ridership (with Adjustments and Estimates)",
+  "description": "The Monthly module includes a limited set of key indicators reported by transit properties. Data is reported on a monthly basis, by mode and type of service, for a fiscal year. The four data items included are: 1. Unlinked Passenger Trips 2. Vehicle Revenue Miles 3. Vehicle Revenue Hours 4. Vehicles Operated in Maximum Service (Peak Vehicles) This dataset presents these values in their own column in a long format (each row of the file is an individual Agency/Mode/TOS/Date). The data source is shared with the static Excel file hosted on the FTA website here: https://www.transit.dot.gov/ntd/data-product/monthly-module-adjusted-data-release. This dataset differs from the static Excel file in its formatting as well as being updated weekly, to capture data as it is reported and validated for a given publication month. Mode Codes: Alaska Railroad (AR) Cable Car (CC) Commuter Rail (CR) Heavy Rail (HR) Hybrid Rail (YR) Inclined Plane (IP) Light Rail (LR) Monorail/Automated Guideway (MG) Street",
+  "attribution": "Federal Transit Administration",
+  "license": "Public Domain U.S. Government",
+  "rows_updated_at": "2026-10-01",
+  "record_count": 372801,
+  "page_url": "https://data.transportation.gov/d/8bui-9xvu",
+  "api_url": "https://data.transportation.gov/resource/8bui-9xvu.json",
+  "fields": [
+    {
+      "name": "ntd_id",
+      "type": "text",
+      "alias": "NTD ID",
+      "description": "A unique FTA-assigned number (NTD ID) that each transit agency must have before filing a report."
+    },
+    {
+      "name": "legacy_ntd_id",
+      "type": "text",
+      "alias": "Legacy NTD ID",
+      "description": "Deprecated form of NTD ID used prior to 2019"
+    },
+    {
+      "name": "agency",
+      "type": "text",
+      "alias": "Agency",
+      "description": "The Transit Property\u2019s legal name"
+    },
+    {
+      "name": "mode_type_of_service_status",
+      "type": "text",
+      "alias": "Mode/Type of Service Status",
+      "description": "Indicates whether a mode and type of service has ended (inactive) or is continuing (active) as recorded in the NTD at the time of publication of this file."
+    },
+    {
+      "name": "reporter_type",
+      "type": "text",
+      "alias": "Reporter Type",
+      "description": "Indicates the agency's reporter type (Building Reporter, Full Reporter, Reduced Asset Reporter, Rural Reporter, Separate Service Reporter or Small System Waiver Reporter) as of their most recent report year."
+    },
+    {
+      "name": "uace_cd",
+      "type": "text",
+      "alias": "UACE CD",
+      "description": "The Census Bereau's Urban Area Census Code (UACE). This five-digit code uniquely identifies an urban area and remains unchanged from census to census."
+    },
+    {
+      "name": "uza_name",
+      "type": "text",
+      "alias": "UZA Name",
+      "description": "The name of the Census-designated Urbanized Area, from the most recent census, in which the system primarily operates."
+    },
+    {
+      "name": "mode",
+      "type": "text",
+      "alias": "Mode",
+      "description": "A system for carrying transit passengers described by specific right-of-way (ROW), technology and operational features."
+    },
+    {
+      "name": "tos",
+      "type": "text",
+      "alias": "TOS",
+      "description": "Describes how public transportation services are provided by the transit agency: directly operated (DO) or purchased transportation (PT) which also includes from Taxi Operators and Transportation Network Companies (TX, TN) services."
+    },
+    {
+      "name": "_3_mode",
+      "type": "text",
+      "alias": "3 Mode",
+      "description": "A grouping of modes based upon whether the mode operates on rail, is a bus mode (includes demand response services), is ferry boat service or other."
+    },
+    {
+      "name": "date",
+      "type": "calendar_date",
+      "alias": "Date",
+      "description": "The month (in Month-Year format) for which UPT, VRM, VRH and VOM was reported by the agency for the given Mode and TOS."
+    },
+    {
+      "name": "upt",
+      "type": "number",
+      "alias": "UPT",
+      "description": "The number of passengers who board public transportation vehicles. Passengers are counted each time they board vehicles no matter how many vehicles they use to travel from their origin to their destination."
+    },
+    {
+      "name": "voms",
+      "type": "number",
+      "alias": "VOMS",
+      "description": "The number of revenue vehicles operated to meet the maximum service requirement for the respective month."
+    },
+    {
+      "name": "vrh",
+      "type": "number",
+      "alias": "VRH",
+      "description": "The hours that vehicles are scheduled to or actually travel while in revenue service. Vehicle revenue hours include layovers and driver recovery time."
+    },
+    {
+      "name": "vrm",
+      "type": "number",
+      "alias": "VRM",
+      "description": "The miles that vehicles are scheduled to or actually travel while in revenue service"
+    },
+    {
+      "name": "agency_mode_tos_date",
+      "type": "text",
+      "alias": "Agency Mode TOS Date",
+      "description": "Unique row identifier derived by concatenating agency, mode, TOS, UZA, status, reporter type and date columns."
+    },
+    {
+      "name": "state",
+      "type": "text",
+      "alias": "State",
+      "description": "State that the headquarters of the NTD Reporter is located in (not necessarily reflective of the entire extent of their transit operations, which may overlap multiple states)."
+    },
+    {
+      "name": "fta_region",
+      "type": "text",
+      "alias": "FTA Region",
+      "description": "The FTA region in which the reporter is located."
+    }
+  ],
+  "stations_dataset": {
+    "dataset_id": "wfz2-eft6",
+    "name": "2022 - 2025 NTD Annual Data - Stations and Facilities (by Mode and Age)",
+    "description": "This dataset details stations for each agency and mode for stations reported to the National Transit Database in the 2022, 2023, 2024, and 2025 report years. These data include the type of facility and the decade in which it was built. In many cases, stations are reported by each mode and type of service that uses them. For example, a single station used by bus - directly operated, bus - purchased transportation, and commuter bus - directly operated would be reported three times. For more detail, please see the NTD Policy Manual. Rural reporters do not report passenger stations and are not included in this file. Modes Demand Response, Demand Response - Taxi, Vanpool, and Publico also do not report stations and are also excluded. NTD Data Tables organize and summarize data from the National Transit Database in a manner that is more useful for quick reference and summary analysis. This dataset is based on the 2022 - 2025 Facility Inventory database files. In years 2015-2021, you can find",
+    "attribution": "Federal Transit Administration",
+    "license": "Public Domain U.S. Government",
+    "rows_updated_at": "2026-10-14",
+    "record_count": 22040,
+    "page_url": "https://data.transportation.gov/d/wfz2-eft6",
+    "api_url": "https://data.transportation.gov/resource/wfz2-eft6.json",
+    "fields": [
+      {
+        "name": "agency",
+        "type": "text",
+        "alias": "Agency",
+        "description": "The transit agency's name."
+      },
+      {
+        "name": "city",
+        "type": "text",
+        "alias": "City",
+        "description": "The city in which the agency is headquartered."
+      },
+      {
+        "name": "state",
+        "type": "text",
+        "alias": "State",
+        "description": "The state in which the agency is headquartered."
+      },
+      {
+        "name": "ntd_id",
+        "type": "text",
+        "alias": "NTD ID",
+        "description": "A five-digit identifying number for each agency used in the current NTD system."
+      },
+      {
+        "name": "organization_type",
+        "type": "text",
+        "alias": "Organization Type",
+        "description": "Description of the agency's legal entity."
+      },
+      {
+        "name": "reporter_type",
+        "type": "text",
+        "alias": "Reporter Type",
+        "description": "The type of NTD report that the agency completed this year."
+      },
+      {
+        "name": "report_year",
+        "type": "text",
+        "alias": "Report Year",
+        "description": "The year for which the data was reported."
+      },
+      {
+        "name": "uace_code",
+        "type": "text",
+        "alias": "UACE Code",
+        "description": "UACE Code remains consistent across census years."
+      },
+      {
+        "name": "uza_name",
+        "type": "text",
+        "alias": "UZA Name",
+        "description": "The name of the agency's Urbanized Area."
+      },
+      {
+        "name": "primary_uza_population",
+        "type": "number",
+        "alias": "Primary UZA Population",
+        "description": "The population of the urbanized area primarily served by the agency."
+      },
+      {
+        "name": "agency_voms",
+        "type": "number",
+        "alias": "Agency VOMS",
+        "description": "The number of revenue vehicles operated across the whole agency to meet the annual maximum service requirement. This is the revenue vehicle count during the peak season of the year; on the week and day that maximum service is provided. Vehicles operated in maximum service (VOMS) exclude atypical day"
+      },
+      {
+        "name": "modes",
+        "type": "text",
+        "alias": "Modes",
+        "description": "Modes served by a given facility."
+      },
+      {
+        "name": "facility_type",
+        "type": "text",
+        "alias": "Facility Type",
+        "description": "Brief description of facility purpose."
+      },
+      {
+        "name": "pre1940",
+        "type": "number",
+        "alias": "pre1940",
+        "description": "Count of a certain facility type in the era before the 1940s."
+      },
+      {
+        "name": "_1940s",
+        "type": "number",
+        "alias": "1940s",
+        "description": "Count of a certain facility type in the 1940s."
+      },
+      {
+        "name": "_1950s",
+        "type": "number",
+        "alias": "1950s",
+        "description": "Count of a certain facility type in the 1950s."
+      },
+      {
+        "name": "_1960s",
+        "type": "number",
+        "alias": "1960s",
+        "description": "Count of a certain facility type in the 1960s."
+      },
+      {
+        "name": "_1970s",
+        "type": "number",
+        "alias": "1970s",
+        "description": "Count of a certain facility type in the 1970s."
+      },
+      {
+        "name": "_1980s",
+        "type": "number",
+        "alias": "1980s",
+        "description": "Count of a certain facility type in the 1980s."
+      },
+      {
+        "name": "_1990s",
+        "type": "number",
+        "alias": "1990s",
+        "description": "Count of a certain facility type in the 1990s."
+      },
+      {
+        "name": "_2000s",
+        "type": "number",
+        "alias": "2000s",
+        "description": "Count of a certain facility type in the 2000s."
+      },
+      {
+        "name": "_2010s",
+        "type": "number",
+        "alias": "2010s",
+        "description": "Count of a certain facility type in the 2010s."
+      },
+      {
+        "name": "_2020s",
+        "type": "number",
+        "alias": "2020s",
+        "description": "Count of a certain facility type in the 2020s."
+      },
+      {
+        "name": "total_facilities",
+        "type": "number",
+        "alias": "Total Facilities",
+        "description": "Total count of a facility type."
+      }
+    ],
+    "sample_rows": [
+      {
+        "agency": "King County, dba: King County Metro",
+        "city": "Seattle",
+        "state": "WA",
+        "ntd_id": "00001",
+        "organization_type": "City, County or Local Government Unit or Department of Transportation",
+        "reporter_type": "Full Reporter",
+        "report_year": "2025",
+        "uace_code": "80389",
+        "uza_name": "Seattle--Tacoma, WA",
+        "primary_uza_population": "3544011",
+        "agency_voms": "2417",
+        "modes": "DR",
+        "facility_type": "Administrative Office / Sales Office",
+        "pre1940": "1",
+        "_1940s": "0",
+        "_1950s": "0",
+        "_1960s": "0",
+        "_1970s": "0",
+        "_1980s": "0",
+        "_1990s": "0",
+        "_2000s": "0",
+        "_2010s": "0",
+        "_2020s": "0",
+        "total_facilities": "1"
+      },
+      {
+        "agency": "King County, dba: King County Metro",
+        "city": "Seattle",
+        "state": "WA",
+        "ntd_id": "00001",
+        "organization_type": "City, County or Local Government Unit or Department of Transportation",
+        "reporter_type": "Full Reporter",
+        "report_year": "2025",
+        "uace_code": "80389",
+        "uza_name": "Seattle--Tacoma, WA",
+        "primary_uza_population": "3544011",
+        "agency_voms": "2417",
+        "modes": "FB",
+        "facility_type": "Maintenance Facility (Service and Inspection)",
+        "pre1940": "0",
+        "_1940s": "0",
+        "_1950s": "0",
+        "_1960s": "0",
+        "_1970s": "0",
+        "_1980s": "0",
+        "_1990s": "0",
+        "_2000s": "0",
+        "_2010s": "1",
+        "_2020s": "0",
+        "total_facilities": "1"
+      },
+      {
+        "agency": "King County, dba: King County Metro",
+        "city": "Seattle",
+        "state": "WA",
+        "ntd_id": "00001",
+        "organization_type": "City, County or Local Government Unit or Department of Transportation",
+        "reporter_type": "Full Reporter",
+        "report_year": "2025",
+        "uace_code": "80389",
+        "uza_name": "Seattle--Tacoma, WA",
+        "primary_uza_population": "3544011",
+        "agency_voms": "2417",
+        "modes": "FB",
+        "facility_type": "Ferryboat Terminal",
+        "pre1940": "0",
+        "_1940s": "0",
+        "_1950s": "0",
+        "_1960s": "0",
+        "_1970s": "0",
+        "_1980s": "0",
+        "_1990s": "1",
+        "_2000s": "0",
+        "_2010s": "2",
+        "_2020s": "0",
+        "total_facilities": "3"
+      }
+    ]
+  },
+  "catalog_hits": [
+    {
+      "id": "gitm-7iz6",
+      "name": "Monthly Ridership Snapshot",
+      "type": "story",
+      "updated_at": "2026-07-15T14:41:58.633Z"
+    },
+    {
+      "id": "97hu-xnmw",
+      "name": "Monthly Ridership - 2023 to Present",
+      "type": "chart",
+      "updated_at": "2026-10-01T14:57:53.000Z"
+    },
+    {
+      "id": "8bui-9xvu",
+      "name": "Complete Monthly Ridership (with Adjustments and Estimates)",
+      "type": "dataset",
+      "updated_at": "2026-10-01T14:57:53.000Z"
+    },
+    {
+      "id": "pib7-nrdn",
+      "name": "CA Ridership",
+      "type": "chart",
+      "updated_at": "2026-10-01T14:57:53.000Z"
+    },
+    {
+      "id": "c6r8-u6x7",
+      "name": "CA Ridership Timeline",
+      "type": "chart",
+      "updated_at": "2026-10-01T14:57:53.000Z"
+    },
+    {
+      "id": "tnfy-euyi",
+      "name": "Weekly Transit Service Reference Data",
+      "type": "dataset",
+      "updated_at": "2026-01-07T20:57:22.000Z"
+    },
+    {
+      "id": "5ti2-5uiv",
+      "name": "Monthly Modal Time Series",
+      "type": "dataset",
+      "updated_at": "2026-10-06T18:51:31.000Z"
+    },
+    {
+      "id": "bri7-bfph",
+      "name": "Monthly Transit Service Estimates (Based on Weekly Transit Service Reference)",
+      "type": "filter",
+      "updated_at": "2026-01-07T20:57:22.000Z"
+    },
+    {
+      "id": "pgwk-wjqa",
+      "name": "Safety and Security Agency Profiles",
+      "type": "dataset",
+      "updated_at": "2026-10-06T20:22:07.000Z"
+    },
+    {
+      "id": "k22y-bc83",
+      "name": "Security Event Rates, Top 25 UZAs",
+      "type": "dataset",
+      "updated_at": "2026-10-06T20:22:58.000Z"
+    },
+    {
+      "id": "bdfq-b7s4",
+      "name": "National Fatality Summary",
+      "type": "filter",
+      "updated_at": "2026-10-06T20:22:58.000Z"
+    },
+    {
+      "id": "pwxe-equ8",
+      "name": "ITS4US HIRTA Health Connector Performance Evaluation Dataset",
+      "type": "dataset",
+      "updated_at": "2026-08-12T17:46:28.000Z"
+    },
+    {
+      "id": "m3xs-ria8",
+      "name": "Top 25 UZA Data for Bottom Tables",
+      "type": "filter",
+      "updated_at": "2026-10-06T20:22:58.000Z"
+    },
+    {
+      "id": "byxi-22mk",
+      "name": "2022 NTD Annual Data Summary - Facilities and Stations",
+      "type": "story",
+      "updated_at": "2024-09-10T18:39:23.448Z"
+    },
+    {
+      "id": "gd62-jzra",
+      "name": "2023 NTD Annual Data Summary - Facilities and Stations",
+      "type": "story",
+      "updated_at": "2024-10-17T14:01:37.197Z"
+    },
+    {
+      "id": "wfz2-eft6",
+      "name": "2022 - 2025 NTD Annual Data - Stations and Facilities (by Mode and Age)",
+      "type": "dataset",
+      "updated_at": "2026-10-14T18:25:08.000Z"
+    },
+    {
+      "id": "aqct-knjk",
+      "name": "2022 - 2025 NTD Annual Data - Stations and Facilities (by Agency and Facility Type)",
+      "type": "dataset",
+      "updated_at": "2026-10-16T18:30:44.000Z"
+    },
+    {
+      "id": "puti-h4fa",
+      "name": "NTD Annual Data View - Stations (by Agency and Age)",
+      "type": "filter",
+      "updated_at": "2026-10-14T18:25:08.000Z"
+    },
+    {
+      "id": "djja-i6n4",
+      "name": "2024 NTD Annual Data Summary - Facilities and Stations",
+      "type": "story",
+      "updated_at": "2026-10-12T16:44:29.017Z"
+    },
+    {
+      "id": "fphd-jyyj",
+      "name": "2022 - 2025 NTD Annual Data - Capital Expenses (by Capital Use)",
+      "type": "dataset",
+      "updated_at": "2026-10-14T14:49:05.000Z"
+    },
+    {
+      "id": "gm5m-aghp",
+      "name": "2023 NTD Annual Data - Facility Inventory",
+      "type": "dataset",
+      "updated_at": "2025-09-08T19:31:27.000Z"
+    },
+    {
+      "id": "xne5-u6c5",
+      "name": "2024 NTD Annual Data - Facility Inventory",
+      "type": "dataset",
+      "updated_at": "2026-02-24T14:04:38.000Z"
+    },
+    {
+      "id": "k9se-yvyg",
+      "name": "2025 NTD Annual Data - Transit Stations",
+      "type": "dataset",
+      "updated_at": "2026-10-05T17:37:48.000Z"
+    },
+    {
+      "id": "8rr7-fd8y",
+      "name": "2025 NTD Annual Data - Capital Use",
+      "type": "dataset",
+      "updated_at": "2026-09-10T16:00:20.000Z"
+    },
+    {
+      "id": "4ucy-dac3",
+      "name": "2025 NTD Annual Data - Operating Expenses",
+      "type": "dataset",
+      "updated_at": "2026-10-05T17:54:57.000Z"
+    },
+    {
+      "id": "h6z9-mpjc",
+      "name": "2025 NTD Annual Data - Operating Expenses Reconciling",
+      "type": "dataset",
+      "updated_at": "2026-10-05T17:54:39.000Z"
+    },
+    {
+      "id": "hz9m-rc6y",
+      "name": "2025 NTD Annual Data - Reduced Reporter Safety Information",
+      "type": "dataset",
+      "updated_at": "2026-09-01T13:10:27.000Z"
+    },
+    {
+      "id": "vg59-wfc4",
+      "name": "2025 NTD Annual Data - Revenue Sources",
+      "type": "dataset",
+      "updated_at": "2026-08-31T13:38:41.000Z"
+    }
+  ]
+}

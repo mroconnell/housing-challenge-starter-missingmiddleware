@@ -1,0 +1,17 @@
+{
+  "source_id": "bls_ces_ppi",
+  "fetched_at": "2026-10-17T00:08:57+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 6,
+  "api_url": "https://api.bls.gov/publicAPI/v2/timeseries/data/ (POST)",
+  "messages": [
+    "Series does not exist for Series PCU236115236115"
+  ],
+  "series": {
+    "CES2000000001": "All employees, construction, US, seasonally adjusted (thousands)",
+    "CES2023610001": "All employees, residential building construction, US, SA (thousands)",
+    "WPUSI012011": "PPI: construction materials (index 1982=100)",
+    "PCU236115236115": "PPI: new single-family housing construction (index)"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "source_id": "acs",
+  "fetched_at": "2026-10-17T00:08:56+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "vintage": "ACS 5-year, table B25024 (Units in Structure)",
+  "api_url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25024.dat",
+  "note": "The Census Data API now answers 'Missing Key' without a free key (https://api.census.gov/data/key_signup.html). Without a key our script reads the table-based summary file, which needs none. Set CENSUS_API_KEY to use the API.",
+  "fields": [
+    {
+      "name": "GEO_ID",
+      "type": "string",
+      "alias": "Census GEO_ID. 0400000US + 2-digit FIPS = state; 0500000US + 5-digit FIPS = county."
+    },
+    {
+      "name": "B25024_E001",
+      "type": "int",
+      "alias": "Units in structure: Total housing units, estimate"
+    },
+    {
+      "name": "B25024_M001",
+      "type": "int",
+      "alias": "Units in structure: Total housing units, margin of error (90%)"
+    },
+    {
+      "name": "B25024_E002",
+      "type": "int",
+      "alias": "Units in structure: 1, detached, estimate"
+    },
+    {
+      "name": "B25024_M002",
+      "type": "int",
+      "alias": "Units in structure: 1, detached, margin of error (90%)"
+    },
+    {
+      "name": "B25024_E003",
+      "type": "int",
+      "alias": "Units in structure: 1, attached, estimate"
+    },
+    {
+      "name": "B25024_M003",
+      "type": "int",
+      "alias": "Units in structure: 1, attached, margin of error (90%)"
+    },
+    {
+      "name": "B25024_E004",
+      "type": "int",
+      "alias": "Units in structure: 2 units, estimate"
+    },
+    {
+      "name": "B25024_M004",
+      "type": "int",
+      "alias": "Units in structure: 2 units, margin of error (90%)"
+    },
+    {
+      "name": "B25024_E005",
+      "type": "int",
+      "alias": "Units in structure: 3 or 4 units, estimate"
+    },
+    {
+      "name": "B25024_M005",
+      "type": "int",
+      "alias": "Units in structure: 3 or 4 units, margin of error (90%)"
+    },
+    {
+      "name": "B25024_E006",
+      "type": "int",
+      "alias": "Units in structure: 5 to 9 units, estimate"
+    },
+    {
+      "name": "B25024_M006",
+      "type": "int",
+      "alias": "Units in structure: 5 to 9 units, margin of error (90%)"
+    },
+    {
+      "name": "B25024_E007",
+      "type": "int",
+      "alias": "Units in structure: 10 to 19 units, estimate"
+    },
+    {
+      "name": "B25024_M007",
+      "type": "int",
+      "alias": "Units in structure: 10 to 19 units, margin of error (90%)"
+    },
+    {
+      "name": "B25024_E008",
+      "type": "int",
+      "alias": "Units in structure: 20 to 49 units, estimate"
+    },
+    {
+      "name": "B25024_M008",
+      "type": "int",
+      "alias": "Units in structure: 20 to 49 units, margin of error (90%)"
+    },
+    {
+      "name": "B25024_E009",
+      "type": "int",
+      "alias": "Units in structure: 50 or more units, estimate"
+    },
+    {
+      "name": "B25024_M009",
+      "type": "int",
+      "alias": "Units in structure: 50 or more units, margin of error (90%)"
+    },
+    {
+      "name": "B25024_E010",
+      "type": "int",
+      "alias": "Units in structure: Mobile home, estimate"
+    },
+    {
+      "name": "B25024_M010",
+      "type": "int",
+      "alias": "Units in structure: Mobile home, margin of error (90%)"
+    },
+    {
+      "name": "B25024_E011",
+      "type": "int",
+      "alias": "Units in structure: Boat, RV, van, etc., estimate"
+    },
+    {
+      "name": "B25024_M011",
+      "type": "int",
+      "alias": "Units in structure: Boat, RV, van, etc., margin of error (90%)"
+    }
+  ]
+}

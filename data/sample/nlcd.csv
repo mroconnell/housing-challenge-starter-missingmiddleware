@@ -1,0 +1,6 @@
+point,lat,lon,layer,PALETTE_INDEX
+Salt Lake City UT,40.7608,-111.891,NLCD_2021_Land_Cover_Science_Product_L48,24
+Hartford CT,41.7658,-72.6734,NLCD_2021_Land_Cover_Science_Product_L48,24
+Madison WI,43.0731,-89.4012,NLCD_2021_Land_Cover_Science_Product_L48,24
+Providence RI,41.824,-71.4128,NLCD_2021_Land_Cover_Science_Product_L48,24
+Rural Lancaster Co PA,40.0,-76.2,NLCD_2021_Land_Cover_Science_Product_L48,82

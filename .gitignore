@@ -54,3 +54,7 @@ sbom.spdx.json
 # Language-specific — paste rules for your stack here
 # (Python, Node, Go, R, Rust, etc.)
 # ==============================================================================
+# Small, committed samples (see scripts/fetch_samples.py and docs/data-sources/)
+!data/sample/**
+!data/sample/*.csv
+__pycache__/

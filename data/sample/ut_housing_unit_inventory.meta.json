@@ -1,0 +1,147 @@
+{
+  "source_id": "ut_housing_unit_inventory",
+  "fetched_at": "2026-10-17T00:09:34+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/HousingUnitInventory/FeatureServer/0",
+  "layer_name": "HousingUnitInventory",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "record_count": 702461,
+  "max_record_count": 2000,
+  "last_edit_date": "2026-10-14",
+  "description": "The Housing Unit Inventory (HUI) is a derivative dataset that attempts to add information to the county assessor tax parcel data for Utah\u2019s most urban counties. It is not a substitute for the excellent datasets maintained by the Assessors but, rather, presents additional, standardized information about the type and number of housing units, associated grounds and common areas, and related short-term and long-term trends. The HUI is a best-effort product of a resource-limited analysis -- users are encouraged to do their own quality assessment, share their findings, and cite this metadata describing how the HUI was produced.",
+  "copyright": "WFRC, MAG, UGRC",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "UNIT_ID",
+      "type": "Integer",
+      "alias": "UNIT_ID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TYPE",
+      "type": "String",
+      "alias": "TYPE",
+      "length": 26,
+      "has_domain": false
+    },
+    {
+      "name": "SUBTYPE",
+      "type": "String",
+      "alias": "SUBTYPE",
+      "length": 44,
+      "has_domain": false
+    },
+    {
+      "name": "IS_OUG",
+      "type": "String",
+      "alias": "IS_OUG",
+      "length": 2,
+      "has_domain": false
+    },
+    {
+      "name": "UNIT_COUNT",
+      "type": "Double",
+      "alias": "UNIT_COUNT",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "DUA",
+      "type": "Double",
+      "alias": "DUA",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ACRES",
+      "type": "Double",
+      "alias": "ACRES",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TOT_BD_FT2",
+      "type": "Double",
+      "alias": "TOT_BD_FT2",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TOT_VALUE",
+      "type": "Double",
+      "alias": "TOT_VALUE",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "APX_BLT_YR",
+      "type": "Double",
+      "alias": "APX_BLT_YR",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "BLT_DECADE",
+      "type": "Integer",
+      "alias": "BLT_DECADE",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "CITY",
+      "type": "String",
+      "alias": "CITY",
+      "length": 40,
+      "has_domain": false
+    },
+    {
+      "name": "COUNTY",
+      "type": "String",
+      "alias": "COUNTY",
+      "length": 18,
+      "has_domain": false
+    },
+    {
+      "name": "SUBCOUNTY",
+      "type": "String",
+      "alias": "SUBCOUNTY",
+      "length": 52,
+      "has_domain": false
+    },
+    {
+      "name": "EVAL_DATE",
+      "type": "Date",
+      "alias": "EVAL_DATE",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Area",
+      "type": "Double",
+      "alias": "Shape__Area",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Length",
+      "type": "Double",
+      "alias": "Shape__Length",
+      "length": null,
+      "has_domain": false
+    }
+  ]
+}

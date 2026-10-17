@@ -1,0 +1,146 @@
+{
+  "source_id": "ri_rigis",
+  "fetched_at": "2026-10-17T00:09:38+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/PLAN_Land_Use_2025_spf/FeatureServer/0",
+  "layer_name": "PLAN_Land_Use_2025_spf",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 102730,
+    "latestWkid": 3438
+  },
+  "record_count": 26361,
+  "max_record_count": 2000,
+  "last_edit_date": "2024-11-14",
+  "description": "The Land Use 2025 dataset was developed for the Division of Planning, RI Statewide Planning Program as part of an update to a state land use plan. It evolved from a GIS overlay analysis of land suitability and availability and scenario planning for future growth. The analysis focused on the 37% of the State identified as undeveloped and unprotected in a land cover analysis from RIGIS 1995 land use land cover data. The project studied areas for suitability for conservation and development, based on the location of key natural resources and public infrastructure. The results identified areas with future use potential, under three categories of development intensity and two categories of conservation. These data are presented in the Plan as Figure 121-02-(01), Future Land Use Map.",
+  "copyright": "",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Map_Legend",
+      "type": "String",
+      "alias": "Land Use Type",
+      "length": 75,
+      "has_domain": false
+    },
+    {
+      "name": "Acres",
+      "type": "Double",
+      "alias": "Acres",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Area",
+      "type": "Double",
+      "alias": "Shape__Area",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Length",
+      "type": "Double",
+      "alias": "Shape__Length",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "chosen_search_hit": {
+    "id": "101c1a4ffb024b4da2b5ab1c9b6bd6d6",
+    "title": "Land Use (2025)",
+    "type": "Feature Service",
+    "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/PLAN_Land_Use_2025_spf/FeatureServer",
+    "owner": "URIEDC_RIGIS",
+    "modified": "2025-09-12"
+  },
+  "hub_search_hits": [
+    {
+      "id": "101c1a4ffb024b4da2b5ab1c9b6bd6d6",
+      "title": "Land Use (2025)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/PLAN_Land_Use_2025_spf/FeatureServer",
+      "owner": "URIEDC_RIGIS",
+      "modified": "2025-09-12"
+    },
+    {
+      "id": "95bcc1eb5d014f9bbad8e463ec41b4ac",
+      "title": "Land Cover (1988)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/PLAN_Land_Cover_Use_1988v2/FeatureServer",
+      "owner": "URIEDC_RIGIS",
+      "modified": "2025-11-05"
+    },
+    {
+      "id": "af22130a825e4299822e67480cf0aa10",
+      "title": "Land Use and Land Cover (2020)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/PLAN_Land_Cover_Use_2020_spf/FeatureServer",
+      "owner": "URIEDC_RIGIS",
+      "modified": "2026-06-04"
+    },
+    {
+      "id": "2f948eea97b04e7cafd5e62fd3001b59",
+      "title": "Land Use and Land Cover (2011)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/PLAN_Land_Cover_Use_2011_spf/FeatureServer",
+      "owner": "URIEDC_RIGIS",
+      "modified": "2025-11-05"
+    },
+    {
+      "id": "7e8db1559d034197a6f718d96047a25d",
+      "title": "Land Use and Land Cover (1995)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/PLAN_Land_Cover_Use_1995_spf/FeatureServer",
+      "owner": "URIEDC_RIGIS",
+      "modified": "2025-11-05"
+    },
+    {
+      "id": "7e032247d1974c919952e9d39a83dbb6",
+      "title": "Land Use and Land Cover (2003-2004)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/PLAN_Land_Cover_Use_200304/FeatureServer",
+      "owner": "URIEDC_RIGIS",
+      "modified": "2025-03-17"
+    },
+    {
+      "id": "cfc2ae2102d34bcd819d6564a0bc29db",
+      "title": "Rhode Island Statewide Future Land Use",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/Statewide_FLU_10142025/FeatureServer",
+      "owner": "URIEDC_RIGIS",
+      "modified": "2026-03-02"
+    },
+    {
+      "id": "48811992b9bc464591bf98819bccfe8f",
+      "title": "Rhode Island Statewide Current Land Use",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/Statewide_CLU/FeatureServer",
+      "owner": "URIEDC_RIGIS",
+      "modified": "2026-03-02"
+    },
+    {
+      "id": "03954a10980c4a3e8e09e64f8aabc177",
+      "title": "Land Use Adjacent to Narragansett Bay",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/PLAN_Land_Use_Adjacent_to_Wetlands_in_NarrBay_spf/FeatureServer",
+      "owner": "URIEDC_RIGIS",
+      "modified": "2025-11-05"
+    },
+    {
+      "id": "1bf2525b7be1430aa1ffe65dd4f1de5c",
+      "title": "Industrial Areas",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/Industrial_Areas/FeatureServer",
+      "owner": "URIEDC_RIGIS",
+      "modified": "2023-08-01"
+    }
+  ]
+}

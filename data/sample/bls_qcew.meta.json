@@ -1,0 +1,10 @@
+{
+  "source_id": "bls_qcew",
+  "fetched_at": "2026-10-17T00:08:57+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "api_url": "https://data.bls.gov/cew/data/api/2025/a/industry/23.csv",
+  "note": "Annual averages for NAICS 23 (Construction), every area. Other slices: by area, by size.",
+  "layout_doc": "https://www.bls.gov/cew/about-data/downloadable-file-layouts/annual/naics-based-annual-layout.htm"
+}

@@ -4,7 +4,16 @@ Do **not** commit raw or large data to this repository. The root `.gitignore` al
 
 ## How to obtain the data
 
-[Document the exact steps to fetch the datasets your tool needs — download links, API calls, or a script such as `scripts/get_data.sh`. Someone should be able to reproduce your data setup from these instructions alone.]
+Every candidate source is listed, with access steps and a data dictionary, in [docs/data-sources/](../docs/data-sources/README.md).
+
+To refresh the small samples in `data/sample/`:
+
+```sh
+python3 scripts/fetch_samples.py            # all sources, standard library only
+python3 scripts/build_data_dictionaries.py  # rewrite docs/data-sources/
+```
+
+[Full-data download steps for the sources the model uses go here once we pick them.]
 
 ## Sample data
 

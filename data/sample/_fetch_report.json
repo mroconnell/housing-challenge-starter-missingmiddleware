@@ -1,0 +1,152 @@
+{
+  "acs": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:08:56+00:00",
+    "error": null
+  },
+  "az_azgeo": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:27+00:00",
+    "error": null
+  },
+  "bls_ces_ppi": {
+    "status": "ok",
+    "rows": 6,
+    "fetched_at": "2026-10-17T00:08:57+00:00",
+    "error": null
+  },
+  "bls_qcew": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:08:57+00:00",
+    "error": null
+  },
+  "census_bps": {
+    "status": "ok",
+    "rows": 10,
+    "fetched_at": "2026-10-17T00:09:20+00:00",
+    "error": null
+  },
+  "ct_cama_parcels": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:29+00:00",
+    "error": null
+  },
+  "fhfa_hpi": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:21+00:00",
+    "error": null
+  },
+  "google_open_buildings": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:20+00:00",
+    "error": null
+  },
+  "hcd_apr": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:25+00:00",
+    "error": null
+  },
+  "hi_parcels": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:32+00:00",
+    "error": null
+  },
+  "ms_buildings": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:18+00:00",
+    "error": null
+  },
+  "nasa_modis_lc": {
+    "status": "ok",
+    "rows": 3,
+    "fetched_at": "2026-10-17T00:08:58+00:00",
+    "error": null
+  },
+  "nh_granit": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:39+00:00",
+    "error": null
+  },
+  "nlcd": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:08:57+00:00",
+    "error": null
+  },
+  "ntd": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:22+00:00",
+    "error": null
+  },
+  "or_geohub": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:30+00:00",
+    "error": null
+  },
+  "or_metro_taxlots": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:29+00:00",
+    "error": null
+  },
+  "pa_pasda": {
+    "status": "ok",
+    "rows": 10,
+    "fetched_at": "2026-10-17T00:09:33+00:00",
+    "error": null
+  },
+  "ri_rigis": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:38+00:00",
+    "error": null
+  },
+  "tn_comptroller": {
+    "status": "request_form",
+    "rows": 0,
+    "fetched_at": "2026-10-17T00:09:34+00:00",
+    "error": null
+  },
+  "usps_vacancy": {
+    "status": "restricted",
+    "rows": 0,
+    "fetched_at": "2026-10-17T00:09:22+00:00",
+    "error": null
+  },
+  "ut_housing_unit_inventory": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:34+00:00",
+    "error": null
+  },
+  "ut_parcels": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:34+00:00",
+    "error": null
+  },
+  "va_parcels": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:35+00:00",
+    "error": null
+  },
+  "wi_parcels": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-17T00:09:38+00:00",
+    "error": null
+  }
+}

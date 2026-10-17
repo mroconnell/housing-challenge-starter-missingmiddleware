@@ -1,0 +1,6 @@
+ntd_id,legacy_ntd_id,agency,mode_type_of_service_status,reporter_type,uace_cd,uza_name,mode,tos,_3_mode,date,upt,voms,vrh,vrm,agency_mode_tos_date,state,fta_region
+00001,0001,King County,Active,Full Reporter,80389,"Seattle--Tacoma, WA",DR,PT,Bus,2002-01-01T00:00:00.000,135144,574,53306,746158,00001_DR_PT_Active_Full Reporter_80389_2002-01-01,WA,10
+00001,0001,King County,Active,Full Reporter,80389,"Seattle--Tacoma, WA",DR,PT,Bus,2002-02-01T00:00:00.000,127378,574,46865,656324,00001_DR_PT_Active_Full Reporter_80389_2002-02-01,WA,10
+00001,0001,King County,Active,Full Reporter,80389,"Seattle--Tacoma, WA",DR,PT,Bus,2002-03-01T00:00:00.000,136030,574,51889,726578,00001_DR_PT_Active_Full Reporter_80389_2002-03-01,WA,10
+00001,0001,King County,Active,Full Reporter,80389,"Seattle--Tacoma, WA",DR,PT,Bus,2002-04-01T00:00:00.000,142204,574,52674,736975,00001_DR_PT_Active_Full Reporter_80389_2002-04-01,WA,10
+00001,0001,King County,Active,Full Reporter,80389,"Seattle--Tacoma, WA",DR,PT,Bus,2002-05-01T00:00:00.000,144697,574,53306,746158,00001_DR_PT_Active_Full Reporter_80389_2002-05-01,WA,10

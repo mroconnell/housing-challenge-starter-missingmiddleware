@@ -1,0 +1,37 @@
+# HUD Aggregated USPS Administrative Data on Address Vacancies
+
+**Status:** Restricted (not fetched) (last fetch 2026-10-17)  
+**Source id:** `usps_vacancy`  
+**Handbook listing:** USPS vacancy data
+
+## Summary
+
+| | |
+|---|---|
+| Publisher | U.S. Department of Housing and Urban Development (from USPS) |
+| What it is | Counts of residential and business addresses, and how many are vacant or 'no-stat', by census tract, each quarter. |
+| Geography | Census tract. |
+| Time coverage and update frequency | Quarterly. |
+| Units | Address counts. |
+| Access method | HUD USER portal, https://www.huduser.gov/portal/datasets/usps.html. Requires a registered login. |
+| License | Restricted. HUD's terms limit access to governmental entities and registered non-profit organizations. |
+| Use in our model | Would measure vacancy and new address growth at tract level (a proxy for completions). |
+| Caveats | Restricted access, so we did not fetch rows. Access is restricted, and the handbook says not to use restricted-use data. Recommend not using it unless the team confirms eligibility and the rules allow it. Use ACS vacancy instead. |
+
+## Access details
+
+- Endpoint used for the sample: `https://www.huduser.gov/portal/datasets/usps.html`
+- HUD/USPS vacancy data needs a HUD USER login and is limited to governmental entities and registered non-profits. Not fetched.
+
+## Sample rows
+
+First 0 of 0 rows in [`data/sample/usps_vacancy.csv`](../../data/sample/usps_vacancy.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+
+_No sample rows._
+
+## Refresh
+
+```sh
+python3 scripts/fetch_samples.py usps_vacancy
+python3 scripts/build_data_dictionaries.py
+```
