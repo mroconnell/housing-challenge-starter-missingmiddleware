@@ -28,9 +28,7 @@
 
 ## Sample rows
 
-First 0 of 0 rows in [`data/sample/tn_comptroller.csv`](../../data/sample/tn_comptroller.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
-
-_No sample rows._
+_No sample file yet. See Access details above for why._
 
 ## Refresh
 

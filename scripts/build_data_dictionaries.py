@@ -219,8 +219,11 @@ def write_source(sid, info, meta, rows):
         md += "## Field groups\n\n| Fields | Meaning |\n|---|---|\n"
         md += "".join(f"| `{esc(k, 80)}` | {esc(v, 300)} |\n" for k, v in patterns.items()) + "\n"
     md += extras(sid, meta)
-    md += f"## Sample rows\n\nFirst {min(len(rows), SHOW_ROWS)} of {len(rows)} rows in [`data/sample/{sid}.csv`](../../data/sample/{sid}.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.\n\n"
-    md += sample_table(rows)
+    if (SAMPLES / f"{sid}.csv").exists():
+        md += f"## Sample rows\n\nFirst {min(len(rows), SHOW_ROWS)} of {len(rows)} rows in [`data/sample/{sid}.csv`](../../data/sample/{sid}.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.\n\n"
+        md += sample_table(rows)
+    else:
+        md += "## Sample rows\n\n_No sample file yet. See Access details above for why._\n"
     md += f"\n## Refresh\n\n```sh\npython3 scripts/fetch_samples.py {sid}\npython3 scripts/build_data_dictionaries.py\n```\n"
     (DOCS / f"{sid}.md").write_text(md)
     return status, url
