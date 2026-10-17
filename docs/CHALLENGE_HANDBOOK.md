@@ -2,7 +2,7 @@
 
 This file is our team's plain-language digest of the official challenge documents. It is not a copy. The official documents are authoritative. Where this digest and the official documents differ, the official documents win.
 
-- **Participant Handbook:** <https://housingchallenge.turnout.rocks/handbook.html>
+- **Participant Handbook:** [CHALLENGE_HANDBOOK.pdf](CHALLENGE_HANDBOOK.pdf) (copy in this repo) and <https://housingchallenge.turnout.rocks/handbook.html>
 - **Official Rules:** <https://housingchallenge.turnout.rocks/rules.html>
 - **Technical spec in this repo:** [CHALLENGE_SPEC.md](CHALLENGE_SPEC.md)
 - **Last checked against the official pages:** 2026-10-16
@@ -47,6 +47,19 @@ Late submissions are not accepted.
 - We must define and justify the housing outcome we model (permits, starts, completions, or stock growth).
 - For each scenario: change against baseline, what drives it, sensitivity to key inputs, and what the model cannot tell policymakers.
 - The work must be original and made during the challenge, except for disclosed open-source parts and public data.
+- Extra state-specific scenarios are encouraged, with mentor guidance.
+
+## What to avoid (Handbook)
+
+The Handbook says these will score lower:
+
+- **Parcel-level precision.** State or regional breadth matters more than parcel detail. Do not trade transparency for fine-grained precision.
+- **Opaque-box models.** Machine learning is fine only with real explainability. Numbers without a "why" score poorly on Transparency.
+- **Closed or paywalled dependencies** without a free path for end users.
+- **Point predictions without uncertainty.** Show estimates, ranges, or sensitivity analyses instead of one precise number.
+- **Unverified AI-generated code.** Code the team cannot explain, code without tests of the core logic, or code with open security findings.
+
+The Handbook also says precise forecasts matter less than showing the likely direction, size, uncertainty, and drivers of each policy's impact.
 
 ## Required deliverables (Rules 7(a), 7(d))
 
@@ -114,7 +127,7 @@ The SBOM is the source of truth for dependencies. Flagged dependencies must be f
 
 ## Language and tooling (Handbook)
 
-- The Handbook asks for a memory-safe language. [CHALLENGE_SPEC.md](CHALLENGE_SPEC.md) lists Python, JavaScript, Go, and R as examples.
+- The Handbook asks for a memory-safe language, for example Python, Java, or Go. Its FAQ says any language is fine if the submission passes the gates.
 - If a required tool (for example CodeQL) does not support our language, document the gap.
 
 ## Ownership and publicity (Rules 11, 12)
