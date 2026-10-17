@@ -114,7 +114,7 @@
     "error": null
   },
   "tn_comptroller": {
-    "status": "probe",
+    "status": "request_form",
     "rows": 0,
     "fetched_at": "2026-10-17T00:41:47+00:00",
     "error": null

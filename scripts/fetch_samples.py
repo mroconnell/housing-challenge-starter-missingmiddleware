@@ -887,15 +887,24 @@ def fetch_pa():
 @source("tn_comptroller")
 def fetch_tn():
     url = "https://comptroller.tn.gov/office-functions/pa/gisredistricting/redistricting-and-land-use-maps/parcel-data.html"
-    html = get_text(url)
-    i = html.lower().find("<form")
-    links = sorted(set(re.findall(r"""(?:href|src|action|data-[a-z-]+|value)=["']([^"']+)["']""", html)))
-    probe = {
-        "form_html": html[i: i + 6000] if i >= 0 else "",
-        "interesting_links": [l for l in links if re.search(r"zip|download|parcel|shp|gis|\.js", l, re.I)][:80],
-        "options": re.findall(r"<option[^>]*value=[\"']([^\"']*)[\"'][^>]*>([^<]*)<", html)[:120],
+    form = "https://comptrollertn.formstack.com/forms/parcel_data"
+    try:
+        txt = _clean(get_text(url))[:1500]
+    except Exception as e:  # noqa: BLE001
+        txt = f"page fetch failed: {e}"
+    return [], {
+        "status": "request_form",
+        "page_url": url,
+        "form_url": form,
+        "page_excerpt": txt,
+        "note": (
+            "Free weekly-updated county shapefiles, but each download goes through a Formstack form "
+            "that asks for a name, mailing address, the counties wanted, and two signed checkboxes "
+            "(an attestation and a disclaimer). 86 counties are offered. Chester, Davidson, Hamilton, "
+            "Hickman, Knox, Montgomery, Rutherford, Shelby and Williamson come from county assessors instead. "
+            "The page also says there are no automated or recurring downloads. Not fetched automatically."
+        ),
     }
-    return [], {"status": "probe", "page_url": url, "page_excerpt": _clean(html)[:1500], "probe": probe}
 
 
 @source("ut_housing_unit_inventory")

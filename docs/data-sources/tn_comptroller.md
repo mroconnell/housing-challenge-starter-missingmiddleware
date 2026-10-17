@@ -1,4 +1,4 @@
-# Tennessee: Comptroller parcel and land use data
+# Tennessee: Comptroller parcel data
 
 **Status:** Manual request only (not fetched) (last fetch 2026-10-17)  
 **Source id:** `tn_comptroller`  
@@ -7,20 +7,20 @@
 
 | | |
 |---|---|
-| Publisher | Tennessee Comptroller of the Treasury, Division of Property Assessments |
-| What it is | Statewide parcel and land use maps. |
-| Geography | Parcel. |
-| Time coverage and update frequency | Varies. |
-| Units | Varies. |
-| Access method | Request form on https://comptroller.tn.gov. No open download. |
-| License | Per request terms. |
-| Use in our model | Parcel inventory for Tennessee if the request is granted. |
-| Caveats | Needs a manual request. Cannot be part of an automated data pipeline as-is. |
+| Publisher | Tennessee Comptroller of the Treasury, Division of Property Assessments (Geographic Services) |
+| What it is | Statewide parcel shapefiles by county, joined to assessment records through the GISLINK field. |
+| Geography | Parcel. 86 of 95 counties; the other 9 come from county assessors. |
+| Time coverage and update frequency | Updated weekly. No historical downloads. |
+| Units | Esri shapefile plus an Assessment_Data dbf table. |
+| Access method | Free. Fill in the Formstack form at https://comptrollertn.formstack.com/forms/parcel_data (name, mailing address, counties, attestation and disclaimer checkboxes). Contact GIS.Data@cot.tn.gov. |
+| License | Disclaimer only (no warranty). The page says the data can be used in a commercial application. |
+| Use in our model | Parcel inventory for Tennessee, if the team picks Tennessee. |
+| Caveats | Each download needs a signed form, and the page says it offers no automated downloads. So it cannot be part of an automated pipeline as-is. |
 
 ## Access details
 
 - Endpoint used for the sample: `https://comptroller.tn.gov/office-functions/pa/gisredistricting/redistricting-and-land-use-maps/parcel-data.html`
-- Parcel and land use data require a request form. Not fetched automatically.
+- Free weekly-updated county shapefiles, but each download goes through a Formstack form that asks for a name, mailing address, the counties wanted, and two signed checkboxes (an attestation and a disclaimer). 86 counties are offered. Chester, Davidson, Hamilton, Hickman, Knox, Montgomery, Rutherford, Shelby and Williamson come from county assessors instead. The page also says there are no automate…
 
 ## What the source page says
 

@@ -45,7 +45,7 @@ The **Fetch data samples** GitHub Actions workflow runs the same script and comm
 | [x] | [Oregon: GEOHub parcels and zoning](or_geohub.md) | Fetched | 5 | Parcel / zoning district, incomplete county coverage. | Coverage is incomplete. |
 | [x] | [Hawaii: Statewide parcels](hi_parcels.md) | Fetched | 5 | Parcel, statewide. | The statewide layer has parcel ids and shapes only |
 | [x] | [Pennsylvania: PASDA (Pennsylvania Spatial Data Access)](pa_pasda.md) | Fetched | 10 | Mostly county. | A catalog, not a single dataset |
-| [ ] | [Tennessee: Comptroller parcel and land use data](tn_comptroller.md) | Manual request only (not fetched) | 0 | Parcel. | Needs a manual request |
+| [ ] | [Tennessee: Comptroller parcel data](tn_comptroller.md) | Manual request only (not fetched) | 0 | Parcel. 86 of 95 counties; the other 9 come from county assessors. | Each download needs a signed form, and the page says it offers no automated downloads |
 | [x] | [Utah: Housing Unit Inventory](ut_housing_unit_inventory.md) | Fetched | 5 | Parcel / development, Wasatch Front counties. | Not every Utah county is covered. |
 | [x] | [Utah: Statewide parcels (LIR)](ut_parcels.md) | Fetched | 5 | Parcel, one layer per county. | One layer per county |
 | [x] | [Virginia: VGIN statewide parcels](va_parcels.md) | Fetched | 5 | Parcel, most localities. | Few attributes |
