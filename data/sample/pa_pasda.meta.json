@@ -1,0 +1,10 @@
+{
+  "source_id": "pa_pasda",
+  "fetched_at": "2026-10-17T00:44:15+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 10,
+  "search_url": "https://www.pasda.psu.edu/uci/SearchResults.aspx?Keyword=parcels",
+  "note": "PASDA is a catalog of county/municipal datasets (mostly shapefile downloads). Rows are catalog entries, not parcel records.",
+  "hits": 62
+}

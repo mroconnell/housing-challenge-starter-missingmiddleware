@@ -1,0 +1,9 @@
+{
+  "source_id": "google_open_buildings",
+  "fetched_at": "2026-10-17T00:44:01+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "sample_file": "https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/0e9_buildings.csv.gz",
+  "note": "v3 polygons. Coverage is Africa, South and Southeast Asia, Latin America and the Caribbean. No United States coverage."
+}

@@ -1,0 +1,359 @@
+{
+  "source_id": "wi_parcels",
+  "fetched_at": "2026-10-17T00:44:19+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://services3.arcgis.com/n6uYoouQZW75n5WI/arcgis/rest/services/Wisconsin_Statewide_Parcels_DB/FeatureServer/0",
+  "layer_name": "V1200_WisconsinParcels_2026",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "record_count": 3574646,
+  "max_record_count": 2000,
+  "last_edit_date": "2026-06-30",
+  "description": "This is the final deliverable for the Version 12 Statewide Parcel Map Database Project (V12). This feature class represents a comprehensive, spatially referenced collection of parcel geometries as recognized by local-level governments within the State of Wisconsin (the feature class is aggregated from county level and municipal-level data). See the V12 Project Homepage for more detail on the parameters for how data was prepared and submitted to this project: https://www.sco.wisc.edu/parcels/submission/.Schema documentation can be found within this feature class metadata and here: https://www.sco.wisc.edu/parcels/data/assets/V12/V12_Wisconsin_Statewide_Parcels_Schema_Documentation.pdf.Change log and known issues can be found here: https://www.sco.wisc.edu/parcels/data/assets/Wisconsin_Statewide_Parcels_Change_Log.pdf.",
+  "copyright": "Product of the Version 12 Statewide Parcel Map Database Project (V12). Created by: The Wisconsin State Cartographer's Office, Administrated by: The Wisconsin Land Information Program (WLIP) at the Department of Administration (DOA)",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "STATEID",
+      "type": "String",
+      "alias": "State ID",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "PARCELID",
+      "type": "String",
+      "alias": "Parcel ID",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "TAXPARCELID",
+      "type": "String",
+      "alias": "Tax Parcel ID",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "PARCELDATE",
+      "type": "String",
+      "alias": "Parcel Date",
+      "length": 25,
+      "has_domain": false
+    },
+    {
+      "name": "TAXROLLYEAR",
+      "type": "String",
+      "alias": "Tax Roll Year",
+      "length": 10,
+      "has_domain": false
+    },
+    {
+      "name": "OWNERNME1",
+      "type": "String",
+      "alias": "Primary Owner Name",
+      "length": 254,
+      "has_domain": false
+    },
+    {
+      "name": "OWNERNME2",
+      "type": "String",
+      "alias": "Secondary Owner Name",
+      "length": 254,
+      "has_domain": false
+    },
+    {
+      "name": "PSTLADRESS",
+      "type": "String",
+      "alias": "Full Mailing Address",
+      "length": 200,
+      "has_domain": false
+    },
+    {
+      "name": "SITEADRESS",
+      "type": "String",
+      "alias": "Full Physical Address",
+      "length": 200,
+      "has_domain": false
+    },
+    {
+      "name": "ADDNUMPREFIX",
+      "type": "String",
+      "alias": "Address Number Prefix",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "ADDNUM",
+      "type": "String",
+      "alias": "Address Number",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "ADDNUMSUFFIX",
+      "type": "String",
+      "alias": "Address Number Suffix",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "PREFIX",
+      "type": "String",
+      "alias": "Prefix",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "STREETNAME",
+      "type": "String",
+      "alias": "Street Name",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "STREETTYPE",
+      "type": "String",
+      "alias": "Street Type",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "SUFFIX",
+      "type": "String",
+      "alias": "Suffix",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "LANDMARKNAME",
+      "type": "String",
+      "alias": "Landmark Name",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "UNITTYPE",
+      "type": "String",
+      "alias": "Unit Type",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "UNITID",
+      "type": "String",
+      "alias": "Unit ID",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "PLACENAME",
+      "type": "String",
+      "alias": "Place Name",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "ZIPCODE",
+      "type": "String",
+      "alias": "Zip Code",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "ZIP4",
+      "type": "String",
+      "alias": "Zip Code Plus 4",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "STATE",
+      "type": "String",
+      "alias": "State",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "SCHOOLDIST",
+      "type": "String",
+      "alias": "School District",
+      "length": 60,
+      "has_domain": false
+    },
+    {
+      "name": "SCHOOLDISTNO",
+      "type": "String",
+      "alias": "School District Number",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "CNTASSDVALUE",
+      "type": "Double",
+      "alias": "Total Assessed Value",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LNDVALUE",
+      "type": "Double",
+      "alias": "Assessed Value of Land",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "IMPVALUE",
+      "type": "Double",
+      "alias": "Assessed Value of Improvements",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "MFLVALUE",
+      "type": "Double",
+      "alias": "Assessed Value of MFL/FCL Land",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ESTFMKVALUE",
+      "type": "Double",
+      "alias": "Estimated Fair Market Value",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "NETPRPTA",
+      "type": "Double",
+      "alias": "Net Property Tax",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "GRSPRPTA",
+      "type": "Double",
+      "alias": "Gross Property Tax",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PROPCLASS",
+      "type": "String",
+      "alias": "Class of Property",
+      "length": 150,
+      "has_domain": false
+    },
+    {
+      "name": "AUXCLASS",
+      "type": "String",
+      "alias": "Auxiliary Class of Property",
+      "length": 150,
+      "has_domain": false
+    },
+    {
+      "name": "ASSDACRES",
+      "type": "Double",
+      "alias": "Assessed Acres",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "DEEDACRES",
+      "type": "Double",
+      "alias": "Deeded Acres",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "GISACRES",
+      "type": "Double",
+      "alias": "GIS Acres",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "CONAME",
+      "type": "String",
+      "alias": "County Name",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "LOADDATE",
+      "type": "String",
+      "alias": "Load Date",
+      "length": 10,
+      "has_domain": false
+    },
+    {
+      "name": "PARCELFIPS",
+      "type": "String",
+      "alias": "Parcel Source FIPS",
+      "length": 10,
+      "has_domain": false
+    },
+    {
+      "name": "PARCELSRC",
+      "type": "String",
+      "alias": "Parcel Source",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "LONGITUDE",
+      "type": "Double",
+      "alias": "LONGITUDE",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LATITUDE",
+      "type": "Double",
+      "alias": "LATITUDE",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "SITEADRESS_STAND",
+      "type": "String",
+      "alias": "SITEADRESS_STAND",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Area",
+      "type": "Double",
+      "alias": "Shape__Area",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Length",
+      "type": "Double",
+      "alias": "Shape__Length",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "chosen_search_hit": {
+    "id": "2386813b23ea4e51a009f7d1d6b76e02",
+    "title": "Wisconsin Statewide Parcels DB",
+    "owner": "djvogel2_WI_DOA",
+    "type": "Feature Service",
+    "url": "https://services3.arcgis.com/n6uYoouQZW75n5WI/arcgis/rest/services/Wisconsin_Statewide_Parcels_DB/FeatureServer",
+    "modified": "2026-06-30"
+  },
+  "direct_error": "layer metadata error: {'code': 400, 'message': 'Invalid URL', 'details': ['Invalid URL']}"
+}

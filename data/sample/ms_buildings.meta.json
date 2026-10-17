@@ -1,0 +1,24 @@
+{
+  "source_id": "ms_buildings",
+  "fetched_at": "2026-10-17T00:44:00+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "index_url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv",
+  "us_tiles": 2415,
+  "sample_tile": {
+    "Location": "UnitedStates",
+    "QuadKey": "023100000",
+    "Url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=UnitedStates/quadkey=023100000/part-00051-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
+    "Size": "48.3MB",
+    "UploadDate": "2026-02-23"
+  },
+  "index_columns": [
+    "Location",
+    "QuadKey",
+    "Url",
+    "Size",
+    "UploadDate"
+  ],
+  "note": "Each tile is a gzipped GeoJSON-lines file keyed by a zoom-9 quadkey."
+}

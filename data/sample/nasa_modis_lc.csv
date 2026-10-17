@@ -1,0 +1,4 @@
+point,latitude,longitude,band,modis_date,calendar_date,tile,value,cellsize_m
+Salt Lake City UT,40.7608,-111.891,LC_Type1,A2024001,2024-01-01,h09v04,13,463.312716528
+Madison WI,43.0731,-89.4012,LC_Type1,A2024001,2024-01-01,h11v04,13,463.312716528
+Hartford CT,41.7658,-72.6734,LC_Type1,A2024001,2024-01-01,h12v04,13,463.312716528

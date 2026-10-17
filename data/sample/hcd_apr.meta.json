@@ -1,0 +1,2662 @@
+{
+  "source_id": "hcd_apr",
+  "fetched_at": "2026-10-17T00:44:07+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "package": {
+    "name": "housing-element-annual-progress-report-apr-data-by-jurisdiction-and-year",
+    "title": "Housing Element Annual Progress Report (APR) Data by Jurisdiction and Year",
+    "notes": "Government Code section 65400 requires that each city, county, or city and county, including charter cities, prepare an annual progress report (APR) on the status of the housing element of its general plan and progress in its implementation. This dataset includes information reported to the Department of Housing and Community Development (HCD) by local jurisdictions on their APR form. Additional information about annual progress reports (APR), including the form, instructions, and definition can be found on HCD\u2019s website here: https://www.hcd.ca.gov/planning-and-community-development/annual-progress-reports.",
+    "license": "License not specified",
+    "modified": "2026-10-16T15:54:19.935450"
+  },
+  "page_url": "https://data.ca.gov/dataset/housing-element-annual-progress-report-apr-data-by-jurisdiction-and-year",
+  "sample_table": "APR Table A2",
+  "resources": [
+    {
+      "id": "c78b769d-cc02-4050-91ef-79ded665b5a8",
+      "name": "APR Table A",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/c78b769d-cc02-4050-91ef-79ded665b5a8/download/tablea.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:47:44.683422"
+    },
+    {
+      "id": "198bded5-7a17-4e1e-bea5-688dbb439c6d",
+      "name": "APR Table A Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/198bded5-7a17-4e1e-bea5-688dbb439c6d/download/annualprogressreport_tablea_datadictionary-1.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:04:10.203492"
+    },
+    {
+      "id": "fe505d9b-8c36-42ba-ba30-08bc4f34e022",
+      "name": "APR Table A2",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/fe505d9b-8c36-42ba-ba30-08bc4f34e022/download/tablea2.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:47:13.224632"
+    },
+    {
+      "id": "354a375a-821d-4d4e-97ab-4d79c2925fce",
+      "name": "APR Table A2 Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/354a375a-821d-4d4e-97ab-4d79c2925fce/download/annualprogressreport_tablea2_datadictionary-2.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:04:31.419369"
+    },
+    {
+      "id": "a07dcd90-56bd-4a5e-9ce6-809e1f3fc121",
+      "name": "APR Table C",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/a07dcd90-56bd-4a5e-9ce6-809e1f3fc121/download/tablec.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:48:17.455788"
+    },
+    {
+      "id": "2d5e0b66-8d0e-46d5-a32f-6a2f43fdf941",
+      "name": "APR Table C Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/2d5e0b66-8d0e-46d5-a32f-6a2f43fdf941/download/annualprogressreport_tablec_datadictionary.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:04:40.644180"
+    },
+    {
+      "id": "37724925-2014-4646-ade8-3ba9f3ff9fb8",
+      "name": "APR Table D",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/37724925-2014-4646-ade8-3ba9f3ff9fb8/download/tabled.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:48:29.686191"
+    },
+    {
+      "id": "53a73ff2-d2dc-4590-8629-c4e06808e217",
+      "name": "APR Table D Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/53a73ff2-d2dc-4590-8629-c4e06808e217/download/annualprogressreport_tabled_datadictionary.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:04:51.711411"
+    },
+    {
+      "id": "ec5124e6-a6ce-435d-82b1-0c963aaf15dd",
+      "name": "APR Table E",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/ec5124e6-a6ce-435d-82b1-0c963aaf15dd/download/tablee.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:48:37.079262"
+    },
+    {
+      "id": "1c80d799-2770-4c0e-bbcf-dd47f9a49496",
+      "name": "APR Table E Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/1c80d799-2770-4c0e-bbcf-dd47f9a49496/download/annualprogressreport_tablee_datadictionary.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:04:56.616391"
+    },
+    {
+      "id": "d8eb9333-7e85-4007-a96a-1fb06387b2e2",
+      "name": "APR Table F",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/d8eb9333-7e85-4007-a96a-1fb06387b2e2/download/tablef.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:48:41.103088"
+    },
+    {
+      "id": "684f6752-9755-4be0-b5dc-433d30b3203d",
+      "name": "APR Table F Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/684f6752-9755-4be0-b5dc-433d30b3203d/download/annualprogressreport_tablef_datadictionary.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:05:01.296912"
+    },
+    {
+      "id": "16e640ab-c7e1-433c-8e4d-aa5a0a1270d1",
+      "name": "APR Table F2",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/16e640ab-c7e1-433c-8e4d-aa5a0a1270d1/download/tablef2.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:48:52.808973"
+    },
+    {
+      "id": "01c77ab2-c095-4b7b-bed7-86a6e29bdfe7",
+      "name": "APR Table F2 Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/01c77ab2-c095-4b7b-bed7-86a6e29bdfe7/download/apr-table-f2-data-dictionary.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:05:05.849474"
+    },
+    {
+      "id": "f68020cc-f245-43e1-a8ec-d7d2d6e42eae",
+      "name": "APR Table G",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/f68020cc-f245-43e1-a8ec-d7d2d6e42eae/download/tableg.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:48:43.547609"
+    },
+    {
+      "id": "0ddb8526-c758-4d73-ae8c-d72125a2aea5",
+      "name": "APR Table G Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/0ddb8526-c758-4d73-ae8c-d72125a2aea5/download/annualprogressreport_tableg_datadictionary.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:05:10.646878"
+    },
+    {
+      "id": "8e0e9d86-9a8a-4b3c-8089-8262404d9401",
+      "name": "APR Table H",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/8e0e9d86-9a8a-4b3c-8089-8262404d9401/download/tableh.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:48:46.048200"
+    },
+    {
+      "id": "0499a106-5667-437e-acab-362c44283bb1",
+      "name": "APR Table H Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/0499a106-5667-437e-acab-362c44283bb1/download/annualprogressreport_tableh_datadictionary.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:05:15.585658"
+    },
+    {
+      "id": "575fe458-9e90-4a15-bca6-91e2bbcc463a",
+      "name": "APR Table I",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/575fe458-9e90-4a15-bca6-91e2bbcc463a/download/tablei.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:48:48.144428"
+    },
+    {
+      "id": "3e9406e6-b854-4a5f-b558-7d15078b8a36",
+      "name": "APR Table I Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/3e9406e6-b854-4a5f-b558-7d15078b8a36/download/apr-table-i-data-dictionary.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:05:20.190697"
+    },
+    {
+      "id": "c1407d6d-adc5-4f32-9cc9-1f022c4e2deb",
+      "name": "APR Table K",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/c1407d6d-adc5-4f32-9cc9-1f022c4e2deb/download/tablek.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:48:50.480182"
+    },
+    {
+      "id": "a710f7e7-e469-4c69-9e6d-b2b71e4f8460",
+      "name": "APR Table K Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/a710f7e7-e469-4c69-9e6d-b2b71e4f8460/download/apr-table-k-data-dictionary.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:05:24.890819"
+    },
+    {
+      "id": "d3cda976-bffc-403d-a693-7eb1873e951a",
+      "name": "APR Table L",
+      "format": "CSV",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/d3cda976-bffc-403d-a693-7eb1873e951a/download/tablel.csv",
+      "datastore_active": true,
+      "last_modified": "2026-10-16T15:49:01.606614"
+    },
+    {
+      "id": "b435d7b7-b596-42f8-8b2e-c4d52aa962dc",
+      "name": "APR Table L Data Dictionary",
+      "format": "DOCX",
+      "url": "https://publish.data.ca.gov/dataset/81b0841f-2802-403e-b48e-2ef4b751f77c/resource/b435d7b7-b596-42f8-8b2e-c4d52aa962dc/download/annualprogressreport_tablel_datadictionary.docx",
+      "datastore_active": false,
+      "last_modified": "2026-10-01T18:05:29.485501"
+    }
+  ],
+  "tables": {
+    "APR Table A": {
+      "resource_id": "c78b769d-cc02-4050-91ef-79ded665b5a8",
+      "record_count": 358014,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURIS_NAME",
+          "type": "text"
+        },
+        {
+          "name": "CNTY_NAME",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "PRIOR_APN",
+          "type": "text"
+        },
+        {
+          "name": "APN",
+          "type": "text"
+        },
+        {
+          "name": "STREET_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "PROJECT_NAME",
+          "type": "text"
+        },
+        {
+          "name": "JURS_TRACKING_ID",
+          "type": "text"
+        },
+        {
+          "name": "UNIT_CAT",
+          "type": "text"
+        },
+        {
+          "name": "TENURE",
+          "type": "text"
+        },
+        {
+          "name": "APP_SUBMIT_DT",
+          "type": "text"
+        },
+        {
+          "name": "ACUTELY_LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "ACUTELY_LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "EXTREMELY_LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "EXTREMELY_LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "VLOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "VLOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "MOD_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "MOD_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "ABOVE_MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "TOT_PROPOSED_UNITS",
+          "type": "numeric"
+        },
+        {
+          "name": "TOT_APPROVED_UNITS",
+          "type": "numeric"
+        },
+        {
+          "name": "TOT_DISAPPROVED_UNITS",
+          "type": "numeric"
+        },
+        {
+          "name": "APP_SUBMITTED_SB35",
+          "type": "text"
+        },
+        {
+          "name": "HISTORIC_SITES",
+          "type": "text"
+        },
+        {
+          "name": "DENSITY_BONUS_RECEIVED",
+          "type": "text"
+        },
+        {
+          "name": "DENSITY_BONUS_APPROVED",
+          "type": "text"
+        },
+        {
+          "name": "APPLICATION_STATUS",
+          "type": "text"
+        },
+        {
+          "name": "PROJECT_TYPE",
+          "type": "text"
+        },
+        {
+          "name": "NOTES",
+          "type": "text"
+        },
+        {
+          "name": "LATITUDE",
+          "type": "numeric"
+        },
+        {
+          "name": "LONGITUDE",
+          "type": "numeric"
+        },
+        {
+          "name": "STD_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "SCORE",
+          "type": "numeric"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURIS_NAME": "PETALUMA",
+          "CNTY_NAME": "Sonoma",
+          "YEAR": 2021,
+          "PRIOR_APN": null,
+          "APN": "006-212-016",
+          "STREET_ADDRESS": "325 LIBERTY                        ST\nPETALUMA                                          , CA 94952",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": null,
+          "UNIT_CAT": "SFD",
+          "TENURE": "Owner",
+          "APP_SUBMIT_DT": "2021-04-22",
+          "ACUTELY_LOW_INCOME_DR": 0,
+          "ACUTELY_LOW_INCOME_NDR": 0,
+          "EXTREMELY_LOW_INCOME_DR": 0,
+          "EXTREMELY_LOW_INCOME_NDR": 0,
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 0,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 1,
+          "TOT_PROPOSED_UNITS": 1,
+          "TOT_APPROVED_UNITS": null,
+          "TOT_DISAPPROVED_UNITS": null,
+          "APP_SUBMITTED_SB35": "No",
+          "HISTORIC_SITES": null,
+          "DENSITY_BONUS_RECEIVED": "No",
+          "DENSITY_BONUS_APPROVED": "No",
+          "APPLICATION_STATUS": "Pending",
+          "PROJECT_TYPE": null,
+          "NOTES": "SPAR approved.  In for BP review (submitted, not yet issued)",
+          "LATITUDE": 38.237407,
+          "LONGITUDE": -122.645464,
+          "STD_ADDRESS": "325 Liberty St, Petaluma, California, 94952",
+          "SCORE": 98.55
+        },
+        {
+          "_id": 2,
+          "JURIS_NAME": "PETALUMA",
+          "CNTY_NAME": "Sonoma",
+          "YEAR": 2021,
+          "PRIOR_APN": null,
+          "APN": "019-203-051",
+          "STREET_ADDRESS": "23 WALLENBERG                     WAY\nPETALUMA                                          , CA 94952",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": null,
+          "UNIT_CAT": "SFD",
+          "TENURE": "Owner",
+          "APP_SUBMIT_DT": "2021-03-16",
+          "ACUTELY_LOW_INCOME_DR": 0,
+          "ACUTELY_LOW_INCOME_NDR": 0,
+          "EXTREMELY_LOW_INCOME_DR": 0,
+          "EXTREMELY_LOW_INCOME_NDR": 0,
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 0,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 1,
+          "TOT_PROPOSED_UNITS": 1,
+          "TOT_APPROVED_UNITS": null,
+          "TOT_DISAPPROVED_UNITS": null,
+          "APP_SUBMITTED_SB35": "No",
+          "HISTORIC_SITES": null,
+          "DENSITY_BONUS_RECEIVED": "No",
+          "DENSITY_BONUS_APPROVED": "No",
+          "APPLICATION_STATUS": "Pending",
+          "PROJECT_TYPE": null,
+          "NOTES": "In for BP review (submitted, not yet issued)",
+          "LATITUDE": 38.217389,
+          "LONGITUDE": -122.638928,
+          "STD_ADDRESS": "23 Wallenberg Way, Petaluma, California, 94952",
+          "SCORE": 98.62
+        },
+        {
+          "_id": 3,
+          "JURIS_NAME": "LONG BEACH",
+          "CNTY_NAME": "Los Angeles",
+          "YEAR": 2021,
+          "PRIOR_APN": null,
+          "APN": "7256013004",
+          "STREET_ADDRESS": "120 Belmont Ave",
+          "PROJECT_NAME": "2108-21",
+          "JURS_TRACKING_ID": "2108-21",
+          "UNIT_CAT": "ADU",
+          "TENURE": "Renter",
+          "APP_SUBMIT_DT": "2021-08-17",
+          "ACUTELY_LOW_INCOME_DR": 0,
+          "ACUTELY_LOW_INCOME_NDR": 0,
+          "EXTREMELY_LOW_INCOME_DR": 0,
+          "EXTREMELY_LOW_INCOME_NDR": 0,
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 0,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 1,
+          "TOT_PROPOSED_UNITS": 1,
+          "TOT_APPROVED_UNITS": 1,
+          "TOT_DISAPPROVED_UNITS": null,
+          "APP_SUBMITTED_SB35": "No",
+          "HISTORIC_SITES": null,
+          "DENSITY_BONUS_RECEIVED": "No",
+          "DENSITY_BONUS_APPROVED": "N/A",
+          "APPLICATION_STATUS": "Approved",
+          "PROJECT_TYPE": null,
+          "NOTES": null,
+          "LATITUDE": 33.761781,
+          "LONGITUDE": -118.144783,
+          "STD_ADDRESS": "120 Belmont Ave, Long Beach, California, 90803",
+          "SCORE": 100
+        },
+        {
+          "_id": 4,
+          "JURIS_NAME": "LONG BEACH",
+          "CNTY_NAME": "Los Angeles",
+          "YEAR": 2021,
+          "PRIOR_APN": null,
+          "APN": "7431024005",
+          "STREET_ADDRESS": "1900 Harbor Avenue",
+          "PROJECT_NAME": "2108-23",
+          "JURS_TRACKING_ID": "2108-23",
+          "UNIT_CAT": "ADU",
+          "TENURE": "Renter",
+          "APP_SUBMIT_DT": "2021-08-20",
+          "ACUTELY_LOW_INCOME_DR": 0,
+          "ACUTELY_LOW_INCOME_NDR": 0,
+          "EXTREMELY_LOW_INCOME_DR": 0,
+          "EXTREMELY_LOW_INCOME_NDR": 0,
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 0,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 1,
+          "TOT_PROPOSED_UNITS": 1,
+          "TOT_APPROVED_UNITS": null,
+          "TOT_DISAPPROVED_UNITS": null,
+          "APP_SUBMITTED_SB35": "No",
+          "HISTORIC_SITES": null,
+          "DENSITY_BONUS_RECEIVED": "No",
+          "DENSITY_BONUS_APPROVED": "N/A",
+          "APPLICATION_STATUS": "Pending",
+          "PROJECT_TYPE": null,
+          "NOTES": null,
+          "LATITUDE": 33.791856,
+          "LONGITUDE": -118.210459,
+          "STD_ADDRESS": "1900 Harbor Ave, Long Beach, California, 90810",
+          "SCORE": 100
+        },
+        {
+          "_id": 5,
+          "JURIS_NAME": "LONG BEACH",
+          "CNTY_NAME": "Los Angeles",
+          "YEAR": 2021,
+          "PRIOR_APN": null,
+          "APN": "7280015094",
+          "STREET_ADDRESS": "225 W. 3rd St",
+          "PROJECT_NAME": "2108-27",
+          "JURS_TRACKING_ID": "2108-27",
+          "UNIT_CAT": "ADU",
+          "TENURE": "Renter",
+          "APP_SUBMIT_DT": "2021-12-17",
+          "ACUTELY_LOW_INCOME_DR": 0,
+          "ACUTELY_LOW_INCOME_NDR": 0,
+          "EXTREMELY_LOW_INCOME_DR": 0,
+          "EXTREMELY_LOW_INCOME_NDR": 0,
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 0,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 10,
+          "TOT_PROPOSED_UNITS": 10,
+          "TOT_APPROVED_UNITS": null,
+          "TOT_DISAPPROVED_UNITS": null,
+          "APP_SUBMITTED_SB35": "No",
+          "HISTORIC_SITES": null,
+          "DENSITY_BONUS_RECEIVED": "No",
+          "DENSITY_BONUS_APPROVED": "N/A",
+          "APPLICATION_STATUS": "Pending",
+          "PROJECT_TYPE": null,
+          "NOTES": null,
+          "LATITUDE": 33.770531,
+          "LONGITUDE": -118.194424,
+          "STD_ADDRESS": "225 W 3rd St, Long Beach, California, 90802",
+          "SCORE": 100
+        }
+      ]
+    },
+    "APR Table A2": {
+      "resource_id": "fe505d9b-8c36-42ba-ba30-08bc4f34e022",
+      "record_count": 924139,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURIS_NAME",
+          "type": "text"
+        },
+        {
+          "name": "CNTY_NAME",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "PRIOR_APN",
+          "type": "text"
+        },
+        {
+          "name": "APN",
+          "type": "text"
+        },
+        {
+          "name": "STREET_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "PROJECT_NAME",
+          "type": "text"
+        },
+        {
+          "name": "JURS_TRACKING_ID",
+          "type": "text"
+        },
+        {
+          "name": "UNIT_CAT",
+          "type": "text"
+        },
+        {
+          "name": "TENURE",
+          "type": "text"
+        },
+        {
+          "name": "ACUTELY_LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "ACUTELY_LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "EXTREMELY_LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "EXTREMELY_LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "VLOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "VLOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "MOD_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "MOD_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "ABOVE_MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "ENT_APPROVE_DT1",
+          "type": "text"
+        },
+        {
+          "name": "NO_ENTITLEMENTS",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_ACUTELY_LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_ACUTELY_LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_EXTREMELY_LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_EXTREMELY_LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_VLOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_VLOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_MOD_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_MOD_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_ABOVE_MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "BP_ISSUE_DT1",
+          "type": "text"
+        },
+        {
+          "name": "NO_BUILDING_PERMITS",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_ACUTELY_LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_ACUTELY_LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_EXTREMELY_LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_EXTREMELY_LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_VLOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_VLOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_MOD_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_MOD_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_ABOVE_MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "CO_ISSUE_DT1",
+          "type": "text"
+        },
+        {
+          "name": "NO_OTHER_FORMS_OF_READINESS",
+          "type": "numeric"
+        },
+        {
+          "name": "EXTR_LOW_INCOME_UNITS",
+          "type": "numeric"
+        },
+        {
+          "name": "APPROVE_SB35",
+          "type": "text"
+        },
+        {
+          "name": "HISTORIC_SITES",
+          "type": "text"
+        },
+        {
+          "name": "INFILL_UNITS",
+          "type": "text"
+        },
+        {
+          "name": "FIN_ASSIST_NAME",
+          "type": "text"
+        },
+        {
+          "name": "DR_TYPE",
+          "type": "text"
+        },
+        {
+          "name": "NO_FA_DR",
+          "type": "text"
+        },
+        {
+          "name": "TERM_AFF_DR",
+          "type": "text"
+        },
+        {
+          "name": "DEM_DES_UNITS",
+          "type": "numeric"
+        },
+        {
+          "name": "DEM_OR_DES_UNITS",
+          "type": "text"
+        },
+        {
+          "name": "DEM_DES_UNITS_OWN_RENT",
+          "type": "text"
+        },
+        {
+          "name": "DENSITY_BONUS_TOTAL",
+          "type": "numeric"
+        },
+        {
+          "name": "DENSITY_BONUS_NUMBER_OTHER_INCENTIVES",
+          "type": "numeric"
+        },
+        {
+          "name": "DENSITY_BONUS_INCENTIVES",
+          "type": "text"
+        },
+        {
+          "name": "DENSITY_BONUS_RECEIVE_REDUCTION",
+          "type": "text"
+        },
+        {
+          "name": "NOTES",
+          "type": "text"
+        },
+        {
+          "name": "LATITUDE",
+          "type": "numeric"
+        },
+        {
+          "name": "LONGITUDE",
+          "type": "numeric"
+        },
+        {
+          "name": "STD_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "SCORE",
+          "type": "numeric"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURIS_NAME": "STANISLAUS COUNTY",
+          "CNTY_NAME": "Stanislaus",
+          "YEAR": 2020,
+          "PRIOR_APN": null,
+          "APN": "081-002-032",
+          "STREET_ADDRESS": "1464 CLARK  RD",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "BLD2002-01052",
+          "UNIT_CAT": "MH",
+          "TENURE": "Renter",
+          "ACUTELY_LOW_INCOME_DR": 0,
+          "ACUTELY_LOW_INCOME_NDR": 0,
+          "EXTREMELY_LOW_INCOME_DR": 0,
+          "EXTREMELY_LOW_INCOME_NDR": 0,
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 0,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "ENT_APPROVE_DT1": null,
+          "NO_ENTITLEMENTS": 0,
+          "BP_ACUTELY_LOW_INCOME_DR": 0,
+          "BP_ACUTELY_LOW_INCOME_NDR": 0,
+          "BP_EXTREMELY_LOW_INCOME_DR": 0,
+          "BP_EXTREMELY_LOW_INCOME_NDR": 0,
+          "BP_VLOW_INCOME_DR": 0,
+          "BP_VLOW_INCOME_NDR": 0,
+          "BP_LOW_INCOME_DR": 0,
+          "BP_LOW_INCOME_NDR": 0,
+          "BP_MOD_INCOME_DR": 0,
+          "BP_MOD_INCOME_NDR": 0,
+          "BP_ABOVE_MOD_INCOME": 1,
+          "BP_ISSUE_DT1": "2020-03-05",
+          "NO_BUILDING_PERMITS": 1,
+          "CO_ACUTELY_LOW_INCOME_DR": 0,
+          "CO_ACUTELY_LOW_INCOME_NDR": 0,
+          "CO_EXTREMELY_LOW_INCOME_DR": 0,
+          "CO_EXTREMELY_LOW_INCOME_NDR": 0,
+          "CO_VLOW_INCOME_DR": 0,
+          "CO_VLOW_INCOME_NDR": 0,
+          "CO_LOW_INCOME_DR": 0,
+          "CO_LOW_INCOME_NDR": 0,
+          "CO_MOD_INCOME_DR": 0,
+          "CO_MOD_INCOME_NDR": 0,
+          "CO_ABOVE_MOD_INCOME": 1,
+          "CO_ISSUE_DT1": "2020-03-05",
+          "NO_OTHER_FORMS_OF_READINESS": 1,
+          "EXTR_LOW_INCOME_UNITS": 0,
+          "APPROVE_SB35": "N",
+          "HISTORIC_SITES": "0",
+          "INFILL_UNITS": "0",
+          "FIN_ASSIST_NAME": null,
+          "DR_TYPE": null,
+          "NO_FA_DR": "0",
+          "TERM_AFF_DR": null,
+          "DEM_DES_UNITS": 0,
+          "DEM_OR_DES_UNITS": null,
+          "DEM_DES_UNITS_OWN_RENT": null,
+          "DENSITY_BONUS_TOTAL": 0,
+          "DENSITY_BONUS_NUMBER_OTHER_INCENTIVES": 0,
+          "DENSITY_BONUS_INCENTIVES": null,
+          "DENSITY_BONUS_RECEIVE_REDUCTION": null,
+          "NOTES": "MOBILE HOME ON PRIVATE PROPERTY (PIERS) 2002 GOLDEN WEST HOME MODEL 02P-662F (SECOND DWELLING)      C/S WOODLAND AVE",
+          "LATITUDE": 37.655693,
+          "LONGITUDE": -121.085881,
+          "STD_ADDRESS": "1464 Clark Rd, Modesto, California, 95358",
+          "SCORE": 93.96
+        },
+        {
+          "_id": 2,
+          "JURIS_NAME": "STANISLAUS COUNTY",
+          "CNTY_NAME": "Stanislaus",
+          "YEAR": 2020,
+          "PRIOR_APN": null,
+          "APN": "022-029-112",
+          "STREET_ADDRESS": "7708 MONTEREY AVE",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "BLD2020-0390",
+          "UNIT_CAT": "MH",
+          "TENURE": "Owner",
+          "ACUTELY_LOW_INCOME_DR": 0,
+          "ACUTELY_LOW_INCOME_NDR": 0,
+          "EXTREMELY_LOW_INCOME_DR": 0,
+          "EXTREMELY_LOW_INCOME_NDR": 0,
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 0,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "ENT_APPROVE_DT1": null,
+          "NO_ENTITLEMENTS": 0,
+          "BP_ACUTELY_LOW_INCOME_DR": 0,
+          "BP_ACUTELY_LOW_INCOME_NDR": 0,
+          "BP_EXTREMELY_LOW_INCOME_DR": 0,
+          "BP_EXTREMELY_LOW_INCOME_NDR": 0,
+          "BP_VLOW_INCOME_DR": 0,
+          "BP_VLOW_INCOME_NDR": 0,
+          "BP_LOW_INCOME_DR": 0,
+          "BP_LOW_INCOME_NDR": 0,
+          "BP_MOD_INCOME_DR": 0,
+          "BP_MOD_INCOME_NDR": 0,
+          "BP_ABOVE_MOD_INCOME": 1,
+          "BP_ISSUE_DT1": "2020-07-15",
+          "NO_BUILDING_PERMITS": 1,
+          "CO_ACUTELY_LOW_INCOME_DR": 0,
+          "CO_ACUTELY_LOW_INCOME_NDR": 0,
+          "CO_EXTREMELY_LOW_INCOME_DR": 0,
+          "CO_EXTREMELY_LOW_INCOME_NDR": 0,
+          "CO_VLOW_INCOME_DR": 0,
+          "CO_VLOW_INCOME_NDR": 0,
+          "CO_LOW_INCOME_DR": 0,
+          "CO_LOW_INCOME_NDR": 0,
+          "CO_MOD_INCOME_DR": 0,
+          "CO_MOD_INCOME_NDR": 0,
+          "CO_ABOVE_MOD_INCOME": 1,
+          "CO_ISSUE_DT1": "2021-01-29",
+          "NO_OTHER_FORMS_OF_READINESS": 1,
+          "EXTR_LOW_INCOME_UNITS": 0,
+          "APPROVE_SB35": "N",
+          "HISTORIC_SITES": "0",
+          "INFILL_UNITS": "0",
+          "FIN_ASSIST_NAME": null,
+          "DR_TYPE": null,
+          "NO_FA_DR": "0",
+          "TERM_AFF_DR": null,
+          "DEM_DES_UNITS": 0,
+          "DEM_OR_DES_UNITS": null,
+          "DEM_DES_UNITS_OWN_RENT": null,
+          "DENSITY_BONUS_TOTAL": 0,
+          "DENSITY_BONUS_NUMBER_OTHER_INCENTIVES": 0,
+          "DENSITY_BONUS_INCENTIVES": null,
+          "DENSITY_BONUS_RECEIVE_REDUCTION": null,
+          "NOTES": "MANUFACTURED DWELLING - 1980 LANCER 1568 SQ FT - NEW HOMESITE              C/S DURANGO AVE",
+          "LATITUDE": 37.526333,
+          "LONGITUDE": -121.011812,
+          "STD_ADDRESS": "7708 Monterey Ave, Ceres, California, 95307",
+          "SCORE": 94.39
+        },
+        {
+          "_id": 3,
+          "JURIS_NAME": "STANISLAUS COUNTY",
+          "CNTY_NAME": "Stanislaus",
+          "YEAR": 2020,
+          "PRIOR_APN": null,
+          "APN": "020-003-019",
+          "STREET_ADDRESS": "4455 HAWKINS RD",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "BLD2019-2591",
+          "UNIT_CAT": "MH",
+          "TENURE": "Renter",
+          "ACUTELY_LOW_INCOME_DR": 0,
+          "ACUTELY_LOW_INCOME_NDR": 0,
+          "EXTREMELY_LOW_INCOME_DR": 0,
+          "EXTREMELY_LOW_INCOME_NDR": 0,
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 0,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "ENT_APPROVE_DT1": null,
+          "NO_ENTITLEMENTS": 0,
+          "BP_ACUTELY_LOW_INCOME_DR": 0,
+          "BP_ACUTELY_LOW_INCOME_NDR": 0,
+          "BP_EXTREMELY_LOW_INCOME_DR": 0,
+          "BP_EXTREMELY_LOW_INCOME_NDR": 0,
+          "BP_VLOW_INCOME_DR": 0,
+          "BP_VLOW_INCOME_NDR": 0,
+          "BP_LOW_INCOME_DR": 0,
+          "BP_LOW_INCOME_NDR": 0,
+          "BP_MOD_INCOME_DR": 0,
+          "BP_MOD_INCOME_NDR": 0,
+          "BP_ABOVE_MOD_INCOME": 1,
+          "BP_ISSUE_DT1": "2020-02-12",
+          "NO_BUILDING_PERMITS": 1,
+          "CO_ACUTELY_LOW_INCOME_DR": 0,
+          "CO_ACUTELY_LOW_INCOME_NDR": 0,
+          "CO_EXTREMELY_LOW_INCOME_DR": 0,
+          "CO_EXTREMELY_LOW_INCOME_NDR": 0,
+          "CO_VLOW_INCOME_DR": 0,
+          "CO_VLOW_INCOME_NDR": 0,
+          "CO_LOW_INCOME_DR": 0,
+          "CO_LOW_INCOME_NDR": 0,
+          "CO_MOD_INCOME_DR": 0,
+          "CO_MOD_INCOME_NDR": 0,
+          "CO_ABOVE_MOD_INCOME": 0,
+          "CO_ISSUE_DT1": null,
+          "NO_OTHER_FORMS_OF_READINESS": 0,
+          "EXTR_LOW_INCOME_UNITS": 0,
+          "APPROVE_SB35": "N",
+          "HISTORIC_SITES": "0",
+          "INFILL_UNITS": "0",
+          "FIN_ASSIST_NAME": null,
+          "DR_TYPE": null,
+          "NO_FA_DR": "0",
+          "TERM_AFF_DR": null,
+          "DEM_DES_UNITS": 0,
+          "DEM_OR_DES_UNITS": null,
+          "DEM_DES_UNITS_OWN_RENT": null,
+          "DENSITY_BONUS_TOTAL": 0,
+          "DENSITY_BONUS_NUMBER_OTHER_INCENTIVES": 0,
+          "DENSITY_BONUS_INCENTIVES": null,
+          "DENSITY_BONUS_RECEIVE_REDUCTION": null,
+          "NOTES": "1152 SQ. FT. MANUFACTURED HOME / 2019 CHAMPION MODEL # CM 3483B                             C/S KEYES RD.",
+          "LATITUDE": 37.571711,
+          "LONGITUDE": -120.64586,
+          "STD_ADDRESS": "4455 Hawkins Rd, Denair, California, 95316",
+          "SCORE": 88.36
+        },
+        {
+          "_id": 4,
+          "JURIS_NAME": "STANISLAUS COUNTY",
+          "CNTY_NAME": "Stanislaus",
+          "YEAR": 2020,
+          "PRIOR_APN": null,
+          "APN": "041-004-008",
+          "STREET_ADDRESS": "525 GRAYSON",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "BLD2018-2134",
+          "UNIT_CAT": "ADU",
+          "TENURE": "Renter",
+          "ACUTELY_LOW_INCOME_DR": 0,
+          "ACUTELY_LOW_INCOME_NDR": 0,
+          "EXTREMELY_LOW_INCOME_DR": 0,
+          "EXTREMELY_LOW_INCOME_NDR": 0,
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 0,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "ENT_APPROVE_DT1": null,
+          "NO_ENTITLEMENTS": 0,
+          "BP_ACUTELY_LOW_INCOME_DR": 0,
+          "BP_ACUTELY_LOW_INCOME_NDR": 0,
+          "BP_EXTREMELY_LOW_INCOME_DR": 0,
+          "BP_EXTREMELY_LOW_INCOME_NDR": 0,
+          "BP_VLOW_INCOME_DR": 0,
+          "BP_VLOW_INCOME_NDR": 0,
+          "BP_LOW_INCOME_DR": 0,
+          "BP_LOW_INCOME_NDR": 0,
+          "BP_MOD_INCOME_DR": 0,
+          "BP_MOD_INCOME_NDR": 0,
+          "BP_ABOVE_MOD_INCOME": 0,
+          "BP_ISSUE_DT1": null,
+          "NO_BUILDING_PERMITS": 0,
+          "CO_ACUTELY_LOW_INCOME_DR": 0,
+          "CO_ACUTELY_LOW_INCOME_NDR": 0,
+          "CO_EXTREMELY_LOW_INCOME_DR": 0,
+          "CO_EXTREMELY_LOW_INCOME_NDR": 0,
+          "CO_VLOW_INCOME_DR": 0,
+          "CO_VLOW_INCOME_NDR": 0,
+          "CO_LOW_INCOME_DR": 0,
+          "CO_LOW_INCOME_NDR": 0,
+          "CO_MOD_INCOME_DR": 0,
+          "CO_MOD_INCOME_NDR": 0,
+          "CO_ABOVE_MOD_INCOME": 1,
+          "CO_ISSUE_DT1": "2020-03-11",
+          "NO_OTHER_FORMS_OF_READINESS": 1,
+          "EXTR_LOW_INCOME_UNITS": 0,
+          "APPROVE_SB35": "N",
+          "HISTORIC_SITES": "0",
+          "INFILL_UNITS": "0",
+          "FIN_ASSIST_NAME": null,
+          "DR_TYPE": null,
+          "NO_FA_DR": "0",
+          "TERM_AFF_DR": null,
+          "DEM_DES_UNITS": 0,
+          "DEM_OR_DES_UNITS": null,
+          "DEM_DES_UNITS_OWN_RENT": null,
+          "DENSITY_BONUS_TOTAL": 0,
+          "DENSITY_BONUS_NUMBER_OTHER_INCENTIVES": 0,
+          "DENSITY_BONUS_INCENTIVES": null,
+          "DENSITY_BONUS_RECEIVE_REDUCTION": null,
+          "NOTES": "Garage Conversion to ADU (Change garage to living space)",
+          "LATITUDE": 37.565911,
+          "LONGITUDE": -121.000101,
+          "STD_ADDRESS": "525 W Grayson Rd, Modesto, California, 95358",
+          "SCORE": 92.11
+        },
+        {
+          "_id": 5,
+          "JURIS_NAME": "STANISLAUS COUNTY",
+          "CNTY_NAME": "Stanislaus",
+          "YEAR": 2020,
+          "PRIOR_APN": null,
+          "APN": "038-048-002",
+          "STREET_ADDRESS": "627 HERNDON RD",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "BLD2020-0174",
+          "UNIT_CAT": "ADU",
+          "TENURE": "Renter",
+          "ACUTELY_LOW_INCOME_DR": 0,
+          "ACUTELY_LOW_INCOME_NDR": 0,
+          "EXTREMELY_LOW_INCOME_DR": 0,
+          "EXTREMELY_LOW_INCOME_NDR": 0,
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 0,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "ENT_APPROVE_DT1": null,
+          "NO_ENTITLEMENTS": 0,
+          "BP_ACUTELY_LOW_INCOME_DR": 0,
+          "BP_ACUTELY_LOW_INCOME_NDR": 0,
+          "BP_EXTREMELY_LOW_INCOME_DR": 0,
+          "BP_EXTREMELY_LOW_INCOME_NDR": 0,
+          "BP_VLOW_INCOME_DR": 0,
+          "BP_VLOW_INCOME_NDR": 0,
+          "BP_LOW_INCOME_DR": 0,
+          "BP_LOW_INCOME_NDR": 0,
+          "BP_MOD_INCOME_DR": 0,
+          "BP_MOD_INCOME_NDR": 0,
+          "BP_ABOVE_MOD_INCOME": 1,
+          "BP_ISSUE_DT1": "2020-03-31",
+          "NO_BUILDING_PERMITS": 1,
+          "CO_ACUTELY_LOW_INCOME_DR": 0,
+          "CO_ACUTELY_LOW_INCOME_NDR": 0,
+          "CO_EXTREMELY_LOW_INCOME_DR": 0,
+          "CO_EXTREMELY_LOW_INCOME_NDR": 0,
+          "CO_VLOW_INCOME_DR": 0,
+          "CO_VLOW_INCOME_NDR": 0,
+          "CO_LOW_INCOME_DR": 0,
+          "CO_LOW_INCOME_NDR": 0,
+          "CO_MOD_INCOME_DR": 0,
+          "CO_MOD_INCOME_NDR": 0,
+          "CO_ABOVE_MOD_INCOME": 1,
+          "CO_ISSUE_DT1": "2020-07-14",
+          "NO_OTHER_FORMS_OF_READINESS": 1,
+          "EXTR_LOW_INCOME_UNITS": 0,
+          "APPROVE_SB35": "N",
+          "HISTORIC_SITES": "0",
+          "INFILL_UNITS": "0",
+          "FIN_ASSIST_NAME": null,
+          "DR_TYPE": null,
+          "NO_FA_DR": "0",
+          "TERM_AFF_DR": null,
+          "DEM_DES_UNITS": 0,
+          "DEM_OR_DES_UNITS": null,
+          "DEM_DES_UNITS_OWN_RENT": null,
+          "DENSITY_BONUS_TOTAL": 0,
+          "DENSITY_BONUS_NUMBER_OTHER_INCENTIVES": 0,
+          "DENSITY_BONUS_INCENTIVES": null,
+          "DENSITY_BONUS_RECEIVE_REDUCTION": null,
+          "NOTES": "ACCESSORY DWELLING UNIT ( 1037 SF ) W/ ATTACHED PATIO COVER C/S SONORA AVE",
+          "LATITUDE": 37.620783,
+          "LONGITUDE": -120.975385,
+          "STD_ADDRESS": "627 Herndon Rd, Modesto, California, 95351",
+          "SCORE": 88.15
+        }
+      ]
+    },
+    "APR Table C": {
+      "resource_id": "a07dcd90-56bd-4a5e-9ce6-809e1f3fc121",
+      "record_count": 147970,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURISDICTION",
+          "type": "text"
+        },
+        {
+          "name": "COUNTY",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "APN",
+          "type": "text"
+        },
+        {
+          "name": "STREET_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "PROJECT_NAME",
+          "type": "text"
+        },
+        {
+          "name": "JURS_TRACKING_ID",
+          "type": "text"
+        },
+        {
+          "name": "REZONE_DT",
+          "type": "text"
+        },
+        {
+          "name": "VLOW_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "LOW_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "ABOVE_MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "SHORTFALL_DESC",
+          "type": "text"
+        },
+        {
+          "name": "PARCEL_SIZE",
+          "type": "numeric"
+        },
+        {
+          "name": "GEN_PLAN_DESIGNATION",
+          "type": "text"
+        },
+        {
+          "name": "ZONING",
+          "type": "text"
+        },
+        {
+          "name": "MIN_DENSITY_ALLOWED",
+          "type": "text"
+        },
+        {
+          "name": "MAX_DENSITY_ALLOWED",
+          "type": "text"
+        },
+        {
+          "name": "REALISTIC_CAPACITY",
+          "type": "numeric"
+        },
+        {
+          "name": "PARCEL_VACANT_NONVACANT",
+          "type": "text"
+        },
+        {
+          "name": "DESCRIPTION",
+          "type": "text"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURISDICTION": "AGOURA HILLS",
+          "COUNTY": "Los Angeles",
+          "YEAR": 2022,
+          "APN": "1951-05-02",
+          "STREET_ADDRESS": "5801 Kanan Rd",
+          "PROJECT_NAME": "6th Cycle Housing Element Update",
+          "JURS_TRACKING_ID": "Site Q",
+          "REZONE_DT": "2022-08-22",
+          "VLOW_INCOME": 3,
+          "LOW_INCOME": 4,
+          "MOD_INCOME": 2,
+          "ABOVE_MOD_INCOME": 38,
+          "SHORTFALL_DESC": "Unaccommodated Need",
+          "PARCEL_SIZE": 1.9,
+          "GEN_PLAN_DESIGNATION": "CS-MU",
+          "ZONING": "CS-MU",
+          "MIN_DENSITY_ALLOWED": "38",
+          "MAX_DENSITY_ALLOWED": "47",
+          "REALISTIC_CAPACITY": 45,
+          "PARCEL_VACANT_NONVACANT": "Non-Vacant",
+          "DESCRIPTION": "Shopping Center, Small Retail"
+        },
+        {
+          "_id": 2,
+          "JURISDICTION": "AGOURA HILLS",
+          "COUNTY": "Los Angeles",
+          "YEAR": 2022,
+          "APN": "1953-01-04",
+          "STREET_ADDRESS": "Canwood St West of Kanan",
+          "PROJECT_NAME": "6th Cycle Housing Element Update",
+          "JURS_TRACKING_ID": "Site D",
+          "REZONE_DT": "2022-08-22",
+          "VLOW_INCOME": 14,
+          "LOW_INCOME": 14,
+          "MOD_INCOME": 6,
+          "ABOVE_MOD_INCOME": 105,
+          "SHORTFALL_DESC": "Unaccommodated Need",
+          "PARCEL_SIZE": 5.58,
+          "GEN_PLAN_DESIGNATION": "RM",
+          "ZONING": "RM",
+          "MIN_DENSITY_ALLOWED": "111",
+          "MAX_DENSITY_ALLOWED": "139",
+          "REALISTIC_CAPACITY": 130,
+          "PARCEL_VACANT_NONVACANT": "Vacant",
+          "DESCRIPTION": "Vacant Commercial"
+        },
+        {
+          "_id": 3,
+          "JURISDICTION": "AGOURA HILLS",
+          "COUNTY": "Los Angeles",
+          "YEAR": 2022,
+          "APN": "1961-04-22",
+          "STREET_ADDRESS": "Roadside Dr East of Roadside Rd",
+          "PROJECT_NAME": "6th Cycle Housing Element Update",
+          "JURS_TRACKING_ID": "Site T",
+          "REZONE_DT": "2022-08-22",
+          "VLOW_INCOME": 2,
+          "LOW_INCOME": 2,
+          "MOD_INCOME": 1,
+          "ABOVE_MOD_INCOME": 16,
+          "SHORTFALL_DESC": "Unaccommodated Need",
+          "PARCEL_SIZE": 0.87,
+          "GEN_PLAN_DESIGNATION": "POM",
+          "ZONING": "POM",
+          "MIN_DENSITY_ALLOWED": "17",
+          "MAX_DENSITY_ALLOWED": "21",
+          "REALISTIC_CAPACITY": 19,
+          "PARCEL_VACANT_NONVACANT": "Non-Vacant",
+          "DESCRIPTION": "Small Retail"
+        },
+        {
+          "_id": 4,
+          "JURISDICTION": "AGOURA HILLS",
+          "COUNTY": "Los Angeles",
+          "YEAR": 2022,
+          "APN": "2051-006-141",
+          "STREET_ADDRESS": "5801 Kanan Rd",
+          "PROJECT_NAME": "6th Cycle Housing Element Update",
+          "JURS_TRACKING_ID": "Site P",
+          "REZONE_DT": "2022-08-22",
+          "VLOW_INCOME": 7,
+          "LOW_INCOME": 7,
+          "MOD_INCOME": 3,
+          "ABOVE_MOD_INCOME": 56,
+          "SHORTFALL_DESC": "Unaccommodated Need",
+          "PARCEL_SIZE": 2.93,
+          "GEN_PLAN_DESIGNATION": "CS-MU",
+          "ZONING": "CS-MU",
+          "MIN_DENSITY_ALLOWED": "58",
+          "MAX_DENSITY_ALLOWED": "73",
+          "REALISTIC_CAPACITY": 70,
+          "PARCEL_VACANT_NONVACANT": "Non-Vacant",
+          "DESCRIPTION": "Shopping Center, Small Retail"
+        },
+        {
+          "_id": 5,
+          "JURISDICTION": "AGOURA HILLS",
+          "COUNTY": "Los Angeles",
+          "YEAR": 2022,
+          "APN": "2053-007-030, -026, -024, -025 -027...",
+          "STREET_ADDRESS": "5675 Kanan Rd",
+          "PROJECT_NAME": "6th Cycle Housing Element Update",
+          "JURS_TRACKING_ID": "Site O",
+          "REZONE_DT": "2022-08-22",
+          "VLOW_INCOME": 7,
+          "LOW_INCOME": 6,
+          "MOD_INCOME": 3,
+          "ABOVE_MOD_INCOME": 51,
+          "SHORTFALL_DESC": "Unaccommodated Need",
+          "PARCEL_SIZE": 2.68,
+          "GEN_PLAN_DESIGNATION": "CS-MU",
+          "ZONING": "CS-MU",
+          "MIN_DENSITY_ALLOWED": "53",
+          "MAX_DENSITY_ALLOWED": "67",
+          "REALISTIC_CAPACITY": 65,
+          "PARCEL_VACANT_NONVACANT": "Non-Vacant",
+          "DESCRIPTION": "Shopping Center, Small Retail"
+        }
+      ]
+    },
+    "APR Table D": {
+      "resource_id": "37724925-2014-4646-ade8-3ba9f3ff9fb8",
+      "record_count": 147618,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURIS_NAME",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "PROGRAM_NAME",
+          "type": "text"
+        },
+        {
+          "name": "PROGRAM_OBJECTIVE",
+          "type": "text"
+        },
+        {
+          "name": "ACCOMPLISHED_DT",
+          "type": "text"
+        },
+        {
+          "name": "APPLICABLE_CYCLE",
+          "type": "text"
+        },
+        {
+          "name": "PROGRAM_STATUS_LIST",
+          "type": "text"
+        },
+        {
+          "name": "PROGRAM_STATUS",
+          "type": "text"
+        },
+        {
+          "name": "QUANTIFIED_OUTCOMES_CATEGORY",
+          "type": "text"
+        },
+        {
+          "name": "QUANTIFIED_OUTCOMES_COUNT",
+          "type": "numeric"
+        },
+        {
+          "name": "SUPPORTING_DOCUMENTS",
+          "type": "text"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURIS_NAME": "DESERT HOT SPRINGS",
+          "YEAR": 2022,
+          "PROGRAM_NAME": "Program 5.5, Mobility Strategies Program",
+          "PROGRAM_OBJECTIVE": "Post maps and information within six months of adoption of the 2021-2029 Housing Element. Establish a working relation with Housing Authority staff within six months of adoption of the 2021-2029 Housing Element.",
+          "ACCOMPLISHED_DT": "2021-2029 Planning Period",
+          "APPLICABLE_CYCLE": null,
+          "PROGRAM_STATUS_LIST": null,
+          "PROGRAM_STATUS": "Not Completed",
+          "QUANTIFIED_OUTCOMES_CATEGORY": null,
+          "QUANTIFIED_OUTCOMES_COUNT": null,
+          "SUPPORTING_DOCUMENTS": null
+        },
+        {
+          "_id": 2,
+          "JURIS_NAME": "SOUTH SAN FRANCISCO",
+          "YEAR": 2022,
+          "PROGRAM_NAME": "3-6A - Monitor At-Risk Units",
+          "PROGRAM_OBJECTIVE": "The City shall monitor its supply of subsidized affordable housing to know of possible conversions to market rate, including taking the following actions:\na. Publicize existing State and federal notice requirements to nonprofit developers and property owne",
+          "ACCOMPLISHED_DT": "2023",
+          "APPLICABLE_CYCLE": null,
+          "PROGRAM_STATUS_LIST": null,
+          "PROGRAM_STATUS": "No subsidized units monitored by the City of SSF were at-risk of conversion to market rate in 2022. ONGOING",
+          "QUANTIFIED_OUTCOMES_CATEGORY": null,
+          "QUANTIFIED_OUTCOMES_COUNT": null,
+          "SUPPORTING_DOCUMENTS": null
+        },
+        {
+          "_id": 3,
+          "JURIS_NAME": "DEL MAR",
+          "YEAR": 2022,
+          "PROGRAM_NAME": "3A Agreement with the State to Building Affordable Housing Units on State Fairgrounds Property",
+          "PROGRAM_OBJECTIVE": "Initiate process to secure a binding agreement with the State\u2019s 22nd District Agricultural Association (DAA) and General Services Department. The objective is to secure approval of a binding agreement with the State by April 2024 that will allow developmen",
+          "ACCOMPLISHED_DT": "Completed Phase I economic study of market conditions, assessment of multi-unit product types, and identification of potential funding sources for affordable housing on State Fairgrounds \u2013 June 2022. Selected and executed agreement with affordable housing",
+          "APPLICABLE_CYCLE": null,
+          "PROGRAM_STATUS_LIST": null,
+          "PROGRAM_STATUS": "In progress",
+          "QUANTIFIED_OUTCOMES_CATEGORY": null,
+          "QUANTIFIED_OUTCOMES_COUNT": null,
+          "SUPPORTING_DOCUMENTS": null
+        },
+        {
+          "_id": 4,
+          "JURIS_NAME": "LANCASTER",
+          "YEAR": 2022,
+          "PROGRAM_NAME": "PROGRAM H-3.2: HOME OWNERSHIP ASSISTANCE",
+          "PROGRAM_OBJECTIVE": "City will continue to support first-time, low- and moderate-income home buyers in Lancaster",
+          "ACCOMPLISHED_DT": "Ongoing",
+          "APPLICABLE_CYCLE": null,
+          "PROGRAM_STATUS_LIST": null,
+          "PROGRAM_STATUS": "The City\u2019s First Time Home Buyer Program (\u201cFTHB\u201d) is available for a limited number of deferred payment (no monthly loans (with no interest) second mortgage loans.",
+          "QUANTIFIED_OUTCOMES_CATEGORY": null,
+          "QUANTIFIED_OUTCOMES_COUNT": null,
+          "SUPPORTING_DOCUMENTS": null
+        },
+        {
+          "_id": 5,
+          "JURIS_NAME": "DEL MAR",
+          "YEAR": 2022,
+          "PROGRAM_NAME": "6A SB 35 Streamlining - Notice of State Law Exemption for Coastal Cities",
+          "PROGRAM_OBJECTIVE": "Provide notice to the public that the City of Del Mar is a coastal city that is exempt from SB 35 (post notice on web page)",
+          "ACCOMPLISHED_DT": "Completed by publishing notice on City web page of local exemption from SB 35 because the City of Del Mar is a coastal city in the jurisdiction of the California Coastal Commission \u2013 January 2022",
+          "APPLICABLE_CYCLE": null,
+          "PROGRAM_STATUS_LIST": null,
+          "PROGRAM_STATUS": "Complete",
+          "QUANTIFIED_OUTCOMES_CATEGORY": null,
+          "QUANTIFIED_OUTCOMES_COUNT": null,
+          "SUPPORTING_DOCUMENTS": null
+        }
+      ]
+    },
+    "APR Table E": {
+      "resource_id": "ec5124e6-a6ce-435d-82b1-0c963aaf15dd",
+      "record_count": 39,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURISDICTION",
+          "type": "text"
+        },
+        {
+          "name": "COUNTY",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "APN",
+          "type": "text"
+        },
+        {
+          "name": "STREET_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "PROJECT_NAME",
+          "type": "text"
+        },
+        {
+          "name": "JURS_TRACKING_ID",
+          "type": "text"
+        },
+        {
+          "name": "VLOW_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "LOW_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "ABOVE_MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "DEV_BONUS_DESC",
+          "type": "text"
+        },
+        {
+          "name": "DATE_APPROVED",
+          "type": "date"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURISDICTION": "EL MONTE",
+          "COUNTY": "Los Angeles",
+          "YEAR": 2021,
+          "APN": "8575-019-030",
+          "STREET_ADDRESS": "3643 Tyler Ave",
+          "PROJECT_NAME": "Tyler-Valley Metro Housing",
+          "JURS_TRACKING_ID": "B00-026-075",
+          "VLOW_INCOME": 18,
+          "LOW_INCOME": 35,
+          "MOD_INCOME": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "DEV_BONUS_DESC": "Development Opportunity Reserve (DOR) was utilized to increase the project's density from 35 du/ac to 80 du/ac.  In addition, Density Bonus No. 01-20  was utilized for a 35% density bonus that allowed a density of 107 du/ac.",
+          "DATE_APPROVED": "2020-06-11"
+        },
+        {
+          "_id": 2,
+          "JURISDICTION": "EXETER",
+          "COUNTY": "Tulare",
+          "YEAR": 2020,
+          "APN": "135-122-07,08,09 and 15",
+          "STREET_ADDRESS": "South F Street",
+          "PROJECT_NAME": "Morgon",
+          "JURS_TRACKING_ID": null,
+          "VLOW_INCOME": 0,
+          "LOW_INCOME": 1,
+          "MOD_INCOME": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "DEV_BONUS_DESC": "Rezone from service commercial to multi-family residential/office",
+          "DATE_APPROVED": "2020-11-20"
+        },
+        {
+          "_id": 3,
+          "JURISDICTION": "IMPERIAL BEACH",
+          "COUNTY": "San Diego",
+          "YEAR": 2018,
+          "APN": "6250230700",
+          "STREET_ADDRESS": "236-238 Palm Ave",
+          "PROJECT_NAME": "Chartwell Mixed-Use",
+          "JURS_TRACKING_ID": "MF 1282",
+          "VLOW_INCOME": 14,
+          "LOW_INCOME": 0,
+          "MOD_INCOME": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "DEV_BONUS_DESC": "15% of mixed-use project sonsisting of 14 units to be set aside for very low income households",
+          "DATE_APPROVED": "2019-01-16"
+        },
+        {
+          "_id": 4,
+          "JURISDICTION": "LONG BEACH",
+          "COUNTY": "Los Angeles",
+          "YEAR": 2021,
+          "APN": "7274019900",
+          "STREET_ADDRESS": "854 E. 7th Street",
+          "PROJECT_NAME": "The Armory",
+          "JURS_TRACKING_ID": "2105-31 (SPR21-029)",
+          "VLOW_INCOME": 14,
+          "LOW_INCOME": 49,
+          "MOD_INCOME": 0,
+          "ABOVE_MOD_INCOME": 1,
+          "DEV_BONUS_DESC": "a. Exemption fromthe unit size threshold of not more than 15% of the total units to be less thanthe minimum dwelling unit size of600 square feet. \nb.Exemption from the 25-square-foot storage room requirement for each unit.",
+          "DATE_APPROVED": "2021-06-09"
+        },
+        {
+          "_id": 5,
+          "JURISDICTION": "OCEANSIDE",
+          "COUNTY": "San Diego",
+          "YEAR": 2021,
+          "APN": "1471930800",
+          "STREET_ADDRESS": "712 SEAGAZE DR",
+          "PROJECT_NAME": "712 SEAGAZE MIXED USE PROJECT",
+          "JURS_TRACKING_ID": "RD21-00002",
+          "VLOW_INCOME": 0,
+          "LOW_INCOME": 15,
+          "MOD_INCOME": 0,
+          "ABOVE_MOD_INCOME": 100,
+          "DEV_BONUS_DESC": "mixed-use apartment project",
+          "DATE_APPROVED": "2022-01-26"
+        }
+      ]
+    },
+    "APR Table F": {
+      "resource_id": "d8eb9333-7e85-4007-a96a-1fb06387b2e2",
+      "record_count": 292,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURISDICTION_NAME",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "ACTIVITY",
+          "type": "text"
+        },
+        {
+          "name": "ELI_NON_RHNA",
+          "type": "numeric"
+        },
+        {
+          "name": "VLI_NON_RHNA",
+          "type": "numeric"
+        },
+        {
+          "name": "LI_NON_RHNA",
+          "type": "numeric"
+        },
+        {
+          "name": "TOTAL_UNITS",
+          "type": "numeric"
+        },
+        {
+          "name": "DESCRIPTION",
+          "type": "text"
+        },
+        {
+          "name": "ELI_RHNA",
+          "type": "numeric"
+        },
+        {
+          "name": "VLI_RHNA",
+          "type": "numeric"
+        },
+        {
+          "name": "LI_RHNA",
+          "type": "numeric"
+        },
+        {
+          "name": "TOTAL_UNITS_RHNA",
+          "type": "numeric"
+        },
+        {
+          "name": "DESCRIPTION_RHNA",
+          "type": "text"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURISDICTION_NAME": "VISALIA",
+          "YEAR": 2017,
+          "ACTIVITY": "ACQUISITION",
+          "ELI_NON_RHNA": 0,
+          "VLI_NON_RHNA": 1,
+          "LI_NON_RHNA": 0,
+          "TOTAL_UNITS": 1,
+          "DESCRIPTION": "Land sale to Habitat for Humanity for one SFR, completed in 2017. Deed restricted for 20 years",
+          "ELI_RHNA": 0,
+          "VLI_RHNA": 0,
+          "LI_RHNA": 0,
+          "TOTAL_UNITS_RHNA": 0,
+          "DESCRIPTION_RHNA": null
+        },
+        {
+          "_id": 2,
+          "JURISDICTION_NAME": "MONTEREY",
+          "YEAR": 2020,
+          "ACTIVITY": "ACQUISITION",
+          "ELI_NON_RHNA": 0,
+          "VLI_NON_RHNA": 0,
+          "LI_NON_RHNA": 2,
+          "TOTAL_UNITS": 2,
+          "DESCRIPTION": null,
+          "ELI_RHNA": 0,
+          "VLI_RHNA": 0,
+          "LI_RHNA": 0,
+          "TOTAL_UNITS_RHNA": 0,
+          "DESCRIPTION_RHNA": null
+        },
+        {
+          "_id": 3,
+          "JURISDICTION_NAME": "SAN JOAQUIN COUNTY",
+          "YEAR": 2021,
+          "ACTIVITY": "ACQUISITION",
+          "ELI_NON_RHNA": 0,
+          "VLI_NON_RHNA": 1,
+          "LI_NON_RHNA": 0,
+          "TOTAL_UNITS": 1,
+          "DESCRIPTION": null,
+          "ELI_RHNA": 0,
+          "VLI_RHNA": 0,
+          "LI_RHNA": 0,
+          "TOTAL_UNITS_RHNA": 0,
+          "DESCRIPTION_RHNA": null
+        },
+        {
+          "_id": 4,
+          "JURISDICTION_NAME": "FRESNO",
+          "YEAR": 2013,
+          "ACTIVITY": "ACQUISITION",
+          "ELI_NON_RHNA": 0,
+          "VLI_NON_RHNA": 0,
+          "LI_NON_RHNA": 3,
+          "TOTAL_UNITS": 3,
+          "DESCRIPTION": "375 and 380 N. Park ($155,212.33), and 366 N. Park($120,000)",
+          "ELI_RHNA": 0,
+          "VLI_RHNA": 0,
+          "LI_RHNA": 0,
+          "TOTAL_UNITS_RHNA": 0,
+          "DESCRIPTION_RHNA": null
+        },
+        {
+          "_id": 5,
+          "JURISDICTION_NAME": "FRESNO COUNTY",
+          "YEAR": 2013,
+          "ACTIVITY": "ACQUISITION",
+          "ELI_NON_RHNA": 1,
+          "VLI_NON_RHNA": 0,
+          "LI_NON_RHNA": 0,
+          "TOTAL_UNITS": 1,
+          "DESCRIPTION": null,
+          "ELI_RHNA": 0,
+          "VLI_RHNA": 0,
+          "LI_RHNA": 0,
+          "TOTAL_UNITS_RHNA": 0,
+          "DESCRIPTION_RHNA": null
+        }
+      ]
+    },
+    "APR Table F2": {
+      "resource_id": "16e640ab-c7e1-433c-8e4d-aa5a0a1270d1",
+      "record_count": 17,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURISDICTION",
+          "type": "text"
+        },
+        {
+          "name": "COUNTY",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "PRIOR_APN",
+          "type": "text"
+        },
+        {
+          "name": "APN",
+          "type": "text"
+        },
+        {
+          "name": "STREET_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "PROJECT_NAME",
+          "type": "text"
+        },
+        {
+          "name": "JURS_TRACKING_ID",
+          "type": "text"
+        },
+        {
+          "name": "UNIT_CAT",
+          "type": "text"
+        },
+        {
+          "name": "TENURE",
+          "type": "text"
+        },
+        {
+          "name": "VLOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "VLOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "LOW_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "LOW_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "MOD_INCOME_DR",
+          "type": "numeric"
+        },
+        {
+          "name": "MOD_INCOME_NDR",
+          "type": "numeric"
+        },
+        {
+          "name": "ABOVE_MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "TOTAL_CONVERTED",
+          "type": "numeric"
+        },
+        {
+          "name": "DATE_CONVERTED",
+          "type": "date"
+        },
+        {
+          "name": "NOTES",
+          "type": "text"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURISDICTION": "ALAMEDA",
+          "COUNTY": "Alameda",
+          "YEAR": 2022,
+          "PRIOR_APN": null,
+          "APN": null,
+          "STREET_ADDRESS": "1825 POGGI ST",
+          "PROJECT_NAME": "RICA VISTA",
+          "JURS_TRACKING_ID": null,
+          "UNIT_CAT": "5+",
+          "TENURE": "Renter",
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 81,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "TOTAL_CONVERTED": 81,
+          "DATE_CONVERTED": "2022-12-19",
+          "NOTES": "Letter from Alameda Housing Authority and Deed Restriction available upon request"
+        },
+        {
+          "_id": 2,
+          "JURISDICTION": "HUNTINGTON BEACH",
+          "COUNTY": "Orange",
+          "YEAR": 2022,
+          "PRIOR_APN": null,
+          "APN": null,
+          "STREET_ADDRESS": "16761 Viewpoint Lane",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": null,
+          "UNIT_CAT": "5+",
+          "TENURE": "Renter",
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 113,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 79,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "TOTAL_CONVERTED": 192,
+          "DATE_CONVERTED": "2022-12-31",
+          "NOTES": null
+        },
+        {
+          "_id": 3,
+          "JURISDICTION": "HUNTINGTON BEACH",
+          "COUNTY": "Orange",
+          "YEAR": 2022,
+          "PRIOR_APN": null,
+          "APN": null,
+          "STREET_ADDRESS": "18504 Beach Boulevard",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": null,
+          "UNIT_CAT": "5+",
+          "TENURE": "Renter",
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 57,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 57,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "TOTAL_CONVERTED": 114,
+          "DATE_CONVERTED": "2022-12-31",
+          "NOTES": null
+        },
+        {
+          "_id": 4,
+          "JURISDICTION": "HUNTINGTON BEACH",
+          "COUNTY": "Orange",
+          "YEAR": 2023,
+          "PRIOR_APN": null,
+          "APN": null,
+          "STREET_ADDRESS": "16761 Viewpoint Lane",
+          "PROJECT_NAME": "Middle Income Housing",
+          "JURS_TRACKING_ID": "None",
+          "UNIT_CAT": "5+",
+          "TENURE": "Renter",
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 0,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 42,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "TOTAL_CONVERTED": 42,
+          "DATE_CONVERTED": "2023-12-31",
+          "NOTES": null
+        },
+        {
+          "_id": 5,
+          "JURISDICTION": "HUNTINGTON BEACH",
+          "COUNTY": "Orange",
+          "YEAR": 2023,
+          "PRIOR_APN": null,
+          "APN": null,
+          "STREET_ADDRESS": "18504 Beach Boulevard",
+          "PROJECT_NAME": "Middle Income Housing",
+          "JURS_TRACKING_ID": "None",
+          "UNIT_CAT": "5+",
+          "TENURE": "Renter",
+          "VLOW_INCOME_DR": 0,
+          "VLOW_INCOME_NDR": 0,
+          "LOW_INCOME_DR": 35,
+          "LOW_INCOME_NDR": 0,
+          "MOD_INCOME_DR": 18,
+          "MOD_INCOME_NDR": 0,
+          "ABOVE_MOD_INCOME": 0,
+          "TOTAL_CONVERTED": 53,
+          "DATE_CONVERTED": "2023-12-31",
+          "NOTES": null
+        }
+      ]
+    },
+    "APR Table G": {
+      "resource_id": "f68020cc-f245-43e1-a8ec-d7d2d6e42eae",
+      "record_count": 438,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURISDICTION",
+          "type": "text"
+        },
+        {
+          "name": "COUNTY",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "APN",
+          "type": "text"
+        },
+        {
+          "name": "STREET_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "PROJECT_NAME",
+          "type": "text"
+        },
+        {
+          "name": "JURS_TRACKING_ID",
+          "type": "text"
+        },
+        {
+          "name": "REALISTIC_CAPACITY",
+          "type": "text"
+        },
+        {
+          "name": "TRANSFERRED_TO",
+          "type": "text"
+        },
+        {
+          "name": "INTENDED_USE",
+          "type": "text"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURISDICTION": "ANAHEIM",
+          "COUNTY": "Orange",
+          "YEAR": 2022,
+          "APN": "034-070-48",
+          "STREET_ADDRESS": "1563 W LINCOLN AVE",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "447",
+          "REALISTIC_CAPACITY": "5",
+          "TRANSFERRED_TO": "NOA Released by Successor Agency on May 2, 2022, HCD Compliance Letter on Sept 15, 2022",
+          "INTENDED_USE": "TBD"
+        },
+        {
+          "_id": 2,
+          "JURISDICTION": "ANAHEIM",
+          "COUNTY": "Orange",
+          "YEAR": 2022,
+          "APN": "034-070-77",
+          "STREET_ADDRESS": "1501 W LINCOLN AVE",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "448",
+          "REALISTIC_CAPACITY": "17",
+          "TRANSFERRED_TO": "NOA Released by Successor Agency on May 2, 2022, HCD Compliance Letter on Sept 15, 2022 (would develop with APN 034-070-79, and 80)",
+          "INTENDED_USE": "TBD"
+        },
+        {
+          "_id": 3,
+          "JURISDICTION": "ANAHEIM",
+          "COUNTY": "Orange",
+          "YEAR": 2022,
+          "APN": "034-070-79",
+          "STREET_ADDRESS": "NO ADDRESS",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "449",
+          "REALISTIC_CAPACITY": "1",
+          "TRANSFERRED_TO": "NOA Released by Successor Agency on May 2, 2022, HCD Compliance Letter on Sept 15, 2022 (would develop with APN 034-070-77)",
+          "INTENDED_USE": "TBD"
+        },
+        {
+          "_id": 4,
+          "JURISDICTION": "ANAHEIM",
+          "COUNTY": "Orange",
+          "YEAR": 2022,
+          "APN": "034-070-80",
+          "STREET_ADDRESS": "NO ADDRESS",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "450",
+          "REALISTIC_CAPACITY": "1",
+          "TRANSFERRED_TO": "NOA Released by Successor Agency on May 2, 2022, HCD Compliance Letter on Sept 15, 2022 (would develop with APN 034-070-77)",
+          "INTENDED_USE": "TBD"
+        },
+        {
+          "_id": 5,
+          "JURISDICTION": "ANAHEIM",
+          "COUNTY": "Orange",
+          "YEAR": 2022,
+          "APN": "034-070-83",
+          "STREET_ADDRESS": "1541 W LINCOLN AVE",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "452",
+          "REALISTIC_CAPACITY": "34",
+          "TRANSFERRED_TO": "NOA Released by Successor Agency on May 2, 2022, HCD Compliance Letter on Sept 15, 2022",
+          "INTENDED_USE": "TBD"
+        }
+      ]
+    },
+    "APR Table H": {
+      "resource_id": "8e0e9d86-9a8a-4b3c-8089-8262404d9401",
+      "record_count": 11870,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURISDICTION",
+          "type": "text"
+        },
+        {
+          "name": "COUNTY",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "APN",
+          "type": "text"
+        },
+        {
+          "name": "STREET_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "EXISTING_USE_TYPE",
+          "type": "text"
+        },
+        {
+          "name": "NUM_OF_UNITS",
+          "type": "numeric"
+        },
+        {
+          "name": "SURPLUS_TYPE",
+          "type": "text"
+        },
+        {
+          "name": "PARCEL_SIZE",
+          "type": "numeric"
+        },
+        {
+          "name": "NOTES",
+          "type": "text"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURISDICTION": "ADELANTO",
+          "COUNTY": "San Bernardino",
+          "YEAR": 2023,
+          "APN": "312822104",
+          "STREET_ADDRESS": "Primrose Avenue/Imperial",
+          "EXISTING_USE_TYPE": "Vacant",
+          "NUM_OF_UNITS": 0,
+          "SURPLUS_TYPE": "Surplus Land",
+          "PARCEL_SIZE": 4.25,
+          "NOTES": null
+        },
+        {
+          "_id": 2,
+          "JURISDICTION": "ADELANTO",
+          "COUNTY": "San Bernardino",
+          "YEAR": 2023,
+          "APN": "45905326",
+          "STREET_ADDRESS": "NA",
+          "EXISTING_USE_TYPE": "Vacant",
+          "NUM_OF_UNITS": 0,
+          "SURPLUS_TYPE": "Surplus Land",
+          "PARCEL_SIZE": 5.0,
+          "NOTES": null
+        },
+        {
+          "_id": 3,
+          "JURISDICTION": "ADELANTO",
+          "COUNTY": "San Bernardino",
+          "YEAR": 2024,
+          "APN": "0459-053-26-0000",
+          "STREET_ADDRESS": "Vintage Rd & Adelanto Rd",
+          "EXISTING_USE_TYPE": "Vacant",
+          "NUM_OF_UNITS": null,
+          "SURPLUS_TYPE": "Surplus Land",
+          "PARCEL_SIZE": 5,
+          "NOTES": null
+        },
+        {
+          "_id": 4,
+          "JURISDICTION": "ADELANTO",
+          "COUNTY": "San Bernardino",
+          "YEAR": 2024,
+          "APN": "0459-113-20-0000",
+          "STREET_ADDRESS": "Yucca Rd & Daisy Rd",
+          "EXISTING_USE_TYPE": "Vacant",
+          "NUM_OF_UNITS": null,
+          "SURPLUS_TYPE": "Surplus Land",
+          "PARCEL_SIZE": 4.83,
+          "NOTES": null
+        },
+        {
+          "_id": 5,
+          "JURISDICTION": "ADELANTO",
+          "COUNTY": "San Bernardino",
+          "YEAR": 2024,
+          "APN": "0459-133-25-0000",
+          "STREET_ADDRESS": "11001 Bartlett Ave",
+          "EXISTING_USE_TYPE": "Vacant",
+          "NUM_OF_UNITS": null,
+          "SURPLUS_TYPE": "Surplus Land",
+          "PARCEL_SIZE": 9.5,
+          "NOTES": null
+        }
+      ]
+    },
+    "APR Table I": {
+      "resource_id": "575fe458-9e90-4a15-bca6-91e2bbcc463a",
+      "record_count": 245,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURISDICITON",
+          "type": "text"
+        },
+        {
+          "name": "COUNTY",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "APN",
+          "type": "text"
+        },
+        {
+          "name": "STREET_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "PROJECT_NAME",
+          "type": "text"
+        },
+        {
+          "name": "JURS_TRACKING_ID",
+          "type": "text"
+        },
+        {
+          "name": "ACTIVITY",
+          "type": "text"
+        },
+        {
+          "name": "DATE",
+          "type": "date"
+        },
+        {
+          "name": "VLOW_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "LOW_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "ABOVE_MOD_INCOME",
+          "type": "numeric"
+        },
+        {
+          "name": "NOTES",
+          "type": "text"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURISDICITON": "TULARE COUNTY",
+          "COUNTY": "Tulare",
+          "YEAR": 2022,
+          "APN": "136-142-034",
+          "STREET_ADDRESS": "2326 E Morgan Ave Unit #B Exeter, CA 93221",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "A2002574",
+          "ACTIVITY": "Unit Constructed",
+          "DATE": "2022-08-03",
+          "VLOW_INCOME": null,
+          "LOW_INCOME": 1,
+          "MOD_INCOME": null,
+          "ABOVE_MOD_INCOME": null,
+          "NOTES": "80000"
+        },
+        {
+          "_id": 2,
+          "JURISDICITON": "TULARE COUNTY",
+          "COUNTY": "Tulare",
+          "YEAR": 2022,
+          "APN": "320-040-027",
+          "STREET_ADDRESS": "9321 Road 224 Terra Bella, CA 93270",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "A1900572",
+          "ACTIVITY": "Unit Constructed",
+          "DATE": "2022-10-19",
+          "VLOW_INCOME": 1,
+          "LOW_INCOME": null,
+          "MOD_INCOME": null,
+          "ABOVE_MOD_INCOME": null,
+          "NOTES": "4000"
+        },
+        {
+          "_id": 3,
+          "JURISDICITON": "SARATOGA",
+          "COUNTY": "Santa Clara",
+          "YEAR": 2022,
+          "APN": "39736036",
+          "STREET_ADDRESS": "19498 BURGUNDY WY",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": "ULS22-0012",
+          "ACTIVITY": "Application for Parcel Map for Lot Split",
+          "DATE": "2022-08-15",
+          "VLOW_INCOME": null,
+          "LOW_INCOME": null,
+          "MOD_INCOME": null,
+          "ABOVE_MOD_INCOME": null,
+          "NOTES": "UNDER REVIEW"
+        },
+        {
+          "_id": 4,
+          "JURISDICITON": "ROSEMEAD",
+          "COUNTY": "Los Angeles",
+          "YEAR": 2022,
+          "APN": "5389-005-032",
+          "STREET_ADDRESS": "4854 Halkett Ave.",
+          "PROJECT_NAME": null,
+          "JURS_TRACKING_ID": null,
+          "ACTIVITY": "Application for Parcel Map for Lot Split",
+          "DATE": "2022-04-20",
+          "VLOW_INCOME": null,
+          "LOW_INCOME": null,
+          "MOD_INCOME": null,
+          "ABOVE_MOD_INCOME": null,
+          "NOTES": "Approved"
+        },
+        {
+          "_id": 5,
+          "JURISDICITON": "FORT BRAGG",
+          "COUNTY": "Mendocino",
+          "YEAR": 2022,
+          "APN": "008-244-54-00",
+          "STREET_ADDRESS": "311 S Harold Street",
+          "PROJECT_NAME": "subdivision",
+          "JURS_TRACKING_ID": "DIV 1-22",
+          "ACTIVITY": "Application for Parcel Map for Lot Split",
+          "DATE": "2022-12-02",
+          "VLOW_INCOME": null,
+          "LOW_INCOME": null,
+          "MOD_INCOME": null,
+          "ABOVE_MOD_INCOME": null,
+          "NOTES": "Status: in review"
+        }
+      ]
+    },
+    "APR Table K": {
+      "resource_id": "c1407d6d-adc5-4f32-9cc9-1f022c4e2deb",
+      "record_count": 1647,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURISDICTION",
+          "type": "text"
+        },
+        {
+          "name": "COUNTY",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "PREFERENCE_POLICY",
+          "type": "text"
+        },
+        {
+          "name": "WEBSITE",
+          "type": "text"
+        },
+        {
+          "name": "NOTES",
+          "type": "text"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURISDICTION": null,
+          "COUNTY": null,
+          "YEAR": 2024,
+          "PREFERENCE_POLICY": "No",
+          "WEBSITE": "N/A",
+          "NOTES": "N/A"
+        },
+        {
+          "_id": 2,
+          "JURISDICTION": "ADELANTO",
+          "COUNTY": "San Bernardino",
+          "YEAR": 2021,
+          "PREFERENCE_POLICY": "No",
+          "WEBSITE": "N/A",
+          "NOTES": "N/A"
+        },
+        {
+          "_id": 3,
+          "JURISDICTION": "ADELANTO",
+          "COUNTY": "San Bernardino",
+          "YEAR": 2023,
+          "PREFERENCE_POLICY": "No",
+          "WEBSITE": "N/A",
+          "NOTES": "N/A"
+        },
+        {
+          "_id": 4,
+          "JURISDICTION": "ADELANTO",
+          "COUNTY": "San Bernardino",
+          "YEAR": 2024,
+          "PREFERENCE_POLICY": "No",
+          "WEBSITE": "N/A",
+          "NOTES": "N/A"
+        },
+        {
+          "_id": 5,
+          "JURISDICTION": "ADELANTO",
+          "COUNTY": "San Bernardino",
+          "YEAR": 2025,
+          "PREFERENCE_POLICY": "No",
+          "WEBSITE": "N/A",
+          "NOTES": "N/A"
+        }
+      ]
+    },
+    "APR Table L": {
+      "resource_id": "d3cda976-bffc-403d-a693-7eb1873e951a",
+      "record_count": 226,
+      "fields": [
+        {
+          "name": "_id",
+          "type": "int"
+        },
+        {
+          "name": "JURISDICTION",
+          "type": "text"
+        },
+        {
+          "name": "COUNTY",
+          "type": "text"
+        },
+        {
+          "name": "YEAR",
+          "type": "numeric"
+        },
+        {
+          "name": "APN",
+          "type": "text"
+        },
+        {
+          "name": "STREET_ADDRESS",
+          "type": "text"
+        },
+        {
+          "name": "DATE_OF_DESIGNATION",
+          "type": "timestamp"
+        },
+        {
+          "name": "DESIGNATION_LEVEL",
+          "type": "text"
+        },
+        {
+          "name": "HISTORIC_SITE_PERIOD",
+          "type": "text"
+        },
+        {
+          "name": "AREAS_OF_SIGNIFICANCE",
+          "type": "text"
+        },
+        {
+          "name": "PARCEL_SIZE",
+          "type": "numeric"
+        },
+        {
+          "name": "NOTES",
+          "type": "text"
+        }
+      ],
+      "sample_rows": [
+        {
+          "_id": 1,
+          "JURISDICTION": "ALAMEDA COUNTY",
+          "COUNTY": "Alameda",
+          "YEAR": 2025,
+          "APN": "412 004508900",
+          "STREET_ADDRESS": "16026 PASEO DEL CAMPO SAN LORENZO 94580",
+          "DATE_OF_DESIGNATION": "2025-05-08T07:00:00.000",
+          "DESIGNATION_LEVEL": "Local",
+          "HISTORIC_SITE_PERIOD": "1900 to Present",
+          "AREAS_OF_SIGNIFICANCE": "Architecture",
+          "PARCEL_SIZE": 0.12,
+          "NOTES": "One story Postwar Minimal style home built by David Bohannon."
+        },
+        {
+          "_id": 2,
+          "JURISDICTION": "ALAMEDA COUNTY",
+          "COUNTY": "Alameda",
+          "YEAR": 2025,
+          "APN": "413 008603400",
+          "STREET_ADDRESS": "225 VIA LINARES SAN LORENZO 94580",
+          "DATE_OF_DESIGNATION": "2025-05-08T07:00:00.000",
+          "DESIGNATION_LEVEL": "Local",
+          "HISTORIC_SITE_PERIOD": "1900 to Present",
+          "AREAS_OF_SIGNIFICANCE": "Architecture",
+          "PARCEL_SIZE": 0.15,
+          "NOTES": "One story Postwar Minimal style home built by David Bohannon."
+        },
+        {
+          "_id": 3,
+          "JURISDICTION": "BERKELEY",
+          "COUNTY": "Alameda",
+          "YEAR": 2025,
+          "APN": "052 156300600",
+          "STREET_ADDRESS": "2845 Woolsey St",
+          "DATE_OF_DESIGNATION": "2025-03-04T08:00:00.000",
+          "DESIGNATION_LEVEL": "Local",
+          "HISTORIC_SITE_PERIOD": "1900 to Present",
+          "AREAS_OF_SIGNIFICANCE": "Architecture",
+          "PARCEL_SIZE": 0.26,
+          "NOTES": "Berkeley Structure of Merit"
+        },
+        {
+          "_id": 4,
+          "JURISDICTION": "BERKELEY",
+          "COUNTY": "Alameda",
+          "YEAR": 2025,
+          "APN": "054 178000402",
+          "STREET_ADDRESS": "2500-2512 San Pablo Ave",
+          "DATE_OF_DESIGNATION": "2025-05-20T07:00:00.000",
+          "DESIGNATION_LEVEL": "Local",
+          "HISTORIC_SITE_PERIOD": "1900 to Present",
+          "AREAS_OF_SIGNIFICANCE": "Architecture;Music",
+          "PARCEL_SIZE": 0.39,
+          "NOTES": null
+        },
+        {
+          "_id": 5,
+          "JURISDICTION": "BERKELEY",
+          "COUNTY": "Alameda",
+          "YEAR": 2025,
+          "APN": "055 182101900",
+          "STREET_ADDRESS": "2000 Blake St",
+          "DATE_OF_DESIGNATION": "2025-04-09T07:00:00.000",
+          "DESIGNATION_LEVEL": "Local",
+          "HISTORIC_SITE_PERIOD": "1900 to Present",
+          "AREAS_OF_SIGNIFICANCE": "Architecture",
+          "PARCEL_SIZE": 0.49,
+          "NOTES": null
+        }
+      ]
+    }
+  },
+  "other_packages_found": [
+    {
+      "name": "housing-element-annual-progress-report-apr-data-by-jurisdiction-and-year",
+      "title": "Housing Element Annual Progress Report (APR) Data by Jurisdiction and Year",
+      "org": "California Department of Housing and Community Development",
+      "modified": "2026-10-16T15:54:19.935450"
+    },
+    {
+      "name": "rhna-progress-report",
+      "title": "RHNA Progress Report",
+      "org": "California Department of Housing and Community Development",
+      "modified": "2026-10-16T15:54:17.228168"
+    },
+    {
+      "name": "housing-element-open-data-project-and-sb-35-determination",
+      "title": "Housing Element Open Data Project and SB 35 Determination",
+      "org": "California Department of Housing and Community Development",
+      "modified": "2026-10-08T18:59:36.921558"
+    }
+  ]
+}

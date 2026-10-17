@@ -1,0 +1,115 @@
+{
+  "source_id": "va_parcels",
+  "fetched_at": "2026-10-17T00:44:18+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://vginmaps.vdem.virginia.gov/arcgis/rest/services/VA_Base_Layers/VA_Parcels/FeatureServer/0",
+  "layer_name": "Virginia Parcels",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 102100,
+    "latestWkid": 3857,
+    "xyTolerance": 0.001,
+    "zTolerance": 0.001,
+    "mTolerance": 0.001,
+    "falseX": -20037700,
+    "falseY": -30241100,
+    "xyUnits": 10000,
+    "falseZ": -100000,
+    "zUnits": 10000,
+    "falseM": -100000,
+    "mUnits": 10000
+  },
+  "record_count": 4174364,
+  "max_record_count": 2000,
+  "last_edit_date": null,
+  "description": "These parcel boundaries represent legal descriptions of property ownership, as recorded in various public documents in the local jurisdiction. The boundaries are intended for cartographic use and spatial analysis only, and not for use as legal descriptions or property surveys. Tax parcel boundaries have not been edge-matched across municipal boundaries.",
+  "copyright": "Virginia Geographic Information Network (VGIN)",
+  "fields": [
+    {
+      "name": "Shape__Area",
+      "type": "Double",
+      "alias": "SHAPE.STArea()",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Length",
+      "type": "Double",
+      "alias": "SHAPE.STLength()",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "VGIN_QPID",
+      "type": "Double",
+      "alias": "VGIN_QPID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "FIPS",
+      "type": "String",
+      "alias": "FIPS",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "LOCALITY",
+      "type": "String",
+      "alias": "LOCALITY",
+      "length": 64,
+      "has_domain": false
+    },
+    {
+      "name": "PARCELID",
+      "type": "String",
+      "alias": "Parcel ID",
+      "length": 64,
+      "has_domain": false
+    },
+    {
+      "name": "PTM_ID",
+      "type": "String",
+      "alias": "Parcel Tax Map ID",
+      "length": 64,
+      "has_domain": false
+    },
+    {
+      "name": "LASTUPDATE",
+      "type": "Date",
+      "alias": "LASTUPDATE",
+      "length": 8,
+      "has_domain": false
+    }
+  ],
+  "vgin_base_layers": [
+    "VA_Base_Layers/VA_Address_Points",
+    "VA_Base_Layers/VA_Address_Points",
+    "VA_Base_Layers/VA_Admin_Boundaries_Clipped",
+    "VA_Base_Layers/VA_Admin_Boundaries_Clipped",
+    "VA_Base_Layers/VA_Admin_Boundaries",
+    "VA_Base_Layers/VA_Admin_Boundaries",
+    "VA_Base_Layers/VA_Building_Footprints",
+    "VA_Base_Layers/VA_Building_Footprints",
+    "VA_Base_Layers/VA_Land_Cover_2016",
+    "VA_Base_Layers/VA_Land_Cover_Land_Use_2014",
+    "VA_Base_Layers/VA_Land_Cover_Land_Use_2021",
+    "VA_Base_Layers/VA_Landmarks",
+    "VA_Base_Layers/VA_Landmarks",
+    "VA_Base_Layers/VA_Parcels",
+    "VA_Base_Layers/VA_Parcels",
+    "VA_Base_Layers/VBMP_RCL_Snap_Points",
+    "VA_Base_Layers/VBMP_RCL_Snap_Points",
+    "VA_Base_Layers/VBMP_RCL",
+    "VA_Base_Layers/VBMP_RCL"
+  ]
+}

@@ -1,0 +1,329 @@
+{
+  "source_id": "hi_parcels",
+  "fetched_at": "2026-10-17T00:44:14+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/25",
+  "layer_name": "Statewide TMKs",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 102202,
+    "latestWkid": 3750,
+    "xyTolerance": 0.001,
+    "zTolerance": 0.001,
+    "mTolerance": 0.001,
+    "falseX": -5120900,
+    "falseY": -9998100,
+    "xyUnits": 10000,
+    "falseZ": -100000,
+    "zUnits": 10000,
+    "falseM": -100000,
+    "mUnits": 10000
+  },
+  "record_count": 384035,
+  "max_record_count": 1000,
+  "last_edit_date": null,
+  "description": "TMK Parcels for the State of Hawaii as of May 2026. Sources: County of Hawaii: 4/27/26; County of Maui: 4/15/26; County of Kauai: 5/11/26; City and County of Honolulu: 4/30/26. Hawaii Statewide GIS Program projected to a common projection/datum (UTM Zone 4, NAD 83 HARN) and merged all counties' parcel data into one layer. Where necessary, the State standardized field names or added fields to the county layers such as creating text fields for corresponding numeric tmk fields, etc., and / or calculated values for fields such as links to qpublic websites showing additional information for each parcel. For most current parcel information, please visit the county GIS websites: Hawaii County: https://www.hawaiicounty.gov/departments/information-technology/gis-maps Honolulu County: https://honolulu-cchnl.opendata.arcgis.com/ Kauai County: https://kauai-open-data-kauaigis.hub.arcgis.com/ Maui County: https://mauicounty.maps.arcgis.com/home/index.html The parcel boundaries are intended to provi",
+  "copyright": "Counties of Hawaii, Honolulu, Kauai and Maui; Hawaii Statewide GIS Program",
+  "fields": [
+    {
+      "name": "objectid",
+      "type": "OID",
+      "alias": "FID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "shape",
+      "type": "Geometry",
+      "alias": "Shape",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "tmk",
+      "type": "Integer",
+      "alias": "TMK",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "tmk_txt",
+      "type": "String",
+      "alias": "TMK_txt",
+      "length": 9,
+      "has_domain": false
+    },
+    {
+      "name": "county",
+      "type": "String",
+      "alias": "county",
+      "length": 24,
+      "has_domain": false
+    },
+    {
+      "name": "division",
+      "type": "String",
+      "alias": "division",
+      "length": 2,
+      "has_domain": false
+    },
+    {
+      "name": "island",
+      "type": "String",
+      "alias": "island",
+      "length": 3,
+      "has_domain": false
+    },
+    {
+      "name": "zone",
+      "type": "String",
+      "alias": "zone",
+      "length": 2,
+      "has_domain": false
+    },
+    {
+      "name": "section",
+      "type": "String",
+      "alias": "section",
+      "length": 2,
+      "has_domain": false
+    },
+    {
+      "name": "plat",
+      "type": "String",
+      "alias": "plat",
+      "length": 4,
+      "has_domain": false
+    },
+    {
+      "name": "plat1",
+      "type": "String",
+      "alias": "plat1",
+      "length": 4,
+      "has_domain": false
+    },
+    {
+      "name": "parcel",
+      "type": "String",
+      "alias": "parcel",
+      "length": 4,
+      "has_domain": false
+    },
+    {
+      "name": "parcel1",
+      "type": "String",
+      "alias": "parcel1",
+      "length": 4,
+      "has_domain": false
+    },
+    {
+      "name": "gisacres",
+      "type": "Double",
+      "alias": "GISAcres",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "cty_tmk",
+      "type": "String",
+      "alias": "cty_tmk",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "qpub_link",
+      "type": "String",
+      "alias": "qpub_link",
+      "length": 200,
+      "has_domain": false
+    },
+    {
+      "name": "st_area(shape)",
+      "type": "Double",
+      "alias": "st_area(shape)",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "st_perimeter(shape)",
+      "type": "Double",
+      "alias": "st_perimeter(shape)",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "chosen_search_hit": {
+    "id": "579b8dcb7a8e44c1af201e1b3cdf655f",
+    "title": "Parcels - Hawaii Statewide",
+    "type": "Feature Service",
+    "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/25",
+    "owner": "HawaiiStateGIS",
+    "modified": "2026-09-21"
+  },
+  "hub_search_hits": [
+    {
+      "id": "1eb5fa03038d49cba930096ea67194e0",
+      "title": "Parcels - Hawaii County",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/5",
+      "owner": "HawaiiStateGIS",
+      "modified": "2026-06-02"
+    },
+    {
+      "id": "579b8dcb7a8e44c1af201e1b3cdf655f",
+      "title": "Parcels - Hawaii Statewide",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/25",
+      "owner": "HawaiiStateGIS",
+      "modified": "2026-09-21"
+    },
+    {
+      "id": "c61357edec2e4994ae3c179ba8d3088c",
+      "title": "Parcels - Maui County",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/30",
+      "owner": "HawaiiStateGIS",
+      "modified": "2026-06-02"
+    },
+    {
+      "id": "1134f45827404510ab6e61a7461c85ed",
+      "title": "Parcels - County of Kauai",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/9",
+      "owner": "HawaiiStateGIS",
+      "modified": "2026-06-03"
+    },
+    {
+      "id": "1e1bb65abfe64df9a49ec00df6ae03ad",
+      "title": "Parcels - TMK Section",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/28",
+      "owner": "HawaiiStateGIS",
+      "modified": "2021-11-19"
+    },
+    {
+      "id": "eb68e4eb00384e77add5848724d9d56c",
+      "title": "Parcels - TMK Plat",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/26",
+      "owner": "HawaiiStateGIS",
+      "modified": "2021-11-19"
+    },
+    {
+      "id": "71f8eac159814c3084fa00413e51e7c9",
+      "title": "Parcels - TMK Zone",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/27",
+      "owner": "HawaiiStateGIS",
+      "modified": "2021-11-19"
+    },
+    {
+      "id": "78fc949bfda248f2a8d9e08be46cdaf0",
+      "title": "Parcels - Honolulu County (Island of Oahu)",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/11",
+      "owner": "HawaiiStateGIS",
+      "modified": "2026-08-18"
+    },
+    {
+      "id": "e95975b1397c429486e9453982922eca",
+      "title": "Foreign Trade Zone Number 9 Boundaries",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/BusinessEconomy/MapServer/3",
+      "owner": "HawaiiStateGIS",
+      "modified": "2023-12-17"
+    },
+    {
+      "id": "c617acac2f3940218a99bc9b6409f91d",
+      "title": "Maui Island Plan 2012 - Agricultural Preserves",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/18",
+      "owner": "HawaiiStateGIS",
+      "modified": "2022-08-31"
+    }
+  ],
+  "zoning_hits": [
+    {
+      "id": "e81bcaf8da9a4140a09aa922ef918ea4",
+      "title": "Zoning (Hawaii County)",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/2",
+      "owner": "HawaiiStateGIS",
+      "modified": "2026-06-16"
+    },
+    {
+      "id": "d1e0d3fe945a43d098981a35fe355773",
+      "title": "Zoning (County of Kauai)",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/29",
+      "owner": "HawaiiStateGIS",
+      "modified": "2026-06-16"
+    },
+    {
+      "id": "5a9219603d4b41719562928716a30def",
+      "title": "Zoning (County of Maui)",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/33",
+      "owner": "HawaiiStateGIS",
+      "modified": "2025-09-06"
+    },
+    {
+      "id": "5a41febd53a74b0c8ab41947e47d4de7",
+      "title": "Zoning (City and County of Honolulu)",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/3",
+      "owner": "HawaiiStateGIS",
+      "modified": "2024-09-05"
+    },
+    {
+      "id": "bf7b94302ba7453dbc1f5417017490a9",
+      "title": "Opportunity Zones",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/BusinessEconomy/MapServer/6",
+      "owner": "HawaiiStateGIS",
+      "modified": "2025-11-25"
+    },
+    {
+      "id": "6848bfcbf8a24407a9034ff5e6165d09",
+      "title": "Enterprise Zones",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/BusinessEconomy/MapServer/4",
+      "owner": "HawaiiStateGIS",
+      "modified": "2026-04-16"
+    },
+    {
+      "id": "4164f74fd1ff45f4943583e15dd8fa36",
+      "title": "Moisture Zones",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/LandUseLandCover/MapServer/6",
+      "owner": "HawaiiStateGIS",
+      "modified": "2021-11-09"
+    },
+    {
+      "id": "bf379600c2ff433cbfddceac02deac82",
+      "title": "Hawaii Community Development Authority (HCDA) Districts",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/AdminBnd/MapServer/22",
+      "owner": "HawaiiStateGIS",
+      "modified": "2026-08-18"
+    },
+    {
+      "id": "66a59db4bc31459298b28a94564de533",
+      "title": "Fire Response Zones",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/EmergMgmtPubSafety/MapServer/6",
+      "owner": "HawaiiStateGIS",
+      "modified": "2026-04-20"
+    },
+    {
+      "id": "db829ab4b17a44649eadf0db0f7379ab",
+      "title": "Tsunami Evacuation Zones",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/Hazards/MapServer/2",
+      "owner": "HawaiiStateGIS",
+      "modified": "2025-11-20"
+    }
+  ]
+}

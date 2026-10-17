@@ -1,0 +1,10 @@
+{
+  "source_id": "usps_vacancy",
+  "fetched_at": "2026-10-17T00:44:04+00:00",
+  "status": "restricted",
+  "error": null,
+  "sample_rows": 0,
+  "page_url": "https://www.huduser.gov/portal/datasets/usps.html",
+  "page_excerpt": "",
+  "note": "HUD/USPS vacancy data needs a HUD USER login and is limited to governmental entities and registered non-profits. Not fetched."
+}

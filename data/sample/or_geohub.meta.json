@@ -1,0 +1,211 @@
+{
+  "source_id": "or_geohub",
+  "fetched_at": "2026-10-17T00:44:12+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://services8.arcgis.com/8PAo5HGmvRMlF2eU/arcgis/rest/services/Zoning/FeatureServer/0",
+  "layer_name": "ZoneOR_Gov2Pub",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "record_count": 114823,
+  "max_record_count": 2000,
+  "last_edit_date": "2023-07-19",
+  "description": "This Zoning feature class is an element of the Oregon GIS Framework statewide, Zoning spatial data. This version is authorized for public use. Attributes include zoning districts that have been generalized to state classes. As of June 30, 2023, this feature class contains zoning data from 229 local jurisdictions. DLCD plans to continue adding to and updating this statewide zoning dataset as they receive zoning information from the local jurisdictions. Jurisdictions included in the latest version of the statewide zoning geodatabase: Cities: Adams, Adrian, Albany, Amity, Antelope, Ashland, Astoria, Athena, Aurora, Banks, Barlow, Bay City, Beaverton, Bend, Boardman, Bonanza, Brookings, Brownsville, Burns, Butte Falls, Canby, Cannon Beach, Carlton, Cascade Locks, Cave Junction, Central Point, Chiloquin, Coburg, Columbia City, Coos Bay, Cornelius, Corvallis, Cottage Grove, Creswell, Culver, Dayton, Detroit, Donald, Drain, Dufur, Dundee, Dunes City, Durham, Eagle Point, Echo, Enterprise, Est",
+  "copyright": "DLCD, ODOT",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LUnitID",
+      "type": "String",
+      "alias": "LUnitID",
+      "length": 254,
+      "has_domain": false
+    },
+    {
+      "name": "SUnitID",
+      "type": "String",
+      "alias": "SUnitID",
+      "length": 14,
+      "has_domain": false
+    },
+    {
+      "name": "localZCode",
+      "type": "String",
+      "alias": "localZCode",
+      "length": 51,
+      "has_domain": false
+    },
+    {
+      "name": "localZDesc",
+      "type": "String",
+      "alias": "localZDesc",
+      "length": 66,
+      "has_domain": false
+    },
+    {
+      "name": "orZCode",
+      "type": "String",
+      "alias": "orZCode",
+      "length": 6,
+      "has_domain": false
+    },
+    {
+      "name": "orZDesc",
+      "type": "String",
+      "alias": "orZDesc",
+      "length": 101,
+      "has_domain": false
+    },
+    {
+      "name": "codeRef",
+      "type": "String",
+      "alias": "codeRef",
+      "length": 4,
+      "has_domain": false
+    },
+    {
+      "name": "effDate",
+      "type": "String",
+      "alias": "effDate",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "unitOwner",
+      "type": "String",
+      "alias": "unitOwner",
+      "length": 7,
+      "has_domain": false
+    },
+    {
+      "name": "ownerName",
+      "type": "String",
+      "alias": "ownerName",
+      "length": 17,
+      "has_domain": false
+    },
+    {
+      "name": "ownerType",
+      "type": "String",
+      "alias": "ownerType",
+      "length": 6,
+      "has_domain": false
+    },
+    {
+      "name": "gsteward",
+      "type": "String",
+      "alias": "gsteward",
+      "length": 23,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Area",
+      "type": "Double",
+      "alias": "Shape__Area",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Length",
+      "type": "Double",
+      "alias": "Shape__Length",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "chosen_search_hit": {
+    "id": "72416393747c4cdf9110920656f90f83",
+    "title": "Zoning",
+    "type": "Feature Service",
+    "url": "https://services8.arcgis.com/8PAo5HGmvRMlF2eU/arcgis/rest/services/Zoning/FeatureServer",
+    "owner": "OR_FRAMEWORK",
+    "modified": "2023-07-19"
+  },
+  "sampled": "zoning",
+  "parcel_hits": [
+    {
+      "id": "01ebe5d5738d4833b543a24181a887ba",
+      "title": "Wilderness Areas in the United States",
+      "type": "Feature Service",
+      "url": "https://services1.arcgis.com/ERdCHt0sNM6dENSD/arcgis/rest/services/Wilderness_Areas_in_the_United_States/FeatureServer",
+      "owner": "OR_FRAMEWORK",
+      "modified": "2024-01-31"
+    },
+    {
+      "id": "e8dd096362c8414684b0ae9e31562309",
+      "title": "SLIS Public",
+      "type": "Feature Service",
+      "url": "https://maps.dsl.state.or.us/arcgis/rest/services/SlisPublic/FeatureServer",
+      "owner": "OR_FRAMEWORK",
+      "modified": "2026-01-26"
+    }
+  ],
+  "zoning_hits": [
+    {
+      "id": "72416393747c4cdf9110920656f90f83",
+      "title": "Zoning",
+      "type": "Feature Service",
+      "url": "https://services8.arcgis.com/8PAo5HGmvRMlF2eU/arcgis/rest/services/Zoning/FeatureServer",
+      "owner": "OR_FRAMEWORK",
+      "modified": "2023-07-19"
+    },
+    {
+      "id": "abd425a353b14ec7912689c65f91123e",
+      "title": "Enterprise Zones",
+      "type": "Feature Service",
+      "url": "https://services8.arcgis.com/8PAo5HGmvRMlF2eU/arcgis/rest/services/EnterpriseZones2023/FeatureServer",
+      "owner": "OR_FRAMEWORK",
+      "modified": "2025-04-21"
+    },
+    {
+      "id": "7dc66d36a41e4e519c7a66d06e6abef1",
+      "title": "Coastal Zone Boundary",
+      "type": "Feature Service",
+      "url": "https://gis.lcd.state.or.us/server/rest/services/Framework/AdminBounds_CoastalZone/FeatureServer",
+      "owner": "OR_FRAMEWORK",
+      "modified": "2023-10-03"
+    },
+    {
+      "id": "e546d6ab232a4e39b06d64813f4d8689",
+      "title": "Tsunami Evacuation Zones",
+      "type": "Feature Service",
+      "url": "https://services8.arcgis.com/8PAo5HGmvRMlF2eU/arcgis/rest/services/DOGAMI_Tsunami_Evacuation_Zones_2013/FeatureServer",
+      "owner": "OR_FRAMEWORK",
+      "modified": "2024-09-26"
+    },
+    {
+      "id": "98678f18c77a44e187343ccfd3427088",
+      "title": "ODA Soil and Water Conservation District Zones",
+      "type": "Feature Service",
+      "url": "https://maps.oda.oregon.gov/arcgis/rest/services/Framework/ODA_AdminBounds_SoilWaterConservationDistrict_Zones/MapServer/0",
+      "owner": "OR_FRAMEWORK",
+      "modified": "2026-03-26"
+    },
+    {
+      "id": "4d8058c313bf4aaf8dc9286b46893879",
+      "title": "ODOT Life Lines",
+      "type": "Feature Service",
+      "url": "https://services8.arcgis.com/8PAo5HGmvRMlF2eU/arcgis/rest/services/ODOT_Life_Lines/FeatureServer",
+      "owner": "OR_FRAMEWORK",
+      "modified": "2025-07-24"
+    },
+    {
+      "id": "e557f85f4aba4d0f966a52be99dce2f1",
+      "title": "Oregon ZIP Codes",
+      "type": "Feature Service",
+      "url": "https://services8.arcgis.com/8PAo5HGmvRMlF2eU/arcgis/rest/services/OregonZIPCodes/FeatureServer",
+      "owner": "OR_FRAMEWORK",
+      "modified": "2024-08-22"
+    }
+  ]
+}

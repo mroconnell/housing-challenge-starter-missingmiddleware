@@ -1,0 +1,238 @@
+{
+  "source_id": "nh_granit",
+  "fetched_at": "2026-10-17T00:44:21+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://nhgeodata.unh.edu/nhgeodata/rest/services/CAD/ParcelMosaic/MapServer/0",
+  "layer_name": "Parcel Points",
+  "geometry_type": "esriGeometryPoint",
+  "spatial_reference": {
+    "wkid": 102710,
+    "latestWkid": 3437,
+    "xyTolerance": 0.003280833333333333,
+    "zTolerance": 0.001,
+    "mTolerance": 0.001,
+    "falseX": -17463700,
+    "falseY": -48257000,
+    "xyUnits": 137246076.82899535,
+    "falseZ": -100000,
+    "zUnits": 10000,
+    "falseM": -100000,
+    "mUnits": 10000
+  },
+  "record_count": 617065,
+  "max_record_count": 2000,
+  "last_edit_date": null,
+  "description": "",
+  "copyright": "",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape",
+      "type": "Geometry",
+      "alias": "Shape",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ParcelOID",
+      "type": "Integer",
+      "alias": "ParcelOID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "NH_GIS_ID",
+      "type": "String",
+      "alias": "NH_GIS_ID",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "OID_1",
+      "type": "String",
+      "alias": "OID",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "PID",
+      "type": "String",
+      "alias": "PID",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "TownID",
+      "type": "String",
+      "alias": "TownID",
+      "length": 4,
+      "has_domain": false
+    },
+    {
+      "name": "Town",
+      "type": "String",
+      "alias": "Town",
+      "length": 25,
+      "has_domain": false
+    },
+    {
+      "name": "Name",
+      "type": "String",
+      "alias": "Name",
+      "length": 250,
+      "has_domain": false
+    },
+    {
+      "name": "U_ID",
+      "type": "String",
+      "alias": "U_ID",
+      "length": 30,
+      "has_domain": false
+    },
+    {
+      "name": "DisplayId",
+      "type": "String",
+      "alias": "DisplayId",
+      "length": 200,
+      "has_domain": false
+    },
+    {
+      "name": "CountyId",
+      "type": "String",
+      "alias": "CountyId",
+      "length": 2,
+      "has_domain": false
+    },
+    {
+      "name": "SLU",
+      "type": "String",
+      "alias": "SLU",
+      "length": 5,
+      "has_domain": false
+    },
+    {
+      "name": "SLUC",
+      "type": "String",
+      "alias": "SLUC",
+      "length": 5,
+      "has_domain": false
+    },
+    {
+      "name": "SLUM",
+      "type": "String",
+      "alias": "SLUM",
+      "length": 5,
+      "has_domain": false
+    },
+    {
+      "name": "NBC",
+      "type": "Integer",
+      "alias": "NBC",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LocalNBC",
+      "type": "String",
+      "alias": "LocalNBC",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "StreetAddress",
+      "type": "String",
+      "alias": "StreetAddress",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "ORIG_FID",
+      "type": "Integer",
+      "alias": "ORIG_FID",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "services_seen": [
+    [
+      "CV_VerticalLandMotion",
+      "MapServer"
+    ],
+    [
+      "WPPT_PredictedMarshMigration",
+      "MapServer"
+    ],
+    [
+      "APB",
+      "folder"
+    ],
+    [
+      "BE",
+      "folder"
+    ],
+    [
+      "CAD",
+      "folder"
+    ],
+    [
+      "CSD",
+      "folder"
+    ],
+    [
+      "EC",
+      "folder"
+    ],
+    [
+      "EDP",
+      "folder"
+    ],
+    [
+      "GG",
+      "folder"
+    ],
+    [
+      "Hosted",
+      "folder"
+    ],
+    [
+      "IBM",
+      "folder"
+    ],
+    [
+      "IWR",
+      "folder"
+    ],
+    [
+      "LGN",
+      "folder"
+    ],
+    [
+      "OC",
+      "folder"
+    ],
+    [
+      "TN",
+      "folder"
+    ],
+    [
+      "Topical",
+      "folder"
+    ],
+    [
+      "Utilities",
+      "folder"
+    ],
+    [
+      "CAD/ParcelMosaic",
+      "MapServer"
+    ]
+  ]
+}

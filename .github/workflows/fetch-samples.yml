@@ -1,0 +1,43 @@
+# Refreshes the small sample files in data/sample/ by running
+# scripts/fetch_samples.py against each source's public endpoint.
+# Run it by hand from the Actions tab, or let it run when the script changes.
+name: Fetch data samples
+
+on:
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: "Space-separated source ids (blank = all)"
+        required: false
+        default: ""
+  push:
+    branches-ignore: [main]
+    paths:
+      - scripts/fetch_samples.py
+      - .github/workflows/fetch-samples.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch samples
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: python3 scripts/fetch_samples.py ${{ github.event.inputs.sources }}
+      - name: Show report
+        run: cat data/sample/_fetch_report.json
+      - name: Commit refreshed samples
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/sample
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "Refresh data samples [skip ci]"
+          git push
