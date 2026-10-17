@@ -28,9 +28,8 @@
 
 ## Sample rows
 
-First 0 of 0 rows in [`data/sample/tn_comptroller.csv`](../../data/sample/tn_comptroller.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+None. See the status above. What we did find is in [`data/sample/tn_comptroller.meta.json`](../../data/sample/tn_comptroller.meta.json).
 
-_No sample rows._
 
 ## Refresh
 

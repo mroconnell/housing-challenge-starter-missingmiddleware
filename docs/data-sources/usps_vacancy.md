@@ -25,9 +25,8 @@
 
 ## Sample rows
 
-First 0 of 0 rows in [`data/sample/usps_vacancy.csv`](../../data/sample/usps_vacancy.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+None. See the status above. What we did find is in [`data/sample/usps_vacancy.meta.json`](../../data/sample/usps_vacancy.meta.json).
 
-_No sample rows._
 
 ## Refresh
 
