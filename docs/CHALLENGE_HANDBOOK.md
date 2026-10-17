@@ -2,7 +2,7 @@
 
 This file is our team's plain-language digest of the official challenge documents. It is not a copy. The official documents are authoritative. Where this digest and the official documents differ, the official documents win.
 
-- **Participant Handbook:** [CHALLENGE_HANDBOOK.pdf](CHALLENGE_HANDBOOK.pdf) (copy in this repo) and <https://housingchallenge.turnout.rocks/handbook.html>
+- **Participant Handbook:** <https://housingchallenge.turnout.rocks/handbook.html>
 - **Official Rules:** <https://housingchallenge.turnout.rocks/rules.html>
 - **Technical spec in this repo:** [CHALLENGE_SPEC.md](CHALLENGE_SPEC.md)
 - **Last checked against the official pages:** 2026-10-16
