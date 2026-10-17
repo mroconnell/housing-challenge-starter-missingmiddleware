@@ -1,6 +1,6 @@
 {
   "source_id": "or_metro_taxlots",
-  "fetched_at": "2026-10-17T00:11:08+00:00",
+  "fetched_at": "2026-10-17T00:41:44+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -319,18 +319,18 @@
       "modified": "2026-08-26"
     },
     {
-      "id": "872fc015766344e9b7f407d967888a4d",
-      "title": "Master Address File (MAF)",
-      "type": "Feature Service",
-      "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Master_Address_File_MAF/FeatureServer",
-      "owner": "OregonMetro.RLIS",
-      "modified": "2026-08-26"
-    },
-    {
       "id": "a21c16d365a040caa302d50eae4a2a65",
       "title": "ZIP Codes",
       "type": "Feature Service",
       "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/ZIP_Codes/FeatureServer",
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    },
+    {
+      "id": "872fc015766344e9b7f407d967888a4d",
+      "title": "Master Address File (MAF)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Master_Address_File_MAF/FeatureServer",
       "owner": "OregonMetro.RLIS",
       "modified": "2026-08-26"
     }
