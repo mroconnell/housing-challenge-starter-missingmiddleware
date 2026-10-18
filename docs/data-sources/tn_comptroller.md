@@ -12,7 +12,7 @@
 | Geography | Parcel. 86 of 95 counties; the other 9 come from county assessors. |
 | Time coverage and update frequency | Updated weekly. No historical downloads. |
 | Units | Esri shapefile plus an Assessment_Data dbf table. |
-| Access method | Free. Fill in the Formstack form at https://comptrollertn.formstack.com/forms/parcel_data (name, mailing address, counties, attestation and disclaimer checkboxes). Contact GIS.Data@cot.tn.gov. |
+| Access method | Free. Fill in the request form embedded on the Parcel Data page (https://comptroller.tn.gov/office-functions/pa/gisredistricting/redistricting-and-land-use-maps/parcel-data.html). The direct Formstack link says the form cannot be found, so use the page. The form asks for name, mailing address, counties, attestation and disclaimer checkboxes. Contact GIS.Data@cot.tn.gov. |
 | License | Disclaimer only (no warranty). The page says the data can be used in a commercial application. |
 | Use in our model | Parcel inventory for Tennessee, if the team picks Tennessee. |
 | Caveats | Each download needs a signed form, and the page says it offers no automated downloads. So it cannot be part of an automated pipeline as-is. |

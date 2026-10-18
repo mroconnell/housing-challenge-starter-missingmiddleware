@@ -887,7 +887,8 @@ def fetch_pa():
 @source("tn_comptroller")
 def fetch_tn():
     url = "https://comptroller.tn.gov/office-functions/pa/gisredistricting/redistricting-and-land-use-maps/parcel-data.html"
-    form = "https://comptrollertn.formstack.com/forms/parcel_data"
+    # The form is embedded on the page; the direct Formstack link is broken.
+    form = url
     try:
         txt = _clean(get_text(url))[:1500]
     except Exception as e:  # noqa: BLE001
