@@ -1,6 +1,6 @@
 {
   "source_id": "ut_housing_unit_inventory",
-  "fetched_at": "2026-10-18T03:51:59+00:00",
+  "fetched_at": "2026-10-23T05:18:15+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -13,7 +13,7 @@
   },
   "record_count": 702461,
   "max_record_count": 2000,
-  "last_edit_date": "2026-10-14",
+  "last_edit_date": "2026-10-21",
   "description": "The Housing Unit Inventory (HUI) is a derivative dataset that attempts to add information to the county assessor tax parcel data for Utah\u2019s most urban counties. It is not a substitute for the excellent datasets maintained by the Assessors but, rather, presents additional, standardized information about the type and number of housing units, associated grounds and common areas, and related short-term and long-term trends. The HUI is a best-effort product of a resource-limited analysis -- users are encouraged to do their own quality assessment, share their findings, and cite this metadata describing how the HUI was produced.",
   "copyright": "WFRC, MAG, UGRC",
   "fields": [
