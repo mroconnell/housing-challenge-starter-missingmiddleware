@@ -457,7 +457,7 @@ BLS_SERIES = {
     "CES2000000001": "All employees, construction, US, seasonally adjusted (thousands)",
     "CES2023610001": "All employees, residential building construction, US, SA (thousands)",
     "WPUSI012011": "PPI: construction materials (index 1982=100)",
-    "PCU236115236115": "PPI: new single-family housing construction (index)",
+    "WPUIP2311001": "PPI: net inputs to residential construction, goods (index)",
 }
 
 
