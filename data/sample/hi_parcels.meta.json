@@ -1,6 +1,6 @@
 {
   "source_id": "hi_parcels",
-  "fetched_at": "2026-10-23T05:18:12+00:00",
+  "fetched_at": "2026-10-23T05:31:10+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -204,18 +204,18 @@
       "modified": "2021-11-19"
     },
     {
-      "id": "eb68e4eb00384e77add5848724d9d56c",
-      "title": "Parcels - TMK Plat",
-      "type": "Feature Service",
-      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/26",
-      "owner": "HawaiiStateGIS",
-      "modified": "2021-11-19"
-    },
-    {
       "id": "71f8eac159814c3084fa00413e51e7c9",
       "title": "Parcels - TMK Zone",
       "type": "Feature Service",
       "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/27",
+      "owner": "HawaiiStateGIS",
+      "modified": "2021-11-19"
+    },
+    {
+      "id": "eb68e4eb00384e77add5848724d9d56c",
+      "title": "Parcels - TMK Plat",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/26",
       "owner": "HawaiiStateGIS",
       "modified": "2021-11-19"
     },
