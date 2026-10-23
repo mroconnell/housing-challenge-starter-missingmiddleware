@@ -1,6 +1,6 @@
 {
   "source_id": "pa_pasda_parcels",
-  "fetched_at": "2026-10-23T05:46:53+00:00",
+  "fetched_at": "2026-10-23T06:50:09+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 12,
@@ -26,7 +26,13 @@
         "Shape_Length",
         "Shape_Area",
         "SHORT_NAME"
-      ]
+      ],
+      "native_crs": {
+        "wkid": 4269,
+        "latestWkid": 4269
+      },
+      "supports_pagination": true,
+      "max_record_count": 1000
     },
     "AlleghenyCounty": {
       "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/AlleghenyCounty/MapServer/25",
@@ -47,7 +53,13 @@
         "PSEUDONO",
         "COMMENTS",
         "OBJECTID"
-      ]
+      ],
+      "native_crs": {
+        "wkid": 4269,
+        "latestWkid": 4269
+      },
+      "supports_pagination": true,
+      "max_record_count": 1000
     },
     "BerksCounty": {
       "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/BerksCounty/MapServer/6",
@@ -93,7 +105,13 @@
         "TAX_DIST_N",
         "Shape_Length",
         "Shape_Area"
-      ]
+      ],
+      "native_crs": {
+        "wkid": 4269,
+        "latestWkid": 4269
+      },
+      "supports_pagination": true,
+      "max_record_count": 2000
     },
     "BucksCounty": {
       "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/BucksCounty/MapServer/17",
@@ -117,7 +135,13 @@
         "TOTAL_VALU",
         "LAND_USE_C",
         "MODIFY_DAT"
-      ]
+      ],
+      "native_crs": {
+        "wkid": 4269,
+        "latestWkid": 4269
+      },
+      "supports_pagination": true,
+      "max_record_count": 1000
     },
     "CentreCounty": {
       "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/CentreCounty/MapServer/0",
@@ -149,7 +173,13 @@
         "GlobalID",
         "ShapeSTAre",
         "ShapeSTLen"
-      ]
+      ],
+      "native_crs": {
+        "wkid": 4269,
+        "latestWkid": 4269
+      },
+      "supports_pagination": true,
+      "max_record_count": 1000
     },
     "LancasterCounty": {
       "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/LancasterCounty/MapServer/21",
@@ -162,7 +192,13 @@
         "Shape_Length",
         "Shape_Area",
         "ACCOUNT"
-      ]
+      ],
+      "native_crs": {
+        "wkid": 4269,
+        "latestWkid": 4269
+      },
+      "supports_pagination": true,
+      "max_record_count": 1000
     }
   },
   "fields": [
@@ -870,5 +906,23 @@
       ],
       "description": "In 1 of 6 counties: Berks"
     }
-  ]
+  ],
+  "geometry_sample": {
+    "geometry_type": "Polygon",
+    "native_crs": "varies by county; see counties",
+    "supports_pagination": true,
+    "max_record_count": 1000,
+    "file": "data/sample/geo/pa_pasda_parcels.geojson",
+    "features": 6,
+    "bytes": 4938,
+    "vertices_per_feature": [
+      10,
+      5,
+      11,
+      11,
+      5,
+      8
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "source_id": "ri_rigis",
-  "fetched_at": "2026-10-23T05:47:08+00:00",
+  "fetched_at": "2026-10-23T06:50:29+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -142,5 +142,24 @@
       "owner": "URIEDC_RIGIS",
       "modified": "2023-08-01"
     }
-  ]
+  ],
+  "geometry_sample": {
+    "layer_url": "https://services2.arcgis.com/S8zZg9pg23JUEexQ/arcgis/rest/services/PLAN_Land_Use_2025_spf/FeatureServer/0",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 102730,
+      "latestWkid": 3438
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "file": "data/sample/geo/ri_rigis.geojson",
+    "features": 3,
+    "bytes": 9877,
+    "vertices_per_feature": [
+      78,
+      136,
+      35
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
 }

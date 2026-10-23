@@ -1,6 +1,6 @@
 {
   "source_id": "ut_housing_unit_inventory",
-  "fetched_at": "2026-10-23T05:47:03+00:00",
+  "fetched_at": "2026-10-23T06:50:23+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -143,5 +143,24 @@
       "length": null,
       "has_domain": false
     }
-  ]
+  ],
+  "geometry_sample": {
+    "layer_url": "https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/HousingUnitInventory/FeatureServer/0",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 102100,
+      "latestWkid": 3857
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "file": "data/sample/geo/ut_housing_unit_inventory.geojson",
+    "features": 3,
+    "bytes": 2088,
+    "vertices_per_feature": [
+      5,
+      5,
+      9
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
 }
