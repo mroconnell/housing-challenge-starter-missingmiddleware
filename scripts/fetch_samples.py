@@ -624,9 +624,10 @@ def fetch_ms_buildings():
     qk = _quadkey(40.7608, -111.8910, 9)
     tile = next((r for r in us if r.get("QuadKey") == qk), us[0])
     lines = head_lines(tile["Url"], N_ROWS, gz=tile["Url"].endswith(".gz"))
-    out = []
+    out, full = [], []
     for ln in lines:
         f = json.loads(ln)
+        full.append({"type": "Feature", "properties": f.get("properties", {}), "geometry": f.get("geometry")})
         geom = f.get("geometry", {})
         coords = json.dumps(geom.get("coordinates"))
         out.append({**f.get("properties", {}), "geometry_type": geom.get("type"), "geometry": coords[:MAX_CELL]})
@@ -636,6 +637,8 @@ def fetch_ms_buildings():
         "sample_tile": tile,
         "index_columns": list(rows[0].keys()) if rows else [],
         "note": "Each tile is a gzipped GeoJSON-lines file keyed by a zoom-9 quadkey.",
+        "_geo_features": full[:GEO_FEATURES],
+        "_geo_info": {"geometry_type": "Polygon", "native_crs": "EPSG:4326", "supports_pagination": None, "max_record_count": None},
     }
 
 
@@ -1043,6 +1046,115 @@ def fetch_nh():
 # --------------------------------------------------------------------------- #
 # Runner
 # --------------------------------------------------------------------------- #
+GEO_OUT = OUT / "geo"
+GEO_FEATURES = 3
+GEO_MAX_BYTES = 150_000
+
+
+def _esri_to_geojson(g):
+    """Convert an Esri JSON geometry (already in WGS84) to GeoJSON."""
+    if not g:
+        return None
+    if "x" in g:
+        return {"type": "Point", "coordinates": [g["x"], g["y"]]}
+    if "rings" in g:
+        return {"type": "Polygon", "coordinates": g["rings"]}
+    if "paths" in g:
+        return {"type": "MultiLineString", "coordinates": g["paths"]}
+    if "points" in g:
+        return {"type": "MultiPoint", "coordinates": g["points"]}
+    return None
+
+
+def _count_vertices(c):
+    if isinstance(c, (list, tuple)) and c and isinstance(c[0], (int, float)):
+        return 1
+    return sum(_count_vertices(x) for x in c) if isinstance(c, (list, tuple)) else 0
+
+
+def arcgis_geo_sample(url, n=GEO_FEATURES):
+    """A few complete features (geometry and attributes) from an ArcGIS layer, as GeoJSON in WGS84."""
+    url = url.rstrip("/")
+    info = get_json(url, {"f": "json"})
+    q = {"where": "1=1", "outFields": "*", "returnGeometry": "true", "outSR": "4326", "resultRecordCount": n}
+    feats = []
+    try:
+        res = get_json(url + "/query", {**q, "f": "geojson"})
+        feats = res.get("features") or []
+    except Exception:  # noqa: BLE001
+        feats = []
+    if not feats:
+        res = get_json(url + "/query", {**q, "f": "json"})
+        if "error" in res:
+            res = get_json(url + "/query", {**{k: v for k, v in q.items() if k != "resultRecordCount"},
+                                            "where": f"{info.get('objectIdField') or 'OBJECTID'} <= 20", "f": "json"})
+        if "error" in res:
+            raise RuntimeError(f"geometry query error: {res['error']}")
+        feats = [{"type": "Feature", "properties": f.get("attributes", {}), "geometry": _esri_to_geojson(f.get("geometry"))}
+                 for f in res.get("features", [])]
+    feats = feats[:n]
+    sr = (info.get("extent") or {}).get("spatialReference") or info.get("sourceSpatialReference") or {}
+    adv = info.get("advancedQueryCapabilities") or {}
+    return feats, {
+        "layer_url": url,
+        "geometry_type": (info.get("geometryType") or "").replace("esriGeometry", ""),
+        "native_crs": {"wkid": sr.get("wkid"), "latestWkid": sr.get("latestWkid")},
+        "supports_pagination": adv.get("supportsPagination"),
+        "max_record_count": info.get("maxRecordCount"),
+    }
+
+
+def write_geo(sid, feats, info):
+    """Write a small GeoJSON sample with full geometry. Drops features if the file gets too big."""
+    GEO_OUT.mkdir(parents=True, exist_ok=True)
+    feats = [{**f, "properties": redact([f.get("properties") or {}])[0]} for f in feats]
+    while True:
+        text = json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":"))
+        if len(text) <= GEO_MAX_BYTES or len(feats) <= 1:
+            break
+        feats = feats[:-1]
+    path = GEO_OUT / f"{sid}.geojson"
+    path.write_text(text + "\n")
+    verts = [_count_vertices((f.get("geometry") or {}).get("coordinates")) for f in feats]
+    return {
+        **info,
+        "file": f"data/sample/geo/{sid}.geojson",
+        "features": len(feats),
+        "bytes": len(text),
+        "vertices_per_feature": verts,
+        "output_crs": "EPSG:4326 (GeoJSON)",
+    }
+
+
+def add_geometry(sid, meta):
+    """Save full-geometry features next to the attribute sample, when the source has geometry."""
+    feats = meta.pop("_geo_features", None)
+    info = meta.pop("_geo_info", {})
+    if feats is None and meta.get("service_url"):
+        feats, info = arcgis_geo_sample(meta["service_url"])
+    if feats is None and meta.get("counties"):
+        feats = []
+        for county, m in meta["counties"].items():
+            if not m.get("layer_url"):
+                continue
+            try:
+                f1, i1 = arcgis_geo_sample(m["layer_url"], 1)
+            except Exception as e:  # noqa: BLE001
+                m["geometry_error"] = f"{type(e).__name__}: {e}"[:200]
+                continue
+            for f in f1:
+                f["properties"] = {"pasda_county": county, **(f.get("properties") or {})}
+            feats += f1
+            m["native_crs"] = i1["native_crs"]
+            m["supports_pagination"] = i1["supports_pagination"]
+            m["max_record_count"] = i1["max_record_count"]
+            info = info or {k: v for k, v in i1.items() if k != "layer_url"}
+        info["native_crs"] = "varies by county; see counties"
+    if not feats:
+        return
+    meta["geometry_sample"] = write_geo(sid, feats, info)
+
+
 def _cell(v):
     if isinstance(v, (dict, list)):
         v = json.dumps(v)
@@ -1092,6 +1204,12 @@ def main(argv):
             rows, meta, status = [], {}, "error"
             err = f"{type(e).__name__}: {e}"
             traceback.print_exc()
+        if status == "ok":
+            try:
+                add_geometry(sid, meta)
+            except Exception as e:  # noqa: BLE001
+                meta.pop("_geo_features", None)
+                meta["geometry_sample_error"] = f"{type(e).__name__}: {e}"[:300]
         meta = {"source_id": sid, "fetched_at": started, "status": status, "error": err, "sample_rows": len(rows), **meta}
         (OUT / f"{sid}.meta.json").write_text(json.dumps(meta, indent=2, default=str) + "\n")
         if rows:

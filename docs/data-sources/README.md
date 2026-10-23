@@ -8,8 +8,8 @@ Sample rows live in [data/sample/](../../data/sample/). They are small on purpos
 
 The samples are for learning the fields. They are not inputs for spatial work.
 
-- ArcGIS layers are queried with `returnGeometry=false`, so the CSVs hold attributes only. The services can return geometry, and the layer's geometry type is on each page.
-- Microsoft and Google building footprints keep the geometry, but every cell is cut to 200 characters, so polygons are incomplete.
+- The CSVs hold attributes only, and every cell is cut to 200 characters. Building footprint polygons in the CSVs are incomplete.
+- For sources with geometry, a few complete features are saved separately in [data/sample/geo/](../../data/sample/geo/) as GeoJSON. See the table below.
 - Each sample has a few rows, not the full layer. Full layers need paging (ArcGIS `resultOffset`, up to the layer's max record count).
 
 The modeling pipeline needs its own download step that keeps full geometry, gets every record, records the coordinate system, and checks joins. Asking for geometry does not add information a layer lacks: parcel points stay points, and building outlines do not give dwelling counts or zoning.
