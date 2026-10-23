@@ -22,10 +22,13 @@ class TestFetchHelpers(unittest.TestCase):
         self.assertEqual(hdr[8:11], ["2-units Bldgs", "2-units Units", "2-units Value"])
 
     def test_redact_owner_fields(self):
-        rows = [{"Owner": "JANE DOE", "OWNERNME1": "X", "Mailing_Address": "1 Main", "ownerType": "County", "homeowner": "N", "Zone": "R1"}]
+        rows = [{"Owner": "JANE DOE", "NAME1": "JOHN DOE", "CARE_OF": "Y", "NAME": "Utah", "OWNERNME1": "X", "Mailing_Address": "1 Main", "ownerType": "County", "homeowner": "N", "Zone": "R1"}]
         out = fetch.redact(rows)[0]
         self.assertEqual(out["Owner"], "[redacted]")
         self.assertEqual(out["OWNERNME1"], "[redacted]")
+        self.assertEqual(out["NAME1"], "[redacted]")
+        self.assertEqual(out["CARE_OF"], "[redacted]")
+        self.assertEqual(out["NAME"], "Utah")
         self.assertEqual(out["Mailing_Address"], "[redacted]")
         self.assertEqual(out["ownerType"], "County")
         self.assertEqual(out["homeowner"], "N")

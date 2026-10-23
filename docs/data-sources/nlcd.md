@@ -38,13 +38,13 @@
 
 First 3 of 5 rows in [`data/sample/nlcd.csv`](../../data/sample/nlcd.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `point` | Salt Lake City UT | Hartford CT | Madison WI |
-| `lat` | 40.7608 | 41.7658 | 43.0731 |
-| `lon` | -111.891 | -72.6734 | -89.4012 |
-| `layer` | NLCD_2021_Land_Cover_Science_Product_L48 | NLCD_2021_Land_Cover_Science_Product_L48 | NLCD_2021_Land_Cover_Science_Product_L48 |
-| `PALETTE_INDEX` | 24 | 24 | 24 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `point` | Salt Lake City UT | Hartford CT | Madison WI | Providence RI | Rural Lancaster Co PA |
+| `lat` | 40.7608 | 41.7658 | 43.0731 | 41.824 | 40.0 |
+| `lon` | -111.891 | -72.6734 | -89.4012 | -71.4128 | -76.2 |
+| `layer` | NLCD_2021_Land_Cover_Science_Product_L48 | NLCD_2021_Land_Cover_Science_Product_L48 | NLCD_2021_Land_Cover_Science_Product_L48 | NLCD_2021_Land_Cover_Science_Product_L48 | NLCD_2021_Land_Cover_Science_Product_L48 |
+| `PALETTE_INDEX` | 24 | 24 | 24 | 24 | 82 |
 
 ## Refresh
 

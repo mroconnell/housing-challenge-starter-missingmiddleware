@@ -54,25 +54,25 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/hi_parcels.csv`](../../data/sample/hi_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `objectid` | 1 | 2 | 3 |
-| `tmk` | 389014053 | 388009112 | 388009113 |
-| `tmk_txt` | 389014053 | 388009112 | 388009113 |
-| `county` | Hawaii | Hawaii | Hawaii |
-| `division` | 3 | 3 | 3 |
-| `island` | HAW | HAW | HAW |
-| `zone` | 8 | 8 | 8 |
-| `section` | 9 | 8 | 8 |
-| `plat` | 14 | 9 | 9 |
-| `plat1` | 014 | 009 | 009 |
-| `parcel` | 53 | 112 | 113 |
-| `parcel1` | 053 | 112 | 113 |
-| `gisacres` | 0.2300499 | 0.16977402 | 0.16975509 |
-| `cty_tmk` | 89014053 | 88009112 | 88009113 |
-| `qpub_link` | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… |
-| `st_area(shape)` | 930.9826425866745 | 687.0538207842359 | 686.9772409296497 |
-| `st_perimeter(shape)` | 122.72679528475079 | 111.98270600577544 | 112.0491522904305 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `objectid` | 1 | 2 | 3 | 4 | 5 |
+| `tmk` | 389014053 | 388009112 | 388009113 | 388009114 | 388009115 |
+| `tmk_txt` | 389014053 | 388009112 | 388009113 | 388009114 | 388009115 |
+| `county` | Hawaii | Hawaii | Hawaii | Hawaii | Hawaii |
+| `division` | 3 | 3 | 3 | 3 | 3 |
+| `island` | HAW | HAW | HAW | HAW | HAW |
+| `zone` | 8 | 8 | 8 | 8 | 8 |
+| `section` | 9 | 8 | 8 | 8 | 8 |
+| `plat` | 14 | 9 | 9 | 9 | 9 |
+| `plat1` | 014 | 009 | 009 | 009 | 009 |
+| `parcel` | 53 | 112 | 113 | 114 | 115 |
+| `parcel1` | 053 | 112 | 113 | 114 | 115 |
+| `gisacres` | 0.2300499 | 0.16977402 | 0.16975509 | 0.17306839 | 0.17084862 |
+| `cty_tmk` | 89014053 | 88009112 | 88009113 | 88009114 | 88009115 |
+| `qpub_link` | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… |
+| `st_area(shape)` | 930.9826425866745 | 687.0538207842359 | 686.9772409296497 | 700.3857085684095 | 691.402583104587 |
+| `st_perimeter(shape)` | 122.72679528475079 | 111.98270600577544 | 112.0491522904305 | 112.79718312940749 | 112.33948801211821 |
 
 ## Refresh
 

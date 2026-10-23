@@ -888,7 +888,7 @@ PASDA_SERVICES = "https://mapservices.pasda.psu.edu/server/rest/services/pasda"
 # Spread across the state: rural, suburban and urban counties.
 PASDA_COUNTIES = [
     "AdamsCounty", "AlleghenyCounty", "BerksCounty", "BucksCounty",
-    "CentreCounty", "ErieCounty", "LancasterCounty", "LackawannaCounty",
+    "CentreCounty", "LancasterCounty",
 ]
 PASDA_ROWS_PER_COUNTY = 2
 
@@ -1050,7 +1050,7 @@ def _cell(v):
     return s if len(s) <= MAX_CELL else s[:MAX_CELL] + "..."
 
 
-PII_FIELDS = re.compile(r"owner|ownernme|mail|pstladress|co_owner|grantee|taxpayer", re.I)
+PII_FIELDS = re.compile(r"owner|ownernme|mail|pstladress|co_owner|grantee|taxpayer|care_of|^name[0-9]$", re.I)
 PII_KEEP = re.compile(r"^(ownertype|owner_type|unitowner|ownername|majorowner|homeowner)$", re.I)
 
 

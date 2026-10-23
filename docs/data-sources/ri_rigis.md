@@ -42,13 +42,13 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/ri_rigis.csv`](../../data/sample/ri_rigis.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `OBJECTID` | 1 | 2 | 3 |
-| `Map_Legend` | Conservation/Limited | Conservation/Limited | Conservation/Limited |
-| `Acres` | 1.54932442 | 2.20739928 | 0.71056649 |
-| `Shape__Area` | 67488.5750837326 | 96154.31768035889 | 30952.278121471405 |
-| `Shape__Length` | 2894.4848075237774 | 4157.803908219824 | 893.1685988049755 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
+| `Map_Legend` | Conservation/Limited | Conservation/Limited | Conservation/Limited | Conservation/Limited | Conservation/Limited |
+| `Acres` | 1.54932442 | 2.20739928 | 0.71056649 | 0.83089656 | 1.25410463 |
+| `Shape__Area` | 67488.5750837326 | 96154.31768035889 | 30952.278121471405 | 36193.85624408722 | 54628.8004360199 |
+| `Shape__Length` | 2894.4848075237774 | 4157.803908219824 | 893.1685988049755 | 698.1230365082198 | 1623.820042387205 |
 
 ## Refresh
 

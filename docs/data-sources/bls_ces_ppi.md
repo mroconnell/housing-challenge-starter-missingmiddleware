@@ -38,15 +38,15 @@
 
 First 3 of 8 rows in [`data/sample/bls_ces_ppi.csv`](../../data/sample/bls_ces_ppi.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `seriesID` | CES2000000001 | CES2000000001 | CES2023610001 |
-| `series_title` | All employees, construction, US, seasonally adjusted (thous… | All employees, construction, US, seasonally adjusted (thous… | All employees, residential building construction, US, SA (t… |
-| `year` | 2026 | 2026 | 2026 |
-| `period` | M09 | M08 | M09 |
-| `periodName` | September | August | September |
-| `value` | 8364 | 8353 | 922.7 |
-| `footnotes` | preliminary | preliminary | preliminary |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 | Row 6 | Row 7 | Row 8 |
+|---|---|---|---|---|---|---|---|---|
+| `seriesID` | CES2000000001 | CES2000000001 | CES2023610001 | CES2023610001 | WPUSI012011 | WPUSI012011 | WPUIP2311001 | WPUIP2311001 |
+| `series_title` | All employees, construction, US, seasonally adjusted (thous… | All employees, construction, US, seasonally adjusted (thous… | All employees, residential building construction, US, SA (t… | All employees, residential building construction, US, SA (t… | PPI: construction materials (index 1982=100) | PPI: construction materials (index 1982=100) | PPI: net inputs to residential construction, goods (index) | PPI: net inputs to residential construction, goods (index) |
+| `year` | 2026 | 2026 | 2026 | 2026 | 2026 | 2026 | 2026 | 2026 |
+| `period` | M09 | M08 | M09 | M08 | M09 | M08 | M09 | M08 |
+| `periodName` | September | August | September | August | September | August | September | August |
+| `value` | 8364 | 8353 | 922.7 | 919.7 | 378.610 | 375.792 | 355.225 | 348.930 |
+| `footnotes` | preliminary | preliminary | preliminary | preliminary | Preliminary. All indexes are subject to monthly revisions u… | Preliminary. All indexes are subject to monthly revisions u… | Preliminary. All indexes are subject to monthly revisions u… | Preliminary. All indexes are subject to monthly revisions u… |
 
 ## Refresh
 

@@ -133,78 +133,68 @@ HCD publishes a data dictionary (DOCX) for each table on the dataset page.
 
 First 3 of 5 rows in [`data/sample/hcd_apr.csv`](../../data/sample/hcd_apr.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `_id` | 1 | 2 | 3 |
-| `JURIS_NAME` | STANISLAUS COUNTY | STANISLAUS COUNTY | STANISLAUS COUNTY |
-| `CNTY_NAME` | Stanislaus | Stanislaus | Stanislaus |
-| `YEAR` | 2020 | 2020 | 2020 |
-| `PRIOR_APN` |  |  |  |
-| `APN` | 081-002-032 | 022-029-112 | 020-003-019 |
-| `STREET_ADDRESS` | 1464 CLARK  RD | 7708 MONTEREY AVE | 4455 HAWKINS RD |
-| `PROJECT_NAME` |  |  |  |
-| `JURS_TRACKING_ID` | BLD2002-01052 | BLD2020-0390 | BLD2019-2591 |
-| `UNIT_CAT` | MH | MH | MH |
-| `TENURE` | Renter | Owner | Renter |
-| `ACUTELY_LOW_INCOME_DR` | 0 | 0 | 0 |
-| `ACUTELY_LOW_INCOME_NDR` | 0 | 0 | 0 |
-| `EXTREMELY_LOW_INCOME_DR` | 0 | 0 | 0 |
-| `EXTREMELY_LOW_INCOME_NDR` | 0 | 0 | 0 |
-| `VLOW_INCOME_DR` | 0 | 0 | 0 |
-| `VLOW_INCOME_NDR` | 0 | 0 | 0 |
-| `LOW_INCOME_DR` | 0 | 0 | 0 |
-| `LOW_INCOME_NDR` | 0 | 0 | 0 |
-| `MOD_INCOME_DR` | 0 | 0 | 0 |
-| `MOD_INCOME_NDR` | 0 | 0 | 0 |
-| `ABOVE_MOD_INCOME` | 0 | 0 | 0 |
-| `ENT_APPROVE_DT1` |  |  |  |
-| `NO_ENTITLEMENTS` | 0 | 0 | 0 |
-| `BP_ACUTELY_LOW_INCOME_DR` | 0 | 0 | 0 |
-| `BP_ACUTELY_LOW_INCOME_NDR` | 0 | 0 | 0 |
-| `BP_EXTREMELY_LOW_INCOME_DR` | 0 | 0 | 0 |
-| `BP_EXTREMELY_LOW_INCOME_NDR` | 0 | 0 | 0 |
-| `BP_VLOW_INCOME_DR` | 0 | 0 | 0 |
-| `BP_VLOW_INCOME_NDR` | 0 | 0 | 0 |
-| `BP_LOW_INCOME_DR` | 0 | 0 | 0 |
-| `BP_LOW_INCOME_NDR` | 0 | 0 | 0 |
-| `BP_MOD_INCOME_DR` | 0 | 0 | 0 |
-| `BP_MOD_INCOME_NDR` | 0 | 0 | 0 |
-| `BP_ABOVE_MOD_INCOME` | 1 | 1 | 1 |
-| `BP_ISSUE_DT1` | 2020-03-05 | 2020-07-15 | 2020-02-12 |
-| `NO_BUILDING_PERMITS` | 1 | 1 | 1 |
-| `CO_ACUTELY_LOW_INCOME_DR` | 0 | 0 | 0 |
-| `CO_ACUTELY_LOW_INCOME_NDR` | 0 | 0 | 0 |
-| `CO_EXTREMELY_LOW_INCOME_DR` | 0 | 0 | 0 |
-| `CO_EXTREMELY_LOW_INCOME_NDR` | 0 | 0 | 0 |
-| `CO_VLOW_INCOME_DR` | 0 | 0 | 0 |
-| `CO_VLOW_INCOME_NDR` | 0 | 0 | 0 |
-| `CO_LOW_INCOME_DR` | 0 | 0 | 0 |
-| `CO_LOW_INCOME_NDR` | 0 | 0 | 0 |
-| `CO_MOD_INCOME_DR` | 0 | 0 | 0 |
-| `CO_MOD_INCOME_NDR` | 0 | 0 | 0 |
-| `CO_ABOVE_MOD_INCOME` | 1 | 1 | 0 |
-| `CO_ISSUE_DT1` | 2020-03-05 | 2021-01-29 |  |
-| `NO_OTHER_FORMS_OF_READINESS` | 1 | 1 | 0 |
-| `EXTR_LOW_INCOME_UNITS` | 0 | 0 | 0 |
-| `APPROVE_SB35` | N | N | N |
-| `HISTORIC_SITES` | 0 | 0 | 0 |
-| `INFILL_UNITS` | 0 | 0 | 0 |
-| `FIN_ASSIST_NAME` |  |  |  |
-| `DR_TYPE` |  |  |  |
-| `NO_FA_DR` | 0 | 0 | 0 |
-| `TERM_AFF_DR` |  |  |  |
-| `DEM_DES_UNITS` | 0 | 0 | 0 |
-| `DEM_OR_DES_UNITS` |  |  |  |
-| `DEM_DES_UNITS_OWN_RENT` |  |  |  |
-| `DENSITY_BONUS_TOTAL` | 0 | 0 | 0 |
-| `DENSITY_BONUS_NUMBER_OTHER_INCENTIVES` | 0 | 0 | 0 |
-| `DENSITY_BONUS_INCENTIVES` |  |  |  |
-| `DENSITY_BONUS_RECEIVE_REDUCTION` |  |  |  |
-| `NOTES` | MOBILE HOME ON PRIVATE PROPERTY (PIERS) 2002 GOLDEN WEST HO… | MANUFACTURED DWELLING - 1980 LANCER 1568 SQ FT - NEW HOMESI… | 1152 SQ. FT. MANUFACTURED HOME / 2019 CHAMPION MODEL # CM 3… |
-| `LATITUDE` | 37.655693 | 37.526333 | 37.571711 |
-| `LONGITUDE` | -121.085881 | -121.011812 | -120.64586 |
-| `STD_ADDRESS` | 1464 Clark Rd, Modesto, California, 95358 | 7708 Monterey Ave, Ceres, California, 95307 | 4455 Hawkins Rd, Denair, California, 95316 |
-| `SCORE` | 93.96 | 94.39 | 88.36 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `_id` | 1 | 2 | 3 | 4 | 5 |
+| `JURIS_NAME` | STANISLAUS COUNTY | STANISLAUS COUNTY | STANISLAUS COUNTY | STANISLAUS COUNTY | STANISLAUS COUNTY |
+| `CNTY_NAME` | Stanislaus | Stanislaus | Stanislaus | Stanislaus | Stanislaus |
+| `YEAR` | 2020 | 2020 | 2020 | 2020 | 2020 |
+| `APN` | 081-002-032 | 022-029-112 | 020-003-019 | 041-004-008 | 038-048-002 |
+| `STREET_ADDRESS` | 1464 CLARK  RD | 7708 MONTEREY AVE | 4455 HAWKINS RD | 525 GRAYSON | 627 HERNDON RD |
+| `JURS_TRACKING_ID` | BLD2002-01052 | BLD2020-0390 | BLD2019-2591 | BLD2018-2134 | BLD2020-0174 |
+| `UNIT_CAT` | MH | MH | MH | ADU | ADU |
+| `TENURE` | Renter | Owner | Renter | Renter | Renter |
+| `ACUTELY_LOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `ACUTELY_LOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `EXTREMELY_LOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `EXTREMELY_LOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `VLOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `VLOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `LOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `LOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `MOD_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `MOD_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `ABOVE_MOD_INCOME` | 0 | 0 | 0 | 0 | 0 |
+| `NO_ENTITLEMENTS` | 0 | 0 | 0 | 0 | 0 |
+| `BP_ACUTELY_LOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `BP_ACUTELY_LOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `BP_EXTREMELY_LOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `BP_EXTREMELY_LOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `BP_VLOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `BP_VLOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `BP_LOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `BP_LOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `BP_MOD_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `BP_MOD_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `BP_ABOVE_MOD_INCOME` | 1 | 1 | 1 | 0 | 1 |
+| `BP_ISSUE_DT1` | 2020-03-05 | 2020-07-15 | 2020-02-12 |  | 2020-03-31 |
+| `NO_BUILDING_PERMITS` | 1 | 1 | 1 | 0 | 1 |
+| `CO_ACUTELY_LOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `CO_ACUTELY_LOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `CO_EXTREMELY_LOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `CO_EXTREMELY_LOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `CO_VLOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `CO_VLOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `CO_LOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `CO_LOW_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `CO_MOD_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
+| `CO_MOD_INCOME_NDR` | 0 | 0 | 0 | 0 | 0 |
+| `CO_ABOVE_MOD_INCOME` | 1 | 1 | 0 | 1 | 1 |
+| `CO_ISSUE_DT1` | 2020-03-05 | 2021-01-29 |  | 2020-03-11 | 2020-07-14 |
+| `NO_OTHER_FORMS_OF_READINESS` | 1 | 1 | 0 | 1 | 1 |
+| `EXTR_LOW_INCOME_UNITS` | 0 | 0 | 0 | 0 | 0 |
+| `APPROVE_SB35` | N | N | N | N | N |
+| `HISTORIC_SITES` | 0 | 0 | 0 | 0 | 0 |
+| `INFILL_UNITS` | 0 | 0 | 0 | 0 | 0 |
+| `NO_FA_DR` | 0 | 0 | 0 | 0 | 0 |
+| `DEM_DES_UNITS` | 0 | 0 | 0 | 0 | 0 |
+| `DENSITY_BONUS_TOTAL` | 0 | 0 | 0 | 0 | 0 |
+| `DENSITY_BONUS_NUMBER_OTHER_INCENTIVES` | 0 | 0 | 0 | 0 | 0 |
+| `NOTES` | MOBILE HOME ON PRIVATE PROPERTY (PIERS) 2002 GOLDEN WEST HO… | MANUFACTURED DWELLING - 1980 LANCER 1568 SQ FT - NEW HOMESI… | 1152 SQ. FT. MANUFACTURED HOME / 2019 CHAMPION MODEL # CM 3… | Garage Conversion to ADU (Change garage to living space) | ACCESSORY DWELLING UNIT ( 1037 SF ) W/ ATTACHED PATIO COVER… |
+| `LATITUDE` | 37.655693 | 37.526333 | 37.571711 | 37.565911 | 37.620783 |
+| `LONGITUDE` | -121.085881 | -121.011812 | -120.64586 | -121.000101 | -120.975385 |
+| `STD_ADDRESS` | 1464 Clark Rd, Modesto, California, 95358 | 7708 Monterey Ave, Ceres, California, 95307 | 4455 Hawkins Rd, Denair, California, 95316 | 525 W Grayson Rd, Modesto, California, 95358 | 627 Herndon Rd, Modesto, California, 95351 |
+| `SCORE` | 93.96 | 94.39 | 88.36 | 92.11 | 88.15 |
 
 ## Refresh
 

@@ -120,13 +120,13 @@ def field_rows(sid, info, meta, rows):
     return out
 
 
-def sample_table(rows):
+def sample_table(rows, limit=SHOW_ROWS):
     if not rows:
         return "_No sample rows._\n"
-    rows = rows[:SHOW_ROWS]
+    rows = rows[:limit]
     head = "| Field | " + " | ".join(f"Row {i + 1}" for i in range(len(rows))) + " |\n"
     head += "|---|" + "---|" * len(rows) + "\n"
-    keys = [k for k in rows[0].keys() if any(r.get(k) not in (None, "") for r in rows)]
+    keys = [k for k in rows[0].keys() if any(str(r.get(k) or "").strip() for r in rows)]
     body = "".join(
         f"| `{esc(k, 40)}` | " + " | ".join(esc(r.get(k)) for r in rows) + " |\n" for k in keys
     )
@@ -162,8 +162,8 @@ def extras(sid, meta):
         md += "## Field comparison across counties\n\n"
         md += "| County | Layer | Parcels | Fields | Parcel id | Address | Land use | Value | Area |\n|---|---|---|---|---|---|---|---|---|\n"
         concepts = {
-            "Parcel id": r"pin|parcel|upi|apn|map_?(no|num)|^pid|tax_?id|uniq",
-            "Address": r"addr|situs|street|loc_|location",
+            "Parcel id": r"pin|parcel_?(id|num)|propid|upi|apn|map_?(no|num)|^pid|tax_?id|account",
+            "Address": r"addr|situs|site|street|location",
             "Land use": r"use|luc|class|zon",
             "Value": r"val|assess|apr|mkt|market",
             "Area": r"acre|sqft|area",
@@ -238,20 +238,21 @@ def write_source(sid, info, meta, rows):
         md += "## Field groups\n\n| Fields | Meaning |\n|---|---|\n"
         md += "".join(f"| `{esc(k, 80)}` | {esc(v, 300)} |\n" for k, v in patterns.items()) + "\n"
     md += extras(sid, meta)
-    if rows:
+    if rows and sid == "pa_pasda_parcels":
+        md += f"## Sample rows\n\nOne row from each county, out of {len(rows)} rows in [`data/sample/{sid}.csv`](../../data/sample/{sid}.csv). Fields that are blank in every shown row are hidden. Owner names and mailing addresses are replaced with `[redacted]`.\n\n"
+    elif rows:
         md += f"## Sample rows\n\nFirst {min(len(rows), SHOW_ROWS)} of {len(rows)} rows in [`data/sample/{sid}.csv`](../../data/sample/{sid}.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.\n\n"
     else:
         md += f"## Sample rows\n\nNone. See the status above. What we did find is in [`data/sample/{sid}.meta.json`](../../data/sample/{sid}.meta.json).\n\n"
     shown = rows
     if sid == "pa_pasda_parcels":
-        # One row from each of the first counties, so the table shows how they differ.
+        # One row from each county, so the table shows how they differ.
         seen, shown = set(), []
         for r in rows:
             if r.get("pasda_county") not in seen:
                 seen.add(r.get("pasda_county"))
                 shown.append(r)
-        md += "The table shows one row from each of the first counties. Blank fields are hidden.\n\n"
-    md += sample_table(shown) if rows else ""
+    md += sample_table(shown, limit=len(shown)) if rows else ""
     md += f"\n## Refresh\n\n```sh\npython3 scripts/fetch_samples.py {sid}\npython3 scripts/build_data_dictionaries.py\n```\n"
     (DOCS / f"{sid}.md").write_text(md)
     return status, url

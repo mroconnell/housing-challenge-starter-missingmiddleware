@@ -66,38 +66,34 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/ut_parcels.csv`](../../data/sample/ut_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `OBJECTID` | 1 | 2 | 3 |
-| `COUNTY_NAME` | Salt Lake County | Salt Lake County | Salt Lake County |
-| `COUNTY_ID` | 18 | 18 | 18 |
-| `ASSESSOR_SRC` | https://www.saltlakecounty.gov/assessor/ | https://www.saltlakecounty.gov/assessor/ | https://www.saltlakecounty.gov/assessor/ |
-| `BOUNDARY_SRC` | https://www.saltlakecounty.gov/recorder/ | https://www.saltlakecounty.gov/recorder/ | https://www.saltlakecounty.gov/recorder/ |
-| `DISCLAIMER` | http://www.utah.gov/disclaimer.html | http://www.utah.gov/disclaimer.html | http://www.utah.gov/disclaimer.html |
-| `CURRENT_ASOF` | 1790640000000 | 1790640000000 | 1790640000000 |
-| `PARCEL_ID` | 01364000010000 | 08153760150000 | 02131000010000 |
-| `SERIAL_NUM` |  |  |  |
-| `PARCEL_ADD` | 2121 N 8800 W | 2217 N REDWOOD RD | 3505 N 3200 W |
-| `PARCEL_CITY` |  | Salt Lake City |  |
-| `TAXEXEMPT_TYPE` | Other |  | Other |
-| `TAX_DISTRICT` | ACT | 13 | ACT |
-| `TOTAL_MKT_VALUE` | 2048000 | 9061600 | 512000 |
-| `LAND_MKT_VALUE` | 2048000 | 2134300 | 512000 |
-| `PARCEL_ACRES` | 640 | 4.09 | 160 |
-| `PROP_CLASS` | Tax Exempt - Government | Commercial | Tax Exempt - Government |
-| `PRIMARY_RES` |  |  |  |
-| `HOUSE_CNT` |  | 2 |  |
-| `SUBDIV_NAME` |  | M H Cook Commercial Amd |  |
-| `BLDG_SQFT` |  | 38645 |  |
-| `BLDG_SQFT_INFO` |  |  |  |
-| `FLOORS_CNT` |  | 1 |  |
-| `FLOORS_INFO` |  | typically includes above grade levels only, except with bas… |  |
-| `BUILT_YR` |  | 2008 |  |
-| `EFFBUILT_YR` |  | 2012 |  |
-| `CONST_MATERIAL` |  | Cn |  |
-| `PROP_TYPE` |  |  |  |
-| `Shape__Area` | 390849.78515625 | 28892.9140625 | 60963.50390625 |
-| `Shape__Length` | 3083.9116359996146 | 756.1444303100632 | 1483.631295212288 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
+| `COUNTY_NAME` | Salt Lake County | Salt Lake County | Salt Lake County | Salt Lake County | Salt Lake County |
+| `COUNTY_ID` | 18 | 18 | 18 | 18 | 18 |
+| `ASSESSOR_SRC` | https://www.saltlakecounty.gov/assessor/ | https://www.saltlakecounty.gov/assessor/ | https://www.saltlakecounty.gov/assessor/ | https://www.saltlakecounty.gov/assessor/ | https://www.saltlakecounty.gov/assessor/ |
+| `BOUNDARY_SRC` | https://www.saltlakecounty.gov/recorder/ | https://www.saltlakecounty.gov/recorder/ | https://www.saltlakecounty.gov/recorder/ | https://www.saltlakecounty.gov/recorder/ | https://www.saltlakecounty.gov/recorder/ |
+| `DISCLAIMER` | http://www.utah.gov/disclaimer.html | http://www.utah.gov/disclaimer.html | http://www.utah.gov/disclaimer.html | http://www.utah.gov/disclaimer.html | http://www.utah.gov/disclaimer.html |
+| `CURRENT_ASOF` | 1790640000000 | 1790640000000 | 1790640000000 | 1790640000000 | 1790640000000 |
+| `PARCEL_ID` | 01364000010000 | 08153760150000 | 02131000010000 | 08154010110000 | 02132000010000 |
+| `PARCEL_ADD` | 2121 N 8800 W | 2217 N REDWOOD RD | 3505 N 3200 W | 2309 N REDWOOD RD | 3505 N 3200 W |
+| `PARCEL_CITY` |  | Salt Lake City |  | Salt Lake City |  |
+| `TAXEXEMPT_TYPE` | Other |  | Other | Other | Other |
+| `TAX_DISTRICT` | ACT | 13 | ACT | 13 | ACT |
+| `TOTAL_MKT_VALUE` | 2048000 | 9061600 | 512000 | 410400 | 512000 |
+| `LAND_MKT_VALUE` | 2048000 | 2134300 | 512000 | 410400 | 512000 |
+| `PARCEL_ACRES` | 640 | 4.09 | 160 | 0.6 | 160 |
+| `PROP_CLASS` | Tax Exempt - Government | Commercial | Tax Exempt - Government | Tax Exempt - Government | Tax Exempt - Government |
+| `HOUSE_CNT` |  | 2 |  |  |  |
+| `SUBDIV_NAME` |  | M H Cook Commercial Amd |  | Midland 5 Acre Pl |  |
+| `BLDG_SQFT` |  | 38645 |  |  |  |
+| `FLOORS_CNT` |  | 1 |  |  |  |
+| `FLOORS_INFO` |  | typically includes above grade levels only, except with bas… |  |  |  |
+| `BUILT_YR` |  | 2008 |  |  |  |
+| `EFFBUILT_YR` |  | 2012 |  |  |  |
+| `CONST_MATERIAL` |  | Cn |  |  |  |
+| `Shape__Area` | 390849.78515625 | 28892.9140625 | 60963.50390625 | 4141.83203125 | 332586.01953125 |
+| `Shape__Length` | 3083.9116359996146 | 756.1444303100632 | 1483.631295212288 | 746.9219611638275 | 2800.407257576381 |
 
 ## Refresh
 

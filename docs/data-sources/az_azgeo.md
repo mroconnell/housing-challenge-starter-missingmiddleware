@@ -41,12 +41,12 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/az_azgeo.csv`](../../data/sample/az_azgeo.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `OBJECTID` | 54129566 | 54129567 | 54129568 |
-| `apn` | 212-06-095 | 217-01-079 | 173-02-320 |
-| `site_address` | 7480 E CHRISTMAS CHOLLA DR | 24218 N 120TH PL | 5835 N 81ST ST |
-| `jurisdiction` | SCOTTSDALE | SCOTTSDALE | SCOTTSDALE |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `OBJECTID` | 54129566 | 54129567 | 54129568 | 54129569 | 54129570 |
+| `apn` | 212-06-095 | 217-01-079 | 173-02-320 | 173-82-010 | 217-33-614 |
+| `site_address` | 7480 E CHRISTMAS CHOLLA DR | 24218 N 120TH PL | 5835 N 81ST ST | 4818 N 65TH ST | E BELLA VISTA |
+| `jurisdiction` | SCOTTSDALE | SCOTTSDALE | SCOTTSDALE | PHOENIX | SCOTTSDALE |
 
 ## Refresh
 

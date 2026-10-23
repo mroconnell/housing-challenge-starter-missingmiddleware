@@ -44,17 +44,17 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/va_parcels.csv`](../../data/sample/va_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `Shape__Area` | 68479.26863561 | 108092.42892208 | 22161.91687417 |
-| `Shape__Length` | 1036.4584052498724 | 2597.0133857630963 | 625.0360800082909 |
-| `OBJECTID` | 1 | 2 | 3 |
-| `VGIN_QPID` | 5110100000001.0 | 5110100000002.0 | 5110100000003.0 |
-| `FIPS` | 51101 | 51101 | 51101 |
-| `LOCALITY` | King William County | King William County | King William County |
-| `PARCELID` | 10-12 | 13-34 | 26-34H |
-| `PTM_ID` | 10-12 | 13-32 | 26-34H |
-| `LASTUPDATE` | 1773705600000 | 1773705600000 | 1773705600000 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `Shape__Area` | 68479.26863561 | 108092.42892208 | 22161.91687417 | 87340.612971475 | 25426.091694405 |
+| `Shape__Length` | 1036.4584052498724 | 2597.0133857630963 | 625.0360800082909 | 1333.0479941205813 | 1423.051278747487 |
+| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
+| `VGIN_QPID` | 5110100000001.0 | 5110100000002.0 | 5110100000003.0 | 5110100000004.0 | 5110100000005.0 |
+| `FIPS` | 51101 | 51101 | 51101 | 51101 | 51101 |
+| `LOCALITY` | King William County | King William County | King William County | King William County | King William County |
+| `PARCELID` | 10-12 | 13-34 | 26-34H | 13-38A | 25-36B |
+| `PTM_ID` | 10-12 | 13-32 | 26-34H | 13-38A | 25-36B |
+| `LASTUPDATE` | 1773705600000 | 1773705600000 | 1773705600000 | 1773705600000 | 1773705600000 |
 
 ## Refresh
 

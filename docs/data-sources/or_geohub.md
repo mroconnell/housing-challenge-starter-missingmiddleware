@@ -52,23 +52,20 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/or_geohub.csv`](../../data/sample/or_geohub.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `OBJECTID` | 1 | 2 | 3 |
-| `LUnitID` |  |  |  |
-| `SUnitID` | 1135845_CG | 1135845_CG | 1135845_CG |
-| `localZCode` |  |  |  |
-| `localZDesc` |  |  |  |
-| `orZCode` | CG | CG | CG |
-| `orZDesc` | Commercial - General | Commercial - General | Commercial - General |
-| `codeRef` | GNIS | GNIS | GNIS |
-| `effDate` | 20140825 | 20140825 | 20140825 |
-| `unitOwner` | 1135845 | 1135845 | 1135845 |
-| `ownerName` | Baker County | Baker County | Baker County |
-| `ownerType` | County | County | County |
-| `gsteward` | Baker County | Baker County | Baker County |
-| `Shape__Area` | 537591.75 | 497109.125 | 285557.390625 |
-| `Shape__Length` | 3767.3286250713586 | 3003.1079853285105 | 2625.0746361604206 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
+| `SUnitID` | 1135845_CG | 1135845_CG | 1135845_CG | 1135845_CG | 1135845_IL |
+| `orZCode` | CG | CG | CG | CG | IL |
+| `orZDesc` | Commercial - General | Commercial - General | Commercial - General | Commercial - General | Industrial - Light |
+| `codeRef` | GNIS | GNIS | GNIS | GNIS | GNIS |
+| `effDate` | 20140825 | 20140825 | 20140825 | 20140825 | 20140825 |
+| `unitOwner` | 1135845 | 1135845 | 1135845 | 1135845 | 1135845 |
+| `ownerName` | Baker County | Baker County | Baker County | Baker County | Baker County |
+| `ownerType` | County | County | County | County | County |
+| `gsteward` | Baker County | Baker County | Baker County | Baker County | Baker County |
+| `Shape__Area` | 537591.75 | 497109.125 | 285557.390625 | 828804.625 | 3146712.640625 |
+| `Shape__Length` | 3767.3286250713586 | 3003.1079853285105 | 2625.0746361604206 | 4478.551569920822 | 8825.547479727298 |
 
 ## Refresh
 

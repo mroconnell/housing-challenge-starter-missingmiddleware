@@ -99,70 +99,58 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/ct_cama_parcels.csv`](../../data/sample/ct_cama_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `OBJECTID` | 1 | 2 | 3 |
-| `Source_Date` |  |  |  |
-| `Source_Type` |  |  |  |
-| `Source_Name` |  |  |  |
-| `Editor` | AppGeo | AppGeo | AppGeo |
-| `Editor_Comment` | Adjusted parcel boundaries | Adjusted parcel boundaries | Adjusted parcel boundaries |
-| `Edit_Date` | 10/1/2014 | 10/1/2014 | 10/1/2014 |
-| `Edit_Method` |  |  |  |
-| `Edit_Type` |  |  |  |
-| `Location` | GILEAD RD | GILEAD RD | GILEAD RD |
-| `Link` | 206 | 11 | 207 |
-| `Parcel_Type` | PARCEL | PARCEL | PARCEL |
-| `Town_Name` | Andover | Andover | Andover |
-| `Unit_Type` |  |  |  |
-| `Parcel_ID` | 25/022/000019 | 17/017/014-15 | 25/022/000020 |
-| `ZIP_CODE` | 06248 | 06232 | 06248 |
-| `FIPS` | 09013526102 | 09013526102 | 09013528100 |
-| `CAMA_Link` | 01080-206 | 01080-11 | 01080-207 |
-| `COG` | Capitol Region | Capitol Region | Capitol Region |
-| `Parcel_Collection_Year` | 2026 | 2026 | 2026 |
-| `OBJECTID_1` |  |  |  |
-| `Location_1` | 281 GILEAD RD | 280 GILEAD RD | 275 GILEAD RD |
-| `Property_Zip` |  |  |  |
-| `link_1` | 01080-206 | 01080-11 | 01080-207 |
-| `Property_City` | Andover | Andover | Andover |
-| `Owner` | [redacted] | [redacted] | [redacted] |
-| `Co_Owner` | [redacted] |  |  |
-| `Mailing_Address` | [redacted] | [redacted] | [redacted] |
-| `Mailing_City` | [redacted] | [redacted] | [redacted] |
-| `Mailing_State` | [redacted] | [redacted] | [redacted] |
-| `Mailing_Zip` |  |  |  |
-| `Assessed_Total` | 441560 | 171500 | 196490 |
-| `Assessed_Land` | 36960 | 37800 | 36750 |
-| `Assessed_Building` |  |  |  |
-| `Pre_Yr_Assessed_Total` |  |  |  |
-| `Appraised_Land` | 52800 | 54000 | 52500 |
-| `Appraised_Building` | 577300 | 187800 | 224400 |
-| `Appraised_Outbuilding` | 700 | 1100 | 1700 |
-| `Valuation_Year` | 2021 | 2021 | 2021 |
-| `Land_Acres` | 2 | 3 | 2 |
-| `Zone` | ARD | ARD | ARD |
-| `State_Use` | 1010 | 1010 | 1010 |
-| `State_Use_Description` | Single Fam  MDL-01 | Single Fam  MDL-01 | Single Fam  MDL-01 |
-| `Model` | 1.0 | 1.0 | 1.0 |
-| `Condition` | A | G | G |
-| `Living_Area` | 3879 | 1848 | 1250 |
-| `Effective_Area` | 4807 | 2023 | 2167 |
-| `Total_Rooms` | 9 | 6 | 5 |
-| `Number_of_Bedroom` | 4 | 3 | 3 |
-| `Number_of_Baths` | 3 | 2 | 2 |
-| `Number_of_Half_Baths` | 1 | 0 | 1 |
-| `Sale_Price` | 357000 | 0 | 145000 |
-| `Sale_Date` | 7/21/2020 12:00:00 AM | 12/29/1997 12:00:00 AM | 1/28/1992 12:00:00 AM |
-| `Prior_Sale_Date` |  |  |  |
-| `Prior_Book_Page` | 0055/0217 | 0068/1068 | 0054/0535 |
-| `Prior_Sale_Price` | 163400.0 | 135000.0 | 40000.0 |
-| `Occupancy` | 1 | 1 | 1 |
-| `AYB` | 2021 | 1986 | 1991 |
-| `EYB` | 2021 | 2004 | 2005 |
-| `CAMA_Collection_Year` | 2026 | 2026 | 2026 |
-| `Shape__Area` | 45924.39978027344 | 113904.96948242188 | 69888.23443192244 |
-| `Shape__Length` | 998.540688658286 | 1576.2894192202698 | 1102.442748856254 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
+| `Editor` | AppGeo | AppGeo | AppGeo | AppGeo | AppGeo |
+| `Editor_Comment` | Adjusted parcel boundaries | Adjusted parcel boundaries | Adjusted parcel boundaries | Adjusted parcel boundaries | Adjusted parcel boundaries |
+| `Edit_Date` | 10/1/2014 | 10/1/2014 | 10/1/2014 | 10/1/2014 | 10/1/2014 |
+| `Location` | GILEAD RD | GILEAD RD | GILEAD RD | GILEAD RD | GILEAD RD |
+| `Link` | 206 | 11 | 207 | 10 | 1 |
+| `Parcel_Type` | PARCEL | PARCEL | PARCEL | PARCEL | PARCEL |
+| `Town_Name` | Andover | Andover | Andover | Andover | Andover |
+| `Parcel_ID` | 25/022/000019 | 17/017/014-15 | 25/022/000020 | 17/017/014-14 | 17/017/000015 |
+| `ZIP_CODE` | 06248 | 06232 | 06248 | 06232 | 06248 |
+| `FIPS` | 09013526102 | 09013526102 | 09013528100 | 09013528100 | 09013528100 |
+| `CAMA_Link` | 01080-206 | 01080-11 | 01080-207 | 01080-10 | 01080-1 |
+| `COG` | Capitol Region | Capitol Region | Capitol Region | Capitol Region | Capitol Region |
+| `Parcel_Collection_Year` | 2026 | 2026 | 2026 | 2026 | 2026 |
+| `Location_1` | 281 GILEAD RD | 280 GILEAD RD | 275 GILEAD RD | 278 GILEAD RD | GILEAD RD |
+| `link_1` | 01080-206 | 01080-11 | 01080-207 | 01080-10 | 01080-1 |
+| `Property_City` | Andover | Andover | Andover | Andover | Andover |
+| `Owner` | [redacted] | [redacted] | [redacted] | [redacted] | [redacted] |
+| `Co_Owner` | [redacted] |  |  |  |  |
+| `Mailing_Address` | [redacted] | [redacted] | [redacted] | [redacted] | [redacted] |
+| `Mailing_City` | [redacted] | [redacted] | [redacted] | [redacted] | [redacted] |
+| `Mailing_State` | [redacted] | [redacted] | [redacted] | [redacted] | [redacted] |
+| `Assessed_Total` | 441560 | 171500 | 196490 | 199850 | 6160 |
+| `Assessed_Land` | 36960 | 37800 | 36750 | 44240 | 6160 |
+| `Appraised_Land` | 52800 | 54000 | 52500 | 63200 | 8800 |
+| `Appraised_Building` | 577300 | 187800 | 224400 | 220300 | 0 |
+| `Appraised_Outbuilding` | 700 | 1100 | 1700 | 0 | 0 |
+| `Valuation_Year` | 2021 | 2021 | 2021 | 2021 | 2021 |
+| `Land_Acres` | 2 | 3 | 2 | 9 | 6 |
+| `Zone` | ARD | ARD | ARD | ARD | ARD |
+| `State_Use` | 1010 | 1010 | 1010 | 1010 | 1300 |
+| `State_Use_Description` | Single Fam  MDL-01 | Single Fam  MDL-01 | Single Fam  MDL-01 | Single Fam  MDL-01 | Res Aclndv |
+| `Model` | 1.0 | 1.0 | 1.0 | 1.0 | 0.0 |
+| `Condition` | A | G | G | A+ |  |
+| `Living_Area` | 3879 | 1848 | 1250 | 1836 | 0 |
+| `Effective_Area` | 4807 | 2023 | 2167 | 2754 | 0 |
+| `Total_Rooms` | 9 | 6 | 5 | 5 |  |
+| `Number_of_Bedroom` | 4 | 3 | 3 | 3 |  |
+| `Number_of_Baths` | 3 | 2 | 2 | 2 |  |
+| `Number_of_Half_Baths` | 1 | 0 | 1 | 0 |  |
+| `Sale_Price` | 357000 | 0 | 145000 | 0 | 25200 |
+| `Sale_Date` | 7/21/2020 12:00:00 AM | 12/29/1997 12:00:00 AM | 1/28/1992 12:00:00 AM | 12/23/1985 12:00:00 AM | 2/21/2006 12:00:00 AM |
+| `Prior_Book_Page` | 0055/0217 | 0068/1068 | 0054/0535 |  | 0100/0495 |
+| `Prior_Sale_Price` | 163400.0 | 135000.0 | 40000.0 |  | 0.0 |
+| `Occupancy` | 1 | 1 | 1 | 1 |  |
+| `AYB` | 2021 | 1986 | 1991 | 1987 | 0 |
+| `EYB` | 2021 | 2004 | 2005 | 2001 | 0 |
+| `CAMA_Collection_Year` | 2026 | 2026 | 2026 | 2026 | 2026 |
+| `Shape__Area` | 45924.39978027344 | 113904.96948242188 | 69888.23443192244 | 422551.9436645508 | 488127.9290161133 |
+| `Shape__Length` | 998.540688658286 | 1576.2894192202698 | 1102.442748856254 | 3795.799139798372 | 3188.2199967271317 |
 
 ## Refresh
 
