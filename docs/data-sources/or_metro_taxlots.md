@@ -65,6 +65,18 @@
 
 Blank meanings: the publisher gives no description. Check the source's own metadata page before relying on that field.
 
+## Geometry sample
+
+[`data/sample/geo/or_metro_taxlots.geojson`](../../data/sample/geo/or_metro_taxlots.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+
+| | |
+|---|---|
+| Geometry type | Polygon |
+| Source coordinate system | EPSG:2913 |
+| Vertices per feature in the sample | 5, 5, 26 |
+| Max features per request | 2000 |
+| Paging supported | yes |
+
 ## Sample rows
 
 First 3 of 5 rows in [`data/sample/or_metro_taxlots.csv`](../../data/sample/or_metro_taxlots.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.

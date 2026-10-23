@@ -125,6 +125,18 @@
 
 The concept columns are a name match only. They show which fields probably hold that idea, not a checked crosswalk.
 
+## Geometry sample
+
+[`data/sample/geo/pa_pasda_parcels.geojson`](../../data/sample/geo/pa_pasda_parcels.geojson) has 6 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+
+| | |
+|---|---|
+| Geometry type | Polygon |
+| Source coordinate system | varies by county; see counties |
+| Vertices per feature in the sample | 10, 5, 11, 11, 5, 8 |
+| Max features per request | 1000 |
+| Paging supported | yes |
+
 ## Sample rows
 
 One row from each county, out of 12 rows in [`data/sample/pa_pasda_parcels.csv`](../../data/sample/pa_pasda_parcels.csv). Fields that are blank in every shown row are hidden. Owner names and mailing addresses are replaced with `[redacted]`.

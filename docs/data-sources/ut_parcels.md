@@ -62,6 +62,18 @@
 
 Blank meanings: the publisher gives no description. Check the source's own metadata page before relying on that field.
 
+## Geometry sample
+
+[`data/sample/geo/ut_parcels.geojson`](../../data/sample/geo/ut_parcels.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+
+| | |
+|---|---|
+| Geometry type | Polygon |
+| Source coordinate system | not stated |
+| Vertices per feature in the sample | 7, 9, 8 |
+| Max features per request | 2000 |
+| Paging supported | yes |
+
 ## Sample rows
 
 First 3 of 5 rows in [`data/sample/ut_parcels.csv`](../../data/sample/ut_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.

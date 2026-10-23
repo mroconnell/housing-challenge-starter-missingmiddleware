@@ -1,6 +1,6 @@
 {
   "source_id": "ms_buildings",
-  "fetched_at": "2026-10-23T05:46:34+00:00",
+  "fetched_at": "2026-10-23T06:49:39+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -20,5 +20,20 @@
     "Size",
     "UploadDate"
   ],
-  "note": "Each tile is a gzipped GeoJSON-lines file keyed by a zoom-9 quadkey."
+  "note": "Each tile is a gzipped GeoJSON-lines file keyed by a zoom-9 quadkey.",
+  "geometry_sample": {
+    "geometry_type": "Polygon",
+    "native_crs": "EPSG:4326",
+    "supports_pagination": null,
+    "max_record_count": null,
+    "file": "data/sample/geo/ms_buildings.geojson",
+    "features": 3,
+    "bytes": 1231,
+    "vertices_per_feature": [
+      7,
+      7,
+      5
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
 }

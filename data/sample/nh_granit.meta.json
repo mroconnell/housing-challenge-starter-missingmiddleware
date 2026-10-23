@@ -1,6 +1,6 @@
 {
   "source_id": "nh_granit",
-  "fetched_at": "2026-10-23T05:47:10+00:00",
+  "fetched_at": "2026-10-23T06:50:31+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -234,5 +234,24 @@
       "CAD/ParcelMosaic",
       "MapServer"
     ]
-  ]
+  ],
+  "geometry_sample": {
+    "layer_url": "https://nhgeodata.unh.edu/nhgeodata/rest/services/CAD/ParcelMosaic/MapServer/0",
+    "geometry_type": "Point",
+    "native_crs": {
+      "wkid": 102710,
+      "latestWkid": 3437
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "file": "data/sample/geo/nh_granit.geojson",
+    "features": 3,
+    "bytes": 1392,
+    "vertices_per_feature": [
+      1,
+      1,
+      1
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
 }

@@ -34,6 +34,12 @@ class TestFetchHelpers(unittest.TestCase):
         self.assertEqual(out["homeowner"], "N")
         self.assertEqual(out["Zone"], "R1")
 
+    def test_esri_to_geojson(self):
+        self.assertEqual(fetch._esri_to_geojson({"x": 1, "y": 2}), {"type": "Point", "coordinates": [1, 2]})
+        poly = fetch._esri_to_geojson({"rings": [[[0, 0], [1, 0], [1, 1], [0, 0]]]})
+        self.assertEqual(poly["type"], "Polygon")
+        self.assertEqual(fetch._count_vertices(poly["coordinates"]), 4)
+
     def test_quadkey(self):
         self.assertEqual(fetch._quadkey(40.7608, -111.8910, 9), "023100000")
 
@@ -60,6 +66,15 @@ class TestCatalog(unittest.TestCase):
                         self.assertEqual(v, "[redacted]", f"{p.name}:{k}")
 
 
+    def test_geo_samples_small_and_redacted(self):
+        for p in (ROOT / "data" / "sample" / "geo").glob("*.geojson"):
+            self.assertLess(p.stat().st_size, 200_000, p.name)
+            for f in json.loads(p.read_text())["features"]:
+                for k, v in (f.get("properties") or {}).items():
+                    if fetch.PII_FIELDS.search(k) and not fetch.PII_KEEP.match(k) and v not in (None, ""):
+                        self.assertEqual(v, "[redacted]", f"{p.name}:{k}")
+
+
 class TestBuilder(unittest.TestCase):
     def test_pattern_meanings(self):
         self.assertIn("building permits", build.pattern_meaning("hcd_apr", "BP_LOW_INCOME_DR"))
@@ -80,6 +95,11 @@ class TestBuilder(unittest.TestCase):
         md = build.sample_table([{"a": "1", "b": ""}, {"a": "2", "b": ""}])
         self.assertIn("`a`", md)
         self.assertNotIn("`b`", md)
+
+    def test_crs_label(self):
+        self.assertEqual(build.crs_label({"wkid": 102100, "latestWkid": 3857}), "EPSG:3857 (Esri 102100)")
+        self.assertEqual(build.crs_label({"wkid": 2913, "latestWkid": 2913}), "EPSG:2913")
+        self.assertEqual(build.crs_label(None), "not stated")
 
     def test_sample_table_escapes_pipes(self):
         md = build.sample_table([{"a": "x|y"}])

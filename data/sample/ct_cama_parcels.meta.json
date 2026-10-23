@@ -1,6 +1,6 @@
 {
   "source_id": "ct_cama_parcels",
-  "fetched_at": "2026-10-23T05:46:47+00:00",
+  "fetched_at": "2026-10-23T06:50:02+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -460,5 +460,24 @@
     "modified": "2026-10-13",
     "license": "CC0",
     "access": "public"
+  },
+  "geometry_sample": {
+    "layer_url": "https://services3.arcgis.com/3FL1kr7L4LvwA2Kb/arcgis/rest/services/Connecticut_CAMA_and_Parcel_Layer/FeatureServer/0",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 103016,
+      "latestWkid": 6434
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "file": "data/sample/geo/ct_cama_parcels.geojson",
+    "features": 3,
+    "bytes": 5474,
+    "vertices_per_feature": [
+      7,
+      8,
+      10
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
   }
 }

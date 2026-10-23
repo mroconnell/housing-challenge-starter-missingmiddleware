@@ -1,6 +1,6 @@
 {
   "source_id": "va_parcels",
-  "fetched_at": "2026-10-23T05:47:05+00:00",
+  "fetched_at": "2026-10-23T06:50:25+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -111,5 +111,24 @@
     "VA_Base_Layers/VBMP_RCL_Snap_Points",
     "VA_Base_Layers/VBMP_RCL",
     "VA_Base_Layers/VBMP_RCL"
-  ]
+  ],
+  "geometry_sample": {
+    "layer_url": "https://vginmaps.vdem.virginia.gov/arcgis/rest/services/VA_Base_Layers/VA_Parcels/FeatureServer/0",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 102100,
+      "latestWkid": 3857
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "file": "data/sample/geo/va_parcels.geojson",
+    "features": 3,
+    "bytes": 2942,
+    "vertices_per_feature": [
+      16,
+      14,
+      21
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
 }

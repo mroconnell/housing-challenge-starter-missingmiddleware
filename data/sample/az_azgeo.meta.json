@@ -1,6 +1,6 @@
 {
   "source_id": "az_azgeo",
-  "fetched_at": "2026-10-23T05:46:46+00:00",
+  "fetched_at": "2026-10-23T06:50:00+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -95,18 +95,18 @@
       "modified": "2026-10-22"
     },
     {
-      "id": "7d50bcc1d75242cc829014311fe2fed6",
-      "title": "Taxcoded Pima County Owned Parcels",
-      "type": "Feature Service",
-      "url": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/16",
-      "owner": "AGOopendata",
-      "modified": "2021-02-24"
-    },
-    {
       "id": "4f9b14af337c4b7686e9c7d646a01b7c",
       "title": "Pima County Owned Subsurface Parcels",
       "type": "Feature Service",
       "url": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/14",
+      "owner": "AGOopendata",
+      "modified": "2021-02-24"
+    },
+    {
+      "id": "7d50bcc1d75242cc829014311fe2fed6",
+      "title": "Taxcoded Pima County Owned Parcels",
+      "type": "Feature Service",
+      "url": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/16",
       "owner": "AGOopendata",
       "modified": "2021-02-24"
     },
@@ -142,5 +142,24 @@
       "owner": "NavajoCounty",
       "modified": "2026-04-10"
     }
-  ]
+  ],
+  "geometry_sample": {
+    "layer_url": "https://maps.scottsdaleaz.gov/arcgis/rest/services/OpenData/MapServer/3",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 2868,
+      "latestWkid": 2868
+    },
+    "supports_pagination": true,
+    "max_record_count": 30000,
+    "file": "data/sample/geo/az_azgeo.geojson",
+    "features": 3,
+    "bytes": 1805,
+    "vertices_per_feature": [
+      5,
+      19,
+      5
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
 }

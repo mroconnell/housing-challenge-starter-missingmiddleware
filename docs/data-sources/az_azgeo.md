@@ -37,6 +37,18 @@
 
 Blank meanings: the publisher gives no description. Check the source's own metadata page before relying on that field.
 
+## Geometry sample
+
+[`data/sample/geo/az_azgeo.geojson`](../../data/sample/geo/az_azgeo.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+
+| | |
+|---|---|
+| Geometry type | Polygon |
+| Source coordinate system | EPSG:2868 |
+| Vertices per feature in the sample | 5, 19, 5 |
+| Max features per request | 30000 |
+| Paging supported | yes |
+
 ## Sample rows
 
 First 3 of 5 rows in [`data/sample/az_azgeo.csv`](../../data/sample/az_azgeo.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.

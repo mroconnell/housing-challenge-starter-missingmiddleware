@@ -181,6 +181,63 @@ def extras(sid, meta):
     return md
 
 
+def crs_label(c):
+    if isinstance(c, dict):
+        w = c.get("latestWkid") or c.get("wkid")
+        if w and c.get("wkid") and c.get("wkid") != w:
+            return f"EPSG:{w} (Esri {c['wkid']})"
+        return f"EPSG:{w}" if w else "not stated"
+    return str(c) if c else "not stated"
+
+
+def geometry_section(sid, meta):
+    g = meta.get("geometry_sample")
+    if not g:
+        if meta.get("geometry_sample_error"):
+            return f"## Geometry sample\n\nCould not get geometry: {esc(meta['geometry_sample_error'], 300)}\n\n"
+        return ""
+    v = g.get("vertices_per_feature") or []
+    md = "## Geometry sample\n\n"
+    md += f"[`{g['file']}`](../../{g['file']}) has {g['features']} complete features (geometry and all attributes, owner fields redacted). "
+    md += "Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.\n\n"
+    md += "| | |\n|---|---|\n"
+    md += f"| Geometry type | {g.get('geometry_type')} |\n"
+    md += f"| Source coordinate system | {crs_label(g.get('native_crs'))} |\n"
+    md += f"| Vertices per feature in the sample | {', '.join(str(x) for x in v)} |\n"
+    if g.get("max_record_count"):
+        md += f"| Max features per request | {g['max_record_count']} |\n"
+    if g.get("supports_pagination") is not None:
+        md += f"| Paging supported | {'yes' if g['supports_pagination'] else 'no'} |\n"
+    md += "\n"
+    return md
+
+
+def shape_table():
+    """One row per source with a geometry sample."""
+    out = []
+    for sid, info in CATALOG.items():
+        meta, _ = load(sid)
+        g = meta.get("geometry_sample")
+        if not g:
+            continue
+        v = g.get("vertices_per_feature") or [0]
+        total = meta.get("record_count")
+        if sid == "pa_pasda_parcels":
+            total = sum((m.get("record_count") or 0) for m in meta.get("counties", {}).values()) or None
+        paging = {True: "yes", False: "no"}.get(g.get("supports_pagination"), "")
+        out.append(
+            f"| [{info['title']}]({sid}.md) | {g.get('geometry_type')} | {esc(crs_label(g.get('native_crs')), 40)} | "
+            f"{total if total is not None else ''} | {g.get('max_record_count') or ''} | {paging} | {round(sum(v) / len(v))} | "
+            f"[geojson](../../{g['file']}) |"
+        )
+    if not out:
+        return ""
+    md = "## Data shape by source\n\n"
+    md += "Each source below also has a small GeoJSON file with a few complete features, so you can see the real geometry before picking a state.\n\n"
+    md += "| Source | Geometry | Source CRS | Records | Max per request | Paging | Avg vertices | Sample |\n|---|---|---|---|---|---|---|---|\n"
+    return md + "\n".join(out) + "\n\n"
+
+
 def write_source(sid, info, meta, rows):
     status = STATUS.get(meta.get("status"), meta.get("status"))
     url = access_url(meta)
@@ -238,6 +295,7 @@ def write_source(sid, info, meta, rows):
         md += "## Field groups\n\n| Fields | Meaning |\n|---|---|\n"
         md += "".join(f"| `{esc(k, 80)}` | {esc(v, 300)} |\n" for k, v in patterns.items()) + "\n"
     md += extras(sid, meta)
+    md += geometry_section(sid, meta)
     if rows and sid == "pa_pasda_parcels":
         md += f"## Sample rows\n\nOne row from each county, out of {len(rows)} rows in [`data/sample/{sid}.csv`](../../data/sample/{sid}.csv). Fields that are blank in every shown row are hidden. Owner names and mailing addresses are replaced with `[redacted]`.\n\n"
     elif rows:
@@ -278,8 +336,8 @@ def main():
         "so the full datasets must be downloaded by our pipeline.\n\n"
         "## What the samples leave out\n\n"
         "The samples are for learning the fields. They are not inputs for spatial work.\n\n"
-        "- ArcGIS layers are queried with `returnGeometry=false`, so the CSVs hold attributes only. The services can return geometry, and the layer's geometry type is on each page.\n"
-        "- Microsoft and Google building footprints keep the geometry, but every cell is cut to 200 characters, so polygons are incomplete.\n"
+        "- The CSVs hold attributes only, and every cell is cut to 200 characters. Building footprint polygons in the CSVs are incomplete.\n"
+        "- For sources with geometry, a few complete features are saved separately in `data/sample/geo/` as GeoJSON. See the table below.\n"
         "- Each sample has a few rows, not the full layer. Full layers need paging (ArcGIS `resultOffset`, up to the layer's max record count).\n\n"
         "The modeling pipeline needs its own download step that keeps full geometry, gets every record, records the coordinate system, and checks joins. "
         "Asking for geometry does not add information a layer lacks: parcel points stay points, and building outlines do not give dwelling counts or zoning.\n\n"
@@ -289,6 +347,7 @@ def main():
         "The **Fetch data samples** GitHub Actions workflow runs the same script and commits the results. "
         "Facts we wrote by hand (publisher, units, caveats) are in `scripts/source_catalog.py`.\n\n"
     )
+    md += shape_table()
     for g, title in GROUPS.items():
         md += f"## {title}\n\n| Done | Source | Status | Sample rows | Geography | Main caveat |\n|---|---|---|---|---|---|\n"
         md += "\n".join(lines[g]) + "\n\n"

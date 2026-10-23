@@ -13,7 +13,7 @@ python3 scripts/fetch_samples.py            # all sources, standard library only
 python3 scripts/build_data_dictionaries.py  # rewrite docs/data-sources/
 ```
 
-The samples are attribute snapshots, not spatial inputs. ArcGIS samples leave out geometry, and building footprint samples cut polygons to 200 characters. See [What the samples leave out](../docs/data-sources/README.md#what-the-samples-leave-out).
+The CSV samples are attribute snapshots, not spatial inputs. A few complete features per spatial source are in `data/sample/geo/` as GeoJSON, to show the geometry shape. See [What the samples leave out](../docs/data-sources/README.md#what-the-samples-leave-out).
 
 [Full-data download steps for the sources the model uses go here once we pick them. Each step should keep full geometry, page through every record, record the coordinate system, and check joins.]
 

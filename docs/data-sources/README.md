@@ -8,8 +8,8 @@ Sample rows live in [data/sample/](../../data/sample/). They are small on purpos
 
 The samples are for learning the fields. They are not inputs for spatial work.
 
-- ArcGIS layers are queried with `returnGeometry=false`, so the CSVs hold attributes only. The services can return geometry, and the layer's geometry type is on each page.
-- Microsoft and Google building footprints keep the geometry, but every cell is cut to 200 characters, so polygons are incomplete.
+- The CSVs hold attributes only, and every cell is cut to 200 characters. Building footprint polygons in the CSVs are incomplete.
+- For sources with geometry, a few complete features are saved separately in `data/sample/geo/` as GeoJSON. See the table below.
 - Each sample has a few rows, not the full layer. Full layers need paging (ArcGIS `resultOffset`, up to the layer's max record count).
 
 The modeling pipeline needs its own download step that keeps full geometry, gets every record, records the coordinate system, and checks joins. Asking for geometry does not add information a layer lacks: parcel points stay points, and building outlines do not give dwelling counts or zoning.
@@ -22,6 +22,26 @@ python3 scripts/build_data_dictionaries.py  # rewrite these pages
 ```
 
 The **Fetch data samples** GitHub Actions workflow runs the same script and commits the results. Facts we wrote by hand (publisher, units, caveats) are in `scripts/source_catalog.py`.
+
+## Data shape by source
+
+Each source below also has a small GeoJSON file with a few complete features, so you can see the real geometry before picking a state.
+
+| Source | Geometry | Source CRS | Records | Max per request | Paging | Avg vertices | Sample |
+|---|---|---|---|---|---|---|---|
+| [Microsoft Global ML Building Footprints](ms_buildings.md) | Polygon | EPSG:4326 |  |  |  | 6 | [geojson](../../data/sample/geo/ms_buildings.geojson) |
+| [Arizona: AZGeo Data Hub (parcels by county)](az_azgeo.md) | Polygon | EPSG:2868 | 142108 | 30000 | yes | 10 | [geojson](../../data/sample/geo/az_azgeo.geojson) |
+| [Connecticut: CAMA and Parcel Layer](ct_cama_parcels.md) | Polygon | EPSG:6434 (Esri 103016) | 1320686 | 2000 | yes | 8 | [geojson](../../data/sample/geo/ct_cama_parcels.geojson) |
+| [Oregon: Metro RLIS Taxlots (Portland region)](or_metro_taxlots.md) | Polygon | EPSG:2913 | 647192 | 2000 | yes | 12 | [geojson](../../data/sample/geo/or_metro_taxlots.geojson) |
+| [Oregon: GEOHub parcels and zoning](or_geohub.md) | Polygon | EPSG:3857 (Esri 102100) | 114823 | 2000 | yes | 15 | [geojson](../../data/sample/geo/or_geohub.geojson) |
+| [Hawaii: Statewide parcels](hi_parcels.md) | Polygon | EPSG:3750 (Esri 102202) | 384035 | 1000 | yes | 5 | [geojson](../../data/sample/geo/hi_parcels.geojson) |
+| [Pennsylvania: PASDA county parcel layers (sample of counties)](pa_pasda_parcels.md) | Polygon | varies by county; see counties | 1279357 | 1000 | yes | 8 | [geojson](../../data/sample/geo/pa_pasda_parcels.geojson) |
+| [Utah: Housing Unit Inventory](ut_housing_unit_inventory.md) | Polygon | EPSG:3857 (Esri 102100) | 702461 | 2000 | yes | 6 | [geojson](../../data/sample/geo/ut_housing_unit_inventory.geojson) |
+| [Utah: Statewide parcels (LIR)](ut_parcels.md) | Polygon | not stated | 399432 | 2000 | yes | 8 | [geojson](../../data/sample/geo/ut_parcels.geojson) |
+| [Virginia: VGIN statewide parcels](va_parcels.md) | Polygon | EPSG:3857 (Esri 102100) | 4174364 | 2000 | yes | 17 | [geojson](../../data/sample/geo/va_parcels.geojson) |
+| [Wisconsin: Statewide parcel map (V-series)](wi_parcels.md) | Polygon | EPSG:3857 (Esri 102100) | 3574646 | 2000 | yes | 19 | [geojson](../../data/sample/geo/wi_parcels.geojson) |
+| [Rhode Island: RIGIS land use](ri_rigis.md) | Polygon | EPSG:3438 (Esri 102730) | 26361 | 2000 | yes | 83 | [geojson](../../data/sample/geo/ri_rigis.geojson) |
+| [New Hampshire: NH GRANIT parcels](nh_granit.md) | Point | EPSG:3437 (Esri 102710) | 617065 | 2000 | yes | 1 | [geojson](../../data/sample/geo/nh_granit.geojson) |
 
 ## National sources named in the handbook
 

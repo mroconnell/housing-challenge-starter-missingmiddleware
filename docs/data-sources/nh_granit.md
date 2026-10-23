@@ -50,6 +50,18 @@
 
 Blank meanings: the publisher gives no description. Check the source's own metadata page before relying on that field.
 
+## Geometry sample
+
+[`data/sample/geo/nh_granit.geojson`](../../data/sample/geo/nh_granit.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+
+| | |
+|---|---|
+| Geometry type | Point |
+| Source coordinate system | EPSG:3437 (Esri 102710) |
+| Vertices per feature in the sample | 1, 1, 1 |
+| Max features per request | 2000 |
+| Paging supported | yes |
+
 ## Sample rows
 
 First 3 of 5 rows in [`data/sample/nh_granit.csv`](../../data/sample/nh_granit.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.

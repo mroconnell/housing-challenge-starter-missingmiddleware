@@ -1,6 +1,6 @@
 {
   "source_id": "wi_parcels",
-  "fetched_at": "2026-10-23T05:47:06+00:00",
+  "fetched_at": "2026-10-23T06:50:28+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -355,5 +355,24 @@
     "url": "https://services3.arcgis.com/n6uYoouQZW75n5WI/arcgis/rest/services/Wisconsin_Statewide_Parcels_DB/FeatureServer",
     "modified": "2026-06-30"
   },
-  "direct_error": "layer metadata error: {'code': 400, 'message': 'Invalid URL', 'details': ['Invalid URL']}"
+  "direct_error": "layer metadata error: {'code': 400, 'message': 'Invalid URL', 'details': ['Invalid URL']}",
+  "geometry_sample": {
+    "layer_url": "https://services3.arcgis.com/n6uYoouQZW75n5WI/arcgis/rest/services/Wisconsin_Statewide_Parcels_DB/FeatureServer/0",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 102100,
+      "latestWkid": 3857
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "file": "data/sample/geo/wi_parcels.geojson",
+    "features": 3,
+    "bytes": 5424,
+    "vertices_per_feature": [
+      8,
+      10,
+      40
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
 }
