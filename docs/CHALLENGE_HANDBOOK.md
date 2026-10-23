@@ -5,7 +5,7 @@ This file is our team's plain-language digest of the official challenge document
 - **Participant Handbook:** <https://housingchallenge.turnout.rocks/handbook.html>
 - **Official Rules:** <https://housingchallenge.turnout.rocks/rules.html>
 - **Technical spec in this repo:** [CHALLENGE_SPEC.md](CHALLENGE_SPEC.md)
-- **Last checked against the official pages:** 2026-10-16
+- **Last checked against the official pages:** 2026-10-23 (both pages unchanged since 2026-10-09; see [gate1/OFFICIAL_MATERIALS_CHECK.md](gate1/OFFICIAL_MATERIALS_CHECK.md))
 
 The Official Rules prevail over the Handbook if the two conflict. The rules say the Sponsor and Administrator can change them at any time (Rules 22), so recheck the official pages before key milestones.
 
@@ -40,7 +40,7 @@ Late submissions are not accepted.
 - State-level results. Smaller geographies are fine if they add up to the state.
 - A baseline plus at least three of the five benchmark scenarios, over a five-year horizon:
   1. **ADUs:** one ADU per single-family parcel; detached or semi-detached ADUs of at least 600 sq ft; no extra parking.
-  2. **Missing Middle:** 2 to 6 units on single-family parcels, up to three stories.
+  2. **Missing Middle:** 2 to 6 units on single-family parcels, up to three stories. Teams may assume setbacks and lot coverage do not constrain the 2 to 6 units.
   3. **Transit-Oriented Density:** more height or FAR near major transit stops. We must define "major transit stop" and justify the distance. Parking may be reduced or removed.
   4. **Parking Reduction:** reduce or remove minimum parking. State what parking developers would still build.
   5. **Development Fee Reduction:** cut total fees by 50%, assuming fees total $50,000 per unit.
@@ -107,6 +107,7 @@ The SBOM is the source of truth for dependencies. Flagged dependencies must be f
 - Judges have backgrounds in economics, planning, simulation modeling, and civic tech. They use a standard rubric.
 - The top five go to a remote demo round: 15 minutes to present and demo, then 5 minutes of questions. The tool demo is the focus. Judges may change scores after the demo.
 - Ties go to the higher Transparency & Explainability score.
+- Rules 8 also says teams that apply their method to states with less complete data are judged more favorably than teams that model only states with complete datasets, and Transparency scoring looks at what data was available in the chosen state. This favors documenting how our Wisconsin method would transfer to a data-poorer state.
 - The top three after the demo round win: **$20,000**, **$12,000**, and **$6,000**.
 - Teams in the demo round may be asked to sign a non-exclusive, non-commercial Sponsor License.
 

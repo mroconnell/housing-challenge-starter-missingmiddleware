@@ -158,7 +158,7 @@ The landing screen presents statewide housing conditions and statewide baseline/
 
 Demonstrate the statewide method independently of a simple pilot multiplier. Check at least contrasting urban, suburban, smaller-community, and rural contexts where source coverage permits, and explain unsupported contexts. Trace state totals and ranges to source groups and assumptions. Report sensitivity to unknown local rules, alternative groupings, and transferred response rates.
 
-Score the tool against the repository judging rubric: transparency/explainability 30%, replicability/scalability 25%, usability 20%, methodological soundness 15%, and policy insight 10%. Verify against authoritative competition materials before making a submission-compliance claim; the live handbook was inaccessible during this planning pass, so the saved handbook and repository specification were used. Record evidence for each criterion and remaining gaps; internal scores are not predicted judging scores.
+Score the tool against the repository judging rubric: transparency/explainability 30%, replicability/scalability 25%, usability 20%, methodological soundness 15%, and policy insight 10%. Verify against authoritative competition materials before making a submission-compliance claim; the live handbook and rules were fetched on 2026-10-23 and matched the saved handbook (see [gate1/OFFICIAL_MATERIALS_CHECK.md](gate1/OFFICIAL_MATERIALS_CHECK.md)); recheck before submission. Record evidence for each criterion and remaining gaps; internal scores are not predicted judging scores.
 
 ### Owner review: step by step
 
@@ -182,6 +182,8 @@ Preserve a prioritized improvement backlog. A proposed detail should identify th
 
 ## Current position
 
+**2026-10-23:** The [Gate 1 packet](gate1/README.md) is prepared and awaits the owner's decision. Gate 1 work packages (data inventory, policy/evidence map, interface workflow) and an independent review are complete; the conductor's walkthrough of the owner steps is recorded in the packet. The competition deadline (2026-12-16) makes schedule a tracked risk; see the packet's proposed calendar.
+
 The assumptions log, initial California policy register, historical ADU source trace, and interface/map concepts exist. Full pilot data acquisition, audited joins, a calibrated model, statewide ADU estimates, and functioning production UI remain to be built. The map concepts contain illustrative growth; they are not validation evidence or completed analytical milestones.
 
 ## References
@@ -190,4 +192,4 @@ The assumptions log, initial California policy register, historical ADU source t
 - [Assumptions and Open Questions](ASSUMPTIONS_AND_QUESTIONS.md)
 - [Policy Catalog](POLICY_CATALOG.md)
 - [Challenge Specification and rubric](CHALLENGE_SPEC.md)
-- [Official Handbook](https://housingchallenge.turnout.rocks/handbook.html) and [Official Rules](https://housingchallenge.turnout.rocks/rules.html); owner-provided saved handbook used when the live page could not be retrieved.
+- [Official Handbook](https://housingchallenge.turnout.rocks/handbook.html) and [Official Rules](https://housingchallenge.turnout.rocks/rules.html); both fetched live on 2026-10-23 and matching the owner-provided saved handbook.
