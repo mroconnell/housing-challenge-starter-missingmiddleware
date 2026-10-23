@@ -4,6 +4,16 @@ This folder has one data dictionary per source. The sources come from the "Data 
 
 Sample rows live in [data/sample/](../../data/sample/). They are small on purpose. The handbook says not to commit large source data, so the full datasets must be downloaded by our pipeline.
 
+## What the samples leave out
+
+The samples are for learning the fields. They are not inputs for spatial work.
+
+- ArcGIS layers are queried with `returnGeometry=false`, so the CSVs hold attributes only. The services can return geometry, and the layer's geometry type is on each page.
+- Microsoft and Google building footprints keep the geometry, but every cell is cut to 200 characters, so polygons are incomplete.
+- Each sample has a few rows, not the full layer. Full layers need paging (ArcGIS `resultOffset`, up to the layer's max record count).
+
+The modeling pipeline needs its own download step that keeps full geometry, gets every record, records the coordinate system, and checks joins. Asking for geometry does not add information a layer lacks: parcel points stay points, and building outlines do not give dwelling counts or zoning.
+
 ## How to refresh
 
 ```sh
