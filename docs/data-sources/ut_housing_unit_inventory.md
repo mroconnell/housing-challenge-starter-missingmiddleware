@@ -1,6 +1,6 @@
 # Utah: Housing Unit Inventory
 
-**Status:** Fetched (last fetch 2026-10-17)  
+**Status:** Fetched (last fetch 2026-10-23)  
 **Source id:** `ut_housing_unit_inventory`  
 
 ## Summary
@@ -22,7 +22,7 @@
 - Endpoint used for the sample: `https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/HousingUnitInventory/FeatureServer/0`
 - Layer: HousingUnitInventory
 - Total records at fetch time: 702461
-- Last edited: 2026-10-14
+- Last edited: 2026-10-21
 - Geometry: esriGeometryPolygon
 
 ## Fields (18)

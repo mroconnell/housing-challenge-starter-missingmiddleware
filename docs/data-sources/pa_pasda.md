@@ -1,6 +1,6 @@
 # Pennsylvania: PASDA (Pennsylvania Spatial Data Access)
 
-**Status:** Fetched (last fetch 2026-10-17)  
+**Status:** Fetched (last fetch 2026-10-23)  
 **Source id:** `pa_pasda`  
 
 ## Summary
