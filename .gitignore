@@ -61,3 +61,6 @@ __pycache__/
 
 # --- Owner-provided source documents (keep out of commits) --------------------
 /*.pdf
+
+# --- Python ---
+.venv/
