@@ -38,6 +38,18 @@
 
 Blank meanings: the publisher gives no description. Check the source's own metadata page before relying on that field.
 
+## Geometry sample
+
+[`data/sample/geo/ri_rigis.geojson`](../../data/sample/geo/ri_rigis.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+
+| | |
+|---|---|
+| Geometry type | Polygon |
+| Source coordinate system | EPSG:3438 (Esri 102730) |
+| Vertices per feature in the sample | 78, 136, 35 |
+| Max features per request | 2000 |
+| Paging supported | yes |
+
 ## Sample rows
 
 First 3 of 5 rows in [`data/sample/ri_rigis.csv`](../../data/sample/ri_rigis.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.

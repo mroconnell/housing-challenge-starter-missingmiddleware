@@ -337,7 +337,7 @@ def main():
         "## What the samples leave out\n\n"
         "The samples are for learning the fields. They are not inputs for spatial work.\n\n"
         "- The CSVs hold attributes only, and every cell is cut to 200 characters. Building footprint polygons in the CSVs are incomplete.\n"
-        "- For sources with geometry, a few complete features are saved separately in [data/sample/geo/](../../data/sample/geo/) as GeoJSON. See the table below.\n"
+        "- For sources with geometry, a few complete features are saved separately in `data/sample/geo/` as GeoJSON. See the table below.\n"
         "- Each sample has a few rows, not the full layer. Full layers need paging (ArcGIS `resultOffset`, up to the layer's max record count).\n\n"
         "The modeling pipeline needs its own download step that keeps full geometry, gets every record, records the coordinate system, and checks joins. "
         "Asking for geometry does not add information a layer lacks: parcel points stay points, and building outlines do not give dwelling counts or zoning.\n\n"

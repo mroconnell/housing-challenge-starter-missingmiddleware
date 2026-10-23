@@ -33,6 +33,16 @@
 | `geometry_type` |  | Polygon. |
 | `geometry` |  | Outline coordinates (cut short in the sample). |
 
+## Geometry sample
+
+[`data/sample/geo/ms_buildings.geojson`](../../data/sample/geo/ms_buildings.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+
+| | |
+|---|---|
+| Geometry type | Polygon |
+| Source coordinate system | EPSG:4326 |
+| Vertices per feature in the sample | 7, 7, 5 |
+
 ## Sample rows
 
 First 3 of 5 rows in [`data/sample/ms_buildings.csv`](../../data/sample/ms_buildings.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
