@@ -1,6 +1,6 @@
 # Hawaii: Statewide parcels
 
-**Status:** Fetched (last fetch 2026-10-17)  
+**Status:** Fetched (last fetch 2026-10-23)  
 **Source id:** `hi_parcels`  
 
 ## Summary

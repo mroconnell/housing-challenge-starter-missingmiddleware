@@ -1,6 +1,6 @@
 # FHFA House Price Index (HPI)
 
-**Status:** Fetched (last fetch 2026-10-17)  
+**Status:** Fetched (last fetch 2026-10-23)  
 **Source id:** `fhfa_hpi`  
 **Handbook listing:** Federal Housing Finance Agency House Price Index (FHFA HPI)
 

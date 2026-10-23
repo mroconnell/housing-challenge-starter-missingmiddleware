@@ -18,7 +18,7 @@ The **Fetch data samples** GitHub Actions workflow runs the same script and comm
 | Done | Source | Status | Sample rows | Geography | Main caveat |
 |---|---|---|---|---|---|
 | [x] | [American Community Survey (ACS) 5-year estimates](acs.md) | Fetched | 5 | Nation, state, county, place, tract, block group (5-year). 1-year onl… | Estimates, not counts |
-| [x] | [BLS construction employment (CES) and construction cost indexes (PPI)](bls_ces_ppi.md) | Fetched | 6 | National for the series sampled. CES also has state and metro series … | National cost indexes do not capture local cost differences |
+| [x] | [BLS construction employment (CES) and construction cost indexes (PPI)](bls_ces_ppi.md) | Fetched | 8 | National for the series sampled. CES also has state and metro series … | National cost indexes do not capture local cost differences |
 | [x] | [BLS Quarterly Census of Employment and Wages (QCEW), construction](bls_qcew.md) | Fetched | 5 | Nation, state, MSA and county. | Cells are suppressed (disclosure_code = N) where few employers exist |
 | [x] | [USGS National Land Cover Database (NLCD / Annual NLCD)](nlcd.md) | Fetched | 5 | Contiguous U.S. (Alaska, Hawaii and Puerto Rico have separate older p… | Raster, so it has no parcel or zoning boundaries |
 | [x] | [NASA MODIS Land Cover Type (MCD12Q1)](nasa_modis_lc.md) | Fetched | 3 | Global, 500 m pixels. | 500 m pixels are much coarser than NLCD |

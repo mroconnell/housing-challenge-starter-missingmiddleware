@@ -1,6 +1,6 @@
 # BLS construction employment (CES) and construction cost indexes (PPI)
 
-**Status:** Fetched (last fetch 2026-10-17)  
+**Status:** Fetched (last fetch 2026-10-23)  
 **Source id:** `bls_ces_ppi`  
 **Handbook listing:** Bureau of Labor Statistics (construction employment, costs)
 
@@ -36,7 +36,7 @@
 
 ## Sample rows
 
-First 3 of 6 rows in [`data/sample/bls_ces_ppi.csv`](../../data/sample/bls_ces_ppi.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 8 rows in [`data/sample/bls_ces_ppi.csv`](../../data/sample/bls_ces_ppi.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
 | Field | Row 1 | Row 2 | Row 3 |
 |---|---|---|---|

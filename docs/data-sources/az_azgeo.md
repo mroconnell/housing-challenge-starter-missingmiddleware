@@ -1,6 +1,6 @@
 # Arizona: AZGeo Data Hub (parcels by county)
 
-**Status:** Fetched (last fetch 2026-10-17)  
+**Status:** Fetched (last fetch 2026-10-23)  
 **Source id:** `az_azgeo`  
 
 ## Summary
@@ -21,7 +21,7 @@
 
 - Endpoint used for the sample: `https://maps.scottsdaleaz.gov/arcgis/rest/services/OpenData/MapServer/3`
 - Layer: Parcels
-- Total records at fetch time: 142109
+- Total records at fetch time: 142108
 - Item: Parcels (owner `City_Of_Scottsdale`, id `fcd4ef3733ce4cad8b91b90beb163cf3`)
 - Geometry: esriGeometryPolygon
 
@@ -43,7 +43,7 @@ First 3 of 5 rows in [`data/sample/az_azgeo.csv`](../../data/sample/az_azgeo.csv
 
 | Field | Row 1 | Row 2 | Row 3 |
 |---|---|---|---|
-| `OBJECTID` | 53845348 | 53845349 | 53845350 |
+| `OBJECTID` | 54129566 | 54129567 | 54129568 |
 | `apn` | 212-06-095 | 217-01-079 | 173-02-320 |
 | `site_address` | 7480 E CHRISTMAS CHOLLA DR | 24218 N 120TH PL | 5835 N 81ST ST |
 | `jurisdiction` | SCOTTSDALE | SCOTTSDALE | SCOTTSDALE |

@@ -1,6 +1,6 @@
 {
   "source_id": "az_azgeo",
-  "fetched_at": "2026-10-18T03:51:53+00:00",
+  "fetched_at": "2026-10-23T05:18:08+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -11,7 +11,7 @@
     "wkid": 2868,
     "latestWkid": 2868
   },
-  "record_count": 142109,
+  "record_count": 142108,
   "max_record_count": 30000,
   "last_edit_date": null,
   "description": "",
@@ -59,7 +59,7 @@
     "type": "Feature Service",
     "url": "https://maps.scottsdaleaz.gov/arcgis/rest/services/OpenData/MapServer/3",
     "owner": "City_Of_Scottsdale",
-    "modified": "2026-10-11"
+    "modified": "2026-10-18"
   },
   "hub_search_hits": [
     {
@@ -68,7 +68,7 @@
       "type": "Feature Service",
       "url": "https://maps.scottsdaleaz.gov/arcgis/rest/services/OpenData/MapServer/3",
       "owner": "City_Of_Scottsdale",
-      "modified": "2026-10-11"
+      "modified": "2026-10-18"
     },
     {
       "id": "eea9c80f2ca24d67a1280f9a9e48ffea",
@@ -92,7 +92,7 @@
       "type": "Feature Service",
       "url": "https://services1.arcgis.com/BajuNXbtZNiBKFkx/arcgis/rest/services/Parcels_in_Yavapai_County/FeatureServer",
       "owner": "yavgis_developers",
-      "modified": "2026-10-16"
+      "modified": "2026-10-22"
     },
     {
       "id": "7d50bcc1d75242cc829014311fe2fed6",

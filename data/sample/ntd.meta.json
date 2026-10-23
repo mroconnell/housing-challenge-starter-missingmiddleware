@@ -1,6 +1,6 @@
 {
   "source_id": "ntd",
-  "fetched_at": "2026-10-18T03:51:48+00:00",
+  "fetched_at": "2026-10-23T05:18:00+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -498,6 +498,12 @@
       "name": "2025 NTD Annual Data - Transit Stations",
       "type": "dataset",
       "updated_at": "2026-10-05T17:37:48.000Z"
+    },
+    {
+      "id": "taqd-5ed6",
+      "name": "2025 NTD Annual Data Summary - Facilities and Stations",
+      "type": "story",
+      "updated_at": "2026-10-16T16:10:59.097Z"
     },
     {
       "id": "8rr7-fd8y",

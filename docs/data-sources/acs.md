@@ -1,6 +1,6 @@
 # American Community Survey (ACS) 5-year estimates
 
-**Status:** Fetched (last fetch 2026-10-17)  
+**Status:** Fetched (last fetch 2026-10-23)  
 **Source id:** `acs`  
 **Handbook listing:** U.S. Census Bureau/American Community Survey (ACS)
 

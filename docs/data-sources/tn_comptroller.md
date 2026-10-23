@@ -1,6 +1,6 @@
 # Tennessee: Comptroller parcel data
 
-**Status:** Manual request only (not fetched) (last fetch 2026-10-17)  
+**Status:** Manual request only (not fetched) (last fetch 2026-10-23)  
 **Source id:** `tn_comptroller`  
 
 ## Summary
@@ -24,7 +24,7 @@
 
 ## What the source page says
 
-> Parcel Data var digitalData = { pageInfo: {} }; digitalData.pageInfo.pageName = "office-functions:pa:gisredistricting:redistricting-and-land-use-maps:parcel-data"; Skip to Main Content Go to Comptroller.TN.gov Section Close Menu Print This Page Go to Home \| Tennessee Comptroller of the Treasury About Us Comptroller of the Treasury Jason E. Mumpower Comptroller Emeritus Justin P. Wilson Learn About Our Office Public Records Requests Office Functions Research and Education Accountability State Audit Local Government Audit Investigations Property Assessments State Assessed Properties State Government Finance Local Government Finance Research and Education Accountability Research and Education Accountability Health Provider Review Open Records Counsel Small Business Advocate Higher Education Resource Officer Boards State Board of Equalization State Funding Board Tennessee Local Development Authority Tennessee State School Bond Authority State Energy Policy Council Tennessee Board of Utility Regulation Tennessee Transportation Financing Authority Joint Capital Tourism Board Find a Report Maps Careers News Contact Us Print This Page Go to Search Download Redistricting, Land Use Maps an…
+> Parcel Data var digitalData = { pageInfo: {} }; digitalData.pageInfo.pageName = "office-functions:pa:gisredistricting:redistricting-and-land-use-maps:parcel-data"; Skip to Main Content Go to Comptroller.TN.gov Section Close Menu Print This Page Go to Home \| Tennessee Comptroller of the Treasury About Us Comptroller of the Treasury Jason E. Mumpower Comptroller Emeritus Justin P. Wilson Learn About Our Office Public Records Requests Office Functions Research and Education Accountability State Audit Local Government Audit Investigations Property Assessments State Assessed Properties State Government Finance Local Government Finance Research and Education Accountability Health Provider Review Open Records Counsel Small Business Advocate Higher Education Resource Officer Boards State Board of Equalization State Funding Board Tennessee Local Development Authority Tennessee State School Bond Authority State Energy Policy Council Tennessee Board of Utility Regulation Tennessee Transportation Financing Authority Joint Capital Tourism Board Find a Report Maps Careers News Contact Us Print This Page Go to Search Download Redistricting, Land Use Maps and Parcel Data Land Use Maps County Dis…
 
 ## Sample rows
 

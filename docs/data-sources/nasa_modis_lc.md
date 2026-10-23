@@ -1,6 +1,6 @@
 # NASA MODIS Land Cover Type (MCD12Q1)
 
-**Status:** Fetched (last fetch 2026-10-17)  
+**Status:** Fetched (last fetch 2026-10-23)  
 **Source id:** `nasa_modis_lc`  
 **Handbook listing:** NASA Land Use/Land Cover database
 

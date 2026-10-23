@@ -1,6 +1,6 @@
 # California HCD Housing Element Annual Progress Report (APR) data
 
-**Status:** Fetched (last fetch 2026-10-17)  
+**Status:** Fetched (last fetch 2026-10-23)  
 **Source id:** `hcd_apr`  
 **Handbook listing:** Not in the handbook. Added at the team's request.
 
