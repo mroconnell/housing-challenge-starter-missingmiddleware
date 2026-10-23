@@ -1,6 +1,21 @@
 # Gate 1 Packet: ADU Scope, Model Outline, and Data Contracts
 
-Prepared 2026-10-23 by the conductor. **Status: awaiting owner decision.** Gate 1 is not passed until the owner says so.
+Prepared 2026-10-23 by the conductor. **Status: passed with changes on 2026-10-23.** Owner decisions are recorded in [AQ-021 to AQ-023](../ASSUMPTIONS_AND_QUESTIONS.md#aq-021-gate-1-decisions-on-the-adu-model) and summarized below.
+
+## Owner decisions (2026-10-23)
+
+| ID | Decision |
+| --- | --- |
+| D1 | No poison pills: the modeled bill removes owner-occupancy and related-occupant rules (AQ-022). Form-only is an optional sensitivity only. |
+| D2 | Stylized dates accepted. |
+| D3 | Unknown local rules = no ADU rights for the MVP; code the largest jurisdictions and spot-check; systematic coding after the other scenario MVPs; baseline-health reporting across scenarios (AQ-023). |
+| D4 | ACS denominator accepted. |
+| D5 | Accepted, plus the ADU-equivalent rule: a permit adding a dwelling on a parcel that already has one. |
+| D6 | Replace New Berlin with a mid-size city with permit data and no ADU allowance; search for permit data first. |
+| D7 | Sequencing over calendar; the calendar below is withdrawn. |
+| D8 | Main fast-forwarded. |
+
+The text below is the packet as presented, kept for the record.
 
 ## What this gate decides
 

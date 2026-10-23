@@ -142,7 +142,9 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Pilot selection gate:** Confirm both the policy classification and usable multi-year permit records before selecting the restrictive pilot. Seek at least the permit ID, issuance date, parcel/address, project type/description, added units, and disposition; distinguish zoning approval, application, issuance, and completion. Record whether a field is structured, inferred from text, or unavailable.
 
-**Decision (2026-10-23):** The user selected New Berlin as the provisional restrictive-policy example alongside Madison. Proceed with its policy and permit-data audit. This selection does not establish permit-data suitability, zero ADU production, or representativeness of Wisconsin as a whole.
+**Update (2026-10-23, Gate 1):** New Berlin has no publicly accessible record-level permits. The owner replaced it as the restrictive pilot with a mid-size Wisconsin city that has accessible permit records and no ADU allowance, to be found by searching for permit data first (AQ-021). New Berlin remains a documented restrictive-rules example.
+
+**Earlier decision (2026-10-23):** The user selected New Berlin as the provisional restrictive-policy example alongside Madison. Proceed with its policy and permit-data audit. This selection does not establish permit-data suitability, zero ADU production, or representativeness of Wisconsin as a whole.
 
 ## AQ-015 Build the policy catalog around effective provisions and dated evidence
 
@@ -239,6 +241,49 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Decision:** Agent self-check plus owner review adopted. Detailed implementation work follows the plan's dependencies and review decisions.
 
+## AQ-021 Gate 1 decisions on the ADU model
+
+**Status:** Adopted. **Added:** 2026-10-23. **Related:** AQ-001, AQ-006, AQ-007, AQ-014, AQ-018, [Gate 1 packet](gate1/README.md).
+
+**Owner decisions (2026-10-23):**
+
+- **Dates (D2):** stylized convention. The reform takes effect at the start of forecast year 1; forecast years 1–5 are labeled 2027–2031; current local law is frozen as of 2026-10-31; an implementation lag is a sensitivity.
+- **Denominator (D4):** ACS one-unit detached homes are the control total for every rate; parcel and assessor data only allocate within areas and establish eligibility.
+- **Production (D5):** new detached and attached ADUs are the headline; conversions are reported separately; legalizations are excluded. The owner also proposed an **ADU-equivalent** rule: a permit adding a dwelling unit on a parcel that already has a dwelling. Adopted as the classification rule for permit records that lack an ADU label (common where ADUs are not a recognized use), applied after parcel matching and audited on a sample.
+- **Restrictive pilot (D6, revised):** replace New Berlin with a mid-size Wisconsin city that has accessible record-level permit data and no ADU allowance. Search for permit data first, because it is the rarer condition. New Berlin remains a documented restrictive-rules example without a permit baseline.
+- **Schedule (D7):** sequence matters, not calendar dates. The compressed calendar in the Gate 1 packet is withdrawn.
+- **Repository (D8):** routine milestone work lands on `main`.
+
+**Decision:** Adopted. D1 and D3 are recorded in AQ-022 and AQ-023.
+
+## AQ-022 Model the benchmark without poison pills
+
+**Status:** Adopted. **Added:** 2026-10-23. **Related:** AQ-009, AQ-015, AQ-021.
+
+**Owner decision (D1):** The modeled statewide bill allows one ADU on every single-family parcel, detached or semi-detached, at least 600 sq ft, with no additional parking, **and no owner-occupancy or related-occupant requirement**. The intent is a bill that policymakers can implement without the restrictions the Mercatus taxonomy identifies as poison pills. Local owner-occupancy, related-occupant, and similar rules are therefore removed by the reform wherever they exist.
+
+**Model implication:** The headline reform class is `compliant`. The "form-only" variant (forms allowed but occupancy rules remain) is kept only as an optional sensitivity to show why the poison-pill provisions matter; it is not a headline scenario.
+
+**Decision:** Adopted.
+
+## AQ-023 Treat unknown local ADU rules as no ADU rights for the MVP, and report baseline "health" consistently across scenarios
+
+**Status:** Adopted for the MVP; refinement deferred. **Added:** 2026-10-23. **Related:** AQ-006, AQ-019, AQ-021.
+
+**Owner decision (D3):** Where no ordinance has been coded, assume ADUs are not allowed: the statewide reform flips them from off to on. Code the largest jurisdictions and the known recent liberalizers, then spot-check. Systematic ordinance coding is deferred until after MVPs of the other scenarios, which face the same coverage problem.
+
+**Owner framing:** Present each scenario against a baseline "health" reading (baseline ADUs, baseline TOD, baseline middle housing): current production and stock indicators for every area, not only whether a permissive policy exists. Like a doctor starting from a patient's current health rather than their stated diet, the tool should show where outcomes are weak even where rules look permissive. The few large cities that already allow ADUs should see a mitigated, not necessarily zero, benefit.
+
+**Conductor interpretation for the MVP (pending owner confirmation):**
+
+- Baseline health indicators (e.g., ADU permits per 1,000 single-family homes, recent trend) are shown for every area in every scenario, using the same layout across ADU, TOD, and middle-housing scenarios.
+- The reform's *permit* effect still comes from rights the bill changes, so a statewide bill is not credited with permits that local rights already allowed. Already-permissive cities receive a reduced effect equal to the rights the bill still adds there (for example districts where ADUs are not listed, size or lot limits below the benchmark, conditional-use steps, and the protection of a state guarantee against local rollback), represented as a residual share with a range that includes zero.
+- Where health indicators show weak outcomes despite permissive rules, the tool says so and identifies non-zoning barriers (cost, financing, fees, awareness) as complementary measures, without attributing their effect to the zoning bill.
+
+**Bias note:** Treating every uncoded municipality as prohibiting ADUs overstates the reform's effect wherever local rules are already partly permissive. The coded largest jurisdictions limit this; the remaining bias is reported as a stated limitation and checked by the later spot-check.
+
+**Decision:** Unknown = prohibited for the MVP; largest-jurisdiction coding plus spot-checks; consistent baseline-health presentation across scenarios. The residual-effect interpretation for already-permissive cities awaits owner confirmation.
+
 ## Additional questions to develop
 
 All entries below were added on 2026-10-23 and remain **Open**.
@@ -264,3 +309,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-23 | AQ-015; Policy Catalog | Created the California ADU legislation register, including further laws identified in the YIMBY report. Kept legislative years, effective dates, implementation deadlines, local opt-ins, and verification status separate. |
 | 2026-10-23 | AQ-018 | Adopted area-level map forecasts for neighborhoods, regions, or cells, with inventory and spatial joins included in the data acceptance criteria. Geographic resolution and allocation weights remain open. |
 | 2026-10-23 | AQ-019, AQ-020; MVP Execution Plan | Recorded the state-first destination, sequential ADU pilot/statewide/additional-scenario MVPs, judging alignment, local execution with routine GitHub pushes authorized, and agent self-assessment before step-by-step owner gates. |
+| 2026-10-23 | AQ-021 to AQ-023; AQ-007, AQ-014 | Recorded the owner's Gate 1 decisions: stylized dates, ACS denominator, ADU-equivalent permit rule, replacing New Berlin with a permit-data-rich mid-size city without ADU rules, no poison pills in the modeled bill, unknown local rules treated as no ADU rights for the MVP, and baseline-health reporting across scenarios. |
