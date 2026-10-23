@@ -48,6 +48,7 @@ Automated acquisition and preparation commands are still to be implemented. Do n
 ## Documentation
 
 - [Project Plan](docs/PROJECT_PLAN.md) — scope, two-part workflow, data strategy, and next milestones
+- [MVP Execution Plan](docs/MVP_EXECUTION_PLAN.md) — sequential scenario MVPs, multi-agent work packages, self-checks, and step-by-step owner review gates
 - [Model & Assumptions Overview](docs/MODEL_AND_ASSUMPTIONS.md) — how the tool works and what it assumes
 - [Policy Scenario Comparison](docs/POLICY_SCENARIO_COMPARISON.md) — scenario ranking and drivers
 - [Data Provenance](docs/DATA_PROVENANCE.md) — sources, licenses, and cleaning steps

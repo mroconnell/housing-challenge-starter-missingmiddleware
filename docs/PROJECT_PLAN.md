@@ -1,6 +1,8 @@
 # Missing Middleware Project Plan
 
-Updated October 14, 2026. Status: planning and data exploration.
+Updated October 23, 2026. Status: planning and data exploration.
+
+The [MVP Execution Plan](MVP_EXECUTION_PLAN.md) records the owner’s current implementation sequence and review gates. It supersedes the earlier TOD-first milestone order: ADU pilot → statewide ADU MVP → owner assessment and iteration → additional scenario MVPs → deeper shared improvements. The destination is a state-first Wisconsin tool; local pilots are development and validation examples, not the statewide estimator by themselves.
 
 Missing Middleware will help a Wisconsin legislator or legislative aide understand where housing development opportunities exist and how state reforms might change housing production over five years. Census data will establish housing-stock and production baselines; Wisconsin parcels will locate potential development opportunities; local records will improve detail where available.
 
@@ -10,7 +12,7 @@ The central decision is which bill, or combination of bills, to support. Let use
 
 For each comparison, show the baseline, additional permitted homes over five years, the range of outcomes, where the effect occurs, and the assumptions that matter most. Provide a district view and an exportable plain-language brief that carries its sources, assumptions, model version, and limitations with it. Use conditional language rather than presenting a scenario as a promise of construction.
 
-Design for continued use in state capitols: a reproducible Wisconsin example, documented input formats, replaceable state profiles, inspectable calculations, and outputs that legislative staff can explain without the development team present. Prioritize analytical credibility, reusable assumptions, and a compelling geographic explanation. The project is an intensive solo-team effort; weekly capacity remains unspecified.
+Design for continued use in state capitols: a reproducible Wisconsin example, documented input formats, replaceable state profiles, inspectable calculations, and outputs that legislative staff can explain without the development team present. Prioritize analytical credibility, reusable assumptions, and a compelling geographic explanation. Work proceeds through coordinated local agent sessions and owner review gates, with no preset date or effort cap. Agents self-assess before presenting each gate; the execution plan supplies literal owner review instructions.
 
 ## Scope and initial scenarios
 
@@ -99,24 +101,19 @@ California [HCD Annual Progress Reports](https://www.hcd.ca.gov/apr) are a candi
 
 ## First implementation milestones
 
-- [ ] Acquire a pinned Census baseline for Wisconsin: annual county stock estimates, ACS housing tables with margins of error, 2020 block counts, BPS unit counts by structure category, and matching boundary files.
-- [ ] Record source URLs, versions, geographic coverage, units, access dates, reuse terms, and transformations in Data Provenance. Keep raw data outside version control.
-- [ ] Produce county summaries and one neighborhood map. Reconcile differing definitions and vintages, and retain missingness and reporting-quality indicators. Document that some Census products share underlying inputs rather than treating agreement as independent validation.
-- [ ] Establish documented numerical defaults and their ranges, evidence-selection rules, and user overrides. Identify which results depend heavily on transferred assumptions.
-- [ ] Join Wisconsin parcels to the pilot geography and audit addresses, area, valuations, parcel overlaps, and local availability of dwelling counts and zoning. Start with Madison and Milwaukee as candidate pilots.
-- [ ] Build one TOD access experiment comparing radius and walking access. Display Census housing counts at their observed geography and distinguish any finer modeled allocations.
-- [ ] Define one concrete TOD reform and a transparent feasibility and uptake calculation. Demonstrate its five-year result against baseline before extending to ADU and parking scenarios.
-- [ ] Compare individual reforms and a combined package, accounting for shared opportunities and overlapping provisions.
-- [ ] Add Assembly and Senate district summaries and an exportable district brief. Check reconciliation to statewide results and communicate uncertainty from geographic allocation.
-- [ ] Add sensitivity analysis for market conditions, participation, timing, parking, and geographic allocation. Identify which assumptions reverse scenario rankings.
-- [ ] Implement reproducible setup, acquisition, run, and test commands. Core checks should cover geographic aggregation, district reconciliation, duplicate opportunities, overlapping package provisions, baseline equivalence when reform inputs are unchanged, and the distinction between permits and stock.
+Follow the [MVP Execution Plan](MVP_EXECUTION_PLAN.md), which defines work packages and evidence for each owner gate:
 
-Economic presets follow these core milestones if evidence and time support them; otherwise include their proposed mechanisms in the presentation's next steps.
+- [ ] Gate 1: agree the ADU scope, mechanism diagram, and statewide-compatible data contracts.
+- [ ] Gate 2: acquire full pilot inputs, verify their quality and joins, and establish statewide background coverage. Madison and New Berlin are the provisional pilot pair; Milwaukee remains a historical comparison candidate.
+- [ ] Gate 3: establish the current-law baseline, additional rights, central response curve, lower/upper paths, area allocation, and validation specification.
+- [ ] Gate 4: demonstrate an integrated ADU pilot with actual inputs, traceable estimates, and an area-level map; reproduce it from documented commands.
+- [ ] Gate 5: deliver state-first Wisconsin ADU results using an explicit generalization and coverage method. The owner decides whether the statewide ADU MVP is good enough to extend or needs another iteration.
+- [ ] Repeat scenario MVP cycles for additional benchmark reforms, then improve shared components and complete comparisons, packages, district explanations, and submission artifacts.
 
-The first milestone is complete when a clean acquisition process produces the documented Wisconsin stock and permitted-production summaries plus a neighborhood housing map. It does not depend on resolving every parcel's dwelling count.
+Keep reproducible acquisition, provenance, meaningful analytical checks, and rubric evidence current throughout these milestones. Do not defer those foundations until the final submission. Detailed finance, economic presets, and other refinements follow evidence and policy value rather than being prerequisites to the ADU MVP.
 
 ## Decisions to resolve through exploration
 
-Choose the pilot geography, baseline projection method, analysis date, specific TOD policy, and initial parameter ranges after the data audit. Determine whether local records justify parcel-level existing-unit estimates or whether the first diagnostic should retain block and block-group counts. Technology choices and statewide generalization should follow that experiment.
+Choose the pilot geography, baseline projection method, analysis date, specific TOD policy, and initial parameter ranges after the data audit. Determine whether local records justify parcel-level existing-unit estimates or whether the first diagnostic should retain block and block-group counts. Keep statewide-compatible data contracts and coverage accounting from the start; choose the numerical statewide generalization method after the evidence audit and pilot checks.
 
 Keep the contest's three required reforms and five-year horizon fixed. If fee reduction is implemented, retain its prescribed $50,000-to-$25,000 total-development-fee benchmark separately from scenarios using observed local fees. The [challenge specification](CHALLENGE_SPEC.md) summarizes requirements; the linked official rules and handbook govern.
