@@ -9,14 +9,14 @@
 | | |
 |---|---|
 | Publisher | U.S. Bureau of Labor Statistics |
-| What it is | Monthly construction employment (Current Employment Statistics) and Producer Price Indexes for construction materials and new housing construction. |
+| What it is | Monthly construction employment (Current Employment Statistics) and Producer Price Indexes (PPI) for construction inputs. Series sampled: CES2000000001 (all construction jobs), CES2023610001 (residential building construction jobs), WPUSI012011 (PPI, construction materials) and WPUIP2311001 (PPI, goods used in residential construction). |
 | Geography | National for the series sampled. CES also has state and metro series (SMU prefix). |
 | Time coverage and update frequency | Monthly. Released about the first Friday of the next month (CES) and mid-month (PPI). |
 | Units | CES: thousands of employees. PPI: index (base period varies by series, 1982=100 for WPUSI012011). |
 | Access method | BLS Public Data API v2, `POST https://api.bls.gov/publicAPI/v2/timeseries/data/` with a JSON list of series ids. No key needed for up to 25 series and 10 years; a free key raises limits. |
 | License | Public domain (U.S. federal government work). |
 | Use in our model | Cost growth assumptions for feasibility (fee and parking scenarios), and construction labor capacity as a ceiling on production. |
-| Caveats | National cost indexes do not capture local cost differences. Recent months are preliminary and get revised. |
+| Caveats | National cost indexes do not capture local cost differences. Recent months are preliminary and get revised. The PPIs measure input costs, not home sale prices; BLS has no new-home price index (Census publishes one). Series PCU236115236115 does not exist in the BLS API. |
 
 ## Access details
 
