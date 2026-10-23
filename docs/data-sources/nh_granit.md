@@ -54,26 +54,24 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/nh_granit.csv`](../../data/sample/nh_granit.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `OBJECTID` | 1 | 2 | 3 |
-| `ParcelOID` | 173431 | 173432 | 173433 |
-| `NH_GIS_ID` | 104001-252-010-000 | 104001-252-006-000 | 104001-229-066-000 |
-| `OID_1` |  |  |  |
-| `PID` | 252-010-000 | 252-006-000 | 229-066-000 |
-| `TownID` | 4001 | 4001 | 4001 |
-| `Town` | Acworth | Acworth | Acworth |
-| `Name` | CamaID: 252-010-000 | CamaID: 252-006-000 | CamaID: 229-066-000 |
-| `U_ID` | 4001-550 | 4001-594 | 4001-15 |
-| `DisplayId` | 252-010-000 | 252-006-000 | 229-066-000 |
-| `CountyId` | 10 | 10 | 10 |
-| `SLU` | 22 | 22 | 11 |
-| `SLUC` | 22 | 22 | 11 |
-| `SLUM` |  |  |  |
-| `NBC` | 0 | 0 | 2 |
-| `LocalNBC` | 40 | 50 | 100 |
-| `StreetAddress` | RHOADES RD | MULLIGAN RD | 30 CHARLESTOWN RD |
-| `ORIG_FID` | 65017 | 65018 | 65019 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
+| `ParcelOID` | 173431 | 173432 | 173433 | 173434 | 173435 |
+| `NH_GIS_ID` | 104001-252-010-000 | 104001-252-006-000 | 104001-229-066-000 | 104001-227-016-000 | 104001-228-011-000 |
+| `PID` | 252-010-000 | 252-006-000 | 229-066-000 | 227-016-000 | 228-011-000 |
+| `TownID` | 4001 | 4001 | 4001 | 4001 | 4001 |
+| `Town` | Acworth | Acworth | Acworth | Acworth | Acworth |
+| `Name` | CamaID: 252-010-000 | CamaID: 252-006-000 | CamaID: 229-066-000 | CamaID: 227-016-000 | CamaID: 228-011-000 |
+| `U_ID` | 4001-550 | 4001-594 | 4001-15 | 4001-424 | 4001-449 |
+| `DisplayId` | 252-010-000 | 252-006-000 | 229-066-000 | 227-016-000 | 228-011-000 |
+| `CountyId` | 10 | 10 | 10 | 10 | 10 |
+| `SLU` | 22 | 22 | 11 | 11 | 11 |
+| `SLUC` | 22 | 22 | 11 | 11 | 11 |
+| `NBC` | 0 | 0 | 2 | 2 | 2 |
+| `LocalNBC` | 40 | 50 | 100 | 100 | 100 |
+| `StreetAddress` | RHOADES RD | MULLIGAN RD | 30 CHARLESTOWN RD | 422 RIVER RD | 81 JOHN SYMONDS RD |
+| `ORIG_FID` | 65017 | 65018 | 65019 | 65020 | 65021 |
 
 ## Refresh
 

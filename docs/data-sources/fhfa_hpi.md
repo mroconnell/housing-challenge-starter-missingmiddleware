@@ -78,20 +78,18 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/fhfa_hpi.csv`](../../data/sample/fhfa_hpi.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `hpi_type` | traditional | traditional | traditional |
-| `hpi_flavor` | purchase-only | purchase-only | purchase-only |
-| `frequency` | monthly | monthly | monthly |
-| `level` | USA or Census Division | USA or Census Division | USA or Census Division |
-| `place_name` | East North Central Division | East North Central Division | East North Central Division |
-| `place_id` | DV_ENC | DV_ENC | DV_ENC |
-| `yr` | 1991 | 1991 | 1991 |
-| `period` | 1 | 2 | 3 |
-| `index_nsa` | 100.00 | 100.87 | 101.32 |
-| `index_sa` | 100.00 | 100.86 | 100.89 |
-| `rstderr` |  |  |  |
-| `note` |  |  |  |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `hpi_type` | traditional | traditional | traditional | traditional | traditional |
+| `hpi_flavor` | purchase-only | purchase-only | purchase-only | purchase-only | purchase-only |
+| `frequency` | monthly | monthly | monthly | monthly | monthly |
+| `level` | USA or Census Division | USA or Census Division | USA or Census Division | USA or Census Division | USA or Census Division |
+| `place_name` | East North Central Division | East North Central Division | East North Central Division | East North Central Division | East North Central Division |
+| `place_id` | DV_ENC | DV_ENC | DV_ENC | DV_ENC | DV_ENC |
+| `yr` | 1991 | 1991 | 1991 | 1991 | 1991 |
+| `period` | 1 | 2 | 3 | 4 | 5 |
+| `index_nsa` | 100.00 | 100.87 | 101.32 | 101.73 | 102.32 |
+| `index_sa` | 100.00 | 100.86 | 100.89 | 100.96 | 101.30 |
 
 ## Refresh
 

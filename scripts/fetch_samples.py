@@ -884,6 +884,62 @@ def fetch_pa():
     return rows, {"search_url": url, "note": "PASDA is a catalog of county/municipal datasets (mostly shapefile downloads). Rows are catalog entries, not parcel records.", "hits": len(titles)}
 
 
+PASDA_SERVICES = "https://mapservices.pasda.psu.edu/server/rest/services/pasda"
+# Spread across the state: rural, suburban and urban counties.
+PASDA_COUNTIES = [
+    "AdamsCounty", "AlleghenyCounty", "BerksCounty", "BucksCounty",
+    "CentreCounty", "LancasterCounty",
+]
+PASDA_ROWS_PER_COUNTY = 2
+
+
+@source("pa_pasda_parcels")
+def fetch_pa_parcels():
+    """A few parcel rows from several county datasets in the PASDA catalog."""
+    listing = get_json(PASDA_SERVICES, {"f": "json"})
+    have = {s["name"].split("/")[-1]: s for s in listing.get("services", []) if s.get("type") == "MapServer"}
+    picks = [c for c in PASDA_COUNTIES if c in have]
+    rows, counties, union = [], {}, {}
+    for svc in picks:
+        base = f"{PASDA_SERVICES}/{svc}/MapServer"
+        try:
+            layers = get_json(base, {"f": "json"}).get("layers") or []
+            parcel = [l for l in layers if re.search(r"parcel", l.get("name", ""), re.I)
+                      and not re.search(r"owned|preserv|easement|agric", l.get("name", ""), re.I)]
+            if not parcel:
+                counties[svc] = {"error": "no parcel layer", "layers": [l.get("name") for l in layers]}
+                continue
+            lrows, lmeta = arcgis_layer(f"{base}/{parcel[0]['id']}")
+        except Exception as e:  # noqa: BLE001
+            counties[svc] = {"error": f"{type(e).__name__}: {e}"[:300]}
+            continue
+        names = [f["name"] for f in lmeta["fields"]]
+        counties[svc] = {
+            "layer_url": lmeta["service_url"],
+            "layer_name": lmeta["layer_name"],
+            "record_count": lmeta["record_count"],
+            "last_edit_date": lmeta["last_edit_date"],
+            "field_names": names,
+        }
+        for f in lmeta["fields"]:
+            u = union.setdefault(f["name"], {"name": f["name"], "type": f["type"], "counties": []})
+            u["counties"].append(svc)
+        for r in lrows[:PASDA_ROWS_PER_COUNTY]:
+            rows.append({"pasda_county": svc, **r})
+    if not rows:
+        raise RuntimeError(f"no county parcel rows; services seen: {sorted(have)[:40]}; details: {counties}")
+    ok = [c for c, m in counties.items() if "field_names" in m]
+    for u in union.values():
+        u["description"] = f"In {len(u['counties'])} of {len(ok)} counties" + (
+            "" if len(u["counties"]) == len(ok) else ": " + ", ".join(c.replace("County", "") for c in u["counties"]))
+    return rows, {
+        "api_url": PASDA_SERVICES,
+        "note": "Each county publishes its own parcel layer with its own field names. Rows are 2 per county; columns are the union of all counties' fields, so most cells are blank.",
+        "counties": counties,
+        "fields": sorted(union.values(), key=lambda u: (-len(u["counties"]), u["name"].lower())),
+    }
+
+
 @source("tn_comptroller")
 def fetch_tn():
     url = "https://comptroller.tn.gov/office-functions/pa/gisredistricting/redistricting-and-land-use-maps/parcel-data.html"
@@ -994,7 +1050,7 @@ def _cell(v):
     return s if len(s) <= MAX_CELL else s[:MAX_CELL] + "..."
 
 
-PII_FIELDS = re.compile(r"owner|ownernme|mail|pstladress|co_owner|grantee|taxpayer", re.I)
+PII_FIELDS = re.compile(r"owner|ownernme|mail|pstladress|co_owner|grantee|taxpayer|care_of|^name[0-9]$", re.I)
 PII_KEEP = re.compile(r"^(ownertype|owner_type|unitowner|ownername|majorowner|homeowner)$", re.I)
 
 

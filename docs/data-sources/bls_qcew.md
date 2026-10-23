@@ -72,46 +72,46 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/bls_qcew.csv`](../../data/sample/bls_qcew.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `area_fips` | 01000 | 02000 | 04000 |
-| `own_code` | 5 | 5 | 5 |
-| `industry_code` | 23 | 23 | 23 |
-| `agglvl_code` | 54 | 54 | 54 |
-| `size_code` | 0 | 0 | 0 |
-| `year` | 2025 | 2025 | 2025 |
-| `qtr` | A | A | A |
-| `disclosure_code` |  | N |  |
-| `annual_avg_estabs` | 12972 | 2611 | 18865 |
-| `annual_avg_emplvl` | 109968 | 0 | 223800 |
-| `total_annual_wages` | 8471635021 | 0 | 18546620381 |
-| `taxable_annual_wages` | 1281650714 | 0 | 2659058766 |
-| `annual_contributions` | 6976615 | 0 | 35452010 |
-| `annual_avg_wkly_wage` | 1481 | 0 | 1594 |
-| `avg_annual_pay` | 77037 | 0 | 82871 |
-| `lq_disclosure_code` |  | N |  |
-| `lq_annual_avg_estabs` | 1.01 | 1.33 | 1.07 |
-| `lq_annual_avg_emplvl` | 0.98 | 0 | 1.31 |
-| `lq_total_annual_wages` | 1.09 | 0 | 1.38 |
-| `lq_taxable_annual_wages` | 0.93 | 0 | 1.19 |
-| `lq_annual_contributions` | 0.72 | 0 | 0.92 |
-| `lq_annual_avg_wkly_wage` | 1.11 | 0 | 1.06 |
-| `lq_avg_annual_pay` | 1.11 | 0 | 1.06 |
-| `oty_disclosure_code` |  | N |  |
-| `oty_annual_avg_estabs_chg` | 305 | 14 | 448 |
-| `oty_annual_avg_estabs_pct_chg` | 2.4 | 0.5 | 2.4 |
-| `oty_annual_avg_emplvl_chg` | 3133 | 0 | -2884 |
-| `oty_annual_avg_emplvl_pct_chg` | 2.9 | 0 | -1.3 |
-| `oty_total_annual_wages_chg` | 655091123 | 0 | 543670589 |
-| `oty_total_annual_wages_pct_chg` | 8.4 | 0 | 3.0 |
-| `oty_taxable_annual_wages_chg` | 41211436 | 0 | -37916385 |
-| `oty_taxable_annual_wages_pct_chg` | 3.3 | 0 | -1.4 |
-| `oty_annual_contributions_chg` | -1598107 | 0 | -2654584 |
-| `oty_annual_contributions_pct_chg` | -18.6 | 0 | -7.0 |
-| `oty_annual_avg_wkly_wage_chg` | 74 | 0 | 67 |
-| `oty_annual_avg_wkly_wage_pct_chg` | 5.3 | 0 | 4.4 |
-| `oty_avg_annual_pay_chg` | 3873 | 0 | 3452 |
-| `oty_avg_annual_pay_pct_chg` | 5.3 | 0 | 4.3 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `area_fips` | 01000 | 02000 | 04000 | 05000 | 06000 |
+| `own_code` | 5 | 5 | 5 | 5 | 5 |
+| `industry_code` | 23 | 23 | 23 | 23 | 23 |
+| `agglvl_code` | 54 | 54 | 54 | 54 | 54 |
+| `size_code` | 0 | 0 | 0 | 0 | 0 |
+| `year` | 2025 | 2025 | 2025 | 2025 | 2025 |
+| `qtr` | A | A | A | A | A |
+| `disclosure_code` |  | N |  | N |  |
+| `annual_avg_estabs` | 12972 | 2611 | 18865 | 8907 | 96643 |
+| `annual_avg_emplvl` | 109968 | 0 | 223800 | 0 | 892415 |
+| `total_annual_wages` | 8471635021 | 0 | 18546620381 | 0 | 83292325786 |
+| `taxable_annual_wages` | 1281650714 | 0 | 2659058766 | 0 | 9384707261 |
+| `annual_contributions` | 6976615 | 0 | 35452010 | 0 | 409856722 |
+| `annual_avg_wkly_wage` | 1481 | 0 | 1594 | 0 | 1795 |
+| `avg_annual_pay` | 77037 | 0 | 82871 | 0 | 93334 |
+| `lq_disclosure_code` |  | N |  | N |  |
+| `lq_annual_avg_estabs` | 1.01 | 1.33 | 1.07 | 1.04 | 0.66 |
+| `lq_annual_avg_emplvl` | 0.98 | 0 | 1.31 | 0 | 0.92 |
+| `lq_total_annual_wages` | 1.09 | 0 | 1.38 | 0 | 0.83 |
+| `lq_taxable_annual_wages` | 0.93 | 0 | 1.19 | 0 | 0.87 |
+| `lq_annual_contributions` | 0.72 | 0 | 0.92 | 0 | 0.68 |
+| `lq_annual_avg_wkly_wage` | 1.11 | 0 | 1.06 | 0 | 0.89 |
+| `lq_avg_annual_pay` | 1.11 | 0 | 1.06 | 0 | 0.89 |
+| `oty_disclosure_code` |  | N |  | N |  |
+| `oty_annual_avg_estabs_chg` | 305 | 14 | 448 | 631 | 2646 |
+| `oty_annual_avg_estabs_pct_chg` | 2.4 | 0.5 | 2.4 | 7.6 | 2.8 |
+| `oty_annual_avg_emplvl_chg` | 3133 | 0 | -2884 | 0 | -21055 |
+| `oty_annual_avg_emplvl_pct_chg` | 2.9 | 0 | -1.3 | 0 | -2.3 |
+| `oty_total_annual_wages_chg` | 655091123 | 0 | 543670589 | 0 | 1571492853 |
+| `oty_total_annual_wages_pct_chg` | 8.4 | 0 | 3.0 | 0 | 1.9 |
+| `oty_taxable_annual_wages_chg` | 41211436 | 0 | -37916385 | 0 | -245113449 |
+| `oty_taxable_annual_wages_pct_chg` | 3.3 | 0 | -1.4 | 0 | -2.5 |
+| `oty_annual_contributions_chg` | -1598107 | 0 | -2654584 | 0 | 10629984 |
+| `oty_annual_contributions_pct_chg` | -18.6 | 0 | -7.0 | 0 | 2.7 |
+| `oty_annual_avg_wkly_wage_chg` | 74 | 0 | 67 | 0 | 75 |
+| `oty_annual_avg_wkly_wage_pct_chg` | 5.3 | 0 | 4.4 | 0 | 4.4 |
+| `oty_avg_annual_pay_chg` | 3873 | 0 | 3452 | 0 | 3872 |
+| `oty_avg_annual_pay_pct_chg` | 5.3 | 0 | 4.3 | 0 | 4.3 |
 
 ## Refresh
 

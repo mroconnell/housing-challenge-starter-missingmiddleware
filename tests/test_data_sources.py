@@ -22,10 +22,13 @@ class TestFetchHelpers(unittest.TestCase):
         self.assertEqual(hdr[8:11], ["2-units Bldgs", "2-units Units", "2-units Value"])
 
     def test_redact_owner_fields(self):
-        rows = [{"Owner": "JANE DOE", "OWNERNME1": "X", "Mailing_Address": "1 Main", "ownerType": "County", "homeowner": "N", "Zone": "R1"}]
+        rows = [{"Owner": "JANE DOE", "NAME1": "JOHN DOE", "CARE_OF": "Y", "NAME": "Utah", "OWNERNME1": "X", "Mailing_Address": "1 Main", "ownerType": "County", "homeowner": "N", "Zone": "R1"}]
         out = fetch.redact(rows)[0]
         self.assertEqual(out["Owner"], "[redacted]")
         self.assertEqual(out["OWNERNME1"], "[redacted]")
+        self.assertEqual(out["NAME1"], "[redacted]")
+        self.assertEqual(out["CARE_OF"], "[redacted]")
+        self.assertEqual(out["NAME"], "Utah")
         self.assertEqual(out["Mailing_Address"], "[redacted]")
         self.assertEqual(out["ownerType"], "County")
         self.assertEqual(out["homeowner"], "N")
@@ -63,6 +66,20 @@ class TestBuilder(unittest.TestCase):
         self.assertIn("deed restricted", build.pattern_meaning("hcd_apr", "BP_LOW_INCOME_DR"))
         self.assertIn("Reported only", build.pattern_meaning("census_bps", "2-units rep Units"))
         self.assertIn("Location quotient", build.pattern_meaning("bls_qcew", "lq_annual_avg_emplvl"))
+
+    def test_pasda_field_comparison(self):
+        meta = {"counties": {
+            "AdamsCounty": {"layer_name": "Parcels", "record_count": 10, "field_names": ["OBJECTID", "PIN", "SITUS_ADDR", "ACRES"]},
+            "ErieCounty": {"error": "no parcel layer"},
+        }}
+        md = build.extras("pa_pasda_parcels", meta)
+        self.assertIn("| AdamsCounty | Parcels | 10 | 4 | `PIN` | `SITUS_ADDR` | none | none | `ACRES` |", md)
+        self.assertIn("ErieCounty | not sampled: no parcel layer", md)
+
+    def test_sample_table_hides_blank_columns(self):
+        md = build.sample_table([{"a": "1", "b": ""}, {"a": "2", "b": ""}])
+        self.assertIn("`a`", md)
+        self.assertNotIn("`b`", md)
 
     def test_sample_table_escapes_pipes(self):
         md = build.sample_table([{"a": "x|y"}])

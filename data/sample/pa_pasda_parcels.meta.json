@@ -1,0 +1,874 @@
+{
+  "source_id": "pa_pasda_parcels",
+  "fetched_at": "2026-10-23T05:39:21+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 12,
+  "api_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda",
+  "note": "Each county publishes its own parcel layer with its own field names. Rows are 2 per county; columns are the union of all counties' fields, so most cells are blank.",
+  "counties": {
+    "AdamsCounty": {
+      "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/AdamsCounty/MapServer/2",
+      "layer_name": "Adams County Parcels 202610",
+      "record_count": 46908,
+      "last_edit_date": null,
+      "field_names": [
+        "OBJECTID",
+        "Shape",
+        "Parcel_ID",
+        "PROPERTY_T",
+        "COMBINED_S",
+        "DEEDED_ACR",
+        "SALE_DATE",
+        "SQL_UPDATE",
+        "DISTRICT_N",
+        "Shape_Leng",
+        "Shape_Length",
+        "Shape_Area",
+        "SHORT_NAME"
+      ]
+    },
+    "AlleghenyCounty": {
+      "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/AlleghenyCounty/MapServer/25",
+      "layer_name": "Allegheny County Parcels 20261019",
+      "record_count": 587044,
+      "last_edit_date": null,
+      "field_names": [
+        "Shape",
+        "Shape_Length",
+        "Shape_Area",
+        "Shape_Leng",
+        "GlobalID",
+        "PIN",
+        "MAPBLOCKLO",
+        "MUNICODE",
+        "CALCACREAG",
+        "NOTES",
+        "PSEUDONO",
+        "COMMENTS",
+        "OBJECTID"
+      ]
+    },
+    "BerksCounty": {
+      "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/BerksCounty/MapServer/6",
+      "layer_name": "Berks County - Parcels 202601",
+      "record_count": 156838,
+      "last_edit_date": null,
+      "field_names": [
+        "OBJECTID",
+        "Shape",
+        "PROPID",
+        "NAME1",
+        "FULLMAILAD",
+        "FULLSITEAD",
+        "SITEADDRES",
+        "MUNI",
+        "ACREAGE",
+        "PIN",
+        "DEEDBOOK",
+        "DEEDPAGE",
+        "DEED_DATE",
+        "DEEDAMOUNT",
+        "PLANBKPG",
+        "LOT",
+        "TAX_DIST",
+        "DESCR1",
+        "DESCR2",
+        "DESCR3",
+        "DESCR4",
+        "CLNGREEN",
+        "SCHOOL",
+        "CLASS",
+        "DEEDSX1",
+        "DEEDSX2",
+        "VALULNDMKT",
+        "VALULAND",
+        "VALUBLDG",
+        "VALUTOTAL",
+        "LANDUSE",
+        "HOMESTEAD",
+        "FARMSTEAD",
+        "MUNICIPALN",
+        "DATADATE",
+        "TAX_DIST_N",
+        "Shape_Length",
+        "Shape_Area"
+      ]
+    },
+    "BucksCounty": {
+      "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/BucksCounty/MapServer/17",
+      "layer_name": "Bucks County - Parcels 202605",
+      "record_count": 237546,
+      "last_edit_date": null,
+      "field_names": [
+        "PARCEL_NUM",
+        "ADDRESS",
+        "DEED_AREA",
+        "OWNER1",
+        "OWNER2",
+        "CARE_OF",
+        "Shape",
+        "Shape_Length",
+        "Shape_Area",
+        "OBJECTID",
+        "MUNICIPALI",
+        "LAND_VALUE",
+        "BUILDING_V",
+        "TOTAL_VALU",
+        "LAND_USE_C",
+        "MODIFY_DAT"
+      ]
+    },
+    "CentreCounty": {
+      "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/CentreCounty/MapServer/0",
+      "layer_name": "Centre County - Parcels 202501",
+      "record_count": 62031,
+      "last_edit_date": null,
+      "field_names": [
+        "Shape",
+        "TAXIDNUM",
+        "MAP_ACRES",
+        "CAMA_ACRES",
+        "LOT",
+        "LOCATION",
+        "Shape_Length",
+        "Shape_Area",
+        "OBJECTID_1",
+        "OBJECTID",
+        "PARCEL_TYP",
+        "COMMENT1",
+        "COMMENT2",
+        "PLATREF1",
+        "PLATREF2",
+        "FLAG",
+        "CNG",
+        "DATE_",
+        "ACTIVE",
+        "OLDTAXIDNU",
+        "DEFQUE",
+        "GlobalID",
+        "ShapeSTAre",
+        "ShapeSTLen"
+      ]
+    },
+    "LancasterCounty": {
+      "layer_url": "https://mapservices.pasda.psu.edu/server/rest/services/pasda/LancasterCounty/MapServer/21",
+      "layer_name": "Lancaster County Parcels 202609",
+      "record_count": 188990,
+      "last_edit_date": null,
+      "field_names": [
+        "OBJECTID",
+        "Shape",
+        "Shape_Length",
+        "Shape_Area",
+        "ACCOUNT"
+      ]
+    }
+  },
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "counties": [
+        "AdamsCounty",
+        "AlleghenyCounty",
+        "BerksCounty",
+        "BucksCounty",
+        "CentreCounty",
+        "LancasterCounty"
+      ],
+      "description": "In 6 of 6 counties"
+    },
+    {
+      "name": "Shape",
+      "type": "Geometry",
+      "counties": [
+        "AdamsCounty",
+        "AlleghenyCounty",
+        "BerksCounty",
+        "BucksCounty",
+        "CentreCounty",
+        "LancasterCounty"
+      ],
+      "description": "In 6 of 6 counties"
+    },
+    {
+      "name": "Shape_Area",
+      "type": "Double",
+      "counties": [
+        "AdamsCounty",
+        "AlleghenyCounty",
+        "BerksCounty",
+        "BucksCounty",
+        "CentreCounty",
+        "LancasterCounty"
+      ],
+      "description": "In 6 of 6 counties"
+    },
+    {
+      "name": "Shape_Length",
+      "type": "Double",
+      "counties": [
+        "AdamsCounty",
+        "AlleghenyCounty",
+        "BerksCounty",
+        "BucksCounty",
+        "CentreCounty",
+        "LancasterCounty"
+      ],
+      "description": "In 6 of 6 counties"
+    },
+    {
+      "name": "GlobalID",
+      "type": "String",
+      "counties": [
+        "AlleghenyCounty",
+        "CentreCounty"
+      ],
+      "description": "In 2 of 6 counties: Allegheny, Centre"
+    },
+    {
+      "name": "LOT",
+      "type": "String",
+      "counties": [
+        "BerksCounty",
+        "CentreCounty"
+      ],
+      "description": "In 2 of 6 counties: Berks, Centre"
+    },
+    {
+      "name": "PIN",
+      "type": "String",
+      "counties": [
+        "AlleghenyCounty",
+        "BerksCounty"
+      ],
+      "description": "In 2 of 6 counties: Allegheny, Berks"
+    },
+    {
+      "name": "Shape_Leng",
+      "type": "Double",
+      "counties": [
+        "AdamsCounty",
+        "AlleghenyCounty"
+      ],
+      "description": "In 2 of 6 counties: Adams, Allegheny"
+    },
+    {
+      "name": "ACCOUNT",
+      "type": "String",
+      "counties": [
+        "LancasterCounty"
+      ],
+      "description": "In 1 of 6 counties: Lancaster"
+    },
+    {
+      "name": "ACREAGE",
+      "type": "Double",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "ACTIVE",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "ADDRESS",
+      "type": "String",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "BUILDING_V",
+      "type": "Double",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "CALCACREAG",
+      "type": "Double",
+      "counties": [
+        "AlleghenyCounty"
+      ],
+      "description": "In 1 of 6 counties: Allegheny"
+    },
+    {
+      "name": "CAMA_ACRES",
+      "type": "Double",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "CARE_OF",
+      "type": "String",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "CLASS",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "CLNGREEN",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "CNG",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "COMBINED_S",
+      "type": "String",
+      "counties": [
+        "AdamsCounty"
+      ],
+      "description": "In 1 of 6 counties: Adams"
+    },
+    {
+      "name": "COMMENT1",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "COMMENT2",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "COMMENTS",
+      "type": "String",
+      "counties": [
+        "AlleghenyCounty"
+      ],
+      "description": "In 1 of 6 counties: Allegheny"
+    },
+    {
+      "name": "DATADATE",
+      "type": "Date",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DATE_",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "DEED_AREA",
+      "type": "String",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "DEED_DATE",
+      "type": "Date",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DEEDAMOUNT",
+      "type": "Double",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DEEDBOOK",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DEEDED_ACR",
+      "type": "Double",
+      "counties": [
+        "AdamsCounty"
+      ],
+      "description": "In 1 of 6 counties: Adams"
+    },
+    {
+      "name": "DEEDPAGE",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DEEDSX1",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DEEDSX2",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DEFQUE",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "DESCR1",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DESCR2",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DESCR3",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DESCR4",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "DISTRICT_N",
+      "type": "String",
+      "counties": [
+        "AdamsCounty"
+      ],
+      "description": "In 1 of 6 counties: Adams"
+    },
+    {
+      "name": "FARMSTEAD",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "FLAG",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "FULLMAILAD",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "FULLSITEAD",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "HOMESTEAD",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "LAND_USE_C",
+      "type": "String",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "LAND_VALUE",
+      "type": "Double",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "LANDUSE",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "LOCATION",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "MAP_ACRES",
+      "type": "Double",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "MAPBLOCKLO",
+      "type": "String",
+      "counties": [
+        "AlleghenyCounty"
+      ],
+      "description": "In 1 of 6 counties: Allegheny"
+    },
+    {
+      "name": "MODIFY_DAT",
+      "type": "Date",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "MUNI",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "MUNICIPALI",
+      "type": "String",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "MUNICIPALN",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "MUNICODE",
+      "type": "Integer",
+      "counties": [
+        "AlleghenyCounty"
+      ],
+      "description": "In 1 of 6 counties: Allegheny"
+    },
+    {
+      "name": "NAME1",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "NOTES",
+      "type": "String",
+      "counties": [
+        "AlleghenyCounty"
+      ],
+      "description": "In 1 of 6 counties: Allegheny"
+    },
+    {
+      "name": "OBJECTID_1",
+      "type": "OID",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "OLDTAXIDNU",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "OWNER1",
+      "type": "String",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "OWNER2",
+      "type": "String",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "Parcel_ID",
+      "type": "String",
+      "counties": [
+        "AdamsCounty"
+      ],
+      "description": "In 1 of 6 counties: Adams"
+    },
+    {
+      "name": "PARCEL_NUM",
+      "type": "String",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "PARCEL_TYP",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "PLANBKPG",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "PLATREF1",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "PLATREF2",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "PROPERTY_T",
+      "type": "String",
+      "counties": [
+        "AdamsCounty"
+      ],
+      "description": "In 1 of 6 counties: Adams"
+    },
+    {
+      "name": "PROPID",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "PSEUDONO",
+      "type": "String",
+      "counties": [
+        "AlleghenyCounty"
+      ],
+      "description": "In 1 of 6 counties: Allegheny"
+    },
+    {
+      "name": "SALE_DATE",
+      "type": "String",
+      "counties": [
+        "AdamsCounty"
+      ],
+      "description": "In 1 of 6 counties: Adams"
+    },
+    {
+      "name": "SCHOOL",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "ShapeSTAre",
+      "type": "Double",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "ShapeSTLen",
+      "type": "Double",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "SHORT_NAME",
+      "type": "String",
+      "counties": [
+        "AdamsCounty"
+      ],
+      "description": "In 1 of 6 counties: Adams"
+    },
+    {
+      "name": "SITEADDRES",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "SQL_UPDATE",
+      "type": "String",
+      "counties": [
+        "AdamsCounty"
+      ],
+      "description": "In 1 of 6 counties: Adams"
+    },
+    {
+      "name": "TAX_DIST",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "TAX_DIST_N",
+      "type": "String",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "TAXIDNUM",
+      "type": "String",
+      "counties": [
+        "CentreCounty"
+      ],
+      "description": "In 1 of 6 counties: Centre"
+    },
+    {
+      "name": "TOTAL_VALU",
+      "type": "Double",
+      "counties": [
+        "BucksCounty"
+      ],
+      "description": "In 1 of 6 counties: Bucks"
+    },
+    {
+      "name": "VALUBLDG",
+      "type": "Double",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "VALULAND",
+      "type": "Double",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "VALULNDMKT",
+      "type": "Double",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    },
+    {
+      "name": "VALUTOTAL",
+      "type": "Double",
+      "counties": [
+        "BerksCounty"
+      ],
+      "description": "In 1 of 6 counties: Berks"
+    }
+  ]
+}

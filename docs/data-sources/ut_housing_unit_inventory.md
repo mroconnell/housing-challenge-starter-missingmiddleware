@@ -54,26 +54,25 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 First 3 of 5 rows in [`data/sample/ut_housing_unit_inventory.csv`](../../data/sample/ut_housing_unit_inventory.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `OBJECTID` | 1 | 2 | 3 |
-| `UNIT_ID` | 1001 | 1002 | 2001 |
-| `TYPE` | single_family | single_family | single_family |
-| `SUBTYPE` | single_family | single_family | single_family |
-| `IS_OUG` | 0 | 0 | 0 |
-| `UNIT_COUNT` | 1 | 1 | 1 |
-| `DUA` | 3.57 | 5.26 | 5.56 |
-| `ACRES` | 0.28 | 0.19 | 0.18 |
-| `TOT_BD_FT2` | 4434 | 949 | 1787 |
-| `TOT_VALUE` | 665500 | 408000 | 574000 |
-| `APX_BLT_YR` | 1973 | 2000 | 1899 |
-| `BLT_DECADE` | 1970 | 2000 | 1890 |
-| `CITY` | Millcreek | Roy | Salt Lake City |
-| `COUNTY` | Salt Lake | Weber | Salt Lake |
-| `SUBCOUNTY` | North Salt Lake County (WFRC) | South Weber County (WFRC) | North Salt Lake County (WFRC) |
-| `EVAL_DATE` |  |  |  |
-| `Shape__Area` | 1956.9375 | 1348.015625 | 1237.9453125 |
-| `Shape__Length` | 192.40428794479112 | 149.69905492905326 | 232.67475213938638 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
+| `UNIT_ID` | 1001 | 1002 | 2001 | 1003 | 501 |
+| `TYPE` | single_family | single_family | single_family | single_family | single_family |
+| `SUBTYPE` | single_family | single_family | single_family | single_family | single_family |
+| `IS_OUG` | 0 | 0 | 0 | 0 | 0 |
+| `UNIT_COUNT` | 1 | 1 | 1 | 1 | 1 |
+| `DUA` | 3.57 | 5.26 | 5.56 | 3.7 | 4.76 |
+| `ACRES` | 0.28 | 0.19 | 0.18 | 0.27 | 0.21 |
+| `TOT_BD_FT2` | 4434 | 949 | 1787 | 3537 | 2725 |
+| `TOT_VALUE` | 665500 | 408000 | 574000 | 693000 | 551700 |
+| `APX_BLT_YR` | 1973 | 2000 | 1899 | 2008 | 1978 |
+| `BLT_DECADE` | 1970 | 2000 | 1890 | 2000 | 1970 |
+| `CITY` | Millcreek | Roy | Salt Lake City | Roy | Murray |
+| `COUNTY` | Salt Lake | Weber | Salt Lake | Weber | Salt Lake |
+| `SUBCOUNTY` | North Salt Lake County (WFRC) | South Weber County (WFRC) | North Salt Lake County (WFRC) | South Weber County (WFRC) | Southeast Salt Lake County (WFRC) |
+| `Shape__Area` | 1956.9375 | 1348.015625 | 1237.9453125 | 1948.9765625 | 1513.1875 |
+| `Shape__Length` | 192.40428794479112 | 149.69905492905326 | 232.67475213938638 | 184.05037755693817 | 151.14176909588866 |
 
 ## Refresh
 

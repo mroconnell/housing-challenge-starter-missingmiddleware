@@ -83,26 +83,26 @@ Station and facility counts by agency and mode, useful for the transit scenario.
 
 First 3 of 5 rows in [`data/sample/ntd.csv`](../../data/sample/ntd.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
 
-| Field | Row 1 | Row 2 | Row 3 |
-|---|---|---|---|
-| `ntd_id` | 00001 | 00001 | 00001 |
-| `legacy_ntd_id` | 0001 | 0001 | 0001 |
-| `agency` | King County | King County | King County |
-| `mode_type_of_service_status` | Active | Active | Active |
-| `reporter_type` | Full Reporter | Full Reporter | Full Reporter |
-| `uace_cd` | 80389 | 80389 | 80389 |
-| `uza_name` | Seattle--Tacoma, WA | Seattle--Tacoma, WA | Seattle--Tacoma, WA |
-| `mode` | DR | DR | DR |
-| `tos` | PT | PT | PT |
-| `_3_mode` | Bus | Bus | Bus |
-| `date` | 2002-01-01T00:00:00.000 | 2002-02-01T00:00:00.000 | 2002-03-01T00:00:00.000 |
-| `upt` | 135144 | 127378 | 136030 |
-| `voms` | 574 | 574 | 574 |
-| `vrh` | 53306 | 46865 | 51889 |
-| `vrm` | 746158 | 656324 | 726578 |
-| `agency_mode_tos_date` | 00001_DR_PT_Active_Full Reporter_80389_2002-01-01 | 00001_DR_PT_Active_Full Reporter_80389_2002-02-01 | 00001_DR_PT_Active_Full Reporter_80389_2002-03-01 |
-| `state` | WA | WA | WA |
-| `fta_region` | 10 | 10 | 10 |
+| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
+|---|---|---|---|---|---|
+| `ntd_id` | 00001 | 00001 | 00001 | 00001 | 00001 |
+| `legacy_ntd_id` | 0001 | 0001 | 0001 | 0001 | 0001 |
+| `agency` | King County | King County | King County | King County | King County |
+| `mode_type_of_service_status` | Active | Active | Active | Active | Active |
+| `reporter_type` | Full Reporter | Full Reporter | Full Reporter | Full Reporter | Full Reporter |
+| `uace_cd` | 80389 | 80389 | 80389 | 80389 | 80389 |
+| `uza_name` | Seattle--Tacoma, WA | Seattle--Tacoma, WA | Seattle--Tacoma, WA | Seattle--Tacoma, WA | Seattle--Tacoma, WA |
+| `mode` | DR | DR | DR | DR | DR |
+| `tos` | PT | PT | PT | PT | PT |
+| `_3_mode` | Bus | Bus | Bus | Bus | Bus |
+| `date` | 2002-01-01T00:00:00.000 | 2002-02-01T00:00:00.000 | 2002-03-01T00:00:00.000 | 2002-04-01T00:00:00.000 | 2002-05-01T00:00:00.000 |
+| `upt` | 135144 | 127378 | 136030 | 142204 | 144697 |
+| `voms` | 574 | 574 | 574 | 574 | 574 |
+| `vrh` | 53306 | 46865 | 51889 | 52674 | 53306 |
+| `vrm` | 746158 | 656324 | 726578 | 736975 | 746158 |
+| `agency_mode_tos_date` | 00001_DR_PT_Active_Full Reporter_80389_2002-01-01 | 00001_DR_PT_Active_Full Reporter_80389_2002-02-01 | 00001_DR_PT_Active_Full Reporter_80389_2002-03-01 | 00001_DR_PT_Active_Full Reporter_80389_2002-04-01 | 00001_DR_PT_Active_Full Reporter_80389_2002-05-01 |
+| `state` | WA | WA | WA | WA | WA |
+| `fta_region` | 10 | 10 | 10 | 10 | 10 |
 
 ## Refresh
 
