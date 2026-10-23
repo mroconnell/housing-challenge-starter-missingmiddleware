@@ -1,0 +1,5 @@
+Survey,FIPS,Region,Division,State,,1-unit,,,2-units,,,3-4 units,,,5+ units,,,1-unit rep,,,2-units rep,,,3-4 units rep       ,,,5+ units rep
+Date,State,Code,Code,Name,Bldgs,Units,Value,Bldgs,Units,Value,Bldgs,Units,Value,      Bldgs,Units,Value,Bldgs,Units,Value,Bldgs,Units,Value,      Bldgs,Units,Value,Bldgs,Units,Value
+ 
+202599,01,3,6,Alabama,15402,15402,4547092,66,132,24375,60,228,27906,197,3299,502911,13035,13035,3975707,48,96,12446,50,195,22106,166,2726,397892
+202599,55,2,3,Wisconsin,13405,13405,5609893,768,1536,316905,25,92,20599,357,10536,1869448,12203,12203,5214729,646,1292,268098,24,89,20202,329,9778,1748695
