@@ -1,6 +1,6 @@
 {
   "source_id": "ntd",
-  "fetched_at": "2026-10-23T06:49:44+00:00",
+  "fetched_at": "2026-10-23T16:39:33+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -470,16 +470,16 @@
       "updated_at": "2026-10-14T18:25:08.000Z"
     },
     {
-      "id": "fphd-jyyj",
-      "name": "2022 - 2025 NTD Annual Data - Capital Expenses (by Capital Use)",
-      "type": "dataset",
-      "updated_at": "2026-10-14T14:49:05.000Z"
-    },
-    {
       "id": "djja-i6n4",
       "name": "2024 NTD Annual Data Summary - Facilities and Stations",
       "type": "story",
       "updated_at": "2026-10-12T16:44:29.017Z"
+    },
+    {
+      "id": "fphd-jyyj",
+      "name": "2022 - 2025 NTD Annual Data - Capital Expenses (by Capital Use)",
+      "type": "dataset",
+      "updated_at": "2026-10-14T14:49:05.000Z"
     },
     {
       "id": "gm5m-aghp",
