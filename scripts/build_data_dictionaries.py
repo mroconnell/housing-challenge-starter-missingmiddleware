@@ -126,8 +126,9 @@ def sample_table(rows):
     rows = rows[:SHOW_ROWS]
     head = "| Field | " + " | ".join(f"Row {i + 1}" for i in range(len(rows))) + " |\n"
     head += "|---|" + "---|" * len(rows) + "\n"
+    keys = [k for k in rows[0].keys() if any(r.get(k) not in (None, "") for r in rows)]
     body = "".join(
-        f"| `{esc(k, 40)}` | " + " | ".join(esc(r.get(k)) for r in rows) + " |\n" for k in rows[0].keys()
+        f"| `{esc(k, 40)}` | " + " | ".join(esc(r.get(k)) for r in rows) + " |\n" for k in keys
     )
     return head + body
 
@@ -157,6 +158,24 @@ def extras(sid, meta):
     if sid == "fhfa_hpi" and meta.get("all_download_links_found"):
         md += "## Other FHFA HPI files found on the datasets page\n\n"
         md += "".join(f"- {u}\n" for u in meta["all_download_links_found"][:30]) + "\n"
+    if sid == "pa_pasda_parcels" and meta.get("counties"):
+        md += "## Field comparison across counties\n\n"
+        md += "| County | Layer | Parcels | Fields | Parcel id | Address | Land use | Value | Area |\n|---|---|---|---|---|---|---|---|---|\n"
+        concepts = {
+            "Parcel id": r"pin|parcel|upi|apn|map_?(no|num)|^pid|tax_?id|uniq",
+            "Address": r"addr|situs|street|loc_|location",
+            "Land use": r"use|luc|class|zon",
+            "Value": r"val|assess|apr|mkt|market",
+            "Area": r"acre|sqft|area",
+        }
+        for c, m in meta["counties"].items():
+            if "field_names" not in m:
+                md += f"| {c} | not sampled: {esc(m.get('error'), 120)} | | | | | | | |\n"
+                continue
+            names = [n for n in m["field_names"] if not re.match(r"(?i)shape|objectid|fid$", n)]
+            cells = [esc(", ".join(f"`{n}`" for n in names if re.search(rx, n, re.I)), 160) or "none" for rx in concepts.values()]
+            md += f"| {c} | {esc(m.get('layer_name'), 40)} | {m.get('record_count') or ''} | {len(m['field_names'])} | " + " | ".join(cells) + " |\n"
+        md += "\nThe concept columns are a name match only. They show which fields probably hold that idea, not a checked crosswalk.\n\n"
     if meta.get("page_excerpt"):
         md += f"## What the source page says\n\n> {esc(meta['page_excerpt'], 1200)}\n\n"
     return md
@@ -223,7 +242,16 @@ def write_source(sid, info, meta, rows):
         md += f"## Sample rows\n\nFirst {min(len(rows), SHOW_ROWS)} of {len(rows)} rows in [`data/sample/{sid}.csv`](../../data/sample/{sid}.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.\n\n"
     else:
         md += f"## Sample rows\n\nNone. See the status above. What we did find is in [`data/sample/{sid}.meta.json`](../../data/sample/{sid}.meta.json).\n\n"
-    md += sample_table(rows) if rows else ""
+    shown = rows
+    if sid == "pa_pasda_parcels":
+        # One row from each of the first counties, so the table shows how they differ.
+        seen, shown = set(), []
+        for r in rows:
+            if r.get("pasda_county") not in seen:
+                seen.add(r.get("pasda_county"))
+                shown.append(r)
+        md += "The table shows one row from each of the first counties. Blank fields are hidden.\n\n"
+    md += sample_table(shown) if rows else ""
     md += f"\n## Refresh\n\n```sh\npython3 scripts/fetch_samples.py {sid}\npython3 scripts/build_data_dictionaries.py\n```\n"
     (DOCS / f"{sid}.md").write_text(md)
     return status, url

@@ -64,6 +64,20 @@ class TestBuilder(unittest.TestCase):
         self.assertIn("Reported only", build.pattern_meaning("census_bps", "2-units rep Units"))
         self.assertIn("Location quotient", build.pattern_meaning("bls_qcew", "lq_annual_avg_emplvl"))
 
+    def test_pasda_field_comparison(self):
+        meta = {"counties": {
+            "AdamsCounty": {"layer_name": "Parcels", "record_count": 10, "field_names": ["OBJECTID", "PIN", "SITUS_ADDR", "ACRES"]},
+            "ErieCounty": {"error": "no parcel layer"},
+        }}
+        md = build.extras("pa_pasda_parcels", meta)
+        self.assertIn("| AdamsCounty | Parcels | 10 | 4 | `PIN` | `SITUS_ADDR` | none | none | `ACRES` |", md)
+        self.assertIn("ErieCounty | not sampled: no parcel layer", md)
+
+    def test_sample_table_hides_blank_columns(self):
+        md = build.sample_table([{"a": "1", "b": ""}, {"a": "2", "b": ""}])
+        self.assertIn("`a`", md)
+        self.assertNotIn("`b`", md)
+
     def test_sample_table_escapes_pipes(self):
         md = build.sample_table([{"a": "x|y"}])
         self.assertIn("x\\|y", md)
