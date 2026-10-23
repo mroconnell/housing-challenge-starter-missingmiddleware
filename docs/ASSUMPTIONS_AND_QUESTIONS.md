@@ -282,7 +282,24 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Bias note:** Treating every uncoded municipality as prohibiting ADUs overstates the reform's effect wherever local rules are already partly permissive. The coded largest jurisdictions limit this; the remaining bias is reported as a stated limitation and checked by the later spot-check.
 
-**Decision:** Unknown = prohibited for the MVP; largest-jurisdiction coding plus spot-checks; consistent baseline-health presentation across scenarios. The residual-effect interpretation for already-permissive cities awaits owner confirmation.
+**Decision:** Unknown = prohibited for the MVP; largest-jurisdiction coding plus spot-checks; consistent baseline-health presentation across scenarios. The owner confirmed the residual-effect interpretation for already-permissive cities on 2026-10-23.
+
+## AQ-024 Use Madison as the lower path and separate models for central and upper paths
+
+**Status:** Adopted direction; calibration at Gate 3. **Added:** 2026-10-23. **Related:** AQ-012, AQ-022, AQ-023.
+
+**Owner direction:** Treat Madison as the reference floor: under the statewide bill, every Wisconsin municipality becomes at least as permissive as Madison and is expected to produce ADUs at least at Madison's observed rate per one-unit detached home. The central and upper paths each come from a different predictive model.
+
+**Working design for Gate 3:**
+
+- **Lower path:** Madison's observed post-reform rate (ADU permits per 1,000 one-unit detached homes per year), with the baseline period fixed before results are seen.
+- **Central path:** a separate model built from comparison places with post-reform evidence (for example Massachusetts, Austin, Minneapolis, New Hampshire), with its method and inputs documented.
+- **Upper path:** a separate model reflecting a stronger, California-like response, with its method and inputs documented.
+- Paths remain one coherent scenario each, applied to all areas together.
+
+**Conductor caution:** Madison is Wisconsin's strongest ADU market (high rents, promotion, by-right rules since 2021). Using its rate as a statewide floor may overstate uptake in weaker or rural markets. Gate 3 will show a market-adjusted variant as a sensitivity so the owner can see how much the floor assumption drives the statewide total.
+
+**Decision:** Direction adopted; numerical values, baseline period, and the two predictive models are Gate 3 decisions.
 
 ## Additional questions to develop
 
@@ -310,3 +327,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-23 | AQ-018 | Adopted area-level map forecasts for neighborhoods, regions, or cells, with inventory and spatial joins included in the data acceptance criteria. Geographic resolution and allocation weights remain open. |
 | 2026-10-23 | AQ-019, AQ-020; MVP Execution Plan | Recorded the state-first destination, sequential ADU pilot/statewide/additional-scenario MVPs, judging alignment, local execution with routine GitHub pushes authorized, and agent self-assessment before step-by-step owner gates. |
 | 2026-10-23 | AQ-021 to AQ-023; AQ-007, AQ-014 | Recorded the owner's Gate 1 decisions: stylized dates, ACS denominator, ADU-equivalent permit rule, replacing New Berlin with a permit-data-rich mid-size city without ADU rules, no poison pills in the modeled bill, unknown local rules treated as no ADU rights for the MVP, and baseline-health reporting across scenarios. |
+| 2026-10-23 | AQ-023, AQ-024 | Owner confirmed the reduced effect for already-permissive cities and set Madison's observed rate as the lower path, with separate predictive models for the central and upper paths. |
