@@ -1,6 +1,6 @@
 {
   "source_id": "or_geohub",
-  "fetched_at": "2026-10-23T05:39:18+00:00",
+  "fetched_at": "2026-10-23T05:46:49+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -134,20 +134,84 @@
   "sampled": "zoning",
   "parcel_hits": [
     {
-      "id": "01ebe5d5738d4833b543a24181a887ba",
-      "title": "Wilderness Areas in the United States",
-      "type": "Feature Service",
-      "url": "https://services1.arcgis.com/ERdCHt0sNM6dENSD/arcgis/rest/services/Wilderness_Areas_in_the_United_States/FeatureServer",
-      "owner": "OR_FRAMEWORK",
-      "modified": "2024-01-31"
+      "id": "cb3c7f27ca7449fe9e7ec418987386b6_0",
+      "title": "Parcels",
+      "type": "Feature Layer",
+      "url": "https://services.arcgis.com/seTexOicoRXDvRsJ/arcgis/rest/services/Parcels_Enriched/FeatureServer/0",
+      "owner": "DouglasCountyCO_GISServices",
+      "modified": "2025-05-07"
     },
     {
-      "id": "e8dd096362c8414684b0ae9e31562309",
-      "title": "SLIS Public",
-      "type": "Feature Service",
-      "url": "https://maps.dsl.state.or.us/arcgis/rest/services/SlisPublic/FeatureServer",
-      "owner": "OR_FRAMEWORK",
-      "modified": "2026-01-26"
+      "id": "3e4a2cb4b6c44abcbcaac10b25847794_5",
+      "title": "PARCELS VIEW",
+      "type": "Feature Layer",
+      "url": "https://services6.arcgis.com/kIJQVjhDSsSdR0Xt/arcgis/rest/services/PARCELS_VIEW/FeatureServer/5",
+      "owner": "agolpro_Wildomar",
+      "modified": "2024-10-05"
+    },
+    {
+      "id": "23e6b8c34a364783a26409eeded7c79e_0",
+      "title": "BV Parcels",
+      "type": "Feature Layer",
+      "url": "https://services1.arcgis.com/9z9tEfqo0TExR9C8/arcgis/rest/services/BV_Parcels/FeatureServer/0",
+      "owner": "GIS_AlpineCo",
+      "modified": "2018-07-20"
+    },
+    {
+      "id": "d4ec612a97564886a581a8282db2e247",
+      "title": "Parcels",
+      "type": "Vector Tile Service",
+      "url": "https://tiles.arcgis.com/tiles/DRQySz3VhPgOv7Bo/arcgis/rest/services/Parcels/VectorTileServer",
+      "owner": "WRD_Admin",
+      "modified": "2026-09-16"
+    },
+    {
+      "id": "6766f72862834fdeb1ab345b76f379a7_0",
+      "title": "Newark Parcels",
+      "type": "Feature Layer",
+      "url": "https://services1.arcgis.com/WAUuvHqqP3le2PMh/arcgis/rest/services/Newark_Parcels/FeatureServer/0",
+      "owner": "dikidjievai_newgin",
+      "modified": "2021-06-04"
+    },
+    {
+      "id": "3ce3c1af673f423489b9209a506293df_0",
+      "title": "Parcels",
+      "type": "Feature Layer",
+      "url": "https://services.arcgis.com/K8hCj4l2z1EMabnx/arcgis/rest/services/Parcels_View/FeatureServer/0",
+      "owner": "OFallonMapsandApps",
+      "modified": "2024-08-09"
+    },
+    {
+      "id": "7af2628896144653b0510013ea1fb093_58",
+      "title": "Parcels",
+      "type": "Feature Layer",
+      "url": "https://services9.arcgis.com/WAqWnERqM2ce1oen/arcgis/rest/services/Parcels/FeatureServer/58",
+      "owner": "grovecityboro",
+      "modified": "2021-05-10"
+    },
+    {
+      "id": "8edf135043334a45ba69826a924e3c1b_58",
+      "title": "Parcels (Proposed)",
+      "type": "Feature Layer",
+      "url": "https://services7.arcgis.com/iMHDvyzuG2Q2tuit/arcgis/rest/services/Parcels_Future/FeatureServer/58",
+      "owner": "shermangis7",
+      "modified": "2026-06-23"
+    },
+    {
+      "id": "bc596260a1c241209cb55e27a0722727_0",
+      "title": "Parcels 2019",
+      "type": "Feature Layer",
+      "url": "https://services1.arcgis.com/4nU7cbKqLfftauX2/arcgis/rest/services/Parcels___2019/FeatureServer/0",
+      "owner": "AccessAuburnAdmin",
+      "modified": "2021-06-21"
+    },
+    {
+      "id": "8d965e8c6535460d8ec8c2e01c179f66_0",
+      "title": "Parcels County",
+      "type": "Feature Layer",
+      "url": "https://services.arcgis.com/KYQI4l6C3kTBM5OU/arcgis/rest/services/Parcels_County/FeatureServer/0",
+      "owner": "dataadmin_cityofnapa",
+      "modified": "2026-10-21"
     }
   ],
   "zoning_hits": [
