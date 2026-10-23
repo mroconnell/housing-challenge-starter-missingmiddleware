@@ -1,0 +1,311 @@
+{
+  "source_id": "ut_parcels",
+  "fetched_at": "2026-10-23T06:50:24+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/Parcels_SaltLake_LIR/FeatureServer/0",
+  "layer_name": "Parcels_SaltLake_LIR",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": null,
+  "record_count": 399432,
+  "max_record_count": 2000,
+  "last_edit_date": "2026-10-14",
+  "description": "Update information can be found within the layer\u2019s attributes and in a table on the Utah Parcel Data webpage under LIR Parcels.In Spring of 2016, the Land Information Records work group, an informal committee organized by the Governor\u2019s Office of Management and Budget\u2019s State Planning Coordinator, produced recommendations for expanding the sharing of GIS-based parcel information. Participants in the LIR work group included representatives from county, regional, and state government, including the Utah Association of Counties (County Assessors and County Recorders), Wasatch Front Regional Council, Mountainland and Bear River AOGs, Utah League of Cities and Towns, UDOT, DNR, AGRC, the Division of Emergency Management, Blue Stakes, economic developers, and academic researchers. The LIR work group\u2019s recommendations set the stage for voluntary sharing of additional objective/quantitative parcel GIS data, primarily around tax assessment-related information. Specifically the recommendations d",
+  "copyright": "",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "COUNTY_NAME",
+      "type": "String",
+      "alias": "County Name",
+      "length": 20,
+      "has_domain": false
+    },
+    {
+      "name": "COUNTY_ID",
+      "type": "String",
+      "alias": "County ID",
+      "length": 2,
+      "has_domain": false
+    },
+    {
+      "name": "ASSESSOR_SRC",
+      "type": "String",
+      "alias": "County Assessor Info URL",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "BOUNDARY_SRC",
+      "type": "String",
+      "alias": "County Recorder Info URL",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "DISCLAIMER",
+      "type": "String",
+      "alias": "Disclaimer URL",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "CURRENT_ASOF",
+      "type": "Date",
+      "alias": "Current As Of",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "PARCEL_ID",
+      "type": "String",
+      "alias": "Parcel ID",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "SERIAL_NUM",
+      "type": "String",
+      "alias": "Serial Number",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "PARCEL_ADD",
+      "type": "String",
+      "alias": "Parcel Address",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "PARCEL_CITY",
+      "type": "String",
+      "alias": "Parcel City",
+      "length": 30,
+      "has_domain": false
+    },
+    {
+      "name": "TAXEXEMPT_TYPE",
+      "type": "String",
+      "alias": "Tax Exempt Type",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "TAX_DISTRICT",
+      "type": "String",
+      "alias": "Tax District",
+      "length": 10,
+      "has_domain": false
+    },
+    {
+      "name": "TOTAL_MKT_VALUE",
+      "type": "Double",
+      "alias": "Total Market Value",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LAND_MKT_VALUE",
+      "type": "Double",
+      "alias": "Land Market Value",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PARCEL_ACRES",
+      "type": "Double",
+      "alias": "Parcel Acres",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PROP_CLASS",
+      "type": "String",
+      "alias": "Property Class",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "PRIMARY_RES",
+      "type": "String",
+      "alias": "Primary Residence",
+      "length": 1,
+      "has_domain": false
+    },
+    {
+      "name": "HOUSE_CNT",
+      "type": "String",
+      "alias": "Number of Housing Units",
+      "length": 10,
+      "has_domain": false
+    },
+    {
+      "name": "SUBDIV_NAME",
+      "type": "String",
+      "alias": "Subdivision Name",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "BLDG_SQFT",
+      "type": "Double",
+      "alias": "Square Footage",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "BLDG_SQFT_INFO",
+      "type": "String",
+      "alias": "Square Footage Note",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "FLOORS_CNT",
+      "type": "Double",
+      "alias": "Number of Floors",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "FLOORS_INFO",
+      "type": "String",
+      "alias": "Number of Floors Note",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "BUILT_YR",
+      "type": "SmallInteger",
+      "alias": "Year Built",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "EFFBUILT_YR",
+      "type": "SmallInteger",
+      "alias": "Effective Year Built",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "CONST_MATERIAL",
+      "type": "String",
+      "alias": "Construction Material",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "PROP_TYPE",
+      "type": "String",
+      "alias": "Property Type",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Area",
+      "type": "Double",
+      "alias": "Shape__Area",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Length",
+      "type": "Double",
+      "alias": "Shape__Length",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "parcel_services_found": [
+    "cadastre_government_owned_parcels",
+    "Parcels_Beaver",
+    "Parcels_Beaver_LIR",
+    "Parcels_BoxElder",
+    "Parcels_BoxElder_LIR",
+    "Parcels_Cache",
+    "Parcels_Cache_LIR",
+    "Parcels_Carbon",
+    "Parcels_Carbon_LIR",
+    "Parcels_Daggett",
+    "Parcels_Daggett_LIR",
+    "Parcels_Davis",
+    "Parcels_Davis_LIR",
+    "Parcels_Duchesne",
+    "Parcels_Duchesne_LIR",
+    "Parcels_Emery",
+    "Parcels_Emery_LIR",
+    "Parcels_Garfield",
+    "Parcels_Garfield_LIR",
+    "Parcels_Grand",
+    "Parcels_Grand_LIR",
+    "Parcels_Grand_SanJuan",
+    "Parcels_Iron",
+    "Parcels_Iron_LIR",
+    "Parcels_Juab",
+    "Parcels_Juab_LIR",
+    "Parcels_Kane",
+    "Parcels_Kane_LIR",
+    "Parcels_Millard",
+    "Parcels_Millard_LIR",
+    "Parcels_Morgan",
+    "Parcels_Morgan_LIR",
+    "Parcels_Piute",
+    "Parcels_Piute_LIR",
+    "Parcels_Rich",
+    "Parcels_Rich_LIR",
+    "Parcels_SaltLake",
+    "Parcels_SaltLake_LIR",
+    "Parcels_SanJuan",
+    "Parcels_SanJuan_LIR",
+    "Parcels_Sanpete",
+    "Parcels_Sanpete_LIR",
+    "Parcels_Sevier",
+    "Parcels_Sevier_LIR",
+    "Parcels_Summit",
+    "Parcels_Summit_LIR",
+    "Parcels_Tooele",
+    "Parcels_Tooele_LIR",
+    "Parcels_Uintah",
+    "Parcels_Uintah_LIR",
+    "Parcels_Utah",
+    "Parcels_Utah_LIR",
+    "Parcels_Wasatch",
+    "Parcels_Wasatch_LIR",
+    "Parcels_Washington",
+    "Parcels_Washington_LIR",
+    "Parcels_Wayne",
+    "Parcels_Wayne_LIR",
+    "Parcels_Weber",
+    "Parcels_Weber_LIR",
+    "slco_parcels_full_1000ft",
+    "UtahStatewideParcels"
+  ],
+  "geometry_sample": {
+    "layer_url": "https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/Parcels_SaltLake_LIR/FeatureServer/0",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": null,
+      "latestWkid": null
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "file": "data/sample/geo/ut_parcels.geojson",
+    "features": 3,
+    "bytes": 3619,
+    "vertices_per_feature": [
+      7,
+      9,
+      8
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
+}

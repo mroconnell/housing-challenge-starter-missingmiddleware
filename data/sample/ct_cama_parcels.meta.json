@@ -1,0 +1,483 @@
+{
+  "source_id": "ct_cama_parcels",
+  "fetched_at": "2026-10-23T06:50:02+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://services3.arcgis.com/3FL1kr7L4LvwA2Kb/arcgis/rest/services/Connecticut_CAMA_and_Parcel_Layer/FeatureServer/0",
+  "layer_name": "Connecticut_CAMA_and_Parcel_Layer",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 103016,
+    "latestWkid": 6434
+  },
+  "record_count": 1320686,
+  "max_record_count": 2000,
+  "last_edit_date": "2026-10-06",
+  "description": "",
+  "copyright": "",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Source_Date",
+      "type": "String",
+      "alias": "Source_Date",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Source_Type",
+      "type": "String",
+      "alias": "Source_Type",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Source_Name",
+      "type": "String",
+      "alias": "Source_Name",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Editor",
+      "type": "String",
+      "alias": "Editor",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Editor_Comment",
+      "type": "String",
+      "alias": "Editor Comment",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Edit_Date",
+      "type": "String",
+      "alias": "Edit Date",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Edit_Method",
+      "type": "String",
+      "alias": "Edit_Method",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Edit_Type",
+      "type": "String",
+      "alias": "Edit_Type",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Location",
+      "type": "String",
+      "alias": "Location",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Link",
+      "type": "String",
+      "alias": "Link",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Parcel_Type",
+      "type": "String",
+      "alias": "Parcel Type",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Town_Name",
+      "type": "String",
+      "alias": "Town Name",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Unit_Type",
+      "type": "String",
+      "alias": "Unit_Type",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Parcel_ID",
+      "type": "String",
+      "alias": "Parcel_ID",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "ZIP_CODE",
+      "type": "String",
+      "alias": "ZIP_CODE",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "FIPS",
+      "type": "String",
+      "alias": "FIPS",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "CAMA_Link",
+      "type": "String",
+      "alias": "CAMA_Link",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "COG",
+      "type": "String",
+      "alias": "COG",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Parcel_Collection_Year",
+      "type": "String",
+      "alias": "Parcel_Collection_Year",
+      "length": 10,
+      "has_domain": false
+    },
+    {
+      "name": "OBJECTID_1",
+      "type": "String",
+      "alias": "OBJECTID",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Location_1",
+      "type": "String",
+      "alias": "Location",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Property_Zip",
+      "type": "String",
+      "alias": "Property_Zip",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "link_1",
+      "type": "String",
+      "alias": "link",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Property_City",
+      "type": "String",
+      "alias": "Property City",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Owner",
+      "type": "String",
+      "alias": "Owner",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Co_Owner",
+      "type": "String",
+      "alias": "Co_Owner",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Mailing_Address",
+      "type": "String",
+      "alias": "Mailing Address",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Mailing_City",
+      "type": "String",
+      "alias": "Mailing City",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Mailing_State",
+      "type": "String",
+      "alias": "Mailing State",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Mailing_Zip",
+      "type": "String",
+      "alias": "Mailing_Zip",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Assessed_Total",
+      "type": "Double",
+      "alias": "Assessed Total",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Assessed_Land",
+      "type": "Double",
+      "alias": "Assessed Land",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Assessed_Building",
+      "type": "Double",
+      "alias": "Assessed Building",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Pre_Yr_Assessed_Total",
+      "type": "Double",
+      "alias": "Pre Yr Assessed Total",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Appraised_Land",
+      "type": "Double",
+      "alias": "Appraised Land",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Appraised_Building",
+      "type": "Double",
+      "alias": "Appraised Building",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Appraised_Outbuilding",
+      "type": "Double",
+      "alias": "Appraised Outbuilding",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Valuation_Year",
+      "type": "Double",
+      "alias": "Valuation Year",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Land_Acres",
+      "type": "Double",
+      "alias": "Land Acres",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Zone",
+      "type": "String",
+      "alias": "Zone",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "State_Use",
+      "type": "String",
+      "alias": "State Use",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "State_Use_Description",
+      "type": "String",
+      "alias": "State Use Description",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Model",
+      "type": "String",
+      "alias": "Model",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Condition",
+      "type": "String",
+      "alias": "Condition",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Living_Area",
+      "type": "Double",
+      "alias": "Living Area",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Effective_Area",
+      "type": "Double",
+      "alias": "Effective Area",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Total_Rooms",
+      "type": "Double",
+      "alias": "Total Rooms",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Number_of_Bedroom",
+      "type": "Double",
+      "alias": "Number of Bedroom",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Number_of_Baths",
+      "type": "Double",
+      "alias": "Number of Baths",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Number_of_Half_Baths",
+      "type": "Double",
+      "alias": "Number of Half Baths",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Sale_Price",
+      "type": "Double",
+      "alias": "Sale Price",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Sale_Date",
+      "type": "String",
+      "alias": "Sale Date",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Prior_Sale_Date",
+      "type": "String",
+      "alias": "Prior Sale Date",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Prior_Book_Page",
+      "type": "String",
+      "alias": "Prior Book Page",
+      "length": 1073741822,
+      "has_domain": false
+    },
+    {
+      "name": "Prior_Sale_Price",
+      "type": "String",
+      "alias": "Prior Sale Price",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Occupancy",
+      "type": "Double",
+      "alias": "Occupancy",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "AYB",
+      "type": "Double",
+      "alias": "AYB",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "EYB",
+      "type": "Double",
+      "alias": "EYB",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "CAMA_Collection_Year",
+      "type": "Integer",
+      "alias": "CAMA_Collection_Year",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Area",
+      "type": "Double",
+      "alias": "Shape__Area",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Length",
+      "type": "Double",
+      "alias": "Shape__Length",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "item": {
+    "id": "82a733423a244c43a9d4bf552954cea9",
+    "title": "Connecticut CAMA and Parcel Layer",
+    "owner": "ctgisoffice",
+    "type": "Feature Service",
+    "modified": "2026-10-13",
+    "license": "CC0",
+    "access": "public"
+  },
+  "geometry_sample": {
+    "layer_url": "https://services3.arcgis.com/3FL1kr7L4LvwA2Kb/arcgis/rest/services/Connecticut_CAMA_and_Parcel_Layer/FeatureServer/0",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 103016,
+      "latestWkid": 6434
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "file": "data/sample/geo/ct_cama_parcels.geojson",
+    "features": 3,
+    "bytes": 5474,
+    "vertices_per_feature": [
+      7,
+      8,
+      10
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
+}

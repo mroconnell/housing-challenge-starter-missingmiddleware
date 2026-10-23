@@ -1,0 +1,357 @@
+{
+  "source_id": "or_metro_taxlots",
+  "fetched_at": "2026-10-23T06:50:03+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Taxlots_(Public)/FeatureServer/3",
+  "layer_name": "Taxlots  (Public)",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 2913,
+    "latestWkid": 2913
+  },
+  "record_count": 647192,
+  "max_record_count": 2000,
+  "last_edit_date": "2026-08-26",
+  "description": "The taxlots from Clackamas, Multnomah and Washington Counties with selected attributes that are standardized across the region, excluding ownership information. The layer includes the rights-of-way. http://rlisdiscovery.oregonmetro.gov",
+  "copyright": "",
+  "fields": [
+    {
+      "name": "TLID",
+      "type": "String",
+      "alias": "TLID",
+      "length": 16,
+      "has_domain": false
+    },
+    {
+      "name": "PRIMACCNUM",
+      "type": "String",
+      "alias": "PRIMACCNUM",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "ALTACCNUM",
+      "type": "String",
+      "alias": "ALTACCNUM",
+      "length": 15,
+      "has_domain": false
+    },
+    {
+      "name": "SITEADDR",
+      "type": "String",
+      "alias": "SITEADDR",
+      "length": 254,
+      "has_domain": false
+    },
+    {
+      "name": "SITECITY",
+      "type": "String",
+      "alias": "SITECITY",
+      "length": 40,
+      "has_domain": false
+    },
+    {
+      "name": "SITEZIP",
+      "type": "String",
+      "alias": "SITEZIP",
+      "length": 10,
+      "has_domain": false
+    },
+    {
+      "name": "BLDGSQFT",
+      "type": "Integer",
+      "alias": "BLDGSQFT",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "A_T_ACRES",
+      "type": "Double",
+      "alias": "A_T_ACRES",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "YEARBUILT",
+      "type": "SmallInteger",
+      "alias": "YEARBUILT",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PROP_CODE",
+      "type": "String",
+      "alias": "PROP_CODE",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "LANDUSE",
+      "type": "String",
+      "alias": "LANDUSE",
+      "length": 3,
+      "has_domain": false
+    },
+    {
+      "name": "TAXCODE",
+      "type": "String",
+      "alias": "TAXCODE",
+      "length": 20,
+      "has_domain": false
+    },
+    {
+      "name": "SALEDATE",
+      "type": "String",
+      "alias": "SALEDATE",
+      "length": 6,
+      "has_domain": false
+    },
+    {
+      "name": "SALEPRICE",
+      "type": "Integer",
+      "alias": "SALEPRICE",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "COUNTY",
+      "type": "String",
+      "alias": "COUNTY",
+      "length": 1,
+      "has_domain": false
+    },
+    {
+      "name": "X_COORD",
+      "type": "Integer",
+      "alias": "X_COORD",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Y_COORD",
+      "type": "Integer",
+      "alias": "Y_COORD",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "JURIS_CITY",
+      "type": "String",
+      "alias": "JURIS_CITY",
+      "length": 15,
+      "has_domain": false
+    },
+    {
+      "name": "GIS_ACRES",
+      "type": "Double",
+      "alias": "GIS_ACRES",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "STATECLASS",
+      "type": "String",
+      "alias": "STATECLASS",
+      "length": 4,
+      "has_domain": false
+    },
+    {
+      "name": "ORTAXLOT",
+      "type": "String",
+      "alias": "ORTAXLOT",
+      "length": 29,
+      "has_domain": false
+    },
+    {
+      "name": "LANDVAL",
+      "type": "Double",
+      "alias": "LANDVAL",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "BLDGVAL",
+      "type": "Double",
+      "alias": "BLDGVAL",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TOTALVAL",
+      "type": "Double",
+      "alias": "TOTALVAL",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ASSESSVAL",
+      "type": "Double",
+      "alias": "ASSESSVAL",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "FID",
+      "type": "OID",
+      "alias": "FID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "AREA",
+      "type": "Double",
+      "alias": "AREA",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "HAS_MANY",
+      "type": "Single",
+      "alias": "HAS_MANY",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Area",
+      "type": "Double",
+      "alias": "Shape__Area",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Length",
+      "type": "Double",
+      "alias": "Shape__Length",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PUBLIC_OWN",
+      "type": "Integer",
+      "alias": "PUBLIC_OWN",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "OWNERTYPE",
+      "type": "String",
+      "alias": "OWNERTYPE",
+      "length": 50,
+      "has_domain": false
+    }
+  ],
+  "chosen_search_hit": {
+    "id": "b3cabe5845ec47eab61c54e0c631313c",
+    "title": "Taxlots (Public)",
+    "type": "Feature Service",
+    "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Taxlots_(Public)/FeatureServer",
+    "owner": "OregonMetro.RLIS",
+    "modified": "2026-08-26"
+  },
+  "lookup_log": {
+    "item": "item 9d3c396ffad44649bc7451465aa300f0 has no service url (type=Shapefile)"
+  },
+  "search_hits": [
+    {
+      "id": "b3cabe5845ec47eab61c54e0c631313c",
+      "title": "Taxlots (Public)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Taxlots_(Public)/FeatureServer",
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    },
+    {
+      "id": "9d3c396ffad44649bc7451465aa300f0",
+      "title": "Taxlots (Public) - Download",
+      "type": "Shapefile",
+      "url": null,
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    },
+    {
+      "id": "2dc063e691d0457db7fae304f2a59b6d",
+      "title": "Taxlots Change - Geometry",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Taxlots_Change_Geometry/FeatureServer",
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    },
+    {
+      "id": "a16aafabb9e840418d97e47fcd1a5128",
+      "title": "Taxlots with Right of Way (Public)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Taxlots_with_Right_of_Way_Public/FeatureServer",
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    },
+    {
+      "id": "ea62fccb6f6745d0bdad9345ed4145dc",
+      "title": "Taxlot Additional Records (Public)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Taxlot_additional_records_public/FeatureServer",
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    },
+    {
+      "id": "b3a37d64cb81443d825c650d04c3101e",
+      "title": "Vacant Land",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Vacant_Land/FeatureServer",
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    },
+    {
+      "id": "3949bc39e980444384312a8c4d7bdb08",
+      "title": "RLIS Open Data Updates from Last Quarter",
+      "type": "Shapefile",
+      "url": null,
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    },
+    {
+      "id": "9ebd18bf38784eae93c30ecf1f48cb0b",
+      "title": "Developed Land",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Developed_Land/FeatureServer",
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    },
+    {
+      "id": "a21c16d365a040caa302d50eae4a2a65",
+      "title": "ZIP Codes",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/ZIP_Codes/FeatureServer",
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    },
+    {
+      "id": "872fc015766344e9b7f407d967888a4d",
+      "title": "Master Address File (MAF)",
+      "type": "Feature Service",
+      "url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Master_Address_File_MAF/FeatureServer",
+      "owner": "OregonMetro.RLIS",
+      "modified": "2026-08-26"
+    }
+  ],
+  "geometry_sample": {
+    "layer_url": "https://services2.arcgis.com/McQ0OlIABe29rJJy/arcgis/rest/services/Taxlots_(Public)/FeatureServer/3",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 2913,
+      "latestWkid": 2913
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "file": "data/sample/geo/or_metro_taxlots.geojson",
+    "features": 3,
+    "bytes": 3569,
+    "vertices_per_feature": [
+      5,
+      5,
+      26
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
+}

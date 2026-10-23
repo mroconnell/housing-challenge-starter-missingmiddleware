@@ -1,0 +1,33 @@
+{
+  "source_id": "nlcd",
+  "fetched_at": "2026-10-23T06:49:32+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "wms_url": "https://www.mrlc.gov/geoserver/mrlc_display/wms",
+  "layer": "NLCD_2021_Land_Cover_Science_Product_L48",
+  "land_cover_layers_found": [
+    "Annual_NLCD_Smy_LndCov_ChgCnt_1985_2023_CU_C1V0",
+    "Annual_NLCD_Smy_LndCov_ChgIdx_1985_2023_CU_C1V0",
+    "NLCD_2001_2021_Land_Cover_Change_Index_L48",
+    "NLCD_2001_Land_Cover_L48",
+    "NLCD_2001_Land_Cover_Science_Product_L48",
+    "NLCD_2004_Land_Cover_L48",
+    "NLCD_2004_Land_Cover_Science_Product_L48",
+    "NLCD_2006_Land_Cover_L48",
+    "NLCD_2006_Land_Cover_Science_Product_L48",
+    "NLCD_2008_Land_Cover_L48",
+    "NLCD_2008_Land_Cover_Science_Product_L48",
+    "NLCD_2011_Land_Cover_L48",
+    "NLCD_2011_Land_Cover_Science_Product_L48",
+    "NLCD_2013_Land_Cover_L48",
+    "NLCD_2013_Land_Cover_Science_Product_L48",
+    "NLCD_2016_Land_Cover_L48",
+    "NLCD_2016_Land_Cover_Science_Product_L48",
+    "NLCD_2019_Land_Cover_L48",
+    "NLCD_2019_Land_Cover_Science_Product_L48",
+    "NLCD_2021_Land_Cover_L48",
+    "NLCD_2021_Land_Cover_Science_Product_L48"
+  ],
+  "note": "Raster data. Sample rows are pixel values at 5 points via WMS GetFeatureInfo."
+}

@@ -1,0 +1,15 @@
+{
+  "source_id": "bls_ces_ppi",
+  "fetched_at": "2026-10-23T06:49:31+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 8,
+  "api_url": "https://api.bls.gov/publicAPI/v2/timeseries/data/ (POST)",
+  "messages": [],
+  "series": {
+    "CES2000000001": "All employees, construction, US, seasonally adjusted (thousands)",
+    "CES2023610001": "All employees, residential building construction, US, SA (thousands)",
+    "WPUSI012011": "PPI: construction materials (index 1982=100)",
+    "WPUIP2311001": "PPI: net inputs to residential construction, goods (index)"
+  }
+}

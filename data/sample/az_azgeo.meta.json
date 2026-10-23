@@ -1,0 +1,165 @@
+{
+  "source_id": "az_azgeo",
+  "fetched_at": "2026-10-23T06:50:00+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://maps.scottsdaleaz.gov/arcgis/rest/services/OpenData/MapServer/3",
+  "layer_name": "Parcels",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 2868,
+    "latestWkid": 2868
+  },
+  "record_count": 142108,
+  "max_record_count": 30000,
+  "last_edit_date": null,
+  "description": "",
+  "copyright": "",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "apn",
+      "type": "String",
+      "alias": "APN",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "site_address",
+      "type": "String",
+      "alias": "Site Address",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "jurisdiction",
+      "type": "String",
+      "alias": "Jurisdiction",
+      "length": 255,
+      "has_domain": true
+    },
+    {
+      "name": "Shape",
+      "type": "Geometry",
+      "alias": "Shape",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "chosen_search_hit": {
+    "id": "fcd4ef3733ce4cad8b91b90beb163cf3",
+    "title": "Parcels",
+    "type": "Feature Service",
+    "url": "https://maps.scottsdaleaz.gov/arcgis/rest/services/OpenData/MapServer/3",
+    "owner": "City_Of_Scottsdale",
+    "modified": "2026-10-18"
+  },
+  "hub_search_hits": [
+    {
+      "id": "fcd4ef3733ce4cad8b91b90beb163cf3",
+      "title": "Parcels",
+      "type": "Feature Service",
+      "url": "https://maps.scottsdaleaz.gov/arcgis/rest/services/OpenData/MapServer/3",
+      "owner": "City_Of_Scottsdale",
+      "modified": "2026-10-18"
+    },
+    {
+      "id": "eea9c80f2ca24d67a1280f9a9e48ffea",
+      "title": "Parcels",
+      "type": "Feature Service",
+      "url": "https://services.arcgis.com/cghC2lEIpJ2TRrs5/arcgis/rest/services/Parcels/FeatureServer",
+      "owner": "NavajoCounty",
+      "modified": "2026-04-14"
+    },
+    {
+      "id": "564d8eabf5c7450d9d20510cc8a7c6a2",
+      "title": "Parcels - Regional",
+      "type": "Feature Service",
+      "url": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/12",
+      "owner": "AGOopendata",
+      "modified": "2022-04-27"
+    },
+    {
+      "id": "85d44993495140b9853ed78494a1e087",
+      "title": "Parcels in Yavapai County",
+      "type": "Feature Service",
+      "url": "https://services1.arcgis.com/BajuNXbtZNiBKFkx/arcgis/rest/services/Parcels_in_Yavapai_County/FeatureServer",
+      "owner": "yavgis_developers",
+      "modified": "2026-10-22"
+    },
+    {
+      "id": "4f9b14af337c4b7686e9c7d646a01b7c",
+      "title": "Pima County Owned Subsurface Parcels",
+      "type": "Feature Service",
+      "url": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/14",
+      "owner": "AGOopendata",
+      "modified": "2021-02-24"
+    },
+    {
+      "id": "7d50bcc1d75242cc829014311fe2fed6",
+      "title": "Taxcoded Pima County Owned Parcels",
+      "type": "Feature Service",
+      "url": "https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/LandRecords/MapServer/16",
+      "owner": "AGOopendata",
+      "modified": "2021-02-24"
+    },
+    {
+      "id": "50e65018cce84d7d942fb1fcdee06181",
+      "title": "Arizona State Trust Land Parcels",
+      "type": "Feature Service",
+      "url": "https://gisdata.azland.gov/server/rest/services/ASLD/Arizona_State_Trust_Land_Parcels/FeatureServer",
+      "owner": "asld_azgeo",
+      "modified": "2026-09-15"
+    },
+    {
+      "id": "50723784f42a472fa9abed9ba0708eef",
+      "title": "Arizona State Trust Land Mineral Parcels",
+      "type": "Feature Service",
+      "url": "https://gisdata.azland.gov/server/rest/services/ASLD/Arizona_State_Trust_Land_Mineral_Parcels/FeatureServer",
+      "owner": "asld_azgeo",
+      "modified": "2026-09-15"
+    },
+    {
+      "id": "ea95f3406ca5424685a8d36cfafa5730",
+      "title": "Zoning",
+      "type": "Feature Service",
+      "url": "https://services.arcgis.com/cghC2lEIpJ2TRrs5/arcgis/rest/services/Zoning/FeatureServer",
+      "owner": "NavajoCounty",
+      "modified": "2025-12-29"
+    },
+    {
+      "id": "f94bacbf209340acacdb290544b0ed7b",
+      "title": "Parcel Maps",
+      "type": "Feature Service",
+      "url": "https://services.arcgis.com/cghC2lEIpJ2TRrs5/arcgis/rest/services/Map1/FeatureServer",
+      "owner": "NavajoCounty",
+      "modified": "2026-04-10"
+    }
+  ],
+  "geometry_sample": {
+    "layer_url": "https://maps.scottsdaleaz.gov/arcgis/rest/services/OpenData/MapServer/3",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 2868,
+      "latestWkid": 2868
+    },
+    "supports_pagination": true,
+    "max_record_count": 30000,
+    "file": "data/sample/geo/az_azgeo.geojson",
+    "features": 3,
+    "bytes": 1805,
+    "vertices_per_feature": [
+      5,
+      19,
+      5
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
+}
