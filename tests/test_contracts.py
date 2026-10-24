@@ -10,7 +10,7 @@ class TestContracts(unittest.TestCase):
     def test_valid_table_has_no_problems(self):
         df = pd.DataFrame([{
             "jurisdiction_id": "5502548000", "scenario_id": "adu_benchmark",
-            "current_class": "compliant", "reform_class": "compliant",
+            "current_class": "scenario_benchmark", "reform_class": "scenario_benchmark",
             "class_basis": "coded_verified", "rules_as_of": "2026-10-31",
             "rights_added_text": "none",
         }])

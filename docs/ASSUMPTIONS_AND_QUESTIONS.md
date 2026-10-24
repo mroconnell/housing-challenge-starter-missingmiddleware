@@ -315,6 +315,32 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Decision:** Pending Gate 3.
 
+## AQ-026 Two-pass rights classification with restriction flags
+
+**Status:** Adopted. **Added:** 2026-10-24. **Supersedes:** the rights-class table in [SCOPE_AND_MODEL.md](gate1/SCOPE_AND_MODEL.md). **Related:** AQ-022, AQ-023, AQ-025.
+
+**Owner decision:** Classify local ADU rules in two passes.
+
+1. **First pass, ordinance status:** a simple classifier of whether the code has an ADU ordinance: ADUs mentioned and allowed in some form, ADUs prohibited, or ADUs unmentioned (plus "could not access" when the code host blocks reading).
+2. **Second pass, rights class:**
+
+| Class | Meaning | Example |
+| --- | --- | --- |
+| `scenario_benchmark` | Benchmark rights already granted by right | Madison since Dec 2021 (owner occupancy removed Apr 2024) |
+| `restricted` | Some ADU form allowed, with one or more binding restrictions, recorded as flags | New Berlin (attached in-law unit only, related occupants, owner occupancy) |
+| `prohibited_explicit` | The code expressly bars ADUs or living space in accessory buildings | Pleasant Prairie §420-30B; Howard §50-868 |
+| `prohibited_implicit` | The code permits only listed uses and forms, and ADUs are not listed, so silence is a prohibition | To be identified in the second pass |
+| `no_zoning` | No municipal or county zoning applies; building code and septic rules only. The reform adds no zoning rights, so additional = 0, and septic and building limits are a stated limitation | Rural towns without county or town zoning |
+| `undetermined` | Not yet coded, or the ordinance could not be found (recorded as such, never replaced) | Most small municipalities at MVP stage |
+
+**Restriction flags** (any combination, so the set is collectively exhaustive without forcing one subclass): owner occupancy, related occupant, discretionary review (conditional or special use, hearing), size or ratio cap (size under 600 sq ft, FAR, lot coverage, open space, percent of house), extra parking, form limited (attached-only, detached-only, conversions only), district limited, minimum lot size, other. The former `forms_with_occupancy_limits` class becomes a `restricted` reform class with the occupancy flags in the form-only sensitivity.
+
+**Towns:** In Wisconsin a town is under county general zoning only where the county has adopted general zoning and the town board has approved it (Wis. Stat. 59.69); a town with village powers may adopt its own zoning. A town is `no_zoning` only when neither applies.
+
+**Modeling:** `undetermined` is modeled as no ADU rights for the MVP (AQ-023). Reform effects for `restricted` places can later vary by which flags the reform removes (AQ-025).
+
+**Decision:** Adopted 2026-10-24.
+
 ## Additional questions to develop
 
 All entries below were added on 2026-10-23 and remain **Open**.
@@ -343,3 +369,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-23 | AQ-021 to AQ-023; AQ-007, AQ-014 | Recorded the owner's Gate 1 decisions: stylized dates, ACS denominator, ADU-equivalent permit rule, replacing New Berlin with a permit-data-rich mid-size city without ADU rules, no poison pills in the modeled bill, unknown local rules treated as no ADU rights for the MVP, and baseline-health reporting across scenarios. |
 | 2026-10-23 | AQ-023, AQ-024 | Owner confirmed the reduced effect for already-permissive cities and set Madison's observed rate as the lower path, with separate predictive models for the central and upper paths. |
 | 2026-10-24 | AQ-025 | Recorded the owner's direction to treat owner occupancy and the approval pathway (ministerial versus discretionary) as the provisions that decide whether nominally allowed ADUs get built. |
+| 2026-10-24 | AQ-026 | Adopted the owner's two-pass rights classification (ordinance status, then rights class with restriction flags) and split prohibitions into explicit and implicit. |

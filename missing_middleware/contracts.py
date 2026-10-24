@@ -14,13 +14,28 @@ from dataclasses import dataclass, field
 VALUE_STATUS = {"observed", "calculated", "assumed"}
 CLAIM_STATUS = {"verified", "source_lead", "unknown"}
 MISSING_REASON = {"not_reported", "not_collected", "not_matched", "not_yet_audited"}
+# First-pass classifier (AQ-026): does the code have an ADU ordinance at all?
+ORDINANCE_STATUS = {"mentioned_allowed", "prohibited", "unmentioned", "could_not_access"}
+
+# Second-pass rights classes (AQ-026). Restrictions are recorded as flags, not subclasses.
 RIGHTS_CLASS = {
-    "prohibited",
-    "restricted",
-    "compliant",
-    "forms_with_occupancy_limits",
-    "no_zoning",
-    "unknown",
+    "scenario_benchmark",   # benchmark rights already granted by right
+    "restricted",           # some ADU form allowed, with one or more binding restrictions (see RESTRICTION_FLAGS)
+    "prohibited_explicit",  # code says ADUs (or living space in accessory buildings) are not allowed
+    "prohibited_implicit",  # code allows only listed uses/forms and ADUs are not listed
+    "no_zoning",            # no municipal or county zoning applies
+    "undetermined",         # not yet coded, or ordinance not found; MVP models it as no ADU rights (AQ-023)
+}
+RESTRICTION_FLAGS = {
+    "owner_occupancy",
+    "related_occupant",
+    "discretionary_review",   # conditional use, special use, plan commission, hearing
+    "size_or_ratio_cap",      # max size under 600 sq ft, FAR, lot coverage, percent-of-house, open space
+    "parking",                # extra parking required for the ADU
+    "form_limited",           # only attached or only detached, or interior conversions only
+    "district_limited",       # not allowed in some single-family districts
+    "lot_minimum",            # minimum lot size or width
+    "other",
 }
 CLASS_BASIS = {"coded_verified", "coded_source_lead", "assumed_default", "imputed_from_sample", "not_found"}
 AREA_LEVEL = {"state", "county", "municipality", "tract", "block_group", "grid_cell"}

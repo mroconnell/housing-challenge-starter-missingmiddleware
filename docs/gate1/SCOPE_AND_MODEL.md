@@ -27,6 +27,8 @@ Prepared 2026-10-23 by the conductor for owner review. Revision 2, after indepen
 
 ### Rights classes (one vocabulary for all documents)
 
+> **Revised 2026-10-24 by AQ-026:** the owner replaced this table with a two-pass scheme (ordinance status, then `scenario_benchmark` / `restricted` with restriction flags / `prohibited_explicit` / `prohibited_implicit` / `no_zoning` / `undetermined`). The table below is kept as the Gate 1 record.
+
 | Class | Meaning | Example |
 | --- | --- | --- |
 | `prohibited` | No ADU form allowed | |
