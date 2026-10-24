@@ -1,0 +1,2 @@
+jurisdiction_id,jurisdiction_name,scenario_id,current_class,reform_class,class_basis,rules_as_of,rights_added_text,rule_ids,aq023_default_class,default_matches_coded,notes
+5500000001,Example city,adu_full,compliant,restricted,not_found,2027-01-01,,wi5500000001_missing_1,prohibited,false,
