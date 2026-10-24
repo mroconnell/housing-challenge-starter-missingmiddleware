@@ -1,6 +1,6 @@
 {
   "source_id": "pa_pasda_parcels",
-  "fetched_at": "2026-10-24T05:01:12+00:00",
+  "fetched_at": "2026-10-24T05:06:01+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 12,
@@ -912,6 +912,7 @@
     "native_crs": "varies by county; see counties",
     "supports_pagination": true,
     "max_record_count": 1000,
+    "simplified": null,
     "file": "data/sample/geo/pa_pasda_parcels.geojson",
     "features": 6,
     "bytes": 4938,

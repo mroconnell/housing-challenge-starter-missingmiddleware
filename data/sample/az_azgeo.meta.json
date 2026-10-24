@@ -1,6 +1,6 @@
 {
   "source_id": "az_azgeo",
-  "fetched_at": "2026-10-24T05:01:01+00:00",
+  "fetched_at": "2026-10-24T05:05:54+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -152,6 +152,7 @@
     },
     "supports_pagination": true,
     "max_record_count": 30000,
+    "simplified": null,
     "file": "data/sample/geo/az_azgeo.geojson",
     "features": 3,
     "bytes": 1805,

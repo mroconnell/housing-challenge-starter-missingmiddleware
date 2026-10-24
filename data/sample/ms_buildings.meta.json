@@ -1,6 +1,6 @@
 {
   "source_id": "ms_buildings",
-  "fetched_at": "2026-10-24T05:00:52+00:00",
+  "fetched_at": "2026-10-24T05:05:42+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -26,6 +26,7 @@
     "native_crs": "EPSG:4326",
     "supports_pagination": null,
     "max_record_count": null,
+    "simplified": null,
     "file": "data/sample/geo/ms_buildings.geojson",
     "features": 3,
     "bytes": 1231,

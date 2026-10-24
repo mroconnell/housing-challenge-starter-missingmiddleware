@@ -1,6 +1,6 @@
 {
   "source_id": "madison_address_points",
-  "fetched_at": "2026-10-24T05:01:42+00:00",
+  "fetched_at": "2026-10-24T05:06:38+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -142,6 +142,7 @@
     },
     "supports_pagination": true,
     "max_record_count": 2000,
+    "simplified": null,
     "file": "data/sample/geo/madison_address_points.geojson",
     "features": 3,
     "bytes": 1253,

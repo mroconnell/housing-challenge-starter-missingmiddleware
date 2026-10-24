@@ -1,6 +1,6 @@
 {
   "source_id": "wi_assembly_districts",
-  "fetched_at": "2026-10-24T05:02:13+00:00",
+  "fetched_at": "2026-10-24T05:07:04+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -62,11 +62,15 @@
     },
     "supports_pagination": true,
     "max_record_count": 2000,
+    "simplified": {
+      "original_vertices": 35614,
+      "kept_every_nth_vertex": 16
+    },
     "file": "data/sample/geo/wi_assembly_districts.geojson",
     "features": 1,
-    "bytes": 1310132,
+    "bytes": 83205,
     "vertices_per_feature": [
-      35614
+      2254
     ],
     "output_crs": "EPSG:4326 (GeoJSON)"
   }

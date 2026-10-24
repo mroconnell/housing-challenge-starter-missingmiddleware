@@ -1,6 +1,6 @@
 {
   "source_id": "or_geohub",
-  "fetched_at": "2026-10-24T05:01:05+00:00",
+  "fetched_at": "2026-10-24T05:05:57+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -217,6 +217,7 @@
     },
     "supports_pagination": true,
     "max_record_count": 2000,
+    "simplified": null,
     "file": "data/sample/geo/or_geohub.geojson",
     "features": 3,
     "bytes": 2898,
