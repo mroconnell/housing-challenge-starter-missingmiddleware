@@ -80,11 +80,27 @@ The reviewer confirmed the joins and statewide arithmetic and found two blockers
 | ID | Decision | My recommendation |
 | --- | --- | --- |
 | G2-1 | Accept the data as fit for Gate 3 | **Accept**, with the gaps above stated in the model |
-| G2-2 | Your ADU-equivalent rule | **Report as a separate "second dwelling" series; do not add to ADUs** |
-| G2-3 | ADU conversions of existing space (6 in Madison since 2014, 5 of them garages or accessory buildings) | **Count them as ADUs in the headline**, shown as their own category, since they add a unit without a new building |
+| G2-2 | ~~Your ADU-equivalent rule~~ | **Decided 2026-10-24 (AQ-032):** headline is second homes on single-family lots (ADUs plus house-to-duplex conversions), components shown |
+| G2-3 | ~~ADU conversions of existing space~~ | **Decided 2026-10-24 (AQ-030, AQ-032):** garage and accessory-building conversions count; interior conversions are counted where observed but get no reform uplift |
 | G2-4 | Context groups (urban: 20,000+ units, or 10,000+ units at 300+/sq mi and largest in county; suburban: metro county and 425+/sq mi or a city/village with 2,500+ units; small community; rural towns) | **Accept for now** |
 | G2-5 | Pleasant Prairie rule check | **Please confirm §420-30B in a browser** (link in step 4); it stays a source lead until then |
 | G2-6 | Appleton | Its city guides conflict (35% cap in 2025; no cap in the 2026-10-14 guide). **Code it `scenario_benchmark` if the newest guide reflects the code**; we will confirm from the code text in the later rules pass |
+
+| G2-7 | California comparison data (addendum below) | **Accept** once the step 0 reconciliation is reviewed |
+| G2-8 | Approve the [pre-registered California comparison plan](../gate3/CA_COMPARISON_PLAN.md), including hold-out samples | **Approve** |
+
+Decisions made since this packet was first sent are recorded in AQ-029 to AQ-032: Madison counts as 80% of benchmark; the benchmark covers garage conversions and bars replacement parking; the outcome is second homes on single-family lots; and the California comparison study is pre-registered.
+
+## California comparison data (addendum, in progress)
+
+Added at the owner's request because assembling and checking data belongs in Gate 2; the comparison analysis itself stays in Gate 3.
+
+- **Census BPS, California, 2010–2025:** built (`uv run python scripts/build_ca_bps.py`); state, county, and place totals agree every year.
+- **HCD APR 2018–2025, the 2012–2019 ADU compilation, California home counts, and a jurisdiction crosswalk:** being assembled.
+- **Step 0, BPS versus HCD reconciliation:** being run, including whether California's BPS one-unit counts already contain ADUs.
+- **Held-out 20% of California jurisdictions:** drawn with a fixed seed before any group results are viewed.
+
+Results will replace this section before the packet is final.
 
 ## Recommendation
 
