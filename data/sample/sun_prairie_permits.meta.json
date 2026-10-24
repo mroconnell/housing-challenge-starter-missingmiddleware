@@ -1,0 +1,98 @@
+{
+  "source_id": "sun_prairie_permits",
+  "fetched_at": "2026-10-24T05:30:06+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "api_url": "https://app.powerbigov.us/view?r=eyJrIjoiZmI1ZTVjMDktNDA2OS00ZWJmLWE0MGUtYjBhYTUxZjVlNzQxIiwidCI6ImJiNmMzYjZlLTllYTEtNGNkMS1iODExLTc4N2ZiNmU0MzkxNCJ9&pageName=ReportSection",
+  "window": "submitted in 2025",
+  "records_in_window": 2859,
+  "model_last_refresh": "/Date(1788289693893)/",
+  "dropped_columns": [
+    "Owner Name",
+    "Contractor"
+  ],
+  "note": "Power BI publish-to-web report, queried for one submission year. Owner Name and Contractor are never requested; builder names are removed from new-home descriptions. Records that add units are listed first.",
+  "fields": [
+    {
+      "name": "permit_id",
+      "type": "string"
+    },
+    {
+      "name": "permit_type",
+      "type": "string"
+    },
+    {
+      "name": "use_class",
+      "type": "string"
+    },
+    {
+      "name": "address_raw",
+      "type": "string"
+    },
+    {
+      "name": "units_raw",
+      "type": "string"
+    },
+    {
+      "name": "description",
+      "type": "string"
+    },
+    {
+      "name": "issue_date",
+      "type": "string"
+    },
+    {
+      "name": "est_cost",
+      "type": "string"
+    },
+    {
+      "name": "bldg_sqft",
+      "type": "string"
+    },
+    {
+      "name": "jurisdiction_id",
+      "type": "string"
+    },
+    {
+      "name": "source_id",
+      "type": "string"
+    },
+    {
+      "name": "parcel_raw",
+      "type": "string"
+    },
+    {
+      "name": "parcel_key",
+      "type": "string"
+    },
+    {
+      "name": "address_unit",
+      "type": "string"
+    },
+    {
+      "name": "units_basis",
+      "type": "string"
+    },
+    {
+      "name": "record_kind",
+      "type": "string"
+    },
+    {
+      "name": "record_status",
+      "type": "string"
+    },
+    {
+      "name": "withdrawn",
+      "type": "string"
+    },
+    {
+      "name": "subdivision",
+      "type": "string"
+    },
+    {
+      "name": "record_ct",
+      "type": "string"
+    }
+  ]
+}

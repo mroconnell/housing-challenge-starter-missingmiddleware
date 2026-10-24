@@ -1294,6 +1294,79 @@ def fetch_madison_permits():
     }
 
 
+def _frame_rows(df, first=None):
+    """Pipeline frame -> sample rows (dates as text). Rows matching `first` are listed first."""
+    recs = [{k: ("" if v is None or (isinstance(v, float) and v != v) else str(v)) for k, v in r.items()}
+            for r in df.to_dict("records")]
+    if first is not None:
+        top = [r for r, f in zip(recs, first) if f]
+        recs = top + [r for r, f in zip(recs, first) if not f]
+    return recs[:N_ROWS]
+
+
+@source("pleasant_prairie_permits")
+def fetch_pleasant_prairie_permits():
+    """Last full month of issued permits, read through the pipeline's own client and loader."""
+    import tempfile
+
+    sys.path.insert(0, str(ROOT))
+    from missing_middleware.permits import pleasant_prairie as pp
+
+    end = dt.date.today().replace(day=1) - dt.timedelta(days=1)
+    start = end.replace(day=1)
+    data = pp._ExagoSession(log=lambda *a: None).run(start, end, "rtf", log=lambda *a: None)
+    with tempfile.TemporaryDirectory() as tmp:
+        (Path(tmp) / f"permits_issued_{end.year}.rtf.gz").write_bytes(gzip.compress(data))
+        df = pp.load_raw_permits(Path(tmp))
+    new = df["permit_type"].str.upper().str.startswith(("NEW ", "RAZING"))
+    rows = _frame_rows(df.drop(columns=["source_file", "source_row"]), first=new)
+    return rows, {
+        "api_url": pp.VIEW_URL,
+        "window": f"{start} to {end}",
+        "records_in_window": len(df),
+        "dropped_columns": list(pp.PERSONAL_FIELDS),
+        "note": "SmartGov/Exago report, run for one month and exported as RTF. Rows are the pipeline's standard frame: owner, contractor and fee fields are dropped, and owner names are removed from descriptions. New-building and razing permits are listed first.",
+        "fields": [{"name": c, "type": "string"} for c in (rows[0].keys() if rows else [])],
+    }
+
+
+@source("sun_prairie_permits")
+def fetch_sun_prairie_permits():
+    """One submission year through the pipeline's Power BI client and loader."""
+    import tempfile
+
+    sys.path.insert(0, str(ROOT))
+    from missing_middleware.permits import sun_prairie as sp
+
+    info = sp.model_info()
+    year = dt.date.today().year - 1
+    rows_raw, responses = sp.fetch_year(info, year)
+    raw = json.dumps({"year": year, "columns": sp.COLUMNS + ["Record Ct"], "responses": responses}).encode()
+    with tempfile.TemporaryDirectory() as tmp:
+        (Path(tmp) / f"permits_submitted_{year}.json.gz").write_bytes(gzip.compress(raw))
+        df = sp.load_raw_permits(Path(tmp))
+    rows = _frame_rows(df.drop(columns=["source_file", "source_row"]), first=df["units_raw"].fillna(0) > 0)
+    return rows, {
+        "api_url": sp.VIEW_URL,
+        "window": f"submitted in {year}",
+        "records_in_window": len(df),
+        "model_last_refresh": info.get("last_refresh"),
+        "dropped_columns": list(sp.NOT_REQUESTED),
+        "note": "Power BI publish-to-web report, queried for one submission year. Owner Name and Contractor are never requested; builder names are removed from new-home descriptions. Records that add units are listed first.",
+        "fields": [{"name": c, "type": "string"} for c in (rows[0].keys() if rows else [])],
+    }
+
+
+@source("wi_v12_parcels")
+def fetch_wi_v12_parcels():
+    sys.path.insert(0, str(ROOT))
+    from missing_middleware.permits import comparison as cmp
+
+    rows, meta = arcgis_layer(cmp.V12_URL, where="PLACENAME='VILLAGE OF PLEASANT PRAIRIE' AND CONAME='KENOSHA'")
+    meta["note"] = "Sample rows are from Pleasant Prairie. The pipeline also pulls Sun Prairie (CITY OF SUN PRAIRIE, DANE) and requests only non-owner fields."
+    return rows, meta
+
+
 GEO_OUT = OUT / "geo"
 GEO_FEATURES = 3
 GEO_MAX_BYTES = 150_000

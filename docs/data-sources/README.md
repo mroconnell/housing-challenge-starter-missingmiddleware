@@ -42,6 +42,7 @@ Each source below also has a small GeoJSON file with a few complete features, so
 | [Wisconsin: Statewide parcel map (V-series)](wi_parcels.md) | Polygon | EPSG:3857 (Esri 102100) | 3574646 | 2000 | yes | 19 | [geojson](../../data/sample/geo/wi_parcels.geojson) |
 | [Rhode Island: RIGIS land use](ri_rigis.md) | Polygon | EPSG:3438 (Esri 102730) | 26361 | 2000 | yes | 83 | [geojson](../../data/sample/geo/ri_rigis.geojson) |
 | [New Hampshire: NH GRANIT parcels](nh_granit.md) | Point | EPSG:3437 (Esri 102710) | 617065 | 2000 | yes | 1 | [geojson](../../data/sample/geo/nh_granit.geojson) |
+| [Wisconsin V12 statewide parcels](wi_v12_parcels.md) | Polygon | EPSG:3857 (Esri 102100) | 9835 | 2000 | yes | 19 | [geojson](../../data/sample/geo/wi_v12_parcels.geojson) |
 | [Madison, WI: tax parcels](madison_parcels.md) | Polygon | EPSG:8193 (Esri 103412) | 82616 | 2000 | yes | 16 | [geojson](../../data/sample/geo/madison_parcels.geojson) |
 | [Madison, WI: address points](madison_address_points.md) | Point | EPSG:8193 (Esri 103412) | 157222 | 2000 | yes | 1 | [geojson](../../data/sample/geo/madison_address_points.geojson) |
 | [Madison, WI: zoning districts](madison_zoning.md) | Polygon | EPSG:8193 (Esri 103412) | 2473 | 2000 | yes | 20 | [geojson](../../data/sample/geo/madison_zoning.geojson) |
@@ -96,6 +97,9 @@ Each source below also has a small GeoJSON file with a few complete features, so
 | Done | Source | Status | Sample rows | Geography | Main caveat |
 |---|---|---|---|---|---|
 | [x] | [Madison, WI: building permit Construction Summary report](madison_permits.md) | Fetched | 5 | Street address. No parcel number or coordinates; the pipeline matches… | No ADU flag: ADUs come from keyword matching in descriptions |
+| [x] | [Pleasant Prairie, WI: issued permits (SmartGov detail report)](pleasant_prairie_permits.md) | Fetched | 5 | Site address and Kenosha County parcel number (for example 91-4-122-0… | No dwelling-unit field: units are calculated from the permit type |
+| [x] | [Sun Prairie, WI: submitted permits (Power BI report)](sun_prairie_permits.md) | Fetched | 5 | Street address and Dane County 12-digit parcel number, matched to V12… | Submission date only, no issue date; withdrawn, void and denied records add 0 units |
+| [x] | [Wisconsin V12 statewide parcels](wi_v12_parcels.md) | Fetched | 5 | Parcel polygons; LATITUDE and LONGITUDE give a point. | No year built and no dwelling count |
 | [x] | [Madison, WI: tax parcels](madison_parcels.md) | Fetched | 5 | Parcel. | Madison only |
 | [x] | [Madison, WI: address points](madison_address_points.md) | Fetched | 5 | Address point. | Unit suffixes in permit addresses are free text, so some permits will not match. |
 | [x] | [Madison, WI: zoning districts](madison_zoning.md) | Fetched | 5 | Zoning district polygon. | Zoning layers show districts, not what the code allows |
