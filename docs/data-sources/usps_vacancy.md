@@ -1,6 +1,6 @@
 # HUD Aggregated USPS Administrative Data on Address Vacancies
 
-**Status:** Restricted (not fetched) (last fetch 2026-10-23)  
+**Status:** Restricted (not fetched) (last fetch 2026-10-24)  
 **Source id:** `usps_vacancy`  
 **Handbook listing:** USPS vacancy data
 

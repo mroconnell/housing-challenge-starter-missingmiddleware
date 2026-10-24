@@ -1,6 +1,6 @@
 # USGS National Land Cover Database (NLCD / Annual NLCD)
 
-**Status:** Fetched (last fetch 2026-10-23)  
+**Status:** Fetched (last fetch 2026-10-24)  
 **Source id:** `nlcd`  
 **Handbook listing:** USGS National Land Cover Database (NLCD)
 

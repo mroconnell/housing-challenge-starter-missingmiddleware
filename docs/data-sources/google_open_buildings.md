@@ -1,6 +1,6 @@
 # Google Open Buildings
 
-**Status:** Fetched (last fetch 2026-10-23)  
+**Status:** Fetched (last fetch 2026-10-24)  
 **Source id:** `google_open_buildings`  
 **Handbook listing:** Google's Open Buildings
 

@@ -42,6 +42,10 @@ Each source below also has a small GeoJSON file with a few complete features, so
 | [Wisconsin: Statewide parcel map (V-series)](wi_parcels.md) | Polygon | EPSG:3857 (Esri 102100) | 3574646 | 2000 | yes | 19 | [geojson](../../data/sample/geo/wi_parcels.geojson) |
 | [Rhode Island: RIGIS land use](ri_rigis.md) | Polygon | EPSG:3438 (Esri 102730) | 26361 | 2000 | yes | 83 | [geojson](../../data/sample/geo/ri_rigis.geojson) |
 | [New Hampshire: NH GRANIT parcels](nh_granit.md) | Point | EPSG:3437 (Esri 102710) | 617065 | 2000 | yes | 1 | [geojson](../../data/sample/geo/nh_granit.geojson) |
+| [Madison, WI: tax parcels](madison_parcels.md) | Polygon | EPSG:8193 (Esri 103412) | 82616 | 2000 | yes | 16 | [geojson](../../data/sample/geo/madison_parcels.geojson) |
+| [Madison, WI: address points](madison_address_points.md) | Point | EPSG:8193 (Esri 103412) | 157222 | 2000 | yes | 1 | [geojson](../../data/sample/geo/madison_address_points.geojson) |
+| [Madison, WI: zoning districts](madison_zoning.md) | Polygon | EPSG:8193 (Esri 103412) | 2473 | 2000 | yes | 20 | [geojson](../../data/sample/geo/madison_zoning.geojson) |
+| [Wisconsin State Assembly districts (2024 plan)](wi_assembly_districts.md) | Polygon | EPSG:3857 (Esri 102100) | 99 | 2000 | yes | 2254 | [geojson](../../data/sample/geo/wi_assembly_districts.geojson) |
 
 ## National sources named in the handbook
 
@@ -64,6 +68,9 @@ Each source below also has a small GeoJSON file with a few complete features, so
 | Done | Source | Status | Sample rows | Geography | Main caveat |
 |---|---|---|---|---|---|
 | [x] | [California HCD Housing Element Annual Progress Report (APR) data](hcd_apr.md) | Fetched | 5 | Jurisdiction (city or county), with project address/APN in the projec… | California only |
+| [x] | [California ADU permits by city, 2012-2019 (BuildinganADU.com compilation of HCD data)](buildinganadu_ca_adu.md) | Fetched | 6 | Jurisdiction (city or county) as reported to HCD. The City and County… | Third-party compilation, not an agency file |
+| [x] | [Census annual housing-unit estimates (Population Estimates Program)](census_pep_housing_units.md) | Fetched | 6 | State and county. Sub-county PEP files have population only, not hous… | Net stock change, not gross new construction |
+| [x] | [Census TIGER/Line boundaries (2024)](census_tiger.md) | Fetched | 5 | State, county, county subdivision, place, tract, block group (2020 tr… | Boundaries only, no housing counts |
 
 ## State open data portals (from data/DATA_SOURCES.md)
 
@@ -83,4 +90,14 @@ Each source below also has a small GeoJSON file with a few complete features, so
 | [x] | [Wisconsin: Statewide parcel map (V-series)](wi_parcels.md) | Fetched | 5 | Parcel, statewide. | Values and classes come from local assessors and vary in quality. |
 | [x] | [Rhode Island: RIGIS land use](ri_rigis.md) | Fetched | 5 | Land use polygons, statewide. | No statewide parcels or zoning. |
 | [x] | [New Hampshire: NH GRANIT parcels](nh_granit.md) | Fetched | 5 | Parcel, partial statewide coverage. | Not every town is included |
+
+## Wisconsin pilot sources (used by the pipeline)
+
+| Done | Source | Status | Sample rows | Geography | Main caveat |
+|---|---|---|---|---|---|
+| [x] | [Madison, WI: building permit Construction Summary report](madison_permits.md) | Fetched | 5 | Street address. No parcel number or coordinates; the pipeline matches… | No ADU flag: ADUs come from keyword matching in descriptions |
+| [x] | [Madison, WI: tax parcels](madison_parcels.md) | Fetched | 5 | Parcel. | Madison only |
+| [x] | [Madison, WI: address points](madison_address_points.md) | Fetched | 5 | Address point. | Unit suffixes in permit addresses are free text, so some permits will not match. |
+| [x] | [Madison, WI: zoning districts](madison_zoning.md) | Fetched | 5 | Zoning district polygon. | Zoning layers show districts, not what the code allows |
+| [x] | [Wisconsin State Assembly districts (2024 plan)](wi_assembly_districts.md) | Fetched | 5 | State Assembly district. | Census geographies cross district lines, so district totals need an allocation method |
 

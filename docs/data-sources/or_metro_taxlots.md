@@ -1,6 +1,6 @@
 # Oregon: Metro RLIS Taxlots (Portland region)
 
-**Status:** Fetched (last fetch 2026-10-23)  
+**Status:** Fetched (last fetch 2026-10-24)  
 **Source id:** `or_metro_taxlots`  
 
 ## Summary

@@ -1,6 +1,6 @@
 # American Community Survey (ACS) 5-year estimates
 
-**Status:** Fetched (last fetch 2026-10-23)  
+**Status:** Fetched (last fetch 2026-10-24)  
 **Source id:** `acs`  
 **Handbook listing:** U.S. Census Bureau/American Community Survey (ACS)
 
@@ -16,12 +16,12 @@
 | Access method | Census Data API, `https://api.census.gov/data/{year}/acs/acs5?get=...&for=...`, now needs a free key (https://api.census.gov/data/key_signup.html). No-key option: table-based summary files at `https://www2.census.gov/programs-surveys/acs/summary_file/{year}/table-based-SF/data/5YRData/acsdt5y{year}-{table}.dat` (pipe-delimited, all geographies). Our sample uses the summary file for table B25024 (Units in Structure). |
 | License | Public domain (U.S. federal government work). |
 | Use in our model | Baseline housing stock and mix (units in structure), vacancy, tenure, rents and incomes for feasibility and demand. Base for all five scenarios. |
-| Caveats | Estimates, not counts. Small areas have large margins of error. Not a measure of new production; pair with Building Permits Survey. |
+| Caveats | Estimates, not counts. Small areas have large margins of error. Not a measure of new production; pair with Building Permits Survey. The Wisconsin pipeline reads tables B25024, B25002, B25034 and B01003 from the 2020-2024 summary file. |
 
 ## Access details
 
 - Endpoint used for the sample: `https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25024.dat`
-- Vintage: ACS 5-year, table B25024 (Units in Structure)
+- Vintage: ACS 5-year 2024, table B25024 (Units in Structure); other pipeline tables listed below
 - The Census Data API now answers 'Missing Key' without a free key (https://api.census.gov/data/key_signup.html). Without a key our script reads the table-based summary file, which needs none. Set CENSUS_API_KEY to use the API.
 
 ## Fields (23)
@@ -51,6 +51,28 @@
 | `B25024_M010` | int | Units in structure: Mobile home, margin of error (90%) |
 | `B25024_E011` | int | Units in structure: Boat, RV, van, etc., estimate |
 | `B25024_M011` | int | Units in structure: Boat, RV, van, etc., margin of error (90%) |
+
+## Other ACS tables the pipeline reads
+
+| Table | Line | Meaning | Wisconsin estimate |
+|---|---|---|---|
+| B25002 | `B25002_E001` | Total housing units | 2778572 |
+| B25002 | `B25002_E002` | Occupied | 2479480 |
+| B25002 | `B25002_E003` | Vacant | 299092 |
+| B25034 | `B25034_E001` | Total | 2778572 |
+| B25034 | `B25034_E002` | Built 2020 or later | 38983 |
+| B25034 | `B25034_E003` | Built 2010 to 2019 | 197957 |
+| B25034 | `B25034_E004` | Built 2000 to 2009 | 347953 |
+| B25034 | `B25034_E005` | Built 1990 to 1999 | 347567 |
+| B25034 | `B25034_E006` | Built 1980 to 1989 | 262669 |
+| B25034 | `B25034_E007` | Built 1970 to 1979 | 394494 |
+| B25034 | `B25034_E008` | Built 1960 to 1969 | 262558 |
+| B25034 | `B25034_E009` | Built 1950 to 1959 | 285081 |
+| B25034 | `B25034_E010` | Built 1940 to 1949 | 146155 |
+| B25034 | `B25034_E011` | Built 1939 or earlier | 495155 |
+| B01003 | `B01003_E001` | Total population | 5914872 |
+
+Each estimate column `_E###` has a margin of error column `_M###`.
 
 ## Sample rows
 
