@@ -39,12 +39,50 @@ class TestReferenceRules(unittest.TestCase):
         self.assertEqual(sec, "§ 275-42")
         self.assertIn("Family dwelling unit", ctx)
         self.assertEqual(scan.find_terms("One single-family dwelling unit per lot. Four family dwelling units.")[0], [])
-        # older second-dwelling vocabulary added after the Gate 2 review
-        terms = scan.find_terms("A. Residential quarters for domestic help. B. Private guest houses. "
-                                "C. Dependency living arrangements. D. Accessory apartment. E. accessory living quarters")[0]
-        self.assertEqual(sorted(terms), sorted(["domestic help/servant quarters", "guest house", "dependency living",
-                                                "accessory apartment", "accessory living"]))
+        # older second-dwelling vocabulary is recorded as lead terms, not ADU mentions (owner definition
+        # 2026-10-24: an ADU is a dwelling unit with its own kitchen, sanitation and sleeping facilities)
+        text = ("A. Residential quarters for domestic help. B. Private guest houses. "
+                "C. Dependency living arrangements. D. Accessory apartment. E. accessory living quarters")
+        self.assertEqual(scan.find_terms(text)[0], ["accessory apartment"])
+        self.assertEqual(sorted(scan.find_leads(text)), sorted(["domestic help/servant quarters", "guest house",
+                                                                "dependency living", "accessory living quarters"]))
         self.assertEqual(scan.find_terms("Family means persons related by blood (not including domestic employees).")[0], [])
+        self.assertEqual(scan.find_leads("Family means persons related by blood (not including domestic employees)."), [])
+
+    def test_accessory_structures_are_not_adu_mentions(self):
+        import scan_adu_mentions as scan
+        generic = ("Sec. 17.10 Accessory structures and buildings. Accessory uses, accessory buildings and accessory "
+                   "structures such as detached garages and sheds are permitted. A carriage house garage may not "
+                   "exceed 15 feet. Accessory use of a lot for parking.")
+        self.assertEqual(scan.find_terms(generic)[0], [])
+        self.assertEqual(scan.find_prohibition(generic), ("", ""))
+        for phrase in scan.NOT_ADU:
+            self.assertEqual(scan.find_terms(f"An {phrase} is allowed.")[0], [])
+        self.assertEqual(scan.find_terms("Carriage-house dwelling units are allowed.")[0], ["carriage house"])
+
+    def test_accessory_dwelling_ban_is_detected(self):
+        import scan_adu_mentions as scan
+        for text in ("No accessory building shall be used for dwelling purposes.",
+                     "Accessory buildings shall not be used as living quarters.",
+                     "In no instance shall an accessory use, cellar or tent be used as a residence.",
+                     "Living quarters are not permitted within accessory buildings.",
+                     "Accessory structures not to be used for residential purposes."):
+            self.assertTrue(scan.find_prohibition(text)[0], text)
+        # a ban never makes an ADU mention on its own
+        self.assertEqual(scan.find_terms("Accessory buildings shall not be used as living quarters.")[0], [])
+        # floodplain-chapter definitions are not zoning ADU bans
+        flood = ("Floodplain definitions. Accessory structure or use means a facility, structure, building or use "
+                 "which is accessory or incidental to the principal use. An accessory structure shall not be used "
+                 "for human habitation.")
+        self.assertEqual(scan.find_prohibition(flood), ("", ""))
+
+    def test_mentioned_allowed_needs_a_dwelling_unit_term(self):
+        rules = pd.read_csv(ROOT / "reference" / "wi_adu_rules.csv", dtype=str, keep_default_na=False)
+        exposure = pd.read_csv(ROOT / "reference" / "wi_rights_exposure.csv", dtype=str, keep_default_na=False)
+        i = rules.index[(rules["provision"] == "ordinance_status") & (rules["value"] == "mentioned_allowed")][0]
+        field = next(x for x in rules.loc[i, "notes"].split("; ") if x.startswith("terms="))
+        rules.loc[i, "notes"] = rules.loc[i, "notes"].replace(field, "terms=guest house;domestic help/servant quarters")
+        self.assertTrue(any("without a dwelling-unit ADU term" in p for p in crr.check(rules, exposure)))
 
     def test_every_coded_place_has_first_pass_and_pathway_rows(self):
         from missing_middleware import contracts as c

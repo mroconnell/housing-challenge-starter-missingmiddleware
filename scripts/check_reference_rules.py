@@ -17,6 +17,8 @@ reference/wi_rights_exposure.csv against the `rights_exposure` contract
 - class_basis not_found goes with current_class undetermined, and coded_verified needs a verified current
   detached/attached rule
 - rules_as_of is on or before the 2026-10-31 freeze; rights_added_text is never blank
+- a `mentioned_allowed` ordinance_status row lists at least one dwelling-unit ADU term (scan_adu_mentions.TERMS);
+  generic accessory-structure wording and lead terms (guest house, servants' quarters ...) never count
 
 Usage: uv run python scripts/check_reference_rules.py [rules.csv exposure.csv]
 Exit code 0 when clean, 1 when problems are found.
@@ -33,6 +35,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from missing_middleware import contracts as c  # noqa: E402
+
+sys.path.insert(0, str(ROOT / "scripts"))
+from scan_adu_mentions import TERMS as DWELLING_TERMS  # noqa: E402
 
 PROVISIONS = {
     "detached_allowed", "attached_allowed", "owner_occupancy", "occupant_restriction",
@@ -81,6 +86,12 @@ def check(rules: pd.DataFrame, exposure: pd.DataFrame) -> list[str]:
             problems.append(f"{tag}: source_url missing or not a URL")
         if not MUNI_ID.match(str(r.get("jurisdiction_id"))):
             problems.append(f"{tag}: jurisdiction_id is not a 10-digit Wisconsin county subdivision GEOID")
+        if r.get("provision") == "ordinance_status" and r.get("value") == "mentioned_allowed":
+            # notes fields are separated by "; ", terms within the terms= field by ";"
+            field = next((x for x in str(r.get("notes") or "").split("; ") if x.startswith("terms=")), "terms=")
+            terms = {t.strip() for t in field[len("terms="):].split(";") if t.strip()}
+            if not terms & set(DWELLING_TERMS):
+                problems.append(f"{tag}: mentioned_allowed without a dwelling-unit ADU term (terms={sorted(terms)})")
 
     rule_ids = set(rules.get("rule_id", pd.Series(dtype=str)))
     need = {"verification", "rule_id", "provision", "effective_to"}

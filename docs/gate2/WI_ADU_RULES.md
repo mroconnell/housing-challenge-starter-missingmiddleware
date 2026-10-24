@@ -1,6 +1,6 @@
 # Wisconsin ADU Rules: Largest Jurisdictions (current law frozen 2026-10-31)
 
-Prepared 2026-10-23/24 for Gate 2; revised 2026-10-24 after the independent review (items S5–S7, N6, N7) and the owner's AQ-026 decision on rights classes and restriction flags. Tables: [`reference/wi_adu_rules.csv`](../../reference/wi_adu_rules.csv) (`policy_rules`, 295 rows: 220 hand-coded provision rows, 38 derived `approval_pathway` rows and 37 first-pass `ordinance_status` rows) and [`reference/wi_rights_exposure.csv`](../../reference/wi_rights_exposure.csv) (`rights_exposure`, 86 rows = 43 county-subdivision pieces × 2 scenarios). The hand-coded record is [`reference/wi_adu_rules_spec.py`](../../reference/wi_adu_rules_spec.py).
+Prepared 2026-10-23/24 for Gate 2; revised 2026-10-24 after the independent review (items S5–S7, N6, N7), the owner's AQ-026 decision on rights classes and restriction flags, and the owner's 2026-10-24 repair-round decisions (ADU definition; Madison and Wauwatosa kept as benchmark with edge-case notes). Tables: [`reference/wi_adu_rules.csv`](../../reference/wi_adu_rules.csv) (`policy_rules`, 299 rows: 224 hand-coded provision rows, 38 derived `approval_pathway` rows and 37 first-pass `ordinance_status` rows) and [`reference/wi_rights_exposure.csv`](../../reference/wi_rights_exposure.csv) (`rights_exposure`, 86 rows = 43 county-subdivision pieces × 2 scenarios). The hand-coded record is [`reference/wi_adu_rules_spec.py`](../../reference/wi_adu_rules_spec.py).
 
 Reproduce: `uv run python scripts/scan_adu_mentions.py` (network; writes `data/processed/adu_mention_scan/scan.csv`, git-ignored; needs `pdftotext` and `curl`), then `uv run python scripts/build_reference_rules.py reference reference data/processed/adu_mention_scan`, then `uv run python scripts/check_reference_rules.py` (prints `OK`). Tests: `tests/test_reference_rules.py`. Source copies read on 2026-10-24 are in `data/raw/wi_adu_rules_sources/2026-10-24/` (git-ignored).
 
@@ -10,6 +10,7 @@ Reproduce: `uv run python scripts/scan_adu_mentions.py` (network; writes `data/p
 - **Current class (2026-10-31), AQ-026 classes:** 2 `scenario_benchmark` (Madison, Wauwatosa), 22 `restricted`, 5 `prohibited_explicit`, 8 `prohibited_implicit`. None is `undetermined` or `no_zoning`.
 - **Restriction flags:** 18 of the 22 restricted places have at least one tier-1 ("poison pill" or form) flag; the other 4 (Appleton, Oshkosh, Sun Prairie, Fitchburg) are held back only by tier-2 limits (size or districts). Owner occupancy (12 places, 220,445 homes) and below-benchmark size caps (12 places, 146,825 homes) are the most common.
 - **Approval pathway (AQ-025):** of the 24 places that allow some ADU form, 17 approve ministerially and 7 need discretionary review (Green Bay, Wausau, Franklin, Oak Creek, Stevens Point, Muskego, Mequon). The 13 prohibited places have no pathway (`unknown`).
+- **ADU definition (owner, 2026-10-24):** an ADU is a dwelling unit with its own kitchen, sanitation and sleeping facilities for permanent habitation. Generic accessory structures, buildings and uses are not ADUs; see [ADU vs accessory structure](#adu-vs-accessory-structure).
 - **Basis:** 23 `coded_verified`, 14 `coded_source_lead`. The increase in source leads (from 5) comes from applying the verification rule consistently (below), not from new doubts about the coding.
 - **AQ-023 bias:** treating uncoded places as having no ADU rights would have been **wrong for 24 of 37 places (65%) and 430,461 of 572,136 one-unit detached homes (75%)**. See [Bias findings](#bias-findings-for-the-aq-023-default).
 
@@ -31,28 +32,45 @@ Reproduce: `uv run python scripts/scan_adu_mentions.py` (network; writes `data/p
 | First pass (S7) | `mentions_adu: yes/no`; 10 terms; 21 of 37 blocked | `ordinance_status` (AQ-026); 15 terms; 19 of 37 blocked (codepublishing now read through a `curl` fallback) | Reviewer and owner |
 | First-pass arithmetic | "22 places … (20 restricted or compliant, plus New Berlin)" (sums to 21) | Old list: 22 mentioned, all 22 of them restricted or compliant (New Berlin is one of the 20 restricted) | Arithmetic fix |
 
+**Repair round (2026-10-24, owner decisions):**
+
+| Item | Before | After | Why |
+| --- | --- | --- | --- |
+| ADU definition | not stated | a dwelling unit with its own kitchen, sanitation and sleeping facilities for permanent habitation | Owner |
+| First-pass terms | guest house, servants'/domestic-help quarters, accessory living, dependency living counted as ADU mentions | recorded as `lead_terms`, not counted; coach/carriage house count only as a dwelling ("carriage-house dwelling"); generic accessory structure/building/use never counts | Owner definition |
+| First-pass results | 26 mentioned_allowed / 1 prohibited / 10 unmentioned | **23 / 1 / 13**: Kenosha, Beloit, Brookfield move mentioned_allowed → unmentioned (lead terms only) | Same |
+| Accessory-dwelling ban | not detected | scanner records a rule barring dwellings or living quarters in accessory buildings (`accessory_dwelling_ban_*`); found in Sheboygan §105-722, Oshkosh §30-382 (with an In-Home Suite exception) and Franklin (accessory structures over 1,200 sq ft); floodplain-chapter definitions are skipped | Owner rule (below) |
+| Classes | 2 benchmark, 22 restricted, 5 explicit, 8 implicit | **unchanged** | No place moved; see below |
+| Madison | parking row from a Zoneomics snippet (source lead); edge cases in a note | parking row **verified** from ORD-23-00013 (Table 28I-3); history rows for 2013–2021 conditional use added; edge cases (replacement parking, unlisted districts) in `rights_added_text` and notes; class stays `scenario_benchmark` | Owner kept the benchmark class |
+| Wauwatosa | parking 0, no notes | same class; O-25-25 re-read: §24.10.075(B)(7) requires the house's existing required parking to be "maintained or replaced on-site" (edge case noted); ADUs allowed on any lot with a house (no district list) | Strict re-check, owner kept the class |
+| Rows | 295 (192 verified / 83 source lead / 20 unknown) | 299 (197 / 82 / 20): Madison +3 rows, Wauwatosa +1, Madison parking source lead → verified | |
+
 ## First pass: ordinance status (AQ-026)
 
 The first pass answers one question per municipality: **does the code have an ADU ordinance at all?** It is stored as `provision = ordinance_status` with `value` = `mentioned_allowed` (an ADU term appears and the passage allows that use somewhere), `prohibited` (a term appears only to bar the use, or is defined but listed in no district), `unmentioned` (no term in the text read) or `could_not_access`. **A mention is not an allowance** of benchmark rights: New Berlin mentions ADUs to prohibit detached ones and allows only an attached family unit.
 
-**Terms** (regular expressions in `scripts/scan_adu_mentions.py`): accessory dwelling, ADU, in-law unit/suite/apartment/quarters and mother-in-law, granny flat, coach house, carriage house, secondary dwelling unit/suite, backyard cottage, the defined term "Family dwelling unit" (New Berlin; matched case-sensitively at the start of a heading or sentence so "single-family dwelling unit" does not count), and, **added 2026-10-24 after the review**: accessory living, accessory apartment, guest house, domestic-help/servant/employee/caretaker quarters, and dependency living (Madison's and Fitchburg's historical term). The domestic-help pattern requires the word "quarters", so a family definition that excludes "domestic employees" does not match.
+**Terms** (regular expressions in `scripts/scan_adu_mentions.py`). Only **dwelling-unit terms** count as an ADU mention: accessory dwelling, ADU, in-law unit/suite/apartment and mother-in-law, granny flat, coach house or carriage house *as a dwelling* ("carriage-house dwelling", "coach house unit"), secondary dwelling unit/suite, accessory apartment, backyard cottage, and the defined term "Family dwelling unit" (New Berlin; matched case-sensitively at the start of a heading or sentence so "single-family dwelling unit" does not count).
 
-**Method.** The scanner fetches the most direct code text it can with a plain HTTP GET (and a plain `curl` GET when Python's client is refused), extracts text (`pdftotext`, docx XML or HTML; a codepublishing table of contents is expanded to all its section pages), and searches the terms. Each scan row records the host, the **kind of document read**, the HTTP status, the terms, the approximate section of the first hit and a checksum. Final run 2026-10-24, scan output sha256 `a7b0cddf6fc1ed99fa939123b127fe97056575c2dc61596f2d3c963f8c193a92` (it changes with page content and run date).
+**Lead terms** (recorded in the scan's `lead_terms` column, never counted): accessory living quarters, guest house, domestic-help/servant/employee/caretaker quarters, and dependency living (Madison's and Fitchburg's historical term). These were added on 2026-10-24 after the review and demoted the same day under the owner's ADU definition, because none of them says the space is a complete dwelling unit. The domestic-help pattern requires the word "quarters", so a family definition that excludes "domestic employees" does not match.
+
+**Never counted:** generic "accessory structure", "accessory building" and "accessory use" wording (every code has it); a test asserts that such text yields no term.
+
+**Method.** The scanner fetches the most direct code text it can with a plain HTTP GET (and a plain `curl` GET when Python's client is refused), extracts text (`pdftotext`, docx XML or HTML; a codepublishing table of contents is expanded to all its section pages), and searches the terms. Each scan row records the host, the **kind of document read**, the HTTP status, the terms, the approximate section of the first hit and a checksum. The scan also records the first **accessory-dwelling ban** it finds (`accessory_dwelling_ban_section`/`_context`; see below). Final run 2026-10-24 (repair round), scan output sha256 `e9d8b4a72dcb2b6fb8582c6b52d31b19293c5946f03b7ab239c8bfced607a7b0` (it changes with page content and run date).
 
 **Read this before relying on the first pass:**
 
 - **19 of 37 targets refused the scanner** (HTTP 403 from Municode, ecode360 and several city sites; it was 21 before the `curl` fallback reached codepublishing for Brookfield and Manitowoc). For those 19, plus Caledonia (where the scanner could read only a staff report), the first-pass answer comes from the same research agents' manual reading on 2026-10-23, done through renderings, a browser or mirrors. **So 20 of the 37 first-pass answers are manual, and the first pass is not independent of the second pass** for those places.
 - **The 17 automated answers are not all from the current code.** 6 come from the adopting ordinance only, where a hit is guaranteed (Green Bay, West Allis, La Crosse, Wauwatosa, Sun Prairie, Fitchburg); 2 from stale compilations (Sheboygan 2023, West Bend 2022); 1 from a mirror (Fond du Lac). Only 8 come from current codified text or an exact copy of it (Waukesha's adopted chapter, Oshkosh's archived chapter, Franklin, Oak Creek's ecode360 print, Stevens Point, De Pere, Brookfield, Manitowoc).
-- **The added terms were not re-searched in the 20 manual places**; only hits the readers had noted are used (Kenosha "residential quarters for domestic help", Beloit "private guest houses" and "employee living quarters", Howard "guesthouse").
+- **The added terms were not re-searched in the 20 manual places**; only hits the readers had noted are used (Kenosha "residential quarters for domestic help", Beloit "private guest houses" and "employee living quarters", Howard "guesthouse"). All four are lead terms, so none of them makes a mention.
 
-**Result (2026-10-24):** 26 `mentioned_allowed`, 1 `prohibited` (Howard: "guesthouse" defined but allowed in no district), 10 `unmentioned`, 0 `could_not_access`.
+**Result (2026-10-24, repair round):** 23 `mentioned_allowed`, 1 `prohibited` (Howard: §50-868 bars living space in accessory buildings; its "guesthouse" is a lead term defined but allowed in no district), 13 `unmentioned`, 0 `could_not_access`. Kenosha, Beloit and Brookfield moved from `mentioned_allowed` to `unmentioned`: their only hits are lead terms.
 
 | Municipality | Document read | How | Status | Terms (first hit) | Label | Second-pass class |
 | --- | --- | --- | --- | --- | --- | --- |
 | Milwaukee | Ch. 295 subch. 5 | manual (rendering) | mentioned_allowed | accessory dwelling (Table 295-505-2.5) | source lead | restricted |
 | Madison | Legistar ordinance texts | manual | mentioned_allowed | accessory dwelling (MGO 28.151) | verified | scenario_benchmark |
 | Green Bay | adopting ordinance G.O. 24-25 | automated | mentioned_allowed | accessory dwelling, carriage house | verified | restricted |
-| Kenosha | zoning ordinance | manual (rendering) | mentioned_allowed | domestic-help quarters (§3.04.A.4) | source lead | restricted |
+| Kenosha | zoning ordinance | manual (rendering) | unmentioned | – (lead: domestic-help quarters, §3.04.A.4) | source lead | restricted* |
 | Racine | Ch. 114 | manual (rendering) | unmentioned | – | source lead | prohibited_explicit |
 | Appleton | Ch. 23 (Supp. 100) | manual | mentioned_allowed | accessory dwelling (§23-55) | verified | restricted |
 | Waukesha | adopted Ch. 22.03 | automated | mentioned_allowed | accessory dwelling | verified | restricted |
@@ -61,13 +79,13 @@ The first pass answers one question per municipality: **does the code have an AD
 | Janesville | Ch. 42 | manual (search extracts) | unmentioned | – | source lead | prohibited_implicit |
 | West Allis | adopting ordinance O-2022-0024 | automated | mentioned_allowed | accessory dwelling | verified | restricted |
 | La Crosse | adopting ordinance 5280 | automated | mentioned_allowed | accessory dwelling (§115-405) | verified | restricted |
-| Sheboygan | Ch. 105 compiled 2023 (stale) | automated | unmentioned | – | verified | prohibited_explicit |
+| Sheboygan | Ch. 105 compiled 2023 (stale) | automated | unmentioned | – (accessory-dwelling ban §105-722) | verified | prohibited_explicit |
 | Wauwatosa | adopting ordinance O-25-25 | automated | mentioned_allowed | accessory dwelling | verified | scenario_benchmark |
 | Fond du Lac | Zoneomics mirror of Ch. 720 | automated | mentioned_allowed | accessory dwelling | source lead | restricted |
 | New Berlin | Ch. 275 | manual (mirror) | mentioned_allowed | family dwelling unit (§275-42 C(3)) | source lead | restricted |
 | Wausau | Title 23 | manual (browser) | mentioned_allowed | accessory dwelling, in-law (§23.03.28(6)) | verified | restricted |
-| Brookfield | Title 17 (all 48 pages) | automated | mentioned_allowed | guest house (R-1, inside the house), servants' quarters (UC district only) | verified | prohibited_implicit* |
-| Beloit | Ch. 19 | manual (mirror) | mentioned_allowed | guest house, employee quarters (§6.3.3(a)) | source lead | restricted |
+| Brookfield | Title 17 (all 48 pages) | automated | unmentioned | – (leads: guest house in R-1, inside the house; servants' quarters, UC only) | verified | prohibited_implicit |
+| Beloit | Ch. 19 | manual (mirror) | unmentioned | – (leads: guest house, employee quarters, §6.3.3(a)) | source lead | restricted* |
 | Greenfield | Ch. 21 | manual (rendering) | unmentioned | – | source lead | prohibited_implicit |
 | Franklin | UDO 2025 | automated | mentioned_allowed | accessory dwelling | verified | restricted |
 | Oak Creek | ecode360 print copy | automated | mentioned_allowed | accessory dwelling | verified | restricted |
@@ -85,17 +103,24 @@ The first pass answers one question per municipality: **does the code have an AD
 | Caledonia | Title 16 (staff report scanned) | manual | unmentioned | – | source lead | prohibited_implicit |
 | Pleasant Prairie | Ch. 420 | manual (rendering) | unmentioned | – | source lead | prohibited_explicit |
 | Menomonee Falls | Ch. 122 | manual (rendering) | unmentioned | – | source lead | prohibited_implicit |
-| Howard | Ch. 50 | manual (mirror) | prohibited | guesthouse (§50-6), listed in no district | source lead | prohibited_explicit |
+| Howard | Ch. 50 | manual (mirror) | prohibited | accessory-dwelling ban (§50-868); lead: guesthouse (§50-6), listed in no district | source lead | prohibited_explicit |
 
-\* The expanded terms turned up two second-dwelling passages the original list missed, neither available on an ordinary single-family lot: Brookfield allows guest space *inside* the house in R-1 and servants' quarters only in the UC Upland Conservancy district; Manitowoc allows secondary dwelling units only inside a Traditional Neighborhood Development (§15.730), a whole-neighborhood plan. Both stay `prohibited_implicit` and are flagged borderline.
+\* Kenosha and Beloit stay `restricted` (borderline, below) although their first-pass status is now `unmentioned`: the second pass found second dwellings for employees or guests whose completeness as dwelling units is not shown in the text read. Brookfield's guest houses and UC-only servants' quarters, and Manitowoc's TND-only secondary dwelling units (§15.730, a whole-neighborhood plan), are not available as an ADU on an ordinary single-family lot; both stay `prohibited_implicit`.
 
 **How good is the screen?**
 
-- With the **original term list**, 15 places had no mention and 2 of them (13%) are coded `restricted` (Kenosha's domestic-help quarters and Beloit's guest/employee quarters). "No mention → prohibited" was therefore **right for 13 of 15 (87%)** on these large municipalities.
-- With the **expanded list**, all 10 `unmentioned` places and the 1 `prohibited` place are prohibited in the second pass, but 2 `mentioned_allowed` places are prohibited too (Brookfield, Manitowoc). For 8 of the 10 unmentioned places the answer is manual and the new terms were not re-searched, so this agreement is partly built in.
-- The screen is **untested on small places**, where codes are older and second-dwelling vocabulary varies more. It is a cheap triage, not a substitute for the second pass: every `mentioned_allowed` place needs reading, because the class ranges from Brookfield (`prohibited_implicit`) to Madison (`scenario_benchmark`).
+- With the **original term list** (2026-10-23), 15 places had no mention and 2 of them (13%) are coded `restricted` (Kenosha's domestic-help quarters and Beloit's guest/employee quarters). "No mention → prohibited" was **right for 13 of 15 (87%)**.
+- With the **current dwelling-unit list**, 13 places are `unmentioned`; 11 of them are prohibited in the second pass and 2 (Kenosha, Beloit) are borderline `restricted`, so "no mention → prohibited" is right for **11 of 13 (85%)**, or 13 of 13 if the owner rules those two quarters are not ADUs. Of the 23 `mentioned_allowed` places, 1 (Manitowoc, TND only) is prohibited in the second pass. For 8 of the 13 unmentioned places the answer is manual, so the agreement is partly built in.
+- The screen is **untested on small places**, where codes are older and second-dwelling vocabulary varies more. It is a cheap triage, not a substitute for the second pass: every `mentioned_allowed` place needs reading, because the class ranges from Manitowoc (`prohibited_implicit`) to Madison (`scenario_benchmark`).
 
 **Extending the scan.** Municode and ecode360, which host most Wisconsin codes, refuse plain GETs. Extending beyond the 37 needs either their search pages read by hand or a browser-based reader (not done; the repair round forbids browsers).
+
+## ADU vs accessory structure
+
+- **Definition (owner, 2026-10-24).** An ADU is a dwelling unit with its own kitchen, sanitation and sleeping facilities, for permanent habitation, accessory to a principal dwelling. A garage, shed, studio, workshop or other accessory structure, building or use is not an ADU, and a mention of one is not an ADU mention.
+- **Guest houses and quarters.** Guest houses, servants' or domestic-help quarters, accessory living quarters and dependency living arrangements count as an ADU form only where the code makes them complete dwelling units for permanent habitation. Brookfield's guest space does not (guests, inside the house). Kenosha's and Beloit's quarters are not shown to be complete units in the text read, so they remain borderline (below).
+- **Accessory-dwelling ban rule.** A provision saying accessory buildings or structures may not be used as dwellings, residences or living quarters is coded **`prohibited_explicit`** when the code allows no ADU form; where the code also allows an ADU form, the ban is the default the ADU rule overrides (Oshkosh, with its In-Home Suite exception; Waukesha). The scanner records the first such ban (`accessory_dwelling_ban_*`); floodplain-chapter definitions ("an accessory structure shall not be used for human habitation" in the model floodplain ordinance) are skipped because they govern flood-fringe structures, not zoning. Places coded `prohibited_explicit` on this ground: Racine (§114-292 via BZA 1038-24), Sheboygan (§105-722, found by the scanner), Neenah (§21-19), Pleasant Prairie (§420-30B), Howard (§50-868). The rescan found no ban in any `prohibited_implicit` place it could read (Brookfield, Manitowoc, West Bend; the West Bend and Manitowoc hits were floodplain text), so no class changed.
+- **First-pass status.** A ban found by the scanner does not yet set `ordinance_status = prohibited` for automated rows: `scripts/build_reference_rules.py` (not owned in this round) maps `no_mention` to `unmentioned`. Sheboygan therefore reads `unmentioned` in the first pass while its second-pass class is `prohibited_explicit`. Follow-up for the conductor: map a scan row with no dwelling term and a ban to `prohibited`.
 
 ## Second pass: method
 
@@ -104,9 +129,9 @@ The first pass answers one question per municipality: **does the code have an AD
 3. **Provisions.** `policy_rules.provision` uses the DATA_CONTRACTS vocabulary plus two new coded provisions: `approval_pathway` (AQ-025) and `ordinance_status` (AQ-026). Form provisions are `by_right` / `conditional` / `prohibited` / `unknown`; `owner_occupancy` is `none` / `at_permit` / `ongoing` / `unknown`; `occupant_restriction` is `none` / `related_only` / `employee_only` / `other` / `unknown` (`employee_only` and `other` added 2026-10-24). History is kept as earlier rows with `effective_to`. A blank `effective_from` means "in the code before any change we could date", not a known date. **DATA_CONTRACTS.md still needs the two new provisions and two new occupant values** (owned by the conductor).
 4. **Benchmark** (AQ-022, AQ-026): one ADU per single-family parcel, detached and attached, at least 600 sq ft, by right, no extra parking, no owner-occupancy or occupant rule.
 5. **Classes** (`missing_middleware.contracts.RIGHTS_CLASS`, AQ-026):
-   - `scenario_benchmark`: the benchmark is already granted in essentially all single-family districts.
+   - `scenario_benchmark`: the benchmark is already granted in essentially all single-family districts. Madison and Wauwatosa are kept here by owner decision (2026-10-24) despite edge cases recorded in their notes: replacement parking for the principal house and, in Madison, districts where ADUs are not listed.
    - `restricted`: some ADU form is allowed, but at least one restriction flag applies.
-   - `prohibited_explicit`: the code says no ADUs, or no living space in accessory buildings (Racine §114-691/§114-292, Sheboygan §105-722, Neenah §21-19, Pleasant Prairie §420-30B, Howard §50-868).
+   - `prohibited_explicit`: the code says no ADUs, or says accessory buildings may not be used as living quarters or dwellings and allows no ADU form (Racine §114-691/§114-292, Sheboygan §105-722, Neenah §21-19, Pleasant Prairie §420-30B, Howard §50-868).
    - `prohibited_implicit`: the code lists the permitted uses and forms and ADUs are not among them, usually with "one principal building per lot" (Janesville, Brookfield, Greenfield, Manitowoc, West Bend, Superior, Caledonia, Menomonee Falls).
    - `no_zoning` and `undetermined`: not used among the 37. **Towns** (not coded yet): in Wisconsin a town is under county general zoning only where the county has adopted general zoning and the town board has approved it (Wis. Stat. s. 59.69); a town with village powers may adopt its own zoning. A town is `no_zoning` only when neither applies.
 6. **Restriction flags** (`contracts.RESTRICTION_FLAGS`; column `restrictions` in `wi_rights_exposure.csv`, a semicolon list, non-empty exactly when the class is `restricted`). **A flag applies only if the provision prevents a benchmark ADU on at least some single-family lots.** Tier 1 follows the Mercatus 2025 taxonomy (Hamilton and Peterson) core barriers:
@@ -130,7 +155,7 @@ Ordered by one-unit detached homes. "Extra parking" is spaces required for the A
 | Municipality | Class | Basis | Rules as of | Detached | Attached | Owner occ. | Extra parking | Approval | Main binding limit(s) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Milwaukee | restricted | verified | 2025-08-02 | by right | by right | at permit | 0 | ministerial | Owner must occupy at application (File 240999, eff. 2025-08-02) |
-| Madison | scenario_benchmark | verified | 2025-10-16 | by right | by right | none | 0 | ministerial | Edge cases only |
+| Madison | scenario_benchmark | verified | 2025-10-16 | by right | by right | none | 0 (house keeps 1) | ministerial | Edge cases only: principal-house replacement parking outside the TOD overlay (Table 28I-3); districts where ADUs are not listed |
 | Green Bay | restricted | verified | 2025-12-02 | CUP | CUP | ongoing | 1 | discretionary | CUP; owner occupancy; parking (G.O. 24-25, 29-25) |
 | Kenosha | restricted* | source lead | 2026-04-20 | domestic-help quarters, RS-1 only (form not stated) | same | none | unknown | ministerial | Occupants must be domestic employees (§3.04.A.4) |
 | Racine | prohibited_explicit | verified | 2026-03-03 | no | no | – | – | – | Accessory buildings not for living; BZA 1038-24 |
@@ -140,7 +165,7 @@ Ordered by one-unit detached homes. "Extra parking" is spaces required for the A
 | Oshkosh | restricted | verified | 2026-03-31 | by right | by right | none | 0 | ministerial | 400 sq ft cap (§30-86(X), 2023) |
 | Waukesha | restricted | verified | 2026-09-01 | by right | by right | none | 1 | ministerial | Parking; attached 40% / detached 75% of house (Ord. 2026-4) |
 | West Allis | restricted | verified | 2026-02-24 | by right | two-unit rules only | none | 0 | ministerial | Footprint ≤ 50% of house (max 800); attached limited |
-| Wauwatosa | scenario_benchmark | verified | 2025-11-18 | by right | by right | none | 0 | ministerial | – (O-25-25) |
+| Wauwatosa | scenario_benchmark | verified | 2025-11-18 | by right | by right | none | 0 (house keeps 1) | ministerial | Edge case only: house's required parking "maintained or replaced on-site" (§24.10.075(B)(7), O-25-25) |
 | Sheboygan | prohibited_explicit | verified | 2026-04-08 | no | no | – | – | – | §105-722; rewrites 37-25-26 filed, 39-25-26 referred 2026-04-08 |
 | Brookfield | prohibited_implicit* | verified | 2026-02-17 | no | no | – | – | – | One-family only; guest space inside the house; servants' quarters in UC only |
 | New Berlin | restricted | source lead | 2026-01-27 | no | family unit | ongoing | unknown | ministerial | Attached only; related occupants; 50% cap |
@@ -169,11 +194,12 @@ Ordered by one-unit detached homes. "Extra parking" is spaces required for the A
 
 \* Borderline, for the owner to settle:
 
-- **Kenosha and Beloit** are `restricted` because the code names a second dwelling with an occupant limit (Kenosha: domestic-help quarters in RS-1; Beloit: non-rented guest houses and employee quarters); reclassify `prohibited_implicit` if these are not ADU forms.
-- **Brookfield and Manitowoc** are `prohibited_implicit` although their codes have second-dwelling passages (R-1 guest space inside the house and UC-only servants' quarters; TND-only secondary units).
+- **Kenosha and Beloit** are `restricted` because the code names a second dwelling with an occupant limit (Kenosha: domestic-help quarters in RS-1; Beloit: non-rented guest houses and employee quarters). Under the owner's ADU definition they count only if these quarters are complete dwelling units (own kitchen, sanitation, sleeping, permanent habitation); the text read does not say so, and Beloit's guest houses (non-paying guests) are not permanent habitation. Reclassify `prohibited_implicit` if the owner rules them out; that would make 20 restricted and 10 implicit prohibited, and drop the `related_occupant` count to 3.
+- **Manitowoc** is `prohibited_implicit` although its code defines secondary dwelling units (TND only). **Brookfield** is no longer borderline: its guest houses and UC-only servants' quarters are not ADUs under the definition.
+- **Madison and Wauwatosa** are `scenario_benchmark` by owner decision; their edge cases are recorded in the notes and `rights_added_text`. Madison's **observed permit rate from 2024-04-26** (by right, no owner occupancy) is the "near-benchmark" rate; before that date it reflects owner occupancy (2021-12-16 to 2024-04-25) or conditional use plus owner occupancy (before 2021-12-16).
 - **Appleton** is `restricted` only by `size_below_benchmark`, and only if §23-43(i)'s 35% attached-accessory cap applies to attached ADUs as the city's January 2025 ADU guide applied it. The city's accessory-building worksheet says the cap is "1,600 sq ft or 35% … whichever is greater", which would never bind, and the guide reissued 2026-10-14 no longer states the cap. The codified text was not reachable. If the cap does not bind, Appleton is `scenario_benchmark`.
 
-None of these choices changes an `adu_full` result (all become `scenario_benchmark`); they change only the baseline class counts and, for Kenosha and Beloit, the `adu_form_only` sensitivity.
+None of the borderline choices changes an `adu_full` result (all become `scenario_benchmark`); they change only the baseline class counts and, for Kenosha and Beloit, the `adu_form_only` sensitivity.
 
 ## Restriction flags by place
 
@@ -275,7 +301,7 @@ AQ-023 treats every uncoded municipality as `undetermined`, modeled as having no
 
 ## Open items and known gaps
 
-- Parking unknown: Kenosha, New Berlin, Wausau, Mequon, Fitchburg, Mount Pleasant (cottages). Size cap unknown: Stevens Point (Ch. 30). Setbacks (`siting_limits`) and ADU-specific fees (`fees`) not coded anywhere.
+- Madison: amendments to Table 28I-3 after ORD-23-00013 not checked; replacement-parking effect inferred from the house's 1-space minimum (no explicit clause read). Parking unknown: Kenosha, New Berlin, Wausau, Mequon, Fitchburg, Mount Pleasant (cottages). Size cap unknown: Stevens Point (Ch. 30). Setbacks (`siting_limits`) and ADU-specific fees (`fees`) not coded anywhere.
 - History not found: pre-2020 Wausau, pre-2022 Oak Creek, pre-2023 De Pere and Oshkosh ordinance number, Stevens Point ADU ordinance number/date (~2022), Kenosha domestic-help clause date, pre-2021 Appleton.
 - Code text seen only through renderings or mirrors (14 `coded_source_lead` places): Kenosha, Janesville, Fond du Lac, Greenfield, Muskego, Mequon, Mount Pleasant, Pleasant Prairie, Menomonee Falls, New Berlin, Beloit, Neenah, Howard; West Bend only through 2022. Municode and ecode360 refuse plain HTTP, so a primary read needs another route.
 - Second reader: 8 places plus Sun Prairie were checked (Gate 2 review); the findings are applied above.
@@ -286,7 +312,7 @@ AQ-023 treats every uncoded municipality as `undetermined`, modeled as having no
 Each CSV row carries its own `source_url` and `source_section`. Principal documents:
 
 - Milwaukee: [File 240999 Substitute 4](https://milwaukee.legistar1.com/milwaukee/attachments/257d5d3c-c659-463b-8bd3-8d499a6255c2.rtf); [CPC staff report 2025-04-07](https://milwaukee.legistar1.com/milwaukee/attachments/2caab317-6bf8-4cb3-a0c0-19ed63033977.pdf); [DCD ADU page](https://city.milwaukee.gov/DCD/Planning/PlanningAdministration/ZoningResources/Accessory-Dwelling-Units)
-- Madison: Gate 1 [Policy Evidence Map §2](../gate1/POLICY_EVIDENCE_MAP.md) and its Legistar sources; 2026 Legistar title search found no new ADU ordinance
+- Madison: Gate 1 [Policy Evidence Map §2](../gate1/POLICY_EVIDENCE_MAP.md) and its Legistar sources; 2026 Legistar title search found no new ADU ordinance; [ORD-23-00013 (File 74703) Second Substitute body](https://legistar2.granicus.com/madison/attachments/e30ec583-ed65-4dd4-97e1-914b3698b269.pdf) for Table 28I-2/28I-3 (read by plain HTTP 2026-10-24 via the Legistar web API attachment list, sha256 `ef78a366…13fc5a`): ADU automobile minimum 0; single-family detached dwelling 1 (location only); TOD overlay, IG and the Central area have no minimum. Later amendments to Table 28I-3 not checked
 - Green Bay: [G.O. 24-25](https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/15619/1400450/pdf), [G.O. 29-25](https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/15619/1400449/pdf)
 - Kenosha: [Zoning Ordinance (Municode)](https://library.municode.com/wi/kenosha/codes/zoning_ordinance)
 - Racine: [Ch. 114 (Municode)](https://library.municode.com/wi/racine/codes/code_of_ordinances?nodeId=PTIIMUCO_CH114ZO_ARTVDIRE_DIV2REDI); [BZA staff report 1038-24](https://cityofracine.legistar1.com/cityofracine/attachments/0f020bcb-d8cf-494e-8c4a-98cc8c625efb.pdf) (re-read 2026-10-24, sha256 `8aa0e337…ab10`)
@@ -296,7 +322,7 @@ Each CSV row carries its own `source_url` and `source_section`. Principal docume
 - Oshkosh: [Ch. 30 (archived 2025-12-14)](https://web.archive.org/web/20251214231347/https://www.oshkoshwi.gov/WebLink/DocView.aspx?id=1183289&dbid=0&repo=Laserfiche)
 - Waukesha: [Ord. 2026-4](https://legistar2.granicus.com/waukesha/attachments/fb763278-f10c-4d54-91b2-240833e68012.pdf), [Ch. 22.03](https://legistar2.granicus.com/waukesha/attachments/c852c290-1ccf-4801-9967-8d87347537fd.pdf), [Ch. 22.06](https://legistar2.granicus.com/waukesha/attachments/8c8662e7-dfc1-4ece-b405-5a0c1116a477.pdf)
 - West Allis: [O-2022-0024](https://westalliswi.legistar1.com/westalliswi/attachments/df2ec2d7-5409-4759-a080-5366789281e4.pdf), [O-2023-0031](https://westalliswi.legistar1.com/westalliswi/attachments/c1e7f426-a56f-412e-bac2-b38e83565261.pdf)
-- Wauwatosa: [O-25-25](https://wauwatosacitywi.legistar1.com/wauwatosacitywi/attachments/f54c270b-576f-4e05-a954-36755d2e4f9c.pdf); [O-19-11](https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/16684/962746/pdf?forceDownload=true)
+- Wauwatosa: [O-25-25](https://wauwatosacitywi.legistar1.com/wauwatosacitywi/attachments/f54c270b-576f-4e05-a954-36755d2e4f9c.pdf) (re-read 2026-10-24, sha256 `ccbc6617…6c55c66`: §24.10.075(B)(2) where allowed, (B)(7) parking; §24.11.020 1.0 space per detached house); [O-19-11](https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/16684/962746/pdf?forceDownload=true)
 - Sheboygan: [Ch. 105 compiled 2023](https://mccmeetingspublic.blob.core.usgovcloudapi.net/sheboygnwi-meet-1ab88e5a89ad4af6836be2c56109cdb0/ITEM-Attachment-001-015d62d52b424fc985217ee1b0ae1f13.pdf); Common Council [agenda 2026-01-05](https://mccmeetings.blob.core.usgovcloudapi.net/sheboygnwi-pubu/MEET-Packet-e1d3cb4ec4c5400797b865c76fb7f273.pdf) (37-25-26 lays over), [minutes 2026-03-16](https://mccmeetings.blob.core.usgovcloudapi.net/sheboygnwi-pubu/MEET-Minutes-d7d70b7e4efe4892ad3bfe1f6a029d4b.pdf) (37-25-26 filed; 39-25-26 to Committee of the Whole), [minutes 2026-04-08](https://mccmeetings.blob.core.usgovcloudapi.net/sheboygnwi-pubu/MEET-Minutes-aa9ca83a5a024e488fdf0bbbd0b74044.pdf) (39-25-26 referred to the 2026-27 council), all re-read 2026-10-24; [Seehafer News 2026-10-20](https://www.seehafernews.com/2026/10/20/sheboygan-adds-two-more-zoning-code-engagement-sessions/) (source lead)
 - Brookfield: [Title 17 §17.28](https://www.codepublishing.com/WI/Brookfield/html/Brookfield17/Brookfield1728.html); [Ch. 17.24 UC district](https://www.codepublishing.com/WI/Brookfield/html/Brookfield17/Brookfield1724.html) (2026-10-24)
 - New Berlin: Gate 1 [Policy Evidence Map §3](../gate1/POLICY_EVIDENCE_MAP.md)

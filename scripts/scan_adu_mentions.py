@@ -74,7 +74,7 @@ _ACC = r"accessory\s+(?:buildings?|structures?|uses?)"
 _NEG = r"(?:shall\s+not|may\s+not|must\s+not|cannot|can\s+not|will\s+not|not\s+(?:to\s+)?be|never|is\s+not|are\s+not|prohibited|not\s+permitted)"
 PROHIBITION = [
     _ACC + r"\b[^.;]{0,160}?\b" + _NEG + r"\b[^.;]{0,80}?\b" + _LIVING,
-    r"\bno\s+(?:portion\s+of\s+an?\s+)?" + _ACC + r"\b[^.;]{0,120}?\b(?:used|occupied|designed)\b[^.;]{0,60}?\b" + _LIVING,
+    r"\b(?:no|in\s+no\s+(?:instance|case|event)\s+shall)\s+(?:portion\s+of\s+)?(?:an?\s+|any\s+)?" + _ACC + r"\b[^.;]{0,120}?\b(?:used|occupied|designed)\b[^.;]{0,60}?\b" + _LIVING,
     _LIVING + r"[^.;]{0,60}?\b(?:not\s+(?:be\s+)?(?:permitted|allowed)|prohibited)\b[^.;]{0,40}?\b(?:in|within)\s+(?:an?\s+|any\s+)?" + _ACC,
 ]
 _SECTION = re.compile(r"(§\s?[\d.\-]+[A-Za-z0-9().\-]*|Sec(?:tion)?\.?\s+[\d.\-]+[A-Za-z0-9().\-]*)")

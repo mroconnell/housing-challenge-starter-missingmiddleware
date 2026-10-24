@@ -151,6 +151,9 @@ for m in spec.M:
     if s and s["result"] in ("mentions_adu", "no_mention") and not manual:
         if s["result"] == "mentions_adu":
             val, why = spec.FIRST_PASS_HIT_STATUS.get(m["name"], ("mentioned_allowed", ""))
+        elif s.get("accessory_dwelling_ban_section"):
+            # no dwelling-unit term, but the code bars living quarters in accessory buildings
+            val, why = "prohibited", "accessory-dwelling ban at " + s["accessory_dwelling_ban_section"]
         else:
             val, why = "unmentioned", ""
         kind = s.get("document_kind", "")
