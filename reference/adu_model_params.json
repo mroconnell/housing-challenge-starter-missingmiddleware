@@ -1,0 +1,23 @@
+{
+  "scenario_id": "adu_benchmark_statewide",
+  "status": "proposed for Gate 3 owner review; not adopted",
+  "units": "second homes on single-family lots (ADU-type calibration) per 1,000 one-unit detached homes per year",
+  "paths": {
+    "lower": {
+      "level": 0.229, "floor_rate": 0.229, "spillover": 0.0,
+      "ramp": [0.10, 0.53, 0.58, 0.85, 1.0],
+      "basis": "Madison floor: observed 2022-2025 rate 0.183 / 0.8 (AQ-024, AQ-029, G2-9); no spillover; California restrictive-group ramp (no slower ramp observed)"
+    },
+    "central": {
+      "level": 1.23, "floor_rate": 0.229, "spillover": 1.39,
+      "ramp": [0.10, 0.53, 0.58, 0.85, 1.0],
+      "basis": "California restrictive group after the 2020 package, 2023-2025 plateau 1.23 [0.70-2.01]; ramp from the same group, capped at 1 in year 5; spillover x2.39 for benchmark places (California permissive group)"
+    },
+    "upper": {
+      "level": 3.75, "floor_rate": 0.229, "spillover": 2.05,
+      "ramp": [0.24, 0.54, 0.77, 0.89, 1.0],
+      "basis": "Owner's ADU-share model: California ADU-to-BPS ratio 0.292 applied to Wisconsin BPS 2023-2025 (3.75 [2.76-4.81]); faster middle-group ramp, capped at 1; spillover x3.05 (California permissive group without Los Angeles)"
+    }
+  },
+  "sources": ["docs/gate3/CA_STUDY_RESULTS.md", "docs/gate3/WI_BASELINE.md", "docs/ASSUMPTIONS_AND_QUESTIONS.md"]
+}

@@ -15,10 +15,11 @@ rate with the statewide law for path p, and ramp the share of the plateau reache
 in forecast year t (1..5). Rates are per 1,000 homes per year.
 
 y for each area and path:
-    y = max(floor_rate[p], x * (1 + spillover[p]))   if the area is at benchmark
-    y = max(floor_rate[p], level[p])                  otherwise
-so the Madison floor applies everywhere (AQ-024), benchmark places rise by the
-statewide spillover (AQ-027), and no area is forecast below its current rate.
+    y = max(floor_rate[p], level[p], x * (1 + spillover[p]))   if the area is at benchmark
+    y = max(floor_rate[p], level[p], x)                         otherwise
+so the Madison floor and the statewide level apply everywhere (AQ-024), places
+already at benchmark also get the statewide spillover on their own rate if that is
+higher (AQ-027), and no area is forecast below its current rate.
 
 Parameters are supplied by the caller (from the California study and the
 Wisconsin baseline); nothing here is calibrated. All paths share the same H and x,
@@ -58,8 +59,8 @@ class Scenario:
 
 
 def y_rate(x: float, at_benchmark: bool, p: PathParams) -> float:
-    target = x * (1 + p.spillover) if at_benchmark else p.level
-    return max(p.floor_rate, target, x)
+    spill = x * (1 + p.spillover) if at_benchmark else 0.0
+    return max(p.floor_rate, p.level, spill, x)
 
 
 def run(areas: pd.DataFrame, scenario: Scenario, baseline_growth: pd.DataFrame | None = None) -> pd.DataFrame:

@@ -40,10 +40,15 @@ class TestEngine(unittest.TestCase):
         self.assertAlmostEqual(m.y_rate.iloc[0], 0.30, places=9)
         self.assertAlmostEqual(m.additional_units.sum(), 53.292 * 0.05 * 4.1, places=6)
 
-    def test_no_spillover_means_no_change_at_benchmark(self):
+    def test_benchmark_place_gets_at_least_statewide_level(self):
         out = e.run(AREAS, scenario(spill=0.0))
         m = out[(out.area_id == "madison") & (out.path == "central")]
-        self.assertEqual(m.additional_units.sum(), 0.0)
+        self.assertAlmostEqual(m.y_rate.iloc[0], 0.30, places=9)
+
+    def test_no_change_when_benchmark_rate_already_above_level_and_no_spillover(self):
+        areas = pd.DataFrame([{"area_id": "hot", "homes": 1000, "x_rate": 0.5, "at_benchmark": True}])
+        out = e.run(areas, scenario(spill=0.0))
+        self.assertEqual(out[out.path == "central"].additional_units.sum(), 0.0)
 
     def test_floor_applies_when_level_below_floor(self):
         p = e.PathParams(level=0.1, floor_rate=0.25, spillover=0, ramp=RAMP)
