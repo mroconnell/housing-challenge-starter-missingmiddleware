@@ -439,6 +439,14 @@ The owner accepted every Gate 2 recommendation: the data is fit for Gate 3 (G2-1
 
 **Decision:** Gate 2 passed 2026-10-24.
 
+## AQ-034 Market-adjusted regression and out-of-state cities (Gate 3 revision)
+
+**Status:** Adopted direction; results pending. **Added:** 2026-10-24. **Related:** AQ-024, AQ-031, [Gate 3 packet](gate3/README.md).
+
+**Owner decision:** Replace the judgment-based California-to-Wisconsin transfer ratio (proposed in G3-1) with a regression fitted on all California jurisdictions after the published holdout test: each place's post-2020 ADU-type rate explained by its pre-2020 group (active, middle, restrictive), its housing market (median home value and rent, ACS), and size, scored by cross-validation. Apply it to each Wisconsin area with its own market values to set area-specific with-law rates. Fire-rebuild areas stay in (exclusion deferred). Add well-documented ADU data from cities outside California (Seattle, Portland, Austin, Denver to start) as out-of-state evidence and, where suitable, extra regression or validation points.
+
+**Decision:** Gate 3 revision; the regression result replaces the G3-1 ratio proposal. Extrapolation below California's range of home values is flagged and tested.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -505,3 +513,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-031 | Adopted a pre-specified California permissive-vs-restrictive comparison across the 2017, 2018, and 2020 reform waves for ramp and spillover evidence, with no COVID adjustment. |
 | 2026-10-24 | AQ-032 | Adopted 'second homes on single-family lots' as the tentative headline outcome with cross-state guardrails, and recorded the owner's preference for uniform cross-state measures. |
 | 2026-10-24 | AQ-033 | Gate 2 passed; Pleasant Prairie verified by the owner; Appleton coded benchmark; California plan approved; Madison floor years set. |
+| 2026-10-24 | AQ-034 | Adopted a market-adjusted California regression (with out-of-state cities) to replace the judgment-based transfer ratio for the central path. |

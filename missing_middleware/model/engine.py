@@ -63,12 +63,17 @@ def y_rate(x: float, at_benchmark: bool, p: PathParams) -> float:
     return max(p.floor_rate, p.level, spill, x)
 
 
-def run(areas: pd.DataFrame, scenario: Scenario, baseline_growth: pd.DataFrame | None = None) -> pd.DataFrame:
+def run(areas: pd.DataFrame, scenario: Scenario, baseline_growth: pd.DataFrame | None = None,
+        area_levels: pd.DataFrame | None = None) -> pd.DataFrame:
     """Compute baseline and additional units by area, forecast year, and path.
 
     areas needs columns: area_id, homes (H), x_rate, at_benchmark (bool),
     x_basis, rights_basis. baseline_growth (optional) has area_id, year, g
     for places still ramping after a recent local reform; g defaults to 1.
+    area_levels (optional) has area_id plus one column per path (e.g. y_lower,
+    y_central, y_upper) giving an area-specific with-law level that replaces the
+    path's uniform level for that area (for example from the market-adjusted
+    regression); the floor and spillover rules still apply.
     """
     need = {"area_id", "homes", "x_rate", "at_benchmark"}
     missing = need - set(areas.columns)
@@ -77,9 +82,19 @@ def run(areas: pd.DataFrame, scenario: Scenario, baseline_growth: pd.DataFrame |
     g = {}
     if baseline_growth is not None:
         g = {(r.area_id, int(r.year)): float(r.g) for r in baseline_growth.itertuples()}
+    lv = {}
+    if area_levels is not None:
+        for r in area_levels.to_dict("records"):
+            for path in scenario.paths:
+                v = r.get(f"y_{path}")
+                if v is not None and pd.notna(v):
+                    lv[(r["area_id"], path)] = float(v)
     rows = []
     for a in areas.itertuples(index=False):
         for path, p in scenario.paths.items():
+            if (a.area_id, path) in lv:
+                p = PathParams(level=lv[(a.area_id, path)], floor_rate=p.floor_rate,
+                               spillover=p.spillover, ramp=p.ramp)
             y = y_rate(a.x_rate, bool(a.at_benchmark), p)
             for i, t in enumerate(YEARS):
                 gt = g.get((a.area_id, t), 1.0)

@@ -66,6 +66,14 @@ class TestEngine(unittest.TestCase):
         self.assertAlmostEqual(c.baseline_units.iloc[0], 1 * 0.1, places=9)
         self.assertAlmostEqual(c.additional_units.iloc[0], 1 * (0.3 - 0.1) * 0.4, places=9)
 
+    def test_area_specific_levels_override_uniform_level(self):
+        lv = pd.DataFrame([{"area_id": "restrictive", "y_central": 0.6}])
+        out = e.run(AREAS, scenario(), area_levels=lv)
+        r = out[(out.area_id == "restrictive") & (out.path == "central")]
+        self.assertAlmostEqual(r.y_rate.iloc[0], 0.6, places=9)
+        u = out[(out.area_id == "unknown") & (out.path == "central")]
+        self.assertAlmostEqual(u.y_rate.iloc[0], 0.3, places=9)
+
     def test_bad_ramp_rejected(self):
         with self.assertRaises(ValueError):
             e.PathParams(level=0.3, floor_rate=0.2, spillover=0, ramp=(1, 0.5, 1, 1, 1))
