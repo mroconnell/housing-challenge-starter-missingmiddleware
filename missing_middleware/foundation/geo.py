@@ -10,12 +10,19 @@ Area identifiers
   tract         11-digit GEOID
   block_group   12-digit GEOID
 
-Context group rule (documented in docs/gate2/FOUNDATION.md):
-  density = ACS 2020-2024 total housing units / land square miles (TIGER ALAND)
-  1. urban            municipality with >= 20,000 housing units (whole municipality,
-                      all county pieces) and density >= 750 HU per sq mi
-  2. suburban         not urban, in a metropolitan county, density >= 425 HU per sq mi
-                      (425 is the Census 2020 urban-area housing-density threshold)
+Context group rule (documented in docs/gate2/FOUNDATION.md). Every input is
+measured on the WHOLE municipality (all county pieces summed), so the pieces of
+a multi-county city or village always share one group:
+  hu      = ACS 2020-2024 total housing units (B25024_001)
+  density = hu / land square miles (TIGER ALAND)
+  main county = the county piece holding most of the municipality's housing units
+  1. urban            hu >= 20,000; or hu >= 10,000, density >= 300 and the
+                      largest municipality (by hu) in its main county
+                      (a regional city such as Wausau, Superior, Manitowoc)
+  2. suburban         not urban, main county metropolitan (OMB 2023), and
+                      density >= 425 HU per sq mi, or a city or village with
+                      hu >= 2,500 (425 is the Census 2020 urban-area
+                      housing-density threshold)
   3. small_community  any other city or village (incorporated)
   4. rural            any other town (unincorporated)
   Tracts and block groups take the group of the municipality covering most of
@@ -34,15 +41,18 @@ WI_CRS = "EPSG:3071"  # NAD83(HARN) / Wisconsin Transverse Mercator, metres
 BOUNDARY_SOURCE_ID = "census_tiger_2024"
 BOUNDARY_VINTAGE = "TIGER/Line 2024"
 
-URBAN_MIN_HU = 20_000
-URBAN_MIN_DENSITY = 750.0
-SUBURBAN_MIN_DENSITY = 425.0
+URBAN_MIN_HU = 20_000            # any municipality this large is urban
+REGIONAL_CITY_MIN_HU = 10_000    # ... or this large and the largest in its county
+REGIONAL_CITY_MIN_DENSITY = 300.0
+SUBURBAN_MIN_DENSITY = 425.0     # Census 2020 urban-area housing-density threshold
+SUBURBAN_MIN_HU_INCORPORATED = 2_500
 
 CONTEXT_RULE = (
-    "density = ACS 2020-2024 housing units per land sq mi. urban: municipality with >=20,000 housing units "
-    "and >=750 HU/sq mi; suburban: other area in a metropolitan county with >=425 HU/sq mi; "
-    "small_community: other city or village; rural: other town. Tracts/block groups inherit from the "
-    "municipality with most of their land; counties from the group holding most of their housing units."
+    "Measured on the whole municipality (all county pieces). hu = ACS 2020-2024 housing units; density = hu per "
+    "land sq mi. urban: hu >= 20,000, or hu >= 10,000 with density >= 300 and the largest municipality in its main "
+    "county; suburban: other municipality whose main county is metropolitan, with density >= 425 or (city/village "
+    "with hu >= 2,500); small_community: other city or village; rural: other town. Tracts/block groups inherit "
+    "from the municipality with most of their land; counties from the group holding most of their housing units."
 )
 
 
@@ -70,17 +80,22 @@ def metro_counties(county: gpd.GeoDataFrame, cbsa: pd.DataFrame) -> pd.Series:
 
 
 def assign_muni_context(munis: pd.DataFrame) -> pd.Series:
-    """Apply the context rule to municipality pieces.
+    """Apply the context rule to municipality pieces, using whole-municipality inputs.
 
-    Expects columns: muni_type, hu_total_whole (housing units of the whole
-    municipality across counties), density_whole, density, metro (bool).
+    Expects columns: muni_type, hu_total_whole, density_whole (whole
+    municipality across counties), metro_main (main county is metropolitan),
+    largest_in_county (the whole municipality has the most housing units of
+    any municipality in its main county).
     """
-    urban = (munis["hu_total_whole"] >= URBAN_MIN_HU) & (munis["density_whole"] >= URBAN_MIN_DENSITY)
-    suburban = ~urban & munis["metro"] & (munis["density"] >= SUBURBAN_MIN_DENSITY)
+    hu, dens = munis["hu_total_whole"], munis["density_whole"]
     incorporated = munis["muni_type"].isin(["city", "village"])
+    urban = (hu >= URBAN_MIN_HU) | (
+        (hu >= REGIONAL_CITY_MIN_HU) & (dens >= REGIONAL_CITY_MIN_DENSITY) & munis["largest_in_county"].astype(bool))
+    suburban = ~urban & munis["metro_main"].astype(bool) & (
+        (dens >= SUBURBAN_MIN_DENSITY) | (incorporated & (hu >= SUBURBAN_MIN_HU_INCORPORATED)))
     out = np.select(
-        [urban, suburban, incorporated, munis["muni_type"] == "town"],
-        ["urban", "suburban", "small_community", "rural"],
+        [munis["muni_type"] == "not_defined", urban, suburban, incorporated, munis["muni_type"] == "town"],
+        [None, "urban", "suburban", "small_community", "rural"],
         default=None,
     )
     return pd.Series(out, index=munis.index, dtype=object)
@@ -130,6 +145,15 @@ def build_areas(raw_tiger: Path, raw_cbsa: Path, acs_hu: pd.DataFrame, acs_pop: 
     m = m.join(whole, on="COUSUBFP")
     m.loc[m["muni_type"] == "not_defined", "n_pieces"] = 1  # water placeholders share code 00000
     m["metro"] = m["county_geoid"].map(metro).fillna(False).astype(bool)
+    # whole-municipality context inputs: main county = piece with most housing units
+    real = m[m["muni_type"] != "not_defined"]
+    main = (real.sort_values("hu_total", ascending=False, na_position="last")
+            .drop_duplicates("COUSUBFP").set_index("COUSUBFP"))
+    whole_tbl = whole.loc[main.index].assign(main_county=main["county_geoid"], metro_main=main["metro"])
+    whole_tbl["largest_in_county"] = (whole_tbl["hu_total_whole"]
+                                      == whole_tbl.groupby("main_county")["hu_total_whole"].transform("max"))
+    m = m.join(whole_tbl[["main_county", "metro_main", "largest_in_county"]], on="COUSUBFP")
+    m.loc[m["muni_type"] == "not_defined", ["metro_main", "largest_in_county"]] = False
     m["context_group"] = assign_muni_context(m)
     m["area_id"] = "muni:" + m["GEOID"]
 
@@ -156,7 +180,12 @@ def build_areas(raw_tiger: Path, raw_cbsa: Path, acs_hu: pd.DataFrame, acs_pop: 
                          parent_county_id=r.county_geoid, parent_municipality_id=None, parent_municipality_share=None,
                          parent_tract_id=None, land_area_sqm=float(r.ALAND), water_area_sqm=float(r.AWATER),
                          muni_type=r.muni_type, cousubfp=r.COUSUBFP, n_county_pieces=int(r.n_pieces),
-                         metro_county=bool(r.metro), context_group=r.context_group))
+                         metro_county=bool(r.metro), context_group=r.context_group,
+                         context_hu_whole=float(r.hu_total_whole) if r.muni_type != "not_defined" else None,
+                         context_density_whole=(float(r.density_whole) if r.muni_type != "not_defined"
+                                                and pd.notna(r.density_whole) else None),
+                         context_main_county=r.main_county if isinstance(r.main_county, str) else None,
+                         context_metro_main=bool(r.metro_main), context_largest_in_county=bool(r.largest_in_county)))
     tpi = tp.set_index("geoid")
     for r in tract.itertuples():
         p = tpi.loc[r.GEOID] if r.GEOID in tpi.index else None

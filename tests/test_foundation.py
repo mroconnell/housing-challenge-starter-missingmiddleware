@@ -13,7 +13,7 @@ from pathlib import Path
 import pandas as pd
 
 from missing_middleware import contracts
-from missing_middleware.foundation import crosswalk, parsers, tables
+from missing_middleware.foundation import build as fbuild, crosswalk, parsers, tables
 from missing_middleware.foundation.geo import assign_muni_context, muni_type
 
 FX = Path(__file__).parent / "fixtures" / "foundation"
@@ -170,6 +170,123 @@ class TestCrosswalk(unittest.TestCase):
         self.assertEqual(crosswalk.base_name("Fond du Lac"), "fond du lac")
 
 
+def _bps_rows(rows):
+    """Minimal BPS place frame: (year, bps_id, name, county_fips, fips_mcd, fips_place, units)."""
+    d = pd.DataFrame(rows, columns=["year", "bps_id", "name", "county_fips", "fips_mcd", "fips_place", "units_total"])
+    d["1unit_units"] = d["units_total"]
+    return d
+
+
+class TestCrosswalkBlankCodes(unittest.TestCase):
+    """Review item B1: blank-MCD village rows, town->village changes, county rows, overlap years."""
+
+    def setUp(self):
+        self.munis = pd.DataFrame([
+            ("muni:5501532790", "5501532790", "32790", "55015", "village", "Harrison village", 300),
+            ("muni:5508732790", "5508732790", "32790", "55087", "village", "Harrison village", 100),
+            ("muni:5501532800", "5501532800", "32800", "55015", "town", "Harrison town", 50),
+            ("muni:5501514000", "5501514000", "14000", "55015", "town", "Charlestown town", 60),
+            ("muni:5501588000", "5501588000", "88000", "55015", "town", "Woodville town", 40),
+            ("muni:5507367320", "5507367320", "67320", "55073", "village", "Rib Mountain village", 80),
+            ("muni:5507322025", "5507322025", "22025", "55073", "town", "Easton town", 30),
+            ("muni:5505971163", "5505971163", "71163", "55059", "village", "Salem Lakes village", 90),
+        ], columns=["area_id", "geoid", "cousubfp", "county_geoid", "muni_type", "name", "homes_1unit_detached"])
+        self.bps = _bps_rows([
+            # Harrison village: MCD blank 2015-2016 (place code given), coded from 2017
+            (2015, "376700", "Harrison village", "015", "", "32790", 45),
+            (2016, "376700", "Harrison village", "015", "", "32790", 165),
+            (2017, "376700", "Harrison village", "015", "32790", "32790", 87),
+            # Rib Mountain: town with old code, then MCD 00000 and an unknown place code as a village
+            (2016, "729500", "Rib Mountain town", "073", "67325", "00000", 7),
+            (2017, "729500", "Rib Mountain village", "073", "00000", "67325", 13),
+            # Silver Lake village merged into Salem Lakes
+            (2016, "801000", "Silver Lake village", "059", "74025", "74025", 2),
+            # county rows
+            (2015, "150100", "Calumet County Part Unincorporated Area", "015", "00000", "99990", 10),
+            (2016, "150100", "Calumet County Part Unincorporated Area", "015", "00000", "99990", 12),
+            (2017, "150100", "Calumet County Part Unincorporated Area", "015", "00000", "99990", 14),
+            (2017, "730100", "Marathon County Part Unincorporated Area", "073", "00000", "99990", 5),
+            # Charlestown town reports on its own in 2016 only
+            (2016, "160000", "Charlestown town", "015", "14000", "00000", 1),
+        ])
+        self.xw = crosswalk.build_crosswalk(self.bps, self.munis)
+
+    def _ident(self, bps_id, mcd):
+        return self.xw[(self.xw["bps_id"] == bps_id) & (self.xw["fips_mcd"] == mcd)]
+
+    def test_blank_mcd_village_is_not_a_county_row(self):
+        h = self._ident("376700", "")
+        self.assertEqual(set(h["match_type"]), {"place_code"})
+        self.assertEqual(sorted(h["wi_muni_id"]), ["5501532790", "5508732790"])  # both county pieces of the village
+        self.assertTrue(h.set_index("wi_muni_id").loc["5501532790", "is_primary_piece"])
+        self.assertEqual(set(self._ident("376700", "32790")["match_type"]), {"multi_county"})
+
+    def test_town_to_village_by_name(self):
+        old = self._ident("729500", "67325")
+        new = self._ident("729500", "00000")
+        self.assertEqual(old["wi_muni_id"].tolist(), ["5507367320"])
+        self.assertEqual(new["wi_muni_id"].tolist(), ["5507367320"])
+        self.assertEqual(set(old["match_type"]) | set(new["match_type"]), {"name_county"})
+
+    def test_merged_place_alias(self):
+        s = self.xw[self.xw["bps_id"] == "801000"].iloc[0]
+        self.assertEqual((s["match_type"], s["wi_muni_id"]), ("name_alias", "5505971163"))
+
+    def test_county_rows_only_by_name_and_only_towns_without_own_row(self):
+        c = self.xw[self.xw["match_type"] == "county_unincorporated"]
+        self.assertTrue(c["bps_name"].map(crosswalk.is_county_row).all())
+        self.assertTrue(c["bps_name"].str.contains("County").all())
+        cal = c[c["bps_id"] == "150100"].set_index("wi_muni_id")
+        # villages never get county-row permits; Charlestown is covered in 2015 and 2017 only
+        self.assertEqual(sorted(cal.index), ["5501514000", "5501532800", "5501588000"])
+        self.assertEqual(cal.loc["5501514000", "county_years_covered"], "2015;2017")
+        self.assertTrue(cal.loc["5501514000", "town_has_own_row_some_years"])
+        # Rib Mountain's own rows mean Marathon's county row covers only Easton
+        self.assertEqual(c[c["bps_id"] == "730100"]["wi_muni_id"].tolist(), ["5507322025"])
+
+    def test_county_allocation_per_year(self):
+        a = crosswalk.county_unincorporated_allocation(self.xw, self.bps, self.munis)
+        a16 = a[(a["bps_id"] == "150100") & (a["year"] == 2016)].set_index("area_id")
+        self.assertNotIn("muni:5501514000", a16.index)  # Charlestown has its own row in 2016
+        self.assertAlmostEqual(a16.loc["muni:5501532800", "alloc_share"], 50 / 90)
+        self.assertAlmostEqual(a16["allocated_units_total"].sum(), 12)
+        for _, g in a.groupby(["bps_id", "year"]):
+            self.assertAlmostEqual(g["alloc_share"].sum(), 1.0)
+        self.assertTrue((a["status"] == "assumed").all())
+
+    def test_is_county_row(self):
+        self.assertTrue(crosswalk.is_county_row("Waukesha County Part Unincorporated Area"))
+        self.assertFalse(crosswalk.is_county_row("Harrison village"))
+
+
+class TestKnownBpsGaps(unittest.TestCase):
+    """Review item S2: Milwaukee multifamily years are nulled, not replaced; totals footnoted."""
+
+    def test_gap_rows(self):
+        rows = []
+        for aid, src in (("muni:5507953000", "census_bps_place"), ("55079", "census_bps_county"), ("55", "census_bps_state")):
+            for y in (2023, 2024):
+                for ind, v in (("permitted_units_total", 97.0), ("permitted_units_1unit", 61.0), ("permitted_units_5plus", 0.0)):
+                    rows.append(dict(area_id=aid, year=y, indicator=ind, value=v, source_id=src, coverage_basis="x",
+                                     geography_note=""))
+        sc = pd.DataFrame(rows)
+        xw = pd.DataFrame([dict(bps_id="572000", area_id="muni:5507953000", is_primary_piece=True)])
+        out = fbuild.apply_known_bps_gaps(sc, xw)
+        mke = out[(out["area_id"] == "muni:5507953000") & (out["year"] == 2023)].set_index("indicator")
+        self.assertTrue(math.isnan(mke.loc["permitted_units_total", "value"]))
+        self.assertEqual(mke.loc["permitted_units_total", "value_as_published"], 97.0)
+        self.assertEqual(mke.loc["permitted_units_5plus", "missing_reason"], "not_reported")
+        self.assertEqual(mke.loc["permitted_units_1unit", "value"], 61.0)  # one-unit series kept
+        self.assertIsNone(mke.loc["permitted_units_1unit", "missing_reason"])
+        ok24 = out[(out["area_id"] == "muni:5507953000") & (out["year"] == 2024)]
+        self.assertFalse(ok24["value"].isna().any())
+        cty = out[(out["area_id"] == "55079") & (out["year"] == 2023) & (out["indicator"] == "permitted_units_total")].iloc[0]
+        self.assertEqual(cty["value"], 97.0)  # published county total kept, with a footnote
+        self.assertIn("lower bound", cty["geography_note"])
+        self.assertEqual(contracts.validate(out.assign(moe=None, period_type="annual", status="observed",
+                                                       source_vintage="v"), contracts.STATE_CONDITIONS), [])
+
+
 class TestPepXlsx(unittest.TestCase):
     def _xlsx(self, path):
         ns = 'xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"'
@@ -199,16 +316,28 @@ class TestPepXlsx(unittest.TestCase):
 
 
 class TestContextRule(unittest.TestCase):
+    def _m(self, rows):
+        return pd.DataFrame(rows, columns=["muni_type", "hu_total_whole", "density_whole", "metro_main", "largest_in_county"])
+
     def test_rule(self):
-        m = pd.DataFrame({
-            "muni_type": ["city", "city", "village", "village", "town", "town", "not_defined"],
-            "hu_total_whole": [30000, 30000, 2000, 2000, 1000, 1000, 0],
-            "density_whole": [1500, 600, 900, 900, 50, 500, None],
-            "density": [1500, 600, 900, 900, 50, 500, None],
-            "metro": [True, True, True, False, True, True, False],
-        })
+        m = self._m([
+            ("city", 30000, 1500, True, True),     # big city -> urban
+            ("city", 23000, 1800, True, False),    # big inner suburb (Wauwatosa) -> urban by size
+            ("city", 12776, 349, True, True),      # Superior: regional city, largest in county -> urban
+            ("city", 11614, 671, False, True),     # Stevens Point (micro county) -> urban
+            ("city", 10078, 218, True, True),      # Mequon: largest in county but too sparse -> suburban
+            ("village", 10499, 232, True, False),  # Caledonia: big metro village -> suburban by size
+            ("village", 2000, 900, True, False),   # small dense metro village -> suburban by density
+            ("village", 2000, 300, True, False),   # small sparse metro village -> small_community
+            ("city", 9722, 704, False, True),      # Marshfield (non-metro, under 10,000) -> small_community
+            ("town", 11192, 501, True, False),     # Grand Chute town -> suburban by density
+            ("town", 4049, 146, True, False),      # big sparse metro town -> rural (no size route for towns)
+            ("town", 1000, 50, False, False),
+            ("not_defined", 0, None, False, False),
+        ])
         self.assertEqual(assign_muni_context(m).tolist(),
-                         ["urban", "suburban", "suburban", "small_community", "rural", "suburban", None])
+                         ["urban", "urban", "urban", "urban", "suburban", "suburban", "suburban", "small_community",
+                          "small_community", "suburban", "rural", "rural", None])
 
     def test_muni_type(self):
         self.assertEqual(muni_type("C5", "Madison city"), "city")

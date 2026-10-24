@@ -1,6 +1,6 @@
 # Gate 2: Wisconsin Statewide Foundation
 
-Prepared 2026-10-23 by the inventory and geography agent. Status: **built and checked; awaiting owner review.**
+Prepared 2026-10-23 by the inventory and geography agent; revised 2026-10-24 after the independent Gate 2 review (items B1, S2, S8 and the note on integrity checks). Status: **built and checked; awaiting owner review.**
 
 This package builds the statewide tables every later stage joins to:
 
@@ -15,10 +15,10 @@ Everything comes from keyless Census bulk files, so a clean checkout rebuilds it
 ## Bottom line
 
 - **Statewide one-unit detached homes (ACS 2020–2024 5-year): 1,839,569 ± 6,502.** The published ACS 2024 1-year figure is 1,855,771. The 5-year figure is 16,202 lower (−0.87%), as expected: it averages 2020–2024, while the 1-year figure describes 2024 alone. Gate 3 uses the 5-year figure, because only the 5-year release reaches municipalities, tracts and block groups.
-- **The estimates add up exactly.** Block groups sum to tracts, tracts to counties, municipalities to counties, and counties to the state. The difference is 0 for every parent and every column checked: detached, attached and total units.
-- **BPS reconciles.** In 2025, Wisconsin authorized 25,569 units in the published state file (13,405 of them in one-unit buildings), and the 72 county rows sum to exactly 25,569. This holds for every year from 2015 to 2025. The place-level rows sum to 25,624 in 2025, 55 more. That excess comes from two counties (see quality findings).
-- **Crosswalk: in 2025, 95.2% of BPS jurisdictions (1,097 of 1,152) match a municipality, and 100% match either a municipality or a county "unincorporated area" row. Nothing is unmatched in 2025.** Over 2015–2025, 3 of 1,339 jurisdiction identities are unmatched (Brokaw and Silver Lake, both dissolved or merged), carrying 7 units in total.
-- **The biggest coverage gap: 724 towns, holding 410,783 one-unit detached homes (22% of the state), have no BPS row of their own.** Their permits are reported only inside a county "Part Unincorporated Area" row. Permit baselines for those towns can be observed only at that county-wide aggregate.
+- **Integrity checks pass (these confirm the files were read correctly; they do not validate the estimates).** Block groups sum to tracts, tracts to counties, municipalities to counties, and counties to the state, with 0 difference for every parent on detached, attached and total units. The Census Bureau publishes these tables so that they nest, so a non-zero difference would mean a parsing or join error, not a finding about housing.
+- **BPS files are internally consistent.** In 2025, Wisconsin authorized 25,569 units in the published state file (13,405 of them in one-unit buildings), and the 72 county rows sum to exactly 25,569, in every year 2015–2025. This is also true by construction of the Census files and is an integrity check. The place-level rows sum to 25,624 in 2025, 55 more; that excess comes from two counties (see quality findings). **Statewide and Milwaukee County totals include Milwaukee city's incomplete multifamily series (quality finding 1).**
+- **Crosswalk: in 2025, 95.3% of BPS jurisdictions (1,098 of 1,152) match a municipality, and 100% match either a municipality or a county "unincorporated area" row. Nothing is unmatched in 2025.** Over 2015–2025, 1 of 1,339 jurisdiction identities is unmatched (Brokaw village, dissolved, 0 units). A county row is now recognized only by its name ("… County Part Unincorporated Area"); villages whose BPS row has a blank MCD code in some years are matched by place code or name (review item B1).
+- **The biggest coverage gap: 724 towns, holding 410,783 one-unit detached homes (22.3% of the state), have no BPS row of their own in any year 2015–2025.** Their permits are reported only inside a county "Part Unincorporated Area" row, so their permit baselines can be observed only at that county-wide aggregate. A further 28 towns (13,738 homes) have their own row in some years and are inside the county row in the others. The B1 fix did not change the 724 / 410,783 figure: the misread village rows had been spread over towns that were already county-row towns.
 
 ## Reproduce
 
@@ -63,12 +63,13 @@ All of these are U.S. Census Bureau products, accessed 2026-10-23 by keyless HTT
 
 | File | Rows | Contents |
 | --- | --- | --- |
-| `areas.parquet` | 8,232 | `area_id`, `geoid`, `level`, `name`, `parent_ids` (list), `parent_county_id`, `parent_municipality_id`, `parent_municipality_share`, `parent_tract_id`, `land_area_sqm`, `water_area_sqm`, `muni_type` (city/village/town/not_defined), `cousubfp`, `n_county_pieces`, `metro_county`, `context_group`, `context_rule`, `population` (ACS B01003, labeled), `housing_units_acs`, `hu_density_per_sqmi`, `boundary_source_id`, `boundary_vintage` |
+| `areas.parquet` | 8,232 | `area_id`, `geoid`, `level`, `name`, `parent_ids` (list), `parent_county_id`, `parent_municipality_id`, `parent_municipality_share`, `parent_tract_id`, `land_area_sqm`, `water_area_sqm`, `muni_type` (city/village/town/not_defined), `cousubfp`, `n_county_pieces`, `metro_county`, `context_group`, `context_rule`, and for municipalities the whole-municipality rule inputs `context_hu_whole`, `context_density_whole`, `context_main_county`, `context_metro_main`, `context_largest_in_county`; `population` (ACS B01003, labeled), `housing_units_acs`, `hu_density_per_sqmi`, `boundary_source_id`, `boundary_vintage` |
 | `inventory.parquet` | 8,232 | `homes_1unit_detached` and `_moe` (B25024_002), `homes_1unit_attached` and `_moe`, `total_housing_units` and `_moe`, `cv_1unit_detached`, `parcel_proxy_count`/`parcel_to_acs_ratio` (null until parcels are added), `method_note`, `missing_reason`, `status`, `source_id`, `source_vintage`, `context_group` |
-| `state_conditions.parquet` | 89,748 | Long form, keyed on (`area_id`, `year`, `indicator`), plus `reporting_coverage`, `coverage_basis` and `geography_note`. Indicators are listed below the table. |
-| `bps_place_annual.parquet` | 12,649 | Every Wisconsin BPS place row for 2015–2025, with buildings and units by size, reported-only units, `months_reported` and `reporting_status` (reported_12_months / partly_imputed / imputed) |
-| `bps_muni_crosswalk.parquet` / `.csv` | 2,139 | One row per BPS identity and municipality piece: `match_type`, `wi_muni_id`, `area_id`, `is_primary_piece`, `alloc_share`, `match_note`, first and last year |
-| `bps_unmatched.csv` | 3 | Unmatched BPS identities |
+| `state_conditions.parquet` | 89,800 | Long form, keyed on (`area_id`, `year`, `indicator`), plus `reporting_coverage`, `coverage_basis`, `geography_note`, `missing_reason` (`not_reported` where `value` is null) and `value_as_published` (the BPS figure kept for rows nulled as known gaps). Indicators are listed below the table. |
+| `bps_place_annual.parquet` | 12,649 | Every Wisconsin BPS place row for 2015–2025, with buildings and units by size, reported-only units, `months_reported`, `reporting_status` (reported_12_months / partly_imputed / imputed) and `quality_flag` (`multifamily_series_incomplete` on Milwaukee 2020, 2023, 2025) |
+| `bps_muni_crosswalk.parquet` / `.csv` | 2,117 | One row per BPS identity and municipality piece: `match_type`, `wi_muni_id`, `area_id`, `is_primary_piece`, `alloc_share`, `match_note`, first and last year; for county rows also `county_years_covered` and `town_has_own_row_some_years` |
+| `bps_county_unincorporated_allocation.parquet` / `.csv` | 8,116 | Per-year split of each county row to the towns without their own BPS row **in that year**: `alloc_share` (ACS detached homes), `allocated_units_total`, `allocated_1unit`; `status` = assumed |
+| `bps_unmatched.csv` | 1 | Unmatched BPS identities |
 | `coverage_municipalities.csv` / `.md` | 1,925 | Coverage per municipality piece (see below) |
 | `inventory_additivity.csv` | — | Every parent's child sum versus its published value |
 | `checks.json`, `run_manifest.json`, `source_register.csv` | — | Check results, run metadata with the git commit and checksums, and the source register |
@@ -86,7 +87,7 @@ The `state_conditions` indicators, by level and source:
 | `occupied_units`, `vacant_units` | ACS B25002 | Same | observed |
 | `vacancy_rate` | ACS B25002 | Same | calculated (Census proportion MOE) |
 | `built_2020_or_later` … `built_1939_or_earlier` | ACS B25034 | Same | observed |
-| `permitted_units_total`, `permitted_units_1unit`, `permitted_units_2_4`, `permitted_units_5plus` | BPS | State, county and municipality, 2015–2025 | observed |
+| `permitted_units_total`, `permitted_units_1unit`, `permitted_units_2_4`, `permitted_units_5plus` | BPS | State, county and municipality, 2015–2025 | observed; 9 Milwaukee city rows (total, 2–4, 5+ in 2020, 2023, 2025) have a null value with `missing_reason` = not_reported |
 
 ### Identifiers
 
@@ -111,75 +112,133 @@ Twelve water-only tracts and block groups have no parent municipality.
 
 ### Context group rule
 
-Housing-unit density = ACS 2020–2024 housing units (B25024_001) per square mile of TIGER land area. The rule is applied in order:
+Revised after review item S8. Every input is measured on the **whole municipality** (all county pieces summed), so the pieces of a multi-county city or village always share one group (before the revision, Fox Crossing's two pieces fell in different groups).
 
-1. **urban**: a municipality with at least 20,000 housing units (whole municipality, all county pieces) and at least 750 per square mile.
-2. **suburban**: any other municipality in a metropolitan county (OMB 2023 metro CBSA) with at least 425 housing units per square mile. 425 is the Census 2020 urban-area housing-density threshold.
+- `hu` = ACS 2020–2024 housing units (B25024_001); `density` = `hu` per square mile of TIGER land area.
+- Main county = the county piece holding most of the municipality's housing units; "metro" means that county is in an OMB 2023 metropolitan CBSA.
+
+The rule is applied in order:
+
+1. **urban**: `hu` ≥ 20,000; or `hu` ≥ 10,000, density ≥ 300 and the largest municipality (by `hu`) in its main county. The second route captures regional cities such as Wausau, Superior and Manitowoc.
+2. **suburban**: not urban, main county metropolitan, and either density ≥ 425 (the Census 2020 urban-area housing-density threshold) or a city or village with `hu` ≥ 2,500. The size route captures large, low-density metro suburbs such as Caledonia and Franklin.
 3. **small_community**: any other city or village.
 4. **rural**: any other town.
 
-Tracts and block groups take the group of their majority municipality. Counties take the group holding most of their housing units. The 12 "County subdivisions not defined" water pieces have no group.
+Towns reach suburban only through density, never through size, so large but sparse metro towns (e.g. Oconomowoc town, 4,049 units, 146 per sq mi) stay rural. Tracts and block groups take the group of their majority municipality. Counties take the group holding most of their housing units. The 12 "County subdivisions not defined" water pieces have no group. I kept the four contract groups (`contracts.CONTEXT_GROUP`); a separate "small city" group would need a contract change.
 
-| Group | Municipality pieces | One-unit detached homes | Counties |
+| Group | Municipalities (pieces) | One-unit detached homes | Counties |
 | --- | --- | --- | --- |
-| urban | 20 (15 municipalities) | 384,218 | 10 |
-| suburban | 151 | 358,730 | 6 |
-| small_community | 502 | 386,551 | 13 |
-| rural | 1,240 | 710,070 | 43 |
+| urban | 20 (25) | 427,619 | 11 |
+| suburban | 164 (184) | 450,535 | 9 |
+| small_community | 426 (464) | 251,345 | 8 |
+| rural | 1,240 (1,240) | 710,070 | 44 |
 
-The 15 urban municipalities are Milwaukee, Madison, Green Bay, Kenosha, Racine, Appleton, Eau Claire, Waukesha, West Allis, Oshkosh, Janesville, La Crosse, Wauwatosa, Sheboygan and Fond du Lac. The rule has known edge cases:
+The 20 urban municipalities are Milwaukee, Madison, Green Bay, Kenosha, Racine, Appleton, Eau Claire, Waukesha, West Allis, Oshkosh, Janesville, La Crosse, Wauwatosa, Sheboygan, Fond du Lac (all ≥ 20,000 units), plus Wausau, Manitowoc, West Bend, Superior and Stevens Point (regional cities).
 
-- Wauwatosa and West Allis are dense inner suburbs of Milwaukee and count as urban.
-- Wausau (18,718 units) misses the urban threshold and counts as suburban.
-- Franklin (420 units per square mile) and Manitowoc (micropolitan county) count as small_community.
+Compared with the first version, 52 pieces changed group:
 
-A first draft used 1,000 per square mile for urban, which left Eau Claire and Janesville suburban. I lowered it to 750. **The owner should confirm or change the rule.** It is one set of constants in `geo.py`.
+- 41 moved from small_community to suburban: large metro suburbs (Caledonia, Mount Pleasant, Franklin, Mequon, Muskego, Pewaukee city, Germantown, Pleasant Prairie, Weston, Greenville, Harrison, Salem Lakes and others), plus some free-standing small cities in metro counties (Columbus, Brodhead, Edgerton, Burlington).
+- 3 moved from small_community to urban (Manitowoc, Stevens Point, Superior), and 2 from suburban to urban (Wausau, West Bend).
+- 6 moved from suburban to small_community: small pieces whose municipality's main county is not metropolitan (Waupun, Blanchardville, Brooklyn, Montfort, Randolph, Rockland).
+
+The places the review named (from `checks.json` → `context_named_places`):
+
+| Municipality | Housing units (whole) | Units per sq mi | Main county metro | Largest in county | Group |
+| --- | --- | --- | --- | --- | --- |
+| Wausau city | 18,718 | 973 | yes | yes | urban |
+| Manitowoc city | 16,506 | 920 | no | yes | urban |
+| West Bend city | 14,680 | 943 | yes | yes | urban |
+| Franklin city | 14,540 | 421 | yes | no | suburban |
+| Beloit city | 14,531 | 837 | yes | no | suburban |
+| Superior city | 12,776 | 349 | yes | yes | urban |
+| Mount Pleasant village | 12,366 | 365 | yes | no | suburban |
+| Stevens Point city | 11,614 | 671 | no | yes | urban |
+| Grand Chute town | 11,192 | 501 | yes | no | suburban |
+| Caledonia village | 10,499 | 232 | yes | no | suburban |
+| Mequon city | 10,078 | 218 | yes | yes | suburban |
+| Marshfield city (2 counties) | 9,722 | 704 | no | yes | small_community |
+| Fox Crossing village (2 counties) | 8,935 | 707 | yes | no | suburban (both pieces) |
+| Pewaukee city | 7,241 | 371 | yes | no | suburban |
+| Whitewater city (2 counties) | 5,925 | 670 | no | yes | small_community (both pieces) |
+| Greenville village | 4,744 | 133 | yes | no | suburban |
+| Brookfield town | 3,496 | 695 | yes | no | suburban |
+| Campbell town | 2,067 | 549 | yes | no | suburban |
+
+Known edge cases:
+
+- Wauwatosa and West Allis are dense inner suburbs of Milwaukee and count as urban by size.
+- Beloit (14,531 units) is a historic industrial city, but Janesville is larger in Rock County, so Beloit counts as suburban.
+- Mequon is the largest municipality in Ozaukee County but is too sparse (218 per sq mi) for the regional-city route, so it counts as suburban.
+- Marshfield (9,722 units) is just under the 10,000-unit floor and counts as small_community.
+- Towns such as Brookfield, Grand Chute and Campbell are suburban by density. That is intended: they are built-up suburban towns.
+
+**The owner should confirm or change the rule.** It is one set of constants in `geo.py` (`URBAN_MIN_HU`, `REGIONAL_CITY_MIN_HU`, `REGIONAL_CITY_MIN_DENSITY`, `SUBURBAN_MIN_DENSITY`, `SUBURBAN_MIN_HU_INCORPORATED`).
 
 ## Check results
 
-| Check | Result |
+The first block below is **integrity checks**. ACS tables nest by design, the BPS state file is the sum of its county rows, and the PEP state row is the sum of its counties. These checks confirm the files were parsed and joined correctly; they cannot detect an error in the Census estimates themselves.
+
+| Integrity check | Result |
+| --- | --- |
+| Block groups → tracts, tracts → counties, municipalities → counties, counties → state | 0 difference for all 1,542 tracts, 72 counties and the state, on detached, attached and total units |
+| BPS: state file vs sum of county rows | 25,569 vs 25,569 in 2025; equal in every year 2015–2025 |
+| PEP: state vs sum of counties | 0 difference in every year 2020–2025; 2025 state = 2,840,960 |
+| Contract validation (`contracts.validate`) | `areas`, `inventory`, `state_conditions`: no problems |
+| Every `county_unincorporated` crosswalk row has "County" or "Unincorporated" in its BPS name | true (`checks.json` → `county_unincorporated_names_all_say_county`) |
+
+| Comparison or coverage check | Result |
 | --- | --- |
 | Statewide one-unit detached homes, ACS 5-year vs the published 1-year | 1,839,569 ± 6,502 vs 1,855,771: −16,202 (−0.87%). Explained by the period difference, not an error. State total units 2,778,572 ± 1,533; one-unit attached 120,679 ± 2,636 |
-| Block groups → tracts, tracts → counties, municipalities → counties, counties → state | Exact (0 difference) for 1,542 tracts, 72 counties and the state, on detached, attached and total units |
-| BPS 2025: state file vs sum of counties | 25,569 vs 25,569 (also equal in every year 2015–2025) |
 | BPS 2025: state file vs sum of place rows | 25,569 vs 25,624 (+55: Barron +7, Taylor +48); small gaps in earlier years in Clark (019) and Lafayette (065), at most 9 units |
 | BPS reporting, 2025 | 91.4% of state units come from reported data, not Census imputation; 1,014 of 1,152 places reported 12 months and 113 reported 0 |
-| PEP: state vs sum of counties | 0 difference in every year 2020–2025; 2025 state = 2,840,960 |
-| Crosswalk, all identities 2015–2025 | 1,339 identities: 1,200 exact, 70 multi-county, 7 matched by name within county, 59 county-unincorporated, 3 unmatched. By units: 81.3% municipality, 18.7% county aggregate, 7 units unmatched |
-| Crosswalk, 2025 | 1,152 jurisdictions: 1,038 exact, 57 multi-county, 2 by name, 55 county-unincorporated, 0 unmatched. 95.2% match a municipality; 83.2% of units match a municipality and 16.8% sit at a county aggregate |
-| Contract validation (`contracts.validate`) | `areas`, `inventory`, `state_conditions`: no problems |
-| Offline tests | 21 foundation tests and 48 in the full suite, all pass |
+| Crosswalk, all identities 2015–2025 | 1,339 identities: 1,200 exact, 70 multi-county, 3 by place code (blank MCD), 8 by name within county, 2 by documented merger alias, 55 county-unincorporated, 1 unmatched. By units (230,921): 81.5% municipality, 18.5% county aggregate, 0 units unmatched |
+| Crosswalk, 2025 | 1,152 jurisdictions: 1,038 exact, 57 multi-county, 3 by name, 54 county-unincorporated, 0 unmatched. 95.3% match a municipality; 83.3% of units match a municipality and 16.7% sit at a county aggregate |
+| County-row allocation | Per-year shares sum to 1 for every county row and year; allocated units equal the county rows' published units in every year (e.g. 4,285 in 2025). Waukesha County's row (2015–2022, 0 units) has no town to cover, because every Waukesha town reports on its own |
+| Offline tests | 28 foundation tests and 77 in the full suite, all pass |
 
-Unmatched BPS identities: Brokaw village (Marathon; MCD 09975, 2015–2020, 0 units; dissolved) and Silver Lake village (Kenosha; MCD 74025, 2015–2018, 7 units; merged into Salem Lakes).
+**Crosswalk matches by method other than code** (`checks.json` → `crosswalk_non_code_matches`):
 
-Name-matched identities, where the BPS code is missing from TIGER 2024:
+| BPS identity | Years | Units | Method | Matched to |
+| --- | --- | --- | --- | --- |
+| Harrison village (Calumet), MCD blank | 2015–2019 | 435 | place code 32790 | Harrison village, `muni:5501532790` (+ Winnebago piece `5508732790` by share). Before the fix these units were spread over Charlestown, Woodville, Brillion and New Holstein towns |
+| Bloomfield village (Walworth), MCD blank | 2017–2018 | 20 | place code 08265 | Bloomfield village, `muni:5512708265` |
+| Somers village (Kenosha), MCD blank | 2017–2018 | 18 | place code 74625 | Somers village, `muni:5505974625`. Before: a county row with no town |
+| Rib Mountain village (Marathon), MCD 00000 | 2022–2025 | 51 | name (place code 67325 is the old town code) | Rib Mountain village, `muni:5507367320`. Before: spread over 18 Marathon towns |
+| Rib Mountain town, old code 67325 | 2015–2021 | 125 | name, type changed | Rib Mountain village, `muni:5507367320` |
+| Greenville town, old code 31550 | 2015–2025 | 793 | name, type changed | Greenville village, `muni:5508731525` (BPS still uses the old code) |
+| Lisbon town, old code 44850 | 2015–2025 | 534 | name, type changed | Lisbon village, `muni:5513344847` |
+| Bristol, Fox Crossing (2 counties), Salem Lakes, Windsor (pre-2022 codes) | 2015–2021 | 828 | name | the village of the same name |
+| Silver Lake village (Kenosha) | 2015–2018 | 7 | merger alias | Salem Lakes village (Silver Lake merged with Salem town in 2017). Its rows are summed with Salem Lakes' rows in those years (`geography_note` = "summed over 2+ BPS rows", status calculated) |
 
-- Greenville town → Greenville village (BPS still uses the old code through 2025).
-- Lisbon town → Lisbon village (same).
-- Bristol, Fox Crossing (2 counties), Rib Mountain, Salem Lakes and Windsor, using pre-2022 codes.
+The one unmatched identity is Brokaw village (Marathon; MCD 09975, 2015–2020, 0 units; dissolved).
+
+**Towns with both their own BPS row and a county row.** 28 towns (13,738 detached homes) report on their own in some years and fall inside their county's "Part Unincorporated Area" row in others. Examples: six Dane County towns (Bristol, Westport, Springfield, Sun Prairie, Berry, Blue Mounds) have their own row in one year and the county row in ten; Georgetown, Clam Falls and Lorain towns (Polk) are the reverse. Each county row is now allocated **per year**, only to towns without their own row in that year, so no town gets both its own permits and a county share in the same year. The list, with years, is in `checks.json` → `county_row_towns.towns_both_detail`, and these towns carry the flag `county_issued_bps_some_years`. The review's count of 15 used the old rule, which looked only at each county row's last year.
 
 ### Spot checks
 
 | Municipality | `area_id` | Context | One-unit detached (± MOE) | Total units | BPS id, match | BPS 2025 units |
 | --- | --- | --- | --- | --- | --- | --- |
 | Madison city | muni:5502548000 | urban | 53,292 ± 1,235 | 133,530 | 516500, exact | 3,383 (250 one-unit) |
-| Milwaukee city | muni:5507953000 | urban | 101,402 ± 2,023 | 259,101 | 572000, multi-county (3) | 71 |
+| Milwaukee city | muni:5507953000 | urban | 101,402 ± 2,023 | 259,101 | 572000, multi-county (3) | null in `state_conditions` (not_reported); BPS publishes 71, of which 63 one-unit |
 | Green Bay city | muni:5500931000 | urban | 26,655 ± 811 | 45,701 | 351000, exact | 283 |
 | Appleton city | muni:5508702375 | urban | 18,771 ± 472 (Outagamie piece; 86.5% of the city) | 26,862 | 029000, multi-county | 79 (whole city) |
 | Eau Claire city | muni:5503522300 | urban | 16,872 ± 714 (97.1%) | 31,005 | 255500, multi-county | 476 |
 | Neenah city | muni:5513955750 | suburban | 8,172 ± 362 | 11,941 | 605000, exact | 169 |
 | Sun Prairie city | muni:5502578600 | suburban | 8,118 ± 544 | 16,195 | 853000, exact | 100 |
-| Greenville village | muni:5508731525 | small_community | 4,219 ± 263 | 4,744 | 358500, name match | 74 |
+| Greenville village | muni:5508731525 | suburban | 4,219 ± 263 | 4,744 | 358500, name match | 74 |
 | Fox Crossing village | muni:5513926982 | suburban | 4,839 ± 400 | 8,935 | 555500, multi-county and name | 201 |
 
 Madison's BPS series, 2015–2025, in total units: 1,665; 2,381; 2,188; 1,443; 1,658; 2,185; 3,626; 2,360; 2,620; 2,812; 3,383. It reported 10 months in 2016 and 11 in 2017, as the Gate 1 inventory found.
 
 ## Quality findings
 
-1. **Milwaukee's published BPS totals look implausibly low.** They are 71 units in 2025, 97 in 2023 and 3,966 over 2015–2025, for a city of 259,101 housing units. Milwaukee reported 12 months in each of those years, so these are reported values, not imputation. This is a source-level issue for the permits agent to reconcile against city records before Milwaukee anchors any rate. I have not changed the values.
-2. **County "Part Unincorporated Area" rows.** There are 55 such rows in 2025. Counties issue permits for towns that do not report on their own: 724 towns, holding 410,783 detached homes. The crosswalk links each county row to its towns, with allocation shares by detached homes, so the totals can be split. But that split is an **assumption**, not an observation. In Barron (2025, +7) and Taylor (2025, +48), the county row overlaps towns that also report on their own, so place-level sums exceed the county file. Use the county file as the control total.
+1. **Milwaukee's BPS multifamily series is incomplete; its one-unit series is usable with caution.** BPS shows Milwaukee city with 0 units in 3–4 and 5+ unit buildings in 2020, 2023 and 2025 (totals 112, 97 and 71). The independent review compared the city's own open data (data.milwaukee.gov "buildingpermits"): 2023 had 14 multifamily new-construction permits worth about $113M, while BPS shows 0 units in 5+ unit buildings. In 2025, Milwaukee County's 846 units in 5+ unit buildings all came from other places (Bayside, Glendale, Oak Creek, West Allis, Whitefish Bay). One-unit counts roughly agree with city records (BPS 2023: 61; city file: about 72 one- and two-family new buildings). Milwaukee reported 12 months in 2015 and 2019–2025, but only 10 months in 2016 and 11 in 2017 and 2018.
+   - **What the build does:** in `state_conditions`, Milwaukee city's `permitted_units_total`, `permitted_units_2_4` and `permitted_units_5plus` for 2020, 2023 and 2025 have a null `value`, `missing_reason` = not_reported, the published figure in `value_as_published`, and an explanation in `geography_note` and `coverage_basis`. `permitted_units_1unit` is kept. `bps_place_annual` marks those rows `quality_flag` = multifamily_series_incomplete. No replacement value is imputed. The list of gaps is the constant `KNOWN_BPS_GAPS` in `build.py`.
+   - Other years with non-zero multifamily (e.g. 2024: 152 units in 5+) are kept as published, but may also be incomplete; only the three zero years are flagged.
+   - **Footnote for totals:** the Wisconsin and Milwaukee County (55079) BPS totals for 2020, 2023 and 2025 include Milwaukee city's zeros. Treat them as lower bounds for multifamily and total units. Their `geography_note` says so; the published values are not changed.
+2. **County "Part Unincorporated Area" rows.** There are 54 such rows in 2025 (55 identities over 2015–2025). A row is treated as a county row only if its name says "County" or "Unincorporated"; a blank MCD code alone no longer counts (review item B1). Counties issue permits for towns that do not report on their own: 724 towns (410,783 detached homes) have only the county row, and 28 more have it in some years. The per-year allocation file splits each county row among the towns it covers that year, by detached homes. That split is an **assumption**, not an observation. In Barron (2025, +7) and Taylor (2025, +48), the county row overlaps towns that also report on their own, so place-level sums exceed the county file. Use the county file as the control total.
 3. **Twelve municipalities have no BPS row in any year 2015–2025, and no county row covers them.** Together they hold 13,212 detached homes. The largest are Caledonia village (Racine, 8,293 homes), Lake Hallie village (2,216) and Yorkville village (1,049). The rest are Clayton and Wauzeka towns (Crawford), Forest town and Genoa village (Vernon), Westfield village, Fairchild village, Mount Sterling village and Melvina village. Their permits are either missing from BPS or folded into another jurisdiction. Treat them as `not_reported`, never zero.
-4. **Imputed years.** 517 municipality pieces have at least one BPS year with fewer than 12 months reported; 647 municipalities reported all 12 months in all 11 years. Place values for months not reported are Census imputations. `reporting_coverage` (months / 12) is kept on every row.
+4. **Imputed years.** 521 municipality pieces have at least one BPS year with fewer than 12 months reported; 647 municipalities reported all 12 months in all 11 years. Place values for months not reported are Census imputations. `reporting_coverage` (months / 12) is kept on every row.
 5. **ACS precision.** 27 municipalities have a coefficient of variation above 30% on one-unit detached homes. 37 pieces report zero detached homes, mostly water placeholders and tiny pieces of multi-county cities.
 6. **Tracts and block groups straddle municipal lines.** 328 tracts and 270 block groups have less than half their land in any one municipality, so inherited context groups and municipal parents are approximate there.
 
@@ -194,9 +253,9 @@ Madison's BPS series, 2015–2025, in total units: 1,665; 2,381; 2,188; 1,443; 1
 | Occupancy, vacancy | ✓ | ✓ | ✓ | — | observed; rate calculated |
 | Year built | ✓ | ✓ | ✓ | — | observed |
 | Annual housing units (PEP) | ✓ | ✓ | missing (PEP has none below county) | — | observed |
-| Permits authorized by size, 2015–2025 | ✓ | ✓ | own row: 1,177 pieces / 1,415,574 homes (77%); county aggregate only: 724 towns / 410,783 homes (22%); none: 12 / 13,212 (0.7%) | — | observed (imputed months flagged) |
+| Permits authorized by size, 2015–2025 | ✓ (Milwaukee footnote) | ✓ (Milwaukee County footnote) | own row: 1,177 pieces / 1,415,574 homes (77%), of which 28 towns / 13,738 homes also county-row in some years; county aggregate only: 724 towns / 410,783 homes (22.3%); none: 12 / 13,212 (0.7%); Milwaukee multifamily 2020, 2023, 2025: not_reported | — | observed (imputed months flagged) |
 | Split of a multi-county city's BPS total to pieces | — | — | 121 pieces | — | assumed (share of detached homes) |
-| Split of county-unincorporated permits to towns | — | — | 724 towns | — | assumed (share of detached homes) |
+| Split of county-unincorporated permits to towns | — | — | 752 towns, per year | — | assumed (share of detached homes) |
 | Context group | — | ✓ | ✓ | ✓ | calculated (rule above; thresholds assumed) |
 | Population | ✓ | ✓ | ✓ | ✓ | observed (ACS B01003; controlled MOE = 0 at state and county) |
 | Parcel proxy counts | — | — | — | — | missing (not yet built; `parcel_proxy_count` is null) |
@@ -206,16 +265,17 @@ Per-municipality detail is in `coverage_municipalities.csv` and `.md`, one row p
 - Identity: name, county, type, context.
 - Inventory: detached homes and MOE, total units, inventory status.
 - BPS: ids, match type, years present, years with 12, partial and 0 months, and units for 2015–2025 and 2025.
-- `flags`, from this set: `county_issued_bps`, `no_bps_row`, `bps_years_missing`, `bps_imputed_years`, `multi_county`, `acs_cv_over_30pct`, `zero_detached_homes`, `water_placeholder`.
+- BPS: also `bps_years_county_row` (years the piece sits inside a county row).
+- `flags`, from this set: `county_issued_bps`, `county_issued_bps_some_years`, `no_bps_row`, `bps_years_missing`, `bps_imputed_years`, `multi_county`, `acs_cv_over_30pct`, `zero_detached_homes`, `water_placeholder`.
 
-Flag counts: county_issued_bps 724, bps_imputed_years 517, multi_county 121, bps_years_missing 44, zero_detached_homes 37, acs_cv_over_30pct 27, no_bps_row 12, water_placeholder 12. 579 pieces have no flags.
+Flag counts: county_issued_bps 724, bps_imputed_years 521, multi_county 121, bps_years_missing 41, county_issued_bps_some_years 28, zero_detached_homes 37, acs_cv_over_30pct 27, no_bps_row 12, water_placeholder 12. 579 pieces have no flags.
 
 ## Known limitations
 
 - **ACS 5-year values describe 2020–2024 on average.** They are the denominator by owner decision D4. Do not difference them against other ACS releases to infer construction.
-- **BPS records authorizations only.** It does not identify ADUs, and it records new buildings, so ADU conversions are likely absent. Imputed months are Census estimates.
+- **BPS records authorizations only.** It does not identify ADUs, and it records new buildings, so ADU conversions are likely absent. Imputed months are Census estimates. Milwaukee city's multifamily series is incomplete (quality finding 1); other cities could have similar gaps that have not been checked.
 - **Permits at the county-unincorporated level** cannot be observed for individual towns. The towns' shares are assumptions.
-- **The context rule's thresholds** (20,000 units, 750 and 425 per square mile) are judgment calls, pending owner review.
+- **The context rule's thresholds** (20,000 and 10,000 units, 300 and 425 per square mile, 2,500 units) are judgment calls, pending owner review.
 - **PEP has no municipal housing-unit estimates.** WI DOA municipal estimates were unreachable at Gate 1 and were not retried here.
 - **Parcel-based allocation within areas** (`parcel_proxy_count`, `parcel_to_acs_ratio`) is not yet built. The fields exist and are null.
 - **Boundaries are frozen at 2024-01-01.** Later annexations and incorporations, and the 2026 TIGER and V12 parcel vintages, need a crosswalk.

@@ -42,6 +42,22 @@ SPOT_MUNIS = {
 }
 
 
+# Known BPS reporting gaps: series the source publishes but that are incomplete.
+# Milwaukee city (BPS 572000) reports 0 units in 3-4 and 5+ unit buildings in
+# years with documented multifamily construction (city open data
+# "buildingpermits": 14 multifamily new-construction permits, ~$113M, in 2023),
+# while Milwaukee County's other places report hundreds of 5+ units. The
+# one-unit series is roughly consistent with city records and is kept.
+# See docs/gate2/FOUNDATION.md (quality finding 1).
+KNOWN_BPS_GAPS = {
+    ("572000", y): ("permitted_units_total", "permitted_units_2_4", "permitted_units_5plus")
+    for y in (2020, 2023, 2025)
+}
+KNOWN_BPS_GAP_NOTE = ("BPS multifamily (2+ unit) series for Milwaukee city not reported in {year}: the city file shows 0 units "
+                      "in 3-4 and 5+ unit buildings despite known multifamily construction; value left null, not replaced")
+MILWAUKEE_COUNTY = "55079"
+
+
 def _git_commit() -> str | None:
     try:
         return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
@@ -114,6 +130,8 @@ def build(out_name: str = "foundation", force_download: bool = False, log=print)
     _write(xw, out, "bps_muni_crosswalk", full_csv=True)
     unmatched = xw[xw["match_type"] == "unmatched"]
     unmatched.to_csv(out / "bps_unmatched.csv", index=False)
+    alloc = xwmod.county_unincorporated_allocation(xw, bps_place, munis)
+    _write(alloc, out, "bps_county_unincorporated_allocation", full_csv=True)
 
     place_cols = ["year", "bps_id", "name", "county_fips", "fips_mcd", "fips_place", "months_reported", "pop",
                   "units_total", "1unit_units", "units_2_4", "5plus_units", "units_total_rep", "1unit_units_rep",
@@ -122,6 +140,9 @@ def build(out_name: str = "foundation", force_download: bool = False, log=print)
     bp["reporting_status"] = np.select([bp["months_reported"] >= 12, bp["months_reported"] > 0],
                                        ["reported_12_months", "partly_imputed"], "imputed")
     bp["status"] = "observed"
+    bp["quality_flag"] = np.where(
+        [(b, y) in KNOWN_BPS_GAPS for b, y in zip(bp["bps_id"], bp["year"])],
+        "multifamily_series_incomplete", None)
     bp["source_id"] = "census_bps_place"
     _write(bp, out, "bps_place_annual")
 
@@ -147,15 +168,17 @@ def build(out_name: str = "foundation", force_download: bool = False, log=print)
     sc.append(tables.bps_conditions(bpm, bpm["area_id"], "census_bps_place", (bpm["months_reported"] / 12).clip(upper=1),
                                     "months reported / 12", pd.Series(note)))
     state_conditions = pd.concat(sc, ignore_index=True)
+    state_conditions = apply_known_bps_gaps(state_conditions, xw)
     # A BPS jurisdiction id can be reported under two place codes in one year (rare);
     # sum those so the key stays unique and record it.
     dup_mask = state_conditions.duplicated(["area_id", "year", "indicator"], keep=False)
     dup_keys = state_conditions[dup_mask][["area_id", "year"]].drop_duplicates()
     if dup_mask.any():
         agg = (state_conditions[dup_mask].groupby(["area_id", "year", "indicator"], as_index=False)
-               .agg({"value": "sum", "moe": "first", "period_type": "first", "status": "first", "source_id": "first",
+               .agg({"value": lambda v: v.sum(min_count=1), "moe": "first", "period_type": "first", "status": "first", "source_id": "first",
                      "source_vintage": "first", "reporting_coverage": "min", "coverage_basis": "first",
-                     "geography_note": lambda s: "; ".join(sorted(set(filter(None, s))) | {"summed over 2+ BPS rows"})}))
+                     "geography_note": lambda s: "; ".join(sorted({x for x in s if isinstance(x, str) and x} | {"summed over 2+ BPS rows"})),
+                     "missing_reason": "first", "value_as_published": lambda v: v.sum(min_count=1)}))
         agg["status"] = "calculated"
         state_conditions = pd.concat([state_conditions[~dup_mask], agg], ignore_index=True)
     _write(state_conditions, out, "state_conditions")
@@ -200,6 +223,36 @@ def build(out_name: str = "foundation", force_download: bool = False, log=print)
     return checks
 
 
+def apply_known_bps_gaps(sc: pd.DataFrame, xw: pd.DataFrame) -> pd.DataFrame:
+    """Null the BPS values listed in KNOWN_BPS_GAPS (missing_reason = not_reported) and
+    footnote the county and state totals that contain them. Published values are kept
+    in value_as_published; nothing is imputed."""
+    sc = sc.copy()
+    sc["missing_reason"] = np.where(sc["value"].isna(), "not_reported", None).astype(object)
+    sc["value_as_published"] = np.nan
+    if "geography_note" not in sc.columns:
+        sc["geography_note"] = None
+    sc["geography_note"] = sc["geography_note"].replace("", None)
+    prim = xw[xw["is_primary_piece"] == True]  # noqa: E712
+    for (bps_id, year), inds in KNOWN_BPS_GAPS.items():
+        aid = prim.loc[prim["bps_id"] == bps_id, "area_id"]
+        if aid.empty:
+            continue
+        note = KNOWN_BPS_GAP_NOTE.format(year=year)
+        hit = (sc["area_id"] == aid.iloc[0]) & (sc["year"] == year) & sc["indicator"].isin(inds) & (sc["source_id"] == "census_bps_place")
+        sc.loc[hit, "value_as_published"] = sc.loc[hit, "value"]
+        sc.loc[hit, "value"] = np.nan
+        sc.loc[hit, "missing_reason"] = "not_reported"
+        sc.loc[hit, "coverage_basis"] = "known reporting gap (see geography_note)"
+        sc.loc[hit, "geography_note"] = note
+        agg = (sc["area_id"].isin([MILWAUKEE_COUNTY, "55"]) & (sc["year"] == year) & sc["indicator"].isin(inds)
+               & sc["source_id"].isin(["census_bps_county", "census_bps_state"]))
+        foot = (f"published total includes Milwaukee city's incomplete BPS multifamily series for {year} "
+                "(0 units in 3+ unit buildings); treat as a lower bound")
+        sc.loc[agg, "geography_note"] = [f"{g}; {foot}" if isinstance(g, str) and g else foot for g in sc.loc[agg, "geography_note"]]
+    return sc
+
+
 def coverage_table(areas, inv, xw, bps_place) -> pd.DataFrame:
     m = areas[areas["level"] == "municipality"].merge(
         inv[["area_id", "homes_1unit_detached", "homes_1unit_detached_moe", "total_housing_units", "cv_1unit_detached"]],
@@ -233,6 +286,9 @@ def coverage_table(areas, inv, xw, bps_place) -> pd.DataFrame:
     st = pd.DataFrame([stats(a) for a in m["area_id"]])
     c = pd.concat([m.reset_index(drop=True), st], axis=1)
     c["county_issued_bps"] = c["area_id"].isin(cty["area_id"])
+    cy = cty.dropna(subset=["area_id"]).groupby("area_id")["county_years_covered"].agg(
+        lambda s: len(set(";".join(map(str, s)).split(";")) - {""}))
+    c["bps_years_county_row"] = c["area_id"].map(cy).fillna(0).astype(int)
     flags = []
     for r in c.itertuples(index=False):
         f = []
@@ -240,6 +296,8 @@ def coverage_table(areas, inv, xw, bps_place) -> pd.DataFrame:
             f.append("water_placeholder")
         if r.bps_years_present == 0 and r.muni_type != "not_defined":
             f.append("county_issued_bps" if r.county_issued_bps else "no_bps_row")
+        elif r.bps_years_present > 0 and r.county_issued_bps:
+            f.append("county_issued_bps_some_years")
         if 0 < r.bps_years_present < 11:
             f.append("bps_years_missing")
         if r.bps_years_partial or r.bps_years_imputed:
@@ -255,7 +313,7 @@ def coverage_table(areas, inv, xw, bps_place) -> pd.DataFrame:
     c["inventory_status"] = np.where(c["homes_1unit_detached"].notna(), "observed", "missing")
     cols = ["area_id", "name", "county", "muni_type", "context_group", "n_county_pieces", "homes_1unit_detached",
             "homes_1unit_detached_moe", "total_housing_units", "inventory_status", "bps_ids", "bps_match_type",
-            "bps_years_present", "bps_years_12mo", "bps_years_partial", "bps_years_imputed",
+            "bps_years_present", "bps_years_12mo", "bps_years_partial", "bps_years_imputed", "bps_years_county_row",
             "bps_units_2015_2025", "bps_units_2025", "flags"]
     return c[cols].sort_values("homes_1unit_detached", ascending=False).reset_index(drop=True)
 
@@ -312,6 +370,44 @@ def run_checks(areas, inv, add, sc, bps_state, bps_county, bps_place, xw, pep_sc
     ch["crosswalk_2025"] = xwmod.match_summary(xw, bps_place, 2025)
     um = xw[xw["match_type"] == "unmatched"]
     ch["crosswalk_unmatched"] = um[["bps_id", "bps_name", "bps_county_fips", "fips_mcd", "first_year", "last_year", "units_total_all_years"]].to_dict("records")
+    ids = xw.drop_duplicates(["bps_id", "bps_county_fips", "fips_mcd", "fips_place"])
+    ch["crosswalk_by_method_all_years"] = (ids.groupby("match_type")
+                                           .agg(identities=("bps_id", "size"), units_2015_2025=("units_total_all_years", "sum"))
+                                           .reset_index().to_dict("records"))
+    ch["crosswalk_non_code_matches"] = ids[ids["match_type"].isin(["place_code", "name_county", "name_alias"])][
+        ["bps_id", "bps_name", "bps_county_fips", "fips_mcd", "fips_place", "first_year", "last_year", "match_type",
+         "units_total_all_years"]].merge(xw[["bps_id", "fips_mcd", "fips_place", "is_primary_piece", "area_id", "muni_name"]]
+                                         .query("is_primary_piece == True"), on=["bps_id", "fips_mcd", "fips_place"],
+                                         how="left").drop(columns="is_primary_piece").to_dict("records")
+    cty = xw[(xw["match_type"] == "county_unincorporated") & xw["area_id"].notna()]
+    cc = cov.set_index("area_id")
+    only = cc[cc["flags"].str.contains(r"(?:^|;)county_issued_bps(?:;|$)")]
+    some = cc[cc["flags"].str.contains("county_issued_bps_some_years")]
+    st_homes = float(inv.loc[inv["level"] == "state", "homes_1unit_detached"].iloc[0])
+    ch["county_row_towns"] = {
+        "county_row_identities": int(ids["match_type"].eq("county_unincorporated").sum()),
+        "county_rows_without_towns": ids[(ids["match_type"] == "county_unincorporated") & ids["area_id"].isna()][
+            ["bps_name", "first_year", "last_year", "units_total_all_years"]].to_dict("records"),
+        "towns_linked_any_year": int(cty["area_id"].nunique()),
+        "towns_linked_homes": float(cc.loc[cty["area_id"].unique(), "homes_1unit_detached"].sum()),
+        "towns_county_row_only": int(len(only)),
+        "towns_county_row_only_homes": float(only["homes_1unit_detached"].sum()),
+        "towns_county_row_only_share_of_state": round(float(only["homes_1unit_detached"].sum()) / st_homes, 4),
+        "towns_both_own_and_county_rows": int(len(some)),
+        "towns_both_detail": some.reset_index()[["area_id", "name", "county", "homes_1unit_detached", "bps_years_present",
+                                                 "bps_years_county_row"]].to_dict("records"),
+    }
+    mk = bps_place[bps_place["bps_id"] == "572000"].set_index("year")
+    ch["county_unincorporated_names_all_say_county"] = bool(
+        ids.loc[ids["match_type"] == "county_unincorporated", "bps_name"].map(xwmod.is_county_row).all())
+    ch["milwaukee_bps_572000"] = {
+        int(y): {"months": float(r["months_reported"]), "units": float(r["units_total"]), "1unit": float(r["1unit_units"]),
+                 "2unit": float(r["2units_units"]), "3_4": float(r["3_4units_units"]), "5plus": float(r["5plus_units"]),
+                 "flagged_not_reported": ("572000", int(y)) in KNOWN_BPS_GAPS}
+        for y, r in mk.iterrows()}
+    ch["state_conditions_not_reported"] = (sc[sc["missing_reason"] == "not_reported"]
+                                           .groupby(["source_id", "indicator"]).size().reset_index(name="rows").to_dict("records"))
+    ch["context_named_places"] = context_named(areas)
     ch["municipalities_without_own_bps_row"] = int((cov["bps_years_present"] == 0).sum() - (cov["muni_type"] == "not_defined").sum())
     ch["municipalities_county_issued"] = int(cov["flags"].str.contains("county_issued_bps").sum())
 
@@ -367,6 +463,24 @@ def run_checks(areas, inv, add, sc, bps_state, bps_county, bps_place, xw, pep_sc
         val["areas"].append(f"context_group values not allowed {sorted(bad_ctx)}")
     ch["contract_validation"] = val
     return ch
+
+
+CONTEXT_NAMED = ["Caledonia village", "Mount Pleasant village", "Franklin city", "Pewaukee city", "Mequon city",
+                 "Superior city", "Stevens Point city", "Manitowoc city", "Wausau city", "Beloit city", "West Bend city",
+                 "Brookfield town", "Grand Chute town", "Campbell town", "Fox Crossing village", "Whitewater city",
+                 "Greenville village", "Marshfield city", "Appleton city", "Eau Claire city"]
+
+
+def context_named(areas: pd.DataFrame) -> list[dict]:
+    """Whole-municipality context inputs and group for the places the review named."""
+    m = areas[(areas["level"] == "municipality") & areas["name"].isin(CONTEXT_NAMED)]
+    g = m.groupby(["cousubfp", "name"]).agg(
+        pieces=("area_id", "size"), groups=("context_group", lambda s: "/".join(sorted(set(s.dropna())))),
+        hu_whole=("context_hu_whole", "first"), density_whole=("context_density_whole", "first"),
+        main_county=("context_main_county", "first"), metro_main=("context_metro_main", "first"),
+        largest_in_county=("context_largest_in_county", "first")).reset_index()
+    g["density_whole"] = g["density_whole"].round(0)
+    return g.sort_values("hu_whole", ascending=False).to_dict("records")
 
 
 def geo_spot_ids() -> dict:
