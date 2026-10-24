@@ -382,6 +382,50 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Decision:** Pending Gate 3.
 
+## AQ-030 Read the benchmark's ADU forms and parking narrowly; Madison is 80% benchmark
+
+**Status:** Adopted. **Added:** 2026-10-24. **Related:** AQ-022, AQ-025, AQ-029.
+
+**Benchmark text (official handbook, checked 2026-10-24):** "Model the effect of allowing one ADU on parcels with existing single-family buildings. Assume detached and semi-detached ADUs of at least 600 square feet are allowed, and no additional parking is required." The text is silent on conversions, owner occupancy, approval process, fees, and setbacks.
+
+**Owner decisions (2026-10-24):**
+
+- **Forms covered:** new detached ADUs, new semi-detached (attached, with their own entrance and walls) ADUs, and conversions of garages or other accessory buildings, which produce detached ADUs. Interior conversions (basement, attic, part of the house) are not required by the benchmark; they remain under current local rules, appear in the baseline where allowed, and receive no reform uplift.
+- **Parking:** "no additional parking is required" includes no replacement parking for the house when a garage is converted (as California required from 2020).
+- **Madison completeness:** treat Madison as 80% of benchmark (AQ-029). When Madison sets the statewide floor for `y`, its observed rate is divided by 0.8.
+
+**Decision:** Adopted; listed as an office-hours question for confirmation.
+
+## Questions for office hours
+
+Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
+
+**Scenario interpretation (ADU)**
+
+1. Does "detached and semi-detached ADUs" include conversions of garages and other accessory buildings? Are interior conversions (basements, attics) in or out? (AQ-030)
+2. Does "no additional parking is required" also bar replacement parking for a converted garage? (AQ-030)
+3. Should the modeled ADU law also remove owner-occupancy and related-occupant requirements and require by-right (ministerial) approval, given the scenario is silent? (AQ-022, AQ-025)
+4. Is "at least 600 square feet" a minimum size the law must allow (our reading) or the size teams should assume for modeled units?
+5. Where local rules already allow ADUs, should the scenario be the change from current local rules (our approach), and is a statewide market spillover effect in already-permissive cities acceptable if documented? (AQ-027)
+
+**Methods and outcome**
+
+6. Is units authorized by issued building permit an acceptable outcome, given permits, starts, completions, and stock growth are all allowed? (AQ-001)
+7. Is a stylized timing convention (law effective at the start of forecast year 1, labeled 2027–2031) acceptable, given no real bill could take effect before 2027? (AQ-021)
+8. Are evidence-informed scenario ranges (lower, central, upper paths) sufficient uncertainty treatment, or do judges expect statistical intervals? (AQ-012)
+
+**Eligibility and submission** (from [OFFICIAL_MATERIALS_CHECK.md](gate1/OFFICIAL_MATERIALS_CHECK.md))
+
+9. Is a deep single-state (Wisconsin) tool fully eligible? How much weight does the "states with less complete data" preference carry, and is a documented transfer method enough or must a second state be run?
+10. Is there an official provided-data package, or is the curated source list advisory?
+11. Does "memory-safe language" bind? Is a JavaScript or TypeScript front end with a Python core acceptable?
+12. Is the demo video limit "no longer than five minutes"?
+13. Will judges evaluate the repository as of the deadline, and do later commits matter?
+14. Which SBOM format (SPDX or CycloneDX) is expected, and where should it go?
+15. Is there a size threshold for "large source datasets"? Are small committed derived tables (for example our coded ADU rules) acceptable?
+16. Fee scenario: must the $50,000-per-unit assumption apply uniformly even where Wisconsin fees are lower, or may teams also show results with local fees?
+17. Can the team submit early for a pre-deadline compliance review?
+
 ## Additional questions to develop
 
 All entries below were added on 2026-10-23 and remain **Open**.
@@ -414,3 +458,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-027 | Logged owner Gate 3 inputs: statewide market spillover for benchmark cities, path-specific ramps, unknown rules treated like restricted with a hold-out test, and the recently-liberalized baseline ramp. |
 | 2026-10-24 | AQ-028 | Adopted the outcome-based increment (homes × (y − x)) with estimated x where permits are unobserved, and proposed stock-gap health baselines across scenarios. |
 | 2026-10-24 | AQ-029 | Measured Madison's partial benchmark status (8% Planned Development; 78% outside the TOD overlay facing replacement parking) and proposed scaling its floor rate by benchmark completeness. |
+| 2026-10-24 | AQ-030; office-hours questions | Adopted the narrow reading of the benchmark's forms and parking, set Madison at 80% of benchmark, and added a consolidated list of questions for office hours. |

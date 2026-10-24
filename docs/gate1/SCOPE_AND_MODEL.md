@@ -8,10 +8,29 @@ If Wisconsin enacted a statewide ADU law at the challenge benchmark, how many *a
 
 The answer is phrased the way a legislator would use it: *"Today Wisconsin produces about x ADU permits per 1,000 single-family homes a year. With this law we expect about y. That is roughly H × (y − x) more homes over five years, within this range, for these reasons."*
 
+## Key assumptions at a glance
+
+| # | Assumption | Status | Source |
+| --- | --- | --- | --- |
+| 1 | Outcome is ADU units authorized at permit issuance, five years | Adopted | AQ-001, AQ-021 |
+| 2 | Law covers new detached and attached ADUs and garage/accessory-building conversions; interior conversions stay under current local rules | Adopted | AQ-030 |
+| 3 | No owner-occupancy, related-occupant, or replacement-parking requirements | Adopted | AQ-022, AQ-030 |
+| 4 | By-right (ministerial) approval required | Proposed | AQ-025 |
+| 5 | Stylized dates: effective at start of year 1, labeled 2027–2031; local law frozen 2026-10-31 | Adopted | AQ-021 |
+| 6 | Denominator is ACS one-unit detached homes | Adopted | AQ-021 |
+| 7 | Additional = homes × (y − x); x observed or estimated from ordinance status | Adopted | AQ-028 |
+| 8 | y floor = Madison's observed rate ÷ 0.8 (Madison is 80% benchmark), plus statewide spillover | Adopted direction; values at Gate 3 | AQ-024, AQ-027, AQ-029, AQ-030 |
+| 9 | Unknown local rules behave like restricted, tested on a hold-out sample | Adopted direction | AQ-027 |
+| 10 | Area-level results only; no lot-level forecasts | Adopted | AQ-018 |
+| 11 | Ranges are evidence-informed scenario paths, not statistical intervals | Adopted | AQ-012 |
+
+Questions still to confirm with the challenge organizers are listed under [Questions for office hours](../ASSUMPTIONS_AND_QUESTIONS.md#questions-for-office-hours).
+
 ## The modeled bill
 
 - **Challenge benchmark:** one ADU allowed on every parcel with an existing single-family home; detached and semi-detached (attached) ADUs of at least 600 sq ft; no additional parking.
 - **No poison pills (AQ-022):** no owner-occupancy or related-occupant requirement, following the Mercatus 2025 taxonomy (Hamilton and Peterson).
+- **Forms and parking (AQ-030):** new detached and semi-detached ADUs and conversions of garages or accessory buildings; no replacement parking for a converted garage. Interior conversions are not required by the benchmark.
 - **Approval pathway (AQ-025, decision at Gate 3):** proposed that the modeled bill requires ministerial, by-right approval, consistent with the no-poison-pills principle.
 - Wisconsin has no statewide ADU law today; all four 2025–26 bills died (see [POLICY_EVIDENCE_MAP.md](POLICY_EVIDENCE_MAP.md) §1). Current law is entirely local.
 
@@ -62,7 +81,7 @@ For area *a*, forecast year *t* = 1..5, path *p*:
   - **Estimated** elsewhere from ordinance status and the coded places with observed permits: `unmentioned` or `prohibited` places get a small value near zero; `mentioned_allowed` places get a value estimated from observed places with ordinances. `undetermined` places are treated like restricted ones, not like outright bans (AQ-027). A hold-out sample of coded places tests this, with a simple regression later.
   - Places that liberalized in 2024–26 (for example Milwaukee, August 2025) are still ramping, so their `x` rises over the forecast (`g[a,t]`); Gate 3 works this through for Milwaukee.
 - `y[a,p]`: expected rate once the statewide law is in force.
-  - **Floor:** Madison's observed rate under its near-benchmark rules (since April 2024) applies everywhere (AQ-024). Rationale: a statewide law builds a specialized industry of contractors, lenders, and designers that one city's reform does not.
+  - **Floor:** Madison's observed rate since April 2024, divided by 0.8 because Madison is about 80% of benchmark (Planned Development parcels and replacement parking outside the TOD overlay; AQ-029, AQ-030), applies everywhere (AQ-024). Rationale: a statewide law builds a specialized industry of contractors, lenders, and designers that one city's reform does not.
   - **Statewide spillover (AQ-027):** places already at or near benchmark also rise, because that industry markets and educates across the state. So `y > x` even in Madison and Wauwatosa.
   - **Paths:** lower uses the Madison floor; central and upper each come from a separate predictive model. Candidates: comparison places with post-reform data (Massachusetts, Austin, Minneapolis) for the central path; a California-style model for the upper path, including California's ADU share of all new units before and after 2020 (from HCD APR) applied to Wisconsin's Census BPS totals.
   - Paths move together across all areas and may differ in ramp speed as well as level.

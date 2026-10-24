@@ -43,6 +43,15 @@ All build commands are also in the README command contract. Raw and processed da
 | 5 | Open the review map | Madison ADU permits concentrate in older near-isthmus and near-west neighborhoods; tract lines follow lakes and arterials; statewide layer colors the 37 coded places by class | **Pass.** Pale green in the north is national forest on the basemap (labeled). |
 | 6 | Review the quality findings and accept fitness, or choose a workaround | Below | **Your judgment.** |
 
+## Assumptions this gate relies on
+
+- Permit records are counted at issuance (Sun Prairie: application date, the only date available).
+- ADUs are identified by description text; the ADU-equivalent rule is a separate series (G2-2).
+- One-unit detached homes from ACS 2020–2024 are the denominator; parcels only place records in areas.
+- Census BPS county-row permits for 724 towns are split by share of homes (assumed).
+- Coded rules are as of 2026-10-31; text seen only through a rendering is a source lead.
+- Madison is treated as 80% of benchmark (AQ-030).
+
 ## Quality findings
 
 1. **ADU activity is small, and the contrast is clean.** Madison: 64 ADU permits 2014–2026 (3, 2, 3, 1, 1, 2, 0, 1, 5, 7, 10, 13 for 2014–2025, then 16 in 2026 to date). Pleasant Prairie and Sun Prairie under prohibition: essentially none.
