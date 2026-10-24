@@ -1,0 +1,145 @@
+sample,predictor,universe,outcome,outcome_label,n_places,spearman,lo95,hi95,spearman_log_value_same_places
+non_holdout,hcd_received,all,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",367,0.32822167131878227,0.234346727291469,0.41760794680472196,0.6190667161237898
+non_holdout,hcd_received,all,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",367,0.3344793134286032,0.23631032821683054,0.4176968652270148,0.5506147769445495
+non_holdout,hcd_received,all,active,Active group 2017-2019 (1) vs not (0),367,0.20464806406223632,0.10934727030767412,0.302311776992113,0.42580141343079964
+non_holdout,hcd_received,all,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),367,-0.279591756707969,-0.3592937959291811,-0.20064840939400025,-0.48998390712197726
+non_holdout,cci_graded,all,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",367,0.34548571593793226,0.25161658176684226,0.43057183774861685,0.6190667161237898
+non_holdout,cci_graded,all,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",367,0.3499558245705452,0.2560493461952714,0.4363018268146808,0.5506147769445495
+non_holdout,cci_graded,all,active,Active group 2017-2019 (1) vs not (0),367,0.22049788335568044,0.12612144960723642,0.32016595644786494,0.42580141343079964
+non_holdout,cci_graded,all,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),367,-0.2869607954187604,-0.36890425135570276,-0.2108608698758623,-0.48998390712197726
+non_holdout,cci_grade_points,cci_graded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",160,0.2855175190854569,0.12447572316243236,0.44461555324361285,0.4762662367021861
+non_holdout,cci_grade_points,cci_graded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",160,0.011440275177316512,-0.1454775099347824,0.16061681495347,0.32562999483925337
+non_holdout,cci_grade_points,cci_graded,active,Active group 2017-2019 (1) vs not (0),160,0.25911911625897904,0.0891313704178349,0.41866986501550096,0.41062644989608826
+non_holdout,cci_grade_points,cci_graded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),160,-0.1306269094164741,-0.22669850302552372,-0.03682241132667096,-0.21954987647542534
+non_holdout,tcrlus_ordinance,in_tcrlus,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",198,0.058631177075515184,-0.09061904380521886,0.20194728201849055,0.5949970510876079
+non_holdout,tcrlus_ordinance,in_tcrlus,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",198,0.008650815080311665,-0.13663996951421137,0.14410613095793753,0.4814006275699517
+non_holdout,tcrlus_ordinance,in_tcrlus,active,Active group 2017-2019 (1) vs not (0),198,0.002111519286157733,-0.14586183330658614,0.13035803953197586,0.4521952928367508
+non_holdout,tcrlus_ordinance,in_tcrlus,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),198,-0.09326125198629807,-0.249684267537137,0.05555508416528127,-0.46887371363938396
+non_holdout,tcrlus_n_flags,in_tcrlus,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",198,-0.23964177388199678,-0.37105708666288345,-0.10605867682415047,0.5949970510876079
+non_holdout,tcrlus_n_flags,in_tcrlus,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",198,-0.03730215455485933,-0.16679808539898214,0.10673531266775706,0.4814006275699517
+non_holdout,tcrlus_n_flags,in_tcrlus,active,Active group 2017-2019 (1) vs not (0),198,-0.24353591785048748,-0.3671306705417089,-0.11341442263498908,0.4521952928367508
+non_holdout,tcrlus_n_flags,in_tcrlus,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),198,0.01182399862150259,-0.1235100823964752,0.14167628497671034,-0.46887371363938396
+non_holdout,tcrlus_extra_parking,in_tcrlus,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",165,-0.23851542542081838,-0.37228277266569804,-0.09745685032112986,0.5949970510876079
+non_holdout,tcrlus_extra_parking,in_tcrlus,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",165,-0.11630232744040832,-0.25626667845813134,0.024756878130398213,0.4814006275699517
+non_holdout,tcrlus_extra_parking,in_tcrlus,active,Active group 2017-2019 (1) vs not (0),165,-0.23369612489251573,-0.3945790796465386,-0.08169831759891923,0.4521952928367508
+non_holdout,tcrlus_extra_parking,in_tcrlus,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),165,0.09308186653488607,-0.04633927972436185,0.20507264590188323,-0.46887371363938396
+non_holdout,tcrlus_lot_minimum,in_tcrlus,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",125,-0.15859711410332075,-0.33197508131892955,0.03443806235197027,0.5949970510876079
+non_holdout,tcrlus_lot_minimum,in_tcrlus,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",125,0.024686551039390398,-0.16290931442588627,0.20133517263451986,0.4814006275699517
+non_holdout,tcrlus_lot_minimum,in_tcrlus,active,Active group 2017-2019 (1) vs not (0),125,-0.1751331458637629,-0.3571248817499836,0.01307180176805557,0.4521952928367508
+non_holdout,tcrlus_lot_minimum,in_tcrlus,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),125,-0.04448099237602769,-0.2506969291920492,0.134970303379044,-0.46887371363938396
+non_holdout,tcrlus_fees,in_tcrlus,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",106,-0.07447925773137944,-0.2705313577103873,0.11272778167402264,0.5949970510876079
+non_holdout,tcrlus_fees,in_tcrlus,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",106,-0.10686597022480482,-0.29203896501730237,0.08692155964090065,0.4814006275699517
+non_holdout,tcrlus_fees,in_tcrlus,active,Active group 2017-2019 (1) vs not (0),106,-0.0663983903420523,-0.24772641168869808,0.11164288732945704,0.4521952928367508
+non_holdout,tcrlus_fees,in_tcrlus,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),106,-0.0790395065388455,-0.23717825045506422,0.11154497712211933,-0.46887371363938396
+non_holdout,hand_n_tier1,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",60,-0.2718231133813265,-0.5055365719424592,-0.009463277917705203,0.4003962025993081
+non_holdout,hand_n_tier1,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",60,-0.1425498501312507,-0.3917555507820322,0.1069267649314488,0.3340882906252082
+non_holdout,hand_n_tier1,hand_coded,active,Active group 2017-2019 (1) vs not (0),60,-0.22517512578989907,-0.45238910629449974,0.03850419119205952,0.3208196101662793
+non_holdout,hand_n_tier1,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),60,0.2888949210556919,0.030551603090021955,0.4972736194443682,-0.30722988489001724
+non_holdout,hand_n_tier2,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",60,-0.048781700299970296,-0.3046909785309057,0.2044792659547472,0.4003962025993081
+non_holdout,hand_n_tier2,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",60,0.015538485035051616,-0.259153478150588,0.29223553380516437,0.3340882906252082
+non_holdout,hand_n_tier2,hand_coded,active,Active group 2017-2019 (1) vs not (0),60,-0.08540615429382761,-0.3258540578914651,0.1554568703564308,0.3208196101662793
+non_holdout,hand_n_tier2,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),60,0.01405467224052334,-0.26101137922352685,0.2738032949535726,-0.30722988489001724
+non_holdout,hand_n_flags,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",60,-0.22245232070611057,-0.450563780889003,0.019904843674357638,0.4003962025993081
+non_holdout,hand_n_flags,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",60,-0.09433878848173388,-0.36673888644596087,0.18641219316645127,0.3340882906252082
+non_holdout,hand_n_flags,hand_coded,active,Active group 2017-2019 (1) vs not (0),60,-0.22652119351490022,-0.4559531351753712,0.0252355994171914,0.3208196101662793
+non_holdout,hand_n_flags,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),60,0.1853850967440638,-0.06982308575543454,0.4150485972377806,-0.30722988489001724
+non_holdout,hand_owner_occupancy,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",52,-0.3080219349469647,-0.5572171624217456,-0.03611606831371163,0.4003962025993081
+non_holdout,hand_owner_occupancy,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",52,-0.16103542848048683,-0.4108628339446827,0.10547146023779151,0.3340882906252082
+non_holdout,hand_owner_occupancy,hand_coded,active,Active group 2017-2019 (1) vs not (0),52,-0.3294039229342062,-0.5936547599072628,-0.07742737845765765,0.3208196101662793
+non_holdout,hand_owner_occupancy,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),52,0.19814734824194039,-0.08126480919887154,0.4375410076525596,-0.30722988489001724
+non_holdout,hand_extra_parking,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",57,-0.26688025634181184,-0.4310142013734232,-0.09187100760436331,0.4003962025993081
+non_holdout,hand_extra_parking,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",57,-0.1337375991840319,-0.2674384898433642,-0.033498050722042205,0.3340882906252082
+non_holdout,hand_extra_parking,hand_coded,active,Active group 2017-2019 (1) vs not (0),57,-0.30860669992418377,-0.48507125007266594,-0.16247312247861276,0.3208196101662793
+non_holdout,hand_extra_parking,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),57,0.16012815380508713,0.07985957062499249,0.26444294267397256,-0.30722988489001724
+non_holdout,hand_discretionary_review,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",54,-0.17933221263664936,-0.439492872226647,0.11742243963474498,0.4003962025993081
+non_holdout,hand_discretionary_review,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",54,-0.21718831926767754,-0.4730262709465501,0.06581481580853901,0.3340882906252082
+non_holdout,hand_discretionary_review,hand_coded,active,Active group 2017-2019 (1) vs not (0),54,-0.18471714871531542,-0.381447558505155,0.05330017908890261,0.3208196101662793
+non_holdout,hand_discretionary_review,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),54,0.23652495839563306,-0.06461347526461297,0.5151482133681985,-0.30722988489001724
+non_holdout,hand_lot_minimum,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",52,-0.05401092090829027,-0.30603668383282445,0.21267692694753113,0.4003962025993081
+non_holdout,hand_lot_minimum,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",52,0.03649768416673345,-0.22364944048815896,0.30010474667318854,0.3340882906252082
+non_holdout,hand_lot_minimum,hand_coded,active,Active group 2017-2019 (1) vs not (0),52,-0.15155444566227677,-0.3705306913720804,0.11853745517851628,0.3208196101662793
+non_holdout,hand_lot_minimum,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),52,-0.06846531968814577,-0.3051451416750053,0.19909706085133358,-0.30722988489001724
+non_holdout,hand_district_limited,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",50,0.04962975887197403,-0.2262538506931136,0.32718415299820125,0.4003962025993081
+non_holdout,hand_district_limited,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",50,-0.0375388806509886,-0.3367977008781616,0.2919860277033562,0.3340882906252082
+non_holdout,hand_district_limited,hand_coded,active,Active group 2017-2019 (1) vs not (0),50,-0.0721074938001538,-0.3275277579963501,0.20447285565040596,0.3208196101662793
+non_holdout,hand_district_limited,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),50,-0.09651100402393102,-0.3572172541558802,0.19789188101987742,-0.30722988489001724
+non_holdout,log_value,all,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",367,0.6190667161237898,0.545457394441332,0.6876187697902072,0.6190667161237898
+non_holdout,log_value,all,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",367,0.5506147769445495,0.47147612083422336,0.6285553869991032,0.5506147769445495
+non_holdout,log_value,all,active,Active group 2017-2019 (1) vs not (0),367,0.42580141343079964,0.34186147718252546,0.5085456319671677,0.42580141343079964
+non_holdout,log_value,all,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),367,-0.48998390712197726,-0.5650996183115914,-0.4103504084148933,-0.48998390712197726
+non_holdout,log_income,all,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",367,0.4218556859837643,0.3298584800828999,0.510215653188908,0.6190667161237898
+non_holdout,log_income,all,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",367,0.33748380087864505,0.23599900615392883,0.43559125383806013,0.5506147769445495
+non_holdout,log_income,all,active,Active group 2017-2019 (1) vs not (0),367,0.28077922945888306,0.18078693987879635,0.37863558545112985,0.42580141343079964
+non_holdout,log_income,all,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),367,-0.3836841074348289,-0.46424591917954094,-0.29632110082407687,-0.48998390712197726
+all_incl_holdout,hcd_received,all,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",457,0.3385468350881927,0.25451305590358125,0.421287558491646,0.6177361294184209
+all_incl_holdout,hcd_received,all,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",457,0.33852477878680454,0.2533271870032868,0.41687335725840846,0.5417049528718989
+all_incl_holdout,hcd_received,all,active,Active group 2017-2019 (1) vs not (0),457,0.24378383758558855,0.1553156801255115,0.33702248115853667,0.4353521665282216
+all_incl_holdout,hcd_received,all,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),457,-0.26344511373485247,-0.33516399083555193,-0.1839283911019152,-0.4737689849702028
+all_incl_holdout,cci_graded,all,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",457,0.3564903552206292,0.27154045614402367,0.434704256513817,0.6177361294184209
+all_incl_holdout,cci_graded,all,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",457,0.3548205422015597,0.26859126640780606,0.43295027175715417,0.5417049528718989
+all_incl_holdout,cci_graded,all,active,Active group 2017-2019 (1) vs not (0),457,0.25447355267790445,0.167152330451504,0.34827908049146,0.4353521665282216
+all_incl_holdout,cci_graded,all,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),457,-0.27147542554408477,-0.34277140543913653,-0.1899477147254487,-0.4737689849702028
+all_incl_holdout,cci_grade_points,cci_graded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",195,0.29365786850089787,0.14617798441400862,0.42388012801409547,0.500145215832887
+all_incl_holdout,cci_grade_points,cci_graded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",195,-0.0027472056469958475,-0.14034877030191364,0.13414854353978548,0.3664241217550619
+all_incl_holdout,cci_grade_points,cci_graded,active,Active group 2017-2019 (1) vs not (0),195,0.27513602404040344,0.11287904721300987,0.410317836886653,0.42570794150353647
+all_incl_holdout,cci_grade_points,cci_graded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),195,-0.13421658836531972,-0.22233369254685406,-0.04678606800910535,-0.2323568258723791
+all_incl_holdout,tcrlus_ordinance,in_tcrlus,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",249,0.07234433116344027,-0.0506756459839598,0.18845335414268996,0.5523875814780607
+all_incl_holdout,tcrlus_ordinance,in_tcrlus,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",249,0.02675420519526832,-0.1019302998609773,0.15185019957906776,0.48069161651538683
+all_incl_holdout,tcrlus_ordinance,in_tcrlus,active,Active group 2017-2019 (1) vs not (0),249,0.0028886662776225172,-0.11398860785683139,0.1251870773551284,0.44178007415223214
+all_incl_holdout,tcrlus_ordinance,in_tcrlus,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),249,-0.09483214347281305,-0.23101718498409185,0.049503549169991556,-0.38304727886320367
+all_incl_holdout,tcrlus_n_flags,in_tcrlus,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",249,-0.22227178088062952,-0.34107803416773097,-0.09848254167065507,0.5523875814780607
+all_incl_holdout,tcrlus_n_flags,in_tcrlus,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",249,-0.033817976859365544,-0.15377587881341626,0.0870292989117823,0.48069161651538683
+all_incl_holdout,tcrlus_n_flags,in_tcrlus,active,Active group 2017-2019 (1) vs not (0),249,-0.23902177370608377,-0.34632069481228395,-0.12140736592484401,0.44178007415223214
+all_incl_holdout,tcrlus_n_flags,in_tcrlus,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),249,-0.01835519073063672,-0.13583497592844895,0.09996775836730813,-0.38304727886320367
+all_incl_holdout,tcrlus_extra_parking,in_tcrlus,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",210,-0.22440594159905164,-0.3557611186202418,-0.0858248154751069,0.5523875814780607
+all_incl_holdout,tcrlus_extra_parking,in_tcrlus,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",210,-0.12415651098989217,-0.24907620715184853,0.013186241855869675,0.48069161651538683
+all_incl_holdout,tcrlus_extra_parking,in_tcrlus,active,Active group 2017-2019 (1) vs not (0),210,-0.2284874354485007,-0.37405744953281944,-0.08138108951521893,0.44178007415223214
+all_incl_holdout,tcrlus_extra_parking,in_tcrlus,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),210,0.04372645223158403,-0.0880138933890745,0.15844881940030878,-0.38304727886320367
+all_incl_holdout,tcrlus_lot_minimum,in_tcrlus,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",162,-0.216853445350253,-0.3648616597016399,-0.056860149572380864,0.5523875814780607
+all_incl_holdout,tcrlus_lot_minimum,in_tcrlus,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",162,-0.017760547977872455,-0.1647175721002496,0.14549691207788756,0.48069161651538683
+all_incl_holdout,tcrlus_lot_minimum,in_tcrlus,active,Active group 2017-2019 (1) vs not (0),162,-0.21628703890344686,-0.38485542013711405,-0.05622344808575151,0.44178007415223214
+all_incl_holdout,tcrlus_lot_minimum,in_tcrlus,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),162,0.013306577229267622,-0.1564570903383905,0.16438009214492127,-0.38304727886320367
+all_incl_holdout,tcrlus_fees,in_tcrlus,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",139,-0.11236075721092262,-0.27220065996552684,0.054646738348005874,0.5523875814780607
+all_incl_holdout,tcrlus_fees,in_tcrlus,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",139,-0.12856248383755453,-0.29194187798273985,0.04446030773198821,0.48069161651538683
+all_incl_holdout,tcrlus_fees,in_tcrlus,active,Active group 2017-2019 (1) vs not (0),139,-0.08696139659651296,-0.24442436220475827,0.058655082729975466,0.44178007415223214
+all_incl_holdout,tcrlus_fees,in_tcrlus,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),139,-0.05684092244970183,-0.20656320318602425,0.10039170190561698,-0.38304727886320367
+all_incl_holdout,hand_n_tier1,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",60,-0.2718231133813265,-0.5055365719424592,-0.009463277917705203,0.4003962025993081
+all_incl_holdout,hand_n_tier1,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",60,-0.1425498501312507,-0.3917555507820322,0.1069267649314488,0.3340882906252082
+all_incl_holdout,hand_n_tier1,hand_coded,active,Active group 2017-2019 (1) vs not (0),60,-0.22517512578989907,-0.45238910629449974,0.03850419119205952,0.3208196101662793
+all_incl_holdout,hand_n_tier1,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),60,0.2888949210556919,0.030551603090021955,0.4972736194443682,-0.30722988489001724
+all_incl_holdout,hand_n_tier2,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",60,-0.048781700299970296,-0.3046909785309057,0.2044792659547472,0.4003962025993081
+all_incl_holdout,hand_n_tier2,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",60,0.015538485035051616,-0.259153478150588,0.29223553380516437,0.3340882906252082
+all_incl_holdout,hand_n_tier2,hand_coded,active,Active group 2017-2019 (1) vs not (0),60,-0.08540615429382761,-0.3258540578914651,0.1554568703564308,0.3208196101662793
+all_incl_holdout,hand_n_tier2,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),60,0.01405467224052334,-0.26101137922352685,0.2738032949535726,-0.30722988489001724
+all_incl_holdout,hand_n_flags,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",60,-0.22245232070611057,-0.450563780889003,0.019904843674357638,0.4003962025993081
+all_incl_holdout,hand_n_flags,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",60,-0.09433878848173388,-0.36673888644596087,0.18641219316645127,0.3340882906252082
+all_incl_holdout,hand_n_flags,hand_coded,active,Active group 2017-2019 (1) vs not (0),60,-0.22652119351490022,-0.4559531351753712,0.0252355994171914,0.3208196101662793
+all_incl_holdout,hand_n_flags,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),60,0.1853850967440638,-0.06982308575543454,0.4150485972377806,-0.30722988489001724
+all_incl_holdout,hand_owner_occupancy,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",52,-0.3080219349469647,-0.5572171624217456,-0.03611606831371163,0.4003962025993081
+all_incl_holdout,hand_owner_occupancy,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",52,-0.16103542848048683,-0.4108628339446827,0.10547146023779151,0.3340882906252082
+all_incl_holdout,hand_owner_occupancy,hand_coded,active,Active group 2017-2019 (1) vs not (0),52,-0.3294039229342062,-0.5936547599072628,-0.07742737845765765,0.3208196101662793
+all_incl_holdout,hand_owner_occupancy,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),52,0.19814734824194039,-0.08126480919887154,0.4375410076525596,-0.30722988489001724
+all_incl_holdout,hand_extra_parking,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",57,-0.26688025634181184,-0.4310142013734232,-0.09187100760436331,0.4003962025993081
+all_incl_holdout,hand_extra_parking,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",57,-0.1337375991840319,-0.2674384898433642,-0.033498050722042205,0.3340882906252082
+all_incl_holdout,hand_extra_parking,hand_coded,active,Active group 2017-2019 (1) vs not (0),57,-0.30860669992418377,-0.48507125007266594,-0.16247312247861276,0.3208196101662793
+all_incl_holdout,hand_extra_parking,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),57,0.16012815380508713,0.07985957062499249,0.26444294267397256,-0.30722988489001724
+all_incl_holdout,hand_discretionary_review,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",54,-0.17933221263664936,-0.439492872226647,0.11742243963474498,0.4003962025993081
+all_incl_holdout,hand_discretionary_review,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",54,-0.21718831926767754,-0.4730262709465501,0.06581481580853901,0.3340882906252082
+all_incl_holdout,hand_discretionary_review,hand_coded,active,Active group 2017-2019 (1) vs not (0),54,-0.18471714871531542,-0.381447558505155,0.05330017908890261,0.3208196101662793
+all_incl_holdout,hand_discretionary_review,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),54,0.23652495839563306,-0.06461347526461297,0.5151482133681985,-0.30722988489001724
+all_incl_holdout,hand_lot_minimum,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",52,-0.05401092090829027,-0.30603668383282445,0.21267692694753113,0.4003962025993081
+all_incl_holdout,hand_lot_minimum,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",52,0.03649768416673345,-0.22364944048815896,0.30010474667318854,0.3340882906252082
+all_incl_holdout,hand_lot_minimum,hand_coded,active,Active group 2017-2019 (1) vs not (0),52,-0.15155444566227677,-0.3705306913720804,0.11853745517851628,0.3208196101662793
+all_incl_holdout,hand_lot_minimum,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),52,-0.06846531968814577,-0.3051451416750053,0.19909706085133358,-0.30722988489001724
+all_incl_holdout,hand_district_limited,hand_coded,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",50,0.04962975887197403,-0.2262538506931136,0.32718415299820125,0.4003962025993081
+all_incl_holdout,hand_district_limited,hand_coded,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",50,-0.0375388806509886,-0.3367977008781616,0.2919860277033562,0.3340882906252082
+all_incl_holdout,hand_district_limited,hand_coded,active,Active group 2017-2019 (1) vs not (0),50,-0.0721074938001538,-0.3275277579963501,0.20447285565040596,0.3208196101662793
+all_incl_holdout,hand_district_limited,hand_coded,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),50,-0.09651100402393102,-0.3572172541558802,0.19789188101987742,-0.30722988489001724
+all_incl_holdout,log_value,all,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",457,0.6177361294184209,0.552473207249975,0.6759858842288584,0.6177361294184209
+all_incl_holdout,log_value,all,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",457,0.5417049528718989,0.46464414837283535,0.6058290451944447,0.5417049528718989
+all_incl_holdout,log_value,all,active,Active group 2017-2019 (1) vs not (0),457,0.4353521665282216,0.36623400761375047,0.49996628187732983,0.4353521665282216
+all_incl_holdout,log_value,all,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),457,-0.4737689849702028,-0.539564552463302,-0.39527121508543384,-0.4737689849702028
+all_incl_holdout,log_income,all,pre_rate,"2017-2019 rate, ADU permits per 1,000 one-unit detached homes per year",457,0.4173868646693974,0.3259870552879066,0.4916375669268102,0.6177361294184209
+all_incl_holdout,log_income,all,rate,"2023-2025 plateau rate, ADU permits per 1,000 one-unit detached homes per year",457,0.32337023152189626,0.23929723026968788,0.403385203207307,0.5417049528718989
+all_incl_holdout,log_income,all,active,Active group 2017-2019 (1) vs not (0),457,0.2819152221323237,0.1950388419918902,0.3667555234579449,0.4353521665282216
+all_incl_holdout,log_income,all,restrictive,Restrictive group 2017-2019 (zero permits all 3 years) (1) vs not (0),457,-0.3632807069644151,-0.44228081879148234,-0.27542418615394354,-0.4737689849702028
