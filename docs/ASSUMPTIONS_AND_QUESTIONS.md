@@ -344,6 +344,17 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Decision:** Adopted 2026-10-24.
 
+## AQ-027 Gate 3 design inputs: spillover, path ramps, and unknown-rules behavior
+
+**Status:** Adopted direction for Gate 3; numbers and methods to be specified there. **Added:** 2026-10-24 (owner, in the model-tutoring thread). **Related:** AQ-012, AQ-023, AQ-024, AQ-026, [SCOPE_AND_MODEL.md](gate1/SCOPE_AND_MODEL.md).
+
+1. **Statewide market spillover.** Identical local rules do not mean zero additional permits. Where a city already has benchmark rules but surrounding jurisdictions do not, statewide implementation still raises its ADU production: contractors, lenders, designers, and other vendors specialize and market ADUs once a statewide or regional market exists (see AQ-024). Gate 3 adds an explicit spillover term for `scenario_benchmark` places (for example Madison and Wauwatosa), separate from the rights-change term, with its own evidence and range. This replaces the Gate 1 rule that reform equals baseline wherever classes match; the no-double-counting principle still applies (spillover is not added on top of a rights-change effect already calibrated on statewide-reform evidence that includes it).
+2. **Paths.** Lower, central, and upper paths keep moving together across areas, but may differ in ramp speed as well as plateau (for example the upper path ramps faster), as the evidence indicates.
+3. **Unknown rules.** `undetermined` places should behave more like `restricted` than `prohibited` (supersedes the AQ-023 MVP default once Gate 3 specifies the restricted-class rate). Hold out a sample of coded places to test this assumption, and later fit a simple regression of observed permit rates on rights class, restriction flags, and context.
+4. **Baseline ramp for recently liberalized places (`g` in the baseline equation).** The owner flagged this as important; Gate 3 will show it worked through for Milwaukee (liberalized 2025-08-02) and other 2024–26 reformers.
+
+**Decision:** Direction adopted; Gate 3 specifies the spillover evidence, ramp shapes, restricted-class rate for unknowns, the hold-out design, and the Milwaukee baseline ramp.
+
 ## Additional questions to develop
 
 All entries below were added on 2026-10-23 and remain **Open**.
@@ -373,3 +384,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-23 | AQ-023, AQ-024 | Owner confirmed the reduced effect for already-permissive cities and set Madison's observed rate as the lower path, with separate predictive models for the central and upper paths. |
 | 2026-10-24 | AQ-025 | Recorded the owner's direction to treat owner occupancy and the approval pathway (ministerial versus discretionary) as the provisions that decide whether nominally allowed ADUs get built. |
 | 2026-10-24 | AQ-026 | Adopted the owner's two-pass rights classification (ordinance status, then rights class with restriction flags) and split prohibitions into explicit and implicit. |
+| 2026-10-24 | AQ-027 | Logged owner Gate 3 inputs: statewide market spillover for benchmark cities, path-specific ramps, unknown rules treated like restricted with a hold-out test, and the recently-liberalized baseline ramp. |
