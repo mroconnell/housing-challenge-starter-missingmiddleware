@@ -2,205 +2,223 @@
   "acs": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:34+00:00",
+    "fetched_at": "2026-10-24T05:28:19+00:00",
     "error": null
   },
   "az_azgeo": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:54+00:00",
+    "fetched_at": "2026-10-24T05:28:39+00:00",
     "error": null
   },
   "bls_ces_ppi": {
     "status": "ok",
     "rows": 8,
-    "fetched_at": "2026-10-24T05:05:34+00:00",
+    "fetched_at": "2026-10-24T05:28:20+00:00",
     "error": null
   },
   "bls_qcew": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:35+00:00",
+    "fetched_at": "2026-10-24T05:28:21+00:00",
     "error": null
   },
   "buildinganadu_ca_adu": {
     "status": "ok",
     "rows": 6,
-    "fetched_at": "2026-10-24T05:06:27+00:00",
+    "fetched_at": "2026-10-24T05:29:24+00:00",
     "error": null
   },
   "census_bps": {
     "status": "ok",
     "rows": 10,
-    "fetched_at": "2026-10-24T05:05:44+00:00",
+    "fetched_at": "2026-10-24T05:28:29+00:00",
     "error": null
   },
   "census_pep_housing_units": {
     "status": "ok",
     "rows": 6,
-    "fetched_at": "2026-10-24T05:06:28+00:00",
+    "fetched_at": "2026-10-24T05:29:24+00:00",
     "error": null
   },
   "census_tiger": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:06:28+00:00",
+    "fetched_at": "2026-10-24T05:29:25+00:00",
     "error": null
   },
   "ct_cama_parcels": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:55+00:00",
+    "fetched_at": "2026-10-24T05:28:41+00:00",
     "error": null
   },
   "fhfa_hpi": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:44+00:00",
+    "fetched_at": "2026-10-24T05:28:30+00:00",
     "error": null
   },
   "google_open_buildings": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:43+00:00",
+    "fetched_at": "2026-10-24T05:28:28+00:00",
     "error": null
   },
   "hcd_apr": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:51+00:00",
+    "fetched_at": "2026-10-24T05:28:36+00:00",
     "error": null
   },
   "hi_parcels": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:59+00:00",
+    "fetched_at": "2026-10-24T05:28:45+00:00",
     "error": null
   },
   "madison_address_points": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:06:38+00:00",
+    "fetched_at": "2026-10-24T05:29:27+00:00",
     "error": null
   },
   "madison_parcels": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:06:36+00:00",
+    "fetched_at": "2026-10-24T05:29:25+00:00",
     "error": null
   },
   "madison_permits": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:07:06+00:00",
+    "fetched_at": "2026-10-24T05:29:31+00:00",
     "error": null
   },
   "madison_zoning": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:06:52+00:00",
+    "fetched_at": "2026-10-24T05:29:28+00:00",
     "error": null
   },
   "ms_buildings": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:42+00:00",
+    "fetched_at": "2026-10-24T05:28:27+00:00",
     "error": null
   },
   "nasa_modis_lc": {
     "status": "ok",
     "rows": 3,
-    "fetched_at": "2026-10-24T05:05:38+00:00",
+    "fetched_at": "2026-10-24T05:28:23+00:00",
     "error": null
   },
   "nh_granit": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:06:22+00:00",
+    "fetched_at": "2026-10-24T05:29:07+00:00",
     "error": null
   },
   "nlcd": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:35+00:00",
+    "fetched_at": "2026-10-24T05:28:21+00:00",
     "error": null
   },
   "ntd": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:47+00:00",
+    "fetched_at": "2026-10-24T05:28:32+00:00",
     "error": null
   },
   "or_geohub": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:57+00:00",
+    "fetched_at": "2026-10-24T05:28:43+00:00",
     "error": null
   },
   "or_metro_taxlots": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:05:56+00:00",
+    "fetched_at": "2026-10-24T05:28:42+00:00",
     "error": null
   },
   "pa_pasda": {
     "status": "ok",
     "rows": 10,
-    "fetched_at": "2026-10-24T05:06:01+00:00",
+    "fetched_at": "2026-10-24T05:28:47+00:00",
     "error": null
   },
   "pa_pasda_parcels": {
     "status": "ok",
     "rows": 12,
-    "fetched_at": "2026-10-24T05:06:01+00:00",
+    "fetched_at": "2026-10-24T05:28:48+00:00",
+    "error": null
+  },
+  "pleasant_prairie_permits": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-24T05:29:43+00:00",
     "error": null
   },
   "ri_rigis": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:06:20+00:00",
+    "fetched_at": "2026-10-24T05:29:06+00:00",
+    "error": null
+  },
+  "sun_prairie_permits": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-24T05:30:06+00:00",
     "error": null
   },
   "tn_comptroller": {
     "status": "request_form",
     "rows": 0,
-    "fetched_at": "2026-10-24T05:06:14+00:00",
+    "fetched_at": "2026-10-24T05:29:01+00:00",
     "error": null
   },
   "usps_vacancy": {
     "status": "restricted",
     "rows": 0,
-    "fetched_at": "2026-10-24T05:05:47+00:00",
+    "fetched_at": "2026-10-24T05:28:32+00:00",
     "error": null
   },
   "ut_housing_unit_inventory": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:06:15+00:00",
+    "fetched_at": "2026-10-24T05:29:01+00:00",
     "error": null
   },
   "ut_parcels": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:06:15+00:00",
+    "fetched_at": "2026-10-24T05:29:02+00:00",
     "error": null
   },
   "va_parcels": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:06:17+00:00",
+    "fetched_at": "2026-10-24T05:29:03+00:00",
     "error": null
   },
   "wi_assembly_districts": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:07:04+00:00",
+    "fetched_at": "2026-10-24T05:29:29+00:00",
     "error": null
   },
   "wi_parcels": {
     "status": "ok",
     "rows": 5,
-    "fetched_at": "2026-10-24T05:06:19+00:00",
+    "fetched_at": "2026-10-24T05:29:05+00:00",
+    "error": null
+  },
+  "wi_v12_parcels": {
+    "status": "ok",
+    "rows": 5,
+    "fetched_at": "2026-10-24T05:30:07+00:00",
     "error": null
   }
 }

@@ -1,6 +1,6 @@
 {
   "source_id": "hi_parcels",
-  "fetched_at": "2026-10-24T05:05:59+00:00",
+  "fetched_at": "2026-10-24T05:28:45+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -196,6 +196,14 @@
       "modified": "2026-06-03"
     },
     {
+      "id": "eb68e4eb00384e77add5848724d9d56c",
+      "title": "Parcels - TMK Plat",
+      "type": "Feature Service",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/26",
+      "owner": "HawaiiStateGIS",
+      "modified": "2021-11-19"
+    },
+    {
       "id": "1e1bb65abfe64df9a49ec00df6ae03ad",
       "title": "Parcels - TMK Section",
       "type": "Feature Service",
@@ -208,14 +216,6 @@
       "title": "Parcels - TMK Zone",
       "type": "Feature Service",
       "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/27",
-      "owner": "HawaiiStateGIS",
-      "modified": "2021-11-19"
-    },
-    {
-      "id": "eb68e4eb00384e77add5848724d9d56c",
-      "title": "Parcels - TMK Plat",
-      "type": "Feature Service",
-      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/26",
       "owner": "HawaiiStateGIS",
       "modified": "2021-11-19"
     },
@@ -236,12 +236,12 @@
       "modified": "2023-12-17"
     },
     {
-      "id": "c617acac2f3940218a99bc9b6409f91d",
-      "title": "Maui Island Plan 2012 - Agricultural Preserves",
+      "id": "345d822d2e024178a829c039698211cd",
+      "title": "Department of Defense Lands",
       "type": "Feature Service",
-      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/18",
+      "url": "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/34",
       "owner": "HawaiiStateGIS",
-      "modified": "2022-08-31"
+      "modified": "2025-12-19"
     }
   ],
   "zoning_hits": [
