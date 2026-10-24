@@ -1,0 +1,6 @@
+window,component,central,upper
+post,conversion_or_attached,8,9
+post,new_dwelling_on_occupied_lot,0,2
+pre,conversion_or_attached,35,59
+pre,detached_garage_unit,11,14
+pre,new_dwelling_on_occupied_lot,0,19

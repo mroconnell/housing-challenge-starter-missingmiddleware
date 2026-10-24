@@ -1,0 +1,4 @@
+x_status,areas,homes,b5yr_low,b5yr_central,b5yr_high,rate_per_1000_yr_central
+assumed,1882,1267433,198.122,395.792,832.398,0.062
+estimated,41,512512,80.355,208.388,376.416,0.081
+observed,2,59624,34.924,50.000,70.296,0.168

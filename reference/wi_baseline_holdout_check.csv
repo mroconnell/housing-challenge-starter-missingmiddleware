@@ -1,0 +1,38 @@
+jurisdiction_id,jurisdiction_name,holdout,fitting_set,ordinance_status,current_class,predicted,actual,correct,rate_predicted_from_status,rate_observed,later_rate_source
+5507953000,Milwaukee city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,0.0906,
+5502548000,Madison city,False,True,mentioned_allowed,scenario_benchmark,allowed,allowed,True,0.0625,,
+5500931000,Green Bay city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5505939225,Kenosha city,False,False,unmentioned,restricted,prohibited,allowed,False,0.0313,,
+5510166000,Racine city,True,False,unmentioned,prohibited_explicit,prohibited,prohibited,True,0.0313,,Racine: NONE (Cityworks login)
+5508702375,Appleton city,True,False,mentioned_allowed,scenario_benchmark,allowed,allowed,True,0.0625,,"Appleton: PARTIAL, weak (short windows)"
+5513384250,Waukesha city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5503522300,Eau Claire city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5513960500,Oshkosh city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5510537825,Janesville city,False,False,unmentioned,prohibited_implicit,prohibited,prohibited,True,0.0313,,
+5507985300,West Allis city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5506340775,La Crosse city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5511772975,Sheboygan city,False,False,prohibited,prohibited_explicit,prohibited,prohibited,True,0.0313,,
+5507984675,Wauwatosa city,True,False,mentioned_allowed,scenario_benchmark,allowed,allowed,True,0.0625,,Wauwatosa: NONE (EnerGov unreachable)
+5503926275,Fond du Lac city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5513356375,New Berlin city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5507384475,Wausau city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5513310025,Brookfield city,False,False,unmentioned,prohibited_implicit,prohibited,prohibited,True,0.0313,,
+5510506500,Beloit city,False,False,unmentioned,restricted,prohibited,allowed,False,0.0313,,
+5507931175,Greenfield city,False,False,unmentioned,prohibited_implicit,prohibited,prohibited,True,0.0313,,
+5507927300,Franklin city,True,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,Franklin: NONE (no public list)
+5507958800,Oak Creek city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5507148500,Manitowoc city,False,False,mentioned_allowed,prohibited_implicit,allowed,prohibited,False,0.0625,,
+5513185350,West Bend city,False,False,unmentioned,prohibited_implicit,prohibited,prohibited,True,0.0313,,
+5502578600,Sun Prairie city,False,True,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5503178650,Superior city,True,False,unmentioned,prohibited_implicit,prohibited,prohibited,True,0.0313,,Superior: no record-level source found in the Gate 2 search
+5509777200,Stevens Point city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5513955750,Neenah city,False,False,unmentioned,prohibited_explicit,prohibited,prohibited,True,0.0313,,
+5502525950,Fitchburg city,False,True,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5513355275,Muskego city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5508951150,Mequon city,False,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,
+5500919775,De Pere city,True,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,De Pere: monthly valuation PDFs ~2014-2026 (PARTIAL->GOOD; site blocks scripts)
+5510154875,Mount Pleasant village,True,False,mentioned_allowed,restricted,allowed,allowed,True,0.0625,,Mount Pleasant: NONE
+5510111950,Caledonia village,False,False,unmentioned,prohibited_implicit,prohibited,prohibited,True,0.0313,,
+5505963300,Pleasant Prairie village,False,True,unmentioned,prohibited_explicit,prohibited,prohibited,True,0.0313,,
+5513351000,Menomonee Falls village,False,False,unmentioned,prohibited_implicit,prohibited,prohibited,True,0.0313,,
+5500935950,Howard village,False,False,prohibited,prohibited_explicit,prohibited,prohibited,True,0.0313,,

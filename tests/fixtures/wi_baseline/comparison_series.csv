@@ -1,0 +1,6 @@
+jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period_start,period_end,value_status
+5500000001,2024,second_home_sf_lot,1,1,aq032_rule,issued,True,2024-01-01,2024-12-31,final
+5500000001,2025,second_home_sf_lot,2,2,aq032_rule,issued,True,2025-01-01,2025-12-31,final
+5500000001,2026,second_home_sf_lot,1,1,aq032_rule,issued,True,2026-01-01,2026-05-04,provisional
+5500000001,2026,second_home_sf_lot,4,4,aq032_rule,issued,False,2026-05-05,2026-12-31,provisional
+5500000001,2025,second_home_sf_lot:adu_detached,1,1,aq032_rule,issued,True,2025-01-01,2025-12-31,final

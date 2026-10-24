@@ -1,0 +1,6 @@
+rule_id,jurisdiction_id,jurisdiction_name,provision,value,effective_from,effective_to,source_url,source_section,retrieved,verification,notes
+a1,5500000001,Liberal city,detached_allowed,prohibited,,2025-08-01,x,x,2026-10-23,verified,
+a2,5500000001,Liberal city,detached_allowed,by_right,2025-08-02,,x,x,2026-10-23,verified,
+b1,5500000002,Always city,detached_allowed,conditional,2013-06-04,2021-12-15,x,x,2026-10-23,verified,
+b2,5500000002,Always city,detached_allowed,by_right,2021-12-16,,x,x,2026-10-23,verified,
+c1,5500000003,Banned village,detached_allowed,prohibited,2005-04-18,,x,x,2026-10-23,verified,

@@ -1,0 +1,6 @@
+house_lo,house_hi,sdir,street,nr_units,yr_built
+100,100,N,MAIN,1,1951
+200,200,N,MAIN,0,0
+300,300,S,OAK,1,1948
+400,400,S,OAK,2,1920
+500,500,E,LAKE,1,1890

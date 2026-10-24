@@ -1,0 +1,9 @@
+record_id,issued,permit_type,use,units_impact,address
+R1,2025-09-04,Residential Alteration Permit,,Added or Gained,"100 N MAIN ST, MILWAUKEE, WI 532100000"
+R2,2025-10-01,Residential New Construction Permit,One-family dwelling,Added or Gained,"200 N MAIN ST, MILWAUKEE, WI 532100000"
+R3,2024-05-24,Residential New Construction Permit,Detached garage,Added or Gained,"300 S OAK AV, MILWAUKEE, WI 532070000"
+R4,2025-11-19,Residential Alteration Permit,,Added or Gained,"400 S OAK AV, MILWAUKEE, WI 532070000"
+R5,2025-12-01,Residential Alteration Permit,,Maintain Current Units,"100 N MAIN ST, MILWAUKEE, WI 532100000"
+R6,2026-01-15,Commercial Alteration Permit,Office,Added or Gained,"100 N MAIN ST, MILWAUKEE, WI 532100000"
+R7,2026-02-05,Residential Alteration Permit,,Added or Gained,"999 W NOWHERE ST, MILWAUKEE, WI 532100000"
+R8,2026-03-23,Residential New Construction Permit,Two-family dwelling,Added or Gained,"500 E LAKE DR, MILWAUKEE, WI 532020000"
