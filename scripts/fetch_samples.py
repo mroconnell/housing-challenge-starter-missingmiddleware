@@ -1441,6 +1441,10 @@ def write_geo(sid, feats, info):
     """Write a small GeoJSON sample with full geometry. Drops features if the file gets too big."""
     GEO_OUT.mkdir(parents=True, exist_ok=True)
     feats = [{**f, "properties": redact([f.get("properties") or {}])[0]} for f in feats]
+    feats = redact_geo(sid, feats)
+    if sid in GEO_KEEP_PROPS:
+        info = {**info, "redaction": "properties limited to " + ", ".join(GEO_KEEP_PROPS[sid])
+                + "; point coordinates rounded to 2 decimals"}
     while True:
         text = json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":"))
         if len(text) <= GEO_MAX_BYTES or len(feats) <= 1:
@@ -1520,6 +1524,112 @@ def redact(rows):
     return out
 
 
+# Record-level location fields in permit, parcel and address-point samples. Committed
+# samples keep no house numbers, full addresses, exact coordinates or full parcel numbers:
+#   street_only - drop the leading house number, keep the street name
+#   blank       - empty the value (incl. OBJECTID, which a public layer query turns back into an address)
+#   mask_parcel - keep the leading digits, replace the last 4 digits with *
+#   round_deg   - lat/lon rounded to 2 decimals (about 1 km)
+#   round_ft    - state-plane feet rounded to the nearest 5,000 ft
+# Descriptions are scrubbed of embedded "<number> <street> <suffix>" addresses.
+ADDRESS_REDACTION = {
+    "madison_permits": {"street_only": ["Address_Part_Address_Line"], "scrub": ["Detailed_Description"]},
+    "madison_parcels": {"street_only": ["Address"],
+                        "blank": ["OBJECTID", "HouseNbr", "DeedPage", "DeedVolume", "LotNumber", "BlockNumber"],
+                        "mask_parcel": ["Parcel", "XRefParcel"], "round_ft": ["XCoord", "YCoord"]},
+    "madison_address_points": {"street_only": ["Address"], "blank": ["OBJECTID", "HouseNbr"], "mask_parcel": ["Parcel"],
+                               "round_ft": ["XCoord", "YCoord"]},
+    "pleasant_prairie_permits": {"street_only": ["address_raw"], "mask_parcel": ["parcel_raw", "parcel_key"],
+                                 "scrub": ["description"]},
+    "sun_prairie_permits": {"street_only": ["address_raw"], "mask_parcel": ["parcel_raw", "parcel_key"],
+                            "scrub": ["description"]},
+    "wi_v12_parcels": {"street_only": ["SITEADRESS", "SITEADRESS_STAND"],
+                       "blank": ["OBJECTID", "ADDNUMPREFIX", "ADDNUM", "ADDNUMSUFFIX"],
+                       "mask_parcel": ["STATEID", "PARCELID", "TAXPARCELID"], "round_deg": ["LONGITUDE", "LATITUDE"]},
+}
+# geometry samples of these sources: properties limited to non-identifying descriptive fields,
+# and point coordinates rounded like round_deg (parcel outlines are kept, unlinked to any record)
+GEO_KEEP_PROPS = {
+    "madison_parcels": ["PropertyClass", "PropertyUse", "Zoning1"],
+    "madison_address_points": ["StreetName", "StreetType"],
+    "wi_v12_parcels": ["PROPCLASS", "PLACENAME", "CONAME"],
+}
+_HOUSE_NBR_RE = re.compile(r"^\s*(?:\d+\s+\d/\d|[NSEW]?\d[\dA-Z]*(?:\s*[-/&]\s*\d[\dA-Z]*)*)\s+", re.I)
+_DESC_ADDR_RE = re.compile(
+    r"\b\d{1,6}(?:\s*-\s*\d{1,6})?\s+((?:[NSEW]\.?\s+)?(?:[A-Za-z0-9']+\s+){0,3}?"
+    r"(?:ST|STREET|AVE|AVENUE|RD|ROAD|DR|DRIVE|LN|LANE|CT|COURT|CIR|CIRCLE|WAY|BLVD|PL|PLACE|PKWY|TRL|TRAIL|TER|HWY)\b)",
+    re.I)
+
+
+def street_only(v):
+    s = "" if v is None else str(v)
+    return _HOUSE_NBR_RE.sub("", s, count=1).strip()
+
+
+def mask_parcel(v):
+    s = "" if v is None else str(v)
+    out, n = list(s), 0
+    for i in range(len(out) - 1, -1, -1):
+        if n == 4:
+            break
+        if out[i].isalnum():
+            out[i], n = "*", n + 1
+    return "".join(out)
+
+
+def _round(v, nd):
+    try:
+        return "" if v in (None, "") else str(round(float(v), nd))
+    except (TypeError, ValueError):
+        return ""
+
+
+def redact_locations(sid, rows):
+    spec = ADDRESS_REDACTION.get(sid)
+    if not spec:
+        return rows
+    out = []
+    for r in rows:
+        r = dict(r)
+        for k in spec.get("street_only", []):
+            if r.get(k) not in (None, ""):
+                r[k] = street_only(r[k])
+        for k in spec.get("blank", []):
+            if k in r:
+                r[k] = ""
+        for k in spec.get("mask_parcel", []):
+            if r.get(k) not in (None, ""):
+                r[k] = mask_parcel(r[k])
+        for k in spec.get("round_deg", []):
+            if k in r:
+                r[k] = _round(r[k], 2)
+        for k in spec.get("round_ft", []):
+            if k in r:
+                try:
+                    r[k] = str(int(round(float(r[k]) / 5000) * 5000))
+                except (TypeError, ValueError):
+                    r[k] = ""
+        for k in spec.get("scrub", []):
+            if r.get(k) not in (None, ""):
+                r[k] = _DESC_ADDR_RE.sub(r"[###] \1", str(r[k]))
+        out.append(r)
+    return out
+
+
+def redact_geo(sid, feats):
+    keep = GEO_KEEP_PROPS.get(sid)
+    if keep is None:
+        return feats
+    out = []
+    for f in feats:
+        props = {k: v for k, v in (f.get("properties") or {}).items() if k in keep}
+        g = f.get("geometry")
+        if g and g.get("type") == "Point":
+            g = dict(g, coordinates=[round(c, 2) for c in g["coordinates"]])
+        out.append({"type": "Feature", "properties": props, "geometry": g})
+    return out
+
+
 def write_rows(path, rows):
     rows = redact(rows)
     cols = []
@@ -1557,6 +1667,9 @@ def main(argv):
                 meta.pop("_geo_features", None)
                 meta["geometry_sample_error"] = f"{type(e).__name__}: {e}"[:300]
         meta = {"source_id": sid, "fetched_at": started, "status": status, "error": err, "sample_rows": len(rows), **meta}
+        if sid in ADDRESS_REDACTION:
+            rows = redact_locations(sid, rows)
+            meta["location_redaction"] = ADDRESS_REDACTION[sid]
         (OUT / f"{sid}.meta.json").write_text(json.dumps(meta, indent=2, default=str) + "\n")
         if rows:
             write_rows(OUT / f"{sid}.csv", rows)

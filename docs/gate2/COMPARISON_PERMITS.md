@@ -23,7 +23,7 @@ Gate 2 work package, built 2026-10-24. Code: `missing_middleware/permits/pleasan
 | Permits | **observed**: issued, 2003-10 → 2026-10-24 (dense from 2008) | **observed**: submitted, 2015-07 → 2026-08-31 (model refreshed 2026-09-01) |
 | Stage | `issued` (Date Issued) | `application` (Date Submitted only; no issue date). Withdrawn/void/denied/stopped records add 0 units |
 | Units added | **calculated** from permit type (new single-family 1, two-family 2, manufactured 1, multi-family from text); conversions and in-law wording from text | **calculated** from record type (Munis codes, OpenGov types) plus description |
-| Parcel | **observed** on the permit (Kenosha format `91-4-122-084-0706`), matched to V12 PARCELID | **observed** on the permit (Dane 12-digit), matched to V12 PARCELID |
+| Parcel | **observed** on the permit (Kenosha format `91-4-122-000-0000`, digits illustrative), matched to V12 PARCELID | **observed** on the permit (Dane 12-digit), matched to V12 PARCELID |
 | Prior dwelling on parcel | **calculated** from the parcel's permit history (no year built anywhere public) | same |
 | Tract / block group | **calculated**: point-in-polygon of the V12 parcel point against TIGER/Line 2024 | same |
 | BPS place totals | **observed**, reconciliation only | same |
@@ -219,10 +219,7 @@ Files: `data/processed/permits_<city>/audit_sample.csv`, with judgments from `au
    - **Recommendation:** report Pleasant Prairie as "0–1 per year, unverified upper bound", never as a rate with precision.
 2. **Teardown-rebuilds outnumber ADU-equivalents about 4 to 1** and must stay a separate series.
 3. **Text-rule ADU candidates in restrictive periods exist but are rare:** 1 in Pleasant Prairie (2018), and 1 in Sun Prairie in 2017 plus 1 in 2024. Their legal status (separate unit or not) is unknown.
-4. **Shared-classifier quirk** (not changed here): `classify.ADU_RE` matches `in[- ]law` without word boundaries, so the contractor name "Wisconsin Lawn Sprinkler" (wiscons-"in Law"-n) is an ADU text hit.
-   - The units stay 0, so nothing is counted.
-   - Stripping names from Pleasant Prairie descriptions removes most cases.
-   - **Suggested fix for the Madison module owner:** add `\b`.
+4. **Shared classifier word boundary:** `classify.ADU_RE` matches `\bin[- ]law\b`, so names such as "Wisconsin Lawn Sprinkler" are not ADU text hits. (An earlier draft of this note said the boundary was missing; the code already had it.)
 
 ## 5. Results by year
 
@@ -302,14 +299,16 @@ Counted units:
 - `data/raw/tiger_wi/`: reused from the Madison build.
 
 **Reproduce:**
-- `uv run python scripts/build_comparison_permits.py --fetch` downloads everything (about 11 minutes for Pleasant Prairie, under 1 minute for Sun Prairie) and builds.
-- Without `--fetch`, it builds from cache in about 40 s.
+- `uv run python scripts/build_comparison_permits.py --fetch` downloads everything and builds. This is a large download: about 81 MB of gzip-compressed RTF for Pleasant Prairie (about 11 minutes; 378 MB of RTF is transferred before compression), the Sun Prairie Power BI responses (under 1 MB, under 1 minute) and the two V12 parcel extracts (12 MB and 22 MB). The Madison build must have been run first (or `--fetch`ed), because the TIGER files in `data/raw/tiger_wi/` come from it.
+- Without `--fetch`, it builds from cache in about 30–40 s. A clean clone has no raw data, so it cannot build without `--fetch`.
+- **External tools:** none. Both adapters use the Python standard library plus pandas/geopandas. `pdftotext` (poppler) is needed **only for the Howard fallback**, which is not built (it is also used by the separate rules scan, `scripts/scan_adu_mentions.py`, not by this package).
 
 ## 8. Shared-module changes and open items
 
 **Shared-module changes:**
 - `pipeline.build_permits_observed` gained two optional hooks, `match_fn` and `parcel_rule_fn`. The defaults keep Madison's behaviour.
-  - Check: `scripts/build_madison_permits.py` was rerun; `reference/madison_adu_permits_by_year.csv` is byte-identical (md5 `d7cb800c…`), with the same row counts (5,752 in scope, 5,705 counted).
+  - Check at the time: `scripts/build_madison_permits.py` was rerun; `reference/madison_adu_permits_by_year.csv` was byte-identical, with the same row counts (5,752 in scope, 5,705 counted).
+- Gate 2 repair round (2026-10-24), review item S3: the pipeline now holds ADU text bundles (ADU wording on a record adding 2+ units) out of every ADU series whichever rule they reach, including a hook-supplied parcel rule. Rerun of this build: no Pleasant Prairie or Sun Prairie record was affected; both `reference/*_adu_equivalent_by_year.csv` files are byte-identical and the row counts are unchanged (PP 1,543 in scope / 1,543 counted; SP 1,352 / 1,351). The other S3 changes (one-unit host, Dwell-0 conversion path, judged false positives) apply only to Madison's default rule. Madison's figures changed; see [MADISON_PERMITS.md](MADISON_PERMITS.md).
 - New module `missing_middleware/permits/comparison.py` holds the V12 fetch, parcel-number matching, the permit-history rule, recount and series labels. Both adapters share it.
 
 **Open items:**

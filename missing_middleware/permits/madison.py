@@ -277,8 +277,17 @@ class MadisonAdapter(CityAdapter):
     state_fips = "55"
     county_fips = ("025",)
     new_residential_types = ("BLDNRC", "BLDNCC")
-    # assessor property uses that can host an ADU-equivalent (one- to three-unit homes)
-    host_uses = ("Single family", "2 Unit", "3 Unit")
+    # assessor property uses (today, i.e. after the permit) that can host an ADU-equivalent:
+    # a one-unit home before the permit is "Single family" or "2 Unit" today. "3 Unit" hosts
+    # were already multi-unit (2 -> 3 apartment conversions) and are excluded.
+    host_uses = ("Single family", "2 Unit")
+    # unit field 0 but text says single family -> two units: judged by the ADU-equivalent rule
+    dwell0_conversions = True
+    # audit-judged false positives of the ADU-equivalent rule (permit_id -> reason)
+    parcel_rule_false_positives = {
+        "BLDNRC-2011-05399": "text says the home stays a single dwelling unit (dependency living "
+                             "arrangement); Dwell 1 is a data-entry value, not an added unit",
+    }
 
     def load_permits(self, raw_dir: Path) -> pd.DataFrame:
         return load_raw_permits(raw_dir)

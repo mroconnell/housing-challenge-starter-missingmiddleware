@@ -73,7 +73,9 @@ def main(argv=None) -> int:
         return geo.attach_areas(pts, tracts, bgs)
 
     full = build_permits_observed(raw, index, parcels, parcels[["parcel_id", "x", "y"]], areas_fn,
-                                  new_residential_types=a.new_residential_types, host_uses=a.host_uses)
+                                  new_residential_types=a.new_residential_types, host_uses=a.host_uses,
+                                  dwell0_conversions=a.dwell0_conversions,
+                                  exclude_parcel_rule=a.parcel_rule_false_positives)
     obs = to_contract(full, a.source_id, a.jurisdiction_id)
     problems = contracts.validate(obs, contracts.PERMITS_OBSERVED)
     city_area = f"muni:{a.jurisdiction_id}"

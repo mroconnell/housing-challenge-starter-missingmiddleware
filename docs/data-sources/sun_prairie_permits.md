@@ -61,14 +61,14 @@ First 3 of 5 rows in [`data/sample/sun_prairie_permits.csv`](../../data/sample/s
 | `permit_id` | OTFD-25-100 | OTFD-25-103 | OTFD-25-118 | OTFD-25-12 | OTFD-25-122 |
 | `permit_type` | OTFD - One or two-family homes  new construction, additions… | OTFD - One or two-family homes  new construction, additions… | OTFD - One or two-family homes  new construction, additions… | OTFD - One or two-family homes  new construction, additions… | OTFD - One or two-family homes  new construction, additions… |
 | `use_class` | new_sf | new_sf | new_sf | new_sf | new_sf |
-| `address_raw` | 2316 LONNIE LN | 1881 WAVERLY WAY | 2117 WINDING STREAM WAY | 2504 WATER LILY CIR | 1712 WAVERLY WAY |
+| `address_raw` | LONNIE LN | WAVERLY WAY | WINDING STREAM WAY | WATER LILY CIR | WAVERLY WAY |
 | `units_raw` | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 |
 | `description` | single family home construction | SINGLE FAMILY RESIDENCE - NEW CONSTRUCTION | SINGLE FAMILY RESIDENCE - NEW CONSTRUCTION | SINGLE FAMILY HOME- NEW CONSTRUCTION | SINGLE FAMILY RESIDENCE - NEW CONSTRUCTION |
 | `issue_date` | 2025-03-31 11:16:21 | 2025-04-01 14:37:29 | 2025-04-14 15:47:33 | 2025-01-16 08:39:58 | 2025-04-15 09:53:18 |
 | `jurisdiction_id` | 5502578600 | 5502578600 | 5502578600 | 5502578600 | 5502578600 |
 | `source_id` | sun_prairie_permits | sun_prairie_permits | sun_prairie_permits | sun_prairie_permits | sun_prairie_permits |
-| `parcel_raw` | 091036263202 | 091036163932 | 081013167772 | 081013311202 | 091131246592 |
-| `parcel_key` | 091036263202 | 091036163932 | 081013167772 | 081013311202 | 091131246592 |
+| `parcel_raw` | 09103626**** | 09103616**** | 08101316**** | 08101331**** | 09113124**** |
+| `parcel_key` | 09103626**** | 09103616**** | 08101316**** | 08101331**** | 09113124**** |
 | `units_basis` | type+text | type+text | type+text | type+text | type+text |
 | `record_kind` | new_sf | new_sf | new_sf | new_sf | new_sf |
 | `record_status` | Complete | Complete | Complete | Complete | Complete |

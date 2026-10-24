@@ -1,6 +1,6 @@
 {
   "source_id": "madison_permits",
-  "fetched_at": "2026-10-24T05:29:31+00:00",
+  "fetched_at": "2026-10-24T05:53:52+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -51,5 +51,13 @@
       "name": "Issuance_Date",
       "type": "string"
     }
-  ]
+  ],
+  "location_redaction": {
+    "street_only": [
+      "Address_Part_Address_Line"
+    ],
+    "scrub": [
+      "Detailed_Description"
+    ]
+  }
 }

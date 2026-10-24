@@ -57,15 +57,15 @@ First 3 of 5 rows in [`data/sample/pleasant_prairie_permits.csv`](../../data/sam
 | `permit_id` | SF26-07-125 | COM26-07-038 | COM26-08-016 | COM26-09-003 | COM26-09-018 |
 | `permit_type` | NEW SINGLE FAMILY DWELLING | COMMERCIAL LOW VOLTAGE ELECTRICAL | COMMERCIAL LOW VOLTAGE ELECTRICAL | COMMERCIAL LOW VOLTAGE ELECTRICAL | COMMERCIAL LOW VOLTAGE ELECTRICAL |
 | `use_class` | NEW SINGLE FAMILY DWELLING | COMMERCIAL LOW VOLTAGE ELECTRICAL | COMMERCIAL LOW VOLTAGE ELECTRICAL | COMMERCIAL LOW VOLTAGE ELECTRICAL | COMMERCIAL LOW VOLTAGE ELECTRICAL |
-| `address_raw` | 4935 113TH ST | 11900 122ND ST | 10300 128TH AVE | 9755 76TH ST | 11211 120TH AVE |
+| `address_raw` | 113TH ST | 122ND ST | 128TH AVE | 76TH ST | 120TH AVE |
 | `units_raw` | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | `description` | NEW SINGLE FAMILY HOME | Low voltage fire alarm | Lilly 1st floor Office and Lobby Remodel | Electrical for Wall Sign | Signage Installation (1) Blade Sign and (1) Backlit Channel… |
 | `issue_date` | 2026-09-14 00:00:00 | 2026-09-21 00:00:00 | 2026-09-04 00:00:00 | 2026-09-23 00:00:00 | 2026-09-25 00:00:00 |
 | `est_cost` | 674892.0 | 118763.0 | 10200.0 | 5200.0 | 2675.0 |
 | `jurisdiction_id` | 5505963300 | 5505963300 | 5505963300 | 5505963300 | 5505963300 |
 | `source_id` | pleasant_prairie_permits | pleasant_prairie_permits | pleasant_prairie_permits | pleasant_prairie_permits | pleasant_prairie_permits |
-| `parcel_raw` | 92-4-122-263-1007 | 92-4-122-312-0101 | 91-4-121-244-0616 | 91-4-122-082-0151 | 92-4-122-302-0350 |
-| `parcel_key` | 92-4-122-263-1007 | 92-4-122-312-0101 | 91-4-121-244-0616 | 91-4-122-082-0151 | 92-4-122-302-0350 |
+| `parcel_raw` | 92-4-122-263-**** | 92-4-122-312-**** | 91-4-121-244-**** | 91-4-122-082-**** | 92-4-122-302-**** |
+| `parcel_key` | 92-4-122-263-**** | 92-4-122-312-**** | 91-4-121-244-**** | 91-4-122-082-**** | 92-4-122-302-**** |
 | `address_unit` |  |  |  |  | 17 |
 | `units_basis` | type | none | none | none | none |
 | `description_prefix_removed` | False | False | False | False | False |

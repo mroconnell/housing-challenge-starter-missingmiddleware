@@ -192,10 +192,9 @@ First 3 of 5 rows in [`data/sample/madison_parcels.csv`](../../data/sample/madis
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
-| `Parcel` | 071003416065 | 071003416247 | 060811116090 | 070814202077 | 071005410023 |
-| `XRefParcel` | 071003416065 | 071003416247 | 060811105051 | 070814202077 | 071005410023 |
-| `Address` | 5114 Sudbury Way | 5129 Hackney Way | 3409 S STONE CREEK Cir | 1234 N Westfield Rd | 103 Harding St |
+| `Parcel` | 07100341**** | 07100341**** | 06081111**** | 07081420**** | 07100541**** |
+| `XRefParcel` | 07100341**** | 07100341**** | 06081110**** | 07081420**** | 07100541**** |
+| `Address` | Sudbury Way | Hackney Way | S STONE CREEK Cir | N Westfield Rd | Harding St |
 | `DateParcelChanged` |  | 1791980220000 |  |  |  |
 | `PropertyClass` | Residential | Residential | Residential | Residential | Residential |
 | `PropertyUse` | Single family | Single family | Condominium | Single family | Single family |
@@ -247,9 +246,7 @@ First 3 of 5 rows in [`data/sample/madison_parcels.csv`](../../data/sample/madis
 | `AlderDistrict` | 3 | 3 | 7 | 19 | 15 |
 | `AssessmentChangeDate` |  | 1791980220000 |  |  |  |
 | `BuildingDistrict` | 4 | 4 | 2 | 1 | 4 |
-| `DeedPage` | 0 | 0 | 0 | 0 | 0 |
 | `DeedRestriction` | 0 | 0 | 0 | 0 | 0 |
-| `DeedVolume` | 0 | 0 | 0 | 0 | 0 |
 | `ElectricalDistrict` | 4 | 4 | 1 | 1 | 4 |
 | `EnvHealthDistrict` | 6 | 6 | 11 | 14 | 5 |
 | `FireDistrict` | 25 | 25 | 34 | 61 | 25 |
@@ -258,7 +255,6 @@ First 3 of 5 rows in [`data/sample/madison_parcels.csv`](../../data/sample/madis
 | `IllegalLandDivision` | 0 | 0 | 0 | 0 | 0 |
 | `LandscapeBuffer` | 0 | 0 | 0 | 0 | 0 |
 | `LotDepth` | 126.0 | 126.0 | 0.0 | 0.0 | 120.0 |
-| `LotNumber` | 0 | 0 | 0 | 0 | 0 |
 | `LotType1` | Regular | Regular | Other | Irregular | Regular |
 | `LotType2` | No Exception | No Exception | No Exception | No Exception | No Exception |
 | `LotWidth` | 76.0 | 73.0 | 0.0 | 0.0 | 50.0 |
@@ -275,13 +271,12 @@ First 3 of 5 rows in [`data/sample/madison_parcels.csv`](../../data/sample/madis
 | `TotalDwellingUnits` | 1 | 1 | 1 | 1 | 1 |
 | `TypeWaterFrontage` | No Water Frontage | No Water Frontage | No Water Frontage | No Water Frontage | No Water Frontage |
 | `ZoningAll` | SR-C1 | SR-C1 | SR-V2 | PD | TR-C4 |
-| `HouseNbr` | 5114 | 5129 | 3409 | 1234 | 103 |
 | `StreetDir` |  |  | S | N |  |
 | `StreetName` | Sudbury | Hackney | STONE CREEK | Westfield | Harding |
 | `StreetType` | Way | Way | Cir | Rd | St |
 | `MaxConstructionYear` | 0 | 0 | 0 | 0 | 0 |
-| `XCoord` | 845330.19254954 | 845604.0207852 | 789123.67656965 | 786896.43656442 | 836311.05660483 |
-| `YCoord` | 490838.65677585 | 490971.86912731 | 459649.25262138 | 486104.50412902 | 490402.04860495 |
+| `XCoord` | 845000 | 845000 | 790000 | 785000 | 835000 |
+| `YCoord` | 490000 | 490000 | 460000 | 485000 | 490000 |
 | `Shape__Area` | 9699.856852740546 | 9217.66956330629 | 514941.7362779518 | 10365.019789514441 | 5980.0308084769595 |
 | `Shape__Length` | 408.2349339575416 | 397.98788341026255 | 2893.39280076627 | 410.54176720788064 | 339.19078430488156 |
 

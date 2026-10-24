@@ -5,7 +5,7 @@ import hashlib
 
 import pandas as pd
 
-from .classify import apply_parcel_rule, apply_text_rules
+from .classify import SF_TO_TWO_RE, apply_parcel_rule, apply_text_rules
 from .match import AddressIndex, match_addresses
 
 DISCLOSURE_THRESHOLD = 3  # observed sub-city counts 1..threshold-1 are flagged suppressed
@@ -63,7 +63,9 @@ def build_permits_observed(raw: pd.DataFrame, index: AddressIndex, parcels: pd.D
                            parcel_xy: pd.DataFrame, areas_fn, raze_types=RAZE_TYPES_DEFAULT,
                            new_residential_types: tuple[str, ...] = (),
                            host_uses: tuple[str, ...] | None = None,
-                           match_fn=None, parcel_rule_fn=None) -> pd.DataFrame:
+                           match_fn=None, parcel_rule_fn=None,
+                           dwell0_conversions: bool = False,
+                           exclude_parcel_rule: dict[str, str] | None = None) -> pd.DataFrame:
     """Full record-level table (all deduplicated permits, with diagnostics).
 
     `parcel_xy`: parcel_id, x, y (lon/lat representative point).
@@ -75,10 +77,28 @@ def build_permits_observed(raw: pd.DataFrame, index: AddressIndex, parcels: pd.D
     match (same columns as `match_addresses`), and `parcel_rule_fn(df, parcels)`
     replaces `apply_parcel_rule` (must return at least host_units_now,
     earlier_units, parcel_rule_pass, parcel_rule_reason).
+
+    `dwell0_conversions`: a record whose unit field is 0 but whose description
+    says a single-family home becomes two units (`SF_TO_TWO_RE`) is given
+    units_added = 1 (`units_from_text = True`) so the ADU-equivalent rule can
+    judge it; every other check still applies.
+    `exclude_parcel_rule`: permit_id -> note for audit-judged false positives;
+    they never pass the parcel rule and their unit count is marked suspect.
+
+    ADU text bundles (ADU wording on a record adding 2+ units) are held out of
+    every ADU series whichever rule they reach: they never pass the parcel rule
+    either (reason `adu_bundle_held_for_review`) and are counted as
+    other_residential until the unit split is known.
     """
     df = dedupe(raw)
     df["units_added"] = df["units_raw"].round().astype("Int64")
     df["is_raze"] = df["permit_type"].isin(raze_types)
+    df["units_from_text"] = False
+    if dwell0_conversions:
+        z = (df["units_added"].fillna(0) == 0) & ~df["is_raze"] \
+            & df["description"].fillna("").str.contains(SF_TO_TWO_RE)
+        df.loc[z, "units_added"] = 1
+        df.loc[z, "units_from_text"] = True
     txt = apply_text_rules(df)
     df = df.join(txt)
     # ADU text on a record that adds 2+ units ("new duplex w/ ADU", "detached duplex ADU",
@@ -94,9 +114,39 @@ def build_permits_observed(raw: pd.DataFrame, index: AddressIndex, parcels: pd.D
     m = match_fn(df) if match_fn is not None else match_addresses(df, index)
     df = df.join(m)
     df = apply_parcel_attrs(df, parcels)
+    exclude_parcel_rule = exclude_parcel_rule or {}
+    judged_fp = df["permit_id"].isin(list(exclude_parcel_rule))
     pr = (parcel_rule_fn(df, parcels) if parcel_rule_fn is not None
-          else apply_parcel_rule(df, parcels, host_uses=host_uses))
+          else apply_parcel_rule(df, parcels, host_uses=host_uses, exclude_ids=exclude_parcel_rule))
     df = df.join(pr)
+    held = multi & df["parcel_rule_pass"].astype(bool)
+    df.loc[held, "parcel_rule_pass"] = False
+    df.loc[held, "parcel_rule_reason"] = "adu_bundle_held_for_review"
+    if "adu_eq_series" in df.columns:
+        df.loc[held, "adu_eq_series"] = None
+    df.loc[judged_fp, "parcel_rule_pass"] = False
+    df.loc[judged_fp, "parcel_rule_reason"] = "judged_false_positive"
+    df.loc[judged_fp, "units_suspect"] = True
+    # a Dwell-0 conversion whose parcel has another unit-adding permit within 2 years is the
+    # same conversion permitted twice (the other record carries the unit)
+    for idx in df.index[df["units_from_text"] & df["parcel_rule_pass"].astype(bool)]:
+        r = df.loc[idx]
+        o = df[(df["parcel_id"] == r["parcel_id"]) & (df.index != idx) & ~df["units_from_text"]
+               & (df["units_added"].fillna(0) > 0) & ~df["is_raze"]]
+        if ((o["issue_date"] - r["issue_date"]).dt.days.abs() <= 730).any():
+            df.at[idx, "parcel_rule_pass"] = False
+            df.at[idx, "parcel_rule_reason"] = "conversion_already_permitted"
+    # a Dwell-0 conversion enters scope only as an ADU-equivalent; otherwise it adds nothing
+    dz = df["units_from_text"] & ~df["parcel_rule_pass"].astype(bool)
+    df.loc[dz, "units_added"] = 0
+    df.loc[dz, "units_from_text"] = False
+    if parcel_rule_fn is None:  # Madison-style rule: label the ADU-equivalent sub-series
+        ok = df["parcel_rule_pass"].astype(bool)
+        conv = df["description"].fillna("").str.contains(SF_TO_TWO_RE) | df["description"].fillna("").str.contains(
+            r"(?i)\b(?:convert\w*|change\w*|create|addition)\b.{0,60}\b(?:duplex|two[- ]?(?:unit|family)|2[- ]unit)")
+        df["adu_eq_series"] = None
+        df.loc[ok & conv, "adu_eq_series"] = "duplex_conversion"
+        df.loc[ok & ~conv, "adu_eq_series"] = "second_dwelling"
     df["renewal_duplicate"] = find_renewal_duplicates(df)
 
     # unit_category + classification_method
@@ -152,7 +202,7 @@ def apply_parcel_attrs(df: pd.DataFrame, parcels: pd.DataFrame) -> pd.DataFrame:
 
 CONTRACT_EXTRA = [
     "year", "permit_type", "parcel_stateid", "parcel_id", "area_id", "tract_geoid", "bg_geoid",
-    "counted", "match_rule", "text_note", "parcel_rule_reason", "n_source_rows",
+    "counted", "match_rule", "text_note", "parcel_rule_reason", "n_source_rows", "units_from_text",
 ]
 
 
@@ -177,7 +227,7 @@ def to_contract(df: pd.DataFrame, source_id: str, jurisdiction_id: str) -> pd.Da
     out["area_id"] = s["tract_geoid"]
     out["tract_geoid"] = s["tract_geoid"]
     out["bg_geoid"] = s["bg_geoid"]
-    for c in ("counted", "match_rule", "text_note", "parcel_rule_reason", "n_source_rows"):
+    for c in ("counted", "match_rule", "text_note", "parcel_rule_reason", "n_source_rows", "units_from_text"):
         out[c] = s[c]
     return out.reset_index(drop=True)
 

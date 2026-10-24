@@ -1,6 +1,6 @@
 {
   "source_id": "madison_address_points",
-  "fetched_at": "2026-10-24T05:29:27+00:00",
+  "fetched_at": "2026-10-24T05:55:18+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -142,15 +142,32 @@
     },
     "supports_pagination": true,
     "max_record_count": 2000,
+    "redaction": "properties limited to StreetName, StreetType; point coordinates rounded to 2 decimals",
     "simplified": null,
     "file": "data/sample/geo/madison_address_points.geojson",
     "features": 3,
-    "bytes": 1253,
+    "bytes": 431,
     "vertices_per_feature": [
       1,
       1,
       1
     ],
     "output_crs": "EPSG:4326 (GeoJSON)"
+  },
+  "location_redaction": {
+    "street_only": [
+      "Address"
+    ],
+    "blank": [
+      "OBJECTID",
+      "HouseNbr"
+    ],
+    "mask_parcel": [
+      "Parcel"
+    ],
+    "round_ft": [
+      "XCoord",
+      "YCoord"
+    ]
   }
 }

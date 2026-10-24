@@ -311,10 +311,10 @@ SITE_TAIL_RE = re.compile(
 
 
 def split_site_address(site: str | None) -> tuple[str, str]:
-    """'8560 93RD CT  PLEASANT PRAIRIE WI 53158' -> ('8560 93RD CT', '').
+    """'100 EXAMPLE CT  PLEASANT PRAIRIE WI 53158' -> ('100 EXAMPLE CT', '').
 
     Mobile-home lots print the lot number between street and city
-    ('7801 88TH AVE 73 PLEASANT PRAIRIE WI'); it is returned as the unit.
+    ('400 102ND AVE 73 PLEASANT PRAIRIE WI', a made-up address); it is returned as the unit.
     """
     s = " ".join((site or "").split())
     m = SITE_TAIL_RE.match(" " + s)

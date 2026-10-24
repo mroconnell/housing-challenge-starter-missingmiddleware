@@ -24,6 +24,21 @@ def reference_by_year(full: pd.DataFrame) -> pd.DataFrame:
             s = cy[cy["unit_category"] == cat]
             rows.append({"year": y, "category": cat, "count": len(s), "units": int(s["units_added"].sum()),
                          "method": "parcel_rule" if cat == "adu_equivalent" else "text_rule"})
+        # ADU-equivalent ("second dwelling / conversion") sub-series; units_from_text marks
+        # Dwell-0 single-family -> two-unit conversions whose 1 unit is read from the text
+        if "adu_eq_series" in full.columns:
+            eq = cy[cy["unit_category"] == "adu_equivalent"]
+            uft = eq["units_from_text"].astype(bool) if "units_from_text" in eq.columns else False
+            for series, sel, method in (
+                ("adu_equivalent:second_dwelling", eq["adu_eq_series"].eq("second_dwelling"), "parcel_rule"),
+                ("adu_equivalent:duplex_conversion", eq["adu_eq_series"].eq("duplex_conversion") & ~uft,
+                 "parcel_rule"),
+                ("adu_equivalent:duplex_conversion_dwell0", eq["adu_eq_series"].eq("duplex_conversion") & uft,
+                 "parcel_rule+units_from_text"),
+            ):
+                s = eq[sel]
+                rows.append({"year": y, "category": series, "count": len(s),
+                             "units": int(s["units_added"].sum()), "method": method})
         s = full[(full["year"] == y) & full["in_scope"] & full["unit_category"].isin(ADU_TEXT_CATS)
                  & ~full["counted"]]
         rows.append({"year": y, "category": "adu_text_zero_units_or_duplicate", "count": len(s), "units": 0,
@@ -67,7 +82,7 @@ def audit_sample(full: pd.DataFrame, judgments: Path | None = None) -> pd.DataFr
                    | full["text_note"].eq("related_term")]
     nm_rule = full[full["in_scope"] & (full["unit_category"] == "other_residential")
                    & full["parcel_rule_reason"].isin(["raze_nearby", "main_building_from_earlier_permit",
-                                                      "host_not_1_3_unit_residential"])
+                                                      "host_not_one_unit_residential"])
                    & (full["units_added"] == 1)]
     nm = pd.concat([_pick(nm_text, 10).assign(audit_group="near_miss_text"),
                     _pick(nm_rule, max(0, 10 - min(10, len(nm_text)))).assign(audit_group="near_miss_parcel_rule")])
@@ -121,19 +136,27 @@ def source_vs_clean(raw_dir: Path, full: pd.DataFrame, obs: pd.DataFrame, permit
 
 
 def reconcile_city(full: pd.DataFrame) -> pd.DataFrame:
-    """Text-rule ADU records vs the City's published table, by two year definitions.
+    """Text-rule ADU records vs the City's published table ("ADUs Permitted", i.e.
+    permits issued, per the City's own label).
 
-    - issue_year_counted: counted text ADUs (>=1 unit, not duplicate) by issuance year
-      (this pipeline's outcome definition).
-    - number_year_all_text: every text-rule ADU record (incl. Dwell-0 conversions,
-      finish/repair records and multi-unit ADU bundles) by the year embedded in the
-      permit number (application year).
+    - text_counted_by_issue_year: counted text ADUs (>=1 unit, not duplicate) by issuance
+      year (this pipeline's outcome definition, and the City's stated basis).
+    - text_all_by_issue_year: every ADU-text record (incl. Dwell-0 conversions,
+      finish/repair records and multi-unit ADU bundles) by issuance year.
+    - text_all_by_permit_number_year: the same records by the year embedded in the permit
+      number (application year). That the City counts this way is OUR HYPOTHESIS, chosen
+      because it reproduces 2014-2022; the City does not document its method.
+    - text_counted_issued_jan_aug: counted text ADUs issued January-August (for the
+      City's partial 2025 figure).
     """
     t = full[full["text_category"].notna()
              | full["text_note"].fillna("").str.contains("repair_or_finish|multi_unit_adu_bundle")].copy()
     t["number_year"] = t["permit_id"].str.extract(r"-(\d{4})-")[0].astype(int)
     counted = t[t["counted"] & t["text_category"].notna()].groupby("year").size()
     by_num = t.groupby("number_year").size()
+    all_issue = t.groupby("year").size()
+    ct = t[t["counted"] & t["text_category"].notna()]
+    jan_aug = ct[ct["issue_date"].dt.month <= 8].groupby("year").size()
     eq = full[full["counted"] & (full["unit_category"] == "adu_equivalent")].groupby("year").size()
     years = sorted(set(CITY_ADU_TABLE) | set(counted.index) | set(by_num.index))
     rows = []
@@ -142,7 +165,9 @@ def reconcile_city(full: pd.DataFrame) -> pd.DataFrame:
             "year": y,
             "city_published": CITY_ADU_TABLE.get(y),
             "text_counted_by_issue_year": int(counted.get(y, 0)),
+            "text_all_by_issue_year": int(all_issue.get(y, 0)),
             "text_all_by_permit_number_year": int(by_num.get(y, 0)),
+            "text_counted_issued_jan_aug": int(jan_aug.get(y, 0)),
             "adu_equivalent_by_issue_year": int(eq.get(y, 0)),
         })
     return pd.DataFrame(rows)

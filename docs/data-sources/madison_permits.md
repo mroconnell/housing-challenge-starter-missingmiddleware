@@ -47,7 +47,7 @@ First 3 of 5 rows in [`data/sample/madison_permits.csv`](../../data/sample/madis
 |---|---|---|---|---|---|
 | `B1_ALT_ID` | BLDNRC-2026-18290 | BLDNRC-2026-20255 | BLDNRC-2026-22006 | BLDNRC-2026-21587 | BLDNRC-2026-22062 |
 | `Reportable_Data` | TWO FAMILY RESIDENCES | TWO FAMILY RESIDENCES | RESIDENTIAL GARAGES | RESIDENTIAL GARAGES | RESIDENTIAL GARAGES |
-| `Address_Part_Address_Line` | 1132 SPAIGHT ST | 207 TOMPKINS | 2805 GREGORY ST | 2814 OAKRIDGE AVE | 712 ROGERS ST |
+| `Address_Part_Address_Line` | SPAIGHT ST | TOMPKINS | GREGORY ST | OAKRIDGE AVE | ROGERS ST |
 | `BLDG_SQFT` | 425 | 2,994 | 320 | 280 | 400 |
 | `Textbox9` | $190,500 | $200,000 | $22,000 | $36,785 | $63,423 |
 | `Total_Pay` | $168 | $810 | $75 | $75 | $75 |

@@ -67,6 +67,12 @@ UNIT_REDUCTION_RE = re.compile(
 EXISTING_CONTEXT_RE = re.compile(
     r"\b(?:of|on|to|for|in|at|from)\s+(?:an?\s+|the\s+)?existing\s+(?:[\w-]+\s+){0,2}[\w-]+", re.I)
 MOVED_RE = re.compile(r"moved\s+house|relocated\s+house|house\s+move|moving\s+house", re.I)
+# The description itself says a one-unit home becomes two units ("convert single family home
+# to 2 unit", "change 1 unit to 2 unit", "convert SF to duplex"). Used (a) to let the host check
+# trust the text over the current property-use code, and (b) for the Dwell-0 conversion path.
+SF_TO_TWO_RE = re.compile(
+    r"(?:single|one|1)[- ]?(?:family|unit|fam)\w*\s+(?:\w+\s+){0,3}?(?:in)?to\s+(?:a\s+)?(?:(?:two|2)[- ]?(?:family|unit|flat)"
+    r"|(?:rental\s+)?duplex)|\bSF\s+(?:\w+\s+){0,2}?to\s+(?:a\s+)?(?:rental\s+)?(?:duplex|two[- ]?(?:family|unit))", re.I)
 
 
 def unit_flags(description: str) -> dict:
@@ -116,9 +122,11 @@ def apply_text_rules(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def apply_parcel_rule(df: pd.DataFrame, parcels: pd.DataFrame, max_units_added: int = 2,
-                      max_host_units: int = 3, raze_before_days: int = 730,
+                      max_host_units: int = 2, raze_before_days: int = 730,
                       raze_after_days: int = 180, min_age_years: int = 2,
-                      host_uses: tuple[str, ...] | None = None) -> pd.DataFrame:
+                      host_uses: tuple[str, ...] | None = None,
+                      conversion_host_max_units: int = 3,
+                      exclude_ids: dict[str, str] | None = None) -> pd.DataFrame:
     """ADU-equivalent (AQ-021): a permit adding a dwelling on a parcel that already had one.
 
     `df` holds deduplicated permits with parcel_id, units_added, issue_date,
@@ -139,9 +147,15 @@ def apply_parcel_rule(df: pd.DataFrame, parcels: pd.DataFrame, max_units_added: 
           units, or a moved house (`units_suspect` / `moved_house` false);
       (1) parcel matched with quality confirmed or probable;
       (2) 1 <= units_added <= max_units_added (small-scale additions only);
-      (3) the parcel is residential today with 1..max_host_units dwellings
-          and (if `host_uses` is given) its property use is one of them
-          (a one- to three-unit host, not an apartment or condo complex);
+      (3) the host was a one-unit home before the permit: the parcel is
+          residential today with 1..max_host_units (2) dwellings (the count
+          today includes the added unit) and, if `host_uses` is given, its
+          property use is one of them. A host that is already multi-unit
+          (e.g. a 2 -> 3 apartment conversion, "3 Unit" today) fails. When the
+          description itself says a single-family home becomes two units
+          (`SF_TO_TWO_RE`), the text is the evidence of the prior state, so
+          only Residential class and 1..conversion_host_max_units dwellings
+          are required (assessor use codes lag conversions);
       (4) year_built of the main building is valid (>= 1800) and at least
           `min_age_years` before the permit's issue year. A new house on a
           vacant lot gets the new house's year built (or 0 while unbuilt), so
@@ -153,10 +167,14 @@ def apply_parcel_rule(df: pd.DataFrame, parcels: pd.DataFrame, max_units_added: 
       (6) no raze permit removing dwelling units on the parcel from
           raze_before_days before to raze_after_days after the permit
           (a teardown-and-replace is not an added dwelling).
+    Records in `exclude_ids` (permit_id -> note; judged false positives from the
+    audit) fail with reason `judged_false_positive`.
     Returns: host_units_now, earlier_units, parcel_rule_pass, parcel_rule_reason.
     """
+    exclude_ids = exclude_ids or {}
     p = parcels.set_index("parcel_id")
-    work = df[["parcel_id", "units_added", "issue_date", "is_raze", "match_quality"]].copy()
+    work = df[["permit_id", "parcel_id", "units_added", "issue_date", "is_raze", "match_quality"]].copy()
+    sf_to_two = df["description"].fillna("").str.contains(SF_TO_TWO_RE)
     plausible = df.get("dwelling_text", True) & ~df.get("units_suspect", False) & ~df.get("moved_house", False)
     plausible = pd.Series(plausible, index=df.index) if not isinstance(plausible, pd.Series) else plausible
     have = work["parcel_id"].notna()
@@ -170,6 +188,9 @@ def apply_parcel_rule(df: pd.DataFrame, parcels: pd.DataFrame, max_units_added: 
     for idx, r in work.iterrows():
         if pd.isna(r.units_added) or r.units_added <= 0:
             out.at[idx, "parcel_rule_reason"] = "no_units_added"
+            continue
+        if r.permit_id in exclude_ids:
+            out.at[idx, "parcel_rule_reason"] = "judged_false_positive"
             continue
         if not plausible.at[idx]:
             out.at[idx, "parcel_rule_reason"] = "no_dwelling_evidence_in_text"
@@ -191,9 +212,13 @@ def apply_parcel_rule(df: pd.DataFrame, parcels: pd.DataFrame, max_units_added: 
             out.at[idx, "parcel_rule_reason"] = "too_many_units"
             continue
         puse = p.at[r.parcel_id, "property_use"] if "property_use" in p.columns else None
-        if (pclass != "Residential" or not (1 <= du <= max_host_units)
-                or (host_uses is not None and puse not in host_uses)):
-            out.at[idx, "parcel_rule_reason"] = "host_not_1_3_unit_residential"
+        if sf_to_two.at[idx]:
+            host_ok = pclass == "Residential" and 1 <= du <= conversion_host_max_units
+        else:
+            host_ok = (pclass == "Residential" and 1 <= du <= max_host_units
+                       and (host_uses is None or puse in host_uses))
+        if not host_ok:
+            out.at[idx, "parcel_rule_reason"] = "host_not_one_unit_residential"
             continue
         if pd.isna(yb) or int(yb) < 1800 or int(yb) > r.issue_date.year - min_age_years:
             out.at[idx, "parcel_rule_reason"] = "first_dwelling_on_parcel"  # main building not older

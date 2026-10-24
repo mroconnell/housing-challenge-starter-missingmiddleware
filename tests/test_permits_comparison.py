@@ -57,7 +57,7 @@ class TestPleasantPrairieParsing(unittest.TestCase):
         self.assertEqual(df.loc["SF25-01-001", "units_raw"], 1)
         self.assertEqual(df.loc["RZ2025-01-001", "units_raw"], -1)       # raze of a home
         self.assertEqual(df.loc["SF25-03-003", "units_basis"], "conversion_text")
-        self.assertEqual(df.loc["SF25-02-002", "address_raw"], "7801 88TH AVE")
+        self.assertEqual(df.loc["SF25-02-002", "address_raw"], "400 102ND AVE")
         self.assertEqual(df.loc["SF25-02-002", "address_unit"], "73")  # mobile-home lot number
         self.assertEqual(df.loc["SF25-03-003", "address_raw"], "300 EXAMPLE CT")  # city KENOSHA stripped
 
@@ -198,8 +198,8 @@ class TestPriorDwellingRule(unittest.TestCase):
         self.assertFalse(self.full.loc["C2", "in_scope"])  # razes are never counted
 
     def test_parcel_id_normalized_match(self):
-        fn = cmp.parcel_match_fn({"91-4-122-084-0706"})
-        m = fn(pd.DataFrame({"parcel_key": ["914122084 0706", "91-4-122-084-0706", None],
+        fn = cmp.parcel_match_fn({"91-4-122-000-0706"})
+        m = fn(pd.DataFrame({"parcel_key": ["914122000 0706", "91-4-122-000-0706", None],
                              "address_raw": ["", "", ""]}))
         self.assertEqual(list(m["match_quality"]), ["probable", "confirmed", "none"])
 

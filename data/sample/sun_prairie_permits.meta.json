@@ -1,6 +1,6 @@
 {
   "source_id": "sun_prairie_permits",
-  "fetched_at": "2026-10-24T05:30:06+00:00",
+  "fetched_at": "2026-10-24T05:54:29+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -94,5 +94,17 @@
       "name": "record_ct",
       "type": "string"
     }
-  ]
+  ],
+  "location_redaction": {
+    "street_only": [
+      "address_raw"
+    ],
+    "mask_parcel": [
+      "parcel_raw",
+      "parcel_key"
+    ],
+    "scrub": [
+      "description"
+    ]
+  }
 }

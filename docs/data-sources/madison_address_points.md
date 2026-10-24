@@ -65,17 +65,15 @@ First 3 of 5 rows in [`data/sample/madison_address_points.csv`](../../data/sampl
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `OBJECTID` | 3 | 4 | 5 | 6 | 8 |
-| `HouseNbr` | 8333 | 8333 | 8333 | 8333 | 8333 |
 | `StreetName` | Globe | Globe | Globe | Globe | Globe |
 | `StreetType` | Dr | Dr | Dr | Dr | Dr |
 | `Unit` | 101 | 102 | 104 | 105 | 107 |
-| `Address` | 8333 Globe Dr Unit 101 | 8333 Globe Dr Unit 102 | 8333 Globe Dr Unit 104 | 8333 Globe Dr Unit 105 | 8333 Globe Dr Unit 107 |
+| `Address` | Globe Dr Unit 101 | Globe Dr Unit 102 | Globe Dr Unit 104 | Globe Dr Unit 105 | Globe Dr Unit 107 |
 | `ZipCode` | 53717 | 53717 | 53717 | 53717 | 53717 |
 | `MailCode` | A | A | A | A | A |
-| `XCoord` | 783031.31019487 | 783031.31019487 | 783031.31019487 | 783031.31019487 | 783031.31019487 |
-| `YCoord` | 481823.67101427 | 481823.67101427 | 481823.67101427 | 481823.67101427 | 481823.67101427 |
-| `Parcel` | 070822105453 | 070822105453 | 070822105453 | 070822105453 | 070822105453 |
+| `XCoord` | 785000 | 785000 | 785000 | 785000 | 785000 |
+| `YCoord` | 480000 | 480000 | 480000 | 480000 | 480000 |
+| `Parcel` | 07082210**** | 07082210**** | 07082210**** | 07082210**** | 07082210**** |
 | `DateAdded` | 1532649600000 | 1532649600000 | 1532649600000 | 1532649600000 | 1532649600000 |
 
 ## Refresh

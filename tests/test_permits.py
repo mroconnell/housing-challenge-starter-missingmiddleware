@@ -137,5 +137,69 @@ class TestPipeline(unittest.TestCase):
         self.assertTrue(tr["suppressed"].all())  # every tract count is below the threshold
 
 
+class TestAduEquivalentRule(unittest.TestCase):
+    """Host must have been one unit; Dwell-0 SF->two-unit conversions; bundles and judged
+    false positives held out (review item S3)."""
+
+    @classmethod
+    def setUpClass(cls):
+        raw = load_fixture_raw()
+        base = raw[raw.permit_id == "BLDNRC-2024-00003"].iloc[0]
+        extra = [  # permit_id, address, units, description
+            ("BLDNCC-2024-00010", "300 EXAMPLE ST", 1, "CONVERT FROM TWO APARTMENTS TO THREE APARTMENTS"),
+            ("BLDRPR-2024-00011", "302 EXAMPLE ST", 0, "CONVERT SINGLE FAMILY HOME TO 2 UNIT"),
+            ("BLDRPR-2024-00012", "304 EXAMPLE ST", 0, "CONVERT SINGLE FAMILY TO TWO UNIT, ADD DOOR"),
+            ("BLDNRC-2024-00013", "304 EXAMPLE ST", 1, "ADDITION TO CONVERT SINGLE FAMILY TO DUPLEX"),
+            ("BLDNRC-2024-00014", "306 EXAMPLE ST", 2, "NEW TWIN HOME ADU"),
+            ("BLDNRC-2024-00015", "308 EXAMPLE ST", 1, "SF HOME FROM SF HOME W/DEPENDENCY LIVING ARRANGEMENT"),
+        ]
+        rows = []
+        for i, (pid, addr, units, desc) in enumerate(extra):
+            r = base.copy()
+            r["permit_id"], r["address_raw"], r["units_raw"], r["description"] = pid, addr, units, desc
+            r["permit_type"], r["source_row"] = pid[:6], 100 + i
+            rows.append(r)
+        raw = pd.concat([raw, pd.DataFrame(rows)], ignore_index=True)
+        p = fixture_parcels()
+        add = pd.DataFrame([  # parcels as the assessor shows them today (after the permit)
+            ("P300", 300, "EXAMPLE ST", 3, 1920, "3 Unit", -89.41, 43.07),
+            ("P302", 302, "EXAMPLE ST", 2, 1915, "2 Unit", -89.41, 43.07),
+            ("P304", 304, "EXAMPLE ST", 2, 1915, "2 Unit", -89.41, 43.07),
+            ("P306", 306, "EXAMPLE ST", 1, 1954, "Single family", -89.41, 43.07),
+            ("P308", 308, "EXAMPLE ST", 1, 1950, "Single family", -89.41, 43.07),
+        ], columns=["parcel_id", "house_nbr", "street_key", "dwelling_units", "year_built", "property_use", "x", "y"])
+        add["parcel_address"] = add["house_nbr"].astype(str) + " " + add["street_key"].str.title()
+        add["unit"], add["property_class"], add["zoning"] = "", "Residential", "TR-C2"
+        p = pd.concat([p, add], ignore_index=True)
+        cls.full = pipeline.build_permits_observed(
+            raw, fixture_index(p), p, p[["parcel_id", "x", "y"]], fake_areas,
+            host_uses=madison.MadisonAdapter.host_uses, dwell0_conversions=True,
+            exclude_parcel_rule={"BLDNRC-2024-00015": "judged false positive"})
+
+    def row(self, pid):
+        return self.full[self.full.permit_id == pid].iloc[0]
+
+    def test_multi_unit_host_excluded(self):
+        r = self.row("BLDNCC-2024-00010")
+        self.assertEqual((r.unit_category, r.parcel_rule_reason), ("other_residential", "host_not_one_unit_residential"))
+
+    def test_dwell0_conversion_counted_once(self):
+        r = self.row("BLDRPR-2024-00011")
+        self.assertEqual((r.unit_category, r.units_added, r.adu_eq_series), ("adu_equivalent", 1, "duplex_conversion"))
+        self.assertTrue(r.units_from_text and r.counted)
+        dup = self.row("BLDRPR-2024-00012")  # same parcel already has a Dwell-1 conversion permit
+        self.assertEqual(dup.parcel_rule_reason, "conversion_already_permitted")
+        self.assertFalse(dup.in_scope)
+        self.assertEqual(dup.units_added, 0)
+        self.assertEqual(self.row("BLDNRC-2024-00013").unit_category, "adu_equivalent")
+
+    def test_bundle_and_false_positive_held_out(self):
+        b = self.row("BLDNRC-2024-00014")
+        self.assertEqual((b.unit_category, b.parcel_rule_reason), ("other_residential", "adu_bundle_held_for_review"))
+        fp = self.row("BLDNRC-2024-00015")
+        self.assertEqual(fp.parcel_rule_reason, "judged_false_positive")
+        self.assertFalse(fp.counted)
+
+
 if __name__ == "__main__":
     unittest.main()
