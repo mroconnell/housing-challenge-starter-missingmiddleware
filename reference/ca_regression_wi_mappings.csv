@@ -1,0 +1,4 @@
+mapping,rule,lower,central,upper,madison_y_lower,madison_y_central,madison_y_upper,madison_additional_central,areas_active,areas_middle,recommended
+a_absolute,absolute,1374.373,2152.477,5208.755,1.119,1.158,1.18,159.081,0,8,True
+b_relative,relative,1603.268,2579.008,5706.542,1.98,2.499,2.608,377.753,8,0,False
+c_rules,rules,1621.245,2531.345,5624.922,1.936,2.499,3.615,377.753,5,24,False

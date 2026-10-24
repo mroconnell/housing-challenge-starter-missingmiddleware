@@ -1,0 +1,13 @@
+context_group,path,baseline_units,additional_units
+rural,central,221.7,816.4
+rural,lower,221.7,467.1
+rural,upper,221.7,2600.7
+small_community,central,78.5,181.5
+small_community,lower,78.5,141.4
+small_community,upper,78.5,517.5
+suburban,central,130.9,702.0
+suburban,lower,130.9,392.1
+suburban,upper,130.9,1464.3
+urban,central,223.1,452.6
+urban,lower,223.1,373.8
+urban,upper,223.1,626.2

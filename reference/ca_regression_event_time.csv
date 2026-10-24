@@ -1,0 +1,58 @@
+clock,group,k,jurisdictions,adu,homes,rate
+calendar (k = year - 2019),active,-2,106,3948.0,2361361.0,1.6719
+calendar (k = year - 2019),active,-1,106,7331.0,2361361.0,3.1046
+calendar (k = year - 2019),active,0,106,9893.0,2361361.0,4.1895
+calendar (k = year - 2019),active,1,106,8303.0,2361361.0,3.5162
+calendar (k = year - 2019),active,2,104,12438.0,2342681.0,5.3093
+calendar (k = year - 2019),active,3,103,14859.0,2319879.0,6.4051
+calendar (k = year - 2019),active,4,104,15956.0,2320974.0,6.8747
+calendar (k = year - 2019),active,5,105,16649.0,2335277.0,7.1293
+calendar (k = year - 2019),active,6,105,17686.0,2335277.0,7.5734
+calendar (k = year - 2019),middle,-2,263,743.0,4840278.0,0.1535
+calendar (k = year - 2019),middle,-1,263,1500.0,4840278.0,0.3099
+calendar (k = year - 2019),middle,0,263,2552.0,4840278.0,0.5272
+calendar (k = year - 2019),middle,1,259,3999.0,4789131.0,0.835
+calendar (k = year - 2019),middle,2,258,6983.0,4828180.0,1.4463
+calendar (k = year - 2019),middle,3,258,9169.0,4803020.0,1.909
+calendar (k = year - 2019),middle,4,259,10399.0,4814622.0,2.1599
+calendar (k = year - 2019),middle,5,260,11872.0,4807980.0,2.4692
+calendar (k = year - 2019),middle,6,257,12111.0,4786908.0,2.53
+calendar (k = year - 2019),restrictive,-2,93,0.0,748525.0,0.0
+calendar (k = year - 2019),restrictive,-1,93,0.0,748525.0,0.0
+calendar (k = year - 2019),restrictive,0,93,0.0,748525.0,0.0
+calendar (k = year - 2019),restrictive,1,82,83.0,719126.0,0.1154
+calendar (k = year - 2019),restrictive,2,84,449.0,709274.0,0.633
+calendar (k = year - 2019),restrictive,3,85,485.0,711756.0,0.6814
+calendar (k = year - 2019),restrictive,4,83,766.0,726027.0,1.0551
+calendar (k = year - 2019),restrictive,5,82,884.0,719865.0,1.228
+calendar (k = year - 2019),restrictive,6,82,984.0,704634.0,1.3965
+event time,active,-2,106,1677.0,2361361.0,0.7102
+event time,active,-1,106,3349.0,2361361.0,1.4182
+event time,active,0,106,5181.0,2361361.0,2.1941
+event time,active,1,106,7235.0,2361361.0,3.0639
+event time,active,2,104,11453.0,2342681.0,4.8888
+event time,active,3,103,12489.0,2319879.0,5.3835
+event time,active,4,104,12853.0,2320974.0,5.5378
+event time,active,5,105,14661.0,2335277.0,6.2781
+event time,active,6,105,17398.0,2335277.0,7.4501
+event time,active,7,1,6513.0,560632.0,11.6172
+event time,active,8,1,7052.0,560632.0,12.5787
+event time,active,9,1,7450.0,560632.0,13.2886
+event time,middle,-2,263,743.0,4840278.0,0.1535
+event time,middle,-1,263,1500.0,4840278.0,0.3099
+event time,middle,0,263,2552.0,4840278.0,0.5272
+event time,middle,1,259,3999.0,4789131.0,0.835
+event time,middle,2,258,6983.0,4828180.0,1.4463
+event time,middle,3,258,9169.0,4803020.0,1.909
+event time,middle,4,259,10399.0,4814622.0,2.1599
+event time,middle,5,260,11872.0,4807980.0,2.4692
+event time,middle,6,257,12111.0,4786908.0,2.53
+event time,restrictive,-2,93,0.0,748525.0,0.0
+event time,restrictive,-1,93,0.0,748525.0,0.0
+event time,restrictive,0,93,0.0,748525.0,0.0
+event time,restrictive,1,82,83.0,719126.0,0.1154
+event time,restrictive,2,84,449.0,709274.0,0.633
+event time,restrictive,3,85,485.0,711756.0,0.6814
+event time,restrictive,4,83,766.0,726027.0,1.0551
+event time,restrictive,5,82,884.0,719865.0,1.228
+event time,restrictive,6,82,984.0,704634.0,1.3965

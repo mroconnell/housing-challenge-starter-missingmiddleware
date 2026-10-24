@@ -1,0 +1,458 @@
+census_geoid,name,juris_type,group,pre_rate,homes,n_years,adu,rate,value,rent,income,renter_share,market_basis,filled,value_topcoded,rent_topcoded
+06001_UNINC,Alameda County,county_unincorporated,middle,0.3368,33654.0,3,326.0,3.2289,1090100.0,2357.0,129367.0,0.4559,county_proxy,,False,False
+0600296,Adelanto,city,restrictive,0.0,8190.0,3,9.0,0.3663,349100.0,1437.0,68685.0,0.381,place,,False,False
+0600394,Agoura Hills,city,middle,0.6863,5343.0,3,41.0,2.5579,1098000.0,3218.0,171302.0,0.1822,place,,False,False
+0600562,Alameda,city,middle,0.7613,14012.0,3,161.0,3.8301,1235700.0,2474.0,137697.0,0.4933,place,,False,False
+06005_UNINC,Amador County,county_unincorporated,middle,0.2139,10908.0,3,19.0,0.5806,449800.0,1421.0,88044.0,0.1958,county_proxy,,False,False
+0600674,Albany,city,active,3.1222,4057.0,3,42.0,3.4508,1202200.0,2445.0,144107.0,0.4686,place,,False,False
+06007_UNINC,Butte County,county_unincorporated,middle,0.4587,22528.0,3,53.0,0.7842,424700.0,1414.0,67928.0,0.4272,county_proxy,,False,False
+0600884,Alhambra,city,active,1.4045,13528.0,3,375.0,9.2401,857800.0,1939.0,88024.0,0.5895,place,,False,False
+06009_UNINC,Calaveras County,county_unincorporated,middle,0.1189,22428.0,3,20.0,0.2972,457200.0,1625.0,78647.0,0.1604,county_proxy,,False,False
+06011_UNINC,Colusa County,county_unincorporated,middle,0.2023,3296.0,3,5.0,0.5057,393400.0,1157.0,75672.0,0.3778,county_proxy,,False,False
+06013_UNINC,Contra Costa County,county_unincorporated,middle,0.9139,49971.0,3,338.0,2.2546,866800.0,2375.0,127229.0,0.32,county_proxy,,False,False
+06015_UNINC,Del Norte County,county_unincorporated,middle,0.4406,6053.0,3,35.0,1.9274,342000.0,1233.0,67058.0,0.2992,county_proxy,,False,False
+0601640,American Canyon,city,middle,0.3001,4443.0,3,18.0,1.3504,692600.0,2537.0,121700.0,0.2573,place,,False,False
+06017_UNINC,El Dorado County,county_unincorporated,middle,0.5356,62236.0,3,211.0,1.1301,679900.0,1715.0,108845.0,0.2276,county_proxy,,False,False
+06019_UNINC,Fresno County,county_unincorporated,middle,0.0287,46456.0,3,57.0,0.409,388800.0,1392.0,74201.0,0.4445,county_proxy,,False,False
+0602000,Anaheim,city,middle,0.3494,44838.0,3,786.0,5.8433,831200.0,2175.0,95227.0,0.5377,place,,False,False
+0602042,Anderson,city,restrictive,0.0,3323.0,3,1.0,0.1003,283000.0,962.0,47375.0,0.4195,place,,False,False
+0602112,Angels,city,middle,0.2122,1571.0,3,0.0,0.0,484800.0,1833.0,62188.0,0.1893,place,,False,False
+06021_UNINC,Glenn County,county_unincorporated,middle,0.6648,4011.0,2,6.0,0.7479,352400.0,1120.0,67139.0,0.3882,county_proxy,,False,False
+0602252,Antioch,city,middle,0.0331,30228.0,3,130.0,1.4335,629700.0,2278.0,97465.0,0.3636,place,,False,False
+06023_UNINC,Humboldt County,county_unincorporated,middle,0.401,26597.0,3,67.0,0.8397,446900.0,1287.0,61160.0,0.4346,county_proxy,,False,False
+0602462,Arcadia,city,middle,0.4466,11941.0,3,247.0,6.895,1441800.0,2191.0,113516.0,0.4186,place,,False,False
+0602476,Arcata,city,active,3.6525,3833.0,3,48.0,4.1743,484600.0,1327.0,46713.0,0.6356,place,,False,False
+0602868,Arroyo Grande,city,active,2.1047,5068.0,3,56.0,3.6832,814200.0,2173.0,102553.0,0.3939,place,,False,False
+0602896,Artesia,city,middle,0.4147,3215.0,2,60.0,9.3313,776600.0,2219.0,101004.0,0.5048,place,,False,False
+0602924,Arvin,city,restrictive,0.0,3447.0,3,36.0,3.4813,262700.0,1122.0,49183.0,0.4559,place,,False,False
+06029_UNINC,Kern County,county_unincorporated,middle,0.0163,81550.0,3,276.0,1.1281,338300.0,1300.0,70210.0,0.3994,county_proxy,,False,False
+0603064,Atascadero,city,middle,0.6974,8603.0,3,63.0,2.441,716500.0,1854.0,91429.0,0.3536,place,,False,False
+0603092,Atherton,city,active,2.6965,2596.0,3,88.0,11.2994,2000000.0,3500.0,250000.0,0.1244,place,,True,True
+0603162,Atwater,city,restrictive,0.0,6757.0,3,1.0,0.0493,363400.0,1279.0,64472.0,0.4792,place,,False,False
+06031_UNINC,Kings County,county_unincorporated,restrictive,0.0,6691.0,3,5.0,0.2491,324300.0,1331.0,70995.0,0.4581,county_proxy,,False,False
+0603204,Auburn,city,middle,0.2927,4555.0,3,19.0,1.3904,672500.0,1501.0,82674.0,0.3764,place,,False,False
+0603274,Avalon,city,middle,0.4975,670.0,3,2.0,0.995,936000.0,2006.0,105139.0,0.4862,place,,False,False
+0603302,Avenal,city,middle,0.1818,1834.0,3,2.0,0.3635,228900.0,1015.0,54741.0,0.5453,place,,False,False
+0603386,Azusa,city,middle,0.6291,7418.0,2,103.0,6.9426,641400.0,1887.0,90721.0,0.4476,place,,False,False
+0603526,Bakersfield,city,middle,0.065,97479.0,3,190.0,0.6497,371700.0,1472.0,80540.0,0.3942,place,,False,False
+0603666,Baldwin Park,city,middle,0.3394,12766.0,3,323.0,8.4339,606900.0,1867.0,80663.0,0.4231,place,,False,False
+06037_UNINC,Los Angeles County,county_unincorporated,active,1.3213,215700.0,3,3462.0,5.35,834200.0,1954.0,90112.0,0.541,county_proxy,,False,False
+0603820,Banning,city,restrictive,0.0,9170.0,1,0.0,0.0,352100.0,1650.0,61764.0,0.2983,place,,False,False
+06039_UNINC,Madera County,county_unincorporated,restrictive,0.0,24042.0,3,20.0,0.2773,393200.0,1390.0,76627.0,0.3254,county_proxy,,False,False
+06041_UNINC,Marin County,county_unincorporated,middle,0.7697,24686.0,3,190.0,2.5656,1507300.0,2668.0,149091.0,0.3534,county_proxy,,False,False
+06043_UNINC,Mariposa County,county_unincorporated,middle,0.2254,7393.0,3,18.0,0.8116,387900.0,1305.0,68412.0,0.2527,county_proxy,,False,False
+06045_UNINC,Mendocino County,county_unincorporated,middle,0.7498,23118.0,3,65.0,0.9372,512200.0,1317.0,68092.0,0.3829,county_proxy,,False,False
+0604758,Beaumont,city,restrictive,0.0,15863.0,3,11.0,0.2311,503500.0,1681.0,107118.0,0.1916,place,,False,False
+06047_UNINC,Merced County,county_unincorporated,middle,0.0591,22568.0,3,9.0,0.1329,391800.0,1343.0,65510.0,0.46,county_proxy,,False,False
+0604982,Bellflower,city,middle,0.3677,11784.0,3,56.0,1.5841,705700.0,1830.0,78722.0,0.6071,place,,False,False
+0604996,Bell Gardens,city,middle,0.3173,5252.0,3,104.0,6.6007,563900.0,1694.0,62298.0,0.7879,place,,False,False
+06049_UNINC,Modoc County,county_unincorporated,restrictive,0.0,2761.0,3,2.0,0.2415,224700.0,836.0,59455.0,0.2256,county_proxy,,False,False
+0605108,Belmont,city,active,1.353,6159.0,3,75.0,4.0591,2000000.0,2875.0,205297.0,0.4515,place,,True,False
+06051_UNINC,Mono County,county_unincorporated,middle,0.3504,2854.0,3,10.0,1.168,639400.0,1629.0,99415.0,0.3458,county_proxy,,False,False
+0605290,Benicia,city,middle,0.1363,7335.0,3,32.0,1.4542,810000.0,2280.0,121204.0,0.3051,place,,False,False
+06053_UNINC,Monterey County,county_unincorporated,middle,0.2963,30379.0,3,147.0,1.613,781000.0,2055.0,97230.0,0.4793,county_proxy,,False,False
+06055_UNINC,Napa County,county_unincorporated,active,1.4891,9178.0,3,54.0,1.9612,869500.0,2237.0,111471.0,0.3659,county_proxy,,False,False
+06057_UNINC,Nevada County,county_unincorporated,middle,0.4481,28270.0,3,59.0,0.6957,621800.0,1677.0,89882.0,0.2455,county_proxy,,False,False
+06059_UNINC,Orange County,county_unincorporated,middle,0.4501,32586.0,3,232.0,2.3732,962600.0,2434.0,116289.0,0.4361,county_proxy,,False,False
+0606000,Berkeley,city,active,3.7736,21465.0,3,314.0,4.8762,1413900.0,2133.0,108092.0,0.5581,place,,False,False
+06061_UNINC,Placer County,county_unincorporated,middle,0.6418,48298.0,3,330.0,2.2775,688100.0,2069.0,115998.0,0.2523,county_proxy,,False,False
+0606308,Beverly Hills,city,middle,0.7105,6099.0,3,104.0,5.684,2000000.0,2830.0,132977.0,0.5898,place,,True,False
+06063_UNINC,Plumas County,county_unincorporated,middle,0.0868,11526.0,3,17.0,0.4916,360200.0,1194.0,66031.0,0.2543,county_proxy,,False,False
+0606434,Big Bear Lake,city,middle,0.2019,8254.0,3,7.0,0.2827,576700.0,1454.0,76250.0,0.3505,place,,False,False
+0606560,Biggs,city,restrictive,0.0,697.0,1,0.0,0.0,328400.0,1474.0,84914.0,0.2882,place,,False,False
+06065_UNINC,Riverside County,county_unincorporated,middle,0.5094,100778.0,3,378.0,1.2503,557300.0,1901.0,93074.0,0.3087,county_proxy,,False,False
+0606798,Bishop,city,middle,0.846,1182.0,3,7.0,1.9741,386400.0,1580.0,83686.0,0.4173,place,,False,False
+06067_UNINC,Sacramento County,county_unincorporated,middle,0.137,145943.0,3,391.0,0.893,534200.0,1790.0,92175.0,0.4098,county_proxy,,False,False
+06069_UNINC,San Benito County,county_unincorporated,middle,0.6187,6465.0,3,61.0,3.1451,793400.0,1992.0,114394.0,0.3206,county_proxy,,False,False
+06071_UNINC,San Bernardino County,county_unincorporated,middle,0.0937,110279.0,3,355.0,1.073,505000.0,1801.0,85478.0,0.3794,county_proxy,,False,False
+0607218,Blythe,city,restrictive,0.0,3084.0,3,1.0,0.1081,225000.0,938.0,56625.0,0.4271,place,,False,False
+06073_UNINC,San Diego County,county_unincorporated,middle,0.7411,120548.0,3,1318.0,3.6445,854700.0,2246.0,106268.0,0.4543,county_proxy,,False,False
+06077_UNINC,San Joaquin County,county_unincorporated,middle,0.5325,44448.0,3,90.0,0.6749,530700.0,1734.0,92179.0,0.3801,county_proxy,,False,False
+06079_UNINC,San Luis Obispo County,county_unincorporated,middle,0.5484,40722.0,3,288.0,2.3574,824700.0,1992.0,97446.0,0.3791,county_proxy,,False,False
+0608058,Brawley,city,restrictive,0.0,5193.0,3,33.0,2.1182,290700.0,988.0,59311.0,0.4842,place,,False,False
+0608100,Brea,city,middle,0.6727,9415.0,3,50.0,1.7702,922300.0,2397.0,131129.0,0.4026,place,,False,False
+0608142,Brentwood,city,middle,0.2893,19585.0,3,60.0,1.0212,836600.0,2758.0,142494.0,0.1776,place,,False,False
+06081_UNINC,San Mateo County,county_unincorporated,active,1.4413,18270.0,3,163.0,2.9739,1559600.0,2922.0,158855.0,0.4153,county_proxy,,False,False
+0608310,Brisbane,city,active,4.8209,968.0,3,17.0,5.854,1232200.0,2574.0,156169.0,0.4529,place,,False,False
+06083_UNINC,Santa Barbara County,county_unincorporated,active,1.4194,34053.0,3,587.0,5.7459,790700.0,2131.0,98161.0,0.4763,county_proxy,,False,False
+06085_UNINC,Santa Clara County,county_unincorporated,middle,1.0071,21182.0,3,223.0,3.5093,1490600.0,2857.0,164281.0,0.4492,county_proxy,,False,False
+0608758,Buellton,city,middle,0.599,1113.0,3,9.0,2.6954,837400.0,2194.0,99936.0,0.413,place,,False,False
+0608786,Buena Park,city,middle,0.0462,14426.0,3,137.0,3.1656,838800.0,2206.0,110550.0,0.45,place,,False,False
+06087_UNINC,Santa Cruz County,county_unincorporated,middle,0.7192,41247.0,3,216.0,1.7456,1027500.0,2264.0,111093.0,0.4006,county_proxy,,False,False
+0608954,Burbank,city,active,2.7408,20432.0,3,807.0,13.1656,1089100.0,2192.0,97082.0,0.5674,place,,False,False
+06089_UNINC,Shasta County,county_unincorporated,middle,0.4687,23471.0,3,77.0,1.0935,366400.0,1317.0,72636.0,0.3445,county_proxy,,False,False
+0609066,Burlingame,city,active,1.163,6592.0,3,124.0,6.2702,2000000.0,2785.0,174000.0,0.5178,place,,True,False
+06093_UNINC,Siskiyou County,county_unincorporated,restrictive,0.0,10302.0,3,7.0,0.2265,309500.0,1091.0,59095.0,0.308,county_proxy,,False,False
+0609598,Calabasas,city,middle,0.7121,5617.0,3,39.0,2.3144,1504500.0,3089.0,165288.0,0.3146,place,,False,False
+06095_UNINC,Solano County,county_unincorporated,active,2.0211,6762.0,3,42.0,2.0704,617700.0,2163.0,100401.0,0.3698,county_proxy,,False,False
+06097_UNINC,Sonoma County,county_unincorporated,active,1.1841,51234.0,3,332.0,2.16,815500.0,2158.0,104674.0,0.3738,county_proxy,,False,False
+0609864,Calimesa,city,restrictive,0.0,2802.0,3,21.0,2.4982,446300.0,1783.0,87181.0,0.1072,place,,False,False
+0609878,Calipatria,city,restrictive,0.0,1041.0,2,1.0,0.4803,197200.0,919.0,53299.0,0.3586,place,,False,False
+0609892,Calistoga,city,active,3.1088,965.0,3,21.0,7.2539,869500.0,1767.0,85446.0,0.5,place,value_county;,False,False
+06099_UNINC,Stanislaus County,county_unincorporated,middle,0.2417,30335.0,3,241.0,2.6482,450100.0,1623.0,81468.0,0.3882,county_proxy,,False,False
+0610046,Camarillo,city,middle,0.3631,15608.0,3,103.0,2.1997,827300.0,2734.0,113428.0,0.3543,place,,False,False
+06101_UNINC,Sutter County,county_unincorporated,middle,0.1538,6501.0,3,20.0,1.0255,433500.0,1439.0,79704.0,0.3867,county_proxy,,False,False
+0610345,Campbell,city,middle,0.686,7774.0,3,170.0,7.2893,1617000.0,2737.0,145268.0,0.4834,place,,False,False
+06103_UNINC,Tehama County,county_unincorporated,middle,0.2029,13140.0,2,18.0,0.6849,339600.0,1184.0,63784.0,0.3287,county_proxy,,False,False
+06107_UNINC,Tulare County,county_unincorporated,middle,0.0099,33616.0,3,19.0,0.1884,330100.0,1280.0,71300.0,0.4155,county_proxy,,False,False
+0610928,Canyon Lake,city,restrictive,0.0,3927.0,2,3.0,0.382,699600.0,2608.0,126926.0,0.1515,place,,False,False
+06109_UNINC,Tuolumne County,county_unincorporated,restrictive,0.0,23813.0,3,7.0,0.098,433200.0,1302.0,77404.0,0.2609,county_proxy,,False,False
+0611040,Capitola,city,middle,1.0379,1927.0,3,30.0,5.1894,783000.0,2512.0,102976.0,0.4783,place,,False,False
+0611194,Carlsbad,city,active,1.1711,25048.0,3,216.0,2.8745,1257000.0,2808.0,142748.0,0.3713,place,,False,False
+06111_UNINC,Ventura County,county_unincorporated,active,1.4006,26656.0,3,339.0,4.2392,822700.0,2317.0,109797.0,0.3543,county_proxy,,False,False
+0611250,Carmel-by-the-Sea,city,middle,0.7566,3084.0,3,47.0,5.08,2000000.0,2707.0,129250.0,0.399,place,,True,False
+06113_UNINC,Yolo County,county_unincorporated,middle,0.1731,5776.0,3,13.0,0.7502,620700.0,1857.0,91752.0,0.4571,county_proxy,,False,False
+0611446,Carpinteria,city,restrictive,0.0,2306.0,3,41.0,5.9266,1043100.0,2377.0,100658.0,0.3846,place,,False,False
+0611530,Carson,city,middle,0.7568,20261.0,3,131.0,2.1552,704400.0,1956.0,108703.0,0.2595,place,,False,False
+06115_UNINC,Yuba County,county_unincorporated,middle,0.1456,18310.0,3,34.0,0.619,412300.0,1311.0,76373.0,0.365,county_proxy,,False,False
+0612048,Cathedral City,city,middle,0.0787,12709.0,3,106.0,2.7802,453100.0,1601.0,73572.0,0.3353,place,,False,False
+0612524,Ceres,city,restrictive,0.0,11139.0,2,29.0,1.3017,424800.0,1639.0,79025.0,0.3557,place,,False,False
+0613014,Chico,city,middle,0.4316,23168.0,3,115.0,1.6546,468100.0,1488.0,66977.0,0.566,place,,False,False
+0613210,Chino,city,middle,0.1574,19057.0,3,130.0,2.2739,683400.0,2336.0,104682.0,0.3598,place,,False,False
+0613214,Chino Hills,city,restrictive,0.0,19443.0,3,58.0,0.9944,874900.0,2894.0,126334.0,0.3084,place,,False,False
+0613294,Chowchilla,city,restrictive,0.0,3486.0,2,11.0,1.5777,364000.0,1178.0,66514.0,0.4273,place,,False,False
+0613392,Chula Vista,city,middle,0.4899,46944.0,3,617.0,4.3811,758700.0,2229.0,108032.0,0.4017,place,,False,False
+0613588,Citrus Heights,city,middle,0.2283,20443.0,3,95.0,1.549,454600.0,1827.0,82314.0,0.3926,place,,False,False
+0613756,Claremont,city,middle,0.5915,8453.0,3,116.0,4.5743,897000.0,2237.0,125647.0,0.3676,place,,False,False
+0613945,Clearlake,city,restrictive,0.0,4837.0,3,2.0,0.1378,214200.0,1240.0,41867.0,0.4051,place,,False,False
+0614190,Cloverdale,city,active,1.8886,2471.0,3,7.0,0.9443,619400.0,1435.0,117177.0,0.2834,place,,False,False
+0614218,Clovis,city,middle,0.1315,32947.0,3,107.0,1.0825,482700.0,1792.0,99241.0,0.3465,place,,False,False
+0614274,Coalinga,city,restrictive,0.0,2913.0,3,0.0,0.0,262400.0,1093.0,75451.0,0.4636,place,,False,False
+0614736,Colma,city,restrictive,0.0,204.0,1,1.0,4.902,1062000.0,2303.0,148295.0,0.4671,place,,False,False
+0614890,Colton,city,middle,0.1259,10589.0,3,47.0,1.4795,443800.0,1661.0,71208.0,0.4721,place,,False,False
+0616000,Concord,city,middle,0.5472,28022.0,3,173.0,2.0579,797600.0,2274.0,108709.0,0.3842,place,,False,False
+0616322,Corning,city,restrictive,0.0,1910.0,2,0.0,0.0,313100.0,961.0,56627.0,0.4781,place,,False,False
+0616350,Corona,city,middle,0.05,33331.0,3,179.0,1.7901,700700.0,2228.0,109242.0,0.3618,place,,False,False
+0616378,Coronado,city,active,1.9115,4534.0,3,22.0,1.6174,2000000.0,3257.0,134534.0,0.4535,place,,True,False
+0616462,Corte Madera,city,active,1.7082,2927.0,3,25.0,2.8471,1755200.0,3500.0,232763.0,0.3117,place,,False,True
+0616532,Costa Mesa,city,middle,0.229,17464.0,3,262.0,5.0008,1115100.0,2446.0,111505.0,0.6045,place,,False,False
+0616560,Cotati,city,active,3.47,1537.0,3,6.0,1.3012,746800.0,2056.0,110750.0,0.4075,place,,False,False
+0616742,Covina,city,middle,0.1863,8946.0,3,103.0,3.8378,718900.0,1931.0,98671.0,0.4125,place,,False,False
+0617022,Crescent City,city,middle,0.4721,706.0,2,27.0,19.1218,306500.0,1192.0,35540.0,0.6769,place,,False,False
+0617568,Culver City,city,active,5.4565,6842.0,3,231.0,11.254,1142900.0,2737.0,117389.0,0.4543,place,,False,False
+0617610,Cupertino,city,active,1.0967,12765.0,3,120.0,3.1336,2000000.0,3500.0,234707.0,0.3939,place,,True,True
+0617750,Cypress,city,middle,0.1905,10500.0,3,33.0,1.0476,913900.0,2483.0,130215.0,0.3185,place,,False,False
+0617918,Daly City,city,active,3.2936,17711.0,3,96.0,1.8068,1115000.0,2551.0,123547.0,0.3979,place,,False,False
+0617946,Dana Point,city,middle,0.6229,8562.0,3,23.0,0.8954,1320300.0,3106.0,141520.0,0.376,place,,False,False
+0617988,Danville,city,active,1.2107,12390.0,3,48.0,1.2914,1681700.0,3500.0,232216.0,0.1453,place,,False,True
+0618100,Davis,city,active,1.729,12146.0,3,104.0,2.8542,866100.0,2187.0,90045.0,0.5648,place,,False,False
+0618394,Delano,city,restrictive,0.0,9427.0,3,26.0,0.9193,301900.0,1199.0,67010.0,0.372,place,,False,False
+0618506,Del Mar,city,middle,0.9627,1385.0,3,61.0,14.6811,2000000.0,3500.0,199152.0,0.4679,place,,True,True
+0618996,Desert Hot Springs,city,restrictive,0.0,7969.0,3,57.0,2.3842,354800.0,1412.0,52761.0,0.4929,place,,False,False
+0619192,Diamond Bar,city,middle,0.2522,13216.0,3,131.0,3.3041,902200.0,2521.0,108281.0,0.227,place,,False,False
+0619318,Dinuba,city,middle,0.1237,5391.0,3,17.0,1.0511,275000.0,1209.0,59484.0,0.4157,place,,False,False
+0619766,Downey,city,middle,0.3133,20218.0,3,490.0,8.0786,796600.0,1937.0,90699.0,0.4894,place,,False,False
+0619990,Duarte,city,middle,0.466,5007.0,3,76.0,5.0596,779400.0,2105.0,105483.0,0.3904,place,,False,False
+0620018,Dublin,city,active,1.2475,13627.0,3,55.0,1.3454,1317100.0,3191.0,214385.0,0.3434,place,,False,False
+0620956,East Palo Alto,city,middle,0.4906,5436.0,3,55.0,3.3726,1102600.0,2244.0,113493.0,0.5094,place,,False,False
+0621230,Eastvale,city,restrictive,0.0,16211.0,3,38.0,0.7814,831900.0,3252.0,160069.0,0.2196,place,,False,False
+0621712,El Cajon,city,middle,0.6761,13804.0,3,228.0,5.5057,681700.0,1856.0,67511.0,0.585,place,,False,False
+0621782,El Centro,city,active,1.3588,7850.0,3,133.0,5.6476,323100.0,1052.0,53082.0,0.5053,place,,False,False
+0621796,El Cerrito,city,active,1.8704,7485.0,3,88.0,3.9189,1124400.0,2548.0,127876.0,0.4136,place,,False,False
+0622020,Elk Grove,city,middle,0.0543,49097.0,3,15.0,0.1018,630100.0,2262.0,125924.0,0.2621,place,,False,False
+0622230,El Monte,city,middle,0.3653,16427.0,3,251.0,5.0932,644000.0,1736.0,68030.0,0.5981,place,,False,False
+0622300,El Paso de Robles (Paso Robles),city,middle,0.4448,8993.0,3,59.0,2.1869,687200.0,1981.0,92228.0,0.3868,place,,False,False
+0622412,El Segundo,city,active,3.0813,3029.0,3,64.0,7.043,1587500.0,2556.0,150737.0,0.5748,place,,False,False
+0622594,Emeryville,city,middle,1.3523,493.0,3,37.0,25.0169,604800.0,2936.0,117092.0,0.7577,place,,False,False
+0622678,Encinitas,city,active,4.193,15343.0,3,316.0,6.8652,1646800.0,2886.0,162229.0,0.3355,place,,False,False
+0622790,Escalon,city,middle,0.1308,2549.0,3,4.0,0.5231,471200.0,1724.0,81467.0,0.2765,place,,False,False
+0622804,Escondido,city,middle,0.4494,26704.0,3,318.0,3.9694,714500.0,2046.0,91967.0,0.4659,place,,False,False
+0623042,Eureka,city,active,1.0895,7037.0,3,64.0,3.0316,404500.0,1195.0,57662.0,0.5222,place,,False,False
+0623126,Exeter,city,restrictive,0.0,2521.0,3,3.0,0.3967,307600.0,1286.0,75769.0,0.4531,place,,False,False
+0623168,Fairfax,city,active,2.8649,2327.0,3,23.0,3.2947,1163600.0,2367.0,141653.0,0.3112,place,,False,False
+0623182,Fairfield,city,middle,0.0595,28005.0,3,49.0,0.5832,624300.0,2266.0,101895.0,0.387,place,,False,False
+0623910,Ferndale,city,active,4.6012,652.0,3,7.0,3.5787,542000.0,1028.0,63142.0,0.3937,place,,False,False
+0624134,Firebaugh,city,restrictive,0.0,1687.0,3,0.0,0.0,242400.0,982.0,47734.0,0.5326,place,,False,False
+0624638,Folsom,city,middle,0.3715,22431.0,3,101.0,1.5009,755200.0,2352.0,139804.0,0.3025,place,,False,False
+0624680,Fontana,city,middle,0.3728,45602.0,3,564.0,4.1226,586800.0,1839.0,102821.0,0.3318,place,,False,False
+0625058,Fort Bragg,city,active,1.7738,2443.0,3,17.0,2.3196,535400.0,1290.0,56481.0,0.5372,place,,False,False
+0625296,Fortuna,city,middle,0.5706,3505.0,3,13.0,1.2363,379700.0,1168.0,62289.0,0.4388,place,,False,False
+0625338,Foster City,city,middle,0.1401,4760.0,3,39.0,2.7311,1838200.0,3500.0,199143.0,0.4918,place,,False,True
+0625380,Fountain Valley,city,active,1.0736,13040.0,3,239.0,6.1094,1072300.0,2631.0,115237.0,0.3521,place,,False,False
+0625436,Fowler,city,restrictive,0.0,1765.0,3,6.0,1.1331,379800.0,1218.0,66983.0,0.3732,place,,False,False
+0626000,Fremont,city,middle,0.8564,45927.0,3,354.0,2.5693,1403800.0,2933.0,181506.0,0.3917,place,,False,False
+0627000,Fresno,city,middle,0.0173,115742.0,3,223.0,0.6422,374800.0,1421.0,70991.0,0.4987,place,,False,False
+0628000,Fullerton,city,middle,0.7838,25941.0,3,353.0,4.5359,902600.0,2194.0,104286.0,0.4815,place,,False,False
+0628112,Galt,city,middle,0.0479,6960.0,3,11.0,0.5268,487500.0,1596.0,94393.0,0.2298,place,,False,False
+0628168,Gardena,city,middle,1.0105,9566.0,3,124.0,4.3209,700600.0,1809.0,84803.0,0.5116,place,,False,False
+0629000,Garden Grove,city,active,2.3144,27509.0,3,1262.0,15.292,814100.0,2012.0,92174.0,0.4692,place,,False,False
+0629504,Gilroy,city,middle,0.6391,12517.0,3,108.0,2.8761,1027400.0,2301.0,133107.0,0.3763,place,,False,False
+0630000,Glendale,city,active,2.7657,25551.0,3,861.0,11.2324,1102300.0,2182.0,88393.0,0.6483,place,,False,False
+0630014,Glendora,city,middle,0.6312,12147.0,3,120.0,3.293,862700.0,2254.0,113569.0,0.3212,place,,False,False
+0630378,Goleta,city,middle,0.6411,5719.0,3,91.0,5.304,1062100.0,2437.0,122370.0,0.4925,place,,False,False
+0630658,Grand Terrace,city,middle,0.1103,3021.0,3,8.0,0.8827,517600.0,2024.0,83628.0,0.3558,place,,False,False
+0630798,Grass Valley,city,middle,0.6686,3490.0,3,7.0,0.6686,482200.0,1458.0,51764.0,0.598,place,,False,False
+0630994,Greenfield,city,middle,0.1076,3097.0,3,83.0,8.9334,531400.0,1724.0,84740.0,0.455,place,,False,False
+0631393,Grover Beach,city,middle,0.7602,3508.0,3,48.0,4.561,727500.0,2061.0,86458.0,0.4954,place,,False,False
+0631414,Guadalupe,city,restrictive,0.0,1461.0,3,70.0,15.9708,495600.0,1732.0,66930.0,0.4455,place,,False,False
+0631708,Half Moon Bay,city,active,1.6367,3055.0,3,33.0,3.6007,1549500.0,2433.0,157884.0,0.2886,place,,False,False
+0631960,Hanford,city,restrictive,0.0,15186.0,3,16.0,0.3512,349400.0,1309.0,76461.0,0.3794,place,,False,False
+0632506,Hawaiian Gardens,city,restrictive,0.0,1838.0,3,29.0,5.2593,554100.0,1696.0,76341.0,0.5618,place,,False,False
+0632548,Hawthorne,city,middle,0.6364,8380.0,3,141.0,5.6086,863400.0,1782.0,75848.0,0.7281,place,,False,False
+0633000,Hayward,city,middle,0.3243,26724.0,3,181.0,2.2576,854400.0,2391.0,113318.0,0.4197,place,,False,False
+0633056,Healdsburg,city,active,3.7128,3681.0,3,19.0,1.7205,950100.0,2158.0,103554.0,0.3986,place,,False,False
+0633182,Hemet,city,middle,0.0178,18690.0,3,31.0,0.5529,352200.0,1575.0,57719.0,0.3766,place,,False,False
+0633308,Hercules,city,restrictive,0.0,5546.0,3,8.0,0.4808,769400.0,2991.0,129397.0,0.2078,place,,False,False
+0633364,Hermosa Beach,city,middle,0.2079,4809.0,3,22.0,1.5249,2000000.0,2887.0,166442.0,0.494,place,,True,False
+0633434,Hesperia,city,middle,0.0401,24961.0,3,47.0,0.6276,409000.0,1590.0,72160.0,0.3282,place,,False,False
+0633518,Hidden Hills,city,active,1.355,738.0,3,5.0,2.2584,2000000.0,1954.0,250000.0,0.0759,place,rent_county;,True,False
+0633588,Highland,city,restrictive,0.0,12623.0,3,112.0,2.9576,485600.0,1629.0,77120.0,0.3594,place,,False,False
+0634120,Hollister,city,middle,0.0331,10072.0,3,49.0,1.6217,717500.0,1914.0,111834.0,0.3457,place,,False,False
+0634904,Hughson,city,restrictive,0.0,2164.0,2,2.0,0.4621,511200.0,1748.0,91557.0,0.357,place,,False,False
+0636056,Huntington Park,city,middle,0.9563,5577.0,3,57.0,3.4068,572700.0,1505.0,59996.0,0.7581,place,,False,False
+0636280,Imperial,city,restrictive,0.0,5190.0,3,46.0,2.9544,360900.0,1255.0,90195.0,0.3054,place,,False,False
+0636294,Imperial Beach,city,middle,0.542,4305.0,3,99.0,7.6655,857000.0,2011.0,86111.0,0.6865,place,,False,False
+0636434,Indian Wells,city,restrictive,0.0,2983.0,3,15.0,1.6762,1078200.0,1088.0,162990.0,0.2022,place,,False,False
+0636448,Indio,city,restrictive,0.0,24994.0,3,96.0,1.2803,458400.0,1437.0,77167.0,0.3288,place,,False,False
+0636672,Ione,city,middle,0.169,1972.0,3,0.0,0.0,474900.0,1421.0,91495.0,0.2183,place,rent_county;,False,False
+0636770,Irvine,city,middle,0.0074,44904.0,3,8.0,0.0594,1191500.0,2997.0,136719.0,0.5555,place,,False,False
+0636980,Jackson,city,middle,0.429,1554.0,3,0.0,0.0,442700.0,1429.0,70239.0,0.3945,place,,False,False
+0637692,Jurupa Valley,city,middle,0.0854,23423.0,3,214.0,3.0454,574600.0,1741.0,97550.0,0.2991,place,,False,False
+0638226,Kerman,city,middle,0.261,3831.0,3,14.0,1.2181,370900.0,1223.0,59799.0,0.4886,place,,False,False
+0638520,King City,city,restrictive,0.0,2139.0,3,47.0,7.3243,449900.0,1534.0,66761.0,0.579,place,,False,False
+0639003,La Cañada Flintridge,city,middle,0.3011,6643.0,3,100.0,5.0178,2000000.0,2873.0,241875.0,0.1313,place,,True,False
+0639122,Lafayette,city,middle,0.7181,7427.0,3,97.0,4.3535,2000000.0,2892.0,228250.0,0.2289,place,,True,False
+0639178,Laguna Beach,city,middle,0.2573,9068.0,3,275.0,10.1088,2000000.0,2986.0,143843.0,0.339,place,,True,False
+0639248,Laguna Niguel,city,middle,0.0662,15107.0,3,30.0,0.6619,1190900.0,2903.0,140452.0,0.3263,place,,False,False
+0639290,La Habra,city,middle,0.3011,11069.0,3,98.0,2.9512,781600.0,2129.0,100106.0,0.4171,place,,False,False
+0639304,La Habra Heights,city,restrictive,0.0,1978.0,3,5.0,0.8426,1201000.0,1206.0,179583.0,0.0874,place,,False,False
+0639486,Lake Elsinore,city,restrictive,0.0,16949.0,3,37.0,0.7277,566000.0,2078.0,101888.0,0.2911,place,,False,False
+0639496,Lake Forest,city,middle,0.0985,16914.0,3,55.0,1.0839,937000.0,2672.0,135175.0,0.2952,place,,False,False
+0639710,Lakeport,city,restrictive,0.0,1461.0,3,1.0,0.2282,333800.0,1063.0,68518.0,0.2433,place,,False,False
+0639892,Lakewood,city,middle,0.4206,21397.0,3,266.0,4.1439,827200.0,2347.0,119177.0,0.2862,place,,False,False
+0640004,La Mesa,city,active,1.6981,11974.0,3,293.0,8.1566,812000.0,2049.0,95028.0,0.5234,place,,False,False
+0640130,Lancaster,city,restrictive,0.0,38687.0,3,760.0,6.5483,446600.0,1764.0,81511.0,0.3964,place,,False,False
+0640340,La Puente,city,active,1.6465,6681.0,3,110.0,5.4882,617700.0,1849.0,86602.0,0.396,place,,False,False
+0640354,La Quinta,city,restrictive,0.0,18699.0,3,32.0,0.5704,661600.0,1785.0,99250.0,0.2431,place,,False,False
+0640438,Larkspur,city,middle,0.6619,2518.0,3,48.0,6.3542,1996600.0,3001.0,140417.0,0.5349,place,,False,False
+0640704,Lathrop,city,middle,0.0784,8502.0,3,23.0,0.9017,643600.0,2570.0,126421.0,0.147,place,,False,False
+0640830,La Verne,city,middle,0.5381,7434.0,3,60.0,2.6903,817000.0,2315.0,103761.0,0.3075,place,,False,False
+0640886,Lawndale,city,middle,0.6853,5837.0,3,2.0,0.1142,781900.0,1938.0,85441.0,0.63,place,,False,False
+0641124,Lemon Grove,city,active,1.385,5776.0,3,100.0,5.771,705400.0,1893.0,88009.0,0.4752,place,,False,False
+0641152,Lemoore,city,restrictive,0.0,6445.0,3,6.0,0.3103,328300.0,1555.0,83724.0,0.4844,place,,False,False
+0641474,Lincoln,city,middle,0.0526,19021.0,3,15.0,0.2629,651000.0,2090.0,111990.0,0.1607,place,,False,False
+0641712,Lindsay,city,restrictive,0.0,2517.0,3,17.0,2.2514,286400.0,1009.0,53201.0,0.505,place,,False,False
+0641936,Live Oak,city,restrictive,0.0,2137.0,3,0.0,0.0,350700.0,1014.0,73571.0,0.3086,place,,False,False
+0641992,Livermore,city,middle,0.9954,22101.0,3,138.0,2.0814,1105600.0,2677.0,160775.0,0.2804,place,,False,False
+0642006,Livingston,city,middle,0.2271,2935.0,3,10.0,1.1357,372700.0,1315.0,74494.0,0.3741,place,,False,False
+0642202,Lodi,city,middle,0.0621,16109.0,3,63.0,1.3036,492500.0,1680.0,88530.0,0.4316,place,,False,False
+0642370,Loma Linda,city,middle,0.4993,4673.0,3,83.0,5.9205,596900.0,1855.0,82353.0,0.6211,place,,False,False
+0642468,Lomita,city,middle,1.0088,3965.0,3,55.0,4.6238,831500.0,1961.0,93810.0,0.5411,place,,False,False
+0642524,Lompoc,city,middle,0.129,7753.0,3,124.0,5.3313,472900.0,1589.0,72004.0,0.5099,place,,False,False
+0643000,Long Beach,city,middle,0.9528,73466.0,3,2062.0,9.3558,806600.0,1871.0,87430.0,0.5883,place,,False,False
+0643140,Loomis,city,middle,0.1267,2631.0,3,20.0,2.5339,634500.0,1702.0,81487.0,0.1259,place,,False,False
+0643280,Los Altos,city,active,1.6543,9672.0,3,260.0,8.9606,2000000.0,3500.0,250000.0,0.1834,place,,True,True
+0643294,Los Altos Hills,city,active,1.7172,3300.0,3,88.0,8.8889,2000000.0,3500.0,250000.0,0.0658,place,,True,True
+0644000,Los Angeles,city,active,6.6669,560632.0,3,21015.0,12.4948,921200.0,1933.0,81939.0,0.6398,place,,False,False
+0644028,Los Banos,city,middle,0.0574,11618.0,3,56.0,1.6067,440900.0,1557.0,68171.0,0.4016,place,,False,False
+0644112,Los Gatos,city,active,2.021,7917.0,3,121.0,5.0945,2000000.0,3247.0,217554.0,0.3511,place,,True,False
+0645022,Madera,city,restrictive,0.0,13298.0,1,5.0,0.376,359900.0,1353.0,63933.0,0.4529,place,,False,False
+0645246,Malibu,city,middle,0.922,3977.0,3,17.0,1.4249,2000000.0,3500.0,194421.0,0.246,place,,True,True
+0645358,Mammoth Lakes,city,middle,0.3722,3582.0,3,14.0,1.3028,866700.0,1645.0,98056.0,0.4439,place,,False,False
+0645400,Manhattan Beach,city,middle,0.0662,10068.0,3,90.0,2.9797,2000000.0,3449.0,204306.0,0.3521,place,,True,False
+0645484,Manteca,city,restrictive,0.0,23199.0,3,66.0,0.9483,589900.0,2065.0,97055.0,0.2759,place,,False,False
+0645778,Marina,city,active,2.2815,4237.0,3,41.0,3.2256,818700.0,2101.0,95955.0,0.5711,place,,False,False
+0646114,Martinez,city,middle,0.2067,9675.0,3,72.0,2.4806,859800.0,2353.0,127355.0,0.2916,place,,False,False
+0646170,Marysville,city,restrictive,0.0,2355.0,3,1.0,0.1415,292300.0,1295.0,56430.0,0.628,place,,False,False
+0646828,Mendota,city,restrictive,0.0,2212.0,3,45.0,6.7812,281000.0,1042.0,50342.0,0.5534,place,,False,False
+0646842,Menifee,city,middle,0.0511,32615.0,3,57.0,0.5826,537300.0,2110.0,93454.0,0.1976,place,,False,False
+0646870,Menlo Park,city,active,1.1153,7173.0,3,185.0,8.5971,2000000.0,3239.0,210025.0,0.4579,place,,True,False
+0646898,Merced,city,restrictive,0.0,19625.0,3,12.0,0.2038,372600.0,1393.0,63122.0,0.541,place,,False,False
+0647486,Millbrae,city,active,1.1278,5320.0,3,27.0,1.6917,1934900.0,3272.0,163476.0,0.3921,place,,False,False
+0647710,Mill Valley,city,active,2.9063,4473.0,3,65.0,4.8439,2000000.0,3278.0,206212.0,0.3377,place,,True,False
+0647766,Milpitas,city,middle,0.4707,12039.0,3,126.0,3.4887,1251700.0,3120.0,178798.0,0.4157,place,,False,False
+0648256,Mission Viejo,city,restrictive,0.0,24480.0,3,71.0,0.9668,1009600.0,2839.0,136123.0,0.231,place,,False,False
+0648354,Modesto,city,middle,0.0436,53539.0,3,314.0,1.955,442700.0,1690.0,79891.0,0.4112,place,,False,False
+0648648,Monrovia,city,middle,0.8976,8541.0,3,158.0,6.1663,909400.0,2114.0,96021.0,0.5366,place,,False,False
+0648788,Montclair,city,middle,0.0543,6141.0,3,44.0,2.3883,569100.0,1889.0,77659.0,0.4518,place,,False,False
+0648872,Monterey,city,middle,0.2718,6133.0,3,73.0,3.9676,1076300.0,2353.0,102846.0,0.6382,place,,False,False
+0648956,Monte Sereno,city,active,5.1826,1415.0,3,34.0,8.0094,2000000.0,2857.0,250000.0,0.0264,place,rent_county;,True,False
+0649138,Moorpark,city,middle,0.339,8850.0,3,52.0,1.9586,894300.0,2559.0,148480.0,0.2075,place,,False,False
+0649187,Moraga,city,middle,0.2616,3823.0,3,16.0,1.3951,1663200.0,2895.0,216193.0,0.1687,place,,False,False
+0649270,Moreno Valley,city,middle,0.045,44435.0,3,237.0,1.7779,503700.0,2135.0,93222.0,0.3671,place,,False,False
+0649278,Morgan Hill,city,active,1.7454,9167.0,3,67.0,2.4363,1210200.0,2474.0,163920.0,0.2853,place,,False,False
+0649362,Morro Bay,city,middle,0.8469,4723.0,3,47.0,3.3171,918200.0,1858.0,95843.0,0.3458,place,,False,False
+0649670,Mountain View,city,middle,0.7874,10584.0,3,213.0,6.7082,1927000.0,3062.0,189917.0,0.6138,place,,False,False
+0649852,Mount Shasta,city,middle,0.282,1182.0,1,0.0,0.0,330200.0,1406.0,47917.0,0.4792,place,,False,False
+0650076,Murrieta,city,middle,0.0365,27424.0,3,36.0,0.4376,639800.0,2388.0,114081.0,0.3049,place,,False,False
+0650258,Napa,city,active,1.1802,20053.0,3,193.0,3.2082,856400.0,2282.0,105963.0,0.413,place,,False,False
+0650398,National City,city,middle,0.2123,7852.0,3,130.0,5.5188,612200.0,1692.0,66841.0,0.6525,place,,False,False
+0650734,Needles,city,middle,0.1984,1680.0,3,1.0,0.1984,157200.0,745.0,38243.0,0.4788,place,,False,False
+0650874,Nevada City,city,middle,0.8292,1206.0,3,11.0,3.0404,677400.0,1411.0,75792.0,0.4573,place,,False,False
+0650916,Newark,city,middle,0.0613,10871.0,3,65.0,1.9931,1142800.0,2776.0,169064.0,0.3061,place,,False,False
+0651140,Newman,city,restrictive,0.0,3395.0,3,15.0,1.4728,412700.0,1420.0,78906.0,0.344,place,,False,False
+0651182,Newport Beach,city,middle,0.1302,20478.0,3,154.0,2.5068,2000000.0,3316.0,156867.0,0.4787,place,,True,False
+0651560,Norco,city,middle,0.0517,6451.0,3,47.0,2.4286,782400.0,1925.0,127566.0,0.1894,place,,False,False
+0652526,Norwalk,city,middle,0.279,20313.0,3,258.0,4.2337,644700.0,2090.0,100085.0,0.3167,place,,False,False
+0652582,Novato,city,middle,0.4621,12264.0,3,61.0,1.658,1032500.0,2506.0,115736.0,0.339,place,,False,False
+0652694,Oakdale,city,middle,0.0515,6474.0,3,13.0,0.6693,457900.0,1559.0,83091.0,0.3742,place,,False,False
+0653000,Oakland,city,active,2.6549,79476.0,3,488.0,2.0467,929900.0,1979.0,101600.0,0.5767,place,,False,False
+0653070,Oakley,city,restrictive,0.0,12640.0,3,28.0,0.7384,660200.0,1953.0,137677.0,0.212,place,,False,False
+0653322,Oceanside,city,middle,0.4955,34306.0,3,312.0,3.0315,770300.0,2303.0,97737.0,0.4166,place,,False,False
+0653476,Ojai,city,active,5.16,2584.0,3,66.0,8.5139,1016200.0,1955.0,82656.0,0.4083,place,,False,False
+0653896,Ontario,city,middle,0.36,32411.0,3,445.0,4.5766,607600.0,2030.0,88941.0,0.4197,place,,False,False
+0653980,Orange,city,middle,0.3056,26176.0,3,261.0,3.3237,945800.0,2327.0,117113.0,0.4326,place,,False,False
+0654232,Orinda,city,middle,0.8012,7073.0,3,45.0,2.1207,1863200.0,3500.0,250000.0,0.0873,place,,False,True
+0654274,Orland,city,restrictive,0.0,2222.0,1,0.0,0.0,342200.0,1146.0,64945.0,0.413,place,,False,False
+0654386,Oroville,city,restrictive,0.0,5046.0,3,5.0,0.3303,311600.0,1093.0,52270.0,0.4702,place,,False,False
+0654652,Oxnard,city,middle,0.1743,30590.0,3,651.0,7.0938,652700.0,2032.0,96212.0,0.4557,place,,False,False
+0654806,Pacifica,city,middle,0.7216,10625.0,3,51.0,1.6,1249800.0,3098.0,160523.0,0.3231,place,,False,False
+0654848,Pacific Grove,city,middle,0.4559,5118.0,3,67.0,4.3637,1190400.0,2455.0,106065.0,0.4963,place,,False,False
+0655156,Palmdale,city,restrictive,0.0,38055.0,3,192.0,1.6818,471000.0,1802.0,81770.0,0.338,place,,False,False
+0655184,Palm Desert,city,restrictive,0.0,13972.0,3,51.0,1.2167,542000.0,1778.0,77513.0,0.3504,place,,False,False
+0655282,Palo Alto,city,active,2.1807,16814.0,3,391.0,7.7515,2000000.0,3484.0,231101.0,0.4536,place,,True,False
+0655380,Palos Verdes Estates,city,middle,0.0674,4945.0,3,29.0,1.9548,2000000.0,3217.0,242014.0,0.1031,place,,True,False
+0655520,Paradise,city,middle,0.2616,2548.0,3,4.0,0.5233,416000.0,1241.0,67687.0,0.2516,place,,False,False
+0655618,Paramount,city,middle,0.1601,6245.0,3,135.0,7.2058,533700.0,1875.0,75250.0,0.5704,place,,False,False
+0656000,Pasadena,city,middle,0.3582,26989.0,3,606.0,7.4845,1093300.0,2265.0,105192.0,0.5749,place,,False,False
+0656784,Petaluma,city,active,1.2587,17479.0,3,68.0,1.2968,878600.0,2440.0,115430.0,0.3546,place,,False,False
+0656924,Pico Rivera,city,middle,0.8606,13169.0,3,243.0,6.1508,648600.0,1786.0,88201.0,0.2949,place,,False,False
+0656938,Piedmont,city,active,2.5063,3857.0,3,50.0,4.3211,2000000.0,3500.0,250000.0,0.0911,place,,True,True
+0657288,Pinole,city,middle,0.1915,5221.0,3,28.0,1.7877,718600.0,2700.0,127717.0,0.2055,place,,False,False
+0657414,Pismo Beach,city,middle,0.0989,3372.0,3,9.0,0.8897,1021300.0,2232.0,118072.0,0.3536,place,,False,False
+0657456,Pittsburg,city,middle,0.1398,16690.0,3,78.0,1.5578,597900.0,2264.0,99861.0,0.3766,place,,False,False
+0657526,Placentia,city,middle,0.1549,10761.0,3,46.0,1.4249,921000.0,2388.0,115929.0,0.3638,place,,False,False
+0657540,Placerville,city,middle,0.7273,3208.0,3,28.0,2.9094,473100.0,1234.0,67274.0,0.417,place,,False,False
+0657764,Pleasant Hill,city,middle,0.9968,8360.0,3,67.0,2.6715,1077100.0,2533.0,145029.0,0.3736,place,,False,False
+0657792,Pleasanton,city,middle,0.4329,17710.0,3,105.0,1.9763,1537100.0,3060.0,190124.0,0.3299,place,,False,False
+0657834,Plymouth,city,restrictive,0.0,316.0,2,0.0,0.0,376900.0,1330.0,92500.0,0.1373,place,,False,False
+0657876,Point Arena,city,restrictive,0.0,149.0,1,0.0,0.0,436000.0,1917.0,108095.0,0.4828,place,,False,False
+0658240,Porterville,city,middle,0.1903,14015.0,3,82.0,1.9503,285700.0,1148.0,60461.0,0.4568,place,,False,False
+0658296,Port Hueneme,city,middle,0.3429,2916.0,3,43.0,4.9154,587000.0,2228.0,92660.0,0.5175,place,,False,False
+0658380,Portola Valley,city,active,3.7477,1601.0,3,32.0,6.6625,2000000.0,3500.0,250000.0,0.2122,place,,True,True
+0658520,Poway,city,middle,0.2866,12795.0,3,99.0,2.5791,1034800.0,2301.0,148359.0,0.2482,place,,False,False
+0659444,Rancho Cordova,city,restrictive,0.0,18067.0,3,27.0,0.4981,477600.0,1787.0,89585.0,0.4179,place,,False,False
+0659451,Rancho Cucamonga,city,middle,0.2104,38025.0,3,229.0,2.0075,740200.0,2357.0,111895.0,0.377,place,,False,False
+0659500,Rancho Mirage,city,restrictive,0.0,8643.0,3,17.0,0.6556,807200.0,1510.0,107364.0,0.1799,place,,False,False
+0659514,Rancho Palos Verdes,city,middle,0.0525,12708.0,3,43.0,1.1279,1609400.0,3500.0,179623.0,0.1959,place,,False,True
+0659587,Rancho Santa Margarita,city,middle,0.0352,9466.0,3,5.0,0.1761,971200.0,2625.0,152560.0,0.275,place,,False,False
+0659892,Red Bluff,city,restrictive,0.0,3696.0,3,8.0,0.7215,299900.0,1121.0,51529.0,0.5718,place,,False,False
+0659920,Redding,city,restrictive,0.0,26291.0,3,68.0,0.8621,382300.0,1379.0,70466.0,0.4519,place,,False,False
+0659962,Redlands,city,middle,0.3698,16224.0,3,156.0,3.2051,618900.0,2005.0,105041.0,0.4318,place,,False,False
+0660018,Redondo Beach,city,active,1.1652,12301.0,3,105.0,2.8453,1279200.0,2691.0,150245.0,0.4665,place,,False,False
+0660102,Redwood City,city,active,2.3542,13876.0,3,190.0,4.5642,1801700.0,2968.0,157814.0,0.5142,place,,False,False
+0660242,Reedley,city,middle,0.1283,5198.0,3,18.0,1.1543,334800.0,1288.0,63307.0,0.4359,place,,False,False
+0660466,Rialto,city,middle,0.0173,19298.0,2,65.0,1.6841,487900.0,1759.0,88857.0,0.3382,place,,False,False
+0660620,Richmond,city,active,1.3084,25476.0,3,199.0,2.6038,668200.0,1960.0,95391.0,0.453,place,,False,False
+0660900,Rio Dell,city,restrictive,0.0,1117.0,2,1.0,0.4476,301700.0,1042.0,42753.0,0.4318,place,,False,False
+0660984,Rio Vista,city,restrictive,0.0,4551.0,3,0.0,0.0,489700.0,1724.0,89306.0,0.161,place,,False,False
+0661026,Ripon,city,middle,0.1461,4564.0,3,18.0,1.3146,704800.0,1851.0,133380.0,0.3422,place,,False,False
+0661068,Riverbank,city,restrictive,0.0,6577.0,3,13.0,0.6589,463200.0,1604.0,87966.0,0.2773,place,,False,False
+0662000,Riverside,city,middle,0.1415,63602.0,3,792.0,4.1508,584800.0,1914.0,91045.0,0.4322,place,,False,False
+0662364,Rocklin,city,middle,0.0861,19366.0,3,48.0,0.8262,703400.0,2258.0,124168.0,0.3168,place,,False,False
+0662546,Rohnert Park,city,middle,0.4513,8124.0,3,22.0,0.9027,666300.0,2279.0,99273.0,0.5011,place,,False,False
+0662644,Rolling Hills Estates,city,middle,0.2741,2432.0,3,18.0,2.4671,1692600.0,3500.0,191895.0,0.1237,place,,False,True
+0662896,Rosemead,city,active,2.9885,11154.0,3,359.0,10.7286,807200.0,1834.0,73566.0,0.5274,place,,False,False
+0662938,Roseville,city,middle,0.0651,46069.0,3,83.0,0.6005,661400.0,2142.0,119288.0,0.3117,place,,False,False
+0662980,Ross,city,active,2.6129,893.0,3,27.0,10.0784,2000000.0,3500.0,250000.0,0.1313,place,,True,True
+0664000,Sacramento,city,middle,0.3289,125664.0,3,991.0,2.6287,506300.0,1779.0,87321.0,0.483,place,,False,False
+0664140,St. Helena,city,active,2.8475,1873.0,3,31.0,5.517,1647700.0,2535.0,148750.0,0.3358,place,,False,False
+0664224,Salinas,city,middle,0.3191,25069.0,3,621.0,8.2572,654100.0,1991.0,91908.0,0.5302,place,,False,False
+0664434,San Anselmo,city,active,1.5764,4229.0,3,49.0,3.8622,1576700.0,2797.0,173641.0,0.316,place,,False,False
+0665028,San Bruno,city,active,1.2981,9501.0,3,93.0,3.2628,1207500.0,2773.0,141272.0,0.3792,place,,False,False
+0665042,San Buenaventura (Ventura),city,middle,0.2233,23886.0,3,214.0,2.9864,827300.0,2198.0,103069.0,0.4406,place,,False,False
+0665070,San Carlos,city,active,1.5875,7769.0,3,93.0,3.9902,2000000.0,2854.0,237470.0,0.3215,place,,True,False
+0665084,San Clemente,city,middle,0.6486,15417.0,3,98.0,2.1189,1398400.0,2460.0,140062.0,0.3352,place,,False,False
+0665112,Sand City,city,restrictive,0.0,93.0,1,0.0,0.0,1080400.0,2316.0,77917.0,0.8148,place,,False,False
+0666000,San Diego,city,active,1.1788,245168.0,3,6263.0,8.5152,906700.0,2313.0,108077.0,0.5266,place,,False,False
+0666070,San Dimas,city,middle,0.0437,7620.0,3,84.0,3.6745,801800.0,2278.0,105321.0,0.2756,place,,False,False
+0666140,San Fernando,city,active,12.6978,4804.0,3,136.0,9.4366,674700.0,1748.0,83024.0,0.3835,place,,False,False
+0667000,San Francisco,city_county,active,4.1089,74473.0,3,692.0,3.0973,1394500.0,2476.0,140970.0,0.6179,place,,False,False
+0667042,San Gabriel,city,active,1.3835,7951.0,3,187.0,7.8397,945700.0,1915.0,90488.0,0.4964,place,,False,False
+0667056,Sanger,city,restrictive,0.0,6118.0,2,6.0,0.4904,364800.0,1209.0,77500.0,0.3558,place,,False,False
+0667112,San Jacinto,city,restrictive,0.0,11597.0,3,31.0,0.891,433700.0,1615.0,80647.0,0.2499,place,,False,False
+0668000,San Jose,city,active,1.3188,176932.0,3,1530.0,2.8825,1233200.0,2669.0,146427.0,0.442,place,,False,False
+0668028,San Juan Capistrano,city,middle,0.1355,7379.0,3,87.0,3.9301,993800.0,2438.0,129457.0,0.1897,place,,False,False
+0668084,San Leandro,city,middle,0.5645,18304.0,3,155.0,2.8227,844200.0,2186.0,101420.0,0.419,place,,False,False
+0668154,San Luis Obispo,city,active,3.4414,10267.0,3,221.0,7.1751,935100.0,1965.0,73685.0,0.5975,place,,False,False
+0668196,San Marcos,city,middle,0.1179,16966.0,3,102.0,2.004,868000.0,2348.0,109377.0,0.3628,place,,False,False
+0668224,San Marino,city,active,1.1423,4377.0,3,78.0,5.9401,2000000.0,3500.0,214167.0,0.1721,place,,True,True
+0668252,San Mateo,city,active,1.2959,17748.0,3,228.0,4.2822,1618700.0,3077.0,153504.0,0.5009,place,,False,False
+0668294,San Pablo,city,middle,0.5199,4488.0,3,63.0,4.6791,551700.0,2018.0,79478.0,0.5801,place,,False,False
+0668364,San Rafael,city,active,1.5524,11380.0,3,92.0,2.6948,1355600.0,2377.0,119435.0,0.4701,place,,False,False
+0668378,San Ramon,city,middle,0.2904,19516.0,3,24.0,0.4099,1509500.0,2968.0,196161.0,0.2911,place,,False,False
+0669000,Santa Ana,city,middle,1.0004,36985.0,3,650.0,5.8582,713000.0,2082.0,93999.0,0.5538,place,,False,False
+0669070,Santa Barbara,city,active,5.1379,17971.0,3,361.0,6.696,1570800.0,2413.0,106182.0,0.6014,place,,False,False
+0669084,Santa Clara,city,active,1.2192,19685.0,3,249.0,4.2164,1582600.0,3016.0,178958.0,0.5916,place,,False,False
+0669088,Santa Clarita,city,middle,0.2742,47415.0,3,86.0,0.6046,784700.0,2544.0,123062.0,0.282,place,,False,False
+0669112,Santa Cruz,city,active,4.0416,13361.0,3,267.0,6.6612,1209000.0,2452.0,115475.0,0.5159,place,,False,False
+0669154,Santa Fe Springs,city,middle,0.0966,3449.0,3,41.0,3.9625,659900.0,2033.0,88238.0,0.3936,place,,False,False
+0669196,Santa Maria,city,active,2.6135,18366.0,3,1305.0,23.6851,531700.0,1925.0,84746.0,0.498,place,,False,False
+0670000,Santa Monica,city,active,2.8529,10282.0,3,400.0,12.9676,1755500.0,2402.0,114885.0,0.7211,place,,False,False
+0670042,Santa Paula,city,restrictive,0.0,6226.0,2,0.0,0.0,611200.0,1736.0,79294.0,0.4414,place,,False,False
+0670098,Santa Rosa,city,active,1.0806,41336.0,3,274.0,2.2095,713900.0,2152.0,99060.0,0.4327,place,,False,False
+0670224,Santee,city,middle,0.0532,12540.0,3,62.0,1.6481,727200.0,2250.0,113394.0,0.276,place,,False,False
+0670280,Saratoga,city,active,1.852,9719.0,3,272.0,9.3288,2000000.0,3500.0,250000.0,0.1362,place,,True,True
+0670364,Sausalito,city,active,1.2365,1887.0,3,27.0,4.7695,1894600.0,3500.0,182357.0,0.4039,place,,False,True
+0670588,Scotts Valley,city,middle,0.6845,2922.0,3,18.0,2.0534,1105700.0,2491.0,143750.0,0.2637,place,,False,False
+0670742,Seaside,city,middle,0.3572,6532.0,3,73.0,3.7253,787100.0,2409.0,85311.0,0.6456,place,,False,False
+0670770,Sebastopol,city,active,3.9539,1939.0,3,17.0,2.9225,845700.0,1902.0,87684.0,0.4375,place,,False,False
+0670882,Selma,city,restrictive,0.0,5485.0,3,13.0,0.79,315300.0,1232.0,60241.0,0.3963,place,,False,False
+0671225,Shasta Lake,city,restrictive,0.0,3618.0,3,8.0,0.7371,294400.0,1298.0,67401.0,0.3182,place,,False,False
+0671806,Sierra Madre,city,active,1.1167,2985.0,3,66.0,7.3702,1226800.0,2198.0,143547.0,0.4418,place,,False,False
+0671876,Signal Hill,city,middle,0.9264,1799.0,3,24.0,4.4469,783300.0,1851.0,113298.0,0.4972,place,,False,False
+0672016,Simi Valley,city,middle,0.2788,32278.0,3,299.0,3.0878,823800.0,2579.0,122081.0,0.2707,place,,False,False
+0672506,Solana Beach,city,active,1.7344,3075.0,3,65.0,7.0461,2000000.0,3212.0,152167.0,0.3235,place,,True,False
+0672520,Soledad,city,middle,0.0931,3580.0,3,28.0,2.6071,595900.0,1698.0,96862.0,0.4199,place,,False,False
+0672576,Solvang,city,middle,0.2516,1325.0,3,9.0,2.2642,949600.0,1666.0,109091.0,0.4303,place,,False,False
+0672646,Sonoma,city,active,2.1061,3482.0,3,18.0,1.7231,970500.0,2226.0,98527.0,0.35,place,,False,False
+0672674,Sonora,city,restrictive,0.0,1546.0,2,4.0,1.2937,422300.0,1238.0,82690.0,0.5718,place,,False,False
+0672996,South El Monte,city,active,1.2431,3486.0,3,52.0,4.9723,601000.0,1752.0,72990.0,0.4948,place,,False,False
+0673080,South Gate,city,active,1.7712,14303.0,2,209.0,7.3062,636300.0,1531.0,74571.0,0.5469,place,,False,False
+0673108,South Lake Tahoe,city,middle,0.0308,10809.0,3,30.0,0.9252,682400.0,1606.0,82002.0,0.4868,place,,False,False
+0673220,South Pasadena,city,middle,0.8332,4801.0,3,125.0,8.6787,1640000.0,2284.0,127175.0,0.56,place,,False,False
+0673262,South San Francisco,city,middle,0.2908,13756.0,3,145.0,3.5136,1188800.0,2802.0,136578.0,0.4103,place,,False,False
+0673962,Stanton,city,active,2.2459,3562.0,3,76.0,7.1121,579300.0,1997.0,84707.0,0.5186,place,,False,False
+0675000,Stockton,city,middle,0.0427,70212.0,3,165.0,0.7833,440900.0,1577.0,79907.0,0.4607,place,,False,False
+0675630,Suisun City,city,restrictive,0.0,7644.0,3,14.0,0.6105,579500.0,2157.0,94787.0,0.3915,place,,False,False
+0677000,Sunnyvale,city,active,1.3339,22741.0,3,239.0,3.5032,1801800.0,3039.0,186170.0,0.5623,place,,False,False
+0677392,Sutter Creek,city,middle,0.3124,1067.0,3,2.0,0.6248,543800.0,1572.0,88478.0,0.4475,place,,False,False
+0677574,Taft,city,restrictive,0.0,1936.0,3,2.0,0.3444,252600.0,1069.0,72772.0,0.4496,place,,False,False
+0678092,Tehachapi,city,middle,0.1145,2911.0,2,5.0,0.8588,355500.0,1295.0,72957.0,0.4152,place,,False,False
+0678120,Temecula,city,restrictive,0.0,28993.0,3,40.0,0.4599,679700.0,2347.0,121063.0,0.3204,place,,False,False
+0678148,Temple City,city,active,2.7628,9652.0,3,221.0,7.6323,961800.0,2135.0,104425.0,0.3705,place,,False,False
+0678582,Thousand Oaks,city,middle,0.3761,31903.0,3,237.0,2.4763,991600.0,2664.0,135603.0,0.292,place,,False,False
+0678666,Tiburon,city,middle,0.8382,2386.0,3,53.0,7.4043,2000000.0,3500.0,232969.0,0.2513,place,,True,True
+0680000,Torrance,city,middle,0.5682,31681.0,3,341.0,3.5878,1074700.0,2280.0,116217.0,0.4499,place,,False,False
+0680238,Tracy,city,middle,0.3812,24481.0,3,125.0,1.702,699000.0,2478.0,121119.0,0.3504,place,,False,False
+0680448,Trinidad,city,middle,1.4368,232.0,2,0.0,0.0,834000.0,2139.0,105833.0,0.1552,place,,False,False
+0680588,Truckee,city,middle,0.1465,11379.0,3,97.0,2.8415,947900.0,1961.0,130462.0,0.2659,place,,False,False
+0680644,Tulare,city,restrictive,0.0,16904.0,3,71.0,1.4001,329800.0,1435.0,72410.0,0.4154,place,,False,False
+0680812,Turlock,city,middle,0.1113,17976.0,1,8.0,0.445,460600.0,1612.0,82995.0,0.4395,place,,False,False
+0680854,Tustin,city,middle,0.3421,9745.0,3,38.0,1.2998,950400.0,2449.0,112503.0,0.5121,place,,False,False
+0680994,Twentynine Palms,city,restrictive,0.0,5699.0,3,5.0,0.2924,268200.0,1352.0,62554.0,0.6177,place,,False,False
+0681134,Ukiah,city,active,1.2203,3278.0,3,18.0,1.8304,458400.0,1331.0,66160.0,0.5533,place,,False,False
+0681204,Union City,city,middle,0.6054,12663.0,3,97.0,2.5534,1104900.0,2713.0,133715.0,0.3533,place,,False,False
+0681344,Upland,city,middle,0.2872,16250.0,3,108.0,2.2154,739400.0,2029.0,105830.0,0.4287,place,,False,False
+0681554,Vacaville,city,middle,0.1803,25885.0,3,163.0,2.099,620900.0,2299.0,111126.0,0.3247,place,,False,False
+0681666,Vallejo,city,middle,0.4214,32428.0,3,89.0,0.9148,589500.0,2073.0,90171.0,0.4261,place,,False,False
+0682590,Victorville,city,middle,0.0329,30430.0,3,50.0,0.5477,385600.0,1618.0,74410.0,0.3942,place,,False,False
+0682744,Villa Park,city,middle,0.8875,1878.0,3,4.0,0.71,1871700.0,2434.0,202245.0,0.1029,place,rent_county;,False,False
+0682954,Visalia,city,middle,0.062,37607.0,3,97.0,0.8598,371500.0,1490.0,81989.0,0.3892,place,,False,False
+0682996,Vista,city,middle,0.0397,16774.0,3,334.0,6.6373,762400.0,2249.0,94975.0,0.4832,place,,False,False
+0683332,Walnut,city,middle,0.6867,8737.0,3,99.0,3.777,1014000.0,3202.0,129449.0,0.1621,place,,False,False
+0683346,Walnut Creek,city,active,1.0534,12657.0,3,86.0,2.2649,1057300.0,2680.0,130432.0,0.3564,place,,False,False
+0683542,Wasco,city,middle,0.1295,5147.0,3,8.0,0.5181,273600.0,1089.0,51727.0,0.4171,place,,False,False
+0683612,Waterford,city,restrictive,0.0,2214.0,3,20.0,3.0111,402200.0,1620.0,74343.0,0.4421,place,,False,False
+0683668,Watsonville,city,middle,0.6028,8294.0,3,70.0,2.8133,686000.0,1889.0,78393.0,0.5516,place,,False,False
+0683850,Weed,city,restrictive,0.0,680.0,3,0.0,0.0,259600.0,788.0,38854.0,0.5117,place,,False,False
+0684200,West Covina,city,middle,0.0906,22077.0,2,125.0,2.831,779800.0,2245.0,101065.0,0.3973,place,,False,False
+0684410,West Hollywood,city,active,1.0983,2428.0,3,107.0,14.6897,924800.0,2091.0,96995.0,0.8017,place,,False,False
+0684438,Westlake Village,city,restrictive,0.0,2232.0,3,2.0,0.2987,1331400.0,3500.0,179954.0,0.1945,place,,False,True
+0684550,Westminster,city,active,1.0986,16081.0,3,613.0,12.7065,858300.0,2168.0,85541.0,0.4658,place,,False,False
+0684816,West Sacramento,city,restrictive,0.0,13427.0,3,39.0,0.9682,525800.0,1665.0,93188.0,0.3976,place,,False,False
+0685292,Whittier,city,middle,0.5422,19057.0,3,288.0,5.0375,822600.0,1906.0,97201.0,0.4214,place,,False,False
+0685446,Wildomar,city,middle,0.2222,7500.0,3,23.0,1.0222,552400.0,2003.0,103506.0,0.2167,place,,False,False
+0685586,Williams,city,restrictive,0.0,1465.0,3,1.0,0.2275,370000.0,1184.0,90761.0,0.4651,place,,False,False
+0685600,Willits,city,middle,0.8347,1198.0,3,10.0,2.7824,371100.0,1197.0,63447.0,0.5907,place,,False,False
+0685922,Windsor,city,middle,1.0356,7403.0,3,34.0,1.5309,801100.0,2433.0,133979.0,0.2439,place,,False,False
+0686034,Winters,city,middle,0.5249,1905.0,3,4.0,0.6999,633900.0,1568.0,122951.0,0.2969,place,,False,False
+0686300,Woodlake,city,restrictive,0.0,1619.0,3,0.0,0.0,300200.0,968.0,46266.0,0.4488,place,,False,False
+0686328,Woodland,city,middle,0.8124,14361.0,3,58.0,1.3462,548200.0,1583.0,90180.0,0.4128,place,,False,False
+0686440,Woodside,city,active,5.7037,1987.0,3,66.0,11.072,2000000.0,3500.0,250000.0,0.1256,place,,True,True
+0686832,Yorba Linda,city,middle,0.1866,17865.0,3,76.0,1.418,1147100.0,2846.0,157582.0,0.17,place,,False,False
+0686930,Yountville,city,active,1.8685,892.0,3,9.0,3.3632,802200.0,2399.0,80342.0,0.3311,place,,False,False
+0686944,Yreka,city,restrictive,0.0,2386.0,2,1.0,0.2096,263200.0,987.0,43982.0,0.4353,place,,False,False
+0686972,Yuba City,city,restrictive,0.0,16573.0,3,19.0,0.3821,434600.0,1454.0,75477.0,0.4273,place,,False,False
+0687042,Yucaipa,city,middle,0.2003,13314.0,3,110.0,2.754,502100.0,1711.0,90794.0,0.2656,place,,False,False
+0687056,Yucca Valley,city,middle,0.0409,8145.0,3,21.0,0.8594,363400.0,1428.0,59563.0,0.3684,place,,False,False

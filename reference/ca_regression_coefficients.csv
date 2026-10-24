@@ -1,0 +1,46 @@
+spec,term,coef,robust_se,boot_lo,boot_hi,effect,effect_lo,effect_hi,reading,dispersion
+group_only,intercept,1.9736,0.19188,1.52201,2.23542,7.19652,4.58144,9.35038,"rate for an active place at the centring point ($500k value, $2,000 rent, 10,000 homes)",106.26684
+group_only,group_middle,-1.10395,0.20686,-1.41261,-0.66781,0.33156,0.24351,0.51283,middle places' rate relative to active places with the same market and size (ratio),106.26684
+group_only,group_restrictive,-1.77012,0.31623,-2.27497,-1.15516,0.17031,0.1028,0.31501,restrictive places' rate relative to active places with the same market and size (ratio),106.26684
+group_value,intercept,1.80509,0.27973,1.11445,2.18775,6.0805,3.04791,8.91515,"rate for an active place at the centring point ($500k value, $2,000 rent, 10,000 homes)",105.45741
+group_value,group_middle,-1.00861,0.25028,-1.34744,-0.43352,0.36473,0.2599,0.64822,middle places' rate relative to active places with the same market and size (ratio),105.45741
+group_value,group_restrictive,-1.58977,0.37817,-2.14708,-0.80605,0.20397,0.11683,0.44662,restrictive places' rate relative to active places with the same market and size (ratio),105.45741
+group_value,log_value,0.23581,0.15817,-0.03195,0.56815,2.27297,-0.30405,5.56439,"places with 10% higher home values had this % higher ADU rate, other terms equal",105.45741
+group_rent,intercept,1.98844,0.21845,1.41966,2.26358,7.30416,4.13573,9.61743,"rate for an active place at the centring point ($500k value, $2,000 rent, 10,000 homes)",106.22404
+group_rent,group_middle,-1.12004,0.23426,-1.43985,-0.55896,0.32627,0.23696,0.5718,middle places' rate relative to active places with the same market and size (ratio),106.22404
+group_rent,group_restrictive,-1.81335,0.38467,-2.37868,-1.00755,0.16311,0.09267,0.36511,restrictive places' rate relative to active places with the same market and size (ratio),106.22404
+group_rent,log_rent,-0.13845,0.37829,-0.69832,0.6695,-1.31092,-6.43902,6.58904,"places with 10% higher rents had this % higher ADU rate, other terms equal",106.22404
+group_value_size,intercept,1.32883,0.22433,0.93546,1.76855,3.77661,2.5484,5.86235,"rate for an active place at the centring point ($500k value, $2,000 rent, 10,000 homes)",105.54064
+group_value_size,group_middle,-0.76716,0.15789,-1.03765,-0.43232,0.46433,0.35428,0.649,middle places' rate relative to active places with the same market and size (ratio),105.54064
+group_value_size,group_restrictive,-1.16604,0.32562,-1.72344,-0.64919,0.3116,0.17845,0.52247,restrictive places' rate relative to active places with the same market and size (ratio),105.54064
+group_value_size,log_value,0.43541,0.18017,0.09659,0.71677,4.23725,0.92484,7.07031,"places with 10% higher home values had this % higher ADU rate, other terms equal",105.54064
+group_value_size,log_homes,0.149,0.07611,-0.15658,0.24051,1.43028,-1.48128,2.31875,"places with 10% higher size (homes) had this % higher ADU rate, other terms equal",105.54064
+group_rent_size,intercept,1.69248,0.12102,1.45822,1.89048,5.43293,4.2983,6.62257,"rate for an active place at the centring point ($500k value, $2,000 rent, 10,000 homes)",106.23813
+group_rent_size,group_middle,-0.96082,0.14,-1.19682,-0.58124,0.38258,0.30215,0.55921,middle places' rate relative to active places with the same market and size (ratio),106.23813
+group_rent_size,group_restrictive,-1.50845,0.29458,-1.96684,-1.00151,0.22125,0.1399,0.36733,restrictive places' rate relative to active places with the same market and size (ratio),106.23813
+group_rent_size,log_rent,0.11671,0.28752,-0.39116,0.64976,1.1186,-3.65955,6.38861,"places with 10% higher rents had this % higher ADU rate, other terms equal",106.23813
+group_rent_size,log_homes,0.12004,0.07121,-0.17358,0.20571,1.15064,-1.64079,1.97996,"places with 10% higher size (homes) had this % higher ADU rate, other terms equal",106.23813
+group_value_rent_size,intercept,0.91343,0.29588,0.44434,1.70859,2.49285,1.55946,5.52118,"rate for an active place at the centring point ($500k value, $2,000 rent, 10,000 homes)",103.508
+group_value_rent_size,group_middle,-0.61448,0.17588,-0.98487,-0.32271,0.54092,0.37349,0.72418,middle places' rate relative to active places with the same market and size (ratio),103.508
+group_value_rent_size,group_restrictive,-1.06677,0.34075,-1.69254,-0.56299,0.34412,0.18405,0.5695,restrictive places' rate relative to active places with the same market and size (ratio),103.508
+group_value_rent_size,log_value,1.35177,0.37469,0.23502,1.93103,13.75057,2.26524,20.20716,"places with 10% higher home values had this % higher ADU rate, other terms equal",103.508
+group_value_rent_size,log_rent,-1.82479,0.60802,-2.81709,-0.0887,-15.96365,-23.54727,-0.84179,"places with 10% higher rents had this % higher ADU rate, other terms equal",103.508
+group_value_rent_size,log_homes,0.12607,0.05302,-0.13782,0.19569,1.20887,-1.30494,1.88262,"places with 10% higher size (homes) had this % higher ADU rate, other terms equal",103.508
+group_value_hinge_size,intercept,1.85454,0.27021,1.34707,2.35475,6.38873,3.84616,10.53547,"rate for an active place at the centring point ($500k value, $2,000 rent, 10,000 homes)",99.93515
+group_value_hinge_size,group_middle,-0.76896,0.15403,-1.0485,-0.43495,0.4635,0.35046,0.6473,middle places' rate relative to active places with the same market and size (ratio),99.93515
+group_value_hinge_size,group_restrictive,-1.01539,0.32431,-1.66895,-0.4554,0.36226,0.18844,0.6342,restrictive places' rate relative to active places with the same market and size (ratio),99.93515
+group_value_hinge_size,log_value,-0.17765,0.26015,-0.67514,0.28701,-1.67893,-6.2321,2.77325,"places with 10% higher home values had this % higher ADU rate, other terms equal",99.93515
+group_value_hinge_size,log_value_below_knot,1.87247,0.44331,1.02896,2.71851,19.53811,10.30408,29.57658,"places with 10% higher home values (extra effect below $700k) had this % higher ADU rate, other terms equal",99.93515
+group_value_hinge_size,log_homes,0.11274,0.07514,-0.16163,0.208,1.08033,-1.52869,2.00225,"places with 10% higher size (homes) had this % higher ADU rate, other terms equal",99.93515
+group_value_income_size,intercept,0.5837,0.24927,0.13576,1.11255,1.79266,1.14541,3.04209,"rate for an active place at the centring point ($500k value, $2,000 rent, 10,000 homes)",79.20029
+group_value_income_size,group_middle,-0.41309,0.16229,-0.78724,-0.12806,0.6616,0.4551,0.8798,middle places' rate relative to active places with the same market and size (ratio),79.20029
+group_value_income_size,group_restrictive,-0.73378,0.3339,-1.37448,-0.24295,0.48009,0.25297,0.78431,restrictive places' rate relative to active places with the same market and size (ratio),79.20029
+group_value_income_size,log_value,1.91834,0.26346,1.30337,2.38955,20.06189,13.22697,25.57691,"places with 10% higher home values had this % higher ADU rate, other terms equal",79.20029
+group_value_income_size,log_income,-2.42657,0.32061,-3.0133,-1.64398,-20.64803,-24.96368,-14.50291,"places with 10% higher incomes had this % higher ADU rate, other terms equal",79.20029
+group_value_income_size,log_homes,0.05556,0.0333,-0.1085,0.11936,0.53093,-1.02878,1.1441,"places with 10% higher size (homes) had this % higher ADU rate, other terms equal",79.20029
+group_value_hinge_size__event_time,intercept,1.90906,0.24356,1.43035,2.37577,6.74672,4.18014,10.75932,"rate for an active place at the centring point ($500k value, $2,000 rent, 10,000 homes)",91.10453
+group_value_hinge_size__event_time,group_middle,-0.74596,0.14928,-1.04688,-0.43573,0.47428,0.35103,0.64679,middle places' rate relative to active places with the same market and size (ratio),91.10453
+group_value_hinge_size__event_time,group_restrictive,-1.04416,0.3205,-1.63156,-0.54081,0.35199,0.19562,0.58228,restrictive places' rate relative to active places with the same market and size (ratio),91.10453
+group_value_hinge_size__event_time,log_value,-0.2028,0.22778,-0.63475,0.21867,-1.91436,-5.87049,2.10606,"places with 10% higher home values had this % higher ADU rate, other terms equal",91.10453
+group_value_hinge_size__event_time,log_value_below_knot,1.85328,0.39926,1.11469,2.60874,19.31967,11.20905,28.22802,"places with 10% higher home values (extra effect below $700k) had this % higher ADU rate, other terms equal",91.10453
+group_value_hinge_size__event_time,log_homes,0.04895,0.05669,-0.16745,0.12523,0.46765,-1.58333,1.20071,"places with 10% higher size (homes) had this % higher ADU rate, other terms equal",91.10453

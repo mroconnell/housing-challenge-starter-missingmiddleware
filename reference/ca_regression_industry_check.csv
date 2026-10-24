@@ -1,0 +1,85 @@
+sample,group,year,rate,change_from_prior_year
+all,active,2012,0.0254,
+all,active,2013,0.1402,0.1148
+all,active,2014,0.1681,0.0279
+all,active,2015,0.2367,0.0686
+all,active,2016,0.3439,0.1071
+all,active,2017,1.6719,1.328
+all,active,2018,3.1046,1.4326
+all,active,2019,4.1895,1.085
+all,active,2020,3.5162,-0.6733
+all,active,2021,5.3093,1.7931
+all,active,2022,6.4051,1.0958
+all,active,2023,6.8747,0.4696
+all,active,2024,7.1293,0.2546
+all,active,2025,7.5734,0.4441
+all,middle,2012,0.02,
+all,middle,2013,0.0835,0.0634
+all,middle,2014,0.0653,-0.0182
+all,middle,2015,0.1093,0.044
+all,middle,2016,0.0928,-0.0165
+all,middle,2017,0.1535,0.0607
+all,middle,2018,0.3099,0.1564
+all,middle,2019,0.5272,0.2173
+all,middle,2020,0.835,0.3078
+all,middle,2021,1.4463,0.6113
+all,middle,2022,1.909,0.4627
+all,middle,2023,2.1599,0.2509
+all,middle,2024,2.4692,0.3093
+all,middle,2025,2.53,0.0608
+all,restrictive,2012,0.0,
+all,restrictive,2013,0.0053,0.0053
+all,restrictive,2014,0.008,0.0027
+all,restrictive,2015,0.0013,-0.0067
+all,restrictive,2016,0.0013,0.0
+all,restrictive,2017,0.0,-0.0013
+all,restrictive,2018,0.0,0.0
+all,restrictive,2019,0.0,0.0
+all,restrictive,2020,0.1154,0.1154
+all,restrictive,2021,0.633,0.5176
+all,restrictive,2022,0.6814,0.0484
+all,restrictive,2023,1.0551,0.3736
+all,restrictive,2024,1.228,0.173
+all,restrictive,2025,1.3965,0.1685
+without Los Angeles,active,2012,0.0333,
+without Los Angeles,active,2013,0.1755,0.1422
+without Los Angeles,active,2014,0.181,0.0056
+without Los Angeles,active,2015,0.2566,0.0755
+without Los Angeles,active,2016,0.4065,0.1499
+without Los Angeles,active,2017,0.8919,0.4854
+without Los Angeles,active,2018,1.8059,0.9141
+without Los Angeles,active,2019,2.8327,1.0268
+without Los Angeles,active,2020,2.7172,-0.1155
+without Los Angeles,active,2021,4.1379,1.4207
+without Los Angeles,active,2022,4.3752,0.2372
+without Los Angeles,active,2023,5.3643,0.9891
+without Los Angeles,active,2024,5.4078,0.0435
+without Los Angeles,active,2025,5.7679,0.3601
+without Los Angeles,middle,2012,0.02,
+without Los Angeles,middle,2013,0.0835,0.0634
+without Los Angeles,middle,2014,0.0653,-0.0182
+without Los Angeles,middle,2015,0.1093,0.044
+without Los Angeles,middle,2016,0.0928,-0.0165
+without Los Angeles,middle,2017,0.1535,0.0607
+without Los Angeles,middle,2018,0.3099,0.1564
+without Los Angeles,middle,2019,0.5272,0.2173
+without Los Angeles,middle,2020,0.835,0.3078
+without Los Angeles,middle,2021,1.4463,0.6113
+without Los Angeles,middle,2022,1.909,0.4627
+without Los Angeles,middle,2023,2.1599,0.2509
+without Los Angeles,middle,2024,2.4692,0.3093
+without Los Angeles,middle,2025,2.53,0.0608
+without Los Angeles,restrictive,2012,0.0,
+without Los Angeles,restrictive,2013,0.0053,0.0053
+without Los Angeles,restrictive,2014,0.008,0.0027
+without Los Angeles,restrictive,2015,0.0013,-0.0067
+without Los Angeles,restrictive,2016,0.0013,0.0
+without Los Angeles,restrictive,2017,0.0,-0.0013
+without Los Angeles,restrictive,2018,0.0,0.0
+without Los Angeles,restrictive,2019,0.0,0.0
+without Los Angeles,restrictive,2020,0.1154,0.1154
+without Los Angeles,restrictive,2021,0.633,0.5176
+without Los Angeles,restrictive,2022,0.6814,0.0484
+without Los Angeles,restrictive,2023,1.0551,0.3736
+without Los Angeles,restrictive,2024,1.228,0.173
+without Los Angeles,restrictive,2025,1.3965,0.1685
