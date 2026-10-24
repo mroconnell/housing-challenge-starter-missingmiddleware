@@ -26,17 +26,26 @@ RIGHTS_CLASS = {
     "no_zoning",            # no municipal or county zoning applies
     "undetermined",         # not yet coded, or ordinance not found; MVP models it as no ADU rights (AQ-023)
 }
-RESTRICTION_FLAGS = {
-    "owner_occupancy",
-    "related_occupant",
-    "discretionary_review",   # conditional use, special use, plan commission, hearing
-    "size_or_ratio_cap",      # max size under 600 sq ft, FAR, lot coverage, percent-of-house, open space
-    "parking",                # extra parking required for the ADU
-    "form_limited",           # only attached or only detached, or interior conversions only
+# A flag applies only if the rule prevents a benchmark ADU (detached or attached, >= 600 sq ft,
+# by right, no extra parking, no occupancy rule) on at least some single-family lots (AQ-026).
+# Tier 1 follows the Mercatus 2025 taxonomy's core barriers ("poison pills" plus attached+detached).
+POISON_PILL_FLAGS = {
+    "owner_occupancy",        # owner must live on site (ongoing or at application)
+    "related_occupant",       # occupants must be family, caregivers, or employees
+    "extra_parking",          # more parking for a lot with an ADU than for the house alone, incl. replacement parking
+    "discretionary_review",   # conditional or special use, hearing, plan commission
+    "form_limited",           # attached-only, detached-only, or interior conversions only
+}
+# Tier 2: design, siting, and process limits that matter once tier 1 is cleared.
+SECONDARY_FLAGS = {
+    "size_below_benchmark",   # absolute cap under 600 sq ft, or a percent-of-house/FAR/coverage cap that can fall under 600
+    "siting_limits",          # setbacks, height, or separation that prevent a 600 sq ft detached unit on typical lots
+    "lot_minimum",            # minimum lot size or width above typical single-family lots
     "district_limited",       # not allowed in some single-family districts
-    "lot_minimum",            # minimum lot size or width
+    "fees",                   # ADU-specific impact or connection fees
     "other",
 }
+RESTRICTION_FLAGS = POISON_PILL_FLAGS | SECONDARY_FLAGS
 CLASS_BASIS = {"coded_verified", "coded_source_lead", "assumed_default", "imputed_from_sample", "not_found"}
 AREA_LEVEL = {"state", "county", "municipality", "tract", "block_group", "grid_cell"}
 CONTEXT_GROUP = {"urban", "suburban", "small_community", "rural"}
