@@ -487,6 +487,22 @@ The owner accepted every Gate 2 recommendation: the data is fit for Gate 3 (G2-1
 
 **Decision:** Adopted.
 
+## AQ-038 Final Gate 3 scenario set
+
+**Status:** Adopted. **Added:** 2026-10-24. **Related:** AQ-036, AQ-037, [POOLED_MODEL.md](gate3/POOLED_MODEL.md).
+
+**Owner decision (2026-10-24):** Use the pooled two-stage model's central and its between-state spread, and also show the measured statewide adoption path:
+
+- **Lower, "like the slower statewide-law states":** about 4,800 additional second-home permits over 2027–2031 (pooled model, 10th percentile of how states differ).
+- **Central, "like a typical statewide-law state":** about 9,500 (pooled model).
+- **Upper, "like the faster statewide-law states":** about 18,300 (pooled model, 90th percentile).
+- **Statewide adoption line:** about 8,650 (the median path that statewide-law states actually reached, applied to Wisconsin's 1,839,569 single-family homes).
+- **Named downside sensitivities (not scenarios):** about 760 if the law only multiplied Wisconsin's current rate by the pooled statewide-law factor; about 2,300 if Wisconsin behaved like the California-only market regression.
+
+All figures are additional permits on top of the current-law baseline of about 650 over the same five years. The pooled ramp (0.62, 0.78, 0.81, 1, 1 of the increment) is used; the California ramp is not applied on top.
+
+**Decision:** Adopted.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -557,3 +573,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-035 | Owner accepted G3-2 to G3-4; unzoned towns get their own rate with a town list to build; adopted a state-relative group rule (v1) instead of state-specific cutoffs. |
 | 2026-10-24 | AQ-036 | Statewide rate comes from a pooled multi-state model or measured adoption path, not a judgment anchor; the local-only scenario is removed from the tool. |
 | 2026-10-24 | AQ-037 | Coded rules do not predict activity in California or Wisconsin; they explain results, discretionary review is a downside sensitivity; owner accepted data-collection calls. |
+| 2026-10-24 | AQ-038 | Final Gate 3 scenarios from the pooled model (about 4,800 / 9,500 / 18,300) with the statewide adoption line (about 8,650) and named downside sensitivities. |

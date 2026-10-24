@@ -1,31 +1,25 @@
 {
   "scenario_id": "adu_benchmark_statewide",
-  "status": "Gate 3 revision (AQ-034, AQ-035); proposed for owner review",
-  "units": "second homes on single-family lots per 1,000 one-unit detached homes per year",
-  "area_levels": "reference/wi_y_by_area.csv (y_lower, y_central, y_upper: market-adjusted California regression, state-relative group rule v1)",
+  "status": "Gate 3 final proposal (AQ-036, AQ-038); for owner confirmation",
+  "units": "second-home permits on single-family lots per 1,000 one-unit detached homes per year",
+  "area_levels": "reference/pooled_wi_y_by_area.csv (y_plateau_lower_80, y_plateau_central, y_plateau_upper_80: pooled two-stage model across California, statewide-law states, and five cities)",
   "paths": {
     "lower": {
       "level": 0.229, "floor_rate": 0.229, "spillover": 0.0,
-      "ramp": [0.10, 0.19, 0.25, 0.55, 1.0],
-      "basis": "Regression lower draw (2.5% statewide total); California Central Valley first-law ramp (year 1 held at 0.10)"
+      "ramp": [0.62, 0.78, 0.81, 1.0, 1.0],
+      "basis": "Like the slower statewide-law states: pooled model, 10th percentile of the between-state spread"
     },
     "central": {
       "level": 0.229, "floor_rate": 0.229, "spillover": 0.0,
-      "ramp": [0.10, 0.53, 0.58, 0.85, 1.0],
-      "basis": "Regression point prediction; California restrictive-group ramp"
+      "ramp": [0.62, 0.78, 0.81, 1.0, 1.0],
+      "basis": "Like a typical statewide-law state: pooled model central; ramp from the pooled year terms"
     },
     "upper": {
       "level": 0.229, "floor_rate": 0.229, "spillover": 0.0,
-      "ramp": [0.24, 0.54, 0.77, 0.89, 1.0],
-      "basis": "Regression upper draw (97.5% statewide total); California middle-group ramp"
+      "ramp": [0.62, 0.78, 0.81, 1.0, 1.0],
+      "basis": "Like the faster statewide-law states: pooled model, 90th percentile of the between-state spread"
     }
   },
-  "extra_scenarios": {
-    "midwest_local_reform": {
-      "level": 0.229, "floor_rate": 0.229, "spillover": 0.0,
-      "ramp": [0.10, 0.19, 0.25, 0.55, 1.0],
-      "basis": "What permissive local rules produce without a statewide law in Midwest markets (Madison 0.18, Minneapolis 0.17); Madison floor 0.229 everywhere; slow ramp"
-    }
-  },
-  "notes": "Uniform 'level' applies only where an area has no regression level. Madison floor = observed 2022-2025 rate 0.183 / 0.8."
+  "statewide_adoption_line": "reference/statewide_adoption_curve.csv (median observed path of statewide-law states; shown alongside the scenarios)",
+  "notes": "Uniform 'level' applies only where an area has no model level. Floor 0.229 = Madison 2022-2025 rate / 0.8. The California ramp is not applied on top of the pooled ramp."
 }

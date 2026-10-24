@@ -27,8 +27,9 @@ def load_scenario(path=REFERENCE / "adu_model_params.json", which="paths", **ove
 
 
 def load_area_levels() -> pd.DataFrame:
-    y = pd.read_csv(REFERENCE / "wi_y_by_area.csv")
-    return y[["area_id", "y_lower", "y_central", "y_upper"]]
+    y = pd.read_csv(REFERENCE / "pooled_wi_y_by_area.csv")
+    return y.rename(columns={"y_plateau_lower_80": "y_lower", "y_plateau_central": "y_central",
+                             "y_plateau_upper_80": "y_upper"})[["area_id", "y_lower", "y_central", "y_upper"]]
 
 
 def totals(out, areas):
@@ -79,9 +80,20 @@ def main():
     v = central_total(scen, lv2)
     sens.append({"change": "rural and small-community places at the Madison floor (0.229)",
                  "central_additional_5yr": round(v, 1), "difference": round(v - base_central, 1)})
-    mw = e.five_year_totals(e.run(areas, load_scenario(which="extra_scenarios"), growth))
-    mw.assign(scenario="midwest_local_reform").to_csv(REFERENCE / "adu_model_midwest_local.csv", index=False)
-    print("midwest local-reform scenario:", mw.round(1).to_dict("records"))
+    adopt = pd.read_csv(REFERENCE / "statewide_adoption_curve.csv")
+    psens = pd.read_csv(REFERENCE / "pooled_sensitivities.csv")
+    mult = psens[psens.iloc[:, 0].astype(str).str.contains("multiplicative law effect")].iloc[0, -2]
+    ca_only = pd.read_csv(REFERENCE / "ca_regression_wi_statewide.csv").query("path == 'central'").additional_units.item()
+    lines = pd.DataFrame([
+        {"line": "statewide adoption (median observed path of statewide-law states)",
+         "additional_5yr": round(adopt.additional_as_reported.sum(), 1)},
+        {"line": "sensitivity: law only multiplies Wisconsin's current rate by the pooled statewide-law factor",
+         "additional_5yr": round(float(mult), 1)},
+        {"line": "sensitivity: California-only market regression (Wisconsin stays near Madison-like response)",
+         "additional_5yr": round(float(ca_only), 1)},
+    ])
+    lines.to_csv(REFERENCE / "adu_model_reference_lines.csv", index=False)
+    print(lines.to_string(index=False))
     pd.DataFrame(sens).to_csv(REFERENCE / "adu_model_sensitivities.csv", index=False)
     print(state.round(1).to_string(index=False))
     print(pd.DataFrame(sens).to_string(index=False))
