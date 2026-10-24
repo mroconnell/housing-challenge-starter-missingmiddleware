@@ -413,6 +413,23 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Decision:** Adopted direction; group definitions and windows to be pre-registered in the Gate 3 plan.
 
+## AQ-032 Count second homes on single-family lots; prefer uniform cross-state measures
+
+**Status:** Adopted for now; to be revisited once data limits are clearer per scenario. **Added:** 2026-10-24. **Related:** AQ-021, AQ-028, AQ-030.
+
+**Owner decision:** The headline outcome is **second homes on single-family lots** (tentative name): any legally permitted permanent dwelling with its own kitchen added on a lot that already has a single-family home, whether labeled an ADU, a single-family-to-duplex conversion, or a California SB 9 second home. The distinction between those labels does not matter to the owner; components stay visible as separate lines.
+
+**Guardrails:**
+
+- The same definition applies in every comparison state (California counts ADUs plus single-family-to-duplex conversions and SB 9 second homes where APR allows), so the comparison is not inflated.
+- The lot must already have a home; a new two-unit building on a vacant or cleared lot is ordinary new construction, even if its permit says "ADU". The ten Madison "twin home ADU" permits are resolved on this rule using parcel year-built and raze permits.
+
+**Method preference:** A clean, uniform approach that works the same way in every state and scenario is preferred over city-by-city or form-by-form linguistic coding. Ideal: one national data family (Census BPS and ACS, or similar) that measures second dwellings on single-family lots and units per lot or area near transit, giving one health-baseline method for all scenarios.
+
+**Conductor note on feasibility:** BPS records new units by building size, not whether a lot already had a home, and ACS measures stock by structure type, not lots; neither flags a second home on a single-family lot directly. Gate 3 will assess what uniform measures are possible (for example ACS 2-unit and one-unit-attached stock shares as health indicators; BPS one- and two-unit flows; Decennial block counts with transit stops for TOD) and use local permit records only where no uniform measure exists.
+
+**Decision:** Adopted tentatively; revisit after the scenario MVPs.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -477,3 +494,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-029 | Measured Madison's partial benchmark status (8% Planned Development; 78% outside the TOD overlay facing replacement parking) and proposed scaling its floor rate by benchmark completeness. |
 | 2026-10-24 | AQ-030; office-hours questions | Adopted the narrow reading of the benchmark's forms and parking, set Madison at 80% of benchmark, and added a consolidated list of questions for office hours. |
 | 2026-10-24 | AQ-031 | Adopted a pre-specified California permissive-vs-restrictive comparison across the 2017, 2018, and 2020 reform waves for ramp and spillover evidence, with no COVID adjustment. |
+| 2026-10-24 | AQ-032 | Adopted 'second homes on single-family lots' as the tentative headline outcome with cross-state guardrails, and recorded the owner's preference for uniform cross-state measures. |
