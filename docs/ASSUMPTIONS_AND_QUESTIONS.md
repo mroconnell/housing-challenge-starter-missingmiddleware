@@ -449,6 +449,20 @@ The owner accepted every Gate 2 recommendation: the data is fit for Gate 3 (G2-1
 
 **Decision:** Gate 3 revision; the regression result replaces the G3-1 ratio proposal. Extrapolation below California's range of home values is flagged and tested.
 
+## AQ-035 Gate 3 presentation, ramps, benchmark places, unzoned towns, and a state-relative group rule
+
+**Status:** Adopted. **Added:** 2026-10-24. **Related:** AQ-024, AQ-026, AQ-034, [Gate 3 packet](gate3/README.md).
+
+**Owner decisions (2026-10-24):**
+
+- **G3-2:** each place, including those already at benchmark, gets its own regression-predicted with-law rate, never below its current rate; the separate spillover setting is dropped.
+- **G3-3:** ramps by path: lower uses the slower California Central Valley first-law ramp; central uses the California restrictive-group ramp; upper uses the faster middle-group ramp.
+- **G3-4:** results are presented as **scenarios, not confidence intervals**, rounded to the nearest hundred, with the current-law baseline shown separately, plus a labeled "Midwest local-reform" scenario based on Madison and Minneapolis (permissive local rules, no statewide law).
+- **G3-5 (revised by owner):** towns with no zoning get their own predicted rate now; a list of unzoned Wisconsin towns is being compiled (county general zoning approved by the town, or town zoning under village powers, counts as zoned; shoreland and floodplain zoning do not).
+- **G3-6 (revised by owner):** no arbitrary state-specific cutoffs. Use one general, state-relative rule, applied to each state's own data: **active** = top quarter of jurisdictions with at least 3 observed permits in the reference window; **restrictive** = zero observed or unmeasured; **middle** = the rest. This is rule v1, to be made robust and representative when the tool is built for other states.
+
+**Decision:** Adopted 2026-10-24.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -516,3 +530,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-032 | Adopted 'second homes on single-family lots' as the tentative headline outcome with cross-state guardrails, and recorded the owner's preference for uniform cross-state measures. |
 | 2026-10-24 | AQ-033 | Gate 2 passed; Pleasant Prairie verified by the owner; Appleton coded benchmark; California plan approved; Madison floor years set. |
 | 2026-10-24 | AQ-034 | Adopted a market-adjusted California regression (with out-of-state cities) to replace the judgment-based transfer ratio for the central path. |
+| 2026-10-24 | AQ-035 | Owner accepted G3-2 to G3-4; unzoned towns get their own rate with a town list to build; adopted a state-relative group rule (v1) instead of state-specific cutoffs. |
