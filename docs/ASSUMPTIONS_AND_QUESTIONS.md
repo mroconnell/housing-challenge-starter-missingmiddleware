@@ -396,6 +396,19 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Decision:** Adopted; listed as an office-hours question for confirmation.
 
+## AQ-031 Estimate ramp and spillover from a clean California comparison study
+
+**Status:** Adopted direction for Gate 3. **Added:** 2026-10-24 (owner, in the model-tutoring thread). **Related:** AQ-013, AQ-017, AQ-024, AQ-027.
+
+**Owner direction:** For the MVP, take ramp-up evidence from a straightforward comparison inside California: jurisdictions that were already permissive versus those that were restrictive, before and after each statewide reform wave (effective 2017-01-01, 2018-01-01, and 2020-01-01), using HCD-attributed data for 2012–2025 (the 2012–2019 compilation and HCD APR from 2018, overlap reconciled per AQ-017).
+
+- **No COVID adjustment to the ramp.** The owner regards an ad hoc pandemic correction as arbitrary specification search. The comparison group absorbs shocks common to all jurisdictions. Any check that excludes 2020 must be specified before results are seen and shown only as a sensitivity.
+- **Spillover:** the same study tests the AQ-027 spillover claim, whether already-permissive jurisdictions also rose after the statewide laws.
+- **Later:** add other places (Portland earlier; states that reformed after California) to strengthen the ramp.
+- Keep the analysis descriptive and pre-specified: define permissive and restrictive groups, outcome (ADU permits per 1,000 single-family homes), windows, and comparisons before running them.
+
+**Decision:** Adopted direction; group definitions and windows to be pre-registered in the Gate 3 plan.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -459,3 +472,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-028 | Adopted the outcome-based increment (homes × (y − x)) with estimated x where permits are unobserved, and proposed stock-gap health baselines across scenarios. |
 | 2026-10-24 | AQ-029 | Measured Madison's partial benchmark status (8% Planned Development; 78% outside the TOD overlay facing replacement parking) and proposed scaling its floor rate by benchmark completeness. |
 | 2026-10-24 | AQ-030; office-hours questions | Adopted the narrow reading of the benchmark's forms and parking, set Madison at 80% of benchmark, and added a consolidated list of questions for office hours. |
+| 2026-10-24 | AQ-031 | Adopted a pre-specified California permissive-vs-restrictive comparison across the 2017, 2018, and 2020 reform waves for ramp and spillover evidence, with no COVID adjustment. |
