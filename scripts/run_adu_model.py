@@ -58,19 +58,38 @@ def main():
         "central level = California middle group 2.39": {"central": {"level": 2.39}},
         "central level = lower bound of California interval 0.70": {"central": {"level": 0.70}},
         "central level = upper bound of California interval 2.01": {"central": {"level": 2.01}},
-        "no statewide spillover": {"central": {"spillover": 0.0}},
+        "no statewide spillover (does not bind: statewide level exceeds benchmark places' x x (1+s))": {"central": {"spillover": 0.0}},
         "no ramp (full rate from year 1)": {"central": {"ramp": [1, 1, 1, 1, 1]}},
-        "Madison floor without the /0.8 completeness adjustment (0.183)": {"central": {"floor_rate": 0.183}},
+        "Madison floor without /0.8 (does not bind on the central path)": {"central": {"floor_rate": 0.183}},
     }
     for label, ov in variants.items():
         s = e.five_year_totals(e.run(areas, load_scenario(**ov), growth))
         v = s.loc[s.path == "central", "additional_units"].item()
         sens.append({"change": label, "central_additional_5yr": round(v, 1), "difference": round(v - base_central, 1)})
+    for ratio in (0.15, 0.25, 0.5, 0.67):
+        s_ = e.five_year_totals(e.run(areas, load_scenario(central={"level": 1.23 * ratio}), growth))
+        v = s_.loc[s_.path == "central", "additional_units"].item()
+        sens.append({"change": f"market-adjusted: California level x {ratio} (AQ-024 variant)",
+                     "central_additional_5yr": round(v, 1), "difference": round(v - base_central, 1)})
+    s_ = e.five_year_totals(e.run(areas, load_scenario(central={"level": 0.87}), growth))
+    v = s_.loc[s_.path == "central", "additional_units"].item()
+    sens.append({"change": "post-hoc: California restrictive plateau without Lancaster (0.87)",
+                 "central_additional_5yr": round(v, 1), "difference": round(v - base_central, 1)})
+    geo_ctx = areas.merge(geo[["area_id", "context_group"]], on="area_id", how="left")
+    rural = geo_ctx.context_group.isin(["rural", "small_community"])
+    out_c = e.run(areas, scen, growth)
+    floor_sc = load_scenario(central={"level": 0.229})
+    out_f = e.run(areas[rural.values], floor_sc, growth)
+    v = (out_c[out_c.path == "central"].merge(geo_ctx[["area_id", "context_group"]], on="area_id")
+         .query("context_group not in ['rural','small_community']").additional_units.sum()
+         + out_f[out_f.path == "central"].additional_units.sum())
+    sens.append({"change": "rural and small-community places at the Madison floor (0.229)",
+                 "central_additional_5yr": round(v, 1), "difference": round(v - base_central, 1)})
     ar = areas.copy()
     ar.loc[ar.x_basis.str.startswith("uncoded"), "x_rate"] = ar.loc[ar.x_basis.str.startswith("uncoded"), "x_low"]
     s = e.five_year_totals(e.run(ar, scen, growth))
     v = s.loc[s.path == "central", "additional_units"].item()
-    sens.append({"change": "uncoded places at the low current rate (like prohibited)", "central_additional_5yr": round(v, 1),
+    sens.append({"change": "uncoded places at the low current rate (raises the increment; not the AQ-023 bias check)", "central_additional_5yr": round(v, 1),
                  "difference": round(v - base_central, 1)})
     pd.DataFrame(sens).to_csv(REFERENCE / "adu_model_sensitivities.csv", index=False)
     print(state.round(1).to_string(index=False))

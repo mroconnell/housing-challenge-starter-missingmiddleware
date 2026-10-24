@@ -2,7 +2,13 @@ change,central_additional_5yr,difference
 central level = California middle group 2.39,13048.8,6529.7
 central level = lower bound of California interval 0.70,3535.6,-2983.4
 central level = upper bound of California interval 2.01,10909.7,4390.7
-no statewide spillover,6519.0,0.0
+no statewide spillover (does not bind: statewide level exceeds benchmark places' x x (1+s)),6519.0,0.0
 no ramp (full rate from year 1),10659.2,4140.1
-Madison floor without the /0.8 completeness adjustment (0.183),6519.0,0.0
-uncoded places at the low current rate (like prohibited),6640.0,121.0
+Madison floor without /0.8 (does not bind on the central path),6519.0,0.0
+market-adjusted: California level x 0.15 (AQ-024 variant),940.4,-5578.7
+market-adjusted: California level x 0.25 (AQ-024 variant),1361.1,-5157.9
+market-adjusted: California level x 0.5 (AQ-024 variant),3057.2,-3461.9
+market-adjusted: California level x 0.67 (AQ-024 variant),4234.2,-2284.8
+post-hoc: California restrictive plateau without Lancaster (0.87),4492.6,-2026.5
+rural and small-community places at the Madison floor (0.229),3574.2,-2944.9
+uncoded places at the low current rate (raises the increment; not the AQ-023 bias check),6640.0,121.0
