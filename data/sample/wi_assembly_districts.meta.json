@@ -1,0 +1,77 @@
+{
+  "source_id": "wi_assembly_districts",
+  "fetched_at": "2026-10-24T05:07:04+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://services1.arcgis.com/FDsAtKBk8Hy4cAH0/arcgis/rest/services/WI_Assembly_Districts_2024/FeatureServer/0",
+  "layer_name": "WI_Assembly_Districts_2024",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "record_count": 99,
+  "max_record_count": 2000,
+  "last_edit_date": "2025-09-09",
+  "description": "",
+  "copyright": "",
+  "fields": [
+    {
+      "name": "FID",
+      "type": "OID",
+      "alias": "FID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ASM2024",
+      "type": "String",
+      "alias": "ASM2024",
+      "length": 5,
+      "has_domain": false
+    },
+    {
+      "name": "SEN2024",
+      "type": "String",
+      "alias": "SEN2024",
+      "length": 5,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Area",
+      "type": "Double",
+      "alias": "Shape__Area",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Length",
+      "type": "Double",
+      "alias": "Shape__Length",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "geometry_sample": {
+    "layer_url": "https://services1.arcgis.com/FDsAtKBk8Hy4cAH0/arcgis/rest/services/WI_Assembly_Districts_2024/FeatureServer/0",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 102100,
+      "latestWkid": 3857
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "simplified": {
+      "original_vertices": 35614,
+      "kept_every_nth_vertex": 16
+    },
+    "file": "data/sample/geo/wi_assembly_districts.geojson",
+    "features": 1,
+    "bytes": 83205,
+    "vertices_per_feature": [
+      2254
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
+}

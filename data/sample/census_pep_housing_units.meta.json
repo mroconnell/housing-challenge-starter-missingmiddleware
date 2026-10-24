@@ -1,0 +1,46 @@
+{
+  "source_id": "census_pep_housing_units",
+  "fetched_at": "2026-10-24T05:06:28+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 6,
+  "api_url": "https://www2.census.gov/programs-surveys/popest/tables/2020-2025/housing/totals/CO-EST2025-HU-55.xlsx",
+  "title": "table with row headers in column A and column headers in rows 3 through 4 (leading dots indicate sub-parts)",
+  "header_row": 4,
+  "county_rows": 73,
+  "note": "Rows are Wisconsin, then its counties. Sub-county PEP files hold population only, not housing units.",
+  "fields": [
+    {
+      "name": "Geographic Area",
+      "type": "string"
+    },
+    {
+      "name": "April 1, 2020 Estimates Base",
+      "type": "string"
+    },
+    {
+      "name": "2020",
+      "type": "int"
+    },
+    {
+      "name": "2021",
+      "type": "int"
+    },
+    {
+      "name": "2022",
+      "type": "int"
+    },
+    {
+      "name": "2023",
+      "type": "int"
+    },
+    {
+      "name": "2024",
+      "type": "int"
+    },
+    {
+      "name": "2025",
+      "type": "int"
+    }
+  ]
+}

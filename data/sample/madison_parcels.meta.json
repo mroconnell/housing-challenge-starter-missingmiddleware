@@ -1,0 +1,1045 @@
+{
+  "source_id": "madison_parcels",
+  "fetched_at": "2026-10-24T05:06:36+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA2/FeatureServer/0",
+  "layer_name": "Tax Parcels",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 103412,
+    "latestWkid": 8193,
+    "xyTolerance": 0.003280833333333333,
+    "zTolerance": 2,
+    "mTolerance": 0.001,
+    "falseX": -119400400,
+    "falseY": -97309100,
+    "xyUnits": 37463997.81859703,
+    "falseZ": 0,
+    "zUnits": 1,
+    "falseM": -100000,
+    "mUnits": 10000
+  },
+  "record_count": 82616,
+  "max_record_count": 2000,
+  "last_edit_date": null,
+  "description": "",
+  "copyright": "",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Parcel",
+      "type": "String",
+      "alias": "Parcel",
+      "length": 12,
+      "has_domain": false
+    },
+    {
+      "name": "XRefParcel",
+      "type": "String",
+      "alias": "XRefParcel",
+      "length": 12,
+      "has_domain": false
+    },
+    {
+      "name": "Address",
+      "type": "String",
+      "alias": "Address",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "DateParcelChanged",
+      "type": "Date",
+      "alias": "DateParcelChanged",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "PropertyClass",
+      "type": "String",
+      "alias": "PropertyClass",
+      "length": 15,
+      "has_domain": false
+    },
+    {
+      "name": "PropertyUse",
+      "type": "String",
+      "alias": "PropertyUse",
+      "length": 30,
+      "has_domain": false
+    },
+    {
+      "name": "AssessmentArea",
+      "type": "Double",
+      "alias": "AssessmentArea",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "AreaName",
+      "type": "String",
+      "alias": "AreaName",
+      "length": 35,
+      "has_domain": false
+    },
+    {
+      "name": "MoreThanOneBuild",
+      "type": "String",
+      "alias": "MoreThanOneBuild",
+      "length": 26,
+      "has_domain": false
+    },
+    {
+      "name": "HomeStyle",
+      "type": "String",
+      "alias": "HomeStyle",
+      "length": 30,
+      "has_domain": false
+    },
+    {
+      "name": "YearBuilt",
+      "type": "Double",
+      "alias": "YearBuilt",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Bedrooms",
+      "type": "Double",
+      "alias": "Bedrooms",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "FullBaths",
+      "type": "Double",
+      "alias": "FullBaths",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "HalfBaths",
+      "type": "Double",
+      "alias": "HalfBaths",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TotalLivingArea",
+      "type": "Double",
+      "alias": "TotalLivingArea",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "FirstFloor",
+      "type": "Double",
+      "alias": "FirstFloor",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "SecondFloor",
+      "type": "Double",
+      "alias": "SecondFloor",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ThirdFloor",
+      "type": "Double",
+      "alias": "ThirdFloor",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "AboveThirdFloor",
+      "type": "Double",
+      "alias": "AboveThirdFloor",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "FinishedAttic",
+      "type": "Double",
+      "alias": "FinishedAttic",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Basement",
+      "type": "Double",
+      "alias": "Basement",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "FinishedBasement",
+      "type": "Double",
+      "alias": "FinishedBasement",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ExteriorWall1",
+      "type": "String",
+      "alias": "ExteriorWall1",
+      "length": 15,
+      "has_domain": false
+    },
+    {
+      "name": "ExteriorWall2",
+      "type": "String",
+      "alias": "ExteriorWall2",
+      "length": 15,
+      "has_domain": false
+    },
+    {
+      "name": "Fireplaces",
+      "type": "Integer",
+      "alias": "Fireplaces",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "CentralAir",
+      "type": "String",
+      "alias": "CentralAir",
+      "length": 3,
+      "has_domain": false
+    },
+    {
+      "name": "PartialAssessed",
+      "type": "String",
+      "alias": "PartialAssessed",
+      "length": 18,
+      "has_domain": false
+    },
+    {
+      "name": "AssessedByState",
+      "type": "String",
+      "alias": "AssessedByState",
+      "length": 18,
+      "has_domain": false
+    },
+    {
+      "name": "CurrentLand",
+      "type": "Double",
+      "alias": "CurrentLand",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "CurrentImpr",
+      "type": "Double",
+      "alias": "CurrentImpr",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "CurrentTotal",
+      "type": "Double",
+      "alias": "CurrentTotal",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PreviousLand",
+      "type": "Double",
+      "alias": "PreviousLand",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PreviousImpr",
+      "type": "Double",
+      "alias": "PreviousImpr",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PreviousTotal",
+      "type": "Double",
+      "alias": "PreviousTotal",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "NetTaxes",
+      "type": "Double",
+      "alias": "NetTaxes",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "SpecialAssmnt",
+      "type": "Double",
+      "alias": "SpecialAssmnt",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "OtherCharges",
+      "type": "Double",
+      "alias": "OtherCharges",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TotalTaxes",
+      "type": "Double",
+      "alias": "TotalTaxes",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LotSize",
+      "type": "Double",
+      "alias": "LotSize",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Zoning1",
+      "type": "String",
+      "alias": "Zoning1",
+      "length": 6,
+      "has_domain": false
+    },
+    {
+      "name": "Zoning2",
+      "type": "String",
+      "alias": "Zoning2",
+      "length": 6,
+      "has_domain": false
+    },
+    {
+      "name": "Zoning3",
+      "type": "String",
+      "alias": "Zoning3",
+      "length": 6,
+      "has_domain": false
+    },
+    {
+      "name": "Zoning4",
+      "type": "String",
+      "alias": "Zoning4",
+      "length": 6,
+      "has_domain": false
+    },
+    {
+      "name": "FrontageStreet",
+      "type": "String",
+      "alias": "FrontageStreet",
+      "length": 30,
+      "has_domain": false
+    },
+    {
+      "name": "WaterFrontage",
+      "type": "String",
+      "alias": "WaterFrontage",
+      "length": 3,
+      "has_domain": false
+    },
+    {
+      "name": "TIFDistrict",
+      "type": "Double",
+      "alias": "TIFDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TaxSchoolDist",
+      "type": "String",
+      "alias": "TaxSchoolDist",
+      "length": 35,
+      "has_domain": false
+    },
+    {
+      "name": "AttendanceSchool",
+      "type": "String",
+      "alias": "AttendanceSchool",
+      "length": 35,
+      "has_domain": false
+    },
+    {
+      "name": "ElementarySchool",
+      "type": "String",
+      "alias": "ElementarySchool",
+      "length": 20,
+      "has_domain": false
+    },
+    {
+      "name": "MiddleSchool",
+      "type": "String",
+      "alias": "MiddleSchool",
+      "length": 20,
+      "has_domain": false
+    },
+    {
+      "name": "HighSchool",
+      "type": "String",
+      "alias": "HighSchool",
+      "length": 20,
+      "has_domain": false
+    },
+    {
+      "name": "Ward",
+      "type": "Double",
+      "alias": "Ward",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "StateAssemblyDistrict",
+      "type": "Double",
+      "alias": "StateAssemblyDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "RefuseDistrict",
+      "type": "String",
+      "alias": "RefuseDistrict",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "RefuseURL",
+      "type": "String",
+      "alias": "RefuseURL",
+      "length": 75,
+      "has_domain": false
+    },
+    {
+      "name": "PreviousLand2",
+      "type": "Double",
+      "alias": "PreviousLand2",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PreviousImpr2",
+      "type": "Double",
+      "alias": "PreviousImpr2",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PreviousTotal2",
+      "type": "Double",
+      "alias": "PreviousTotal2",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "AlderDistrict",
+      "type": "SmallInteger",
+      "alias": "AlderDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "AssessmentChangeDate",
+      "type": "Date",
+      "alias": "AssessmentChangeDate",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "BlockNumber",
+      "type": "SmallInteger",
+      "alias": "BlockNumber",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "BuildingDistrict",
+      "type": "SmallInteger",
+      "alias": "BuildingDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "CapitolFireDistrict",
+      "type": "String",
+      "alias": "CapitolFireDistrict",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "ConditionalUse",
+      "type": "SmallInteger",
+      "alias": "ConditionalUse",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "CouncilHold",
+      "type": "SmallInteger",
+      "alias": "CouncilHold",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "DateAdded",
+      "type": "Date",
+      "alias": "DateAdded",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "DeedPage",
+      "type": "Integer",
+      "alias": "DeedPage",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "DeedRestriction",
+      "type": "SmallInteger",
+      "alias": "DeedRestriction",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "DeedVolume",
+      "type": "Integer",
+      "alias": "DeedVolume",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ElectricalDistrict",
+      "type": "SmallInteger",
+      "alias": "ElectricalDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "EnvHealthDistrict",
+      "type": "SmallInteger",
+      "alias": "EnvHealthDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ExemptionType",
+      "type": "String",
+      "alias": "ExemptionType",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "FireDistrict",
+      "type": "SmallInteger",
+      "alias": "FireDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "FloodPlain",
+      "type": "SmallInteger",
+      "alias": "FloodPlain",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "FuelStorageProximity",
+      "type": "SmallInteger",
+      "alias": "FuelStorageProximity",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "HeatingDistrict",
+      "type": "SmallInteger",
+      "alias": "HeatingDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Holds",
+      "type": "String",
+      "alias": "Holds",
+      "length": 175,
+      "has_domain": false
+    },
+    {
+      "name": "IllegalLandDivision",
+      "type": "SmallInteger",
+      "alias": "IllegalLandDivision",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LandfillProximity",
+      "type": "SmallInteger",
+      "alias": "LandfillProximity",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LandfillRemediation",
+      "type": "String",
+      "alias": "LandfillRemediation",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "Landmark",
+      "type": "String",
+      "alias": "Landmark",
+      "length": 1,
+      "has_domain": false
+    },
+    {
+      "name": "LandscapeBuffer",
+      "type": "SmallInteger",
+      "alias": "LandscapeBuffer",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LocalHistoricalDist",
+      "type": "String",
+      "alias": "LocalHistoricalDist",
+      "length": 60,
+      "has_domain": false
+    },
+    {
+      "name": "LotDepth",
+      "type": "Double",
+      "alias": "LotDepth",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LotNumber",
+      "type": "SmallInteger",
+      "alias": "LotNumber",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "LotType1",
+      "type": "String",
+      "alias": "LotType1",
+      "length": 60,
+      "has_domain": false
+    },
+    {
+      "name": "LotType2",
+      "type": "String",
+      "alias": "LotType2",
+      "length": 60,
+      "has_domain": false
+    },
+    {
+      "name": "LotWidth",
+      "type": "Double",
+      "alias": "LotWidth",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "MCDCode",
+      "type": "String",
+      "alias": "MCDCode",
+      "length": 5,
+      "has_domain": false
+    },
+    {
+      "name": "NationalHistoricalDist",
+      "type": "SmallInteger",
+      "alias": "NationalHistoricalDist",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "NeighborhoodDesc",
+      "type": "String",
+      "alias": "NeighborhoodDesc",
+      "length": 60,
+      "has_domain": false
+    },
+    {
+      "name": "NeighborhoodPrimary",
+      "type": "String",
+      "alias": "NeighborhoodPrimary",
+      "length": 60,
+      "has_domain": false
+    },
+    {
+      "name": "NeighborhoodSub",
+      "type": "String",
+      "alias": "NeighborhoodSub",
+      "length": 60,
+      "has_domain": false
+    },
+    {
+      "name": "NeighborhoodVuln",
+      "type": "String",
+      "alias": "NeighborhoodVuln",
+      "length": 60,
+      "has_domain": false
+    },
+    {
+      "name": "NoiseAirport",
+      "type": "SmallInteger",
+      "alias": "NoiseAirport",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "NoiseRailroad",
+      "type": "SmallInteger",
+      "alias": "NoiseRailroad",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "NoiseStreet",
+      "type": "SmallInteger",
+      "alias": "NoiseStreet",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ObsoleteDate",
+      "type": "Date",
+      "alias": "ObsoleteDate",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "OwnerChangeDate",
+      "type": "Date",
+      "alias": "OwnerChangeDate",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "OwnerOccupied",
+      "type": "String",
+      "alias": "OwnerOccupied",
+      "length": 30,
+      "has_domain": false
+    },
+    {
+      "name": "ParcelChangeDate",
+      "type": "Date",
+      "alias": "ParcelChangeDate",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "ParcelCode",
+      "type": "String",
+      "alias": "ParcelCode",
+      "length": 1,
+      "has_domain": false
+    },
+    {
+      "name": "ParkProximity",
+      "type": "SmallInteger",
+      "alias": "ParkProximity",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Pending",
+      "type": "String",
+      "alias": "Pending",
+      "length": 1,
+      "has_domain": false
+    },
+    {
+      "name": "PlanningDistrict",
+      "type": "String",
+      "alias": "PlanningDistrict",
+      "length": 1,
+      "has_domain": false
+    },
+    {
+      "name": "PlumbingDistrict",
+      "type": "SmallInteger",
+      "alias": "PlumbingDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PoliceDistrict",
+      "type": "String",
+      "alias": "PoliceDistrict",
+      "length": 1,
+      "has_domain": false
+    },
+    {
+      "name": "PoliceSector",
+      "type": "SmallInteger",
+      "alias": "PoliceSector",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PreviousClass",
+      "type": "String",
+      "alias": "PreviousClass",
+      "length": 1,
+      "has_domain": false
+    },
+    {
+      "name": "PropertyUseCode",
+      "type": "SmallInteger",
+      "alias": "PropertyUseCode",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "RailroadFrontage",
+      "type": "String",
+      "alias": "RailroadFrontage",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "ReasonChangeImpr",
+      "type": "String",
+      "alias": "ReasonChangeImpr",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "ReasonChangeLand",
+      "type": "String",
+      "alias": "ReasonChangeLand",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "SenateDistrict",
+      "type": "SmallInteger",
+      "alias": "SenateDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "SupervisorDistrict",
+      "type": "SmallInteger",
+      "alias": "SupervisorDistrict",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TifImpr",
+      "type": "Integer",
+      "alias": "TifImpr",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TifLand",
+      "type": "Integer",
+      "alias": "TifLand",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TifYear",
+      "type": "SmallInteger",
+      "alias": "TifYear",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TotalDwellingUnits",
+      "type": "SmallInteger",
+      "alias": "TotalDwellingUnits",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TrafficAnalysisZone",
+      "type": "SmallInteger",
+      "alias": "TrafficAnalysisZone",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "TypeWaterFrontage",
+      "type": "String",
+      "alias": "TypeWaterFrontage",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "UWPolice",
+      "type": "String",
+      "alias": "UWPolice",
+      "length": 2,
+      "has_domain": false
+    },
+    {
+      "name": "WetlandInfo",
+      "type": "String",
+      "alias": "WetlandInfo",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "ZoningAll",
+      "type": "String",
+      "alias": "ZoningAll",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "ZoningBoardAppeal",
+      "type": "SmallInteger",
+      "alias": "ZoningBoardAppeal",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "UrbanDesignDistrict",
+      "type": "String",
+      "alias": "UrbanDesignDistrict",
+      "length": 100,
+      "has_domain": false
+    },
+    {
+      "name": "HouseNbr",
+      "type": "Integer",
+      "alias": "HouseNbr",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "StreetDir",
+      "type": "String",
+      "alias": "StreetDir",
+      "length": 2,
+      "has_domain": false
+    },
+    {
+      "name": "StreetName",
+      "type": "String",
+      "alias": "StreetName",
+      "length": 24,
+      "has_domain": false
+    },
+    {
+      "name": "StreetType",
+      "type": "String",
+      "alias": "StreetType",
+      "length": 5,
+      "has_domain": false
+    },
+    {
+      "name": "Unit",
+      "type": "String",
+      "alias": "Unit",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "StreetID",
+      "type": "Integer",
+      "alias": "StreetID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "StormOutfall",
+      "type": "String",
+      "alias": "StormOutfall",
+      "length": 10,
+      "has_domain": false
+    },
+    {
+      "name": "FireDemandZone",
+      "type": "Integer",
+      "alias": "FireDemandZone",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "FireDemandSubZone",
+      "type": "Integer",
+      "alias": "FireDemandSubZone",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "PropertyChangeDate",
+      "type": "Date",
+      "alias": "PropertyChangeDate",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "MaxConstructionYear",
+      "type": "Integer",
+      "alias": "MaxConstructionYear",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "XCoord",
+      "type": "Double",
+      "alias": "XCoord",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "YCoord",
+      "type": "Double",
+      "alias": "YCoord",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Area",
+      "type": "Double",
+      "alias": "SHAPE.STArea()",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape__Length",
+      "type": "Double",
+      "alias": "SHAPE.STLength()",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "geometry_sample": {
+    "layer_url": "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA2/FeatureServer/0",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 103412,
+      "latestWkid": 8193
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "simplified": null,
+    "file": "data/sample/geo/madison_parcels.geojson",
+    "features": 3,
+    "bytes": 11390,
+    "vertices_per_feature": [
+      5,
+      5,
+      38
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
+}

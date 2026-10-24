@@ -1,6 +1,6 @@
 {
   "source_id": "ut_parcels",
-  "fetched_at": "2026-10-23T16:40:00+00:00",
+  "fetched_at": "2026-10-24T05:06:15+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -298,6 +298,7 @@
     },
     "supports_pagination": true,
     "max_record_count": 2000,
+    "simplified": null,
     "file": "data/sample/geo/ut_parcels.geojson",
     "features": 3,
     "bytes": 3619,

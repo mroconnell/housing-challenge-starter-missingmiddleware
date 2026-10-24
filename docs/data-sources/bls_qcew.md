@@ -1,6 +1,6 @@
 # BLS Quarterly Census of Employment and Wages (QCEW), construction
 
-**Status:** Fetched (last fetch 2026-10-23)  
+**Status:** Fetched (last fetch 2026-10-24)  
 **Source id:** `bls_qcew`  
 **Handbook listing:** Bureau of Labor Statistics (construction employment, costs)
 
