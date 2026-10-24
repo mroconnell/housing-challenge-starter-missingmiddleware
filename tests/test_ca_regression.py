@@ -192,3 +192,18 @@ class TestRuleV1(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestRuleV11(unittest.TestCase):
+    def test_too_few_measured_places_means_no_active(self):
+        import pandas as pd
+        from missing_middleware.comparison import ca_regression as cr
+        obs = pd.DataFrame([
+            {"jurisdiction": "a", "permits": 39, "years": 4, "homes": 53000, "measured": True},
+            {"jurisdiction": "b", "permits": 1, "years": 4, "homes": 8000, "measured": True},
+            {"jurisdiction": "c", "permits": 0, "years": 4, "homes": 6000, "measured": True},
+        ])
+        g11 = cr.state_relative_groups(obs, min_measured=20).set_index("jurisdiction").group
+        self.assertEqual(g11["a"], "middle")
+        g1 = cr.state_relative_groups(obs).set_index("jurisdiction").group
+        self.assertEqual(g1["a"], "active")

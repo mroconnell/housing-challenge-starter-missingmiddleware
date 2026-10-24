@@ -552,7 +552,8 @@ def wi_group(areas: pd.DataFrame, rule: str = "absolute") -> pd.Series:
 # Group rule v1: state-relative activity groups (owner decision G3-6, 2026-10-24)
 # ---------------------------------------------------------------------------
 
-def state_relative_groups(obs: pd.DataFrame, top_share: float = 0.25, min_permits: int = 3) -> pd.DataFrame:
+def state_relative_groups(obs: pd.DataFrame, top_share: float = 0.25, min_permits: int = 3,
+                          min_measured: int = 0) -> pd.DataFrame:
     """Rule v1 (to be made robust when building for other states): the California rule,
     applied to any state's own distribution of observed second-home permits.
 
@@ -564,6 +565,11 @@ def state_relative_groups(obs: pd.DataFrame, top_share: float = 0.25, min_permit
       middle      = everyone else.
     Returns obs with rate, cutoff and group. This is exactly ca_study.assign_groups with the
     cutoff computed from the state's own measured jurisdictions.
+
+    Rule v1.1 (proposed after the revised Gate 3 review): pass min_measured=20. The top-share
+    ranking can make a place active only when at least `min_measured` jurisdictions are
+    measured; below that, places with >= min_permits permits are middle and zeros restrictive.
+    Still one general rule with no state-specific cutoff.
     """
     o = obs.copy()
     o["rate"] = o["permits"] / (o["years"] * o["homes"]) * 1000
@@ -572,7 +578,8 @@ def state_relative_groups(obs: pd.DataFrame, top_share: float = 0.25, min_permit
     k = int(np.ceil(top_share * len(rates)))
     cutoff = float(rates.iloc[k - 1]) if k > 0 else np.inf
     grp = pd.Series("middle", index=o.index, dtype=object)
-    grp[(o["rate"] >= cutoff) & (o["permits"] >= min_permits)] = "active"
+    if len(rates) >= min_measured:
+        grp[(o["rate"] >= cutoff) & (o["permits"] >= min_permits)] = "active"
     grp[o["permits"].eq(0)] = "restrictive"
     grp[~o["measured"].astype(bool)] = "restrictive"
     o["cutoff"] = cutoff

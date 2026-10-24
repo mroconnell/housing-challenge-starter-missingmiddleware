@@ -27,7 +27,7 @@ Gate 3 revision (AQ-034, owner decision 2026-10-24). This replaces the judgment-
   - Even with Madison mapped to middle (version a), the prediction is 1.16, and with every place restrictive it is 0.91.
   - So the market terms do not carry Madison's low level. The gap is what a statewide law, or a California-specific factor, would have to supply.
   - Madison's provisional 2026 rate (0.97 with the templated program, 0.30 without) is the only Wisconsin observation near the model.
-- **Unzoned towns (G3-5):** the hook is in place. `reference/wi_town_zoning_status.csv` did not exist when this ran, so no town is treated separately yet (section 3).
+- **Unzoned towns (G3-5):** applied since the town list landed (239 unzoned towns, about 76,600 homes); they add about 58 to the central path. *(Updated by the conductor 2026-10-24.)*
 - **Event time (benchmark adoption year)** raises the Wisconsin total by 12% (2,620). Los Angeles, the one documented early adopter, supplies 53% of the active group's 2017–2019 permits. Event time explains about half of that group's early rise.
 - **Ramp:** the study's ramp shapes are kept. Low-value California places ramped like the group as a whole.
 
