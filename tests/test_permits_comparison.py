@@ -206,6 +206,22 @@ class TestPriorDwellingRule(unittest.TestCase):
         self.assertTrue(pd.isna(f.loc["C3", "second_home_component"]))  # teardown-rebuild is excluded
         self.assertEqual(int(f["second_home_units"].sum()), 2)
 
+    def test_pleasant_prairie_likely_false_hits_leave_headline(self):
+        j = pp.SECOND_HOME_JUDGMENTS
+        self.assertIs(pp.PleasantPrairieAdapter.second_home_judgments, j)
+        self.assertEqual(sorted(j), ["SF1710-020", "SF2110-077", "SF2203-055"])
+        self.assertTrue(all(not v["counts"] and v["upper_bound"] for v in j.values()))
+
+    def test_sun_prairie_reform_year_is_split(self):
+        a = sp.SunPrairieAdapter()
+        self.assertEqual(cmp.restrictive_periods(a, 2025), [("2025-01-01", "2025-12-31", True)])
+        self.assertEqual(cmp.restrictive_periods(a, 2026), [("2026-01-01", "2026-05-04", True),
+                                                            ("2026-05-05", "2026-12-31", False)])
+        self.assertEqual(cmp.restrictive_periods(a, 2027), [("2027-01-01", "2027-12-31", False)])
+        flag = cmp.restrictive_flag(a, pd.Series(pd.to_datetime(["2026-04-30", "2026-05-05", "2024-01-01"])))
+        self.assertEqual(list(flag), [True, False, True])
+        self.assertTrue(cmp.restrictive_flag(pp.PleasantPrairieAdapter(), pd.Series(["2026-09-01"])).all())
+
     def test_parcel_id_normalized_match(self):
         fn = cmp.parcel_match_fn({"91-4-122-000-0706"})
         m = fn(pd.DataFrame({"parcel_key": ["914122000 0706", "91-4-122-000-0706", None],

@@ -385,7 +385,9 @@ class SunPrairieAdapter(CityAdapter):
     v12_coname = "DANE"
     bps_id = BPS_ID
     first_year = 2016
-    restrictive_last_year = 2025  # Ord. 984 (adopted 2026-05-05) allows ADUs by special use
+    restrictive_last_year = 2025  # last whole restrictive year
+    restrictive_end = "2026-05-05"  # Ord. 984 (adopted 2026-05-05) allows ADUs by special use; records
+    # submitted before this date are in the restrictive period (review N6: 2026 is split, Jan 1-May 4)
     stage = "application"
 
     def load_permits(self, raw_dir: Path) -> pd.DataFrame:

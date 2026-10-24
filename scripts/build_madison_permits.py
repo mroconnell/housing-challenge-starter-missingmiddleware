@@ -78,10 +78,12 @@ def main(argv=None) -> int:
                                   exclude_parcel_rule=a.parcel_rule_false_positives)
     # headline outcome (AQ-032): second homes on single-family lots; unit_category is unchanged
     full = second_homes.assign(full, a.second_home_judgments)
+    # review S7: flag the templated 2025-26 builder programme (Gate 3 uses 2026 as a sensitivity only)
+    full["templated_programme"] = madison.templated_programme(full)
     obs = to_contract(full, a.source_id, a.jurisdiction_id)
     s_in = full.loc[full["in_scope"]]
-    obs["second_home_component"] = s_in["second_home_component"].values
-    obs["second_home_units"] = s_in["second_home_units"].values
+    for col in ("second_home_component", "second_home_units", "second_home_upper_units", "templated_programme"):
+        obs[col] = s_in[col].values
     problems = contracts.validate(obs, contracts.PERMITS_OBSERVED)
     city_area = f"muni:{a.jurisdiction_id}"
     agg = by_area_year(obs, city_area)
@@ -94,6 +96,11 @@ def main(argv=None) -> int:
     agg.to_parquet(out / "permits_by_area_year.parquet", index=False)
 
     ref_tbl = reference_by_year(full)
+    data_end_year = int(full["year"].max())
+    # 2026 is a partial year (data to the download date) and is dominated by one templated programme:
+    # provisional, and for Gate 3 a sensitivity only (never part of the Madison floor)
+    ref_tbl["value_status"] = ref_tbl["year"].map(lambda y: "provisional" if y == data_end_year else "final")
+    ref_tbl["gate3_use"] = ref_tbl["year"].map(lambda y: "sensitivity_only" if y == data_end_year else "eligible")
     REFERENCE.mkdir(exist_ok=True)
     ref_tbl.to_csv(REFERENCE / "madison_adu_permits_by_year.csv", index=False)
     traced = ["BLDNRC-2024-10200", "BLDNRC-2026-21855"]  # the doc's traced and unmatched examples
@@ -109,6 +116,12 @@ def main(argv=None) -> int:
     audit = pd.concat([audit[~audit["permit_id"].isin(judged["permit_id"])], extra], ignore_index=True)
     audit.to_csv(out / "audit_sample.csv", index=False)
     sh_years = second_homes.by_year(full, range(2014, int(full["year"].max()) + 1))
+    lb = pd.DataFrame([madison.programme_lower_bounds(full, y) for y in sh_years["year"]])
+    sh_years["lower_bound_two_unit_as_one"] = lb["two_unit_as_one"].values
+    sh_years["lower_bound_pairs_as_one_project"] = lb["pairs_as_one_project"].values
+    sh_years["lower_bound_both"] = lb["both"].values
+    sh_years["value_status"] = sh_years["year"].map(lambda y: "provisional" if y == int(full["year"].max())
+                                                    else "final")
     sh_years.to_csv(out / "second_homes_by_year.csv", index=False)
     recon = reconcile_city(full)
     recon.to_csv(out / "reconcile_city_table.csv", index=False)
@@ -132,6 +145,11 @@ def main(argv=None) -> int:
         "reconciliation": recon.to_dict("records"),
         "second_home_sf_lot_by_year": sh_years.to_dict("records"),
         "second_home_judgments": judged[["permit_id", "judgment", "counts", "units"]].to_dict("records"),
+        "templated_programme": {
+            "permits_by_year": full[full["templated_programme"]].groupby("year").size().astype(int).to_dict(),
+            "headline_units_by_year": full[full["templated_programme"]].groupby("year")["second_home_units"]
+            .sum().astype(int).to_dict(),
+            "rule": "BLDNRC, issue year >= 2025, (998 sq ft and $80k-$90k) or (2,994 sq ft and $200k)"},
     }
     (out / "build_report.json").write_text(json.dumps(report, indent=2, default=str) + "\n")
     print(json.dumps({k: report[k] for k in ("raw_rows", "permits_deduped", "permits_in_scope",

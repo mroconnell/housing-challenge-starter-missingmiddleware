@@ -338,3 +338,26 @@ def series_label(full: pd.DataFrame) -> pd.Series:
     s[oth & rr.eq("manufactured_home_replacement")] = "manufactured_home_replacement"
     s[full["unit_category"].isna()] = None
     return s
+
+
+# --------------------------------------------------------------------------- restrictive period
+def restrictive_flag(a, dates: pd.Series) -> pd.Series:
+    """Record-level restrictive flag: before the reform date (adapter `restrictive_end`), else True."""
+    end = getattr(a, "restrictive_end", None)
+    if not end:
+        return pd.Series(True, index=dates.index)
+    return pd.to_datetime(dates).lt(pd.Timestamp(end))
+
+
+def restrictive_periods(a, y: int) -> list[tuple[str, str, bool]]:
+    """(period_start, period_end, restrictive) for year y; a reform year is split at the reform date."""
+    start, stop = f"{y}-01-01", f"{y}-12-31"
+    end = getattr(a, "restrictive_end", None)
+    if not end:
+        return [(start, stop, True)]
+    e = pd.Timestamp(end)
+    if e.year > y:
+        return [(start, stop, True)]
+    if e.year < y or e == pd.Timestamp(start):
+        return [(start, stop, False)]
+    return [(start, (e - pd.Timedelta(days=1)).date().isoformat(), True), (e.date().isoformat(), stop, False)]

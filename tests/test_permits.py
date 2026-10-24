@@ -267,6 +267,50 @@ class TestSecondHomes(unittest.TestCase):
         for p, v in j.items():
             self.assertNotRegex(v["evidence"], r"\b\d{12}\b", p)  # no parcel numbers in committed text
 
+    def test_upper_bound_judgment_keeps_units_out_of_headline(self):
+        j = {"BLDNRC-2024-00013": {"counts": False, "units": 0, "component": None, "upper_bound": True,
+                                   "judgment": "pending", "evidence": ""}}
+        f = second_homes.assign(self.before, j)
+        r = f.set_index("permit_id").loc["BLDNRC-2024-00013"]
+        self.assertTrue(pd.isna(r.second_home_component))
+        self.assertEqual((r.second_home_units, r.second_home_upper_units), (0, 1))
+        self.assertEqual(r.second_home_note, "judged_excluded_upper_bound:pending")
+        y = second_homes.by_year(f, [2024]).iloc[0]
+        self.assertEqual(int(y[second_homes.UPPER]), int(y[second_homes.HEADLINE]) + 1)
+        rows = {r["name"]: r["units"] for r in second_homes.long_rows(f, 2024)}
+        self.assertEqual(rows[second_homes.UPPER], rows[second_homes.HEADLINE] + 1)
+
+    def test_madison_pending_record_is_out_of_headline(self):
+        j = madison.SECOND_HOME_JUDGMENTS["BLDNRC-2026-23354"]
+        self.assertFalse(j["counts"])
+        self.assertTrue(j["upper_bound"])
+        self.assertIn("host_note", madison.SECOND_HOME_JUDGMENTS["BLDNRC-2026-20379"])
+
+    def test_templated_programme_flag_and_bounds(self):
+        df = pd.DataFrame({
+            "permit_id": ["BLDNRC-2026-03458", "BLDNRC-2026-03464", "A", "B", "C", "D"],
+            "permit_type": ["BLDNRC"] * 6,
+            "issue_date": pd.to_datetime(["2026-06-05", "2026-06-05", "2026-01-05", "2025-07-30",
+                                          "2024-05-01", "2026-03-01"]),
+            "bldg_sqft": [2994.0, 998.0, 998.0, 2994.0, 998.0, 1000.0],
+            "est_cost": [200000.0, 90000.0, 80000.0, 383172.0, 80000.0, 150000.0],
+        })
+        self.assertEqual(list(madison.templated_programme(df)), [True, True, True, False, False, False])
+        df["year"] = df["issue_date"].dt.year
+        df["second_home_component"] = ["adu_two_unit", "sf_to_duplex", "adu_detached", None, None, "adu_detached"]
+        df["second_home_units"] = [2, 1, 1, 0, 0, 1]
+        b = madison.programme_lower_bounds(df, 2026)
+        self.assertEqual((b["headline"], b["two_unit_as_one"], b["pairs_as_one_project"], b["both"]), (5, 4, 4, 3))
+        df["templated_programme"] = madison.templated_programme(df)
+        rows = {r["name"]: r["units"] for r in second_homes.long_rows(df.assign(counted=True), 2026)}
+        self.assertEqual((rows[second_homes.PROGRAMME], rows[second_homes.EXCL_PROGRAMME]), (4, 1))
+
+    def test_reference_headline_window_starts_2014(self):
+        f = self.full.reset_index().copy()
+        f.loc[f.permit_id == "BLDNRC-2024-00013", "year"] = 2012
+        ref = report.reference_by_year(f)
+        self.assertFalse(((ref.year < 2014) & ref.category.str.startswith(second_homes.HEADLINE)).any())
+
 
 if __name__ == "__main__":
     unittest.main()

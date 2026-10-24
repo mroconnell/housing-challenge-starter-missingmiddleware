@@ -417,6 +417,9 @@ class PleasantPrairieAdapter(CityAdapter):
     first_year = 2003
     existing_dwelling_type_re = EXISTING_DWELLING_TYPE_RE
     stage = "issued"
+    # AQ-032 headline: parcel-rule hits the audit judged likely false are excluded, the same rule as
+    # Madison applies to its judged exclusions (review S3); they stay in the unconfirmed upper bound
+    second_home_judgments = None  # set below the class (SECOND_HOME_JUDGMENTS)
 
     def load_permits(self, raw_dir: Path) -> pd.DataFrame:
         return load_raw_permits(raw_dir)
@@ -439,3 +442,26 @@ class PleasantPrairieAdapter(CityAdapter):
                      & ~d.str.contains(r"interior|garage|shed|barn|accessory|deck|pool", case=False, regex=True))
         temp = df["permit_type"].isin(TEMP_SECOND_PRINCIPAL_TYPES)
         return raze_dw | raze_text | temp
+
+
+_LIKELY_FALSE = ("Parcel-rule second dwelling that the Gate 2 audit judged uncertain_likely_false "
+                 "(data/processed/permits_pleasant_prairie/audit_judgments.csv): {why}. Excluded from the "
+                 "headline as in Madison; kept in the unconfirmed upper bound.")
+SECOND_HOME_JUDGMENTS: dict[str, dict] = {
+    "SF1710-020": {"counts": False, "units": 0, "component": None, "upper_bound": True,
+                   "judgment": "parcel_rule_likely_false",
+                   "evidence": _LIKELY_FALSE.format(why="only prior evidence is one 2014 legacy permit with no "
+                                                    "text, and a new gas service followed the house permit, "
+                                                    "which fits a first house on the lot")},
+    "SF2110-077": {"counts": False, "units": 0, "component": None, "upper_bound": True,
+                   "judgment": "parcel_rule_likely_false",
+                   "evidence": _LIKELY_FALSE.format(why="a 10,256 sq ft new house whose only prior evidence is a "
+                                                    "2012 legacy alteration: likely a replacement of an older "
+                                                    "house without a raze permit, i.e. a teardown under AQ-032")},
+    "SF2203-055": {"counts": False, "units": 0, "component": None, "upper_bound": True,
+                   "judgment": "parcel_rule_likely_false",
+                   "evidence": _LIKELY_FALSE.format(why="an earlier new-dwelling permit on the same parcel 4.5 "
+                                                    "years before and no raze: most likely the earlier permit "
+                                                    "was not built and the lot was re-permitted")},
+}
+PleasantPrairieAdapter.second_home_judgments = SECOND_HOME_JUDGMENTS

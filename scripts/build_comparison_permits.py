@@ -83,7 +83,8 @@ def build_city(name: str, fetch: bool, refresh: bool, log=print) -> dict:
     obs["series"] = full.loc[full["in_scope"], "series"].values
     obs["second_home_component"] = full.loc[full["in_scope"], "second_home_component"].values
     obs["second_home_units"] = full.loc[full["in_scope"], "second_home_units"].values
-    obs["restrictive_period"] = _restrictive(a, obs["year"])
+    obs["second_home_upper_units"] = full.loc[full["in_scope"], "second_home_upper_units"].values
+    obs["restrictive_period"] = cmp.restrictive_flag(a, obs["stage_date"])
     problems = contracts.validate(obs, contracts.PERMITS_OBSERVED)
     agg = by_area_year(obs, f"muni:{a.jurisdiction_id}")
     problems += contracts.validate(agg, contracts.PERMITS_BY_AREA_YEAR)
@@ -128,38 +129,53 @@ def build_city(name: str, fetch: bool, refresh: bool, log=print) -> dict:
     return report
 
 
-def _restrictive(a, years: pd.Series) -> pd.Series:
-    last = getattr(a, "restrictive_last_year", None)
-    return years.le(last) if last else pd.Series(True, index=years.index)
+HEADLINE_FIRST_YEAR = 2014  # second-home headline rows start here (or at the city's first data year)
+
+
+def _headline_method(a, name: str) -> str:
+    """Component rows are rule only; headline totals and bounds include recorded judgments if any."""
+    if ":" in name or not getattr(a, "second_home_judgments", None):
+        return "aq032_rule"
+    return "aq032_rule+judgment"
 
 
 def reference_by_year(full: pd.DataFrame, a) -> pd.DataFrame:
-    """Aggregate, non-personal: year x series permits/units, plus new 1-2 family totals."""
-    c = full[full["counted"]]
+    """Aggregate, non-personal: year x series permits/units, plus new 1-2 family totals.
+
+    One row set per (year, period). A year that contains the reform date (Sun Prairie 2026) is split
+    by record date into its restrictive part (period_start..reform date - 1) and the rest. Second-home
+    (AQ-032) rows start in HEADLINE_FIRST_YEAR. The data end year is `value_status = provisional`."""
+    counted = full[full["counted"]]
+    dates = pd.to_datetime(counted["issue_date"])
+    end_year = int(full["year"].max())
     rows = []
-    for y in range(max(int(full["year"].min()), a.first_year), int(full["year"].max()) + 1):
-        cy = c[c["year"] == y]
-        restrictive = bool(_restrictive(a, pd.Series([y])).iloc[0])
-        for s in REF_SERIES:
-            x = cy[cy["series"] == s]
-            rows.append({"year": y, "series": s, "permits": len(x), "units": int(x["units_added"].sum()),
-                         "method": {"adu_text": "text_rule"}.get(s, "parcel_rule" if s.startswith("adu_eq")
-                                                                 else "parcel_rule_excluded"),
-                         "stage": a.stage, "restrictive_period": restrictive})
-        # headline (AQ-032): second homes on single-family lots, then its components
-        for r in second_homes.long_rows(full[full["counted"]], y):
-            rows.append({"year": y, "series": r["name"], "permits": r["permits"], "units": r["units"],
-                         "method": "aq032_rule", "stage": a.stage, "restrictive_period": restrictive})
-        nd = cy[cy["new_dwelling_type"] & ~cy["manufactured"]]
-        for k, label in ((1, "new_one_family_dwellings"), (2, "new_two_family_dwellings")):
-            x = nd[nd["units_added"] == k]
-            rows.append({"year": y, "series": label, "permits": len(x), "units": int(x["units_added"].sum()),
-                         "method": "structured_field" if a.stage == "issued" else "type_and_text",
-                         "stage": a.stage, "restrictive_period": restrictive})
-        x = cy[cy["manufactured"] & cy["new_dwelling_type"]]
-        rows.append({"year": y, "series": "new_manufactured_homes", "permits": len(x),
-                     "units": int(x["units_added"].sum()), "method": "structured_field", "stage": a.stage,
-                     "restrictive_period": restrictive})
+    for y in range(max(int(full["year"].min()), a.first_year), end_year + 1):
+        periods = cmp.restrictive_periods(a, y)
+        for p_start, p_end, restrictive in periods:
+            in_year = counted["year"] == y
+            if len(periods) > 1:
+                in_year &= dates.between(pd.Timestamp(p_start), pd.Timestamp(p_end))
+            cy = counted[in_year]
+            base = {"stage": a.stage, "restrictive_period": restrictive, "period_start": p_start,
+                    "period_end": p_end, "value_status": "provisional" if y == end_year else "final"}
+            for s in REF_SERIES:
+                x = cy[cy["series"] == s]
+                rows.append({"year": y, "series": s, "permits": len(x), "units": int(x["units_added"].sum()),
+                             "method": {"adu_text": "text_rule"}.get(s, "parcel_rule" if s.startswith("adu_eq")
+                                                                     else "parcel_rule_excluded"), **base})
+            # headline (AQ-032): second homes on single-family lots, its components and upper bound
+            if y >= HEADLINE_FIRST_YEAR:
+                for r in second_homes.long_rows(cy, y):
+                    rows.append({"year": y, "series": r["name"], "permits": r["permits"], "units": r["units"],
+                                 "method": _headline_method(a, r["name"]), **base})
+            nd = cy[cy["new_dwelling_type"] & ~cy["manufactured"]]
+            for k, label in ((1, "new_one_family_dwellings"), (2, "new_two_family_dwellings")):
+                x = nd[nd["units_added"] == k]
+                rows.append({"year": y, "series": label, "permits": len(x), "units": int(x["units_added"].sum()),
+                             "method": "structured_field" if a.stage == "issued" else "type_and_text", **base})
+            x = cy[cy["manufactured"] & cy["new_dwelling_type"]]
+            rows.append({"year": y, "series": "new_manufactured_homes", "permits": len(x),
+                         "units": int(x["units_added"].sum()), "method": "structured_field", **base})
     out = pd.DataFrame(rows)
     out.insert(0, "jurisdiction_id", a.jurisdiction_id)
     return out

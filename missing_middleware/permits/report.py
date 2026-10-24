@@ -17,13 +17,21 @@ CITY_ADU_TABLE = {2013: 1, 2014: 5, 2015: 2, 2016: 2, 2017: 1, 2018: 1, 2019: 2,
 
 def second_home_method(name: str) -> str:
     """Method label for a second-home reference row (headline and components mix rule and judgment)."""
+    if name.startswith(HEADLINE + "_") or name.endswith("templated_programme"):
+        return "aq032_rule+judgment"
     if name == HEADLINE or name.endswith(("sf_to_duplex", "adu_two_unit")):
         return "aq032_rule+judgment" if not name.endswith("adu_two_unit") else "aq032_judgment"
     return "aq032_rule"
 
 
-def reference_by_year(full: pd.DataFrame) -> pd.DataFrame:
-    """year, category, count (permits), units, method. Aggregate and non-personal."""
+HEADLINE_FIRST_YEAR = 2014  # the second-home headline window starts here in every city file
+
+
+def reference_by_year(full: pd.DataFrame, headline_first_year: int = HEADLINE_FIRST_YEAR) -> pd.DataFrame:
+    """year, category, count (permits), units, method. Aggregate and non-personal.
+
+    Second-home (AQ-032) rows are written from `headline_first_year` on, so summing them gives
+    the headline window quoted in the docs (2014 to the data end)."""
     c = full[full["counted"]]
     rows = []
     years = range(int(full["year"].min()), int(full["year"].max()) + 1)
@@ -56,7 +64,7 @@ def reference_by_year(full: pd.DataFrame) -> pd.DataFrame:
         rows.append({"year": y, "category": "adu_text_multi_unit_bundle_review", "count": len(s),
                      "units": int(s["units_added"].sum()), "method": "text_rule_excluded"})
         # headline: second homes on single-family lots (AQ-032), then its components
-        if "second_home_component" in full.columns:
+        if "second_home_component" in full.columns and y >= headline_first_year:
             for r in long_rows(full, y):
                 rows.append({"year": y, "category": r["name"], "count": r["permits"], "units": r["units"],
                              "method": second_home_method(r["name"])})

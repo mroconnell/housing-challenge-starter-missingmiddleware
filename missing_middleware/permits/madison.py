@@ -407,9 +407,24 @@ SECOND_HOME_JUDGMENTS: dict[str, dict] = {
                                          "on the block; no other permit on the host")},
     "BLDNRC-2026-20379": {
         "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
-        "evidence": _TWO_UNIT_ADU.format(host="1961 (MoreThanOneBuild YES)", extra="garage raze on the "
-                                         "adjoining 1961 home (BLDRRZ-2026-01009, Jan 2026); new house number "
-                                         "between two existing homes")},
+        "host_note": "host is the parcel containing the geocoded point (a 1961 home); the Jan 2026 garage "
+                     "raze is on the adjoining 1961 home, which may be the true host; both are 1961 "
+                     "one-unit single-family homes, so the judgment holds for either",
+        "evidence": _TWO_UNIT_ADU.format(host="1961 (MoreThanOneBuild YES; point-in-parcel host)",
+                                         extra="garage raze on the adjoining 1961 single-family home "
+                                         "(BLDRRZ-2026-01009, Jan 2026), which may be the true host; new house "
+                                         "number between the two; either host is an existing one-unit home")},
+    # a rule hit held out of the headline pending evidence (review S2, 2026-10-24)
+    "BLDNRC-2026-23354": {
+        "counts": False, "units": 0, "component": None, "upper_bound": True,
+        "judgment": "pending_likely_new_duplex_without_existing_home",
+        "evidence": "Passes the parcel rule as a second dwelling (Dwell 2), but the text names a 'new duplex' at a "
+                    "range of house numbers different from the filed address, none of which exists in the current "
+                    "assessor layer; neighbouring parcels are 2-, 3- and 6-unit buildings. The matched host is a "
+                    "3,149 sq ft lot with a 1931 house, while the permit is a 3,258 sq ft, $662k duplex: more "
+                    "consistent with new construction on an adjoining vacant or cleared lot than with a second "
+                    "building behind the house. Issued 4 days before the data end, so the 180-day raze window "
+                    "has not elapsed. Does not count (pending); kept in the unconfirmed upper bound."},
     # same-programme SF -> duplex additions (998 sq ft) that the address match left unplaced
     "BLDNRC-2025-21560": {
         "counts": True, "units": 1, "component": "sf_to_duplex", "judgment": "conversion_of_existing_home",
@@ -431,3 +446,53 @@ SECOND_HOME_JUDGMENTS: dict[str, dict] = {
                     "BLDNRC-2026-20346; geocoded into the same 1954 single-family parcel; no raze."},
 }
 MadisonAdapter.second_home_judgments = SECOND_HOME_JUDGMENTS
+
+
+# --------------------------------------------------------------------------- templated 2025-26 programme
+# Review S7 (2026-10-24): one builder programme dominates Madison's 2026 headline. Its permits share
+# template specifications: a 998 sq ft unit at $80,000-$90,000 (detached ADUs and "addition to convert
+# single family to duplex") or a 2,994 sq ft two-unit ADU building (= 3 x 998) at $200,000. In the raw
+# report the contractor field on these permits is one of two businesses (checked locally; contractor
+# names are dropped at ingestion and never used by the rule). The flag is by specification only, so it
+# does not depend on contractor names. 2,994 sq ft also appears on an ordinary $383k new house
+# (BLDNRC-2025-11851), which the cost condition leaves out.
+PROGRAMME_FIRST_YEAR = 2025
+PROGRAMME_SPECS = ((998.0, 80_000, 90_000), (2994.0, 200_000, 200_000))
+# same-day pairs (two-unit ADU building + SF -> duplex addition) on one lot or adjoining lots:
+# if a pair is one project split across two permits, it adds the larger of the two, not both
+PROGRAMME_PAIRS = (
+    ("BLDNRC-2026-03458", "BLDNRC-2026-03464"), ("BLDNRC-2026-03516", "BLDNRC-2026-03526"),
+    ("BLDNRC-2026-03522", "BLDNRC-2026-03531"), ("BLDNRC-2026-06494", "BLDNRC-2026-05600"),
+    ("BLDNRC-2026-20346", "BLDNRC-2026-20339"),
+)
+
+
+def templated_programme(full: pd.DataFrame) -> pd.Series:
+    """True for permits matching the 2025-26 programme's template specifications."""
+    year = full["issue_date"].dt.year
+    hit = pd.Series(False, index=full.index)
+    for sqft, lo, hi in PROGRAMME_SPECS:
+        hit |= full["bldg_sqft"].eq(sqft) & full["est_cost"].between(lo, hi)
+    return hit & full["permit_type"].eq("BLDNRC") & year.ge(PROGRAMME_FIRST_YEAR)
+
+
+def programme_lower_bounds(full: pd.DataFrame, year: int) -> dict:
+    """Headline lower bounds for `year` under the two unit-count doubts about the programme.
+
+    two_unit_as_one: every judged two-unit ADU building counts 1 unit instead of 2.
+    pairs_as_one_project: each same-day pair counts the larger permit only.
+    both: both doubts at once (a pair then adds 1 unit).
+    """
+    s = full[(full["year"] == year) & full["second_home_component"].notna()]
+    head = int(s["second_home_units"].sum())
+    units = s.set_index("permit_id")["second_home_units"]
+    two_ids = list(s.loc[s["second_home_component"] == "adu_two_unit", "permit_id"])
+    two = len(two_ids)
+    pairs = [(a, b) for a, b in PROGRAMME_PAIRS if a in units.index and b in units.index]
+    paired = {a for a, _ in pairs}
+    pair_cut = sum(min(units[a], units[b]) for a, b in pairs)
+    both_cut = (sum(units[x] - 1 for x in two_ids if x not in paired)
+                + sum(units[a] + units[b] - 1 for a, b in pairs))
+    return {"year": year, "headline": head, "two_unit_adus": two, "pairs": len(pairs),
+            "two_unit_as_one": head - two, "pairs_as_one_project": head - pair_cut,
+            "both": head - both_cut}
