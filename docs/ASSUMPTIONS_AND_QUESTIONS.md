@@ -407,6 +407,10 @@ More post-reform permit observations can improve measurement, but a before-and-a
 - **Later:** add other places (Portland earlier; states that reformed after California) to strengthen the ramp.
 - Keep the analysis descriptive and pre-specified: define permissive and restrictive groups, outcome (ADU permits per 1,000 single-family homes), windows, and comparisons before running them.
 
+- **Different doses by wave:** SB 1069/AB 2299 (effective 2017: ministerial approval, conversions, parking caps); SB 229/AB 494 (effective 2018, a smaller cleanup); and the 2019 package (effective 2020: the 65852.2(e)/66323 exemption floor, SB 13 fee limits and the owner-occupancy pause). Code each wave clause by clause and check that the 2016 bills explain the 2017 rise.
+- **Additional check:** Madison versus Sun Prairie (same housing market, different rules) as a Wisconsin difference-in-differences check on the central path.
+- **Owner prior, for comparison only (not an input):** from ADU market experience, the owner expects prohibited places to run well under 0.1 ADU permits per 1,000 one-unit detached homes a year, and benchmark-law places somewhat above 2 per 1,000. This is well above the 0.3 used in the Gate 1 illustrations; Gate 3 reports where the evidence lands relative to it.
+
 **Decision:** Adopted direction; group definitions and windows to be pre-registered in the Gate 3 plan.
 
 ## Questions for office hours
