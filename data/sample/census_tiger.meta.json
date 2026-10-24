@@ -1,0 +1,103 @@
+{
+  "source_id": "census_tiger",
+  "fetched_at": "2026-10-24T04:56:33+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "api_url": "https://www2.census.gov/geo/tiger/TIGER2024/COUSUB/tl_2024_55_cousub.zip",
+  "record_count": 1925,
+  "files_in_zip": [
+    "tl_2024_55_cousub.cpg",
+    "tl_2024_55_cousub.dbf",
+    "tl_2024_55_cousub.prj",
+    "tl_2024_55_cousub.shp",
+    "tl_2024_55_cousub.shp.ea.iso.xml",
+    "tl_2024_55_cousub.shp.iso.xml",
+    "tl_2024_55_cousub.shx"
+  ],
+  "projection": "GEOGCS[\"GCS_North_American_1983\",DATUM[\"D_North_American_1983\",SPHEROID[\"GRS_1980\",6378137,298.257222101]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.017453292519943295]]",
+  "geometry_type": "Polygon (in the .shp file; not sampled)",
+  "note": "Sample is Wisconsin county subdivisions (towns, cities, villages), the layer the pipeline uses as its municipality key. The same field pattern applies to the state, county, place, tract and block group files.",
+  "fields": [
+    {
+      "name": "STATEFP",
+      "type": "string",
+      "length": 2
+    },
+    {
+      "name": "COUNTYFP",
+      "type": "string",
+      "length": 3
+    },
+    {
+      "name": "COUSUBFP",
+      "type": "string",
+      "length": 5
+    },
+    {
+      "name": "COUSUBNS",
+      "type": "string",
+      "length": 8
+    },
+    {
+      "name": "GEOID",
+      "type": "string",
+      "length": 10
+    },
+    {
+      "name": "GEOIDFQ",
+      "type": "string",
+      "length": 19
+    },
+    {
+      "name": "NAME",
+      "type": "string",
+      "length": 100
+    },
+    {
+      "name": "NAMELSAD",
+      "type": "string",
+      "length": 100
+    },
+    {
+      "name": "LSAD",
+      "type": "string",
+      "length": 2
+    },
+    {
+      "name": "CLASSFP",
+      "type": "string",
+      "length": 2
+    },
+    {
+      "name": "MTFCC",
+      "type": "string",
+      "length": 5
+    },
+    {
+      "name": "FUNCSTAT",
+      "type": "string",
+      "length": 1
+    },
+    {
+      "name": "ALAND",
+      "type": "number",
+      "length": 14
+    },
+    {
+      "name": "AWATER",
+      "type": "number",
+      "length": 14
+    },
+    {
+      "name": "INTPTLAT",
+      "type": "string",
+      "length": 11
+    },
+    {
+      "name": "INTPTLON",
+      "type": "string",
+      "length": 12
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "source_id": "madison_zoning",
+  "fetched_at": "2026-10-24T04:56:39+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA/MapServer/9",
+  "layer_name": "Zoning Districts",
+  "geometry_type": "esriGeometryPolygon",
+  "spatial_reference": {
+    "wkid": 103412,
+    "latestWkid": 8193,
+    "xyTolerance": 0.003280833333333333,
+    "zTolerance": 2,
+    "mTolerance": 2,
+    "falseX": -119400400,
+    "falseY": -97309100,
+    "xyUnits": 37463997.81859703,
+    "falseZ": 0,
+    "zUnits": 10000,
+    "falseM": -100000,
+    "mUnits": 10000
+  },
+  "record_count": 2473,
+  "max_record_count": 2000,
+  "last_edit_date": null,
+  "description": "City of Madison Wisconsin Zoning Districtshttp://www.cityofmadison.com/dpced/",
+  "copyright": "City of Madison Department of Planning and Community & Economic, Development, Planning Division City of Madison Department of Planning and Community & Economic, Development, Building Inspection",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ZONING_CODE",
+      "type": "String",
+      "alias": "Zoning Code",
+      "length": 12,
+      "has_domain": false
+    },
+    {
+      "name": "ZON_ANNO",
+      "type": "String",
+      "alias": "Zoning Annotation",
+      "length": 12,
+      "has_domain": false
+    },
+    {
+      "name": "PD_ID",
+      "type": "Integer",
+      "alias": "PD-ID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "ZON_PREFIX",
+      "type": "String",
+      "alias": "Zoning Prefix",
+      "length": 10,
+      "has_domain": false
+    },
+    {
+      "name": "Shape",
+      "type": "Geometry",
+      "alias": "Shape",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape.STArea()",
+      "type": "Double",
+      "alias": "Shape.STArea()",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Shape.STLength()",
+      "type": "Double",
+      "alias": "Shape.STLength()",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Zoning_Document",
+      "type": "String",
+      "alias": "Zoning_Document",
+      "length": 255,
+      "has_domain": false
+    },
+    {
+      "name": "Zoning_District",
+      "type": "String",
+      "alias": "Zoning_District",
+      "length": 255,
+      "has_domain": false
+    }
+  ],
+  "geometry_sample": {
+    "layer_url": "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA/MapServer/9",
+    "geometry_type": "Polygon",
+    "native_crs": {
+      "wkid": 103412,
+      "latestWkid": 8193
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "file": "data/sample/geo/madison_zoning.geojson",
+    "features": 3,
+    "bytes": 3706,
+    "vertices_per_feature": [
+      11,
+      34,
+      14
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
+}

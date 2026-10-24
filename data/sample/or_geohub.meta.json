@@ -1,6 +1,6 @@
 {
   "source_id": "or_geohub",
-  "fetched_at": "2026-10-23T16:39:48+00:00",
+  "fetched_at": "2026-10-24T04:55:52+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -168,20 +168,20 @@
       "modified": "2025-04-21"
     },
     {
-      "id": "e546d6ab232a4e39b06d64813f4d8689",
-      "title": "Tsunami Evacuation Zones",
-      "type": "Feature Service",
-      "url": "https://services8.arcgis.com/8PAo5HGmvRMlF2eU/arcgis/rest/services/DOGAMI_Tsunami_Evacuation_Zones_2013/FeatureServer",
-      "owner": "OR_FRAMEWORK",
-      "modified": "2024-09-26"
-    },
-    {
       "id": "7dc66d36a41e4e519c7a66d06e6abef1",
       "title": "Coastal Zone Boundary",
       "type": "Feature Service",
       "url": "https://gis.lcd.state.or.us/server/rest/services/Framework/AdminBounds_CoastalZone/FeatureServer",
       "owner": "OR_FRAMEWORK",
       "modified": "2023-10-03"
+    },
+    {
+      "id": "e546d6ab232a4e39b06d64813f4d8689",
+      "title": "Tsunami Evacuation Zones",
+      "type": "Feature Service",
+      "url": "https://services8.arcgis.com/8PAo5HGmvRMlF2eU/arcgis/rest/services/DOGAMI_Tsunami_Evacuation_Zones_2013/FeatureServer",
+      "owner": "OR_FRAMEWORK",
+      "modified": "2024-09-26"
     },
     {
       "id": "98678f18c77a44e187343ccfd3427088",

@@ -1,0 +1,55 @@
+{
+  "source_id": "madison_permits",
+  "fetched_at": "2026-10-24T04:56:42+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "api_url": "https://cityreports.cityofmadison.com/CityReports/ReportViewer/ReportViewer/?ReportPath=/Web%20Access/Building/Permits/Construction%20Summary",
+  "window": "2026-09-17 to 2026-09-30",
+  "records_in_window": 672,
+  "dropped_columns": [
+    "ContractorAddress_Line",
+    "ContractorBusiness",
+    "Owner_Address_Line",
+    "Owner_Full_Name"
+  ],
+  "note": "SSRS report, run for a two-week window. Owner and contractor columns are dropped at fetch, as the pipeline does. New residential permits (BLDNRC) are listed first.",
+  "fields": [
+    {
+      "name": "B1_ALT_ID",
+      "type": "string"
+    },
+    {
+      "name": "Reportable_Data",
+      "type": "string"
+    },
+    {
+      "name": "Address_Part_Address_Line",
+      "type": "string"
+    },
+    {
+      "name": "BLDG_SQFT",
+      "type": "string"
+    },
+    {
+      "name": "Textbox9",
+      "type": "string"
+    },
+    {
+      "name": "Total_Pay",
+      "type": "string"
+    },
+    {
+      "name": "Textbox13",
+      "type": "string"
+    },
+    {
+      "name": "Detailed_Description",
+      "type": "string"
+    },
+    {
+      "name": "Issuance_Date",
+      "type": "string"
+    }
+  ]
+}
