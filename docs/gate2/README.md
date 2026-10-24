@@ -27,8 +27,8 @@ All build commands are also in the README command contract. Raw and processed da
 | One-unit detached homes (denominator) | **Observed**, ACS 2020–24 for every county, municipality, tract, block group: 1,839,569 | Observed: 53,292 | Observed | Observed |
 | Housing conditions | **Observed**: PEP county 2020–25, ACS stock, vacancy, mix; Census BPS 2015–25 | Observed | Observed | Observed |
 | Total permitted units by place | Observed for 1,098 reporting jurisdictions (2025); **assumed** per-year split of county rows to 724 towns that never report separately (22% of homes); **missing** for 12 municipalities (e.g. Caledonia); Milwaukee's multifamily series **not reported** for 2020, 2023, 2025 | Observed, record-level | Observed, record-level | Observed, applications only |
-| ADU permits | **Missing** (no statewide source) | **Observed** 2010–2026: 64 text-rule ADU permits | Observed: essentially none | Observed: effectively none in 2016–2025 |
-| "Second dwelling" (your ADU-equivalent rule) | n/a | 18 permits, 19 units: 13 house-to-duplex conversions, 5 second dwellings | 0–1 a year, none confirmed | 0 |
+| ADU permits (text rule) | **Missing** (no statewide source) | **Observed** 2014–2026: 64 text-rule ADU permits | Observed: essentially none | Observed: effectively none in 2016–2025 |
+| **Second homes on single-family lots** (headline, AQ-032), 2014–2026 | n/a | **102 units** (93 permits); upper bound 104; **66 without the 2025–26 templated programme**; 2026 provisional | **3** (read as 0–3); upper bound 6 | **3** (2016–2026), 2 of them before its May 2026 ordinance |
 | Permit-to-parcel-to-area link | n/a | 98.5% confirmed address match; 99% of counted units in a tract | 93% exact parcel match (99% of new dwellings) | 98% (97% of new dwellings) |
 | Current-law ADU rules | **Observed** for 37 municipalities (31% of homes); **assumed** no ADU rights for the rest (AQ-023) | `scenario_benchmark`, verified | `prohibited_explicit`, **source lead** (code site blocks automated reading) | `restricted` since 2026-05 (district_limited only); prohibited before |
 
@@ -46,7 +46,8 @@ All build commands are also in the README command contract. Raw and processed da
 ## Assumptions this gate relies on
 
 - Permit records are counted at issuance (Sun Prairie: application date, the only date available).
-- ADUs are identified by description text; the ADU-equivalent rule is a separate series (G2-2).
+- Second homes on single-family lots combine text-identified ADUs, judged two-unit ADUs, and house-to-duplex conversions on lots that already had a home (AQ-032). "Already had a home" uses assessor year built in Madison and the parcel's permit history in Pleasant Prairie and Sun Prairie.
+- Madison's floor for `y` is proposed to use 2022–2025, with 2026 (provisional, templated programme) only as a sensitivity (G2-9).
 - One-unit detached homes from ACS 2020–2024 are the denominator; parcels only place records in areas.
 - Census BPS county-row permits for 724 towns are split by share of homes (assumed).
 - Coded rules are as of 2026-10-31; text seen only through a rendering is a source lead.
@@ -56,8 +57,8 @@ All build commands are also in the README command contract. Raw and processed da
 
 1. **ADU activity is small, and the contrast is clean.** Madison: 64 ADU permits 2014–2026 (3, 2, 3, 1, 1, 2, 0, 1, 5, 7, 10, 13 for 2014–2025, then 16 in 2026 to date). Pleasant Prairie and Sun Prairie under prohibition: essentially none.
 2. **Madison against the City's own table.** The City reports permits issued: 49 since 2013. By issue year we count 41, differing in six years by 1–4. Counting by the year in the permit number matches 2014–2022 exactly; that is our inference about the City's method, not confirmed.
-3. **Your ADU-equivalent rule mostly finds duplex conversions**, not ADUs. Recommended as a separate "second dwelling" series.
-4. **Ten 2026 "twin home ADU" permits** (2 units each) are held out of all ADU counts until the City's records show what they are; they could add 9–18 ADUs to 2026.
+3. **Second homes on single-family lots (AQ-032).** Madison: 5, 4, 3, 3, 2, 3, 0, 1, 5, 9, 11, 14 units for 2014–2025, then 42 in 2026 to date (provisional). Nine 2026 "twin home ADU" permits were judged to add two units beside existing 1950s–60s homes; one 2022 permit was new construction on a cleared lot and does not count; one provisional 2026 duplex stays out pending a later check. Pleasant Prairie drops from 6 to 3 after applying its own audit, the same rule as Madison.
+4. **A templated programme drives Madison's 2026.** 27 permits in 2025–26 share two template designs from two contractors; they supply 29 of 2026's 42 units and 7 of 2025's 14. They are flagged so Gate 3 can leave them out of the Madison floor except as a sensitivity.
 5. **Milwaukee's Census multifamily counts are a reporting gap** (zero apartment units in years with known projects), now marked not reported. Single-family counts are kept.
 6. **Rules:** 2 of 37 places meet the benchmark (Madison, Wauwatosa); 22 restricted; 5 explicitly and 8 implicitly prohibited. The most common barriers are owner occupancy (12 places) and percent-of-house size caps that can fall below 600 sq ft (12). Seven require discretionary approval. Treating uncoded places as prohibited would have been wrong for 24 of the 37 (75% of their homes), so the default overstates the reform effect where it still applies.
 7. **Privacy.** Owner names are dropped at ingestion; sample files no longer show house numbers, parcel numbers are masked, coordinates rounded. Sample files still show permit numbers, which a city portal can turn back into an address.
@@ -85,23 +86,26 @@ The reviewer confirmed the joins and statewide arithmetic and found two blockers
 | G2-4 | Context groups (urban: 20,000+ units, or 10,000+ units at 300+/sq mi and largest in county; suburban: metro county and 425+/sq mi or a city/village with 2,500+ units; small community; rural towns) | **Accept for now** |
 | G2-5 | Pleasant Prairie rule check | **Please confirm §420-30B in a browser** (link in step 4); it stays a source lead until then |
 | G2-6 | Appleton | Its city guides conflict (35% cap in 2025; no cap in the 2026-10-14 guide). **Code it `scenario_benchmark` if the newest guide reflects the code**; we will confirm from the code text in the later rules pass |
-
-| G2-7 | California comparison data (addendum below) | **Accept** once the step 0 reconciliation is reviewed |
-| G2-8 | Approve the [pre-registered California comparison plan](../gate3/CA_COMPARISON_PLAN.md), including hold-out samples | **Approve** |
+| G2-7 | California comparison data (addendum below) | **Accept**, with the limits stated below |
+| G2-8 | Approve the [pre-registered California comparison plan](../gate3/CA_COMPARISON_PLAN.md), as amended before results (cross-state outcome mapping, sources by year, holdout rule) | **Approve** |
+| G2-9 | Madison floor years | **Use 2022–2025**; 2026 only as a sensitivity because it is provisional and dominated by one templated programme |
 
 Decisions made since this packet was first sent are recorded in AQ-029 to AQ-032: Madison counts as 80% of benchmark; the benchmark covers garage conversions and bars replacement parking; the outcome is second homes on single-family lots; and the California comparison study is pre-registered.
 
-## California comparison data (addendum, in progress)
+## California comparison data (addendum)
 
-Added at the owner's request because assembling and checking data belongs in Gate 2; the comparison analysis itself stays in Gate 3.
+Assembling and checking data belongs in Gate 2; the comparison analysis stays in Gate 3 and has not been run. Details: [CA_COMPARISON_DATA.md](CA_COMPARISON_DATA.md); build `uv run python scripts/build_ca_comparison_data.py`.
 
-- **Census BPS, California, 2010–2025:** built (`uv run python scripts/build_ca_bps.py`); state, county, and place totals agree every year.
-- **HCD APR 2018–2025, the 2012–2019 ADU compilation, California home counts, and a jurisdiction crosswalk:** being assembled.
-- **Step 0, BPS versus HCD reconciliation:** being run, including whether California's BPS one-unit counts already contain ADUs.
-- **Held-out 20% of California jurisdictions:** drawn with a fixed seed before any group results are viewed.
+- **Assembled:** Census BPS for California 2010–2025; HCD APR Table A2 2018–2025 (926,774 rows); the 2012–2019 ADU compilation (identical to the owner's copy); ACS one-unit detached homes for 482 cities and 57 unincorporated county areas (sum 8,354,468); a crosswalk matching every HCD and compilation name to Census codes (519 of the HCD names match a BPS place; 16 small cities never appear in BPS and may be counted in their county's row).
+- **HCD lists some permits again in later years** (mainly Los Angeles, when homes are finished). The main measure counts units whose permit date falls in the report year; a deduplicated issue-year version and the as-published totals are kept. 2018 is undercounted under the main measure, so the plan fixes both versions as sensitivities.
+- **Non-ADU units, HCD versus BPS:** 0.82–0.99 of BPS by year under the main measure; within ±7% in 2018–2023 under the issue-year measure.
+- **Are ADUs inside BPS one-unit counts? Not pinned down statewide** — plausibly between none and about half, and it differs by permit office (Los Angeles, San Diego, San Francisco appear to leave ADUs out; San Jose, Oakland, Long Beach appear to include them). No single value is carried into Gate 3.
+- **Same-definition limits (AQ-032):** HCD cannot separate single-family-to-duplex conversions or SB 9 second homes, so the two states are compared on ADU-type second homes; Wisconsin's duplex conversions are a Wisconsin-only component.
+- **Held-out 20%:** 108 of 540 jurisdictions (107 with data), seed 20261024; every output is marked, and any number that could feed the model uses non-holdout jurisdictions only.
+- **Statewide view:** BPS units per 1,000 homes, 2010–2025, both states, indexed to 2014–2016; built, not interpreted.
 
-Results will replace this section before the packet is final.
+An independent check confirmed the joins, holdout draw, privacy, and that no study results were computed; its findings (an unsupported single "share inside BPS" value, the definition gap, stale numbers, and second-homes consistency) are repaired above.
 
 ## Recommendation
 
-**Advance to Gate 3** after G2-1 to G2-6. The data supports a baseline and response specification: an observed permissive series (Madison), an observed near-zero restrictive series (Pleasant Prairie, Sun Prairie before 2026), statewide denominators, and coded rules for a third of the state's homes. The main limitations are the small ADU counts, the assumed rules for uncoded places, and the absence of statewide ADU permit records; Gate 3 handles these through ranges and stated assumptions.
+**Advance to Gate 3** after G2-1 and G2-4 to G2-9. The data supports a baseline and response specification: an observed permissive series (Madison), an observed near-zero restrictive series (Pleasant Prairie, Sun Prairie before 2026), statewide denominators, coded rules for a third of the state's homes, and assembled, reconciled California data for the pre-registered comparison. The main limitations are the small ADU counts, the assumed rules for uncoded places, and the absence of statewide ADU permit records; Gate 3 handles these through ranges and stated assumptions.
