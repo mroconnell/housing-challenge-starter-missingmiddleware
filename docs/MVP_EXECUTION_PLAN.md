@@ -182,7 +182,7 @@ Preserve a prioritized improvement backlog. A proposed detail should identify th
 
 ## Current position
 
-**2026-10-24 (later):** The [Gate 3 packet](gate3/README.md) awaits the owner's decisions G3-1 to G3-5; the central question is how much of California's response transfers to Wisconsin.
+**2026-10-24 (later):** The revised [Gate 3 packet](gate3/README.md) awaits decisions R1–R4 (grouping rule v1.1 and a central anchored on statewide-law-state evidence); G3-2 to G3-6 are decided (AQ-035).
 
 **2026-10-24:** Gate 2 passed ([gate2/README.md](gate2/README.md), AQ-033). Gate 3 work starts with the pre-registered California comparison ([gate3/CA_COMPARISON_PLAN.md](gate3/CA_COMPARISON_PLAN.md)). The Gate 1 scope and model were rewritten (revision 3) to reflect the outcome-based increment and other owner feedback (AQ-021 to AQ-028).
 
