@@ -355,6 +355,21 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Decision:** Direction adopted; Gate 3 specifies the spillover evidence, ramp shapes, restricted-class rate for unknowns, the hold-out design, and the Milwaukee baseline ramp.
 
+## AQ-028 Outcome-based increment, and stock-gap baselines across scenarios
+
+**Status:** Adopted direction for Gate 3 (outcome-based increment); stock-gap approach proposed for all scenarios. **Added:** 2026-10-24. **Related:** AQ-023, AQ-024, AQ-026, AQ-027.
+
+**Owner direction (outcome-based increment):** Answer the legislator's question directly: additional units = homes × (y − x), where y is the expected permit rate per single-family home after the statewide law (Madison as the floor, plus statewide spillover, AQ-024 and AQ-027) and x is the rate a place produces today. Do not model a "share of the way to the benchmark" rights fraction. Where x is observed (Madison, Pleasant Prairie, Sun Prairie, and any place added later), use it. Where it is not (most municipalities), estimate x from the place's ordinance status and the coded places with observed permits, as in the Gate 1 "Case C" calculation, labeled as estimated. Detailed restriction flags (AQ-026) explain results; they are not separate multipliers. Detailed coding beyond the 37 largest places is deferred.
+
+**Owner proposal (stock-gap baseline, all scenarios):** Use a snapshot of existing housing as a "health" baseline: compare a place's current stock (for ADUs, the share of single-family lots with a second dwelling; for middle housing, 2–4 unit buildings; for TOD, units within a distance of qualifying transit) with the level found where rules are healthy, and treat the difference as the room a reform has to work with. This is likely the main approach for TOD.
+
+**Conductor notes for Gate 3:**
+
+- A stock gap shows how much room there is, not how fast it closes; turning it into five-year permits still needs a closing rate from flow evidence (permits after reform). Proposed: permits drive the five-year ADU forecast; the stock gap is the health diagnostic and a sanity check that forecasts do not exceed plausible headroom.
+- ADU stock is hard to observe: ACS counts a detached ADU as a separate one-unit structure and an attached ADU can make a building "2 units", which mixes ADUs with duplexes; Wisconsin V12 parcels have no dwelling count, and Madison's assessor counts a house plus ADU as one dwelling. Middle housing and TOD stock are much easier to measure from ACS and block counts.
+
+**Decision:** Outcome-based increment adopted for Gate 3. Stock-gap baseline adopted as the shared health diagnostic; its role in each scenario's forecast is decided per scenario.
+
 ## Additional questions to develop
 
 All entries below were added on 2026-10-23 and remain **Open**.
@@ -385,3 +400,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-025 | Recorded the owner's direction to treat owner occupancy and the approval pathway (ministerial versus discretionary) as the provisions that decide whether nominally allowed ADUs get built. |
 | 2026-10-24 | AQ-026 | Adopted the owner's two-pass rights classification (ordinance status, then rights class with restriction flags) and split prohibitions into explicit and implicit. |
 | 2026-10-24 | AQ-027 | Logged owner Gate 3 inputs: statewide market spillover for benchmark cities, path-specific ramps, unknown rules treated like restricted with a hold-out test, and the recently-liberalized baseline ramp. |
+| 2026-10-24 | AQ-028 | Adopted the outcome-based increment (homes × (y − x)) with estimated x where permits are unobserved, and proposed stock-gap health baselines across scenarios. |
