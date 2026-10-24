@@ -40,6 +40,31 @@ class TestFetchHelpers(unittest.TestCase):
         self.assertEqual(poly["type"], "Polygon")
         self.assertEqual(fetch._count_vertices(poly["coordinates"]), 4)
 
+    def test_xlsx_rows(self):
+        import io
+        import zipfile
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w") as z:
+            z.writestr("xl/sharedStrings.xml", '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><si><t>Wisconsin</t></si></sst>')
+            z.writestr("xl/worksheets/sheet1.xml", '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>'
+                       '<row r="1"><c r="A1" t="s"><v>0</v></c><c r="C1"><v>2020</v></c></row></sheetData></worksheet>')
+        self.assertEqual(fetch.xlsx_rows(buf.getvalue()), [["Wisconsin", "", "2020"]])
+        self.assertEqual(fetch._col_letter(fetch._col_index("AB")), "AB")
+
+    def test_dbf_rows(self):
+        import struct
+        fields = [(b"GEOID", b"C", 10), (b"NAME", b"C", 8)]
+        hlen = 32 + 32 * len(fields) + 1
+        rlen = 1 + sum(f[2] for f in fields)
+        head = struct.pack("<BBBBIHH", 3, 124, 1, 1, 1, hlen, rlen) + b"\0" * 20
+        for name, t, n in fields:
+            head += name.ljust(11, b"\0") + t + b"\0" * 4 + bytes([n, 0]) + b"\0" * 14
+        blob = head + b"\r" + b" " + b"5502548000" + b"Madison " + b"\x1a"
+        rows, flds, nrec = fetch.dbf_rows(blob, 5)
+        self.assertEqual(nrec, 1)
+        self.assertEqual(rows, [{"GEOID": "5502548000", "NAME": "Madison"}])
+        self.assertEqual([f["name"] for f in flds], ["GEOID", "NAME"])
+
     def test_quadkey(self):
         self.assertEqual(fetch._quadkey(40.7608, -111.8910, 9), "023100000")
 

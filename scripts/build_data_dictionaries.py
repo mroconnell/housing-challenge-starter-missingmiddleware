@@ -33,6 +33,7 @@ GROUPS = {
     "national": "National sources named in the handbook",
     "added": "Added by the team",
     "state": "State open data portals (from data/DATA_SOURCES.md)",
+    "wisconsin": "Wisconsin pilot sources (used by the pipeline)",
 }
 
 
@@ -158,6 +159,20 @@ def extras(sid, meta):
     if sid == "fhfa_hpi" and meta.get("all_download_links_found"):
         md += "## Other FHFA HPI files found on the datasets page\n\n"
         md += "".join(f"- {u}\n" for u in meta["all_download_links_found"][:30]) + "\n"
+    if sid == "acs" and meta.get("pipeline_tables"):
+        md += "## Other ACS tables the pipeline reads\n\n| Table | Line | Meaning | Wisconsin estimate |\n|---|---|---|---|\n"
+        from fetch_samples import ACS_TABLE_LINES
+        for t, m in meta["pipeline_tables"].items():
+            if m.get("error"):
+                md += f"| {t} | | could not read: {esc(m['error'], 100)} | |\n"
+                continue
+            wi = m.get("wisconsin_row") or {}
+            for line, label in ACS_TABLE_LINES.get(t, {}).items():
+                md += f"| {t} | `{t}_E{line}` | {label} | {wi.get(f'{t}_E{line}', '')} |\n"
+        md += "\nEach estimate column `_E###` has a margin of error column `_M###`.\n\n"
+    if sid == "buildinganadu_ca_adu" and meta.get("statewide_sums"):
+        md += f"## Statewide sums\n\nSum of {meta.get('jurisdiction_rows')} jurisdiction rows, by year. Compare with the table in docs/ASSUMPTIONS_AND_QUESTIONS.md (AQ-017).\n\n"
+        md += "| Year | ADU permits |\n|---|---|\n" + "".join(f"| {y} | {v:,} |\n" for y, v in meta["statewide_sums"].items()) + "\n"
     if sid == "pa_pasda_parcels" and meta.get("counties"):
         md += "## Field comparison across counties\n\n"
         md += "| County | Layer | Parcels | Fields | Parcel id | Address | Land use | Value | Area |\n|---|---|---|---|---|---|---|---|---|\n"
@@ -268,7 +283,7 @@ def write_source(sid, info, meta, rows):
     facts = []
     if url:
         facts.append(f"Endpoint used for the sample: `{url}`")
-    for k, label in (("vintage", "Vintage"), ("name", "Dataset"), ("layer_name", "Layer"), ("layer", "Layer"), ("sample_table", "Sample table"), ("record_count", "Total records at fetch time"), ("last_edit_date", "Last edited"), ("rows_updated_at", "Rows last updated"), ("latest_date", "Latest date")):
+    for k, label in (("vintage", "Vintage"), ("name", "Dataset"), ("layer_name", "Layer"), ("layer", "Layer"), ("sample_table", "Sample table"), ("record_count", "Total records at fetch time"), ("last_edit_date", "Last edited"), ("rows_updated_at", "Rows last updated"), ("latest_date", "Latest date"), ("window", "Sample window"), ("records_in_window", "Permits in the window"), ("jurisdiction_rows", "Jurisdiction rows"), ("county_rows", "County rows"), ("title", "Table title"), ("projection", "Projection (.prj)")):
         if meta.get(k) not in (None, ""):
             facts.append(f"{label}: {meta[k]}")
     item = meta.get("item") or meta.get("chosen_search_hit")
