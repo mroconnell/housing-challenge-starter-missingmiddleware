@@ -1,64 +1,71 @@
-# Gate 3 Packet (revised): Baseline, Policy Response, and Uncertainty
+# Gate 3 Packet (final): Baseline, Policy Response, and Uncertainty
 
-Revised 2026-10-24 by the conductor after the owner's G3 decisions (AQ-034, AQ-035) and a second independent review. **Status: awaiting owner decision.** The first packet (unadjusted California central of about 6,500) is in git history.
+Prepared 2026-10-24 by the conductor. **Status: awaiting the owner's final Gate 3 decision.** Earlier versions are in git history. Decisions to date: AQ-034 to AQ-038 in the [assumptions log](../ASSUMPTIONS_AND_QUESTIONS.md).
+
+Every number below is either a **count of second-home permits** (ADUs plus single-family-to-duplex conversions on lots that already have a home, AQ-032), statewide over the five forecast years 2027–2031, or a **rate** in second-home permits per 1,000 single-family homes per year. Wisconsin has 1,839,569 single-family (one-unit detached) homes.
 
 ## What this gate decides
 
-Whether the ADU model is defensible enough to demonstrate in the Gate 4 pilot. The mechanics are settled; two decisions remain: **how Wisconsin places are grouped (rule v1 vs v1.1)** and **where to anchor the central scenario**.
+Whether the statewide model is defensible enough to demonstrate in the Gate 4 pilot: the current-law baseline, the response to a statewide benchmark ADU law, and the scenarios that express uncertainty.
 
-## Scenarios as they stand now (rule v1, regression levels)
+## The answer the model gives
 
-Additional second homes on single-family lots permitted statewide over 2027–2031, on top of a current-law baseline of about **650**. These are **named scenarios, not statistical intervals** (AQ-035).
+Under current law, Wisconsin would permit about **650 second homes** on single-family lots over 2027–2031, about 130 a year, or 0.07 per 1,000 single-family homes per year.
 
-| Scenario | What it assumes | Additional |
-| --- | --- | --- |
-| **No statewide law** (shown separately) | Permissive local rules only, Midwest behavior (Madison 0.18, Minneapolis 0.17 per 1,000 homes a year) | about **600** |
-| Lower | Regression, low California draw, slow ramp | about **1,000** |
-| Central | Regression point prediction, California restrictive-town ramp | about **2,300** |
-| Upper | Regression, high California draw, fast ramp | about **5,900** |
+With a statewide benchmark ADU law, the model adds:
 
-Every total was recomputed independently and matches. The state total depends almost entirely on the homes-weighted with-law rate and the ramp; the regression mainly decides *where* units land.
+| Scenario (labelled by meaning) | Rate once ramped up | Additional permits over 2027–2031 | Total with baseline |
+| --- | --- | --- | --- |
+| Like the slower statewide-law states (Rhode Island, Oregon) | 0.69 per 1,000 homes per year | about **4,800** | about 5,400 |
+| **Like a typical statewide-law state** | 1.30 per 1,000 homes per year | about **9,500** | about 10,200 |
+| At California's level (decision G3F-1 on the label) | 2.43 per 1,000 homes per year | about **18,400** | about 19,000 |
+| *Reference line: the median path statewide-law states actually reached* | 0.79 → 1.24 per 1,000 homes per year (years 1–4) | about **8,650** | about 9,300 |
 
-## What the new evidence shows
+These are **scenarios, not statistical confidence intervals**. The lower and upper come from how much the eight statewide-law states differ from one another (the model's 80% range of state levels).
 
-| Evidence for a Wisconsin-like market | With-law rate (per 1,000 homes a year) |
-| --- | --- |
-| Midwest cities, local reform only (Madison, Minneapolis) | about 0.2 |
-| Regression, Wisconsin homes-weighted (central / upper) | 0.49 / 1.01 (plateau) |
-| **States 1–4 years after a statewide law** (WA, OR, ME, RI, MA, UT, VT) | **about 0.94 median**, actually reached |
-| Maine (closest market to Wisconsin, $297k) | 0.98 in year 1 |
+**Named downside sensitivities** (not scenarios):
+- About **760** additional if the law only multiplied Wisconsin's current rate by the statewide-law factor the model estimates. Measured before-and-after pairs in other states contradict this, but no Midwest state has post-law data yet.
+- About **2,300** additional if Wisconsin behaved like the California-only market regression, i.e. if Wisconsin stays closer to Madison and Minneapolis, which permit 0.18 and 0.26 per 1,000 homes per year under permissive local rules without a statewide law.
 
-Like for like (average rate actually reached over 2027–2031, ramp included), the scenarios run 0.14 / 0.18 / **0.33** / 0.72. The statewide-law states, at about 0.94 in their first years, sit **above even the upper scenario**. The regression under-predicts them more as home values fall (Maine by 4×), because it carries a California home-value slope that the other states do not show and extrapolates it below California's range, where 61% of Wisconsin's homes are.
+## How the central is built
 
-## Two problems found by the second review
-
-1. **Madison is "active" by construction under rule v1.** Only four Wisconsin places have measured second-home permits, so the "top quarter" of them is a single place, Madison, whatever its rate. The model then predicts Madison would permit 2.5 second homes per 1,000 single-family homes per year under the law, about 14 times the 0.18 per 1,000 per year it actually permitted in 2022–2025. Madison has 53,292 of Wisconsin's 1,839,569 single-family homes (2.9%), but the model gives it 378 of the 2,337 extra permits projected statewide in the central scenario (16%).
-2. **The central is likely low.** Averaged over the five forecast years including the slow start, the central scenario reaches 0.33 second-home permits per 1,000 single-family homes per year statewide. The seven states with statewide ADU laws and post-law data reached a median of 0.94 per 1,000 homes per year in their first one to four years, nearly three times the central.
+1. **Pooled model** ([POOLED_MODEL.md](POOLED_MODEL.md)) across California's jurisdictions, seven other statewide-law states (Washington, Oregon, Maine, Rhode Island, Massachusetts, Utah, Vermont's Chittenden County), and five cities (Seattle, Portland, Austin, Denver, Minneapolis).
+2. **Within each state**, places differ by home value, household income, and size; **across states**, one common level once a statewide law is in force fits best. Market terms across states made predictions worse.
+3. **Ramp-up** from the pooled data: years 1–3 reach about 64%, 80%, and 82% of the year-4 level.
+4. **Test:** each statewide-law state was predicted with that state left out. The average miss was 11% on the log scale (Washington 18% high, Massachusetts 20% high, Maine almost exactly). A simple benchmark (each state predicted as the average of the others) misses by 14%, so the test mainly shows the states are alike.
+5. **Engine:** each area's addition = its single-family homes × (with-law rate − current rate) × ramp, never below its current rate. The engine reproduces the pooled model's totals exactly.
 
 ## Owner review: step by step, with my self-assessment
 
 | Step | What you do | What you should see | My result |
 | --- | --- | --- | --- |
-| 1 | Follow one baseline and one reform calculation | Pleasant Prairie: 6,332 homes, current 0.039 → baseline about 1; with-law rate from the regression for its market and group, times the central ramp | **Pass** (mechanics verified twice) |
-| 2 | Check existing activity reduces the change | Each place's addition is its with-law rate minus its current rate; Madison's current 0.18 is subtracted | **Pass mechanically; Madison's with-law rate is the problem (decision R1)** |
-| 3 | Source and rationale for the central | Market-adjusted California regression ([CA_REGRESSION.md](CA_REGRESSION.md)) | **Needs revision:** cross-checks put it low (decision R2) |
-| 4 | What separates lower and upper | California sampling (bootstrap draws) plus ramps; transfer uncertainty is not in it | **Pass after relabeling as named scenarios** |
-| 5 | Historical validation and strongest challenge | California holdout (aggregate −5%); out-of-state cities and states ([OTHER_CITIES.md](OTHER_CITIES.md), [STATEWIDE_STATES.md](STATEWIDE_STATES.md)); Madison vs Sun Prairie | **The out-of-state evidence is now the strongest test and it says "higher"** |
+| 1 | Follow one baseline and one reform calculation | Madison: 53,292 single-family homes; current rate 0.183 per 1,000 per year gives a baseline of about 49 permits over five years; with-law plateau 1.75 per 1,000 per year; additional = 53.292 × (1.75 − 0.18) × ramp sum 4.21 ≈ **351 permits** | **Pass** (recomputed independently) |
+| 2 | Check current activity reduces the change | Each place's current rate is subtracted; Madison's 0.18 lowers its addition | **Pass** |
+| 3 | Read the source of the central | Pooled model, typical statewide-law state | **Pass with two caveats** (decisions G3F-2, G3F-3) |
+| 4 | What separates lower and upper | How statewide-law states differ; the upper is California's level | **Pass after the upper is labelled correctly** (G3F-1) |
+| 5 | Validation and strongest challenge | Leave-one-state-out test; California holdout; the Midwest gap below | **Your judgment** |
 | 6 | Decide | Below | Yours |
+
+## Strongest remaining challenge
+
+The model contains no Wisconsin data in its fit. Places with permissive local rules but no statewide law sit far below it: Madison permits 0.18 per 1,000 homes per year where the model's no-law level for a place like Madison is 3.4; Wisconsin overall permits 0.07 where the model's no-law level is 0.52. The case for the model is that states with before-and-after data (California, Rhode Island, Washington, Vermont) reached the same first-year level regardless of how low they started, which is the statewide-industry effect. The case against is that no Midwest state has post-law data; Iowa's first full year (2026) is the first test.
 
 ## Decisions requested
 
-| ID | Decision | Options | Recommendation | Effect |
-| --- | --- | --- | --- | --- |
-| R1 | Grouping rule | v1 as is; **v1.1:** the top-quarter ranking may label a place "active" only once at least 20 places in the state have measured permits; until then a measured place with any permits is "middle", a measured place with zero permits is "restrictive", and places with no data are "restrictive". Still one general rule, no per-state cutoff | **v1.1** | Today Madison and Sun Prairie become "middle" (Madison predicted at 1.16 per 1,000 homes per year instead of 2.5); paths about 900 / 2,100 / 5,400 extra permits before R2 |
-| R2 | Central anchor | (a) regression as is, about 2,300; **(b) triangulated with-law rate about 0.75 per 1,000 (homes-weighted), about 3,800**; (c) statewide-states level 1.0, about 5,200 | **(b)**, keeping the regression's geographic pattern but scaling its level | Four independent routes land at 3,750–4,050 (regression scaled by its miss on the states and adjusted for measurement; states' median rise over their pre-law rate; California's own places under $400k) |
-| R3 | Scenario set | Baseline (current law, nothing changes) about 650 permits; **no statewide law** about 600 extra (every place rises to at least Madison's rate, 0.23 per 1,000 homes per year, through local action only; separate panel); **lower** about 900–1,000 extra (regression at the low end of California's statistical uncertainty, slow Central Valley ramp; the Madison floor sets the rate for about 64% of homes); **central** about 3,800 extra (regression geography, statewide level 0.75 anchored on statewide-law states); **upper** about 5,200–5,900 extra (other statewide-law states' level of about 1.0; the regression's high end lands in the same place) | Adopt | Totals including baseline about 1,250 / 1,600 / 4,450 / 5,850–6,550 |
-| R4 | Presentation | Show baseline plus additional (total permits: about 4,450 at the recommended central) beside the additional; round to hundreds; municipal figures as shares, not forecasts | Adopt | Avoids the misreadings the reviewer listed |
+| ID | Decision | Options | Recommendation |
+| --- | --- | --- | --- |
+| G3F-1 | Upper scenario label | Keep 18,400 labelled "At California's level"; or replace it with the spread without California (about 12,200) and keep 18,400 as a sensitivity | **Keep 18,400, labelled "At California's level"**: honest about what it represents, and California is the one state with a mature ADU industry |
+| G3F-2 | California in the common level | The "typical state" level (1.30) is pulled up by California and sits above six of the seven other states; without California in that step the central is about **8,300** (range about 5,600–12,200) | **Keep California in**, but show "without California" (about 8,300) as a named sensitivity |
+| G3F-3 | New-house ADUs | Other states' counts include ADUs built together with a new house; Wisconsin's outcome does not. Counting them at 80% gives a central of about **7,800** and an adoption line of about 6,800 | **Show as a named sensitivity** beside the headline; the true share is unknown |
+| G3F-4 | Advance to Gate 4 | Yes / revise | **Yes**, with these labels and sensitivities |
 
-## Limitations to state wherever results appear
+## What a legislator might misread, stated in the tool
 
-Results are gross permits for second homes on single-family lots, not completions or net new housing. All with-law rates are transferred from other states, described, not causally estimated; the statewide-law states have at most four post-law years and count some ADUs built with new houses. Group totals are reliable; municipal figures are not forecasts. 239 unzoned towns (4% of homes) are included at their own predicted rate.
+- Totals are over five years (the central is about 1,900 a year), are permits, not completed or net new homes, and are on top of the baseline.
+- The range shows how states differ, not statistical certainty.
+- Town figures are rough shares of the statewide result, not local forecasts; rural areas get 43% of the addition with 39% of homes, partly because rural home values include acreage.
+- Results describe what other states experienced after their laws; they are associations, not proven causal effects.
 
-## Recommendation
+## Supporting documents
 
-**Adopt R1–R4, then advance to Gate 4.** With v1.1 and the triangulated central, the model is demonstrable: the mechanics are verified, every number traces to a stated assumption, and the out-of-state evidence, not a judgment ratio, sets the level.
+[POOLED_MODEL.md](POOLED_MODEL.md) · [STATEWIDE_STATES.md](STATEWIDE_STATES.md) · [OTHER_CITIES.md](OTHER_CITIES.md) · [CA_STUDY_RESULTS.md](CA_STUDY_RESULTS.md) · [CA_REGRESSION.md](CA_REGRESSION.md) (now a sensitivity) · [WI_BASELINE.md](WI_BASELINE.md) · [WI_UNZONED_TOWNS.md](WI_UNZONED_TOWNS.md) · [WI_RULES_VS_ACTIVITY.md](WI_RULES_VS_ACTIVITY.md) · [CA_RULES_VS_ACTIVITY.md](CA_RULES_VS_ACTIVITY.md)
