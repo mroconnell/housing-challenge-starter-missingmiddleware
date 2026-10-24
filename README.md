@@ -37,6 +37,7 @@ The interactive tool is not built yet (it arrives at Gate 4). The data pipeline 
 | Build Madison permits | `uv run python scripts/build_madison_permits.py --fetch` | About 40 minutes the first time; omit `--fetch` to rebuild from cache |
 | Build comparison-city permits | `uv run python scripts/build_comparison_permits.py --fetch` | Pleasant Prairie and Sun Prairie; about 11 minutes the first time |
 | Rebuild local ADU rule tables | `uv run python scripts/build_reference_rules.py reference reference data/processed/adu_mention_scan` | Needs `uv run python scripts/scan_adu_mentions.py` first (network) |
+| Build California BPS (comparison state) | `uv run python scripts/build_ca_bps.py` | Census BPS for California 2010–2025, for the California comparison study |
 | Gate 2 review map | `uv run python scripts/build_gate2_review_map.py` | Writes `data/processed/review/gate2_map.html`; needs the builds above |
 | Run | to be defined at Gate 4 | |
 
