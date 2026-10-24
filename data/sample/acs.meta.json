@@ -1,10 +1,99 @@
 {
   "source_id": "acs",
-  "fetched_at": "2026-10-23T16:39:24+00:00",
+  "fetched_at": "2026-10-24T05:05:34+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
-  "vintage": "ACS 5-year, table B25024 (Units in Structure)",
+  "vintage": "ACS 5-year 2024, table B25024 (Units in Structure); other pipeline tables listed below",
+  "pipeline_tables": {
+    "B25002": {
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25002.dat",
+      "columns": [
+        "GEO_ID",
+        "B25002_E001",
+        "B25002_M001",
+        "B25002_E002",
+        "B25002_M002",
+        "B25002_E003",
+        "B25002_M003"
+      ],
+      "wisconsin_row": {
+        "GEO_ID": "0400000US55",
+        "B25002_E001": "2778572",
+        "B25002_M001": "1533",
+        "B25002_E002": "2479480",
+        "B25002_M002": "5787",
+        "B25002_E003": "299092",
+        "B25002_M003": "4686"
+      }
+    },
+    "B25034": {
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25034.dat",
+      "columns": [
+        "GEO_ID",
+        "B25034_E001",
+        "B25034_M001",
+        "B25034_E002",
+        "B25034_M002",
+        "B25034_E003",
+        "B25034_M003",
+        "B25034_E004",
+        "B25034_M004",
+        "B25034_E005",
+        "B25034_M005",
+        "B25034_E006",
+        "B25034_M006",
+        "B25034_E007",
+        "B25034_M007",
+        "B25034_E008",
+        "B25034_M008",
+        "B25034_E009",
+        "B25034_M009",
+        "B25034_E010",
+        "B25034_M010",
+        "B25034_E011",
+        "B25034_M011"
+      ],
+      "wisconsin_row": {
+        "GEO_ID": "0400000US55",
+        "B25034_E001": "2778572",
+        "B25034_M001": "1533",
+        "B25034_E002": "38983",
+        "B25034_M002": "1080",
+        "B25034_E003": "197957",
+        "B25034_M003": "3411",
+        "B25034_E004": "347953",
+        "B25034_M004": "3437",
+        "B25034_E005": "347567",
+        "B25034_M005": "3951",
+        "B25034_E006": "262669",
+        "B25034_M006": "3473",
+        "B25034_E007": "394494",
+        "B25034_M007": "4282",
+        "B25034_E008": "262558",
+        "B25034_M008": "3516",
+        "B25034_E009": "285081",
+        "B25034_M009": "3514",
+        "B25034_E010": "146155",
+        "B25034_M010": "2593",
+        "B25034_E011": "495155",
+        "B25034_M011": "3925"
+      }
+    },
+    "B01003": {
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01003.dat",
+      "columns": [
+        "GEO_ID",
+        "B01003_E001",
+        "B01003_M001"
+      ],
+      "wisconsin_row": {
+        "GEO_ID": "0400000US55",
+        "B01003_E001": "5914872",
+        "B01003_M001": "-555555555"
+      }
+    }
+  },
   "api_url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25024.dat",
   "note": "The Census Data API now answers 'Missing Key' without a free key (https://api.census.gov/data/key_signup.html). Without a key our script reads the table-based summary file, which needs none. Set CENSUS_API_KEY to use the API.",
   "fields": [

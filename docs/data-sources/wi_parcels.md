@@ -1,6 +1,6 @@
 # Wisconsin: Statewide parcel map (V-series)
 
-**Status:** Fetched (last fetch 2026-10-23)  
+**Status:** Fetched (last fetch 2026-10-24)  
 **Source id:** `wi_parcels`  
 
 ## Summary

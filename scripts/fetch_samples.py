@@ -383,6 +383,18 @@ B25024_LINES = {
 }
 
 
+# Other ACS tables the Wisconsin pipeline reads (missing_middleware/foundation/sources.py).
+ACS_PIPELINE_TABLES = ("b25002", "b25034", "b01003")
+ACS_TABLE_LINES = {
+    "B25002": {"001": "Total housing units", "002": "Occupied", "003": "Vacant"},
+    "B25034": {"001": "Total", "002": "Built 2020 or later", "003": "Built 2010 to 2019", "004": "Built 2000 to 2009",
+               "005": "Built 1990 to 1999", "006": "Built 1980 to 1989", "007": "Built 1970 to 1979",
+               "008": "Built 1960 to 1969", "009": "Built 1950 to 1959", "010": "Built 1940 to 1949",
+               "011": "Built 1939 or earlier"},
+    "B01003": {"001": "Total population"},
+}
+
+
 def fetch_acs_summary_file():
     """ACS table B25024 from the table-based summary file (no key needed)."""
     def sf(year):
@@ -406,8 +418,20 @@ def fetch_acs_summary_file():
             fields.append({"name": c, "type": "string", "alias": "Census GEO_ID. 0400000US + 2-digit FIPS = state; 0500000US + 5-digit FIPS = county."})
         else:
             fields.append({"name": c, "type": "string"})
+    other = {}
+    year = re.search(r"acsdt5y(\d{4})", url).group(1)
+    for t in ACS_PIPELINE_TABLES:
+        u = url.replace("b25024", t)
+        try:
+            lines = head_lines(u, 3000, max_bytes=3_000_000)
+            trows = list(csv.DictReader(io.StringIO("\n".join(lines)), delimiter="|"))
+            wi = next((r for r in trows if r.get("GEO_ID") == "0400000US55"), None)
+            other[t.upper()] = {"url": u, "columns": list(trows[0].keys()) if trows else [], "wisconsin_row": wi}
+        except Exception as e:  # noqa: BLE001
+            other[t.upper()] = {"url": u, "error": f"{type(e).__name__}: {e}"[:200]}
     return rows, {
-        "vintage": "ACS 5-year, table B25024 (Units in Structure)",
+        "vintage": f"ACS 5-year {year}, table B25024 (Units in Structure); other pipeline tables listed below",
+        "pipeline_tables": other,
         "api_url": url,
         "note": (
             "The Census Data API now answers 'Missing Key' without a free key "
@@ -1046,6 +1070,230 @@ def fetch_nh():
 # --------------------------------------------------------------------------- #
 # Runner
 # --------------------------------------------------------------------------- #
+# --------------------------------------------------------------------------- #
+# Sources added for the Wisconsin pipeline and California history (Oct 2026)
+
+BUILDINGANADU_SHEET = "10rb8p7DU379vQw9oeS_Z9dwK9F9c5ZBeTw09wQlvwQY"
+
+
+@source("buildinganadu_ca_adu")
+def fetch_buildinganadu():
+    yr = re.compile(r"\b20(1[2-9])\b")
+
+    def load(u):
+        lines = head_lines(u, 2000, max_bytes=5_000_000)
+        rows_ = list(csv.reader(io.StringIO("\n".join(lines))))
+        hi_ = next((i for i, r in enumerate(rows_) if sum(bool(yr.search(c)) for c in r) >= 4), None)
+        if hi_ is None:
+            raise RuntimeError(f"no year header row; start of response: {' | '.join(lines[:3])[:400]!r}")
+        return u, rows_, hi_
+
+    base = f"https://docs.google.com/spreadsheets/d/{BUILDINGANADU_SHEET}"
+    # gid=0 is Sheet1; the bare export returns only "@dropdown", and gviz drops numbers.
+    _, (url, allrows, hi) = first_ok([f"{base}/export?format=csv&gid=0"], load)
+    raw = [re.sub(r"\s+", " ", c).strip() for c in allrows[hi]]
+    # The sheet has a second, unlabeled side table to the right of a blank column. Keep the main block.
+    width = raw.index("") if "" in raw else len(raw)
+    header = raw[:width]
+    years = [c for c in header if yr.search(c)]
+    data = [dict(zip(header, r[:width])) for r in allrows[hi + 1:] if any(c.strip() for c in r[:width])]
+    name_col = header[0]
+    juris = [r for r in data if r.get(name_col, "").strip() and not re.search(r"total|compiled|source|buildinganadu", r[name_col], re.I)]
+
+    def num(v):
+        v = (v or "").replace(",", "").strip()
+        return float(v) if re.fullmatch(r"-?\d+(\.\d+)?", v) else 0.0
+
+    sums = {y: int(sum(num(r.get(y)) for r in juris)) for y in years}
+    la = [r for r in juris if re.fullmatch(r"los angeles", r[name_col].strip(), re.I)]
+    rows = juris[:N_ROWS] + la[:1]
+    return rows, {
+        "api_url": url,
+        "sheet_url": f"https://docs.google.com/spreadsheets/d/{BUILDINGANADU_SHEET}/edit",
+        "page_url": "https://www.buildinganadu.com/california-adu-charts",
+        "header_row": hi + 1,
+        "jurisdiction_rows": len(juris),
+        "year_columns": years,
+        "statewide_sums": sums,
+        "note": "Sums are over jurisdiction rows (our check against docs/ASSUMPTIONS_AND_QUESTIONS.md AQ-017). The last sample row is Los Angeles.",
+        "fields": [{"name": c, "type": "int" if c in years else "string"} for c in header],
+    }
+
+
+PEP_HU_URL = "https://www2.census.gov/programs-surveys/popest/tables/2020-2025/housing/totals/CO-EST2025-HU-55.xlsx"
+
+
+def xlsx_rows(blob, sheet=1):
+    """Read one worksheet of an .xlsx file into a list of rows (standard library only)."""
+    import xml.etree.ElementTree as ET
+    import zipfile
+
+    ns = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+    z = zipfile.ZipFile(io.BytesIO(blob))
+    shared = []
+    if "xl/sharedStrings.xml" in z.namelist():
+        for si in ET.fromstring(z.read("xl/sharedStrings.xml")).findall("m:si", ns):
+            shared.append("".join(t.text or "" for t in si.iter(f"{{{ns['m']}}}t")))
+    out = []
+    for row in ET.fromstring(z.read(f"xl/worksheets/sheet{sheet}.xml")).iter(f"{{{ns['m']}}}row"):
+        cells = {}
+        for c in row.findall("m:c", ns):
+            col = re.match(r"[A-Z]+", c.get("r")).group(0)
+            v = c.find("m:v", ns)
+            if v is None:
+                isv = c.find("m:is", ns)
+                val = "".join(t.text or "" for t in isv.iter(f"{{{ns['m']}}}t")) if isv is not None else ""
+            elif c.get("t") == "s":
+                val = shared[int(v.text)]
+            else:
+                val = v.text
+            cells[col] = val
+        if cells:
+            width = max(_col_index(k) for k in cells) + 1
+            out.append([cells.get(_col_letter(i), "") for i in range(width)])
+    return out
+
+
+def _col_index(letters):
+    n = 0
+    for ch in letters:
+        n = n * 26 + ord(ch) - 64
+    return n - 1
+
+
+def _col_letter(i):
+    s = ""
+    i += 1
+    while i:
+        i, r = divmod(i - 1, 26)
+        s = chr(65 + r) + s
+    return s
+
+
+@source("census_pep_housing_units")
+def fetch_pep_hu():
+    grid = xlsx_rows(get_bytes(PEP_HU_URL))
+    title = " ".join(c for c in grid[0] if c) if grid else ""
+    hi = next(i for i, r in enumerate(grid) if any(re.fullmatch(r"2020", str(c).split(".")[0]) for c in r))
+    top = grid[hi - 1] if hi else []
+    header = []
+    for i, c in enumerate(grid[hi]):
+        c = str(c).split(".")[0] if re.fullmatch(r"\d{4}(\.0)?", str(c)) else str(c)
+        above = top[i] if i < len(top) else ""
+        header.append(re.sub(r"\s+", " ", c or above or ("Geographic Area" if i == 0 else f"col_{i}")).strip())
+    rows = []
+    for r in grid[hi + 1:]:
+        if not r or not str(r[0]).strip():
+            continue
+        if re.match(r"(note|source|suggested citation|release date)", str(r[0]), re.I):
+            break
+        rows.append(dict(zip(header, r)))
+    return rows[:N_ROWS + 1], {
+        "api_url": PEP_HU_URL,
+        "title": title,
+        "header_row": hi + 1,
+        "county_rows": max(len(rows) - 1, 0),
+        "note": "Rows are Wisconsin, then its counties. Sub-county PEP files hold population only, not housing units.",
+        "fields": [{"name": h, "type": "int" if re.fullmatch(r"\d{4}", h) else "string"} for h in header],
+    }
+
+
+TIGER_COUSUB_URL = "https://www2.census.gov/geo/tiger/TIGER2024/COUSUB/tl_2024_55_cousub.zip"
+
+
+def dbf_rows(blob, n):
+    """First n records and the field list of a dBase (.dbf) file."""
+    import struct
+
+    nrec, hlen, rlen = struct.unpack("<IHH", blob[4:12])
+    fields, pos = [], 32
+    while blob[pos] != 0x0D:
+        name = blob[pos:pos + 11].split(b"\0")[0].decode("ascii", "replace")
+        ftype, flen = chr(blob[pos + 11]), blob[pos + 16]
+        fields.append({"name": name, "type": {"C": "string", "N": "number", "F": "number", "D": "date", "L": "bool"}.get(ftype, ftype), "length": flen})
+        pos += 32
+    rows = []
+    for i in range(min(n, nrec)):
+        rec = blob[hlen + i * rlen: hlen + (i + 1) * rlen]
+        off, r = 1, {}
+        for f in fields:
+            r[f["name"]] = rec[off:off + f["length"]].decode("utf-8", "replace").strip()
+            off += f["length"]
+        rows.append(r)
+    return rows, fields, nrec
+
+
+@source("census_tiger")
+def fetch_tiger():
+    import zipfile
+
+    z = zipfile.ZipFile(io.BytesIO(get_bytes(TIGER_COUSUB_URL)))
+    names = z.namelist()
+    dbf = next(n for n in names if n.endswith(".dbf"))
+    rows, fields, nrec = dbf_rows(z.read(dbf), N_ROWS)
+    prj = next((z.read(n).decode("ascii", "replace") for n in names if n.endswith(".prj")), "")
+    return rows, {
+        "api_url": TIGER_COUSUB_URL,
+        "record_count": nrec,
+        "files_in_zip": names,
+        "projection": prj[:300],
+        "geometry_type": "Polygon (in the .shp file; not sampled)",
+        "note": "Sample is Wisconsin county subdivisions (towns, cities, villages), the layer the pipeline uses as its municipality key. The same field pattern applies to the state, county, place, tract and block group files.",
+        "fields": fields,
+    }
+
+
+MADISON_PARCELS = "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA2/FeatureServer/0"
+MADISON_ADDRESS_POINTS = "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA/MapServer/20"
+MADISON_ZONING = "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA/MapServer/9"
+WI_ASSEMBLY_2024 = "https://services1.arcgis.com/FDsAtKBk8Hy4cAH0/arcgis/rest/services/WI_Assembly_Districts_2024/FeatureServer/0"
+
+
+@source("madison_parcels")
+def fetch_madison_parcels():
+    return arcgis_layer(MADISON_PARCELS)
+
+
+@source("madison_address_points")
+def fetch_madison_address_points():
+    return arcgis_layer(MADISON_ADDRESS_POINTS)
+
+
+@source("madison_zoning")
+def fetch_madison_zoning():
+    return arcgis_layer(MADISON_ZONING)
+
+
+@source("wi_assembly_districts")
+def fetch_wi_assembly():
+    return arcgis_layer(WI_ASSEMBLY_2024)
+
+
+@source("madison_permits")
+def fetch_madison_permits():
+    """A short window of the city's Construction Summary report, via the pipeline's own client."""
+    sys.path.insert(0, str(ROOT))
+    from missing_middleware.permits import madison as mad  # needs the package installed (pandas)
+
+    end = dt.date.today().replace(day=1) - dt.timedelta(days=1)
+    start = end - dt.timedelta(days=13)
+    data = mad.fetch_report_csv(start, end)
+    text = data.decode("utf-8-sig", "replace")
+    recs = [r for r in csv.DictReader(io.StringIO(text)) if mad.PERMIT_ID_RE.match((r.get("B1_ALT_ID") or "").strip())]
+    drop = set(mad.OWNER_COLUMNS) | {c for c in (recs[0].keys() if recs else []) if c.lower().startswith("contractor")}
+    keep = [{k: v for k, v in r.items() if k not in drop} for r in recs]
+    nrc = [r for r in keep if r["B1_ALT_ID"].startswith("BLDNRC")]
+    rows = (nrc + [r for r in keep if r not in nrc])[:N_ROWS]
+    return rows, {
+        "api_url": mad.REPORT_URL,
+        "window": f"{start} to {end}",
+        "records_in_window": len(recs),
+        "dropped_columns": sorted(drop),
+        "note": "SSRS report, run for a two-week window. Owner and contractor columns are dropped at fetch, as the pipeline does. New residential permits (BLDNRC) are listed first.",
+        "fields": [{"name": c, "type": "string"} for c in (rows[0].keys() if rows else [])],
+    }
+
+
 GEO_OUT = OUT / "geo"
 GEO_FEATURES = 3
 GEO_MAX_BYTES = 150_000
@@ -1070,6 +1318,18 @@ def _count_vertices(c):
     if isinstance(c, (list, tuple)) and c and isinstance(c[0], (int, float)):
         return 1
     return sum(_count_vertices(x) for x in c) if isinstance(c, (list, tuple)) else 0
+
+
+def _thin(c, step):
+    """Keep every step-th vertex of each ring or line, plus its last vertex."""
+    if c and isinstance(c[0], (int, float)):
+        return c
+    if c and isinstance(c[0], list) and c[0] and isinstance(c[0][0], (int, float)):
+        kept = c[::step]
+        if kept[-1] != c[-1]:
+            kept.append(c[-1])
+        return kept if len(kept) >= 4 or len(c) < 4 else c[:1] + c[len(c) // 3:len(c) // 3 + 1] + c[2 * len(c) // 3:2 * len(c) // 3 + 1] + c[-1:]
+    return [_thin(x, step) for x in c]
 
 
 def arcgis_geo_sample(url, n=GEO_FEATURES):
@@ -1113,11 +1373,24 @@ def write_geo(sid, feats, info):
         if len(text) <= GEO_MAX_BYTES or len(feats) <= 1:
             break
         feats = feats[:-1]
+    simplified = None
+    if len(text) > GEO_MAX_BYTES:
+        # One feature is still too big (for example a legislative district): keep every n-th vertex.
+        orig = feats[0]
+        before = _count_vertices((orig.get("geometry") or {}).get("coordinates"))
+        step = 2
+        while len(text) > GEO_MAX_BYTES and step < 10_000:
+            g = dict(orig["geometry"], coordinates=_thin(orig["geometry"]["coordinates"], step))
+            feats = [dict(orig, geometry=g)]
+            text = json.dumps({"type": "FeatureCollection", "features": [feats[0]]}, separators=(",", ":"))
+            step *= 2
+        simplified = {"original_vertices": before, "kept_every_nth_vertex": step // 2}
     path = GEO_OUT / f"{sid}.geojson"
     path.write_text(text + "\n")
     verts = [_count_vertices((f.get("geometry") or {}).get("coordinates")) for f in feats]
     return {
         **info,
+        "simplified": simplified,
         "file": f"data/sample/geo/{sid}.geojson",
         "features": len(feats),
         "bytes": len(text),
@@ -1163,7 +1436,7 @@ def _cell(v):
 
 
 PII_FIELDS = re.compile(r"owner|ownernme|mail|pstladress|co_owner|grantee|taxpayer|care_of|^name[0-9]$", re.I)
-PII_KEEP = re.compile(r"^(ownertype|owner_type|unitowner|ownername|majorowner|homeowner)$", re.I)
+PII_KEEP = re.compile(r"^(ownertype|owner_type|unitowner|ownername|majorowner|homeowner|owneroccupied|ownerchangedate|mailcode)$", re.I)
 
 
 def redact(rows):

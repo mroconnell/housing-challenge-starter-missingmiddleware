@@ -1,6 +1,6 @@
 # Virginia: VGIN statewide parcels
 
-**Status:** Fetched (last fetch 2026-10-23)  
+**Status:** Fetched (last fetch 2026-10-24)  
 **Source id:** `va_parcels`  
 
 ## Summary

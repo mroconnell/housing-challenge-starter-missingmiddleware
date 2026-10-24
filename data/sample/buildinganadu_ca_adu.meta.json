@@ -1,0 +1,71 @@
+{
+  "source_id": "buildinganadu_ca_adu",
+  "fetched_at": "2026-10-24T05:06:27+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 6,
+  "api_url": "https://docs.google.com/spreadsheets/d/10rb8p7DU379vQw9oeS_Z9dwK9F9c5ZBeTw09wQlvwQY/export?format=csv&gid=0",
+  "sheet_url": "https://docs.google.com/spreadsheets/d/10rb8p7DU379vQw9oeS_Z9dwK9F9c5ZBeTw09wQlvwQY/edit",
+  "page_url": "https://www.buildinganadu.com/california-adu-charts",
+  "header_row": 1,
+  "jurisdiction_rows": 527,
+  "year_columns": [
+    "2012",
+    "2013",
+    "2014",
+    "2015",
+    "2016",
+    "2017",
+    "2018",
+    "2019"
+  ],
+  "statewide_sums": {
+    "2012": 158,
+    "2013": 745,
+    "2014": 728,
+    "2015": 1109,
+    "2016": 1269,
+    "2017": 4974,
+    "2018": 8900,
+    "2019": 14702
+  },
+  "note": "Sums are over jurisdiction rows (our check against docs/ASSUMPTIONS_AND_QUESTIONS.md AQ-017). The last sample row is Los Angeles.",
+  "fields": [
+    {
+      "name": "Jurisdiction",
+      "type": "string"
+    },
+    {
+      "name": "2012",
+      "type": "int"
+    },
+    {
+      "name": "2013",
+      "type": "int"
+    },
+    {
+      "name": "2014",
+      "type": "int"
+    },
+    {
+      "name": "2015",
+      "type": "int"
+    },
+    {
+      "name": "2016",
+      "type": "int"
+    },
+    {
+      "name": "2017",
+      "type": "int"
+    },
+    {
+      "name": "2018",
+      "type": "int"
+    },
+    {
+      "name": "2019",
+      "type": "int"
+    }
+  ]
+}

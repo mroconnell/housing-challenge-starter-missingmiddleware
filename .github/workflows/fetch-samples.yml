@@ -27,6 +27,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Install the project package (the Madison permit sample uses its client)
+        run: python3 -m pip install --quiet -e .
       - name: Fetch samples
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}

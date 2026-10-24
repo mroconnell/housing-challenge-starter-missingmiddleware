@@ -1,6 +1,6 @@
 # Arizona: AZGeo Data Hub (parcels by county)
 
-**Status:** Fetched (last fetch 2026-10-23)  
+**Status:** Fetched (last fetch 2026-10-24)  
 **Source id:** `az_azgeo`  
 
 ## Summary

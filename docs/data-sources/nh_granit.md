@@ -1,6 +1,6 @@
 # New Hampshire: NH GRANIT parcels
 
-**Status:** Fetched (last fetch 2026-10-23)  
+**Status:** Fetched (last fetch 2026-10-24)  
 **Source id:** `nh_granit`  
 
 ## Summary

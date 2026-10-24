@@ -1,0 +1,156 @@
+{
+  "source_id": "madison_address_points",
+  "fetched_at": "2026-10-24T05:06:38+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "service_url": "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA/MapServer/20",
+  "layer_name": "Address Points",
+  "geometry_type": "esriGeometryPoint",
+  "spatial_reference": {
+    "wkid": 103412,
+    "latestWkid": 8193,
+    "xyTolerance": 0.003280833333333333,
+    "zTolerance": 2,
+    "mTolerance": 2,
+    "falseX": -119400400,
+    "falseY": -97309100,
+    "xyUnits": 37463997.81859703,
+    "falseZ": 0,
+    "zUnits": 10000,
+    "falseM": -100000,
+    "mUnits": 10000
+  },
+  "record_count": 157222,
+  "max_record_count": 2000,
+  "last_edit_date": null,
+  "description": "The points in this layer are the general locations of current address data in the City of Madison's property system. They are placed automatically at the center of the tax parcel that the address is associated with. They do not reflect the actual location of the address as represented by a building access location or front door.",
+  "copyright": "",
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "OID",
+      "alias": "OBJECTID",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "HouseNbr",
+      "type": "Integer",
+      "alias": "House Number",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "StreetDir",
+      "type": "String",
+      "alias": "Street Direction",
+      "length": 2,
+      "has_domain": false
+    },
+    {
+      "name": "StreetName",
+      "type": "String",
+      "alias": "Street Name",
+      "length": 24,
+      "has_domain": false
+    },
+    {
+      "name": "StreetType",
+      "type": "String",
+      "alias": "Street Type",
+      "length": 5,
+      "has_domain": false
+    },
+    {
+      "name": "Unit",
+      "type": "String",
+      "alias": "Unit",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "Address",
+      "type": "String",
+      "alias": "Address",
+      "length": 50,
+      "has_domain": false
+    },
+    {
+      "name": "ZipCode",
+      "type": "Integer",
+      "alias": "ZipCode",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "MailCode",
+      "type": "String",
+      "alias": "MailCode",
+      "length": 1,
+      "has_domain": false
+    },
+    {
+      "name": "XCoord",
+      "type": "Double",
+      "alias": "XCoord",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "YCoord",
+      "type": "Double",
+      "alias": "YCoord",
+      "length": null,
+      "has_domain": false
+    },
+    {
+      "name": "Parcel",
+      "type": "String",
+      "alias": "Parcel Number",
+      "length": 12,
+      "has_domain": false
+    },
+    {
+      "name": "DateAdded",
+      "type": "Date",
+      "alias": "DateAdded",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "DateChanged",
+      "type": "Date",
+      "alias": "DateChanged",
+      "length": 8,
+      "has_domain": false
+    },
+    {
+      "name": "SHAPE",
+      "type": "Geometry",
+      "alias": "SHAPE",
+      "length": null,
+      "has_domain": false
+    }
+  ],
+  "geometry_sample": {
+    "layer_url": "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA/MapServer/20",
+    "geometry_type": "Point",
+    "native_crs": {
+      "wkid": 103412,
+      "latestWkid": 8193
+    },
+    "supports_pagination": true,
+    "max_record_count": 2000,
+    "simplified": null,
+    "file": "data/sample/geo/madison_address_points.geojson",
+    "features": 3,
+    "bytes": 1253,
+    "vertices_per_feature": [
+      1,
+      1,
+      1
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)"
+  }
+}

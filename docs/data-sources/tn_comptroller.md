@@ -1,6 +1,6 @@
 # Tennessee: Comptroller parcel data
 
-**Status:** Manual request only (not fetched) (last fetch 2026-10-23)  
+**Status:** Manual request only (not fetched) (last fetch 2026-10-24)  
 **Source id:** `tn_comptroller`  
 
 ## Summary

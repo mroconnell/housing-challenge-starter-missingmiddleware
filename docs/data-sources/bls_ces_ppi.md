@@ -1,6 +1,6 @@
 # BLS construction employment (CES) and construction cost indexes (PPI)
 
-**Status:** Fetched (last fetch 2026-10-23)  
+**Status:** Fetched (last fetch 2026-10-24)  
 **Source id:** `bls_ces_ppi`  
 **Handbook listing:** Bureau of Labor Statistics (construction employment, costs)
 
