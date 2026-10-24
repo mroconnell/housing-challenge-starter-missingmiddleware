@@ -1,46 +1,46 @@
 x_basis,path,baseline_units,additional_units
-"assumed ramp from Milwaukee's observed pre-reform candidate rate to a Madison-like level (by right, no parking, owner occupancy only at application) since 2025-08-02",central,81.9960814155535,292.87643493087126
-"assumed ramp from Milwaukee's observed pre-reform candidate rate to a Madison-like level (by right, no parking, owner occupancy only at application) since 2025-08-02",lower,81.9960814155535,123.48155467487125
-"assumed ramp from Milwaukee's observed pre-reform candidate rate to a Madison-like level (by right, no parking, owner occupancy only at application) since 2025-08-02",upper,81.9960814155535,609.9795525068713
-"benchmark group rate, ramping from prohibited since 2021-07-13",central,19.84139270434587,81.46815692994078
-"benchmark group rate, ramping from prohibited since 2021-07-13",lower,19.84139270434587,35.743488385940786
-"benchmark group rate, ramping from prohibited since 2021-07-13",upper,19.84139270434587,167.06895359794078
-benchmark_group_rate,central,11.829824363882008,76.46324901361135
-benchmark_group_rate,lower,11.829824363882008,36.207562445611345
-benchmark_group_rate,upper,11.829824363882008,151.81335749361136
-observed 2014-2025,central,1.25,43.98571794000001
-observed 2014-2025,lower,1.25,23.008758072
-observed 2014-2025,upper,1.25,83.25520527199998
-observed 2022-2025 (G2-9),central,48.75,351.4018225440001
-observed 2022-2025 (G2-9),lower,48.75,168.61628454
-observed 2022-2025 (G2-9),upper,48.75,693.5722214760001
-prohibited_group_rate,central,21.156451450300935,638.7419401598465
-prohibited_group_rate,lower,21.156451450300935,332.93974958084664
-prohibited_group_rate,upper,21.156451450300935,1211.1769351558466
-"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",central,2.0995436310890296,56.77773961002549
-"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",lower,2.0995436310890296,29.480745424025493
-"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",upper,2.0995436310890296,107.87886106602548
-"restricted group rate, ramping from prohibited since 2022-05-03",central,4.813454303426307,57.29685695251505
-"restricted group rate, ramping from prohibited since 2022-05-03",lower,4.813454303426307,28.71800617651505
-"restricted group rate, ramping from prohibited since 2022-05-03",upper,4.813454303426307,110.78810739451504
-"restricted group rate, ramping from prohibited since 2023-02-28",central,5.1226096012329805,52.46858536376183
-"restricted group rate, ramping from prohibited since 2023-02-28",lower,5.1226096012329805,26.025189727761827
-"restricted group rate, ramping from prohibited since 2023-02-28",upper,5.1226096012329805,101.97830155976182
-"restricted group rate, ramping from prohibited since 2024-02-17",central,3.570748838272204,44.67947720507752
-"restricted group rate, ramping from prohibited since 2024-02-17",lower,3.570748838272204,22.45885555107752
-"restricted group rate, ramping from prohibited since 2024-02-17",upper,3.570748838272204,86.26427256107752
-"restricted group rate, ramping from prohibited since 2025-02-26",central,3.524120330047762,37.5078388349025
-"restricted group rate, ramping from prohibited since 2025-02-26",lower,3.524120330047762,18.637913238902502
-"restricted group rate, ramping from prohibited since 2025-02-26",upper,3.524120330047762,72.8322185249025
-"restricted group rate, ramping from prohibited since 2025-06-09",central,2.599667617385052,62.265934714534865
-"restricted group rate, ramping from prohibited since 2025-06-09",lower,2.599667617385052,32.22868773453487
-"restricted group rate, ramping from prohibited since 2025-06-09",upper,2.599667617385052,118.49230764453488
-"restricted group rate, ramping from prohibited since 2026-09-01",central,4.14533781515376,95.35852561646762
-"restricted group rate, ramping from prohibited since 2026-09-01",lower,4.14533781515376,49.268358344467615
-"restricted group rate, ramping from prohibited since 2026-09-01",upper,4.14533781515376,181.6367432804676
-restricted_group_rate,central,47.68860993803284,764.3084040841763
-restricted_group_rate,lower,47.68860993803284,389.60014278817636
-restricted_group_rate,upper,47.68860993803284,1465.7024780221764
-uncoded_like_restricted_AQ027,central,395.7915419848524,6844.0701308207545
-uncoded_like_restricted_AQ027,lower,395.7915419848524,3501.4553766367544
-uncoded_like_restricted_AQ027,upper,395.7915419848524,13101.899313434755
+"assumed ramp from Milwaukee's observed pre-reform candidate rate to a Madison-like level (by right, no parking, owner occupancy only at application) since 2025-08-02",central,81.9960814155535,293.45526435888553
+"assumed ramp from Milwaukee's observed pre-reform candidate rate to a Madison-like level (by right, no parking, owner occupancy only at application) since 2025-08-02",lower,81.9960814155535,122.45394718814978
+"assumed ramp from Milwaukee's observed pre-reform candidate rate to a Madison-like level (by right, no parking, owner occupancy only at application) since 2025-08-02",upper,81.9960814155535,614.2515622292083
+"benchmark group rate, ramping from prohibited since 2021-07-13",central,19.84139270434587,81.62490088982973
+"benchmark group rate, ramping from prohibited since 2021-07-13",lower,19.84139270434587,35.4718039136486
+"benchmark group rate, ramping from prohibited since 2021-07-13",upper,19.84139270434587,168.21978486975556
+benchmark_group_rate,central,11.829824363882008,76.61036357822185
+benchmark_group_rate,lower,11.829824363882008,35.93235056954019
+benchmark_group_rate,upper,11.829824363882008,152.85910271150084
+observed 2014-2025,central,1.25,44.0703460434
+observed 2014-2025,lower,1.25,22.833869649599997
+observed 2014-2025,upper,1.25,83.82869718479998
+observed 2022-2025 (G2-9),central,48.75,352.07791631184006
+observed 2022-2025 (G2-9),lower,48.75,167.334640572
+observed 2022-2025 (G2-9),upper,48.75,698.3497973484001
+prohibited_group_rate,central,21.156451450300935,639.9708735839071
+prohibited_group_rate,lower,21.156451450300935,330.40909115172855
+prohibited_group_rate,upper,21.156451450300935,1219.5199591747348
+"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",central,2.0995436310890296,56.88757449486695
+"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",lower,2.0995436310890296,29.2536369563905
+"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",upper,2.0995436310890296,108.62446462313527
+"restricted group rate, ramping from prohibited since 2022-05-03",central,4.813454303426307,57.4070955609035
+"restricted group rate, ramping from prohibited since 2022-05-03",lower,4.813454303426307,28.499722044056977
+"restricted group rate, ramping from prohibited since 2022-05-03",upper,4.813454303426307,111.55125587775517
+"restricted group rate, ramping from prohibited since 2023-02-28",central,5.1226096012329805,52.56953442348784
+"restricted group rate, ramping from prohibited since 2023-02-28",lower,5.1226096012329805,25.827373558809718
+"restricted group rate, ramping from prohibited since 2023-02-28",upper,5.1226096012329805,102.68076491967466
+"restricted group rate, ramping from prohibited since 2024-02-17",central,3.570748838272204,44.765497800889236
+"restricted group rate, ramping from prohibited since 2024-02-17",lower,3.570748838272204,22.287442867727005
+"restricted group rate, ramping from prohibited since 2024-02-17",upper,3.570748838272204,86.85893488346419
+"restricted group rate, ramping from prohibited since 2025-02-26",central,3.524120330047762,37.580300754882785
+"restricted group rate, ramping from prohibited since 2025-02-26",lower,3.524120330047762,18.4942774418872
+"restricted group rate, ramping from prohibited since 2025-02-26",upper,3.524120330047762,73.33539493727471
+"restricted group rate, ramping from prohibited since 2025-06-09",central,2.599667617385052,62.38602156237169
+"restricted group rate, ramping from prohibited since 2025-06-09",lower,2.599667617385052,31.98198034128281
+"restricted group rate, ramping from prohibited since 2025-06-09",upper,2.599667617385052,119.30987884948487
+"restricted group rate, ramping from prohibited since 2026-09-01",central,4.14533781515376,95.54304864515078
+"restricted group rate, ramping from prohibited since 2026-09-01",lower,4.14533781515376,48.88863644984899
+"restricted group rate, ramping from prohibited since 2026-09-01",upper,4.14533781515376,182.89227448097978
+restricted_group_rate,central,47.68860993803284,765.7789261917967
+restricted_group_rate,lower,47.68860993803284,386.63881153657974
+restricted_group_rate,upper,47.68860993803284,1475.7987658755358
+uncoded_like_restricted_AQ027,central,395.7915419848524,6857.238056725659
+uncoded_like_restricted_AQ027,lower,395.7915419848524,3474.8409889758573
+uncoded_like_restricted_AQ027,upper,395.7915419848524,13192.149926282642

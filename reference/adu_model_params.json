@@ -5,21 +5,45 @@
   "area_levels": "reference/pooled_wi_y_by_area.csv (y_plateau_lower_80, y_plateau_central, y_plateau_upper_80: pooled two-stage model across California, statewide-law states, and five cities)",
   "paths": {
     "lower": {
-      "level": 0.229, "floor_rate": 0.229, "spillover": 0.0,
-      "ramp": [0.62, 0.78, 0.81, 1.0, 1.0],
+      "level": 0.229,
+      "floor_rate": 0.229,
+      "spillover": 0.0,
+      "ramp": [
+        0.603,
+        0.773,
+        0.802,
+        1.0,
+        1.0
+      ],
       "basis": "Like the slower statewide-law states: pooled model, 10th percentile of the between-state spread"
     },
     "central": {
-      "level": 0.229, "floor_rate": 0.229, "spillover": 0.0,
-      "ramp": [0.62, 0.78, 0.81, 1.0, 1.0],
+      "level": 0.229,
+      "floor_rate": 0.229,
+      "spillover": 0.0,
+      "ramp": [
+        0.6222,
+        0.7838,
+        0.8121,
+        1.0,
+        1.0
+      ],
       "basis": "Like a typical statewide-law state: pooled model central; ramp from the pooled year terms"
     },
     "upper": {
-      "level": 0.229, "floor_rate": 0.229, "spillover": 0.0,
-      "ramp": [0.62, 0.78, 0.81, 1.0, 1.0],
-      "basis": "Like the faster statewide-law states: pooled model, 90th percentile of the between-state spread"
+      "level": 0.229,
+      "floor_rate": 0.229,
+      "spillover": 0.0,
+      "ramp": [
+        0.632,
+        0.79,
+        0.817,
+        1.0,
+        1.0
+      ],
+      "basis": "California-level response: pooled model, 90th percentile of the between-state spread (driven by California; every other statewide-law state sits below it)"
     }
   },
   "statewide_adoption_line": "reference/statewide_adoption_curve.csv (median observed path of statewide-law states; shown alongside the scenarios)",
-  "notes": "Uniform 'level' applies only where an area has no model level. Floor 0.229 = Madison 2022-2025 rate / 0.8. The California ramp is not applied on top of the pooled ramp."
+  "notes": "Uniform 'level' applies only where an area has no model level. Floor 0.229 = Madison 2022-2025 rate / 0.8. The California ramp is not applied on top of the pooled ramp. Path-specific ramps reproduce the pooled model's direct totals (each path scales the whole rate path)."
 }

@@ -69,8 +69,6 @@ def main():
 
     for label, ov in {
         "no ramp (full rate from year 1)": {"central": {"ramp": [1, 1, 1, 1, 1]}},
-        "slower Central Valley ramp on the central path": {"central": {"ramp": [0.10, 0.19, 0.25, 0.55, 1.0]}},
-        "Madison floor without /0.8 (0.183)": {"central": {"floor_rate": 0.183}},
     }.items():
         v = central_total(load_scenario(**ov))
         sens.append({"change": label, "central_additional_5yr": round(v, 1), "difference": round(v - base_central, 1)})

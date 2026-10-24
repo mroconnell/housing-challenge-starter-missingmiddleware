@@ -1,5 +1,7 @@
 # Pooled multi-state model and statewide adoption curve for Wisconsin's with-law rate
 
+> **Status update (2026-10-24, AQ-038):** the owner adopted this model's central and between-state spread as the Gate 3 scenarios, with the statewide adoption path shown as a separate reference line (not the upper scenario). The engine now uses path-specific ramps and reproduces this document's direct totals (4,780 / 9,518 / 18,387); the earlier "engine gives 9,514" figure came from a rounded ramp. Madison's engine value is 351 additional permits. The "conductor must decide" section below is resolved.
+
 Gate 3 revision, owner direction of 2026-10-24: put about 90% of the effort into the **statewide** rate, take that rate from a model or from measured data (never set it by judgment), and treat where units land inside Wisconsin as secondary. This work is **not** part of the pre-registered [CA_COMPARISON_PLAN.md](CA_COMPARISON_PLAN.md) and changes nothing in it.
 
 **Units used throughout.** Unless a sentence says otherwise:

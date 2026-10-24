@@ -1,5 +1,7 @@
 # Market-adjusted California regression for Wisconsin's with-law rate
 
+> **Superseded for the statewide total (2026-10-24, AQ-036 to AQ-038):** this California-only regression no longer sets Wisconsin's scenarios. It is kept as a named downside sensitivity (about 2,300 additional second-home permits over 2027–2031) and as the within-state geography reference. The scenarios come from the pooled model in [POOLED_MODEL.md](POOLED_MODEL.md).
+
 Gate 3 revision (AQ-034, owner decision 2026-10-24). This replaces the judgment-based California-to-Wisconsin transfer ratio (G3-1) with a regression fitted on California jurisdictions. The holdout test is published, so all California data is used, as the pre-registered plan allows. Fire-rebuild areas stay in; the owner deferred excluding them. Run with `uv run python scripts/run_ca_regression.py`. Code is in `missing_middleware/comparison/ca_regression.py` and the tests are in `tests/test_ca_regression.py`.
 
 **All results describe associations across California places. They are not causal effects of home values or group membership.**
