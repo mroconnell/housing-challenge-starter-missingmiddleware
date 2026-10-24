@@ -1316,6 +1316,18 @@ def _count_vertices(c):
     return sum(_count_vertices(x) for x in c) if isinstance(c, (list, tuple)) else 0
 
 
+def _thin(c, step):
+    """Keep every step-th vertex of each ring or line, plus its last vertex."""
+    if c and isinstance(c[0], (int, float)):
+        return c
+    if c and isinstance(c[0], list) and c[0] and isinstance(c[0][0], (int, float)):
+        kept = c[::step]
+        if kept[-1] != c[-1]:
+            kept.append(c[-1])
+        return kept if len(kept) >= 4 or len(c) < 4 else c[:1] + c[len(c) // 3:len(c) // 3 + 1] + c[2 * len(c) // 3:2 * len(c) // 3 + 1] + c[-1:]
+    return [_thin(x, step) for x in c]
+
+
 def arcgis_geo_sample(url, n=GEO_FEATURES):
     """A few complete features (geometry and attributes) from an ArcGIS layer, as GeoJSON in WGS84."""
     url = url.rstrip("/")
@@ -1357,11 +1369,24 @@ def write_geo(sid, feats, info):
         if len(text) <= GEO_MAX_BYTES or len(feats) <= 1:
             break
         feats = feats[:-1]
+    simplified = None
+    if len(text) > GEO_MAX_BYTES:
+        # One feature is still too big (for example a legislative district): keep every n-th vertex.
+        orig = feats[0]
+        before = _count_vertices((orig.get("geometry") or {}).get("coordinates"))
+        step = 2
+        while len(text) > GEO_MAX_BYTES and step < 10_000:
+            g = dict(orig["geometry"], coordinates=_thin(orig["geometry"]["coordinates"], step))
+            feats = [dict(orig, geometry=g)]
+            text = json.dumps({"type": "FeatureCollection", "features": [feats[0]]}, separators=(",", ":"))
+            step *= 2
+        simplified = {"original_vertices": before, "kept_every_nth_vertex": step // 2}
     path = GEO_OUT / f"{sid}.geojson"
     path.write_text(text + "\n")
     verts = [_count_vertices((f.get("geometry") or {}).get("coordinates")) for f in feats]
     return {
         **info,
+        "simplified": simplified,
         "file": f"data/sample/geo/{sid}.geojson",
         "features": len(feats),
         "bytes": len(text),

@@ -65,6 +65,12 @@ class TestFetchHelpers(unittest.TestCase):
         self.assertEqual(rows, [{"GEOID": "5502548000", "NAME": "Madison"}])
         self.assertEqual([f["name"] for f in flds], ["GEOID", "NAME"])
 
+    def test_thin_keeps_rings_closed(self):
+        ring = [[i, i] for i in range(100)] + [[0, 0]]
+        out = fetch._thin([ring], 10)[0]
+        self.assertEqual(out[0], out[-1])
+        self.assertLess(len(out), 20)
+
     def test_quadkey(self):
         self.assertEqual(fetch._quadkey(40.7608, -111.8910, 9), "023100000")
 

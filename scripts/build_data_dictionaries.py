@@ -219,6 +219,8 @@ def geometry_section(sid, meta):
     md += f"| Geometry type | {g.get('geometry_type')} |\n"
     md += f"| Source coordinate system | {crs_label(g.get('native_crs'))} |\n"
     md += f"| Vertices per feature in the sample | {', '.join(str(x) for x in v)} |\n"
+    if g.get("simplified"):
+        md += f"| Simplified for size | yes: kept every {g['simplified']['kept_every_nth_vertex']}th of {g['simplified']['original_vertices']} vertices |\n"
     if g.get("max_record_count"):
         md += f"| Max features per request | {g['max_record_count']} |\n"
     if g.get("supports_pagination") is not None:
