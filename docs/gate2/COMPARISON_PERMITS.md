@@ -14,6 +14,7 @@ Gate 2 work package, built 2026-10-24. Code: `missing_middleware/permits/pleasan
   - Sun Prairie: no second-dwelling hits in 2016–2025.
   - Text-rule ADU candidates: 1 in Pleasant Prairie (2018) and 2 in Sun Prairie (2017, 2024).
   - Teardown-rebuilds are a separate series: 19 in Pleasant Prairie, 0 in Sun Prairie.
+- **Headline (AQ-032): second homes on single-family lots**, 2014–2026: Pleasant Prairie **6 units** (5 second dwellings, 1 attached ADU); Sun Prairie 2016–2026 **3 units** (1 ADU conversion 2017, 1 attached ADU 2024, 1 duplex conversion 2026 after Ord. 984); Sun Prairie 2014–2015 is missing (no permit data). Adding the series changed no existing figure in either city (section 5a).
 - No year-built or dwelling-count field is reachable for either place, so "the parcel already had a dwelling" is read from the permit history of the same parcel number. This is the main limit (section 3).
 
 ## Coverage at a glance
@@ -249,6 +250,33 @@ Counted units:
 - **Stages:** Pleasant Prairie counts are issued; Sun Prairie counts are submitted applications.
 - **Sun Prairie restrictive period:** `restrictive_period` is false for 2026, after Ord. 984 (2026-05-05). Use 2016–2025 only for the restrictive comparison.
 
+## 5a. Headline: second homes on single-family lots (AQ-032)
+
+Same definition and code as Madison ([MADISON_PERMITS.md](MADISON_PERMITS.md) section 5a; `missing_middleware/permits/second_homes.py`): counted text-rule ADUs except legalizations (`adu_detached`, `adu_attached`, `adu_conversion`), ADU-equivalent `second_dwelling`, and `sf_to_duplex` (ADU-equivalent duplex conversions). Teardown-rebuilds and manufactured-home replacements are excluded. Neither city has ADU text bundles, so no judgments were needed (`adu_two_unit` is 0 throughout). The series is added after classification; `series`, `unit_category` and `counted` are unchanged record by record, so the "before" value equals the same definition summed from the existing series.
+
+Counted units (permits equal units in every cell):
+
+| Year | PP second homes | PP components | SP second homes | SP components |
+| --- | --- | --- | --- | --- |
+| 2014 | 1 | second_dwelling 1 | missing | – |
+| 2015 | 0 | – | missing | – |
+| 2016 | 0 | – | 0 | – |
+| 2017 | 1 | second_dwelling 1 | 1 | adu_conversion 1 |
+| 2018 | 2 | adu_attached 1, second_dwelling 1 | 0 | – |
+| 2019 | 0 | – | 0 | – |
+| 2020 | 0 | – | 0 | – |
+| 2021 | 1 | second_dwelling 1 | 0 | – |
+| 2022 | 1 | second_dwelling 1 | 0 | – |
+| 2023 | 0 | – | 0 | – |
+| 2024 | 0 | – | 1 | adu_attached 1 |
+| 2025 | 0 | – | 0 | – |
+| 2026 (PP to 10-24, SP to 08-31) | 0 | – | 1 | sf_to_duplex 1 (after Ord. 984; not restrictive period) |
+| **Total** | **6** | second_dwelling 5, adu_attached 1 | **3** (2016–2026) | one each |
+
+- **Caveat:** the audit (section 4) could not confirm any of the Pleasant Prairie parcel-rule hits (2 uncertain, 3 probably false among the 5 in 2003–2026), and the text candidates' legal status is unknown. The PP figures are an upper bound on legal second homes in the restrictive period; the true value may be near 0.
+- **Stage:** Pleasant Prairie counts issued permits; Sun Prairie counts submitted applications.
+- In the reference CSVs the headline is series `second_home_sf_lot`, with one row per component `second_home_sf_lot:<component>` (method `aq032_rule`). Existing rows are unchanged.
+
 ## 6. Traced examples (house numbers redacted)
 
 ### Pleasant Prairie, issued permit SF25-07-076
@@ -285,12 +313,13 @@ Counted units:
 
 | File | Content | Shareable? |
 | --- | --- | --- |
-| `data/processed/permits_<city>/permits_observed.parquet` | Contract table. Contract columns plus year, permit_type, parcel_stateid, parcel_id, area_id, tract/bg, counted, match_rule, text_note, parcel_rule_reason, n_source_rows, **series**, **restrictive_period**. Validated with no contract problems. Pleasant Prairie 1,543 rows; Sun Prairie 1,352 | Local (record level) |
+| `data/processed/permits_<city>/permits_observed.parquet` | Contract table. Contract columns plus year, permit_type, parcel_stateid, parcel_id, area_id, tract/bg, counted, match_rule, text_note, parcel_rule_reason, n_source_rows, **series**, **restrictive_period**, **second_home_component**, **second_home_units**. Validated with no contract problems. Pleasant Prairie 1,543 rows; Sun Prairie 1,352 | Local (record level) |
 | `…/permits_records_full.parquet` | All deduplicated permits with diagnostics: 22,390 and 26,342 | Local |
 | `…/permits_by_area_year.parquet` | City and tract rows by year and category, with coverage and suppressed flags (same rules as Madison) | Aggregate; mask suppressed cells before publishing |
 | `…/bps_reconciliation.csv`, `match_rates.csv`, `build_report.json` | Checks | Aggregate |
 | `…/audit_sample.csv`, `audit_judgments.csv` | Audit with judgments | Local (has addresses) |
-| `reference/pleasant_prairie_adu_equivalent_by_year.csv`, `reference/sun_prairie_adu_equivalent_by_year.csv` | year × series: permits, units, method, stage, restrictive_period | Committed |
+| `…/second_homes_by_year.csv` | AQ-032 headline by year with component columns (PP 2014–2026, SP 2016–2026) | Aggregate |
+| `reference/pleasant_prairie_adu_equivalent_by_year.csv`, `reference/sun_prairie_adu_equivalent_by_year.csv` | year × series: permits, units, method, stage, restrictive_period; includes `second_home_sf_lot` rows | Committed |
 
 **Raw files and manifests:**
 - `data/raw/pleasant_prairie_permits/`: 24 yearly RTFs. The manifest records request, access time, seconds, bytes, sha256 of stored and uncompressed data, and permit counts.
@@ -309,6 +338,7 @@ Counted units:
 - `pipeline.build_permits_observed` gained two optional hooks, `match_fn` and `parcel_rule_fn`. The defaults keep Madison's behaviour.
   - Check at the time: `scripts/build_madison_permits.py` was rerun; `reference/madison_adu_permits_by_year.csv` was byte-identical, with the same row counts (5,752 in scope, 5,705 counted).
 - Gate 2 repair round (2026-10-24), review item S3: the pipeline now holds ADU text bundles (ADU wording on a record adding 2+ units) out of every ADU series whichever rule they reach, including a hook-supplied parcel rule. Rerun of this build: no Pleasant Prairie or Sun Prairie record was affected; both `reference/*_adu_equivalent_by_year.csv` files are byte-identical and the row counts are unchanged (PP 1,543 in scope / 1,543 counted; SP 1,352 / 1,351). The other S3 changes (one-unit host, Dwell-0 conversion path, judged false positives) apply only to Madison's default rule. Madison's figures changed; see [MADISON_PERMITS.md](MADISON_PERMITS.md).
+- AQ-032 (2026-10-24): new module `missing_middleware/permits/second_homes.py` adds the headline "second homes on single-family lots" after classification, for all three cities. Rerun of this build: in-scope and counted row counts unchanged (PP 1,543 / 1,543; SP 1,352 / 1,351); `series`, `unit_category` and `counted` identical record by record; the reference CSVs only gained `second_home_sf_lot` rows (existing rows byte-identical).
 - New module `missing_middleware/permits/comparison.py` holds the V12 fetch, parcel-number matching, the permit-history rule, recount and series labels. Both adapters share it.
 
 **Open items:**

@@ -31,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from missing_middleware import contracts  # noqa: E402
 from missing_middleware.paths import REFERENCE, processed_dir, raw_dir  # noqa: E402
-from missing_middleware.permits import geo, madison  # noqa: E402
+from missing_middleware.permits import geo, madison, second_homes  # noqa: E402
 from missing_middleware.permits.match import AddressIndex  # noqa: E402
 from missing_middleware.permits.pipeline import (  # noqa: E402
     build_permits_observed, by_area_year, to_contract,
@@ -76,7 +76,12 @@ def main(argv=None) -> int:
                                   new_residential_types=a.new_residential_types, host_uses=a.host_uses,
                                   dwell0_conversions=a.dwell0_conversions,
                                   exclude_parcel_rule=a.parcel_rule_false_positives)
+    # headline outcome (AQ-032): second homes on single-family lots; unit_category is unchanged
+    full = second_homes.assign(full, a.second_home_judgments)
     obs = to_contract(full, a.source_id, a.jurisdiction_id)
+    s_in = full.loc[full["in_scope"]]
+    obs["second_home_component"] = s_in["second_home_component"].values
+    obs["second_home_units"] = s_in["second_home_units"].values
     problems = contracts.validate(obs, contracts.PERMITS_OBSERVED)
     city_area = f"muni:{a.jurisdiction_id}"
     agg = by_area_year(obs, city_area)
@@ -93,7 +98,18 @@ def main(argv=None) -> int:
     ref_tbl.to_csv(REFERENCE / "madison_adu_permits_by_year.csv", index=False)
     traced = ["BLDNRC-2024-10200", "BLDNRC-2026-21855"]  # the doc's traced and unmatched examples
     source_vs_clean(praw, full, obs, extra_ids=traced).to_csv(out / "source_vs_clean_examples.csv", index=False)
-    audit_sample(full, out / "audit_judgments.csv").to_csv(out / "audit_sample.csv", index=False)
+    judged = second_home_judgment_table(full, madison.load_parcels(graw), a.second_home_judgments)
+    judged.to_csv(out / "second_home_judgments.csv", index=False)
+    audit = audit_sample(full, out / "audit_judgments.csv")
+    extra = full[full["permit_id"].isin(judged["permit_id"])]
+    extra = extra[[c for c in audit.columns if c in extra.columns]].assign(
+        audit_group="second_home_judged", issue_date=extra["issue_date"].dt.date)
+    extra = extra.merge(judged[["permit_id", "judgment", "evidence"]].rename(
+        columns={"evidence": "judgment_note"}), on="permit_id", how="left")
+    audit = pd.concat([audit[~audit["permit_id"].isin(judged["permit_id"])], extra], ignore_index=True)
+    audit.to_csv(out / "audit_sample.csv", index=False)
+    sh_years = second_homes.by_year(full, range(2014, int(full["year"].max()) + 1))
+    sh_years.to_csv(out / "second_homes_by_year.csv", index=False)
     recon = reconcile_city(full)
     recon.to_csv(out / "reconcile_city_table.csv", index=False)
 
@@ -114,11 +130,45 @@ def main(argv=None) -> int:
             counted.pivot_table(index="year", columns="unit_category", values="units_added", aggfunc="sum",
                                 fill_value=0).astype(int).to_dict("index").items()},
         "reconciliation": recon.to_dict("records"),
+        "second_home_sf_lot_by_year": sh_years.to_dict("records"),
+        "second_home_judgments": judged[["permit_id", "judgment", "counts", "units"]].to_dict("records"),
     }
     (out / "build_report.json").write_text(json.dumps(report, indent=2, default=str) + "\n")
     print(json.dumps({k: report[k] for k in ("raw_rows", "permits_deduped", "permits_in_scope",
                                              "permits_counted", "contract_problems")}, indent=2))
     return 1 if problems else 0
+
+
+def second_home_judgment_table(full: pd.DataFrame, parcels_gdf, judgments: dict) -> pd.DataFrame:
+    """Local audit table (has parcel ids): each judged record, its host parcel and the evidence.
+
+    Host = matched parcel, else the parcel containing the record's (geocoded) point.
+    """
+    import geopandas as gpd
+
+    j = full[full["permit_id"].isin(list(judgments))].copy()
+    pts = gpd.GeoDataFrame(j[["permit_id"]], geometry=gpd.points_from_xy(j["x"], j["y"]), crs=4326)
+    cols = ["Parcel", "YearBuilt", "MaxConstructionYear", "MoreThanOneBuild", "TotalDwellingUnits", "PropertyUse"]
+    hit = gpd.sjoin(pts, parcels_gdf[cols + ["geometry"]], predicate="within", how="left")
+    hit = hit[~hit.index.duplicated()]
+    by_id = parcels_gdf.drop_duplicates("Parcel").set_index("Parcel")[cols[1:]]
+    rows = []
+    for idx, r in j.iterrows():
+        host = r["parcel_id"] if pd.notna(r["parcel_id"]) else hit.at[idx, "Parcel"]
+        how = "matched_parcel" if pd.notna(r["parcel_id"]) else ("point_in_parcel" if pd.notna(host) else "none")
+        a = by_id.loc[host] if pd.notna(host) and host in by_id.index else pd.Series(dtype=object)
+        jd = judgments[r["permit_id"]]
+        if jd.get("host_note"):
+            how += "; " + jd["host_note"]
+        rows.append({"permit_id": r["permit_id"], "issue_date": r["issue_date"].date(), "units_raw": r["units_added"],
+                     "description": r["description"], "match_method": r["match_method"], "host_parcel": host,
+                     "host_from": how, "host_year_built": a.get("YearBuilt"),
+                     "host_max_construction_year": a.get("MaxConstructionYear"),
+                     "host_more_than_one_build": a.get("MoreThanOneBuild"),
+                     "host_dwelling_units": a.get("TotalDwellingUnits"), "host_use": a.get("PropertyUse"),
+                     "judgment": jd["judgment"], "counts": jd["counts"], "units": jd["units"],
+                     "component": jd["component"], "evidence": jd["evidence"]})
+    return pd.DataFrame(rows).sort_values("permit_id")
 
 
 if __name__ == "__main__":

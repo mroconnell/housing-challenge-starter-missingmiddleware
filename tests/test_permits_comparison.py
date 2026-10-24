@@ -197,6 +197,15 @@ class TestPriorDwellingRule(unittest.TestCase):
         self.assertEqual(int(counted[counted["unit_category"] == "adu_equivalent"]["units_added"].sum()), 2)
         self.assertFalse(self.full.loc["C2", "in_scope"])  # razes are never counted
 
+    def test_second_home_series(self):
+        from missing_middleware.permits import second_homes
+
+        f = second_homes.assign(self.full.reset_index()).set_index("permit_id")
+        self.assertEqual(f.loc["A2", "second_home_component"], "second_dwelling")
+        self.assertEqual(f.loc["D1", "second_home_component"], "sf_to_duplex")
+        self.assertTrue(pd.isna(f.loc["C3", "second_home_component"]))  # teardown-rebuild is excluded
+        self.assertEqual(int(f["second_home_units"].sum()), 2)
+
     def test_parcel_id_normalized_match(self):
         fn = cmp.parcel_match_fn({"91-4-122-000-0706"})
         m = fn(pd.DataFrame({"parcel_key": ["914122000 0706", "91-4-122-000-0706", None],

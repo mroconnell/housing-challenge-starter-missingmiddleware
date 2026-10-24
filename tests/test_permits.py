@@ -8,7 +8,7 @@ from pathlib import Path
 import pandas as pd
 
 from missing_middleware import contracts
-from missing_middleware.permits import address, classify, madison, pipeline
+from missing_middleware.permits import address, classify, madison, pipeline, report, second_homes
 from missing_middleware.permits.match import AddressIndex
 
 FIX = Path(__file__).parent / "fixtures" / "permits"
@@ -199,6 +199,73 @@ class TestAduEquivalentRule(unittest.TestCase):
         fp = self.row("BLDNRC-2024-00015")
         self.assertEqual(fp.parcel_rule_reason, "judged_false_positive")
         self.assertFalse(fp.counted)
+
+
+class TestSecondHomes(unittest.TestCase):
+    """AQ-032 headline: second homes on single-family lots, components, judgments."""
+
+    @classmethod
+    def setUpClass(cls):
+        TestAduEquivalentRule.setUpClass()
+        full = TestAduEquivalentRule.full.copy()
+        # a counted legalization (excluded from the headline) and a second judged bundle
+        leg = full[full.permit_id == "BLDNRC-2024-00001"].copy()
+        leg["permit_id"], leg["unit_category"] = "BLDNRC-2024-00090", "adu_legalization"
+        full = pd.concat([full, leg], ignore_index=True)
+        cls.before = full.copy()
+        judgments = {
+            "BLDNRC-2024-00014": {"counts": True, "units": 2, "component": "adu_two_unit",
+                                  "judgment": "added_beside_existing_home", "evidence": "1954 host"},
+            "BLDNRC-2024-00003": {"counts": False, "units": 0, "component": None,
+                                  "judgment": "new_construction_cleared_lot", "evidence": "new house"},
+        }
+        cls.full = second_homes.assign(full, judgments).set_index("permit_id")
+
+    def test_components(self):
+        f = self.full
+        self.assertEqual(f.loc["BLDNRC-2024-00001", "second_home_component"], "adu_detached")
+        self.assertEqual(f.loc["BLDNRC-2024-00013", "second_home_component"], "sf_to_duplex")
+        self.assertEqual(f.loc["BLDRPR-2024-00011", "second_home_component"], "sf_to_duplex")  # Dwell-0 path
+        self.assertTrue(pd.isna(f.loc["BLDNRC-2024-00090", "second_home_component"]))  # legalization
+        self.assertEqual(f.loc["BLDNRC-2024-00090", "second_home_note"], "excluded:legalization")
+        self.assertTrue(pd.isna(f.loc["BLDNRC-2024-00015", "second_home_component"]))  # judged false positive
+
+    def test_judgments_resolve_bundles_without_changing_categories(self):
+        b = self.full.loc["BLDNRC-2024-00014"]
+        self.assertEqual((b.second_home_component, b.second_home_units), ("adu_two_unit", 2))
+        self.assertEqual(b.unit_category, "other_residential")  # category columns are unchanged
+        self.assertEqual(b.second_home_note, "judged:added_beside_existing_home")
+        n = self.full.loc["BLDNRC-2024-00003"]
+        self.assertTrue(pd.isna(n.second_home_component))
+        self.assertEqual(n.second_home_units, 0)
+        before = self.before.set_index("permit_id").loc[self.full.index, "unit_category"]
+        self.assertTrue(self.full["unit_category"].fillna("-").equals(before.fillna("-")))
+
+    def test_by_year_and_reference_rows(self):
+        f = self.full.reset_index()
+        y = second_homes.by_year(f, [2024]).iloc[0]
+        comps = sum(int(y[c]) for c in second_homes.COMPONENTS)
+        self.assertEqual(int(y[second_homes.HEADLINE]), comps)
+        self.assertEqual(int(y["adu_two_unit"]), 2)
+        ref = report.reference_by_year(f)
+        head = ref[(ref.year == 2024) & (ref.category == second_homes.HEADLINE)].iloc[0]
+        self.assertEqual(int(head["units"]), int(y[second_homes.HEADLINE]))
+        self.assertEqual(ref[ref.category == "adu_detached"]["units"].sum(),
+                         report.reference_by_year(self.before)[lambda d: d.category == "adu_detached"]["units"].sum())
+
+    def test_unknown_component_rejected(self):
+        with self.assertRaises(ValueError):
+            second_homes.assign(self.before, {"BLDNRC-2024-00014": {"counts": True, "units": 1, "component": "x",
+                                                                    "judgment": "j", "evidence": ""}})
+
+    def test_madison_judgments_cover_the_held_bundles(self):
+        j = madison.SECOND_HOME_JUDGMENTS
+        self.assertIs(madison.MadisonAdapter.second_home_judgments, j)
+        bundles = [p for p, v in j.items() if v["component"] == "adu_two_unit" or p == "BLDNRC-2022-06192"]
+        self.assertEqual(len(bundles), 10)
+        self.assertFalse(j["BLDNRC-2022-06192"]["counts"])
+        for p, v in j.items():
+            self.assertNotRegex(v["evidence"], r"\b\d{12}\b", p)  # no parcel numbers in committed text
 
 
 if __name__ == "__main__":

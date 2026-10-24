@@ -5,12 +5,21 @@ from pathlib import Path
 
 import pandas as pd
 
+from .second_homes import HEADLINE, long_rows
+
 ADU_TEXT_CATS = ("adu_detached", "adu_attached", "adu_conversion", "adu_legalization")
 
 # City of Madison, Housing Forward / ADU page table of ADU permits by year
 # (2025 = January-August). Transcribed in Gate 1 (docs/gate1/DATA_INVENTORY.md context).
 CITY_ADU_TABLE = {2013: 1, 2014: 5, 2015: 2, 2016: 2, 2017: 1, 2018: 1, 2019: 2, 2020: 0,
                   2021: 2, 2022: 6, 2023: 11, 2024: 10, 2025: 6}
+
+
+def second_home_method(name: str) -> str:
+    """Method label for a second-home reference row (headline and components mix rule and judgment)."""
+    if name == HEADLINE or name.endswith(("sf_to_duplex", "adu_two_unit")):
+        return "aq032_rule+judgment" if not name.endswith("adu_two_unit") else "aq032_judgment"
+    return "aq032_rule"
 
 
 def reference_by_year(full: pd.DataFrame) -> pd.DataFrame:
@@ -46,6 +55,11 @@ def reference_by_year(full: pd.DataFrame) -> pd.DataFrame:
         s = full[(full["year"] == y) & full["text_note"].eq("near_miss:multi_unit_adu_bundle")]
         rows.append({"year": y, "category": "adu_text_multi_unit_bundle_review", "count": len(s),
                      "units": int(s["units_added"].sum()), "method": "text_rule_excluded"})
+        # headline: second homes on single-family lots (AQ-032), then its components
+        if "second_home_component" in full.columns:
+            for r in long_rows(full, y):
+                rows.append({"year": y, "category": r["name"], "count": r["permits"], "units": r["units"],
+                             "method": second_home_method(r["name"])})
         if y in CITY_ADU_TABLE:
             rows.append({"year": y, "category": "adu_all_city_published", "count": CITY_ADU_TABLE[y],
                          "units": None, "method": "city_published" + ("_jan_aug" if y == 2025 else "")})

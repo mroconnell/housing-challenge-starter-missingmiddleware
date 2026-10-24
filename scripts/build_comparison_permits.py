@@ -29,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from missing_middleware import contracts  # noqa: E402
 from missing_middleware.paths import PROCESSED, REFERENCE, processed_dir, raw_dir  # noqa: E402
 from missing_middleware.permits import comparison as cmp  # noqa: E402
-from missing_middleware.permits import geo, pleasant_prairie, sun_prairie  # noqa: E402
+from missing_middleware.permits import geo, pleasant_prairie, second_homes, sun_prairie  # noqa: E402
 from missing_middleware.permits.match import AddressIndex  # noqa: E402
 from missing_middleware.permits.pipeline import build_permits_observed, by_area_year, to_contract  # noqa: E402
 
@@ -75,10 +75,14 @@ def build_city(name: str, fetch: bool, refresh: bool, log=print) -> dict:
     full["series"] = cmp.series_label(full)
     full["new_dwelling_type"] = a.is_new_dwelling(full) & ~(full.get("withdrawn", False) == True)  # noqa: E712
     full["manufactured"] = a.is_manufactured(full)
+    # headline outcome (AQ-032): second homes on single-family lots; series/unit_category unchanged
+    full = second_homes.assign(full, getattr(a, "second_home_judgments", None))
     obs = to_contract(full, a.source_id, a.jurisdiction_id)
     obs["stage"] = a.stage
     obs["parcel_stateid"] = obs["parcel_id"].map(parcels.set_index("parcel_id")["stateid"])
     obs["series"] = full.loc[full["in_scope"], "series"].values
+    obs["second_home_component"] = full.loc[full["in_scope"], "second_home_component"].values
+    obs["second_home_units"] = full.loc[full["in_scope"], "second_home_units"].values
     obs["restrictive_period"] = _restrictive(a, obs["year"])
     problems = contracts.validate(obs, contracts.PERMITS_OBSERVED)
     agg = by_area_year(obs, f"muni:{a.jurisdiction_id}")
@@ -99,6 +103,9 @@ def build_city(name: str, fetch: bool, refresh: bool, log=print) -> dict:
     rates.to_csv(out / "match_rates.csv", index=False)
     audit = audit_sample(full, out / "audit_judgments.csv")
     audit.to_csv(out / "audit_sample.csv", index=False)
+    first = max(2014, a.first_year)
+    sh_years = second_homes.by_year(full, range(first, int(full["year"].max()) + 1))
+    sh_years.to_csv(out / "second_homes_by_year.csv", index=False)
 
     counted = full[full["counted"]]
     report = {
@@ -112,6 +119,7 @@ def build_city(name: str, fetch: bool, refresh: bool, log=print) -> dict:
         "parcel_rule_reasons_new_dwellings": full[full["new_dwelling_type"] & (full["units_added"].fillna(0) > 0)]
         ["parcel_rule_reason"].value_counts().astype(int).to_dict(),
         "match_rates": rates.to_dict("records"),
+        "second_home_sf_lot_by_year": sh_years.to_dict("records"),
         "bps_reconciliation": recon.to_dict("records"),
     }
     (out / "build_report.json").write_text(json.dumps(report, indent=2, default=str) + "\n")
@@ -138,6 +146,10 @@ def reference_by_year(full: pd.DataFrame, a) -> pd.DataFrame:
                          "method": {"adu_text": "text_rule"}.get(s, "parcel_rule" if s.startswith("adu_eq")
                                                                  else "parcel_rule_excluded"),
                          "stage": a.stage, "restrictive_period": restrictive})
+        # headline (AQ-032): second homes on single-family lots, then its components
+        for r in second_homes.long_rows(full[full["counted"]], y):
+            rows.append({"year": y, "series": r["name"], "permits": r["permits"], "units": r["units"],
+                         "method": "aq032_rule", "stage": a.stage, "restrictive_period": restrictive})
         nd = cy[cy["new_dwelling_type"] & ~cy["manufactured"]]
         for k, label in ((1, "new_one_family_dwellings"), (2, "new_two_family_dwellings")):
             x = nd[nd["units_added"] == k]

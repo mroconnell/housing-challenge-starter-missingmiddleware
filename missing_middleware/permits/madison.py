@@ -289,6 +289,10 @@ class MadisonAdapter(CityAdapter):
                              "arrangement); Dwell 1 is a data-entry value, not an added unit",
     }
 
+    # second homes on single-family lots (AQ-032): judgments for the ADU text bundles held for
+    # review and for same-programme SF -> duplex conversions the address match could not place
+    second_home_judgments = None  # set below the class (SECOND_HOME_JUDGMENTS)
+
     def load_permits(self, raw_dir: Path) -> pd.DataFrame:
         return load_raw_permits(raw_dir)
 
@@ -341,3 +345,89 @@ def address_reference(parcels_tbl: pd.DataFrame, addr_points) -> pd.DataFrame:
     par = parcels_tbl.rename(columns={"parcel_address": "address_full"})[
         ["house_nbr", "street_key", "unit", "parcel_id", "address_full", "x", "y"]].assign(ref_source="parcel")
     return pd.concat([pts, par], ignore_index=True)
+
+
+# --------------------------------------------------------------------------- second-home judgments
+# AQ-032 judgments, made 2026-10-24 from the record text, the current assessor parcel layer
+# (YearBuilt, MaxConstructionYear, MoreThanOneBuild, TotalDwellingUnits), every permit on the
+# same parcel and neighbouring house numbers since 2010, and the City's Housing Forward pages
+# (the October 2025 ordinance allows up to two ADUs per lot, including a "duplex ADU" of two
+# stacked units, beside a one- or two-unit home). No Accela record was opened. The host is the
+# parcel the permit matched, or for geocoded records the parcel containing the interpolated
+# point (all neighbours on these blocks are 1950s-60s single-family homes, so the host's age
+# does not depend on which neighbour it is). Units come from the Dwell field, which agrees with
+# the "duplex"/"twin" wording; if a two-unit ADU were in fact one unit, each would count 1, not 2.
+_TWO_UNIT_ADU = ("Two-unit ADU building beside an existing home: host is a {host} single-family parcel "
+                 "(1 dwelling unit, MaxConstructionYear 0), no dwelling raze or new-house permit on it "
+                 "since 2010; {extra}. Same plan as the other 2026 two-unit ADUs ($200,000, 2,994 sq ft).")
+SECOND_HOME_JUDGMENTS: dict[str, dict] = {
+    "BLDNRC-2022-06192": {
+        "counts": False, "units": 0, "component": None, "judgment": "new_construction_cleared_lot",
+        "host_note": "the point falls in a neighbour; the text names the main house at the razed parcel",
+        "evidence": "Text: new duplex = a new main house and an ADU built together and connected by a "
+                    "walkway; the main-house address's parcel had its single-family dwelling razed "
+                    "(BLDRRZ-2019-06723, issued Dec 2020) and now has assessor year built 2024; "
+                    "$1.5M, 8,160 sq ft. Cleared lot, so ordinary new construction."},
+    "BLDNRC-2026-03458": {
+        "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
+        "evidence": _TWO_UNIT_ADU.format(host="1956", extra="same-day 'ADDITION TO CREATE DUPLEX' "
+                                         "(BLDNRC-2026-03464) on the same parcel; new house number")},
+    "BLDNRC-2026-03516": {
+        "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
+        "evidence": _TWO_UNIT_ADU.format(host="1954 (MoreThanOneBuild YES)", extra="same-day 'ADDITION TO "
+                                         "CREATE DUPLEX' (BLDNRC-2026-03526) on the same parcel; new house number")},
+    "BLDNRC-2026-03522": {
+        "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
+        "evidence": _TWO_UNIT_ADU.format(host="1964", extra="same-day 'ADDITION TO CREATE DUPLEX' "
+                                         "(BLDNRC-2026-03531) on the adjoining 1964 home; new house number")},
+    "BLDNRC-2026-06494": {
+        "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
+        "evidence": _TWO_UNIT_ADU.format(host="1954 (exact address match)", extra="same-day 'ADDITION TO "
+                                         "CONVERT SINGLE FAMILY HOME TO DUPLEX' (BLDNRC-2026-05600) on the same "
+                                         "parcel; 2025 interior repair permit shows the house in use")},
+    "BLDNRC-2026-11242": {
+        "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
+        "evidence": _TWO_UNIT_ADU.format(host="1953 (MoreThanOneBuild YES)", extra="garage raze on the host "
+                                         "(BLDRRZ-2026-01010, Jan 2026), i.e. the ADU replaces the garage, "
+                                         "not the house; new house number")},
+    "BLDNRC-2026-20255": {
+        "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
+        "evidence": _TWO_UNIT_ADU.format(host="1956", extra="address has no street type and is unmatched; the "
+                                         "next house number on the only Madison street of that name is a 1956 "
+                                         "home with a Sept 2026 whole-house remodel permit; host is inferred, "
+                                         "so this judgment is the least certain")},
+    "BLDNRC-2026-20346": {
+        "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
+        "evidence": _TWO_UNIT_ADU.format(host="1954 (MoreThanOneBuild YES)", extra="same-day 'ADDITION TO "
+                                         "CONVERT SINGLE FAMILY TO DUPLEX' (BLDNRC-2026-20339) on the same "
+                                         "parcel; May 2026 remodel permit on the host house; new house number")},
+    "BLDNRC-2026-20373": {
+        "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
+        "evidence": _TWO_UNIT_ADU.format(host="1965", extra="new house number below the first existing number "
+                                         "on the block; no other permit on the host")},
+    "BLDNRC-2026-20379": {
+        "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
+        "evidence": _TWO_UNIT_ADU.format(host="1961 (MoreThanOneBuild YES)", extra="garage raze on the "
+                                         "adjoining 1961 home (BLDRRZ-2026-01009, Jan 2026); new house number "
+                                         "between two existing homes")},
+    # same-programme SF -> duplex additions (998 sq ft) that the address match left unplaced
+    "BLDNRC-2025-21560": {
+        "counts": True, "units": 1, "component": "sf_to_duplex", "judgment": "conversion_of_existing_home",
+        "evidence": "Text: addition to convert single family to duplex (998 sq ft, same plan as the matched "
+                    "conversions); geocoded into a 1962 single-family parcel; neighbouring 'NEW DETACHED SINGLE "
+                    "FAMILY ADU' (BLDNRC-2025-09437) issued 5 weeks earlier; no raze nearby."},
+    "BLDNRC-2025-21766": {
+        "counts": True, "units": 1, "component": "sf_to_duplex", "judgment": "conversion_of_existing_home",
+        "evidence": "Text: addition to convert single family to duplex (998 sq ft); geocoded into a 1958 "
+                    "single-family parcel; a detached ADU permit (BLDNRC-2025-11725) issued the same day next "
+                    "door; no raze nearby."},
+    "BLDNRC-2026-03526": {
+        "counts": True, "units": 1, "component": "sf_to_duplex", "judgment": "conversion_of_existing_home",
+        "evidence": "Text: addition to create duplex (998 sq ft); paired same-day with BLDNRC-2026-03516; "
+                    "geocoded into the same 1954 single-family parcel; no raze."},
+    "BLDNRC-2026-20339": {
+        "counts": True, "units": 1, "component": "sf_to_duplex", "judgment": "conversion_of_existing_home",
+        "evidence": "Text: addition to convert single family to duplex (998 sq ft); paired same-day with "
+                    "BLDNRC-2026-20346; geocoded into the same 1954 single-family parcel; no raze."},
+}
+MadisonAdapter.second_home_judgments = SECOND_HOME_JUDGMENTS
