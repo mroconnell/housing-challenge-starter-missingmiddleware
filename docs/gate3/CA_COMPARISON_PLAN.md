@@ -13,10 +13,10 @@ Prepared 2026-10-24 by the conductor for owner approval (AQ-031). **Status: prop
 
 | Input | Coverage | Status |
 | --- | --- | --- |
-| Census BPS, California state, counties, permit-issuing places | 2010–2025, annual | **Pulled 2026-10-24** (`scripts/build_ca_bps.py`; state total equals counties and places every year) |
-| ADU permits by jurisdiction, 2012–2019 | Building an ADU compilation of HCD-attributed counts, 527 jurisdictions (AQ-017) | Local CSV; to be added to the repository pipeline |
-| ADU permits by jurisdiction, 2018–2025 | HCD APR Table A2, `UNIT_CAT = ADU`, building permits issued | To pull (data.ca.gov API) |
-| One-unit detached homes by jurisdiction (denominator) | ACS 2020–2024 5-year, California places and county remainders | To pull (same keyless summary files as Wisconsin) |
+| Census BPS, California state, counties, permit-issuing places | 2010–2025, annual | **Pulled** (`scripts/build_ca_bps.py`) |
+| ADU permits by jurisdiction, 2012–2019 | Building an ADU compilation of HCD-attributed counts, 527 jurisdictions (AQ-017) | **Pulled** (`scripts/build_ca_comparison_data.py`) |
+| Permits by jurisdiction and unit category, 2018–2025 | HCD APR Table A2 | **Pulled**; see [CA_COMPARISON_DATA.md](../gate2/CA_COMPARISON_DATA.md) for the step 0 reconciliation |
+| One-unit detached homes by jurisdiction (denominator) | ACS 2020–2024 5-year, California places and county remainders | **Pulled** |
 
 The two ADU series overlap in 2018–2019; both are kept, and the reporting break is shown rather than smoothed (AQ-017). Unincorporated county areas are separate jurisdictions from their cities.
 
@@ -31,9 +31,18 @@ Before the study, compare the two California sources jurisdiction by jurisdictio
 
 Results are descriptive data-quality findings; they set how the study's outcomes are read but do not change its pre-registered groups or windows.
 
+## Outcome definition across the two states (amended 2026-10-24, before any results)
+
+AQ-032 asks for the same definition in every state. HCD's public Table A2 cannot reproduce Wisconsin's "second homes on single-family lots" exactly: it has no SB 9 field (SB 9 appears only in free-text notes), and single-family-to-duplex conversions are mixed into "2 to 4" with new duplexes on vacant lots. Its ADU category also includes junior ADUs, legalizations, ADUs on multifamily lots, and ADUs built with a new house. So:
+
+- **Calibration outcome (both states): ADU-type second homes.** California: HCD `ADU` building permits, excluding rows identifiable as legalizations; junior ADUs included (Wisconsin counts observed interior conversions too); ADUs on multifamily lots or built with a new house excluded where the record identifies them, otherwise noted as a known overcount. Wisconsin: detached, attached, conversion, and two-unit ADU components.
+- **Wisconsin-only component: single-family-to-duplex conversions.** Shown in Wisconsin's headline, but with no California counterpart; any reform effect applied to them is a stated assumption, not a calibrated result.
+- **Sources by year:** the 2012–2019 compilation for 2012–2017; HCD APR for 2018 onward, using permits dated in the report year (step 0's main measure). Fixed sensitivities: HCD issue-year measure for every year, and the compilation for 2018–2019. Step 0 found 2018 undercounted under the main measure (mostly Los Angeles), which is why both are shown.
+- **Holdout:** every number that feeds the model is computed on non-holdout jurisdictions only; holdout jurisdictions appear only in descriptive data-quality tables.
+
 ## Pre-registered definitions
 
-**Outcome.** ADU building permits issued per 1,000 one-unit detached homes per year, by jurisdiction. Secondary: ADU permits as a share of (BPS total units + ADU permits), shown with the caveat that some ADUs also appear in BPS one-unit counts.
+**Outcome.** ADU-type second homes (as defined above) permitted per 1,000 one-unit detached homes per year, by jurisdiction. Secondary: ADU permits as a share of (BPS total units + ADU permits), shown with the caveat that some ADUs also appear in BPS one-unit counts.
 
 **Waves and their own pre-periods** (AQ-031):
 
