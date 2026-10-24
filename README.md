@@ -27,15 +27,20 @@ See the [Project Plan](docs/PROJECT_PLAN.md) for the data strategy, research mil
 
 ## Command contract
 
-Fill in the exact commands a stranger would run. These three commands are what reviewers use to reproduce your tool, so they must work from a clean checkout. Use whatever tooling you like (Make, npm scripts, a justfile, shell scripts, or plain commands) — only the documented commands matter.
+The interactive tool is not built yet (it arrives at Gate 4). The data pipeline built so far runs from a clean checkout with these commands.
 
-| Step  | Command                     | Notes |
-| ----- | --------------------------- | ----- |
-| Setup | `[e.g., pip install -r requirements.txt]` | Installs dependencies |
-| Run   | `[e.g., python app.py]`     | Starts the tool |
-| Test  | `[e.g., pytest]`            | Runs the automated tests |
+| Step  | Command | Notes |
+| ----- | ------- | ----- |
+| Setup | `bash scripts/setup.sh` | Installs Python dependencies into `.venv` with [uv](https://docs.astral.sh/uv/) (installs uv if missing) |
+| Test  | `bash scripts/test.sh` | Offline unit tests of parsing, classification, matching, and contracts |
+| Build statewide foundation | `uv run python scripts/build_foundation.py` | Downloads about 270 MB of public Census files (no API key) into `data/raw/` and builds `data/processed/foundation/` |
+| Build Madison permits | `uv run python scripts/build_madison_permits.py --fetch` | About 40 minutes the first time; omit `--fetch` to rebuild from cache |
+| Build comparison-city permits | `uv run python scripts/build_comparison_permits.py --fetch` | Pleasant Prairie and Sun Prairie; about 11 minutes the first time |
+| Rebuild local ADU rule tables | `uv run python scripts/build_reference_rules.py reference reference data/processed/adu_mention_scan` | Needs `uv run python scripts/scan_adu_mentions.py` first (network) |
+| Gate 2 review map | `uv run python scripts/build_gate2_review_map.py` | Writes `data/processed/review/gate2_map.html`; needs the builds above |
+| Run | to be defined at Gate 4 | |
 
-If there any assumptions on the environment required to run these commands, list them explicitly. Submissions with complicated build processes should provide a Dockerfile as a convenience.
+Environment: macOS or Linux with Python 3.12+ and internet access for the build steps. No secrets are required. `pdftotext` (poppler) is only needed for the optional Howard fallback adapter.
 
 If your tool needs environment variables, copy `.env.example` to `.env` and fill in the values before running.
 
@@ -43,7 +48,7 @@ If your tool needs environment variables, copy `.env.example` to `.env` and fill
 
 The planned baseline combines Census annual housing-stock estimates, ACS neighborhood housing characteristics, 2020 Census block housing counts, and the Building Permits Survey with Wisconsin parcel data. Local records will add detail where available. See the [data-source plan](data/DATA_SOURCES.md#project-data-plan-for-wisconsin) and [Project Plan](docs/PROJECT_PLAN.md).
 
-Automated acquisition and preparation commands are still to be implemented. Do not commit raw or large datasets; follow [data/README.md](data/README.md). Record the exact releases and transformations used in [Data Provenance](docs/DATA_PROVENANCE.md).
+Automated acquisition and preparation commands for the statewide foundation and pilot permits are listed in the command contract above. Do not commit raw or large datasets; follow [data/README.md](data/README.md). Record the exact releases and transformations used in [Data Provenance](docs/DATA_PROVENANCE.md).
 
 ## Documentation
 
