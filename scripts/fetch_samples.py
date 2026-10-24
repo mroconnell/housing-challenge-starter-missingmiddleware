@@ -1078,12 +1078,20 @@ BUILDINGANADU_SHEET = "10rb8p7DU379vQw9oeS_Z9dwK9F9c5ZBeTw09wQlvwQY"
 
 @source("buildinganadu_ca_adu")
 def fetch_buildinganadu():
-    url = f"https://docs.google.com/spreadsheets/d/{BUILDINGANADU_SHEET}/export?format=csv"
-    lines = head_lines(url, 2000, max_bytes=5_000_000)
-    allrows = list(csv.reader(io.StringIO("\n".join(lines))))
-    hi = next(i for i, r in enumerate(allrows) if sum(bool(re.fullmatch(r"20(1[2-9])", c.strip())) for c in r) >= 4)
-    header = [c.strip() or f"col_{i}" for i, c in enumerate(allrows[hi])]
-    years = [c for c in header if re.fullmatch(r"20(1[2-9])", c)]
+    yr = re.compile(r"\b20(1[2-9])\b")
+
+    def load(u):
+        lines = head_lines(u, 2000, max_bytes=5_000_000)
+        rows_ = list(csv.reader(io.StringIO("\n".join(lines))))
+        hi_ = next((i for i, r in enumerate(rows_) if sum(bool(yr.search(c)) for c in r) >= 4), None)
+        if hi_ is None:
+            raise RuntimeError(f"no year header row; start of response: {' | '.join(lines[:3])[:400]!r}")
+        return u, rows_, hi_
+
+    base = f"https://docs.google.com/spreadsheets/d/{BUILDINGANADU_SHEET}"
+    _, (url, allrows, hi) = first_ok([f"{base}/export?format=csv", f"{base}/gviz/tq?tqx=out:csv&sheet=Sheet1", f"{base}/gviz/tq?tqx=out:csv"], load)
+    header = [re.sub(r"\s+", " ", c).strip() or f"col_{i}" for i, c in enumerate(allrows[hi])]
+    years = [c for c in header if yr.search(c)]
     data = [dict(zip(header, r)) for r in allrows[hi + 1:] if any(c.strip() for c in r)]
     name_col = header[0]
     juris = [r for r in data if r.get(name_col, "").strip() and not re.search(r"total|compiled|source|buildinganadu", r[name_col], re.I)]
@@ -1168,7 +1176,7 @@ def fetch_pep_hu():
     for i, c in enumerate(grid[hi]):
         c = str(c).split(".")[0] if re.fullmatch(r"\d{4}(\.0)?", str(c)) else str(c)
         above = top[i] if i < len(top) else ""
-        header.append((c or above or ("Geographic Area" if i == 0 else f"col_{i}")).strip())
+        header.append(re.sub(r"\s+", " ", c or above or ("Geographic Area" if i == 0 else f"col_{i}")).strip())
     rows = []
     for r in grid[hi + 1:]:
         if not r or not str(r[0]).strip():
@@ -1399,7 +1407,7 @@ def _cell(v):
 
 
 PII_FIELDS = re.compile(r"owner|ownernme|mail|pstladress|co_owner|grantee|taxpayer|care_of|^name[0-9]$", re.I)
-PII_KEEP = re.compile(r"^(ownertype|owner_type|unitowner|ownername|majorowner|homeowner)$", re.I)
+PII_KEEP = re.compile(r"^(ownertype|owner_type|unitowner|ownername|majorowner|homeowner|owneroccupied|ownerchangedate|mailcode)$", re.I)
 
 
 def redact(rows):
