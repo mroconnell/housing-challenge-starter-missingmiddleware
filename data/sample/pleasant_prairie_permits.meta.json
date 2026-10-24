@@ -1,6 +1,6 @@
 {
   "source_id": "pleasant_prairie_permits",
-  "fetched_at": "2026-10-24T05:54:10+00:00",
+  "fetched_at": "2026-10-24T06:47:34+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -84,6 +84,9 @@
   "location_redaction": {
     "street_only": [
       "address_raw"
+    ],
+    "blank": [
+      "address_unit"
     ],
     "mask_parcel": [
       "parcel_raw",

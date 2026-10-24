@@ -3,7 +3,13 @@
 For each target (municipality, code host, URL of a fetchable code text) the
 script downloads the page or PDF, extracts text, and searches for ADU terms.
 A hit means the code *mentions* ADUs (`mentions_adu`), not that it allows
-them (New Berlin mentions and prohibits). Hosts that refuse automated
+them (New Berlin mentions and prohibits). Only dwelling-unit terms count
+(an ADU is a dwelling unit with its own kitchen, sanitation and sleeping
+facilities for permanent habitation); generic "accessory structure /
+building / use" wording never does. Second-dwelling words that are not
+dwelling units (guest house, servants' quarters ...) go to `lead_terms`, and
+a rule barring dwellings or living quarters in accessory buildings goes to
+`accessory_dwelling_ban_*`; neither makes a mention. Hosts that refuse automated
 access (Municode, ecode360, several city sites behind Cloudflare) are
 recorded as `could_not_access`; those are then read by hand.
 
@@ -29,27 +35,48 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# ADU definition used by the scan (owner decision 2026-10-24): a dwelling unit with its own kitchen,
+# sanitation and sleeping facilities for permanent habitation, accessory to a principal dwelling.
+# Only DWELLING-UNIT terms count as an ADU mention. Generic "accessory structure / building / use"
+# wording never counts (every zoning code has it), and neither does second-dwelling vocabulary that
+# does not say the space is a dwelling unit (guest houses, servants' or domestic-help quarters,
+# accessory living quarters, dependency living arrangements): those are recorded as LEAD_TERMS for a
+# reader to check, but do not make a mention.
 TERMS = {
     "accessory dwelling": r"accessory\s+dwelling",
     "ADU": r"\bADUs?\b",
-    "in-law": r"\bin[\s-]law\s+(?:unit|suite|apartment|quarters)|mother[\s-]in[\s-]law",
+    "in-law": r"\bin[\s-]law\s+(?:unit|suite|apartment)|mother[\s-]in[\s-]law",
     "granny flat": r"granny\s+flat",
-    "coach house": r"coach\s+house",
-    "carriage house": r"carriage[\s-]house",
+    # coach / carriage house only as a dwelling ("carriage-house dwelling", "coach house unit")
+    "coach house": r"coach[\s-]house\s+(?:dwelling|unit|apartment|residence)s?\b",
+    "carriage house": r"carriage[\s-]house\s+(?:dwelling|unit|apartment|residence)s?\b",
     "secondary dwelling unit": r"secondary\s+(?:dwelling\s+unit|suite)",
-    "accessory living": r"accessory\s+living\b",
     "accessory apartment": r"accessory\s+apartments?\b",
-    # Older second-dwelling vocabulary (added 2026-10-24 after the Gate 2 review): Brookfield and
-    # Beloit "guest houses", Kenosha "residential quarters for domestic help", Beloit "employee
-    # living quarters", Madison/Fitchburg "dependency living arrangements".
-    "guest house": r"\bguest[\s-]?houses?\b",
-    "domestic help/servant quarters": r"quarters\s+for\s+(?:domestic\s+(?:help|servants?|employees?)|servants?|employees?)|(?:servant|employee|caretaker|domestic)s?['’]?\s+(?:living\s+)?quarters",
-    "dependency living": r"dependency\s+living",
     # New Berlin's defined term; case-sensitive and must start a sentence/heading so that
     # "single-family dwelling unit", "one (1) family dwelling unit", "four family ..." do not match.
     "family dwelling unit": r"(?-i:(?:^|[.;:\n\"“()]\s*|\d\.\s*|[A-Z]\.\s*)Family\s+dwelling\s+unit)",
     "backyard cottage": r"backyard\s+cottage",
 }
+# Second-dwelling vocabulary that is not, on its face, a dwelling unit (added to the scan 2026-10-24 after
+# the Gate 2 review; demoted to leads the same day under the owner's ADU definition). Recorded, not counted.
+LEAD_TERMS = {
+    "accessory living quarters": r"accessory\s+living\b",
+    "guest house": r"\bguest[\s-]?houses?\b",
+    "domestic help/servant quarters": r"quarters\s+for\s+(?:domestic\s+(?:help|servants?|employees?)|servants?|employees?)|(?:servant|employee|caretaker|domestic)s?['’]?\s+(?:living\s+)?quarters",
+    "dependency living": r"dependency\s+living",
+}
+# Never an ADU mention on their own (asserted in tests).
+NOT_ADU = ("accessory structure", "accessory building", "accessory use")
+# A rule that accessory buildings/structures may not be used as dwellings or living quarters. In the
+# second pass a place whose code has such a rule and allows no ADU form is `prohibited_explicit`.
+_LIVING = r"(?:dwellings?|dwelling\s+units?|dwelling\s+purposes|living\s+(?:quarters|space|purposes)|residences?|residential\s+(?:use|purposes)|human\s+habitation|sleeping\s+quarters|habitable\s+space)"
+_ACC = r"accessory\s+(?:buildings?|structures?|uses?)"
+_NEG = r"(?:shall\s+not|may\s+not|must\s+not|cannot|can\s+not|will\s+not|not\s+(?:to\s+)?be|never|is\s+not|are\s+not|prohibited|not\s+permitted)"
+PROHIBITION = [
+    _ACC + r"\b[^.;]{0,160}?\b" + _NEG + r"\b[^.;]{0,80}?\b" + _LIVING,
+    r"\bno\s+(?:portion\s+of\s+an?\s+)?" + _ACC + r"\b[^.;]{0,120}?\b(?:used|occupied|designed)\b[^.;]{0,60}?\b" + _LIVING,
+    _LIVING + r"[^.;]{0,60}?\b(?:not\s+(?:be\s+)?(?:permitted|allowed)|prohibited)\b[^.;]{0,40}?\b(?:in|within)\s+(?:an?\s+|any\s+)?" + _ACC,
+]
 _SECTION = re.compile(r"(§\s?[\d.\-]+[A-Za-z0-9().\-]*|Sec(?:tion)?\.?\s+[\d.\-]+[A-Za-z0-9().\-]*)")
 
 # (name, wi_muni_id, host, url, document_kind). URLs are the most direct current code text we know of.
@@ -99,20 +126,47 @@ TARGETS = [
 ]
 
 
-def find_terms(text: str) -> tuple[list[str], str, str]:
-    """Return (matched term names, first-hit context, nearest preceding section citation)."""
+def _first(patterns, text):
     found, first = [], None
-    for name, pat in TERMS.items():
+    for name, pat in patterns.items():
         for m in re.finditer(pat, text, flags=re.IGNORECASE):
             found.append(name)
             if first is None or m.start() < first.start():
                 first = m
             break
+    return found, first
+
+
+def _context(text, m):
+    ctx = re.sub(r"\s+", " ", text[max(0, m.start() - 80): m.end() + 80]).strip()
+    secs = list(_SECTION.finditer(text[max(0, m.start() - 4000): m.start()]))
+    return ctx, (secs[-1].group(0).strip() if secs else "")
+
+
+def find_terms(text: str) -> tuple[list[str], str, str]:
+    """Return (matched dwelling-unit term names, first-hit context, nearest preceding section citation)."""
+    found, first = _first(TERMS, text)
     if first is None:
         return [], "", ""
-    ctx = re.sub(r"\s+", " ", text[max(0, first.start() - 80): first.end() + 80]).strip()
-    secs = list(_SECTION.finditer(text[max(0, first.start() - 4000): first.start()]))
-    return found, ctx, (secs[-1].group(0).strip() if secs else "")
+    ctx, sec = _context(text, first)
+    return found, ctx, sec
+
+
+def find_leads(text: str) -> list[str]:
+    """Second-dwelling vocabulary that is not, on its face, a dwelling unit (not counted as a mention)."""
+    return _first(LEAD_TERMS, text)[0]
+
+
+def find_prohibition(text: str) -> tuple[str, str]:
+    """(context, section) of the first rule barring dwellings/living quarters in accessory buildings, or ("", "")."""
+    # Floodplain chapters (Wisconsin model floodplain ordinance) define "accessory structure ... shall not
+    # be used for human habitation" for flood-fringe purposes; that is not a zoning ADU ban, so hits with
+    # "flood" nearby are skipped.
+    hits = [m for pat in PROHIBITION for m in re.finditer(pat, text, flags=re.IGNORECASE)
+            if not re.search(r"(?i)flood", text[max(0, m.start() - 1500): m.end() + 500])]
+    if not hits:
+        return "", ""
+    return _context(text, min(hits, key=lambda m: m.start()))
 
 
 def _to_text(data: bytes, ctype: str, url: str) -> str:
@@ -159,6 +213,7 @@ def scan(target, timeout=60) -> dict:
     row = dict(jurisdiction_name=name, jurisdiction_id=jid, code_host=host, document_kind=kind, url_searched=url,
                scan_date=dt.date.today().isoformat(), search_method="http_get_text_regex",
                result="", http_status="", matched_terms="", first_hit_section="", first_hit_context="",
+               lead_terms="", accessory_dwelling_ban_section="", accessory_dwelling_ban_context="",
                text_chars="", sha256="")
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     try:
@@ -194,8 +249,11 @@ def scan(target, timeout=60) -> dict:
         row["search_method"] += " (page shell or bot check; no code text)"
         return row
     terms, ctx, sec = find_terms(text)
+    ban_ctx, ban_sec = find_prohibition(text)
+    # result counts dwelling-unit terms only; lead terms and an accessory-dwelling ban are recorded beside it
     row.update(result="mentions_adu" if terms else "no_mention", matched_terms=";".join(terms),
-               first_hit_section=sec, first_hit_context=ctx[:240])
+               first_hit_section=sec, first_hit_context=ctx[:240], lead_terms=";".join(find_leads(text)),
+               accessory_dwelling_ban_section=ban_sec, accessory_dwelling_ban_context=ban_ctx[:240])
     return row
 
 

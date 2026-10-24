@@ -97,6 +97,43 @@ class TestCatalog(unittest.TestCase):
                         self.assertEqual(v, "[redacted]", f"{p.name}:{k}")
 
 
+    def test_street_only_drops_house_and_unit_numbers(self):
+        self.assertEqual(fetch.street_only("101 Example Dr Unit 4"), "Example Dr")
+        self.assertEqual(fetch.street_only("12 S Sample Cir #2"), "S Sample Cir")
+        self.assertEqual(fetch.street_only("N123W456 Test Ln"), "Test Ln")
+        self.assertEqual(fetch.street_only("99 122ND AVE APT 3B"), "122ND AVE")
+        self.assertEqual(fetch.street_only("7 Lot Rd"), "Lot Rd")
+
+    def test_permit_parcel_address_samples_are_redacted(self):
+        """Owner decision 2026-10-24: keep ZIP, city, county and street; no house or unit
+        numbers, no owner fields; parcel numbers masked; coordinates rounded."""
+        import re
+        house = re.compile(r"^\s*[NSEW]?\d+[A-Z]?(?:\s*[-/&]\s*\d+)*\s+\S", re.I)
+        for sid, spec in fetch.ADDRESS_REDACTION.items():
+            p = ROOT / "data" / "sample" / f"{sid}.csv"
+            rows = list(build.csv.DictReader(p.open(encoding="utf-8")))
+            self.assertTrue(rows, sid)
+            for r in rows:
+                for k in spec.get("street_only", []):
+                    v = r.get(k) or ""
+                    self.assertFalse(house.match(v), f"{sid}:{k} house number: {v}")
+                    self.assertFalse(fetch._UNIT_RE.search(v), f"{sid}:{k} unit number: {v}")
+                for k in spec.get("blank", []):
+                    self.assertEqual(r.get(k) or "", "", f"{sid}:{k}")
+                for k in spec.get("mask_parcel", []):
+                    if r.get(k):
+                        self.assertTrue(r[k].endswith("****"), f"{sid}:{k}")
+                for k in spec.get("round_deg", []):
+                    if r.get(k):
+                        self.assertLessEqual(len(r[k].split(".")[-1]), 2, f"{sid}:{k}")
+                for k, v in r.items():
+                    if re.search(r"owner|mail|pstladress|contractor", k, re.I) and not fetch.PII_KEEP.match(k) and v:
+                        self.assertEqual(v, "[redacted]", f"{sid}:{k}")
+            geo = ROOT / "data" / "sample" / "geo" / f"{sid}.geojson"
+            if geo.exists() and sid in fetch.GEO_KEEP_PROPS:
+                for f in json.loads(geo.read_text())["features"]:
+                    self.assertLessEqual(set(f["properties"]), set(fetch.GEO_KEEP_PROPS[sid]), sid)
+
     def test_geo_samples_small_and_redacted(self):
         for p in (ROOT / "data" / "sample" / "geo").glob("*.geojson"):
             self.assertLess(p.stat().st_size, 200_000, p.name)

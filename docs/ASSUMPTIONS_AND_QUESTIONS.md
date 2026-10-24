@@ -370,6 +370,18 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Decision:** Outcome-based increment adopted for Gate 3. Stock-gap baseline adopted as the shared health diagnostic; its role in each scenario's forecast is decided per scenario.
 
+## AQ-029 Madison is partially benchmark; scale its floor rate by benchmark completeness
+
+**Status:** Proposed for Gate 3. **Added:** 2026-10-24. **Related:** AQ-024, AQ-026, AQ-027.
+
+**Evidence (2026-10-24, City parcel and TOD-overlay layers):** of Madison's 49,780 single-family parcels, about 8% are zoned Planned Development, where ADUs are not listed and depend on each development's plan; 78% lie outside the TOD overlay, where the house still needs one parking space, so a garage conversion that removes it triggers replacement parking. Of 47 ADU permits matched to parcels, 26 (55%) are inside the overlay, which holds 22% of parcels; 4 of the 6 conversions are inside it. The overlay also covers older, higher-demand neighborhoods and dates only from January 2023, so this is suggestive, not causal.
+
+**Owner view:** Madison is not 90% benchmark; it is partially benchmark, with Planned Development parcels excluded and a parking restriction affecting most single-family lots for some ADU forms.
+
+**Proposal:** estimate Madison's benchmark completeness as `1 − PD share − (share outside TOD × share of ADU demand that would be conversions)`, and scale Madison's observed rate up by it when Madison sets the statewide floor for `y`. The conversion share is the key unknown: Madison's TOD-overlay ADUs are about 15% conversions (4 of 26); California's share after its 2020 ban on replacement parking is a candidate upper value if HCD APR identifies conversions. With a 15–40% conversion share, completeness is about 60–80%. Also proposed: the modeled bill bans replacement parking for converted garages, as California did in 2020 (owner decision pending).
+
+**Decision:** Pending Gate 3.
+
 ## Additional questions to develop
 
 All entries below were added on 2026-10-23 and remain **Open**.
@@ -401,3 +413,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-026 | Adopted the owner's two-pass rights classification (ordinance status, then rights class with restriction flags) and split prohibitions into explicit and implicit. |
 | 2026-10-24 | AQ-027 | Logged owner Gate 3 inputs: statewide market spillover for benchmark cities, path-specific ramps, unknown rules treated like restricted with a hold-out test, and the recently-liberalized baseline ramp. |
 | 2026-10-24 | AQ-028 | Adopted the outcome-based increment (homes × (y − x)) with estimated x where permits are unobserved, and proposed stock-gap health baselines across scenarios. |
+| 2026-10-24 | AQ-029 | Measured Madison's partial benchmark status (8% Planned Development; 78% outside the TOD overlay facing replacement parking) and proposed scaling its floor rate by benchmark completeness. |

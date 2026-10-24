@@ -1524,37 +1524,43 @@ def redact(rows):
     return out
 
 
-# Record-level location fields in permit, parcel and address-point samples. Committed
-# samples keep no house numbers, full addresses, exact coordinates or full parcel numbers:
-#   street_only - drop the leading house number, keep the street name
-#   blank       - empty the value (incl. OBJECTID, which a public layer query turns back into an address)
+# Record-level location fields in permit, parcel and address-point samples (owner decision
+# 2026-10-24). Committed samples KEEP ZIP code, city/municipality, county and street name. They
+# REMOVE house numbers, unit numbers, owner names and mailing addresses; parcel numbers stay
+# masked (they map to owner names through public tax lookups) and coordinates stay rounded:
+#   street_only - drop the leading house number and any trailing unit ("Unit 101", "#2", "APT 3"),
+#                 keep the street name
+#   blank       - empty the value (house-number and unit fields, ZIP+4, and OBJECTID, which a
+#                 public layer query turns back into an address)
 #   mask_parcel - keep the leading digits, replace the last 4 digits with *
 #   round_deg   - lat/lon rounded to 2 decimals (about 1 km)
 #   round_ft    - state-plane feet rounded to the nearest 5,000 ft
 # Descriptions are scrubbed of embedded "<number> <street> <suffix>" addresses.
+# Local raw files under data/raw keep full data for joins; this applies to committed samples only.
 ADDRESS_REDACTION = {
     "madison_permits": {"street_only": ["Address_Part_Address_Line"], "scrub": ["Detailed_Description"]},
     "madison_parcels": {"street_only": ["Address"],
-                        "blank": ["OBJECTID", "HouseNbr", "DeedPage", "DeedVolume", "LotNumber", "BlockNumber"],
+                        "blank": ["OBJECTID", "HouseNbr", "Unit", "DeedPage", "DeedVolume", "LotNumber", "BlockNumber"],
                         "mask_parcel": ["Parcel", "XRefParcel"], "round_ft": ["XCoord", "YCoord"]},
-    "madison_address_points": {"street_only": ["Address"], "blank": ["OBJECTID", "HouseNbr"], "mask_parcel": ["Parcel"],
+    "madison_address_points": {"street_only": ["Address"], "blank": ["OBJECTID", "HouseNbr", "Unit"], "mask_parcel": ["Parcel"],
                                "round_ft": ["XCoord", "YCoord"]},
-    "pleasant_prairie_permits": {"street_only": ["address_raw"], "mask_parcel": ["parcel_raw", "parcel_key"],
-                                 "scrub": ["description"]},
-    "sun_prairie_permits": {"street_only": ["address_raw"], "mask_parcel": ["parcel_raw", "parcel_key"],
-                            "scrub": ["description"]},
+    "pleasant_prairie_permits": {"street_only": ["address_raw"], "blank": ["address_unit"],
+                                 "mask_parcel": ["parcel_raw", "parcel_key"], "scrub": ["description"]},
+    "sun_prairie_permits": {"street_only": ["address_raw"], "blank": ["address_unit"],
+                            "mask_parcel": ["parcel_raw", "parcel_key"], "scrub": ["description"]},
     "wi_v12_parcels": {"street_only": ["SITEADRESS", "SITEADRESS_STAND"],
-                       "blank": ["OBJECTID", "ADDNUMPREFIX", "ADDNUM", "ADDNUMSUFFIX"],
+                       "blank": ["OBJECTID", "ADDNUMPREFIX", "ADDNUM", "ADDNUMSUFFIX", "UNITID", "ZIP4"],
                        "mask_parcel": ["STATEID", "PARCELID", "TAXPARCELID"], "round_deg": ["LONGITUDE", "LATITUDE"]},
 }
 # geometry samples of these sources: properties limited to non-identifying descriptive fields,
 # and point coordinates rounded like round_deg (parcel outlines are kept, unlinked to any record)
 GEO_KEEP_PROPS = {
-    "madison_parcels": ["PropertyClass", "PropertyUse", "Zoning1"],
-    "madison_address_points": ["StreetName", "StreetType"],
-    "wi_v12_parcels": ["PROPCLASS", "PLACENAME", "CONAME"],
+    "madison_parcels": ["PropertyClass", "PropertyUse", "Zoning1", "StreetDir", "StreetName", "StreetType"],
+    "madison_address_points": ["StreetDir", "StreetName", "StreetType", "ZipCode"],
+    "wi_v12_parcels": ["PROPCLASS", "PREFIX", "STREETNAME", "STREETTYPE", "SUFFIX", "PLACENAME", "ZIPCODE", "CONAME"],
 }
 _HOUSE_NBR_RE = re.compile(r"^\s*(?:\d+\s+\d/\d|[NSEW]?\d[\dA-Z]*(?:\s*[-/&]\s*\d[\dA-Z]*)*)\s+", re.I)
+_UNIT_RE = re.compile(r"(?<=\S)\s+(?:(?:UNIT|APT|APARTMENT|STE|SUITE|RM|ROOM|LOT|BLDG|FL)\.?\s*#?\s*|#\s*)(?:[A-Z]?-?\d[\dA-Z-]*|[A-Z])\s*$", re.I)
 _DESC_ADDR_RE = re.compile(
     r"\b\d{1,6}(?:\s*-\s*\d{1,6})?\s+((?:[NSEW]\.?\s+)?(?:[A-Za-z0-9']+\s+){0,3}?"
     r"(?:ST|STREET|AVE|AVENUE|RD|ROAD|DR|DRIVE|LN|LANE|CT|COURT|CIR|CIRCLE|WAY|BLVD|PL|PLACE|PKWY|TRL|TRAIL|TER|HWY)\b)",
@@ -1563,7 +1569,8 @@ _DESC_ADDR_RE = re.compile(
 
 def street_only(v):
     s = "" if v is None else str(v)
-    return _HOUSE_NBR_RE.sub("", s, count=1).strip()
+    s = _HOUSE_NBR_RE.sub("", s, count=1).strip()
+    return _UNIT_RE.sub("", s).strip()
 
 
 def mask_parcel(v):

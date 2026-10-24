@@ -66,7 +66,6 @@ First 3 of 5 rows in [`data/sample/pleasant_prairie_permits.csv`](../../data/sam
 | `source_id` | pleasant_prairie_permits | pleasant_prairie_permits | pleasant_prairie_permits | pleasant_prairie_permits | pleasant_prairie_permits |
 | `parcel_raw` | 92-4-122-263-**** | 92-4-122-312-**** | 91-4-121-244-**** | 91-4-122-082-**** | 92-4-122-302-**** |
 | `parcel_key` | 92-4-122-263-**** | 92-4-122-312-**** | 91-4-121-244-**** | 91-4-122-082-**** | 92-4-122-302-**** |
-| `address_unit` |  |  |  |  | 17 |
 | `units_basis` | type | none | none | none | none |
 | `description_prefix_removed` | False | False | False | False | False |
 

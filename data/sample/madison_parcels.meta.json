@@ -1,6 +1,6 @@
 {
   "source_id": "madison_parcels",
-  "fetched_at": "2026-10-24T05:55:14+00:00",
+  "fetched_at": "2026-10-24T06:48:04+00:00",
   "status": "ok",
   "error": null,
   "sample_rows": 5,
@@ -1031,11 +1031,11 @@
     },
     "supports_pagination": true,
     "max_record_count": 2000,
-    "redaction": "properties limited to PropertyClass, PropertyUse, Zoning1; point coordinates rounded to 2 decimals",
+    "redaction": "properties limited to PropertyClass, PropertyUse, Zoning1, StreetDir, StreetName, StreetType; point coordinates rounded to 2 decimals",
     "simplified": null,
     "file": "data/sample/geo/madison_parcels.geojson",
     "features": 3,
-    "bytes": 2381,
+    "bytes": 2557,
     "vertices_per_feature": [
       5,
       5,
@@ -1050,6 +1050,7 @@
     "blank": [
       "OBJECTID",
       "HouseNbr",
+      "Unit",
       "DeedPage",
       "DeedVolume",
       "LotNumber",

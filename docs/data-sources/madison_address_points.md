@@ -67,8 +67,7 @@ First 3 of 5 rows in [`data/sample/madison_address_points.csv`](../../data/sampl
 |---|---|---|---|---|---|
 | `StreetName` | Globe | Globe | Globe | Globe | Globe |
 | `StreetType` | Dr | Dr | Dr | Dr | Dr |
-| `Unit` | 101 | 102 | 104 | 105 | 107 |
-| `Address` | Globe Dr Unit 101 | Globe Dr Unit 102 | Globe Dr Unit 104 | Globe Dr Unit 105 | Globe Dr Unit 107 |
+| `Address` | Globe Dr | Globe Dr | Globe Dr | Globe Dr | Globe Dr |
 | `ZipCode` | 53717 | 53717 | 53717 | 53717 | 53717 |
 | `MailCode` | A | A | A | A | A |
 | `XCoord` | 785000 | 785000 | 785000 | 785000 | 785000 |
