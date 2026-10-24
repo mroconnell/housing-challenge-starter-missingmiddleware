@@ -1,0 +1,84 @@
+{
+  "source_id": "pleasant_prairie_permits",
+  "fetched_at": "2026-10-24T05:29:43+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 5,
+  "api_url": "https://vlg-pleasantprairie-wi.smartgovcommunity.com/Public/ReportsView/ViewReport?reportId=361fe732-f57f-4e4c-827c-72b67cc09ca6&reportType=Exago",
+  "window": "2026-09-01 to 2026-09-30",
+  "records_in_window": 213,
+  "dropped_columns": [
+    "owner_name",
+    "owner_mailing",
+    "contractor",
+    "contractor_address",
+    "fees"
+  ],
+  "note": "SmartGov/Exago report, run for one month and exported as RTF. Rows are the pipeline's standard frame: owner, contractor and fee fields are dropped, and owner names are removed from descriptions. New-building and razing permits are listed first.",
+  "fields": [
+    {
+      "name": "permit_id",
+      "type": "string"
+    },
+    {
+      "name": "permit_type",
+      "type": "string"
+    },
+    {
+      "name": "use_class",
+      "type": "string"
+    },
+    {
+      "name": "address_raw",
+      "type": "string"
+    },
+    {
+      "name": "units_raw",
+      "type": "string"
+    },
+    {
+      "name": "description",
+      "type": "string"
+    },
+    {
+      "name": "issue_date",
+      "type": "string"
+    },
+    {
+      "name": "est_cost",
+      "type": "string"
+    },
+    {
+      "name": "bldg_sqft",
+      "type": "string"
+    },
+    {
+      "name": "jurisdiction_id",
+      "type": "string"
+    },
+    {
+      "name": "source_id",
+      "type": "string"
+    },
+    {
+      "name": "parcel_raw",
+      "type": "string"
+    },
+    {
+      "name": "parcel_key",
+      "type": "string"
+    },
+    {
+      "name": "address_unit",
+      "type": "string"
+    },
+    {
+      "name": "units_basis",
+      "type": "string"
+    },
+    {
+      "name": "description_prefix_removed",
+      "type": "string"
+    }
+  ]
+}
