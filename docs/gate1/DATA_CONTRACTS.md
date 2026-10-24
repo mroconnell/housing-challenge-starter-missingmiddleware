@@ -8,7 +8,7 @@ Prepared 2026-10-23. Status: **proposal for owner review**. These are the tables
 - **Missing is not zero:** missing values are null with a `missing_reason` (`not_reported`, `not_collected`, `not_matched`, `not_yet_audited`). A zero means a source reported zero.
 - **Provenance:** every row carries `source_id` (key into the source register) and `source_vintage`. Runs carry a manifest (below).
 - **Identifiers:** Census GEOIDs for statistical areas; `wi_muni_id` = Census county subdivision GEOID (10 digits, state+county+cousub) for cities, villages, and towns, with a crosswalk for municipalities spanning counties; parcels use the V12 `STATEID`.
-- **Privacy:** owner names and mailing addresses are never loaded. Record-level permit addresses stay in the local raw-data area (git-ignored) and are only used to match to parcels and areas. Published outputs are area aggregates.
+- **Privacy (revised 2026-10-24):** owner names and mailing addresses are dropped at ingestion. Full addresses and parcel numbers stay in the local raw-data area (git-ignored), where all parcel and map joins run. Committed files may keep ZIP code, city, county, and street name, but not house or unit numbers; parcel numbers are masked in committed samples. Published outputs are area aggregates.
 - **Format:** Parquet or CSV for tables, GeoJSON/GeoParquet for geometry, one directory per run under `data/processed/<run_id>/` (git-ignored); small fixtures under `tests/fixtures/`.
 
 ## 1. `areas`
@@ -120,7 +120,9 @@ Published derivative: `permits_by_area_year` (area_id, year, unit_category, unit
 | homes_1unit_detached | number | inventory control total, repeated for display |
 | unit_category | enum | adu_new (detached + attached) or adu_conversion; legalizations never appear here |
 | baseline_units | number | authorized ADU units under current law |
-| baseline_basis | enum | observed_rate / class_rate / ramping_after_recent_reform |
+| x_rate, y_rate | number | current-law and with-law ADU permits per 1,000 one-unit detached homes per year for this area and path (AQ-028) |
+| baseline_basis | enum | observed_rate / estimated_from_ordinance_status / ramping_after_recent_reform |
+| y_basis | enum | madison_floor / comparison_model / california_model, plus spillover flag (AQ-024, AQ-027) |
 | additional_units | number | reform minus baseline, same path |
 | additional_units_verified, additional_units_estimated | number | split by whether the area's rights are verified or estimated; sum to additional_units |
 | homes_verified_share | number | share of one-unit detached homes in municipalities with verified rights |

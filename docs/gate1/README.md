@@ -1,6 +1,6 @@
 # Gate 1 Packet: ADU Scope, Model Outline, and Data Contracts
 
-Prepared 2026-10-23 by the conductor. **Status: passed with changes on 2026-10-23.** Owner decisions are recorded in [AQ-021 to AQ-023](../ASSUMPTIONS_AND_QUESTIONS.md#aq-021-gate-1-decisions-on-the-adu-model) and summarized below.
+Prepared 2026-10-23 by the conductor. **Status: passed with changes on 2026-10-23; scope and model rewritten 2026-10-24 (revision 3) from all owner feedback, see [SCOPE_AND_MODEL.md](SCOPE_AND_MODEL.md) and AQ-021 to AQ-028.** The main changes since the packet: outcome-based increment H × (y − x) instead of rights-class differences; Madison as the floor for y plus statewide spillover; two-pass rule reading with Mercatus-tiered restriction flags; unknown rules treated like restricted; Pleasant Prairie replaces New Berlin; relaxed privacy (street, city, ZIP, county kept). Owner decisions are recorded in [AQ-021 to AQ-023](../ASSUMPTIONS_AND_QUESTIONS.md#aq-021-gate-1-decisions-on-the-adu-model) and summarized below.
 
 ## Owner decisions (2026-10-23)
 
