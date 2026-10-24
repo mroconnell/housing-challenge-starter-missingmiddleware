@@ -101,7 +101,7 @@ muni(["5510166000"], "Racine city", PEXP, "coded_verified", "2026-03-03",
 APP_LEG = "https://cityofappleton.legistar.com/LegislationDetail.aspx?GUID=96A34E37-FF1B-4AE2-B7A9-1E1BF0F8367E&ID=4970068"
 APP_GUIDE = "https://cms2.revize.com/revize/appletonwi/Documents/CommDev/Planning/Plans%20and%20Reports/City%20of%20Appleton%20-%20Accessory%20Dwelling%20Units%20(ADU)%20Guide.pdf"
 APP_ACC = "https://cms2.revize.com/revize/appletonwi/Documents/CommDev/Building%20Inspection/Permits/building/Accessory%20Bldg%20.pdf"
-muni(["5508702375", "5501502375", "5513902375"], "Appleton city", RESTR, "coded_verified", "2026-02-01",
+muni(["5508702375", "5501502375", "5513902375"], "Appleton city", "scenario_benchmark", "coded_source_lead", "2026-02-01",
      "Guarantees at least 600 sq ft for an attached ADU regardless of house size and attached garage (lifts the 35%-of-house attached-accessory cap); otherwise already benchmark (ADU plus junior ADU by right, no parking, no owner occupancy).", [
     ("detached_allowed", "prohibited", "", "2021-07-12", APP_LEG, "before Ord. 25-21", L, "pre-2021 text not checked"),
     ("detached_allowed", "by_right", "2021-07-13", "", APP_LEG, "§23-55 (Ord. 25-21); §23-56 JADU (Ord. 26-21)", V, "R-1A, R-1B, R-1C, R-2, R-3"),
@@ -112,8 +112,8 @@ muni(["5508702375", "5501502375", "5513902375"], "Appleton city", RESTR, "coded_
     ("parking_required", "0", "2021-07-13", "", APP_LEG, "§23-55", V, ""),
     ("max_size_sqft", "attached accessory floor area (incl. attached garage): 35% of principal GFA incl. basement, max 1600 (Jan 2025 ADU guide) or the greater of 1600 and 35% (building-inspection worksheet)", "", "", APP_ACC, "§23-43(i) as summarized by the city (codified text not read)", L, "official summaries conflict: the ADU guide edited 2025-01-07 used 'x 0.35 or max 1,600' (can fall below 600 sq ft for a small house with an attached garage); the accessory-building worksheet says 'whichever is greater'; the guide re-issued 2026-10-14 no longer states the cap"),
     ("approval_type", "building permit", "2021-07-13", "", APP_LEG, "§23-55", V, "guide 2026-10-14: deed restriction, then building permits"),
-], note="Borderline: restricted only by size_below_benchmark, from §23-43(i)'s 35% attached-accessory cap as the January 2025 city guide applied it to attached ADUs; scenario_benchmark if the cap is 'whichever is greater' as the building-inspection worksheet says, or does not apply to ADUs.",
-   flags=["size_below_benchmark"])
+], note="Owner decision G2-6 (2026-10-24): coded scenario_benchmark on the city's 2026-10-14 ADU guide, which no longer states the 35% attached-accessory cap; class basis is a source lead until §23-43(i) codified text is read. Earlier 2025 guide applied the cap to attached ADUs.",
+   flags=[])
 
 WK = "https://legistar2.granicus.com/waukesha/attachments/fb763278-f10c-4d54-91b2-240833e68012.pdf"
 WK3 = "https://legistar2.granicus.com/waukesha/attachments/c852c290-1ccf-4801-9967-8d87347537fd.pdf"
@@ -443,11 +443,11 @@ muni(["5510111950"], "Caledonia village", PIMP, "coded_verified", "2026-09-28",
 ])
 
 PP = "https://ecode360.com/36640696"
-muni(["5505963300"], "Pleasant Prairie village", PEXP, "coded_source_lead", "2026-08-24",
+muni(["5505963300"], "Pleasant Prairie village", PEXP, "coded_verified", "2026-08-24",
      "Detached and attached ADUs by right in all single-family districts (R-1 to R-6, R-4.5, A-2); repeals the §420-30B dwelling ban for accessory structures.", [
-    ("detached_allowed", "prohibited", "2005-04-18", "", PP, "Ch. 420 §420-30B (accessory structures not a dwelling unit) (Ord. 05-13)", L, "read via search-engine rendering and mirror (ecode360 403); current through Ord. 26-43 (2026-08-24); a second reader's rendering showed only the history line, so the prohibition text is not independently confirmed"),
+    ("detached_allowed", "prohibited", "2005-04-18", "", PP, "Ch. 420 §420-30B (accessory structures not a dwelling unit) (Ord. 05-13)", "verified", "confirmed by the owner in a browser on ecode360 on 2026-10-24 (the site blocks automated reading); current through Ord. 26-43 (2026-08-24)"),
     ("attached_allowed", "prohibited", "2005-04-18", "", PP, "§420-105 to 420-117 (one principal use/structure; one single-family dwelling)", L, "all residential districts read via rendering"),
-], note="Restrictive pilot (owner decision). Code text only via renderings; confirm §420-30B from a primary copy before the freeze.")
+], note="Restrictive pilot (owner decision). §420-30B confirmed by the owner from the primary ecode360 page on 2026-10-24.")
 
 MF = "https://library.municode.com/wi/menomonee_falls/codes/code_of_ordinances?nodeId=COOR_CH122ZO_ARTIVUS_DIV5ACUSDEUSSPCO"
 muni(["5513351000"], "Menomonee Falls village", PIMP, "coded_source_lead", "2026-03-02",
@@ -465,7 +465,6 @@ muni(["5500935950", "5508735950"], "Howard village", PEXP, "coded_source_lead", 
 
 # House size (sq ft) below which a percent-of-house cap stops a 600 sq ft ADU (600 / share), per flagged place.
 SIZE_BINDS = {
-    "Appleton city": "attached: principal GFA incl. basement under ~1,714 (600/0.35), less any attached garage area",
     "Eau Claire city": "attached: building under 1,500 (600/0.40); detached 20%-of-lot cap binds on lots under 3,000",
     "Oshkosh city": "every ADU: absolute cap of 400 sq ft",
     "Waukesha city": "attached: house under 1,500 (600/0.40); detached: house under 800 (600/0.75)",

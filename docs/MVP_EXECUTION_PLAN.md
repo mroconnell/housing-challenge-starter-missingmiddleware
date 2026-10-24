@@ -182,7 +182,7 @@ Preserve a prioritized improvement backlog. A proposed detail should identify th
 
 ## Current position
 
-**2026-10-24:** The Gate 2 packet ([gate2/README.md](gate2/README.md)) awaits the owner's decisions G2-1 to G2-6. The Gate 1 scope and model were rewritten (revision 3) to reflect the outcome-based increment and other owner feedback (AQ-021 to AQ-028).
+**2026-10-24:** Gate 2 passed ([gate2/README.md](gate2/README.md), AQ-033). Gate 3 work starts with the pre-registered California comparison ([gate3/CA_COMPARISON_PLAN.md](gate3/CA_COMPARISON_PLAN.md)). The Gate 1 scope and model were rewritten (revision 3) to reflect the outcome-based increment and other owner feedback (AQ-021 to AQ-028).
 
 **2026-10-23:** Gate 1 passed with changes (see the [Gate 1 packet](gate1/README.md) and AQ-021 to AQ-023). Gate 2 work is under way: statewide background acquisition, Madison permit extraction and ADU classification, a search for a mid-size restrictive comparison city with accessible permit records (replacing New Berlin), and coding of the largest jurisdictions' ADU rules. The owner prioritizes correct sequencing over calendar targets.
 

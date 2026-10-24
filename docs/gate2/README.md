@@ -1,6 +1,6 @@
 # Gate 2 Packet: Usable Data and Verified Connections
 
-Prepared 2026-10-24 by the conductor; revised after independent review. **Status: awaiting owner decision.** Gate 2 is not passed until the owner says so.
+Prepared 2026-10-24 by the conductor; revised after independent review. **Status: passed on 2026-10-24.** The owner accepted every recommendation (G2-1, G2-4 to G2-9; G2-2 and G2-3 were decided earlier) and confirmed Pleasant Prairie §420-30B from the primary ecode360 page. Appleton is now coded `scenario_benchmark` (source lead). Recorded in AQ-033.
 
 ## What this gate decides
 

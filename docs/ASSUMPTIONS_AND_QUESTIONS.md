@@ -430,6 +430,14 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Decision:** Adopted tentatively; revisit after the scenario MVPs.
 
+## AQ-033 Gate 2 decisions
+
+**Status:** Adopted. **Added:** 2026-10-24. **Related:** [Gate 2 packet](gate2/README.md), AQ-029 to AQ-032.
+
+The owner accepted every Gate 2 recommendation: the data is fit for Gate 3 (G2-1); context groups as revised (G2-4); Appleton coded `scenario_benchmark` on its 2026-10-14 guide, as a source lead until the codified §23-43(i) is read (G2-6); California comparison data accepted with its stated limits (G2-7); the amended California comparison plan approved (G2-8); and Madison's floor uses 2022–2025, with 2026 only as a sensitivity (G2-9). The owner confirmed Pleasant Prairie §420-30B on the primary ecode360 page (G2-5), so Pleasant Prairie is now `coded_verified`.
+
+**Decision:** Gate 2 passed 2026-10-24.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -495,3 +503,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-030; office-hours questions | Adopted the narrow reading of the benchmark's forms and parking, set Madison at 80% of benchmark, and added a consolidated list of questions for office hours. |
 | 2026-10-24 | AQ-031 | Adopted a pre-specified California permissive-vs-restrictive comparison across the 2017, 2018, and 2020 reform waves for ramp and spillover evidence, with no COVID adjustment. |
 | 2026-10-24 | AQ-032 | Adopted 'second homes on single-family lots' as the tentative headline outcome with cross-state guardrails, and recorded the owner's preference for uniform cross-state measures. |
+| 2026-10-24 | AQ-033 | Gate 2 passed; Pleasant Prairie verified by the owner; Appleton coded benchmark; California plan approved; Madison floor years set. |
