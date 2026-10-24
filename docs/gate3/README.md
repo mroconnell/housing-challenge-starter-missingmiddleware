@@ -32,8 +32,8 @@ Like for like (average rate actually reached over 2027–2031, ramp included), t
 
 ## Two problems found by the second review
 
-1. **Madison is "active" by construction under rule v1.** With only four measured Wisconsin places, "top quarter" is one place, so Madison is active whatever its rate, and is predicted at 2.5 a year (14× what it does). Madison is 3% of homes but about 16% of the central.
-2. **The central is likely low**, for the reason above: it is about a third of what every statewide-law state has seen in its first years.
+1. **Madison is "active" by construction under rule v1.** Only four Wisconsin places have measured second-home permits, so the "top quarter" of them is a single place, Madison, whatever its rate. The model then predicts Madison would permit 2.5 second homes per 1,000 single-family homes per year under the law, about 14 times the 0.18 per 1,000 per year it actually permitted in 2022–2025. Madison has 53,292 of Wisconsin's 1,839,569 single-family homes (2.9%), but the model gives it 378 of the 2,337 extra permits projected statewide in the central scenario (16%).
+2. **The central is likely low.** Averaged over the five forecast years including the slow start, the central scenario reaches 0.33 second-home permits per 1,000 single-family homes per year statewide. The seven states with statewide ADU laws and post-law data reached a median of 0.94 per 1,000 homes per year in their first one to four years, nearly three times the central.
 
 ## Owner review: step by step, with my self-assessment
 
