@@ -1,0 +1,17 @@
+term,estimate,se_cluster,rate_ratio,stage,cluster,alpha,fitted,residual,ctx_value,ctx_income,level_with_law_k4
+value_dev,2.6842,0.1397,14.6458,1 within,,,,,,,
+income_dev,-2.9712,0.1895,0.0512,1 within,,,,,,,
+log_homes,0.0974,0.0324,1.1023,1 within,,,,,,,
+law,0.9194,0.33,2.5078,1 within,,,,,,,
+local,0.7788,0.3254,2.1789,1 within,,,,,,,
+k1,-0.4431,0.2574,0.6421,1 within,,,,,,,
+k2,-0.2287,0.1321,0.7955,1 within,,,,,,,
+k3,-0.1954,0.0932,0.8225,1 within,,,,,,,
+state level (alpha),,,,2 between,CA,0.0367,-0.8474,0.8841,728817.6289,100140.7586,2.6015
+state level (alpha),,,,2 between,MA,-1.007,-0.8474,-0.1596,563685.5205,111461.3193,0.9162
+state level (alpha),,,,2 between,ME,-0.8479,-0.8474,-0.0005,288068.5063,75824.0362,1.0741
+state level (alpha),,,,2 between,OR,-1.2389,-0.8474,-0.3915,498442.391,82535.8975,0.7265
+state level (alpha),,,,2 between,RI,-1.3097,-0.8474,-0.4623,434287.1539,95580.1312,0.6768
+state level (alpha),,,,2 between,UT,-0.7844,-0.8474,0.063,490170.8883,94973.9544,1.1446
+state level (alpha),,,,2 between,VT,-0.9575,-0.8474,-0.1101,445025.5383,100528.1793,0.9626
+state level (alpha),,,,2 between,WA,-0.6705,-0.8474,0.1769,574575.767,96217.6038,1.2826

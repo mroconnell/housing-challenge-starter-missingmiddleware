@@ -1,0 +1,7 @@
+spec,place,observed,observed_window,pred_local_no_statewide_law,pred_local_with_statewide_law_plateau,obs_over_pred_no_law,law_rate_ratio,share_of_log_gap_explained_by_law,note
+main,Madison,0.183,2022-2025 (second homes; ADU-type part 0.164),3.4402,8.6275,0.0532,2.5078,0.2386,fit never sees Wisconsin data; Madison's 2026 provisional rate 0.97 (0.30 without the templated programme)
+main,Minneapolis,0.2617,2017-2025 (incl. new-house ADUs),0.9337,2.3416,0.2802,2.5078,0.4195,Minnesota held out of both stages (leave one state out)
+main,"Wisconsin statewide, current law",0.0725,current-law baseline x (homes-weighted),0.5176,1.298,0.14,2.5078,,no-law prediction uses local=0; with local=1 for every area it is 1.128
+value-only within,Madison,0.183,2022-2025 (second homes; ADU-type part 0.164),1.8582,4.4235,0.0985,2.3805,0.2723,fit never sees Wisconsin data; Madison's 2026 provisional rate 0.97 (0.30 without the templated programme)
+value-only within,Minneapolis,0.2617,2017-2025 (incl. new-house ADUs),1.2915,3.0744,0.2026,2.3805,0.352,Minnesota held out of both stages (leave one state out)
+value-only within,"Wisconsin statewide, current law",0.0725,current-law baseline x (homes-weighted),0.5568,1.3255,0.1302,2.3805,,no-law prediction uses local=0; with local=1 for every area it is 1.379

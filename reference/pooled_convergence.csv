@@ -1,0 +1,5 @@
+state,series,pre_window,pre_rate,year1,year1_rate,ratio
+CA,all jurisdictions,2014-2016,0.1244,2017,0.5976,4.8039
+RI,RI_statewide,2021-2023,0.229,2025,0.967,4.2227
+WA,WA_inc_exSeattle,EY2019-2023,0.394,EY2024,0.677,1.7183
+VT,VT_chittenden,2016-2020,0.616,2021,0.673,1.0925
