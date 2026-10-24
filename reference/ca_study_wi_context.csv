@@ -1,0 +1,7 @@
+item,value,note
+madison_adu_type_per_year,8.75,"2022-2025 mean, ADU-type components"
+madison_homes,53292.0,ACS 2020-2024 one-unit detached
+madison_rate,0.16418974705396683,"per 1,000 homes per year"
+madison_rate_div_0_8,0.20523718381745854,AQ-030 scaling
+wi_bps_total_2023_2025,23629.666666666668,"Census BPS state total, mean"
+wi_homes_1unit_detached,1839569.0,ACS 2020-2024

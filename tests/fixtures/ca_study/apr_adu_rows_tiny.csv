@@ -1,0 +1,11 @@
+juris_name,year,unit_cat,bp_units,bp_issue_year,permit_key,date_status,text
+ALPHA,2018,ADU,1,2018,k1,date_in_year,detached adu in rear yard
+ALPHA,2018,ADU,1,2018,k2,date_in_year,legalize garage conversion to adu
+ALPHA,2019,ADU,1,2018,k2,date_earlier,
+ALPHA,2019,ADU,2,2019,k3,date_in_year,
+ALPHA,2019,ADU,1,2017,k4,date_earlier,late first report
+ALPHA,2019,ADU,1,,k5,date_missing,
+ALPHA,2019,SFD,5,2019,k6,date_in_year,new sfd
+BETA,2018,ADU,1,2018,k7,date_in_year,new SFD with ADU
+BETA,2019,ADU,3,2019,k8,date_in_year,ADU at rear of the multi-family building
+BETA,2019,ADU,1,2019,k9,date_in_year,JADU interior conversion
