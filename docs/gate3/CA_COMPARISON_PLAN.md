@@ -63,6 +63,25 @@ Results are descriptive data-quality findings; they set how the study's outcomes
 - Alternative permissive cutoff (top third instead of top quarter).
 - City of Los Angeles excluded, because its size and early surge could dominate group means.
 
+## Statewide view: Wisconsin versus California (owner request, 2026-10-24)
+
+A simple statewide "health" comparison using the same ADU-blind source in both states:
+
+- Census BPS permitted units per 1,000 existing homes per year, Wisconsin and California, 2010–2025, each indexed to its own 2014–2016 average, with the three California wave dates marked.
+- California's HCD ADU permits shown as a layer on top of its BPS line, so the share of any divergence that is ADUs is visible. Step 0 decides whether California BPS already includes some ADUs, which determines whether that layer is added or already inside the line.
+- Reading: divergence after a wave is descriptive. Total permits also respond to rents, interest rates, and other reforms, so only the ADU layer is attributed to ADU policy. The model's expectation that Wisconsin's ADU rate converges toward California's after a statewide law is an assumption drawn from the study below, stated as such.
+
+## Held-out data for testing the model (pre-registered)
+
+Set aside before any fitting, and used only to test the finished curve:
+
+- **California jurisdictions:** a random 20% of jurisdictions (fixed random seed, drawn and saved before the study runs), excluded from estimating the plateau, ramp, and spillover; the fitted curve must predict their post-wave rates.
+- **Wisconsin:** Madison and Sun Prairie are not used to fit the California curve; Madison versus Sun Prairie is the in-state check.
+- **Unknown local rules (AQ-027):** a random sample of the 37 coded Wisconsin places is held out to test the rule that unknown places behave like restricted ones, by predicting their current rate from ordinance status alone.
+- **Later states:** Oregon (2018 law, Portland earlier), Washington (2020), Montana (2023), and Massachusetts (2025), as available, test the curve out of state.
+
+Results on held-out data are reported as they come out, including misses. Later regression on all data (to refine the curve) happens only after the held-out test is published.
+
 ## How the results feed the Wisconsin model
 
 | Study result | Model input |
