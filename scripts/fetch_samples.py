@@ -1089,10 +1089,14 @@ def fetch_buildinganadu():
         return u, rows_, hi_
 
     base = f"https://docs.google.com/spreadsheets/d/{BUILDINGANADU_SHEET}"
-    _, (url, allrows, hi) = first_ok([f"{base}/export?format=csv", f"{base}/gviz/tq?tqx=out:csv&sheet=Sheet1", f"{base}/gviz/tq?tqx=out:csv"], load)
-    header = [re.sub(r"\s+", " ", c).strip() or f"col_{i}" for i, c in enumerate(allrows[hi])]
+    # gid=0 is Sheet1; the bare export returns only "@dropdown", and gviz drops numbers.
+    _, (url, allrows, hi) = first_ok([f"{base}/export?format=csv&gid=0"], load)
+    raw = [re.sub(r"\s+", " ", c).strip() for c in allrows[hi]]
+    # The sheet has a second, unlabeled side table to the right of a blank column. Keep the main block.
+    width = raw.index("") if "" in raw else len(raw)
+    header = raw[:width]
     years = [c for c in header if yr.search(c)]
-    data = [dict(zip(header, r)) for r in allrows[hi + 1:] if any(c.strip() for c in r)]
+    data = [dict(zip(header, r[:width])) for r in allrows[hi + 1:] if any(c.strip() for c in r[:width])]
     name_col = header[0]
     juris = [r for r in data if r.get(name_col, "").strip() and not re.search(r"total|compiled|source|buildinganadu", r[name_col], re.I)]
 
