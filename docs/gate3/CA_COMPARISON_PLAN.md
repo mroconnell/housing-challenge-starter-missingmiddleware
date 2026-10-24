@@ -20,6 +20,17 @@ Prepared 2026-10-24 by the conductor for owner approval (AQ-031). **Status: prop
 
 The two ADU series overlap in 2018–2019; both are kept, and the reporting break is shown rather than smoothed (AQ-017). Unincorporated county areas are separate jurisdictions from their cities.
 
+## Step 0: reconcile California BPS with HCD APR (owner request, 2026-10-24)
+
+Before the study, compare the two California sources jurisdiction by jurisdiction for 2018–2025 (the years both cover project-level permits):
+
+- **Non-ADU units:** HCD single-family detached + single-family attached + 2–4 + 5+ permits versus BPS total units. Report the ratio by year, by county, and for the 50 largest jurisdictions, with the largest mismatches listed.
+- **Where ADUs land in BPS:** compare BPS one-unit units with HCD single-family units, with and without HCD ADUs added. If BPS one-unit counts track "single-family plus ADUs", ADUs are partly inside BPS; if they track single-family alone, BPS leaves ADUs out. This decides how to read Wisconsin's BPS one-unit counts and whether the ADU-share model double counts.
+- **Coverage:** jurisdictions that report to one source but not the other, late or missing APR filings, and BPS imputed versus reported values.
+- **2012–2019 compilation versus HCD APR** in the 2018–2019 overlap, so the reporting break is measured, not assumed.
+
+Results are descriptive data-quality findings; they set how the study's outcomes are read but do not change its pre-registered groups or windows.
+
 ## Pre-registered definitions
 
 **Outcome.** ADU building permits issued per 1,000 one-unit detached homes per year, by jurisdiction. Secondary: ADU permits as a share of (BPS total units + ADU permits), shown with the caveat that some ADUs also appear in BPS one-unit counts.
@@ -70,7 +81,7 @@ Madison (by right since December 2021) versus Sun Prairie (prohibited until May 
 ## When this happens in Gate 3
 
 1. Owner approves this plan, alongside the Gate 2 decisions.
-2. Assemble data: HCD APR pull, the 2012–2019 compilation into the pipeline, ACS California denominators, and a crosswalk of HCD jurisdiction names to Census places. This runs in parallel with estimating Wisconsin `x` and the Milwaukee ramp.
+2. Assemble data and run step 0 (BPS versus HCD reconciliation): HCD APR pull, the 2012–2019 compilation into the pipeline, ACS California denominators, and a crosswalk of HCD jurisdiction names to Census places. This runs in parallel with estimating Wisconsin `x` and the Milwaukee ramp.
 3. Run the study exactly as specified and publish the tables, including the fixed robustness checks.
 4. Derive `y` paths, ramp, and spillover; integrate them into the model.
 5. Walk through the Gate 3 owner steps, run independent review, and deliver the Gate 3 packet.
