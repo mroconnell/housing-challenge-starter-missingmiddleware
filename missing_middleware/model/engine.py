@@ -3,7 +3,11 @@
 Implements the outcome model from docs/gate1/SCOPE_AND_MODEL.md (revision 3):
 
     baseline   B[a,t]   = H[a] * x[a] * g[a,t] / 1000
-    additional A[a,t,p] = H[a] * max(y[a,p] - x[a], 0) * ramp[p][t] / 1000
+    additional A[a,t,p] = H[a] * max(y[a,p] - x[a] * g[a,t], 0) * ramp[p][t] / 1000
+
+g[a,t] is 1 except in places still ramping after a recent local reform (for
+example Milwaukee after August 2025), where the current-law rate is still
+rising; the law's addition is measured against that year's current-law rate.
 
 where H is one-unit detached homes (ACS), x the current-law rate of second homes
 on single-family lots per 1,000 homes per year (observed or estimated), y the
@@ -78,8 +82,9 @@ def run(areas: pd.DataFrame, scenario: Scenario, baseline_growth: pd.DataFrame |
             y = y_rate(a.x_rate, bool(a.at_benchmark), p)
             for i, t in enumerate(YEARS):
                 gt = g.get((a.area_id, t), 1.0)
-                base = a.homes * a.x_rate * gt / 1000
-                add = a.homes * max(y - a.x_rate, 0.0) * p.ramp[i] / 1000
+                x_t = a.x_rate * gt
+                base = a.homes * x_t / 1000
+                add = a.homes * max(y - x_t, 0.0) * p.ramp[i] / 1000
                 rows.append({
                     "scenario_id": scenario.scenario_id, "area_id": a.area_id, "path": path,
                     "year": t, "homes": a.homes, "x_rate": a.x_rate, "y_rate": y,

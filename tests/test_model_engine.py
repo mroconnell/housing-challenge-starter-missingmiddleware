@@ -53,6 +53,14 @@ class TestEngine(unittest.TestCase):
         p = e.PathParams(level=0.1, floor_rate=0.1, spillover=0, ramp=RAMP)
         self.assertEqual(e.y_rate(0.5, False, p), 0.5)
 
+    def test_ramping_place_gap_uses_that_years_current_rate(self):
+        areas = pd.DataFrame([{"area_id": "mke", "homes": 1000, "x_rate": 0.2, "at_benchmark": False}])
+        growth = pd.DataFrame([{"area_id": "mke", "year": t, "g": g} for t, g in zip(e.YEARS, (0.5, 0.75, 1, 1, 1))])
+        out = e.run(areas, scenario(), growth)
+        c = out[out.path == "central"].sort_values("year")
+        self.assertAlmostEqual(c.baseline_units.iloc[0], 1 * 0.1, places=9)
+        self.assertAlmostEqual(c.additional_units.iloc[0], 1 * (0.3 - 0.1) * 0.4, places=9)
+
     def test_bad_ramp_rejected(self):
         with self.assertRaises(ValueError):
             e.PathParams(level=0.3, floor_rate=0.2, spillover=0, ramp=(1, 0.5, 1, 1, 1))
