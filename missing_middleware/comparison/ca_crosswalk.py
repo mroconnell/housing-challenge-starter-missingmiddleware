@@ -112,6 +112,22 @@ HOLDOUT_METHOD = ("Universe: every California jurisdiction that reports to HCD a
                   "before any ADU rate by group was computed.")
 
 
+# Correction note carried beside `method` (the method text is kept as drawn). The universe is
+# the Census geography of HCD reporting jurisdictions, not the set that actually has HCD data.
+HOLDOUT_METHOD_NOTE = ("The universe is Census geography (TIGER 2024 incorporated places, Mountain House and county "
+                       "remainders), not the jurisdictions with data: Loyalton has no HCD or compilation rows, and "
+                       "Vernon, Industry, Laguna Woods and Tehama appear only in the 2012-2019 compilation. "
+                       "The draw used identifiers only and a fixed seed, and a rebuild reproduces it. No claim is made "
+                       "about its timing relative to earlier development runs of step 0; see has_hcd_a2_data.")
+
+
+def holdout_flag(geoids: pd.Series, hold: pd.DataFrame) -> pd.Series:
+    """True where a census_geoid is in the pre-registered holdout; False otherwise (including
+    geoids outside the universe, which cannot be held out)."""
+    ids = set(hold.loc[hold["holdout"].astype(str).str.lower() == "true", "census_geoid"])
+    return geoids.isin(ids)
+
+
 def holdout_universe(places: pd.DataFrame, place_county: pd.DataFrame, counties: pd.DataFrame) -> pd.DataFrame:
     inc = places[places["incorporated"]][["placefp", "name"]].merge(place_county, on="placefp", how="left")
     inc = inc.assign(census_geoid="06" + inc["placefp"],

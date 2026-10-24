@@ -1,540 +1,540 @@
-juris_name,cnty_name,juris_type,placefp,census_geoid,county_fips,bps_ids,match_method,note,matched_census,matched_bps,in_hcd_apr,in_compilation
-ADELANTO,San Bernardino,city,00296,0600296,071,001000,exact name,,True,True,True,True
-AGOURA HILLS,Los Angeles,city,00394,0600394,037,002000,exact name,,True,True,True,True
-ALAMEDA,Alameda,city,00562,0600562,001,003000,exact name,,True,True,True,True
-ALAMEDA COUNTY,Alameda,county_unincorporated,,06001_UNINC,001,004000,county name,,True,True,True,True
-ALBANY,Alameda,city,00674,0600674,001,005000,exact name,,True,True,True,True
-ALHAMBRA,Los Angeles,city,00884,0600884,037,006000,exact name,,True,True,True,True
-ALISO VIEJO,Orange,city,00947,0600947,059,006200,exact name,,True,True,True,True
-ALPINE COUNTY,Alpine,county_unincorporated,,06003_UNINC,003,007000,county name,,True,True,True,True
-ALTURAS,Modoc,city,01444,0601444,049,008000,exact name,,True,True,True,True
-AMADOR,Amador,city,01514,0601514,005,009000,alias,,True,True,True,False
-AMADOR COUNTY,Amador,county_unincorporated,,06005_UNINC,005,010000,county name,,True,True,True,True
-AMERICAN CANYON,Napa,city,01640,0601640,055,010500,exact name,,True,True,True,True
-ANAHEIM,Orange,city,02000,0602000,059,011000,exact name,,True,True,True,True
-ANDERSON,Shasta,city,02042,0602042,089,012000,exact name,,True,True,True,True
-ANGELS CAMP,Calaveras,city,02112,0602112,009,013000,alias,,True,True,True,True
-ANTIOCH,Contra Costa,city,02252,0602252,013,014000,exact name,,True,True,True,True
-APPLE VALLEY,San Bernardino,city,02364,0602364,071,015000,exact name,,True,True,True,True
-ARCADIA,Los Angeles,city,02462,0602462,037,016000,exact name,,True,True,True,True
-ARCATA,Humboldt,city,02476,0602476,023,017000,exact name,,True,True,True,True
-ARROYO GRANDE,San Luis Obispo,city,02868,0602868,079,018000,exact name,,True,True,True,True
-ARTESIA,Los Angeles,city,02896,0602896,037,019000,exact name,,True,True,True,True
-ARVIN,Kern,city,02924,0602924,029,020000,exact name,,True,True,True,True
-ATASCADERO,San Luis Obispo,city,03064,0603064,079,021000,exact name,,True,True,True,True
-ATHERTON,San Mateo,city,03092,0603092,081,022000,exact name,,True,True,True,True
-ATWATER,Merced,city,03162,0603162,047,023000,exact name,,True,True,True,True
-AUBURN,Placer,city,03204,0603204,061,024000,exact name,,True,True,True,True
-AVALON,Los Angeles,city,03274,0603274,037,025000,exact name,,True,True,True,True
-AVENAL,Kings,city,03302,0603302,031,026000,exact name,,True,True,True,True
-AZUSA,Los Angeles,city,03386,0603386,037,027000,exact name,,True,True,True,True
-BAKERSFIELD,Kern,city,03526,0603526,029,028000,exact name,,True,True,True,True
-BALDWIN PARK,Los Angeles,city,03666,0603666,037,029000,exact name,,True,True,True,True
-BANNING,Riverside,city,03820,0603820,065,030000,exact name,,True,True,True,True
-BARSTOW,San Bernardino,city,04030,0604030,071,031000,exact name,,True,True,True,True
-BEAUMONT,Riverside,city,04758,0604758,065,032000,exact name,,True,True,True,True
-BELL,Los Angeles,city,04870,0604870,037,033000,exact name,,True,True,True,True
-BELL GARDENS,Los Angeles,city,04996,0604996,037,034000,exact name,,True,True,True,True
-BELLFLOWER,Los Angeles,city,04982,0604982,037,035000,exact name,,True,True,True,True
-BELMONT,San Mateo,city,05108,0605108,081,036000,exact name,,True,True,True,True
-BELVEDERE,Marin,city,05164,0605164,041,037000,exact name,,True,True,True,True
-BENICIA,Solano,city,05290,0605290,095,038000,exact name,,True,True,True,True
-BERKELEY,Alameda,city,06000,0606000,001,039000,exact name,,True,True,True,True
-BEVERLY HILLS,Los Angeles,city,06308,0606308,037,040000,exact name,,True,True,True,True
-BIG BEAR LAKE,San Bernardino,city,06434,0606434,071,041000,exact name,,True,True,True,True
-BIGGS,Butte,city,06560,0606560,007,,exact name,,True,False,True,True
-BISHOP,Inyo,city,06798,0606798,027,043000,exact name,,True,True,True,True
-BLUE LAKE,Humboldt,city,07162,0607162,023,044000,exact name,,True,True,True,False
-BLYTHE,Riverside,city,07218,0607218,065,045000,exact name,,True,True,True,True
-BRADBURY,Los Angeles,city,07946,0607946,037,046000,exact name,,True,True,True,False
-BRAWLEY,Imperial,city,08058,0608058,025,047000,exact name,,True,True,True,True
-BREA,Orange,city,08100,0608100,059,048000,exact name,,True,True,True,True
-BRENTWOOD,Contra Costa,city,08142,0608142,013,049000,exact name,,True,True,True,True
-BRISBANE,San Mateo,city,08310,0608310,081,050000,exact name,,True,True,True,True
-BUELLTON,Santa Barbara,city,08758,0608758,083,,exact name,,True,False,True,True
-BUENA PARK,Orange,city,08786,0608786,059,051000,exact name,,True,True,True,True
-BURBANK,Los Angeles,city,08954,0608954,037,052000,exact name,,True,True,True,True
-BURLINGAME,San Mateo,city,09066,0609066,081,053000,exact name,,True,True,True,True
-BUTTE COUNTY,Butte,county_unincorporated,,06007_UNINC,007,054000,county name,,True,True,True,True
-CALABASAS,Los Angeles,city,09598,0609598,037,054500,exact name,,True,True,True,True
-CALAVERAS COUNTY,Calaveras,county_unincorporated,,06009_UNINC,009,055000,county name,,True,True,True,True
-CALEXICO,Imperial,city,09710,0609710,025,056000,exact name,,True,True,True,True
-CALIFORNIA CITY,Kern,city,09780,0609780,029,057000,exact name,,True,True,True,False
-CALIMESA,Riverside,city,09864,0609864,065,058000,exact name,,True,True,True,True
-CALIPATRIA,Imperial,city,09878,0609878,025,,exact name,,True,False,True,True
-CALISTOGA,Napa,city,09892,0609892,055,060000,exact name,,True,True,True,True
-CAMARILLO,Ventura,city,10046,0610046,111,061000,exact name,,True,True,True,True
-CAMPBELL,Santa Clara,city,10345,0610345,085,062000,exact name,,True,True,True,True
-CANYON LAKE,Riverside,city,10928,0610928,065,062500,exact name,,True,True,True,True
-CAPITOLA,Santa Cruz,city,11040,0611040,087,063000,exact name,,True,True,True,True
-CARLSBAD,San Diego,city,11194,0611194,073,064000,exact name,,True,True,True,True
-CARMEL,Monterey,city,11250,0611250,053,065000,alias,,True,True,True,True
-CARPINTERIA,Santa Barbara,city,11446,0611446,083,066000,exact name,,True,True,True,True
-CARSON,Los Angeles,city,11530,0611530,037,067000,exact name,,True,True,True,True
-CATHEDRAL,Riverside,city,12048,0612048,065,068000,alias,,True,True,True,True
-CERES,Stanislaus,city,12524,0612524,099,069000,exact name,,True,True,True,True
-CERRITOS,Los Angeles,city,12552,0612552,037,070000,exact name,,True,True,True,True
-CHICO,Butte,city,13014,0613014,007,071000,exact name,,True,True,True,True
-CHINO,San Bernardino,city,13210,0613210,071,072000,exact name,,True,True,True,True
-CHINO HILLS,San Bernardino,city,13214,0613214,071,072500,exact name,,True,True,True,True
-CHOWCHILLA,Madera,city,13294,0613294,039,073000,exact name,,True,True,True,True
-CHULA VISTA,San Diego,city,13392,0613392,073,074000,exact name,,True,True,True,True
-CITRUS HEIGHTS,Sacramento,city,13588,0613588,067,074500,exact name,,True,True,True,True
-CLAREMONT,Los Angeles,city,13756,0613756,037,075000,exact name,,True,True,True,True
-CLAYTON,Contra Costa,city,13882,0613882,013,,exact name,,True,False,True,True
-CLEARLAKE,Lake,city,13945,0613945,033,077000,exact name,,True,True,True,True
-CLOVERDALE,Sonoma,city,14190,0614190,097,078000,exact name,,True,True,True,True
-CLOVIS,Fresno,city,14218,0614218,019,079000,exact name,,True,True,True,True
-COACHELLA,Riverside,city,14260,0614260,065,080000,exact name,,True,True,True,True
-COALINGA,Fresno,city,14274,0614274,019,081000,exact name,,True,True,True,True
-COLFAX,Placer,city,14498,0614498,061,082000,exact name,,True,True,True,True
-COLMA,San Mateo,city,14736,0614736,081,083000,exact name,,True,True,True,True
-COLTON,San Bernardino,city,14890,0614890,071,084000,exact name,,True,True,True,True
-COLUSA,Colusa,city,14946,0614946,011,085000,exact name,,True,True,True,True
-COLUSA COUNTY,Colusa,county_unincorporated,,06011_UNINC,011,086000,county name,,True,True,True,True
-COMMERCE,Los Angeles,city,14974,0614974,037,087000,exact name,,True,True,True,False
-COMPTON,Los Angeles,city,15044,0615044,037,088000,exact name,,True,True,True,True
-CONCORD,Contra Costa,city,16000,0616000,013,089000,exact name,,True,True,True,True
-CONTRA COSTA COUNTY,Contra Costa,county_unincorporated,,06013_UNINC,013,090000,county name,,True,True,True,True
-CORCORAN,Kings,city,16224,0616224,031,091000,exact name,,True,True,True,True
-CORNING,Tehama,city,16322,0616322,103,092000,exact name,,True,True,True,True
-CORONA,Riverside,city,16350,0616350,065,093000,exact name,,True,True,True,True
-CORONADO,San Diego,city,16378,0616378,073,094000,exact name,,True,True,True,True
-CORTE MADERA,Marin,city,16462,0616462,041,095000,exact name,,True,True,True,True
-COSTA MESA,Orange,city,16532,0616532,059,096000,exact name,,True,True,True,True
-COTATI,Sonoma,city,16560,0616560,097,097000,exact name,,True,True,True,True
-COVINA,Los Angeles,city,16742,0616742,037,098000,exact name,,True,True,True,True
-CRESCENT CITY,Del Norte,city,17022,0617022,015,099000,exact name,,True,True,True,True
-CUDAHY,Los Angeles,city,17498,0617498,037,100000,exact name,,True,True,True,True
-CULVER CITY,Los Angeles,city,17568,0617568,037,101000,exact name,,True,True,True,True
-CUPERTINO,Santa Clara,city,17610,0617610,085,102000,exact name,,True,True,True,True
-CYPRESS,Orange,city,17750,0617750,059,103000,exact name,,True,True,True,True
-DALY CITY,San Mateo,city,17918,0617918,081,104000,exact name,,True,True,True,True
-DANA POINT,Orange,city,17946,0617946,059,105000,exact name,,True,True,True,True
-DANVILLE,Contra Costa,city,17988,0617988,013,106000,exact name,,True,True,True,True
-DAVIS,Yolo,city,18100,0618100,113,107000,exact name,,True,True,True,True
-DEL MAR,San Diego,city,18506,0618506,073,108000,exact name,,True,True,True,True
-DEL NORTE COUNTY,Del Norte,county_unincorporated,,06015_UNINC,015,109000,county name,,True,True,True,True
-DEL REY OAKS,Monterey,city,18688,0618688,053,110000,exact name,,True,True,True,False
-DELANO,Kern,city,18394,0618394,029,111000,exact name,,True,True,True,True
-DESERT HOT SPRINGS,Riverside,city,18996,0618996,065,112000,exact name,,True,True,True,True
-DIAMOND BAR,Los Angeles,city,19192,0619192,037,113000,exact name,,True,True,True,True
-DINUBA,Tulare,city,19318,0619318,107,114000,exact name,,True,True,True,True
-DIXON,Solano,city,19402,0619402,095,115000,exact name,,True,True,True,True
-DORRIS,Siskiyou,city,19584,0619584,093,116000,exact name,,True,True,True,True
-DOS PALOS,Merced,city,19612,0619612,047,117000,exact name,,True,True,True,True
-DOWNEY,Los Angeles,city,19766,0619766,037,118000,exact name,,True,True,True,True
-DUARTE,Los Angeles,city,19990,0619990,037,119000,exact name,,True,True,True,True
-DUBLIN,Alameda,city,20018,0620018,001,120000,exact name,,True,True,True,True
-DUNSMUIR,Siskiyou,city,20242,0620242,093,121000,exact name,,True,True,True,True
-EAST PALO ALTO,San Mateo,city,20956,0620956,081,122000,exact name,,True,True,True,True
-EASTVALE,Riverside,city,21230,0621230,065,122500,exact name,,True,True,True,True
-EL CAJON,San Diego,city,21712,0621712,073,123000,exact name,,True,True,True,True
-EL CENTRO,Imperial,city,21782,0621782,025,124000,exact name,,True,True,True,True
-EL CERRITO,Contra Costa,city,21796,0621796,013,125000,exact name,,True,True,True,True
-EL DORADO COUNTY,El Dorado,county_unincorporated,,06017_UNINC,017,126000,county name,,True,True,True,True
-EL MONTE,Los Angeles,city,22230,0622230,037,127000,exact name,,True,True,True,True
-EL SEGUNDO,Los Angeles,city,22412,0622412,037,128000,exact name,,True,True,True,True
-ELK GROVE,Sacramento,city,22020,0622020,067,128500,exact name,,True,True,True,True
-EMERYVILLE,Alameda,city,22594,0622594,001,129000,exact name,,True,True,True,True
-ENCINITAS,San Diego,city,22678,0622678,073,130000,exact name,,True,True,True,True
-ESCALON,San Joaquin,city,22790,0622790,077,131000,exact name,,True,True,True,True
-ESCONDIDO,San Diego,city,22804,0622804,073,132000,exact name,,True,True,True,True
-ETNA,Siskiyou,city,22972,0622972,093,,exact name,,True,False,True,True
-EUREKA,Humboldt,city,23042,0623042,023,134000,exact name,,True,True,True,True
-EXETER,Tulare,city,23126,0623126,107,,exact name,,True,False,True,True
-FAIRFAX,Marin,city,23168,0623168,041,136000,exact name,,True,True,True,True
-FAIRFIELD,Solano,city,23182,0623182,095,137000,exact name,,True,True,True,True
-FARMERSVILLE,Tulare,city,23616,0623616,107,,exact name,,True,False,True,True
-FERNDALE,Humboldt,city,23910,0623910,023,139000,exact name,,True,True,True,True
-FILLMORE,Ventura,city,24092,0624092,111,140000,exact name,,True,True,True,True
-FIREBAUGH,Fresno,city,24134,0624134,019,141000,exact name,,True,True,True,True
-FOLSOM,Sacramento,city,24638,0624638,067,142000,exact name,,True,True,True,True
-FONTANA,San Bernardino,city,24680,0624680,071,143000,exact name,,True,True,True,True
-FORT BRAGG,Mendocino,city,25058,0625058,045,,exact name,,True,False,True,True
-FORT JONES,Siskiyou,city,25128,0625128,093,,exact name,,True,False,True,False
-FORTUNA,Humboldt,city,25296,0625296,023,146000,exact name,,True,True,True,True
-FOSTER CITY,San Mateo,city,25338,0625338,081,147000,exact name,,True,True,True,True
-FOUNTAIN VALLEY,Orange,city,25380,0625380,059,148000,exact name,,True,True,True,True
-FOWLER,Fresno,city,25436,0625436,019,149000,exact name,,True,True,True,True
-FREMONT,Alameda,city,26000,0626000,001,150000,exact name,,True,True,True,True
-FRESNO,Fresno,city,27000,0627000,019,151000,exact name,,True,True,True,True
-FRESNO COUNTY,Fresno,county_unincorporated,,06019_UNINC,019,152000,county name,,True,True,True,True
-FULLERTON,Orange,city,28000,0628000,059,153000,exact name,,True,True,True,True
-GALT,Sacramento,city,28112,0628112,067,154000,exact name,,True,True,True,True
-GARDEN GROVE,Orange,city,29000,0629000,059,155000,exact name,,True,True,True,True
-GARDENA,Los Angeles,city,28168,0628168,037,156000,exact name,,True,True,True,True
-GILROY,Santa Clara,city,29504,0629504,085,157000,exact name,,True,True,True,True
-GLENDALE,Los Angeles,city,30000,0630000,037,158000,exact name,,True,True,True,True
-GLENDORA,Los Angeles,city,30014,0630014,037,159000,exact name,,True,True,True,True
-GLENN COUNTY,Glenn,county_unincorporated,,06021_UNINC,021,160000,county name,,True,True,True,True
-GOLETA,Santa Barbara,city,30378,0630378,083,160800,exact name,,True,True,True,True
-GONZALES,Monterey,city,30392,0630392,053,161000,exact name,,True,True,True,True
-GRAND TERRACE,San Bernardino,city,30658,0630658,071,162000,exact name,,True,True,True,True
-GRASS VALLEY,Nevada,city,30798,0630798,057,163000,exact name,,True,True,True,True
-GREENFIELD,Monterey,city,30994,0630994,053,164000,exact name,,True,True,True,True
-GRIDLEY,Butte,city,31260,0631260,007,165000,exact name,,True,True,True,True
-GROVER BEACH,San Luis Obispo,city,31393,0631393,079,166000,exact name,,True,True,True,True
-GUADALUPE,Santa Barbara,city,31414,0631414,083,167000,exact name,,True,True,True,True
-GUSTINE,Merced,city,31568,0631568,047,168000,exact name,,True,True,True,True
-HALF MOON BAY,San Mateo,city,31708,0631708,081,169000,exact name,,True,True,True,True
-HANFORD,Kings,city,31960,0631960,031,170000,exact name,,True,True,True,True
-HAWAIIAN GARDENS,Los Angeles,city,32506,0632506,037,171000,exact name,,True,True,True,True
-HAWTHORNE,Los Angeles,city,32548,0632548,037,172000,exact name,,True,True,True,True
-HAYWARD,Alameda,city,33000,0633000,001,173000,exact name,,True,True,True,True
-HEALDSBURG,Sonoma,city,33056,0633056,097,174000,exact name,,True,True,True,True
-HEMET,Riverside,city,33182,0633182,065,175000,exact name,,True,True,True,True
-HERCULES,Contra Costa,city,33308,0633308,013,176000,exact name,,True,True,True,True
-HERMOSA BEACH,Los Angeles,city,33364,0633364,037,177000,exact name,,True,True,True,True
-HESPERIA,San Bernardino,city,33434,0633434,071,178000,exact name,,True,True,True,True
-HIDDEN HILLS,Los Angeles,city,33518,0633518,037,179000,exact name,,True,True,True,True
-HIGHLAND,San Bernardino,city,33588,0633588,071,180000,exact name,,True,True,True,True
-HILLSBOROUGH,San Mateo,city,33798,0633798,081,181000,exact name,,True,True,True,True
-HOLLISTER,San Benito,city,34120,0634120,069,182000,exact name,,True,True,True,True
-HOLTVILLE,Imperial,city,34246,0634246,025,183000,exact name,,True,True,True,True
-HUGHSON,Stanislaus,city,34904,0634904,099,184000,exact name,,True,True,True,True
-HUMBOLDT COUNTY,Humboldt,county_unincorporated,,06023_UNINC,023,185000,county name,,True,True,True,True
-HUNTINGTON BEACH,Orange,city,36000,0636000,059,186000,exact name,,True,True,True,True
-HUNTINGTON PARK,Los Angeles,city,36056,0636056,037,187000,exact name,,True,True,True,True
-HURON,Fresno,city,36084,0636084,019,188000,exact name,,True,True,True,True
-IMPERIAL,Imperial,city,36280,0636280,025,189000,exact name,,True,True,True,True
-IMPERIAL BEACH,San Diego,city,36294,0636294,073,190000,exact name,,True,True,True,True
-IMPERIAL COUNTY,Imperial,county_unincorporated,,06025_UNINC,025,191000,county name,,True,True,True,True
-INDIAN WELLS,Riverside,city,36434,0636434,065,192000,exact name,,True,True,True,True
-INDIO,Riverside,city,36448,0636448,065,193000,exact name,,True,True,True,True
-INDUSTRY,,city,36490,0636490,037,194000,exact name,,True,True,False,True
-INGLEWOOD,Los Angeles,city,36546,0636546,037,195000,exact name,,True,True,True,True
-INYO COUNTY,Inyo,county_unincorporated,,06027_UNINC,027,196000,county name,,True,True,True,True
-IONE,Amador,city,36672,0636672,005,197000,exact name,,True,True,True,True
-IRVINE,Orange,city,36770,0636770,059,198000,exact name,,True,True,True,True
-IRWINDALE,Los Angeles,city,36826,0636826,037,199000,exact name,,True,True,True,True
-ISLETON,Sacramento,city,36882,0636882,067,200000,exact name,,True,True,True,True
-JACKSON,Amador,city,36980,0636980,005,201000,exact name,,True,True,True,True
-JURUPA VALLEY,Riverside,city,37692,0637692,065,201500,exact name,,True,True,True,True
-KERMAN,Fresno,city,38226,0638226,019,202000,exact name,,True,True,True,True
-KERN COUNTY,Kern,county_unincorporated,,06029_UNINC,029,203000,county name,,True,True,True,True
-KING CITY,Monterey,city,38520,0638520,053,204000,exact name,,True,True,True,True
-KINGS COUNTY,Kings,county_unincorporated,,06031_UNINC,031,205000,county name,,True,True,True,True
-KINGSBURG,Fresno,city,38562,0638562,019,206000,exact name,,True,True,True,True
-LA CANADA FLINTRIDGE,Los Angeles,city,39003,0639003,037,207000,exact name,,True,True,True,True
-LA HABRA,Orange,city,39290,0639290,059,208000,exact name,,True,True,True,True
-LA HABRA HEIGHTS,Los Angeles,city,39304,0639304,037,209000,exact name,,True,True,True,True
-LA MESA,San Diego,city,40004,0640004,073,210000,exact name,,True,True,True,True
-LA MIRADA,Los Angeles,city,40032,0640032,037,211000,exact name,,True,True,True,True
-LA PALMA,Orange,city,40256,0640256,059,212000,exact name,,True,True,True,True
-LA PUENTE,Los Angeles,city,40340,0640340,037,213000,exact name,,True,True,True,True
-LA QUINTA,Riverside,city,40354,0640354,065,214000,exact name,,True,True,True,True
-LA VERNE,Los Angeles,city,40830,0640830,037,215000,exact name,,True,True,True,True
-LAFAYETTE,Contra Costa,city,39122,0639122,013,,exact name,,True,False,True,True
-LAGUNA BEACH,Orange,city,39178,0639178,059,217000,exact name,,True,True,True,True
-LAGUNA HILLS,Orange,city,39220,0639220,059,217500,exact name,,True,True,True,True
-LAGUNA NIGUEL,Orange,city,39248,0639248,059,218000,exact name,,True,True,True,True
-LAGUNA WOODS,,city,39259,0639259,059,218500,exact name,,True,True,False,True
-LAKE COUNTY,Lake,county_unincorporated,,06033_UNINC,033,219000,county name,,True,True,True,True
-LAKE ELSINORE,Riverside,city,39486,0639486,065,220000,exact name,,True,True,True,True
-LAKE FOREST,Orange,city,39496,0639496,059,220500,exact name,,True,True,True,True
-LAKEPORT,Lake,city,39710,0639710,033,221000,exact name,,True,True,True,True
-LAKEWOOD,Los Angeles,city,39892,0639892,037,222000,exact name,,True,True,True,True
-LANCASTER,Los Angeles,city,40130,0640130,037,223000,exact name,,True,True,True,True
-LARKSPUR,Marin,city,40438,0640438,041,224000,exact name,,True,True,True,True
-LASSEN COUNTY,Lassen,county_unincorporated,,06035_UNINC,035,225000,county name,,True,True,True,True
-LATHROP,San Joaquin,city,40704,0640704,077,226000,exact name,,True,True,True,True
-LAWNDALE,Los Angeles,city,40886,0640886,037,227000,exact name,,True,True,True,True
-LEMON GROVE,San Diego,city,41124,0641124,073,228000,exact name,,True,True,True,True
-LEMOORE,Kings,city,41152,0641152,031,229000,exact name,,True,True,True,True
-LINCOLN,Placer,city,41474,0641474,061,230000,exact name,,True,True,True,True
-LINDSAY,Tulare,city,41712,0641712,107,231000,exact name,,True,True,True,True
-LIVE OAK,Sutter,city,41936,0641936,101,232000,exact name,,True,True,True,True
-LIVERMORE,Alameda,city,41992,0641992,001,233000,exact name,,True,True,True,True
-LIVINGSTON,Merced,city,42006,0642006,047,234000,exact name,,True,True,True,True
-LODI,San Joaquin,city,42202,0642202,077,235000,exact name,,True,True,True,True
-LOMA LINDA,San Bernardino,city,42370,0642370,071,236000,exact name,,True,True,True,True
-LOMITA,Los Angeles,city,42468,0642468,037,237000,exact name,,True,True,True,True
-LOMPOC,Santa Barbara,city,42524,0642524,083,238000,exact name,,True,True,True,True
-LONG BEACH,Los Angeles,city,43000,0643000,037,239000,exact name,,True,True,True,True
-LOOMIS,Placer,city,43140,0643140,061,240000,exact name,,True,True,True,True
-LOS ALAMITOS,Orange,city,43224,0643224,059,241000,exact name,,True,True,True,True
-LOS ALTOS,Santa Clara,city,43280,0643280,085,242000,exact name,,True,True,True,True
-LOS ALTOS HILLS,Santa Clara,city,43294,0643294,085,243000,exact name,,True,True,True,True
-LOS ANGELES,Los Angeles,city,44000,0644000,037,244000,exact name,,True,True,True,True
-LOS ANGELES COUNTY,Los Angeles,county_unincorporated,,06037_UNINC,037,245000,county name,,True,True,True,True
-LOS BANOS,Merced,city,44028,0644028,047,246000,exact name,,True,True,True,True
-LOS GATOS,Santa Clara,city,44112,0644112,085,247000,exact name,,True,True,True,True
-LYNWOOD,Los Angeles,city,44574,0644574,037,249000,exact name,,True,True,True,True
-MADERA,Madera,city,45022,0645022,039,250000,exact name,,True,True,True,True
-MADERA COUNTY,Madera,county_unincorporated,,06039_UNINC,039,251000,county name,,True,True,True,True
-MALIBU,Los Angeles,city,45246,0645246,037,251500,exact name,,True,True,True,True
-MAMMOTH LAKES,Mono,city,45358,0645358,051,252000,exact name,,True,True,True,True
-MANHATTAN BEACH,Los Angeles,city,45400,0645400,037,253000,exact name,,True,True,True,True
-MANTECA,San Joaquin,city,45484,0645484,077,254000,exact name,,True,True,True,True
-MARICOPA,Kern,city,45736,0645736,029,255000,exact name,,True,True,True,False
-MARIN COUNTY,Marin,county_unincorporated,,06041_UNINC,041,256000,county name,,True,True,True,True
-MARINA,Monterey,city,45778,0645778,053,257000,exact name,,True,True,True,True
-MARIPOSA COUNTY,Mariposa,county_unincorporated,,06043_UNINC,043,258000,county name,,True,True,True,True
-MARTINEZ,Contra Costa,city,46114,0646114,013,259000,exact name,,True,True,True,True
-MARYSVILLE,Yuba,city,46170,0646170,115,260000,exact name,,True,True,True,True
-MAYWOOD,Los Angeles,city,46492,0646492,037,261000,exact name,,True,True,True,True
-MCFARLAND,Kern,city,44826,0644826,029,262000,exact name,,True,True,True,True
-MENDOCINO COUNTY,Mendocino,county_unincorporated,,06045_UNINC,045,263000,county name,,True,True,True,True
-MENDOTA,Fresno,city,46828,0646828,019,264000,exact name,,True,True,True,True
-MENIFEE,Riverside,city,46842,0646842,065,265300,exact name,,True,True,True,True
-MENLO PARK,San Mateo,city,46870,0646870,081,265000,exact name,,True,True,True,True
-MERCED,Merced,city,46898,0646898,047,266000,exact name,,True,True,True,True
-MERCED COUNTY,Merced,county_unincorporated,,06047_UNINC,047,267000,county name,,True,True,True,True
-MILL VALLEY,Marin,city,47710,0647710,041,268000,exact name,,True,True,True,True
-MILLBRAE,San Mateo,city,47486,0647486,081,269000,exact name,,True,True,True,True
-MILPITAS,Santa Clara,city,47766,0647766,085,270000,exact name,,True,True,True,True
-MISSION VIEJO,Orange,city,48256,0648256,059,271000,exact name,,True,True,True,True
-MODESTO,Stanislaus,city,48354,0648354,099,272000,exact name,,True,True,True,True
-MODOC COUNTY,Modoc,county_unincorporated,,06049_UNINC,049,273000,county name,,True,True,True,True
-MONO COUNTY,Mono,county_unincorporated,,06051_UNINC,051,274000,county name,,True,True,True,True
-MONROVIA,Los Angeles,city,48648,0648648,037,275000,exact name,,True,True,True,True
-MONTAGUE,Siskiyou,city,48690,0648690,093,,exact name,,True,False,True,True
-MONTCLAIR,San Bernardino,city,48788,0648788,071,277000,exact name,,True,True,True,True
-MONTE SERENO,Santa Clara,city,48956,0648956,085,278000,exact name,,True,True,True,True
-MONTEBELLO,Los Angeles,city,48816,0648816,037,279000,exact name,,True,True,True,False
-MONTEREY,Monterey,city,48872,0648872,053,280000,exact name,,True,True,True,True
-MONTEREY COUNTY,Monterey,county_unincorporated,,06053_UNINC,053,281000,county name,,True,True,True,True
-MONTEREY PARK,Los Angeles,city,48914,0648914,037,282000,exact name,,True,True,True,True
-MOORPARK,Ventura,city,49138,0649138,111,283000,exact name,,True,True,True,True
-MORAGA,Contra Costa,city,49187,0649187,013,,exact name,,True,False,True,True
-MORENO VALLEY,Riverside,city,49270,0649270,065,285000,exact name,,True,True,True,True
-MORGAN HILL,Santa Clara,city,49278,0649278,085,286000,exact name,,True,True,True,True
-MORRO BAY,San Luis Obispo,city,49362,0649362,079,287000,exact name,,True,True,True,True
-MOUNT SHASTA,Siskiyou,city,49852,0649852,093,288000,exact name,,True,True,True,True
-MOUNTAIN VIEW,Santa Clara,city,49670,0649670,085,289000,exact name,,True,True,True,True
-MURRIETA,Riverside,city,50076,0650076,065,290000,exact name,,True,True,True,True
-NAPA,Napa,city,50258,0650258,055,291000,exact name,,True,True,True,True
-NAPA COUNTY,Napa,county_unincorporated,,06055_UNINC,055,292000,county name,,True,True,True,True
-NATIONAL CITY,San Diego,city,50398,0650398,073,293000,exact name,,True,True,True,True
-NEEDLES,San Bernardino,city,50734,0650734,071,294000,exact name,,True,True,True,True
-NEVADA CITY,Nevada,city,50874,0650874,057,,exact name,,True,False,True,True
-NEVADA COUNTY,Nevada,county_unincorporated,,06057_UNINC,057,296000,county name,,True,True,True,True
-NEWARK,Alameda,city,50916,0650916,001,297000,exact name,,True,True,True,True
-NEWMAN,Stanislaus,city,51140,0651140,099,298000,exact name,,True,True,True,True
-NEWPORT BEACH,Orange,city,51182,0651182,059,299000,exact name,,True,True,True,True
-NORCO,Riverside,city,51560,0651560,065,300000,exact name,,True,True,True,True
-NORWALK,Los Angeles,city,52526,0652526,037,301000,exact name,,True,True,True,True
-NOVATO,Marin,city,52582,0652582,041,302000,exact name,,True,True,True,True
-OAKDALE,Stanislaus,city,52694,0652694,099,303000,exact name,,True,True,True,True
-OAKLAND,Alameda,city,53000,0653000,001,304000,exact name,,True,True,True,True
-OAKLEY,Contra Costa,city,53070,0653070,013,304100,exact name,,True,True,True,True
-OCEANSIDE,San Diego,city,53322,0653322,073,305000,exact name,,True,True,True,True
-OJAI,Ventura,city,53476,0653476,111,306000,exact name,,True,True,True,True
-ONTARIO,San Bernardino,city,53896,0653896,071,307000,exact name,,True,True,True,True
-ORANGE,Orange,city,53980,0653980,059,308000,exact name,,True,True,True,True
-ORANGE COUNTY,Orange,county_unincorporated,,06059_UNINC,059,309000,county name,,True,True,True,True
-ORANGE COVE,Fresno,city,54008,0654008,019,310000,exact name,,True,True,True,True
-ORINDA,Contra Costa,city,54232,0654232,013,,exact name,,True,False,True,True
-ORLAND,Glenn,city,54274,0654274,021,312000,exact name,,True,True,True,True
-OROVILLE,Butte,city,54386,0654386,007,313000,exact name,,True,True,True,True
-OXNARD,Ventura,city,54652,0654652,111,314000,exact name,,True,True,True,True
-PACIFIC GROVE,Monterey,city,54848,0654848,053,315000,exact name,,True,True,True,True
-PACIFICA,San Mateo,city,54806,0654806,081,316000,exact name,,True,True,True,True
-PALM DESERT,Riverside,city,55184,0655184,065,317000,exact name,,True,True,True,True
-PALM SPRINGS,Riverside,city,55254,0655254,065,318000,exact name,,True,True,True,True
-PALMDALE,Los Angeles,city,55156,0655156,037,319000,exact name,,True,True,True,True
-PALO ALTO,Santa Clara,city,55282,0655282,085,320000,exact name,,True,True,True,True
-PALOS VERDES ESTATES,Los Angeles,city,55380,0655380,037,321000,exact name,,True,True,True,True
-PARADISE,Butte,city,55520,0655520,007,322000,exact name,,True,True,True,True
-PARAMOUNT,Los Angeles,city,55618,0655618,037,323000,exact name,,True,True,True,True
-PARLIER,Fresno,city,55856,0655856,019,324000,exact name,,True,True,True,True
-PASADENA,Los Angeles,city,56000,0656000,037,325000,exact name,,True,True,True,True
-PASO ROBLES,San Luis Obispo,city,22300,0622300,079,326000,alias,,True,True,True,True
-PATTERSON,Stanislaus,city,56112,0656112,099,327000,exact name,,True,True,True,True
-PERRIS,Riverside,city,56700,0656700,065,328000,exact name,,True,True,True,True
-PETALUMA,Sonoma,city,56784,0656784,097,329000,exact name,,True,True,True,True
-PICO RIVERA,Los Angeles,city,56924,0656924,037,330000,exact name,,True,True,True,True
-PIEDMONT,Alameda,city,56938,0656938,001,331000,exact name,,True,True,True,True
-PINOLE,Contra Costa,city,57288,0657288,013,332000,exact name,,True,True,True,True
-PISMO BEACH,San Luis Obispo,city,57414,0657414,079,333000,exact name,,True,True,True,True
-PITTSBURG,Contra Costa,city,57456,0657456,013,334000,exact name,,True,True,True,True
-PLACENTIA,Orange,city,57526,0657526,059,335000,exact name,,True,True,True,True
-PLACER COUNTY,Placer,county_unincorporated,,06061_UNINC,061,336000,county name,,True,True,True,True
-PLACERVILLE,El Dorado,city,57540,0657540,017,337000,exact name,,True,True,True,True
-PLEASANT HILL,Contra Costa,city,57764,0657764,013,338000,exact name,,True,True,True,True
-PLEASANTON,Alameda,city,57792,0657792,001,339000,exact name,,True,True,True,True
-PLUMAS COUNTY,Plumas,county_unincorporated,,06063_UNINC,063,340000,county name,,True,True,True,True
-PLYMOUTH,Amador,city,57834,0657834,005,341000,exact name,,True,True,True,True
-POINT ARENA,Mendocino,city,57876,0657876,045,,exact name,,True,False,True,True
-POMONA,Los Angeles,city,58072,0658072,037,343000,exact name,,True,True,True,True
-PORT HUENEME,Ventura,city,58296,0658296,111,344000,exact name,,True,True,True,True
-PORTERVILLE,Tulare,city,58240,0658240,107,345000,exact name,,True,True,True,True
-PORTOLA,Plumas,city,58352,0658352,063,346000,exact name,,True,True,True,True
-PORTOLA VALLEY,San Mateo,city,58380,0658380,081,347000,exact name,,True,True,True,True
-POWAY,San Diego,city,58520,0658520,073,348000,exact name,,True,True,True,True
-RANCHO CORDOVA,Sacramento,city,59444,0659444,067,348900,exact name,,True,True,True,True
-RANCHO CUCAMONGA,San Bernardino,city,59451,0659451,071,349000,exact name,,True,True,True,True
-RANCHO MIRAGE,Riverside,city,59500,0659500,065,350000,exact name,,True,True,True,True
-RANCHO PALOS VERDES,Los Angeles,city,59514,0659514,037,351000,exact name,,True,True,True,True
-RANCHO SANTA MARGARITA,Orange,city,59587,0659587,059,351500,exact name,,True,True,True,True
-RANCHO SANTA MARGARITA MARGARITA,,city,59587,0659587,059,351500,alias,,True,True,False,True
-RED BLUFF,Tehama,city,59892,0659892,103,352000,exact name,,True,True,True,True
-REDDING,Shasta,city,59920,0659920,089,353000,exact name,,True,True,True,True
-REDLANDS,San Bernardino,city,59962,0659962,071,354000,exact name,,True,True,True,True
-REDONDO BEACH,Los Angeles,city,60018,0660018,037,355000,exact name,,True,True,True,True
-REDWOOD CITY,San Mateo,city,60102,0660102,081,356000,exact name,,True,True,True,True
-REEDLEY,Fresno,city,60242,0660242,019,357000,exact name,,True,True,True,True
-RIALTO,San Bernardino,city,60466,0660466,071,358000,exact name,,True,True,True,True
-RICHMOND,Contra Costa,city,60620,0660620,013,359000,exact name,,True,True,True,True
-RIDGECREST,Kern,city,60704,0660704,029,360000,exact name,,True,True,True,False
-RIO DELL,Humboldt,city,60900,0660900,023,361000,exact name,,True,True,True,True
-RIO VISTA,Solano,city,60984,0660984,095,362000,exact name,,True,True,True,True
-RIPON,San Joaquin,city,61026,0661026,077,363000,exact name,,True,True,True,True
-RIVERBANK,Stanislaus,city,61068,0661068,099,364000,exact name,,True,True,True,True
-RIVERSIDE,Riverside,city,62000,0662000,065,365000,exact name,,True,True,True,True
-RIVERSIDE COUNTY,Riverside,county_unincorporated,,06065_UNINC,065,366000,county name,,True,True,True,True
-ROCKLIN,Placer,city,62364,0662364,061,367000,exact name,,True,True,True,True
-ROHNERT PARK,Sonoma,city,62546,0662546,097,368000,exact name,,True,True,True,True
-ROLLING HILLS,Los Angeles,city,62602,0662602,037,369000,exact name,,True,True,True,True
-ROLLING HILLS ESTATES,Los Angeles,city,62644,0662644,037,370000,exact name,,True,True,True,True
-ROSEMEAD,Los Angeles,city,62896,0662896,037,371000,exact name,,True,True,True,True
-ROSEVILLE,Placer,city,62938,0662938,061,372000,exact name,,True,True,True,True
-ROSS,Marin,city,62980,0662980,041,373000,exact name,,True,True,True,True
-SACRAMENTO,Sacramento,city,64000,0664000,067,374000,exact name,,True,True,True,True
-SACRAMENTO COUNTY,Sacramento,county_unincorporated,,06067_UNINC,067,375000,county name,,True,True,True,True
-SAINT HELENA,Napa,city,64140,0664140,055,449000,exact name,,True,True,True,True
-SALINAS,Monterey,city,64224,0664224,053,376000,exact name,,True,True,True,True
-SAN ANSELMO,Marin,city,64434,0664434,041,377000,exact name,,True,True,True,True
-SAN BENITO COUNTY,San Benito,county_unincorporated,,06069_UNINC,069,378000,county name,,True,True,True,True
-SAN BERNARDINO,San Bernardino,city,65000,0665000,071,379000,exact name,,True,True,True,True
-SAN BERNARDINO COUNTY,San Bernardino,county_unincorporated,,06071_UNINC,071,380000,county name,,True,True,True,True
-SAN BRUNO,San Mateo,city,65028,0665028,081,381000,exact name,,True,True,True,True
-SAN CARLOS,San Mateo,city,65070,0665070,081,383000,exact name,,True,True,True,True
-SAN CLEMENTE,Orange,city,65084,0665084,059,384000,exact name,,True,True,True,True
-SAN DIEGO,San Diego,city,66000,0666000,073,385000,exact name,,True,True,True,True
-SAN DIEGO COUNTY,San Diego,county_unincorporated,,06073_UNINC,073,386000,county name,,True,True,True,True
-SAN DIMAS,Los Angeles,city,66070,0666070,037,387000,exact name,,True,True,True,True
-SAN FERNANDO,Los Angeles,city,66140,0666140,037,388000,exact name,,True,True,True,True
-SAN FRANCISCO,San Francisco,city_county,67000,0667000,075,389000,consolidated city-county,,True,True,True,True
-SAN GABRIEL,Los Angeles,city,67042,0667042,037,390000,exact name,,True,True,True,True
-SAN JACINTO,Riverside,city,67112,0667112,065,391000,exact name,,True,True,True,True
-SAN JOAQUIN,Fresno,city,67126,0667126,019,392000,exact name,,True,True,True,True
-SAN JOAQUIN COUNTY,San Joaquin,county_unincorporated,,06077_UNINC,077,393000,county name,,True,True,True,True
-SAN JOSE,Santa Clara,city,68000,0668000,085,394000,exact name,,True,True,True,True
-SAN JUAN BAUTISTA,San Benito,city,68014,0668014,069,395000,exact name,,True,True,True,True
-SAN JUAN CAPISTRANO,Orange,city,68028,0668028,059,396000,exact name,,True,True,True,True
-SAN LEANDRO,Alameda,city,68084,0668084,001,397000,exact name,,True,True,True,True
-SAN LUIS OBISPO,San Luis Obispo,city,68154,0668154,079,398000,exact name,,True,True,True,True
-SAN LUIS OBISPO COUNTY,San Luis Obispo,county_unincorporated,,06079_UNINC,079,399000,county name,,True,True,True,True
-SAN MARCOS,San Diego,city,68196,0668196,073,400000,exact name,,True,True,True,True
-SAN MARINO,Los Angeles,city,68224,0668224,037,401000,exact name,,True,True,True,True
-SAN MATEO,San Mateo,city,68252,0668252,081,402000,exact name,,True,True,True,True
-SAN MATEO COUNTY,San Mateo,county_unincorporated,,06081_UNINC,081,403000,county name,,True,True,True,True
-SAN PABLO,Contra Costa,city,68294,0668294,013,404000,exact name,,True,True,True,True
-SAN RAFAEL,Marin,city,68364,0668364,041,405000,exact name,,True,True,True,True
-SAN RAMON,Contra Costa,city,68378,0668378,013,406000,exact name,,True,True,True,True
-SAND CITY,Monterey,city,65112,0665112,053,407000,exact name,,True,True,True,True
-SANGER,Fresno,city,67056,0667056,019,408000,exact name,,True,True,True,True
-SANTA ANA,Orange,city,69000,0669000,059,409000,exact name,,True,True,True,True
-SANTA BARBARA,Santa Barbara,city,69070,0669070,083,410000,exact name,,True,True,True,True
-SANTA BARBARA COUNTY,Santa Barbara,county_unincorporated,,06083_UNINC,083,411000,county name,,True,True,True,True
-SANTA CLARA,Santa Clara,city,69084,0669084,085,412000,exact name,,True,True,True,True
-SANTA CLARA COUNTY,Santa Clara,county_unincorporated,,06085_UNINC,085,413000,county name,,True,True,True,True
-SANTA CLARITA,Los Angeles,city,69088,0669088,037,414000,exact name,,True,True,True,True
-SANTA CRUZ,Santa Cruz,city,69112,0669112,087,415000,exact name,,True,True,True,True
-SANTA CRUZ COUNTY,Santa Cruz,county_unincorporated,,06087_UNINC,087,416000,county name,,True,True,True,True
-SANTA FE SPRINGS,Los Angeles,city,69154,0669154,037,417000,exact name,,True,True,True,True
-SANTA MARIA,Santa Barbara,city,69196,0669196,083,418000,exact name,,True,True,True,True
-SANTA MONICA,Los Angeles,city,70000,0670000,037,419000,exact name,,True,True,True,True
-SANTA PAULA,Ventura,city,70042,0670042,111,420000,exact name,,True,True,True,True
-SANTA ROSA,Sonoma,city,70098,0670098,097,421000,exact name,,True,True,True,True
-SANTEE,San Diego,city,70224,0670224,073,422000,exact name,,True,True,True,True
-SARATOGA,Santa Clara,city,70280,0670280,085,423000,exact name,,True,True,True,True
-SAUSALITO,Marin,city,70364,0670364,041,424000,exact name,,True,True,True,True
-SCOTTS VALLEY,Santa Cruz,city,70588,0670588,087,425000,exact name,,True,True,True,True
-SEAL BEACH,Orange,city,70686,0670686,059,426000,exact name,,True,True,True,True
-SEASIDE,Monterey,city,70742,0670742,053,427000,exact name,,True,True,True,True
-SEBASTOPOL,Sonoma,city,70770,0670770,097,428000,exact name,,True,True,True,True
-SELMA,Fresno,city,70882,0670882,019,429000,exact name,,True,True,True,True
-SHAFTER,Kern,city,71106,0671106,029,430000,exact name,,True,True,True,False
-SHASTA COUNTY,Shasta,county_unincorporated,,06089_UNINC,089,431000,county name,,True,True,True,True
-SHASTA LAKE,Shasta,city,71225,0671225,089,431500,exact name,,True,True,True,True
-SIERRA COUNTY,Sierra,county_unincorporated,,06091_UNINC,091,432000,county name,,True,True,True,True
-SIERRA MADRE,Los Angeles,city,71806,0671806,037,433000,exact name,,True,True,True,True
-SIGNAL HILL,Los Angeles,city,71876,0671876,037,434000,exact name,,True,True,True,True
-SIMI VALLEY,Ventura,city,72016,0672016,111,435000,exact name,,True,True,True,True
-SISKIYOU COUNTY,Siskiyou,county_unincorporated,,06093_UNINC,093,436000,county name,,True,True,True,True
-SOLANA BEACH,San Diego,city,72506,0672506,073,437000,exact name,,True,True,True,True
-SOLANO COUNTY,Solano,county_unincorporated,,06095_UNINC,095,438000,county name,,True,True,True,True
-SOLEDAD,Monterey,city,72520,0672520,053,439000,exact name,,True,True,True,True
-SOLVANG,Santa Barbara,city,72576,0672576,083,440000,exact name,,True,True,True,True
-SONOMA,Sonoma,city,72646,0672646,097,441000,exact name,,True,True,True,True
-SONOMA COUNTY,Sonoma,county_unincorporated,,06097_UNINC,097,442000,county name,,True,True,True,True
-SONORA,Tuolumne,city,72674,0672674,109,443000,exact name,,True,True,True,True
-SOUTH EL MONTE,Los Angeles,city,72996,0672996,037,444000,exact name,,True,True,True,True
-SOUTH GATE,Los Angeles,city,73080,0673080,037,445000,exact name,,True,True,True,True
-SOUTH LAKE TAHOE,El Dorado,city,73108,0673108,017,446000,exact name,,True,True,True,True
-SOUTH PASADENA,Los Angeles,city,73220,0673220,037,447000,exact name,,True,True,True,True
-SOUTH SAN FRANCISCO,San Mateo,city,73262,0673262,081,448000,exact name,,True,True,True,True
-STANISLAUS COUNTY,Stanislaus,county_unincorporated,,06099_UNINC,099,450000,county name,,True,True,True,True
-STANTON,Orange,city,73962,0673962,059,451000,exact name,,True,True,True,True
-STOCKTON,San Joaquin,city,75000,0675000,077,452000,exact name,,True,True,True,True
-SUISUN CITY,Solano,city,75630,0675630,095,453000,exact name,,True,True,True,True
-SUNNYVALE,Santa Clara,city,77000,0677000,085,454000,exact name,,True,True,True,True
-SUSANVILLE,Lassen,city,77364,0677364,035,455000,exact name,,True,True,True,True
-SUTTER COUNTY,Sutter,county_unincorporated,,06101_UNINC,101,456000,county name,,True,True,True,True
-SUTTER CREEK,Amador,city,77392,0677392,005,457000,exact name,,True,True,True,True
-TAFT,Kern,city,77574,0677574,029,458000,exact name,,True,True,True,True
-TEHACHAPI,Kern,city,78092,0678092,029,459000,exact name,,True,True,True,True
-TEHAMA,,city,78106,0678106,103,,exact name,,True,False,False,True
-TEHAMA COUNTY,Tehama,county_unincorporated,,06103_UNINC,103,461000,county name,,True,True,True,True
-TEMECULA,Riverside,city,78120,0678120,065,462000,exact name,,True,True,True,True
-TEMPLE CITY,Los Angeles,city,78148,0678148,037,463000,exact name,,True,True,True,True
-THOUSAND OAKS,Ventura,city,78582,0678582,111,464000,exact name,,True,True,True,True
-TIBURON,Marin,city,78666,0678666,041,465000,exact name,,True,True,True,True
-TORRANCE,Los Angeles,city,80000,0680000,037,466000,exact name,,True,True,True,True
-TRACY,San Joaquin,city,80238,0680238,077,467000,exact name,,True,True,True,True
-TRINIDAD,Humboldt,city,80448,0680448,023,468000,exact name,,True,True,True,True
-TRINITY COUNTY,Trinity,county_unincorporated,,06105_UNINC,105,469000,county name,,True,True,True,True
-TRUCKEE,Nevada,city,80588,0680588,057,469500,exact name,,True,True,True,True
-TULARE,Tulare,city,80644,0680644,107,470000,exact name,,True,True,True,True
-TULARE COUNTY,Tulare,county_unincorporated,,06107_UNINC,107,471000,county name,,True,True,True,True
-TULELAKE,Siskiyou,city,80686,0680686,093,472000,exact name,,True,True,True,False
-TUOLUMNE COUNTY,Tuolumne,county_unincorporated,,06109_UNINC,109,473000,county name,,True,True,True,True
-TURLOCK,Stanislaus,city,80812,0680812,099,474000,exact name,,True,True,True,True
-TUSTIN,Orange,city,80854,0680854,059,475000,exact name,,True,True,True,True
-TWENTYNINE PALMS,San Bernardino,city,80994,0680994,071,476000,exact name,,True,True,True,True
-UKIAH,Mendocino,city,81134,0681134,045,477000,exact name,,True,True,True,True
-UNION CITY,Alameda,city,81204,0681204,001,478000,exact name,,True,True,True,True
-UPLAND,San Bernardino,city,81344,0681344,071,479000,exact name,,True,True,True,True
-VACAVILLE,Solano,city,81554,0681554,095,480000,exact name,,True,True,True,True
-VALLEJO,Solano,city,81666,0681666,095,481000,exact name,,True,True,True,True
-VENTURA,Ventura,city,65042,0665042,111,382000,alias,,True,True,True,True
-VENTURA COUNTY,Ventura,county_unincorporated,,06111_UNINC,111,482000,county name,,True,True,True,True
-VERNON,,city,82422,0682422,037,483000,exact name,,True,True,False,True
-VICTORVILLE,San Bernardino,city,82590,0682590,071,484000,exact name,,True,True,True,True
-VILLA PARK,Orange,city,82744,0682744,059,485000,exact name,,True,True,True,True
-VISALIA,Tulare,city,82954,0682954,107,486000,exact name,,True,True,True,True
-VISTA,San Diego,city,82996,0682996,073,487000,exact name,,True,True,True,True
-WALNUT,Los Angeles,city,83332,0683332,037,488000,exact name,,True,True,True,True
-WALNUT CREEK,Contra Costa,city,83346,0683346,013,489000,exact name,,True,True,True,True
-WASCO,Kern,city,83542,0683542,029,490000,exact name,,True,True,True,True
-WATERFORD,Stanislaus,city,83612,0683612,099,491000,exact name,,True,True,True,True
-WATSONVILLE,Santa Cruz,city,83668,0683668,087,492000,exact name,,True,True,True,True
-WEED,Siskiyou,city,83850,0683850,093,493000,exact name,,True,True,True,True
-WEST COVINA,Los Angeles,city,84200,0684200,037,494000,exact name,,True,True,True,True
-WEST HOLLYWOOD,Los Angeles,city,84410,0684410,037,495000,exact name,,True,True,True,True
-WEST SACRAMENTO,Yolo,city,84816,0684816,113,496000,exact name,,True,True,True,True
-WESTLAKE VILLAGE,Los Angeles,city,84438,0684438,037,497000,exact name,,True,True,True,True
-WESTMINSTER,Orange,city,84550,0684550,059,498000,exact name,,True,True,True,True
-WESTMORLAND,Imperial,city,84606,0684606,025,499000,exact name,,True,True,True,True
-WHEATLAND,Yuba,city,85012,0685012,115,500000,exact name,,True,True,True,True
-WHITTIER,Los Angeles,city,85292,0685292,037,501000,exact name,,True,True,True,True
-WILDOMAR,Riverside,city,85446,0685446,065,501100,exact name,,True,True,True,True
-WILLIAMS,Colusa,city,85586,0685586,011,502000,exact name,,True,True,True,True
-WILLITS,Mendocino,city,85600,0685600,045,503000,exact name,,True,True,True,True
-WILLOWS,Glenn,city,85684,0685684,021,504000,exact name,,True,True,True,True
-WINDSOR,Sonoma,city,85922,0685922,097,504500,exact name,,True,True,True,True
-WINTERS,Yolo,city,86034,0686034,113,505000,exact name,,True,True,True,True
-WOODLAKE,Tulare,city,86300,0686300,107,506000,exact name,,True,True,True,True
-WOODLAND,Yolo,city,86328,0686328,113,507000,exact name,,True,True,True,True
-WOODSIDE,San Mateo,city,86440,0686440,081,508000,exact name,,True,True,True,True
-YOLO COUNTY,Yolo,county_unincorporated,,06113_UNINC,113,509000,county name,,True,True,True,True
-YORBA LINDA,Orange,city,86832,0686832,059,510000,exact name,,True,True,True,True
-YOUNTVILLE,Napa,city,86930,0686930,055,511000,exact name,,True,True,True,True
-YREKA,Siskiyou,city,86944,0686944,093,512000,exact name,,True,True,True,True
-YUBA CITY,Sutter,city,86972,0686972,101,513000,exact name,,True,True,True,True
-YUBA COUNTY,Yuba,county_unincorporated,,06115_UNINC,115,514000,county name,,True,True,True,True
-YUCAIPA,San Bernardino,city,87042,0687042,071,515000,exact name,,True,True,True,True
-YUCCA VALLEY,San Bernardino,city,87056,0687056,071,516000,exact name,,True,True,True,True
+juris_name,cnty_name,juris_type,placefp,census_geoid,county_fips,bps_ids,match_method,note,matched_census,matched_bps,in_hcd_apr,in_compilation,bps_missing_city,bps_may_include_cities,in_holdout
+ADELANTO,San Bernardino,city,00296,0600296,071,001000,exact name,,True,True,True,True,False,False,False
+AGOURA HILLS,Los Angeles,city,00394,0600394,037,002000,exact name,,True,True,True,True,False,False,False
+ALAMEDA,Alameda,city,00562,0600562,001,003000,exact name,,True,True,True,True,False,False,False
+ALAMEDA COUNTY,Alameda,county_unincorporated,,06001_UNINC,001,004000,county name,,True,True,True,True,False,False,False
+ALBANY,Alameda,city,00674,0600674,001,005000,exact name,,True,True,True,True,False,False,False
+ALHAMBRA,Los Angeles,city,00884,0600884,037,006000,exact name,,True,True,True,True,False,False,False
+ALISO VIEJO,Orange,city,00947,0600947,059,006200,exact name,,True,True,True,True,False,False,True
+ALPINE COUNTY,Alpine,county_unincorporated,,06003_UNINC,003,007000,county name,,True,True,True,True,False,False,False
+ALTURAS,Modoc,city,01444,0601444,049,008000,exact name,,True,True,True,True,False,False,True
+AMADOR,Amador,city,01514,0601514,005,009000,alias,,True,True,True,False,False,False,False
+AMADOR COUNTY,Amador,county_unincorporated,,06005_UNINC,005,010000,county name,,True,True,True,True,False,False,False
+AMERICAN CANYON,Napa,city,01640,0601640,055,010500,exact name,,True,True,True,True,False,False,False
+ANAHEIM,Orange,city,02000,0602000,059,011000,exact name,,True,True,True,True,False,False,False
+ANDERSON,Shasta,city,02042,0602042,089,012000,exact name,,True,True,True,True,False,False,False
+ANGELS CAMP,Calaveras,city,02112,0602112,009,013000,alias,,True,True,True,True,False,False,False
+ANTIOCH,Contra Costa,city,02252,0602252,013,014000,exact name,,True,True,True,True,False,False,False
+APPLE VALLEY,San Bernardino,city,02364,0602364,071,015000,exact name,,True,True,True,True,False,False,False
+ARCADIA,Los Angeles,city,02462,0602462,037,016000,exact name,,True,True,True,True,False,False,False
+ARCATA,Humboldt,city,02476,0602476,023,017000,exact name,,True,True,True,True,False,False,False
+ARROYO GRANDE,San Luis Obispo,city,02868,0602868,079,018000,exact name,,True,True,True,True,False,False,False
+ARTESIA,Los Angeles,city,02896,0602896,037,019000,exact name,,True,True,True,True,False,False,False
+ARVIN,Kern,city,02924,0602924,029,020000,exact name,,True,True,True,True,False,False,True
+ATASCADERO,San Luis Obispo,city,03064,0603064,079,021000,exact name,,True,True,True,True,False,False,True
+ATHERTON,San Mateo,city,03092,0603092,081,022000,exact name,,True,True,True,True,False,False,False
+ATWATER,Merced,city,03162,0603162,047,023000,exact name,,True,True,True,True,False,False,True
+AUBURN,Placer,city,03204,0603204,061,024000,exact name,,True,True,True,True,False,False,False
+AVALON,Los Angeles,city,03274,0603274,037,025000,exact name,,True,True,True,True,False,False,False
+AVENAL,Kings,city,03302,0603302,031,026000,exact name,,True,True,True,True,False,False,False
+AZUSA,Los Angeles,city,03386,0603386,037,027000,exact name,,True,True,True,True,False,False,False
+BAKERSFIELD,Kern,city,03526,0603526,029,028000,exact name,,True,True,True,True,False,False,False
+BALDWIN PARK,Los Angeles,city,03666,0603666,037,029000,exact name,,True,True,True,True,False,False,False
+BANNING,Riverside,city,03820,0603820,065,030000,exact name,,True,True,True,True,False,False,False
+BARSTOW,San Bernardino,city,04030,0604030,071,031000,exact name,,True,True,True,True,False,False,False
+BEAUMONT,Riverside,city,04758,0604758,065,032000,exact name,,True,True,True,True,False,False,False
+BELL,Los Angeles,city,04870,0604870,037,033000,exact name,,True,True,True,True,False,False,False
+BELL GARDENS,Los Angeles,city,04996,0604996,037,034000,exact name,,True,True,True,True,False,False,False
+BELLFLOWER,Los Angeles,city,04982,0604982,037,035000,exact name,,True,True,True,True,False,False,False
+BELMONT,San Mateo,city,05108,0605108,081,036000,exact name,,True,True,True,True,False,False,False
+BELVEDERE,Marin,city,05164,0605164,041,037000,exact name,,True,True,True,True,False,False,False
+BENICIA,Solano,city,05290,0605290,095,038000,exact name,,True,True,True,True,False,False,True
+BERKELEY,Alameda,city,06000,0606000,001,039000,exact name,,True,True,True,True,False,False,True
+BEVERLY HILLS,Los Angeles,city,06308,0606308,037,040000,exact name,,True,True,True,True,False,False,False
+BIG BEAR LAKE,San Bernardino,city,06434,0606434,071,041000,exact name,,True,True,True,True,False,False,False
+BIGGS,Butte,city,06560,0606560,007,,exact name,,True,False,True,True,True,False,False
+BISHOP,Inyo,city,06798,0606798,027,043000,exact name,,True,True,True,True,False,False,False
+BLUE LAKE,Humboldt,city,07162,0607162,023,044000,exact name,,True,True,True,False,False,False,False
+BLYTHE,Riverside,city,07218,0607218,065,045000,exact name,,True,True,True,True,False,False,False
+BRADBURY,Los Angeles,city,07946,0607946,037,046000,exact name,,True,True,True,False,False,False,False
+BRAWLEY,Imperial,city,08058,0608058,025,047000,exact name,,True,True,True,True,False,False,False
+BREA,Orange,city,08100,0608100,059,048000,exact name,,True,True,True,True,False,False,False
+BRENTWOOD,Contra Costa,city,08142,0608142,013,049000,exact name,,True,True,True,True,False,False,True
+BRISBANE,San Mateo,city,08310,0608310,081,050000,exact name,,True,True,True,True,False,False,True
+BUELLTON,Santa Barbara,city,08758,0608758,083,,exact name,,True,False,True,True,True,False,False
+BUENA PARK,Orange,city,08786,0608786,059,051000,exact name,,True,True,True,True,False,False,False
+BURBANK,Los Angeles,city,08954,0608954,037,052000,exact name,,True,True,True,True,False,False,True
+BURLINGAME,San Mateo,city,09066,0609066,081,053000,exact name,,True,True,True,True,False,False,False
+BUTTE COUNTY,Butte,county_unincorporated,,06007_UNINC,007,054000,county name,,True,True,True,True,False,True,False
+CALABASAS,Los Angeles,city,09598,0609598,037,054500,exact name,,True,True,True,True,False,False,True
+CALAVERAS COUNTY,Calaveras,county_unincorporated,,06009_UNINC,009,055000,county name,,True,True,True,True,False,False,True
+CALEXICO,Imperial,city,09710,0609710,025,056000,exact name,,True,True,True,True,False,False,False
+CALIFORNIA CITY,Kern,city,09780,0609780,029,057000,exact name,,True,True,True,False,False,False,False
+CALIMESA,Riverside,city,09864,0609864,065,058000,exact name,,True,True,True,True,False,False,True
+CALIPATRIA,Imperial,city,09878,0609878,025,,exact name,,True,False,True,True,True,False,False
+CALISTOGA,Napa,city,09892,0609892,055,060000,exact name,,True,True,True,True,False,False,False
+CAMARILLO,Ventura,city,10046,0610046,111,061000,exact name,,True,True,True,True,False,False,True
+CAMPBELL,Santa Clara,city,10345,0610345,085,062000,exact name,,True,True,True,True,False,False,False
+CANYON LAKE,Riverside,city,10928,0610928,065,062500,exact name,,True,True,True,True,False,False,True
+CAPITOLA,Santa Cruz,city,11040,0611040,087,063000,exact name,,True,True,True,True,False,False,False
+CARLSBAD,San Diego,city,11194,0611194,073,064000,exact name,,True,True,True,True,False,False,False
+CARMEL,Monterey,city,11250,0611250,053,065000,alias,,True,True,True,True,False,False,False
+CARPINTERIA,Santa Barbara,city,11446,0611446,083,066000,exact name,,True,True,True,True,False,False,False
+CARSON,Los Angeles,city,11530,0611530,037,067000,exact name,,True,True,True,True,False,False,False
+CATHEDRAL,Riverside,city,12048,0612048,065,068000,alias,,True,True,True,True,False,False,False
+CERES,Stanislaus,city,12524,0612524,099,069000,exact name,,True,True,True,True,False,False,False
+CERRITOS,Los Angeles,city,12552,0612552,037,070000,exact name,,True,True,True,True,False,False,False
+CHICO,Butte,city,13014,0613014,007,071000,exact name,,True,True,True,True,False,False,False
+CHINO,San Bernardino,city,13210,0613210,071,072000,exact name,,True,True,True,True,False,False,False
+CHINO HILLS,San Bernardino,city,13214,0613214,071,072500,exact name,,True,True,True,True,False,False,False
+CHOWCHILLA,Madera,city,13294,0613294,039,073000,exact name,,True,True,True,True,False,False,False
+CHULA VISTA,San Diego,city,13392,0613392,073,074000,exact name,,True,True,True,True,False,False,False
+CITRUS HEIGHTS,Sacramento,city,13588,0613588,067,074500,exact name,,True,True,True,True,False,False,False
+CLAREMONT,Los Angeles,city,13756,0613756,037,075000,exact name,,True,True,True,True,False,False,True
+CLAYTON,Contra Costa,city,13882,0613882,013,,exact name,,True,False,True,True,True,False,False
+CLEARLAKE,Lake,city,13945,0613945,033,077000,exact name,,True,True,True,True,False,False,False
+CLOVERDALE,Sonoma,city,14190,0614190,097,078000,exact name,,True,True,True,True,False,False,False
+CLOVIS,Fresno,city,14218,0614218,019,079000,exact name,,True,True,True,True,False,False,False
+COACHELLA,Riverside,city,14260,0614260,065,080000,exact name,,True,True,True,True,False,False,False
+COALINGA,Fresno,city,14274,0614274,019,081000,exact name,,True,True,True,True,False,False,False
+COLFAX,Placer,city,14498,0614498,061,082000,exact name,,True,True,True,True,False,False,True
+COLMA,San Mateo,city,14736,0614736,081,083000,exact name,,True,True,True,True,False,False,True
+COLTON,San Bernardino,city,14890,0614890,071,084000,exact name,,True,True,True,True,False,False,False
+COLUSA,Colusa,city,14946,0614946,011,085000,exact name,,True,True,True,True,False,False,True
+COLUSA COUNTY,Colusa,county_unincorporated,,06011_UNINC,011,086000,county name,,True,True,True,True,False,False,False
+COMMERCE,Los Angeles,city,14974,0614974,037,087000,exact name,,True,True,True,False,False,False,False
+COMPTON,Los Angeles,city,15044,0615044,037,088000,exact name,,True,True,True,True,False,False,False
+CONCORD,Contra Costa,city,16000,0616000,013,089000,exact name,,True,True,True,True,False,False,False
+CONTRA COSTA COUNTY,Contra Costa,county_unincorporated,,06013_UNINC,013,090000,county name,,True,True,True,True,False,True,True
+CORCORAN,Kings,city,16224,0616224,031,091000,exact name,,True,True,True,True,False,False,True
+CORNING,Tehama,city,16322,0616322,103,092000,exact name,,True,True,True,True,False,False,False
+CORONA,Riverside,city,16350,0616350,065,093000,exact name,,True,True,True,True,False,False,False
+CORONADO,San Diego,city,16378,0616378,073,094000,exact name,,True,True,True,True,False,False,False
+CORTE MADERA,Marin,city,16462,0616462,041,095000,exact name,,True,True,True,True,False,False,False
+COSTA MESA,Orange,city,16532,0616532,059,096000,exact name,,True,True,True,True,False,False,True
+COTATI,Sonoma,city,16560,0616560,097,097000,exact name,,True,True,True,True,False,False,False
+COVINA,Los Angeles,city,16742,0616742,037,098000,exact name,,True,True,True,True,False,False,False
+CRESCENT CITY,Del Norte,city,17022,0617022,015,099000,exact name,,True,True,True,True,False,False,True
+CUDAHY,Los Angeles,city,17498,0617498,037,100000,exact name,,True,True,True,True,False,False,False
+CULVER CITY,Los Angeles,city,17568,0617568,037,101000,exact name,,True,True,True,True,False,False,False
+CUPERTINO,Santa Clara,city,17610,0617610,085,102000,exact name,,True,True,True,True,False,False,False
+CYPRESS,Orange,city,17750,0617750,059,103000,exact name,,True,True,True,True,False,False,False
+DALY CITY,San Mateo,city,17918,0617918,081,104000,exact name,,True,True,True,True,False,False,False
+DANA POINT,Orange,city,17946,0617946,059,105000,exact name,,True,True,True,True,False,False,True
+DANVILLE,Contra Costa,city,17988,0617988,013,106000,exact name,,True,True,True,True,False,False,False
+DAVIS,Yolo,city,18100,0618100,113,107000,exact name,,True,True,True,True,False,False,False
+DEL MAR,San Diego,city,18506,0618506,073,108000,exact name,,True,True,True,True,False,False,False
+DEL NORTE COUNTY,Del Norte,county_unincorporated,,06015_UNINC,015,109000,county name,,True,True,True,True,False,False,False
+DEL REY OAKS,Monterey,city,18688,0618688,053,110000,exact name,,True,True,True,False,False,False,False
+DELANO,Kern,city,18394,0618394,029,111000,exact name,,True,True,True,True,False,False,False
+DESERT HOT SPRINGS,Riverside,city,18996,0618996,065,112000,exact name,,True,True,True,True,False,False,False
+DIAMOND BAR,Los Angeles,city,19192,0619192,037,113000,exact name,,True,True,True,True,False,False,False
+DINUBA,Tulare,city,19318,0619318,107,114000,exact name,,True,True,True,True,False,False,False
+DIXON,Solano,city,19402,0619402,095,115000,exact name,,True,True,True,True,False,False,False
+DORRIS,Siskiyou,city,19584,0619584,093,116000,exact name,,True,True,True,True,False,False,False
+DOS PALOS,Merced,city,19612,0619612,047,117000,exact name,,True,True,True,True,False,False,False
+DOWNEY,Los Angeles,city,19766,0619766,037,118000,exact name,,True,True,True,True,False,False,True
+DUARTE,Los Angeles,city,19990,0619990,037,119000,exact name,,True,True,True,True,False,False,False
+DUBLIN,Alameda,city,20018,0620018,001,120000,exact name,,True,True,True,True,False,False,False
+DUNSMUIR,Siskiyou,city,20242,0620242,093,121000,exact name,,True,True,True,True,False,False,True
+EAST PALO ALTO,San Mateo,city,20956,0620956,081,122000,exact name,,True,True,True,True,False,False,True
+EASTVALE,Riverside,city,21230,0621230,065,122500,exact name,,True,True,True,True,False,False,False
+EL CAJON,San Diego,city,21712,0621712,073,123000,exact name,,True,True,True,True,False,False,False
+EL CENTRO,Imperial,city,21782,0621782,025,124000,exact name,,True,True,True,True,False,False,False
+EL CERRITO,Contra Costa,city,21796,0621796,013,125000,exact name,,True,True,True,True,False,False,False
+EL DORADO COUNTY,El Dorado,county_unincorporated,,06017_UNINC,017,126000,county name,,True,True,True,True,False,False,True
+EL MONTE,Los Angeles,city,22230,0622230,037,127000,exact name,,True,True,True,True,False,False,False
+EL SEGUNDO,Los Angeles,city,22412,0622412,037,128000,exact name,,True,True,True,True,False,False,False
+ELK GROVE,Sacramento,city,22020,0622020,067,128500,exact name,,True,True,True,True,False,False,True
+EMERYVILLE,Alameda,city,22594,0622594,001,129000,exact name,,True,True,True,True,False,False,False
+ENCINITAS,San Diego,city,22678,0622678,073,130000,exact name,,True,True,True,True,False,False,False
+ESCALON,San Joaquin,city,22790,0622790,077,131000,exact name,,True,True,True,True,False,False,True
+ESCONDIDO,San Diego,city,22804,0622804,073,132000,exact name,,True,True,True,True,False,False,False
+ETNA,Siskiyou,city,22972,0622972,093,,exact name,,True,False,True,True,True,False,False
+EUREKA,Humboldt,city,23042,0623042,023,134000,exact name,,True,True,True,True,False,False,False
+EXETER,Tulare,city,23126,0623126,107,,exact name,,True,False,True,True,True,False,False
+FAIRFAX,Marin,city,23168,0623168,041,136000,exact name,,True,True,True,True,False,False,False
+FAIRFIELD,Solano,city,23182,0623182,095,137000,exact name,,True,True,True,True,False,False,False
+FARMERSVILLE,Tulare,city,23616,0623616,107,,exact name,,True,False,True,True,True,False,False
+FERNDALE,Humboldt,city,23910,0623910,023,139000,exact name,,True,True,True,True,False,False,False
+FILLMORE,Ventura,city,24092,0624092,111,140000,exact name,,True,True,True,True,False,False,False
+FIREBAUGH,Fresno,city,24134,0624134,019,141000,exact name,,True,True,True,True,False,False,False
+FOLSOM,Sacramento,city,24638,0624638,067,142000,exact name,,True,True,True,True,False,False,False
+FONTANA,San Bernardino,city,24680,0624680,071,143000,exact name,,True,True,True,True,False,False,False
+FORT BRAGG,Mendocino,city,25058,0625058,045,,exact name,,True,False,True,True,True,False,False
+FORT JONES,Siskiyou,city,25128,0625128,093,,exact name,,True,False,True,False,True,False,False
+FORTUNA,Humboldt,city,25296,0625296,023,146000,exact name,,True,True,True,True,False,False,False
+FOSTER CITY,San Mateo,city,25338,0625338,081,147000,exact name,,True,True,True,True,False,False,False
+FOUNTAIN VALLEY,Orange,city,25380,0625380,059,148000,exact name,,True,True,True,True,False,False,False
+FOWLER,Fresno,city,25436,0625436,019,149000,exact name,,True,True,True,True,False,False,False
+FREMONT,Alameda,city,26000,0626000,001,150000,exact name,,True,True,True,True,False,False,False
+FRESNO,Fresno,city,27000,0627000,019,151000,exact name,,True,True,True,True,False,False,False
+FRESNO COUNTY,Fresno,county_unincorporated,,06019_UNINC,019,152000,county name,,True,True,True,True,False,False,True
+FULLERTON,Orange,city,28000,0628000,059,153000,exact name,,True,True,True,True,False,False,False
+GALT,Sacramento,city,28112,0628112,067,154000,exact name,,True,True,True,True,False,False,False
+GARDEN GROVE,Orange,city,29000,0629000,059,155000,exact name,,True,True,True,True,False,False,False
+GARDENA,Los Angeles,city,28168,0628168,037,156000,exact name,,True,True,True,True,False,False,False
+GILROY,Santa Clara,city,29504,0629504,085,157000,exact name,,True,True,True,True,False,False,True
+GLENDALE,Los Angeles,city,30000,0630000,037,158000,exact name,,True,True,True,True,False,False,True
+GLENDORA,Los Angeles,city,30014,0630014,037,159000,exact name,,True,True,True,True,False,False,False
+GLENN COUNTY,Glenn,county_unincorporated,,06021_UNINC,021,160000,county name,,True,True,True,True,False,False,True
+GOLETA,Santa Barbara,city,30378,0630378,083,160800,exact name,,True,True,True,True,False,False,False
+GONZALES,Monterey,city,30392,0630392,053,161000,exact name,,True,True,True,True,False,False,False
+GRAND TERRACE,San Bernardino,city,30658,0630658,071,162000,exact name,,True,True,True,True,False,False,False
+GRASS VALLEY,Nevada,city,30798,0630798,057,163000,exact name,,True,True,True,True,False,False,False
+GREENFIELD,Monterey,city,30994,0630994,053,164000,exact name,,True,True,True,True,False,False,False
+GRIDLEY,Butte,city,31260,0631260,007,165000,exact name,,True,True,True,True,False,False,True
+GROVER BEACH,San Luis Obispo,city,31393,0631393,079,166000,exact name,,True,True,True,True,False,False,False
+GUADALUPE,Santa Barbara,city,31414,0631414,083,167000,exact name,,True,True,True,True,False,False,False
+GUSTINE,Merced,city,31568,0631568,047,168000,exact name,,True,True,True,True,False,False,True
+HALF MOON BAY,San Mateo,city,31708,0631708,081,169000,exact name,,True,True,True,True,False,False,False
+HANFORD,Kings,city,31960,0631960,031,170000,exact name,,True,True,True,True,False,False,False
+HAWAIIAN GARDENS,Los Angeles,city,32506,0632506,037,171000,exact name,,True,True,True,True,False,False,False
+HAWTHORNE,Los Angeles,city,32548,0632548,037,172000,exact name,,True,True,True,True,False,False,False
+HAYWARD,Alameda,city,33000,0633000,001,173000,exact name,,True,True,True,True,False,False,False
+HEALDSBURG,Sonoma,city,33056,0633056,097,174000,exact name,,True,True,True,True,False,False,False
+HEMET,Riverside,city,33182,0633182,065,175000,exact name,,True,True,True,True,False,False,False
+HERCULES,Contra Costa,city,33308,0633308,013,176000,exact name,,True,True,True,True,False,False,False
+HERMOSA BEACH,Los Angeles,city,33364,0633364,037,177000,exact name,,True,True,True,True,False,False,False
+HESPERIA,San Bernardino,city,33434,0633434,071,178000,exact name,,True,True,True,True,False,False,False
+HIDDEN HILLS,Los Angeles,city,33518,0633518,037,179000,exact name,,True,True,True,True,False,False,False
+HIGHLAND,San Bernardino,city,33588,0633588,071,180000,exact name,,True,True,True,True,False,False,True
+HILLSBOROUGH,San Mateo,city,33798,0633798,081,181000,exact name,,True,True,True,True,False,False,True
+HOLLISTER,San Benito,city,34120,0634120,069,182000,exact name,,True,True,True,True,False,False,False
+HOLTVILLE,Imperial,city,34246,0634246,025,183000,exact name,,True,True,True,True,False,False,False
+HUGHSON,Stanislaus,city,34904,0634904,099,184000,exact name,,True,True,True,True,False,False,True
+HUMBOLDT COUNTY,Humboldt,county_unincorporated,,06023_UNINC,023,185000,county name,,True,True,True,True,False,False,False
+HUNTINGTON BEACH,Orange,city,36000,0636000,059,186000,exact name,,True,True,True,True,False,False,False
+HUNTINGTON PARK,Los Angeles,city,36056,0636056,037,187000,exact name,,True,True,True,True,False,False,False
+HURON,Fresno,city,36084,0636084,019,188000,exact name,,True,True,True,True,False,False,False
+IMPERIAL,Imperial,city,36280,0636280,025,189000,exact name,,True,True,True,True,False,False,False
+IMPERIAL BEACH,San Diego,city,36294,0636294,073,190000,exact name,,True,True,True,True,False,False,False
+IMPERIAL COUNTY,Imperial,county_unincorporated,,06025_UNINC,025,191000,county name,,True,True,True,True,False,True,False
+INDIAN WELLS,Riverside,city,36434,0636434,065,192000,exact name,,True,True,True,True,False,False,True
+INDIO,Riverside,city,36448,0636448,065,193000,exact name,,True,True,True,True,False,False,False
+INDUSTRY,,city,36490,0636490,037,194000,exact name,,True,True,False,True,False,False,False
+INGLEWOOD,Los Angeles,city,36546,0636546,037,195000,exact name,,True,True,True,True,False,False,False
+INYO COUNTY,Inyo,county_unincorporated,,06027_UNINC,027,196000,county name,,True,True,True,True,False,False,False
+IONE,Amador,city,36672,0636672,005,197000,exact name,,True,True,True,True,False,False,False
+IRVINE,Orange,city,36770,0636770,059,198000,exact name,,True,True,True,True,False,False,False
+IRWINDALE,Los Angeles,city,36826,0636826,037,199000,exact name,,True,True,True,True,False,False,False
+ISLETON,Sacramento,city,36882,0636882,067,200000,exact name,,True,True,True,True,False,False,True
+JACKSON,Amador,city,36980,0636980,005,201000,exact name,,True,True,True,True,False,False,True
+JURUPA VALLEY,Riverside,city,37692,0637692,065,201500,exact name,,True,True,True,True,False,False,False
+KERMAN,Fresno,city,38226,0638226,019,202000,exact name,,True,True,True,True,False,False,True
+KERN COUNTY,Kern,county_unincorporated,,06029_UNINC,029,203000,county name,,True,True,True,True,False,False,False
+KING CITY,Monterey,city,38520,0638520,053,204000,exact name,,True,True,True,True,False,False,False
+KINGS COUNTY,Kings,county_unincorporated,,06031_UNINC,031,205000,county name,,True,True,True,True,False,False,True
+KINGSBURG,Fresno,city,38562,0638562,019,206000,exact name,,True,True,True,True,False,False,False
+LA CANADA FLINTRIDGE,Los Angeles,city,39003,0639003,037,207000,exact name,,True,True,True,True,False,False,True
+LA HABRA,Orange,city,39290,0639290,059,208000,exact name,,True,True,True,True,False,False,False
+LA HABRA HEIGHTS,Los Angeles,city,39304,0639304,037,209000,exact name,,True,True,True,True,False,False,False
+LA MESA,San Diego,city,40004,0640004,073,210000,exact name,,True,True,True,True,False,False,False
+LA MIRADA,Los Angeles,city,40032,0640032,037,211000,exact name,,True,True,True,True,False,False,True
+LA PALMA,Orange,city,40256,0640256,059,212000,exact name,,True,True,True,True,False,False,False
+LA PUENTE,Los Angeles,city,40340,0640340,037,213000,exact name,,True,True,True,True,False,False,False
+LA QUINTA,Riverside,city,40354,0640354,065,214000,exact name,,True,True,True,True,False,False,False
+LA VERNE,Los Angeles,city,40830,0640830,037,215000,exact name,,True,True,True,True,False,False,False
+LAFAYETTE,Contra Costa,city,39122,0639122,013,,exact name,,True,False,True,True,True,False,False
+LAGUNA BEACH,Orange,city,39178,0639178,059,217000,exact name,,True,True,True,True,False,False,False
+LAGUNA HILLS,Orange,city,39220,0639220,059,217500,exact name,,True,True,True,True,False,False,False
+LAGUNA NIGUEL,Orange,city,39248,0639248,059,218000,exact name,,True,True,True,True,False,False,False
+LAGUNA WOODS,,city,39259,0639259,059,218500,exact name,,True,True,False,True,False,False,False
+LAKE COUNTY,Lake,county_unincorporated,,06033_UNINC,033,219000,county name,,True,True,True,True,False,False,False
+LAKE ELSINORE,Riverside,city,39486,0639486,065,220000,exact name,,True,True,True,True,False,False,False
+LAKE FOREST,Orange,city,39496,0639496,059,220500,exact name,,True,True,True,True,False,False,False
+LAKEPORT,Lake,city,39710,0639710,033,221000,exact name,,True,True,True,True,False,False,False
+LAKEWOOD,Los Angeles,city,39892,0639892,037,222000,exact name,,True,True,True,True,False,False,False
+LANCASTER,Los Angeles,city,40130,0640130,037,223000,exact name,,True,True,True,True,False,False,False
+LARKSPUR,Marin,city,40438,0640438,041,224000,exact name,,True,True,True,True,False,False,False
+LASSEN COUNTY,Lassen,county_unincorporated,,06035_UNINC,035,225000,county name,,True,True,True,True,False,False,False
+LATHROP,San Joaquin,city,40704,0640704,077,226000,exact name,,True,True,True,True,False,False,False
+LAWNDALE,Los Angeles,city,40886,0640886,037,227000,exact name,,True,True,True,True,False,False,False
+LEMON GROVE,San Diego,city,41124,0641124,073,228000,exact name,,True,True,True,True,False,False,False
+LEMOORE,Kings,city,41152,0641152,031,229000,exact name,,True,True,True,True,False,False,False
+LINCOLN,Placer,city,41474,0641474,061,230000,exact name,,True,True,True,True,False,False,False
+LINDSAY,Tulare,city,41712,0641712,107,231000,exact name,,True,True,True,True,False,False,False
+LIVE OAK,Sutter,city,41936,0641936,101,232000,exact name,,True,True,True,True,False,False,True
+LIVERMORE,Alameda,city,41992,0641992,001,233000,exact name,,True,True,True,True,False,False,False
+LIVINGSTON,Merced,city,42006,0642006,047,234000,exact name,,True,True,True,True,False,False,False
+LODI,San Joaquin,city,42202,0642202,077,235000,exact name,,True,True,True,True,False,False,False
+LOMA LINDA,San Bernardino,city,42370,0642370,071,236000,exact name,,True,True,True,True,False,False,True
+LOMITA,Los Angeles,city,42468,0642468,037,237000,exact name,,True,True,True,True,False,False,True
+LOMPOC,Santa Barbara,city,42524,0642524,083,238000,exact name,,True,True,True,True,False,False,True
+LONG BEACH,Los Angeles,city,43000,0643000,037,239000,exact name,,True,True,True,True,False,False,False
+LOOMIS,Placer,city,43140,0643140,061,240000,exact name,,True,True,True,True,False,False,False
+LOS ALAMITOS,Orange,city,43224,0643224,059,241000,exact name,,True,True,True,True,False,False,False
+LOS ALTOS,Santa Clara,city,43280,0643280,085,242000,exact name,,True,True,True,True,False,False,False
+LOS ALTOS HILLS,Santa Clara,city,43294,0643294,085,243000,exact name,,True,True,True,True,False,False,False
+LOS ANGELES,Los Angeles,city,44000,0644000,037,244000,exact name,,True,True,True,True,False,False,False
+LOS ANGELES COUNTY,Los Angeles,county_unincorporated,,06037_UNINC,037,245000,county name,,True,True,True,True,False,False,False
+LOS BANOS,Merced,city,44028,0644028,047,246000,exact name,,True,True,True,True,False,False,True
+LOS GATOS,Santa Clara,city,44112,0644112,085,247000,exact name,,True,True,True,True,False,False,False
+LYNWOOD,Los Angeles,city,44574,0644574,037,249000,exact name,,True,True,True,True,False,False,True
+MADERA,Madera,city,45022,0645022,039,250000,exact name,,True,True,True,True,False,False,False
+MADERA COUNTY,Madera,county_unincorporated,,06039_UNINC,039,251000,county name,,True,True,True,True,False,False,False
+MALIBU,Los Angeles,city,45246,0645246,037,251500,exact name,,True,True,True,True,False,False,False
+MAMMOTH LAKES,Mono,city,45358,0645358,051,252000,exact name,,True,True,True,True,False,False,False
+MANHATTAN BEACH,Los Angeles,city,45400,0645400,037,253000,exact name,,True,True,True,True,False,False,False
+MANTECA,San Joaquin,city,45484,0645484,077,254000,exact name,,True,True,True,True,False,False,False
+MARICOPA,Kern,city,45736,0645736,029,255000,exact name,,True,True,True,False,False,False,False
+MARIN COUNTY,Marin,county_unincorporated,,06041_UNINC,041,256000,county name,,True,True,True,True,False,False,False
+MARINA,Monterey,city,45778,0645778,053,257000,exact name,,True,True,True,True,False,False,False
+MARIPOSA COUNTY,Mariposa,county_unincorporated,,06043_UNINC,043,258000,county name,,True,True,True,True,False,False,False
+MARTINEZ,Contra Costa,city,46114,0646114,013,259000,exact name,,True,True,True,True,False,False,False
+MARYSVILLE,Yuba,city,46170,0646170,115,260000,exact name,,True,True,True,True,False,False,True
+MAYWOOD,Los Angeles,city,46492,0646492,037,261000,exact name,,True,True,True,True,False,False,False
+MCFARLAND,Kern,city,44826,0644826,029,262000,exact name,,True,True,True,True,False,False,False
+MENDOCINO COUNTY,Mendocino,county_unincorporated,,06045_UNINC,045,263000,county name,,True,True,True,True,False,True,False
+MENDOTA,Fresno,city,46828,0646828,019,264000,exact name,,True,True,True,True,False,False,True
+MENIFEE,Riverside,city,46842,0646842,065,265300,exact name,,True,True,True,True,False,False,False
+MENLO PARK,San Mateo,city,46870,0646870,081,265000,exact name,,True,True,True,True,False,False,False
+MERCED,Merced,city,46898,0646898,047,266000,exact name,,True,True,True,True,False,False,False
+MERCED COUNTY,Merced,county_unincorporated,,06047_UNINC,047,267000,county name,,True,True,True,True,False,False,False
+MILL VALLEY,Marin,city,47710,0647710,041,268000,exact name,,True,True,True,True,False,False,False
+MILLBRAE,San Mateo,city,47486,0647486,081,269000,exact name,,True,True,True,True,False,False,False
+MILPITAS,Santa Clara,city,47766,0647766,085,270000,exact name,,True,True,True,True,False,False,False
+MISSION VIEJO,Orange,city,48256,0648256,059,271000,exact name,,True,True,True,True,False,False,False
+MODESTO,Stanislaus,city,48354,0648354,099,272000,exact name,,True,True,True,True,False,False,False
+MODOC COUNTY,Modoc,county_unincorporated,,06049_UNINC,049,273000,county name,,True,True,True,True,False,False,False
+MONO COUNTY,Mono,county_unincorporated,,06051_UNINC,051,274000,county name,,True,True,True,True,False,False,False
+MONROVIA,Los Angeles,city,48648,0648648,037,275000,exact name,,True,True,True,True,False,False,False
+MONTAGUE,Siskiyou,city,48690,0648690,093,,exact name,,True,False,True,True,True,False,True
+MONTCLAIR,San Bernardino,city,48788,0648788,071,277000,exact name,,True,True,True,True,False,False,True
+MONTE SERENO,Santa Clara,city,48956,0648956,085,278000,exact name,,True,True,True,True,False,False,False
+MONTEBELLO,Los Angeles,city,48816,0648816,037,279000,exact name,,True,True,True,False,False,False,False
+MONTEREY,Monterey,city,48872,0648872,053,280000,exact name,,True,True,True,True,False,False,False
+MONTEREY COUNTY,Monterey,county_unincorporated,,06053_UNINC,053,281000,county name,,True,True,True,True,False,False,False
+MONTEREY PARK,Los Angeles,city,48914,0648914,037,282000,exact name,,True,True,True,True,False,False,True
+MOORPARK,Ventura,city,49138,0649138,111,283000,exact name,,True,True,True,True,False,False,True
+MORAGA,Contra Costa,city,49187,0649187,013,,exact name,,True,False,True,True,True,False,False
+MORENO VALLEY,Riverside,city,49270,0649270,065,285000,exact name,,True,True,True,True,False,False,False
+MORGAN HILL,Santa Clara,city,49278,0649278,085,286000,exact name,,True,True,True,True,False,False,True
+MORRO BAY,San Luis Obispo,city,49362,0649362,079,287000,exact name,,True,True,True,True,False,False,False
+MOUNT SHASTA,Siskiyou,city,49852,0649852,093,288000,exact name,,True,True,True,True,False,False,False
+MOUNTAIN VIEW,Santa Clara,city,49670,0649670,085,289000,exact name,,True,True,True,True,False,False,True
+MURRIETA,Riverside,city,50076,0650076,065,290000,exact name,,True,True,True,True,False,False,False
+NAPA,Napa,city,50258,0650258,055,291000,exact name,,True,True,True,True,False,False,True
+NAPA COUNTY,Napa,county_unincorporated,,06055_UNINC,055,292000,county name,,True,True,True,True,False,False,False
+NATIONAL CITY,San Diego,city,50398,0650398,073,293000,exact name,,True,True,True,True,False,False,False
+NEEDLES,San Bernardino,city,50734,0650734,071,294000,exact name,,True,True,True,True,False,False,False
+NEVADA CITY,Nevada,city,50874,0650874,057,,exact name,,True,False,True,True,True,False,True
+NEVADA COUNTY,Nevada,county_unincorporated,,06057_UNINC,057,296000,county name,,True,True,True,True,False,True,False
+NEWARK,Alameda,city,50916,0650916,001,297000,exact name,,True,True,True,True,False,False,True
+NEWMAN,Stanislaus,city,51140,0651140,099,298000,exact name,,True,True,True,True,False,False,False
+NEWPORT BEACH,Orange,city,51182,0651182,059,299000,exact name,,True,True,True,True,False,False,False
+NORCO,Riverside,city,51560,0651560,065,300000,exact name,,True,True,True,True,False,False,True
+NORWALK,Los Angeles,city,52526,0652526,037,301000,exact name,,True,True,True,True,False,False,False
+NOVATO,Marin,city,52582,0652582,041,302000,exact name,,True,True,True,True,False,False,False
+OAKDALE,Stanislaus,city,52694,0652694,099,303000,exact name,,True,True,True,True,False,False,True
+OAKLAND,Alameda,city,53000,0653000,001,304000,exact name,,True,True,True,True,False,False,False
+OAKLEY,Contra Costa,city,53070,0653070,013,304100,exact name,,True,True,True,True,False,False,False
+OCEANSIDE,San Diego,city,53322,0653322,073,305000,exact name,,True,True,True,True,False,False,False
+OJAI,Ventura,city,53476,0653476,111,306000,exact name,,True,True,True,True,False,False,True
+ONTARIO,San Bernardino,city,53896,0653896,071,307000,exact name,,True,True,True,True,False,False,True
+ORANGE,Orange,city,53980,0653980,059,308000,exact name,,True,True,True,True,False,False,False
+ORANGE COUNTY,Orange,county_unincorporated,,06059_UNINC,059,309000,county name,,True,True,True,True,False,False,False
+ORANGE COVE,Fresno,city,54008,0654008,019,310000,exact name,,True,True,True,True,False,False,False
+ORINDA,Contra Costa,city,54232,0654232,013,,exact name,,True,False,True,True,True,False,False
+ORLAND,Glenn,city,54274,0654274,021,312000,exact name,,True,True,True,True,False,False,False
+OROVILLE,Butte,city,54386,0654386,007,313000,exact name,,True,True,True,True,False,False,False
+OXNARD,Ventura,city,54652,0654652,111,314000,exact name,,True,True,True,True,False,False,False
+PACIFIC GROVE,Monterey,city,54848,0654848,053,315000,exact name,,True,True,True,True,False,False,False
+PACIFICA,San Mateo,city,54806,0654806,081,316000,exact name,,True,True,True,True,False,False,False
+PALM DESERT,Riverside,city,55184,0655184,065,317000,exact name,,True,True,True,True,False,False,False
+PALM SPRINGS,Riverside,city,55254,0655254,065,318000,exact name,,True,True,True,True,False,False,False
+PALMDALE,Los Angeles,city,55156,0655156,037,319000,exact name,,True,True,True,True,False,False,False
+PALO ALTO,Santa Clara,city,55282,0655282,085,320000,exact name,,True,True,True,True,False,False,False
+PALOS VERDES ESTATES,Los Angeles,city,55380,0655380,037,321000,exact name,,True,True,True,True,False,False,False
+PARADISE,Butte,city,55520,0655520,007,322000,exact name,,True,True,True,True,False,False,False
+PARAMOUNT,Los Angeles,city,55618,0655618,037,323000,exact name,,True,True,True,True,False,False,True
+PARLIER,Fresno,city,55856,0655856,019,324000,exact name,,True,True,True,True,False,False,True
+PASADENA,Los Angeles,city,56000,0656000,037,325000,exact name,,True,True,True,True,False,False,False
+PASO ROBLES,San Luis Obispo,city,22300,0622300,079,326000,alias,,True,True,True,True,False,False,True
+PATTERSON,Stanislaus,city,56112,0656112,099,327000,exact name,,True,True,True,True,False,False,False
+PERRIS,Riverside,city,56700,0656700,065,328000,exact name,,True,True,True,True,False,False,False
+PETALUMA,Sonoma,city,56784,0656784,097,329000,exact name,,True,True,True,True,False,False,False
+PICO RIVERA,Los Angeles,city,56924,0656924,037,330000,exact name,,True,True,True,True,False,False,True
+PIEDMONT,Alameda,city,56938,0656938,001,331000,exact name,,True,True,True,True,False,False,True
+PINOLE,Contra Costa,city,57288,0657288,013,332000,exact name,,True,True,True,True,False,False,False
+PISMO BEACH,San Luis Obispo,city,57414,0657414,079,333000,exact name,,True,True,True,True,False,False,False
+PITTSBURG,Contra Costa,city,57456,0657456,013,334000,exact name,,True,True,True,True,False,False,False
+PLACENTIA,Orange,city,57526,0657526,059,335000,exact name,,True,True,True,True,False,False,True
+PLACER COUNTY,Placer,county_unincorporated,,06061_UNINC,061,336000,county name,,True,True,True,True,False,False,False
+PLACERVILLE,El Dorado,city,57540,0657540,017,337000,exact name,,True,True,True,True,False,False,False
+PLEASANT HILL,Contra Costa,city,57764,0657764,013,338000,exact name,,True,True,True,True,False,False,True
+PLEASANTON,Alameda,city,57792,0657792,001,339000,exact name,,True,True,True,True,False,False,False
+PLUMAS COUNTY,Plumas,county_unincorporated,,06063_UNINC,063,340000,county name,,True,True,True,True,False,False,False
+PLYMOUTH,Amador,city,57834,0657834,005,341000,exact name,,True,True,True,True,False,False,False
+POINT ARENA,Mendocino,city,57876,0657876,045,,exact name,,True,False,True,True,True,False,False
+POMONA,Los Angeles,city,58072,0658072,037,343000,exact name,,True,True,True,True,False,False,False
+PORT HUENEME,Ventura,city,58296,0658296,111,344000,exact name,,True,True,True,True,False,False,False
+PORTERVILLE,Tulare,city,58240,0658240,107,345000,exact name,,True,True,True,True,False,False,False
+PORTOLA,Plumas,city,58352,0658352,063,346000,exact name,,True,True,True,True,False,False,True
+PORTOLA VALLEY,San Mateo,city,58380,0658380,081,347000,exact name,,True,True,True,True,False,False,False
+POWAY,San Diego,city,58520,0658520,073,348000,exact name,,True,True,True,True,False,False,False
+RANCHO CORDOVA,Sacramento,city,59444,0659444,067,348900,exact name,,True,True,True,True,False,False,False
+RANCHO CUCAMONGA,San Bernardino,city,59451,0659451,071,349000,exact name,,True,True,True,True,False,False,False
+RANCHO MIRAGE,Riverside,city,59500,0659500,065,350000,exact name,,True,True,True,True,False,False,True
+RANCHO PALOS VERDES,Los Angeles,city,59514,0659514,037,351000,exact name,,True,True,True,True,False,False,False
+RANCHO SANTA MARGARITA,Orange,city,59587,0659587,059,351500,exact name,,True,True,True,True,False,False,False
+RANCHO SANTA MARGARITA MARGARITA,,city,59587,0659587,059,351500,alias,,True,True,False,True,False,False,False
+RED BLUFF,Tehama,city,59892,0659892,103,352000,exact name,,True,True,True,True,False,False,True
+REDDING,Shasta,city,59920,0659920,089,353000,exact name,,True,True,True,True,False,False,True
+REDLANDS,San Bernardino,city,59962,0659962,071,354000,exact name,,True,True,True,True,False,False,False
+REDONDO BEACH,Los Angeles,city,60018,0660018,037,355000,exact name,,True,True,True,True,False,False,False
+REDWOOD CITY,San Mateo,city,60102,0660102,081,356000,exact name,,True,True,True,True,False,False,True
+REEDLEY,Fresno,city,60242,0660242,019,357000,exact name,,True,True,True,True,False,False,True
+RIALTO,San Bernardino,city,60466,0660466,071,358000,exact name,,True,True,True,True,False,False,False
+RICHMOND,Contra Costa,city,60620,0660620,013,359000,exact name,,True,True,True,True,False,False,False
+RIDGECREST,Kern,city,60704,0660704,029,360000,exact name,,True,True,True,False,False,False,False
+RIO DELL,Humboldt,city,60900,0660900,023,361000,exact name,,True,True,True,True,False,False,False
+RIO VISTA,Solano,city,60984,0660984,095,362000,exact name,,True,True,True,True,False,False,False
+RIPON,San Joaquin,city,61026,0661026,077,363000,exact name,,True,True,True,True,False,False,False
+RIVERBANK,Stanislaus,city,61068,0661068,099,364000,exact name,,True,True,True,True,False,False,True
+RIVERSIDE,Riverside,city,62000,0662000,065,365000,exact name,,True,True,True,True,False,False,False
+RIVERSIDE COUNTY,Riverside,county_unincorporated,,06065_UNINC,065,366000,county name,,True,True,True,True,False,False,False
+ROCKLIN,Placer,city,62364,0662364,061,367000,exact name,,True,True,True,True,False,False,False
+ROHNERT PARK,Sonoma,city,62546,0662546,097,368000,exact name,,True,True,True,True,False,False,False
+ROLLING HILLS,Los Angeles,city,62602,0662602,037,369000,exact name,,True,True,True,True,False,False,False
+ROLLING HILLS ESTATES,Los Angeles,city,62644,0662644,037,370000,exact name,,True,True,True,True,False,False,False
+ROSEMEAD,Los Angeles,city,62896,0662896,037,371000,exact name,,True,True,True,True,False,False,False
+ROSEVILLE,Placer,city,62938,0662938,061,372000,exact name,,True,True,True,True,False,False,False
+ROSS,Marin,city,62980,0662980,041,373000,exact name,,True,True,True,True,False,False,False
+SACRAMENTO,Sacramento,city,64000,0664000,067,374000,exact name,,True,True,True,True,False,False,True
+SACRAMENTO COUNTY,Sacramento,county_unincorporated,,06067_UNINC,067,375000,county name,,True,True,True,True,False,False,False
+SAINT HELENA,Napa,city,64140,0664140,055,449000,exact name,,True,True,True,True,False,False,False
+SALINAS,Monterey,city,64224,0664224,053,376000,exact name,,True,True,True,True,False,False,False
+SAN ANSELMO,Marin,city,64434,0664434,041,377000,exact name,,True,True,True,True,False,False,False
+SAN BENITO COUNTY,San Benito,county_unincorporated,,06069_UNINC,069,378000,county name,,True,True,True,True,False,False,False
+SAN BERNARDINO,San Bernardino,city,65000,0665000,071,379000,exact name,,True,True,True,True,False,False,False
+SAN BERNARDINO COUNTY,San Bernardino,county_unincorporated,,06071_UNINC,071,380000,county name,,True,True,True,True,False,False,False
+SAN BRUNO,San Mateo,city,65028,0665028,081,381000,exact name,,True,True,True,True,False,False,False
+SAN CARLOS,San Mateo,city,65070,0665070,081,383000,exact name,,True,True,True,True,False,False,False
+SAN CLEMENTE,Orange,city,65084,0665084,059,384000,exact name,,True,True,True,True,False,False,False
+SAN DIEGO,San Diego,city,66000,0666000,073,385000,exact name,,True,True,True,True,False,False,False
+SAN DIEGO COUNTY,San Diego,county_unincorporated,,06073_UNINC,073,386000,county name,,True,True,True,True,False,False,False
+SAN DIMAS,Los Angeles,city,66070,0666070,037,387000,exact name,,True,True,True,True,False,False,False
+SAN FERNANDO,Los Angeles,city,66140,0666140,037,388000,exact name,,True,True,True,True,False,False,False
+SAN FRANCISCO,San Francisco,city_county,67000,0667000,075,389000,consolidated city-county,,True,True,True,True,False,False,False
+SAN GABRIEL,Los Angeles,city,67042,0667042,037,390000,exact name,,True,True,True,True,False,False,True
+SAN JACINTO,Riverside,city,67112,0667112,065,391000,exact name,,True,True,True,True,False,False,False
+SAN JOAQUIN,Fresno,city,67126,0667126,019,392000,exact name,,True,True,True,True,False,False,False
+SAN JOAQUIN COUNTY,San Joaquin,county_unincorporated,,06077_UNINC,077,393000,county name,,True,True,True,True,False,False,True
+SAN JOSE,Santa Clara,city,68000,0668000,085,394000,exact name,,True,True,True,True,False,False,False
+SAN JUAN BAUTISTA,San Benito,city,68014,0668014,069,395000,exact name,,True,True,True,True,False,False,False
+SAN JUAN CAPISTRANO,Orange,city,68028,0668028,059,396000,exact name,,True,True,True,True,False,False,True
+SAN LEANDRO,Alameda,city,68084,0668084,001,397000,exact name,,True,True,True,True,False,False,False
+SAN LUIS OBISPO,San Luis Obispo,city,68154,0668154,079,398000,exact name,,True,True,True,True,False,False,False
+SAN LUIS OBISPO COUNTY,San Luis Obispo,county_unincorporated,,06079_UNINC,079,399000,county name,,True,True,True,True,False,False,False
+SAN MARCOS,San Diego,city,68196,0668196,073,400000,exact name,,True,True,True,True,False,False,False
+SAN MARINO,Los Angeles,city,68224,0668224,037,401000,exact name,,True,True,True,True,False,False,False
+SAN MATEO,San Mateo,city,68252,0668252,081,402000,exact name,,True,True,True,True,False,False,False
+SAN MATEO COUNTY,San Mateo,county_unincorporated,,06081_UNINC,081,403000,county name,,True,True,True,True,False,False,False
+SAN PABLO,Contra Costa,city,68294,0668294,013,404000,exact name,,True,True,True,True,False,False,True
+SAN RAFAEL,Marin,city,68364,0668364,041,405000,exact name,,True,True,True,True,False,False,False
+SAN RAMON,Contra Costa,city,68378,0668378,013,406000,exact name,,True,True,True,True,False,False,False
+SAND CITY,Monterey,city,65112,0665112,053,407000,exact name,,True,True,True,True,False,False,False
+SANGER,Fresno,city,67056,0667056,019,408000,exact name,,True,True,True,True,False,False,False
+SANTA ANA,Orange,city,69000,0669000,059,409000,exact name,,True,True,True,True,False,False,False
+SANTA BARBARA,Santa Barbara,city,69070,0669070,083,410000,exact name,,True,True,True,True,False,False,True
+SANTA BARBARA COUNTY,Santa Barbara,county_unincorporated,,06083_UNINC,083,411000,county name,,True,True,True,True,False,True,False
+SANTA CLARA,Santa Clara,city,69084,0669084,085,412000,exact name,,True,True,True,True,False,False,True
+SANTA CLARA COUNTY,Santa Clara,county_unincorporated,,06085_UNINC,085,413000,county name,,True,True,True,True,False,False,False
+SANTA CLARITA,Los Angeles,city,69088,0669088,037,414000,exact name,,True,True,True,True,False,False,False
+SANTA CRUZ,Santa Cruz,city,69112,0669112,087,415000,exact name,,True,True,True,True,False,False,False
+SANTA CRUZ COUNTY,Santa Cruz,county_unincorporated,,06087_UNINC,087,416000,county name,,True,True,True,True,False,False,False
+SANTA FE SPRINGS,Los Angeles,city,69154,0669154,037,417000,exact name,,True,True,True,True,False,False,False
+SANTA MARIA,Santa Barbara,city,69196,0669196,083,418000,exact name,,True,True,True,True,False,False,False
+SANTA MONICA,Los Angeles,city,70000,0670000,037,419000,exact name,,True,True,True,True,False,False,False
+SANTA PAULA,Ventura,city,70042,0670042,111,420000,exact name,,True,True,True,True,False,False,False
+SANTA ROSA,Sonoma,city,70098,0670098,097,421000,exact name,,True,True,True,True,False,False,True
+SANTEE,San Diego,city,70224,0670224,073,422000,exact name,,True,True,True,True,False,False,False
+SARATOGA,Santa Clara,city,70280,0670280,085,423000,exact name,,True,True,True,True,False,False,True
+SAUSALITO,Marin,city,70364,0670364,041,424000,exact name,,True,True,True,True,False,False,True
+SCOTTS VALLEY,Santa Cruz,city,70588,0670588,087,425000,exact name,,True,True,True,True,False,False,False
+SEAL BEACH,Orange,city,70686,0670686,059,426000,exact name,,True,True,True,True,False,False,False
+SEASIDE,Monterey,city,70742,0670742,053,427000,exact name,,True,True,True,True,False,False,False
+SEBASTOPOL,Sonoma,city,70770,0670770,097,428000,exact name,,True,True,True,True,False,False,False
+SELMA,Fresno,city,70882,0670882,019,429000,exact name,,True,True,True,True,False,False,False
+SHAFTER,Kern,city,71106,0671106,029,430000,exact name,,True,True,True,False,False,False,False
+SHASTA COUNTY,Shasta,county_unincorporated,,06089_UNINC,089,431000,county name,,True,True,True,True,False,False,False
+SHASTA LAKE,Shasta,city,71225,0671225,089,431500,exact name,,True,True,True,True,False,False,False
+SIERRA COUNTY,Sierra,county_unincorporated,,06091_UNINC,091,432000,county name,,True,True,True,True,False,False,False
+SIERRA MADRE,Los Angeles,city,71806,0671806,037,433000,exact name,,True,True,True,True,False,False,False
+SIGNAL HILL,Los Angeles,city,71876,0671876,037,434000,exact name,,True,True,True,True,False,False,False
+SIMI VALLEY,Ventura,city,72016,0672016,111,435000,exact name,,True,True,True,True,False,False,False
+SISKIYOU COUNTY,Siskiyou,county_unincorporated,,06093_UNINC,093,436000,county name,,True,True,True,True,False,True,True
+SOLANA BEACH,San Diego,city,72506,0672506,073,437000,exact name,,True,True,True,True,False,False,False
+SOLANO COUNTY,Solano,county_unincorporated,,06095_UNINC,095,438000,county name,,True,True,True,True,False,False,False
+SOLEDAD,Monterey,city,72520,0672520,053,439000,exact name,,True,True,True,True,False,False,False
+SOLVANG,Santa Barbara,city,72576,0672576,083,440000,exact name,,True,True,True,True,False,False,False
+SONOMA,Sonoma,city,72646,0672646,097,441000,exact name,,True,True,True,True,False,False,False
+SONOMA COUNTY,Sonoma,county_unincorporated,,06097_UNINC,097,442000,county name,,True,True,True,True,False,False,False
+SONORA,Tuolumne,city,72674,0672674,109,443000,exact name,,True,True,True,True,False,False,False
+SOUTH EL MONTE,Los Angeles,city,72996,0672996,037,444000,exact name,,True,True,True,True,False,False,False
+SOUTH GATE,Los Angeles,city,73080,0673080,037,445000,exact name,,True,True,True,True,False,False,False
+SOUTH LAKE TAHOE,El Dorado,city,73108,0673108,017,446000,exact name,,True,True,True,True,False,False,True
+SOUTH PASADENA,Los Angeles,city,73220,0673220,037,447000,exact name,,True,True,True,True,False,False,False
+SOUTH SAN FRANCISCO,San Mateo,city,73262,0673262,081,448000,exact name,,True,True,True,True,False,False,False
+STANISLAUS COUNTY,Stanislaus,county_unincorporated,,06099_UNINC,099,450000,county name,,True,True,True,True,False,False,False
+STANTON,Orange,city,73962,0673962,059,451000,exact name,,True,True,True,True,False,False,True
+STOCKTON,San Joaquin,city,75000,0675000,077,452000,exact name,,True,True,True,True,False,False,False
+SUISUN CITY,Solano,city,75630,0675630,095,453000,exact name,,True,True,True,True,False,False,False
+SUNNYVALE,Santa Clara,city,77000,0677000,085,454000,exact name,,True,True,True,True,False,False,False
+SUSANVILLE,Lassen,city,77364,0677364,035,455000,exact name,,True,True,True,True,False,False,False
+SUTTER COUNTY,Sutter,county_unincorporated,,06101_UNINC,101,456000,county name,,True,True,True,True,False,False,False
+SUTTER CREEK,Amador,city,77392,0677392,005,457000,exact name,,True,True,True,True,False,False,False
+TAFT,Kern,city,77574,0677574,029,458000,exact name,,True,True,True,True,False,False,True
+TEHACHAPI,Kern,city,78092,0678092,029,459000,exact name,,True,True,True,True,False,False,True
+TEHAMA,,city,78106,0678106,103,,exact name,,True,False,False,True,True,False,False
+TEHAMA COUNTY,Tehama,county_unincorporated,,06103_UNINC,103,461000,county name,,True,True,True,True,False,True,True
+TEMECULA,Riverside,city,78120,0678120,065,462000,exact name,,True,True,True,True,False,False,False
+TEMPLE CITY,Los Angeles,city,78148,0678148,037,463000,exact name,,True,True,True,True,False,False,False
+THOUSAND OAKS,Ventura,city,78582,0678582,111,464000,exact name,,True,True,True,True,False,False,False
+TIBURON,Marin,city,78666,0678666,041,465000,exact name,,True,True,True,True,False,False,True
+TORRANCE,Los Angeles,city,80000,0680000,037,466000,exact name,,True,True,True,True,False,False,False
+TRACY,San Joaquin,city,80238,0680238,077,467000,exact name,,True,True,True,True,False,False,True
+TRINIDAD,Humboldt,city,80448,0680448,023,468000,exact name,,True,True,True,True,False,False,False
+TRINITY COUNTY,Trinity,county_unincorporated,,06105_UNINC,105,469000,county name,,True,True,True,True,False,False,False
+TRUCKEE,Nevada,city,80588,0680588,057,469500,exact name,,True,True,True,True,False,False,True
+TULARE,Tulare,city,80644,0680644,107,470000,exact name,,True,True,True,True,False,False,False
+TULARE COUNTY,Tulare,county_unincorporated,,06107_UNINC,107,471000,county name,,True,True,True,True,False,True,False
+TULELAKE,Siskiyou,city,80686,0680686,093,472000,exact name,,True,True,True,False,False,False,False
+TUOLUMNE COUNTY,Tuolumne,county_unincorporated,,06109_UNINC,109,473000,county name,,True,True,True,True,False,False,False
+TURLOCK,Stanislaus,city,80812,0680812,099,474000,exact name,,True,True,True,True,False,False,False
+TUSTIN,Orange,city,80854,0680854,059,475000,exact name,,True,True,True,True,False,False,False
+TWENTYNINE PALMS,San Bernardino,city,80994,0680994,071,476000,exact name,,True,True,True,True,False,False,False
+UKIAH,Mendocino,city,81134,0681134,045,477000,exact name,,True,True,True,True,False,False,False
+UNION CITY,Alameda,city,81204,0681204,001,478000,exact name,,True,True,True,True,False,False,False
+UPLAND,San Bernardino,city,81344,0681344,071,479000,exact name,,True,True,True,True,False,False,False
+VACAVILLE,Solano,city,81554,0681554,095,480000,exact name,,True,True,True,True,False,False,False
+VALLEJO,Solano,city,81666,0681666,095,481000,exact name,,True,True,True,True,False,False,False
+VENTURA,Ventura,city,65042,0665042,111,382000,alias,,True,True,True,True,False,False,False
+VENTURA COUNTY,Ventura,county_unincorporated,,06111_UNINC,111,482000,county name,,True,True,True,True,False,False,False
+VERNON,,city,82422,0682422,037,483000,exact name,,True,True,False,True,False,False,True
+VICTORVILLE,San Bernardino,city,82590,0682590,071,484000,exact name,,True,True,True,True,False,False,True
+VILLA PARK,Orange,city,82744,0682744,059,485000,exact name,,True,True,True,True,False,False,False
+VISALIA,Tulare,city,82954,0682954,107,486000,exact name,,True,True,True,True,False,False,False
+VISTA,San Diego,city,82996,0682996,073,487000,exact name,,True,True,True,True,False,False,True
+WALNUT,Los Angeles,city,83332,0683332,037,488000,exact name,,True,True,True,True,False,False,False
+WALNUT CREEK,Contra Costa,city,83346,0683346,013,489000,exact name,,True,True,True,True,False,False,False
+WASCO,Kern,city,83542,0683542,029,490000,exact name,,True,True,True,True,False,False,False
+WATERFORD,Stanislaus,city,83612,0683612,099,491000,exact name,,True,True,True,True,False,False,True
+WATSONVILLE,Santa Cruz,city,83668,0683668,087,492000,exact name,,True,True,True,True,False,False,True
+WEED,Siskiyou,city,83850,0683850,093,493000,exact name,,True,True,True,True,False,False,False
+WEST COVINA,Los Angeles,city,84200,0684200,037,494000,exact name,,True,True,True,True,False,False,False
+WEST HOLLYWOOD,Los Angeles,city,84410,0684410,037,495000,exact name,,True,True,True,True,False,False,False
+WEST SACRAMENTO,Yolo,city,84816,0684816,113,496000,exact name,,True,True,True,True,False,False,False
+WESTLAKE VILLAGE,Los Angeles,city,84438,0684438,037,497000,exact name,,True,True,True,True,False,False,True
+WESTMINSTER,Orange,city,84550,0684550,059,498000,exact name,,True,True,True,True,False,False,False
+WESTMORLAND,Imperial,city,84606,0684606,025,499000,exact name,,True,True,True,True,False,False,False
+WHEATLAND,Yuba,city,85012,0685012,115,500000,exact name,,True,True,True,True,False,False,False
+WHITTIER,Los Angeles,city,85292,0685292,037,501000,exact name,,True,True,True,True,False,False,False
+WILDOMAR,Riverside,city,85446,0685446,065,501100,exact name,,True,True,True,True,False,False,False
+WILLIAMS,Colusa,city,85586,0685586,011,502000,exact name,,True,True,True,True,False,False,False
+WILLITS,Mendocino,city,85600,0685600,045,503000,exact name,,True,True,True,True,False,False,False
+WILLOWS,Glenn,city,85684,0685684,021,504000,exact name,,True,True,True,True,False,False,False
+WINDSOR,Sonoma,city,85922,0685922,097,504500,exact name,,True,True,True,True,False,False,False
+WINTERS,Yolo,city,86034,0686034,113,505000,exact name,,True,True,True,True,False,False,False
+WOODLAKE,Tulare,city,86300,0686300,107,506000,exact name,,True,True,True,True,False,False,False
+WOODLAND,Yolo,city,86328,0686328,113,507000,exact name,,True,True,True,True,False,False,True
+WOODSIDE,San Mateo,city,86440,0686440,081,508000,exact name,,True,True,True,True,False,False,False
+YOLO COUNTY,Yolo,county_unincorporated,,06113_UNINC,113,509000,county name,,True,True,True,True,False,False,False
+YORBA LINDA,Orange,city,86832,0686832,059,510000,exact name,,True,True,True,True,False,False,False
+YOUNTVILLE,Napa,city,86930,0686930,055,511000,exact name,,True,True,True,True,False,False,False
+YREKA,Siskiyou,city,86944,0686944,093,512000,exact name,,True,True,True,True,False,False,False
+YUBA CITY,Sutter,city,86972,0686972,101,513000,exact name,,True,True,True,True,False,False,False
+YUBA COUNTY,Yuba,county_unincorporated,,06115_UNINC,115,514000,county name,,True,True,True,True,False,False,False
+YUCAIPA,San Bernardino,city,87042,0687042,071,515000,exact name,,True,True,True,True,False,False,False
+YUCCA VALLEY,San Bernardino,city,87056,0687056,071,516000,exact name,,True,True,True,True,False,False,False

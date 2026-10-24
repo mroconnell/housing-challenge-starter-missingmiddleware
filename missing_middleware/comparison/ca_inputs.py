@@ -127,11 +127,18 @@ def aggregate_apr(rows: pd.DataFrame) -> pd.DataFrame:
 
 def apr_by_issue_year(rows: pd.DataFrame) -> pd.DataFrame:
     """Alternative measure: permitted units assigned to the permit's issue year, each
-    permit_key counted once (first report kept). Rows without a date use the report year."""
+    permit_key counted once (first report kept). Rows without a date use the report year.
+
+    issue_year_flag marks dates that cannot be right as entered: 'after_first_report_year'
+    (the permit is dated after the report year it was first listed in, e.g. 2109) and
+    'before_2000' (e.g. 1916). They are kept and flagged, not corrected. Step 0 reads only
+    issue years 2018-2025, so the flagged rows outside that window are ignored there."""
     r = rows[rows["bp_units"].fillna(0) > 0].sort_values("year")
     r = r.drop_duplicates("permit_key", keep="first")
     yr = r["bp_issue_year"].fillna(r["year"]).astype(int)
-    return (r.assign(issue_year=yr).groupby(["juris_name", "cnty_name", "issue_year", "unit_cat"])["bp_units"]
+    flag = np.select([yr > r["year"].astype(int), yr < 2000], ["after_first_report_year", "before_2000"], default="ok")
+    return (r.assign(issue_year=yr, issue_year_flag=flag)
+            .groupby(["juris_name", "cnty_name", "issue_year", "unit_cat", "issue_year_flag"])["bp_units"]
             .sum().rename("bp_units_issue_year_dedup").reset_index())
 
 

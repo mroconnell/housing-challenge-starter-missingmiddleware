@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 
 from missing_middleware.comparison import ca_crosswalk as X
+from missing_middleware.comparison import ca_doc as D
 from missing_middleware.comparison import ca_inputs as I
 from missing_middleware.comparison import ca_step0 as Z
 
@@ -53,6 +54,11 @@ class TestAprA2(unittest.TestCase):
         self.assertEqual(d[("TESTVILLE", 2020, "ADU")], 1)   # counted once despite two listings
         self.assertEqual(d[("TESTVILLE", 2019, "5+")], 10)   # moved to its permit year
         self.assertEqual(d[("TESTVILLE", 2021, "ADU")], 1)   # undated row uses report year
+
+    def test_issue_year_flag(self):
+        d = I.apr_by_issue_year(self.rows).set_index(["juris_name", "issue_year", "unit_cat"])["issue_year_flag"]
+        self.assertEqual(d[("ALAMEDA COUNTY", 2022, "MH")], "after_first_report_year")  # dated after its 2021 report
+        self.assertEqual(d[("TESTVILLE", 2019, "5+")], "ok")
 
     def test_wide(self):
         w = I.wide_by_unit_cat(self.agg, "bp_units_primary")
@@ -119,7 +125,75 @@ class TestCrosswalkAndHoldout(unittest.TestCase):
         self.assertEqual(int(a["holdout"].sum()), round(0.2 * len(u)))
 
 
+def _toy_panel(share=0.5, base=1.2):
+    """Synthetic full-reporting panel: BPS 1-unit = base x SF + share x ADU, exactly."""
+    rows = []
+    for j in range(12):
+        for y in range(2018, 2026):
+            adu = 0 if j < 4 else 5 * (j + y - 2017)
+            sf = 100 + 10 * j + (y - 2018)
+            rows.append({"census_geoid": f"06{j:05d}", "year": y, "hcd_sf": sf, "adu": adu, "hcd_sf_reported": sf,
+                         "adu_reported": adu, "hcd_sf_dedup": sf, "adu_dedup": adu,
+                         "bps_1unit_units": base * sf + share * adu, "both_full": True,
+                         "sf_detached_acs": 30_000, "in_holdout": j == 11})
+    p = pd.DataFrame(rows)
+    p.loc[p["census_geoid"] == "0600011", "bps_1unit_units"] *= 5  # holdout place: wildly different
+    return p
+
+
 class TestStep0(unittest.TestCase):
+    def test_share_sensitivity_recovers_share_and_excludes_holdout(self):
+        s = Z.table_b_share_sensitivity(_toy_panel(), draws=50)
+        nh = s[(s["jurisdiction_sample"] == "non_holdout") & s["analysis"].isin(
+            ["baseline_adjusted", "bootstrap_jurisdiction_cluster", "by_year"])]
+        self.assertTrue(np.allclose(nh["estimate"], 0.5))
+        self.assertTrue(np.allclose(nh.dropna(subset=["ci_low"])[["ci_low", "ci_high"]], 0.5))
+        al = s[(s["jurisdiction_sample"] == "all") & (s["analysis"] == "baseline_adjusted")]
+        self.assertFalse(np.allclose(al["estimate"], 0.5))  # the holdout place changes the pooled figure
+
+    def test_bps_missing_city_fold(self):
+        xw = pd.DataFrame({"juris_name": ["SMALLTOWN", "BIG COUNTY"], "census_geoid": ["0600009", "06013_UNINC"],
+                           "juris_type": ["city", "county_unincorporated"], "county_fips": ["013", "013"],
+                           "matched_bps": [False, True], "in_hcd_apr": [True, True]})
+        p = pd.DataFrame({"census_geoid": ["0600009", "06013_UNINC"] * 2, "year": [2020, 2020, 2021, 2021],
+                          "county_fips": ["013"] * 4, "hcd_nonadu": [50, 100, 50, 100], "hcd_sf": [50, 100, 50, 100],
+                          "adu": [0, 0, 0, 0], "bps_units_total": [np.nan, 150, np.nan, 150],
+                          "bps_1unit_units": [np.nan, 150, np.nan, 150], "hcd_present": True,
+                          "bps_present": [False, True, False, True], "both_full": [False, True, False, True],
+                          "in_holdout": False})
+        miss = Z.bps_missing_cities(xw)
+        p["bps_missing_city"] = p["census_geoid"].isin(miss["census_geoid"])
+        p["bps_may_include_cities"] = p["census_geoid"].eq("06013_UNINC")
+        cm = p[p["bps_missing_city"]].groupby("year")[["hcd_nonadu", "hcd_sf", "adu"]].sum().add_suffix("_bps_missing_cities")
+        p = p.merge(cm.reset_index().assign(census_geoid="06013_UNINC"), on=["census_geoid", "year"], how="left")
+        counties = pd.DataFrame({"county_fips": ["013"], "county_name": ["Big County"]})
+        f = Z.table_c_bps_missing_cities_fold(p, counties, xw).iloc[0]
+        self.assertAlmostEqual(f["ratio_hcd_to_bps_before"], 100 / 150)
+        self.assertAlmostEqual(f["ratio_hcd_to_bps_folded"], 1.0)
+        self.assertTrue(f["fold_supported"])
+        self.assertEqual(f["bps_missing_cities"], "SMALLTOWN")
+
+    def test_holdout_flag(self):
+        hold = pd.DataFrame({"census_geoid": ["0600001", "0600002"], "holdout": [True, False]})
+        self.assertEqual(list(X.holdout_flag(pd.Series(["0600001", "0600002", "0699999"]), hold)), [True, False, False])
+
+    def test_doc_table_renderer(self):
+        t = D.table(["A", "B"], [["x", D.n0(1234.0)], ["y", D.r2(0.456)]])
+        self.assertEqual(t.splitlines()[2], "| x | 1,234 |")
+        self.assertEqual(t.splitlines()[3], "| y | 0.46 |")
+        self.assertEqual(D.r2(float("nan")), "—")
+
+    def test_doc_block_markers_parse_when_empty(self):
+        text = "x\n<!-- generated:a -->\n<!-- /generated:a -->\ny\n<!-- generated:b -->\nold\n<!-- /generated:b -->\n"
+        names = [m.group("name") for m in D._RE.finditer(text)]
+        self.assertEqual(names, ["a", "b"])
+
+    @unittest.skipUnless(D.available(Path(__file__).parents[1] / "data" / "processed" / "comparison_ca"),
+                         "California build outputs not present (git-ignored); run scripts/build_ca_comparison_data.py")
+    def test_doc_numbers_match_outputs(self):
+        changed = D.update_doc(Path(__file__).parents[1] / "data" / "processed" / "comparison_ca", check=True)
+        self.assertEqual(changed, [], f"CA_COMPARISON_DATA.md is stale in blocks {changed}; run --doc-only")
+
     def test_ols_recovers_coefficients(self):
         rng = np.random.default_rng(0)
         X_ = rng.uniform(0, 100, size=(200, 2))
