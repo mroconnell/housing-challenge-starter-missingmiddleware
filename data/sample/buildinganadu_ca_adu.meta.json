@@ -1,7 +1,147 @@
 {
   "source_id": "buildinganadu_ca_adu",
-  "fetched_at": "2026-10-24T04:56:32+00:00",
-  "status": "error",
-  "error": "StopIteration: ",
-  "sample_rows": 0
+  "fetched_at": "2026-10-24T05:01:32+00:00",
+  "status": "ok",
+  "error": null,
+  "sample_rows": 6,
+  "api_url": "https://docs.google.com/spreadsheets/d/10rb8p7DU379vQw9oeS_Z9dwK9F9c5ZBeTw09wQlvwQY/gviz/tq?tqx=out:csv&sheet=Sheet1",
+  "sheet_url": "https://docs.google.com/spreadsheets/d/10rb8p7DU379vQw9oeS_Z9dwK9F9c5ZBeTw09wQlvwQY/edit",
+  "page_url": "https://www.buildinganadu.com/california-adu-charts",
+  "header_row": 1,
+  "jurisdiction_rows": 527,
+  "year_columns": [
+    "2012",
+    "2013",
+    "2014",
+    "2015",
+    "2016",
+    "2017",
+    "2018",
+    "2019",
+    "2012",
+    "2013",
+    "2014",
+    "2015",
+    "2016",
+    "2017",
+    "2018",
+    "2019"
+  ],
+  "statewide_sums": {
+    "2012": 0,
+    "2013": 6,
+    "2014": 6,
+    "2015": 7,
+    "2016": 19,
+    "2017": 12,
+    "2018": 35,
+    "2019": 27
+  },
+  "note": "Sums are over jurisdiction rows (our check against docs/ASSUMPTIONS_AND_QUESTIONS.md AQ-017). The last sample row is Los Angeles.",
+  "fields": [
+    {
+      "name": "Jurisdiction",
+      "type": "string"
+    },
+    {
+      "name": "2012",
+      "type": "int"
+    },
+    {
+      "name": "2013",
+      "type": "int"
+    },
+    {
+      "name": "2014",
+      "type": "int"
+    },
+    {
+      "name": "2015",
+      "type": "int"
+    },
+    {
+      "name": "2016",
+      "type": "int"
+    },
+    {
+      "name": "2017",
+      "type": "int"
+    },
+    {
+      "name": "2018",
+      "type": "int"
+    },
+    {
+      "name": "2019",
+      "type": "int"
+    },
+    {
+      "name": "col_9",
+      "type": "string"
+    },
+    {
+      "name": "col_10",
+      "type": "string"
+    },
+    {
+      "name": "2012",
+      "type": "int"
+    },
+    {
+      "name": "2013",
+      "type": "int"
+    },
+    {
+      "name": "2014",
+      "type": "int"
+    },
+    {
+      "name": "2015",
+      "type": "int"
+    },
+    {
+      "name": "2016",
+      "type": "int"
+    },
+    {
+      "name": "2017",
+      "type": "int"
+    },
+    {
+      "name": "2018",
+      "type": "int"
+    },
+    {
+      "name": "2019",
+      "type": "int"
+    },
+    {
+      "name": "col_19",
+      "type": "string"
+    },
+    {
+      "name": "col_20",
+      "type": "string"
+    },
+    {
+      "name": "col_21",
+      "type": "string"
+    },
+    {
+      "name": "col_22",
+      "type": "string"
+    },
+    {
+      "name": "col_23",
+      "type": "string"
+    },
+    {
+      "name": "col_24",
+      "type": "string"
+    },
+    {
+      "name": "col_25",
+      "type": "string"
+    }
+  ]
 }
