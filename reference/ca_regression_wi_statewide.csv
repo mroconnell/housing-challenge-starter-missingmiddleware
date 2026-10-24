@@ -1,4 +1,4 @@
-path,baseline_units,additional_units,as_run_additional,bootstrap_q
-central,654.2,2152.5,6519.0,
-lower,654.2,1374.4,884.3,1374.2
-upper,654.2,5208.8,23276.3,5208.9
+path,baseline_units,additional_units,as_run_additional,bootstrap_total_at_central_ramp
+central,654.2,2337.4,6519.0,
+lower,654.2,1015.8,884.3,1487.9
+upper,654.2,5935.5,23276.3,5281.2

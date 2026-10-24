@@ -1,0 +1,5 @@
+jurisdiction,place,permits,years,source,homes,measured,rate,cutoff,group
+5502548000,Madison city,39.0,4.0,madison_adu_permits_by_year.csv (issued),53292.0,True,0.183,0.183,active
+5505963300,Pleasant Prairie village,0.0,4.0,pleasant_prairie_adu_equivalent_by_year.csv (issued),6332.0,True,0.0,0.183,restrictive
+5502578600,Sun Prairie city,1.0,4.0,sun_prairie_adu_equivalent_by_year.csv (applications),8118.0,True,0.0308,0.183,middle
+5502525950,Fitchburg city,0.0,4.0,"wi_baseline_observed.csv: zero over 2022-01 to 2026-07, so zero in 2022-2025",5999.0,True,0.0,0.183,restrictive

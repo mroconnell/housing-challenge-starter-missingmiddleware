@@ -1,7 +1,7 @@
 extrapolation,areas,homes,central_additional
-ca_tail,1108,1120880,895.0
+ca_tail,1108,1120880,863.6
 ca_tail+size_below_ca_min,75,2577,1.5
-inside,278,514493,1128.2
+inside,278,514493,1344.5
 inside+size_below_ca_min,6,187,0.4
 outside_ca_range,407,198809,126.0
 outside_ca_range+size_below_ca_min,51,2623,1.3

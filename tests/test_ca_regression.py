@@ -145,5 +145,50 @@ class TestWisconsinMapping(unittest.TestCase):
         self.assertEqual(list(f["extrapolation"]), ["outside_ca_range+size_below_ca_min", "ca_tail", "inside"])
 
 
+class TestRuleV1(unittest.TestCase):
+    def test_wisconsin_like(self):
+        obs = pd.DataFrame({"jurisdiction": ["mad", "pp", "sp", "fit", "mke"],
+                            "permits": [39, 0, 1, 0, 20], "years": [4, 4, 4, 4, 2],
+                            "homes": [53292, 6332, 8118, 5999, 101402],
+                            "measured": [True, True, True, True, False]})
+        g = cr.state_relative_groups(obs).set_index("jurisdiction")["group"]
+        self.assertEqual(g.to_dict(), {"mad": "active", "pp": "restrictive", "sp": "middle", "fit": "restrictive",
+                                       "mke": "restrictive"})   # unmeasured -> restrictive (owner rule)
+
+    def test_ties_and_min_permits(self):
+        obs = pd.DataFrame({"jurisdiction": list("abcdefgh"), "permits": [6, 6, 2, 1, 1, 1, 1, 0],
+                            "years": 3, "homes": [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000], "measured": True})
+        o = cr.state_relative_groups(obs).set_index("jurisdiction")
+        # top quarter of 8 = 2nd-ranked rate; a and b tie at the top and both qualify; c (2 permits)
+        # is below the cut; h has zero permits
+        self.assertEqual(o.loc[["a", "b"], "group"].tolist(), ["active", "active"])
+        self.assertEqual(o.loc["c", "group"], "middle")
+        self.assertEqual(o.loc["h", "group"], "restrictive")
+        few = obs.assign(permits=[2, 2, 1, 1, 1, 1, 1, 0])
+        self.assertNotIn("active", cr.state_relative_groups(few)["group"].tolist())  # under 3 permits never active
+
+    def test_matches_ca_study_rule(self):
+        rng = np.random.default_rng(3)
+        n = 60
+        homes = rng.integers(500, 50000, n).astype(float)
+        permits = rng.poisson(homes * 3 / 1000 * rng.choice([0, 0.2, 1.5], n))
+        obs = pd.DataFrame({"jurisdiction": [f"j{i}" for i in range(n)], "permits": permits, "years": 3,
+                            "homes": homes, "measured": True})
+        v1 = cr.state_relative_groups(obs)
+        long = pd.DataFrame([{"census_geoid": j, "year": y, "homes": h, "adu": p if y == 2017 else 0}
+                             for j, h, p in zip(obs.jurisdiction, homes, permits) for y in cr.WAVE3_PRE])
+        cut = v1["cutoff"].iloc[0]
+        ref = cr.jurisdiction_groups(long, cr.WAVE3_PRE, cut)["group"].map(cr.GROUP_NAMES)
+        self.assertEqual(v1.set_index("jurisdiction")["group"].to_dict(), ref.to_dict())
+
+    def test_zoning_hook(self):
+        import tempfile
+        ids = pd.Series(["muni:5500100001", "muni:5500100002"])
+        with tempfile.TemporaryDirectory() as t:
+            self.assertEqual(cr.load_zoning_status(Path(t), ids).tolist(), ["file_missing"] * 2)
+            pd.DataFrame({"geoid": ["5500100001"], "zoning_status": ["unzoned"]}).to_csv(Path(t) / cr.ZONING_FILE, index=False)
+            self.assertEqual(cr.load_zoning_status(Path(t), ids).tolist(), ["unzoned", "not_listed"])
+
+
 if __name__ == "__main__":
     unittest.main()

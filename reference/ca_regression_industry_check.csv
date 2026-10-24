@@ -1,32 +1,32 @@
 sample,group,year,rate,change_from_prior_year
 all,active,2012,0.0254,
-all,active,2013,0.1402,0.1148
-all,active,2014,0.1681,0.0279
-all,active,2015,0.2367,0.0686
-all,active,2016,0.3439,0.1071
-all,active,2017,1.6719,1.328
-all,active,2018,3.1046,1.4326
-all,active,2019,4.1895,1.085
-all,active,2020,3.5162,-0.6733
-all,active,2021,5.3093,1.7931
-all,active,2022,6.4051,1.0958
-all,active,2023,6.8747,0.4696
-all,active,2024,7.1293,0.2546
-all,active,2025,7.5734,0.4441
+all,active,2013,0.1401,0.1147
+all,active,2014,0.168,0.0279
+all,active,2015,0.2365,0.0685
+all,active,2016,0.3436,0.1071
+all,active,2017,1.671,1.3274
+all,active,2018,3.1033,1.4323
+all,active,2019,4.187,1.0837
+all,active,2020,3.5142,-0.6728
+all,active,2021,5.3071,1.7929
+all,active,2022,6.4006,1.0936
+all,active,2023,6.875,0.4744
+all,active,2024,7.1277,0.2527
+all,active,2025,7.5697,0.442
 all,middle,2012,0.02,
-all,middle,2013,0.0835,0.0634
+all,middle,2013,0.0835,0.0635
 all,middle,2014,0.0653,-0.0182
 all,middle,2015,0.1093,0.044
 all,middle,2016,0.0928,-0.0165
-all,middle,2017,0.1535,0.0607
-all,middle,2018,0.3099,0.1564
-all,middle,2019,0.5272,0.2173
-all,middle,2020,0.835,0.3078
-all,middle,2021,1.4463,0.6113
-all,middle,2022,1.909,0.4627
-all,middle,2023,2.1599,0.2509
-all,middle,2024,2.4692,0.3093
-all,middle,2025,2.53,0.0608
+all,middle,2017,0.1534,0.0606
+all,middle,2018,0.3094,0.156
+all,middle,2019,0.527,0.2176
+all,middle,2020,0.8349,0.3079
+all,middle,2021,1.4458,0.6109
+all,middle,2022,1.9094,0.4635
+all,middle,2023,2.1578,0.2485
+all,middle,2024,2.4681,0.3103
+all,middle,2025,2.5298,0.0617
 all,restrictive,2012,0.0,
 all,restrictive,2013,0.0053,0.0053
 all,restrictive,2014,0.008,0.0027
@@ -42,33 +42,33 @@ all,restrictive,2023,1.0551,0.3736
 all,restrictive,2024,1.228,0.173
 all,restrictive,2025,1.3965,0.1685
 without Los Angeles,active,2012,0.0333,
-without Los Angeles,active,2013,0.1755,0.1422
-without Los Angeles,active,2014,0.181,0.0056
-without Los Angeles,active,2015,0.2566,0.0755
-without Los Angeles,active,2016,0.4065,0.1499
-without Los Angeles,active,2017,0.8919,0.4854
-without Los Angeles,active,2018,1.8059,0.9141
-without Los Angeles,active,2019,2.8327,1.0268
-without Los Angeles,active,2020,2.7172,-0.1155
-without Los Angeles,active,2021,4.1379,1.4207
-without Los Angeles,active,2022,4.3752,0.2372
-without Los Angeles,active,2023,5.3643,0.9891
-without Los Angeles,active,2024,5.4078,0.0435
-without Los Angeles,active,2025,5.7679,0.3601
+without Los Angeles,active,2013,0.1753,0.142
+without Los Angeles,active,2014,0.1808,0.0055
+without Los Angeles,active,2015,0.2563,0.0754
+without Los Angeles,active,2016,0.4061,0.1498
+without Los Angeles,active,2017,0.8915,0.4854
+without Los Angeles,active,2018,1.8057,0.9142
+without Los Angeles,active,2019,2.8308,1.0252
+without Los Angeles,active,2020,2.7154,-0.1154
+without Los Angeles,active,2021,4.1363,1.4208
+without Los Angeles,active,2022,4.3715,0.2352
+without Los Angeles,active,2023,5.3664,0.9949
+without Los Angeles,active,2024,5.4076,0.0412
+without Los Angeles,active,2025,5.765,0.3574
 without Los Angeles,middle,2012,0.02,
-without Los Angeles,middle,2013,0.0835,0.0634
+without Los Angeles,middle,2013,0.0835,0.0635
 without Los Angeles,middle,2014,0.0653,-0.0182
 without Los Angeles,middle,2015,0.1093,0.044
 without Los Angeles,middle,2016,0.0928,-0.0165
-without Los Angeles,middle,2017,0.1535,0.0607
-without Los Angeles,middle,2018,0.3099,0.1564
-without Los Angeles,middle,2019,0.5272,0.2173
-without Los Angeles,middle,2020,0.835,0.3078
-without Los Angeles,middle,2021,1.4463,0.6113
-without Los Angeles,middle,2022,1.909,0.4627
-without Los Angeles,middle,2023,2.1599,0.2509
-without Los Angeles,middle,2024,2.4692,0.3093
-without Los Angeles,middle,2025,2.53,0.0608
+without Los Angeles,middle,2017,0.1534,0.0606
+without Los Angeles,middle,2018,0.3094,0.156
+without Los Angeles,middle,2019,0.527,0.2176
+without Los Angeles,middle,2020,0.8349,0.3079
+without Los Angeles,middle,2021,1.4458,0.6109
+without Los Angeles,middle,2022,1.9094,0.4635
+without Los Angeles,middle,2023,2.1578,0.2485
+without Los Angeles,middle,2024,2.4681,0.3103
+without Los Angeles,middle,2025,2.5298,0.0617
 without Los Angeles,restrictive,2012,0.0,
 without Los Angeles,restrictive,2013,0.0053,0.0053
 without Los Angeles,restrictive,2014,0.008,0.0027

@@ -38,8 +38,8 @@ K_FOLDS = 10
 PLATEAU_YEARS = (2023, 2024, 2025)
 WAVE3_PRE = (2017, 2018, 2019)
 WAVE1_PRE = (2014, 2015, 2016)
-WAVE3_CUTOFF = 1.038   # published non-holdout permissive cutoff, wave 3 (CA_STUDY_RESULTS.md, section 2)
-WAVE1_CUTOFF = 0.084   # published non-holdout permissive cutoff, waves 1-2
+WAVE3_CUTOFF = 1.038   # published non-holdout permissive cutoff, wave 3, rounded (exact value recomputed from data)
+WAVE1_CUTOFF = 0.084   # published non-holdout permissive cutoff, waves 1-2, rounded (recomputed from data)
 GROUP_NAMES = {"permissive": "active", "middle": "middle", "restrictive": "restrictive"}
 
 # ---------------------------------------------------------------------------
@@ -173,6 +173,18 @@ def jurisdiction_groups(s: pd.DataFrame, pre_years: tuple[int, ...], cutoff: flo
     return g
 
 
+def published_cutoff(panel: pd.DataFrame, pre_years: tuple[int, ...], measure: str = "adu_main",
+                     top_share: float = 0.25) -> float:
+    """The study's permissive cutoff at full precision: top quarter of NON-holdout jurisdictions
+    with a complete pre-period (ca_study.permissive_cutoff). The published 1.038 / 0.084 are
+    rounded; using the rounded value misgroups a place sitting exactly at the cut."""
+    s = panel_series(panel[~panel["in_holdout"]], measure)
+    g = jurisdiction_groups(s, pre_years, -np.inf)
+    rates = g.loc[g["complete"], "pre_rate"].sort_values(ascending=False)
+    k = int(np.ceil(top_share * len(rates)))
+    return float(rates.iloc[k - 1])
+
+
 def panel_series(panel: pd.DataFrame, measure: str = "adu_main") -> pd.DataFrame:
     """All jurisdictions (holdout included: the holdout test is published, AQ-034)."""
     return (panel[["census_geoid", "year", "sf_detached", "name", "juris_type"]]
@@ -199,17 +211,18 @@ def event_plateau(s: pd.DataFrame, adoption: pd.Series, ks=(4, 5, 6)) -> pd.Data
     return p.groupby("census_geoid").agg(adu=("adu", "sum"), n_years=("adu", "count"), homes=("homes", "first"))
 
 
-def event_groups(s: pd.DataFrame, adoption: pd.Series) -> pd.Series:
+def event_groups(s: pd.DataFrame, adoption: pd.Series, cut3: float = WAVE3_CUTOFF,
+                 cut1: float = WAVE1_CUTOFF) -> pd.Series:
     """Pre-adoption activity group: the 3 years before each jurisdiction's adoption year.
     2020 adopters use the wave-3 cutoff (2017-2019 under the 2017-2018 state laws);
     earlier adopters use the wave-1 cutoff (their pre-years are the pre-2017 regime)."""
-    out = jurisdiction_groups(s, WAVE3_PRE, WAVE3_CUTOFF)["group"]
+    out = jurisdiction_groups(s, WAVE3_PRE, cut3)["group"]
     for j, a in adoption.items():
         a = int(a)
         if a == 2020 or j not in out.index:
             continue
         pre = tuple(range(a - 3, a))
-        g = jurisdiction_groups(s[s.census_geoid.eq(j)], pre, WAVE1_CUTOFF)["group"]
+        g = jurisdiction_groups(s[s.census_geoid.eq(j)], pre, cut1)["group"]
         if j in g.index:
             out[j] = g[j]
     return out
@@ -223,12 +236,14 @@ def build_ca_dataset(panel: pd.DataFrame, market: pd.DataFrame, county_of: pd.Se
     the event-time plateau (event years 4-6) and the group the pre-adoption group.
     """
     s = panel_series(panel, measure)
+    cut3 = published_cutoff(panel, WAVE3_PRE) if "in_holdout" in panel else WAVE3_CUTOFF
     if adoption is None:
-        grp = jurisdiction_groups(s, WAVE3_PRE, WAVE3_CUTOFF)
+        grp = jurisdiction_groups(s, WAVE3_PRE, cut3)
         out = plateau_outcome(s).join(grp[["group", "pre_rate"]], how="inner")
     else:
-        g = event_groups(s, adoption)
-        pre = jurisdiction_groups(s, WAVE3_PRE, WAVE3_CUTOFF)["pre_rate"]
+        cut1 = published_cutoff(panel, WAVE1_PRE) if "in_holdout" in panel else WAVE1_CUTOFF
+        g = event_groups(s, adoption, cut3, cut1)
+        pre = jurisdiction_groups(s, WAVE3_PRE, cut3)["pre_rate"]
         out = event_plateau(s, adoption).join(g.rename("group"), how="inner").join(pre)
     out = out[out["group"].isin(GROUP_NAMES)].copy()
     out["group"] = out["group"].map(GROUP_NAMES)
@@ -519,6 +534,11 @@ def wi_group(areas: pd.DataFrame, rule: str = "absolute") -> pd.Series:
         g = np.select([rb.eq("scenario_benchmark"), rb.eq("restricted"),
                        rb.eq("undetermined") & (rule == "rules_unmeasured_middle")],
                       ["active", "middle", "middle"], default="restrictive")
+    elif rule == "state_relative":
+        # rule v1: precomputed per area by state_relative_groups (column `activity_group`)
+        g = areas["activity_group"].to_numpy()
+    elif rule == "state_relative_unmeasured_middle":
+        g = np.where(areas["activity_measured"].astype(bool), areas["activity_group"], "middle")
     elif rule == "all_restrictive":
         g = np.full(len(areas), "restrictive")
     elif rule == "all_middle":
@@ -526,6 +546,83 @@ def wi_group(areas: pd.DataFrame, rule: str = "absolute") -> pd.Series:
     else:
         raise ValueError(rule)
     return pd.Series(g, index=areas.index)
+
+
+# ---------------------------------------------------------------------------
+# Group rule v1: state-relative activity groups (owner decision G3-6, 2026-10-24)
+# ---------------------------------------------------------------------------
+
+def state_relative_groups(obs: pd.DataFrame, top_share: float = 0.25, min_permits: int = 3) -> pd.DataFrame:
+    """Rule v1 (to be made robust when building for other states): the California rule,
+    applied to any state's own distribution of observed second-home permits.
+
+    obs columns: jurisdiction, permits, years (observed years in the reference window),
+    homes, measured (bool: permits observed for the whole window).
+      active      = rate in the top `top_share` of measured jurisdictions (by rank, ties at
+                    the cut included) AND at least `min_permits` permits in the window;
+      restrictive = zero permits, or unmeasured (owner rule);
+      middle      = everyone else.
+    Returns obs with rate, cutoff and group. This is exactly ca_study.assign_groups with the
+    cutoff computed from the state's own measured jurisdictions.
+    """
+    o = obs.copy()
+    o["rate"] = o["permits"] / (o["years"] * o["homes"]) * 1000
+    m = o[o["measured"].astype(bool)]
+    rates = m["rate"].sort_values(ascending=False)
+    k = int(np.ceil(top_share * len(rates)))
+    cutoff = float(rates.iloc[k - 1]) if k > 0 else np.inf
+    grp = pd.Series("middle", index=o.index, dtype=object)
+    grp[(o["rate"] >= cutoff) & (o["permits"] >= min_permits)] = "active"
+    grp[o["permits"].eq(0)] = "restrictive"
+    grp[~o["measured"].astype(bool)] = "restrictive"
+    o["cutoff"] = cutoff
+    o["group"] = grp
+    return o
+
+
+def wi_observations_2022_2025(ref_dir: Path) -> pd.DataFrame:
+    """Wisconsin places with second-home permits observed over the whole 2022-2025 window
+    (series second_home_sf_lot). Estimated-only places are not listed (they are unmeasured).
+    Milwaukee's open data gives unverified candidates over other windows only, so it is
+    unmeasured for 2022-2025."""
+    mad = pd.read_csv(ref_dir / "madison_adu_permits_by_year.csv")
+    obs_tab = pd.read_csv(ref_dir / "wi_baseline_observed.csv").set_index("key")
+    rows = []
+    m = mad[(mad["category"] == "second_home_sf_lot") & mad["year"].between(2022, 2025)]
+    rows.append({"jurisdiction": "5502548000", "place": "Madison city", "permits": float(m["units"].sum()),
+                 "years": float(m["year"].nunique()), "source": "madison_adu_permits_by_year.csv (issued)"})
+    for f, jid, place, stage in (("pleasant_prairie_adu_equivalent_by_year.csv", "5505963300", "Pleasant Prairie village", "issued"),
+                                 ("sun_prairie_adu_equivalent_by_year.csv", "5502578600", "Sun Prairie city", "applications")):
+        d = pd.read_csv(ref_dir / f)
+        d = d[(d["series"] == "second_home_sf_lot") & d["year"].between(2022, 2025)]
+        rows.append({"jurisdiction": jid, "place": place, "permits": float(d["units"].sum()),
+                     "years": float(d["year"].nunique()), "source": f"{f} ({stage})"})
+    if "fitchburg_2022_2026jul" in obs_tab.index and obs_tab.loc["fitchburg_2022_2026jul", "units"] == 0:
+        rows.append({"jurisdiction": "5502525950", "place": "Fitchburg city", "permits": 0.0, "years": 4.0,
+                     "source": "wi_baseline_observed.csv: zero over 2022-01 to 2026-07, so zero in 2022-2025"})
+    o = pd.DataFrame(rows)
+    o["homes"] = o["jurisdiction"].map(obs_tab.groupby("jurisdiction_id")["homes"].first()
+                                       .rename(index=lambda x: str(x)))
+    o["measured"] = o["years"].eq(4)
+    return o
+
+
+ZONING_FILE = "wi_town_zoning_status.csv"
+
+
+def load_zoning_status(ref_dir: Path, area_ids: pd.Series) -> pd.Series:
+    """Hook for G3-5: zoning_status per area (unzoned / county_general / town_own / unknown)
+    from reference/wi_town_zoning_status.csv when it exists; 'file_missing' otherwise.
+    Accepts an area_id column, or a 10-digit geoid / jurisdiction_id column."""
+    path = ref_dir / ZONING_FILE
+    if not path.exists():
+        return pd.Series("file_missing", index=area_ids.index)
+    z = pd.read_csv(path, dtype=str)
+    if "area_id" not in z.columns:
+        key = next(c for c in ("geoid", "jurisdiction_id", "cousub_geoid") if c in z.columns)
+        z["area_id"] = "muni:" + z[key].str.zfill(10)
+    st = z.drop_duplicates("area_id").set_index("area_id")["zoning_status"]
+    return area_ids.map(st).fillna("not_listed")
 
 
 def wi_market(areas: pd.DataFrame, market: pd.DataFrame) -> pd.DataFrame:

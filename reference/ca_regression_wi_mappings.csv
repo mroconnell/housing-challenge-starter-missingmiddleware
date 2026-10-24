@@ -1,4 +1,5 @@
-mapping,rule,lower,central,upper,madison_y_lower,madison_y_central,madison_y_upper,madison_additional_central,areas_active,areas_middle,recommended
-a_absolute,absolute,1374.373,2152.477,5208.755,1.119,1.158,1.18,159.081,0,8,True
-b_relative,relative,1603.268,2579.008,5706.542,1.98,2.499,2.608,377.753,8,0,False
-c_rules,rules,1621.245,2531.345,5624.922,1.936,2.499,3.615,377.753,5,24,False
+mapping,rule,lower,central,upper,madison_y_lower,madison_y_central,madison_y_upper,madison_additional_central,areas_active,areas_middle,active_places,middle_places,recommended
+v1_state_relative,state_relative,1015.755,2337.35,5935.534,2.063,2.501,5.7,377.956,1,1,Madison city,Sun Prairie city,True
+a_absolute,absolute,921.639,2152.84,5671.728,0.982,1.159,2.086,159.155,0,8,,Appleton city; Madison city; Milwaukee city; Wauwatosa city,False
+b_relative,relative,1090.021,2579.815,6475.65,1.273,2.501,2.561,377.956,8,0,Appleton city; Madison city; Milwaukee city; Wauwatosa city,,False
+c_rules,rules,1112.154,2531.792,6294.296,1.686,2.501,2.892,377.956,5,24,Appleton city; Madison city; Wauwatosa city,Beloit city; De Pere city; Eau Claire city; Fitchburg city; Fond du Lac city; Franklin city; Green Bay city; Kenosha city; La Crosse city; Mequon city; Milwaukee city; Mount Pleasant village; Muskego city; New Berlin city; Oak Creek city; Oshkosh city; Stevens Point city; Sun Prairie city; Waukesha city; Wausau city; West Allis city,False

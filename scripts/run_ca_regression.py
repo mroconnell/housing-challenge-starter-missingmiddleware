@@ -32,8 +32,13 @@ RAMPS = {
     "no ramp": (1.0, 1.0, 1.0, 1.0, 1.0),
 }
 MADISON = "muni:5502548000"
-MAPPINGS = {"a_absolute": "absolute", "b_relative": "relative", "c_rules": "rules"}
-RECOMMENDED = "a_absolute"
+MAPPINGS = {"v1_state_relative": "state_relative", "a_absolute": "absolute", "b_relative": "relative",
+            "c_rules": "rules"}
+RECOMMENDED = "v1_state_relative"   # owner decision G3-6 (2026-10-24); a, b, c are sensitivities
+# Ramps by path (owner accepted G3-3): lower = the slower Central Valley ramp after 2017, held at or
+# below the central ramp in every year so paths stay ordered (year 1: 0.10 instead of 0.12);
+# central = California restrictive group; upper = middle-group increment share (as run).
+PATH_RAMPS = {"lower": (0.10, 0.19, 0.25, 0.55, 1.0), "central": RAMP, "upper": (0.24, 0.54, 0.77, 0.89, 1.0)}
 LA, SD = "0644000", "0666000"
 
 # Benchmark adoption years (owner input 2026-10-24). Default 2020 (the 2020 package).
@@ -134,7 +139,26 @@ def main():
     # ---------------- Wisconsin inputs ----------------
     w = cr.wi_market(areas, mwi)
     w = w.merge(areas[["area_id", "x_rate", "rights_basis", "at_benchmark"]], on="area_id").merge(geo, on="area_id", how="left")
-    w["group"] = cr.wi_group(w).values
+    # rule v1: state-relative activity groups from Wisconsin's own 2022-2025 observations
+    wobs = cr.wi_observations_2022_2025(REFERENCE)
+    wgrp = cr.state_relative_groups(wobs)
+    wgrp.round(4).to_csv(REFERENCE / "ca_regression_wi_activity_groups.csv", index=False)
+    gmap = dict(zip("muni:" + wgrp["jurisdiction"], wgrp["group"]))
+    w["activity_group"] = w["area_id"].map(gmap).fillna("restrictive")   # unmeasured -> restrictive
+    w["activity_measured"] = w["area_id"].isin(set("muni:" + wgrp.loc[wgrp["measured"], "jurisdiction"]))
+    w["zoning_status"] = cr.load_zoning_status(REFERENCE, w["area_id"]).values
+    w["group"] = cr.wi_group(w, "state_relative").values
+    # the same rule reproduces California's published groups (non-holdout, 2017-2019)
+    s_nh = cr.panel_series(panel[~panel["in_holdout"]])
+    pre = s_nh[s_nh["year"].isin(cr.WAVE3_PRE)].groupby("census_geoid").agg(
+        permits=("adu", "sum"), years=("adu", "count"), homes=("homes", "first"))
+    pre["measured"] = pre["years"].eq(3)
+    ca_v1 = cr.state_relative_groups(pre.reset_index().rename(columns={"census_geoid": "jurisdiction"}))
+    pub = cr.jurisdiction_groups(s_nh, cr.WAVE3_PRE, cr.published_cutoff(panel, cr.WAVE3_PRE))["group"].map(cr.GROUP_NAMES).fillna("excluded")
+    cmp_ = ca_v1.set_index("jurisdiction").join(pub.rename("published"))
+    cmp_ = cmp_[cmp_["measured"]]
+    ca_rule_check = {"cutoff": float(ca_v1["cutoff"].iloc[0]),
+                     "agree": int((cmp_["group"] == cmp_["published"]).sum()), "n": int(len(cmp_))}
     flags = cr.extrapolation_flags(w, d)
     w = pd.concat([w, flags], axis=1)
     assert (w["area_id"].values == areas["area_id"].values).all()
@@ -151,7 +175,7 @@ def main():
         jlo, jhi = int(np.argmin(np.abs(tb - qlo))), int(np.argmin(np.abs(tb - qhi)))
         # one coherent statewide draw per path; keep per-area ordering where a draw crosses the point
         ylo, yhi = np.minimum(Yb[:, jlo], yc), np.maximum(Yb[:, jhi], yc)
-        sc = e.Scenario("ca_regression", {p: e.PathParams(level=0.0, floor_rate=FLOOR, spillover=0.0, ramp=RAMP)
+        sc = e.Scenario("ca_regression", {p: e.PathParams(level=0.0, floor_rate=FLOOR, spillover=0.0, ramp=PATH_RAMPS[p])
                                            for p in e.PATHS},
                         {"lower": f"{MAIN} ({rule}), bootstrap 2.5% statewide draw",
                          "central": f"{MAIN} ({rule}), point prediction",
@@ -184,6 +208,8 @@ def main():
                       "madison_additional_central": mo[(mo.area_id == MADISON) & (mo.path == "central")].additional_units.sum(),
                       "areas_active": int((P[rule]["group"] == "active").sum()),
                       "areas_middle": int((P[rule]["group"] == "middle").sum()),
+                      "active_places": "; ".join(sorted(set(w.loc[P[rule]["group"] == "active", "name"].dropna()))),
+                      "middle_places": "; ".join(sorted(set(w.loc[P[rule]["group"] == "middle", "name"].dropna()))),
                       "recommended": key == RECOMMENDED})
     pd.DataFrame(mrows).round(3).to_csv(REFERENCE / "ca_regression_wi_mappings.csv", index=False)
 
@@ -229,7 +255,8 @@ def main():
     d_issue = d_issue[d_issue[["value", "rent", "income"]].notna().all(axis=1)]
     add("measure", f"{MAIN}, HCD issue-year measure", cr.fit(d_issue, main_spec).predict_rate(w))
     # group mapping
-    for rule in ("absolute", "relative", "rules", "unmeasured_middle", "rules_unmeasured_middle", "all_restrictive", "all_middle"):
+    for rule in ("state_relative", "state_relative_unmeasured_middle", "absolute", "relative", "rules", "unmeasured_middle", "rules_unmeasured_middle",
+                 "all_restrictive", "all_middle"):
         add("group_mapping", f"Wisconsin group mapping: {rule}", fits[MAIN].predict_rate(w.assign(group=cr.wi_group(w, rule).values)))
     # floor and ramp
     add("floor", "no Madison floor (regression y alone)", y_c, floor=0.0)
@@ -261,8 +288,8 @@ def main():
     # event-time curves and the active group's early rise
     s_all = cr.panel_series(panel)
     ev = cr.adoption_events(s_all, adopt)
-    grp_cal = cr.jurisdiction_groups(s_all, cr.WAVE3_PRE, cr.WAVE3_CUTOFF)["group"].map(cr.GROUP_NAMES)
-    grp_ev = cr.event_groups(s_all, adopt).map(cr.GROUP_NAMES)
+    grp_cal = cr.jurisdiction_groups(s_all, cr.WAVE3_PRE, cr.published_cutoff(panel, cr.WAVE3_PRE))["group"].map(cr.GROUP_NAMES)
+    grp_ev = cr.event_groups(s_all, adopt, cr.published_cutoff(panel, cr.WAVE3_PRE), cr.published_cutoff(panel, cr.WAVE1_PRE)).map(cr.GROUP_NAMES)
     rows = []
     for clock, grp, tcol in (("calendar (k = year - 2019)", grp_cal, None), ("event time", grp_ev, "k")):
         z = ev.assign(group=ev["census_geoid"].map(grp)).dropna(subset=["adu", "group"])
@@ -319,7 +346,7 @@ def main():
     sens_df.to_csv(REFERENCE / "ca_regression_sensitivities.csv", index=False)
     st = state.copy()
     st["as_run_additional"] = st["path"].map({"lower": 884.3, "central": 6519.0, "upper": 23276.3})
-    st["bootstrap_q"] = st["path"].map({"lower": q_lo, "central": np.nan, "upper": q_hi})
+    st["bootstrap_total_at_central_ramp"] = st["path"].map({"lower": q_lo, "central": np.nan, "upper": q_hi})
     st.round(1).to_csv(REFERENCE / "ca_regression_wi_statewide.csv", index=False)
 
     wi = pd.DataFrame({
@@ -335,7 +362,8 @@ def main():
         **{f"y_{k}_{p}": np.round(P[r][f"y_{q}"], 4) for k, r in MAPPINGS.items()
            for p, q in (("lower", "lo"), ("central", "c"), ("upper", "hi"))},
         "ca_group_a_absolute": P["absolute"]["group"], "ca_group_b_relative": P["relative"]["group"],
-        "ca_group_c_rules": P["rules"]["group"],
+        "ca_group_c_rules": P["rules"]["group"], "ca_group_v1_state_relative": P["state_relative"]["group"],
+        "zoning_status": w["zoning_status"],
         "model": MAIN,
     })
     wi.to_csv(REFERENCE / "wi_y_by_area.csv", index=False)
@@ -346,6 +374,9 @@ def main():
     ext["central_additional"] = w.groupby("extrapolation")["area_id"].apply(lambda a: add_c.reindex(a).sum()).values
     ext.round(1).to_csv(REFERENCE / "ca_regression_extrapolation.csv", index=False)
 
+    zs = w.assign(central_additional=w["area_id"].map(add_c)).groupby("zoning_status").agg(
+        areas=("area_id", "count"), homes=("homes", "sum"), central_additional=("central_additional", "sum"))
+    zoning_summary = zs.round(1).reset_index().to_dict("records")
     summary = {
         "n_ca": len(d), "n_ca_dropped_missing_market": n_drop, "groups": d["group"].value_counts().to_dict(),
         "market_basis": d["market_basis"].value_counts().to_dict(), "filled": d["filled"].value_counts().to_dict(),
@@ -358,7 +389,8 @@ def main():
         "madison": {"y_lower": float(y_lo[w.area_id.eq(MADISON)][0]), "y_central": float(y_c[w.area_id.eq(MADISON)][0]),
                     "y_upper": float(y_hi[w.area_id.eq(MADISON)][0]),
                     "additional_central": float(out[(out.area_id == MADISON) & (out.path == "central")].additional_units.sum())},
-        "early_rise": early, "event_fit_rows": len(d_ev), "raw_manifest": man,
+        "early_rise": early, "ca_rule_v1_check": ca_rule_check,
+        "zoning": zoning_summary, "event_fit_rows": len(d_ev), "raw_manifest": man,
     }
     (od / "summary.json").write_text(json.dumps(summary, indent=2, default=float))
     pd.set_option("display.width", 250)
