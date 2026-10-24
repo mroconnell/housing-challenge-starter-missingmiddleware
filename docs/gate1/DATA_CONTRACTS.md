@@ -59,7 +59,7 @@ Defined indicators only, no composite score.
 | --- | --- | --- |
 | rule_id | string | stable |
 | jurisdiction_id | string | `wi_muni_id`, county, or `state:WI` |
-| provision | enum | detached_allowed, attached_allowed, owner_occupancy, occupant_restriction, min_lot_size, max_size_sqft, parking_required, approval_type, other |
+| provision | enum | detached_allowed, attached_allowed, owner_occupancy, occupant_restriction (values include related_only, employee_only, other), min_lot_size, max_size_sqft, parking_required, approval_type, approval_pathway (ministerial / discretionary / unknown), ordinance_status (first pass: mentioned_allowed / prohibited / unmentioned / could_not_access), other |
 | value | string/number | coded value |
 | effective_from, effective_to | date or null | passage, effective, operative, and local implementation dates kept as separate fields when they differ |
 | source_url, source_section, retrieved | string, date | |
@@ -70,8 +70,11 @@ Defined indicators only, no composite score.
 | Field | Type | Notes |
 | --- | --- | --- |
 | jurisdiction_id, scenario_id | string | scenario variants include `adu_full` and `adu_form_only` (decision D1) |
-| current_class | enum | prohibited, restricted, compliant, no_zoning, unknown |
-| reform_class | enum | same vocabulary plus forms_with_occupancy_limits (form-only variant); equals current_class where the reform adds nothing |
+| current_class | enum | scenario_benchmark, restricted, prohibited_explicit, prohibited_implicit, no_zoning, undetermined (AQ-026) |
+| reform_class | enum | same vocabulary; equals current_class where the reform adds nothing; `restricted` only in the form-only sensitivity |
+| restrictions | list | restriction flags for the current rules (contracts.RESTRICTION_FLAGS); required when current_class is restricted |
+| reform_restrictions | list | flags that remain under the reform scenario (empty under adu_full) |
+| approval_pathway | enum | ministerial / discretionary / unknown |
 | class_basis | enum | coded_verified, coded_source_lead, imputed_from_sample, not_found |
 | rules_as_of | date | ordinance version date; current law frozen at 2026-10-31 |
 | rights_added_text | string | plain-language list of rights the reform adds here, e.g. "detached ADUs; removes related-occupant rule" |

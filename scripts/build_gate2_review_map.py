@@ -72,7 +72,7 @@ const tracts=__TRACTS__, munis=__MUNIS__;
 const map=L.map('map').setView([43.07,-89.4],11);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,
  attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
-const cls={'compliant':'#1b9e77','restricted':'#d95f02','prohibited':'#7570b3',
+const cls={'scenario_benchmark':'#1b9e77','restricted':'#d95f02','prohibited_explicit':'#7570b3','prohibited_implicit':'#b3a2d6',
  'not coded (default: no ADU rights)':'#bbbbbb'};
 const rights=L.geoJSON(munis,{style:f=>({color:'#555',weight:0.5,fillColor:cls[f.properties.current_class]||'#bbb',fillOpacity:f.properties.jurisdiction_name?0.8:0.15}),
  onEachFeature:(f,l)=>l.bindPopup(`<b>${f.properties.jurisdiction_name||f.properties.area_id}</b><br>Current law: ${f.properties.current_class}`+

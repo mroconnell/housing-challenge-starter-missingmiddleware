@@ -1,2 +1,6 @@
-jurisdiction_id,jurisdiction_name,scenario_id,current_class,reform_class,class_basis,rules_as_of,rights_added_text,rule_ids,aq023_default_class,default_matches_coded,notes
-5500000001,Example city,adu_full,compliant,restricted,not_found,2027-01-01,,wi5500000001_missing_1,prohibited,false,
+jurisdiction_id,jurisdiction_name,scenario_id,current_class,reform_class,class_basis,rules_as_of,restrictions,reform_restrictions,approval_pathway,rights_added_text,rule_ids,aq023_default_class,default_matches_coded,notes
+5500000001,Example city,adu_full,scenario_benchmark,restricted,not_found,2027-01-01,,,sometimes,,wi5500000001_missing_1,undetermined,false,
+5500000002,Example village,adu_full,restricted,restricted,coded_source_lead,2026-01-01,garage_color,owner_occupancy,ministerial,text,wi5500000001_garage_1,undetermined,false,
+5500000002,Example village,adu_form_only,restricted,restricted,coded_source_lead,2026-01-01,extra_parking,extra_parking,ministerial,text,wi5500000001_garage_1,undetermined,false,
+5500000003,Old classes town,adu_full,compliant,forms_with_occupancy_limits,coded_source_lead,2026-01-01,,,ministerial,text,wi5500000001_garage_1,undetermined,false,
+5500000003,Old classes town,adu_form_only,prohibited,compliant,coded_source_lead,2026-01-01,,,ministerial,text,wi5500000001_garage_1,undetermined,false,

@@ -37,7 +37,14 @@ TERMS = {
     "coach house": r"coach\s+house",
     "carriage house": r"carriage[\s-]house",
     "secondary dwelling unit": r"secondary\s+(?:dwelling\s+unit|suite)",
-    "accessory living quarters": r"accessory\s+living\s+(?:quarters|unit)",
+    "accessory living": r"accessory\s+living\b",
+    "accessory apartment": r"accessory\s+apartments?\b",
+    # Older second-dwelling vocabulary (added 2026-10-24 after the Gate 2 review): Brookfield and
+    # Beloit "guest houses", Kenosha "residential quarters for domestic help", Beloit "employee
+    # living quarters", Madison/Fitchburg "dependency living arrangements".
+    "guest house": r"\bguest[\s-]?houses?\b",
+    "domestic help/servant quarters": r"quarters\s+for\s+(?:domestic\s+(?:help|servants?|employees?)|servants?|employees?)|(?:servant|employee|caretaker|domestic)s?['’]?\s+(?:living\s+)?quarters",
+    "dependency living": r"dependency\s+living",
     # New Berlin's defined term; case-sensitive and must start a sentence/heading so that
     # "single-family dwelling unit", "one (1) family dwelling unit", "four family ..." do not match.
     "family dwelling unit": r"(?-i:(?:^|[.;:\n\"“()]\s*|\d\.\s*|[A-Z]\.\s*)Family\s+dwelling\s+unit)",
@@ -45,45 +52,50 @@ TERMS = {
 }
 _SECTION = re.compile(r"(§\s?[\d.\-]+[A-Za-z0-9().\-]*|Sec(?:tion)?\.?\s+[\d.\-]+[A-Za-z0-9().\-]*)")
 
-# (name, wi_muni_id, host, url). URLs are the most direct current code text we know of.
+# (name, wi_muni_id, host, url, document_kind). URLs are the most direct current code text we know of.
+# document_kind says what the URL holds, because a hit in an adopting ordinance is guaranteed and a
+# stale compilation can miss later amendments: codified_chapter (current codified text), adopted_chapter_text
+# (a full chapter as adopted), adopting_ordinance (only the amending ordinance), stale_compilation (an older
+# compiled copy), archived_copy (web archive of the official page), codified_print_copy (official print
+# re-hosted by a third party), mirror (third-party re-typeset), staff_report, code_index_page (no code text).
 TARGETS = [
-    ("Milwaukee city", "5507953000", "city site (Clerk PDF)", "https://city.milwaukee.gov/ImageLibrary/Groups/ccClerk/Ordinances/Volume-2/CH295-sub5.pdf"),
-    ("Madison city", "5502548000", "municode", "https://library.municode.com/wi/madison/codes/code_of_ordinances?nodeId=COORMAWIVOIICH20--31_CH28ZOCOOR_SUBCHAPTER_28JSUUSRE_28.151ACUSSURE"),
-    ("Green Bay city", "5500931000", "municode (ordinance PDF)", "https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/15619/1400450/pdf"),
-    ("Kenosha city", "5505939225", "municode", "https://library.municode.com/wi/kenosha/codes/zoning_ordinance"),
-    ("Racine city", "5510166000", "municode", "https://library.municode.com/wi/racine/codes/code_of_ordinances?nodeId=PTIIMUCO_CH114ZO_ARTVDIRE_DIV2REDI"),
-    ("Appleton city", "5508702375", "city site", "https://www.appleton.org/government/municipal-code"),
-    ("Waukesha city", "5513384250", "Legistar (adopted Ch. 22.03)", "https://legistar2.granicus.com/waukesha/attachments/c852c290-1ccf-4801-9967-8d87347537fd.pdf"),
-    ("Eau Claire city", "5503522300", "city site (LDO PDF)", "https://www.eauclairewi.gov/DocumentCenter/View/1033/Land-Development-Ordinance-PDF"),
-    ("Oshkosh city", "5513960500", "Wayback copy of city Laserfiche", "https://web.archive.org/web/20251214231347/https://www.oshkoshwi.gov/WebLink/DocView.aspx?id=1183289&dbid=0&repo=Laserfiche"),
-    ("Janesville city", "5510537825", "municode", "https://library.municode.com/wi/janesville/codes/code_of_ordinances"),
-    ("West Allis city", "5507985300", "Legistar (O-2022-0024)", "https://westalliswi.legistar1.com/westalliswi/attachments/df2ec2d7-5409-4759-a080-5366789281e4.pdf"),
-    ("La Crosse city", "5506340775", "Legistar (Ord. 5280)", "https://legistar.granicus.com/CityofLaCrosse/attachments/239dbc28-943b-4645-9f22-e87475d777da.docx"),
-    ("Sheboygan city", "5511772975", "city meetings blob (Ch. 105 compiled 2023)", "https://mccmeetingspublic.blob.core.usgovcloudapi.net/sheboygnwi-meet-1ab88e5a89ad4af6836be2c56109cdb0/ITEM-Attachment-001-015d62d52b424fc985217ee1b0ae1f13.pdf"),
-    ("Wauwatosa city", "5507984675", "Legistar (O-25-25)", "https://wauwatosacitywi.legistar1.com/wauwatosacitywi/attachments/f54c270b-576f-4e05-a954-36755d2e4f9c.pdf"),
-    ("Fond du Lac city", "5503926275", "Zoneomics mirror of ecode360 Ch. 720 (art. IV)", "https://www.zoneomics.com/code/fond-du-lac-WI/chapter_4"),
-    ("New Berlin city", "5513356375", "municode", "https://library.municode.com/wi/new_berlin/codes/municipal_code?nodeId=PTIIGELE_CH275ZO_ARTVIIIGEDERE"),
-    ("Wausau city", "5507384475", "municode", "https://library.municode.com/wi/wausau/codes/code_of_ordinances?nodeId=TIT23ZO_ARTIIILAUSRE"),
-    ("Brookfield city", "5513310025", "codepublishing", "https://www.codepublishing.com/WI/Brookfield/html/Brookfield17/Brookfield1728.html"),
-    ("Beloit city", "5510506500", "municode", "https://library.municode.com/wi/beloit/codes/code_of_ordinances"),
-    ("Greenfield city", "5507931175", "municode", "https://library.municode.com/wi/greenfield/codes/code_of_ordinances"),
-    ("Franklin city", "5507927300", "city site (UDO PDF)", "https://www.franklinwi.gov/Files/Planning/UDO-Rewrite-2025/2025-UDO-Rewrite-Text.pdf"),
-    ("Oak Creek city", "5507958800", "ecode360 print (parkingreform.org copy)", "https://assets.parkingreform.org/assets/7d1088f1-4f0b-4f6a-a368-d7a3b6c4d398/oak-creek-wisconsin-united-states-attachment.pdf"),
-    ("Manitowoc city", "5507148500", "codepublishing", "https://www.codepublishing.com/WI/Manitowoc/html/Manitowoc15/Manitowoc15110.html"),
-    ("West Bend city", "5513185350", "city site (Ch. 17 PDF, 2022)", "https://cms9files.revize.com/westbend/17%20Chapter%20Municipal%20Code-%201.pdf"),
-    ("Sun Prairie city", "5502578600", "municode (Ord. 984 PDF)", "https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/13968/1423544/pdf"),
-    ("Superior city", "5503178650", "municode", "https://library.municode.com/wi/superior/codes/code_of_ordinances?nodeId=PTIICOOR_CH122ZO"),
-    ("Stevens Point city", "5509777200", "city site (Ch. 23 PDF)", "https://www.stevenspoint.com/DocumentCenter/View/769/Chapter-23---Zoning--Floodplain"),
-    ("Neenah city", "5513955750", "municode", "https://library.municode.com/wi/neenah/codes/code_of_ordinances"),
-    ("Fitchburg city", "5502525950", "city site (Ord. 2025-O-17)", "https://fitchburgwi.gov/DocumentCenter/View/29094/2025-O-17"),
-    ("Muskego city", "5513355275", "ecode360", "https://ecode360.com/29722805"),
-    ("Mount Pleasant village", "5510154875", "ecode360", "https://ecode360.com/36325067"),
-    ("Caledonia village", "5510111950", "zoninghub (staff report)", "https://data.zoninghub.com/viewfile.aspx?fileid=110664"),
-    ("Mequon city", "5508951150", "municode", "https://library.municode.com/wi/mequon/codes/code_of_ordinances"),
-    ("De Pere city", "5500919775", "city site (Ch. 14 PDF)", "https://www.deperewi.gov/egov/documents/1703171468_81245.pdf"),
-    ("Pleasant Prairie village", "5505963300", "ecode360", "https://ecode360.com/36640696"),
-    ("Menomonee Falls village", "5513351000", "municode", "https://library.municode.com/wi/menomonee_falls/codes/code_of_ordinances"),
-    ("Howard village", "5500935950", "municode", "https://library.municode.com/wi/howard/codes/code_of_ordinances"),
+    ("Milwaukee city", "5507953000", "city site (Clerk PDF)", "https://city.milwaukee.gov/ImageLibrary/Groups/ccClerk/Ordinances/Volume-2/CH295-sub5.pdf", "codified_chapter"),
+    ("Madison city", "5502548000", "municode", "https://library.municode.com/wi/madison/codes/code_of_ordinances?nodeId=COORMAWIVOIICH20--31_CH28ZOCOOR_SUBCHAPTER_28JSUUSRE_28.151ACUSSURE", "codified_chapter"),
+    ("Green Bay city", "5500931000", "municode (ordinance PDF)", "https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/15619/1400450/pdf", "adopting_ordinance"),
+    ("Kenosha city", "5505939225", "municode", "https://library.municode.com/wi/kenosha/codes/zoning_ordinance", "codified_chapter"),
+    ("Racine city", "5510166000", "municode", "https://library.municode.com/wi/racine/codes/code_of_ordinances?nodeId=PTIIMUCO_CH114ZO_ARTVDIRE_DIV2REDI", "codified_chapter"),
+    ("Appleton city", "5508702375", "city site", "https://www.appleton.org/government/municipal-code", "code_index_page"),
+    ("Waukesha city", "5513384250", "Legistar (adopted Ch. 22.03)", "https://legistar2.granicus.com/waukesha/attachments/c852c290-1ccf-4801-9967-8d87347537fd.pdf", "adopted_chapter_text"),
+    ("Eau Claire city", "5503522300", "city site (LDO PDF)", "https://www.eauclairewi.gov/DocumentCenter/View/1033/Land-Development-Ordinance-PDF", "codified_chapter"),
+    ("Oshkosh city", "5513960500", "Wayback copy of city Laserfiche", "https://web.archive.org/web/20251214231347/https://www.oshkoshwi.gov/WebLink/DocView.aspx?id=1183289&dbid=0&repo=Laserfiche", "archived_copy"),
+    ("Janesville city", "5510537825", "municode", "https://library.municode.com/wi/janesville/codes/code_of_ordinances", "codified_chapter"),
+    ("West Allis city", "5507985300", "Legistar (O-2022-0024)", "https://westalliswi.legistar1.com/westalliswi/attachments/df2ec2d7-5409-4759-a080-5366789281e4.pdf", "adopting_ordinance"),
+    ("La Crosse city", "5506340775", "Legistar (Ord. 5280)", "https://legistar.granicus.com/CityofLaCrosse/attachments/239dbc28-943b-4645-9f22-e87475d777da.docx", "adopting_ordinance"),
+    ("Sheboygan city", "5511772975", "city meetings blob (Ch. 105 compiled 2023)", "https://mccmeetingspublic.blob.core.usgovcloudapi.net/sheboygnwi-meet-1ab88e5a89ad4af6836be2c56109cdb0/ITEM-Attachment-001-015d62d52b424fc985217ee1b0ae1f13.pdf", "stale_compilation"),
+    ("Wauwatosa city", "5507984675", "Legistar (O-25-25)", "https://wauwatosacitywi.legistar1.com/wauwatosacitywi/attachments/f54c270b-576f-4e05-a954-36755d2e4f9c.pdf", "adopting_ordinance"),
+    ("Fond du Lac city", "5503926275", "Zoneomics mirror of ecode360 Ch. 720 (art. IV)", "https://www.zoneomics.com/code/fond-du-lac-WI/chapter_4", "mirror"),
+    ("New Berlin city", "5513356375", "municode", "https://library.municode.com/wi/new_berlin/codes/municipal_code?nodeId=PTIIGELE_CH275ZO_ARTVIIIGEDERE", "codified_chapter"),
+    ("Wausau city", "5507384475", "municode", "https://library.municode.com/wi/wausau/codes/code_of_ordinances?nodeId=TIT23ZO_ARTIIILAUSRE", "codified_chapter"),
+    ("Brookfield city", "5513310025", "codepublishing", "https://www.codepublishing.com/WI/Brookfield/html/Brookfield17/Brookfield17.html", "codified_chapter"),
+    ("Beloit city", "5510506500", "municode", "https://library.municode.com/wi/beloit/codes/code_of_ordinances", "codified_chapter"),
+    ("Greenfield city", "5507931175", "municode", "https://library.municode.com/wi/greenfield/codes/code_of_ordinances", "codified_chapter"),
+    ("Franklin city", "5507927300", "city site (UDO PDF)", "https://www.franklinwi.gov/Files/Planning/UDO-Rewrite-2025/2025-UDO-Rewrite-Text.pdf", "codified_chapter"),
+    ("Oak Creek city", "5507958800", "ecode360 print (parkingreform.org copy)", "https://assets.parkingreform.org/assets/7d1088f1-4f0b-4f6a-a368-d7a3b6c4d398/oak-creek-wisconsin-united-states-attachment.pdf", "codified_print_copy"),
+    ("Manitowoc city", "5507148500", "codepublishing", "https://www.codepublishing.com/WI/Manitowoc/html/Manitowoc15/Manitowoc15.html", "codified_chapter"),
+    ("West Bend city", "5513185350", "city site (Ch. 17 PDF, 2022)", "https://cms9files.revize.com/westbend/17%20Chapter%20Municipal%20Code-%201.pdf", "stale_compilation"),
+    ("Sun Prairie city", "5502578600", "municode (Ord. 984 PDF)", "https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/13968/1423544/pdf", "adopting_ordinance"),
+    ("Superior city", "5503178650", "municode", "https://library.municode.com/wi/superior/codes/code_of_ordinances?nodeId=PTIICOOR_CH122ZO", "codified_chapter"),
+    ("Stevens Point city", "5509777200", "city site (Ch. 23 PDF)", "https://www.stevenspoint.com/DocumentCenter/View/769/Chapter-23---Zoning--Floodplain", "codified_chapter"),
+    ("Neenah city", "5513955750", "municode", "https://library.municode.com/wi/neenah/codes/code_of_ordinances", "codified_chapter"),
+    ("Fitchburg city", "5502525950", "city site (Ord. 2025-O-17)", "https://fitchburgwi.gov/DocumentCenter/View/29094/2025-O-17", "adopting_ordinance"),
+    ("Muskego city", "5513355275", "ecode360", "https://ecode360.com/29722805", "codified_chapter"),
+    ("Mount Pleasant village", "5510154875", "ecode360", "https://ecode360.com/36325067", "codified_chapter"),
+    ("Caledonia village", "5510111950", "zoninghub (staff report)", "https://data.zoninghub.com/viewfile.aspx?fileid=110664", "staff_report"),
+    ("Mequon city", "5508951150", "municode", "https://library.municode.com/wi/mequon/codes/code_of_ordinances", "codified_chapter"),
+    ("De Pere city", "5500919775", "city site (Ch. 14 PDF)", "https://www.deperewi.gov/egov/documents/1703171468_81245.pdf", "codified_chapter"),
+    ("Pleasant Prairie village", "5505963300", "ecode360", "https://ecode360.com/36640696", "codified_chapter"),
+    ("Menomonee Falls village", "5513351000", "municode", "https://library.municode.com/wi/menomonee_falls/codes/code_of_ordinances", "codified_chapter"),
+    ("Howard village", "5500935950", "municode", "https://library.municode.com/wi/howard/codes/code_of_ordinances", "codified_chapter"),
 ]
 
 
@@ -119,19 +131,61 @@ def _to_text(data: bytes, ctype: str, url: str) -> str:
     return html.unescape(re.sub(r"<[^>]+>", " ", t))
 
 
+UA = "Mozilla/5.0 (research; missing-middleware ADU scan)"
+
+
+def _curl(url: str, timeout: int) -> bytes | None:
+    """Plain GET with curl; returns the body on HTTP 200, else None."""
+    try:
+        out = subprocess.run(["curl", "-sL", "--max-time", str(timeout), "-A", UA, "-w", "\n%{http_code}", url],
+                             capture_output=True, timeout=timeout + 10)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    body, _, code = out.stdout.rpartition(b"\n")
+    return body if code.strip() == b"200" else None
+
+
+def _get(url: str, timeout: int) -> bytes | None:
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return r.read()
+    except Exception:  # noqa: BLE001
+        return _curl(url, timeout)
+
+
 def scan(target, timeout=60) -> dict:
-    name, jid, host, url = target
-    row = dict(jurisdiction_name=name, jurisdiction_id=jid, code_host=host, url_searched=url,
+    name, jid, host, url, kind = target
+    row = dict(jurisdiction_name=name, jurisdiction_id=jid, code_host=host, document_kind=kind, url_searched=url,
                scan_date=dt.date.today().isoformat(), search_method="http_get_text_regex",
                result="", http_status="", matched_terms="", first_hit_section="", first_hit_context="",
                text_chars="", sha256="")
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (research; missing-middleware ADU scan)"})
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             data, ctype, row["http_status"] = r.read(), r.headers.get("Content-Type", ""), str(r.status)
     except Exception as e:  # noqa: BLE001 - record any access failure
-        row["result"], row["http_status"] = "could_not_access", getattr(e, "code", type(e).__name__)
-        return row
+        # Some hosts refuse Python's HTTP client but answer a plain curl GET with the same user agent.
+        status = getattr(e, "code", type(e).__name__)
+        got = _curl(url, timeout)
+        if got is None:
+            row["result"], row["http_status"] = "could_not_access", status
+            return row
+        data, ctype = got, ""
+        row["http_status"] = "200"
+        row["search_method"] += f" (curl fallback after urllib {status})"
+    if "codepublishing.com" in url:
+        # A codepublishing title/chapter page is a table of contents: fetch every section page it links
+        # in the same folder and scan them together.
+        base = url.rsplit("/", 1)[0]
+        links = sorted({h.split("#")[0] for h in re.findall(r'href="\.\./' + re.escape(base.rsplit("/", 1)[1]) + r'/([^"#]+\.html)', data.decode("utf-8", "ignore"))})
+        parts = [data]
+        for h in links:
+            got = _get(f"{base}/{h}", timeout)
+            if got is not None:
+                parts.append(got)
+        row["search_method"] += f" (table of contents plus {len(parts) - 1} of {len(links)} linked pages)"
+        data = b"\n".join(parts)
     row["sha256"] = hashlib.sha256(data).hexdigest()
     text = _to_text(data, ctype, url)
     row["text_chars"] = str(len(text))

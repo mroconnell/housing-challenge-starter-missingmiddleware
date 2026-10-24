@@ -309,7 +309,7 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Owner direction:** Study the challenge ADU scenario closely, then analyze policy nuance. ADUs are often nominally allowed while provisions all but stop production, notably owner-occupancy requirements and the approval pathway. Whether a city approves ADUs ministerially (by right, staff-level, no hearing) or through discretionary review (conditional or special use, plan commission) may be the single biggest difference between a statewide ADU law and current local rules.
 
-**Current evidence (2026-10-24):** Of the 37 coded municipalities ([WI_ADU_RULES.md](gate2/WI_ADU_RULES.md)), 11 have ongoing owner-occupancy requirements and at least 6 require conditional, special-use, or plan-commission approval. The `approval_type` values are free text today.
+**Current evidence (2026-10-24):** Of the 37 coded municipalities ([WI_ADU_RULES.md](gate2/WI_ADU_RULES.md)), 11 have ongoing owner-occupancy requirements and 7 require discretionary (conditional-use or plan-commission) approval; 17 approve ministerially. These are now coded as `approval_pathway` and the `discretionary_review` restriction flag (AQ-026).
 
 **Next steps:** read the benchmark text for what it implies about approval (it says "allow" and is silent on process); add a normalized approval-pathway field (ministerial / discretionary / unknown) to the rule coding; decide whether the modeled bill requires ministerial approval (consistent with the no-poison-pills decision in AQ-022); and test whether rights classes split by approval pathway explain differences in observed ADU rates.
 
