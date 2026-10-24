@@ -463,6 +463,20 @@ The owner accepted every Gate 2 recommendation: the data is fit for Gate 3 (G2-1
 
 **Decision:** Adopted 2026-10-24.
 
+## AQ-036 Statewide prediction first; no "local-only reform" scenario in the tool
+
+**Status:** Adopted. **Added:** 2026-10-24. **Related:** AQ-034, AQ-035, [Gate 3 packet](gate3/README.md).
+
+**Owner decisions (2026-10-24):**
+
+- The with-law rate must come from a model or measured data, never a judgment anchor. The triangulated 0.75 (R2 in the revised Gate 3 packet) is withdrawn.
+- About 90% of the modeling effort goes to the **statewide** predicted rate (second-home permits per 1,000 single-family homes per year for Wisconsin as a whole); where units land within the state is secondary.
+- **Upper scenario, "statewide adoption":** apply the measured year-by-year path of states that passed statewide ADU laws to Wisconsin's homes.
+- **Central scenario:** a pooled regression across California, the statewide-law states, and the five comparison cities, with home value (with diminishing effect at the high end), income or price-to-income, and a "statewide law in force" indicator, validated by leaving out one state at a time.
+- The **"no statewide law, localities act independently"** scenario is outside the challenge remit and is removed from the tool; it remains an internal learning note (Madison and Minneapolis at about 0.17–0.18 per 1,000 homes per year).
+
+**Decision:** Adopted; replaces revised-packet decision R2.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -531,3 +545,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-033 | Gate 2 passed; Pleasant Prairie verified by the owner; Appleton coded benchmark; California plan approved; Madison floor years set. |
 | 2026-10-24 | AQ-034 | Adopted a market-adjusted California regression (with out-of-state cities) to replace the judgment-based transfer ratio for the central path. |
 | 2026-10-24 | AQ-035 | Owner accepted G3-2 to G3-4; unzoned towns get their own rate with a town list to build; adopted a state-relative group rule (v1) instead of state-specific cutoffs. |
+| 2026-10-24 | AQ-036 | Statewide rate comes from a pooled multi-state model or measured adoption path, not a judgment anchor; the local-only scenario is removed from the tool. |
