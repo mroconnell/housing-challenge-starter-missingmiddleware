@@ -1,0 +1,8 @@
+permittype,permit_number,permit_class,work_class,description,issue_date,status_current,housing_units,tcad_id,jurisdiction
+BP,A1,R- 102 Secondary Apartment,New,New 1 story secondary dwelling unit behind existing house 1/1,2017-03-01T00:00:00.000,Final,1,T1,AUSTIN FULL PURPOSE
+BP,A2,R- 102 Secondary Apartment,New,Building 2 secondary dwelling,2017-04-01T00:00:00.000,Final,1,T2,AUSTIN FULL PURPOSE
+BP,A3,R- 102 Secondary Apartment,New,New accessory building (non-dwelling) game room,2017-05-01T00:00:00.000,Final,0,T3,AUSTIN FULL PURPOSE
+BP,A4,R- 102 Secondary Apartment,New,Garage conversion to secondary apartment,2017-06-01T00:00:00.000,VOID,1,T4,AUSTIN FULL PURPOSE
+BP,A5,R- 434 Addition & Alterations,Addition,Garage conversion to ADU,2017-07-01T00:00:00.000,Final,,T5,AUSTIN FULL PURPOSE
+BP,A6,R- 101 Single Family Houses,New,New single family home with gradual slope,2017-07-01T00:00:00.000,Final,1,T6,AUSTIN FULL PURPOSE
+EP,A7,R- 102 Secondary Apartment,New,Electrical for secondary apartment,2017-07-01T00:00:00.000,Final,1,T7,AUSTIN FULL PURPOSE

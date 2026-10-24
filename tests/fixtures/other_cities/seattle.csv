@@ -1,0 +1,9 @@
+permitnum,permittypemapped,permittypedesc,description,housingunitsadded,issueddate,statuscurrent,dwellingunittype,originaladdress1
+S1,Building,New,Construct DADU per plan,1,2018-03-01T00:00:00.000,Completed,Accessory Dwelling Detached,1 A ST
+S2,Building,Addition/Alteration,Convert basement to AADU,2,2018-05-01T00:00:00.000,Completed,Accessory Dwelling Attached,2 B ST
+S3,Building,New,Construct SFR with AADU and DADU,3,2021-02-01T00:00:00.000,Completed,"Accessory Dwelling Attached, Accessory Dwelling Detached, Detached Single-Family",3 C ST
+S4,Building,New,Construct DADU,1,2021-06-01T00:00:00.000,Issued,Accessory Dwelling Detached,4 D ST
+S5,Building,Addition/Alteration,Legalize existing unpermitted AADU,1,2021-07-01T00:00:00.000,Completed,Accessory Dwelling Attached,5 E ST
+S6,Building,New,Construct DADU,1,2021-08-01T00:00:00.000,Canceled,Accessory Dwelling Detached,6 F ST
+S7,Building,New,Construct SFR,1,2021-08-01T00:00:00.000,Completed,Detached Single-Family,7 G ST
+S8,Demolition,New,Demolish DADU,0,2021-08-01T00:00:00.000,Completed,Accessory Dwelling Detached,8 H ST

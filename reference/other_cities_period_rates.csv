@@ -1,0 +1,42 @@
+city,period,first_year,last_year,years_observed,years_missing,measure,adu_units,homes,rate_per_1000_yr,poisson95_lo,poisson95_hi,regime
+seattle,pre_2019_reform,2016,2018,3,0,adu_units,608.0000,144993.0000,1.3978,1.2889,1.5134,DADUs citywide since 2009; owner occupancy + parking required
+seattle,long_pre,2010,2018,9,0,adu_units,1314.0000,144993.0000,1.0069,0.9532,1.0629,"same, longer window"
+seattle,post_2019_ramp,2020,2020,1,0,adu_units,350.0000,144993.0000,2.4139,2.1676,2.6805,year 1 after Ord. 125854
+seattle,post_2019_plateau,2021,2024,4,0,adu_units,2210.0000,144993.0000,3.8105,3.6533,3.9728,Ord. 125854 in force (before HB 1337 compliance 2025-06-30)
+portland,pre_sdc_waiver,2007,2009,3,0,adu_units,68.0000,160807.0000,0.1410,0.1095,0.1787,"ADUs allowed, SDCs charged"
+portland,sdc_waiver_ramp,2011,2015,5,0,adu_units,843.0000,160807.0000,1.0485,0.9789,1.1217,SDC waiver (from 2010)
+portland,sdc_deadline_peak,2016,2018,3,0,adu_units,1415.0000,160807.0000,2.9331,2.7823,3.0900,waiver expiry deadline 2018-07-31
+portland,permanent_exemption_pre_rip,2019,2020,2,0,adu_units,487.0000,160807.0000,1.5142,1.3827,1.6549,exemption permanent with STR covenant; HB 2001 ADU rules 2020
+portland,post_rip,2022,2025,4,0,adu_units,746.0000,160807.0000,1.1598,1.0780,1.2461,"Residential Infill Project (2021-08-01, 2022-06-30)"
+austin,pre_2015_reform,2012,2014,3,0,adu_units,121.0000,209772.0000,0.1923,0.1595,0.2297,"secondary apartments on 7,000 sq ft lots"
+austin,post_2015_early,2016,2019,4,0,adu_units,466.0000,209772.0000,0.5554,0.5061,0.6082,Ord. 20151119-080
+austin,post_2015_late,2020,2023,4,0,adu_units,408.0000,209772.0000,0.4862,0.4402,0.5358,"Ord. 20151119-080, before HOME"
+denver,pre_2023,2016,2022,7,0,adu_units,380.0000,145528.0000,0.3730,0.3365,0.4125,ADUs only where zoning allowed (about 36% of land); owner occupancy
+denver,form_standards_2023,2023,2024,2,0,adu_units,142.0000,145528.0000,0.4879,0.4109,0.5750,2023 form-standard amendment; still zone-by-zone
+denver,citywide_2025,2025,2025,1,0,adu_units,117.0000,145528.0000,0.8040,0.6649,0.9635,citywide ADUs from 2024-12-16 (one year observed)
+minneapolis,post_2014_owner_occ,2017,2020,4,0,adu_units,109.0000,84075.0000,0.3241,0.2661,0.3910,"2014 ordinance, owner occupancy (data start Dec 2016)"
+minneapolis,post_owner_occ_removed,2021,2025,5,0,adu_units,73.0000,84075.0000,0.1737,0.1361,0.2183,owner occupancy removed 2021 (detached/attached)
+seattle,pre_2019_reform,2016,2018,3,0,units_incl_new_house,768.0000,144993.0000,1.7656,1.6429,1.8950,DADUs citywide since 2009; owner occupancy + parking required
+seattle,long_pre,2010,2018,9,0,units_incl_new_house,1599.0000,144993.0000,1.2253,1.1660,1.2869,"same, longer window"
+seattle,post_2019_ramp,2020,2020,1,0,units_incl_new_house,463.0000,144993.0000,3.1933,2.9090,3.4978,year 1 after Ord. 125854
+seattle,post_2019_plateau,2021,2024,4,0,units_incl_new_house,3462.0000,144993.0000,5.9693,5.7721,6.1715,Ord. 125854 in force (before HB 1337 compliance 2025-06-30)
+portland,pre_sdc_waiver,2007,2009,3,0,units_incl_new_house,83.0000,160807.0000,0.1720,0.1370,0.2133,"ADUs allowed, SDCs charged"
+portland,sdc_waiver_ramp,2011,2015,5,0,units_incl_new_house,1013.0000,160807.0000,1.2599,1.1835,1.3399,SDC waiver (from 2010)
+portland,sdc_deadline_peak,2016,2018,3,0,units_incl_new_house,1620.0000,160807.0000,3.3581,3.1965,3.5257,waiver expiry deadline 2018-07-31
+portland,permanent_exemption_pre_rip,2019,2020,2,0,units_incl_new_house,571.0000,160807.0000,1.7754,1.6328,1.9272,exemption permanent with STR covenant; HB 2001 ADU rules 2020
+portland,post_rip,2022,2025,4,0,units_incl_new_house,826.0000,160807.0000,1.2841,1.1981,1.3748,"Residential Infill Project (2021-08-01, 2022-06-30)"
+austin,pre_2015_reform,2012,2014,3,0,units_incl_new_house,262.0000,209772.0000,0.4163,0.3674,0.4699,"secondary apartments on 7,000 sq ft lots"
+austin,post_2015_early,2016,2019,4,0,units_incl_new_house,1311.0000,209772.0000,1.5624,1.4790,1.6493,Ord. 20151119-080
+austin,post_2015_late,2020,2023,4,0,units_incl_new_house,1238.0000,209772.0000,1.4754,1.3944,1.5599,"Ord. 20151119-080, before HOME"
+denver,pre_2023,2016,2022,7,0,units_incl_new_house,380.0000,145528.0000,0.3730,0.3365,0.4125,ADUs only where zoning allowed (about 36% of land); owner occupancy
+denver,form_standards_2023,2023,2024,2,0,units_incl_new_house,143.0000,145528.0000,0.4913,0.4141,0.5788,2023 form-standard amendment; still zone-by-zone
+denver,citywide_2025,2025,2025,1,0,units_incl_new_house,120.0000,145528.0000,0.8246,0.6837,0.9860,citywide ADUs from 2024-12-16 (one year observed)
+minneapolis,post_2014_owner_occ,2017,2020,4,0,units_incl_new_house,116.0000,84075.0000,0.3449,0.2850,0.4137,"2014 ordinance, owner occupancy (data start Dec 2016)"
+minneapolis,post_owner_occ_removed,2021,2025,5,0,units_incl_new_house,82.0000,84075.0000,0.1951,0.1551,0.2421,owner occupancy removed 2021 (detached/attached)
+seattle,pre_2019_reform,2016,2018,3,0,published_units,771.0000,144993.0000,1.7725,1.6496,1.9022,DADUs citywide since 2009; owner occupancy + parking required
+seattle,long_pre,2010,2018,9,0,published_units,1607.0000,144993.0000,1.2315,1.1720,1.2932,"same, longer window"
+seattle,post_2019_ramp,2020,2020,1,0,published_units,476.0000,144993.0000,3.2829,2.9946,3.5915,year 1 after Ord. 125854
+seattle,post_2019_plateau,2021,2024,4,0,published_units,3504.0000,144993.0000,6.0417,5.8433,6.2451,Ord. 125854 in force (before HB 1337 compliance 2025-06-30)
+austin,pre_2015_reform,2012,2014,3,0,units_incl_text_matches,239.0000,209772.0000,0.3798,0.3331,0.4311,"secondary apartments on 7,000 sq ft lots"
+austin,post_2015_early,2016,2019,4,0,units_incl_text_matches,609.0000,209772.0000,0.7258,0.6693,0.7858,Ord. 20151119-080
+austin,post_2015_late,2020,2023,4,0,units_incl_text_matches,546.0000,209772.0000,0.6507,0.5973,0.7076,"Ord. 20151119-080, before HOME"

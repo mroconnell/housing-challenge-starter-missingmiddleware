@@ -1,0 +1,19 @@
+city,year,published,published_source,ours,ours_measure
+seattle,2010,144,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",140.0,open data ADU units incl. with new house
+seattle,2011,107,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",107.0,open data ADU units incl. with new house
+seattle,2012,115,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",116.0,open data ADU units incl. with new house
+seattle,2013,125,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",124.0,open data ADU units incl. with new house
+seattle,2014,155,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",153.0,open data ADU units incl. with new house
+seattle,2015,190,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",191.0,open data ADU units incl. with new house
+seattle,2016,274,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",272.0,open data ADU units incl. with new house
+seattle,2017,252,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",252.0,open data ADU units incl. with new house
+seattle,2018,245,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",244.0,open data ADU units incl. with new house
+seattle,2019,283,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",284.0,open data ADU units incl. with new house
+seattle,2020,476,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",463.0,open data ADU units incl. with new house
+seattle,2021,762,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",753.0,open data ADU units incl. with new house
+seattle,2022,924,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",904.0,open data ADU units incl. with new house
+seattle,2023,905,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",906.0,open data ADU units incl. with new house
+seattle,2024,913,"OPCD 2024 ADU Annual Report Exh. 10 (units, incl. with new house)",899.0,open data ADU units incl. with new house
+portland,2016,615,Ord. 189050 findings (BPS): ADU permits issued,538.0,IS_ADU permits incl. with new house
+portland,2010,86,Ord. 189050 findings (BPS),67.0,IS_ADU permits incl. with new house
+denver,2018-2024 (to May),389,"Denverite May 2024 (secondary, city data): ADU construction permits since 2018",360.0,code 026 permits 2018-2023 (full years only)

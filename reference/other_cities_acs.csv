@@ -1,0 +1,7 @@
+city,place,geoid,homes,homes_moe,all_units,value,value_moe,rent,rent_moe,income,income_moe,vintage
+seattle,"Seattle city, WA",5363000,144993,2130,393918,938600,8494,2030,22,123860,2244,ACS 2020-2024 5-year (table-based summary file)
+portland,"Portland city, OR",4159000,160807,2148,307719,581500,5945,1655,18,90919,1681,ACS 2020-2024 5-year (table-based summary file)
+austin,"Austin city, TX",4805000,209772,3109,483071,555300,8017,1729,14,93658,1670,ACS 2020-2024 5-year (table-based summary file)
+denver,"Denver city, CO",0820000,145528,2310,359581,616000,6700,1831,17,94718,1644,ACS 2020-2024 5-year (table-based summary file)
+minneapolis,"Minneapolis city, MN",2743000,84075,1421,209080,362200,4232,1371,20,80846,1824,ACS 2020-2024 5-year (table-based summary file)
+madison,"Madison city, WI",5548000,53292,1235,133530,372900,5542,1413,20,78050,2037,ACS 2020-2024 5-year (table-based summary file)

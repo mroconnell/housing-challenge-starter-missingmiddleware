@@ -1,0 +1,8 @@
+FOLDERNUMB,ISSUEDATE,STATUS,NEWCLASS,NEWTYPE,PDXBND,IS_ADU,FOLDER_DES,NEW_UNITS
+P1,2016/04/01 10:00:00+00,Final,New Construction,Accessory Dwelling Unit,YES,True,NEW DETACHED ADU,1
+P2,2016/05/01 10:00:00+00,Final,Alteration,Single Family Dwelling,YES,True,CONVERT BASEMENT TO ADU,1
+P3,2016/06/01 10:00:00+00,Final,New Construction,Single Family Dwelling,YES,True,NEW SFR WITH ATTACHED ADU,2
+P4,2016/07/01 10:00:00+00,Final,Alteration,Single Family Dwelling,YES,True,LEGALIZE EXISTING BASEMENT ADU,1
+P5,2016/08/01 10:00:00+00,Final,New Construction,Accessory Dwelling Unit,NO,True,NEW DETACHED ADU OUTSIDE CITY,1
+P6,2016/09/01 10:00:00+00,Final,New Construction,Single Family Dwelling,YES,False,NEW SFR,1
+P7,,Application,New Construction,Accessory Dwelling Unit,YES,True,NEW DETACHED ADU,1
