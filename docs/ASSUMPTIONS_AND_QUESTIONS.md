@@ -303,6 +303,18 @@ More post-reform permit observations can improve measurement, but a before-and-a
 
 **Decision:** Direction adopted; numerical values, baseline period, and the two predictive models are Gate 3 decisions.
 
+## AQ-025 Treat production-killing provisions as the core of the rights comparison
+
+**Status:** Open; to be developed when rights are coded for the model (Gate 3). **Added:** 2026-10-24. **Related:** AQ-009, AQ-022, AQ-023, AQ-024.
+
+**Owner direction:** Study the challenge ADU scenario closely, then analyze policy nuance. ADUs are often nominally allowed while provisions all but stop production, notably owner-occupancy requirements and the approval pathway. Whether a city approves ADUs ministerially (by right, staff-level, no hearing) or through discretionary review (conditional or special use, plan commission) may be the single biggest difference between a statewide ADU law and current local rules.
+
+**Current evidence (2026-10-24):** Of the 37 coded municipalities ([WI_ADU_RULES.md](gate2/WI_ADU_RULES.md)), 11 have ongoing owner-occupancy requirements and at least 6 require conditional, special-use, or plan-commission approval. The `approval_type` values are free text today.
+
+**Next steps:** read the benchmark text for what it implies about approval (it says "allow" and is silent on process); add a normalized approval-pathway field (ministerial / discretionary / unknown) to the rule coding; decide whether the modeled bill requires ministerial approval (consistent with the no-poison-pills decision in AQ-022); and test whether rights classes split by approval pathway explain differences in observed ADU rates.
+
+**Decision:** Pending Gate 3.
+
 ## Additional questions to develop
 
 All entries below were added on 2026-10-23 and remain **Open**.
@@ -330,3 +342,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-23 | AQ-019, AQ-020; MVP Execution Plan | Recorded the state-first destination, sequential ADU pilot/statewide/additional-scenario MVPs, judging alignment, local execution with routine GitHub pushes authorized, and agent self-assessment before step-by-step owner gates. |
 | 2026-10-23 | AQ-021 to AQ-023; AQ-007, AQ-014 | Recorded the owner's Gate 1 decisions: stylized dates, ACS denominator, ADU-equivalent permit rule, replacing New Berlin with a permit-data-rich mid-size city without ADU rules, no poison pills in the modeled bill, unknown local rules treated as no ADU rights for the MVP, and baseline-health reporting across scenarios. |
 | 2026-10-23 | AQ-023, AQ-024 | Owner confirmed the reduced effect for already-permissive cities and set Madison's observed rate as the lower path, with separate predictive models for the central and upper paths. |
+| 2026-10-24 | AQ-025 | Recorded the owner's direction to treat owner occupancy and the approval pathway (ministerial versus discretionary) as the provisions that decide whether nominally allowed ADUs get built. |

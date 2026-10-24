@@ -62,12 +62,19 @@ def find_renewal_duplicates(df: pd.DataFrame, days: int = 1095) -> pd.Series:
 def build_permits_observed(raw: pd.DataFrame, index: AddressIndex, parcels: pd.DataFrame,
                            parcel_xy: pd.DataFrame, areas_fn, raze_types=RAZE_TYPES_DEFAULT,
                            new_residential_types: tuple[str, ...] = (),
-                           host_uses: tuple[str, ...] | None = None) -> pd.DataFrame:
+                           host_uses: tuple[str, ...] | None = None,
+                           match_fn=None, parcel_rule_fn=None) -> pd.DataFrame:
     """Full record-level table (all deduplicated permits, with diagnostics).
 
     `parcel_xy`: parcel_id, x, y (lon/lat representative point).
     `areas_fn(points_df with x,y)` -> DataFrame with tract_geoid, bg_geoid.
     Contract rows are the subset `in_scope` (see `to_contract`).
+
+    Optional hooks for cities whose permits carry parcel numbers (defaults keep
+    the Madison behaviour): `match_fn(df) -> match frame` replaces the address
+    match (same columns as `match_addresses`), and `parcel_rule_fn(df, parcels)`
+    replaces `apply_parcel_rule` (must return at least host_units_now,
+    earlier_units, parcel_rule_pass, parcel_rule_reason).
     """
     df = dedupe(raw)
     df["units_added"] = df["units_raw"].round().astype("Int64")
@@ -84,10 +91,11 @@ def build_permits_observed(raw: pd.DataFrame, index: AddressIndex, parcels: pd.D
     # (only small counts are judged this way; multi-unit projects keep their count)
     df["units_suspect"] = df["units_added"].fillna(0).between(1, 2) \
         & (df["non_dwelling_only"] | df["unit_reduction"]) & df["text_category"].isna()
-    m = match_addresses(df, index)
+    m = match_fn(df) if match_fn is not None else match_addresses(df, index)
     df = df.join(m)
     df = apply_parcel_attrs(df, parcels)
-    pr = apply_parcel_rule(df, parcels, host_uses=host_uses)
+    pr = (parcel_rule_fn(df, parcels) if parcel_rule_fn is not None
+          else apply_parcel_rule(df, parcels, host_uses=host_uses))
     df = df.join(pr)
     df["renewal_duplicate"] = find_renewal_duplicates(df)
 
