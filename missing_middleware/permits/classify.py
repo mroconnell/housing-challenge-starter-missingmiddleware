@@ -26,7 +26,7 @@ import pandas as pd
 
 ADU_RE = re.compile(
     r"accessory\s+dwell|\bADU'?S?\b|\bA\.D\.U|accessory\s+(?:unit|apartment|living\s+unit|residential\s+unit)"
-    r"|carriage\s+house|coach\s+house|granny|in[- ]law|backyard\s+cottage|garden\s+(?:cottage|suite)"
+    r"|carriage\s+house|coach\s+house|granny|\bin[- ]law\b|backyard\s+cottage|garden\s+(?:cottage|suite)"
     r"|secondary\s+dwelling|second(?:ary)?\s+(?:living|dwelling)\s+unit|laneway",
     re.I,
 )
