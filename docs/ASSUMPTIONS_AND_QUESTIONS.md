@@ -543,6 +543,10 @@ Kept here so the owner can take them to mentor office hours or the Administrator
 16. Fee scenario: must the $50,000-per-unit assumption apply uniformly even where Wisconsin fees are lower, or may teams also show results with local fees?
 17. Can the team submit early for a pre-deadline compliance review?
 18. Some source data is published only as PDFs, spreadsheets or images (for example Oregon DLCD ADU reports and Washington OFM permit workbooks), so we entered the counts into a table in our code with the source URL, access date and file checksum. Does this count as "fetched automatically from the authoritative source with minimal manual steps", or must the pipeline download and parse each file itself?
+19. Our committed sample files once showed street addresses and parcel numbers copied from public government parcel layers (no owner names). They are now masked, but the old values remain in git history. Is that acceptable under "do not use sensitive, confidential, restricted-use, or personally identifiable data", or must history be rewritten? (Owner decision 2026-10-25: leave history.)
+20. Many government sources we use (city permit reports, state ADU reports, county zoning pages) state no license. May we treat them as public records and use them, citing the source?
+21. Where an official file is no longer online (or the site blocks scripts), may the pipeline fetch an Internet Archive (Wayback Machine) copy, with its capture date and checksum recorded, instead of the live file? This covers Green Bay permit reports, the Wisconsin DOA land-regulations inventory, an HCD 2019 ordinance list and some archived California ordinances.
+22. Some local permit data are only reachable through report screens rather than open-data APIs (Madison's report viewer, Pleasant Prairie's SmartGov, Sun Prairie's Power BI, Kaukauna's Municode Meetings). Do these satisfy "fetched automatically from the authoritative source", given they may break when the city changes its software?
 
 ## Additional questions to develop
 
@@ -586,3 +590,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-037 | Coded rules do not predict activity in California or Wisconsin; they explain results, discretionary review is a downside sensitivity; owner accepted data-collection calls. |
 | 2026-10-24 | AQ-038 | Final Gate 3 scenarios from the pooled model (about 4,800 / 9,500 / 18,400) with the statewide adoption line (about 8,650) and named downside sensitivities. |
 | 2026-10-25 | AQ-039 | Teardown-rebuild ADUs count as second homes; vacant-lot new-house ADUs do not; the new-house adjustment uses the measured vacant-lot share. |
+| 2026-10-25 | Data rules | Owner decisions D1–D6 on data compliance (see docs/DATA_COMPLIANCE.md); leave git history; office-hours questions 19–22 added. |

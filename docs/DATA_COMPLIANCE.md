@@ -131,6 +131,15 @@ Statuses are in the order (1) Terms · (2) Not committed · (3) Automatic fetch 
 
 ## Owner decisions
 
+**Owner decisions (2026-10-25):**
+- **Git history:** leave it; the masking holds from now on. Office-hours question 19.
+- **D1:** yes, accept government records with no license stated as public records. Office-hours question 20.
+- **D2:** yes, accept Internet Archive copies, with care: record the capture date and checksum, and prefer the live file whenever it exists. Office-hours question 21.
+- **D3:** yes, keep the report screens, documented as fragile. Office-hours question 22.
+- **D4:** yes, keep third-party compilations and figures as long as their terms allow our use. The BuildinganADU compilation is credited to HCD; the owner can ask its author for the original file. The Zoneomics rows (a commercial mirror) should cite the municipal code directly unless Zoneomics's terms allow this use.
+- **D5:** drop the building-footprint samples. Done: `SAMPLE_DROPPED` in `scripts/fetch_samples.py`.
+- **D6:** yes, hand-coded rules are a documented manual step.
+
 - **D1. Government records with no license stated.** Many city, county and state reports state no license (shown as "not stated" or "public record, no license stated"). Accept them as public records, cited with access dates, or ask each publisher?
 - **D2. Internet Archive copies.** Accept Wayback copies in place of the live files? This covers Green Bay's reports, the DOA inventory (doa.wi.gov timed out), the HCD 2019 ordinance list and archived California ordinances.
 - **D3. Report UIs that may break.** These sources are reached through report interfaces rather than open-data APIs: Madison's SSRS report viewer, Pleasant Prairie's SmartGov, Sun Prairie's Power BI, Kaukauna's Municode Meetings, and Green Bay (a site that blocks scripts). Keep them with a documented fallback (records request), or limit them to the pilot?

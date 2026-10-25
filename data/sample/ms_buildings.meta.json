@@ -1,40 +1,7 @@
 {
   "source_id": "ms_buildings",
-  "fetched_at": "2026-10-24T05:28:27+00:00",
-  "status": "ok",
-  "error": null,
-  "sample_rows": 5,
-  "index_url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/dataset-links.csv",
-  "us_tiles": 2415,
-  "sample_tile": {
-    "Location": "UnitedStates",
-    "QuadKey": "023100000",
-    "Url": "https://minedbuildings.z5.web.core.windows.net/global-buildings/2026-02-03/global-buildings.geojsonl/RegionName=UnitedStates/quadkey=023100000/part-00051-4feead82-d499-422b-94cb-c036c212127a.c000.csv.gz",
-    "Size": "48.3MB",
-    "UploadDate": "2026-02-23"
-  },
-  "index_columns": [
-    "Location",
-    "QuadKey",
-    "Url",
-    "Size",
-    "UploadDate"
-  ],
-  "note": "Each tile is a gzipped GeoJSON-lines file keyed by a zoom-9 quadkey.",
-  "geometry_sample": {
-    "geometry_type": "Polygon",
-    "native_crs": "EPSG:4326",
-    "supports_pagination": null,
-    "max_record_count": null,
-    "simplified": null,
-    "file": "data/sample/geo/ms_buildings.geojson",
-    "features": 3,
-    "bytes": 1231,
-    "vertices_per_feature": [
-      7,
-      7,
-      5
-    ],
-    "output_crs": "EPSG:4326 (GeoJSON)"
-  }
+  "fetched_at": "2026-10-25T06:02:09+00:00",
+  "sample_rows": 0,
+  "status": "sample_dropped",
+  "note": "Sample not kept (owner decision D5): footprints locate individual buildings and the ODbL is share-alike. The model does not use this source."
 }

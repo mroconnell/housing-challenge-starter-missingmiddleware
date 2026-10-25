@@ -1,6 +1,6 @@
 # Google Open Buildings
 
-**Status:** Fetched (last fetch 2026-10-24)  
+**Status:** Sample not kept (owner decision D5) (last fetch 2026-10-25)  
 **Source id:** `google_open_buildings`  
 **Handbook listing:** Google's Open Buildings
 
@@ -20,8 +20,7 @@
 
 ## Access details
 
-- Endpoint used for the sample: `https://storage.googleapis.com/open-buildings-data/v3/polygons_s2_level_4_gzip/0e9_buildings.csv.gz`
-- v3 polygons. Coverage is Africa, South and Southeast Asia, Latin America and the Caribbean. No United States coverage.
+- Sample not kept (owner decision D5): no U.S. coverage, and footprints locate individual buildings.
 
 ## Fields (6)
 
@@ -36,16 +35,8 @@
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/google_open_buildings.csv`](../../data/sample/google_open_buildings.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+None. See the status above. What we did find is in [`data/sample/google_open_buildings.meta.json`](../../data/sample/google_open_buildings.meta.json).
 
-| Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
-|---|---|---|---|---|---|
-| `latitude` | 18.54958867 | 16.02719816 | 17.97890384 | 17.17634556 | 16.22644099 |
-| `longitude` | -11.44114405 | -16.50595286 | -15.96423028 | -15.05338038 | -15.74140055 |
-| `area_in_meters` | 205.8534 | 23.8248 | 16.5278 | 87.7801 | 11.2692 |
-| `confidence` | 0.9049 | 0.6537 | 0.7404 | 0.8793 | 0.6884 |
-| `geometry` | POLYGON((-11.4410475000159 18.5495997567978, -11.4411774288… | POLYGON((-16.5059260700478 16.027178327372, -16.50592312963… | POLYGON((-15.9642120059132 17.9788830173195, -15.9642180818… | POLYGON((-15.0533699157599 17.1762766399214, -15.0533346774… | POLYGON((-15.741385054301 16.2264252521455, -15.74138837586… |
-| `full_plus_code` | 7CCCGHX5+RGQF | 7C852FGV+VJFW | 7C96X2HP+H864 | 7C965WGW+GJQX | 7C8667G5+HCHJ |
 
 ## Refresh
 

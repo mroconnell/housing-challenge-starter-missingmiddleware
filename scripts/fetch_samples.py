@@ -1797,6 +1797,14 @@ def write_rows(path, rows):
             w.writerow({k: _cell(r.get(k)) for k in cols})
 
 
+# Owner decision D5 (2026-10-25, docs/DATA_COMPLIANCE.md): no committed samples of
+# building-footprint sources. They locate individual buildings and carry share-alike terms.
+SAMPLE_DROPPED = {
+    "ms_buildings": "Sample not kept (owner decision D5): footprints locate individual buildings and the ODbL is share-alike. The model does not use this source.",
+    "google_open_buildings": "Sample not kept (owner decision D5): no U.S. coverage, and footprints locate individual buildings.",
+}
+
+
 def main(argv):
     if argv[:1] == ["--remask"]:
         remask_committed(argv[1:])
@@ -1808,6 +1816,15 @@ def main(argv):
     for sid in want:
         fn = SOURCES[sid]
         started = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+        if sid in SAMPLE_DROPPED:
+            rows, meta = [], {"status": "sample_dropped", "note": SAMPLE_DROPPED[sid]}
+            (OUT / f"{sid}.meta.json").write_text(json.dumps({"source_id": sid, "fetched_at": started, "sample_rows": 0, **meta}, indent=2) + "\n")
+            for ext in (".csv",):
+                (OUT / f"{sid}{ext}").unlink(missing_ok=True)
+            (OUT / "geo" / f"{sid}.geojson").unlink(missing_ok=True)
+            report[sid] = {"status": meta["status"], "rows": 0, "fetched_at": started, "error": None}
+            print(f"[{meta['status']:>12}] {sid} (owner decision D5)", flush=True)
+            continue
         try:
             rows, meta = fn()
             status = meta.get("status") or ("ok" if rows else "no_rows")

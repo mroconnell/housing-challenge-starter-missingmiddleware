@@ -26,6 +26,7 @@ STATUS = {
     "no_rows": "Reached, no rows",
     "restricted": "Restricted (not fetched)",
     "request_form": "Manual request only (not fetched)",
+    "sample_dropped": "Sample not kept (owner decision D5)",
     "error": "Could not reach",
     None: "Not run yet",
 }

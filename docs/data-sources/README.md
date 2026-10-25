@@ -29,7 +29,6 @@ Each source below also has a small GeoJSON file with a few complete features, so
 
 | Source | Geometry | Source CRS | Records | Max per request | Paging | Avg vertices | Sample |
 |---|---|---|---|---|---|---|---|
-| [Microsoft Global ML Building Footprints](ms_buildings.md) | Polygon | EPSG:4326 |  |  |  | 6 | [geojson](../../data/sample/geo/ms_buildings.geojson) |
 | [Arizona: AZGeo Data Hub (parcels by county)](az_azgeo.md) | Polygon | EPSG:2868 | 142108 | 30000 | yes | 10 | [geojson](../../data/sample/geo/az_azgeo.geojson) |
 | [Connecticut: CAMA and Parcel Layer](ct_cama_parcels.md) | Polygon | EPSG:6434 (Esri 103016) | 1320686 | 2000 | yes | 8 | [geojson](../../data/sample/geo/ct_cama_parcels.geojson) |
 | [Oregon: Metro RLIS Taxlots (Portland region)](or_metro_taxlots.md) | Polygon | EPSG:2913 | 647192 | 2000 | yes | 12 | [geojson](../../data/sample/geo/or_metro_taxlots.geojson) |
@@ -57,8 +56,8 @@ Each source below also has a small GeoJSON file with a few complete features, so
 | [x] | [BLS Quarterly Census of Employment and Wages (QCEW), construction](bls_qcew.md) | Fetched | 5 | Nation, state, MSA and county. | Cells are suppressed (disclosure_code = N) where few employers exist |
 | [x] | [USGS National Land Cover Database (NLCD / Annual NLCD)](nlcd.md) | Fetched | 5 | Contiguous U.S. (Alaska, Hawaii and Puerto Rico have separate older p… | Raster, so it has no parcel or zoning boundaries |
 | [x] | [NASA MODIS Land Cover Type (MCD12Q1)](nasa_modis_lc.md) | Fetched | 3 | Global, 500 m pixels. | 500 m pixels are much coarser than NLCD |
-| [x] | [Microsoft Global ML Building Footprints](ms_buildings.md) | Fetched | 5 | Global, including all U.S. states. Files are split by zoom-9 quadkey … | ODbL is share-alike for derived databases |
-| [x] | [Google Open Buildings](google_open_buildings.md) | Fetched | 5 | Africa, South and Southeast Asia, Latin America and the Caribbean. No… | Listed in the handbook but it does not cover any U.S. state |
+| [ ] | [Microsoft Global ML Building Footprints](ms_buildings.md) | Sample not kept (owner decision D5) | 0 | Global, including all U.S. states. Files are split by zoom-9 quadkey … | ODbL is share-alike for derived databases |
+| [ ] | [Google Open Buildings](google_open_buildings.md) | Sample not kept (owner decision D5) | 0 | Africa, South and Southeast Asia, Latin America and the Caribbean. No… | Listed in the handbook but it does not cover any U.S. state |
 | [x] | [Census Building Permits Survey (BPS)](census_bps.md) | Fetched | 10 | Nation, region, state, metro, county, and about 20,000 permit-issuing… | Permits are not completions; some permitted units are never built |
 | [x] | [FHFA House Price Index (HPI)](fhfa_hpi.md) | Fetched | 5 | Nation, census division, state, metro (CBSA), county, ZIP3, 5-digit Z… | Single-family only; no condos or rents |
 | [ ] | [HUD Aggregated USPS Administrative Data on Address Vacancies](usps_vacancy.md) | Restricted (not fetched) | 0 | Census tract. | Restricted access, so we did not fetch rows |
