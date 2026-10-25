@@ -1,0 +1,26 @@
+source,period,check,key_or_field,numerator_adu_units,denominator_adu_units,share,note
+Seattle (SDCI permits),all years 2002-2025,benchmark cap removed,normalized address (no parcel number in extract),29,4788,0.0061,14 parcels with 3+; mostly unit-lot or redevelopment permits listing 3-6 ADUs
+Seattle (SDCI permits),2022,benchmark cap removed,normalized address,10,546,0.0183,
+Seattle (SDCI permits),2023,benchmark cap removed,normalized address,12,627,0.0191,
+Seattle (SDCI permits),2016-2018,ADU flagged on multifamily or lowrise lot,zoning + description,27,608,0.0444,includes lowrise-zone houses and duplex-to-house conversions
+Seattle (SDCI permits),2021-2024,ADU flagged on multifamily or lowrise lot,zoning + description,78,2210,0.0353,strict ADU-on-existing-2+-unit-building count 9 of 3399 (2016-2024)
+Seattle (SDCI permits),2016-2018,2nd-or-later ADU on parcel,normalized address,3,608,0.0049,
+Seattle (SDCI permits),2021-2024,2nd-or-later ADU on parcel,normalized address,156,2210,0.0706,rise 2016-18 to 2021-24: 89.1% 1st ADUs; 8.9% 2nd; 1.9% 3rd+
+Portland (BDS permits),all years 1995-2026,benchmark cap removed,PROPGISID1,13,4090,0.0032,1 of 4090 when multi-address parent parcels are split by address
+Portland (BDS permits),2016-2018,ADU flagged on duplex/multifamily lot,description text (lower bound),7,1415,0.0049,no zoning field
+Portland (BDS permits),2022-2025,ADU flagged on duplex/multifamily lot,description text (lower bound),4,746,0.0054,
+Portland (BDS permits),all years,2nd-or-later ADU on parcel,PROPGISID1 split by address,20,4090,0.0049,main key 135 of 4090 (parent-parcel artifact)
+Austin (secondary apartment R-102),all years 2000-2026,benchmark cap removed,tcad_id,3,1199,0.0025,1 of 1199 split by address
+Austin (secondary apartment R-102),2016-2019,new duplexes miscoded as R-102,description text,6,466,0.0129,no ADU on an existing duplex found
+Denver (RESCON code 026),all years 2012-2026,benchmark cap removed,SCHEDNUM,5,782,0.0064,0 of 782 split by address (master parcels)
+Denver (RESCON code 026),2016-2022,parcel also has a two-family permit,SCHEDNUM,1,380,0.0026,upper bound
+Denver (RESCON code 026),2025,parcel also has a two-family permit,SCHEDNUM,7,117,0.0598,upper bound; needs zone-district data
+Minneapolis (CCS permits),all years 2016-2026,benchmark cap removed,APN,0,201,0.0000,classifier already allows one ADU per APN per 24 months
+Minneapolis (CCS permits),2017-2020,ADU on duplex lot,occupancyType TFD + text,13,103,0.1262,2014 ordinance allows ADUs with two-family homes
+Minneapolis (CCS permits),2021-2025,ADU on duplex lot,occupancyType TFD + text,9,71,0.1268,
+Madison (WI),all years 2010-2026,benchmark cap removed,assessor parcel_id else normalized address,1,102,0.0098,only removal is in the 2026 templated twin-home programme; 0 of 40 in 2022-2025
+Sun Prairie; Pleasant Prairie; Kaukauna; Watertown; Milwaukee (WI),all years,benchmark cap removed,parcel_id / TAXKEY / address,0,69,0.0000,"3+3+7+2+54 counted units; 0 parcels with 3+"
+WA OFM statewide,EY2019-2025,ADUs on multifamily lots,none (structure-type counts only),,,,not measurable; OFM defines ADUs on single-family lots; HB 1337 allows ADUs with duplexes/triplexes from 2025-06-30 compliance
+Oregon DLCD (HB 4006 reports),all years,ADUs on multifamily lots,none,,,,not measurable; ORS 197A.425 ties ADUs to detached single-family dwellings
+Rhode Island EOH,2024-2025,ADUs on multifamily lots,none,,,,not measurable; RIGL 45-24-31 (2022) allows ADUs with multi-unit dwellings; possibly material
+Utah DWS MIH,all years,ADUs on multifamily lots,none,,,,not measurable; HB 82 (2021) internal ADUs are within owner-occupied detached single-family dwellings

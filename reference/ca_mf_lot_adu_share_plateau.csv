@@ -1,0 +1,46 @@
+set,period,variant,adu_numerator,home_years_denominator,rate_per_1000
+all_grouped_non_holdout (CA_STUDY_RESULTS 3.84),2023-2025,as_reported,76927.0,20009419.0,3.844539
+all_grouped_non_holdout (CA_STUDY_RESULTS 3.84),2023-2025,mf_lower,72567.0,20009419.0,3.626642
+all_grouped_non_holdout (CA_STUDY_RESULTS 3.84),2023-2025,mf_upper,68889.0,20009419.0,3.442829
+all_grouped_non_holdout (CA_STUDY_RESULTS 3.84),2023-2025,cap,72635.0,20009419.0,3.63004
+all_grouped_non_holdout (CA_STUDY_RESULTS 3.84),2023-2025,cap_mf_lower,71441.0,20009419.0,3.570369
+all_grouped_non_holdout (CA_STUDY_RESULTS 3.84),2023-2025,cap_mf_upper,68354.0,20009419.0,3.416091
+all_grouped_non_holdout (CA_STUDY_RESULTS 3.84),2023-2025,order1_only,63746.0,20009419.0,3.1858
+all_grouped_non_holdout (CA_STUDY_RESULTS 3.84),2023-2025,cap_mf_central,58565.13268,20009419.0,2.926878
+all_grouped_non_holdout (CA_STUDY_RESULTS 3.84),2023-2025,cap_mf_high,56537.614286,20009419.0,2.82555
+all_jurisdictions (statewide),2023-2025,as_reported,90539.0,24640514.0,3.674396
+all_jurisdictions (statewide),2023-2025,mf_lower,85776.0,24640514.0,3.481096
+all_jurisdictions (statewide),2023-2025,mf_upper,81824.0,24640514.0,3.32071
+all_jurisdictions (statewide),2023-2025,cap,85790.0,24640514.0,3.481664
+all_jurisdictions (statewide),2023-2025,cap_mf_lower,84510.0,24640514.0,3.429717
+all_jurisdictions (statewide),2023-2025,cap_mf_upper,81203.0,24640514.0,3.295508
+all_jurisdictions (statewide),2023-2025,order1_only,75577.0,24640514.0,3.067184
+all_jurisdictions (statewide),2023-2025,cap_mf_central,69494.132283,24640514.0,2.82032
+all_jurisdictions (statewide),2023-2025,cap_mf_high,66906.847938,24640514.0,2.715319
+restrictive_non_holdout,2023-2025,as_reported,2255.0,1826446.0,1.234638
+restrictive_non_holdout,2023-2025,mf_lower,2156.0,1826446.0,1.180435
+restrictive_non_holdout,2023-2025,mf_upper,2145.0,1826446.0,1.174412
+restrictive_non_holdout,2023-2025,cap,2158.0,1826446.0,1.18153
+restrictive_non_holdout,2023-2025,cap_mf_lower,2152.0,1826446.0,1.178245
+restrictive_non_holdout,2023-2025,cap_mf_upper,2141.0,1826446.0,1.172222
+restrictive_non_holdout,2023-2025,order1_only,1959.0,1826446.0,1.072575
+restrictive_non_holdout,2023-2025,cap_mf_central,1888.120822,1826446.0,1.033768
+restrictive_non_holdout,2023-2025,cap_mf_high,1709.760515,1826446.0,0.936113
+middle_non_holdout,2023-2025,as_reported,28362.0,11845856.0,2.394255
+middle_non_holdout,2023-2025,mf_lower,27503.0,11845856.0,2.32174
+middle_non_holdout,2023-2025,mf_upper,26938.0,11845856.0,2.274044
+middle_non_holdout,2023-2025,cap,27474.0,11845856.0,2.319292
+middle_non_holdout,2023-2025,cap_mf_lower,27274.0,11845856.0,2.302409
+middle_non_holdout,2023-2025,cap_mf_upper,26816.0,11845856.0,2.263745
+middle_non_holdout,2023-2025,order1_only,24865.0,11845856.0,2.099046
+middle_non_holdout,2023-2025,cap_mf_central,23175.699428,11845856.0,1.956439
+middle_non_holdout,2023-2025,cap_mf_high,21644.972646,11845856.0,1.827219
+permissive_non_holdout,2023-2025,as_reported,46310.0,6337117.0,7.307739
+permissive_non_holdout,2023-2025,mf_lower,42908.0,6337117.0,6.770902
+permissive_non_holdout,2023-2025,mf_upper,39806.0,6337117.0,6.281405
+permissive_non_holdout,2023-2025,cap,43003.0,6337117.0,6.785893
+permissive_non_holdout,2023-2025,cap_mf_lower,42015.0,6337117.0,6.629986
+permissive_non_holdout,2023-2025,cap_mf_upper,39397.0,6337117.0,6.216865
+permissive_non_holdout,2023-2025,order1_only,36922.0,6337117.0,5.826309
+permissive_non_holdout,2023-2025,cap_mf_central,33501.312431,6337117.0,5.286523
+permissive_non_holdout,2023-2025,cap_mf_high,33182.881125,6337117.0,5.236274

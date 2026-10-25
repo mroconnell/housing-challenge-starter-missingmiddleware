@@ -1,0 +1,7 @@
+order,base_rate,end_rate,rise,share_of_rise,base,end
+order1,1.074067,3.067481,1.993415,0.774153,2018 (first A2 year),2023-2025
+order2,0.016507,0.414655,0.398148,0.154623,2018 (first A2 year),2023-2025
+order3p,0.009433,0.192833,0.183401,0.071225,2018 (first A2 year),2023-2025
+order1,0.124394,3.067481,2.943087,0.828904,2014-2016 (compilation; all counted as 1st ADUs),2023-2025
+order2,0.0,0.414655,0.414655,0.116785,2014-2016 (compilation; all counted as 1st ADUs),2023-2025
+order3p,0.0,0.192833,0.192833,0.05431,2014-2016 (compilation; all counted as 1st ADUs),2023-2025

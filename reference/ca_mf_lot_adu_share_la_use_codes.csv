@@ -1,0 +1,128 @@
+lot_class,UseCode,UseCodeDescChar2,units
+single_family,0100,Single Family Residence,49476
+single_family,0101,Single Family Residence,8769
+two_units,0200,"Double, Duplex, or Two Units",5431
+five_plus_units,0500,Five or More Units or Apartments (Any Combination),4022
+three_four_units,0300,Three Units (Any Combination),1772
+three_four_units,0400,Four Units  (Any Combination),1651
+unmatched,,,1317
+vacant,010V,Single Family Residence,878
+five_plus_units,0501,Five or More Units or Apartments (Any Combination),815
+single_family,0108,Single Family Residence,466
+single_family,0103,Single Family Residence,391
+single_family,0104,Single Family Residence,370
+other_use,1210,Store Combination,234
+single_family,01D6,(missing),219
+single_family,010D,Single Family Residence,188
+single_family,0106,Single Family Residence,148
+single_family,01A6,(missing),131
+vacant,100V,Commercial,120
+two_units,0201,"Double, Duplex, or Two Units",95
+single_family,010G,Single Family Residence,89
+other_use,2700,Parking Lot (Commercial Use Property),89
+single_family,0109,Single Family Residence,85
+five_plus_units,0550,Five or More Units or Apartments (Any Combination),84
+single_family,0107,(missing),45
+five_plus_units,0556,Five or More Units or Apartments (Any Combination),38
+other_use,0800,Rooming/Boarding House,30
+single_family,0102,Single Family Residence,27
+other_use,1100,Store,27
+vacant,020V,"Double, Duplex, or Two Units",27
+vacant,040V,Four Units  (Any Combination),23
+condo_or_pud,010C,Single Family Residence,21
+vacant,050V,Five or More Units or Apartments (Any Combination),21
+vacant,580V,Desert,18
+other_use,7100,Church,16
+three_four_units,0301,Three Units (Any Combination),16
+other_use,6400,"Club, Lodge Hall, Fraternal Organization",14
+three_four_units,0401,Four Units  (Any Combination),13
+five_plus_units,0551,Five or More Units or Apartments (Any Combination),12
+two_units,02D6,(missing),12
+other_use,2100,"Restaurant, Cocktail Lounge",12
+five_plus_units,0553,Five or More Units or Apartments (Any Combination),12
+other_use,1832,Hotel and Motel,12
+single_family,01A7,(missing),11
+five_plus_units,0509,Five or More Units or Apartments (Any Combination),11
+other_use,3100,Light Manufacturing,11
+five_plus_units,0503,Five or More Units or Apartments (Any Combination),10
+other_use,7200,School (Private),9
+other_use,1720,Office Building,9
+two_units,020G,"Double, Duplex, or Two Units",9
+other_use,1500,"Shopping Center (Neighborhood, Community)",9
+other_use,7500,Homes for Aged and Others,8
+single_family,010M,Single Family Residence,8
+other_use,1700,Office Building,8
+other_use,1215,Store Combination,6
+two_units,0209,"Double, Duplex, or Two Units",5
+vacant,300V,Industrial,5
+three_four_units,04A6,(missing),5
+two_units,0203,"Double, Duplex, or Two Units",5
+single_family,010E,Single Family Residence,5
+other_use,2710,Parking Lot (Commercial Use Property),5
+other_use,2600,"Auto, Recreation Equipment, Construction Equipment Sales and Service",5
+vacant,030V,Three Units (Any Combination),4
+single_family,0110,Single Family Residence,4
+single_family,0113,Single Family Residence,4
+three_four_units,030G,Three Units (Any Combination),4
+three_four_units,04D6,(missing),4
+three_four_units,03D6,(missing),4
+other_use,8800,Government Owned Property,4
+mobile_home,0700,Manufactured Home,4
+other_use,3600,Lumber Yard,4
+other_use,1200,Store Combination,4
+five_plus_units,0506,Five or More Units or Apartments (Any Combination),4
+other_use,1900,Professional Building,4
+other_use,1216,Store Combination,4
+other_use,1820,Hotel and Motel,4
+condo_or_pud,01DC,Single Family Residence,4
+other_use,6710,Race Track,3
+other_use,7000,Children's Day Care Center,3
+other_use,300X,Industrial,3
+two_units,02A6,(missing),3
+other_use,2720,Parking Lot (Commercial Use Property),3
+other_use,1800,Hotel and Motel,3
+five_plus_units,050G,Five or More Units or Apartments (Any Combination),3
+other_use,1214,Store Combination,2
+single_family,0105,Single Family Residence,2
+five_plus_units,05D6,(missing),2
+other_use,1213,Store Combination,2
+unmatched,    ,(missing),2
+other_use,1212,Store Combination,2
+two_units,0207,(missing),2
+five_plus_units,0531,Five or More Units or Apartments (Any Combination),2
+single_family,01D7,(missing),2
+vacant,290V,Nursery or Greenhouse,2
+other_use,7110,Church,2
+five_plus_units,0541,Five or More Units or Apartments (Any Combination),1
+five_plus_units,0555,Five or More Units or Apartments (Any Combination),1
+five_plus_units,05A6,(missing),1
+five_plus_units,050C,Five or More Units or Apartments (Any Combination),1
+vacant,210V,"Restaurant, Cocktail Lounge",1
+vacant,270V,Parking Lot (Commercial Use Property),1
+five_plus_units,0504,Five or More Units or Apartments (Any Combination),1
+vacant,310V,Light Manufacturing,1
+vacant,540V,Pasture,1
+vacant,640V,"Club, Lodge Hall, Fraternal Organization",1
+condo_or_pud,012C,Single Family Residence,1
+three_four_units,040G,Four Units  (Any Combination),1
+two_units,0208,"Double, Duplex, or Two Units",1
+other_use,2500,Service Station,1
+other_use,8100,Utility,1
+other_use,5200,(missing),1
+other_use,4800,"Poultry, etc.",1
+other_use,3330,"Warehousing, Distribution, Storage",1
+other_use,3305,"Warehousing, Distribution, Storage",1
+single_family,0121,Single Family Residence,1
+single_family,0130,Single Family Residence,1
+single_family,0133,Single Family Residence,1
+single_family,01D2,(missing),1
+other_use,121G,Store Combination,1
+other_use,2400,"Non-Auto Service and Repair Shop, Paint Shop, or Laundry",1
+single_family,01SO,Single Family Residence,1
+three_four_units,0303,Three Units (Any Combination),1
+other_use,1702,Office Building,1
+other_use,1600,Shopping Center (Regional),1
+other_use,1400,Supermarket,1
+three_four_units,0406,(missing),1
+three_four_units,0420,Four Units  (Any Combination),1
+vacant,880V,Government Owned Property,1
