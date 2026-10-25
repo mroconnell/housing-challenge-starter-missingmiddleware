@@ -37,7 +37,17 @@ remain freely available to end users.]
 
 | Dependency | License | Runtime or dev-only | Notes |
 | ---------- | ------- | ------------------- | ----- |
-| [name] | [license] | [runtime / dev] | [ok / flagged] |
+| pandas | BSD-3-Clause | runtime (pipeline) | ok |
+| pyarrow | Apache-2.0 | runtime (pipeline) | ok |
+| geopandas, shapely | BSD-3-Clause | runtime (pipeline, map geometry) | ok |
+| pyogrio, pyproj | MIT | runtime (pipeline) | ok |
+| matplotlib | Matplotlib License (PSF-style, permissive) | dev-only (Gate 3 charts, `uv run --with`) | ok |
+| maplibre-gl 6.15.0 | BSD-3-Clause | runtime (tool map) | ok; its dependencies are MIT, ISC, BSD-2/3-Clause or MIT OR Apache-2.0 |
+| vite 7.3.7 | MIT | dev-only (build, local server) | ok; dependencies MIT, ISC, BSD, Apache-2.0 |
+| typescript 7.0.2 | Apache-2.0 | dev-only (type check) | ok |
+| @playwright/test 1.63.0 | Apache-2.0 | dev-only (smoke tests) | ok |
+
+Checked 2026-10-25 with `cd ui && npm run licenses` (reads every installed package in `ui/package-lock.json`): 113 npm packages, all MIT, ISC, BSD-2-Clause, BSD-3-Clause or Apache-2.0. Two candidates were rejected for the Gate 4 tool: Observable Plot pulls in d3-delaunay → robust-predicates (Unlicense, a public-domain dedication), so the charts are drawn with dependency-free SVG instead; Vite 8 requires lightningcss (MPL-2.0), so the tool uses Vite 7. The tool loads no basemap, fonts or other services at run time.
 
 # Generated or Copied Code
 

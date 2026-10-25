@@ -27,21 +27,24 @@ See the [Project Plan](docs/PROJECT_PLAN.md) for the data strategy, research mil
 
 ## Command contract
 
-The interactive tool is not built yet (it arrives at Gate 4). The data pipeline built so far runs from a clean checkout with these commands.
+The Gate 4 interactive ADU tool runs locally with the first two commands below (Python 3.12+ and Node.js 20+). The committed JSON bundle in `ui/public/runs/` lets the tool run without the data builds; the build commands reproduce every input from public sources.
 
 | Step  | Command | Notes |
 | ----- | ------- | ----- |
-| Setup | `bash scripts/setup.sh` | Installs Python dependencies into `.venv` with [uv](https://docs.astral.sh/uv/) (installs uv if missing) |
+| Setup | `bash scripts/setup.sh` | Installs Python dependencies into `.venv` with [uv](https://docs.astral.sh/uv/) (installs uv if missing) and the tool's npm packages in `ui/` |
+| **Run the tool** | `bash scripts/run_tool.sh` | Rebuilds the JSON bundle from the adopted model outputs (when `data/processed/model_run/` exists), builds `ui/`, and serves it at http://127.0.0.1:4173/ |
 | Test  | `bash scripts/test.sh` | Offline unit tests of parsing, classification, matching, and contracts |
+| Test the tool | `bash scripts/test_ui.sh` | Bundle tests (reconciliation, lower ≤ central ≤ upper, bundle = reference CSVs, missing ≠ 0), npm licence check, type check, build, and Playwright smoke tests (desktop and mobile Chromium) |
+| Build the tool's data bundle | `uv run --all-extras python scripts/build_ui_bundle.py` | Writes `ui/public/runs/<run_id>/` (about 2.7 MB) from `reference/adu_model_*.csv`, the baseline, coverage and rule tables and `data/processed/`; the run id is a hash of the inputs |
+| Develop the tool | `cd ui && npm run dev` | Live-reloading dev server at http://127.0.0.1:5173/ |
 | Build statewide foundation | `uv run python scripts/build_foundation.py` | Downloads about 270 MB of public Census files (no API key) into `data/raw/` and builds `data/processed/foundation/` |
 | Build Madison permits | `uv run python scripts/build_madison_permits.py --fetch` | About 40 minutes the first time; omit `--fetch` to rebuild from cache |
 | Build comparison-city permits | `uv run python scripts/build_comparison_permits.py --fetch` | Pleasant Prairie and Sun Prairie; about 11 minutes the first time |
 | Rebuild local ADU rule tables | `uv run python scripts/build_reference_rules.py reference reference data/processed/adu_mention_scan` | Needs `uv run python scripts/scan_adu_mentions.py` first (network) |
 | Build California BPS (comparison state) | `uv run python scripts/build_ca_bps.py` | Census BPS for California 2010–2025, for the California comparison study |
 | Gate 2 review map | `uv run python scripts/build_gate2_review_map.py` | Writes `data/processed/review/gate2_map.html`; needs the builds above |
-| Run | to be defined at Gate 4 | |
 
-Environment: macOS or Linux with Python 3.12+ and internet access for the build steps. No secrets are required. `pdftotext` (poppler) is only needed for the optional Howard fallback adapter.
+Environment: macOS or Linux with Python 3.12+, Node.js 20+ for the tool, and internet access for the build steps. The Playwright tests use an installed Chromium (`cd ui && npx playwright install chromium` if none is present). No secrets are required. `pdftotext` (poppler) is only needed for the optional Howard fallback adapter.
 
 If your tool needs environment variables, copy `.env.example` to `.env` and fill in the values before running.
 

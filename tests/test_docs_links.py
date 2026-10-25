@@ -10,7 +10,7 @@ SKIP_PREFIXES = ("http://", "https://", "mailto:", "#")
 
 
 def markdown_files():
-    return [p for p in ROOT.rglob("*.md") if ".git" not in p.parts]
+    return [p for p in ROOT.rglob("*.md") if ".git" not in p.parts and "node_modules" not in p.parts]
 
 
 def broken_links(path):
