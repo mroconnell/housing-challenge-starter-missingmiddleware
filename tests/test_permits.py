@@ -263,7 +263,9 @@ class TestSecondHomes(unittest.TestCase):
         self.assertIs(madison.MadisonAdapter.second_home_judgments, j)
         bundles = [p for p, v in j.items() if v["component"] == "adu_two_unit" or p == "BLDNRC-2022-06192"]
         self.assertEqual(len(bundles), 10)
-        self.assertFalse(j["BLDNRC-2022-06192"]["counts"])
+        # AQ-039: the teardown-rebuild house + ADU counts its ADU unit only
+        self.assertEqual((j["BLDNRC-2022-06192"]["counts"], j["BLDNRC-2022-06192"]["units"],
+                          j["BLDNRC-2022-06192"]["component"]), (True, 1, "adu_teardown_rebuild"))
         for p, v in j.items():
             self.assertNotRegex(v["evidence"], r"\b\d{12}\b", p)  # no parcel numbers in committed text
 
@@ -304,6 +306,51 @@ class TestSecondHomes(unittest.TestCase):
         df["templated_programme"] = madison.templated_programme(df)
         rows = {r["name"]: r["units"] for r in second_homes.long_rows(df.assign(counted=True), 2026)}
         self.assertEqual((rows[second_homes.PROGRAMME], rows[second_homes.EXCL_PROGRAMME]), (4, 1))
+
+    def test_new_house_adus_teardown_counts_vacant_is_diagnostic(self):
+        """AQ-039: ADU with a new house counts on a razed lot (ADU unit only), not on a vacant lot."""
+        d = pd.DataFrame({
+            "permit_id": ["RZ1", "H1", "A1", "H2", "A2", "B3", "RZ3", "H4", "A4", "A5"],
+            "parcel_id": ["p1", "p1", "p1", "p2", "p2", "p3", "p3", "p4", "p4", "p5"],
+            "issue_date": pd.to_datetime(["2022-10-20", "2023-03-24", "2023-04-03", "2018-11-02", "2019-07-09",
+                                          "2023-02-01", "2020-12-01", "2018-01-01", "2020-06-01", "2024-01-01"]),
+            "units_added": [-1, 1, 1, 1, 1, 2, -1, 1, 1, 1],
+            "description": ["DEMOLISH SINGLE FAMILY HOME", "NEW SINGLE FAMILY HOME", "NEW ADU OVER GARAGE",
+                            "NEW SINGLE FAMILY HOME", "CONVERT GARAGE TO ADU", "NEW DUPLEX (ADU AND MAIN HOUSE)",
+                            "RAZE HOUSE", "NEW SINGLE FAMILY HOME", "NEW DETACHED ADU", "NEW DETACHED ADU"],
+        })
+        txt = d["description"]
+        adu = txt.str.contains(classify.ADU_RE) & (d["units_added"] > 0)
+        nh = second_homes.new_house_adus(
+            d, key=d["parcel_id"], adu=adu, new_house=txt.str.contains(second_homes.NEW_HOUSE_RE) & ~adu,
+            dwelling_raze=d["units_added"] < 0, bundle=adu & (d["units_added"] >= 2))
+        nh = nh.join(d["permit_id"]).set_index("permit_id")
+        self.assertEqual(nh.loc["A1", "nh_site"], "teardown_rebuild")
+        self.assertEqual(nh.loc["A2", "nh_site"], "vacant_lot")
+        self.assertEqual((nh.loc["B3", "nh_site"], nh.loc["B3", "nh_adu_units"]), ("teardown_rebuild", 1))
+        self.assertNotIn("A4", nh.index)  # ADU two years after the house: a lot that already has a home
+        self.assertNotIn("A5", nh.index)  # no new house on the lot
+        full = d.assign(counted=True, unit_category=None, year=d["issue_date"].dt.year)
+        full.loc[full.permit_id.isin(["A1", "A2", "A4", "A5"]), "unit_category"] = "adu_detached"
+        f = second_homes.assign(full, new_house=second_homes.new_house_adus(
+            d, key=d["parcel_id"], adu=adu, new_house=txt.str.contains(second_homes.NEW_HOUSE_RE) & ~adu,
+            dwelling_raze=d["units_added"] < 0, bundle=adu & (d["units_added"] >= 2))).set_index("permit_id")
+        self.assertEqual((f.loc["A1", "second_home_component"], f.loc["A1", "second_home_units"]),
+                         (second_homes.TEARDOWN, 1))
+        self.assertEqual((f.loc["B3", "second_home_component"], f.loc["B3", "second_home_units"]),
+                         (second_homes.TEARDOWN, 1))  # house + ADU in one permit: the house is not counted
+        self.assertTrue(pd.isna(f.loc["A2", "second_home_component"]))
+        self.assertEqual((f.loc["A2", "second_home_units"], f.loc["A2", "second_home_vacant_lot_units"]), (0, 1))
+        self.assertEqual(f.loc["A4", "second_home_component"], "adu_detached")
+        self.assertTrue(pd.isna(f.loc["H1", "second_home_component"]))  # replacement house never counts
+        y = second_homes.by_year(f.reset_index(), [2019, 2023]).set_index("year")
+        self.assertEqual(int(y.loc[2023, second_homes.HEADLINE]), 2)
+        self.assertEqual(int(y.loc[2023, second_homes.TEARDOWN]), 2)
+        self.assertEqual((int(y.loc[2019, second_homes.HEADLINE]),
+                          int(y.loc[2019, f"diag_{second_homes.VACANT}_units"])), (0, 1))
+        rows = {r["name"]: r["units"] for r in second_homes.long_rows(f.reset_index(), 2019)}
+        self.assertEqual(rows[second_homes.VACANT_ROW], 1)
+        self.assertEqual(rows[second_homes.UPPER], 0)  # a vacant-lot ADU is excluded, not unconfirmed
 
     def test_reference_headline_window_starts_2014(self):
         f = self.full.reset_index().copy()

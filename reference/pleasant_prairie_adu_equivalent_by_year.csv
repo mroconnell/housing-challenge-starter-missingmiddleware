@@ -99,7 +99,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2014,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2014-01-01,2014-12-31,final
 5505963300,2014,second_home_sf_lot:second_dwelling,1,1,aq032_rule,issued,True,2014-01-01,2014-12-31,final
 5505963300,2014,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2014-01-01,2014-12-31,final
+5505963300,2014,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2014-01-01,2014-12-31,final
 5505963300,2014,second_home_sf_lot_upper_bound,1,1,aq032_rule+judgment,issued,True,2014-01-01,2014-12-31,final
+5505963300,2014,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2014-01-01,2014-12-31,final
 5505963300,2014,new_one_family_dwellings,50,50,structured_field,issued,True,2014-01-01,2014-12-31,final
 5505963300,2014,new_two_family_dwellings,0,0,structured_field,issued,True,2014-01-01,2014-12-31,final
 5505963300,2014,new_manufactured_homes,6,6,structured_field,issued,True,2014-01-01,2014-12-31,final
@@ -115,7 +117,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2015,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2015-01-01,2015-12-31,final
 5505963300,2015,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2015-01-01,2015-12-31,final
 5505963300,2015,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2015-01-01,2015-12-31,final
+5505963300,2015,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2015-01-01,2015-12-31,final
 5505963300,2015,second_home_sf_lot_upper_bound,0,0,aq032_rule+judgment,issued,True,2015-01-01,2015-12-31,final
+5505963300,2015,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2015-01-01,2015-12-31,final
 5505963300,2015,new_one_family_dwellings,55,55,structured_field,issued,True,2015-01-01,2015-12-31,final
 5505963300,2015,new_two_family_dwellings,0,0,structured_field,issued,True,2015-01-01,2015-12-31,final
 5505963300,2015,new_manufactured_homes,6,6,structured_field,issued,True,2015-01-01,2015-12-31,final
@@ -131,7 +135,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2016,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2016-01-01,2016-12-31,final
 5505963300,2016,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2016-01-01,2016-12-31,final
 5505963300,2016,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2016-01-01,2016-12-31,final
+5505963300,2016,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2016-01-01,2016-12-31,final
 5505963300,2016,second_home_sf_lot_upper_bound,0,0,aq032_rule+judgment,issued,True,2016-01-01,2016-12-31,final
+5505963300,2016,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2016-01-01,2016-12-31,final
 5505963300,2016,new_one_family_dwellings,35,35,structured_field,issued,True,2016-01-01,2016-12-31,final
 5505963300,2016,new_two_family_dwellings,0,0,structured_field,issued,True,2016-01-01,2016-12-31,final
 5505963300,2016,new_manufactured_homes,2,2,structured_field,issued,True,2016-01-01,2016-12-31,final
@@ -147,7 +153,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2017,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2017-01-01,2017-12-31,final
 5505963300,2017,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2017-01-01,2017-12-31,final
 5505963300,2017,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2017-01-01,2017-12-31,final
+5505963300,2017,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2017-01-01,2017-12-31,final
 5505963300,2017,second_home_sf_lot_upper_bound,1,1,aq032_rule+judgment,issued,True,2017-01-01,2017-12-31,final
+5505963300,2017,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2017-01-01,2017-12-31,final
 5505963300,2017,new_one_family_dwellings,37,37,structured_field,issued,True,2017-01-01,2017-12-31,final
 5505963300,2017,new_two_family_dwellings,1,2,structured_field,issued,True,2017-01-01,2017-12-31,final
 5505963300,2017,new_manufactured_homes,6,6,structured_field,issued,True,2017-01-01,2017-12-31,final
@@ -163,7 +171,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2018,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2018-01-01,2018-12-31,final
 5505963300,2018,second_home_sf_lot:second_dwelling,1,1,aq032_rule,issued,True,2018-01-01,2018-12-31,final
 5505963300,2018,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2018-01-01,2018-12-31,final
+5505963300,2018,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2018-01-01,2018-12-31,final
 5505963300,2018,second_home_sf_lot_upper_bound,2,2,aq032_rule+judgment,issued,True,2018-01-01,2018-12-31,final
+5505963300,2018,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2018-01-01,2018-12-31,final
 5505963300,2018,new_one_family_dwellings,41,41,structured_field,issued,True,2018-01-01,2018-12-31,final
 5505963300,2018,new_two_family_dwellings,5,10,structured_field,issued,True,2018-01-01,2018-12-31,final
 5505963300,2018,new_manufactured_homes,6,6,structured_field,issued,True,2018-01-01,2018-12-31,final
@@ -179,7 +189,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2019,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2019-01-01,2019-12-31,final
 5505963300,2019,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2019-01-01,2019-12-31,final
 5505963300,2019,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2019-01-01,2019-12-31,final
+5505963300,2019,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2019-01-01,2019-12-31,final
 5505963300,2019,second_home_sf_lot_upper_bound,0,0,aq032_rule+judgment,issued,True,2019-01-01,2019-12-31,final
+5505963300,2019,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2019-01-01,2019-12-31,final
 5505963300,2019,new_one_family_dwellings,66,66,structured_field,issued,True,2019-01-01,2019-12-31,final
 5505963300,2019,new_two_family_dwellings,6,12,structured_field,issued,True,2019-01-01,2019-12-31,final
 5505963300,2019,new_manufactured_homes,26,26,structured_field,issued,True,2019-01-01,2019-12-31,final
@@ -195,7 +207,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2020,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2020-01-01,2020-12-31,final
 5505963300,2020,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2020-01-01,2020-12-31,final
 5505963300,2020,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2020-01-01,2020-12-31,final
+5505963300,2020,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2020-01-01,2020-12-31,final
 5505963300,2020,second_home_sf_lot_upper_bound,0,0,aq032_rule+judgment,issued,True,2020-01-01,2020-12-31,final
+5505963300,2020,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2020-01-01,2020-12-31,final
 5505963300,2020,new_one_family_dwellings,35,35,structured_field,issued,True,2020-01-01,2020-12-31,final
 5505963300,2020,new_two_family_dwellings,9,18,structured_field,issued,True,2020-01-01,2020-12-31,final
 5505963300,2020,new_manufactured_homes,14,14,structured_field,issued,True,2020-01-01,2020-12-31,final
@@ -211,7 +225,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2021,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2021-01-01,2021-12-31,final
 5505963300,2021,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2021-01-01,2021-12-31,final
 5505963300,2021,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2021-01-01,2021-12-31,final
+5505963300,2021,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2021-01-01,2021-12-31,final
 5505963300,2021,second_home_sf_lot_upper_bound,1,1,aq032_rule+judgment,issued,True,2021-01-01,2021-12-31,final
+5505963300,2021,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2021-01-01,2021-12-31,final
 5505963300,2021,new_one_family_dwellings,58,58,structured_field,issued,True,2021-01-01,2021-12-31,final
 5505963300,2021,new_two_family_dwellings,6,12,structured_field,issued,True,2021-01-01,2021-12-31,final
 5505963300,2021,new_manufactured_homes,20,20,structured_field,issued,True,2021-01-01,2021-12-31,final
@@ -227,7 +243,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2022,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2022-01-01,2022-12-31,final
 5505963300,2022,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2022-01-01,2022-12-31,final
 5505963300,2022,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2022-01-01,2022-12-31,final
+5505963300,2022,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2022-01-01,2022-12-31,final
 5505963300,2022,second_home_sf_lot_upper_bound,1,1,aq032_rule+judgment,issued,True,2022-01-01,2022-12-31,final
+5505963300,2022,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2022-01-01,2022-12-31,final
 5505963300,2022,new_one_family_dwellings,34,34,structured_field,issued,True,2022-01-01,2022-12-31,final
 5505963300,2022,new_two_family_dwellings,5,10,structured_field,issued,True,2022-01-01,2022-12-31,final
 5505963300,2022,new_manufactured_homes,12,12,structured_field,issued,True,2022-01-01,2022-12-31,final
@@ -243,7 +261,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2023,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2023-01-01,2023-12-31,final
 5505963300,2023,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2023-01-01,2023-12-31,final
 5505963300,2023,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2023-01-01,2023-12-31,final
+5505963300,2023,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2023-01-01,2023-12-31,final
 5505963300,2023,second_home_sf_lot_upper_bound,0,0,aq032_rule+judgment,issued,True,2023-01-01,2023-12-31,final
+5505963300,2023,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2023-01-01,2023-12-31,final
 5505963300,2023,new_one_family_dwellings,23,23,structured_field,issued,True,2023-01-01,2023-12-31,final
 5505963300,2023,new_two_family_dwellings,4,8,structured_field,issued,True,2023-01-01,2023-12-31,final
 5505963300,2023,new_manufactured_homes,6,6,structured_field,issued,True,2023-01-01,2023-12-31,final
@@ -259,7 +279,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2024,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2024-01-01,2024-12-31,final
 5505963300,2024,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2024-01-01,2024-12-31,final
 5505963300,2024,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2024-01-01,2024-12-31,final
+5505963300,2024,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2024-01-01,2024-12-31,final
 5505963300,2024,second_home_sf_lot_upper_bound,0,0,aq032_rule+judgment,issued,True,2024-01-01,2024-12-31,final
+5505963300,2024,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2024-01-01,2024-12-31,final
 5505963300,2024,new_one_family_dwellings,25,25,structured_field,issued,True,2024-01-01,2024-12-31,final
 5505963300,2024,new_two_family_dwellings,4,8,structured_field,issued,True,2024-01-01,2024-12-31,final
 5505963300,2024,new_manufactured_homes,13,13,structured_field,issued,True,2024-01-01,2024-12-31,final
@@ -275,7 +297,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2025,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2025-01-01,2025-12-31,final
 5505963300,2025,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2025-01-01,2025-12-31,final
 5505963300,2025,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2025-01-01,2025-12-31,final
+5505963300,2025,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2025-01-01,2025-12-31,final
 5505963300,2025,second_home_sf_lot_upper_bound,0,0,aq032_rule+judgment,issued,True,2025-01-01,2025-12-31,final
+5505963300,2025,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2025-01-01,2025-12-31,final
 5505963300,2025,new_one_family_dwellings,23,23,structured_field,issued,True,2025-01-01,2025-12-31,final
 5505963300,2025,new_two_family_dwellings,1,2,structured_field,issued,True,2025-01-01,2025-12-31,final
 5505963300,2025,new_manufactured_homes,14,14,structured_field,issued,True,2025-01-01,2025-12-31,final
@@ -291,7 +315,9 @@ jurisdiction_id,year,series,permits,units,method,stage,restrictive_period,period
 5505963300,2026,second_home_sf_lot:adu_two_unit,0,0,aq032_rule,issued,True,2026-01-01,2026-12-31,provisional
 5505963300,2026,second_home_sf_lot:second_dwelling,0,0,aq032_rule,issued,True,2026-01-01,2026-12-31,provisional
 5505963300,2026,second_home_sf_lot:sf_to_duplex,0,0,aq032_rule,issued,True,2026-01-01,2026-12-31,provisional
+5505963300,2026,second_home_sf_lot:adu_teardown_rebuild,0,0,aq032_rule,issued,True,2026-01-01,2026-12-31,provisional
 5505963300,2026,second_home_sf_lot_upper_bound,0,0,aq032_rule+judgment,issued,True,2026-01-01,2026-12-31,provisional
+5505963300,2026,second_home_diag:vacant_lot_new_house_adu,0,0,aq032_rule,issued,True,2026-01-01,2026-12-31,provisional
 5505963300,2026,new_one_family_dwellings,43,43,structured_field,issued,True,2026-01-01,2026-12-31,provisional
 5505963300,2026,new_two_family_dwellings,1,2,structured_field,issued,True,2026-01-01,2026-12-31,provisional
 5505963300,2026,new_manufactured_homes,14,14,structured_field,issued,True,2026-01-01,2026-12-31,provisional

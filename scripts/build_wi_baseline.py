@@ -48,7 +48,8 @@ FITCHBURG_DATA_END = date(2026, 7, 31)    # the year-to-date file covers 2026-01
 FITCHBURG_FIRST = date(2022, 1, 1)        # 2019-2021 files carry generic descriptions only
 MADISON_DATA_END = date(2026, 10, 23)     # docs/gate2/MADISON_PERMITS.md
 ADU_TYPE = ["second_home_sf_lot:adu_detached", "second_home_sf_lot:adu_attached",
-            "second_home_sf_lot:adu_conversion", "second_home_sf_lot:adu_two_unit"]
+            "second_home_sf_lot:adu_conversion", "second_home_sf_lot:adu_two_unit",
+            "second_home_sf_lot:adu_teardown_rebuild"]  # AQ-039
 # Permit sources for a later rate test of each held-out place (docs/gate2/COMPARISON_CITY_SEARCH.md).
 HOLDOUT_SOURCES = {
     "5500919775": "De Pere: monthly valuation PDFs ~2014-2026 (PARTIAL->GOOD; site blocks scripts)",

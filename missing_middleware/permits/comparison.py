@@ -340,6 +340,34 @@ def series_label(full: pd.DataFrame) -> pd.Series:
     return s
 
 
+# --------------------------------------------------------------------------- AQ-039 new house + ADU
+def new_house_candidates(full: pd.DataFrame, adapter) -> pd.DataFrame:
+    """AQ-039: ADUs permitted with a new principal house, by the lot's prior state.
+
+    Lot key = the permit's own parcel number (as in `prior_dwelling_rule`). ADU = a unit-adding,
+    non-withdrawn record with ADU wording (`classify.ADU_RE`) or a text-rule ADU category, not a
+    legalization. New house = the adapter's new-dwelling records (manufactured homes included).
+    Bundle = an ADU record adding 2+ units that is itself a new-dwelling record. Prior home = the
+    adapter's teardown signal on the lot, or a new-house record the parcel rule already labelled a
+    teardown-rebuild (raze or replacement wording).
+    """
+    from . import classify, second_homes
+
+    d = full["description"].fillna("")
+    ua = full["units_added"].fillna(0)
+    wd = (full["withdrawn"].fillna(False).astype(bool) if "withdrawn" in full.columns
+          else pd.Series(False, index=full.index))
+    adu = ((d.str.contains(classify.ADU_RE) | full["unit_category"].isin(["adu_detached", "adu_attached",
+                                                                          "adu_conversion"]))
+           & (ua > 0) & ~full["is_raze"].astype(bool) & ~full["unit_category"].eq("adu_legalization") & ~wd)
+    new_dw = adapter.is_new_dwelling(full).fillna(False) & ~wd
+    key = full["parcel_key"].where(full["parcel_key"].notna(), full["parcel_id"])
+    replaces = full["parcel_rule_reason"].fillna("").str.startswith("teardown_rebuild")
+    return second_homes.new_house_adus(full, key=key, adu=adu, new_house=new_dw & ~adu,
+                                       dwelling_raze=adapter.is_teardown_signal(full).fillna(False),
+                                       bundle=adu & new_dw & (ua >= 2), house_replaces_home=replaces)
+
+
 # --------------------------------------------------------------------------- restrictive period
 def restrictive_flag(a, dates: pd.Series) -> pd.Series:
     """Record-level restrictive flag: before the reform date (adapter `restrictive_end`), else True."""

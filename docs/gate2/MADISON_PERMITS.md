@@ -1,11 +1,11 @@
 # Madison ADU permits: extraction, classification, parcel and area match
 
-Gate 2 work package, built 2026-10-23; ADU-equivalent rule, City reconciliation and privacy redactions revised 2026-10-24 in the Gate 2 repair round (review items S1, S3, S4; see "Changes in the repair round" at the end); headline series "second homes on single-family lots" added and the 10 ADU bundles resolved 2026-10-24 under owner decision AQ-032 (section 5a); headline revised the same day after the addenda review (items S2, S7, N7–N10: BLDNRC-2026-23354 held out as pending, the templated 2025–26 programme flagged, 2026 marked provisional; see "Addenda review repair" at the end). Code: `missing_middleware/permits/` (city-agnostic pipeline plus a Madison adapter). Build: `scripts/build_madison_permits.py`. Tests: `tests/test_permits.py` (offline, synthetic fixture).
+Gate 2 work package, built 2026-10-23; ADU-equivalent rule, City reconciliation and privacy redactions revised 2026-10-24 in the Gate 2 repair round (review items S1, S3, S4; see "Changes in the repair round" at the end); headline series "second homes on single-family lots" added and the 10 ADU bundles resolved 2026-10-24 under owner decision AQ-032 (section 5a); headline revised the same day after the addenda review (items S2, S7, N7–N10: BLDNRC-2026-23354 held out as pending, the templated 2025–26 programme flagged, 2026 marked provisional; see "Addenda review repair" at the end); teardown-rebuild ADUs added and vacant-lot new-house ADUs moved to a diagnostic on 2026-10-25 under owner decision AQ-039 (see "AQ-039 update" at the end). Code: `missing_middleware/permits/` (city-agnostic pipeline plus a Madison adapter). Build: `scripts/build_madison_permits.py`. Tests: `tests/test_permits.py` (offline, synthetic fixture).
 
 **Bottom line.**
 - All issued Madison building permits from 2010-01-01 to 2026-10-23 were downloaded with plain HTTP: 114,224 report rows, 113,890 distinct permits.
 - After deduplication and classification, 64 permits (64 units) count as ADU authorizations by text rule. Another 18 permits (19 units) meet the owner's ADU-equivalent rule (AQ-021). We report them as a separate **"second dwelling / conversion"** series, not as ADUs: 13 single-family → two-unit conversions (3 of them recorded with Dwell 0) and 5 second dwellings.
-- **Headline (AQ-032): second homes on single-family lots**, window **2014–2026-10-23**: **102 units on 93 permits** (text ADUs 64, two-unit ADU buildings judged beside an existing home 18, second dwellings 4, single-family → duplex conversions 16). Unconfirmed upper bound **104 units / 94 permits** (adds BLDNRC-2026-23354, held out as pending: probably a new duplex on a lot without an existing home). Of the 10 ADU bundles, 9 (all 2026, 18 units) were judged to add units beside an existing home; 1 (2023) is new construction on a cleared lot and does not count (section 5a). The unit and category columns are unchanged.
+- **Headline (AQ-032): second homes on single-family lots**, window **2014–2026-10-23**: **101 units on 92 permits** (text ADUs 60, ADUs built with a new house on a teardown lot 3, two-unit ADU buildings judged beside an existing home 18, second dwellings 4, single-family → duplex conversions 16). Unconfirmed upper bound **103 units / 93 permits** (adds BLDNRC-2026-23354, held out as pending: probably a new duplex on a lot without an existing home). Of the 10 ADU bundles, 9 (all 2026, 18 units) were judged to add units beside an existing home; 1 (2023, BLDNRC-2022-06192) is a new house plus ADU on a teardown lot and counts its ADU only, 1 unit (AQ-039, section 5a). Two text ADUs permitted with a new house on a previously vacant lot (2018, 2019) are out of the headline and kept as a diagnostic, 1 unit each. The unit and category columns are unchanged.
   - **How "the lot already has a home" is determined in Madison:** from the assessor layer. The main building's YearBuilt is at least 2 years before the permit's issue year, the host is a one-unit Residential parcel, no earlier unit-adding permit explains the main building, and no dwelling raze on the parcel falls from 730 days before to 180 days after the permit (section 3). Pleasant Prairie and Sun Prairie have no year-built field and use the parcel's permit history instead ([COMPARISON_PERMITS.md](COMPARISON_PERMITS.md) section 3), so the three cities' headlines rest on different evidence.
   - **2026 is provisional** (partial year, and 29 of its 42 units come from one templated builder programme). Without the programme: 2026 = **13 units**; 2025 = 7 (with 14). For Gate 3 the Madison floor should use complete years only (proposed: 2022–2025) and use 2026 only as a sensitivity; the reference CSV carries `value_status` and `gate3_use` for this (section 5b).
   - **Window.** Every headline figure in this document is for 2014–2026. The reference CSV's second-home rows start in 2014 too; a 2010 single-family → duplex conversion is visible only in the `adu_equivalent` rows.
@@ -246,15 +246,15 @@ ADU-equivalent ("second dwelling / conversion") units by sub-series: `duplex_con
 
 - Every counted text ADU adds exactly 1 unit, so the unit and permit counts are equal.
 - No `adu_legalization` records occur.
-- **Conversions.** `adu_conversion` records are ADUs created inside an existing structure, mostly a detached garage or accessory building converted to an ADU. Under AQ-032 (2026-10-24) they are part of the "second homes on single-family lots" headline where they add a legal unit; they stay a separate component, and AQ-030 keeps interior conversions tracked because the reform does not require them. The older owner decision D5 ("new detached + attached headline; conversions separate") is superseded for the headline. Counted per year: 2014 1 (garage → ADU), 2019 1 (garage → ADU, BLDNRC-2019-04971), 2022 2 (one accessory building → ADU, one bedroom → attached ADU), 2023 1 (detached garage → ADU with a second floor), 2025 1 (second-story addition converting a garage, BLDNRC-2024-16274); none in other years; 6 in all, 5 of them accessory-building conversions that produce a detached ADU. All 6 are in the AQ-032 headline.
+- **Conversions.** `adu_conversion` records are ADUs created inside an existing structure, mostly a detached garage or accessory building converted to an ADU. Under AQ-032 (2026-10-24) they are part of the "second homes on single-family lots" headline where they add a legal unit; they stay a separate component, and AQ-030 keeps interior conversions tracked because the reform does not require them. The older owner decision D5 ("new detached + attached headline; conversions separate") is superseded for the headline. Counted per year: 2014 1 (garage → ADU), 2019 1 (garage → ADU, BLDNRC-2019-04971, in the garage of a house permitted 8 months earlier on a lot with no earlier permit: a vacant-lot new-house ADU under AQ-039, so not in the headline), 2022 2 (one accessory building → ADU, one bedroom → attached ADU), 2023 1 (detached garage → ADU with a second floor), 2025 1 (second-story addition converting a garage, BLDNRC-2024-16274); none in other years; 6 in all, 5 of them accessory-building conversions that produce a detached ADU. 5 of the 6 are in the AQ-032 headline (all but BLDNRC-2019-04971).
 - **Not counted but kept for review:**
   - **2 Dwell-0 ADU conversions:** BLDRPR-2014-13995 ("lower level ADU" in a 2-unit building) and BLDRPR-2026-03870 ("create second dwelling unit in basement").
   - **10 multi-unit ADU bundles (2 units each):**
     - 1 in 2023: BLDNRC-2022-06192, a new duplex with an ADU.
     - 9 in 2026: "detached duplex ADU" or "twin home ADU".
 
-    All 10 are treated the same way in the category columns: held out of the text-ADU and ADU-equivalent series and counted as `other_residential`. (Before the repair round one of them, BLDNRC-2026-06494, passed the parcel rule and was counted as 2 ADU-equivalent units; that inconsistency is removed.) For the headline they are resolved one by one in section 5a: 9 count (18 units), 1 does not.
-- `reference/madison_adu_permits_by_year.csv` holds these counts by year, category and method: the text-ADU categories, `adu_equivalent` (total) and its sub-series `adu_equivalent:second_dwelling`, `adu_equivalent:duplex_conversion` and `adu_equivalent:duplex_conversion_dwell0` (method `parcel_rule+units_from_text`), the held-out bundles, a row for the City's published figures, and the headline `second_home_sf_lot` with one row per component (`second_home_sf_lot:<component>`; methods `aq032_rule`, `aq032_judgment`, `aq032_rule+judgment`), the unconfirmed upper bound `second_home_sf_lot_upper_bound`, the programme `second_home_sf_lot:templated_programme` and the headline without it `second_home_sf_lot_excl_templated_programme`. The category rows cover 2010–2026; the second-home rows cover **2014–2026** only, so they sum to the headline quoted here (102 units / 93 permits). Columns `value_status` (`provisional` for 2026, else `final`) and `gate3_use` (`sensitivity_only` for 2026, else `eligible`) apply to every row.
+    All 10 are treated the same way in the category columns: held out of the text-ADU and ADU-equivalent series and counted as `other_residential`. (Before the repair round one of them, BLDNRC-2026-06494, passed the parcel rule and was counted as 2 ADU-equivalent units; that inconsistency is removed.) For the headline they are resolved one by one in section 5a: 9 count (18 units) as two-unit ADUs; the 2023 one counts its ADU only (1 unit, teardown-rebuild, AQ-039).
+- `reference/madison_adu_permits_by_year.csv` holds these counts by year, category and method: the text-ADU categories, `adu_equivalent` (total) and its sub-series `adu_equivalent:second_dwelling`, `adu_equivalent:duplex_conversion` and `adu_equivalent:duplex_conversion_dwell0` (method `parcel_rule+units_from_text`), the held-out bundles, a row for the City's published figures, and the headline `second_home_sf_lot` with one row per component (`second_home_sf_lot:<component>`; methods `aq032_rule`, `aq032_judgment`, `aq032_rule+judgment`), the unconfirmed upper bound `second_home_sf_lot_upper_bound`, the programme `second_home_sf_lot:templated_programme` and the headline without it `second_home_sf_lot_excl_templated_programme`. The category rows cover 2010–2026; the second-home rows cover **2014–2026** only, so they sum to the headline quoted here (101 units / 92 permits). Since AQ-039 they also carry `second_home_sf_lot:adu_teardown_rebuild` and the diagnostic `second_home_diag:vacant_lot_new_house_adu` (ADU units permitted with a new house on a previously vacant lot; not in the headline). Columns `value_status` (`provisional` for 2026, else `final`) and `gate3_use` (`sensitivity_only` for 2026, else `eligible`) apply to every row.
 
 ## 5a. Headline: second homes on single-family lots (AQ-032)
 
@@ -266,37 +266,42 @@ ADU-equivalent ("second dwelling / conversion") units by sub-series: `duplex_con
 | `adu_two_unit` | A judged ADU-text record adding a two-unit ADU building beside an existing home. The City's October 2025 Housing Forward ordinance allows up to two ADUs per lot, including a "duplex ADU" of two stacked units |
 | `second_dwelling` | ADU-equivalent second dwelling (AQ-021 parcel rule) |
 | `sf_to_duplex` | ADU-equivalent single-family → duplex conversions (incl. Dwell-0 text conversions), plus judged conversions the address match left without a parcel |
+| `adu_teardown_rebuild` | AQ-039 (2026-10-25): an ADU permitted together with a new principal house on a lot whose earlier home was razed. The ADU counts, 1 unit per ADU; the replacement house does not |
 
-Excluded: legalizations, teardown-rebuilds, and any new two-unit building on a vacant or cleared lot even if labeled ADU.
+Excluded: legalizations, teardown-rebuild replacement houses, ADUs permitted with a new house on a previously vacant lot (AQ-039; kept as the diagnostic `vacant_lot_new_house_adu` with 1 unit per ADU, so the rule can be flipped), and any new two-unit building without ADU wording on a vacant or cleared lot.
+
+**AQ-039 rule** (`madison.new_house_candidates` → `second_homes.new_house_adus`). An ADU record is a unit-adding, non-raze record with ADU wording. It is "permitted with a new house" if it is the same permit as the house (text names the new house and the record adds 2+ units; the ADU is the units minus 1) or a new-house permit on the same parcel was issued within **365 days** either side. The lot previously had a home if a dwelling raze on the parcel falls from **1,095 days before to 1,095 days after** the house permit (or the house record failed the parcel rule as `raze_nearby`); otherwise it was vacant. Records the address match could not place are judged (BLDNRC-2022-06192). Local list: `data/processed/permits/new_house_adus.csv`.
 
 **Counted units by issue year** (permits in brackets where different; "before" = the same definition before the judgments below):
 
-| Year | adu_detached | adu_attached | adu_conversion | adu_two_unit | second_dwelling | sf_to_duplex | **Second homes** | Before |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2014 | 2 | 0 | 1 | 0 | 0 | 2 | **5** | 5 |
-| 2015 | 2 | 0 | 0 | 0 | 1 | 1 | **4** | 4 |
-| 2016 | 2 | 1 | 0 | 0 | 0 | 0 | **3** | 3 |
-| 2017 | 1 | 0 | 0 | 0 | 2 | 0 | **3** | 3 |
-| 2018 | 1 | 0 | 0 | 0 | 1 | 0 | **2** | 2 |
-| 2019 | 1 | 0 | 1 | 0 | 0 | 1 | **3** | 3 |
-| 2020 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | 0 |
-| 2021 | 1 | 0 | 0 | 0 | 0 | 0 | **1** | 1 |
-| 2022 | 3 | 0 | 2 | 0 | 0 | 0 | **5** | 5 |
-| 2023 | 6 | 0 | 1 | 0 | 0 | 2 | **9** | 9 |
-| 2024 | 10 | 0 | 0 | 0 | 0 | 1 | **11** | 11 |
-| 2025 | 12 | 0 | 1 | 0 | 0 | 1 | **14** | 14 |
-| 2026 (to 10-23), **provisional** | 16 | 0 | 0 | 18 (9) | 0 | 8 | **42 (33)** | 22 (21) |
-| **2014–2026** | **57** | **1** | **6** | **18 (9)** | **4 (4)** | **16** | **102 (93)** | **82 (81)** |
+| Year | adu_detached | adu_attached | adu_conversion | adu_two_unit | second_dwelling | sf_to_duplex | adu_teardown_rebuild | **Second homes** | Before AQ-039 | Vacant-lot new-house ADUs (diagnostic, not counted) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2014 | 2 | 0 | 1 | 0 | 0 | 2 | 0 | **5** | 5 | 0 |
+| 2015 | 2 | 0 | 0 | 0 | 1 | 1 | 0 | **4** | 4 | 0 |
+| 2016 | 1 | 1 | 0 | 0 | 0 | 0 | 1 | **3** | 3 | 0 |
+| 2017 | 1 | 0 | 0 | 0 | 2 | 0 | 0 | **3** | 3 | 0 |
+| 2018 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | **1** | 2 | 1 |
+| 2019 | 1 | 0 | 0 | 0 | 0 | 1 | 0 | **2** | 3 | 1 |
+| 2020 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | **0** | 0 | 0 |
+| 2021 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | **1** | 1 | 0 |
+| 2022 | 3 | 0 | 2 | 0 | 0 | 0 | 0 | **5** | 5 | 0 |
+| 2023 | 5 | 0 | 1 | 0 | 0 | 2 | 2 | **10** | 9 | 0 |
+| 2024 | 10 | 0 | 0 | 0 | 0 | 1 | 0 | **11** | 11 | 0 |
+| 2025 | 12 | 0 | 1 | 0 | 0 | 1 | 0 | **14** | 14 | 0 |
+| 2026 (to 10-23), **provisional** | 16 | 0 | 0 | 18 (9) | 0 | 8 | 0 | **42 (33)** | 42 (33) | 0 |
+| **2014–2026** | **54** | **1** | **5** | **18 (9)** | **4 (4)** | **16** | **3** | **101 (92)** | **102 (93)** | **2** |
 
-Unconfirmed upper bound: equal to the headline in every year except 2026, **44 (34)**, so 2014–2026 **104 (94)**. The difference is BLDNRC-2026-23354.
+All figures are units permitted in the issue year (count); permits in brackets where different. "Before AQ-039" is the 2026-10-24 headline (it already included the 2016 and 2023 teardown-lot ADUs as `adu_detached`; they move to `adu_teardown_rebuild` without changing the total).
 
-Only 2026 changes: +18 units from the 9 two-unit ADU buildings, +4 from single-family → duplex additions with no parcel match, and −2 for BLDNRC-2026-23354. The 2023 bundle does not count, so 2023 is unchanged. BLDNRC-2026-23354 (Dwell 2) passes the parcel rule as a `second_dwelling`, but is held out of the headline as **pending**: its text names a "new duplex" at a different range of house numbers from the filed address, none of which exists in the assessor layer; the neighbouring parcels are 2-, 3- and 6-unit buildings; and the matched host is a 3,149 sq ft lot with a 1931 house, while the permit is a 3,258 sq ft, $662k duplex. That fits new construction on an adjoining vacant or cleared lot better than a building behind the house. It was issued 4 days before the data end, so the 180-day raze window has not elapsed either. It stays in the upper bound and `unit_category` is unchanged (`adu_equivalent`).
+Unconfirmed upper bound: equal to the headline in every year except 2026, **44 (34)**, so 2014–2026 **103 (93)**. The difference is BLDNRC-2026-23354.
+
+The AQ-032 judgments changed 2026 only: +18 units from the 9 two-unit ADU buildings, +4 from single-family → duplex additions with no parcel match, and −2 for BLDNRC-2026-23354. AQ-039 then changed 2018 (−1), 2019 (−1) and 2023 (+1; see "AQ-039 update"). BLDNRC-2026-23354 (Dwell 2) passes the parcel rule as a `second_dwelling`, but is held out of the headline as **pending**: its text names a "new duplex" at a different range of house numbers from the filed address, none of which exists in the assessor layer; the neighbouring parcels are 2-, 3- and 6-unit buildings; and the matched host is a 3,149 sq ft lot with a 1931 house, while the permit is a 3,258 sq ft, $662k duplex. That fits new construction on an adjoining vacant or cleared lot better than a building behind the house. It was issued 4 days before the data end, so the 180-day raze window has not elapsed either. It stays in the upper bound and `unit_category` is unchanged (`adu_equivalent`).
 
 **Judgments** (`madison.SECOND_HOME_JUDGMENTS`, 15 records; evidence per record also in the local `data/processed/permits/second_home_judgments.csv`, which adds the host parcel's YearBuilt, MaxConstructionYear, MoreThanOneBuild and TotalDwellingUnits, and in `audit_sample.csv` group `second_home_judged`). Evidence is the record text, the current assessor layer, every permit on the same parcel and on neighbouring house numbers since 2010, and the City's Housing Forward pages. **No Accela record was opened.** For geocoded records the host is the parcel containing the interpolated point. All neighbours on these blocks are 1950s–60s single-family homes, so the host's age does not depend on which neighbour it is. Every host below has 1 dwelling unit and MaxConstructionYear 0, and no dwelling raze or new-house permit since 2010.
 
 | Permit | Text (Dwell) | Evidence | Judgment | Units |
 | --- | --- | --- | --- | --- |
-| BLDNRC-2022-06192 (2023) | New duplex: main house + ADU, connected by a walkway (2) | The main-house address is a parcel whose single-family dwelling was razed (BLDRRZ-2019-06723, Dec 2020); assessor year built 2024; $1.5M, 8,160 sq ft | **Does not count**: new construction on a cleared lot | 0 |
+| BLDNRC-2022-06192 (2023) | New duplex: main house + ADU, connected by a walkway (2) | The main-house address is a parcel whose single-family dwelling was razed (BLDRRZ-2019-06723, Dec 2020); assessor year built 2024; $1.5M, 8,160 sq ft | **Counts the ADU only** (AQ-039, 2026-10-25): teardown-rebuild, `adu_teardown_rebuild`; the replacement house does not count. Was "does not count: new construction on a cleared lot" under AQ-032 | 1 |
 | BLDNRC-2026-03458 | Detached duplex ADU (2) | Host 1956 home; same-day "addition to create duplex" (BLDNRC-2026-03464) on the same parcel; new house number | Counts: added beside existing home | 2 |
 | BLDNRC-2026-03516 | New detached duplex ADU (2) | Host 1954 home (MoreThanOneBuild YES); same-day "addition to create duplex" (BLDNRC-2026-03526) on the same parcel | Counts | 2 |
 | BLDNRC-2026-03522 | New detached duplex ADU (2) | Host 1964 home; same-day "addition to create duplex" (BLDNRC-2026-03531) on the adjoining 1964 home | Counts | 2 |
@@ -332,10 +337,10 @@ The last four are not among the 10 bundles. They are the same 2026 programme (99
 
 | Year | Headline | Programme | Without programme | Without programme, keeping its 998 sq ft detached ADUs | Upper bound | Lower bound (two-unit as 1 / pairs as 1 project / both) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2014–2024 | 46 (46) | 0 | 46 (46) | 46 | 46 | 46 / 46 / 46 |
+| 2014–2024 | 45 (45) | 0 | 45 (45) | 45 | 45 | 45 / 45 / 45 |
 | 2025 | 14 (14) | 7 (7) | **7 (7)** | 13 | 14 | 14 / 14 / 14 |
 | 2026 (to 10-23), provisional | 42 (33) | 29 (20) | **13 (13)** | 16 | 44 (34) | 33 / 37 / 28 |
-| **2014–2026** | **102 (93)** | **36 (27)** | **66 (66)** | 75 | **104 (94)** | 93 / 97 / 88 |
+| **2014–2026** | **101 (92)** | **36 (27)** | **65 (65)** | 74 | **103 (93)** | 92 / 96 / 87 |
 
 2026 by component without the programme: adu_detached 13, every other component 0 (all 8 single-family → duplex additions and all 9 two-unit ADUs are in the programme).
 
@@ -517,3 +522,22 @@ Items S2, S7 and N7–N10 of the independent review of the Gate 2 addenda. Rebui
 | N10 | How "the lot already has a home" is determined is stated beside the headline (bottom line) and in the cross-city table in COMPARISON_PERMITS.md section 5a | Text only |
 
 Before → after, second homes 2014–2026: **104 units (94 permits) → 102 units (93 permits)**; upper bound 104 (94); without the programme 66 (66).
+
+## AQ-039 update (2026-10-25): teardown-rebuild ADUs count; vacant-lot new-house ADUs do not
+
+Owner decision AQ-039: an ADU permitted together with a new house counts as a second home when the lot previously had a home (teardown-rebuild), and does not count on a previously vacant lot. Rebuilt from the cached raw files (`uv run python scripts/build_madison_permits.py`); no new download. `unit_category`, `counted` and every non-headline reference row are unchanged.
+
+| Permit (issue year) | Before | After | Evidence |
+| --- | --- | --- | --- |
+| BLDNRC-2022-06192 (2023) | excluded (judged new construction on a cleared lot) | **counts 1** (`adu_teardown_rebuild`, judged) | House + ADU in one permit (Dwell 2); dwelling raze BLDRRZ-2019-06723 on the main-house parcel |
+| BLDNRC-2016-03653 (2016) | counted 1 (`adu_detached`) | counted 1 (`adu_teardown_rebuild`, rule) | New house BLDNRC-2016-03652 on the parcel 8 days later; two-family home razed (BLDRRZ-2016-07106) |
+| BLDNRC-2023-02191 (2023) | counted 1 (`adu_detached`) | counted 1 (`adu_teardown_rebuild`, rule) | New house BLDNRC-2022-18516 10 days earlier; single-family home razed (BLDRRZ-2022-16479) |
+| BLDNRC-2018-04915 (2018) | counted 1 (`adu_detached`) | **excluded**, diagnostic 1 | New house BLDNRC-2018-04919 3 months later; no permit on the parcel before the ADU, no raze; assessor year built 2019 |
+| BLDNRC-2019-04971 (2019) | counted 1 (`adu_conversion`) | **excluded**, diagnostic 1 | Garage-to-ADU conversion 8 months after new house BLDNRC-2018-14521; no earlier permit or raze on the parcel; year built 2019 |
+
+Second homes (units, count): 2018 2 → **1**, 2019 3 → **2**, 2023 9 → **10**; every other year unchanged. 2014–2026: **102 units (93 permits) → 101 units (92 permits)**; upper bound 104 (94) → 103 (93); without the templated programme 66 (66) → 65 (65).
+
+**Gate 3 floor.** Madison 2022–2025: **39 → 40 second-home units** over 53,292 ACS 2020–2024 one-unit detached homes × 4 years = 213.168 thousand home-years, i.e. **0.183 → 0.188 units per 1,000 one-unit detached homes per year** (40 ÷ 213.168). Without the templated programme: 32 → 33 units, 0.150 → 0.155 per 1,000 homes per year.
+
+**Limits.** The vacant-lot test sees only razes since 2010 recorded on the same parcel number; a raze under an earlier or different parcel number would make a teardown look vacant. The two excluded records have no earlier permit at all on their parcels and assessor year built 2019, consistent with new lots. The 365-day "with a new house" window is a team choice. Widening it to 730 days adds one more case, BLDNRC-2022-03213 (a bedroom converted to an ADU in April 2022 in a house permitted in 2020, no raze): it would move to the diagnostic and Madison 2022–2025 would be 39 units (0.183 per 1,000 homes per year). At 365 days it counts as an ADU added to a lot that already had a home. New two-unit buildings without ADU wording on teardown lots (for example BLDNRC-2019-08893, BLDNRC-2025-03448) stay ordinary new construction under AQ-032.
+

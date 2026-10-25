@@ -362,12 +362,14 @@ _TWO_UNIT_ADU = ("Two-unit ADU building beside an existing home: host is a {host
                  "since 2010; {extra}. Same plan as the other 2026 two-unit ADUs ($200,000, 2,994 sq ft).")
 SECOND_HOME_JUDGMENTS: dict[str, dict] = {
     "BLDNRC-2022-06192": {
-        "counts": False, "units": 0, "component": None, "judgment": "new_construction_cleared_lot",
+        "counts": True, "units": 1, "component": "adu_teardown_rebuild", "judgment": "teardown_rebuild_adu",
         "host_note": "the point falls in a neighbour; the text names the main house at the razed parcel",
         "evidence": "Text: new duplex = a new main house and an ADU built together and connected by a "
                     "walkway; the main-house address's parcel had its single-family dwelling razed "
                     "(BLDRRZ-2019-06723, issued Dec 2020) and now has assessor year built 2024; "
-                    "$1.5M, 8,160 sq ft. Cleared lot, so ordinary new construction."},
+                    "$1.5M, 8,160 sq ft. Teardown-rebuild with an ADU: under AQ-039 (2026-10-25) the ADU "
+                    "counts as 1 unit (Dwell 2 = main house + ADU; the replacement house does not count). "
+                    "Judged because the address match did not place the record on the razed parcel."},
     "BLDNRC-2026-03458": {
         "counts": True, "units": 2, "component": "adu_two_unit", "judgment": "added_beside_existing_home",
         "evidence": _TWO_UNIT_ADU.format(host="1956", extra="same-day 'ADDITION TO CREATE DUPLEX' "
@@ -446,6 +448,38 @@ SECOND_HOME_JUDGMENTS: dict[str, dict] = {
                     "BLDNRC-2026-20346; geocoded into the same 1954 single-family parcel; no raze."},
 }
 MadisonAdapter.second_home_judgments = SECOND_HOME_JUDGMENTS
+
+
+# --------------------------------------------------------------------------- AQ-039 new house + ADU
+_DWELLING_RAZE_RE = re.compile(r"house|home|dwelling|residence|duplex|famil|\bSFR?\b|\bunit", re.I)
+_NOT_DWELLING_RAZE_RE = re.compile(r"garage|shed|accessory|porch|deck|carport|barn", re.I)
+_NOT_NEW_HOUSE_RE = re.compile(r"\baddition\b|\bconver|\bremodel|\balter|\bto\s+(?:a\s+)?duplex", re.I)
+
+
+def new_house_candidates(full: pd.DataFrame) -> pd.DataFrame:
+    """AQ-039: ADUs permitted with a new principal house, by the lot's prior state.
+
+    ADU = a unit-adding non-raze record with ADU wording (`classify.ADU_RE`), not a legalization.
+    New house = a unit-adding BLDNRC record whose text names a new principal dwelling
+    (`second_homes.NEW_HOUSE_RE`) and is not an addition/conversion/remodel. Bundle = an ADU record
+    adding 2+ units whose text also names the new house. Dwelling raze = a raze record removing
+    units, or whose text names a dwelling and not only a garage/accessory building. A new-house
+    record that failed the parcel rule as `raze_nearby` also replaces a home.
+    """
+    from . import classify, second_homes
+
+    d = full["description"].fillna("")
+    ua = full["units_added"].fillna(0)
+    adu = (d.str.contains(classify.ADU_RE) & (ua > 0) & ~full["is_raze"]
+           & ~full["unit_category"].eq("adu_legalization"))
+    house_txt = d.str.contains(second_homes.NEW_HOUSE_RE)
+    new_house = full["permit_type"].eq("BLDNRC") & (ua >= 1) & house_txt & ~d.str.contains(_NOT_NEW_HOUSE_RE) & ~adu
+    bundle = adu & (ua >= 2) & house_txt
+    raze = full["is_raze"] & ((full["units_added"].fillna(0) < 0)
+                              | (d.str.contains(_DWELLING_RAZE_RE) & ~d.str.contains(_NOT_DWELLING_RAZE_RE)))
+    replaces = full["parcel_rule_reason"].eq("raze_nearby")
+    return second_homes.new_house_adus(full, key=full["parcel_id"], adu=adu, new_house=new_house,
+                                       dwelling_raze=raze, bundle=bundle, house_replaces_home=replaces)
 
 
 # --------------------------------------------------------------------------- templated 2025-26 programme

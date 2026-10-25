@@ -1,6 +1,6 @@
 # Do Wisconsin's coded local ADU rules predict activity?
 
-Prepared 2026-10-24 for the Gate 3 owner review, in answer to the owner's question of that date. Built by `scripts/build_wi_more_cities.py` with `missing_middleware/permits/wi_more_cities.py` and one adapter module per new place (`missing_middleware/permits/wimc_<place>.py`). All rates are **second-home permits on single-family lots (AQ-032), per 1,000 ACS 2020–2024 one-unit detached homes, per year**. The numerator is permits counted in the complete calendar years 2022–2025 that the source covers. The denominator is homes × complete years ÷ 1,000 ("thousand home-years").
+Prepared 2026-10-24 for the Gate 3 owner review, in answer to the owner's question of that date; updated 2026-10-25 for owner decision AQ-039 (teardown-rebuild ADUs count; Madison 39 → 40, see §8). Built by `scripts/build_wi_more_cities.py` with `missing_middleware/permits/wi_more_cities.py` and one adapter module per new place (`missing_middleware/permits/wimc_<place>.py`). All rates are **second-home permits on single-family lots (AQ-032), per 1,000 ACS 2020–2024 one-unit detached homes, per year**. The numerator is permits counted in the complete calendar years 2022–2025 that the source covers. The denominator is homes × complete years ÷ 1,000 ("thousand home-years").
 
 ## Plain summary
 
@@ -10,7 +10,7 @@ Prepared 2026-10-24 for the Gate 3 owner review, in answer to the owner's questi
   - That is **short of the 15-place target, and far short of the 20 that rule v1.1 needs before it ranks**.
   - All 24 other coded places were checked. Their permit data is behind a login or a search form, blocked to scripts, or published only as summary counts.
 - **Activity is rare.** Only 5 of the 13 places have any counted second home in their complete years:
-  - Madison: 39 permits, 0.183 per 1,000 homes per year.
+  - Madison: 40 permits, 0.188 per 1,000 homes per year (40 ÷ 213.2 thousand home-years; 39 and 0.183 before AQ-039).
   - Milwaukee: 35 candidate permits, 0.086 per 1,000 per year.
   - Kaukauna: 7 permits, 0.432 per 1,000 per year, from flags only.
   - Watertown: 2 permits, 0.109 per 1,000 per year.
@@ -36,7 +36,8 @@ Prepared 2026-10-24 for the Gate 3 owner review, in answer to the owner's questi
 Same outcome as AQ-032: a legally permitted permanent dwelling with its own kitchen, added on a lot that already has a single-family home.
 
 - **Counted:** ADUs (detached, attached, garage or accessory-building conversion, interior), single-family-to-duplex conversions, and a second new dwelling on a lot that already has a house.
-- **Excluded:** legalizations, new two-unit buildings on vacant or cleared lots, teardown-rebuilds, and renewals.
+- **Counted since AQ-039 (2026-10-25):** an ADU permitted together with a new house on a lot whose earlier home was razed (1 unit per ADU; the replacement house is not counted).
+- **Excluded:** legalizations, replacement houses on teardown lots, ADUs permitted with a new house on a previously vacant lot (kept as a diagnostic by place and year, §8), new two-unit buildings without ADU wording on vacant or cleared lots, and renewals.
 - **Review:** every counted record and every near-hit was judged by hand in the place's adapter (`JUDGMENTS`).
 - **Upper bound:** records that could not be confirmed are not counted. Each adds 1 unit to the "upper bound".
 - **Access:** plain HTTP GET only, with no browser, form submissions or logins.
@@ -49,7 +50,7 @@ Same outcome as AQ-032: a legally permitted permanent dwelling with its own kitc
 
 | Place | GEOID | Permits (complete years) | Upper bound | Complete years | Homes | Rate | 95% | Upper rate | Stage | Quality |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Madison city | 5502548000 | 39 | 39 | 2022–2025 | 53,292 | 0.183 | 0.130–0.250 | 0.183 | issued | A |
+| Madison city | 5502548000 | 40 | 40 | 2022–2025 | 53,292 | 0.188 | 0.134–0.256 | 0.188 | issued | A |
 | Milwaukee city | 5507953000 | 35 (candidates) | 54 | 2022–2025 | 101,402 | 0.086 | 0.060–0.120 | 0.133 | issued | C |
 | Sun Prairie city | 5502578600 | 1 | 1 | 2022–2025 | 8,118 | 0.031 | 0.001–0.172 | 0.031 | application | A |
 | Pleasant Prairie village | 5505963300 | 0 | 1 | 2022–2025 | 6,332 | 0 | 0–0.146 | 0.039 | issued | A |
@@ -153,13 +154,13 @@ The activity window is 2022–2025, so the in-force coding is the fair test. The
 
 | Current rights class | active | middle | restrictive | Row total | Pooled rate (permits ÷ thousand home-years) |
 | --- | --- | --- | --- | --- | --- |
-| scenario_benchmark | 1 (Madison) | 0 | 0 | 1 | 0.183 (39 ÷ 213.2) |
+| scenario_benchmark | 1 (Madison) | 0 | 0 | 1 | 0.188 (40 ÷ 213.2) |
 | restricted | 1 (Milwaukee) | 1 (Sun Prairie) | 3 (Fitchburg, De Pere, Green Bay) | 5 | 0.063 (36 ÷ 568.1) |
 | prohibited (all explicit here) | 0 | 0 | 3 (Pleasant Prairie, Howard, Neenah) | 3 | 0 (0 ÷ 63.8; 95% upper 0.058) |
 
 **Ordinance status:**
 
-- `mentioned_allowed`: 6 places (2 active, 1 middle, 3 restrictive), pooled 0.096 (75 ÷ 781.3).
+- `mentioned_allowed`: 6 places (2 active, 1 middle, 3 restrictive), pooled 0.097 (76 ÷ 781.3).
 - `unmentioned`: 2 places (Pleasant Prairie, Neenah), both restrictive, 0 ÷ 41.7.
 - `prohibited`: 1 place (Howard), restrictive, 0 ÷ 22.2.
 
@@ -170,7 +171,7 @@ The activity window is 2022–2025, so the in-force coding is the fair test. The
 
 **Number of flags:**
 
-- 0 flags (benchmark or prohibited): 4 places, 0.141 (39 ÷ 277.0).
+- 0 flags (benchmark or prohibited): 4 places, 0.144 (40 ÷ 277.0).
 - 1 flag: 3 places, 0.078 (36 ÷ 462.1).
 - 2 flags: 1 place, 0 ÷ 26.1.
 - 3 flags: 1 place, 0 ÷ 80.0.
@@ -179,7 +180,7 @@ All cells, samples and both groupings are in `reference/wi_rules_vs_activity_cro
 
 **Rules in force during the window:**
 
-- Restricted: 4 places (Madison active; Fitchburg, De Pere and Green Bay restrictive), pooled 0.114 (39 ÷ 343.2).
+- Restricted: 4 places (Madison active; Fitchburg, De Pere and Green Bay restrictive), pooled 0.117 (40 ÷ 343.2).
 - Prohibited: 5 places (Milwaukee active; Sun Prairie middle; Pleasant Prairie, Howard and Neenah restrictive), pooled 0.072 (36 ÷ 501.9).
 - **The in-force coding orders the pooled rates the wrong way only because of Milwaukee.** Without Milwaukee, prohibited is 1 ÷ 96.3 = 0.010.
 
@@ -219,14 +220,14 @@ Median home value is ACS 2020–2024 B25077, county subdivision of the place's l
 
 - The two active places sit at both ends of the market: Madison $372,900; Milwaukee $184,000, the lowest of all 13.
 - The highest-value places measured zero: Waunakee $515,900, Verona $420,400, Fitchburg $417,200.
-- Sun Prairie ($365,700) is in Madison's market but under different rules in the window: 0.031 against Madison's 0.183. That is the one same-market contrast, and it points to rules mattering.
+- Sun Prairie ($365,700) is in Madison's market but under different rules in the window: 0.031 against Madison's 0.188. That is the one same-market contrast, and it points to rules mattering.
 - The Madison–Minneapolis point stands: neither permissive rules nor a strong market is enough by itself.
 
 **Post-hoc observation (not a test; noticed after looking):** the only two places with more than 7 permits are the two largest cities.
 
-- For a place of 5,000–8,000 homes, Madison's rate (0.183 per 1,000 per year) implies 3–6 permits expected in four years. For example: Pleasant Prairie 25.3 thousand home-years × 0.183 = 4.6 expected; Verona 14.5 × 0.183 = 2.6.
-- So zeros at small places are only moderately informative one by one: the probability of zero is e^−4.6 ≈ 1% for Pleasant Prairie and e^−2.6 ≈ 7% for Verona.
-- Pooled, they are strongly informative. Fitchburg, De Pere and Green Bay (allowed or restricted in the window) counted **0 over 130.0 thousand home-years** (95% upper 0.028 per 1,000 per year), well under Madison's 0.183.
+- For a place of 5,000–8,000 homes, Madison's rate (0.188 per 1,000 per year) implies 4–6 permits expected in four years. For example: Pleasant Prairie 25.3 thousand home-years × 0.188 = 4.8 expected; Verona 14.5 × 0.188 = 2.7.
+- So zeros at small places are only moderately informative one by one: the probability of zero is e^−4.8 ≈ 1% for Pleasant Prairie and e^−2.7 ≈ 7% for Verona.
+- Pooled, they are strongly informative. Fitchburg, De Pere and Green Bay (allowed or restricted in the window) counted **0 over 130.0 thousand home-years** (95% upper 0.028 per 1,000 per year), well under Madison's 0.188.
 
 ## 5. Deviations and caveats
 
@@ -273,6 +274,21 @@ Revisit when the measured set reaches 20. The cheapest additions:
 2. **Re-check Kaukauna's rules** (see §5, item 7) before coding it into `wi_adu_rules.csv`.
 3. **Milwaukee counts as measured here** (grade C candidates) but was "unmeasured" in Gate 3's `wi_observations_2022_2025`. Which treatment should the regression grouping use? This doc does not change `ca_regression_wi_activity_groups.csv`.
 4. **Form-based public searches** (Eau Claire Evolve, Waukesha eTRAKiT) are the main route to more places. They were not used, per "no forms".
+
+## 8. AQ-039 update (2026-10-25): ADUs permitted with a new house
+
+Owner decision AQ-039: an ADU permitted together with a new house counts when the lot previously had a home (teardown-rebuild), and not when it was vacant. The same rule (`second_homes.new_house_adus`) was applied to every measured place where the source can show it: an ADU record (ADU wording or a counted ADU component) on the same parcel (or address) as a new-house permit issued within 365 days either side; the lot had a home if a dwelling raze on it falls within 3 years either side of the house permit.
+
+| Place | 2022–2025 ADUs with a new house on a teardown lot (counted) | On a vacant lot (diagnostic, not counted) | Change to the 2022–2025 count |
+| --- | --- | --- | --- |
+| Madison | 2 units (2023: BLDNRC-2022-06192 newly counted; BLDNRC-2023-02191 already counted, moved to the teardown component) | 0 | 39 → **40** units |
+| Pleasant Prairie, Sun Prairie | 0 (Pleasant Prairie's 19 teardown-rebuilds 2014–2026 are replacement houses with no ADU) | 0 | none |
+| Howard, De Pere, Neenah, Green Bay, Kaukauna, Verona, Watertown, Waunakee | 0 (adapter records checked in the build; `data/processed/wi_more_cities/aq039_new_house_adus.csv`) | 0 | none |
+| Milwaukee, Fitchburg | not observable (Milwaukee has no descriptions; Fitchburg has no ADU text hits) | not observable | none |
+
+`reference/wi_rules_vs_activity_by_year.csv` carries both lines by place and year (`teardown_rebuild_adu_units`, `diag_vacant_lot_new_house_adu_units`; ADU units, count; blank = not observable), so the vacant-lot rule can be flipped later. Groups, cross-tab counts, correlations and the prediction table are unchanged; only Madison's numerator and the pooled rates that include it move (Tables 1–2 and §3 above).
+
+**Window sensitivity.** With a 730-day window instead of 365, three ADUs in already-built new houses would become vacant-lot new-house ADUs: Madison BLDNRC-2022-03213 (2022) and Kaukauna KU-2025-795 and KU-2025-898 (basement units 13 and 23 months after the house permit). Madison 2022–2025 would be 39 units (0.183 per 1,000 homes per year) and Kaukauna 2023–2025 5 units (0.309 per 1,000 homes per year, 5 ÷ 16.2 thousand home-years) instead of 7 (0.432).
 
 ## Reproduce
 

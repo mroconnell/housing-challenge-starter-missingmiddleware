@@ -1,5 +1,5 @@
 group,x_low,x_central,x_high,basis,units,thousand_home_years,evidence,range_rule
 prohibited,0.0102,0.0313,0.0730,observed (pooled),5.0000,159.9311,pleasant_prairie_2014_2025; sun_prairie_2016_2026may,exact Poisson 95% interval of the pooled count
-restricted,0.0313,0.0625,0.1314,"observed (pooled), applied as estimate",35.0000,560.3980,madison_2014_2021; madison_2022_2023; fitchburg_2022_2026jul,low = prohibited central; high = madison_2022_2023
-benchmark,0.0625,0.1830,0.2501,"observed in Madison, applied as estimate elsewhere",39.0000,213.1680,madison_2022_2025,low = restricted central; high = upper Poisson 95% bound for Madison
-undetermined,0.0313,0.0625,0.1314,assumed: behaves like restricted (AQ-027),,,restricted group,low = prohibited central; central and high = restricted
+restricted,0.0313,0.0607,0.1407,"observed (pooled), applied as estimate",34.0000,560.3980,madison_2014_2021; madison_2022_2023; fitchburg_2022_2026jul,low = prohibited central; high = madison_2022_2023
+benchmark,0.0607,0.1876,0.2555,"observed in Madison, applied as estimate elsewhere",40.0000,213.1680,madison_2022_2025,low = restricted central; high = upper Poisson 95% bound for Madison
+undetermined,0.0313,0.0607,0.1407,assumed: behaves like restricted (AQ-027),,,restricted group,low = prohibited central; central and high = restricted

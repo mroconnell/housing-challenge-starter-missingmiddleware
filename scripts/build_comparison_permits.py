@@ -76,7 +76,9 @@ def build_city(name: str, fetch: bool, refresh: bool, log=print) -> dict:
     full["new_dwelling_type"] = a.is_new_dwelling(full) & ~(full.get("withdrawn", False) == True)  # noqa: E712
     full["manufactured"] = a.is_manufactured(full)
     # headline outcome (AQ-032): second homes on single-family lots; series/unit_category unchanged
-    full = second_homes.assign(full, getattr(a, "second_home_judgments", None))
+    # AQ-039: ADUs permitted with a new house count on teardown lots, not on vacant lots
+    new_house = cmp.new_house_candidates(full, a)
+    full = second_homes.assign(full, getattr(a, "second_home_judgments", None), new_house=new_house)
     obs = to_contract(full, a.source_id, a.jurisdiction_id)
     obs["stage"] = a.stage
     obs["parcel_stateid"] = obs["parcel_id"].map(parcels.set_index("parcel_id")["stateid"])
@@ -84,6 +86,7 @@ def build_city(name: str, fetch: bool, refresh: bool, log=print) -> dict:
     obs["second_home_component"] = full.loc[full["in_scope"], "second_home_component"].values
     obs["second_home_units"] = full.loc[full["in_scope"], "second_home_units"].values
     obs["second_home_upper_units"] = full.loc[full["in_scope"], "second_home_upper_units"].values
+    obs["second_home_vacant_lot_units"] = full.loc[full["in_scope"], "second_home_vacant_lot_units"].values
     obs["restrictive_period"] = cmp.restrictive_flag(a, obs["stage_date"])
     problems = contracts.validate(obs, contracts.PERMITS_OBSERVED)
     agg = by_area_year(obs, f"muni:{a.jurisdiction_id}")
@@ -107,6 +110,9 @@ def build_city(name: str, fetch: bool, refresh: bool, log=print) -> dict:
     first = max(2014, a.first_year)
     sh_years = second_homes.by_year(full, range(first, int(full["year"].max()) + 1))
     sh_years.to_csv(out / "second_homes_by_year.csv", index=False)
+    nh_tbl = new_house.join(full[["permit_id", "year", "units_added", "counted", "second_home_component",
+                                  "second_home_units", "second_home_vacant_lot_units", "second_home_note"]])
+    nh_tbl.to_csv(out / "new_house_adus.csv", index=False)
 
     counted = full[full["counted"]]
     report = {
@@ -121,6 +127,8 @@ def build_city(name: str, fetch: bool, refresh: bool, log=print) -> dict:
         ["parcel_rule_reason"].value_counts().astype(int).to_dict(),
         "match_rates": rates.to_dict("records"),
         "second_home_sf_lot_by_year": sh_years.to_dict("records"),
+        "new_house_adus_aq039": nh_tbl[["permit_id", "year", "nh_site", "nh_adu_units", "counted",
+                                        "second_home_component"]].to_dict("records"),
         "bps_reconciliation": recon.to_dict("records"),
     }
     (out / "build_report.json").write_text(json.dumps(report, indent=2, default=str) + "\n")

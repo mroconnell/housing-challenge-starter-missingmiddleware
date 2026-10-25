@@ -116,7 +116,7 @@ def main(argv: list[str]) -> None:
     pd.concat(vol).to_csv(REFERENCE / "ca_study_wi_share_volume.csv", index=False)
     # Madison comparison point (context only; the Madison floor is another work package)
     mad = pd.read_csv(REFERENCE / "madison_adu_permits_by_year.csv")
-    comps = [f"second_home_sf_lot:{c}" for c in ("adu_detached", "adu_attached", "adu_conversion", "adu_two_unit")]
+    comps = [f"second_home_sf_lot:{c}" for c in ("adu_detached", "adu_attached", "adu_conversion", "adu_two_unit", "adu_teardown_rebuild")]
     m_units = mad[mad["year"].between(2022, 2025) & mad["category"].isin(comps)]["units"].sum() / 4
     m_homes = float(inv.loc[inv["area_id"].eq("muni:5502548000"), "homes_1unit_detached"].iloc[0])
     pd.DataFrame([

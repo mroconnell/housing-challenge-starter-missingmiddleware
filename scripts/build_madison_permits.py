@@ -77,12 +77,15 @@ def main(argv=None) -> int:
                                   dwell0_conversions=a.dwell0_conversions,
                                   exclude_parcel_rule=a.parcel_rule_false_positives)
     # headline outcome (AQ-032): second homes on single-family lots; unit_category is unchanged
-    full = second_homes.assign(full, a.second_home_judgments)
+    # AQ-039: ADUs permitted with a new house count on teardown lots, not on vacant lots
+    new_house = madison.new_house_candidates(full)
+    full = second_homes.assign(full, a.second_home_judgments, new_house=new_house)
     # review S7: flag the templated 2025-26 builder programme (Gate 3 uses 2026 as a sensitivity only)
     full["templated_programme"] = madison.templated_programme(full)
     obs = to_contract(full, a.source_id, a.jurisdiction_id)
     s_in = full.loc[full["in_scope"]]
-    for col in ("second_home_component", "second_home_units", "second_home_upper_units", "templated_programme"):
+    for col in ("second_home_component", "second_home_units", "second_home_upper_units", "templated_programme",
+                "second_home_vacant_lot_units"):
         obs[col] = s_in[col].values
     problems = contracts.validate(obs, contracts.PERMITS_OBSERVED)
     city_area = f"muni:{a.jurisdiction_id}"
@@ -107,6 +110,9 @@ def main(argv=None) -> int:
     source_vs_clean(praw, full, obs, extra_ids=traced).to_csv(out / "source_vs_clean_examples.csv", index=False)
     judged = second_home_judgment_table(full, madison.load_parcels(graw), a.second_home_judgments)
     judged.to_csv(out / "second_home_judgments.csv", index=False)
+    nh_tbl = new_house.join(full[["permit_id", "year", "units_added", "counted", "second_home_component",
+                                  "second_home_units", "second_home_vacant_lot_units", "second_home_note"]])
+    nh_tbl.sort_values(["year", "permit_id"]).to_csv(out / "new_house_adus.csv", index=False)
     audit = audit_sample(full, out / "audit_judgments.csv")
     extra = full[full["permit_id"].isin(judged["permit_id"])]
     extra = extra[[c for c in audit.columns if c in extra.columns]].assign(
@@ -145,6 +151,8 @@ def main(argv=None) -> int:
         "reconciliation": recon.to_dict("records"),
         "second_home_sf_lot_by_year": sh_years.to_dict("records"),
         "second_home_judgments": judged[["permit_id", "judgment", "counts", "units"]].to_dict("records"),
+        "new_house_adus_aq039": nh_tbl[["permit_id", "year", "nh_site", "nh_adu_units", "counted",
+                                        "second_home_component"]].to_dict("records"),
         "templated_programme": {
             "permits_by_year": full[full["templated_programme"]].groupby("year").size().astype(int).to_dict(),
             "headline_units_by_year": full[full["templated_programme"]].groupby("year")["second_home_units"]

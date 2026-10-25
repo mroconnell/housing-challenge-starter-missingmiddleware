@@ -19,6 +19,15 @@ Outputs:
     reference/wi_rules_vs_activity_correlations.csv      Spearman rank correlations (permutation p)
     reference/wi_rules_vs_activity_prediction.csv        rules-based group vs measured group
     data/processed/wi_more_cities/record_review.csv      counted and unconfirmed records (house numbers redacted)
+    data/processed/wi_more_cities/aq039_new_house_adus.csv  AQ-039 check: ADUs permitted with a new house
+
+AQ-039 (2026-10-25): an ADU permitted with a new house counts on a teardown lot and not on a vacant
+lot. The pilots apply it in their own builds (reference rows `second_home_sf_lot:adu_teardown_rebuild`
+and `second_home_diag:vacant_lot_new_house_adu`). For the `wimc_*` places the same rule
+(`second_homes.new_house_adus`) is run on each adapter's classified records here; a teardown-lot ADU
+that the adapter has not counted stops the build (it must be judged in the adapter). The by-year table
+carries both lines by place and year; they are missing (not zero) where the source cannot show them
+(Milwaukee: no descriptions; Fitchburg: text hits only, none).
 """
 from __future__ import annotations
 
@@ -33,6 +42,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from missing_middleware.paths import RAW, REFERENCE, processed_dir  # noqa: E402
+from missing_middleware.permits import classify, second_homes  # noqa: E402
 from missing_middleware.permits import wi_more_cities as wm  # noqa: E402
 
 RATE_UNIT = ("second-home permits on single-family lots (numerator) per 1,000 ACS 2020-2024 one-unit detached "
@@ -41,6 +51,83 @@ RATE_UNIT = ("second-home permits on single-family lots (numerator) per 1,000 AC
 RULE_VARS = ("ordinance_status", "rights_group", "current_class", "tier", "n_flags",
              "window_rights_group", "window_tier", "window_n_flags")
 RULE_TO_GROUP = {"scenario_benchmark": "active", "restricted": "middle", "prohibited": "restrictive"}
+
+
+AQ039_TD = "teardown_rebuild_adu_units"
+AQ039_VAC = "diag_vacant_lot_new_house_adu_units"
+_RAZE_RE = r"\braz(?:e|ing)\b|demoli|wreck"
+_ADU_COMPONENTS = ("adu_detached", "adu_attached", "adu_conversion", "adu_two_unit")
+
+
+def wimc_new_house_adus(c: pd.DataFrame) -> pd.DataFrame:
+    """AQ-039 rule on one adapter's classified records (columns of `classify_records`).
+
+    Lot key = parcel number, else house number + street. ADU = a counted ADU component or ADU wording
+    (`classify.ADU_RE`, or a Kaukauna 'Additional dwelling unit' work target). New house = permit type or
+    text naming a new principal dwelling (`second_homes.NEW_HOUSE_RE`, 'Residential - New', 'New Home').
+    Dwelling raze = raze / demolition / wrecking wording in the type or text."""
+    txt = c["permit_type"].fillna("").astype(str) + " | " + c["description"].fillna("").astype(str)
+    for col in ("target", "work_type"):
+        if col in c.columns:
+            txt = txt + " | " + c[col].fillna("").astype(str)
+    adu = (c["component"].isin(_ADU_COMPONENTS) | c["description"].fillna("").astype(str).str.contains(classify.ADU_RE)
+           | txt.str.contains(r"additional\s+dwelling\s+unit", case=False, regex=True))
+    adu &= ~txt.str.contains(_RAZE_RE, case=False, regex=True)
+    new_house = (txt.str.contains(second_homes.NEW_HOUSE_RE) | txt.str.contains(r"Residential - New|New Home", case=False,
+                                                                                 regex=True)) & ~adu
+    addr = c["house_nbr"].astype(str).where(c["house_nbr"].notna()) + " " + c["street"].astype(str)
+    key = c["parcel_id"].where(c["parcel_id"].notna(), addr)
+    df = pd.DataFrame({"permit_id": c["permit_id"], "issue_date": pd.to_datetime(c["date"]),
+                       "units_added": c["units"].where(c["component"].notna(), 1)}, index=c.index)
+    nh = second_homes.new_house_adus(df, key=key, adu=adu, new_house=new_house,
+                                     dwelling_raze=txt.str.contains(_RAZE_RE, case=False, regex=True))
+    return nh.join(c[["permit_id", "year", "component", "units"]])
+
+
+def aq039_by_place_year(py: pd.DataFrame, ref_dir: Path, raw_root: Path, adapters=wm.ADAPTERS,
+                        log=print) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Teardown-rebuild ADU units (in the headline) and vacant-lot new-house ADU units (diagnostic,
+    excluded) per place and year; NaN where the source cannot show them."""
+    import importlib
+
+    vals: dict[tuple[str, int], tuple[float, float]] = {}
+    for slug, f, col in (("madison", "madison_adu_permits_by_year.csv", "category"),
+                         ("pleasant_prairie", "pleasant_prairie_adu_equivalent_by_year.csv", "series"),
+                         ("sun_prairie", "sun_prairie_adu_equivalent_by_year.csv", "series")):
+        path = ref_dir / f
+        if not path.exists():
+            continue
+        d = pd.read_csv(path)
+        for y in wm.YEARS:
+            g = d[d["year"] == y].groupby(col)["units"].sum()
+            td, va = f"{second_homes.HEADLINE}:{second_homes.TEARDOWN}", second_homes.VACANT_ROW
+            vals[(slug, y)] = (float(g[td]) if td in g.index else np.nan, float(g[va]) if va in g.index else np.nan)
+    checks = []
+    for slug in adapters:
+        if not (raw_root / f"wimc_{slug}").exists():
+            continue
+        m = importlib.import_module(f"missing_middleware.permits.wimc_{slug}")
+        c = m.classify_records(m.load(raw_root / f"wimc_{slug}"))
+        nh = wimc_new_house_adus(c).assign(slug=slug)
+        bad = nh[(nh["nh_site"] == "teardown_rebuild") & nh["component"].isna()]
+        if len(bad):
+            raise RuntimeError(f"{slug}: teardown-lot ADU(s) not counted by the adapter (judge them under AQ-039): "
+                               f"{list(bad['permit_id'])}")
+        cnt = nh[(nh["nh_site"] == "vacant_lot") & nh["component"].notna()]
+        if len(cnt):
+            raise RuntimeError(f"{slug}: vacant-lot new-house ADU(s) counted by the adapter (AQ-039 excludes them): "
+                               f"{list(cnt['permit_id'])}")
+        checks.append(nh)
+        for y in wm.YEARS:
+            ny = nh[nh["year"] == y]
+            vals[(slug, y)] = (float(ny.loc[ny["nh_site"] == "teardown_rebuild", "nh_adu_units"].sum()),
+                               float(ny.loc[ny["nh_site"] == "vacant_lot", "nh_adu_units"].sum()))
+    py = py.copy()
+    py[AQ039_TD] = [vals.get((s, y), (np.nan, np.nan))[0] for s, y in zip(py["slug"], py["year"])]
+    py[AQ039_VAC] = [vals.get((s, y), (np.nan, np.nan))[1] for s, y in zip(py["slug"], py["year"])]
+    chk = pd.concat(checks, ignore_index=True) if checks else pd.DataFrame()
+    log(f"AQ-039 check on the measured adapters: {len(chk)} ADU(s) permitted with a new house")
+    return py, chk
 
 
 def build(fetch: bool = False, ref_dir: Path = REFERENCE, raw_root: Path = RAW, out_ref: Path = REFERENCE,
@@ -121,9 +208,12 @@ def build(fetch: bool = False, ref_dir: Path = REFERENCE, raw_root: Path = RAW, 
             "quality_note", "measured_full_window", "rate_unit"]
     m_out.sort_values(["measured_full_window", "rate_per_1000_homes_yr"], ascending=[False, False])[cols].round(4).to_csv(
         out_ref / "wi_measured_permits_2022_2025.csv", index=False)
-    py.assign(units_unit="second-home units permitted in the calendar year (count)")[
-        ["place", "slug", "year", "units", "upper_units", "months", "complete", "stage", "note", "units_unit"]].to_csv(
-        out_ref / "wi_rules_vs_activity_by_year.csv", index=False)
+    py, aq039 = aq039_by_place_year(py, ref_dir, raw_root, log=log)
+    py.assign(units_unit="second-home units permitted in the calendar year (count)",
+              aq039_unit=("ADU units (count, 1 per ADU) permitted with a new house: teardown lot = counted in "
+                          "units; vacant lot = diagnostic, not in units; blank = not observable in the source"))[
+        ["place", "slug", "year", "units", "upper_units", "months", "complete", "stage", "note", "units_unit",
+         AQ039_TD, AQ039_VAC, "aq039_unit"]].to_csv(out_ref / "wi_rules_vs_activity_by_year.csv", index=False)
     pcols = ["place", "GEOID", "coded", "holdout", "rules_source", "class_basis", "ordinance_status", "current_class",
              "restrictions", "n_flags", "n_tier1", "n_tier2", "tier", "strictness", "window_class", "window_flags",
              "window_n_flags", "window_tier", "window_strictness", "window_note", "permits", "permits_upper",
@@ -140,6 +230,7 @@ def build(fetch: bool = False, ref_dir: Path = REFERENCE, raw_root: Path = RAW, 
     out_proc.mkdir(parents=True, exist_ok=True)
     if len(review):
         review.to_csv(out_proc / "record_review.csv", index=False)
+    aq039.to_csv(out_proc / "aq039_new_house_adus.csv", index=False)
     summary = {"places": len(meas), "measured_full_window": int(meas["measured_full_window"].sum()),
                "measured_2plus_years": int(meas["measured_2plus_years"].sum()),
                "coded_full_window": int((meas["coded"] & meas["measured_full_window"]).sum()),
