@@ -2,6 +2,8 @@
 
 This folder has one data dictionary per source. The sources come from the "Data and Resources" section of the [Challenge Handbook](https://housingchallenge.turnout.rocks/handbook.html) and the state portal list in [data/DATA_SOURCES.md](../../data/DATA_SOURCES.md). Each page lists the fields, units, geography, update frequency, how to access the data, and a few sample rows.
 
+Sources added in Gate 3 (other statewide-law states, five comparison cities, more Wisconsin permit reports, town zoning and California rule sources) are listed in [DATA_PROVENANCE.md](../DATA_PROVENANCE.md) but have no data dictionary or sample rows here yet.
+
 Sample rows live in [data/sample/](../../data/sample/). They are small on purpose. The handbook says not to commit large source data, so the full datasets must be downloaded by our pipeline.
 
 ## What the samples leave out
