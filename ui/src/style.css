@@ -254,3 +254,31 @@ dialog::backdrop { background: #0006; }
 p, li, dd, .detail { overflow-wrap: break-word; }
 .grid-obs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 16px; }
 @media (max-width: 900px) { .grid-obs { grid-template-columns: minmax(0, 1fr); } }
+
+/* Gate 4 verification fixes */
+.note-box { background: #fff6dc; border: 1px solid #e8cf86; border-left: 4px solid #b07d00; border-radius: 8px; padding: 8px 12px; margin: 10px 0; }
+.note-box p { margin: 0; }
+.small-flag { background: #f3f3f1; border-radius: 6px; padding: 6px 10px; font-size: 0.9rem; }
+.scen-desc { font-size: 0.92rem; font-weight: 600; color: var(--ink); }
+svg.chart .anno { font-size: 11.5px; fill: var(--ink); font-weight: 600; }
+@media (max-width: 900px) {
+  /* the tab row scrolls sideways on narrow screens: fade the right edge as a scroll cue */
+  .tabs ol { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); }
+  .tabs ol.at-end { -webkit-mask-image: none; mask-image: none; }
+}
+@media print {
+  @page { size: letter; margin: 0.5in 0.55in; }
+  body { font-size: 9.5pt; line-height: 1.32; }
+  .brief h1 { font-size: 15pt; margin: 2px 0 4px; }
+  .brief h2 { font-size: 11pt; margin: 9px 0 3px; padding-bottom: 2px; }
+  .brief p, .brief ul { margin: 3px 0; }
+  .brief li { margin: 1px 0; }
+  .brief .brief-sub { font-size: 10.5pt; margin: 2px 0 4px; }
+  .brief .small { font-size: 8.5pt; }
+  .brief .table-wrap { margin: 4px 0; overflow: visible; }
+  table.data { font-size: 8.5pt; }
+  table.data th, table.data td { padding: 2px 5px; }
+  table.data caption { font-size: 8.5pt; padding-bottom: 2px; }
+  .brief ul { padding-left: 1.2em; }
+}
+td.num .tag { display: block; width: max-content; margin: 2px 0 0 auto; }

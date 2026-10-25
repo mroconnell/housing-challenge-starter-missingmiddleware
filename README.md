@@ -1,29 +1,27 @@
-<!--
-==============================================================================
-HOW TO USE THIS TEMPLATE (delete this comment block once you've read it)
-
-1. Click "Use this template" on GitHub to create your own PUBLIC repository. DONE
-2. Read docs/REPO_SETUP_GUIDE.md and turn on the repository security settings (secret scanning, push protection, code scanning). These are settings, not files, so the template cannot enable them for you. DONE
-3. Replace every [bracketed placeholder] below with your project's details.
-4. Fill in the "Command contract" so anyone can set up, run, and test your tool with the exact commands you list.
-5. Work through SUBMISSION_CHECKLIST.md before you submit.
-
-This template is language-agnostic. Use Python, JavaScript, Go, R, or anything else. The files here are configuration and documentation only; nothing forces a particular language or framework on you.
-==============================================================================
--->
-
 # Missing Middleware
 
-A state-level simulator for Wisconsin legislators and legislative aides to compare how pro-housing reforms, individually and in combination, could change housing supply over five years and explain those impacts in specific legislative districts. The planned tool connects a diagnostic map of existing housing and development opportunities to policy scenarios with explicit assumptions and ranges of possible outcomes.
+An interactive tool for Wisconsin legislators and legislative aides that estimates how many second homes a statewide accessory dwelling unit (ADU) law could add on single-family lots, statewide and in every county, city, village and town, over 2027–2031. The ADU law is the first reform in a planned set; transit-oriented density and parking reform are later cycles (see the [Project Plan](docs/PROJECT_PLAN.md)).
 
 ## What this tool does
 
-The project is in planning. The intended workflow has two parts:
+The tool runs locally in a web browser and shows the adopted Gate 3 model ([Gate 3 packet](docs/gate3/README.md)); the browser runs no model, it reads a precomputed bundle.
 
-1. **Configure My State:** use Census housing and permit data, Wisconsin parcels, transit access, and available local records to establish a baseline and investigate development opportunities.
-2. **Model the Future:** compare a no-reform baseline with individual reforms and combinations addressing ADUs, transit-oriented density, and parking reduction, with statewide and district explanations. Development-fee reduction and missing middle remain additional candidates. An expanded economic-scenario layer is optional.
+**Outcome.** Second-home permits at issuance on lots that already have a single-family home: ADUs plus single-family-to-duplex conversions. They are not completed homes, and every result is for an area, never for a lot. A rate is permits in a year ÷ thousands of one-unit detached homes (Wisconsin has 1,839,569, ACS 2020–2024).
 
-See the [Project Plan](docs/PROJECT_PLAN.md) for the data strategy, research milestones, and unresolved modeling choices. No policy scenarios are implemented yet.
+**Headline (model output, 2027–2031, law in effect 1 January 2027, stylized).**
+- Under current law: **645** permits (range 314–1,355 from the low and high current-law rates).
+- Added by the law: **8,721** additional permits in the central scenario, **4,407** in the lower scenario and **16,853** in the strong adoption scenario. The scenarios show how much eight statewide-law states differ from one another; they are not statistical confidence intervals.
+
+**Seven screens.**
+1. **Wisconsin today:** housing units, single-family homes, vacancy, homes permitted, housing mix, and the ADU baseline.
+2. **Statewide comparison:** the modelled law, the three scenarios explained, annual and five-year permits, and the adoption reference line (8,208).
+3. **Where:** county and municipality map (area fills only) with a year slider, a details panel, and a searchable table that reconciles to the state.
+4. **How sure:** what each place's current-law rate rests on (observed, calculated, assumed), the sensitivity analysis, robustness checks, and the strongest challenges.
+5. **Why:** evidence and assumption cards with links to the write-ups, and the comparison-state charts.
+6. **Pilot examples:** Madison, Pleasant Prairie and Sun Prairie: current rules with ordinance sections, observed permits, and the forecast.
+7. **Brief:** a printable two-page summary.
+
+Open questions for the owner at Gate 5 (shown on screen, not changed): Madison alone follows the observed path of Madison-like cities, so its rate with the law is below its suburbs'; and some small, high-value villages show high rates. See the [Gate 4 packet](docs/gate4/README.md).
 
 ## Command contract
 
@@ -32,11 +30,12 @@ The Gate 4 interactive ADU tool runs locally with the first two commands below (
 | Step  | Command | Notes |
 | ----- | ------- | ----- |
 | Setup | `bash scripts/setup.sh` | Installs Python dependencies into `.venv` with [uv](https://docs.astral.sh/uv/) (installs uv if missing) and the tool's npm packages in `ui/` |
-| **Run the tool** | `bash scripts/run_tool.sh` | Rebuilds the JSON bundle from the adopted model outputs (when `data/processed/model_run/` exists), builds `ui/`, and serves it at http://127.0.0.1:4173/ |
+| **Run the tool** | `bash scripts/run_tool.sh` | Rebuilds the JSON bundle from the adopted model outputs (when `data/processed/model_run/` exists), builds `ui/`, and serves it at http://127.0.0.1:4173/. If port 4173 is taken, set another: `PORT=4199 bash scripts/run_tool.sh` |
 | Test  | `bash scripts/test.sh` | Offline unit tests of parsing, classification, matching, and contracts |
-| Test the tool | `bash scripts/test_ui.sh` | Bundle tests (reconciliation, lower ≤ central ≤ upper, bundle = reference CSVs, missing ≠ 0), npm licence check, type check, build, and Playwright smoke tests (desktop and mobile Chromium) |
-| Build the tool's data bundle | `uv run --all-extras python scripts/build_ui_bundle.py` | Writes `ui/public/runs/<run_id>/` (about 2.7 MB) from `reference/adu_model_*.csv`, the baseline, coverage and rule tables and `data/processed/`; the run id is a hash of the inputs |
+| Test the tool | `bash scripts/test_ui.sh` | Bundle tests (reconciliation, lower ≤ central ≤ upper, bundle = reference CSVs, missing ≠ 0), npm licence check, type check, build, and Playwright smoke tests (desktop and mobile Chromium). In a fresh clone one bundle test, `test_bundle_is_current`, is skipped: the bundle's run id is a hash of its 35 input files, and only a full rebuild with the data builds on disk (about 1.7 GB) can confirm that the committed bundle is current |
+| Build the tool's data bundle | `uv run --all-extras python scripts/build_ui_bundle.py` | Writes `ui/public/runs/<run_id>/` (about 2.8 MB) from `reference/adu_model_*.csv`, the baseline, coverage and rule tables and `data/processed/`; the run id is a hash of the inputs |
 | Develop the tool | `cd ui && npm run dev` | Live-reloading dev server at http://127.0.0.1:5173/ |
+| Fetch map outlines | `bash scripts/fetch_map_outlines.sh` | Downloads the 2024 Census cartographic boundary files (about 13 MB, shoreline-clipped) that the map draws; needed only to rebuild the bundle |
 | Build statewide foundation | `uv run python scripts/build_foundation.py` | Downloads about 270 MB of public Census files (no API key) into `data/raw/` and builds `data/processed/foundation/` |
 | Build Madison permits | `uv run python scripts/build_madison_permits.py --fetch` | About 40 minutes the first time; omit `--fetch` to rebuild from cache |
 | Build comparison-city permits | `uv run python scripts/build_comparison_permits.py --fetch` | Pleasant Prairie and Sun Prairie; about 11 minutes the first time |
@@ -50,7 +49,7 @@ If your tool needs environment variables, copy `.env.example` to `.env` and fill
 
 ## Data
 
-The planned baseline combines Census annual housing-stock estimates, ACS neighborhood housing characteristics, 2020 Census block housing counts, and the Building Permits Survey with Wisconsin parcel data. Local records will add detail where available. See the [data-source plan](data/DATA_SOURCES.md#project-data-plan-for-wisconsin) and [Project Plan](docs/PROJECT_PLAN.md).
+The ADU tool uses Census housing estimates (ACS 2020–2024, Population Estimates Vintage 2025, Building Permits Survey 2015–2025), TIGER/Line 2024 areas and cartographic boundary files for the map, coded local ADU ordinances, city permit records for Madison, Pleasant Prairie and Sun Prairie, and permit series from eight states with statewide ADU laws. The map's lake-clipped outlines come from `data/raw/census_cb_2024/` (Census cartographic boundary files 2024, 1:500,000), fetched by `bash scripts/fetch_map_outlines.sh`. See the [data-source plan](data/DATA_SOURCES.md#project-data-plan-for-wisconsin) and [Project Plan](docs/PROJECT_PLAN.md).
 
 Automated acquisition and preparation commands for the statewide foundation and pilot permits are listed in the command contract above. Do not commit raw or large datasets; follow [data/README.md](data/README.md). Record the exact releases and transformations used in [Data Provenance](docs/DATA_PROVENANCE.md).
 
@@ -74,4 +73,6 @@ The challenge also permits **MIT**, **BSD 3-Clause**, and **BSD 2-Clause**. If y
 
 ## Team
 
-[List team members. All contributors must agree to the license and the challenge's [Official Rules](https://housingchallenge.turnout.rocks/rules.html).]
+**Missing Middleware**
+
+- TODO (owner): list each team member's name and role here. All contributors must agree to the license and the challenge's [Official Rules](https://housingchallenge.turnout.rocks/rules.html).

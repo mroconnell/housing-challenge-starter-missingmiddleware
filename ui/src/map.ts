@@ -8,6 +8,8 @@ maplibregl.setWorkerUrl(workerUrl);
 
 export const RAMP = ["#fde725", "#7ad151", "#22a884", "#2a788e", "#414487"]; // viridis, colour-blind safe
 export const WI_BOUNDS: [number, number, number, number] = [-92.9, 42.45, -86.75, 47.15];
+export const WATER = "#dce8ef"; // background: lakes and outside Wisconsin (the outlines are shoreline-clipped)
+const PAD = { top: 12, right: 44, bottom: 12, left: 12 }; // right: room for the zoom buttons
 
 export interface MapHandle {
   setData(values: Map<string, number | null>, breaks: number[]): void;
@@ -31,9 +33,9 @@ export function createMap(el: HTMLElement, geo: { counties: unknown; munis: unkn
   onHover: (id: string | null, x: number, y: number) => void): MapHandle {
   const map = new maplibregl.Map({
     container: el,
-    style: { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": "#e9ece8" } }] },
+    style: { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": WATER } }] },
     bounds: WI_BOUNDS,
-    fitBoundsOptions: { padding: 24 },
+    fitBoundsOptions: { padding: PAD },
     attributionControl: false,
     dragRotate: false,
     pitchWithRotate: false,
@@ -41,8 +43,20 @@ export function createMap(el: HTMLElement, geo: { counties: unknown; munis: unkn
     maxBounds: [-95.5, 41.2, -84.2, 48.4],
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
-  map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: "Boundaries: U.S. Census Bureau TIGER/Line 2024" }));
+  // No tiles, so no attribution is required on the canvas; the boundary source is credited under the map instead,
+  // which keeps the south-east corner (Kenosha) clear.
   map.touchZoomRotate.disableRotation();
+  // Fit the whole state whenever the container settles at a new size, until the reader pans or zooms.
+  let userMoved = false;
+  map.on("dragstart", () => { userMoved = true; });
+  map.on("zoomstart", (e) => { if ((e as { originalEvent?: Event }).originalEvent) userMoved = true; });
+  const fit = () => { map.resize(); if (!userMoved) map.fitBounds(WI_BOUNDS, { padding: PAD, animate: false }); };
+  let lastSize = "";
+  const ro = new ResizeObserver(() => {
+    const size = `${el.clientWidth}x${el.clientHeight}`;
+    if (size !== lastSize) { lastSize = size; fit(); }
+  });
+  ro.observe(el);
   let kind: "counties" | "munis" = "counties";
   let pending: (() => void)[] = [];
   let ready = false;
@@ -54,8 +68,7 @@ export function createMap(el: HTMLElement, geo: { counties: unknown; munis: unkn
   ] as unknown as maplibregl.ExpressionSpecification;
 
   map.on("load", () => {
-    map.resize();
-    map.fitBounds(WI_BOUNDS, { padding: 16, animate: false });
+    fit();
     map.addImage("hatch", hatchImage(), { pixelRatio: 1 });
     for (const k of ["counties", "munis"] as const) {
       map.addSource(k, { type: "geojson", data: geo[k] as GeoJSON.FeatureCollection, promoteId: "id" });
@@ -100,6 +113,6 @@ export function createMap(el: HTMLElement, geo: { counties: unknown; munis: unkn
       when(() => map.setFilter(`${kind}-sel`, ["==", ["get", "id"], selected ?? "__none__"]));
     },
     resize() { map.resize(); },
-    destroy() { map.remove(); },
+    destroy() { ro.disconnect(); map.remove(); },
   };
 }

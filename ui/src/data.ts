@@ -26,7 +26,7 @@ export interface Manifest {
 export interface Indicator { value: number | null; moe: number | null; status: string; vintage: string; source_id: string }
 
 export interface Scenario {
-  id: PathId; label: string; info: string; basis: string; ramp: number[];
+  id: PathId; label: string; description: string; gate3_label: string; info: string; basis: string; ramp: number[];
   additional_by_year: number[]; additional_total: number; with_law_total: number; with_law_rate_by_year: number[];
 }
 
@@ -41,14 +41,14 @@ export interface StateData {
     bridge_2026: { low: number; central: number; high: number }; rate_per_1000_per_year: number; source: string;
   };
   scenarios: Scenario[];
-  reference_line: { label: string; info: string; rate_by_year: number[]; additional_by_year: number[]; additional_total: number; with_law_by_year: number[]; source: string };
+  reference_line: { label: string; info: string; why_central_differs: string; rate_by_year: number[]; additional_by_year: number[]; additional_total: number; with_law_by_year: number[]; source: string };
   contexts: { id: string; label: string; homes: number; baseline: number; additional_lower: number; additional_central: number; additional_upper: number }[];
 }
 
 export interface Area {
   id: string; name: string; county_id: string; county: string; type: string; context: string | null; homes: number;
   x_rate: number | null; x_low: number | null; x_high: number | null; x_status: "observed" | "estimated" | "assumed"; x_basis: string;
-  current_class: string; rights_status: "verified" | "source_lead" | "assumed"; rights_added_text: string | null;
+  basis_text: string; note?: string; water?: boolean; current_class: string; rights_status: "verified" | "source_lead" | "assumed"; rights_added_text: string | null;
   zoning_status: string | null; base: number[]; base_low_5yr: number | null; base_high_5yr: number | null;
   add: Record<PathId, number[]>; y_rate_y5: Record<PathId, number | null>; pilot: string | null; missing_reason?: string;
 }
@@ -77,11 +77,11 @@ export interface Uncertainty {
 
 export interface Pilot {
   slug: string; area_id: string; name: string; county: string; role: "pilot" | "same_market_check"; description: string;
-  homes: number; x_rate: number; x_low: number; x_high: number; x_status: string; x_basis: string; current_class: string;
+  homes: number; x_rate: number; x_low: number; x_high: number; x_status: string; x_basis: string; basis_text: string; note: string | null; provisional_through: string | null; provisional_detail: string | null; current_class: string;
   reform_class: string | null; rights_added_text: string | null; base: number[]; base_low_5yr: number; base_high_5yr: number;
   add: Record<PathId, number[]>; y_rate_y5: Record<PathId, number>;
   permits: { label: string; stage: string; source: string; years: { year: number; units: number | null; permits?: number | null; status: string; reason: string | null }[] };
-  measured: { window: string; permits: number; homes: number; thousand_home_years: number; rate: number; lo: number; hi: number; stage: string } | null;
+  measured: { window: string; permits: number; homes: number; thousand_home_years: number; rate: number; lo: number | null; hi: number | null; stage: string; used_by_model: boolean } | null;
   rules: { provision: string; value: string | null; from: string | null; to: string | null; source_url: string | null; section: string | null; retrieved: string | null; verification: string; current: boolean }[];
 }
 

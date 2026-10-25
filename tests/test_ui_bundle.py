@@ -141,6 +141,33 @@ class TestUIBundle(unittest.TestCase):
         for key in ("parcel", "address", "owner"):
             self.assertNotIn(f'"{key}', text)
 
+    def test_county_whole_permits_equal_reference(self):
+        # Gate 4 verification N4: rounded county figures must equal the rounded reference CSV
+        ref = {(r["parent_county_id"], r["path"]): r for r in rows("adu_model_by_county.csv")}
+        for c in self.areas["counties"]:
+            for p in PATHS:
+                r = ref[(c["id"], p)]
+                self.assertEqual(round(sum(c["add"][p])), round(float(r["additional_units"])), (c["name"], p))
+                self.assertEqual(round(sum(c["base"])), round(float(r["baseline_units"])), c["name"])
+
+    def test_map_draws_no_water_areas(self):
+        # Gate 4 verification S2: water-only areas are not drawn; every area with homes is
+        geo = strict_load(self.dir / "geo_munis.json")
+        drawn = {f["properties"]["id"] for f in geo["features"]}
+        for a in self.areas["munis"]:
+            if a.get("water"):
+                self.assertNotIn(a["id"], drawn)
+                self.assertEqual(a["homes"], 0)
+            elif a["homes"] > 0:
+                self.assertIn(a["id"], drawn)
+        self.assertEqual(sum(1 for a in self.areas["munis"] if a.get("water")), 12)
+
+    def test_madison_note_present(self):
+        # Gate 4 verification B2: Madison's different treatment is explained wherever its numbers appear
+        mad = next(p for p in self.pilots if p["slug"] == "madison")
+        self.assertIn("Gate 5", mad["note"])
+        self.assertEqual(sum(1 for a in self.areas["munis"] if a.get("note")), 1)
+
     @unittest.skipUnless((ROOT / "data/processed/model_run/results_long.parquet").exists(), "needs the processed model run")
     def test_bundle_is_current(self):
         spec = importlib.util.spec_from_file_location("build_ui_bundle", ROOT / "scripts" / "build_ui_bundle.py")

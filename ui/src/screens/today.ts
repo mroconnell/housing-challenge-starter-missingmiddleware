@@ -51,13 +51,13 @@ export function renderToday(ctx: Ctx, main: HTMLElement): void {
         <p class="tile-label">Under current law (baseline)</p>
         <p class="tile-num" data-testid="today-baseline">${int(s.baseline.total)}</p>
         <p class="tile-sub">permits over 2027–2031, about ${int(s.baseline.total / 5)} a year ${pill("calculated")}</p>
-        <p class="tile-note">${dec(s.baseline.rate_per_1000_per_year)} permits per 1,000 single-family homes per year. Baseline range ${int(s.baseline.low_total)}–${int(s.baseline.high_total)}.</p>
+        <p class="tile-note">The model's 2027–2031 average under current law: ${dec(s.baseline.rate_per_1000_per_year)} permits per 1,000 single-family homes per year (there is no observed statewide ADU series). Baseline range ${int(s.baseline.low_total)}–${int(s.baseline.high_total)}.</p>
       </div>
       <div class="pair-item">
-        <p class="tile-label">Added by a statewide ADU law (${esc(cen.label.toLowerCase())})</p>
+        <p class="tile-label">Added by a statewide ADU law (${esc(cen.label.toLowerCase())} scenario)</p>
         <p class="tile-num" data-testid="today-central">+${int(cen.additional_total)}</p>
         <p class="tile-sub">additional permits over 2027–2031 ${pill("calculated")}</p>
-        <p class="tile-note">${int(lo.additional_total)} (${esc(lo.label.toLowerCase())}) to ${int(up.additional_total)} (${esc(up.label)}).</p>
+        <p class="tile-note">${int(lo.additional_total)} (${esc(lo.label.toLowerCase())} scenario) to ${int(up.additional_total)} (${esc(up.label.toLowerCase())} scenario).</p>
       </div>
     </div>
     <p><a class="button" href="${ctx.link("/compare")}">Compare the scenarios →</a></p>

@@ -30,6 +30,12 @@ export function small(v: number | null | undefined): string {
   return int(v);
 }
 
+/** A small-area count with its noun: "under 1 permit", "1 permit", "12 permits". */
+export function permitsText(v: number | null | undefined): string {
+  const t = small(v);
+  return `${t} ${t === "under 1" || t === "1" ? "permit" : "permits"}`;
+}
+
 /** Small-area value with its range, e.g. "12 (6–23)". */
 export function withRange(c: number | null, lo: number | null, hi: number | null): string {
   if (c === null) return MISSING;

@@ -68,3 +68,6 @@ __pycache__/
 # Small committed reference tables and test fixtures may be CSV
 !reference/*.csv
 !tests/fixtures/**/*.csv
+# Small synthetic test-fixture workbooks (public-record samples, no personal data)
+!tests/fixtures/ca_ordinances/hcd_received_small.xlsx
+!tests/fixtures/wi_town_zoning/doa_inventory_sample.xlsx

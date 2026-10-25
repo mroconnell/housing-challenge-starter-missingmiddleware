@@ -146,3 +146,24 @@ test("brief carries the headline numbers", async ({ page }) => {
   for (const s of b.state.scenarios) await expect(t).toContainText(fmt(s.additional_total));
   await expect(page.locator(".brief")).toContainText(b.run_id);
 });
+
+test("Madison's different treatment is explained on its pilot page, details panel and map", async ({ page }) => {
+  await page.goto("#/pilot/madison");
+  await expect(page.getByTestId("madison-note")).toContainText("Gate 5");
+  await expect(page.getByTestId("madison-2026")).toContainText("provisional");
+  await page.goto("#/where");
+  await expect(page.getByTestId("map-madison-note")).toContainText("Madison alone");
+  await page.getByRole("radio", { name: "Cities, villages and towns" }).check();
+  await page.locator("#q").fill("Madison city");
+  await page.getByRole("button", { name: "Details for Madison city" }).click();
+  await expect(page.getByTestId("detail-madison-note")).toContainText("Gate 5");
+});
+
+test("scenario choice is kept in the URL and the current tab is in view", async ({ page }) => {
+  await page.goto("#/compare");
+  await page.getByLabel(/Strong adoption/).first().check();
+  await expect(page).toHaveURL(/s=upper/);
+  await page.goto("#/brief");
+  const tab = page.locator('nav.tabs a[aria-current="page"]');
+  await expect(tab).toBeInViewport();
+});

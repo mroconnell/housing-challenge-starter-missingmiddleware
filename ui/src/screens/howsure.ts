@@ -14,7 +14,7 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
 
   main.innerHTML = `
   <h1>How sure are we?</h1>
-  <p class="lede">How much of the estimate rests on observed facts, and how much it moves when one assumption changes. Three terms: the <strong>scenarios</strong> (lower, central, Strong adoption) show how states differ; a <strong>sensitivity case</strong> changes one assumption and reruns the model; a <strong>robustness check</strong> tests a method by predicting states the model did not see.</p>
+  <p class="lede">How much of the estimate rests on observed facts, and how much it moves when one assumption changes. Three terms: the <strong>scenarios</strong> (lower, central, strong adoption) show how states differ; a <strong>sensitivity case</strong> changes one assumption and reruns the model; a <strong>robustness check</strong> tests a method by predicting states the model did not see.</p>
 
   <section class="card" aria-labelledby="h-cov">
     <h2 id="h-cov">What each place's current-law rate rests on</h2>
@@ -31,7 +31,7 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
       <tbody>${rights.map((r) => `<tr><th scope="row">${pill(r.status === "assumed" ? "assumed" : "observed")} ${esc(r.label)}</th><td class="num">${int(r.areas)}</td><td class="num">${int(r.homes)}</td><td class="num">${pct(r.homes / homes)}</td><td class="num">${int(r.additional_central)}</td></tr>`).join("")}</tbody></table></div>
     <h3>By current local rules</h3>
     <div class="table-wrap"><table class="data"><caption>Additional permits over 2027–2031 by each place's current ADU rules</caption>
-      <thead><tr><th scope="col">Current rules</th><th scope="col" class="num">Areas</th><th scope="col" class="num">Single-family homes</th><th scope="col" class="num">Baseline</th><th scope="col" class="num">Additional: lower</th><th scope="col" class="num">central</th><th scope="col" class="num">Strong adoption</th></tr></thead>
+      <thead><tr><th scope="col">Current rules</th><th scope="col" class="num">Areas</th><th scope="col" class="num">Single-family homes</th><th scope="col" class="num">Baseline</th><th scope="col" class="num">Additional: lower</th><th scope="col" class="num">central</th><th scope="col" class="num">strong adoption</th></tr></thead>
       <tbody>${u.classes.map((c) => `<tr><th scope="row">${esc(c.label)}</th><td class="num">${int(c.areas)}</td><td class="num">${int(c.homes)}</td><td class="num">${int(c.baseline)}</td><td class="num">${int(c.additional_lower)}</td><td class="num">${int(c.additional_central)}</td><td class="num">${int(c.additional_upper)}</td></tr>`).join("")}</tbody></table></div>
     <p class="muted small">Under current law, a different default for uncoded places changes the baseline: ${u.baseline_sensitivities.filter((b) => b.change !== 0).map((b) => `${esc(b.label)} gives ${int(b.total)} permits over 2027–2031 (${b.change > 0 ? "+" : "−"}${int(Math.abs(b.change))})`).join("; ")}.</p>
   </section>
@@ -41,7 +41,7 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
     <p class="summary">Each bar is how far one sensitivity case moves the central estimate of <strong data-testid="sens-central">${int(cen.additional_total)}</strong> additional permits over 2027–2031. The largest: ${esc(sorted[0].label)} (${sorted[0].difference_central > 0 ? "+" : "−"}${int(Math.abs(sorted[0].difference_central))}).</p>
     ${tornadoHTML(sorted.map((c) => ({ label: c.label, value: c.difference_central })), "additional permits over 2027–2031")}
     <div class="table-wrap"><table class="data" data-testid="sens-table"><caption>Sensitivity cases: additional permits over 2027–2031</caption>
-      <thead><tr><th scope="col">Sensitivity case</th><th scope="col" class="num">Lower</th><th scope="col" class="num">Central</th><th scope="col" class="num">Upper</th><th scope="col" class="num">Change in central</th><th scope="col">What it shows</th></tr></thead>
+      <thead><tr><th scope="col">Sensitivity case</th><th scope="col" class="num">Lower</th><th scope="col" class="num">Central</th><th scope="col" class="num">Strong adoption</th><th scope="col" class="num">Change in central</th><th scope="col">What it shows</th></tr></thead>
       <tbody>${u.sensitivity_cases.map((c) => `<tr class="${c.id === "adopted" ? "hl-row" : ""}"><th scope="row">${esc(c.label)}</th><td class="num">${c.lower === null ? missing(c.missing_reason ?? "not run") : int(c.lower)}</td><td class="num">${int(c.central)}</td><td class="num">${c.upper === null ? missing(c.missing_reason ?? "not run") : int(c.upper)}</td><td class="num">${c.difference_central === 0 ? "—" : (c.difference_central > 0 ? "+" : "−") + int(Math.abs(c.difference_central))}</td><td class="small">${esc(c.what)}</td></tr>`).join("")}</tbody></table></div>
   </section>
 
@@ -51,7 +51,7 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
     <div class="table-wrap"><table class="data" data-testid="robust-table"><caption>Robustness checks</caption>
       <thead><tr><th scope="col">Alternative</th><th scope="col" class="num">Error, California in (A)</th><th scope="col" class="num">Error, California out (B)</th><th scope="col">Result</th></tr></thead>
       <tbody>${u.robustness.rows.map((r) => `<tr class="${r.adopted ? "hl-row" : ""}"><th scope="row">${esc(r.label)}</th><td class="num">${dec(r.a, 3)}</td><td class="num">${dec(r.b, 3)}</td><td>${esc(r.result)}</td></tr>`).join("")}</tbody></table></div>
-    <p class="muted small">California in (A) beats out (B) in ${pct(u.robustness.a_win_share)} of 5,000 resamples of the 7 states: better, but within noise. Source: ${esc(u.robustness.source)}.</p>
+    <p class="muted small">Keeping California in (A) gave the lower error in ${pct(u.robustness.a_win_share)} of 5,000 resamples of the 7 states: better, but within noise. Source: ${esc(u.robustness.source)}.</p>
   </section>
 
   <section class="card" aria-labelledby="h-ch">

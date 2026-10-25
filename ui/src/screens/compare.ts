@@ -1,4 +1,4 @@
-import { COLORS, DASH, LAW_TEXT, bindScenarioPicker, scenarioPicker, type Ctx } from "../app";
+import { COLORS, DASH, LAW_TEXT, bindScenarioPicker, scenarioPicker, scenPhrase, scenShort, type Ctx } from "../app";
 import { legendHTML, xyChart } from "../charts";
 import { PATHS } from "../data";
 import { dec, esc, int, pct, pill, YEARS } from "../format";
@@ -28,10 +28,10 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
       <p class="tile-note">Baseline range ${int(base.low_total)}–${int(base.high_total)}. Same in every scenario.</p>
     </section>
     <section class="tile tile-accent">
-      <h2 class="tile-label">Added by the law: ${esc(sel.label)}</h2>
+      <h2 class="tile-label">Added by the law (${esc(scenShort(ctx))})</h2>
       <p class="tile-num" data-testid="additional-total">+${int(sel.additional_total)}</p>
       <p class="tile-sub">additional permits over 2027–2031 ${pill("calculated")}</p>
-      <p class="tile-note">About ${int(sel.additional_total / 5)} a year. All scenarios: ${int(lo.additional_total)} / ${int(cen.additional_total)} / ${int(up.additional_total)}.</p>
+      <p class="tile-note">About ${int(sel.additional_total / 5)} a year. Lower / central / strong adoption: ${int(lo.additional_total)} / ${int(cen.additional_total)} / ${int(up.additional_total)}.</p>
     </section>
     <section class="tile">
       <h2 class="tile-label">Total with the law</h2>
@@ -49,18 +49,19 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
         <label><input type="radio" name="units" value="rate" ${units === "rate" ? "checked" : ""}> Per 1,000 single-family homes</label>
       </fieldset>
     </div>
-    <p class="summary" data-testid="compare-summary">Through 2031, ${esc(sel.label.toLowerCase())} adds about <strong>${int(sel.additional_total)}</strong> permits on top of <strong>${int(base.total)}</strong> under current law. The three scenarios run from ${int(lo.additional_total)} to ${int(up.additional_total)} additional permits; the reference line of what statewide-law states actually reached gives ${int(ref.additional_total)}.</p>
+    <p class="summary" data-testid="compare-summary">Through 2031, ${esc(scenPhrase(ctx))} adds about <strong>${int(sel.additional_total)}</strong> permits on top of <strong>${int(base.total)}</strong> under current law. The three scenarios run from ${int(lo.additional_total)} to ${int(up.additional_total)} additional permits; the reference line of what statewide-law states actually reached gives ${int(ref.additional_total)}.</p>
+    <p class="small" data-testid="why-central">${esc(ref.why_central_differs)}</p>
     <div class="chart-box" id="path-chart"></div>
     ${legendHTML([
       { name: "Current law (baseline)", color: COLORS.baseline, dash: DASH.baseline },
-      ...PATHS.map((p) => ({ name: `With the law: ${ctx.scen(p).label}`, color: COLORS[p], dash: DASH[p], width: p === ctx.ui.scenario ? 4 : 2 })),
-      { name: "Range between the lower scenario and Strong adoption", color: COLORS.central, kind: "band" as const },
+      ...PATHS.map((p) => ({ name: `With the law: ${scenShort(ctx, p)}`, color: COLORS[p], dash: DASH[p], width: p === ctx.ui.scenario ? 4 : 2 })),
+      { name: "Range from the lower to the strong adoption scenario", color: COLORS.central, kind: "band" as const },
       { name: ref.label, color: COLORS.ref, dash: DASH.ref },
     ])}
     <p class="muted small">${esc(ref.label)}: ${esc(ref.info)} 2026 is a bridge year under current law (${int(base.bridge_2026.central)} permits, ${int(base.bridge_2026.low)}–${int(base.bridge_2026.high)}). The law's start date is stylized.</p>
     <div class="table-wrap">
     <table class="data" data-testid="compare-table"><caption>Second-home permits by year. Additional permits are on top of the baseline.</caption>
-      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Baseline</th>${PATHS.map((p) => `<th scope="col" class="num ${p === ctx.ui.scenario ? "hl" : ""}">Additional: ${esc(ctx.scen(p).label)}</th>`).join("")}<th scope="col" class="num">Reference line: additional</th><th scope="col" class="num">With the law (${esc(sel.label)})</th></tr></thead>
+      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Baseline</th>${PATHS.map((p) => `<th scope="col" class="num ${p === ctx.ui.scenario ? "hl" : ""}">Additional: ${esc(ctx.scen(p).label)}</th>`).join("")}<th scope="col" class="num">Reference line: additional</th><th scope="col" class="num">With the law (${esc(scenShort(ctx))})</th></tr></thead>
       <tbody>${YEARS.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${int(base.by_year[i])}</td>${PATHS.map((p) => `<td class="num ${p === ctx.ui.scenario ? "hl" : ""}">${int(ctx.scen(p).additional_by_year[i])}</td>`).join("")}<td class="num">${int(ref.additional_by_year[i])}</td><td class="num">${int(base.by_year[i] + sel.additional_by_year[i])}</td></tr>`).join("")}</tbody>
       <tfoot><tr><th scope="row">2027–2031</th><td class="num">${int(base.total)}</td>${PATHS.map((p) => `<td class="num ${p === ctx.ui.scenario ? "hl" : ""}" data-testid="total-${p}">${int(ctx.scen(p).additional_total)}</td>`).join("")}<td class="num">${int(ref.additional_total)}</td><td class="num">${int(sel.with_law_total)}</td></tr></tfoot>
     </table></div>
@@ -74,16 +75,17 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
 
   <section class="card" aria-labelledby="h-ramp">
     <h2 id="h-ramp">How each scenario is built</h2>
-    <ul class="plain">${PATHS.map((p) => { const sc = ctx.scen(p); return `<li><strong>${esc(sc.label)}.</strong> ${esc(sc.info)} In 2027–2029 the addition reaches ${sc.ramp.slice(0, 3).map((r) => dec(r)).join(", ")} of its full size; full from 2030.</li>`; }).join("")}
-    <li><strong>Madison</strong> follows the observed path of Madison-like cities in every scenario (see <a href="${ctx.link("/pilot/madison")}">the Madison pilot</a>).</li></ul>
+    <ul class="plain">${PATHS.map((p) => { const sc = ctx.scen(p); return `<li><strong>${esc(sc.label)}: ${esc(sc.description.toLowerCase())}.</strong> ${esc(sc.info)} In 2027–2029 the addition reaches ${sc.ramp.slice(0, 3).map((r) => dec(r)).join(", ")} of its full size; full from 2030.</li>`; }).join("")}
+    <li><strong>Reference line.</strong> ${esc(ref.info)} ${esc(ref.why_central_differs)}</li>
+    <li><strong>Madison.</strong> ${esc(ctx.b.areas.munis.find((a) => a.note)?.note ?? "")} See <a href="${ctx.link("/pilot/madison")}">the Madison pilot</a>.</li></ul>
   </section>
 
   <section class="card" aria-labelledby="h-ctx">
     <h2 id="h-ctx">By type of place</h2>
-    <p class="muted">Additional permits over 2027–2031 in the ${esc(sel.label.toLowerCase())} scenario, with the lower scenario and Strong adoption in brackets.</p>
+    <p class="muted">Additional permits over 2027–2031 in ${esc(scenPhrase(ctx))}; the range in brackets runs from the lower to the strong adoption scenario.</p>
     <div class="table-wrap"><table class="data"><caption class="sr-only">Additional permits by type of place</caption>
-      <thead><tr><th scope="col">Type of place</th><th scope="col" class="num">Single-family homes</th><th scope="col" class="num">Share of homes</th><th scope="col" class="num">Baseline</th><th scope="col" class="num">Additional (range)</th><th scope="col" class="num">Share of additional</th></tr></thead>
-      <tbody>${s.contexts.map((c) => { const v = (c as unknown as Record<string, number>)[`additional_${ctx.ui.scenario}`]; const tot = s.contexts.reduce((a, x) => a + (x as unknown as Record<string, number>)[`additional_${ctx.ui.scenario}`], 0); return `<tr><th scope="row">${esc(c.label)}</th><td class="num">${int(c.homes)}</td><td class="num">${pct(c.homes / homesCtx)}</td><td class="num">${int(c.baseline)}</td><td class="num">${int(v)} <span class="muted">(${int(c.additional_lower)}–${int(c.additional_upper)})</span></td><td class="num">${pct(v / tot)}</td></tr>`; }).join("")}</tbody>
+      <thead><tr><th scope="col">Type of place</th><th scope="col" class="num">Single-family homes</th><th scope="col" class="num">Share of homes</th><th scope="col" class="num">Baseline</th><th scope="col" class="num">Additional (lower to strong adoption)</th><th scope="col" class="num">Share of additional</th></tr></thead>
+      <tbody>${s.contexts.map((c) => { const v = (c as unknown as Record<string, number>)[`additional_${ctx.ui.scenario}`]; const tot = s.contexts.reduce((a, x) => a + (x as unknown as Record<string, number>)[`additional_${ctx.ui.scenario}`], 0); return `<tr><th scope="row">${esc(c.label)}</th><td class="num">${int(c.homes)}</td><td class="num">${pct(c.homes / homesCtx)}</td><td class="num">${int(c.baseline)}</td><td class="num">${int(v)} <span class="muted">(${int(c.additional_lower)} to ${int(c.additional_upper)})</span></td><td class="num">${pct(v / tot)}</td></tr>`; }).join("")}</tbody>
       <tfoot><tr><th scope="row">Wisconsin</th><td class="num">${int(homesCtx)}</td><td class="num">100%</td><td class="num">${int(base.total)}</td><td class="num">${int(sel.additional_total)}</td><td class="num">100%</td></tr></tfoot>
     </table></div>
     <p class="muted small">Rural areas get ${pct(s.contexts.find((c) => c.id === "rural")!.additional_central / totalCtx)} of the central additional permits with ${pct(s.contexts.find((c) => c.id === "rural")!.homes / homesCtx)} of single-family homes, partly because rural home values include acreage. Town figures are rough shares of the statewide result, not local forecasts.</p>

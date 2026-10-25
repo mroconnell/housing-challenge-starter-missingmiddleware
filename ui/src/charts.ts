@@ -11,7 +11,9 @@ export interface BarSeries { name: string; values: (Pt & { hatch?: boolean })[];
 export interface ChartSpec {
   title: string; desc: string; yLabel: string; xTicks: number[]; xFormat?: (x: number) => string;
   series: Series[]; band?: { name: string; lo: Pt[]; hi: Pt[]; color: string }; bars?: BarSeries;
-  vline?: { x: number; label: string }; height?: number; yMax?: number; yFormat?: (y: number) => string; xPad?: number;
+  vline?: { x: number; label: string }; height?: number;
+  /** Short text labels placed at data points (e.g. "provisional, partial year"). */
+  notes?: { x: number; y: number; text: string; anchor?: "start" | "middle" | "end"; dy?: number }[]; yMax?: number; yFormat?: (y: number) => string; xPad?: number;
 }
 
 let uid = 0;
@@ -47,7 +49,7 @@ export function xyChart(container: HTMLElement, spec: ChartSpec): void {
       for (const s of spec.series) for (const p of s.values) if (p.y !== null) ymax = Math.max(ymax, p.y);
       if (spec.band) for (const p of spec.band.hi) if (p.y !== null) ymax = Math.max(ymax, p.y);
       if (spec.bars) for (const p of spec.bars.values) if (p.y !== null) ymax = Math.max(ymax, p.y);
-      ymax = niceMax(ymax * 1.05);
+      ymax = niceMax(ymax * (spec.notes?.length ? 1.2 : 1.05));
     }
     const stepRaw = ymax / 4, pw = Math.pow(10, Math.floor(Math.log10(stepRaw)));
     const ystep = [1, 2, 2.5, 5, 10].map((m) => m * pw).find((s) => s >= stepRaw - 1e-12)!;
@@ -104,6 +106,12 @@ export function xyChart(container: HTMLElement, spec: ChartSpec): void {
         parts.push(s.marker === "square"
           ? `<rect x="${X(p.x) - 3.5}" y="${Y(p.y) - 3.5}" width="7" height="7" fill="${s.color}" opacity="${s.opacity ?? 1}"/>`
           : `<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="3.2" fill="${s.color}" opacity="${s.opacity ?? 1}"/>`);
+    }
+    for (const n of spec.notes ?? []) {
+      const nx = X(n.x), ny = Y(n.y) + (n.dy ?? -8);
+      const anchor = n.anchor ?? "middle";
+      n.text.split("\n").forEach((line, i, all) =>
+        parts.push(`<text x="${nx}" y="${ny - (all.length - 1 - i) * 13}" text-anchor="${anchor}" class="anno">${esc(line)}</text>`));
     }
     parts.push(`<text x="${12}" y="${(H - m.b + m.t) / 2}" transform="rotate(-90 12 ${(H - m.b + m.t) / 2})" text-anchor="middle" class="ylabel">${esc(spec.yLabel)}</text>`);
     container.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="${id}-t ${id}-d" class="chart"><title id="${id}-t">${esc(spec.title)}</title><desc id="${id}-d">${esc(spec.desc)}</desc>${parts.join("")}</svg>`;

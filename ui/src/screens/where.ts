@@ -1,7 +1,10 @@
-import { bindScenarioPicker, scenarioPicker, type Ctx } from "../app";
+import { bindScenarioPicker, noteBox, scenarioPicker, scenPhrase, scenShort, type Ctx } from "../app";
 import type { Area, County, PathId } from "../data";
-import { dec, esc, int, missing, pill, small, withRange, YEARS } from "../format";
-import { createMap, RAMP, type MapHandle } from "../map";
+import { dec, esc, int, missing, permitsText, pill, small, withRange, YEARS } from "../format";
+import { createMap, RAMP, WATER, type MapHandle } from "../map";
+
+/** Areas below this many single-family homes get a "small area" flag and are left out of the "Highest" line. */
+const SMALL_AREA = 1000;
 
 type Geo = "counties" | "munis";
 type Layer = "homes" | "baseline" | "additional";
@@ -22,6 +25,7 @@ const nYears = () => ws.year - 2026;
 const thru = (arr: number[]) => arr.slice(0, nYears()).reduce((a, b) => a + b, 0);
 
 function value(ctx: Ctx, r: Row, p: PathId = ctx.ui.scenario): number | null {
+  if (r.homes === 0) return null; // water areas and empty slivers have no value in any measure (missing, not 0)
   if (ws.layer === "homes") return r.homes;
   const v = ws.layer === "baseline" ? thru(r.base) : thru(r.add[p]);
   if (ws.measure === "count") return v;
@@ -45,14 +49,30 @@ function breaks(vals: number[]): number[] {
 
 function fmtVal(v: number | null): string {
   if (v === null) return "—";
-  if (ws.layer === "homes" || ws.measure === "count") return v >= 1 || v === 0 ? int(v) : "under 1";
+  if (ws.layer === "homes" || ws.measure === "count") return v >= 0.5 || v === 0 ? int(v) : "under 1";
   return dec(v);
+}
+
+/** Legend class breaks: one decimal below 1 so the classes never read "under 1 to under 1". */
+function fmtBreak(v: number): string {
+  if (ws.layer === "homes") return int(v);
+  if (ws.measure === "count") return v < 1 ? dec(v, 1) : v < 10 ? (Number.isInteger(v) ? int(v) : dec(v, 1)) : int(v);
+  return dec(v);
+}
+
+/** Statewide value of the current layer and measure, for context next to the "Highest" line. */
+function stateValue(ctx: Ctx): string {
+  const st = ctx.b.state;
+  const homes = st.homes.value ?? 0;
+  if (ws.layer === "homes") return int(homes);
+  const v = ws.layer === "baseline" ? thru(st.baseline.by_year) : thru(ctx.scen().additional_by_year);
+  return ws.measure === "count" ? int(v) : dec((v / homes / nYears()) * 1000);
 }
 
 function layerTitle(ctx: Ctx): string {
   const y = ws.year === 2027 ? "2027" : `2027–${ws.year}`;
   if (ws.layer === "homes") return "Existing single-family homes (ACS 2020–2024)";
-  const what = ws.layer === "baseline" ? "Baseline (current law) permits" : `Additional permits from the law, ${ctx.scen().label}`;
+  const what = ws.layer === "baseline" ? "Baseline (current law) permits" : `Additional permits from the law (${scenShort(ctx)})`;
   return ws.measure === "rate" ? `${what}, ${y}: permits per 1,000 single-family homes per year` : `${what}, ${y}: permits`;
 }
 
@@ -61,7 +81,7 @@ export function renderWhere(ctx: Ctx, main: HTMLElement): void {
   mapH = null;
   main.innerHTML = `
   <h1>Where: counties and municipalities</h1>
-  <p class="lede">The statewide result split across Wisconsin's 72 counties and 1,925 cities, villages and towns (census county subdivisions). The map fills whole areas; it never marks a lot or a building. Smaller areas are rough shares of the statewide result, rounded, with the lower scenario and Strong adoption as a range.</p>
+  <p class="lede">The statewide result split across Wisconsin's 72 counties and 1,925 cities, villages and towns (census county subdivisions). The map fills whole areas; it never marks a lot or a building. Smaller areas are rough shares of the statewide result, rounded, with the lower and strong adoption scenarios as a range.</p>
   <div class="controls card" role="group" aria-label="Map and table settings">
     <fieldset class="seg"><legend>Areas</legend>
       <label><input type="radio" name="geo" value="counties" ${ws.geo === "counties" ? "checked" : ""}> Counties</label>
@@ -87,6 +107,8 @@ export function renderWhere(ctx: Ctx, main: HTMLElement): void {
       <div id="map" class="map" role="region" aria-label="Map of ${ws.geo === "counties" ? "counties" : "municipalities"}. The table below has the same values and is keyboard accessible."><div class="map-tip" hidden></div></div>
       <div id="map-legend"></div>
       <p class="muted small" id="map-summary"></p>
+      ${noteBox(ctx.b.areas.munis.find((a) => a.note)?.note ?? "", "map-madison-note")}
+      <p class="muted small">Outlines: U.S. Census Bureau cartographic boundary files 2024 (1:500,000, shoreline-clipped); areas and results: TIGER/Line 2024 county subdivisions.</p>
     </section>
     <aside class="card detail" id="detail" aria-live="polite" aria-labelledby="detail-h"></aside>
   </div>
@@ -148,10 +170,13 @@ function update(ctx: Ctx, main: HTMLElement): void {
   main.querySelector("#map-title")!.textContent = layerTitle(ctx);
   main.querySelectorAll<HTMLFieldSetElement>("fieldset.seg")[2].disabled = ws.layer === "homes";
   main.querySelector<HTMLInputElement>("#year")!.disabled = ws.layer === "homes";
-  const lab = (i: number) => (i === 0 ? `under ${fmtVal(br[0])}` : i === 4 ? `${fmtVal(br[3])} or more` : `${fmtVal(br[i - 1])} to under ${fmtVal(br[i])}`);
-  main.querySelector("#map-legend")!.innerHTML = `<ul class="legend map-legend" aria-label="Map legend: five classes with equal numbers of areas">${RAMP.map((c, i) => `<li><span class="lg-sw" style="background:${c}"></span>${esc(lab(i))}</li>`).join("")}<li><span class="lg-sw lg-hatch"></span>no single-family homes (no value)</li></ul>`;
-  const top = [...rs].filter((r) => vals.get(r.id) !== null).sort((a, b) => (vals.get(b.id) ?? 0) - (vals.get(a.id) ?? 0)).slice(0, 3);
-  main.querySelector("#map-summary")!.textContent = `Highest: ${top.map((r) => `${r.name} (${fmtVal(vals.get(r.id) ?? null)})`).join(", ")}. Classes split the areas into five equal-sized groups.`;
+  const lab = (i: number) => (i === 0 ? `under ${fmtBreak(br[0])}` : i === 4 ? `${fmtBreak(br[3])} or more` : `${fmtBreak(br[i - 1])} to under ${fmtBreak(br[i])}`);
+  main.querySelector("#map-legend")!.innerHTML = `<ul class="legend map-legend" aria-label="Map legend: five classes with equal numbers of areas">${RAMP.map((c, i) => `<li><span class="lg-sw" style="background:${c}"></span>${esc(lab(i))}</li>`).join("")}<li><span class="lg-sw lg-hatch"></span>no single-family homes (no value)</li><li><span class="lg-sw" style="background:${WATER}"></span>lakes and outside Wisconsin</li></ul>`;
+  const rateMode = ws.layer !== "homes" && ws.measure === "rate";
+  const eligible = rs.filter((r) => vals.get(r.id) !== null && (!rateMode || r.homes >= SMALL_AREA));
+  const top = [...eligible].sort((a, b) => (vals.get(b.id) ?? 0) - (vals.get(a.id) ?? 0)).slice(0, 3);
+  const nSmall = rateMode ? rs.filter((r) => r.homes > 0 && r.homes < SMALL_AREA).length : 0;
+  main.querySelector("#map-summary")!.textContent = `Wisconsin: ${stateValue(ctx)}. Highest${rateMode ? ` among areas with at least ${int(SMALL_AREA)} single-family homes` : ""}: ${top.map((r) => `${r.name} (${fmtVal(vals.get(r.id) ?? null)})`).join(", ")}.${nSmall ? ` ${int(nSmall)} smaller areas are flagged "small area" in the table: a few homes make their rates swing, and some small, high-value villages reach several times the state rate (a known Gate 5 review item).` : ""} Classes split the areas into five equal-sized groups.`;
   detail(ctx, main);
   table(ctx, main);
 }
@@ -171,28 +196,36 @@ function detail(ctx: Ctx, main: HTMLElement): void {
   const st = ctx.b.state;
   if (!r) {
     el.innerHTML = `<h2 id="detail-h">Pick an area</h2><p>Click an area on the map, or choose <strong>Details</strong> in the table, to see its numbers.</p>
-    <p class="muted">Wisconsin through ${ws.year}: ${int(thru(st.baseline.by_year))} baseline permits and ${int(thru(ctx.scen().additional_by_year))} additional permits (${esc(ctx.scen().label)}).</p>`;
+    <p class="muted">Wisconsin through ${ws.year}: ${int(thru(st.baseline.by_year))} baseline permits and ${int(thru(ctx.scen().additional_by_year))} additional permits (${esc(scenPhrase(ctx))}).</p>`;
     return;
   }
   const y = ws.year === 2027 ? "2027" : `2027–${ws.year}`;
   const add = (p: PathId) => thru(r.add[p]);
   const a = r.area;
   const rate = (v: number) => (r.homes > 0 ? dec((v / r.homes / nYears()) * 1000) : "—");
+  const typeText = a ? (a.type === "not_defined" ? "Undefined area" : a.type.charAt(0).toUpperCase() + a.type.slice(1)) : "";
   el.innerHTML = `<h2 id="detail-h">${esc(r.name)}</h2>
-    ${a ? `<p class="muted">${esc(a.type === "not_defined" ? "Undefined area" : a.type)} in ${esc(a.county)}${a.context ? ` · ${esc(a.context.replace("_", " "))}` : ""}</p>` : `<p class="muted">${int(r.c!.n_areas)} cities, villages and towns</p>`}
+    ${a ? `<p class="muted">${esc(typeText)} in ${esc(a.county)}${a.context ? ` · ${esc(a.context.replace("_", " "))}` : ""}</p>` : `<p class="muted">${int(r.c!.n_areas)} cities, villages and towns</p>`}
+    ${a?.note ? noteBox(a.note, "detail-madison-note") : ""}
+    ${r.homes > 0 && r.homes < SMALL_AREA ? `<p class="small-flag"><strong>Small area.</strong> Fewer than ${int(SMALL_AREA)} single-family homes, so its rate can swing widely; read its figures with the range.</p>` : ""}
     <dl class="kv">
       <dt>Single-family homes</dt><dd>${int(r.homes)} ${pill("observed")}</dd>
-      <dt>Baseline, ${y}</dt><dd>${r.homes > 0 ? `${small(thru(r.base))} permits ${pill(a ? a.x_status : "calculated")}` : missing(a?.missing_reason ?? "no homes")}</dd>
-      <dt>Additional, ${esc(ctx.scen().label)}, ${y}</dt><dd>${r.homes > 0 ? `<strong>${small(add(ctx.ui.scenario))}</strong> permits ${pill("calculated")}` : missing("no homes")}</dd>
-      <dt>All three scenarios</dt><dd>${r.homes > 0 ? `${small(add("lower"))} / ${small(add("central"))} / ${small(add("upper"))}` : "—"}</dd>
+      <dt>Baseline, ${y}</dt><dd>${r.homes > 0 ? `${permitsText(thru(r.base))} ${pill("calculated")}` : missing(a?.missing_reason ?? "no homes")}</dd>
+      <dt>Additional, ${esc(scenShort(ctx))}, ${y}</dt><dd>${r.homes > 0 ? `<strong>${permitsText(add(ctx.ui.scenario))}</strong> ${pill("calculated")}` : missing("no homes")}</dd>
+      <dt>All three scenarios (lower / central / strong adoption)</dt><dd>${r.homes > 0 ? `${small(add("lower"))} / ${small(add("central"))} / ${small(add("upper"))}` : "—"}</dd>
       <dt>Rate with the law</dt><dd>${r.homes > 0 ? `${rate(thru(r.base) + add(ctx.ui.scenario))} per 1,000 homes per year (current law ${rate(thru(r.base))})` : "—"}</dd>
       ${a ? `<dt>Local ADU rules</dt><dd>${esc(ctx.b.areas.class_text[a.current_class] ?? a.current_class)} ${pill(a.rights_status === "assumed" ? "assumed" : "observed")}${a.rights_status === "source_lead" ? " <span class=\"muted\">(some provisions from a source lead)</span>" : ""}</dd>
-      <dt>Current-law rate</dt><dd>${dec(a.x_rate)} per 1,000 homes per year: ${esc(ctx.b.areas.x_status_text[a.x_status])}${a.x_status === "observed" ? ` (${esc(a.x_basis)})` : ""}</dd>
+      <dt>Current-law rate (basis)</dt><dd>${r.homes > 0 ? `${dec(a.x_rate)} per 1,000 homes per year ${pill(a.x_status)}: ${esc(a.basis_text)}` : "—"}</dd>
       ${a.rights_added_text ? `<dt>What the law changes</dt><dd>${esc(a.rights_added_text)}</dd>` : ""}` : `<dt>Homes by rate basis</dt><dd>Observed ${int(r.c!.homes_by_status.observed)}, calculated ${int(r.c!.homes_by_status.estimated)}, assumed ${int(r.c!.homes_by_status.assumed)}</dd>`}
     </dl>
     ${a?.pilot ? `<p><a class="button" href="${ctx.link(`/pilot/${a.pilot}`)}">Open the ${esc(a.name)} pilot example →</a></p>` : ""}
     ${r.c ? `<p><button type="button" class="linkish" data-drill="${esc(r.name)}">Show its cities, villages and towns</button></p>` : ""}
-    <p class="muted small">An area figure is the area's share of the statewide result. It is not a forecast for any lot.</p>`;
+    <p class="muted small">An area figure is the area's share of the statewide result. It is not a forecast for any lot.</p>
+    ${a ? `<p><button type="button" class="linkish" id="back-to-table">Back to the table</button></p>` : ""}`;
+  el.querySelector<HTMLButtonElement>("#back-to-table")?.addEventListener("click", () => {
+    const btn = main.querySelector<HTMLButtonElement>(`button[data-sel="${CSS.escape(r.id)}"]`);
+    if (btn) btn.focus(); else main.querySelector<HTMLElement>("#q")?.focus();
+  });
   el.querySelector<HTMLButtonElement>("[data-drill]")?.addEventListener("click", (e) => {
     ws.geo = "munis"; ws.county = (e.target as HTMLElement).dataset.drill!; ws.selected = null; ws.showAll = true;
     renderWhere(ctx, main);
@@ -222,14 +255,14 @@ function table(ctx: Ctx, main: HTMLElement): void {
   const stAdd = thru(ctx.scen().additional_by_year), stBase = thru(st.baseline.by_year);
   const ok = Math.abs(totAdd - stAdd) < 1 && Math.abs(totBase - stBase) < 1;
   const y = ws.year === 2027 ? "2027" : `2027–${ws.year}`;
-  main.querySelector("#reconcile")!.innerHTML = `<p data-testid="reconcile" class="${ok ? "ok" : "bad"}">${ok ? "✓" : "✗"} All ${int(all.length)} ${ws.geo === "counties" ? "counties" : "areas"} add up to <strong>${int(totAdd)}</strong> additional and <strong>${int(totBase)}</strong> baseline permits for ${y} (${esc(ctx.scen().label)}); the statewide figures are ${int(stAdd)} and ${int(stBase)}. ${int(totHomes)} single-family homes. Rows are rounded; totals come from unrounded values.</p>`;
+  main.querySelector("#reconcile")!.innerHTML = `<p data-testid="reconcile" class="${ok ? "ok" : "bad"}">${ok ? "✓" : "✗"} All ${int(all.length)} ${ws.geo === "counties" ? "counties" : "areas"} add up to <strong>${int(totAdd)}</strong> additional and <strong>${int(totBase)}</strong> baseline permits for ${y} (${esc(scenPhrase(ctx))}); the statewide figures are ${int(stAdd)} and ${int(stBase)}. ${int(totHomes)} single-family homes. Each row is rounded to whole permits for display; totals add the unrounded values, so rounded rows can differ from a total by a permit or two.</p>`;
   const limit = ws.showAll || ws.geo === "counties" ? rs.length : 50;
   const shown = rs.slice(0, limit);
   const th = (k: string, label: string, num = true) => `<th scope="col" class="${num ? "num" : ""}" aria-sort="${ws.sort === k ? (ws.dir === 1 ? "ascending" : "descending") : "none"}"><button type="button" class="sort" data-k="${k}">${label}<span aria-hidden="true">${ws.sort === k ? (ws.dir === 1 ? " ▲" : " ▼") : " ↕"}</span></button></th>`;
   const mapCol = ws.layer === "homes" ? "Single-family homes (map)" : ws.measure === "rate" ? "Map value: per 1,000 homes per year" : "Map value: permits";
-  main.querySelector("#tbl")!.innerHTML = `<table class="data sortable" data-testid="where-table"><caption>${esc(layerTitle(ctx))}. ${rs.length === all.length ? "" : `Filtered: ${int(rs.length)} of ${int(all.length)} rows.`} Additional permits show the ${esc(ctx.scen().label.toLowerCase())} scenario with the lower and Strong adoption range.</caption>
+  main.querySelector("#tbl")!.innerHTML = `<table class="data sortable" data-testid="where-table"><caption>${esc(layerTitle(ctx))}. ${rs.length === all.length ? "" : `Filtered: ${int(rs.length)} of ${int(all.length)} rows.`} Additional permits show ${esc(scenPhrase(ctx))} with the range from the lower to the strong adoption scenario. "Small area": fewer than ${int(SMALL_AREA)} single-family homes.</caption>
     <thead><tr>${th("name", "Name", false)}${ws.geo === "munis" ? th("county", "County", false) : ""}${th("homes", "Single-family homes")}${th("base", `Baseline, ${y}`)}${th("add", `Additional, ${y} (range)`)}${th("value", mapCol)}${ws.geo === "munis" ? `<th scope="col">Current-law rate basis</th>` : ""}<th scope="col"><span class="sr-only">Details</span></th></tr></thead>
-    <tbody>${shown.map((r) => `<tr class="${r.id === ws.selected ? "sel" : ""}"><th scope="row">${esc(r.name)}${r.area?.pilot ? ` <a href="${ctx.link(`/pilot/${r.area.pilot}`)}" class="tag">pilot</a>` : ""}</th>${ws.geo === "munis" ? `<td>${esc(r.county)}</td>` : ""}<td class="num">${int(r.homes)}</td><td class="num">${r.homes ? small(thru(r.base)) : missing("no homes")}</td><td class="num">${r.homes ? withRange(thru(r.add[p]), thru(r.add.lower), thru(r.add.upper)) : missing("no homes")}</td><td class="num">${fmtVal(value(ctx, r))}</td>${ws.geo === "munis" ? `<td>${pill(r.area!.x_status)}</td>` : ""}<td><button type="button" class="linkish" data-sel="${r.id}" aria-label="Details for ${esc(r.name)}">Details</button></td></tr>`).join("")}</tbody>
+    <tbody>${shown.map((r) => `<tr class="${r.id === ws.selected ? "sel" : ""}"><th scope="row">${esc(r.name)}${r.area?.pilot ? ` <a href="${ctx.link(`/pilot/${r.area.pilot}`)}" class="tag">pilot</a>` : ""}</th>${ws.geo === "munis" ? `<td>${esc(r.county)}</td>` : ""}<td class="num">${int(r.homes)}</td><td class="num">${r.homes ? small(thru(r.base)) : missing(noHomes(r))}</td><td class="num">${r.homes ? withRange(thru(r.add[p]), thru(r.add.lower), thru(r.add.upper)) : missing(noHomes(r))}</td><td class="num">${r.homes ? fmtVal(value(ctx, r)) : "—"}${r.homes > 0 && r.homes < SMALL_AREA && ws.layer !== "homes" ? ` <span class="tag" title="Fewer than ${int(SMALL_AREA)} single-family homes: the rate can swing widely">small area</span>` : ""}</td>${ws.geo === "munis" ? `<td>${r.homes ? pill(r.area!.x_status) : `<span class="muted small">${r.area!.water ? "water area" : "no homes"}</span>`}</td>` : ""}<td><button type="button" class="linkish" data-sel="${r.id}" aria-label="Details for ${esc(r.name)}">Details</button></td></tr>`).join("")}</tbody>
     <tfoot><tr><th scope="row">${rs.length === all.length ? "Wisconsin (all rows)" : `Total of ${int(rs.length)} filtered rows`}</th>${ws.geo === "munis" ? "<td></td>" : ""}<td class="num">${int(rs.reduce((s, r) => s + r.homes, 0))}</td><td class="num">${int(rs.reduce((s, r) => s + thru(r.base), 0))}</td><td class="num">${int(rs.reduce((s, r) => s + thru(r.add[p]), 0))}</td><td></td>${ws.geo === "munis" ? "<td></td>" : ""}<td></td></tr></tfoot></table>
     ${rs.length > limit ? `<p><button type="button" class="button" id="show-all">Show all ${int(rs.length)} rows</button></p>` : ""}`;
   main.querySelectorAll<HTMLButtonElement>("button.sort").forEach((b) => b.addEventListener("click", () => {
@@ -244,6 +277,10 @@ function table(ctx: Ctx, main: HTMLElement): void {
     main.querySelector<HTMLElement>("#detail")?.focus();
   }));
   main.querySelector<HTMLButtonElement>("#show-all")?.addEventListener("click", () => { ws.showAll = true; table(ctx, main); });
+}
+
+function noHomes(r: Row): string {
+  return r.area?.water ? "water area, no homes" : "no homes";
 }
 
 /** Called by the router when leaving the Where screen, to free the WebGL context. */

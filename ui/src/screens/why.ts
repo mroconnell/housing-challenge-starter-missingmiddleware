@@ -58,7 +58,7 @@ export function renderWhy(ctx: Ctx, main: HTMLElement): void {
     <p class="muted">${esc(ev.spaghetti_states.units)}. ${esc(ev.spaghetti_states.x_label)}. Each grey line is one state's measured area; Maine and Massachusetts have one year so far.</p>
     <div class="chart-box" id="sp-states"></div>
     ${legendHTML([{ name: "One statewide-law state", color: "#7d8682", width: 1.3 }, { name: "California (2017 law)", color: COLORS.ref, width: 1.5 }, { name: "Median across states (California not included)", color: "#2f6db5", width: 4 },
-      { name: "Wisconsin: like a typical statewide-law state", color: COLORS.central, width: 3 }, { name: "Wisconsin: like the slower states", color: COLORS.lower, dash: DASH.lower }, { name: "Wisconsin: Strong adoption", color: COLORS.upper, dash: DASH.upper }, { name: "Wisconsin today, no statewide law", color: "#c2272d", dash: "6 3 2 3" }])}
+      { name: "Wisconsin: central scenario", color: COLORS.central, width: 3 }, { name: "Wisconsin: lower scenario", color: COLORS.lower, dash: DASH.lower }, { name: "Wisconsin: strong adoption scenario", color: COLORS.upper, dash: DASH.upper }, { name: "Wisconsin under current law (model baseline for 2027)", color: "#c2272d", dash: "6 3 2 3" }])}
     <details><summary>Show the data</summary>${dataTable(ev.spaghetti_states.lines, "Rates by year since the statewide law, permits per 1,000 single-family homes per year")}</details>
     <p class="links">${docLink(ev.spaghetti_states.png)}</p>
   </section>
@@ -68,7 +68,7 @@ export function renderWhy(ctx: Ctx, main: HTMLElement): void {
     <p class="muted">${esc(ev.spaghetti_cities.units)}. ${esc(ev.spaghetti_cities.x_label)}.</p>
     <div class="chart-box" id="sp-cities"></div>
     ${legendHTML([{ name: "One Madison-like city (Washington, Oregon, Rhode Island)", color: "#7d8682", width: 1.3 }, { name: "Median of Madison-like cities in Washington and Oregon", color: "#2f6db5", width: 4 },
-      { name: "Madison, observed 2021–2025", color: "#c2272d", dash: "6 3 2 3" }, { name: "Madison's adopted path, all scenarios", color: COLORS.central, width: 3 }])}
+      { name: "Madison, observed 2021–2025", color: "#c2272d", dash: "6 3 2 3" }, { name: "Madison's adopted path, all scenarios (under review at Gate 5)", color: COLORS.central, width: 3 }])}
     <details><summary>Show the data</summary>${dataTable(ev.spaghetti_cities.lines, "Rates by year since the statewide law, permits per 1,000 single-family homes per year")}</details>
     <p class="links">${docLink(ev.spaghetti_cities.png)}</p>
   </section>

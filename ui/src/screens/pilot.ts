@@ -1,4 +1,4 @@
-import { COLORS, DASH, pilotBanner, type Ctx } from "../app";
+import { COLORS, DASH, noteBox, pilotBanner, scenPhrase, scenShort, type Ctx } from "../app";
 import { legendHTML, xyChart } from "../charts";
 import { PATHS, sum } from "../data";
 import { dec, esc, int, missing, pill, YEARS } from "../format";
@@ -23,19 +23,28 @@ export function renderPilot(ctx: Ctx, main: HTMLElement, slug: string): void {
   const cur = p.rules.filter((r) => r.current);
   const hist = p.rules.filter((r) => !r.current);
   const stage = p.permits.stage === "application" ? "applications" : "issued permits";
-  const ruleRow = (r: (typeof p.rules)[number]) => `<tr><th scope="row">${esc(PROV[r.provision] ?? r.provision)}</th><td>${esc(VAL[r.value ?? ""] ?? r.value ?? "—")}</td><td>${r.from ? esc(r.from) : missing("date not coded")}${r.to ? ` to ${esc(r.to)}` : ""}</td><td>${r.source_url ? `<a href="${esc(r.source_url)}" target="_blank" rel="noopener">${esc(r.section ?? "source")}<span class="sr-only"> (opens the ordinance in a new tab)</span> ↗</a>` : esc(r.section ?? "—")}</td><td>${esc(r.retrieved ?? "—")}</td><td>${r.verification === "verified" ? pill("observed") + " checked" : r.verification === "source_lead" ? `<span class="pill pill-assumed">Source lead</span>` : `<span class="pill pill-assumed">Unknown</span>`}</td></tr>`;
+  const prov = obs.find((o) => o.status === "provisional" && o.units !== null);
+  const provWhen = p.provisional_through ? `1 January to ${p.provisional_through}` : "partial year";
+  const with2027 = p.base[0] + p.add[sel][0];
+  // Madison only: its neighbours' with-law rates (Dane County places over 2,000 homes), for the note
+  const rate5 = (a: { base: number[]; add: Record<string, number[]>; homes: number }) => ((sum(a.base) + sum(a.add[sel])) / a.homes / 5) * 1000;
+  const nbrs = p.note ? ctx.b.areas.munis.filter((a) => a.county === p.county && a.homes > 2000 && a.id !== p.area_id).sort((a, b) => rate5(a) - rate5(b)) : [];
+  const bsens = ctx.b.uncertainty.baseline_sensitivities.find((b) => /2026/.test(b.label));
+  const ruleRow = (r: (typeof p.rules)[number]) => `<tr><th scope="row">${esc(PROV[r.provision] ?? r.provision)}</th><td>${esc(VAL[r.value ?? ""] ?? r.value ?? "—")}</td><td>${r.from ? esc(r.from) : missing("date not coded")}${r.to ? ` to ${esc(r.to)}` : ""}</td><td>${r.source_url ? `<a href="${esc(r.source_url)}" target="_blank" rel="noopener">${esc(r.section ?? "source")}<span class="sr-only"> (opens the ordinance in a new tab)</span> ↗</a>` : esc(r.section ?? "—")}</td><td>${esc(r.retrieved ?? "—")}</td><td>${r.verification === "verified" ? `<span class="pill pill-observed">Checked</span>` : r.verification === "source_lead" ? `<span class="pill pill-assumed">Source lead</span>` : `<span class="pill pill-assumed">Unknown</span>`}</td></tr>`;
 
   main.innerHTML = `
   <nav class="pilot-tabs" aria-label="Pilot examples">${ctx.b.pilots.map((x) => `<a href="${ctx.link(`/pilot/${x.slug}`)}" ${x.slug === p.slug ? 'aria-current="page"' : ""}>${esc(x.name.replace(/ (city|village)$/, ""))}${x.role === "same_market_check" ? "&nbsp;<span class=\"muted\">(same-market check)</span>" : ""}</a>`).join("")}</nav>
   ${pilotBanner(p.role)}
   <h1>${esc(p.name)}, ${esc(p.county)}</h1>
   <p class="lede">${esc(p.description)}</p>
+  ${p.note ? noteBox(p.note) : ""}
+  ${p.note && nbrs.length ? `<p class="small" data-testid="madison-neighbours">With the law, 2027–2031, ${esc(scenPhrase(ctx))}: Madison ${dec(rate5(p))} permits per 1,000 single-family homes per year; the ${nbrs.length} other ${esc(p.county)} places with more than 2,000 single-family homes range from ${dec(rate5(nbrs[0]))} (${esc(nbrs[0].name)}) to ${dec(rate5(nbrs[nbrs.length - 1]))} (${esc(nbrs[nbrs.length - 1].name)}).</p>` : ""}
 
   <div class="tiles tiles-4">
     <section class="tile"><h2 class="tile-label">Single-family homes</h2><p class="tile-num">${int(p.homes)}</p><p class="tile-sub">one-unit detached homes ${pill("observed")}</p><p class="tile-note">ACS 2020–2024.</p></section>
-    <section class="tile"><h2 class="tile-label">Permits today</h2><p class="tile-num">${dec(p.x_rate)}</p><p class="tile-sub">per 1,000 single-family homes per year ${pill(p.x_status)}</p><p class="tile-note">Range ${dec(p.x_low)}–${dec(p.x_high)}. ${esc(ctx.b.areas.x_status_text[p.x_status] ?? "")}${p.x_status === "observed" ? ` (${esc(p.x_basis)})` : ""}.</p></section>
+    <section class="tile"><h2 class="tile-label">Current-law rate used by the model</h2><p class="tile-num" data-testid="pilot-x">${dec(p.x_rate)}</p><p class="tile-sub">permits per 1,000 single-family homes per year ${pill(p.x_status)}</p><p class="tile-note">Basis: ${esc(p.basis_text)}. Range ${dec(p.x_low)}–${dec(p.x_high)}.${prov && p.note ? ` <strong>2026 so far</strong> (provisional, ${esc(provWhen)}): ${int(prov.units)} second homes, more than any full year.` : ""}</p></section>
     <section class="tile"><h2 class="tile-label">Baseline, 2027–2031</h2><p class="tile-num" data-testid="pilot-baseline">${int(base5)}</p><p class="tile-sub">permits under current law ${pill("calculated")}</p><p class="tile-note">Range ${int(p.base_low_5yr)}–${int(p.base_high_5yr)}.</p></section>
-    <section class="tile tile-accent"><h2 class="tile-label">Added by the law: ${esc(ctx.scen().label)}</h2><p class="tile-num" data-testid="pilot-additional">+${int(add5(sel))}</p><p class="tile-sub">additional permits over 2027–2031 ${pill("calculated")}</p><p class="tile-note">All scenarios: ${PATHS.map((k) => int(add5(k))).join(" / ")}.</p></section>
+    <section class="tile tile-accent"><h2 class="tile-label">Added by the law (${esc(scenShort(ctx))})</h2><p class="tile-num" data-testid="pilot-additional">+${int(add5(sel))}</p><p class="tile-sub">additional permits over 2027–2031 ${pill("calculated")}</p><p class="tile-note">Lower / central / strong adoption: ${PATHS.map((k) => int(add5(k))).join(" / ")}.</p></section>
   </div>
 
   <section class="card" aria-labelledby="h-rules">
@@ -49,11 +58,13 @@ export function renderPilot(ctx: Ctx, main: HTMLElement, slug: string): void {
 
   <section class="card" aria-labelledby="h-hist">
     <h2 id="h-hist">Observed permits, then the forecast</h2>
-    <p class="muted">${esc(p.permits.label)}, from the city's ${esc(stage)}. Bars are observed counts; hatched bars are provisional. Lines are the model for 2027–2031.${p.measured ? ` In ${esc(p.measured.window)}: ${int(p.measured.permits)} ${p.permits.stage === "application" ? (p.measured.permits === 1 ? "application" : "applications") : (p.measured.permits === 1 ? "permit" : "permits")} over ${dec(p.measured.thousand_home_years, 1)} thousand home-years = ${dec(p.measured.rate)} per 1,000 single-family homes per year.` : ""}</p>
-    <p class="summary">Under current law the model expects about ${int(base5)} permits over 2027–2031. With the law, ${esc(ctx.scen().label.toLowerCase())} adds ${int(add5(sel))}${p.slug === "madison" ? " (Madison follows the observed path of Madison-like cities, so all three scenarios are the same)" : `, with ${int(add5("lower"))} to ${int(add5("upper"))} across the scenarios`}.</p>
+    <p class="muted">${esc(p.permits.label)}, from the city's ${esc(stage)}. Bars are observed counts; the hatched bar is a provisional, partial-year count. Lines are the model for 2027–2031.</p>
+    ${p.measured ? `<p class="small" data-testid="pilot-window"><strong>${p.measured.used_by_model ? `Window the model uses, ${esc(p.measured.window)}` : `Recent window, ${esc(p.measured.window)} (not used by the model, which uses ${esc(p.basis_text)})`}:</strong> ${int(p.measured.permits)} ${p.permits.stage === "application" ? (p.measured.permits === 1 ? "application" : "applications") : "second homes"} over ${dec(p.measured.thousand_home_years, 1)} thousand home-years = ${dec(p.measured.rate)} per 1,000 single-family homes per year.</p>` : ""}
+    ${prov && p.note ? `<p class="note-box small" data-testid="madison-2026"><strong>2026 is provisional and partial (${esc(provWhen)}).</strong> The drop from the 2026 bar to the 2027 line is not the law cutting permits. The forecast starts from Madison's complete years 2022–2025, and Madison's 2026 count so far (${int(prov.units)} second homes on ${int(prov.permits ?? null)} permits${p.provisional_detail ? `; ${esc(p.provisional_detail)}` : ""}) already exceeds the forecast for 2027 with the law (${int(with2027)}).${bsens ? ` Using the 2026 pace as Madison's current-law rate would raise the statewide baseline to ${int(bsens.total)} permits over 2027–2031 (+${int(bsens.change)}); see How sure.` : ""}</p>` : ""}
+    <p class="summary">Under current law the model expects about ${int(base5)} permits over 2027–2031. With the law, ${esc(scenPhrase(ctx))} adds ${int(add5(sel))}${p.note ? " (Madison follows the observed path of Madison-like cities, so all three scenarios are the same)" : `, with ${int(add5("lower"))} to ${int(add5("upper"))} from the lower to the strong adoption scenario`}.</p>
     <div class="chart-box" id="pilot-chart"></div>
-    ${legendHTML([{ name: `Observed ${stage}`, color: COLORS.observed, kind: "bar" }, { name: "Provisional (2026, partial year)", color: COLORS.observed, kind: "hatch" }, { name: "Current law (baseline)", color: COLORS.baseline, dash: DASH.baseline },
-      ...PATHS.map((k) => ({ name: `With the law: ${ctx.scen(k).label}`, color: COLORS[k], dash: DASH[k], width: k === sel ? 4 : 2 }))])}
+    ${legendHTML([{ name: `Observed ${stage}`, color: COLORS.observed, kind: "bar" }, { name: `2026: provisional, partial year (${provWhen})`, color: COLORS.observed, kind: "hatch" }, { name: "Current law (baseline)", color: COLORS.baseline, dash: DASH.baseline },
+      ...PATHS.map((k) => ({ name: `With the law: ${scenShort(ctx, k)}`, color: COLORS[k], dash: DASH[k], width: k === sel ? 4 : 2 }))])}
     <div class="grid-obs">
     <div class="table-wrap"><table class="data" data-testid="pilot-observed"><caption>Observed ${esc(stage)}, by year</caption>
       <thead><tr><th scope="col">Year</th><th scope="col" class="num">Second homes (units)</th><th scope="col" class="num">Permits</th><th scope="col">Status</th></tr></thead>
@@ -72,6 +83,10 @@ export function renderPilot(ctx: Ctx, main: HTMLElement, slug: string): void {
     desc: `Observed ${obs.filter((o) => o.units !== null).map((o) => `${o.year} ${o.units}`).join(", ")}. Forecast 2027–2031 baseline about ${dec(p.base[0], 1)} a year; with the law in 2031: ${PATHS.map((k) => `${ctx.scen(k).label} ${dec(p.base[4] + p.add[k][4], 1)}`).join(", ")}.`,
     yLabel: "Permits per year", xTicks: years, xFormat: (x) => (x % 2 === 0 || x === 2027 ? String(x) : `’${String(x).slice(2)}`),
     vline: { x: 2026.5, label: "law (stylized)" },
+    notes: [
+      ...(prov ? [{ x: prov.year, y: prov.units ?? 0, text: p.note ? "2026: provisional,\npartial year" : "provisional", anchor: "end" as const }] : []),
+      ...(p.note ? [{ x: 2027, y: with2027, text: `2027 with the law: ${int(with2027)}\n(Madison-like path)`, anchor: "start" as const, dy: 32 }] : []),
+    ],
     bars: { name: "observed", color: COLORS.observed, values: obs.map((o) => ({ x: o.year, y: o.units, hatch: o.status === "provisional" })) },
     series: [
       { name: "baseline", color: COLORS.baseline, dash: DASH.baseline, values: YEARS.map((y, i) => ({ x: y, y: p.base[i] })) },

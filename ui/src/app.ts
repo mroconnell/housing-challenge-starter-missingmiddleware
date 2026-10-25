@@ -26,13 +26,28 @@ export function scenarioLabel(ctx: Ctx, p: PathId): string {
   return ctx.b.state.scenarios.find((s) => s.id === p)!.label;
 }
 
+/** The scenario's name in running text: "the central scenario", "the strong adoption scenario". */
+export function scenPhrase(ctx: Ctx, p?: PathId): string {
+  return `the ${ctx.scen(p).label.toLowerCase()} scenario`;
+}
+
+/** Short form for headings and labels: "central scenario". */
+export function scenShort(ctx: Ctx, p?: PathId): string {
+  return `${ctx.scen(p).label.toLowerCase()} scenario`;
+}
+
+/** Plain note shown wherever Madison's numbers appear (bundle text, so every screen says the same). */
+export function noteBox(text: string, testid = "madison-note"): string {
+  return `<div class="note-box" role="note" data-testid="${esc(testid)}"><p><strong>Why Madison differs.</strong> ${esc(text)}</p></div>`;
+}
+
 /** Radio group to choose the highlighted scenario (all three stay visible in charts). */
 export function scenarioPicker(ctx: Ctx, name: string, compact = false): string {
   return `<fieldset class="scen-picker ${compact ? "compact" : ""}"><legend>Scenario</legend>${ctx.b.state.scenarios.map((s) => `
     <label class="scen-opt scen-${s.id}">
       <input type="radio" name="${esc(name)}" value="${s.id}" ${ctx.ui.scenario === s.id ? "checked" : ""}>
       <span class="scen-body"><span class="scen-name"><span class="swatch sw-${s.id}" aria-hidden="true"></span>${esc(s.label)}</span>
-      ${compact ? "" : `<span class="scen-info">${esc(s.info)}</span><span class="scen-num"><strong>${int(s.additional_total)}</strong> additional permits over 2027–2031</span>`}</span>
+      ${compact ? "" : `<span class="scen-desc">${esc(s.description)}</span><span class="scen-info">${esc(s.info)}</span><span class="scen-num"><strong>${int(s.additional_total)}</strong> additional permits over 2027–2031</span>`}</span>
     </label>`).join("")}</fieldset>`;
 }
 

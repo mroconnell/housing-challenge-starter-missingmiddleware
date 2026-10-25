@@ -81,7 +81,13 @@ function start(b: Bundle): void {
   let lastPath = "";
   const ctx: Ctx = {
     b, ui,
-    setScenario(p: PathId) { ui.scenario = p; route(true); },
+    setScenario(p: PathId) {
+      ui.scenario = p;
+      // keep the scenario in the URL so a copied link opens the same view
+      const { path } = parse();
+      history.replaceState(null, "", `#${path}${p === "central" ? "" : `?s=${p}`}`);
+      route(true);
+    },
     scen(p?: PathId) { return b.state.scenarios.find((s) => s.id === (p ?? ui.scenario))!; },
     link(path: string) { return `#${path}`; },
   };
@@ -103,6 +109,11 @@ function start(b: Bundle): void {
     document.querySelectorAll<HTMLAnchorElement>("nav.tabs a").forEach((a) => {
       if (path.startsWith(a.dataset.route!)) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
+    // on narrow screens the tab row scrolls sideways: bring the current tab into view (horizontal only)
+    const ol = document.querySelector<HTMLElement>("nav.tabs ol");
+    const cur = document.querySelector<HTMLElement>('nav.tabs a[aria-current="page"]')?.parentElement;
+    if (ol && cur && ol.scrollWidth > ol.clientWidth) ol.scrollLeft = Math.max(0, cur.offsetLeft - (ol.clientWidth - cur.offsetWidth) / 2);
+    ol?.classList.toggle("at-end", !!ol && ol.scrollLeft + ol.clientWidth >= ol.scrollWidth - 2);
     const label = ROUTES.find((r) => path.startsWith(r.match ?? r.path))?.label ?? "Wisconsin today";
     document.title = `${label} · Wisconsin ADU law · Missing Middleware`;
     if (keepFocus) {
@@ -115,6 +126,8 @@ function start(b: Bundle): void {
     lastPath = path;
   }
   window.addEventListener("hashchange", () => route());
+  const tabRow = document.querySelector<HTMLElement>("nav.tabs ol");
+  tabRow?.addEventListener("scroll", () => tabRow.classList.toggle("at-end", tabRow.scrollLeft + tabRow.clientWidth >= tabRow.scrollWidth - 2), { passive: true });
   route();
 }
 

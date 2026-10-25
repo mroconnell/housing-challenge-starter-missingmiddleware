@@ -274,3 +274,34 @@ The bundle rounds per-year values to 3 decimals before summing. Fix: sum unround
   - The footer says "Results are for areas, never individual lots".
   - The brief says "for areas, never for individual lots".
   - `test_no_lot_level_data` passes.
+
+## 6. Resolution
+
+Repaired 2026-10-25 by the interface agent, on top of commit `0f8cfa1`. New bundle run `adu-b6427cb775`. No model output or modelling decision changed: statewide, scenario, county and pilot figures are the same (645 baseline; 4,407 / 8,721 / 16,853 additional permits over 2027–2031). Test results are in the [Gate 4 packet](README.md#repairs-after-the-independent-verification).
+
+| Item | Resolution | Status |
+| --- | --- | --- |
+| B1 | `.gitignore` exceptions for `tests/fixtures/ca_ordinances/hcd_received_small.xlsx` (2.3 KB: title rows and 5 jurisdictions from California HCD's 2019 public ordinance list) and `tests/fixtures/wi_town_zoning/doa_inventory_sample.xlsx` (7.6 KB: 18 rows in the shape of the public Wisconsin DOA land-regulation inventory). Both are small samples of public government lists, with no personal data. A fresh clone with the repaired files then passed `setup.sh`, `test.sh` (311 tests, 3 skipped) and `test_ui.sh`. Packet sentence corrected. | Fixed (files must be committed) |
+| B2 | Note on the Madison pilot page, in Madison's details panel and under the map: Madison alone follows the Madison-like path (0.45 rising to 1.08 permits per 1,000 single-family homes per year in 2027–2031), its neighbours are on the statewide model, so its with-law rate is below theirs; under review at Gate 5. The pilot page also gives Madison's 2027–2031 with-law rate (0.69) against the other Dane County places over 2,000 homes (1.10 to 2.59, central). The 2026 bar is labelled "provisional, partial year (1 January to 23 October 2026)", the 2027 with-law point is labelled (24), and a note says the drop is not the law cutting permits, that 2026 so far (42) already exceeds the 2027 forecast with the law, and gives the +209 baseline sensitivity. The model is unchanged. | Fixed on screen; treatment is a Gate 5 owner decision |
+| B3 | README opening rewritten around the working tool (seven screens, outcome, 645 and 8,721 with 4,407–16,853); template comment deleted; Team filled with "Missing Middleware" and a TODO for the owner to list members; `PORT=` and the skipped `test_bundle_is_current` documented. | Fixed (owner TODO: names) |
+| S1 | Baseline and additional counts always carry "Calculated"; the rate basis has its own line with its own pill. | Fixed |
+| S2 | Map outlines from Census cartographic boundary files 2024 (1:500,000, shoreline-clipped; `scripts/fetch_map_outlines.sh`). The 12 water-only areas are not drawn; the map background is a water colour with the legend item "lakes and outside Wisconsin"; zero-home areas are null in every measure; the table shows "water area" and no rate-basis pill. | Fixed |
+| S3 | The map refits whenever its frame settles at a new size (ResizeObserver); the boundary credit moved under the map, so no control covers Kenosha. Checked at 1280 px and 412 px. | Fixed |
+| S4 | One set of names: Lower, Central, Strong adoption (lower case in running text). Each has a short description and a real explanation: central "the common level of the eight statewide-law states, about 1.00 permit … at a typical place (Washington 1.19, Utah 1.08, Maine 1.00, Vermont 0.90)"; lower relabelled "Slower than any statewide-law state so far" (about 0.53; Rhode Island 0.62, Oregon 0.68). A line explains why the central (8,721) sits above the reference line (8,208): California is in the common level (7,621 without it) and the Madison floor. | Fixed |
+| S5 | "Today 0.07" rewritten as the model's 2027–2031 current-law expectation (645 ÷ 1,839.569 thousand homes ÷ 5 years) on screens 1, 4 and 7; the evidence card marks that sentence "Calculated, not observed". | Fixed |
+| S6 | Legend breaks below 1 permit use one decimal. | Fixed |
+| S7 | Brief prints to 2 Letter pages (Playwright `page.pdf`, print media). The duplicate 69% bullet was removed (kept under Limitations); the robustness bullet keeps "within noise" (66% of 5,000 resamples) and says the error is optimistic. | Fixed |
+| S8 | Tile renamed "Current-law rate used by the model" with its basis and window. The chart text uses the model's window (Pleasant Prairie 2014–2025: 3 second homes, 0.04) or is labelled "Recent window … not used by the model" (Sun Prairie). Madison's tile notes the 2026 provisional count. | Fixed |
+| S9 | Every place's rate basis is shown in plain words from `x_basis` (Milwaukee: an assumed ramp to Madison's rate, not the restricted-group rate). The status text for "estimated" now reads "a rules-group rate or a stated ramp". Relabelling Milwaukee "Assumed" would move 101,402 homes in the coverage table, so it is left to the owner. | Fixed text; status is an owner decision |
+| S10 | The current tab is scrolled into view on load (horizontally only), with a right-edge fade as a scroll cue. | Fixed |
+| S11 | Areas under 1,000 single-family homes are flagged "small area" in the table and details panel; the "Highest" line lists only larger areas and gives the statewide figure; it says small villages can reach several times the state rate. Values unchanged. | Fixed on screen; cap or pooling is a Gate 5 owner decision |
+| S12 | Packet test counts corrected (311 tests; 13 bundle tests; 19 Playwright passes); known gap 8 updated (`4b9a404` is on GitHub). | Fixed |
+| N1 | The scenario is written to the URL (`?s=`). | Fixed |
+| N2 | Details panel reads "City in Dane County"; "under 1 permit". | Fixed |
+| N3 | Rule tables show a "Checked" pill; the "What statewide ADU laws did elsewhere" card is "Calculated"; "about half the earlier model" replaced by the comparison with the central scenario (0.77, 0.95, 0.99). | Fixed |
+| N4 | County values are summed from unrounded engine values, and area values keep 4 decimals; a builder check and a test confirm every county's whole-permit figures equal the reference CSV after rounding (Iron baseline 1, Trempealeau central 40). | Fixed |
+| N5 | Range columns are labelled "lower to strong adoption". | Fixed |
+| N6 | "Keeping California in (A) gave the lower error in 66% of 5,000 resamples". | Fixed |
+| N7 | "Back to the table" button in the details panel. | Fixed |
+| N8 | Not changed: the controls still come before the map on phones. | Open |
+| N9 | README says that `test_bundle_is_current` is skipped in a clone and that the run id is a hash of the 35 inputs. | Fixed |
