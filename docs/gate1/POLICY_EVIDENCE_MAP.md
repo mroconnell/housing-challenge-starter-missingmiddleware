@@ -74,7 +74,7 @@ Primary sources are adopted ordinance texts, staff memos and action histories fr
 
 ### 2.2 Current rules, MGO 28.151 and parking
 
-These come from the adopted 2025 texts (Verified). The codified rendering is a [mirror](https://www.zoneomics.com/code/madison-WI/chapter_10) (source lead).
+These come from the adopted 2025 texts (Verified). The codified rendering seen at Gate 1 was a third-party mirror (Zoneomics, source lead; no longer cited, owner decision D4).
 
 - **Units:** principal building up to 8 units; one attached ADU, or up to two detached ADUs in one structure.
 - **Size and height:** internal ADU up to 1,000 sq ft; detached ADU building footprint up to 1,000 sq ft; height 25 ft; accessory-building setbacks (3 ft).
@@ -115,7 +115,7 @@ The City's [Fall 2025 Housing Forward page](https://www.cityofmadison.com/mayor/
 ### 3.1 Code citation and version
 
 - **Version:** Chapter 275 Zoning of the [New Berlin Municipal Code](https://library.municode.com/wi/new_berlin/codes/municipal_code?nodeId=PTIIGELE_CH275ZO_ARTVIIIGEDERE). Adopted 2013-06-17 (Ord. 2489). Municode returned 403. Captures show "Supplement 3, Update 1, codified through Ordinance No. 2717 enacted January 27, 2026." The online-update date differs between captures (2026-04-08 vs 2026-09-21) and is **unknown**. *Version date for model coding: through Ord. 2717 (2026-01-27), source lead.*
-- **Code text:** read from a [Zoneomics mirror](https://www.zoneomics.com/code/new-berlin-WI/chapter_5) (source lead). The key prohibition is confirmed by City PDFs (Verified, below).
+- **Code text:** first read from a Zoneomics mirror (source lead). Re-read on Municode in a browser on 2026-10-25 and unchanged, so the coded rules are now verified (`wi_adu_rules.csv`); Zoneomics is no longer cited because its terms of use do not allow our reuse (owner decision D4). The key prohibition is also confirmed by City PDFs (Verified, below).
 
 | Provision | Rule | Status |
 | --- | --- | --- |

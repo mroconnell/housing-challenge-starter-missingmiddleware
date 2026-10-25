@@ -100,7 +100,9 @@ TARGETS = [
     ("La Crosse city", "5506340775", "Legistar (Ord. 5280)", "https://legistar.granicus.com/CityofLaCrosse/attachments/239dbc28-943b-4645-9f22-e87475d777da.docx", "adopting_ordinance"),
     ("Sheboygan city", "5511772975", "city meetings blob (Ch. 105 compiled 2023)", "https://mccmeetingspublic.blob.core.usgovcloudapi.net/sheboygnwi-meet-1ab88e5a89ad4af6836be2c56109cdb0/ITEM-Attachment-001-015d62d52b424fc985217ee1b0ae1f13.pdf", "stale_compilation"),
     ("Wauwatosa city", "5507984675", "Legistar (O-25-25)", "https://wauwatosacitywi.legistar1.com/wauwatosacitywi/attachments/f54c270b-576f-4e05-a954-36755d2e4f9c.pdf", "adopting_ordinance"),
-    ("Fond du Lac city", "5503926275", "Zoneomics mirror of ecode360 Ch. 720 (art. IV)", "https://www.zoneomics.com/code/fond-du-lac-WI/chapter_4", "mirror"),
+    # The codified ecode360 Ch. 720 (FO3072) is behind a bot check. The Zoneomics mirror read before 2026-10-25
+    # is not used: its terms of use bar automated access and reuse (owner decision D4).
+    ("Fond du Lac city", "5503926275", "Granicus (council packet with Ord. 3809)", "https://fonddulac.granicus.com/AgendaViewer.php?view_id=1&clip_id=586", "adopting_ordinance"),
     ("New Berlin city", "5513356375", "municode", "https://library.municode.com/wi/new_berlin/codes/municipal_code?nodeId=PTIIGELE_CH275ZO_ARTVIIIGEDERE", "codified_chapter"),
     ("Wausau city", "5507384475", "municode", "https://library.municode.com/wi/wausau/codes/code_of_ordinances?nodeId=TIT23ZO_ARTIIILAUSRE", "codified_chapter"),
     ("Brookfield city", "5513310025", "codepublishing", "https://www.codepublishing.com/WI/Brookfield/html/Brookfield17/Brookfield17.html", "codified_chapter"),

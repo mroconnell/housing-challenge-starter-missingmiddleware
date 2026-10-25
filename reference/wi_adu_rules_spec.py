@@ -118,9 +118,10 @@ muni(["5508702375", "5501502375", "5513902375"], "Appleton city", "scenario_benc
 WK = "https://legistar2.granicus.com/waukesha/attachments/fb763278-f10c-4d54-91b2-240833e68012.pdf"
 WK3 = "https://legistar2.granicus.com/waukesha/attachments/c852c290-1ccf-4801-9967-8d87347537fd.pdf"
 WK6 = "https://legistar2.granicus.com/waukesha/attachments/8c8662e7-dfc1-4ece-b405-5a0c1116a477.pdf"
+WK_PRR = "https://legistar2.granicus.com/waukesha/attachments/62d13807-9a6c-49ee-8ec9-46234527c3b8.pdf"
 muni(["5513384250"], "Waukesha city", RESTR, "coded_verified", "2026-09-01",
      "Removes 1 required parking space per ADU; guarantees a 600 sq ft ADU regardless of house size (attached cap 40% of the house; detached 75%).", [
-    ("detached_allowed", "prohibited", "", "2026-08-31", "https://www.zoneomics.com/code/waukesha-WI", "old Ch. 22, §22.24 RS-1", L, "no ADU or in-law provision in old code (mirror plus March 2026 news)"),
+    ("detached_allowed", "prohibited", "", "2026-08-31", WK_PRR, "old Ch. 22 (repealed by Ord. 2026-4); Zoning Code Update Preliminary Recommendations Report 2024-12-30, Housing item 8 (Legistar ID#25-00003)", V, "city report: the current (old) Zoning Code does not allow ADUs. The old Ch. 22 text is no longer online (municipalcodeonline marks it repealed 2026-07-07), so §22.24 RS-1 was not re-read; earlier this row cited a Zoneomics mirror plus March 2026 news"),
     ("detached_allowed", "by_right", "2026-09-01", "", WK3, "Ch. 22.03(5)(A) use table, RN-1 to RN-4 (Ord. 2026-4, adopted 2026-07-07)", V, ""),
     ("attached_allowed", "by_right", "2026-09-01", "", WK3, "22.03(6)(C)(4)", V, "attached, internal, basement or attic"),
     ("owner_occupancy", "none", "2026-09-01", "", WK3, "22.03(6)(C)(4)", V, "6-month owner rule in May 2025 draft was dropped"),
@@ -221,30 +222,33 @@ muni(["5507984675"], "Wauwatosa city", BENCH, "coded_verified", "2025-11-18",
 ], note="Benchmark kept by owner decision 2026-10-24. Edge case: §24.10.075(B)(7) requires the principal house's existing required parking (1 space) to be maintained or replaced on-site, which the benchmark's no-additional-parking rule would remove for garage conversions. No district limit: ADUs are allowed wherever a house occupies the lot.")
 
 FDL = "https://www.fdl.wi.gov/"
-muni(["5503926275"], "Fond du Lac city", RESTR, "coded_source_lead", "2026-03-25",
+# City Council agenda packet 2025-02-26 (Granicus, the city's agenda host): Ord. 3809 text at pp. 30-39, §720-11C(29) at pp. 37-39.
+FDL_ORD = "https://fonddulac.granicus.com/AgendaViewer.php?view_id=1&clip_id=586"
+muni(["5503926275"], "Fond du Lac city", RESTR, "coded_verified", "2026-03-25",
      "Removes ongoing owner-occupancy rule; removes 1 extra parking space; lifts footprint cap for small houses.", [
-    ("detached_allowed", "prohibited", "", "2025-02-25", FDL, "Ch. 720 Schedule II before Ord. 3809 (no ADU row); City Council minutes 2025-02-26", V, ""),
-    ("detached_allowed", "by_right", "2025-02-26", "", FDL, "§720-11C(29), Schedule II ('SC' in R-1 to R-4) (Ord. 3809)", L, "permitted with special conditions"),
-    ("attached_allowed", "by_right", "2025-02-26", "", FDL, "§720-11C(29)", L, ""),
-    ("owner_occupancy", "ongoing", "2025-02-26", "", FDL, "§720-11C(29)", L, ""),
-    ("occupant_restriction", "none", "2025-02-26", "", FDL, "§720-11C(29)", L, "rentals >= 30 days"),
-    ("max_size_sqft", "detached lesser of 800 or house footprint; attached greater of 800 or 50% of footprint; <= 2 bedrooms", "2025-02-26", "", FDL, "§720-11C(29)", L, ""),
-    ("parking_required", "1", "2025-02-26", "", FDL, "§720-11C(29)", L, ""),
+    ("detached_allowed", "prohibited", "", "2025-02-25", FDL_ORD, "Ch. 720 Schedule II before Ord. 3809 (Sec. 3 adds row 10.1 ADUs); City Council minutes 2025-02-26", V, ""),
+    ("detached_allowed", "by_right", "2025-02-26", "", FDL_ORD, "§720-11C(29), Schedule II ('SC' in R-1 to R-4) (Ord. 3809 Secs. 2-3)", V, "permitted with special conditions"),
+    ("attached_allowed", "by_right", "2025-02-26", "", FDL_ORD, "§720-11C(29) (Ord. 3809 Sec. 2)", V, ""),
+    ("owner_occupancy", "ongoing", "2025-02-26", "", FDL_ORD, "§720-11C(29) (Ord. 3809 Sec. 2)", V, ""),
+    ("occupant_restriction", "none", "2025-02-26", "", FDL_ORD, "§720-11C(29) (Ord. 3809 Sec. 2)", V, "rentals >= 30 days"),
+    ("max_size_sqft", "detached lesser of 800 or house footprint; attached greater of 800 or 50% of footprint; <= 2 bedrooms", "2025-02-26", "", FDL_ORD, "§720-11C(29) (Ord. 3809 Sec. 2)", V, ""),
+    ("parking_required", "1", "2025-02-26", "", FDL_ORD, "§720-11C(29) (Ord. 3809 Sec. 2)", V, ""),
     ("approval_type", "administrative (special conditions)", "2025-02-26", "", FDL, "Art. VI not read", L, ""),
-], note="§720-11C(29) text read through the Zoneomics mirror (ecode360 403); adoption of Ord. 3809 from council minutes 2025-02-26.",
+], note="§720-11C(29) read in Ord. 3809 as introduced in the 2025-02-26 council packet (city Granicus site); adopted that night per the council minutes. The codified ecode360 Ch. 720 (FO3072) is behind a bot check and was not read, so amendments after Ord. 3809 are not checked. Earlier this text was read through the Zoneomics mirror.",
    flags=["owner_occupancy", "extra_parking"])
 
-NB = "https://www.zoneomics.com/code/new-berlin-WI/chapter_5"
-muni(["5513356375"], "New Berlin city", RESTR, "coded_source_lead", "2026-01-27",
+# Municode serves all of Ch. 275 on this page; read in a browser 2026-10-25 (plain HTTP gets 403).
+NB = "https://library.municode.com/wi/new_berlin/codes/municipal_code?nodeId=PTIIGELE_CH275ZO_ARTVIIIGEDERE"
+muni(["5513356375"], "New Berlin city", RESTR, "coded_verified", "2026-01-27",
      "Detached and semi-detached ADUs; at least 600 sq ft (50%-of-house cap); ADUs outside agricultural/single-family districts; removes owner-occupancy, related-occupant and 2-occupant rules; no extra parking.", [
-    ("detached_allowed", "prohibited", "2013-06-17", "", NB, "§275-42 C(3); §275-42 B(1)(a)[2][b][iii]", L, "confirmed by City Sheds guidance PDF (verified)"),
-    ("attached_allowed", "by_right", "2013-06-17", "", NB, "§275-42 C(3) family dwelling unit, zoning permit §275-24", L, "agricultural and single-family districts only"),
-    ("owner_occupancy", "ongoing", "2013-06-17", "", NB, "§275-42 C(3)", L, ""),
-    ("occupant_restriction", "related_only", "2013-06-17", "", NB, "§275-42 C(3)", L, "max 2 occupants; deed restriction"),
-    ("max_size_sqft", "50% of principal living area", "2013-06-17", "", NB, "§275-42 C(3)", L, ""),
-    ("parking_required", "unknown", "", "", NB, "Table 275-57-1", U, ""),
-    ("approval_type", "administrative zoning permit", "2013-06-17", "", NB, "§275-24", L, ""),
-], note="Coded at Gate 1 (POLICY_EVIDENCE_MAP section 3); Municode blocked; code version through Ord. 2717 (2026-01-27).",
+    ("detached_allowed", "prohibited", "2013-06-17", "", NB, "§275-42 C(3); §275-42 B(1)(a)[2][b][iii]", V, "confirmed by City Sheds guidance PDF (verified)"),
+    ("attached_allowed", "by_right", "2013-06-17", "", NB, "§275-42 C(3) family dwelling unit, zoning permit §275-24", V, "agricultural and single-family districts only"),
+    ("owner_occupancy", "ongoing", "2013-06-17", "", NB, "§275-42 C(3)", V, ""),
+    ("occupant_restriction", "related_only", "2013-06-17", "", NB, "§275-42 C(3)", V, "max 2 occupants; deed restriction"),
+    ("max_size_sqft", "50% of principal living area", "2013-06-17", "", NB, "§275-42 C(3)", V, ""),
+    ("parking_required", "unknown", "", "", NB, "Table 275-57-1", U, "table asks 2 spaces per dwelling unit for single-family and 2-family dwellings; no row for the family dwelling unit, so whether it adds 2 spaces is not settled by the text"),
+    ("approval_type", "administrative zoning permit", "2013-06-17", "", NB, "§275-24", V, ""),
+], note="Coded at Gate 1 (POLICY_EVIDENCE_MAP section 3) from the Zoneomics mirror; re-read on Municode in a browser 2026-10-25 and unchanged (latest Ch. 275 amendment shown: Ord. 2702, 2025-03-11); rules_as_of kept at the Gate 1 code version (through Ord. 2717, 2026-01-27).",
    flags=["form_limited", "owner_occupancy", "related_occupant", "size_below_benchmark"])
 
 WAU = "https://library.municode.com/wi/wausau/codes/code_of_ordinances?nodeId=TIT23ZO_ARTIIILAUSRE"
@@ -267,16 +271,17 @@ muni(["5513310025"], "Brookfield city", PIMP, "coded_verified", "2026-02-17",
     ("other", "servants' quarters (occupied only by servants employed on the premises, not rented) are a permitted accessory use in the UC Upland Conservancy district only, not in R-1 to R-3", "", "", "https://www.codepublishing.com/WI/Brookfield/html/Brookfield17/Brookfield1724.html", "Ch. 17.24 UC district permitted accessory uses", V, "found by the 2026-10-24 rescan with the expanded term list"),
 ], note="Guest houses (undefined; guest space, not permanent habitation) and the UC-only servants' quarters are not ADUs under the owner's definition (2026-10-24: a dwelling unit with its own kitchen, sanitation and sleeping facilities for permanent habitation), so prohibited_implicit is no longer borderline on that ground. Mayor re-elected 2026-04-07 opposing ADUs (source lead).")
 
-BEL = "https://www.zoneomics.com/code/beloit-WI"
-muni(["5510506500"], "Beloit city", RESTR, "coded_source_lead", "2026-06-01",
+# Municode serves all of Ch. 19 on this page (version 2026-09-30); read in a browser 2026-10-25.
+BEL = "https://library.municode.com/wi/beloit/codes/code_of_ordinances?nodeId=CH19ZOCORERE2946"
+muni(["5510506500"], "Beloit city", RESTR, "coded_verified", "2026-06-01",
      "Rentable ADUs by right on every single-family parcel, detached and attached; removes guest/employee no-rent limit and 12,000 sq ft lot minimum; exempts ADUs from the 1,000 sq ft minimum dwelling size and the single-to-multi conversion ban.", [
-    ("detached_allowed", "by_right", "2001-01-01", "", BEL, "Ch. 19 §6.3.3(a) private guest houses / detached employee quarters", L, "lots >= 12,000 sq ft and 85 ft wide; Ord. 2946 (2001), date approximate"),
-    ("attached_allowed", "prohibited", "2025-06-02", "", BEL, "§6.2.11(b)(8) (Ord. 3868) conversion ban except PUD", L, ""),
-    ("occupant_restriction", "other", "2001-01-01", "", BEL, "§11.3.101 guest house not rented", L, "non-paying guests or employees; no rental"),
-    ("min_lot_size", "12000", "2001-01-01", "", BEL, "§6.3.3(a)", L, ""),
-    ("max_size_sqft", "accessory buildings greater of 720 or 10% of lot, <= 1200 each", "2016-04-27", "", BEL, "§6.3.4(d) (Ord. 3574)", L, ""),
-    ("approval_type", "permitted accessory use", "2001-01-01", "", BEL, "§6.3.3(a)", L, ""),
-], note="Borderline: prohibited_implicit if non-rented guest houses and employee quarters are not counted as an ADU form. Under the owner's ADU definition (2026-10-24: own kitchen, sanitation and sleeping facilities for permanent habitation) guest houses for non-paying guests are not permanent habitation; employee quarters count only if they are complete dwelling units, which the text read does not say. First pass: both are lead terms, so ordinance_status is unmentioned.",
+    ("detached_allowed", "by_right", "2001-01-01", "", BEL, "Ch. 19 §6.3.3(a) private guest houses / detached employee quarters", V, "lots >= 12,000 sq ft and 85 ft wide; Ord. 2946 (2001), date approximate"),
+    ("attached_allowed", "prohibited", "2025-06-02", "", BEL, "§6.2.11(b)(8) (Ord. 3868) conversion ban except PUD", V, ""),
+    ("occupant_restriction", "other", "2001-01-01", "", BEL, "§11.3.101 guest house not rented", V, "non-paying guests or employees; no rental"),
+    ("min_lot_size", "12000", "2001-01-01", "", BEL, "§6.3.3(a)", V, ""),
+    ("max_size_sqft", "accessory buildings greater of 720 or 10% of lot, <= 1200 each", "2016-04-27", "", BEL, "§6.3.4(d) (Ord. 3574)", V, ""),
+    ("approval_type", "permitted accessory use", "2001-01-01", "", BEL, "§6.3.3(a)", V, ""),
+], note="Borderline: prohibited_implicit if non-rented guest houses and employee quarters are not counted as an ADU form. Under the owner's ADU definition (2026-10-24: own kitchen, sanitation and sleeping facilities for permanent habitation) guest houses for non-paying guests are not permanent habitation; employee quarters count only if they are complete dwelling units, which the text read does not say. First pass: both are lead terms, so ordinance_status is unmentioned. Open (2026-10-25): the official text also allows 'secondary dwelling units' (<= 800 sq ft) inside a Traditional Neighborhood Development district (§5-701 to 5-703), a scanner term; see MANUAL_FIRST_PASS.",
    flags=["related_occupant", "form_limited", "lot_minimum", "other"])
 
 GF = "https://library.municode.com/wi/greenfield/codes/code_of_ordinances?nodeId=CH21ZOCO_PT4ZODIDIESDIUSRE_DIV21.04.0800ACTEUSSTRE_21.04.0802DESTACUSREDI"
@@ -366,9 +371,9 @@ muni(["5509777200"], "Stevens Point city", RESTR, "coded_verified", "2026-05-05"
 ], flags=["discretionary_review", "form_limited", "owner_occupancy", "extra_parking", "lot_minimum"])
 
 NEE = "https://www2.ci.neenah.wi.us/committees.nsf/0/740d7c8b6bbec18886258c6f005576e1/$FILE/A%2020250429PC.pdf"
-muni(["5513955750"], "Neenah city", PEXP, "coded_source_lead", "2025-09-03",
+muni(["5513955750"], "Neenah city", PEXP, "coded_verified", "2025-09-03",
      "Detached and attached ADUs by right where none are allowed.", [
-    ("detached_allowed", "prohibited", "2014-08-06", "", NEE, "Ch. 26 §26-148 R-1 one single-family dwelling (Ord. 2014-14); §21-19 accessory building not a dwelling (Ord. 2023-07)", V, "PC minutes 2025: ADUs 'currently prohibited'; current text via mirror; no adoption found in 2026 PC/CC packets"),
+    ("detached_allowed", "prohibited", "2014-08-06", "", NEE, "Ch. 26 §26-148 R-1 one single-family dwelling (Ord. 2014-14); §21-19 accessory building not a dwelling (Ord. 2023-07)", V, "PC minutes 2025: ADUs 'currently prohibited'; §26-148 re-read on Municode in a browser 2026-10-25 (Supp. 44, codified through Ord. 2025-11; earlier via the Zoneomics mirror); §21-19 not re-read; no adoption found in 2026 PC/CC packets"),
     ("attached_allowed", "prohibited", "2014-08-06", "", NEE, "§26-148", V, ""),
 ], note="'Never adopted through Oct 2026' rests on absence in packets read; minutes search requires login.")
 
@@ -456,11 +461,13 @@ muni(["5513351000"], "Menomonee Falls village", PIMP, "coded_source_lead", "2026
     ("attached_allowed", "prohibited", "", "", MF, "§122-430(a)(1)a.1", L, "Municode via search-engine rendering"),
 ])
 
-HW = "https://www.zoneomics.com/code/howard-WI"
-muni(["5500935950", "5508735950"], "Howard village", PEXP, "coded_source_lead", "2026-07-27",
+# Municode, read in a browser 2026-10-25 (Supp. 21, codified through Ord. 2026-02).
+HW = "https://library.municode.com/wi/howard/codes/code_of_ordinances?nodeId=PTIICOOR_CH50ZO_ARTVSUDIRE_DIV3ACBUUS_S50-868USBU"
+HW342 = "https://library.municode.com/wi/howard/codes/code_of_ordinances?nodeId=PTIICOOR_CH50ZO_ARTIVDIDIRE_DIV2SIMIZODI_S50-342US"
+muni(["5500935950", "5508735950"], "Howard village", PEXP, "coded_verified", "2026-07-27",
      "Detached and attached ADUs by right; repeals the §50-868 living-space ban in accessory buildings.", [
-    ("detached_allowed", "prohibited", "2011-03-28", "", HW, "Ch. 50 §50-868 (Ord. 2011-7), §50-342", L, "code via mirror; Village Board President report 2026-07-13 (DocumentCenter/View/11523) confirms ADU amendments not completed (verified)"),
-    ("attached_allowed", "prohibited", "", "", HW, "§50-342 R-1 permitted uses; R-2 to R-5", L, "guesthouse defined (§50-6) but not listed in any district"),
+    ("detached_allowed", "prohibited", "2011-03-28", "", HW, "Ch. 50 §50-868 (Ord. 2011-7), §50-342", V, "code on Municode; Village Board President report 2026-07-13 (DocumentCenter/View/11523) confirms ADU amendments not completed (verified)"),
+    ("attached_allowed", "prohibited", "", "", HW342, "§50-342 R-1 permitted uses; R-2 to R-5", V, "guesthouse defined (§50-6) but not listed in any district (R-1, R-2 and R-5 use lists re-read 2026-10-25)"),
 ])
 
 # House size (sq ft) below which a percent-of-house cap stops a 600 sq ft ADU (600 / share), per flagged place.
@@ -502,18 +509,18 @@ MANUAL_FIRST_PASS = {
     "Appleton city": ("mentioned_allowed", "§23-55", "accessory dwelling;ADU", V, "Ch. 23 Supp. 100 PDF (Feb 2026) read by research agent"),
     "Eau Claire city": ("mentioned_allowed", "17.03.04(B)(2)", "accessory dwelling;ADU", V, "LDO PDF read in a browser (direct fetch 403)"),
     "Janesville city": ("unmentioned", "", "", L, "Ch. 42 read via search extracts only (Municode 403)"),
-    "New Berlin city": ("mentioned_allowed", "§275-42 C(3)", "accessory dwelling;family dwelling unit", L, "Zoneomics mirror (Municode 403); bars detached ADUs, allows the attached family dwelling unit"),
+    "New Berlin city": ("mentioned_allowed", "§275-42 C(3)", "accessory dwelling;family dwelling unit", V, "Zoneomics mirror (Municode 403), re-read on Municode in a browser 2026-10-25; bars detached ADUs, allows the attached family dwelling unit"),
     "Wausau city": ("mentioned_allowed", "§23.03.28(6)", "accessory dwelling;in-law", V, "Title 23 read in a browser (Municode 403)"),
-    "Beloit city": ("unmentioned", "", "", L, "Ch. 19 via Zoneomics mirror; no dwelling-unit term; lead terms 'private guest houses' and 'employee living quarters' (§6.3.3(a)) are not counted as ADU mentions (owner definition 2026-10-24)"),
+    "Beloit city": ("unmentioned", "", "", V, "Ch. 19 via Zoneomics mirror, re-read on Municode in a browser 2026-10-25; OPEN: that reading found 'secondary dwelling unit' (a scanner term) in the TND district (§5-701 to 5-703, <= 800 sq ft), so this value is under owner review and not changed; lead terms 'private guest houses' and 'employee living quarters' (§6.3.3(a)) are not counted as ADU mentions (owner definition 2026-10-24)"),
     "Greenfield city": ("unmentioned", "", "", L, "Ch. 21 read via search-engine rendering of Municode"),
     "Superior city": ("unmentioned", "", "", V, "Ch. 122 Arts. I, IV, VI searched in a browser (Municode 403)"),
-    "Neenah city": ("unmentioned", "", "", L, "Ch. 26 via Zoneomics mirror (Municode 403)"),
+    "Neenah city": ("unmentioned", "", "", V, "Ch. 26 via Zoneomics mirror (Municode 403), re-read on Municode in a browser 2026-10-25 (Supp. 44: Arts. I, VI, VIII, XI, XIII, XIV, XV; the procedural articles were not searched)"),
     "Muskego city": ("mentioned_allowed", "§400-165", "in-law", L, "ecode360 read via search-engine rendering (403); 'mother-in-law/family unit'"),
     "Mount Pleasant village": ("mentioned_allowed", "§90-110.20(g)", "backyard cottage;secondary dwelling unit", L, "ecode360 read via search-engine rendering (403)"),
     "Mequon city": ("mentioned_allowed", "§58-248", "accessory dwelling;ADU", L, "Ch. 58 read via search-engine rendering of Municode (403)"),
     "Pleasant Prairie village": ("unmentioned", "", "", L, "Ch. 420 incl. Art. XXI definitions read via search-engine rendering of ecode360 (403)"),
     "Menomonee Falls village": ("unmentioned", "", "", L, "Ch. 122 read via search-engine rendering of Municode (403)"),
-    "Howard village": ("prohibited", "§50-868", "", L, "Ch. 50 via Zoneomics mirror; §50-868 bars living space in accessory buildings (an accessory-dwelling ban); no dwelling-unit term; lead term 'guesthouse' (§50-6) is defined but listed as a use in no district"),
+    "Howard village": ("prohibited", "§50-868", "", V, "Ch. 50 via Zoneomics mirror, re-read on Municode in a browser 2026-10-25 (Supp. 21); §50-868 bars living space in accessory buildings (an accessory-dwelling ban); no dwelling-unit term; lead term 'guesthouse' (§50-6) is defined but listed as a use in no district"),
     "Caledonia village": ("unmentioned", "", "", L, "Title 16 not readable (Municode 403); district text from cached village PDF; the scanned staff report (not code) says the code does not allow ADUs"),
 }
 # Automated hits whose passage does not allow the use (none so far); name -> (status, reason)
@@ -527,7 +534,7 @@ SCAN_DOC_NOTE = {
     "Wauwatosa city": "scanned adopting ordinance O-25-25 (a hit is guaranteed)",
     "Sun Prairie city": "scanned adopting ordinance 984 (a hit is guaranteed)",
     "Fitchburg city": "scanned adopting ordinance 2025-O-17 (a hit is guaranteed)",
-    "Fond du Lac city": "scanned Zoneomics mirror of Ch. 720 art. IV (ecode360 403)",
+    "Fond du Lac city": "scanned adopting ordinance 3809 in the 2025-02-26 council packet (a hit is guaranteed); codified ecode360 Ch. 720 not readable (bot check); the earlier scan read the Zoneomics mirror, whose terms bar automated access",
     "Oshkosh city": "scanned Wayback copy of city Laserfiche Ch. 30",
     "Sheboygan city": "scanned Ch. 105 as compiled 2023-04-27 (stale; no ADU amendment adopted since, per council minutes); accessory-dwelling ban found at §105-722 ('in no instance shall an accessory use ... be used as a residence'), which the second pass codes prohibited_explicit",
     "West Bend city": "scanned Ch. 17 as codified 2022-02-16 (stale; 2022-2026 amendments not read)",

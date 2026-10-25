@@ -11,7 +11,7 @@ Reproduce: `uv run python scripts/scan_adu_mentions.py` (network; writes `data/p
 - **Restriction flags:** 18 of the 22 restricted places have at least one tier-1 ("poison pill" or form) flag; the other 4 (Appleton, Oshkosh, Sun Prairie, Fitchburg) are held back only by tier-2 limits (size or districts). Owner occupancy (12 places, 220,445 homes) and below-benchmark size caps (12 places, 146,825 homes) are the most common.
 - **Approval pathway (AQ-025):** of the 24 places that allow some ADU form, 17 approve ministerially and 7 need discretionary review (Green Bay, Wausau, Franklin, Oak Creek, Stevens Point, Muskego, Mequon). The 13 prohibited places have no pathway (`unknown`).
 - **ADU definition (owner, 2026-10-24):** an ADU is a dwelling unit with its own kitchen, sanitation and sleeping facilities for permanent habitation. Generic accessory structures, buildings and uses are not ADUs; see [ADU vs accessory structure](#adu-vs-accessory-structure).
-- **Basis:** 23 `coded_verified`, 14 `coded_source_lead`. The increase in source leads (from 5) comes from applying the verification rule consistently (below), not from new doubts about the coding.
+- **Basis:** 28 `coded_verified`, 9 `coded_source_lead`. The increase in source leads (from 5 to 14 on 2026-10-24) came from applying the verification rule consistently (below), not from new doubts about the coding. On 2026-10-25 the five places read through the Zoneomics mirror (New Berlin, Beloit, Neenah, Howard, Fond du Lac) were re-read from official text (owner decision D4; see `docs/DATA_COMPLIANCE.md`) and became `coded_verified`; no coded value changed.
 - **AQ-023 bias:** treating uncoded places as having no ADU rights would have been **wrong for 24 of 37 places (65%) and 430,461 of 572,136 one-unit detached homes (75%)**. See [Bias findings](#bias-findings-for-the-aq-023-default).
 
 ## What changed in the 2026-10-24 revision
@@ -60,7 +60,7 @@ The first pass answers one question per municipality: **does the code have an AD
 **Read this before relying on the first pass:**
 
 - **19 of 37 targets refused the scanner** (HTTP 403 from Municode, ecode360 and several city sites; it was 21 before the `curl` fallback reached codepublishing for Brookfield and Manitowoc). For those 19, plus Caledonia (where the scanner could read only a staff report), the first-pass answer comes from the same research agents' manual reading on 2026-10-23, done through renderings, a browser or mirrors. **So 20 of the 37 first-pass answers are manual, and the first pass is not independent of the second pass** for those places.
-- **The 17 automated answers are not all from the current code.** 6 come from the adopting ordinance only, where a hit is guaranteed (Green Bay, West Allis, La Crosse, Wauwatosa, Sun Prairie, Fitchburg); 2 from stale compilations (Sheboygan 2023, West Bend 2022); 1 from a mirror (Fond du Lac). Only 8 come from current codified text or an exact copy of it (Waukesha's adopted chapter, Oshkosh's archived chapter, Franklin, Oak Creek's ecode360 print, Stevens Point, De Pere, Brookfield, Manitowoc).
+- **The 17 automated answers are not all from the current code.** 6 come from the adopting ordinance only, where a hit is guaranteed (Green Bay, West Allis, La Crosse, Wauwatosa, Sun Prairie, Fitchburg); 2 from stale compilations (Sheboygan 2023, West Bend 2022); 1 from a mirror (Fond du Lac; on 2026-10-25 replaced by a scan of the adopting ordinance 3809 in the city's council packet, because the mirror's terms bar automated access). Only 8 come from current codified text or an exact copy of it (Waukesha's adopted chapter, Oshkosh's archived chapter, Franklin, Oak Creek's ecode360 print, Stevens Point, De Pere, Brookfield, Manitowoc).
 - **The added terms were not re-searched in the 20 manual places**; only hits the readers had noted are used (Kenosha "residential quarters for domestic help", Beloit "private guest houses" and "employee living quarters", Howard "guesthouse"). All four are lead terms, so none of them makes a mention.
 
 **Result (2026-10-24, repair round):** 23 `mentioned_allowed`, 1 `prohibited` (Howard: §50-868 bars living space in accessory buildings; its "guesthouse" is a lead term defined but allowed in no district), 13 `unmentioned`, 0 `could_not_access`. Kenosha, Beloit and Brookfield moved from `mentioned_allowed` to `unmentioned`: their only hits are lead terms.
@@ -81,11 +81,11 @@ The first pass answers one question per municipality: **does the code have an AD
 | La Crosse | adopting ordinance 5280 | automated | mentioned_allowed | accessory dwelling (§115-405) | verified | restricted |
 | Sheboygan | Ch. 105 compiled 2023 (stale) | automated | unmentioned | – (accessory-dwelling ban §105-722) | verified | prohibited_explicit |
 | Wauwatosa | adopting ordinance O-25-25 | automated | mentioned_allowed | accessory dwelling | verified | scenario_benchmark |
-| Fond du Lac | Zoneomics mirror of Ch. 720 | automated | mentioned_allowed | accessory dwelling | source lead | restricted |
-| New Berlin | Ch. 275 | manual (mirror) | mentioned_allowed | family dwelling unit (§275-42 C(3)) | source lead | restricted |
+| Fond du Lac | adopting ordinance 3809 (council packet 2025-02-26; until 2026-10-25 the Zoneomics mirror of Ch. 720) | automated | mentioned_allowed | accessory dwelling | verified | restricted |
+| New Berlin | Ch. 275 | manual (mirror; Municode in a browser 2026-10-25) | mentioned_allowed | family dwelling unit (§275-42 C(3)) | verified | restricted |
 | Wausau | Title 23 | manual (browser) | mentioned_allowed | accessory dwelling, in-law (§23.03.28(6)) | verified | restricted |
 | Brookfield | Title 17 (all 48 pages) | automated | unmentioned | – (leads: guest house in R-1, inside the house; servants' quarters, UC only) | verified | prohibited_implicit |
-| Beloit | Ch. 19 | manual (mirror) | unmentioned | – (leads: guest house, employee quarters, §6.3.3(a)) | source lead | restricted* |
+| Beloit | Ch. 19 | manual (mirror; Municode in a browser 2026-10-25) | unmentioned (open: §5-703 TND 'secondary dwelling unit') | – (leads: guest house, employee quarters, §6.3.3(a)) | verified | restricted* |
 | Greenfield | Ch. 21 | manual (rendering) | unmentioned | – | source lead | prohibited_implicit |
 | Franklin | UDO 2025 | automated | mentioned_allowed | accessory dwelling | verified | restricted |
 | Oak Creek | ecode360 print copy | automated | mentioned_allowed | accessory dwelling | verified | restricted |
@@ -94,7 +94,7 @@ The first pass answers one question per municipality: **does the code have an AD
 | Sun Prairie | adopting ordinance 984 | automated | mentioned_allowed | accessory dwelling | verified | restricted |
 | Superior | Ch. 122 | manual (browser) | unmentioned | – | verified | prohibited_implicit |
 | Stevens Point | Ch. 23 | automated | mentioned_allowed | accessory dwelling | verified | restricted |
-| Neenah | Ch. 26 | manual (mirror) | unmentioned | – | source lead | prohibited_explicit |
+| Neenah | Ch. 26 | manual (mirror; Municode in a browser 2026-10-25) | unmentioned | – | verified | prohibited_explicit |
 | Fitchburg | adopting ordinance 2025-O-17 | automated | mentioned_allowed | accessory dwelling (Sec. 22-230) | verified | restricted |
 | Muskego | Ch. 400 | manual (rendering) | mentioned_allowed | in-law (§400-165) | source lead | restricted |
 | Mequon | Ch. 58 | manual (rendering) | mentioned_allowed | accessory dwelling (§58-248) | source lead | restricted |
@@ -103,7 +103,7 @@ The first pass answers one question per municipality: **does the code have an AD
 | Caledonia | Title 16 (staff report scanned) | manual | unmentioned | – | source lead | prohibited_implicit |
 | Pleasant Prairie | Ch. 420 | manual (rendering) | unmentioned | – | source lead | prohibited_explicit |
 | Menomonee Falls | Ch. 122 | manual (rendering) | unmentioned | – | source lead | prohibited_implicit |
-| Howard | Ch. 50 | manual (mirror) | prohibited | accessory-dwelling ban (§50-868); lead: guesthouse (§50-6), listed in no district | source lead | prohibited_explicit |
+| Howard | Ch. 50 | manual (mirror; Municode in a browser 2026-10-25) | prohibited | accessory-dwelling ban (§50-868); lead: guesthouse (§50-6), listed in no district | verified | prohibited_explicit |
 
 \* Kenosha and Beloit stay `restricted` (borderline, below) although their first-pass status is now `unmentioned`: the second pass found second dwellings for employees or guests whose completeness as dwelling units is not shown in the text read. Brookfield's guest houses and UC-only servants' quarters, and Manitowoc's TND-only secondary dwelling units (§15.730, a whole-neighborhood plan), are not available as an ADU on an ordinary single-family lot; both stay `prohibited_implicit`.
 
@@ -168,17 +168,17 @@ Ordered by one-unit detached homes. "Extra parking" is spaces required for the A
 | Wauwatosa | scenario_benchmark | verified | 2025-11-18 | by right | by right | none | 0 (house keeps 1) | ministerial | Edge case only: house's required parking "maintained or replaced on-site" (§24.10.075(B)(7), O-25-25) |
 | Sheboygan | prohibited_explicit | verified | 2026-04-08 | no | no | – | – | – | §105-722; rewrites 37-25-26 filed, 39-25-26 referred 2026-04-08 |
 | Brookfield | prohibited_implicit* | verified | 2026-02-17 | no | no | – | – | – | One-family only; guest space inside the house; servants' quarters in UC only |
-| New Berlin | restricted | source lead | 2026-01-27 | no | family unit | ongoing | unknown | ministerial | Attached only; related occupants; 50% cap |
-| Fond du Lac | restricted | source lead | 2026-03-25 | by right (special conditions) | by right | ongoing | 1 | ministerial | Owner occupancy; parking (Ord. 3809, 2025-02-26) |
+| New Berlin | restricted | verified | 2026-01-27 | no | family unit | ongoing | unknown | ministerial | Attached only; related occupants; 50% cap |
+| Fond du Lac | restricted | verified | 2026-03-25 | by right (special conditions) | by right | ongoing | 1 | ministerial | Owner occupancy; parking (Ord. 3809, 2025-02-26) |
 | Wausau | restricted | verified | 2026-07-14 | CUP | CUP | ongoing | unknown | discretionary | CUP; owner occupancy; 75% cap; not in DR-6 |
 | La Crosse | restricted | verified | 2024-02-17 | by right | no | ongoing | 0 | ministerial | Detached only; owner occupancy (Ord. 5280) |
 | Menomonee Falls | prohibited_implicit | source lead | 2026-03-02 | no | no | – | – | – | One principal structure per lot |
-| Beloit | restricted* | source lead | 2026-06-01 | guest house / employee quarters | no | none | – | ministerial | Non-rented; lots ≥ 12,000 sq ft |
+| Beloit | restricted* | verified | 2026-06-01 | guest house / employee quarters | no | none | – | ministerial | Non-rented; lots ≥ 12,000 sq ft |
 | Manitowoc | prohibited_implicit* | verified | 2026-09-30 | no (TND only) | no (TND only) | – | – | – | Secondary units only in a TND; Ch. 35 draft not adopted |
 | Franklin | restricted | verified | 2025-06-09 | CUP | CUP (internal by right) | ongoing | 0 | discretionary | CUP; owner occupancy (Ord. 2025-2675) |
 | Oak Creek | restricted | verified | 2026-04-06 | CUP, above/in garage only | CUP | ongoing | ≥ 1 | discretionary | CUP; owner occupancy; 50% cap; parking |
 | Caledonia | prohibited_implicit | verified | 2026-09-28 | no | no | – | – | – | Staff drafting CUP-only ADUs (pending) |
-| Neenah | prohibited_explicit | source lead | 2025-09-03 | no | no | – | – | – | §21-19 accessory building not a dwelling; draft never adopted (as far as found) |
+| Neenah | prohibited_explicit | verified | 2025-09-03 | no | no | – | – | – | §21-19 accessory building not a dwelling; draft never adopted (as far as found) |
 | Muskego | restricted | source lead | 2026-03-24 | CUP (employee/relative) | Plan Commission review (relatives) | unknown | – | discretionary | Related occupants; no rental |
 | Sun Prairie | restricted | verified | 2026-05-08 | by right (special use, staff) | by right (special use, staff) | none | 0 | ministerial | Not in RH-35ac, CR-5ac, ER-1 (Ord. 984, adopted 2026-05-05) |
 | Greenfield | prohibited_implicit | source lead | 2026-10-23 | no | no | – | – | – | One principal building per lot |
@@ -190,7 +190,7 @@ Ordered by one-unit detached homes. "Extra parking" is spaces required for the A
 | Pleasant Prairie | prohibited_explicit | source lead | 2026-08-24 | no | no | – | – | – | §420-30B accessory structures not dwellings |
 | Fitchburg | restricted | verified | 2025-09-10 | by right | by right | none | unknown | ministerial | 75%-of-house cap (binds under 800 sq ft) |
 | Stevens Point | restricted | verified | 2026-05-05 | CUP | no | ongoing | 1 | discretionary | CUP; detached only; owner occupancy; parking |
-| Howard | prohibited_explicit | source lead | 2026-07-27 | no | no | – | – | – | §50-868 no living space in accessory buildings |
+| Howard | prohibited_explicit | verified | 2026-07-27 | no | no | – | – | – | §50-868 no living space in accessory buildings |
 
 \* Borderline, for the owner to settle:
 
@@ -303,7 +303,9 @@ AQ-023 treats every uncoded municipality as `undetermined`, modeled as having no
 
 - Madison: amendments to Table 28I-3 after ORD-23-00013 not checked; replacement-parking effect inferred from the house's 1-space minimum (no explicit clause read). Parking unknown: Kenosha, New Berlin, Wausau, Mequon, Fitchburg, Mount Pleasant (cottages). Size cap unknown: Stevens Point (Ch. 30). Setbacks (`siting_limits`) and ADU-specific fees (`fees`) not coded anywhere.
 - History not found: pre-2020 Wausau, pre-2022 Oak Creek, pre-2023 De Pere and Oshkosh ordinance number, Stevens Point ADU ordinance number/date (~2022), Kenosha domestic-help clause date, pre-2021 Appleton.
-- Code text seen only through renderings or mirrors (14 `coded_source_lead` places): Kenosha, Janesville, Fond du Lac, Greenfield, Muskego, Mequon, Mount Pleasant, Pleasant Prairie, Menomonee Falls, New Berlin, Beloit, Neenah, Howard; West Bend only through 2022. Municode and ecode360 refuse plain HTTP, so a primary read needs another route.
+- 9 `coded_source_lead` places: code text seen only through renderings for Kenosha, Janesville, Greenfield, Muskego, Mequon, Mount Pleasant and Menomonee Falls; West Bend only through 2022; Appleton on its ADU guide (owner decision G2-6). Municode and ecode360 refuse plain HTTP, so a primary read needs another route; Municode pages open in an ordinary browser (used for New Berlin, Beloit, Neenah and Howard on 2026-10-25), while ecode360 shows a bot check.
+- Beloit (2026-10-25): the official Ch. 19 allows 'secondary dwelling units' (up to 800 sq ft) in the optional Traditional Neighborhood Development district (§5-701 to 5-703). 'Secondary dwelling unit' is a scanner term, so by the first-pass rule `ordinance_status` would be `mentioned_allowed` (as for Manitowoc's TND) rather than `unmentioned`. Not changed; owner to decide.
+- Fond du Lac: the rules are read from Ord. 3809 as adopted on 2025-02-26; the codified ecode360 Ch. 720 was not read, so later amendments are not checked.
 - Second reader: 8 places plus Sun Prairie were checked (Gate 2 review); the findings are applied above.
 - Contract follow-ups for the conductor: add `approval_pathway` and `ordinance_status` to the DATA_CONTRACTS provision vocabulary, and `employee_only` / `other` to `occupant_restriction`; `wi_rights_exposure.csv` adds the columns `restrictions`, `reform_restrictions` and `approval_pathway` (not yet in `RIGHTS_EXPOSURE.required`).
 
@@ -320,22 +322,22 @@ Each CSV row carries its own `source_url` and `source_section`. Principal docume
 - Appleton: [Legistar 2021 ADU/JADU item](https://cityofappleton.legistar.com/LegislationDetail.aspx?GUID=96A34E37-FF1B-4AE2-B7A9-1E1BF0F8367E&ID=4970068); Ch. 23 Supp. 100 (Feb 2026); [ADU guide, edited 2026-10-14](https://cms2.revize.com/revize/appletonwi/Documents/CommDev/Planning/Plans%20and%20Reports/City%20of%20Appleton%20-%20Accessory%20Dwelling%20Units%20(ADU)%20Guide.pdf) (2026-10-24, sha256 `a238691a…fc93`); [accessory-building worksheet](https://cms2.revize.com/revize/appletonwi/Documents/CommDev/Building%20Inspection/Permits/building/Accessory%20Bldg%20.pdf) (PDF dated 2024-08-05, sha256 `8f68b5dc…9899`); the January 2025 guide edition is known from the second reader's review only
 - Eau Claire: [Land Development Ordinance](https://www.eauclairewi.gov/DocumentCenter/View/1033/Land-Development-Ordinance-PDF); [old zoning ordinance](https://www.eauclairewi.gov/DocumentCenter/View/1036/Zoning-Ordinance-PDF); [Ord. 7614](https://www.eauclairewi.gov/DocumentCenter/View/1479/No-7614-PDF) (adopted 2026-04-28, published 2026-05-04; read via search-engine rendering 2026-10-24); [Plan Commission minutes 2026-08-03](https://www.eauclairewi.gov/AgendaCenter/ViewFile/Minutes/_08032026-165) (summary of the 2026-08-11 amendment); [LDO page](https://www.eauclairewi.gov/650/Land-Development-Ordinances) lists both amendments
 - Oshkosh: [Ch. 30 (archived 2025-12-14)](https://web.archive.org/web/20251214231347/https://www.oshkoshwi.gov/WebLink/DocView.aspx?id=1183289&dbid=0&repo=Laserfiche)
-- Waukesha: [Ord. 2026-4](https://legistar2.granicus.com/waukesha/attachments/fb763278-f10c-4d54-91b2-240833e68012.pdf), [Ch. 22.03](https://legistar2.granicus.com/waukesha/attachments/c852c290-1ccf-4801-9967-8d87347537fd.pdf), [Ch. 22.06](https://legistar2.granicus.com/waukesha/attachments/8c8662e7-dfc1-4ece-b405-5a0c1116a477.pdf)
+- Waukesha: [Preliminary Recommendations Report 2024-12-30](https://legistar2.granicus.com/waukesha/attachments/62d13807-9a6c-49ee-8ec9-46234527c3b8.pdf) (old code: no ADUs; 2026-10-25); [Ord. 2026-4](https://legistar2.granicus.com/waukesha/attachments/fb763278-f10c-4d54-91b2-240833e68012.pdf), [Ch. 22.03](https://legistar2.granicus.com/waukesha/attachments/c852c290-1ccf-4801-9967-8d87347537fd.pdf), [Ch. 22.06](https://legistar2.granicus.com/waukesha/attachments/8c8662e7-dfc1-4ece-b405-5a0c1116a477.pdf)
 - West Allis: [O-2022-0024](https://westalliswi.legistar1.com/westalliswi/attachments/df2ec2d7-5409-4759-a080-5366789281e4.pdf), [O-2023-0031](https://westalliswi.legistar1.com/westalliswi/attachments/c1e7f426-a56f-412e-bac2-b38e83565261.pdf)
 - Wauwatosa: [O-25-25](https://wauwatosacitywi.legistar1.com/wauwatosacitywi/attachments/f54c270b-576f-4e05-a954-36755d2e4f9c.pdf) (re-read 2026-10-24, sha256 `ccbc6617…6c55c66`: §24.10.075(B)(2) where allowed, (B)(7) parking; §24.11.020 1.0 space per detached house); [O-19-11](https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/16684/962746/pdf?forceDownload=true)
 - Sheboygan: [Ch. 105 compiled 2023](https://mccmeetingspublic.blob.core.usgovcloudapi.net/sheboygnwi-meet-1ab88e5a89ad4af6836be2c56109cdb0/ITEM-Attachment-001-015d62d52b424fc985217ee1b0ae1f13.pdf); Common Council [agenda 2026-01-05](https://mccmeetings.blob.core.usgovcloudapi.net/sheboygnwi-pubu/MEET-Packet-e1d3cb4ec4c5400797b865c76fb7f273.pdf) (37-25-26 lays over), [minutes 2026-03-16](https://mccmeetings.blob.core.usgovcloudapi.net/sheboygnwi-pubu/MEET-Minutes-d7d70b7e4efe4892ad3bfe1f6a029d4b.pdf) (37-25-26 filed; 39-25-26 to Committee of the Whole), [minutes 2026-04-08](https://mccmeetings.blob.core.usgovcloudapi.net/sheboygnwi-pubu/MEET-Minutes-aa9ca83a5a024e488fdf0bbbd0b74044.pdf) (39-25-26 referred to the 2026-27 council), all re-read 2026-10-24; [Seehafer News 2026-10-20](https://www.seehafernews.com/2026/10/20/sheboygan-adds-two-more-zoning-code-engagement-sessions/) (source lead)
 - Brookfield: [Title 17 §17.28](https://www.codepublishing.com/WI/Brookfield/html/Brookfield17/Brookfield1728.html); [Ch. 17.24 UC district](https://www.codepublishing.com/WI/Brookfield/html/Brookfield17/Brookfield1724.html) (2026-10-24)
-- New Berlin: Gate 1 [Policy Evidence Map §3](../gate1/POLICY_EVIDENCE_MAP.md)
-- Fond du Lac: Ch. 720 §720-11C(29); Ord. 3809, City Council minutes 2025-02-26 ([city site](https://www.fdl.wi.gov/))
+- New Berlin: Gate 1 [Policy Evidence Map §3](../gate1/POLICY_EVIDENCE_MAP.md); [Ch. 275 (Municode)](https://library.municode.com/wi/new_berlin/codes/municipal_code?nodeId=PTIIGELE_CH275ZO_ARTVIIIGEDERE) (read in a browser 2026-10-25)
+- Fond du Lac: Ch. 720 §720-11C(29) as enacted by Ord. 3809, [City Council agenda packet 2025-02-26](https://fonddulac.granicus.com/AgendaViewer.php?view_id=1&clip_id=586) (pp. 30-39; sha256 `ddc54a91ab3f…`; 2026-10-25); City Council minutes 2025-02-26 ([city site](https://www.fdl.wi.gov/))
 - Wausau: [Title 23 (Municode)](https://library.municode.com/wi/wausau/codes/code_of_ordinances?nodeId=TIT23ZO_ARTIIILAUSRE)
 - La Crosse: [Ord. 5280 text](https://legistar.granicus.com/CityofLaCrosse/attachments/239dbc28-943b-4645-9f22-e87475d777da.docx)
 - Menomonee Falls: [Ch. 122 (Municode)](https://library.municode.com/wi/menomonee_falls/codes/code_of_ordinances?nodeId=COOR_CH122ZO_ARTIVUS_DIV5ACUSDEUSSPCO)
-- Beloit: Ch. 19 via [Zoneomics mirror](https://www.zoneomics.com/code/beloit-WI)
+- Beloit: [Ch. 19 (Municode)](https://library.municode.com/wi/beloit/codes/code_of_ordinances?nodeId=CH19ZOCORERE2946) (version 2026-09-30, read in a browser 2026-10-25; first read via the Zoneomics mirror)
 - Manitowoc: [Ch. 15](https://www.codepublishing.com/WI/Manitowoc/html/Manitowoc15/Manitowoc15110.html); [§15.730 TND](https://www.codepublishing.com/WI/Manitowoc/html/Manitowoc15/Manitowoc15730.html) (2026-10-24)
 - Franklin: [UDO 2025](https://www.franklinwi.gov/Files/Planning/UDO-Rewrite-2025/2025-UDO-Rewrite-Text.pdf)
 - Oak Creek: [ecode360 print 2025-12-03](https://assets.parkingreform.org/assets/7d1088f1-4f0b-4f6a-a368-d7a3b6c4d398/oak-creek-wisconsin-united-states-attachment.pdf)
 - Caledonia: [Plan Commission staff report 2026-09-28](https://data.zoninghub.com/viewfile.aspx?fileid=110664)
-- Neenah: [Plan Commission 2025-04-29](https://www2.ci.neenah.wi.us/committees.nsf/0/740d7c8b6bbec18886258c6f005576e1/$FILE/A%2020250429PC.pdf)
+- Neenah: [Ch. 26 (Municode)](https://library.municode.com/wi/neenah/codes/code_of_ordinances?nodeId=SPBLADERE_CH26ZO) (Supp. 44, read in a browser 2026-10-25); [Plan Commission 2025-04-29](https://www2.ci.neenah.wi.us/committees.nsf/0/740d7c8b6bbec18886258c6f005576e1/$FILE/A%2020250429PC.pdf)
 - Muskego: [ecode360 §§400-165, 400-172](https://ecode360.com/29722805)
 - Sun Prairie: [Ord. 984](https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/13968/1423544/pdf) (re-read 2026-10-24, sha256 `3b277266…9973`); [Ord. 922](https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/13968/1245783/pdf?forceDownload=true) (§17.44.040 special-use review, adopted 2023-09-19; sha256 `bf2e5174…4261`); [Ord. 896](https://mcclibraryfunctions.azurewebsites.us/api/ordinanceDownload/13968/1162266/pdf) (Table 17.16.030 district columns; sha256 `ce041536…1ae0`); [Table 17.16.030 (Municode)](https://library.municode.com/wi/sun_prairie/codes/code_of_ordinances?nodeId=TIT17ZO_CH17.16LAUSRE_17.16.030TALAUS) (single-family rows via search-engine rendering)
 - Greenfield: [Ch. 21 (Municode)](https://library.municode.com/wi/greenfield/codes/code_of_ordinances?nodeId=CH21ZOCO_PT4ZODIDIESDIUSRE_DIV21.04.0800ACTEUSSTRE_21.04.0802DESTACUSREDI)
@@ -347,6 +349,6 @@ Each CSV row carries its own `source_url` and `source_section`. Principal docume
 - Pleasant Prairie: [Ch. 420 (ecode360)](https://ecode360.com/36640696)
 - Fitchburg: [Ord. 2025-O-17](https://fitchburgwi.gov/DocumentCenter/View/29094/2025-O-17)
 - Stevens Point: [Ch. 23](https://www.stevenspoint.com/DocumentCenter/View/769/Chapter-23---Zoning--Floodplain)
-- Howard: Ch. 50 via [Zoneomics mirror](https://www.zoneomics.com/code/howard-WI); Village Board President report 2026-07-13 ([DocumentCenter/View/11523](https://www.villageofhoward.com/DocumentCenter/View/11523))
+- Howard: [Ch. 50 (Municode)](https://library.municode.com/wi/howard/codes/code_of_ordinances?nodeId=PTIICOOR_CH50ZO) (Supp. 21, read in a browser 2026-10-25; first read via the Zoneomics mirror); Village Board President report 2026-07-13 ([DocumentCenter/View/11523](https://www.villageofhoward.com/DocumentCenter/View/11523))
 
 State context: no Wisconsin ADU statute; AB 449 / SB 473 and AB 365 / SB 247 failed 2026-03-23 (Gate 1 [Policy Evidence Map §1](../gate1/POLICY_EVIDENCE_MAP.md)).
