@@ -58,7 +58,8 @@ def states_chart() -> Path:
 
     fig, ax = plt.subplots(figsize=(10, 6), dpi=150)
     ax.set_ylim(0, 2.7)
-    obs = curve[curve["n_states"] >= 4]  # years with 4+ states; later years shown dashed
+    # Median and range from observed points only, so lines end where data end.
+    obs = pts.groupby("k")["rate"].agg(n="count", median_rate="median", min_rate="min", max_rate="max").reset_index()
     ax.fill_between(obs["k"], obs["min_rate"], obs["max_rate"], color=BLUE, alpha=0.12,
                     label="Low-to-high range across states (excl. California)")
     for series, g in annual[annual["series"].isin(k1.index)].groupby("series"):
@@ -73,9 +74,10 @@ def states_chart() -> Path:
     ax.plot(ca_k, ca_r, color=ORANGE, alpha=0.55, lw=1.1, marker="o", ms=2.5)
     ax.annotate("California (2017 law)", (ca_k[-1], ca_r[-1]), xytext=(4, 0), textcoords="offset points",
                 fontsize=6.5, color=ORANGE, va="center")
-    ax.plot(obs["k"], obs["median_rate"], color=BLUE, lw=3.2, label="Median across states (excl. California)")
-    ax.plot(curve["k"][curve["k"] >= obs["k"].max()], curve["median_rate"][curve["k"] >= obs["k"].max()],
-            color=BLUE, lw=2, ls="--", alpha=0.7, label="Median, years with only 3 states")
+    full, thin = obs[obs["n"] >= 4], obs[obs["k"] >= obs.loc[obs["n"] >= 4, "k"].max()]
+    ax.plot(full["k"], full["median_rate"], color=BLUE, lw=3.2, label="Median across states (excl. California)")
+    ax.plot(thin["k"], thin["median_rate"], color=BLUE, lw=2, ls="--", alpha=0.7,
+            label="Median, years with only 3 states")
     for path, style in (("central", dict(lw=2.4, ls="-")), ("lower", dict(lw=1.2, ls=":")), ("upper", dict(lw=1.2, ls=":"))):
         p = by_year[by_year["path"] == path]
         rate = (p["baseline_units"] + p["additional_units"]) / WI_HOMES * 1000
@@ -112,8 +114,12 @@ def cities_chart() -> Path:
         ax.plot(g["year_since_law"], g["rate_per_1000"], color=GREY, alpha=0.35, lw=1, marker="o", ms=2)
         ax.annotate(f"{city}, {state}", (g["year_since_law"].iloc[-1], g["rate_per_1000"].iloc[-1]), xytext=(3, 0),
                     textcoords="offset points", fontsize=6, color=GREY, va="center")
-    ax.plot(med["year_since_law"], med["median_rate"], color=PURPLE, lw=3.2,
+    full = med[med["n_cities"] >= 5]
+    thin = med[med["year_since_law"] >= full["year_since_law"].max()]
+    ax.plot(full["year_since_law"], full["median_rate"], color=PURPLE, lw=3.2,
             label="Median of Madison-like cities in WA and OR")
+    ax.plot(thin["year_since_law"], thin["median_rate"], color=PURPLE, lw=2, ls="--", alpha=0.7,
+            label="Median, years with only 4 Oregon cities")
     k = mad["year"] - FORECAST_START + 1
     ax.plot(k, mad["units"] / homes * 1000, color=RED, lw=2, marker="o", ms=3,
             label="Madison, observed 2014–2025 (no state law; plotted as if the law took effect in 2027)")
