@@ -127,43 +127,39 @@ The concept columns are a name match only. They show which fields probably hold 
 
 ## Geometry sample
 
-[`data/sample/geo/pa_pasda_parcels.geojson`](../../data/sample/geo/pa_pasda_parcels.geojson) has 6 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/pa_pasda_parcels.geojson`](../../data/sample/geo/pa_pasda_parcels.geojson) has 6 features. For privacy each parcel or unit outline is replaced by its bounding box on a 0.01-degree grid (about 1 km across), so the file shows the layer's attributes and rough location but cannot locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.
 
 | | |
 |---|---|
 | Geometry type | Polygon |
 | Source coordinate system | varies by county; see counties |
-| Vertices per feature in the sample | 10, 5, 11, 11, 5, 8 |
+| Vertices per feature in the source | 10, 5, 11, 11, 5, 8 |
 | Max features per request | 1000 |
 | Paging supported | yes |
 
 ## Sample rows
 
-One row from each county, out of 12 rows in [`data/sample/pa_pasda_parcels.csv`](../../data/sample/pa_pasda_parcels.csv). Fields that are blank in every shown row are hidden. Owner names and mailing addresses are replaced with `[redacted]`.
+One row from each county, out of 12 rows in [`data/sample/pa_pasda_parcels.csv`](../../data/sample/pa_pasda_parcels.csv). Fields that are blank in every shown row are hidden. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 | Row 6 |
 |---|---|---|---|---|---|---|
 | `pasda_county` | AdamsCounty | AlleghenyCounty | BerksCounty | BucksCounty | CentreCounty | LancasterCounty |
-| `OBJECTID` | 1 | 1 | 1 | 1 | 333060 | 1 |
-| `Parcel_ID` | 40F03-0022M--000 |  |  |  |  |  |
+| `Parcel_ID` | 40*** |  |  |  |  |  |
 | `DEEDED_ACR` | 0 |  |  |  |  |  |
 | `DISTRICT_N` | TYRONE TWP |  |  |  |  |  |
 | `Shape_Leng` | 416.518020776 | 306.498674201 |  |  |  |  |
 | `Shape_Length` | 416.5180207764215 | 306.49838986591016 | 1271.0149202203818 | 48.222509572013514 | 503.9305682211005 | 306.0447537217413 |
 | `Shape_Area` | 10131.144899610563 | 3251.1447646296588 | -45077.73277939899 | 104.10029328552962 | 10212.34776844263 | 3037.8317193431826 |
-| `GlobalID` |  | {54111992-2B9A-48E4-A79D-478549AAE675} |  |  | {001E707F-0923-47C9-82EA-427292D0B6CA} |  |
-| `PIN` |  | 0102P00193000000 | 530607574833 |  |  |  |
-| `MAPBLOCKLO` |  | 102-P-193 |  |  |  |  |
+| `PIN` |  | 01*** | 53*** |  |  |  |
+| `MAPBLOCKLO` |  | 10*** |  |  |  |  |
 | `MUNICODE` |  | 941 |  |  |  |  |
 | `CALCACREAG` |  | 0.07 |  |  |  |  |
-| `PROPID` |  |  | 01530607574833 |  |  |  |
+| `PROPID` |  |  | 01*** |  |  |  |
 | `NAME1` |  |  | [redacted] |  |  |  |
 | `FULLMAILAD` |  |  | [redacted] |  |  |  |
-| `FULLSITEAD` |  |  | 346 WATER ST |  |  |  |
+| `FULLSITEAD` |  |  | WATER ST |  |  |  |
 | `MUNI` |  |  | READING |  |  |  |
 | `ACREAGE` |  |  | 1.03389299 |  |  |  |
-| `DEEDBOOK` |  |  | 1637 |  |  |  |
-| `DEEDPAGE` |  |  | 0860 |  |  |  |
 | `DEED_DATE` |  |  | 115344000000 |  |  |  |
 | `DEEDAMOUNT` |  |  | 0 |  |  |  |
 | `TAX_DIST` |  |  | 01 |  |  |  |
@@ -180,8 +176,8 @@ One row from each county, out of 12 rows in [`data/sample/pa_pasda_parcels.csv`]
 | `MUNICIPALN` |  |  | READING |  |  |  |
 | `DATADATE` |  |  | 1767916800000 |  |  |  |
 | `TAX_DIST_N` |  |  | CITY OF READING |  |  |  |
-| `PARCEL_NUM` |  |  |  | 54-010-001-914 |  |  |
-| `ADDRESS` |  |  |  | 914 YARDLEY COMMONS |  |  |
+| `PARCEL_NUM` |  |  |  | 54*** |  |  |
+| `ADDRESS` |  |  |  | YARDLEY COMMONS |  |  |
 | `OWNER1` |  |  |  | [redacted] |  |  |
 | `OWNER2` |  |  |  | [redacted] |  |  |
 | `CARE_OF` |  |  |  | [redacted] |  |  |
@@ -191,18 +187,16 @@ One row from each county, out of 12 rows in [`data/sample/pa_pasda_parcels.csv`]
 | `TOTAL_VALU` |  |  |  | 15200 |  |  |
 | `LAND_USE_C` |  |  |  | 1013 |  |  |
 | `MODIFY_DAT` |  |  |  | 1753833600000 |  |  |
-| `TAXIDNUM` |  |  |  |  | 32-101-,096-,0000- |  |
+| `TAXIDNUM` |  |  |  |  | 32*** |  |
 | `MAP_ACRES` |  |  |  |  | 0.23444325 |  |
 | `CAMA_ACRES` |  |  |  |  | 0.22 |  |
-| `LOCATION` |  |  |  |  | 307 |  |
-| `OBJECTID_1` |  |  |  |  | 1 |  |
 | `PARCEL_TYP` |  |  |  |  | Standard |  |
 | `FLAG` |  |  |  |  | True |  |
 | `DATE_` |  |  |  |  | 2022-06-06T13:24:24Z |  |
-| `DEFQUE` |  |  |  |  | 32-101- |  |
+| `DEFQUE` |  |  |  |  | 32*** |  |
 | `ShapeSTAre` |  |  |  |  | 10212.347767747995 |  |
 | `ShapeSTLen` |  |  |  |  | 503.93056821661986 |  |
-| `ACCOUNT` |  |  |  |  |  | 6001825200000 |
+| `ACCOUNT` |  |  |  |  |  | 60*** |
 
 ## Refresh
 

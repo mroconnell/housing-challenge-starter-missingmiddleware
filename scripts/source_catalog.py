@@ -579,7 +579,7 @@ CATALOG = {
         "handbook_item": "Not in the handbook. Record-level permits for the restrictive comparison pilot.",
         "publisher": "Village of Pleasant Prairie (SmartGov public report, Exago WebReports)",
         "what": "Every issued permit in a date range: permit type, number, estimated cost, issue date, site address, parcel number and description.",
-        "geography": "Site address and Kenosha County parcel number (for example 91-4-122-084-0706), matched to V12 parcels.",
+        "geography": "Site address and Kenosha County parcel number (format NN-N-NNN-NNN-NNNN), matched to V12 parcels.",
         "time": "Issue dates 2003-10 to today (dense from 2008).",
         "units": "One row per permit.",
         "access": "Form post on https://vlg-pleasantprairie-wi.smartgovcommunity.com/Public/ReportsView, then Exago JSON calls. Scripted in missing_middleware/permits/pleasant_prairie.py. CSV and Excel export are disabled, so the report is read as RTF.",

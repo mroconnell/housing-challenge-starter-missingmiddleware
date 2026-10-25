@@ -473,12 +473,39 @@
     "simplified": null,
     "file": "data/sample/geo/ct_cama_parcels.geojson",
     "features": 3,
-    "bytes": 5474,
+    "bytes": 4664,
     "vertices_per_feature": [
+      5,
+      5,
+      5
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)",
+    "source_vertices_per_feature": [
       7,
       8,
       10
     ],
-    "output_crs": "EPSG:4326 (GeoJSON)"
+    "redaction": "properties masked like the CSV (location_redaction); each outline replaced by its bounding box widened to a 0.01-degree grid",
+    "coarsened": "bounding box on a 0.01-degree grid"
+  },
+  "location_redaction": {
+    "street_only": [
+      "Location",
+      "Location_1"
+    ],
+    "blank": [
+      "OBJECTID",
+      "OBJECTID_1",
+      "FID",
+      "GlobalID",
+      "objectid",
+      "Prior_Book_Page"
+    ],
+    "mask_parcel": [
+      "Parcel_ID",
+      "Link",
+      "CAMA_Link",
+      "link_1"
+    ]
   }
 }

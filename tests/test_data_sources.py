@@ -122,7 +122,7 @@ class TestCatalog(unittest.TestCase):
                     self.assertEqual(r.get(k) or "", "", f"{sid}:{k}")
                 for k in spec.get("mask_parcel", []):
                     if r.get(k):
-                        self.assertTrue(r[k].endswith("****"), f"{sid}:{k}")
+                        self.assertRegex(r[k], r"^.{0,2}\*\*\*$", f"{sid}:{k}")
                 for k in spec.get("round_deg", []):
                     if r.get(k):
                         self.assertLessEqual(len(r[k].split(".")[-1]), 2, f"{sid}:{k}")

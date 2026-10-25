@@ -131,18 +131,16 @@ HCD publishes a data dictionary (DOCX) for each table on the dataset page.
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/hcd_apr.csv`](../../data/sample/hcd_apr.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/hcd_apr.csv`](../../data/sample/hcd_apr.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `_id` | 1 | 2 | 3 | 4 | 5 |
 | `JURIS_NAME` | STANISLAUS COUNTY | STANISLAUS COUNTY | STANISLAUS COUNTY | STANISLAUS COUNTY | STANISLAUS COUNTY |
 | `CNTY_NAME` | Stanislaus | Stanislaus | Stanislaus | Stanislaus | Stanislaus |
 | `YEAR` | 2020 | 2020 | 2020 | 2020 | 2020 |
-| `APN` | 048-025-029 | 041-056-041 | 045-012-047 | 035-037-012 | 024-067-028 |
-| `STREET_ADDRESS` | 1201 PRUNE | 327 LATHROP ST | 9651 | 1423 | 3317 |
-| `PROJECT_NAME` |  |  | GRAYSON | CANAL | KALMAR LN |
-| `JURS_TRACKING_ID` | BLD2019-1836 | BLD2020-0779 | BLD2018-2624 | BLD2019-0567 | BLD2019-2883 |
+| `APN` | 04*** | 04*** | 04*** | 03*** | 02*** |
+| `STREET_ADDRESS` | PRUNE | LATHROP ST |  |  |  |
+| `JURS_TRACKING_ID` | BL*** | BL*** | BL*** | BL*** | BL*** |
 | `UNIT_CAT` | MH | ADU | SFD | SFD | SFD |
 | `TENURE` | Owner | Renter | Owner | Renter | Owner |
 | `ACUTELY_LOW_INCOME_DR` | 0 | 0 | 0 | 0 | 0 |
@@ -192,9 +190,9 @@ First 3 of 5 rows in [`data/sample/hcd_apr.csv`](../../data/sample/hcd_apr.csv).
 | `DENSITY_BONUS_TOTAL` | 0 | 0 | 0 | 0 | 0 |
 | `DENSITY_BONUS_NUMBER_OTHER_INCENTIVES` | 0 | 0 | 0 | 0 | 0 |
 | `NOTES` | MANUFACTURED HOME ON PRIVATE PROPERTY / 2019 CHAMPION CM-46… | MANUFACTURED DWELLING - 2017 SKYLINE - 1173 SF ADU ((ACA)) … | SINGLE FAMILY DWELLING WITH ATTACHED GARAGE | SINGLE FAMILY DWELLING ( 1092 SQ FT ) ( UNIT 2 ) | SINGLE FAMILY DWELLING 2138 SF W/ ATTACHED 2 CAR GARAGE 673… |
-| `LATITUDE` | 37.437234 | 37.558714 | 37.559009 | 37.559009 | 37.559009 |
-| `LONGITUDE` | -121.07743 | -120.989746 | -120.99766 | -120.99766 | -120.99766 |
-| `STD_ADDRESS` | 1201 Prune Ave, Patterson, California, 95363 | 327 Lathrop St, Modesto, California, 95358 |  |  |  |
+| `LATITUDE` | 37.44 | 37.56 | 37.56 | 37.56 | 37.56 |
+| `LONGITUDE` | -121.08 | -120.99 | -121.0 | -121.0 | -121.0 |
+| `STD_ADDRESS` | Prune Ave, Patterson, California, 95363 | Lathrop St, Modesto, California, 95358 |  |  |  |
 | `SCORE` | 92.46 | 88.15 | 82.61 | 82.61 | 82.61 |
 
 ## Refresh

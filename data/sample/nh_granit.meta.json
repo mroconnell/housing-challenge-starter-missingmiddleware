@@ -247,12 +247,35 @@
     "simplified": null,
     "file": "data/sample/geo/nh_granit.geojson",
     "features": 3,
-    "bytes": 1392,
+    "bytes": 1144,
     "vertices_per_feature": [
       1,
       1,
       1
     ],
-    "output_crs": "EPSG:4326 (GeoJSON)"
+    "output_crs": "EPSG:4326 (GeoJSON)",
+    "redaction": "properties masked like the CSV (location_redaction); point coordinates rounded to 2 decimals"
+  },
+  "location_redaction": {
+    "street_only": [
+      "StreetAddress"
+    ],
+    "blank": [
+      "OBJECTID",
+      "OBJECTID_1",
+      "FID",
+      "GlobalID",
+      "objectid",
+      "ParcelOID",
+      "OID_1",
+      "ORIG_FID"
+    ],
+    "mask_parcel": [
+      "NH_GIS_ID",
+      "PID",
+      "Name",
+      "U_ID",
+      "DisplayId"
+    ]
   }
 }

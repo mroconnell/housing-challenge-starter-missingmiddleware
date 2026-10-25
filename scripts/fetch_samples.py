@@ -13,6 +13,8 @@ and a summary in data/sample/_fetch_report.json.
 Usage:
   python3 scripts/fetch_samples.py            # all sources
   python3 scripts/fetch_samples.py acs bps    # only these source ids
+  python3 scripts/fetch_samples.py --remask   # re-apply the privacy masking to the
+                                              # committed samples in place (no network)
 """
 from __future__ import annotations
 
@@ -1441,10 +1443,12 @@ def write_geo(sid, feats, info):
     """Write a small GeoJSON sample with full geometry. Drops features if the file gets too big."""
     GEO_OUT.mkdir(parents=True, exist_ok=True)
     feats = [{**f, "properties": redact([f.get("properties") or {}])[0]} for f in feats]
+    source_vertices = [_count_vertices((f.get("geometry") or {}).get("coordinates")) for f in feats]
     feats = redact_geo(sid, feats)
-    if sid in GEO_KEEP_PROPS:
-        info = {**info, "redaction": "properties limited to " + ", ".join(GEO_KEEP_PROPS[sid])
-                + "; point coordinates rounded to 2 decimals"}
+    if _redacts_geo(sid):
+        info = {**info, "redaction": geo_redaction_note(sid)}
+    if sid in GEO_COARSEN:
+        info = {**info, "coarsened": f"bounding box on a {GRID_DEG}-degree grid", "source_vertices_per_feature": source_vertices}
     while True:
         text = json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":"))
         if len(text) <= GEO_MAX_BYTES or len(feats) <= 1:
@@ -1525,18 +1529,25 @@ def redact(rows):
 
 
 # Record-level location fields in permit, parcel and address-point samples (owner decision
-# 2026-10-24). Committed samples KEEP ZIP code, city/municipality, county and street name. They
-# REMOVE house numbers, unit numbers, owner names and mailing addresses; parcel numbers stay
-# masked (they map to owner names through public tax lookups) and coordinates stay rounded:
+# 2026-10-24; extended to every parcel and project-level sample for DATA_COMPLIANCE fix F1).
+# Committed samples KEEP ZIP code, city/municipality, county and street name. They REMOVE house
+# numbers, unit numbers, owner names and mailing addresses; parcel numbers are masked (they map
+# to owner names through public tax lookups) and coordinates are rounded:
 #   street_only - drop the leading house number and any trailing unit ("Unit 101", "#2", "APT 3"),
-#                 keep the street name
-#   blank       - empty the value (house-number and unit fields, ZIP+4, and OBJECTID, which a
-#                 public layer query turns back into an address)
-#   mask_parcel - keep the leading digits, replace the last 4 digits with *
+#                 keep the street name; a value that is only a house number becomes empty
+#   blank       - empty the value (house-number and unit fields, ZIP+4, deed book/page, project
+#                 names, and OBJECTID-style row keys, which a public layer query turns back
+#                 into an address)
+#   mask_parcel - keep the first 2 characters and replace the rest with "***" (values with no
+#                 digit, such as "NA", are left alone)
 #   round_deg   - lat/lon rounded to 2 decimals (about 1 km)
 #   round_ft    - state-plane feet rounded to the nearest 5,000 ft
-# Descriptions are scrubbed of embedded "<number> <street> <suffix>" addresses.
+#   scrub       - free text: embedded "<number> <street> <suffix>" and "<number> <N|S|E|W> <name>"
+#                 addresses get the number replaced by [###]
+# The same spec is applied to GeoJSON properties and to record lists kept in the .meta.json
+# (HCD APR keeps sample rows for every APR table there).
 # Local raw files under data/raw keep full data for joins; this applies to committed samples only.
+_OID = ["OBJECTID", "OBJECTID_1", "FID", "GlobalID", "objectid"]
 ADDRESS_REDACTION = {
     "madison_permits": {"street_only": ["Address_Part_Address_Line"], "scrub": ["Detailed_Description"]},
     "madison_parcels": {"street_only": ["Address"],
@@ -1551,37 +1562,83 @@ ADDRESS_REDACTION = {
     "wi_v12_parcels": {"street_only": ["SITEADRESS", "SITEADRESS_STAND"],
                        "blank": ["OBJECTID", "ADDNUMPREFIX", "ADDNUM", "ADDNUMSUFFIX", "UNITID", "ZIP4"],
                        "mask_parcel": ["STATEID", "PARCELID", "TAXPARCELID"], "round_deg": ["LONGITUDE", "LATITUDE"]},
+    "wi_parcels": {"street_only": ["SITEADRESS", "SITEADRESS_STAND"],
+                   "blank": ["OBJECTID", "ADDNUMPREFIX", "ADDNUM", "ADDNUMSUFFIX", "UNITID", "ZIP4"],
+                   "mask_parcel": ["STATEID", "PARCELID", "TAXPARCELID"], "round_deg": ["LONGITUDE", "LATITUDE"]},
+    "az_azgeo": {"street_only": ["site_address"], "blank": _OID, "mask_parcel": ["apn"]},
+    "ct_cama_parcels": {"street_only": ["Location", "Location_1"], "blank": _OID + ["Prior_Book_Page"],
+                        "mask_parcel": ["Parcel_ID", "Link", "CAMA_Link", "link_1"]},
+    "or_metro_taxlots": {"street_only": ["SITEADDR"], "blank": _OID,
+                         "mask_parcel": ["TLID", "PRIMACCNUM", "ALTACCNUM", "ORTAXLOT"], "round_ft": ["X_COORD", "Y_COORD"]},
+    "nh_granit": {"street_only": ["StreetAddress"], "blank": _OID + ["ParcelOID", "OID_1", "ORIG_FID"],
+                  "mask_parcel": ["NH_GIS_ID", "PID", "Name", "U_ID", "DisplayId"]},
+    "ut_parcels": {"street_only": ["PARCEL_ADD"], "blank": _OID, "mask_parcel": ["PARCEL_ID", "SERIAL_NUM"]},
+    "ut_housing_unit_inventory": {"blank": _OID + ["UNIT_ID"]},
+    "pa_pasda_parcels": {"street_only": ["FULLSITEAD", "SITEADDRES", "ADDRESS", "LOCATION"],
+                         "blank": _OID + ["DEEDBOOK", "DEEDPAGE", "PLANBKPG", "LOT", "PLATREF1", "PLATREF2"],
+                         "mask_parcel": ["Parcel_ID", "PIN", "PROPID", "MAPBLOCKLO", "PARCEL_NUM", "TAXIDNUM", "OLDTAXIDNU",
+                                         "DEFQUE", "ACCOUNT", "PSEUDONO"],
+                         "scrub": ["DESCR1", "DESCR2", "DESCR3", "DESCR4", "COMMENTS", "COMMENT1", "COMMENT2", "NOTES"]},
+    "va_parcels": {"blank": _OID, "mask_parcel": ["PARCELID", "PTM_ID", "VGIN_QPID"]},
+    "hi_parcels": {"blank": _OID + ["plat", "plat1", "parcel", "parcel1", "qpub_link"],
+                   "mask_parcel": ["tmk", "tmk_txt", "cty_tmk"]},
+    "hcd_apr": {"street_only": ["STREET_ADDRESS", "STD_ADDRESS"], "blank": ["_id", "PROJECT_NAME"],
+                "mask_parcel": ["APN", "PRIOR_APN", "JURS_TRACKING_ID"], "round_deg": ["LATITUDE", "LONGITUDE"],
+                "scrub": ["NOTES", "DESCRIPTION", "DEV_BONUS_DESC", "SHORTFALL_DESC", "TRANSFERRED_TO"]},
 }
-# geometry samples of these sources: properties limited to non-identifying descriptive fields,
-# and point coordinates rounded like round_deg (parcel outlines are kept, unlinked to any record)
+# geometry samples of these sources: properties limited to non-identifying descriptive fields
 GEO_KEEP_PROPS = {
     "madison_parcels": ["PropertyClass", "PropertyUse", "Zoning1", "StreetDir", "StreetName", "StreetType"],
     "madison_address_points": ["StreetDir", "StreetName", "StreetType", "ZipCode"],
     "wi_v12_parcels": ["PROPCLASS", "PREFIX", "STREETNAME", "STREETTYPE", "SUFFIX", "PLACENAME", "ZIPCODE", "CONAME"],
 }
-_HOUSE_NBR_RE = re.compile(r"^\s*(?:\d+\s+\d/\d|[NSEW]?\d[\dA-Z]*(?:\s*[-/&]\s*\d[\dA-Z]*)*)\s+", re.I)
+# Parcel and housing-unit outlines locate one property exactly (a point-in-polygon lookup on any
+# map gives the address), so their geometry samples replace each outline with a coarse box: the
+# outline's bounding box widened outward to a 0.01-degree grid (about 1.1 km north-south). The box
+# shows where the sample came from and that the layer is polygons, but not which parcel. Point
+# geometry in any redacted source is rounded to 2 decimals (about 1 km). Zoning, land use,
+# district and building-footprint samples are not record-level and keep their geometry.
+GEO_COARSEN = {"madison_parcels", "wi_v12_parcels", "wi_parcels", "az_azgeo", "ct_cama_parcels", "or_metro_taxlots",
+               "ut_parcels", "ut_housing_unit_inventory", "pa_pasda_parcels", "va_parcels", "hi_parcels"}
+GRID_DEG = 0.01
+# A house number token, but not an ordinal street name such as "13TH" or "2ND".
+_NBR = r"(?!\d+(?:ST|ND|RD|TH)\b)[NSEW]?\d[\dA-Z]*(?:\s*[-/&]\s*\d[\dA-Z]*)*"
+_HOUSE_NBR_RE = re.compile(r"^\s*(?:\d+\s+\d/\d|" + _NBR + r")\s+", re.I)
+_ONLY_NBR_RE = re.compile(r"^\s*" + _NBR + r"\s*$", re.I)
 _UNIT_RE = re.compile(r"(?<=\S)\s+(?:(?:UNIT|APT|APARTMENT|STE|SUITE|RM|ROOM|LOT|BLDG|FL)\.?\s*#?\s*|#\s*)(?:[A-Z]?-?\d[\dA-Z-]*|[A-Z])\s*$", re.I)
+_ZIP4_RE = re.compile(r"\b(\d{5})-\d{4}\b")
 _DESC_ADDR_RE = re.compile(
     r"\b\d{1,6}(?:\s*-\s*\d{1,6})?\s+((?:[NSEW]\.?\s+)?(?:[A-Za-z0-9']+\s+){0,3}?"
     r"(?:ST|STREET|AVE|AVENUE|RD|ROAD|DR|DRIVE|LN|LANE|CT|COURT|CIR|CIRCLE|WAY|BLVD|PL|PLACE|PKWY|TRL|TRAIL|TER|HWY)\b)",
     re.I)
+_DESC_DIR_ADDR_RE = re.compile(r"\b\d{2,6}(?:\s*-\s*\d{1,6})?\s+((?:N|S|E|W|NORTH|SOUTH|EAST|WEST)\.?\s+[A-Za-z])", re.I)
 
 
 def street_only(v):
-    s = "" if v is None else str(v)
+    s = re.sub(r"\s+", " ", "" if v is None else str(v)).strip()
+    if _ONLY_NBR_RE.match(s):
+        return ""
     s = _HOUSE_NBR_RE.sub("", s, count=1).strip()
+    s = _ZIP4_RE.sub(r"\1", s)
     return _UNIT_RE.sub("", s).strip()
 
 
 def mask_parcel(v):
-    s = "" if v is None else str(v)
-    out, n = list(s), 0
-    for i in range(len(out) - 1, -1, -1):
-        if n == 4:
-            break
-        if out[i].isalnum():
-            out[i], n = "*", n + 1
-    return "".join(out)
+    """Keep the first 2 characters of an id and replace the rest with ***."""
+    s = "" if v is None else str(v).strip()
+    if not re.search(r"\d", s) or re.fullmatch(r".{0,2}\*\*\*", s):
+        return s
+    return s[:2] + "***"
+
+
+_TEXT_ID_RE = re.compile(r"(?<![\w*])\d{2,5}(?:-\d{1,6}){2,}(?![\w*])")
+
+
+def scrub_text(v):
+    """Mask house numbers and parcel-style ids (such as "APN 034-070-79") inside free text."""
+    s = _DESC_ADDR_RE.sub(r"[###] \1", str(v))
+    s = _DESC_DIR_ADDR_RE.sub(r"[###] \1", s)
+    return _TEXT_ID_RE.sub(lambda m: m.group(0) if re.fullmatch(r"\d{4}-\d{1,2}-\d{1,2}", m.group(0)) else mask_parcel(m.group(0)), s)
 
 
 def _round(v, nd):
@@ -1618,23 +1675,112 @@ def redact_locations(sid, rows):
                     r[k] = ""
         for k in spec.get("scrub", []):
             if r.get(k) not in (None, ""):
-                r[k] = _DESC_ADDR_RE.sub(r"[###] \1", str(r[k]))
+                r[k] = scrub_text(r[k])
         out.append(r)
     return out
 
 
+def _coords(c):
+    if isinstance(c, (list, tuple)) and len(c) >= 2 and all(isinstance(x, (int, float)) for x in c[:2]):
+        yield c[0], c[1]
+    elif isinstance(c, (list, tuple)):
+        for x in c:
+            yield from _coords(x)
+
+
+def coarse_box(g):
+    """A box on a GRID_DEG grid that contains the geometry. Idempotent."""
+    pts = list(_coords((g or {}).get("coordinates")))
+    if not pts:
+        return g
+    import math
+    snap_lo = lambda v: math.floor(round(v / GRID_DEG, 6)) * GRID_DEG  # noqa: E731
+    snap_hi = lambda v: math.ceil(round(v / GRID_DEG, 6)) * GRID_DEG  # noqa: E731
+    x0, y0 = snap_lo(min(p[0] for p in pts)), snap_lo(min(p[1] for p in pts))
+    x1, y1 = snap_hi(max(p[0] for p in pts)), snap_hi(max(p[1] for p in pts))
+    x1, y1 = max(x1, x0 + GRID_DEG), max(y1, y0 + GRID_DEG)
+    x0, y0, x1, y1 = (round(v, 2) for v in (x0, y0, x1, y1))
+    return {"type": "Polygon", "coordinates": [[[x0, y0], [x1, y0], [x1, y1], [x0, y1], [x0, y0]]]}
+
+
+def _redacts_geo(sid):
+    return sid in ADDRESS_REDACTION or sid in GEO_KEEP_PROPS or sid in GEO_COARSEN
+
+
 def redact_geo(sid, feats):
-    keep = GEO_KEEP_PROPS.get(sid)
-    if keep is None:
+    if not _redacts_geo(sid):
         return feats
+    keep = GEO_KEEP_PROPS.get(sid)
     out = []
     for f in feats:
-        props = {k: v for k, v in (f.get("properties") or {}).items() if k in keep}
+        props = redact_locations(sid, [f.get("properties") or {}])[0]
+        if keep is not None:
+            props = {k: v for k, v in props.items() if k in keep}
         g = f.get("geometry")
-        if g and g.get("type") == "Point":
+        if g and sid in GEO_COARSEN:
+            g = coarse_box(g)
+        elif g and g.get("type") == "Point":
             g = dict(g, coordinates=[round(c, 2) for c in g["coordinates"]])
         out.append({"type": "Feature", "properties": props, "geometry": g})
     return out
+
+
+def geo_redaction_note(sid):
+    parts = []
+    if sid in GEO_KEEP_PROPS:
+        parts.append("properties limited to " + ", ".join(GEO_KEEP_PROPS[sid]))
+    if sid in ADDRESS_REDACTION:
+        parts.append("properties masked like the CSV (location_redaction)")
+    if sid in GEO_COARSEN:
+        parts.append(f"each outline replaced by its bounding box widened to a {GRID_DEG}-degree grid")
+    else:
+        parts.append("point coordinates rounded to 2 decimals")
+    return "; ".join(parts)
+
+
+def redact_meta(sid, meta):
+    """Mask record lists kept in the meta (HCD APR keeps sample rows for every table)."""
+    if sid not in ADDRESS_REDACTION:
+        return meta
+    meta = dict(meta)
+    for t in (meta.get("tables") or {}).values():
+        if isinstance(t, dict) and isinstance(t.get("sample_rows"), list):
+            t["sample_rows"] = redact_locations(sid, redact(t["sample_rows"]))
+    meta["location_redaction"] = ADDRESS_REDACTION[sid]
+    return meta
+
+
+def remask_committed(sids=None):
+    """Apply the current masking to samples already in data/sample/ (no network).
+
+    Uses the same functions as a fresh fetch, so running this and re-fetching give the same masking.
+    """
+    sids = sids or sorted(set(ADDRESS_REDACTION) | set(GEO_KEEP_PROPS) | GEO_COARSEN)
+    for sid in sids:
+        csv_p, meta_p, geo_p = OUT / f"{sid}.csv", OUT / f"{sid}.meta.json", GEO_OUT / f"{sid}.geojson"
+        if csv_p.exists():
+            with open(csv_p, newline="", encoding="utf-8") as f:
+                rows = list(csv.DictReader(f))
+            write_rows(csv_p, redact_locations(sid, rows))
+        meta = json.loads(meta_p.read_text()) if meta_p.exists() else {}
+        if geo_p.exists():
+            feats = json.loads(geo_p.read_text())["features"]
+            before = [_count_vertices((f.get("geometry") or {}).get("coordinates")) for f in feats]
+            feats = redact_geo(sid, [{**f, "properties": redact([f.get("properties") or {}])[0]} for f in feats])
+            text = json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":"))
+            geo_p.write_text(text + "\n")
+            g = meta.get("geometry_sample")
+            if g:
+                if sid in GEO_COARSEN and not g.get("coarsened"):
+                    g["source_vertices_per_feature"] = g.get("vertices_per_feature") or before
+                g.update({"features": len(feats), "bytes": len(text), "redaction": geo_redaction_note(sid),
+                          "vertices_per_feature": [_count_vertices((f.get("geometry") or {}).get("coordinates")) for f in feats]})
+                if sid in GEO_COARSEN:
+                    g["coarsened"] = f"bounding box on a {GRID_DEG}-degree grid"
+                    g["simplified"] = None
+        if meta:
+            meta_p.write_text(json.dumps(redact_meta(sid, meta), indent=2, default=str) + "\n")
+        print(f"[remasked] {sid}", flush=True)
 
 
 def write_rows(path, rows):
@@ -1652,6 +1798,9 @@ def write_rows(path, rows):
 
 
 def main(argv):
+    if argv[:1] == ["--remask"]:
+        remask_committed(argv[1:])
+        return
     OUT.mkdir(parents=True, exist_ok=True)
     want = argv or list(SOURCES)
     report_path = OUT / "_fetch_report.json"
@@ -1676,7 +1825,7 @@ def main(argv):
         meta = {"source_id": sid, "fetched_at": started, "status": status, "error": err, "sample_rows": len(rows), **meta}
         if sid in ADDRESS_REDACTION:
             rows = redact_locations(sid, rows)
-            meta["location_redaction"] = ADDRESS_REDACTION[sid]
+            meta = redact_meta(sid, meta)
         (OUT / f"{sid}.meta.json").write_text(json.dumps(meta, indent=2, default=str) + "\n")
         if rows:
             write_rows(OUT / f"{sid}.csv", rows)

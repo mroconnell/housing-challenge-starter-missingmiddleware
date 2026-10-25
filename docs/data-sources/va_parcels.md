@@ -42,30 +42,29 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Geometry sample
 
-[`data/sample/geo/va_parcels.geojson`](../../data/sample/geo/va_parcels.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/va_parcels.geojson`](../../data/sample/geo/va_parcels.geojson) has 3 features. For privacy each parcel or unit outline is replaced by its bounding box on a 0.01-degree grid (about 1 km across), so the file shows the layer's attributes and rough location but cannot locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.
 
 | | |
 |---|---|
 | Geometry type | Polygon |
 | Source coordinate system | EPSG:3857 (Esri 102100) |
-| Vertices per feature in the sample | 16, 14, 21 |
+| Vertices per feature in the source | 16, 14, 21 |
 | Max features per request | 2000 |
 | Paging supported | yes |
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/va_parcels.csv`](../../data/sample/va_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/va_parcels.csv`](../../data/sample/va_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
 | `Shape__Area` | 68479.26863561 | 108092.42892208 | 22161.91687417 | 87340.612971475 | 25426.091694405 |
 | `Shape__Length` | 1036.4584052498724 | 2597.0133857630963 | 625.0360800082909 | 1333.0479941205813 | 1423.051278747487 |
-| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
-| `VGIN_QPID` | 5110100000001.0 | 5110100000002.0 | 5110100000003.0 | 5110100000004.0 | 5110100000005.0 |
+| `VGIN_QPID` | 51*** | 51*** | 51*** | 51*** | 51*** |
 | `FIPS` | 51101 | 51101 | 51101 | 51101 | 51101 |
 | `LOCALITY` | King William County | King William County | King William County | King William County | King William County |
-| `PARCELID` | 10-12 | 13-34 | 26-34H | 13-38A | 25-36B |
-| `PTM_ID` | 10-12 | 13-32 | 26-34H | 13-38A | 25-36B |
+| `PARCELID` | 10*** | 13*** | 26*** | 13*** | 25*** |
+| `PTM_ID` | 10*** | 13*** | 26*** | 13*** | 25*** |
 | `LASTUPDATE` | 1773705600000 | 1773705600000 | 1773705600000 | 1773705600000 | 1773705600000 |
 
 ## Refresh

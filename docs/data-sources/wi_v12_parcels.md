@@ -83,24 +83,24 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Geometry sample
 
-[`data/sample/geo/wi_v12_parcels.geojson`](../../data/sample/geo/wi_v12_parcels.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/wi_v12_parcels.geojson`](../../data/sample/geo/wi_v12_parcels.geojson) has 3 features. For privacy each parcel or unit outline is replaced by its bounding box on a 0.01-degree grid (about 1 km across), so the file shows the layer's attributes and rough location but cannot locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.
 
 | | |
 |---|---|
 | Geometry type | Polygon |
 | Source coordinate system | EPSG:3857 (Esri 102100) |
-| Vertices per feature in the sample | 8, 10, 40 |
+| Vertices per feature in the source | 8, 10, 40 |
 | Max features per request | 2000 |
 | Paging supported | yes |
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/wi_v12_parcels.csv`](../../data/sample/wi_v12_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/wi_v12_parcels.csv`](../../data/sample/wi_v12_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `STATEID` | 05991-4-121-241-**** | 05991-4-122-102-**** | 05991-4-121-134-**** | 05991-4-121-241-**** | 05991-4-121-242-**** |
-| `PARCELID` | 91-4-121-241-**** | 91-4-122-102-**** | 91-4-121-134-**** | 91-4-121-241-**** | 91-4-121-242-**** |
+| `STATEID` | 05*** | 05*** | 05*** | 05*** | 05*** |
+| `PARCELID` | 91*** | 91*** | 91*** | 91*** | 91*** |
 | `TAXROLLYEAR` | 2025 | 2025 | 2025 | 2025 | 2025 |
 | `OWNERNME1` | [redacted] | [redacted] | [redacted] | [redacted] | [redacted] |
 | `PSTLADRESS` | [redacted] |  |  |  |  |

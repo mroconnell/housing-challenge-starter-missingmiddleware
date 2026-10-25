@@ -213,12 +213,23 @@ def geometry_section(sid, meta):
         return ""
     v = g.get("vertices_per_feature") or []
     md = "## Geometry sample\n\n"
-    md += f"[`{g['file']}`](../../{g['file']}) has {g['features']} complete features (geometry and all attributes, owner fields redacted). "
-    md += "Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.\n\n"
+    if g.get("coarsened"):
+        md += f"[`{g['file']}`](../../{g['file']}) has {g['features']} features. For privacy each parcel or unit outline is replaced by "
+        md += f"its {g['coarsened']} (about 1 km across), so the file shows the layer's attributes and rough location but cannot "
+        md += "locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.\n\n"
+    elif g.get("redaction"):
+        md += f"[`{g['file']}`](../../{g['file']}) has {g['features']} features. Redaction: {esc(g['redaction'], 300)}. "
+        md += "Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.\n\n"
+    else:
+        md += f"[`{g['file']}`](../../{g['file']}) has {g['features']} complete features (geometry and all attributes, owner fields redacted). "
+        md += "Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.\n\n"
     md += "| | |\n|---|---|\n"
     md += f"| Geometry type | {g.get('geometry_type')} |\n"
     md += f"| Source coordinate system | {crs_label(g.get('native_crs'))} |\n"
-    md += f"| Vertices per feature in the sample | {', '.join(str(x) for x in v)} |\n"
+    if g.get("source_vertices_per_feature"):
+        md += f"| Vertices per feature in the source | {', '.join(str(x) for x in g['source_vertices_per_feature'])} |\n"
+    else:
+        md += f"| Vertices per feature in the sample | {', '.join(str(x) for x in v)} |\n"
     if g.get("simplified"):
         md += f"| Simplified for size | yes: kept every {g['simplified']['kept_every_nth_vertex']}th of {g['simplified']['original_vertices']} vertices |\n"
     if g.get("max_record_count"):
@@ -237,7 +248,7 @@ def shape_table():
         g = meta.get("geometry_sample")
         if not g:
             continue
-        v = g.get("vertices_per_feature") or [0]
+        v = g.get("source_vertices_per_feature") or g.get("vertices_per_feature") or [0]
         total = meta.get("record_count")
         if sid == "pa_pasda_parcels":
             total = sum((m.get("record_count") or 0) for m in meta.get("counties", {}).values()) or None
@@ -250,7 +261,9 @@ def shape_table():
     if not out:
         return ""
     md = "## Data shape by source\n\n"
-    md += "Each source below also has a small GeoJSON file with a few complete features, so you can see the real geometry before picking a state.\n\n"
+    md += "Each source below also has a small GeoJSON file with a few complete features, so you can see the real geometry before picking a state. "
+    md += "Parcel and housing-unit outlines are the exception: for privacy each one is replaced by a box on a 0.01-degree grid "
+    md += "(about 1 km), and Avg vertices gives the source outline's count.\n\n"
     md += "| Source | Geometry | Source CRS | Records | Max per request | Paging | Avg vertices | Sample |\n|---|---|---|---|---|---|---|---|\n"
     return md + "\n".join(out) + "\n\n"
 
@@ -313,10 +326,12 @@ def write_source(sid, info, meta, rows):
         md += "".join(f"| `{esc(k, 80)}` | {esc(v, 300)} |\n" for k, v in patterns.items()) + "\n"
     md += extras(sid, meta)
     md += geometry_section(sid, meta)
+    masked = (" House and unit numbers are removed (street names kept), parcel and record ids are masked to their first "
+              "2 characters plus `***`, and coordinates are rounded.") if meta.get("location_redaction") else ""
     if rows and sid == "pa_pasda_parcels":
-        md += f"## Sample rows\n\nOne row from each county, out of {len(rows)} rows in [`data/sample/{sid}.csv`](../../data/sample/{sid}.csv). Fields that are blank in every shown row are hidden. Owner names and mailing addresses are replaced with `[redacted]`.\n\n"
+        md += f"## Sample rows\n\nOne row from each county, out of {len(rows)} rows in [`data/sample/{sid}.csv`](../../data/sample/{sid}.csv). Fields that are blank in every shown row are hidden. Owner names and mailing addresses are replaced with `[redacted]`.{masked}\n\n"
     elif rows:
-        md += f"## Sample rows\n\nFirst {min(len(rows), SHOW_ROWS)} of {len(rows)} rows in [`data/sample/{sid}.csv`](../../data/sample/{sid}.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.\n\n"
+        md += f"## Sample rows\n\nFirst {min(len(rows), SHOW_ROWS)} of {len(rows)} rows in [`data/sample/{sid}.csv`](../../data/sample/{sid}.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.{masked}\n\n"
     else:
         md += f"## Sample rows\n\nNone. See the status above. What we did find is in [`data/sample/{sid}.meta.json`](../../data/sample/{sid}.meta.json).\n\n"
     shown = rows

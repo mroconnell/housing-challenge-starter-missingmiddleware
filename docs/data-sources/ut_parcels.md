@@ -64,31 +64,30 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Geometry sample
 
-[`data/sample/geo/ut_parcels.geojson`](../../data/sample/geo/ut_parcels.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/ut_parcels.geojson`](../../data/sample/geo/ut_parcels.geojson) has 3 features. For privacy each parcel or unit outline is replaced by its bounding box on a 0.01-degree grid (about 1 km across), so the file shows the layer's attributes and rough location but cannot locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.
 
 | | |
 |---|---|
 | Geometry type | Polygon |
 | Source coordinate system | not stated |
-| Vertices per feature in the sample | 7, 9, 8 |
+| Vertices per feature in the source | 7, 9, 8 |
 | Max features per request | 2000 |
 | Paging supported | yes |
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/ut_parcels.csv`](../../data/sample/ut_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/ut_parcels.csv`](../../data/sample/ut_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
 | `COUNTY_NAME` | Salt Lake County | Salt Lake County | Salt Lake County | Salt Lake County | Salt Lake County |
 | `COUNTY_ID` | 18 | 18 | 18 | 18 | 18 |
 | `ASSESSOR_SRC` | https://www.saltlakecounty.gov/assessor/ | https://www.saltlakecounty.gov/assessor/ | https://www.saltlakecounty.gov/assessor/ | https://www.saltlakecounty.gov/assessor/ | https://www.saltlakecounty.gov/assessor/ |
 | `BOUNDARY_SRC` | https://www.saltlakecounty.gov/recorder/ | https://www.saltlakecounty.gov/recorder/ | https://www.saltlakecounty.gov/recorder/ | https://www.saltlakecounty.gov/recorder/ | https://www.saltlakecounty.gov/recorder/ |
 | `DISCLAIMER` | http://www.utah.gov/disclaimer.html | http://www.utah.gov/disclaimer.html | http://www.utah.gov/disclaimer.html | http://www.utah.gov/disclaimer.html | http://www.utah.gov/disclaimer.html |
 | `CURRENT_ASOF` | 1790640000000 | 1790640000000 | 1790640000000 | 1790640000000 | 1790640000000 |
-| `PARCEL_ID` | 01364000010000 | 08153760150000 | 02131000010000 | 08154010110000 | 02132000010000 |
-| `PARCEL_ADD` | 2121 N 8800 W | 2217 N REDWOOD RD | 3505 N 3200 W | 2309 N REDWOOD RD | 3505 N 3200 W |
+| `PARCEL_ID` | 01*** | 08*** | 02*** | 08*** | 02*** |
+| `PARCEL_ADD` | N 8800 W | N REDWOOD RD | N 3200 W | N REDWOOD RD | N 3200 W |
 | `PARCEL_CITY` |  | Salt Lake City |  | Salt Lake City |  |
 | `TAXEXEMPT_TYPE` | Other |  | Other | Other | Other |
 | `TAX_DISTRICT` | ACT | 13 | ACT | 13 | ACT |

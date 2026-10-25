@@ -67,25 +67,25 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Geometry sample
 
-[`data/sample/geo/or_metro_taxlots.geojson`](../../data/sample/geo/or_metro_taxlots.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/or_metro_taxlots.geojson`](../../data/sample/geo/or_metro_taxlots.geojson) has 3 features. For privacy each parcel or unit outline is replaced by its bounding box on a 0.01-degree grid (about 1 km across), so the file shows the layer's attributes and rough location but cannot locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.
 
 | | |
 |---|---|
 | Geometry type | Polygon |
 | Source coordinate system | EPSG:2913 |
-| Vertices per feature in the sample | 5, 5, 26 |
+| Vertices per feature in the source | 5, 5, 26 |
 | Max features per request | 2000 |
 | Paging supported | yes |
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/or_metro_taxlots.csv`](../../data/sample/or_metro_taxlots.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/or_metro_taxlots.csv`](../../data/sample/or_metro_taxlots.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `TLID` | 1N117AA08200 | 1N117BA03400 | 1N117DD13200 | 1N118DA25500 | 1N119DC12700 |
-| `PRIMACCNUM` | R2223193 | R2221202 | R2073774 | R2189055 | R2096829 |
-| `SITEADDR` | 7813 NW 146TH TER | 15651 NW RIDGELINE ST | 14610 NW DAWNWOOD DR | 16917 NW LYNCH LN | 4092 NW SCOTTSDALE DR |
+| `TLID` | 1N*** | 1N*** | 1N*** | 1N*** | 1N*** |
+| `PRIMACCNUM` | R2*** | R2*** | R2*** | R2*** | R2*** |
+| `SITEADDR` | NW 146TH TER | NW RIDGELINE ST | NW DAWNWOOD DR | NW LYNCH LN | NW SCOTTSDALE DR |
 | `SITECITY` | PORTLAND | PORTLAND | PORTLAND | PORTLAND | BEAVERTON |
 | `SITEZIP` | 97229 | 97229 | 97229 | 97229 | 97229 |
 | `BLDGSQFT` | 2485 | 3649 | 1974 | 2582 | 2772 |
@@ -97,17 +97,16 @@ First 3 of 5 rows in [`data/sample/or_metro_taxlots.csv`](../../data/sample/or_m
 | `SALEDATE` | 202603 | 202605 | 202606 | 202606 | 202605 |
 | `SALEPRICE` | 779999 | 1050000 | 680500 | 742000 | 740000 |
 | `COUNTY` | W | W | W | W | W |
-| `X_COORD` | 7606079 | 7603502 | 7606042 | 7599996 | 7598924 |
-| `Y_COORD` | 704755 | 704852 | 700646 | 702727 | 695209 |
+| `X_COORD` | 7605000 | 7605000 | 7605000 | 7600000 | 7600000 |
+| `Y_COORD` | 705000 | 705000 | 700000 | 705000 | 695000 |
 | `JURIS_CITY` | UNINCORPORATED | UNINCORPORATED | UNINCORPORATED | UNINCORPORATED | UNINCORPORATED |
 | `GIS_ACRES` | 0.09297543 | 0.11038921 | 0.11106264 | 0.08524383 | 0.14429924 |
 | `STATECLASS` | 100 | 101 | 101 | 101 | 101 |
-| `ORTAXLOT` | 3401.00N01W0700--00000 ROW | 3401.00N01W0700--00000 ROW | 3401.00N01W0700--00000 ROW | 3401.00N01W0700--00000 ROW | 3401.00N01W0700--00000 ROW |
+| `ORTAXLOT` | 34*** | 34*** | 34*** | 34*** | 34*** |
 | `LANDVAL` | 342000 | 374100 | 365000 | 385670 | 365000 |
 | `BLDGVAL` | 0 | 775500 | 294530 | 420060 | 370500 |
 | `TOTALVAL` | 342000 | 1149600 | 659530 | 805730 | 735500 |
 | `ASSESSVAL` | 184540 | 601280 | 304060 | 490410 | 498360 |
-| `FID` | 1 | 2 | 3 | 4 | 5 |
 | `AREA` | 4050.0096 | 4808.5541 | 4830.89323 | 3713.22129 | 6286.23329 |
 | `HAS_MANY` | 0 | 0 | 0 | 0 | 0 |
 | `Shape__Area` | 4050.009765625 | 4808.5537109375 | 4835.1796875 | 3713.22119140625 | 6289.50390625 |

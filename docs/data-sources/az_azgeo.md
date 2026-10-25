@@ -39,25 +39,24 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Geometry sample
 
-[`data/sample/geo/az_azgeo.geojson`](../../data/sample/geo/az_azgeo.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/az_azgeo.geojson`](../../data/sample/geo/az_azgeo.geojson) has 3 features. For privacy each parcel or unit outline is replaced by its bounding box on a 0.01-degree grid (about 1 km across), so the file shows the layer's attributes and rough location but cannot locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.
 
 | | |
 |---|---|
 | Geometry type | Polygon |
 | Source coordinate system | EPSG:2868 |
-| Vertices per feature in the sample | 5, 19, 5 |
+| Vertices per feature in the source | 5, 19, 5 |
 | Max features per request | 30000 |
 | Paging supported | yes |
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/az_azgeo.csv`](../../data/sample/az_azgeo.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/az_azgeo.csv`](../../data/sample/az_azgeo.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `OBJECTID` | 54129566 | 54129567 | 54129568 | 54129569 | 54129570 |
-| `apn` | 212-06-095 | 217-01-079 | 173-02-320 | 173-82-010 | 217-33-614 |
-| `site_address` | 7480 E CHRISTMAS CHOLLA DR | 24218 N 120TH PL | 5835 N 81ST ST | 4818 N 65TH ST | E BELLA VISTA |
+| `apn` | 21*** | 21*** | 17*** | 17*** | 21*** |
+| `site_address` | E CHRISTMAS CHOLLA DR | N 120TH PL | N 81ST ST | N 65TH ST | E BELLA VISTA |
 | `jurisdiction` | SCOTTSDALE | SCOTTSDALE | SCOTTSDALE | PHOENIX | SCOTTSDALE |
 
 ## Refresh

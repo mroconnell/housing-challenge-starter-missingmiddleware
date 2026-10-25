@@ -82,35 +82,32 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Geometry sample
 
-[`data/sample/geo/wi_parcels.geojson`](../../data/sample/geo/wi_parcels.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/wi_parcels.geojson`](../../data/sample/geo/wi_parcels.geojson) has 3 features. For privacy each parcel or unit outline is replaced by its bounding box on a 0.01-degree grid (about 1 km across), so the file shows the layer's attributes and rough location but cannot locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.
 
 | | |
 |---|---|
 | Geometry type | Polygon |
 | Source coordinate system | EPSG:3857 (Esri 102100) |
-| Vertices per feature in the sample | 8, 10, 40 |
+| Vertices per feature in the source | 8, 10, 40 |
 | Max features per request | 2000 |
 | Paging supported | yes |
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/wi_parcels.csv`](../../data/sample/wi_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/wi_parcels.csv`](../../data/sample/wi_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
-| `STATEID` | 001008002310010 | 001008014680000 | 001008014480000 | 001008014440000 | 001008014800000 |
-| `PARCELID` | 008002310010 | 008014680000 | 008014480000 | 008014440000 | 008014800000 |
+| `STATEID` | 00*** | 00*** | 00*** | 00*** | 00*** |
+| `PARCELID` | 00*** | 00*** | 00*** | 00*** | 00*** |
 | `TAXROLLYEAR` | 2025 | 2025 | 2025 | 2025 | 2025 |
 | `OWNERNME1` | [redacted] | [redacted] | [redacted] | [redacted] | [redacted] |
 | `OWNERNME2` |  |  | [redacted] |  |  |
 | `PSTLADRESS` | [redacted] | [redacted] | [redacted] | [redacted] | [redacted] |
-| `SITEADRESS` | 3733 STATE ROAD 13 | 1339 GEM CT | 3725 13TH AVE | 3728 13TH AVE | 1350 B GEM CT |
-| `ADDNUM` | 3733 | 1339 | 3725 | 3728 | 1350 |
+| `SITEADRESS` | STATE ROAD 13 | GEM CT | 13TH AVE | 13TH AVE | B GEM CT |
 | `PREFIX` | STATE ROAD |  |  |  |  |
 | `STREETNAME` | 13 | GEM | 13TH | 13TH | GEM |
 | `STREETTYPE` |  | COURT | AVENUE | AVENUE | COURT |
-| `UNITID` |  |  |  |  | B |
 | `PLACENAME` | TOWN OF DELL PRAIRIE | TOWN OF DELL PRAIRIE | TOWN OF DELL PRAIRIE | TOWN OF DELL PRAIRIE | TOWN OF DELL PRAIRIE |
 | `STATE` | WI | WI | WI | WI | WI |
 | `SCHOOLDIST` | WISCONSIN DELLS SCHOOL DISTRICT | WISCONSIN DELLS SCHOOL DISTRICT | WISCONSIN DELLS SCHOOL DISTRICT | WISCONSIN DELLS SCHOOL DISTRICT | WISCONSIN DELLS SCHOOL DISTRICT |
@@ -129,9 +126,9 @@ First 3 of 5 rows in [`data/sample/wi_parcels.csv`](../../data/sample/wi_parcels
 | `LOADDATE` | 3/04/2026 | 3/04/2026 | 3/04/2026 | 3/04/2026 | 3/04/2026 |
 | `PARCELFIPS` | 001 | 001 | 001 | 001 | 001 |
 | `PARCELSRC` | ADAMS | ADAMS | ADAMS | ADAMS | ADAMS |
-| `LONGITUDE` | -89.81329557339049 | -89.82514291109914 | -89.81874527912566 | -89.81786515530011 | -89.82827291526313 |
-| `LATITUDE` | 43.708437821023544 | 43.710686495136024 | 43.70921449944699 | 43.709388628586346 | 43.71158677358489 |
-| `SITEADRESS_STAND` | 3733 STH 13 | 1339 GEM COURT | 3725 13TH AVENUE | 3728 13TH AVENUE | 1350 GEM COURT B |
+| `LONGITUDE` | -89.81 | -89.83 | -89.82 | -89.82 | -89.83 |
+| `LATITUDE` | 43.71 | 43.71 | 43.71 | 43.71 | 43.71 |
+| `SITEADRESS_STAND` | STH 13 | GEM COURT | 13TH AVENUE | 13TH AVENUE | GEM COURT B |
 | `Shape__Area` | 8325.3046875 | 3163.0546875 | 3855.09765625 | 2269.2890625 | 2435.01953125 |
 | `Shape__Length` | 375.0245305387647 | 232.01973696079494 | 253.21304213326442 | 207.23321394035924 | 241.03292275238843 |
 

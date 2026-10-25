@@ -30,13 +30,9 @@ Prepared 2026-10-25. This audit checks every dataset the project uses or commits
   - The same holds in every earlier version of those files in git history. **No owner names were found in git history.**
   - The Oregon GEOHub `ownerName` field holds public bodies only (for example "Baker County").
 - **House numbers and parcel numbers (criterion 4).**
-  - Madison, Pleasant Prairie, Sun Prairie and V12 samples keep the street name only, and their parcel numbers are masked (`****`).
-  - **The other state parcel samples and the HCD APR sample are not masked.**
-    - Site addresses with house numbers: AZ, CT (`Location_1`), OR Metro, NH, UT, PA, WI V-series and HCD APR. HCD APR also has latitude and longitude.
-    - Full parcel numbers: AZ, CT, HI, PA, UT, VA and WI V-series.
-  - The same values appear in the matching `docs/data-sources/*.md` sample tables.
-  - **They are also in git history**, since the first sample commits (`50ade76`, `ea91bcd`). This audit does not rewrite history.
-  - These are public parcel-layer records with owner names removed. Still, house number plus parcel number identifies a household's property, so the criterion is not met. See fix F1.
+  - Every committed record-level sample now keeps the street name only, masks parcel and record ids to their first 2 characters plus `***`, and rounds coordinates: Madison, Pleasant Prairie, Sun Prairie, V12, AZ, CT, OR Metro, NH, UT parcels and housing units, PA, VA, HI, WI V-series and HCD APR. Parcel outlines in `data/sample/geo/` are replaced by a coarse box. See fix F1 (done).
+  - `tests/test_sample_privacy.py` scans every file in `data/sample/` and `docs/data-sources/` for house-number-plus-street patterns and long parcel ids, and checks id columns, coordinates and parcel geometry.
+  - **The unmasked values are still in git history**, from the first sample commits (`50ade76`, `ea91bcd`) up to the commit before the F1 fix. This audit does not rewrite history; that is an owner decision.
 - **Reference tables and fixtures (criterion 4).**
   - `reference/*.csv` holds only aggregates by area, jurisdiction or year. No column carries an address, permit number, APN or name of a person.
   - `tests/fixtures/` is synthetic throughout: "TESTOWNER", "FAKE RD", "1 FAKE ST", APNs like `000-000-001` and `111-222`, Milwaukee rows on "MAIN" and "OAK". The new `tests/fixtures/madison_like/` files are synthetic too: places "Midtown city" and "X County", and made-up APNs.
@@ -61,7 +57,7 @@ Statuses are in the order (1) Terms · (2) Not committed · (3) Automatic fetch 
 | Sun Prairie Power BI submitted-permits report | Owner (D1) | Pass | Owner (D3) | Pass | Pass | Pass | Read through the Power BI querydata API; it may break if the report changes |
 | V12 statewide parcels (Kenosha and Dane pieces) | Pass | Pass | Pass | Pass | Pass | Pass | Owner fields never requested; sample masked |
 | BuildinganADU.com California ADU compilation 2012–2019 | Owner (D4) | Pass | Pass | Pass | Pass | Pass | A Google Sheets compilation with no license stated. Fetched automatically by CSV export |
-| HCD APR tables (A, A2, D: aggregates and project rows) | Fix (F5) | Pass | Pass | Fix (F1) | Pass | Pass | The data.ca.gov metadata reads "License not specified"; DATA_PROVENANCE now says so. The committed sample and `hcd_apr.meta.json` show APNs, street addresses, project names, latitude and longitude. The 294 MB raw file is git-ignored |
+| HCD APR tables (A, A2, D: aggregates and project rows) | Fix (F5) | Pass | Pass | Pass | Pass | Pass | The data.ca.gov metadata reads "License not specified"; DATA_PROVENANCE now says so. Sample and `hcd_apr.meta.json` masked (F1): street names only, APNs and tracking ids masked, project names dropped, latitude and longitude rounded to 2 decimals. The 294 MB raw file is git-ignored |
 | CA YIMBY ADU retrospective (Nolan Gray, 2024) | n/a | Pass | n/a | Pass | Pass | Pass | Cited only |
 | Wisconsin ADU rules, 37 municipalities (`wi_adu_rules.csv`, `wi_rights_exposure.csv`) | Owner (D4) | Pass | Owner (D6) | Pass | Pass | Pass | Hand-coded from codes. 20 rows cite the commercial Zoneomics mirror; others cite Municode, ecode360 or Legistar, whose site terms were not checked |
 | Team tables: Madison, Pleasant Prairie, Sun Prairie ADU series | Pass | Pass | Pass | Pass | Pass | n/a | Team-created (Apache-2.0) |
@@ -76,18 +72,18 @@ Statuses are in the order (1) Terms · (2) Not committed · (3) Automatic fetch 
 | Google Open Buildings | Owner (D5) | Pass | Pass | Pass | Pass | Pass | CC BY 4.0 or ODbL; covers no U.S. state |
 | HUD/USPS vacancy | Pass | Pass | n/a | Pass | Pass | Pass | Restricted-use data; excluded and not fetched |
 | Tennessee Comptroller parcels | Pass | Pass | n/a | Pass | Pass | Pass | Manual request only; not fetched |
-| Arizona AZGeo parcels | Fix (F5) | Pass | Pass | Fix (F1) | Pass | Pass | `site_address` with house numbers; full APN |
-| Connecticut CAMA and parcels | Fix (F5) | Pass | Pass | Fix (F1) | Pass | Pass | Owner fields redacted; `Parcel_ID` full; `Location_1` address in the GeoJSON |
-| Oregon Metro RLIS taxlots | Fix (F5) | Pass | Pass | Fix (F1) | Pass | Pass | `SITEADDR` with house numbers. RLIS terms not recorded |
+| Arizona AZGeo parcels | Fix (F5) | Pass | Pass | Pass | Pass | Pass | Sample masked (F1) |
+| Connecticut CAMA and parcels | Fix (F5) | Pass | Pass | Pass | Pass | Pass | Owner fields redacted; sample masked (F1) |
+| Oregon Metro RLIS taxlots | Fix (F5) | Pass | Pass | Pass | Pass | Pass | Sample masked (F1). RLIS terms not recorded |
 | Oregon GEOHub parcels and zoning | Fix (F5) | Pass | Pass | Pass | Pass | Pass | Owner names are public bodies |
-| Hawaii statewide parcels | Fix (F5) | Pass | Pass | Fix (F1) | Pass | Pass | Plat and parcel numbers unmasked |
-| Pennsylvania PASDA catalog and county parcels | Fix (F5) | Pass | Pass | Fix (F1) | Pass | Pass | `PIN`, `PARCEL_NUM`, `FULLSITEAD` unmasked in the GeoJSON |
+| Hawaii statewide parcels | Fix (F5) | Pass | Pass | Pass | Pass | Pass | TMKs masked; plat and parcel fields dropped (F1) |
+| Pennsylvania PASDA catalog and county parcels | Fix (F5) | Pass | Pass | Pass | Pass | Pass | Sample masked (F1) |
 | Utah Housing Unit Inventory | Fix (F5) | Pass | Pass | Pass | Pass | Pass | |
-| Utah statewide parcels (LIR) | Fix (F5) | Pass | Pass | Fix (F1) | Pass | Pass | `PARCEL_ID` and `PARCEL_ADD` with house numbers |
-| Virginia VGIN parcels | Fix (F5) | Pass | Pass | Fix (F1) | Pass | Pass | `PARCELID` unmasked |
-| Wisconsin V-series statewide parcels | Pass | Pass | Pass | Fix (F1) | Pass | Pass | Owner fields redacted; `PARCELID`, `STATEID` and `SITEADRESS` with house numbers unmasked in the GeoJSON |
+| Utah statewide parcels (LIR) | Fix (F5) | Pass | Pass | Pass | Pass | Pass | Sample masked (F1) |
+| Virginia VGIN parcels | Fix (F5) | Pass | Pass | Pass | Pass | Pass | Sample masked (F1) |
+| Wisconsin V-series statewide parcels | Pass | Pass | Pass | Pass | Pass | Pass | Owner fields redacted; sample masked (F1) |
 | Rhode Island RIGIS land use | Fix (F5) | Pass | Pass | Pass | Pass | Pass | |
-| New Hampshire GRANIT parcels | Fix (F5) | Pass | Pass | Fix (F1) | Pass | Pass | `StreetAddress` with house numbers; CAMA IDs |
+| New Hampshire GRANIT parcels | Fix (F5) | Pass | Pass | Pass | Pass | Pass | Sample masked (F1) |
 | Madison zoning districts; WI Assembly districts | Pass | Pass | Pass | Pass | Pass | Pass | |
 
 ### Gate 3 sources
@@ -148,10 +144,18 @@ Statuses are in the order (1) Terms · (2) Not committed · (3) Automatic fetch 
 
 ## Fixes needed, ranked by risk
 
-1. **F1: mask house numbers and parcel numbers in committed samples** (criterion 4; code change, not done here).
-   - **Where:** `scripts/fetch_samples.py` already masks parcels and keeps street names only for the Madison, Pleasant Prairie, Sun Prairie and V12 samples. Extend that to the AZ, CT, OR Metro, NH, UT parcels, PA, VA, HI and WI V-series samples, and to HCD APR. For HCD APR, also drop `STREET_ADDRESS`, `STD_ADDRESS`, `PROJECT_NAME`, latitude and longitude.
-   - **Then:** regenerate `data/sample/`, `data/sample/geo/` and `docs/data-sources/*.md`, and add a test for addresses and parcel numbers.
-   - **History:** the same values are in git history. Owner names are not. Whether to rewrite history is an owner call; this audit did not rewrite it.
+1. **F1: mask house numbers and parcel numbers in committed samples** (criterion 4). **Fixed in the committed files; the old values remain in git history.**
+   - **What changed:** `ADDRESS_REDACTION` in `scripts/fetch_samples.py` now covers the AZ, CT, OR Metro, NH, UT parcels, UT housing units, PA, VA, HI and WI V-series samples and HCD APR, as well as Madison, Pleasant Prairie, Sun Prairie and V12. For each source it:
+     - strips house and unit numbers from address fields and keeps the street name. An address that is only a house number becomes empty, and ZIP+4 is cut to 5 digits;
+     - masks parcel, account and tracking ids to their first 2 characters plus `***`: APN, TMK, TLID, PIN, `PARCELID`, `STATEID`, CAMA links, HCD `JURS_TRACKING_ID` and the like. The earlier Madison, Pleasant Prairie, Sun Prairie and V12 masks hid only the last 4 characters; they now use the same shorter form;
+     - empties row keys that a public layer query turns back into a parcel (`OBJECTID`, `FID`, `GlobalID`, HCD `_id`). It also empties deed book and page, the Hawaii plat and parcel parts and `qpub_link`, and HCD `PROJECT_NAME`;
+     - rounds latitude and longitude to 2 decimals (about 1 km) and state-plane feet to the nearest 5,000 ft;
+     - masks house numbers and parcel-style ids inside free text, such as HCD `NOTES` and `TRANSFERRED_TO`.
+   - **Geometry:** a parcel outline locates one property exactly. So in every parcel and housing-unit sample in `data/sample/geo/`, each outline is replaced by its bounding box, widened outward to a 0.01-degree grid (about 1.1 km north to south). The box keeps the geometry type and a rough location. Point samples are rounded to 2 decimals. Zoning, land-use, district and building-footprint samples hold no records about a property and are unchanged. The data dictionaries give the vertex count of the source outline.
+   - **How it was applied:** `python3 scripts/fetch_samples.py --remask` re-applied the masking to the files in place, with no network, through the same functions a fresh fetch uses. That includes the HCD APR sample rows for every table in `hcd_apr.meta.json`. `docs/data-sources/*.md` were then rebuilt with `scripts/build_data_dictionaries.py`.
+   - **Test:** `tests/test_sample_privacy.py` scans `data/sample/` and `docs/data-sources/` for house-number-plus-street patterns and long parcel ids. The patterns include Utah grid addresses and Wisconsin `N123W456` numbers. It also checks that id columns are masked, coordinates are rounded and parcel geometry is coarsened.
+   - **History:** the unmasked values are still in git history, from commits `50ade76` and `ea91bcd` onward until the commit that lands this fix. They are house-numbered addresses, full parcel ids, HCD latitude and longitude, and exact parcel outlines. Owner names are not in history. Whether to rewrite history is an owner decision and is still pending; this fix did not rewrite it.
+   - **Left unmasked, for the owner to decide:** some attributes could narrow a sample row to one property when combined with the street name. Examples are exact parcel area (`Shape__Area`), sale date and price, and assessed values. Permit numbers in the Pleasant Prairie, Sun Prairie and Madison samples are also kept, as under the 2026-10-24 decision.
 2. **F2: hand-transcribed values** (criterion 3; code change).
    - **Where:** `SERIES` in `missing_middleware/comparison/statewide_states.py` and the Seattle OPCD Exhibit 10 table in `other_cities.py` are typed in.
    - **Fetch and parse:** the OFM workbook (madison_like already parses it), the NH OPD CSV, and the Honolulu, Montgomery and CCRPC aggregate queries all have stable URLs and can be fetched and parsed.

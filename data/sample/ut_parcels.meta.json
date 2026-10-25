@@ -301,12 +301,35 @@
     "simplified": null,
     "file": "data/sample/geo/ut_parcels.geojson",
     "features": 3,
-    "bytes": 3619,
+    "bytes": 2923,
     "vertices_per_feature": [
+      5,
+      5,
+      5
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)",
+    "source_vertices_per_feature": [
       7,
       9,
       8
     ],
-    "output_crs": "EPSG:4326 (GeoJSON)"
+    "redaction": "properties masked like the CSV (location_redaction); each outline replaced by its bounding box widened to a 0.01-degree grid",
+    "coarsened": "bounding box on a 0.01-degree grid"
+  },
+  "location_redaction": {
+    "street_only": [
+      "PARCEL_ADD"
+    ],
+    "blank": [
+      "OBJECTID",
+      "OBJECTID_1",
+      "FID",
+      "GlobalID",
+      "objectid"
+    ],
+    "mask_parcel": [
+      "PARCEL_ID",
+      "SERIAL_NUM"
+    ]
   }
 }

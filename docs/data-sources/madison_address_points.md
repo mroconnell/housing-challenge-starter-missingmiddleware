@@ -49,7 +49,7 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Geometry sample
 
-[`data/sample/geo/madison_address_points.geojson`](../../data/sample/geo/madison_address_points.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/madison_address_points.geojson`](../../data/sample/geo/madison_address_points.geojson) has 3 features. Redaction: properties limited to StreetDir, StreetName, StreetType, ZipCode; properties masked like the CSV (location_redaction); point coordinates rounded to 2 decimals. Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
 
 | | |
 |---|---|
@@ -61,7 +61,7 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/madison_address_points.csv`](../../data/sample/madison_address_points.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/madison_address_points.csv`](../../data/sample/madison_address_points.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
@@ -72,7 +72,7 @@ First 3 of 5 rows in [`data/sample/madison_address_points.csv`](../../data/sampl
 | `MailCode` | A | A | A | A | A |
 | `XCoord` | 785000 | 785000 | 785000 | 785000 | 785000 |
 | `YCoord` | 480000 | 480000 | 480000 | 480000 | 480000 |
-| `Parcel` | 07082210**** | 07082210**** | 07082210**** | 07082210**** | 07082210**** |
+| `Parcel` | 07*** | 07*** | 07*** | 07*** | 07*** |
 | `DateAdded` | 1532649600000 | 1532649600000 | 1532649600000 | 1532649600000 | 1532649600000 |
 
 ## Refresh

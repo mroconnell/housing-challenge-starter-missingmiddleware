@@ -915,8 +915,17 @@
     "simplified": null,
     "file": "data/sample/geo/pa_pasda_parcels.geojson",
     "features": 6,
-    "bytes": 4938,
+    "bytes": 3210,
     "vertices_per_feature": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    "output_crs": "EPSG:4326 (GeoJSON)",
+    "source_vertices_per_feature": [
       10,
       5,
       11,
@@ -924,6 +933,50 @@
       5,
       8
     ],
-    "output_crs": "EPSG:4326 (GeoJSON)"
+    "redaction": "properties masked like the CSV (location_redaction); each outline replaced by its bounding box widened to a 0.01-degree grid",
+    "coarsened": "bounding box on a 0.01-degree grid"
+  },
+  "location_redaction": {
+    "street_only": [
+      "FULLSITEAD",
+      "SITEADDRES",
+      "ADDRESS",
+      "LOCATION"
+    ],
+    "blank": [
+      "OBJECTID",
+      "OBJECTID_1",
+      "FID",
+      "GlobalID",
+      "objectid",
+      "DEEDBOOK",
+      "DEEDPAGE",
+      "PLANBKPG",
+      "LOT",
+      "PLATREF1",
+      "PLATREF2"
+    ],
+    "mask_parcel": [
+      "Parcel_ID",
+      "PIN",
+      "PROPID",
+      "MAPBLOCKLO",
+      "PARCEL_NUM",
+      "TAXIDNUM",
+      "OLDTAXIDNU",
+      "DEFQUE",
+      "ACCOUNT",
+      "PSEUDONO"
+    ],
+    "scrub": [
+      "DESCR1",
+      "DESCR2",
+      "DESCR3",
+      "DESCR4",
+      "COMMENTS",
+      "COMMENT1",
+      "COMMENT2",
+      "NOTES"
+    ]
   }
 }

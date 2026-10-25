@@ -97,38 +97,37 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Geometry sample
 
-[`data/sample/geo/ct_cama_parcels.geojson`](../../data/sample/geo/ct_cama_parcels.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/ct_cama_parcels.geojson`](../../data/sample/geo/ct_cama_parcels.geojson) has 3 features. For privacy each parcel or unit outline is replaced by its bounding box on a 0.01-degree grid (about 1 km across), so the file shows the layer's attributes and rough location but cannot locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.
 
 | | |
 |---|---|
 | Geometry type | Polygon |
 | Source coordinate system | EPSG:6434 (Esri 103016) |
-| Vertices per feature in the sample | 7, 8, 10 |
+| Vertices per feature in the source | 7, 8, 10 |
 | Max features per request | 2000 |
 | Paging supported | yes |
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/ct_cama_parcels.csv`](../../data/sample/ct_cama_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/ct_cama_parcels.csv`](../../data/sample/ct_cama_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `OBJECTID` | 1 | 2 | 3 | 4 | 5 |
 | `Editor` | AppGeo | AppGeo | AppGeo | AppGeo | AppGeo |
 | `Editor_Comment` | Adjusted parcel boundaries | Adjusted parcel boundaries | Adjusted parcel boundaries | Adjusted parcel boundaries | Adjusted parcel boundaries |
 | `Edit_Date` | 10/1/2014 | 10/1/2014 | 10/1/2014 | 10/1/2014 | 10/1/2014 |
 | `Location` | GILEAD RD | GILEAD RD | GILEAD RD | GILEAD RD | GILEAD RD |
-| `Link` | 206 | 11 | 207 | 10 | 1 |
+| `Link` | 20*** | 11*** | 20*** | 10*** | 1*** |
 | `Parcel_Type` | PARCEL | PARCEL | PARCEL | PARCEL | PARCEL |
 | `Town_Name` | Andover | Andover | Andover | Andover | Andover |
-| `Parcel_ID` | 25/022/000019 | 17/017/014-15 | 25/022/000020 | 17/017/014-14 | 17/017/000015 |
+| `Parcel_ID` | 25*** | 17*** | 25*** | 17*** | 17*** |
 | `ZIP_CODE` | 06248 | 06232 | 06248 | 06232 | 06248 |
 | `FIPS` | 09013526102 | 09013526102 | 09013528100 | 09013528100 | 09013528100 |
-| `CAMA_Link` | 01080-206 | 01080-11 | 01080-207 | 01080-10 | 01080-1 |
+| `CAMA_Link` | 01*** | 01*** | 01*** | 01*** | 01*** |
 | `COG` | Capitol Region | Capitol Region | Capitol Region | Capitol Region | Capitol Region |
 | `Parcel_Collection_Year` | 2026 | 2026 | 2026 | 2026 | 2026 |
-| `Location_1` | 281 GILEAD RD | 280 GILEAD RD | 275 GILEAD RD | 278 GILEAD RD | GILEAD RD |
-| `link_1` | 01080-206 | 01080-11 | 01080-207 | 01080-10 | 01080-1 |
+| `Location_1` | GILEAD RD | GILEAD RD | GILEAD RD | GILEAD RD | GILEAD RD |
+| `link_1` | 01*** | 01*** | 01*** | 01*** | 01*** |
 | `Property_City` | Andover | Andover | Andover | Andover | Andover |
 | `Owner` | [redacted] | [redacted] | [redacted] | [redacted] | [redacted] |
 | `Co_Owner` | [redacted] |  |  |  |  |
@@ -155,7 +154,6 @@ First 3 of 5 rows in [`data/sample/ct_cama_parcels.csv`](../../data/sample/ct_ca
 | `Number_of_Half_Baths` | 1 | 0 | 1 | 0 |  |
 | `Sale_Price` | 357000 | 0 | 145000 | 0 | 25200 |
 | `Sale_Date` | 7/21/2020 12:00:00 AM | 12/29/1997 12:00:00 AM | 1/28/1992 12:00:00 AM | 12/23/1985 12:00:00 AM | 2/21/2006 12:00:00 AM |
-| `Prior_Book_Page` | 0055/0217 | 0068/1068 | 0054/0535 |  | 0100/0495 |
 | `Prior_Sale_Price` | 163400.0 | 135000.0 | 40000.0 |  | 0.0 |
 | `Occupancy` | 1 | 1 | 1 | 1 |  |
 | `AYB` | 2021 | 1986 | 1991 | 1987 | 0 |

@@ -54,7 +54,7 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/sun_prairie_permits.csv`](../../data/sample/sun_prairie_permits.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/sun_prairie_permits.csv`](../../data/sample/sun_prairie_permits.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
@@ -67,8 +67,8 @@ First 3 of 5 rows in [`data/sample/sun_prairie_permits.csv`](../../data/sample/s
 | `issue_date` | 2025-03-31 11:16:21 | 2025-04-01 14:37:29 | 2025-04-14 15:47:33 | 2025-01-16 08:39:58 | 2025-04-15 09:53:18 |
 | `jurisdiction_id` | 5502578600 | 5502578600 | 5502578600 | 5502578600 | 5502578600 |
 | `source_id` | sun_prairie_permits | sun_prairie_permits | sun_prairie_permits | sun_prairie_permits | sun_prairie_permits |
-| `parcel_raw` | 09103626**** | 09103616**** | 08101316**** | 08101331**** | 09113124**** |
-| `parcel_key` | 09103626**** | 09103616**** | 08101316**** | 08101331**** | 09113124**** |
+| `parcel_raw` | 09*** | 09*** | 08*** | 08*** | 09*** |
+| `parcel_key` | 09*** | 09*** | 08*** | 08*** | 09*** |
 | `units_basis` | type+text | type+text | type+text | type+text | type+text |
 | `record_kind` | new_sf | new_sf | new_sf | new_sf | new_sf |
 | `record_status` | Complete | Complete | Complete | Complete | Complete |

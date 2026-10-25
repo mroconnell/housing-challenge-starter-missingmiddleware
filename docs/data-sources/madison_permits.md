@@ -41,7 +41,7 @@
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/madison_permits.csv`](../../data/sample/madison_permits.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/madison_permits.csv`](../../data/sample/madison_permits.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|

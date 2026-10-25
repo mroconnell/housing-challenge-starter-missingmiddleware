@@ -52,37 +52,31 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Geometry sample
 
-[`data/sample/geo/hi_parcels.geojson`](../../data/sample/geo/hi_parcels.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/hi_parcels.geojson`](../../data/sample/geo/hi_parcels.geojson) has 3 features. For privacy each parcel or unit outline is replaced by its bounding box on a 0.01-degree grid (about 1 km across), so the file shows the layer's attributes and rough location but cannot locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.
 
 | | |
 |---|---|
 | Geometry type | Polygon |
 | Source coordinate system | EPSG:3750 (Esri 102202) |
-| Vertices per feature in the sample | 5, 5, 5 |
+| Vertices per feature in the source | 5, 5, 5 |
 | Max features per request | 1000 |
 | Paging supported | yes |
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/hi_parcels.csv`](../../data/sample/hi_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/hi_parcels.csv`](../../data/sample/hi_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `objectid` | 1 | 2 | 3 | 4 | 5 |
-| `tmk` | 389014053 | 388009112 | 388009113 | 388009114 | 388009115 |
-| `tmk_txt` | 389014053 | 388009112 | 388009113 | 388009114 | 388009115 |
+| `tmk` | 38*** | 38*** | 38*** | 38*** | 38*** |
+| `tmk_txt` | 38*** | 38*** | 38*** | 38*** | 38*** |
 | `county` | Hawaii | Hawaii | Hawaii | Hawaii | Hawaii |
 | `division` | 3 | 3 | 3 | 3 | 3 |
 | `island` | HAW | HAW | HAW | HAW | HAW |
 | `zone` | 8 | 8 | 8 | 8 | 8 |
 | `section` | 9 | 8 | 8 | 8 | 8 |
-| `plat` | 14 | 9 | 9 | 9 | 9 |
-| `plat1` | 014 | 009 | 009 | 009 | 009 |
-| `parcel` | 53 | 112 | 113 | 114 | 115 |
-| `parcel1` | 053 | 112 | 113 | 114 | 115 |
 | `gisacres` | 0.2300499 | 0.16977402 | 0.16975509 | 0.17306839 | 0.17084862 |
-| `cty_tmk` | 89014053 | 88009112 | 88009113 | 88009114 | 88009115 |
-| `qpub_link` | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… | https://qpublic.schneidercorp.com/Application.aspx?AppID=10… |
+| `cty_tmk` | 89*** | 88*** | 88*** | 88*** | 88*** |
 | `st_area(shape)` | 930.9826425866745 | 687.0538207842359 | 686.9772409296497 | 700.3857085684095 | 691.402583104587 |
 | `st_perimeter(shape)` | 122.72679528475079 | 111.98270600577544 | 112.0491522904305 | 112.79718312940749 | 112.33948801211821 |
 

@@ -176,24 +176,24 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Geometry sample
 
-[`data/sample/geo/madison_parcels.geojson`](../../data/sample/geo/madison_parcels.geojson) has 3 complete features (geometry and all attributes, owner fields redacted). Coordinates are converted to WGS84 longitude/latitude for GeoJSON. Open it in QGIS or geojson.io.
+[`data/sample/geo/madison_parcels.geojson`](../../data/sample/geo/madison_parcels.geojson) has 3 features. For privacy each parcel or unit outline is replaced by its bounding box on a 0.01-degree grid (about 1 km across), so the file shows the layer's attributes and rough location but cannot locate a property. Attributes are masked the same way as the CSV. Coordinates are WGS84 longitude/latitude.
 
 | | |
 |---|---|
 | Geometry type | Polygon |
 | Source coordinate system | EPSG:8193 (Esri 103412) |
-| Vertices per feature in the sample | 5, 5, 38 |
+| Vertices per feature in the source | 5, 5, 38 |
 | Max features per request | 2000 |
 | Paging supported | yes |
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/madison_parcels.csv`](../../data/sample/madison_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/madison_parcels.csv`](../../data/sample/madison_parcels.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
-| `Parcel` | 07100341**** | 07100341**** | 06081111**** | 07081420**** | 07100541**** |
-| `XRefParcel` | 07100341**** | 07100341**** | 06081110**** | 07081420**** | 07100541**** |
+| `Parcel` | 07*** | 07*** | 06*** | 07*** | 07*** |
+| `XRefParcel` | 07*** | 07*** | 06*** | 07*** | 07*** |
 | `Address` | Sudbury Way | Hackney Way | S STONE CREEK Cir | N Westfield Rd | Harding St |
 | `DateParcelChanged` |  | 1791980220000 |  |  |  |
 | `PropertyClass` | Residential | Residential | Residential | Residential | Residential |

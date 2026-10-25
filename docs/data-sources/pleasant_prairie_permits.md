@@ -10,7 +10,7 @@
 |---|---|
 | Publisher | Village of Pleasant Prairie (SmartGov public report, Exago WebReports) |
 | What it is | Every issued permit in a date range: permit type, number, estimated cost, issue date, site address, parcel number and description. |
-| Geography | Site address and Kenosha County parcel number (for example 91-4-122-084-0706), matched to V12 parcels. |
+| Geography | Site address and Kenosha County parcel number (format NN-N-NNN-NNN-NNNN), matched to V12 parcels. |
 | Time coverage and update frequency | Issue dates 2003-10 to today (dense from 2008). |
 | Units | One row per permit. |
 | Access method | Form post on https://vlg-pleasantprairie-wi.smartgovcommunity.com/Public/ReportsView, then Exago JSON calls. Scripted in missing_middleware/permits/pleasant_prairie.py. CSV and Excel export are disabled, so the report is read as RTF. |
@@ -50,7 +50,7 @@ Blank meanings: the publisher gives no description. Check the source's own metad
 
 ## Sample rows
 
-First 3 of 5 rows in [`data/sample/pleasant_prairie_permits.csv`](../../data/sample/pleasant_prairie_permits.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`.
+First 3 of 5 rows in [`data/sample/pleasant_prairie_permits.csv`](../../data/sample/pleasant_prairie_permits.csv). Long values are cut short. Owner names and mailing addresses are replaced with `[redacted]`. House and unit numbers are removed (street names kept), parcel and record ids are masked to their first 2 characters plus `***`, and coordinates are rounded.
 
 | Field | Row 1 | Row 2 | Row 3 | Row 4 | Row 5 |
 |---|---|---|---|---|---|
@@ -64,8 +64,8 @@ First 3 of 5 rows in [`data/sample/pleasant_prairie_permits.csv`](../../data/sam
 | `est_cost` | 674892.0 | 118763.0 | 10200.0 | 5200.0 | 2675.0 |
 | `jurisdiction_id` | 5505963300 | 5505963300 | 5505963300 | 5505963300 | 5505963300 |
 | `source_id` | pleasant_prairie_permits | pleasant_prairie_permits | pleasant_prairie_permits | pleasant_prairie_permits | pleasant_prairie_permits |
-| `parcel_raw` | 92-4-122-263-**** | 92-4-122-312-**** | 91-4-121-244-**** | 91-4-122-082-**** | 92-4-122-302-**** |
-| `parcel_key` | 92-4-122-263-**** | 92-4-122-312-**** | 91-4-121-244-**** | 91-4-122-082-**** | 92-4-122-302-**** |
+| `parcel_raw` | 92*** | 92*** | 91*** | 91*** | 92*** |
+| `parcel_key` | 92*** | 92*** | 91*** | 91*** | 92*** |
 | `units_basis` | type | none | none | none | none |
 | `description_prefix_removed` | False | False | False | False | False |
 

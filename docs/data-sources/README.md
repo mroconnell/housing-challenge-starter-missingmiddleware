@@ -2,8 +2,6 @@
 
 This folder has one data dictionary per source. The sources come from the "Data and Resources" section of the [Challenge Handbook](https://housingchallenge.turnout.rocks/handbook.html) and the state portal list in [data/DATA_SOURCES.md](../../data/DATA_SOURCES.md). Each page lists the fields, units, geography, update frequency, how to access the data, and a few sample rows.
 
-Sources added in Gate 3 (other statewide-law states, five comparison cities, more Wisconsin permit reports, town zoning and California rule sources) are listed in [DATA_PROVENANCE.md](../DATA_PROVENANCE.md) but have no data dictionary or sample rows here yet.
-
 Sample rows live in [data/sample/](../../data/sample/). They are small on purpose. The handbook says not to commit large source data, so the full datasets must be downloaded by our pipeline.
 
 ## What the samples leave out
@@ -27,7 +25,7 @@ The **Fetch data samples** GitHub Actions workflow runs the same script and comm
 
 ## Data shape by source
 
-Each source below also has a small GeoJSON file with a few complete features, so you can see the real geometry before picking a state.
+Each source below also has a small GeoJSON file with a few complete features, so you can see the real geometry before picking a state. Parcel and housing-unit outlines are the exception: for privacy each one is replaced by a box on a 0.01-degree grid (about 1 km), and Avg vertices gives the source outline's count.
 
 | Source | Geometry | Source CRS | Records | Max per request | Paging | Avg vertices | Sample |
 |---|---|---|---|---|---|---|---|
@@ -99,7 +97,7 @@ Each source below also has a small GeoJSON file with a few complete features, so
 | Done | Source | Status | Sample rows | Geography | Main caveat |
 |---|---|---|---|---|---|
 | [x] | [Madison, WI: building permit Construction Summary report](madison_permits.md) | Fetched | 5 | Street address. No parcel number or coordinates; the pipeline matches… | No ADU flag: ADUs come from keyword matching in descriptions |
-| [x] | [Pleasant Prairie, WI: issued permits (SmartGov detail report)](pleasant_prairie_permits.md) | Fetched | 5 | Site address and Kenosha County parcel number (for example 91-4-122-0… | No dwelling-unit field: units are calculated from the permit type |
+| [x] | [Pleasant Prairie, WI: issued permits (SmartGov detail report)](pleasant_prairie_permits.md) | Fetched | 5 | Site address and Kenosha County parcel number (format NN-N-NNN-NNN-NN… | No dwelling-unit field: units are calculated from the permit type |
 | [x] | [Sun Prairie, WI: submitted permits (Power BI report)](sun_prairie_permits.md) | Fetched | 5 | Street address and Dane County 12-digit parcel number, matched to V12… | Submission date only, no issue date; withdrawn, void and denied records add 0 units |
 | [x] | [Wisconsin V12 statewide parcels](wi_v12_parcels.md) | Fetched | 5 | Parcel polygons; LATITUDE and LONGITUDE give a point. | No year built and no dwelling count |
 | [x] | [Madison, WI: tax parcels](madison_parcels.md) | Fetched | 5 | Parcel. | Madison only |

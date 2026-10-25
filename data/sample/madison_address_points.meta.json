@@ -142,7 +142,7 @@
     },
     "supports_pagination": true,
     "max_record_count": 2000,
-    "redaction": "properties limited to StreetDir, StreetName, StreetType, ZipCode; point coordinates rounded to 2 decimals",
+    "redaction": "properties limited to StreetDir, StreetName, StreetType, ZipCode; properties masked like the CSV (location_redaction); point coordinates rounded to 2 decimals",
     "simplified": null,
     "file": "data/sample/geo/madison_address_points.geojson",
     "features": 3,

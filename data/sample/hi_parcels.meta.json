@@ -338,12 +338,38 @@
     "simplified": null,
     "file": "data/sample/geo/hi_parcels.geojson",
     "features": 3,
-    "bytes": 2160,
+    "bytes": 1415,
     "vertices_per_feature": [
       5,
       5,
       5
     ],
-    "output_crs": "EPSG:4326 (GeoJSON)"
+    "output_crs": "EPSG:4326 (GeoJSON)",
+    "source_vertices_per_feature": [
+      5,
+      5,
+      5
+    ],
+    "redaction": "properties masked like the CSV (location_redaction); each outline replaced by its bounding box widened to a 0.01-degree grid",
+    "coarsened": "bounding box on a 0.01-degree grid"
+  },
+  "location_redaction": {
+    "blank": [
+      "OBJECTID",
+      "OBJECTID_1",
+      "FID",
+      "GlobalID",
+      "objectid",
+      "plat",
+      "plat1",
+      "parcel",
+      "parcel1",
+      "qpub_link"
+    ],
+    "mask_parcel": [
+      "tmk",
+      "tmk_txt",
+      "cty_tmk"
+    ]
   }
 }
