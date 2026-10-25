@@ -542,6 +542,7 @@ Kept here so the owner can take them to mentor office hours or the Administrator
 15. Is there a size threshold for "large source datasets"? Are small committed derived tables (for example our coded ADU rules) acceptable?
 16. Fee scenario: must the $50,000-per-unit assumption apply uniformly even where Wisconsin fees are lower, or may teams also show results with local fees?
 17. Can the team submit early for a pre-deadline compliance review?
+18. Some source data is published only as PDFs, spreadsheets or images (for example Oregon DLCD ADU reports and Washington OFM permit workbooks), so we entered the counts into a table in our code with the source URL, access date and file checksum. Does this count as "fetched automatically from the authoritative source with minimal manual steps", or must the pipeline download and parse each file itself?
 
 ## Additional questions to develop
 
