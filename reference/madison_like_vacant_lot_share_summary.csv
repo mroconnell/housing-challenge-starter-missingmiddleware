@@ -1,0 +1,7 @@
+set,measure,n_cities,median,min,max,pooled,cities
+"main: split cities, excl. condo- and subdivision-driven",vacant_share,17,0.0488,0.0000,0.2535,0.0791,portland;denver;minneapolis;Bakersfield;Chico;Citrus Heights;Clovis;Fresno;Hesperia;Indio;Modesto;Palmdale;Redding;San Bernardino;Stockton;Victorville;Visalia
+upper bound: unclassified counted as vacant,vacant_share_upper,17,0.0488,0.0000,0.2535,0.0791,portland;denver;minneapolis;Bakersfield;Chico;Citrus Heights;Clovis;Fresno;Hesperia;Indio;Modesto;Palmdale;Redding;San Bernardino;Stockton;Victorville;Visalia
+sensitivity: + Tacoma at its total new-house share (upper bound),vacant_share_upper,18,0.0494,0.0000,0.2535,0.0783,portland;denver;minneapolis;Bakersfield;Chico;Citrus Heights;Clovis;Fresno;Hesperia;Indio;Modesto;Palmdale;Redding;San Bernardino;Stockton;Victorville;Visalia;tacoma
+sensitivity: + Lancaster (subdivision-driven),vacant_share,18,0.0494,0.0000,0.5698,0.1622,portland;denver;minneapolis;Bakersfield;Chico;Citrus Heights;Clovis;Fresno;Hesperia;Indio;Lancaster;Modesto;Palmdale;Redding;San Bernardino;Stockton;Victorville;Visalia
+"main, Portland + Denver + Minneapolis only",vacant_share,3,0.0488,0.0000,0.0642,0.0487,portland;denver;minneapolis
+"main, Madison-like CA cities only",vacant_share,14,0.0488,0.0000,0.2535,0.0883,Bakersfield;Chico;Citrus Heights;Clovis;Fresno;Hesperia;Indio;Modesto;Palmdale;Redding;San Bernardino;Stockton;Victorville;Visalia

@@ -1,0 +1,5 @@
+set,n_cities,median_share,min_share,max_share,pooled_share,cities
+main: excludes condo- and subdivision-driven cities,18,0.0530,0.0000,0.2535,0.0865,portland;denver;minneapolis;tacoma;Bakersfield;Chico;Citrus Heights;Clovis;Fresno;Hesperia;Indio;Modesto;Palmdale;Redding;San Bernardino;Stockton;Victorville;Visalia
+sensitivity: including condo- and subdivision-driven cities,21,0.0969,0.0000,0.6571,0.3243,seattle;portland;austin;denver;minneapolis;tacoma;Bakersfield;Chico;Citrus Heights;Clovis;Fresno;Hesperia;Indio;Lancaster;Modesto;Palmdale;Redding;San Bernardino;Stockton;Victorville;Visalia
+"main, five OTHER_CITIES + Tacoma only",4,0.0755,0.0152,0.1098,0.0766,portland;denver;minneapolis;tacoma
+"main, Madison-like CA cities only",14,0.0510,0.0000,0.2535,0.0898,Bakersfield;Chico;Citrus Heights;Clovis;Fresno;Hesperia;Indio;Modesto;Palmdale;Redding;San Bernardino;Stockton;Victorville;Visalia

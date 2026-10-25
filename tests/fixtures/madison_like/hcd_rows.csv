@@ -1,0 +1,9 @@
+juris_name,year,apn,unit_cat,bp_units,project_name
+A,2020,111-222,SFD,1,
+A,2020,111222,ADU,1,
+A,2021,333,ADU,2,
+A,2021,,ADU,1,
+A,2022,333,SFD,1,
+B,2020,9,SFD,1,TR 61754
+B,2020,9,ADU,1,TR 61754
+B,2020,8,ADU,1,

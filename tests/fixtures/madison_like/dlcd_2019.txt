@@ -1,0 +1,6 @@
+Permitted and Produced Housing Reporting (HB 4006) Annual Summary
+                            Year: 2019
+City                        Permitted Total   SF Detached   SF Attached Duplex ADU      Manuf Home Total   Triplex Quadplex 5+ Units
+Eugene                            1051     282            224             16        5 10             27   769         0           4   765
+Gresham                            759     215            170                       0 7             4   544
+Eugene                             112     1            1              0       0 0          0 111
