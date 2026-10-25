@@ -1,0 +1,21 @@
+basis,numerator,denominator,numerator_value,denominator_value,rate_per_1000
+as used (study main measure),ADU units,one-unit detached homes x years,76927.0,20009419.0,3.8445
+cap + A2 (POOLED_REVISION option ii),ADU units,one-unit detached homes x years,71441.0,20009419.0,3.5704
+cap + LA-calibrated (option iii),ADU units,one-unit detached homes x years,58565.1327,20009419.0,2.9269
+permits per one-unit detached home,flattened permits,one-unit detached homes x years,66675.0,20009419.0,3.3322
+permits per eligible property (low denominator),flattened permits,eligible properties x years (low),66675.0,23886704.6441,2.7913
+permits per eligible property (central denominator),flattened permits,eligible properties x years (central),66675.0,23962827.8051,2.7824
+permits per eligible property (high denominator),flattened permits,eligible properties x years (high),66675.0,25695948.7833,2.5948
+permits per eligible property (size set small),flattened permits,"eligible properties x years (central scope, small buildings)",66675.0,24488615.7833,2.7227
+permits per eligible property (size set mid),flattened permits,"eligible properties x years (central scope, mid buildings)",66675.0,24152637.2884,2.7606
+permits per eligible property (size set large),flattened permits,"eligible properties x years (central scope, large buildings)",66675.0,23962827.8051,2.7824
+permits per eligible property (size set very_large),flattened permits,"eligible properties x years (central scope, very_large buildings)",66675.0,23886704.6441,2.7913
+permits_cap2 per one-unit detached home,flattened permits,one-unit detached homes x years,66594.0,20009419.0,3.3281
+permits_cap2 per eligible property (low denominator),flattened permits,eligible properties x years (low),66594.0,23886704.6441,2.7879
+permits_cap2 per eligible property (central denominator),flattened permits,eligible properties x years (central),66594.0,23962827.8051,2.7791
+permits_cap2 per eligible property (high denominator),flattened permits,eligible properties x years (high),66594.0,25695948.7833,2.5916
+permits_cap2 per eligible property (size set small),flattened permits,"eligible properties x years (central scope, small buildings)",66594.0,24488615.7833,2.7194
+permits_cap2 per eligible property (size set mid),flattened permits,"eligible properties x years (central scope, mid buildings)",66594.0,24152637.2884,2.7572
+permits_cap2 per eligible property (size set large),flattened permits,"eligible properties x years (central scope, large buildings)",66594.0,23962827.8051,2.7791
+permits_cap2 per eligible property (size set very_large),flattened permits,"eligible properties x years (central scope, very_large buildings)",66594.0,23886704.6441,2.7879
+"permits per eligible property, single-family-lot rate implied by LA County propensity ratio",flattened permits,eligible properties (SF lots only),,,2.5607

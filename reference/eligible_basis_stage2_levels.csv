@@ -1,0 +1,12 @@
+run,cluster,in_stage2,level_with_law_k4,alpha
+"main: eligible basis, permits, configuration A",CA,True,2.0037,-0.1444
+"main: eligible basis, permits, configuration A",CO,False,0.7215,-1.1658
+"main: eligible basis, permits, configuration A",MA,True,0.666,-1.2459
+"main: eligible basis, permits, configuration A",ME,True,0.9259,-0.9164
+"main: eligible basis, permits, configuration A",MN,False,0.2193,-2.3568
+"main: eligible basis, permits, configuration A",OR,True,0.6226,-1.3132
+"main: eligible basis, permits, configuration A",RI,True,0.5765,-1.3901
+"main: eligible basis, permits, configuration A",TX,False,1.3751,-0.5208
+"main: eligible basis, permits, configuration A",UT,True,1.0724,-0.7695
+"main: eligible basis, permits, configuration A",VT,True,0.7592,-1.1148
+"main: eligible basis, permits, configuration A",WA,True,0.9654,-0.8746

@@ -1,0 +1,140 @@
+source,year,units,rows,permits,share_site_apn,share_site_address,units_per_permit
+"CA HCD A2, study main measure (all jurisdictions)",2018,8863.0,8706.0,8654.0,0.9993,0.0007,1.0242
+"CA HCD A2, study main measure (all jurisdictions)",2019,12616.0,12317.0,12191.0,0.9977,0.0023,1.0349
+"CA HCD A2, study main measure (all jurisdictions)",2020,12650.0,12374.0,12201.0,0.9973,0.0027,1.0368
+"CA HCD A2, study main measure (all jurisdictions)",2021,20482.0,19714.0,19086.0,0.9913,0.0087,1.0731
+"CA HCD A2, study main measure (all jurisdictions)",2022,25332.0,24218.0,23513.0,0.9959,0.0041,1.0774
+"CA HCD A2, study main measure (all jurisdictions)",2023,28256.0,26481.0,25212.0,0.9756,0.0244,1.1207
+"CA HCD A2, study main measure (all jurisdictions)",2024,30338.0,27928.0,26310.0,0.9996,0.0004,1.1531
+"CA HCD A2, study main measure (all jurisdictions)",2025,31945.0,29709.0,27508.0,0.9992,0.0008,1.1613
+"CA HCD A2, study main measure, permits capped at 2 parcel-years per parcel",2018,,,8654.0,,,
+"CA HCD A2, study main measure, permits capped at 2 parcel-years per parcel",2019,,,12191.0,,,
+"CA HCD A2, study main measure, permits capped at 2 parcel-years per parcel",2020,,,12201.0,,,
+"CA HCD A2, study main measure, permits capped at 2 parcel-years per parcel",2021,,,19084.0,,,
+"CA HCD A2, study main measure, permits capped at 2 parcel-years per parcel",2022,,,23509.0,,,
+"CA HCD A2, study main measure, permits capped at 2 parcel-years per parcel",2023,,,25192.0,,,
+"CA HCD A2, study main measure, permits capped at 2 parcel-years per parcel",2024,,,26280.0,,,
+"CA HCD A2, study main measure, permits capped at 2 parcel-years per parcel",2025,,,27460.0,,,
+"CA HCD A2, all ADU rows with permitted units and an APN",2018,9000.0,,8787.0,,,1.0242
+"CA HCD A2, all ADU rows with permitted units and an APN",2019,15052.0,,14591.0,,,1.0316
+"CA HCD A2, all ADU rows with permitted units and an APN",2020,15997.0,,15504.0,,,1.0318
+"CA HCD A2, all ADU rows with permitted units and an APN",2021,24457.0,,22917.0,,,1.0672
+"CA HCD A2, all ADU rows with permitted units and an APN",2022,31698.0,,29418.0,,,1.0775
+"CA HCD A2, all ADU rows with permitted units and an APN",2023,35054.0,,31424.0,,,1.1155
+"CA HCD A2, all ADU rows with permitted units and an APN",2024,39061.0,,34221.0,,,1.1414
+"CA HCD A2, all ADU rows with permitted units and an APN",2025,41828.0,,36123.0,,,1.1579
+city austin (excl. legalizations; incl. with new house),2000,1.0,1.0,1.0,,,1.0
+city austin (excl. legalizations; incl. with new house),2002,1.0,1.0,1.0,,,1.0
+city austin (excl. legalizations; incl. with new house),2004,4.0,3.0,3.0,,,1.3333
+city austin (excl. legalizations; incl. with new house),2006,2.0,2.0,2.0,,,1.0
+city austin (excl. legalizations; incl. with new house),2007,40.0,35.0,34.0,,,1.1765
+city austin (excl. legalizations; incl. with new house),2008,26.0,26.0,24.0,,,1.0833
+city austin (excl. legalizations; incl. with new house),2009,15.0,14.0,14.0,,,1.0714
+city austin (excl. legalizations; incl. with new house),2010,23.0,17.0,17.0,,,1.3529
+city austin (excl. legalizations; incl. with new house),2011,20.0,16.0,16.0,,,1.25
+city austin (excl. legalizations; incl. with new house),2012,26.0,24.0,24.0,,,1.0833
+city austin (excl. legalizations; incl. with new house),2013,99.0,93.0,91.0,,,1.0879
+city austin (excl. legalizations; incl. with new house),2014,137.0,133.0,129.0,,,1.062
+city austin (excl. legalizations; incl. with new house),2015,150.0,148.0,140.0,,,1.0714
+city austin (excl. legalizations; incl. with new house),2016,235.0,234.0,231.0,,,1.0173
+city austin (excl. legalizations; incl. with new house),2017,356.0,353.0,344.0,,,1.0349
+city austin (excl. legalizations; incl. with new house),2018,341.0,339.0,328.0,,,1.0396
+city austin (excl. legalizations; incl. with new house),2019,379.0,375.0,365.0,,,1.0384
+city austin (excl. legalizations; incl. with new house),2020,328.0,327.0,315.0,,,1.0413
+city austin (excl. legalizations; incl. with new house),2021,343.0,341.0,333.0,,,1.03
+city austin (excl. legalizations; incl. with new house),2022,326.0,324.0,315.0,,,1.0349
+city austin (excl. legalizations; incl. with new house),2023,241.0,240.0,234.0,,,1.0299
+city austin (excl. legalizations; incl. with new house),2024,89.0,89.0,89.0,,,1.0
+city austin (excl. legalizations; incl. with new house),2025,9.0,9.0,9.0,,,1.0
+city austin (excl. legalizations; incl. with new house),2026,2.0,2.0,2.0,,,1.0
+city denver (excl. legalizations; incl. with new house),2012,6.0,6.0,6.0,,,1.0
+city denver (excl. legalizations; incl. with new house),2013,18.0,18.0,18.0,,,1.0
+city denver (excl. legalizations; incl. with new house),2014,11.0,11.0,11.0,,,1.0
+city denver (excl. legalizations; incl. with new house),2015,16.0,16.0,16.0,,,1.0
+city denver (excl. legalizations; incl. with new house),2016,38.0,38.0,38.0,,,1.0
+city denver (excl. legalizations; incl. with new house),2017,46.0,46.0,46.0,,,1.0
+city denver (excl. legalizations; incl. with new house),2018,55.0,55.0,54.0,,,1.0185
+city denver (excl. legalizations; incl. with new house),2019,66.0,66.0,65.0,,,1.0154
+city denver (excl. legalizations; incl. with new house),2020,52.0,52.0,52.0,,,1.0
+city denver (excl. legalizations; incl. with new house),2021,64.0,64.0,59.0,,,1.0847
+city denver (excl. legalizations; incl. with new house),2022,59.0,59.0,59.0,,,1.0
+city denver (excl. legalizations; incl. with new house),2023,64.0,64.0,64.0,,,1.0
+city denver (excl. legalizations; incl. with new house),2024,79.0,79.0,78.0,,,1.0128
+city denver (excl. legalizations; incl. with new house),2025,120.0,120.0,114.0,,,1.0526
+city denver (excl. legalizations; incl. with new house),2026,92.0,92.0,89.0,,,1.0337
+city minneapolis (excl. legalizations; incl. with new house),2016,4.0,4.0,4.0,,,1.0
+city minneapolis (excl. legalizations; incl. with new house),2017,31.0,31.0,31.0,,,1.0
+city minneapolis (excl. legalizations; incl. with new house),2018,24.0,24.0,24.0,,,1.0
+city minneapolis (excl. legalizations; incl. with new house),2019,33.0,33.0,33.0,,,1.0
+city minneapolis (excl. legalizations; incl. with new house),2020,28.0,28.0,28.0,,,1.0
+city minneapolis (excl. legalizations; incl. with new house),2021,16.0,16.0,16.0,,,1.0
+city minneapolis (excl. legalizations; incl. with new house),2022,17.0,17.0,17.0,,,1.0
+city minneapolis (excl. legalizations; incl. with new house),2023,16.0,16.0,16.0,,,1.0
+city minneapolis (excl. legalizations; incl. with new house),2024,17.0,17.0,17.0,,,1.0
+city minneapolis (excl. legalizations; incl. with new house),2025,16.0,16.0,16.0,,,1.0
+city minneapolis (excl. legalizations; incl. with new house),2026,15.0,15.0,15.0,,,1.0
+city portland (excl. legalizations; incl. with new house),1995,8.0,8.0,8.0,,,1.0
+city portland (excl. legalizations; incl. with new house),1996,3.0,3.0,3.0,,,1.0
+city portland (excl. legalizations; incl. with new house),1997,4.0,4.0,4.0,,,1.0
+city portland (excl. legalizations; incl. with new house),1998,25.0,25.0,25.0,,,1.0
+city portland (excl. legalizations; incl. with new house),1999,32.0,32.0,31.0,,,1.0323
+city portland (excl. legalizations; incl. with new house),2000,21.0,21.0,21.0,,,1.0
+city portland (excl. legalizations; incl. with new house),2001,27.0,27.0,27.0,,,1.0
+city portland (excl. legalizations; incl. with new house),2002,23.0,23.0,22.0,,,1.0455
+city portland (excl. legalizations; incl. with new house),2003,25.0,25.0,24.0,,,1.0417
+city portland (excl. legalizations; incl. with new house),2004,34.0,34.0,34.0,,,1.0
+city portland (excl. legalizations; incl. with new house),2005,22.0,22.0,21.0,,,1.0476
+city portland (excl. legalizations; incl. with new house),2006,30.0,30.0,29.0,,,1.0345
+city portland (excl. legalizations; incl. with new house),2007,32.0,32.0,32.0,,,1.0
+city portland (excl. legalizations; incl. with new house),2008,30.0,30.0,30.0,,,1.0
+city portland (excl. legalizations; incl. with new house),2009,21.0,21.0,20.0,,,1.05
+city portland (excl. legalizations; incl. with new house),2010,67.0,67.0,67.0,,,1.0
+city portland (excl. legalizations; incl. with new house),2011,109.0,109.0,108.0,,,1.0093
+city portland (excl. legalizations; incl. with new house),2012,142.0,142.0,141.0,,,1.0071
+city portland (excl. legalizations; incl. with new house),2013,166.0,166.0,160.0,,,1.0375
+city portland (excl. legalizations; incl. with new house),2014,211.0,211.0,208.0,,,1.0144
+city portland (excl. legalizations; incl. with new house),2015,385.0,385.0,367.0,,,1.049
+city portland (excl. legalizations; incl. with new house),2016,538.0,538.0,522.0,,,1.0307
+city portland (excl. legalizations; incl. with new house),2017,501.0,501.0,497.0,,,1.008
+city portland (excl. legalizations; incl. with new house),2018,581.0,581.0,560.0,,,1.0375
+city portland (excl. legalizations; incl. with new house),2019,332.0,332.0,322.0,,,1.0311
+city portland (excl. legalizations; incl. with new house),2020,239.0,239.0,236.0,,,1.0127
+city portland (excl. legalizations; incl. with new house),2021,250.0,250.0,246.0,,,1.0163
+city portland (excl. legalizations; incl. with new house),2022,271.0,271.0,247.0,,,1.0972
+city portland (excl. legalizations; incl. with new house),2023,219.0,219.0,194.0,,,1.1289
+city portland (excl. legalizations; incl. with new house),2024,177.0,177.0,157.0,,,1.1274
+city portland (excl. legalizations; incl. with new house),2025,159.0,159.0,141.0,,,1.1277
+city portland (excl. legalizations; incl. with new house),2026,75.0,75.0,71.0,,,1.0563
+city seattle (excl. legalizations; incl. with new house),2002,2.0,2.0,2.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2003,1.0,1.0,1.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2004,10.0,10.0,10.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2005,18.0,18.0,18.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2006,81.0,81.0,81.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2007,100.0,100.0,100.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2008,97.0,97.0,97.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2009,75.0,75.0,75.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2010,140.0,140.0,140.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2011,107.0,107.0,106.0,,,1.0094
+city seattle (excl. legalizations; incl. with new house),2012,116.0,115.0,115.0,,,1.0087
+city seattle (excl. legalizations; incl. with new house),2013,124.0,124.0,124.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2014,153.0,153.0,153.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2015,191.0,190.0,189.0,,,1.0106
+city seattle (excl. legalizations; incl. with new house),2016,272.0,270.0,270.0,,,1.0074
+city seattle (excl. legalizations; incl. with new house),2017,252.0,252.0,252.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2018,244.0,244.0,244.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2019,284.0,284.0,284.0,,,1.0
+city seattle (excl. legalizations; incl. with new house),2020,463.0,435.0,433.0,,,1.0693
+city seattle (excl. legalizations; incl. with new house),2021,753.0,655.0,653.0,,,1.1531
+city seattle (excl. legalizations; incl. with new house),2022,904.0,807.0,802.0,,,1.1272
+city seattle (excl. legalizations; incl. with new house),2023,906.0,854.0,844.0,,,1.0735
+city seattle (excl. legalizations; incl. with new house),2024,899.0,864.0,857.0,,,1.049
+city seattle (excl. legalizations; incl. with new house),2025,503.0,488.0,482.0,,,1.0436
+WI Madison second homes on SF lots,2022,5.0,5.0,5.0,,,1.0
+WI Madison second homes on SF lots,2023,10.0,10.0,10.0,,,1.0
+WI Madison second homes on SF lots,2024,11.0,11.0,11.0,,,1.0
+WI Madison second homes on SF lots,2025,14.0,14.0,13.0,,,1.0769
+WI Sun Prairie second homes on SF lots,2024,1.0,1.0,1.0,,,1.0
+WI Milwaukee central candidates,2022,5.0,5.0,5.0,,,1.0
+WI Milwaukee central candidates,2023,2.0,2.0,2.0,,,1.0
+WI Milwaukee central candidates,2024,21.0,21.0,21.0,,,1.0
+WI Milwaukee central candidates,2025,7.0,7.0,7.0,,,1.0
