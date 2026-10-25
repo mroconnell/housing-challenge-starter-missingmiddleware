@@ -31,8 +31,8 @@ WI_HOMES = 1_839_569
 MADISON_ID = "muni:5502548000"
 FORECAST_START = 2027  # stylized: law in force from forecast year 1 (AQ-021)
 
-NAMES = {"WA_inc_exSeattle": "Washington (cities excl. Seattle)", "OR_panel32_exPortland": "Oregon (32 cities excl. Portland)",
-         "VT_chittenden": "Vermont (Chittenden)", "UT_mih": "Utah", "MA_statewide": "Massachusetts",
+NAMES = {"WA_inc_exSeattle": "Washington law: cities excl. Seattle", "OR_panel32_exPortland": "Oregon law: 32 cities excl. Portland",
+         "VT_chittenden": "Vermont law: Chittenden County only", "UT_mih": "Utah law: reporting cities", "MA_statewide": "Massachusetts",
          "ME_statewide": "Maine", "RI_statewide": "Rhode Island"}
 GREY, BLUE, GREEN, ORANGE, RED, PURPLE = "#4a5568", "#2b6cb0", "#2f855a", "#c05621", "#e53e3e", "#805ad5"
 
@@ -85,7 +85,7 @@ def states_chart() -> Path:
                 label="Wisconsin model, central" if path == "central" else ("Wisconsin model, lower and upper" if path == "lower" else None))
     wi_now = by_year[by_year["path"] == "central"]["baseline_units"].iloc[0] / WI_HOMES * 1000
     ax.plot([-5, 0], [wi_now, wi_now], color=RED, lw=1.6, ls="-.", label=f"Wisconsin today, no law ({wi_now:.2f})")
-    _style(ax, "Statewide ADU laws: each state, the median, and the Wisconsin model", -5)
+    _style(ax, "Statewide ADU laws: each state's measured area, the median, and the Wisconsin model", -5)
     fig.text(0.01, 0.005, "Sources: reference/statewide_states_annual.csv, pooled_adoption_points.csv, statewide_adoption_curve.csv, "
              "adu_model_statewide_by_year.csv.\nState counts include ADUs built with a new house. Maine and Massachusetts have one year.",
              fontsize=6, color="#718096")
