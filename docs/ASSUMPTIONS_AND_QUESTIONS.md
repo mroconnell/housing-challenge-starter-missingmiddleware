@@ -513,6 +513,16 @@ All figures are additional permits on top of the current-law baseline of about 6
 
 **Decision:** Adopted 2026-10-25. The same rule applies everywhere for now. The owner's hunch (2026-10-25) is to count the ADU in both cases (a vacant-lot ADU counts as 1, the house stays in ordinary new construction), to revisit after the Madison-like test. Vacant-lot ADUs are therefore tallied separately everywhere, so either rule can be applied.
 
+## AQ-040 Final Gate 3 decisions G3F-1 to G3F-4
+
+**Status:** Adopted. **Added:** 2026-10-25. **Related:** AQ-038, AQ-039.
+
+- **G3F-1, upper scenario:** label it "Strong adoption". An info icon explains its basis in plain words, for example "California's level of permitting in the years after its statewide laws". Show the number; don't sandbag the real data. The value follows the California adjustments below.
+- **G3F-2, California in the common level:** let the data decide. Test leave-one-state-out on the non-California states with and without California in the between-state step. Keep California if it improves those predictions and drop it if it hurts them. Covariates such as home value or earnings may set how much weight California gets, if they predict better.
+- **G3F-3, new-house ADUs:** replace the arbitrary 80% with the measured share. Vacant-lot new-house ADUs are a median 4.9% of ADUs across 17 cities (AQ-039), so the adjustment is about ×0.95. It may go in the headline or be shown as a named sensitivity.
+- **G3F-4:** advance to Gate 4 after these revisions.
+- **Related owner direction (2026-10-25):** count at most 2 ADUs per parcel (more is beyond benchmark, like condo conversion), and remove ADUs on multifamily lots from comparison numerators, measured from California APR parcel numbers and an ACS cross-city check, with a one-time LA County assessor validation. The rule change allowing 3 ADUs on single-family lots in California dates from January 2023 (owner).
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -591,3 +601,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-038 | Final Gate 3 scenarios from the pooled model (about 4,800 / 9,500 / 18,400) with the statewide adoption line (about 8,650) and named downside sensitivities. |
 | 2026-10-25 | AQ-039 | Teardown-rebuild ADUs count as second homes; vacant-lot new-house ADUs do not; the new-house adjustment uses the measured vacant-lot share. |
 | 2026-10-25 | Data rules | Owner decisions D1–D6 on data compliance (see docs/DATA_COMPLIANCE.md); leave git history; office-hours questions 19–22 added. |
+| 2026-10-25 | AQ-040 | G3F-1 upper labelled "Strong adoption" with basis on an info icon; G3F-2 California inclusion decided by non-California hold-out accuracy; G3F-3 measured vacant-lot share (~5%) replaces 80%; G3F-4 advance after revision; 2-ADU-per-parcel cap; multifamily-lot ADUs removed. |
