@@ -1,0 +1,22 @@
+placefp,name,muni_type,homes,value,largest_city,madison_like,pieces,area_ids
+53000,Milwaukee city,city,101402,184000.0,True,False,3,muni:5507953000|muni:5513153000|muni:5513353000
+48000,Madison city,city,53292,372900.0,False,True,1,muni:5502548000
+31000,Green Bay city,city,26655,207200.0,False,False,1,muni:5500931000
+39225,Kenosha city,city,24161,225200.0,False,False,1,muni:5505939225
+66000,Racine city,city,22636,166500.0,False,False,1,muni:5510166000
+02375,Appleton city,city,21690,231400.0,False,False,3,muni:5501502375|muni:5508702375|muni:5513902375
+37825,Janesville city,city,19873,223400.0,False,False,1,muni:5510537825
+22300,Eau Claire city,city,17369,247600.0,False,False,2,muni:5501722300|muni:5503522300
+60500,Oshkosh city,city,16404,177700.0,False,False,1,muni:5513960500
+84250,Waukesha city,city,15931,315500.0,False,False,1,muni:5513384250
+85300,West Allis city,city,15414,203800.0,False,False,1,muni:5507985300
+84675,Wauwatosa city,city,12932,339000.0,False,False,1,muni:5507984675
+72975,Sheboygan city,city,12863,174200.0,False,False,1,muni:5511772975
+10025,Brookfield city,city,12711,443900.0,False,False,1,muni:5513310025
+56375,New Berlin city,city,12121,365700.0,False,False,1,muni:5513356375
+26275,Fond du Lac city,city,11978,173700.0,False,False,1,muni:5503926275
+84475,Wausau city,city,11835,167900.0,False,False,1,muni:5507384475
+40775,La Crosse city,city,11618,210100.0,False,False,1,muni:5506340775
+51000,Menomonee Falls village,village,11406,368000.0,False,False,1,muni:5513351000
+06500,Beloit city,city,10581,156500.0,False,False,1,muni:5510506500
+48500,Manitowoc city,city,10216,160700.0,False,False,1,muni:5507148500

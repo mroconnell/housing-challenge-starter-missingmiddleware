@@ -3,10 +3,27 @@
   "status": "Gate 3 final proposal (AQ-036, AQ-038); for owner confirmation",
   "units": "second-home permits on single-family lots per 1,000 one-unit detached homes per year",
   "area_levels": "reference/pooled_wi_y_by_area.csv (y_plateau_lower_80, y_plateau_central, y_plateau_upper_80: pooled two-stage model across California, statewide-law states, and five cities)",
+  "madison_floor": {
+    "in_use": "adopted_2026_10_24",
+    "units": "second-home permits on single-family lots per 1,000 one-unit detached homes per year; applied to every area and path by the engine (AQ-024)",
+    "variants": {
+      "adopted_2026_10_24": {
+        "rate": 0.229,
+        "basis": "Madison 2022-2025 second-home rate 0.183 / 0.8 (before AQ-039)"
+      },
+      "g3f_revision_2026_10_25": {
+        "rate": 0.2345,
+        "observed_rate": 0.1876,
+        "numerator_units": 40,
+        "home_years_thousands": 213.168,
+        "divisor": 0.8,
+        "basis": "Madison 2022-2025: 40 second-home units / 213.168 thousand home-years (53,292 one-unit detached homes x 4 years) = 0.1876, divided by 0.8 = 0.2345 (docs/gate3/POOLED_REVISION.md)"
+      }
+    }
+  },
   "paths": {
     "lower": {
       "level": 0.229,
-      "floor_rate": 0.229,
       "spillover": 0.0,
       "ramp": [
         0.603,
@@ -19,7 +36,6 @@
     },
     "central": {
       "level": 0.229,
-      "floor_rate": 0.229,
       "spillover": 0.0,
       "ramp": [
         0.6222,
@@ -32,7 +48,6 @@
     },
     "upper": {
       "level": 0.229,
-      "floor_rate": 0.229,
       "spillover": 0.0,
       "ramp": [
         0.632,
@@ -45,5 +60,5 @@
     }
   },
   "statewide_adoption_line": "reference/statewide_adoption_curve.csv (median observed path of statewide-law states; shown alongside the scenarios)",
-  "notes": "Uniform 'level' applies only where an area has no model level. Floor 0.229 = Madison 2022-2025 rate / 0.8. The California ramp is not applied on top of the pooled ramp. Path-specific ramps reproduce the pooled model's direct totals (each path scales the whole rate path)."
+  "notes": "Uniform 'level' applies only where an area has no model level. The Madison floor is set once, in madison_floor (in_use selects the variant; every path and script reads it via missing_middleware.model.params.madison_floor). The California ramp is not applied on top of the pooled ramp. Path-specific ramps reproduce the pooled model's direct totals (each path scales the whole rate path)."
 }

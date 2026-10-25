@@ -13,15 +13,17 @@ import json
 import pandas as pd
 
 from missing_middleware.model import engine as e
+from missing_middleware.model.params import madison_floor
 from missing_middleware.paths import PROCESSED, REFERENCE, processed_dir
 
 
 def load_scenario(path=REFERENCE / "adu_model_params.json", which="paths", **overrides) -> e.Scenario:
     spec = json.loads(path.read_text())
+    floor = madison_floor(path=path)        # one floor for every path (madison_floor in the params file)
     paths = {}
     for name, p in spec[which].items():
         p = {**p, **overrides.get(name, {})}
-        paths[name] = e.PathParams(level=p["level"], floor_rate=p["floor_rate"], spillover=p["spillover"],
+        paths[name] = e.PathParams(level=p["level"], floor_rate=p.get("floor_rate", floor), spillover=p["spillover"],
                                    ramp=tuple(p["ramp"]))
     return e.Scenario(spec["scenario_id"], paths, {k: v["basis"] for k, v in spec[which].items()})
 
@@ -74,9 +76,10 @@ def main():
         sens.append({"change": label, "central_additional_5yr": round(v, 1), "difference": round(v - base_central, 1)})
     rural_ids = set(geo.loc[geo.context_group.isin(["rural", "small_community"]), "area_id"])
     lv2 = levels.copy()
-    lv2.loc[lv2.area_id.isin(rural_ids), "y_central"] = 0.229
+    floor = madison_floor()
+    lv2.loc[lv2.area_id.isin(rural_ids), "y_central"] = floor
     v = central_total(scen, lv2)
-    sens.append({"change": "rural and small-community places at the Madison floor (0.229)",
+    sens.append({"change": f"rural and small-community places at the Madison floor ({floor:g})",
                  "central_additional_5yr": round(v, 1), "difference": round(v - base_central, 1)})
     adopt = pd.read_csv(REFERENCE / "statewide_adoption_curve.csv")
     psens = pd.read_csv(REFERENCE / "pooled_sensitivities.csv")

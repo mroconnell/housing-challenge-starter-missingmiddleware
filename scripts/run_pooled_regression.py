@@ -24,12 +24,13 @@ from missing_middleware.comparison import ca_regression as cr
 from missing_middleware.comparison import pooled_regression as pr
 from missing_middleware.comparison import statewide_states as ss
 from missing_middleware.model import engine as e
+from missing_middleware.model.params import madison_floor
 from missing_middleware.paths import PROCESSED, RAW, REFERENCE, processed_dir
 
 MAIN = "p_value_income_size"   # chosen on leave-one-state-out (see main())
 CODES = RAW / "statewide_states" / "census_place_codes"
 PLACE_CODES = {"53": CODES / "st53_wa_place2020.txt", "41": CODES / "st41_or_place2020.txt"}
-FLOOR = 0.229
+FLOOR = madison_floor()   # Madison floor (AQ-024); set once in reference/adu_model_params.json
 CITY_PLACES = {"seattle": "5363000", "portland": "4159000", "austin": "4805000", "denver": "0820000",
                "minneapolis": "2743000", "madison": "5548000", "tucson": "0477000", "spokane": "5367000"}
 STATE_PARENT = {"WA_inc_exSeattle": "53", "OR_panel32_exPortland": "41", "RI_statewide": "44", "MA_statewide": "25",

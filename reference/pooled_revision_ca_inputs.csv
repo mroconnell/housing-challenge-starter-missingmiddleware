@@ -1,0 +1,31 @@
+option,year,adu_units,one_unit_detached_homes,rate_per_1000,basis
+as_used,2017,4974.0,8323006.0,0.5976,unchanged
+as_used,2018,8863.0,8057229.0,1.1,unchanged
+as_used,2019,12616.0,8146808.0,1.5486,unchanged
+as_used,2020,12650.0,8187302.0,1.5451,unchanged
+as_used,2021,20482.0,8235880.0,2.4869,unchanged
+as_used,2022,25332.0,8198841.0,3.0897,unchanged
+as_used,2023,28256.0,8238501.0,3.4298,unchanged
+as_used,2024,30338.0,8223723.0,3.6891,unchanged
+as_used,2025,31945.0,8178290.0,3.9061,unchanged
+as_used,"2023-2025, 457 pooled jurisdictions",87303.0,23543548.0,3.7081,home-years
+cap_a2,2017,4974.0,8323006.0,0.5976,unchanged
+cap_a2,2018,8719.0,8057229.0,1.0821,"jurisdiction-year,unchanged"
+cap_a2,2019,12354.0,8146808.0,1.5164,"jurisdiction-year,unchanged"
+cap_a2,2020,12416.0,8187302.0,1.5165,"jurisdiction-year,unchanged"
+cap_a2,2021,19664.0,8235880.0,2.3876,"jurisdiction-year,unchanged"
+cap_a2,2022,24336.0,8198841.0,2.9682,"jurisdiction-year,unchanged"
+cap_a2,2023,26798.0,8238501.0,3.2528,"jurisdiction-year,unchanged"
+cap_a2,2024,28163.0,8223723.0,3.4246,"jurisdiction-year,unchanged"
+cap_a2,2025,29549.0,8178290.0,3.6131,"jurisdiction-year,unchanged"
+cap_a2,"2023-2025, 457 pooled jurisdictions",81368.0,23543548.0,3.4561,home-years
+cap_la_calibrated,2017,4974.0,8323006.0,0.5976,unchanged
+cap_la_calibrated,2018,8616.3757,8057229.0,1.0694,"jurisdiction-year,unchanged"
+cap_la_calibrated,2019,12229.4631,8146808.0,1.5011,"jurisdiction-year,unchanged"
+cap_la_calibrated,2020,10900.8148,8187302.0,1.3314,"jurisdiction-year,unchanged"
+cap_la_calibrated,2021,17093.4523,8235880.0,2.0755,"jurisdiction-year,unchanged"
+cap_la_calibrated,2022,20911.056,8198841.0,2.5505,"jurisdiction-year,unchanged"
+cap_la_calibrated,2023,22049.9797,8238501.0,2.6765,"jurisdiction-year,unchanged"
+cap_la_calibrated,2024,23135.8733,8223723.0,2.8133,"jurisdiction-year,unchanged"
+cap_la_calibrated,2025,24308.2589,8178290.0,2.9723,"jurisdiction-year,unchanged"
+cap_la_calibrated,"2023-2025, 457 pooled jurisdictions",66833.5466,23543548.0,2.8387,home-years

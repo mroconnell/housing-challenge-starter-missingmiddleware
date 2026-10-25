@@ -19,11 +19,12 @@ import pandas as pd
 
 from missing_middleware.comparison import ca_regression as cr
 from missing_middleware.model import engine as e
+from missing_middleware.model.params import madison_floor
 from missing_middleware.paths import PROCESSED, REFERENCE, processed_dir, raw_dir
 
 MAIN = "group_value_hinge_size"
 ALT_FORMS = ("group_value_size", "group_value_income_size", "group_only")
-FLOOR = 0.229                         # Madison floor (AQ-024), applied by the engine
+FLOOR = madison_floor()               # Madison floor (AQ-024), applied by the engine; set in adu_model_params.json
 RAMP = (0.10, 0.53, 0.58, 0.85, 1.0)  # California restrictive-group ramp, capped at 1 (as run)
 RAMPS = {
     "restrictive (as run)": RAMP,
