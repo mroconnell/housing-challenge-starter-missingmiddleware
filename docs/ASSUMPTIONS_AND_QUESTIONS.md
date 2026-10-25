@@ -511,7 +511,7 @@ All figures are additional permits on top of the current-law baseline of about 6
 
 **Consequences:** Wisconsin's second-home series adds teardown-rebuild ADUs (a small increase). The adjustment to comparison-state counts becomes the measured share of ADUs built with a new house on a previously vacant lot, replacing the withdrawn 80% placeholder; Seattle and Austin, where condominium rules drive new-house ADUs, are flagged as outliers and shown only as an optional sensitivity.
 
-**Decision:** Adopted 2026-10-25.
+**Decision:** Adopted 2026-10-25. The same rule applies everywhere for now. The owner's hunch (2026-10-25) is to count the ADU in both cases (a vacant-lot ADU counts as 1, the house stays in ordinary new construction), to revisit after the Madison-like test. Vacant-lot ADUs are therefore tallied separately everywhere, so either rule can be applied.
 
 ## Questions for office hours
 
