@@ -16,7 +16,10 @@ Outputs:
   reference/pooled_revision_wi.csv               Wisconsin statewide results by option x configuration
   reference/pooled_revision_wi_by_year.csv       Wisconsin rates and additional permits by year
   reference/pooled_revision_stage2_levels.csv     each state's level (law in force, year 4+, typical place)
-  reference/pooled_revision_madison_like_wi.csv  Wisconsin Madison-like screen (pending owner decision)
+  reference/pooled_revision_madison_like_wi.csv  Wisconsin Madison-like screen
+  reference/pooled_revision_wi_y_by_area.csv     per-area with-law levels for the engine (AQ-042):
+                                                 option (ii) cap+A2 x A (adopted), (ii) x B and (iii) x A (sensitivities)
+  reference/pooled_revision_adoption_line.csv    statewide adoption reference line, as reported and with the vacant-lot rule
   data/processed/pooled_revision/summary.json
 Run: uv run python scripts/run_pooled_revision.py
 """
@@ -65,6 +68,9 @@ CONFIG_LABELS = {
 }
 CA_ONLY_RAMP = (0.10, 0.53, 0.58, 0.85, 1.0)           # run_ca_regression.PATH_RAMPS["central"]
 MADISON_LIKE_PATH = None                                # read in main()
+# per-area levels written for the engine (scripts/run_adu_model.py reads them; AQ-042)
+ENGINE_LEVELS = (("cap_a2", "A_ca_in_common_level"), ("cap_a2", "B_ca_out_of_common_level"),
+                 ("cap_la_calibrated", "A_ca_in_common_level"))
 
 
 def tspec(name, w=W):
@@ -271,7 +277,7 @@ def main():
     pd.DataFrame(ca_rows).round(4).to_csv(REFERENCE / "pooled_revision_ca_inputs.csv", index=False)
 
     # ---------------- G3F-2: leave one state out, non-California states ----------------
-    loso_rows, g3, drop_rows, wi_rows, wy_rows, st2_rows = [], [], [], [], [], []
+    loso_rows, g3, drop_rows, wi_rows, wy_rows, st2_rows, lv_rows = [], [], [], [], [], [], []
     for opt, pan in panels.items():
         p = build(d, pan)
         err = {}
@@ -323,6 +329,13 @@ def main():
                 st2_rows.append(dict(option=opt, config=n, cluster=c, in_stage2=c in set(f.stage2["cluster"]),
                                      level_with_law_k4=float(np.exp(a + lawc)), alpha=float(a)))
             wy_rows += [dict(option=opt, **b) for b in by]
+            if (opt, n) in ENGINE_LEVELS:
+                fac80 = r["factor80"]
+                lv_rows.append(pd.DataFrame({
+                    "option": opt, "config": n, "area_id": wi["area_id"].to_numpy(),
+                    **{f"y_k{k}_central": Y[:, k - 1] for k in range(1, 6)},
+                    "y_plateau_lower_80": Y[:, 4] / fac80, "y_plateau_central": Y[:, 4],
+                    "y_plateau_upper_80": Y[:, 4] * fac80}))
         # toggles on the winner (each rule switched off alone)
         tog = {}
         for lab, kw, fl in (("vacant_lot_off", dict(vacant=False), FLOOR_NEW), ("minneapolis_off", dict(mpls=False), FLOOR_NEW),
@@ -340,16 +353,23 @@ def main():
     wdf[first + [c for c in wdf.columns if c not in first]].round(4).to_csv(REFERENCE / "pooled_revision_wi.csv", index=False)
     pd.DataFrame(st2_rows).round(4).to_csv(REFERENCE / "pooled_revision_stage2_levels.csv", index=False)
     pd.DataFrame(wy_rows).round(4).to_csv(REFERENCE / "pooled_revision_wi_by_year.csv", index=False)
+    pd.concat(lv_rows, ignore_index=True).round(4).to_csv(REFERENCE / "pooled_revision_wi_y_by_area.csv", index=False)
 
     # adoption reference line (statewide-law states' median path; no California in it)
     pts = pr.adoption_points(p.rows, p.row_homes())   # last option's rows: vacant-lot rule applied
     pts0 = pr.adoption_points(p0.rows, p0.row_homes())
     summary["adoption_line"] = {}
+    al_rows = []
     for lab, pt in (("as_reported", pts0), ("vacant_lot_x0.951", pts)):
         c = pr.adoption_curve(pt)
         app = pr.apply_curve(c["median_rate"].to_numpy(), base)
+        for i, t in enumerate(e.YEARS):
+            al_rows.append(dict(variant=lab, year=t, forecast_year=2026 + t, median_rate=float(c["median_rate"].iloc[i]),
+                                with_law_total=float(app["with_law_total"].iloc[i]), baseline=float(base[i]),
+                                additional=float(app["additional"].iloc[i])))
         summary["adoption_line"][lab] = {"rates": c["median_rate"].round(4).tolist(), "additional_5yr": float(app["additional"].sum()),
                                          "with_law_total_5yr": float(app["with_law_total"].sum())}
+    pd.DataFrame(al_rows).round(4).to_csv(REFERENCE / "pooled_revision_adoption_line.csv", index=False)
     (od / "summary.json").write_text(json.dumps(summary, indent=2, default=float))
     pd.set_option("display.width", 250)
     print(pd.DataFrame(g3)[["option", "config", "rms_log_error", "winner", "bootstrap_win_share_abc", "drop_one_wins_of_7"]].round(3).to_string())

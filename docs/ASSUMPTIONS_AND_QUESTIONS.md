@@ -501,7 +501,7 @@ The owner accepted every Gate 2 recommendation: the data is fit for Gate 3 (G2-1
 
 All figures are additional permits on top of the current-law baseline of about 650 over the same five years. The pooled ramp (0.62, 0.78, 0.81, 1, 1 of the increment) is used; the California ramp is not applied on top.
 
-**Decision:** Adopted.
+**Decision:** Adopted. *Numbers superseded 2026-10-25 by AQ-042 (lower 4,407, central 8,721, Strong adoption 16,853; adoption line 8,208).*
 
 ## AQ-039 Teardown-rebuild ADUs count; vacant-lot new-house ADUs do not
 
@@ -532,6 +532,31 @@ All figures are additional permits on top of the current-law baseline of about 6
 **Owner decision:** the goal is a model that predicts the benchmark scenario, so ADUs beyond benchmark come out of comparison numerators, using the simplest defensible method: at most 2 ADUs per parcel (cumulative) plus the definite multifamily rule on parcel numbers in HCD APR Table A2 (cutoff 2023-01-01, when HCD began allowing 3 ADUs on single-family lots). This is a known undercount. The LA County-calibrated correction is shown as a named sensitivity; the LA assessor data stay validation-only. Minneapolis is reduced 12.7% for duplex-lot ADUs. Office-hours question 23.
 
 **Why it matters (owner):** part of California's lead over other states, measured as ADUs per 1,000 single-family homes, comes from multifamily-lot ADUs in the numerator whose multifamily homes are not in the denominator.
+
+## AQ-042 Adopted Gate 3 basis and final numbers
+
+**Status:** Adopted. **Added:** 2026-10-25. **Related:** AQ-038 to AQ-041, [Gate 3 packet](gate3/README.md), [POOLED_REVISION.md](gate3/POOLED_REVISION.md), [ELIGIBLE_BASIS.md](gate3/ELIGIBLE_BASIS.md).
+
+**Owner decision (2026-10-25):** the headline is POOLED_REVISION option (ii) "cap + A2", configuration A (California in the between-state common level). It predicts the 7 held-out non-California statewide-law states best: its RMS log error is 0.113, against 0.132 for flattened permits per one-unit detached home and 0.168 and 0.202 for the two eligible-property variants (ELIGIBLE_BASIS.md section 3). It uses no LA County assessor data.
+
+**What the adopted run contains:**
+- California ADU counts: at most 2 ADU units per parcel plus the A2 parcel-number multifamily rule (AQ-041).
+- Non-California series: × (1 − 0.049) for vacant-lot new-house ADUs (AQ-039); Minneapolis × (1 − 0.127) for duplex-lot ADUs.
+- Madison floor 0.2345 permits per 1,000 one-unit detached homes per year (40 second-home units ÷ 213.168 thousand home-years ÷ 0.8); `madison_floor.in_use` = `g3f_revision_2026_10_25`.
+- Madison, the only Wisconsin place that meets the Madison-like definition, follows the observed Madison-like median path in every scenario: 0.452, 0.542, 0.601, 0.799, 1.076 permits per 1,000 one-unit detached homes per year in 2027–2031 (an explicit per-area path in the engine, `area_paths` in `reference/adu_model_params.json`, with no ramp on top).
+- Labels: lower "Like the slower statewide-law states"; central "Like a typical statewide-law state"; upper "Strong adoption", with the info text "The high end of what statewide-law states have reached; only California has gone higher."
+
+**Final numbers** (additional second-home permits on single-family lots, statewide, summed over 2027–2031, on top of a current-law baseline of 645 permits over the same five years; engine outputs in `reference/adu_model_statewide.csv`):
+- Lower 4,407; central 8,721; Strong adoption 16,853.
+- Statewide adoption reference line 8,208 (median observed path of statewide-law states, with the vacant-lot factor).
+- Madison's own addition is 135 permits over 2027–2031 in every scenario (53.292 thousand homes × (3.470 − 5 × 0.188) per 1,000 homes).
+- Against the published POOLED_REVISION figures with Madison at its pooled level (4,424 / 8,912 / 17,374), the path lowers lower by 17, central by 191 and upper by 521, because Madison's pooled additions were 152, 326 and 656.
+
+**Terms (owner, 2026-10-25):** lower, central and Strong adoption are *scenarios*; one-assumption-changed runs are *sensitivity cases* (the *sensitivity analysis*); methodological alternatives scored on the hold-out states (permits vs units, eligible-property basis, California in or out) are *robustness checks*.
+
+**Sensitivity cases** (central [lower, upper] where computed): Madison at its pooled level 8,912 [4,424, 17,374]; California out of the common level 7,621 [5,144, 11,190]; LA-calibrated multifamily correction 8,402 [4,564, 15,170]; eligible-property basis without one-unit attached homes 8,164 [4,254, 15,318] (on its own 636-permit baseline); no ramp 10,228; rural and small-community places at the floor 4,729; multiplicative law 722; California-only regression 2,361. File: `reference/adu_model_sensitivities.csv`; tornado chart `docs/gate3/sensitivity_tornado.png`.
+
+**Decision:** Adopted 2026-10-25. Gate 3 decisions G3F-1 to G3F-4 are closed (AQ-040); the project advances to Gate 4.
 
 ## Questions for office hours
 
@@ -614,3 +639,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-25 | Data rules | Owner decisions D1–D6 on data compliance (see docs/DATA_COMPLIANCE.md); leave git history; office-hours questions 19–22 added. |
 | 2026-10-25 | AQ-040 | G3F-1 upper labelled "Strong adoption" with basis on an info icon; G3F-2 California inclusion decided by non-California hold-out accuracy; G3F-3 measured vacant-lot share (~5%) replaces 80%; G3F-4 advance after revision; 2-ADU-per-parcel cap; multifamily-lot ADUs removed. |
 | 2026-10-25 | AQ-041 | Cap at 2 ADUs per parcel plus the A2 parcel-number multifamily rule (main); LA-calibrated correction as a sensitivity; office-hours question 23. |
+| 2026-10-25 | AQ-042 | Adopted POOLED_REVISION option (ii) configuration A with the vacant-lot and Minneapolis adjustments, Madison floor 0.2345 and Madison on the Madison-like path: lower 4,407, central 8,721, Strong adoption 16,853 on a 645 baseline; eligible-property basis kept as a sensitivity case and robustness check; advance to Gate 4. |

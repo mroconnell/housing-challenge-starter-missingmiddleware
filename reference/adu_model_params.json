@@ -1,10 +1,17 @@
 {
   "scenario_id": "adu_benchmark_statewide",
-  "status": "Gate 3 final proposal (AQ-036, AQ-038); for owner confirmation",
+  "status": "Adopted 2026-10-25 (AQ-042): pooled revision option (ii) cap+A2, configuration A (California in the common level); Madison on the observed Madison-like path",
   "units": "second-home permits on single-family lots per 1,000 one-unit detached homes per year",
-  "area_levels": "reference/pooled_wi_y_by_area.csv (y_plateau_lower_80, y_plateau_central, y_plateau_upper_80: pooled two-stage model across California, statewide-law states, and five cities)",
+  "area_levels": {
+    "file": "reference/pooled_revision_wi_y_by_area.csv",
+    "option": "cap_a2",
+    "config": "A_ca_in_common_level",
+    "columns": "y_plateau_lower_80, y_plateau_central, y_plateau_upper_80",
+    "basis": "pooled two-stage model across California (cap of 2 ADUs per parcel plus the A2 multifamily parcel rule, AQ-041), seven statewide-law states and five cities, with the vacant-lot new-house factor x(1 - 0.049) on non-California series (AQ-039) and Minneapolis x(1 - 0.127); written by scripts/run_pooled_revision.py (docs/gate3/POOLED_REVISION.md)",
+    "superseded": "reference/pooled_wi_y_by_area.csv (adopted 2026-10-24, AQ-038)"
+  },
   "madison_floor": {
-    "in_use": "adopted_2026_10_24",
+    "in_use": "g3f_revision_2026_10_25",
     "units": "second-home permits on single-family lots per 1,000 one-unit detached homes per year; applied to every area and path by the engine (AQ-024)",
     "variants": {
       "adopted_2026_10_24": {
@@ -23,42 +30,69 @@
   },
   "paths": {
     "lower": {
-      "level": 0.229,
+      "level": 0.2345,
       "spillover": 0.0,
       "ramp": [
-        0.603,
-        0.773,
-        0.802,
+        0.6124,
+        0.7838,
+        0.8144,
         1.0,
         1.0
       ],
-      "basis": "Like the slower statewide-law states: pooled model, 10th percentile of the between-state spread"
+      "basis": "Like the slower statewide-law states: pooled revision (ii) configuration A, 10th percentile of the between-state spread (factor 1/1.89)",
+      "label": "Like the slower statewide-law states",
+      "info": "Below every statewide-law state's typical level; the closest are Rhode Island and Oregon."
     },
     "central": {
-      "level": 0.229,
+      "level": 0.2345,
       "spillover": 0.0,
       "ramp": [
-        0.6222,
-        0.7838,
-        0.8121,
+        0.6339,
+        0.7958,
+        0.8247,
         1.0,
         1.0
       ],
-      "basis": "Like a typical statewide-law state: pooled model central; ramp from the pooled year terms"
+      "basis": "Like a typical statewide-law state: pooled revision (ii) configuration A central; ramp from the pooled year terms",
+      "label": "Like a typical statewide-law state",
+      "info": "Like a typical statewide-law state."
     },
     "upper": {
-      "level": 0.229,
+      "level": 0.2345,
       "spillover": 0.0,
       "ramp": [
-        0.632,
-        0.79,
-        0.817,
+        0.6444,
+        0.8017,
+        0.8297,
         1.0,
         1.0
       ],
-      "basis": "California-level response: pooled model, 90th percentile of the between-state spread (driven by California; every other statewide-law state sits below it)"
+      "basis": "Strong adoption: pooled revision (ii) configuration A, 90th percentile of the between-state spread (factor 1.89). The high end of what statewide-law states have reached; only California has gone higher.",
+      "label": "Strong adoption",
+      "info": "The high end of what statewide-law states have reached; only California has gone higher."
     }
   },
-  "statewide_adoption_line": "reference/statewide_adoption_curve.csv (median observed path of statewide-law states; shown alongside the scenarios)",
-  "notes": "Uniform 'level' applies only where an area has no model level. The Madison floor is set once, in madison_floor (in_use selects the variant; every path and script reads it via missing_middleware.model.params.madison_floor). The California ramp is not applied on top of the pooled ramp. Path-specific ramps reproduce the pooled model's direct totals (each path scales the whole rate path)."
+  "area_paths": {
+    "madison_like_path": {
+      "area_ids": [
+        "muni:5502548000"
+      ],
+      "area_names": [
+        "Madison city"
+      ],
+      "rates": [
+        0.452,
+        0.542,
+        0.601,
+        0.799,
+        1.076
+      ],
+      "units": "second-home permits on single-family lots per 1,000 one-unit detached homes per year, forecast years 1-5 (2027-2031); already ramped, so the engine applies no ramp on top",
+      "applies_to": "all paths (lower, central, upper)",
+      "source": "reference/madison_like_median_path.csv, group 'WA+OR Madison-like (main)': median of 9 Washington and Oregon Madison-like cities in years 1-3 and 4 Oregon cities in years 4-5 (docs/gate3/MADISON_LIKE_CITIES.md)",
+      "basis": "Owner decision 2026-10-25 (AQ-040 follow-up, AQ-042): Madison, the only Wisconsin place meeting the Madison-like definition (incorporated; 20,000-120,000 one-unit detached homes; median value $250,000-$500,000; not the largest city), follows the observed Madison-like path instead of its pooled level."
+    }
+  },
+  "statewide_adoption_line": "reference/pooled_revision_adoption_line.csv, variant vacant_lot_x0.951 (median observed path of statewide-law states with the AQ-039 vacant-lot factor; shown alongside the scenarios). The as-reported line is in the same file; reference/statewide_adoption_curve.csv is the 2026-10-24 version.",
+  "notes": "Uniform 'level' (the Madison floor) applies only where an area has no model level. The Madison floor is set once, in madison_floor (in_use selects the variant; every path and script reads it via missing_middleware.model.params.madison_floor). area_paths replaces an area's level and ramp with an explicit observed path (engine.run area_paths). The California ramp is not applied on top of the pooled ramp. Path-specific ramps reproduce the pooled model's direct totals (each path scales the whole rate path); rounded to 4 decimals."
 }

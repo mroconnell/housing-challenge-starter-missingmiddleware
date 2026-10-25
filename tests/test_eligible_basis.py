@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
-import pytest
+import math
+
+
+def approx(a, b, rel=1e-6):
+    return math.isclose(a, b, rel_tol=rel, abs_tol=1e-9)
 
 from missing_middleware.comparison import eligible_basis as E
 
@@ -26,7 +30,7 @@ def test_eligible_scope_weights():
     u = units()
     assert float(E.eligible(u, {"sf_det": 1.0}, E.SIZES["mid"]).iloc[0]) == 1000
     me = E.eligible(u, E.LAW_SCOPE["ME"][1], E.SIZES["mid"]).iloc[0]
-    assert me == pytest.approx(1000 + 100 + 20 + 0.5 * 10)
+    assert approx(me, 1000 + 100 + 20 + 0.5 * 10)
     # Oregon (detached only) never exceeds California (all multifamily)
     assert E.scenario_eligible(u, "OR", "central").iloc[0] < E.scenario_eligible(u, "CA", "central").iloc[0]
     assert E.scenario_eligible(u, "CA", "low").iloc[0] <= E.scenario_eligible(u, "CA", "central").iloc[0] \
@@ -65,11 +69,11 @@ def test_capped_events_keeps_two_years_per_parcel():
 
 def test_propensity_and_blended_identity():
     p = E.propensity(permits_sf=50, permits_mf=30, props_sf=10_000, props_mf=2_000)
-    assert p["rate_sf"] == pytest.approx(5.0) and p["rate_mf"] == pytest.approx(15.0)
-    assert p["ratio_mf_to_sf"] == pytest.approx(3.0)
+    assert approx(p["rate_sf"], 5.0) and approx(p["rate_mf"], 15.0)
+    assert approx(p["ratio_mf_to_sf"], 3.0)
     # recover the single-family rate from the blended rate with the ratio
-    assert E.sf_rate_from_blended(p["rate_blended"], 10_000, 2_000, 3.0) == pytest.approx(5.0)
-    assert E.sf_rate_from_blended(4.0, 10_000, 2_000, 1.0) == pytest.approx(4.0)
+    assert approx(E.sf_rate_from_blended(p["rate_blended"], 10_000, 2_000, 3.0), 5.0)
+    assert approx(E.sf_rate_from_blended(4.0, 10_000, 2_000, 1.0), 4.0)
 
 
 def test_components_from_acs():

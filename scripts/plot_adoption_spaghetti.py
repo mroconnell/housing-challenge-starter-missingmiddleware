@@ -7,10 +7,11 @@ per 1,000 one-unit detached homes per year.
 Two charts, both in docs/gate3/:
 
 - adoption_spaghetti_states.png: each statewide-law state (faint), the median
-  and low-high range across states, and Wisconsin's model path (statewide).
+  and low-high range across states, and Wisconsin's model path (statewide,
+  adopted AQ-042 basis from reference/adu_model_statewide_by_year.csv).
 - adoption_spaghetti_cities.png: each Madison-like city in Washington, Oregon
-  and Rhode Island (faint), their median, Madison's own history, and the
-  model's path for Madison.
+  and Rhode Island (faint), their median, Madison's own history, Madison's
+  adopted path (the Madison-like median, AQ-042) and its pooled level (sensitivity).
 
 Run: uv run --with matplotlib python scripts/plot_adoption_spaghetti.py
 """
@@ -31,9 +32,13 @@ WI_HOMES = 1_839_569
 MADISON_ID = "muni:5502548000"
 FORECAST_START = 2027  # stylized: law in force from forecast year 1 (AQ-021)
 
-NAMES = {"WA_inc_exSeattle": "Washington law: cities excl. Seattle", "OR_panel32_exPortland": "Oregon law: 32 cities excl. Portland",
-         "VT_chittenden": "Vermont law: Chittenden County only", "UT_mih": "Utah law: reporting cities", "MA_statewide": "Massachusetts",
-         "ME_statewide": "Maine", "RI_statewide": "Rhode Island"}
+NAMES = {"WA_inc_exSeattle": "Washington law, measured in its cities excl. Seattle",
+         "OR_panel32_exPortland": "Oregon law, measured in 32 cities excl. Portland",
+         "VT_chittenden": "Vermont law, measured in Chittenden County", "UT_mih": "Utah law, measured in reporting cities",
+         "MA_statewide": "Massachusetts law, measured statewide", "ME_statewide": "Maine law, measured statewide",
+         "RI_statewide": "Rhode Island law, measured statewide"}
+LEVELS = REF / "pooled_revision_wi_y_by_area.csv"   # adopted per-area levels (AQ-042)
+ADOPTED = ("cap_a2", "A_ca_in_common_level")
 GREY, BLUE, GREEN, ORANGE, RED, PURPLE = "#4a5568", "#2b6cb0", "#2f855a", "#c05621", "#e53e3e", "#805ad5"
 
 
@@ -62,12 +67,18 @@ def states_chart() -> Path:
     obs = pts.groupby("k")["rate"].agg(n="count", median_rate="median", min_rate="min", max_rate="max").reset_index()
     ax.fill_between(obs["k"], obs["min_rate"], obs["max_rate"], color=BLUE, alpha=0.12,
                     label="Low-to-high range across states (excl. California)")
+    placed = []   # (k, y) of labels already placed, to keep end labels from overlapping
     for series, g in annual[annual["series"].isin(k1.index)].groupby("series"):
         k = g["year"] - k1[series] + 1
         g = g.assign(k=k)[(k >= -5) & (k <= 5)].sort_values("k")
         ax.plot(g["k"], g["per_1000_homes"], color=GREY, alpha=0.4, lw=1.1, marker="o", ms=2.5)
-        ax.annotate(NAMES.get(series, series), (g["k"].iloc[-1], g["per_1000_homes"].iloc[-1]), xytext=(4, 0),
-                    textcoords="offset points", fontsize=6.5, color=GREY, va="center")
+        kx, ky = g["k"].iloc[-1], g["per_1000_homes"].iloc[-1]
+        ly = ky
+        while any(pk == kx and abs(py - ly) < 0.06 for pk, py in placed):
+            ly += 0.06
+        placed.append((kx, ly))
+        ax.annotate(NAMES.get(series, series), (kx, ky), xytext=(kx + 0.04, ly), textcoords="data",
+                    fontsize=6.5, color=GREY, va="center")
     ca = curve.dropna(subset=["ca_rate_k_from_2017_law"])
     ca_k = [-2, -1, 0] + ca["k"].tolist()
     ca_r = [0.12, 0.12, 0.12] + ca["ca_rate_k_from_2017_law"].tolist()  # 2014-2016 mean (CA_STUDY_RESULTS.md §8)
@@ -82,7 +93,7 @@ def states_chart() -> Path:
         p = by_year[by_year["path"] == path]
         rate = (p["baseline_units"] + p["additional_units"]) / WI_HOMES * 1000
         ax.plot(p["year"], rate, color=GREEN, **style,
-                label="Wisconsin model, central" if path == "central" else ("Wisconsin model, lower and upper" if path == "lower" else None))
+                label="Wisconsin model, central" if path == "central" else ("Wisconsin model, lower and Strong adoption" if path == "lower" else None))
     wi_now = by_year[by_year["path"] == "central"]["baseline_units"].iloc[0] / WI_HOMES * 1000
     ax.plot([-5, 0], [wi_now, wi_now], color=RED, lw=1.6, ls="-.", label=f"Wisconsin today, no law ({wi_now:.2f})")
     _style(ax, "Statewide ADU laws: each state's measured area, the median, and the Wisconsin model", -5)
@@ -102,8 +113,9 @@ def cities_chart() -> Path:
     med = med[med["group"] == "WA+OR Madison-like (main)"]
     mad = pd.read_csv(REF / "madison_adu_permits_by_year.csv")
     mad = mad[(mad["category"] == "second_home_sf_lot") & mad["year"].between(2014, 2025)]
-    lv = pd.read_csv(REF / "pooled_wi_y_by_area.csv").set_index("area_id").loc[MADISON_ID]
-    homes = lv["homes"]
+    lv = pd.read_csv(LEVELS)
+    lv = lv[lv["option"].eq(ADOPTED[0]) & lv["config"].eq(ADOPTED[1])].set_index("area_id").loc[MADISON_ID]
+    homes = pd.read_csv(REF / "pooled_wi_y_by_area.csv").set_index("area_id").loc[MADISON_ID, "homes"]
 
     fig, ax = plt.subplots(figsize=(10, 6), dpi=150)
     ax.set_ylim(0, 2.7)
@@ -123,12 +135,16 @@ def cities_chart() -> Path:
     k = mad["year"] - FORECAST_START + 1
     ax.plot(k, mad["units"] / homes * 1000, color=RED, lw=2, marker="o", ms=3,
             label="Madison, observed 2014–2025 (no state law; plotted as if the law took effect in 2027)")
-    ys = [lv[f"y_k{i}_central"] for i in range(1, 6)]
-    ax.plot(range(1, 6), ys, color=GREEN, lw=2.4, label="Model path for Madison, central")
+    ys = med.sort_values("year_since_law")["median_rate"].tolist()   # adopted: Madison on the Madison-like path
+    ax.plot(range(1, 6), ys, color=GREEN, lw=2.4, marker="s", ms=4,
+            label="Model path for Madison (adopted): the Madison-like median, all three scenarios")
     ax.plot([k.iloc[-1], 1], [mad["units"].iloc[-1] / homes * 1000, ys[0]], color=GREEN, lw=1, ls=":")
+    yp = [lv[f"y_k{i}_central"] for i in range(1, 6)]
+    ax.plot(range(1, 6), yp, color=GREEN, lw=1.4, ls="--", alpha=0.8,
+            label="Madison at its pooled level, central (sensitivity)")
     _style(ax, "Madison-like cities under statewide ADU laws, and Madison", -5)
     fig.text(0.01, 0.005, "Sources: reference/madison_like_annual.csv, madison_like_median_path.csv, madison_adu_permits_by_year.csv, "
-             "pooled_wi_y_by_area.csv.\nCity counts include ADUs built with a new house; Madison excludes vacant-lot ones (AQ-039).",
+             "pooled_revision_wi_y_by_area.csv.\nCity counts include ADUs built with a new house; Madison excludes vacant-lot ones (AQ-039).",
              fontsize=6, color="#718096")
     fig.tight_layout(rect=(0, 0.04, 1, 1))
     out = DOCS / "adoption_spaghetti_cities.png"

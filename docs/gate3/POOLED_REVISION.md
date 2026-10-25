@@ -1,6 +1,6 @@
 # Pooled model with the owner's outcome rules, and the G3F-2 test
 
-Prepared 2026-10-25 for the owner (AQ-040, G3F-1 to G3F-3; AQ-041: California option (ii) is the main candidate). Status: **candidate outputs, not adopted.** The adopted files (`reference/pooled_*.csv`, `reference/adu_model_*.csv`) are unchanged; everything here is in new files named `pooled_revision_*`.
+Prepared 2026-10-25 for the owner (AQ-040, G3F-1 to G3F-3; AQ-041: California option (ii) is the main candidate). Status: **adopted 2026-10-25 (AQ-042).** Option (ii) cap + A2, configuration A, is now the engine's basis: `scripts/run_pooled_revision.py` writes its per-area levels to [`pooled_revision_wi_y_by_area.csv`](../../reference/pooled_revision_wi_y_by_area.csv), `scripts/run_adu_model.py` reads them, and `madison_floor.in_use` is the 2026-10-25 variant. Madison follows the observed Madison-like path (an explicit per-area path in the engine), so the adopted totals are lower 4,407, central 8,721, Strong adoption 16,853 (section 4 gives only the central with the path; lower and upper move by −17 and −521 because Madison's pooled lower and upper additions were 152 and 656). The `reference/pooled_*.csv` files of 2026-10-24 are kept unchanged as the superseded run. Sentences below that say "not adopted" or "pending" describe the state before AQ-042.
 
 **Units used throughout.** Unless a sentence says otherwise:
 - a **rate** is ADU (second-home) permits issued in a year ÷ thousands of one-unit detached homes (ACS 2020–2024 B25024_002): "permits per 1,000 single-family homes per year";

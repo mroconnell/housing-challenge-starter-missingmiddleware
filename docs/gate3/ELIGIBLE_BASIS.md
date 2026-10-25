@@ -1,6 +1,6 @@
 # Eligible-property basis: ADU permits per 1,000 eligible properties
 
-Prepared 2026-10-25 to test the owner's reframing of the same day. Status: **candidate outputs, not adopted.** The adopted outputs and the `pooled_revision_*` candidates are unchanged. Everything here is in new files named `eligible_basis_*`.
+Prepared 2026-10-25 to test the owner's reframing of the same day. Status: **tested, not adopted (AQ-042).** The owner kept POOLED_REVISION option (ii) configuration A as the headline because it predicts held-out states best (RMS log error 0.113, against 0.132 for flattened permits per house and 0.168 / 0.202 for the eligible-property variants). The run without one-unit attached homes (lower 4,254, central 8,164, Strong adoption 15,318) is a sensitivity case, and the eligible-property variants are robustness checks, in the [Gate 3 packet](README.md). Everything here is in files named `eligible_basis_*`.
 
 **The question being tested:** "How many new ADU permits per 1,000 eligible properties result from a statewide benchmark ADU law?"
 

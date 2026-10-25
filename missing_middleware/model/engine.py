@@ -21,6 +21,16 @@ so the Madison floor and the statewide level apply everywhere (AQ-024), places
 already at benchmark also get the statewide spillover on their own rate if that is
 higher (AQ-027), and no area is forecast below its current rate.
 
+Explicit per-area paths (AQ-042). An area may instead be given an observed year-by-year
+with-law path r[a,t] (for example Madison on the median path of Madison-like cities under
+statewide laws, docs/gate3/MADISON_LIKE_CITIES.md). Such a path already contains its own
+ramp-up, so the path's ramp is not applied:
+    y[a,t]     = max(floor_rate[p], r[a,t], x[a])
+    additional = H[a] * max(y[a,t] - x[a] * g[a,t], 0) / 1000
+The area-level and uniform levels are ignored for that area; the floor and the
+never-below-current-rate rules still apply. A path given without a `path` column applies
+to every scenario path (lower, central, upper alike).
+
 Parameters are supplied by the caller (from the California study and the
 Wisconsin baseline); nothing here is calibrated. All paths share the same H and x,
 so the baseline is identical across paths and only y and the ramp differ.
@@ -63,8 +73,27 @@ def y_rate(x: float, at_benchmark: bool, p: PathParams) -> float:
     return max(p.floor_rate, p.level, spill, x)
 
 
+def area_path_lookup(area_paths: pd.DataFrame | None, path_names) -> dict:
+    """{(area_id, path): (r_1..r_5)} from a long table area_id, year (1..5), rate[, path]."""
+    if area_paths is None or len(area_paths) == 0:
+        return {}
+    need = {"area_id", "year", "rate"}
+    if need - set(area_paths.columns):
+        raise ValueError(f"area_paths needs columns {sorted(need)}")
+    out = {}
+    for keys, g in area_paths.groupby(["area_id"] + (["path"] if "path" in area_paths.columns else [])):
+        keys = keys if isinstance(keys, tuple) else (keys,)
+        g = g.set_index(g["year"].astype(int))["rate"]
+        if sorted(g.index) != list(YEARS) or g.isna().any() or (g < 0).any():
+            raise ValueError(f"area path for {keys} needs a non-negative rate for each year {YEARS}")
+        rates = tuple(float(g[t]) for t in YEARS)
+        for path in ([keys[1]] if len(keys) > 1 else path_names):
+            out[(keys[0], path)] = rates
+    return out
+
+
 def run(areas: pd.DataFrame, scenario: Scenario, baseline_growth: pd.DataFrame | None = None,
-        area_levels: pd.DataFrame | None = None) -> pd.DataFrame:
+        area_levels: pd.DataFrame | None = None, area_paths: pd.DataFrame | None = None) -> pd.DataFrame:
     """Compute baseline and additional units by area, forecast year, and path.
 
     areas needs columns: area_id, homes (H), x_rate, at_benchmark (bool),
@@ -74,6 +103,9 @@ def run(areas: pd.DataFrame, scenario: Scenario, baseline_growth: pd.DataFrame |
     y_central, y_upper) giving an area-specific with-law level that replaces the
     path's uniform level for that area (for example from the market-adjusted
     regression); the floor and spillover rules still apply.
+    area_paths (optional) has area_id, year (1..5), rate, and optionally path: an explicit
+    with-law rate path per year that replaces the level and the ramp for that area (see the
+    module docstring); without a path column it applies to every path.
     """
     need = {"area_id", "homes", "x_rate", "at_benchmark"}
     missing = need - set(areas.columns)
@@ -89,21 +121,28 @@ def run(areas: pd.DataFrame, scenario: Scenario, baseline_growth: pd.DataFrame |
                 v = r.get(f"y_{path}")
                 if v is not None and pd.notna(v):
                     lv[(r["area_id"], path)] = float(v)
+    ap = area_path_lookup(area_paths, tuple(scenario.paths))
     rows = []
     for a in areas.itertuples(index=False):
         for path, p in scenario.paths.items():
             if (a.area_id, path) in lv:
                 p = PathParams(level=lv[(a.area_id, path)], floor_rate=p.floor_rate,
                                spillover=p.spillover, ramp=p.ramp)
+            fixed = ap.get((a.area_id, path))
             y = y_rate(a.x_rate, bool(a.at_benchmark), p)
             for i, t in enumerate(YEARS):
                 gt = g.get((a.area_id, t), 1.0)
                 x_t = a.x_rate * gt
                 base = a.homes * x_t / 1000
-                add = a.homes * max(y - x_t, 0.0) * p.ramp[i] / 1000
+                if fixed is None:
+                    y_t, ramp_t = y, p.ramp[i]
+                else:   # explicit observed path: its own ramp-up, so no ramp on top
+                    y_t, ramp_t = max(p.floor_rate, fixed[i], a.x_rate), 1.0
+                add = a.homes * max(y_t - x_t, 0.0) * ramp_t / 1000
                 rows.append({
                     "scenario_id": scenario.scenario_id, "area_id": a.area_id, "path": path,
-                    "year": t, "homes": a.homes, "x_rate": a.x_rate, "y_rate": y,
+                    "year": t, "homes": a.homes, "x_rate": a.x_rate, "y_rate": y_t,
+                    "y_source": "area_path" if fixed is not None else ("area_level" if (a.area_id, path) in lv else "uniform_level"),
                     "baseline_units": base, "additional_units": add,
                     "y_basis": scenario.labels.get(path, ""),
                     "x_basis": getattr(a, "x_basis", ""), "rights_basis": getattr(a, "rights_basis", ""),

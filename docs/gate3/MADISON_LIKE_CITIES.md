@@ -1,5 +1,7 @@
 # Madison-like cities in statewide-ADU-law states
 
+> **Used in the adopted model (2026-10-25, AQ-042):** Madison now follows the WA+OR median path in this document (0.452, 0.542, 0.601, 0.799, 1.076 permits per 1,000 single-family homes per year in 2027–2031) in every scenario. Its addition is 135 permits over 2027–2031. The model figures quoted below (typical-state path 0.83, 1.03, 1.07, 1.30; Madison plateau 1.75) are the 2026-10-24 model. The adopted model's statewide central is 0.77, 0.95, 0.99, 1.19, 1.19 permits per 1,000 single-family homes per year, and Madison's pooled plateau (now a sensitivity) is 1.63. See the [Gate 3 packet](README.md).
+
 Owner question, 2026-10-25: have Madison-like cities in states with a statewide ADU law climbed to the rates the model predicts?
 
 **All numbers are descriptive.** A rate that rose after a state law is *associated with* the law. Every city also changed its own rules, interest rates moved, and there is no comparison group, so none of this estimates the law's effect.

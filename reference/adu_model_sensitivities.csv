@@ -1,3 +1,10 @@
-change,central_additional_5yr,difference
-no ramp (full rate from year 1),11294.0,1768.2
-rural and small-community places at the Madison floor (0.229),5185.2,-4340.6
+change,kind,madison,lower_additional_5yr,central_additional_5yr,upper_additional_5yr,difference_central,baseline_5yr,source
+"adopted: pooled revision (ii) cap+A2, configuration A, Madison on the Madison-like path",engine,path,4407.3,8720.6,16852.8,0.0,644.9,this run
+Madison at its pooled level (no Madison-like path),engine,pooled level,4424.0,8912.0,17373.9,191.4,644.9,engine without area_paths
+California out of the common level (configuration B),engine,path,5144.3,7620.6,11190.2,-1100.0,644.9,reference/pooled_revision_wi_y_by_area.csv (cap_a2 x B_ca_out_of_common_level)
+"LA-calibrated multifamily correction (option iii, configuration A)",engine,path,4563.7,8401.7,15169.8,-318.9,644.9,reference/pooled_revision_wi_y_by_area.csv (cap_la_calibrated x A_ca_in_common_level)
+no ramp (full rate from 2027; Madison's observed path unchanged),engine,path,,10227.7,,1507.0,644.9,"engine, central ramp set to 1"
+rural and small-community places at the Madison floor (0.2345),engine,path,,4729.4,,-3991.3,644.9,"engine, rural y_central = floor"
+"eligible-property basis without one-unit attached homes: permits per 1,000 properties eligible under each state's law (detached homes plus multifamily properties)",model,path,4254.2,8163.6,15318.1,-557.1,636.4,reference/eligible_basis_wi.csv (docs/gate3/ELIGIBLE_BASIS.md)
+multiplicative: the law only multiplies each place's current rate by the pooled statewide-law factor,model,multiplicative like every place,,722.3,,-7998.3,644.9,reference/pooled_revision_wi.csv (sens_multiplicative)
+California-only market regression (refitted on cap+A2 counts),model,regression like every place,,2361.0,,-6359.6,644.9,reference/pooled_revision_wi.csv (sens_ca_only_regression)
