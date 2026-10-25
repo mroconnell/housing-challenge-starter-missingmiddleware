@@ -503,6 +503,16 @@ All figures are additional permits on top of the current-law baseline of about 6
 
 **Decision:** Adopted.
 
+## AQ-039 Teardown-rebuild ADUs count; vacant-lot new-house ADUs do not
+
+**Status:** Adopted. **Added:** 2026-10-25. **Related:** AQ-032, AQ-038.
+
+**Owner decision:** An ADU permitted together with a new house counts as a second home on a single-family lot when the lot previously had a home (teardown-rebuild: one net added home, like an ADU behind an existing house; the benchmark covers parcels with existing single-family buildings). It does not count when the lot was vacant (new development, outside the benchmark). The rule applies the same way in Wisconsin and in every comparison state.
+
+**Consequences:** Wisconsin's second-home series adds teardown-rebuild ADUs (a small increase). The adjustment to comparison-state counts becomes the measured share of ADUs built with a new house on a previously vacant lot, replacing the withdrawn 80% placeholder; Seattle and Austin, where condominium rules drive new-house ADUs, are flagged as outliers and shown only as an optional sensitivity.
+
+**Decision:** Adopted 2026-10-25.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -574,3 +584,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-24 | AQ-036 | Statewide rate comes from a pooled multi-state model or measured adoption path, not a judgment anchor; the local-only scenario is removed from the tool. |
 | 2026-10-24 | AQ-037 | Coded rules do not predict activity in California or Wisconsin; they explain results, discretionary review is a downside sensitivity; owner accepted data-collection calls. |
 | 2026-10-24 | AQ-038 | Final Gate 3 scenarios from the pooled model (about 4,800 / 9,500 / 18,400) with the statewide adoption line (about 8,650) and named downside sensitivities. |
+| 2026-10-25 | AQ-039 | Teardown-rebuild ADUs count as second homes; vacant-lot new-house ADUs do not; the new-house adjustment uses the measured vacant-lot share. |
