@@ -523,6 +523,14 @@ All figures are additional permits on top of the current-law baseline of about 6
 - **G3F-4:** advance to Gate 4 after these revisions.
 - **Related owner direction (2026-10-25):** count at most 2 ADUs per parcel (more is beyond benchmark, like condo conversion), and remove ADUs on multifamily lots from comparison numerators, measured from California APR parcel numbers and an ACS cross-city check, with a one-time LA County assessor validation. The rule change allowing 3 ADUs on single-family lots in California dates from January 2023 (owner).
 
+## AQ-041 Multifamily-lot ADUs in comparison counts
+
+**Status:** Adopted. **Added:** 2026-10-25. **Related:** AQ-032, AQ-040.
+
+**Owner decision:** the goal is a model that predicts the benchmark scenario, so ADUs beyond benchmark come out of comparison numerators, using the simplest defensible method: at most 2 ADUs per parcel (cumulative) plus the definite multifamily rule on parcel numbers in HCD APR Table A2 (cutoff 2023-01-01, when HCD began allowing 3 ADUs on single-family lots). This is a known undercount. The LA County-calibrated correction is shown as a named sensitivity; the LA assessor data stay validation-only. Minneapolis is reduced 12.7% for duplex-lot ADUs. Office-hours question 23.
+
+**Why it matters (owner):** part of California's lead over other states, measured as ADUs per 1,000 single-family homes, comes from multifamily-lot ADUs in the numerator whose multifamily homes are not in the denominator.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -557,6 +565,7 @@ Kept here so the owner can take them to mentor office hours or the Administrator
 20. Many government sources we use (city permit reports, state ADU reports, county zoning pages) state no license. May we treat them as public records and use them, citing the source?
 21. Where an official file is no longer online (or the site blocks scripts), may the pipeline fetch an Internet Archive (Wayback Machine) copy, with its capture date and checksum recorded, instead of the live file? This covers Green Bay permit reports, the Wisconsin DOA land-regulations inventory, an HCD 2019 ordinance list and some archived California ordinances.
 22. Some local permit data are only reachable through report screens rather than open-data APIs (Madison's report viewer, Pleasant Prairie's SmartGov, Sun Prairie's Power BI, Kaukauna's Municode Meetings). Do these satisfy "fetched automatically from the authoritative source", given they may break when the city changes its software?
+23. California's ADU counts include ADUs on multifamily lots, which the benchmark (one ADU on a parcel with an existing single-family home) does not cover. Our denominator is single-family homes, so they inflate California's rate. A one-time LA County assessor check found about 25% of 2023 ADUs on multifamily lots. Our options: (a) the 2-per-parcel cap plus a rule using only parcel numbers in the state permit data, which is simple and uses no new data but undercounts multifamily lots (California 2023–2025: 3.57 per 1,000 single-family homes per year instead of 3.84); (b) the same plus a correction calibrated to county assessor land-use codes (2.93), which is more accurate but adds a dataset and a calibration step; (c) no adjustment. We use (a) and show (b) as a sensitivity. Is that acceptable, or do judges prefer the more accurate (b)?
 
 ## Additional questions to develop
 
@@ -602,3 +611,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-25 | AQ-039 | Teardown-rebuild ADUs count as second homes; vacant-lot new-house ADUs do not; the new-house adjustment uses the measured vacant-lot share. |
 | 2026-10-25 | Data rules | Owner decisions D1–D6 on data compliance (see docs/DATA_COMPLIANCE.md); leave git history; office-hours questions 19–22 added. |
 | 2026-10-25 | AQ-040 | G3F-1 upper labelled "Strong adoption" with basis on an info icon; G3F-2 California inclusion decided by non-California hold-out accuracy; G3F-3 measured vacant-lot share (~5%) replaces 80%; G3F-4 advance after revision; 2-ADU-per-parcel cap; multifamily-lot ADUs removed. |
+| 2026-10-25 | AQ-041 | Cap at 2 ADUs per parcel plus the A2 parcel-number multifamily rule (main); LA-calibrated correction as a sensitivity; office-hours question 23. |
