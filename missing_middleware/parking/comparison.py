@@ -98,13 +98,17 @@ def complete(p: pd.DataFrame, years) -> set:
     return set(g[g == len(years)].index)
 
 
-def controls(p: pd.DataFrame, key: str, event_year: int, excluded: set, homes: pd.Series) -> tuple[list, str]:
+def controls(p: pd.DataFrame, key: str, event_year: int, excluded: set, homes: pd.Series,
+             population: pd.Series | None = None) -> tuple[list, str]:
     """Comparison places: same state and 0.5-2x population; widened to 1/3-3x, then (plan
     deviation 1, 2026-10-26) to the same Census division at 0.5-2x and 1/3-3x, until there
-    are at least MIN_CONTROLS."""
+    are at least MIN_CONTROLS. `population` (by key) replaces the BPS Pop field when given:
+    BPS Pop is stale or wrong for some places in some years (deviation 4)."""
     pre, post = windows(event_year)
     last = p[(p["year"] == event_year - 1)].set_index("key")
     base, div = last["pop"], last["division"] if "division" in last else pd.Series(dtype=str)
+    if population is not None:
+        base = population.reindex(base.index)
     pop0 = base.get(key, np.nan)
     st = key.split("|")[0]
     dv = div.get(key, None)
@@ -121,7 +125,8 @@ def controls(p: pd.DataFrame, key: str, event_year: int, excluded: set, homes: p
     return c, label + f" (fewer than {MIN_CONTROLS})"
 
 
-def effects(p: pd.DataFrame, cases: pd.DataFrame, excluded: set, homes: pd.Series) -> pd.DataFrame:
+def effects(p: pd.DataFrame, cases: pd.DataFrame, excluded: set, homes: pd.Series,
+            population: pd.Series | None = None) -> pd.DataFrame:
     """One row per case and outcome. cases: key, event_year (+ any id columns kept)."""
     rows = []
     for r in cases.itertuples(index=False):
@@ -133,7 +138,7 @@ def effects(p: pd.DataFrame, cases: pd.DataFrame, excluded: set, homes: pd.Serie
         if r.key not in complete(p, pre + post) or pd.isna(homes.get(r.key)):
             rows.append({**base, "status": "excluded: missing permit years or homes"})
             continue
-        ctrl, window = controls(p, r.key, int(r.event_year), excluded, homes)
+        ctrl, window = controls(p, r.key, int(r.event_year), excluded, homes, population)
         for col, lab in (("units_total", "all"), ("units_2plus", "2plus")):
             t0, t1 = _rate(p, [r.key], pre, col, homes), _rate(p, [r.key], post, col, homes)
             c0, c1 = _rate(p, ctrl, pre, col, homes), _rate(p, ctrl, post, col, homes)

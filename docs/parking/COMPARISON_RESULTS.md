@@ -1,58 +1,89 @@
-# Parking: results of the repeal comparison (Gate 2, first full run)
+# Parking: results of the repeal comparison (Gate 2)
 
-Written 2026-10-26 by the parking conductor. Plan: [COMPARISON_PLAN.md](COMPARISON_PLAN.md), including deviations 1 and 2. Status: for owner review. These are not Gate 3 numbers.
+Written 2026-10-26 by the parking conductor and revised the same day after an independent review. Plan: [COMPARISON_PLAN.md](COMPARISON_PLAN.md), with deviations 1–4 in its section 8. Status: for owner review. These are not yet Gate 3 numbers.
+
+**Terms used here**
+- *Repeal place*: a US city, village or town that removed minimum parking requirements for all housing.
+- *Comparison places*: similar places in the same state that did not.
+- *Effect*: how much a repeal place's permit rate changed, minus how much its comparison places' rate changed over the same years. The unit is permits per 1,000 existing homes per year.
+- *Likely range*: the 5th to 95th percentile of the average, from re-drawing the sample of places 2,000 times.
 
 ## Answer
 
-**In the three years after US places removed parking minimums for all housing, they did not permit measurably more homes than similar places that kept them.**
-- **Average change:** the homes-weighted average change was −1.29 permits per 1,000 existing homes per year, against comparison places, across 24 repeal places. The bootstrap range (5th–95th percentile) runs from −3.68 to +2.33, so it includes zero.
-- **Direction:** 9 of the 24 places rose faster than their comparison places, and 15 rose slower.
-- **Apartments** (units in buildings of 2+ units): −1.60 permits per 1,000 homes per year, with a range of −3.59 to +1.20. Again 9 of 24 places rose.
-- **Size and setting:** the data cannot tell city types apart. The best model by held-out prediction used city size and metro setting. It predicted only 5% better than one average for all places: a mean error of 4.81 against 5.07 permits per 1,000 homes per year. Both of its slopes have bootstrap ranges that include zero. No size cut-off (10,000, 20,000, 50,000 or 100,000 people) predicted better than one average.
+**In the three years after US places removed parking minimums for all housing, their permit rates did not rise measurably compared with similar places that kept them.**
+- **Average:** the effect averaged −1.18 permits per 1,000 existing homes per year across 24 repeal places, weighting each place by its number of homes. The likely range is −3.57 to +2.21, so it includes zero.
+- **Direction:** 10 of the 24 places rose faster than their comparison places, and 14 rose slower.
+- **Apartments** (units in buildings of 2+ units): −1.67 per 1,000 homes per year, with a likely range of −3.70 to +1.06. 9 of 24 places rose.
+- **City types:** no size cut-off (10,000, 20,000, 50,000 or 100,000 people) predicted places left out of the fit better than one average. A smooth model using city size and metro setting predicted 5% better: an average error of 4.65 against 4.90 permits per 1,000 homes per year. But the likely range of each of its two terms includes zero. So we use one average (deviation 3).
+
+## Checks on the average (`reference/parking_comparison_robustness.csv`)
+
+All rows are all units, in permits per 1,000 existing homes per year.
+
+| Check | Places | Effect | Likely range |
+| --- | ---: | ---: | --- |
+| Main result (weighted by homes) | 24 | −1.18 | −3.57 to +2.21 |
+| Unweighted average | 24 | +0.69 | |
+| Median place | 24 | −0.50 | |
+| Without San Francisco (25% of the weight) | 23 | −0.48 | −3.77 to +3.11 |
+| Without the two small Texas places | 22 | −1.28 | −3.61 to +1.74 |
+| Only places that did not rewrite their zoning at the same time | 6 | −3.54 | −4.79 to −2.54 |
+| Including the 6 "repeal with conditions" places | 30 | −1.00 | −3.28 to +1.84 |
+| Leaving out one state at a time | 20–23 | from −2.47 (no North Carolina) to +0.09 (no Minnesota) | |
+
+The answer does not depend on one place or one state. Every version is near zero or below it. The 6 places that repealed without a wider rewrite all fell against their comparison places, mostly because of San Francisco, Lexington and Cambridge MA.
 
 ## The sample
 
 | Step | Places |
 | --- | ---: |
-| PRN places at the benchmark, adopted 2015–2022 | 46 |
-| Not found in the Census permit place files (Wilmington NC, South Bend, 4 Michigan villages) | −6 |
-| Ordinance check: weaker than the benchmark (Norman, Maumee, Camden), minimums restored in the after period (Central Falls), or no repeal event (Chattahoochee Hills) | −5 |
+| Places PRN rates as removing minimums for all housing, adopted 2015–2022 | 46 |
+| Not found in the Census permit place files (Wilmington NC, South Bend, Sandusky city and 3 Michigan villages) | −6 |
+| Ordinance check: weaker than PRN says (Norman, Maumee, Camden), minimums restored in the after period (Central Falls), or no minimums before either (Chattahoochee Hills) | −5 |
 | Too recent once the effective date was used (San Jose, Anchorage), or missing permit years (Gastonia, Avondale Estates, Calumet) | −5 |
 | **Included** | **30** |
-| of which rated "near" by the ordinance check (separate arm) | 6 |
+| of which removed minimums with conditions (reported separately, not pooled) | 6 |
 | **Main sample** | **24** |
 
-The included places, their before and after rates, comparison places and effects are in `reference/parking_comparison_effects.csv`. The model comparison is in `reference/parking_comparison_models.csv`, and the estimates in `reference/parking_comparison_estimates.csv`. Script: `scripts/run_parking_comparison.py`.
+Wilmington NC was also rated weaker by the ordinance check. It is counted once, as not found. PRN is the Parking Reform Network database the classification starts from.
+
+Files: `reference/parking_comparison_effects.csv` (each place's before and after rates, comparison places and effect), `reference/parking_comparison_models.csv`, `reference/parking_comparison_estimates.csv`, `reference/parking_repeal_checks.csv`. Script: `scripts/run_parking_comparison.py`.
 
 ## Points to note
 
-- **West Allis, the in-state case, rose.** It permitted 2.63 units per 1,000 homes per year in 2017–2021 and 7.49 in 2023–2025. Its 216 comparison places in Wisconsin barely moved (8.93 and 9.03), so the effect is +4.76. The repeal came with a complete new zoning code, so this cannot be credited to parking alone.
-- **Big cities mostly fell against their comparisons:**
-  - San Francisco −4.43 (2019);
-  - Minneapolis −8.09 (2021);
-  - Lexington −4.46;
-  - St. Paul −1.57 (2021);
-  - Raleigh +7.02.
-- **Small places swing widely.** Bastrop TX rose by +27.8 and Bandera TX fell by −25.9. Each has a few hundred to a few thousand homes, so they carry little weight.
-- **"Near" arm (6 places),** reported but not pooled: Buffalo +0.78, Windham +8.12, Cambridge MD −6.68, Branson +3.86, Canandaigua +2.63, Seabrook −1.93.
-- **Simultaneous rewrites:** 18 of the 24 main places repealed minimums as part of a wider zoning rewrite, by the check's broad flag. That leaves only 6 places without one, too few to test.
+- **West Allis, the in-state case, rose.** It permitted 2.63 units per 1,000 homes per year in 2017–2021 and 7.49 in 2023–2025. Its 21 comparison places in Wisconsin, of 30,000–120,000 people, went from 5.32 to 5.84. So its effect is +4.34, or +3.95 for apartments. The repeal came with a complete new zoning code, so this cannot be credited to parking alone.
+- **Big cities mostly fell against their comparison places:**
+  - San Francisco −3.28 (repealed 2019);
+  - Minneapolis −8.52 (2021);
+  - Lexington −5.08 (2022);
+  - St. Paul −2.22 (2021).
+
+  Raleigh (2022) rose by +7.04, Bridgeport (2021) by +5.95 and Gainesville (2022) by +5.21. Places of 50,000+ people averaged −1.26 (7 of 16 rose). Places under 50,000 averaged +1.40 (3 of 8 rose).
+- **Small places swing widely.** Bastrop TX rose by +30.65 and Ecorse MI fell by −13.05. Each has a few thousand homes, so each carries little weight.
+- **Places that removed minimums with conditions:** Buffalo +0.48, Windham +8.39, Cambridge MD −6.68, Branson +3.16, Canandaigua +2.76, Seabrook −1.92.
+
+## Limitations
+
+- **Zoning rewrites:** 18 of the 24 places repealed parking minimums as part of a wider zoning rewrite, so parking's own effect cannot be separated out.
+- **Census estimates fill gaps:** some places' permit years are fully estimated by Census, not reported. That covers Hartford's whole after period, Roanoke's whole before period, and some years for Lexington, Gainesville, Cambridge MA and Hudson. In the independent review, run before the population fix (deviation 4), leaving the six out moved the average only from −1.29 to −1.20.
+- **State laws overlap:** California's AB 2097 and Oregon's transit-area parking rules (both 2023) also cut parking for some comparison places, in the cases of Alameda, Culver City, Emeryville, Tigard and Corvallis. That pulls those places' effects toward zero.
+- **New York towns:** their permit counts cover the town outside its villages, but the home counts include the villages.
+- **Short window:** three years after the repeal. Larger projects can take longer to reach a permit.
+- **Self-selection:** the places chose to repeal.
 
 ## What this means
 
 This fits the other evidence:
 - in Buffalo, stand-alone apartment buildings still built more parking than the old minimum;
-- Ryan's point (AQ-046) that where low-parking development is seen as risky, developers keep building parking.
+- Ryan's point (AQ-046): where low-parking development is seen as risky, developers keep building parking.
 
-Over three years, a repeal on its own has not produced a measurable rise in permits. The largest average effect the data allow is about +2.3 permits per 1,000 homes per year.
+Over three years, a repeal has not produced a measurable rise in permits.
 
-What it cannot show:
-- effects after year 3;
-- effects in places where the minimum bound hard, which may be hidden in an average across places where it didn't.
+## Owner decision (2026-10-26)
 
-## Decision for the owner
+Option A, accepted "if necessary":
+- the central case is no measurable change;
+- the upper case is the high end of the likely range;
+- there is no case below zero, because a repeal never subtracts.
 
-| Option | What the tool would show |
-| --- | --- |
-| **A (recommended)** | The central is no measurable change in permits. An upper case at the top of the range the data allow (+2.33 per 1,000 homes per year for all units, or +1.20 for apartments), labelled "if the effect is at the top of what the evidence allows". No lower case below zero, because a repeal never subtracts. |
-| B | As A, plus a cost-based estimate (parking cost saved times a supply response) as a separate "what the economics suggest" line, clearly marked as modelled rather than observed. |
-| C | Model city types separately anyway. Not recommended: the held-out test found no size or setting split that predicts better than one average. |
+The numbers it implies are in the [Gate 2 packet](GATE2_PACKET.md).

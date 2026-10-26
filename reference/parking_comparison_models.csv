@@ -1,28 +1,28 @@
 outcome,sample,model,parameters,loo_wmae,chosen,n_places
-all,main,M4 log population + metro,3,4.808667846333068,True,24
-all,main,M2 log population,2,4.845022400647136,False,24
-all,main,M0 one average,1,5.067278427249326,False,24
-all,main,M6 log population + rent + metro,4,5.0765098807136635,False,24
-all,main,"M1 bands at 50,000",2,5.0821165574357545,False,24
-all,main,M3 log population + rent,3,5.105098010069109,False,24
-all,main,"M1 bands at 20,000",2,5.114376509552506,False,24
-all,main,"M1 bands at 10,000",2,5.1246769387194515,False,24
-all,main,"M1 bands at 20,000, 50,000",3,5.140102041225118,False,24
-all,main,"M1 bands at 10,000, 50,000",3,5.141604480313245,False,24
-all,main,"M1 bands at 100,000",2,5.16873875845884,False,24
-all,main,"M1 bands at 50,000, 100,000",3,5.201659611814018,False,24
-all,main,"M1 bands at 20,000, 100,000",3,5.2224645831670005,False,24
-all,main,"M1 bands at 10,000, 100,000",3,5.226999436479819,False,24
-all,main,M5 log population + before rate,3,5.521891652751244,False,24
-all,main,"M1 bands at 10,000, 20,000",3,,False,24
-all,main_without_rewrites,M2 log population,2,1.1174672595449784,True,6
-all,main_without_rewrites,"M1 bands at 50,000",2,1.3757065983571943,False,6
-all,main_without_rewrites,"M1 bands at 100,000",2,1.3757065983571943,False,6
-all,main_without_rewrites,M0 one average,1,1.678587218025299,False,6
-all,main_without_rewrites,M3 log population + rent,3,1.7091689883385346,False,6
-all,main_without_rewrites,M5 log population + before rate,3,2.004285799026266,False,6
+all,main,M4 log population + metro,3,4.64563978835841,True,24
+all,main,M2 log population,2,4.683258130806857,False,24
+all,main,M0 one average,1,4.901534325260558,False,24
+all,main,M6 log population + rent + metro,4,4.9298950330112365,False,24
+all,main,"M1 bands at 10,000",2,4.939424526443597,False,24
+all,main,"M1 bands at 20,000",2,4.954136119120358,False,24
+all,main,M3 log population + rent,3,4.956596899036131,False,24
+all,main,"M1 bands at 50,000",2,4.961934174931678,False,24
+all,main,"M1 bands at 20,000, 50,000",3,4.968245870893881,False,24
+all,main,"M1 bands at 100,000",2,4.984919977875461,False,24
+all,main,"M1 bands at 10,000, 100,000",3,5.0185201148426195,False,24
+all,main,"M1 bands at 10,000, 50,000",3,5.037597758389948,False,24
+all,main,"M1 bands at 50,000, 100,000",3,5.044253940584409,False,24
+all,main,"M1 bands at 20,000, 100,000",3,5.045107424209735,False,24
+all,main,"M1 bands at 10,000, 20,000",3,5.057009922440415,False,24
+all,main,M5 log population + before rate,3,5.309438288143209,False,24
+all,main_without_rewrites,M5 log population + before rate,3,1.1207102311789037,True,6
+all,main_without_rewrites,M0 one average,1,1.3846993209526441,False,6
+all,main_without_rewrites,"M1 bands at 100,000",2,1.5447385911523406,False,6
+all,main_without_rewrites,M2 log population,2,2.0903419233920784,False,6
+all,main_without_rewrites,M3 log population + rent,3,2.945356172672005,False,6
 all,main_without_rewrites,"M1 bands at 10,000",2,,False,6
 all,main_without_rewrites,"M1 bands at 20,000",2,,False,6
+all,main_without_rewrites,"M1 bands at 50,000",2,,False,6
 all,main_without_rewrites,"M1 bands at 10,000, 20,000",3,,False,6
 all,main_without_rewrites,"M1 bands at 10,000, 50,000",3,,False,6
 all,main_without_rewrites,"M1 bands at 10,000, 100,000",3,,False,6
@@ -31,30 +31,30 @@ all,main_without_rewrites,"M1 bands at 20,000, 100,000",3,,False,6
 all,main_without_rewrites,"M1 bands at 50,000, 100,000",3,,False,6
 all,main_without_rewrites,M4 log population + metro,3,,False,6
 all,main_without_rewrites,M6 log population + rent + metro,4,,False,6
-2plus,main,M4 log population + metro,3,3.994279031414255,True,24
-2plus,main,M2 log population,2,4.010204518482405,False,24
-2plus,main,M0 one average,1,4.187903865707361,False,24
-2plus,main,"M1 bands at 10,000",2,4.218874835117049,False,24
-2plus,main,"M1 bands at 50,000",2,4.221988606462987,False,24
-2plus,main,"M1 bands at 20,000",2,4.227597112770404,False,24
-2plus,main,"M1 bands at 10,000, 50,000",3,4.240985326741972,False,24
-2plus,main,M6 log population + rent + metro,4,4.246697056811426,False,24
-2plus,main,M3 log population + rent,3,4.25447037573688,False,24
-2plus,main,"M1 bands at 20,000, 50,000",3,4.279809334949553,False,24
-2plus,main,"M1 bands at 100,000",2,4.3162596890029485,False,24
-2plus,main,"M1 bands at 10,000, 100,000",3,4.338667468726218,False,24
-2plus,main,"M1 bands at 20,000, 100,000",3,4.355925345533936,False,24
-2plus,main,"M1 bands at 50,000, 100,000",3,4.364687340255055,False,24
-2plus,main,M5 log population + before rate,3,4.748944547125722,False,24
-2plus,main,"M1 bands at 10,000, 20,000",3,,False,24
-2plus,main_without_rewrites,"M1 bands at 50,000",2,1.1789959285730065,True,6
-2plus,main_without_rewrites,"M1 bands at 100,000",2,1.1789959285730065,False,6
-2plus,main_without_rewrites,M2 log population,2,1.2214565687152843,False,6
-2plus,main_without_rewrites,M0 one average,1,1.4345660790651715,False,6
-2plus,main_without_rewrites,M5 log population + before rate,3,2.3077686826258463,False,6
-2plus,main_without_rewrites,M3 log population + rent,3,2.32446567590269,False,6
+2plus,main,M4 log population + metro,3,3.956804925811093,True,24
+2plus,main,M2 log population,2,3.968963193628024,False,24
+2plus,main,M0 one average,1,4.153459440420351,False,24
+2plus,main,"M1 bands at 50,000",2,4.184736840168003,False,24
+2plus,main,"M1 bands at 20,000",2,4.184762931668698,False,24
+2plus,main,"M1 bands at 10,000",2,4.191820621288472,False,24
+2plus,main,"M1 bands at 10,000, 20,000",3,4.2037629175030995,False,24
+2plus,main,"M1 bands at 20,000, 50,000",3,4.210103309732495,False,24
+2plus,main,"M1 bands at 10,000, 50,000",3,4.218126677335531,False,24
+2plus,main,M6 log population + rent + metro,4,4.2273954623817405,False,24
+2plus,main,M3 log population + rent,3,4.232899280986503,False,24
+2plus,main,"M1 bands at 100,000",2,4.254797969286703,False,24
+2plus,main,"M1 bands at 50,000, 100,000",3,4.287681411017281,False,24
+2plus,main,"M1 bands at 20,000, 100,000",3,4.290609367901689,False,24
+2plus,main,"M1 bands at 10,000, 100,000",3,4.290892360688709,False,24
+2plus,main,M5 log population + before rate,3,4.7153932378621075,False,24
+2plus,main_without_rewrites,M0 one average,1,1.0365723772975173,True,6
+2plus,main_without_rewrites,"M1 bands at 100,000",2,1.2974836037814772,False,6
+2plus,main_without_rewrites,M2 log population,2,2.1842535234060723,False,6
+2plus,main_without_rewrites,M5 log population + before rate,3,3.450184616288076,False,6
+2plus,main_without_rewrites,M3 log population + rent,3,3.7267958532748886,False,6
 2plus,main_without_rewrites,"M1 bands at 10,000",2,,False,6
 2plus,main_without_rewrites,"M1 bands at 20,000",2,,False,6
+2plus,main_without_rewrites,"M1 bands at 50,000",2,,False,6
 2plus,main_without_rewrites,"M1 bands at 10,000, 20,000",3,,False,6
 2plus,main_without_rewrites,"M1 bands at 10,000, 50,000",3,,False,6
 2plus,main_without_rewrites,"M1 bands at 10,000, 100,000",3,,False,6

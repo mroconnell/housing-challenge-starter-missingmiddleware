@@ -13,6 +13,7 @@ Outputs:
     reference/parking_comparison_effects.csv   one row per repeal place and outcome
     reference/parking_comparison_models.csv    leave-one-place-out comparison of models
     reference/parking_comparison_estimates.csv estimates and bootstrap ranges
+    reference/parking_comparison_robustness.csv checks on the one-average estimate
 """
 from __future__ import annotations
 
@@ -95,6 +96,7 @@ def main() -> None:
     geo = p.drop_duplicates("key", keep="last").set_index("key")
     homes = geo["acs_geoid"].map(homes_geo)
     homes = homes[homes > 0]
+    popn = geo["acs_geoid"].map(acs_table(RAW / "census_acs5_2024_tbsf" / "acsdt5y2024-b01003.dat", "B01003_E001"))
 
     tax = pd.read_csv(REFERENCE / "parking_reform_taxonomy.csv")
     cases = pd.read_csv(REFERENCE / "parking_reform_cases.csv")
@@ -142,7 +144,7 @@ def main() -> None:
 
     use = match[match["use"]]
     eff = cmp.effects(p, use[["prn_key", "place", "state", "population", "key", "event_year", "arm",
-                              "simultaneous_rewrite"]], excluded, homes)
+                              "simultaneous_rewrite"]], excluded, homes, popn)
     st_rent = {k.split("|")[1]: v for k, v in rent_geo.items() if k.startswith("040|")}
     eff["rel_rent"] = [rent_geo.get(geo["acs_geoid"].get(k)) / st_rent.get(k.split("|")[0], np.nan) for k in eff["key"]]
     cbsa = pd.Series(dtype=str)
@@ -155,6 +157,8 @@ def main() -> None:
     bps_cbsa = read_bps_us().assign(key=lambda d: d["state_fips"].str.strip() + "|" + d["bps_id"].str.strip()) \
         .drop_duplicates("key", keep="last").set_index("key")["cbsa"].astype(str).str.strip()
     eff["metro"] = [1.0 if cbsa.get(bps_cbsa.get(k, ""), "") == "M1" else 0.0 for k in eff["key"]]
+    eff["population_prn"] = eff["population"]
+    eff["population"] = [popn.get(k, np.nan) if isinstance(k, str) else np.nan for k in eff["key"]]
     eff["log_pop"] = cmp.log_pop(eff["population"])
     # For a later question (owner, 2026-10-26): does the effect differ when most of a state's
     # large cities have repealed? Share of the state's population in places of 50,000+ (BPS
@@ -199,6 +203,33 @@ def main() -> None:
                                  p05=np.percentile(bs[:, j], 5), p95=np.percentile(bs[:, j], 95),
                                  n_places=len(d), draws=len(bs)))
     pd.DataFrame(summ).to_csv(REFERENCE / "parking_comparison_estimates.csv", index=False)
+
+    # robustness of the one-average estimate (homes-weighted unless stated)
+    rob = []
+    for outcome in ("all", "2plus"):
+        inc = eff[(eff["status"] == "included") & (eff["outcome"] == outcome)].dropna(subset=["effect"])
+        main = inc[inc["arm"] == "main"].reset_index(drop=True)
+
+        def wmean(d):
+            return float(np.average(d["effect"], weights=d["homes"])) if len(d) else np.nan
+
+        def add(check, d, value=None, boot=True):
+            lo = hi = np.nan
+            if boot and len(d) > 2:
+                b = cmp.bootstrap(d.reset_index(drop=True), {})[:, 0]
+                lo, hi = np.percentile(b, 5), np.percentile(b, 95)
+            rob.append(dict(outcome=outcome, check=check, n_places=len(d),
+                            effect=wmean(d) if value is None else value, p05=lo, p95=hi))
+        add("main, weighted by homes", main)
+        add("main, unweighted mean", main, float(main["effect"].mean()), boot=False)
+        add("main, median", main, float(main["effect"].median()), boot=False)
+        add("without San Francisco", main[main["place"] != "San Francisco"])
+        add("without the two Texas places", main[main["state"] != "Texas"])
+        add("without places that rewrote zoning at the same time", main[~main["simultaneous_rewrite"]])
+        add("main and near together", inc)
+        for st in sorted(main["state"].unique()):
+            add(f"leave out {st}", main[main["state"] != st], boot=False)
+    pd.DataFrame(rob).to_csv(REFERENCE / "parking_comparison_robustness.csv", index=False)
     print(f"matched {match['key'].notna().sum()} of {len(match)}; used {match['use'].sum()}; "
           f"included {eff[eff['status'] == 'included']['key'].nunique()}")
 
