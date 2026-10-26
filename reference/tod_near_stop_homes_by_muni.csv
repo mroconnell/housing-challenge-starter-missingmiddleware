@@ -1,0 +1,1913 @@
+area_id,name,county,homes_2020,homes_near_main,homes_near_high,homes_near_rapid_half,homes_near_b_half,homes_near_c_half,homes_near_any_half,homes_near_main_35k,share_near_main,share_near_high,share_near_rapid_half,share_near_b_half,share_near_c_half,share_near_any_half,share_near_main_35k
+muni:5500100275,Adams city,Adams County,917,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500100300,Adams town,Adams County,919,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500107300,Big Flats town,Adams County,928,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500116075,Colburn town,Adams County,176,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500119575,Dell Prairie town,Adams County,980,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500122000,Easton town,Adams County,801,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500127950,Friendship village,Adams County,309,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500137625,Jackson town,Adams County,1073,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500143425,Leola town,Adams County,167,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500144250,Lincoln town,Adams County,220,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500153725,Monroe town,Adams County,548,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500156525,New Chester town,Adams County,714,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500156750,New Haven town,Adams County,379,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500165450,Preston town,Adams County,1031,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500165825,Quincy town,Adams County,1775,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500167425,Richfield town,Adams County,143,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500169275,Rome town,Adams County,3200,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500176350,Springville town,Adams County,1014,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500177800,Strongs Prairie town,Adams County,1341,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500188150,Wisconsin Dells city,Adams County,57,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500300550,Agenda town,Ashland County,305,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500303225,Ashland city,Ashland County,3859,0,0,0,0,0,3290,0,0.0,0.0,0.0,0.0,0.0,0.8526,0.0
+muni:5500303250,Ashland town,Ashland County,327,0,0,0,0,0,11,0,0.0,0.0,0.0,0.0,0.0,0.0336,0.0
+muni:5500311525,Butternut village,Ashland County,212,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500314550,Chippewa town,Ashland County,327,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500329250,Gingles town,Ashland County,338,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500329875,Gordon town,Ashland County,420,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500337775,Jacobs town,Ashland County,513,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500342562,La Pointe town,Ashland County,848,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500349200,Marengo town,Ashland County,222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500350700,Mellen city,Ashland County,405,0,0,0,0,0,245,0,0.0,0.0,0.0,0.0,0.0,0.6049,0.0
+muni:5500354400,Morse town,Ashland County,374,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500361600,Peeksville town,Ashland County,141,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500371350,Sanborn town,Ashland County,567,0,0,0,0,0,355,0,0.0,0.0,0.0,0.0,0.0,0.6261,0.0
+muni:5500372825,Shanagolden town,Ashland County,180,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500386850,White River town,Ashland County,369,0,0,0,0,0,60,0,0.0,0.0,0.0,0.0,0.0,0.1626,0.0
+muni:5500501325,Almena village,Barron County,344,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500501350,Almena town,Barron County,722,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500502775,Arland town,Barron County,286,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500504875,Barron city,Barron County,1552,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500504900,Barron town,Barron County,312,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500505650,Bear Lake town,Barron County,380,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500512250,Cameron village,Barron County,811,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500513500,Cedar Lake town,Barron County,1025,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500514325,Chetek city,Barron County,1116,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500514350,Chetek town,Barron County,1224,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500515600,Clinton town,Barron County,392,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500517875,Crystal Lake town,Barron County,464,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500518025,Cumberland city,Barron County,1211,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500518050,Cumberland town,Barron County,424,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500518575,Dallas village,Barron County,166,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500518600,Dallas town,Barron County,232,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500520650,Dovre town,Barron County,362,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500520750,Doyle town,Barron County,218,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500533225,Haugen village,Barron County,136,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500541600,Lakeland town,Barron County,640,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500548825,Maple Grove town,Barron County,372,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500548950,Maple Plain town,Barron County,730,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500556350,New Auburn village,Barron County,9,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500558950,Oak Grove town,Barron County,409,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500565150,Prairie Farm village,Barron County,229,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500565175,Prairie Farm town,Barron County,250,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500565200,Prairie Lake town,Barron County,940,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500567350,Rice Lake city,Barron County,4450,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500567375,Rice Lake town,Barron County,1289,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500574125,Sioux Creek town,Barron County,274,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500576550,Stanfold town,Barron County,287,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500576600,Stanley town,Barron County,1110,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500578450,Sumner town,Barron County,296,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500581075,Turtle Lake village,Barron County,493,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500581100,Turtle Lake town,Barron County,308,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500582375,Vance Creek town,Barron County,316,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500703225,Ashland city,Bayfield County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500704725,Barksdale town,Bayfield County,376,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500704750,Barnes town,Bayfield County,1417,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500705350,Bayfield city,Bayfield County,458,0,0,0,0,0,404,0,0.0,0.0,0.0,0.0,0.0,0.8821,0.0
+muni:5500705375,Bayfield town,Bayfield County,667,0,0,0,0,0,39,0,0.0,0.0,0.0,0.0,0.0,0.0585,0.0
+muni:5500705475,Bayview town,Bayfield County,339,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500706200,Bell town,Bayfield County,506,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500711675,Cable town,Bayfield County,819,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500715750,Clover town,Bayfield County,428,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500719662,Delta town,Bayfield County,388,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500720887,Drummond town,Bayfield County,658,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500722925,Eileen town,Bayfield County,330,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500730175,Grand View town,Bayfield County,580,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500736300,Hughes town,Bayfield County,402,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500737200,Iron River town,Bayfield County,1063,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500739025,Kelly town,Bayfield County,230,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500739425,Keystone town,Bayfield County,210,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500744275,Lincoln town,Bayfield County,222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500749900,Mason village,Bayfield County,44,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500749925,Mason town,Bayfield County,169,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500755375,Namakagon town,Bayfield County,649,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500760275,Orienta town,Bayfield County,253,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500760775,Oulu town,Bayfield County,313,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500762700,Pilsen town,Bayfield County,133,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500764512,Port Wing town,Bayfield County,366,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500770300,Russell town,Bayfield County,712,0,0,0,0,0,409,0,0.0,0.0,0.0,0.0,0.0,0.5744,0.0
+muni:5500780750,Tripp town,Bayfield County,168,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500783525,Washburn city,Bayfield County,1059,0,0,0,0,0,900,0,0.0,0.0,0.0,0.0,0.0,0.8499,0.0
+muni:5500783550,Washburn town,Bayfield County,279,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500901150,Allouez village,Brown County,5575,0,0,0,0,0,4047,0,0.0,0.0,0.0,0.0,0.0,0.7259,0.0
+muni:5500903425,Ashwaubenon village,Brown County,8106,0,0,0,0,0,6668,0,0.0,0.0,0.0,0.0,0.0,0.8226,0.0
+muni:5500906350,Bellevue village,Brown County,7281,0,0,0,0,0,2129,0,0.0,0.0,0.0,0.0,0.0,0.2924,0.0
+muni:5500919700,Denmark village,Brown County,1031,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500919775,De Pere city,Brown County,10305,0,0,0,0,0,3418,0,0.0,0.0,0.0,0.0,0.0,0.3317,0.0
+muni:5500922225,Eaton town,Brown County,634,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500929550,Glenmore town,Brown County,413,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500931000,Green Bay city,Brown County,45790,0,0,0,0,0,40808,0,0.0,0.0,0.0,0.0,0.0,0.8912,0.0
+muni:5500931025,Green Bay town,Brown County,911,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500935150,Hobart village,Brown County,4259,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500935325,Holland town,Brown County,596,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500935950,Howard village,Brown County,8491,0,0,0,0,0,1081,0,0.0,0.0,0.0,0.0,0.0,0.1273,0.0
+muni:5500936425,Humboldt town,Brown County,536,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500942900,Lawrence town,Brown County,2546,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500943090,Ledgeview town,Brown County,3409,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500954300,Morrison town,Brown County,640,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500956575,New Denmark town,Brown County,600,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500963075,Pittsfield town,Brown County,1067,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500965675,Pulaski village,Brown County,1591,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500968875,Rockland town,Brown County,635,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500972200,Scott town,Brown County,1554,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500977975,Suamico village,Brown County,4899,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500989150,Wrightstown village,Brown County,1103,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5500989175,Wrightstown town,Brown County,931,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501101225,Alma city,Buffalo County,479,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501101250,Alma town,Buffalo County,166,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501106675,Belvidere town,Buffalo County,223,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501111025,Buffalo town,Buffalo County,343,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501111062,Buffalo City city,Buffalo County,555,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501112500,Canton town,Buffalo County,108,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501116025,Cochrane village,Buffalo County,222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501117737,Cross town,Buffalo County,166,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501120575,Dover town,Buffalo County,196,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501126850,Fountain City city,Buffalo County,442,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501129225,Gilmanton town,Buffalo County,192,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501129375,Glencoe town,Buffalo County,187,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501144300,Lincoln town,Buffalo County,98,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501150075,Maxville town,Buffalo County,143,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501152175,Milton town,Buffalo County,261,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501153450,Modena town,Buffalo County,152,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501153600,Mondovi city,Buffalo County,1289,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501153625,Mondovi town,Buffalo County,210,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501153850,Montana town,Buffalo County,114,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501155450,Naples town,Buffalo County,266,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501155950,Nelson village,Buffalo County,193,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501155975,Nelson town,Buffalo County,286,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501184325,Waumandee town,Buffalo County,215,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501301900,Anderson town,Burnett County,299,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501308025,Blaine town,Burnett County,251,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501318750,Daniels town,Burnett County,505,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501319925,Dewey town,Burnett County,331,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501330450,Grantsburg village,Burnett County,648,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501330475,Grantsburg town,Burnett County,603,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501337650,Jackson town,Burnett County,1321,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501340975,La Follette town,Burnett County,526,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501344325,Lincoln town,Burnett County,243,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501350650,Meenon town,Burnett County,986,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501359075,Oakland town,Burnett County,1344,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501369325,Roosevelt town,Burnett County,163,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501370225,Rusk town,Burnett County,454,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501371450,Sand Lake town,Burnett County,551,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501372225,Scott town,Burnett County,1109,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501374175,Siren village,Burnett County,483,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501374200,Siren town,Burnett County,902,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501378775,Swiss town,Burnett County,987,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501380375,Trade Lake town,Burnett County,705,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501381500,Union town,Burnett County,531,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501384975,Webb Lake town,Burnett County,1012,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501385025,Webster village,Burnett County,359,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501385850,West Marshland town,Burnett County,289,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501388900,Wood River town,Burnett County,599,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501502375,Appleton city,Calumet County,4724,0,0,0,0,0,4417,0,0.0,0.0,0.0,0.0,0.0,0.935,0.0
+muni:5501509725,Brillion city,Calumet County,1383,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501509750,Brillion town,Calumet County,648,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501510350,Brothertown town,Calumet County,652,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501514000,Charlestown town,Calumet County,314,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501514475,Chilton city,Calumet County,1916,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501514500,Chilton town,Calumet County,436,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501532790,Harrison village,Calumet County,4489,0,0,0,0,0,248,0,0.0,0.0,0.0,0.0,0.0,0.0552,0.0
+muni:5501532800,Harrison town,Calumet County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501534575,Hilbert village,Calumet County,522,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501538800,Kaukauna city,Calumet County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501539525,Kiel city,Calumet County,158,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501550825,Menasha city,Calumet County,1101,0,0,0,0,0,227,0,0.0,0.0,0.0,0.0,0.0,0.2062,0.0
+muni:5501556800,New Holstein city,Calumet County,1554,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501556825,New Holstein town,Calumet County,618,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501564675,Potter village,Calumet County,102,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501566275,Rantoul town,Calumet County,284,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501573525,Sherwood village,Calumet County,1202,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501577400,Stockbridge village,Calumet County,345,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501577425,Stockbridge town,Calumet County,717,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501589000,Woodville town,Calumet County,346,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501702175,Anson town,Chippewa County,1024,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501703075,Arthur town,Chippewa County,328,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501703725,Auburn town,Chippewa County,288,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501707525,Birch Creek town,Chippewa County,399,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501708225,Bloomer city,Chippewa County,1691,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501708250,Bloomer town,Chippewa County,465,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501709075,Boyd village,Chippewa County,263,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501711750,Cadott village,Chippewa County,655,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501714575,Chippewa Falls city,Chippewa County,6769,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501715350,Cleveland town,Chippewa County,411,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501716125,Colburn town,Chippewa County,439,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501716800,Cooks Valley town,Chippewa County,280,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501717100,Cornell city,Chippewa County,687,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501719625,Delmar town,Chippewa County,375,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501721600,Eagle Point town,Chippewa County,1420,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501722300,Eau Claire city,Chippewa County,851,0,0,0,0,0,565,0,0.0,0.0,0.0,0.0,0.0,0.6639,0.0
+muni:5501722750,Edson town,Chippewa County,402,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501724375,Estella town,Chippewa County,214,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501729700,Goetz town,Chippewa County,310,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501732125,Hallie town,Chippewa County,65,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501736000,Howard town,Chippewa County,315,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501740900,Lafayette town,Chippewa County,2687,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501741525,Lake Hallie village,Chippewa County,2895,0,0,0,0,0,181,0,0.0,0.0,0.0,0.0,0.0,0.0625,0.0
+muni:5501741550,Lake Holcombe town,Chippewa County,746,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501756350,New Auburn village,Chippewa County,230,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501769975,Ruby town,Chippewa County,217,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501771275,Sampson town,Chippewa County,747,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501773875,Sigel town,Chippewa County,446,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501776625,Stanley city,Chippewa County,975,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501779875,Tilden town,Chippewa County,576,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501786537,Wheaton town,Chippewa County,1095,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501788875,Woodmohr town,Chippewa County,423,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501900100,Abbotsford city,Clark County,693,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501905750,Beaver town,Clark County,265,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501911425,Butler town,Clark County,65,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501916150,Colby city,Clark County,529,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501916175,Colby town,Clark County,285,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501918125,Curtiss village,Clark County,88,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501920025,Dewhurst town,Clark County,405,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501920450,Dorchester village,Clark County,375,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501922250,Eaton town,Clark County,248,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501926775,Foster town,Clark County,134,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501927775,Fremont town,Clark County,446,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501930275,Grant town,Clark County,383,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501930425,Granton village,Clark County,165,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501931275,Green Grove town,Clark County,242,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501931575,Greenwood city,Clark County,520,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501933900,Hendren town,Clark County,255,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501934200,Hewett town,Clark County,222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501935050,Hixon town,Clark County,275,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501935125,Hoard town,Clark County,223,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501943700,Levis town,Clark County,280,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501945700,Longwood town,Clark County,276,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501946075,Loyal city,Clark County,591,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501946100,Loyal town,Clark County,259,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501946625,Lynn town,Clark County,313,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501950175,Mayville town,Clark County,347,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501950275,Mead town,Clark County,247,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501951125,Mentor town,Clark County,285,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501955800,Neillsville city,Clark County,1222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501960825,Owen city,Clark County,460,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501963000,Pine Valley town,Clark County,534,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501967025,Reseburg town,Clark County,235,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501972450,Seif town,Clark County,128,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501973350,Sherman town,Clark County,308,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501973550,Sherwood town,Clark County,147,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501976625,Stanley city,Clark County,1,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501979625,Thorp city,Clark County,812,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501979650,Thorp town,Clark County,288,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501981825,Unity town,Clark County,289,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501981850,Unity village,Clark County,71,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501983350,Warner town,Clark County,243,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501983575,Washburn town,Clark County,194,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501985925,Weston town,Clark County,284,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501988275,Withee village,Clark County,255,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501988300,Withee town,Clark County,308,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501989125,Worden town,Clark County,245,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501989425,York town,Clark County,315,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502102800,Arlington village,Columbia County,341,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502102825,Arlington town,Columbia County,327,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502111900,Caledonia town,Columbia County,836,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502112200,Cambria village,Columbia County,343,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502116450,Columbus city,Columbia County,2445,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502116475,Columbus town,Columbia County,262,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502117325,Courtland town,Columbia County,207,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502119375,Dekorra town,Columbia County,1314,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502120775,Doylestown village,Columbia County,127,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502125150,Fall River village,Columbia County,731,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502126725,Fort Winnebago town,Columbia County,371,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502126875,Fountain Prairie town,Columbia County,386,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502128000,Friesland village,Columbia County,137,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502132375,Hampden town,Columbia County,240,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502143125,Leeds town,Columbia County,335,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502143775,Lewiston town,Columbia County,630,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502145350,Lodi city,Columbia County,1360,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502145375,Lodi town,Columbia County,1600,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502146050,Lowville town,Columbia County,443,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502149150,Marcellon town,Columbia County,429,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502157025,Newport town,Columbia County,331,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502160687,Otsego town,Columbia County,307,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502160925,Pacific town,Columbia County,1333,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502161100,Pardeeville village,Columbia County,1007,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502164100,Portage city,Columbia County,4592,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502164900,Poynette village,Columbia County,1147,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502166150,Randolph village,Columbia County,200,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502166175,Randolph town,Columbia County,281,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502168100,Rio village,Columbia County,486,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502172250,Scott town,Columbia County,311,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502176225,Springvale town,Columbia County,226,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502186100,West Point town,Columbia County,1059,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502188150,Wisconsin Dells city,Columbia County,1286,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502189300,Wyocena village,Columbia County,298,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502189325,Wyocena town,Columbia County,837,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502306225,Bell Center village,Crawford County,65,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502309550,Bridgeport town,Crawford County,438,0,0,0,0,0,30,0,0.0,0.0,0.0,0.0,0.0,0.0685,0.0
+muni:5502315075,Clayton town,Crawford County,534,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502319850,De Soto village,Crawford County,38,0,0,0,0,0,38,0,0.0,0.0,0.0,0.0,0.0,1.0,0.0
+muni:5502321900,Eastman village,Crawford County,170,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502321925,Eastman town,Crawford County,405,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502325725,Ferryville village,Crawford County,155,0,0,0,0,0,38,0,0.0,0.0,0.0,0.0,0.0,0.2452,0.0
+muni:5502327700,Freeman town,Crawford County,635,0,0,0,0,0,3,0,0.0,0.0,0.0,0.0,0.0,0.0047,0.0
+muni:5502328450,Gays Mills village,Crawford County,263,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502332500,Haney town,Crawford County,174,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502346675,Lynxville village,Crawford County,100,0,0,0,0,0,49,0,0.0,0.0,0.0,0.0,0.0,0.49,0.0
+muni:5502349275,Marietta town,Crawford County,264,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502354900,Mount Sterling village,Crawford County,94,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502365050,Prairie du Chien city,Crawford County,2599,0,0,0,0,0,645,0,0.0,0.0,0.0,0.0,0.0,0.2482,0.0
+muni:5502365075,Prairie du Chien town,Crawford County,780,0,0,0,0,0,126,0,0.0,0.0,0.0,0.0,0.0,0.1615,0.0
+muni:5502372275,Scott town,Crawford County,261,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502372500,Seneca town,Crawford County,534,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502374550,Soldiers Grove village,Crawford County,270,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502377175,Steuben village,Crawford County,57,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502382100,Utica town,Crawford County,336,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502384725,Wauzeka village,Crawford County,305,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502384750,Wauzeka town,Crawford County,181,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502500875,Albion town,Dane County,969,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502506300,Belleville village,Dane County,851,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502507025,Berry town,Dane County,506,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502507800,Black Earth village,Dane County,651,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502507825,Black Earth town,Dane County,217,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502508350,Blooming Grove town,Dane County,768,403,403,287,501,501,643,403,0.5247,0.5247,0.3737,0.6523,0.6523,0.8372,0.5247
+muni:5502508475,Blue Mounds village,Dane County,400,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502508500,Blue Mounds town,Dane County,368,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502509775,Bristol town,Dane County,1544,0,0,0,0,0,1,0,0.0,0.0,0.0,0.0,0.0,0.0006,0.0
+muni:5502510075,Brooklyn village,Dane County,330,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502511150,Burke town,Dane County,1234,31,31,31,35,35,184,31,0.0251,0.0251,0.0251,0.0284,0.0284,0.1491,0.0251
+muni:5502512225,Cambridge village,Dane County,668,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502514650,Christiana town,Dane County,530,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502517175,Cottage Grove village,Dane County,2733,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502517200,Cottage Grove town,Dane County,1459,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502517775,Cross Plains village,Dane County,1725,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502517800,Cross Plains town,Dane County,605,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502518700,Dane village,Dane County,425,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502518725,Dane town,Dane County,374,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502519250,Deerfield village,Dane County,999,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502519275,Deerfield town,Dane County,605,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502519350,DeForest village,Dane County,4297,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502521100,Dunkirk town,Dane County,832,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502521125,Dunn town,Dane County,2279,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502522575,Edgerton city,Dane County,50,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502525950,Fitchburg city,Dane County,13952,3857,3857,0,5925,5925,10010,3857,0.2764,0.2764,0.0,0.4247,0.4247,0.7175,0.2764
+muni:5502546850,McFarland village,Dane County,3616,0,0,0,0,0,893,0,0.0,0.0,0.0,0.0,0.0,0.247,0.0
+muni:5502548000,Madison city,Dane County,128430,80609,80609,47081,94719,94719,122700,80609,0.6276,0.6276,0.3666,0.7375,0.7375,0.9554,0.6276
+muni:5502548750,Maple Bluff village,Dane County,591,263,263,0,356,356,356,263,0.445,0.445,0.0,0.6024,0.6024,0.6024,0.445
+muni:5502549575,Marshall village,Dane County,1510,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502550225,Mazomanie village,Dane County,763,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502550250,Mazomanie town,Dane County,490,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502550475,Medina town,Dane County,537,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502551575,Middleton city,Dane County,10677,0,0,0,0,0,9093,0,0.0,0.0,0.0,0.0,0.0,0.8516,0.0
+muni:5502551600,Middleton town,Dane County,2297,1,1,0,31,31,61,1,0.0004,0.0004,0.0,0.0135,0.0135,0.0266,0.0004
+muni:5502553675,Monona city,Dane County,4342,267,267,0,474,474,4260,267,0.0615,0.0615,0.0,0.1092,0.1092,0.9811,0.0615
+muni:5502554100,Montrose town,Dane County,480,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502554725,Mount Horeb village,Dane County,3117,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502560200,Oregon village,Dane County,4450,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502560225,Oregon town,Dane County,1210,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502562050,Perry town,Dane County,315,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502563375,Pleasant Springs town,Dane County,1369,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502565575,Primrose town,Dane County,310,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502568725,Rockdale village,Dane County,93,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502569850,Roxbury town,Dane County,800,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502570400,Rutland town,Dane County,837,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502573750,Shorewood Hills village,Dane County,1020,957,957,957,972,972,1020,957,0.9382,0.9382,0.9382,0.9529,0.9529,1.0,0.9382
+muni:5502575850,Springdale town,Dane County,820,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502575875,Springfield town,Dane County,1132,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502577675,Stoughton city,Dane County,5784,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502578600,Sun Prairie city,Dane County,14954,230,230,230,230,230,11911,230,0.0154,0.0154,0.0154,0.0154,0.0154,0.7965,0.0154
+muni:5502578625,Sun Prairie town,Dane County,914,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502582525,Vermont town,Dane County,361,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502582600,Verona city,Dane County,5651,1145,1145,0,2083,2083,2083,1145,0.2026,0.2026,0.0,0.3686,0.3686,0.3686,0.2026
+muni:5502582625,Verona town,Dane County,744,1,1,0,58,58,106,1,0.0013,0.0013,0.0,0.078,0.078,0.1425,0.0013
+muni:5502582750,Vienna town,Dane County,599,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502584350,Waunakee village,Dane County,5548,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502586125,Westport town,Dane County,2044,0,0,0,0,0,65,0,0.0,0.0,0.0,0.0,0.0,0.0318,0.0
+muni:5502587725,Windsor village,Dane County,3345,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502589450,York town,Dane County,274,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502703200,Ashippun town,Dodge County,1089,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502705900,Beaver Dam city,Dodge County,7724,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502705925,Beaver Dam town,Dodge County,1732,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502710450,Brownsville village,Dodge County,239,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502711275,Burnett town,Dodge County,379,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502711850,Calamus town,Dodge County,458,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502714300,Chester town,Dodge County,256,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502715900,Clyman village,Dodge County,187,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502715925,Clyman town,Dodge County,322,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502716450,Columbus city,Dodge County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502723000,Elba town,Dodge County,438,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502724000,Emmet town,Dodge County,529,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502727000,Fox Lake city,Dodge County,785,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502727025,Fox Lake town,Dodge County,929,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502733000,Hartford city,Dodge County,5,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502734000,Herman town,Dodge County,449,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502735750,Horicon city,Dodge County,1709,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502736100,Hubbard town,Dodge County,892,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502736625,Hustisford village,Dodge County,524,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502736650,Hustisford town,Dodge County,596,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502737150,Iron Ridge village,Dodge County,413,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502738675,Juneau city,Dodge County,926,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502738900,Kekoskee village,Dodge County,363,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502743050,Lebanon town,Dodge County,702,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502743650,Leroy town,Dodge County,408,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502745475,Lomira village,Dodge County,1166,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502745500,Lomira town,Dodge County,449,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502745950,Lowell village,Dodge County,147,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502745975,Lowell town,Dodge County,494,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502750200,Mayville city,Dodge County,2393,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502756075,Neosho village,Dodge County,264,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502759000,Oak Grove town,Dodge County,463,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502764375,Portland town,Dodge County,477,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502766150,Randolph village,Dodge County,532,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502766900,Reeseville village,Dodge County,330,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502769962,Rubicon town,Dodge County,873,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502773575,Shields town,Dodge County,222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502779375,Theresa village,Dodge County,591,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502779425,Theresa town,Dodge County,430,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502780525,Trenton town,Dodge County,497,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502783975,Watertown city,Dodge County,3667,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502784425,Waupun city,Dodge County,2346,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502785650,Westford town,Dodge County,727,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502787225,Williamstown town,Dodge County,1,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502904325,Baileys Harbor town,Door County,1320,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502910700,Brussels town,Door County,469,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502915025,Clay Banks town,Door County,252,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502922850,Egg Harbor village,Door County,741,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502922875,Egg Harbor town,Door County,1561,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502924150,Ephraim village,Door County,592,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502926625,Forestville village,Door County,213,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502926650,Forestville town,Door County,477,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502928300,Gardner town,Door County,1099,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502928950,Gibraltar town,Door County,1474,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502937750,Jacksonport town,Door County,808,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502943925,Liberty Grove town,Door County,2321,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502955500,Nasewaupee town,Door County,1604,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502972600,Sevastopol town,Door County,1949,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502974225,Sister Bay village,Door County,1388,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502977875,Sturgeon Bay city,Door County,5269,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502977900,Sturgeon Bay town,Door County,641,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502981525,Union town,Door County,666,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502983600,Washington town,Door County,894,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503101825,Amnicon town,Douglas County,491,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503106775,Bennett town,Douglas County,354,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503110575,Brule town,Douglas County,375,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503115825,Cloverland town,Douglas County,149,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503118425,Dairyland town,Douglas County,294,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503129925,Gordon town,Douglas County,765,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503133350,Hawthorne town,Douglas County,461,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503134425,Highland town,Douglas County,289,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503141725,Lake Nebagamon village,Douglas County,769,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503141800,Lakeside town,Douglas County,323,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503148725,Maple town,Douglas County,321,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503159100,Oakland town,Douglas County,580,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503159800,Oliver village,Douglas County,186,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503161250,Parkland town,Douglas County,551,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503163975,Poplar village,Douglas County,258,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503174575,Solon Springs village,Douglas County,402,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503174600,Solon Springs town,Douglas County,671,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503178275,Summit town,Douglas County,571,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503178650,Superior city,Douglas County,12593,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503178660,Superior village,Douglas County,327,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503178675,Superior town,Douglas County,952,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503183512,Wascott town,Douglas County,1224,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503309050,Boyceville village,Dunn County,494,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503316275,Colfax village,Dunn County,530,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503316300,Colfax town,Dunn County,476,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503320675,Downing village,Dunn County,102,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503321150,Dunn town,Dunn County,635,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503322375,Eau Galle town,Dunn County,355,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503323325,Elk Mound village,Dunn County,414,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503323350,Elk Mound town,Dunn County,669,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503330300,Grant town,Dunn County,170,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503333400,Hay River town,Dunn County,257,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503339975,Knapp village,Dunn County,229,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503346175,Lucas town,Dunn County,302,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503351025,Menomonie city,Dunn County,6676,0,0,0,0,0,4503,0,0.0,0.0,0.0,0.0,0.0,0.6745,0.0
+muni:5503351050,Menomonie town,Dunn County,1336,0,0,0,0,0,68,0,0.0,0.0,0.0,0.0,0.0,0.0509,0.0
+muni:5503356775,New Haven town,Dunn County,293,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503360725,Otter Creek town,Dunn County,221,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503362125,Peru town,Dunn County,107,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503366550,Red Cedar town,Dunn County,889,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503367800,Ridgeland village,Dunn County,144,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503368700,Rock Creek town,Dunn County,416,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503371425,Sand Creek town,Dunn County,267,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503373300,Sheridan town,Dunn County,201,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503373375,Sherman town,Dunn County,385,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503375750,Spring Brook town,Dunn County,639,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503376650,Stanton town,Dunn County,328,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503378975,Tainter town,Dunn County,1257,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503379775,Tiffany town,Dunn County,270,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503385975,Weston town,Dunn County,247,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503386575,Wheeler village,Dunn County,147,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503387375,Wilson town,Dunn County,237,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503501550,Altoona city,Eau Claire County,3766,0,0,0,0,0,2874,0,0.0,0.0,0.0,0.0,0.0,0.7631,0.0
+muni:5503503825,Augusta city,Eau Claire County,659,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503509500,Bridge Creek town,Eau Claire County,827,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503510625,Brunswick town,Eau Claire County,820,0,0,0,0,0,7,0,0.0,0.0,0.0,0.0,0.0,0.0085,0.0
+muni:5503515200,Clear Creek town,Eau Claire County,310,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503520800,Drammen town,Eau Claire County,356,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503522300,Eau Claire city,Eau Claire County,29189,0,4845,0,0,7918,27108,0,0.0,0.166,0.0,0.0,0.2713,0.9287,0.0
+muni:5503524825,Fairchild village,Eau Claire County,247,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503524850,Fairchild town,Eau Claire County,181,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503525125,Fall Creek village,Eau Claire County,590,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503544350,Lincoln town,Eau Claire County,425,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503546275,Ludington town,Eau Claire County,456,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503560750,Otter Creek town,Eau Claire County,174,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503563400,Pleasant Valley town,Eau Claire County,1384,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503572675,Seymour town,Eau Claire County,1347,0,0,0,0,0,87,0,0.0,0.0,0.0,0.0,0.0,0.0646,0.0
+muni:5503581550,Union town,Eau Claire County,1042,0,0,0,0,0,206,0,0.0,0.0,0.0,0.0,0.0,0.1977,0.0
+muni:5503583612,Washington town,Eau Claire County,2966,0,0,0,0,8,964,0,0.0,0.0,0.0,0.0,0.0027,0.325,0.0
+muni:5503587400,Wilson town,Eau Claire County,227,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503703875,Aurora town,Florence County,549,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503716550,Commonwealth town,Florence County,386,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503725575,Fence town,Florence County,406,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503725675,Fern town,Florence County,360,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503726200,Florence town,Florence County,1874,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503735600,Homestead town,Florence County,391,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503745625,Long Lake town,Florence County,324,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503779975,Tipler town,Florence County,311,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503901525,Alto town,Fond du Lac County,385,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503903150,Ashford town,Fond du Lac County,754,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503903750,Auburn town,Fond du Lac County,1022,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503909300,Brandon village,Fond du Lac County,357,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503911600,Byron town,Fond du Lac County,686,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503912075,Calumet town,Fond du Lac County,797,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503912325,Campbellsport village,Fond du Lac County,800,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503922475,Eden village,Fond du Lac County,375,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503922500,Eden town,Fond du Lac County,410,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503923150,Eldorado town,Fond du Lac County,570,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503924050,Empire town,Fond du Lac County,1115,0,0,0,0,0,13,0,0.0,0.0,0.0,0.0,0.0,0.0117,0.0
+muni:5503925075,Fairwater village,Fond du Lac County,159,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503926275,Fond du Lac city,Fond du Lac County,19955,0,0,0,0,0,16289,0,0.0,0.0,0.0,0.0,0.0,0.8163,0.0
+muni:5503926300,Fond du Lac town,Fond du Lac County,1667,0,0,0,0,0,149,0,0.0,0.0,0.0,0.0,0.0,0.0894,0.0
+muni:5503926450,Forest town,Fond du Lac County,424,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503927975,Friendship town,Fond du Lac County,1291,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503939300,Kewaskum village,Fond du Lac County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503942125,Lamartine town,Fond du Lac County,696,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503949650,Marshfield town,Fond du Lac County,493,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503951450,Metomen town,Fond du Lac County,270,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503954650,Mount Calvary village,Fond du Lac County,218,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503958000,North Fond du Lac village,Fond du Lac County,2305,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503958900,Oakfield village,Fond du Lac County,434,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503958925,Oakfield town,Fond du Lac County,276,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503960425,Osceola town,Fond du Lac County,1054,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503968175,Ripon city,Fond du Lac County,3465,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503968200,Ripon town,Fond du Lac County,589,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503969525,Rosendale village,Fond du Lac County,413,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503969550,Rosendale town,Fond du Lac County,292,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503970500,St. Cloud village,Fond du Lac County,223,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503976250,Springvale town,Fond du Lac County,278,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503979125,Taycheedah town,Fond du Lac County,1906,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503984425,Waupun city,Fond du Lac County,1529,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503984450,Waupun town,Fond du Lac County,532,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504101625,Alvin town,Forest County,435,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504102625,Argonne town,Forest County,394,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504102950,Armstrong Creek town,Forest County,430,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504107950,Blackwell town,Forest County,203,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504113125,Caswell town,Forest County,125,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504117425,Crandon city,Forest County,959,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504117450,Crandon town,Forest County,451,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504127600,Freedom town,Forest County,476,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504134650,Hiles town,Forest County,746,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504142500,Laona town,Forest County,848,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504144375,Lincoln town,Forest County,1023,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504155575,Nashville town,Forest County,1352,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504164050,Popple River town,Forest County,131,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504169625,Ross town,Forest County,215,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504183025,Wabeno town,Forest County,816,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504304250,Bagley village,Grant County,256,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504306100,Beetown town,Grant County,301,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504308375,Bloomington village,Grant County,336,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504308400,Bloomington town,Grant County,176,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504308525,Blue River village,Grant County,214,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504308850,Boscobel city,Grant County,1335,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504308875,Boscobel town,Grant County,168,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504313050,Cassville village,Grant County,514,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504313075,Cassville town,Grant County,205,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504313100,Castle Rock town,Grant County,126,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504315500,Clifton town,Grant County,130,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504317950,Cuba City city,Grant County,836,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504320175,Dickeyville village,Grant County,497,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504323400,Ellenboro town,Grant County,223,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504325600,Fennimore city,Grant County,1157,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504325625,Fennimore town,Grant County,228,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504329525,Glen Haven town,Grant County,197,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504332825,Harrison town,Grant County,206,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504333500,Hazel Green village,Grant County,534,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504333525,Hazel Green town,Grant County,373,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504334300,Hickory Grove town,Grant County,190,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504337800,Jamestown town,Grant County,941,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504342250,Lancaster city,Grant County,1801,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504343825,Liberty town,Grant County,232,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504344050,Lima town,Grant County,292,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504345025,Little Grant town,Grant County,116,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504345325,Livingston village,Grant County,267,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504349350,Marion town,Grant County,266,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504352150,Millville town,Grant County,94,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504353950,Montfort village,Grant County,267,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504354675,Mount Hope village,Grant County,92,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504354700,Mount Hope town,Grant County,109,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504354775,Mount Ida town,Grant County,228,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504355200,Muscoda village,Grant County,610,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504355225,Muscoda town,Grant County,352,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504358125,North Lancaster town,Grant County,210,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504361150,Paris town,Grant County,257,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504361425,Patch Grove village,Grant County,101,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504361450,Patch Grove town,Grant County,153,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504363250,Platteville city,Grant County,4425,0,0,0,0,0,2798,0,0.0,0.0,0.0,0.0,0.0,0.6323,0.0
+muni:5504363275,Platteville town,Grant County,611,0,0,0,0,0,7,0,0.0,0.0,0.0,0.0,0.0,0.0115,0.0
+muni:5504364625,Potosi village,Grant County,325,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504364650,Potosi town,Grant County,369,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504374450,Smelser town,Grant County,337,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504375075,South Lancaster town,Grant County,282,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504379250,Tennyson village,Grant County,141,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504383900,Waterloo town,Grant County,285,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504384075,Watterstown town,Grant County,179,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504387800,Wingville town,Grant County,156,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504388825,Woodman village,Grant County,53,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504388850,Woodman town,Grant County,103,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504389250,Wyalusing town,Grant County,254,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504500325,Adams town,Green County,237,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504500750,Albany village,Green County,505,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504500775,Albany town,Green County,481,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504506300,Belleville village,Green County,218,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504509925,Brodhead city,Green County,1394,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504510075,Brooklyn village,Green County,194,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504510100,Brooklyn town,Green County,474,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504510475,Browntown village,Green County,117,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504511725,Cadiz town,Green County,357,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504515000,Clarno town,Green County,470,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504519075,Decatur town,Green County,757,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504524725,Exeter town,Green County,817,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504537875,Jefferson town,Green County,480,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504538550,Jordan town,Green County,246,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504553750,Monroe city,Green County,5141,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504553775,Monroe town,Green County,478,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504554000,Monticello village,Green County,578,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504554850,Mount Pleasant town,Green County,256,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504556700,New Glarus village,Green County,1014,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504556725,New Glarus town,Green County,542,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504576075,Spring Grove town,Green County,377,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504578875,Sylvester town,Green County,407,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504583625,Washington town,Green County,338,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504589475,York town,Green County,395,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504706925,Berlin city,Green Lake County,2568,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504706950,Berlin town,Green Lake County,464,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504710125,Brooklyn town,Green Lake County,1183,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504731300,Green Lake city,Green Lake County,785,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504731350,Green Lake town,Green Lake County,1082,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504739750,Kingston village,Green Lake County,145,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504739775,Kingston town,Green Lake County,385,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504746875,Mackford town,Green Lake County,219,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504748400,Manchester town,Green Lake County,359,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504749450,Markesan city,Green Lake County,606,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504749500,Marquette village,Green Lake County,145,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504749525,Marquette town,Green Lake County,413,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504765600,Princeton city,Green Lake County,675,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504765625,Princeton town,Green Lake County,1246,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504770925,St. Marie town,Green Lake County,200,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504772525,Seneca town,Green Lake County,196,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504902550,Arena village,Iowa County,334,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504902575,Arena town,Iowa County,714,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504904025,Avoca village,Iowa County,308,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504904775,Barneveld village,Iowa County,510,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504908125,Blanchardville village,Iowa County,87,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504909600,Brigham town,Iowa County,439,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504915875,Clyde town,Iowa County,183,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504915975,Cobb village,Iowa County,215,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504920350,Dodgeville city,Iowa County,2238,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504920375,Dodgeville town,Iowa County,722,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504922525,Eden town,Iowa County,166,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504934450,Highland village,Iowa County,380,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504934475,Highland town,Iowa County,347,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504935400,Hollandale village,Iowa County,134,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504944625,Linden village,Iowa County,226,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504944650,Linden town,Iowa County,331,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504945325,Livingston village,Iowa County,5,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504951725,Mifflin town,Iowa County,237,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504953100,Mineral Point city,Iowa County,1323,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504953125,Mineral Point town,Iowa County,397,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504953950,Montfort village,Iowa County,32,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504954425,Moscow town,Iowa County,254,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504955200,Muscoda village,Iowa County,31,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504965700,Pulaski town,Iowa County,195,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504967100,Rewey village,Iowa County,122,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504967875,Ridgeway village,Iowa County,287,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504967900,Ridgeway town,Iowa County,261,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504983150,Waldwick town,Iowa County,203,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5504989350,Wyoming town,Iowa County,224,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505101925,Anderson town,Iron County,76,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505112525,Carey town,Iron County,173,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505131875,Gurney town,Iron County,83,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505136525,Hurley city,Iron County,992,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505139625,Kimball town,Iron County,273,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505140075,Knight town,Iron County,194,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505151200,Mercer town,Iron County,1924,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505154075,Montreal city,Iron County,482,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505159850,Oma town,Iron County,520,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505161825,Pence town,Iron County,148,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505171875,Saxon town,Iron County,199,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505173400,Sherman town,Iron County,459,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505300350,Adams town,Jackson County,839,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505300900,Albion town,Jackson County,553,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505301275,Alma town,Jackson County,457,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505301300,Alma Center village,Jackson County,231,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505305550,Bear Bluff town,Jackson County,81,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505307900,Black River Falls city,Jackson County,1749,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505309900,Brockway town,Jackson County,900,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505314800,City Point town,Jackson County,212,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505315375,Cleveland town,Jackson County,232,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505318075,Curran town,Jackson County,162,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505327225,Franklin town,Jackson County,214,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505328250,Garden Valley town,Jackson County,195,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505328325,Garfield town,Jackson County,333,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505335075,Hixton village,Jackson County,222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505335100,Hixton town,Jackson County,290,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505337275,Irving town,Jackson County,325,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505340000,Knapp town,Jackson County,182,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505340325,Komensky town,Jackson County,150,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505348425,Manchester town,Jackson County,433,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505350750,Melrose village,Jackson County,233,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505350775,Melrose town,Jackson County,201,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505351300,Merrillan village,Jackson County,297,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505352050,Millston town,Jackson County,132,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505357775,North Bend town,Jackson County,212,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505357975,Northfield town,Jackson County,297,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505375900,Springfield town,Jackson County,261,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505379150,Taylor village,Jackson County,221,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505504125,Aztalan town,Jefferson County,570,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505512225,Cambridge village,Jefferson County,51,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505516225,Cold Spring town,Jefferson County,300,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505516650,Concord town,Jefferson County,864,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505525300,Farmington town,Jefferson County,575,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505526675,Fort Atkinson city,Jefferson County,5594,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505533700,Hebron town,Jefferson County,445,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505537600,Ixonia town,Jefferson County,1957,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505537900,Jefferson city,Jefferson County,3421,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505537925,Jefferson town,Jefferson County,890,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505538350,Johnson Creek village,Jefferson County,1269,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505540375,Koshkonong town,Jefferson County,1627,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505540750,Lac La Belle village,Jefferson County,3,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505541675,Lake Mills city,Jefferson County,2964,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505541700,Lake Mills town,Jefferson County,969,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505551850,Milford town,Jefferson County,479,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505559125,Oakland town,Jefferson County,1625,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505561025,Palmyra village,Jefferson County,793,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505561050,Palmyra town,Jefferson County,583,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505578175,Sullivan village,Jefferson County,325,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505578200,Sullivan town,Jefferson County,1004,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505578475,Sumner town,Jefferson County,548,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505583925,Waterloo city,Jefferson County,1491,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505583950,Waterloo town,Jefferson County,361,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505583975,Watertown city,Jefferson County,6160,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505584000,Watertown town,Jefferson County,825,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505586925,Whitewater city,Jefferson County,683,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505702850,Armenia town,Juneau County,685,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505712350,Camp Douglas village,Juneau County,275,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505715225,Clearfield town,Juneau County,464,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505718225,Cutler town,Juneau County,254,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505723800,Elroy city,Juneau County,608,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505725850,Finley town,Juneau County,98,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505726825,Fountain town,Juneau County,267,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505728850,Germantown town,Juneau County,1852,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505736675,Hustler village,Juneau County,83,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505739575,Kildare town,Juneau County,443,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505739800,Kingston town,Juneau County,49,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505743300,Lemonweir town,Juneau County,815,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505744675,Lindina town,Juneau County,313,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505744825,Lisbon town,Juneau County,413,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505746525,Lyndon town,Juneau County,730,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505746600,Lyndon Station village,Juneau County,237,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505749375,Marion town,Juneau County,276,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505750025,Mauston city,Juneau County,1954,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505755700,Necedah village,Juneau County,447,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505755725,Necedah town,Juneau County,1596,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505756900,New Lisbon city,Juneau County,703,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505760150,Orange town,Juneau County,266,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505763650,Plymouth town,Juneau County,312,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505772625,Seven Mile Creek town,Juneau County,196,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505778300,Summit town,Juneau County,321,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505781725,Union Center village,Juneau County,112,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505788150,Wisconsin Dells city,Juneau County,1,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505788500,Wonewoc village,Juneau County,386,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505788525,Wonewoc town,Juneau County,284,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505909635,Brighton town,Kenosha County,602,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505909800,Bristol village,Kenosha County,2199,0,0,0,0,0,3,0,0.0,0.0,0.0,0.0,0.0,0.0014,0.0
+muni:5505928675,Genoa City village,Kenosha County,1,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505939225,Kenosha city,Kenosha County,41663,3776,3776,3776,3776,3776,39942,3776,0.0906,0.0906,0.0906,0.0906,0.0906,0.9587,0.0906
+muni:5505960975,Paddock Lake village,Kenosha County,1293,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505961175,Paris town,Kenosha County,573,0,0,0,0,0,2,0,0.0,0.0,0.0,0.0,0.0,0.0035,0.0
+muni:5505963300,Pleasant Prairie village,Kenosha County,9008,0,0,0,0,0,2814,0,0.0,0.0,0.0,0.0,0.0,0.3124,0.0
+muni:5505966125,Randall town,Kenosha County,1594,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505971163,Salem Lakes village,Kenosha County,6315,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505974625,Somers village,Kenosha County,3781,0,0,0,0,0,712,0,0.0,0.0,0.0,0.0,0.0,0.1883,0.0
+muni:5505974650,Somers town,Kenosha County,446,0,0,0,0,0,370,0,0.0,0.0,0.0,0.0,0.0,0.8296,0.0
+muni:5505981250,Twin Lakes village,Kenosha County,3426,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505986500,Wheatland town,Kenosha County,1550,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506100600,Ahnapee town,Kewaunee County,428,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506101000,Algoma city,Kewaunee County,1676,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506112575,Carlton town,Kewaunee County,443,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506112850,Casco village,Kewaunee County,250,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506112875,Casco town,Kewaunee County,465,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506127250,Franklin town,Kewaunee County,414,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506139350,Kewaunee city,Kewaunee County,1416,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506144425,Lincoln town,Kewaunee County,377,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506146400,Luxemburg village,Kewaunee County,1064,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506146425,Luxemburg town,Kewaunee County,558,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506154050,Montpelier town,Kewaunee County,540,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506162625,Pierce town,Kewaunee County,427,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506166700,Red River town,Kewaunee County,681,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506185775,West Kewaunee town,Kewaunee County,528,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506304550,Bangor village,La Crosse County,615,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506304575,Bangor town,La Crosse County,243,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506304825,Barre town,La Crosse County,522,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506311300,Burns town,La Crosse County,410,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506312300,Campbell town,La Crosse County,2038,0,0,0,0,0,2038,0,0.0,0.0,0.0,0.0,0.0,1.0,0.0
+muni:5506325325,Farmington town,La Crosse County,902,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506331150,Greenfield town,La Crosse County,848,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506332275,Hamilton town,La Crosse County,1076,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506335350,Holland town,La Crosse County,1572,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506335450,Holmen village,La Crosse County,4395,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506340775,La Crosse city,La Crosse County,24155,0,0,0,0,0,23416,0,0.0,0.0,0.0,0.0,0.0,0.9694,0.0
+muni:5506350400,Medary town,La Crosse County,662,0,0,0,0,0,87,0,0.0,0.0,0.0,0.0,0.0,0.1314,0.0
+muni:5506359925,Onalaska city,La Crosse County,8252,0,0,0,0,0,4350,0,0.0,0.0,0.0,0.0,0.0,0.5271,0.0
+muni:5506359950,Onalaska town,La Crosse County,2250,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506368900,Rockland village,La Crosse County,310,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506373125,Shelby town,La Crosse County,2133,0,0,0,0,0,644,0,0.0,0.0,0.0,0.0,0.0,0.3019,0.0
+muni:5506383650,Washington town,La Crosse County,223,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506386275,West Salem village,La Crosse County,2168,0,0,0,0,0,1069,0,0.0,0.0,0.0,0.0,0.0,0.4931,0.0
+muni:5506502650,Argyle village,Lafayette County,373,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506502675,Argyle town,Lafayette County,215,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506506425,Belmont village,Lafayette County,455,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506506450,Belmont town,Lafayette County,297,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506506825,Benton village,Lafayette County,425,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506506850,Benton town,Lafayette County,195,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506508100,Blanchard town,Lafayette County,125,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506508125,Blanchardville village,Lafayette County,305,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506517950,Cuba City city,Lafayette County,99,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506518875,Darlington city,Lafayette County,1070,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506518900,Darlington town,Lafayette County,360,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506523262,Elk Grove town,Lafayette County,185,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506525475,Fayette town,Lafayette County,167,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506530575,Gratiot village,Lafayette County,103,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506530600,Gratiot town,Lafayette County,248,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506533500,Hazel Green village,Lafayette County,7,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506539125,Kendall town,Lafayette County,147,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506542175,Lamont town,Lafayette County,123,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506554025,Monticello town,Lafayette County,56,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506556625,New Diggings town,Lafayette County,218,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506572700,Seymour town,Lafayette County,141,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506573825,Shullsburg city,Lafayette County,562,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506573850,Shullsburg town,Lafayette County,137,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506575275,South Wayne village,Lafayette County,217,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506584850,Wayne town,Lafayette County,192,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506586800,White Oak Springs town,Lafayette County,45,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506587275,Willow Springs town,Lafayette County,297,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506588050,Wiota town,Lafayette County,392,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506700225,Ackley town,Langlade County,239,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506700625,Ainsworth town,Langlade County,513,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506702250,Antigo city,Langlade County,4105,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506702275,Antigo town,Langlade County,631,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506723050,Elcho town,Langlade County,1431,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506724575,Evergreen town,Langlade County,270,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506742425,Langlade town,Langlade County,439,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506756200,Neva town,Langlade County,429,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506758700,Norwood town,Langlade County,430,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506761375,Parrish town,Langlade County,95,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506761525,Peck town,Langlade County,179,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506763825,Polar town,Langlade County,464,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506765550,Price town,Langlade County,121,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506769175,Rolling town,Langlade County,606,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506778325,Summit town,Langlade County,147,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506781950,Upham town,Langlade County,822,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506782825,Vilas town,Langlade County,160,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506786750,White Lake village,Langlade County,205,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506788450,Wolf River town,Langlade County,852,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506907500,Birch town,Lincoln County,295,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506909225,Bradley town,Lincoln County,2008,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506917125,Corning town,Lincoln County,375,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506932650,Harding town,Lincoln County,242,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506932875,Harrison town,Lincoln County,879,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506939675,King town,Lincoln County,800,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506951250,Merrill city,Lincoln County,4505,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506951275,Merrill town,Lincoln County,1330,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506962950,Pine River town,Lincoln County,818,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506968825,Rock Falls town,Lincoln County,459,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506970325,Russell town,Lincoln County,361,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506972100,Schley town,Lincoln County,449,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506972300,Scott town,Lincoln County,576,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506974250,Skanawan town,Lincoln County,277,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506974725,Somo town,Lincoln County,124,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506980125,Tomahawk city,Lincoln County,1780,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506980150,Tomahawk town,Lincoln County,391,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5506987425,Wilson town,Lincoln County,365,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507113237,Cato town,Manitowoc County,679,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507113750,Centerville town,Manitowoc County,277,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507115400,Cleveland village,Manitowoc County,671,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507116950,Cooperstown town,Manitowoc County,534,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507122275,Eaton town,Manitowoc County,351,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507127125,Francis Creek village,Manitowoc County,300,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507127275,Franklin town,Manitowoc County,547,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507128975,Gibson town,Manitowoc County,571,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507139000,Kellnersville village,Manitowoc County,176,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507139525,Kiel city,Manitowoc County,1680,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507140425,Kossuth town,Manitowoc County,892,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507143850,Liberty town,Manitowoc County,571,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507148500,Manitowoc city,Manitowoc County,16277,0,0,0,0,0,15562,0,0.0,0.0,0.0,0.0,0.0,0.9561,0.0
+muni:5507148525,Manitowoc town,Manitowoc County,483,0,0,0,0,0,151,0,0.0,0.0,0.0,0.0,0.0,0.3126,0.0
+muni:5507148575,Manitowoc Rapids town,Manitowoc County,893,0,0,0,0,0,123,0,0.0,0.0,0.0,0.0,0.0,0.1377,0.0
+muni:5507148875,Maple Grove town,Manitowoc County,306,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507149250,Maribel village,Manitowoc County,145,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507150625,Meeme town,Manitowoc County,607,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507153325,Mishicot village,Manitowoc County,674,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507153350,Mishicot town,Manitowoc County,545,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507157200,Newton town,Manitowoc County,968,0,0,0,0,0,1,0,0.0,0.0,0.0,0.0,0.0,0.001,0.0
+muni:5507166875,Reedsville village,Manitowoc County,504,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507168925,Rockland town,Manitowoc County,423,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507171025,St. Nazianz village,Manitowoc County,343,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507172075,Schleswig town,Manitowoc County,993,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507181300,Two Creeks town,Manitowoc County,194,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507181325,Two Rivers city,Manitowoc County,5630,0,0,0,0,0,5592,0,0.0,0.0,0.0,0.0,0.0,0.9933,0.0
+muni:5507181350,Two Rivers town,Manitowoc County,824,0,0,0,0,0,11,0,0.0,0.0,0.0,0.0,0.0,0.0133,0.0
+muni:5507182200,Valders village,Manitowoc County,435,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507186775,Whitelaw village,Manitowoc County,325,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507300100,Abbotsford city,Marathon County,240,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507303550,Athens village,Marathon County,514,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507306875,Bergen town,Marathon County,311,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507306975,Berlin town,Marathon County,377,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507307000,Bern town,Marathon County,213,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507307125,Bevent town,Marathon County,503,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507307600,Birnamwood village,Marathon County,7,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507309650,Brighton town,Marathon County,216,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507312975,Cassel town,Marathon County,343,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507315425,Cleveland town,Marathon County,580,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507316150,Colby city,Marathon County,301,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507318950,Day town,Marathon County,436,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507320450,Dorchester village,Marathon County,3,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507322025,Easton town,Marathon County,461,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507322425,Eau Pleine town,Marathon County,314,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507322550,Edgar village,Marathon County,642,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507323075,Elderon village,Marathon County,82,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507323100,Elderon town,Marathon County,306,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507324025,Emmet town,Marathon County,356,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507325650,Fenwood village,Marathon County,66,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507327150,Frankfort town,Marathon County,252,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507327450,Franzen town,Marathon County,243,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507331450,Green Valley town,Marathon County,282,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507331800,Guenther town,Marathon County,148,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507332150,Halsey town,Marathon County,228,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507332200,Hamburg town,Marathon County,330,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507332900,Harrison town,Marathon County,151,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507333175,Hatley village,Marathon County,264,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507334225,Hewitt town,Marathon County,263,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507335500,Holton town,Marathon County,326,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507336325,Hull town,Marathon County,269,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507338300,Johnson town,Marathon County,322,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507340150,Knowlton town,Marathon County,904,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507340550,Kronenwetter village,Marathon County,3355,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507346975,McMillan town,Marathon County,786,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507348225,Maine village,Marathon County,1105,0,0,0,0,0,68,0,0.0,0.0,0.0,0.0,0.0,0.0615,0.0
+muni:5507349075,Marathon town,Marathon County,406,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507349100,Marathon City village,Marathon County,698,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507349675,Marshfield city,Marathon County,444,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507354500,Mosinee city,Marathon County,2036,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507354525,Mosinee town,Marathon County,912,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507357600,Norrie town,Marathon County,439,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507363500,Plover town,Marathon County,280,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507366950,Reid town,Marathon County,554,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507367250,Rib Falls town,Marathon County,354,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507367320,Rib Mountain village,Marathon County,2955,0,0,0,0,0,7,0,0.0,0.0,0.0,0.0,0.0,0.0024,0.0
+muni:5507367950,Rietbrock town,Marathon County,341,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507368075,Ringle town,Marathon County,673,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507369725,Rothschild village,Marathon County,2448,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507372150,Schofield city,Marathon County,1108,0,0,0,0,0,87,0,0.0,0.0,0.0,0.0,0.0,0.0785,0.0
+muni:5507375400,Spencer village,Marathon County,867,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507375425,Spencer town,Marathon County,591,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507377150,Stettin town,Marathon County,1011,0,0,0,0,0,59,0,0.0,0.0,0.0,0.0,0.0,0.0584,0.0
+muni:5507377750,Stratford village,Marathon County,704,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507379350,Texas town,Marathon County,678,0,0,0,0,0,5,0,0.0,0.0,0.0,0.0,0.0,0.0074,0.0
+muni:5507381850,Unity village,Marathon County,100,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507384475,Wausau city,Marathon County,18601,0,0,0,0,0,16854,0,0.0,0.0,0.0,0.0,0.0,0.9061,0.0
+muni:5507384500,Wausau town,Marathon County,896,0,0,0,0,0,78,0,0.0,0.0,0.0,0.0,0.0,0.0871,0.0
+muni:5507386025,Weston village,Marathon County,6670,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507386050,Weston town,Marathon County,249,0,0,0,0,0,10,0,0.0,0.0,0.0,0.0,0.0,0.0402,0.0
+muni:5507387025,Wien town,Marathon County,314,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507501675,Amberg town,Marinette County,1004,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507503525,Athelstane town,Marinette County,1065,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507505800,Beaver town,Marinette County,741,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507506000,Beecher town,Marinette County,1034,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507516250,Coleman village,Marinette County,337,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507517725,Crivitz village,Marinette County,533,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507521000,Dunbar town,Marinette County,838,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507529775,Goodman town,Marinette County,785,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507531725,Grover town,Marinette County,774,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507541075,Lake town,Marinette County,807,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507549300,Marinette city,Marinette County,5414,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507551537,Middle Inlet town,Marinette County,795,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507557325,Niagara city,Marinette County,784,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507557350,Niagara town,Marinette County,542,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507561775,Pembine town,Marinette County,936,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507562175,Peshtigo city,Marinette County,1614,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507562200,Peshtigo town,Marinette County,1897,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507564275,Porterfield town,Marinette County,998,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507564750,Pound village,Marinette County,171,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507564775,Pound town,Marinette County,621,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507573975,Silver Cliff town,Marinette County,1084,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507577000,Stephenson town,Marinette County,4295,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507583050,Wagner town,Marinette County,600,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507584525,Wausaukee village,Marinette County,309,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507584550,Wausaukee town,Marinette County,1211,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507711050,Buffalo town,Marquette County,555,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507717900,Crystal Lake town,Marquette County,525,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507720525,Douglas town,Marquette County,440,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507724075,Endeavor village,Marquette County,187,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507732775,Harris town,Marquette County,444,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507750350,Mecan town,Marquette County,755,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507753875,Montello city,Marquette County,797,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507753900,Montello town,Marquette County,784,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507754600,Moundville town,Marquette County,260,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507756125,Neshkoro village,Marquette County,227,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507756150,Neshkoro town,Marquette County,516,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507757225,Newton town,Marquette County,348,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507760875,Oxford village,Marquette County,282,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507760900,Oxford town,Marquette County,533,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507760962,Packwaukee town,Marquette County,1002,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507773600,Shields town,Marquette County,358,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507775925,Springfield town,Marquette County,671,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507785575,Westfield village,Marquette County,573,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507785600,Westfield town,Marquette County,501,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507850975,Menominee town,Menominee County,2145,0,0,0,0,0,501,0,0.0,0.0,0.0,0.0,0.0,0.2336,0.0
+muni:5507905450,Bayside village,Milwaukee County,1865,0,0,0,0,0,629,0,0.0,0.0,0.0,0.0,0.0,0.3373,0.0
+muni:5507910375,Brown Deer village,Milwaukee County,5865,964,2226,0,2909,5165,5206,964,0.1644,0.3795,0.0,0.496,0.8806,0.8876,0.1644
+muni:5507917975,Cudahy city,Milwaukee County,8712,3615,3615,0,6464,6464,8137,3615,0.4149,0.4149,0.0,0.742,0.742,0.934,0.4149
+muni:5507927075,Fox Point village,Milwaukee County,3017,0,0,0,0,0,1983,0,0.0,0.0,0.0,0.0,0.0,0.6573,0.0
+muni:5507927300,Franklin city,Milwaukee County,14771,534,534,0,720,720,1573,534,0.0362,0.0362,0.0,0.0487,0.0487,0.1065,0.0362
+muni:5507929400,Glendale city,Milwaukee County,6464,1322,1780,0,3471,3471,4669,1322,0.2045,0.2754,0.0,0.537,0.537,0.7223,0.2045
+muni:5507931125,Greendale village,Milwaukee County,6331,0,7,0,0,867,987,0,0.0,0.0011,0.0,0.0,0.1369,0.1559,0.0
+muni:5507931175,Greenfield city,Milwaukee County,18121,2791,4625,0,7639,10370,15766,2791,0.154,0.2552,0.0,0.4216,0.5723,0.87,0.154
+muni:5507932075,Hales Corners village,Milwaukee County,3496,0,0,0,0,0,2137,0,0.0,0.0,0.0,0.0,0.0,0.6113,0.0
+muni:5507953000,Milwaukee city,Milwaukee County,257614,175633,195777,33849,214888,238993,254959,175633,0.6818,0.76,0.1314,0.8341,0.9277,0.9897,0.6818
+muni:5507958800,Oak Creek city,Milwaukee County,15620,333,333,0,1233,1233,6997,333,0.0213,0.0213,0.0,0.0789,0.0789,0.448,0.0213
+muni:5507968325,River Hills village,Milwaukee County,636,0,0,0,16,16,223,0,0.0,0.0,0.0,0.0252,0.0252,0.3506,0.0
+muni:5507970650,St. Francis city,Milwaukee County,5005,1354,1354,0,2845,2845,3683,1354,0.2705,0.2705,0.0,0.5684,0.5684,0.7359,0.2705
+muni:5507973725,Shorewood village,Milwaukee County,7122,5305,5305,0,6806,6806,7122,5305,0.7449,0.7449,0.0,0.9556,0.9556,1.0,0.7449
+muni:5507975125,South Milwaukee city,Milwaukee County,9588,4791,4791,0,7297,7297,9568,4791,0.4997,0.4997,0.0,0.7611,0.7611,0.9979,0.4997
+muni:5507984675,Wauwatosa city,Milwaukee County,23175,9215,12712,3317,14276,17680,22256,9215,0.3976,0.5485,0.1431,0.616,0.7629,0.9603,0.3976
+muni:5507985300,West Allis city,Milwaukee County,29015,9603,15598,0,17226,23937,28914,9603,0.331,0.5376,0.0,0.5937,0.825,0.9965,0.331
+muni:5507985875,West Milwaukee village,Milwaukee County,2160,1567,1567,0,1845,1998,2160,1567,0.7255,0.7255,0.0,0.8542,0.925,1.0,0.7255
+muni:5507986700,Whitefish Bay village,Milwaukee County,5614,4707,4707,0,5314,5314,5538,4707,0.8384,0.8384,0.0,0.9466,0.9466,0.9865,0.8384
+muni:5508100475,Adrian town,Monroe County,320,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508102025,Angelo town,Monroe County,651,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508111625,Byron town,Monroe County,529,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508112950,Cashton village,Monroe County,495,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508115550,Clifton town,Monroe County,253,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508129450,Glendale town,Monroe County,295,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508130325,Grant town,Monroe County,213,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508131225,Greenfield town,Monroe County,313,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508137950,Jefferson town,Monroe County,279,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508139150,Kendall village,Monroe County,229,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508140925,Lafayette town,Monroe County,139,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508141000,La Grange town,Monroe County,768,0,0,0,0,0,9,0,0.0,0.0,0.0,0.0,0.0,0.0117,0.0
+muni:5508143475,Leon town,Monroe County,449,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508144450,Lincoln town,Monroe County,373,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508144975,Little Falls town,Monroe County,646,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508150800,Melvina village,Monroe County,45,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508156950,New Lyme town,Monroe County,86,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508158575,Norwalk village,Monroe County,238,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508158850,Oakdale village,Monroe County,143,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508158875,Oakdale town,Monroe County,295,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508160075,Ontario village,Monroe County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508164425,Portland town,Monroe County,321,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508167850,Ridgeville town,Monroe County,203,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508168900,Rockland village,Monroe County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508172325,Scott town,Monroe County,59,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508173150,Sheldon town,Monroe County,249,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508175325,Sparta city,Monroe County,4398,0,0,0,0,0,1516,0,0.0,0.0,0.0,0.0,0.0,0.3447,0.0
+muni:5508175350,Sparta town,Monroe County,1249,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508180075,Tomah city,Monroe County,4463,0,0,0,0,0,1506,0,0.0,0.0,0.0,0.0,0.0,0.3374,0.0
+muni:5508180100,Tomah town,Monroe County,594,0,0,0,0,0,40,0,0.0,0.0,0.0,0.0,0.0,0.0673,0.0
+muni:5508183450,Warrens village,Monroe County,389,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508185125,Wellington town,Monroe County,252,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508185150,Wells town,Monroe County,240,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508187525,Wilton village,Monroe County,236,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508187550,Wilton town,Monroe County,305,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508189275,Wyeville village,Monroe County,52,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508300175,Abrams town,Oconto County,845,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508304275,Bagley town,Oconto County,234,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508309375,Brazeau town,Oconto County,1423,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508309425,Breed town,Oconto County,607,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508314125,Chase town,Oconto County,1136,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508320475,Doty town,Oconto County,635,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508329050,Gillett city,Oconto County,624,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508329075,Gillett town,Oconto County,470,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508335925,How town,Oconto County,257,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508342075,Lakewood town,Oconto County,1412,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508343325,Lena village,Oconto County,271,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508343350,Lena town,Oconto County,329,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508345175,Little River town,Oconto County,499,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508345275,Little Suamico town,Oconto County,2190,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508349000,Maple Valley town,Oconto County,355,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508354200,Morgan town,Oconto County,425,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508354630,Mountain town,Oconto County,1230,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508359350,Oconto city,Oconto County,2175,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508359375,Oconto town,Oconto County,603,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508359400,Oconto Falls city,Oconto County,1367,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508359425,Oconto Falls town,Oconto County,570,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508361900,Pensaukee town,Oconto County,680,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508365675,Pulaski village,Oconto County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508368400,Riverview town,Oconto County,1603,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508376450,Spruce town,Oconto County,606,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508377300,Stiles town,Oconto County,689,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508378725,Suring village,Oconto County,263,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508380325,Townsend town,Oconto County,1742,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508381475,Underhill town,Oconto County,519,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508513025,Cassian town,Oneida County,1187,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508517625,Crescent town,Oneida County,1008,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508524125,Enterprise town,Oneida County,417,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508533575,Hazelhurst town,Oneida County,1222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508541887,Lake Tomahawk town,Oneida County,1117,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508545150,Little Rice town,Oneida County,468,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508546650,Lynne town,Oneida County,307,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508553225,Minocqua town,Oneida County,4925,0,0,0,0,0,26,0,0.0,0.0,0.0,0.0,0.0,0.0053,0.0
+muni:5508553662,Monico town,Oneida County,222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508556425,Newbold town,Oneida County,2346,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508557450,Nokomis town,Oneida County,1167,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508561625,Pelican town,Oneida County,1744,0,0,0,0,0,15,0,0.0,0.0,0.0,0.0,0.0,0.0086,0.0
+muni:5508562600,Piehl town,Oneida County,102,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508562925,Pine Lake town,Oneida County,1609,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508567200,Rhinelander city,Oneida County,4358,0,0,0,0,0,434,0,0.0,0.0,0.0,0.0,0.0,0.0996,0.0
+muni:5508572125,Schoepke town,Oneida County,600,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508576975,Stella town,Oneida County,378,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508578075,Sugar Camp town,Oneida County,1635,0,0,0,0,0,26,0,0.0,0.0,0.0,0.0,0.0,0.0159,0.0
+muni:5508579700,Three Lakes town,Oneida County,3239,0,0,0,0,0,196,0,0.0,0.0,0.0,0.0,0.0,0.0605,0.0
+muni:5508588625,Woodboro town,Oneida County,731,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508588950,Woodruff town,Oneida County,1683,0,0,0,0,0,461,0,0.0,0.0,0.0,0.0,0.0,0.2739,0.0
+muni:5508702375,Appleton city,Outagamie County,26524,0,0,0,0,0,24802,0,0.0,0.0,0.0,0.0,0.0,0.9351,0.0
+muni:5508705575,Bear Creek village,Outagamie County,169,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508707725,Black Creek village,Outagamie County,543,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508707750,Black Creek town,Outagamie County,489,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508708975,Bovina town,Outagamie County,483,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508710750,Buchanan town,Outagamie County,2633,0,0,0,0,0,525,0,0.0,0.0,0.0,0.0,0.0,0.1994,0.0
+muni:5508713600,Center town,Outagamie County,1423,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508714750,Cicero town,Outagamie County,416,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508716500,Combined Locks village,Outagamie County,1404,0,0,0,0,0,228,0,0.0,0.0,0.0,0.0,0.0,0.1624,0.0
+muni:5508718525,Dale town,Outagamie County,1090,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508719200,Deer Creek town,Outagamie County,262,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508723425,Ellington town,Outagamie County,1192,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508726982,Fox Crossing village,Outagamie County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508727650,Freedom town,Outagamie County,2277,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508730075,Grand Chute town,Outagamie County,11098,0,0,0,0,0,6280,0,0.0,0.0,0.0,0.0,0.0,0.5659,0.0
+muni:5508731525,Greenville village,Outagamie County,4574,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508732790,Harrison village,Outagamie County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508735825,Hortonia town,Outagamie County,415,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508735850,Hortonville village,Outagamie County,1223,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508735950,Howard village,Outagamie County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508738800,Kaukauna city,Outagamie County,6758,0,0,0,0,0,4327,0,0.0,0.0,0.0,0.0,0.0,0.6403,0.0
+muni:5508738825,Kaukauna town,Outagamie County,787,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508739650,Kimberly village,Outagamie County,3194,0,0,0,0,0,2455,0,0.0,0.0,0.0,0.0,0.0,0.7686,0.0
+muni:5508743875,Liberty town,Outagamie County,331,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508744950,Little Chute village,Outagamie County,5140,0,0,0,0,0,2556,0,0.0,0.0,0.0,0.0,0.0,0.4973,0.0
+muni:5508748250,Maine town,Outagamie County,383,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508748775,Maple Creek town,Outagamie County,251,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508756925,New London city,Outagamie County,751,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508757375,Nichols village,Outagamie County,124,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508760000,Oneida town,Outagamie County,1573,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508760400,Osborn town,Outagamie County,449,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508772725,Seymour city,Outagamie County,1595,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508772750,Seymour town,Outagamie County,472,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508773625,Shiocton village,Outagamie County,413,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508782400,Vandenbroek town,Outagamie County,581,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508789150,Wrightstown village,Outagamie County,114,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508905450,Bayside village,Ozaukee County,39,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508906150,Belgium village,Ozaukee County,949,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508906175,Belgium town,Ozaukee County,744,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508913375,Cedarburg city,Ozaukee County,5432,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508913400,Cedarburg town,Ozaukee County,2232,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508927550,Fredonia village,Ozaukee County,915,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508927575,Fredonia town,Ozaukee County,862,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508930000,Grafton village,Ozaukee County,5691,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508930025,Grafton town,Ozaukee County,1768,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508951150,Mequon city,Ozaukee County,10013,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508956450,Newburg village,Ozaukee County,39,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508964450,Port Washington city,Ozaukee County,5460,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508964475,Port Washington town,Ozaukee County,655,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508971700,Saukville village,Ozaukee County,1873,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508971725,Saukville town,Ozaukee County,762,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508979475,Thiensville village,Ozaukee County,1652,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509100800,Albany town,Pepin County,259,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509121225,Durand city,Pepin County,915,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509121250,Durand town,Pepin County,283,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509127175,Frankfort town,Pepin County,176,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509144075,Lima town,Pepin County,273,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509161925,Pepin village,Pepin County,474,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509161950,Pepin town,Pepin County,456,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509177475,Stockholm village,Pepin County,78,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509177500,Stockholm town,Pepin County,119,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509184025,Waterville town,Pepin County,376,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509184100,Waubeek town,Pepin County,164,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509305325,Bay City village,Pierce County,207,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509315575,Clifton town,Pierce County,824,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509320150,Diamond Bluff town,Pierce County,220,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509323525,Ellsworth village,Pierce County,1468,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509323550,Ellsworth town,Pierce County,449,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509323700,Elmwood village,Pierce County,382,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509323775,El Paso town,Pierce County,289,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509329150,Gilman town,Pierce County,406,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509333050,Hartland town,Pierce County,361,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509337350,Isabelle town,Pierce County,127,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509348175,Maiden Rock village,Pierce County,83,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509348200,Maiden Rock town,Pierce County,302,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509349775,Martell town,Pierce County,488,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509359025,Oak Grove town,Pierce County,839,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509363600,Plum City village,Pierce County,264,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509365375,Prescott city,Pierce County,1872,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509368275,River Falls city,Pierce County,4284,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509368300,River Falls town,Pierce County,905,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509368775,Rock Elm town,Pierce County,208,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509371150,Salem town,Pierce County,218,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509376100,Spring Lake town,Pierce County,242,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509376300,Spring Valley village,Pierce County,609,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509380550,Trenton town,Pierce County,820,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509380700,Trimbelle town,Pierce County,669,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509381600,Union town,Pierce County,244,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509500950,Alden town,Polk County,1432,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509501725,Amery city,Polk County,1422,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509502350,Apple River town,Polk County,707,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509504475,Balsam Lake village,Polk County,709,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509504500,Balsam Lake town,Polk County,1054,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509505825,Beaver town,Polk County,500,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509507700,Black Brook town,Polk County,567,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509508750,Bone Lake town,Polk County,480,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509513850,Centuria village,Polk County,423,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509514837,Clam Falls town,Polk County,326,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509515100,Clayton village,Polk County,222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509515125,Clayton town,Polk County,459,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509515250,Clear Lake village,Polk County,518,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509515275,Clear Lake town,Polk County,356,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509520850,Dresser village,Polk County,395,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509524450,Eureka town,Polk County,762,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509525350,Farmington town,Polk County,733,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509527500,Frederic village,Polk County,544,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509528350,Garfield town,Polk County,945,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509528725,Georgetown town,Polk County,1310,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509538400,Johnstown town,Polk County,433,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509541900,Laketown town,Polk County,539,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509544475,Lincoln town,Polk County,1280,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509545775,Lorain town,Polk County,170,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509546200,Luck village,Polk County,569,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509546225,Luck town,Polk County,476,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509546900,McKinley town,Polk County,253,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509552075,Milltown village,Polk County,479,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509552100,Milltown town,Polk County,882,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509560450,Osceola village,Polk County,1357,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509560475,Osceola town,Polk County,1270,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509570550,St. Croix Falls city,Polk County,1125,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509570575,St. Croix Falls town,Polk County,592,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509577050,Sterling town,Polk County,443,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509581075,Turtle Lake village,Polk County,42,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509586350,West Sweden town,Polk County,355,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509700725,Alban town,Portage County,497,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509701400,Almond village,Portage County,189,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509701425,Almond town,Portage County,294,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509701750,Amherst village,Portage County,498,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509701775,Amherst town,Portage County,611,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509701800,Amherst Junction village,Portage County,158,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509706475,Belmont town,Portage County,353,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509710925,Buena Vista town,Portage County,491,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509712725,Carson town,Portage County,579,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509719975,Dewey town,Portage County,415,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509722450,Eau Pleine town,Portage County,484,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509730350,Grant town,Portage County,824,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509736350,Hull town,Portage County,2251,0,0,0,0,0,629,0,0.0,0.0,0.0,0.0,0.0,0.2794,0.0
+muni:5509738650,Junction City village,Portage County,206,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509742225,Lanark town,Portage County,706,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509744800,Linwood town,Portage County,478,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509751875,Milladore village,Portage County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509756000,Nelsonville village,Portage County,65,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509756850,New Hope town,Portage County,367,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509761325,Park Ridge village,Portage County,239,0,0,0,0,0,239,0,0.0,0.0,0.0,0.0,0.0,1.0,0.0
+muni:5509762825,Pine Grove town,Portage County,379,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509763525,Plover village,Portage County,5942,0,0,0,0,0,823,0,0.0,0.0,0.0,0.0,0.0,0.1385,0.0
+muni:5509763550,Plover town,Portage County,646,0,0,0,0,0,10,0,0.0,0.0,0.0,0.0,0.0,0.0155,0.0
+muni:5509769575,Rosholt village,Portage County,221,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509772850,Sharon town,Portage County,909,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509777200,Stevens Point city,Portage County,11374,0,0,0,0,0,10959,0,0.0,0.0,0.0,0.0,0.0,0.9635,0.0
+muni:5509777537,Stockton town,Portage County,1212,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509786975,Whiting village,Portage County,760,0,0,0,0,0,689,0,0.0,0.0,0.0,0.0,0.0,0.9066,0.0
+muni:5509913175,Catawba village,Price County,76,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509913200,Catawba town,Price County,223,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509922950,Eisenstein town,Price County,534,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509923200,Elk town,Price County,1026,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509923975,Emery town,Price County,246,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509925775,Fifield town,Price County,976,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509926050,Flambeau town,Price County,538,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509928750,Georgetown town,Price County,130,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509931925,Hackett town,Price County,168,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509932675,Harmony town,Price County,167,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509934725,Hill town,Price County,255,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509939175,Kennan village,Price County,73,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509939200,Kennan town,Price County,250,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509940175,Knox town,Price County,264,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509941150,Lake town,Price County,995,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509959525,Ogema town,Price County,514,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509961200,Park Falls city,Price County,1274,0,0,0,0,0,120,0,0.0,0.0,0.0,0.0,0.0,0.0942,0.0
+muni:5509962450,Phillips city,Price County,878,0,0,0,0,0,55,0,0.0,0.0,0.0,0.0,0.0,0.0626,0.0
+muni:5509965325,Prentice village,Price County,313,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509965350,Prentice town,Price County,337,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509975525,Spirit town,Price County,242,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5509989100,Worcester town,Price County,1256,0,0,0,0,0,1,0,0.0,0.0,0.0,0.0,0.0,0.0008,0.0
+muni:5510111200,Burlington city,Racine County,4697,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510111225,Burlington town,Racine County,3085,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510111950,Caledonia village,Racine County,10667,0,0,0,0,0,1748,0,0.0,0.0,0.0,0.0,0.0,0.1639,0.0
+muni:5510120625,Dover town,Racine County,1533,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510123725,Elmwood Park village,Racine County,208,0,0,0,0,0,208,0,0.0,0.0,0.0,0.0,0.0,1.0,0.0
+muni:5510154875,Mount Pleasant village,Racine County,12643,0,0,0,0,0,6250,0,0.0,0.0,0.0,0.0,0.0,0.4943,0.0
+muni:5510157700,North Bay village,Racine County,97,0,0,0,0,0,97,0,0.0,0.0,0.0,0.0,0.0,1.0,0.0
+muni:5510158600,Norway town,Racine County,3239,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510166000,Racine city,Racine County,33895,0,0,0,0,0,33668,0,0.0,0.0,0.0,0.0,0.0,0.9933,0.0
+muni:5510166350,Raymond village,Racine County,1578,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510168550,Rochester village,Racine County,1529,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510177925,Sturtevant village,Racine County,2178,0,0,0,0,0,379,0,0.0,0.0,0.0,0.0,0.0,0.174,0.0
+muni:5510181775,Union Grove village,Racine County,1999,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510183825,Waterford village,Racine County,2437,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510183850,Waterford town,Racine County,2650,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510187700,Wind Point village,Racine County,777,0,0,0,0,0,113,0,0.0,0.0,0.0,0.0,0.0,0.1454,0.0
+muni:5510189550,Yorkville village,Racine County,1278,0,0,0,0,0,11,0,0.0,0.0,0.0,0.0,0.0,0.0086,0.0
+muni:5510300675,Akan town,Richland County,219,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510308175,Bloom town,Richland County,271,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510308600,Boaz village,Richland County,64,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510310950,Buena Vista town,Richland County,783,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510313300,Cazenovia village,Richland County,157,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510319000,Dayton town,Richland County,321,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510321400,Eagle town,Richland County,253,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510326475,Forest town,Richland County,188,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510333925,Henrietta town,Richland County,276,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510337500,Ithaca town,Richland County,284,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510345575,Lone Rock village,Richland County,425,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510349600,Marshall town,Richland County,275,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510360350,Orion town,Richland County,310,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510367575,Richland town,Richland County,520,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510367625,Richland Center city,Richland County,2531,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510367775,Richwood town,Richland County,292,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510368675,Rockbridge town,Richland County,351,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510378825,Sylvan town,Richland County,248,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510382900,Viola village,Richland County,195,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510385675,Westford town,Richland County,236,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510387250,Willow town,Richland County,241,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510389625,Yuba village,Richland County,35,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510504100,Avon town,Rock County,237,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510506500,Beloit city,Rock County,15059,0,0,0,0,0,14613,0,0.0,0.0,0.0,0.0,0.0,0.9704,0.0
+muni:5510506525,Beloit town,Rock County,3404,0,0,0,0,0,2254,0,0.0,0.0,0.0,0.0,0.0,0.6622,0.0
+muni:5510509175,Bradford town,Rock County,397,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510509925,Brodhead city,Rock County,46,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510513625,Center town,Rock County,445,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510515625,Clinton village,Rock County,866,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510515650,Clinton town,Rock County,350,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510522575,Edgerton city,Rock County,2530,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510524550,Evansville city,Rock County,2305,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510526400,Footville village,Rock County,349,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510528075,Fulton town,Rock County,2113,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510532700,Harmony town,Rock County,943,0,0,0,0,0,1,0,0.0,0.0,0.0,0.0,0.0,0.0011,0.0
+muni:5510537825,Janesville city,Rock County,28467,0,0,0,0,0,25408,0,0.0,0.0,0.0,0.0,0.0,0.8925,0.0
+muni:5510537850,Janesville town,Rock County,1496,0,0,0,0,0,79,0,0.0,0.0,0.0,0.0,0.0,0.0528,0.0
+muni:5510538450,Johnstown town,Rock County,318,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510542575,La Prairie town,Rock County,335,0,0,0,0,0,10,0,0.0,0.0,0.0,0.0,0.0,0.0299,0.0
+muni:5510544125,Lima town,Rock County,499,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510548150,Magnolia town,Rock County,315,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510552200,Milton city,Rock County,2441,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510552225,Milton town,Rock County,1446,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510556325,Newark town,Rock County,626,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510560250,Orfordville village,Rock County,600,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510563675,Plymouth town,Rock County,476,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510564225,Porter town,Rock County,423,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510568600,Rock town,Rock County,1334,0,0,0,0,0,636,0,0.0,0.0,0.0,0.0,0.0,0.4768,0.0
+muni:5510576325,Spring Valley town,Rock County,313,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510581050,Turtle town,Rock County,1045,0,0,0,0,0,371,0,0.0,0.0,0.0,0.0,0.0,0.355,0.0
+muni:5510581650,Union town,Rock County,890,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510703600,Atlanta town,Rusk County,308,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510707175,Big Bend town,Rusk County,494,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510707225,Big Falls town,Rusk County,104,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510710500,Bruce village,Rusk County,390,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510713550,Cedar Rapids town,Rusk County,30,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510716775,Conrath village,Rusk County,43,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510720000,Dewey town,Rusk County,386,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510726100,Flambeau town,Rusk County,474,0,0,0,0,0,72,0,0.0,0.0,0.0,0.0,0.0,0.1519,0.0
+muni:5510729475,Glen Flora village,Rusk County,45,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510730375,Grant town,Rusk County,353,0,0,0,0,0,18,0,0.0,0.0,0.0,0.0,0.0,0.051,0.0
+muni:5510731775,Grow town,Rusk County,181,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510733275,Hawkins village,Rusk County,177,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510733300,Hawkins town,Rusk County,136,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510736125,Hubbard town,Rusk County,137,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510736925,Ingram village,Rusk County,41,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510740850,Ladysmith city,Rusk County,1635,0,0,0,0,0,1504,0,0.0,0.0,0.0,0.0,0.0,0.9199,0.0
+muni:5510742950,Lawrence town,Rusk County,184,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510749625,Marshall town,Rusk County,235,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510755175,Murry town,Rusk County,153,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510767600,Richland town,Rusk County,172,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510770275,Rusk town,Rusk County,535,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510773175,Sheldon village,Rusk County,128,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510774975,South Fork town,Rusk County,122,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510777775,Strickland town,Rusk County,163,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510777850,Stubbs town,Rusk County,312,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510779575,Thornapple town,Rusk County,441,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510780225,Tony village,Rusk County,51,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510780950,True town,Rusk County,131,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510783675,Washington town,Rusk County,410,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510786450,Weyerhaeuser village,Rusk County,147,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510787125,Wilkinson town,Rusk County,38,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510787175,Willard town,Rusk County,344,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510787450,Wilson town,Rusk County,60,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510904400,Baldwin village,St. Croix County,1788,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510904425,Baldwin town,St. Croix County,378,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510911775,Cady town,St. Croix County,367,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510918300,Cylon town,St. Croix County,272,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510919325,Deer Park village,St. Croix County,120,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510922400,Eau Galle town,St. Croix County,451,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510923925,Emerald town,St. Croix County,323,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510924275,Erin Prairie town,St. Croix County,272,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510926525,Forest town,St. Croix County,258,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510929600,Glenwood town,St. Croix County,314,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510929625,Glenwood City city,St. Croix County,536,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510932325,Hammond village,St. Croix County,767,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510932350,Hammond town,St. Croix County,850,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510936250,Hudson city,St. Croix County,6510,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510936275,Hudson town,St. Croix County,2950,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510939825,Kinnickinnic town,St. Croix County,678,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510957100,New Richmond city,St. Croix County,4321,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510958050,North Hudson village,St. Croix County,1624,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510963425,Pleasant Valley town,St. Croix County,202,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510967650,Richmond town,St. Croix County,1365,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510968275,River Falls city,St. Croix County,1654,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510968475,Roberts village,St. Croix County,780,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510970200,Rush River town,St. Croix County,200,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510970825,St. Joseph town,St. Croix County,1644,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510974675,Somerset village,St. Croix County,1255,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510974700,Somerset town,St. Croix County,1608,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510975950,Springfield town,St. Croix County,392,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510976300,Spring Valley village,St. Croix County,4,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510976675,Stanton town,St. Croix County,332,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510976825,Star Prairie village,St. Croix County,289,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510976850,Star Prairie town,St. Croix County,1461,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510980800,Troy town,St. Croix County,2087,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510983400,Warren town,St. Croix County,638,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510987475,Wilson village,St. Croix County,83,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510989025,Woodville village,St. Croix County,596,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511104625,Baraboo city,Sauk County,5786,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511104650,Baraboo town,Sauk County,812,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511105600,Bear Creek town,Sauk County,289,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511113300,Cazenovia village,Sauk County,8,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511119550,Dellona town,Sauk County,871,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511119675,Delton town,Sauk County,1076,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511124675,Excelsior town,Sauk County,680,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511124900,Fairfield town,Sauk County,482,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511127350,Franklin town,Sauk County,285,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511127675,Freedom town,Sauk County,217,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511131250,Greenfield town,Sauk County,410,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511135625,Honey Creek town,Sauk County,321,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511137225,Ironton village,Sauk County,106,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511137250,Ironton town,Sauk County,255,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511141300,Lake Delton village,Sauk County,2219,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511142825,La Valle village,Sauk County,181,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511142850,La Valle town,Sauk County,1222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511144225,Lime Ridge village,Sauk County,67,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511145400,Loganville village,Sauk County,136,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511151325,Merrimac village,Sauk County,269,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511151350,Merrimac town,Sauk County,773,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511158025,North Freedom village,Sauk County,269,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511163125,Plain village,Sauk County,353,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511165100,Prairie du Sac village,Sauk County,1906,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511165125,Prairie du Sac town,Sauk County,445,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511166800,Reedsburg city,Sauk County,4435,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511166825,Reedsburg town,Sauk County,460,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511168975,Rock Springs village,Sauk County,151,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511171650,Sauk City village,Sauk County,1572,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511176025,Spring Green village,Sauk County,713,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511176050,Spring Green town,Sauk County,858,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511178525,Sumpter town,Sauk County,488,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511180825,Troy town,Sauk County,346,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511183700,Washington town,Sauk County,358,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511185325,West Baraboo village,Sauk County,784,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511185625,Westfield town,Sauk County,227,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511187775,Winfield town,Sauk County,372,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511188150,Wisconsin Dells city,Sauk County,167,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511188775,Woodland town,Sauk County,415,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511305200,Bass Lake town,Sawyer County,2028,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511317225,Couderay village,Sawyer County,50,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511317250,Couderay town,Sawyer County,261,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511320825,Draper town,Sawyer County,487,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511322625,Edgewater town,Sawyer County,739,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511324700,Exeland village,Sawyer County,116,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511333450,Hayward city,Sawyer County,1273,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511333475,Hayward town,Sawyer County,2284,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511336450,Hunter town,Sawyer County,1085,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511343400,Lenroot town,Sawyer County,1130,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511350300,Meadowbrook town,Sawyer County,113,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511351425,Meteor town,Sawyer County,86,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511359600,Ojibwa town,Sawyer County,352,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511366050,Radisson village,Sawyer County,151,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511366075,Radisson town,Sawyer County,389,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511369750,Round Lake town,Sawyer County,1343,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511371500,Sand Lake town,Sawyer County,1301,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511375450,Spider Lake town,Sawyer County,891,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511385100,Weirgor town,Sawyer County,271,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511387975,Winter village,Sawyer County,220,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511388000,Winter town,Sawyer County,1396,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511501375,Almon town,Shawano County,299,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511501975,Angelica town,Shawano County,716,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511502075,Aniwa village,Shawano County,124,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511502100,Aniwa town,Shawano County,222,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511505000,Bartelme town,Shawano County,377,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511506275,Belle Plaine town,Shawano County,983,0,0,0,0,0,11,0,0.0,0.0,0.0,0.0,0.0,0.0112,0.0
+muni:5511507600,Birnamwood village,Shawano County,338,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511507625,Birnamwood town,Shawano County,329,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511508725,Bonduel village,Shawano County,642,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511509025,Bowler village,Shawano County,144,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511513325,Cecil village,Shawano County,325,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511522975,Eland village,Shawano County,97,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511524775,Fairbanks town,Shawano County,281,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511528825,Germania town,Shawano County,180,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511530400,Grant town,Shawano County,420,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511531500,Green Valley town,Shawano County,439,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511531675,Gresham village,Shawano County,275,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511533075,Hartland town,Shawano County,323,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511534025,Herman town,Shawano County,336,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511536700,Hutchins town,Shawano County,266,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511543675,Lessor town,Shawano County,472,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511548900,Maple Grove town,Shawano County,375,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511549400,Marion city,Shawano County,12,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511550000,Mattoon village,Shawano County,170,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511554250,Morris town,Shawano County,236,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511555675,Navarino town,Shawano County,206,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511561700,Pella town,Shawano County,441,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511565675,Pulaski village,Shawano County,66,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511566750,Red Springs town,Shawano County,501,0,0,0,0,0,39,0,0.0,0.0,0.0,0.0,0.0,0.0778,0.0
+muni:5511567675,Richmond town,Shawano County,845,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511572550,Seneca town,Shawano County,279,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511572925,Shawano city,Shawano County,4288,0,0,0,0,0,2953,0,0.0,0.0,0.0,0.0,0.0,0.6887,0.0
+muni:5511579825,Tigerton village,Shawano County,370,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511583725,Washington town,Shawano County,1321,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511584225,Waukechon town,Shawano County,414,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511585275,Wescott town,Shawano County,2380,0,0,0,0,0,99,0,0.0,0.0,0.0,0.0,0.0,0.0416,0.0
+muni:5511588325,Wittenberg village,Shawano County,495,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511588350,Wittenberg town,Shawano County,367,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511700450,Adell village,Sheboygan County,232,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511712825,Cascade village,Sheboygan County,298,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511713475,Cedar Grove village,Sheboygan County,908,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511723275,Elkhart Lake village,Sheboygan County,734,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511729350,Glenbeulah village,Sheboygan County,208,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511731100,Greenbush town,Sheboygan County,608,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511734050,Herman town,Sheboygan County,668,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511735375,Holland town,Sheboygan County,1091,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511736025,Howards Grove village,Sheboygan County,1323,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511740275,Kohler village,Sheboygan County,865,0,0,0,0,0,837,0,0.0,0.0,0.0,0.0,0.0,0.9676,0.0
+muni:5511744150,Lima town,Sheboygan County,1164,0,0,0,0,0,12,0,0.0,0.0,0.0,0.0,0.0,0.0103,0.0
+muni:5511746575,Lyndon town,Sheboygan County,705,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511753375,Mitchell town,Sheboygan County,503,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511754475,Mosel town,Sheboygan County,326,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511760100,Oostburg village,Sheboygan County,1244,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511763700,Plymouth city,Sheboygan County,4237,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511763725,Plymouth town,Sheboygan County,1271,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511766200,Random Lake village,Sheboygan County,748,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511767150,Rhine town,Sheboygan County,1077,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511770350,Russell town,Sheboygan County,151,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511772350,Scott town,Sheboygan County,765,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511772975,Sheboygan city,Sheboygan County,22631,0,0,0,0,0,22467,0,0.0,0.0,0.0,0.0,0.0,0.9928,0.0
+muni:5511773000,Sheboygan town,Sheboygan County,3594,0,0,0,0,0,663,0,0.0,0.0,0.0,0.0,0.0,0.1845,0.0
+muni:5511773025,Sheboygan Falls city,Sheboygan County,3908,0,0,0,0,0,3232,0,0.0,0.0,0.0,0.0,0.0,0.827,0.0
+muni:5511773050,Sheboygan Falls town,Sheboygan County,766,0,0,0,0,0,57,0,0.0,0.0,0.0,0.0,0.0,0.0744,0.0
+muni:5511773425,Sherman town,Sheboygan County,621,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511783100,Waldo village,Sheboygan County,212,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511787500,Wilson town,Sheboygan County,1445,0,0,0,0,0,299,0,0.0,0.0,0.0,0.0,0.0,0.2069,0.0
+muni:5511903900,Aurora town,Taylor County,174,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511910400,Browning town,Taylor County,355,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511914200,Chelsea town,Taylor County,342,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511915450,Cleveland town,Taylor County,129,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511919225,Deer Creek town,Taylor County,275,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511926425,Ford town,Taylor County,125,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511929175,Gilman village,Taylor County,194,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511929837,Goodrich town,Taylor County,208,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511931600,Greenwood town,Taylor County,318,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511931750,Grover town,Taylor County,174,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511932300,Hammel town,Taylor County,355,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511935525,Holway town,Taylor County,316,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511938627,Jump River town,Taylor County,172,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511944900,Little Black town,Taylor County,452,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511946150,Lublin village,Taylor County,72,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511946925,McKinley town,Taylor County,199,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511948925,Maplehurst town,Taylor County,159,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511950425,Medford city,Taylor County,2163,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511950450,Medford town,Taylor County,1010,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511953550,Molitor town,Taylor County,223,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511962100,Pershing town,Taylor County,97,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511967275,Rib Lake village,Taylor County,416,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511967300,Rib Lake town,Taylor County,444,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511969400,Roosevelt town,Taylor County,215,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511977100,Stetsonville village,Taylor County,250,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511978950,Taft town,Taylor County,147,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5511985450,Westboro town,Taylor County,395,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512100925,Albion town,Trempealeau County,274,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512102500,Arcadia city,Trempealeau County,1340,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512102525,Arcadia town,Trempealeau County,756,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512108075,Blair city,Trempealeau County,614,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512111325,Burnside town,Trempealeau County,217,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512111975,Caledonia town,Trempealeau County,391,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512114525,Chimney Rock town,Trempealeau County,120,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512120300,Dodge town,Trempealeau County,201,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512123175,Eleva village,Trempealeau County,309,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512124400,Ettrick village,Trempealeau County,254,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512124425,Ettrick town,Trempealeau County,588,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512128150,Gale town,Trempealeau County,718,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512128200,Galesville city,Trempealeau County,793,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512132050,Hale town,Trempealeau County,451,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512136800,Independence city,Trempealeau County,683,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512144500,Lincoln town,Trempealeau County,307,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512160575,Osseo city,Trempealeau County,798,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512162650,Pigeon town,Trempealeau County,358,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512162675,Pigeon Falls village,Trempealeau County,175,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512165500,Preston town,Trempealeau County,390,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512177825,Strum village,Trempealeau County,467,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512178500,Sumner town,Trempealeau County,359,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512180475,Trempealeau village,Trempealeau County,922,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512180500,Trempealeau town,Trempealeau County,830,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512181875,Unity town,Trempealeau County,218,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512186725,Whitehall city,Trempealeau County,737,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512306900,Bergen town,Vernon County,604,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512314150,Chaseburg village,Vernon County,128,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512314675,Christiana town,Vernon County,397,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512315675,Clinton town,Vernon County,392,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512316875,Coon town,Vernon County,328,0,0,0,0,0,1,0,0.0,0.0,0.0,0.0,0.0,0.003,0.0
+muni:5512316900,Coon Valley village,Vernon County,353,0,0,0,0,0,342,0,0.0,0.0,0.0,0.0,0.0,0.9688,0.0
+muni:5512319850,De Soto village,Vernon County,133,0,0,0,0,0,17,0,0.0,0.0,0.0,0.0,0.0,0.1278,0.0
+muni:5512326550,Forest town,Vernon County,301,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512327400,Franklin town,Vernon County,465,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512328625,Genoa village,Vernon County,123,0,0,0,0,0,121,0,0.0,0.0,0.0,0.0,0.0,0.9837,0.0
+muni:5512328650,Genoa town,Vernon County,381,0,0,0,0,0,1,0,0.0,0.0,0.0,0.0,0.0,0.0026,0.0
+muni:5512331625,Greenwood town,Vernon County,285,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512332225,Hamburg town,Vernon County,369,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512332725,Harmony town,Vernon County,311,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512334825,Hillsboro city,Vernon County,675,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512334850,Hillsboro town,Vernon County,363,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512337975,Jefferson town,Vernon County,502,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512339475,Kickapoo town,Vernon County,329,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512340875,La Farge village,Vernon County,369,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512343900,Liberty town,Vernon County,184,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512360075,Ontario village,Vernon County,235,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512366450,Readstown village,Vernon County,209,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512376725,Stark town,Vernon County,226,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512377075,Sterling town,Vernon County,276,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512377550,Stoddard village,Vernon County,418,0,0,0,0,0,396,0,0.0,0.0,0.0,0.0,0.0,0.9474,0.0
+muni:5512381675,Union town,Vernon County,305,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512382900,Viola village,Vernon County,112,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512382925,Viroqua city,Vernon County,2238,0,0,0,0,0,1202,0,0.0,0.0,0.0,0.0,0.0,0.5371,0.0
+muni:5512382950,Viroqua town,Vernon County,717,0,0,0,0,0,1,0,0.0,0.0,0.0,0.0,0.0,0.0014,0.0
+muni:5512385050,Webster town,Vernon County,372,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512385475,Westby city,Vernon County,1033,0,0,0,0,0,650,0,0.0,0.0,0.0,0.0,0.0,0.6292,0.0
+muni:5512386525,Wheatland town,Vernon County,412,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512386900,Whitestown town,Vernon County,268,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512502450,Arbor Vitae town,Vilas County,2649,0,0,0,0,0,89,0,0.0,0.0,0.0,0.0,0.0,0.0336,0.0
+muni:5512508950,Boulder Junction town,Vilas County,1436,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512515850,Cloverland town,Vilas County,1105,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512516750,Conover town,Vilas County,1579,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512521625,Eagle River city,Vilas County,953,0,0,0,0,0,611,0,0.0,0.0,0.0,0.0,0.0,0.6411,0.0
+muni:5512540687,Lac du Flambeau town,Vilas County,3255,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512542325,Land O'Lakes town,Vilas County,1391,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512544525,Lincoln town,Vilas County,2031,0,0,0,0,0,69,0,0.0,0.0,0.0,0.0,0.0,0.034,0.0
+muni:5512548462,Manitowish Waters town,Vilas County,1059,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512562425,Phelps town,Vilas County,1677,0,0,0,0,0,96,0,0.0,0.0,0.0,0.0,0.0,0.0572,0.0
+muni:5512563625,Plum Lake town,Vilas County,849,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512565425,Presque Isle town,Vilas County,1476,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512570725,St. Germain town,Vilas County,2266,0,0,0,0,0,76,0,0.0,0.0,0.0,0.0,0.0,0.0335,0.0
+muni:5512583750,Washington town,Vilas County,1989,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512587600,Winchester town,Vilas County,771,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512708265,Bloomfield village,Walworth County,2096,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512708275,Bloomfield town,Walworth County,700,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512711200,Burlington city,Walworth County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512718825,Darien village,Walworth County,621,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512718850,Darien town,Walworth County,686,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512719450,Delavan city,Walworth County,3576,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512719475,Delavan town,Walworth County,3737,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512722100,East Troy village,Walworth County,2065,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512722125,East Troy town,Walworth County,1936,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512723300,Elkhorn city,Walworth County,4225,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512726350,Fontana-on-Geneva Lake village,Walworth County,2291,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512728550,Geneva town,Walworth County,3558,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512728675,Genoa City village,Walworth County,1180,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512740950,Lafayette town,Walworth County,821,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512741050,La Grange town,Walworth County,1704,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512741450,Lake Geneva city,Walworth County,4668,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512744750,Linn town,Walworth County,2328,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512746725,Lyons town,Walworth County,1545,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512755050,Mukwonago village,Walworth County,66,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512767725,Richmond town,Walworth County,1016,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512772875,Sharon village,Walworth County,708,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512772900,Sharon town,Walworth County,378,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512776175,Spring Prairie town,Walworth County,885,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512778100,Sugar Creek town,Walworth County,1718,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512780875,Troy town,Walworth County,1029,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512783250,Walworth village,Walworth County,1210,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512783275,Walworth town,Walworth County,671,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512786925,Whitewater city,Walworth County,4774,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512786950,Whitewater town,Walworth County,898,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512787200,Williams Bay village,Walworth County,2056,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512904950,Barronett town,Washburn County,230,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512905125,Bashaw town,Washburn County,503,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512905225,Bass Lake town,Washburn County,349,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512905875,Beaver Brook town,Washburn County,361,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512907550,Birchwood village,Washburn County,263,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512907575,Birchwood town,Washburn County,711,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512910150,Brooklyn town,Washburn County,264,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512912925,Casey town,Washburn County,776,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512914425,Chicog town,Washburn County,597,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512917850,Crystal town,Washburn County,208,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512924600,Evergreen town,Washburn County,650,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512928025,Frog Creek town,Washburn County,90,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512931825,Gull Lake town,Washburn County,201,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512945650,Long Lake town,Washburn County,675,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512947025,Madge town,Washburn County,498,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512953250,Minong village,Washburn County,297,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512953275,Minong town,Washburn County,1425,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512971637,Sarona town,Washburn County,287,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512973200,Shell Lake city,Washburn County,961,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512975625,Spooner city,Washburn County,1289,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512975650,Spooner town,Washburn County,510,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512975800,Springbrook town,Washburn County,314,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512977350,Stinnett town,Washburn County,132,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512977650,Stone Lake town,Washburn County,384,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512980450,Trego town,Washburn County,733,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513100425,Addison town,Washington County,1382,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513105050,Barton town,Washington County,1119,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513124225,Erin town,Washington County,1551,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513125375,Farmington town,Washington County,1477,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513128875,Germantown village,Washington County,8809,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513128900,Germantown town,Washington County,87,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513133000,Hartford city,Washington County,6899,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513133025,Hartford town,Washington County,1374,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513137675,Jackson village,Washington County,3450,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513137700,Jackson town,Washington County,1569,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513139300,Kewaskum village,Washington County,1813,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513139325,Kewaskum town,Washington County,459,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513153000,Milwaukee city,Washington County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513156450,Newburg village,Washington County,460,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513163875,Polk town,Washington County,1607,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513167475,Richfield village,Washington County,4660,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513174400,Slinger village,Washington County,2468,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513180575,Trenton town,Washington County,1842,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513184900,Wayne town,Washington County,838,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513185350,West Bend city,Washington County,14312,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513185375,West Bend town,Washington County,2135,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513307200,Big Bend village,Waukesha County,585,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513310025,Brookfield city,Waukesha County,16400,150,150,0,537,537,2395,150,0.0091,0.0091,0.0,0.0327,0.0327,0.146,0.0091
+muni:5513310050,Brookfield town,Waukesha County,3383,0,0,0,0,0,2357,0,0.0,0.0,0.0,0.0,0.0,0.6967,0.0
+muni:5513311475,Butler village,Waukesha County,922,0,0,0,0,0,800,0,0.0,0.0,0.0,0.0,0.0,0.8677,0.0
+muni:5513314225,Chenequa village,Waukesha County,307,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513319400,Delafield city,Waukesha County,3362,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513319425,Delafield town,Waukesha County,3143,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513320550,Dousman village,Waukesha County,841,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513321425,Eagle village,Waukesha County,799,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513321450,Eagle town,Waukesha County,1411,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513323575,Elm Grove village,Waukesha County,2562,0,0,0,0,0,1042,0,0.0,0.0,0.0,0.0,0.0,0.4067,0.0
+muni:5513328487,Genesee town,Waukesha County,2803,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513333100,Hartland village,Waukesha County,3977,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513340750,Lac La Belle village,Waukesha County,149,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513342450,Lannon village,Waukesha County,598,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513344847,Lisbon village,Waukesha County,3974,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513351000,Menomonee Falls village,Waukesha County,16918,0,0,0,0,0,509,0,0.0,0.0,0.0,0.0,0.0,0.0301,0.0
+muni:5513351375,Merton village,Waukesha County,1150,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513351400,Merton town,Waukesha County,3389,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513353000,Milwaukee city,Waukesha County,0,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513355050,Mukwonago village,Waukesha County,3411,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513355075,Mukwonago town,Waukesha County,2881,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513355275,Muskego city,Waukesha County,10015,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513355550,Nashotah village,Waukesha County,533,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513356375,New Berlin city,Waukesha County,17635,140,140,0,658,658,658,140,0.0079,0.0079,0.0,0.0373,0.0373,0.0373,0.0079
+muni:5513358400,North Prairie village,Waukesha County,854,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513359250,Oconomowoc city,Waukesha County,8050,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513359275,Oconomowoc town,Waukesha County,3917,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513359300,Oconomowoc Lake village,Waukesha County,283,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513360700,Ottawa town,Waukesha County,1512,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513362240,Pewaukee city,Waukesha County,6743,0,0,0,0,0,116,0,0.0,0.0,0.0,0.0,0.0,0.0172,0.0
+muni:5513362250,Pewaukee village,Waukesha County,4209,0,0,0,0,0,450,0,0.0,0.0,0.0,0.0,0.0,0.1069,0.0
+muni:5513378375,Summit village,Waukesha County,2096,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513378750,Sussex village,Waukesha County,4717,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513382575,Vernon village,Waukesha County,2921,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513383175,Wales village,Waukesha County,1137,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513384250,Waukesha city,Waukesha County,31370,0,0,0,0,0,26241,0,0.0,0.0,0.0,0.0,0.0,0.8365,0.0
+muni:5513384275,Waukesha village,Waukesha County,3220,0,0,0,0,0,466,0,0.0,0.0,0.0,0.0,0.0,0.1447,0.0
+muni:5513505625,Bear Creek town,Waupaca County,332,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513507250,Big Falls village,Waupaca County,43,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513512000,Caledonia town,Waupaca County,778,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513515725,Clintonville city,Waupaca County,2283,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513519025,Dayton town,Waupaca County,1632,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513521200,Dupont town,Waupaca County,302,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513523850,Embarrass village,Waupaca County,152,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513525400,Farmington town,Waupaca County,1779,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513527800,Fremont village,Waupaca County,417,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513527850,Fremont town,Waupaca County,329,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513532925,Harrison town,Waupaca County,365,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513533850,Helvetia town,Waupaca County,440,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513537025,Iola village,Waupaca County,661,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513537050,Iola town,Waupaca County,556,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513542650,Larrabee town,Waupaca County,578,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513543075,Lebanon town,Waupaca County,672,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513544575,Lind town,Waupaca County,783,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513545300,Little Wolf town,Waupaca County,617,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513548350,Manawa city,Waupaca County,630,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513549400,Marion city,Waupaca County,620,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513549975,Matteson town,Waupaca County,404,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513555025,Mukwa town,Waupaca County,1276,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513556925,New London city,Waupaca County,2603,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513559475,Ogdensburg village,Waupaca County,92,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513569900,Royalton town,Waupaca County,730,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513570900,St. Lawrence town,Waupaca County,335,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513571975,Scandinavia village,Waupaca County,171,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513572000,Scandinavia town,Waupaca County,538,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513581700,Union town,Waupaca County,392,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513584375,Waupaca city,Waupaca County,3075,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513584400,Waupaca town,Waupaca County,523,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513586400,Weyauwega city,Waupaca County,816,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513586425,Weyauwega town,Waupaca County,304,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513589375,Wyoming town,Waupaca County,229,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513703925,Aurora town,Waushara County,438,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513706925,Berlin city,Waushara County,42,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513708300,Bloomfield town,Waushara County,519,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513716375,Coloma village,Waushara County,219,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513716400,Coloma town,Waushara County,553,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513718475,Dakota town,Waushara County,689,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513719300,Deerfield town,Waushara County,531,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513732450,Hancock village,Waushara County,245,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513732475,Hancock town,Waushara County,410,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513743500,Leon town,Waushara County,999,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513745425,Lohrville village,Waushara County,202,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513749425,Marion town,Waushara County,1694,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513754825,Mount Morris town,Waushara County,1041,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513759225,Oasis town,Waushara County,286,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513763150,Plainfield village,Waushara County,380,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513763175,Plainfield town,Waushara County,239,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513764975,Poy Sippi town,Waushara County,483,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513766625,Redgranite village,Waushara County,550,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513767550,Richford town,Waushara County,332,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513769425,Rose town,Waushara County,392,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513771825,Saxeville town,Waushara County,664,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513776400,Springwater town,Waushara County,1392,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513783425,Warren town,Waushara County,351,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513784625,Wautoma city,Waushara County,995,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513784650,Wautoma town,Waushara County,671,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513787075,Wild Rose village,Waushara County,393,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513901025,Algoma town,Winnebago County,2525,0,0,0,0,0,501,0,0.0,0.0,0.0,0.0,0.0,0.1984,0.0
+muni:5513902375,Appleton city,Winnebago County,629,0,0,0,0,0,629,0,0.0,0.0,0.0,0.0,0.0,1.0,0.0
+muni:5513908000,Black Wolf town,Winnebago County,1130,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513915150,Clayton town,Winnebago County,1606,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513926982,Fox Crossing village,Winnebago County,8574,0,0,0,0,0,5101,0,0.0,0.0,0.0,0.0,0.0,0.5949,0.0
+muni:5513950825,Menasha city,Winnebago County,7177,0,0,0,0,0,6322,0,0.0,0.0,0.0,0.0,0.0,0.8809,0.0
+muni:5513955750,Neenah city,Winnebago County,12176,0,0,0,0,0,10366,0,0.0,0.0,0.0,0.0,0.0,0.8513,0.0
+muni:5513955775,Neenah town,Winnebago County,1436,0,0,0,0,0,172,0,0.0,0.0,0.0,0.0,0.0,0.1198,0.0
+muni:5513955850,Nekimi town,Winnebago County,580,0,0,0,0,0,6,0,0.0,0.0,0.0,0.0,0.0,0.0103,0.0
+muni:5513956100,Nepeuskun town,Winnebago County,315,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513959875,Omro city,Winnebago County,1590,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513959900,Omro town,Winnebago County,1019,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513960500,Oshkosh city,Winnebago County,29276,0,0,0,0,0,27796,0,0.0,0.0,0.0,0.0,0.0,0.9494,0.0
+muni:5513960525,Oshkosh town,Winnebago County,1189,0,0,0,0,0,112,0,0.0,0.0,0.0,0.0,0.0,0.0942,0.0
+muni:5513964875,Poygan town,Winnebago County,666,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513970125,Rushford town,Winnebago County,699,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513982175,Utica town,Winnebago County,558,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513982875,Vinland town,Winnebago County,786,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513987650,Winchester town,Winnebago County,781,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513987900,Winneconne village,Winnebago County,1242,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513987925,Winneconne town,Winnebago County,1270,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513988475,Wolf River town,Winnebago County,822,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514103025,Arpin village,Wood County,149,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514103050,Arpin town,Wood County,358,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514103775,Auburndale village,Wood County,310,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514103800,Auburndale town,Wood County,323,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514107650,Biron village,Wood County,394,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514112275,Cameron town,Wood County,226,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514112775,Cary town,Wood County,230,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514117525,Cranmoor town,Wood County,76,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514120075,Dexter town,Wood County,196,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514130125,Grand Rapids town,Wood County,3208,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514132575,Hansen town,Wood County,297,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514134250,Hewitt village,Wood County,320,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514134675,Hiles town,Wood County,87,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514144550,Lincoln town,Wood County,630,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514149675,Marshfield city,Wood County,9061,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514149700,Marshfield town,Wood County,321,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514151875,Milladore village,Wood County,111,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514151900,Milladore town,Wood County,280,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514155875,Nekoosa city,Wood County,1153,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514163100,Pittsville city,Wood County,373,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514164175,Port Edwards village,Wood County,797,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514164200,Port Edwards town,Wood County,605,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514167000,Remington town,Wood County,155,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514167500,Richfield town,Wood County,594,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514168625,Rock town,Wood County,338,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514170000,Rudolph village,Wood County,202,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514170025,Rudolph town,Wood County,453,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514171600,Saratoga town,Wood County,2267,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514172575,Seneca town,Wood County,446,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514173475,Sherry town,Wood County,311,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514173900,Sigel town,Wood County,447,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514182650,Vesper village,Wood County,255,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514188200,Wisconsin Rapids city,Wood County,9243,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5514188575,Wood town,Wood County,333,0,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0

@@ -1,6 +1,6 @@
 # What counts as a "major transit stop": data, method and how many homes each definition covers
 
-Written 2026-10-26 by the TOD conductor. Status: first look, for the Gate 1 decision. The numbers come from a scratch run on 2026-10-26; the automated, committed pipeline is Gate 2 work.
+Written 2026-10-26 by the TOD conductor. Status: first look, for the Gate 1 decision. **Superseded for numbers by the automated pipeline** ([TRANSIT_PIPELINE.md](TRANSIT_PIPELINE.md), `reference/tod_definition_summary.csv`). Its definitions leave out Amtrak (AQ-047), and its main case is 313,564 homes. The numbers come from a scratch run on 2026-10-26; the automated, committed pipeline is Gate 2 work.
 
 Owner decisions so far:
 - **AQ-044:** show the definitions as a ladder from narrowest to widest, with 15-minute service as the main case, and focus on city-specific studies of the Milwaukee and Madison areas.
@@ -47,7 +47,7 @@ California's definition (stops where two 15-minute routes meet) needs stop-level
 | Milwaukee city and Madison city | 80.5% | 75.8% | 73.2% |
 | Milwaukee County and Dane County | 97.2% | 97.6% | 96.1% |
 
-Under the 15-minute and 20-minute definitions, almost everything is in Milwaukee County and Dane County. The route-level test finds no 15-minute route outside Milwaukee and Madison apart from two Eau Claire routes. The rest of the state matters only under the rail and rapid definition, through Amtrak stations and the Kenosha streetcar, and under "any stop".
+Under the 15-minute and 20-minute definitions, almost everything is in Milwaukee County and Dane County. The route-level test finds no 15-minute route outside Milwaukee and Madison. Eau Claire's routes 9 and 19 run 3 trips an hour, so they count only in the 20-minute cases (corrected by the pipeline run). The rest of the state matters only under the rail and rapid definition, through Amtrak stations and the Kenosha streetcar, and under "any stop".
 
 ## 4. Compared with the first run, which used Madison's file
 

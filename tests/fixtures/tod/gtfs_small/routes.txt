@@ -1,0 +1,5 @@
+route_id,agency_id,route_short_name,route_long_name,route_type
+r1,X,1,Main Street,3
+r2,X,2,Crosstown,3
+r3,X,3,Early Rush,3
+r1b,X,1,Main Street short turn,3

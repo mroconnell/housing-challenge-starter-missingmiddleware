@@ -1,0 +1,9 @@
+[
+ {"ntd_id": "50005", "stop_id": "on_A", "x": 500, "y": 29, "expect": "abc"},
+ {"ntd_id": "50005", "stop_id": "off_A_31m", "x": 500, "y": 31, "expect": ""},
+ {"ntd_id": "50005", "stop_id": "on_C", "x": 200, "y": 1010, "expect": "bc"},
+ {"ntd_id": "50005", "stop_id": "on_28", "x": 200, "y": 2000, "expect": ""},
+ {"ntd_id": "99999", "stop_id": "amtrak_station", "x": 500, "y": 3000, "expect": ""},
+ {"ntd_id": "50008", "stop_id": "other_agency_on_A", "x": 600, "y": 0, "expect": ""},
+ {"ntd_id": "55312", "stop_id": "hop", "x": 900, "y": 4005, "expect": "abc"}
+]

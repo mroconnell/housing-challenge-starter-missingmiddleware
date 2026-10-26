@@ -175,7 +175,7 @@ Status of each input: available, to build, or to measure.
 | Sensitivities grouped by what they move | Yes | Adds the stop-definition ladder and the distance |
 | Data-versus-assumption trace | Yes | |
 | Where | Redesign | A list or map of station areas and corridors in the two metros, not a map of 1,925 places (T10) |
-| Pilot examples | Yes | A Madison Rapid Route A corridor; a CONNECT 1 corridor; Eau Claire, which has the only 15-minute routes outside the two metros, as the "does it transfer" check |
+| Pilot examples | Yes | A Madison Rapid Route A corridor; a CONNECT 1 corridor; Eau Claire, which has 20-minute routes but no 15-minute ones, as the "does it transfer" check |
 | Reform picker | Done | On main ([SCENARIO_CONTRACT.md](../shared/SCENARIO_CONTRACT.md)) |
 
 ## 6. Data and licences

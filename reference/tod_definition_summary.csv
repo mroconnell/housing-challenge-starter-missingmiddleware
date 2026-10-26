@@ -1,0 +1,8 @@
+definition,description,rapid_radius_mi,bus_radius_mi,bus_min_trips_per_hour,stops,homes,state_homes_2020,share_of_state,milwaukee_city_homes,madison_city_homes,share_in_two_cities,share_in_milwaukee_dane_counties
+main,"Main case: rail and rapid 1/2 mile, 15-minute bus 1/4 mile",0.5,0.25,4,2777,313564,2727726,0.115,175633,80609,0.8172,0.987
+high,"High case: rail and rapid 1/2 mile, 20-minute bus 1/4 mile",0.5,0.25,3,3237,351606,2727726,0.1289,195777,80609,0.7861,0.9747
+rapid_half,"(a) rail and rapid transit only, 1/2 mile",0.5,,,266,89528,2727726,0.0328,33849,47081,0.904,0.9578
+b_half,"(b) rail and rapid plus 15-minute bus, all 1/2 mile",0.5,0.5,4,2777,403304,2727726,0.1479,214888,94719,0.7677,0.9877
+c_half,"(c) rail and rapid plus 20-minute bus, all 1/2 mile",0.5,0.5,3,3237,451457,2727726,0.1655,238993,94719,0.7392,0.9714
+any_half,"(e) any stop, 1/2 mile (context only, not major transit)",0.5,0.5,0,13044,1052700,2727726,0.3859,254959,122700,0.3588,0.5186
+main_35k,"Check: main case, but rail and rapid 1/2 mile only in cities of 35,000+ (else 1/4 mile)",0.5,0.25,4,2777,313564,2727726,0.115,175633,80609,0.8172,0.987

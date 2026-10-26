@@ -1,0 +1,14 @@
+{"type": "FeatureCollection",
+ "name": "synthetic NTM-style routes; coordinates are metres in a local projected frame",
+ "features": [
+  {"type": "Feature", "properties": {"ntd_id": "50005", "agency_name": "City of Madison", "route_short_name": "A", "route_type": "3", "route_desc": "Monday thru Saturday daytime schedule trips operate at least every 15 minutes. Evening and all-day Sunday/Holiday schedule trips operate at least every 30 minutes."},
+   "geometry": {"type": "LineString", "coordinates": [[0, 0], [1000, 0]]}},
+  {"type": "Feature", "properties": {"ntd_id": "50005", "agency_name": "City of Madison", "route_short_name": "C", "route_type": "3", "route_desc": "Weekday daytime schedule trips operate at least every 15 minutes. Evening and all-day Weekend/Holiday schedule trips operate at least every 30 minutes."},
+   "geometry": {"type": "LineString", "coordinates": [[0, 1000], [1000, 1000]]}},
+  {"type": "Feature", "properties": {"ntd_id": "50005", "agency_name": "City of Madison", "route_short_name": "28", "route_type": "3", "route_desc": "Weekday schedule trips operate at least every 30 minutes."},
+   "geometry": {"type": "LineString", "coordinates": [[0, 2000], [1000, 2000]]}},
+  {"type": "Feature", "properties": {"ntd_id": "99999", "agency_name": "National Railroad Passenger Corporation (Amtrak)", "route_short_name": "Hiawatha", "route_type": "2", "route_desc": ""},
+   "geometry": {"type": "LineString", "coordinates": [[0, 3000], [1000, 3000]]}},
+  {"type": "Feature", "properties": {"ntd_id": "55312", "agency_name": "City of Milwaukee", "route_short_name": "", "route_type": "3", "route_desc": ""},
+   "geometry": {"type": "LineString", "coordinates": [[0, 4000], [1000, 4000]]}}
+ ]}
