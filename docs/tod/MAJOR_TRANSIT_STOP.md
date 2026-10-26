@@ -65,3 +65,22 @@ Where the homes are: under definition (b), Milwaukee County Transit System stops
 - Green Bay and Superior are not yet counted. Green Bay's 2018 feed had 10 frequent stops, and Superior is served by Duluth Transit.
 - A pair of stops across the street counts twice in the stop counts; the home counts are not affected.
 - "Homes near stops" is the area a law would cover, not the number of homes it would add. How many more homes get permitted depends on land that can redevelop and on whether mid-rise housing pays for itself in each market. That is the Gate 3 question.
+
+## 5. How much would city-specific studies cover? (owner question, 2026-10-26)
+
+The same scratch run, with each census block assigned to its city, village or town (2024 county subdivisions). Shares are of homes (2020 census housing units) near a qualifying stop.
+
+| Area studied | Main rule: rail and rapid ½ mile, 15-minute bus ¼ mile (330,804 homes) | 15-minute, all stops ½ mile (469,352 homes) | 20-minute high case, ½ mile (535,946 homes) |
+| --- | --- | --- | --- |
+| Milwaukee city | 177,963 (53.8%) | 224,870 (47.9%) | 241,840 (45.1%) |
+| Milwaukee city and Madison city | 245,483 (74.2%) | 308,810 (65.8%) | 335,255 (62.6%) |
+| The 10 largest municipalities | 89.6% | 84.0% | 81.7% |
+| Milwaukee County and Dane County (all municipalities, the service areas of the two big transit systems) | 304,215 (92.0%) | 405,962 (86.5%) | 448,341 (83.7%) |
+| Number of municipalities with any covered homes | 54 | 59 | 69 |
+
+What this means:
+- Two city studies, Milwaukee and Madison, cover about two-thirds to three-quarters of the homes the law would reach.
+- Two county-wide studies, Milwaukee County and Dane County, cover 84% to 92%. The extra comes mostly from inner suburbs on Milwaukee's bus network (West Allis, Wauwatosa, Shorewood, South Milwaukee, Cudahy, Greenfield, Whitefish Bay) and from Fitchburg next to Madison.
+- The remaining 8% to 16% is spread over about 50 smaller cities, led by La Crosse, Eau Claire, Oshkosh, Racine, Kenosha and Janesville, with no single place above 2.2%. A simpler statewide rule could cover them.
+- Homes covered is not the same as homes added. If the response depends on market strength, as the evidence suggests, the added homes will be more concentrated in Madison than these shares show.
+- Census building permits under-count Milwaukee city apartments (see [HOUSING_BASELINE.md](../shared/HOUSING_BASELINE.md)), so a Milwaukee study would need the city's own permit and property records, which are already in the repo.
