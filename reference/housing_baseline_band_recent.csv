@@ -1,0 +1,5 @@
+structure_type,ratio_min,ratio_max,low,high,candidate,basis
+1unit,1.0097,1.0572,1.0,1.0572,flat_3y,"held-out years 2019-2022 origins, min-max (sensitivity)"
+2units,1.0638,1.7403,1.0,1.7403,flat_3y,"held-out years 2019-2022 origins, min-max (sensitivity)"
+3_4units,0.9412,1.2053,0.9412,1.2053,flat_3y,"held-out years 2019-2022 origins, min-max (sensitivity)"
+5plus,1.0893,1.4585,1.0,1.4585,flat_3y,"held-out years 2019-2022 origins, min-max (sensitivity)"

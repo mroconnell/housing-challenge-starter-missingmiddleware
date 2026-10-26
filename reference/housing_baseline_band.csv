@@ -1,0 +1,6 @@
+structure_type,low,high,worst,best,n_origins,worst_period,best_period,candidate,basis
+1unit,0.4915,1.2929,0.3866,1.3824,29,2007-2011,2014-2018,flat_3y,"long-run 1990-2025 state totals, 10th-90th percentile of five-year outcomes"
+2units,0.3882,1.907,0.3034,2.0294,29,2007-2011,2016-2020,flat_3y,"long-run 1990-2025 state totals, 10th-90th percentile of five-year outcomes"
+3_4units,0.3039,1.1973,0.2083,1.5455,29,2008-2012,2012-2016,flat_3y,"long-run 1990-2025 state totals, 10th-90th percentile of five-year outcomes"
+5plus,0.5939,1.5337,0.5192,2.0547,29,2006-2010,2012-2016,flat_3y,"long-run 1990-2025 state totals, 10th-90th percentile of five-year outcomes"
+all,0.5158,1.383,0.4029,1.5364,29,2007-2011,2013-2017,flat_3y,"long-run 1990-2025 state totals, 10th-90th percentile of five-year outcomes"
