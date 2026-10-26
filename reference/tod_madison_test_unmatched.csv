@@ -1,0 +1,6 @@
+street,year,units,permit_type,match_result
+UNIVERSITY AVE,2022,66,BLDNCC,number_not_found
+EAST SPRINGS DR,2023,120,BLDNCC,number_not_found
+STONES THROW LOOP,2025,40,BLDNCC,number_not_found
+STONES THROW LOOP,2025,35,BLDNCC,number_not_found
+BLISSFUL AVE,2026,42,BLDNCC,number_not_found

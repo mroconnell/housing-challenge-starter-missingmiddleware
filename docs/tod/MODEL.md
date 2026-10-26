@@ -206,3 +206,71 @@ Still to do:
   - the law's interaction with parking reform;
   - New York-to-Wisconsin market transfer. The Madison test addresses it;
   - Madison lots with no V12 land value. They are 30% of Madison parcel records, mostly single-family and condominium units far from stops. The land values matter only to method B, which fails before land enters.
+
+## 10. Scale check
+
+This is a check shown to the owner, not a cap. No model number changes because of it. It asks a single question. Spread over all the land near stops, does a scenario's response per acre mean more apartment permits than a metro of Milwaukee's or Madison's size has ever had?
+
+**How it is measured**
+- **The rate:** homes in buildings of 5 or more homes permitted in a year, per 1,000 existing homes on July 1 of that year. It is a yearly rate.
+- **Permits:** Census Building Permits Survey (BPS) annual county files, 2000–2025, including the Census estimates for places that did not report.
+- **Existing homes:** Census housing-unit estimates by county (July 1). The 2000–2009 figures are intercensal, 2010–2019 come from Vintage 2020 and 2020–2025 from Vintage 2025. Moving from one vintage to the next leaves a small step. For example, the Milwaukee metro's stock rises by 10,794 homes between 2019 and 2020.
+- **Peer metros:** the 79 US metropolitan areas with a 2020 Census population of 500,000 to 2,500,000 people. Areas use the July 2023 federal (OMB) definitions, and population is the sum of each area's counties from the Census 2010–2020 intercensal table. Each metro keeps the same counties in every year, so its series is not broken when the official definitions change. The 79 metros over 26 years give 2,054 metro-years.
+- **Left out:** the five Connecticut metros. Since 2023, permits there are reported by planning region, but earlier permits and the pre-2020 housing estimates use the old counties, and the two do not match. Three peer counties have no permit-issuing places at all (Torrance NM, Bracken KY, Hudspeth TX); they count as 0 permits.
+- **Checked:** for 2024 and 2025, all 158 metro totals built from counties match the published BPS metro files exactly.
+- **Milwaukee metro** means Milwaukee, Waukesha, Ozaukee and Washington counties. **Madison metro** means Dane, Columbia, Green and Iowa counties. Both match the 2023 definitions.
+
+**The benchmarks**
+- **Highest year in any peer metro:** in 2021 the Austin metro permitted 25,642 homes in 5+ unit buildings. It had 996,124 existing homes, so the rate was 25.7 per 1,000 (a yearly rate).
+- **95th percentile:** 9.06 per 1,000 existing homes. 95% of the 2,054 metro-years were at or below it.
+- **Milwaukee metro:**
+  - Its highest year was 2016: 2,328 homes in 5+ unit buildings ÷ 675,947 existing homes, or 3.44 per 1,000.
+  - In 2021–2025 its average was 1.80 per 1,000. That is the mean of the five yearly rates; it permitted 1,268 such homes a year on average.
+- **Madison metro:**
+  - Its highest year was 2021: 5,235 homes ÷ 309,537 existing homes, or 16.9 per 1,000. Only six of the 2,054 metro-years were higher.
+  - In 2021–2025 its average was 13.4 per 1,000, with 4,314 such homes a year on average.
+  - **So Madison is already above the 95th percentile with no law at all.**
+
+**How a scenario is converted**
+- A scenario's homes added each year are counted as permits for 5+ unit buildings. That is an assumption.
+- A metro's addition is the sum over its counties in `reference/tod_model_by_county.csv`. These county sums add up to the statewide file in every scenario and year.
+- All of the statewide addition falls in the two metros: 50.7% in Milwaukee County and 49.3% in Dane County. These shares are the same in every scenario and every year.
+- The addition is divided by the metro's existing homes on July 1, 2025: 710,943 in the Milwaukee metro and 331,967 in the Madison metro.
+- The result is added to the metro's own 2021–2025 average rate. The model's own baseline near stops is smaller: 1.19 per 1,000 existing homes a year for Milwaukee and 6.13 for Madison. Each is the 2027–2031 central baseline near stops ÷ 5 years ÷ 2025 existing homes. These are shown only as context.
+- Only method A is checked. Method B has no numbers (section 5).
+
+**Results, in the peak year (2030, ramp share 2.395)**
+
+| Scenario | Metro | Extra homes in 2030 | Extra per 1,000 existing homes | Total per 1,000 (with 2021–2025 average) | Above peer maximum (25.7)? | Above 95th percentile (9.06)? | Above own maximum? |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Little response | Milwaukee | 3,452 | 4.9 | 6.7 | No | No | Yes (3.44) |
+| Reference line | Milwaukee | 6,556 | 9.2 | 11.0 | No | Yes | Yes |
+| Typical response | Milwaukee | 9,660 | 13.6 | 15.4 | No | Yes | Yes |
+| Strong response | Milwaukee | 36,915 | 51.9 | 53.7 | Yes | Yes | Yes |
+| Little response | Madison | 3,356 | 10.1 | 23.6 | No | Yes | Yes (16.9) |
+| Reference line | Madison | 6,373 | 19.2 | 32.6 | Yes | Yes | Yes |
+| Typical response | Madison | 9,390 | 28.3 | 41.7 | Yes | Yes | Yes |
+| Strong response | Madison | 35,886 | 108.1 | 121.5 | Yes | Yes | Yes |
+
+The extra rate is the extra homes ÷ 2025 existing homes × 1,000, a yearly rate.
+
+**Which years go over (2027–2031)**
+- **Above the highest peer year (25.7 per 1,000):**
+  - The strong response goes over in Milwaukee in 2029 and 2030, and in Madison in all five years.
+  - The typical response goes over in Madison in 2029 and 2030.
+  - The reference line goes over in Madison in 2030.
+  - The little response never goes over.
+- **Above the 95th percentile (9.06 per 1,000):**
+  - In Milwaukee: the strong response in 2027–2030, the typical response in 2029–2030 and the reference line in 2030. The little response never does.
+  - In Madison, every scenario goes over in every year, because the metro's own recent rate (13.4) is already above the 95th percentile.
+- **Above the metro's own highest year:**
+  - In Milwaukee: the typical and strong responses in all five years, the reference line in 2027–2030 and the little response in 2029–2030.
+  - In Madison: the typical and strong responses in all five years, the reference line in 2027–2030 and the little response in 2029–2030.
+
+**What it means**
+- The little response stays within what peer metros have done in both metros.
+- The reference line and typical response stay below the highest peer year in Milwaukee. In Madison they pass it in the ramp's peak years, because Madison already permits apartments at a high rate.
+- The strong response would require a rate about twice the highest peer year in Milwaukee (53.7 vs 25.7 per 1,000). In Madison it would be about five times that year (121.5 per 1,000). No peer metro has done that in 26 years.
+- To reach the highest peer year, the Milwaukee metro could add about 17,000 extra homes in one year: (25.7 − 1.80) × 710,943 ÷ 1,000. The Madison metro could add about 4,100: (25.7 − 13.4) × 331,967 ÷ 1,000.
+
+**Files:** `scripts/run_tod_scale_check.py` (fetches the raw Census files into `data/raw/census_bps_cbsa/` with `_downloads.json` the first time, then runs offline); `missing_middleware/tod/scale_check.py` (the pure functions); `reference/tod_scale_check.csv` (benchmark, metro-history and scenario rows, told apart by the `kind` column); `reference/tod_scale_check_metro_years.csv` (the 2,054 peer metro-years); `tests/test_tod_scale_check.py`.

@@ -64,4 +64,29 @@ Did Madison's TOD overlay change how many homes were permitted per acre per year
 
 ## 8. Changes after writing
 
-None yet.
+**2026-10-26, made while counting (TOD Gate 3 stage 2).** Results are in [MADISON_TEST_RESULTS.md](MADISON_TEST_RESULTS.md).
+
+- **Method B dropped.** Method B was not computable, as recorded in [GATE3_MODEL_SPEC.md](GATE3_MODEL_SPEC.md) section 9, before the count.
+  - So section 6 becomes one test: method A is confirmed if its committed prediction lies inside the measured 90% interval.
+  - The Chicago fallback in section 6.4 is not triggered.
+- **Areas follow the uniform rule** of [CASE_ANALYSIS_PLAN.md](CASE_ANALYSIS_PLAN.md) section 7, instead of section 2 as written.
+  - **Treatment:** eligible overlay lots whose allowed FAR rose (CC, RMX, TSS, TR-V2, NMX).
+  - **Comparison:** eligible lots outside the overlay within ¼ mile of treated land, whose zoning did not change in 2017–2025.
+  - **In no area:** overlay lots whose density did not rise, land already at the law (downtown districts) and lots rezoned in the window.
+  - **Second comparison:** all other eligible lots, with the same exclusions.
+  - **Reason:** the owner's decision G2-2 applies one area rule to every case.
+  - **Kept as a sensitivity:** the areas as written in section 2, judged the same way.
+- **The judged number is converted to the prediction's basis.** The prediction is per acre of all eligible overlay land (dose 0.374). The uniform rule's treatment is the land whose density rose (dose 0.977).
+  - The measured estimate is multiplied by 0.374 ÷ 0.977 before it is compared with 0.251.
+  - Its interval is multiplied by the same factor.
+  - This is the same as comparing effects per 1.0 of added FAR.
+  - **Reason:** method A predicts no effect where density did not rise, so both bases describe the same prediction.
+- **How "zoning changed in the window" is read.**
+  - **Source:** Madison has no dated zoning snapshots, so the City's zoning map amendment ordinances (MGO 28.022) are used instead. These are the ordinances passed with enactment dates in 2017–2025, 278 in all, from the Legistar web API.
+  - **Placing them on lots:** the addresses in their titles are matched to lots with the ADU address matcher. A range covers every address in it.
+  - **Addresses that no longer exist:** the nearest house number on the same street, within 50, is used.
+  - **Attachments:** lots outside the City's 1 January 2016 boundary (TIGER 2016) count as rezoned. Their zoning was assigned in the window, and the permit report does not cover them before attachment.
+  - **Reason:** this is the only dated record of Madison rezonings found.
+- **Ambiguous address matches** are placed when every candidate parcel lies on the same lot. Others stay unmatched.
+- **Effective date confirmed.** ORD-23-00013 passed on 17 January 2023 and was enacted (published) on 26 January 2023 (Legistar file 74703). 2023 stays an after year, as written.
+- **Dose.** The dose is coded from `reference/tod_zoning_rules_madison.csv`, the same coding as the committed prediction: overlay stories replace the base district's where higher.
