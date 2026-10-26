@@ -81,7 +81,16 @@ Five-year totals, 2027–2031 (`reference/parking_model_sensitivities.csv`).
 
 Owner direction (AQ-047): show parking alone, TOD alone and both together. Proposed text for TOD to review and add to the contract:
 
-> **Combined reforms.** Each reform publishes, in its bundle, `additions_by_area.json`: for each `area_id` (`muni:<geoid>`) and each forecast year 2027–2031, the additional permits under each of its scenario paths, plus the baseline it used. A combined view is a separate result set, with its own bundle and run id, built from the two reforms' published additions by a rule the owner chooses. The candidate rules are: (a) sum, which double-counts any overlap; (b) the larger of the two in each area; (c) sum minus an overlap term measured from cases where both reforms happened together. Until the owner chooses, the combined view shows (a) and (b) side by side, labelled. Neither reform's own numbers change.
+> **Combined reforms.**
+> - **Additions.** Each reform publishes, in its bundle, `additions_by_area.json`. It gives, for each `area_id` (`muni:<geoid>`) and each forecast year 2027–2031, the additional permits under each of its scenario paths. An optional `part` key (`near_stops` or `elsewhere`) splits a municipality into the area near qualifying transit stops and the rest. TOD acts only near stops. Parking splits each municipality's additions by `share_near_main` in `reference/tod_near_stop_homes_by_muni.csv`.
+> - **Same baseline.** Each bundle states its `baseline_version`, currently all-housing baseline v2. The combined builder refuses to combine bundles built on different baselines.
+> - **Paths paired by meaning.** Lower is combined with lower, central with central and upper with upper. Paths are never crossed.
+> - **Rules.** A combined view is a separate result set, with its own bundle and run id. Neither reform's own numbers change. Within each municipality, the `elsewhere` parts are added. The `near_stops` parts are combined by a rule the owner chooses:
+>   - (a) sum, which double-counts any overlap;
+>   - (b) the larger of the two;
+>   - (c) sum minus an overlap term, measured from cases where both reforms happened together.
+>
+>   Until the owner chooses, the combined view shows (a) and (b) side by side, labelled. Rule (c) starts as a sensitivity case. The TOD cases give a first handle on it: New York kept parking minimums near transit, while Charlotte, Chicago and Saint Paul cut them. Their markets and decades differ, so (c) is not the main rule.
 
 For parking, the central addition is 0 in every area, so the combined central equals TOD's central under any rule. Only the upper cases differ.
 
@@ -100,7 +109,7 @@ For parking, the central addition is 0 in every area, so the combined central eq
 | --- | --- | --- |
 | G3-1 | Labels | "No measurable change" for the central and "High end of the evidence" for the upper, with the median place shown as a reference line at 0 |
 | G3-2 | Towns in the upper case | Keep towns in the headline, and show "towns at 0" as a sensitivity. We have not checked town and county parking rules statewide, so excluding them would be an assumption |
-| G3-3 | Combined view rule | Show the sum and the larger-of-the-two side by side until there is evidence on overlap; adopt the contract text above |
+| G3-3 | Combined view rule | Show the sum and the larger of the two side by side, near stops only (elsewhere is simply added), until there is evidence on overlap; adopt the contract text above, as reviewed by TOD |
 
 ## 8. Limitations
 
