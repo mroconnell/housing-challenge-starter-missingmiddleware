@@ -11,6 +11,9 @@ Method (docs/tod/STATION_AREAS.md; docs/tod/GATE1_PACKET.md sections 3 and 4.2 B
   where the code sets no density limit.
 - New capacity per parcel = max(area x law - max(area x current, existing homes), 0), then summed by
   area. Existing homes are subtracted only through the max(), never twice.
+- Floor area per home (for every FAR-to-homes conversion) is measured: MEASURED_SQFT_PER_HOME, with
+  1,000 sq ft kept as a sensitivity.
+- Places whose zoning is not coded (suburbs) use fallback_capacity: current allowance = existing homes.
 
 Every assumption that is not printed in a code is a named constant below, so it can be changed in one
 place when the case evidence revises the modelled law (AQ-047 item 1).
@@ -59,7 +62,20 @@ DEFINITION_BANDS: dict[str, frozenset[str]] = {
 
 FT_PER_STORY = 11.0            # height limit (ft) -> whole stories
 DEFAULT_LOT_COVERAGE = 0.70    # where the code prints no maximum lot coverage
-GROSS_SQFT_PER_HOME = 1_000.0  # gross floor area per home (unit plus share of halls, walls, lobby)
+# Gross floor area per home (unit plus its share of halls, walls, lobby and any structured parking),
+# measured as the median over new buildings with 5+ homes, 2018-2025, citywide (G2-6/AQ-049 follow-up;
+# reference/tod_floor_area_per_home.csv, recomputed by scripts/build_tod_station_areas.py):
+# - Madison: 253 new-building permits (BLDNCC/BLDNRC, Construction Summary report), BLDG_SQFT / Dwell;
+# - Milwaukee: 73 buildings in the 2026 MPROP built 2018-2025, BLDG_AREA / NR_UNITS (the city's permit
+#   file has no floor area or unit count);
+# - pooled (both cities' 326 buildings): used where a city has no measure of its own (suburbs).
+MEASURED_SQFT_PER_HOME = {"Milwaukee city": 1_192.0, "Madison city": 1_512.0, "pooled": 1_467.0}
+GROSS_SQFT_PER_HOME = MEASURED_SQFT_PER_HOME["pooled"]
+SENSITIVITY_SQFT_PER_HOME = 1_000.0  # the Gate 2 placeholder, kept as a sensitivity
+
+
+def sqft_per_home_for(city: str) -> float:
+    return MEASURED_SQFT_PER_HOME.get(city, MEASURED_SQFT_PER_HOME["pooled"])
 
 # Land that is never eligible, whatever its zoning (owner rule, AQ-047 item 8; MADISON_TEST_PREREG 2).
 EXCLUDED_USE_CLASSES = frozenset({"institutional", "park_open_space", "cemetery", "utility_transport", "water"})
@@ -89,10 +105,12 @@ def assign_band(d_rapid: float, d_bus15: float, d_bus20: float) -> str | None:
     return None
 
 
-def law_homes_per_acre(band: str, law: Mapping[str, LawRule] = MODELLED_LAW) -> float:
-    """Homes per acre the modelled law allows in a band: its density, capped by its FAR."""
+def law_homes_per_acre(band: str, law: Mapping[str, LawRule] = MODELLED_LAW,
+                       sqft_per_home: float = GROSS_SQFT_PER_HOME) -> float:
+    """Homes per acre the modelled law allows in a band: its density, capped by its FAR
+    (FAR x 43,560 / floor area per home)."""
     r = law[band]
-    return min(r.homes_per_acre, r.far * SQFT_PER_ACRE / GROSS_SQFT_PER_HOME)
+    return min(r.homes_per_acre, r.far * SQFT_PER_ACRE / sqft_per_home)
 
 
 # --------------------------------------------------------------------------- zoning rules
@@ -120,7 +138,7 @@ class DistrictRule:
     status: str
 
 
-def district_rule(row: Mapping, tod_overlay: bool = False) -> DistrictRule:
+def district_rule(row: Mapping, tod_overlay: bool = False, sqft_per_home: float = GROSS_SQFT_PER_HOME) -> DistrictRule:
     """Current allowed homes per acre and FAR for one coded district row (rule-table CSV row).
 
     density: min(43,560 / lot area per home or printed homes per acre, FAR x 43,560 / gross sq ft per home)
@@ -143,7 +161,7 @@ def district_rule(row: Mapping, tod_overlay: bool = False) -> DistrictRule:
     far = _num(row.get("max_far"))
     if far is None and stories is not None:
         far = stories * cov
-    far_cap = None if far is None else far * SQFT_PER_ACRE / GROSS_SQFT_PER_HOME
+    far_cap = None if far is None else far * SQFT_PER_ACRE / sqft_per_home
     out_hpa: float | None = None
     if rt == "density":
         dens = SQFT_PER_ACRE / lot if lot else hpa
@@ -160,8 +178,9 @@ def district_rule(row: Mapping, tod_overlay: bool = False) -> DistrictRule:
                         (row.get("status") or "").strip())
 
 
-def rule_table(rows: Iterable[Mapping], tod_overlay: bool = False) -> dict[str, DistrictRule]:
-    return {str(r["district"]).strip(): district_rule(r, tod_overlay) for r in rows}
+def rule_table(rows: Iterable[Mapping], tod_overlay: bool = False,
+               sqft_per_home: float = GROSS_SQFT_PER_HOME) -> dict[str, DistrictRule]:
+    return {str(r["district"]).strip(): district_rule(r, tod_overlay, sqft_per_home) for r in rows}
 
 
 def is_eligible(zoning_class: str, use_class: str, rule_type: str) -> bool:
@@ -193,7 +212,8 @@ class ParcelResult:
 
 
 def parcel_capacity(acres: float, band: str, rule: DistrictRule | None, use_class: str,
-                    existing_homes: float, law: Mapping[str, LawRule] = MODELLED_LAW) -> ParcelResult:
+                    existing_homes: float, law: Mapping[str, LawRule] = MODELLED_LAW,
+                    sqft_per_home: float = GROSS_SQFT_PER_HOME) -> ParcelResult:
     """Capacity numbers for one parcel. Rules:
     - not eligible (excluded use, or zoning that is not residential, mixed-use, commercial or planned
       development), or no coded zoning (rule None or not_coded): all zero; the caller reports such
@@ -206,7 +226,7 @@ def parcel_capacity(acres: float, band: str, rule: DistrictRule | None, use_clas
     if rule is None or rule.rule_type == "not_coded" or not is_eligible(rule.zoning_class, use_class, rule.rule_type):
         return ParcelResult(False, 0.0, 0.0, 0.0, 0.0)
     rt = rule.rule_type
-    lhpa = law_homes_per_acre(band, law)
+    lhpa = law_homes_per_acre(band, law, sqft_per_home)
     if rt == "existing_is_rule":
         cur_hpa = None
         current = existing_homes
@@ -223,3 +243,22 @@ def parcel_capacity(acres: float, band: str, rule: DistrictRule | None, use_clas
     law_allowed = max(acres * lhpa, current)
     added_far = 0.0 if cur_far is None else max(law[band].far - cur_far, 0.0)
     return ParcelResult(True, current, law_allowed, gain, added_far * acres * SQFT_PER_ACRE)
+
+
+# --------------------------------------------------------------------------- fallback (zoning not coded)
+
+# Places whose zoning is not coded (suburbs; GATE1 T9, AQ-049 G2-9): eligible land is V12 parcels of
+# residential or commercial class (zoning unknown), the current allowance is the existing homes, and the
+# law applies as elsewhere.
+FALLBACK_ELIGIBLE_USES = frozenset({"residential", "single_family_est", "commercial", "mixed_residential_commercial"})
+
+
+def fallback_capacity(acres: float, band: str, use_class: str, existing_homes: float,
+                      law: Mapping[str, LawRule] = MODELLED_LAW,
+                      sqft_per_home: float = GROSS_SQFT_PER_HOME) -> ParcelResult:
+    """Capacity on a lot whose zoning is not coded: current allowance = existing homes."""
+    if use_class not in FALLBACK_ELIGIBLE_USES:
+        return ParcelResult(False, 0.0, 0.0, 0.0, 0.0)
+    lhpa = law_homes_per_acre(band, law, sqft_per_home)
+    gain = capacity_gain(acres, lhpa, None, existing_homes)
+    return ParcelResult(True, existing_homes, max(acres * lhpa, existing_homes), gain, 0.0)

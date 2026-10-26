@@ -1,0 +1,4 @@
+area,source,years,buildings,homes,median_sqft_per_home,p25_sqft_per_home,p75_sqft_per_home,home_weighted_sqft_per_home
+Milwaukee city,"MPROP 2026: buildings with 5+ homes built 2018-2025, BLDG_AREA / NR_UNITS",2018-2025,73,5730,1192.0,999.0,1353.0,1159.0
+Madison city,"Construction Summary BLDNCC/BLDNRC permits issued 2018-2025, 5+ homes, new buildings: BLDG_SQFT / Dwell",2018-2025,253,16928,1512.0,1363.0,1786.0,1504.0
+pooled,Both cities' buildings together,2018-2025,326,22658,1467.0,1278.0,1692.0,1417.0

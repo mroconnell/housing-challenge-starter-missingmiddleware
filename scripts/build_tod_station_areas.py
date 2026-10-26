@@ -1,4 +1,5 @@
-"""Build the TOD station-area land and zoning tables for the City of Milwaukee and the City of Madison.
+"""Build the TOD station-area land and zoning tables: the City of Milwaukee and the City of Madison with
+coded zoning, and every other municipality near a qualifying stop with the existing-density fallback.
 
     uv run --all-extras python scripts/fetch_tod_parcels_zoning.py   # once, needs network
     uv run --all-extras python scripts/build_tod_station_areas.py   # offline
@@ -8,7 +9,11 @@ In:  reference/tod_stops.csv (qualifying stops), reference/tod_zoning_rules_{mil
      data/raw/milwaukee_mprop/mprop.csv (homes, zoning and land use per tax key)
      data/raw/madison_parcels/tax_parcels.geojson (homes, zoning and use per parcel, with outlines)
      data/raw/madison_tod/tod_boundary.geojson (TOD overlay)
-Out: reference/tod_station_areas.csv  city x band x zoning district x use class (never parcel-level)
+     data/raw/tod_capacity/v12_*.geojson (other counties), data/raw/census_tiger_2020_tabblock (2020 homes)
+     data/raw/madison_permits (new 5+ home buildings, citywide: floor area per home only)
+Out: reference/tod_station_areas.csv  place x band x zoning district x use class (never parcel-level)
+     reference/tod_station_area_summary.csv  totals by definition (two cities, fallback places, state)
+     reference/tod_floor_area_per_home.csv  measured floor area per new home
      reference/tod_madison_test_land.csv  eligible land for the pre-registered Madison test
                                           (docs/tod/MADISON_TEST_PREREG.md): overlay, 1/4-mile ring
                                           outside it, rest of city. Land only: no permits are read.
@@ -34,6 +39,9 @@ CRS_M = 3071
 M2_PER_ACRE = 4046.8564224
 OUT = REFERENCE / "tod_station_areas.csv"
 OUT_TEST = REFERENCE / "tod_madison_test_land.csv"
+OUT_SUMMARY = REFERENCE / "tod_station_area_summary.csv"
+OUT_FLOOR = REFERENCE / "tod_floor_area_per_home.csv"
+BLOCKS = RAW / "census_tiger_2020_tabblock" / "tl_2020_55_tabblock20.zip"
 
 # ----------------------------------------------------------------------------- use classes
 
@@ -223,25 +231,45 @@ def read_rules(name: str) -> list[dict]:
 
 # ----------------------------------------------------------------------------- capacity table
 
-def compute(p, city: str, rules_rows: list[dict], stops) -> pd.DataFrame:
-    base = C.rule_table(rules_rows, tod_overlay=False)
-    over = C.rule_table(rules_rows, tod_overlay=True)
+def compute(p, city: str, rules_rows: list[dict] | None, stops, sqft_per_home: float | None = None,
+            county: str = "") -> pd.DataFrame:
+    """Per-lot capacity for one place. rules_rows None = zoning not coded (suburb fallback: current
+    allowance = existing homes). Capacity is computed at the measured floor area per home and again at
+    the 1,000 sq ft sensitivity."""
+    sq = sqft_per_home or C.sqft_per_home_for(city)
+    sq_s = C.SENSITIVITY_SQFT_PER_HOME
     p = p.copy()
     p["acres"] = p.geometry.area / M2_PER_ACRE
     p["band"] = assign_bands(p["pt"], stops)
     p = p[p.band.notna()]
+    if rules_rows is not None:
+        tabs = {(o, q): C.rule_table(rules_rows, tod_overlay=o, sqft_per_home=q) for o in (False, True) for q in (sq, sq_s)}
     rec = []
     for r in p.itertuples(index=False):
-        rule = (over if r.in_overlay else base).get(r.district)
-        res = C.parcel_capacity(r.acres, r.band, rule, r.use_class, r.homes)
-        rec.append((rule.zoning_class if rule else "not_coded", rule.rule_type if rule else "not_coded",
-                    rule.status if rule else "", res.eligible, res.current_allowed_homes, res.law_allowed_homes,
-                    res.capacity_gain, res.added_floor_area_sqft))
+        if rules_rows is None:
+            res = C.fallback_capacity(r.acres, r.band, r.use_class, r.homes, sqft_per_home=sq)
+            res_s = C.fallback_capacity(r.acres, r.band, r.use_class, r.homes, sqft_per_home=sq_s)
+            meta = ("not_coded", "existing_density_fallback", "fallback")
+        else:
+            rule = tabs[(bool(r.in_overlay), sq)].get(r.district)
+            rule_s = tabs[(bool(r.in_overlay), sq_s)].get(r.district)
+            res = C.parcel_capacity(r.acres, r.band, rule, r.use_class, r.homes, sqft_per_home=sq)
+            res_s = C.parcel_capacity(r.acres, r.band, rule_s, r.use_class, r.homes, sqft_per_home=sq_s)
+            meta = (rule.zoning_class, rule.rule_type, rule.status) if rule else ("not_coded", "not_coded", "")
+        rec.append((*meta, res.eligible, res.current_allowed_homes, res.law_allowed_homes, res.capacity_gain,
+                    res.added_floor_area_sqft, res_s.capacity_gain))
     cols = ["zoning_class", "rule_type", "rule_status", "eligible", "current_allowed_homes", "law_allowed_homes",
-            "capacity_gain", "added_floor_area_sqft"]
+            "capacity_gain", "added_floor_area_sqft", "capacity_gain_sqft1000"]
     out = pd.concat([p.reset_index(drop=True), pd.DataFrame(rec, columns=cols)], axis=1)
-    out["city"] = city
-    out["district"] = out.district.replace("", "(none)")
+    if "city" not in out:
+        out["city"] = city
+    if "county" not in out:
+        out["county"] = county
+    out["zoning_coded"] = int(rules_rows is not None)
+    out["sqft_per_home"] = sq
+    out["district"] = out.district.replace("", "(none)") if "district" in out else "(not coded)"
+    if "in_overlay" not in out:
+        out["in_overlay"] = False
     return out
 
 
@@ -251,12 +279,16 @@ def aggregate(parcels: pd.DataFrame) -> pd.DataFrame:
     x["existing_homes_eligible"] = np.where(x.eligible, x.homes, 0.0)
     x["acres_in_overlay"] = np.where(x.in_overlay, x.acres, 0.0)
     x["eligible_acres_in_overlay"] = np.where(x.in_overlay & x.eligible, x.acres, 0.0)
-    keys = ["city", "band", "district", "zoning_class", "rule_type", "rule_status", "use_class", "eligible"]
+    x["capacity_gain_excl_single_family"] = np.where(x.use_class.isin(SINGLE_FAMILY_USES), 0.0, x.capacity_gain)
+    keys = ["city", "county", "zoning_coded", "sqft_per_home", "band", "district", "zoning_class", "rule_type",
+            "rule_status", "use_class", "eligible"]
     a = x.groupby(keys, dropna=False).agg(
         lots=("acres", "size"), acres=("acres", "sum"), eligible_acres=("eligible_acres", "sum"),
         existing_homes=("homes", "sum"), existing_homes_eligible=("existing_homes_eligible", "sum"),
         current_allowed_homes=("current_allowed_homes", "sum"), law_allowed_homes=("law_allowed_homes", "sum"),
-        capacity_gain=("capacity_gain", "sum"), added_floor_area_sqft=("added_floor_area_sqft", "sum"),
+        capacity_gain=("capacity_gain", "sum"), capacity_gain_sqft1000=("capacity_gain_sqft1000", "sum"),
+        capacity_gain_excl_single_family=("capacity_gain_excl_single_family", "sum"),
+        added_floor_area_sqft=("added_floor_area_sqft", "sum"),
         acres_in_overlay=("acres_in_overlay", "sum"), eligible_acres_in_overlay=("eligible_acres_in_overlay", "sum"),
     ).reset_index()
     a["eligible"] = a.eligible.astype(int)
@@ -264,24 +296,140 @@ def aggregate(parcels: pd.DataFrame) -> pd.DataFrame:
     a["law_homes_per_acre"] = [law[b].homes_per_acre for b in a.band]
     a["law_far"] = [law[b].far for b in a.band]
     a["law_height_ft"] = [law[b].height_ft for b in a.band]
+    a["law_homes_per_acre_effective"] = [round(C.law_homes_per_acre(b, sqft_per_home=q), 2) for b, q in zip(a.band, a.sqft_per_home)]
     for d, bands in C.DEFINITION_BANDS.items():
         a[f"in_{d}"] = a.band.isin(bands).astype(int)
     a["share_acres_in_tod_overlay"] = np.where(a.acres > 0, a.acres_in_overlay / a.acres, 0.0)
     band_order = {b: i for i, b in enumerate(C.BANDS)}
-    a = a.sort_values(["city", "band", "district", "use_class"], key=lambda s: s.map(band_order) if s.name == "band" else s)
-    cols = ["city", "band", "in_main", "in_high", "in_b_half", "in_c_half", "law_homes_per_acre", "law_far", "law_height_ft",
+    a["_coded"] = -a.zoning_coded
+    a = a.sort_values(["_coded", "city", "band", "district", "use_class"],
+                      key=lambda s: s.map(band_order) if s.name == "band" else s).drop(columns="_coded")
+    cols = ["city", "county", "zoning_coded", "band", "in_main", "in_high", "in_b_half", "in_c_half",
+            "law_homes_per_acre", "law_far", "law_height_ft", "sqft_per_home", "law_homes_per_acre_effective",
             "district", "zoning_class", "rule_type", "rule_status", "use_class", "eligible", "lots", "acres",
             "eligible_acres", "existing_homes", "existing_homes_eligible", "current_allowed_homes", "law_allowed_homes",
-            "capacity_gain", "added_floor_area_sqft", "acres_in_overlay", "eligible_acres_in_overlay",
-            "share_acres_in_tod_overlay"]
+            "capacity_gain", "capacity_gain_sqft1000", "capacity_gain_excl_single_family", "added_floor_area_sqft",
+            "acres_in_overlay", "eligible_acres_in_overlay", "share_acres_in_tod_overlay"]
     a = a[cols]
     for c in ["acres", "eligible_acres", "acres_in_overlay", "eligible_acres_in_overlay"]:
         a[c] = a[c].round(3)
-    for c in ["existing_homes", "existing_homes_eligible", "current_allowed_homes", "law_allowed_homes", "capacity_gain"]:
+    for c in ["existing_homes", "existing_homes_eligible", "current_allowed_homes", "law_allowed_homes", "capacity_gain",
+              "capacity_gain_sqft1000", "capacity_gain_excl_single_family"]:
         a[c] = a[c].round(1)
     a["added_floor_area_sqft"] = a.added_floor_area_sqft.round(0)
     a["share_acres_in_tod_overlay"] = a.share_acres_in_tod_overlay.round(4)
     return a
+
+
+def summary(agg: pd.DataFrame) -> pd.DataFrame:
+    """Totals by definition for Milwaukee city, Madison city, the not-coded places, and the state."""
+    out = []
+    groups = {"Milwaukee city": agg.city == "Milwaukee city", "Madison city": agg.city == "Madison city",
+              "Not coded (fallback places)": agg.zoning_coded == 0, "State total": agg.city.notna()}
+    cols = ["acres", "eligible_acres", "existing_homes", "existing_homes_eligible", "current_allowed_homes",
+            "law_allowed_homes", "capacity_gain", "capacity_gain_sqft1000", "capacity_gain_excl_single_family"]
+    for d in C.DEFINITION_BANDS:
+        for name, mask in groups.items():
+            s = agg[mask & (agg[f"in_{d}"] == 1)]
+            row = {"definition": d, "area": name, "places": s.city.nunique()}
+            row.update({c: round(float(s[c].sum()), 1) for c in cols})
+            out.append(row)
+    return pd.DataFrame(out)
+
+
+# ----------------------------------------------------------------------------- not-coded places (suburbs)
+
+def v12_use_class(propclass, auxclass) -> str:
+    """V12 class -> use class. PROPCLASS: 1 residential, 2 commercial, 3 manufacturing, 4 agricultural,
+    5 undeveloped, 5M agricultural forest, 6 productive forest, 7 other; AUXCLASS X1-X4 exempt."""
+    pc = {t.strip().upper() for t in str(propclass or "").split(",") if t.strip()}
+    ax = {t.strip().upper() for t in str(auxclass or "").split(",") if t.strip()}
+    if "1" in pc and "2" in pc:
+        return "mixed_residential_commercial"
+    if "1" in pc:
+        return "residential"
+    if "2" in pc:
+        return "commercial"
+    if any(t.startswith("X") for t in ax):
+        return "institutional"
+    if "3" in pc:
+        return "industrial"
+    if pc & {"4", "5M", "6"}:
+        return "agricultural"
+    if "5" in pc:
+        return "vacant"
+    if "7" in pc:
+        return "other"
+    return "other_unknown"
+
+
+CODED_PLACES = {"CITY OF MILWAUKEE", "CITY OF MADISON"}
+SF_EST_MAX_HOMES = 1.5
+SINGLE_FAMILY_USES = {"single_family", "single_family_est"}
+
+
+def place_label(placename: str) -> str:
+    """'CITY OF WEST ALLIS' -> 'West Allis city' (Census naming, as in tod_near_stop_homes_by_muni.csv)."""
+    s = "" if placename is None or (isinstance(placename, float) and np.isnan(placename)) else str(placename).strip()
+    for kind in ("CITY", "VILLAGE", "TOWN"):
+        if s.startswith(f"{kind} OF "):
+            return s[len(kind) + 4:].title() + " " + kind.lower()
+    return s.title() or "(unknown)"
+
+
+def load_fallback_places():
+    """V12 parcels outside the two coded cities, with 2020 census block homes shared out to lots.
+
+    Each block's HOUSING20 goes to the lots whose representative point lies in the block, in proportion
+    to area: residential- or commercial-class lots (apartments of 4+ homes are class 2), else all lots. Homes of
+    blocks with no fetched lot are not placed (reported)."""
+    import glob
+
+    import geopandas as gpd
+
+    parts = []
+    for f in sorted(glob.glob(str(D / "v12_*.geojson"))):
+        g = gpd.read_file(f, columns=["PLACENAME", "CONAME", "PROPCLASS", "AUXCLASS"])
+        parts.append(g[~g.PLACENAME.isin(CODED_PLACES)])
+    v = pd.concat(parts, ignore_index=True)
+    v = gpd.GeoDataFrame(v, geometry="geometry", crs=4326).to_crs(CRS_M)
+    v["use_class"] = [v12_use_class(a, b) for a, b in zip(v.PROPCLASS, v.AUXCLASS)]
+    v["city"] = [place_label(x) for x in v.PLACENAME]
+    v["county"] = v.CONAME.fillna("").str.title() + " County"
+    v["homes"] = 0.0
+    p = group_by_outline(v, {"city": 1, "county": 1, "use_class": 1})
+    p = gpd.GeoDataFrame(p, geometry="geometry", crs=CRS_M)
+    p["pt"] = p.geometry.representative_point()
+    p["acres_m2"] = p.geometry.area
+    blocks = gpd.read_file(f"zip://{BLOCKS}", columns=["GEOID20", "HOUSING20"],
+                           bbox=tuple(gpd.GeoSeries(p["pt"], crs=CRS_M).to_crs(4269).total_bounds)).to_crs(CRS_M)
+    blocks = blocks[blocks.HOUSING20.astype(float) > 0]
+    pts = gpd.GeoDataFrame({"i": p.index}, geometry=p["pt"].values, crs=CRS_M)
+    j = gpd.sjoin(pts, blocks[["GEOID20", "HOUSING20", "geometry"]], how="inner", predicate="within").drop_duplicates("i")
+    j = pd.DataFrame(j.drop(columns="geometry"))
+    j["lot_m2"] = p.loc[j.i, "acres_m2"].values
+    j["use"] = p.loc[j.i, "use_class"].values
+    j["h"] = j.HOUSING20.astype(float)
+    homes = pd.Series(0.0, index=p.index)
+    # Wisconsin assesses apartment buildings of 4+ homes as commercial (class 2), so residential and
+    # commercial lots share a block's homes.
+    tiers = [C.FALLBACK_ELIGIBLE_USES, None]
+    placed = 0.0
+    for geoid, grp in j.groupby("GEOID20"):
+        for t in tiers:
+            sel = grp if t is None else grp[grp.use.isin(t)]
+            if len(sel) and sel.lot_m2.sum() > 0:
+                homes.loc[sel.i.values] += sel.h.iloc[0] * sel.lot_m2.values / sel.lot_m2.sum()
+                placed += sel.h.iloc[0]
+                break
+    p["homes"] = homes
+    # V12 has no single-family flag. For the single-family-excluded sensitivity (G2-8), a residential-class
+    # lot holding less than 1.5 of its block's homes is treated as an estimated single-family lot.
+    p.loc[(p.use_class == "residential") & (p.homes < SF_EST_MAX_HOMES), "use_class"] = "single_family_est"
+    p["district"] = "(not coded)"
+    p["in_overlay"] = False
+    p.attrs["block_homes_placed"] = placed
+    return p
 
 
 # ----------------------------------------------------------------------------- Madison test land layer
@@ -316,30 +464,96 @@ def madison_test_land(p, rules_rows: list[dict]) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+# ----------------------------------------------------------------------------- floor area per home
+
+FLOOR_YEARS = (2018, 2025)
+MAD_MF_USES = {"FIVE AND MORE FAMILY", "CONDOMINIUMS"}
+MAD_NOT_NEW = r"CONVERT|ALTERATION|ADD KITCHEN|REMODEL|INTERIOR"
+
+
+def madison_new_multifamily() -> "pd.DataFrame":
+    """Madison new-construction permits (BLDNCC, BLDNRC) for 5+ home buildings, issued 2018-2025, citywide.
+    Reads only permit number, use, BLDG_SQFT, Dwell (Textbox13), description and issue date: no owner
+    or contractor fields. Never split by TOD overlay (that is the pre-registered test)."""
+    import glob
+    import re
+
+    rows = []
+    for f in sorted(glob.glob(str(RAW / "madison_permits" / "construction_summary_20*.csv"))):
+        with open(f, encoding="utf-8-sig", newline="") as fh:
+            for r in csv.reader(fh):
+                if r and re.match(r"^BLD(NCC|NRC)-\d{4}-\d+$", r[0]) and len(r) >= 11:
+                    rows.append((r[0], r[1], r[3], r[6], r[9], r[10]))
+    d = pd.DataFrame(rows, columns=["permit", "use", "sqft", "homes", "desc", "issued"]).drop_duplicates("permit")
+    d["sqft"] = pd.to_numeric(d.sqft.str.replace(",", ""), errors="coerce")
+    d["homes"] = pd.to_numeric(d.homes.str.replace(",", ""), errors="coerce")
+    d["year"] = pd.to_datetime(d.issued, format="%m/%d/%Y", errors="coerce").dt.year
+    keep = (d.homes >= 5) & d.year.between(*FLOOR_YEARS) & d.use.isin(MAD_MF_USES) & (d.sqft > 0) \
+        & ~d.desc.str.upper().str.contains(MAD_NOT_NEW, regex=True)
+    return d.loc[keep, ["sqft", "homes", "year"]]
+
+
+def milwaukee_new_multifamily() -> "pd.DataFrame":
+    """Milwaukee buildings with 5+ homes built 2018-2025 (MPROP YR_BUILT, BLDG_AREA, NR_UNITS; residential
+    land uses 88xx). The city's permit file has no floor area or unit count, so the assessor record of
+    the finished building is used instead."""
+    m = pd.read_csv(RAW / "milwaukee_mprop" / "mprop.csv", dtype=str,
+                    usecols=["LAND_USE", "NR_UNITS", "BLDG_AREA", "YR_BUILT"])
+    for c in ("NR_UNITS", "BLDG_AREA", "YR_BUILT"):
+        m[c] = pd.to_numeric(m[c], errors="coerce")
+    keep = m.YR_BUILT.between(*FLOOR_YEARS) & (m.NR_UNITS >= 5) & (m.BLDG_AREA > 0) \
+        & m.LAND_USE.fillna("").str.startswith("88")
+    return m.loc[keep].rename(columns={"BLDG_AREA": "sqft", "NR_UNITS": "homes", "YR_BUILT": "year"})[["sqft", "homes", "year"]]
+
+
+def floor_area_per_home() -> pd.DataFrame:
+    out = []
+    parts = {"Milwaukee city": (milwaukee_new_multifamily(), "MPROP 2026: buildings with 5+ homes built 2018-2025, BLDG_AREA / NR_UNITS"),
+             "Madison city": (madison_new_multifamily(), "Construction Summary BLDNCC/BLDNRC permits issued 2018-2025, 5+ homes, new buildings: BLDG_SQFT / Dwell")}
+    parts["pooled"] = (pd.concat([p[0] for p in parts.values()]), "Both cities' buildings together")
+    for name, (d, src) in parts.items():
+        spu = d.sqft / d.homes
+        out.append({"area": name, "source": src, "years": f"{FLOOR_YEARS[0]}-{FLOOR_YEARS[1]}", "buildings": len(d),
+                    "homes": int(d.homes.sum()), "median_sqft_per_home": round(float(spu.median()), 0),
+                    "p25_sqft_per_home": round(float(spu.quantile(0.25)), 0),
+                    "p75_sqft_per_home": round(float(spu.quantile(0.75)), 0),
+                    "home_weighted_sqft_per_home": round(float(d.sqft.sum() / d.homes.sum()), 0)})
+    return pd.DataFrame(out)
+
+
 def main() -> None:
+    floor = floor_area_per_home()
+    floor.to_csv(OUT_FLOOR, index=False, lineterminator="\n")
+    for r in floor.itertuples(index=False):
+        coded = C.MEASURED_SQFT_PER_HOME[r.area]
+        if abs(r.median_sqft_per_home - coded) > 1:
+            print(f"WARNING: measured {r.area} {r.median_sqft_per_home} sq ft differs from capacity.py {coded}")
     stops = stop_points()
     mke_rules, mad_rules = read_rules("milwaukee"), read_rules("madison")
     print("Milwaukee parcels ...", flush=True)
     mke = load_milwaukee()
     print("Madison parcels ...", flush=True)
     mad = load_madison({r["district"] for r in mad_rules})
-    parcels = pd.concat([compute(mke, "Milwaukee city", mke_rules, stops),
-                         compute(mad, "Madison city", mad_rules, stops)], ignore_index=True)
+    print("Fallback places ...", flush=True)
+    sub = load_fallback_places()
+    parcels = pd.concat([compute(mke, "Milwaukee city", mke_rules, stops, county="Milwaukee County"),
+                         compute(mad, "Madison city", mad_rules, stops, county="Dane County"),
+                         compute(sub, "fallback", None, stops, sqft_per_home=C.MEASURED_SQFT_PER_HOME["pooled"])],
+                        ignore_index=True)
     agg = aggregate(parcels)
     agg.to_csv(OUT, index=False, lineterminator="\n")
+    summ = summary(agg)
+    summ.to_csv(OUT_SUMMARY, index=False, lineterminator="\n")
     test = madison_test_land(mad, mad_rules)
     test.to_csv(OUT_TEST, index=False, lineterminator="\n")
-    print(f"wrote {OUT} ({len(agg)} rows) and {OUT_TEST}")
-    # Coverage diagnostics (printed only; parcel-level data never written)
-    for city, s in parcels.groupby("city"):
+    print(f"wrote {OUT} ({len(agg)} rows), {OUT_SUMMARY}, {OUT_TEST}, {OUT_FLOOR}")
+    print(floor.to_string(index=False))
+    print("fallback block homes placed on lots:", round(sub.attrs.get("block_homes_placed", 0)))
+    for city, s in parcels[parcels.zoning_coded == 1].groupby("city"):
         print(city, "lots in bands:", len(s), "zoning source:", s.zoning_source.value_counts().to_dict(),
               "not coded acres:", round(s.acres[s.rule_type == "not_coded"].sum(), 1))
-        if "matched" in s:
-            print("  MPROP-matched lots:", round(s.matched.astype(float).mean(), 4))
-    for d, bands in C.DEFINITION_BANDS.items():
-        s = agg[agg.band.isin(bands)].groupby("city")[["eligible_acres", "existing_homes", "existing_homes_eligible",
-                                                         "capacity_gain"]].sum().round(0)
-        print(d, s.to_dict("index"))
+    pd.set_option("display.width", 250)
+    print(summ.to_string(index=False))
     print(test.to_string(index=False))
 
 

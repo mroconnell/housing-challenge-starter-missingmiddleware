@@ -1,12 +1,13 @@
 """Download the land and zoning inputs for the TOD station-area tables (TOD Gate 2, WP4).
 
-    uv run --all-extras python scripts/fetch_tod_parcels_zoning.py [--only v12|mke_zoning|mad_zoning|docs]
+    uv run --all-extras python scripts/fetch_tod_parcels_zoning.py [--only v12|mke_zoning|mad_zoning|docs] [--counties all]
 
 Needs network and reference/tod_stops.csv (built by scripts/build_tod_stops.py).
 
 Raw (git-ignored), all under data/raw/tod_capacity/:
-- v12_milwaukee.geojson, v12_dane.geojson: Wisconsin V12 statewide parcels (SCO / DOA REST service) for
-  Milwaukee and Dane counties, only parcels intersecting a 0.6-mile buffer of the qualifying stops in
+- v12_<county>.geojson: Wisconsin V12 statewide parcels (SCO / DOA REST service) for Milwaukee and Dane
+  counties (default) or every county with a qualifying stop (--counties all: also Eau Claire, Kenosha,
+  Ozaukee and Waukesha), only parcels intersecting a 0.6-mile buffer of the qualifying stops in
   reference/tod_stops.csv (every stop there, i.e. the widest major-stop definition (c), so the main case,
   the high case and the all-1/2-mile sensitivities are all covered with a margin). Owner and address
   fields are never requested.
@@ -15,7 +16,8 @@ Raw (git-ignored), all under data/raw/tod_capacity/:
 - mad_zoning.geojson: City of Madison zoning districts (Public/OPEN_DATA MapServer layer 9), whole city.
 - docs/: the source documents behind the hand-coded zoning rule tables (reference/tod_zoning_rules_*.csv):
   Madison's Zoning District Summary PDF (live) and Internet Archive copies of Milwaukee Chapter 295
-  subchapters 5, 6 and 7 (the city site returns a Cloudflare challenge to scripts; owner decision D2).
+  subchapters 5 to 9 (the city site returns a Cloudflare challenge to scripts; owner decision D2), and
+  the adopted text of Common Council file 240997 (RT5 district) from Milwaukee Legistar.
 - manifest.json: URL, access time (UTC), bytes, SHA-256, licence or terms, feature counts, and the
   already-present raw files reused (Madison tax parcels, Madison TOD overlay, Milwaukee MPROP).
 
@@ -54,7 +56,6 @@ MKE_ZONING_URL = "https://milwaukeemaps.milwaukee.gov/arcgis/rest/services/plann
 MKE_ZONING_LICENCE = "Creative Commons Attribution (data.milwaukee.gov dataset 'zoning'), City of Milwaukee"
 MAD_ZONING_URL = "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA/MapServer/9"
 MAD_LICENCE = "City of Madison open data; no licence stated on the service (public record, D1)"
-COUNTIES = {"milwaukee": ("079", "MILWAUKEE"), "dane": ("025", "DANE")}
 COUNTY_FILE = RAW / "census_cb_2024" / "cb_2024_us_county_500k.zip"
 
 MKE_CODE = "https://city.milwaukee.gov/ImageLibrary/Groups/ccClerk/Ordinances/Volume-2/CH295-sub{n}.pdf"
@@ -71,6 +72,10 @@ SOURCE_DOCS = {
     "milwaukee_ch295_sub7.pdf": {
         "url": "https://web.archive.org/web/20250809000000id_/" + MKE_CODE.format(n=7), "original": MKE_CODE.format(n=7),
         "terms": "Public law; Internet Archive copy (owner decision D2) because the city site blocks scripts"},
+    "milwaukee_file_240997_rt5_substitute2.rtf": {
+        "url": "https://milwaukee.legistar1.com/milwaukee/attachments/e2d566f7-50a4-4565-9c6d-a6e88b7105c9.rtf",
+        "original": "https://milwaukee.legistar.com/LegislationDetail.aspx?ID=69285&GUID=58B81356-8159-4F55-877A-36FF148011D8",
+        "terms": "Public law; Common Council file 240997 (RT5 district), Substitute 2, passed 2025-04-22"},
     "milwaukee_ch295_sub8.pdf": {
         "url": "https://web.archive.org/web/20250310131106id_/" + MKE_CODE.format(n=8), "original": MKE_CODE.format(n=8),
         "terms": "Public law; Internet Archive copy (owner decision D2) because the city site blocks scripts"},
@@ -112,22 +117,38 @@ def _sha(path: Path) -> str:
     return h.hexdigest()
 
 
-def stop_buffers():
-    """{county key: (buffer polygon in EPSG:3071, county polygon in EPSG:3071)} for qualifying stops."""
+def stop_buffers(only: set[str] | None = None):
+    """{county key: (buffer polygon, county polygon, stops)} in EPSG:3071 for every Wisconsin county with
+    a qualifying stop within the buffer distance. Key: lower-case county name, spaces as '_'."""
     import geopandas as gpd
     import pandas as pd
 
     stops = pd.read_csv(REFERENCE / "tod_stops.csv", dtype={"stop_id": str, "ntd_id": str})
     pts = gpd.GeoDataFrame(stops, geometry=gpd.points_from_xy(stops.lon, stops.lat), crs=4326).to_crs(CRS_M)
     counties = gpd.read_file(f"zip://{COUNTY_FILE}")
+    counties = counties[counties.STATEFP == "55"].to_crs(CRS_M)
     out = {}
-    for key, (fips, _) in COUNTIES.items():
-        poly = counties[(counties.STATEFP == "55") & (counties.COUNTYFP == fips)].to_crs(CRS_M).geometry.union_all()
+    for _, c in counties.sort_values("NAME").iterrows():
+        key = county_key(c.NAME)
+        if only is not None and key not in only:
+            continue
+        poly = c.geometry
         # stops inside the county or within the buffer distance of it
         near = pts[pts.distance(poly) <= BUFFER_MILES * MILE_M]
+        if len(near) == 0:
+            continue
         buf = near.buffer(BUFFER_MILES * MILE_M, quad_segs=16).union_all().intersection(poly.buffer(200))
         out[key] = (buf, poly, len(near))
     return out
+
+
+def county_key(name: str) -> str:
+    return name.strip().lower().replace(" ", "_").replace(".", "")
+
+
+def v12_coname(key: str) -> str:
+    """V12 CONAME for a county key (upper-case county name; 'St. Croix' keeps its full stop)."""
+    return {"st_croix": "ST. CROIX"}.get(key, key.replace("_", " ").upper())
 
 
 def grid_cells(area, cell: float = CELL_M) -> list[tuple[float, float, float, float]]:
@@ -197,7 +218,7 @@ def _write_geojson(path: Path, feats: list[dict]) -> None:
 
 def fetch_v12(manifest: dict, bufs: dict) -> None:
     for key, (buf, _, n_stops) in bufs.items():
-        coname = COUNTIES[key][1]
+        coname = v12_coname(key)
         acc = _now()
         feats = fetch_layer_in_buffer(V12_URL, V12_FIELDS, f"CONAME='{coname}'", buf, f"V12 {coname}")
         path = D / f"v12_{key}.geojson"
@@ -253,7 +274,7 @@ def fetch_docs(manifest: dict) -> None:
             manifest["failed"].append({"file": name, "url": meta["url"], "error": str(e), "accessed_utc": acc})
             print(f"FAILED {name}: {e}", flush=True)
             continue
-        if not data.startswith(b"%PDF"):
+        if not (data.startswith(b"%PDF") or (name.endswith(".rtf") and data.startswith(b"{\\rtf"))):
             manifest["failed"].append({"file": name, "url": meta["url"], "error": "response is not a PDF", "accessed_utc": acc})
             print(f"FAILED {name}: not a PDF", flush=True)
             continue
@@ -268,6 +289,8 @@ def fetch_docs(manifest: dict) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", choices=["v12", "mke_zoning", "mad_zoning", "docs"])
+    ap.add_argument("--counties", default="milwaukee,dane",
+                    help="comma-separated county keys for V12 (e.g. milwaukee,dane), or 'all' for every county with stops")
     a = ap.parse_args()
     D.mkdir(parents=True, exist_ok=True)
     mpath = D / "manifest.json"
@@ -278,7 +301,10 @@ def main() -> None:
     manifest["note"] = ("Owner, mailing-address and site-address fields are never requested. Raw files are "
                         "git-ignored; committed outputs are aggregated (never parcel-level).")
     if a.only in (None, "v12", "mke_zoning"):
-        bufs = stop_buffers()
+        wanted = None if a.counties == "all" else set(a.counties.split(","))
+        if a.only == "mke_zoning" or (a.only is None and wanted is not None):
+            wanted = (wanted or set()) | {"milwaukee"}
+        bufs = stop_buffers(wanted)
     if a.only in (None, "v12"):
         fetch_v12(manifest, bufs)
     if a.only in (None, "mke_zoning"):
