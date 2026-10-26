@@ -2,6 +2,15 @@
 
 Written 2026-10-26 by the TOD conductor, for Ryan. Status: ready for review. An independent review agent checked it first, and its findings are fixed below (section 11). Nothing in Gates 2–5 starts until you decide the items in section 8. Decisions you have already made are in AQ-044 and AQ-045 of the [decision log](../ASSUMPTIONS_AND_QUESTIONS.md).
 
+**Owner reply (2026-10-26, AQ-047):**
+- T4: density rules come from measured cases, keeping the most effective well-measured designs.
+- T5: no affordability mandate, and parking minimums are left to the parking scenario. Results show TOD alone, parking alone and both combined.
+- T6, T7 and T10: approved.
+- T8 and T9: depend on the case evidence.
+- T1 to T3: still open.
+
+The sections below are the packet as reviewed; where they differ from AQ-047, AQ-047 governs.
+
 Analysis date: 26 October 2026. Stylized law start: 1 January 2027. Forecast years: 2027–2031.
 
 ## 1. What this gate decides, and the answer

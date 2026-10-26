@@ -633,6 +633,21 @@ These supersede the 2026-10-26 figures quoted in AQ-044.
 
 **Conductor notes:** with about 50 repeal cities the regression can support only a few variables. Candidates (population, density, metro status, market strength, pre-repeal permit trend, region) will be compared by leave-one-city-out prediction, not by fit. The small-place quick look was seen before the comparison plan was written. The plan records it as a deviation, and the formal test reruns it under the registered rules. Gate 1 decisions P1–P4 and P7–P9 are still open.
 
+## AQ-047 TOD Gate 1 decisions (owner reply on the packet)
+
+**Status:** Adopted in part (owner, 2026-10-26). **Related:** AQ-044, AQ-045, [docs/tod/GATE1_PACKET.md](tod/GATE1_PACKET.md) (the owner's points 3 to 8 answer the packet's recommendations 3 to 8, which are decisions T4 to T10).
+
+**Owner decisions (2026-10-26):**
+1. **Density floors come from measured cases (T4).** The modelled law takes its height and density rules from the cities and programs that have permit data before and after their reform, not from a statute chosen in advance. If there are many such cases, the weaker-policy ones are dropped, so the modelled law is the most effective design that is still well measured and predictive. The choice of design must not rest on one lucky case: each design's effect is judged on held-out cases.
+2. **No affordability mandate (T5).** This part of T5 is accepted.
+3. **Parking minimums are not removed in the TOD scenario (T5).** Parking is left to the parking scenario. Results will show each reform alone and the two combined: TOD alone, parking alone, and TOD plus parking. This updates the earlier "no combinations for now" direction for these two reforms.
+4. **Two methods, with the Madison test deciding and Chicago as the fallback hold-out (T6).** Approved.
+5. **Scenario names from real cases (T7).** Approved for now.
+6. **Places already at the law (T8, T9) depend on the case evidence.** If the cases show a rule set that clearly raises permits per acre above what Madison's overlay and Milwaukee's zoning near CONNECT 1 already allow, the modelled law may go beyond them there. Otherwise the tool says plainly that Wisconsin gains little in those corridors because they already have TOD zoning. Two exceptions are worth testing: a benefit when most of a state's large cities adopt TOD, and an extra benefit from TOD plus parking reform that these cities do not have everywhere.
+7. **The "Where" screen shows station areas and corridors in the two metros (T10).** Approved.
+
+**Still open:** T1 and T2 (outcome at permit issuance, by building size; stylized 1 January 2027 start) and T3 (Amtrak stations excluded) were not answered. Silence is not approval.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -750,3 +765,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-26 | AQ-044 | TOD: owner confirmed the ladder of stop definitions, narrowest to widest, with 15-minute service as the main case, and a focus on city-specific studies (Milwaukee and Madison areas) plus a statewide rule for the rest. Madison data licence route open. |
 | 2026-10-26 | AQ-045 | TOD: owner chose the federal National Transit Map as the common stop source for every city, and set Madison Metro's schedule file aside pending office hours (questions 24 and 25). Frequency is to be tested at the route level from sources whose terms allow it. |
 | 2026-10-26 | AQ-046 | Parking: owner read the mixed result for small repeal places (7 of 16 above comparison places, 8 below) as evidence that fits expectations. Model different city sizes differently, with a multi-variable regression across US repeal cities to find the cut-offs and the effect by city type; held-out cities decide. |
+| 2026-10-26 | AQ-047 | TOD Gate 1: density rules from measured cases, keeping the most effective well-measured designs; no affordability mandate; parking minimums left to the parking scenario, with TOD alone, parking alone and both combined shown; two methods with the Madison test (Chicago fallback); scenario names from real cases; places already at TOD zoning depend on the evidence; "Where" by station areas. T1 to T3 still open. |
