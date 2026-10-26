@@ -1,6 +1,8 @@
 # What counts as a "major transit stop": a first look at data coverage and yield
 
-Written 2026-10-26 by the TOD conductor, in answer to the owner's request: choose the definition that lets us use the most and best statewide datasets, and find the list of stops that gives the biggest defensible yield. Status: first look, for the Gate 1 decision. The numbers come from a scratch run on transit schedules downloaded on 2026-10-26; the automated, committed version is Gate 2 work.
+Written 2026-10-26 by the TOD conductor, in answer to the owner's request: choose the definition that lets us use the most and best statewide datasets, and find the list of stops that gives the biggest defensible yield. Status: first look, for the Gate 1 decision. **Update 2026-10-26 (AQ-045):** the owner set Madison Metro's schedule file aside pending an office-hours question about its licence, and chose the federal National Transit Map as the common stop source for every city. The figures below used Madison's file and will be replaced by a rerun on the National Transit Map.
+
+The numbers come from a scratch run on transit schedules downloaded on 2026-10-26; the automated, committed version is Gate 2 work.
 
 Data inventory: [research/WI_TRANSIT_DATA.md](research/WI_TRANSIT_DATA.md). Evidence on distance: [research/PRODUCTION_EVIDENCE.md](research/PRODUCTION_EVIDENCE.md). How other states define stops: [research/STATE_LAWS_WEST.md](research/STATE_LAWS_WEST.md) and [research/STATE_LAWS_EAST.md](research/STATE_LAWS_EAST.md).
 

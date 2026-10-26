@@ -601,6 +601,22 @@ Unchanged: the central and Strong adoption definitions, Madison on the Madison-l
 
 **Open:** how to handle Madison Metro's data licence (asked 2026-10-26).
 
+## AQ-045 TOD: federal National Transit Map as the common stop source; Madison's file not used
+
+**Status:** Adopted (owner, 2026-10-26). **Related:** AQ-044, office-hours questions 24 and 25, [docs/tod/research/WI_TRANSIT_DATA.md](tod/research/WI_TRANSIT_DATA.md).
+
+**Owner decisions (2026-10-26):**
+1. **Do not use Madison Metro's GTFS file for now**, while we ask office hours and possibly write to the City (question 24).
+2. **Prefer one consistent method for every city and state studied:** stop locations and route shapes from the federal National Transit Map (BTS NTAD, CC BY 3.0, compiled 2026-09-23). The owner judged that consistency across places matters more than whatever extra precision city-specific files would add.
+
+**What follows, and the gap to close:** the National Transit Map has stop locations and route shapes, but no timetables. So it cannot by itself say whether a stop is served every 15 minutes. The frequency test will therefore be made at the route level, applied the same way everywhere. Each route's peak frequency is taken from a source whose terms allow our use, and that source is recorded per agency:
+- the agency's own schedule file where its licence is permissive (for example Milwaukee County Transit System, whose terms require notices);
+- the agency's published route descriptions where it is not, as for Madison. The National Transit Map routes layer carries Madison's own route descriptions, such as "at least every 15 minutes" for Routes A, B, C, D and 80.
+
+Stops count as qualifying when they lie on a qualifying route shape. Rail and rapid transit stops come from route type and route names in the same layer.
+
+The figures published on 2026-10-26 in [docs/tod/MAJOR_TRANSIT_STOP.md](tod/MAJOR_TRANSIT_STOP.md) used Madison's file. They will be replaced by a rerun on the National Transit Map.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -636,6 +652,21 @@ Kept here so the owner can take them to mentor office hours or the Administrator
 21. Where an official file is no longer online (or the site blocks scripts), may the pipeline fetch an Internet Archive (Wayback Machine) copy, with its capture date and checksum recorded, instead of the live file? This covers Green Bay permit reports, the Wisconsin DOA land-regulations inventory, an HCD 2019 ordinance list and some archived California ordinances.
 22. Some local permit data are only reachable through report screens rather than open-data APIs (Madison's report viewer, Pleasant Prairie's SmartGov, Sun Prairie's Power BI, Kaukauna's Municode Meetings). Do these satisfy "fetched automatically from the authoritative source", given they may break when the city changes its software?
 23. California's ADU counts include ADUs on multifamily lots, which the benchmark (one ADU on a parcel with an existing single-family home) does not cover. Our denominator is single-family homes, so they inflate California's rate. A one-time LA County assessor check found about 25% of 2023 ADUs on multifamily lots. Our options: (a) the 2-per-parcel cap plus a rule using only parcel numbers in the state permit data, which is simple and uses no new data but undercounts multifamily lots (California 2023–2025: 3.57 per 1,000 single-family homes per year instead of 3.84); (b) the same plus a correction calibrated to county assessor land-use codes (2.93), which is more accurate but adds a dataset and a calibration step; (c) no adjustment. We use (a) and show (b) as a sensitivity. Is that acceptable, or do judges prefer the more accurate (b)?
+
+**Transit-oriented density (TOD)**
+
+24. **Madison Metro schedule data licence.** Madison Metro publishes its schedules as a standard GTFS feed (https://transitdata.cityofmadison.com/GTFS/mmt_gtfs.zip) under the City of Madison Transit Data Developer License (http://transitdata.cityofmadison.com/MetroTransitDataTermsOfUse.pdf, read 2026-10-26). The licence:
+    - is revocable;
+    - limits use to "assisting mass transit riders or in furtherance of promoting public transportation";
+    - says data derived from the City's data remains the City's property.
+
+    We would use the feed to find stops served at least every 15 minutes, and to count homes within ¼ and ½ mile of them for a statewide transit-oriented density estimate. We would publish the stop list and the counts in an Apache-2.0 repository. Questions:
+    - Does this use count as "promoting public transportation"?
+    - Does the derived-data clause conflict with the challenge's open-source and data rules?
+    - Should we instead avoid the file, or ask the City for written permission?
+
+    Until we have an answer, we do not use the file (AQ-045).
+25. **Federal National Transit Map as the stop source.** The U.S. DOT National Transit Map (BTS NTAD stops and routes, CC BY 3.0) compiles each agency's GTFS stops and route shapes. Is it acceptable to use it as the single, consistent stop source for every city, including Madison? Or do the original agency licences (such as Madison's derived-data clause) still apply to data taken from it? (AQ-045)
 
 ## Additional questions to develop
 
@@ -691,3 +722,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-26 | Gate 5 | Owner accepted the recommendation: the statewide ADU foundation is good enough to extend (docs/gate5/README.md section 9). Three small fixes follow: an on-screen sentence on why areas differ, a district table in the brief, and the screen-reader pass. Next: two more benchmark scenarios. |
 | 2026-10-26 | Accessibility | Manual VoiceOver/NVDA pass deferred by the owner; must be done before submission (checklist in docs/gate5/ACCESSIBILITY.md). |
 | 2026-10-26 | AQ-044 | TOD: owner confirmed the ladder of stop definitions, narrowest to widest, with 15-minute service as the main case, and a focus on city-specific studies (Milwaukee and Madison areas) plus a statewide rule for the rest. Madison data licence route open. |
+| 2026-10-26 | AQ-045 | TOD: owner chose the federal National Transit Map as the common stop source for every city, and set Madison Metro's schedule file aside pending office hours (questions 24 and 25). Frequency is to be tested at the route level from sources whose terms allow it. |
