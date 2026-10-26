@@ -151,7 +151,7 @@ Status of each input: available, to build, or to measure.
 
 - `reference/tod_stops.csv`: qualifying stops by definition, with source and frequency basis.
 - `reference/tod_station_areas.csv`: homes, acres, current and modelled density, by area and definition.
-- `reference/tod_cases.csv`: the comparison cases, each marked "observed" or "source lead".
+- `reference/tod_cases.csv`: the comparison cases, each marked "observed" or "source lead". Each case also records, for the year of its change and each year after, how many of its state's (or country's) large cities had adopted a transit-area upzoning, and their share of the state's large-city population. This is collected now so a later question can be answered: does a city's response differ when most of its state's large cities reform at the same time (owner's question, 2026-10-26)? The parking scenario records the same measure for parking repeals.
 - `reference/tod_model_statewide.csv` and `reference/tod_model_by_area.csv`: baseline and additions by year and scenario.
 - `reference/tod_model_sensitivities.csv`.
 - The tool bundle goes in `ui/public/scenarios/tod/runs/`, following [SCENARIO_CONTRACT.md](../shared/SCENARIO_CONTRACT.md).
