@@ -14,6 +14,11 @@ Gate 2 asks whether the data is good enough to build the model on. For the Wisco
   - About 735,000 homes more than today's zoning and buildings allow in Milwaukee, and about 546,000 in Madison.
   - This is room, not a forecast. Wisconsin permitted 25,569 homes of all kinds in 2025 (Census Building Permits Survey).
   - The figures assume 1,000 sq ft of floor space per home, a number of ours that will be measured from Wisconsin permits at Gate 3, so they will move.
+- **Baseline near stops (all-housing baseline v2, with your P8 Milwaukee correction, AQ-048):**
+  - About 14,464 of Wisconsin's 122,619 baseline homes for 2027–2031 would be permitted near stops without the law (central case). The range is 8,386 to 21,874.
+  - The figure is up from 11,870, mainly because Milwaukee's apartment series is now corrected. Milwaukee city has 3,394 of the 14,464 and Madison city 9,220.
+  - 99.5% fall in Milwaukee County and Dane County.
+  - Each city's baseline is shared out by its share of homes near stops (`reference/tod_near_stop_homes_by_muni.csv`).
 - **Comparison cities:** 58 transit-area upzonings found; 20 have open permit data and a mapped boundary ([CASE_INVENTORY.md](research/CASE_INVENTORY.md)). Five were measured, following a plan written before counting ([CASE_ANALYSIS_PLAN.md](CASE_ANALYSIS_PLAN.md), [CASE_RESULTS.md](CASE_RESULTS.md)).
 
 | Case | Role | Extra homes permitted per eligible acre per year (90% interval) | Added allowed floor area ratio | Extra homes permitted per acre per year for each 1.0 of added floor area ratio |
