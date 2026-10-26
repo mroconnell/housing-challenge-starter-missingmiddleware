@@ -129,6 +129,15 @@ Statuses are in the order (1) Terms · (2) Not committed · (3) Automatic fetch 
 | Fitchburg building permit reports | Owner (D1) | Pass | Pass | Pass | Pass | Pass | Applicant fields never loaded |
 | Team tables: `statewide_states_*`, `other_cities_*`, `pooled_*`, `statewide_adoption_curve`, `wi_town_zoning_status`, `wi_measured_permits_2022_2025`, `ca_*`, `wi_baseline_*`, `wi_rules_vs_activity_*`, `madison_like_*` | Pass | Pass | Fix (F2, F3) | Pass | Fix (F7) | n/a | Aggregates only. They inherit the fetch gaps of their inputs |
 
+### Gate 5 sources
+
+Added 2026-10-26. Both are fetched in full by `uv run python scripts/fetch_legislative_districts.py` into git-ignored `data/raw/<source_id>/`, with URL, access time, bytes and SHA-256 in each folder's `manifest.json`; source, vintage and terms are in [DATA_PROVENANCE.md](DATA_PROVENANCE.md).
+
+| Dataset | (1) | (2) | (3) | (4) | (5) | (6) | Notes |
+|---|---|---|---|---|---|---|---|
+| Wisconsin State Assembly (99) and Senate (33) districts, 2024 plan (2023 Wisconsin Act 94), LTSB ArcGIS layers (`wi_assembly_districts`, `wi_senate_districts`) | Pass | Pass | Pass | Pass | Pass | Pass | Terms: "open and publicly available ... use at your own risk" (D1 applies). Raw layers stay in `data/raw/`. The tool's bundle carries copies simplified to 150 m with coordinates rounded to 4 decimals (`ui/public/runs/<run_id>/geo_assembly.json`, 143 KB; `geo_senate.json`, 95 KB): district outlines and numbers only, no other attributes |
+| Census 2020 tabulation blocks for Wisconsin with 2020 housing-unit counts (TIGER2020 TABBLOCK20, `census_tiger_2020_tabblock`, 291 MB) | Pass | Pass | Pass | Pass | Pass | Pass | Public domain. Used only to split each municipality's single-family homes across districts (`scripts/build_district_allocation.py`); not committed. Committed outputs are area × district shares and district totals (`reference/adu_model_district_crosswalk.csv`, `adu_model_by_assembly_district.csv`, `adu_model_by_senate_district.csv`) |
+
 ## Owner decisions
 
 **Owner decisions (2026-10-25):**

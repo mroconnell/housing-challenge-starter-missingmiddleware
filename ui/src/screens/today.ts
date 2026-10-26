@@ -11,41 +11,45 @@ export function renderToday(ctx: Ctx, main: HTMLElement): void {
   const cen = ctx.scen("central"), lo = ctx.scen("lower"), up = ctx.scen("upper");
   const vr = s.vacancy_rate;
   const mixTotal = s.mix.reduce((a, m) => a + (m.value ?? 0), 0);
+  const pr = s.production_rate;
+  const acs5 = (v: string) => v.replace(/ACS (\d{4})-(\d{4}) 5-year/, "ACS $1–$2, five-year average");
 
   main.innerHTML = `
   <h1>Wisconsin housing today</h1>
-  <p class="lede">Where Wisconsin's housing stands now, and how many second homes on single-family lots it permits under current law. Every figure shows its source year and status.</p>
+  <p class="lede">Where Wisconsin's housing stands now, and how many second homes on single-family lots it permits under current law. Every figure shows its source year and status. Survey figures from the American Community Survey (ACS) are averages over 2020–2024, not a 2024 count.</p>
 
+  <h2 class="section-h" id="h-general">All housing in Wisconsin</h2>
   <div class="tiles tiles-4">
     <section class="tile" aria-labelledby="t-units">
       <h2 id="t-units" class="tile-label">Homes in Wisconsin</h2>
       <p class="tile-num" data-testid="pep-units">${int(pepLast.value)}</p>
       <p class="tile-sub">housing units on 1 July ${pepLast.year} ${pill("observed")}</p>
-      <p class="tile-note">Up ${int(pepLast.value - pep[0].value)} since ${pep[0].year}. ${esc(pepLast.vintage)}.</p>
+      <p class="tile-note">Up ${int(pepLast.value - pep[0].value)} since ${pep[0].year}. ${esc(pepLast.vintage)}; no published margin of error.</p>
     </section>
     <section class="tile" aria-labelledby="t-sf">
       <h2 id="t-sf" class="tile-label">Single-family homes</h2>
       <p class="tile-num" data-testid="sf-homes">${int(s.homes.value)}</p>
       <p class="tile-sub">one-unit detached homes, ±${int(s.homes.moe)} ${pill("observed")}</p>
-      <p class="tile-note">The base for every ADU rate in this tool. ${esc(s.homes.vintage)}.</p>
+      <p class="tile-note">The base for every ADU rate in this tool. ${esc(acs5(s.homes.vintage))}.</p>
     </section>
     <section class="tile" aria-labelledby="t-vac">
-      <h2 id="t-vac" class="tile-label">Vacant homes</h2>
-      <p class="tile-num">${pct(vr.value, 1)}</p>
-      <p class="tile-sub">of ${int(s.acs_total_units.value)} housing units, ±${pct(vr.moe, 1)} ${pill("calculated")}</p>
-      <p class="tile-note">Includes seasonal and recreational homes. ${esc(vr.vintage)}.</p>
+      <h2 id="t-vac" class="tile-label">Vacant homes, including seasonal</h2>
+      <p class="tile-num" data-testid="vacancy">${pct(vr.value, 1)}</p>
+      <p class="tile-sub">of ${int(s.acs_total_units.value)} housing units (${int(s.vacant.value)} vacant), ±${pct(vr.moe, 1)} ${pill("calculated")}</p>
+      <p class="tile-note">All vacant homes, including seasonal and recreational cabins, which are common in Wisconsin. Not a for-rent or for-sale vacancy rate. ${esc(acs5(vr.vintage))}.</p>
     </section>
     <section class="tile" aria-labelledby="t-bps">
-      <h2 id="t-bps" class="tile-label">Homes permitted in ${bLast.year}</h2>
+      <h2 id="t-bps" class="tile-label">New homes permitted in ${bLast.year}, all types</h2>
       <p class="tile-num">${int(bLast.total)}</p>
       <p class="tile-sub">homes (units) in building permits, of which ${int(bLast["1unit"])} single-family ${pill("observed")}</p>
-      <p class="tile-note">${pct(bLast.reported_share ?? null)} reported by places, the rest imputed by the Census Bureau. ${esc(bLast.vintage ?? "")}.</p>
+      <p class="tile-sub" data-testid="production-rate"><strong>${dec(pr.value, 1)}</strong> per 1,000 housing units (${int(pr.numerator)} ÷ ${int(pr.denominator)} on 1 July ${pr.year}) ${pill(pr.status)}</p>
+      <p class="tile-note">${esc(bLast.source ?? "")}, ${bLast.year} final; ${pct(bLast.reported_share ?? null)} reported by places, the rest imputed by the Census Bureau. The rate divides by the Census housing-unit estimate for 1 July.</p>
     </section>
   </div>
 
   <section class="card" aria-labelledby="adu-sum">
-    <h2 id="adu-sum">Second homes on single-family lots, 2027–2031</h2>
-    <p class="muted">Accessory dwelling units (ADUs) plus single-family-to-duplex conversions on lots that already have a home, counted when the permit is issued.</p>
+    <h2 id="adu-sum">ADU forecasts: second homes on single-family lots, 2027–2031</h2>
+    <p class="muted">Accessory dwelling units (ADUs) plus single-family-to-duplex conversions on lots that already have a home, counted when the permit is issued. These are a small part of all new homes, and their rates use a different base: per 1,000 <em>single-family</em> homes per year, not per 1,000 housing units of all types.</p>
     <div class="pair">
       <div class="pair-item">
         <p class="tile-label">Under current law (baseline)</p>
@@ -76,7 +80,7 @@ export function renderToday(ctx: Ctx, main: HTMLElement): void {
     </section>
     <section class="card" aria-labelledby="h-mix">
       <h2 id="h-mix">Housing mix</h2>
-      <p class="muted">Share of ${int(mixTotal)} homes in these five types. ${esc(s.mix[0].vintage)}.</p>
+      <p class="muted">Share of ${int(mixTotal)} homes in these five types. ${esc(acs5(s.mix[0].vintage))}.</p>
       <div class="table-wrap"><table class="data mix"><caption class="sr-only">Housing units by type</caption>
         <thead><tr><th scope="col">Type</th><th scope="col" class="num">Homes</th><th scope="col" class="num">Share</th><th scope="col">Status</th></tr></thead>
         <tbody>${s.mix.map((m) => `<tr><th scope="row">${esc(m.label)}<span class="bar" style="width:${((m.value ?? 0) / mixTotal) * 100}%" aria-hidden="true"></span></th><td class="num">${int(m.value)} <span class="muted">±${int(m.moe)}</span></td><td class="num">${pct((m.value ?? 0) / mixTotal)}</td><td>${pill(m.status)}</td></tr>`).join("")}</tbody>
@@ -85,14 +89,14 @@ export function renderToday(ctx: Ctx, main: HTMLElement): void {
   </div>
 
   <section class="card" aria-labelledby="h-bps">
-    <h2 id="h-bps">Homes permitted each year, all types</h2>
-    <p class="muted">Census Building Permits Survey: homes (units) in permits issued by Wisconsin's permit-issuing places. This counts all new homes, not ADUs; there is no published statewide ADU series for Wisconsin.</p>
+    <h2 id="h-bps">New homes permitted each year, all types</h2>
+    <p class="muted">Census Building Permits Survey: homes (units) in permits issued by Wisconsin's permit-issuing places. This counts all new homes, not ADUs; there is no published statewide ADU series for Wisconsin. In ${pr.year}: ${dec(pr.value, 1)} homes permitted per 1,000 housing units.</p>
     <div class="chart-box" id="bps-chart"></div>
     ${legendHTML([{ name: "All homes permitted", color: "#17644f", kind: "bar" }, { name: "Single-family homes permitted", color: "#4b5450" }])}
     <details><summary>Show the data</summary>
-      <div class="table-wrap"><table class="data"><caption>Homes permitted per year in Wisconsin</caption>
-      <thead><tr><th scope="col">Year</th><th scope="col" class="num">All homes</th><th scope="col" class="num">Single-family</th><th scope="col" class="num">2–4 homes</th><th scope="col" class="num">5 or more</th><th scope="col" class="num">Reported share</th></tr></thead>
-      <tbody>${bps.map((b) => `<tr><th scope="row">${b.year}</th><td class="num">${int(b.total)}</td><td class="num">${int(b["1unit"])}</td><td class="num">${int(b["2_4"])}</td><td class="num">${int(b["5plus"])}</td><td class="num">${pct(b.reported_share ?? null)}</td></tr>`).join("")}</tbody></table></div>
+      <div class="table-wrap"><table class="data" data-testid="bps-table"><caption>Homes permitted per year in Wisconsin</caption>
+      <thead><tr><th scope="col">Year</th><th scope="col" class="num">All homes</th><th scope="col" class="num">Single-family</th><th scope="col" class="num">2–4 homes</th><th scope="col" class="num">5 or more</th><th scope="col" class="num">Reported share</th><th scope="col">Source</th></tr></thead>
+      <tbody>${bps.map((b) => `<tr><th scope="row">${b.year}</th><td class="num">${int(b.total)}</td><td class="num">${int(b["1unit"])}</td><td class="num">${int(b["2_4"])}</td><td class="num">${int(b["5plus"])}</td><td class="num">${pct(b.reported_share ?? null)}</td><td class="small">${esc(b.source ?? "")}, ${esc(b.vintage ?? "")} <code>${esc(b.source_id ?? "")}</code></td></tr>`).join("")}</tbody></table></div>
     </details>
   </section>`;
 

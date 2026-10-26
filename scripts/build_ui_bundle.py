@@ -1,4 +1,4 @@
-"""Export the adopted ADU model outputs as a static JSON bundle for the Gate 4 tool (ui/).
+"""Export the adopted ADU model outputs as a static JSON bundle for the ADU tool (ui/; Gates 4 and 5).
 
 The browser runs no model. Every number the tool shows is read from this bundle, and the
 bundle is built only from the adopted outputs:
@@ -12,7 +12,11 @@ bundle is built only from the adopted outputs:
 - reference/statewide_states_annual.csv, pooled_adoption_points.csv, madison_like_*.csv (charts);
 - reference/adu_model_baseline_only_effects.csv (scripts/run_baseline_only_effects.py), pooled_convergence.csv (text);
 - data/processed/foundation/state_conditions.parquet, areas.parquet, geo/*.parquet (context, area list);
-- data/raw/census_cb_2024/ (Census cartographic boundary files, shoreline-clipped, for the map drawing only).
+- data/raw/census_cb_2024/ (Census cartographic boundary files, shoreline-clipped, for the map drawing only);
+- Gate 5: reference/adu_model_unknown_rules_*.csv and data/processed/model_run/unknown_rules/results_long.parquet
+  (unknown-rules switch), reference/adu_model_by_{assembly,senate}_district.csv, adu_model_district_crosswalk.csv and
+  data/processed/districts/geo_{assembly,senate}.geojson (legislative districts; the simplified outlines are copied
+  into the committed bundle, so a fresh clone draws them without data/processed), reference/gate5_trace.csv.
 
 Output: ui/public/runs/<run_id>/*.json and ui/public/runs/latest.json. The run id is a hash of the
 input files, so the same inputs give the same bundle byte for byte (no timestamps).
@@ -59,7 +63,27 @@ INPUTS = [
     "data/processed/foundation/state_conditions.parquet", "data/processed/foundation/geo/areas_county.parquet",
     "data/processed/foundation/geo/areas_municipality.parquet",
     "data/raw/census_cb_2024/cb_2024_55_cousub_500k.zip", "data/raw/census_cb_2024/cb_2024_us_county_500k.zip",
+    # Gate 5: unknown-rules variants (scripts/run_unknown_rules_variants.py) and legislative districts
+    # (scripts/build_district_allocation.py); the district outlines are copied into the committed bundle.
+    "reference/adu_model_unknown_rules_statewide.csv", "reference/adu_model_unknown_rules_statewide_by_year.csv",
+    "reference/adu_model_unknown_rules_by_county.csv", "reference/adu_model_unknown_rules_by_context.csv",
+    "data/processed/model_run/unknown_rules/results_long.parquet",
+    "reference/adu_model_by_assembly_district.csv", "reference/adu_model_by_senate_district.csv",
+    "reference/adu_model_district_crosswalk.csv", "reference/gate5_trace.csv",
+    "data/processed/districts/geo_assembly.geojson", "data/processed/districts/geo_senate.geojson",
 ]
+# Unknown-rules switch (docs/gate5/UI_CONTRACT.md section 1): screen labels, in switch order.
+UNKNOWN = [("like_restricted", "Like places that restrict ADUs (adopted)"),
+           ("like_prohibited", "Like places that prohibit ADUs"),
+           ("like_benchmark", "Like places that already allow ADUs as the bill would")]
+DISTRICT_CAVEAT = ("District figures share each municipality's result by where its single-family homes are (2020 census "
+                   "blocks). They are not forecasts for any neighbourhood or lot.")
+DISTRICT_METHOD = ("Each city, village and town's result is split across the districts it touches in proportion to its "
+                   "single-family homes in each one. Homes are placed with the 2020 census blocks: each block's 2020 housing "
+                   "units × its block group's share of single-family homes (ACS 2020–2024). 55 areas are split across "
+                   "districts (Milwaukee across 14, Madison across 9); 1,842 lie in one district. Senate districts are the "
+                   "sum of their three Assembly districts. Boundaries: the 2024 legislative districts (2023 Wisconsin Act 94), "
+                   "Legislative Technology Services Bureau.")
 CB_URL = "https://www2.census.gov/geo/tiger/GENZ2024/shp/"
 
 PILOTS = {
@@ -157,7 +181,8 @@ def madison_texts(p: dict) -> dict:
         # one short sentence, used in the map details panel and the brief
         "note": (f"Madison follows the observed path of {ml['n']} similar cities in Washington and Oregon ({r[0]:.2f} rising "
                  f"to {r[-1]:.2f} permits per 1,000 single-family homes per year, 2027–2031) in every scenario, so the law "
-                 "adds less here per 1,000 homes than in its suburbs. This choice is under review (Gate 5)."),
+                 "adds less here per 1,000 homes than in its suburbs. This choice will be looked at again in December "
+                 "2026, when Madison's 2026 permit count is final."),
     }
 
 
@@ -323,7 +348,7 @@ def build_state(p: dict) -> dict:
         ("units_1_detached", "Single-family, detached"), ("units_1_attached", "Single-family, attached (townhouses)"),
         ("units_2_4", "Buildings with 2–4 homes"), ("units_5_plus", "Buildings with 5 or more homes"),
         ("mobile_home", "Mobile homes"))]
-    pep = [{"year": int(x.year), "value": r(x.value, 0), "status": x.status, "vintage": x.source_vintage}
+    pep = [{"year": int(x.year), "value": r(x.value, 0), "status": x.status, "vintage": x.source_vintage, "source_id": x.source_id}
            for x in ind("housing_units").sort_values("year").itertuples()]
     bps = []
     for y in range(2015, 2026):
@@ -334,7 +359,19 @@ def build_state(p: dict) -> dict:
             if len(d):
                 row["reported_share"] = r(d.reporting_coverage.iloc[0], 4)
                 row["vintage"] = d.source_vintage.iloc[0]
+                row["source_id"] = d.source_id.iloc[0]
+                row["source"] = "Census Building Permits Survey"
         bps.append(row)
+    # General housing production as a rate (docs/gate5/MODEL_CHECKS.md section 3e): all homes permitted in the last
+    # BPS year per 1,000 housing units (PEP, 1 July of the same year). A different denominator from the ADU rates.
+    b_last = next(b for b in reversed(bps) if b.get("total") is not None)
+    pep_same = next(x for x in pep if x["year"] == b_last["year"])
+    production_rate = {"year": b_last["year"], "value": r(b_last["total"] / pep_same["value"] * 1000, 2),
+                       "numerator": b_last["total"], "denominator": pep_same["value"], "status": "calculated",
+                       "units": "homes permitted per 1,000 housing units",
+                       "source": f"Census Building Permits Survey {b_last['year']} (final) ÷ Census Population Estimates, "
+                                 f"1 July {b_last['year']} ({pep_same['vintage']})",
+                       "source_id": f"{b_last['source_id']}; {pep_same['source_id']}"}
 
     st_tot = pd.read_csv(REF / "adu_model_statewide.csv").set_index("path")
     by_year = pd.read_csv(REF / "adu_model_statewide_by_year.csv")
@@ -398,7 +435,9 @@ def build_state(p: dict) -> dict:
         d = ctx[ctx.context_group.eq(g)].set_index("path")
         contexts.append({"id": g, "label": lab, "homes": int(homes_ctx.get(g, 0)), "baseline": r(d.loc["central", "baseline_units"], 2),
                          **{f"additional_{k}": r(d.loc[k, "additional_units"], 2) for k in PATHS}})
-    return {"homes": homes, "housing_units_pep": pep, "acs_total_units": one("total_housing_units_acs"),
+    return {"homes": homes, "housing_units_pep": pep, "production_rate": production_rate,
+            "acs_period": "ACS 2020–2024 5-year estimates: an average over the five years 2020–2024, not a 2024 count",
+            "pep_note": "Census Population Estimates for 1 July each year; no published margin of error", "acs_total_units": one("total_housing_units_acs"),
             "occupied": one("occupied_units"), "vacant": one("vacant_units"), "vacancy_rate": one("vacancy_rate"),
             "mix": mix, "bps": bps, "baseline": baseline, "scenarios": scen, "reference_line": ref_line, "contexts": contexts,
             "labels": {"baseline": LABELS["baseline"], "band": LABELS["band"], "reference": ref_line["label"],
@@ -482,6 +521,143 @@ def build_areas(p: dict) -> tuple[list, list, dict]:
     crow.sort(key=lambda c: c["name"])
     rows.sort(key=lambda a: (-a["homes"], a["name"]))
     return crow, rows, {"n_munis": len(rows), "n_counties": len(crow)}
+
+
+# --------------------------------------------------------------------------------------------
+def build_unknown_rules(munis: list, counties: list) -> dict:
+    """The three precomputed unknown-rules runs (one run group) for the switch on "How sure" and the Where map.
+
+    Statewide, by-year and by-context figures come from the reference CSVs. Per-area and per-county yearly values
+    come from the variant engine run (model_run/unknown_rules/results_long.parquet) and are written only where a
+    variant differs from the adopted run (uncoded places); every other area keeps its adopted values.
+    """
+    st = pd.read_csv(REF / "adu_model_unknown_rules_statewide.csv")
+    by = pd.read_csv(REF / "adu_model_unknown_rules_statewide_by_year.csv")
+    ctx = pd.read_csv(REF / "adu_model_unknown_rules_by_context.csv")
+    res = pd.read_parquet(PROC / "model_run/unknown_rules/results_long.parquet")
+    assert st.run_group_id.nunique() == 1 and res.run_group_id.nunique() == 1 and st.run_group_id.iloc[0] == res.run_group_id.iloc[0]
+    by_id = {a["id"]: a for a in munis}
+    county_of = {a["id"]: a["county_id"] for a in munis}
+    variants, areas_v, counties_v = [], {}, {}
+    for vid, label in UNKNOWN:
+        s = st[st.unknown_treatment.eq(vid)].set_index("path")
+        b = by[by.unknown_treatment.eq(vid)]
+        cx = ctx[ctx.unknown_treatment.eq(vid)]
+        yr = lambda p, col: [r(v, 2) for v in b[b.path.eq(p)].sort_values("forecast_year")[col]]
+        variants.append({
+            "id": vid, "label": label, "adopted": bool(s.adopted.iloc[0]), "contract_enum": s.contract_enum.iloc[0],
+            "run_id": s.run_id.iloc[0], "x_rate_uncoded": r(s.x_rate_uncoded.iloc[0], 4),
+            "baseline_total": r(s.loc["central", "baseline_units"], 2),
+            "additional_total": {p: r(s.loc[p, "additional_units"], 2) for p in PATHS},
+            "with_law_total": {p: r(s.loc[p, "total_with_law"], 2) for p in PATHS},
+            "d_baseline": r(s.loc["central", "d_baseline_units"], 2),
+            "d_additional": {p: r(s.loc[p, "d_additional_units"], 2) for p in PATHS},
+            "d_with_law": {p: r(s.loc[p, "d_total_with_law"], 2) for p in PATHS},
+            "baseline_by_year": yr("central", "baseline_units"),
+            "additional_by_year": {p: yr(p, "additional_units") for p in PATHS},
+            "with_law_by_year": {p: yr(p, "total_with_law") for p in PATHS},
+            "contexts": [{"id": g, "homes": int(d.homes.iloc[0]), "uncoded_homes": int(d.uncoded_homes.iloc[0]),
+                          "baseline": r(d[d.path.eq("central")].baseline_units.iloc[0], 2),
+                          **{f"additional_{p}": r(d[d.path.eq(p)].additional_units.iloc[0], 2) for p in PATHS}}
+                         for g, d in cx.groupby("context_group", sort=False)],
+        })
+        v = res[res.unknown_treatment.eq(vid)]
+        pa = v.pivot_table(index="area_id", columns=["path", "year"], values="additional_units", aggfunc="sum")
+        pb = v[v.path.eq("central")].pivot_table(index="area_id", columns="year", values="baseline_units", aggfunc="sum")
+        diff = {}
+        for aid in pb.index:
+            a = by_id[aid]
+            base = [r(pb.loc[aid, i], 4) for i in range(1, 6)]
+            add = {k: [r(pa.loc[aid, (k, i)], 4) for i in range(1, 6)] for k in PATHS}
+            if base != a["base"] or add != a["add"]:
+                diff[aid] = {"base": base, "add": add}
+        if vid == "like_restricted":
+            assert not diff, f"adopted variant differs from the adopted run in {len(diff)} areas"
+            continue
+        areas_v[vid] = diff
+        cty = {}
+        for cid in sorted({county_of[aid] for aid in diff}):
+            ids = [a for a in pb.index if county_of[a] == cid]
+            cty[cid] = {"base": [r(pb.loc[ids, i].sum(), 6) for i in range(1, 6)],
+                        "add": {k: [r(pa.loc[ids, (k, i)].sum(), 6) for i in range(1, 6)] for k in PATHS}}
+        counties_v[vid] = cty
+    first = st.iloc[0]
+    return {"run_group_id": first.run_group_id, "uncoded_areas": int(first.uncoded_areas),
+            "uncoded_homes": int(first.uncoded_homes), "state_homes": int(first.state_homes),
+            "default": "like_restricted", "variants": variants, "areas": areas_v, "counties": counties_v,
+            "district_note": ("Districts are shown for the adopted assumption only (uncoded places like places that "
+                              "restrict ADUs). The other two assumptions were not split by district."),
+            "source": "reference/adu_model_unknown_rules_*.csv; data/processed/model_run/unknown_rules/results_long.parquet"}
+
+
+def build_districts(out: Path) -> dict:
+    """Assembly and Senate district tables, area lists and (copied, simplified) outlines for the Where screen."""
+    import geopandas as gpd
+    cw = pd.read_csv(REF / "adu_model_district_crosswalk.csv", dtype={"assembly_district": str, "senate_district": str})
+    levels, label_feats, sizes = {}, [], {}
+    for level, prefix, f in (("assembly", "asm:", "adu_model_by_assembly_district.csv"),
+                             ("senate", "sen:", "adu_model_by_senate_district.csv")):
+        d = pd.read_csv(REF / f, dtype={"district": str})
+        rows_, unalloc = [], None
+        keys = sorted(d.district.unique(), key=lambda x: (x == "unallocated", int(x) if x.isdigit() else 0))
+        for dist in keys:
+            g = d[d.district.eq(dist)]
+            yr = lambda p, col: [r(v, 6) for v in g[g.path.eq(p) & g.forecast_year.ne("2027-2031")].sort_values("forecast_year")[col]]
+            row = {"id": f"{prefix}{dist}", "district": dist, "name": g.district_label.iloc[0],
+                   "homes": r(g.homes.iloc[0], 1), "base": yr("central", "baseline_units"),
+                   "add": {p: yr(p, "additional_units") for p in PATHS}}
+            if dist == "unallocated":
+                unalloc = row
+                continue
+            col = "assembly_district" if level == "assembly" else "senate_district"
+            parts = cw[cw[col].eq(dist)].groupby(["area_id", "name"], as_index=False).agg(
+                homes_allocated=("homes_allocated", "sum"), area_homes=("area_homes", "first"))
+            parts = parts.sort_values("homes_allocated", ascending=False)
+            row["n_areas"] = int(len(parts))
+            row["places"] = [{"id": x.area_id, "name": x.name, "homes": r(x.homes_allocated, 0),
+                              "share_of_place": r(x.homes_allocated / x.area_homes, 3) if x.area_homes else None}
+                             for x in parts.head(8).itertuples()]
+            if level == "senate":
+                row["assembly"] = sorted({int(a) for a in cw[cw.senate_district.eq(dist)].assembly_district})
+            rows_.append(row)
+        assert unalloc is not None, f"{f}: the unallocated row must stay in the table"
+        levels[level] = {"rows": rows_, "unallocated": unalloc}
+
+        g = gpd.read_file(PROC / f"districts/geo_{level}.geojson").to_crs(4326)
+        g["id"] = prefix + g.district.astype(int).astype(str)
+        pts = g.to_crs(3071).geometry.representative_point().to_crs(4326)
+        for aid, pt, num in sorted(zip(g.id, pts, g.district.astype(int)), key=lambda t: t[2]):
+            label_feats.append({"type": "Feature", "properties": {"id": aid, "name": str(num), "kind": level},
+                                "geometry": {"type": "Point", "coordinates": [round(pt.x, 4), round(pt.y, 4)]}})
+        g["geometry"] = g.geometry.set_precision(1e-4)
+        g = g[~g.geometry.is_empty]
+        assert g.geometry.is_valid.all(), f"invalid {level} polygons after rounding"
+        fc = json.loads(g[["id", "geometry"]].to_json(drop_id=True))
+        fc.pop("bbox", None)
+        for feat in fc["features"]:
+            feat["properties"] = {"id": feat["properties"]["id"]}
+            feat.pop("bbox", None)
+        (out / f"geo_{level}.json").write_text(json.dumps(fc, separators=(",", ":")))
+        sizes[level] = len(fc["features"])
+    (out / "geo_district_labels.json").write_text(json.dumps({"type": "FeatureCollection", "features": label_feats},
+                                                             separators=(",", ":")))
+    return {"levels": levels, "caveat": DISTRICT_CAVEAT, "method": DISTRICT_METHOD,
+            "homes_range": [min(x["homes"] for x in levels["assembly"]["rows"]), max(x["homes"] for x in levels["assembly"]["rows"])],
+            "boundaries": "Wisconsin State Assembly (99) and Senate (33) districts, 2024 plan (2023 Wisconsin Act 94), Legislative Technology Services Bureau",
+            "source": "reference/adu_model_by_assembly_district.csv, adu_model_by_senate_district.csv, adu_model_district_crosswalk.csv",
+            "sizes": sizes}
+
+
+def build_trace() -> list:
+    """How much of the central addition rests on observed, estimated and assumed current-law rates (gate5_trace.csv)."""
+    t = pd.read_csv(REF / "gate5_trace.csv")
+    t = t[t.context.eq("all")] if "all" in set(t.context) else t.groupby("x_status", as_index=False).sum(numeric_only=True)
+    out = []
+    for stt in ("observed", "estimated", "assumed"):
+        x = t[t.x_status.eq(stt)].iloc[0]
+        out.append({"status": stt, "areas": int(x.areas), "homes": int(x.homes), "baseline": r(x.baseline_5yr, 2),
+                    **{f"additional_{p}": r(x[f"additional_{p}_5yr"], 2) for p in PATHS}})
+    return out
 
 
 # --------------------------------------------------------------------------------------------
@@ -894,7 +1070,7 @@ def build_geo(out: Path, munis: list, county_names: dict | None = None) -> dict:
     return sizes
 
 
-def validate(state: dict, counties: list, munis: list, unc: dict) -> dict:
+def validate(state: dict, counties: list, munis: list, unc: dict, unk: dict | None = None, dist: dict | None = None) -> dict:
     """Reconciliation and ordering checks recorded in the manifest; raise on failure."""
     checks = []
 
@@ -926,6 +1102,54 @@ def validate(state: dict, counties: list, munis: list, unc: dict) -> dict:
     check("lower <= central <= upper in every area and year", not bad, f"{len(bad)} violations")
     homes = sum(a["homes"] for a in munis)
     check("single-family homes sum to the state", homes == WI_HOMES, f"{homes:,} vs {WI_HOMES:,}")
+    if unk is not None:
+        # unknown-rules variants: adopted = the adopted run; each variant's areas and counties sum to its statewide row
+        ad = next(v for v in unk["variants"] if v["adopted"])
+        gap = max([abs(ad["additional_total"][k] - sc["additional_total"]) for sc in state["scenarios"] for k in [sc["id"]]]
+                  + [abs(ad["baseline_total"] - state["baseline"]["total"])])
+        check("unknown rules: adopted variant equals the adopted run", gap < 0.01, f"largest difference {gap:.4f} permits")
+        worst = 0.0
+        for v in unk["variants"]:
+            if v["adopted"]:
+                continue
+            ov = unk["areas"][v["id"]]
+            for k in PATHS:
+                for i in range(5):
+                    tot = sum((ov[a["id"]]["add"][k] if a["id"] in ov else a["add"][k])[i] for a in munis)
+                    worst = max(worst, abs(tot - v["additional_by_year"][k][i]))
+            for i in range(5):
+                tot = sum((ov[a["id"]]["base"] if a["id"] in ov else a["base"])[i] for a in munis)
+                worst = max(worst, abs(tot - v["baseline_by_year"][i]))
+            cv = unk["counties"][v["id"]]
+            ref = pd.read_csv(REF / "adu_model_unknown_rules_by_county.csv", dtype={"parent_county_id": str})
+            ref = ref[ref.unknown_treatment.eq(v["id"])].set_index(["parent_county_id", "path"])
+            for c in counties:
+                cc = cv.get(c["id"], c)
+                for k in PATHS:
+                    worst = max(worst, abs(sum(cc["add"][k]) - ref.loc[(c["id"], k), "additional_units"]))
+                worst = max(worst, abs(sum(cc["base"]) - ref.loc[(c["id"], "central"), "baseline_units"]))
+        check("unknown rules: each variant's areas and counties reconcile to its statewide and county rows", worst < 0.01,
+              f"largest gap {worst:.4f} permits (every path and year)")
+    if dist is not None:
+        worst = 0.0
+        for level, L in dist["levels"].items():
+            for k in PATHS:
+                sc = next(x for x in state["scenarios"] if x["id"] == k)
+                for i in range(5):
+                    tot = sum(d["add"][k][i] for d in L["rows"]) + L["unallocated"]["add"][k][i]
+                    worst = max(worst, abs(tot - sc["additional_by_year"][i]))
+            for i in range(5):
+                tot = sum(d["base"][i] for d in L["rows"]) + L["unallocated"]["base"][i]
+                worst = max(worst, abs(tot - state["baseline"]["by_year"][i]))
+        check("Assembly and Senate districts plus the unallocated row reconcile to the state", worst < 0.01,
+              f"largest gap {worst:.4f} permits (every path and year); unallocated rows kept")
+        asm = {int(d["district"]): d for d in dist["levels"]["assembly"]["rows"]}
+        nest = 0.0
+        for sd in dist["levels"]["senate"]["rows"]:
+            for k in PATHS:
+                nest = max(nest, abs(sum(sum(asm[a]["add"][k]) for a in sd["assembly"]) - sum(sd["add"][k])))
+        check("each Senate district equals the sum of its three Assembly districts", nest < 0.01 and
+              all(len(sd["assembly"]) == 3 for sd in dist["levels"]["senate"]["rows"]), f"largest gap {nest:.4f} permits")
     failed = [c for c in checks if not c["passed"]]
     if failed:
         raise SystemExit(f"bundle validation failed: {failed}")
@@ -948,7 +1172,11 @@ def main():
     pilots = build_pilots(munis)
     ev = build_evidence(p)
     geo_n = build_geo(out, munis, {c["id"]: c["name"] for c in counties})
-    val = validate(state, counties, munis, unc)
+    unk = build_unknown_rules(munis, counties)
+    dist = build_districts(out)
+    unc["trace"] = build_trace()
+    val = validate(state, counties, munis, unc, unk, dist)
+    geo_n.update(dist.pop("sizes"))
     rules = pd.read_csv(REF / "wi_adu_rules.csv")
 
     manifest = {
@@ -963,11 +1191,12 @@ def main():
         "dates": {"last_observed_year": 2025, "bridge_year": 2026, "forecast_years": YEARS,
                   "effective": "Stylized: the statewide law takes effect on 1 January 2027 (forecast year 1)"},
         "vintages": [
-            {"what": "Single-family (one-unit detached) homes, housing mix, occupancy", "vintage": "ACS 2020–2024 5-year (B25024, B25002)"},
-            {"what": "Housing units by year", "vintage": "Census Population Estimates, Vintage 2025 (2020–2025)"},
+            {"what": "Single-family (one-unit detached) homes, housing mix, occupancy", "vintage": "ACS 2020–2024 5-year (B25024, B25002): five-year averages, not a 2024 count"},
+            {"what": "Housing units by year", "vintage": "Census Population Estimates, Vintage 2025 (1 July 2020–2025; no published margin of error)"},
             {"what": "Homes permitted by year", "vintage": "Census Building Permits Survey, annual 2015–2025 (final)"},
             {"what": "Areas", "vintage": "Census TIGER/Line 2024 (counties, county subdivisions)"},
             {"what": "Map outlines", "vintage": "Census cartographic boundary files 2024, 1:500,000, shoreline-clipped (water areas not drawn)"},
+            {"what": "Legislative districts", "vintage": "Wisconsin State Assembly and Senate districts, 2024 plan (2023 Wisconsin Act 94), LTSB; homes split with 2020 census blocks"},
             {"what": "Local ADU rules", "vintage": f"Ordinances retrieved {rules.retrieved.min()} to {rules.retrieved.max()}"},
             {"what": "Town zoning status", "vintage": "Wisconsin DOA land-regulation inventory, 2025-01-30"},
             {"what": "Wisconsin permit records", "vintage": "Madison and Pleasant Prairie issued permits, Sun Prairie applications, through 2025 (2026 provisional)"},
@@ -1012,7 +1241,8 @@ def main():
         "inputs": hashes, "validation": val, "counts": {**n, **{f"geo_{k}": v for k, v in geo_n.items()}},
         "repo_url": REPO_URL,
         "files": ["manifest.json", "state.json", "areas.json", "uncertainty.json", "pilots.json", "evidence.json",
-                  "geo_counties.json", "geo_munis.json", "geo_labels.json"],
+                  "geo_counties.json", "geo_munis.json", "geo_labels.json", "unknown_rules.json", "districts.json",
+                  "geo_assembly.json", "geo_senate.json", "geo_district_labels.json"],
     }
 
     def dump(name, obj):
@@ -1025,6 +1255,8 @@ def main():
     dump("uncertainty.json", unc)
     dump("pilots.json", pilots)
     dump("evidence.json", ev)
+    dump("unknown_rules.json", unk)
+    dump("districts.json", dist)
     (OUT_ROOT / "latest.json").write_text(json.dumps({"run_id": run_id}) + "\n")
     total = sum(f.stat().st_size for f in out.iterdir())
     print(f"bundle {run_id}: {len(list(out.iterdir()))} files, {total / 1e6:.2f} MB -> {out.relative_to(ROOT)}")

@@ -39,7 +39,10 @@ export interface StateData {
   housing_units_pep: { year: number; value: number; status: string; vintage: string }[];
   acs_total_units: Indicator; occupied: Indicator; vacant: Indicator; vacancy_rate: Indicator;
   mix: (Indicator & { id: string; label: string })[];
-  bps: { year: number; total: number | null; "1unit": number | null; "2_4": number | null; "5plus": number | null; reported_share?: number; vintage?: string }[];
+  bps: { year: number; total: number | null; "1unit": number | null; "2_4": number | null; "5plus": number | null; reported_share?: number; vintage?: string; source_id?: string; source?: string }[];
+  /** General housing production: homes permitted per 1,000 housing units (a different denominator from the ADU rates). */
+  production_rate: { year: number; value: number; numerator: number; denominator: number; status: string; units: string; source: string; source_id: string };
+  acs_period: string; pep_note: string;
   baseline: {
     by_year: number[]; total: number; low_total: number; high_total: number; low_by_year: number[]; high_by_year: number[];
     bridge_2026: { low: number; central: number; high: number }; rate_per_1000_per_year: number; source: string;
@@ -83,6 +86,35 @@ export interface Uncertainty {
   local_effects: { text: string; example: string; not_computed: string };
   sensitivity_groups: Record<"addition" | "baseline" | "local", { title: string; intro: string }>;
   challenges: { title: string; text: string }[];
+  /** Central addition by the basis of each place's current-law rate (reference/gate5_trace.csv, places with homes). */
+  trace: { status: "observed" | "estimated" | "assumed"; areas: number; homes: number; baseline: number; additional_lower: number; additional_central: number; additional_upper: number }[];
+}
+
+export type UnknownId = "like_restricted" | "like_prohibited" | "like_benchmark";
+export interface UnknownVariant {
+  id: UnknownId; label: string; adopted: boolean; contract_enum: string; run_id: string; x_rate_uncoded: number;
+  baseline_total: number; additional_total: Record<PathId, number>; with_law_total: Record<PathId, number>;
+  d_baseline: number; d_additional: Record<PathId, number>; d_with_law: Record<PathId, number>;
+  baseline_by_year: number[]; additional_by_year: Record<PathId, number[]>; with_law_by_year: Record<PathId, number[]>;
+  contexts: { id: string; homes: number; uncoded_homes: number; baseline: number; additional_lower: number; additional_central: number; additional_upper: number }[];
+}
+type YearVals = { base: number[]; add: Record<PathId, number[]> };
+export interface UnknownRules {
+  run_group_id: string; uncoded_areas: number; uncoded_homes: number; state_homes: number; default: UnknownId;
+  variants: UnknownVariant[];
+  /** Per-area and per-county yearly values, only where a variant differs from the adopted run. */
+  areas: Partial<Record<UnknownId, Record<string, YearVals>>>;
+  counties: Partial<Record<UnknownId, Record<string, YearVals>>>;
+  district_note: string; source: string;
+}
+
+export interface District {
+  id: string; district: string; name: string; homes: number; base: number[]; add: Record<PathId, number[]>;
+  n_areas?: number; places?: { id: string; name: string; homes: number; share_of_place: number | null }[]; assembly?: number[];
+}
+export interface Districts {
+  levels: Record<"assembly" | "senate", { rows: District[]; unallocated: District }>;
+  caveat: string; method: string; homes_range: [number, number]; boundaries: string; source: string;
 }
 
 export interface Pilot {
@@ -108,6 +140,7 @@ export interface Evidence {
 
 export interface Bundle {
   manifest: Manifest; state: StateData; areas: AreasData; uncertainty: Uncertainty; pilots: Pilot[]; evidence: Evidence;
+  unknown: UnknownRules; districts: Districts;
   base: string;
 }
 
@@ -120,11 +153,12 @@ async function getJSON<T>(url: string): Promise<T> {
 export async function loadBundle(): Promise<Bundle> {
   const { run_id } = await getJSON<{ run_id: string }>("runs/latest.json");
   const base = `runs/${run_id}/`;
-  const [manifest, state, areas, uncertainty, pilots, evidence] = await Promise.all([
+  const [manifest, state, areas, uncertainty, pilots, evidence, unknown, districts] = await Promise.all([
     getJSON<Manifest>(base + "manifest.json"), getJSON<StateData>(base + "state.json"), getJSON<AreasData>(base + "areas.json"),
     getJSON<Uncertainty>(base + "uncertainty.json"), getJSON<Pilot[]>(base + "pilots.json"), getJSON<Evidence>(base + "evidence.json"),
+    getJSON<UnknownRules>(base + "unknown_rules.json"), getJSON<Districts>(base + "districts.json"),
   ]);
-  return { manifest, state, areas, uncertainty, pilots, evidence, base };
+  return { manifest, state, areas, uncertainty, pilots, evidence, unknown, districts, base };
 }
 
 export const sum = (xs: number[]) => xs.reduce((a, b) => a + b, 0);

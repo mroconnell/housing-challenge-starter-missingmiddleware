@@ -1,7 +1,7 @@
 // App shell: header, status strip, tab navigation, footer and a hash router over the seven screens.
 import "./style.css";
 import type { Ctx, UIState } from "./app";
-import { loadBundle, type Bundle, type PathId } from "./data";
+import { loadBundle, type Bundle, type PathId, type UnknownId } from "./data";
 import { esc } from "./format";
 import { renderBrief } from "./screens/brief";
 import { renderCompare } from "./screens/compare";
@@ -21,7 +21,8 @@ const ROUTES = [
   { path: "/brief", label: "Brief", n: 7 },
 ];
 
-const ui: UIState = { scenario: "central", year: 2031 };
+const ui: UIState = { scenario: "central", year: 2031, unknown: "like_restricted" };
+const UNKNOWN_IDS: UnknownId[] = ["like_restricted", "like_prohibited", "like_benchmark"];
 
 function parse(): { path: string; params: URLSearchParams } {
   const raw = location.hash.replace(/^#/, "") || "/today";
@@ -83,18 +84,32 @@ function start(b: Bundle): void {
     b, ui,
     setScenario(p: PathId) {
       ui.scenario = p;
-      // keep the scenario in the URL so a copied link opens the same view
-      const { path } = parse();
-      history.replaceState(null, "", `#${path}${p === "central" ? "" : `?s=${p}`}`);
+      writeUrl();
+      route(true);
+    },
+    setUnknown(u: UnknownId) {
+      ui.unknown = u;
+      writeUrl();
       route(true);
     },
     scen(p?: PathId) { return b.state.scenarios.find((s) => s.id === (p ?? ui.scenario))!; },
     link(path: string) { return `#${path}`; },
   };
+  // keep the scenario and the unknown-rules choice in the URL so a copied link opens the same view
+  function writeUrl(): void {
+    const { path } = parse();
+    const q = new URLSearchParams();
+    if (ui.scenario !== "central") q.set("s", ui.scenario);
+    if (ui.unknown !== "like_restricted") q.set("u", ui.unknown);
+    const qs = q.toString();
+    history.replaceState(null, "", `#${path}${qs ? `?${qs}` : ""}`);
+  }
   function route(keepFocus = false): void {
     const { path, params } = parse();
     const s = params.get("s");
     if (s === "lower" || s === "central" || s === "upper") ui.scenario = s;
+    const u = params.get("u") as UnknownId | null;
+    if (u && UNKNOWN_IDS.includes(u)) ui.unknown = u;
     const active = document.activeElement as HTMLElement | null;
     const activeSel = active && main.contains(active) ? selectorFor(active) : null;
     const y = window.scrollY;

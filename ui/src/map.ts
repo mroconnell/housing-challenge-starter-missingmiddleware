@@ -1,4 +1,4 @@
-// County and municipality choropleth with MapLibre GL JS (BSD-3-Clause). No basemap: area fills only,
+// County, municipality and legislative-district choropleth with MapLibre GL JS (BSD-3-Clause). No basemap: area fills only,
 // no point markers, so nothing on the map can be read as a prediction for a lot. Optional overlays (county
 // name labels now; transit-stop labels and buffers later) sit above the fills; see OverlaySpec.
 import * as maplibregl from "maplibre-gl";
@@ -44,11 +44,14 @@ function overlayLayers(o: OverlaySpec): maplibregl.LayerSpecification[] {
   ];
 }
 
+export type GeoKind = "counties" | "munis" | "assembly" | "senate";
+const GEOS: GeoKind[] = ["counties", "munis", "assembly", "senate"];
+
 export interface MapHandle {
   setData(values: Map<string, number | null>, breaks: number[]): void;
   addOverlay(o: OverlaySpec): void;
   setOverlayVisible(id: string, visible: boolean): void;
-  setGeography(kind: "counties" | "munis"): void;
+  setGeography(kind: GeoKind): void;
   select(id: string | null): void;
   resize(): void;
   destroy(): void;
@@ -64,7 +67,7 @@ function hatchImage(): ImageData {
   return g.getImageData(0, 0, s, s);
 }
 
-export function createMap(el: HTMLElement, geo: { counties: unknown; munis: unknown }, onPick: (id: string) => void,
+export function createMap(el: HTMLElement, geo: Record<GeoKind, unknown>, onPick: (id: string) => void,
   onHover: (id: string | null, x: number, y: number) => void): MapHandle {
   const map = new maplibregl.Map({
     container: el,
@@ -92,7 +95,7 @@ export function createMap(el: HTMLElement, geo: { counties: unknown; munis: unkn
     if (size !== lastSize) { lastSize = size; fit(); }
   });
   ro.observe(el);
-  let kind: "counties" | "munis" = "counties";
+  let kind: GeoKind = "counties";
   let pending: (() => void)[] = [];
   let ready = false;
   let selected: string | null = null;
@@ -105,16 +108,17 @@ export function createMap(el: HTMLElement, geo: { counties: unknown; munis: unkn
   map.on("load", () => {
     fit();
     map.addImage("hatch", hatchImage(), { pixelRatio: 1 });
-    for (const k of ["counties", "munis"] as const) {
+    for (const k of GEOS) {
       map.addSource(k, { type: "geojson", data: geo[k] as GeoJSON.FeatureCollection, promoteId: "id" });
       map.addLayer({ id: `${k}-missing`, type: "fill", source: k, paint: { "fill-pattern": "hatch" }, layout: { visibility: k === kind ? "visible" : "none" } });
       map.addLayer({ id: `${k}-fill`, type: "fill", source: k, paint: { "fill-color": "rgba(0,0,0,0)", "fill-opacity": 1 }, layout: { visibility: k === kind ? "visible" : "none" } });
-      map.addLayer({ id: `${k}-line`, type: "line", source: k, paint: { "line-color": "#ffffff", "line-width": k === "counties" ? 0.9 : 0.25, "line-opacity": 0.9 }, layout: { visibility: k === kind ? "visible" : "none" } });
+      map.addLayer({ id: `${k}-line`, type: "line", source: k, paint: { "line-color": "#ffffff", "line-width": k === "munis" ? 0.25 : 0.9, "line-opacity": 0.9 }, layout: { visibility: k === kind ? "visible" : "none" } });
     }
-    map.addLayer({ id: "county-outline", type: "line", source: "counties", paint: { "line-color": "#2b2f2d", "line-width": 0.7, "line-opacity": 0.55 } });
-    for (const k of ["counties", "munis"] as const)
+    // county outlines over counties and municipalities only; district views show district outlines alone
+    map.addLayer({ id: "county-outline", type: "line", source: "counties", paint: { "line-color": "#2b2f2d", "line-width": 0.7, "line-opacity": 0.55 }, layout: { visibility: kind === "counties" || kind === "munis" ? "visible" : "none" } });
+    for (const k of GEOS)
       map.addLayer({ id: `${k}-sel`, type: "line", source: k, filter: ["==", ["get", "id"], "__none__"], paint: { "line-color": "#d1361a", "line-width": 3 }, layout: { visibility: k === kind ? "visible" : "none" } });
-    for (const k of ["counties", "munis"] as const) {
+    for (const k of GEOS) {
       map.on("click", `${k}-fill`, (e: maplibregl.MapLayerMouseEvent) => { const f = e.features?.[0]; if (f) onPick(String(f.properties!.id)); });
       map.on("mousemove", `${k}-fill`, (e: maplibregl.MapLayerMouseEvent) => {
         const f = e.features?.[0];
@@ -154,8 +158,9 @@ export function createMap(el: HTMLElement, geo: { counties: unknown; munis: unkn
     setGeography(k) {
       kind = k;
       when(() => {
-        for (const g of ["counties", "munis"]) for (const suffix of ["missing", "fill", "line", "sel"])
+        for (const g of GEOS) for (const suffix of ["missing", "fill", "line", "sel"])
           map.setLayoutProperty(`${g}-${suffix}`, "visibility", g === k ? "visible" : "none");
+        map.setLayoutProperty("county-outline", "visibility", k === "counties" || k === "munis" ? "visible" : "none");
       });
     },
     select(id) {

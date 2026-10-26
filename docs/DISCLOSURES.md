@@ -89,7 +89,7 @@ The repository's Apache-2.0 license covers code only. Each dataset keeps its own
 
 | Dataset | Publisher | License / terms | Restrictions |
 | ------- | --------- | --------------- | ------------ |
-| ACS 5-year, TIGER/Line, CBSA, PEP housing units, Building Permits Survey, 2020 place codes | U.S. Census Bureau | Public domain | none |
+| ACS 5-year, TIGER/Line (incl. 2020 tabulation blocks), CBSA, PEP housing units, Building Permits Survey, 2020 place codes | U.S. Census Bureau | Public domain | none |
 | IPEDS HD2023 | NCES | Public domain | none |
 | BLS CES/PPI, BLS QCEW, FHFA HPI, NTD, USGS NLCD (samples only) | Federal agencies | Public domain | none |
 | NASA MODIS land cover (sample only) | NASA | NASA open data, no restrictions | none |
@@ -99,7 +99,7 @@ The repository's Apache-2.0 license covers code only. Each dataset keeps its own
 | Madison permit report, Pleasant Prairie SmartGov report, Sun Prairie Power BI report | Local governments | not stated (public records) | owner and contractor fields dropped; raw not redistributed |
 | Madison parcels, address points, zoning | City of Madison | City of Madison open data terms | none known |
 | Wisconsin V-series / V12 statewide parcels | Wisconsin DOA / State Cartographer's Office | Public (Wis. Stat. 59.72) | owner fields not used |
-| Wisconsin Assembly districts | Wisconsin LTSB | open, use at own risk | none known |
+| Wisconsin Assembly and Senate districts, 2024 plan (simplified outlines in the tool bundle) | Wisconsin LTSB | open, use at own risk | none known |
 | Wisconsin DOA Comp Plan and Land Regs Inventory; county zoning pages | Wisconsin DOA; counties | not stated (public records) | none known |
 | Wisconsin city permit reports: Green Bay, De Pere, Howard, Kaukauna, Neenah, Verona, Watertown, Waunakee, Fitchburg | Local governments | not stated (public records) | raw files hold names; not redistributed |
 | Milwaukee building permits and MPROP | City of Milwaukee | CC-BY | attribution |

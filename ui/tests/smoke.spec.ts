@@ -8,7 +8,8 @@ const sum = (xs: number[]) => xs.reduce((a, b) => a + b, 0);
 async function bundle(page: Page) {
   const { run_id } = await (await page.request.get("runs/latest.json")).json();
   const get = async (f: string) => (await page.request.get(`runs/${run_id}/${f}`)).json();
-  return { run_id, state: await get("state.json"), pilots: await get("pilots.json"), areas: await get("areas.json") };
+  return { run_id, state: await get("state.json"), pilots: await get("pilots.json"), areas: await get("areas.json"),
+    unknown: await get("unknown_rules.json"), districts: await get("districts.json") };
 }
 const SCREENS = ["today", "compare", "where", "how-sure", "why", "pilot/madison", "pilot/pleasant-prairie", "pilot/sun-prairie", "brief"];
 
@@ -161,7 +162,7 @@ test("Madison's different treatment is explained on its pilot page and only when
   await page.getByRole("radio", { name: "Cities, villages and towns" }).check();
   await page.locator("#q").fill("Madison city");
   await page.getByRole("button", { name: "Details for Madison city" }).click();
-  await expect(page.getByTestId("detail-madison-note")).toContainText("Gate 5");
+  await expect(page.getByTestId("detail-madison-note")).toContainText("December 2026");
   await page.locator("#q").fill("Middleton city");
   await page.getByRole("button", { name: "Details for Middleton city" }).click();
   await expect(page.getByTestId("detail-madison-note")).toHaveCount(0);
@@ -216,4 +217,91 @@ test("scenario choice is kept in the URL and the current tab is in view", async 
   await page.goto("#/brief");
   const tab = page.locator('nav.tabs a[aria-current="page"]');
   await expect(tab).toBeInViewport();
+});
+
+// ---- Gate 5 -------------------------------------------------------------------------------
+test("unknown-rules switch shows each precomputed run", async ({ page }) => {
+  const b = await bundle(page);
+  await page.goto("#/how-sure");
+  await expect(page.getByTestId("trace-summary")).toContainText("73.4%");
+  await expect(page.getByTestId("trace-summary")).toContainText("5.5%");
+  await expect(page.getByTestId("trace-summary")).toContainText("21.1%");
+  for (const v of b.unknown.variants) {
+    await page.locator(`input[name="unk-howsure"][value="${v.id}"]`).check();
+    await expect(page.getByTestId("unk-baseline")).toHaveText(fmt(v.baseline_total));
+    await expect(page.getByTestId("unk-additional")).toHaveText("+" + fmt(v.additional_total.central));
+    await expect(page.getByTestId("unk-total")).toHaveText(fmt(v.with_law_total.central));
+  }
+  // the choice carries to the Where map, where counties reconcile to that run's statewide figures
+  await expect(page).toHaveURL(/u=like_benchmark/);
+  await page.goto("#/where?u=like_benchmark");
+  const ben = b.unknown.variants.find((v: { id: string }) => v.id === "like_benchmark");
+  await expect(page.getByTestId("reconcile")).toContainText("✓");
+  await expect(page.getByTestId("reconcile")).toContainText(fmt(ben.additional_by_year.central.reduce((a: number, x: number) => a + x, 0)));
+  await expect(page.getByTestId("reconcile")).toContainText(fmt(ben.baseline_by_year.reduce((a: number, x: number) => a + x, 0)));
+});
+
+test("districts reconcile to the state and disable the unknown-rules switch", async ({ page }) => {
+  const b = await bundle(page);
+  const cen = b.state.scenarios.find((s: { id: string }) => s.id === "central");
+  await page.goto("#/where?u=like_prohibited");
+  for (const i of await page.getByTestId("unknown-switch").locator("input").all()) await expect(i).toBeEnabled();
+  for (const [name, n] of [["Assembly districts", 99], ["Senate districts", 33]] as const) {
+    await page.getByRole("radio", { name }).check();
+    const sw = page.getByTestId("unknown-switch");
+    for (const i of await sw.locator("input").all()) await expect(i).toBeDisabled();
+    await expect(sw.locator('input[value="like_restricted"]')).toBeChecked();
+    await expect(page.getByTestId("unknown-note")).toContainText("adopted assumption only");
+    const rec = page.getByTestId("reconcile");
+    await expect(rec).toContainText("✓");
+    await expect(rec).toContainText(`${n} ${name}`);
+    await expect(rec).toContainText("not allocated to a district");
+    await expect(rec).toContainText(fmt(cen.additional_total));
+    await expect(page.getByTestId("unallocated-row")).toContainText("Not allocated to a district");
+    await expect(page.getByTestId("where-table").locator("tbody tr")).toHaveCount(n);
+    await expect(page.getByTestId("district-caveat")).toContainText("2020 census blocks");
+  }
+  await page.getByRole("button", { name: "Details for Senate District 26" }).click();
+  await expect(page.getByTestId("district-places")).toContainText("Madison city");
+  // back to municipalities: the switch is live again with the reader's choice
+  await page.getByRole("radio", { name: "Cities, villages and towns" }).check();
+  for (const i of await page.getByTestId("unknown-switch").locator("input").all()) await expect(i).toBeEnabled();
+  await expect(page.locator('input[name="unk-where"][value="like_prohibited"]')).toBeChecked();
+});
+
+test("keyboard: unknown-rules switch and district view", async ({ page, isMobile }) => {
+  test.skip(isMobile, "keyboard test runs on desktop");
+  const b = await bundle(page);
+  await page.goto("#/how-sure");
+  const first = page.locator('input[name="unk-howsure"][value="like_restricted"]');
+  await first.focus();
+  await page.keyboard.press("ArrowRight");
+  const pro = page.locator('input[name="unk-howsure"][value="like_prohibited"]');
+  await expect(pro).toBeChecked();
+  await expect(pro).toBeFocused();
+  const v = b.unknown.variants.find((x: { id: string }) => x.id === "like_prohibited");
+  await expect(page.getByTestId("unk-baseline")).toHaveText(fmt(v.baseline_total));
+  await page.goto("#/where");
+  const munis = page.locator('input[name="geo"][value="munis"]');
+  await munis.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator('input[name="geo"][value="assembly"]')).toBeChecked();
+  await expect(page.locator('input[name="geo"][value="assembly"]')).toBeFocused();
+  for (const i of await page.getByTestId("unknown-switch").locator("input").all()) await expect(i).toBeDisabled();
+  await page.locator('button[data-sel="asm:79"]').focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#detail-h")).toHaveText("Assembly District 79");
+});
+
+test("landing screen labels general production apart from ADU forecasts", async ({ page }) => {
+  const b = await bundle(page);
+  await page.goto("#/today");
+  await expect(page.getByTestId("production-rate")).toContainText("9.0");
+  await expect(page.getByTestId("production-rate")).toContainText("per 1,000 housing units");
+  await expect(page.locator("#t-vac")).toContainText("including seasonal");
+  await expect(page.locator("main")).toContainText("five-year average");
+  await expect(page.locator("#adu-sum")).toContainText("ADU forecasts");
+  await page.getByText("Show the data").nth(1).click();
+  await expect(page.getByTestId("bps-table")).toContainText("census_bps_state");
+  expect(b.state.production_rate.numerator).toBe(25569);
 });

@@ -38,6 +38,8 @@ class TestUIBundle(unittest.TestCase):
         cls.unc = strict_load(d / "uncertainty.json")
         cls.pilots = strict_load(d / "pilots.json")
         cls.scen = {s["id"]: s for s in cls.state["scenarios"]}
+        cls.unk = strict_load(d / "unknown_rules.json")
+        cls.dist = strict_load(d / "districts.json")
 
     def test_files_and_size(self):
         for f in self.manifest["files"]:
@@ -170,7 +172,7 @@ class TestUIBundle(unittest.TestCase):
     def test_madison_note_present(self):
         # Gate 4 verification B2: Madison's different treatment is explained wherever its numbers appear
         mad = next(p for p in self.pilots if p["slug"] == "madison")
-        self.assertIn("Gate 5", mad["note"])
+        self.assertIn("December 2026", mad["note"])
         self.assertEqual(sum(1 for a in self.areas["munis"] if a.get("note")), 1)
 
     def test_labels_come_from_the_bundle(self):
@@ -230,6 +232,112 @@ class TestUIBundle(unittest.TestCase):
         spec.loader.exec_module(mod)
         _, run_id = mod.load_inputs()
         self.assertEqual(run_id, self.run_id, "bundle is stale: rerun scripts/build_ui_bundle.py")
+
+    # ---- Gate 5: unknown-rules switch -------------------------------------------------------
+    def test_unknown_rules_switch_equals_csv(self):
+        st = {(r["unknown_treatment"], r["path"]): r for r in rows("adu_model_unknown_rules_statewide.csv")}
+        by = {(r["unknown_treatment"], r["path"], int(r["forecast_year"])): r for r in rows("adu_model_unknown_rules_statewide_by_year.csv")}
+        ids = [v["id"] for v in self.unk["variants"]]
+        self.assertEqual(ids, ["like_restricted", "like_prohibited", "like_benchmark"])
+        self.assertEqual(self.unk["uncoded_homes"], 1_267_433)
+        self.assertEqual(self.unk["state_homes"], 1_839_569)
+        self.assertEqual(len({r["run_group_id"] for r in st.values()} | {self.unk["run_group_id"]}), 1)
+        for v in self.unk["variants"]:
+            for p in PATHS:
+                r = st[(v["id"], p)]
+                self.assertAlmostEqual(v["additional_total"][p], float(r["additional_units"]), places=1)
+                self.assertAlmostEqual(v["with_law_total"][p], float(r["total_with_law"]), places=1)
+                self.assertAlmostEqual(v["d_with_law"][p], float(r["d_total_with_law"]), places=1)
+                self.assertAlmostEqual(v["baseline_total"], float(r["baseline_units"]), places=1)
+                for i, y in enumerate(range(2027, 2032)):
+                    self.assertAlmostEqual(v["additional_by_year"][p][i], float(by[(v["id"], p, y)]["additional_units"]), places=1)
+                    self.assertAlmostEqual(v["with_law_by_year"][p][i], float(by[(v["id"], p, y)]["total_with_law"]), places=1)
+            self.assertLessEqual(v["additional_total"]["lower"], v["additional_total"]["central"])
+            self.assertLessEqual(v["additional_total"]["central"], v["additional_total"]["upper"])
+        # the adopted variant is every other number in the tool
+        ad = self.unk["variants"][0]
+        self.assertTrue(ad["adopted"])
+        self.assertAlmostEqual(ad["baseline_total"], self.state["baseline"]["total"], places=1)
+        for p in PATHS:
+            self.assertAlmostEqual(ad["additional_total"][p], self.scen[p]["additional_total"], places=1)
+        self.assertNotIn("like_restricted", self.unk["areas"])
+        # the plain-language figures quoted on screen (docs/gate5/UI_CONTRACT.md)
+        pro, ben = self.unk["variants"][1], self.unk["variants"][2]
+        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (418, 8915, 9333))
+        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (1409, 8072, 9481))
+
+    def test_unknown_rules_areas_and_counties_reconcile(self):
+        munis = {a["id"]: a for a in self.areas["munis"]}
+        ref = {(r["unknown_treatment"], r["parent_county_id"], r["path"]): r for r in rows("adu_model_unknown_rules_by_county.csv")}
+        for v in self.unk["variants"][1:]:
+            ov = self.unk["areas"][v["id"]]
+            # only places with uncoded rules change
+            self.assertTrue(ov)
+            self.assertTrue(all(munis[a]["x_status"] == "assumed" for a in ov))
+            for p in PATHS:
+                for i in range(5):
+                    tot = sum((ov[a["id"]]["add"][p] if a["id"] in ov else a["add"][p])[i] for a in self.areas["munis"])
+                    self.assertAlmostEqual(tot, v["additional_by_year"][p][i], delta=0.05, msg=f"{v['id']} {p} {i}")
+            for i in range(5):
+                tot = sum((ov[a["id"]]["base"] if a["id"] in ov else a["base"])[i] for a in self.areas["munis"])
+                self.assertAlmostEqual(tot, v["baseline_by_year"][i], delta=0.05)
+            cv = self.unk["counties"][v["id"]]
+            for c in self.areas["counties"]:
+                cc = cv.get(c["id"], c)
+                for p in PATHS:
+                    self.assertAlmostEqual(sum(cc["add"][p]), float(ref[(v["id"], c["id"], p)]["additional_units"]), delta=0.01)
+
+    # ---- Gate 5: legislative districts ------------------------------------------------------
+    def test_districts_reconcile_to_state(self):
+        for level, n in (("assembly", 99), ("senate", 33)):
+            L = self.dist["levels"][level]
+            self.assertEqual(len(L["rows"]), n)
+            un = L["unallocated"]
+            self.assertEqual(un["name"], "Not allocated to a district")   # kept, never dropped
+            for p in PATHS:
+                for i in range(5):
+                    tot = sum(d["add"][p][i] for d in L["rows"]) + un["add"][p][i]
+                    self.assertAlmostEqual(tot, self.scen[p]["additional_by_year"][i], delta=0.01, msg=f"{level} {p} {i}")
+            for i in range(5):
+                self.assertAlmostEqual(sum(d["base"][i] for d in L["rows"]) + un["base"][i], self.state["baseline"]["by_year"][i], delta=0.01)
+            self.assertAlmostEqual(sum(d["homes"] for d in L["rows"]) + un["homes"], 1_839_569, delta=5)
+            # each district equals its reference row (five-year totals)
+            ref = {(r["district"], r["path"]): r for r in rows(f"adu_model_by_{level}_district.csv") if r["forecast_year"] == "2027-2031"}
+            for d in L["rows"] + [un]:
+                for p in PATHS:
+                    self.assertAlmostEqual(sum(d["add"][p]), float(ref[(d["district"], p)]["additional_units"]), delta=0.001)
+                self.assertAlmostEqual(sum(d["base"]), float(ref[(d["district"], "central")]["baseline_units"]), delta=0.001)
+        asm = {int(d["district"]): d for d in self.dist["levels"]["assembly"]["rows"]}
+        for sd in self.dist["levels"]["senate"]["rows"]:
+            self.assertEqual(len(sd["assembly"]), 3)
+            for p in PATHS:
+                self.assertAlmostEqual(sum(sum(asm[a]["add"][p]) for a in sd["assembly"]), sum(sd["add"][p]), delta=0.01)
+        self.assertIn("2020 census blocks", self.dist["caveat"])
+        self.assertIn("not forecasts", self.dist["caveat"])
+
+    def test_district_geometry_is_in_the_bundle(self):
+        # copied from data/processed (git-ignored) so a fresh clone draws districts; polygons only, small
+        for level, n in (("assembly", 99), ("senate", 33)):
+            g = strict_load(self.dir / f"geo_{level}.json")
+            self.assertEqual(len(g["features"]), n)
+            self.assertLessEqual({f["geometry"]["type"] for f in g["features"]}, {"Polygon", "MultiPolygon"})
+            ids = {f["properties"]["id"] for f in g["features"]}
+            self.assertEqual(ids, {d["id"] for d in self.dist["levels"][level]["rows"]})
+            self.assertLess((self.dir / f"geo_{level}.json").stat().st_size, 250_000)
+        lab = strict_load(self.dir / "geo_district_labels.json")
+        self.assertEqual({f["geometry"]["type"] for f in lab["features"]}, {"Point"})
+        self.assertEqual(sum(f["properties"]["kind"] == "assembly" for f in lab["features"]), 99)
+        self.assertEqual(sum(f["properties"]["kind"] == "senate" for f in lab["features"]), 33)
+
+    def test_landing_screen_indicators(self):
+        pr = self.state["production_rate"]
+        self.assertEqual((pr["numerator"], pr["denominator"], pr["value"]), (25569, 2840960, 9.0))
+        self.assertTrue(all(b["source_id"] == "census_bps_state" for b in self.state["bps"] if b["total"] is not None))
+        self.assertIn("five years", self.state["acs_period"])
+        tr = {t["status"]: t for t in self.unc["trace"]}
+        tot = sum(t["additional_central"] for t in tr.values())
+        self.assertAlmostEqual(tot, self.scen["central"]["additional_total"], delta=0.05)
+        self.assertEqual([round(tr[k]["additional_central"] / tot * 100, 1) for k in ("observed", "estimated", "assumed")], [5.5, 21.1, 73.4])
 
 
 if __name__ == "__main__":

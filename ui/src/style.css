@@ -293,3 +293,16 @@ details.more[open] > summary { margin-bottom: 4px; }
 .pilot-name { font-size: 1.5rem; margin: 18px 0 6px; }
 .check { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
 .check input { width: 20px; height: 20px; }
+
+/* Unknown-rules switch (How sure, and compact on Where; disabled in district views) */
+.unk-picker { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 8px 0; display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; }
+.unk-picker legend { font-weight: 600; font-size: 0.93rem; padding: 0 4px; }
+.unk-picker label { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; min-height: 40px; background: #fff; cursor: pointer; font-size: 0.93rem; }
+.unk-picker label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+.unk-picker input { accent-color: var(--accent); }
+.unk-picker[disabled] label { opacity: 0.55; cursor: not-allowed; }
+.unk-picker p { flex-basis: 100%; margin: 2px 0 0; }
+.unk-inline { flex-basis: 100%; }
+.small-h { font-size: 0.95rem; margin: 10px 0 4px; }
+.delta { font-size: 0.85rem; color: var(--muted, #5b625f); }
+.section-h { font-size: 1.1rem; margin: 18px 0 0; }

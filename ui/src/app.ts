@@ -1,5 +1,5 @@
 // Shared application state and helpers used by every screen.
-import type { Bundle, PathId, Scenario } from "./data";
+import type { Bundle, PathId, Scenario, UnknownId, UnknownVariant } from "./data";
 import { esc, int } from "./format";
 
 export const COLORS = {
@@ -12,12 +12,14 @@ export const COLORS = {
 };
 export const DASH: Record<string, string | undefined> = { baseline: "7 5", lower: "2 4", central: undefined, upper: "9 3 2 3", ref: "12 4 3 4" };
 
-export interface UIState { scenario: PathId; year: number }
+/** unknown: how places with uncoded local ADU rules are treated (precomputed runs; "like_restricted" is adopted). */
+export interface UIState { scenario: PathId; year: number; unknown: UnknownId }
 
 export interface Ctx {
   b: Bundle;
   ui: UIState;
   setScenario(p: PathId): void;
+  setUnknown(u: UnknownId): void;
   scen(p?: PathId): Scenario;
   link(path: string): string;
 }
@@ -83,3 +85,20 @@ export function pilotBanner(role: string): string {
 
 /** The modeled statewide benchmark law (challenge handbook text plus AQ-022 and AQ-030). */
 export const LAW_TEXT = "The modeled statewide law allows one ADU on every lot with an existing single-family home: detached or semi-detached (attached), at least 600 sq ft, including garage conversions, with no additional parking and no owner-occupancy or related-occupant requirement.";
+
+export function unknownVariant(ctx: Ctx, id?: UnknownId): UnknownVariant {
+  return ctx.b.unknown.variants.find((v) => v.id === (id ?? ctx.ui.unknown))!;
+}
+
+/** Radio group for the unknown-rules assumption. `disabled` greys it out (district views: adopted run only). */
+export function unknownPicker(ctx: Ctx, name: string, disabled = false, note = ""): string {
+  const u = ctx.b.unknown;
+  return `<fieldset class="unk-picker" ${disabled ? "disabled" : ""} data-testid="unknown-switch"><legend>Places whose local ADU rules we have not coded (${Math.round((u.uncoded_homes / u.state_homes) * 100)}% of single-family homes) behave…</legend>
+    ${u.variants.map((v) => `<label><input type="radio" name="${esc(name)}" value="${v.id}" ${(disabled ? v.adopted : ctx.ui.unknown === v.id) ? "checked" : ""}> ${esc(v.label)}</label>`).join("")}
+    ${note ? `<p class="small muted" data-testid="unknown-note">${esc(note)}</p>` : ""}</fieldset>`;
+}
+
+export function bindUnknownPicker(ctx: Ctx, root: HTMLElement, name: string): void {
+  root.querySelectorAll<HTMLInputElement>(`input[name="${name}"]`).forEach((inp) =>
+    inp.addEventListener("change", () => { if (inp.checked) ctx.setUnknown(inp.value as UnknownId); }));
+}
