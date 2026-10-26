@@ -657,6 +657,26 @@ These supersede the 2026-10-26 figures quoted in AQ-044.
 10. **T2 and T3 (owner, 2026-10-26):** the stylized start date of 1 January 2027 is approved. Amtrak stations are dropped, because SB 79 counts commuter rail only at 48 or more trains a day. The main case is therefore 313,357 homes near stops.
 11. **T1:** the outcome is housing units at permit issuance, by building size. This is taken as approved with item 8, since the owner approved a rate measured in homes permitted.
 
+## AQ-048 Parking Gate 1 and Gate 2 decisions
+
+**Status:** Adopted (owner, 2026-10-26: "Yes to all for now"). **Added:** 2026-10-26. **Related:** [docs/parking/GATE1_PACKET.md](parking/GATE1_PACKET.md), [docs/parking/GATE2_PACKET.md](parking/GATE2_PACKET.md), AQ-046.
+
+- **Gate 1 (P1–P9, as recommended):**
+  - outcome is housing units at permit issuance, by building size;
+  - the stylized law starts 1 January 2027;
+  - full removal of minimums for all housing;
+  - developer-provided parking taken from post-repeal studies;
+  - evidence from US repeal places, each checked against its ordinance;
+  - places already at the benchmark get no addition;
+  - Milwaukee's 3–4 and 5+ unit permit series is replaced by an estimate from the city's property file (MPROP), as a labelled adjustment, with Census-as-published kept as a sensitivity (P8);
+  - the baseline range is Wisconsin's long-run 10th–90th percentile (P9).
+- **Gate 2 (G2-1 to G2-5, as recommended):**
+  - option A: the central case is no measurable change;
+  - the upper case is the high end of the likely range for all units, +2.21 permits per 1,000 existing homes per year (about 29,700 over 2027–2031), with the apartments-only bound (about 14,200) and the without-San Francisco bound (about 41,700) as sensitivities;
+  - years 4–5 are held at the year 1–3 level, labelled as an assumption;
+  - one average, with the size-and-metro model as a sensitivity;
+  - no cost-based line for now.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -776,3 +796,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-26 | AQ-046 | Parking: owner read the mixed result for small repeal places (7 of 16 above comparison places, 8 below) as evidence that fits expectations. Model different city sizes differently, with a multi-variable regression across US repeal cities to find the cut-offs and the effect by city type; held-out cities decide. |
 | 2026-10-26 | AQ-047 | TOD Gate 1: density rules from measured cases, keeping the most effective well-measured designs; no affordability mandate; parking minimums left to the parking scenario, with TOD alone, parking alone and both combined shown; two methods with the Madison test (Chicago fallback); scenario names from real cases; places already at TOD zoning depend on the evidence; "Where" by station areas. T1 to T3 still open. |
 | 2026-10-26 | AQ-046 | Parking: first full comparison of 24 US repeal places found no measurable average permit change over 3 years (−1.29 per 1,000 existing homes per year, range −3.68 to +2.33), and no size split beat one average. Owner accepted option A "if necessary": central = no measurable change; upper = top of the range the data allow; no lower case below zero (docs/parking/COMPARISON_RESULTS.md). |
+| 2026-10-26 | AQ-048 | Parking: owner approved Gate 1 P1–P9 and Gate 2 G2-1 to G2-5 as recommended ("yes to all for now"): option A with the all-units upper case, flat years 4–5, one average, no cost line; Milwaukee MPROP adjustment to the baseline; long-run baseline range. |
