@@ -1,0 +1,16 @@
+lot,x,y,side_m,district,use_class,homes,in_overlay,expect_band
+a,500100,300000,63.6149,LOW,single_family,1,0,rapid_quarter
+b,500600,300000,63.6149,LOW,single_family,1,0,rapid_half
+c,500000,300600,63.6149,MID,multifamily,50,0,rapid_half
+d,505100,300000,63.6149,HIGH,multifamily,30,0,bus15_quarter
+e,505000,300300,63.6149,TALL,commercial,0,1,bus15_quarter
+f,505000,299700,63.6149,TALL,commercial,0,0,bus15_quarter
+g,510100,300000,63.6149,LOW,two_family,2,0,bus20_quarter
+h,510600,300000,63.6149,PD,multifamily,12,0,bus20_half
+i,505600,300000,63.6149,PD,vacant,0,0,bus15_half
+j,500000,299900,63.6149,DT,commercial,0,0,rapid_quarter
+k,500000,299800,63.6149,IND,industrial,0,0,rapid_quarter
+l,500200,300100,63.6149,LOW,institutional,0,0,rapid_quarter
+m,500300,299900,63.6149,PARK,park_open_space,0,0,rapid_quarter
+n,500000,301500,63.6149,LOW,single_family,1,0,
+o,500150,300150,63.6149,ZZZ,commercial,0,0,rapid_quarter

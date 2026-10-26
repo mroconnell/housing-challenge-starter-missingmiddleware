@@ -1,0 +1,305 @@
+"""Download the land and zoning inputs for the TOD station-area tables (TOD Gate 2, WP4).
+
+    uv run --all-extras python scripts/fetch_tod_parcels_zoning.py [--only v12|mke_zoning|mad_zoning|docs]
+
+Needs network and reference/tod_stops.csv (built by scripts/build_tod_stops.py).
+
+Raw (git-ignored), all under data/raw/tod_capacity/:
+- v12_milwaukee.geojson, v12_dane.geojson: Wisconsin V12 statewide parcels (SCO / DOA REST service) for
+  Milwaukee and Dane counties, only parcels intersecting a 0.6-mile buffer of the qualifying stops in
+  reference/tod_stops.csv (every stop there, i.e. the widest major-stop definition (c), so the main case,
+  the high case and the all-1/2-mile sensitivities are all covered with a margin). Owner and address
+  fields are never requested.
+- mke_zoning.geojson: City of Milwaukee zoning districts (planning/zoning MapServer layer 11, CC BY),
+  same spatial filter.
+- mad_zoning.geojson: City of Madison zoning districts (Public/OPEN_DATA MapServer layer 9), whole city.
+- docs/: the source documents behind the hand-coded zoning rule tables (reference/tod_zoning_rules_*.csv):
+  Madison's Zoning District Summary PDF (live) and Internet Archive copies of Milwaukee Chapter 295
+  subchapters 5, 6 and 7 (the city site returns a Cloudflare challenge to scripts; owner decision D2).
+- manifest.json: URL, access time (UTC), bytes, SHA-256, licence or terms, feature counts, and the
+  already-present raw files reused (Madison tax parcels, Madison TOD overlay, Milwaukee MPROP).
+
+Method and rules: docs/tod/STATION_AREAS.md, docs/tod/research/WI_CAPACITY_DATA.md.
+"""
+from __future__ import annotations
+
+import argparse
+import concurrent.futures as cf
+import datetime as dt
+import hashlib
+import json
+import sys
+import time
+import urllib.parse
+import urllib.request
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
+
+D = RAW / "tod_capacity"
+UA = {"User-Agent": "missing-middleware research (housing policy model)"}
+CRS_M = 3071  # Wisconsin Transverse Mercator (NAD83(HARN)), metres
+MILE_M = 1609.344
+BUFFER_MILES = 0.6
+CELL_M = 2000.0
+
+V12_URL = "https://services3.arcgis.com/n6uYoouQZW75n5WI/arcgis/rest/services/Wisconsin_Statewide_Parcels_DB/FeatureServer/0"
+# No owner, mailing-address or site-address fields (privacy rule, LESSONS_FROM_ADU section 4).
+V12_FIELDS = ("OBJECTID,STATEID,PARCELID,TAXPARCELID,TAXROLLYEAR,PLACENAME,CONAME,PROPCLASS,AUXCLASS,"
+              "LNDVALUE,IMPVALUE,ESTFMKVALUE,ASSDACRES,DEEDACRES,GISACRES,PARCELFIPS")
+V12_LICENCE = "Public records (Wis. Stat. 59.72); SCO: 'provided free of charge', no warranty"
+MKE_ZONING_URL = "https://milwaukeemaps.milwaukee.gov/arcgis/rest/services/planning/zoning/MapServer/11"
+MKE_ZONING_LICENCE = "Creative Commons Attribution (data.milwaukee.gov dataset 'zoning'), City of Milwaukee"
+MAD_ZONING_URL = "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA/MapServer/9"
+MAD_LICENCE = "City of Madison open data; no licence stated on the service (public record, D1)"
+COUNTIES = {"milwaukee": ("079", "MILWAUKEE"), "dane": ("025", "DANE")}
+COUNTY_FILE = RAW / "census_cb_2024" / "cb_2024_us_county_500k.zip"
+
+MKE_CODE = "https://city.milwaukee.gov/ImageLibrary/Groups/ccClerk/Ordinances/Volume-2/CH295-sub{n}.pdf"
+SOURCE_DOCS = {
+    "madison_zoning_district_summary_2026-03-13.pdf": {
+        "url": "https://www.cityofmadison.com/development-services-center/documents/ZoningTable.pdf",
+        "terms": "Public record (D1); City of Madison Zoning District Summary dated 13 March 2026"},
+    "milwaukee_ch295_sub5.pdf": {
+        "url": "https://web.archive.org/web/20250324000000id_/" + MKE_CODE.format(n=5), "original": MKE_CODE.format(n=5),
+        "terms": "Public law; Internet Archive copy (owner decision D2) because the city site blocks scripts"},
+    "milwaukee_ch295_sub6.pdf": {
+        "url": "https://web.archive.org/web/20250323000000id_/" + MKE_CODE.format(n=6), "original": MKE_CODE.format(n=6),
+        "terms": "Public law; Internet Archive copy (owner decision D2) because the city site blocks scripts"},
+    "milwaukee_ch295_sub7.pdf": {
+        "url": "https://web.archive.org/web/20250809000000id_/" + MKE_CODE.format(n=7), "original": MKE_CODE.format(n=7),
+        "terms": "Public law; Internet Archive copy (owner decision D2) because the city site blocks scripts"},
+    "milwaukee_ch295_sub8.pdf": {
+        "url": "https://web.archive.org/web/20250310131106id_/" + MKE_CODE.format(n=8), "original": MKE_CODE.format(n=8),
+        "terms": "Public law; Internet Archive copy (owner decision D2) because the city site blocks scripts"},
+    "milwaukee_ch295_sub9.pdf": {
+        "url": "https://web.archive.org/web/20261011062849id_/" + MKE_CODE.format(n=9), "original": MKE_CODE.format(n=9),
+        "terms": "Public law; Internet Archive copy (owner decision D2) because the city site blocks scripts"},
+}
+REUSED = {  # raw files already in the repo that the build reads; recorded, not refetched
+    "madison_parcels/tax_parcels.geojson": "City of Madison tax parcels (see data/raw/madison_parcels/manifest.json)",
+    "madison_tod/tod_boundary.geojson": "City of Madison TOD overlay boundary (MGO 28.104)",
+    "milwaukee_mprop/mprop.csv": "City of Milwaukee Master Property file (CC BY, data.milwaukee.gov)",
+}
+
+
+def _now() -> str:
+    return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _get(url: str, data: dict | None = None, timeout: int = 180, retries: int = 4, final: list | None = None) -> bytes:
+    body = urllib.parse.urlencode(data).encode() if data is not None else None
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, data=body, headers=UA), timeout=timeout) as r:
+                if final is not None:
+                    final.append(r.geturl())
+                return r.read()
+        except Exception:
+            if attempt == retries - 1:
+                raise
+            time.sleep(8 * (attempt + 1))
+    raise RuntimeError("unreachable")
+
+
+def _sha(path: Path) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def stop_buffers():
+    """{county key: (buffer polygon in EPSG:3071, county polygon in EPSG:3071)} for qualifying stops."""
+    import geopandas as gpd
+    import pandas as pd
+
+    stops = pd.read_csv(REFERENCE / "tod_stops.csv", dtype={"stop_id": str, "ntd_id": str})
+    pts = gpd.GeoDataFrame(stops, geometry=gpd.points_from_xy(stops.lon, stops.lat), crs=4326).to_crs(CRS_M)
+    counties = gpd.read_file(f"zip://{COUNTY_FILE}")
+    out = {}
+    for key, (fips, _) in COUNTIES.items():
+        poly = counties[(counties.STATEFP == "55") & (counties.COUNTYFP == fips)].to_crs(CRS_M).geometry.union_all()
+        # stops inside the county or within the buffer distance of it
+        near = pts[pts.distance(poly) <= BUFFER_MILES * MILE_M]
+        buf = near.buffer(BUFFER_MILES * MILE_M, quad_segs=16).union_all().intersection(poly.buffer(200))
+        out[key] = (buf, poly, len(near))
+    return out
+
+
+def grid_cells(area, cell: float = CELL_M) -> list[tuple[float, float, float, float]]:
+    from shapely.geometry import box
+
+    x0, y0, x1, y1 = area.bounds
+    cells = []
+    y = y0
+    while y < y1:
+        x = x0
+        while x < x1:
+            b = (x, y, x + cell, y + cell)
+            if area.intersects(box(*b)):
+                cells.append(b)
+            x += cell
+        y += cell
+    return cells
+
+
+def query_envelope(url: str, env: tuple, fields: str, where: str = "1=1", page: int = 2000) -> list[dict]:
+    """All GeoJSON features of an ArcGIS layer intersecting an EPSG:3071 envelope (paged)."""
+    feats, off = [], 0
+    while True:
+        p = dict(where=where, geometry=",".join(f"{v:.1f}" for v in env), geometryType="esriGeometryEnvelope",
+                 inSR=CRS_M, spatialRel="esriSpatialRelIntersects", outFields=fields, returnGeometry="true",
+                 outSR=4326, geometryPrecision=6, f="geojson", resultOffset=off, resultRecordCount=page,
+                 orderByFields="OBJECTID")
+        d = json.loads(_get(url + "/query", p))
+        if "error" in d:
+            raise RuntimeError(f"{url}: {d['error']}")
+        f = d.get("features", [])
+        feats += f
+        more = d.get("exceededTransferLimit") or d.get("properties", {}).get("exceededTransferLimit")
+        if not f or (len(f) < page and not more):
+            break
+        off += len(f)
+    return feats
+
+
+def fetch_layer_in_buffer(url: str, fields: str, where: str, area, label: str, workers: int = 6) -> list[dict]:
+    import geopandas as gpd
+
+    cells = grid_cells(area)
+    print(f"{label}: {len(cells)} cells of {CELL_M / 1000:.0f} km", flush=True)
+    by_id: dict = {}
+    with cf.ThreadPoolExecutor(workers) as ex:
+        futs = {ex.submit(query_envelope, url, c, fields, where): c for c in cells}
+        for i, fu in enumerate(cf.as_completed(futs), 1):
+            for f in fu.result():
+                by_id[f["properties"]["OBJECTID"]] = f
+            if i % 50 == 0:
+                print(f"  {i}/{len(cells)} cells, {len(by_id)} features", flush=True)
+    feats = [f for f in by_id.values() if f.get("geometry")]
+    if not feats:
+        return []
+    g = gpd.GeoDataFrame.from_features(feats, crs=4326).to_crs(CRS_M)
+    keep = g.intersects(area).to_numpy()
+    out = [f for f, k in zip(feats, keep) if k]
+    out.sort(key=lambda f: f["properties"]["OBJECTID"])
+    print(f"{label}: {len(by_id)} features in cells, {len(out)} intersect the buffer", flush=True)
+    return out
+
+
+def _write_geojson(path: Path, feats: list[dict]) -> None:
+    path.write_text(json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":")))
+
+
+def fetch_v12(manifest: dict, bufs: dict) -> None:
+    for key, (buf, _, n_stops) in bufs.items():
+        coname = COUNTIES[key][1]
+        acc = _now()
+        feats = fetch_layer_in_buffer(V12_URL, V12_FIELDS, f"CONAME='{coname}'", buf, f"V12 {coname}")
+        path = D / f"v12_{key}.geojson"
+        _write_geojson(path, feats)
+        manifest["files"][path.name] = {
+            "url": V12_URL, "layer": "V1200_WisconsinParcels_2026", "where": f"CONAME='{coname}'",
+            "spatial_filter": f"parcels intersecting a {BUFFER_MILES}-mile buffer of {n_stops} stops in reference/tod_stops.csv (EPSG:{CRS_M})",
+            "fields": V12_FIELDS, "features": len(feats), "accessed_utc": acc, "bytes": path.stat().st_size,
+            "sha256": _sha(path), "licence": V12_LICENCE}
+
+
+def fetch_mke_zoning(manifest: dict, bufs: dict) -> None:
+    buf = bufs["milwaukee"][0]
+    acc = _now()
+    feats = fetch_layer_in_buffer(MKE_ZONING_URL, "OBJECTID,Zoning,ZoningCategory,ZoningType", "1=1", buf, "MKE zoning")
+    path = D / "mke_zoning.geojson"
+    _write_geojson(path, feats)
+    manifest["files"][path.name] = {
+        "url": MKE_ZONING_URL, "spatial_filter": f"polygons intersecting the {BUFFER_MILES}-mile stop buffer, Milwaukee County",
+        "fields": "OBJECTID,Zoning,ZoningCategory,ZoningType", "features": len(feats), "accessed_utc": acc,
+        "bytes": path.stat().st_size, "sha256": _sha(path), "licence": MKE_ZONING_LICENCE}
+
+
+def fetch_mad_zoning(manifest: dict) -> None:
+    acc = _now()
+    feats, off = [], 0
+    while True:
+        p = dict(where="1=1", outFields="OBJECTID,ZONING_CODE,ZON_PREFIX,PD_ID", returnGeometry="true", outSR=4326,
+                 geometryPrecision=6, f="geojson", resultOffset=off, resultRecordCount=1000, orderByFields="OBJECTID")
+        d = json.loads(_get(MAD_ZONING_URL + "/query", p))
+        f = d.get("features", [])
+        feats += f
+        if len(f) < 1000 and not d.get("exceededTransferLimit") and not d.get("properties", {}).get("exceededTransferLimit"):
+            break
+        off += len(f)
+    path = D / "mad_zoning.geojson"
+    _write_geojson(path, feats)
+    manifest["files"][path.name] = {
+        "url": MAD_ZONING_URL, "fields": "OBJECTID,ZONING_CODE,ZON_PREFIX,PD_ID", "features": len(feats),
+        "accessed_utc": acc, "bytes": path.stat().st_size, "sha256": _sha(path), "licence": MAD_LICENCE}
+    print(f"Madison zoning: {len(feats)} polygons", flush=True)
+
+
+def fetch_docs(manifest: dict) -> None:
+    out = D / "docs"
+    out.mkdir(parents=True, exist_ok=True)
+    for name, meta in SOURCE_DOCS.items():
+        acc = _now()
+        try:
+            final: list = []
+            data = _get(meta["url"], timeout=120, retries=5, final=final)
+        except Exception as e:  # recorded, not fatal: the rule tables cite the URL and capture date
+            manifest["failed"].append({"file": name, "url": meta["url"], "error": str(e), "accessed_utc": acc})
+            print(f"FAILED {name}: {e}", flush=True)
+            continue
+        if not data.startswith(b"%PDF"):
+            manifest["failed"].append({"file": name, "url": meta["url"], "error": "response is not a PDF", "accessed_utc": acc})
+            print(f"FAILED {name}: not a PDF", flush=True)
+            continue
+        (out / name).write_bytes(data)
+        manifest["files"][f"docs/{name}"] = {**meta, "final_url": final[-1] if final else meta["url"],
+                                             "accessed_utc": acc, "bytes": len(data),
+                                             "sha256": hashlib.sha256(data).hexdigest()}
+        print(f"{name}: {len(data)} bytes", flush=True)
+        time.sleep(3)
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--only", choices=["v12", "mke_zoning", "mad_zoning", "docs"])
+    a = ap.parse_args()
+    D.mkdir(parents=True, exist_ok=True)
+    mpath = D / "manifest.json"
+    manifest = json.loads(mpath.read_text()) if mpath.exists() else {}
+    manifest.setdefault("source_id", "tod_capacity")
+    manifest.setdefault("files", {})
+    manifest["failed"] = []
+    manifest["note"] = ("Owner, mailing-address and site-address fields are never requested. Raw files are "
+                        "git-ignored; committed outputs are aggregated (never parcel-level).")
+    if a.only in (None, "v12", "mke_zoning"):
+        bufs = stop_buffers()
+    if a.only in (None, "v12"):
+        fetch_v12(manifest, bufs)
+    if a.only in (None, "mke_zoning"):
+        fetch_mke_zoning(manifest, bufs)
+    if a.only in (None, "mad_zoning"):
+        fetch_mad_zoning(manifest)
+    if a.only in (None, "docs"):
+        fetch_docs(manifest)
+    manifest["reused"] = {}
+    for rel, desc in REUSED.items():
+        p = RAW / rel
+        if p.exists():
+            st = p.stat()
+            manifest["reused"][rel] = {"description": desc, "bytes": st.st_size, "sha256": _sha(p),
+                                       "modified_utc": dt.datetime.fromtimestamp(st.st_mtime, dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}
+        else:
+            manifest["reused"][rel] = {"description": desc, "missing": True}
+    manifest["updated_utc"] = _now()
+    mpath.write_text(json.dumps(manifest, indent=2))
+    print(f"manifest: {mpath}")
+
+
+if __name__ == "__main__":
+    main()

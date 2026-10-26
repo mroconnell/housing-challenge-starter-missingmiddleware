@@ -1,0 +1,4 @@
+area,lots,acres,eligible_lots,eligible_acres,existing_homes_on_eligible,single_family_acres_excluded,eligible_acres_incl_single_family
+overlay,16005,6700.193,4411,2931.675,29162.0,1788.017,4719.692
+ring_quarter_mile_outside,9637,5717.109,1503,1226.279,13031.0,1537.468,2763.747
+rest_of_city,38692,32492.852,5716,7107.245,44944.0,7714.167,14821.411

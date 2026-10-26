@@ -1,0 +1,9 @@
+district,zoning_class,rule_type,min_lot_area_per_home_sqft,max_homes_per_acre,max_height_ft,max_stories,max_far,max_lot_coverage,tod_overlay_max_stories,code_section,source_url,source_capture,status,note
+LOW,residential,density,4356,,35,,,0.30,,synthetic,https://example.org/synthetic,2026-01-01,verified,10 homes per acre
+MID,residential,density,,40,,3,,0.50,,synthetic,https://example.org/synthetic,2026-01-01,verified,FAR 1.5 caps at 65.3 homes per acre
+HIGH,mixed_use,density,,124,,6,,,,synthetic,https://example.org/synthetic,2026-01-01,verified,already above the law
+TALL,mixed_use,far,,,,2,,0.5,8,synthetic,https://example.org/synthetic,2026-01-01,verified,no density cap; overlay raises stories to 8
+DT,downtown_mixed,assumed_at_or_above_law,,,,,,,,synthetic,https://example.org/synthetic,2026-01-01,source_lead,downtown
+PD,planned_development,existing_is_rule,,,,,,,,synthetic,https://example.org/synthetic,2026-01-01,source_lead,site-specific
+IND,industrial,not_eligible,,,,,,,,synthetic,https://example.org/synthetic,2026-01-01,verified,homes prohibited
+PARK,park,not_eligible,,,,,,,,synthetic,https://example.org/synthetic,2026-01-01,verified,park
