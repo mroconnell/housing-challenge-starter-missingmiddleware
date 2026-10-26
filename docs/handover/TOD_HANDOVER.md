@@ -1,6 +1,6 @@
 # Handover: transit-oriented density (TOD) scenario
 
-Written 2026-10-26 by the ADU conductor for the conductor of the TOD scenario. Read [LESSONS_FROM_ADU.md](LESSONS_FROM_ADU.md) first; it applies in full and is not repeated here. A parallel session is building the parking-reduction scenario ([PARKING_HANDOVER.md](PARKING_HANDOVER.md)).
+Written 2026-10-26 by the ADU conductor for the conductor of the TOD scenario. Read the competition materials and your benchmark (section 2, [CHALLENGE_SPEC.md](../CHALLENGE_SPEC.md) and [CHALLENGE_HANDBOOK.md](../CHALLENGE_HANDBOOK.md)) first, then [LESSONS_FROM_ADU.md](LESSONS_FROM_ADU.md), which applies in full and is not repeated here. A parallel session is building the parking-reduction scenario ([PARKING_HANDOVER.md](PARKING_HANDOVER.md)).
 
 ## 1. Your job
 
@@ -101,7 +101,7 @@ Build it early, ideally alongside Gate 1–2 research, since the parking session
 
 ## 9. First steps
 
-1. Read LESSONS_FROM_ADU.md, the gate packets (`docs/gate3/README.md`, `docs/gate5/README.md`) and the state-adoption inventory.
+1. Read CHALLENGE_SPEC.md and CHALLENGE_HANDBOOK.md (your benchmark, deliverables, judging rubric and data rules), then LESSONS_FROM_ADU.md, the gate packets (`docs/gate3/README.md`, `docs/gate5/README.md`) and the state-adoption inventory.
 2. Run the tool (`bash scripts/run_tool.sh`) and look at every screen.
 3. Post a short Gate 1 plan in your thread: research questions, the policy-taxonomy search, data candidates, and which decisions you'll need from the owner.
 4. Start the policy research and the "major transit stop" definition work.
