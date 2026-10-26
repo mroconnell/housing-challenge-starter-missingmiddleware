@@ -1,0 +1,20 @@
+area_id,name,prn_place,benchmark_rating,adopted_date,rating_reason
+muni:5507985300,West Allis city,West Allis,at,2022-05-03,"removed for all housing, by right"
+muni:5506340775,La Crosse city,La Crosse,at,2024-12-12,"removed for all housing, by right"
+muni:5507927300,Franklin city,Franklin,at,2025-05-06,"removed for all housing, by right"
+muni:5502525950,Fitchburg city,Fitchburg,at,2025-04-08,"removed for all housing, by right"
+muni:5513362240,Pewaukee city,Pewaukee (City),near,,removed for housing with conditions: other
+muni:5502519350,DeForest village,DeForest,near,,"removed for one residential class only (residential, multi-family)"
+muni:5502517175,Cottage Grove village,Cottage Grove,at,2026-09-21,"removed for all housing, by right"
+muni:5513959875,Omro city,Omro,at,,"removed for all housing, by right"
+muni:5504308850,Boscobel city,Boscobel,near,,removed for housing with conditions: other
+muni:5504509925,Brodhead city,Brodhead,at,,"removed for all housing, by right"
+muni:5510509925,Brodhead city,Brodhead,at,,"removed for all housing, by right"
+muni:5506101000,Algoma city,Algoma,at,,"removed for all housing, by right"
+muni:5510968475,Roberts village,Roberts,near,,removed for housing with conditions: other
+muni:5504904775,Barneveld village,Barneveld,near,,removed for housing with conditions: other
+muni:5504934450,Highland village,Highland,near,,removed for housing with conditions: other
+muni:5504902550,Arena village,Arena,near,,removed for housing with conditions: supportive housing
+muni:5510345575,Lone Rock village,Lone Rock,near,,"removed for one residential class only (residential, multi-family)"
+muni:5504967875,Ridgeway village,Ridgeway,near,,removed for housing with conditions: other
+muni:5511929175,Gilman village,Gilman,at,2011-06-01,"removed for all housing, by right"
