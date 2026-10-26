@@ -95,3 +95,18 @@ A reference line, as for ADUs, is the median of every measured per-FAR case, wit
 - **Owner:** informed the same day.
 
 **2026-10-26, a scale check added (section 8).** Each scenario's statewide addition is compared with the highest yearly apartment permitting per existing home actually observed in a comparable US metro in the Census permit survey. That shows whether the per-acre response, carried over a large area, exceeds what a market of Milwaukee's or Madison's size has ever absorbed. It is a check shown to the owner, not a cap applied by the model.
+
+**2026-10-26, sizing by citywide net effect (sections 2 and 5). Proposed, pending the owner's choice.** Made after the Madison test and the scale check.
+- **Why:** carried over all eligible land near stops, the per-acre response exceeds what any comparable US metro has absorbed (MODEL.md, section 10). The local difference-in-differences counts building pulled from nearby blocks as if it were new: Los Angeles tripled proposals, but its citywide net effect was about 0.04 percentage points of stock growth.
+- **Change:** the statewide addition is sized as a share of the housing stock in the upzoned areas, using citywide net effects measured after upzoning:
+  - little: Los Angeles, 0.04 percentage points of stock growth a year;
+  - typical: Stacy et al. 2023, +0.8% of housing supply 3 to 9 years after an upzoning, across 1,136 US cities;
+  - strong: Auckland, 21,808 extra consents over 2016 to 2021, 4.1% of its 2016 stock.
+
+  The stock is the 2020 census homes in the main-case station areas. Auckland's figure is a share of the whole city's stock, of which about 75% of residential land was upzoned. It is applied to the station-area stock as published, and the per-upzoned-stock reading (÷ 0.75) is a sensitivity.
+- **Timing:** each study's own yearly profile where published (Auckland's yearly effects), otherwise the New York pooled ramp.
+- **Placement:** method A's per-acre response is used only to place the total across station areas, as shares.
+- **Checks:**
+  - Madison's measured overlay effect, as a share of the overlay's housing stock over 2023–2025, is compared with each scenario's share over three years.
+  - The scale check is rerun.
+- **Sensitivity:** method A with the Wisconsin-measured response (the mean of Madison's 0.215 and Chicago's 0.240 per added floor area ratio), capped at the peer metros' 95th-percentile apartment permitting.
