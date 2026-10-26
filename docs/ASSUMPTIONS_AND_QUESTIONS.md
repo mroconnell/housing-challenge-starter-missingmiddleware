@@ -585,6 +585,22 @@ Unchanged: the central and Strong adoption definitions, Madison on the Madison-l
 
 **Decision:** Adopted 2026-10-26.
 
+## AQ-044 TOD: "major transit stop" definitions and city-specific studies
+
+**Status:** Adopted (owner, 2026-10-26). **Added:** 2026-10-26. **Related:** [docs/tod/MAJOR_TRANSIT_STOP.md](tod/MAJOR_TRANSIT_STOP.md), [docs/tod/GATE1_PLAN.md](tod/GATE1_PLAN.md).
+
+**Owner decisions (2026-10-26):**
+1. **Stop definitions are shown as a ladder from narrowest to widest**, all measured from the transit agencies' own published schedules:
+   - rail and bus rapid transit only;
+   - California's definition;
+   - 15-minute bus plus rail and rapid transit, the main case;
+   - 20-minute bus plus rail and rapid transit, the widest defensible case.
+
+   Under the main case, 469,352 of Wisconsin's 2,727,726 homes (2020 census) are within ½ mile of a qualifying stop. "Any stop" (1,003,823 homes) is shown for context only, not as "major" transit.
+2. **Focus on city-specific policies.** Model Milwaukee and Madison (and their counties) with their own evidence and data, and the rest of the state with a simpler statewide rule. Milwaukee County and Dane County hold 304,215 of the 330,804 homes near stops under the main distance rule (92%), and 93.5% of the 10,708 baseline permits allocated near stops for 2027–2031.
+
+**Open:** how to handle Madison Metro's data licence (asked 2026-10-26).
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -674,3 +690,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-26 | Gate 4 | Owner approved the revised Gate 4 tool (docs/gate4/README.md; run adu-ecb5971cce) and directed the project to Gate 5. Carried forward: no cap or pooling for small high-value villages; Madison stays on its path for now and is re-examined when 2026 is complete (December); unknown-rules switch, legislative districts and a screen-reader pass are Gate 5 work. |
 | 2026-10-26 | Gate 5 | Owner accepted the recommendation: the statewide ADU foundation is good enough to extend (docs/gate5/README.md section 9). Three small fixes follow: an on-screen sentence on why areas differ, a district table in the brief, and the screen-reader pass. Next: two more benchmark scenarios. |
 | 2026-10-26 | Accessibility | Manual VoiceOver/NVDA pass deferred by the owner; must be done before submission (checklist in docs/gate5/ACCESSIBILITY.md). |
+| 2026-10-26 | AQ-044 | TOD: owner confirmed the ladder of stop definitions, narrowest to widest, with 15-minute service as the main case, and a focus on city-specific studies (Milwaukee and Madison areas) plus a statewide rule for the rest. Madison data licence route open. |
