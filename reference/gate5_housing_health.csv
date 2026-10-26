@@ -1,0 +1,17 @@
+theme,indicator,latest_year,years_available,value,moe_90,status,source_id,source_vintage,uncertainty
+housing stock (PEP),housing_units,2025,2020-2025,2840960.0,,observed,census_pep_v2025_hu,PEP Vintage 2025,none published
+housing stock (ACS),total_housing_units_acs,2024,2024-2024,2778572.0,1533.0,observed,census_acs5_2024_tbsf,ACS 2020-2024 5-year,ACS 90% margin of error
+occupancy,occupied_units,2024,2024-2024,2479480.0,5787.0,observed,census_acs5_2024_tbsf,ACS 2020-2024 5-year,ACS 90% margin of error
+occupancy,vacant_units,2024,2024-2024,299092.0,4686.0,observed,census_acs5_2024_tbsf,ACS 2020-2024 5-year,ACS 90% margin of error
+vacancy,vacancy_rate,2024,2024-2024,0.10764234290131766,0.0016854318030482462,calculated,census_acs5_2024_tbsf,ACS 2020-2024 5-year,ACS 90% margin of error
+housing mix,units_1_detached,2024,2024-2024,1839569.0,6502.0,observed,census_acs5_2024_tbsf,ACS 2020-2024 5-year,ACS 90% margin of error
+housing mix,units_1_attached,2024,2024-2024,120679.0,2636.0,observed,census_acs5_2024_tbsf,ACS 2020-2024 5-year,ACS 90% margin of error
+housing mix,units_2_4,2024,2024-2024,260128.0,3970.8147778510142,calculated,census_acs5_2024_tbsf,ACS 2020-2024 5-year,ACS 90% margin of error
+housing mix,units_5_plus,2024,2024-2024,472263.0,5336.975922748762,calculated,census_acs5_2024_tbsf,ACS 2020-2024 5-year,ACS 90% margin of error
+housing mix,mobile_home,2024,2024-2024,84807.0,1672.0,observed,census_acs5_2024_tbsf,ACS 2020-2024 5-year,ACS 90% margin of error
+age of stock,built_2020_or_later,2024,2024-2024,38983.0,1080.0,observed,census_acs5_2024_tbsf,ACS 2020-2024 5-year,ACS 90% margin of error
+permitted production,permitted_units_total,2025,2015-2025,25569.0,,observed,census_bps_state,BPS annual 2025 (final),BPS reported (not imputed) share 0.914
+permitted production,permitted_units_1unit,2025,2015-2025,13405.0,,observed,census_bps_state,BPS annual 2025 (final),BPS reported (not imputed) share 0.914
+permitted production,permitted_units_2_4,2025,2015-2025,1628.0,,observed,census_bps_state,BPS annual 2025 (final),BPS reported (not imputed) share 0.914
+permitted production,permitted_units_5plus,2025,2015-2025,10536.0,,observed,census_bps_state,BPS annual 2025 (final),BPS reported (not imputed) share 0.914
+permitted production,permits_per_1000_housing_units_2025,2025,2020-2025,9.000126717729218,,calculated,census_bps_state; census_pep_v2025_hu,BPS 2025 final / PEP Vintage 2025,"numerator 25,569 permitted units, denominator 2,840,960 housing units (July 1 2025)"
