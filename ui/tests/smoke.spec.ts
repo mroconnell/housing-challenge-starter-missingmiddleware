@@ -33,11 +33,9 @@ test("headline numbers match the bundle", async ({ page }) => {
   await expect(page.getByTestId("today-baseline")).toHaveText(fmt(b.state.baseline.total));
   await expect(page.getByTestId("today-central")).toHaveText("+" + fmt(sc.central.additional_total));
   await expect(page.getByTestId("sf-homes")).toHaveText(fmt(b.state.homes.value));
-  // the adopted Gate 3 packet values
-  expect(fmt(sc.lower.additional_total)).toBe("4,407");
-  expect(fmt(sc.central.additional_total)).toBe("8,721");
-  expect(fmt(sc.upper.additional_total)).toBe("16,853");
-  expect(fmt(b.state.baseline.total)).toBe("645");
+  // ordering of the adopted values (the values themselves are checked against reference/adu_model_*.csv in tests/test_ui_bundle.py)
+  expect(sc.lower.additional_total).toBeLessThan(sc.central.additional_total);
+  expect(sc.central.additional_total).toBeLessThan(sc.upper.additional_total);
 
   await page.goto("#/compare");
   for (const p of ["lower", "central", "upper"]) await expect(page.getByTestId(`total-${p}`)).toHaveText(fmt(sc[p].additional_total));

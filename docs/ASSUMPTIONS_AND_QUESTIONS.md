@@ -557,6 +557,33 @@ All figures are additional permits on top of the current-law baseline of about 6
 **Sensitivity cases** (central [lower, upper] where computed): Madison at its pooled level 8,912 [4,424, 17,374]; California out of the common level 7,621 [5,144, 11,190]; LA-calibrated multifamily correction 8,402 [4,564, 15,170]; eligible-property basis without one-unit attached homes 8,164 [4,254, 15,318] (on its own 636-permit baseline); no ramp 10,228; rural and small-community places at the floor 4,729; multiplicative law 722; California-only regression 2,361. File: `reference/adu_model_sensitivities.csv`; tornado chart `docs/gate3/sensitivity_tornado.png`.
 
 **Decision:** Adopted 2026-10-25. Gate 3 decisions G3F-1 to G3F-4 are closed (AQ-040); the project advances to Gate 4.
+*Numbers superseded 2026-10-26 by AQ-043 (baseline 605; lower 5,538, central 8,757, Strong adoption 16,889; reference line 8,851).*
+
+## AQ-043 Gate 4 review: lower scenario, Milwaukee's current-law rate and the reference line
+
+**Status:** Adopted. **Added:** 2026-10-26. **Related:** AQ-024, AQ-027, AQ-042, [SCENARIO_OPTIONS.md](gate4/SCENARIO_OPTIONS.md), [Gate 3 packet](gate3/README.md).
+
+**Owner decisions (2026-10-26):**
+1. **Lower scenario = the average of the two slowest statewide-law states** (option a1). Rhode Island's level is 0.6214 and Oregon's 0.6826 permits per 1,000 single-family homes per year at a typical place with the law in force 4 or more years (`reference/pooled_revision_stage2_levels.csv`). Their mean, 0.6520, is 0.6497 of the central's common level of 1.0035. Every area's central level is multiplied by 0.6497, so places keep the model's differences from one another. The ramp is the pooled ramp recomputed for that level, as for the central and upper (0.6211, 0.7886, 0.8186, 1, 1), not Oregon's observed ramp. It replaces the 10th percentile of the between-state spread (central ÷ 1.885, a level of 0.53 that is below every statewide-law state), which becomes the sensitivity case "Lower as a statistical 10th percentile". Label: "Sluggish adoption"; info text: "Like the average of the two slowest statewide-law states, Rhode Island and Oregon." Parameters: `paths.lower.level_from` in `reference/adu_model_params.json`.
+2. **Milwaukee's current-law rate = its measured 2022–2025 rate, held flat.** That is 35 candidate second-home permits ÷ 405.608 thousand home-years (101,402 single-family homes × 4 years) = 0.0863 permits per 1,000 single-family homes per year (95% interval 0.060–0.120). Status *observed*, quality C (unverified open-data candidates). It replaces the assumed ramp from Milwaukee's pre-reform rate to Madison's 0.1876 by mid-2029. The permit file through 2026-06-15 shows no clear post-reform rise (8 candidates ÷ 88.3 thousand home-years = 0.091, 95% interval 0.039–0.179). The ramp is kept as a baseline-only sensitivity case. Revisit when Milwaukee publishes permits after 2026-06-15.
+3. **Reference line = the median observed statewide rate across all 8 statewide-law states, California included** (California cap + A2 with 2020 as year 1; the other seven × 0.951 for vacant-lot ADUs). The medians are 0.754, 0.931, 0.869 and 1.293 permits per 1,000 single-family homes per year in years 1–4 (2027–2030), from 7, 5, 5 and 4 states. Only California has a year 5, so 2031 repeats the 2030 median and is flagged `carried_forward` in `reference/adu_model_reference_line_by_year.csv`.
+
+Unchanged: the central and Strong adoption definitions, Madison on the Madison-like path, the Madison floor of 0.2345, and California in the common level.
+
+**Final numbers** (additional second-home permits on single-family lots, statewide, summed over 2027–2031; engine outputs in `reference/adu_model_statewide.csv`):
+- **Baseline:** 604.6 permits under current law over 2027–2031 (was 644.9). Milwaukee's own baseline falls from 84.0 to 43.8 permits.
+- **Lower 5,538; central 8,757; Strong adoption 16,889** (were 4,407, 8,721 and 16,853).
+  - The new lower alone gives 5,502 on the old baseline (+1,095 permits).
+  - The Milwaukee change adds 36 permits to each scenario. It removes 40.2 permits of baseline, but the addition is ramped in its first three years and the baseline is not, so the central's total with the law moves from 9,365.5 to 9,361.3 permits (−4.2).
+  - Milwaukee's own addition is 185 / 306 / 613 permits in the lower / central / Strong adoption.
+- **Reference line: 8,851 permits** (1,267, 1,593, 1,477, 2,257 and 2,257 in 2027–2031). That is 94 permits (1%) above the central's 8,757. Over the four observed years, 2027–2030, it is 6,594 permits against the central's 6,683. On the old 644.9-permit baseline it would be 8,811.
+
+**Sensitivity cases** (`reference/adu_model_sensitivities.csv`, now with a `moves` column naming the number each case changes, and a plain-language `description`). Central [lower, upper] where computed, permits over 2027–2031:
+- *Statewide addition:* Lower as a statistical 10th percentile [4,443] (central and upper unchanged); Madison at its pooled level 8,948 [5,599, 17,410]; California out of the common level 7,657 [5,538, 11,226]; LA-calibrated multifamily correction 8,438 [5,446, 15,206]; eligible-property basis 8,164 [upper 15,318] (its own 636-permit baseline; Gate 3 run, not rerun, lower left out); no ramp 10,268; rural and small-community places at the floor 4,765; multiplicative law 666 (was 722); California-only regression 2,390 (was 2,361). The multiplicative and California-only cases depend on current-law rates, so they were recomputed from a refit of the adopted model.
+- *Baseline only* (baseline; change in the central addition): Milwaukee on the assumed ramp 644.9 (−36.0); uncoded places like prohibited 418.3 (+158.6); no ramp for recently liberalized places 606.3 (−1.2); Madison at its 2026 pace 813.8 (−129.4); Madison 2024–2025 617.1 (−12.5); Madison without the templated programme 595.9 (+8.8).
+- *Local distribution only:* none of the current cases.
+
+**Decision:** Adopted 2026-10-26.
 
 ## Questions for office hours
 
@@ -643,3 +670,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-25 | Gate 3 | Owner approved the final Gate 3 packet (docs/gate3/README.md; central 8,721, lower 4,407, Strong adoption 16,853 additional permits 2027–2031). Gate 4 (working ADU pilot) starts. |
 | 2026-10-26 | Gate 4 review | Madison's 2025–26 templated two-unit ADU programme stays as counted; revisit Madison when 2026 is complete. Owner principle: a statewide law never subtracts from a city already above benchmark (the engine floors each place's addition at zero), e.g. Madison with two ADUs per structure or San Diego's bonus ADU programme. Milwaukee uses its measured 2022–2025 rate (no clear post-reform rise); its ramp is a baseline sensitivity. |
 | 2026-10-26 | Lower scenario | Owner adopted the lower scenario as the average of the two slowest statewide-law states, Rhode Island (0.62) and Oregon (0.68): about 0.65 permits per 1,000 single-family homes per year at a typical place (about 5,502 additional permits 2027–2031 before the Milwaukee change), replacing the 10th-percentile cut. Median line across all 8 states including California, through 2030 (docs/gate4/SCENARIO_OPTIONS.md). |
+| 2026-10-26 | AQ-043 | Applied the Gate 4 review decisions: lower = mean of Rhode Island and Oregon, Milwaukee at its measured 2022–2025 rate, reference line = median of all 8 states with 2031 carried forward. Baseline 605; lower 5,538, central 8,757, Strong adoption 16,889; reference line 8,851. The 10th-percentile lower and the Milwaukee ramp are sensitivity cases. |

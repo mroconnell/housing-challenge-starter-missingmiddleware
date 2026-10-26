@@ -6,7 +6,7 @@ Implements the outcome model from docs/gate1/SCOPE_AND_MODEL.md (revision 3):
     additional A[a,t,p] = H[a] * max(y[a,p] - x[a] * g[a,t], 0) * ramp[p][t] / 1000
 
 g[a,t] is 1 except in places still ramping after a recent local reform (for
-example Milwaukee after August 2025), where the current-law rate is still
+example Sun Prairie after May 2026), where the current-law rate is still
 rising; the law's addition is measured against that year's current-law rate.
 
 where H is one-unit detached homes (ACS), x the current-law rate of second homes

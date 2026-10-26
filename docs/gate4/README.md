@@ -43,7 +43,7 @@ The screens, all reached from the tab bar:
 
 On every screen: a status strip (adopted model, run id, last observed year 2025, forecast 2027–2031, stylized effective date, data vintages dialog with the run's validation checks), Observed / Calculated / Assumed pills, and a footer with the outcome definition. A missing value shows "—" with its reason, never 0.
 
-Screenshots of every screen, desktop (1280 px) and mobile (412 px, Pixel 7 profile), are in [screenshots/](screenshots/). They were regenerated after the owner review (2026-10-26), from run `adu-b7fe1da78e`.
+Screenshots of every screen, desktop (1280 px) and mobile (412 px, Pixel 7 profile), are in [screenshots/](screenshots/). They were regenerated after the owner review (2026-10-26), from run `adu-ecb5971cce`.
 
 ## Owner review: step by step, with my self-assessment
 
@@ -155,15 +155,26 @@ The independent verification ([VERIFICATION.md](VERIFICATION.md), run `adu-d0651
 
 ## Revision after owner review (2026-10-26)
 
-The owner reviewed the tool and asked for presentation changes: simple at a glance for a Wisconsin legislator who has never seen the tool, with detail one click away. **No model output changed**: 645 baseline; 4,407 / 8,721 / 16,853 added permits over 2027–2031; Madison 50 baseline and 134.9 added; reference line 8,208 (all permits over 2027–2031). The run id is now `adu-b7fe1da78e` (changed builder, display text, map labels and one new reference table).
+The owner reviewed the tool and asked for presentation changes: simple at a glance for a Wisconsin legislator who has never seen the tool, with detail one click away. The same day the owner also changed three model inputs (AQ-043), and the tool now shows that rerun. **Numbers earlier in this packet are the 2026-10-25 values; the current ones are:**
 
-**One source for labels and scenario text.** Scenario names, chart-key labels, the editorial scenario titles and texts, the method text, and the reference line's label, definition and series all come from the bundle (`state.json`: `labels`, each scenario's `chart_label` / `title` / `text` / `info`, `reference_line`). They are set in one block of `scripts/build_ui_bundle.py` (`LABELS`, `SCEN_TITLE`, `scenario_defs`, `REFERENCE_FILE` / `REFERENCE_VARIANT` / `REFERENCE_DEF`). Swapping the lower scenario or the reference series means changing that block (or the input file) and rebuilding; no screen hard-codes them.
+| | Before (Gate 3, AQ-042) | Now (AQ-043) |
+| --- | --- | --- |
+| Baseline (no statewide reform), permits over 2027–2031 | 645 | **605** (604.6) |
+| Added permits over 2027–2031, lower / central / strong adoption | 4,407 / 8,721 / 16,853 | **5,538 / 8,757 / 16,889** |
+| Total with the law, central, permits over 2027–2031 | 9,366 | **9,361** |
+| Reference line, added permits over 2027–2031 | 8,208 (7 states, no California) | **8,851** (8 states, California included; 2031 carried forward) |
+| Madison: baseline / added (every scenario) | 50 / 134.9 | 50 / 134.9 (unchanged) |
+| Milwaukee: current-law rate, permits per 1,000 single-family homes per year | assumed ramp to 0.1876 | **0.0863**, measured 2022–2025, observed |
 
-**Owner decisions of 2026-10-26 already written into the text (numbers to follow).** The coordinator applies the new numbers separately; until then the totals on screen are still the adopted run's.
-- Lower scenario ("Sluggish adoption"): "Wisconsin performs like the slowest statewide reforms so far, Rhode Island and Oregon"; the disclosure gives the average of their levels (0.62 and 0.68, about 0.65 permits per 1,000 single-family homes per year) and notes that Rhode Island has one post-law year. Marked `TODO(lower scenario)` in the builder and in `compare.ts`. **Until the new run is applied, the lower totals (4,407) are still from the old definition (central ÷ 1.89), so the text and the number disagree.**
-- Reference line: labelled "Median performance in 8 examples of statewide ADU reform", described as the median of all 8 states including California, drawn through 2030 with 2031 dashed as carried forward. **The series currently drawn is still the old 7-state median without California (8,208)**; the label and text describe the decided one.
-- Milwaukee: whichever of its two treatments the adopted baseline does not use (measured 2022–2025 rate, or the assumed ramp to Madison's rate) is computed as a baseline-only sensitivity case automatically.
-- "The law never subtracts": a plain explainer (each place's addition is floored at zero; Madison's two-unit ADU buildings, San Diego's bonus ADU programme) in the scenario method disclosure and Madison's details.
+The run id is now `adu-ecb5971cce`.
+
+**One source for labels and scenario text.** Scenario names, chart-key labels, the editorial scenario titles and texts, the method text, and the reference line's label, definition and series all come from the bundle (`state.json`: `labels`, each scenario's `chart_label` / `title` / `text` / `info`, `reference_line`). They are set in one block of `scripts/build_ui_bundle.py` (`LABELS`, `SCEN_TITLE`, `scenario_defs`, `REFERENCE_FILE` / `REFERENCE_LINE`); numbers quoted in card text are read from the adopted CSVs (`model_facts`). Sensitivity groups and descriptions come from the `moves` and `description` columns of `reference/adu_model_sensitivities.csv`.
+
+**Owner decisions of 2026-10-26 (AQ-043) in the tool.**
+- Lower scenario, title "Sluggish adoption" (the params file's label now says the same): "Wisconsin performs like the slowest statewide reforms so far, Rhode Island and Oregon (average about 0.65 permits per 1,000 single-family homes per year once the law is fully in force)". The details give Rhode Island 0.62 and Oregon 0.68, the factor 0.6497 of the central level, and that Rhode Island has one post-law year. The Gate 3 10th-percentile lower is a sensitivity case.
+- Reference line "Median performance in 8 examples of statewide ADU reform": the median of all 8 states including California, solid through 2030, 2031 dashed as carried forward (only California has a year 5).
+- Milwaukee at its measured 2022–2025 rate; the ramp is a baseline-only case (baseline +40, addition −36, total +4).
+- "The law never subtracts": each place's addition is floored at zero (Madison's two-unit ADU buildings, San Diego's bonus ADU programme), in the scenario details and Madison's details.
 
 **Statewide comparison.** A plain opening paragraph (permits for second homes, baseline plus three scenarios, scenarios not confidence intervals), then the chart directly under it, then "The law" (unchanged), the scenario picker with editorial descriptions, the tiles, the year table, and "How each scenario is calculated" in a disclosure. Chart key, tables and brief use: "No statewide reform (baseline)", "Statewide ADU reform: lower / central / strong adoption scenario", "Range from the lower to the strong adoption scenario", "Median performance in 8 examples of statewide ADU reform". The central text no longer says California is excluded: California is one of the eight states that set the typical level, and the text says the typical level sits far below California's 2.45 even with California counted.
 
@@ -174,21 +185,20 @@ The owner reviewed the tool and asked for presentation changes: simple at a glan
 **Font licence finding.** The glyphs are Open Sans Semibold from openmaptiles/fonts (`gh-pages`, commit 025ff2b), three Latin ranges, 172 KB, under **Apache-2.0** (licence file copied beside them; source and SHA-256 in `ui/public/fonts/open-sans-semibold/SOURCE.md`). No OFL font is used. Noto Sans would have been under the SIL Open Font License 1.1, a font licence (permissive for embedding and redistribution, but no sale of the font alone and reserved-name rules for modified versions), so it was avoided rather than flagged. Recorded in [DISCLOSURES.md](../DISCLOSURES.md); `npm run licenses` now also checks self-hosted assets.
 
 **How sure and Why.** On "Why", the two spaghetti charts now come before the evidence and assumption cards. The sensitivity analysis is grouped by the number each case moves, each with a plain description:
-- (a) the statewide addition: California out (−1,100), no slow start (+1,507), multiplicative law (−7,998), California-only regression (−6,360), eligible-property basis (−557), stricter California multifamily correction (−319), rural and small places at the minimum rate (−3,991), Madison on the statewide estimate (+191) (change in central added permits over 2027–2031);
-- (b) the current-law baseline only, with the effect on the baseline, the addition and the total with the law (central, permits over 2027–2031): uncoded places like prohibited −186 / +159 / −28; no ramp for recently liberalized places +13 / −9 / +4; Madison's 2026 pace +209 / −129 / +80; Madison 2024–2025 +12 / −12 / 0; Madison without the builder programme −9 / +9 / 0; Milwaukee at its measured 2022–2025 rate −40 / +36 / −4. The addition and total effects are new: `scripts/run_baseline_only_effects.py` reruns the adopted engine with only the current-law rate changed and writes `reference/adu_model_baseline_only_effects.csv`; each case's baseline equals `wi_baseline_sensitivities.csv` (checked by the script and a test).
-- (c) how individual cities' rules are coded. **Check of the owner's statement:** it is not exactly true that coding errors leave the statewide addition unchanged. In the adopted model a place's rate with the law does not depend on its current rules, but the addition is the gap between that rate and the current-law rate, so a coding error moves the baseline and moves the addition by nearly the same amount the other way; the total with the law barely moves (uncoded-as-prohibited: baseline −186, addition +159, total −28, 0.3% of 9,366). The screen says this. Re-coding single places one at a time has not been run.
+- (a) the statewide addition (change in central added permits over 2027–2031): Lower at the 10th percentile (changes the lower only: 4,443 instead of 5,538); Madison on the statewide estimate +191; California out −1,100; stricter California multifamily correction −318; no slow start +1,511; rural and small places at the minimum rate −3,991; eligible-property basis −593; multiplicative law −8,091; California-only regression −6,367;
+- (b) the current-law baseline only, with the effect on the baseline / the addition / the total with the law (central, permits over 2027–2031): uncoded places like prohibited −186 / +159 / −28; no ramp for recently liberalized places +2 / −1 / +0.5; Madison's 2026 pace +209 / −129 / +80; Madison 2024–2025 +12 / −12 / 0; Madison without the builder programme −9 / +9 / 0; Milwaukee on the assumed ramp +40 / −36 / +4. From `reference/adu_model_baseline_only_effects.csv` (`scripts/run_baseline_only_effects.py`: the adopted engine with only the current-law rate changed); each baseline equals `wi_baseline_sensitivities.csv`.
+- (c) how individual cities' rules are coded. **Check of the owner's statement:** it is not exactly true that coding errors leave the statewide addition unchanged. In the adopted model a place's rate with the law does not depend on its current rules, but the addition is the gap between that rate and the current-law rate, so a coding error moves the baseline and moves the addition by nearly the same amount the other way; the total with the law barely moves (uncoded-as-prohibited: baseline −186, addition +159, total −28, 0.3% of 9,361). The screen says this. Re-coding single places one at a time has not been run.
 
 **Jargon.** "Madison floor", "configuration A", "pooled", "Madison-like", "AQ-…" and "Gate 5" were removed from top-level text (status strip, scenario texts, pilot pages, map, evidence titles, challenges, brief) and kept only in disclosures, documentation links and the footer's model-status line.
 
 **Brief.** Same labels and plain scenario texts; the baseline is a row of the scenario table. Still 2 Letter pages (printed to PDF with Playwright).
 
-**Checks.**
+**Checks** (after the AQ-043 rerun).
 
 | Check | Result |
 | --- | --- |
-| `uv run --all-extras python scripts/build_ui_bundle.py` | `adu-b7fe1da78e`, 9 files, 2.80 MB, 11 of 11 validation checks passed |
-| `uv run python scripts/run_baseline_only_effects.py` | 7 rows; every baseline equals `wi_baseline_sensitivities.csv` within 0.05 permits |
-| `bash scripts/test.sh` | 315 tests OK (4 new bundle tests: labels, baseline-only effects, county label points, pilot texts) |
-| `bash scripts/test_ui.sh` | bundle tests OK; licences permissive (113 npm packages plus the font asset); type check and build OK; Playwright 25 passed, 1 skipped (keyboard test desktop-only); 3 new tests (labels, map defaults and labels, sensitivity groups) and the Madison-note test rewritten for the new rule |
+| `uv run --all-extras python scripts/build_ui_bundle.py` | `adu-ecb5971cce`, 9 files, 2.80 MB, 11 of 11 validation checks passed |
+| `bash scripts/test.sh` | 320 tests OK (bundle tests now read the values from the reference CSVs; new tests for labels, sensitivity groups and descriptions, baseline-only effects, the 8-state reference series and its carried-forward year, county label points, pilot texts) |
+| `bash scripts/test_ui.sh` | bundle tests OK; licences permissive (113 npm packages plus the font asset); type check and build OK; Playwright 25 passed, 1 skipped (keyboard test desktop-only) |
 | Screenshots | all 21 regenerated (desktop 1280 px, Pixel 7), no console errors |
 | Brief printed to PDF (Letter) | 2 pages |

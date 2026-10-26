@@ -1,4 +1,4 @@
-"""Tornado chart of the sensitivity cases (AQ-042): one horizontal bar per case, showing its
+"""Tornado chart of the sensitivity cases (AQ-042, AQ-043): one horizontal bar per case, showing its
 central minus the adopted central, in additional second-home permits over 2027-2031, sorted by size.
 
 Input: reference/adu_model_sensitivities.csv (scripts/run_adu_model.py).
@@ -35,7 +35,10 @@ def label(change: str) -> str:
 def main() -> Path:
     s = pd.read_csv(ROOT / "reference/adu_model_sensitivities.csv")
     central = float(s.loc[s["change"].str.startswith("adopted"), "central_additional_5yr"].iloc[0])
-    s = s[~s["change"].str.startswith("adopted")].copy()
+    # cases that change the statewide addition's central (the 10th-percentile lower changes only the lower; the
+    # baseline-only cases are in reference/adu_model_baseline_only_effects.csv)
+    keep = s["moves"].eq("statewide addition") if "moves" in s else ~s["change"].str.startswith("adopted")
+    s = s[keep & (s["central_additional_5yr"] - central).abs().gt(0.05)].copy()
     s["delta"] = s["central_additional_5yr"] - central
     s = s.reindex(s["delta"].abs().sort_values().index)
     fig, ax = plt.subplots(figsize=(10, 5.2), dpi=150)

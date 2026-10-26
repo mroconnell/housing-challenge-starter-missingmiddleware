@@ -1,3 +1,4 @@
-line,rate_years_1_5,additional_5yr
-"statewide adoption (median observed path of statewide-law states, vacant-lot rule x0.951)",0.7526|0.8594|0.8331|1.1836|1.1836,8207.6
-"statewide adoption, as reported (no vacant-lot rule)",0.7914|0.9036|0.8761|1.2446|1.2446,8663.8
+line,line_id,adopted,rate_years_1_5,additional_5yr,additional_by_year,n_states_by_year,carried_forward_years,additional_observed_years,observed_years
+"statewide adoption: median observed path of all 8 statewide-law states incl. California (California cap+A2, 2020 = year 1; others x0.951 for vacant-lot ADUs); 2031 carried forward from 2030",8_state_median,True,0.7540|0.9314|0.8688|1.2930|1.2930,8851.1,1266.7|1592.6|1477.2|2257.3|2257.3,7|5|5|4|1,2031,6593.8,2027-2030
+"statewide adoption, 7 states without California (Gate 3 line; vacant-lot rule x0.951)",7_state_median,False,0.7526|0.8594|0.8331|1.1836|1.1836,8247.9,1264.1|1460.2|1411.5|2056.1|2056.1,6|4|4|3|0,2031,6191.9,2027-2030
+"statewide adoption, 7 states without California, as reported (no vacant-lot rule)",7_state_median_as_reported,False,0.7914|0.9036|0.8761|1.2446|1.2446,8704.1,1335.5|1541.5|1490.6|2168.3|2168.3,6|4|4|3|0,2031,6535.9,2027-2030

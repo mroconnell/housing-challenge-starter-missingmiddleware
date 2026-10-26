@@ -157,17 +157,21 @@ def milwaukee_evidence(homes: float) -> tuple[list[bl.Observation], pd.DataFrame
     cand = bl.milwaukee_candidates(permits, mp)
     data_end = permits["issued"].max().date()
     reform = date(2025, 8, 2)
-    windows = {"pre": (date(2017, 1, 1), date(2025, 8, 1)), "post": (reform, data_end)}
+    # 2022-2025: the four complete calendar years used for every measured Wisconsin place
+    # (reference/wi_measured_permits_2022_2025.csv); Milwaukee's adopted current-law rate (owner, 2026-10-26).
+    windows = {"pre": (date(2017, 1, 1), date(2025, 8, 1)), "post": (reform, data_end),
+               "2022_2025": (date(2022, 1, 1), date(2025, 12, 31))}
+    regimes = {"pre": "pre-reform (RS prohibited, RT two-family by right)", "post": "restricted",
+               "2022_2025": "pre-reform to 2025-08-01, restricted from 2025-08-02"}
     obs = []
     for w, (s, e) in windows.items():
         c = cand[(cand["issued"].dt.date >= s) & (cand["issued"].dt.date <= e)]
-        yrs = bl.years_between(s, e)
+        yrs = 4.0 if w == "2022_2025" else bl.years_between(s, e)
         for level in ("central", "upper"):
             obs.append(bl.Observation(
                 key=f"milwaukee_{w}_{level}", place="Milwaukee city", jurisdiction_id=bl.MILWAUKEE,
                 series=f"candidate second homes ({level} rule)", window=f"{s} to {e}",
-                units=int(c[level].sum()), homes=homes, years=yrs,
-                regime="restricted" if w == "post" else "pre-reform (RS prohibited, RT two-family by right)",
+                units=int(c[level].sum()), homes=homes, years=yrs, regime=regimes[w],
                 status="observed_candidate",
                 note="Open permit data has no description or unit count; counts are unverified candidates."))
     comp = (cand.assign(window=["post" if d.date() >= reform else "pre" for d in cand["issued"]])
@@ -310,7 +314,7 @@ def main() -> None:
         if r.jurisdiction_id == bl.SUN_PRAIRIE:
             pre = {k: v for k, v in own(sun, "").items() if k in bl.PATHS}
             basis = f"restricted group rate, ramping from its observed prohibited-period rate since {r.reform_date}"
-        if r.jurisdiction_id == bl.MILWAUKEE:
+        if r.jurisdiction_id == bl.MILWAUKEE:   # kept only as a baseline sensitivity (owner, 2026-10-26)
             pre_o = ob["milwaukee_pre_central"]
             lo, hi = pre_o.interval
             pre = {"low": lo, "central": pre_o.rate, "high": ob["milwaukee_pre_upper"].rate}
@@ -322,6 +326,19 @@ def main() -> None:
             pre[p] = min(pre[p], target[p])
         overrides[r.jurisdiction_id] = {"target": target, "pre": pre, "reform_date": r.reform_date,
                                         "basis": basis, "status": "estimated"}
+    # Milwaukee (owner decision 2026-10-26, docs/gate4/SCENARIO_OPTIONS.md section 4): its current-law rate is its
+    # measured 2022-2025 rate, flat (35 central-rule candidates / 405.608 thousand home-years = 0.0863), status
+    # observed (quality C: unverified open-data candidates). The cache through mid-2026 shows no clear post-reform
+    # rise. The assumed ramp to Madison's rate is kept as a baseline sensitivity only.
+    mke_ramp = overrides.pop(bl.MILWAUKEE)
+    mke_obs = ob["milwaukee_2022_2025_central"]
+    meas = pd.read_csv(REFERENCE / "wi_measured_permits_2022_2025.csv", dtype={"GEOID": str}).set_index("GEOID")
+    if (int(meas.loc[bl.MILWAUKEE, "permits"]) != mke_obs.units
+            or abs(float(meas.loc[bl.MILWAUKEE, "thousand_home_years"]) - mke_obs.exposure) > 1e-6):
+        raise SystemExit(f"Milwaukee 2022-2025 {mke_obs.units} / {mke_obs.exposure:.3f} does not match "
+                         "reference/wi_measured_permits_2022_2025.csv")
+    observed[bl.MILWAUKEE] = own(mke_obs, "observed 2022-2025 candidate permits (open data, central rule, quality C); "
+                                          "flat, no assumed post-reform rise")
 
     # 5. Assign every municipality piece.
     pieces = muni.merge(rx[["jurisdiction_id", "place_id", "current_class"]],
@@ -352,6 +369,23 @@ def main() -> None:
     growth = central[central.year.isin(bl.FORECAST_YEARS) & (central.g < 1 - 1e-12)]
     growth.assign(year=growth.year.map(yidx))[["area_id", "year", "g"]].to_parquet(
         out / "engine_baseline_growth.parquet", index=False)
+
+    # Baseline sensitivity: Milwaukee on the assumed ramp to Madison's rate (the Gate 3 treatment). Engine inputs
+    # for it are written beside the adopted ones (scripts/run_adu_model.py uses them for its sensitivity case and
+    # to check that the engine still reproduces the pooled revision's Gate 3 totals).
+    asg_mr = bl.assign_rates(pieces[["area_id", "place_id", "name", "homes", "current_class"]], rates,
+                             {k: v for k, v in observed.items() if k != bl.MILWAUKEE},
+                             {**overrides, bl.MILWAUKEE: mke_ramp})
+    B_mr = bl.baseline(asg_mr)
+    if bl.check_baseline(B_mr, state_homes):
+        raise SystemExit("Milwaukee-ramp baseline checks failed")
+    c_mr = B_mr[B_mr.path == "central"]
+    asg_mr.assign(x_rate=asg_mr["x_central"], at_benchmark=asg_mr["rate_group"].eq("benchmark"),
+                  rights_basis=asg_mr["current_class"])[engine_areas.columns].to_parquet(
+        out / "engine_areas_milwaukee_ramp.parquet", index=False)
+    g_mr = c_mr[c_mr.year.isin(bl.FORECAST_YEARS) & (c_mr.g < 1 - 1e-12)]
+    g_mr.assign(year=g_mr.year.map(yidx))[["area_id", "year", "g"]].to_parquet(
+        out / "engine_baseline_growth_milwaukee_ramp.parquet", index=False)
 
     ref_obs = pd.DataFrame([o.row() for o in obs])
     ref_obs.to_csv(REFERENCE / "wi_baseline_observed.csv", index=False, float_format="%.4f")
@@ -398,6 +432,8 @@ def main() -> None:
         a4 = assigned.copy()
         a4.loc[a4.place_id == bl.MADISON, "x_central"] = ob[key].rate
         sens.append({"sensitivity": label, "b5yr_central": central5(a4)})
+    sens.append({"sensitivity": "Milwaukee x = assumed ramp to Madison's rate after its 2025 reform",
+                 "b5yr_central": float(c_mr[c_mr.year.isin(bl.FORECAST_YEARS)]["baseline_units"].sum())})
     sens = pd.DataFrame(sens)
     sens["change_vs_main"] = sens["b5yr_central"] - base5
     statewide.to_csv(REFERENCE / "wi_baseline_statewide.csv", index=False, float_format="%.2f")

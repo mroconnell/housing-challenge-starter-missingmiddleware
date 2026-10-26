@@ -135,12 +135,91 @@ class TestAdoptedParams(unittest.TestCase):
             self.skipTest("run scripts/run_pooled_revision.py first")
         r = pd.read_csv(rev).query("option == 'cap_a2' and config == 'A_ca_in_common_level'").iloc[0]
         paths = json.loads((ref / "adu_model_params.json").read_text())["paths"]
-        for p, c in (("lower", "ramp_lower"), ("central", "ramp_central"), ("upper", "ramp_upper_tau90")):
+        for p, c in (("central", "ramp_central"), ("upper", "ramp_upper_tau90")):
             got = paths[p]["ramp"]
             want = [float(v) for v in r[c].split("|")]
             for a, b in zip(got, want):
                 self.assertAlmostEqual(a, b, places=4)
         self.assertEqual(paths["upper"]["label"], "Strong adoption")
+        # the lower (AQ-043) is recomputed for its own level, so it climbs a little faster than the 10th percentile's
+        low = paths["lower"]["ramp"]
+        self.assertEqual(low[3:], [1.0, 1.0])
+        self.assertEqual(low, sorted(low))
+        for a, b in zip(low[:3], [float(v) for v in r["ramp_lower"].split("|")][:3]):
+            self.assertGreaterEqual(a, b)
+
+    def test_lower_is_mean_of_rhode_island_and_oregon(self):
+        """AQ-043: lower level = mean of RI and OR stage-2 levels / the common level, applied to every area."""
+        import json
+        from pathlib import Path
+        ref = Path(__file__).parent.parent / "reference"
+        rule = json.loads((ref / "adu_model_params.json").read_text())["paths"]["lower"]["level_from"]
+        self.assertEqual(sorted(rule["states"]), ["OR", "RI"])
+        st2 = pd.read_csv(ref / "pooled_revision_stage2_levels.csv").query(
+            "option == 'cap_a2' and config == 'A_ca_in_common_level'").set_index("cluster")["level_with_law_k4"]
+        common = pd.read_csv(ref / "pooled_revision_wi.csv").query(
+            "option == 'cap_a2' and config == 'A_ca_in_common_level'")["common_level_k4"].iloc[0]
+        self.assertAlmostEqual((st2["RI"] + st2["OR"]) / 2, 0.6520, places=4)
+        self.assertAlmostEqual(rule["factor"], (st2["RI"] + st2["OR"]) / 2 / common, places=4)
+        # the lower sits between the two states: below Oregon and above Rhode Island at a typical place
+        self.assertTrue(st2["RI"] < rule["factor"] * common < st2["OR"])
+
+
+class TestAdoptedOutputs(unittest.TestCase):
+    """Committed engine outputs after the 2026-10-26 owner decisions (AQ-043)."""
+
+    @classmethod
+    def setUpClass(cls):
+        from pathlib import Path
+        cls.ref = Path(__file__).parent.parent / "reference"
+
+    def test_paths_ordered_and_baseline_shared(self):
+        s = pd.read_csv(self.ref / "adu_model_statewide.csv").set_index("path")
+        self.assertLess(s.loc["lower", "additional_units"], s.loc["central", "additional_units"])
+        self.assertLess(s.loc["central", "additional_units"], s.loc["upper", "additional_units"])
+        self.assertEqual(s["baseline_units"].nunique(), 1)
+        by = pd.read_csv(self.ref / "adu_model_statewide_by_year.csv")
+        for p, g in by.groupby("path"):
+            self.assertAlmostEqual(g.additional_units.sum(), s.loc[p, "additional_units"], places=6)
+
+    def test_milwaukee_at_measured_rate(self):
+        m = pd.read_csv(self.ref / "wi_baseline_by_municipality.csv", dtype={"place_id": str})
+        mk = m[m.place_id.astype(str).str.startswith("5507953000")]
+        self.assertEqual(len(mk), 3)                      # three county pieces
+        self.assertTrue((mk.x_status == "observed").all())
+        self.assertTrue(mk.reform_date.isna().all())      # flat: no ramp
+        self.assertAlmostEqual(mk.x_central.iloc[0], 35 / 405.608, places=4)
+        sens = pd.read_csv(self.ref / "wi_baseline_sensitivities.csv").set_index("sensitivity")
+        ramp = [k for k in sens.index if k.startswith("Milwaukee")]
+        self.assertEqual(len(ramp), 1)
+        self.assertGreater(sens.loc[ramp[0], "change_vs_main"], 0)
+
+    def test_sensitivity_table_columns(self):
+        s = pd.read_csv(self.ref / "adu_model_sensitivities.csv")
+        self.assertTrue({"moves", "description"} <= set(s.columns))
+        self.assertTrue(set(s.moves) <= {"none (adopted)", "statewide addition", "baseline only", "local distribution only"})
+        self.assertFalse(s.description.isna().any())
+        self.assertEqual((s.moves == "none (adopted)").sum(), 1)
+        self.assertTrue(s.change.str.startswith("Lower as a statistical 10th percentile").any())
+        self.assertTrue(s.change.str.startswith("Milwaukee rises to Madison's rate").any())
+        # a baseline-only case leaves the with-law level alone, so the addition moves against the baseline
+        adopted = s[s.moves.eq("none (adopted)")].iloc[0]
+        for r in s[s.moves.eq("baseline only")].itertuples():
+            db, da = r.baseline_5yr - adopted.baseline_5yr, r.difference_central
+            self.assertLessEqual(db * da, 1e-9, r.change)
+
+    def test_reference_line_8_states_carried_forward(self):
+        lines = pd.read_csv(self.ref / "adu_model_reference_lines.csv")
+        self.assertEqual(lines.adopted.sum(), 1)
+        top = lines.iloc[0]
+        self.assertTrue(bool(top.adopted))
+        self.assertEqual(top.line_id, "8_state_median")
+        by = pd.read_csv(self.ref / "adu_model_reference_line_by_year.csv").query("line == '8_state_median'")
+        self.assertEqual(by.carried_forward.tolist(), [False, False, False, False, True])
+        self.assertEqual(by.forecast_year[by.carried_forward].tolist(), [2031])
+        self.assertAlmostEqual(by.median_rate.iloc[4], by.median_rate.iloc[3])
+        self.assertAlmostEqual(by.additional.sum(), top.additional_5yr, places=0)
+        self.assertIn("CA", by.states.iloc[0])
 
 
 if __name__ == "__main__":

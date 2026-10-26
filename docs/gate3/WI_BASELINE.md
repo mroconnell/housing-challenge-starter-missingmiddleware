@@ -1,5 +1,7 @@
 # Wisconsin Current-Law Rate and Baseline
 
+> **Update 2026-10-26 (AQ-043):** Milwaukee now uses its measured 2022–2025 rate (0.0863 permits per 1,000 single-family homes per year, observed), and the ramp in section 4 is a baseline-only sensitivity. The statewide baseline is **604.6** permits over 2027–2031 (was 644.9). Other figures below that include Milwaukee's ramp (the ~650 total, Milwaukee's 12.5% share, the top-20 table) are the 2026-10-24 values; current values are in `reference/wi_baseline_statewide.csv` and `reference/wi_baseline_top20.csv`.
+
 Gate 3, work package B. Built 2026-10-24. Code: `missing_middleware/model/baseline.py`, `scripts/build_wi_baseline.py`; tests: `tests/test_wi_baseline.py`. Model: [SCOPE_AND_MODEL.md](../gate1/SCOPE_AND_MODEL.md) revision 3, `B[a,t] = H[a] × x[a] × g[a,t] / 1000`. Decisions used: AQ-023, AQ-027, AQ-028, AQ-029, AQ-032, AQ-033 in the [assumptions log](../ASSUMPTIONS_AND_QUESTIONS.md).
 
 ## Summary
@@ -19,10 +21,10 @@ Gate 3, work package B. Built 2026-10-24. Code: `missing_middleware/model/baseli
   | benchmark | 0.062 | **0.183** | 0.250 | Observed in Madison 2022–2025 |
   | undetermined (uncoded) | 0.031 | **0.062** | 0.131 | Assumed to behave like restricted |
 
-- **Milwaukee** has allowed ADUs by right since 2025-08-02, and its baseline is still ramping up.
-  - Its open permit data shows 8 candidate second homes in the first 10.5 months, so x = 0.09 (0.04–0.18). Before the reform it was 0.05 (0.04–0.07).
+- **Milwaukee** has allowed ADUs by right since 2025-08-02. **Since 2026-10-26 (AQ-043) its current-law rate is its measured 2022–2025 rate, held flat:** 35 candidate second-home permits ÷ 405.608 thousand home-years (101,402 single-family homes × 4 years) = **0.0863** permits per 1,000 single-family homes per year (95% interval 0.060–0.120), status *observed*, quality C (unverified open-data candidates). Its baseline is 43.8 permits over 2027–2031 (was 84.0 with the ramp).
+  - Its open permit data shows 8 candidate second homes in the first 10.5 months after the reform, so x = 0.09 (0.04–0.18): no clear rise yet. Before the reform it was 0.05 (0.04–0.07).
   - No detached ADU shows up yet.
-  - The assumed ramp reaches Madison's level, 0.18, by mid-2029 (central path).
+  - The Gate 3 assumed ramp to Madison's level (0.18 by mid-2029, central) is now a baseline-only sensitivity case: statewide baseline 644.9 instead of 604.6 permits over 2027–2031 (+40.2), central addition −36.0 (`reference/adu_model_sensitivities.csv`, `reference/adu_model_baseline_only_effects.csv`). Section 4 keeps the ramp's derivation.
 - **Statewide baseline, 2027–2031: about 650 second homes on single-family lots (low 310, high 1,280).** The rate is about 125–133 a year, or 0.07 per 1,000 homes a year. 2026 is a bridge year: about 120 homes (60–250).
 - **Where the baseline comes from.**
   - The 20 largest contributors make up 35% of the total.
@@ -189,7 +191,9 @@ Results (`reference/wi_baseline_holdout_check.csv`):
 
 **Timing disclosure.** I explored the Milwaukee open data before drawing the hold-out. The draw used identifiers and a fixed seed only, so this exploration could not influence which places were drawn.
 
-## 4. Milwaukee's baseline ramp g
+## 4. Milwaukee's baseline ramp g (sensitivity case since AQ-043)
+
+**Update 2026-10-26 (AQ-043).** The adopted baseline no longer uses this ramp. Milwaukee's x is its measured 2022–2025 rate, 0.0863 (35 candidate permits ÷ 405.608 thousand home-years), held flat with g = 1, status *observed*; `reference/wi_baseline_milwaukee_ramp.csv` now holds that flat rate. The reasons: the post-reform candidates (0.091, 95% interval 0.039–0.179) show no clear rise, and the ramp to Madison's level was an assumption. The ramp below is kept as the baseline-only sensitivity "Milwaukee rises to Madison's rate after its 2025 reform": baseline 644.9 permits over 2027–2031 (+40.2), central addition −36.0, total with the law +4.2. The text and table below describe the Gate 3 ramp as it was.
 
 **Rules.** File 240999, effective 2025-08-02:
 - detached and attached ADUs by right;

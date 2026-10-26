@@ -57,11 +57,16 @@ class TestUIBundle(unittest.TestCase):
             i = int(r["year"]) - 1
             self.assertAlmostEqual(self.scen[r["path"]]["additional_by_year"][i], float(r["additional_units"]), places=1)
             self.assertAlmostEqual(self.state["baseline"]["by_year"][i], float(r["baseline_units"]), places=1)
-        # the adopted Gate 3 packet numbers (docs/gate3/README.md)
-        self.assertEqual([round(self.scen[p]["additional_total"]) for p in PATHS], [4407, 8721, 16853])
-        self.assertEqual(round(self.state["baseline"]["total"]), 645)
-        line = rows("adu_model_reference_lines.csv")[0]
+        # the adopted reference line (the row marked adopted in adu_model_reference_lines.csv) and its yearly series
+        line = next(r for r in rows("adu_model_reference_lines.csv") if r["adopted"] == "True")
         self.assertAlmostEqual(self.state["reference_line"]["additional_total"], float(line["additional_5yr"]), places=1)
+        yearly = [r for r in rows("adu_model_reference_line_by_year.csv") if r["line"] == line["line_id"]]
+        for r in yearly:
+            i = int(r["forecast_year"]) - 2027
+            self.assertAlmostEqual(self.state["reference_line"]["additional_by_year"][i], float(r["additional"]), places=1)
+        self.assertEqual(self.state["reference_line"]["carried_forward_years"],
+                         [int(r["forecast_year"]) for r in yearly if r["carried_forward"] == "True"])
+        self.assertEqual(self.state["reference_line"]["label"], f"Median performance in {self.state['reference_line']['n_series']} examples of statewide ADU reform")
 
     def test_areas_reconcile_to_state(self):
         for level in ("counties", "munis"):
@@ -189,10 +194,18 @@ class TestUIBundle(unittest.TestCase):
         bo = {c["id"]: c for c in self.unc["baseline_only"]}
         self.assertAlmostEqual(bo["madison-2026"]["baseline"], ref["Madison x = 2026 provisional to date"], delta=0.1)
         self.assertAlmostEqual(bo["uncoded-prohibited"]["baseline"], ref["uncoded places behave like prohibited (old AQ-023 default)"], delta=0.1)
+        self.assertEqual(len(rows("adu_model_sensitivities.csv")), len(self.unc["sensitivity_cases"]))
         for c in bo.values():
             # the with-law level does not depend on the current-law rate: a baseline change is mostly offset
             self.assertLessEqual(abs(c["d_with_law"]), abs(c["d_baseline"]) + 0.1, c["id"])
-        self.assertEqual({c["group"] for c in self.unc["sensitivity_cases"]}, {"addition"})
+        groups = {"none (adopted)": "addition", "statewide addition": "addition", "baseline only": "baseline",
+                  "local distribution": "local"}
+        ref = {r["change"]: r for r in rows("adu_model_sensitivities.csv")}
+        for c in self.unc["sensitivity_cases"]:
+            self.assertEqual(c["group"], groups[ref[c["change_as_recorded"]]["moves"]], c["label"])
+            self.assertEqual(c["what"], ref[c["change_as_recorded"]]["description"])
+        # every baseline-only case in the effects table is also a recorded sensitivity case
+        self.assertEqual(len(self.unc["baseline_only"]), sum(1 for c in self.unc["sensitivity_cases"] if c["group"] == "baseline"))
 
     def test_county_labels_are_points_inside_counties(self):
         lab = strict_load(self.dir / "geo_labels.json")

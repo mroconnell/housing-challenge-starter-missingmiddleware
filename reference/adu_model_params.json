@@ -1,6 +1,6 @@
 {
   "scenario_id": "adu_benchmark_statewide",
-  "status": "Adopted 2026-10-25 (AQ-042): pooled revision option (ii) cap+A2, configuration A (California in the common level); Madison on the observed Madison-like path",
+  "status": "Adopted 2026-10-25 (AQ-042): pooled revision option (ii) cap+A2, configuration A (California in the common level); Madison on the observed Madison-like path. Revised 2026-10-26 (AQ-043): lower = mean of Rhode Island and Oregon; Milwaukee at its measured 2022-2025 rate; reference line = median of all 8 statewide-law states",
   "units": "second-home permits on single-family lots per 1,000 one-unit detached homes per year",
   "area_levels": {
     "file": "reference/pooled_revision_wi_y_by_area.csv",
@@ -33,15 +33,25 @@
       "level": 0.2345,
       "spillover": 0.0,
       "ramp": [
-        0.6124,
-        0.7838,
-        0.8144,
+        0.6211,
+        0.7886,
+        0.8186,
         1.0,
         1.0
       ],
-      "basis": "Like the slower statewide-law states: pooled revision (ii) configuration A, 10th percentile of the between-state spread (factor 1/1.89)",
-      "label": "Like the slower statewide-law states",
-      "info": "Below every statewide-law state's typical level; the closest are Rhode Island and Oregon."
+      "level_from": {
+        "relative_to": "central",
+        "states": [
+          "RI",
+          "OR"
+        ],
+        "factor": 0.6497,
+        "levels_file": "reference/pooled_revision_stage2_levels.csv",
+        "rule": "each area's central level x (mean of the states' stage-2 levels at a typical place, law in force 4+ years / the common level of the same fit); Rhode Island 0.6214 and Oregon 0.6826, mean 0.6520, / common level 1.0035 = 0.6497"
+      },
+      "basis": "Like the slowest statewide-law states (owner decision 2026-10-26, AQ-043): the mean of Rhode Island's (0.6214) and Oregon's (0.6826) stage-2 levels, 0.6520 permits per 1,000 single-family homes per year at a typical place with the law in force 4+ years, = 0.6497 of the common level 1.0035. Every area's central level is multiplied by 0.6497 (same within-state differences). Ramp: the pooled ramp recomputed for this level the way the central and upper ramps were (homes-weighted, on the Gate 3 current-law rates), not Oregon's observed ramp. Replaces the 10th percentile of the between-state spread (factor 1/1.885), now a sensitivity case.",
+      "label": "Sluggish adoption",
+      "info": "Like the average of the two slowest statewide-law states, Rhode Island and Oregon."
     },
     "central": {
       "level": 0.2345,
@@ -93,6 +103,6 @@
       "basis": "Owner decision 2026-10-25 (AQ-040 follow-up, AQ-042): Madison, the only Wisconsin place meeting the Madison-like definition (incorporated; 20,000-120,000 one-unit detached homes; median value $250,000-$500,000; not the largest city), follows the observed Madison-like path instead of its pooled level."
     }
   },
-  "statewide_adoption_line": "reference/pooled_revision_adoption_line.csv, variant vacant_lot_x0.951 (median observed path of statewide-law states with the AQ-039 vacant-lot factor; shown alongside the scenarios). The as-reported line is in the same file; reference/statewide_adoption_curve.csv is the 2026-10-24 version.",
-  "notes": "Uniform 'level' (the Madison floor) applies only where an area has no model level. The Madison floor is set once, in madison_floor (in_use selects the variant; every path and script reads it via missing_middleware.model.params.madison_floor). area_paths replaces an area's level and ramp with an explicit observed path (engine.run area_paths). The California ramp is not applied on top of the pooled ramp. Path-specific ramps reproduce the pooled model's direct totals (each path scales the whole rate path); rounded to 4 decimals."
+  "statewide_adoption_line": "Adopted 2026-10-26 (AQ-043): median observed statewide rate across all 8 statewide-law states, California included (cap+A2 counts, 2020 = year 1; the other seven x0.951 for vacant-lot ADUs), years 1-4 (2027-2030) where data exist; year 5 (2031) has only California, so the year-4 median is carried forward and flagged. Points: reference/scenario_options_reference_points.csv; computed by scripts/run_adu_model.py into reference/adu_model_reference_lines.csv and adu_model_reference_line_by_year.csv. The 7-state line (California out; reference/pooled_revision_adoption_line.csv) is kept as an alternative row.",
+  "notes": "Uniform 'level' (the Madison floor) applies only where an area has no model level. The Madison floor is set once, in madison_floor (in_use selects the variant; every path and script reads it via missing_middleware.model.params.madison_floor). area_paths replaces an area's level and ramp with an explicit observed path (engine.run area_paths). The California ramp is not applied on top of the pooled ramp. Path-specific ramps reproduce the pooled model's direct totals (each path scales the whole rate path); rounded to 4 decimals. The lower's level_from rule is applied by scripts/run_adu_model.py (load_area_levels); the stored factor and ramp are checked against the files there."
 }

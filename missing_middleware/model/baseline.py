@@ -9,7 +9,9 @@ x is observed where permit records exist (Madison, Pleasant Prairie, Sun
 Prairie), and otherwise estimated from the place's coded rights class or, for
 uncoded places, treated like `restricted` (AQ-027). g < 1 only for places that
 moved from a prohibited regime to an allowed one recently and are still ramping
-toward their class rate (Milwaukee and others); g is assumed, not fitted.
+toward their class rate (for example Sun Prairie after May 2026); g is assumed, not fitted.
+Milwaukee uses its measured 2022-2025 rate, flat (owner, 2026-10-26, AQ-043); its ramp is a
+baseline sensitivity.
 
 Three baseline paths (low / central / high) move together across all areas
 (shared parameter uncertainty, never summed as if independent): each takes the

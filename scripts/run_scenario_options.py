@@ -2,8 +2,9 @@
 an all-eight-states reference line, Madison's treatment and Milwaukee's current-law rate.
 
 Adopted basis throughout (AQ-042): pooled revision option (ii) cap + A2, configuration A,
-Madison on the Madison-like path, engine over 2027-2031 on the 645-permit baseline. Nothing
-adopted is changed: this script only reads the adopted inputs and writes
+Madison on the Madison-like path, engine over 2027-2031 on the 645-permit baseline (the Gate 3 basis;
+see gate3_inputs: the owner adopted lower (a1), Milwaukee's measured rate and the 8-state line on 2026-10-26,
+AQ-043, applied by scripts/build_wi_baseline.py and scripts/run_adu_model.py). Nothing adopted is changed: this script only reads the adopted inputs and writes
 reference/scenario_options_*.csv.
 
 Units: rates are second-home permits on single-family lots per 1,000 one-unit detached homes
@@ -34,6 +35,23 @@ MADISON = "muni:5502548000"
 MILWAUKEE = "muni:5507953000"
 FLOOR = madison_floor()
 YEARS = np.arange(2027, 2032)
+
+
+# The analysis was made on the Gate 3 adopted basis (before AQ-043): Milwaukee on its assumed ramp and the
+# 10th-percentile lower. After AQ-043 the adopted engine inputs have Milwaukee at its measured rate, so this script
+# reads the Gate 3 current-law rates that scripts/build_wi_baseline.py keeps as a baseline sensitivity, and checks
+# itself against the Gate 3 totals below. Its outputs therefore stay the pre-adoption analysis.
+GATE3_TOTALS = {"lower": 4407.3407, "central": 8720.6434, "upper": 16852.8023}
+
+
+def gate3_inputs(d):
+    from missing_middleware.paths import PROCESSED
+    a = pd.read_parquet(PROCESSED / "model_baseline/engine_areas_milwaukee_ramp.parquet")
+    g = pd.read_parquet(PROCESSED / "model_baseline/engine_baseline_growth_milwaukee_ramp.parquet")
+    wi = d["wi"].drop(columns=["x_rate"]).merge(a[["area_id", "x_rate"]], on="area_id", validate="1:1")
+    G = rv.growth_matrix(wi, g)
+    base = (wi["homes"].to_numpy(float)[:, None] * wi["x_rate"].to_numpy(float)[:, None] * G / 1000).sum(axis=0)
+    return {**d, "areas": a, "growth": g, "wi": wi, "baseline": base}
 
 
 # ---------------------------------------------------------------------------
@@ -83,7 +101,7 @@ def main():
     pd.set_option("display.width", 250)
     params = json.loads((REFERENCE / "adu_model_params.json").read_text())
     mpath = np.array(params["area_paths"]["madison_like_path"]["rates"], float)
-    d = rp.load()
+    d = gate3_inputs(rp.load())
     wi, base = d["wi"], d["baseline"]
     G = rv.growth_matrix(wi, d["growth"])
     ylev = pd.read_csv(REFERENCE / "pooled_revision_wi_y_by_area.csv")
@@ -97,7 +115,7 @@ def main():
     H_tot = eng.H.sum()
 
     # ---- checks against the adopted engine outputs ----
-    adopted = pd.read_csv(REFERENCE / "adu_model_statewide.csv").set_index("path")["additional_units"]
+    adopted = pd.Series(GATE3_TOTALS)
     chk = {"central": eng.run(1.0, fixed=fixed_m)[0].sum(), "lower": eng.run(1 / fac80, fixed=fixed_m)[0].sum(),
            "upper": eng.run(fac80, fixed=fixed_m)[0].sum()}
     for k, v in chk.items():

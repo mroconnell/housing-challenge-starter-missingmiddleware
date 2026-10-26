@@ -1,6 +1,6 @@
 # Scenario options: the owner's four Gate 4 questions
 
-Prepared 2026-10-26. **Status: analysis for the owner's decision. Nothing adopted has changed:** the engine outputs (`reference/adu_model_*.csv`), the parameters and the tool are untouched. Code: [`scripts/run_scenario_options.py`](../../scripts/run_scenario_options.py) (about 3 seconds). Outputs: `reference/scenario_options_*.csv`.
+Prepared 2026-10-26. **Status: decided and adopted the same day (AQ-043); see "Adopted" below.** The analysis sections are unchanged: they compare options on the Gate 3 basis (baseline 645, central 8,721), and `scripts/run_scenario_options.py` still reproduces them on that basis. Code: [`scripts/run_scenario_options.py`](../../scripts/run_scenario_options.py) (about 3 seconds). Outputs: `reference/scenario_options_*.csv`.
 
 **Basis.** The adopted model (AQ-042): pooled revision option (ii) cap + A2, configuration A (California in the common level), Madison on the Madison-like path, Madison floor 0.2345. The script reproduces the adopted engine to within 1 permit (lower 4,407, central 8,721, Strong adoption 16,853; baseline 644.9) before it computes anything new.
 
@@ -8,6 +8,21 @@ Prepared 2026-10-26. **Status: analysis for the owner's decision. Nothing adopte
 - A **rate** is second-home permits on single-family lots in a year ÷ thousands of one-unit detached homes (ACS 2020–2024 B25024_002). It is written "per 1,000 single-family homes per year".
 - A **typical-place level** is a state's modelled rate at its own typical place (homes-weighted average market) with the law in force 4 or more years. The central's typical-place level is 1.0035 per 1,000 single-family homes per year.
 - **Additional permits** are with-law permits minus the current-law baseline, summed over 2027–2031 for all of Wisconsin. Wisconsin has 1,839,569 single-family homes. The adopted baseline is 645 permits over 2027–2031.
+
+## Adopted (2026-10-26, AQ-043)
+
+The owner adopted three changes. They are now in the pipeline: `scripts/build_wi_baseline.py` (Milwaukee), `reference/adu_model_params.json` (lower) and `scripts/run_adu_model.py` (all three), with outputs in `reference/adu_model_*.csv`. Additional permits are statewide, summed over 2027–2031.
+
+1. **Lower = (a1), the mean of Rhode Island (0.6214) and Oregon (0.6826): 0.6520 permits per 1,000 single-family homes per year at a typical place, 0.6497 of the common level.** Same within-state differences; the pooled ramp recomputed for that level (0.62, 0.79, 0.82, 1, 1), not Oregon's observed ramp. On the Gate 3 baseline it gives 5,502 additional permits, as in section 1. The 10th-percentile lower (4,407 on the Gate 3 baseline, 4,443 now) is a sensitivity case, "Lower as a statistical 10th percentile".
+2. **Milwaukee's current-law rate = its measured 2022–2025 rate, 35 ÷ 405.608 = 0.0863 permits per 1,000 single-family homes per year, flat, status observed (quality C).** The statewide baseline falls from 644.9 to 604.6 permits (−40.2) and every scenario's addition rises by 36, as in section 4. The ramp to Madison's rate is a baseline-only sensitivity case (baseline 644.9; central addition −36.0).
+3. **Reference line = the median of all 8 statewide-law states, California included**, years 1–4 (2027–2030); 2031 repeats 2030 and is flagged `carried_forward` (`reference/adu_model_reference_line_by_year.csv`). It is 8,811 permits on the Gate 3 baseline, as in section 2, and **8,851** on the new 604.6-permit baseline, because the line fixes the with-law total and the addition is that total minus the baseline. Over 2027–2030 alone it is 6,594 permits, against the central's 6,683.
+
+| | Baseline | Lower | Central | Strong adoption | Reference line |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Gate 3 (approved 2026-10-25) | 644.9 | 4,407 | 8,721 | 16,853 | 8,208 (7 states) |
+| **Adopted 2026-10-26** | **604.6** | **5,538** | **8,757** | **16,889** | **8,851** (8 states) |
+
+The lower is 63% of the central (5,538 ÷ 8,757). Lower ≤ central ≤ Strong adoption holds in every area and year (engine invariant check). Unchanged: the central and Strong adoption definitions, Madison on its path (135 permits in every scenario), the 0.2345 floor and California in the common level. Madison's 2026 pace stays a sensitivity until 2026 is complete. The full sensitivity table, with a `moves` column (statewide addition, baseline only, or local distribution only) and a plain-language description, is in `reference/adu_model_sensitivities.csv` and the [Gate 3 packet](../gate3/README.md).
 
 ## Summary
 
@@ -198,7 +213,7 @@ Starting from the 2026 pace moves mostly the **baseline** (up to +209 permits), 
 
   8 ÷ 88.3 thousand home-years = 0.091 (95% interval 0.039–0.179). Before the reform (2017-01 to 2025-08-01) it was 46 ÷ 870.4 = 0.053 (0.039–0.070). The post-reform interval overlaps both the pre-reform rate and the 2022–2025 rate. **There is no clear post-reform rise**, and the cache has nothing after 2026-06-15.
 - **Recommendation (the owner's stated preference, which the data support):** set Milwaukee's current-law rate to the measured 0.0863 with status observed (quality C). Keep the ramp to Madison's level as a baseline sensitivity (+40.3 baseline, −36.0 central). Revisit when permits after 2026-06-15 are published.
-- Changing this is a conductor's step: `scripts/build_wi_baseline.py`, then the engine. It is not done here.
+- ~~Changing this is a conductor's step: `scripts/build_wi_baseline.py`, then the engine. It is not done here.~~ Done 2026-10-26 (AQ-043): see "Adopted" above.
 
 ## Reproduce
 
