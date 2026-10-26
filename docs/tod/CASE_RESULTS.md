@@ -1,161 +1,347 @@
 # TOD comparison cases: what was measured and what it shows
 
-Written 2026-10-26 for TOD Gate 2, work package 5. It applies the plan written before counting, [CASE_ANALYSIS_PLAN.md](CASE_ANALYSIS_PLAN.md), to the first four cities in its order. Where the work departs from the plan, the departure and its reason are in [Deviations](#deviations); the plan file itself is unchanged. Madison is not touched here (separate pre-registered step).
+Written 2026-10-26 for TOD Gate 2, work package 5, and revised the same day after an independent check. The work applies [CASE_ANALYSIS_PLAN.md](CASE_ANALYSIS_PLAN.md), which was written before counting, to the first four cities in its order.
+
+- **One recorded change to the plan.** The area rule changed after the check. It is recorded in the plan's section 7, dated 2026-10-26, and summarised under [Deviations](#deviations). The results under the original rule are kept as a sensitivity.
+- **Other departures** are listed under Deviations.
+- **Madison** is not touched here; it has its own pre-registered step.
 
 **Files.**
-- Code: [missing_middleware/tod/cases.py](../../missing_middleware/tod/cases.py) (shared measurement), one adapter per city (`case_charlotte.py`, `case_nyc.py`, `case_stpaul.py`, `case_chicago.py`), [scripts/fetch_tod_cases.py](../../scripts/fetch_tod_cases.py), [scripts/run_tod_cases.py](../../scripts/run_tod_cases.py), tests in [tests/test_tod_cases.py](../../tests/test_tod_cases.py).
-- Results: [reference/tod_case_estimates.csv](../../reference/tod_case_estimates.csv) (one row per case) and [reference/tod_case_rates_by_year.csv](../../reference/tod_case_rates_by_year.csv) (every area and year, before, year 0 and after). Neither holds parcel, permit or project numbers; a test checks this.
-- Raw files (git-ignored) are under `data/raw/tod_cases/<city>/`, each folder with a `manifest.json` (URL, access time, bytes, SHA-256, licence). Run: `uv run --all-extras python scripts/fetch_tod_cases.py`, then `uv run --all-extras python scripts/run_tod_cases.py`.
+- **Code:**
+  - [missing_middleware/tod/cases.py](../../missing_middleware/tod/cases.py) holds the shared measurement code, including `uniform_areas` for the area rule.
+  - Each city has its own adapter: `case_charlotte.py`, `case_nyc.py`, `case_stpaul.py` and `case_chicago.py`.
+  - The scripts are [scripts/fetch_tod_cases.py](../../scripts/fetch_tod_cases.py) and [scripts/run_tod_cases.py](../../scripts/run_tod_cases.py).
+  - The tests are in [tests/test_tod_cases.py](../../tests/test_tod_cases.py).
+- **Results:**
+  - [reference/tod_case_estimates.csv](../../reference/tod_case_estimates.csv) has one row per case.
+  - [reference/tod_case_rates_by_year.csv](../../reference/tod_case_rates_by_year.csv) has every area and year: before, year 0 and after.
+  - Neither file holds parcel, permit or project numbers; a test checks this.
+- **Raw files** are git-ignored, under `data/raw/tod_cases/<city>/`. Each folder has a `manifest.json` with the URL, access time, bytes, SHA-256 and licence.
+- **To run:**
+  1. `uv run --all-extras python scripts/fetch_tod_cases.py`
+  2. `uv run --all-extras python scripts/run_tod_cases.py`
 
-**How to read the numbers.** Every rate is a *rate*: housing units in new-construction building permits, divided by acres of eligible land in the area, divided by years. The estimate is a *difference-in-differences* (DiD) of yearly mean rates: (treatment after − treatment before) − (comparison after − comparison before), in units per eligible acre per year. The interval is a *90% bootstrap interval*: whole projects are redrawn with replacement within each area, 2,000 draws, seed 20261026. The dose is *added allowed floor area ratio* (FAR): the acre-weighted mean of new maximum residential FAR minus old maximum residential FAR over the treatment's eligible land. Effect per dose is the DiD divided by the dose, in units per eligible acre per year per 1.0 of added FAR.
+**How to read the numbers.**
+- **Rate:** housing units in new-construction building permits ÷ acres of eligible land in the area ÷ years.
+- **Estimate:** a difference-in-differences (DiD) of yearly mean rates, in units per eligible acre per year:
+  (treatment after − treatment before) − (comparison after − comparison before).
+- **Interval:** a 90% bootstrap interval. Whole projects are redrawn with replacement within each area; 2,000 draws; seed 20261026.
+- **Dose:** added allowed floor area ratio (FAR). It is the acre-weighted mean of (new maximum residential FAR − old maximum residential FAR) over the treatment's eligible land.
+- **Effect per dose:** the DiD ÷ the dose, in units per eligible acre per year per 1.0 of added FAR.
+- **Charlotte is the exception.** Its districts have no FAR, so its dose is added height in feet and its effect is per added foot.
+
+**The area rule** (plan section 7, change of 2026-10-26, applied the same way to every case):
+- **Treatment:** lots inside the reform whose allowed residential density actually rose. The measure is FAR, or height in Charlotte.
+- **Comparison:** lots within ¼ mile of the treatment whose allowed density did not change during the before or after years.
+- **Second comparison:** lots near rail stations, with the same condition. It uses only stations whose ½-mile area has no treated land.
+- **Dropped from every area:**
+  - lots rezoned outside the reform during those years;
+  - land already at the law. That means zoning before with no separate homes-per-acre cap that already allowed at least the acre-weighted median allowed level of the reform's new zoning on land where density rose.
 
 ## Results at a glance
 
-| Case | Role | Estimate (units per eligible acre per year) | 90% interval | Dose (added FAR) | Effect per added FAR (90% interval) | Parking minimums | Affordability mandate | City median gross rent (ACS 2020–2024) |
-|---|---|---|---|---|---|---|---|---|
-| Charlotte 2019 | fit | −0.406 | −0.695 to −0.119 | +2.87 (converted from height, see below) | −0.142 (−0.243 to −0.041) | removed | no (voluntary bonus) | $1,612 |
-| Saint Paul 2011 | context only (1 before year) | +0.038 | −0.390 to +0.349 | +1.05 (source_lead) | +0.036 (−0.370 to +0.331) | removed near stations | no | $1,281 |
-| New York, Fourth Avenue (Park Slope) 2003 | fit | +7.057 | +4.466 to +9.714 | +2.38 | +2.966 (+1.877 to +4.082) | kept | no | $1,821 |
-| New York, Downtown Brooklyn 2004 | fit | +11.258 | +6.556 to +16.492 | +6.15 | +1.831 (+1.066 to +2.682) | kept | no | $1,821 |
-| Chicago 2015 (held out) | held out | +0.542 | +0.117 to +0.968 | +0.65 (source_lead) | +0.831 (+0.179 to +1.484) | reduced | no for the base bonus | $1,440 |
+| Case | Role | Estimate (units per eligible acre per year) | 90% interval | Dose | Effect per dose (90% interval) | Original area rule (DiD) | Parking minimums | Affordability mandate | City median gross rent (ACS 2020–2024) |
+|---|---|---|---|---|---|---|---|---|---|
+| Charlotte 2019 | fit | +0.130 | +0.006 to +0.279 | +30.4 ft of height (no FAR) | +0.0043 per added foot (+0.0002 to +0.0092); no per-FAR value | −0.406 | removed | no (voluntary bonus) | $1,612 |
+| Saint Paul 2011 | context only (1 before year) | −0.087 | −0.437 to +0.264 | +1.01 FAR (source_lead; T4 land left out) | −0.086 per FAR | +0.038 | removed near stations | no | $1,281 |
+| New York, Fourth Avenue (Park Slope) 2003 | fit | +6.980 | +4.382 to +9.732 | +2.38 FAR | +2.931 per FAR (+1.840 to +4.087) | +0.230 | kept | no | $1,821 |
+| New York, Downtown Brooklyn 2004 | fit | +13.282 | +8.028 to +19.244 | +6.06 FAR | +2.192 per FAR (+1.325 to +3.175) | +9.097 | kept | no | $1,821 |
+| Chicago 2015 (held out) | held out | +0.120 | −0.015 to +0.263 | +0.50 FAR (source_lead) | +0.240 per FAR (−0.029 to +0.525) | +0.528 | reduced | no for the base bonus | $1,440 |
 
-- **Fit set** (role "fit" and status "measured"): Charlotte, Park Slope, Downtown Brooklyn. Median effect per added FAR: **1.83** units per eligible acre per year (median of 3 cases; Downtown Brooklyn is the middle value). Saint Paul is context only and Chicago is held out; neither enters this median or anything else fitted (`cases.fit_set`).
-- **Held-out check.** Chicago's effect per added FAR, 0.83 (90% interval 0.18 to 1.48), is below the fit-set median of 1.83, and its interval does not reach it. It is above Charlotte's and below both New York cases.
-- Median rents are the city values in [reference/tod_cases.csv](../../reference/tod_cases.csv) (ACS 2020–2024 5-year, table B25064, observed there). They are 2020–2024 values, not values at each case's start.
+- **Fit set.** It is the cases with role "fit" and status "measured": Charlotte, Park Slope and Downtown Brooklyn.
+  - Only the two New York cases have an effect per added FAR. Their median is **2.56** units per eligible acre per year per added FAR.
+  - Charlotte stays out of every per-FAR pooling (deviation 2).
+  - Saint Paul is context only and Chicago is held out. Neither enters anything fitted (`cases.fit_set`).
+- **Held-out check.** Chicago's effect per added FAR is 0.24 (90% interval −0.03 to +0.53). That is far below the New York median of 2.56, and the interval does not reach it.
+- **Median rents** are the city values in [reference/tod_cases.csv](../../reference/tod_cases.csv): ACS 2020–2024 5-year, table B25064, observed there. They are 2020–2024 values, not values at each case's start.
 
 ## Charlotte, 2019 transit-oriented districts (fit)
 
 **What was measured.**
-- *Treatment*: the 360 polygons of City Petition 2019-102 (approved 18 November 2019) from the City's Rezoning History layer; a parcel is treated when its representative point lies in one. 1,780 parcels on 1,580.1 acres (the petition states 1,782.83 acres in 1,564 parcels; the difference is mostly street and parcel-edit area). Zoning before = the polygon's ExistingZoning; zoning after = its RequestedZoning (TOD-UC, TOD-NC, TOD-CC, TOD-TR).
-- *Eligible land*: of the treated 1,580.1 acres, 587.2 acres were industrial (I-1, I-2) before and are not eligible under plan section 2 (residential, mixed-use or commercial before); land uses that are parks, cemeteries, churches, schools, government, utilities or similar are also out. Eligible treatment land: **961.2 acres** (974 parcels).
-- *Comparison*: parcels in the City of Charlotte (current council-district outline), not treated, whose representative point is within ¼ mile of treated land: **4,093.9 eligible acres**. Their zoning before is the Pre-UDO zoning map (in force until June 2023), replaced by the ExistingZoning of any rezoning petition approved between 18 November 2019 and 1 June 2023, so that later private rezonings do not change "before".
-- *Second comparison*: parcels within ½ mile of the 27 LYNX Blue Line and CityLYNX Gold Line stops whose own ½-mile circle has no treated land (mostly uptown and Gold Line stops): **1,430.8 eligible acres**.
-- *Outcome*: Mecklenburg County building permits with Census use codes 101–105 and 115 (new one-family to 5-or-more-unit buildings, the Building Permits Survey classes), units from `numunits`, one record per permit number. Large apartment buildings are permitted floor by floor; each floor permit carries that floor's units. Placeholder one-unit permits for garages, amenity areas and "shell/core" (S/C) permits in apartment projects are dropped. 95.1% of permits near the areas fall in a parcel or within 30 m of one; the rest are not counted. A project, for resampling, is the permit's parcel.
-- *Periods*: before 2013–2018 (6 years), year 0 2019, after 2020–2024 (5 years).
-- *Dose*: allowed residential FAR before and after from height limits and homes-per-acre caps, because Charlotte's code has no FAR for these districts (deviation 2). FAR from height = 0.0502 per foot (New York's contextual districts: R8A 6.02 FAR at 120 ft); FAR from a homes-per-acre cap = homes per acre × 680 sq ft (New York's dwelling-unit factor) ÷ 43,560. Before = the smaller of the two; after = height only (no homes-per-acre cap in TOD districts). Examples: B-2 before (40 ft, 22 homes per acre) = 0.34; TOD-UC after (130 ft) = 6.52; TOD-NC (75 ft) = 3.76; TOD-TR (50 ft) = 2.51. Heights before (about 40 ft in most base districts) are source_lead. Acre-weighted dose over eligible treatment land: **+2.87**.
+- **Reform land.** These are the 360 polygons of City Petition 2019-102, approved 18 November 2019, from the City's Rezoning History layer.
+  - A parcel is in the reform when its representative point lies in one of the polygons.
+  - That gives 1,580.1 acres; the petition states 1,782.83 acres in 1,564 parcels.
+  - Zoning before is the polygon's ExistingZoning; zoning after is its RequestedZoning.
+- **Level used by the area rule.** It is the height limit, because Charlotte's districts have no FAR.
+  - Density "rose" where the height limit went up, or where the district before had a homes-per-acre cap; the TOD districts have none.
+  - The acre-weighted median new height on rising land is 90 ft.
+  - So land zoned before with no homes-per-acre cap and a limit of at least 90 ft is already at the law: older transit districts, TOD-CC, MUDD and UMUD.
+  - That is 1,839.0 eligible acres across all areas, dropped.
+- **Treatment.** It is the petition lots whose density rose and that were not already at the law: **817.5 eligible acres** in 670 parcels.
+  - **Before:** mostly B-2 (304 parcels), B-1 (208), O-2 (51), R-17MF (32) and R-22MF (20).
+  - **After:** TOD-TR (236), TOD-CC (233), TOD-NC (143) and TOD-UC (56).
+- **Lots rezoned outside the reform.** Petitions approved 2013–2024 that changed a lot's base district, other than 2019-102, take the lot out of every area. There were 2,031 such petitions, covering 2,221.6 eligible acres.
+  - Zoning before for the remaining non-reform lots is the Pre-UDO zoning map, in force until June 2023.
+- **Comparison.** It is lots in the City of Charlotte (current council-district outline) within ¼ mile of the treatment: **3,082.2 eligible acres**. That is 2,313.6 acres residential and 768.1 commercial.
+- **Second comparison.** It is lots within ½ mile of the 27 LYNX Blue Line and CityLYNX Gold Line stops whose own ½-mile circle has no treated land: **881.2 eligible acres**.
+- **Eligible land.** It is residential, commercial or mixed-use zoning before. Industrial (I-1, I-2) and institutional zoning are out, as are parks, cemeteries, churches, schools, government land, utilities and similar assessor land uses.
+- **Outcome.** It is Mecklenburg County building permits, one record per permit number.
+  - Only Census use codes 101–105 and 115 count: new one-family to 5-or-more-unit buildings, the Building Permits Survey classes.
+  - Units come from `numunits`.
+  - Large apartment buildings are permitted floor by floor, and each floor permit carries that floor's units.
+  - Placeholder one-unit permits for garages, amenity areas and "shell/core" (S/C) are dropped.
+  - 95.1% of permits near the areas fall in a parcel or within 30 m of one.
+  - A project, for resampling, is the permit's parcel.
+- **Periods.** Before is 2013–2018 (6 years), year 0 is 2019, after is 2020–2024 (5 years).
+- **Dose.** It is the added height limit in feet over eligible treatment land, **+30.4 ft**.
+  - Charlotte's base districts are about 40 ft before (source_lead); TOD-TR is 50 ft, TOD-NC 75, TOD-CC 90 and TOD-UC 130.
+  - The removal of homes-per-acre caps (for example 22 homes per acre in B-1 and B-2) is a second part of the dose that this number does not carry.
 
 **Results (units per eligible acre per year).**
 
 | Area | Before 2013–2018 | After 2020–2024 |
 |---|---|---|
-| Treatment (961.2 acres) | 0.366 (2,111 units ÷ 961.2 acres ÷ 6 years) | 0.212 (1,020 units ÷ 961.2 ÷ 5) |
-| Comparison (4,093.9 acres) | 0.159 (3,910 units ÷ 4,093.9 ÷ 6) | 0.411 (8,413 units ÷ 4,093.9 ÷ 5) |
+| Treatment (817.5 acres) | 0.012 (58 units ÷ 817.5 acres ÷ 6 years) | 0.152 (622 units ÷ 817.5 ÷ 5) |
+| Comparison (3,082.2 acres) | 0.047 (862 units ÷ 3,082.2 ÷ 6) | 0.057 (871 units ÷ 3,082.2 ÷ 5) |
 
-- DiD **−0.406** (90% interval −0.695 to −0.119). Effect per added FAR **−0.142** (−0.243 to −0.041).
-- Sensitivities (all DiD, units per eligible acre per year): second comparison −0.027; largest project in each area and period left out −0.398; per 1,000 existing homes (2010 census blocks: 3,953 homes in treatment, 12,763 in comparison) −118.2 units per 1,000 homes per year.
-- Year by year, treatment land had bursts before the rezoning (903 units in 2013, 677 in 2018) on parcels already zoned for dense mixed use (MUDD or the older transit districts); after 2019 the growth moved to the ring around it (comparison: 1,848 units in 2020, 2,613 in 2023).
-- Not pre-registered, shown only for context: counting industrial land too (1,538.3 treatment acres, 5,339.4 comparison acres), the DiD is −0.051.
+- **DiD:** **+0.130** (90% interval +0.006 to +0.279).
+- **Effect per added foot of height:** +0.0043 (+0.0002 to +0.0092). That is about +0.043 units per eligible acre per year for 10 added feet.
+- **Sensitivities** (all DiD, units per eligible acre per year):
+  - second comparison: +0.188;
+  - largest project in each area and period left out: +0.091;
+  - per 1,000 existing homes: +42.6 units per 1,000 homes per year. The homes are from 2010 census blocks: 2,514 in treatment and 10,049 in comparison.
+  - **original area rule** (whole petition against its ring): **−0.406** (−0.695 to −0.119).
+- **Why the two rules differ.** Under the original rule, 1,856 of the 2,111 before-period treatment units were on 124.8 acres already zoned TOD-CC before 2019, and the comparison ring held older dense zoning (TOD-M, MUDD, UMUD). Both now sit in "already at the law".
 
 **Limitations.**
-- The comparison ring is the area most likely to receive spillover from the rezoning (the same stations, the same market). A negative DiD can mean development moved to the ring, not that the rezoning lowered building.
-- The rezoning mostly re-mapped land that was already dense mixed-use or older transit zoning near the most active stations; the eligible treatment land was not a blank slate.
-- County permit-file totals against the Census Building Permits Survey (BPS) for Mecklenburg County (units in all new-housing permits, permit file ÷ BPS − 1): within ±10% in 2018, 2019, 2021 and 2022; +22% in 2020; +41% in 2023 and +54% in 2024; −12% to −27% in 2015–2017. The 2023–2024 excess is in both areas; it is a known risk that floor-by-floor permits are counted differently from BPS.
-- The county server refuses scripted queries; the file is the City of Charlotte's ArcGIS Hub copy of the same county layer.
-- Pre-2019 heights are source_lead and the FAR conversion borrows New York's code rules (deviation 2).
+- **The rule removes development-linked rezonings from the comparison.** In Charlotte most apartment projects outside the TOD districts go through a private conditional rezoning first, so a lot rezoned in 2013–2024 is often a lot that was then built on.
+  - Dropping those lots, as the rule requires, leaves the comparison with mostly lots that did not develop. Its after-period rate (0.057) is far below the original ring's (0.411).
+  - This pushes the DiD up. The second comparison (+0.188) has the same problem.
+  - The true effect probably lies between the original-rule −0.406 and this +0.130. Read Charlotte as weak evidence either way.
+- The treatment after-period units are concentrated in a few projects: 231 units in 2021 and 323 in 2023 out of 622.
+- **Census BPS check.** This compares units in all new-housing permits in the county permit file with the Census Building Permits Survey (BPS) for Mecklenburg County, as permit file ÷ BPS − 1.
+  - **Before years:** +39% in 2013 (11,919 against 8,558; the year of a 903-unit burst on land that is now "already at the law"), −4% in 2014, −12% in 2015, −21% in 2016, −27% in 2017 and +2% in 2018.
+  - **After years:** +22% in 2020, −2% in 2021, +6% in 2022, +41% in 2023 and +54% in 2024.
+  - Floor-by-floor permits may be counted differently from BPS; the excess and shortfall fall in both areas.
+- The county server refuses scripted queries. The file is the City of Charlotte's ArcGIS Hub copy of the same county layer.
+- Heights before are source_lead. A per-foot effect cannot be pooled with per-FAR effects (deviation 2).
+- **Inconsistency with [capacity.py](../../missing_middleware/tod/capacity.py).** That module converts FAR to homes at 1,000 gross sq ft per home (`GROSS_SQFT_PER_HOME`). The first version of this case used New York's 680 sq ft dwelling-unit factor; that conversion has been removed here.
+  - Any later step that turns Charlotte's height dose into FAR must use one stated conversion, and it should come from Charlotte's code or its built projects.
 
 ## Saint Paul, Green Line 2011 (context only)
 
 **What was measured.**
-- *Treatment*: parcels within ½ mile of a Green Line stop in Saint Paul whose zoning went from a non-traditional-neighbourhood district in the November 2010 snapshot to T1–T4 in the November 2012 snapshot (the TN1–TN3 to T1–T3 renaming is not counted as a change). 941 parcels; eligible (not industrial before, not institutional land use) **271.0 acres**. Before: mostly B3 (389 parcels) and I1 (324); after: T3 (425), T4 (264), T2 (249).
-- *Comparison*: parcels within ¼ mile of treated land: **1,556.2 eligible acres**. *Second comparison*: none (every rail stop in Saint Paul is a Green Line stop with treated land within ½ mile).
-- *Outcome*: the City's Housing Production layer, type of work "New", new dwelling units, permit issue year. 92.4% of projects locate to a parcel.
-- *Effective year*: 2011 (City Council adoption, April 2011). The City's own zoning archive does not show the change in November 2011 (0 treated parcels in T districts) and does show it in November 2012.
-- *Dose*: +1.05 FAR, from district FAR values that are source_lead (B3 2.0, I1 0, T3 3.0, T4 75 ft × 0.0502 = 3.76).
+- **Reform land.** It is parcels within ½ mile of a Green Line stop in Saint Paul whose zoning changed from another district (November 2010 snapshot) to T1–T4 (November 2012). The TN1–TN3 to T1–T3 renaming does not count.
+- **Treatment.** It is reform parcels whose allowed FAR rose: 686 parcels, **210.6 eligible acres**.
+  - T4 has no FAR maximum, so the median new level is "no limit" and no land counts as already at the law.
+- **Lots dropped.** Zoning changes in the window are read from the November 2010, November 2012 and November 2017 snapshots. 1,677.3 eligible acres changed outside the reform and are dropped.
+- **Comparison:** **1,450.2 eligible acres**.
+- **Second comparison:** none. Every rail stop in Saint Paul is a Green Line stop with treated land within ½ mile.
+- **Outcome.** It is the City's Housing Production layer: type of work "New", new dwelling units, by permit issue year. 92.4% of projects locate to a parcel.
+- **Effective year: 2011.** That is the City Council adoption, April 2011. The City's own zoning archive does not show the change in November 2011 and does show it in November 2012.
+- **Dose.** It is +1.01 FAR, from district values that are source_lead: B3 2.0, I1 0, T2 2.0 and T3 3.0. T4 (130.4 acres, no limit) is left out of the dose.
 
-**Results.** Status **context only**: permits with unit counts start in 2010, so the case has 1 before year (2010); the plan needs 3. With 2012 as the effective year it would still have only 2. Treatment 0.185 units per eligible acre per year in 2010 (50 units ÷ 271.0 acres ÷ 1 year), 0.226 in 2012–2016 (306 units ÷ 271.0 ÷ 5); comparison 0.000 (0 units) then 0.004 (30 units ÷ 1,556.2 ÷ 5). DiD +0.038 (90% interval −0.390 to +0.349); effect per added FAR +0.036. These are shown for context and are not used.
+**Results.**
+- **Status: context only.** Permits with unit counts start in 2010, so the case has 1 before year; the plan needs 3. With 2012 as the effective year it would still have only 2.
+- **Treatment:** 0.237 units per eligible acre per year in 2010 (50 units ÷ 210.6 acres ÷ 1 year), and 0.155 in 2012–2016 (163 units ÷ 210.6 ÷ 5).
+- **Comparison:** 0.000 (0 units), then 0.004 (30 units ÷ 1,450.2 ÷ 5).
+- **DiD:** −0.087 (90% interval −0.437 to +0.264). The original rule gives +0.038.
+- Shown for context only; not used.
 
 ## New York, Fourth Avenue in Park Slope, 2003 (fit)
 
 **What was measured.**
-- *Treatment*: lots (MapPLUTO 02b, March 2003) whose representative point is inside the zoning map amendment 030194A ZMK (effective 30 April 2003) and whose allowed residential FAR rose between MapPLUTO 02b and 04c. This keeps the Fourth Avenue blockfronts (240 lots from R6, 70 from R7A, 6 from M1-2; 245 to R8A, 66 to R7A) and leaves out the contextual downzoning that covered most of the 5,640 lots in the amendment. Eligible: **19.2 acres** (302 lots).
-- *Comparison*: lots within ¼ mile of treated land, outside the amendment's other lots and outside other city-initiated rezonings adopted in 1997–2008 (South Park Slope 2005 and Downtown Brooklyn 2004 are the nearby ones) (deviation 1): **92.0 eligible acres**.
-- *Second comparison*: lots within ½ mile of the 82 Brooklyn subway stations whose ½-mile circle has no treated land and lies more than ½ mile from any other city-initiated rezoning of the window: **7,926.7 eligible acres**.
-- *Eligible land*: residential, commercial or mixed (M1/R) zoning in 2002, not PLUTO land use 08 (public facilities and institutions) or 09 (open space, which includes cemeteries); parks (PARK) are out.
-- *Outcome*: Department of Buildings job filings, new-building jobs in Brooklyn, proposed dwelling units, one record per job number, by the year the job was fully permitted. Jobs are placed on the 02b lot with the same block and lot, or else the lot containing or nearest (within 40 m) their geocoded point. A project is the job's block and lot.
-- *Dose*: maximum residential FAR by district under the Zoning Resolution as in force 2002–2004 (the higher of the height-factor and Quality Housing wide-street maximums, no inclusionary bonus): R6 3.0, R7A 4.0, R8A 6.02, M1-2 0. Dose **+2.38**. As a check, PLUTO's own maximum allowed FAR (the largest of residential, commercial and community-facility FAR) gives +2.84.
-- *Periods*: before 1997–2002 (6 years; the file has jobs fully permitted from 1991), year 0 2003, after 2004–2008.
+- **Reform land.** It is lots (MapPLUTO 02b, March 2003) whose representative point is inside zoning map amendment 030194A ZMK, effective 30 April 2003.
+- **Treatment.** It is reform lots whose allowed residential FAR rose between MapPLUTO 02b and 04c: **19.1 eligible acres** in 300 lots.
+  - **Before:** 240 lots R6 and 70 lots R7A.
+  - **After:** 245 lots R8A and 66 lots R7A.
+  - The contextual downzoning that covered most of the amendment's 5,640 lots is not treatment.
+  - The median new level on rising land is 6.02 FAR. Lots already at 6.02 or more before are already at the law: 106.6 eligible acres.
+- **Lots dropped.** Lots whose allowed FAR changed outside the amendment between 02b and 04c, or anywhere between 04c and 09v2 (mid 2009), are in no area: 3,166.4 eligible acres.
+  - That includes South Park Slope (2005) along Fourth Avenue south of the treatment, and the many contextual rezonings of 2005–2009.
+  - Changes in 1997–2002 cannot be seen, because 02b is the first archive.
+- **Comparison:** **88.1 eligible acres**.
+- **Second comparison:** lots within ½ mile of the 153 Brooklyn subway stations whose ½-mile circle has no treated land: **10,468.5 eligible acres**.
+- **Eligible land.** It is residential, commercial or mixed (M1/R) zoning in 2002. PLUTO land use 08 (public facilities and institutions), land use 09 (open space, which includes cemeteries) and PARK are out.
+- **Outcome.** It is Department of Buildings job filings for new-building jobs in Brooklyn, using proposed dwelling units.
+  - There is one record per job number, counted in the year the job was fully permitted.
+  - A job goes on the 02b lot with the same block and lot. If there is none, it goes on the lot containing its geocoded point, or the nearest lot within 40 m.
+  - A project is the job's block and lot.
+- **Dose.** It uses maximum residential FAR by district under the Zoning Resolution as in force 2002–2004: the higher of the height-factor and Quality Housing wide-street maximums, with no inclusionary bonus.
+  - Values used: R6 3.0, R7A 4.0, R8A 6.02, M1-2 0.
+  - Dose: **+2.38**.
+  - As a check, PLUTO's own maximum allowed FAR gives +2.84. That field is the largest of residential, commercial and community-facility FAR.
+- **Periods.** Before is 1997–2002 (6 years; the file has jobs fully permitted from 1991), year 0 is 2003, after is 2004–2008.
 
 **Results.**
 
 | Area | Before 1997–2002 | After 2004–2008 |
 |---|---|---|
-| Treatment (19.2 acres) | 0.026 (3 units ÷ 19.2 ÷ 6) | 7.160 (686 units ÷ 19.2 ÷ 5) |
-| Comparison (92.0 acres) | 0.223 (123 units ÷ 92.0 ÷ 6) | 0.300 (138 units ÷ 92.0 ÷ 5) |
+| Treatment (19.1 acres) | 0.026 (3 units ÷ 19.1 ÷ 6) | 7.198 (686 units ÷ 19.1 ÷ 5) |
+| Comparison (88.1 acres) | 0.233 (123 units ÷ 88.1 ÷ 6) | 0.425 (187 units ÷ 88.1 ÷ 5) |
 
-- DiD **+7.057** (90% interval +4.466 to +9.714). Effect per added FAR **+2.966** (+1.877 to +4.082).
-- Sensitivities: second comparison +6.795; largest project left out +5.366; per 1,000 existing homes (2002 PLUTO residential units: 1,522 in treatment, 6,086 in comparison) +88.6 units per 1,000 homes per year. Plan read literally (no exclusions in the comparison, deviation 1): +6.883.
+- **DiD:** **+6.980** (90% interval +4.382 to +9.732).
+- **Effect per added FAR:** **+2.931** (+1.840 to +4.087).
+- **Sensitivities:**
+  - second comparison: +6.856;
+  - largest project left out: +5.299;
+  - per 1,000 existing homes: +87.5 units per 1,000 homes per year. The homes are 2002 PLUTO residential units: 1,512 in treatment and 5,844 in comparison.
+  - **original area rule:** **+0.230**. Here every lot in the 2003 amendment (276.2 eligible acres, mostly the downzoned brownstone blocks) is set against its ¼-mile ring (219.9 acres).
+- **Note on the first version.** The first version reported "literal plan" figures of +6.883 and +11.457. Those already limited treatment to upzoned lots, so they were an alternative comparison, not the plan read literally. The whole-amendment figures above replace them.
 
 ## New York, Downtown Brooklyn, 2004 (fit)
 
-**What was measured.** Same rules as Park Slope. Amendment 040171 ZMK, adopted 28 June 2004. Treatment: 229 of the amendment's 291 lots had higher residential FAR after (182 from C6-1, 25 from R6, 14 from M1-1; after: 145 C6-4, 78 C6-4.5, 6 C6-2); eligible **30.7 acres** (203 lots). Comparison: **203.6 eligible acres**; second comparison: 54 stations, **5,526.7 eligible acres**. Dose: C6-1 (R7 equivalent, 4.0) to C6-4 and C6-4.5 (R10 equivalent, 10.0): **+6.15**; PLUTO maximum allowed FAR gives +5.15. Periods: before 1998–2003, year 0 2004, after 2005–2009.
+**What was measured.**
+- **Rules:** the same as Park Slope.
+- **Amendment:** 040171 ZMK, adopted 28 June 2004.
+- **Treatment:** 228 of the amendment's 291 lots had a higher residential FAR after, giving **27.8 eligible acres**.
+  - **Before:** 182 lots C6-1, 24 lots R6 and 14 lots M1-1.
+  - **After:** 144 lots C6-4, 78 lots C6-4.5 and 6 lots C6-2.
+  - The median new level is 10.0. Lots already at 10.0 or more before are already at the law: 51.6 acres.
+- **Lots dropped.**
+  - Lots whose FAR changed outside the amendment are dropped. This includes the 18 lots (4.58 acres) just outside the amendment whose residential FAR rose from 4 to 10 between 02b and 04c.
+  - Lots that changed again by 2009 are also dropped.
+- **Comparison:** **145.2 eligible acres**.
+- **Second comparison:** 151 stations, **10,471.4 eligible acres**.
+- **Dose.** C6-1 is R7-equivalent at 4.0; C6-4 and C6-4.5 are R10-equivalent at 10.0. Dose: **+6.06**. PLUTO's maximum allowed FAR gives +4.90.
+- **Periods.** Before is 1998–2003, year 0 is 2004, after is 2005–2009.
 
 **Results.**
 
 | Area | Before 1998–2003 | After 2005–2009 |
 |---|---|---|
-| Treatment (30.7 acres) | 0.000 (0 units) | 13.276 (2,036 units ÷ 30.7 ÷ 5) |
-| Comparison (203.6 acres) | 0.348 (425 units ÷ 203.6 ÷ 6) | 2.366 (2,409 units ÷ 203.6 ÷ 5) |
+| Treatment (27.8 acres) | 0.000 (0 units) | 14.671 (2,036 units ÷ 27.8 ÷ 5) |
+| Comparison (145.2 acres) | 0.274 (239 units ÷ 145.2 ÷ 6) | 1.663 (1,207 units ÷ 145.2 ÷ 5) |
 
-- DiD **+11.258** (90% interval +6.556 to +16.492). Effect per added FAR **+1.831** (+1.066 to +2.682).
-- Sensitivities: second comparison +13.077; largest project left out +7.473; per 1,000 existing homes (271 homes in treatment, 10,616 in comparison) +1,463.9 units per 1,000 homes per year (very large because the treated blocks held almost no homes before). Plan read literally: +11.457.
+- **DiD:** **+13.282** (90% interval +8.028 to +19.244).
+- **Effect per added FAR:** **+2.192** (+1.325 to +3.175).
+- **Sensitivities:**
+  - second comparison: +14.485;
+  - largest project left out: +9.035;
+  - per 1,000 existing homes: +1,479.9 units per 1,000 homes per year. The figure is very large because the treated blocks held only 271 homes before; the comparison held 8,875.
+  - original area rule (whole amendment against its ring): +9.097.
 
 **New York limitations (both cases).**
-- Brooklyn job-file totals against BPS for Kings County (proposed units in new-building jobs by year fully permitted ÷ BPS units − 1): −28% to −34% in 1997–2000, −27% in 2002, +28% in 2003, −14% to +4% in 2004–2008, +234% in 2009 (jobs authorized in 2008 and fully permitted later). The before years are undercounted relative to BPS by about a quarter in both treatment and comparison; the DiD compares like with like, but the rates are low by that much.
-- "Fully permitted" is when all of a job's work types are permitted; it can trail the first new-building permit.
-- Downtown Brooklyn was also a city investment programme (office-to-housing shift, public projects); the inventory flags it as confounded.
-- The treatment areas are small (19.2 and 30.7 eligible acres), so a few buildings move the rate. The interval reflects this.
+- **Census BPS check.** This compares proposed units in Brooklyn new-building jobs, by year fully permitted, with BPS units for Kings County, as job file ÷ BPS − 1.
+  - **Before years:** −31% in 1997, −28% in 1998, −33% in 1999, −34% in 2000, +11% in 2001, −27% in 2002 and +28% in 2003.
+  - **After years:** −14% in 2004, −10% in 2005, +4% in 2006, −6% in 2007, −7% in 2008 and +234% in 2009. The 2009 excess is jobs authorized in 2008 and fully permitted later.
+  - So the before years are undercounted by about a quarter in both treatment and comparison. The DiD compares like with like, but the before rates are low by that much.
+- "Fully permitted" is when all of a job's work types are permitted. It can trail the first new-building permit.
+- Downtown Brooklyn was also a city investment programme, with an office-to-housing shift and public projects; the inventory flags it as confounded.
+- The treatment areas are small (19.1 and 27.8 eligible acres), so a few buildings move the rate. The interval reflects this.
 - New York's market and building types are far from Wisconsin's.
 - The pooled set of 23 rezonings (Liao) was not built (see [What remains](#what-remains)).
 
 ## Chicago, 2015 transit-served location ordinance (held out)
 
-**What was measured.** This case gets its own estimate only; it is never fitted, never in the fit-set median and never in the pooled ramp.
-- *Effective year*: 2015 (ordinance of 24 September 2015, which widened the 2013 rules from 600 ft to 1,320 ft of a station). The 2013 ordinance falls in the before years, which pulls the estimate toward zero.
-- *Treatment*: Chicago parcels (Cook County 2021 parcels) zoned B or C with a -3 or -5 bulk suffix in the City's November 2012 zoning map, whose representative point is within 1,320 ft of a CTA or Metra stop (521 stops in the city). 3,211 parcels (1,207 B3-3, 687 C1-3, 384 B1-3, 289 B3-5, others); eligible (not exempt or railroad assessor class) **485.4 acres**. The 2,640 ft distance on Pedestrian Streets is not modelled.
-- *Comparison*: **8,092.1 eligible acres** within ¼ mile. *Second comparison*: parcels within ½ mile of stops whose own ½-mile circle holds no treated land (station areas with no B or C -3/-5 land near the stop): **8,869.4 eligible acres**.
-- *Outcome*: City building permits of type "new construction". There is no unit field: units are read from the work description ("41 UNIT", "8 D.U.", "SINGLE FAMILY", "TWO FLAT"); 52.4% of new-construction permits carry a readable count (the rest are garages, tents, commercial buildings and the like). Permits that revise or reinstate another permit are dropped, and staged permits for one building (foundation, partial superstructure, full building) are kept once (5,437 dropped; deviation 4). Parsed citywide units against BPS for the City of Chicago (parsed ÷ BPS − 1): −13% to +14% in 2012 and 2014–2023, +39% in 2013, −34% in 2024.
-- *Dose*: +0.5 FAR for -3 districts (3.0 to 3.5) and +1.0 for -5 districts (5.0 to 6.0) without affordable units (source_lead, CASE_INVENTORY.md). Acre-weighted dose **+0.65**.
-- *Periods*: before 2009–2014, year 0 2015, after 2016–2020.
+**What was measured.** This case gets its own estimate only. It is never fitted, never in a fit-set median and never in the pooled ramp.
+- **Effective year: 2015.** The ordinance of 24 September 2015 widened the 2013 rules from 600 ft to 1,320 ft of a station. The 2013 ordinance falls in the before years.
+- **Reform land.** It is Chicago parcels (Cook County 2021 parcels) zoned B or C with a -3 or -5 bulk suffix in the City's November 2012 zoning map, whose representative point is within 1,320 ft of a CTA or Metra stop (521 stops in the city).
+  - That is 3,211 parcels. The 2,640 ft distance on Pedestrian Streets is not modelled.
+- **Levels.** Allowed residential FAR by district (source_lead):
+  - RS, RT and RM: 0.5 to 6.6;
+  - B and C: 1.2 for -1, 2.2 for -2, 3.0 for -3 and 5.0 for -5;
+  - D districts: by suffix;
+  - M and PMD: 0.
+  - The reform adds +0.5 to -3 districts and +1.0 to -5 districts without affordable units.
+- **Already at the law.** The median new level on rising land is 3.5. Land already at 3.5 or more before is dropped: -5 districts, RM-6 and up, and D districts, 1,532.9 eligible acres.
+- **Treatment:** 2,041 parcels, all -3 districts, **258.8 eligible acres**.
+- **Lots dropped.** Zoning changes are read by comparing the November 2012 map with today's map. 1,753.1 eligible acres changed and are dropped. Changes after 2020 are caught too, which drops a little more than the rule needs.
+- **Comparison:** **6,601.0 eligible acres**.
+- **Second comparison:** **8,570.4 eligible acres**.
+- **Outcome.** It is City building permits of type "new construction".
+  - There is no unit field, so units are read from the work description ("41 UNIT", "8 D.U.", "SINGLE FAMILY", "TWO FLAT"). 52.4% of new-construction permits carry a readable count; the rest are garages, tents, commercial buildings and the like.
+  - Permits that revise or reinstate another permit are dropped.
+  - Staged permits for one building (foundation, partial superstructure, full building) are kept once when they share the same address point (within 1 m) and the same unit count and were issued within about 18 months. 340 permits were merged (deviation 4).
+  - The first version merged within 50 m cells with no time limit, which also merged separate single-family homes; that is fixed.
+  - **Census BPS check** (parsed citywide units ÷ BPS for the City of Chicago − 1):
+    - before years: +26% in 2012, +54% in 2013 and +3% in 2014;
+    - after years: +19% in 2016, +2% in 2017, +1% in 2018, −7% in 2019 and +8% in 2020;
+    - in 2015 it is +19%.
+    - The 2013 excess is probably staged permits at slightly different address points.
+- **Dose:** **+0.50 FAR**.
+- **Periods.** Before is 2009–2014, year 0 is 2015, after is 2016–2020.
 
 **Results.**
 
 | Area | Before 2009–2014 | After 2016–2020 |
 |---|---|---|
-| Treatment (485.4 acres) | 0.204 (594 units ÷ 485.4 ÷ 6) | 0.982 (2,384 units ÷ 485.4 ÷ 5) |
-| Comparison (8,092.1 acres) | 0.046 (2,212 units ÷ 8,092.1 ÷ 6) | 0.282 (11,401 units ÷ 8,092.1 ÷ 5) |
+| Treatment (258.8 acres) | 0.083 (129 units ÷ 258.8 ÷ 6) | 0.247 (320 units ÷ 258.8 ÷ 5) |
+| Comparison (6,601.0 acres) | 0.045 (1,785 units ÷ 6,601.0 ÷ 6) | 0.089 (2,950 units ÷ 6,601.0 ÷ 5) |
 
-- DiD **+0.542** (90% interval +0.117 to +0.968). Effect per added FAR **+0.831** (+0.179 to +1.484).
-- Sensitivities: second comparison +0.704; largest project left out +0.558; per 1,000 existing homes (2010 census blocks: 10,936 homes in treatment, 252,385 in comparison) +27.0 units per 1,000 homes per year.
-- Freemark (2020) found no effect on permitted dwellings over 5 years with his own difference-in-differences design (inventory note). This estimate differs: it uses units on the parcels that received the bonus, against their ¼-mile ring.
+- **DiD:** **+0.120** (90% interval −0.015 to +0.263).
+- **Effect per added FAR:** **+0.240** (−0.029 to +0.525).
+- **Sensitivities:**
+  - second comparison: +0.161;
+  - largest project left out: +0.108;
+  - per 1,000 existing homes: +5.5 units per 1,000 homes per year. The homes are from 2010 census blocks: 6,030 in treatment and 193,354 in comparison.
+  - original area rule: +0.528.
+- Freemark (2020) found no effect on permitted dwellings over 5 years with his own difference-in-differences design (inventory note).
 
-**Limitations.** Unit counts are parsed from text; zoning is the November 2012 map and parcels are the 2021 layer; stops are today's stops (a few opened after 2015); the 2013 ordinance is in the before years; parking minimums were cut at the same time.
+**Limitations.**
+- Unit counts are parsed from text.
+- Zoning before is the November 2012 map, and parcels are the 2021 layer.
+- Stops are today's stops; a few opened after 2015.
+- The 2013 ordinance is in the before years.
+- Parking minimums were cut at the same time.
+- Chicago, like Charlotte, often rezones lots for larger projects, so dropping rezoned lots removes some development from the comparison.
 
 ## Across cases (plan sections 4 to 6)
 
-- **Ramp** (plan section 4): year-by-year treatment-minus-comparison gap, less its before-period mean, divided by each case's dose, averaged over the 3 fit cases (units per eligible acre per year per added FAR): year 0 +0.10, year 1 +0.51, year 2 +1.09, year 3 +0.85, year 4 +3.89, year 5 +1.43. Year 4 is driven by Downtown Brooklyn in 2008 (1,157 units on 30.7 acres). With 3 cases from 2 cities the ramp is noisy; nothing is smoothed or assumed. Each case's own series is in `tod_case_rates_by_year.csv`.
-- **Parking** (plan section 5): fit cases without parking cuts (the two New York cases) have a median effect per added FAR of 2.40; the one measured fit case with parking cuts (Charlotte) has −0.14 (Saint Paul, also with cuts, is context only). This is the opposite of a parking boost, but the two groups also differ by city, market, decade and building type, so the comparison cannot separate parking from those.
-- **Market strength** (plan section 5): in the fit set, effect per added FAR is higher where rent is higher (Charlotte $1,612: −0.14; New York $1,821: +2.97 and +1.83). The held-out case does not follow that order: Chicago's rent ($1,440) is the lowest of the four, yet its effect per added FAR (+0.83) is above Charlotte's. With 3 fit cases from 2 cities no rent relationship is supported.
-- **Design choice** (plan section 6, AQ-047 item 1): only Park Slope's design (plain by-right FAR increase from about 3 to 6, no mandate, parking minimums kept) is above the fit-set median of 1.83. The held-out case, a small bonus (+0.5 to +1.0 FAR) with parking cuts, comes in at 0.83, with an interval (0.18 to 1.48) below the fit median. One case cannot set the law, and the Madison test is still to come. Under the plan's rule this result does not, by itself, confirm a "most effective" design; it is reported for the owner's decision.
+- **Ramp (plan section 4).**
+  - **Method:** the year-by-year treatment-minus-comparison gap, less its before-period mean, ÷ each case's FAR dose, averaged over the fit cases that have a FAR dose (the two New York cases), in units per eligible acre per year per added FAR.
+  - **Values:** year 0 +0.09, year 1 +0.84, year 2 +1.75, year 3 +1.67, year 4 +6.48, year 5 +2.07.
+  - **Year 4** is driven by Downtown Brooklyn in 2008 (1,157 units on 27.8 acres).
+  - **Charlotte does not feed this ramp.** It has no FAR dose, and its after-period gap rests on two projects.
+  - With 2 cases from one city the ramp is not a usable shape yet. Nothing is smoothed or assumed.
+  - Each case's own series is in `tod_case_rates_by_year.csv`.
+- **Parking (plan section 5).**
+  - The plan asks for the fit to be repeated on cases with and without parking cuts. That cannot be done yet.
+  - **Without parking cuts:** the two New York cases (median 2.56 per added FAR).
+  - **With parking cuts:** the one measured fit case is Charlotte, which has no per-FAR value. Saint Paul is context only.
+  - The cases cannot separate TOD alone from TOD plus parking. No reading is drawn.
+- **Market strength (plan section 5).** Only New York has a per-FAR effect in the fit set, so whether the effect rises with rent cannot be tested. The held-out Chicago case (rent $1,440, +0.24 per added FAR) sits well below New York (rent $1,821).
+- **Design choice (plan section 6, AQ-047 item 1).**
+  - Park Slope's design is a plain by-right FAR increase from about 3 to 6, with no mandate and parking minimums kept. It is above the New York median of 2.56; Downtown Brooklyn is below it.
+  - The held-out case is a small bonus (+0.5 FAR) with parking cuts. It comes in at 0.24, with an interval (−0.03 to +0.53) far below.
+  - The held-out case therefore does not confirm a high response. Under the plan's rule no design is "most effective" on this evidence, and the law falls back to the SB 79 floors unless the Madison test says otherwise. This is reported for the owner's decision.
 
 ## Deviations
 
-1. **New York comparison areas leave out other rezonings.** The plan defines comparison as lots outside the boundary within ¼ mile. Here, lots inside the case's own amendment that were not upzoned (Park Slope's contextual downzoning) and lots inside other city-initiated rezonings adopted in the case's window (City Planning's list) are in no area, and second-comparison stations must be more than ½ mile from those rezonings. Reason: South Park Slope (2005) upzoned Fourth Avenue just south of the treatment, inside the ¼-mile ring, during the after years, and the 2003 amendment downzoned most of the ring; both would contaminate the comparison. The literal-plan estimates are reported (Park Slope +6.883, Downtown Brooklyn +11.457, against +7.057 and +11.258). Charlotte's later rezonings are *not* excluded, because there they are mostly private petitions that come with the development being counted.
-2. **Charlotte's dose uses New York's code rules.** The plan asks for a conversion "with the case's own code rules". Charlotte's districts have no FAR, so FAR per foot of height (0.0502, from R8A) and floor area per home (680 sq ft, New York's dwelling-unit factor) come from New York's Zoning Resolution. The constants are in `case_charlotte.py` (`FAR_PER_FT`, `SQFT_PER_UNIT`) and apply to the Saint Paul T4 value too.
-3. **New York's outcome date.** Units are counted in the year the job was fully permitted, from the job-filings file, with one record per job number (the job number plays the role of the permit number). The separate permit-issuance file has no unit counts. The inventory listed the file as starting in 2000; it has jobs fully permitted from 1991, so the before period uses the plan's full 6 years.
-4. **Chicago de-duplication beyond permit number.** Staged permits for one building have different permit numbers; counting each would double or triple large buildings (parsed units ran 30–110% above BPS before this step, within about ±15% after). Kept: the first issued per 50 m cell and unit count.
-5. **Chicago effective year 2015.** The plan lists "Chicago (2013 and 2015)". One year is needed for before and after; 2015 is used because its distance and bonus are larger. The 2013 rules sit in the before years.
-6. **Land base vintages.** Treatment and comparison are built on today's parcels in Charlotte, Saint Paul and Chicago (2026, 2026 and 2021), not on parcels at the start; New York uses 2002 lots. Charlotte's "same city" is today's city outline.
+1. **Area rule changed (plan section 7, 2026-10-26).** The rule is set out in [The area rule](#how-to-read-the-numbers) above and in the plan's section 7.
+   - **Reason:** it applies the eligible-land definition already decided in AQ-047 item 8, and the check showed the original rule mixed already-dense land into both groups.
+   - The original-rule DiD is in every row (`sens_original_spec`).
+   - **Caution:** where large projects need a site-specific rezoning (Charlotte, Chicago), dropping rezoned lots also drops development from the comparison and pushes the DiD up. The two rules bracket the answer.
+   - The first version's separate New York exclusion is now covered by the uniform rule: lots in other city-initiated rezonings and non-upzoned lots in the amendment.
+2. **Charlotte has no FAR dose.**
+   - The plan asks for heights or densities to be converted to FAR "with the case's own code rules". Charlotte's code has no FAR for these districts.
+   - The first version borrowed New York's 0.05 FAR per foot and 680 sq ft per home. Those were arbitrary for Charlotte and have been removed.
+   - Charlotte reports an effect per added foot of height and stays out of per-FAR pooling.
+   - A Charlotte conversion could be derived from built floor area ÷ lot area in completed TOD projects. That has not been done.
+3. **New York's outcome date.**
+   - Units are counted in the year the job was fully permitted, from the job-filings file, with one record per job number; the job number plays the role of the permit number.
+   - The separate permit-issuance file has no unit counts.
+   - The inventory listed the file as starting in 2000. It has jobs fully permitted from 1991, so the before period uses the plan's full 6 years.
+4. **Chicago de-duplication beyond permit number.** Staged permits for one building have different permit numbers. They are merged only when they share the same address point (within 1 m), the same unit count and an issue date within about 18 months.
+5. **Chicago effective year 2015.** The plan lists "Chicago (2013 and 2015)", but one year is needed to split before and after. 2015 is used because its distance and bonus are larger, and the 2013 rules sit in the before years.
+6. **Land base vintages.**
+   - Treatment and comparison are built on today's parcels in Charlotte and Saint Paul (2026) and on 2021 parcels in Chicago, not on parcels at the start. New York uses 2002 lots.
+   - Charlotte's "same city" is today's city outline.
+   - Zoning changes are read from the snapshots each city has: Charlotte petitions; New York 02b, 04c and 09v2; Saint Paul 2010, 2012 and 2017; Chicago 2012 and today.
 
 ## Data problems
 
-- Charlotte: county server blocks scripts (Hub copy used); 2023–2024 permit-file units 41–54% above BPS; about 5% of nearby permits do not locate to a parcel; pre-2019 heights source_lead.
-- Saint Paul: unit-level permits only from 2010, so context only; zoning archive and adoption date disagree on the year (2011 against 2012).
-- New York: job-file units about a quarter below BPS in the before years; small treatment areas.
-- Chicago: no unit field (text parsing; about half the new-construction permits have a readable count); staged permits; dose values source_lead.
+- **Charlotte:**
+  - The county server blocks scripts, so the City's Hub copy is used.
+  - Permit-file units differ from BPS by −27% to +54% across years, including +39% in before year 2013.
+  - About 5% of nearby permits do not locate to a parcel.
+  - Heights before are source_lead.
+- **Saint Paul:**
+  - Unit-level permits exist only from 2010, so the case is context only.
+  - The zoning archive and the adoption date disagree on the year (2011 against 2012).
+- **New York:**
+  - Job-file units are about a quarter below BPS in the before years.
+  - The treatment areas are small.
+- **Chicago:**
+  - There is no unit field, so units come from text parsing; about half the new-construction permits have a readable count.
+  - Staged permits remain: parsed units are +54% against BPS in 2013.
+  - Dose values are source_lead.
+  - The zoning-change check uses today's map.
 
 ## What remains
 
-- The New York pooled set (the 23 rezonings in Liao 2026): needs job filings and MapPLUTO for all five boroughs; the code takes one amendment at a time (`case_nyc.CASES`), so it is mostly a data step.
-- Saint Paul could become measurable only with permit unit counts before 2010 (none found in the City's open data).
-- The medium-design cases (Los Angeles Warner Center, Bellevue BelRed, Seattle) and the Madison pre-registered test.
-- The Charlotte pre-2019 height table should be checked against the 2018 zoning ordinance text (source_lead now).
+- **The New York pooled set**, the 23 rezonings in Liao (2026). It needs job filings and MapPLUTO for all five boroughs. The code already takes one amendment at a time (`case_nyc.CASES`), so this is mostly a data step.
+- **A FAR conversion for Charlotte** from its own code or its built TOD projects, so that Charlotte can join the per-FAR pooling.
+- **Saint Paul** could become measurable only with permit unit counts before 2010. None were found in the City's open data.
+- **The medium-design cases** (Los Angeles Warner Center, Bellevue BelRed, Seattle) and the Madison pre-registered test.
+- **Charlotte's pre-2019 height table** should be checked against the 2018 zoning ordinance text; it is source_lead now.

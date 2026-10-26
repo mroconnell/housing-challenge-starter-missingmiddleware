@@ -2,9 +2,12 @@
 
 The plan was written before any permits were counted; these functions implement it as written:
 
-- Areas (plan section 2): treatment = parcels inside the official upzoning boundary; comparison = parcels outside
-  it whose representative point lies within 1/4 mile of the treated land, in the same city; second comparison =
-  other parcels within 1/2 mile of a rail or rapid-transit station whose own 1/2-mile area has no upzoned land.
+- Areas (plan section 2, as changed in section 7 on 2026-10-26; uniform_areas): treatment = lots inside the
+  official upzoning boundary whose allowed density rose and that were not already at the law; comparison = lots
+  whose allowed density did not change in the window, outside the treatment, whose representative point lies within
+  1/4 mile of the treated land, in the same city; second comparison = such lots within 1/2 mile of a rail or rapid-
+  transit station whose own 1/2-mile area has no treated land. Lots rezoned outside the reform during the window and
+  land already at the law are in no area. The original rule (assign_areas alone) is kept as a sensitivity.
 - Eligible land: parcel acres in residential, mixed-use or commercial zoning before the change, less parks,
   water, institutional campuses and cemeteries (streets are not parcels).
 - Outcome (section 3): housing units in new-construction building permits, by issue year, de-duplicated by
@@ -16,7 +19,9 @@ The plan was written before any permits were counted; these functions implement 
 - Dose: area-weighted mean of (new maximum FAR - old maximum FAR) over the treatment's eligible land.
 - Effect per dose: estimate / dose.
 - Sensitivities: second comparison area; leaving out the largest project in each area and period; permits per
-  1,000 existing homes instead of per acre.
+  1,000 existing homes instead of per acre; the original area rule.
+- Where a case has no defensible FAR conversion (Charlotte), the dose is added height in feet and the effect is per
+  added foot; such cases have no effect per added FAR and stay out of any per-FAR pooling.
 
 Inputs are plain pandas tables so the arithmetic can be tested without any geography. Geometry helpers take
 GeoDataFrames in a projected CRS measured in metres.
@@ -224,6 +229,44 @@ def assign_areas(parcels, treated: pd.Series, in_city: pd.Series | None = None, 
     return area
 
 
+def weighted_median(values: pd.Series, weights: pd.Series) -> float:
+    v = pd.DataFrame({"v": values, "w": weights}).dropna().sort_values("v")
+    if v.empty or v["w"].sum() <= 0:
+        return float("nan")
+    c = v["w"].cumsum() / v["w"].sum()
+    return float(v.loc[c >= 0.5, "v"].iloc[0])
+
+
+def uniform_areas(parcels, in_reform: pd.Series, rose: pd.Series, level_before: pd.Series, level_after: pd.Series,
+                  uncapped_before: pd.Series, changed_outside: pd.Series, eligible: pd.Series,
+                  in_city: pd.Series | None = None, stations=None) -> tuple[pd.Series, dict]:
+    """Areas under the uniform rule (CASE_ANALYSIS_PLAN.md section 7, change of 2026-10-26; AQ-047 item 8).
+
+    - Already at the law: the lot's zoning before had no separate homes-per-acre cap and allowed at least the
+      acre-weighted median allowed level (FAR, or height where a case has no FAR) of the reform's new zoning on
+      eligible land whose allowed density rose. Such land is in no area.
+    - Treatment: lots inside the reform whose allowed density rose and that were not already at the law.
+    - Lots inside the reform whose density did not rise, and lots whose zoning changed outside the reform during the
+      before-to-after window (`changed_outside`), are in no area.
+    - Comparison and second comparison: as in assign_areas, among the remaining lots (allowed density unchanged).
+    Levels: use +inf for "no limit"."""
+    in_reform, rose = in_reform.astype(bool), rose.astype(bool)
+    acres = parcels.geometry.area / SQM_PER_ACRE
+    base = in_reform & rose & eligible.astype(bool)
+    med = weighted_median(level_after[base].replace(np.inf, np.nan).fillna(1e9), acres[base])
+    at_law = uncapped_before.astype(bool) & (level_before.fillna(-1) >= med)
+    treated = in_reform & rose & ~at_law & ~changed_outside.astype(bool)
+    excluded = (in_reform & ~treated) | at_law | changed_outside.astype(bool)
+    city = pd.Series(True, index=parcels.index) if in_city is None else in_city.astype(bool)
+    area = assign_areas(parcels, treated, in_city=city & ~excluded, stations=stations)
+    area[excluded] = None
+    info = {"median_new_level_on_rising_land": med,
+            "acres_already_at_law": round(float(acres[at_law & eligible.astype(bool)].sum()), 1),
+            "acres_changed_outside_reform": round(float(acres[changed_outside.astype(bool) & eligible.astype(bool)].sum()), 1),
+            "acres_in_reform_not_treated": round(float(acres[in_reform & ~treated & eligible.astype(bool)].sum()), 1)}
+    return area, info
+
+
 def stations_not_upzoned(stations, treated_union, station_m: float = HALF_MILE_M):
     """Stations whose station_m circle contains no treated land."""
     return stations[stations.distance(treated_union) > station_m]
@@ -276,6 +319,8 @@ class CaseInputs:
     is_permits: bool = True
     notes: str = ""
     extra: dict = field(default_factory=dict)
+    dose_unit: str = "far"         # "far", or "height_ft" when no defensible FAR conversion exists (Charlotte)
+    original_spec: tuple | None = None  # (permits, acres) under the original area rule, for the sensitivity column
 
 
 def _fmt(x: float, nd: int = 4) -> float | None:
@@ -300,7 +345,9 @@ def estimate_case(ci: CaseInputs, draws: int = N_DRAWS, seed: int = SEED) -> tup
                  "before_years": f"{before[0]}-{before[-1]}" if before else "", "after_years": f"{after[0]}-{after[-1]}" if after else "",
                  "treatment_acres": _fmt(ci.acres.get(TREAT), 1), "comparison_acres": _fmt(ci.acres.get(COMP), 1),
                  "second_comparison_acres": _fmt(ci.acres.get(COMP2), 1)}
-    d = dose(ci.dose_table) if ci.dose_table is not None and len(ci.dose_table) else float("nan")
+    d_raw = dose(ci.dose_table) if ci.dose_table is not None and len(ci.dose_table) else float("nan")
+    d = d_raw if ci.dose_unit == "far" else float("nan")
+    d_ft = d_raw if ci.dose_unit == "height_ft" else float("nan")
     est = {"did": float("nan"), "treat_before": float("nan"), "treat_after": float("nan"), "comp_before": float("nan"), "comp_after": float("nan")}
     lo = hi = float("nan")
     if before and after and ci.acres.get(TREAT) and ci.acres.get(COMP):
@@ -312,7 +359,11 @@ def estimate_case(ci: CaseInputs, draws: int = N_DRAWS, seed: int = SEED) -> tup
                 "dose_added_far": _fmt(d, 3)})
     epd = est["did"] / d if d and not np.isnan(d) and d != 0 else float("nan")
     row.update({"effect_per_dose": _fmt(epd), "effect_per_dose_low": _fmt(lo / d if d else float("nan")),
-                "effect_per_dose_high": _fmt(hi / d if d else float("nan"))})
+                "effect_per_dose_high": _fmt(hi / d if d else float("nan")),
+                "dose_added_height_ft": _fmt(d_ft, 1),
+                "effect_per_added_ft": _fmt(est["did"] / d_ft if d_ft else float("nan"), 5),
+                "effect_per_added_ft_low": _fmt(lo / d_ft if d_ft else float("nan"), 5),
+                "effect_per_added_ft_high": _fmt(hi / d_ft if d_ft else float("nan"), 5)})
     # sensitivities
     s2 = float("nan")
     if before and after and ci.acres.get(COMP2):
@@ -323,7 +374,12 @@ def estimate_case(ci: CaseInputs, draws: int = N_DRAWS, seed: int = SEED) -> tup
     sh = float("nan")
     if before and after and ci.homes.get(TREAT) and ci.homes.get(COMP):
         sh = did(ci.permits, ci.homes, before, after, scale=1000.0)["did"]
-    row.update({"sens_second_comparison": _fmt(s2), "sens_drop_largest": _fmt(sdrop),
+    so = float("nan")
+    if before and after and ci.original_spec is not None:
+        op, oa = ci.original_spec
+        if oa.get(TREAT) and oa.get(COMP):
+            so = did(op, oa, before, after)["did"]
+    row.update({"sens_original_spec": _fmt(so), "sens_second_comparison": _fmt(s2), "sens_drop_largest": _fmt(sdrop),
                 "sens_per_1000_homes": _fmt(sh), "treatment_homes": _fmt(ci.homes.get(TREAT), 0),
                 "comparison_homes": _fmt(ci.homes.get(COMP), 0),
                 "treatment_units_before": _fmt(ci.permits[(ci.permits.area == TREAT) & ci.permits.year.isin(before)].units.sum(), 0),

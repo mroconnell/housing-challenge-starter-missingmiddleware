@@ -4,18 +4,19 @@ Inputs (data/raw/tod_cases/nyc/, fetched by scripts/fetch_tod_cases.py):
 - dob_nb_brooklyn.csv: Department of Buildings job filings, new-building jobs in Brooklyn (document 01), with
   proposed dwelling units, the date the job was fully permitted, block and lot, and a geocoded point.
 - nyzma.geojson: City Planning zoning map amendments with effective dates (official boundaries).
-- bloomberg_rezonings.geojson: City Planning's list of city-initiated rezonings 2002-2013 (to keep other
-  city-initiated rezonings out of the comparison areas).
-- mappluto_02b.zip (March 2003, before both) and mappluto_04c.zip (late 2004, after both): tax lots with zoning,
+- bloomberg_rezonings.geojson: City Planning's list of city-initiated rezonings 2002-2013 (fetched for the pooled set).
+- mappluto_02b.zip (March 2003, before both), mappluto_04c.zip (late 2004, after both) and mappluto_09v2.zip (2009,
+  end of the window): tax lots with zoning,
   land use, residential units and maximum allowed FAR.
 - subway_stations.geojson: subway stations (second comparison).
 
-Rules used here (docs/tod/CASE_RESULTS.md, section New York):
+Rules used here (docs/tod/CASE_RESULTS.md, section New York; areas by the uniform rule of CASE_ANALYSIS_PLAN.md
+section 7, cases.uniform_areas):
 - Treatment: lots (MapPLUTO 02b polygons) whose representative point is inside the rezoning's zoning map amendment
-  and whose allowed residential FAR rose between 02b and 04c. In Park Slope this keeps the Fourth Avenue R8A
-  blockfronts and drops the contextual downzoning that made up most of the 110 blocks.
-- Lots inside the amendment that were not upzoned, and lots inside other city-initiated rezonings adopted in the
-  case's window, are in no area (deviation 1 in CASE_RESULTS.md).
+  and whose allowed residential FAR rose between 02b and 04c, unless already at the law.
+- Lots whose allowed residential FAR changed outside the amendment between 02b and 04c, or anywhere between 04c and
+  09v2 (mid 2009), are in no area. Changes before March 2003 cannot be seen (02b is the first archive).
+- Original rule (sensitivity): every lot in the amendment against its 1/4-mile ring.
 - Outcome: proposed dwelling units of new-building jobs, by the year the job was fully permitted, one record per
   job number. Project (for resampling) = block and lot of the job.
 - Dose: allowed residential FAR by district (RESID_FAR, from the Zoning Resolution's maximum residential FAR,
@@ -121,9 +122,13 @@ def load_lots():
     j = j[~j.index.duplicated()].reindex(pts.index)
     a["zone_after"] = j["ZONEDIST1"].values
     a["maxfar_after"] = pd.to_numeric(j["MAXALLWFAR"], errors="coerce").values
+    c = gpd.read_file(f"zip://{DIR / 'mappluto_09v2.zip'}!MapPLUTO_09v2/Brooklyn/BKMapPLUTO.shp", columns=["ZoneDist1"]).to_crs(CRS_M)
+    k = gpd.sjoin(pts, c, how="left", predicate="within")
+    a["zone_end"] = k[~k.index.duplicated()].reindex(pts.index)["ZoneDist1"].values
     a["acres"] = a.geometry.area / C.SQM_PER_ACRE
     a["far_before"] = a["zoneDist1"].map(resid_far)
     a["far_after"] = a["zone_after"].map(resid_far)
+    a["far_end"] = a["zone_end"].map(resid_far)
     a["zclass"] = a["zoneDist1"].map(zone_class)
     a["pt"] = pts.geometry
     _lots_cache["lots"] = a
@@ -140,6 +145,16 @@ def load_jobs() -> pd.DataFrame:
     d["lon"] = pd.to_numeric(d["gis_longitude"], errors="coerce")
     d["project"] = d["block"].astype(str) + "-" + d["lot"].astype(str)
     return d.dropna(subset=["lat", "lon"])
+
+
+def zoning_changed(z0: pd.Series, z1: pd.Series, f0: pd.Series, f1: pd.Series) -> pd.Series:
+    """True where allowed residential FAR changed between two snapshots; where a FAR is unknown, where the district
+    name changed. Lots missing from either snapshot count as unchanged."""
+    a = z0.astype(str).str.upper().str.strip()
+    b = z1.astype(str).str.upper().str.strip()
+    known = f0.notna() & f1.notna()
+    missing = z0.isna() | z1.isna()
+    return ~missing & ((known & ((f0 - f1).abs() > 1e-9)) | (~known & (a != b)))
 
 
 def locate_jobs(jg, lots, max_m: float = 40.0) -> pd.Series:
@@ -168,26 +183,18 @@ def build(case: str) -> tuple[C.CaseInputs, dict]:
     poly = zma[zma["ULURPNO"].astype(str).str.lower() == spec["ulurp"]].geometry.union_all()
     pts = gpd.GeoSeries(lots["pt"], crs=CRS_M)
     in_zma = pts.within(poly)
-    up = lots["far_after"] > lots["far_before"] + 1e-9
-    treated = in_zma & up
-    # other city-initiated rezonings adopted in this case's window (deviation 1)
-    bl = gpd.read_file(DIR / "bloomberg_rezonings.geojson").to_crs(CRS_M)
-    bl["adopted"] = pd.to_datetime(bl["Adopted"], unit="ms", errors="coerce")
     per = C.period_years(eyear, FIRST_YEAR, LAST_FULL_YEAR)
-    lo, hi = pd.Timestamp(f"{per['before'][0]}-01-01"), pd.Timestamp(f"{per['after'][-1]}-12-31")
-    other = bl[(bl["ULURPNO"].astype(str).str.lower() != spec["ulurp"]) & bl["adopted"].between(lo, hi)]
-    other_poly = other.geometry.union_all() if len(other) else None
-    excluded = (in_zma & ~treated) | (pts.within(other_poly) if other_poly is not None else False)
+    rose = lots["far_after"] > lots["far_before"] + 1e-9
+    # zoning changes in the window: 02b -> 04c outside the amendment, and 04c -> 09v2 anywhere
+    changed = (~in_zma & zoning_changed(lots["zoneDist1"], lots["zone_after"], lots["far_before"], lots["far_after"])) | \
+        zoning_changed(lots["zone_after"], lots["zone_end"], lots["far_after"], lots["far_end"])
     stations = gpd.read_file(DIR / "subway_stations.geojson").to_crs(CRS_M)
     stations = stations[stations["Borough"].astype(str) == "3"].geometry
-    if other_poly is not None:
-        stations = stations[stations.distance(other_poly) > C.HALF_MILE_M]
-    lots_for_areas = lots.copy()
-    area = C.assign_areas(lots_for_areas, treated, in_city=~excluded | treated, stations=stations)
-    area[excluded & ~treated] = None
-    lots["area"] = area
     lu = lots["landUse2"].astype(str).str.zfill(2)
     lots["eligible"] = lots["zclass"].isin(["res", "com", "mixed"]) & ~lu.isin(["08", "09"])
+    lots["area"], rule = C.uniform_areas(lots, in_zma, rose, lots["far_before"], lots["far_after"],
+                                         pd.Series(True, index=lots.index), changed, lots["eligible"], stations=stations)
+    treated = lots["area"] == C.TREAT
     el = lots[lots["area"].notna() & lots["eligible"]].copy()
     acres = el.groupby("area")["acres"].sum().to_dict()
     homes = el.groupby("area")["unitsRes"].sum().astype(float).to_dict()
@@ -195,38 +202,39 @@ def build(case: str) -> tuple[C.CaseInputs, dict]:
     jobs = load_jobs()
     jg = gpd.GeoDataFrame(jobs, geometry=gpd.points_from_xy(jobs["lon"], jobs["lat"]), crs=4326).to_crs(CRS_M)
     jg["lot_ix"] = locate_jobs(jg, lots)
-    jg["area"] = lots["area"].reindex(jg["lot_ix"]).values
-    jg["eligible"] = lots["eligible"].reindex(jg["lot_ix"]).fillna(False).values
-    permits = jg[jg["area"].notna() & jg["eligible"].astype(bool)][["project", "area", "year", "units"]].copy()
-    permits["year"] = permits["year"].astype(int)
+    jg["eligible"] = lots["eligible"].reindex(jg["lot_ix"]).fillna(False).astype(bool).values
 
+    def permits_for(area: pd.Series) -> pd.DataFrame:
+        q = jg.assign(area=area.reindex(jg["lot_ix"]).values)
+        q = q[q["area"].notna() & q["eligible"]][["project", "area", "year", "units"]].copy()
+        q["year"] = q["year"].astype(int)
+        return q
+
+    permits = permits_for(lots["area"])
     tr = el[el["area"] == C.TREAT]
     dose_table = tr.rename(columns={"far_before": "old_far", "far_after": "new_far"})[["acres", "old_far", "new_far"]]
     pluto_dose = C.dose(tr.assign(o=pd.to_numeric(tr["maxAllwFAR"], errors="coerce"), n=tr["maxfar_after"]), old="o", new="n")
 
-    # literal-plan check: comparison without excluding other rezonings or non-upzoned lots in the amendment
-    lit_area = C.assign_areas(lots, treated, stations=None)
-    lit = lots.assign(area=lit_area)
-    lit_el = lit[lit["area"].isin([C.TREAT, C.COMP]) & lit["eligible"]]
-    jl = jg.assign(area=lit["area"].reindex(jg["lot_ix"]).values)
-    jl = jl[jl["area"].isin([C.TREAT, C.COMP]) & jg["eligible"].astype(bool)]
-    lit_did = C.did(jl[["project", "area", "year", "units"]].astype({"year": int}), lit_el.groupby("area")["acres"].sum().to_dict(),
-                    per["before"], per["after"])["did"]
+    # original area rule (sensitivity): every lot in the amendment against its 1/4-mile ring, no exclusions
+    orig_area = C.assign_areas(lots, in_zma, stations=None)
+    orig_acres = lots[orig_area.notna() & lots["eligible"]].groupby(orig_area)["acres"].sum().to_dict()
+    original = (permits_for(orig_area), orig_acres)
 
     diag = {
-        "treated_lots": int(treated.sum()), "lots_in_amendment": int(in_zma.sum()),
+        "rule": rule, "treated_lots": int(treated.sum()), "lots_in_amendment": int(in_zma.sum()),
         "eligible_lots_by_area": el.groupby("area").size().to_dict(),
         "zoning_before_treated": lots.loc[treated, "zoneDist1"].value_counts().head(10).to_dict(),
         "zoning_after_treated": lots.loc[treated, "zone_after"].value_counts().head(10).to_dict(),
         "dose_pluto_maxallwfar": round(pluto_dose, 3),
-        "other_rezonings_excluded": sorted(other["RezoneArea"].astype(str).unique().tolist()),
+        "lots_changed_in_window_outside_reform": int((changed & ~in_zma).sum()),
         "second_comparison_stations": int(len(C.stations_not_upzoned(stations, lots.loc[treated].geometry.union_all()))),
-        "literal_plan_did": round(lit_did, 4),
+        "original_rule_acres": {k: round(v, 1) for k, v in orig_acres.items()},
         "dose_missing_far_lots": int(dose_table[["old_far", "new_far"]].isna().any(axis=1).sum()),
     }
     role = "fit"
     ci = C.CaseInputs(case=case, role=role, effective_year=eyear, first_year=FIRST_YEAR, last_full_year=LAST_FULL_YEAR,
                       permits=permits, acres=acres, homes=homes, dose_table=dose_table,
                       parking_change="none (minimums kept)", mandate="no",
-                      notes="dose = residential FAR by district (Zoning Resolution); PLUTO maxAllwFAR dose in CASE_RESULTS.md")
+                      notes="dose = residential FAR by district (Zoning Resolution); PLUTO maxAllwFAR dose in CASE_RESULTS.md",
+                      original_spec=original)
     return ci, diag

@@ -10,12 +10,13 @@ Every file comes from the publishing government's own service (or the Census Bur
   645eba06f0af44e5ac5d40ffc69d81e6, because the county server refuses scripted queries); City of Charlotte
   Rezoning History, Pre-UDO Zoning and All Parcel Data layers (land use only; owner fields are not requested);
   CATS rail stops from the BTS National Transit Map.
-- Saint Paul: Housing Production layer, Principal Zoning snapshots (Nov 2010, Nov 2011, Nov 2012), city tax parcels,
+- Saint Paul: Housing Production layer, Principal Zoning snapshots (Nov 2010, 2011, 2012 and 2017), city tax parcels,
   Metro Transit light-rail stops.
 - New York: DOB job application filings (Brooklyn new buildings), DCP zoning map amendments and list of
-  city-initiated rezonings, MapPLUTO 02b and 04c (Brooklyn lots before and after), subway stations.
+  city-initiated rezonings, MapPLUTO 02b, 04c and 09v2 (Brooklyn lots before, after and at the end of the window),
+  subway stations.
 - Census Building Permits Survey county files 1996-2014 (checks of the permit files' yearly totals).
-- Chicago (held out): building permits (new construction), zoning as of November 2012, CTA and Metra stops,
+- Chicago (held out): building permits (new construction), zoning as of November 2012 and today, CTA and Metra stops,
   Cook County 2021 parcels in Chicago.
 - Census 2010 blocks with housing-unit counts (TIGER2010BLKPOPHU) for the states above.
 
@@ -257,7 +258,8 @@ NYC_DOB_FIELDS = ("job__,doc__,borough,house__,street_name,block,lot,bin__,job_t
 NYC_DCP = "https://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services"
 NYC_BYTES = "https://s-media.nyc.gov/agencies/dcp/assets/files/zip/data-tools/bytes/mappluto"
 NYC_LICENCE = "NYC Open Data terms of use (public record)"
-NYC_PLUTO = {"mappluto_02b.zip": "MapPLUTO 02b (2002, before both rezonings)", "mappluto_04c.zip": "MapPLUTO 04c (late 2004, after both)"}
+NYC_PLUTO = {"mappluto_02b.zip": "MapPLUTO 02b (2002, before both rezonings)", "mappluto_04c.zip": "MapPLUTO 04c (late 2004, after both)",
+             "mappluto_09v2.zip": "MapPLUTO 09v2 (2009, end of the after window: zoning changes during the window)"}
 
 
 def fetch_nyc(refresh: bool) -> None:
@@ -284,7 +286,8 @@ def fetch_nyc(refresh: bool) -> None:
 
 STP = "https://services1.arcgis.com/9meaaHE3uiba0zr8/arcgis/rest/services"
 STP_LICENCE = "AS IS under the Minnesota Government Data Practices Act (City of Saint Paul open data)"
-STP_ZONING_SNAPSHOTS = {31: "zoning_2010_11.geojson", 28: "zoning_2011_11.geojson", 27: "zoning_2012_11.geojson"}
+STP_ZONING_SNAPSHOTS = {31: "zoning_2010_11.geojson", 28: "zoning_2011_11.geojson", 27: "zoning_2012_11.geojson",
+                        15: "zoning_2017_11.geojson"}
 
 
 def fetch_stpaul(refresh: bool) -> None:
@@ -323,6 +326,14 @@ def fetch_chicago(refresh: bool) -> None:
     download_file(man, "zoning_nov2012.zip", CHI_ZONING_2012, refresh, CHI_LICENCE,
                   note="Boundaries - Zoning Districts (deprecated October 2014), p8va-airx, file Zoning_nov2012.zip")
     ntm_rail_stops(man, "rail_stops.geojson", ["50066", "50118"], refresh)
+    name = "zoning_current.geojson"
+    if not man.have(name, refresh):
+        url = "https://data.cityofchicago.org/resource/dj47-wfun.geojson?" + urllib.parse.urlencode(
+            {"$select": "zone_class,the_geom", "$limit": 100000})
+        man.record(name, http_get(url, timeout=900), url, licence=CHI_LICENCE,
+                   note="Boundaries - Zoning Districts (current), dj47-wfun: zoning changes since November 2012")
+    else:
+        print(f"  {name}: kept")
     name = "parcels.geojson"
     if man.have(name, refresh):
         print(f"  {name}: kept")

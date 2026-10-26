@@ -60,4 +60,12 @@ Written 2026-10-26 by the TOD conductor, before any permits have been counted fo
 
 ## 7. Changes after writing
 
-None yet.
+**2026-10-26, areas (sections 2 and 3).** Made after the first count of Charlotte, New York, Saint Paul and Chicago, following an independent check of those results ([CASE_RESULTS.md](CASE_RESULTS.md)).
+- **Change.** One rule for every case:
+  - treatment = lots inside the reform whose allowed residential density (floor area ratio, or height where a case has no FAR) actually rose with the reform;
+  - comparison and second comparison = lots whose allowed density did not change during the before or after years;
+  - lots rezoned outside the reform during those years are in no area;
+  - land already at the law is in no area. "Already at the law" means zoning before with no separate homes-per-acre cap that already allowed at least the acre-weighted median allowed level of the reform's new zoning on eligible land where density rose.
+- **Reason.** This applies the eligible-land definition already decided in AQ-047 item 8: eligible land is land where the law raises allowed density, and land already at the law is excluded. The check showed the original area rule mixed already-dense land into both groups. In Charlotte, 1,856 of the 2,111 before-period treatment units were on 124.8 acres already zoned for transit-oriented development before 2019, and the comparison ring held older dense mixed-use zoning.
+- **Original rule kept.** Results under the original rule stay in the results as a sensitivity (`sens_original_spec`).
+

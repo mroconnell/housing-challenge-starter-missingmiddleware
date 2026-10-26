@@ -16,8 +16,12 @@ Rules used here (docs/tod/CASE_RESULTS.md, section Charlotte):
 - Outcome: Census use codes 101-105 and 115 (new one-family to 5+ unit buildings, the Building Permits Survey
   classes), units from `numunits`; placeholder 1-unit permits for garages, amenity areas and similar are dropped.
 - Project (for resampling): the permit's parcel number (several per-floor permits of one building are one project).
-- Dose: allowed residential FAR before and after from height limits and homes-per-acre caps, converted with
-  FAR_PER_FT and SQFT_PER_UNIT (written down in CASE_RESULTS.md; Charlotte's code has no FAR for these districts).
+- Areas: the uniform rule of CASE_ANALYSIS_PLAN.md section 7 (cases.uniform_areas), with height limits as the
+  level because Charlotte's districts have no FAR. Lots in rezoning petitions approved in the window that changed
+  the base district (other than 2019-102) are in no area.
+- Dose: added height limit in feet over eligible treatment land. Charlotte's code gives no FAR for these districts
+  and no Charlotte-specific conversion was found, so the case has an effect per added foot, not per added FAR, and
+  stays out of per-FAR pooling.
 """
 from __future__ import annotations
 
@@ -38,11 +42,6 @@ UDO_DATE = pd.Timestamp("2023-06-01")  # Unified Development Ordinance in force;
 FIRST_YEAR, LAST_FULL_YEAR = 1990, 2025
 RES_CODES = ("101", "102", "103", "104", "105", "115")
 PLACEHOLDER = re.compile(r"\bS/C\b|garage|amenit|club|leasing|pool|parking|deck|mail|maint|trash|compactor|cabana|fitness|shell|core", re.I)
-
-# FAR conversion (see CASE_RESULTS.md): New York's contextual districts give 0.05 FAR per foot of height
-# (R7A 4.0 FAR at 80 ft; R8A 6.02 FAR at 120 ft), and New York's dwelling-unit factor is 680 sq ft per unit.
-FAR_PER_FT = 6.02 / 120.0
-SQFT_PER_UNIT = 680.0
 
 # Pre-2019 Charlotte base districts: (class, height limit in ft, homes per acre cap or None).
 # class: res / mixed / com (eligible) or ind / inst (not eligible). Heights before are about 40 ft in most base
@@ -87,21 +86,23 @@ def base_district(code: str | None) -> str | None:
     return s
 
 
-def far_before(code: str | None) -> float:
+def height_before(code: str | None) -> float:
+    """Height limit in feet of the district before (inf for no limit, NaN when unknown)."""
     d = DISTRICTS.get(base_district(code) or "")
     if d is None:
         return float("nan")
-    _, h, cap = d
-    far_h = C.far_from_height(h, FAR_PER_FT) if h is not None else float("inf")
-    far_d = C.far_from_density(cap, SQFT_PER_UNIT) if cap is not None else float("inf")
-    v = min(far_h, far_d)
-    return float("nan") if np.isinf(v) else v
+    return float("inf") if d[1] is None else float(d[1])
 
 
-def far_after(code: str | None) -> float:
-    b = base_district(code)
-    h = AFTER_HEIGHT.get(b or "")
-    return C.far_from_height(h, FAR_PER_FT) if h else float("nan")
+def capped_before(code: str | None) -> bool:
+    """True when the district before had a homes-per-acre cap (or did not allow housing)."""
+    d = DISTRICTS.get(base_district(code) or "")
+    return True if d is None else d[2] is not None
+
+
+def height_after(code: str | None) -> float:
+    h = AFTER_HEIGHT.get(base_district(code) or "")
+    return float(h) if h else float("nan")
 
 
 def zoning_class(code: str | None) -> str | None:
@@ -160,29 +161,48 @@ def build(blocks_zip: Path | None = None) -> tuple[C.CaseInputs, dict]:
     city = gpd.read_file(DIR / "council_districts.geojson").to_crs(CRS_M).union_all()
     in_city = parcels.geometry.representative_point().within(city) | parcels["treated"]
     stations = gpd.read_file(DIR / "rail_stops.geojson").to_crs(CRS_M).geometry
-    parcels["area"] = C.assign_areas(parcels, parcels["treated"], in_city=in_city, stations=stations)
     lu = parcels["landuse_description"].astype(str)
     parcels["eligible"] = parcels["zclass"].isin(["res", "mixed", "com"]) & ~lu.str.contains(NOT_ELIGIBLE_LANDUSE)
+    per = C.period_years(EFFECTIVE_YEAR, FIRST_YEAR, LAST_FULL_YEAR)
+
+    # uniform rule (CASE_ANALYSIS_PLAN.md section 7): levels are height limits, since Charlotte's districts have no FAR
+    parcels["h_before"] = parcels["zoning_before"].map(height_before)
+    parcels["h_after"] = parcels["zoning_after"].map(height_after)
+    parcels["capped"] = parcels["zoning_before"].map(capped_before)
+    rose = parcels["treated"] & ((parcels["h_after"] > parcels["h_before"]) | parcels["capped"])
+    win = rz[rz["approved"].between(pd.Timestamp(f"{per['before'][0]}-01-01"), pd.Timestamp(f"{per['after'][-1]}-12-31"))
+             & rz["Status"].astype(str).str.startswith("App") & ~rz["Petition"].astype(str).str.startswith("2019-102")]
+    win = win[win["ExistingZoning"].map(base_district) != win["RequestedZoning"].map(base_district)]
+    changed = pts.geometry.within(win.geometry.union_all()) if len(win) else pd.Series(False, index=parcels.index)
+    parcels["area"], rule = C.uniform_areas(parcels, parcels["treated"], rose, parcels["h_before"], parcels["h_after"],
+                                            ~parcels["capped"], changed, parcels["eligible"], in_city=in_city, stations=stations)
     el = parcels[parcels["area"].notna() & parcels["eligible"]].copy()
     acres = el.groupby("area")["acres"].sum().to_dict()
 
-    # permits on eligible parcels
+    # permits located to parcels
     pr = load_permits()
     pg = gpd.GeoDataFrame(pr, geometry=gpd.points_from_xy(pr["X"], pr["Y"]), crs=2264).to_crs(CRS_M)
     near = pg[pg.geometry.within(parcels.union_all().buffer(50))].copy()
     near["pix"] = C.locate_points(near, parcels)
-    near["area"] = parcels["area"].reindex(near["pix"]).values
     near["eligible"] = parcels["eligible"].reindex(near["pix"]).fillna(False).astype(bool).values
-    near["zclass"] = parcels["zclass"].reindex(near["pix"]).values
-    j = near[near["area"].notna() & near["eligible"]]
-    permits = j[["project", "area", "year", "units"]].copy()
-    permits["year"] = permits["year"].astype(int)
 
-    # dose over treatment eligible land
-    tr = el[el["area"] == C.TREAT].copy()
-    tr["old_far"] = tr["zoning_before"].map(far_before)
-    tr["new_far"] = tr["zoning_after"].map(far_after)
-    dose_table = tr[["acres", "old_far", "new_far"]]
+    def permits_for(area: pd.Series) -> pd.DataFrame:
+        a = area.reindex(near["pix"]).values
+        q = near.assign(area=a)
+        q = q[q["area"].notna() & q["eligible"]][["project", "area", "year", "units"]].copy()
+        q["year"] = q["year"].astype(int)
+        return q
+
+    permits = permits_for(parcels["area"])
+
+    # original area rule (sensitivity): whole petition area against its 1/4-mile ring
+    orig_area = C.assign_areas(parcels, parcels["treated"], in_city=in_city, stations=stations)
+    orig_acres = parcels[orig_area.notna() & parcels["eligible"]].groupby(orig_area)["acres"].sum().to_dict()
+    original = (permits_for(orig_area), orig_acres)
+
+    # dose: added height in feet over eligible treatment land (the removed homes-per-acre caps are not in it)
+    tr = el[el["area"] == C.TREAT]
+    dose_table = pd.DataFrame({"acres": tr["acres"], "old_far": tr["h_before"], "new_far": tr["h_after"]})
 
     # existing homes, 2010 census blocks
     homes = {}
@@ -193,28 +213,23 @@ def build(blocks_zip: Path | None = None) -> tuple[C.CaseInputs, dict]:
         b = gpd.GeoDataFrame({"homes": b["HOUSING10"]}, geometry=b.geometry.representative_point(), crs=CRS_M)
         homes = C.homes_by_area(b, el[["area", "geometry"]])
 
+    tp = permits[permits["area"] == C.TREAT]
     diag = {
-        "parcels_by_area": parcels.groupby("area").size().to_dict(),
+        "rule": rule,
         "eligible_parcels_by_area": el.groupby("area").size().to_dict(),
-        "treatment_acres_all": float(parcels.loc[parcels["treated"], "acres"].sum()),
-        "treatment_acres_by_class": parcels[parcels["treated"]].groupby(parcels["zclass"].fillna("unknown"))["acres"].sum().round(1).to_dict(),
-        "unknown_zoning_before": sorted(set(parcels.loc[parcels["area"].notna() & parcels["zclass"].isna(), "zoning_before"].dropna().astype(str)))[:40],
-        "dose_parcels_missing_far": int(dose_table[["old_far", "new_far"]].isna().any(axis=1).sum()),
+        "petition_acres_all": round(float(parcels.loc[parcels["treated"], "acres"].sum()), 1),
+        "treatment_zoning_before": tr["zoning_before"].map(base_district).value_counts().head(12).to_dict(),
+        "treatment_zoning_after": tr["zoning_after"].map(base_district).value_counts().to_dict(),
+        "comparison_zoning_classes_acres": el[el["area"] == C.COMP].groupby("zclass")["acres"].sum().round(1).to_dict(),
         "permits_located_share": round(float(near["pix"].notna().mean()), 4),
-        "treatment_units_by_class_before": j[j["area"] == C.TREAT].groupby("zclass")["units"].sum().to_dict(),
-        "second_comparison_stations": int(len(C.stations_not_upzoned(stations, parcels.loc[parcels["treated"]].geometry.union_all()))),
+        "treatment_units_before": int(tp[tp["year"].isin(per["before"])]["units"].sum()),
+        "original_rule_acres": {k: round(v, 1) for k, v in orig_acres.items()},
+        "second_comparison_stations": int(len(C.stations_not_upzoned(stations, parcels.loc[parcels["area"] == C.TREAT].geometry.union_all()))),
+        "rezoning_petitions_in_window_changing_district": int(len(win)),
     }
-    # all-land variant (not pre-registered): industrial land in the treatment and comparison counted too
-    allland = parcels[parcels["area"].isin([C.TREAT, C.COMP]) & ~lu.str.contains(NOT_ELIGIBLE_LANDUSE) & parcels["zclass"].ne("inst")]
-    j2 = near[near["pix"].isin(allland.index)]
-    p2 = j2[["project", "area", "year", "units"]].copy()
-    per = C.period_years(EFFECTIVE_YEAR, FIRST_YEAR, LAST_FULL_YEAR)
-    a2 = allland.groupby("area")["acres"].sum().to_dict()
-    diag["unregistered_all_land_did"] = round(C.did(p2, a2, per["before"], per["after"])["did"], 4)
-    diag["unregistered_all_land_acres"] = {k: round(v, 1) for k, v in a2.items()}
-
     ci = C.CaseInputs(case="charlotte_tod_2019", role="fit", effective_year=EFFECTIVE_YEAR, first_year=FIRST_YEAR,
                       last_full_year=LAST_FULL_YEAR, permits=permits, acres=acres, homes=homes, dose_table=dose_table,
                       parking_change="removed (no minimums in TOD districts)", mandate="no (voluntary bonus only)",
-                      notes="dose converted from height and homes-per-acre limits (FAR_PER_FT, SQFT_PER_UNIT)")
+                      notes="dose is added height in feet (no FAR in Charlotte's districts); homes-per-acre caps also removed",
+                      dose_unit="height_ft", original_spec=original)
     return ci, diag

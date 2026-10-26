@@ -105,15 +105,37 @@ class TestDose(unittest.TestCase):
         self.assertAlmostEqual(C.far_from_height(120, 6.02 / 120), 6.02)
         self.assertAlmostEqual(C.far_from_density(22, 680), 22 * 680 / 43560)
 
-    def test_charlotte_district_conversion(self):
+    def test_charlotte_districts(self):
         from missing_middleware.tod import case_charlotte as CL
         self.assertEqual(CL.base_district("B-1(CD)"), "B-1")
         self.assertEqual(CL.base_district("MUDD-O"), "MUDD")
         self.assertEqual(CL.base_district("R-12MF(CD)"), "R-12MF")
         self.assertEqual(CL.zoning_class("I-2"), "ind")
-        # B-2 before: min(40 ft x FAR per ft, 22 homes/acre x 680 sq ft) = the density cap
-        self.assertAlmostEqual(CL.far_before("B-2"), 22 * 680 / 43560)
-        self.assertAlmostEqual(CL.far_after("TOD-UC"), 130 * 6.02 / 120)
+        self.assertEqual(CL.height_before("B-2"), 40.0)
+        self.assertTrue(CL.capped_before("B-2"))
+        self.assertFalse(CL.capped_before("TOD-CC"))
+        self.assertEqual(CL.height_before("UMUD"), float("inf"))
+        self.assertEqual(CL.height_after("TOD-UC"), 130.0)
+
+    def test_height_dose_has_no_far_effect(self):
+        ci = C.CaseInputs(case="t", role="fit", effective_year=2016, first_year=2013, last_full_year=2018,
+                          permits=permits(), acres=ACRES, homes={}, dose_unit="height_ft",
+                          dose_table=pd.DataFrame({"acres": [1.0], "old_far": [40.0], "new_far": [100.0]}))
+        _, row = C.estimate_case(ci, draws=50)
+        self.assertIsNone(row["effect_per_dose"])
+        self.assertAlmostEqual(row["dose_added_height_ft"], 60.0)
+        self.assertAlmostEqual(row["effect_per_added_ft"], round(3.0 / 60.0, 5))
+
+    def test_chicago_unit_parsing_and_staged_dedupe(self):
+        from missing_middleware.tod import case_chicago as CH
+        self.assertEqual(CH.parse_units("ERECT NEW 6 STORY, 41 UNIT APARTMENT BUILDING"), 41)
+        self.assertEqual(CH.parse_units("ADDRESS INCLUDES 4302 S. DREXEL UNITS A & B"), 0)
+        self.assertEqual(CH.parse_units("REVISION TO PERMIT 1 FOR 8 DWELLING UNITS"), 0)
+        p = pd.DataFrame({"x": [0.0, 0.2, 0.0, 30.0, 0.0], "y": [0.0, 0.1, 0.0, 0.0, 0.0], "units": [40, 40, 40, 1, 1],
+                          "issue_date": ["2016-01-01", "2016-09-01", "2019-01-01", "2016-01-01", "2016-02-01"]})
+        d = CH.dedupe_staged(p)
+        # stage merged (same point, same units, 8 months); the 2019 permit is a new building; homes at other points kept
+        self.assertEqual(sorted(d["issue_date"].tolist()), ["2016-01-01", "2016-01-01", "2016-02-01", "2019-01-01"])
 
     def test_effect_per_dose_in_estimate(self):
         ci = C.CaseInputs(case="t", role="fit", effective_year=2016, first_year=2013, last_full_year=2018,
@@ -123,6 +145,25 @@ class TestDose(unittest.TestCase):
         self.assertAlmostEqual(row["estimate_units_per_acre_yr"], 3.0)
         self.assertAlmostEqual(row["effect_per_dose"], round(3.0 / 1.8, 4))
         self.assertEqual(set(rates["period"]), {"before", "year0", "after"})
+
+
+class TestUniformAreas(unittest.TestCase):
+    def test_rule(self):
+        import geopandas as gpd
+        from shapely.geometry import box
+        # a row of 100 m lots: 0-2 in the reform; lot 2 already at the law; lot 4 changed outside the reform
+        lots = gpd.GeoDataFrame(geometry=[box(i * 100, 0, i * 100 + 90, 90) for i in range(8)], crs=32119)
+        in_reform = pd.Series([True, True, True] + [False] * 5)
+        before = pd.Series([1.0, 1.0, 6.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+        after = pd.Series([6.0, 3.0, 7.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+        changed = pd.Series([False] * 4 + [True] + [False] * 3)
+        area, info = C.uniform_areas(lots, in_reform, after > before, before, after, pd.Series(True, index=lots.index),
+                                     changed, pd.Series(True, index=lots.index))
+        self.assertEqual(info["median_new_level_on_rising_land"], 6.0)
+        # lot 1 rose (1.0 -> 3.0) and was below the median before: treated; lot 2 (6.0 before) was already at the law
+        self.assertEqual(list(area[:3]), ["treatment", "treatment", None])
+        self.assertIsNone(area[4])
+        self.assertEqual(area[3], "comparison")
 
 
 class TestFitSetExcludesHeldOut(unittest.TestCase):
