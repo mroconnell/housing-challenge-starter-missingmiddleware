@@ -168,6 +168,48 @@ class TestUIBundle(unittest.TestCase):
         self.assertIn("Gate 5", mad["note"])
         self.assertEqual(sum(1 for a in self.areas["munis"] if a.get("note")), 1)
 
+    def test_labels_come_from_the_bundle(self):
+        # owner review 2026-10-26: one set of chart-key labels, used by every screen and the brief
+        lab = self.state["labels"]
+        self.assertEqual(lab["baseline"], "No statewide reform (baseline)")
+        self.assertEqual(lab["band"], "Range from the lower to the strong adoption scenario")
+        self.assertTrue(lab["reference"].startswith("Median performance in "))
+        self.assertEqual(self.state["reference_line"]["label"], lab["reference"])
+        want = {"lower": "Statewide ADU reform: lower scenario", "central": "Statewide ADU reform: central scenario",
+                "upper": "Statewide ADU reform: strong adoption scenario"}
+        for p in PATHS:
+            self.assertEqual(self.scen[p]["chart_label"], want[p])
+            self.assertTrue(self.scen[p]["title"] and self.scen[p]["text"] and self.scen[p]["info"])
+        self.assertIn("California", self.scen["central"]["text"])
+        self.assertNotIn("floor", " ".join(self.scen[p]["text"] for p in PATHS).lower())
+
+    def test_baseline_only_effects(self):
+        # baseline-only sensitivity cases: the engine baseline equals the baseline sensitivity table
+        ref = {r["sensitivity"]: float(r["b5yr_central"]) for r in rows("wi_baseline_sensitivities.csv")}
+        bo = {c["id"]: c for c in self.unc["baseline_only"]}
+        self.assertAlmostEqual(bo["madison-2026"]["baseline"], ref["Madison x = 2026 provisional to date"], delta=0.1)
+        self.assertAlmostEqual(bo["uncoded-prohibited"]["baseline"], ref["uncoded places behave like prohibited (old AQ-023 default)"], delta=0.1)
+        for c in bo.values():
+            # the with-law level does not depend on the current-law rate: a baseline change is mostly offset
+            self.assertLessEqual(abs(c["d_with_law"]), abs(c["d_baseline"]) + 0.1, c["id"])
+        self.assertEqual({c["group"] for c in self.unc["sensitivity_cases"]}, {"addition"})
+
+    def test_county_labels_are_points_inside_counties(self):
+        lab = strict_load(self.dir / "geo_labels.json")
+        self.assertEqual(len(lab["features"]), 72)
+        self.assertEqual({f["geometry"]["type"] for f in lab["features"]}, {"Point"})
+        self.assertTrue(all(f["properties"]["kind"] == "county" for f in lab["features"]))
+
+    def test_pilot_texts(self):
+        mad = next(p for p in self.pilots if p["slug"] == "madison")
+        self.assertIn("Spokane", mad["like"]["text"])
+        self.assertIn("0.45", mad["like"]["text"])
+        self.assertIn("1.08", mad["like"]["text"])
+        self.assertIn("29", mad["programme"]["text"])
+        self.assertIn("13", mad["programme"]["text"])
+        self.assertNotIn("floor", mad["description"].lower())
+        self.assertIn("already inside the Wisconsin total", self.manifest["pilot_intro"]["how"])
+
     @unittest.skipUnless((ROOT / "data/processed/model_run/results_long.parquet").exists(), "needs the processed model run")
     def test_bundle_is_current(self):
         spec = importlib.util.spec_from_file_location("build_ui_bundle", ROOT / "scripts" / "build_ui_bundle.py")

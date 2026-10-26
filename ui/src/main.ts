@@ -41,7 +41,7 @@ function shell(b: Bundle): void {
     </div>
     <div class="status-strip" role="note" aria-label="Model run status">
       <div class="wrap">
-        <span><strong>Adopted model</strong> (Gate 3, AQ-042)</span>
+        <span><strong>Adopted model</strong> (25 October 2026)</span>
         <span>Run <code data-testid="run-id">${esc(m.run_id)}</code></span>
         <span>Last observed year ${m.dates.last_observed_year}</span>
         <span>Forecast ${m.dates.forecast_years[0]}–${m.dates.forecast_years[m.dates.forecast_years.length - 1]}</span>

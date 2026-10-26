@@ -147,16 +147,68 @@ test("brief carries the headline numbers", async ({ page }) => {
   await expect(page.locator(".brief")).toContainText(b.run_id);
 });
 
-test("Madison's different treatment is explained on its pilot page, details panel and map", async ({ page }) => {
+test("Madison's different treatment is explained on its pilot page and only when Madison or Dane County is picked", async ({ page }) => {
   await page.goto("#/pilot/madison");
-  await expect(page.getByTestId("madison-note")).toContainText("Gate 5");
+  await expect(page.getByTestId("pilot-intro")).toContainText("What is a pilot page?");
+  await expect(page.getByTestId("pilot-intro")).toContainText("already inside the Wisconsin total");
+  await expect(page.getByTestId("madison-note")).toContainText("Cities like Madison");
+  await expect(page.getByTestId("madison-note")).toContainText("Spokane");
   await expect(page.getByTestId("madison-2026")).toContainText("provisional");
+  await expect(page.getByTestId("madison-2026")).toContainText("twin home ADU");
   await page.goto("#/where");
-  await expect(page.getByTestId("map-madison-note")).toContainText("Madison alone");
+  await expect(page.getByTestId("detail-madison-note")).toHaveCount(0);
+  await page.locator("#q").fill("Dane");
+  await page.getByRole("button", { name: "Details for Dane County" }).click();
+  await expect(page.getByTestId("detail-madison-note")).toContainText("Madison");
   await page.getByRole("radio", { name: "Cities, villages and towns" }).check();
   await page.locator("#q").fill("Madison city");
   await page.getByRole("button", { name: "Details for Madison city" }).click();
   await expect(page.getByTestId("detail-madison-note")).toContainText("Gate 5");
+  await page.locator("#q").fill("Middleton city");
+  await page.getByRole("button", { name: "Details for Middleton city" }).click();
+  await expect(page.getByTestId("detail-madison-note")).toHaveCount(0);
+});
+
+test("chart key, tables and brief use the bundle's labels", async ({ page }) => {
+  const b = await bundle(page);
+  const L = b.state.labels;
+  await page.goto("#/compare");
+  await expect(page.getByTestId("compare-intro")).toContainText("not confidence intervals");
+  const legend = page.locator("#h-path").locator("xpath=ancestor::section").locator(".legend");
+  await expect(legend).toContainText(L.baseline);
+  await expect(legend).toContainText(L.band);
+  await expect(legend).toContainText(L.reference);
+  for (const s of b.state.scenarios) {
+    await expect(legend).toContainText(s.chart_label);
+    await expect(page.getByTestId("compare-table")).toContainText(s.chart_label);
+  }
+  await page.goto("#/brief");
+  for (const s of b.state.scenarios) await expect(page.getByTestId("brief-table")).toContainText(s.chart_label);
+  await expect(page.getByTestId("brief-table")).toContainText(L.reference);
+});
+
+test("map defaults and county labels", async ({ page }) => {
+  await page.goto("#/where");
+  await expect(page.locator('input[name="geo"][value="counties"]')).toBeChecked();
+  await expect(page.locator('input[name="measure"][value="count"]')).toBeChecked();
+  await expect(page.locator('input[name="layer"][value="additional"]')).toBeChecked();
+  await expect(page.locator('input[name="scen-where"][value="central"]')).toBeChecked();
+  await expect(page.locator("#year-out")).toHaveText("2031");
+  await expect(page.locator("#map-title")).toContainText("2027–2031");
+  await expect(page.locator("#lbl")).toBeChecked();
+  // the glyphs are self-hosted: the first label range loads from the tool's own server
+  const glyph = await page.request.get("fonts/open-sans-semibold/0-255.pbf");
+  expect(glyph.status()).toBe(200);
+  await page.locator("#lbl").uncheck();
+  await expect(page.locator("#lbl")).not.toBeChecked();
+});
+
+test("sensitivity cases are grouped by the number they move", async ({ page }) => {
+  await page.goto("#/how-sure");
+  await expect(page.getByTestId("sens-group-addition")).toBeVisible();
+  await expect(page.getByTestId("sens-group-baseline")).toBeVisible();
+  await expect(page.getByTestId("sens-group-local")).toBeVisible();
+  await expect(page.getByTestId("baseline-only-table")).toContainText("+209");
 });
 
 test("scenario choice is kept in the URL and the current tab is in view", async ({ page }) => {

@@ -10,6 +10,7 @@ bundle is built only from the adopted outputs:
 - reference/wi_adu_rules.csv, wi_rights_exposure.csv, wi_town_zoning_status.csv (rules, coverage);
 - reference/madison_adu_permits_by_year.csv, pleasant_prairie_/sun_prairie_adu_equivalent_by_year.csv (pilots);
 - reference/statewide_states_annual.csv, pooled_adoption_points.csv, madison_like_*.csv (charts);
+- reference/adu_model_baseline_only_effects.csv (scripts/run_baseline_only_effects.py), pooled_convergence.csv (text);
 - data/processed/foundation/state_conditions.parquet, areas.parquet, geo/*.parquet (context, area list);
 - data/raw/census_cb_2024/ (Census cartographic boundary files, shoreline-clipped, for the map drawing only).
 
@@ -50,6 +51,7 @@ INPUTS = [
     "reference/wi_adu_rules.csv", "reference/wi_rights_exposure.csv", "reference/wi_town_zoning_status.csv",
     "reference/madison_adu_permits_by_year.csv", "reference/pleasant_prairie_adu_equivalent_by_year.csv",
     "reference/sun_prairie_adu_equivalent_by_year.csv", "reference/statewide_states_annual.csv",
+    "reference/adu_model_baseline_only_effects.csv", "reference/pooled_convergence.csv", "reference/madison_like_cities.csv",
     "reference/pooled_adoption_points.csv", "reference/statewide_adoption_curve.csv",
     "reference/madison_like_annual.csv", "reference/madison_like_median_path.csv",
     "data/processed/model_run/results_long.parquet", "data/processed/foundation/areas.parquet",
@@ -80,28 +82,88 @@ SERIES_NAMES = {"WA_inc_exSeattle": "Washington law, measured in its cities excl
 X_STATUS_TEXT = {
     "observed": "Observed: the place's own permit records",
     "estimated": "Calculated: a rules-group rate or a stated ramp, not the place's own permit records",
-    "assumed": "Assumed: local ADU rules not coded; treated like places with restricted rules (AQ-027)",
+    "assumed": "Assumed: local ADU rules not coded; treated like places with restricted rules",
 }
-# Display names for the three scenarios: one short name used everywhere, plus a description.
+# ---------------------------------------------------------------------------------------------
+# DISPLAY: the one place for scenario names, chart-key labels and scenario descriptions. Every screen
+# and the brief read these from state.json ("labels" and each scenario), so renaming a scenario or
+# swapping the reference line is a change here only.
+# Owner review 2026-10-26: plain, editorial descriptions on top; the method in a "details" disclosure.
 SCEN_NAME = {"lower": "Lower", "central": "Central", "upper": "Strong adoption"}
-SCEN_DESC = {"lower": "Slower than any statewide-law state so far", "central": "Like a typical statewide-law state",
-             "upper": "The high end of what statewide-law states have reached"}
+LABELS = {
+    "baseline": "No statewide reform (baseline)",
+    "scenario_chart": "Statewide ADU reform: {name} scenario",   # {name} = scenario name in lower case
+    "band": "Range from the lower to the strong adoption scenario",
+    "reference": "Median performance in {n} examples of statewide ADU reform",   # {n} = states in the line
+    "added": "added permits",
+}
+# Scenario titles (editorial). TODO(lower scenario): the lower scenario's definition is being revised
+# (docs/gate4/SCENARIO_OPTIONS.md, another agent's analysis); its title and text below describe the
+# current definition (central level / 1.89) and must be rewritten when the new definition is adopted.
+SCEN_TITLE = {"lower": "Sluggish adoption", "central": "Typical adoption after a statewide ADU law",
+              "upper": "The high end of what statewide-law states have reached"}
 # Gate 3 values used in the scenario explanations (docs/gate3/POOLED_REVISION.md, sections 2-3):
 COMMON_LEVEL = 1.00   # common level at a typical place, law in force 4+ years, permits per 1,000 SF homes per year
 SPREAD = 1.89         # 80% between-state factor: lower = central / 1.89, upper = central x 1.89
 CA_OUT_CENTRAL = 7621 # central with California out of the common level (sensitivity case)
+LOWER_TODO = ("lower scenario redefined 2026-10-26 (average of Rhode Island and Oregon); its model numbers are applied "
+              "separately (docs/gate4/SCENARIO_OPTIONS.md)")
+# Reference line (owner decision 2026-10-26): median across all 8 statewide-law states, California included, drawn
+# through 2030 with 2031 carried forward (dashed). The series itself is read from REFERENCE_FILE; the conductor swaps
+# the file or variant to change it. The text below describes the decided definition.
+REFERENCE_FILE = "reference/pooled_revision_adoption_line.csv"
+REFERENCE_VARIANT = "vacant_lot_x0.951"
+REFERENCE_DEF = {"n_states": 8, "includes_california": True, "carried_forward_years": [2031]}
+# Madison's 2026 templated builder programme (docs/gate2/MADISON_PERMITS.md, section 5b)
+PROGRAMME = {"units_2026": 29, "permits_2026": 20, "units_2026_without": 13, "two_unit_buildings": 9,
+             "detached": 3, "conversions": 8, "sqft_unit": 998, "sqft_two_unit": 2994, "units_2025": 7, "total_2025": 14}
 MADISON_IDS = {"muni:5502548000"}
 MADISON_PROVISIONAL_THROUGH = "23 October 2026"   # docs/gate2/MADISON_PERMITS.md: permits downloaded to 2026-10-23
 WATER_REASON = "Water area (Great Lakes or Green Bay): no homes, not drawn on the map"
 PIECE_REASON = "No single-family homes in this piece of the area (a sliver across a county line)"
 
 
-def madison_note(p: dict) -> str:
+def madison_like() -> dict:
+    """The Washington and Oregon cities like Madison (reference/madison_like_cities.csv) and their median path."""
+    c = pd.read_csv(REF / "madison_like_cities.csv")
+    c = c[c.state.isin(["WA", "OR"])]
+    med = pd.read_csv(REF / "madison_like_median_path.csv")
+    med = med[med.group.eq("WA+OR Madison-like (main)")].sort_values("year_since_law")
+    by_state = {st: sorted(c[c.state.eq(st)].city) for st in ("WA", "OR")}
+    return {"n": int(len(c)), "by_state": by_state, "median": [round(float(v), 3) for v in med.median_rate],
+            "n_by_year": [int(v) for v in med.n_cities],
+            "own_reform": int(c.local_reform_in_window.fillna(False).astype(bool).sum())}
+
+
+def madison_texts(p: dict) -> dict:
+    ml = madison_like()
     r = p["area_paths"]["madison_like_path"]["rates"]
-    return (f"Madison alone follows the observed path of Madison-like cities in Washington and Oregon: {r[0]:.2f} rising to "
-            f"{r[-1]:.2f} permits per 1,000 single-family homes per year in years 1–5 (2027–2031), the same in every scenario. "
-            "Every other place, including Madison's suburbs, is on the statewide model, so Madison's with-law rate is below "
-            "its neighbours' and does not move with the scenario. This owner decision (AQ-042) is under review at Gate 5.")
+    assert [round(x, 3) for x in r] == [round(x, 3) for x in ml["median"]], "Madison's path should be the WA+OR median"
+    names = (f"{', '.join(ml['by_state']['WA'][:-1])} and {ml['by_state']['WA'][-1]} in Washington; "
+             f"{', '.join(ml['by_state']['OR'][:-1])} and {ml['by_state']['OR'][-1]} in Oregon")
+    last_n = ml["n_by_year"][-1]
+    sens = pd.read_csv(REF / "adu_model_sensitivities.csv")
+    pooled = float(sens[sens.change.str.startswith("Madison at its pooled")].difference_central.iloc[0])
+    return {
+        "title": "Cities like Madison",
+        "text": (f"In Washington and Oregon, {ml['n']} cities similar to Madison in size and home values ({names}) had a "
+                 f"median of {r[0]:.2f} permits per 1,000 single-family homes per year in the first year after their "
+                 f"statewide ADU law, rising to {r[-1]:.2f} by year 5. Madison is modelled the same way: with the law, "
+                 f"its rate follows that path in every scenario, while every other Wisconsin place, Madison's suburbs "
+                 "included, follows the statewide estimate. This choice is being reviewed."),
+        "detail": (f"Cities like Madison are defined in docs/gate3/MADISON_LIKE_CITIES.md: 20,000–120,000 single-family "
+                   "homes, median home value $250,000–$500,000, not the state's largest city; the definition was fixed "
+                   "before any city's permits were read. Path, years 1–5 (2027–2031 for Madison): "
+                   + ", ".join(f"{x:.2f}" for x in r) + f" permits per 1,000 single-family homes per year; years 4 and 5 "
+                   f"rest on the {last_n} Oregon cities only, as Washington's law is newer. {ml['own_reform']} of the "
+                   f"{ml['n']} cities also changed their own ADU rules in the same window. The path replaces Madison's "
+                   "statewide-model level (owner decision AQ-042, 2026-10-25); with the statewide-model level instead, "
+                   f"Madison would add {pooled:,.0f} more permits over 2027–2031 (central scenario). The choice is under review at Gate 5."),
+        # one short sentence, used in the map details panel and the brief
+        "note": (f"Madison follows the observed path of {ml['n']} similar cities in Washington and Oregon ({r[0]:.2f} rising "
+                 f"to {r[-1]:.2f} permits per 1,000 single-family homes per year, 2027–2031) in every scenario, so the law "
+                 "adds less here per 1,000 homes than in its suburbs. This choice is under review (Gate 5)."),
+    }
 
 
 def basis_text(status: str, basis: str) -> str:
@@ -128,7 +190,7 @@ def basis_text(status: str, basis: str) -> str:
     if b == "restricted_group_rate":
         return "the restricted-group rate (Madison 2014–2023 and Fitchburg, pooled)"
     if b == "uncoded_like_restricted_AQ027":
-        return "rules not coded, so the restricted-group rate is assumed (AQ-027)"
+        return "rules not coded, so the restricted-group rate is assumed"
     return b
 CLASS_TEXT = {
     "scenario_benchmark": "Already allows ADUs much like the benchmark law",
@@ -194,20 +256,49 @@ def stage2_levels() -> dict:
 def scenario_defs(p: dict) -> list[dict]:
     lv = stage2_levels()
     lo, up = COMMON_LEVEL / SPREAD, COMMON_LEVEL * SPREAD
-    info = {
-        "lower": (f"The central level divided by {SPREAD:.2f}, about {lo:.2f} permits "
-                  f"per 1,000 single-family homes per year at a typical place once the law has been in force 4 years. "
-                  f"The slowest states are Rhode Island ({lv['RI']:.2f}) and Oregon ({lv['OR']:.2f})."),
-        "central": (f"Wisconsin at the common level of the eight statewide-law states, about {COMMON_LEVEL:.2f} permit per 1,000 "
-                    f"single-family homes per year at a typical place once the law has been in force 4 years (Washington "
-                    f"{lv['WA']:.2f}, Utah {lv['UT']:.2f}, Maine {lv['ME']:.2f}, Vermont {lv['VT']:.2f})."),
-        "upper": (f"The central level times {SPREAD:.2f}, about {up:.2f} "
-                  f"at a typical place; only California ({lv['CA']:.2f}) has gone higher."),
+    others = sorted(((k, v) for k, v in lv.items() if k != "CA"), key=lambda kv: -kv[1])
+    typical = ", ".join(f"{STATE_NAMES[k]} {v:.2f}" for k, v in others if 0.8 <= v <= 1.25)
+    unit = "permits per 1,000 single-family homes per year"
+    # editorial text: what the scenario means (top level)
+    text = {
+        # Owner decision 2026-10-26: lower = the average of the two slowest states (Rhode Island, Oregon).
+        # TODO(lower scenario): the model numbers for this definition are applied by the conductor after this
+        # change (docs/gate4/SCENARIO_OPTIONS.md); until then the lower totals are still the central / 1.89 run.
+        "lower": "Wisconsin performs like the slowest statewide reforms so far, Rhode Island and Oregon.",
+        "central": (f"Wisconsin performs like most of the eight states with a statewide ADU law: about {COMMON_LEVEL:.2f} "
+                    f"permit per 1,000 single-family homes per year once the law has been in force 4 years ({typical}). "
+                    f"California is one of the eight and counts toward this typical level, yet the level sits far below "
+                    f"California's own {lv['CA']:.2f}."),
+        "upper": (f"Wisconsin does better than every statewide-law state except California: about {up:.2f} {unit} once "
+                  f"the law has been in force 4 years. Only California has gone higher ({lv['CA']:.2f}), and its laws "
+                  "go beyond the benchmark in several ways (ADUs on apartment properties, more than one ADU per lot), "
+                  "so this is the high end of the expected range."),
+    }
+    # method (for the details disclosure)
+    method = {
+        "lower": (f"The average of the two slowest statewide-law states, Rhode Island ({lv['RI']:.2f}) and Oregon "
+                  f"({lv['OR']:.2f}): about {(lv['RI'] + lv['OR']) / 2:.2f} {unit} at a typical place once the law is fully "
+                  "in force (4 years or more), with each Wisconsin place adjusted for its home values, incomes and size "
+                  "as in the central scenario. Rhode Island has only one year of data after its law (2025), so its "
+                  "level rests on one year."),
+        "central": (f"The common level of the eight statewide-law states (California included), about {COMMON_LEVEL:.2f} "
+                    f"{unit} at a typical place once the law has been in force 4 years. Each Wisconsin place is then "
+                    "adjusted for its home values, incomes and size, as places differ within the eight states."),
+        "upper": (f"The central level times {SPREAD:.2f}: the 90th percentile of how much the eight states differ, "
+                  f"about {up:.2f} {unit} at a typical place."),
     }
     out = []
     for k in PATHS:
-        out.append({"id": k, "label": SCEN_NAME[k], "description": SCEN_DESC[k], "gate3_label": p["paths"][k]["label"],
-                    "info": info[k], "basis": p["paths"][k]["basis"], "ramp": p["paths"][k]["ramp"]})
+        ramp = p["paths"][k]["ramp"]
+        common = (f" In 2027–2029 the addition reaches {', '.join(f'{x:.2f}' for x in ramp[:3])} of its full size; full "
+                  "from 2030. No Wisconsin place goes below a minimum rate set from Madison's own permits "
+                  "(0.2345 per 1,000 single-family homes per year: Madison's 2022–2025 rate of 0.1876 divided by 0.8). "
+                  "Madison itself follows the path of similar cities in Washington and Oregon in every scenario.")
+        out.append({"id": k, "label": SCEN_NAME[k], "name": f"{SCEN_NAME[k].lower()} scenario",
+                    "chart_label": LABELS["scenario_chart"].format(name=SCEN_NAME[k].lower()),
+                    "title": SCEN_TITLE[k], "description": SCEN_TITLE[k], "text": text[k], "info": method[k] + common,
+                    "todo": LOWER_TODO if k == "lower" else None,
+                    "gate3_label": p["paths"][k]["label"], "basis": p["paths"][k]["basis"], "ramp": ramp})
     return out
 
 
@@ -266,19 +357,32 @@ def build_state(p: dict) -> dict:
         scen.append({**d, "additional_by_year": add, "additional_total": r(st_tot.loc[d["id"], "additional_units"], 2),
                      "with_law_total": r(st_tot.loc[d["id"], "additional_units"] + st_tot.loc[d["id"], "baseline_units"], 2),
                      "with_law_rate_by_year": rate})
-    al = pd.read_csv(REF / "pooled_revision_adoption_line.csv")
-    al = al[al.variant.eq("vacant_lot_x0.951")].sort_values("year")
-    ref_line = {"label": "Reference line: statewide adoption",
-                "info": "The median path statewide-law states actually reached (California not included).",
-                "why_central_differs": (f"The central ({st_tot.loc['central', 'additional_units']:,.0f}) sits above this line "
-                                        f"({al.additional.sum():,.0f}) because it is the pooled model, not a plain median: California "
-                                        f"is one of the eight states that set its common level (with California out, the central "
-                                        f"would be {CA_OUT_CENTRAL:,}), and no place may fall below the Madison floor. The line "
-                                        "is the median of the seven other states' observed paths."),
+    al = pd.read_csv(ROOT / REFERENCE_FILE)
+    al = al[al.variant.eq(REFERENCE_VARIANT)].sort_values("year")
+    n_states = REFERENCE_DEF["n_states"]
+    cf = REFERENCE_DEF["carried_forward_years"]
+    last_drawn = min(cf) - 1 if cf else YEARS[-1]
+    ref_line = {"label": LABELS["reference"].format(n=n_states), "n_series": n_states,
+                "carried_forward_years": cf,
+                "info": (f"The middle (median) of what the {n_states} states with a statewide ADU law"
+                         f"{', California included,' if REFERENCE_DEF['includes_california'] else ' (not California)'} "
+                         "actually permitted in each year after their law, applied to Wisconsin's single-family homes. "
+                         "It is a check on the scenarios, not a scenario."),
+                "detail": (f"Drawn through {last_drawn}; " + (f"{', '.join(map(str, cf))} repeats {last_drawn} (dashed, carried "
+                           "forward), because few states have that many years of data yet. " if cf else "")
+                           + "ADUs built with a new house on an empty lot are left out (non-California series × 0.951, AQ-039). "
+                           "Rates: " + ", ".join(f"{v:.2f}" for v in al.median_rate) + " permits per 1,000 single-family "
+                           f"homes per year in 2027–2031. Series: {REFERENCE_FILE} (variant {REFERENCE_VARIANT})."),
+                "why_central_differs": (f"The central scenario ({st_tot.loc['central', 'additional_units']:,.0f} added permits) "
+                                        f"and this line ({al.additional.sum():,.0f}) are built differently. The line applies "
+                                        "one median state rate to every Wisconsin home. The central scenario gives each place "
+                                        "the level that similar places reached in the eight states (by home values, incomes "
+                                        "and size), with a ramp-up in the first three years, and no place below a minimum rate "
+                                        "set from Madison's permits."),
                 "rate_by_year": [r(v, 4) for v in al.median_rate], "additional_by_year": [r(v, 2) for v in al.additional],
                 "additional_total": r(al.additional.sum(), 1),
                 "with_law_by_year": [r(v, 2) for v in al.with_law_total],
-                "source": "reference/pooled_revision_adoption_line.csv (variant vacant_lot_x0.951)"}
+                "source": f"{REFERENCE_FILE} (variant {REFERENCE_VARIANT})"}
     ctx = pd.read_csv(REF / "adu_model_by_context.csv")
     homes_ctx = pd.read_csv(REF / "wi_baseline_by_municipality.csv").groupby("context_group").homes.sum()
     contexts = []
@@ -288,7 +392,18 @@ def build_state(p: dict) -> dict:
                          **{f"additional_{k}": r(d.loc[k, "additional_units"], 2) for k in PATHS}})
     return {"homes": homes, "housing_units_pep": pep, "acs_total_units": one("total_housing_units_acs"),
             "occupied": one("occupied_units"), "vacant": one("vacant_units"), "vacancy_rate": one("vacancy_rate"),
-            "mix": mix, "bps": bps, "baseline": baseline, "scenarios": scen, "reference_line": ref_line, "contexts": contexts}
+            "mix": mix, "bps": bps, "baseline": baseline, "scenarios": scen, "reference_line": ref_line, "contexts": contexts,
+            "labels": {"baseline": LABELS["baseline"], "band": LABELS["band"], "reference": ref_line["label"],
+                       "added": LABELS["added"]},
+            "page_intro": {
+                "compare": ("This page shows how many permits for second homes on single-family lots (accessory dwelling "
+                            "units, or ADUs, and conversions of a house into a duplex) Wisconsin can expect if the "
+                            "statewide benchmark ADU law takes effect on 1 January 2027. It shows a baseline of how many "
+                            "would be permitted without the law, and then three scenarios for the bottom, middle and top "
+                            "of what we expect, based on how statewide reform has rolled out in other states. They are "
+                            "scenarios, not confidence intervals: each one describes a way Wisconsin could respond, "
+                            "not a statistical probability."),
+            }}
 
 
 # --------------------------------------------------------------------------------------------
@@ -340,7 +455,7 @@ def build_areas(p: dict) -> tuple[list, list, dict]:
             row["missing_reason"] = WATER_REASON if water else PIECE_REASON
             row["water"] = water
         if aid in MADISON_IDS:
-            row["note"] = madison_note(p)
+            row["note"] = madison_texts(p)["note"]
         rows.append(row)
 
     # counties = sums of their municipality pieces, summed unrounded and then rounded
@@ -373,7 +488,7 @@ def build_uncertainty(areas: list) -> dict:
     rights = []
     for st, lab in (("verified", "Coded from the local ordinance, every provision checked"),
                     ("source_lead", "Coded from the local ordinance, some provisions from a source lead not yet checked"),
-                    ("assumed", "Not coded: the AQ-023/AQ-027 default applies")):
+                    ("assumed", "Not coded: treated like places with restricted rules (assumed)")):
         g = df[df.rights_status.eq(st)]
         rights.append({"status": st, "label": lab, "areas": int(len(g)), "homes": int(g.homes.sum()),
                        "additional_central": round(sum(sum(a["central"]) for a in g["add"]), 2)})
@@ -387,34 +502,88 @@ def build_uncertainty(areas: list) -> dict:
                         **{f"additional_{k}": r(d.loc[k, "additional_units"], 2) for k in PATHS}})
 
     sens = pd.read_csv(REF / "adu_model_sensitivities.csv")
+    # Plain label and description for each recorded sensitivity case, and the number it moves (owner review 2026-10-26):
+    # group "addition" = the statewide addition from the law; "baseline" = the current-law baseline only;
+    # "local" = where permits land, not the state total.
     plain = {
-        "adopted": ("Adopted model (the scenarios)", "The three scenarios as adopted at Gate 3."),
-        "eligible-property": ("Eligible-property basis without one-unit attached homes",
-                              "Permits per 1,000 properties eligible under each state's own law. Its own baseline is 636 permits."),
-        "LA-calibrated": ("LA-calibrated multifamily correction to California's counts",
-                          "A more accurate but data-hungrier removal of California ADUs on multifamily lots (AQ-041)."),
-        "multiplicative": ("Multiplicative law",
-                           "Each place's current rate × the pooled statewide-law factor. A downside: before-and-after pairs in other states contradict it, but no Midwest state has post-law data yet."),
-        "California-only": ("California-only market regression",
-                            "A downside: Wisconsin stays near the response of Madison-like markets."),
-        "no ramp": ("No ramp-up: full rate from 2027", "How much the ramp-up in the first three years removes."),
-        "rural and small": ("Rural and small-community places at the Madison floor (0.2345)",
-                            "How much of the addition comes from places with no measured activity."),
-        "Madison at its pooled": ("Madison at its pooled level instead of the Madison-like path", "The effect of the Madison decision."),
-        "California out": ("California out of the between-state common level (configuration B)",
-                           "The alternative that predicted held-out states less well (robustness checks below)."),
+        "adopted": ("addition", "Adopted model (the scenarios)", "The three scenarios as adopted."),
+        "California out": ("addition", "Leave California out of the typical level",
+                           "The eight states' typical level is set without California. The central falls, and the strong "
+                           "adoption scenario falls most, because California is the state that stretches the range upward. "
+                           "This alternative predicted states it had not seen less well (robustness checks below)."),
+        "no ramp": ("addition", "No slow start: full effect from 2027",
+                    "In the adopted model the law reaches about 63%, 80% and 82% of its full effect in 2027, 2028 and 2029 "
+                    "(central), as it did in other states. Here it is at full strength from the first year."),
+        "multiplicative": ("addition", "The law multiplies today's rates (instead of lifting places to other states' levels)",
+                           "Each place's current rate is multiplied by one statewide factor, instead of rising to the level "
+                           "that similar places reached in the eight statewide-law states. Places that permit almost nothing "
+                           "today would stay near zero. Before-and-after counts in other states contradict this, but no "
+                           "Midwest state has data after a statewide law yet."),
+        "California-only": ("addition", "Predict Wisconsin from California's cities only",
+                            "Wisconsin places are predicted from a model fitted on California cities alone, where cities "
+                            "like Madison responded weakly. A downside case."),
+        "eligible-property": ("addition", "Count per eligible property, not per single-family home",
+                              "Rates are divided by the properties each state's law makes eligible (houses plus small "
+                              "multifamily properties) instead of by single-family homes. This case has its own baseline of "
+                              "636 permits."),
+        "LA-calibrated": ("addition", "A stricter correction for California's ADUs on apartment properties",
+                          "California's counts include ADUs on apartment and other multifamily properties, which the "
+                          "benchmark law does not allow. This uses Los Angeles County parcel records to remove more of them."),
+        "rural and small": ("addition", "Rural places and small communities held at the minimum rate",
+                            "Rural areas and small communities, which have no measured activity, get only the minimum rate "
+                            "set from Madison's permits (0.2345 per 1,000 single-family homes per year) instead of their "
+                            "level from the statewide estimate. Shows how much of the addition comes from those places."),
+        "Madison at its pooled": ("addition", "Madison on the statewide estimate, like every other place",
+                                  "Madison follows the statewide estimate instead of the path of similar cities in Washington "
+                                  "and Oregon. This changes Madison's figures only."),
     }
     cases = []
     for row in sens.itertuples(index=False):
         key = next(k for k in plain if row.change.startswith(k) or k in row.change)
-        lab, what = plain[key]
-        cases.append({"id": key.lower().replace(" ", "-"), "label": lab, "what": what, "change_as_recorded": row.change,
+        grp, lab, what = plain[key]
+        cases.append({"id": key.lower().replace(" ", "-"), "group": grp, "label": lab, "what": what,
+                      "change_as_recorded": row.change,
                       "lower": r(row.lower_additional_5yr, 1), "central": r(row.central_additional_5yr, 1),
                       "upper": r(row.upper_additional_5yr, 1), "difference_central": r(row.difference_central, 1),
                       "baseline": r(row.baseline_5yr, 1), "kind": row.kind, "source": row.source,
                       "missing_reason": None if not pd.isna(row.lower_additional_5yr) else
                       "central only"})
 
+    # Baseline-only cases: their effect on the baseline, the addition and the total with the law
+    # (reference/adu_model_baseline_only_effects.csv, scripts/run_baseline_only_effects.py).
+    bo_plain = {
+        "uncoded-prohibited": "Places whose ADU rules have not been coded (69% of single-family homes) behave like places that prohibit ADUs, instead of like places that restrict them.",
+        "no-baseline-ramp": "Places that loosened their ADU rules recently are at their new group's rate at once, instead of rising to it over a few years.",
+        "madison-2026": "Madison's current-law rate is its 2026 pace so far (42 second homes, 1 January to 23 October, provisional) instead of its 2022–2025 rate.",
+        "madison-2024-2025": "Madison's current-law rate uses 2024–2025 only.",
+        "madison-excl-templated": "Madison's 2022–2025 rate leaves out the one builder's programme of second homes.",
+        "milwaukee-measured": "Milwaukee stays at its own measured 2022–2025 rate, instead of the assumed rise to Madison's rate after its August 2025 ADU reform.",
+        "milwaukee-ramp": "Milwaukee rises from its pre-reform rate to Madison's rate within about four years of its August 2025 ADU reform (assumed ramp), instead of staying at its measured 2022–2025 rate.",
+    }
+    bo = pd.read_csv(REF / "adu_model_baseline_only_effects.csv")
+    baseline_only = []
+    for x in bo.itertuples(index=False):
+        if x.case == "adopted":
+            continue
+        baseline_only.append({"id": x.case, "label": x.label, "what": bo_plain[x.case],
+                              "baseline": r(x.baseline_central, 1), "d_baseline": r(x.d_baseline_central, 1),
+                              "d_additional": r(x.d_additional_central, 1), "d_with_law": r(x.d_with_law_central, 1),
+                              "d_additional_lower": r(x.d_additional_lower, 1), "d_additional_upper": r(x.d_additional_upper, 1)})
+    unc_case = bo[bo.case.eq("uncoded-prohibited")].iloc[0]
+    tot0 = float(bo[bo.case.eq("adopted")].with_law_central.iloc[0])
+    local = {
+        "text": ("Each place's rate with the law comes from what similar places reached in the statewide-law states (by home "
+                 "values, incomes and size), not from its current local rules. So if a city's rules are coded wrong, its "
+                 "current-law baseline is wrong, and the law's addition there moves by about the same amount the other way; "
+                 "the total with the law barely moves. Coding errors change the split between baseline and addition much "
+                 "more than the number of permits expected with the law."),
+        "example": (f"Example: if every place with uncoded rules behaved like places that prohibit ADUs, the baseline would "
+                    f"fall by {abs(unc_case.d_baseline_central):,.0f} permits over 2027–2031, the addition would rise by "
+                    f"{unc_case.d_additional_central:,.0f}, and the total with the law would fall by "
+                    f"{abs(unc_case.d_with_law_central):,.0f} ({abs(unc_case.d_with_law_central) / tot0 * 100:.1f}% of "
+                    f"{tot0:,.0f}; central scenario)."),
+        "not_computed": "Re-coding individual places one at a time has not been run as separate cases.",
+    }
     g3 = pd.read_csv(REF / "pooled_revision_g3f2.csv")
     eb = pd.read_csv(REF / "eligible_basis_g3f2.csv")
 
@@ -440,6 +609,15 @@ def build_uncertainty(areas: list) -> dict:
     win = g3v("cap_a2", "A_ca_in_common_level", "bootstrap_win_share_abc")
     bsens = pd.read_csv(REF / "wi_baseline_sensitivities.csv")
     return {"coverage_rates": cov, "coverage_rights": rights, "classes": classes, "sensitivity_cases": cases,
+            "baseline_only": baseline_only, "local_effects": local,
+            "sensitivity_groups": {
+                "addition": {"title": "Cases that change what the law adds statewide",
+                             "intro": "Each changes one part of how the law's effect is estimated from other states."},
+                "baseline": {"title": "Cases that change only today's rates (the baseline)",
+                             "intro": "Each changes the current-law rate of some places. A higher baseline means a smaller addition by nearly the same amount, so the total with the law moves much less."},
+                "local": {"title": "How individual cities' rules are coded: shifts permits between baseline and addition, not the total with the law",
+                          "intro": "Being wrong about a city's current ADU rules changes its baseline, not its rate with the law."},
+            },
             "robustness": {"rows": robust, "a_win_share": win, "n_states": 7,
                            "units": "root-mean-square log error predicting each of the 7 held-out non-California statewide-law states (lower is better)",
                            "source": "reference/pooled_revision_g3f2.csv, reference/eligible_basis_g3f2.csv"},
@@ -448,10 +626,10 @@ def build_uncertainty(areas: list) -> dict:
             "challenges": [
                 {"title": "No Midwest state has data after a statewide law",
                  "text": "Under current law the model expects Wisconsin to permit 0.07 per 1,000 single-family homes per year in 2027–2031 (645 permits ÷ 1,839.569 thousand homes ÷ 5 years); there is no observed statewide ADU series. States with before-and-after data (California, Rhode Island, Washington, Vermont) reached similar first-year levels however low they started, but they are coastal or New England markets. Iowa's first full year (2026) will be the first Midwest test."},
-                {"title": "Madison-like cities ran at a little over half the central scenario's rate in years 1–3",
-                 "text": "Medians of 0.45, 0.54 and 0.60 permits per 1,000 single-family homes per year in 9 Washington and Oregon cities, against the central scenario's statewide 0.77, 0.95 and 0.99. Only Madison is moved onto that path, so Madison's with-law rate sits below its suburbs'. If Wisconsin's other mid-size markets behave like those cities, the central is too high in its first three years; if Madison behaves like the statewide model, Madison is too low. Gate 5 will review this."},
+                {"title": "Cities like Madison grew at a little over half the central scenario's rate in their first three years",
+                 "text": "Medians of 0.45, 0.54 and 0.60 permits per 1,000 single-family homes per year in 9 Washington and Oregon cities similar to Madison, against the central scenario's statewide 0.77, 0.95 and 0.99. Only Madison is put on that path, so Madison's rate with the law sits below its suburbs'. If Wisconsin's other mid-size cities behave like those cities, the central is too high in its first three years; if Madison behaves like the statewide estimate, Madison is too low. This is being reviewed."},
                 {"title": "The hold-out test rests on 7 states",
-                 "text": f"California in the common level wins in {win * 100:.0f}% of resamples of the 7 states, which is within noise. The lower and upper scenarios rest on how 8 states differ, one of them California."},
+                 "text": f"Keeping California in the eight states' typical level predicts the 7 other states better in {win * 100:.0f}% of resamples of those 7 states, which is within noise. The lower and strong adoption scenarios rest on how 8 states differ, one of them California."},
             ]}
 
 
@@ -482,10 +660,41 @@ def build_pilots(areas: list) -> list:
     meas = pd.read_csv(REF / "wi_measured_permits_2022_2025.csv", dtype={"GEOID": str})
     rx = pd.read_csv(REF / "wi_rights_exposure.csv", dtype={"jurisdiction_id": str})
     by_id = {a["id"]: a for a in areas}
+    conv = pd.read_csv(REF / "pooled_convergence.csv")
+    conv_txt = ", ".join(f"{STATE_NAMES[x.state]} {x.pre_rate:.2f} before → {x.year1_rate:.2f} in year 1" for x in conv.itertuples())
     desc = {
-        "madison": "Wisconsin's largest ADU market and the source of the Madison floor. It already allows ADUs much like the benchmark law, so the law adds less here than in most places.",
-        "pleasant-prairie": "A Kenosha County village that prohibits ADUs: the restrictive pilot. Its own issued-permit records show {n} second-home permits on single-family lots in 2014–2025.",
-        "sun-prairie": "Madison's neighbour, used as a same-market check. It legalised ADUs in May 2026, so its baseline is still ramping up; its records are applications, not issued permits.",
+        "madison": ("Madison already allows ADUs much like the benchmark law, with a few exceptions (its rules are below). "
+                    "In other states, places that already allowed ADUs still saw more permits when a statewide law passed, "
+                    "but they gained less than places that had no ADU rules before. So the law is expected to add fewer "
+                    "permits per 1,000 single-family homes in Madison than in its neighbours."),
+        "pleasant-prairie": ("Pleasant Prairie, a village in Kenosha County, prohibits ADUs today: its own permit records show "
+                             "{n} second homes on single-family lots in 2014–2025. The law would allow one ADU on every lot "
+                             "with a single-family home, so here it starts from almost nothing."),
+        "sun-prairie": ("Madison's neighbour, used as a check from the same housing market. It began allowing ADUs in May "
+                        "2026, so even without the law its permits are expected to rise for a few years. Its records are "
+                        "applications, not issued permits."),
+    }
+    mt = madison_texts(params())
+    mt["detail"] += (" Why places that already allow ADUs gain less: in the four states with counts before and after their "
+                     f"law, the first-year rate after it was about the same however high it was before ({conv_txt}; permits "
+                     "per 1,000 single-family homes per year, docs/gate3/POOLED_MODEL.md).")
+    P = PROGRAMME
+    programme = {
+        "title": "Why 2026 is so high so far",
+        "text": (f"Of Madison's 42 second homes permitted from 1 January to {MADISON_PROVISIONAL_THROUGH}, {P['units_2026']} come "
+                 "from one builder's 2025–26 programme of second homes behind existing houses: two-unit detached ADU "
+                 "buildings (\"twin home ADU\", two homes in one building), single detached ADUs, and additions that turn a "
+                 f"house into a duplex, all built to repeated plans of about {P['sqft_unit']} sq ft per home. Without the "
+                 f"programme, 2026 has {P['units_2026_without']}. These are second homes on single-family lots that Madison's "
+                 "October 2025 ordinance allows (up to two ADUs per lot, which may share one detached building). A two-unit "
+                 "ADU building goes beyond the benchmark law, which allows one ADU per lot."),
+        "detail": (f"Programme in 2026 to date: {P['permits_2026']} permits, {P['units_2026']} homes ({P['two_unit_buildings']} "
+                   f"two-unit ADU buildings = {2 * P['two_unit_buildings']} homes, {P['detached']} detached ADUs, "
+                   f"{P['conversions']} house-to-duplex additions). Its permits share template specifications: {P['sqft_unit']} "
+                   f"sq ft at $80,000–$90,000, or {P['sqft_two_unit']:,} sq ft (3 × {P['sqft_unit']}) at $200,000 for a "
+                   f"two-unit building. In 2025 it added {P['units_2025']} of Madison's {P['total_2025']} second homes. "
+                   "The model's current-law rate for Madison uses the complete years 2022–2025 only; 2026 and the "
+                   "programme enter as sensitivity cases (docs/gate2/MADISON_PERMITS.md, section 5b)."),
     }
     out = []
     for slug, d in PILOTS.items():
@@ -519,9 +728,11 @@ def build_pilots(areas: list) -> list:
                     "base": a["base"], "base_low_5yr": a["base_low_5yr"], "base_high_5yr": a["base_high_5yr"],
                     "add": a["add"], "y_rate_y5": a["y_rate_y5"],
                     "basis_text": a["basis_text"], "note": a.get("note"),
+                    "like": {k: mt[k] for k in ("title", "text", "detail")} if slug == "madison" else None,
+                    "programme": programme if slug == "madison" else None,
                     "provisional_through": MADISON_PROVISIONAL_THROUGH if slug == "madison" else None,
                     # docs/gate2/MADISON_PERMITS.md: 29 of the 42 provisional 2026 units are one templated builder programme
-                    "provisional_detail": "29 of them from one builder's templated programme" if slug == "madison" else None,
+                    "provisional_detail": (f"{PROGRAMME['units_2026']} of them from one builder's programme" if slug == "madison" else None),
                     "permits": permits_series(slug), "measured": mrow, "rules": rl})
     return out
 
@@ -548,7 +759,7 @@ def build_evidence(p: dict) -> dict:
     by_year = pd.read_csv(REF / "adu_model_statewide_by_year.csv")
     for path in PATHS:
         q = by_year[by_year.path.eq(path)].sort_values("year")
-        lab = {k: f"Wisconsin: {SCEN_NAME[k].lower()} scenario" for k in PATHS}[path]
+        lab = "Wisconsin, " + LABELS["scenario_chart"].format(name=SCEN_NAME[path].lower())
         lines.append({"name": lab, "kind": f"wi_{path}",
                       "points": [{"k": int(y), "rate": r((b + a) / WI_HOMES * 1000, 3)}
                                  for y, b, a in zip(q.year, q.baseline_units, q.additional_units)]})
@@ -565,7 +776,7 @@ def build_evidence(p: dict) -> dict:
                        "points": [{"k": int(a), "rate": r(b, 3)} for a, b in zip(g.year_since_law, g.rate_per_1000)]})
     med = pd.read_csv(REF / "madison_like_median_path.csv")
     med = med[med.group.eq("WA+OR Madison-like (main)")].sort_values("year_since_law")
-    clines.append({"name": "Median of Madison-like cities in Washington and Oregon", "kind": "median",
+    clines.append({"name": "Median of cities like Madison in Washington and Oregon", "kind": "median",
                    "points": [{"k": int(a), "rate": r(b, 3), "n": int(n)} for a, b, n in zip(med.year_since_law, med.median_rate, med.n_cities)]})
     mad = pd.read_csv(REF / "madison_adu_permits_by_year.csv")
     mad = mad[mad.category.eq("second_home_sf_lot") & mad.year.between(2021, 2025)]
@@ -586,9 +797,9 @@ def build_evidence(p: dict) -> dict:
         {"kind": E, "title": "California's counts, corrected for multifamily lots", "type": "transferred", "status": "calculated",
          "text": "California 2023–2025: 87,303 ADU units reported, 81,368 after the cap of 2 ADUs per parcel and the multifamily-lot rule. California is used for the shape of the response and stays in the common level because it predicts the other states better; Wisconsin's numbers are never a ratio of California's.",
          "links": [doc("docs/gate3/MULTIFAMILY_LOT_ADUS.md", "Multifamily-lot ADUs"), doc("docs/gate3/CA_STUDY_RESULTS.md", "California study")]},
-        {"kind": E, "title": "Madison-like cities after a statewide law", "type": "descriptive", "status": "observed",
-         "text": "Nine Washington and Oregon cities like Madison ran at 0.45, 0.54 and 0.60 permits per 1,000 single-family homes per year in years 1–3, a little over half the central scenario's statewide rate (0.77, 0.95, 0.99). Madison alone follows this observed path in every scenario; every other place is on the statewide model. Under review at Gate 5.",
-         "links": [doc("docs/gate3/MADISON_LIKE_CITIES.md", "Madison-like cities")]},
+        {"kind": E, "title": "Cities like Madison after a statewide law", "type": "descriptive", "status": "observed",
+         "text": "Nine Washington and Oregon cities similar to Madison in size and home values ran at 0.45, 0.54 and 0.60 permits per 1,000 single-family homes per year in years 1–3 after their statewide law, a little over half the central scenario's statewide rate (0.77, 0.95, 0.99). Madison alone follows this observed path in every scenario; every other place follows the statewide estimate. This choice is being reviewed.",
+         "links": [doc("docs/gate3/MADISON_LIKE_CITIES.md", "Cities like Madison")]},
         {"kind": E, "title": "Wisconsin today: measured permits", "type": "descriptive", "status": "observed",
          "text": "Observed: Madison issued 40 second-home permits on single-family lots in 2022–2025 (0.19 per 1,000 single-family homes per year). Calculated, not observed: under current law the model expects 0.07 per 1,000 per year statewide in 2027–2031; there is no statewide ADU series. Most places have no record-level permit data, so their rates come from their rules group.",
          "links": [doc("docs/gate3/WI_BASELINE.md", "Wisconsin baseline"), doc("reference/wi_measured_permits_2022_2025.csv", "Measured permits (CSV)")]},
@@ -608,14 +819,14 @@ def build_evidence(p: dict) -> dict:
          "text": "Stylized start date. In years 1–3 the addition reaches 0.63, 0.80 and 0.82 of its year-4 size (central). Without the ramp, the central would be 10,228 permits instead of 8,721.",
          "challenge": "A real bill would have its own effective date and local compliance deadline.",
          "links": [doc("docs/gate3/POOLED_REVISION.md", "Pooled model revision")]},
-        {"kind": A, "title": "No place falls below the Madison floor", "type": "judgment", "status": "assumed",
+        {"kind": A, "title": "With the law, every place reaches at least a minimum rate set from Madison", "type": "judgment", "status": "assumed",
          "text": "With the law, every area's rate is at least 0.2345 permits per 1,000 single-family homes per year: Madison's 2022–2025 rate (40 permits ÷ 213.168 thousand home-years = 0.1876) divided by 0.8.",
          "links": [doc("docs/gate3/POOLED_REVISION.md", "Pooled model revision")]},
         {"kind": A, "title": "ADUs built with a new house on a vacant lot do not count", "type": "descriptive", "status": "calculated",
          "text": "In 17 cities split by demolition records, vacant-lot new-house ADUs were a median 4.9% of ADUs, so every non-California series is multiplied by 0.951.",
-         "links": [doc("docs/gate3/MADISON_LIKE_CITIES.md", "Madison-like cities (vacant-lot share)")]},
+         "links": [doc("docs/gate3/MADISON_LIKE_CITIES.md", "Cities like Madison (vacant-lot share)")]},
         {"kind": A, "title": "Rural home values include acreage", "type": "judgment", "status": "assumed",
-         "text": "Rural areas get 3,801 of the 8,721 central permits (44%) with 710,070 of the 1,839,569 single-family homes (39%), partly because rural median home values include land. Setting rural and small-community places to the Madison floor gives 4,729.",
+         "text": "Rural areas get 3,801 of the 8,721 central permits (44%) with 710,070 of the 1,839,569 single-family homes (39%), partly because rural median home values include land. Holding rural places and small communities at the minimum rate set from Madison (0.2345) gives 4,729.",
          "challenge": "Septic limits and lower demand could make rural uptake lower than this.",
          "links": [doc("docs/gate3/README.md", "Gate 3 packet")]},
     ]
@@ -631,7 +842,7 @@ def build_evidence(p: dict) -> dict:
 
 
 # --------------------------------------------------------------------------------------------
-def build_geo(out: Path, munis: list) -> dict:
+def build_geo(out: Path, munis: list, county_names: dict | None = None) -> dict:
     """Map drawing from the Census cartographic boundary files (shoreline-clipped), so lakes are not coloured.
 
     The areas themselves (ids, homes, results) come from the TIGER/Line foundation; the cartographic file only supplies
@@ -652,6 +863,16 @@ def build_geo(out: Path, munis: list) -> dict:
             assert not missing, f"areas with homes missing from the cartographic file: {sorted(missing)[:5]}"
             g = g[g.area_id.isin(known)]
         g = g[["area_id", "geometry"]].to_crs(3071)
+        if name == "counties" and county_names:
+            # label anchors: one point inside each county (text labels only, never a marker), for the optional
+            # "County names" layer; further label sets (e.g. transit stations) can be added the same way
+            pts = g.assign(geometry=g.geometry.representative_point()).to_crs(4326)
+            labels = {"type": "FeatureCollection", "features": [
+                {"type": "Feature", "properties": {"id": a, "name": county_names[a].removesuffix(" County"), "kind": "county"},
+                 "geometry": {"type": "Point", "coordinates": [round(pt.x, 4), round(pt.y, 4)]}}
+                for a, pt in sorted(zip(pts.area_id, pts.geometry))]}
+            (out / "geo_labels.json").write_text(json.dumps(labels, separators=(",", ":")))
+            sizes["labels"] = len(labels["features"])
         g["geometry"] = g.geometry.simplify(tol, preserve_topology=True)
         g = g.to_crs(4326)
         g["geometry"] = g.geometry.set_precision(1e-4)
@@ -720,7 +941,7 @@ def main():
     unc = build_uncertainty(munis)
     pilots = build_pilots(munis)
     ev = build_evidence(p)
-    geo_n = build_geo(out, munis)
+    geo_n = build_geo(out, munis, {c["id"]: c["name"] for c in counties})
     val = validate(state, counties, munis, unc)
     rules = pd.read_csv(REF / "wi_adu_rules.csv")
 
@@ -752,6 +973,22 @@ def main():
             "robustness_check": "Tests a methodological alternative by predicting held-out states.",
             "baseline": "What the model expects under current law, with no statewide ADU law.",
             "additional": "Permits the statewide law adds on top of the baseline.",
+            "never_subtracts": ("A statewide law never subtracts permits. Where a place already permits more than the law's "
+                                "expected rate for it, for example because its own rules go further than the benchmark "
+                                "(Madison's two-unit ADU buildings, or San Diego's bonus ADU programme in California), the law "
+                                "adds nothing there and the place keeps its current-law permits: each place's addition is "
+                                "floored at zero, never negative."),
+        },
+        "pilot_intro": {
+            "title": "What is a pilot page?",
+            "text": ("This pilot page allows you to see a few of the steps we took on the way to building the statewide "
+                     "model. The work started here: real permit records from Wisconsin places, above all these three "
+                     "(Madison, Pleasant Prairie and Sun Prairie), measure how many second homes places permit today under their current "
+                     "rules, and Madison's level sets the minimum rate every Wisconsin place reaches with the law."),
+            "how": ("The statewide estimate itself is built top-down, from how eight other states responded to their "
+                    "statewide ADU laws. Each pilot page then shows how that statewide result is shared out to one real "
+                    "place, and acts as a spot check on it. The pilots are not a separate, bottom-up model: their figures "
+                    "are already inside the Wisconsin total and are never added to it."),
         },
         "status_pills": {
             "observed": "Observed: counted in a published source or permit record.",
@@ -769,7 +1006,7 @@ def main():
         "inputs": hashes, "validation": val, "counts": {**n, **{f"geo_{k}": v for k, v in geo_n.items()}},
         "repo_url": REPO_URL,
         "files": ["manifest.json", "state.json", "areas.json", "uncertainty.json", "pilots.json", "evidence.json",
-                  "geo_counties.json", "geo_munis.json"],
+                  "geo_counties.json", "geo_munis.json", "geo_labels.json"],
     }
 
     def dump(name, obj):

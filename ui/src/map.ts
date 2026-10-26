@@ -1,5 +1,6 @@
 // County and municipality choropleth with MapLibre GL JS (BSD-3-Clause). No basemap: area fills only,
-// no point symbols, so nothing on the map can be read as a prediction for a lot.
+// no point markers, so nothing on the map can be read as a prediction for a lot. Optional overlays (county
+// name labels now; transit-stop labels and buffers later) sit above the fills; see OverlaySpec.
 import * as maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
@@ -11,8 +12,42 @@ export const WI_BOUNDS: [number, number, number, number] = [-92.9, 42.45, -86.75
 export const WATER = "#dce8ef"; // background: lakes and outside Wisconsin (the outlines are shoreline-clipped)
 const PAD = { top: 12, right: 44, bottom: 12, left: 12 }; // right: room for the zoom buttons
 
+/** An optional layer drawn above the area fills: text labels now, and later e.g. buffers around transit stops.
+ *  Each overlay has its own GeoJSON source; `kind` picks the drawing. Add new kinds in `overlayLayers`. */
+export interface OverlaySpec {
+  id: string;                          // e.g. "county-labels", later "transit-stops", "transit-buffers"
+  kind: "labels" | "buffer";           // labels: point features with a "name"; buffer: polygon features (outline + light fill)
+  data: GeoJSON.FeatureCollection;
+  visible: boolean;
+  color?: string;
+  minzoom?: number;
+}
+
+/** Self-hosted glyphs (ui/public/fonts, Open Sans Semibold, Apache-2.0) for map text. */
+export const LABEL_FONT = "open-sans-semibold";
+function glyphsUrl(): string {
+  // MapLibre needs an absolute URL; keep {fontstack} and {range} unencoded
+  return new URL("./", location.href).href + "fonts/{fontstack}/{range}.pbf";
+}
+
+function overlayLayers(o: OverlaySpec): maplibregl.LayerSpecification[] {
+  const vis = o.visible ? "visible" : "none";
+  if (o.kind === "labels") return [{
+    id: `${o.id}-text`, type: "symbol", source: o.id, minzoom: o.minzoom ?? 0,
+    layout: { visibility: vis, "text-field": ["get", "name"], "text-font": [LABEL_FONT], "text-size": ["interpolate", ["linear"], ["zoom"], 5, 10, 8, 14],
+      "text-allow-overlap": false, "text-padding": 2, "text-max-width": 8 },
+    paint: { "text-color": "#1d2623", "text-halo-color": "rgba(255,255,255,0.9)", "text-halo-width": 1.4 },
+  }];
+  return [
+    { id: `${o.id}-fill`, type: "fill", source: o.id, minzoom: o.minzoom ?? 0, layout: { visibility: vis }, paint: { "fill-color": o.color ?? "#c2410c", "fill-opacity": 0.12 } },
+    { id: `${o.id}-line`, type: "line", source: o.id, minzoom: o.minzoom ?? 0, layout: { visibility: vis }, paint: { "line-color": o.color ?? "#c2410c", "line-width": 1.5 } },
+  ];
+}
+
 export interface MapHandle {
   setData(values: Map<string, number | null>, breaks: number[]): void;
+  addOverlay(o: OverlaySpec): void;
+  setOverlayVisible(id: string, visible: boolean): void;
   setGeography(kind: "counties" | "munis"): void;
   select(id: string | null): void;
   resize(): void;
@@ -33,7 +68,7 @@ export function createMap(el: HTMLElement, geo: { counties: unknown; munis: unkn
   onHover: (id: string | null, x: number, y: number) => void): MapHandle {
   const map = new maplibregl.Map({
     container: el,
-    style: { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": WATER } }] },
+    style: { version: 8, glyphs: glyphsUrl(), sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": WATER } }] },
     bounds: WI_BOUNDS,
     fitBoundsOptions: { padding: PAD },
     attributionControl: false,
@@ -94,7 +129,22 @@ export function createMap(el: HTMLElement, geo: { counties: unknown; munis: unkn
   });
   const when = (f: () => void) => (ready ? f() : pending.push(f));
 
+  const overlays = new Map<string, OverlaySpec>();
   return {
+    addOverlay(o) {
+      overlays.set(o.id, o);
+      when(() => {
+        if (map.getSource(o.id)) return;
+        map.addSource(o.id, { type: "geojson", data: o.data });
+        for (const l of overlayLayers(o)) map.addLayer(l);   // added last, so above fills, outlines and selection
+      });
+    },
+    setOverlayVisible(id, visible) {
+      const o = overlays.get(id);
+      if (!o) return;
+      o.visible = visible;
+      when(() => { for (const l of overlayLayers(o)) if (map.getLayer(l.id)) map.setLayoutProperty(l.id, "visibility", visible ? "visible" : "none"); });
+    },
     setData(values, breaks) {
       when(() => {
         for (const [id, v] of values) map.setFeatureState({ source: kind, id }, { v });

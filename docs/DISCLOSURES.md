@@ -22,7 +22,7 @@ acceptable-use restrictions.]
 
 | Model / asset | Source | License / terms | Restrictions |
 | ------------- | ------ | --------------- | ------------ |
-| [name] | [URL] | [license] | [none / noncommercial / etc.] |
+| Open Sans Semibold map glyphs (signed-distance-field PBF, ranges 0-255, 256-511, 8192-8447; 172 KB) in `ui/public/fonts/open-sans-semibold/` | openmaptiles/fonts, branch `gh-pages`, commit 025ff2b, downloaded 2026-10-26 (details and SHA-256 in that folder's `SOURCE.md`) | Apache-2.0 (the font's licence file is copied beside the glyphs as `LICENSE.txt`) | none; attribution by keeping `LICENSE.txt` with the files |
 
 # External APIs and Hosted Services
 
@@ -47,7 +47,7 @@ remain freely available to end users.]
 | typescript 7.0.2 | Apache-2.0 | dev-only (type check) | ok |
 | @playwright/test 1.63.0 | Apache-2.0 | dev-only (smoke tests) | ok |
 
-Checked 2026-10-25 with `cd ui && npm run licenses` (reads every installed package in `ui/package-lock.json`): 113 npm packages, all MIT, ISC, BSD-2-Clause, BSD-3-Clause or Apache-2.0. Two candidates were rejected for the Gate 4 tool: Observable Plot pulls in d3-delaunay → robust-predicates (Unlicense, a public-domain dedication), so the charts are drawn with dependency-free SVG instead; Vite 8 requires lightningcss (MPL-2.0), so the tool uses Vite 7. The tool loads no basemap, fonts or other services at run time.
+Checked 2026-10-25 with `cd ui && npm run licenses` (reads every installed package in `ui/package-lock.json`): 113 npm packages, all MIT, ISC, BSD-2-Clause, BSD-3-Clause or Apache-2.0. Two candidates were rejected for the Gate 4 tool: Observable Plot pulls in d3-delaunay → robust-predicates (Unlicense, a public-domain dedication), so the charts are drawn with dependency-free SVG instead; Vite 8 requires lightningcss (MPL-2.0), so the tool uses Vite 7. The tool loads no basemap or other services at run time. Since 2026-10-26 it self-hosts one font for map labels (Open Sans Semibold glyphs from openmaptiles/fonts, Apache-2.0; see the asset table above); `npm run licenses` also checks that its licence file is present. Open Sans was chosen over Noto Sans because the openmaptiles Open Sans files carry the Apache-2.0 licence, while Noto Sans is under the SIL Open Font License 1.1 (OFL), a font licence rather than a code licence: it is permissive for embedding and redistribution but forbids selling the font alone and restricts reserved font names on modified versions, so it would need a separate review.
 
 # Generated or Copied Code
 

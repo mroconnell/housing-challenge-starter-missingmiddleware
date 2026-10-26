@@ -282,3 +282,14 @@ svg.chart .anno { font-size: 11.5px; fill: var(--ink); font-weight: 600; }
   .brief ul { padding-left: 1.2em; }
 }
 td.num .tag { display: block; width: max-content; margin: 2px 0 0 auto; }
+
+/* owner review 2026-10-26: disclosures, pilot intro, map label toggle */
+details.more { margin: 8px 0 0; }
+details.more > summary { cursor: pointer; color: var(--accent-ink); font-weight: 600; min-height: 32px; display: list-item; }
+details.more[open] > summary { margin-bottom: 4px; }
+.note-box details.more p { margin: 6px 0; }
+.pilot-intro { border-left: 4px solid var(--accent); }
+.pilot-intro p { max-width: 80ch; }
+.pilot-name { font-size: 1.5rem; margin: 18px 0 6px; }
+.check { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.check input { width: 20px; height: 20px; }

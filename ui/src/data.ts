@@ -18,6 +18,7 @@ export interface Manifest {
   terms: Record<string, string>;
   status_pills: Record<Status, string>;
   limitations: string[];
+  pilot_intro: { title: string; text: string; how: string };
   inputs: { path: string; sha256: string }[];
   validation: { passed: number; failed: number; checks: { check: string; passed: boolean; detail: string }[] };
   repo_url: string;
@@ -26,7 +27,10 @@ export interface Manifest {
 export interface Indicator { value: number | null; moe: number | null; status: string; vintage: string; source_id: string }
 
 export interface Scenario {
-  id: PathId; label: string; description: string; gate3_label: string; info: string; basis: string; ramp: number[];
+  /** label: short name ("Central"); name: "central scenario"; chart_label: chart key and table heading;
+   *  title + text: editorial description; info: the method (shown in a details disclosure). */
+  id: PathId; label: string; name: string; chart_label: string; title: string; text: string; todo: string | null;
+  description: string; gate3_label: string; info: string; basis: string; ramp: number[];
   additional_by_year: number[]; additional_total: number; with_law_total: number; with_law_rate_by_year: number[];
 }
 
@@ -41,8 +45,11 @@ export interface StateData {
     bridge_2026: { low: number; central: number; high: number }; rate_per_1000_per_year: number; source: string;
   };
   scenarios: Scenario[];
-  reference_line: { label: string; info: string; why_central_differs: string; rate_by_year: number[]; additional_by_year: number[]; additional_total: number; with_law_by_year: number[]; source: string };
+  reference_line: { label: string; n_series: number; carried_forward_years: number[]; info: string; detail: string; why_central_differs: string; rate_by_year: number[]; additional_by_year: number[]; additional_total: number; with_law_by_year: number[]; source: string };
   contexts: { id: string; label: string; homes: number; baseline: number; additional_lower: number; additional_central: number; additional_upper: number }[];
+  /** Chart-key and table labels shared by every screen and the brief. */
+  labels: { baseline: string; band: string; reference: string; added: string };
+  page_intro: { compare: string };
 }
 
 export interface Area {
@@ -62,7 +69,7 @@ export interface AreasData {
 }
 
 export interface SensCase {
-  id: string; label: string; what: string; change_as_recorded: string; lower: number | null; central: number;
+  id: string; group: "addition" | "baseline" | "local"; label: string; what: string; change_as_recorded: string; lower: number | null; central: number;
   upper: number | null; difference_central: number; baseline: number; kind: string; source: string; missing_reason: string | null;
 }
 export interface Uncertainty {
@@ -72,6 +79,9 @@ export interface Uncertainty {
   sensitivity_cases: SensCase[];
   robustness: { rows: { label: string; adopted: boolean; a: number; b: number; result: string }[]; a_win_share: number; n_states: number; units: string; source: string };
   baseline_sensitivities: { label: string; total: number; change: number }[];
+  baseline_only: { id: string; label: string; what: string; baseline: number; d_baseline: number; d_additional: number; d_with_law: number; d_additional_lower: number; d_additional_upper: number }[];
+  local_effects: { text: string; example: string; not_computed: string };
+  sensitivity_groups: Record<"addition" | "baseline" | "local", { title: string; intro: string }>;
   challenges: { title: string; text: string }[];
 }
 
@@ -80,6 +90,8 @@ export interface Pilot {
   homes: number; x_rate: number; x_low: number; x_high: number; x_status: string; x_basis: string; basis_text: string; note: string | null; provisional_through: string | null; provisional_detail: string | null; current_class: string;
   reform_class: string | null; rights_added_text: string | null; base: number[]; base_low_5yr: number; base_high_5yr: number;
   add: Record<PathId, number[]>; y_rate_y5: Record<PathId, number>;
+  like: { title: string; text: string; detail: string } | null;
+  programme: { title: string; text: string; detail: string } | null;
   permits: { label: string; stage: string; source: string; years: { year: number; units: number | null; permits?: number | null; status: string; reason: string | null }[] };
   measured: { window: string; permits: number; homes: number; thousand_home_years: number; rate: number; lo: number | null; hi: number | null; stage: string; used_by_model: boolean } | null;
   rules: { provision: string; value: string | null; from: string | null; to: string | null; source_url: string | null; section: string | null; retrieved: string | null; verification: string; current: boolean }[];

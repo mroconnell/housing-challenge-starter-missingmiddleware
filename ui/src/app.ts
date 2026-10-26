@@ -28,17 +28,32 @@ export function scenarioLabel(ctx: Ctx, p: PathId): string {
 
 /** The scenario's name in running text: "the central scenario", "the strong adoption scenario". */
 export function scenPhrase(ctx: Ctx, p?: PathId): string {
-  return `the ${ctx.scen(p).label.toLowerCase()} scenario`;
+  return `the ${ctx.scen(p).name}`;
 }
 
 /** Short form for headings and labels: "central scenario". */
 export function scenShort(ctx: Ctx, p?: PathId): string {
-  return `${ctx.scen(p).label.toLowerCase()} scenario`;
+  return ctx.scen(p).name;
 }
 
-/** Plain note shown wherever Madison's numbers appear (bundle text, so every screen says the same). */
+/** Chart-key and table label: "Statewide ADU reform: central scenario" (from the bundle). */
+export function scenKey(ctx: Ctx, p?: PathId): string {
+  return ctx.scen(p).chart_label;
+}
+
+/** A plain-language box with an optional "details" disclosure for the technical background. */
+export function infoBox(title: string, text: string, detail?: string, testid = "info-box"): string {
+  return `<div class="note-box" role="note" data-testid="${esc(testid)}"><p><strong>${esc(title)}.</strong> ${esc(text)}</p>${detail ? details("Details", `<p class="small">${esc(detail)}</p>`) : ""}</div>`;
+}
+
+/** Madison's short note (map details panel); the pilot page uses the longer "Cities like Madison" box. */
 export function noteBox(text: string, testid = "madison-note"): string {
-  return `<div class="note-box" role="note" data-testid="${esc(testid)}"><p><strong>Why Madison differs.</strong> ${esc(text)}</p></div>`;
+  return infoBox("Cities like Madison", text, undefined, testid);
+}
+
+/** A native disclosure: detail one click away. */
+export function details(summary: string, html: string, cls = ""): string {
+  return `<details class="more ${cls}"><summary>${esc(summary)}</summary>${html}</details>`;
 }
 
 /** Radio group to choose the highlighted scenario (all three stay visible in charts). */
@@ -47,7 +62,7 @@ export function scenarioPicker(ctx: Ctx, name: string, compact = false): string 
     <label class="scen-opt scen-${s.id}">
       <input type="radio" name="${esc(name)}" value="${s.id}" ${ctx.ui.scenario === s.id ? "checked" : ""}>
       <span class="scen-body"><span class="scen-name"><span class="swatch sw-${s.id}" aria-hidden="true"></span>${esc(s.label)}</span>
-      ${compact ? "" : `<span class="scen-desc">${esc(s.description)}</span><span class="scen-info">${esc(s.info)}</span><span class="scen-num"><strong>${int(s.additional_total)}</strong> additional permits over 2027–2031</span>`}</span>
+      ${compact ? "" : `<span class="scen-desc">${esc(s.title)}</span><span class="scen-info">${esc(s.text)}</span><span class="scen-num"><strong>${int(s.additional_total)}</strong> additional permits over 2027–2031</span>`}</span>
     </label>`).join("")}</fieldset>`;
 }
 

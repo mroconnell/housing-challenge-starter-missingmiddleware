@@ -22,6 +22,16 @@ const by = {};
 for (const r of rows) by[r.license] = (by[r.license] || 0) + 1;
 console.log(`${rows.length} packages (${rows.filter((r) => !r.dev).length} runtime). Licences:`, by);
 for (const r of rows.filter((r) => !r.dev)) console.log(`  runtime  ${r.name}@${r.version}  ${r.license}`);
+// Self-hosted assets that are not npm packages (served from public/): each must carry its licence file.
+const ASSETS = [
+  { path: "public/fonts/open-sans-semibold", what: "Open Sans Semibold map glyphs (openmaptiles/fonts)", license: "Apache-2.0", marker: "Apache License" },
+];
+for (const a of ASSETS) {
+  const lf = join(a.path, "LICENSE.txt");
+  const okA = existsSync(lf) && readFileSync(lf, "utf8").includes(a.marker) && ALLOWED.has(a.license);
+  console.log(`  asset    ${a.what}  ${a.license}${okA ? "" : "  (LICENCE FILE MISSING OR NOT PERMISSIVE)"}`);
+  if (!okA) bad.push({ name: a.path, version: "-", license: a.license, dev: false, optional: false });
+}
 if (bad.length) {
   console.error("Not on the permissive list:");
   for (const r of bad) console.error(`  ${r.name}@${r.version} ${r.license}${r.dev ? " (dev)" : ""}${r.optional ? " (optional)" : ""}`);
