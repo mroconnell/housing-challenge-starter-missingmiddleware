@@ -102,10 +102,14 @@ def main() -> None:
     # places with any citywide residential removal record (at or near, any status) never serve as comparisons
     reformed = tax[(tax["policy"] == "rm_min") & tax["benchmark_rating"].isin(["at", "near"]) & (tax["place_type"] == "city")]
     excluded = set()
+    reform_year = {}   # BPS key -> earliest adoption year of a citywide residential removal (at or near, adopted)
     for r in reformed.drop_duplicates("prn_key").itertuples():
         k = cmp.match_place(p, STATE_FIPS.get(r.state, "??"), r.place, r.population)
         if k:
             excluded.add(k)
+            yrs = reformed[(reformed["prn_key"] == r.prn_key) & (reformed["status"] == "adopted")]["adopted_year"].dropna()
+            if len(yrs):
+                reform_year[k] = min(int(yrs.min()), reform_year.get(k, 9999))
 
     checks_path = REFERENCE / "parking_repeal_checks.csv"
     checks = pd.read_csv(checks_path) if checks_path.exists() else pd.DataFrame(columns=["prn_key"])
@@ -148,6 +152,12 @@ def main() -> None:
         .drop_duplicates("key", keep="last").set_index("key")["cbsa"].astype(str).str.strip()
     eff["metro"] = [1.0 if cbsa.get(bps_cbsa.get(k, ""), "") == "M1" else 0.0 for k in eff["key"]]
     eff["log_pop"] = cmp.log_pop(eff["population"])
+    # For a later question (owner, 2026-10-26): does the effect differ when most of a state's
+    # large cities have repealed? Share of the state's population in places of 50,000+ (BPS
+    # population in the year before the repeal) living in places that had repealed by then.
+    eff["state_large_city_share_repealed"] = [
+        cmp.state_share_repealed(p, k.split("|")[0], int(y), reform_year) if isinstance(k, str) else np.nan
+        for k, y in zip(eff["key"], eff["event_year"])]
     eff.to_csv(REFERENCE / "parking_comparison_effects.csv", index=False)
 
     out = []

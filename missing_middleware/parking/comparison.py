@@ -68,6 +68,17 @@ def match_place(p: pd.DataFrame, state_fips: str, name: str, population: float |
     return cand.sort_values(["exact", "is_place", "gap"], ascending=[False, False, True]).iloc[0]["key"]
 
 
+def state_share_repealed(p: pd.DataFrame, state_fips: str, year: int, reform_year: dict,
+                         min_pop: int = 50_000) -> float:
+    """Share of a state's population in places of min_pop+ (BPS population in year - 1)
+    that lived in places with a citywide residential parking repeal adopted by `year`."""
+    s = p[(p["state_fips"] == state_fips) & (p["year"] == year - 1) & (p["pop"] >= min_pop)]
+    if s.empty or not s["pop"].sum():
+        return np.nan
+    done = s["key"].map(lambda k: reform_year.get(k, 9999) <= year)
+    return float(s.loc[done, "pop"].sum() / s["pop"].sum())
+
+
 def windows(event_year: int) -> tuple[list[int], list[int]]:
     pre = [y for y in range(event_year - PRE_YEARS_MAX, event_year) if y >= FIRST_YEAR]
     post = [event_year + k for k in POST_YEARS if event_year + k <= LAST_YEAR]

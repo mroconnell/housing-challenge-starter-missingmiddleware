@@ -44,6 +44,12 @@ class TestEffects(unittest.TestCase):
         self.assertAlmostEqual(a["rate_after"], 40.0)
         self.assertAlmostEqual(a["effect"], 20.0)
 
+    def test_state_share_repealed(self):
+        p = synth_panel()
+        # B is the only place of 50,000+; repealed in 2018 -> share 1 in 2019, 0 in 2017
+        self.assertEqual(cmp.state_share_repealed(p, "01", 2019, {"01|B": 2018}), 1.0)
+        self.assertEqual(cmp.state_share_repealed(p, "01", 2017, {"01|B": 2018}), 0.0)
+
     def test_too_few_years_excluded(self):
         e = cmp.effects(self.p, pd.DataFrame({"key": ["01|T"], "event_year": [2014]}), set(), self.homes)
         self.assertTrue(e["status"].iloc[0].startswith("excluded"))
