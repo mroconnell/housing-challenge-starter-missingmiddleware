@@ -33,7 +33,7 @@ class TestEffects(unittest.TestCase):
     def test_controls_exclude_reformed_and_out_of_window(self):
         c, w = cmp.controls(self.p, "01|T", 2019, {"01|X"}, self.homes)
         self.assertEqual(sorted(c), [f"01|C{i}" for i in range(1, 7)])
-        self.assertEqual(w, "0.50-2.00")
+        self.assertEqual(w, "state 0.50-2.00")
 
     def test_effect_is_difference_in_differences(self):
         cases = pd.DataFrame({"key": ["01|T"], "event_year": [2019]})

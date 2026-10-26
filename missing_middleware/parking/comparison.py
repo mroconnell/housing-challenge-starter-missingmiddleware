@@ -33,7 +33,9 @@ def panel(bps: pd.DataFrame) -> pd.DataFrame:
     """BPS place rows (parsers.read_bps(kind='place', state_fips=None) with a `year`)
     to one row per place and year. County-level unincorporated rows are dropped."""
     d = bps.copy()
-    for c in ("state_fips", "bps_id", "county_fips", "fips_place", "fips_mcd", "name"):
+    if "division" not in d.columns:
+        d["division"] = ""
+    for c in ("state_fips", "bps_id", "county_fips", "fips_place", "fips_mcd", "name", "division"):
         d[c] = d[c].astype(str).str.strip()
     d = d[d["fips_place"] != "99990"]
     d["units_2plus"] = d["2units_units"] + d["3_4units_units"] + d["5plus_units"]
@@ -41,7 +43,7 @@ def panel(bps: pd.DataFrame) -> pd.DataFrame:
     d["acs_geoid"] = np.where(d["fips_place"].str.strip("0") != "",
                               "160|" + d["state_fips"] + d["fips_place"].str.zfill(5),
                               "060|" + d["state_fips"] + d["county_fips"].str.zfill(3) + d["fips_mcd"].str.zfill(5))
-    keep = ["key", "state_fips", "bps_id", "name", "county_fips", "fips_place", "fips_mcd", "acs_geoid",
+    keep = ["key", "state_fips", "division", "bps_id", "name", "county_fips", "fips_place", "fips_mcd", "acs_geoid",
             "year", "pop", "units_total", "units_2plus"]
     return d[keep].drop_duplicates(["key", "year"]).reset_index(drop=True)
 
@@ -97,17 +99,26 @@ def complete(p: pd.DataFrame, years) -> set:
 
 
 def controls(p: pd.DataFrame, key: str, event_year: int, excluded: set, homes: pd.Series) -> tuple[list, str]:
+    """Comparison places: same state and 0.5-2x population; widened to 1/3-3x, then (plan
+    deviation 1, 2026-10-26) to the same Census division at 0.5-2x and 1/3-3x, until there
+    are at least MIN_CONTROLS."""
     pre, post = windows(event_year)
-    st = key.split("|")[0]
-    base = p[(p["year"] == event_year - 1)].set_index("key")["pop"]
+    last = p[(p["year"] == event_year - 1)].set_index("key")
+    base, div = last["pop"], last["division"] if "division" in last else pd.Series(dtype=str)
     pop0 = base.get(key, np.nan)
+    st = key.split("|")[0]
+    dv = div.get(key, None)
     ok = complete(p, pre + post) & set(homes.dropna().index)
-    for lo, hi in (POP_WINDOW, POP_WINDOW_WIDE):
-        c = [k for k, v in base.items() if k.startswith(st + "|") and k != key and k not in excluded
+    tried = [("state", POP_WINDOW), ("state", POP_WINDOW_WIDE), ("division", POP_WINDOW), ("division", POP_WINDOW_WIDE)]
+    c, label = [], ""
+    for scope, (lo, hi) in tried:
+        same = (lambda k: k.startswith(st + "|")) if scope == "state" else (lambda k: dv not in (None, "") and div.get(k) == dv)
+        c = [k for k, v in base.items() if same(k) and k != key and k not in excluded
              and k in ok and lo * pop0 <= v <= hi * pop0]
+        label = f"{scope} {lo:.2f}-{hi:.2f}"
         if len(c) >= MIN_CONTROLS:
-            return c, f"{lo:.2f}-{hi:.2f}"
-    return c, f"{lo:.2f}-{hi:.2f} (fewer than {MIN_CONTROLS})"
+            return c, label
+    return c, label + f" (fewer than {MIN_CONTROLS})"
 
 
 def effects(p: pd.DataFrame, cases: pd.DataFrame, excluded: set, homes: pd.Series) -> pd.DataFrame:

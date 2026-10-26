@@ -684,6 +684,16 @@ Kept here so the owner can take them to mentor office hours or the Administrator
     Until we have an answer, we do not use the file (AQ-045).
 25. **Federal National Transit Map as the stop source.** The U.S. DOT National Transit Map (BTS NTAD stops and routes, CC BY 3.0) compiles each agency's GTFS stops and route shapes. Is it acceptable to use it as the single, consistent stop source for every city, including Madison? Or do the original agency licences (such as Madison's derived-data clause) still apply to data taken from it? (AQ-045)
 
+**Parking and TOD (shared)**
+
+26. **City evidence for a statewide law.** No state has post-law permit data for a parking repeal or a transit-oriented density law: the laws are too new, or narrower than the benchmarks. Both scenarios therefore rest on cities that adopted the reform themselves (parking: about 30 US repeal cities compared with similar places; TOD: city programs such as Madison's TOD overlay, Los Angeles TOC, and Auckland). Does evidence from city reforms satisfy "grounded in evidence" for a statewide-law scenario, if we say plainly that the cities chose to reform?
+27. **Parking inside the TOD scenario.** May the TOD scenario remove parking minimums inside station areas, as the benchmark allows, with that reported separately and no subtracting of the overlap with the parking scenario?
+
+**Parking**
+
+28. Is a model-based cost-per-unit estimate acceptable as the main method for parking, if before/after city data are too noisy to show an effect?
+29. Is it acceptable to correct a Census permit series (Milwaukee's apartments) from a city's property file, if the adjustment is labelled and the published series is kept as a sensitivity?
+
 ## Additional questions to develop
 
 All entries below were added on 2026-10-23 and remain **Open**.

@@ -12,6 +12,7 @@ Outputs:
     reference/parking_comparison_match.csv     each repeal place -> its Census permit place
     reference/parking_comparison_effects.csv   one row per repeal place and outcome
     reference/parking_comparison_models.csv    leave-one-place-out comparison of models
+    reference/parking_comparison_estimates.csv estimates and bootstrap ranges
 """
 from __future__ import annotations
 
@@ -111,26 +112,28 @@ def main() -> None:
             if len(yrs):
                 reform_year[k] = min(int(yrs.min()), reform_year.get(k, 9999))
 
-    checks_path = REFERENCE / "parking_repeal_checks.csv"
-    checks = pd.read_csv(checks_path) if checks_path.exists() else pd.DataFrame(columns=["prn_key"])
+    checks = pd.read_csv(REFERENCE / "parking_repeal_checks.csv", dtype={"repealed_from_year": "Int64"})
     rows = []
     for r in cases.itertuples():
         k = cmp.match_place(p, STATE_FIPS.get(r.state, "??"), r.place, r.population)
-        ck = checks[checks["prn_key"] == r.prn_key]
-        ev = int(r.adopted_year)
-        use = True
-        note = ""
-        if not ck.empty:
-            c = ck.iloc[0]
-            if str(c.get("in_force", "")).lower() == "no" or str(c.get("benchmark_rating_checked", "")).lower() == "weaker":
-                use, note = False, "ordinance check: not at the benchmark"
-            eff = str(c.get("effective_date", "") or "")
-            if eff[:4].isdigit() and int(eff[:4]) > ev:
-                ev, note = int(eff[:4]), (note + "; " if note else "") + "effective year used"
+        c = checks[checks["prn_key"] == r.prn_key].iloc[0]
+        ev = int(c["event_year"])
+        rating = c["benchmark_rating_checked"]
+        last_post = ev + max(cmp.POST_YEARS)
+        reason = []
+        if k is None:
+            reason.append("not found in Census permit files")
+        if rating == "weaker":
+            reason.append("ordinance check: weaker than the benchmark")
+        if bool(c["no_event"]):
+            reason.append("ordinance check: no minimums before either, so no repeal event")
+        if pd.notna(c["repealed_from_year"]) and int(c["repealed_from_year"]) <= last_post:
+            reason.append(f"minimums restored in {int(c['repealed_from_year'])}, inside the after period")
+        arm = "main" if rating == "at" else "near"
         rows.append(dict(prn_key=r.prn_key, place=r.place, state=r.state, population=r.population,
-                         adopted_year=int(r.adopted_year), event_year=ev, key=k,
-                         bps_name=geo["name"].get(k) if k else None, use=use and k is not None,
-                         note=note or ("not found in Census permit files" if k is None else "")))
+                         adopted_year_prn=int(r.adopted_year), event_year=ev, rating_checked=rating, arm=arm,
+                         simultaneous_rewrite=bool(c["simultaneous_rewrite"]), key=k,
+                         bps_name=geo["name"].get(k) if k else None, use=not reason, note="; ".join(reason)))
     match = pd.DataFrame(rows)
     match.to_csv(REFERENCE / "parking_comparison_match.csv", index=False)
     if a.match_only:
@@ -138,7 +141,8 @@ def main() -> None:
         return
 
     use = match[match["use"]]
-    eff = cmp.effects(p, use[["prn_key", "place", "state", "population", "key", "event_year"]], excluded, homes)
+    eff = cmp.effects(p, use[["prn_key", "place", "state", "population", "key", "event_year", "arm",
+                              "simultaneous_rewrite"]], excluded, homes)
     st_rent = {k.split("|")[1]: v for k, v in rent_geo.items() if k.startswith("040|")}
     eff["rel_rent"] = [rent_geo.get(geo["acs_geoid"].get(k)) / st_rent.get(k.split("|")[0], np.nan) for k in eff["key"]]
     cbsa = pd.Series(dtype=str)
@@ -162,13 +166,39 @@ def main() -> None:
 
     out = []
     for outcome in ("all", "2plus"):
-        d = eff[(eff["status"] == "included") & (eff["outcome"] == outcome)].dropna(subset=["effect", "log_pop"])
-        specs = cmp.candidate_specs(has_rent=d["rel_rent"].notna().all())
-        m = cmp.compare_models(d, specs)
-        m.insert(0, "outcome", outcome)
-        m["n_places"] = len(d)
-        out.append(m)
+        for sample in ("main", "main_without_rewrites"):
+            d = eff[(eff["status"] == "included") & (eff["outcome"] == outcome) & (eff["arm"] == "main")]
+            if sample == "main_without_rewrites":
+                d = d[~d["simultaneous_rewrite"]]
+            d = d.dropna(subset=["effect", "log_pop"])
+            specs = cmp.candidate_specs(has_rent=d["rel_rent"].notna().all())
+            m = cmp.compare_models(d, specs)
+            m.insert(0, "sample", sample)
+            m.insert(0, "outcome", outcome)
+            m["n_places"] = len(d)
+            out.append(m)
     pd.concat(out).to_csv(REFERENCE / "parking_comparison_models.csv", index=False)
+
+    # point estimates and bootstrap ranges (5th-95th percentile) for the one-average model and
+    # the leave-one-out winner, main sample
+    summ = []
+    models = pd.concat(out)
+    for outcome in ("all", "2plus"):
+        d = eff[(eff["status"] == "included") & (eff["outcome"] == outcome) & (eff["arm"] == "main")].dropna(
+            subset=["effect", "log_pop"]).reset_index(drop=True)
+        specs = cmp.candidate_specs(has_rent=d["rel_rent"].notna().all())
+        won = models[(models["outcome"] == outcome) & (models["sample"] == "main") & models["chosen"]]["model"].iloc[0]
+        for name in dict.fromkeys(["M0 one average", won]):
+            spec = specs[name]
+            X = cmp.design(d, spec)
+            beta = cmp.wls(X, d["effect"].values, d["homes"].values.astype(float))
+            bs = cmp.bootstrap(d, spec)
+            terms = ["intercept"] + [f"population >= {c:,}" for c in spec.get("bands", ())] + list(spec.get("vars", []))
+            for j, t in enumerate(terms):
+                summ.append(dict(outcome=outcome, model=name, term=t, estimate=beta[j],
+                                 p05=np.percentile(bs[:, j], 5), p95=np.percentile(bs[:, j], 95),
+                                 n_places=len(d), draws=len(bs)))
+    pd.DataFrame(summ).to_csv(REFERENCE / "parking_comparison_estimates.csv", index=False)
     print(f"matched {match['key'].notna().sum()} of {len(match)}; used {match['use'].sum()}; "
           f"included {eff[eff['status'] == 'included']['key'].nunique()}")
 

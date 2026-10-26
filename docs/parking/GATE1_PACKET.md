@@ -84,6 +84,4 @@ The reference tables committed so far are `reference/housing_baseline_*.csv`, `r
 
 ## 8. Questions for office hours
 
-1. Does a city-repeal evidence base satisfy "grounded in evidence" for a statewide-law scenario, given that no state law has post-law data yet?
-2. Is a model-based cost-per-unit estimate acceptable as the main method if before/after city data are too noisy?
-3. Is it acceptable to correct a Census permit series (Milwaukee) from a city's property file, if the adjustment is labelled and the published series is kept as a sensitivity?
+Moved to the project list in [ASSUMPTIONS_AND_QUESTIONS.md](../ASSUMPTIONS_AND_QUESTIONS.md) (questions 26–29). Question 26 is shared with TOD.
