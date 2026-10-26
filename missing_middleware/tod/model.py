@@ -209,3 +209,104 @@ def check_no_negative(values: Iterable[float]) -> bool:
 def case_reference_line(per_far_cases: Mapping[str, float]) -> float:
     """Median of every measured per-FAR case (spec section 5), named members counted through the pooled set."""
     return float(np.median(list(per_far_cases.values())))
+
+
+# --------------------------------------------------------------------------- sizing switch (spec section 9, proposed)
+#
+# Two ways to size the statewide addition:
+#   "per_acre"   (the main method A): each area's addition = acre-units of added FAR x r x ramp(k);
+#   "net_effect" (proposed 2026-10-26, pending the owner's choice): the statewide total = a citywide
+#                net effect measured after upzoning, as a share of the 2020 homes in the main-case
+#                station areas, timed by a yearly profile; method A's per-acre additions are used only
+#                as shares to place that total across areas.
+
+SIZING_MODES = ("per_acre", "net_effect")
+
+
+@dataclass(frozen=True)
+class NetEffect:
+    """A citywide net effect: share of the housing stock added over the five forecast years, and the
+    yearly timing (shares of the five-year total, summing to 1)."""
+    five_year_share: float
+    timing: tuple[float, ...]
+    source: str = ""
+
+    def __post_init__(self):
+        if len(self.timing) != len(YEARS):
+            raise ValueError("timing needs one share per year 1..5")
+        if any(t < 0 for t in self.timing) or abs(sum(self.timing) - 1.0) > 1e-9:
+            raise ValueError("timing shares must be non-negative and sum to 1")
+        if self.five_year_share < 0:
+            raise ValueError("net effect must not be negative")
+
+
+def timing_from_profile(values: Sequence[float]) -> tuple[float, ...]:
+    """Yearly shares from a published yearly effect profile (years 1..5). Negative values are not
+    allowed: the law never subtracts."""
+    v = np.asarray(values, dtype=float)
+    if len(v) != len(YEARS) or (v < 0).any() or v.sum() <= 0:
+        raise ValueError("profile needs five non-negative values with a positive sum")
+    return tuple(float(x) for x in v / v.sum())
+
+
+def timing_from_ramp(ramp: Sequence[float]) -> tuple[float, ...]:
+    """The New York pooled ramp (mean 1) as yearly shares of a five-year total."""
+    return timing_from_profile(ramp)
+
+
+def net_effect_total(stock_homes: float, effect: NetEffect) -> np.ndarray:
+    """Statewide extra homes by year (1..5) = share x stock x timing."""
+    return float(stock_homes) * effect.five_year_share * np.asarray(effect.timing, dtype=float)
+
+
+def placement_shares(weights: pd.Series) -> pd.Series:
+    """Shares of the statewide total by area, proportional to non-negative weights (method A's
+    per-acre additions). All-zero weights are an error: there would be nowhere to place homes."""
+    w = weights.clip(lower=0).fillna(0.0)
+    if w.sum() <= 0:
+        raise ValueError("no area has a positive weight")
+    return w / w.sum()
+
+
+def size_additions(per_acre: pd.DataFrame, mode: str, stock_homes: float | None = None,
+                   effect: NetEffect | None = None, weights: pd.Series | None = None) -> pd.DataFrame:
+    """Switch between the two sizings. per_acre has area_id and add_y1..add_y5 (method A, one scenario).
+
+    per_acre:   returned unchanged.
+    net_effect: each area's addition in year k = statewide net total(k) x the area's share of
+                `weights` (default: the area's five-year per-acre addition)."""
+    ycols = [f"add_y{k}" for k in YEARS]
+    out = per_acre.copy()
+    if mode == "per_acre":
+        return out
+    if mode != "net_effect":
+        raise ValueError(f"unknown sizing mode {mode!r}")
+    if stock_homes is None or effect is None:
+        raise ValueError("net_effect sizing needs stock_homes and effect")
+    w = per_acre[ycols].sum(axis=1) if weights is None else weights.reindex(per_acre.index)
+    share = placement_shares(w)
+    total = net_effect_total(stock_homes, effect)
+    for c, t in zip(ycols, total):
+        out[c] = share.to_numpy() * t
+    return out
+
+
+def cap_by_group(add: pd.DataFrame, group: pd.Series, cap_per_year: Mapping[str, float]) -> pd.DataFrame:
+    """Scale areas down, year by year, so each group's (metro's) addition stays at or below its cap.
+    Groups without a cap are unchanged. Never raises an addition."""
+    ycols = [f"add_y{k}" for k in YEARS]
+    out = add.copy()
+    for g, cap in cap_per_year.items():
+        sel = (group == g).to_numpy()
+        for c in ycols:
+            tot = out.loc[sel, c].sum()
+            if tot > cap:
+                f = max(cap, 0.0) / tot if tot > 0 else 0.0
+                out.loc[sel, c] = out.loc[sel, c] * f
+    return out
+
+
+def share_of_stock(extra_homes: float, stock_homes: float) -> float:
+    if stock_homes <= 0:
+        raise ValueError("stock must be positive")
+    return float(extra_homes) / float(stock_homes)

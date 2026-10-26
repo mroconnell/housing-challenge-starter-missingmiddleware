@@ -169,6 +169,68 @@ class TestMadisonPredictions(unittest.TestCase):
             self.assertNotIn(bad, src)
 
 
+class TestNetSizing(unittest.TestCase):
+    """Sizing by citywide net effect (spec section 9, proposed): the switch and its outputs."""
+
+    def test_timing_and_total(self):
+        e = M.NetEffect(0.008, M.timing_from_ramp(M.ramp_from_gaps(GAPS)))
+        tot = M.net_effect_total(100_000, e)
+        self.assertAlmostEqual(tot.sum(), 800.0)
+        self.assertTrue((tot >= 0).all())
+        with self.assertRaises(ValueError):
+            M.timing_from_profile([-2.63, 2.34, 6.79, 8.95, 12.09])  # a negative year would subtract
+
+    def test_switch(self):
+        df = pd.DataFrame({"area_id": ["a", "b", "c"], **{f"add_y{k}": [3.0 * k, 1.0 * k, 0.0] for k in M.YEARS}})
+        self.assertTrue(M.size_additions(df, "per_acre").equals(df))
+        e = M.NetEffect(0.01, (0.2,) * 5)
+        out = M.size_additions(df, "net_effect", 10_000, e)
+        ycols = [f"add_y{k}" for k in M.YEARS]
+        self.assertAlmostEqual(out[ycols].sum().sum(), 100.0)
+        self.assertAlmostEqual(out.loc[0, ycols].sum() / out[ycols].sum().sum(), 0.75)
+        self.assertEqual(out.loc[2, ycols].sum(), 0.0)
+        with self.assertRaises(ValueError):
+            M.size_additions(df, "other")
+
+    def test_cap_by_group(self):
+        df = pd.DataFrame({"add_y1": [60.0, 60.0, 10.0], **{f"add_y{k}": [1.0, 1.0, 1.0] for k in (2, 3, 4, 5)}})
+        out = M.cap_by_group(df, pd.Series(["m", "m", "x"]), {"m": 30.0})
+        self.assertAlmostEqual(out.add_y1[:2].sum(), 30.0)
+        self.assertEqual(out.add_y1[2], 10.0)
+        self.assertEqual(out.add_y2.tolist(), [1.0, 1.0, 1.0])
+
+    def test_outputs(self):
+        st = read("tod_model_net_statewide.csv")
+        area = read("tod_model_net_by_area.csv")
+        self.assertEqual(set(st.sizing), set(M.SIZING_MODES))
+        self.assertTrue(M.check_no_negative(st.addition))
+        add_cols = [f"add_{y}" for y in range(2027, 2032)] + ["add_2027_2031"]
+        self.assertTrue(M.check_no_negative(area[add_cols].to_numpy().ravel()))
+        net = st[(st.sizing == "net_effect") & (st.year == "2027-2031")].set_index("scenario")
+        # totals reconcile: state = share x stock; areas, counties and districts add to the state
+        for sid, r in net.iterrows():
+            self.assertAlmostEqual(r.addition, r.parameter * r.stock_homes_station_areas, delta=0.01)
+            self.assertAlmostEqual(area[area.scenario == sid].add_2027_2031.sum(), r.addition, delta=0.05)
+            for name in ("tod_model_net_by_county.csv", "tod_model_net_by_assembly_district.csv", "tod_model_net_by_senate_district.csv"):
+                d = read(name)
+                self.assertAlmostEqual(d[d.scenario == sid].add_2027_2031.sum(), r.addition, delta=1.0, msg=name)
+        yrs = st[(st.sizing == "net_effect") & (st.year != "2027-2031")].groupby("scenario").addition.sum()
+        for sid, v in yrs.items():
+            self.assertAlmostEqual(v, net.loc[sid, "addition"], delta=0.01)
+        # scenarios ordered, in both sizings
+        for sz in M.SIZING_MODES:
+            t = st[(st.sizing == sz) & (st.year == "2027-2031")].set_index("scenario").addition
+            self.assertLess(t["little"], t["typical"])
+            self.assertLess(t["typical"], t["strong"])
+        self.assertAlmostEqual(float(net.stock_homes_station_areas.iloc[0]), 313_564, delta=0.5)
+
+    def test_capped_sensitivity_within_cap(self):
+        ck = read("tod_model_net_checks.csv")
+        c = ck[(ck.check == "scale") & (ck.scenario == "wisconsin_measured_capped")]
+        for r in c.itertuples():
+            self.assertLessEqual(r.total_per_1000, max(r.p95, r.baseline_per_1000) + 1e-6)
+
+
 class TestPrivacy(unittest.TestCase):
     def test_no_parcel_ids(self):
         long_num = re.compile(r"(?<![\w.:/-])\d{8,}(?![\w.])")
