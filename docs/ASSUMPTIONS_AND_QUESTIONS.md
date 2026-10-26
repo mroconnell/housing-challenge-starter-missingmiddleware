@@ -615,7 +615,13 @@ Unchanged: the central and Strong adoption definitions, Madison on the Madison-l
 
 Stops count as qualifying when they lie on a qualifying route shape. Rail and rapid transit stops come from route type and route names in the same layer.
 
-The figures published on 2026-10-26 in [docs/tod/MAJOR_TRANSIT_STOP.md](tod/MAJOR_TRANSIT_STOP.md) used Madison's file. They will be replaced by a rerun on the National Transit Map.
+The figures published on 2026-10-26 in [docs/tod/MAJOR_TRANSIT_STOP.md](tod/MAJOR_TRANSIT_STOP.md) used Madison's file. They were replaced the same day by a rerun on the National Transit Map, with a route-level frequency test. The rerun gives:
+- Main case: 318,394 of 2,727,726 homes (11.7%), against 330,804 before.
+- 15-minute service within ½ mile: 407,832 homes (15.0%).
+- 20-minute service within ½ mile: 455,821 homes (16.7%).
+- Milwaukee County and Dane County hold 97.2% of the main case.
+
+These supersede the 2026-10-26 figures quoted in AQ-044.
 
 ## AQ-046 Parking: evidence by city size; one model with size and market variables
 
