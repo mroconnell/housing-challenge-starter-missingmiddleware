@@ -69,3 +69,8 @@ Written 2026-10-26 by the TOD conductor, before any permits have been counted fo
 - **Reason.** This applies the eligible-land definition already decided in AQ-047 item 8: eligible land is land where the law raises allowed density, and land already at the law is excluded. The check showed the original area rule mixed already-dense land into both groups. In Charlotte, 1,856 of the 2,111 before-period treatment units were on 124.8 acres already zoned for transit-oriented development before 2019, and the comparison ring held older dense mixed-use zoning.
 - **Original rule kept.** Results under the original rule stay in the results as a sensitivity (`sens_original_spec`).
 
+**2026-10-26, added cases (section 1).** Added after the first five cases were counted, on the owner's approval of G2-3 (AQ-049), and before any permits for them are counted:
+- **Fit set:** the New York pooled set of city-initiated rezonings, 2003–2013; Philadelphia's 2012 code remapping and transit overlay; Raleigh's 2021 transit overlay; Phoenix's 2015 Walkable Urban Code.
+- **Held out:** Ann Arbor's 2021 TC1 transit corridor district.
+- **Why these:** they are the inventory's medium- or strong-design cases with open data and median rents of $1,397 to $1,649 a month, closer to Milwaukee ($1,059) and Madison ($1,413) than New York ($1,821). The cases were chosen by rent, design and data, before their outcomes were seen.
+- **Rules:** the same as for every other case, including the one area rule above.

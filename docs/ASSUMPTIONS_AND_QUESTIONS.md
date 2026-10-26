@@ -677,6 +677,26 @@ These supersede the 2026-10-26 figures quoted in AQ-044.
   - one average, with the size-and-metro model as a sensitivity;
   - no cost-based line for now.
 
+## AQ-049 TOD Gate 2 decisions
+
+**Status:** Adopted (owner, 2026-10-26: "Approve all recommendations"). **Related:** [docs/tod/GATE2_PACKET.md](tod/GATE2_PACKET.md) section 7, AQ-047.
+
+1. **G2-1:** the Wisconsin data is fit for Gate 3, with the gaps shown in the tool's trace.
+2. **G2-2:** one area rule for every case. Treatment is lots whose allowed density rose; comparison is lots with no zoning change. The first results are kept as a sensitivity.
+3. **G2-3:** measure more cases before fitting, in this order:
+   - the New York pooled set;
+   - Philadelphia 2012, Raleigh 2021 and Phoenix 2015 (moderate rent);
+   - Ann Arbor 2021, as a second test case;
+   - then the higher-rent medium-design cases if time allows.
+
+   Each is added to the case plan with its date before its permits are counted.
+4. **G2-4:** the law stays on the SB 79 floors from Gate 1 unless the Madison test or the new cases point to a design that holds up on the test cases.
+5. **G2-5:** test whether the effect per added density rises with rent, fitting on the fitted cases only. Chicago, Ann Arbor and Madison judge the result.
+6. **G2-6:** code Milwaukee's 2025 "Growing MKE" amendments before Gate 3.
+7. **G2-7:** "TOD alone" rests on the New York cases, the only ones that kept parking minimums.
+8. **G2-8:** single-family lots near stops stay eligible, with a sensitivity that leaves them out.
+9. **G2-9:** build the suburbs' fallback at Gate 3. It uses existing homes per acre and the modelled law, with zoning marked "not coded".
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -797,3 +817,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-26 | AQ-047 | TOD Gate 1: density rules from measured cases, keeping the most effective well-measured designs; no affordability mandate; parking minimums left to the parking scenario, with TOD alone, parking alone and both combined shown; two methods with the Madison test (Chicago fallback); scenario names from real cases; places already at TOD zoning depend on the evidence; "Where" by station areas. T1 to T3 still open. |
 | 2026-10-26 | AQ-046 | Parking: first full comparison of 24 US repeal places found no measurable average permit change over 3 years (−1.29 per 1,000 existing homes per year, range −3.68 to +2.33), and no size split beat one average. Owner accepted option A "if necessary": central = no measurable change; upper = top of the range the data allow; no lower case below zero (docs/parking/COMPARISON_RESULTS.md). |
 | 2026-10-26 | AQ-048 | Parking: owner approved Gate 1 P1–P9 and Gate 2 G2-1 to G2-5 as recommended ("yes to all for now"): option A with the all-units upper case, flat years 4–5, one average, no cost line; Milwaukee MPROP adjustment to the baseline; long-run baseline range. |
+| 2026-10-26 | AQ-049 | TOD Gate 2: owner approved all recommendations G2-1 to G2-9 (more moderate-rent cases first; SB 79 floors unless evidence changes; Growing MKE coded; suburbs fallback; single-family lots eligible). |
