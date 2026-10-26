@@ -646,6 +646,14 @@ These supersede the 2026-10-26 figures quoted in AQ-044.
 6. **Places already at the law (T8, T9) depend on the case evidence.** If the cases show a rule set that clearly raises permits per acre above what Madison's overlay and Milwaukee's zoning near CONNECT 1 already allow, the modelled law may go beyond them there. Otherwise the tool says plainly that Wisconsin gains little in those corridors because they already have TOD zoning. Two exceptions are worth testing: a benefit when most of a state's large cities adopt TOD, and an extra benefit from TOD plus parking reform that these cities do not have everywhere.
 7. **The "Where" screen shows station areas and corridors in the two metros (T10).** Approved.
 
+8. **Rate (owner, 2026-10-26):**
+   - **Measure:** homes permitted per year per acre of eligible parcel land in the station area. Eligible means land where the law raises allowed density; streets, water, parks and land already at the law are excluded.
+   - **Comparing cases:** each case's rate is scaled per unit of added allowed floor area.
+   - **Secondary number:** permits per 1,000 existing homes in the station area, so TOD can be compared with ADUs. A held-out test decides which denominator predicts better.
+9. **Existing density as a fallback (owner, 2026-10-26):** where a comparison city has no permits by year, its existing homes per acre near stops is still collected. Census blocks and parcels give this for any US city.
+   - It describes where decades of rules have led, not a five-year response, so it is not used directly as the law's effect.
+   - It serves three purposes: as a check on how dense station areas get under different rules, as a guide to the headroom between current and allowed density, and as an input to sharing the Wisconsin baseline across station areas.
+
 **Still open:** T1 and T2 (outcome at permit issuance, by building size; stylized 1 January 2027 start) and T3 (Amtrak stations excluded) were not answered. Silence is not approval.
 
 ## Questions for office hours
