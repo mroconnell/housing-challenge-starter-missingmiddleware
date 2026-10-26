@@ -1,0 +1,6 @@
+case,role,status,effect_per_dose
+a_fit,fit,measured,1.0
+b_fit,fit,measured,3.0
+c_heldout,heldout,measured,100.0
+d_context,fit,context_only: 1 before years (plan needs 3),50.0
+e_medium,medium,measured,-20.0

@@ -1,0 +1,11 @@
+project,area,year,units
+p1,treatment,2013,10
+p2,treatment,2015,20
+p8,treatment,2016,100
+p3,treatment,2017,40
+p4,treatment,2018,60
+p5,comparison,2014,30
+p6,comparison,2017,20
+p7,comparison,2018,40
+p9,second_comparison,2014,5
+p10,second_comparison,2018,25
