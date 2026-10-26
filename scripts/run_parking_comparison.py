@@ -14,6 +14,7 @@ Outputs:
     reference/parking_comparison_models.csv    leave-one-place-out comparison of models
     reference/parking_comparison_estimates.csv estimates and bootstrap ranges
     reference/parking_comparison_robustness.csv checks on the one-average estimate
+    reference/parking_comparison_event_path.csv effect by year since repeal
 """
 from __future__ import annotations
 
@@ -203,6 +204,13 @@ def main() -> None:
                                  p05=np.percentile(bs[:, j], 5), p95=np.percentile(bs[:, j], 95),
                                  n_places=len(d), draws=len(bs)))
     pd.DataFrame(summ).to_csv(REFERENCE / "parking_comparison_estimates.csv", index=False)
+
+    # effect by year since repeal (main sample, all units): for the ramp question (G2-2)
+    main_keys = eff[(eff["status"] == "included") & (eff["arm"] == "main") & (eff["outcome"] == "all")]
+    ev = cmp.event_path(p, main_keys[["key", "place", "event_year"]].drop_duplicates(), excluded, homes, popn)
+    path = (ev.groupby("k").apply(lambda g: pd.Series({"places": len(g), "effect": np.average(g["effect"], weights=g["homes"]),
+                                                      "median": g["effect"].median()}), include_groups=False).reset_index())
+    path.to_csv(REFERENCE / "parking_comparison_event_path.csv", index=False)
 
     # robustness of the one-average estimate (homes-weighted unless stated)
     rob = []

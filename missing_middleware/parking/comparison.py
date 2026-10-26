@@ -150,6 +150,29 @@ def effects(p: pd.DataFrame, cases: pd.DataFrame, excluded: set, homes: pd.Serie
     return pd.DataFrame(rows)
 
 
+def event_path(p: pd.DataFrame, cases: pd.DataFrame, excluded: set, homes: pd.Series,
+               population: pd.Series | None = None, max_k: int = 5, col: str = "units_total") -> pd.DataFrame:
+    """Effect by year since repeal (k = 1..max_k, where data exist), for the event-study path.
+    For each case and k: (rate in year E+k - before rate) - (same for its comparison places,
+    chosen as for the main effect). Years after 2025 are skipped."""
+    rows = []
+    for r in cases.itertuples(index=False):
+        pre, post = windows(int(r.event_year))
+        ctrl, _ = controls(p, r.key, int(r.event_year), excluded, homes, population)
+        t0, c0 = _rate(p, [r.key], pre, col, homes), _rate(p, ctrl, pre, col, homes)
+        for k in range(1, max_k + 1):
+            y = int(r.event_year) + k
+            if y > LAST_YEAR:
+                break
+            ok = complete(p, [y])
+            if r.key not in ok:
+                continue
+            cy = [c for c in ctrl if c in ok]
+            rows.append(dict(key=r.key, place=getattr(r, "place", ""), k=k, year=y, homes=float(homes[r.key]),
+                             effect=(_rate(p, [r.key], [y], col, homes) - t0) - (_rate(p, cy, [y], col, homes) - c0)))
+    return pd.DataFrame(rows)
+
+
 # ---------------------------------------------------------------------------
 # Models for the effect (section 5 of the plan)
 # ---------------------------------------------------------------------------

@@ -34,7 +34,10 @@
       "bundle_root": "scenarios/parking/runs/",
       "owner": "Parking conductor",
       "benchmark": "Reduce or eliminate minimum parking requirements. Specify assumptions about developer-provided parking absent mandates.",
-      "plan_doc": null
+      "plan_doc": {
+        "label": "Parking requirement reduction: Gate 3 packet",
+        "path": "docs/parking/GATE3_PACKET.md"
+      }
     }
   ]
 }
