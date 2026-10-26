@@ -84,3 +84,7 @@ What this means:
 - The remaining 8% to 16% is spread over about 50 smaller cities, led by La Crosse, Eau Claire, Oshkosh, Racine, Kenosha and Janesville, with no single place above 2.2%. A simpler statewide rule could cover them.
 - Homes covered is not the same as homes added. If the response depends on market strength, as the evidence suggests, the added homes will be more concentrated in Madison than these shares show.
 - Census building permits under-count Milwaukee city apartments (see [HOUSING_BASELINE.md](../shared/HOUSING_BASELINE.md)), so a Milwaukee study would need the city's own permit and property records, which are already in the repo.
+
+Second measure, shared with the parking scenario: baseline permits. Each municipality's 2027–2031 central baseline from [reference/housing_baseline_by_area.csv](../../reference/housing_baseline_by_area.csv) is allocated to the area near stops by that municipality's share of homes near stops, under the main rule.
+- All units: 10,708 of the state's 118,822 baseline permitted units over 2027–2031 fall near stops. Milwaukee city and Madison city hold 76.9% of those 10,708. Milwaukee County and Dane County hold 93.5%.
+- Buildings of 5 or more units: 9,100 of 47,318 fall near stops. The two cities hold 79.0% and the two counties 95.3%.
