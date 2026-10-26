@@ -144,13 +144,16 @@ class TestCommittedOutputs(unittest.TestCase):
         h = pd.read_csv(REF / "housing_baseline_history.csv")
         for t in hb.TYPES:
             s = h.groupby("year")[f"units_{t}"].sum()
-            pub = r[r["structure_type"] == t].set_index("year")["state_published"]
+            # history includes the labelled Milwaukee adjustment (AQ-048), so it sums to the adjusted total
+            pub = r[r["structure_type"] == t].set_index("year")["state_adjusted"]
             self.assertTrue(np.allclose(s.loc[pub.index], pub, atol=0.01), t)
 
-    def test_milwaukee_gaps_are_null(self):
+    def test_milwaukee_adjusted_and_2025_null(self):
         h = pd.read_csv(REF / "housing_baseline_history.csv", dtype={"area_id": str})
-        m = h[(h["area_id"] == "muni:5507953000") & h["year"].isin([2020, 2023, 2025])]
-        self.assertTrue(m["units_5plus"].isna().all())
+        m = h[h["area_id"] == "muni:5507953000"].set_index("year")
+        self.assertTrue(np.isnan(m.loc[2025, "units_5plus"]))     # needs 2026 completions: missing, not zero
+        self.assertGreater(m.loc[2023, "units_5plus"], 500)       # MPROP-based, not the BPS zero
+        self.assertIn("adjusted_milwaukee_mprop", m.loc[2023, "allocation"])
         self.assertTrue(m["units_1unit"].notna().all())
 
     def test_statewide_projection_is_sum_of_areas(self):

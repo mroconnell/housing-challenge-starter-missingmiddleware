@@ -96,10 +96,52 @@ def milwaukee_check(hist: pd.DataFrame) -> pd.DataFrame | None:
     return out.sort_values(["structure_type", "year"])
 
 
+MKE_BPS_ID = "572000"
+MKE_ADJ_TYPES = ("3_4units", "5plus")
+MKE_ADJ_LABEL = "adjusted_milwaukee_mprop"
+
+
+def milwaukee_mprop_permits() -> pd.Series | None:
+    """Estimated Milwaukee city permits in 3-4 and 5+ unit buildings by permit year (owner
+    decision P8, AQ-048): units in buildings of that size in the city's property file (MPROP)
+    by year built, shifted one year earlier to approximate the permit year. Permit year 2025
+    would need complete 2026 completions, so it is left null. Condominium units are recorded
+    one per parcel in MPROP and so are not counted here, which makes the estimate conservative."""
+    f = RAW / "milwaukee_mprop" / "mprop.csv"
+    if not f.exists():
+        return None
+    m = pd.read_csv(f, usecols=["YR_BUILT", "NR_UNITS"], low_memory=False).apply(pd.to_numeric, errors="coerce").dropna()
+    m = m[(m["NR_UNITS"] >= 3)]
+    m["structure_type"] = pd.cut(m["NR_UNITS"], [2, 4, 1e9], labels=list(MKE_ADJ_TYPES)).astype(str)
+    m["year"] = m["YR_BUILT"].astype(int) - 1
+    s = m[m["year"].between(min(hb.HISTORY_YEARS), max(hb.HISTORY_YEARS) - 1)].groupby(["year", "structure_type"])["NR_UNITS"].sum()
+    idx = pd.MultiIndex.from_product([hb.HISTORY_YEARS, MKE_ADJ_TYPES], names=["year", "structure_type"])
+    s = s.reindex(idx).astype(float).fillna(0.0)
+    s.loc[(max(hb.HISTORY_YEARS), slice(None))] = float("nan")
+    return s
+
+
+def apply_milwaukee_adjustment(hist: pd.DataFrame, xw: pd.DataFrame, est: pd.Series) -> pd.DataFrame:
+    """Replace Milwaukee city's 3-4 and 5+ unit permits (every piece, split as the crosswalk
+    splits the city's BPS row) with the MPROP estimate. Returns the adjusted history with
+    the adjustment recorded in `allocation`."""
+    pieces = xw[(xw["bps_id"] == MKE_BPS_ID) & xw["area_id"].notna()][["area_id", "alloc_share"]]
+    h = hist.copy()
+    for r in pieces.itertuples():
+        for (y, t), v in est.items():
+            m = (h["area_id"] == r.area_id) & (h["year"] == y) & (h["structure_type"] == t)
+            h.loc[m, "units"] = v * r.alloc_share
+            h.loc[m, "allocation"] = MKE_ADJ_LABEL
+    return h
+
+
 def main() -> None:
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true", help="download the 1990-2014 state files if missing")
+    ap.add_argument("--published", action="store_true",
+                    help="sensitivity: Census-as-published for Milwaukee (no MPROP adjustment); writes only "
+                         "reference/housing_baseline_sensitivity_published.csv")
     args = ap.parse_args()
     if args.fetch or not (RAW / "census_bps_state" / "st1990a.txt").exists():
         fetch_long_run_state()
@@ -135,6 +177,16 @@ def main() -> None:
     rec["note"] = ["state total contains Milwaukee city's unreported (zero) series" if (y in gap_years and t in hb.GAP_TYPES) else ""
                    for y, t in zip(rec["year"], rec["structure_type"])]
 
+    # Milwaukee apartment adjustment (P8, AQ-048), unless the published-series sensitivity is asked for
+    hist_published = hist.copy()
+    est = None if args.published else milwaukee_mprop_permits()
+    if est is not None:
+        hist = apply_milwaukee_adjustment(hist, xw, est)
+    adj = (hist.groupby(["year", "structure_type"])["units"].sum() -
+           hist_published.groupby(["year", "structure_type"])["units"].sum()).rename("milwaukee_adjustment")
+    rec = rec.merge(adj.reset_index(), on=["year", "structure_type"], how="left")
+    rec["state_adjusted"] = rec["state_published"] + rec["milwaukee_adjustment"]
+
     # held-out test, window choice, band, projection
     scores = hb.holdout_scores(hist)
     best, summ = hb.choose(scores)
@@ -145,6 +197,14 @@ def main() -> None:
     lr = hb.state_long_run_ratios(read_state_long_run(), k_best)
     bands = hb.long_run_band(lr)
     proj = hb.project(hist, best, bands[bands["structure_type"] != "all"])
+
+    if args.published:
+        p5 = proj[proj["in_five_year_total"]].groupby("structure_type")[["low", "central", "high"]].sum()
+        p5.loc["all"] = p5.sum()
+        p5.reset_index().assign(case="Census as published for Milwaukee (no MPROP adjustment)").round(1).to_csv(
+            REFERENCE / "housing_baseline_sensitivity_published.csv", index=False)
+        print(p5.round(0))
+        return
 
     # outputs
     REFERENCE.mkdir(exist_ok=True)
@@ -180,6 +240,11 @@ def main() -> None:
     obs = state.rename(columns={"units": "central"}).assign(kind="observed_published_state_total")
     obs["low"] = obs["central"]
     obs["high"] = obs["central"]
+    obs_adj = rec[["year", "structure_type", "state_adjusted"]].rename(columns={"state_adjusted": "central"}).assign(
+        kind="observed_adjusted_for_milwaukee")
+    obs_adj["low"] = obs_adj["central"]
+    obs_adj["high"] = obs_adj["central"]
+    obs = pd.concat([obs, obs_adj], ignore_index=True)
     p = proj.groupby(["year", "structure_type"])[["low", "central", "high"]].sum().reset_index()
     p["kind"] = ["projected_bridge_year" if y == hb.BRIDGE_YEAR else "projected" for y in p["year"]]
     sw = pd.concat([obs, p], ignore_index=True)[["year", "structure_type", "kind", "low", "central", "high"]]

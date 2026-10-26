@@ -11637,17 +11637,17 @@ muni:5507932075,Hales Corners village,55079,2022,0.0,0.0,0.0,0.0,0.0,observed
 muni:5507932075,Hales Corners village,55079,2023,1.0,0.0,0.0,0.0,1.0,observed
 muni:5507932075,Hales Corners village,55079,2024,1.0,0.0,0.0,0.0,1.0,observed
 muni:5507932075,Hales Corners village,55079,2025,0.0,0.0,0.0,0.0,0.0,observed
-muni:5507953000,Milwaukee city,55079,2015,24.0,8.0,0.0,323.0,355.0,assumed_split_by_homes
-muni:5507953000,Milwaukee city,55079,2016,35.0,6.0,0.0,1010.0,1051.0,assumed_split_by_homes
-muni:5507953000,Milwaukee city,55079,2017,7.0,4.0,0.0,704.0,715.0,assumed_split_by_homes
-muni:5507953000,Milwaukee city,55079,2018,39.0,0.0,0.0,717.0,756.0,assumed_split_by_homes
-muni:5507953000,Milwaukee city,55079,2019,15.0,4.0,0.0,174.0,193.0,assumed_split_by_homes
-muni:5507953000,Milwaukee city,55079,2020,34.0,78.0,,,,assumed_split_by_homes
-muni:5507953000,Milwaukee city,55079,2021,28.0,0.0,0.0,176.0,204.0,assumed_split_by_homes
-muni:5507953000,Milwaukee city,55079,2022,42.0,58.0,0.0,76.0,176.0,assumed_split_by_homes
-muni:5507953000,Milwaukee city,55079,2023,61.0,36.0,,,,assumed_split_by_homes
-muni:5507953000,Milwaukee city,55079,2024,72.0,12.0,0.0,152.0,236.0,assumed_split_by_homes
-muni:5507953000,Milwaukee city,55079,2025,63.0,8.0,,,,assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2015,24.0,8.0,4.0,1533.0,1569.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2016,35.0,6.0,3.0,4382.0,4426.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2017,7.0,4.0,15.0,1291.0,1317.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2018,39.0,0.0,0.0,771.0,810.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2019,15.0,4.0,10.0,1749.0,1778.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2020,34.0,78.0,6.0,446.0,564.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2021,28.0,0.0,24.0,902.0,954.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2022,42.0,58.0,11.0,962.0,1073.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2023,61.0,36.0,8.0,1314.0,1419.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2024,72.0,12.0,4.0,497.0,585.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5507953000,Milwaukee city,55079,2025,63.0,8.0,,,,adjusted_milwaukee_mprop;assumed_split_by_homes
 muni:5507958800,Oak Creek city,55079,2015,34.0,0.0,0.0,365.0,399.0,observed
 muni:5507958800,Oak Creek city,55079,2016,32.0,0.0,4.0,190.0,226.0,observed
 muni:5507958800,Oak Creek city,55079,2017,31.0,0.0,0.0,119.0,150.0,observed
@@ -19381,17 +19381,17 @@ muni:5513139325,Kewaskum town,55131,2022,1.0,0.0,0.0,0.0,1.0,observed
 muni:5513139325,Kewaskum town,55131,2023,1.0,0.0,0.0,0.0,1.0,observed
 muni:5513139325,Kewaskum town,55131,2024,0.0,0.0,0.0,0.0,0.0,observed
 muni:5513139325,Kewaskum town,55131,2025,5.0,0.0,0.0,0.0,5.0,observed
-muni:5513153000,Milwaukee city,55131,2015,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513153000,Milwaukee city,55131,2016,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513153000,Milwaukee city,55131,2017,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513153000,Milwaukee city,55131,2018,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513153000,Milwaukee city,55131,2019,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513153000,Milwaukee city,55131,2020,0.0,0.0,,,,assumed_split_by_homes
-muni:5513153000,Milwaukee city,55131,2021,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513153000,Milwaukee city,55131,2022,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513153000,Milwaukee city,55131,2023,0.0,0.0,,,,assumed_split_by_homes
-muni:5513153000,Milwaukee city,55131,2024,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513153000,Milwaukee city,55131,2025,0.0,0.0,,,,assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2015,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2016,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2017,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2018,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2019,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2020,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2021,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2022,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2023,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2024,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513153000,Milwaukee city,55131,2025,0.0,0.0,,,,adjusted_milwaukee_mprop;assumed_split_by_homes
 muni:5513156450,Newburg village,55131,2015,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
 muni:5513156450,Newburg village,55131,2016,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
 muni:5513156450,Newburg village,55131,2017,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
@@ -19689,17 +19689,17 @@ muni:5513351400,Merton town,55133,2022,26.0,0.0,0.0,0.0,26.0,observed
 muni:5513351400,Merton town,55133,2023,13.0,0.0,0.0,0.0,13.0,observed
 muni:5513351400,Merton town,55133,2024,13.0,0.0,0.0,0.0,13.0,observed
 muni:5513351400,Merton town,55133,2025,25.0,0.0,0.0,0.0,25.0,observed
-muni:5513353000,Milwaukee city,55133,2015,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513353000,Milwaukee city,55133,2016,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513353000,Milwaukee city,55133,2017,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513353000,Milwaukee city,55133,2018,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513353000,Milwaukee city,55133,2019,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513353000,Milwaukee city,55133,2020,0.0,0.0,,,,assumed_split_by_homes
-muni:5513353000,Milwaukee city,55133,2021,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513353000,Milwaukee city,55133,2022,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513353000,Milwaukee city,55133,2023,0.0,0.0,,,,assumed_split_by_homes
-muni:5513353000,Milwaukee city,55133,2024,0.0,0.0,0.0,0.0,0.0,assumed_split_by_homes
-muni:5513353000,Milwaukee city,55133,2025,0.0,0.0,,,,assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2015,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2016,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2017,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2018,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2019,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2020,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2021,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2022,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2023,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2024,0.0,0.0,0.0,0.0,0.0,adjusted_milwaukee_mprop;assumed_split_by_homes
+muni:5513353000,Milwaukee city,55133,2025,0.0,0.0,,,,adjusted_milwaukee_mprop;assumed_split_by_homes
 muni:5513355050,Mukwonago village,55133,2015,45.729,0.0,0.0,0.0,45.729,assumed_split_by_homes
 muni:5513355050,Mukwonago village,55133,2016,20.432,5.838,0.0,35.027,61.297,assumed_split_by_homes
 muni:5513355050,Mukwonago village,55133,2017,28.216,0.0,0.0,19.459,47.675,assumed_split_by_homes
