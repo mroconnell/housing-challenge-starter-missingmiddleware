@@ -8,13 +8,13 @@ The tool runs locally in a web browser and shows the adopted Gate 3 model ([Gate
 
 **Outcome.** Second-home permits at issuance on lots that already have a single-family home: ADUs plus single-family-to-duplex conversions. They are not completed homes, and every result is for an area, never for a lot. A rate is permits in a year ÷ thousands of one-unit detached homes (Wisconsin has 1,839,569, ACS 2020–2024).
 
-**Headline (model output, 2027–2031, law in effect 1 January 2027, stylized).**
-- Under current law: **645** permits (range 314–1,355 from the low and high current-law rates).
-- Added by the law: **8,721** additional permits in the central scenario, **4,407** in the lower scenario and **16,853** in the strong adoption scenario. The scenarios show how much eight statewide-law states differ from one another; they are not statistical confidence intervals.
+**Headline (model output, 2027–2031, law in effect 1 January 2027, stylized).** All numbers are second-home permits summed over the five years 2027–2031, statewide; the source of truth is [`reference/adu_model_statewide.csv`](reference/adu_model_statewide.csv) (adopted run, AQ-043 in [ASSUMPTIONS_AND_QUESTIONS.md](docs/ASSUMPTIONS_AND_QUESTIONS.md)).
+- Under current law: **605** permits.
+- Added by the law: **8,757** additional permits in the central scenario, **5,538** in the lower scenario and **16,889** in the strong adoption scenario. The scenarios show how much eight statewide-law states differ from one another; they are not statistical confidence intervals. How each input moves these numbers is in [`reference/adu_model_sensitivities.csv`](reference/adu_model_sensitivities.csv).
 
 **Seven screens.**
 1. **Wisconsin today:** housing units, single-family homes, vacancy, homes permitted, housing mix, and the ADU baseline.
-2. **Statewide comparison:** the modelled law, the three scenarios explained, annual and five-year permits, and the adoption reference line (8,208).
+2. **Statewide comparison:** the modelled law, the three scenarios explained, annual and five-year permits, and the adoption reference line (8,851 permits over 2027–2031: the median observed path of the eight statewide-law states; [`reference/adu_model_reference_lines.csv`](reference/adu_model_reference_lines.csv)).
 3. **Where:** county and municipality map (area fills only) with a year slider, a details panel, and a searchable table that reconciles to the state.
 4. **How sure:** what each place's current-law rate rests on (observed, calculated, assumed), the sensitivity analysis, robustness checks, and the strongest challenges.
 5. **Why:** evidence and assumption cards with links to the write-ups, and the comparison-state charts.
@@ -31,7 +31,7 @@ The Gate 4 interactive ADU tool runs locally with the first two commands below (
 | ----- | ------- | ----- |
 | Setup | `bash scripts/setup.sh` | Installs Python dependencies into `.venv` with [uv](https://docs.astral.sh/uv/) (installs uv if missing) and the tool's npm packages in `ui/` |
 | **Run the tool** | `bash scripts/run_tool.sh` | Rebuilds the JSON bundle from the adopted model outputs (when `data/processed/model_run/` exists), builds `ui/`, and serves it at http://127.0.0.1:4173/. If port 4173 is taken, set another: `PORT=4199 bash scripts/run_tool.sh` |
-| Test  | `bash scripts/test.sh` | Offline unit tests of parsing, classification, matching, and contracts |
+| Test  | `bash scripts/test.sh` | Offline unit tests of parsing, classification, matching, and contracts, then the Python dependency licence check (`scripts/check_python_licenses.py`; fails on any licence outside the permissive allowlist, lists reviewed exceptions such as `certifi`, see [DISCLOSURES](docs/DISCLOSURES.md#dependency-licenses)) |
 | Test the tool | `bash scripts/test_ui.sh` | Bundle tests (reconciliation, lower ≤ central ≤ upper, bundle = reference CSVs, missing ≠ 0), npm licence check, type check, build, and Playwright smoke tests (desktop and mobile Chromium). In a fresh clone one bundle test, `test_bundle_is_current`, is skipped: the bundle's run id is a hash of its 35 input files, and only a full rebuild with the data builds on disk (about 1.7 GB) can confirm that the committed bundle is current |
 | Build the tool's data bundle | `uv run --all-extras python scripts/build_ui_bundle.py` | Writes `ui/public/runs/<run_id>/` (about 2.8 MB) from `reference/adu_model_*.csv`, the baseline, coverage and rule tables and `data/processed/`; the run id is a hash of the inputs |
 | Develop the tool | `cd ui && npm run dev` | Live-reloading dev server at http://127.0.0.1:5173/ |
@@ -42,6 +42,7 @@ The Gate 4 interactive ADU tool runs locally with the first two commands below (
 | Rebuild local ADU rule tables | `uv run python scripts/build_reference_rules.py reference reference data/processed/adu_mention_scan` | Needs `uv run python scripts/scan_adu_mentions.py` first (network) |
 | Build California BPS (comparison state) | `uv run python scripts/build_ca_bps.py` | Census BPS for California 2010–2025, for the California comparison study |
 | Gate 2 review map | `uv run python scripts/build_gate2_review_map.py` | Writes `data/processed/review/gate2_map.html`; needs the builds above |
+| Refresh the SBOM | `bash scripts/export_sbom.sh` | Exports GitHub's dependency-graph SBOM (SPDX 2.3 JSON, same as Insights → Dependency graph → Export SBOM) to [`sbom/sbom.spdx.json`](sbom/sbom.spdx.json); needs the GitHub CLI signed in |
 
 Environment: macOS or Linux with Python 3.12+, Node.js 20+ for the tool, and internet access for the build steps. The Playwright tests use an installed Chromium (`cd ui && npx playwright install chromium` if none is present). No secrets are required. `pdftotext` (poppler) is only needed for the optional Howard fallback adapter.
 

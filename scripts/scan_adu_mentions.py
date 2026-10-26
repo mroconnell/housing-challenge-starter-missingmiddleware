@@ -30,6 +30,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -231,7 +232,8 @@ def scan(target, timeout=60) -> dict:
         data, ctype = got, ""
         row["http_status"] = "200"
         row["search_method"] += f" (curl fallback after urllib {status})"
-    if "codepublishing.com" in url:
+    host = (urllib.parse.urlsplit(url).hostname or "").lower()
+    if host == "codepublishing.com" or host.endswith(".codepublishing.com"):
         # A codepublishing title/chapter page is a table of contents: fetch every section page it links
         # in the same folder and scan them together.
         base = url.rsplit("/", 1)[0]

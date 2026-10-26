@@ -49,6 +49,7 @@ out/
 *.bom
 sbom.json
 sbom.spdx.json
+!sbom/sbom.spdx.json
 
 # ==============================================================================
 # Language-specific — paste rules for your stack here

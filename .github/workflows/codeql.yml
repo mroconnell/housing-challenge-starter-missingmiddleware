@@ -33,8 +33,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Replace with your language(s), e.g. python, javascript-typescript, go.
-        language: ["python"]
+        # python: the pipeline (missing_middleware/, scripts/, tests/).
+        # javascript-typescript: the interactive tool in ui/ (no build step needed).
+        language: ["python", "javascript-typescript"]
     steps:
       - uses: actions/checkout@v7
 

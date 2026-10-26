@@ -40,6 +40,30 @@ jobs:
             exit 1
           fi
 
+  # --- Interactive tool (ui/) -----------------------------------------------
+  # Bundle tests, npm licence check, type check, production build and Playwright
+  # smoke tests (desktop and mobile Chromium), via scripts/test_ui.sh.
+  test-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: ui/package-lock.json
+
+      - name: Set up
+        run: bash scripts/setup.sh
+
+      - name: Install Playwright Chromium
+        working-directory: ui
+        run: npx playwright install --with-deps chromium
+
+      - name: Test the tool
+        run: bash scripts/test_ui.sh
+
   # --- Python -----------------------------------------------------------------
   # test:
   #   runs-on: ubuntu-latest
