@@ -259,7 +259,7 @@ def main() -> None:
         REFERENCE / "housing_baseline_band.csv", index=False)
     recent_band.assign(candidate=best, basis="held-out years 2019-2022 origins, min-max (sensitivity)").round(4).to_csv(
         REFERENCE / "housing_baseline_band_recent.csv", index=False)
-    mk = milwaukee_check(hist)
+    mk = milwaukee_check(hist_published)
     if mk is not None:
         mk.to_csv(REFERENCE / "housing_baseline_milwaukee_check.csv", index=False)
     lr.round(4).to_csv(REFERENCE / "housing_baseline_long_run_ratios.csv", index=False)

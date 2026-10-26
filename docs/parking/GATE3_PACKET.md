@@ -10,9 +10,9 @@ Gate 3 fixes the numbers the tool will show: the current-law baseline, the addit
 
 | Case (labelled by meaning) | Additional permits, 2027–2031 | What it means |
 | --- | ---: | --- |
-| **No measurable change** (central) | 0 | Like the 24 US places that repealed. On average they did not permit measurably more homes than similar places in the three years after. |
-| **High end of the evidence** (upper) | 29,662 | If the effect is at the high end of what those places show: +2.21 permits per 1,000 existing homes per year, applied to the 2,684,793 Wisconsin homes outside places already at the benchmark. |
-| Real cases (median place) | 0 | The median repeal place changed by −0.50 permits per 1,000 homes per year against its comparison places. A repeal never subtracts, so this counts as 0. |
+| **No measurable change** (central) | 0 | Like the 24 US places that repealed. In the three years after, their permit rate changed by 1.18 per 1,000 existing homes per year less than at similar places (likely range −3.57 to +2.21), which is not a measurable change. A repeal is assumed never to subtract, so this counts as 0. |
+| **High end of the evidence** (upper) | 29,662 | If the true average effect is at the top of its likely range (the 95th percentile): +2.21 permits per 1,000 existing homes per year, applied to the 2,684,793 Wisconsin homes outside places already at the benchmark. |
+| Median repeal place (reference) | 0 | The median repeal place changed by −0.50 permits per 1,000 homes per year against its comparison places. A repeal never subtracts, so this counts as 0. |
 
 **Baseline (current law):** 122,619 permits over 2027–2031, with a range of 64,491 to 175,628 ([HOUSING_BASELINE.md](../shared/HOUSING_BASELINE.md), version 2 with the Milwaukee apartment fix). The upper case adds 24% to the central baseline (29,662 of 122,619).
 
@@ -25,7 +25,8 @@ Sources: `reference/parking_model_statewide_by_year.csv` and `reference/parking_
 - **Where:** the upper case is spread in proportion to existing homes. The 10 Wisconsin municipality pieces already at the benchmark get 0, because a statewide law adds nothing there. That covers 9 places, one of which (Brodhead) has two pieces; they are listed in `reference/parking_wi_benchmark_places.csv`.
 - **Timing:**
   - The effect by year since repeal does not build up. Weighted by homes, it is +0.02, −1.29 and −2.26 permits per 1,000 homes per year in years 1, 2 and 3, across all 24 places.
-  - In years 4 and 5 it is −6.50 and −6.12, but only 15 and 8 places reach those years, and those years were 2021–2025, when interest rates rose. Source: `reference/parking_comparison_event_path.csv`.
+  - In years 4 and 5 it is −6.50 and −6.12. Only 15 and 8 places reach those years, which were mostly 2022–2025. Weighted by homes, San Francisco is 41% of year 4 and 79% of year 5, but the unweighted medians are also negative (−5.95 and −5.06). Source: `reference/parking_comparison_event_path.csv`.
+  - This path was computed after Gate 2. It was not pre-registered, and it is not used to change any number.
   - So there is no measured ramp to apply. The upper case is held flat for 2027–2031, which G2-2 labelled an assumption. The path suggests it is generous, not cautious.
 
 ## 3. Where the upper case would land (2027–2031)
@@ -48,7 +49,7 @@ The upper case follows homes, so it is largest where most people live:
 | Kenosha | 470 |
 | Racine | 385 |
 
-Towns hold 9,034 of the 29,662 upper-case permits, villages 5,146 and cities 15,483. Files: `reference/parking_model_by_county.csv`, `reference/parking_model_by_assembly_district.csv` and `reference/parking_model_by_senate_district.csv`. Districts use the ADU tool's crosswalk, which splits places by detached homes. That is an approximation for apartments.
+Towns hold 9,034 of the 29,662 upper-case permits (30%), villages 5,146 and cities 15,483. The county and district files carry the baseline by place, which sums to 122,711. The statewide 122,619 also includes the −92 "unallocated" row that reconciles to the state total. Files: `reference/parking_model_by_county.csv`, `reference/parking_model_by_assembly_district.csv` and `reference/parking_model_by_senate_district.csv`. Districts use the ADU tool's crosswalk, which splits places by detached homes. That is an approximation for apartments.
 
 ## 4. How sure: sensitivities grouped by what they move
 
@@ -57,20 +58,24 @@ Five-year totals, 2027–2031 (`reference/parking_model_sensitivities.csv`).
 | Moves | Case | Additional permits |
 | --- | --- | ---: |
 | The addition | Upper case, all units (headline) | 29,662 |
-| The addition | Apartments only, at the high end of their range (+1.06 per 1,000 homes) | 14,237 |
+| The addition | Units in buildings of 2 or more units only, at the high end of their range (+1.06 per 1,000 existing homes per year) | 14,237 |
 | The addition | Leaving out San Francisco, a quarter of the weight (+3.11) | 41,771 |
 | The addition and where it lands | Size-and-metro model, its own central prediction for each place, floored at 0 | 32,135 |
 | The addition and where it lands | Upper case with towns at 0, for the case where most towns have few or no minimums today | 20,629 |
 | The addition and where it lands | Upper case with the 9 places that nearly meet the benchmark also at 0 | 29,484 |
 | The baseline only | Census as published for Milwaukee (no apartment fix) | baseline 118,822 |
 
-**About the size-and-metro model.** It predicts positive effects for small places in metro areas and none for large cities. That is why its total (32,135) sits above the upper case. It predicted held-out places only 5% better than one average, and its terms are not distinguishable from zero, so it stays a sensitivity case.
+**About the size-and-metro model.** It predicts positive effects for small places in metro areas and none for large cities. That is why its total (32,135) sits above the upper case. It predicted held-out places only 5% better than one average, and its terms are not distinguishable from zero, so it stays a sensitivity case. Most Wisconsin municipalities (median 929 people) are also smaller than nearly all 24 study places, so it extrapolates there.
 
 **Trace: what rests on data and what on assumption.**
 - **Baseline:** observed Census permits. Milwaukee's apartments are estimated from the city's property file, and towns covered by county rows are split by an assumed rule.
-- **Central:** observed. It rests on 24 comparisons, each checked against the place's ordinance.
-- **Upper:** observed range.
-- **Assumed:** applying it in years 4–5, and spreading it evenly across homes.
+- **Central:** estimated from 24 places in other states and Wisconsin (West Allis is one), each checked against its ordinance. The point estimate is −1.18, set to 0.
+- **Upper:** a statistical range, from resampling the 24 places.
+- **Assumed:**
+  - no case below zero. This is a judgment: the 6 places that did not rewrite zoning at the same time averaged −3.54 per 1,000 homes per year, with a range entirely below 0;
+  - the out-of-state evidence carries over to Wisconsin;
+  - the upper case applies in years 4–5;
+  - the upper case is spread evenly across homes.
 
 ## 5. Combined view with TOD (draft contract text for SCENARIO_CONTRACT.md)
 
@@ -106,4 +111,7 @@ For parking, the central addition is 0 in every area, so the combined central eq
 
 ## 9. Independent review
 
-To be run before you rely on this packet; findings will be added here.
+Done 2026-10-26. No bug changed a number.
+- **Fixed:** the Milwaukee check file now shows Census as published; the upper-case rate is shown to 2 decimals.
+- **Wording:** the case descriptions now state the estimate and its range; "apartments" is now "units in buildings of 2 or more units"; the trace says which parts are statistical and which are judgments; the event path is labelled as not pre-registered.
+- **Added:** the towns' share, and the fact that the size model extrapolates.

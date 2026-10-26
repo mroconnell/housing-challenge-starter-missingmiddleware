@@ -6,7 +6,7 @@ Written 2026-10-26 by the parking conductor. Status: version 2 (2026-10-26). Mil
 
 How many housing units Wisconsin would permit each year in 2027–2031 under current law, by municipality and by building size, with a range. Every reform scenario's addition is measured against it.
 
-**Answer.** Under current law, Wisconsin would permit about 122,600 housing units over 2027–2031, or about 24,500 units per year. The range is 64,500 to 175,600 units over the five years. For comparison, Wisconsin permitted 120,723 units over 2021–2025. That is the published Census state total of 117,405 plus 3,318 Milwaukee apartment units that Census did not count.
+**Answer.** Under current law, Wisconsin would permit about 122,600 housing units over 2027–2031, or about 24,500 units per year. The range is 64,500 to 175,600 units over the five years. For comparison, Wisconsin permitted 120,723 units over 2021–2025. That is the published Census state total of 117,405, plus 3,318 Milwaukee apartment units in 2021–2024 that Census did not count. 2025 is not adjusted, so this is a floor.
 
 | Building size | 2027–2031 low | 2027–2031 central | 2027–2031 high | 2021–2025 permitted (adjusted) |
 | --- | ---: | ---: | ---: | ---: |
@@ -37,7 +37,8 @@ Columns may not add exactly because of rounding. All figures are housing units a
    - The adjustment adds 10,515 units in 5+ unit buildings and 85 units in 3–4 unit buildings over 2015–2024.
    - It is shown as its own column (`milwaukee_adjustment`) in the reconciliation file, with `state_adjusted` = published + adjustment.
    - Condominium units are recorded one per parcel in MPROP, so they are not counted. That makes the estimate conservative.
-   - Milwaukee's projected rate in 5+ unit buildings is the 2023–2024 average, 905.5 units per year, against 152 per year from Census as published.
+   - Milwaukee's projected rate in 5+ unit buildings is the 2023–2024 average, 905.5 units per year, against 152 per year from Census as published. It rests on two estimated years, 1,314 and 497 units. The second comes from buildings finished in 2025, which may be incomplete in the property file.
+   - The one-year lag from year built to permit year is a choice. Large buildings often take longer, so the estimate depends on it.
    - The sensitivity case "Census as published" (`reference/housing_baseline_sensitivity_published.csv`, built with `--published`) gives 118,822 units over 2027–2031.
 4. **Choose the projection by a held-out-year test.** Each candidate predicts each municipality's average annual units by building size over the next up to five years, using only data up to an origin year (origins 2019, 2020, 2021 and 2022, scored on 2020–2025). The candidates were a flat average of the last 1, 2, 3, 4 or 5 years, and the same 3- or 5-year level scaled by the state's straight-line trend (fitted over 5 years or over all years). The score is the municipality-level error per unit permitted, over all building sizes. **The flat average of the last three years (2023–2025) predicted best.** Its error was 0.526 units of error per unit permitted, against 0.531 to 0.589 for the other multi-year candidates and 0.618 for the last year alone. The trend candidates did worse because past trends did not persist. Source: `reference/housing_baseline_window_choice.csv` and `reference/housing_baseline_holdout.csv`.
 5. **Projection.** Each municipality and building size is held flat at its 2023–2025 average for 2026 (a bridge year, shown but not in five-year totals) and 2027–2031.

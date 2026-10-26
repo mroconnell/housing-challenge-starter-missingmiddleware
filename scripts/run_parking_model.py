@@ -84,7 +84,9 @@ def main() -> None:
     sw["addition_central"] = 0.0
     sw["addition_upper"] = [float(upper[y].sum()) if y in pm.FORECAST_YEARS else 0.0 for y in sw["year"]]
     sw["upper_rate_per_1000_homes"] = upper_all
-    sw.round(1).to_csv(REFERENCE / "parking_model_statewide_by_year.csv", index=False)
+    sw = sw.round(1)
+    sw["upper_rate_per_1000_homes"] = round(upper_all, 2)
+    sw.to_csv(REFERENCE / "parking_model_statewide_by_year.csv", index=False)
 
     # by county and district (upper case; central is 0 everywhere)
     ba.groupby("county_id")[["eligible_homes", "baseline_five_year_central", "addition_upper_five_year"]].sum().round(1) \
