@@ -110,3 +110,9 @@ A reference line, as for ADUs, is the median of every measured per-FAR case, wit
   - Madison's measured overlay effect, as a share of the overlay's housing stock over 2023–2025, is compared with each scenario's share over three years.
   - The scale check is rerun.
 - **Sensitivity:** method A with the Wisconsin-measured response (the mean of Madison's 0.215 and Chicago's 0.240 per added floor area ratio), capped at the peer metros' 95th-percentile apartment permitting.
+
+**2026-10-26, corrections to the net-effect values after reading the originals** ([research/NET_EFFECT_SOURCES.md](research/NET_EFFECT_SOURCES.md)):
+- **Los Angeles:** 0.04 percentage points is stock growth over six years (2017–2023), not per year. That is about 0.033% of stock over five years, so the little scenario falls from 627 to about 105 homes on the station-area stock.
+- **Stacy et al.:** 0.008 (standard error 0.003) is the average effect in years 3 and later after a loosening reform, measured in postal address counts. Only 28 of the 96 reforms changed floor area, density or height. The paper shows no rising ramp, so applying it inside years 1–5 is generous. That is stated.
+- **Auckland:** the figures are confirmed, but the paper's year 0 is 2015. The 2017–2021 profile sums to 4.35% while 4.1% includes 2016, so the profile is rescaled to sum to the stated total.
+- **Coverage:** LA's program covered about 61% of the city's homes, and Auckland upzoned about 75% of its residential land. If the owner chooses this sizing, the main reading divides each effect by its study's own coverage share (data from the papers), so the effect is per upzoned home. The as-published reading becomes a sensitivity. Stacy et al. did not measure coverage, so it is used as published.
