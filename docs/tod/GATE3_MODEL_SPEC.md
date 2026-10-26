@@ -88,4 +88,10 @@ A reference line, as for ADUs, is the median of every measured per-FAR case, wit
 
 ## 9. Changes after writing
 
-None yet.
+**2026-10-26, method B (sections 3 and 4).** Made after stage 1 of the build and before any Madison permit was counted.
+- **What happened:** method B could not be computed as specified. At HUD building costs, measured floor area per home, a 5.75% cap rate and 38.8% operating costs, a new mid-rise building would need about $2,011 a month in Milwaukee and $2,098 in Madison, even with free land. The highest ACS tract rents near stops are $1,961 and $1,759. So feasible capacity under current zoning is zero in Milwaukee. Yet 2,923 homes in 34 buildings were built there in 2018–2025, so take-up has no denominator. No parameter was tuned to rescue it.
+- **Change:** method B is not used for the Madison test or the main estimate. Method A's committed prediction (0.251 extra homes per eligible acre per year, 90% interval 0.136 to 0.382) is judged against the Madison count alone. If the measured Madison estimate's 90% interval contains it, method A is confirmed in Wisconsin. If not, the brief says so, and the scenarios are re-examined at the owner's review.
+- **What is kept:** the feasibility finding is kept as context. Census survey rents near stops sit below what new mid-rise building costs, so new buildings depend on rents above the local median. That is why response in Wisconsin may be weaker than in the comparison cases.
+- **Owner:** informed the same day.
+
+**2026-10-26, a scale check added (section 8).** Each scenario's statewide addition is compared with the highest yearly apartment permitting per existing home actually observed in a comparable US metro in the Census permit survey. That shows whether the per-acre response, carried over a large area, exceeds what a market of Milwaukee's or Madison's size has ever absorbed. It is a check shown to the owner, not a cap applied by the model.

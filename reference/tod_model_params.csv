@@ -1,0 +1,33 @@
+parameter,value,unit,source,kind
+r_typical,0.6713,extra homes permitted per eligible acre per year per 1.0 added FAR,"New York pooled set, reference/tod_case_estimates.csv (effect_per_dose)",measured
+r_typical_90_low,0.3649,same,"same, 90% bootstrap interval",measured
+r_typical_90_high,1.0204,same,same,measured
+r_little,0.2399,same,"Chicago 2015 (held out), reference/tod_case_estimates.csv",measured
+r_strong,2.5654000000000003,same,"mean of Park Slope and Downtown Brooklyn, reference/tod_case_estimates.csv",measured
+r_reference_line,0.4556,same,median of measured per-FAR cases: New York pooled set (contains Park Slope and Downtown Brooklyn) and Chicago,measured
+ramp_year1,0.48917520635925876,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
+ramp_year2,0.4639503652839577,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
+ramp_year3,1.320752872250909,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
+ramp_year4,2.3951834998378896,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
+ramp_year5,0.3309380562679851,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
+ramp_year1_year5_alt,0.48917520635925876,same,sensitivity: year 5 = mean of years 3 to 5,measured
+ramp_year2_year5_alt,0.4639503652839577,same,sensitivity: year 5 = mean of years 3 to 5,measured
+ramp_year3_year5_alt,1.320752872250909,same,sensitivity: year 5 = mean of years 3 to 5,measured
+ramp_year4_year5_alt,2.3951834998378896,same,sensitivity: year 5 = mean of years 3 to 5,measured
+ramp_year5_year5_alt,1.3489581427855946,same,sensitivity: year 5 = mean of years 3 to 5,measured
+sqft_per_home_milwaukee,1192.0,gross sq ft per home,"reference/tod_floor_area_per_home.csv (MPROP 2026, 5+ home buildings built 2018-2025)",measured
+sqft_per_home_madison,1512.0,gross sq ft per home,"reference/tod_floor_area_per_home.csv (permits citywide, 2018-2025)",measured
+sqft_per_home_pooled,1467.0,gross sq ft per home,reference/tod_floor_area_per_home.csv,measured
+hud_hcc_per_sqft_milwaukee,229.69666666666666,2024 dollars per sq ft (hard cost),"HUD, 2024 Unit Total Development Cost Limits (PIH, Nov 2024), https://hud.gov/sites/dfiles/PIH/documents/2024_Units_TDC_Limits.pdf, Region V Wisconsin, elevator, 2-bedroom (900 sq ft) HCC",published
+hud_hcc_per_sqft_madison,227.74777777777777,2024 dollars per sq ft (hard cost),"HUD, 2024 Unit Total Development Cost Limits (PIH, Nov 2024), https://hud.gov/sites/dfiles/PIH/documents/2024_Units_TDC_Limits.pdf, Region V Wisconsin, elevator, 2-bedroom (900 sq ft) HCC",published
+hud_hcc_per_sqft_kenosha,233.28333333333333,2024 dollars per sq ft (hard cost),"HUD, 2024 Unit Total Development Cost Limits (PIH, Nov 2024), https://hud.gov/sites/dfiles/PIH/documents/2024_Units_TDC_Limits.pdf, Region V Wisconsin, elevator, 2-bedroom (900 sq ft) HCC",published
+hud_hcc_per_sqft_eau_claire,226.77333333333334,2024 dollars per sq ft (hard cost),"HUD, 2024 Unit Total Development Cost Limits (PIH, Nov 2024), https://hud.gov/sites/dfiles/PIH/documents/2024_Units_TDC_Limits.pdf, Region V Wisconsin, elevator, 2-bedroom (900 sq ft) HCC",published
+cap_rate,0.0575,share,"CBRE, U.S. Cap Rate Survey H1 2024, Multifamily Infill, Midwest, Milwaukee, Class A stabilized, H1 2024: 5.5%-6% (midpoint); copy at https://taasinvestments.com/wp-content/uploads/2024/08/Cap-Rate-Survey-H1-2024.pdf",published
+opex_ratio,0.387918347509113,operating expenses / gross rents collected,"IREM, Income/Expense IQ National Summary 2024, multifamily: $7,981.42 operating expenses / $20,575 gross rents per unit, https://www.irem.org/file%20library/globalnavigation/learning/tools/irem-income-expense-iq-national-summary-24.pdf",published
+rent,,dollars per month,"ACS 2020-2024 5-year B25064 median gross rent by tract (municipality, then county, where suppressed)",measured
+rent_ratio_new_milwaukee,1.0661000944287062,ratio,"ACS 2020-2024 B25111: median gross rent in buildings built 2020 or later / all buildings, municipality",measured
+rent_ratio_new_madison,1.2852087756546355,ratio,same,measured
+land_value,,dollars,"Assessed land value: MPROP C_A_LAND (Milwaukee), V12 LNDVALUE (Madison, other places), tax roll 2025",measured
+take_up,,share of feasible capacity permitted per year,Milwaukee: 2923 homes in 34 buildings of 5+ homes built 2018-2025 (MPROP) on land zoned for 30+ homes per acre / 8 years / 0 homes of feasible capacity under current zoning,not computable
+madison_overlay_added_far,0.373827633677458,FAR (acre-weighted over eligible overlay land),"Madison overlay stories vs base district (reference/tod_zoning_rules_madison.csv) x lot coverage, 2931.7 eligible overlay acres",coded rules
+fallback_ratio,0.7188455712957237,ratio,coded capacity / fallback-rule capacity on the same Milwaukee and Madison main-case lots,measured

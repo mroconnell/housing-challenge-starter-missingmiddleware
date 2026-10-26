@@ -1,0 +1,7 @@
+area,rent_scaled_to_new_buildings,rent_ratio_new,cost_per_home,value_per_home_at_area_median_rent,break_even_acs_rent_land_free,tract_rent_median,tract_rent_max,capacity_gain,feasible_capacity_gain,milwaukee_take_up_feasible_capacity_current,milwaukee_new_homes_2018_2025,milwaukee_capacity_current_30plus
+Milwaukee city,True,1.0661000944287062,273798,141902,2011,1042.0,1961.0,736176.8,0.0,0.0,2923.0,315571.5
+Milwaukee city,False,1.0,273798,133104,2143,1042.0,1961.0,736176.8,0.0,0.0,2923.0,315571.5
+Madison city,True,1.2852087756546355,344355,229839,2098,1400.0,1759.0,464239.3,0.0,0.0,2923.0,315571.5
+Madison city,False,1.0,344355,178834,2696,1400.0,1759.0,464239.3,0.0,0.0,2923.0,315571.5
+Not coded (fallback places),True,1.0,334106,148688,2616,1164.0,2156.0,717769.3,1685.9,0.0,2923.0,315571.5
+Not coded (fallback places),False,1.0,334106,148688,2616,1164.0,2156.0,717769.3,0.0,0.0,2923.0,315571.5
