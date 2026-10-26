@@ -182,6 +182,8 @@ Preserve a prioritized improvement backlog. A proposed detail should identify th
 
 ## Current position
 
+**2026-10-26:** Gate 4 passed ([gate4/README.md](gate4/README.md)): the working ADU tool shows a 605-permit baseline and 5,538 / 8,757 / 16,889 additional permits over 2027–2031 (AQ-043). Gate 5 (statewide ADU MVP and the good-enough decision) starts.
+
 **2026-10-25:** Gate 3 passed ([gate3/README.md](gate3/README.md), AQ-040 to AQ-042). The statewide ADU model is adopted: about 645 baseline permits and 8,721 additional permits over 2027–2031 in the central scenario (4,407 to 16,853). Gate 4 (working ADU pilot) starts.
 
 **2026-10-24 (later):** The revised [Gate 3 packet](gate3/README.md) awaits decisions R1–R4 (grouping rule v1.1 and a central anchored on statewide-law-state evidence); G3-2 to G3-6 are decided (AQ-035).
