@@ -1,0 +1,12 @@
+/* Reform picker in the header (multi-reform shell). Uses the colour tokens from style.css. */
+.reform-nav { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 0 0 8px; font-size: 0.9rem; }
+.reform-nav-label { color: var(--muted); }
+.reform-nav ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.reform-nav a { display: inline-block; padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); text-decoration: none; background: var(--surface); }
+.reform-nav a:hover { border-color: var(--accent); }
+.reform-nav a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.reform-dev { font-size: 0.8em; opacity: 0.85; }
+@media (max-width: 640px) {
+  .reform-nav { font-size: 0.8rem; gap: 2px 8px; }
+  .reform-nav a { padding: 2px 8px; }
+}

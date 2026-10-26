@@ -1,162 +1,143 @@
-// App shell: header, status strip, tab navigation, footer and a hash router over the seven screens.
+// Multi-reform shell: header with the reform picker, status strip, screens navigation, footer, and a hash
+// router. Each reform (ADU, transit-oriented density, parking) fills the strip, tabs, footer and screens through
+// the contract in ui/src/scenarios/types.ts (docs/shared/SCENARIO_CONTRACT.md).
+//
+// URLs: the default reform has no prefix ("#/today"), so existing ADU links keep working; other reforms are
+// prefixed with their id ("#/tod/about"). The query part ("?s=upper") belongs to the reform.
 import "./style.css";
-import { labelScrollers, type Ctx, type UIState } from "./app";
-import { loadBundle, type Bundle, type PathId, type UnknownId } from "./data";
-import { esc, int } from "./format";
-import { renderBrief } from "./screens/brief";
-import { renderCompare } from "./screens/compare";
-import { renderHowSure } from "./screens/howsure";
-import { renderPilot } from "./screens/pilot";
-import { renderToday } from "./screens/today";
-import { leaveWhere, renderWhere } from "./screens/where";
-import { renderWhy } from "./screens/why";
+import "./scenarios/shell.css";
+import { labelScrollers } from "./app";
+import { esc } from "./format";
+import { aduReform } from "./scenarios/adu";
+import { placeholderReform } from "./scenarios/placeholder";
+import { REGISTRY, reformEntry, type MountedReform, type ReformEntry, type ReformModule, type ShellEnv } from "./scenarios/types";
 
-const ROUTES = [
-  { path: "/today", label: "Wisconsin today", n: 1 },
-  { path: "/compare", label: "Statewide comparison", n: 2 },
-  { path: "/where", label: "Where", n: 3 },
-  { path: "/how-sure", label: "How sure", n: 4 },
-  { path: "/why", label: "Why", n: 5 },
-  { path: "/pilot/madison", label: "Pilot examples", n: 6, match: "/pilot" },
-  { path: "/brief", label: "Brief", n: 7 },
-];
+/** Code for each reform id; a reform without its own module (or not yet "ready") gets the holding page. */
+const MODULES: Record<string, ReformModule> = { adu: aduReform };
 
-const ui: UIState = { scenario: "central", year: 2031, unknown: "like_restricted" };
-const UNKNOWN_IDS: UnknownId[] = ["like_restricted", "like_prohibited", "like_benchmark"];
-
-function parse(): { path: string; params: URLSearchParams } {
-  const raw = location.hash.replace(/^#/, "") || "/today";
-  const [path, q] = raw.split("?");
-  return { path: path || "/today", params: new URLSearchParams(q ?? "") };
+function moduleFor(e: ReformEntry): ReformModule {
+  return e.status === "ready" && MODULES[e.id] ? MODULES[e.id] : placeholderReform;
 }
 
-function shell(b: Bundle): void {
-  const m = b.manifest;
-  document.title = `${m.title} · Missing Middleware`;
+const prefixOf = (id: string) => (id === REGISTRY.default ? "" : `/${id}`);
+
+/** Split the hash into the reform id, the reform-relative path and the query. */
+function parse(): { reform: string; path: string; params: URLSearchParams } {
+  const raw = location.hash.replace(/^#/, "") || "/";
+  const [full, q] = raw.split("?");
+  const seg = (full || "/").split("/")[1] ?? "";
+  const named = reformEntry(seg);
+  const reform = named ? named.id : REGISTRY.default;
+  const path = named ? (full.slice(seg.length + 1) || "/") : (full || "/");
+  return { reform, path, params: new URLSearchParams(q ?? "") };
+}
+
+interface Active { entry: ReformEntry; m: MountedReform }
+let active: Active | null = null;
+const cache = new Map<string, unknown>();
+let lastKey = "";
+
+function announce(msg: string): void {
+  // clear first so the same message is announced again if repeated
+  const el = document.getElementById("announce");
+  if (!el) return;
+  el.textContent = "";
+  window.setTimeout(() => { el.textContent = msg; }, 60);
+}
+
+function picker(current: ReformEntry): string {
+  return `<nav class="reform-nav" aria-label="Policy reform" data-testid="reform-picker"><span class="reform-nav-label" aria-hidden="true">Policy reform:</span><ul>${REGISTRY.reforms.map((r) => `
+    <li><a href="#${prefixOf(r.id)}/" data-reform="${esc(r.id)}" ${r.id === current.id ? 'aria-current="page"' : ""}>${esc(r.label)}${r.status === "ready" ? "" : ' <span class="reform-dev">(in development)</span>'}</a></li>`).join("")}</ul></nav>`;
+}
+
+function shell(e: ReformEntry, m: MountedReform): void {
+  const pre = prefixOf(e.id);
   document.body.innerHTML = `
   <a class="skip" href="#main">Skip to main content</a>
   <header class="site-head no-print">
     <div class="wrap head-row">
-      <a class="brand" href="#/today"><span class="brand-mark" aria-hidden="true">⌂</span> Missing Middleware</a>
-      <p class="head-sub">Wisconsin ADU law · statewide estimates</p>
+      <a class="brand" href="#${pre}${m.defaultPath}"><span class="brand-mark" aria-hidden="true">⌂</span> Missing Middleware</a>
+      <p class="head-sub">${esc(e.subtitle)}</p>
     </div>
+    <div class="wrap">${picker(e)}</div>
     <div class="status-strip" role="note" aria-label="Model run status">
-      <div class="wrap">
-        <span><strong>Adopted model</strong> (25 October 2026)</span>
-        <span>Run <code data-testid="run-id">${esc(m.run_id)}</code></span>
-        <span>Last observed year ${m.dates.last_observed_year}</span>
-        <span>Forecast ${m.dates.forecast_years[0]}–${m.dates.forecast_years[m.dates.forecast_years.length - 1]}</span>
-        <span>Law in effect 1 Jan 2027 (stylized)</span>
-        <button type="button" class="linkish" id="vint-btn" aria-haspopup="dialog">Data vintages</button>
-      </div>
+      <div class="wrap">${m.statusStrip}</div>
     </div>
-    <nav class="tabs" aria-label="Screens"><div class="wrap"><ol>${ROUTES.map((r) => `<li><a href="#${r.path}" data-route="${r.match ?? r.path}"><span class="tab-n" aria-hidden="true">${r.n}</span> ${esc(r.label)}</a></li>`).join("")}</ol></div></nav>
+    <nav class="tabs" aria-label="Screens"><div class="wrap"><ol>${m.routes.map((r) => `<li><a href="#${pre}${r.path}" data-route="${r.match ?? r.path}"><span class="tab-n" aria-hidden="true">${r.n}</span> ${esc(r.label)}</a></li>`).join("")}</ol></div></nav>
   </header>
   <main id="main" class="wrap" tabindex="-1"></main>
   <div id="announce" class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-testid="announce"></div>
   <footer class="site-foot">
-    <div class="wrap">
-      <p><strong>Outcome:</strong> ${esc(m.outcome.short)}</p>
-      <p class="pill-key"><span class="pill pill-observed">Observed</span> ${esc(m.status_pills.observed.split(": ")[1])} <span class="pill pill-calculated">Calculated</span> ${esc(m.status_pills.calculated.split(": ")[1])} <span class="pill pill-assumed">Assumed</span> ${esc(m.status_pills.assumed.split(": ")[1])} A dash (—) means missing, with the reason; it never means zero.</p>
-      <p class="muted">Run <code>${esc(m.run_id)}</code> · ${esc(m.model_status)} · Validation: ${m.validation.passed} checks passed · <a href="${esc(m.repo_url)}" target="_blank" rel="noopener">Source code and documentation<span class="sr-only"> (opens GitHub in a new tab)</span> ↗</a> · Apache-2.0</p>
-    </div>
-  </footer>
-  <dialog id="vint" aria-labelledby="vint-h">
-    <h2 id="vint-h">Data vintages and run</h2>
-    <table class="data"><caption class="sr-only">Data vintages</caption><tbody>${m.vintages.map((v) => `<tr><th scope="row">${esc(v.what)}</th><td>${esc(v.vintage)}</td></tr>`).join("")}</tbody></table>
-    <p><strong>Run</strong> <code>${esc(m.run_id)}</code>: a hash of the ${m.inputs.length} input files listed in <code>manifest.json</code>. ${esc(m.dates.effective)}.</p>
-    <h3>Validation of this run</h3>
-    <ul class="small">${m.validation.checks.map((c) => `<li>${c.passed ? "✓" : "✗"} ${esc(c.check)}: ${esc(c.detail)}</li>`).join("")}</ul>
-    <form method="dialog"><button class="button" autofocus>Close</button></form>
-  </dialog>`;
-  document.querySelector<HTMLAnchorElement>(".skip")!.addEventListener("click", (e) => {
-    e.preventDefault();
+    <div class="wrap">${m.footer}</div>
+  </footer>${m.extra}`;
+  document.querySelector<HTMLAnchorElement>(".skip")!.addEventListener("click", (ev) => {
+    ev.preventDefault();
     document.getElementById("main")!.focus();
   });
-  const dlg = document.getElementById("vint") as HTMLDialogElement;
-  document.getElementById("vint-btn")!.addEventListener("click", () => dlg.showModal());
-}
-
-function start(b: Bundle): void {
-  shell(b);
-  const main = document.getElementById("main")!;
-  let lastPath = "";
-  const ctx: Ctx = {
-    b, ui,
-    setScenario(p: PathId) {
-      ui.scenario = p;
-      writeUrl();
-      route(true);
-      const sc = ctx.scen(p);
-      ctx.announce(`${sc.label} scenario: ${int(sc.additional_total)} permits added by the law over 2027 to 2031, ${int(sc.with_law_total)} in total with the law.`);
-    },
-    setUnknown(u: UnknownId) {
-      ui.unknown = u;
-      writeUrl();
-      route(true);
-      const v = b.unknown.variants.find((x) => x.id === u)!;
-      ctx.announce(`Places with uncoded rules treated ${v.label.toLowerCase()}. Over 2027 to 2031, central scenario: baseline ${int(v.baseline_total)}, added by the law ${int(v.additional_total.central)}, total with the law ${int(v.with_law_total.central)} permits.`);
-    },
-    scen(p?: PathId) { return b.state.scenarios.find((s) => s.id === (p ?? ui.scenario))!; },
-    link(path: string) { return `#${path}`; },
-    announce(msg: string) {
-      // clear first so the same message is announced again if repeated
-      const el = document.getElementById("announce");
-      if (!el) return;
-      el.textContent = "";
-      window.setTimeout(() => { el.textContent = msg; }, 60);
-    },
-  };
-  // keep the scenario and the unknown-rules choice in the URL so a copied link opens the same view
-  function writeUrl(): void {
-    const { path } = parse();
-    const q = new URLSearchParams();
-    if (ui.scenario !== "central") q.set("s", ui.scenario);
-    if (ui.unknown !== "like_restricted") q.set("u", ui.unknown);
-    const qs = q.toString();
-    history.replaceState(null, "", `#${path}${qs ? `?${qs}` : ""}`);
-  }
-  function route(keepFocus = false): void {
-    const { path, params } = parse();
-    const s = params.get("s");
-    if (s === "lower" || s === "central" || s === "upper") ui.scenario = s;
-    const u = params.get("u") as UnknownId | null;
-    if (u && UNKNOWN_IDS.includes(u)) ui.unknown = u;
-    const active = document.activeElement as HTMLElement | null;
-    const activeSel = active && main.contains(active) ? selectorFor(active) : null;
-    const y = window.scrollY;
-    if (!path.startsWith("/where")) leaveWhere();
-    if (path.startsWith("/compare")) renderCompare(ctx, main);
-    else if (path.startsWith("/where")) renderWhere(ctx, main);
-    else if (path.startsWith("/how-sure")) renderHowSure(ctx, main);
-    else if (path.startsWith("/why")) renderWhy(ctx, main);
-    else if (path.startsWith("/pilot")) renderPilot(ctx, main, path.split("/")[2] ?? "madison");
-    else if (path.startsWith("/brief")) renderBrief(ctx, main);
-    else renderToday(ctx, main);
-    labelScrollers(main);
-    document.querySelectorAll<HTMLAnchorElement>("nav.tabs a").forEach((a) => {
-      if (path.startsWith(a.dataset.route!)) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
-    });
-    // on narrow screens the tab row scrolls sideways: bring the current tab into view (horizontal only)
-    const ol = document.querySelector<HTMLElement>("nav.tabs ol");
-    const cur = document.querySelector<HTMLElement>('nav.tabs a[aria-current="page"]')?.parentElement;
-    if (ol && cur && ol.scrollWidth > ol.clientWidth) ol.scrollLeft = Math.max(0, cur.offsetLeft - (ol.clientWidth - cur.offsetWidth) / 2);
-    ol?.classList.toggle("at-end", !!ol && ol.scrollLeft + ol.clientWidth >= ol.scrollWidth - 2);
-    const label = ROUTES.find((r) => path.startsWith(r.match ?? r.path))?.label ?? "Wisconsin today";
-    document.title = `${label} · Wisconsin ADU law · Missing Middleware`;
-    if (keepFocus) {
-      window.scrollTo(0, y);
-      if (activeSel) (main.querySelector(activeSel) as HTMLElement | null)?.focus();
-    } else if (path !== lastPath) {
-      window.scrollTo(0, 0);
-      if (lastPath) main.focus({ preventScroll: true });
-    }
-    lastPath = path;
-  }
-  window.addEventListener("hashchange", () => route());
   const tabRow = document.querySelector<HTMLElement>("nav.tabs ol");
   tabRow?.addEventListener("scroll", () => tabRow.classList.toggle("at-end", tabRow.scrollLeft + tabRow.clientWidth >= tabRow.scrollWidth - 2), { passive: true });
-  route();
+  m.bind();
+}
+
+async function activate(id: string): Promise<Active> {
+  const entry = reformEntry(id)!;
+  const mod = moduleFor(entry);
+  if (!cache.has(id)) cache.set(id, await mod.load(entry));
+  const pre = prefixOf(id);
+  const env: ShellEnv = {
+    entry,
+    link: (path) => `#${pre}${path}`,
+    replaceQuery(q) {
+      const { path } = parse();
+      const qs = q.toString();
+      history.replaceState(null, "", `#${pre}${path}${qs ? `?${qs}` : ""}`);
+    },
+    refresh: () => route(true),
+    announce,
+  };
+  active?.m.leave?.();
+  const m = mod.mount(env, cache.get(id));
+  shell(entry, m);
+  return { entry, m };
+}
+
+async function route(keepFocus = false): Promise<void> {
+  const { reform, path: rawPath, params } = parse();
+  let switched = false;
+  if (!active || active.entry.id !== reform) {
+    active = await activate(reform);
+    switched = true;
+  }
+  const { entry, m } = active;
+  const known = m.routes.some((r) => rawPath.startsWith(r.match ?? r.path));
+  const path = known ? rawPath : m.defaultPath;
+  const main = document.getElementById("main")!;
+  const focused = document.activeElement as HTMLElement | null;
+  const activeSel = !switched && focused && main.contains(focused) ? selectorFor(focused) : null;
+  const y = window.scrollY;
+  m.render(path, params, main);
+  labelScrollers(main);
+  document.querySelectorAll<HTMLAnchorElement>("nav.tabs a").forEach((a) => {
+    if (path.startsWith(a.dataset.route!)) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  // the picker opens the same screen in another reform when that reform has it (unknown paths fall back to its first screen)
+  document.querySelectorAll<HTMLAnchorElement>(".reform-nav a").forEach((a) => { a.href = `#${prefixOf(a.dataset.reform!)}${path}`; });
+  // on narrow screens the tab row scrolls sideways: bring the current tab into view (horizontal only)
+  const ol = document.querySelector<HTMLElement>("nav.tabs ol");
+  const cur = document.querySelector<HTMLElement>('nav.tabs a[aria-current="page"]')?.parentElement;
+  if (ol && cur && ol.scrollWidth > ol.clientWidth) ol.scrollLeft = Math.max(0, cur.offsetLeft - (ol.clientWidth - cur.offsetWidth) / 2);
+  ol?.classList.toggle("at-end", !!ol && ol.scrollLeft + ol.clientWidth >= ol.scrollWidth - 2);
+  const label = m.routes.find((r) => path.startsWith(r.match ?? r.path))?.label ?? m.routes[0].label;
+  document.title = `${label} · ${m.titleSuffix} · Missing Middleware`;
+  const key = `${entry.id}${path}`;
+  if (keepFocus) {
+    window.scrollTo(0, y);
+    if (activeSel) (main.querySelector(activeSel) as HTMLElement | null)?.focus();
+  } else if (key !== lastKey) {
+    window.scrollTo(0, 0);
+    if (lastKey) main.focus({ preventScroll: true });
+  }
+  lastKey = key;
 }
 
 function selectorFor(el: HTMLElement): string | null {
@@ -166,6 +147,10 @@ function selectorFor(el: HTMLElement): string | null {
   return null;
 }
 
-loadBundle().then(start).catch((e: Error) => {
+function fail(e: Error): void {
+  active = null;
   document.body.innerHTML = `<main class="wrap"><h1>The tool could not load its data</h1><p>${esc(e.message)}</p><p>Run <code>bash scripts/run_tool.sh</code> from the repository root.</p></main>`;
-});
+}
+
+window.addEventListener("hashchange", () => { route().catch(fail); });
+route().catch(fail);

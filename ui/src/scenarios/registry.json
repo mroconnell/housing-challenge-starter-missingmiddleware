@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "default": "adu",
+  "repo_url": "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware",
+  "reforms": [
+    {
+      "id": "adu",
+      "label": "Accessory dwelling units",
+      "subtitle": "Wisconsin ADU law · statewide estimates",
+      "status": "ready",
+      "bundle_root": "runs/",
+      "owner": "ADU conductor",
+      "benchmark": "Allow one ADU on parcels with existing single-family buildings; detached and semi-detached ADUs of at least 600 sq ft; no additional parking required.",
+      "plan_doc": null
+    },
+    {
+      "id": "tod",
+      "label": "Transit-oriented density",
+      "subtitle": "Wisconsin transit-oriented density law · in development",
+      "status": "in_development",
+      "bundle_root": "scenarios/tod/runs/",
+      "owner": "TOD conductor",
+      "benchmark": "Increase allowable residential density near major transit stops via greater heights and/or floor area ratios. Define \"major transit stop\" and justify your proximity threshold. You may assume parking requirements are reduced or eliminated.",
+      "plan_doc": {
+        "label": "Transit-oriented density: Gate 1 plan",
+        "path": "docs/tod/GATE1_PLAN.md"
+      }
+    },
+    {
+      "id": "parking",
+      "label": "Parking requirement reduction",
+      "subtitle": "Wisconsin parking requirement reduction · in development",
+      "status": "in_development",
+      "bundle_root": "scenarios/parking/runs/",
+      "owner": "Parking conductor",
+      "benchmark": "Reduce or eliminate minimum parking requirements. Specify assumptions about developer-provided parking absent mandates.",
+      "plan_doc": null
+    }
+  ]
+}
