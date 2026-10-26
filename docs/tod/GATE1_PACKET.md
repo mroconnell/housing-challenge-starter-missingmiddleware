@@ -250,9 +250,11 @@ One earlier decision needs a correction, for you to note. The ladder you confirm
 
 Already in the [decision log](../ASSUMPTIONS_AND_QUESTIONS.md): 24 (Madison Metro's licence) and 25 (whether the transit map's data carries the agencies' licences).
 
-Proposed additions:
-- **Evidence for a statewide law:** does evidence from city programs satisfy "grounded in evidence" for a statewide law when no state law has post-law permit data? This is the same as the parking packet's question 1; the two will be merged into one numbered question.
-- **Parking inside TOD:** may the TOD scenario remove parking minimums inside station areas while the parking scenario is reported separately, without netting the two?
+Added on 2026-10-26 and shared with the parking scenario:
+- **26:** does evidence from city programs satisfy "grounded in evidence" for a statewide law when no state law has post-law permit data? (shared with parking)
+- **27:** may the TOD scenario remove parking minimums inside station areas while the parking scenario is reported separately, without netting the two?
+
+Relevant to T5: the parking scenario's comparison found no measurable average rise in permits in the 3 years after a parking repeal, across 24 US places ([COMPARISON_RESULTS.md](../parking/COMPARISON_RESULTS.md)). So the parking part of the TOD law is not expected to add much on its own.
 
 ## 11. Independent review
 
