@@ -147,6 +147,34 @@ class TestDose(unittest.TestCase):
         self.assertEqual(set(rates["period"]), {"before", "year0", "after"})
 
 
+class TestAddedCaseHelpers(unittest.TestCase):
+    def test_nyc_vintage_choice(self):
+        from missing_middleware.tod import case_nyc as N
+        v = N.pick_vintages(pd.Timestamp("2009-07-29"), 2003, 2014)
+        self.assertEqual(v["before"], "08b")      # last snapshot at least 90 days before
+        self.assertEqual(v["after"], "10v1")      # first snapshot at least 150 days after
+        self.assertEqual(v["end"], "15v1")        # first snapshot after the last after year
+        self.assertEqual(N.pick_vintages(pd.Timestamp("2003-04-30"), 1997, 2008)["start"], "02b")
+        self.assertEqual(len(N.POOLED), 23)
+
+    def test_philadelphia_levels(self):
+        from missing_middleware.tod import case_philadelphia as P
+        self.assertGreater(P.level("RM-1"), P.level("RSA-5"))      # remapping RSA-5 -> RM-1 is an increase
+        self.assertGreater(P.level("CMX-2.5"), P.level("CMX-2"))
+        self.assertEqual(P.zclass("I-2"), "ind")
+        self.assertEqual(P.zclass("cmx-2"), "mixed")
+
+    def test_unmeasured_case_rows(self):
+        ci = C.CaseInputs(case="t", role="heldout", effective_year=2022, first_year=2008, last_full_year=2025,
+                          permits=pd.DataFrame(columns=["project", "area", "year", "units"]), acres={}, homes={},
+                          dose_table=None, status_override="no_data: no permit source with unit counts")
+        rates, row = C.estimate_case(ci, draws=10)
+        self.assertEqual(row["role"], "heldout")
+        self.assertTrue(row["status"].startswith("no_data"))
+        self.assertIsNone(row["estimate_units_per_acre_yr"])
+        self.assertTrue(rates.empty)
+
+
 class TestUniformAreas(unittest.TestCase):
     def test_rule(self):
         import geopandas as gpd

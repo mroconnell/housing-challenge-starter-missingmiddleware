@@ -40,6 +40,21 @@ def builders(selected: list[str]):
         from missing_middleware.tod import case_nyc
         for c in case_nyc.CASES:
             out.append((c, lambda c=c: case_nyc.build(c)))
+    if "nyc_pooled" in selected:
+        from missing_middleware.tod import case_nyc
+        out.append(("nyc_pooled_2003_2013", case_nyc.build_pooled))
+    if "philadelphia" in selected:
+        from missing_middleware.tod import case_philadelphia
+        out.append(("philadelphia_2012_remapping", case_philadelphia.build))
+    if "raleigh" in selected:
+        from missing_middleware.tod import case_raleigh
+        out.append(("raleigh_tod_2021", case_raleigh.build))
+    if "phoenix" in selected:
+        from missing_middleware.tod import case_phoenix
+        out.append(("phoenix_walkable_urban_code_2015", case_phoenix.build))
+    if "annarbor" in selected:
+        from missing_middleware.tod import case_annarbor
+        out.append(("annarbor_tc1_2021", case_annarbor.build))
     if "chicago" in selected:
         from missing_middleware.tod import case_chicago
         out.append(("chicago_tod_2013_2015", case_chicago.build))
@@ -67,7 +82,7 @@ def permit_file_checks() -> dict:
     out = {}
     try:
         from missing_middleware.tod import case_nyc
-        j = case_nyc.load_jobs()
+        j = case_nyc.load_jobs("BK")
         dob = j.groupby(j["year"].astype(int))["units"].sum()
         yrs = range(1996, 2011)
         bps = bps_units("36", "047", yrs)
@@ -83,6 +98,24 @@ def permit_file_checks() -> dict:
         out["mecklenburg_permits_vs_bps"] = {y: {"permit_file_units": int(tot.get(y, 0)), "bps_units": bps.get(y)} for y in yrs}
     except Exception as e:  # noqa: BLE001
         out["mecklenburg_permits_vs_bps"] = f"{type(e).__name__}: {e}"
+    try:
+        from missing_middleware.paths import RAW
+        from missing_middleware.tod import case_philadelphia
+        pp = pd.read_csv(RAW / "tod_cases" / "philadelphia" / "permits_new_construction.csv", dtype=str).drop_duplicates("permitnumber")
+        pp = pp[pp["typeofwork"].isin(case_philadelphia.WHOLE_BUILDING)]
+        pp["units"] = pd.to_numeric(pp["numberofunits"], errors="coerce").fillna(0)
+        pp = pp[pp["units"] > 0].dropna(subset=["lat", "lon"])
+        import geopandas as gpd
+        g = gpd.GeoSeries(gpd.points_from_xy(pp["lon"].astype(float), pp["lat"].astype(float)), crs=4326).to_crs(case_philadelphia.CRS_M)
+        pp["x"], pp["y"], pp["issue_date"] = g.x.values, g.y.values, pp["permitissuedate"]
+        from missing_middleware.tod.case_chicago import dedupe_staged
+        pp = dedupe_staged(pp)
+        tot = pp.groupby(pd.to_numeric(pp["permitissuedate"].str[:4], errors="coerce"))["units"].sum()
+        yrs = range(2007, 2025)
+        bps = bps_units("42", "101", yrs)
+        out["philadelphia_permits_vs_bps"] = {y: {"permit_file_units": int(tot.get(y, 0)), "bps_units": bps.get(y)} for y in yrs}
+    except Exception as e:  # noqa: BLE001
+        out["philadelphia_permits_vs_bps"] = f"{type(e).__name__}: {e}"
     try:
         from missing_middleware.paths import RAW
         from missing_middleware.tod import case_chicago
@@ -110,15 +143,16 @@ def permit_file_checks() -> dict:
 
 def median_rent(case: str) -> float | None:
     inv = pd.read_csv(REFERENCE / "tod_cases.csv", dtype=str)
-    key = {"nyc_park_slope_fourth_ave_2003": "nyc_park_slope_fourth_ave_2003",
-           "nyc_downtown_brooklyn_2004": "nyc_downtown_brooklyn_2004"}.get(case, case)
+    key = {"nyc_pooled_2003_2013": "nyc_bloomberg_rezonings_2003_2013", "philadelphia_2012_remapping": "philadelphia_2012_code",
+           "raleigh_tod_2021": "raleigh_new_bern_2024"}.get(case, case)
     r = inv[inv["case_id"] == key]
     return float(r["median_gross_rent_usd_per_month"].iloc[0]) if len(r) else None
 
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--case", nargs="*", default=["charlotte", "stpaul", "nyc", "chicago"])
+    ap.add_argument("--case", nargs="*", default=["charlotte", "stpaul", "nyc", "nyc_pooled", "philadelphia", "raleigh",
+                                                   "phoenix", "chicago", "annarbor"])
     a = ap.parse_args(argv)
     rates_all, rows, events, diags = [], [], [], {}
     for case, fn in builders(a.case):
@@ -152,7 +186,8 @@ def main(argv=None) -> None:
         rates = pd.concat([old_r[~old_r["case"].isin(est["case"])], rates], ignore_index=True)
         est = pd.concat([old_e[~old_e["case"].isin(est["case"])], est], ignore_index=True)
     order = ["charlotte_tod_2019", "stpaul_green_line_2011", "nyc_park_slope_fourth_ave_2003", "nyc_downtown_brooklyn_2004",
-             "chicago_tod_2013_2015"]
+             "nyc_pooled_2003_2013", "philadelphia_2012_remapping", "raleigh_tod_2021", "phoenix_walkable_urban_code_2015",
+             "chicago_tod_2013_2015", "annarbor_tc1_2021"]
     est["_o"] = est["case"].map({c: i for i, c in enumerate(order)}).fillna(99)
     est = est.sort_values("_o").drop(columns="_o")
     rates["_o"] = rates["case"].map({c: i for i, c in enumerate(order)}).fillna(99)
@@ -164,8 +199,10 @@ def main(argv=None) -> None:
     for r in est.itertuples(index=False):
         if not isinstance(r.before_years, str) or not r.before_years:
             continue
-        b0, b1 = (int(x) for x in r.before_years.split("-"))
+        b0, b1 = (int(x) for x in r.before_years.split(" to "))
         rr = rates[(rates["case"] == r.case) & rates["area"].isin([C.TREAT, C.COMP])]
+        if rr.empty or not str(r.status).startswith("measured"):
+            continue
         ev = C.event_years(rr, int(r.effective_year), list(range(b0, b1 + 1)))
         ev.insert(0, "case", r.case)
         ev["gap_per_dose"] = ev["gap_minus_before"] / r.dose_added_far if r.dose_added_far else float("nan")

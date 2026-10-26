@@ -16,6 +16,10 @@ Every file comes from the publishing government's own service (or the Census Bur
   city-initiated rezonings, MapPLUTO 02b, 04c and 09v2 (Brooklyn lots before, after and at the end of the window),
   subway stations.
 - Census Building Permits Survey county files 1996-2014 (checks of the permit files' yearly totals).
+- Philadelphia: L&I new-construction permits (Carto), remapping bills with enactment dates, base-district snapshots
+  2015-2025, pre-2012 zoning, overlays, district dimensional table, PWD parcels, SEPTA stops.
+- Raleigh: new residential building permits, rezoning cases, TOD overlay (to show why the case is context only).
+- Phoenix and Ann Arbor: no file is fetched; no permit source with unit counts was found (CASE_RESULTS.md).
 - Chicago (held out): building permits (new construction), zoning as of November 2012 and today, CTA and Metra stops,
   Cook County 2021 parcels in Chicago.
 - Census 2010 blocks with housing-unit counts (TIGER2010BLKPOPHU) for the states above.
@@ -195,7 +199,7 @@ def aoi_from(paths_and_buffers: list[tuple[object, float]]):
 
 # --------------------------------------------------------------------------- Census 2010 blocks
 
-CENSUS_STATES = {"37": "North Carolina", "27": "Minnesota", "17": "Illinois"}
+CENSUS_STATES = {"37": "North Carolina", "27": "Minnesota", "17": "Illinois", "42": "Pennsylvania"}
 
 
 def fetch_census(refresh: bool) -> None:
@@ -258,21 +262,25 @@ NYC_DOB_FIELDS = ("job__,doc__,borough,house__,street_name,block,lot,bin__,job_t
 NYC_DCP = "https://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services"
 NYC_BYTES = "https://s-media.nyc.gov/agencies/dcp/assets/files/zip/data-tools/bytes/mappluto"
 NYC_LICENCE = "NYC Open Data terms of use (public record)"
-NYC_PLUTO = {"mappluto_02b.zip": "MapPLUTO 02b (2002, before both rezonings)", "mappluto_04c.zip": "MapPLUTO 04c (late 2004, after both)",
-             "mappluto_09v2.zip": "MapPLUTO 09v2 (2009, end of the after window: zoning changes during the window)"}
+NYC_PLUTO = {"mappluto_02b.zip": "MapPLUTO 02b (March 2003)", "mappluto_04c.zip": "MapPLUTO 04c (late 2004)",
+             "mappluto_09v2.zip": "MapPLUTO 09v2 (2009)"}
+# Yearly archives for the pooled set: each rezoning's zoning before and after, and changes during its window.
+for _v in ("03c", "05d", "06c", "07c", "08b", "09v1", "10v1", "10v2", "11v1", "11v2", "12v1", "12v2", "13v1", "13v2",
+           "14v1", "14v2", "15v1", "16v1", "17v1", "18v1"):
+    NYC_PLUTO[f"mappluto_{_v}.zip"] = f"MapPLUTO {_v} (pooled set)"
 
 
 def fetch_nyc(refresh: bool) -> None:
     man = Manifest(D / "nyc", "tod_cases_nyc", "NYC Department of Buildings and Department of City Planning")
-    name = "dob_nb_brooklyn.csv"
+    name = "dob_nb_all.csv"
     if not man.have(name, refresh):
-        params = {"$select": NYC_DOB_FIELDS, "$where": "job_type='NB' AND borough='BROOKLYN' AND doc__='01'",
-                  "$limit": 100000, "$order": "job__"}
+        params = {"$select": NYC_DOB_FIELDS, "$where": "job_type='NB' AND doc__='01'",
+                  "$limit": 500000, "$order": "job__"}
         url = NYC_SODA + "?" + urllib.parse.urlencode(params)
         data = http_get(url, timeout=900)
         man.record(name, data, url, licence=NYC_LICENCE,
-                   note="DOB Job Application Filings (ic3t-wcy2), new-building jobs in Brooklyn, document 01; owner and "
-                        "applicant fields not requested")
+                   note="DOB Job Application Filings (ic3t-wcy2), new-building jobs in all boroughs, document 01; owner "
+                        "and applicant fields not requested")
     else:
         print(f"  {name}: kept")
     save_layer(man, "nyzma.geojson", f"{NYC_DCP}/nyzma/FeatureServer/0", refresh, NYC_LICENCE, page=1000)
@@ -354,9 +362,67 @@ def fetch_chicago(refresh: bool) -> None:
     man.record(name, data, first, licence=COOK_LICENCE, features=len(feats),
                note="Cook County ccgisdata Parcel 2021 (77tz-riq7), all parcels with municipality Chicago, pages of 50,000")
 
+
+# --------------------------------------------------------------------------- Philadelphia
+
+PHL_CARTO = "https://phl.carto.com/api/v2/sql"
+PHL_AGS = "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services"
+PHL_LICENCE = "City of Philadelphia open data (OpenDataPhilly); no licence text in the API; public record (D1)"
+PHL_SNAPSHOTS = ["Zoning_BaseDistricts_032015", "Zoning_BaseDistricts_052016", "zoning_basedistricts_092017",
+                 "zoning_basedistricts_072018", "zoning_basedistricts_122019", "zoning_basedistricts_062020",
+                 "zoning_basedistricts_122021", "zoning_basedistricts_122022", "zoning_basedistricts_032023",
+                 "zoning_basedistricts_122024", "zoning_basedistricts_122025"]
+
+
+def fetch_philadelphia(refresh: bool) -> None:
+    man = Manifest(D / "philadelphia", "tod_cases_philadelphia", "City of Philadelphia (L&I permits, zoning, remapping, parcels)")
+    name = "permits_new_construction.csv"
+    if not man.have(name, refresh):
+        q = ("SELECT permitnumber, permittype, typeofwork, approvedscopeofwork, permitissuedate, numberofunits, "
+             "numberofstories, parcel_id_num, ST_Y(the_geom) AS lat, ST_X(the_geom) AS lon FROM permits WHERE "
+             "permittype='BP_NEWCNST' OR (permittype IN ('Residential Building','Building','Master Plan') "
+             "AND typeofwork ILIKE 'new constr%')")
+        url = PHL_CARTO + "?" + urllib.parse.urlencode({"q": q, "format": "csv"})
+        man.record(name, http_get(url, timeout=900), url, licence=PHL_LICENCE,
+                   note="L&I permits (Carto table permits), new-construction types; owner and contractor fields not requested")
+    else:
+        print(f"  {name}: kept")
+    save_layer(man, "remapping.geojson", f"{PHL_AGS}/ProposedZoning_Implementation_Public_View/FeatureServer/0", refresh,
+               PHL_LICENCE, out_fields="ExistCode,PropZone,Remapping_Name,Type_,Origination,Bill_Number_TXT,Enacted_Date,ReMap_Status", page=1000)
+    save_layer(man, "zoning_pre_aug2012.geojson", f"{PHL_AGS}/Zoning_PreAug2012/FeatureServer/0", refresh, PHL_LICENCE,
+               out_fields="CODE,CATEGORY", page=2000)
+    for snap in PHL_SNAPSHOTS:
+        save_layer(man, f"{snap.lower()}.geojson", f"{PHL_AGS}/{snap}/FeatureServer/0", refresh, PHL_LICENCE, out_fields="*", page=2000)
+    save_layer(man, "zoning_overlays.geojson", f"{PHL_AGS}/Zoning_Overlays/FeatureServer/0", refresh, PHL_LICENCE, out_fields="*", page=2000)
+    name = "zoning_code_characteristics.json"
+    if not man.have(name, refresh):
+        url = f"{PHL_AGS}/ZoningCodeCharacteristics/FeatureServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json"
+        man.record(name, http_get(url), url, licence=PHL_LICENCE, note="maximum height, FAR, lot area and open area by district")
+    save_layer(man, "parcels.geojson", f"{PHL_AGS}/PWD_PARCELS/FeatureServer/0", refresh, PHL_LICENCE,
+               out_fields="parcelid,bldg_desc,gross_area", page=2000)
+    ntm_rail_stops(man, "rail_stops.geojson", ["30019"], refresh)  # SEPTA rail, subway and trolley stops
+
+
+# --------------------------------------------------------------------------- Raleigh
+
+RAL = "https://services.arcgis.com/v400IkDOw1ad7Yad/arcgis/rest/services"
+RAL_LICENCE = "Open Raleigh Data Policy (City of Raleigh open data)"
+
+
+def fetch_raleigh(refresh: bool) -> None:
+    man = Manifest(D / "raleigh", "tod_cases_raleigh", "City of Raleigh (building permits, rezoning cases, TOD overlay)")
+    save_layer(man, "permits_new_residential.geojson", f"{RAL}/Building_Permits/FeatureServer/0", refresh, RAL_LICENCE,
+               where="workclassmapped='New' AND permitclassmapped='Residential'",
+               out_fields="permitnum,issueddate,issueddate_yr,housingunitstotal,censuslanduse,workclassmapped,permitclassmapped",
+               page=2000)
+    save_layer(man, "rezoning_cases.geojson", f"{RAL}/Rezoning_Case_Boundaries_View/FeatureServer/0", refresh, RAL_LICENCE,
+               out_fields="ZONE_CASE,PrevZoning,ZON_REQ,STATUS,StatusDate", page=1000)
+    save_layer(man, "tod_overlays.geojson", f"{RAL}/TOD_Zoning_Overlays_View/FeatureServer/0", refresh, RAL_LICENCE,
+               out_fields="*", page=1000)
+
 # --------------------------------------------------------------------------- main
 
-FETCHERS = {"census": fetch_census, "bps": fetch_bps, "charlotte": fetch_charlotte, "nyc": fetch_nyc, "stpaul": fetch_stpaul, "chicago": fetch_chicago}
+FETCHERS = {"census": fetch_census, "bps": fetch_bps, "charlotte": fetch_charlotte, "nyc": fetch_nyc, "stpaul": fetch_stpaul, "chicago": fetch_chicago, "philadelphia": fetch_philadelphia, "raleigh": fetch_raleigh}
 
 
 def main(argv=None) -> None:

@@ -74,3 +74,27 @@ Written 2026-10-26 by the TOD conductor, before any permits have been counted fo
 - **Held out:** Ann Arbor's 2021 TC1 transit corridor district.
 - **Why these:** they are the inventory's medium- or strong-design cases with open data and median rents of $1,397 to $1,649 a month, closer to Milwaukee ($1,059) and Madison ($1,413) than New York ($1,821). The cases were chosen by rent, design and data, before their outcomes were seen.
 - **Rules:** the same as for every other case, including the one area rule above.
+
+**2026-10-26, how the added cases are measured (deviations recorded while counting them).** Details are in [CASE_RESULTS.md](CASE_RESULTS.md).
+- **Rezonings at different dates are stacked in event time.** The New York pooled set and Philadelphia's remapping are many rezonings at different dates. Each member is built with the one area rule. Units and acres are then summed by years since that member's effective date: before is years −6 to −1, after is years 1 to 5. Each member's projects stay distinct in the resampling.
+  - Only members with 6 before years and 5 after years inside the permit data are used.
+  - Reason: section 4's periods are defined relative to one effective year, and stacking keeps that definition for each member.
+- **The New York pooled set.** It is Liao's 22 upzonings (2004–2013, his Table 1) plus Park Slope (2003, the plan's named 2003 member).
+  - Members whose upzoned land was all manufacturing before drop out under the eligible-land rule; so do members with no treated land.
+  - There is no second comparison area for the pooled set.
+  - Each member's zoning before, after and at the window's ends comes from yearly MapPLUTO archives. "After" is the first archive that shows the change, because PLUTO lags the map.
+- **New York job placement.** A job is no longer placed by its block and lot when that lot is more than 100 m from the job's own geocoded point. It is placed by its point instead.
+  - Reason: a Bergen Street job's block and lot pointed to a lot 1,345 m away (GATE2_EXAMPLES.md).
+- **Philadelphia.**
+  - **Reform:** the City Planning Commission's district-plan remapping bills under the 2012 code, enacted 2013–2020.
+  - **Rezoned elsewhere:** applicant, council and other bills count as rezonings outside the reform.
+  - **The transit overlay (/TOD, code section 14-513)** has 13 polygons and no enactment dates, so it is not measured separately.
+  - **Rising density:** whether allowed density rose is judged from an ordering built from the City's own table of height and FAR by district.
+  - **Dose:** most remapped districts have a height limit and no FAR, so there is no FAR dose. Philadelphia stays out of per-FAR pooling, as Charlotte does.
+  - **Outcome:** only whole-building new-construction permit types count. Foundation, shell and fit-out permits are left out so a building is not counted twice.
+- **Raleigh is context only.**
+  - The 2021 overlay text applies only where mapped. The City's first overlay mappings (Z-18-2022 and Z-19-2022) added the overlay without changing base districts.
+  - The other TOD map changes before 2024 are applicants' conditional site rezonings, which select sites about to be built.
+  - The permit file's unit field is nearly empty from 2024, leaving one after year.
+- **Phoenix is context only.** No permit source with unit counts and before years was found.
+- **Ann Arbor (held out) has no estimate.** No permit source with unit counts was found.
