@@ -16,7 +16,7 @@ How many housing units Wisconsin would permit each year in 2027–2031 under cur
 | 5+ units | 28,100 | 47,318 | 72,574 | 46,386 |
 | All | 62,244 | 118,822 | 169,814 | 117,405 |
 
-All figures are housing units authorized by building permits (at permit issuance), the same milestone as the ADU scenario. Source: `reference/housing_baseline_statewide_by_year.csv`.
+Columns may not add exactly because of rounding. All figures are housing units authorized by building permits (at permit issuance), the same milestone as the ADU scenario. Source: `reference/housing_baseline_statewide_by_year.csv`.
 
 ## Source and unit
 
@@ -27,13 +27,13 @@ All figures are housing units authorized by building permits (at permit issuance
 
 ## How it is built
 
-1. **Allocate each BPS row to a municipality piece** (the 1,925 municipality pieces the ADU tool uses, `muni:<geoid>`):
+1. **Allocate each BPS row to a municipality piece** (the 1,925 municipality pieces the ADU tool uses, `muni:<geoid>`; the files have 1,926 area ids with the `unallocated` row):
    - a place that matches one municipality piece gets all of its units (observed);
    - a municipality split across counties is split by each piece's share of one-unit detached homes (assumed; the foundation crosswalk);
    - a county row covering towns without their own BPS row is split each year among those towns by one-unit detached homes (assumed; the foundation allocation table).
 2. **Reconcile to the state.** An explicit `unallocated` row holds the difference between the published state total and the sum of the municipality pieces, for each year and building size. It is small: between −55 and 0 units per year in 1-unit buildings (the place rows slightly exceed the state file in some years) and 0 in the other sizes. `reference/housing_baseline_reconciliation.csv` shows the check for every year and size.
 3. **Missing reports are missing, not zero.** BPS shows Milwaukee city with 0 units in 3–4 and 5+ unit buildings in 2020, 2023 and 2025, despite documented apartment construction (foundation quality finding 1, [FOUNDATION.md](../gate2/FOUNDATION.md)). Those cells are null here. They are skipped when averaging and when scoring the projection tests. Milwaukee's 1-unit and 2-unit counts are kept. The published state total, which contains Milwaukee's zeros, is kept as published.
-4. **Choose the projection by a held-out-year test.** Each candidate predicts each municipality's average annual units by building size over the next up to five years, using only data up to an origin year (origins 2019, 2020, 2021 and 2022, scored on 2020–2025). The candidates were a flat average of the last 1, 2, 3, 4 or 5 years, and the same 3- or 5-year level scaled by the state's straight-line trend (fitted over 5 years or over all years). The score is the municipality-level error per unit permitted, over all building sizes. **The flat average of the last three years (2023–2025) predicted best.** Its error was 0.544 units of error per unit permitted, against 0.545 to 0.598 for the other multi-year candidates and 0.625 for the last year alone. The trend candidates did worse because past trends did not persist. Source: `reference/housing_baseline_window_choice.csv` and `reference/housing_baseline_holdout.csv`.
+4. **Choose the projection by a held-out-year test.** Each candidate predicts each municipality's average annual units by building size over the next up to five years, using only data up to an origin year (origins 2019, 2020, 2021 and 2022, scored on 2020–2025). The candidates were a flat average of the last 1, 2, 3, 4 or 5 years, and the same 3- or 5-year level scaled by the state's straight-line trend (fitted over 5 years or over all years). The score is the municipality-level error per unit permitted, over all building sizes. **The flat average of the last three years (2023–2025) predicted best.** Its error was 0.544 units of error per unit permitted, against 0.545 to 0.598 for the other multi-year candidates and 0.626 for the last year alone. The trend candidates did worse because past trends did not persist. Source: `reference/housing_baseline_window_choice.csv` and `reference/housing_baseline_holdout.csv`.
 5. **Projection.** Each municipality and building size is held flat at its 2023–2025 average for 2026 (a bridge year, shown but not in five-year totals) and 2027–2031.
 6. **Range from Wisconsin's own history.** For every year from 1992 to 2020, the 3-year state average was compared with what Wisconsin actually permitted in the next five years (29 five-year periods per building size). The low and high cases use the 10th and 90th percentile of those outcomes, by building size: 0.49 and 1.29 times the central for 1-unit buildings, 0.39 and 1.91 for 2 units, 0.30 and 1.20 for 3–4 units, and 0.59 and 1.53 for 5+ units. The worst five-year period on record was 2007–2011, when Wisconsin permitted 0.40 times as many units as the 3-year average before it. Source: `reference/housing_baseline_band.csv`, `reference/housing_baseline_long_run_ratios.csv`.
    - The low and high cases apply the same multiplier to every municipality, so building sizes and places move together; the statewide low and high are their sums and are not independent.
@@ -41,7 +41,7 @@ All figures are housing units authorized by building permits (at permit issuance
 
 ## Where the baseline sits
 
-Multifamily permits are concentrated. Ten municipalities hold 25,521 of the 47,318 units projected in 5+ unit buildings over 2027–2031 (54%). Madison alone is projected at 13,182 units in 5+ unit buildings over five years. The other large ones are Eau Claire (2,302), DeForest (1,632), Fitchburg (1,603), Glendale (1,415), Middleton (1,248), West Allis (1,108) and Green Bay (1,075). Source: `reference/housing_baseline_by_area.csv`.
+Multifamily permits are concentrated. Ten municipalities hold 25,521 of the 47,318 units projected in 5+ unit buildings over 2027–2031 (54%). Madison alone is projected at 13,182 units in 5+ unit buildings over five years. The other nine are Eau Claire (2,302), DeForest (1,632), Fitchburg (1,603), Glendale (1,415), Middleton (1,248), West Allis (1,108), Green Bay (1,075), Grand Chute town (1,032) and Racine (923). Source: `reference/housing_baseline_by_area.csv`.
 
 ## Files
 
@@ -63,7 +63,7 @@ Columns use `area_id` (`muni:<10-digit county-subdivision GEOID>`, or `unallocat
 ## Limitations
 
 - **Milwaukee's multifamily permits are badly under-reported in BPS, not only in the three flagged years** (open issue 1).
-- **Flat, not cyclical.** The central assumes 2023–2025 conditions continue. The range covers a downturn like 2007–2011 only at its very bottom.
+- **Flat, not cyclical.** The central assumes 2023–2025 conditions continue. The low case is milder than 2007–2011: it is 0.52 times the central (62,244 of 118,822 units), while 2007–2011 permitted 0.40 times the 3-year average before it.
 - **Assumed splits.** Units in county rows (towns without their own BPS row) and in municipalities that cross county lines are split by one-unit detached homes. That is an assumption, and it matters most for apartments in towns.
 - **24 municipality pieces have no BPS row in 2023–2025** and are projected at 0, flagged `no_data_in_window`.
 - **Conversions and ADUs inside existing buildings are not in BPS**, so this is a baseline of new buildings.

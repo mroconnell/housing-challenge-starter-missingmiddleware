@@ -39,6 +39,12 @@ class TestRate(unittest.TestCase):
         s2 = "The plan recommended it, and the council repealed all parking mandates in 2024."
         self.assertEqual(tx.rate("rm_min", ["citywide"], ["all uses"], ["by right"], s2)[0], "at")
 
+    def test_small_houses_only_summary_is_weaker(self):
+        s = "One-family and two-family dwellings are exempt from minimum parking requirements."
+        self.assertEqual(tx.rate("rm_min", ["citywide"], ["residential, all uses"], ["by right"], s)[0], "weaker")
+        s2 = "All parking minimums were repealed, including for one-family homes."
+        self.assertEqual(tx.rate("rm_min", ["citywide"], ["all uses"], ["by right"], s2)[0], "at")
+
     def test_classify_skips_non_us_and_keeps_dates(self):
         core = {"A": {"place": {"name": "A", "state": "X", "country": "United States", "type": "city", "pop": 1},
                       "rm_min": [{"status": "adopted", "scope": ["citywide"], "land": ["all uses"], "date": "2021-05-14"}]},

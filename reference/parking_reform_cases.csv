@@ -33,6 +33,7 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Gainesville, Florida, United States",Gainesville,Florida,city,140398,rm_min,adopted,2022-11-29,citywide,all uses,by right,at,"removed for all housing, by right",2022
 "Columbia, South Carolina, United States",Columbia,South Carolina,city,136632,rm_min,adopted,,city center / business district;citywide,all uses;commercial;industrial;other,by right;size of project,near,removed for housing with conditions: size of project,
 "Wilmington, North Carolina, United States",Wilmington,North Carolina,city,123744,rm_min,adopted,2022-11-01,city center / business district;citywide;main street / special,all uses;commercial,by right,at,"removed for all housing, by right",2022
+"Norman, Oklahoma, United States",Norman,Oklahoma,city,122837,rm_min,adopted,2021-11-09,citywide,"commercial;other;residential, all uses",by right,at,"removed for all housing, by right",2021
 "Hartford, Connecticut, United States",Hartford,Connecticut,city,122105,rm_min,adopted,2017-12-01,citywide,all uses,by right,at,"removed for all housing, by right",2017
 "Berkeley, California, United States",Berkeley,California,city,121363,rm_min,adopted,,citywide,"residential, all uses",by right,at,"removed for all housing, by right",
 "Ann Arbor, Michigan, United States",Ann Arbor,Michigan,city,120735,rm_min,adopted,2022-08-15,citywide,all uses,by right,at,"removed for all housing, by right",2022
@@ -47,8 +48,8 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Beaverton, Oregon, United States",Beaverton,Oregon,city,99000,rm_min,adopted,2023-07-18,citywide,all uses,by right,at,"removed for all housing, by right",2023
 "Roanoke, Virginia, United States",Roanoke,Virginia,city,98865,rm_min,adopted,2021-11-01,citywide,all uses,by right,at,"removed for all housing, by right",2021
 "Longmont, Colorado, United States",Longmont,Colorado,city,97261,rm_min,adopted,2024-05-28,citywide,all uses,by right,at,"removed for all housing, by right",2024
-"Bellingham, Washington, United States",Bellingham,Washington,city,92314,rm_min,adopted,2025-01-13,city center / business district;citywide,all uses,by right,at,"removed for all housing, by right",2025
 "Bellingham, Washington, United States",Bellingham,Washington,city,92314,rm_min,adopted,2026-08-10,citywide,all uses,by right,at,"removed for all housing, by right",2026
+"Bellingham, Washington, United States",Bellingham,Washington,city,92314,rm_min,adopted,2025-01-13,city center / business district;citywide,all uses,by right,at,"removed for all housing, by right",2025
 "Kirkland, Washington, United States",Kirkland,Washington,city,92175,rm_min,adopted,2026-04-18,city center / business district;citywide,"all uses;commercial;other;residential, all uses",accessory dwelling units;affordable housing;by right;size of project;supportive housing,near,"removed for housing with conditions: accessory dwelling units, affordable housing, size of project, supportive housing",2026
 "Trenton, New Jersey, United States",Trenton,New Jersey,city,90871,rm_min,adopted,2023-12-21,citywide,all uses,by right,at,"removed for all housing, by right",2023
 "Waukegan, Illinois, United States",Waukegan,Illinois,city,89321,rm_min,adopted,2024-07-01,city center / business district;citywide,"commercial;industrial;other;residential, all uses",by right,at,"removed for all housing, by right",2024
@@ -67,8 +68,8 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Gary, Indiana, United States",Gary,Indiana,city,69093,rm_min,adopted,,city center / business district;citywide,"all uses;commercial;other;residential, low-density",by right;size of project,near,removed for housing with conditions: size of project,
 "Portland, Maine, United States",Portland,Maine,city,68408,rm_min,adopted,2024-11-04,citywide,all uses,by right,at,"removed for all housing, by right",2024
 "Jackson, Tennessee, United States",Jackson,Tennessee,city,68205,rm_min,adopted,2021-10-01,citywide,all uses,other,near,removed for housing with conditions: other,2021
-"Chapel Hill, North Carolina, United States",Chapel Hill,North Carolina,city,64051,rm_min,adopted,2026-01-21,citywide,all uses,by right,at,"removed for all housing, by right",2026
 "Chapel Hill, North Carolina, United States",Chapel Hill,North Carolina,city,64051,rm_min,adopted,,city center / business district;citywide,"all uses;commercial;other;residential, low-density",by right,at,"removed for all housing, by right",
+"Chapel Hill, North Carolina, United States",Chapel Hill,North Carolina,city,64051,rm_min,adopted,2026-01-21,citywide,all uses,by right,at,"removed for all housing, by right",2026
 "Springfield, Oregon, United States",Springfield,Oregon,city,61851,rm_min,adopted,2023-11-20,citywide,all uses,by right,at,"removed for all housing, by right",2023
 "Richland, Washington, United States",Richland,Washington,city,60560,rm_min,adopted,2026-01-20,city center / business district;citywide,"all uses;commercial;other;residential, all uses",affordable housing;by right;other;size of project,near,"removed for housing with conditions: affordable housing, other, size of project",2026
 "West Allis, Wisconsin, United States",West Allis,Wisconsin,city,59861,rm_min,adopted,2022-05-03,citywide,all uses,by right,at,"removed for all housing, by right",2022
@@ -83,7 +84,6 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Marana, Arizona, United States",Marana,Arizona,city,51908,rm_min,adopted,,citywide;main street / special,all uses;commercial;industrial;medical;other,by right;other,near,removed for housing with conditions: other,
 "Summerville, South Carolina, United States",Summerville,South Carolina,city,50915,rm_min,adopted,,city center / business district;citywide,all uses;industrial,by right,at,"removed for all housing, by right",
 "Wilson, North Carolina, United States",Wilson,North Carolina,city,49459,rm_min,adopted,,city center / business district;citywide,all uses;industrial;other,by right,at,"removed for all housing, by right",
-"Lawrence, Indiana, United States",Lawrence,Indiana,city,49370,rm_min,adopted,,citywide,"commercial;industrial;medical;other;residential, multi-family",by right;size of project,near,"removed for one residential class only (residential, multi-family)",
 "Dunwoody, Georgia, United States",Dunwoody,Georgia,city,49356,rm_min,adopted,2019-01-01,citywide,all uses,by right,at,"removed for all housing, by right",2019
 "Bothell, Washington, United States",Bothell,Washington,city,48161,rm_min,adopted,2025-07-08,citywide,all uses,by right,at,"removed for all housing, by right",2025
 "Binghamton, New York, United States",Binghamton,New York,city,47969,rm_min,adopted,2024-12-18,citywide,"residential, multi-family",affordable housing;by right;size of project;supportive housing,near,"removed for one residential class only (residential, multi-family)",2024
@@ -93,12 +93,10 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Edmonds, Washington, United States",Edmonds,Washington,city,42853,rm_min,adopted,,citywide,"commercial;residential, all uses",affordable housing;by right;size of project,near,"removed for housing with conditions: affordable housing, size of project",
 "Burlington, Vermont, United States",Burlington,Vermont,city,42819,rm_min,adopted,2023-01-09,citywide,all uses,by right,at,"removed for all housing, by right",2023
 "Covington, Kentucky, United States",Covington,Kentucky,city,40961,rm_min,adopted,,city center / business district;citywide,"all uses;commercial;industrial;medical;other;residential, all uses",accessory dwelling units;by right;historic preservation;size of project,near,"removed for housing with conditions: accessory dwelling units, historic preservation, size of project",
-"Annapolis, Maryland, United States",Annapolis,Maryland,city,40812,rm_min,adopted,,city center / business district;citywide,"all uses;other;residential, low-density",by right;other;size of project,near,"removed for housing with conditions: other, size of project",
 "Lake Oswego, Oregon, United States",Lake Oswego,Oregon,city,40731,rm_min,adopted,2024-12-17,citywide,all uses,by right,at,"removed for all housing, by right",2024
 "Culver City, California, United States",Culver City,California,city,39970,rm_min,adopted,2022-10-24,citywide,all uses,by right,at,"removed for all housing, by right",2022
 "Keizer, Oregon, United States",Keizer,Oregon,city,39376,rm_min,adopted,2025-07-07,citywide,all uses,by right,at,"removed for all housing, by right",2025
 "Grants Pass, Oregon, United States",Grants Pass,Oregon,city,39189,rm_min,adopted,2024-05-15,citywide,all uses,by right,at,"removed for all housing, by right",2024
-"Northglenn, Colorado, United States",Northglenn,Colorado,city,38131,rm_min,adopted,,citywide,"commercial;industrial;other;residential, multi-family",by right;size of project,near,"removed for one residential class only (residential, multi-family)",
 "Franklin, Wisconsin, United States",Franklin,Wisconsin,city,36816,rm_min,adopted,2025-05-06,citywide,all uses,by right,at,"removed for all housing, by right",2025
 "Plainfield , Indiana, United States",Plainfield ,Indiana,city,35592,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Eastpointe, Michigan, United States",Eastpointe,Michigan,city,34318,rm_min,adopted,2023-11-13,city center / business district;citywide,"commercial;other;residential, all uses",accessory dwelling units;affordable housing;by right;size of project,near,"removed for housing with conditions: accessory dwelling units, affordable housing, size of project",2023
@@ -121,7 +119,6 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Eureka, California, United States",Eureka,California,city,26512,rm_min,adopted,,city center / business district;citywide;transit-oriented,"all uses;commercial;industrial;medical;other;residential, all uses",accessory dwelling units;affordable housing;by right;size of project,near,"removed for housing with conditions: accessory dwelling units, affordable housing, size of project",
 "Conway, South Carolina, United States",Conway,South Carolina,city,24809,rm_min,adopted,,city center / business district;citywide,"all uses;residential, low-density",by right,at,"removed for all housing, by right",
 "Watertown, New York, United States",Watertown,New York,city,24685,rm_min,adopted,,city center / business district;citywide,all uses,by right,at,"removed for all housing, by right",
-"West Memphis, Arkansas, United States",West Memphis,Arkansas,city,24520,rm_min,adopted,,city center / business district;citywide,"all uses;residential, low-density",by right;other,near,removed for housing with conditions: other,
 "North Augusta, South Carolina, United States",North Augusta,South Carolina,city,24379,rm_min,adopted,,city center / business district;citywide,"all uses;commercial;other;residential, multi-family",by right;size of project,near,removed for housing with conditions: size of project,
 "Canton, Massachusetts, United States",Canton,Massachusetts,city,24370,rm_min,adopted,,city center / business district;citywide,"all uses;residential, low-density",by right;size of project,near,removed for housing with conditions: size of project,
 "Kingston, New York, United States",Kingston,New York,city,24069,rm_min,adopted,2023-08-02,citywide,all uses,by right,at,"removed for all housing, by right",2023
@@ -145,6 +142,7 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Central Point, Oregon, United States",Central Point,Oregon,city,18997,rm_min,adopted,2023-06-08,citywide,all uses,by right,at,"removed for all housing, by right",2023
 "Windham, Maine, United States",Windham,Maine,city,18434,rm_min,adopted,2018-06-12,citywide,all uses,by right,at,"removed for all housing, by right",2018
 "Portsmouth, Ohio, United States",Portsmouth,Ohio,city,18252,rm_min,adopted,2023-03-15,citywide,all uses,by right,at,"removed for all housing, by right",2023
+"North Canton, Ohio, United States",North Canton,Ohio,city,17842,rm_min,adopted,2023-08-21,city center / business district;citywide,all uses;commercial;industrial;other,by right,at,"removed for all housing, by right",2023
 "Greenfield, Massachusetts, United States",Greenfield,Massachusetts,city,17768,rm_min,adopted,2026-07,citywide,all uses,by right,at,"removed for all housing, by right",2026
 "Dallas, Oregon, United States",Dallas,Oregon,city,16854,rm_min,adopted,,city center / business district;citywide,"all uses;residential, low-density",accessory dwelling units;by right,near,removed for housing with conditions: accessory dwelling units,
 "Taylor, Texas, United States",Taylor,Texas,city,16267,rm_min,adopted,2023-11-09,citywide,all uses,by right,at,"removed for all housing, by right",2023
@@ -154,14 +152,11 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Rutland, Vermont, United States",Rutland,Vermont,city,15807,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Port Orchard, Washington, United States",Port Orchard,Washington,city,15587,rm_min,adopted,,city center / business district;citywide,"all uses;commercial;other;residential, all uses",affordable housing;by right;size of project,near,"removed for housing with conditions: affordable housing, size of project",
 "New Haven, Indiana, United States",New Haven,Indiana,city,15583,rm_min,adopted,,city center / business district;citywide,all uses;medical;other,by right,at,"removed for all housing, by right",
-"Beech Grove, Indiana, United States",Beech Grove,Indiana,city,14717,rm_min,adopted,,citywide,"commercial;industrial;medical;other;residential, multi-family",by right;size of project,near,"removed for one residential class only (residential, multi-family)",
 "Federal Heights, Colorado, United States",Federal Heights,Colorado,city,14382,rm_min,adopted,2025-07-01,citywide,"residential, multi-family",by right;size of project,near,"removed for one residential class only (residential, multi-family)",2025
 "Covington, Georgia, United States",Covington,Georgia,city,14192,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
-"Speedway, Indiana, United States",Speedway,Indiana,city,13952,rm_min,adopted,,citywide,"commercial;industrial;medical;other;residential, multi-family",by right;size of project,near,"removed for one residential class only (residential, multi-family)",
 "Maumee, Ohio, United States",Maumee,Ohio,city,13896,rm_min,adopted,2020-10-05,citywide,all uses,by right,at,"removed for all housing, by right",2020
 "Beaufort, South Carolina, United States",Beaufort,South Carolina,city,13607,rm_min,adopted,,city center / business district;citywide,"commercial;other;residential, multi-family",by right,near,"removed for one residential class only (residential, multi-family)",
 "Brainerd, Minnesota, United States",Brainerd,Minnesota,city,13434,rm_min,adopted,2023-10-16,city center / business district;citywide,all uses;commercial;industrial;medical;other,by right,at,"removed for all housing, by right",2023
-"Blue Ash, Ohio, United States",Blue Ash,Ohio,city,13394,rm_min,adopted,,citywide,"commercial;industrial;other;residential, multi-family",other,near,"removed for one residential class only (residential, multi-family)",
 "Cambridge, Maryland, United States",Cambridge,Maryland,city,13096,rm_min,adopted,2021-09-13,citywide,all uses,by right,at,"removed for all housing, by right",2021
 "Bloomsburg, Pennsylvania, United States",Bloomsburg,Pennsylvania,city,12711,rm_min,adopted,2024-06-03,city center / business district;citywide,all uses;commercial;industrial;medical;other,by right,at,"removed for all housing, by right",2024
 "Crossville, Tennessee, United States",Crossville,Tennessee,city,12071,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
@@ -192,7 +187,6 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Seabrook, New Hampshire, United States",Seabrook,New Hampshire,city,8869,rm_min,adopted,2019-01-08,citywide,all uses,by right,at,"removed for all housing, by right",2019
 "Jeannette, Pennsylvania, United States",Jeannette,Pennsylvania,city,8780,rm_min,adopted,2017-11-17,city center / business district;citywide,"commercial;medical;other;residential, low-density;residential, multi-family",accessory dwelling units;by right,near,removed for housing with conditions: accessory dwelling units,2017
 "Oxford, North Carolina, United States",Oxford,North Carolina,city,8628,rm_min,adopted,,city center / business district;citywide,all uses;industrial,by right,at,"removed for all housing, by right",
-"Monona, Wisconsin, United States",Monona,Wisconsin,city,8624,rm_min,adopted,,citywide,"residential, all uses",by right,at,"removed for all housing, by right",
 "Corrales, New Mexico, United States",Corrales,New Mexico,city,8493,rm_min,adopted,,citywide,"residential, all uses",by right,at,"removed for all housing, by right",
 "Barre, Vermont, United States",Barre,Vermont,city,8491,rm_min,adopted,,city center / business district;citywide,all uses;commercial;industrial;medical;other,by right;other;size of project,near,"removed for housing with conditions: other, size of project",
 "Monticello, Arkansas, United States",Monticello,Arkansas,city,8442,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
@@ -202,13 +196,9 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "River Rouge, Michigan, United States",River Rouge,Michigan,city,7465,rm_min,adopted,2021-05-04,citywide,all uses,by right,at,"removed for all housing, by right",2021
 "Cottage Grove, Wisconsin, United States",Cottage Grove,Wisconsin,city,7303,rm_min,adopted,2026-09-21,citywide,all uses,by right,at,"removed for all housing, by right",2026
 "Rockland, Maine, United States",Rockland,Maine,city,6936,rm_min,adopted,2025-12-05,citywide,all uses,by right,at,"removed for all housing, by right",2025
-"Milford, Ohio, United States",Milford,Ohio,city,6582,rm_min,adopted,1999-05-04,citywide;main street / special,"all uses;residential, low-density",by right,at,"removed for all housing, by right",1999
 "Gunnison, Colorado, United States",Gunnison,Colorado,city,6560,rm_min,adopted,,city center / business district;citywide,"commercial;other;residential, all uses",accessory dwelling units;by right,near,removed for housing with conditions: accessory dwelling units,
-"Greenville, Illinois, United States",Greenville,Illinois,city,6507,rm_min,adopted,2013-09-10,city center / business district;citywide,"all uses;residential, low-density",by right,at,"removed for all housing, by right",2013
-"Indian Hill, Ohio, United States",Indian Hill,Ohio,city,6087,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Hudson, New York, United States",Hudson,New York,city,6072,rm_min,adopted,2019-02-01,citywide,all uses,by right,at,"removed for all housing, by right",2019
 "Ward, Arkansas, United States",Ward,Arkansas,city,6052,rm_min,adopted,2025-11-18,citywide,all uses,by right,at,"removed for all housing, by right",2025
-"Saranac Lake, New York, United States",Saranac Lake,New York,city,5700,rm_min,adopted,2019-10-15,citywide,all uses,by right,at,"removed for all housing, by right",2019
 "Lyons, New York, United States",Lyons,New York,city,5679,rm_min,adopted,2026-09-23,citywide,all uses,other,near,removed for housing with conditions: other,2026
 "Creswell, Oregon, United States",Creswell,Oregon,city,5641,rm_min,adopted,,city center / business district;citywide,"all uses;residential, low-density",accessory dwelling units;by right,near,removed for housing with conditions: accessory dwelling units,
 "Cramerton, North Carolina, United States",Cramerton,North Carolina,city,5296,rm_min,adopted,2025-09-16,citywide,all uses,by right,at,"removed for all housing, by right",2025
@@ -259,12 +249,11 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Laurium, Michigan, United States",Laurium,Michigan,city,1864,rm_min,adopted,2024-09-03,citywide,all uses,by right,at,"removed for all housing, by right",2024
 "Plainville, Kansas, United States",Plainville,Kansas,city,1746,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Mancelona, Michigan, United States",Mancelona,Michigan,city,1708,rm_min,adopted,2020-10-13,citywide,all uses,by right,at,"removed for all housing, by right",2020
-"Pendergrass, Georgia, United States",Pendergrass,Georgia,city,1692,rm_min,adopted,,citywide,"commercial;industrial;medical;other;residential, multi-family",by right,near,"removed for one residential class only (residential, multi-family)",
 "Gaston, South Carolina, United States",Gaston,South Carolina,city,1608,rm_min,adopted,,citywide,all uses,other,near,removed for housing with conditions: other,
 "Neligh, Nebraska, United States",Neligh,Nebraska,city,1536,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Leoti, Kansas, United States",Leoti,Kansas,city,1475,rm_min,adopted,,citywide,"commercial;industrial;medical;other;residential, low-density;residential, multi-family",by right,at,"removed for all housing, by right",
-"Leland Grove, Illinois, United States",Leland Grove,Illinois,city,1454,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Roxana, Illinois, United States",Roxana,Illinois,city,1454,rm_min,adopted,,citywide,"commercial;industrial;medical;other;residential, low-density;residential, multi-family",other,near,removed for housing with conditions: other,
+"Leland Grove, Illinois, United States",Leland Grove,Illinois,city,1454,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Pilot Mountain, North Carolina, United States",Pilot Mountain,North Carolina,city,1443,rm_min,adopted,,city center / business district;citywide,"commercial;industrial;other;residential, all uses",by right,at,"removed for all housing, by right",
 "Hill City, Kansas, United States",Hill City,Kansas,city,1403,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "New Rockford, North Dakota, United States",New Rockford,North Dakota,city,1361,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
@@ -273,7 +262,6 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Coburg, Oregon, United States",Coburg,Oregon,city,1306,rm_min,adopted,2025-11-12,citywide,all uses,by right,at,"removed for all housing, by right",2025
 "Barry, Illinois, United States",Barry,Illinois,city,1303,rm_min,adopted,,citywide,"commercial;industrial;medical;other;residential, low-density;residential, multi-family",other,near,removed for housing with conditions: other,
 "St. Francis, Kansas, United States",St. Francis,Kansas,city,1263,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
-"Cape Charles, Virginia, United States",Cape Charles,Virginia,city,1178,rm_min,adopted,,city center / business district;citywide,"all uses;residential, low-density",by right;size of project,near,removed for housing with conditions: size of project,
 "Cave Spring, Georgia, United States",Cave Spring,Georgia,city,1174,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Pine Bluffs, Wyoming, United States",Pine Bluffs,Wyoming,city,1172,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Lincoln, Kansas, United States",Lincoln,Kansas,city,1171,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
@@ -296,8 +284,8 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Arena, Wisconsin, United States",Arena,Wisconsin,city,844,rm_min,adopted,,citywide,"residential, all uses",by right;supportive housing,near,removed for housing with conditions: supportive housing,
 "Stronghurst, Illinois, United States",Stronghurst,Illinois,city,833,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Diamond, Missouri, United States",Diamond,Missouri,city,831,rm_min,adopted,,citywide,"commercial;industrial;medical;other;residential, low-density;residential, multi-family",by right,at,"removed for all housing, by right",
-"Lone Rock, Wisconsin, United States",Lone Rock,Wisconsin,city,829,rm_min,adopted,,citywide,"residential, multi-family",by right;other,near,"removed for one residential class only (residential, multi-family)",
 "Lake City, Michigan, United States",Lake City,Michigan,city,829,rm_min,adopted,2022-03-19,citywide,all uses,by right,at,"removed for all housing, by right",2022
+"Lone Rock, Wisconsin, United States",Lone Rock,Wisconsin,city,829,rm_min,adopted,,citywide,"residential, multi-family",by right;other,near,"removed for one residential class only (residential, multi-family)",
 "Coal Hill, Arkansas, United States",Coal Hill,Arkansas,city,820,rm_min,adopted,,citywide,"commercial;medical;other;residential, low-density;residential, multi-family",by right,at,"removed for all housing, by right",
 "Patagonia, Arizona, United States",Patagonia,Arizona,city,804,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Jetmore, Kansas, United States",Jetmore,Kansas,city,770,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
@@ -322,7 +310,6 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Weir, Kansas, United States",Weir,Kansas,city,569,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Brooks, Georgia, United States",Brooks,Georgia,city,568,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Kadoka, South Dakota, United States",Kadoka,South Dakota,city,543,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
-"Freeport, Michigan, United States",Freeport,Michigan,city,542,rm_min,adopted,,citywide;main street / special,"commercial;residential, all uses",by right,at,"removed for all housing, by right",
 "Golf, Illinois, United States",Golf,Illinois,city,514,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Sargent, Nebraska, United States",Sargent,Nebraska,city,500,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Argonia, Kansas, United States",Argonia,Kansas,city,456,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
@@ -341,5 +328,5 @@ prn_key,place,state,place_type,population,policy,status,adopted_date,scope,land_
 "Brownville, Nebraska, United States",Brownville,Nebraska,city,139,rm_min,adopted,,citywide,"commercial;industrial;medical;other;residential, low-density;residential, multi-family",by right,at,"removed for all housing, by right",
 "Mitchell, Oregon, United States",Mitchell,Oregon,city,138,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
 "Elgin, Kansas, United States",Elgin,Kansas,city,100,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
-"Haysville, Pennsylvania, United States",Haysville,Pennsylvania,city,100,rm_min,adopted,,citywide,all uses,by right;size of project,near,removed for housing with conditions: size of project,
 "Stark, Kansas, United States",Stark,Kansas,city,100,rm_min,adopted,,citywide,all uses,by right,at,"removed for all housing, by right",
+"Haysville, Pennsylvania, United States",Haysville,Pennsylvania,city,100,rm_min,adopted,,citywide,all uses,by right;size of project,near,removed for housing with conditions: size of project,

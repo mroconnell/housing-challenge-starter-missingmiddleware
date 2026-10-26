@@ -14,8 +14,11 @@ Each US city or state reform record is rated against it:
              place; removal only for affordable/inclusionary housing; or minimums reduced,
              not removed; or removal for low-density housing only (houses and ADUs).
   not_housing - the reform does not touch residential uses.
-  plan_only - PRN marks a plan or report recommendation as "adopted"; no code change is
-             described in the summary (checked from the summary text, see plan_only).
+  plan_only - the summary describes a plan or report recommendation, not a code change
+             (checked from the summary text, whatever the record's status; see plan_only).
+Two text checks guard against PRN tags that over-state a reform: plan_only, and
+small_houses_only (a record tagged "all residential" whose summary exempts only one- and
+two-family homes is rated weaker).
 
 The PRN date is the adoption (passed) date where recorded; effective dates are not in
 the database and are recorded separately when verified from ordinance text.
@@ -34,7 +37,7 @@ AFFORDABLE = {"affordable housing", "inclusionary housing", "supportive housing"
 
 PLAN_WORDS = re.compile(r"\brecommend", re.I)
 ENACTED_WORDS = re.compile(r"\b(removed|repealed|eliminated|exempt|abolished|no longer|has had no|adopted an ordinance|"
-                           r"passed|approved|voted)\b", re.I)
+                           r"passed|approved|voted|replaced|amended)\b", re.I)
 
 
 def plan_only(summary: str) -> bool:
@@ -43,6 +46,17 @@ def plan_only(summary: str) -> bool:
     checked: a recommendation with no word of enactment is plan-only."""
     s = summary or ""
     return bool(PLAN_WORDS.search(s)) and not ENACTED_WORDS.search(s)
+
+
+SMALL_HOUSE_WORDS = re.compile(r"\b(one|single|two)[- ]?family\b", re.I)
+BROADER_WORDS = re.compile(r"multi|apartment|all (land uses|uses|residential|parking|minimum|off-street)|any use|citywide|entire city", re.I)
+
+
+def small_houses_only(summary: str) -> bool:
+    """True when the PRN summary says only one- or two-family homes are exempt, even if the
+    record is tagged for all residential uses (PRN tags can over-state the scope)."""
+    s = summary or ""
+    return bool(SMALL_HOUSE_WORDS.search(s)) and not BROADER_WORDS.search(s)
 
 
 def rate(policy: str, scope: list[str], land: list[str], requirements: list[str],
@@ -62,6 +76,8 @@ def rate(policy: str, scope: list[str], land: list[str], requirements: list[str]
         return "weaker", "removal only for affordable or supportive housing"
     if req_s & {"frequent transit"}:
         return "weaker", "removal conditioned on transit service"
+    if small_houses_only(summary):
+        return "weaker", "summary says only one- or two-family homes are exempt"
     all_res = bool(land_s & FULL_RESIDENTIAL) or {"residential, low-density", "residential, multi-family"} <= land_s
     if all_res and req_s == {"by right"}:
         return "at", "removed for all housing, by right"
