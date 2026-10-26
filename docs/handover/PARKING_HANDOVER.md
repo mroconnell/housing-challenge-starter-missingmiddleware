@@ -17,7 +17,7 @@ Shared assumptions:
 - the outcome may be permits, starts, completions or stock growth, defined and justified (ADUs used permits at issuance; stay consistent unless the evidence argues otherwise);
 - for each scenario, show the change from the baseline, what drives it, sensitivity, and what the model cannot tell.
 
-The benchmark explicitly asks you to state **how much parking developers would still build without mandates**. That assumption is part of the answer, and the literature measures it.
+The benchmark explicitly asks you to state **how much parking housing developers would still choose to build once minimums are removed**, because buyers, renters and lenders want it. That assumption is part of the answer. Extra homes come only where the minimum forced more parking than the market wanted. If a developer would build 1.5 spaces per unit anyway and the minimum was 1.5, removing it changes nothing for that project. Studies measure this gap; for example, Seattle projects built about 40% fewer spaces than the old minimums required (verify).
 
 **Owner decision already made:** model parking on its own, as the challenge compares scenarios individually. The ADU benchmark already requires no additional parking for ADUs, and the TOD benchmark may assume reduced parking near transit. Don't net those out now; combinations come later. Say plainly in the docs where the scenarios overlap.
 
