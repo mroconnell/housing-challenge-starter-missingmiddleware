@@ -34,6 +34,12 @@ export interface Scenario {
   additional_by_year: number[]; additional_total: number; with_law_total: number; with_law_rate_by_year: number[];
 }
 
+/** Rates are permits per 1,000 single-family homes per year; values and incomes are homes-weighted geometric means of ACS medians. */
+export interface ContextRates { median_home_value: number; median_income: number; x_rate: number; y_rate_2031_central: number; additional_rate_central: number }
+export interface ContextRow extends ContextRates {
+  id: string; label: string; homes: number; baseline: number; additional_lower: number; additional_central: number; additional_upper: number;
+}
+
 export interface StateData {
   homes: Indicator;
   housing_units_pep: { year: number; value: number; status: string; vintage: string }[];
@@ -49,7 +55,14 @@ export interface StateData {
   };
   scenarios: Scenario[];
   reference_line: { label: string; n_series: number; carried_forward_years: number[]; info: string; detail: string; why_central_differs: string; rate_by_year: number[]; additional_by_year: number[]; additional_total: number; with_law_by_year: number[]; source: string };
-  contexts: { id: string; label: string; homes: number; baseline: number; additional_lower: number; additional_central: number; additional_upper: number }[];
+  contexts: ContextRow[];
+  /** Why types of place differ (reference/gate5_context_contrast.csv, gate5_model_drivers.csv, gate5_context_examples.csv). */
+  context_why: {
+    state: ContextRates;
+    drivers: { term: "value_dev" | "income_dev" | "log_homes"; coefficient: number; se: number; ratio_10pct: number; meaning: string }[];
+    examples: { context: string; name: string; homes: number; median_home_value: number; median_income: number; additional_rate_central: number }[];
+    source: string;
+  };
   /** Chart-key and table labels shared by every screen and the brief. */
   labels: { baseline: string; band: string; reference: string; added: string };
   page_intro: { compare: string };

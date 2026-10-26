@@ -305,3 +305,21 @@ test("landing screen labels general production apart from ADU forecasts", async 
   await expect(page.getByTestId("bps-table")).toContainText("census_bps_state");
   expect(b.state.production_rate.numerator).toBe(25569);
 });
+
+test("statewide comparison explains why types of place differ, with the numbers one click away", async ({ page }) => {
+  const { run_id } = await (await page.request.get("runs/latest.json")).json();
+  const state = await (await page.request.get(`runs/${run_id}/state.json`)).json();
+  const c = Object.fromEntries(state.contexts.map((x: { id: string }) => [x.id, x]));
+  const d = Object.fromEntries(state.context_why.drivers.map((x: { term: string }) => [x.term, x]));
+  await page.goto("#/compare");
+  const box = page.getByTestId("why-differ");
+  await expect(box).toContainText("Why places differ.");
+  await expect(box).toContainText(`about a ${Math.round((d.value_dev.ratio_10pct - 1) * 100)}% higher`);
+  await expect(box).toContainText(`about a ${Math.round((1 - d.income_dev.ratio_10pct) * 100)}% lower`);
+  for (const g of ["urban", "suburban", "small_community", "rural"]) await expect(box).toContainText(c[g].additional_rate_central.toFixed(2));
+  await expect(box).toContainText("acreage");
+  const tbl = page.getByTestId("why-differ-table");
+  await expect(tbl).toBeHidden();
+  await page.getByText("Why places differ: the numbers").click();
+  await expect(tbl.locator("tbody tr")).toHaveCount(5);
+});

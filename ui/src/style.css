@@ -306,3 +306,17 @@ details.more[open] > summary { margin-bottom: 4px; }
 .small-h { font-size: 0.95rem; margin: 10px 0 4px; }
 .delta { font-size: 0.85rem; color: var(--muted, #5b625f); }
 .section-h { font-size: 1.1rem; margin: 18px 0 0; }
+
+/* Gate 5 fixes: "why places differ" and the brief's district page */
+.why-differ { margin-top: 10px; }
+.why-differ > p:first-child { max-width: 85ch; }
+.dist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0 14px; align-items: start; }
+.dist-table { width: 100%; }
+.dist-table caption { text-align: left; font-weight: 600; }
+@media print {
+  .brief-districts { break-before: page; }
+  .dist-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 10px; }
+  table.dist-table { font-size: 7.5pt; }
+  table.dist-table th, table.dist-table td { padding: 0 4px; line-height: 1.22; }
+  .brief-districts .small-h { font-size: 9.5pt; margin: 5px 0 2px; }
+}

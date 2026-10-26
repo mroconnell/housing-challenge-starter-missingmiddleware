@@ -1,7 +1,35 @@
-import { COLORS, DASH, LAW_TEXT, bindScenarioPicker, details, scenarioPicker, scenKey, scenPhrase, scenShort, type Ctx } from "../app";
+import { COLORS, DASH, LAW_TEXT, bindScenarioPicker, details, labelScrollers, scenarioPicker, scenKey, scenPhrase, scenShort, type Ctx } from "../app";
 import { legendHTML, xyChart } from "../charts";
 import { PATHS } from "../data";
 import { dec, esc, int, pct, pill, YEARS } from "../format";
+
+/** "Why places differ": one plain paragraph, the rural note, and the numbers one click away (docs/gate5/MODEL_CHECKS.md, 3b). */
+function whyDiffer(ctx: Ctx, totalCtx: number, homesCtx: number): string {
+  const s = ctx.b.state, W = s.context_why;
+  const c = Object.fromEntries(s.contexts.map((x) => [x.id, x]));
+  const d = Object.fromEntries(W.drivers.map((x) => [x.term, x]));
+  const up = (r: number) => `${Math.round((r - 1) * 100)}%`;
+  const down = (r: number) => `${Math.round((1 - r) * 100)}%`;
+  const money = (v: number) => `$${int(Math.round(v / 100) * 100)}`;
+  const ex = (g: string) => W.examples.filter((e) => e.context === g).map((e) => `${esc(e.name)} ${dec(e.additional_rate_central)} (median home value ${money(e.median_home_value)})`).join(", ");
+  const rows = [...s.contexts.map((x) => ({ label: x.label, r: x as typeof W.state })), { label: "Wisconsin", r: W.state }];
+  return `<div class="why-differ" data-testid="why-differ">
+    <p><strong>Why places differ.</strong> The law adds most where homes are expensive compared with local incomes: in the statewide-law states the model learns from, a place whose home values were 10% above its state's average had about a ${up(d.value_dev.ratio_10pct)} higher ADU permit rate, and one whose incomes were 10% higher about a ${down(d.income_dev.ratio_10pct)} lower rate, while its number of homes barely mattered. That is why, in the central scenario, the law adds ${dec(c.suburban.additional_rate_central)} permits per 1,000 single-family homes per year in suburban places and ${dec(c.rural.additional_rate_central)} in rural places, against ${dec(c.small_community.additional_rate_central)} in small communities and ${dec(c.urban.additional_rate_central)} in urban places (Wisconsin ${dec(W.state.additional_rate_central)}; 2027–2031 average).</p>
+    <p class="muted small">Rural areas get ${pct(c.rural.additional_central / totalCtx)} of the central scenario's added permits with ${pct(c.rural.homes / homesCtx)} of single-family homes, partly because a rural home's value includes its land (acreage), which raises value compared with income. Town figures are rough shares of the statewide result, not local forecasts.</p>
+    ${details("Why places differ: the numbers", `<div class="table-wrap"><table class="data" data-testid="why-differ-table"><caption>Home values, incomes and rates by type of place (rates: permits per 1,000 single-family homes per year; central scenario)</caption>
+      <thead><tr><th scope="col">Type of place</th><th scope="col" class="num">Median home value</th><th scope="col" class="num">Median household income</th><th scope="col" class="num">Current-law rate</th><th scope="col" class="num">Rate with the law, 2031</th><th scope="col" class="num">Added by the law, 2027–2031 average</th></tr></thead>
+      <tbody>${rows.map((x) => `<tr><th scope="row">${esc(x.label)}</th><td class="num">${money(x.r.median_home_value)}</td><td class="num">${money(x.r.median_income)}</td><td class="num">${dec(x.r.x_rate, 3)}</td><td class="num">${dec(x.r.y_rate_2031_central)}</td><td class="num">${dec(x.r.additional_rate_central)}</td></tr>`).join("")}</tbody></table></div>
+      <ul class="plain small">
+        <li><strong>Home value.</strong> 10% above the state's average: a ${up(d.value_dev.ratio_10pct)} higher rate with the law (coefficient ${dec(d.value_dev.coefficient)} on the log scale, standard error ${dec(d.value_dev.se)}).</li>
+        <li><strong>Income.</strong> At the same home value, 10% higher income: a ${down(d.income_dev.ratio_10pct)} lower rate (${dec(d.income_dev.coefficient)}, standard error ${dec(d.income_dev.se)}).</li>
+        <li><strong>Size.</strong> 10% more single-family homes: a ${dec((d.log_homes.ratio_10pct - 1) * 100, 1)}% higher rate (${dec(d.log_homes.coefficient)}, standard error ${dec(d.log_homes.se)}).</li>
+        <li><strong>Current law.</strong> Urban places already permit the most (${dec(c.urban.x_rate, 3)} per 1,000 homes per year, from Milwaukee's and Madison's own records), which leaves less for the law to add.</li>
+        <li><strong>Largest places in each group</strong> (added by the law, permits per 1,000 single-family homes per year). Urban: ${ex("urban")}. Suburban: ${ex("suburban")}. Small communities: ${ex("small_community")}. Rural: ${ex("rural")}.</li>
+        <li><strong>The type of place is only a label.</strong> The model never uses it: it uses each place's home value, income and size, so the groups differ because their places do.</li>
+      </ul>
+      <p class="muted small">Home values and incomes: homes-weighted geometric means of ACS 2020–2024 medians for each city, village and town. Rate effects: the adopted model's fit to places in the statewide-law states, within each state. Sources: ${esc(W.source)}.</p>`)}
+  </div>`;
+}
 
 export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "rate" = "permits"): void {
   const s = ctx.b.state;
@@ -44,7 +72,7 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
 
   ${scenarioPicker(ctx, "scen-compare")}
 
-  <div class="tiles tiles-3" aria-live="polite">
+  <div class="tiles tiles-3">
     <section class="tile">
       <h2 class="tile-label">${esc(L.baseline)}</h2>
       <p class="tile-num" data-testid="baseline-total">${int(base.total)}</p>
@@ -93,12 +121,17 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
       <tbody>${s.contexts.map((c) => { const v = (c as unknown as Record<string, number>)[`additional_${ctx.ui.scenario}`]; const tot = s.contexts.reduce((a, x) => a + (x as unknown as Record<string, number>)[`additional_${ctx.ui.scenario}`], 0); return `<tr><th scope="row">${esc(c.label)}</th><td class="num">${int(c.homes)}</td><td class="num">${pct(c.homes / homesCtx)}</td><td class="num">${int(c.baseline)}</td><td class="num">${int(v)} <span class="muted">(${int(c.additional_lower)} to ${int(c.additional_upper)})</span></td><td class="num">${pct(v / tot)}</td></tr>`; }).join("")}</tbody>
       <tfoot><tr><th scope="row">Wisconsin</th><td class="num">${int(homesCtx)}</td><td class="num">100%</td><td class="num">${int(base.total)}</td><td class="num">${int(sel.additional_total)}</td><td class="num">100%</td></tr></tfoot>
     </table></div>
-    <p class="muted small">Rural areas get ${pct(s.contexts.find((c) => c.id === "rural")!.additional_central / totalCtx)} of the central scenario's added permits with ${pct(s.contexts.find((c) => c.id === "rural")!.homes / homesCtx)} of single-family homes, partly because rural home values include acreage. Town figures are rough shares of the statewide result, not local forecasts.</p>
+    ${whyDiffer(ctx, totalCtx, homesCtx)}
   </section>`;
 
   bindScenarioPicker(ctx, main, "scen-compare");
   main.querySelectorAll<HTMLInputElement>('input[name="units"]').forEach((i) =>
-    i.addEventListener("change", () => { renderCompare(ctx, main, i.value as "permits" | "rate"); (main.querySelector(`input[name="units"][value="${i.value}"]`) as HTMLInputElement)?.focus(); }));
+    i.addEventListener("change", () => {
+      renderCompare(ctx, main, i.value as "permits" | "rate");
+      labelScrollers(main);
+      (main.querySelector(`input[name="units"][value="${i.value}"]`) as HTMLInputElement)?.focus();
+      ctx.announce(i.value === "rate" ? "Chart shows permits per 1,000 single-family homes per year." : "Chart shows permits per year.");
+    }));
 
   const f = units === "rate" ? (v: number) => v / homesK : (v: number) => v;
   const pts = (arr: number[]) => YEARS.map((y, i) => ({ x: y, y: f(arr[i]) }));

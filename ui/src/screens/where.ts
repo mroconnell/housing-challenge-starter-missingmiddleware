@@ -1,4 +1,4 @@
-import { bindScenarioPicker, bindUnknownPicker, details, noteBox, scenarioPicker, scenPhrase, scenShort, unknownPicker, unknownVariant, type Ctx } from "../app";
+import { bindScenarioPicker, bindUnknownPicker, details, labelScrollers, noteBox, scenarioPicker, scenPhrase, scenShort, unknownPicker, unknownVariant, type Ctx } from "../app";
 import type { Area, County, District, PathId } from "../data";
 import { dec, esc, int, missing, permitsText, pill, small, withRange, YEARS } from "../format";
 import { createMap, RAMP, WATER, type GeoKind, type MapHandle } from "../map";
@@ -9,6 +9,8 @@ const SMALL_AREA = 1000;
 type Geo = GeoKind;
 const isDistrict = (g: Geo) => g === "assembly" || g === "senate";
 const GEO_PLURAL: Record<Geo, string> = { counties: "counties", munis: "areas", assembly: "Assembly districts", senate: "Senate districts" };
+/** Spoken names (map label and announcements). */
+const GEO_SPOKEN: Record<Geo, string> = { counties: "counties", munis: "cities, villages and towns", assembly: "Assembly districts", senate: "Senate districts" };
 type Layer = "homes" | "baseline" | "additional";
 type Measure = "rate" | "count";
 interface WhereState { geo: Geo; layer: Layer; measure: Measure; year: number; selected: string | null; sort: string; dir: 1 | -1; q: string; county: string; showAll: boolean; labels: boolean }
@@ -150,9 +152,11 @@ export function renderWhere(ctx: Ctx, main: HTMLElement): void {
   </section>`;
 
   const rerender = () => renderWhere(ctx, main);
-  main.querySelectorAll<HTMLInputElement>('input[name="geo"]').forEach((i) => i.addEventListener("change", () => { ws.geo = i.value as Geo; ws.selected = null; ws.sort = "value"; ws.dir = -1; ws.showAll = false; rerender(); focusName(main, "geo", i.value); }));
-  main.querySelectorAll<HTMLInputElement>('input[name="layer"]').forEach((i) => i.addEventListener("change", () => { ws.layer = i.value as Layer; update(ctx, main); focusName(main, "layer", i.value); }));
-  main.querySelectorAll<HTMLInputElement>('input[name="measure"]').forEach((i) => i.addEventListener("change", () => { ws.measure = i.value as Measure; update(ctx, main); }));
+  // each switch says what the map and table now show (polite live region; see docs/gate5/ACCESSIBILITY.md)
+  const say = () => ctx.announce(`Map and table: ${GEO_SPOKEN[ws.geo]}. ${layerTitle(ctx)}. Wisconsin: ${stateValue(ctx)}.`);
+  main.querySelectorAll<HTMLInputElement>('input[name="geo"]').forEach((i) => i.addEventListener("change", () => { ws.geo = i.value as Geo; ws.selected = null; ws.sort = "value"; ws.dir = -1; ws.showAll = false; rerender(); focusName(main, "geo", i.value); say(); }));
+  main.querySelectorAll<HTMLInputElement>('input[name="layer"]').forEach((i) => i.addEventListener("change", () => { ws.layer = i.value as Layer; update(ctx, main); focusName(main, "layer", i.value); say(); }));
+  main.querySelectorAll<HTMLInputElement>('input[name="measure"]').forEach((i) => i.addEventListener("change", () => { ws.measure = i.value as Measure; update(ctx, main); say(); }));
   const yr = main.querySelector<HTMLInputElement>("#year")!;
   yr.addEventListener("input", () => { ws.year = Number(yr.value); yr.setAttribute("aria-valuetext", `through ${ws.year}`); main.querySelector("#year-out")!.textContent = String(ws.year); update(ctx, main); });
   bindScenarioPicker(ctx, main, "scen-where");
@@ -175,6 +179,8 @@ export function renderWhere(ctx: Ctx, main: HTMLElement): void {
       tip.textContent = `${r.name}: ${fmtVal(value(ctx, r))}`;
     });
     mapH.setGeography(ws.geo);
+    // MapLibre names its canvas just "Map": say what it shows and where the same values are for screen-reader users
+    mapEl.querySelector("canvas")?.setAttribute("aria-label", `Map of ${GEO_SPOKEN[ws.geo]}, coloured by the values in the table below. Click an area for its details, or use the table's Details buttons.`);
     mapH.addOverlay({ id: "county-labels", kind: "labels", data: g.labels as GeoJSON.FeatureCollection, visible: false });
     // district numbers: the same text-label overlay as the county names, one set per chamber
     for (const lv of ["assembly", "senate"] as const)
@@ -347,6 +353,7 @@ function table(ctx: Ctx, main: HTMLElement): void {
     main.querySelector<HTMLElement>("#detail")?.focus();
   }));
   main.querySelector<HTMLButtonElement>("#show-all")?.addEventListener("click", () => { ws.showAll = true; table(ctx, main); });
+  labelScrollers(main);
 }
 
 function noHomes(r: Row): string {

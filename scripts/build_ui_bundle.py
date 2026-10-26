@@ -71,6 +71,8 @@ INPUTS = [
     "reference/adu_model_by_assembly_district.csv", "reference/adu_model_by_senate_district.csv",
     "reference/adu_model_district_crosswalk.csv", "reference/gate5_trace.csv",
     "data/processed/districts/geo_assembly.geojson", "data/processed/districts/geo_senate.geojson",
+    # Gate 5 owner decision: "why areas differ" on the comparison screen (docs/gate5/MODEL_CHECKS.md, section 3b)
+    "reference/gate5_context_contrast.csv", "reference/gate5_model_drivers.csv", "reference/gate5_context_examples.csv",
 ]
 # Unknown-rules switch (docs/gate5/UI_CONTRACT.md section 1): screen labels, in switch order.
 UNKNOWN = [("like_restricted", "Like places that restrict ADUs (adopted)"),
@@ -429,17 +431,45 @@ def build_state(p: dict) -> dict:
                 "with_law_by_year": [r(v, 2) for v in al.with_law_total],
                 "source": f"{REFERENCE_FILE} ({REFERENCE_LINE}), reference/adu_model_reference_lines.csv"}
     ctx = pd.read_csv(REF / "adu_model_by_context.csv")
+    contrast = pd.read_csv(REF / "gate5_context_contrast.csv").set_index("context")
     homes_ctx = pd.read_csv(REF / "wi_baseline_by_municipality.csv").groupby("context_group").homes.sum()
     contexts = []
     for g, lab in (("urban", "Urban"), ("suburban", "Suburban"), ("small_community", "Small communities"), ("rural", "Rural")):
         d = ctx[ctx.context_group.eq(g)].set_index("path")
+        cc = contrast.loc[g]
         contexts.append({"id": g, "label": lab, "homes": int(homes_ctx.get(g, 0)), "baseline": r(d.loc["central", "baseline_units"], 2),
-                         **{f"additional_{k}": r(d.loc[k, "additional_units"], 2) for k in PATHS}})
+                         **{f"additional_{k}": r(d.loc[k, "additional_units"], 2) for k in PATHS},
+                         # reference/gate5_context_contrast.csv: homes-weighted geometric means of ACS 2020-2024 medians;
+                         # rates in permits per 1,000 single-family homes per year
+                         "median_home_value": r(cc.median_home_value_homes_weighted_geomean, 0),
+                         "median_income": r(cc.median_income_homes_weighted_geomean, 0),
+                         "x_rate": r(cc.x_current_law_rate, 4), "y_rate_2031_central": r(cc.y_with_law_rate_2031_central, 4),
+                         "additional_rate_central": r(cc.additional_rate_central_per_1000_per_year, 4)})
+    cs = contrast.loc["state"]
+    drv = pd.read_csv(REF / "gate5_model_drivers.csv").set_index("term")
+    context_why = {
+        "state": {"median_home_value": r(cs.median_home_value_homes_weighted_geomean, 0),
+                  "median_income": r(cs.median_income_homes_weighted_geomean, 0), "x_rate": r(cs.x_current_law_rate, 4),
+                  "y_rate_2031_central": r(cs.y_with_law_rate_2031_central, 4),
+                  "additional_rate_central": r(cs.additional_rate_central_per_1000_per_year, 4)},
+        # the adopted pooled model refitted, within-state terms: rate ratio for a place 10% above its state's average
+        "drivers": [{"term": t, "coefficient": r(drv.loc[t, "coefficient_log_scale"], 4), "se": r(drv.loc[t, "se_cluster"], 4),
+                     "ratio_10pct": r(drv.loc[t, "rate_ratio_for_10pct_higher"], 4), "meaning": drv.loc[t, "meaning"]}
+                    for t in ("value_dev", "income_dev", "log_homes")],
+        # the three largest places in each group (reference/gate5_context_examples.csv)
+        "examples": [{"context": x.context_group, "name": x.name, "homes": int(x.homes),
+                      "median_home_value": r(x.median_home_value, 0), "median_income": r(x.median_income, 0),
+                      "additional_rate_central": r(x.additional_rate_central_per_1000_per_year, 4)}
+                     for x in pd.read_csv(REF / "gate5_context_examples.csv").itertuples()],
+        "source": ("reference/gate5_context_contrast.csv and reference/gate5_model_drivers.csv "
+                   "(docs/gate5/MODEL_CHECKS.md, section 3b); examples from reference/gate5_context_examples.csv"),
+    }
     return {"homes": homes, "housing_units_pep": pep, "production_rate": production_rate,
             "acs_period": "ACS 2020–2024 5-year estimates: an average over the five years 2020–2024, not a 2024 count",
             "pep_note": "Census Population Estimates for 1 July each year; no published margin of error", "acs_total_units": one("total_housing_units_acs"),
             "occupied": one("occupied_units"), "vacant": one("vacant_units"), "vacancy_rate": one("vacancy_rate"),
             "mix": mix, "bps": bps, "baseline": baseline, "scenarios": scen, "reference_line": ref_line, "contexts": contexts,
+            "context_why": context_why,
             "labels": {"baseline": LABELS["baseline"], "band": LABELS["band"], "reference": ref_line["label"],
                        "added": LABELS["added"]},
             "page_intro": {

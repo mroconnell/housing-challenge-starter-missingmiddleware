@@ -1,5 +1,5 @@
 import { LAW_TEXT, type Ctx } from "../app";
-import { PATHS, sum } from "../data";
+import { PATHS, sum, type District } from "../data";
 import { dec, esc, int, pct } from "../format";
 
 export function renderBrief(ctx: Ctx, main: HTMLElement): void {
@@ -13,7 +13,7 @@ export function renderBrief(ctx: Ctx, main: HTMLElement): void {
 
   main.innerHTML = `
   <div class="brief-tools no-print">
-    <p>A two-page summary for a hearing or a colleague. It carries the same numbers, ranges and run id as the tool.</p>
+    <p>A three-page summary for a hearing or a colleague: two pages of findings and sources, then one page with every legislative district. It carries the same numbers, ranges and run id as the tool.</p>
     <button type="button" class="button" id="print">Print or save as PDF</button>
   </div>
   <article class="brief" aria-labelledby="brief-h">
@@ -55,7 +55,42 @@ export function renderBrief(ctx: Ctx, main: HTMLElement): void {
 
     <h2>Sources</h2>
     <p class="small">${m.vintages.map((v) => `${esc(v.what)}: ${esc(v.vintage)}.`).join(" ")}</p>
+    ${districtPage(ctx)}
     <p class="small brief-foot">Run <code>${esc(m.run_id)}</code> · ${esc(m.model_status)} · Outcome: ${esc(m.outcome.short)} · Missing Middleware, ${esc(m.repo_url)}</p>
   </article>`;
   main.querySelector("#print")!.addEventListener("click", () => window.print());
+}
+
+/** Brief page 3: every Assembly and Senate district (central scenario), compact, with the reconciliation line and caveats. */
+function districtPage(ctx: Ctx): string {
+  const D = ctx.b.districts, cen = ctx.scen("central"), base = ctx.b.state.baseline.total;
+  const add = (d: District) => sum(d.add.central);
+  const rate = (d: District) => (add(d) / d.homes / 5) * 1000;
+  // narrow columns: a short visible heading, the full heading for screen readers (the key above the tables spells it out)
+  const short = (vis: string, full: string) => `<th scope="col" class="num"><span aria-hidden="true">${esc(vis)}</span><span class="sr-only">${esc(full)}</span></th>`;
+  const block = (rows: District[], level: "Assembly" | "Senate", per: number) => {
+    const chunks = [0, 1, 2].map((i) => rows.slice(i * per, (i + 1) * per)).filter((c) => c.length);
+    return `<div class="dist-grid">${chunks.map((c) => `<table class="data dist-table" data-testid="brief-${level.toLowerCase()}-table"><caption>${level} districts ${c[0].district}–${c[c.length - 1].district}</caption>
+      <thead><tr><th scope="col">District</th>${short("Homes", "Single-family homes")}${short("Added", "Added permits, 2027–2031")}${short("Per 1,000/yr", "Added permits per 1,000 single-family homes per year")}</tr></thead>
+      <tbody>${c.map((d) => `<tr><th scope="row">${esc(d.district)}</th><td class="num">${int(d.homes)}</td><td class="num">${int(add(d))}</td><td class="num">${dec(rate(d))}</td></tr>`).join("")}</tbody></table>`).join("")}</div>`;
+  };
+  const asm = D.levels.assembly, sen = D.levels.senate;
+  const recon = (lv: typeof asm) => ({ add: lv.rows.reduce((a, d) => a + add(d), 0) + add(lv.unallocated), base: lv.rows.reduce((a, d) => a + sum(d.base), 0) + sum(lv.unallocated.base) });
+  const ra = recon(asm), rs = recon(sen);
+  const ok = [ra, rs].every((r) => Math.abs(r.add - cen.additional_total) < 1 && Math.abs(r.base - base) < 1);
+  const sorted = [...asm.rows].sort((a, b) => add(b) - add(a));
+  const med = (xs: number[]) => { const v = [...xs].sort((a, b) => a - b); const m = Math.floor(v.length / 2); return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
+  const byRate = [...asm.rows].sort((a, b) => rate(b) - rate(a));
+  return `<section class="brief-districts" aria-labelledby="brief-dist-h" data-testid="brief-districts">
+    <h2 id="brief-dist-h">By legislative district</h2>
+    <p>Permits added by the law over 2027–2031 in the central scenario, and the same as a yearly rate per 1,000 single-family homes. Assembly districts range from ${int(add(sorted[sorted.length - 1]))} added permits (District ${esc(sorted[sorted.length - 1].district)}) to ${int(add(sorted[0]))} (District ${esc(sorted[0].district)}); the median district gets ${int(med(asm.rows.map(add)))}. By rate, District ${esc(byRate[0].district)} is highest (${dec(rate(byRate[0]))} per 1,000 homes per year) and District ${esc(byRate[byRate.length - 1].district)} lowest (${dec(rate(byRate[byRate.length - 1]))}).</p>
+    <p class="small"><strong>Read with care.</strong> ${esc(D.caveat)} Districts have about equal populations but very different numbers of single-family homes (${int(D.homes_range[0])} to ${int(D.homes_range[1])}), so compare the rate as well as the count. Shown for the adopted assumption about places with uncoded local rules (like places that restrict ADUs). Each district's lower and strong adoption figures are on the tool's Where screen.</p>
+    <p class="small"><strong>Key.</strong> Homes: single-family homes in the district. Added: permits added by the law, 2027–2031, central scenario. Per 1,000/yr: added permits per 1,000 single-family homes per year.</p>
+    <h3 class="small-h">Assembly districts (99)</h3>
+    ${block(asm.rows, "Assembly", 33)}
+    <h3 class="small-h">Senate districts (33)</h3>
+    ${block(sen.rows, "Senate", 11)}
+    <p class="small" data-testid="brief-district-reconcile">${ok ? "✓" : "✗"} The 99 Assembly districts add up to ${int(ra.add)} added and ${int(ra.base)} baseline permits, and the 33 Senate districts to ${int(rs.add)} and ${int(rs.base)}, including a "not allocated to a district" row of ${dec(add(asm.unallocated), 1)} permits; the statewide figures are ${int(cen.additional_total)} and ${int(base)}. Each Senate district is the sum of its three Assembly districts. Rows are rounded; totals add the unrounded values.</p>
+    <p class="small muted">Boundaries: ${esc(D.boundaries)}. The full method is under "How district figures are made" on the tool's Where screen.</p>
+  </section>`;
 }

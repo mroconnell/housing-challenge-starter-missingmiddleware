@@ -26,13 +26,14 @@ function niceMax(v: number): number {
 }
 
 export function legendHTML(items: { name: string; color: string; dash?: string; kind?: "line" | "band" | "bar" | "hatch"; width?: number }[]): string {
-  return `<ul class="legend">${items.map((it) => {
+  return `<ul class="legend" aria-label="Chart key">${items.map((it) => {
+    const pid = `hatch-legend-${++uid}`; // unique per swatch: ids must not repeat on a page
     let sw = "";
     if (it.kind === "band") sw = `<rect x="0" y="2" width="28" height="10" fill="${it.color}" opacity="0.25"/>`;
     else if (it.kind === "bar") sw = `<rect x="6" y="1" width="14" height="12" fill="${it.color}"/>`;
-    else if (it.kind === "hatch") sw = `<rect x="6" y="1" width="14" height="12" fill="url(#hatch-legend)" stroke="${it.color}"/>`;
+    else if (it.kind === "hatch") sw = `<rect x="6" y="1" width="14" height="12" fill="url(#${pid})" stroke="${it.color}"/>`;
     else sw = `<line x1="0" x2="28" y1="7" y2="7" stroke="${it.color}" stroke-width="${it.width ?? 2.5}" ${it.dash ? `stroke-dasharray="${it.dash}"` : ""}/>`;
-    return `<li><svg width="28" height="14" aria-hidden="true" focusable="false"><defs><pattern id="hatch-legend" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="4" stroke="${it.color}" stroke-width="1.5"/></pattern></defs>${sw}</svg>${esc(it.name)}</li>`;
+    return `<li><svg width="28" height="14" aria-hidden="true" focusable="false"><defs><pattern id="${pid}" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="4" stroke="${it.color}" stroke-width="1.5"/></pattern></defs>${sw}</svg>${esc(it.name)}</li>`;
   }).join("")}</ul>`;
 }
 

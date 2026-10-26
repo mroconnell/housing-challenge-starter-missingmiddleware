@@ -340,5 +340,29 @@ class TestUIBundle(unittest.TestCase):
         self.assertEqual([round(tr[k]["additional_central"] / tot * 100, 1) for k in ("observed", "estimated", "assumed")], [5.5, 21.1, 73.4])
 
 
+    def test_context_why_equals_csv(self):
+        """'Why places differ' (comparison screen): context rates, values and incomes, and the driver terms equal the CSVs."""
+        con = {r["context"]: r for r in rows("gate5_context_contrast.csv")}
+        for c in self.state["contexts"]:
+            r = con[c["id"]]
+            self.assertAlmostEqual(c["additional_rate_central"], float(r["additional_rate_central_per_1000_per_year"]), places=4)
+            self.assertAlmostEqual(c["x_rate"], float(r["x_current_law_rate"]), places=4)
+            self.assertAlmostEqual(c["y_rate_2031_central"], float(r["y_with_law_rate_2031_central"]), places=4)
+            self.assertAlmostEqual(c["median_home_value"], float(r["median_home_value_homes_weighted_geomean"]), delta=0.5)
+            self.assertEqual(c["homes"], int(r["homes"]))
+            # the rate is the addition over five years per 1,000 homes
+            self.assertAlmostEqual(c["additional_rate_central"], c["additional_central"] / c["homes"] / 5 * 1000, places=3)
+        why = self.state["context_why"]
+        self.assertAlmostEqual(why["state"]["additional_rate_central"], float(con["state"]["additional_rate_central_per_1000_per_year"]), places=4)
+        drv = {r["term"]: r for r in rows("gate5_model_drivers.csv")}
+        for d in why["drivers"]:
+            self.assertAlmostEqual(d["ratio_10pct"], float(drv[d["term"]]["rate_ratio_for_10pct_higher"]), places=4)
+            self.assertAlmostEqual(d["coefficient"], float(drv[d["term"]]["coefficient_log_scale"]), places=4)
+        ratios = {d["term"]: d["ratio_10pct"] for d in why["drivers"]}
+        self.assertEqual(round((ratios["value_dev"] - 1) * 100), 29)
+        self.assertEqual(round((1 - ratios["income_dev"]) * 100), 25)
+        self.assertEqual(len(why["examples"]), len(rows("gate5_context_examples.csv")))
+
+
 if __name__ == "__main__":
     unittest.main()

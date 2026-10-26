@@ -22,6 +22,8 @@ export interface Ctx {
   setUnknown(u: UnknownId): void;
   scen(p?: PathId): Scenario;
   link(path: string): string;
+  /** Say a short message through the page's polite live region (screen readers), e.g. after a switch changes the numbers. */
+  announce(msg: string): void;
 }
 
 export function scenarioLabel(ctx: Ctx, p: PathId): string {
@@ -62,9 +64,9 @@ export function details(summary: string, html: string, cls = ""): string {
 export function scenarioPicker(ctx: Ctx, name: string, compact = false): string {
   return `<fieldset class="scen-picker ${compact ? "compact" : ""}"><legend>Scenario</legend>${ctx.b.state.scenarios.map((s) => `
     <label class="scen-opt scen-${s.id}">
-      <input type="radio" name="${esc(name)}" value="${s.id}" ${ctx.ui.scenario === s.id ? "checked" : ""}>
-      <span class="scen-body"><span class="scen-name"><span class="swatch sw-${s.id}" aria-hidden="true"></span>${esc(s.label)}</span>
-      ${compact ? "" : `<span class="scen-desc">${esc(s.title)}</span><span class="scen-info">${esc(s.text)}</span><span class="scen-num"><strong>${int(s.additional_total)}</strong> additional permits over 2027–2031</span>`}</span>
+      <input type="radio" name="${esc(name)}" value="${s.id}" ${ctx.ui.scenario === s.id ? "checked" : ""} aria-labelledby="${esc(name)}-${s.id}-n"${compact ? "" : ` aria-describedby="${esc(name)}-${s.id}-num ${esc(name)}-${s.id}-t ${esc(name)}-${s.id}-i"`}>
+      <span class="scen-body"><span class="scen-name" id="${esc(name)}-${s.id}-n"><span class="swatch sw-${s.id}" aria-hidden="true"></span>${esc(s.label)}</span>
+      ${compact ? "" : `<span class="scen-desc" id="${esc(name)}-${s.id}-t">${esc(s.title)}</span><span class="scen-info" id="${esc(name)}-${s.id}-i">${esc(s.text)}</span><span class="scen-num" id="${esc(name)}-${s.id}-num"><strong>${int(s.additional_total)}</strong> additional permits over 2027–2031</span>`}</span>
     </label>`).join("")}</fieldset>`;
 }
 
@@ -101,4 +103,21 @@ export function unknownPicker(ctx: Ctx, name: string, disabled = false, note = "
 export function bindUnknownPicker(ctx: Ctx, root: HTMLElement, name: string): void {
   root.querySelectorAll<HTMLInputElement>(`input[name="${name}"]`).forEach((inp) =>
     inp.addEventListener("change", () => { if (inp.checked) ctx.setUnknown(inp.value as UnknownId); }));
+}
+
+/** Wide tables scroll sideways inside .table-wrap. Make a scrolling wrapper a named, focusable region (so keyboard users
+ *  can scroll it and screen readers hear what it holds); leave non-scrolling wrappers alone. Call after each render. */
+export function labelScrollers(root: ParentNode): void {
+  root.querySelectorAll<HTMLElement>(".table-wrap").forEach((w) => {
+    const cap = w.querySelector("caption")?.textContent?.trim() ?? "Table";
+    if (w.scrollWidth > w.clientWidth + 1) {
+      w.tabIndex = 0;
+      w.setAttribute("role", "region");
+      w.setAttribute("aria-label", `${cap} (scrolls sideways)`);
+    } else if (w.getAttribute("role") === "region") {
+      w.removeAttribute("tabindex");
+      w.removeAttribute("role");
+      w.removeAttribute("aria-label");
+    }
+  });
 }

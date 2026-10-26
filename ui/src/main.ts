@@ -1,8 +1,8 @@
 // App shell: header, status strip, tab navigation, footer and a hash router over the seven screens.
 import "./style.css";
-import type { Ctx, UIState } from "./app";
+import { labelScrollers, type Ctx, type UIState } from "./app";
 import { loadBundle, type Bundle, type PathId, type UnknownId } from "./data";
-import { esc } from "./format";
+import { esc, int } from "./format";
 import { renderBrief } from "./screens/brief";
 import { renderCompare } from "./screens/compare";
 import { renderHowSure } from "./screens/howsure";
@@ -53,6 +53,7 @@ function shell(b: Bundle): void {
     <nav class="tabs" aria-label="Screens"><div class="wrap"><ol>${ROUTES.map((r) => `<li><a href="#${r.path}" data-route="${r.match ?? r.path}"><span class="tab-n" aria-hidden="true">${r.n}</span> ${esc(r.label)}</a></li>`).join("")}</ol></div></nav>
   </header>
   <main id="main" class="wrap" tabindex="-1"></main>
+  <div id="announce" class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-testid="announce"></div>
   <footer class="site-foot">
     <div class="wrap">
       <p><strong>Outcome:</strong> ${esc(m.outcome.short)}</p>
@@ -86,14 +87,25 @@ function start(b: Bundle): void {
       ui.scenario = p;
       writeUrl();
       route(true);
+      const sc = ctx.scen(p);
+      ctx.announce(`${sc.label} scenario: ${int(sc.additional_total)} permits added by the law over 2027 to 2031, ${int(sc.with_law_total)} in total with the law.`);
     },
     setUnknown(u: UnknownId) {
       ui.unknown = u;
       writeUrl();
       route(true);
+      const v = b.unknown.variants.find((x) => x.id === u)!;
+      ctx.announce(`Places with uncoded rules treated ${v.label.toLowerCase()}. Over 2027 to 2031, central scenario: baseline ${int(v.baseline_total)}, added by the law ${int(v.additional_total.central)}, total with the law ${int(v.with_law_total.central)} permits.`);
     },
     scen(p?: PathId) { return b.state.scenarios.find((s) => s.id === (p ?? ui.scenario))!; },
     link(path: string) { return `#${path}`; },
+    announce(msg: string) {
+      // clear first so the same message is announced again if repeated
+      const el = document.getElementById("announce");
+      if (!el) return;
+      el.textContent = "";
+      window.setTimeout(() => { el.textContent = msg; }, 60);
+    },
   };
   // keep the scenario and the unknown-rules choice in the URL so a copied link opens the same view
   function writeUrl(): void {
@@ -121,6 +133,7 @@ function start(b: Bundle): void {
     else if (path.startsWith("/pilot")) renderPilot(ctx, main, path.split("/")[2] ?? "madison");
     else if (path.startsWith("/brief")) renderBrief(ctx, main);
     else renderToday(ctx, main);
+    labelScrollers(main);
     document.querySelectorAll<HTMLAnchorElement>("nav.tabs a").forEach((a) => {
       if (path.startsWith(a.dataset.route!)) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });

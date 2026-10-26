@@ -19,7 +19,7 @@ The tool runs locally in a web browser and shows the adopted Gate 3 model ([Gate
 4. **How sure:** how much of the addition rests on observed, calculated and assumed current-law rates, a switch for how places with uncoded local rules behave (three precomputed runs), the sensitivity analysis, robustness checks, and the strongest challenges.
 5. **Why:** evidence and assumption cards with links to the write-ups, and the comparison-state charts.
 6. **Pilot examples:** Madison, Pleasant Prairie and Sun Prairie: current rules with ordinance sections, observed permits, and the forecast.
-7. **Brief:** a printable two-page summary.
+7. **Brief:** a printable three-page summary.
 
 Owner decisions carried into Gate 5: Madison alone keeps the observed path of Madison-like cities (so its rate with the law is below its suburbs') and is re-examined in December 2026, when its 2026 count is final; small, high-value villages keep their high rates (no cap). The Gate 5 decision packet is [docs/gate5/README.md](docs/gate5/README.md).
 
