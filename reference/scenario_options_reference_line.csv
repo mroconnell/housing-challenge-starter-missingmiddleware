@@ -1,0 +1,6 @@
+year_since_law,forecast_year,n_states_8,states_8,median_8_states,basis_8,n_states_7,median_7_states_adopted,wi_additional_8_states,wi_additional_7_states_adopted,wi_central_additional,wi_central_statewide_rate
+1,2027,7,"VT 0.64,WA 0.64,MA 0.75,OR 0.75,RI 0.92,ME 0.93,CA 1.52",0.754,observed median,6,0.7526,1263.5587,1260.976,1297.1931,0.7723
+2,2028,5,"WA 0.77,VT 0.79,OR 0.93,UT 1.06,CA 2.39",0.9314,observed median,4,0.8594,1586.0907,1453.5484,1626.5754,0.9534
+3,2029,5,"VT 0.76,WA 0.80,OR 0.87,UT 0.98,CA 2.97",0.8688,observed median,4,0.8331,1467.1841,1401.59,1685.0394,0.9872
+4,2030,4,"OR 0.87,UT 1.18,VT 1.40,CA 3.25",1.293,observed median,3,1.1836,2247.035,2045.7668,2048.5886,1.1851
+5,2031,1,CA 3.42,1.293,only 1 state (CA) has data; year 4 median carried forward,0,1.1836,2247.015,2045.7468,2063.3306,1.1931

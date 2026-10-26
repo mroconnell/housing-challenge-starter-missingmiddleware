@@ -1,0 +1,6 @@
+multiplier,value,numerator,denominator
+c1_madison_vs_7_madison_like_peers_pre_law,0.9981,Madison 2022-2025 rate 0.1876 (40 units / 213.168 thousand home-years),"median pre-law rate of 7 Madison-like cities with a before period (5 WA EY2019-2023, 2 RI 2023) = 0.1880"
+c2_madison_vs_already_permissive_peers_pre_law,0.3571,Madison 0.1876,median pre-law rate of Vancouver (liberal rules from 2017) and Tacoma (2019 reform) = 0.5255
+c3_madison_vs_model_local_rules_no_state_law,0.0573,Madison 0.1876,pooled model rate for Madison's market with its own ADU rules and no statewide law = 3.2725 (no own rules: 1.4602)
+c4_wisconsin_vs_statewide_law_states_pre_law,0.2295,Wisconsin current-law rate 0.0715 (homes-weighted engine x),"median pre-law rate of the 2 states with a before period: WA excl. Seattle 0.3940, RI 0.2290"
+elasticity_post_on_pre_7_cities,0.4677,"slope of log(mean rate, years 1-3 after the state law) on log(pre-law rate)","7 Madison-like cities with a before period (Cranston, Warwick: year 1 only)"
