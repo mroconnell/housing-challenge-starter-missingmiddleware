@@ -617,6 +617,16 @@ Stops count as qualifying when they lie on a qualifying route shape. Rail and ra
 
 The figures published on 2026-10-26 in [docs/tod/MAJOR_TRANSIT_STOP.md](tod/MAJOR_TRANSIT_STOP.md) used Madison's file. They will be replaced by a rerun on the National Transit Map.
 
+## AQ-046 Parking: evidence by city size; one model with size and market variables
+
+**Status:** Adopted (owner, 2026-10-26). **Added:** 2026-10-26. **Related:** [docs/parking/GATE1_PACKET.md](parking/GATE1_PACKET.md), [docs/parking/POLICY_TAXONOMY.md](parking/POLICY_TAXONOMY.md) section 6.
+
+**Finding:** no published study measures housing after a parking-minimum repeal in a place under 50,000 people. A quick look (not pre-registered) at 16 US repeal places of 5,000–50,000 people found 7 rising faster than same-state comparison places, 8 slower and 1 with no permits. The median after/before ratio was 0.84 times the comparison places' ratio.
+
+**Owner decision (2026-10-26):** the mixed small-place result is evidence in its own right, and fits expectations. Where low-parking development is still seen as risky, developers do not use the freedom as often. Proceed with the before/after method on repeal cities, and model places of different sizes differently. Use a regression across many variables to find where the cut-offs between city types lie and how effective repeal is in each. Held-out cities decide the variables and cut-offs, following the project rule.
+
+**Conductor notes:** with about 50 repeal cities the regression can support only a few variables. Candidates (population, density, metro status, market strength, pre-repeal permit trend, region) will be compared by leave-one-city-out prediction, not by fit. The small-place quick look was seen before the comparison plan was written. The plan records it as a deviation, and the formal test reruns it under the registered rules. Gate 1 decisions P1–P4 and P7–P9 are still open.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -723,3 +733,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-26 | Accessibility | Manual VoiceOver/NVDA pass deferred by the owner; must be done before submission (checklist in docs/gate5/ACCESSIBILITY.md). |
 | 2026-10-26 | AQ-044 | TOD: owner confirmed the ladder of stop definitions, narrowest to widest, with 15-minute service as the main case, and a focus on city-specific studies (Milwaukee and Madison areas) plus a statewide rule for the rest. Madison data licence route open. |
 | 2026-10-26 | AQ-045 | TOD: owner chose the federal National Transit Map as the common stop source for every city, and set Madison Metro's schedule file aside pending office hours (questions 24 and 25). Frequency is to be tested at the route level from sources whose terms allow it. |
+| 2026-10-26 | AQ-046 | Parking: owner read the mixed result for small repeal places (7 of 16 above comparison places, 8 below) as evidence that fits expectations. Model different city sizes differently, with a multi-variable regression across US repeal cities to find the cut-offs and the effect by city type; held-out cities decide. |
