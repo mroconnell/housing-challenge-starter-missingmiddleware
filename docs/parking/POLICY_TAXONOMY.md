@@ -65,3 +65,12 @@ The proposed test, to be pre-registered at Gate 2: permits by building size from
 2. Check the 26 comparison cities’ ordinances, and the Wisconsin places’ (the 18 rated at or near, plus Madison and Milwaukee).
 3. Fetch the BPS place files for the other Census regions (Northeast, South, West) for the comparison test.
 4. Find Wisconsin parking cost per space and typical minimums (spot checks only).
+
+## 6. Places under 50,000 people: quick look (2026-10-26)
+
+No published study measures housing after a repeal in a place under 50,000 people. A quick look, not pre-registered, compared 16 US repeal places of 5,000–50,000 people with same-state places of half to twice their population and no PRN reform record. The comparison covers the 5 years before adoption and the 3 years after, in units permitted per 1,000 residents (Census building permits).
+- 7 of the 16 places rose faster than their comparison places, 8 rose slower, and 1 permitted nothing in either period.
+- The median place's after/before ratio was 0.84 times its comparison places' ratio.
+- Most of these places permit a few dozen homes a year, and most had no permits in buildings of 2+ units before or after.
+
+The result is noise, not a signal. Script: `scripts/parking_small_places_quicklook.py`. Table: `reference/parking_small_places_quicklook.csv`.
