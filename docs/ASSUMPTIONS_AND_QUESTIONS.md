@@ -654,7 +654,8 @@ These supersede the 2026-10-26 figures quoted in AQ-044.
    - It describes where decades of rules have led, not a five-year response, so it is not used directly as the law's effect.
    - It serves three purposes: as a check on how dense station areas get under different rules, as a guide to the headroom between current and allowed density, and as an input to sharing the Wisconsin baseline across station areas.
 
-**Still open:** T1 and T2 (outcome at permit issuance, by building size; stylized 1 January 2027 start) and T3 (Amtrak stations excluded) were not answered. Silence is not approval.
+10. **T2 and T3 (owner, 2026-10-26):** the stylized start date of 1 January 2027 is approved. Amtrak stations are dropped, because SB 79 counts commuter rail only at 48 or more trains a day. The main case is therefore 313,357 homes near stops.
+11. **T1:** the outcome is housing units at permit issuance, by building size. This is taken as approved with item 8, since the owner approved a rate measured in homes permitted.
 
 ## Questions for office hours
 
