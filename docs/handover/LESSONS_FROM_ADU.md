@@ -70,12 +70,18 @@ The challenge's data rules are in [CHALLENGE_HANDBOOK.md](../CHALLENGE_HANDBOOK.
 - **Concurrent agents editing the same files.** Give each one exclusive ownership.
 - **Partial or provisional years.** Madison's 2026 is a partial year: show it, but don't fit on it.
 
-## 6. Shared pieces you will use (owned by the ADU conductor)
+## 6. Shared pieces
 
+**Already built (owned by the ADU conductor; ask through the coordinator before changing them):**
 - **Engine:** `missing_middleware/model/engine.py`, which computes the addition per area and year as `homes × max(y − x, 0) × ramp`, plus the area-paths override.
-- **All-housing baseline** (being built 2026-10-26): `reference/housing_baseline_*.csv` and [docs/shared/HOUSING_BASELINE.md](../shared/HOUSING_BASELINE.md).
-- **Scenario contract and multi-scenario tool shell** (being built): [docs/shared/SCENARIO_CONTRACT.md](../shared/SCENARIO_CONTRACT.md). A scenario adds its outputs and a registry entry; shared screens read them. The contract is a starting point, not a fixed format. The owner expects to iterate between tool design and data, and may redesign "by area" or even the ADU screens so that all scenarios read as one report.
 - **Geography:** area ids, counties, contexts, and the Assembly and Senate district crosswalk (`reference/adu_model_district_crosswalk.csv`).
-- **State evidence inventory** for all benchmark scenarios (being built): [docs/scenarios/STATE_ADOPTION_INVENTORY.md](../scenarios/STATE_ADOPTION_INVENTORY.md).
+- **The tool:** `ui/` and the bundle builder `scripts/build_ui_bundle.py`.
+- **Compliance scripts and tests:** licence checks, SBOM export and the sample-privacy test.
 
-If you need to change a shared piece, ask the ADU conductor through the project coordinator. Don't edit it in place.
+**To be built by the new sessions and shared between them** (owner's direction, 2026-10-26):
+- **All-housing baseline:** all permitted units by area, year and structure type from Census building permits, with a current-law projection for 2027–2031 that reconciles to the state. It is **built by the parking session** and shared with TOD; ADUs can also use it, e.g. as context for the ADU share of all new homes.
+- **Multi-scenario tool shell and scenario contract:** a scenario picker, a registry, and a written contract for what files a scenario must produce. It is **built by the TOD session** and shared with parking. The ADU screens must look and behave the same apart from the picker, and the ADU numbers must not change.
+
+Each owner session posts its shared piece's file locations and contract in its thread when ready, and tells the other session through the coordinator. The contract is a starting point, not a fixed format. The owner expects to iterate between tool design and data, and may redesign "by area", or even the ADU screens, so that all scenarios read as one report.
+
+**Policy inventories belong to each session.** Each session researches and owns its own scenario's policy inventory and benchmark classification. A one-off cross-scenario scan done on 2026-10-26 is in [docs/scenarios/STATE_ADOPTION_INVENTORY.md](../scenarios/STATE_ADOPTION_INVENTORY.md). Treat it as unverified starting leads only; many items are marked source_lead.

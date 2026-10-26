@@ -33,7 +33,7 @@ The benchmark explicitly asks you to state **how much parking developers would s
 
 ## 4. Evidence leads (verify; none of this is confirmed)
 
-The state-adoption inventory now being built, [docs/scenarios/STATE_ADOPTION_INVENTORY.md](../scenarios/STATE_ADOPTION_INVENTORY.md), is your starting point. Leads to check:
+You own this scenario's policy inventory. A one-off scan of all benchmarks ([docs/scenarios/STATE_ADOPTION_INVENTORY.md](../scenarios/STATE_ADOPTION_INVENTORY.md), 2026-10-26) gives unverified starting leads only. Leads to check:
 - **Statewide:**
   - California AB 2097 (2022; no minimums near major transit, effective 2023);
   - Oregon's Climate-Friendly and Equitable Communities parking reforms (2023);
@@ -52,12 +52,19 @@ The state-adoption inventory now being built, [docs/scenarios/STATE_ADOPTION_INV
 - **"Developer-provided parking absent mandates":** several of these studies measure how many spaces developers chose to build after reform. That gives your benchmark assumption directly, with a range.
 - **Benchmark mismatch:** some reforms are transit-only or affordable-only, so they are partial versions of the benchmark. Classify each case, as we did for ADUs (we capped beyond-benchmark ADUs and removed apartment-lot ADUs from California's counts).
 
+### Heads-up from the one-off scan (unverified)
+
+- **Many laws, no production data.** About 15 states have laws at or near the benchmark (e.g. North Carolina from 2027, Washington ESSB 5184, Connecticut PA 25-1), but no post-law production data is tied to any of them.
+- **City studies mostly measure parking built, not homes.** For example, Seattle projects built about 40% fewer spaces than the old minimums required.
+- **A different method is likely.** The scan suggests a cost-per-project and supply-response model may fit better than pooling states' post-law rates. Test that against any before/after permit evidence you can find (Buffalo, Minneapolis).
+- **No statewide source of Wisconsin minimums.** Wisconsin parking minimums aren't compiled statewide, which is another reason local coding is for spot checks only.
+
 ## 5. Wisconsin specifics to establish (verify each)
 
 - **Current minimums:** whether any Wisconsin cities have already cut parking minimums (e.g. Milwaukee or Madison in parts of the city), with dates. Treat local codes as spot checks, as for ADUs. The statewide model should not depend on coding every municipality.
-- **Baseline:** the all-housing baseline (all permitted units by area and structure type, from Census building permits) is being built as shared groundwork: `reference/housing_baseline_*.csv`, [docs/shared/HOUSING_BASELINE.md](../shared/HOUSING_BASELINE.md). Parking effects likely concentrate in multifamily (5+ and 2–4 units), so the structure-type split matters.
+- **Baseline:** you build the all-housing baseline (see §7). Parking effects likely concentrate in multifamily (5+ and 2–4 units), so the structure-type split matters.
 - **Where minimums bind:** propose a statewide way to estimate where minimums actually bind (e.g. by structure type, lot size, density or context) using statewide data, and test it against the case cities.
-- **Overlap with TOD:** frequent-transit areas may define partial exemptions in other states. The TOD session is fetching transit-stop data, so coordinate through the coordinator rather than duplicating it.
+- **Overlap with TOD:** frequent-transit areas may define partial exemptions in other states. The TOD session builds the multi-scenario tool shell you'll plug into, and fetches transit-stop data; coordinate through the coordinator rather than duplicating it.
 - **Pilots:** likely candidates are a large city (Milwaukee or Madison) and a mid-size or suburban place where minimums are typical, as the "does it transfer" check.
 
 ## 6. Suggested gate plan (adapt it; owner decisions go in the AQ log)
@@ -70,7 +77,17 @@ The state-adoption inventory now being built, [docs/scenarios/STATE_ADOPTION_INV
 | 4. Working pilot in the tool | Parking in the multi-scenario tool via the scenario contract; pilots; independent verification of every displayed number. |
 | 5. Statewide MVP | Reconciliation to the state and districts; trace; rubric check; the owner's "good enough" decision. |
 
-## 7. Working arrangements
+## 7. Shared piece you build
+
+You build the **all-housing baseline** for both new scenarios (LESSONS §6):
+- all permitted units by area, year and structure type (1, 2, 3–4, 5+) from the Census Building Permits Survey data already in the repo (`data/processed/foundation/`);
+- a current-law projection for 2027–2031, chosen by a held-out-year test;
+- an explicit unallocated row that reconciles to the state;
+- outputs in `reference/housing_baseline_*.csv`, documented in `docs/shared/HOUSING_BASELINE.md`, with tests.
+
+Build it early, since the TOD session needs it too. Missing permit reports are not zero.
+
+## 8. Working arrangements
 
 - **Repo:** `/Users/mroconnell/Documents/housing-challenge-starter-missingmiddleware` (public). Routine commits and pushes to `main` are authorized; commit per logical work package.
 - **Your files:**
@@ -80,7 +97,7 @@ The state-adoption inventory now being built, [docs/scenarios/STATE_ADOPTION_INV
 - **Tests:** `bash scripts/test.sh` and `bash scripts/test_ui.sh` must pass before each push. Check a fresh clone before calling a gate done.
 - **Deadline:** submission is due 16 December 2026, 11:59 pm ET. The owner prefers correct sequencing to calendar pressure, but both new scenarios are needed for a scored submission.
 
-## 8. First steps
+## 9. First steps
 
 1. Read LESSONS_FROM_ADU.md, the gate packets (`docs/gate3/README.md`, `docs/gate5/README.md`) and the state-adoption inventory.
 2. Run the tool (`bash scripts/run_tool.sh`) and look at every screen.

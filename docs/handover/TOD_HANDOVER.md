@@ -32,7 +32,7 @@ Shared assumptions:
 
 ## 4. Evidence leads (verify; none of this is confirmed)
 
-The state-adoption inventory now being built, [docs/scenarios/STATE_ADOPTION_INVENTORY.md](../scenarios/STATE_ADOPTION_INVENTORY.md), is your starting point. Leads to check:
+You own this scenario's policy inventory. A one-off scan of all benchmarks ([docs/scenarios/STATE_ADOPTION_INVENTORY.md](../scenarios/STATE_ADOPTION_INVENTORY.md), 2026-10-26) gives unverified starting leads only. Leads to check:
 - **Statewide:**
   - Massachusetts MBTA Communities Act (2021; multifamily zoning near stations; compliance 2023–2025);
   - California SB 79 (2025, density near major transit stops) and the earlier transit-related density laws;
@@ -49,6 +49,13 @@ The state-adoption inventory now being built, [docs/scenarios/STATE_ADOPTION_INV
   - Auckland's 2016 upzoning (peer-reviewed; international, so transfer with care).
 - **Expect the same benchmark-mismatch issue we had with ADUs.** Programs may bundle affordability requirements or density bonuses that go beyond, or fall short of, a plain height and FAR increase. Classify each case against the benchmark.
 
+### Heads-up from the one-off scan (unverified)
+
+- **No state has 2 or more years of post-law production data yet.** California SB 79 has been in force since 2026-07-01, and Washington, Colorado and Oregon bind between 2024 and 2029. Massachusetts has about 2 years of pipeline counts.
+- **The best measured precedent may be Los Angeles's Transit Oriented Communities program.**
+- **Pooled rates may not work.** A pooled post-law rate, as for ADUs, may not be possible. The scan suggests "station-area capacity × a per-acre yield" from city cases instead. Test both if the data allow.
+- **Wisconsin data is ready.** The Milwaukee and Madison transit feeds may already cover their bus rapid transit lines, and the Madison TOD overlay is in the repo.
+
 ## 5. Wisconsin specifics to establish (verify each)
 
 - **Transit:**
@@ -59,7 +66,7 @@ The state-adoption inventory now being built, [docs/scenarios/STATE_ADOPTION_INV
 
   Check whether each agency publishes GTFS, and under what licence.
 - **Concentration:** TOD may be concentrated in Milwaukee and Madison. Decide early, with the owner, how the tool shows a scenario that is mostly two cities.
-- **Baseline:** the all-housing baseline (all permitted units by area and structure type, from Census building permits) is being built as shared groundwork: `reference/housing_baseline_*.csv`, [docs/shared/HOUSING_BASELINE.md](../shared/HOUSING_BASELINE.md). Your current-law baseline is the part of it near qualifying stops. Say how you allocate it.
+- **Baseline:** the all-housing baseline (all permitted units by area, year and structure type, from Census building permits) is built by the parking session and shared with you (see LESSONS §6). Your current-law baseline is the part of it near qualifying stops. Say how you allocate it.
 - **Pilots:** likely candidates are Milwaukee and Madison corridors, plus one mid-size city with only bus service, as the "does it transfer" check. That is the analogue of the ADU test of cities like Madison.
 
 ## 6. Suggested gate plan (adapt it; owner decisions go in the AQ log)
@@ -72,18 +79,27 @@ The state-adoption inventory now being built, [docs/scenarios/STATE_ADOPTION_INV
 | 4. Working pilot in the tool | TOD in the multi-scenario tool via the scenario contract; pilots; independent verification of every displayed number. |
 | 5. Statewide MVP | Reconciliation to the state and districts; trace; rubric check; the owner's "good enough" decision. |
 
-## 7. Working arrangements
+## 7. Shared piece you build
+
+You build the **multi-scenario tool shell and scenario contract** for both new scenarios (LESSONS §6):
+- a scenario picker and registry;
+- shared screens that read the selected scenario;
+- `docs/shared/SCENARIO_CONTRACT.md`.
+
+Build it early, ideally alongside Gate 1–2 research, since the parking session will plug into it. The ADU screens must look and behave the same apart from the picker, and the ADU numbers and tests must not change. The shared files are owned by the ADU conductor, so tell the coordinator before you start, so ownership is handed to you for this piece.
+
+## 8. Working arrangements
 
 - **Repo:** `/Users/mroconnell/Documents/housing-challenge-starter-missingmiddleware` (public). Routine commits and pushes to `main` are authorized; commit per logical work package.
 - **Your files:**
   - `docs/tod/`, `reference/tod_*`, `missing_middleware/tod/`, `scripts/*tod*`, `tests/test_tod*`;
   - your scenario's UI files under the scenario contract, e.g. `ui/src/scenarios/tod/`, once the shell exists.
 - **Shared files** belong to the ADU conductor: the engine, the bundle builder's shared parts, shared screens, the AQ log structure, DATA_PROVENANCE, DISCLOSURES and the compliance scripts. Add your own AQ entries and provenance rows, but keep the edits small and re-read the file before writing, since other sessions edit it too. For anything else shared, ask through the coordinator.
-- **The parking session** may need the same transit data (frequent-transit areas often define parking exemptions). Coordinate through the coordinator rather than fetching the same source twice.
+- **The parking session** builds the all-housing baseline you'll use, and may need your transit data (frequent-transit areas often define parking exemptions). Coordinate through the coordinator rather than fetching the same source twice.
 - **Tests:** `bash scripts/test.sh` and `bash scripts/test_ui.sh` must pass before each push. Check a fresh clone before calling a gate done.
 - **Deadline:** submission is due 16 December 2026, 11:59 pm ET. The owner prefers correct sequencing to calendar pressure, but both new scenarios are needed for a scored submission.
 
-## 8. First steps
+## 9. First steps
 
 1. Read LESSONS_FROM_ADU.md, the gate packets (`docs/gate3/README.md`, `docs/gate5/README.md`) and the state-adoption inventory.
 2. Run the tool (`bash scripts/run_tool.sh`) and look at every screen.
