@@ -92,6 +92,17 @@ def median_effect() -> float:
     return float(expanded_included()["effect"].median())
 
 
+def ref_line() -> dict:
+    """Median of real cases, applied to Wisconsin (AQ-054): the median repeal place's effect (floored at
+    zero, since a repeal is not modelled as subtracting) times Wisconsin's eligible homes."""
+    med = median_effect()
+    homes = float(pd.read_csv(REF / "parking_model_by_area.csv")["eligible_homes"].sum())
+    per_year = max(med, 0.0) * homes / 1000
+    return {"label": "Median of real cases", "rate_per_1000_homes": r(med), "per_year": r(per_year, 1),
+            "value": whole(per_year * len(YEARS)),
+            "info": f"Median of real cases, applied to Wisconsin: the median of the 71 repeal places changed by {med:+.2f} permits per 1,000 existing homes per year against its comparison places. Applied to Wisconsin's {homes:,.0f} homes outside places already at the benchmark, that is about {whole(per_year):,} extra permits a year, {whole(per_year * len(YEARS)):,} over 2027–2031: between the two cases."}
+
+
 def build_statewide() -> dict:
     b = pd.read_csv(REF / "housing_baseline_statewide_by_year.csv")
     m = pd.read_csv(REF / "parking_model_statewide_by_year.csv").set_index("year")
@@ -131,8 +142,7 @@ def build_statewide() -> dict:
              "info": f"If the true average effect is at the top of what the evidence allows (95 times in 100, the real average would be lower): {rate:.2f} more permits per 1,000 existing homes per year, everywhere except places that already have no parking minimums for housing.",
              "additional_total": up5, "with_law_total": base5 + up5, "rate_per_1000_homes": rate},
         ],
-        "reference_line": {"label": "Median of real cases", "value": 0.0,
-                           "info": f"Median of real cases, applied to Wisconsin: the median of the 71 repeal places changed by {median_effect():+.2f} permits per 1,000 existing homes per year against its comparison places. A repeal is not modelled as reducing permits, so it rounds to 0 added homes and coincides with \"No measurable change\" and with current law on the chart."},
+        "reference_line": ref_line(),
     }
 
 

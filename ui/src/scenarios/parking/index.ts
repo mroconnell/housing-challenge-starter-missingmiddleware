@@ -11,7 +11,7 @@ interface Scen { id: "central" | "upper"; label: string; info: string; additiona
 interface Statewide {
   years: YearRow[]; baseline_total: number; baseline_low_total: number; baseline_high_total: number; baseline_published_total: number;
   baseline_by_type: { type: string; low: number; central: number; high: number }[]; observed_2021_2025: number;
-  scenarios: Scen[]; reference_line: { label: string; value: number; info: string };
+  scenarios: Scen[]; reference_line: { label: string; value: number; per_year: number; rate_per_1000_homes: number; info: string };
 }
 interface Muni { id: string; name: string; county: string; type: string; homes: number; eligible_homes: number; at_benchmark: boolean; near_benchmark: boolean; baseline: number; add_upper: number; acres: number }
 interface Areas {
@@ -115,12 +115,12 @@ function compare(b: ParkingBundle, main: HTMLElement): void {
       <p class="tile-sub">permits, 2027–2031</p><p class="tile-note">"${esc(up.label)}" would add ${dec((up.additional_total / s.baseline_total) * 100, 0)}% to it.</p></section>
   </div>
   <section class="card"><h2>New homes permitted each year</h2><div class="chart-box" id="pk-chart"></div>
-    ${legendHTML([{ name: "Observed", color: C.observed, width: 2 }, { name: "Current law (range shaded)", color: C.baseline, dash: "7 5" }, { name: up.label, color: C.upper, dash: "9 3 2 3" }])}
+    ${legendHTML([{ name: "Observed", color: C.observed, width: 2 }, { name: "Current law (range shaded)", color: C.baseline, dash: "7 5" }, { name: up.label, color: C.upper, dash: "9 3 2 3" }, { name: s.reference_line.label, color: "#b0501a", dash: "12 4 3 4" }])}
     <p class="small muted">"${esc(cen.label)}" is identical to current law, so it is not drawn separately.</p>
     <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Permits per year: current law and with the law</caption>
-      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th><th scope="col" class="num">${esc(cen.label)}</th><th scope="col" class="num">${esc(up.label)}</th></tr></thead>
-      <tbody>${s.years.filter((y) => YEARS.includes(y.year)).map((y) => `<tr><th scope="row">${y.year}</th><td class="num">${int(y.baseline)}</td><td class="num">${int((y.baseline ?? 0) + (y.add_central ?? 0))}</td><td class="num">${int((y.baseline ?? 0) + (y.add_upper ?? 0))}</td></tr>`).join("")}
-      <tr><th scope="row">2027–2031</th><td class="num">${int(s.baseline_total)}</td><td class="num">${int(cen.with_law_total)}</td><td class="num">${int(up.with_law_total)}</td></tr></tbody></table></div>
+      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th><th scope="col" class="num">${esc(cen.label)}</th><th scope="col" class="num">${esc(up.label)}</th><th scope="col" class="num">${esc(s.reference_line.label)}</th></tr></thead>
+      <tbody>${s.years.filter((y) => YEARS.includes(y.year)).map((y) => `<tr><th scope="row">${y.year}</th><td class="num">${int(y.baseline)}</td><td class="num">${int((y.baseline ?? 0) + (y.add_central ?? 0))}</td><td class="num">${int((y.baseline ?? 0) + (y.add_upper ?? 0))}</td><td class="num">${int((y.baseline ?? 0) + s.reference_line.per_year)}</td></tr>`).join("")}
+      <tr><th scope="row">2027–2031</th><td class="num">${int(s.baseline_total)}</td><td class="num">${int(cen.with_law_total)}</td><td class="num">${int(up.with_law_total)}</td><td class="num">${int(s.baseline_total + s.reference_line.value)}</td></tr></tbody></table></div>
     <p class="small muted">${esc(s.reference_line.info)} Yearly rows may not add exactly to the totals because of rounding.</p></section>`;
   const ys = s.years;
   xyChart(document.getElementById("pk-chart")!, {
@@ -131,6 +131,7 @@ function compare(b: ParkingBundle, main: HTMLElement): void {
       { name: "Observed", values: ys.map((y) => ({ x: y.year, y: y.observed ?? null })), color: C.observed, width: 2, marker: "circle" },
       { name: "Current law", values: ys.map((y) => ({ x: y.year, y: y.baseline ?? null })), color: C.baseline, dash: "7 5" },
       { name: up.label, values: ys.map((y) => ({ x: y.year, y: y.add_upper !== undefined ? (y.baseline ?? 0) + y.add_upper : null })), color: C.upper, dash: "9 3 2 3" },
+      { name: s.reference_line.label, values: ys.map((y) => ({ x: y.year, y: y.add_upper !== undefined ? (y.baseline ?? 0) + s.reference_line.per_year : null })), color: "#b0501a", dash: "12 4 3 4" },
     ],
     band: { name: "Current-law range", lo: ys.map((y) => ({ x: y.year, y: y.baseline_low ?? null })), hi: ys.map((y) => ({ x: y.year, y: y.baseline_high ?? null })), color: C.baseline },
     vline: { x: 2026.5, label: "Law in effect" },
