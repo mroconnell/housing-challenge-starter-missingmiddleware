@@ -58,7 +58,7 @@ Four slopes have 90% intervals that exclude zero, and they tell a consistent sto
 
 None of them improves predictions for places left out of the fit, so they are a pattern on average, not a way to set Wisconsin places apart.
 
-**Island size here is wider than TOD's version.** The parking measure counts any transit stop at ½ mile, because service frequency is not available nationally. TOD's version uses ½ mile of rail and rapid-transit stations plus ¼ mile of 15-minute bus stops. Its result will be reported alongside when TOD's run finishes.
+**TOD's island size result ("TOD: frequent-service coverage, per rezoned unit")** also failed. It beat the plain average in 1 of 6 fitted cities and lost on both held-out cities (`docs/tod/NET_EFFECT_RESULTS.md`). **Island size here is wider than TOD's version.** The parking measure counts any transit stop at ½ mile, because service frequency is not available nationally. TOD's version uses ½ mile of rail and rapid-transit stations plus ¼ mile of 15-minute bus stops. Its result will be reported alongside when TOD's run finishes.
 
 ## Limits
 
