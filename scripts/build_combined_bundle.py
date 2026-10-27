@@ -234,10 +234,13 @@ def validate(c: dict, statewide: dict, areas: dict) -> dict:
     return {"passed": sum(x["passed"] for x in checks), "failed": sum(not x["passed"] for x in checks), "checks": checks}
 
 
-def main():
+def main(out_root: Path | None = None):
+    """Build the bundle into out_root (default: ui/public/scenarios/combined/runs). Tests pass a temporary folder."""
+    OUT = out_root or OUT_ROOT
     tod_run, tod_path = latest_additions("tod")
     park_run, park_path = latest_additions("parking")
     inputs = ["scripts/build_combined_bundle.py", str(tod_path.relative_to(ROOT)), str(park_path.relative_to(ROOT)),
+              str((tod_path.parent / "manifest.json").relative_to(ROOT)), str((park_path.parent / "manifest.json").relative_to(ROOT)),
               "reference/housing_baseline_by_area.csv", "reference/tod_near_stop_homes_by_muni.csv"]
     hashes = [{"path": p, "sha256": sha256(ROOT / p)} for p in inputs]
     run_id = "combined-" + hashlib.sha256("".join(h["sha256"] for h in hashes).encode()).hexdigest()[:10]
@@ -247,9 +250,9 @@ def main():
     park_m = json.loads((park_path.parent / "manifest.json").read_text())
     statewide, areas = build(c, tod_m, park_m)
     val = validate(c, statewide, areas)
-    out = OUT_ROOT / run_id
-    if OUT_ROOT.exists():
-        for old in OUT_ROOT.iterdir():
+    out = OUT / run_id
+    if OUT.exists():
+        for old in OUT.iterdir():
             if old.is_dir() and old.name != run_id:
                 shutil.rmtree(old)
     out.mkdir(parents=True, exist_ok=True)
@@ -267,7 +270,7 @@ def main():
     }
     for name, obj in {"manifest.json": manifest, "statewide.json": statewide, "areas.json": areas}.items():
         (out / name).write_text(json.dumps(obj, ensure_ascii=False, separators=(",", ":"), sort_keys=True) + "\n")
-    (OUT_ROOT / "latest.json").write_text(json.dumps({"run_id": run_id}) + "\n")
+    (OUT / "latest.json").write_text(json.dumps({"run_id": run_id}) + "\n")
     print(run_id, f"validation {val['passed']} passed, {val['failed']} failed")
     for x in statewide["roles"]:
         t = x["total"]

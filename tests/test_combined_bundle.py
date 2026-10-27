@@ -179,10 +179,14 @@ class TestCombinedBundle(unittest.TestCase):
         self.assertNotIn("c", self.sw["rules"])
 
     def test_rebuilds_byte_for_byte(self):
+        """Rebuild into a temporary folder (never into ui/public) and compare with the committed bundle."""
+        import tempfile
         before = {p.name: p.read_bytes() for p in self.d.iterdir()}
-        bc.main()
-        self.assertEqual(json.loads((RUNS / "latest.json").read_text())["run_id"], self.run_id)
-        self.assertEqual({p.name: p.read_bytes() for p in self.d.iterdir()}, before)
+        with tempfile.TemporaryDirectory() as tmp:
+            bc.main(out_root=Path(tmp))
+            rid = json.loads((Path(tmp) / "latest.json").read_text())["run_id"]
+            self.assertEqual(rid, self.run_id, "committed combined bundle is stale: run scripts/build_combined_bundle.py")
+            self.assertEqual({p.name: p.read_bytes() for p in (Path(tmp) / rid).iterdir()}, before)
 
 
 @unittest.skipUnless((PUBLIC / "tod" / "runs" / "latest.json").exists(), "TOD bundle not built")
