@@ -87,6 +87,7 @@ What the scenario names mean:
 | --- | --- | --- |
 | Parking | **The high end of the range** | The upper case is set at the 95th percentile of the measured effect. A lower bound or the central would give 0. |
 | Parking | **Which places are in the evidence** | Using only the first 24 places studied, the high end is 29,662; combining the 71 places with 185 California cities under AB 2097 gives 15,740; leaving out San Francisco gives 27,918. |
+| Parking | **How the range is built** | A range built from 909 cities that never repealed their minimums (a placebo test) puts the high end at 12,184 instead of 20,672. |
 | Parking | Counting only buildings of 2 or more units | The high end falls to 12,555. |
 | TOD | **Which study sets the size** | Little 171, typical 2,509, strong 17,148: a hundredfold spread. Within the typical study's own interval the result is 665 to 4,352. |
 | TOD | Adjusting each study for the share of its city it covered | Without that adjustment, little is 105 and strong 12,895. |

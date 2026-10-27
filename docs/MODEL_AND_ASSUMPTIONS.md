@@ -259,6 +259,7 @@ Written 2026-10-27 by the parking conductor. Status: the parking section for the
 3. **Central case, "No measurable change" (0 added).** In the one to three years after repeal, the repeal places' permit rate changed by −1.10 permits per 1,000 existing homes per year compared with similar places. The 90% range (5th to 95th percentile of 2,000 resamples) is −3.50 to +1.54 permits per 1,000 existing homes per year. A repeal is not modelled as reducing permits, so the central case is 0.
 4. **Upper case, "High end of the evidence".** +1.54 permits per 1,000 existing homes per year, the 95th percentile of the average from 2,000 resamples of the 71 places (owner decision, 2026-10-27; the first 24 places gave +2.21, kept as a sensitivity case). It is applied to the 2,684,793 existing Wisconsin homes outside the 9 places that already have no minimums (10 municipality pieces, because Brodhead spans two counties). That gives 20,672 permits over 2027–2031, 17% above current law.
    **Shared reporting (AQ-054).** In additional homes permitted per year against the shared all-housing baseline, the central case adds 0 a year and the upper case about 4,134 a year. Home counts that compare reforms use ACS 2020–2024 total housing units: 2,778,572 statewide, of which 2,684,793 are outside places already at the benchmark. The median of real cases, applied to Wisconsin, is shown as a reference line: the median repeal place changed by +0.30 permits per 1,000 existing homes per year, about 4,089 extra permits over 2027–2031, between the two cases.
+   **Control-city (placebo) check.** 909 cities that kept their minimums were given the real places' repeal years and run through the same calculation, 500 times. Only 3.2% of these placebo studies came out as low as the real places, so there is no sign that a repeal raised permits, and the high end is, if anything, generous ([PLACEBO_RESULTS.md](parking/PLACEBO_RESULTS.md)).
 5. **Timing.** The effect was measured over years 1–3, and it does not build up over time. The upper case is held flat through 2031. That is an assumption, and the measured path suggests it is generous.
 6. **Where the upper case lands.** It is spread in proportion to existing homes, because the comparison could not tell which kinds of places respond more (owner decision AQ-046; no size split beat one average).
 
@@ -309,6 +310,7 @@ Five-year totals, 2027–2031, in additional permits unless noted. All are in th
 | The statewide total | Only buildings of 2 or more units counted | 12,555 |
 | The statewide total | Without San Francisco | 27,918 |
 | The statewide total | Combined with California's transit-area law | 15,740 |
+| The statewide total | Placebo-based range from 909 cities that never repealed | 12,184 |
 | The statewide total | First 24 places only (earlier estimate) | 29,662 |
 | The statewide total and where it lands | Prediction by city size and setting (first 24 places) | 32,135 |
 | The statewide total and where it lands | Towns left out | 14,376 |
