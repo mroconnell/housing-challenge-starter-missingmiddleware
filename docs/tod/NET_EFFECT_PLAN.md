@@ -52,3 +52,7 @@ If the cities' own net effects are measured with intervals tighter than the spre
 - **Corridor share:** the share of the case's upzoned land lying in pieces at least ½ mile long.
 
 Each case is also labelled "corridor" (mostly long continuous strips, such as Madison's overlay or Park Slope's Fourth Avenue) or "nodes" (mostly separate station circles, such as Charlotte or Chicago), from these measures with a ½ cut on corridor share. Because shape is mostly one design choice per city, the label is reported next to each city's net effect rather than judged as a predictor.
+
+**2026-10-27, two additions from the literature review ([research/LITERATURE_NET_EFFECTS.md](research/LITERATURE_NET_EFFECTS.md)), written before any result of this plan is seen.**
+- **Binding limit.** The strongest predictor in the literature is whether the old limit was binding (Zurich). Each unit gets a trait: the acre-weighted ratio of existing built density (homes per acre, or floor area where known) to the density allowed before the reform. A value near 1 means lots were already built to the old limit. It is judged by the same rule as section 5.
+- **Distant borrowing.** In Auckland, building was drawn from distant areas, not next door. Where each case has land beyond 1½ miles, that land's change after against before is also compared with the rest of the region (other jurisdictions in the same county or metro, from Census permits). This is reported as a check on whether "far land" is itself affected.
