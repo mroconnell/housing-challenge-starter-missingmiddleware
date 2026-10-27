@@ -31,6 +31,7 @@ interface Why {
   places: { place: string; state: string; group: string; year: number; population: number; comparisons: number; before: number; after: number; cmp_before: number; cmp_after: number; effect: number; rewrite: boolean; evidence: string | null; confidence: string | null }[];
   average: Record<"all" | "2plus", { effect: number; p05: number; p95: number }>;
   studies: { case: string; finding: string; status: string; source: string; url: string }[];
+  california: { all_units: { effect: number; p05: number; p95: number }; units_2plus: { effect: number; p05: number; p95: number }; jurisdictions: number; text: string; caveats: string };
   north_carolina: string; developer_parking: string; docs: { label: string; url: string }[];
 }
 interface Pilot { slug: string; id: string; name: string; homes: number; at_benchmark: boolean; baseline: number; add_upper: number; history: { year: number; units_1: number | null; units_2: number | null; units_3_4: number | null; units_5: number | null; adjusted: boolean; split: boolean }[]; rules: { rating: string; date: string | null; summary: string | null }[] }
@@ -260,6 +261,9 @@ function why(b: ParkingBundle, main: HTMLElement): void {
     ${more(`All ${W.places.length} places`, `<div class="table-wrap"><table class="data" data-testid="why-places"><caption>Permits per 1,000 existing homes per year, before and after repeal</caption>
       <thead><tr><th scope="col">Place</th><th scope="col">Repeal year</th><th scope="col" class="num">Before</th><th scope="col" class="num">After</th><th scope="col" class="num">Comparison places before → after</th><th scope="col" class="num">Effect</th><th scope="col">Notes</th></tr></thead>
       <tbody>${W.places.map((p) => `<tr><th scope="row">${esc(p.place)}, ${esc(p.state)}</th><td>${p.year}</td><td class="num">${dec(p.before)}</td><td class="num">${dec(p.after)}</td><td class="num">${dec(p.cmp_before)} → ${dec(p.cmp_after)} (${p.comparisons})</td><td class="num">${signed(p.effect)}</td><td class="small">${p.group === "main" ? "" : "removed with conditions; not in the average. "}${p.rewrite ? "Whole zoning rewrite at the same time." : ""}</td></tr>`).join("")}</tbody></table></div>`)}</section>
+  <section class="card"><h2>A second check: California's transit-area law</h2>
+    <p data-testid="why-california">${esc(W.california.text)} Across ${W.california.jurisdictions} California jurisdictions, the change near transit was ${signed(W.california.all_units.effect)} permits per 1,000 existing homes per year (90% range ${signed(W.california.all_units.p05)} to ${signed(W.california.all_units.p95)}); for buildings of 2 or more units, ${signed(W.california.units_2plus.effect)} (${signed(W.california.units_2plus.p05)} to ${signed(W.california.units_2plus.p95)}).</p>
+    <p class="small muted">${esc(W.california.caveats)}</p></section>
   <section class="card"><h2>How much parking developers build without a mandate</h2>
     <p data-testid="developer-parking"><strong>${esc(W.developer_parking.split(":")[0])}:</strong>${esc(W.developer_parking.slice(W.developer_parking.indexOf(":") + 1))}</p>
     <ul class="plain">${W.studies.map((s) => `<li>${s.status === "observed" ? pill("observed") : `<span class="pill pill-assumed">Not yet checked</span>`} <strong>${esc(s.case)}.</strong> ${esc(s.finding)} <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.source)}<span class="sr-only"> (opens in a new tab)</span> ↗</a></li>`).join("")}</ul>

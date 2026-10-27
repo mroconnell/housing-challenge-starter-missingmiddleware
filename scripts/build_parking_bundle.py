@@ -45,6 +45,7 @@ INPUTS = [
     "reference/parking_comparison_robustness.csv", "reference/parking_comparison_event_path.csv",
     "reference/parking_comparison_models.csv", "reference/parking_repeal_checks.csv",
     "reference/parking_reform_taxonomy.csv", "reference/tod_near_stop_homes_by_muni.csv",
+    "reference/tod_ab2097_results.csv",
 ]
 BASELINE_VERSION = "all-housing baseline v2"
 
@@ -210,8 +211,15 @@ def build_why() -> dict:
                        "evidence": s(c["evidence"]), "confidence": s(c["confidence"])})
     est = pd.read_csv(REF / "parking_comparison_estimates.csv")
     m0 = est[(est["model"] == "M0 one average")].set_index("outcome")
+    ab = pd.read_csv(REF / "tod_ab2097_results.csv")
+    ab = ab[(ab["case"] == "main") & (ab["group"] == "P") & (ab["measure"] == "per_1000_homes")].set_index("outcome")
+    ca = {o: {"effect": r(ab.loc[o, "estimate"]), "p05": r(ab.loc[o, "interval90_low"]), "p95": r(ab.loc[o, "interval90_high"])}
+          for o in ("all_units", "units_2plus")}
+    ca["jurisdictions"] = int(ab.loc["all_units", "n_jurisdictions"])
     return {
         "places": places,
+        "california": {**ca, "text": "California's AB 2097 removed parking minimums within half a mile of major transit stops from 1 January 2023. Comparing permits near transit with permits half a mile to a mile and a half away, in jurisdictions that had not already removed minimums or raised density near transit, gives the same answer as the city repeals: no measurable change in 2023–2025.",
+                       "caveats": "Transit stops are from today's map, not a pre-2023 one; and the comparison ring itself rose against land farther away, which could pull the estimate down. Analysis by the transit-oriented density work (docs/tod/AB2097_TEST_RESULTS.md)."},
         "average": {o: {"effect": r(m0.loc[o, "estimate"]), "p05": r(m0.loc[o, "p05"]), "p95": r(m0.loc[o, "p95"])} for o in ("all", "2plus")},
         "studies": [
             {"case": "Buffalo, citywide repeal (2017)", "finding": "36 major projects provided 1,942 parking spaces against 2,444 under the old minimums (79%). Mixed-use projects built 47% of the old minimum; stand-alone apartment buildings built 117% of it.", "status": "observed",

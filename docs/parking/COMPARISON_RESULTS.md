@@ -62,6 +62,19 @@ Files: `reference/parking_comparison_effects.csv` (each place's before and after
 - **Small places swing widely.** Bastrop TX rose by +30.65 and Ecorse MI fell by −13.05. Each has a few thousand homes, so each carries little weight.
 - **Places that removed minimums with conditions:** Buffalo +0.48, Windham +8.39, Cambridge MD −6.68, Branson +3.16, Canandaigua +2.76, Seabrook −1.92.
 
+## A second check: California's AB 2097 (added 2026-10-27)
+
+The TOD thread ran a separate, pre-registered test of California's AB 2097 ([AB2097_TEST_RESULTS.md](../tod/AB2097_TEST_RESULTS.md)), with the parking thread's amendments. AB 2097 removed parking minimums within ½ mile of major transit stops from 1 January 2023.
+
+- **Method:** permits within ½ mile of a stop are compared with permits ½ to 1½ miles away, in 185 jurisdictions that had not already removed minimums or raised density near transit.
+- **All units:** +0.13 permits per 1,000 existing homes per year, with a 90% interval from −1.84 to +1.73 (resampling jurisdictions).
+- **Units in buildings of 2 or more units:** +0.39 (−1.37 to +1.89).
+- **Reading:** this is no measurable change, which agrees with the city-repeal result.
+- **Caveats:**
+  - the stops come from today's transit map, not one from before 2023;
+  - the comparison ring itself rose against land farther away (+2.58, interval +1.58 to +3.61), which could pull the estimate down.
+- **Use:** it is reported as supporting evidence, and does not change any parking number.
+
 ## Limitations
 
 - **Zoning rewrites:** 18 of the 24 places repealed parking minimums as part of a wider zoning rewrite, so parking's own effect cannot be separated out.
