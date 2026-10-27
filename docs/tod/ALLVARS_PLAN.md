@@ -39,4 +39,9 @@ More variables help a forest only when there are enough separate cases to learn 
 
 ## 6. Changes after writing
 
-None yet.
+**2026-10-27, robustness checks for any pass (written before any TOD result is seen, after the parking scenario's all-variables passes collapsed under checks).** A model that passes the rule is confirmed only if it also passes:
+- **(a) Other seeds:** the same rule with 5 other random seeds (20261028 to 20261032), passing in at least 4 of the 5;
+- **(b) Each large case left out:** the same rule with each fitted city's largest unit by acres removed, one at a time;
+- **(c) Equal weights:** the same rule with every unit weighted equally instead of by acres.
+
+A pass that fails any of these is reported as "not robust" and is not brought to the owner as a candidate.
