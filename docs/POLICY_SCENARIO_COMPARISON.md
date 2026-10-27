@@ -33,18 +33,18 @@ Additional homes permitted over 2027–2031, compared with current law. Scenario
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | 1 | **ADUs** | 5,538 | **8,757** | 16,889 | 7.1%; 13.8% | 3.2; 6.1 |
 | 2 | **TOD** | 171 | **2,509** | 17,148 | 2.0%; 14.0% | 0.9; 6.2 |
-| 3 | **Parking** | — | **0** | 29,662 | 0%; 24.2% | 0; 10.7 |
+| 3 | **Parking** | — | **0** | 20,672 | 0%; 16.9% | 0; 7.4 |
 
 What the scenario names mean:
 - **ADUs:** the lower is "sluggish adoption" (the average of Rhode Island and Oregon); the central is "typical adoption"; the upper is "strong adoption", the high end of what states with a statewide ADU law have reached, which only California has passed. If Wisconsin followed the median path the eight statewide-law states actually took, the law would add 8,851 homes.
 - **TOD:** the lower is a "little response", like Los Angeles's transit program; the central is a "typical response", like the average loosening reform across 1,136 US cities (Stacy et al. 2023); the upper is a "strong response", like Auckland's 2016 upzoning.
 - **Parking:** the central is "no measurable change"; the upper is "the high end of the evidence". There is no separate lower case, because the central is already zero.
-- **Median lines.** A "median of real cases" line is shown only where a reform has at least four comparable cases. ADUs (8 states) and parking (24 places, whose median rounds to 0, the same as its central) have one. TOD has only three whole-city studies, so it has none.
+- **Median lines.** A "median of real cases" line is shown only where a reform has at least four comparable cases. ADUs (8 states) and parking (71 places) have one. Parking's median place gained +0.30 permits per year per 1,000 existing homes, about 4,089 extra permits over 2027–2031, so its line sits between its central (0) and its high end. TOD has only three whole-city studies, so it has none.
 
 **Against each reform's own baseline:**
 - The ADU central adds 8,757 second homes to a baseline of 605, which is 14.5 times as many as current law would produce.
 - The TOD central adds 2,509 homes to a baseline of 14,464 near stops, which is 17.3% more.
-- The parking upper adds 29,662 homes to a baseline of 122,619, which is 24% more.
+- The parking upper adds 20,672 homes to a baseline of 122,619, which is 17% more (about 4,134 a year).
 
 **How confident we are.**
 
@@ -52,7 +52,7 @@ What the scenario names mean:
 | --- | --- | --- |
 | ADUs | Medium | Eight states have passed similar laws, and the model predicts each of them well when it is left out. No Midwest state has data yet. |
 | TOD | Low | The three studies that size the effect disagree about a hundredfold. None is a Wisconsin test, and the typical study is mostly of ADU and lot-size reforms, not transit upzonings. |
-| Parking | Medium that the effect is small within five years; low on the high end | 24 real repeals show no measurable rise within three years; one city, San Francisco, carries a quarter of the weight. |
+| Parking | Medium that the effect is small within five years; low on the high end | 71 real repeals show no measurable rise on average within three years. |
 
 **The ranking depends on the scenario.** On the central scenarios the order is ADUs, then TOD, then parking. On the upper scenarios it reverses: parking is first, and TOD and ADUs are nearly tied.
 
@@ -68,13 +68,13 @@ What the scenario names mean:
 - The typical study found an extra 0.8% growth in the housing stock three or more years after a loosening reform. Applied to the station areas, that is 2,509 homes.
 - Places already at or above the law's heights and densities get no addition.
 
-**Parking's central is zero because the 24 US places that removed their parking minimums did not permit measurably more homes in the next three years than similar places that kept them.**
+**Parking's central is zero because the 71 US places that removed their parking minimums did not permit measurably more homes in the next three years than similar places that kept them.**
 - The places removed minimums between 2017 and 2022. They were drawn from 46 places that adopted repeals in 2015–2022, each checked against its ordinance.
 - Each place's permits per 1,000 existing homes in up to five years before the repeal (from 2012) were compared with years 1–3 after it, against similar places in the same state that kept their minimums (a difference-in-differences).
-- Weighted by each place's number of homes, the average change was −1.18 permits per year per 1,000 existing homes (all housing units, ACS 2020–2024 table B25002). The likely range was −3.57 to +2.21, which includes zero.
+- Weighted by each place's number of homes, the average change was −1.10 permits per year per 1,000 existing homes (all housing units, ACS 2020–2024 table B25002). The 90% range was −3.50 to +1.54, which includes zero.
 - In plain words, developers in those places kept building about as much parking as buyers, renters and lenders wanted. In Buffalo, the developers of 36 major projects still built 79% of the spaces the old minimums had required. So where a minimum did not force more parking than the market wanted, removing it changed little.
 - The law is not modelled as reducing housing, so the central is zero rather than negative.
-- The upper case assumes the true effect is at the top of the likely range: +2.21 permits per year per 1,000 existing homes. Applied to the 2,684,793 Wisconsin homes outside the 9 places that already have no minimums, that gives 29,662 homes over five years.
+- The upper case assumes the true effect is at the top of the 90% range: +1.54 permits per year per 1,000 existing homes. Applied to the 2,684,793 Wisconsin homes outside the 9 places that already have no minimums, that gives 20,672 homes over five years.
 
 **Why the upper cases are so different from the centrals.**
 - **Parking:** the evidence is centred on zero, so its high end is far from its central.
@@ -86,8 +86,8 @@ What the scenario names mean:
 | Reform | Assumption | What changing it does (additional homes, 2027–2031) |
 | --- | --- | --- |
 | Parking | **The high end of the range** | The upper case is set at the 95th percentile of the measured effect. A lower bound or the central would give 0. |
-| Parking | **San Francisco's weight** | San Francisco is a quarter of the weight in the home-weighted average. Without it, the high end rises from 29,662 to 41,771. |
-| Parking | Counting only buildings of 2 or more units | The high end falls to 14,238. |
+| Parking | **Which places are in the evidence** | Using only the first 24 places studied, the high end is 29,662; combining the 71 places with 185 California cities under AB 2097 gives 15,740; leaving out San Francisco gives 27,918. |
+| Parking | Counting only buildings of 2 or more units | The high end falls to 12,555. |
 | TOD | **Which study sets the size** | Little 171, typical 2,509, strong 17,148: a hundredfold spread. Within the typical study's own interval the result is 665 to 4,352. |
 | TOD | Adjusting each study for the share of its city it covered | Without that adjustment, little is 105 and strong 12,895. |
 | TOD | The definition of a major transit stop | Rail and rapid-bus stops only: 716. Twenty-minute buses: 2,813. All 15-minute stops within ½ mile: 3,226. |
@@ -97,7 +97,7 @@ What the scenario names mean:
 | ADUs | The phase-in | Without it, the central rises to 10,268. |
 
 **Can one input flip the ranking?** Yes:
-- if parking's high end is taken as the expectation, parking ranks first, with 29,662 homes;
+- if parking's high end is taken as the expectation, parking ranks first, with 20,672 homes;
 - if TOD follows the strong study, it passes the ADU central;
 - if the ADU law only multiplies today's rates, ADUs fall below TOD's typical case.
 
@@ -112,7 +112,7 @@ What does *not* move the ADU total much is how we coded local rules. If the 69% 
   - the ADU law already removes parking requirements for ADUs;
   - the TOD cases cannot separate TOD from parking reform.
   
-  The tool shows each reform on its own. Where TOD and parking overlap near transit stops, the tool's combined view takes the larger of the two effects near stops rather than their sum. Its high case is 43,693 extra homes over 2027–2031, and the simple sum, 46,810, is shown only as an upper bound.
+  The tool shows each reform on its own. Where TOD and parking overlap near transit stops, the tool's combined view takes the larger of the two effects near stops rather than their sum. Its high case is 35,582 extra homes over 2027–2031, and the simple sum, 37,819, is shown only as an upper bound.
 - **Rents, prices, displacement, parking supply, traffic or transit ridership.** None is modelled.
 - **Finished homes.** Permits are not completions, and the figures are not net of demolitions.
 - **Local forecasts.** Municipal, county and district figures are shares of a statewide estimate. They reconcile exactly to the state, but they are not forecasts for any place, lot or project.
