@@ -711,6 +711,23 @@ These supersede the 2026-10-26 figures quoted in AQ-044.
 3. **Sensitivity:** the per-acre method with the Wisconsin-measured response, about 0.23 extra homes per acre per year per added floor area ratio (the mean of Madison's and Chicago's), capped at the 95th percentile of peer metros' apartment permitting.
 4. **Reason:** the Madison test confirmed the per-acre prediction only weakly. Spread over all land near stops, the per-acre rates exceed anything comparable metros have absorbed, because block-level gains partly move building from nearby blocks.
 
+## AQ-051 TOD Gate 3 decisions
+
+**Status:** Adopted (owner, 2026-10-27, "Approved", replying to the five recommendations). **Related:** [docs/tod/GATE3_PACKET.md](tod/GATE3_PACKET.md) section 7, AQ-050.
+
+1. **G3-1:** three scenarios over 2027–2031, as extra homes permitted on top of 14,464 baseline homes near stops:
+   - little (Los Angeles): about 171;
+   - typical (Stacy et al. 2023): about 2,509;
+   - strong (Auckland): about 17,148.
+
+   The reference line equals the typical scenario and is shown as a dotted line.
+2. **G3-2:** additions are placed in the uncoded suburbs near stops too, using their capacity-based dose. Totals are unchanged.
+3. **G3-3:** year 5 of the New York build-up uses the mean of years 3–5. The single measured year is kept as a sensitivity.
+4. **G3-4:** the tool states plainly that the typical scenario places within five years an effect measured 3 or more years after reform.
+5. **G3-5:** go to Gate 4, the TOD pilot in the tool using preview mode. The pilots are Milwaukee CONNECT 1, Madison Rapid Route A, and Eau Claire as the transfer check.
+
+Approved before the independent check of the Gate 3 packet finished; any changes that check requires are reported to the owner.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -834,3 +851,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-26 | AQ-049 | TOD Gate 2: owner approved all recommendations G2-1 to G2-9 (more moderate-rent cases first; SB 79 floors unless evidence changes; Growing MKE coded; suburbs fallback; single-family lots eligible). |
 | 2026-10-27 | AQ-048 | Parking Gate 3: owner approved G3-1 to G3-3 ("all looks good"): labels "No measurable change" and "High end of the evidence", median place as a reference line at 0; towns kept in the upper case with "towns at zero" as a sensitivity; combined TOD + parking view shows sum and larger-of-two near stops (elsewhere added), per the contract text in docs/parking/GATE3_PACKET.md section 5. North Carolina HB 162 (statewide, effective 2027-01-01) has no post-law permits yet, so it cannot enter the comparison; it is tracked as a future check. |
 | 2026-10-27 | AQ-050 | TOD: owner adopted citywide net-effect sizing (Los Angeles, Stacy et al., Auckland, corrected and per upzoned home), per-acre response for placement only, Wisconsin-measured per-acre rate as a capped sensitivity. |
+| 2026-10-27 | AQ-051 | TOD Gate 3 approved: three net-effect scenarios (about 171 / 2,509 / 17,148), suburbs placement, year-5 smoothing, timing caveat, go to Gate 4. |
