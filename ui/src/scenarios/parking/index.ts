@@ -1,6 +1,7 @@
 // The parking requirement reduction reform: seven screens over the bundle written by
 // scripts/build_parking_bundle.py. The browser only selects, sums and formats bundle values.
 import { legendHTML, xyChart } from "../../charts";
+import { createMap, RAMP, WATER, type GeoKind, type MapHandle } from "../../map";
 import { dec, esc, int, pill, YEARS } from "../../format";
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
 
@@ -133,6 +134,31 @@ function compare(b: ParkingBundle, main: HTMLElement): void {
   });
 }
 
+// ---- map (shared geography from the ADU bundle: county, municipality and district outlines) ----
+let mapH: MapHandle | null = null;
+let geoCache: Record<GeoKind, unknown> | null = null;
+
+function leaveMap(): void { mapH?.destroy(); mapH = null; }
+
+function quintiles(vals: number[]): number[] {
+  const v = vals.filter((x) => Number.isFinite(x)).sort((a, z) => a - z);
+  if (!v.length) return [1, 2, 3, 4];
+  const q = (f: number) => v[Math.min(v.length - 1, Math.floor(f * v.length))];
+  const out = [q(0.2), q(0.4), q(0.6), q(0.8)].map((x) => Math.max(1, Math.round(x)));
+  for (let i = 1; i < 4; i++) if (out[i] <= out[i - 1]) out[i] = out[i - 1] + 1;
+  return out;
+}
+
+async function loadGeo(): Promise<Record<GeoKind, unknown>> {
+  if (geoCache) return geoCache;
+  const base = `${import.meta.env.BASE_URL}runs/`;
+  const { run_id } = await (await fetch(`${base}latest.json`)).json();
+  const [counties, munis, assembly, senate] = await Promise.all(["geo_counties", "geo_munis", "geo_assembly", "geo_senate"]
+    .map((f) => fetch(`${base}${run_id}/${f}.json`).then((r) => r.json())));
+  geoCache = { counties, munis, assembly, senate };
+  return geoCache;
+}
+
 function where(b: ParkingBundle, env: ShellEnv, params: URLSearchParams, main: HTMLElement): void {
   const level = params.get("level") ?? "county";
   const q = (params.get("q") ?? "").toLowerCase();
@@ -150,10 +176,43 @@ function where(b: ParkingBundle, env: ShellEnv, params: URLSearchParams, main: H
   <form class="card" id="where-form"><fieldset class="seg"><legend>Show by</legend>
     ${[["county", "County"], ["municipality", "City, village or town"], ["assembly", "Assembly district"], ["senate", "Senate district"]].map(([v, l]) => `<label><input type="radio" name="level" value="${v}" ${level === v ? "checked" : ""}> ${l}</label>`).join("")}</fieldset>
     ${level === "municipality" ? `<p><label>Find a place <input type="search" name="q" value="${esc(q)}" data-testid="where-search"></label></p>` : ""}</form>
+  <section class="card" aria-labelledby="h-pkmap"><h2 id="h-pkmap">Map: added homes in "${esc(b.statewide.scenarios[1].label)}", 2027–2031</h2>
+    <div class="map" id="pk-map" data-testid="parking-map"><div class="map-tip" hidden></div></div>
+    <div id="pk-legend"></div>
+    <p class="small muted">The map shows the same values as the table below. Boundaries: U.S. Census Bureau cartographic boundary files and Wisconsin Legislative Technology Services Bureau districts.</p></section>
   <div class="table-wrap"><table class="data" data-testid="where-table"><caption>${level === "municipality" && !q ? "The 50 places with the most added homes" : "Added homes"} in "${esc(b.statewide.scenarios[1].label)}", 2027–2031 (statewide total ${int(tot)})</caption>
     <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes it applies to</th><th scope="col" class="num">Current-law permits</th><th scope="col" class="num">Added (high end)</th></tr></thead>
     <tbody>${shown.map((r) => `<tr><th scope="row">${esc(r.name)}${r.note ? ` <span class="small muted">(${esc(r.note)})</span>` : ""}</th><td class="num">${int(r.homes)}</td><td class="num">${int(r.baseline)}</td><td class="num">${int(r.add)}</td></tr>`).join("")}</tbody></table></div>
   <p class="small muted">"Homes it applies to" is 0 where a place already has no parking minimums for housing. District figures are estimated from where each place's homes sit, an approximation. Towns are included; a case on "How sure" leaves them out. Rows may not add exactly because of rounding.</p>`;
+  // map values by geography (ids as in the shared outline files)
+  const geoKind: GeoKind = level === "municipality" ? "munis" : level === "assembly" ? "assembly" : level === "senate" ? "senate" : "counties";
+  const vals = new Map<string, number | null>();
+  const names = new Map<string, string>();
+  if (geoKind === "munis") for (const m of A.munis) { vals.set(m.id, m.add_upper); names.set(m.id, `${m.name}, ${m.county}`); }
+  else if (geoKind === "counties") for (const c of A.counties) { vals.set(c.id, c.add_upper); names.set(c.id, c.name); }
+  else for (const d of A.districts[geoKind as "assembly" | "senate"]) {
+    const id = `${geoKind === "assembly" ? "asm" : "sen"}:${d.id}`;
+    vals.set(id, d.add_upper); names.set(id, `${geoKind === "assembly" ? "Assembly" : "Senate"} District ${d.id}`);
+  }
+  const br = quintiles([...vals.values()].filter((v): v is number => v !== null && v > 0));
+  const lab = (i: number) => i === 0 ? `under ${int(br[0])}` : i === 4 ? `${int(br[3])} or more` : `${int(br[i - 1])} to ${int(br[i] - 1)}`;
+  main.querySelector("#pk-legend")!.innerHTML = `<ul class="legend map-legend" aria-label="Map legend: added homes, five classes with about equal numbers of areas">${RAMP.map((c, i) => `<li><span class="lg-sw" style="background:${c}"></span>${esc(lab(i))}</li>`).join("")}<li><span class="lg-sw" style="background:${WATER}"></span>lakes and outside Wisconsin</li></ul>`;
+  const mapEl = main.querySelector<HTMLElement>("#pk-map")!;
+  const tip = mapEl.querySelector<HTMLElement>(".map-tip")!;
+  leaveMap();
+  loadGeo().then((g) => {
+    if (!mapEl.isConnected) return;
+    mapH = createMap(mapEl, g, () => { /* the table holds the details */ }, (id, x, y) => {
+      if (!id) { tip.hidden = true; return; }
+      tip.hidden = false;
+      tip.style.left = `${Math.min(x + 12, mapEl.clientWidth - 200)}px`;
+      tip.style.top = `${y + 12}px`;
+      tip.textContent = `${names.get(id) ?? id}: ${int(vals.get(id) ?? null)} added homes`;
+    });
+    mapH.setGeography(geoKind);
+    mapH.setData(vals, br);
+    mapEl.querySelector("canvas")?.setAttribute("aria-label", `Map of added homes by ${level === "municipality" ? "city, village and town" : level}; the same values are in the table below.`);
+  }).catch(() => { mapEl.innerHTML = `<p class="small muted">The map could not load; the table below has the same values.</p>`; });
   const f = document.getElementById("where-form") as HTMLFormElement;
   f.addEventListener("change", () => {
     const nq = new URLSearchParams();
@@ -254,7 +313,9 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       <p class="muted">Run <code>${esc(m.run_id)}</code> · Validation: ${m.validation.passed} checks passed · <a href="${esc(m.repo_url)}" target="_blank" rel="noopener">Source code and documentation<span class="sr-only"> (opens GitHub in a new tab)</span> ↗</a> · Apache-2.0</p>`,
     extra: "",
     bind() { /* nothing to bind */ },
+    leave: () => leaveMap(),
     render(path: string, params: URLSearchParams, main: HTMLElement) {
+      if (!path.startsWith("/where")) leaveMap();
       if (path.startsWith("/compare")) compare(b, main);
       else if (path.startsWith("/where")) where(b, env, params, main);
       else if (path.startsWith("/how-sure")) howSure(b, main);

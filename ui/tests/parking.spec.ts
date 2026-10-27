@@ -23,6 +23,7 @@ test("parking screens show the bundle's numbers", async ({ page }) => {
   await expect(page.getByTestId("compare-table")).toContainText(fmt(up.with_law_total));
   await page.goto("#/parking/where?level=county");
   await expect(page.getByTestId("where-table")).toContainText(`statewide total ${fmt(up.additional_total)}`);
+  await expect(page.getByTestId("parking-map").locator("canvas")).toBeVisible();
   for (const p of b.pilots) {
     await page.goto(`#/parking/pilot/${p.slug}`);
     await expect(page.getByTestId("pilot-baseline")).toHaveText(fmt(p.baseline));
