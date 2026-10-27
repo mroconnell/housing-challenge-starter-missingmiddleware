@@ -51,7 +51,7 @@ def gazetteer() -> pd.DataFrame:
             name = z.namelist()[0]
             d = pd.read_csv(z.open(name), sep="\t", dtype={"GEOID": str})
         d.columns = [c.strip() for c in d.columns]
-        rows.append(pd.DataFrame({"acs_geoid": sl + "|" + d["GEOID"], "land_sqmi": d["ALAND_SQMI"].astype(float)}))
+        rows.append(pd.DataFrame({"acs_geoid": sl + "|" + d["GEOID"], "name": d["NAME"].str.strip(), "land_sqmi": d["ALAND_SQMI"].astype(float)}))
     return pd.concat(rows, ignore_index=True)
 
 
@@ -86,7 +86,7 @@ def main() -> None:
     keep = set(m["key"].dropna().str.split("|").str[0]) | {"06", "55"}
     t = t[t["state"].isin(keep)]
     t = t.replace([np.inf, -np.inf], np.nan)
-    cols = ["acs_geoid", "state", "homes", "home_value", "income", "land_sqmi"] + [c for c in t.columns if c.startswith("T")]
+    cols = ["acs_geoid", "name", "state", "homes", "home_value", "income", "land_sqmi"] + [c for c in t.columns if c.startswith("T")]
     t[cols].round(5).to_csv(REFERENCE / "parking_place_traits.csv", index=False)
     print(len(t), "places;", t[cols].notna().mean().round(3).to_dict())
 

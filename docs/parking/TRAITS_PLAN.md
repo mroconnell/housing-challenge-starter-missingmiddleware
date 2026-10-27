@@ -44,4 +44,4 @@ Already tested in the first comparison, and reported again here for completeness
 
 ## 6. Changes after writing
 
-None yet.
+- **2026-10-27, before any trait was joined to an effect:** dataset B's jurisdictions are named in HCD's Table A2 style, with no Census code. They are matched to Census places by name: Table A2 name = Gazetteer place name without " city" or " town", California only. The 17 county jurisdictions (unincorporated areas) have no place-level traits, so they are left out of dataset B. Unmatched jurisdictions are listed in the output.
