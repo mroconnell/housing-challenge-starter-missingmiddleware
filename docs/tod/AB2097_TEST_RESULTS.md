@@ -2,6 +2,20 @@
 
 The plan is [AB2097_TEST_PREREG.md](AB2097_TEST_PREREG.md), including its section 8 changes. Section 1 below was written on 2026-10-27 before any permit was counted by area; the rest was added after the run.
 
+## Headline per acre (added 2026-10-27 at the owner's request)
+
+For density reforms the owner prefers homes permitted per acre, matching TOD's main measure (AQ-047). The plan's per-acre measure uses all land within ½ mile of a stop (near) and within the ½–1½ mile ring, not only eligible parcel land. These figures are extra homes permitted per acre per year, 2023–2025 against 2018–2022, as a difference-in-differences with 90% intervals:
+
+| Group | All homes | Homes in buildings of 2 or more | Before the law, near transit (all homes) |
+| --- | --- | --- | --- |
+| Parking alone near transit (185 jurisdictions) | +0.004 (−0.006 to +0.011) | +0.002 (−0.006 to +0.009) | 0.055 |
+| Earlier upzoning plus parking (Los Angeles only) | −0.010 (−0.036 to +0.015) | −0.025 (−0.050 to +0.001) | 0.257 |
+| Difference between the two | −0.014 (−0.041 to +0.013) | −0.027 (−0.053 to 0.000) | |
+
+The per-acre and per-1,000-homes results agree: no measurable gain near transit after AB 2097.
+
+The per-1,000-homes figures below are kept because the parking scenario uses that unit.
+
 ## 1. Lists fixed before counting
 
 ### 1a. Places coded "already no minimums"
