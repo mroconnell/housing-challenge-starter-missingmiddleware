@@ -104,6 +104,6 @@ The owner asked to see each reform alone and the two together (AQ-047). The text
   - Parking: "No measurable change" = lower and central, "High end of the evidence" = upper.
 - **Rules.** A combined view is a separate result set, with its own bundle and run id. Neither reform's own numbers change.
   - The `elsewhere` parts are added.
-  - The `near_stops` parts are shown under two rules side by side, labelled: (a) the sum, which double-counts any overlap; (b) the larger of the two.
+  - The `near_stops` parts use (b) the larger of the two as the headline. (a) The sum, which double-counts any overlap, is shown as an upper bound. This was adopted 2026-10-27 (AQ-053; parking thread), because the California AB 2097 test found no measurable gain from adding parking relief to earlier upzoning (AQ-052).
   - Rule (c), the sum minus an overlap term measured from cases where both reforms happened together, is a sensitivity case only. Its markets and decades differ: New York kept parking minimums, while Charlotte, Chicago and Saint Paul cut them.
 - **Where it lives.** The combined bundle is built by `scripts/build_combined_bundle.py` into `ui/public/scenarios/combined/runs/`, owned by the TOD conductor, as a registry entry with id `combined`.

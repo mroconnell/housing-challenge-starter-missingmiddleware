@@ -1,5 +1,5 @@
-// Transit-oriented density screens (owned by the TOD conductor), opened through preview mode until the reform is
-// "ready". Every expected number is read from the TOD bundle, never hard-coded.
+// Transit-oriented density screens (owned by the TOD conductor). Opened through preview mode while the reform was in
+// development; "ready" since Gate 4 (AQ-053). Every expected number is read from the TOD bundle, never hard-coded.
 import { expect, test, type Page } from "@playwright/test";
 import registry from "../src/scenarios/registry.json" with { type: "json" };
 
@@ -28,8 +28,10 @@ test("each TOD screen loads in preview with no console errors", async ({ page })
   const errors: string[] = [];
   page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
   page.on("pageerror", (e) => errors.push(String(e)));
-  await page.goto("#/tod/today?preview=1");
-  await expect(page.getByTestId("preview-flag")).toBeVisible();
+  const entry = registry.reforms.find((r) => r.id === "tod")!;
+  await page.goto(`#/tod/today${entry.status === "ready" ? "" : "?preview=1"}`);
+  if (entry.status === "ready") await expect(page.getByTestId("preview-flag")).toHaveCount(0);
+  else await expect(page.getByTestId("preview-flag")).toBeVisible();
   for (const s of SCREENS) {
     await page.goto(`#/tod/${s}`);
     await expect(page.locator("main h1")).toBeVisible();

@@ -749,7 +749,7 @@ The plan was written before counting. The result is a sensitivity for the combin
 1. **G4-1:** the TOD screens are accepted, and TOD's registry status is "ready".
 2. **G4-2:** both amendments from the Gate 3 independent check are confirmed. The measured New York build-up is kept, with the smoothed year 5 as a sensitivity. The suburbs' placement is scaled by 0.719. Statewide totals are unchanged.
 3. **G4-3:** next is Gate 5, the statewide review: reconciliation, a final pass on plain wording, and a fresh-clone check. Then final numbers go to the ADU thread for the submission documents.
-4. **Combined view:** the owner approved the recommendation to make "the larger of the two near stops" (rule b) the main rule, with the sum (rule a) as an upper bound. The AB 2097 test found no measurable gain from combining parking relief with earlier upzoning (AQ-052). This needs the parking conductor's agreement, since the view is shared.
+4. **Combined view:** the owner approved the recommendation to make "the larger of the two near stops" (rule b) the main rule, with the sum (rule a) as an upper bound. The AB 2097 test found no measurable gain from combining parking relief with earlier upzoning (AQ-052). The parking conductor agreed, and the owner confirmed it in the parking thread the same day ("Sure").
 
 ## Questions for office hours
 
@@ -878,5 +878,5 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-27 | AQ-048 | Parking Gate 4: owner accepted the parking screens and the three pilot places (Milwaukee, West Allis, Eau Claire) ("Approved. Move forward"); the parking reform is marked ready in the tool. Next: Gate 5. |
 | 2026-10-27 | AQ-048 | Parking Gate 5: owner accepted the parking scenario as good enough to submit (G5-1) and asked for a map on the parking Where tab (G5-2). |
 | 2026-10-27 | AQ-052 | TOD: owner approved a California AB 2097 test of parking near transit, alone and combined with earlier local upzoning (plan written before counting). |
-| 2026-10-27 | AQ-053 | TOD Gate 4 accepted: TOD marked ready; Gate 3 amendments confirmed; Gate 5 next; combined view main rule = larger of the two near stops, sum as upper bound (pending parking agreement). |
+| 2026-10-27 | AQ-053 | TOD Gate 4 accepted: TOD marked ready; Gate 3 amendments confirmed; Gate 5 next; combined view main rule = larger of the two near stops, sum as upper bound (parking agreed). |
 | 2026-10-27 | AQ-048 | Combined TOD + parking view: owner adopted "larger of the two" near transit stops as the headline rule, with the sum shown as an upper bound (2027–2031 high case 43,693 headline, 46,810 upper bound); the California AB 2097 test found no extra gain from combining (Los Angeles −2.62 per 1,000 homes, range includes zero). |

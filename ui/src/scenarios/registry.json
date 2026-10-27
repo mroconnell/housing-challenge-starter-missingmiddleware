@@ -16,14 +16,14 @@
     {
       "id": "tod",
       "label": "Transit-oriented density",
-      "subtitle": "Wisconsin transit-oriented density law · in development",
-      "status": "in_development",
+      "subtitle": "Wisconsin transit-oriented density law · statewide estimates",
+      "status": "ready",
       "bundle_root": "scenarios/tod/runs/",
       "owner": "TOD conductor",
       "benchmark": "Increase allowable residential density near major transit stops via greater heights and/or floor area ratios. Define \"major transit stop\" and justify your proximity threshold. You may assume parking requirements are reduced or eliminated.",
       "plan_doc": {
-        "label": "Transit-oriented density: Gate 1 plan",
-        "path": "docs/tod/GATE1_PLAN.md"
+        "label": "Transit-oriented density: Gate 4 packet",
+        "path": "docs/tod/GATE4_PACKET.md"
       }
     },
     {
