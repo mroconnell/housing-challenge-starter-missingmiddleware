@@ -108,7 +108,7 @@ function compare(b: ParkingBundle, main: HTMLElement): void {
     <section class="tile tile-accent"><h2 class="tile-label">${esc(cen.label)}</h2><p class="tile-num" data-testid="add-central">${int(cen.additional_total)}</p>
       <p class="tile-sub">additional permits, 2027–2031 ${pill("calculated")}</p><p class="tile-note">${esc(cen.info)}</p></section>
     <section class="tile"><h2 class="tile-label">${esc(up.label)}</h2><p class="tile-num" data-testid="add-upper">${int(up.additional_total)}</p>
-      <p class="tile-sub">additional permits, 2027–2031 ${pill("calculated")}</p><p class="tile-note">${esc(up.info)}</p></section>
+      <p class="tile-sub">additional permits, 2027–2031 ${pill("calculated")}</p><p class="tile-note">${esc(up.info)} That is about ${int(up.additional_total / 5)} extra homes permitted a year.</p></section>
     <section class="tile"><h2 class="tile-label">Current law</h2><p class="tile-num">${int(s.baseline_total)}</p>
       <p class="tile-sub">permits, 2027–2031</p><p class="tile-note">"${esc(up.label)}" would add ${dec((up.additional_total / s.baseline_total) * 100, 0)}% to it.</p></section>
   </div>

@@ -120,8 +120,8 @@ def build_statewide() -> dict:
              "info": f"If the true average effect is at the top of what the evidence allows (95 times in 100, the real average would be lower): {rate:.2f} more permits per 1,000 existing homes per year, everywhere except places that already have no parking minimums for housing.",
              "additional_total": up5, "with_law_total": base5 + up5, "rate_per_1000_homes": rate},
         ],
-        "reference_line": {"label": "Median repeal place", "value": 0.0,
-                           "info": "The typical (median) repeal place changed by −0.50 permits per 1,000 existing homes per year against its comparison places; a repeal is not modelled as reducing permits, so we use 0."},
+        "reference_line": {"label": "Median of real cases", "value": 0.0,
+                           "info": "Median of real cases, applied to Wisconsin: the median of the 24 repeal places changed by −0.50 permits per 1,000 existing homes per year against its comparison places. A repeal is not modelled as reducing permits, so it rounds to 0 added homes and coincides with \"No measurable change\" and with current law on the chart."},
     }
 
 
