@@ -1,4 +1,4 @@
-"""Wisconsin parking scenario under option A (AQ-046, AQ-048).
+"""Wisconsin parking scenario: central 0; high end from the placebo test (AQ-046, AQ-048; owner option B, 2026-10-27).
 
     uv run python scripts/run_parking_model.py
 
@@ -58,7 +58,10 @@ def main() -> None:
 
     # rates: the expanded 71-place comparison (owner, 2026-10-27: option A); the first 24-place estimate is a sensitivity
     xe = pd.read_csv(REFERENCE / "parking_expanded_estimates.csv").set_index("case")
-    upper_all = float(xe.loc["Expanded, all units (headline candidate)", "p95"])
+    upper_resample = float(xe.loc["Expanded, all units (headline candidate)", "p95"])
+    # owner option B (2026-10-27): the high end is the placebo-based range (spread of 500 placebo averages, centred
+    # on the real average); the resampling high end is kept as a sensitivity
+    upper_all = float(pd.read_csv(REFERENCE / "parking_placebo_summary.csv")["range_from_placebo_high"].iloc[0])
     upper_apts = float(xe.loc["Expanded, units in buildings of 2+ units", "p95"])
     upper_no_sf = float(xe.loc["Expanded, without San Francisco", "p95"])
     upper_ca = float(xe.loc["Expanded US and California, precision-weighted (sensitivity)", "p95"])
@@ -109,16 +112,15 @@ def main() -> None:
     tot = lambda h, r: float(pm.additions(h, r).values.sum())  # noqa: E731
     sens = [
         dict(case="Upper case (headline)", moves="statewide addition", value=tot(homes, upper_all),
-             description=f"High end of the likely range for all units, {upper_all:.2f} permits per 1,000 existing homes per year."),
+             description=f"High end from the control-city (placebo) test: the spread of 500 placebo studies of cities that never repealed, centred on the real average, {upper_all:.2f} permits per 1,000 existing homes per year."),
+        dict(case="Resampling the 71 real places (earlier high end)", moves="statewide addition", value=tot(homes, upper_resample),
+             description=f"The earlier high end: 95th percentile of the average from 2,000 resamples of the 71 places, {upper_resample:.2f} per 1,000 existing homes per year."),
         dict(case="Buildings of 2 or more units only", moves="statewide addition", value=tot(homes, upper_apts),
-             description=f"High end of the likely range when only units in buildings of 2 or more units are counted, {upper_apts:.2f} per 1,000 existing homes per year."),
+             description=f"Resampling high end when only units in buildings of 2 or more units are counted, {upper_apts:.2f} per 1,000 existing homes per year."),
         dict(case="Without San Francisco", moves="statewide addition", value=tot(homes, upper_no_sf),
-             description=f"High end of the likely range when San Francisco is left out, {upper_no_sf:.2f} per 1,000 existing homes per year."),
+             description=f"Resampling high end when San Francisco is left out, {upper_no_sf:.2f} per 1,000 existing homes per year."),
         dict(case="Combined with California's transit-area law", moves="statewide addition", value=tot(homes, upper_ca),
              description=f"High end when the 71 US places are combined with 185 California cities under AB 2097, {upper_ca:.2f} per 1,000 existing homes per year."),
-        dict(case="Placebo-based range (control cities)", moves="statewide addition",
-             value=tot(homes, float(pd.read_csv(REFERENCE / "parking_placebo_summary.csv")["range_from_placebo_high"].iloc[0])),
-             description="High end when the range is taken from 500 placebo studies of cities that never repealed, centred on the real average."),
         dict(case="First 24 places only (earlier estimate)", moves="statewide addition", value=tot(homes, upper_first24),
              description=f"The high end from the first, smaller comparison of 24 places, {upper_first24:.2f} per 1,000 existing homes per year."),
         dict(case="Size and metro model (central)", moves="statewide addition and where it lands",

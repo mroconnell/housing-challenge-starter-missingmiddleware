@@ -923,3 +923,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-27 | AQ-054 | Cross-reform conventions: shared unit (additional homes permitted per year), ACS 2020–2024 home count (2,778,572) for cross-reform figures, one median-line rule (≥4 real cases). |
 | 2026-10-27 | AQ-055 | TOD finalized (Gate 5): numbers frozen (14,464 baseline near stops; 171 / 2,509 / 17,148 extra homes 2027-2031); housekeeping T5-3 to T5-6 approved. |
 | 2026-10-27 | AQ-056 | TOD: widen the case set; if a narrower law design or trait model predicts held-out cities, the modelled law may be narrowed to it (frozen numbers change only with owner approval). |
+| 2026-10-27 | AQ-048 | Parking high end: owner chose option B, the placebo-based high end (+0.91 permits per 1,000 existing homes per year; 12,184 permits 2027–2031, was 20,672 from resampling, now a sensitivity). Combined TOD + parking high case: 27,953 headline, 29,331 upper bound (were 35,582 and 37,819). |

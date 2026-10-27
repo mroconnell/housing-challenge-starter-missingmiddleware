@@ -32,7 +32,7 @@ All rates are permits per 1,000 existing homes per year.
 
 | Option | High end, 2027–2031 |
 | --- | ---: |
-| **A (recommended): keep the current high end; show the placebo test as supporting evidence and as a sensitivity case** | 20,672 |
-| B: use the placebo-based high end | about 12,184 |
+| A: keep the current high end; show the placebo test as supporting evidence and as a sensitivity case | 20,672 |
+| **B (chosen): use the placebo-based high end** | about 12,184 |
 
-Option A keeps the headline from a method chosen before this test was run. It shows the placebo result openly as a reason to read the high end as generous.
+I recommended A, because it keeps the headline from a method chosen before this test was run. **Ryan chose B on 2026-10-27** ("the data suggests B with a tighter ceiling"). The high end is now +0.91 permits per 1,000 existing homes per year, 12,184 permits over 2027–2031. The resampling high end (20,672) stays in the tool as a sensitivity case. The combined TOD + parking high case falls from 35,582 to 27,953 (headline, larger of the two near stops) and from 37,819 to 29,331 (sum, upper bound).

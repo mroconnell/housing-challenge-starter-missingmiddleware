@@ -222,7 +222,7 @@ def build_howsure() -> dict:
         "trace": [
             {"part": "Current-law baseline", "status": "observed", "text": "Census building permits by municipality and building size, 2023–2025 average; Milwaukee's apartments estimated from the city's property file."},
             {"part": "No measurable change (central)", "status": "calculated", "text": f"From 71 US repeal places compared with similar places; point estimate {xest('all')['effect']:+.2f} permits per 1,000 homes per year, shown as 0."},
-            {"part": "High end of the evidence (upper)", "status": "calculated", "text": "95th percentile of the average from 2,000 resamples of the 71 places."},
+            {"part": "High end of the evidence (upper)", "status": "calculated", "text": "From 500 placebo studies of cities that never repealed: their spread, centred on the 71 real places' average (owner choice; the resampling high end is a sensitivity)."},
             {"part": "No case below zero", "status": "assumed", "text": "A judgment: the evidence leans slightly negative, but a repeal is not modelled as reducing permits."},
             {"part": "Years 4–5 and evidence carrying over to Wisconsin", "status": "assumed", "text": "The effect was measured over years 1–3 in other places; it is held flat for 2030–2031 and applied in Wisconsin."},
             {"part": "Where the upper case lands", "status": "assumed", "text": "Spread in proportion to existing homes; places that already have no minimums get none."},
