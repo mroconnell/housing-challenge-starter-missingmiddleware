@@ -29,7 +29,7 @@ The parking reform has the same seven screens as ADUs, reading from its own bund
    - Eau Claire (mid-size, partial reform).
 7. **Brief:** one card for a legislator.
 
-The upper total is now 29,663, not 29,662. The exact value is 29,662.5, and the bundle now rounds halves up everywhere, so every screen shows the same figure.
+The upper total is now 29,663, not 29,662. The exact value is 29,662.5, and the bundle now rounds halves up everywhere, so every screen shows the same figure. **Correction (2026-10-27):** the 29,662.5 came from yearly values rounded to one decimal; the unrounded total is 29,662.36, so every screen and the combined view now show 29,662.
 
 ## 2. How to look at it
 

@@ -86,7 +86,7 @@ def main() -> None:
     sw["addition_central"] = 0.0
     sw["addition_upper"] = [float(upper[y].sum()) if y in pm.FORECAST_YEARS else 0.0 for y in sw["year"]]
     sw["upper_rate_per_1000_homes"] = upper_all
-    sw = sw.round(1)
+    sw = sw.round(3)
     sw["upper_rate_per_1000_homes"] = round(upper_all, 2)
     sw.to_csv(REFERENCE / "parking_model_statewide_by_year.csv", index=False)
 
