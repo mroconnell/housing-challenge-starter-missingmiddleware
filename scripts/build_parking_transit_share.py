@@ -116,13 +116,20 @@ def main() -> None:
         if st.empty or tot == 0:
             share = 0.0 if tot else np.nan
             n_stops = 0
+            island = 0.0
         else:
             sg = gpd.GeoSeries(gpd.points_from_xy(st["x"], st["y"]), crs=4326).to_crs(5070)
             near = inside.geometry.apply(lambda q: sg.distance(q).min() <= HALF_MILE_M)
             share = float(inside.loc[near, "homes"].sum() / tot)
             n_stops = len(st)
+            # island size (owner, 2026-10-27, from the TOD work): the largest continuous patch of land within
+            # half a mile of a stop, inside the place, in acres
+            covered = gpd.GeoSeries([sg.buffer(HALF_MILE_M).union_all()], crs=5070).intersection(
+                shp.to_crs(5070).geometry.iloc[0]).explode(index_parts=False)
+            island = float(covered.area.max() / 4046.8564224) if len(covered) and covered.area.max() > 0 else 0.0
         rows.append(dict(prn_key=r.prn_key, place=r.place, block_groups=len(inside), homes_in_bgs=tot, stops_in_bbox=n_stops,
-                         bounds=f"{minx:.4f},{miny:.4f},{maxx:.4f},{maxy:.4f}", V16_share_homes_near_transit=share))
+                         bounds=f"{minx:.4f},{miny:.4f},{maxx:.4f},{maxy:.4f}", V16_share_homes_near_transit=share,
+                         V19_log_island_acres=float(np.log10(island + 1))))
     out = pd.DataFrame(rows)
     out.round(4).to_csv(REFERENCE / "parking_transit_share.csv", index=False)
     print(out["V16_share_homes_near_transit"].describe().round(3).to_dict(), (out["V16_share_homes_near_transit"] == 0).sum())

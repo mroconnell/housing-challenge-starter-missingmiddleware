@@ -70,4 +70,4 @@ Ryan accepted the recommendations ("I take your recommendations"). I read that a
 
 ## 7. Changes after writing
 
-None yet.
+- **2026-10-27, before any variable was joined to an effect (owner's request):** V19 "island size" is added, following the TOD work. It is the area in acres (log) of the largest continuous patch of the place's land within ½ mile of a transit stop, from the union of ½-mile circles around the National Transit Map stops. A long connected network gives a large island; scattered stops give small ones. It is tested like the others.
