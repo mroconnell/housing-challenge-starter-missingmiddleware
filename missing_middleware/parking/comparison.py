@@ -126,13 +126,15 @@ def controls(p: pd.DataFrame, key: str, event_year: int, excluded: set, homes: p
 
 
 def effects(p: pd.DataFrame, cases: pd.DataFrame, excluded: set, homes: pd.Series,
-            population: pd.Series | None = None) -> pd.DataFrame:
-    """One row per case and outcome. cases: key, event_year (+ any id columns kept)."""
+            population: pd.Series | None = None, min_post: int | None = None) -> pd.DataFrame:
+    """One row per case and outcome. cases: key, event_year (+ any id columns kept).
+    min_post: fewest after-years accepted (default all of POST_YEARS; the expanded plan uses 1)."""
+    need_post = len(POST_YEARS) if min_post is None else min_post
     rows = []
     for r in cases.itertuples(index=False):
         pre, post = windows(int(r.event_year))
         base = dict(r._asdict())
-        if len(pre) < PRE_YEARS_MIN or len(post) < len(POST_YEARS):
+        if len(pre) < PRE_YEARS_MIN or len(post) < need_post:
             rows.append({**base, "status": "excluded: too few years"})
             continue
         if r.key not in complete(p, pre + post) or pd.isna(homes.get(r.key)):
@@ -144,7 +146,7 @@ def effects(p: pd.DataFrame, cases: pd.DataFrame, excluded: set, homes: pd.Serie
             c0, c1 = _rate(p, ctrl, pre, col, homes), _rate(p, ctrl, post, col, homes)
             rows.append({**base, "status": "included", "outcome": lab, "homes": float(homes[r.key]),
                          "pre_years": f"{pre[0]}-{pre[-1]}", "post_years": f"{post[0]}-{post[-1]}",
-                         "n_controls": len(ctrl), "pop_window": window,
+                         "n_controls": len(ctrl), "pop_window": window, "n_post": len(post),
                          "rate_before": t0, "rate_after": t1, "ctrl_before": c0, "ctrl_after": c1,
                          "effect": (t1 - t0) - (c1 - c0)})
     return pd.DataFrame(rows)

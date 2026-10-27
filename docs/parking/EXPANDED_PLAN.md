@@ -51,4 +51,4 @@ Applied to the US places (main sample, and with California's cities as a second,
 
 ## 7. Changes after writing
 
-None yet.
+- **2026-10-27, after the ordinance checks and before any outcome was computed.** Many of the added places, mostly small towns, never removed minimums: they had none, or no zoning, or the check could not show that the code they replaced had minimums. They have no repeal event, so they are dropped and listed. The 19 places are: Rutland VT, Saltillo MS, Fulton MS, Follansbee WV, Cave Spring GA, Franklin Springs GA, Marcus IA, Foreman AR, Whitewood SD, Richardton ND, Madison KS, La Barge WY, Sinclair WY, Norton KS, Nettleton MS, Leland Grove IL, Plantersville MS, Kadoka SD and Gambier OH. Places where a new code replaced an older one with minimums stay in, flagged as having a zoning rewrite at the same time (for example Portsmouth OH, Taylor TX and Social Circle GA). Undated places with no date found are dropped (section 2).
