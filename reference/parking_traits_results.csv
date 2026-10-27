@@ -1,0 +1,13 @@
+dataset,trait,label,places,error_one_average,error_with_trait,gain,slope,slope_p05,slope_p95,passes
+A: US repeal places,T1_home_value_rel,Median home value (relative to state),30,4.6671,4.6693,-0.0005,-1.5745,-4.3855,2.7125,False
+A: US repeal places,T2_income_rel,Median household income (relative to state),30,4.6671,4.8262,-0.0341,-2.1688,-6.8857,5.7629,False
+A: US repeal places,T3_log_density,Homes per square mile (log),30,4.6671,4.4112,0.0548,-4.7351,-14.3285,1.0655,False
+A: US repeal places,T4_single_family_share,Share of homes that are single-family detached,30,4.6671,5.0042,-0.0722,5.8388,-9.706,18.3041,False
+A: US repeal places,T5_log_land_sqmi,Land area (log square miles),30,4.6671,5.1801,-0.1099,0.5487,-5.1778,5.9607,False
+A: US repeal places,T6_value_to_income,Home value relative to income,30,4.6671,4.6339,0.0071,-2.9469,-9.6126,3.0717,False
+"B: California AB 2097, near transit",T1_home_value_rel,Median home value (relative to state),154,8.2664,8.4597,-0.0234,-3.3475,-7.4566,0.4784,False
+"B: California AB 2097, near transit",T2_income_rel,Median household income (relative to state),154,8.2664,8.2336,0.004,-8.3106,-15.5907,-1.4741,False
+"B: California AB 2097, near transit",T3_log_density,Homes per square mile (log),154,8.2664,8.363,-0.0117,-0.6493,-6.1197,6.5557,False
+"B: California AB 2097, near transit",T4_single_family_share,Share of homes that are single-family detached,154,8.2664,8.4867,-0.0267,8.2172,-2.6915,21.2419,False
+"B: California AB 2097, near transit",T5_log_land_sqmi,Land area (log square miles),154,8.2664,8.4862,-0.0266,1.4233,-4.2337,3.1945,False
+"B: California AB 2097, near transit",T6_value_to_income,Home value relative to income,154,8.2664,8.3191,-0.0064,2.5096,-4.5661,8.5454,False
