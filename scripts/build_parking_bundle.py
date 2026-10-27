@@ -223,6 +223,7 @@ def build_why() -> dict:
             {"case": "Denver simulation (2025)", "finding": "A financial model estimates about 12.5% more market-rate apartments; a model, not observed results.", "status": "source lead",
              "source": "University of Denver with the Terner Center's housing simulator", "url": "https://theconversation.com/denver-study-shows-removing-parking-requirements-results-in-more-affordable-housing-being-built-263889"},
         ],
+        "developer_parking": "Assumption about parking developers build without mandates: developers keep building the parking that renters, buyers and lenders want, so a repeal adds homes only where a minimum forced more parking than the market wanted. In Buffalo after its 2017 repeal, major projects provided 79% of the old minimum (mixed-use 47%; stand-alone apartments 117%). The scenario sets no parking ratio itself: it uses the permit outcomes of places that repealed, so whatever parking their developers chose is already built in.",
         "north_carolina": "North Carolina's HB 162, signed 6 July 2026, removes minimum parking for new projects statewide from 1 January 2027 (the 20 coastal counties are exempt). It is the closest real law to this scenario; it has no permit data yet.",
         "docs": [doc("docs/parking/COMPARISON_RESULTS.md", "Repeal comparison results"), doc("docs/parking/COMPARISON_PLAN.md", "Pre-registered plan"),
                  doc("docs/parking/POLICY_TAXONOMY.md", "Which reforms were real"), doc("docs/parking/GATE3_PACKET.md", "Gate 3 packet")],
