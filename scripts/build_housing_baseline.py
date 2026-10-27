@@ -180,6 +180,10 @@ def main() -> None:
     # Milwaukee apartment adjustment (P8, AQ-048), unless the published-series sensitivity is asked for
     hist_published = hist.copy()
     est = None if args.published else milwaukee_mprop_permits()
+    if est is None and not args.published:
+        raise SystemExit("data/raw/milwaukee_mprop/mprop.csv is missing: fetch it with "
+                         "`uv run python scripts/build_wi_baseline.py --fetch`, or pass --published for the "
+                         "Census-as-published sensitivity (owner decision P8, AQ-048)")
     if est is not None:
         hist = apply_milwaukee_adjustment(hist, xw, est)
     adj = (hist.groupby(["year", "structure_type"])["units"].sum() -

@@ -13,15 +13,15 @@ Written 2026-10-27 by the parking conductor. Status: the parking section for the
 ## Core assumptions and their rationale
 
 1. **Developer-provided parking without mandates (the benchmark's required assumption).** We assume developers keep building the parking that renters, buyers and lenders want. A repeal adds homes only where a minimum forced more parking than the market wanted. The evidence:
-   - **Buffalo**, after its 2017 citywide repeal (Hess and Rehler 2021, read in full): 36 major projects provided 79% of the spaces the old minimums required. Mixed-use projects provided 47%. Stand-alone apartment buildings provided 117%, or 1.34 spaces per unit against a minimum of 1.
+   - **Buffalo**, after its 2017 citywide repeal (Hess, D. B., and Rehler, J. (2021), "Minus Minimums: Development Response to the Removal of Minimum Parking Requirements in Buffalo (NY)", *Journal of the American Planning Association* 87(3), 396–408, doi:10.1080/01944363.2020.1864225; read in full): 36 major projects provided 79% of the spaces the old minimums required. Mixed-use projects provided 47%. Stand-alone apartment buildings provided 117%, or 1.34 spaces per unit against a minimum of 1.
    - **Seattle, Minneapolis and Champaign:** similar reductions in parking built. These are source leads, not yet checked against the full papers.
 
-   The scenario does not set a parking ratio itself. It uses the permit outcomes of places that repealed, so whatever parking their developers chose is already built into the result.
-2. **Evidence from cities and villages, not states.** No state has removed minimums for all housing long enough to measure. The response comes from 24 US places that did, between 2015 and 2022:
+   The scenario does not set a parking ratio itself. It uses the permit outcomes of places that repealed, so whatever parking their developers chose is already built into the result. As an illustration, for Wisconsin we assume developers would build about four-fifths of the spaces today's minimums require, and about all of them for stand-alone apartment buildings, as in Buffalo (79% and 117%). The permit numbers do not depend on this illustration.
+2. **Evidence from cities and villages, not states.** No state has removed minimums for all housing long enough to measure. The response comes from 24 US places that did, between 2017 and 2022:
    - each checked against its ordinance;
    - each compared with similar places in its own state (falling back to its Census division when the state has too few) that kept their minimums.
-3. **Central case, "No measurable change" (0 added).** In the three years after repeal, the repeal places' permit rate changed by −1.18 permits per 1,000 existing homes per year compared with similar places. The likely range is −3.57 to +2.21. A repeal is not modelled as reducing permits, so the central case is 0.
-4. **Upper case, "High end of the evidence".** +2.21 permits per 1,000 existing homes per year, the 95th percentile of the average from 2,000 resamples of the 24 places. It is applied to the 2,684,793 existing Wisconsin homes outside the 9 places that already have no minimums. That gives 29,663 permits over 2027–2031, 24% above current law.
+3. **Central case, "No measurable change" (0 added).** In the three years after repeal, the repeal places' permit rate changed by −1.18 permits per 1,000 existing homes per year compared with similar places. The 90% range (5th to 95th percentile of 2,000 resamples) is −3.57 to +2.21 permits per 1,000 existing homes per year. A repeal is not modelled as reducing permits, so the central case is 0.
+4. **Upper case, "High end of the evidence".** +2.21 permits per 1,000 existing homes per year, the 95th percentile of the average from 2,000 resamples of the 24 places. It is applied to the 2,684,793 existing Wisconsin homes outside the 9 places that already have no minimums (10 municipality pieces, because Brodhead spans two counties). That gives 29,663 permits over 2027–2031, 24% above current law.
 5. **Timing.** The effect was measured over years 1–3, and it does not build up over time. The upper case is held flat through 2031. That is an assumption, and the measured path suggests it is generous.
 6. **Where the upper case lands.** It is spread in proportion to existing homes, because the comparison could not tell which kinds of places respond more (owner decision AQ-046; no size split beat one average).
 
@@ -59,6 +59,8 @@ Cleaning is recorded in [HOUSING_BASELINE.md](../shared/HOUSING_BASELINE.md), [P
 - The Census permit data have reporting gaps. Milwaukee's apartments are estimated, and its 2025 figure is missing.
 - The upper case is spread by homes, not by where minimums actually bind. Rural towns with few minimums get a share.
 - The tool does not estimate rents, parking supply, traffic or street-parking spillover.
+- Whether evidence from cities that repealed by choice may stand in for a statewide law is still open: office-hours question 26.
+- The baseline and the bundle rebuild exactly from the committed reference tables. A full rebuild from raw data follows the order in [REBUILD.md](REBUILD.md).
 
 ## Sensitivity notes
 

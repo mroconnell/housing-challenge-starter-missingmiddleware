@@ -788,7 +788,7 @@ Kept here so the owner can take them to mentor office hours or the Administrator
 
 **Parking**
 
-28. Is a model-based cost-per-unit estimate acceptable as the main method for parking, if before/after city data are too noisy to show an effect?
+28. ~~Is a model-based cost-per-unit estimate acceptable as the main method for parking, if before/after city data are too noisy to show an effect?~~ Withdrawn 2026-10-27: the owner chose no cost-based line (AQ-048, G2-4).
 29. Is it acceptable to correct a Census permit series (Milwaukee's apartments) from a city's property file, if the adjustment is labelled and the published series is kept as a sensitivity?
 
 ## Additional questions to develop
