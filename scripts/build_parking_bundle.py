@@ -44,8 +44,9 @@ INPUTS = [
     "reference/parking_comparison_effects.csv", "reference/parking_comparison_estimates.csv",
     "reference/parking_comparison_robustness.csv", "reference/parking_comparison_event_path.csv",
     "reference/parking_comparison_models.csv", "reference/parking_repeal_checks.csv",
-    "reference/parking_reform_taxonomy.csv",
+    "reference/parking_reform_taxonomy.csv", "reference/tod_near_stop_homes_by_muni.csv",
 ]
+BASELINE_VERSION = "all-housing baseline v2"
 
 
 def sha256(p: Path) -> str:
@@ -249,6 +250,27 @@ def build_pilots(areas: dict) -> list:
     return out
 
 
+def build_additions() -> dict:
+    """additions_by_area.json for combined views (docs/shared/SCENARIO_CONTRACT.md section 9): each
+    municipality's additions by year and path, split into near_stops and elsewhere by TOD's share of
+    homes near qualifying stops (main definition)."""
+    a = pd.read_csv(REF / "parking_model_by_area.csv")
+    share = pd.read_csv(REF / "tod_near_stop_homes_by_muni.csv").set_index("area_id")["share_near_main"]
+    rows = []
+    for x in a.itertuples():
+        per_year = float(x.addition_upper_per_year)
+        sh = float(share.get(x.area_id, 0.0))
+        for part, f in (("near_stops", sh), ("elsewhere", 1.0 - sh)):
+            if f <= 0 and part == "near_stops":
+                continue
+            rows.append({"area_id": x.area_id, "part": part, "central": [0.0] * len(YEARS),
+                         "upper": [round(per_year * f, 4)] * len(YEARS)})
+    return {"reform": "parking", "baseline_version": BASELINE_VERSION, "years": YEARS,
+            "paths": [{"id": "central", "label": "No measurable change"}, {"id": "upper", "label": "High end of the evidence"}],
+            "roles": {"lower": "central", "central": "central", "upper": "upper"},
+            "split_source": "reference/tod_near_stop_homes_by_muni.csv, share_near_main", "areas": rows}
+
+
 def validate(sw: dict, areas: dict) -> dict:
     checks = []
 
@@ -294,10 +316,11 @@ def main():
         "validation": val, "repo_url": REPO_URL, "inputs": hashes,
         "status_pills": {"observed": "Observed: counted in a published source.", "calculated": "Calculated: computed from observed inputs and stated rules.",
                          "assumed": "Assumed: a judgment where no data decide it."},
-        "files": ["statewide.json", "areas.json", "howsure.json", "why.json", "pilots.json"],
+        "files": ["statewide.json", "areas.json", "howsure.json", "why.json", "pilots.json", "additions_by_area.json"],
+        "baseline_version": BASELINE_VERSION,
     }
     files = {"manifest.json": manifest, "statewide.json": sw, "areas.json": areas, "howsure.json": build_howsure(),
-             "why.json": build_why(), "pilots.json": build_pilots(areas)}
+             "why.json": build_why(), "pilots.json": build_pilots(areas), "additions_by_area.json": build_additions()}
     for name, obj in files.items():
         (out / name).write_text(json.dumps(obj, ensure_ascii=False, separators=(",", ":"), sort_keys=True) + "\n")
     (OUT_ROOT / "latest.json").write_text(json.dumps({"run_id": run_id}) + "\n")

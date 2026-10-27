@@ -33,3 +33,19 @@ class TestParkingBundle(unittest.TestCase):
     def test_run_id_is_hash_of_inputs(self):
         for i in self.m["inputs"]:
             self.assertTrue((ROOT / i["path"]).exists(), i["path"])
+
+
+@unittest.skipUnless((RUNS / "latest.json").exists(), "parking bundle not built")
+class TestAdditionsByArea(unittest.TestCase):
+    def test_parts_sum_to_area_and_contract_fields(self):
+        run = json.loads((RUNS / "latest.json").read_text())["run_id"]
+        a = json.loads((RUNS / run / "additions_by_area.json").read_text())
+        self.assertEqual(a["baseline_version"], "all-housing baseline v2")
+        self.assertEqual(a["roles"], {"lower": "central", "central": "central", "upper": "upper"})
+        ref = pd.read_csv(ROOT / "reference" / "parking_model_by_area.csv").set_index("area_id")["addition_upper_five_year"]
+        tot = {}
+        for r in a["areas"]:
+            self.assertIn(r["part"], ("near_stops", "elsewhere"))
+            tot[r["area_id"]] = tot.get(r["area_id"], 0) + sum(r["upper"])
+        for k, v in list(tot.items())[:200]:
+            self.assertAlmostEqual(v, ref[k], delta=0.05)
