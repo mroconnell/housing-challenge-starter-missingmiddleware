@@ -33,7 +33,7 @@ Additional homes permitted over 2027–2031, compared with current law. Scenario
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | 1 | **ADUs** | 5,538 | **8,757** | 16,889 | 7.1%; 13.8% | 3.2; 6.1 |
 | 2 | **TOD** | 171 | **2,509** | 17,148 | 2.0%; 14.0% | 0.9; 6.2 |
-| 3 | **Parking** | — | **0** | 29,663 | 0%; 24.2% | 0; 10.7 |
+| 3 | **Parking** | — | **0** | 29,662 | 0%; 24.2% | 0; 10.7 |
 
 What the scenario names mean:
 - **ADUs:** the lower is "sluggish adoption" (the average of Rhode Island and Oregon); the central is "typical adoption"; the upper is "strong adoption", the high end of what states with a statewide ADU law have reached, which only California has passed. If Wisconsin followed the median path the eight statewide-law states actually took, the law would add 8,851 homes.
@@ -43,7 +43,7 @@ What the scenario names mean:
 **Against each reform's own baseline:**
 - The ADU central adds 8,757 second homes to a baseline of 605, which is 14.5 times as many as current law would produce.
 - The TOD central adds 2,509 homes to a baseline of 14,464 near stops, which is 17.3% more.
-- The parking upper adds 29,663 homes to a baseline of 122,619, which is 24% more.
+- The parking upper adds 29,662 homes to a baseline of 122,619, which is 24% more.
 
 **How confident we are.**
 
@@ -73,7 +73,7 @@ What the scenario names mean:
 - Weighted by each place's number of homes, the average change was −1.18 permits per year per 1,000 existing homes (all housing units, ACS 2020–2024 table B25002). The likely range was −3.57 to +2.21, which includes zero.
 - In plain words, developers in those places kept building about as much parking as buyers, renters and lenders wanted. In Buffalo, the developers of 36 major projects still built 79% of the spaces the old minimums had required. So where a minimum did not force more parking than the market wanted, removing it changed little.
 - The law is not modelled as reducing housing, so the central is zero rather than negative.
-- The upper case assumes the true effect is at the top of the likely range: +2.21 permits per year per 1,000 existing homes. Applied to the 2,684,793 Wisconsin homes outside the 9 places that already have no minimums, that gives 29,663 homes over five years.
+- The upper case assumes the true effect is at the top of the likely range: +2.21 permits per year per 1,000 existing homes. Applied to the 2,684,793 Wisconsin homes outside the 9 places that already have no minimums, that gives 29,662 homes over five years.
 
 **Why the upper cases are so different from the centrals.**
 - **Parking:** the evidence is centred on zero, so its high end is far from its central.
@@ -85,7 +85,7 @@ What the scenario names mean:
 | Reform | Assumption | What changing it does (additional homes, 2027–2031) |
 | --- | --- | --- |
 | Parking | **The high end of the range** | The upper case is set at the 95th percentile of the measured effect. A lower bound or the central would give 0. |
-| Parking | **San Francisco's weight** | San Francisco is a quarter of the weight in the home-weighted average. Without it, the high end rises from 29,663 to 41,771. |
+| Parking | **San Francisco's weight** | San Francisco is a quarter of the weight in the home-weighted average. Without it, the high end rises from 29,662 to 41,771. |
 | Parking | Counting only buildings of 2 or more units | The high end falls to 14,238. |
 | TOD | **Which study sets the size** | Little 171, typical 2,509, strong 17,148: a hundredfold spread. Within the typical study's own interval the result is 665 to 4,352. |
 | TOD | Adjusting each study for the share of its city it covered | Without that adjustment, little is 105 and strong 12,895. |
@@ -96,7 +96,7 @@ What the scenario names mean:
 | ADUs | The phase-in | Without it, the central rises to 10,268. |
 
 **Can one input flip the ranking?** Yes:
-- if parking's high end is taken as the expectation, parking ranks first, with 29,663 homes;
+- if parking's high end is taken as the expectation, parking ranks first, with 29,662 homes;
 - if TOD follows the strong study, it passes the ADU central;
 - if the ADU law only multiplies today's rates, ADUs fall below TOD's typical case.
 
