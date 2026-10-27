@@ -89,3 +89,21 @@ The outcome may differ by reform but must be stated in the footer (`manifest.out
 - Whether to add a cross-reform overview screen once two or more reforms are ready (the policy scenario comparison deliverable could be its print version).
 - Whether reforms in development should be hidden from the public build before submission.
 - Whether "Wisconsin today" should become shared across reforms, using the all-housing baseline from the parking session.
+
+## 9. Combined reforms (adopted 2026-10-27, AQ-048 and AQ-050)
+
+The owner asked to see each reform alone and the two together (AQ-047). The text below was drafted by the parking conductor, reviewed by the TOD conductor and approved by the owner as part of parking's G3-3.
+
+- **Additions.** Each reform publishes `additions_by_area.json` in its bundle. It gives, for each `area_id` (`muni:<geoid>`) and each forecast year 2027–2031, the additional permits under each of its paths.
+  - An optional `part` key (`near_stops` or `elsewhere`) splits a municipality into the area near qualifying transit stops and the rest.
+  - TOD acts only near stops.
+  - Parking splits each municipality's additions by `share_near_main` in `reference/tod_near_stop_homes_by_muni.csv`.
+- **Same baseline.** Each bundle states its `baseline_version`, currently all-housing baseline v2. The combined builder refuses to combine bundles built on different baselines.
+- **Paths paired by meaning.** Each reform maps its paths to three roles: `lower`, `central` and `upper`. Lower is combined with lower, central with central and upper with upper; paths are never crossed. Current mapping:
+  - TOD: little = lower, typical = central, strong = upper.
+  - Parking: "No measurable change" = lower and central, "High end of the evidence" = upper.
+- **Rules.** A combined view is a separate result set, with its own bundle and run id. Neither reform's own numbers change.
+  - The `elsewhere` parts are added.
+  - The `near_stops` parts are shown under two rules side by side, labelled: (a) the sum, which double-counts any overlap; (b) the larger of the two.
+  - Rule (c), the sum minus an overlap term measured from cases where both reforms happened together, is a sensitivity case only. Its markets and decades differ: New York kept parking minimums, while Charlotte, Chicago and Saint Paul cut them.
+- **Where it lives.** The combined bundle is built by `scripts/build_combined_bundle.py` into `ui/public/scenarios/combined/runs/`, owned by the TOD conductor, as a registry entry with id `combined`.
