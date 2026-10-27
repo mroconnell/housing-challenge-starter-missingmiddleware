@@ -77,3 +77,4 @@ Ryan accepted the recommendations ("I take your recommendations"). I read that a
   - V22: mean commute time in minutes (ACS B08013 ÷ workers not working at home).
 
   Each is tested by the same single-variable rule. Because the first 19 results were already known when these were added, they are reported as a follow-up set. Driver's licences are published only by state, so they are left out.
+- **2026-10-27, after testing (licence):** the OpenStreetMap surface-parking table is not distributed after all. ODbL is share-alike, which owner decision D5 rules out for this repository, and V17–V18 failed the test. The table is kept only locally, and the all-variables test is rerun without V17–V18.

@@ -88,6 +88,8 @@ def main() -> None:
     pop_den = d["population"] / d["land_sqmi"] if "land_sqmi" in d.columns else np.nan
     d["A_people_per_sqmi_log"] = np.log10(pd.to_numeric(pop_den, errors="coerce").where(lambda s: s > 0))
     feats = sorted(set(rpe.FEATURES_US + r3.SINGLE + [c for c in d.columns if c.startswith("A_")]))
+    # surface parking (V17, V18) comes from OpenStreetMap (ODbL), which the project does not distribute (D5)
+    feats = [f for f in feats if f not in ("V17_share_land_surface_parking", "V18_share_parking_in_large_sites")]
     feats = [f for f in feats if f in d.columns and d[f].notna().sum() >= 15 and d[f].nunique() > 1]
     d[["prn_key", "place", "state"] + feats].round(5).to_csv(REFERENCE / "parking_allvars_values.csv", index=False)
     print(len(feats), "variables;", len(d), "places")

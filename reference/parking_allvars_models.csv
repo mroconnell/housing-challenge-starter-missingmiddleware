@@ -1,7 +1,7 @@
 model,error,gain,repeats_beating_average,variables,places,passes
-one average,5.3729,0.0,0,57,71,False
-lasso,5.462,-0.0166,7,57,71,False
-elastic net,5.4218,-0.0091,6,57,71,False
-random forest,5.0368,0.0626,18,57,71,True
-gradient boosting,4.9317,0.0821,17,57,71,True
-causal forest (honest),5.0387,0.0622,17,57,71,True
+one average,5.3729,0.0,0,55,71,False
+lasso,5.4589,-0.016,8,55,71,False
+elastic net,5.4285,-0.0103,5,55,71,False
+random forest,5.0075,0.068,19,55,71,True
+gradient boosting,4.9201,0.0843,17,55,71,True
+causal forest (honest),5.0302,0.0638,17,55,71,True

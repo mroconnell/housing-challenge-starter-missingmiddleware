@@ -37,7 +37,7 @@ def data() -> pd.DataFrame:
     m = pd.read_csv(REFERENCE / "parking_old_minimums.csv")[["prn_key", "old_min_apartment", "old_min_single_family"]]
     d = d.merge(m.rename(columns={"old_min_apartment": "V1_old_min_apartment", "old_min_single_family": "V2_old_min_single_family"}), on="prn_key", how="left")
     d = d.merge(pd.read_csv(REFERENCE / "parking_transit_share.csv")[["prn_key", "V16_share_homes_near_transit", "V19_log_island_acres"]], on="prn_key", how="left")
-    s = REFERENCE / "parking_surface_lots.csv"
+    s = REFERENCE.parent / "data" / "processed" / "parking" / "parking_surface_lots.csv"   # local only (ODbL; not distributed)
     if s.exists():
         d = d.merge(pd.read_csv(s)[["prn_key", "V17_share_land_surface_parking", "V18_share_parking_in_large_sites"]], on="prn_key", how="left")
     else:

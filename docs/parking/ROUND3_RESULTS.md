@@ -6,7 +6,7 @@ Written 2026-10-27 by the parking conductor. Plan: [ROUND3_PLAN.md](ROUND3_PLAN.
 - `scripts/build_parking_surface_lots.py`
 - `scripts/run_parking_round3.py`
 
-Outputs: `reference/parking_round3_*.csv`, `reference/parking_old_minimums.csv`, `reference/parking_transit_share.csv` and `reference/parking_surface_lots.csv`.
+Outputs: `reference/parking_round3_*.csv`, `reference/parking_old_minimums.csv`, `reference/parking_transit_share.csv`; the surface-parking table is local only (see Limits).
 
 ## Answer
 
@@ -63,7 +63,8 @@ None of them improves predictions for places left out of the fit, so they are a 
 ## Limits
 
 - **Old minimum:** found for 52 places (apartments) and 50 places (houses). A third of the values are low confidence, and some Oregon places' old codes had already been overridden by the state's 2022 rules.
-- **Surface parking:** comes from OpenStreetMap (ODbL), whose coverage varies by place.
+- **Surface parking:** comes from OpenStreetMap (© OpenStreetMap contributors, ODbL), whose coverage varies by place. It was evaluated, not used. The licence is share-alike, which the project does not distribute (owner decision D5), and the variable failed. The derived table is kept only locally (`data/processed/parking/`).
+- **Transit stops:** U.S. DOT Bureau of Transportation Statistics, National Transit Map (CC BY 3.0 US).
 - **Transit share and island size:** count any stop, so "near transit" is broad.
 
 ## What it means

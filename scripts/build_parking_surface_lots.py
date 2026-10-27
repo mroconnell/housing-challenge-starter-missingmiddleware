@@ -1,11 +1,15 @@
 """Round-3 variables V17-V18 (docs/parking/ROUND3_PLAN.md): surface parking inside each repeal place,
-from OpenStreetMap (ODbL; derived table published under the ODbL with attribution). No effects are read.
+from OpenStreetMap. No effects are read.
+
+Evaluated, not used (2026-10-27): OpenStreetMap is ODbL (share-alike), which the project does not distribute
+(owner decision D5), and the variables failed the round-3 test. The output is written to data/processed/parking/
+(git-ignored), not to reference/.
 
   V17 share of land area in surface parking lots
   V18 share of that parking in large contiguous sites (>= 2 acres after joining lots within 30 m)
 
     uv run --all-extras python scripts/build_parking_surface_lots.py
-Raw Overpass extracts: data/raw/osm_parking_lots/ (with _downloads.json); output reference/parking_surface_lots.csv
+Raw Overpass extracts: data/raw/osm_parking_lots/ (with _downloads.json); output data/processed/parking/parking_surface_lots.csv
 """
 from __future__ import annotations
 
@@ -109,7 +113,9 @@ def main() -> None:
                          V17_share_land_surface_parking=area / land_m2 if land_m2 else np.nan,
                          V18_share_parking_in_large_sites=big / area if area else np.nan))
     out = pd.DataFrame(rows)
-    out.round(5).to_csv(REFERENCE / "parking_surface_lots.csv", index=False)
+    out_dir = REFERENCE.parent / "data" / "processed" / "parking"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out.round(5).to_csv(out_dir / "parking_surface_lots.csv", index=False)
     print(out[["lots", "V17_share_land_surface_parking", "V18_share_parking_in_large_sites"]].describe().round(4))
 
 
