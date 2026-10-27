@@ -774,6 +774,15 @@ The plan was written before counting. The result is a sensitivity for the combin
 5. **T5-5:** legislative districts keep the detached-home split, which is disclosed.
 6. **T5-6:** a TOD section and the rebuild order go into the README, in the submission-documents pass with the ADU thread.
 
+## AQ-056 TOD: widen the case set, and let the modelled law follow what can be predicted
+
+**Status:** Adopted (owner, 2026-10-27). **Related:** AQ-047 item 1, AQ-055, [docs/tod/TRAITS_PLAN.md](tod/TRAITS_PLAN.md), [docs/tod/CASE_ANALYSIS_PLAN.md](tod/CASE_ANALYSIS_PLAN.md) section 7.
+
+The owner restated the principle in AQ-047 item 1: the modelled law should rest on a dataset big enough to be predictive.
+1. **More cities first.** Eight cities are added and the trait test is rerun with the same pass rule.
+2. **If a narrower design predicts well, adopt it.** If, on the wider set, a particular law design or a set of place traits predicts held-out cities better than the plain average, the modelled law may be narrowed to that design. For example, it might apply only where the traits say upzoning works, or use the design that worked. The scenarios would then be re-sized from that predictive model.
+3. **The frozen numbers can be unfrozen.** The TOD numbers frozen in AQ-055 stay as they are until the owner approves any such change, which would be brought to him as a short gate packet.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -905,3 +914,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-27 | AQ-048 | Combined TOD + parking view: owner adopted "larger of the two" near transit stops as the headline rule, with the sum shown as an upper bound (2027–2031 high case 43,693 headline, 46,810 upper bound); the California AB 2097 test found no extra gain from combining (Los Angeles −2.62 per 1,000 homes, range includes zero). |
 | 2026-10-27 | AQ-054 | Cross-reform conventions: shared unit (additional homes permitted per year), ACS 2020–2024 home count (2,778,572) for cross-reform figures, one median-line rule (≥4 real cases). |
 | 2026-10-27 | AQ-055 | TOD finalized (Gate 5): numbers frozen (14,464 baseline near stops; 171 / 2,509 / 17,148 extra homes 2027-2031); housekeeping T5-3 to T5-6 approved. |
+| 2026-10-27 | AQ-056 | TOD: widen the case set; if a narrower law design or trait model predicts held-out cities, the modelled law may be narrowed to it (frozen numbers change only with owner approval). |
