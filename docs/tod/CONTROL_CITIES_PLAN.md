@@ -86,4 +86,17 @@ The same fake-reform spread gives a **smallest detectable effect**: the half-wid
 
 ## 9. Changes after writing
 
-None yet.
+Recorded 2026-10-27 while running (results: [CONTROL_CITIES_RESULTS.md](CONTROL_CITIES_RESULTS.md)). Items 1 to 8 were fixed before any comparison was computed. Items 9 to 12 came from the independent review, after the first results were seen; none changes a decision.
+
+1. **Charlotte is measured as Mecklenburg County's permit office** (reason: the permit survey reports Charlotte only through that office, which covers the whole county). Its rate is per 1,000 county homes (398,510 in 2010). Five-year shares are converted to Charlotte's 319,918 homes, so all extra county permits are credited to Charlotte. The size band uses Charlotte's own homes.
+2. **"Reported all 12 months" read as "has a row in every year's annual file"** (reason: the annual files include the Census's imputations for places that missed months).
+3. **Metro areas** use the latest CBSA code each place carries in the 2012–2025 files.
+4. **Fake reforms leave out controls in the fake city's own metro area**, as for the real reform cities.
+5. **The blend's weights summing to 1** is enforced by a heavily weighted extra row in the least-squares fit, so it holds to about six decimals.
+6. **Fake-date checks** apply the eligibility and state-law rules to the fake windows.
+7. **Places that cannot be linked are left out**, including Indianapolis, whose permit place code is the 2020 code and does not match its 2010 place.
+8. **2010 homes** for consolidated cities (for example Nashville and Louisville) are the "balance" place, which may leave out their satellite towns (not checked).
+9. **Non-reports treated as missing** (reason: a row with 0 months reported and 0 homes is a non-report, not an imputation, so it does not meet item 2). This drops 4 places from Saint Paul's pool and 6 from Madison's; no main estimate changes.
+10. **Seattle's two tests draw the same fake city** in the pooled and agreement intervals (reason: the two tests share one pool, and their fake effects are correlated; drawing them independently made Seattle's noise look smaller).
+11. **Rule 2's "scenarios left out" is judged only when the width test passes** (reason: with an interval over 1,000 points wide, Seattle's tiny upzoned area decides which scenarios fall outside, which says nothing about the scenarios).
+12. **Inventory matching fixed** for "(balance)" names and for entries listing several towns (Brockton, Haverhill, Lowell), so they are excluded as controls. They were in no main control set.

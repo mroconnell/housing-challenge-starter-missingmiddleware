@@ -1,0 +1,102 @@
+test,method,place,state,homes_2010,weight
+charlotte_2019,ten matched cities,Fort Worth city,48,291086,0.1
+charlotte_2019,ten matched cities,Nashville-Davidson metropolitan government (balance),47,272622,0.1
+charlotte_2019,ten matched cities,Reno city,32,102582,0.1
+charlotte_2019,ten matched cities,Henderson city,32,113586,0.1
+charlotte_2019,ten matched cities,Durham city,37,103221,0.1
+charlotte_2019,ten matched cities,Jacksonville city,12,366273,0.1
+charlotte_2019,ten matched cities,Washington city,11,296719,0.1
+charlotte_2019,ten matched cities,Chandler city,04,94404,0.1
+charlotte_2019,ten matched cities,Miami city,12,183994,0.1
+charlotte_2019,ten matched cities,Tallahassee city,12,84248,0.1
+charlotte_2019,weighted blend,Fort Worth city,48,291086,0.84895
+charlotte_2019,weighted blend,Orlando city,12,121254,0.08956
+charlotte_2019,weighted blend,Durham city,37,103221,0.06149
+stpaul_2011,ten matched cities,Vista city,06,30986,0.1
+stpaul_2011,ten matched cities,Arlington Heights village,17,32795,0.1
+stpaul_2011,ten matched cities,Garden Grove city,06,47755,0.1
+stpaul_2011,ten matched cities,Santa Barbara city,06,37820,0.1
+stpaul_2011,ten matched cities,Waterbury city,09,47991,0.1
+stpaul_2011,ten matched cities,New Bedford city,25,42933,0.1
+stpaul_2011,ten matched cities,Deerfield Beach city,12,42671,0.1
+stpaul_2011,ten matched cities,St. Louis city,29,176002,0.1
+stpaul_2011,ten matched cities,Grand Rapids city,26,80619,0.1
+stpaul_2011,ten matched cities,Concord city,06,47125,0.1
+stpaul_2011,weighted blend,Concord city,06,47125,0.40713
+stpaul_2011,weighted blend,Miami Beach city,12,67499,0.27944
+stpaul_2011,weighted blend,Alameda city,06,32351,0.18318
+stpaul_2011,weighted blend,Santa Ana city,06,76896,0.05418
+stpaul_2011,weighted blend,Largo city,12,46859,0.05349
+stpaul_2011,weighted blend,Worcester city,25,74645,0.02258
+los_angeles_2013,ten matched cities,Louisville/Jefferson County metro government (balance),21,270928,0.1
+los_angeles_2013,ten matched cities,Milwaukee city,55,255569,0.1
+los_angeles_2013,ten matched cities,Baltimore city,24,296685,0.1
+los_angeles_2013,ten matched cities,Boston city,25,272481,0.1
+los_angeles_2013,ten matched cities,Albuquerque city,35,239166,0.1
+los_angeles_2013,ten matched cities,Detroit city,26,349170,0.1
+los_angeles_2013,ten matched cities,Oklahoma City city,40,256930,0.1
+los_angeles_2013,ten matched cities,Columbus city,39,370965,0.1
+los_angeles_2013,ten matched cities,Las Vegas city,32,243701,0.1
+los_angeles_2013,ten matched cities,San Antonio city,48,524246,0.1
+los_angeles_2013,weighted blend,Detroit city,26,349170,0.54359
+los_angeles_2013,weighted blend,Nashville-Davidson metropolitan government (balance),47,272622,0.18927
+los_angeles_2013,weighted blend,Albuquerque city,35,239166,0.11095
+los_angeles_2013,weighted blend,Washington city,11,296719,0.08321
+los_angeles_2013,weighted blend,Dallas city,48,516639,0.07298
+seattle_2012,ten matched cities,San Antonio city,48,524246,0.1
+seattle_2012,ten matched cities,Houston city,48,892646,0.1
+seattle_2012,ten matched cities,Greensboro city,37,124074,0.1
+seattle_2012,ten matched cities,Springfield city,29,77620,0.1
+seattle_2012,ten matched cities,Nashville-Davidson metropolitan government (balance),47,272622,0.1
+seattle_2012,ten matched cities,Irving city,48,91128,0.1
+seattle_2012,ten matched cities,Plano city,48,103672,0.1
+seattle_2012,ten matched cities,Tampa city,12,157130,0.1
+seattle_2012,ten matched cities,Fresno city,06,171288,0.1
+seattle_2012,ten matched cities,Winston-Salem city,37,103974,0.1
+seattle_2012,weighted blend,Dallas city,48,516639,0.30535
+seattle_2012,weighted blend,Aurora city,08,131040,0.30444
+seattle_2012,weighted blend,Huntsville city,01,84949,0.2212
+seattle_2012,weighted blend,Orlando city,12,121254,0.13456
+seattle_2012,weighted blend,Fayetteville city,37,87005,0.03446
+seattle_2014,ten matched cities,Chesapeake city,51,83196,0.1
+seattle_2014,ten matched cities,Orlando city,12,121254,0.1
+seattle_2014,ten matched cities,Lubbock city,48,95926,0.1
+seattle_2014,ten matched cities,Oklahoma City city,40,256930,0.1
+seattle_2014,ten matched cities,Irving city,48,91128,0.1
+seattle_2014,ten matched cities,Houston city,48,892646,0.1
+seattle_2014,ten matched cities,Washington city,11,296719,0.1
+seattle_2014,ten matched cities,Amarillo city,48,80298,0.1
+seattle_2014,ten matched cities,Miami city,12,183994,0.1
+seattle_2014,ten matched cities,Corpus Christi city,48,125469,0.1
+seattle_2014,weighted blend,Orlando city,12,121254,0.58449
+seattle_2014,weighted blend,Fayetteville city,37,87005,0.17545
+seattle_2014,weighted blend,Durham city,37,103221,0.15086
+seattle_2014,weighted blend,Amarillo city,48,80298,0.08921
+chicago_2015,ten matched cities,Baltimore city,24,296685,0.1
+chicago_2015,ten matched cities,Mesa city,04,201173,0.1
+chicago_2015,ten matched cities,Tucson city,04,229762,0.1
+chicago_2015,ten matched cities,Cleveland city,39,207536,0.1
+chicago_2015,ten matched cities,Albuquerque city,35,239166,0.1
+chicago_2015,ten matched cities,Detroit city,26,349170,0.1
+chicago_2015,ten matched cities,Las Vegas city,32,243701,0.1
+chicago_2015,ten matched cities,Milwaukee city,55,255569,0.1
+chicago_2015,ten matched cities,Louisville/Jefferson County metro government (balance),21,270928,0.1
+chicago_2015,ten matched cities,Jacksonville city,12,366273,0.1
+chicago_2015,weighted blend,Detroit city,26,349170,0.82823
+chicago_2015,weighted blend,Nashville-Davidson metropolitan government (balance),47,272622,0.16147
+chicago_2015,weighted blend,Washington city,11,296719,0.01031
+madison_2023,ten matched cities,Tempe city,04,73462,0.1
+madison_2023,ten matched cities,Edmond city,40,33178,0.1
+madison_2023,ten matched cities,Lakeland city,12,48218,0.1
+madison_2023,ten matched cities,Lincoln city,31,110546,0.1
+madison_2023,ten matched cities,Olathe city,20,46851,0.1
+madison_2023,ten matched cities,Tampa city,12,157130,0.1
+madison_2023,ten matched cities,McAllen city,48,45862,0.1
+madison_2023,ten matched cities,Grand Prairie city,48,62424,0.1
+madison_2023,ten matched cities,Fontana city,06,51857,0.1
+madison_2023,ten matched cities,Brownsville city,48,53936,0.1
+madison_2023,weighted blend,Huntsville city,01,84949,0.38899
+madison_2023,weighted blend,Rio Rancho city,35,33964,0.25832
+madison_2023,weighted blend,Indio city,06,28971,0.23209
+madison_2023,weighted blend,Mountain View city,06,33881,0.07109
+madison_2023,weighted blend,Lubbock city,48,95926,0.0495

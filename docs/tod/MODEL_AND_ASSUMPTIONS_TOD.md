@@ -1,6 +1,6 @@
 # Transit-oriented density (TOD): model and assumptions
 
-Master copy for the TOD section of [MODEL_AND_ASSUMPTIONS.md](../MODEL_AND_ASSUMPTIONS.md). Last updated 2026-10-27 (AQ-053, AQ-054). Decisions: AQ-044 to AQ-051 in [ASSUMPTIONS_AND_QUESTIONS.md](../ASSUMPTIONS_AND_QUESTIONS.md). Detail: [GATE3_PACKET.md](GATE3_PACKET.md), [MODEL.md](MODEL.md).
+Master copy for the TOD section of [MODEL_AND_ASSUMPTIONS.md](../MODEL_AND_ASSUMPTIONS.md). Last updated 2026-10-27 (AQ-053, AQ-054, AQ-057). Decisions: AQ-044 to AQ-051 in [ASSUMPTIONS_AND_QUESTIONS.md](../ASSUMPTIONS_AND_QUESTIONS.md). Detail: [GATE3_PACKET.md](GATE3_PACKET.md), [MODEL.md](MODEL.md).
 
 ## 1. Purpose and scope
 
@@ -94,7 +94,8 @@ All data are fetched by script, with the source, date, size and checksum recorde
 
 - **No Wisconsin test of the adopted sizing.** The Madison test checked the per-acre method, which now only places homes.
 - **The typical scenario rests on a general study.** Only 28 of Stacy et al.'s 96 loosening reforms changed floor area, density or height. It is measured 3 or more years after reform, but is placed here inside five years.
-- **Why places differ.** A pre-registered effect-heterogeneity analysis tested 12 local traits (such as home values, incomes, rents, lot sizes, existing density and distance to downtown) on rezonings and station areas in six cities, using leave-one-city-out cross-validation. Eight methods were tried: weighted regression, LASSO, a regression tree, a random forest, gradient boosting, a causal forest, nearest neighbours and a multilevel model. All 66 pairs of traits were also tested. None predicted where upzoning added more homes better than a plain average, so the scenarios stay wide ([TRAITS_RESULTS.md](TRAITS_RESULTS.md)).
+- **Why places differ.** A pre-registered effect-heterogeneity analysis tested 12 local traits (such as home values, incomes, rents, lot sizes, existing density and distance to downtown) on rezonings and station areas in six cities, using leave-one-city-out cross-validation. Eight methods were tried: weighted regression, LASSO, a regression tree, a random forest, gradient boosting, a causal forest, nearest neighbours and a multilevel model. All 66 pairs of traits were also tested. None predicted where upzoning added more homes better than a plain average, so the scenarios stay wide ([TRAITS_RESULTS.md](TRAITS_RESULTS.md)) A second test entered 91 census variables (housing, incomes, commuting, car ownership and more) for 8 cities; again nothing beat the plain average ([ALLVARS_RESULTS.md](ALLVARS_RESULTS.md)).
+- **Checks against our own cities.** In 8 US cities that upzoned land near transit, the extra homes permitted over five years, net of building moved within the city, came to 0.04% (Los Angeles) to 1.24% (Madison) of the city's homes. Saint Paul, with one year of data before its reform, was −0.12%. In no city did building fall next to the upzoned area ([NET_EFFECT_RESULTS.md](NET_EFFECT_RESULTS.md)). A comparison of six of these cities with 10 matched US cities that made no such reform agreed in 5 of 6. But it can only detect changes of about 4% to 5% of a city's homes over five years, so it cannot narrow the range ([CONTROL_CITIES_RESULTS.md](CONTROL_CITIES_RESULTS.md)).
 - **TOD alone versus TOD with parking reform.** The cases cannot separate the two.
 - **Concentration.** Almost all extra homes land in Milwaukee County and Dane County.
 - **Edge cases:**

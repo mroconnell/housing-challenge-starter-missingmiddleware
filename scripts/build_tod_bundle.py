@@ -50,6 +50,8 @@ INPUTS = [
     "reference/tod_definition_summary.csv", "reference/tod_stops.csv", "reference/tod_station_areas.csv",
     "reference/tod_near_stop_homes_by_muni.csv",
     "reference/tod_case_estimates.csv", "reference/tod_cases.csv", "reference/tod_trait_pairs.csv", "reference/tod_trait_tools.csv",
+    "reference/tod_allvars_models.csv", "reference/tod_allvars_variable_map.csv", "reference/tod_net_effect_by_case.csv",
+    "reference/tod_control_cities_results.csv", "reference/tod_control_cities_pooled.csv",
     "reference/tod_madison_test_results.csv", "reference/tod_madison_test_rates_by_year.csv",
     "reference/tod_madison_test_predictions.csv",
     "reference/tod_scale_check.csv", "reference/tod_scale_check_metro_years.csv",
@@ -482,12 +484,17 @@ def build_howsure(sw: dict, areas: dict) -> dict:
     tools = pd.read_csv(REF / "tod_trait_tools.csv")
     n_tools = int(tools.loc[~tools["tool"].str.startswith("0."), "tool"].nunique())
     n_pass = int((pairs.verdict == "pass").sum()) + int((tools.get("verdict", pd.Series(dtype=str)) == "pass").sum())
+    allvars = pd.read_csv(REF / "tod_allvars_models.csv")
+    n_vars = len(pd.read_csv(REF / "tod_allvars_variable_map.csv"))
+    n_cities = int(allvars["fold_cities"].dropna().iloc[0]) + 2   # fitted cities plus Chicago and Madison, held out
+    n_pass += int((allvars["verdict"] == "pass").sum())
     trait_line = {"title": "Why the response differs from place to place",
                   "text": (f"We tested {n_traits} local traits (home values, incomes, rents, lot sizes, existing density, distance to "
-                           f"downtown and others), all {len(pairs)} pairs of them and {n_tools} prediction methods (including random and causal forests), "
-                           f"predicting each city from the others. "
-                           + ("None reliably predicts where upzoning added more homes" if n_pass == 0 else f"{n_pass} pairs passed")
-                           + ", so the scenarios stay wide (docs/tod/TRAITS_RESULTS.md).")}
+                           f"downtown and others) and all {len(pairs)} pairs of them, then {n_vars} census variables (housing, incomes, "
+                           f"commuting, car ownership and more), with {n_tools} prediction methods including random and causal forests, "
+                           f"predicting each of {n_cities} cities from the others. "
+                           + ("None reliably predicts where upzoning added more homes" if n_pass == 0 else f"{n_pass} passed")
+                           + ", so the scenarios stay wide (docs/tod/TRAITS_RESULTS.md, docs/tod/ALLVARS_RESULTS.md).")}
     cannot = [
         {"title": "Whether Wisconsin will behave like the average city in these studies",
          "text": "Only 28 of the 96 loosening reforms in the typical study changed floor area, density or height; most were about accessory dwellings and lot sizes."},
@@ -518,6 +525,43 @@ CASE_NAMES = {
     "annarbor_tc1_2021": "Ann Arbor, 2021 transit corridor district",
 }
 ROLE_LABELS = {"fit": "Used to place homes", "context": "Background only", "heldout": "Held out to test the model"}
+
+
+def city_checks() -> list[dict]:
+    """Two checks of the scenarios against our own cities (NET_EFFECT_RESULTS.md, CONTROL_CITIES_RESULTS.md)."""
+    net = pd.read_csv(REF / "tod_net_effect_by_case.csv")
+    summed = set(net.loc[net["level"].str.startswith("city"), "city"])
+    cities = net[net["level"].str.startswith("city") | ~net["city"].isin(summed)]
+    weak = cities[cities["city"] == "Saint Paul"]
+    rest = cities[cities["city"] != "Saint Paul"]
+    ring_fell = int((net.loc[net["level"] == "case", "borrowing_high"] < 0).sum())
+    lo, hi = rest["net_share_5yr_pct"].min(), rest["net_share_5yr_pct"].max()
+    out = [{"title": "Our own cities' whole-city gains",
+            "text": (f"In {len(cities)} US cities that upzoned land near transit, we measured the extra homes permitted over five years, "
+                     f"net of any building pulled from elsewhere in the city, as a share of all the city's homes. It ranged from "
+                     f"{lo:.2f}% ({rest.loc[rest['net_share_5yr_pct'].idxmin(), 'city']}) to {hi:.2f}% "
+                     f"({rest.loc[rest['net_share_5yr_pct'].idxmax(), 'city']}); Saint Paul, with one year of data before its reform, "
+                     f"was {weak["net_share_5yr_pct"].iloc[0]:.2f}%. "
+                     + ("In no city did building fall on the land next to the upzoned area." if ring_fell == 0 else
+                        f"Building fell next to the upzoned area in {ring_fell} cases.")
+                     + " These whole-city shares are small because each reform covered a small slice of its city."),
+            "doc": doc("docs/tod/NET_EFFECT_RESULTS.md", "Net-effect results")}]
+    res, pooled = REF / "tod_control_cities_results.csv", REF / "tod_control_cities_pooled.csv"
+    if res.exists() and pooled.exists():
+        m = pd.read_csv(res)
+        m = m[m["check"] == "main"]
+        p = pd.read_csv(pooled).iloc[0]
+        n_cities = int(p["cities"])
+        out.append({"title": "Matched cities with no transit reform",
+                    "text": (f"We also compared each reform city's total building with 10 similar US cities that made no such reform, "
+                             f"over the same years ({n_cities} cities; New York and Philadelphia rezoned in many steps, so they could not be "
+                             f"compared this way). Whole-city building swings so much from city to city that this comparison can only "
+                             f"detect a change of about {m['smallest_detectable_5yr_pct'].min():.0f}% to "
+                             f"{m['smallest_detectable_5yr_pct'].max():.0f}% of a city's homes over five years, far more than the "
+                             f"reforms added. {int(p['cities_agreeing'])} of the {n_cities} cities' own measurements fall inside its likely range, "
+                             f"but it is too noisy to narrow Wisconsin's range."),
+                    "doc": doc("docs/tod/CONTROL_CITIES_RESULTS.md", "Control-city results")})
+    return out
 
 
 def build_why() -> dict:
@@ -610,7 +654,7 @@ def build_why() -> dict:
          "status": "observed"},
     ]
     return {"cases": cases, "classification": classification, "strength_counts": {k: int(v) for k, v in counts.items()},
-            "madison": madison, "sources": sources,
+            "madison": madison, "sources": sources, "city_checks": city_checks(),
             "docs": [doc("docs/tod/GATE3_PACKET.md", "Gate 3 packet"), doc("docs/tod/MODEL.md", "Model"),
                      doc("docs/tod/CASE_RESULTS.md", "Comparison cases"), doc("docs/tod/MADISON_TEST_RESULTS.md", "Madison test"),
                      doc("docs/tod/research/NET_EFFECT_SOURCES.md", "Source check of the three studies")]}

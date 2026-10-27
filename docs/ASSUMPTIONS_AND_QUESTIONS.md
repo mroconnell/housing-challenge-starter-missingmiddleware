@@ -783,6 +783,14 @@ The owner restated the principle in AQ-047 item 1: the modelled law should rest 
 2. **If a narrower design predicts well, adopt it.** If, on the wider set, a particular law design or a set of place traits predicts held-out cities better than the plain average, the modelled law may be narrowed to that design. For example, it might apply only where the traits say upzoning works, or use the design that worked. The scenarios would then be re-sized from that predictive model.
 3. **The frozen numbers can be unfrozen.** The TOD numbers frozen in AQ-055 stay as they are until the owner approves any such change, which would be brought to him as a short gate packet.
 
+## AQ-057 TOD: control cities with no reform, and the accepted screen updates
+
+**Status:** Recorded (owner request and acceptance, 2026-10-27). **Related:** AQ-050, AQ-055, AQ-056, [docs/tod/CONTROL_CITIES_PLAN.md](tod/CONTROL_CITIES_PLAN.md), [docs/tod/CONTROL_CITIES_RESULTS.md](tod/CONTROL_CITIES_RESULTS.md).
+
+1. **Screens.** The owner accepted ending the search for predictors after the all-variables test. The "How sure" screen now says 12 traits and their 66 pairs, plus 91 census variables, were tested with 8 methods across 8 cities, and none predicts. The "Why" screen adds the cities' own whole-city net effects: 0.04% to 1.24% of a city's homes over five years, with no building lost next door.
+2. **Control cities.** At the owner's request, each reform city's whole-city permits were compared with 10 matched US cities that made no transit-area reform, over the same years, under a plan written first. The cities' own results agree with it in 5 of 6 cities, but it can only detect changes of about 4% to 5% of a city's homes over five years. That is far more than any reform added, so it cannot narrow the range. Seattle's citywide boom shows why the within-city comparison is used.
+3. **No number changes.** The TOD scenarios stay at 171, 2,509 and 17,148 extra homes over 2027–2031 (AQ-055).
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.

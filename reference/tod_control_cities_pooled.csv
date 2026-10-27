@@ -1,0 +1,2 @@
+cities,city_share_5yr_pct,city_share_5yr_low_pct,city_share_5yr_high_pct,per_upzoned_home_5yr_pct,per_upzoned_home_5yr_low_pct,per_upzoned_home_5yr_high_pct,interval_width_points,scenario_gap_points,scenarios_left_out_of_interval,rule2_narrowing_passes,cities_agreeing,agreeing_list,rule1_agreement_passes,seed,draws
+6,1.94467,-0.10302,3.72783,1078.26881,350.4491,1600.70622,1250.25712,5.414,not judged (interval too wide),False,5,Charlotte;Saint Paul;Los Angeles;Chicago;Madison,True,20261028,2000

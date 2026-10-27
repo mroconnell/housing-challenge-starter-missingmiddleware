@@ -79,6 +79,7 @@ export interface Why {
     ramp: { label: string; value: number }[];
   };
   sources: { scenario: ScenId; study: string; citation: string; url: string; finding: string; status: string }[];
+  city_checks?: { title: string; text: string; doc: { label: string; url: string } }[];
   docs: { label: string; url: string }[];
 }
 export interface CorridorPlace { name: string; coded: boolean; acres: number; eligible_acres: number; gain_acres: number; existing_homes: number; share_of_place: number; overlay_share: number | null; add_typical: number }
