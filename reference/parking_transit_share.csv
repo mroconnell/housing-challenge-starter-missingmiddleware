@@ -1,0 +1,75 @@
+prn_key,place,block_groups,homes_in_bgs,stops_in_bbox,bounds,V16_share_homes_near_transit
+"San Jose, California, United States",San Jose,586,335994.0,2934,"-122.0457,37.1231,-121.5859,37.4692",0.9504
+"San Francisco, California, United States",San Francisco,679,414602.0,3748,"-123.0139,37.6927,-122.3280,37.8631",1.0
+"Raleigh, North Carolina, United States",Raleigh,255,208488.0,1894,"-78.8189,35.7082,-78.4708,35.9709",0.7481
+"Minneapolis, Minnesota, United States",Minneapolis,395,209080.0,2920,"-93.3291,44.8899,-93.1940,45.0513",0.9976
+"Lexington, Kentucky, United States",Lexington,213,148959.0,962,"-84.6601,37.8453,-84.2826,38.2114",0.7234
+"St. Paul, Minnesota, United States",St. Paul,277,133051.0,2089,"-93.2078,44.8874,-93.0043,44.9920",0.9891
+"Anchorage, Alaska, United States",Anchorage,200,120348.0,709,"-150.2859,60.7330,-148.4624,61.4840",0.638
+"Buffalo, New York, United States",Buffalo,290,136850.0,2076,"-78.9142,42.8262,-78.7952,42.9665",0.9936
+"Bridgeport, Connecticut, United States",Bridgeport,107,59844.0,821,"-73.2442,41.1420,-73.1538,41.2295",1.0
+"Gainesville, Florida, United States",Gainesville,85,65872.0,968,"-82.4308,29.5867,-82.2224,29.7783",0.8871
+"Hartford, Connecticut, United States",Hartford,93,56435.0,1546,"-72.7180,41.7236,-72.6425,41.8076",1.0
+"Ann Arbor, Michigan, United States",Ann Arbor,105,53790.0,879,"-83.7996,42.2227,-83.6758,42.3240",1.0
+"Cambridge, Massachusetts, United States",Cambridge,87,54840.0,2317,"-71.1604,42.3524,-71.0641,42.4042",1.0
+"Roanoke, Virginia, United States",Roanoke,77,49106.0,784,"-80.0376,37.2120,-79.8786,37.3374",0.9277
+"Gastonia, North Carolina, United States",Gastonia,64,36077.0,12,"-81.3213,35.1614,-81.0830,35.3572",0.0654
+"Alameda, California, United States",Alameda,60,32291.0,753,"-122.3330,37.7199,-122.2234,37.7991",1.0
+"West Allis, Wisconsin, United States",West Allis,60,30294.0,597,"-88.0686,42.9772,-87.9758,43.0310",1.0
+"Corvallis, Oregon, United States",Corvallis,36,21097.0,331,"-123.3362,44.5199,-123.2310,44.6072",1.0
+"Tigard, Oregon, United States",Tigard,36,25873.0,416,"-122.8569,45.3934,-122.7436,45.4564",0.7119
+"Dunwoody, Georgia, United States",Dunwoody,35,22818.0,268,"-84.3479,33.9150,-84.2649,33.9709",0.7441
+"Culver City, California, United States",Culver City,35,18803.0,1144,"-118.4485,33.9769,-118.3696,34.0351",1.0
+"Mount Pleasant, Michigan, United States",Mount Pleasant,18,8729.0,38,"-84.8028,43.5681,-84.7382,43.6266",0.6528
+"Windham, Maine, United States",Windham,13,8709.0,84,"-70.4867,43.6974,-70.3244,43.8866",0.0
+"Cambridge, Maryland, United States",Cambridge,10,6183.0,97,"-76.1149,38.5023,-76.0174,38.5850",0.9431
+"Emeryville, California, United States",Emeryville,13,8497.0,326,"-122.3159,37.8271,-122.2756,37.8500",0.8404
+"Branson, Missouri, United States",Branson,12,8868.0,0,"-93.3148,36.5940,-93.2117,36.7119",0.0
+"Canandaigua, New York, United States",Canandaigua,10,5390.0,21,"-77.3095,42.8685,-77.2499,42.9119",0.7837
+"Ecorse, Michigan, United States",Ecorse,11,4121.0,129,"-83.1616,42.2342,-83.1144,42.2644",1.0
+"Bastrop, Texas, United States",Bastrop,4,2395.0,1,"-97.4106,30.0895,-97.2778,30.1377",0.3144
+"Seabrook, New Hampshire, United States",Seabrook,6,4151.0,11,"-70.9177,42.8609,-70.8124,42.9068",0.0
+"River Rouge, Michigan, United States",River Rouge,9,3129.0,150,"-83.1530,42.2570,-83.0999,42.2902",0.7913
+"Hudson, New York, United States",Hudson,9,3551.0,33,"-73.8090,42.2395,-73.7681,42.2635",1.0
+"Avondale Estates, Georgia, United States",Avondale Estates,3,1861.0,269,"-84.2799,33.7569,-84.2513,33.7810",0.7066
+"Bandera, Texas, United States",Bandera,1,444.0,8,"-99.0857,29.7111,-99.0582,29.7360",1.0
+"Calumet, Michigan, United States",Calumet,1,478.0,0,"-88.4579,47.2432,-88.4475,47.2516",0.0
+"Austin, Texas, United States",Austin,608,469182.0,2346,"-97.9382,30.0756,-97.5276,30.5167",0.7408
+"Sacramento, California, United States",Sacramento,367,209255.0,2548,"-121.5601,38.4379,-121.3627,38.6856",0.8937
+"Durham, North Carolina, United States",Durham,190,125589.0,1085,"-79.0075,35.8664,-78.7547,36.1370",0.7389
+"Richmond, Virginia, United States",Richmond,190,114293.0,1372,"-77.6012,37.4466,-77.3855,37.6028",0.9469
+"Birmingham, Alabama, United States",Birmingham,231,109357.0,1218,"-87.1226,33.3842,-86.5783,33.6786",0.7403
+"Newport News, Virginia, United States",Newport News,133,82052.0,739,"-76.6256,36.9623,-76.3877,37.2205",0.759
+"Salem, Oregon, United States",Salem,89,66296.0,735,"-123.1227,44.8517,-122.9352,45.0166",0.9402
+"Eugene, Oregon, United States",Eugene,105,70527.0,881,"-123.2085,43.9875,-123.0307,44.1324",0.9121
+"Berkeley, California, United States",Berkeley,99,53145.0,865,"-122.3252,37.8459,-122.2342,37.9058",1.0
+"Bend, Oregon, United States",Bend,42,38131.0,264,"-121.3824,43.9992,-121.2435,44.1237",0.9372
+"Beaverton, Oregon, United States",Beaverton,63,40879.0,991,"-122.8777,45.4247,-122.7436,45.5430",0.9222
+"Longmont, Colorado, United States",Longmont,57,39096.0,274,"-105.1784,40.1271,-104.9987,40.2104",0.841
+"Trenton, New Jersey, United States",Trenton,73,34513.0,547,"-74.8190,40.1835,-74.7288,40.2485",1.0
+"Duluth, Minnesota, United States",Duluth,86,39922.0,807,"-92.3013,46.6492,-91.9218,46.8805",0.8608
+"Kalamazoo, Michigan, United States",Kalamazoo,73,32542.0,621,"-85.6627,42.2156,-85.5306,42.3328",0.9776
+"Rogers, Arkansas, United States",Rogers,33,28784.0,380,"-94.2507,36.2629,-94.0815,36.4061",0.2824
+"Portland, Maine, United States",Portland,61,36430.0,1401,"-70.3474,43.6336,-70.0876,43.7277",0.9503
+"Springfield, Oregon, United States",Springfield,40,24658.0,258,"-123.0502,44.0237,-122.8790,44.0949",0.8971
+"Albany, Oregon, United States",Albany,31,19395.0,116,"-123.1474,44.5774,-123.0324,44.6763",0.8217
+"La Crosse, Wisconsin, United States",La Crosse,49,24747.0,502,"-91.2764,43.7461,-91.1573,43.8980",0.9314
+"Burlington, Vermont, United States",Burlington,35,18079.0,478,"-73.2770,44.4459,-73.1762,44.5398",0.9467
+"Grants Pass, Oregon, United States",Grants Pass,24,13456.0,97,"-123.3913,42.3898,-123.2826,42.4730",0.846
+"Plainfield , Indiana, United States",Plainfield,19,12157.0,34,"-86.4474,39.6388,-86.3263,39.7501",0.2272
+"Tualatin, Oregon, United States",Tualatin,17,10140.0,215,"-122.8178,45.3470,-122.7219,45.4030",0.9029
+"West Linn, Oregon, United States",West Linn,15,9066.0,276,"-122.6771,45.3377,-122.6028,45.4008",0.5231
+"Kingston, New York, United States",Kingston,24,11221.0,73,"-74.0446,41.9021,-73.9537,41.9527",0.9581
+"Ashland, Oregon, United States",Ashland,13,8684.0,75,"-122.7360,42.1672,-122.6511,42.2159",0.866
+"Carrboro, North Carolina, United States",Carrboro,17,10269.0,347,"-79.1151,35.8879,-79.0639,35.9677",0.8607
+"Milwaukie, Oregon, United States",Milwaukie,16,10605.0,384,"-122.6522,45.4247,-122.5817,45.4621",1.0
+"Northfield, Minnesota, United States",Northfield,12,5754.0,29,"-93.2214,44.4281,-93.1293,44.4860",0.7039
+"Central Point, Oregon, United States",Central Point,11,7744.0,87,"-122.9346,42.3615,-122.8814,42.3962",0.8981
+"Portsmouth, Ohio, United States",Portsmouth,20,7610.0,0,"-83.0116,38.7260,-82.8703,38.7742",0.0
+"Taylor, Texas, United States",Taylor,11,6059.0,1,"-97.5125,30.5234,-97.3621,30.6290",0.0
+"Hanover, New Hampshire, United States",Hanover,8,4056.0,167,"-72.3053,43.6585,-72.0756,43.7711",0.4968
+"Lansing, Kansas, United States",Lansing,3,1610.0,0,"-94.9655,39.2029,-94.8275,39.2742",0.0
+"Hampden, Maine, United States",Hampden,5,3295.0,68,"-68.9652,44.6807,-68.7812,44.7834",0.4149
+"King City, Oregon, United States",King City,4,2810.0,55,"-122.8185,45.3897,-122.7935,45.4115",1.0
+"Social Circle, Georgia, United States",Social Circle,3,1970.0,0,"-83.7596,33.6049,-83.6654,33.6852",0.0
+"Millersburg, Oregon, United States",Millersburg,0,0.0,0,"-123.0882,44.6428,-123.0527,44.7066",
