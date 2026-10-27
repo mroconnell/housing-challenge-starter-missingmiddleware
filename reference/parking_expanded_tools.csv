@@ -1,0 +1,6 @@
+tool,us_error,us_gain,ca_error,ca_gain,passes
+one average,5.0839,0.0,9.1484,0.0,False
+"weighted regression, all traits",6.1946,-0.2185,9.562,-0.0452,False
+lasso,5.5808,-0.0978,9.3015,-0.0167,False
+random forest,5.996,-0.1794,9.5061,-0.0391,False
+causal forest (honest),5.2426,-0.0312,9.2614,-0.0124,False

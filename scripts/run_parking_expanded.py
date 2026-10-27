@@ -50,6 +50,8 @@ def all_checks() -> pd.DataFrame:
     rf = [year_of(x) for x in c.get("repealed_from", pd.Series([None] * len(c)))]
     old_rf = [year_of(x) for x in c.get("repealed_from_year", pd.Series([None] * len(c)))]
     c["repealed_year"] = [x or y for x, y in zip(rf, old_rf)]
+    c["event_year"] = pd.to_numeric(c["event_year"], errors="coerce")
+    c["repealed_year"] = pd.to_numeric(c["repealed_year"], errors="coerce")
     c["no_event"] = c.get("no_event", "False").fillna("False").astype(str).str.lower().eq("true")
     z = c["simultaneous_zoning_changes"].fillna("").str.strip().str.lower()
     c["simultaneous_rewrite"] = ~(z.eq("") | z.str.startswith(("none", "unknown", "no ")))
@@ -90,7 +92,7 @@ def us_effects() -> tuple[pd.DataFrame, pd.DataFrame]:
             reason.append(f"repeal year {int(c.event_year)} outside 2015-2024")
         if bool(c.no_event):
             reason.append("no minimums before either")
-        if c.repealed_year and c.event_year and int(c.repealed_year) <= int(c.event_year) + 3:
+        if pd.notna(c.repealed_year) and pd.notna(c.event_year) and int(c.repealed_year) <= int(c.event_year) + 3:
             reason.append(f"minimums restored in {int(c.repealed_year)}")
         rows.append(dict(prn_key=c.prn_key, place=c.place, state=c.state, source=c.source, rating=rating, key=k,
                          event_year=c.event_year, simultaneous_rewrite=bool(c.simultaneous_rewrite),

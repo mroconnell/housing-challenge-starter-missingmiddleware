@@ -1,0 +1,178 @@
+prn_key,place,state,source,rating,key,event_year,simultaneous_rewrite,use,note
+"San Jose, California, United States",San Jose,California,first 46,at,06|394000,2023.0,False,True,
+"San Francisco, California, United States",San Francisco,California,first 46,at,06|389000,2019.0,False,True,
+"Raleigh, North Carolina, United States",Raleigh,North Carolina,first 46,at,37|466000,2022.0,True,True,
+"Minneapolis, Minnesota, United States",Minneapolis,Minnesota,first 46,at,27|497800,2021.0,True,True,
+"Lexington, Kentucky, United States",Lexington,Kentucky,first 46,at,21|301000,2022.0,False,True,
+"St. Paul, Minnesota, United States",St. Paul,Minnesota,first 46,at,27|712600,2021.0,False,True,
+"Anchorage, Alaska, United States",Anchorage,Alaska,first 46,at,02|041000,2023.0,True,True,
+"Buffalo, New York, United States",Buffalo,New York,first 46,near,36|089500,2017.0,True,True,
+"Bridgeport, Connecticut, United States",Bridgeport,Connecticut,first 46,at,09|061000,2021.0,True,True,
+"Gainesville, Florida, United States",Gainesville,Florida,first 46,at,12|271000,2022.0,True,True,
+"Wilmington, North Carolina, United States",Wilmington,North Carolina,first 46,weaker,,2021.0,True,False,not found in Census permit files; ordinance check: weaker
+"Norman, Oklahoma, United States",Norman,Oklahoma,first 46,weaker,40|455000,2021.0,False,False,ordinance check: weaker
+"Hartford, Connecticut, United States",Hartford,Connecticut,first 46,at,09|285000,2017.0,True,True,
+"Ann Arbor, Michigan, United States",Ann Arbor,Michigan,first 46,at,26|026500,2022.0,True,True,
+"Cambridge, Massachusetts, United States",Cambridge,Massachusetts,first 46,at,25|103000,2022.0,False,True,
+"South Bend, Indiana, United States",South Bend,Indiana,first 46,at,,2021.0,True,False,not found in Census permit files
+"Roanoke, Virginia, United States",Roanoke,Virginia,first 46,at,51|065000,2021.0,True,True,
+"Gastonia, North Carolina, United States",Gastonia,North Carolina,first 46,at,37|218000,2021.0,True,True,
+"Alameda, California, United States",Alameda,California,first 46,at,06|003000,2021.0,True,True,
+"West Allis, Wisconsin, United States",West Allis,Wisconsin,first 46,at,55|932000,2022.0,True,True,
+"Corvallis, Oregon, United States",Corvallis,Oregon,first 46,at,41|099000,2022.0,True,True,
+"Tigard, Oregon, United States",Tigard,Oregon,first 46,at,41|505000,2022.0,True,True,
+"Dunwoody, Georgia, United States",Dunwoody,Georgia,first 46,at,13|233500,2019.0,False,True,
+"Culver City, California, United States",Culver City,California,first 46,at,06|101000,2022.0,True,True,
+"Central Falls, Rhode Island, United States",Central Falls,Rhode Island,first 46,at,44|013000,2022.0,True,False,minimums restored in 2025
+"Mount Pleasant, Michigan, United States",Mount Pleasant,Michigan,first 46,at,26|617500,2018.0,True,True,
+"Windham, Maine, United States",Windham,Maine,first 46,near,23|493000,2018.0,True,True,
+"Maumee, Ohio, United States",Maumee,Ohio,first 46,weaker,39|382600,2020.0,True,False,ordinance check: weaker
+"Cambridge, Maryland, United States",Cambridge,Maryland,first 46,near,24|093000,2021.0,False,True,
+"Emeryville, California, United States",Emeryville,California,first 46,at,06|129000,2020.0,True,True,
+"Branson, Missouri, United States",Branson,Missouri,first 46,near,29|068500,2018.0,True,True,
+"Canandaigua, New York, United States",Canandaigua,New York,first 46,near,36|103000,2020.0,False,True,
+"Ecorse, Michigan, United States",Ecorse,Michigan,first 46,at,26|266500,2020.0,True,True,
+"Bastrop, Texas, United States",Bastrop,Texas,first 46,at,48|045500,2019.0,True,True,
+"Seabrook, New Hampshire, United States",Seabrook,New Hampshire,first 46,near,33|797000,2019.0,False,True,
+"River Rouge, Michigan, United States",River Rouge,Michigan,first 46,at,26|748000,2021.0,True,True,
+"Hudson, New York, United States",Hudson,New York,first 46,at,36|348000,2019.0,False,True,
+"Camden, Maine, United States",Camden,Maine,first 46,weaker,23|073000,2021.0,True,False,ordinance check: weaker
+"Avondale Estates, Georgia, United States",Avondale Estates,Georgia,first 46,at,13|047000,2021.0,True,True,
+"Chattahoochee Hills, Georgia, United States",Chattahoochee Hills,Georgia,first 46,at,13|144900,2021.0,True,False,no minimums before either
+"Sandusky, Michigan, United States",Sandusky,Michigan,first 46,near,,2021.0,True,False,not found in Census permit files
+"Kalkaska, Michigan, United States",Kalkaska,Michigan,first 46,near,,2022.0,True,False,not found in Census permit files
+"Mancelona, Michigan, United States",Mancelona,Michigan,first 46,at,,2020.0,True,False,not found in Census permit files
+"Lake City, Michigan, United States",Lake City,Michigan,first 46,at,,2022.0,True,False,not found in Census permit files
+"Bandera, Texas, United States",Bandera,Texas,first 46,at,48|041000,2021.0,True,True,
+"Calumet, Michigan, United States",Calumet,Michigan,first 46,at,26|142000,2022.0,True,True,
+"Austin, Texas, United States",Austin,Texas,expanded,at,48|033000,2023.0,True,True,
+"Sacramento, California, United States",Sacramento,California,expanded,at,06|374000,2024.0,True,True,
+"Durham, North Carolina, United States",Durham,North Carolina,expanded,at,37|164000,2023.0,True,True,
+"Richmond, Virginia, United States",Richmond,Virginia,expanded,at,51|063000,2023.0,True,True,
+"Birmingham, Alabama, United States",Birmingham,Alabama,expanded,at,01|048000,2024.0,False,True,
+"Newport News, Virginia, United States",Newport News,Virginia,expanded,at,51|049000,2024.0,False,True,
+"Salem, Oregon, United States",Salem,Oregon,expanded,at,41|445000,2023.0,True,True,
+"Eugene, Oregon, United States",Eugene,Oregon,expanded,at,41|151000,2024.0,True,True,
+"Berkeley, California, United States",Berkeley,California,expanded,near,06|039000,2021.0,False,True,
+"Bend, Oregon, United States",Bend,Oregon,expanded,at,41|041000,2023.0,True,True,
+"Beaverton, Oregon, United States",Beaverton,Oregon,expanded,at,41|039000,2023.0,True,True,
+"Longmont, Colorado, United States",Longmont,Colorado,expanded,at,08|401000,2024.0,True,True,
+"Trenton, New Jersey, United States",Trenton,New Jersey,expanded,near,34|516000,2023.0,True,True,
+"Waukegan, Illinois, United States",Waukegan,Illinois,expanded,weaker,17|829000,2024.0,True,False,ordinance check: weaker
+"Duluth, Minnesota, United States",Duluth,Minnesota,expanded,near,27|196900,2023.0,False,True,
+"Somerville, Massachusetts, United States",Somerville,Massachusetts,expanded,at,25|571000,2025.0,False,False,repeal year 2025 outside 2015-2024
+"Kalamazoo, Michigan, United States",Kalamazoo,Michigan,expanded,near,26|463500,2023.0,True,True,
+"Rogers, Arkansas, United States",Rogers,Arkansas,expanded,at,05|462000,2024.0,True,True,
+"Portland, Maine, United States",Portland,Maine,expanded,at,23|363000,2024.0,True,True,
+"Chapel Hill, North Carolina, United States",Chapel Hill,North Carolina,expanded,at,37|107000,2026.0,True,False,repeal year 2026 outside 2015-2024
+"Springfield, Oregon, United States",Springfield,Oregon,expanded,at,41|481000,2024.0,False,True,
+"Albany, Oregon, United States",Albany,Oregon,expanded,at,41|009000,2023.0,False,True,
+"La Crosse, Wisconsin, United States",La Crosse,Wisconsin,expanded,at,55|452000,2024.0,False,True,
+"Summerville, South Carolina, United States",Summerville,South Carolina,expanded,weaker,45|597000,,False,False,ordinance check: weaker; no repeal date found
+"Wilson, North Carolina, United States",Wilson,North Carolina,expanded,weaker,37|636000,,False,False,ordinance check: weaker; no repeal date found
+"Charlottesville, Virginia, United States",Charlottesville,Virginia,expanded,at,51|009000,2024.0,True,False,minimums restored in 2025
+"Burlington, Vermont, United States",Burlington,Vermont,expanded,at,50|085000,2023.0,False,True,
+"Lake Oswego, Oregon, United States",Lake Oswego,Oregon,expanded,at,41|277000,2025.0,False,False,repeal year 2025 outside 2015-2024
+"Grants Pass, Oregon, United States",Grants Pass,Oregon,expanded,at,41|191000,2024.0,True,True,
+"Plainfield , Indiana, United States",Plainfield,Indiana,expanded,near,18|584500,2022.0,True,True,
+"Tualatin, Oregon, United States",Tualatin,Oregon,expanded,at,41|517000,2024.0,False,True,
+"West Linn, Oregon, United States",West Linn,Oregon,expanded,at,41|555000,2024.0,False,True,
+"Thomasville, Georgia, United States",Thomasville,Georgia,expanded,weaker,13|663000,,False,False,ordinance check: weaker; no repeal date found
+"Conway, South Carolina, United States",Conway,South Carolina,expanded,weaker,45|135000,,False,False,ordinance check: weaker; no repeal date found
+"Watertown, New York, United States",Watertown,New York,expanded,weaker,36|766000,2023.0,True,False,ordinance check: weaker
+"Kingston, New York, United States",Kingston,New York,expanded,near,36|375000,2023.0,True,True,
+"Ashland, Oregon, United States",Ashland,Oregon,expanded,at,41|017000,2023.0,False,True,
+"Carrboro, North Carolina, United States",Carrboro,North Carolina,expanded,near,37|092000,2023.0,True,True,
+"Milwaukie, Oregon, United States",Milwaukie,Oregon,expanded,at,41|339000,2024.0,False,True,
+"Northfield, Minnesota, United States",Northfield,Minnesota,expanded,at,27|551800,2024.0,True,True,
+"Lexington, North Carolina, United States",Lexington,North Carolina,expanded,weaker,37|334000,,False,False,ordinance check: weaker; no repeal date found
+"Central Point, Oregon, United States",Central Point,Oregon,expanded,at,41|071000,2023.0,False,True,
+"Portsmouth, Ohio, United States",Portsmouth,Ohio,expanded,at,39|522700,2022.0,True,True,
+"North Canton, Ohio, United States",North Canton,Ohio,expanded,weaker,39|456700,2023.0,False,False,ordinance check: weaker
+"Taylor, Texas, United States",Taylor,Texas,expanded,at,48|688000,2023.0,True,True,
+"Rutland, Vermont, United States",Rutland,Vermont,expanded,near,50|419000,2020.0,True,False,no minimums before either
+"Covington, Georgia, United States",Covington,Georgia,expanded,at,13|185000,,False,False,no repeal date found
+"Brainerd, Minnesota, United States",Brainerd,Minnesota,expanded,weaker,27|086500,2023.0,True,False,ordinance check: weaker
+"Bloomsburg, Pennsylvania, United States",Bloomsburg,Pennsylvania,expanded,weaker,42|058600,2024.0,False,False,ordinance check: weaker
+"Crossville, Tennessee, United States",Crossville,Tennessee,expanded,near,47|181000,,True,False,no repeal date found
+"Hanover, New Hampshire, United States",Hanover,New Hampshire,expanded,near,33|397000,2024.0,True,True,
+"Lansing, Kansas, United States",Lansing,Kansas,expanded,at,20|296200,2024.0,True,True,
+"Watervliet, New York, United States",Watervliet,New York,expanded,weaker,36|767500,,False,False,ordinance check: weaker; no repeal date found
+"Waynesville, North Carolina, United States",Waynesville,North Carolina,expanded,weaker,37|619000,,False,False,ordinance check: weaker; no repeal date found
+"Rockingham, North Carolina, United States",Rockingham,North Carolina,expanded,weaker,37|489000,,False,False,ordinance check: weaker; no repeal date found
+"Corrales, New Mexico, United States",Corrales,New Mexico,expanded,at,35|117000,,True,False,no repeal date found
+"Monticello, Arkansas, United States",Monticello,Arkansas,expanded,near,05|366000,,False,False,no repeal date found
+"Hampden, Maine, United States",Hampden,Maine,expanded,at,23|190000,2022.0,True,True,
+"King City, Oregon, United States",King City,Oregon,expanded,at,41|265000,2024.0,True,True,
+"Lewisburg, Pennsylvania, United States",Lewisburg,Pennsylvania,expanded,weaker,42|366700,2023.0,False,False,ordinance check: weaker
+"Bar Harbor, Maine, United States",Bar Harbor,Maine,expanded,weaker,23|030000,,False,False,ordinance check: weaker; no repeal date found
+"Social Circle, Georgia, United States",Social Circle,Georgia,expanded,at,13|616000,2023.0,True,True,
+"Saltillo, Mississippi, United States",Saltillo,Mississippi,expanded,at,28|603000,2016.0,True,False,no minimums before either
+"Keyser, West Virginia, United States",Keyser,West Virginia,expanded,at,54|257000,,False,False,no repeal date found
+"Fulton, Mississippi, United States",Fulton,Mississippi,expanded,at,28|231000,2024.0,True,False,no minimums before either
+"Omro, Wisconsin, United States",Omro,Wisconsin,expanded,weaker,55|645000,,False,False,ordinance check: weaker; no repeal date found
+"Brodhead, Wisconsin, United States",Brodhead,Wisconsin,expanded,weaker,55|114500,,False,False,ordinance check: weaker; no repeal date found
+"Algoma, Wisconsin, United States",Algoma,Wisconsin,expanded,at,55|013000,,True,False,no repeal date found
+"Louisiana, Missouri, United States",Louisiana,Missouri,expanded,near,29|389000,,False,False,no repeal date found
+"Millersburg, Oregon, United States",Millersburg,Oregon,expanded,at,41|335000,2024.0,True,True,
+"Bethany, Missouri, United States",Bethany,Missouri,expanded,at,29|046000,,False,False,no repeal date found
+"Follansbee, West Virginia, United States",Follansbee,West Virginia,expanded,at,54|163000,2022.0,False,False,no minimums before either
+"Norton, Kansas, United States",Norton,Kansas,expanded,near,20|403000,2019.0,True,False,no minimums before either
+"Paden City, West Virginia, United States",Paden City,West Virginia,expanded,at,54|391000,,False,False,no repeal date found
+"Eureka, Kansas, United States",Eureka,Kansas,expanded,weaker,20|164800,,False,False,ordinance check: weaker; no repeal date found
+"Neodesha, Kansas, United States",Neodesha,Kansas,expanded,at,20|389500,,False,False,no repeal date found
+"Gambier, Ohio, United States",Gambier,Ohio,expanded,near,39|211300,2023.0,True,False,no minimums before either
+"Council Grove, Kansas, United States",Council Grove,Kansas,expanded,at,20|118300,,False,False,no repeal date found
+"Geneva, Nebraska, United States",Geneva,Nebraska,expanded,at,31|197000,,True,False,no repeal date found
+"Cowpens, South Carolina, United States",Cowpens,South Carolina,expanded,near,45|147000,2008.0,True,False,repeal year 2008 outside 2015-2024
+"Catlin, Illinois, United States",Catlin,Illinois,expanded,at,17|132100,,False,False,no repeal date found
+"Nettleton, Mississippi, United States",Nettleton,Mississippi,expanded,at,28|479000,2018.0,True,False,no minimums before either
+"Plainville, Kansas, United States",Plainville,Kansas,expanded,at,20|441400,,True,False,no repeal date found
+"Neligh, Nebraska, United States",Neligh,Nebraska,expanded,at,31|343000,,False,False,no repeal date found
+"Leoti, Kansas, United States",Leoti,Kansas,expanded,at,20|304000,,True,False,no repeal date found
+"Leland Grove, Illinois, United States",Leland Grove,Illinois,expanded,at,17|430300,2017.0,True,False,no minimums before either
+"Hill City, Kansas, United States",Hill City,Kansas,expanded,at,20|249700,,True,False,no repeal date found
+"New Rockford, North Dakota, United States",New Rockford,North Dakota,expanded,at,38|561500,1983.0,False,False,repeal year 1983 outside 2015-2024
+"St. Francis, Kansas, United States",St. Francis,Kansas,expanded,at,20|531100,,False,False,no repeal date found
+"Cave Spring, Georgia, United States",Cave Spring,Georgia,expanded,at,13|134000,2022.0,True,False,no minimums before either
+"Pine Bluffs, Wyoming, United States",Pine Bluffs,Wyoming,expanded,at,56|341000,,False,False,no repeal date found
+"Lincoln, Kansas, United States",Lincoln,Kansas,expanded,at,20|311800,,False,False,no repeal date found
+"Franklin Springs, Georgia, United States",Franklin Springs,Georgia,expanded,at,13|277000,2016.0,True,False,no minimums before either
+"Ellendale, North Dakota, United States",Ellendale,North Dakota,expanded,at,38|232500,,False,False,no repeal date found
+"Marcus, Iowa, United States",Marcus,Iowa,expanded,near,19|469000,2023.0,True,False,no minimums before either
+"Arapahoe, Nebraska, United States",Arapahoe,Nebraska,expanded,at,31|015000,,True,False,no repeal date found
+"Foreman, Arkansas, United States",Foreman,Arkansas,expanded,at,05|179000,2024.0,True,False,no minimums before either
+"Dighton, Kansas, United States",Dighton,Kansas,expanded,at,20|133300,,False,False,no repeal date found
+"Ray City, Georgia, United States",Ray City,Georgia,expanded,at,13|556000,,False,False,no repeal date found
+"Whitewood, South Dakota, United States",Whitewood,South Dakota,expanded,near,46|660500,2018.0,True,False,no minimums before either
+"Plantersville, Mississippi, United States",Plantersville,Mississippi,expanded,at,28|547000,2019.0,True,False,no minimums before either
+"Stronghurst, Illinois, United States",Stronghurst,Illinois,expanded,at,17|766900,,False,False,no repeal date found
+"Diamond, Missouri, United States",Diamond,Missouri,expanded,near,29|177500,,True,False,no repeal date found
+"Coal Hill, Arkansas, United States",Coal Hill,Arkansas,expanded,at,05|107000,1999.0,True,False,repeal year 1999 outside 2015-2024
+"Patagonia, Arizona, United States",Patagonia,Arizona,expanded,near,04|245000,,False,False,no repeal date found
+"Cohutta, Georgia, United States",Cohutta,Georgia,expanded,at,13|165000,,False,False,no repeal date found
+"Philip, South Dakota, United States",Philip,South Dakota,expanded,near,46|461000,2009.0,True,False,repeal year 2009 outside 2015-2024
+"Westmoreland, Kansas, United States",Westmoreland,Kansas,expanded,near,20|612100,2007.0,True,False,repeal year 2007 outside 2015-2024
+"Bucklin, Kansas, United States",Bucklin,Kansas,expanded,at,20|061300,,False,False,no repeal date found
+"Bertrand, Nebraska, United States",Bertrand,Nebraska,expanded,near,31|044000,,False,False,no repeal date found
+"Richardton, North Dakota, United States",Richardton,North Dakota,expanded,at,38|665000,2022.0,True,False,no minimums before either
+"Madison, Kansas, United States",Madison,Kansas,expanded,at,20|342400,2016.0,False,False,no minimums before either
+"New Florence, Pennsylvania, United States",New Florence,Pennsylvania,expanded,at,42|468100,,False,False,no repeal date found
+"Middleton, Tennessee, United States",Middleton,Tennessee,expanded,weaker,47|553000,,False,False,ordinance check: weaker; no repeal date found
+"Waterville, Kansas, United States",Waterville,Kansas,expanded,weaker,20|603400,,False,False,ordinance check: weaker; no repeal date found
+"Ozawkie, Kansas, United States",Ozawkie,Kansas,expanded,at,20|424900,2007.0,False,False,repeal year 2007 outside 2015-2024
+"Eastover, South Carolina, United States",Eastover,South Carolina,expanded,at,45|171000,2012.0,True,False,repeal year 2012 outside 2015-2024
+"Mackinac Island, Michigan, United States",Mackinac Island,Michigan,expanded,at,26|535000,1898.0,True,False,repeal year 1898 outside 2015-2024
+"Kadoka, South Dakota, United States",Kadoka,South Dakota,expanded,at,46|319000,2021.0,True,False,no minimums before either
+"Golf, Illinois, United States",Golf,Illinois,expanded,at,17|307900,1943.0,True,False,repeal year 1943 outside 2015-2024
+"Sargent, Nebraska, United States",Sargent,Nebraska,expanded,weaker,31|429000,,False,False,ordinance check: weaker; no repeal date found
+"Argonia, Kansas, United States",Argonia,Kansas,expanded,weaker,20|015400,,True,False,ordinance check: weaker; no repeal date found
+"La Barge, Wyoming, United States",La Barge,Wyoming,expanded,near,56|237000,2019.0,False,False,no minimums before either
+"Sinclair, Wyoming, United States",Sinclair,Wyoming,expanded,at,56|405000,2024.0,True,False,no minimums before either
+"Laceyville, Pennsylvania, United States",Laceyville,Pennsylvania,expanded,at,42|345700,2013.0,False,False,repeal year 2013 outside 2015-2024
+"Meshoppen, Pennsylvania, United States",Meshoppen,Pennsylvania,expanded,at,42|421900,2013.0,False,False,repeal year 2013 outside 2015-2024
+"Bazine, Kansas, United States",Bazine,Kansas,expanded,weaker,20|033700,,False,False,ordinance check: weaker; no repeal date found
+"Prompton, Pennsylvania, United States",Prompton,Pennsylvania,expanded,at,42|555100,,False,False,no repeal date found
+"Hull, Georgia, United States",Hull,Georgia,expanded,near,13|347000,,True,False,no repeal date found
+"Olsburg, Kansas, United States",Olsburg,Kansas,expanded,weaker,20|413800,,False,False,ordinance check: weaker; no repeal date found
+"Brownville, Nebraska, United States",Brownville,Nebraska,expanded,near,31|064000,2004.0,True,False,repeal year 2004 outside 2015-2024
