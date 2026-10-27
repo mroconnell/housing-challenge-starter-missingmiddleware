@@ -49,7 +49,7 @@ INPUTS = [
     "reference/tod_model_sensitivities.csv", "reference/tod_model_checks.csv", "reference/tod_model_params.csv",
     "reference/tod_definition_summary.csv", "reference/tod_stops.csv", "reference/tod_station_areas.csv",
     "reference/tod_near_stop_homes_by_muni.csv",
-    "reference/tod_case_estimates.csv", "reference/tod_cases.csv",
+    "reference/tod_case_estimates.csv", "reference/tod_cases.csv", "reference/tod_trait_pairs.csv",
     "reference/tod_madison_test_results.csv", "reference/tod_madison_test_rates_by_year.csv",
     "reference/tod_madison_test_predictions.csv",
     "reference/tod_scale_check.csv", "reference/tod_scale_check_metro_years.csv",
@@ -477,9 +477,18 @@ def build_howsure(sw: dict, areas: dict) -> dict:
         {"part": "Split into legislative districts", "status": "assumed",
          "text": "Each place's numbers are split across districts in proportion to where its detached houses are (the same split the ADU screens use), not by homes near stops."},
     ]
+    pairs = pd.read_csv(REF / "tod_trait_pairs.csv")
+    n_traits = len(set(pairs.trait_a) | set(pairs.trait_b))
+    n_pass = int((pairs.verdict == "pass").sum())
+    trait_line = {"title": "Why the response differs from place to place",
+                  "text": (f"We tested {n_traits} local traits (home values, incomes, rents, lot sizes, existing density, distance to "
+                           f"downtown and others) and all {len(pairs)} pairs of them, predicting each city from the others. "
+                           + ("None reliably predicts where upzoning added more homes" if n_pass == 0 else f"{n_pass} pairs passed")
+                           + ", so the scenarios stay wide (docs/tod/TRAITS_RESULTS.md).")}
     cannot = [
         {"title": "Whether Wisconsin will behave like the average city in these studies",
          "text": "Only 28 of the 96 loosening reforms in the typical study changed floor area, density or height; most were about accessory dwellings and lot sizes."},
+        trait_line,
         {"title": "Timing", "text": TIMING},
         {"title": "Transit-oriented density alone versus with parking reform",
          "text": "The cases cannot separate the two. The parking reform has its own scenario in this tool."},
