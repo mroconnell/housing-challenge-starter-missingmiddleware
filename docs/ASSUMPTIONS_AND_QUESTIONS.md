@@ -697,6 +697,20 @@ These supersede the 2026-10-26 figures quoted in AQ-044.
 8. **G2-8:** single-family lots near stops stay eligible, with a sensitivity that leaves them out.
 9. **G2-9:** build the suburbs' fallback at Gate 3. It uses existing homes per acre and the modelled law, with zoning marked "not coded".
 
+## AQ-050 TOD: size the law's effect by citywide net effects
+
+**Status:** Adopted (owner, 2026-10-27, "That sounds great", replying to the recommendation). **Related:** [docs/tod/GATE3_MODEL_SPEC.md](tod/GATE3_MODEL_SPEC.md) section 9, [docs/tod/MADISON_TEST_RESULTS.md](tod/MADISON_TEST_RESULTS.md), [docs/tod/research/NET_EFFECT_SOURCES.md](tod/research/NET_EFFECT_SOURCES.md).
+
+1. **The statewide addition is a share of the housing stock in the station areas**, taken from studies that measured whole-city net effects after upzoning:
+   - little: Los Angeles;
+   - typical: Stacy et al. 2023;
+   - strong: Auckland.
+
+   Each value is corrected as in the source check: Los Angeles's figure is over six years, and Auckland's yearly profile is rescaled to its stated total. Each is divided by its study's own coverage share, so it applies per upzoned home. The as-published reading is a sensitivity.
+2. **Placement:** the per-acre response is used only to place the total across station areas.
+3. **Sensitivity:** the per-acre method with the Wisconsin-measured response, about 0.23 extra homes per acre per year per added floor area ratio (the mean of Madison's and Chicago's), capped at the 95th percentile of peer metros' apartment permitting.
+4. **Reason:** the Madison test confirmed the per-acre prediction only weakly. Spread over all land near stops, the per-acre rates exceed anything comparable metros have absorbed, because block-level gains partly move building from nearby blocks.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -819,3 +833,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-26 | AQ-048 | Parking: owner approved Gate 1 P1–P9 and Gate 2 G2-1 to G2-5 as recommended ("yes to all for now"): option A with the all-units upper case, flat years 4–5, one average, no cost line; Milwaukee MPROP adjustment to the baseline; long-run baseline range. |
 | 2026-10-26 | AQ-049 | TOD Gate 2: owner approved all recommendations G2-1 to G2-9 (more moderate-rent cases first; SB 79 floors unless evidence changes; Growing MKE coded; suburbs fallback; single-family lots eligible). |
 | 2026-10-27 | AQ-048 | Parking Gate 3: owner approved G3-1 to G3-3 ("all looks good"): labels "No measurable change" and "High end of the evidence", median place as a reference line at 0; towns kept in the upper case with "towns at zero" as a sensitivity; combined TOD + parking view shows sum and larger-of-two near stops (elsewhere added), per the contract text in docs/parking/GATE3_PACKET.md section 5. North Carolina HB 162 (statewide, effective 2027-01-01) has no post-law permits yet, so it cannot enter the comparison; it is tracked as a future check. |
+| 2026-10-27 | AQ-050 | TOD: owner adopted citywide net-effect sizing (Los Angeles, Stacy et al., Auckland, corrected and per upzoned home), per-acre response for placement only, Wisconsin-measured per-acre rate as a capped sensitivity. |
