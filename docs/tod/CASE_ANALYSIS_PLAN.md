@@ -114,3 +114,10 @@ Written 2026-10-26 by the TOD conductor, before any permits have been counted fo
   - **Single-family permits** move to a new system with no public archive in 2022, so the single-family and all-permit series use members effective by 2016; the multifamily series uses members effective by 2020.
   - **Units are available.** The City's export carries unit counts, so a unit-based Phoenix measure is possible. It is not made here, because the owner asked for counts.
 - **Ann Arbor (held out) is not measurable.** No permit records with locations exist before 2022, and the first TC1 map rezoning is April 2022, so there are no before years.
+
+**2026-10-27, more cities for the trait test (owner request: "Add more cities"; written before any of their permits are counted).** The trait test (TRAITS_PLAN.md) found no trait that predicts held-out cities, with only four cities to learn from. These cases from the inventory are added, chosen by data usability (A or B) and policy design (medium or strong; no affordability mandate) before any outcome is seen:
+- **Batch 1:** Los Angeles Warner Center 2013; Los Angeles Cornfield Arroyo Seco 2013; Seattle North Beacon Hill and Othello 2012; Seattle Mount Baker 2014; Bellevue BelRed 2009.
+- **Batch 2:** Ottawa transit-oriented development zone 2012; Toronto Eglinton Connects 2014; Minneapolis Hiawatha (Blue Line) station-area rezonings 2008–2012. Minneapolis has a weak design, so it is added only to widen the range of traits, and is flagged.
+- **New York:** the 6 pooled rezonings dropped for industrial land stay dropped; the rule is unchanged.
+
+Rules: the same as for every other case, including the one area rule and units-per-acre outcome. A case that lacks unit counts or 3 years before falls back to permit counts and is context only. Each new city becomes a fitted city in the trait test, which is rerun with the same pass rule. Chicago and Madison stay held out.
