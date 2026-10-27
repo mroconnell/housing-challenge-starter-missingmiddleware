@@ -258,6 +258,7 @@ Written 2026-10-27 by the parking conductor. Status: the parking section for the
    A second, independent check agrees. California's AB 2097 removed minimums within ½ mile of major transit stops in 2023. Near transit, permits changed by +0.13 permits per 1,000 existing homes per year against areas ½ to 1½ miles away (90% interval −1.84 to +1.73, 185 jurisdictions); see [COMPARISON_RESULTS.md](parking/COMPARISON_RESULTS.md).
 3. **Central case, "No measurable change" (0 added).** In the three years after repeal, the repeal places' permit rate changed by −1.18 permits per 1,000 existing homes per year compared with similar places. The 90% range (5th to 95th percentile of 2,000 resamples) is −3.57 to +2.21 permits per 1,000 existing homes per year. A repeal is not modelled as reducing permits, so the central case is 0.
 4. **Upper case, "High end of the evidence".** +2.21 permits per 1,000 existing homes per year, the 95th percentile of the average from 2,000 resamples of the 24 places. It is applied to the 2,684,793 existing Wisconsin homes outside the 9 places that already have no minimums (10 municipality pieces, because Brodhead spans two counties). That gives 29,662 permits over 2027–2031, 24% above current law.
+   **Shared reporting (AQ-054).** In additional homes permitted per year against the shared all-housing baseline, the central case adds 0 a year and the upper case about 5,932 a year. Home counts that compare reforms use ACS 2020–2024 total housing units: 2,778,572 statewide, of which 2,684,793 are outside places already at the benchmark. The median of real cases, applied to Wisconsin, rounds to 0 and coincides with the central case.
 5. **Timing.** The effect was measured over years 1–3, and it does not build up over time. The upper case is held flat through 2031. That is an assumption, and the measured path suggests it is generous.
 6. **Where the upper case lands.** It is spread in proportion to existing homes, because the comparison could not tell which kinds of places respond more (owner decision AQ-046; no size split beat one average).
 
@@ -321,11 +322,11 @@ Wisconsin legislators and staff asking whether a statewide parking repeal would 
 
 ## Part C. Transit-oriented density (TOD)
 
-> **Maintained by the TOD session.** This part is a word-for-word copy of [docs/tod/MODEL_AND_ASSUMPTIONS_TOD.md](tod/MODEL_AND_ASSUMPTIONS_TOD.md) at commit 8ea24b0 (2026-10-27), with only its heading levels changed. Edit the master copy, not this one. Its links are rewritten to resolve from `docs/` by `scripts/sync_model_doc.py`. Two changes made after the TOD Gate 3 check await the owner's confirmation; neither changes the statewide totals: keeping the measured New York build-up unsmoothed, and scaling the suburbs' share of the placement by 0.719.
+> **Maintained by the TOD session.** This part is a word-for-word copy of [docs/tod/MODEL_AND_ASSUMPTIONS_TOD.md](tod/MODEL_AND_ASSUMPTIONS_TOD.md) at commit 4b22577 (2026-10-27), with only its heading levels changed. Edit the master copy, not this one. Its links are rewritten to resolve from `docs/` by `scripts/sync_model_doc.py`. Two changes made after the TOD Gate 3 check await the owner's confirmation; neither changes the statewide totals: keeping the measured New York build-up unsmoothed, and scaling the suburbs' share of the placement by 0.719.
 
 ### Transit-oriented density (TOD): model and assumptions
 
-Master copy for the TOD section of [MODEL_AND_ASSUMPTIONS.md](MODEL_AND_ASSUMPTIONS.md). Last updated 2026-10-27. Decisions: AQ-044 to AQ-051 in [ASSUMPTIONS_AND_QUESTIONS.md](ASSUMPTIONS_AND_QUESTIONS.md). Detail: [GATE3_PACKET.md](tod/GATE3_PACKET.md), [MODEL.md](tod/MODEL.md).
+Master copy for the TOD section of [MODEL_AND_ASSUMPTIONS.md](MODEL_AND_ASSUMPTIONS.md). Last updated 2026-10-27 (AQ-053, AQ-054). Decisions: AQ-044 to AQ-051 in [ASSUMPTIONS_AND_QUESTIONS.md](ASSUMPTIONS_AND_QUESTIONS.md). Detail: [GATE3_PACKET.md](tod/GATE3_PACKET.md), [MODEL.md](tod/MODEL.md).
 
 #### 1. Purpose and scope
 
@@ -337,6 +338,18 @@ The tool estimates how many more homes would be permitted in Wisconsin over 2027
 - **Where it applies:** within ½ mile of streetcar and rapid bus stations, and within ¼ mile of bus routes with service every 15 minutes or better at the morning peak.
   - That covers 313,564 of Wisconsin's 2,727,726 homes in the 2020 census (11.5%).
   - 98.7% of those homes are in Milwaukee County and Dane County.
+
+**Shared reporting units (AQ-054).** For comparison across reforms, the TOD scenarios are restated against the statewide all-housing baseline and on Wisconsin's ACS 2020–2024 home count. These figures are not stacked or added to the other reforms.
+
+| Scenario | Extra homes permitted a year, statewide | As a share of the statewide all-housing baseline (122,619 homes over 2027–2031) | As a share of Wisconsin's 2,778,572 homes (ACS 2020–2024) |
+| --- | --- | --- | --- |
+| Little | about 34 | 0.14% | 0.006% |
+| Typical | about 502 | 2.0% | 0.09% |
+| Strong | about 3,430 | 14.0% | 0.62% |
+
+The station-area share in section 2 (0.055%, 0.8% or 5.5% of the 313,564 homes near stops) stays on the 2020 census count, because the station areas are built from census blocks.
+
+**No median line for TOD.** A median line of real cases is shown only when a reform has at least 4 comparable cases. TOD's scenarios rest on 3 whole-city studies, so it has none.
 
 #### 2. Core assumptions and their rationale
 
