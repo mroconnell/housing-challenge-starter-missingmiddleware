@@ -29,8 +29,8 @@
     {
       "id": "parking",
       "label": "Parking requirement reduction",
-      "subtitle": "Wisconsin parking requirement reduction · in development",
-      "status": "in_development",
+      "subtitle": "Wisconsin parking requirement reduction · statewide estimates",
+      "status": "ready",
       "bundle_root": "scenarios/parking/runs/",
       "owner": "Parking conductor",
       "benchmark": "Reduce or eliminate minimum parking requirements. Specify assumptions about developer-provided parking absent mandates.",

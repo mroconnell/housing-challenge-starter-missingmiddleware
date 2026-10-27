@@ -247,7 +247,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
     routes: ROUTES,
     defaultPath: "/today",
     titleSuffix: "Wisconsin parking law",
-    statusStrip: `<span><strong>Gate 4 pilot</strong> (in review)</span><span>Run <code data-testid="run-id">${esc(m.run_id)}</code></span><span>Last observed year ${m.dates.last_observed_year}</span><span>Forecast 2027–2031</span><span>Law in effect 1 Jan 2027 (stylized)</span>`,
+    statusStrip: `<span><strong>Accepted model</strong> (27 October 2026)</span><span>Run <code data-testid="run-id">${esc(m.run_id)}</code></span><span>Last observed year ${m.dates.last_observed_year}</span><span>Forecast 2027–2031</span><span>Law in effect 1 Jan 2027 (stylized)</span>`,
     footer: `<p><strong>Outcome:</strong> ${esc(m.outcome.short)}</p>
       <p class="pill-key"><span class="pill pill-observed">Observed</span> counted in a published source. <span class="pill pill-calculated">Calculated</span> computed from observed inputs and stated rules. <span class="pill pill-assumed">Assumed</span> a judgment where no data decide it. A dash (—) means missing, never zero.</p>
       <p class="muted">Run <code>${esc(m.run_id)}</code> · Validation: ${m.validation.passed} checks passed · <a href="${esc(m.repo_url)}" target="_blank" rel="noopener">Source code and documentation<span class="sr-only"> (opens GitHub in a new tab)</span> ↗</a> · Apache-2.0</p>`,
