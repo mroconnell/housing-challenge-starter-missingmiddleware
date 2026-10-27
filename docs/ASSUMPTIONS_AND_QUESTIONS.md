@@ -751,6 +751,13 @@ The plan was written before counting. The result is a sensitivity for the combin
 3. **G4-3:** next is Gate 5, the statewide review: reconciliation, a final pass on plain wording, and a fresh-clone check. Then final numbers go to the ADU thread for the submission documents.
 4. **Combined view:** the owner approved the recommendation to make "the larger of the two near stops" (rule b) the main rule, with the sum (rule a) as an upper bound. The AB 2097 test found no measurable gain from combining parking relief with earlier upzoning (AQ-052). The parking conductor agreed, and the owner confirmed it in the parking thread the same day ("Sure").
 
+## AQ-054 Cross-reform reporting conventions
+
+**Status:** Adopted. **Added:** 2026-10-27. **Owner decision** (all three reforms):
+1. **Shared unit.** Each reform keeps its own modelled outcome. For cross-reform views, every reform also reports **additional homes permitted per year, statewide** (and by area where it can), shown against the shared all-housing baseline (122,619 permitted units over 2027–2031, docs/shared/HOUSING_BASELINE.md). Two caveats go with any shared graph: ADUs are under-counted in the Census permit data behind that baseline, so the ADU line is extra on top of it; and the reforms overlap (TOD homes are part of the all-housing count), so the lines are never stacked or added.
+2. **Wisconsin home count.** Every cross-reform figure uses ACS 2020–2024 total housing units (B25002): **2,778,572**. TOD may keep 2020 census blocks inside its station-area calculations but restates its headline shares on the ACS count. The 2025 population-estimate count (2,840,960) is used only on the "Wisconsin today" screen as current context.
+3. **Median line.** One definition: "the median of the real cases, applied to Wisconsin", shown only when a reform has at least 4 comparable cases. ADUs (8 states) and parking (24 places; its median rounds to 0, the same as its central) keep the line; TOD (3 whole-city studies) drops it and says why.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -880,3 +887,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-27 | AQ-052 | TOD: owner approved a California AB 2097 test of parking near transit, alone and combined with earlier local upzoning (plan written before counting). |
 | 2026-10-27 | AQ-053 | TOD Gate 4 accepted: TOD marked ready; Gate 3 amendments confirmed; Gate 5 next; combined view main rule = larger of the two near stops, sum as upper bound (parking agreed). |
 | 2026-10-27 | AQ-048 | Combined TOD + parking view: owner adopted "larger of the two" near transit stops as the headline rule, with the sum shown as an upper bound (2027–2031 high case 43,693 headline, 46,810 upper bound); the California AB 2097 test found no extra gain from combining (Los Angeles −2.62 per 1,000 homes, range includes zero). |
+| 2026-10-27 | AQ-054 | Cross-reform conventions: shared unit (additional homes permitted per year), ACS 2020–2024 home count (2,778,572) for cross-reform figures, one median-line rule (≥4 real cases). |
