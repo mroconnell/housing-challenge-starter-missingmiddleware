@@ -41,4 +41,4 @@ The models "pass" because they learned San Francisco, not because they found a p
 
 ## Side by side with TOD
 
-TOD's island-size result, labelled "TOD: frequent-service coverage, per rezoned unit": it failed, beating the plain average in 1 of 6 fitted cities and losing on both held-out cities (`docs/tod/NET_EFFECT_RESULTS.md`). TOD's all-variables test is still running, and its result will be added here when it lands.
+TOD's island-size result, labelled "TOD: frequent-service coverage, per rezoned unit": it failed, beating the plain average in 1 of 6 fitted cities and losing on both held-out cities (`docs/tod/NET_EFFECT_RESULTS.md`). TOD's all-variables test used 91 variables: 78 from the Census survey across 46 tables, plus 13 TOD traits. Every model failed. Mean error over 6 fitted cities, against 0.856 for the plain average (extra homes per eligible acre per year): lasso 1.134, elastic net 1.075, random forest 1.136, gradient boosting 1.046, causal forest 0.884 (`docs/tod/`; variable map in `reference/tod_allvars_variable_map.csv`). Both scenarios reach the same conclusion: the data do not support different effects for different kinds of place.
