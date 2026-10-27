@@ -272,3 +272,116 @@ ID_LIKE = re.compile(r"(^|_)(parcel|pin|bbl|block|lot|permit|project|address|own
 def check_private(df: pd.DataFrame, allowed: set[str] = frozenset()) -> list[str]:
     """Column names that look like identifiers of parcels, permits, projects or people (must be empty for outputs)."""
     return [c for c in df.columns if ID_LIKE.search(c) and c not in allowed]
+
+
+# --------------------------------------------------------------------------- exploratory combinations
+# Owner-approved exploration (plan section 8, entry "exploratory combinations", 2026-10-27): all 66 trait pairs and one
+# regression tree (depth <= 2, >= 8 units per leaf), same folds, error and transforms; stricter pass rule.
+
+TREE_MAX_DEPTH = 2
+TREE_MIN_LEAF = 8
+CHANCE_WARNING = ("Exploratory: about 3 of 66 pairs would be expected to look good by chance; shown as a sensitivity "
+                  "only, never used for the main estimate.")
+
+
+def judge_strict(errors: pd.DataFrame) -> dict:
+    """Pass only if the model beats the baseline in at least 3 of the 4 fitted cities, on average across them, and
+    in Chicago and in Madison, each by itself."""
+    f = errors[errors["role"] == "fold"]
+    h = errors[errors["role"] == "always held out"].set_index("city")
+    better = int((f["error_model"] < f["error_baseline"] - 1e-12).sum())
+    mb, mm = float(f["error_baseline"].mean()), float(f["error_model"].mean())
+    held = {c: bool(c in h.index and h.loc[c, "error_model"] < h.loc[c, "error_baseline"] - 1e-12) for c in TEST_CITIES}
+    ok = len(f) == len(FIT_CITIES) and better >= 3 and mm < mb and all(held.values())
+    return {"verdict": "pass (exploratory)" if ok else "fail", "fold_cities_better": better, "fold_cities": len(f),
+            "mean_error_baseline": mb, "mean_error_model": mm,
+            **{f"beats_baseline_{c.lower()}": v for c, v in held.items()}}
+
+
+def _wsse(y: np.ndarray, w: np.ndarray) -> float:
+    if len(y) == 0:
+        return 0.0
+    m = np.sum(w * y) / np.sum(w)
+    return float(np.sum(w * (y - m) ** 2))
+
+
+def fit_tree(df: pd.DataFrame, cols: list[str], y: str = "effect", w: str = "weight", depth: int = TREE_MAX_DEPTH,
+             min_leaf: int = TREE_MIN_LEAF) -> dict:
+    """Weighted regression tree (least squares). A split is 'col <= threshold'; units with a missing value of the
+    split's trait follow the child with more acres. Leaves predict the acre-weighted mean effect."""
+    yy, ww = df[y].values.astype(float), df[w].values.astype(float)
+    node = {"n": len(df), "acres": float(ww.sum()), "value": float(np.sum(yy * ww) / ww.sum())}
+    if depth == 0 or len(df) < 2 * min_leaf:
+        return node
+    best, base = None, _wsse(yy, ww)
+    for c in cols:
+        x = df[c].values.astype(float)
+        ok = ~np.isnan(x)
+        vals = np.unique(x[ok])
+        for lo, hi in zip(vals[:-1], vals[1:]):
+            t = (lo + hi) / 2
+            left = ok & (x <= t)
+            right = ok & (x > t)
+            if ww[left].sum() >= ww[right].sum():
+                left = left | ~ok
+            else:
+                right = right | ~ok
+            if left.sum() < min_leaf or right.sum() < min_leaf:
+                continue
+            gain = base - _wsse(yy[left], ww[left]) - _wsse(yy[right], ww[right])
+            if gain > 1e-12 and (best is None or gain > best[0]):
+                best = (gain, c, t, bool(ww[left & ok].sum() >= ww[right & ok].sum()))
+    if best is None:
+        return node
+    _, c, t, miss_left = best
+    x = df[c].values.astype(float)
+    go_left = np.where(np.isnan(x), miss_left, x <= t)
+    node.update(col=c, threshold=float(t), missing_left=miss_left,
+                left=fit_tree(df[go_left], cols, y, w, depth - 1, min_leaf),
+                right=fit_tree(df[~go_left], cols, y, w, depth - 1, min_leaf))
+    return node
+
+
+def predict_tree(node: dict, df: pd.DataFrame) -> np.ndarray:
+    out = np.empty(len(df))
+    for i, (_, r) in enumerate(df.iterrows()):
+        n = node
+        while "col" in n:
+            v = r[n["col"]]
+            n = n["left"] if (n["missing_left"] if pd.isna(v) else v <= n["threshold"]) else n["right"]
+        out[i] = n["value"]
+    return out
+
+
+def tree_rows(node: dict, path: str = "all units") -> list[dict]:
+    """The tree as rows: one per node, with its rule, units, acres and value."""
+    rows = [{"node": path, "units": node["n"], "acres": node["acres"], "mean_effect": node["value"],
+             "split_trait": node.get("col", ""), "split_threshold": node.get("threshold", np.nan),
+             "missing_values_go": ("left (<=)" if node.get("missing_left") else "right (>)") if "col" in node else ""}]
+    if "col" in node:
+        rows += tree_rows(node["left"], f"{path} / {node['col']} <= {node['threshold']:.4g}")
+        rows += tree_rows(node["right"], f"{path} / {node['col']} > {node['threshold']:.4g}")
+    return rows
+
+
+def heldout_tree_errors(df: pd.DataFrame, cols: list[str], y: str = "effect", w: str = "weight",
+                        city: str = "city") -> pd.DataFrame:
+    """Leave-one-city-out errors of the tree against the baseline, on every unit (missing trait values are routed)."""
+    d = df.dropna(subset=[y, w])
+    d = d[d[w] > 0]
+    rows = []
+    for c in list(FIT_CITIES) + list(TEST_CITIES):
+        test = d[d[city] == c]
+        train = d[d[city].isin([f for f in FIT_CITIES if f != c])]
+        if test.empty or train.empty:
+            continue
+        tree = fit_tree(train, cols, y, w)
+        pm, pb = predict_tree(tree, test), fit_predict(train, test, [], y, w)
+        ob, ww = test[y].values.astype(float), test[w].values.astype(float)
+        rows.append({"city": c, "role": "fold" if c in FIT_CITIES else "always held out", "units": len(test),
+                     "treatment_acres": float(ww.sum()), "fit_units": len(train), "fit_cities": int(train[city].nunique()),
+                     "error_baseline": weighted_mae(pb, ob, ww), "error_model": weighted_mae(pm, ob, ww),
+                     "measured_mean": float(np.sum(ob * ww) / ww.sum()), "predicted_mean_model": float(np.sum(pm * ww) / ww.sum()),
+                     "predicted_mean_baseline": float(np.sum(pb * ww) / ww.sum()),
+                     "splits": "; ".join(f"{r['node']}" for r in tree_rows(tree) if r["split_trait"] == "" and r["node"] != "all units")})
+    return pd.DataFrame(rows)

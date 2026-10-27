@@ -1,0 +1,13 @@
+part,node,units,error_baseline,error_model,splits,acres,mean_effect,split_trait,split_threshold,missing_values_go,role,treatment_acres,measured_mean,predicted_mean_baseline,predicted_mean_model
+verdict,fail,106,0.8753,1.256,fold cities better: 2 of 4; Chicago False; Madison True,,,,,,,,,,
+tree fitted on all four fitted cities,all units,79,,,,2138.14,0.4768,t04_income,11.405,left (<=),,,,,
+tree fitted on all four fitted cities,all units / t04_income <= 11.41,70,,,,1978.23,0.1806,t02_lot_size,0.505,right (>),,,,,
+tree fitted on all four fitted cities,all units / t04_income <= 11.41 / t02_lot_size <= 0.505,43,,,,960.96,0.3933,,,,,,,,
+tree fitted on all four fitted cities,all units / t04_income <= 11.41 / t02_lot_size > 0.505,27,,,,1017.27,-0.0204,,,,,,,,
+tree fitted on all four fitted cities,all units / t04_income > 11.41,9,,,,159.91,4.1415,,,,,,,,
+held-out error,New York,11,1.1745,2.8659,all units / t11_transit_jobs_access <= 4.644e+05 / t02_lot_size <= 0.505; all units / t11_transit_jobs_access <= 4.644e+05 / t02_lot_size > 0.505; all units / t11_transit_jobs_access > 4.644e+05,,,,,,fold,558.32,0.9413,0.3126,2.4133
+held-out error,Philadelphia,43,0.8995,1.1977,all units / t10_km_to_downtown <= 5.043; all units / t10_km_to_downtown > 5.043 / t04_income <= 10.94; all units / t10_km_to_downtown > 5.043 / t04_income > 10.94,,,,,,fold,557.94,0.7332,0.3863,1.1043
+held-out error,Charlotte,18,0.6827,0.3867,all units / t04_income <= 11.41 / t02_lot_size <= 0.5163; all units / t04_income <= 11.41 / t02_lot_size > 0.5163; all units / t04_income > 11.41,,,,,,fold,815.65,0.1281,0.6919,-0.0326
+held-out error,Saint Paul,7,0.7444,0.5739,all units / t04_income <= 11.41 / t10_km_to_downtown <= 3.267; all units / t04_income <= 11.41 / t10_km_to_downtown > 3.267; all units / t04_income > 11.41,,,,,,fold,206.23,-0.0953,0.5379,0.237
+held-out error,Chicago,22,0.5815,1.1879,all units / t04_income <= 11.41 / t02_lot_size <= 0.505; all units / t04_income <= 11.41 / t02_lot_size > 0.505; all units / t04_income > 11.41,,,,,,always held out,158.32,0.1335,0.4768,1.1404
+held-out error,Madison,5,1.4747,1.4001,all units / t04_income <= 11.41 / t02_lot_size <= 0.505; all units / t04_income <= 11.41 / t02_lot_size > 0.505; all units / t04_income > 11.41,,,,,,always held out,595.78,0.2679,0.4768,0.0447

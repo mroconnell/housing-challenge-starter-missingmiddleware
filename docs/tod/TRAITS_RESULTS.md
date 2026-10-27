@@ -146,3 +146,54 @@ All are in the plan's section 8 with their reasons:
 - **Traits travel together.** Rent, income and home value are correlated, and every city-level trait is confounded with everything else about its city.
 - **Before-the-change values** exist only for New York lots (land use, homes). Elsewhere, parcels, land use and the jobs index are later than the change.
 - **Data:** EPA's D5BR is missing for 1 Charlotte unit (no transit in its block groups in 2017), and the vacant share for 1 Philadelphia unit whose lots were all built on.
+
+## Exploratory combinations
+
+The owner approved this exploration after the confirmatory test. The rule was fixed before any pair was tested (plan section 8, two entries dated 2026-10-27). It tests all 66 pairs of the 12 traits, plus one regression tree (depth at most 2, at least 8 units per leaf), with the same folds, error and logarithms as the confirmatory test.
+
+**Stricter pass rule.** A pair or the tree passes only if it does all three of these:
+- beats the no-trait baseline in at least 3 of the 4 fitted cities;
+- beats it on average across those cities;
+- beats it in Chicago and in Madison, each by itself.
+
+Anything that passed would be exploratory and a sensitivity only, because about 3 of 66 pairs would look good by chance. Results are in [reference/tod_trait_pairs.csv](../../reference/tod_trait_pairs.csv) and [reference/tod_trait_tree.csv](../../reference/tod_trait_tree.csv). Errors are acre-weighted mean absolute errors in extra homes permitted per eligible acre per year.
+
+**Pairs: none of the 66 passes.** How many pairs meet each condition:
+
+| Condition | Pairs (of 66) |
+| --- | --- |
+| Beats the baseline in at least 3 of 4 fitted cities | 4 |
+| Beats the baseline on average (mean error below 0.875) | 1 |
+| Beats the baseline in both Chicago and Madison | 12 |
+| All three | **0** |
+
+- **The closest pair is lot size + parking cut.**
+  - **On average:** its mean error is 0.867, against the baseline's 0.875.
+  - **Chicago:** 0.418, against the baseline's 0.582.
+  - **Madison:** 1.467, against the baseline's 1.475.
+  - **Why it fails:** it beats the baseline in only 2 of the 4 fitted cities (Charlotte and Saint Paul). This is the parking trait's pattern again, and lot size adds almost nothing to it.
+- **The four pairs that beat the baseline in 3 of 4 fitted cities all make the average worse.** Each loses heavily in the fourth city. For example, rent + transit jobs access has a mean error of 1.297.
+
+**Tree: fails.**
+- **Fitted on all four fitted cities (79 units), it makes two splits:**
+  - first, median household income at log 11.405 (about $89,950 in 2024 dollars);
+  - then, for the lower-income side, average lot size at 0.505 acres.
+- **Its leaves** (acre-weighted mean effect):
+  - income above $89,950: +4.14 (9 units, 159.9 acres);
+  - lower income and lots of 0.505 acres or less: +0.39 (43 units, 961.0 acres);
+  - lower income and larger lots: −0.02 (27 units, 1,017.3 acres).
+- **Held-out errors, baseline → tree:**
+
+  | City | Baseline | Tree |
+  | --- | --- | --- |
+  | New York | 1.174 | 2.866 |
+  | Philadelphia | 0.900 | 1.198 |
+  | Charlotte | 0.683 | 0.387 |
+  | Saint Paul | 0.744 | 0.574 |
+  | Mean of the four | 0.875 | 1.256 |
+  | Chicago | 0.581 | 1.188 |
+  | Madison | 1.475 | 1.400 |
+
+- **The splits are unstable.** Each fold's tree chooses different splits: transit jobs access when New York is left out, and distance to downtown when Philadelphia is left out. So the splits mostly fit a few high-effect units (Downtown Brooklyn, Park Slope, Madison's Isthmus core) rather than a pattern that carries to the held-out cities.
+
+**Conclusion.** No combination of two traits, and no small tree, predicts where upzoning near transit added homes better than a plain average once each city is held out. Nothing here changes the confirmatory result or the model. The range stays 171 to 17,148 extra homes over 2027–2031.

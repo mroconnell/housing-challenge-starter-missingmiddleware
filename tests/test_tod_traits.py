@@ -137,10 +137,45 @@ class TestHeldOut(unittest.TestCase):
         self.assertEqual(T.two_trait_sets(["a"]), [])
 
 
+class TestExploratory(unittest.TestCase):
+    def errors(self, fold_model, chi, mad):
+        rows = [{"city": c, "role": "fold", "error_baseline": 1.0, "error_model": m} for c, m in zip(T.FIT_CITIES, fold_model)]
+        rows += [{"city": "Chicago", "role": "always held out", "error_baseline": 1.0, "error_model": chi},
+                 {"city": "Madison", "role": "always held out", "error_baseline": 1.0, "error_model": mad}]
+        return pd.DataFrame(rows)
+
+    def test_strict_rule(self):
+        self.assertEqual(T.judge_strict(self.errors([0.5, 0.5, 0.5, 1.2], 0.9, 0.9))["verdict"], "pass (exploratory)")
+        self.assertEqual(T.judge_strict(self.errors([0.5, 0.5, 1.2, 1.2], 0.9, 0.9))["verdict"], "fail")  # only 2 of 4
+        self.assertEqual(T.judge_strict(self.errors([0.9, 0.9, 0.9, 2.0], 0.9, 0.9))["verdict"], "fail")  # worse on average
+        self.assertEqual(T.judge_strict(self.errors([0.5, 0.5, 0.5, 0.5], 1.1, 0.9))["verdict"], "fail")  # Chicago worse
+        self.assertEqual(T.judge_strict(self.errors([0.5, 0.5, 0.5, 0.5], 0.9, 1.0))["verdict"], "fail")  # Madison not better
+
+    def test_tree_limits_and_fit(self):
+        d = pd.DataFrame({"x": np.arange(40, dtype=float), "z": np.zeros(40), "weight": 1.0})
+        d["effect"] = np.where(d.x < 20, 0.0, 5.0)
+        t = T.fit_tree(d, ["x", "z"])
+        self.assertEqual(t["col"], "x")
+        self.assertAlmostEqual(t["threshold"], 19.5)
+        self.assertTrue(np.allclose(T.predict_tree(t, d), d.effect))
+        leaves = [r for r in T.tree_rows(t) if r["split_trait"] == ""]
+        self.assertTrue(all(r["units"] >= T.TREE_MIN_LEAF for r in leaves))
+        self.assertTrue(all(r["node"].count("/") <= T.TREE_MAX_DEPTH for r in T.tree_rows(t)))
+        small = d.iloc[:15]
+        self.assertNotIn("col", T.fit_tree(small, ["x"]))  # fewer than 2 x 8 units: no split
+
+    def test_tree_routes_missing_values(self):
+        d = pd.DataFrame({"x": [float(i) for i in range(20)] + [np.nan] * 4, "weight": [1.0] * 20 + [1.0] * 4})
+        d["effect"] = np.where(d.x < 10, 0.0, 5.0)
+        t = T.fit_tree(d, ["x"], depth=1)
+        self.assertEqual(len(T.predict_tree(t, d)), 24)
+
+
 class TestOutputs(unittest.TestCase):
     def test_no_identifiers(self):
         for name in ("tod_trait_units.csv", "tod_trait_values.csv", "tod_trait_results.csv", "tod_trait_errors.csv",
-                     "tod_trait_heldout_units.csv", "tod_trait_wisconsin.csv"):
+                     "tod_trait_heldout_units.csv", "tod_trait_wisconsin.csv",
+                     "tod_trait_pairs.csv", "tod_trait_tree.csv"):
             f = REF / name
             if not f.exists():
                 continue

@@ -4,6 +4,7 @@
     uv run --all-extras python scripts/run_tod_traits.py --stage units    # 1. unit list, fixed before any trait
     uv run --all-extras python scripts/run_tod_traits.py --stage traits   # 2. trait values for the fixed units
     uv run --all-extras python scripts/run_tod_traits.py --stage test     # 3. held-out test (+ 4. Wisconsin if a trait passes)
+    uv run --all-extras python scripts/run_tod_traits.py --stage explore  # owner-approved exploration: 66 pairs + one tree
 
 Units are built with the case adapters (missing_middleware/tod/case_*.py, imported, never edited) and the Madison
 test script. Station-area units re-use each case's own areas: the case's builder runs unchanged while
@@ -16,6 +17,8 @@ Outputs (committed; no parcel, permit, project or person identifiers):
 - reference/tod_trait_errors.csv       one row per model and city: held-out errors and predicted vs measured means
 - reference/tod_trait_heldout_units.csv  Chicago and Madison units: measured and predicted effects by model
 - reference/tod_trait_wisconsin.csv    only if a trait passes (sensitivity; model outputs unchanged)
+- reference/tod_trait_pairs.csv        exploratory: all 66 pairs under the stricter rule
+- reference/tod_trait_tree.csv         exploratory: the regression tree (splits, held-out errors, verdict)
 Caches (git-ignored): data/processed/tod_traits/
 """
 from __future__ import annotations
@@ -48,6 +51,8 @@ RESULTS_CSV = REFERENCE / "tod_trait_results.csv"
 ERRORS_CSV = REFERENCE / "tod_trait_errors.csv"
 HELDOUT_CSV = REFERENCE / "tod_trait_heldout_units.csv"
 WI_CSV = REFERENCE / "tod_trait_wisconsin.csv"
+PAIRS_CSV = REFERENCE / "tod_trait_pairs.csv"
+TREE_CSV = REFERENCE / "tod_trait_tree.csv"
 CITIES = ("nyc", "philadelphia", "charlotte", "stpaul", "chicago", "madison")
 CITY_NAME = {"nyc": "New York", "philadelphia": "Philadelphia", "charlotte": "Charlotte", "stpaul": "Saint Paul",
              "chicago": "Chicago", "madison": "Madison"}
@@ -734,11 +739,58 @@ def stage_wisconsin(d: pd.DataFrame, passing: list[str], verdicts: dict) -> None
     print("Wisconsin sensitivity rates:", {k: tuple(round(x, 3) for x in v) for k, v in rates.items()}, "areas:", len(g))
 
 
+# =========================================================================== exploratory combinations
+
+def stage_explore() -> None:
+    """All 66 trait pairs and one regression tree (plan section 8, exploratory combinations), stricter pass rule."""
+    import itertools
+    d = model_frame()
+    rows = []
+    for a, b in itertools.combinations(list(T.TRAITS), 2):
+        e = T.heldout_errors(d, [f"x_{a}", f"x_{b}"])
+        j = T.judge_strict(e)
+        r = {"trait_a": a, "trait_b": b, "label": f"{T.TRAITS[a]['label']} + {T.TRAITS[b]['label']}",
+             "units_used": int(e["units"].sum()), **j}
+        for c in T.CITY_ORDER:
+            x = e[e["city"] == c]
+            r[f"err_base_{slug(c)}"] = float(x["error_baseline"].iloc[0]) if len(x) else np.nan
+            r[f"err_model_{slug(c)}"] = float(x["error_model"].iloc[0]) if len(x) else np.nan
+        rows.append(r)
+    P = pd.DataFrame(rows)
+    P["note"] = np.where(P["verdict"].str.startswith("pass"), T.CHANCE_WARNING, "")
+    P.round(4).to_csv(PAIRS_CSV, index=False, lineterminator="\n")
+    cols = [f"x_{t}" for t in T.TRAITS]
+    e = T.heldout_tree_errors(d, cols)
+    j = T.judge_strict(e)
+    full = T.fit_tree(d[d["city"].isin(T.FIT_CITIES)].dropna(subset=["effect"]), cols)
+    tr = pd.DataFrame(T.tree_rows(full))
+    tr.insert(0, "part", "tree fitted on all four fitted cities")
+    tr["split_trait"] = tr["split_trait"].str.replace("x_", "", regex=False)
+    tr["node"] = tr["node"].str.replace("x_", "", regex=False)
+    er = e.assign(part="held-out error", node=e["city"])[["part", "node", "role", "units", "treatment_acres", "error_baseline",
+                                                            "error_model", "measured_mean", "predicted_mean_baseline", "predicted_mean_model"]]
+    er["splits"] = e["splits"].str.replace("x_", "", regex=False)
+    summ = pd.DataFrame([{"part": "verdict", "node": j["verdict"], "units": int(e["units"].sum()),
+                          "error_baseline": j["mean_error_baseline"], "error_model": j["mean_error_model"],
+                          "splits": f"fold cities better: {j['fold_cities_better']} of {j['fold_cities']}; Chicago "
+                                    f"{j['beats_baseline_chicago']}; Madison {j['beats_baseline_madison']}"
+                                    + (f". {T.CHANCE_WARNING}" if j["verdict"].startswith("pass") else "")}])
+    out = pd.concat([summ, tr, er], ignore_index=True)
+    out.round(4).to_csv(TREE_CSV, index=False, lineterminator="\n")
+    for f in (P, out):
+        assert not T.check_private(f)
+    pd.set_option("display.width", 250, "display.max_columns", 40, "display.max_colwidth", 90)
+    print("pairs passing:", int(P["verdict"].str.startswith("pass").sum()), "of", len(P))
+    print(P.sort_values("mean_error_model")[["trait_a", "trait_b", "verdict", "fold_cities_better", "mean_error_baseline",
+                                              "mean_error_model", "beats_baseline_chicago", "beats_baseline_madison"]].head(15).round(3).to_string(index=False))
+    print(out.round(3).to_string(index=False))
+
+
 # =========================================================================== main
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["fetch", "units", "write-units", "traits", "test"], required=True)
+    ap.add_argument("--stage", choices=["fetch", "units", "write-units", "traits", "test", "explore"], required=True)
     ap.add_argument("--city", nargs="*", default=list(CITIES))
     ap.add_argument("--rebuild", action="store_true")
     a = ap.parse_args(argv)
@@ -750,6 +802,8 @@ def main(argv=None) -> None:
         write_units()
     elif a.stage == "traits":
         stage_traits()
+    elif a.stage == "explore":
+        stage_explore()
     else:
         stage_test()
 
