@@ -1,0 +1,5 @@
+places,error_one_average,error_with_variable,gain,slope,slope_p05,slope_p95,variable
+154,9.3867,9.5461,-0.017,-3.0817,-18.8679,10.9616,V4_renter_share
+154,9.3867,9.4986,-0.0119,3.4779,-51.4154,66.734,V5_vacancy_rate
+154,9.3867,9.6507,-0.0281,4.5543,-8.2191,18.1608,V6_share_built_before_1960
+154,9.3867,9.5542,-0.0178,-4.5489,-18.7222,6.8903,V7_share_homes_5plus

@@ -48,6 +48,14 @@ def main() -> None:
     t["V5_vacancy_rate"] = t["B25002_E003"] / t["B25002_E001"]
     t["V6_share_built_before_1960"] = t[["B25034_E009", "B25034_E010", "B25034_E011"]].sum(axis=1) / t["B25034_E001"]
     t["V7_share_homes_5plus"] = t[["B25024_E006", "B25024_E007", "B25024_E008", "B25024_E009"]].sum(axis=1) / t["B25024_E001"]
+    COM = RAW / "census_acs5_2024_tbsf_commute"
+    u = acs(COM / "acsdt5y2024-b08201.dat", ["B08201_E001", "B08201_E002"]).join(
+        acs(COM / "acsdt5y2024-b08301.dat", ["B08301_E001", "B08301_E010", "B08301_E021"])).join(
+        acs(COM / "acsdt5y2024-b08013.dat", ["B08013_E001"]))
+    t = t.join(u)
+    t["V20_share_households_no_car"] = t["B08201_E002"] / t["B08201_E001"]
+    t["V21_share_commute_transit"] = t["B08301_E010"] / t["B08301_E001"]
+    t["V22_mean_commute_minutes"] = t["B08013_E001"] / (t["B08301_E001"] - t["B08301_E021"])
     m = m.merge(t[[c for c in t.columns if c.startswith("V")]], left_on="acs_geoid", right_index=True, how="left")
 
     # permits before repeal (BPS): 5+ share, value per unit relative to the state, volatility

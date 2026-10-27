@@ -105,6 +105,8 @@ The repository's Apache-2.0 license covers code only. Each dataset keeps its own
 | Wisconsin city permit reports: Green Bay, De Pere, Howard, Kaukauna, Neenah, Verona, Watertown, Waunakee, Fitchburg | Local governments | not stated (public records) | raw files hold names; not redistributed |
 | Milwaukee building permits and MPROP | City of Milwaukee | CC-BY | attribution |
 | Parking Reform Network reform-map database (`data/*.json`, commit 3a62231) | Parking Reform Network, github.com/ParkingReformNetwork/reform-map | MIT (repository LICENSE) | keep copyright notice; reporter names not copied |
+| OpenStreetMap parking areas (derived per-place surface-parking table, reference/parking_surface_lots.csv) | © OpenStreetMap contributors | ODbL 1.0 | attribution; the derived table is offered under the ODbL (share-alike) |
+| National Transit Map stops (BTS NTAD) | U.S. DOT Bureau of Transportation Statistics | CC BY 3.0 US | attribution |
 | State parcel and land-use samples: AZ, CT, OR (Metro RLIS, GEOHub), HI, PA (PASDA), UT (LIR, HUI), VA, RI, NH | State and regional GIS offices | varies; see each item page (not yet recorded) | samples only |
 | California HCD APR tables (incl. Table A2 project rows); HCD ADU ordinance list | California HCD | not stated (data.ca.gov: "License not specified") | APN rows not redistributed |
 | BuildinganADU.com California ADU compilation | BuildinganADU.com (Google Sheets) | not stated | cite compiler and HCD |

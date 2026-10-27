@@ -71,3 +71,9 @@ Ryan accepted the recommendations ("I take your recommendations"). I read that a
 ## 7. Changes after writing
 
 - **2026-10-27, before any variable was joined to an effect (owner's request):** V19 "island size" is added, following the TOD work. It is the area in acres (log) of the largest continuous patch of the place's land within ½ mile of a transit stop, from the union of ½-mile circles around the National Transit Map stops. A long connected network gives a large island; scattered stops give small ones. It is tested like the others.
+- **2026-10-27, after V1–V19 had been tested, before these three were joined to any effect (owner's question in the TOD thread):**
+  - V20: share of households with no car (ACS B08201);
+  - V21: share of workers commuting by public transit (ACS B08301);
+  - V22: mean commute time in minutes (ACS B08013 ÷ workers not working at home).
+
+  Each is tested by the same single-variable rule. Because the first 19 results were already known when these were added, they are reported as a follow-up set. Driver's licences are published only by state, so they are left out.

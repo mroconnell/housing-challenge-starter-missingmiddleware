@@ -41,7 +41,7 @@ def query(key: str, bounds) -> list:
         s, w, n, e = bounds[1], bounds[0], bounds[3], bounds[2]
         q = (f'[out:json][timeout:120];(way["amenity"="parking"]({s},{w},{n},{e}););out geom;')
         data = None
-        for attempt in range(4):
+        for attempt in range(6):
             try:
                 req = urllib.request.Request(OVERPASS, data=urllib.parse.urlencode({"data": q}).encode(), headers=UA)
                 data = urllib.request.urlopen(req, timeout=200).read()
@@ -49,7 +49,7 @@ def query(key: str, bounds) -> list:
             except Exception:
                 time.sleep(20 * (attempt + 1))
         if data is None:
-            raise RuntimeError(f"Overpass failed for {key}")
+            return None
         f.write_bytes(data)
         lp = OSM / "_downloads.json"
         log = json.loads(lp.read_text()) if lp.exists() else {}
@@ -85,7 +85,11 @@ def main() -> None:
             rows.append(dict(prn_key=r.prn_key, place=r.place, note="no boundary"))
             continue
         shp = poly.loc[r.acs_geoid]
-        g = lots(query(r.key, shp.geometry.bounds))
+        els = query(r.key, shp.geometry.bounds)
+        if els is None:
+            rows.append(dict(prn_key=r.prn_key, place=r.place, note="OpenStreetMap download failed"))
+            continue
+        g = lots(els)
         land_m2 = float(shp["ALAND"])
         if g.empty:
             rows.append(dict(prn_key=r.prn_key, place=r.place, lots=0, V17_share_land_surface_parking=0.0, V18_share_parking_in_large_sites=np.nan))

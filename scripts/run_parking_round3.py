@@ -27,7 +27,7 @@ SINGLE = ["V1_old_min_apartment", "V2_old_min_single_family", "V4_renter_share",
           "V7_share_homes_5plus", "V8_share_permits_5plus_before", "V9_value_per_unit_rel", "V10_permit_volatility",
           "V11_repeal_year", "V12_prior_partial_reform", "V13_rewrite_same_time", "V14_state_large_city_share_repealed",
           "V15_region", "V16_share_homes_near_transit", "V17_share_land_surface_parking", "V18_share_parking_in_large_sites",
-          "V19_log_island_acres"]
+          "V19_log_island_acres", "V20_share_households_no_car", "V21_share_commute_transit", "V22_mean_commute_minutes"]
 
 
 def data() -> pd.DataFrame:
