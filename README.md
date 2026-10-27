@@ -1,8 +1,13 @@
 # Missing Middleware
 
-An interactive tool for Wisconsin legislators and legislative aides that estimates how many second homes a statewide accessory dwelling unit (ADU) law could add on single-family lots, statewide and in every county, city, village and town, over 2027–2031. The ADU law is the first reform in a planned set; transit-oriented density and parking reform are later cycles (see the [Project Plan](docs/PROJECT_PLAN.md)).
+An interactive tool for Wisconsin legislators and legislative aides that estimates how three statewide housing reforms could change housing permitted over 2027–2031, compared with current law: an accessory dwelling unit (ADU) law, parking requirement reduction and transit-oriented density (TOD). Pick a reform in the header. Each reform has its own outcome and evidence ([Model & Assumptions Overview](docs/MODEL_AND_ASSUMPTIONS.md); [Policy Scenario Comparison](docs/POLICY_SCENARIO_COMPARISON.md)); the ADU section below describes the ADU reform. Headlines, 2027–2031:
+- **ADU:** 8,757 additional second-home permits (5,538 to 16,889), on a 605-permit current-law baseline.
+- **Parking reduction:** 0 additional permitted homes in the central case and 29,662 at the high end of the evidence, on a 122,619-home all-housing baseline.
+- **TOD:** 2,509 additional permitted homes near major transit stops in the typical case (171 to 17,148), on a 14,464-home near-stop baseline.
 
-## What this tool does
+The three results are not added together: they overlap (TOD homes are part of the all-housing count, and the ADU law already removes parking requirements for ADUs).
+
+## What the tool does: the ADU reform
 
 The tool runs locally in a web browser and shows the adopted Gate 3 model ([Gate 3 packet](docs/gate3/README.md)); the browser runs no model, it reads a precomputed bundle.
 
@@ -32,6 +37,7 @@ The Gate 4 interactive ADU tool runs locally with the first two commands below (
 | Setup | `bash scripts/setup.sh` | Installs Python dependencies into `.venv` with [uv](https://docs.astral.sh/uv/) (installs uv if missing) and the tool's npm packages in `ui/` |
 | **Run the tool** | `bash scripts/run_tool.sh` | Rebuilds the JSON bundle from the adopted model outputs (when `data/processed/model_run/` exists), builds `ui/`, and serves it at http://127.0.0.1:4173/. If port 4173 is taken, set another: `PORT=4199 bash scripts/run_tool.sh` |
 | Parking reform | (same command) | The tool has a reform picker in the header; the parking reform is at http://127.0.0.1:4173/#/parking/. Its full rebuild order is in [docs/parking/REBUILD.md](docs/parking/REBUILD.md). |
+| TOD reform | (same command) | The TOD reform is at http://127.0.0.1:4173/#/tod/ (pick it in the header). Rebuild order: `fetch_tod_transit.py` → `build_tod_stops.py` → `fetch_tod_parcels_zoning.py` → `build_tod_station_areas.py` → `run_tod_model.py` → `run_tod_scale_check.py` → `run_tod_model.py` (again) → `build_tod_bundle.py` → `build_combined_bundle.py`, each as `uv run python scripts/<name>`. Optional evidence scripts: `run_tod_cases.py`, `run_tod_madison_test.py`, `run_ab2097_test.py`. |
 | Test  | `bash scripts/test.sh` | Offline unit tests of parsing, classification, matching, and contracts, then the Python dependency licence check (`scripts/check_python_licenses.py`; fails on any licence outside the permissive allowlist, lists reviewed exceptions such as `certifi`, see [DISCLOSURES](docs/DISCLOSURES.md#dependency-licenses)) |
 | Test the tool | `bash scripts/test_ui.sh` | Bundle tests (reconciliation, lower ≤ central ≤ upper, bundle = reference CSVs, missing ≠ 0), npm licence check, type check, build, and Playwright smoke tests (desktop and mobile Chromium). In a fresh clone one bundle test, `test_bundle_is_current`, is skipped: the bundle's run id is a hash of its 50 input files, and only a full rebuild with the data builds on disk (about 1.7 GB) can confirm that the committed bundle is current |
 | Build the tool's data bundle | `uv run --all-extras python scripts/build_ui_bundle.py` | Writes `ui/public/runs/<run_id>/` (about 4.0 MB, 14 files) from `reference/adu_model_*.csv`, the unknown-rules and district tables, the baseline, coverage and rule tables and `data/processed/`; copies the simplified district outlines into the bundle; the run id is a hash of the inputs. Run it last in the Gate 5 rebuild order below |
