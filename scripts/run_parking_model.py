@@ -48,6 +48,8 @@ def main() -> None:
     munis = areas[areas["level"] == "municipality"][
         ["area_id", "name", "parent_county_id", "muni_type", "context_group", "housing_units_acs", "population", "metro_county"]
     ].rename(columns={"parent_county_id": "county_id", "housing_units_acs": "homes", "context_group": "context"})
+    cnames = areas[areas["level"] == "county"].set_index("area_id")["name"]
+    munis["county_name"] = munis["county_id"].map(cnames)
     bench = benchmark_places(munis)
     bench.to_csv(REFERENCE / "parking_wi_benchmark_places.csv", index=False)
     at = set(bench.loc[bench["benchmark_rating"] == "at", "area_id"])
@@ -89,7 +91,7 @@ def main() -> None:
     sw.to_csv(REFERENCE / "parking_model_statewide_by_year.csv", index=False)
 
     # by county and district (upper case; central is 0 everywhere)
-    ba.groupby("county_id")[["eligible_homes", "baseline_five_year_central", "addition_upper_five_year"]].sum().round(1) \
+    ba.groupby(["county_id", "county_name"])[["eligible_homes", "baseline_five_year_central", "addition_upper_five_year"]].sum().round(1) \
         .to_csv(REFERENCE / "parking_model_by_county.csv")
     xw = pd.read_csv(REFERENCE / "adu_model_district_crosswalk.csv")
     for col, out in (("assembly_district", "assembly"), ("senate_district", "senate")):
@@ -104,8 +106,8 @@ def main() -> None:
     sens = [
         dict(case="Upper case (headline)", moves="statewide addition", value=tot(homes, upper_all),
              description=f"High end of the likely range for all units, {upper_all:.2f} permits per 1,000 existing homes per year."),
-        dict(case="Apartments only", moves="statewide addition", value=tot(homes, upper_apts),
-             description=f"High end of the likely range for units in buildings of 2+ units only, {upper_apts:.2f} per 1,000 homes per year."),
+        dict(case="Buildings of 2 or more units only", moves="statewide addition", value=tot(homes, upper_apts),
+             description=f"High end of the likely range when only units in buildings of 2 or more units are counted, {upper_apts:.2f} per 1,000 existing homes per year."),
         dict(case="Without San Francisco", moves="statewide addition", value=tot(homes, upper_no_sf),
              description=f"High end of the likely range when San Francisco (a quarter of the weight) is left out, {upper_no_sf:.2f} per 1,000 homes per year."),
         dict(case="Size and metro model (central)", moves="statewide addition and where it lands",

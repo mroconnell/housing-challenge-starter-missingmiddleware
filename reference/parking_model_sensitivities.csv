@@ -1,6 +1,6 @@
 case,moves,value,description
 Upper case (headline),statewide addition,29662.5,"High end of the likely range for all units, 2.21 permits per 1,000 existing homes per year."
-Apartments only,statewide addition,14237.5,"High end of the likely range for units in buildings of 2+ units only, 1.06 per 1,000 homes per year."
+Buildings of 2 or more units only,statewide addition,14237.5,"High end of the likely range when only units in buildings of 2 or more units are counted, 1.06 per 1,000 existing homes per year."
 Without San Francisco,statewide addition,41771.2,"High end of the likely range when San Francisco (a quarter of the weight) is left out, 3.11 per 1,000 homes per year."
 Size and metro model (central),statewide addition and where it lands,32134.8,"The size-and-metro model's own prediction for each place, floored at zero. It predicted slightly better than one average, but its terms are not distinguishable from zero."
 Towns at zero,statewide addition and where it lands,20628.9,"Upper case with towns left out, for the case where most towns have few or no parking minimums today."
