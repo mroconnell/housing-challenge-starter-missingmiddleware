@@ -55,13 +55,41 @@ class TestTodBundle(unittest.TestCase):
             for a, b in zip(sc["by_year"], yrs):
                 self.assertAlmostEqual(a, b, delta=0.01)
         self.assertAlmostEqual(self.sw["baseline"]["total"], five.loc["typical", "baseline_near_stops_central"], delta=0.01)
-        self.assertAlmostEqual(self.sw["reference_line"]["additional_total"], five.loc["reference_line", "addition"], delta=0.01)
+        # AQ-054: no median line with fewer than 4 comparable cases (TOD has one whole-city study per scenario)
+        self.assertNotIn("reference_line", self.sw)
+        self.assertFalse(self.sw["median_line"]["shown"])
+        self.assertEqual(self.sw["median_line"]["n_studies"], len(self.sw["scenarios"]))
+        self.assertLess(self.sw["median_line"]["n_studies"], self.sw["median_line"]["min_cases"])
         self.assertEqual(self.sw["stock_homes"], int(five.loc["typical", "stock_homes_station_areas"]))
         d = pd.read_csv(REF / "tod_definition_summary.csv").set_index("definition")
         for row in self.sw["ladder"]:
             self.assertEqual(row["homes"], int(d.loc[row["id"], "homes"]))
         homes = [r["homes"] for r in self.sw["ladder"]]
         self.assertEqual(homes, sorted(homes), "ladder runs narrowest to widest")
+
+    def test_shared_units_match_reference(self):
+        """AQ-054: extra homes a year statewide against the shared all-housing baseline, and shares of Wisconsin's ACS
+        2020-2024 home count, all from the reference files."""
+        hb = pd.read_csv(REF / "housing_baseline_statewide_by_year.csv")
+        proj = hb[(hb["kind"] == "projected") & (hb["structure_type"] == "all") & hb["year"].between(2027, 2031)]
+        state_base = proj["central"].sum()
+        self.assertAlmostEqual(self.sw["state_baseline_total"], state_base, delta=0.01)
+        self.assertAlmostEqual(self.sw["state_baseline_per_year"], state_base / 5, delta=0.01)
+        hh = pd.read_csv(REF / "gate5_housing_health.csv")
+        acs = int(hh[hh["indicator"] == "total_housing_units_acs"]["value"].iloc[0])
+        self.assertEqual(self.sw["acs_homes"], acs)
+        for sc in self.sw["scenarios"]:
+            self.assertAlmostEqual(sc["per_year"], sc["additional_total"] / 5, delta=0.001)
+            self.assertAlmostEqual(sc["share_of_state_baseline"], sc["additional_total"] / state_base, delta=1e-6)
+            self.assertAlmostEqual(sc["share_of_acs_homes"], sc["additional_total"] / acs, delta=1e-6)
+        # by area: each place's all-housing baseline, and every level plus the unallocated row adds up to the state
+        ab = pd.read_csv(REF / "housing_baseline_by_area.csv").groupby("area_id")["five_year_central"].sum()
+        for m in self.areas["munis"]:
+            self.assertAlmostEqual(m["all_baseline"], ab[m["id"]], delta=0.001, msg=m["name"])
+        unalloc = ab[~ab.index.str.startswith("muni:")].sum()
+        self.assertAlmostEqual(self.areas["all_baseline_unallocated"], unalloc, delta=0.001)
+        for lvl in ("counties", "assembly", "senate"):
+            self.assertAlmostEqual(self.areas[lvl]["all_baseline_total"] + self.areas["all_baseline_unallocated"], state_base, delta=1, msg=lvl)
 
     def test_areas_match_reference(self):
         a = pd.read_csv(REF / "tod_model_by_area.csv")

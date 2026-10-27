@@ -48,15 +48,25 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
   await expect(page.getByTestId("outcome")).toHaveText(b.manifest.outcome.short);
   await expect(page.getByTestId("stock-homes")).toHaveText(fmt(sw.stock_homes));
   await expect(page.getByTestId("baseline-total")).toHaveText(fmt(sw.baseline.total));
+  await expect(page.getByTestId("acs-homes")).toHaveText(fmt(sw.acs_homes));
   await page.goto("#/tod/compare");
   for (const id of ["little", "typical", "strong"]) await expect(page.getByTestId(`add-${id}`)).toHaveText(fmt(sc(id).additional_total));
   await expect(page.getByTestId("compare-table")).toContainText(fmt(sc("strong").with_law_total));
   await expect(page.getByTestId("timing-caveat")).toContainText(sw.timing_caveat);
+  // AQ-054: shared unit against the statewide all-housing baseline and the ACS home count; no median line for 3 studies
+  const shared = page.getByTestId("shared-unit");
+  for (const id of ["little", "typical", "strong"]) await expect(shared).toContainText(`about ${fmt(sc(id).per_year)}`);
+  await expect(shared).toContainText(fmt(sw.state_baseline_per_year));
+  await expect(shared).toContainText(fmt(sw.acs_homes));
+  await expect(page.getByTestId("median-note")).toHaveText(sw.median_line.note);
+  expect(sw.reference_line).toBeUndefined();
+  await expect(page.locator("main")).not.toContainText("Median of the three studies");
   await page.goto("#/tod/where");
   await expect(page.getByTestId("where-table")).toContainText(`statewide total ${fmt(sc("typical").additional_total)}`);
   const top = b.areas.munis[0];
   await expect(page.getByTestId("where-table").locator("tbody tr").first()).toContainText(fmt(top.add.typical));
   for (const m of b.areas.metros) await expect(page.getByTestId("metro-table")).toContainText(fmt(m.add.typical));
+  await expect(page.getByTestId("where-table").locator("tbody tr").first()).toContainText(`of ${fmt(top.all_baseline / 5)}`);
   // switching the scenario changes the table and announces it
   await page.getByRole("radio", { name: sc("strong").label }).check();
   await expect(page.getByTestId("where-table")).toContainText(`statewide total ${fmt(sc("strong").additional_total)}`);
@@ -81,6 +91,8 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
   await page.goto("#/tod/brief");
   await expect(page.getByTestId("brief")).toContainText(fmt(sc("typical").additional_total));
   await expect(page.getByTestId("brief")).toContainText(b.run_id);
+  await expect(page.getByTestId("brief-shared")).toContainText(`about ${fmt(sc("typical").per_year)}`);
+  await expect(page.getByTestId("brief-shared")).toContainText(fmt(sw.state_baseline_per_year));
 });
 
 test("TOD styles leave the ADU Where sort headers unchanged", async ({ page }) => {

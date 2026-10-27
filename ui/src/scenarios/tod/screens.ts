@@ -7,8 +7,8 @@ import { mapKey, stationMap } from "./map";
 import { SCEN_IDS, type AggRow, type Muni, type Pilot, type ScenId, type TodBundle } from "./types";
 
 const YEARS = [2027, 2028, 2029, 2030, 2031];
-const C: Record<string, string> = { baseline: "#4b5450", little: "#2f6db5", typical: "#17644f", strong: "#7b3fb0", ref: "#b0501a" };
-const DASH: Record<string, string | undefined> = { baseline: "7 5", little: "2 4", typical: undefined, strong: "9 3 2 3", ref: "1 5" };
+const C: Record<string, string> = { baseline: "#4b5450", little: "#2f6db5", typical: "#17644f", strong: "#7b3fb0" };
+const DASH: Record<string, string | undefined> = { baseline: "7 5", little: "2 4", typical: undefined, strong: "9 3 2 3" };
 
 /** A share: three significant figures from 1% (11.5%, 5.47%), two below (0.055%, 0.8%). */
 export function sharePct(v: number): string {
@@ -21,6 +21,12 @@ const more = (summary: string, html: string) => `<details class="more"><summary>
 const scen = (b: TodBundle, id: ScenId) => b.statewide.scenarios.find((s) => s.id === id)!;
 const signed = (v: number, d = 3) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${dec(Math.abs(v), d)}`;
 const placeName = (n: string) => n.replace(/ (city|village|town)$/, " ($1)");
+/** AQ-054 shared unit: one plain line per scenario against the statewide all-housing baseline, never added to other reforms. */
+function sharedLine(b: TodBundle): string {
+  const s = b.statewide;
+  const t = scen(b, "typical"), l = scen(b, "little"), g = scen(b, "strong");
+  return `In the typical response the law adds about ${int(t.per_year)} homes a year statewide, about ${sharePct(t.share_of_state_baseline)} above the ${int(s.state_baseline_per_year)} homes a year Wisconsin is expected to permit under current law (all homes, all places, 2027–2031), or ${sharePct(t.share_of_acs_homes)} of Wisconsin's ${int(s.acs_homes)} homes (ACS 2020–2024). The little response adds about ${int(l.per_year)} a year (${sharePct(l.share_of_state_baseline)} above) and the strong response about ${int(g.per_year)} a year (${sharePct(g.share_of_state_baseline)} above).`;
+}
 const ext = (url: string, label: string) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}<span class="sr-only"> (opens in a new tab)</span> ↗</a>`;
 
 // ---- 1. Wisconsin today ------------------------------------------------------------------------
@@ -33,8 +39,8 @@ export function today(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
   <div class="tiles tiles-3">
     <section class="tile tile-accent"><h2 class="tile-label">Homes near qualifying stops</h2>
       <p class="tile-num" data-testid="stock-homes">${int(s.stock_homes)}</p>
-      <p class="tile-sub">of ${int(s.state_homes)} homes in Wisconsin (${sharePct(s.stock_homes / s.state_homes)}), 2020 census ${pill("observed")}</p>
-      <p class="tile-note">Within ½ mile of a rail or rapid transit station, or ¼ mile of a stop on a bus route every 15 minutes (the main case).</p></section>
+      <p class="tile-sub">of ${int(s.state_homes)} homes in Wisconsin in the 2020 census (${sharePct(s.stock_homes / s.state_homes)}) ${pill("observed")}</p>
+      <p class="tile-note">Within ½ mile of a rail or rapid transit station, or ¼ mile of a stop on a bus route every 15 minutes (the main case). Counted from 2020 census blocks. To compare reforms, the tool uses Wisconsin's newer count of <span data-testid="acs-homes">${int(s.acs_homes)}</span> homes (ACS 2020–2024).</p></section>
     <section class="tile"><h2 class="tile-label">New homes expected near these stops under current law, 2027–2031</h2>
       <p class="tile-num" data-testid="baseline-total">${int(s.baseline.total)}</p>
       <p class="tile-sub">homes permitted over five years (range ${int(s.baseline.low_total)}–${int(s.baseline.high_total)}) ${pill("calculated")}</p>
@@ -50,7 +56,7 @@ export function today(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
       ${s.ladder.map((l) => `<div class="tod-bar-row${l.main ? " is-main" : ""}${l.context ? " is-context" : ""}" aria-hidden="true"><span>${esc(l.label)}</span><span class="tod-bar-track"><span class="tod-bar-fill" style="width:${(l.homes / max) * 100}%"></span></span><span class="tod-bar-val">${int(l.homes)}</span></div>`).join("")}
     </div>
     <div class="table-wrap"><table class="data" data-testid="ladder-table"><caption>Homes near stops by definition, narrowest to widest (2020 census)</caption>
-      <thead><tr><th scope="col">Definition</th><th scope="col" class="num">Qualifying stops</th><th scope="col" class="num">Homes nearby</th><th scope="col" class="num">Share of Wisconsin's ${int(s.state_homes)} homes</th></tr></thead>
+      <thead><tr><th scope="col">Definition</th><th scope="col" class="num">Qualifying stops</th><th scope="col" class="num">Homes nearby</th><th scope="col" class="num">Share of Wisconsin's ${int(s.state_homes)} homes (2020 census)</th></tr></thead>
       <tbody>${s.ladder.map((l) => `<tr><th scope="row">${l.main ? `<strong>${esc(l.label)}</strong>` : esc(l.label)}</th><td class="num">${int(l.stops)}</td><td class="num">${int(l.homes)}</td><td class="num">${sharePct(l.share_of_state)}</td></tr>`).join("")}</tbody></table></div>
     <p class="small muted">Stops counted as boarding points (each direction of a street counts once). Rail and rapid transit means The Hop and Kenosha streetcars, CONNECT 1 and Madison's Rapid Route A; Amtrak stations are left out because their service is too infrequent. ${pill("observed")}</p></section>
   <section class="card"><h2>What the modelled law allows near stops</h2>
@@ -78,23 +84,27 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
   <div class="tiles tiles-3 tod-scen-tiles">
     ${SCEN_IDS.map((id) => { const x = scen(b, id); return `<section class="tile${id === "typical" ? " tile-accent" : ""}"><h2 class="tile-label">${esc(x.label)}, ${esc(x.evidence)}</h2>
       <p class="tile-num" data-testid="add-${id}">${int(x.additional_total)}</p>
-      <p class="tile-sub">extra homes permitted, 2027–2031${x.range_low !== undefined ? ` (the study's 95% interval: ${int(x.range_low)}–${int(x.range_high)})` : ""} ${pill("calculated")}</p>
-      <p class="tile-sub">${sharePct(x.share_of_stock)} of the ${int(s.stock_homes)} homes near stops</p>
+      <p class="tile-sub">extra homes permitted, 2027–2031${x.range_low !== undefined ? ` (range from the study's 95% interval: ${int(x.range_low)}–${int(x.range_high)})` : ""} ${pill("calculated")}</p>
+      <p class="tile-sub">${sharePct(x.share_of_stock)} of the ${int(s.stock_homes)} homes near stops (2020 census); about ${int(x.per_year)} a year</p>
       <p class="tile-note">${esc(x.info)}</p></section>`; }).join("")}
   </div>
   <section class="card"><h2>Homes permitted near stops each year</h2>
     <p class="muted">Current law alone (grey, with its range shaded), and current law plus each scenario's extra homes.</p>
     <div class="chart-box" id="tod-chart"></div>
-    ${legendHTML([{ name: "Current law (range shaded)", color: C.baseline, dash: DASH.baseline }, ...SCEN_IDS.map((id) => ({ name: `With the law: ${scen(b, id).label.toLowerCase()}`, color: C[id], dash: DASH[id] })), { name: `${s.reference_line.label} (dotted; equals the typical response)`, color: C.ref, dash: DASH.ref, width: 3 }])}
+    ${legendHTML([{ name: "Current law (range shaded)", color: C.baseline, dash: DASH.baseline }, ...SCEN_IDS.map((id) => ({ name: `With the law: ${scen(b, id).label.toLowerCase()}`, color: C[id], dash: DASH[id] }))])}
     <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Homes permitted near major transit stops: current law and the extra homes the law adds</caption>
       <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(scen(b, id).label.toLowerCase())}</th>`).join("")}</tr></thead>
       <tbody>${base.years.map((y, i) => `<tr><th scope="row">${y.year}</th><td class="num">${int(y.central)}</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).by_year[i])}</td>`).join("")}</tr>`).join("")}
       <tr><th scope="row">2027–2031</th><td class="num">${int(base.total)}</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).additional_total)}</td>`).join("")}</tr>
       <tr><th scope="row">With the law, 2027–2031</th><td class="num">—</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).with_law_total)}</td>`).join("")}</tr></tbody></table></div>
-    <p class="small muted">${esc(s.reference_line.info)} Current law near stops is held at each place's 2023–2025 average, so it is flat; its range (${int(base.low_total)}–${int(base.high_total)} over five years) comes from Wisconsin's own five-year swings. The typical response's 2031 dip comes from the build-up measured after the New York rezonings, fixed before the results; a smoothed version is on <a href="${env.link("/how-sure")}">How sure</a>. Yearly rows may not add exactly to the totals because of rounding.</p></section>
+    <p class="small" data-testid="median-note">${esc(s.median_line.note)}</p>
+    <p class="small muted">Current law near stops is held at each place's 2023–2025 average, so it is flat; its range (${int(base.low_total)}–${int(base.high_total)} over five years) comes from Wisconsin's own five-year swings. The typical response's 2031 dip comes from the build-up measured after the New York rezonings, fixed before the results; a smoothed version is on <a href="${env.link("/how-sure")}">How sure</a>. Yearly rows may not add exactly to the totals because of rounding.</p></section>
   <section class="card"><h2>How big is that?</h2>
     <p data-testid="compare-size">In the typical response, the law adds ${int(typ.additional_total)} homes to the ${int(base.total)} expected near stops under current law: ${sharePct(typ.additional_total / base.total)} more over five years. The little response adds ${sharePct(scen(b, "little").additional_total / base.total)} and the strong response ${sharePct(scen(b, "strong").additional_total / base.total)}.</p>
     <p class="small muted">These are homes in issued building permits, not completed homes, and they are compared with current law in the same places. The scenarios are not a statistical interval: each is what happened in one body of evidence.</p></section>
+  <section class="card"><h2>Against all new homes in Wisconsin</h2>
+    <p data-testid="shared-unit">${sharedLine(b)}</p>
+    <p class="small muted">This is the unit the tool uses to compare reforms. The homes near stops are part of Wisconsin's all-homes count, and the reforms overlap (homes near stops can gain from parking reform too), so the extra homes of different reforms are never added together; the combined view handles that. Station-area shares above use the 2020 census, because the station areas are built from census blocks.</p></section>
   <p><a class="button" href="${env.link("/where")}">Next: where the homes would be →</a></p>`;
   const yrs = base.years;
   xyChart(document.getElementById("tod-chart")!, {
@@ -104,7 +114,6 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     series: [
       { name: "Current law", values: yrs.map((y) => ({ x: y.year, y: y.central })), color: C.baseline, dash: DASH.baseline },
       ...SCEN_IDS.map((id) => ({ name: scen(b, id).label, values: yrs.map((y, i) => ({ x: y.year, y: y.central + scen(b, id).by_year[i] })), color: C[id], dash: DASH[id], marker: "circle" as const })),
-      { name: s.reference_line.label, values: yrs.map((y, i) => ({ x: y.year, y: y.central + s.reference_line.by_year[i] })), color: C.ref, dash: DASH.ref, width: 3 },
     ],
     band: { name: "Current-law range", lo: yrs.map((y) => ({ x: y.year, y: y.low })), hi: yrs.map((y) => ({ x: y.year, y: y.high })), color: C.baseline },
   });
@@ -128,25 +137,30 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
   const A = b.areas;
   const sc = scen(b, sid);
   const metroName = Object.fromEntries(A.metros.map((m) => [m.id, m.name]));
-  type Row = { name: string; sub?: string; homes?: number; baseline: number; add: number; county?: string; metro?: string; coded?: boolean };
+  type Row = { name: string; sub?: string; homes?: number; baseline: number; all: number; add: number; county?: string; metro?: string; coded?: boolean };
   let rows: Row[];
   let others = 0;
-  if (level === "place") rows = A.munis.map((m: Muni) => ({ name: placeName(m.name), county: m.county, metro: metroName[m.metro], homes: m.homes_near, baseline: m.baseline, add: m.add[sid], coded: m.coded }));
+  if (level === "place") rows = A.munis.map((m: Muni) => ({ name: placeName(m.name), county: m.county, metro: metroName[m.metro], homes: m.homes_near, baseline: m.baseline, all: m.all_baseline, add: m.add[sid], coded: m.coded }));
   else {
     const src = level === "county" ? A.counties : level === "assembly" ? A.assembly : A.senate;
-    rows = src.rows.map((r: AggRow) => ({ name: r.name, baseline: r.baseline, add: r.add[sid] }));
+    rows = src.rows.map((r: AggRow) => ({ name: r.name, baseline: r.baseline, all: r.all_baseline, add: r.add[sid] }));
     others = src.total_count - src.rows.length;
   }
   const val = (r: Row) => (sortKey === "name" ? r.name : sortKey === "homes" ? r.homes ?? 0 : sortKey === "baseline" ? r.baseline : r.add);
   rows.sort((a, z) => { const x = val(a), y = val(z); const c = typeof x === "string" ? x.localeCompare(y as string) : (x as number) - (y as number); return dir === "asc" ? c : -c; });
   const cols: [string, string, boolean][] = [["name", level === "place" ? "Place" : level === "county" ? "County" : "District", false]];
   if (level === "place") cols.push(["homes", "Homes near stops", true]);
-  cols.push(["baseline", "Current-law permits near stops", true], ["add", `Extra homes (${sc.label.toLowerCase().replace(" response", "")})`, true]);
+  cols.push(["baseline", "Permitted near stops, current law", true], ["add", `Extra homes (${sc.label.toLowerCase().replace(" response", "")})`, true]);
   const head = cols.map(([k, label, num]) => {
     const on = sortKey === k;
     return `<th scope="col" class="${num ? "num" : ""}"${on ? ` aria-sort="${dir === "asc" ? "ascending" : "descending"}"` : ""}><button type="button" class="tod-sort-btn" id="sort-${k}" data-sort="${k}">${esc(label)}<span class="tod-sort-ind" aria-hidden="true">${on ? (dir === "asc" ? "▲" : "▼") : "↕"}</span></button></th>`;
   });
   if (level === "place") head.splice(1, 0, `<th scope="col">County and area</th>`, `<th scope="col">Room for new homes found from</th>`);
+  head.push(`<th scope="col" class="num">Extra a year, of all new homes a year there</th>`);
+  // AQ-054 shared unit by area: extra homes a year against the area's all-housing baseline; no percentage where
+  // fewer than MIN_ALL homes a year are expected (a percentage of almost nothing would mislead)
+  const MIN_ALL = 5;
+  const sharedCell = (r: Row) => { const a = r.add / 5, all = r.all / 5; return `<td class="num">${small(a)} <span class="small muted">of ${small(all)}${all >= MIN_ALL ? ` (+${sharePct(a / all)})` : ""}</span></td>`; };
   const labels = A.munis.slice(0, 10).map((m) => m.name);
   main.innerHTML = `
   <h1>Where the extra homes would be</h1>
@@ -154,7 +168,7 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
   <form class="card" id="tod-where-scen">${scenRadios(b, "tod-scen", sid)}</form>
   <section class="card"><h2>Two metro areas and the rest of the state</h2>
     <div class="table-wrap"><table class="data" data-testid="metro-table"><caption>Homes near stops, current-law permits and extra homes by area, 2027–2031</caption>
-      <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes near stops (2020)</th><th scope="col" class="num">Current-law permits near stops</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">${id === sid ? "<strong>" : ""}Extra: ${esc(scen(b, id).label.toLowerCase())}${id === sid ? "</strong>" : ""}</th>`).join("")}</tr></thead>
+      <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes near stops (2020 census)</th><th scope="col" class="num">Permitted near stops, current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">${id === sid ? "<strong>" : ""}Extra: ${esc(scen(b, id).label.toLowerCase())}${id === sid ? "</strong>" : ""}</th>`).join("")}</tr></thead>
       <tbody>${A.metros.map((m) => `<tr><th scope="row">${esc(m.name)}<br><span class="small muted">${esc(m.counties.join(", "))}; ${m.places} ${m.places === 1 ? "place" : "places"} with qualifying stops</span></th><td class="num">${int(m.homes_near)}</td><td class="num">${small(m.baseline)}</td>${SCEN_IDS.map((id) => `<td class="num">${small(m.add[id])}</td>`).join("")}</tr>`).join("")}
       <tr><th scope="row">Wisconsin</th><td class="num">${int(A.metros.reduce((a, m) => a + m.homes_near, 0))}</td><td class="num">${int(b.statewide.baseline.total)}</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).additional_total)}</td>`).join("")}</tr></tbody></table></div>
     <p class="small muted">Metro areas as the federal government defines them (Milwaukee, Waukesha, Ozaukee and Washington counties; Dane, Columbia, Green and Iowa counties).</p></section>
@@ -167,10 +181,10 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
     <form id="tod-where-level"><fieldset class="seg"><legend>Show by</legend>${LEVELS.map(([l, t]) => `<label><input type="radio" name="tod-level" value="${l}" ${level === l ? "checked" : ""}> ${t}</label>`).join("")}</fieldset></form>
     <div class="table-wrap"><table class="data" data-testid="where-table"><caption>Extra homes, ${esc(sc.label.toLowerCase())}, by ${esc(LEVELS.find(([l]) => l === level)![1].toLowerCase())}, 2027–2031 (statewide total ${int(sc.additional_total)}). Select a column heading to sort.</caption>
       <thead><tr>${head.join("")}</tr></thead>
-      <tbody>${rows.map((r) => `<tr><th scope="row">${esc(r.name)}</th>${level === "place" ? `<td>${esc(r.county ?? "")}<br><span class="small muted">${esc(r.metro ?? "")}</span></td><td>${r.coded ? "The city's zoning code" : "Existing buildings (estimate)"}</td><td class="num">${int(r.homes)}</td>` : ""}<td class="num">${small(r.baseline)}</td><td class="num">${small(r.add)}</td></tr>`).join("")}</tbody></table></div>
+      <tbody>${rows.map((r) => `<tr><th scope="row">${esc(r.name)}</th>${level === "place" ? `<td>${esc(r.county ?? "")}<br><span class="small muted">${esc(r.metro ?? "")}</span></td><td>${r.coded ? "The city's zoning code" : "Existing buildings (estimate)"}</td><td class="num">${int(r.homes)}</td>` : ""}<td class="num">${small(r.baseline)}</td><td class="num">${small(r.add)}</td>${sharedCell(r)}</tr>`).join("")}</tbody></table></div>
     ${A.few_homes_places.length ? `<p class="small" data-testid="few-homes-note">Some places get extra homes though few or no homes are near their stops today (${esc(A.few_homes_places.map((n) => n.replace(/ (city|village|town)$/, " ($1)")).join(", "))}). Extra homes are placed on land where the law adds room, which includes vacant and commercial land, not in proportion to existing homes.</p>` : ""}
     ${A.low_permit_places.length ? `<p class="small" data-testid="low-permit-note">Current-law permits come from Census building-permit counts. ${A.low_permit_places.map((x) => `${esc(x.name.replace(/ (city|village|town)$/, ""))} reported ${x.units.map((u) => int(u)).join(", ")} new homes a year in ${x.years[0]}–${x.years[x.years.length - 1]}, ${x.units_5plus ? `${int(x.units_5plus)} of them apartments` : "none of them apartments"}`).join("; ")}. Those low figures make current law there very small next to the law's extra homes, and may be an under-count like the one found for Milwaukee's apartments.</p>` : ""}
-    <p class="small muted">${others ? `The other ${others} ${level === "county" ? "counties" : "districts"} have no qualifying stops and are left out. ` : ""}For Milwaukee and Madison, the room the law adds was worked out from each city's zoning code. For other places it was estimated from existing buildings and scaled down by the ratio found in the two cities. District figures split each place's numbers as its detached homes are split, an approximation. "under 1" means more than zero but less than half a home. Rows may not add exactly because of rounding.</p></section>`;
+    <p class="small muted">${others ? `The other ${others} ${level === "county" ? "counties" : "districts"} have no qualifying stops and are left out. ` : ""}For Milwaukee and Madison, the room the law adds was worked out from each city's zoning code. For other places it was estimated from existing buildings and scaled down by the ratio found in the two cities. District figures split each place's numbers as its detached homes are split, an approximation. The last column compares the extra homes a year with all the homes the area is expected to permit a year under current law (the statewide all-housing forecast, ${int(b.statewide.state_baseline_per_year)} a year); no percentage is shown where fewer than ${MIN_ALL} a year are expected. "under 1" means more than zero but less than half a home. Rows may not add exactly because of rounding.</p></section>`;
   const setQ = (k: string, v: string, msg: string) => {
     const q = new URLSearchParams(params);
     q.set(k, v);
@@ -201,7 +215,7 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     const mm = b.areas.metros;
     return `<section class="card"><h2>${esc(g.label)}</h2>
     <div class="table-wrap"><table class="data" data-testid="sens-${esc(g.id)}"><caption>${esc(g.label)}: homes permitted near stops, 2027–2031</caption>
-      <thead><tr><th scope="col">Case</th><th scope="col">What it means</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(scen(b, id).label.toLowerCase())}</th>`).join("")}${where_ ? `<th scope="col" class="num">Milwaukee metro (typical)</th><th scope="col" class="num">Madison metro (typical)</th>` : ""}</tr></thead>
+      <thead><tr><th scope="col">What if</th><th scope="col">What it means</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(scen(b, id).label.toLowerCase())}</th>`).join("")}${where_ ? `<th scope="col" class="num">Milwaukee metro (typical)</th><th scope="col" class="num">Madison metro (typical)</th>` : ""}</tr></thead>
       <tbody>${where_ ? mainRow.replace("</tr>", `<td class="num">${int(mm[0].add.typical)}</td><td class="num">${int(mm[1].add.typical)}</td></tr>`) : mainRow}${g.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td>${esc(r.text)}${r.id === "ramp_year5_alt" && r.year_2031 ? ` Typical response in 2031: ${int(r.year_2031.typical)} instead of ${int(scen(b, "typical").by_year[4])}.` : ""}</td><td class="num">${int(r.baseline)}</td>${r.id === "typical_range"
         ? `<td class="num">—</td><td class="num">${int(r.add.typical_low)} to ${int(r.add.typical_high)}</td><td class="num">—</td>`
         : SCEN_IDS.map((id) => cell(r.add[id])).join("")}${where_ ? `<td class="num">${r.milwaukee_metro === null ? "—" : int(r.milwaukee_metro)}</td><td class="num">${r.madison_metro === undefined ? "—" : int(r.madison_metro)}</td>` : ""}</tr>`).join("")}</tbody></table></div></section>`;
@@ -213,7 +227,7 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
   <p class="lede">The three scenarios differ about a hundredfold because the studies behind them disagree, not because the model adds noise. This page shows which choices move the numbers, whether the results are believable for Milwaukee and Madison, and which parts rest on data and which on judgment.</p>
   ${H.groups.map(groupTable).join("")}
   <section class="card"><h2>A sizing method that was tested and set aside</h2>
-    <p data-testid="per-acre">The model was first sized from the extra homes per acre measured right where cities upzoned. Spread over all the land near Wisconsin's stops, that gave ${int(H.per_acre.add.little)}, ${int(H.per_acre.add.typical)} and ${int(H.per_acre.add.strong)} extra homes over 2027–2031: even the smallest would have taken Madison's apartment permitting above its own record. Upzoning one block partly moves building there from nearby blocks, so block-level gains overstate a city's net gain. Using the per-acre response measured in Madison and Chicago instead gives ${int(H.per_acre.wisconsin_uncapped)}. Capping each metro so its apartment permitting stays at or below the level that 95% of comparable metros' years have stayed under (${dec(H.scale_benchmarks.p95, 2)} per 1,000 existing homes a year) gives ${int(H.per_acre.wisconsin_capped)}, all in the Milwaukee metro: Madison gets none under the cap, because its current permitting is already above that level. The tool therefore uses whole-city results instead.</p></section>
+    <p data-testid="per-acre">The model was first sized from the extra homes per acre measured right where cities upzoned. Spread over all the land near Wisconsin's stops, that gave ${int(H.per_acre.add.little)}, ${int(H.per_acre.add.typical)} and ${int(H.per_acre.add.strong)} extra homes over 2027–2031: even the smallest would have taken Madison's apartment permitting above its own record. Upzoning one block partly moves building there from nearby blocks, so block-level gains overstate a city's net gain. Using the per-acre response measured in Madison and Chicago instead gives ${int(H.per_acre.wisconsin_uncapped)}. Capping each metro at the level comparable metros stayed under in 95% of years (${dec(H.scale_benchmarks.p95, 2)} apartment homes permitted per 1,000 existing homes a year) gives ${int(H.per_acre.wisconsin_capped)}, all in the Milwaukee metro: Madison gets none under the cap, because its current permitting is already above that level. The tool therefore uses whole-city results instead.</p></section>
   <section class="card"><h2>Scale check: could the metros absorb this?</h2>
     <p>Apartment homes (in buildings of 5 or more) permitted per 1,000 existing homes per year, in each scenario's busiest year, current law plus the law's addition, against the metro's own best year.</p>
     <div class="table-wrap"><table class="data" data-testid="scale-table"><caption>Apartment homes permitted per 1,000 existing homes per year, busiest year of 2027–2031</caption>
@@ -227,7 +241,7 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     <ul class="plain" data-testid="trace">${H.trace.map((t) => `<li>${pill(t.status)} <strong>${esc(t.part)}.</strong> ${esc(t.text)}</li>`).join("")}</ul></section>
   <section class="card"><h2>What the model cannot tell you</h2>
     <ul class="plain">${H.cannot_tell.map((c) => `<li><strong>${esc(c.title)}.</strong> ${esc(c.text)}</li>`).join("")}</ul>
-    <p class="small muted">Current law near stops is ${int(s.baseline.total)} homes over 2027–2031 in the main case; the cases above that change it are marked "Current law".</p></section>`;
+    <p class="small muted">Current law near stops is ${int(s.baseline.total)} homes over 2027–2031 in the main case; the "Current law" column above shows how each what-if changes it.</p></section>`;
 }
 
 // ---- 5. Why --------------------------------------------------------------------------------------
@@ -260,7 +274,7 @@ export function why(b: TodBundle, main: HTMLElement): void {
     <p class="small muted">Rezoned land: ${int(M.years[0].treatment.acres)} eligible acres; nearby land: ${int(M.years[0].comparison.acres)} acres. Each area has only a handful of projects a year, so one building moves a year a lot. Rapid Route A opened in September 2024. The prediction and the pass rule were written down and saved before any Madison permit was counted.</p></section>
   <section class="card"><h2>Comparison cases: extra homes per acre after rezoning</h2>
     <div class="table-wrap"><table class="data" data-testid="cases-table"><caption>Extra homes permitted per acre of eligible land per year, rezoned land against nearby land (likely range in brackets)</caption>
-      <thead><tr><th scope="col">Case</th><th scope="col">Role</th><th scope="col" class="num">Extra homes per acre per year</th><th scope="col" class="num">Per 1.0 of added floor area ratio</th><th scope="col">Parking minimums</th><th scope="col">Affordability mandate</th></tr></thead>
+      <thead><tr><th scope="col">Case</th><th scope="col">Role</th><th scope="col" class="num">Extra homes per acre per year</th><th scope="col" class="num">Per 1.0 of added floor area ratio (extra floor space equal to the lot's area)</th><th scope="col">Parking minimums</th><th scope="col">Affordability mandate</th></tr></thead>
       <tbody>${W.cases.map((c) => `<tr><th scope="row">${esc(c.name)}</th><td>${esc(c.role_label)}${c.note ? `<br><span class="small muted">${esc(c.note)}</span>` : ""}</td><td class="num">${fmtCI(c.estimate, c.low, c.high)}</td><td class="num">${fmtCI(c.per_far, c.per_far_low, c.per_far_high)}</td><td>${esc(c.parking ?? "—")}</td><td>${esc(c.mandate ?? "—")}</td></tr>`).join("")}</tbody></table></div>
     <p class="small muted">These measure the effect right where land was rezoned, which counts building pulled from nearby blocks as new. That is why they now only decide where homes go within Wisconsin, not how many. Chicago was kept aside to test the model: its effect per added floor area (${signed(W.cases.find((c) => c.id.startsWith("chicago"))?.per_far ?? 0, 2)}) is close to Madison's measured ${signed(M.per_far.measured, 2)}.</p></section>
   <section class="card"><h2>How the policies were classified</h2>
@@ -309,7 +323,7 @@ export function pilot(b: TodBundle, env: ShellEnv, slug: string, main: HTMLEleme
       <section class="tile"><h2 class="tile-label">Extra homes near all qualifying stops in ${esc(placeName(p.city))}, 2027–2031</h2>
         <p class="tile-num" data-testid="pilot-city-typical">${int(p.city_add.typical)}</p>
         <p class="tile-sub">typical response (${rng(p.city_add)}) ${pill("calculated")}</p></section>
-      <section class="tile"><h2 class="tile-label">Current-law permits near all qualifying stops in ${esc(placeName(p.city))}, 2027–2031</h2>
+      <section class="tile"><h2 class="tile-label">Homes permitted near all qualifying stops in ${esc(placeName(p.city))} under current law, 2027–2031</h2>
         <p class="tile-num" data-testid="pilot-baseline">${int(p.city_baseline)}</p>
         <p class="tile-sub">new homes in permits, without the law ${pill("calculated")}</p>
         <p class="tile-note">For scale: ${int(p.city_homes_near)} of the city's ${int(p.city_homes)} existing homes (2020 census) are near qualifying stops.</p></section>
@@ -372,13 +386,14 @@ export function brief(b: TodBundle, main: HTMLElement): void {
       <p class="brief-sub">On top of about ${int(s.baseline.total)} expected there without the law. Scenarios: ${int(lit.additional_total)} (little response) to ${int(str.additional_total)} (strong response).</p>
     </header>
     <h2>What the law does</h2>
-    <p>It allows at least ${s.law.map((l) => `${l.height_ft} feet and ${l.homes_per_acre} homes per acre ${esc(l.label.charAt(0).toLowerCase() + l.label.slice(1))}`).join("; ")}. It covers ${int(s.stock_homes)} of Wisconsin's ${int(s.state_homes)} homes (${sharePct(s.stock_homes / s.state_homes)}), ${sharePct(s.homes_two_cities.share)} of them in the cities of Milwaukee and Madison. Parking rules and affordability requirements are unchanged.</p>
+    <p>It allows at least ${s.law.map((l) => `${l.height_ft} feet and ${l.homes_per_acre} homes per acre ${esc(l.label.charAt(0).toLowerCase() + l.label.slice(1))}`).join("; ")}. It covers ${int(s.stock_homes)} of Wisconsin's ${int(s.state_homes)} homes in the 2020 census (${sharePct(s.stock_homes / s.state_homes)}), ${sharePct(s.homes_two_cities.share)} of them in the cities of Milwaukee and Madison. Parking rules and affordability requirements are unchanged.</p>
     <h2>The numbers</h2>
     <div class="table-wrap"><table class="data" data-testid="brief-table"><caption>Homes permitted near major transit stops, 2027–2031</caption>
       <thead><tr><th scope="col">Scenario</th><th scope="col">Evidence</th><th scope="col" class="num">Extra homes</th><th scope="col" class="num">Total with current law</th></tr></thead>
       <tbody><tr><th scope="row">Current law</th><td>Each place's 2023–2025 permits, share near stops</td><td class="num">—</td><td class="num">${int(s.baseline.total)}</td></tr>
       ${SCEN_IDS.map((id) => { const x = scen(b, id); return `<tr><th scope="row">${esc(x.label)}</th><td>${esc(x.evidence.charAt(0).toUpperCase() + x.evidence.slice(1))}</td><td class="num">${int(x.additional_total)}</td><td class="num">${int(x.with_law_total)}</td></tr>`; }).join("")}</tbody></table></div>
     <p class="small">Typical response by year, 2027–2031: ${typ.by_year.map((v) => int(v)).join(", ")}. Its range is ${int(typ.range_low)} to ${int(typ.range_high)}. These are homes in issued permits, not completed homes.</p>
+    <p class="small" data-testid="brief-shared">${sharedLine(b)} Reforms overlap, so their extra homes are never added together.</p>
     <h2>Where</h2>
     <p>${A.metros.map((m) => `${esc(m.name)} ${int(m.add.typical)}`).join("; ")} (typical response). By place: ${top.map((m) => `${esc(m.name.replace(/ (city|village|town)$/, ""))} ${int(m.add.typical)}`).join(", ")}. Eau Claire and other mid-size cities get none: they have no bus route every 15 minutes.</p>
     <h2>Why these numbers</h2>

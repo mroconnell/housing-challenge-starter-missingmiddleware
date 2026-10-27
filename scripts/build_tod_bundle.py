@@ -55,6 +55,7 @@ INPUTS = [
     "reference/tod_scale_check.csv", "reference/tod_scale_check_metro_years.csv",
     "reference/housing_baseline_statewide_by_year.csv", "reference/housing_baseline_by_area.csv",
     "reference/housing_baseline_history.csv",
+    "reference/gate5_housing_health.csv", "reference/adu_model_district_crosswalk.csv",
     GEO_MUNIS,
 ]
 
@@ -80,7 +81,9 @@ SCEN_TEXT = {
         "info": "Like Auckland, New Zealand, which upzoned three-quarters of its residential land in 2016 and permitted 21,808 extra homes over 2016–2021, net of building moved from elsewhere in the city.",
     },
 }
-REF_LINE_INFO = "The median of the three studies. It equals the typical response, so it is drawn as a dotted line on top of it."
+# AQ-054: one median-line rule for every reform. A median line of real cases is shown only with at least
+# MEDIAN_MIN_CASES comparable cases; TOD's scenarios rest on one whole-city study each.
+MEDIAN_MIN_CASES = 4
 TIMING = ("The studies measured their effects three or more years after each reform. The model places that effect "
           "inside 2027–2031, the law's first five years. Much of a real law's effect may come after 2031, so the "
           "yearly path is the least certain part of these numbers.")
@@ -119,9 +122,9 @@ SENS_LABELS = {
     ("baseline_only", "baseline_high"): ("High current-law path", "Wisconsin's 90th-percentile five-year outcome since 1990."),
     ("baseline_only", "census_as_published"): ("Milwaukee's apartments as the Census published them", "The Census permit file misses most of Milwaukee's apartments; the main case uses the city's property file instead."),
 }
-GROUPS = [("law_addition", "Cases that change the law's addition"),
-          ("where_homes_land", "Cases that change where the homes land (and, for the stop rules, how many homes are near stops)"),
-          ("baseline_only", "Cases that change current law only")]
+GROUPS = [("law_addition", "What-ifs that change the law's addition"),
+          ("where_homes_land", "What-ifs that change where the homes land (and, for the stop rules, how many homes are near stops)"),
+          ("baseline_only", "What-ifs that change current law only")]
 
 
 def sha256(p: Path) -> str:
@@ -162,6 +165,19 @@ def metro_of(county: str) -> str:
     return REST[0]
 
 
+# ---- shared units (AQ-054) ----------------------------------------------------------------------
+def acs_housing_units() -> int:
+    """Wisconsin's total housing units, ACS 2020-2024 five-year (B25002), the home count for cross-reform figures."""
+    h = pd.read_csv(REF / "gate5_housing_health.csv")
+    return int(h[h["indicator"] == "total_housing_units_acs"]["value"].iloc[0])
+
+
+def all_housing_baseline_by_area() -> pd.Series:
+    """Each municipality piece's all-housing baseline, central, 2027-2031 (all building sizes)."""
+    hb = pd.read_csv(REF / "housing_baseline_by_area.csv")
+    return hb.groupby("area_id")["five_year_central"].sum()
+
+
 # ---- statewide --------------------------------------------------------------------------------
 def build_statewide() -> dict:
     st = pd.read_csv(REF / "tod_model_statewide.csv")
@@ -187,11 +203,17 @@ def build_statewide() -> dict:
         if sid == "typical":
             row.update(range_low=r(f["addition_range_low"], 4), range_high=r(f["addition_range_high"], 4))
         scen.append(row)
-    refl = five.loc["reference_line"]
-    ref_years = yr[yr["scenario"] == "reference_line"].sort_values("year")
-    # statewide all-housing baseline, for context (the TOD baseline is the part of it near qualifying stops)
+    # statewide all-housing baseline (the TOD baseline is the part of it near qualifying stops), and the shared
+    # cross-reform units (AQ-054): extra homes a year statewide against that baseline, and shares of Wisconsin's
+    # ACS 2020-2024 home count. The station-area maths keeps 2020 census blocks.
     hb = pd.read_csv(REF / "housing_baseline_statewide_by_year.csv")
     hbp = hb[(hb["kind"] == "projected") & (hb["structure_type"] == "all") & hb["year"].isin(YEARS)]
+    state_base = float(hbp["central"].sum())
+    acs_homes = acs_housing_units()
+    for row in scen:
+        row["per_year"] = r(row["additional_total"] / len(YEARS), 4)
+        row["share_of_state_baseline"] = r(row["additional_total"] / state_base, 6)
+        row["share_of_acs_homes"] = r(row["additional_total"] / acs_homes, 6)
     d = pd.read_csv(REF / "tod_definition_summary.csv")
     ladder = []
     for x in d[d["definition"].isin(DEF_LABELS)].sort_values("homes").itertuples():
@@ -218,10 +240,12 @@ def build_statewide() -> dict:
         "homes_two_cities": {"milwaukee": int(main_def.milwaukee_city_homes), "madison": int(main_def.madison_city_homes),
                              "share": r(main_def.share_in_two_cities, 4)},
         "ladder": ladder, "law": law, "agencies": agencies,
-        "baseline": baseline, "state_baseline_total": r(hbp["central"].sum(), 4),
+        "baseline": baseline, "state_baseline_total": r(state_base, 4), "state_baseline_per_year": r(state_base / len(YEARS), 4),
+        "acs_homes": acs_homes,
         "scenarios": scen,
-        "reference_line": {"label": "Median of the three studies", "info": REF_LINE_INFO,
-                           "additional_total": r(refl["addition"], 4), "by_year": [r(v, 4) for v in ref_years["addition"]]},
+        "median_line": {"shown": len(scen) >= MEDIAN_MIN_CASES, "min_cases": MEDIAN_MIN_CASES, "n_studies": len(scen),
+                        "note": f"A median line of real cases is shown only when there are at least {MEDIAN_MIN_CASES} comparable cases. "
+                                f"The transit-oriented density scenarios rest on {len(scen)} whole-city studies, one for each scenario, so there is no median line."},
         "timing_caveat": TIMING,
     }
 
@@ -262,22 +286,35 @@ def build_areas() -> dict:
             m["add"][x.scenario] = r(x.add_2027_2031, 4)
             m["add_years"][x.scenario] = by_years(x._asdict())
     munis = sorted(munis.values(), key=lambda m: -m["add"]["typical"])
+    # all-housing baseline by place, county and district (AQ-054 shared unit, by area); districts use the same
+    # detached-home crosswalk as the TOD district figures
+    allb = all_housing_baseline_by_area()
+    for m in munis:
+        m["all_baseline"] = r(allb.get(m["id"], 0.0), 4)
+    allb_df = allb.rename("v").reset_index()
+    by_county = allb_df.merge(near[["county"]], left_on="area_id", right_index=True, how="left").groupby("county")["v"].sum()
+    cw = pd.read_csv(REF / "adu_model_district_crosswalk.csv")
+    xw = allb_df.merge(cw[["area_id", "assembly_district", "senate_district", "share"]], on="area_id", how="inner")
+    xw["v"] = xw["v"] * xw["share"]
+    by_asm, by_sen = xw.groupby("assembly_district")["v"].sum(), xw.groupby("senate_district")["v"].sum()
 
-    def agg(file, key, name_fn):
+    def agg(file, key, name_fn, all_base):
         df = pd.read_csv(REF / file)
         out = {}
         for x in df.itertuples():
             k = getattr(x, key)
-            o = out.setdefault(k, {"id": str(k), "name": name_fn(k), "baseline": r(x.baseline_near_central_2027_2031, 4), "add": {}})
+            o = out.setdefault(k, {"id": str(k), "name": name_fn(k), "baseline": r(x.baseline_near_central_2027_2031, 4),
+                                   "all_baseline": r(all_base.get(k, 0.0), 4), "add": {}})
             if x.scenario in SCEN:
                 o["add"][x.scenario] = r(x.add_2027_2031, 4)
         rows = list(out.values())
         nonzero = [o for o in rows if o["baseline"] > 0 or any(v > 0 for v in o["add"].values())]
-        return {"rows": sorted(nonzero, key=lambda o: -o["add"]["typical"]), "total_count": len(rows)}
+        return {"rows": sorted(nonzero, key=lambda o: -o["add"]["typical"]), "total_count": len(rows),
+                "all_baseline_total": r(sum(o["all_baseline"] for o in rows), 4)}
 
-    counties = agg("tod_model_by_county.csv", "county", lambda k: k)
-    assembly = agg("tod_model_by_assembly_district.csv", "assembly_district", lambda k: f"Assembly District {k}")
-    senate = agg("tod_model_by_senate_district.csv", "senate_district", lambda k: f"Senate District {k}")
+    counties = agg("tod_model_by_county.csv", "county", lambda k: k, by_county)
+    assembly = agg("tod_model_by_assembly_district.csv", "assembly_district", lambda k: f"Assembly District {k}", by_asm)
+    senate = agg("tod_model_by_senate_district.csv", "senate_district", lambda k: f"Senate District {k}", by_sen)
     metros = []
     for mid, label in [(k, v[0]) for k, v in METROS.items()] + [REST]:
         ms = [m for m in munis if m["metro"] == mid]
@@ -285,6 +322,7 @@ def build_areas() -> dict:
                        "counties": sorted({m["county"] for m in ms}),
                        "homes_near": sum(m["homes_near"] for m in ms),
                        "baseline": r(sum(m["baseline"] for m in ms), 4),
+                       "all_baseline": r(sum(by_county.get(c, 0.0) for c in METROS[mid][1]), 4) if mid in METROS else None,
                        "add": {sc: r(sum(m["add"][sc] for m in ms), 4) for sc in SCEN}})
     # places that get extra homes with few homes near stops today: homes are placed by land where the law adds room
     few = [m["name"] for m in munis if m["homes_near"] < 100 and m["add"]["typical"] >= 1]
@@ -296,8 +334,10 @@ def build_areas() -> dict:
             h = hist[(hist["area_id"] == m["id"]) & hist["year"].between(2021, 2025)].sort_values("year")
             low.append({"name": m["name"], "years": [int(y) for y in h["year"]], "units": [r(u, 0) for u in h["units_all"]],
                         "units_5plus": r(h["units_5plus"].sum(), 0)})
+    # the shared baseline keeps a small statewide row that is not allocated to any place (its reconciliation residual)
+    unalloc = float(allb[~allb.index.str.startswith("muni:")].sum())
     return {"munis": munis, "metros": metros, "counties": counties, "assembly": assembly, "senate": senate,
-            "few_homes_places": few, "low_permit_places": low}
+            "all_baseline_unallocated": r(unalloc, 4), "few_homes_places": few, "low_permit_places": low}
 
 
 # ---- map ---------------------------------------------------------------------------------------
@@ -662,7 +702,20 @@ def validate(sw: dict, areas: dict, pilots: list) -> dict:
     check("baseline: places add up to the state", abs(sum(m["baseline"] for m in areas["munis"]) - sw["baseline"]["total"]) < 1,
           f"{sw['baseline']['total']:,.1f}")
     check("no addition below zero", all(v >= 0 for m in areas["munis"] for v in m["add"].values()), "every place and scenario")
-    check("reference line equals the typical response", sw["reference_line"]["additional_total"] == next(x for x in sw["scenarios"] if x["id"] == "typical")["additional_total"], "AQ-051 G3-1")
+    check("no median line with fewer than 4 comparable cases (AQ-054)", not sw["median_line"]["shown"] and "reference_line" not in sw,
+          f"{sw['median_line']['n_studies']} studies")
+    allb = all_housing_baseline_by_area()
+    check("all-housing baseline: places add up to the state (AQ-054)", abs(allb.sum() - sw["state_baseline_total"]) < 1,
+          f"{allb.sum():,.1f} vs {sw['state_baseline_total']:,.1f}")
+    for lvl in ("counties", "assembly", "senate"):
+        tot = areas[lvl]["all_baseline_total"] + areas["all_baseline_unallocated"]
+        check(f"all-housing baseline: {lvl} plus the unallocated row add up to the state", abs(tot - sw["state_baseline_total"]) < 1,
+              f"{areas[lvl]['all_baseline_total']:,.1f} + {areas['all_baseline_unallocated']:,.1f}")
+    for sc in sw["scenarios"]:
+        check(f"{sc['id']}: shared units recompute (AQ-054)",
+              abs(sc["per_year"] * len(YEARS) - sc["additional_total"]) < 0.01
+              and abs(sc["share_of_state_baseline"] * sw["state_baseline_total"] - sc["additional_total"]) < 0.5
+              and abs(sc["share_of_acs_homes"] * sw["acs_homes"] - sc["additional_total"]) < 2, "per year, baseline share, ACS share")
     se = pd.read_csv(REF / "tod_model_sensitivities.csv")
     mm = se[(se["sizing"] == "net_effect") & (se["group"] == "main") & (se["scenario"] == "typical")].iloc[0]
     met = {m["id"]: m for m in areas["metros"]}
@@ -696,7 +749,8 @@ def main():
         "dates": {"last_observed_year": 2025, "forecast_years": YEARS, "effective": "Stylized statewide law in effect 1 January 2027"},
         "vintages": [{"what": "National Transit Map (stops and routes)", "vintage": "compiled 23 September 2026"},
                      {"what": "Agency schedule files (frequencies)", "vintage": "2025–2026 service days"},
-                     {"what": "Census 2020 homes by block", "vintage": "2020"},
+                     {"what": "Census 2020 homes by block (station areas)", "vintage": "2020"},
+                     {"what": "Wisconsin's total homes for cross-reform shares (ACS B25002)", "vintage": "ACS 2020–2024 five-year"},
                      {"what": "Census Building Permits Survey (current-law forecast)", "vintage": "2015–2025 annual"},
                      {"what": "Milwaukee and Madison parcels and zoning", "vintage": "2025–2026"}],
         "validation": val, "repo_url": REPO_URL, "inputs": hashes,

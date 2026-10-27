@@ -7,6 +7,8 @@ export interface Scenario {
   id: ScenId; label: string; evidence: string; info: string; source: string;
   share_of_stock: number; additional_total: number; with_law_total: number; by_year: number[];
   range_low?: number; range_high?: number;
+  /** AQ-054 shared units: extra homes a year statewide; shares of the statewide all-housing baseline and of ACS homes */
+  per_year: number; share_of_state_baseline: number; share_of_acs_homes: number;
 }
 export interface Statewide {
   state_homes: number; stock_homes: number;
@@ -15,22 +17,29 @@ export interface Statewide {
   law: { band: string; label: string; height_ft: number; homes_per_acre: number; far: number }[];
   agencies: { agency: string; lines: string; rapid: number; bus15: number; bus20_only: number; main_case: number }[];
   baseline: { years: { year: number; low: number; central: number; high: number }[]; total: number; low_total: number; high_total: number };
-  state_baseline_total: number;
+  state_baseline_total: number; state_baseline_per_year: number;
+  /** Wisconsin's total housing units, ACS 2020–2024 (B25002): the home count for cross-reform figures (AQ-054) */
+  acs_homes: number;
   scenarios: Scenario[];
-  reference_line: { label: string; info: string; additional_total: number; by_year: number[] };
+  /** AQ-054: no median line with fewer than min_cases comparable cases */
+  median_line: { shown: boolean; min_cases: number; n_studies: number; note: string };
   timing_caveat: string;
 }
 export interface Muni {
   id: string; name: string; county: string; metro: string; coded: boolean; homes_near: number; share_near: number;
   eligible_acres: number; baseline: number; baseline_low: number; baseline_high: number; add: ByScen; add_years: Record<ScenId, number[]>;
+  /** all homes the place is expected to permit under current law, 2027–2031 (shared all-housing baseline) */
+  all_baseline: number;
 }
-export interface AggRow { id: string; name: string; baseline: number; add: ByScen }
+export interface AggRow { id: string; name: string; baseline: number; all_baseline: number; add: ByScen }
+export interface AggLevel { rows: AggRow[]; total_count: number; all_baseline_total: number }
 export interface Areas {
   munis: Muni[];
-  metros: { id: string; name: string; places: number; counties: string[]; homes_near: number; baseline: number; add: ByScen }[];
-  counties: { rows: AggRow[]; total_count: number };
-  assembly: { rows: AggRow[]; total_count: number };
-  senate: { rows: AggRow[]; total_count: number };
+  metros: { id: string; name: string; places: number; counties: string[]; homes_near: number; baseline: number; all_baseline: number | null; add: ByScen }[];
+  counties: AggLevel;
+  assembly: AggLevel;
+  senate: AggLevel;
+  all_baseline_unallocated: number;
   few_homes_places: string[];
   low_permit_places: { name: string; years: number[]; units: number[]; units_5plus: number }[];
 }
