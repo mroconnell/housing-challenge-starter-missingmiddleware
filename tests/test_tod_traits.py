@@ -175,7 +175,7 @@ class TestOutputs(unittest.TestCase):
     def test_no_identifiers(self):
         for name in ("tod_trait_units.csv", "tod_trait_values.csv", "tod_trait_results.csv", "tod_trait_errors.csv",
                      "tod_trait_heldout_units.csv", "tod_trait_wisconsin.csv",
-                     "tod_trait_pairs.csv", "tod_trait_tree.csv"):
+                     "tod_trait_pairs.csv", "tod_trait_tree.csv", "tod_trait_tools.csv"):
             f = REF / name
             if not f.exists():
                 continue
@@ -189,9 +189,78 @@ class TestOutputs(unittest.TestCase):
         u = pd.read_csv(f)
         k = u[u.kept]
         self.assertTrue((k.treatment_acres >= T.MIN_ACRES).all() and (k.comparison_acres >= T.MIN_ACRES).all())
-        self.assertTrue(set(u.city) <= set(T.CITY_ORDER))
+        self.assertTrue(set(u.city) <= set(T.WIDE_CITY_ORDER))
         self.assertTrue((u[u.city.isin(T.TEST_CITIES)].role == "always held out").all())
+        if "trait_fit" in u:  # wider multi-tool test: only the six fold cities are ever fitted
+            self.assertTrue(set(u[u.trait_fit].city) <= set(T.WIDE_FIT_CITIES))
         self.assertTrue(u.unit_id.is_unique)
+
+    def test_tools_table(self):
+        f = REF / "tod_trait_tools.csv"
+        if not f.exists():
+            self.skipTest("tools not run")
+        r = pd.read_csv(f)
+        self.assertEqual(int((r.variant == "all 12 traits").sum()), 6)  # LASSO, tree, forest, boosting, causal forest, k-NN
+        self.assertEqual(int(r.tool.str.startswith("1.").sum()), len(T.TRAITS))
+        self.assertTrue(r.tool.str.startswith("8.").any())
+        judged = r[~r.tool.str.startswith(("0.", "8."))]
+        self.assertTrue(set(judged.verdict) <= {"pass", "fail"})
+
+
+class TestSeveralTools(unittest.TestCase):
+    def errors(self, fold_model, chi, mad):
+        rows = [{"city": c, "role": "fold", "error_baseline": 1.0, "error_model": m} for c, m in zip(T.WIDE_FIT_CITIES, fold_model)]
+        rows += [{"city": "Chicago", "role": "always held out", "error_baseline": 1.0, "error_model": chi},
+                 {"city": "Madison", "role": "always held out", "error_baseline": 1.0, "error_model": mad}]
+        return pd.DataFrame(rows)
+
+    def test_two_thirds_rule(self):
+        self.assertEqual(T.judge_tools(self.errors([0.5, 0.5, 0.5, 0.5, 1.2, 1.2], 0.9, 0.9))["verdict"], "pass")
+        self.assertEqual(T.judge_tools(self.errors([0.5, 0.5, 0.5, 1.2, 1.2, 1.2], 0.9, 0.9))["verdict"], "fail")  # 3 of 6
+        self.assertEqual(T.judge_tools(self.errors([0.9, 0.9, 0.9, 0.9, 2.0, 2.0], 0.9, 0.9))["verdict"], "fail")  # mean worse
+        self.assertEqual(T.judge_tools(self.errors([0.5] * 6, 1.0, 0.9))["verdict"], "fail")  # Chicago not better
+        self.assertEqual(T.judge_tools(self.errors([0.5] * 6, 0.9, 1.1))["verdict"], "fail")  # Madison worse
+        self.assertEqual(T.judge_tools(self.errors([0.5] * 5, 0.9, 0.9))["verdict"], "fail")  # a fold city missing
+        self.assertEqual(T.judge_tools(self.errors([0.5] * 6, 0.9, 0.9))["fold_cities_needed"], 4)
+
+    def test_weighted_fill_uses_training_fold(self):
+        tr = pd.DataFrame({"a": [1.0, 3.0, np.nan], "b": [np.nan] * 3, "weight": [1.0, 3.0, 5.0]})
+        te = pd.DataFrame({"a": [np.nan], "b": [1.0], "weight": [1.0]})
+        Xtr, Xte, keep = T.weighted_fill(tr, te, ["a", "b"])
+        self.assertEqual(keep, ["a"])  # no training value: dropped
+        self.assertAlmostEqual(Xtr[2, 0], 2.5)
+        self.assertAlmostEqual(Xte[0, 0], 2.5)
+
+    def test_knn_weighted_mean_of_neighbours(self):
+        Xtr = np.array([[0.0], [1.0], [2.0], [10.0]])
+        p = T.knn_predict(Xtr, np.array([1.0, 2.0, 3.0, 100.0]), np.array([1.0, 1.0, 2.0, 1.0]), np.array([[1.0]]), k=3)
+        self.assertAlmostEqual(p[0], (1 + 2 + 6) / 4)
+
+    def test_causal_forest_recovers_split_effect(self):
+        rng = np.random.default_rng(3)
+        n = 120
+        x = rng.uniform(0, 1, (n, 2))
+        tau = np.where(x[:, 0] > 0.5, 2.0, 0.0)
+        yc = rng.normal(0, 0.05, n)
+        yt = yc + tau
+        p = T.causal_forest_predict(x, yt, np.ones(n), yc, np.ones(n), np.array([[0.1, 0.5], [0.9, 0.5]]), n_trees=50)
+        self.assertLess(p[0], 0.7)
+        self.assertGreater(p[1], 1.3)
+
+    def test_leaf_effect_is_did(self):
+        self.assertAlmostEqual(T._leaf_tau(np.array([3.0]), np.array([10.0]), np.array([1.0]), np.array([40.0])), 2.0)
+
+    def test_random_intercept(self):
+        rows = []
+        for k in range(8):
+            for i in range(6):
+                rows.append({"city": f"c{k}", "effect": float(k) + (i - 2.5) * 0.01, "weight": 1.0})
+        f = T.random_intercept_fit(pd.DataFrame(rows))
+        self.assertAlmostEqual(f["mu"], 3.5, places=3)
+        self.assertGreater(f["tau"], 2.0)  # cities differ far more than units within them
+        lo, hi = T.new_city_interval(f)
+        self.assertLess(lo, 0.0)
+        self.assertGreater(hi, 7.0)
 
 
 if __name__ == "__main__":

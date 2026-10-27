@@ -49,7 +49,7 @@ INPUTS = [
     "reference/tod_model_sensitivities.csv", "reference/tod_model_checks.csv", "reference/tod_model_params.csv",
     "reference/tod_definition_summary.csv", "reference/tod_stops.csv", "reference/tod_station_areas.csv",
     "reference/tod_near_stop_homes_by_muni.csv",
-    "reference/tod_case_estimates.csv", "reference/tod_cases.csv", "reference/tod_trait_pairs.csv",
+    "reference/tod_case_estimates.csv", "reference/tod_cases.csv", "reference/tod_trait_pairs.csv", "reference/tod_trait_tools.csv",
     "reference/tod_madison_test_results.csv", "reference/tod_madison_test_rates_by_year.csv",
     "reference/tod_madison_test_predictions.csv",
     "reference/tod_scale_check.csv", "reference/tod_scale_check_metro_years.csv",
@@ -479,10 +479,13 @@ def build_howsure(sw: dict, areas: dict) -> dict:
     ]
     pairs = pd.read_csv(REF / "tod_trait_pairs.csv")
     n_traits = len(set(pairs.trait_a) | set(pairs.trait_b))
-    n_pass = int((pairs.verdict == "pass").sum())
+    tools = pd.read_csv(REF / "tod_trait_tools.csv")
+    n_tools = int(tools.loc[~tools["tool"].str.startswith("0."), "tool"].nunique())
+    n_pass = int((pairs.verdict == "pass").sum()) + int((tools.get("verdict", pd.Series(dtype=str)) == "pass").sum())
     trait_line = {"title": "Why the response differs from place to place",
                   "text": (f"We tested {n_traits} local traits (home values, incomes, rents, lot sizes, existing density, distance to "
-                           f"downtown and others) and all {len(pairs)} pairs of them, predicting each city from the others. "
+                           f"downtown and others), all {len(pairs)} pairs of them and {n_tools} prediction methods (including random and causal forests), "
+                           f"predicting each city from the others. "
                            + ("None reliably predicts where upzoning added more homes" if n_pass == 0 else f"{n_pass} pairs passed")
                            + ", so the scenarios stay wide (docs/tod/TRAITS_RESULTS.md).")}
     cannot = [

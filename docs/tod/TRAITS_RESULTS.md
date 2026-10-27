@@ -197,3 +197,98 @@ Anything that passed would be exploratory and a sensitivity only, because about 
 - **The splits are unstable.** Each fold's tree chooses different splits: transit jobs access when New York is left out, and distance to downtown when Philadelphia is left out. So the splits mostly fit a few high-effect units (Downtown Brooklyn, Park Slope, Madison's Isthmus core) rather than a pattern that carries to the held-out cities.
 
 **Conclusion.** No combination of two traits, and no small tree, predicts where upzoning near transit added homes better than a plain average once each city is held out. Nothing here changes the confirmatory result or the model. The range stays 171 to 17,148 extra homes over 2027–2031.
+
+## Wider set, several tools
+
+The owner asked for a rerun on more cities with several prediction tools. The rules were written down before the run (plan section 8, the two entries "rerun on the wider case set with several tools" and "details of the several-tools rerun", both dated 2026-10-27). Results are in [reference/tod_trait_tools.csv](../../reference/tod_trait_tools.csv): one row per tool, with every city's error. The code is `--stage tools` in [scripts/run_tod_traits.py](../../scripts/run_tod_traits.py) and the "wider set, several tools" part of [traits.py](../../missing_middleware/tod/traits.py). The confirmatory and exploratory results above are unchanged: rerunning them on the new files gives the same numbers.
+
+**Answer first.**
+- **No tool passes.** None of the eight tools beats a plain average in at least 4 of the 6 fitted cities, on the mean error and in both Chicago and Madison at once.
+- **The closest is the same city-level trait as before, whether parking minimums were also cut.** Its mean error is 0.854 extra homes permitted per eligible acre per year, against the plain average's 0.856. It also does better in Chicago and in Madison, but it is better in only 3 of the 6 fitted cities.
+- **The more flexible tools do worse than the plain average.** Every one has a higher mean error. LASSO, given the choice, keeps no trait at all in 5 of its 6 training folds.
+- **The multilevel model finds that cities differ no more than chance would give.** Unit-to-unit noise is large. The spread between city averages is no bigger than that noise would produce by itself.
+- **For Wisconsin:** nothing changes. The range stays 171 to 17,148 extra homes over 2027–2031, and no trait-based rate is offered.
+
+### Units
+
+Same rules as before: each unit's own difference-in-differences, at least 5 eligible acres in each of treatment and comparison. The new units come from [reference/tod_case_units.csv](../../reference/tod_case_units.csv), and their effects are copied unchanged. The effect is in extra homes permitted per eligible acre per year, and each city's mean weights its units by eligible treatment acres.
+
+| City | Role | Candidate units | Kept | Eligible treatment acres kept | Acre-weighted mean effect | Lowest to highest unit |
+| --- | --- | --- | --- | --- | --- | --- |
+| New York | fitted (fold) | 17 | 11 | 558.3 | +0.94 | −0.94 to +13.31 |
+| Philadelphia | fitted (fold) | 83 | 43 | 557.9 | +0.73 | −0.50 to +6.41 |
+| Charlotte | fitted (fold) | 20 | 18 | 815.7 | +0.13 | −1.32 to +2.83 |
+| Saint Paul | fitted (fold) | 9 | 7 | 206.2 | −0.10 | −3.10 to +1.06 |
+| Los Angeles (Warner Center 6, Cornfield Arroyo Seco 1) | fitted (fold) | 8 | 7 | 722.8 | +0.24 | 0.00 to +2.56 |
+| Seattle (North Beacon Hill, Othello, Mount Baker) | fitted (fold) | 3 | 3 | 67.7 | −0.13 | −2.79 to +2.80 |
+| Chicago | always held out | 95 | 22 | 158.3 | +0.13 | −2.18 to +1.89 |
+| Madison | always held out | 7 | 5 | 595.8 | +0.27 | −1.27 to +11.29 |
+| Bellevue (BelRed) | context: predicted, not fitted or judged | 3 | 3 | 504.4 | +0.12 | −0.06 to +0.98 |
+| Toronto (Eglinton) | context: predicted, not fitted or judged | 10 | 6 | 42.5 | −0.02 | −0.04 to −0.00 |
+
+- **Fitted:** 89 units in six cities, 2,928.7 eligible treatment acres.
+- **Bellevue is not fitted.** Its case is context only, although its rows in `tod_case_units.csv` say `trait_fit` True. Toronto is flagged `trait_fit` False by its case run.
+
+**Traits for the new units** follow the same sources (plan section 8). Some are missing:
+- **Toronto** has no value for home value, income, rent, existing density, city land area, transit jobs access or land use. Canada is outside the ACS, the EPA index, U.S. census blocks and the Gazetteer. It also has no added FAR, because its dose is added height. It does have lot size, building rate before, distance to downtown and parking cut (1).
+- **Bellevue** has no land-use share (no land-use field in its parcels) and no parking value (its parking change is "unknown").
+- **Los Angeles** has no added FAR, because its case has ordinal levels only.
+- **Added FAR** now exists in three fitted cities: New York, Saint Paul and Seattle.
+
+### Results
+
+Errors are acre-weighted mean absolute errors in extra homes permitted per eligible acre per year. "Mean" is the simple mean of the six fitted cities' errors, each city predicted from the other five. Chicago and Madison are predicted from all six fitted cities. "Better" counts the fitted cities, of 6, where the tool's error is below the plain average's. A tool needs 4.
+
+| Tool | Verdict | Better (of 6) | Mean error, plain average → tool | Chicago, plain average → tool | Madison, plain average → tool |
+| --- | --- | --- | --- | --- | --- |
+| 1. One-trait regression, best trait: parking minimums cut | fail (3 of 6) | 3 | 0.856 → 0.854 | 0.536 → 0.405 | 1.472 → 1.468 |
+| 1. One-trait regression, other 11 traits | all fail | 1 to 4 | every one higher than its plain average | | |
+| 2. LASSO, all 12 traits | fail | 0 | 0.856 → 0.988 | 0.536 → 0.536 | 1.472 → 1.472 |
+| 3. Depth-2 tree | fail | 3 | 0.856 → 1.190 | 0.536 → 0.889 | 1.472 → 1.189 |
+| 4. Random forest | fail | 2 | 0.856 → 1.139 | 0.536 → 0.680 | 1.472 → 1.450 |
+| 5. Gradient boosting | fail | 2 | 0.856 → 1.198 | 0.536 → 0.704 | 1.472 → 1.394 |
+| 6. Honest causal forest | fail | 3 | 0.856 → 0.890 | 0.536 → 0.591 | 1.472 → 1.481 |
+| 7. k-nearest neighbours (k = 5) | fail | 3 | 0.856 → 0.986 | 0.536 → 0.562 | 1.472 → 1.556 |
+| 8. Multilevel model (uncertainty only) | not judged | — | 0.856 → 0.902 | 0.536 → 0.599 | 1.472 → 1.481 |
+
+**Plain-average errors by fitted city:**
+
+| City | Error |
+| --- | --- |
+| New York | 1.147 |
+| Philadelphia | 0.881 |
+| Charlotte | 0.519 |
+| Saint Paul | 0.668 |
+| Los Angeles | 0.516 |
+| Seattle | 1.406 |
+
+The context cities' plain-average errors are Bellevue 0.464 and Toronto 0.421.
+
+**What each tool did:**
+- **One trait at a time.**
+  - Two traits beat the plain average in 4 of 6 fitted cities but raise the mean error:
+    - vacant, parking or industrial share: 0.902;
+    - transit jobs access: 1.018, mostly because New York's error rises from 1.147 to 2.678.
+  - The parking trait is the only one with a lower mean error. It loses in New York, Philadelphia and Seattle.
+  - Added FAR can be tested in only 3 fitted cities, so it cannot reach 4. Its mean error rises from 1.200 to 2.372, and Seattle's from 1.535 to 5.271.
+  - Twelve traits were tried, so one of them looking good would not be strong evidence even if it had passed.
+- **LASSO** chose so strong a penalty that it kept no trait in 5 of the 6 folds, and none when fitted on all six cities. There it equals the plain average. In the fold that predicts Seattle it kept one trait, and Seattle's error rose from 1.406 to 2.199.
+- **The depth-2 tree** fitted on all six cities splits on distance to downtown (3.3 km) and then lot size. Its smallest leaf (central units with lots of 0.20 acres or less, mean +6.24) holds the few high-effect units, such as Downtown Brooklyn and Philadelphia's Northern Liberties bills. This leaf does not carry over: Los Angeles's error rises from 0.516 to 2.613.
+- **The random forest and gradient boosting** improve Charlotte and Philadelphia slightly. They do much worse in New York (errors 1.808 and 2.137) and Los Angeles (1.404 and 0.949). Boosting stopped after 21 to 164 trees, depending on the fold.
+- **The honest causal forest** comes closest of the many-trait tools (mean 0.890). It improves Charlotte, Philadelphia and Los Angeles slightly but not Chicago or Madison.
+- **k-NN** improves Charlotte, Philadelphia and Los Angeles but is much worse in New York (1.677), Saint Paul (1.036) and Seattle (1.797).
+
+**Multilevel model (uncertainty).** Fitted on the six cities' 89 units:
+- **Overall mean:** +0.505 extra homes permitted per eligible acre per year (standard error 0.216).
+- **Spread between cities' true means:** estimated at 0.000. The units within a city vary a lot (standard deviation 1.720), so the differences between city averages (−0.13 in Seattle to +0.94 in New York) are no larger than unit noise would give.
+- **Interval check.** The model's 90% interval for a new city's mean is +0.149 to +0.860. Only 4 of the 10 cities' measured means fall inside the interval predicted for them without their own data. The model's assumptions (normal noise, equal spread in every city) understate the real spread. A few very large units (+13.3 in Downtown Brooklyn, +11.3 in Madison's Isthmus core) and many near-zero ones are not normal noise.
+- **The practical lesson:** a city's average response is hard to predict from other cities. The honest range for a new place is wider than this interval, which supports keeping the wide Wisconsin range.
+
+### Conclusion
+
+On 89 fitted units in six cities, with Chicago and Madison held out, neither one-trait regressions nor the seven more flexible tools predict where upzoning near transit added homes better than a plain average. Flexible tools mostly fit a few large New York, Philadelphia and Madison units and break on the next city. The only signal that keeps reappearing is the city-level parking trait. It is slightly better on average and in Chicago and Madison, but fails the city count (3 of 6). It also cannot be separated from everything else that differs between cities. Nothing goes to the owner as a candidate for narrowing the modelled law (AQ-056). The range and the model's main outputs stay as they are.
+
+**Limits:**
+- Many units are small and noisy, and some of the new ones have very few projects. Toronto's six units lie between −0.04 and −0.00, and Seattle's three range from −2.79 to +2.80.
+- Missing trait values are filled with the training fold's acre-weighted mean. This weakens the many-trait tools on Toronto and Bellevue, which are not judged.
+- Seed 20261027 throughout. Other seeds would move the forest, boosting and causal-forest errors a little. No tool comes near the two-thirds rule.

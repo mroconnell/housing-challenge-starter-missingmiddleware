@@ -5,6 +5,7 @@
     uv run --all-extras python scripts/run_tod_traits.py --stage traits   # 2. trait values for the fixed units
     uv run --all-extras python scripts/run_tod_traits.py --stage test     # 3. held-out test (+ 4. Wisconsin if a trait passes)
     uv run --all-extras python scripts/run_tod_traits.py --stage explore  # owner-approved exploration: 66 pairs + one tree
+    uv run --all-extras python scripts/run_tod_traits.py --stage tools    # wider case set, eight tools (needs the ml extra)
 
 Units are built with the case adapters (missing_middleware/tod/case_*.py, imported, never edited) and the Madison
 test script. Station-area units re-use each case's own areas: the case's builder runs unchanged while
@@ -19,6 +20,8 @@ Outputs (committed; no parcel, permit, project or person identifiers):
 - reference/tod_trait_wisconsin.csv    only if a trait passes (sensitivity; model outputs unchanged)
 - reference/tod_trait_pairs.csv        exploratory: all 66 pairs under the stricter rule
 - reference/tod_trait_tree.csv         exploratory: the regression tree (splits, held-out errors, verdict)
+- reference/tod_trait_tools.csv        wider case set (adds Los Angeles, Seattle; Bellevue and Toronto as context): eight
+                                       tools, leave-one-city-out errors by city, verdicts under the two-thirds rule
 Caches (git-ignored): data/processed/tod_traits/
 """
 from __future__ import annotations
@@ -54,7 +57,9 @@ WI_CSV = REFERENCE / "tod_trait_wisconsin.csv"
 PAIRS_CSV = REFERENCE / "tod_trait_pairs.csv"
 TREE_CSV = REFERENCE / "tod_trait_tree.csv"
 CITIES = ("nyc", "philadelphia", "charlotte", "stpaul", "chicago", "madison")
-CITY_NAME = {"nyc": "New York", "philadelphia": "Philadelphia", "charlotte": "Charlotte", "stpaul": "Saint Paul",
+ADDED_CITIES = ("la", "seattle", "bellevue", "toronto")   # wider case set (plan section 8, multi-tool rerun)
+ALL_CITIES = CITIES + ADDED_CITIES
+CITY_NAME = {"la": "Los Angeles", "seattle": "Seattle", "bellevue": "Bellevue", "toronto": "Toronto", "nyc": "New York", "philadelphia": "Philadelphia", "charlotte": "Charlotte", "stpaul": "Saint Paul",
              "chicago": "Chicago", "madison": "Madison"}
 CASE_OF = {"nyc": "nyc_pooled_2003_2013", "philadelphia": "philadelphia_2012_remapping", "charlotte": "charlotte_tod_2019",
            "stpaul": "stpaul_green_line_2011", "chicago": "chicago_tod_2013_2015", "madison": "madison_tod_overlay_2023"}
@@ -319,7 +324,60 @@ def build_madison():
     return rows, frames, {"segments": int(lab.nunique()), "uniform_rule": uinfo}
 
 
-BUILDERS = {"nyc": build_nyc, "philadelphia": build_philadelphia, "charlotte": build_charlotte, "stpaul": build_stpaul,
+ADDED_PREFIX = {"la": "la_", "seattle": "sea_", "bellevue": "bel_", "toronto": "tor_"}
+CASE_UNITS_CSV = REFERENCE / "tod_case_units.csv"
+
+
+def build_added(city: str):
+    """Units of the wider case set: the rows (effect, interval, acres) are those of reference/tod_case_units.csv, written by
+    scripts/run_tod_cases.py; the lots come from the same adapters' unit_frame() (Toronto: run_tod_cases.toronto_unit_frame),
+    so the traits are measured on exactly those units' treated lots."""
+    import run_tod_cases as RC
+    cu = pd.read_csv(CASE_UNITS_CSV)
+    if city == "toronto":
+        ufs = [("toronto_eglinton_2014", RC.toronto_unit_frame())]
+    else:
+        ufs = RC.added_unit_frames([city])
+    rows, frames = [], []
+    for case, uf in ufs:
+        parcels, permits, per = uf["parcels"], uf["permits"], uf["per"]
+        el = parcels["eligible"].astype(bool)
+        tr = parcels.index[(parcels["area"] == C.TREAT) & el]
+        labels = parcels["unit_label"].reindex(tr)
+        yrs = per["before"] + per["after"]
+        dev = pd.Series(False, index=parcels.index)
+        dev.loc[permits.loc[permits["year"].isin(yrs) & permits["pix"].notna(), "pix"].astype(int).unique()] = True
+        vpi = parcels["vpi"] if "vpi" in parcels else pd.Series(np.nan, index=parcels.index)
+        homes = parcels["homes_before"] if "homes_before" in parcels else None
+        for r in cu[cu["case"] == case].itertuples(index=False):
+            ti = labels.index[labels.astype(str) == str(r.unit_name)]
+            uid = f"{ADDED_PREFIX[city]}{slug(r.unit_name)}"
+            ac = float((parcels.loc[ti].geometry.area / C.SQM_PER_ACRE).sum())
+            assert abs(ac - r.treatment_acres) < 0.05, (uid, ac, r.treatment_acres)
+            nb = len(per["before"]) or np.nan
+            na = len(per["after"]) or np.nan
+            ta, ca = r.treatment_acres, r.comparison_acres
+            rows.append({"unit_id": uid, "city": CITY_NAME[city], "case": case, "unit_name": f"{CITY_NAME[city]}: {r.unit_name}",
+                         "unit_type": r.unit_type,
+                         "role": ("fit (leave-one-city-out)" if bool(r.trait_fit) else "context (trait_fit False: not fitted)"),
+                         "effective_year": r.effective_year, "before_years": r.before_years, "after_years": r.after_years,
+                         "treatment_acres": ta, "comparison_acres": ca, "kept": bool(r.kept), "reason": r.reason,
+                         "effect": r.effect, "interval90_low": r.interval90_low, "interval90_high": r.interval90_high,
+                         "treat_rate_before": r.treatment_units_before / ta / nb if ta else np.nan,
+                         "treat_rate_after": r.treatment_units_after / ta / na if ta else np.nan,
+                         "comp_rate_before": r.comparison_units_before / ca / nb if ca else np.nan,
+                         "comp_rate_after": r.comparison_units_after / ca / na if ca else np.nan,
+                         "treatment_units_before": r.treatment_units_before, "treatment_units_after": r.treatment_units_after,
+                         "comparison_units_before": r.comparison_units_before, "comparison_units_after": r.comparison_units_after,
+                         "dose": r.dose, "dose_unit": r.dose_unit, "note": r.flag if isinstance(r.flag, str) else "",
+                         "trait_fit": bool(r.trait_fit)})
+            if len(ti):
+                frames.append(treat_frame(parcels, ti, uid, vpi, homes, parcels.get("old_level"), parcels.get("new_level"), dev))
+    return rows, frames, {"cases": [c for c, _ in ufs]}
+
+
+BUILDERS = {"la": lambda: build_added("la"), "seattle": lambda: build_added("seattle"),
+            "bellevue": lambda: build_added("bellevue"), "toronto": lambda: build_added("toronto"), "nyc": build_nyc, "philadelphia": build_philadelphia, "charlotte": build_charlotte, "stpaul": build_stpaul,
             "chicago": build_chicago, "madison": build_madison}
 
 
@@ -342,11 +400,17 @@ def load_city(c: str) -> dict:
 
 def write_units() -> pd.DataFrame:
     rows = []
-    for c in CITIES:
+    for c in ALL_CITIES:
         if (OUT / f"units_{c}.pkl").exists():
             rows += load_city(c)["rows"]
     u = pd.DataFrame(rows)
-    u["city"] = pd.Categorical(u["city"], T.CITY_ORDER, ordered=True)
+    # fitted in the wider multi-tool test (plan section 8, 2026-10-27): the fit cities only. Chicago and Madison are
+    # always held out; Bellevue is context only (CASE_ANALYSIS_PLAN section 7, although its case-unit rows say
+    # trait_fit True) and Toronto is flagged trait_fit False by its case run.
+    u["trait_fit"] = u["city"].isin(T.WIDE_FIT_CITIES) & u.get("trait_fit", pd.Series(True, index=u.index)).fillna(True).astype(bool)
+    ctx = u["city"].isin(T.WIDE_CONTEXT_CITIES)
+    u.loc[ctx & (u["city"] == "Bellevue"), "role"] = "context (case is context only: not fitted)"
+    u["city"] = pd.Categorical(u["city"], T.CITY_ORDER + tuple(CITY_NAME[c] for c in ADDED_CITIES), ordered=True)
     u = u.sort_values(["city", "unit_id"]).reset_index(drop=True)
     u["city"] = u["city"].astype(str)
     for k in ("effect", "interval90_low", "interval90_high", "treat_rate_before", "treat_rate_after", "comp_rate_before", "comp_rate_after"):
@@ -362,14 +426,17 @@ def write_units() -> pd.DataFrame:
 
 # =========================================================================== fetch (trait sources)
 
-ACS10_STATES = {"36": "NewYork", "42": "Pennsylvania", "37": "NorthCarolina", "17": "Illinois", "27": "Minnesota"}
+ACS10_STATES = {"36": "NewYork", "42": "Pennsylvania", "37": "NorthCarolina", "17": "Illinois", "27": "Minnesota",
+                "06": "California", "53": "Washington"}
+BLOCKS10_EXTRA = ("53",)
+ACS10_SEQ_STATES = {"NewYork": "ny", "California": "ca", "Washington": "wa"}  # per-sequence files (the whole-state zips stall)
 ACS10_URL = "https://www2.census.gov/programs-surveys/acs/summary_file/2010/data/5_year_by_state/{s}_Tracts_Block_Groups_Only.zip"
-ACS10_SEQ_URL = "https://www2.census.gov/acs2010_5yr/summaryfile/2006-2010_ACSSF_By_State_By_Sequence_Table_Subset/NewYork/Tracts_Block_Groups_Only"
+ACS10_SEQ_URL = "https://www2.census.gov/acs2010_5yr/summaryfile/2006-2010_ACSSF_By_State_By_Sequence_Table_Subset/{s}/Tracts_Block_Groups_Only"
 ACS10_LOOKUP = "https://www2.census.gov/programs-surveys/acs/summary_file/2010/documentation/5_year/user_tools/Sequence_Number_and_Table_Number_Lookup.txt"
 TIGER10_URL = "https://www2.census.gov/geo/tiger/TIGER2010/TRACT/2010/tl_2010_{st}_tract10.zip"
 ACS22_URL = "https://www2.census.gov/programs-surveys/acs/summary_file/2022/table-based-SF/data/5YRData/acsdt5y2022-{t}.dat"
 SLD_LAYER = "https://geodata.epa.gov/arcgis/rest/services/OA/SmartLocationDatabase/MapServer/16"
-SLD_COUNTIES = {"36": ["005", "047", "061", "081", "085"], "42": ["101"], "37": ["119"], "17": ["031"], "27": ["123"],
+SLD_COUNTIES = {"06": ["037"], "53": ["033"], "36": ["005", "047", "061", "081", "085"], "42": ["101"], "37": ["119"], "17": ["031"], "27": ["123"],
                 "55": ["025", "035", "059", "079", "089", "133"]}
 CENSUS_LICENCE = "Public domain (U.S. government work)"
 SLD_LICENCE = "Public domain (U.S. EPA Smart Location Database v3, U.S. government work)"
@@ -395,9 +462,10 @@ def stage_fetch(refresh: bool = False, parts=("acs", "sld")) -> None:
         _dl(man, name, url, refresh, licence, **kw)
     F = type("F", (), {"download_file": staticmethod(download), "save_layer": staticmethod(F.save_layer)})
     for st, name in (ACS10_STATES.items() if "acs" in parts else []):
-        if name == "NewYork":  # the whole-state zip stalls on the Census server; the per-sequence files are the same release
-            for f in ("20105ny0053000.zip", "20105ny0098000.zip", "20105ny0099000.zip", "g20105ny.txt"):
-                F.download_file(man, f"acs2010/NewYork_seq/{f}", f"{ACS10_SEQ_URL}/{f}", refresh, CENSUS_LICENCE, timeout=3600,
+        if name in ACS10_SEQ_STATES:  # the whole-state zip stalls on the Census server; the per-sequence files are the same release
+            a2 = ACS10_SEQ_STATES[name]
+            for f in (f"20105{a2}0053000.zip", f"20105{a2}0098000.zip", f"20105{a2}0099000.zip", f"g20105{a2}.txt"):
+                F.download_file(man, f"acs2010/{name}_seq/{f}", f"{ACS10_SEQ_URL.format(s=name)}/{f}", refresh, CENSUS_LICENCE, timeout=3600,
                                 note="ACS 2006-2010 5-year summary file, tracts and block groups, one sequence")
         else:
             F.download_file(man, f"acs2010/{name}_Tracts_Block_Groups_Only.zip", ACS10_URL.format(s=name), refresh, CENSUS_LICENCE,
@@ -405,6 +473,10 @@ def stage_fetch(refresh: bool = False, parts=("acs", "sld")) -> None:
         F.download_file(man, f"tiger2010/tl_2010_{st}_tract10.zip", TIGER10_URL.format(st=st), refresh, CENSUS_LICENCE)
     if "acs" in parts:
         F.download_file(man, "acs2010/Sequence_Number_and_Table_Number_Lookup.txt", ACS10_LOOKUP, refresh, CENSUS_LICENCE)
+        for st in BLOCKS10_EXTRA:  # 2010 blocks for existing homes in states the case fetch does not cover (Washington)
+            nm = f"tabblock2010_{st}_pophu.zip"
+            F.download_file(man, f"blocks2010/{nm}", f"https://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/{nm}", refresh,
+                            CENSUS_LICENCE, timeout=3600, note="2010 Census block polygons with HOUSING10 (housing units)")
     for t in (("b25064", "b25077", "b19013") if "acs" in parts else ()):
         F.download_file(man, f"acs2022/acsdt5y2022-{t}.dat", ACS22_URL.format(t=t), refresh, CENSUS_LICENCE, timeout=3600,
                         note="ACS 2018-2022 5-year table-based summary file")
@@ -482,21 +554,34 @@ def tract_shapes(kind: str):
 def blocks_2010_points(state: str, bbox_4269):
     import geopandas as gpd
     bz = RAW / "tod_cases" / "census_2010_blocks" / f"tabblock2010_{state}_pophu.zip"
+    if not bz.exists():
+        bz = RAWT / "blocks2010" / f"tabblock2010_{state}_pophu.zip"
     b = gpd.read_file(bz, bbox=bbox_4269)
     return gpd.GeoDataFrame({"homes": b["HOUSING10"].astype(float)}, geometry=b.geometry.representative_point(), crs=b.crs)
 
 
 GAZ_PLACES = {"New York": ("36", "New York city"), "Philadelphia": ("42", "Philadelphia city"), "Charlotte": ("37", "Charlotte city"),
-              "Saint Paul": ("27", "St. Paul city"), "Chicago": ("17", "Chicago city"), "Madison": ("55", "Madison city")}
+              "Saint Paul": ("27", "St. Paul city"), "Chicago": ("17", "Chicago city"), "Madison": ("55", "Madison city"),
+              "Los Angeles": ("06", "Los Angeles city"), "Seattle": ("53", "Seattle city"), "Bellevue": ("53", "Bellevue city")}
 # Downtown points (written down before joining): each city's City Hall, or the State Capitol in Madison.
 DOWNTOWN = {"New York": (-74.00597, 40.71274, "New York City Hall (Manhattan)"),
             "Philadelphia": (-75.16357, 39.95233, "Philadelphia City Hall"),
             "Charlotte": (-80.84313, 35.22709, "Trade and Tryon (the Square), Uptown Charlotte"),
             "Saint Paul": (-93.09356, 44.94418, "Saint Paul City Hall"),
             "Chicago": (-87.63191, 41.88372, "Chicago City Hall"),
-            "Madison": (-89.38421, 43.07466, "Wisconsin State Capitol")}
-PARKING_CUT = {"New York": 0, "Philadelphia": 0, "Charlotte": 1, "Saint Paul": 1, "Chicago": 1, "Madison": 1}
-STATE_OF = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Chicago": "17", "Madison": "55"}
+            "Madison": (-89.38421, 43.07466, "Wisconsin State Capitol"),
+            "Los Angeles": (-118.24274, 34.05369, "Los Angeles City Hall"),
+            "Seattle": (-122.32995, 47.60366, "Seattle City Hall"),
+            "Bellevue": (-122.19148, 47.61496, "Bellevue City Hall"),
+            "Toronto": (-79.38414, 43.65343, "Toronto City Hall")}
+# parking_change in reference/tod_case_estimates.csv: Bellevue "unknown" (own parking chapter) -> no value
+PARKING_CUT = {"New York": 0, "Philadelphia": 0, "Charlotte": 1, "Saint Paul": 1, "Chicago": 1, "Madison": 1,
+               "Los Angeles": 1, "Seattle": 1, "Bellevue": np.nan, "Toronto": 1}
+STATE_OF = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Chicago": "17", "Madison": "55",
+            "Los Angeles": "06", "Seattle": "53", "Bellevue": "53", "Toronto": None}
+# where existing homes come from: lot records (New York PLUTO before; Madison and Los Angeles parcel or assessor units),
+# 2010 census blocks elsewhere in the U.S.; Toronto has neither in the case files
+HOMES_FROM_LOTS = {"nyc", "madison", "la"}
 
 
 def gazetteer_land() -> dict:
@@ -508,6 +593,7 @@ def gazetteer_land() -> dict:
     for city, (st, nm) in GAZ_PLACES.items():
         r = g[(g["GEOID"].str[:2] == st) & (g["NAME"] == nm)]
         out[city] = float(r["ALAND_SQMI"].iloc[0])
+    out["Toronto"] = np.nan  # not a U.S. place: no Gazetteer value
     return out
 
 
@@ -551,8 +637,10 @@ def stage_traits() -> pd.DataFrame:
     tr20 = tract_shapes("2020")
     land = gazetteer_land()
     rows = []
-    for c in CITIES:
+    for c in ALL_CITIES:
         city = CITY_NAME[c]
+        if not (OUT / f"units_{c}.pkl").exists():
+            continue
         data = load_city(c)
         frames = [f for f in data["frames"] if f["unit_id"].iloc[0] in set(kept["unit_id"])] if data["frames"] else []
         if not frames:
@@ -562,12 +650,16 @@ def stage_traits() -> pd.DataFrame:
         F = gpd.GeoDataFrame(F, geometry="geometry", crs=crs)
         if c == "madison":
             acs = area_weighted_tract(F, tr20, acs22, crs)
+        elif STATE_OF[city] is None:  # Toronto: no ACS, no EPA index
+            acs = pd.DataFrame(columns=["home_value", "income", "rent"], dtype=float)
         else:
             acs = area_weighted_tract(F, tr10[tr10["tract"].str[:2] == STATE_OF[city]], acs10, crs)
-        jobs = sld_values(F, crs, STATE_OF[city])
+        jobs = sld_values(F, crs, STATE_OF[city]) if STATE_OF[city] else pd.Series(dtype=float)
         # existing homes before: New York = MapPLUTO units on the lots in the before snapshot; Madison = parcel dwelling
         # units; others = 2010 census block homes whose internal point lies in a treatment lot (cases.homes_by_area rule)
-        if c not in ("nyc", "madison"):
+        if STATE_OF[city] is None:
+            homes = pd.Series(np.nan, index=F["unit_id"].unique())
+        elif c not in HOMES_FROM_LOTS:
             bbox = tuple(gpd.GeoSeries([F.union_all().envelope], crs=crs).to_crs(4269).total_bounds)
             b = blocks_2010_points(STATE_OF[city], bbox).to_crs(crs)
             j = gpd.sjoin(b, F[["unit_id", "geometry"]], how="inner", predicate="within")
@@ -586,11 +678,11 @@ def stage_traits() -> pd.DataFrame:
             # today's, so lots with a new-housing permit in the unit's before or after years are left out of the share
             gg = g if c == "nyc" else g[g["developed"] != 1]
             vshare = T.weighted_mean(gg["vpi"], gg["acres"]) if len(gg) else np.nan
-            dose = u["dose"] if u["dose_unit"] in ("added FAR",) else np.nan
+            dose = u["dose"] if str(u["dose_unit"]).startswith("added FAR") else np.nan
             rows.append({"unit_id": uid, "city": city,
                          "t01_home_value": acs.loc[uid, "home_value"] if uid in acs.index else np.nan,
                          "t02_lot_size": float(ac / len(g)),
-                         "t03_existing_density": float(homes.get(uid, 0.0)) / u["treatment_acres"],
+                         "t03_existing_density": float(homes.get(uid, 0.0)) / u["treatment_acres"] if STATE_OF[city] else np.nan,
                          "t04_income": acs.loc[uid, "income"] if uid in acs.index else np.nan,
                          "t05_city_land_area": land[city],
                          "t06_rent": acs.loc[uid, "rent"] if uid in acs.index else np.nan,
@@ -600,7 +692,7 @@ def stage_traits() -> pd.DataFrame:
                          "t10_km_to_downtown": float(np.hypot(cx - dt.x, cy - dt.y) / 1000.0),
                          "t11_transit_jobs_access": float(jobs.get(uid, np.nan)),
                          "t12_parking_cut": PARKING_CUT[city],
-                         "acs_vintage": "2018-2022" if c == "madison" else "2006-2010",
+                         "acs_vintage": "2018-2022" if c == "madison" else ("none (Canada)" if STATE_OF[city] is None else "2006-2010"),
                          "treatment_lot_count": len(g)})
     v = pd.DataFrame(rows)
     v = v.round({k: 4 for k in T.TRAITS} | {"t01_home_value": 0, "t04_income": 0, "t06_rent": 0, "t11_transit_jobs_access": 0})
@@ -786,12 +878,188 @@ def stage_explore() -> None:
     print(out.round(3).to_string(index=False))
 
 
+# =========================================================================== wider set, several tools
+
+TOOLS_CSV = REFERENCE / "tod_trait_tools.csv"
+TOOL_NAMES = {
+    "baseline": "0. plain average (acre-weighted mean of the training units)",
+    "one_trait": "1. one-trait weighted linear regression",
+    "lasso": "2. LASSO on all 12 traits (penalty by leave-one-city-out CV inside each training fold)",
+    "tree": "3. depth-2 regression tree (at least 8 units per leaf)",
+    "forest": "4. random forest (500 trees, at least 5 units per leaf)",
+    "boosting": "5. gradient boosting (depth-2 trees, early stopping inside each training fold)",
+    "causal_forest": "6. honest causal forest (treated and comparison land as treated and control observations)",
+    "knn": "7. k-nearest neighbours (k = 5, standardized traits)",
+    "multilevel": "8. multilevel model, random intercept per city (uncertainty only)",
+}
+
+
+def wide_frame() -> pd.DataFrame:
+    u = pd.read_csv(UNITS_CSV)
+    u = u[u["kept"]]
+    v = pd.read_csv(VALUES_CSV)
+    d = u[["unit_id", "city", "unit_name", "treatment_acres", "comparison_acres", "effect", "treat_rate_before",
+           "treat_rate_after", "comp_rate_before", "comp_rate_after"]].merge(v.drop(columns="city"), on="unit_id", how="left")
+    d = d[d["city"].isin(T.WIDE_CITY_ORDER)].copy()
+    d["weight"] = d["treatment_acres"]
+    d["d_treat"] = d["treat_rate_after"] - d["treat_rate_before"]
+    d["d_comp"] = d["comp_rate_after"] - d["comp_rate_before"]
+    for t in T.TRAITS:
+        d[f"x_{t}"] = T.transform(d, t)
+    return d.reset_index(drop=True)
+
+
+def tool_predict(tool: str, train: pd.DataFrame, test: pd.DataFrame, cols: list[str]) -> np.ndarray:
+    """Predictions (homes per eligible acre per year) of one tool fitted on train."""
+    y, w = train["effect"].values.astype(float), train["weight"].values.astype(float)
+    if tool == "baseline":
+        return T.fit_predict(train, test, [])
+    if tool == "tree":
+        return T.predict_tree(T.fit_tree(train, cols), test)
+    Xtr, Xte, _ = T.weighted_fill(train, test, cols)
+    if tool == "lasso":
+        from sklearn.linear_model import LassoCV
+        Ztr, Zte = T.standardize(Xtr, Xte)
+        g = train["city"].values
+        splits = [(np.where(g != c)[0], np.where(g == c)[0]) for c in pd.unique(g)]
+        m = LassoCV(alphas=50, cv=splits, max_iter=100000)
+        m.fit(Ztr, y, sample_weight=w)
+        tool_predict.last = {"alpha": float(m.alpha_), "nonzero": int(np.sum(np.abs(m.coef_) > 1e-10))}
+        return m.predict(Zte)
+    if tool == "forest":
+        from sklearn.ensemble import RandomForestRegressor
+        m = RandomForestRegressor(n_estimators=500, min_samples_leaf=5, random_state=T.TOOL_SEED, n_jobs=-1)
+        m.fit(Xtr, y, sample_weight=w)
+        return m.predict(Xte)
+    if tool == "boosting":
+        from sklearn.ensemble import GradientBoostingRegressor
+        m = GradientBoostingRegressor(max_depth=2, learning_rate=0.05, n_estimators=1000, validation_fraction=0.2,
+                                      n_iter_no_change=20, random_state=T.TOOL_SEED)
+        m.fit(Xtr, y, sample_weight=w)
+        tool_predict.last = {"trees": int(m.n_estimators_)}
+        return m.predict(Xte)
+    if tool == "knn":
+        Ztr, Zte = T.standardize(Xtr, Xte)
+        return T.knn_predict(Ztr, y, w, Zte)
+    if tool == "causal_forest":
+        return T.causal_forest_predict(Xtr, train["d_treat"].values.astype(float), w, train["d_comp"].values.astype(float),
+                                       train["comparison_acres"].values.astype(float), Xte)
+    raise ValueError(tool)
+
+
+def tool_errors(d: pd.DataFrame, tool: str, cols: list[str]) -> pd.DataFrame:
+    """Leave-one-city-out over the six fold cities; Chicago, Madison, Bellevue and Toronto predicted from all six."""
+    rows = []
+    for c in T.WIDE_CITY_ORDER:
+        test = d[d["city"] == c]
+        train = d[d["city"].isin([f for f in T.WIDE_FIT_CITIES if f != c])]
+        if test.empty or train.empty:
+            continue
+        tool_predict.last = {}
+        if tool == "one_trait" and np.ptp(train[cols[0]].values.astype(float)) == 0:
+            pm, note = T.fit_predict(train, test, []), "no spread in the fitting units"
+        elif tool == "one_trait":
+            pm, note = T.fit_predict(train, test, cols), ""
+        else:
+            pm = tool_predict(tool, train, test, cols)
+            note = "; ".join(f"{k} {v:.4g}" for k, v in tool_predict.last.items())
+        pb = T.fit_predict(train, test, [])
+        ob, ww = test["effect"].values.astype(float), test["weight"].values.astype(float)
+        rows.append({"city": c, "role": T.role_of(c), "units": len(test), "treatment_acres": float(ww.sum()),
+                     "fit_units": len(train), "error_baseline": T.weighted_mae(pb, ob, ww), "error_model": T.weighted_mae(pm, ob, ww),
+                     "measured_mean": float(np.sum(ob * ww) / ww.sum()), "predicted_mean_baseline": float(np.sum(pb * ww) / ww.sum()),
+                     "predicted_mean_model": float(np.sum(pm * ww) / ww.sum()), "note": note})
+    return pd.DataFrame(rows)
+
+
+def tool_row(tool: str, variant: str, e: pd.DataFrame, units_used: int, extra: str = "") -> dict:
+    j = T.judge_tools(e) if tool not in ("baseline", "multilevel") else {}
+    f = e[e["role"] == "fold"]
+    row = {"tool": TOOL_NAMES[tool], "variant": variant, "units_used": units_used,
+           "verdict": j.get("verdict", "baseline" if tool == "baseline" else "not judged (uncertainty only)"),
+           "fold_cities_better": j.get("fold_cities_better", np.nan), "fold_cities": int(len(f)),
+           "fold_cities_needed": j.get("fold_cities_needed", np.nan),
+           "mean_error_baseline": float(f["error_baseline"].mean()), "mean_error_model": float(f["error_model"].mean()),
+           "beats_baseline_chicago": j.get("beats_baseline_chicago", np.nan), "beats_baseline_madison": j.get("beats_baseline_madison", np.nan)}
+    for c in T.WIDE_CITY_ORDER:
+        r = e[e["city"] == c]
+        row[f"err_base_{slug(c)}"] = float(r["error_baseline"].iloc[0]) if len(r) else np.nan
+        row[f"err_model_{slug(c)}"] = float(r["error_model"].iloc[0]) if len(r) else np.nan
+    row["fold_notes"] = "; ".join(f"{r.city}: {r.note}" for r in e.itertuples() if r.note)
+    row["detail"] = extra
+    if j.get("verdict") == "pass":
+        row["detail"] = (row["detail"] + " " if row["detail"] else "") + "Warning: the best of 8 tools (and 12 one-trait models) looks better than it is."
+    return row
+
+
+def stage_tools() -> None:
+    d = wide_frame()
+    allc = [f"x_{t}" for t in T.TRAITS]
+    rows, all_err = [], []
+    e = tool_errors(d, "baseline", [])
+    rows.append(tool_row("baseline", "all units", e, len(d)))
+    all_err.append(e.assign(tool="baseline", variant="all units"))
+    for t in T.TRAITS:
+        dd = d.dropna(subset=[f"x_{t}"])
+        e = tool_errors(dd, "one_trait", [f"x_{t}"])
+        rows.append(tool_row("one_trait", t, e, len(dd), "baseline judged on the same units (those with the trait)"))
+        all_err.append(e.assign(tool="one_trait", variant=t))
+    for tool in ("lasso", "tree", "forest", "boosting", "causal_forest", "knn"):
+        print("==", tool, flush=True)
+        e = tool_errors(d, tool, allc)
+        extra = ""
+        if tool == "tree":
+            full = T.fit_tree(d[d["city"].isin(T.WIDE_FIT_CITIES)], allc)
+            extra = "fitted on all six: " + "; ".join(r["node"].replace("x_", "") + f" -> {r['mean_effect']:+.3f}"
+                                                       for r in T.tree_rows(full) if r["split_trait"] == "" and r["node"] != "all units")
+        if tool == "lasso":
+            fit = d[d["city"].isin(T.WIDE_FIT_CITIES)]
+            tool_predict("lasso", fit, fit.head(1), allc)
+            extra = f"fitted on all six: penalty {tool_predict.last['alpha']:.4g}, {tool_predict.last['nonzero']} of 12 traits kept"
+        rows.append(tool_row(tool, "all 12 traits", e, len(d), extra))
+        all_err.append(e.assign(tool=tool, variant="all 12 traits"))
+    # 8. multilevel model: uncertainty
+    ml_rows = []
+    for c in T.WIDE_CITY_ORDER:
+        test = d[d["city"] == c]
+        train = d[d["city"].isin([f for f in T.WIDE_FIT_CITIES if f != c])]
+        fit = T.random_intercept_fit(train)
+        lo, hi = T.new_city_interval(fit)
+        ob, ww = test["effect"].values.astype(float), test["weight"].values.astype(float)
+        pb = T.fit_predict(train, test, [])
+        m = float(np.sum(ob * ww) / ww.sum())
+        ml_rows.append({"city": c, "role": T.role_of(c), "units": len(test), "treatment_acres": float(ww.sum()), "fit_units": len(train),
+                        "error_baseline": T.weighted_mae(pb, ob, ww), "error_model": T.weighted_mae(np.full(len(ob), fit["mu"]), ob, ww),
+                        "measured_mean": m, "predicted_mean_baseline": float(np.sum(pb * ww) / ww.sum()), "predicted_mean_model": fit["mu"],
+                        "note": f"90% interval for a new city's mean {lo:+.3f} to {hi:+.3f}; measured mean {'inside' if lo <= m <= hi else 'outside'}"})
+    e = pd.DataFrame(ml_rows)
+    full = T.random_intercept_fit(d[d["city"].isin(T.WIDE_FIT_CITIES)])
+    lo, hi = T.new_city_interval(full)
+    inside = int(sum("inside" in n for n in e["note"]))
+    rows.append(tool_row("multilevel", "intercept only", e, len(d),
+                         f"fitted on all six: overall mean {full['mu']:+.3f} (standard error {full['mu_se']:.3f}); between-city sd "
+                         f"{full['tau']:.3f}; within-city sd {full['sigma']:.3f}; 90% interval for a new city's mean {lo:+.3f} to {hi:+.3f}; "
+                         f"held-out city means inside their interval: {inside} of {len(e)}"))
+    all_err.append(e.assign(tool="multilevel", variant="intercept only"))
+    R = pd.DataFrame(rows)
+    assert not T.check_private(R)
+    R.round(4).to_csv(TOOLS_CSV, index=False, lineterminator="\n")
+    E = pd.concat(all_err, ignore_index=True)
+    pd.set_option("display.width", 250, "display.max_columns", 40, "display.max_colwidth", 200)
+    print(d.groupby("city", sort=False).agg(units=("unit_id", "size"), acres=("weight", "sum"),
+                                            mean=("effect", lambda s: np.average(s, weights=d.loc[s.index, "weight"]))).round(3).to_string())
+    print(R[["tool", "variant", "verdict", "fold_cities_better", "mean_error_baseline", "mean_error_model", "err_base_chicago",
+             "err_model_chicago", "err_base_madison", "err_model_madison"]].round(3).to_string(index=False))
+    print(E[["tool", "variant", "city", "error_baseline", "error_model", "measured_mean", "predicted_mean_model", "note"]].round(3).to_string(index=False))
+    (OUT / "tools_errors.pkl").write_bytes(pickle.dumps(E))
+
+
 # =========================================================================== main
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["fetch", "units", "write-units", "traits", "test", "explore"], required=True)
-    ap.add_argument("--city", nargs="*", default=list(CITIES))
+    ap.add_argument("--stage", choices=["fetch", "units", "write-units", "traits", "test", "explore", "tools"], required=True)
+    ap.add_argument("--city", nargs="*", default=list(ALL_CITIES))
     ap.add_argument("--rebuild", action="store_true")
     a = ap.parse_args(argv)
     if a.stage == "fetch":
@@ -804,6 +1072,8 @@ def main(argv=None) -> None:
         stage_traits()
     elif a.stage == "explore":
         stage_explore()
+    elif a.stage == "tools":
+        stage_tools()
     else:
         stage_test()
 

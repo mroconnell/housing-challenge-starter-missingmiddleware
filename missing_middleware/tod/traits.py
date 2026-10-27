@@ -385,3 +385,188 @@ def heldout_tree_errors(df: pd.DataFrame, cols: list[str], y: str = "effect", w:
                      "predicted_mean_baseline": float(np.sum(pb * ww) / ww.sum()),
                      "splits": "; ".join(f"{r['node']}" for r in tree_rows(tree) if r["split_trait"] == "" and r["node"] != "all units")})
     return pd.DataFrame(rows)
+
+
+# --------------------------------------------------------------------------- wider set, several tools
+# Plan section 8, entries "rerun on the wider case set with several tools" and "details of the several-tools rerun"
+# (2026-10-27, written before the run). Same leave-one-city-out test against the plain average on more cities, with
+# eight tools; a stricter pass rule because many tools are tried.
+
+WIDE_FIT_CITIES = ("New York", "Philadelphia", "Charlotte", "Saint Paul", "Los Angeles", "Seattle")
+WIDE_CONTEXT_CITIES = ("Bellevue", "Toronto")   # units built and predicted, never fitted or judged
+WIDE_CITY_ORDER = WIDE_FIT_CITIES + TEST_CITIES + WIDE_CONTEXT_CITIES
+TOOL_SEED = 20261027
+CF_TREES = 500
+CF_MIN_LEAF = 5
+KNN_K = 5
+
+
+def role_of(city: str) -> str:
+    if city in WIDE_FIT_CITIES:
+        return "fold"
+    if city in TEST_CITIES:
+        return "always held out"
+    return "context"
+
+
+def judge_tools(errors: pd.DataFrame, fit_cities=WIDE_FIT_CITIES) -> dict:
+    """Pass only if the tool beats the plain average in at least two-thirds of the fold cities, on the simple mean of
+    the fold cities' errors, and in Chicago and in Madison, each by itself."""
+    f = errors[errors["role"] == "fold"]
+    h = errors[errors["role"] == "always held out"].set_index("city")
+    better = int((f["error_model"] < f["error_baseline"] - 1e-12).sum())
+    need = math.ceil(2 * len(fit_cities) / 3)
+    mb, mm = float(f["error_baseline"].mean()), float(f["error_model"].mean())
+    held = {c: bool(c in h.index and h.loc[c, "error_model"] < h.loc[c, "error_baseline"] - 1e-12) for c in TEST_CITIES}
+    ok = len(f) == len(fit_cities) and better >= need and mm < mb - 1e-12 and all(held.values())
+    return {"verdict": "pass" if ok else "fail", "fold_cities_better": better, "fold_cities": len(f), "fold_cities_needed": need,
+            "mean_error_baseline": mb, "mean_error_model": mm, **{f"beats_baseline_{c.lower()}": v for c, v in held.items()}}
+
+
+def weighted_fill(train: pd.DataFrame, test: pd.DataFrame, cols: list[str], w: str = "weight"):
+    """Missing trait values filled with the acre-weighted mean of the training units (worked out inside the fold).
+    A trait with no value in the training fold is dropped."""
+    keep = [c for c in cols if train[c].notna().any()]
+    means = {c: weighted_mean(train[c], train[w]) for c in keep}
+    return train[keep].fillna(means).values.astype(float), test[keep].fillna(means).values.astype(float), keep
+
+
+def standardize(Xtr: np.ndarray, Xte: np.ndarray):
+    mu, sd = Xtr.mean(axis=0), Xtr.std(axis=0)
+    sd = np.where(sd > 0, sd, 1.0)
+    return (Xtr - mu) / sd, (Xte - mu) / sd
+
+
+def knn_predict(Xtr: np.ndarray, ytr: np.ndarray, wtr: np.ndarray, Xte: np.ndarray, k: int = KNN_K) -> np.ndarray:
+    """Acre-weighted mean effect of the k nearest training units (Euclidean distance on standardized traits)."""
+    out = np.empty(len(Xte))
+    for i, x in enumerate(Xte):
+        dist = np.sqrt(((Xtr - x) ** 2).sum(axis=1))
+        nn = np.argsort(dist, kind="stable")[:k]
+        out[i] = float(np.sum(ytr[nn] * wtr[nn]) / np.sum(wtr[nn]))
+    return out
+
+
+# honest causal forest ------------------------------------------------------------------------------------------------
+# Each unit is a pair: a treated observation (treatment-area change, after minus before, weight = treatment acres) and a
+# control observation (comparison-area change, weight = comparison acres). A leaf's effect is the weighted mean treated
+# change minus the weighted mean control change of its units; for one unit this is exactly the unit's DiD.
+
+def _leaf_tau(yt, wt, yc, wc) -> float:
+    st, sc = wt.sum(), wc.sum()
+    if st <= 0 or sc <= 0:
+        return float("nan")
+    return float(np.sum(yt * wt) / st - np.sum(yc * wc) / sc)
+
+
+def _cf_best_split(X, yt, wt, yc, wc, min_leaf):
+    """Split maximizing sum over children of (treatment acres x child effect squared), i.e. the acre-weighted spread
+    of the effect between children (the causal-tree criterion for a fixed parent)."""
+    n, p = X.shape
+    best = None
+    i = np.arange(min_leaf - 1, n - min_leaf)
+    if len(i) == 0:
+        return None
+    for j in range(p):
+        order = np.argsort(X[:, j], kind="stable")
+        x = X[order, j]
+        cs = [np.cumsum(a[order]) for a in (yt * wt, wt, yc * wc, wc)]
+        L = [c[i] for c in cs]
+        R = [c[-1] - l for c, l in zip(cs, L)]
+        ok = (x[i] != x[i + 1]) & (L[1] > 0) & (L[3] > 0) & (R[1] > 0) & (R[3] > 0)
+        if not ok.any():
+            continue
+        with np.errstate(divide="ignore", invalid="ignore"):
+            tl = L[0] / L[1] - L[2] / L[3]
+            tr = R[0] / R[1] - R[2] / R[3]
+            crit = np.where(ok, L[1] * tl * tl + R[1] * tr * tr, -np.inf)
+        k = int(np.argmax(crit))
+        if best is None or crit[k] > best[0] + 1e-12:
+            best = (float(crit[k]), j, float((x[i[k]] + x[i[k] + 1]) / 2.0))
+    return best
+
+
+def _cf_grow(Xs, ys, Xe, ye, min_leaf, rng):
+    """Honest tree: splits chosen on the split half (Xs, ys), leaf effects estimated on the estimation half (Xe, ye).
+    ys/ye are tuples (yt, wt, yc, wc). A split must leave at least min_leaf units of each half in each child."""
+    est = _leaf_tau(*(a for a in ye)) if len(Xe) else float("nan")
+    node = {"value": est}
+    if len(Xs) < 2 * min_leaf or len(Xe) < 2 * min_leaf:
+        return node
+    b = _cf_best_split(Xs, *ys, min_leaf)
+    if b is None:
+        return node
+    _, j, t = b
+    ls, le = Xs[:, j] <= t, Xe[:, j] <= t
+    if le.sum() < min_leaf or (~le).sum() < min_leaf:
+        return node
+    node.update(col=j, threshold=t,
+                left=_cf_grow(Xs[ls], tuple(a[ls] for a in ys), Xe[le], tuple(a[le] for a in ye), min_leaf, rng),
+                right=_cf_grow(Xs[~ls], tuple(a[~ls] for a in ys), Xe[~le], tuple(a[~le] for a in ye), min_leaf, rng))
+    return node
+
+
+def _cf_predict_one(node, x) -> float:
+    while "col" in node:
+        node = node["left"] if x[node["col"]] <= node["threshold"] else node["right"]
+    return node["value"]
+
+
+def causal_forest_predict(Xtr, yt, wt, yc, wc, Xte, n_trees: int = CF_TREES, min_leaf: int = CF_MIN_LEAF,
+                          seed: int = TOOL_SEED) -> np.ndarray:
+    """Mean over honest trees of the leaf effect (homes per acre per year) for each test row."""
+    rng = np.random.default_rng(seed)
+    n = len(Xtr)
+    preds = np.zeros(len(Xte))
+    used = 0
+    for _ in range(n_trees):
+        sub = rng.permutation(n)[: n // 2]
+        half = len(sub) // 2
+        s, e = sub[:half], sub[half:]
+        tree = _cf_grow(Xtr[s], (yt[s], wt[s], yc[s], wc[s]), Xtr[e], (yt[e], wt[e], yc[e], wc[e]), min_leaf, rng)
+        p = np.array([_cf_predict_one(tree, x) for x in Xte])
+        if np.isnan(p).any():
+            continue
+        preds += p
+        used += 1
+    return preds / used if used else np.full(len(Xte), np.nan)
+
+
+# multilevel model (random intercept per city), for uncertainty --------------------------------------------------------
+
+def random_intercept_fit(df: pd.DataFrame, y: str = "effect", w: str = "weight", city: str = "city") -> dict:
+    """effect = mu + city intercept (variance tau2) + unit noise. Fitted by maximum likelihood on the cities'
+    acre-weighted means, each with sampling variance s_c^2 = sigma2 * sum(w^2) / (sum w)^2, where sigma2 is the pooled
+    acre-weighted within-city variance. Returns mu, its standard error, tau (between-city sd) and sigma (within)."""
+    from scipy.optimize import minimize_scalar
+    g = []
+    num = den = 0.0
+    for _, d in df.groupby(city):
+        yy, ww = d[y].values.astype(float), d[w].values.astype(float)
+        m = float(np.sum(yy * ww) / ww.sum())
+        num += float(np.sum(ww * (yy - m) ** 2))
+        den += float(ww.sum()) * (1 - float(np.sum(ww ** 2)) / float(ww.sum()) ** 2)
+        g.append((m, float(np.sum(ww ** 2)) / float(ww.sum()) ** 2))
+    sigma2 = num / den if den > 0 else 0.0
+    m = np.array([a for a, _ in g])
+    s2 = sigma2 * np.array([b for _, b in g])
+
+    def mu_of(t2):
+        v = t2 + s2
+        return float(np.sum(m / v) / np.sum(1 / v)), float(1 / np.sum(1 / v))
+
+    def nll(lt):
+        t2 = math.exp(lt)
+        v = t2 + s2
+        mu, _ = mu_of(t2)
+        return 0.5 * float(np.sum(np.log(v) + (m - mu) ** 2 / v))
+    r = minimize_scalar(nll, bounds=(-20, 8), method="bounded")
+    t2 = math.exp(r.x)
+    mu, vmu = mu_of(t2)
+    return {"mu": mu, "mu_se": math.sqrt(vmu), "tau": math.sqrt(t2), "sigma": math.sqrt(sigma2), "cities": len(g)}
+
+
+def new_city_interval(fit: dict, z: float = 1.6449) -> tuple[float, float]:
+    """90% interval for a new city's acre-weighted mean effect (between-city spread plus uncertainty in mu)."""
+    h = z * math.sqrt(fit["tau"] ** 2 + fit["mu_se"] ** 2)
+    return fit["mu"] - h, fit["mu"] + h
