@@ -11,11 +11,15 @@ In:  reference/tod_station_areas.csv, tod_case_estimates.csv, tod_case_rates_by_
      ACS 2020-2024 B25064 and B25111, and data/raw/tod_model/ (HUD 2024 TDC table, CBRE H1 2024 cap
      rate survey, IREM 2024 income/expense summary; hashes in data/raw/tod_model/manifest.json).
 Out: reference/tod_madison_test_predictions.csv  both methods' blind predictions for the Madison test
-     reference/tod_model_statewide.csv              state x method x scenario x year
-     reference/tod_model_by_area.csv                municipality x method x scenario (five-year and by year)
+     Main sizing, citywide net effect (AQ-050; docs/tod/MODEL.md section 11):
+     reference/tod_model_statewide.csv              state x scenario x year
+     reference/tod_model_by_area.csv                municipality x scenario
      reference/tod_model_by_county.csv, tod_model_by_assembly_district.csv, tod_model_by_senate_district.csv
-     reference/tod_model_sensitivities.csv          section 7 sensitivities, five-year state totals
-     reference/tod_model_params.csv                 every parameter with its source
+     reference/tod_model_sensitivities.csv          five-year state totals, net-effect and per-acre (sizing column)
+     reference/tod_model_checks.csv                 Madison share comparison and the scale check rerun
+     Per-acre sizing (method A), a sensitivity:
+     reference/tod_model_per_acre_statewide.csv, tod_model_per_acre_by_area.csv, tod_model_per_acre_by_county.csv
+     reference/tod_model_params.csv                 every per-acre and method B parameter with its source
      reference/tod_model_feasibility.csv            method B diagnostics by city
 
 Privacy: no Madison building permit is read by this script (the Madison test is blind). Parcel ids are
@@ -576,15 +580,12 @@ def main() -> None:
     main_in = lot_inputs(L, C.DEFINITION_BANDS["main"], rents, use_ratio)
     by_area = run_areas(main_in, muni, "share_near_main", cp, take["take_up"], ramp, baseline)
     state = state_total(by_area)
-    write(statewide_long(state).round(4), "tod_model_statewide.csv")
-    write(by_area_out(by_area), "tod_model_by_area.csv")
+    write(statewide_long(state).round(4), "tod_model_per_acre_statewide.csv")
+    write(by_area_out(by_area), "tod_model_per_acre_by_area.csv")
     vals = ["eligible_acres", "added_far_acres", "capacity_gain", "feasible_capacity_gain", "baseline_near_low_2027_2031",
             "baseline_near_central_2027_2031", "baseline_near_high_2027_2031"] + [f"add_y{k}" for k in M.YEARS] + ["add_2027_2031"]
     keys = ["method", "scenario"]
-    write(M.aggregate(by_area, ["county", *keys], vals).round(4), "tod_model_by_county.csv")
-    cw = pd.read_csv(REFERENCE / "adu_model_district_crosswalk.csv", dtype={"area_id": str})
-    write(M.to_districts(by_area, cw, "assembly_district", keys, vals).round(4), "tod_model_by_assembly_district.csv")
-    write(M.to_districts(by_area, cw, "senate_district", keys, vals).round(4), "tod_model_by_senate_district.csv")
+    write(M.aggregate(by_area, ["county", *keys], vals).round(4), "tod_model_per_acre_by_county.csv")
 
     # ------------------------------------------------------------------ sensitivities (spec section 7)
     sens = []
@@ -645,19 +646,18 @@ def main() -> None:
     ba = run_areas(x, muni, "share_near_main", cp, take_unscaled["take_up"], ramp, baseline)
     add_sens("law_addition", "rent_unscaled", "Method B with ACS rents not scaled to new buildings", ba[ba.method == "B"])
     sdf = pd.DataFrame(sens)
-    write(sdf.round(4), "tod_model_sensitivities.csv")
+    sdf.insert(0, "sizing", "per_acre")
 
     # ------------------------------------------------------------------ parameters and diagnostics
     params = param_table(cp, take, minfo, fr)
     write(params, "tod_model_params.csv")
     write(feasibility_diag(rents, L, take, take_unscaled), "tod_model_feasibility.csv")
 
-    run_net_sizing(by_area, L, muni, cp, rents, baseline, take, use_ratio)
+    run_net_sizing(by_area, L, muni, cp, rents, baseline, take, use_ratio, sdf)
 
     pd.set_option("display.width", 250)
     print(pred.drop(columns=["written", "formula", "unit"]).to_string(index=False))
     print(statewide_long(state)[lambda d: d.year == "2027-2031"].round(1).to_string(index=False))
-    print(sdf[["sensitivity", "method", "scenario", "baseline_near_stops_2027_2031", "addition_2027_2031"]].round(0).to_string(index=False))
     print("take-up:", json.dumps({k: v for k, v in take.items()}, default=float))
     print("Madison dose by district:\n", minfo["dose_by_district"].round(1).to_string())
 
@@ -721,38 +721,66 @@ def feasibility_diag(rents, L, take, take_unscaled) -> pd.DataFrame:
     return d
 
 
-# ----------------------------------------------------------------------------- sizing by citywide net effect (spec 9, proposed)
+# ----------------------------------------------------------------------------- main sizing: citywide net effect (AQ-050)
+#
+# Values checked against the originals in docs/tod/research/NET_EFFECT_SOURCES.md and corrected as in
+# GATE3_MODEL_SPEC.md section 9 (2026-10-26/27). Main reading: each effect / its study's coverage share,
+# so it applies per upzoned home; the as-published reading is a sensitivity.
 
-# Citywide net effects after upzoning, as recorded in GATE3_MODEL_SPEC.md section 9 (2026-10-26):
-LA_PP_PER_YEAR = 0.0004          # Los Angeles: 0.04 percentage points of stock growth a year
-STACY_SHARE = 0.008              # Stacy et al. 2023: +0.8% of housing supply 3-9 years after, 1,136 US cities
-AUCKLAND_SHARE = 0.041           # Auckland: 21,808 extra consents 2016-2021 = 4.1% of the 2016 stock
-AUCKLAND_UPZONED = 0.75          # about 75% of Auckland's residential land was upzoned
-AUCKLAND_PROFILE = {2016: -2.63, 2017: 2.34, 2018: 6.79, 2019: 8.95, 2020: 12.09, 2021: 18.00}  # yearly effect per statistical area
+LA_PP_SIX_YEARS = 0.0004          # Kestelman (JCHS 2025): +0.04 pp of stock growth over six years, 2017-2023
+LA_COVERAGE = 0.61                # share of Los Angeles homes within 1/2 mile of a major transit stop (derived, Table 1.1)
+STACY_SHARE = 0.008               # Stacy et al. 2023, Urban Studies, Table 4 col. 1: 0.008 (s.e. 0.003), years 3+ after a loosening reform
+STACY_SE = 0.003
+STACY_COVERAGE = 1.0              # coverage not measured; used as published
+AUCKLAND_PERMITS = 21_808         # Greenaway-McGrevy and Phillips 2023, JUE: extra permits 2016-2021, spillover-adjusted
+AUCKLAND_STOCK_2016 = 530_300     # Auckland dwellings, end of 2016 (Stats NZ, as cited in the paper)
+AUCKLAND_SHARE = AUCKLAND_PERMITS / AUCKLAND_STOCK_2016   # 4.11%
+AUCKLAND_COVERAGE = 0.752         # share of Auckland's residential land upzoned
+AUCKLAND_PROFILE = {2016: -2.63, 2017: 2.34, 2018: 6.79, 2019: 8.95, 2020: 12.09, 2021: 18.00}  # extra permits per statistical area
+AUCKLAND_SAS = 479
 WI_MEASURED_R = (0.215 + 0.240) / 2   # mean of Madison's measured (MADISON_TEST_RESULTS.md) and Chicago's per-FAR effects
 MILWAUKEE_METRO = {"Milwaukee County", "Waukesha County", "Ozaukee County", "Washington County"}
 MADISON_METRO = {"Dane County", "Columbia County", "Green County", "Iowa County"}
 METRO_NAMES = {"Milwaukee": "Milwaukee-Waukesha, WI", "Madison": "Madison, WI"}
-CHECK_YEARS = 3                  # the Madison test's after years, 2023-2025
+CHECK_YEARS = 3                   # the Madison test's after years, 2023-2025
 
 
 def metro_of(county: str) -> str:
     return "Milwaukee" if county in MILWAUKEE_METRO else ("Madison" if county in MADISON_METRO else "other")
 
 
-def net_effects(cp: dict) -> dict:
+def auckland_profile_rescaled() -> dict:
+    """The paper's year 0 is 2015, so 2016-2021 are its years 1-6. 2016 (year 1) is negative, -2.63, and
+    the law never subtracts, so the five model years take the shape of 2017-2021 (paper years 2-6). The
+    profile is rescaled so it sums to the stated total, 21,808 permits (4.11%), which nets 2016's -2.63:
+    each year x 21,808 / (48.17 x 479 statistical areas). Returns extra permits per year, 2017-2021."""
+    kept = {y: v for y, v in AUCKLAND_PROFILE.items() if y >= 2017}
+    k = AUCKLAND_PERMITS / (sum(kept.values()) * AUCKLAND_SAS)
+    return {y: v * k * AUCKLAND_SAS for y, v in kept.items()}
+
+
+def net_effects(cp: dict, reading: str = "per_upzoned_home") -> dict:
+    """{scenario: (NetEffect, label)}. reading: per_upzoned_home (main, AQ-050) or as_published."""
     ny = M.timing_from_ramp(cp["ramp"])
-    # Auckland: 2016 (the Unitary Plan became operative in November 2016, effect -2.63) is year 0, as in
-    # the cases; 2017-2021 are years 1-5. Its published 4.1% is applied as the five-year total.
-    auck = M.timing_from_profile([AUCKLAND_PROFILE[y] for y in range(2017, 2022)])
-    return {
-        "little": (M.NetEffect(LA_PP_PER_YEAR * 5, ny, "Los Angeles, 0.04 pp of stock a year x 5 years; New York pooled ramp"),
-                   "Little response (Los Angeles net effect)"),
-        "typical": (M.NetEffect(STACY_SHARE, ny, "Stacy et al. 2023, +0.8% of supply, applied as the 2027-2031 total; New York pooled ramp"),
+    auck = auckland_profile_rescaled()
+    auck_t = M.timing_from_profile([auck[y] for y in range(2017, 2022)])
+    cov = (lambda c: c) if reading == "per_upzoned_home" else (lambda c: 1.0)
+    la = LA_PP_SIX_YEARS * 5 / 6 / cov(LA_COVERAGE)
+    st = STACY_SHARE / cov(STACY_COVERAGE)
+    ak = AUCKLAND_SHARE / cov(AUCKLAND_COVERAGE)
+    suffix = "" if reading == "per_upzoned_home" else ", as published"
+    eff = {
+        "little": (M.NetEffect(la, ny, f"Los Angeles TOC: 0.04 pp over 6 years x 5/6{'' if suffix else ' / 0.61 coverage'}; New York pooled ramp"),
+                   f"Little response (Los Angeles{suffix})"),
+        "typical": (M.NetEffect(st, ny, "Stacy et al. 2023: 0.008 per loosening reform, years 3+ after; applied inside 2027-2031 on the New York pooled ramp (the paper shows no ramp)"),
                     "Typical response (Stacy et al. 2023)"),
-        "strong": (M.NetEffect(AUCKLAND_SHARE, auck, "Auckland, 4.1% of stock as published; Auckland's 2017-2021 yearly profile"),
-                   "Strong response (Auckland)"),
+        "strong": (M.NetEffect(ak, auck_t, f"Auckland: 21,808 / 530,300 = 4.11%{'' if suffix else ' / 0.752 coverage'}; Auckland 2017-2021 profile rescaled to the stated total"),
+                   f"Strong response (Auckland{suffix})"),
     }
+    # Reference line: the median of the three net-effect values (each study counted once).
+    med = float(np.median([e.five_year_share for e, _ in eff.values()]))
+    eff["reference_line"] = (M.NetEffect(med, ny, "median of the three net-effect values"), "Reference line (median of the three studies)")
+    return eff
 
 
 def metro_scale_params() -> dict:
@@ -784,7 +812,7 @@ def scale_rows(add: pd.DataFrame, sizing: str, scenario: str, sp: dict) -> list[
 
 
 def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, cp: dict, rents, baseline,
-                   take: dict, use_ratio: bool) -> None:
+                   take: dict, use_ratio: bool, per_acre_sens: pd.DataFrame) -> None:
     ycols = [f"add_y{k}" for k in M.YEARS]
     effects = net_effects(cp)
     stock = float(muni.homes_near_main.sum())
@@ -801,65 +829,71 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
             x["source"] = eff.source
             parts.append(x)
         out = pd.concat(parts, ignore_index=True)
-        out["sizing"], out["method"] = "net_effect", "A_placement"
+        out["sizing"], out["method"] = "net_effect", "net_effect"
         out["add_2027_2031"] = out[ycols].sum(axis=1)
         out["stock_homes_station_areas"] = stock_homes
         return out
 
     net = net_rows(by_area, stock, effects)
-    cols_keep = ["sizing", "method", "scenario", "scenario_label", "parameter", "timing", "source", "area_id", "name", "county",
+    # Typical range: Stacy et al.'s 95% interval, 0.008 +/- 1.96 x 0.003
+    lo_hi = {}
+    for tag, v in (("low", STACY_SHARE - 1.96 * STACY_SE), ("high", STACY_SHARE + 1.96 * STACY_SE)):
+        e = effects["typical"][0]
+        lo_hi[tag] = net_rows(by_area, stock, {"typical": (M.NetEffect(v, e.timing, e.source), "")})
+    ren = {f"add_y{k}": f"add_{M.CALENDAR[k]}" for k in M.YEARS}
+    cols_keep = ["sizing", "scenario", "scenario_label", "parameter", "timing", "source", "area_id", "name", "county",
                  "eligible_acres", "added_far_acres", "share_near_stops", "baseline_near_low_2027_2031",
                  "baseline_near_central_2027_2031", "baseline_near_high_2027_2031", *ycols, "add_2027_2031"]
-    ren = {f"add_y{k}": f"add_{M.CALENDAR[k]}" for k in M.YEARS}
     write(net[(net.eligible_acres > 0) | (net.baseline_near_central_2027_2031 > 0)][cols_keep].rename(columns=ren).round(4),
-          "tod_model_net_by_area.csv")
+          "tod_model_by_area.csv")
     vals = ["baseline_near_low_2027_2031", "baseline_near_central_2027_2031", "baseline_near_high_2027_2031", *ycols, "add_2027_2031"]
     keys = ["sizing", "scenario"]
-    write(M.aggregate(net, ["county", *keys], vals).rename(columns=ren).round(4), "tod_model_net_by_county.csv")
+    write(M.aggregate(net, ["county", *keys], vals).rename(columns=ren).round(4), "tod_model_by_county.csv")
     cw = pd.read_csv(REFERENCE / "adu_model_district_crosswalk.csv", dtype={"area_id": str})
-    write(M.to_districts(net, cw, "assembly_district", keys, vals).rename(columns=ren).round(4), "tod_model_net_by_assembly_district.csv")
-    write(M.to_districts(net, cw, "senate_district", keys, vals).rename(columns=ren).round(4), "tod_model_net_by_senate_district.csv")
+    write(M.to_districts(net, cw, "assembly_district", keys, vals).rename(columns=ren).round(4), "tod_model_by_assembly_district.csv")
+    write(M.to_districts(net, cw, "senate_district", keys, vals).rename(columns=ren).round(4), "tod_model_by_senate_district.csv")
 
-    # Statewide, both sizings side by side
     rows = []
-    pa = by_area[by_area.method == "A"]
-    for sizing, df in (("per_acre", pa), ("net_effect", net)):
-        for sid, g in df.groupby("scenario", sort=False):
-            base = g.drop_duplicates("area_id")
-            bl = {s: float(base[f"baseline_near_{s}_2027_2031"].sum()) for s in ("low", "central", "high")}
-            for k in [*M.YEARS, None]:
-                add = float(g[f"add_y{k}"].sum()) if k else float(g[ycols].sum().sum())
-                div = 1.0 if k is None else 5.0
-                rows.append({"sizing": sizing, "scenario": sid, "scenario_label": g.scenario_label.iloc[0],
-                             "parameter": float(g.parameter.iloc[0]),
-                             "parameter_unit": ("extra homes per eligible acre per year per 1.0 added FAR" if sizing == "per_acre"
-                                                else "extra homes over 2027-2031 as a share of 2020 homes in main-case station areas"),
-                             "year": M.CALENDAR[k] if k else "2027-2031",
-                             "stock_homes_station_areas": stock,
-                             "baseline_near_stops_low": bl["low"] / div, "baseline_near_stops_central": bl["central"] / div,
-                             "baseline_near_stops_high": bl["high"] / div, "addition": add,
-                             "addition_share_of_stock": add / stock, "with_law_central": bl["central"] / div + add})
+    for sid, g in net.groupby("scenario", sort=False):
+        base = g.drop_duplicates("area_id")
+        bl = {s: float(base[f"baseline_near_{s}_2027_2031"].sum()) for s in ("low", "central", "high")}
+        for k in [*M.YEARS, None]:
+            col = [f"add_y{k}"] if k else ycols
+            add = float(g[col].sum().sum())
+            rng = {t: (float(lo_hi[t][col].sum().sum()) if sid == "typical" else np.nan) for t in ("low", "high")}
+            div = 1.0 if k is None else 5.0
+            rows.append({"sizing": "net_effect", "scenario": sid, "scenario_label": g.scenario_label.iloc[0],
+                         "parameter": float(g.parameter.iloc[0]),
+                         "parameter_unit": "extra homes over 2027-2031 as a share of 2020 homes in main-case station areas",
+                         "year": M.CALENDAR[k] if k else "2027-2031", "stock_homes_station_areas": stock,
+                         "baseline_near_stops_low": bl["low"] / div, "baseline_near_stops_central": bl["central"] / div,
+                         "baseline_near_stops_high": bl["high"] / div, "addition": add,
+                         "addition_range_low": rng["low"], "addition_range_high": rng["high"],
+                         "addition_share_of_stock": add / stock, "with_law_central": bl["central"] / div + add,
+                         "timing": g.timing.iloc[0], "source": g.source.iloc[0]})
     state = pd.DataFrame(rows)
-    write(state.round(6), "tod_model_net_statewide.csv")
+    write(state.round(9), "tod_model_statewide.csv")
 
-    # Sensitivities (five-year state totals)
+    # Sensitivities (five-year state totals): net-effect ones, then the per-acre ones (sizing column)
     sens = []
 
     def add_s(group, sid, desc, df, sizing="net_effect"):
         for scen, g in df.groupby("scenario", sort=False):
-            sens.append({"group": group, "sensitivity": sid, "description": desc, "sizing": sizing, "scenario": scen,
+            sens.append({"sizing": sizing, "group": group, "sensitivity": sid, "description": desc, "scenario": scen,
                          "parameter": float(g.parameter.iloc[0]),
                          "baseline_near_stops_2027_2031": float(g.drop_duplicates("area_id").baseline_near_central_2027_2031.sum()),
                          "addition_2027_2031": float(g[ycols].sum().sum()),
                          "milwaukee_metro_2027_2031": float(g.loc[g.county.map(metro_of) == "Milwaukee", ycols].sum().sum()),
                          "madison_metro_2027_2031": float(g.loc[g.county.map(metro_of) == "Madison", ycols].sum().sum())})
 
-    add_s("main", "main", "Net-effect sizing as proposed", net)
+    add_s("main", "main", "Net-effect sizing, per upzoned home (AQ-050)", net)
+    add_s("law_addition", "typical_range", "Typical at the low and high ends of Stacy et al.'s 95% interval (0.2% and 1.4%)",
+          pd.concat([lo_hi["low"].assign(scenario="typical_low"), lo_hi["high"].assign(scenario="typical_high")]))
+    add_s("law_addition", "as_published", "Each effect as published (no division by coverage)",
+          net_rows(by_area, stock, net_effects(cp, "as_published")))
     e = effects["strong"][0]
-    add_s("law_addition", "strong_per_upzoned_stock", "Strong: Auckland's 4.1% / 0.75 (per upzoned stock)",
-          net_rows(by_area, stock, {"strong": (M.NetEffect(AUCKLAND_SHARE / AUCKLAND_UPZONED, e.timing, e.source + "; / 0.75"), "Strong response (Auckland, per upzoned stock)")}))
-    add_s("law_addition", "strong_ny_ramp", "Strong: Auckland's 4.1% timed by the New York pooled ramp",
-          net_rows(by_area, stock, {"strong": (M.NetEffect(AUCKLAND_SHARE, M.timing_from_ramp(cp["ramp"]), "Auckland, NY ramp"), "Strong response (Auckland, NY ramp)")}))
+    add_s("law_addition", "strong_ny_ramp", "Strong timed by the New York pooled ramp instead of Auckland's profile",
+          net_rows(by_area, stock, {"strong": (M.NetEffect(e.five_year_share, M.timing_from_ramp(cp["ramp"]), "NY ramp"), "Strong (NY ramp)")}))
     x = lot_inputs(L, C.DEFINITION_BANDS["main"], rents, use_ratio, fallback_dose_scale=1.0)
     ba = run_areas(x, muni, "share_near_main", cp, take["take_up"], cp["ramp"], baseline)
     wts = ba[(ba.method == "A") & (ba.scenario == "typical")].set_index("area_id")[ycols].sum(axis=1)
@@ -872,64 +906,77 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
         x = lot_inputs(L, bands, rents, use_ratio)
         ba = run_areas(x, muni, share_col, cp, take["take_up"], cp["ramp"], baseline)
         add_s("where_homes_land", d, label, net_rows(ba, float(muni[homes_col].sum()), effects))
-    # Method A with the Wisconsin-measured response, uncapped and capped at the peer 95th percentile
-    wi = [("wisconsin_measured", f"Method A, r = mean of Madison 0.215 and Chicago 0.240 = {WI_MEASURED_R:.4f}", "r_wi")]
+    for tag, col in (("baseline_low", "baseline_near_low_2027_2031"), ("baseline_high", "baseline_near_high_2027_2031")):
+        g = net.drop_duplicates("area_id")
+        for r0 in [r for r in sens if r["sensitivity"] == "main"]:
+            sens.append({**r0, "group": "baseline_only", "sensitivity": tag, "description": f"{tag.replace('_', ' ')} (all-housing baseline v2)",
+                         "baseline_near_stops_2027_2031": float(g[col].sum())})
+    pa_census = per_acre_sens[per_acre_sens.sensitivity == "census_as_published"].baseline_near_stops_2027_2031.iloc[0]
+    for r0 in [r for r in sens if r["sensitivity"] == "main"]:
+        sens.append({**r0, "group": "baseline_only", "sensitivity": "census_as_published",
+                     "description": "Census as published for Milwaukee city", "baseline_near_stops_2027_2031": float(pa_census)})
+    # Per-acre method A with the Wisconsin-measured response, uncapped and capped at the peer 95th percentile
+    wi = [("wisconsin_measured", f"Method A per acre, r = mean of Madison 0.215 and Chicago 0.240 = {WI_MEASURED_R:.4f}", "r_wi")]
     cp2 = {**cp, "r_wi": WI_MEASURED_R}
     x = lot_inputs(L, C.DEFINITION_BANDS["main"], rents, use_ratio)
     wa = run_areas(x, muni, "share_near_main", cp2, take["take_up"], cp["ramp"], baseline, scenarios=wi)
     wa = wa[wa.method == "A"].reset_index(drop=True)
-    add_s("law_addition", "wisconsin_measured_uncapped", "Method A per acre with the Wisconsin-measured r, uncapped", wa, "per_acre")
+    add_s("per_acre", "wisconsin_measured_uncapped", "Method A per acre with the Wisconsin-measured r, uncapped", wa, "per_acre")
     caps = {key: max(sp["p95"] - sp[key]["recent_mean"], 0.0) * sp[key]["housing_units_2025"] / 1000.0 for key in METRO_NAMES}
     wc = M.cap_by_group(wa, wa.county.map(metro_of), caps)
-    add_s("law_addition", "wisconsin_measured_capped",
+    add_s("per_acre", "wisconsin_measured_capped",
           f"As above, each metro capped so its total 5+ permits stay at or below the peer 95th percentile ({sp['p95']:.2f} per 1,000 homes a year): "
           f"Milwaukee cap {caps['Milwaukee']:,.0f} homes a year, Madison {caps['Madison']:,.0f} (its 2021-2025 rate is already above)", wc, "per_acre")
-    write(pd.DataFrame(sens).round(4), "tod_model_net_sensitivities.csv")
+    pas = per_acre_sens.copy()
+    pas["group"] = "per_acre: " + pas["group"]
+    out = pd.concat([pd.DataFrame(sens), pas.drop(columns=["method"], errors="ignore")], ignore_index=True)
+    write(out.round(4), "tod_model_sensitivities.csv")
 
-    # Checks: Madison's measured overlay effect as a share of overlay stock, and the scale check
+    # Checks: Madison's measured overlay effect as a share of stock, and the scale check
     checks = []
     res = pd.read_csv(REFERENCE / "tod_madison_test_results.csv").set_index("estimate")
     judged = res[res.index.str.startswith("judged")].iloc[0]
     mainr = res[res.index.str.startswith("main")].iloc[0]
     mad = pd.read_parquet(MAD_ALL)
     overlay_homes = float(mad.loc[mad.in_overlay, "homes"].sum())
-    overlay_acres, treated_acres = 2931.7, 614.7
-    treated_homes = 4461.0
+    overlay_acres, treated_acres, treated_homes = 2931.7, 614.7, 4461.0
     for basis, row, acres, stock_h, note in [
             ("judged estimate x all eligible overlay acres / all homes on overlay lots", judged, overlay_acres, overlay_homes,
              "per-FAR effect carried over all overlay land at its dose 0.374"),
             ("main estimate x treated acres / all homes on overlay lots", mainr, treated_acres, overlay_homes,
              "effect only where allowed FAR rose (614.7 acres)"),
             ("main estimate x treated acres / homes on treated land", mainr, treated_acres, treated_homes,
-             "share of the upzoned stock itself (4,461 homes in the treatment, per MADISON_TEST_RESULTS.md)")]:
+             "per upzoned home: 4,461 homes in the treatment (MADISON_TEST_RESULTS.md)")]:
         ex = [float(row[c]) * acres * CHECK_YEARS for c in ("value", "interval90_low", "interval90_high")]
         checks.append({"check": "madison_share", "sizing": "measured", "scenario": "Madison overlay 2023-2025", "basis": basis,
                        "extra_homes_3yr": round(ex[0], 1), "extra_homes_3yr_low": round(ex[1], 1), "extra_homes_3yr_high": round(ex[2], 1),
                        "stock_homes": stock_h, "share_3yr": round(ex[0] / stock_h, 6), "share_3yr_low": round(ex[1] / stock_h, 6),
                        "share_3yr_high": round(ex[2] / stock_h, 6), "note": note})
     for sid, (eff, label) in effects.items():
-        sh = eff.five_year_share * sum(eff.timing[:CHECK_YEARS])
-        checks.append({"check": "madison_share", "sizing": "net_effect", "scenario": sid, "basis": "scenario share of station-area stock in years 1-3",
-                       "share_3yr": round(sh, 6), "stock_homes": stock, "note": eff.source})
+        checks.append({"check": "madison_share", "sizing": "net_effect", "scenario": sid,
+                       "basis": "scenario share of station-area stock (per upzoned home) in model years 1-3",
+                       "share_3yr": round(eff.five_year_share * sum(eff.timing[:CHECK_YEARS]), 6), "stock_homes": stock, "note": eff.source})
     for sid in ("little", "typical", "strong"):
         g = by_area[(by_area.method == "A") & (by_area.scenario == sid)]
-        sh = float(g[ycols[:CHECK_YEARS]].sum().sum()) / stock
         checks.append({"check": "madison_share", "sizing": "per_acre", "scenario": sid, "basis": "scenario share of station-area stock in years 1-3",
-                       "share_3yr": round(sh, 6), "stock_homes": stock, "note": "method A per acre"})
+                       "share_3yr": round(float(g[ycols[:CHECK_YEARS]].sum().sum()) / stock, 6), "stock_homes": stock, "note": "method A per acre"})
     for sid, g in net.groupby("scenario", sort=False):
         checks += scale_rows(g, "net_effect", sid, sp)
-    for sid, g in pa.groupby("scenario", sort=False):
+    for sid, g in by_area[by_area.method == "A"].groupby("scenario", sort=False):
         checks += scale_rows(g, "per_acre", sid, sp)
     checks += scale_rows(wa, "per_acre", "wisconsin_measured_uncapped", sp)
     checks += scale_rows(wc, "per_acre", "wisconsin_measured_capped", sp)
-    write(pd.DataFrame(checks), "tod_model_net_checks.csv")
-    print(state[state.year == "2027-2031"][["sizing", "scenario", "addition", "addition_share_of_stock", "baseline_near_stops_central"]].round(4).to_string(index=False))
-    print(pd.DataFrame(sens)[["sensitivity", "sizing", "scenario", "addition_2027_2031", "milwaukee_metro_2027_2031", "madison_metro_2027_2031"]].round(0).to_string(index=False))
+    write(pd.DataFrame(checks), "tod_model_checks.csv")
+
+    print(state[["scenario", "year", "addition", "addition_range_low", "addition_range_high", "addition_share_of_stock"]].round(4).to_string(index=False))
+    print(out[out.sizing == "net_effect"][["sensitivity", "scenario", "baseline_near_stops_2027_2031", "addition_2027_2031", "milwaukee_metro_2027_2031", "madison_metro_2027_2031"]].round(0).to_string(index=False))
+    print(out[out.sizing == "per_acre"].query("scenario in ['typical','wisconsin_measured']")[["sensitivity", "scenario", "addition_2027_2031"]].round(0).to_string(index=False))
     ck = pd.DataFrame(checks)
-    print(ck[ck.check == "madison_share"][["sizing", "scenario", "basis", "extra_homes_3yr", "share_3yr", "share_3yr_low", "share_3yr_high"]].to_string(index=False))
+    print(ck[ck.check == "madison_share"][["sizing", "scenario", "extra_homes_3yr", "share_3yr", "share_3yr_low", "share_3yr_high"]].to_string(index=False))
     sc = ck[ck.check == "scale"]
-    print(sc.groupby(["sizing", "scenario", "metro"]).agg(peak=("total_per_1000", "max"), over_max=("exceeds_observed_max", "sum"),
-                                                           over_p95=("exceeds_p95", "sum"), over_own=("exceeds_own_max", "sum")).round(2).to_string())
+    print(sc.groupby(["sizing", "scenario", "metro"]).agg(peak=("total_per_1000", "max"), extra=("extra_per_1000", "max"),
+                                                           over_max=("exceeds_observed_max", "sum"), over_p95=("exceeds_p95", "sum"),
+                                                           over_own=("exceeds_own_max", "sum")).round(2).to_string())
 
 
 if __name__ == "__main__":

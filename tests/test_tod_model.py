@@ -81,10 +81,12 @@ def read(name):
 
 
 class TestOutputs(unittest.TestCase):
+    """Per-acre sizing (method A), now a sensitivity: reference/tod_model_per_acre_*.csv."""
+
     @classmethod
     def setUpClass(cls):
-        cls.area = read("tod_model_by_area.csv")
-        cls.state = read("tod_model_statewide.csv")
+        cls.area = read("tod_model_per_acre_by_area.csv")
+        cls.state = read("tod_model_per_acre_statewide.csv")
         cls.add_cols = [f"add_{y}" for y in range(2027, 2032)] + ["add_2027_2031"]
 
     def test_no_negative_additions(self):
@@ -115,7 +117,7 @@ class TestOutputs(unittest.TestCase):
 
     def test_counties_and_districts_add_to_state(self):
         tot = self.state[self.state.year == "2027-2031"].set_index(["method", "scenario"]).addition
-        for name in ("tod_model_by_county.csv", "tod_model_by_assembly_district.csv", "tod_model_by_senate_district.csv"):
+        for name in ("tod_model_per_acre_by_county.csv",):
             df = read(name)
             s = df.groupby(["method", "scenario"]).add_2027_2031.sum(min_count=1)
             for k, v in s.items():
@@ -200,32 +202,56 @@ class TestNetSizing(unittest.TestCase):
         self.assertEqual(out.add_y2.tolist(), [1.0, 1.0, 1.0])
 
     def test_outputs(self):
-        st = read("tod_model_net_statewide.csv")
-        area = read("tod_model_net_by_area.csv")
-        self.assertEqual(set(st.sizing), set(M.SIZING_MODES))
+        st = read("tod_model_statewide.csv")
+        area = read("tod_model_by_area.csv")
+        self.assertEqual(set(st.sizing), {"net_effect"})
         self.assertTrue(M.check_no_negative(st.addition))
+        self.assertTrue(M.check_no_negative(st.addition_range_low.dropna()))
         add_cols = [f"add_{y}" for y in range(2027, 2032)] + ["add_2027_2031"]
         self.assertTrue(M.check_no_negative(area[add_cols].to_numpy().ravel()))
-        net = st[(st.sizing == "net_effect") & (st.year == "2027-2031")].set_index("scenario")
+        net = st[st.year == "2027-2031"].set_index("scenario")
         # totals reconcile: state = share x stock; areas, counties and districts add to the state
         for sid, r in net.iterrows():
-            self.assertAlmostEqual(r.addition, r.parameter * r.stock_homes_station_areas, delta=0.01)
+            self.assertAlmostEqual(r.addition, r.parameter * r.stock_homes_station_areas, delta=1e-4 * r.addition + 0.01)
             self.assertAlmostEqual(area[area.scenario == sid].add_2027_2031.sum(), r.addition, delta=0.05)
-            for name in ("tod_model_net_by_county.csv", "tod_model_net_by_assembly_district.csv", "tod_model_net_by_senate_district.csv"):
+            for name in ("tod_model_by_county.csv", "tod_model_by_assembly_district.csv", "tod_model_by_senate_district.csv"):
                 d = read(name)
                 self.assertAlmostEqual(d[d.scenario == sid].add_2027_2031.sum(), r.addition, delta=1.0, msg=name)
-        yrs = st[(st.sizing == "net_effect") & (st.year != "2027-2031")].groupby("scenario").addition.sum()
+                self.assertAlmostEqual(d[d.scenario == sid].baseline_near_central_2027_2031.sum(), 14_463.78, delta=1.0, msg=name)
+        yrs = st[st.year != "2027-2031"].groupby("scenario").addition.sum()
         for sid, v in yrs.items():
             self.assertAlmostEqual(v, net.loc[sid, "addition"], delta=0.01)
-        # scenarios ordered, in both sizings
-        for sz in M.SIZING_MODES:
-            t = st[(st.sizing == sz) & (st.year == "2027-2031")].set_index("scenario").addition
-            self.assertLess(t["little"], t["typical"])
-            self.assertLess(t["typical"], t["strong"])
+        t = net.addition
+        self.assertLess(t["little"], t["typical"])
+        self.assertLess(t["typical"], t["strong"])
+        self.assertLessEqual(t["little"], t["reference_line"])
+        self.assertLessEqual(t["reference_line"], t["strong"])
+        self.assertLess(net.loc["typical", "addition_range_low"], t["typical"])
+        self.assertLess(t["typical"], net.loc["typical", "addition_range_high"])
         self.assertAlmostEqual(float(net.stock_homes_station_areas.iloc[0]), 313_564, delta=0.5)
+        # corrected values (AQ-050): LA over six years, coverage shares
+        self.assertAlmostEqual(net.loc["little", "parameter"], 0.0004 * 5 / 6 / 0.61, places=7)
+        self.assertAlmostEqual(net.loc["strong", "parameter"], 21_808 / 530_300 / 0.752, places=6)
+        self.assertAlmostEqual(net.loc["typical", "parameter"], 0.008, places=7)
+        # per-acre sizing still in the sensitivity file and ordered
+        pa = read("tod_model_per_acre_statewide.csv")
+        pa = pa[(pa.year == "2027-2031") & (pa.method == "A")].set_index("scenario").addition
+        self.assertLess(pa["little"], pa["typical"])
+        self.assertLess(pa["typical"], pa["strong"])
+
+    def test_auckland_rescaled_profile(self):
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("rtm", ROOT / "scripts" / "run_tod_model.py")
+        rtm = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(rtm)
+        prof = rtm.auckland_profile_rescaled()
+        self.assertEqual(sorted(prof), [2017, 2018, 2019, 2020, 2021])
+        self.assertAlmostEqual(sum(prof.values()), 21_808, delta=0.01)
+        self.assertTrue(all(v > 0 for v in prof.values()))
 
     def test_capped_sensitivity_within_cap(self):
-        ck = read("tod_model_net_checks.csv")
+        ck = read("tod_model_checks.csv")
         c = ck[(ck.check == "scale") & (ck.scenario == "wisconsin_measured_capped")]
         for r in c.itertuples():
             self.assertLessEqual(r.total_per_1000, max(r.p95, r.baseline_per_1000) + 1e-6)

@@ -1,22 +1,28 @@
 # TOD Gate 3 model, stage 1: both methods, the blind Madison predictions and the statewide run
 
-Written 2026-10-26 by the Gate 3 model work package (stage 1 of 2) and implements [GATE3_MODEL_SPEC.md](GATE3_MODEL_SPEC.md). Section 11, added the same day, implements the proposed net-effect sizing. **No Madison building permit was read, counted or tabulated in this stage**, not even citywide, so the Madison predictions below are blind. The Madison count is stage 2 ([MADISON_TEST_PREREG.md](MADISON_TEST_PREREG.md)).
+Written 2026-10-26 by the Gate 3 model work package (stage 1 of 2) and implements [GATE3_MODEL_SPEC.md](GATE3_MODEL_SPEC.md). Section 11 (2026-10-27) implements the adopted net-effect sizing (AQ-050), which is now the main output. **No Madison building permit was read, counted or tabulated in this stage**, not even citywide, so the Madison predictions below are blind. The Madison count is stage 2 ([MADISON_TEST_PREREG.md](MADISON_TEST_PREREG.md)).
 
-**Headline**
+**Headline (updated 2026-10-27 for AQ-050).** The owner adopted sizing by citywide net effect. The statewide addition is now a share of the 2020 homes in the main-case station areas, 313,564 homes. Each share comes from a study that measured a whole city's net effect after upzoning, and is taken per upzoned home. Method A's per-acre response is used only to place homes across areas. The per-acre totals are now a sensitivity. Section 11 has the method; sections 2 to 10 keep the per-acre work it rests on.
+
+- **Without the law:** 14,464 homes would be permitted near stops in 2027–2031 (all-housing baseline v2, central; low 8,386, high 21,874).
+- **The law would add** (extra homes permitted, state):
+
+| Scenario | Share of station-area stock, 2027–2031 | 2027 | 2028 | 2029 | 2030 | 2031 | 2027–2031 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Little response (Los Angeles) | 0.055% | 17 | 16 | 45 | 82 | 11 | **171** |
+| Typical response (Stacy et al. 2023) | 0.8% | 245 | 233 | 663 | 1,202 | 166 | **2,509** |
+| Strong response (Auckland) | 5.47% | 833 | 2,417 | 3,186 | 4,304 | 6,408 | **17,148** |
+| Reference line (median of the three studies; equals the typical response) | 0.8% | 245 | 233 | 663 | 1,202 | 166 | 2,509 |
+
+- **The typical response's range** is 665 to 4,352 homes, from Stacy et al.'s 95% interval of +0.2% to +1.4%.
+- **Where the homes go:** Milwaukee city 50.7% and Madison city 49.3%, from method A's per-acre placement.
+- **Per-acre sizing (sensitivity):** 14,212, 39,767 and 151,973 homes. The Wisconsin-measured per-acre rate, capped at the peer metros' 95th percentile, gives 6,834.
+- **The Madison test** confirmed method A's per-acre prediction only weakly ([MADISON_TEST_RESULTS.md](MADISON_TEST_RESULTS.md)).
+- **Method B** cannot be computed (section 5).
+
+**Earlier results (stage 1, 2026-10-26), kept for the record**
 - **Method A works as specified.** It predicts that Madison's TOD overlay added **0.25 homes per eligible acre per year** (90% interval 0.14 to 0.38) to the overlay's permits, compared with the ¼-mile ring. That is the New York pooled set's 0.671 extra homes per eligible acre per year per 1.0 of added floor area ratio (FAR), times the overlay's measured added FAR of 0.374, averaged over 2,932 eligible acres.
-- **Method B cannot be computed as specified.** The specified cost test says no new mid-rise apartment earns its cost anywhere near stops in Milwaukee or Madison. Yet Milwaukee built 2,923 homes in 34 buildings of 5 or more homes in 2018–2025 on land zoned for 30 or more homes per acre. The take-up rate therefore has a denominator of 0 homes and no value. Per the brief, this part is stopped and explained (section 5); nothing was tuned to rescue it.
-- **Statewide, method A, main case:** 14,464 homes would be permitted near stops in 2027–2031 without the law (all-housing baseline v2, central). The law would add:
-
-| Scenario | *r* | Extra homes, 2027–2031 |
-| --- | --- | --- |
-| Little response (Chicago) | 0.240 | 14,212 |
-| Reference line | 0.456 | 26,990 |
-| Typical response (New York pooled set) | 0.671 | 39,767 |
-| Strong response (Park Slope and Downtown Brooklyn) | 2.565 | 151,973 |
-
-  - *r* is extra homes permitted per eligible acre per year per 1.0 of added FAR.
-  - The reference line is the median of the measured per-FAR cases.
-  - In this main case all of the addition is in Milwaukee city and Madison city. Section 6 explains why the uncoded suburbs add nothing here, and what they add if given a dose.
+- **Method B cannot be computed as specified.** The specified cost test says no new mid-rise apartment earns its cost anywhere near stops in Milwaukee or Madison. Yet Milwaukee built 2,923 homes in 34 buildings of 5 or more homes in 2018–2025 on land zoned for 30 or more homes per acre, so take-up has no denominator (section 5).
 
 ## 1. Files and how to run
 
@@ -34,10 +40,12 @@ bash scripts/test.sh                                           # includes tests/
 | File | What it holds |
 | --- | --- |
 | `tod_madison_test_predictions.csv` | Both methods' blind predictions for the Madison test, with intervals and status |
-| `tod_model_statewide.csv` | State × method × scenario × year (2027–2031 and the five-year total): baseline near stops (low, central, high), addition, with-law total |
-| `tod_model_by_area.csv` | Municipality piece × method × scenario: inputs, baseline near stops, additions by year |
-| `tod_model_by_county.csv`, `tod_model_by_assembly_district.csv`, `tod_model_by_senate_district.csv` | The same, aggregated |
-| `tod_model_sensitivities.csv` | Spec section 7, five-year state totals |
+| `tod_model_statewide.csv` | **Main (net-effect sizing).** State × scenario × year (2027–2031 and the five-year total): parameter, timing, source, baseline near stops (low, central, high), addition, the typical range, share of stock, with-law total |
+| `tod_model_by_area.csv` | Main: municipality piece × scenario, additions by year |
+| `tod_model_by_county.csv`, `tod_model_by_assembly_district.csv`, `tod_model_by_senate_district.csv` | Main, aggregated |
+| `tod_model_sensitivities.csv` | Five-year state totals: net-effect sensitivities and, with `sizing = per_acre`, the per-acre ones (section 7 and the Wisconsin-rate runs) |
+| `tod_model_checks.csv` | Madison share comparison and the scale check rerun, both sizings |
+| `tod_model_per_acre_statewide.csv`, `tod_model_per_acre_by_area.csv`, `tod_model_per_acre_by_county.csv` | **Sensitivity:** method A sized per acre, the former main outputs, with an unchanged layout |
 | `tod_model_params.csv` | Every parameter with its value, unit, source and kind |
 | `tod_model_feasibility.csv` | Method B diagnostics: cost, value and break-even rent by city |
 
@@ -75,7 +83,7 @@ bash scripts/test.sh                                           # includes tests/
 2. **New-building rent.** The spec scales rents "by the ratio of new-building to all-building rents in each city's recent permits, if available". Permits carry no rents. ACS B25111 gives the measured ratio of rents in buildings built 2020 or later to rents in all buildings, by municipality, so it is used. The unscaled reading, which is the spec's fallback, is a sensitivity. Both readings give no feasible capacity in Milwaukee or Madison.
 3. **Ramp, year-5 alternative.** Year 5 is replaced by the mean of years 3 to 5. The divisor stays the measured mean of years 1 to 5, which is what *r* is. So the sensitivity raises the total, rather than only reshaping it.
 
-## 3. Method A
+## 3. Method A (per-acre sizing; a sensitivity since AQ-050)
 
 addition(area, year *k*) = Σ over eligible lots of (lot acres × max(law FAR − current FAR, 0)) × *r* × ramp(*k*)
 
@@ -86,7 +94,7 @@ addition(area, year *k*) = Σ over eligible lots of (lot acres × max(law FAR �
 - **Ramp:** because the ramp averages 1, each five-year total is 5 × *r* × the area's acre-units of added FAR.
 - **No negatives:** an area with no added FAR adds 0.
 
-**Results, main case** (extra homes permitted, state; `tod_model_statewide.csv`):
+**Results, per-acre sizing** (extra homes permitted, state; `tod_model_per_acre_statewide.csv`):
 
 | Scenario | 2027 | 2028 | 2029 | 2030 | 2031 | 2027–2031 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -153,7 +161,7 @@ Source: `reference/tod_model_feasibility.csv`. The row for the places not coded 
 
 ## 7. Sensitivities
 
-Five-year state totals, 2027–2031, in extra homes permitted (method A, typical response, unless stated). Source: `tod_model_sensitivities.csv`.
+Five-year state totals, 2027–2031, in extra homes permitted (method A per acre, typical response, unless stated). Source: `tod_model_sensitivities.csv`, rows with `sizing = per_acre`.
 
 | Group | Sensitivity | Baseline near stops | Addition |
 | --- | --- | ---: | ---: |
@@ -233,7 +241,7 @@ This is a check shown to the owner, not a cap. No model number changes because o
 
 **How a scenario is converted**
 - A scenario's homes added each year are counted as permits for 5+ unit buildings. That is an assumption.
-- A metro's addition is the sum over its counties in `reference/tod_model_by_county.csv`. These county sums add up to the statewide file in every scenario and year.
+- A metro's addition is the sum over its counties in the per-acre county file (`reference/tod_model_by_county.csv` when this check was run; now `reference/tod_model_per_acre_by_county.csv`). These county sums add up to the statewide file in every scenario and year.
 - All of the statewide addition falls in the two metros: 50.7% in Milwaukee County and 49.3% in Dane County. These shares are the same in every scenario and every year.
 - The addition is divided by the metro's existing homes on July 1, 2025: 710,943 in the Milwaukee metro and 331,967 in the Madison metro.
 - The result is added to the metro's own 2021–2025 average rate. The model's own baseline near stops is smaller: 1.19 per 1,000 existing homes a year for Milwaukee and 6.13 for Madison. Each is the 2027–2031 central baseline near stops ÷ 5 years ÷ 2025 existing homes. These are shown only as context.
@@ -275,112 +283,114 @@ The extra rate is the extra homes ÷ 2025 existing homes × 1,000, a yearly rate
 
 **Files:** `scripts/run_tod_scale_check.py` (fetches the raw Census files into `data/raw/census_bps_cbsa/` with `_downloads.json` the first time, then runs offline); `missing_middleware/tod/scale_check.py` (the pure functions); `reference/tod_scale_check.csv` (benchmark, metro-history and scenario rows, told apart by the `kind` column); `reference/tod_scale_check_metro_years.csv` (the 2,054 peer metro-years); `tests/test_tod_scale_check.py`.
 
-## 11. Alternative sizing: citywide net effect (proposed, pending the owner's choice)
+## 11. Main sizing: citywide net effect (AQ-050)
 
-This implements the proposal in [GATE3_MODEL_SPEC.md](GATE3_MODEL_SPEC.md) section 9, dated 2026-10-26. It is a second **sizing mode**, behind a switch: `model.size_additions(..., mode="per_acre" | "net_effect")`. Method A per acre is unchanged, and every earlier output file is unchanged.
+The owner adopted this sizing on 2026-10-27 (AQ-050). The values are corrected as in [GATE3_MODEL_SPEC.md](GATE3_MODEL_SPEC.md) section 9 and [research/NET_EFFECT_SOURCES.md](research/NET_EFFECT_SOURCES.md).
 
-**How the net-effect sizing works**
-- **Statewide addition, 2027–2031:** a citywide net effect measured after upzoning, as a share of the housing stock.
-- **The stock:** the 2020 census homes in the main-case station areas, 313,564 (`tod_near_stop_homes_by_muni.csv`).
-- **Placement:** each municipality's share of method A's per-acre addition. In the main case that is Milwaukee city 50.7% and Madison city 49.3%. The uncoded places get no share, because method A gives them no dose (section 6). A sensitivity gives them one.
+The switch is `model.size_additions(..., mode="per_acre" | "net_effect")`. Net effect is the main mode, and per acre is the sensitivity.
 
-**Scenarios**
+**How it works**
+- **The statewide addition** = a citywide net effect × the 2020 census homes in the main-case station areas, 313,564 (`tod_near_stop_homes_by_muni.csv`).
+- **Per upzoned home:** each effect is divided by its study's coverage share, so it applies per upzoned home. The as-published reading is a sensitivity.
+- **Timing:** each scenario's yearly shares of the five-year total.
+- **Placement:** each municipality gets its share of method A's per-acre addition.
+  - In the main case that is Milwaukee city 50.7% and Madison city 49.3%.
+  - The uncoded places get no share, because method A gives them no dose (section 6). A sensitivity gives them one.
+- **Never negative:** no addition is negative.
 
-| Scenario | Net effect | Share of stock, 2027–2031 | Timing |
-| --- | --- | ---: | --- |
-| Little | Los Angeles: 0.04 percentage points of stock growth a year | 0.2% (0.04 points × 5 years) | New York pooled ramp: no yearly profile published |
-| Typical | Stacy et al. 2023: +0.8% of supply 3 to 9 years after an upzoning | 0.8% | New York pooled ramp |
-| Strong | Auckland: 21,808 extra consents in 2016–2021, 4.1% of the 2016 stock, as published | 4.1% | Auckland's yearly profile |
+**Scenario values**
 
-- **Auckland's profile** (effects per statistical area) is usable once 2016 is treated as year 0. The plan became operative in November 2016, and that year's effect, −2.63, is negative.
-  - Years 1–5 are then 2017–2021 (2.34, 6.79, 8.95, 12.09, 18.00), giving shares of 4.9%, 14.1%, 18.6%, 25.1% and 37.4%.
-  - Its 4.1% is applied as the five-year total.
-  - The New York-ramp timing is a sensitivity.
-- **Stacy et al.'s effect is measured 3 to 9 years after an upzoning.** Applying all 0.8% inside years 1 to 5 is an assumption, and it is generous for this window.
+| Scenario | Published effect | Corrections | Share of station-area stock, 2027–2031 | Timing |
+| --- | --- | --- | ---: | --- |
+| Little | Los Angeles TOC (Kestelman 2025): +0.04 percentage points of stock growth over six years, 2017–2023 | × 5/6 for five years = 0.0333%; ÷ 0.61, the share of LA's homes in the program's area | **0.0546%** | New York pooled ramp (no yearly profile published) |
+| Typical | Stacy et al. 2023 (*Urban Studies*): +0.8% of USPS addresses per loosening reform, average of years 3 and later (s.e. 0.3 points) | None. Coverage is not measured, so it is used as published | **0.8%** (range 0.2% to 1.4%, the 95% interval) | New York pooled ramp, see below |
+| Strong | Auckland (Greenaway-McGrevy and Phillips 2023): 21,808 extra permits over 2016–2021 = 4.11% of 530,300 dwellings | ÷ 0.752, the share of residential land upzoned | **5.47%** | Auckland's profile, rescaled (below) |
+| Reference line | Median of the three values above. Each study is counted once, and no case is in two places | — | 0.8% (equal to the typical response) | New York pooled ramp |
 
-**Results:** extra homes permitted, state, from `tod_model_net_statewide.csv`, which holds both sizings.
+**Timing assumptions, stated**
+- **Stacy et al.:**
+  - The paper's effect is an average over years 3 and later after a reform. Its year-by-year model shows no rising path, and the implementation years show no significant effect.
+  - The model nevertheless places the whole 0.8% inside 2027–2031, shaped by the New York pooled ramp: shares of 9.8%, 9.3%, 26.4%, 47.9% and 6.6%.
+  - This is generous to the law in years 1 and 2. The total over five years equals the paper's level effect, which is an assumption.
+- **Auckland:**
+  - The paper's year 0 is 2015, so 2016–2021 are its years 1 to 6.
+  - Its year 1 (2016, when the plan became operative) is negative, −2.63, and the law never subtracts. So the five model years take the shape of 2017–2021, which are paper years 2 to 6: 2.34, 6.79, 8.95, 12.09 and 18.00 per statistical area.
+  - Those five values are rescaled so they sum to the stated total, 21,808 permits (each × 21,808 ÷ (48.17 × 479)). This nets 2016's negative year into the total.
+  - The shares are 4.9%, 14.1%, 18.6%, 25.1% and 37.4%. Permits were still rising in 2021, so the strong scenario peaks in 2031.
+- **Los Angeles:** no yearly profile is published, so the New York pooled ramp is used.
 
-| Scenario | 2027 | 2028 | 2029 | 2030 | 2031 | 2027–2031 | Per acre (method A), 2027–2031 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Little | 61 | 58 | 166 | 300 | 42 | **627** | 14,212 |
-| Typical | 245 | 233 | 663 | 1,202 | 166 | **2,509** | 39,767 |
-| Strong | 625 | 1,812 | 2,389 | 3,227 | 4,804 | **12,856** | 151,973 |
+**Results** (`tod_model_statewide.csv`): see the headline table at the top. Extra homes over 2027–2031: little 171, typical 2,509 (665 to 4,352), strong 17,148. Without the law, 14,464 homes would be permitted near stops.
 
-- **Size of the gap:** the net-effect totals are 4% to 8% of the per-acre totals.
-- **Against the baseline:** without the law, 14,464 homes would be permitted near stops in 2027–2031.
-
-**Sensitivities** (`tod_model_net_sensitivities.csv`; five-year state totals, extra homes)
+**Sensitivities** (`tod_model_sensitivities.csv`; five-year state totals, extra homes)
 
 | Sensitivity | Little | Typical | Strong |
 | --- | ---: | ---: | ---: |
-| Main (net effect) | 627 | 2,509 | 12,856 |
-| Strong ÷ 0.75 (Auckland per upzoned stock) | | | 17,141 |
-| Strong timed by the New York ramp | | | 12,856 (same total; 2030 peak) |
-| Uncoded places placed by their capacity dose | 627 | 2,509 | 12,856 |
-| Rail and rapid stops only (stock 89,528) | 179 | 716 | 3,671 |
-| High case (stock 351,606) | 703 | 2,813 | 14,416 |
-| All 15-minute stops within ½ mile (stock 403,304) | 807 | 3,226 | 16,535 |
+| Main (per upzoned home) | 171 | 2,509 | 17,148 |
+| Typical at the ends of Stacy et al.'s 95% interval | | 665 to 4,352 | |
+| As published (no coverage division) | 105 | 2,509 | 12,895 |
+| Strong timed by the New York ramp | | | 17,148 (2030 peak) |
+| Uncoded places placed by their capacity dose (Milwaukee metro share of the typical response: 1,683 instead of 1,272) | 171 | 2,509 | 17,148 |
+| Rail and rapid stops only (stock 89,528) | 49 | 716 | 4,896 |
+| High case (stock 351,606) | 192 | 2,813 | 19,228 |
+| All 15-minute stops within ½ mile (stock 403,304) | 220 | 3,226 | 22,055 |
+| Baseline only: low / high / Census as published | baseline 8,386 / 21,874 / 11,875; additions unchanged | | |
 
-- **Placing the uncoded places changes where homes go, not how many.** The Milwaukee metro's share of the typical response rises from 1,272 homes to 1,683. The 1,683 includes suburbs such as Wauwatosa and West Allis.
+**Per-acre sizing (sensitivity, `sizing = per_acre`):**
+- **Method A as in sections 3 and 7:** little 14,212, typical 39,767, strong 151,973 and reference line 26,990. The section 7 variants are in the same file.
 - **Method A with the Wisconsin-measured response:**
-  - *r* = 0.2275, the mean of Madison's 0.215 and Chicago's 0.240 per 1.0 of added FAR.
-  - **Uncapped:** 13,477 extra homes over 2027–2031.
-  - **Capped:** 6,834. Each metro is capped so its total 5+ unit permits stay at or below the peer 95th percentile, 9.06 per 1,000 existing homes a year. That allows the Milwaukee metro up to 5,161 extra homes a year; it never reaches the cap.
-  - **The Madison metro's cap is 0.** Its own 2021–2025 rate, 13.4 per 1,000, is already above the 95th percentile. So the capped total is all in Milwaukee.
+  - *r* = 0.2275 extra homes per eligible acre per year per 1.0 of added FAR, the mean of Madison's 0.215 and Chicago's 0.240.
+  - **Uncapped:** 13,477 extra homes.
+  - **Capped:** 6,834. Each metro is capped year by year so its total 5+ unit permits stay at or below the peer 95th percentile, 9.06 per 1,000 existing homes a year.
+  - **The caps:** the Milwaukee metro may add up to 5,161 homes a year and never reaches it. The Madison metro's cap is 0, because its own 2021–2025 rate, 13.4 per 1,000, is already above the 95th percentile.
 
-**Check 1: Madison's measured overlay effect as a share of stock** (`tod_model_net_checks.csv`, `check = madison_share`)
-- **Measured (2023–2025):** the measured effect × acres × 3 years, as a share of homes. The intervals are the test's 90% intervals carried through.
+**Check 1: Madison's measured overlay effect as a share of stock** (`tod_model_checks.csv`, `check = madison_share`)
+- **Measured (2023–2025):** the effect × acres × 3 years, with the test's 90% interval carried through.
+  - **Per-FAR effect over all 2,931.7 eligible overlay acres:** 707 extra homes, **1.76%** of the 40,185 homes on overlay lots (−3.66% to +6.76%).
+  - **Effect on the 614.7 treated acres only:** 388 homes. That is 0.96% of the same overlay stock (−2.0% to +3.7%), or **8.7% per upzoned home**: the 4,461 homes on treated land, −18% to +33%.
+- **Each scenario, model years 1–3, share of station-area stock per upzoned home:**
 
-  | Basis | Extra homes, 2023–2025 | Share of stock |
+  | Scenario | Net effect | Per acre |
   | --- | ---: | ---: |
-  | Per-FAR effect over all 2,931.7 eligible overlay acres ÷ all 40,185 homes on overlay lots | 707 | **1.76%** (−3.66% to +6.76%) |
-  | Effect on the 614.7 treated acres only ÷ the same 40,185 homes | 388 | 0.96% (−2.01% to +3.70%) |
-  | Effect on the 614.7 treated acres ÷ the 4,461 homes on those acres | 388 | 8.7% (−18.1% to +33.4%) |
-
-- **Each scenario in its first three years**, as a share of the station-area stock:
-
-  | Scenario | Net-effect sizing | Per-acre sizing |
-  | --- | ---: | ---: |
-  | Little | 0.09% | 2.06% |
+  | Little | 0.025% | 2.06% |
   | Typical | 0.36% | 5.77% |
-  | Strong | 1.54% | 22.0% |
+  | Strong | 2.05% | 22.0% |
 
 - **Reading:**
-  - The overlay-wide measured share, 1.76% or 0.96%, is closest to the net-effect strong scenario (1.54%) and the per-acre little scenario (2.06%).
-  - The measured interval includes zero, so it contains all three net-effect scenarios. Of the per-acre scenarios, it contains the little and typical responses but not the strong one.
-  - The Madison test therefore cannot choose between the two sizings either.
-  - The measured shares use 2026 assessor homes; the scenario shares use 2020 census homes.
+  - Madison's overlay-wide share (1.76%) is closest to the net strong scenario's (2.05%).
+  - Its per-upzoned-home share (8.7%) lies above every net scenario and between the per-acre typical and strong scenarios.
+  - Both measured intervals include zero and every net scenario, so Madison cannot pick a scenario.
+  - Madison's figure is the local effect (overlay against ring), which by construction can count building moved from nearby blocks. The net-effect scenarios exclude that.
+  - The measured shares use 2026 assessor homes; the scenarios use 2020 census homes.
 
-**Check 2: scale check rerun** (`check = scale`). The method is as in section 10: the addition is treated as 5+ unit permits, divided by the metro's 2025 existing homes, and added to the metro's 2021–2025 average. All figures are per 1,000 existing homes a year.
+**Check 2: scale check rerun** (`check = scale`). The method is as in section 10. All figures are 5+ unit permits per 1,000 existing homes a year, including each metro's 2021–2025 average (Milwaukee 1.80, Madison 13.4).
 
-| Sizing and scenario | Milwaukee metro peak total (year) | Madison metro peak total (year) | Above the peer maximum (25.7)? | Above the 95th percentile (9.06)? | Above the metro's own maximum? |
+| Scenario (net effect) | Milwaukee metro: peak extra; peak total (year) | Madison metro: peak extra; peak total (year) | Above the peer maximum (25.7)? | Above the 95th percentile (9.06)? | Above the metro's own maximum (3.44; 16.9)? |
 | --- | --- | --- | --- | --- | --- |
-| Net effect, little | 2.01 (2030) | 13.89 (2030) | no | Madison only, every year, from its own baseline (13.4) | no |
-| Net effect, typical | 2.65 (2030) | 15.23 (2030) | no | Madison only, as above | no |
-| Net effect, strong | 5.22 (2031) | 20.58 (2031) | no | Madison only, as above | yes, both metros, 2029–2031 (own maxima 3.44 and 16.9) |
-| Per acre, Wisconsin-measured *r*, uncapped | 6.40 (2030) | 23.03 (2030) | no | Madison only | yes, both metros, 2029–2030 |
-| Per acre, Wisconsin-measured *r*, capped | 6.40 (2030) | 13.45 (every year; addition 0) | no | Madison only, from its own baseline | Milwaukee 2029–2030 |
-| Per acre, typical (for comparison, section 10) | 15.38 | 41.73 | Madison, 2 years | both | both, every year |
+| Little | 0.06; 1.85 (2030) | 0.12; 13.6 (2030) | no | Madison only, every year, from its own baseline | no |
+| Typical | 0.86; 2.65 (2030) | 1.78; 15.2 (2030) | no | Madison only, as above | no |
+| Strong | 4.57; 6.37 (2031) | 9.51; 23.0 (2031) | no | Madison only, as above | yes, both metros, 2028–2031 |
 
-- No net-effect scenario goes above the highest peer year in either metro.
-- Only the strong scenario goes above either metro's own record, in 2029–2031.
+- No net-effect scenario reaches the highest peer year.
+- Only the strong scenario passes either metro's own record.
+- For comparison, the per-acre typical response peaks at 15.4 in Milwaukee and 41.7 in Madison (section 10).
 
-**Files:**
-- `reference/tod_model_net_statewide.csv` (both sizings, `sizing` column);
-- `reference/tod_model_net_by_area.csv`, `_by_county.csv`, `_by_assembly_district.csv` and `_by_senate_district.csv` (net effect);
-- `reference/tod_model_net_sensitivities.csv`;
-- `reference/tod_model_net_checks.csv`.
+**Files and tests**
+- The main outputs are listed in section 1.
+- `scripts/run_tod_scale_check.py` (not owned by this package) still reads `tod_model_by_county.csv` and `tod_model_statewide.csv` for method A rows. Those rows are now in `tod_model_per_acre_by_county.csv` and `tod_model_per_acre_statewide.csv`, with the same layout. The script's two paths need updating before it is rerun. Its committed output, `tod_scale_check.csv`, is unchanged.
+- `tests/test_tod_model.py` (`TestNetSizing`) checks:
+  - the switch;
+  - the corrected parameter values;
+  - Auckland's rescaled profile, which sums to 21,808 permits;
+  - no negative additions;
+  - state = share × stock;
+  - areas, counties and districts add up to the state, with the baseline 14,464;
+  - years add up to the five-year total;
+  - scenarios are ordered and the typical range brackets the typical response;
+  - the per-acre sensitivity is still ordered;
+  - the cap holds.
 
-Tests are in `tests/test_tod_model.py` (`TestNetSizing`):
-- the switch;
-- no negative additions;
-- state = share × stock;
-- areas, counties and districts add up to the state;
-- years add up to the five-year total;
-- scenarios are ordered in both sizings;
-- the cap holds.
-
-**Limits:**
-- **The effect values are taken from the spec's section 9 as written.** The Los Angeles, Stacy et al. and Auckland studies were not re-read for this run. Before the owner's review, each value should be checked against its paper and a full citation added.
-- **The net effect is applied to station-area stock.** All three studies measure citywide effects of citywide or large-area upzonings.
-- **The placement rests on method A's shares.** In the main case it puts every home in the two coded cities.
+**Limits**
+- **Applying the effects to station-area stock.** All three studies measure citywide effects of citywide or large-area reforms. Wisconsin's station areas cover a smaller part of each city, which leaves more nearby land to pull building from. The source check notes that the per-upzoned-home effect could then be lower, not higher.
+- **Stacy et al.** counts reforms of all kinds, mostly ADU and lot-size rules (28 of 96 changed floor area, density or height). It measures addresses, not permits.
+- **The Los Angeles coverage share (0.61)** is derived from rounded means in the dissertation's Table 1.1. The working-paper PDF could not be read, and its figure may differ slightly ("fewer than 560 units").
+- **Placement rests on method A's shares,** which put every home in the two coded cities.

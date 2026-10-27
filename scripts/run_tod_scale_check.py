@@ -9,7 +9,7 @@ It is a check shown to the owner, not a cap: no model number is changed.
 
 Offline after the first run (every raw file is cached and skipped if present).
 
-In:  reference/tod_model_by_county.csv, reference/tod_model_statewide.csv (method A scenarios;
+In:  reference/tod_model_per_acre_by_county.csv, reference/tod_model_per_acre_statewide.csv (method A scenarios;
      method B rows are blank and skipped)
      raw (git-ignored), fetched automatically into data/raw/census_bps_cbsa/ with _downloads.json
      (URL, access date, bytes, SHA-256):
@@ -265,8 +265,8 @@ def build_panel() -> tuple[pd.DataFrame, pd.DataFrame, dict]:
 
 def model_additions() -> tuple[pd.DataFrame, pd.DataFrame]:
     """Metro additions by scenario and year, plus a reconciliation with the statewide file."""
-    c = pd.read_csv(REFERENCE / "tod_model_by_county.csv")
-    s = pd.read_csv(REFERENCE / "tod_model_statewide.csv")
+    c = pd.read_csv(REFERENCE / "tod_model_per_acre_by_county.csv")
+    s = pd.read_csv(REFERENCE / "tod_model_per_acre_statewide.csv")
     c = c[(c["method"] == "A") & c["scenario"].isin(SCENARIOS)]
     long = c.melt(id_vars=["county", "scenario", "baseline_near_central_2027_2031"],
                   value_vars=[f"add_y{i}" for i in range(1, 6)], var_name="k", value_name="addition")
