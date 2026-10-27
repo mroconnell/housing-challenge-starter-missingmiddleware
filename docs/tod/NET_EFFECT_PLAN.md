@@ -56,3 +56,10 @@ Each case is also labelled "corridor" (mostly long continuous strips, such as Ma
 **2026-10-27, two additions from the literature review ([research/LITERATURE_NET_EFFECTS.md](research/LITERATURE_NET_EFFECTS.md)), written before any result of this plan is seen.**
 - **Binding limit.** The strongest predictor in the literature is whether the old limit was binding (Zurich). Each unit gets a trait: the acre-weighted ratio of existing built density (homes per acre, or floor area where known) to the density allowed before the reform. A value near 1 means lots were already built to the old limit. It is judged by the same rule as section 5.
 - **Distant borrowing.** In Auckland, building was drawn from distant areas, not next door. Where each case has land beyond 1½ miles, that land's change after against before is also compared with the rest of the region (other jurisdictions in the same county or metro, from Census permits). This is reported as a check on whether "far land" is itself affected.
+
+**2026-10-27, car-dependence traits (owner request; written before any result of this plan is seen).** Three unit-level traits from the American Community Survey by tract, for the treatment area, using the 5-year survey nearest before each reform (the earliest available, 2005–2009, for reforms before 2009). Each is judged by the same rule as section 5:
+- **Car-free households:** the share of households with no vehicle available (table B25044 or B08201).
+- **Transit commuting:** the share of workers commuting by public transit (B08301).
+- **Commute time:** the mean travel time to work, in minutes (B08303, or aggregate travel time ÷ workers).
+
+Driver's-licence counts are published only by state (FHWA), so they cannot vary across station areas and are not used.
