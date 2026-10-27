@@ -66,6 +66,11 @@ def r(v, nd=2):
     return None if math.isnan(f) else round(f, nd)
 
 
+def whole(v) -> int:
+    """Round half up to a whole number (display totals; avoids half-even surprises)."""
+    return int(math.floor(float(v) + 0.5))
+
+
 def s(v):
     return None if v is None or (isinstance(v, float) and math.isnan(v)) else str(v)
 
@@ -93,13 +98,13 @@ def build_statewide() -> dict:
         if y in YEARS:
             row.update(add_central=0.0, add_upper=r(m.loc[y, "addition_upper"], 0))
         years.append(row)
-    base5 = float(proj.loc[YEARS, "central"].sum())
-    up5 = float(m.loc[YEARS, "addition_upper"].sum())
+    base5 = whole(proj.loc[YEARS, "central"].sum())
+    up5 = whole(m.loc[YEARS, "addition_upper"].sum())
     rate = float(m["upper_rate_per_1000_homes"].iloc[0])
     pubsens = pd.read_csv(REF / "housing_baseline_sensitivity_published.csv").set_index("structure_type")
     return {
         "years": years,
-        "baseline_total": r(base5, 0), "baseline_low_total": r(proj.loc[YEARS, "low"].sum(), 0),
+        "baseline_total": base5, "baseline_low_total": r(proj.loc[YEARS, "low"].sum(), 0),
         "baseline_high_total": r(proj.loc[YEARS, "high"].sum(), 0),
         "baseline_published_total": r(pubsens.loc["all", "central"], 0),
         "baseline_by_type": [{"type": t, "low": r(v["low"], 0), "central": r(v["central"], 0), "high": r(v["high"], 0)}
@@ -110,11 +115,11 @@ def build_statewide() -> dict:
              "info": "Like the 24 US places that removed parking minimums for all housing: in the three years after, their permit rates did not rise measurably compared with similar places that kept them.",
              "additional_total": 0.0, "with_law_total": r(base5, 0)},
             {"id": "upper", "label": "High end of the evidence",
-             "info": f"If the true average effect is at the top of its likely range: {rate:.2f} more permits per 1,000 existing homes per year, everywhere except places that already have no minimums.",
-             "additional_total": r(up5, 0), "with_law_total": r(base5 + up5, 0), "rate_per_1000_homes": rate},
+             "info": f"If the true average effect is at the top of what the evidence allows (95 times in 100, the real average would be lower): {rate:.2f} more permits per 1,000 existing homes per year, everywhere except places that already have no parking minimums for housing.",
+             "additional_total": up5, "with_law_total": base5 + up5, "rate_per_1000_homes": rate},
         ],
         "reference_line": {"label": "Median repeal place", "value": 0.0,
-                           "info": "The median of the 24 repeal places changed by −0.50 permits per 1,000 homes per year against its comparison places; a repeal never subtracts, so this shows as 0."},
+                           "info": "The typical (median) repeal place changed by −0.50 permits per 1,000 existing homes per year against its comparison places; a repeal is not modelled as reducing permits, so we use 0."},
     }
 
 
@@ -142,6 +147,12 @@ def build_areas() -> dict:
                                  for x in bench.drop_duplicates(["name", "benchmark_rating"]).itertuples()]}
 
 
+CASE_LABELS = {"Upper case (headline)": "High end of the evidence (headline)",
+               "Size and metro model (central)": "Prediction by city size and setting",
+               "Towns at zero": "High end, with towns left out",
+               "Near-benchmark places at zero": "High end, with places that partly removed minimums left out"}
+MOVES_LABELS = {"statewide addition": "the statewide total", "statewide addition and where it lands": "the statewide total and where it lands",
+                "baseline only": "current law only"}
 CHECK_LABELS = {
     "main, weighted by homes": "Main result (weighted by homes)",
     "main, unweighted mean": "Unweighted average",
@@ -164,7 +175,7 @@ def build_howsure() -> dict:
     models = pd.read_csv(REF / "parking_comparison_models.csv")
     mm = models[(models["outcome"] == "all") & (models["sample"] == "main")]
     return {
-        "sensitivities": [{"case": x.case, "moves": x.moves, "value": r(x.value, 0), "description": x.description} for x in sens.itertuples()],
+        "sensitivities": [{"case": CASE_LABELS.get(x.case, x.case), "moves": MOVES_LABELS.get(x.moves, x.moves), "value": r(x.value, 0), "description": x.description} for x in sens.itertuples()],
         "robustness": [{"check": CHECK_LABELS.get(x.check, x.check), "places": int(x.n_places), "effect": r(x.effect), "p05": r(x.p05), "p95": r(x.p95)} for x in rob.itertuples()],
         "leave_one_state": {"min": r(los["effect"].min()), "max": r(los["effect"].max()),
                             "min_state": los.loc[los["effect"].idxmin(), "check"].replace("leave out ", ""),
@@ -231,7 +242,8 @@ def build_pilots(areas: dict) -> list:
             "slug": slug, "id": aid, "name": m["name"], "homes": m["homes"], "at_benchmark": m["at_benchmark"],
             "baseline": m["baseline"], "add_upper": m["add_upper"],
             "history": [{"year": int(x.year), "units_1": r(x.units_1unit, 0), "units_2": r(x.units_2units, 0), "units_3_4": r(x.units_3_4units, 0),
-                         "units_5": r(x.units_5plus, 0), "adjusted": "adjusted_milwaukee_mprop" in str(x.allocation)} for x in hh.itertuples()],
+                         "units_5": r(x.units_5plus, 0), "adjusted": "adjusted_milwaukee_mprop" in str(x.allocation),
+                         "split": "assumed_split_by_homes" in str(x.allocation)} for x in hh.itertuples()],
             "rules": [{"rating": x.benchmark_rating, "date": s(x.adopted_date), "summary": s(x.summary)} for x in rules.itertuples()][:6],
         })
     return out
@@ -245,6 +257,7 @@ def validate(sw: dict, areas: dict) -> dict:
     tot = sum(m["add_upper"] or 0 for m in areas["munis"])
     up = next(x for x in sw["scenarios"] if x["id"] == "upper")["additional_total"]
     check("upper case equals the sum of places", abs(tot - up) < 2, f"{tot:,.0f} vs {up:,.0f}")
+    check("with-law total equals its displayed parts", all(x["with_law_total"] == sw["baseline_total"] + x["additional_total"] for x in sw["scenarios"]), "central and upper")
     check("central addition is zero", all((y.get("add_central") or 0) == 0 for y in sw["years"]), "every forecast year")
     check("no place below zero", all((m["add_upper"] or 0) >= 0 for m in areas["munis"]), "upper case")
     check("places at the benchmark get nothing", all((m["add_upper"] or 0) == 0 for m in areas["munis"] if m["at_benchmark"]),

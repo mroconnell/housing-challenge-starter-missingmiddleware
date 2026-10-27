@@ -112,12 +112,12 @@ def main() -> None:
              description=f"High end of the likely range when San Francisco (a quarter of the weight) is left out, {upper_no_sf:.2f} per 1,000 homes per year."),
         dict(case="Size and metro model (central)", moves="statewide addition and where it lands",
              value=tot(homes, pm.size_metro_rate(munis.set_index("area_id")["population"], munis.set_index("area_id")["metro_county"], beta)),
-             description="The size-and-metro model's own prediction for each place, floored at zero. It predicted slightly better than one average, but its terms are not distinguishable from zero."),
+             description="Each place gets its own rate from a model using city size and whether it is in a metro area (never below zero). It favours small places in metro areas. It predicted slightly better than one average for all places, but not reliably so."),
         dict(case="Towns at zero", moves="statewide addition and where it lands", value=tot(pm.eligible_homes(munis, at, ("town",)), upper_all),
-             description="Upper case with towns left out, for the case where most towns have few or no parking minimums today."),
+             description="The high end, with towns left out, in case most towns have few or no parking minimums today."),
         dict(case="Near-benchmark places at zero", moves="statewide addition and where it lands",
              value=tot(pm.eligible_homes(munis, at | near), upper_all),
-             description="Upper case with the 9 places that nearly meet the benchmark also getting nothing."),
+             description="The high end, with the 9 places that removed minimums with conditions also getting nothing."),
     ]
     pub = REFERENCE / "housing_baseline_sensitivity_published.csv"
     if pub.exists():
