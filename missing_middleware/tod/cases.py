@@ -354,7 +354,7 @@ def estimate_case(ci: CaseInputs, draws: int = N_DRAWS, seed: int = SEED) -> tup
     d_ft = d_raw if ci.dose_unit == "height_ft" else float("nan")
     est = {"did": float("nan"), "treat_before": float("nan"), "treat_after": float("nan"), "comp_before": float("nan"), "comp_after": float("nan")}
     lo = hi = float("nan")
-    if before and after and ci.acres.get(TREAT) and ci.acres.get(COMP) and (not ci.status_override or ci.status_override == "context_permit_count"):
+    if before and after and ci.acres.get(TREAT) and ci.acres.get(COMP) and (not ci.status_override or ci.status_override.startswith(("context_permit_count", "context_only"))):
         est = did(ci.permits, ci.acres, before, after)
         lo, hi, _ = bootstrap_did(ci.permits, ci.acres, before, after, draws=draws, seed=seed)
     row.update({"treat_rate_before": _fmt(est["treat_before"]), "treat_rate_after": _fmt(est["treat_after"]),

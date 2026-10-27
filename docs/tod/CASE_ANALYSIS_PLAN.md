@@ -138,3 +138,13 @@ Rules: the same as for every other case, including the one area rule and units-p
   - A labelled all-land sensitivity counts every BelRed lot that now allows housing as risen from FAR 0 to the base FAR of 1.0. Incentive FAR is not by right.
   - Rezonings outside BelRed are dated by interpolating ordinance numbers.
 - **Trait-test units.** Each added city is also split into units, written to `reference/tod_case_units.csv`: plan districts in Warner Center, station areas elsewhere. Each unit's treatment lots are set against the case's comparison lots within ¼ mile, as in `traits.py`, and a unit is kept with at least 5 eligible acres in each.
+
+**2026-10-27, batch 2 of the added cities (deviations recorded while counting).** Details are in [CASE_RESULTS.md](CASE_RESULTS.md), section "Added cities, batch 2".
+- **Toronto (Eglinton Connects 2014) is context, not fit.**
+  - The treatment is the lots that still carry By-law 1030-2014's exceptions in today's zoning layer.
+  - In Toronto nearly every sizeable building gets its own site-specific rezoning, which removes the lot from those exceptions. The strict treatment therefore leaves out the lots where the Eglinton projects stand: it has 0 homes permitted before and after, and is biased toward zero.
+  - No 2014 lot list or zoning snapshot is published; the by-law's diagrams are images.
+  - Both versions are reported as context. As built, the estimate is −0.102 units per eligible acre per year. With the 15 adjacent lots rezoned later (12.9 acres), it is +0.906.
+  - Toronto's 6 kept trait-test units are flagged and kept out of the trait-test fit.
+- **Ottawa (TD zone 2012) is context only.** Permit files start in July 2011, so there are at most 2 full before years.
+- **Minneapolis (Hiawatha 2008–2012) has no data.** The rezoning boundaries exist only as PDF image maps, and the City's zoning layers start in 2017.

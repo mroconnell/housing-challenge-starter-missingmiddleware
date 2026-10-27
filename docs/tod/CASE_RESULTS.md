@@ -63,6 +63,7 @@ Written 2026-10-26 for TOD Gate 2, work package 5. It was revised the same day a
 - **With the added cities (2026-10-27).** Los Angeles Warner Center and Cornfield, and Seattle's two cases, join the fit set; Bellevue is context only. Their rows are in the batch 1 section below.
   - The two Seattle cases add per-FAR values of −0.19 and +0.10, both with intervals spanning zero.
   - The fit-set per-FAR values are now Park Slope 2.93, Downtown Brooklyn 2.20, New York pooled 0.67, Mount Baker 0.10 and North Beacon Hill + Othello −0.19. Their median is 0.67, and Park Slope and Downtown Brooklyn are still counted twice through the pooled set.
+- **Batch 2 (2026-10-27).** Toronto is context (boundary problem), Ottawa is context only and Minneapolis has no data, so none of the three changes the fit set. See the batch 2 section.
 - **Held-out check.** Chicago's effect per added FAR is 0.24 (90% interval −0.03 to +0.53). That is below every New York value, including the pooled set's 0.67 (interval 0.37 to 1.02); the two intervals do not overlap. Ann Arbor, the other held-out case, has no permit data with unit counts.
 - **Median rents** are the city values in [reference/tod_cases.csv](../../reference/tod_cases.csv): ACS 2020–2024 5-year, table B25064, observed there. They are 2020–2024 values, not values at each case's start.
 
@@ -435,6 +436,120 @@ Sensitivities, as DiD in units per eligible acre per year:
   - BelRed was mostly light industrial before (source_lead), which the eligible-land rule excludes, so the pre-registered estimate cannot be made.
   - The base FAR of 1.0 comes from the City's FAR guidance; the code site refused automated fetches.
   - Light rail opened in 2024, after the window.
+
+## Added cities, batch 2: Toronto, Ottawa, Minneapolis (2026-10-27)
+
+Built by a separate work package and merged here. The cases were added by the plan's entry of 2026-10-27, chosen before any permits were counted, and use every rule of the plan, including the one area rule. The adapters are `case_toronto.py`, `case_ottawa.py` and `case_minneapolis.py`. The inputs are fetched by `scripts/fetch_tod_cases_batch2.py` into `data/raw/tod_cases/<city>/` with manifests, and the tests are in `tests/test_tod_cases_batch2.py`. The rows are in `reference/tod_case_estimates.csv`; Toronto's station-area units are in `reference/tod_case_units.csv`.
+
+| Case | Role / status | Estimate (units per eligible acre per year; 90% interval) | Dose | Trait-test units |
+|---|---|---|---|---|
+| Toronto, Eglinton Connects 2014 | context (boundary problem; plan section 7) | as built −0.102 (−0.336 to +0.042); with the 15 adjacent lots rezoned later +0.906 (+0.383 to +1.431) | +14.3 ft of height (no FAR dose); −0.0071 per added foot | 6 kept of 10, all flagged out of the trait fit |
+| Ottawa, TD zone 2012 | context only (too few before years) | — | — | none |
+| Minneapolis, Hiawatha 2008–2012 (weak design, flagged) | no data (boundaries only as PDF images) | — | — | none |
+
+### Toronto, Eglinton Connects mid-rise rezoning, By-law 1030-2014
+
+**Reform.** City Council enacted By-law 1030-2014 on 28 August 2014. It rezoned lots fronting Eglinton Avenue between Jane Street and Kennedy Road to CR (commercial residential) labels with no floor space index (FSI) limit, and set heights of 13.5 to 25.5 metres through 28 site-specific exceptions, numbered 2621 to 2648. The staff report describes the change as +1 to +3 storeys on 5.0 km of frontage. The case uses 2014 as the effective year. The parent Official Plan Amendment 253 was appealed and settled on 28 September 2018, so 2018 is shown as a diagnostic.
+
+**Data (Open Government Licence – Toronto).**
+- **Permits.** The City's three building-permit files are combined: cleared permits 2000–2016, cleared permits since 2017, and active permits.
+  - Kept: new-construction permits with `DWELLING_UNITS_CREATED` > 0 and an issue date, one per permit number. Revision 00 carries the permit's units; later revisions are dropped. Cancelled and refused permits are dropped.
+  - New construction means type New Building or New Houses, or a Residential, Multiple Use or Non-Residential Building Permit whose work is "New Building…".
+  - 50,211 such permits citywide. Their units total 12,494 in 2012, 20,097 in 2013, 13,727 in 2014 and 20,759 in 2018 (units authorized citywide per year, all issue years in the files).
+- **Locations.** The permit's `GEO_ID` is the City's address point id.
+  - Within the case area, 13,052 permits were placed by `GEO_ID`, 408 by the same address, and 292 by the nearest house number on the same street side within 20 numbers. Big sites are re-addressed after construction, which is why the fallbacks are needed.
+  - 93.2% of the permits placed within the case area fall inside a parcel.
+- **Zoning.** Zoning By-law 569-2013 zone areas and height overlay (current consolidation only).
+- **Parcels.** The City's property boundaries (`RESERVE` parcels excluded).
+- **Stations.** TTC merged GTFS (parent stations of the subway and the Line 5 and Line 6 LRT lines).
+
+**Areas.**
+- **Treatment.** Treatment lots are parcels whose representative point lies in a zone polygon labelled with exception 2621–2648. The by-law's own diagrams are images, but every lot it rezoned received one of these exceptions.
+  - The current layer has 81.2 acres of such polygons, carrying 25 of the 28 exceptions. Exceptions 2623, 2626 and 2640 no longer appear, so their lots have been rezoned again since 2014.
+  - Treatment is 604 eligible parcels on 49.5 eligible acres.
+- **Did density rise:** yes on every treatment lot, because the FSI caps were removed. "Already at the law" cannot be tested: no published layer keeps the labels from before 2014, so no lot is excluded for it (as for Phoenix).
+- **Comparison:** 10,839 eligible parcels on 981.0 acres within ¼ mile of the treatment.
+- **Second comparison:** 11,079.4 eligible acres within ½ mile of 102 TTC stations with no treated land in their own ½ mile.
+- **Eligible land:** zones R, RD, RS, RT, RM, RA and RAC (residential), CR and CRE (mixed use), and CL (commercial). Open space, utility, institutional and employment zones are excluded.
+
+**Result (2014 effective year; before 2008–2013, after 2015–2019).**
+- **Treatment:** 0 units in the 6 before years and 0 in the 5 after years, on 49.5 eligible acres. Both rates are 0 units per eligible acre per year.
+- **Comparison:** 282 units in the 6 before years on 981.0 acres, 0.0479 units per acre per year. After: 735 units in 5 years, 0.1498 per acre per year.
+- **Difference-in-differences:** −0.1019 units per eligible acre per year (90% interval −0.3362 to +0.0417).
+- **Dose.**
+  - On 69.9% of the treatment acres, the exception's height exceeds the height overlay it overrides. The other lots have no recorded before height: either the exception sets no height, or the by-law itself added them to the overlay.
+  - The acre-weighted added height is +4.36 metres (+14.3 ft) over that land. The FSI caps that were removed are not in the dose.
+  - The effect per added foot is −0.00713 units per acre per year (90% interval −0.02352 to +0.00292).
+  - There is no FAR dose, so the case stays out of per-FAR pooling, like Charlotte.
+- **Sensitivities:**
+  - second comparison: −0.0121;
+  - largest project in each area and period left out: −0.0091;
+  - original area rule: −0.1019 (the same, because no lot is excluded as already at the law);
+  - 2018 effective year: −0.5595 (after years 2019–2023, driven by a comparison spike);
+  - per 1,000 homes: not computed (no census dwelling counts by block were fetched).
+- **Boundary sensitivity (not the plan's rule):** −0.10 becomes +0.91.
+  - Add 15 lots (12.9 acres) that left By-law 569-2013 through a later site-specific rezoning, front on Eglinton, and lie within 100 metres of the by-law's lands.
+  - With them, treatment goes from 0 to 312 units in the after years. The estimate becomes +0.9059 units per eligible acre per year (90% interval +0.3831 to +1.4313).
+
+**Why the boundary matters.** In Toronto, nearly every building of any size gets a site-specific rezoning. A lot rezoned that way after 2014 loses its 1030-2014 exception, or leaves the 569-2013 layer altogether (no zone polygon). So the strict treatment holds only lots that were *not* redeveloped by rezoning. The largest Eglinton projects of the period stand on lots with no 569-2013 zone today. Examples are 1185 Eglinton Avenue East (2019, 325 + 310 units), 939 Eglinton Avenue East (2021–2025) and 1603 Eglinton Avenue West (2019, 221 units).
+- The strict estimate therefore measures development that used the by-law's by-right permissions only. It is biased toward zero.
+- The sensitivity measures all development on the frontage, including projects that needed their own rezoning. It is biased up, and some of the added lots may never have been in the by-law.
+- Open data cannot settle which lots were in the by-law in 2014: no 2014 zoning snapshot is published, and the diagrams are images.
+- **Toronto is context, not fit (plan section 7, 2026-10-27).** It stays out of any fit until the 2014 lot list is rebuilt from the by-law's diagrams (a manual step). Its 6 kept trait-test units are flagged in `tod_case_units.csv` (`trait_fit` = False) and kept out of the trait-test fit.
+
+**Other limits.**
+- Zoning before for the comparison lots is today's layer. Site-specific rezonings in the window cannot be dated from it. Lots outside 569-2013 (153.3 acres in the ¼-mile ring) are excluded from every area as rezoned outside the reform. They carried 0 units before and 2,154 after.
+- Parking: Policy Area 4 to 3 (lower apartment minimums) on the corridor.
+- Rent: Toronto's rent is in Canadian dollars and is not in `reference/tod_cases.csv`.
+
+**Units for the trait test (station areas, nearest Line 5 station; plan rule ≥ 5 eligible acres in treatment and comparison).**
+- **Kept (6):** Caledonia (5.66 treatment acres), Cedarvale (6.16), Fairbank (9.96), Forest Hill (5.73), Keelesdale (8.06) and Oakwood (6.91).
+- **Dropped (4):** Chaplin (0.10 acres), Eglinton (1.40), Laird (2.77) and Mount Pleasant (2.79), each with under 5 treatment acres.
+- Every kept unit has 0 treatment units before and after. Their effects (−0.0048 to −0.0373 units per acre per year) reflect only growth in the comparison rings. The boundary problem above applies to each unit.
+- The parcels carry `h_before` and `h_after` in feet, for the unit dose. No land-use field is published with Toronto parcels, so the vacant, parking or industrial share (trait t09) is not available.
+
+### Ottawa, transit-oriented development (TD) zone, By-law 2012-406
+
+**Status: context only; no estimate.**
+- **Permits (Open Government Licence – City of Ottawa, version 2.0).** The City's monthly construction-permit workbooks give address, dwelling units ("D.U.") and issue date, but no coordinates. They **start in July 2011**.
+  - 14 files cover July 2011 to 2025.
+  - Five of them (2014, 2015, 2020–2022) are old-format Excel files despite the hub's `.xlsx` name, so they are saved as `.xls`. They need `xlrd`, which is not a project dependency.
+- **Reform land.** The TD zone was mapped in two steps:
+  - By-law 2012-406 (Train, St-Laurent and Cyrville; consolidation date 14 November 2012): 311.6 acres of current TD polygons;
+  - By-law 2014-022 (Lees, Hurdman and Blair; 22 January 2014, confirmed by the Ontario Municipal Board, PL140185): 167.3 acres;
+  - 21.6 acres of later site-specific amendments.
+- **Why no estimate.**
+  - **Before years.** The 2012 step has 0 full years of permits before it, and the 2014 step has 2 (2012 and 2013). The plan needs 3. The permit-count fallback uses the same files, so it fails the same rule.
+  - **Zoning before.** The zoning layer's `HISTORY` field lists earlier amending by-law numbers, not earlier zone codes, so whether density rose cannot be read for any lot.
+  - **Parcels.** The City does not publish a parcel fabric under its open licence.
+- **Trait-test units: none.**
+
+### Minneapolis, Hiawatha (Blue Line) station-area rezonings, 2008–2012 (weak design, flagged)
+
+**Status: no data; no estimate.**
+- **Boundary.** The official rezoning maps exist only as PDF images on City pages that have since been removed (Wayback copies only):
+  - 38th Street west, approved 2 May 2008;
+  - 46th Street, approved 8 May 2009;
+  - 38th Street east, 2012.
+
+  No GIS layer, parcel list or zoning snapshot from 2007–2012 was found. The City's zoning layers start in January 2017 (`msvcCPED_PrimaryZoning_20170126`) and June 2023 (`PrimaryZoningArchive`). The plan's treatment is "parcels inside the official upzoning boundary", which cannot be built automatically.
+- **Units.** Unit counts start in 2010 (`New_Non_SFD_Building_Permits_2010_2015`, 164 permits citywide). That is after the 2008 and 2009 rezonings and 2 years before the 2012 one, so there are too few before years for a unit-based measure.
+- **Permit counts (fallback; CC0 1.0).** The yearly permit layers for 2000–2014 have points and use codes but no units.
+  - **The 2011 layer holds 2012's records** (the same permit numbers), so 2011 is missing.
+  - New residential building permits (type BINB with a one-family, multifamily or apartment use code) number 28 to 123 a year citywide.
+  - Within ½ mile of the rezoned stations there are 0 to 4 a year (by station and year, in the adapter's diagnostics). That is too few for a rate even with a boundary.
+- **What would make it measurable:** digitizing the three PDF maps (a manual, non-automated step) and accepting permit counts for 2000–2014 without 2011.
+- **Trait-test units: none.**
+
+### Data and licence notes
+
+- **Toronto.**
+  - The portal's records say "License not specified". The portal's terms page (https://open.toronto.ca/open-data-license/) puts all its datasets under the Open Government Licence – Toronto, which allows reuse with attribution ("Contains information licensed under the Open Government Licence – Toronto").
+  - The older TTC GTFS package (`ttc-routes-and-schedules`) returns an empty 22-byte zip, so the merged GTFS package is used instead.
+  - The portal returns 502 and 504 errors intermittently, so the fetcher retries.
+- **Ottawa.** Open Government Licence – City of Ottawa, version 2.0. Attribution is required.
+- **Minneapolis.** CC0 1.0 (City of Minneapolis open data), with the City's GIS accuracy disclaimer.
+- Raw files are git-ignored; nothing with addresses or permit numbers is committed.
 
 ## Chicago, 2015 transit-served location ordinance (held out)
 

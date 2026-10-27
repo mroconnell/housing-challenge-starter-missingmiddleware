@@ -1,0 +1,11 @@
+PERMIT_NUM,REVISION_NUM,PERMIT_TYPE,WORK,STREET_NUM,STREET_NAME,STREET_DIRECTION,GEO_ID,ISSUED_DATE,STATUS,DWELLING_UNITS_CREATED
+10 000001 BLD,00,New Building,New Building,100,MAIN,E,5001,2010-03-01,Closed,120
+10 000001 BLD,01,New Building,New Building,100,MAIN,E,5001,2011-05-01,Closed,8
+10 000002 NH,00,New Houses,New Building,12,ELM,,5002,2012-06-01 00:00:00.000,Closed,1
+10 000003 BLD,00,Residential Building Permit,New Building,14,ELM,,5003,2013-01-02,Inspection,3
+10 000004 BLD,00,Residential Building Permit,Addition to Existing Building,16,ELM,,5004,2013-01-02,Closed,1
+10 000005 BLD,00,New Building,New Building,200,MAIN,E,5005,,Under Review,300
+10 000006 BLD,00,New Building,New Building,210,MAIN,E,5006,2015-02-02,Cancelled,90
+10 000007 BLD,00,Fire/Security Upgrade,New Building,220,MAIN,E,5007,2016-02-02,Closed,637
+10 000008 BLD,00,Multiple Use Permit,New Building,230-240,MAIN,E,,2017-07-07,Permit Issued,45
+10 000009 DRN,00,Drain and Site Service,Back Water Valve,18,ELM,,5009,2017-07-07,Closed,

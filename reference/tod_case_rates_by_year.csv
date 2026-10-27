@@ -517,3 +517,39 @@ bellevue_belred_2009,treatment,2011,after,0,504.4,0.0,"context_only: zoning befo
 bellevue_belred_2009,treatment,2012,after,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
 bellevue_belred_2009,treatment,2013,after,78,504.4,0.15464,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
 bellevue_belred_2009,treatment,2014,after,307,504.4,0.60864,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+toronto_eglinton_2014,comparison,2008,before,161,981.0,0.16412,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2009,before,15,981.0,0.01529,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2010,before,17,981.0,0.01733,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2011,before,27,981.0,0.02752,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2012,before,26,981.0,0.0265,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2013,before,36,981.0,0.0367,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2014,year0,22,981.0,0.02243,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2015,after,37,981.0,0.03772,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2016,after,33,981.0,0.03364,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2017,after,27,981.0,0.02752,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2018,after,37,981.0,0.03772,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,comparison,2019,after,601,981.0,0.61264,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2008,before,2099,11079.4,0.18945,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2009,before,1805,11079.4,0.16291,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2010,before,1428,11079.4,0.12889,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2011,before,137,11079.4,0.01237,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2012,before,214,11079.4,0.01932,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2013,before,617,11079.4,0.05569,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2014,year0,387,11079.4,0.03493,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2015,after,623,11079.4,0.05623,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2016,after,568,11079.4,0.05127,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2017,after,2750,11079.4,0.24821,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2018,after,495,11079.4,0.04468,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,second_comparison,2019,after,1486,11079.4,0.13412,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2008,before,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2009,before,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2010,before,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2011,before,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2012,before,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2013,before,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2014,year0,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2015,after,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2016,after,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2017,after,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2018,after,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand
+toronto_eglinton_2014,treatment,2019,after,0,49.5,0.0,context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand

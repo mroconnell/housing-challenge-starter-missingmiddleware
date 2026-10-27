@@ -74,10 +74,36 @@ def builders(selected: list[str]):
     for key in ADDED:
         if key in selected:
             out += added_builders(key)
+    # batch 2 (built in a separate work package; registered here)
+    if "toronto" in selected:
+        from missing_middleware.tod import case_toronto
+        out.append(("toronto_eglinton_2014", toronto_context))
+    if "ottawa" in selected:
+        from missing_middleware.tod import case_ottawa
+        out.append(("ottawa_td_zone_2012", case_ottawa.build))
+    if "minneapolis" in selected:
+        from missing_middleware.tod import case_minneapolis
+        out.append(("minneapolis_hiawatha_2008_2012", case_minneapolis.build))
     return out
 
 
-ADDED = ("la", "seattle", "bellevue", "ottawa", "toronto", "minneapolis")
+def toronto_context():
+    """Toronto is context only (plan section 7, 2026-10-27): its treatment lots exclude the later site-specific
+    rezonings where the Eglinton projects stand, so the strict treatment has no homes before or after. Both versions
+    are reported: as built, and with the adjacent lots rezoned later (columns sens_toronto_with_rezoned_lots_*)."""
+    from missing_middleware.tod import case_toronto
+    ci, diag = case_toronto.build()
+    ci.role = "context"
+    ci.status_override = "context_only: treatment lots exclude the later site-specific rezonings where the Eglinton projects stand"
+    s2 = diag.get("sens_with_later_rezoned_eglinton_lots") or {}
+    ci.extra.update({f"sens_toronto_with_rezoned_lots_{k}": v for k, v in s2.items() if isinstance(v, (int, float))})
+    ci.extra["sens_toronto_as_built_did"] = round(float(C.did(ci.permits, ci.acres, *(lambda p: (p["before"], p["after"]))(
+        C.period_years(ci.effective_year, ci.first_year, ci.last_full_year)))["did"]), 4)
+    return ci, diag
+
+
+ADDED = ("la", "seattle", "bellevue")
+BATCH2 = ("toronto", "ottawa", "minneapolis")
 
 
 def _module(key: str):
@@ -117,6 +143,44 @@ def added_unit_frames(selected: list[str]) -> list:
     return out
 
 
+def toronto_unit_frame() -> dict:
+    """Trait-test units for Toronto (station areas by nearest TTC station), from the adapter's own parcels and
+    permits; flagged and kept out of the trait-test fit (plan section 7, 2026-10-27)."""
+    import zipfile
+
+    import geopandas as gpd
+    from missing_middleware.tod import case_toronto as K
+    from missing_middleware.tod import traits as T
+    rec = []
+    orig = C.uniform_areas
+
+    def cap(parcels, *a, **k):
+        r = orig(parcels, *a, **k)
+        rec.append(parcels)
+        return r
+    C.uniform_areas = cap
+    try:
+        ci, _ = K.build()
+    finally:
+        C.uniform_areas = orig
+    parcels = rec[0]
+    with zipfile.ZipFile(K.DIR / "ttc_gtfs.zip") as z:
+        st = pd.read_csv(z.open("stops.txt"), dtype=str)
+    st = st[st["location_type"] == "1"].reset_index(drop=True)
+    g = gpd.GeoDataFrame({"stop_name": st["stop_name"]}, geometry=gpd.points_from_xy(st["stop_lon"].astype(float), st["stop_lat"].astype(float)),
+                         crs=4326).to_crs(K.CRS_M)
+    stations = T.cluster_stations(g, g["stop_name"])
+    tr = parcels.index[parcels["area"] == C.TREAT]
+    parcels["unit_label"] = None
+    parcels.loc[tr, "unit_label"] = T.nearest_station(parcels.loc[tr].geometry.representative_point(), stations).values
+    parcels["old_level"], parcels["new_level"] = parcels["h_before"], parcels["h_after"]
+    p = ci.permits.copy()
+    p["pix"] = p["project"].str.split(":").str[-1].astype(int)
+    return {"parcels": parcels, "permits": p, "per": C.period_years(ci.effective_year, ci.first_year, ci.last_full_year),
+            "effective_year": ci.effective_year, "dose_unit": "added height (ft)", "unit_type": "station area",
+            "trait_fit": False, "flag": "kept out of the trait-test fit: treatment excludes the later site-specific rezonings (plan section 7)"}
+
+
 def unit_rows(case: str, uf: dict) -> list[dict]:
     """Trait-test units for one case (station areas or district subareas), following missing_middleware/tod/traits.py
     and scripts/run_tod_traits.py: each unit's eligible treatment lots against the case's comparison lots within 1/4
@@ -151,7 +215,7 @@ def unit_rows(case: str, uf: dict) -> list[dict]:
                      "effect": e["did"], "interval90_low": e["low"], "interval90_high": e["high"],
                      "treatment_units_before": T.units_in(pu, C.TREAT, b), "treatment_units_after": T.units_in(pu, C.TREAT, a),
                      "comparison_units_before": T.units_in(pu, C.COMP, b), "comparison_units_after": T.units_in(pu, C.COMP, a),
-                     "dose": d, "dose_unit": du})
+                     "dose": d, "dose_unit": du, "trait_fit": uf.get("trait_fit", True), "flag": uf.get("flag", "")})
     return rows
 
 
@@ -248,7 +312,7 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--case", nargs="*", default=["charlotte", "stpaul", "nyc", "nyc_pooled", "philadelphia", "raleigh",
                                                    "phoenix", "chicago", "annarbor", "raleigh_counts", "phoenix_counts",
-                                                   "annarbor_counts", *ADDED])
+                                                   "annarbor_counts", *ADDED, *BATCH2])
     a = ap.parse_args(argv)
     rates_all, rows, events, diags = [], [], [], {}
     for case, fn in builders(a.case):
@@ -287,7 +351,8 @@ def main(argv=None) -> None:
              "chicago_tod_2013_2015", "annarbor_tc1_2021", "raleigh_permit_count_all", "raleigh_permit_count_sf",
              "raleigh_permit_count_mf", "phoenix_permit_count_all", "phoenix_permit_count_sf", "phoenix_permit_count_mf",
              "annarbor_permit_count_all", "la_warner_center_2013", "la_cornfield_arroyo_seco_2013", "seattle_nbh_othello_2012",
-             "seattle_mount_baker_2014", "bellevue_belred_2009"]
+             "seattle_mount_baker_2014", "bellevue_belred_2009", "toronto_eglinton_2014", "ottawa_td_zone_2012",
+             "minneapolis_hiawatha_2008_2012"]
     est["_o"] = est["case"].map({c: i for i, c in enumerate(order)}).fillna(99)
     est = est.sort_values("_o").drop(columns="_o")
     rates["_o"] = rates["case"].map({c: i for i, c in enumerate(order)}).fillna(99)
@@ -328,6 +393,11 @@ def main(argv=None) -> None:
     (out / "diagnostics.json").write_text(json.dumps(old, indent=1, default=str) + "\n")
     print(f"wrote {rp.relative_to(REFERENCE.parent)} ({len(rates)} rows), {ep.relative_to(REFERENCE.parent)} ({len(est)} rows)")
     ufs = added_unit_frames(a.case)
+    if "toronto" in a.case:
+        try:
+            ufs.append(("toronto_eglinton_2014", toronto_unit_frame()))
+        except Exception as e:  # noqa: BLE001
+            print(f"toronto units: {type(e).__name__}: {e}")
     if ufs:
         up = REFERENCE / "tod_case_units.csv"
         new_rows = pd.DataFrame([r for c, uf in ufs for r in unit_rows(c, uf)])
