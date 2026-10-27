@@ -64,6 +64,7 @@ GitHub's dependency-graph API is used only by `bash scripts/export_sbom.sh` to r
 | numpy | BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 | runtime (pipeline, via pandas) | ok; the `CC0-1.0` part covers one bundled component file, not numpy as a whole (numpy's licence expression lists it beside the permissive licences); CC0-1.0 is a public-domain dedication, accepted here only as a component of an otherwise permissive package |
 | packaging, python-dateutil, six, tzdata | Apache-2.0 OR BSD-2-Clause; BSD-3-Clause/Apache-2.0 dual; MIT; Apache-2.0 | runtime (transitive) | ok |
 | **certifi** | **MPL-2.0 (flagged exception)** | runtime (transitive, `geo` extra) | see "Flagged exception: certifi" below |
+| scikit-learn; scipy, joblib, threadpoolctl | BSD-3-Clause; BSD-3-Clause; BSD-3-Clause; BSD-3-Clause | optional (`ml` extra; TOD trait test only) | ok; checked by `scripts/check_python_licenses.py` |
 | matplotlib | Matplotlib License (PSF-style, permissive) | dev-only (Gate 3 charts, `uv run --with`) | ok |
 | maplibre-gl 6.15.0 | BSD-3-Clause | runtime (tool map) | ok; its dependencies are MIT, ISC, BSD-2/3-Clause or MIT OR Apache-2.0 |
 | vite 7.3.7 | MIT | dev-only (build, local server) | ok; dependencies MIT, ISC, BSD, Apache-2.0 |
