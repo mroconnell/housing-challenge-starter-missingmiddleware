@@ -104,3 +104,22 @@ All entries are dated 2026-10-27. They were written while running the test; resu
 - **How results are shown:** every pair's result is reported. Anything that passes is labelled exploratory: shown as a sensitivity only, never used for the main estimate, and stated with the warning that about 3 of 66 pairs would be expected to look good by chance.
 
 **2026-10-27, how the exploratory tree is built (details the entry above leaves open; fixed before the tree was run).** The tree is a least-squares regression tree weighted by eligible treatment acres. It may split on any of the 12 traits, as entered in the one-trait tests, and each split is "trait ≤ threshold", with thresholds halfway between adjacent observed values. Its leaves predict the acre-weighted mean effect. A unit with no value for the split's trait goes to the child with more acres; added FAR and two other traits are missing for some units. The tree is refitted inside each fold, and Chicago and Madison are predicted from the tree fitted on all four fitted cities. Pairs drop units missing either trait, and the baseline is judged on the same units, as in the one-trait test.
+
+**2026-10-27, rerun on the wider case set with several tools (owner request; written before the rerun, with the batch 2 cities not yet measured).**
+- **Units:** all units from `reference/tod_case_units.csv` plus the original units, with the same 5-acre minimum. Each city with at least one unit is a fold. Chicago and Madison are never fitted.
+- **Tools, all judged by the same leave-one-city-out test against the plain average:**
+  1. one-trait weighted linear regression, as before;
+  2. LASSO (penalized multiple regression on all 12 traits, with the penalty chosen inside each training fold);
+  3. the depth-2 regression tree, as before;
+  4. a random forest (500 trees, minimum 5 units per leaf, default settings otherwise);
+  5. gradient-boosted trees (shallow trees, early stopping inside each training fold);
+  6. a causal forest. Each unit's treated and comparison land are entered as treated and control observations, so the forest estimates how the effect varies with the traits.
+  7. k-nearest neighbours (k = 5 on standardized traits).
+  8. a multilevel model with a random intercept for each city. It is reported for honest uncertainty, not as a predictor.
+- **Pass rule, stricter because many tools are tried:** a tool passes only if all three hold:
+  - it beats the plain average in at least two-thirds of the fitted cities;
+  - it beats the plain average on the mean error;
+  - it beats the plain average on Chicago and on Madison, each by itself.
+
+  Every tool's result is reported.
+- **If a tool passes:** it goes to the owner as a candidate for narrowing the modelled law (AQ-056), with the warning that picking the best of 8 tools inflates how good it looks.
