@@ -304,6 +304,67 @@ def stocks() -> pd.DataFrame:
     return pd.read_csv(OUT / "coverage_cities.csv").set_index("city")
 
 
+WI_STATION_AREA_HOMES = 313_564     # 2020 census homes in the main-case station areas (GATE2_PACKET.md, MODEL.md)
+WI_CURRENT = {"little (Los Angeles)": 171, "typical (Stacy et al.)": 2509, "strong (Auckland)": 17148}
+
+
+def treated_homes(case: str) -> tuple[float, str]:
+    """Homes in the treated area before the reform: the case's own count (reference/tod_case_estimates.csv,
+    treatment_homes) where it has one; otherwise census block homes whose block point lies in the treated lots
+    (Philadelphia: 2010 blocks, members together; Madison: 2020 blocks)."""
+    e = pd.read_csv(REFERENCE / "tod_case_estimates.csv").set_index("case")
+    src = {"nyc_pooled_2003_2013": "MapPLUTO residential units on treated lots in the snapshot before each rezoning (case count)",
+           "la_warner_center_2013": "Assessor units on treated lots built before the window (case count)",
+           "la_cornfield_arroyo_seco_2013": "Assessor units on treated lots built before the window (case count)",
+           "seattle_nbh_othello_2012": "2010 zoned-capacity parcel units on treated lots (case count)",
+           "seattle_mount_baker_2014": "2010 zoned-capacity parcel units on treated lots (case count)"}
+    if case in e.index and pd.notna(e.loc[case, "treatment_homes"]):
+        return float(e.loc[case, "treatment_homes"]), src.get(case, "2010 census block homes in treated eligible lots (case count)")
+    f = OUT / f"treated_homes_{case}.json"
+    if f.exists():
+        d = json.loads(f.read_text())
+        return d["homes"], d["source"]
+    import geopandas as gpd
+    from shapely.ops import unary_union
+    ms = load_case(case)
+    crs = ms[0]["crs"]
+    u = unary_union([m["treated_union"] for m in ms if m["treated_union"] is not None])
+    bbox = tuple(gpd.GeoSeries([u.envelope], crs=crs).to_crs(4269).total_bounds)
+    if case == "madison_tod_overlay_2023":
+        b = gpd.read_file(RAW / "census_tiger_2020_tabblock" / "tl_2020_55_tabblock20.zip", bbox=bbox)
+        col, source = "HOUSING20", "2020 census block homes whose block point lies in the treated lots"
+    else:
+        b = gpd.read_file(RAW / "tod_cases" / "census_2010_blocks" / "tabblock2010_42_pophu.zip", bbox=bbox)
+        col, source = "HOUSING10", "2010 census block homes whose block point lies in the treated lots (members together)"
+    pts = b.to_crs(crs).geometry.representative_point()
+    homes = float(pd.to_numeric(b[col], errors="coerce").fillna(0)[pts.within(u).values].sum())
+    f.write_text(json.dumps({"homes": homes, "source": source}))
+    return homes, source
+
+
+def per_upzoned_home(R: pd.DataFrame, draws: dict) -> pd.DataFrame:
+    """After-results addition (plan section 8): net extra homes over five years as a share of homes in the treated area,
+    and what that share implies for Wisconsin (x 313,564 station-area homes). Intervals from the same draws."""
+    th = {c: treated_homes(c) for c in draws}
+    city_cases = R[R["level"] == "case"].groupby("city", sort=False)["case"].apply(list).to_dict()
+    for i, r in R.iterrows():
+        cs = [r["case"]] if r["level"] == "case" else city_cases.get(r["city"], [])
+        h = sum(th[c][0] for c in cs)
+        d = 5 * sum(draws[c]["net_homes_per_year"] for c in cs)
+        lo, hi = NE.interval(d)
+        R.loc[i, "treated_area_homes_before"] = h
+        R.loc[i, "treated_area_homes_source"] = "; ".join(sorted({th[c][1] for c in cs}))
+        R.loc[i, "treated_area_share_of_city_homes"] = h / r["city_housing_stock"]
+        R.loc[i, "net_5yr_homes"] = 5 * r["net_extra_homes_per_year"]
+        R.loc[i, "net_5yr_per_upzoned_home_pct"] = 100 * 5 * r["net_extra_homes_per_year"] / h if h else np.nan
+        R.loc[i, "net_5yr_per_upzoned_home_low_pct"] = 100 * lo / h if h else np.nan
+        R.loc[i, "net_5yr_per_upzoned_home_high_pct"] = 100 * hi / h if h else np.nan
+        for k, src in (("", "net_5yr_per_upzoned_home_pct"), ("_low", "net_5yr_per_upzoned_home_low_pct"),
+                       ("_high", "net_5yr_per_upzoned_home_high_pct")):
+            R.loc[i, f"wisconsin_implied_extra_homes_2027_2031{k}"] = R.loc[i, src] / 100 * WI_STATION_AREA_HOMES
+    return R
+
+
 def stage_net() -> pd.DataFrame:
     cov = stocks()
     shapes = case_shapes()
@@ -377,6 +438,7 @@ def stage_net() -> pd.DataFrame:
              "city_share_land_covered": g["city_share_land_covered"].iloc[0], "city_share_homes_covered": g["city_share_homes_covered"].iloc[0]}
         crow.append(x)
     R = pd.concat([R, pd.DataFrame(crow)], ignore_index=True)
+    R = per_upzoned_home(R, draws)
     R["net_share_5yr_low_pct"] = 5 * R["net_share_low_pct"]
     R["net_share_5yr_high_pct"] = 5 * R["net_share_high_pct"]
     R["warning"] = np.where(R["case"].eq("stpaul_green_line_2011"), "1 before year only (2010): the case is context only in the case work", "")

@@ -151,3 +151,33 @@ The rule is the latest one in [TRAITS_PLAN.md](TRAITS_PLAN.md) section 8: a trai
 - **Every value is in the CSVs.** City coverage and each unit's value are in `tod_coverage_traits.csv`. The verdicts and each city's errors are in `tod_net_traits_test.csv`.
 
 **In plain words:** none of these traits predicts the held-out cities better than the plain average. Elongated upzonings and transit-commuting areas looked slightly better within the fitted cities, but got Chicago and Madison wrong. Eight traits were tried, so one or two near-misses are expected by chance.
+
+## 7. After results: the per-upzoned-home basis (arithmetic conversion, not a new test)
+
+This section was added after the results above, at the coordinator's request; plan section 8 has the entry. Wisconsin's scenarios are shares of the homes in station areas (AQ-050). That is why the Los Angeles and Auckland figures were divided by the share of the city they covered. The same conversion is applied here: each city's net extra homes over five years ÷ the homes in its treated area before the reform. The 90% intervals come from the same resampling draws.
+
+| City | Treated-area homes before | Treated area's share of city homes | Net extra homes, 5 years | Per upzoned home, 5 years (90% interval) | Implied for Wisconsin, 2027–2031 (× 313,564) |
+| --- | ---: | ---: | ---: | --- | --- |
+| Saint Paul (1 before year) | 826 | 0.68% | −145 | −17.6% (−71.0% to 35.2%) | −55,040 (−222,584 to 110,275) |
+| Los Angeles (two cases) | 5,913 | 0.42% | 508 | 8.6% (−17.4% to 32.9%) | 26,945 (−54,553 to 103,050) |
+| New York | 16,862 | 0.50% | 3,557 | 21.1% (10.3% to 33.5%) | 66,143 (32,442 to 105,108) |
+| Chicago (held out) | 6,030 | 0.50% | 1,319 | 21.9% (15.6% to 27.7%) | 68,603 (48,989 to 86,861) |
+| Philadelphia | 14,249 | 2.13% | 4,309 | 30.2% (14.1% to 46.9%) | 94,824 (44,332 to 147,181) |
+| Charlotte | 2,514 | 0.79% | 1,073 | 42.7% (8.9% to 79.2%) | 133,800 (27,845 to 248,459) |
+| Madison (held out) | 3,205 | 2.49% | 1,598 | 49.9% (1.2% to 97.4%) | 156,329 (3,733 to 305,256) |
+| Seattle (two cases) | 364 | 0.12% | 269 | 73.8% (−121.0% to 267.1%) | 231,411 (−379,536 to 837,684) |
+
+**Against the current scenarios** (extra homes over 2027–2031):
+
+| | Lowest city | Median of the eight | Highest city |
+| --- | --- | --- | --- |
+| Current scenarios | 171 (little, Los Angeles TOC) | 2,509 (typical, Stacy et al.) | 17,148 (strong, Auckland) |
+| City net, per upzoned home | −55,040 (Saint Paul), or 26,945 (Los Angeles, the lowest positive) | 81,714 (26.1%, midway between Chicago and Philadelphia) | 231,411 (Seattle) |
+
+**Why these numbers are so large, and why they should not be used as they stand:**
+- **The treated areas are thin slices.** They hold 0.12% to 2.5% of each city's homes. The borrowed studies covered 47% to 75% of their cities, and the reforms there were divided by those coverage shares.
+- **The upzoned land was picked for little existing housing.** The uniform rule leaves out land already built to the limit. Much of what remains is commercial, parking or industrial land with few homes. So a few hundred homes on a few hundred acres become a large share of a tiny base. Seattle's 364 treated homes are the extreme case.
+- **The numerator includes the ring's gain against far land.** The denominator counts only treated-area homes. On treatment alone, the five-year shares are −68% to +69% by case.
+- **The implied figures are not plausible for Wisconsin.** Most exceed a quarter of the 313,564 homes in the state's station areas in five years. Wisconsin's station areas are mostly already-built land, the kind these cases left out.
+
+**The fairer comparison is the whole-city basis in section 4,** or net homes per upzoned acre, rather than this per-home conversion. Nothing changes without the owner's approval.

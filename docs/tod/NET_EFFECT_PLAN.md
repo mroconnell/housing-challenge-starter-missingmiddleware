@@ -95,3 +95,11 @@ Driver's-licence counts are published only by state (FHWA), so they cannot vary 
    - **Land beyond 1½ miles:** the city's own permit records more than 1½ miles from the treatment. Stacked cases use the mean over members.
    - **Gaps:** Los Angeles has no citywide permit file. Saint Paul's file has units only from 2010.
 10. **The trait test** uses the several-tools frame (`run_tod_traits.wide_frame`), the one-trait weighted regression and `traits.judge_tools`. A trait missing for a unit drops that unit, and the plain average is judged on the same units.
+
+**2026-10-27, AFTER RESULTS: per-upzoned-home conversion (coordinator request; arithmetic, not a new test).** This was added after the results in [NET_EFFECT_RESULTS.md](NET_EFFECT_RESULTS.md) were seen. Section 6 implies putting each city's net effect on the basis Wisconsin's scenarios use (AQ-050): a share of the homes in the covered area, not of the whole city. For each case and city, `reference/tod_net_effect_by_case.csv` now adds:
+- **Homes in the treated area before the reform.** Most cases use their own count (`treatment_homes` in `tod_case_estimates.csv`): MapPLUTO units for New York, Assessor units for Los Angeles, 2010 capacity-layer units for Seattle, and 2010 census blocks for Charlotte, Saint Paul and Chicago. Philadelphia has no case count, so it uses 2010 census blocks whose block point lies in the treated lots, with members together. Madison uses 2020 census blocks in the same way.
+- **The treated area's share of the city's homes.**
+- **Net extra homes over five years ÷ treated-area homes.** Its 90% interval comes from the same draws.
+- **The Wisconsin figure each share implies:** share × 313,564 homes in the main-case station areas.
+
+Cities with two cases add their homes and their draws. The numerator is the plan's net effect, which includes the ring's change against far land. The denominator counts treated-area homes only. Nothing in the model changes.
