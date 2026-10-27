@@ -63,3 +63,35 @@ Each case is also labelled "corridor" (mostly long continuous strips, such as Ma
 - **Commute time:** the mean travel time to work, in minutes (B08303, or aggregate travel time ÷ workers).
 
 Driver's-licence counts are published only by state (FHWA), so they cannot vary across station areas and are not used.
+
+**2026-10-27, how the plan was carried out (deviations recorded while running it).** Results are in [NET_EFFECT_RESULTS.md](NET_EFFECT_RESULTS.md).
+1. **Work extents.** Two case adapters load lots only near each rezoning: New York within a box 1,500 m around each member, and Philadelphia within 2,000 m of each bill. Both are less than 1½ miles (2,414 m). While those adapters run, that one distance is widened to 2,700 m; nothing else changes. Every case's treatment and ring acres and its own estimate are reproduced exactly. Los Angeles parcels and permits were fetched only for each plan's area plus 1.8 km, so its far land stops there; this is shown per case as the share of the ¼ to 1½ mile band that has lots.
+2. **Far land** is eligible land in the same city that the case's rule leaves unchanged. It may include the case's second-comparison lots. Lots the rule puts in no area are never far land: rezoned elsewhere, already at the law, or in the reform but not risen. Stacked cases (New York, Philadelphia) get far land per member and are stacked in event time, like the other areas.
+3. **Years.** Each case keeps its own before and after years. Madison uses its test's years: before 2017 to 2022, after 2023 to 2025, including the effective year. Saint Paul has only one before year; its case is context only, but the plan lists it, so it is reported with that warning.
+4. **City stock and shares.**
+   - The stock is 2010 Census homes in the city's 2010 boundary; Madison uses 2020 blocks in its 2024 boundary. These come from the coverage build.
+   - The five-year share is 5 × the yearly share.
+   - Los Angeles and Seattle each have two cases. Their net homes are added, and their resampling draws are added, since the draws are independent.
+5. **Coverage** (plan section 7, as foreseen). Coverage uses today's stops and timetables: National Transit Map rail stops (compiled 2026-09-23) and each main agency's current GTFS. No historical feeds could be fetched without an account.
+   - A bus stop qualifies when a 15-minute route's trips serve it. This replaces Wisconsin's rule of a stop within 30 m of the route line.
+   - Madison counts Rapid Route A, which opened after its 2023 reform.
+   - Code: `scripts/build_tod_net_coverage.py`.
+6. **Unit traits.** Each trait is measured on each trait-test unit's eligible treatment lots, the land whose density rose.
+   - **Island size:** the covered patch that overlaps most of that land.
+   - **Largest site:** lots within 1 m of each other count as touching. "Within the station area" is read as the unit's upzoned eligible lots.
+   - **Elongation:** length² ÷ area. Length is the long side of the minimum rotated rectangle; average width is area ÷ length.
+   - **Pieces:** lots within 30 m of each other are one piece, which bridges streets.
+   - **Logs:** island size, largest site and elongation are entered as log(value + 1) because they span orders of magnitude. This was fixed in the code before the test was run.
+   - **Corridor share and label:** the unit-level share is measured on the unit's lots. The case label is measured on the reform's whole upzoned land: reform lots whose density rose, before the at-law and rezoned-elsewhere exclusions, with stacked members together.
+7. **Binding limit.** The ratio is homes per eligible acre before (trait 3 of the trait test) ÷ the homes per acre the old limit allowed. The allowed figure is the acre-weighted old FAR × 43,560 ÷ 1,417 square feet a home (pooled Milwaukee and Madison new buildings, `reference/tod_floor_area_per_home.csv`).
+   - Only units whose old limit is a FAR have a value: New York, Chicago, Saint Paul, Seattle and Madison. Charlotte has heights, Philadelphia has no dose, and Los Angeles has ordinal levels.
+   - So the trait is testable in only 3 of the 6 fold cities and cannot pass.
+8. **Car dependence.**
+   - **Vintages:** ACS 2006–2010 for every unit outside Madison (the vintage the trait test already uses, with sequences 25, 30 and 97 fetched for New York, California and Washington); ACS 2018–2022 for Madison. For reforms after 2011 (Charlotte, Philadelphia's later bills, Seattle, Los Angeles, Chicago), 2006–2010 is not the survey nearest before the reform; those vintages were not fetched.
+   - **Mean commute:** B08013 aggregate minutes ÷ (B08301 workers − worked at home).
+   - **Unit values:** ratios of acre-weighted tract counts.
+9. **Distant borrowing.**
+   - **"Rest of the region":** the other counties of the city's 2024 metro area (CBSA), from Census county permit files for 1996–2025. Place-level files on disk start in 2012.
+   - **Land beyond 1½ miles:** the city's own permit records more than 1½ miles from the treatment. Stacked cases use the mean over members.
+   - **Gaps:** Los Angeles has no citywide permit file. Saint Paul's file has units only from 2010.
+10. **The trait test** uses the several-tools frame (`run_tod_traits.wide_frame`), the one-trait weighted regression and `traits.judge_tools`. A trait missing for a unit drops that unit, and the plain average is judged on the same units.
