@@ -726,7 +726,9 @@ These supersede the 2026-10-26 figures quoted in AQ-044.
 4. **G3-4:** the tool states plainly that the typical scenario places within five years an effect measured 3 or more years after reform.
 5. **G3-5:** go to Gate 4, the TOD pilot in the tool using preview mode. The pilots are Milwaukee CONNECT 1, Madison Rapid Route A, and Eau Claire as the transfer check.
 
-Approved before the independent check of the Gate 3 packet finished; any changes that check requires are reported to the owner.
+Approved before the independent check of the Gate 3 packet finished. That check (2026-10-27) raised two points, and both proposed changes were sent to the owner the same day; they await confirmation:
+- **G3-3 reversed:** the measured build-up is kept, because the spec fixed it before results and smoothing would be after-the-fact tuning. The smoothed year 5 becomes a sensitivity.
+- **G3-2 amended:** suburbs get a capacity-based dose scaled by 0.719. That is the ratio of the coded capacity to the fallback estimate, measured in Milwaukee and Madison, where the fallback overstated capacity by 41–55%.
 
 ## Questions for office hours
 
