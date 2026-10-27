@@ -26,6 +26,7 @@ interface HowSure {
   event_path: { year_since: number; places: number; effect: number; median: number }[];
   models: { one_average: number; best: string; best_error: number; best_band: number };
   trace: { part: string; status: string; text: string }[];
+  traits: { dataset: string; label: string; places: number; gain: number; passes: boolean }[];
 }
 interface Why {
   places: { place: string; state: string; group: string; year: number; population: number; comparisons: number; before: number; after: number; cmp_before: number; cmp_after: number; effect: number; rewrite: boolean; evidence: string | null; confidence: string | null }[];
@@ -241,6 +242,11 @@ function howSure(b: ParkingBundle, main: HTMLElement): void {
       <thead><tr><th scope="col">Check</th><th scope="col" class="num">Places</th><th scope="col" class="num">Effect</th><th scope="col" class="num">Likely range</th></tr></thead>
       <tbody>${H.robustness.map((x) => `<tr><th scope="row">${esc(x.check)}</th><td class="num">${x.places}</td><td class="num">${signed(x.effect)}</td><td class="num">${x.p05 === null ? "—" : `${signed(x.p05)} to ${signed(x.p95!)}`}</td></tr>`).join("")}</tbody></table></div>
     <p class="small muted"><strong>Do different kinds of places respond differently?</strong> We tested this by predicting each repeal place from all the others. One average for all places missed by ${dec(H.models.one_average, 2)} permits per 1,000 homes per year on average. Using ${esc(H.models.best)} missed by ${dec(H.models.best_error, 2)}, and splitting places by size missed by ${dec(H.models.best_band, 2)}. The gain was too small to rely on, so one average is used. "Likely range" means 90 times in 100 the true average would fall inside it.</p></section>
+  <section class="card"><h2>Do city traits explain the differences?</h2>
+    <p>We tested six traits one at a time, in US repeal places and in California cities near transit, with the test written down first. A trait had to predict left-out places at least 5% better than one average in both. ${H.traits.some((t) => t.passes) ? "Some passed." : "None did, so every place gets the same average."}</p>
+    <div class="table-wrap"><table class="data"><caption>Improvement in predicting left-out places, compared with one average</caption>
+      <thead><tr><th scope="col">Trait</th><th scope="col" class="num">US repeal places</th><th scope="col" class="num">California near transit</th></tr></thead>
+      <tbody>${[...new Set(H.traits.map((t) => t.label))].map((l) => { const a = H.traits.find((t) => t.label === l && t.dataset.startsWith("A")); const c = H.traits.find((t) => t.label === l && t.dataset.startsWith("B")); return `<tr><th scope="row">${esc(l)}</th><td class="num">${a ? `${signed(a.gain * 100, 0)}%` : "—"}</td><td class="num">${c ? `${signed(c.gain * 100, 0)}%` : "—"}</td></tr>`; }).join("")}</tbody></table></div></section>
   <section class="card"><h2>Does the effect grow over time?</h2>
     <div class="table-wrap"><table class="data"><caption>Effect by year since repeal, permits per 1,000 existing homes per year</caption>
       <thead><tr><th scope="col">Year since repeal</th><th scope="col" class="num">Places</th><th scope="col" class="num">Average</th><th scope="col" class="num">Median place</th></tr></thead>

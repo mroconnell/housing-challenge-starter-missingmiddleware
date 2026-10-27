@@ -45,7 +45,7 @@ INPUTS = [
     "reference/parking_comparison_robustness.csv", "reference/parking_comparison_event_path.csv",
     "reference/parking_comparison_models.csv", "reference/parking_repeal_checks.csv",
     "reference/parking_reform_taxonomy.csv", "reference/tod_near_stop_homes_by_muni.csv",
-    "reference/tod_ab2097_results.csv",
+    "reference/tod_ab2097_results.csv", "reference/parking_traits_results.csv",
 ]
 BASELINE_VERSION = "all-housing baseline v2"
 
@@ -187,6 +187,8 @@ def build_howsure() -> dict:
         "models": {"one_average": r(mm.loc[mm["model"] == "M0 one average", "loo_wmae"].iloc[0], 3),
                    "best": MODEL_LABELS.get(mm.loc[mm["chosen"], "model"].iloc[0], mm.loc[mm["chosen"], "model"].iloc[0]), "best_error": r(mm.loc[mm["chosen"], "loo_wmae"].iloc[0], 3),
                    "best_band": r(mm[mm["model"].str.startswith("M1")]["loo_wmae"].min(), 3)},
+        "traits": [{"dataset": x.dataset, "label": x.label, "places": int(x.places), "gain": r(x.gain, 3), "passes": bool(x.passes)}
+                   for x in pd.read_csv(REF / "parking_traits_results.csv").itertuples()],
         "trace": [
             {"part": "Current-law baseline", "status": "observed", "text": "Census building permits by municipality and building size, 2023–2025 average; Milwaukee's apartments estimated from the city's property file."},
             {"part": "No measurable change (central)", "status": "calculated", "text": "From 24 US repeal places compared with similar places; point estimate −1.18 permits per 1,000 homes per year, shown as 0."},
