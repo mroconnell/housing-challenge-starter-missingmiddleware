@@ -1,8 +1,10 @@
 """Parking placebo test (docs/parking/PLACEBO_PLAN.md): the same effect calculation on places that never
 removed parking minimums, given the real places' repeal years.
 
-    uv run --all-extras python scripts/run_parking_placebo.py
-Outputs: reference/parking_placebo_places.csv (each placebo place's effect), reference/parking_placebo_summary.csv
+    uv run --all-extras python scripts/run_parking_placebo.py          # registered run (20 placebo places per real place)
+    uv run --all-extras python scripts/run_parking_placebo.py --full   # every eligible place (owner, 2026-10-27)
+Outputs: reference/parking_placebo_places.csv (each placebo place's effect), reference/parking_placebo_summary.csv;
+with --full, reference/parking_placebo_full_places.csv and _full_summary.csv
 """
 from __future__ import annotations
 
@@ -23,6 +25,8 @@ SEED, PER_PLACE, SETS = 20261027, 20, 500
 
 
 def main() -> None:
+    full = "--full" in sys.argv
+    tag = "_full" if full else ""
     p = cmp.panel(rpc.read_bps_us())
     homes_geo = rpc.acs_table(RAW / "census_acs5_2024_tbsf" / "acsdt5y2024-b25002.dat", "B25002_E001")
     pop_geo = rpc.acs_table(RAW / "census_acs5_2024_tbsf" / "acsdt5y2024-b01003.dat", "B01003_E001")
@@ -51,7 +55,8 @@ def main() -> None:
         cand = [k for k in ok if k.startswith(st + "|") and k not in excluded and 0.5 * pop0 <= popn.get(k, np.nan) <= 2 * pop0]
         if not cand:
             continue
-        pick = list(rng.choice(sorted(cand), size=min(PER_PLACE, len(cand)), replace=False))
+        print(i, r["place"], len(cand), flush=True)
+        pick = list(rng.choice(sorted(cand), size=len(cand) if full else min(PER_PLACE, len(cand)), replace=False))
         cases = pd.DataFrame({"key": pick, "event_year": int(r["event_year"])})
         eff = cmp.effects(p, cases, excluded | {r["key"]}, homes, popn, min_post=1)
         eff = eff[(eff["status"] == "included") & (eff["outcome"] == "all")]
@@ -61,7 +66,7 @@ def main() -> None:
                              n_post=int(x.n_post), homes=x.homes, effect=x.effect))
     pl = pd.DataFrame(rows)
     pl["weight"] = pl["homes"] * pl["n_post"]
-    pl.round(4).to_csv(REFERENCE / "parking_placebo_places.csv", index=False)
+    pl.round(4).to_csv(REFERENCE / f"parking_placebo{tag}_places.csv", index=False)
     groups = {i: g for i, g in pl.groupby("real_index")}
     avgs = []
     for _ in range(SETS):
@@ -80,7 +85,7 @@ def main() -> None:
                 spread_real_places=sd_real, spread_placebo_places=sd_pl,
                 range_from_placebo_low=real_avg + (np.percentile(avgs, 5) - np.percentile(avgs, 50)),
                 range_from_placebo_high=real_avg + (np.percentile(avgs, 95) - np.percentile(avgs, 50)))
-    pd.DataFrame([summ]).round(4).to_csv(REFERENCE / "parking_placebo_summary.csv", index=False)
+    pd.DataFrame([summ]).round(4).to_csv(REFERENCE / f"parking_placebo{tag}_summary.csv", index=False)
     for k, v in summ.items():
         print(k, round(v, 3) if isinstance(v, float) else v)
 

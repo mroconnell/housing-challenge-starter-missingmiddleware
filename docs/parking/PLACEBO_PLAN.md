@@ -28,3 +28,4 @@ How large an "effect" does the comparison method find in places that never remov
 ## Changes after writing
 
 - **2026-10-27, before running (for computing time):** for each real place, up to 20 eligible placebo places are drawn once, with the same seed, and their effects computed once. Each of the 500 sets then draws one of those 20 at random for each real place. The sets and the reported statistics are otherwise as above.
+- **2026-10-27, after the first run (owner request):** a second run uses every eligible placebo place for each real place instead of 20, so the 500 sets draw from the full pool and overlap less. Same seed, same rules otherwise (`--full`; outputs `reference/parking_placebo_full_*.csv`). The first run's files are kept.

@@ -35,4 +35,21 @@ All rates are permits per 1,000 existing homes per year.
 | A: keep the current high end; show the placebo test as supporting evidence and as a sensitivity case | 20,672 |
 | **B (chosen): use the placebo-based high end** | about 12,184 |
 
-I recommended A, because it keeps the headline from a method chosen before this test was run. **Ryan chose B on 2026-10-27** ("the data suggests B with a tighter ceiling"). The high end is now +0.91 permits per 1,000 existing homes per year, 12,184 permits over 2027–2031. The resampling high end (20,672) stays in the tool as a sensitivity case. The combined TOD + parking high case falls from 35,582 to 27,953 (headline, larger of the two near stops) and from 37,819 to 29,331 (sum, upper bound).
+I recommended A, because it keeps the headline from a method chosen before this test was run. **Ryan chose B on 2026-10-27** ("the data suggests B with a tighter ceiling"). The high end is now +0.91 permits per 1,000 existing homes per year, 12,184 permits over 2027–2031. The resampling high end (20,672) stays in the tool as a sensitivity case. The high end was first set to 12,184 (from the run below) and then to 12,947 after the full-pool rerun. The combined TOD + parking high case falls from 35,582 to 28,631 (headline, larger of the two near stops) and from 37,819 to 30,095 (sum, upper bound).
+
+## Rerun with the full pool of cities (2026-10-27, owner request; used in the tool)
+
+The first run drew 20 placebo cities per real place, so the 500 sets overlapped heavily. Ryan asked for a rerun drawing from every eligible city. Plan change logged in [PLACEBO_PLAN.md](PLACEBO_PLAN.md). Outputs: `reference/parking_placebo_full_places.csv` and `reference/parking_placebo_full_summary.csv`.
+
+All rates are permits per 1,000 existing homes per year.
+
+| Measure | First run (20 per place) | Full pool |
+| --- | ---: | ---: |
+| Placebo cities computed | 909 | 3,896 |
+| Placebo averages: 5th / 50th / 95th percentile | −0.84 / +1.52 / +3.53 | −0.79 / +1.50 / +3.56 |
+| Share of placebo averages at or below the real −1.10 | 3.2% | 2.0% |
+| Spread of single places' effects: real / placebo | 6.4 / 8.1 | 6.4 / 9.0 |
+| Placebo-based range, centred on the real average | −3.47 to +0.91 | −3.39 to +0.96 |
+| Wisconsin high end, 2027–2031 | 12,184 | 12,947 |
+
+**Reading:** the result holds. Using the full pool widens the high end slightly (+0.05). The real places now sit below 98% of placebo sets.

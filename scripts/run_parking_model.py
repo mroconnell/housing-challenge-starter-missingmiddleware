@@ -61,7 +61,7 @@ def main() -> None:
     upper_resample = float(xe.loc["Expanded, all units (headline candidate)", "p95"])
     # owner option B (2026-10-27): the high end is the placebo-based range (spread of 500 placebo averages, centred
     # on the real average); the resampling high end is kept as a sensitivity
-    upper_all = float(pd.read_csv(REFERENCE / "parking_placebo_summary.csv")["range_from_placebo_high"].iloc[0])
+    upper_all = float(pd.read_csv(REFERENCE / "parking_placebo_full_summary.csv")["range_from_placebo_high"].iloc[0])
     upper_apts = float(xe.loc["Expanded, units in buildings of 2+ units", "p95"])
     upper_no_sf = float(xe.loc["Expanded, without San Francisco", "p95"])
     upper_ca = float(xe.loc["Expanded US and California, precision-weighted (sensitivity)", "p95"])

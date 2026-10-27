@@ -47,7 +47,7 @@ INPUTS = [
     "reference/parking_reform_taxonomy.csv", "reference/tod_near_stop_homes_by_muni.csv",
     "reference/tod_ab2097_results.csv", "reference/parking_traits_results.csv",
     "reference/parking_expanded_effects.csv", "reference/parking_expanded_estimates.csv", "reference/parking_expanded_tools.csv",
-    "reference/parking_repeal_checks_expanded.csv", "reference/parking_placebo_summary.csv",
+    "reference/parking_repeal_checks_expanded.csv", "reference/parking_placebo_summary.csv", "reference/parking_placebo_full_summary.csv",
 ]
 BASELINE_VERSION = "all-housing baseline v2"
 
@@ -208,7 +208,7 @@ def build_howsure() -> dict:
         "sensitivities": [{"case": CASE_LABELS.get(x.case, x.case), "moves": MOVES_LABELS.get(x.moves, x.moves), "value": r(x.value, 0), "description": x.description} for x in sens.itertuples()],
         "robustness": [{"check": x.case.replace("Expanded, ", "").replace(" (headline candidate)", " (main result)"), "places": int(x.places), "effect": r(x.effect), "p05": r(x.p05), "p95": r(x.p95)}
                        for x in pd.read_csv(REF / "parking_expanded_estimates.csv").itertuples()],
-        "placebo": {k: r(v, 3) for k, v in pd.read_csv(REF / "parking_placebo_summary.csv").iloc[0].items()},
+        "placebo": {k: r(v, 3) for k, v in pd.read_csv(REF / "parking_placebo_full_summary.csv").iloc[0].items()},
         "tools": [{"tool": x.tool, "us_gain": r(x.us_gain, 3), "ca_gain": r(x.ca_gain, 3)} for x in pd.read_csv(REF / "parking_expanded_tools.csv").itertuples()],
         "leave_one_state": {"min": r(los["effect"].min()), "max": r(los["effect"].max()),
                             "min_state": los.loc[los["effect"].idxmin(), "check"].replace("leave out ", ""),
