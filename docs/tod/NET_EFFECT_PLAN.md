@@ -47,4 +47,8 @@ If the cities' own net effects are measured with intervals tighter than the spre
 
 ## 8. Changes after writing
 
-None yet.
+**2026-10-27, corridor versus scattered nodes (owner request; written before any shape is measured).** Two more unit-level traits, measured on each unit's upzoned land and judged by the same rule as section 5:
+- **Elongation:** the length of the upzoned patch divided by its average width, using the minimum rotated rectangle. A long strip along a street or line scores high; a round station circle scores near 1.
+- **Corridor share:** the share of the case's upzoned land lying in pieces at least ½ mile long.
+
+Each case is also labelled "corridor" (mostly long continuous strips, such as Madison's overlay or Park Slope's Fourth Avenue) or "nodes" (mostly separate station circles, such as Charlotte or Chicago), from these measures with a ½ cut on corridor share. Because shape is mostly one design choice per city, the label is reported next to each city's net effect rather than judged as a predictor.
