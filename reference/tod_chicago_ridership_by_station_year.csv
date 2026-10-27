@@ -1,0 +1,1573 @@
+station_id,station_name,year,group,avg_weekday_entries,weekdays,avg_weekend_day_entries,weekend_days
+40830,18th,2009,comparison,1516.6,255.0,878.6,110
+40830,18th,2010,comparison,1590.6,256.0,900.7,109
+40830,18th,2011,comparison,1735.4,255.0,1017.3,110
+40830,18th,2012,comparison,1811.2,255.0,1061.5,111
+40830,18th,2013,comparison,1862.0,255.0,1125.9,110
+40830,18th,2014,comparison,1967.1,255.0,1229.9,110
+40830,18th,2015,comparison,2029.6,255.0,1264.1,110
+40830,18th,2016,comparison,1900.3,255.0,1163.5,111
+40830,18th,2017,comparison,1815.2,254.0,1145.9,111
+40830,18th,2018,comparison,1773.4,255.0,1054.7,110
+40830,18th,2019,comparison,1748.5,255.0,947.6,110
+41120,35-Bronzeville-IIT,2009,comparison,2034.6,255.0,1058.7,110
+41120,35-Bronzeville-IIT,2010,comparison,2029.5,256.0,1022.2,109
+41120,35-Bronzeville-IIT,2011,comparison,2104.7,255.0,1071.4,110
+41120,35-Bronzeville-IIT,2012,comparison,2300.4,255.0,1123.1,111
+41120,35-Bronzeville-IIT,2013,comparison,3827.0,255.0,2310.8,110
+41120,35-Bronzeville-IIT,2014,comparison,2205.4,255.0,1275.5,110
+41120,35-Bronzeville-IIT,2015,comparison,2105.6,255.0,1175.2,110
+41120,35-Bronzeville-IIT,2016,comparison,1847.8,255.0,981.3,111
+41120,35-Bronzeville-IIT,2017,comparison,1750.6,254.0,880.8,111
+41120,35-Bronzeville-IIT,2018,comparison,1717.7,255.0,805.2,110
+41120,35-Bronzeville-IIT,2019,comparison,1598.4,255.0,664.5,110
+40120,35th/Archer,2009,comparison,2643.4,255.0,1054.0,110
+40120,35th/Archer,2010,comparison,2651.3,256.0,1059.8,109
+40120,35th/Archer,2011,comparison,2837.3,255.0,1178.6,110
+40120,35th/Archer,2012,comparison,3016.5,255.0,1285.1,111
+40120,35th/Archer,2013,comparison,3092.0,255.0,1342.9,110
+40120,35th/Archer,2014,comparison,3075.4,255.0,1385.7,110
+40120,35th/Archer,2015,comparison,3213.7,255.0,1487.4,110
+40120,35th/Archer,2016,comparison,3243.3,255.0,1418.2,111
+40120,35th/Archer,2017,comparison,3174.5,254.0,1350.1,111
+40120,35th/Archer,2018,comparison,3049.8,255.0,1282.1,110
+40120,35th/Archer,2019,comparison,2989.6,255.0,1217.7,110
+41270,43rd,2009,treated,969.9,255.0,456.9,110
+41270,43rd,2010,treated,1011.5,256.0,485.1,109
+41270,43rd,2011,treated,1034.9,255.0,515.4,110
+41270,43rd,2012,treated,1074.4,255.0,542.7,109
+41270,43rd,2013,treated,1311.4,255.0,708.0,110
+41270,43rd,2014,treated,1159.4,255.0,614.9,110
+41270,43rd,2015,treated,1128.6,255.0,604.4,110
+41270,43rd,2016,treated,1072.2,255.0,541.3,111
+41270,43rd,2017,treated,1040.0,254.0,487.1,111
+41270,43rd,2018,treated,1025.8,255.0,449.5,110
+41270,43rd,2019,treated,948.0,255.0,397.0,110
+41230,47th-Dan Ryan,2009,dropped,3163.1,255.0,1969.4,110
+41230,47th-Dan Ryan,2010,dropped,3358.3,256.0,2055.9,109
+41230,47th-Dan Ryan,2011,dropped,3329.3,255.0,2125.0,110
+41230,47th-Dan Ryan,2012,dropped,3254.5,255.0,2120.0,111
+41230,47th-Dan Ryan,2013,dropped,2799.2,148.0,1746.5,64
+41230,47th-Dan Ryan,2014,dropped,3174.9,255.0,2082.2,110
+41230,47th-Dan Ryan,2015,dropped,3355.7,255.0,2148.4,110
+41230,47th-Dan Ryan,2016,dropped,3224.0,255.0,2009.7,111
+41230,47th-Dan Ryan,2017,dropped,2813.2,254.0,1756.3,111
+41230,47th-Dan Ryan,2018,dropped,2879.9,255.0,1793.3,110
+41230,47th-Dan Ryan,2019,dropped,2668.1,255.0,1722.6,110
+41080,47th-South Elevated,2009,treated,1318.7,255.0,721.7,110
+41080,47th-South Elevated,2010,treated,1299.4,256.0,709.2,109
+41080,47th-South Elevated,2011,treated,1321.0,255.0,734.7,110
+41080,47th-South Elevated,2012,treated,1379.9,255.0,747.6,109
+41080,47th-South Elevated,2013,treated,1766.0,255.0,1053.2,110
+41080,47th-South Elevated,2014,treated,1440.9,255.0,835.7,110
+41080,47th-South Elevated,2015,treated,1378.4,255.0,830.1,110
+41080,47th-South Elevated,2016,treated,1237.4,255.0,708.6,111
+41080,47th-South Elevated,2017,treated,1181.8,254.0,664.3,111
+41080,47th-South Elevated,2018,treated,1117.9,255.0,578.8,110
+41080,47th-South Elevated,2019,treated,1024.3,255.0,488.9,110
+40130,51st,2009,treated,1070.5,255.0,590.0,110
+40130,51st,2010,treated,1099.1,256.0,570.1,109
+40130,51st,2011,treated,1138.1,255.0,628.5,110
+40130,51st,2012,treated,1176.3,255.0,647.2,109
+40130,51st,2013,treated,1387.8,255.0,850.6,110
+40130,51st,2014,treated,1124.4,255.0,687.2,110
+40130,51st,2015,treated,1133.6,255.0,670.3,110
+40130,51st,2016,treated,1027.7,255.0,606.5,111
+40130,51st,2017,treated,955.9,254.0,554.6,111
+40130,51st,2018,treated,1015.1,255.0,622.1,110
+40130,51st,2019,treated,928.6,255.0,466.4,110
+40580,54th/Cermak,2009,comparison,1919.8,255.0,873.0,110
+40580,54th/Cermak,2010,comparison,1870.7,256.0,885.6,109
+40580,54th/Cermak,2011,comparison,1943.8,255.0,985.8,110
+40580,54th/Cermak,2012,comparison,2083.2,255.0,1077.0,111
+40580,54th/Cermak,2013,comparison,2139.7,255.0,1076.6,110
+40580,54th/Cermak,2014,comparison,2234.1,255.0,1129.1,110
+40580,54th/Cermak,2015,comparison,2337.2,255.0,1187.1,110
+40580,54th/Cermak,2016,comparison,2181.9,255.0,1090.8,111
+40580,54th/Cermak,2017,comparison,2205.1,254.0,1055.5,111
+40580,54th/Cermak,2018,comparison,2143.2,255.0,982.0,110
+40580,54th/Cermak,2019,comparison,2145.3,255.0,913.7,110
+40910,63rd-Dan Ryan,2009,dropped,3635.8,255.0,2342.0,110
+40910,63rd-Dan Ryan,2010,dropped,3633.9,256.0,2309.5,109
+40910,63rd-Dan Ryan,2011,dropped,3469.9,255.0,2320.5,110
+40910,63rd-Dan Ryan,2012,dropped,3462.8,255.0,2317.4,111
+40910,63rd-Dan Ryan,2013,dropped,3060.6,148.0,1930.0,64
+40910,63rd-Dan Ryan,2014,dropped,3449.8,255.0,2253.5,110
+40910,63rd-Dan Ryan,2015,dropped,3181.6,255.0,2033.9,110
+40910,63rd-Dan Ryan,2016,dropped,3205.4,255.0,2074.2,111
+40910,63rd-Dan Ryan,2017,dropped,2999.5,254.0,1959.4,111
+40910,63rd-Dan Ryan,2018,dropped,2978.5,255.0,1954.9,110
+40910,63rd-Dan Ryan,2019,dropped,2868.2,255.0,1875.9,110
+40990,69th,2009,dropped,5687.5,255.0,3726.0,110
+40990,69th,2010,dropped,5841.0,256.0,3744.7,109
+40990,69th,2011,dropped,5698.9,255.0,3831.4,110
+40990,69th,2012,dropped,5703.4,255.0,3842.4,111
+40990,69th,2013,dropped,4939.8,148.0,3149.5,64
+40990,69th,2014,dropped,5477.3,255.0,3666.2,110
+40990,69th,2015,dropped,5713.7,255.0,3758.9,110
+40990,69th,2016,dropped,5419.2,255.0,3587.3,111
+40990,69th,2017,dropped,5088.1,254.0,3359.7,111
+40990,69th,2018,dropped,4779.7,255.0,3139.9,110
+40990,69th,2019,dropped,4367.8,255.0,2819.5,110
+40240,79th,2009,dropped,7746.8,255.0,4959.6,110
+40240,79th,2010,dropped,7901.1,256.0,4979.2,109
+40240,79th,2011,dropped,7733.7,255.0,5106.9,110
+40240,79th,2012,dropped,7537.1,255.0,5007.4,111
+40240,79th,2013,dropped,6610.3,148.0,4144.0,64
+40240,79th,2014,dropped,7406.4,255.0,4818.6,110
+40240,79th,2015,dropped,7711.2,255.0,4923.0,110
+40240,79th,2016,dropped,7271.5,255.0,4585.2,111
+40240,79th,2017,dropped,6831.2,254.0,4306.1,111
+40240,79th,2018,dropped,6540.9,255.0,4118.5,110
+40240,79th,2019,dropped,6083.3,255.0,3860.2,110
+41430,87th,2009,dropped,5024.1,255.0,3086.4,110
+41430,87th,2010,dropped,5127.5,256.0,3128.4,109
+41430,87th,2011,dropped,4959.3,255.0,3275.8,110
+41430,87th,2012,dropped,4861.1,255.0,3152.6,111
+41430,87th,2013,dropped,4107.5,148.0,2541.3,64
+41430,87th,2014,dropped,4612.0,255.0,3002.8,110
+41430,87th,2015,dropped,4648.4,255.0,3010.1,110
+41430,87th,2016,dropped,4300.0,255.0,2811.4,111
+41430,87th,2017,dropped,4045.0,254.0,2640.8,111
+41430,87th,2018,dropped,3963.3,255.0,2511.1,110
+41430,87th,2019,dropped,3663.2,255.0,2296.3,110
+40450,95th/Dan Ryan,2009,dropped,12936.2,255.0,7001.9,110
+40450,95th/Dan Ryan,2010,dropped,12800.4,256.0,6853.0,109
+40450,95th/Dan Ryan,2011,dropped,12708.1,255.0,7085.7,110
+40450,95th/Dan Ryan,2012,dropped,12550.0,255.0,7048.2,111
+40450,95th/Dan Ryan,2013,dropped,10967.2,148.0,5839.2,64
+40450,95th/Dan Ryan,2014,dropped,11598.1,255.0,6473.4,110
+40450,95th/Dan Ryan,2015,dropped,11632.3,255.0,6454.4,110
+40450,95th/Dan Ryan,2016,dropped,10980.1,255.0,6025.1,111
+40450,95th/Dan Ryan,2017,dropped,10343.9,254.0,5709.8,111
+40450,95th/Dan Ryan,2018,dropped,9620.9,255.0,5196.9,110
+40450,95th/Dan Ryan,2019,dropped,8950.0,255.0,4877.9,110
+40680,Adams/Wabash,2009,dropped,7756.6,255.0,3280.9,110
+40680,Adams/Wabash,2010,dropped,7511.2,256.0,2834.6,109
+40680,Adams/Wabash,2011,dropped,7492.3,255.0,2969.9,110
+40680,Adams/Wabash,2012,dropped,7542.6,255.0,3274.1,105
+40680,Adams/Wabash,2013,dropped,7205.3,255.0,3099.3,110
+40680,Adams/Wabash,2014,dropped,7113.1,255.0,2887.3,110
+40680,Adams/Wabash,2015,dropped,9211.0,255.0,3995.1,110
+40680,Adams/Wabash,2016,dropped,9399.0,255.0,3708.5,111
+40680,Adams/Wabash,2017,dropped,8645.3,254.0,3399.8,111
+40680,Adams/Wabash,2018,dropped,7451.9,255.0,2951.9,110
+40680,Adams/Wabash,2019,dropped,7088.5,255.0,2544.8,110
+41440,Addison-Brown,2009,comparison,2396.3,255.0,1051.1,110
+41440,Addison-Brown,2010,comparison,2217.3,256.0,969.0,109
+41440,Addison-Brown,2011,comparison,2362.9,255.0,997.1,110
+41440,Addison-Brown,2012,comparison,2461.5,255.0,1034.8,111
+41440,Addison-Brown,2013,comparison,2517.7,255.0,1079.3,110
+41440,Addison-Brown,2014,comparison,2517.6,255.0,1081.0,110
+41440,Addison-Brown,2015,comparison,2465.7,255.0,975.4,110
+41440,Addison-Brown,2016,comparison,2582.0,255.0,1019.4,111
+41440,Addison-Brown,2017,comparison,2506.1,254.0,961.9,111
+41440,Addison-Brown,2018,comparison,2468.5,255.0,885.2,110
+41440,Addison-Brown,2019,comparison,2460.9,255.0,879.5,110
+41420,Addison-North Main,2009,treated,7590.1,255.0,7376.9,110
+41420,Addison-North Main,2010,treated,7883.0,256.0,7785.4,109
+41420,Addison-North Main,2011,treated,8048.9,255.0,7909.7,110
+41420,Addison-North Main,2012,treated,8231.3,255.0,8291.7,111
+41420,Addison-North Main,2013,treated,7981.3,255.0,7960.9,110
+41420,Addison-North Main,2014,treated,7983.1,255.0,7719.9,110
+41420,Addison-North Main,2015,treated,8572.2,255.0,7717.0,110
+41420,Addison-North Main,2016,treated,8818.1,255.0,8229.8,111
+41420,Addison-North Main,2017,treated,8679.3,254.0,6913.1,111
+41420,Addison-North Main,2018,treated,8209.1,255.0,6716.7,110
+41420,Addison-North Main,2019,treated,7568.2,255.0,6068.1,110
+41240,Addison-O'Hare,2009,comparison,2473.7,255.0,972.2,110
+41240,Addison-O'Hare,2010,comparison,2502.6,256.0,1018.1,109
+41240,Addison-O'Hare,2011,comparison,2632.9,255.0,1099.3,110
+41240,Addison-O'Hare,2012,comparison,2799.9,255.0,1229.9,111
+41240,Addison-O'Hare,2013,comparison,2908.3,255.0,1257.1,110
+41240,Addison-O'Hare,2014,comparison,2894.8,255.0,1254.9,110
+41240,Addison-O'Hare,2015,comparison,3124.5,255.0,1391.0,110
+41240,Addison-O'Hare,2016,comparison,2895.4,255.0,1139.1,111
+41240,Addison-O'Hare,2017,comparison,2957.8,254.0,1225.8,111
+41240,Addison-O'Hare,2018,comparison,3045.0,255.0,1210.8,110
+41240,Addison-O'Hare,2019,comparison,2954.7,255.0,1077.9,110
+41200,Argyle,2009,dropped,2567.4,255.0,1795.6,110
+41200,Argyle,2010,dropped,2623.0,256.0,1874.0,109
+41200,Argyle,2011,dropped,2744.5,255.0,2033.1,110
+41200,Argyle,2012,dropped,2918.6,228.0,2064.3,98
+41200,Argyle,2013,dropped,2913.5,255.0,2119.7,110
+41200,Argyle,2014,dropped,3244.3,255.0,2291.6,110
+41200,Argyle,2015,dropped,3265.4,255.0,2235.9,110
+41200,Argyle,2016,dropped,3204.6,255.0,2183.4,111
+41200,Argyle,2017,dropped,3063.6,254.0,2098.4,111
+41200,Argyle,2018,dropped,3061.1,255.0,2072.9,110
+41200,Argyle,2019,dropped,2921.9,255.0,2046.0,110
+40660,Armitage,2009,comparison,3810.5,255.0,1752.2,110
+40660,Armitage,2010,comparison,3839.1,256.0,1724.4,109
+40660,Armitage,2011,comparison,4193.9,255.0,1910.4,110
+40660,Armitage,2012,comparison,4385.0,255.0,2046.3,111
+40660,Armitage,2013,comparison,4312.6,255.0,2082.7,110
+40660,Armitage,2014,comparison,4323.4,255.0,2068.3,110
+40660,Armitage,2015,comparison,4269.7,255.0,1399.7,110
+40660,Armitage,2016,comparison,4383.2,255.0,2026.1,111
+40660,Armitage,2017,comparison,4328.7,254.0,1924.9,111
+40660,Armitage,2018,comparison,4253.3,255.0,1831.9,110
+40660,Armitage,2019,comparison,4097.3,255.0,1807.7,110
+40170,Ashland-Lake,2009,treated,2450.7,255.0,1106.0,110
+40170,Ashland-Lake,2010,treated,2415.5,256.0,1121.6,109
+40170,Ashland-Lake,2011,treated,2587.9,255.0,1231.3,110
+40170,Ashland-Lake,2012,treated,2571.3,255.0,1307.3,111
+40170,Ashland-Lake,2013,treated,2503.4,255.0,1294.1,110
+40170,Ashland-Lake,2014,treated,2491.6,255.0,1337.7,110
+40170,Ashland-Lake,2015,treated,2583.9,255.0,1382.7,110
+40170,Ashland-Lake,2016,treated,2449.3,255.0,1215.0,111
+40170,Ashland-Lake,2017,treated,2407.4,254.0,1155.9,111
+40170,Ashland-Lake,2018,treated,2431.9,255.0,1169.6,110
+40170,Ashland-Lake,2019,treated,2473.2,255.0,1039.9,110
+41060,Ashland-Orange,2009,comparison,1476.0,255.0,685.5,110
+41060,Ashland-Orange,2010,comparison,1481.9,256.0,690.5,109
+41060,Ashland-Orange,2011,comparison,1571.2,255.0,780.8,110
+41060,Ashland-Orange,2012,comparison,1656.3,255.0,839.7,111
+41060,Ashland-Orange,2013,comparison,1701.4,255.0,869.0,110
+41060,Ashland-Orange,2014,comparison,1601.2,255.0,816.4,110
+41060,Ashland-Orange,2015,comparison,1667.1,255.0,846.5,110
+41060,Ashland-Orange,2016,comparison,1665.1,255.0,828.8,111
+41060,Ashland-Orange,2017,comparison,1628.7,254.0,795.2,111
+41060,Ashland-Orange,2018,comparison,1590.9,255.0,755.8,110
+41060,Ashland-Orange,2019,comparison,1554.2,255.0,744.1,110
+40290,Ashland/63rd,2009,comparison,1531.9,255.0,844.6,110
+40290,Ashland/63rd,2010,comparison,1493.7,256.0,817.5,109
+40290,Ashland/63rd,2011,comparison,1567.3,255.0,844.6,110
+40290,Ashland/63rd,2012,comparison,1585.4,255.0,847.9,111
+40290,Ashland/63rd,2013,comparison,2345.2,255.0,1352.4,104
+40290,Ashland/63rd,2014,comparison,1512.8,255.0,850.6,110
+40290,Ashland/63rd,2015,comparison,1390.0,255.0,803.0,110
+40290,Ashland/63rd,2016,comparison,1181.7,255.0,678.9,111
+40290,Ashland/63rd,2017,comparison,1159.6,254.0,651.4,111
+40290,Ashland/63rd,2018,comparison,1113.5,255.0,535.3,110
+40290,Ashland/63rd,2019,comparison,981.0,255.0,470.4,110
+40010,Austin-Forest Park,2009,comparison,1859.3,255.0,745.3,110
+40010,Austin-Forest Park,2010,comparison,1925.5,256.0,817.9,109
+40010,Austin-Forest Park,2011,comparison,2054.5,255.0,884.7,110
+40010,Austin-Forest Park,2012,comparison,2120.0,255.0,926.1,111
+40010,Austin-Forest Park,2013,comparison,2102.1,255.0,924.1,110
+40010,Austin-Forest Park,2014,comparison,2106.5,255.0,923.4,110
+40010,Austin-Forest Park,2015,comparison,2107.5,255.0,887.0,110
+40010,Austin-Forest Park,2016,comparison,2080.3,255.0,866.0,111
+40010,Austin-Forest Park,2017,comparison,2017.8,254.0,782.1,111
+40010,Austin-Forest Park,2018,comparison,1933.9,255.0,695.6,110
+40010,Austin-Forest Park,2019,comparison,1842.5,255.0,670.0,110
+41260,Austin-Lake,2009,comparison,2090.0,255.0,970.4,110
+41260,Austin-Lake,2010,comparison,2028.1,256.0,922.3,109
+41260,Austin-Lake,2011,comparison,2051.7,255.0,966.2,110
+41260,Austin-Lake,2012,comparison,2052.6,255.0,1001.7,111
+41260,Austin-Lake,2013,comparison,1989.2,255.0,1009.2,110
+41260,Austin-Lake,2014,comparison,2054.0,255.0,1087.4,110
+41260,Austin-Lake,2015,comparison,2060.2,255.0,1067.8,110
+41260,Austin-Lake,2016,comparison,1961.8,255.0,881.4,111
+41260,Austin-Lake,2017,comparison,1911.8,254.0,967.7,111
+41260,Austin-Lake,2018,comparison,1823.7,255.0,859.4,110
+41260,Austin-Lake,2019,comparison,1740.3,255.0,767.1,110
+41320,Belmont-North Main,2009,treated,11434.9,255.0,8927.2,110
+41320,Belmont-North Main,2010,treated,11388.1,256.0,9152.1,109
+41320,Belmont-North Main,2011,treated,12232.0,255.0,9916.2,110
+41320,Belmont-North Main,2012,treated,12902.4,255.0,10628.8,111
+41320,Belmont-North Main,2013,treated,12821.8,255.0,10164.5,110
+41320,Belmont-North Main,2014,treated,12898.4,255.0,10079.9,110
+41320,Belmont-North Main,2015,treated,12896.9,255.0,9678.7,110
+41320,Belmont-North Main,2016,treated,12745.4,255.0,9407.1,111
+41320,Belmont-North Main,2017,treated,12110.1,254.0,8418.2,111
+41320,Belmont-North Main,2018,treated,11597.8,255.0,7782.6,110
+41320,Belmont-North Main,2019,treated,11397.8,255.0,7624.8,110
+40060,Belmont-O'Hare,2009,comparison,4433.1,255.0,2082.8,110
+40060,Belmont-O'Hare,2010,comparison,4620.9,256.0,2380.0,109
+40060,Belmont-O'Hare,2011,comparison,4951.1,255.0,2601.1,110
+40060,Belmont-O'Hare,2012,comparison,5299.6,255.0,2840.3,111
+40060,Belmont-O'Hare,2013,comparison,5456.7,255.0,2920.0,110
+40060,Belmont-O'Hare,2014,comparison,5435.6,255.0,2781.6,110
+40060,Belmont-O'Hare,2015,comparison,5679.8,255.0,2992.9,110
+40060,Belmont-O'Hare,2016,comparison,5725.4,255.0,3042.1,111
+40060,Belmont-O'Hare,2017,comparison,5602.5,254.0,2764.1,111
+40060,Belmont-O'Hare,2018,comparison,4999.6,255.0,2283.3,103
+40060,Belmont-O'Hare,2019,comparison,4827.8,255.0,2160.8,106
+40340,Berwyn,2009,dropped,3245.5,255.0,2236.2,110
+40340,Berwyn,2010,dropped,3335.8,256.0,2243.4,109
+40340,Berwyn,2011,dropped,3334.8,255.0,2213.4,110
+40340,Berwyn,2012,dropped,3263.1,225.0,2090.1,99
+40340,Berwyn,2013,dropped,3159.5,255.0,2126.8,110
+40340,Berwyn,2014,dropped,3540.7,255.0,2528.1,110
+40340,Berwyn,2015,dropped,3593.1,255.0,2382.2,110
+40340,Berwyn,2016,dropped,3519.2,255.0,2359.1,111
+40340,Berwyn,2017,dropped,3345.1,254.0,2202.7,111
+40340,Berwyn,2018,dropped,3288.1,255.0,2045.4,110
+40340,Berwyn,2019,dropped,3136.0,255.0,1944.2,110
+41380,Bryn Mawr,2009,comparison,4499.0,255.0,2774.4,110
+41380,Bryn Mawr,2010,comparison,4668.1,256.0,2896.9,109
+41380,Bryn Mawr,2011,comparison,4909.0,255.0,3070.8,110
+41380,Bryn Mawr,2012,comparison,5169.9,255.0,3068.4,111
+41380,Bryn Mawr,2013,comparison,4982.5,255.0,3159.5,110
+41380,Bryn Mawr,2014,comparison,4923.7,255.0,3152.1,110
+41380,Bryn Mawr,2015,comparison,4969.7,255.0,3077.9,110
+41380,Bryn Mawr,2016,comparison,4845.5,255.0,3061.7,111
+41380,Bryn Mawr,2017,comparison,4684.7,254.0,2880.3,111
+41380,Bryn Mawr,2018,comparison,4659.4,255.0,2772.4,110
+41380,Bryn Mawr,2019,comparison,4346.3,255.0,2562.8,110
+40440,California-Cermak,2009,comparison,1182.1,255.0,548.7,110
+40440,California-Cermak,2010,comparison,1267.2,256.0,598.4,109
+40440,California-Cermak,2011,comparison,1355.3,255.0,663.7,110
+40440,California-Cermak,2012,comparison,1452.0,255.0,736.9,111
+40440,California-Cermak,2013,comparison,1458.4,255.0,754.1,110
+40440,California-Cermak,2014,comparison,1485.2,255.0,813.6,110
+40440,California-Cermak,2015,comparison,1604.2,255.0,1012.0,110
+40440,California-Cermak,2016,comparison,1558.5,255.0,885.6,111
+40440,California-Cermak,2017,comparison,1418.4,254.0,758.8,111
+40440,California-Cermak,2018,comparison,1386.8,255.0,737.9,110
+40440,California-Cermak,2019,comparison,1382.4,255.0,716.2,110
+41360,California-Lake,2009,comparison,1068.7,255.0,518.4,110
+41360,California-Lake,2010,comparison,1130.2,256.0,535.8,109
+41360,California-Lake,2011,comparison,1132.1,255.0,553.4,110
+41360,California-Lake,2012,comparison,1122.5,255.0,578.0,111
+41360,California-Lake,2013,comparison,1094.3,255.0,566.1,110
+41360,California-Lake,2014,comparison,1160.8,255.0,636.1,110
+41360,California-Lake,2015,comparison,1170.0,255.0,627.4,110
+41360,California-Lake,2016,comparison,1096.4,255.0,543.9,111
+41360,California-Lake,2017,comparison,1014.4,254.0,481.7,111
+41360,California-Lake,2018,comparison,1044.4,255.0,472.9,110
+41360,California-Lake,2019,comparison,1020.8,255.0,422.7,110
+40570,California/Milwaukee,2009,dropped,3712.5,255.0,1628.0,110
+40570,California/Milwaukee,2010,dropped,3983.5,256.0,2029.2,109
+40570,California/Milwaukee,2011,dropped,4388.5,255.0,2443.7,110
+40570,California/Milwaukee,2012,dropped,4768.3,255.0,2680.9,111
+40570,California/Milwaukee,2013,dropped,4970.0,255.0,2799.9,110
+40570,California/Milwaukee,2014,dropped,4828.8,227.0,2177.7,98
+40570,California/Milwaukee,2015,dropped,5107.6,255.0,2748.8,110
+40570,California/Milwaukee,2016,dropped,5300.6,255.0,2720.5,111
+40570,California/Milwaukee,2017,dropped,5597.6,254.0,2755.5,111
+40570,California/Milwaukee,2018,dropped,5632.5,255.0,2648.3,110
+40570,California/Milwaukee,2019,dropped,5605.6,255.0,2482.0,110
+40780,Central Park,2009,comparison,1038.2,255.0,534.5,110
+40780,Central Park,2010,comparison,1078.7,256.0,552.3,109
+40780,Central Park,2011,comparison,1131.3,255.0,599.7,110
+40780,Central Park,2012,comparison,1265.5,255.0,676.3,111
+40780,Central Park,2013,comparison,1303.1,255.0,690.9,110
+40780,Central Park,2014,comparison,1324.4,255.0,727.6,110
+40780,Central Park,2015,comparison,1347.1,255.0,746.9,110
+40780,Central Park,2016,comparison,1219.1,255.0,659.6,111
+40780,Central Park,2017,comparison,1159.4,254.0,602.8,111
+40780,Central Park,2018,comparison,1162.8,255.0,595.3,110
+40780,Central Park,2019,comparison,1116.7,255.0,530.8,110
+41250,Central-Evanston,2009,comparison,857.1,255.0,423.8,110
+41250,Central-Evanston,2010,comparison,843.7,256.0,445.0,109
+41250,Central-Evanston,2011,comparison,879.8,255.0,466.6,110
+41250,Central-Evanston,2012,comparison,868.7,255.0,475.2,111
+41250,Central-Evanston,2013,comparison,832.9,255.0,511.9,110
+41250,Central-Evanston,2014,comparison,822.8,255.0,506.1,110
+41250,Central-Evanston,2015,comparison,815.9,255.0,476.8,110
+41250,Central-Evanston,2016,comparison,820.6,255.0,479.1,111
+41250,Central-Evanston,2017,comparison,793.4,254.0,449.4,111
+41250,Central-Evanston,2018,comparison,773.4,255.0,482.4,110
+41250,Central-Evanston,2019,comparison,779.7,255.0,406.7,110
+40280,Central-Lake,2009,comparison,2420.6,255.0,1361.1,110
+40280,Central-Lake,2010,comparison,2417.1,256.0,1304.6,109
+40280,Central-Lake,2011,comparison,2360.8,255.0,1315.8,110
+40280,Central-Lake,2012,comparison,2412.4,255.0,1369.9,111
+40280,Central-Lake,2013,comparison,2303.8,255.0,1294.1,110
+40280,Central-Lake,2014,comparison,2322.5,255.0,1381.6,110
+40280,Central-Lake,2015,comparison,2344.2,255.0,1392.4,110
+40280,Central-Lake,2016,comparison,2076.2,255.0,1065.5,111
+40280,Central-Lake,2017,comparison,1961.4,254.0,1117.6,111
+40280,Central-Lake,2018,comparison,1988.9,255.0,1084.6,110
+40280,Central-Lake,2019,comparison,1887.8,255.0,1011.5,110
+41000,Cermak-Chinatown,2009,dropped,3414.5,255.0,3221.4,110
+41000,Cermak-Chinatown,2010,dropped,3561.1,256.0,3314.4,109
+41000,Cermak-Chinatown,2011,dropped,3933.8,255.0,3820.9,110
+41000,Cermak-Chinatown,2012,dropped,4428.1,255.0,4348.1,111
+41000,Cermak-Chinatown,2013,dropped,3965.6,148.0,3701.4,64
+41000,Cermak-Chinatown,2014,dropped,4297.6,255.0,4288.1,110
+41000,Cermak-Chinatown,2015,dropped,4264.1,255.0,4186.2,110
+41000,Cermak-Chinatown,2016,dropped,4276.5,255.0,4132.7,111
+41000,Cermak-Chinatown,2017,dropped,4156.7,254.0,4088.4,111
+41000,Cermak-Chinatown,2018,dropped,4015.3,255.0,3956.6,110
+41000,Cermak-Chinatown,2019,dropped,3969.4,255.0,4037.0,110
+41690,Cermak-McCormick Place,2015,dropped,1259.5,234.0,970.3,99
+41690,Cermak-McCormick Place,2016,dropped,1371.2,255.0,922.2,111
+41690,Cermak-McCormick Place,2017,dropped,1462.5,254.0,945.2,111
+41690,Cermak-McCormick Place,2018,dropped,1676.9,255.0,1053.2,110
+41690,Cermak-McCormick Place,2019,dropped,1801.9,255.0,956.6,110
+40710,Chicago/Franklin,2009,comparison,5121.4,255.0,2085.6,110
+40710,Chicago/Franklin,2010,comparison,5607.3,256.0,2158.4,109
+40710,Chicago/Franklin,2011,comparison,6334.7,255.0,2338.5,110
+40710,Chicago/Franklin,2012,comparison,6874.4,255.0,2514.7,111
+40710,Chicago/Franklin,2013,comparison,6758.0,255.0,2534.2,110
+40710,Chicago/Franklin,2014,comparison,7151.1,255.0,2356.7,110
+40710,Chicago/Franklin,2015,comparison,7105.4,255.0,1646.8,110
+40710,Chicago/Franklin,2016,comparison,6880.6,255.0,2043.9,111
+40710,Chicago/Franklin,2017,comparison,6868.7,254.0,2127.1,111
+40710,Chicago/Franklin,2018,comparison,7167.7,255.0,2279.0,110
+40710,Chicago/Franklin,2019,comparison,6889.5,255.0,2150.5,110
+41410,Chicago/Milwaukee,2009,treated,3265.9,255.0,1361.8,86
+41410,Chicago/Milwaukee,2010,treated,3538.3,256.0,1532.8,109
+41410,Chicago/Milwaukee,2011,treated,3874.6,255.0,1717.7,110
+41410,Chicago/Milwaukee,2012,treated,4175.5,255.0,1917.5,111
+41410,Chicago/Milwaukee,2013,treated,4434.1,255.0,1962.6,110
+41410,Chicago/Milwaukee,2014,treated,4359.8,255.0,1797.1,110
+41410,Chicago/Milwaukee,2015,treated,4489.1,255.0,1908.7,110
+41410,Chicago/Milwaukee,2016,treated,4322.8,255.0,1760.3,111
+41410,Chicago/Milwaukee,2017,treated,4259.8,254.0,1673.7,111
+41410,Chicago/Milwaukee,2018,treated,4139.8,255.0,1601.3,110
+41410,Chicago/Milwaukee,2019,treated,4003.3,255.0,1469.3,110
+41450,Chicago/State,2009,comparison,13440.1,255.0,10033.7,110
+41450,Chicago/State,2010,comparison,14269.0,256.0,11083.9,109
+41450,Chicago/State,2011,comparison,14923.1,255.0,12126.0,110
+41450,Chicago/State,2012,comparison,15411.9,255.0,12519.8,111
+41450,Chicago/State,2013,comparison,15084.5,255.0,11573.7,110
+41450,Chicago/State,2014,comparison,15460.4,255.0,11978.1,110
+41450,Chicago/State,2015,comparison,15679.5,255.0,11493.4,110
+41450,Chicago/State,2016,comparison,15731.7,255.0,11272.0,111
+41450,Chicago/State,2017,comparison,14886.6,254.0,10098.1,111
+41450,Chicago/State,2018,comparison,14210.1,255.0,9415.3,110
+41450,Chicago/State,2019,comparison,13741.4,255.0,9070.8,110
+40420,Cicero-Cermak,2009,comparison,1126.5,255.0,735.9,110
+40420,Cicero-Cermak,2010,comparison,1149.8,256.0,760.5,109
+40420,Cicero-Cermak,2011,comparison,1214.8,255.0,815.5,110
+40420,Cicero-Cermak,2012,comparison,1352.9,255.0,885.3,111
+40420,Cicero-Cermak,2013,comparison,1320.6,255.0,847.7,110
+40420,Cicero-Cermak,2014,comparison,1362.2,255.0,921.0,110
+40420,Cicero-Cermak,2015,comparison,1385.9,255.0,924.2,110
+40420,Cicero-Cermak,2016,comparison,1300.7,255.0,849.3,111
+40420,Cicero-Cermak,2017,comparison,1240.2,254.0,771.3,111
+40420,Cicero-Cermak,2018,comparison,1200.6,255.0,720.4,110
+40420,Cicero-Cermak,2019,comparison,1157.9,255.0,661.8,110
+40970,Cicero-Forest Park,2009,comparison,1175.5,255.0,673.0,110
+40970,Cicero-Forest Park,2010,comparison,1277.3,256.0,734.7,109
+40970,Cicero-Forest Park,2011,comparison,1363.0,255.0,802.7,110
+40970,Cicero-Forest Park,2012,comparison,1417.3,255.0,869.2,111
+40970,Cicero-Forest Park,2013,comparison,1396.6,255.0,852.8,110
+40970,Cicero-Forest Park,2014,comparison,1491.6,255.0,912.1,110
+40970,Cicero-Forest Park,2015,comparison,1508.7,255.0,893.0,110
+40970,Cicero-Forest Park,2016,comparison,1489.8,255.0,890.3,111
+40970,Cicero-Forest Park,2017,comparison,1382.6,254.0,819.2,111
+40970,Cicero-Forest Park,2018,comparison,1303.6,255.0,755.7,110
+40970,Cicero-Forest Park,2019,comparison,1278.0,255.0,751.3,110
+40480,Cicero-Lake,2009,comparison,1449.9,255.0,846.9,110
+40480,Cicero-Lake,2010,comparison,1450.2,256.0,827.6,109
+40480,Cicero-Lake,2011,comparison,1432.8,255.0,846.9,110
+40480,Cicero-Lake,2012,comparison,1509.1,255.0,892.3,111
+40480,Cicero-Lake,2013,comparison,1412.7,255.0,870.8,110
+40480,Cicero-Lake,2014,comparison,1590.1,255.0,982.8,110
+40480,Cicero-Lake,2015,comparison,1537.3,255.0,950.4,110
+40480,Cicero-Lake,2016,comparison,1363.5,255.0,814.0,111
+40480,Cicero-Lake,2017,comparison,1283.6,254.0,760.9,111
+40480,Cicero-Lake,2018,comparison,1231.4,255.0,722.7,110
+40480,Cicero-Lake,2019,comparison,1167.0,255.0,661.3,110
+40630,Clark/Division,2009,dropped,7024.7,255.0,5354.0,110
+40630,Clark/Division,2010,dropped,7253.0,256.0,5625.2,109
+40630,Clark/Division,2011,dropped,7413.4,255.0,5934.7,110
+40630,Clark/Division,2012,dropped,7659.6,255.0,6337.4,111
+40630,Clark/Division,2013,dropped,7467.9,255.0,5911.4,110
+40630,Clark/Division,2014,dropped,7527.8,255.0,6038.3,110
+40630,Clark/Division,2015,dropped,7584.7,255.0,5753.2,110
+40630,Clark/Division,2016,dropped,8152.4,255.0,6024.5,111
+40630,Clark/Division,2017,dropped,7928.2,254.0,5554.4,111
+40630,Clark/Division,2018,dropped,7800.9,255.0,5419.9,110
+40630,Clark/Division,2019,dropped,7448.9,255.0,5031.8,110
+40380,Clark/Lake,2009,dropped,18134.4,255.0,4394.1,110
+40380,Clark/Lake,2010,dropped,18063.7,256.0,4976.0,109
+40380,Clark/Lake,2011,dropped,18800.7,255.0,5266.3,110
+40380,Clark/Lake,2012,dropped,19634.3,255.0,5803.6,111
+40380,Clark/Lake,2013,dropped,19259.9,255.0,5748.1,110
+40380,Clark/Lake,2014,dropped,19334.9,255.0,5843.9,110
+40380,Clark/Lake,2015,dropped,20741.3,255.0,6436.6,110
+40380,Clark/Lake,2016,dropped,20893.3,255.0,5809.7,111
+40380,Clark/Lake,2017,dropped,21260.0,254.0,5608.2,111
+40380,Clark/Lake,2018,dropped,21279.9,255.0,5654.0,110
+40380,Clark/Lake,2019,dropped,20608.3,255.0,5233.2,110
+40430,Clinton-Forest Park,2009,comparison,2736.9,255.0,914.7,90
+40430,Clinton-Forest Park,2010,comparison,2918.8,256.0,1058.2,109
+40430,Clinton-Forest Park,2011,comparison,3198.2,255.0,1261.1,110
+40430,Clinton-Forest Park,2012,comparison,3461.9,255.0,1420.1,111
+40430,Clinton-Forest Park,2013,comparison,3548.7,255.0,1422.9,110
+40430,Clinton-Forest Park,2014,comparison,3748.2,255.0,1462.3,110
+40430,Clinton-Forest Park,2015,comparison,3962.1,255.0,1488.1,110
+40430,Clinton-Forest Park,2016,comparison,4024.7,255.0,1485.8,111
+40430,Clinton-Forest Park,2017,comparison,3810.2,254.0,1307.8,111
+40430,Clinton-Forest Park,2018,comparison,3626.8,255.0,1188.2,110
+40430,Clinton-Forest Park,2019,comparison,3394.7,255.0,1043.9,110
+41160,Clinton-Lake,2009,comparison,4141.2,255.0,1189.7,110
+41160,Clinton-Lake,2010,comparison,4168.3,256.0,1263.5,109
+41160,Clinton-Lake,2011,comparison,4480.9,255.0,1378.3,110
+41160,Clinton-Lake,2012,comparison,4337.7,255.0,1361.3,111
+41160,Clinton-Lake,2013,comparison,4348.4,255.0,1348.1,110
+41160,Clinton-Lake,2014,comparison,4091.5,255.0,1248.5,110
+41160,Clinton-Lake,2015,comparison,4212.6,255.0,1282.3,110
+41160,Clinton-Lake,2016,comparison,4227.4,255.0,1181.0,111
+41160,Clinton-Lake,2017,comparison,4224.3,254.0,1106.7,111
+41160,Clinton-Lake,2018,comparison,4408.4,255.0,1082.1,110
+41160,Clinton-Lake,2019,comparison,4535.0,255.0,1110.1,104
+41670,Conservatory,2009,comparison,845.7,255.0,483.6,110
+41670,Conservatory,2010,comparison,914.8,256.0,501.3,109
+41670,Conservatory,2011,comparison,960.8,255.0,518.3,110
+41670,Conservatory,2012,comparison,952.5,255.0,522.1,111
+41670,Conservatory,2013,comparison,901.6,255.0,522.1,110
+41670,Conservatory,2014,comparison,958.6,255.0,592.2,110
+41670,Conservatory,2015,comparison,1011.3,255.0,636.1,110
+41670,Conservatory,2016,comparison,943.6,255.0,575.1,111
+41670,Conservatory,2017,comparison,886.8,254.0,530.1,111
+41670,Conservatory,2018,comparison,912.3,255.0,578.7,110
+41670,Conservatory,2019,comparison,860.4,255.0,539.3,110
+40230,Cumberland,2009,treated,4550.2,255.0,2089.5,110
+40230,Cumberland,2010,treated,4536.0,256.0,2179.1,109
+40230,Cumberland,2011,treated,4576.7,255.0,2216.9,110
+40230,Cumberland,2012,treated,4717.8,255.0,2285.0,111
+40230,Cumberland,2013,treated,4703.0,255.0,2175.5,110
+40230,Cumberland,2014,treated,4537.6,255.0,2082.1,110
+40230,Cumberland,2015,treated,4751.2,255.0,2180.5,110
+40230,Cumberland,2016,treated,4665.9,255.0,2031.6,111
+40230,Cumberland,2017,treated,4701.3,254.0,1907.9,111
+40230,Cumberland,2018,treated,4501.4,255.0,1704.6,110
+40230,Cumberland,2019,treated,4229.8,255.0,1465.5,110
+40090,Damen-Brown,2009,comparison,1820.5,255.0,969.1,110
+40090,Damen-Brown,2010,comparison,2089.7,256.0,1047.8,109
+40090,Damen-Brown,2011,comparison,2257.0,255.0,1107.1,110
+40090,Damen-Brown,2012,comparison,2476.1,255.0,1218.4,111
+40090,Damen-Brown,2013,comparison,2570.5,255.0,1263.2,110
+40090,Damen-Brown,2014,comparison,2618.3,255.0,1312.8,110
+40090,Damen-Brown,2015,comparison,2721.3,255.0,1289.6,110
+40090,Damen-Brown,2016,comparison,2924.0,255.0,1366.1,111
+40090,Damen-Brown,2017,comparison,2875.4,254.0,1290.8,111
+40090,Damen-Brown,2018,comparison,2847.2,255.0,1197.1,110
+40090,Damen-Brown,2019,comparison,2792.5,255.0,1147.2,110
+40210,Damen-Cermak,2009,comparison,1242.9,255.0,597.8,110
+40210,Damen-Cermak,2010,comparison,1254.1,256.0,606.6,109
+40210,Damen-Cermak,2011,comparison,1371.8,255.0,674.3,110
+40210,Damen-Cermak,2012,comparison,1450.7,255.0,738.9,111
+40210,Damen-Cermak,2013,comparison,1469.8,255.0,743.0,110
+40210,Damen-Cermak,2014,comparison,1557.6,255.0,818.5,110
+40210,Damen-Cermak,2015,comparison,1585.5,255.0,843.9,110
+40210,Damen-Cermak,2016,comparison,1556.2,255.0,792.1,111
+40210,Damen-Cermak,2017,comparison,1536.8,254.0,758.6,111
+40210,Damen-Cermak,2018,comparison,1521.9,255.0,707.2,110
+40210,Damen-Cermak,2019,comparison,1534.5,255.0,654.4,110
+40590,Damen/Milwaukee,2009,dropped,4865.1,255.0,2753.8,86
+40590,Damen/Milwaukee,2010,dropped,5278.5,256.0,3206.9,109
+40590,Damen/Milwaukee,2011,dropped,5781.9,255.0,3704.7,110
+40590,Damen/Milwaukee,2012,dropped,6351.3,255.0,4221.4,111
+40590,Damen/Milwaukee,2013,dropped,6625.4,255.0,4429.3,110
+40590,Damen/Milwaukee,2014,dropped,6689.3,211.0,4789.6,93
+40590,Damen/Milwaukee,2015,dropped,6750.3,255.0,4652.1,110
+40590,Damen/Milwaukee,2016,dropped,6819.5,255.0,4390.9,111
+40590,Damen/Milwaukee,2017,dropped,6676.3,254.0,4143.2,111
+40590,Damen/Milwaukee,2018,dropped,6479.0,255.0,3815.6,110
+40590,Damen/Milwaukee,2019,dropped,6374.3,255.0,3615.5,110
+40050,Davis,2009,comparison,3813.3,255.0,2460.7,110
+40050,Davis,2010,comparison,3758.6,256.0,2420.3,109
+40050,Davis,2011,comparison,3818.9,255.0,2474.7,110
+40050,Davis,2012,comparison,3872.9,255.0,2390.8,111
+40050,Davis,2013,comparison,3808.5,255.0,2409.4,110
+40050,Davis,2014,comparison,3881.8,255.0,2439.3,110
+40050,Davis,2015,comparison,3867.4,255.0,2372.5,110
+40050,Davis,2016,comparison,3735.8,255.0,2251.7,111
+40050,Davis,2017,comparison,3666.1,254.0,2101.6,111
+40050,Davis,2018,comparison,3642.0,255.0,2030.0,110
+40050,Davis,2019,comparison,3444.6,255.0,1937.0,110
+40690,Dempster,2009,comparison,799.3,255.0,558.0,110
+40690,Dempster,2010,comparison,791.8,256.0,555.5,109
+40690,Dempster,2011,comparison,824.8,255.0,574.8,110
+40690,Dempster,2012,comparison,830.4,255.0,574.3,107
+40690,Dempster,2013,comparison,855.3,255.0,602.5,110
+40690,Dempster,2014,comparison,900.0,255.0,675.4,110
+40690,Dempster,2015,comparison,887.0,255.0,665.7,110
+40690,Dempster,2016,comparison,852.6,255.0,610.9,111
+40690,Dempster,2017,comparison,839.4,254.0,598.3,111
+40690,Dempster,2018,comparison,822.7,255.0,557.4,110
+40690,Dempster,2019,comparison,792.7,255.0,516.3,110
+40140,Dempster-Skokie,2009,dropped,2497.6,255.0,977.0,110
+40140,Dempster-Skokie,2010,dropped,2582.5,256.0,1094.8,109
+40140,Dempster-Skokie,2011,dropped,2621.7,254.0,1165.9,104
+40140,Dempster-Skokie,2012,dropped,2492.6,255.0,1125.5,109
+40140,Dempster-Skokie,2013,dropped,2277.3,255.0,1061.2,110
+40140,Dempster-Skokie,2014,dropped,2223.9,255.0,1075.0,110
+40140,Dempster-Skokie,2015,dropped,1598.7,170.0,699.2,74
+40140,Dempster-Skokie,2016,dropped,1933.6,255.0,1037.7,111
+40140,Dempster-Skokie,2017,dropped,2007.7,254.0,967.9,111
+40140,Dempster-Skokie,2018,dropped,1941.9,255.0,930.2,110
+40140,Dempster-Skokie,2019,dropped,1813.4,255.0,862.9,110
+40530,Diversey,2009,treated,5133.1,255.0,2456.8,110
+40530,Diversey,2010,treated,4849.6,256.0,2447.5,109
+40530,Diversey,2011,treated,5251.9,255.0,2754.8,110
+40530,Diversey,2012,treated,5511.1,255.0,2880.7,111
+40530,Diversey,2013,treated,5748.7,255.0,3127.2,110
+40530,Diversey,2014,treated,5712.6,255.0,3021.6,110
+40530,Diversey,2015,treated,5611.8,255.0,2674.5,110
+40530,Diversey,2016,treated,5754.0,255.0,2608.8,111
+40530,Diversey,2017,treated,5562.6,254.0,2418.3,111
+40530,Diversey,2018,treated,5635.2,255.0,2372.1,110
+40530,Diversey,2019,treated,5506.2,255.0,2244.8,110
+40320,Division/Milwaukee,2009,comparison,4816.8,255.0,2143.4,86
+40320,Division/Milwaukee,2010,comparison,5186.9,256.0,2384.3,109
+40320,Division/Milwaukee,2011,comparison,5694.7,255.0,2726.5,110
+40320,Division/Milwaukee,2012,comparison,5951.0,255.0,3027.0,111
+40320,Division/Milwaukee,2013,comparison,6116.5,255.0,3213.2,110
+40320,Division/Milwaukee,2014,comparison,6628.8,255.0,3363.2,110
+40320,Division/Milwaukee,2015,comparison,6462.2,255.0,3124.1,110
+40320,Division/Milwaukee,2016,comparison,6293.3,255.0,2923.7,111
+40320,Division/Milwaukee,2017,comparison,6162.3,254.0,2758.1,111
+40320,Division/Milwaukee,2018,comparison,6223.1,255.0,2684.5,110
+40320,Division/Milwaukee,2019,comparison,5764.6,255.0,2417.0,110
+40720,East 63rd-Cottage Grove,2009,treated,1219.9,255.0,653.2,110
+40720,East 63rd-Cottage Grove,2010,treated,1245.0,256.0,631.0,109
+40720,East 63rd-Cottage Grove,2011,treated,1334.8,255.0,717.3,110
+40720,East 63rd-Cottage Grove,2012,treated,1346.4,255.0,721.7,111
+40720,East 63rd-Cottage Grove,2013,treated,1808.4,255.0,1028.6,110
+40720,East 63rd-Cottage Grove,2014,treated,1383.4,255.0,783.2,110
+40720,East 63rd-Cottage Grove,2015,treated,1301.4,255.0,759.1,110
+40720,East 63rd-Cottage Grove,2016,treated,1173.7,255.0,659.3,111
+40720,East 63rd-Cottage Grove,2017,treated,1131.9,254.0,624.8,111
+40720,East 63rd-Cottage Grove,2018,treated,1043.2,255.0,486.5,110
+40720,East 63rd-Cottage Grove,2019,treated,979.7,255.0,482.1,110
+40390,Forest Park,2009,comparison,3865.2,255.0,1524.4,110
+40390,Forest Park,2010,comparison,3817.0,256.0,1550.0,109
+40390,Forest Park,2011,comparison,3890.2,255.0,1668.0,110
+40390,Forest Park,2012,comparison,3969.3,255.0,1730.2,111
+40390,Forest Park,2013,comparison,3816.7,255.0,1659.6,110
+40390,Forest Park,2014,comparison,3802.8,255.0,1703.1,110
+40390,Forest Park,2015,comparison,3736.4,255.0,1659.8,110
+40390,Forest Park,2016,comparison,3625.7,255.0,1593.9,111
+40390,Forest Park,2017,comparison,3467.1,254.0,1496.2,111
+40390,Forest Park,2018,comparison,3336.7,255.0,1381.3,110
+40390,Forest Park,2019,comparison,3103.7,255.0,1207.1,110
+40520,Foster,2009,comparison,788.6,255.0,406.9,110
+40520,Foster,2010,comparison,819.1,256.0,421.4,109
+40520,Foster,2011,comparison,839.1,255.0,441.4,110
+40520,Foster,2012,comparison,863.3,255.0,448.3,111
+40520,Foster,2013,comparison,843.6,255.0,467.9,110
+40520,Foster,2014,comparison,862.5,255.0,481.1,110
+40520,Foster,2015,comparison,890.5,255.0,506.5,110
+40520,Foster,2016,comparison,919.4,255.0,506.2,111
+40520,Foster,2017,comparison,884.6,254.0,468.1,111
+40520,Foster,2018,comparison,830.3,255.0,428.3,110
+40520,Foster,2019,comparison,812.9,255.0,413.2,110
+40870,Francisco,2009,comparison,1286.2,255.0,579.5,110
+40870,Francisco,2010,comparison,1360.2,256.0,619.8,109
+40870,Francisco,2011,comparison,1402.2,255.0,645.7,110
+40870,Francisco,2012,comparison,1480.9,255.0,686.3,111
+40870,Francisco,2013,comparison,1562.5,255.0,730.6,110
+40870,Francisco,2014,comparison,1548.6,255.0,728.6,110
+40870,Francisco,2015,comparison,1569.7,255.0,709.3,110
+40870,Francisco,2016,comparison,1644.0,255.0,744.5,111
+40870,Francisco,2017,comparison,1671.6,254.0,747.8,111
+40870,Francisco,2018,comparison,1643.3,255.0,729.1,110
+40870,Francisco,2019,comparison,1643.1,255.0,636.4,110
+41220,Fullerton,2009,treated,11517.7,255.0,6884.2,110
+41220,Fullerton,2010,treated,12393.9,256.0,7447.0,109
+41220,Fullerton,2011,treated,13189.0,255.0,8084.8,110
+41220,Fullerton,2012,treated,13609.7,255.0,8548.4,111
+41220,Fullerton,2013,treated,13361.2,255.0,8245.5,110
+41220,Fullerton,2014,treated,12865.8,255.0,7946.7,110
+41220,Fullerton,2015,treated,13051.1,255.0,8233.7,110
+41220,Fullerton,2016,treated,12879.3,255.0,7338.2,111
+41220,Fullerton,2017,treated,12192.1,254.0,6607.5,111
+41220,Fullerton,2018,treated,11992.9,255.0,6301.2,110
+41220,Fullerton,2019,treated,11948.3,255.0,6115.7,110
+41170,Garfield-Dan Ryan,2009,dropped,4080.9,255.0,2612.9,110
+41170,Garfield-Dan Ryan,2010,dropped,4106.1,256.0,2660.4,109
+41170,Garfield-Dan Ryan,2011,dropped,3922.7,255.0,2690.0,110
+41170,Garfield-Dan Ryan,2012,dropped,3819.1,255.0,2589.2,111
+41170,Garfield-Dan Ryan,2013,dropped,3358.7,148.0,2171.5,64
+41170,Garfield-Dan Ryan,2014,dropped,3693.5,255.0,2484.0,110
+41170,Garfield-Dan Ryan,2015,dropped,3831.2,255.0,2507.8,110
+41170,Garfield-Dan Ryan,2016,dropped,3623.1,255.0,2362.8,111
+41170,Garfield-Dan Ryan,2017,dropped,3339.3,254.0,2201.9,111
+41170,Garfield-Dan Ryan,2018,dropped,3140.3,255.0,2084.0,110
+41170,Garfield-Dan Ryan,2019,dropped,2870.8,255.0,1897.1,110
+40510,Garfield-South Elevated,2009,treated,1334.3,255.0,757.0,110
+40510,Garfield-South Elevated,2010,treated,1299.6,256.0,709.5,109
+40510,Garfield-South Elevated,2011,treated,1321.4,255.0,730.4,110
+40510,Garfield-South Elevated,2012,treated,1346.8,255.0,745.9,111
+40510,Garfield-South Elevated,2013,treated,7030.3,255.0,4244.4,110
+40510,Garfield-South Elevated,2014,treated,1532.6,255.0,846.8,110
+40510,Garfield-South Elevated,2015,treated,1493.5,255.0,843.4,110
+40510,Garfield-South Elevated,2016,treated,1369.4,255.0,751.0,111
+40510,Garfield-South Elevated,2017,treated,1340.8,254.0,730.7,111
+40510,Garfield-South Elevated,2018,treated,1134.9,255.0,534.4,110
+40510,Garfield-South Elevated,2019,treated,1048.9,255.0,506.5,110
+40490,Grand/Milwaukee,2009,treated,1768.0,255.0,774.9,86
+40490,Grand/Milwaukee,2010,treated,1949.7,256.0,897.4,109
+40490,Grand/Milwaukee,2011,treated,2138.0,255.0,1033.1,110
+40490,Grand/Milwaukee,2012,treated,2225.3,255.0,1144.6,111
+40490,Grand/Milwaukee,2013,treated,2500.7,255.0,1275.7,110
+40490,Grand/Milwaukee,2014,treated,2609.0,255.0,1311.3,110
+40490,Grand/Milwaukee,2015,treated,2826.9,255.0,1481.5,110
+40490,Grand/Milwaukee,2016,treated,2787.6,255.0,1405.7,111
+40490,Grand/Milwaukee,2017,treated,2701.5,254.0,1356.5,111
+40490,Grand/Milwaukee,2018,treated,2849.0,255.0,1431.0,110
+40490,Grand/Milwaukee,2019,treated,2812.1,255.0,1351.1,110
+40330,Grand/State,2009,dropped,9149.5,255.0,8054.1,110
+40330,Grand/State,2010,dropped,9089.6,256.0,8541.7,109
+40330,Grand/State,2011,dropped,9846.1,255.0,9086.3,110
+40330,Grand/State,2012,dropped,10502.7,255.0,9871.7,111
+40330,Grand/State,2013,dropped,10763.2,255.0,9864.4,110
+40330,Grand/State,2014,dropped,11737.1,255.0,10835.2,110
+40330,Grand/State,2015,dropped,12413.6,255.0,10765.0,110
+40330,Grand/State,2016,dropped,12267.2,255.0,10581.6,111
+40330,Grand/State,2017,dropped,11795.8,254.0,9561.8,111
+40330,Grand/State,2018,dropped,11334.6,255.0,9055.6,110
+40330,Grand/State,2019,dropped,11078.1,255.0,8683.0,110
+40760,Granville,2009,dropped,3517.5,255.0,2509.7,110
+40760,Granville,2010,dropped,3745.2,256.0,2706.0,109
+40760,Granville,2011,dropped,3872.8,255.0,2786.2,110
+40760,Granville,2012,dropped,3934.8,228.0,2652.6,98
+40760,Granville,2013,dropped,4017.3,255.0,2811.8,110
+40760,Granville,2014,dropped,4248.8,255.0,3057.4,110
+40760,Granville,2015,dropped,4255.0,255.0,2912.4,110
+40760,Granville,2016,dropped,4125.1,255.0,2856.8,111
+40760,Granville,2017,dropped,3976.9,254.0,2675.4,111
+40760,Granville,2018,dropped,3907.9,255.0,2548.8,110
+40760,Granville,2019,dropped,3688.2,255.0,2375.6,110
+41130,Halsted-Orange,2009,comparison,2490.3,255.0,976.5,110
+41130,Halsted-Orange,2010,comparison,2414.5,256.0,962.5,109
+41130,Halsted-Orange,2011,comparison,2573.1,255.0,1063.7,110
+41130,Halsted-Orange,2012,comparison,2753.5,255.0,1127.7,111
+41130,Halsted-Orange,2013,comparison,2985.2,255.0,1257.7,110
+41130,Halsted-Orange,2014,comparison,2902.0,255.0,1464.3,110
+41130,Halsted-Orange,2015,comparison,2871.8,255.0,1237.9,110
+41130,Halsted-Orange,2016,comparison,2832.0,255.0,1171.3,111
+41130,Halsted-Orange,2017,comparison,2705.8,254.0,1077.2,111
+41130,Halsted-Orange,2018,comparison,2609.0,255.0,994.6,110
+41130,Halsted-Orange,2019,comparison,2595.2,255.0,949.2,110
+40940,Halsted/63rd,2009,comparison,846.4,255.0,407.8,110
+40940,Halsted/63rd,2010,comparison,869.2,256.0,416.9,109
+40940,Halsted/63rd,2011,comparison,900.4,255.0,422.6,110
+40940,Halsted/63rd,2012,comparison,908.2,255.0,424.9,111
+40940,Halsted/63rd,2013,comparison,1523.7,255.0,822.3,104
+40940,Halsted/63rd,2014,comparison,868.5,255.0,441.3,110
+40940,Halsted/63rd,2015,comparison,799.0,255.0,403.3,110
+40940,Halsted/63rd,2016,comparison,675.8,255.0,349.9,111
+40940,Halsted/63rd,2017,comparison,651.1,254.0,309.8,111
+40940,Halsted/63rd,2018,comparison,598.4,255.0,245.5,110
+40940,Halsted/63rd,2019,comparison,527.4,255.0,224.8,110
+40980,Harlem-Forest Park,2009,comparison,949.5,255.0,418.9,110
+40980,Harlem-Forest Park,2010,comparison,1017.9,256.0,467.2,109
+40980,Harlem-Forest Park,2011,comparison,1058.5,255.0,506.6,110
+40980,Harlem-Forest Park,2012,comparison,1114.5,255.0,556.8,111
+40980,Harlem-Forest Park,2013,comparison,1101.5,255.0,581.7,110
+40980,Harlem-Forest Park,2014,comparison,1179.3,255.0,605.8,110
+40980,Harlem-Forest Park,2015,comparison,1248.1,255.0,619.2,110
+40980,Harlem-Forest Park,2016,comparison,1238.6,255.0,585.0,111
+40980,Harlem-Forest Park,2017,comparison,1244.9,254.0,539.2,111
+40980,Harlem-Forest Park,2018,comparison,1256.8,255.0,503.0,110
+40980,Harlem-Forest Park,2019,comparison,1150.4,255.0,461.2,110
+40020,Harlem-Lake,2009,comparison,3668.7,255.0,1898.4,110
+40020,Harlem-Lake,2010,comparison,3682.6,256.0,1891.1,109
+40020,Harlem-Lake,2011,comparison,3707.2,255.0,1943.4,110
+40020,Harlem-Lake,2012,comparison,3856.0,255.0,2036.5,111
+40020,Harlem-Lake,2013,comparison,3921.4,255.0,2075.1,110
+40020,Harlem-Lake,2014,comparison,4062.5,255.0,2205.8,110
+40020,Harlem-Lake,2015,comparison,4029.5,255.0,2171.4,110
+40020,Harlem-Lake,2016,comparison,3813.2,255.0,1776.6,111
+40020,Harlem-Lake,2017,comparison,3757.0,254.0,1958.0,111
+40020,Harlem-Lake,2018,comparison,3748.7,255.0,1901.2,110
+40020,Harlem-Lake,2019,comparison,3584.9,255.0,1705.9,110
+40750,Harlem-O'Hare,2009,comparison,2593.9,255.0,985.0,110
+40750,Harlem-O'Hare,2010,comparison,2732.1,256.0,1053.2,109
+40750,Harlem-O'Hare,2011,comparison,2834.1,255.0,1139.7,110
+40750,Harlem-O'Hare,2012,comparison,3007.8,255.0,1225.7,111
+40750,Harlem-O'Hare,2013,comparison,3042.8,255.0,1268.1,110
+40750,Harlem-O'Hare,2014,comparison,3094.0,255.0,1308.5,110
+40750,Harlem-O'Hare,2015,comparison,3156.3,255.0,1331.1,110
+40750,Harlem-O'Hare,2016,comparison,3012.7,255.0,1246.1,111
+40750,Harlem-O'Hare,2017,comparison,2977.6,254.0,1191.5,111
+40750,Harlem-O'Hare,2018,comparison,2992.5,255.0,1138.7,110
+40750,Harlem-O'Hare,2019,comparison,2857.3,255.0,1057.0,110
+41490,Harrison,2009,comparison,3315.2,255.0,2334.1,110
+41490,Harrison,2010,comparison,3830.3,256.0,2672.5,109
+41490,Harrison,2011,comparison,4111.7,255.0,2873.0,110
+41490,Harrison,2012,comparison,4232.0,255.0,3032.4,111
+41490,Harrison,2013,comparison,4199.2,255.0,2917.3,110
+41490,Harrison,2014,comparison,4111.0,255.0,2862.0,105
+41490,Harrison,2015,comparison,4501.1,255.0,3177.9,110
+41490,Harrison,2016,comparison,4436.9,255.0,3089.9,111
+41490,Harrison,2017,comparison,4136.9,254.0,2775.7,111
+41490,Harrison,2018,comparison,3966.8,255.0,2629.3,110
+41490,Harrison,2019,comparison,3655.6,255.0,2548.4,110
+40900,Howard,2009,treated,5924.5,255.0,3637.5,110
+40900,Howard,2010,treated,6206.4,256.0,3736.0,109
+40900,Howard,2011,treated,6313.9,255.0,3881.4,110
+40900,Howard,2012,treated,6590.0,255.0,4257.7,111
+40900,Howard,2013,treated,6387.3,255.0,3979.1,110
+40900,Howard,2014,treated,6289.0,255.0,4000.1,110
+40900,Howard,2015,treated,6819.5,255.0,4275.9,110
+40900,Howard,2016,treated,5829.6,255.0,3770.8,111
+40900,Howard,2017,treated,5704.2,254.0,3567.5,111
+40900,Howard,2018,treated,5423.3,255.0,3279.5,110
+40900,Howard,2019,treated,5154.4,255.0,3058.5,110
+40300,Indiana,2009,treated,859.9,255.0,368.8,110
+40300,Indiana,2010,treated,892.1,256.0,385.5,109
+40300,Indiana,2011,treated,930.6,255.0,427.0,110
+40300,Indiana,2012,treated,966.9,255.0,451.7,109
+40300,Indiana,2013,treated,1195.3,255.0,603.1,110
+40300,Indiana,2014,treated,1011.3,255.0,514.6,110
+40300,Indiana,2015,treated,949.7,255.0,499.6,110
+40300,Indiana,2016,treated,872.1,255.0,446.0,111
+40300,Indiana,2017,treated,862.4,254.0,430.6,111
+40300,Indiana,2018,treated,827.0,255.0,384.9,110
+40300,Indiana,2019,treated,769.0,255.0,326.2,110
+41460,Irving Park-Brown,2009,comparison,2220.5,255.0,1175.2,110
+41460,Irving Park-Brown,2010,comparison,2547.2,256.0,1281.2,109
+41460,Irving Park-Brown,2011,comparison,2818.9,255.0,1401.5,110
+41460,Irving Park-Brown,2012,comparison,2989.6,255.0,1465.3,111
+41460,Irving Park-Brown,2013,comparison,3134.0,255.0,1538.8,110
+41460,Irving Park-Brown,2014,comparison,3217.0,255.0,1590.4,110
+41460,Irving Park-Brown,2015,comparison,3150.0,255.0,1449.1,110
+41460,Irving Park-Brown,2016,comparison,3209.6,255.0,1461.4,111
+41460,Irving Park-Brown,2017,comparison,3246.9,254.0,1433.5,111
+41460,Irving Park-Brown,2018,comparison,3282.3,255.0,1358.7,110
+41460,Irving Park-Brown,2019,comparison,3163.3,255.0,1279.1,110
+40550,Irving Park-O'Hare,2009,comparison,3972.4,255.0,1708.2,110
+40550,Irving Park-O'Hare,2010,comparison,4046.6,256.0,1863.9,109
+40550,Irving Park-O'Hare,2011,comparison,4149.1,255.0,1991.4,110
+40550,Irving Park-O'Hare,2012,comparison,4416.2,255.0,2171.1,111
+40550,Irving Park-O'Hare,2013,comparison,4503.2,255.0,2260.0,110
+40550,Irving Park-O'Hare,2014,comparison,4478.8,255.0,2238.7,110
+40550,Irving Park-O'Hare,2015,comparison,4636.2,255.0,2330.4,110
+40550,Irving Park-O'Hare,2016,comparison,4383.7,255.0,2180.8,111
+40550,Irving Park-O'Hare,2017,comparison,4344.1,254.0,2106.6,111
+40550,Irving Park-O'Hare,2018,comparison,4318.7,255.0,2036.5,110
+40550,Irving Park-O'Hare,2019,comparison,4203.0,255.0,1927.7,110
+40070,Jackson/Dearborn,2009,dropped,7427.6,255.0,2489.5,90
+40070,Jackson/Dearborn,2010,dropped,7570.9,256.0,2717.1,109
+40070,Jackson/Dearborn,2011,dropped,7822.4,255.0,2928.6,110
+40070,Jackson/Dearborn,2012,dropped,8132.7,255.0,3111.1,111
+40070,Jackson/Dearborn,2013,dropped,8266.4,255.0,3195.9,110
+40070,Jackson/Dearborn,2014,dropped,7950.3,255.0,3002.0,110
+40070,Jackson/Dearborn,2015,dropped,8093.5,255.0,3072.1,110
+40070,Jackson/Dearborn,2016,dropped,7823.2,255.0,2923.8,111
+40070,Jackson/Dearborn,2017,dropped,7314.1,254.0,2718.9,111
+40070,Jackson/Dearborn,2018,dropped,7125.1,255.0,2488.7,110
+40070,Jackson/Dearborn,2019,dropped,6964.3,255.0,2322.1,110
+40560,Jackson/State,2009,dropped,11759.7,255.0,4696.2,110
+40560,Jackson/State,2010,dropped,11985.0,256.0,4362.8,109
+40560,Jackson/State,2011,dropped,11693.9,255.0,4588.2,110
+40560,Jackson/State,2012,dropped,11442.3,255.0,4858.9,111
+40560,Jackson/State,2013,dropped,10932.6,255.0,4168.7,110
+40560,Jackson/State,2014,dropped,11200.8,255.0,4592.0,110
+40560,Jackson/State,2015,dropped,11356.3,255.0,4492.0,110
+40560,Jackson/State,2016,dropped,11129.6,255.0,4129.7,111
+40560,Jackson/State,2017,dropped,10202.6,254.0,3633.6,111
+40560,Jackson/State,2018,dropped,9278.1,255.0,3279.3,110
+40560,Jackson/State,2019,dropped,8875.0,255.0,3077.0,110
+41190,Jarvis,2009,dropped,1478.7,255.0,1070.4,110
+41190,Jarvis,2010,dropped,1446.2,256.0,1048.2,109
+41190,Jarvis,2011,dropped,1477.4,255.0,1095.9,110
+41190,Jarvis,2012,dropped,1578.1,227.0,1133.6,98
+41190,Jarvis,2013,dropped,1555.2,255.0,1195.1,110
+41190,Jarvis,2014,dropped,1687.2,255.0,1285.2,110
+41190,Jarvis,2015,dropped,1747.7,255.0,1234.4,110
+41190,Jarvis,2016,dropped,1718.7,255.0,1181.4,111
+41190,Jarvis,2017,dropped,1623.7,254.0,1125.5,111
+41190,Jarvis,2018,dropped,1517.5,255.0,1056.3,110
+41190,Jarvis,2019,dropped,1433.4,255.0,1035.8,110
+41280,Jefferson Park,2009,comparison,6060.6,255.0,2589.4,110
+41280,Jefferson Park,2010,comparison,5964.0,256.0,2655.7,109
+41280,Jefferson Park,2011,comparison,6448.6,255.0,2950.5,110
+41280,Jefferson Park,2012,comparison,6747.9,255.0,3177.5,111
+41280,Jefferson Park,2013,comparison,6850.5,255.0,3271.8,110
+41280,Jefferson Park,2014,comparison,6935.2,255.0,3341.2,110
+41280,Jefferson Park,2015,comparison,7057.0,255.0,3396.7,110
+41280,Jefferson Park,2016,comparison,7102.4,255.0,3347.8,111
+41280,Jefferson Park,2017,comparison,6880.2,254.0,3171.5,111
+41280,Jefferson Park,2018,comparison,6418.7,255.0,2929.6,110
+41280,Jefferson Park,2019,comparison,6251.3,255.0,2748.3,110
+41180,Kedzie-Brown,2009,comparison,1772.2,255.0,1077.7,110
+41180,Kedzie-Brown,2010,comparison,1843.5,256.0,1095.0,109
+41180,Kedzie-Brown,2011,comparison,1884.7,255.0,1182.2,110
+41180,Kedzie-Brown,2012,comparison,1954.0,255.0,1237.7,111
+41180,Kedzie-Brown,2013,comparison,2104.2,255.0,1372.7,110
+41180,Kedzie-Brown,2014,comparison,2075.8,255.0,1311.2,110
+41180,Kedzie-Brown,2015,comparison,2004.9,255.0,1221.1,110
+41180,Kedzie-Brown,2016,comparison,2027.7,255.0,1244.9,111
+41180,Kedzie-Brown,2017,comparison,1986.8,254.0,1173.2,111
+41180,Kedzie-Brown,2018,comparison,2000.4,255.0,1150.0,110
+41180,Kedzie-Brown,2019,comparison,1975.0,255.0,1039.5,110
+41040,Kedzie-Cermak,2009,comparison,859.7,255.0,464.4,110
+41040,Kedzie-Cermak,2010,comparison,909.0,256.0,497.6,109
+41040,Kedzie-Cermak,2011,comparison,971.2,255.0,565.5,110
+41040,Kedzie-Cermak,2012,comparison,1074.7,255.0,619.8,111
+41040,Kedzie-Cermak,2013,comparison,1088.1,255.0,605.7,110
+41040,Kedzie-Cermak,2014,comparison,1136.3,255.0,649.4,110
+41040,Kedzie-Cermak,2015,comparison,1187.4,255.0,694.1,110
+41040,Kedzie-Cermak,2016,comparison,1100.4,255.0,664.8,111
+41040,Kedzie-Cermak,2017,comparison,1061.5,254.0,679.1,111
+41040,Kedzie-Cermak,2018,comparison,1038.0,255.0,620.8,110
+41040,Kedzie-Cermak,2019,comparison,1025.0,255.0,579.1,110
+40250,Kedzie-Homan-Forest Park,2009,comparison,1735.0,255.0,912.5,110
+40250,Kedzie-Homan-Forest Park,2010,comparison,1947.4,256.0,1034.5,109
+40250,Kedzie-Homan-Forest Park,2011,comparison,2148.8,255.0,1235.5,110
+40250,Kedzie-Homan-Forest Park,2012,comparison,2262.8,255.0,1352.4,111
+40250,Kedzie-Homan-Forest Park,2013,comparison,2250.4,255.0,1324.4,110
+40250,Kedzie-Homan-Forest Park,2014,comparison,2352.9,255.0,1384.6,110
+40250,Kedzie-Homan-Forest Park,2015,comparison,2451.7,255.0,1473.4,110
+40250,Kedzie-Homan-Forest Park,2016,comparison,2246.1,255.0,1337.0,111
+40250,Kedzie-Homan-Forest Park,2017,comparison,1975.1,254.0,1152.8,111
+40250,Kedzie-Homan-Forest Park,2018,comparison,1984.5,255.0,1139.0,110
+40250,Kedzie-Homan-Forest Park,2019,comparison,1818.4,255.0,1074.0,110
+41070,Kedzie-Lake,2009,comparison,1330.2,255.0,737.5,110
+41070,Kedzie-Lake,2010,comparison,1425.8,256.0,731.7,109
+41070,Kedzie-Lake,2011,comparison,1454.2,255.0,763.0,110
+41070,Kedzie-Lake,2012,comparison,1466.8,255.0,812.3,111
+41070,Kedzie-Lake,2013,comparison,1599.5,255.0,924.6,110
+41070,Kedzie-Lake,2014,comparison,1629.2,255.0,906.2,110
+41070,Kedzie-Lake,2015,comparison,1653.5,255.0,898.4,110
+41070,Kedzie-Lake,2016,comparison,1577.8,255.0,856.6,111
+41070,Kedzie-Lake,2017,comparison,1428.3,254.0,764.6,111
+41070,Kedzie-Lake,2018,comparison,1513.4,255.0,807.0,110
+41070,Kedzie-Lake,2019,comparison,1350.2,255.0,655.8,110
+41150,Kedzie-Midway,2009,comparison,3000.2,255.0,1252.1,110
+41150,Kedzie-Midway,2010,comparison,2974.4,256.0,1257.5,109
+41150,Kedzie-Midway,2011,comparison,3140.1,255.0,1398.8,110
+41150,Kedzie-Midway,2012,comparison,3346.3,255.0,1512.9,111
+41150,Kedzie-Midway,2013,comparison,3428.3,255.0,1547.3,110
+41150,Kedzie-Midway,2014,comparison,3053.8,255.0,1425.3,110
+41150,Kedzie-Midway,2015,comparison,3033.6,255.0,1456.3,110
+41150,Kedzie-Midway,2016,comparison,3501.9,255.0,1599.4,111
+41150,Kedzie-Midway,2017,comparison,3502.1,254.0,1562.9,111
+41150,Kedzie-Midway,2018,comparison,3430.4,255.0,1446.7,110
+41150,Kedzie-Midway,2019,comparison,3357.4,255.0,1395.1,110
+41290,Kimball,2009,dropped,3762.6,255.0,2053.7,110
+41290,Kimball,2010,dropped,3908.2,256.0,2117.9,109
+41290,Kimball,2011,dropped,4106.5,255.0,2266.7,110
+41290,Kimball,2012,dropped,4187.1,255.0,2307.4,111
+41290,Kimball,2013,dropped,4146.9,250.0,2275.9,106
+41290,Kimball,2014,dropped,4226.3,255.0,2309.0,110
+41290,Kimball,2015,dropped,4153.9,255.0,2232.4,110
+41290,Kimball,2016,dropped,4173.2,255.0,2240.3,111
+41290,Kimball,2017,dropped,4032.3,254.0,2092.1,111
+41290,Kimball,2018,dropped,3953.6,255.0,2044.0,110
+41290,Kimball,2019,dropped,3932.7,255.0,1838.6,110
+41140,King Drive,2009,treated,579.1,255.0,333.4,110
+41140,King Drive,2010,treated,582.0,256.0,334.4,109
+41140,King Drive,2011,treated,611.8,255.0,362.0,110
+41140,King Drive,2012,treated,649.7,255.0,389.9,111
+41140,King Drive,2013,treated,879.1,255.0,527.0,110
+41140,King Drive,2014,treated,666.1,255.0,398.9,110
+41140,King Drive,2015,treated,654.6,255.0,402.4,110
+41140,King Drive,2016,treated,603.9,255.0,367.2,111
+41140,King Drive,2017,treated,548.7,254.0,334.6,111
+41140,King Drive,2018,treated,525.3,255.0,261.7,110
+41140,King Drive,2019,treated,446.5,255.0,229.7,110
+40600,Kostner,2009,comparison,415.5,255.0,199.5,110
+40600,Kostner,2010,comparison,420.5,256.0,197.9,109
+40600,Kostner,2011,comparison,435.8,255.0,214.4,110
+40600,Kostner,2012,comparison,455.9,255.0,224.6,111
+40600,Kostner,2013,comparison,497.2,255.0,260.1,110
+40600,Kostner,2014,comparison,554.9,255.0,293.4,110
+40600,Kostner,2015,comparison,562.2,255.0,281.5,110
+40600,Kostner,2016,comparison,524.8,255.0,265.9,111
+40600,Kostner,2017,comparison,513.5,254.0,243.9,111
+40600,Kostner,2018,comparison,487.6,255.0,235.2,110
+40600,Kostner,2019,comparison,466.1,255.0,228.9,110
+41340,LaSalle,2009,dropped,2648.4,255.0,753.7,90
+41340,LaSalle,2010,dropped,2685.4,256.0,835.8,109
+41340,LaSalle,2011,dropped,2889.3,255.0,1000.4,110
+41340,LaSalle,2012,dropped,3027.2,255.0,1147.6,111
+41340,LaSalle,2013,dropped,3058.5,255.0,1213.9,110
+41340,LaSalle,2014,dropped,3035.7,255.0,1215.3,110
+41340,LaSalle,2015,dropped,3132.4,255.0,1263.9,110
+41340,LaSalle,2016,dropped,3288.2,255.0,1288.4,111
+41340,LaSalle,2017,dropped,3133.0,254.0,1188.1,111
+41340,LaSalle,2018,dropped,3040.1,255.0,1110.4,110
+41340,LaSalle,2019,dropped,2957.9,255.0,1082.5,110
+40160,LaSalle/Van Buren,2009,dropped,3091.5,255.0,462.5,110
+40160,LaSalle/Van Buren,2010,dropped,2923.5,256.0,425.9,109
+40160,LaSalle/Van Buren,2011,dropped,3099.7,255.0,450.4,110
+40160,LaSalle/Van Buren,2012,dropped,3020.3,255.0,457.2,92
+40160,LaSalle/Van Buren,2013,dropped,2932.7,255.0,463.3,108
+40160,LaSalle/Van Buren,2014,dropped,3007.8,255.0,491.0,110
+40160,LaSalle/Van Buren,2015,dropped,2854.2,255.0,423.0,110
+40160,LaSalle/Van Buren,2016,dropped,2947.5,255.0,497.6,111
+40160,LaSalle/Van Buren,2017,dropped,2991.5,254.0,471.0,111
+40160,LaSalle/Van Buren,2018,dropped,3049.6,255.0,466.9,110
+40160,LaSalle/Van Buren,2019,dropped,3067.4,255.0,435.3,110
+41660,Lake/State,2009,dropped,15827.0,255.0,8414.8,110
+41660,Lake/State,2010,dropped,17060.0,256.0,8868.9,109
+41660,Lake/State,2011,dropped,17640.0,255.0,9417.2,110
+41660,Lake/State,2012,dropped,18201.2,255.0,9992.2,111
+41660,Lake/State,2013,dropped,18371.3,255.0,10073.2,110
+41660,Lake/State,2014,dropped,20685.1,255.0,11474.6,110
+41660,Lake/State,2015,dropped,22137.7,255.0,12420.5,110
+41660,Lake/State,2016,dropped,22366.9,255.0,11804.8,111
+41660,Lake/State,2017,dropped,21425.3,254.0,10886.2,111
+41660,Lake/State,2018,dropped,21370.1,255.0,10504.7,110
+41660,Lake/State,2019,dropped,20912.4,255.0,10165.3,110
+40700,Laramie,2009,comparison,1342.6,255.0,737.0,110
+40700,Laramie,2010,comparison,1419.6,256.0,761.1,109
+40700,Laramie,2011,comparison,1398.0,255.0,787.2,110
+40700,Laramie,2012,comparison,1424.7,255.0,807.5,111
+40700,Laramie,2013,comparison,1410.3,255.0,829.5,110
+40700,Laramie,2014,comparison,1441.0,255.0,891.6,110
+40700,Laramie,2015,comparison,1416.3,255.0,862.6,110
+40700,Laramie,2016,comparison,1254.2,255.0,1047.6,111
+40700,Laramie,2017,comparison,1174.6,254.0,669.6,111
+40700,Laramie,2018,comparison,1157.8,255.0,624.9,110
+40700,Laramie,2019,comparison,1076.2,255.0,569.9,110
+40770,Lawrence,2009,dropped,3255.8,255.0,2225.8,110
+40770,Lawrence,2010,dropped,3345.4,256.0,2282.7,109
+40770,Lawrence,2011,dropped,3383.7,255.0,2348.0,110
+40770,Lawrence,2012,dropped,3366.8,226.0,2235.3,98
+40770,Lawrence,2013,dropped,3261.2,255.0,2282.9,110
+40770,Lawrence,2014,dropped,3432.8,255.0,2469.7,110
+40770,Lawrence,2015,dropped,3449.1,255.0,2365.8,110
+40770,Lawrence,2016,dropped,3489.6,255.0,2327.0,111
+40770,Lawrence,2017,dropped,3518.7,254.0,2307.2,111
+40770,Lawrence,2018,dropped,3164.8,255.0,2124.6,110
+40770,Lawrence,2019,dropped,2951.9,255.0,2024.3,110
+40850,Library,2009,dropped,4125.5,255.0,1811.4,110
+40850,Library,2010,dropped,4168.1,256.0,1735.0,109
+40850,Library,2011,dropped,4302.0,255.0,1865.8,110
+40850,Library,2012,dropped,4449.3,255.0,2218.0,92
+40850,Library,2013,dropped,4148.4,255.0,1864.3,108
+40850,Library,2014,dropped,4062.1,255.0,1857.1,110
+40850,Library,2015,dropped,4005.9,255.0,1797.6,110
+40850,Library,2016,dropped,3811.1,255.0,2038.9,111
+40850,Library,2017,dropped,3720.2,254.0,1881.6,111
+40850,Library,2018,dropped,3626.1,255.0,1530.6,110
+40850,Library,2019,dropped,3612.9,255.0,1415.6,110
+41050,Linden,2009,comparison,1025.4,255.0,616.6,110
+41050,Linden,2010,comparison,1021.5,256.0,568.5,109
+41050,Linden,2011,comparison,1018.9,255.0,543.9,110
+41050,Linden,2012,comparison,996.6,255.0,509.4,111
+41050,Linden,2013,comparison,918.4,255.0,498.3,110
+41050,Linden,2014,comparison,915.1,255.0,532.4,110
+41050,Linden,2015,comparison,988.0,255.0,630.6,110
+41050,Linden,2016,comparison,970.7,255.0,661.0,111
+41050,Linden,2017,comparison,977.4,254.0,567.5,111
+41050,Linden,2018,comparison,965.5,255.0,528.1,110
+41050,Linden,2019,comparison,954.2,255.0,481.9,110
+41020,Logan Square,2009,treated,5530.5,255.0,2401.2,110
+41020,Logan Square,2010,treated,5816.5,256.0,2883.6,109
+41020,Logan Square,2011,treated,6240.5,255.0,3211.2,110
+41020,Logan Square,2012,treated,6662.2,255.0,3568.6,111
+41020,Logan Square,2013,treated,6984.8,255.0,3802.8,110
+41020,Logan Square,2014,treated,7241.8,255.0,3990.8,110
+41020,Logan Square,2015,treated,7401.3,255.0,3889.8,110
+41020,Logan Square,2016,treated,7379.1,255.0,3779.2,111
+41020,Logan Square,2017,treated,7315.9,254.0,3629.2,111
+41020,Logan Square,2018,treated,7482.4,255.0,3673.0,110
+41020,Logan Square,2019,treated,7378.8,255.0,3455.6,110
+41300,Loyola,2009,comparison,5039.0,255.0,3410.1,110
+41300,Loyola,2010,comparison,5238.4,256.0,3543.0,109
+41300,Loyola,2011,comparison,5343.5,255.0,3664.1,110
+41300,Loyola,2012,comparison,5608.3,255.0,3703.0,111
+41300,Loyola,2013,comparison,5468.9,255.0,3823.6,110
+41300,Loyola,2014,comparison,5507.4,255.0,3848.2,110
+41300,Loyola,2015,comparison,5530.2,255.0,3737.9,110
+41300,Loyola,2016,comparison,5427.5,255.0,3601.5,111
+41300,Loyola,2017,comparison,5190.6,254.0,3453.9,111
+41300,Loyola,2018,comparison,5122.7,255.0,3398.1,110
+41300,Loyola,2019,comparison,5071.5,255.0,3365.1,110
+40640,Madison/Wabash,2009,dropped,5683.0,255.0,2441.7,110
+40640,Madison/Wabash,2010,dropped,6008.1,256.0,2537.0,109
+40640,Madison/Wabash,2011,dropped,6220.4,255.0,2575.9,110
+40640,Madison/Wabash,2012,dropped,6797.3,255.0,2891.6,105
+40640,Madison/Wabash,2013,dropped,7026.6,255.0,2900.9,110
+40640,Madison/Wabash,2014,dropped,7034.1,255.0,3039.6,110
+40640,Madison/Wabash,2015,dropped,6183.0,53.0,2901.7,23
+40640,Madison/Wabash,2016,dropped,,,126.5,2
+40640,Madison/Wabash,2017,dropped,,,135.0,1
+40270,Main,2009,comparison,1195.2,255.0,713.2,110
+40270,Main,2010,comparison,1139.5,256.0,673.4,109
+40270,Main,2011,comparison,1177.5,255.0,715.0,110
+40270,Main,2012,comparison,1200.8,255.0,741.8,107
+40270,Main,2013,comparison,1174.0,255.0,751.5,110
+40270,Main,2014,comparison,1238.6,255.0,796.4,110
+40270,Main,2015,comparison,1223.6,255.0,790.0,110
+40270,Main,2016,comparison,1205.9,255.0,756.9,111
+40270,Main,2017,comparison,1204.8,254.0,712.1,111
+40270,Main,2018,comparison,1169.9,255.0,665.8,110
+40270,Main,2019,comparison,1132.3,255.0,631.6,110
+40810,Medical Center,2009,comparison,2835.8,255.0,786.5,110
+40810,Medical Center,2010,comparison,3164.2,256.0,865.9,109
+40810,Medical Center,2011,comparison,3466.1,255.0,963.6,110
+40810,Medical Center,2012,comparison,3727.7,255.0,1027.4,111
+40810,Medical Center,2013,comparison,3733.3,255.0,1041.3,110
+40810,Medical Center,2014,comparison,3703.4,255.0,1032.5,110
+40810,Medical Center,2015,comparison,3585.9,255.0,1020.0,110
+40810,Medical Center,2016,comparison,3275.5,255.0,946.1,111
+40810,Medical Center,2017,comparison,2523.8,254.0,721.0,111
+40810,Medical Center,2018,comparison,2377.1,255.0,697.3,110
+40810,Medical Center,2019,comparison,2754.2,255.0,789.9,110
+40460,Merchandise Mart,2009,comparison,5859.5,255.0,1207.2,110
+40460,Merchandise Mart,2010,comparison,6026.3,256.0,1337.5,109
+40460,Merchandise Mart,2011,comparison,6430.0,255.0,1509.0,110
+40460,Merchandise Mart,2012,comparison,6806.0,255.0,1632.9,111
+40460,Merchandise Mart,2013,comparison,6908.1,255.0,1569.4,106
+40460,Merchandise Mart,2014,comparison,7494.2,255.0,1720.4,110
+40460,Merchandise Mart,2015,comparison,7688.0,255.0,1191.1,110
+40460,Merchandise Mart,2016,comparison,7984.3,255.0,1650.7,111
+40460,Merchandise Mart,2017,comparison,8175.6,254.0,1553.5,111
+40460,Merchandise Mart,2018,comparison,8307.2,255.0,1546.6,110
+40460,Merchandise Mart,2019,comparison,8118.7,255.0,1523.2,110
+40930,Midway Airport,2009,comparison,8707.9,255.0,4297.8,110
+40930,Midway Airport,2010,comparison,8435.6,256.0,4103.5,109
+40930,Midway Airport,2011,comparison,8589.8,255.0,4203.1,110
+40930,Midway Airport,2012,comparison,9146.3,255.0,4514.8,111
+40930,Midway Airport,2013,comparison,9031.7,255.0,4368.8,110
+40930,Midway Airport,2014,comparison,9064.9,255.0,4485.7,110
+40930,Midway Airport,2015,comparison,9182.6,255.0,4584.5,110
+40930,Midway Airport,2016,comparison,9107.6,255.0,4407.2,111
+40930,Midway Airport,2017,comparison,8946.6,254.0,4228.8,111
+40930,Midway Airport,2018,comparison,8604.3,255.0,3901.7,110
+40930,Midway Airport,2019,comparison,8161.3,255.0,3601.8,110
+40790,Monroe/Dearborn,2009,dropped,5746.4,255.0,1277.3,90
+40790,Monroe/Dearborn,2010,dropped,5778.1,256.0,1543.9,109
+40790,Monroe/Dearborn,2011,dropped,6389.8,255.0,1724.6,110
+40790,Monroe/Dearborn,2012,dropped,6897.0,255.0,1925.3,111
+40790,Monroe/Dearborn,2013,dropped,7314.1,255.0,2121.9,110
+40790,Monroe/Dearborn,2014,dropped,7417.3,255.0,2024.8,110
+40790,Monroe/Dearborn,2015,dropped,7781.2,255.0,2332.6,110
+40790,Monroe/Dearborn,2016,dropped,8111.9,255.0,2303.7,111
+40790,Monroe/Dearborn,2017,dropped,8315.7,254.0,2235.8,111
+40790,Monroe/Dearborn,2018,dropped,8243.9,255.0,2064.3,110
+40790,Monroe/Dearborn,2019,dropped,8109.4,255.0,1820.8,110
+41090,Monroe/State,2009,dropped,9593.2,255.0,3768.9,110
+41090,Monroe/State,2010,dropped,9474.6,256.0,3651.7,109
+41090,Monroe/State,2011,dropped,9397.7,255.0,3746.6,110
+41090,Monroe/State,2012,dropped,9751.0,255.0,4160.9,111
+41090,Monroe/State,2013,dropped,10140.7,255.0,4188.3,110
+41090,Monroe/State,2014,dropped,10746.2,255.0,4344.1,110
+41090,Monroe/State,2015,dropped,11698.1,255.0,4584.2,110
+41090,Monroe/State,2016,dropped,11591.4,255.0,4483.8,111
+41090,Monroe/State,2017,dropped,11137.0,254.0,4059.3,111
+41090,Monroe/State,2018,dropped,10599.1,255.0,3662.2,110
+41090,Monroe/State,2019,dropped,9916.3,255.0,3383.3,110
+41500,Montrose-Brown,2009,comparison,2237.7,255.0,1134.2,110
+41500,Montrose-Brown,2010,comparison,2309.2,256.0,1164.2,109
+41500,Montrose-Brown,2011,comparison,2524.3,255.0,1301.6,110
+41500,Montrose-Brown,2012,comparison,2668.3,255.0,1381.1,111
+41500,Montrose-Brown,2013,comparison,2840.8,255.0,1454.1,110
+41500,Montrose-Brown,2014,comparison,2832.2,255.0,1442.4,110
+41500,Montrose-Brown,2015,comparison,2795.0,255.0,1359.8,110
+41500,Montrose-Brown,2016,comparison,2853.0,255.0,1374.7,111
+41500,Montrose-Brown,2017,comparison,2859.2,254.0,1314.5,111
+41500,Montrose-Brown,2018,comparison,2711.6,255.0,1222.6,110
+41500,Montrose-Brown,2019,comparison,2608.1,255.0,1168.2,110
+41330,Montrose-O'Hare,2009,comparison,1889.3,255.0,717.5,110
+41330,Montrose-O'Hare,2010,comparison,2023.2,256.0,802.6,109
+41330,Montrose-O'Hare,2011,comparison,2183.1,255.0,891.7,110
+41330,Montrose-O'Hare,2012,comparison,2369.3,255.0,1020.5,111
+41330,Montrose-O'Hare,2013,comparison,2441.0,255.0,1081.4,110
+41330,Montrose-O'Hare,2014,comparison,2534.5,255.0,1114.3,110
+41330,Montrose-O'Hare,2015,comparison,2580.7,255.0,1150.7,110
+41330,Montrose-O'Hare,2016,comparison,2471.9,255.0,1053.5,109
+41330,Montrose-O'Hare,2017,comparison,2636.7,254.0,1110.7,111
+41330,Montrose-O'Hare,2018,comparison,2735.2,255.0,1100.3,110
+41330,Montrose-O'Hare,2019,comparison,2573.1,255.0,1013.2,110
+41510,Morgan-Lake,2012,dropped,1491.6,157.0,771.3,71
+41510,Morgan-Lake,2013,dropped,1951.3,255.0,941.8,110
+41510,Morgan-Lake,2014,dropped,2281.7,255.0,1123.0,110
+41510,Morgan-Lake,2015,dropped,2575.5,255.0,1357.7,110
+41510,Morgan-Lake,2016,dropped,2806.1,255.0,1382.7,111
+41510,Morgan-Lake,2017,dropped,2913.1,254.0,1522.1,111
+41510,Morgan-Lake,2018,dropped,3340.8,255.0,1767.7,110
+41510,Morgan-Lake,2019,dropped,3672.7,255.0,1620.8,104
+40100,Morse,2009,dropped,4144.5,255.0,2777.3,110
+40100,Morse,2010,dropped,4178.9,256.0,2843.3,109
+40100,Morse,2011,dropped,4463.9,255.0,3153.5,110
+40100,Morse,2012,dropped,4547.1,227.0,3007.5,98
+40100,Morse,2013,dropped,4591.0,255.0,3205.7,110
+40100,Morse,2014,dropped,4985.8,255.0,3492.6,110
+40100,Morse,2015,dropped,4962.8,255.0,3370.2,110
+40100,Morse,2016,dropped,4841.8,255.0,3257.8,111
+40100,Morse,2017,dropped,4612.0,254.0,3080.3,111
+40100,Morse,2018,dropped,4494.3,255.0,2900.7,110
+40100,Morse,2019,dropped,4281.0,255.0,2693.0,110
+40650,North/Clybourn,2009,comparison,4292.6,255.0,3350.6,110
+40650,North/Clybourn,2010,comparison,4528.2,256.0,3460.6,109
+40650,North/Clybourn,2011,comparison,5301.1,255.0,4178.2,110
+40650,North/Clybourn,2012,comparison,5468.0,255.0,4223.0,111
+40650,North/Clybourn,2013,comparison,5707.5,255.0,4221.1,110
+40650,North/Clybourn,2014,comparison,6085.3,255.0,4533.9,110
+40650,North/Clybourn,2015,comparison,6380.6,255.0,4721.0,110
+40650,North/Clybourn,2016,comparison,6297.6,255.0,4706.2,111
+40650,North/Clybourn,2017,comparison,5852.5,254.0,4179.0,111
+40650,North/Clybourn,2018,comparison,5616.2,255.0,3994.4,110
+40650,North/Clybourn,2019,comparison,5352.4,255.0,3779.6,110
+40400,Noyes,2009,comparison,718.2,255.0,368.2,110
+40400,Noyes,2010,comparison,700.4,256.0,391.6,109
+40400,Noyes,2011,comparison,742.9,255.0,401.6,110
+40400,Noyes,2012,comparison,780.2,255.0,412.9,109
+40400,Noyes,2013,comparison,779.7,255.0,427.0,110
+40400,Noyes,2014,comparison,814.0,255.0,441.3,110
+40400,Noyes,2015,comparison,823.5,255.0,430.5,110
+40400,Noyes,2016,comparison,886.4,255.0,463.1,111
+40400,Noyes,2017,comparison,918.4,254.0,443.0,111
+40400,Noyes,2018,comparison,921.2,255.0,431.3,110
+40400,Noyes,2019,comparison,904.5,255.0,412.5,110
+40890,O'Hare Airport,2009,comparison,8536.7,255.0,7420.2,110
+40890,O'Hare Airport,2010,comparison,8921.9,256.0,7727.0,109
+40890,O'Hare Airport,2011,comparison,9535.3,255.0,8187.5,110
+40890,O'Hare Airport,2012,comparison,10054.7,255.0,8721.4,111
+40890,O'Hare Airport,2013,comparison,9927.1,255.0,8651.8,110
+40890,O'Hare Airport,2014,comparison,10031.5,255.0,8713.3,110
+40890,O'Hare Airport,2015,comparison,11582.6,255.0,10001.3,110
+40890,O'Hare Airport,2016,comparison,11419.4,255.0,9784.6,111
+40890,O'Hare Airport,2017,comparison,11276.1,254.0,9642.3,111
+40890,O'Hare Airport,2018,comparison,11411.1,255.0,9742.3,110
+40890,O'Hare Airport,2019,comparison,11018.9,255.0,9103.1,110
+40180,Oak Park-Forest Park,2009,comparison,1655.2,255.0,542.5,110
+40180,Oak Park-Forest Park,2010,comparison,1704.7,256.0,567.8,109
+40180,Oak Park-Forest Park,2011,comparison,1789.5,255.0,640.1,110
+40180,Oak Park-Forest Park,2012,comparison,1818.2,255.0,678.5,111
+40180,Oak Park-Forest Park,2013,comparison,1850.2,255.0,670.7,110
+40180,Oak Park-Forest Park,2014,comparison,1882.4,255.0,694.1,110
+40180,Oak Park-Forest Park,2015,comparison,1886.6,255.0,658.6,110
+40180,Oak Park-Forest Park,2016,comparison,1889.1,255.0,645.9,111
+40180,Oak Park-Forest Park,2017,comparison,1864.1,254.0,571.7,111
+40180,Oak Park-Forest Park,2018,comparison,1842.8,255.0,537.0,110
+40180,Oak Park-Forest Park,2019,comparison,1768.2,255.0,486.9,110
+41350,Oak Park-Lake,2009,comparison,1632.6,255.0,778.6,110
+41350,Oak Park-Lake,2010,comparison,1578.4,256.0,762.2,109
+41350,Oak Park-Lake,2011,comparison,1553.5,255.0,741.0,110
+41350,Oak Park-Lake,2012,comparison,1588.4,255.0,759.8,111
+41350,Oak Park-Lake,2013,comparison,1584.9,255.0,765.4,110
+41350,Oak Park-Lake,2014,comparison,1649.5,255.0,819.2,110
+41350,Oak Park-Lake,2015,comparison,1638.2,255.0,792.0,110
+41350,Oak Park-Lake,2016,comparison,1589.7,255.0,601.4,111
+41350,Oak Park-Lake,2017,comparison,1588.9,254.0,681.3,111
+41350,Oak Park-Lake,2018,comparison,1580.1,255.0,652.8,110
+41350,Oak Park-Lake,2019,comparison,1558.7,255.0,599.2,110
+41680,Oakton-Skokie,2012,dropped,849.3,171.0,380.1,75
+41680,Oakton-Skokie,2013,dropped,937.4,255.0,402.7,110
+41680,Oakton-Skokie,2014,dropped,994.8,255.0,431.3,110
+41680,Oakton-Skokie,2015,dropped,753.5,170.0,294.4,74
+41680,Oakton-Skokie,2016,dropped,920.1,255.0,377.3,111
+41680,Oakton-Skokie,2017,dropped,997.3,254.0,376.4,111
+41680,Oakton-Skokie,2018,dropped,974.7,255.0,349.8,110
+41680,Oakton-Skokie,2019,dropped,940.8,255.0,318.7,110
+41310,Paulina,2009,dropped,2106.7,190.0,1172.4,83
+41310,Paulina,2010,dropped,2311.6,256.0,1233.9,109
+41310,Paulina,2011,dropped,2430.1,255.0,1322.6,110
+41310,Paulina,2012,dropped,2568.5,255.0,1392.4,111
+41310,Paulina,2013,dropped,2778.9,255.0,1529.4,110
+41310,Paulina,2014,dropped,2784.4,255.0,1499.5,110
+41310,Paulina,2015,dropped,2788.4,255.0,1373.0,110
+41310,Paulina,2016,dropped,2807.1,255.0,1348.8,111
+41310,Paulina,2017,dropped,2792.1,254.0,1296.7,111
+41310,Paulina,2018,dropped,2809.0,255.0,1260.7,110
+41310,Paulina,2019,dropped,2792.4,255.0,1251.0,110
+41030,Polk,2009,comparison,3248.0,255.0,740.9,110
+41030,Polk,2010,comparison,3198.7,256.0,707.4,109
+41030,Polk,2011,comparison,3255.0,255.0,699.5,110
+41030,Polk,2012,comparison,3394.4,255.0,770.4,111
+41030,Polk,2013,comparison,3357.1,255.0,785.9,110
+41030,Polk,2014,comparison,3403.1,255.0,817.6,110
+41030,Polk,2015,comparison,3541.3,255.0,826.7,110
+41030,Polk,2016,comparison,3319.7,255.0,739.1,111
+41030,Polk,2017,comparison,3234.8,254.0,645.8,111
+41030,Polk,2018,comparison,3256.8,255.0,613.9,110
+41030,Polk,2019,comparison,3173.1,255.0,545.9,110
+40150,Pulaski-Cermak,2009,comparison,1040.8,255.0,565.9,110
+40150,Pulaski-Cermak,2010,comparison,1108.8,256.0,602.0,109
+40150,Pulaski-Cermak,2011,comparison,1185.5,255.0,669.3,110
+40150,Pulaski-Cermak,2012,comparison,1252.2,255.0,725.8,111
+40150,Pulaski-Cermak,2013,comparison,1220.8,255.0,704.4,110
+40150,Pulaski-Cermak,2014,comparison,1296.8,255.0,757.2,110
+40150,Pulaski-Cermak,2015,comparison,1292.4,255.0,745.7,110
+40150,Pulaski-Cermak,2016,comparison,1158.8,255.0,662.5,111
+40150,Pulaski-Cermak,2017,comparison,1079.1,254.0,601.7,111
+40150,Pulaski-Cermak,2018,comparison,1056.2,255.0,573.9,110
+40150,Pulaski-Cermak,2019,comparison,1047.8,255.0,556.6,110
+40920,Pulaski-Forest Park,2009,comparison,1478.0,255.0,936.7,110
+40920,Pulaski-Forest Park,2010,comparison,1736.8,256.0,1154.5,109
+40920,Pulaski-Forest Park,2011,comparison,1819.1,255.0,1246.7,110
+40920,Pulaski-Forest Park,2012,comparison,1928.9,255.0,1322.2,111
+40920,Pulaski-Forest Park,2013,comparison,1873.6,255.0,1331.4,110
+40920,Pulaski-Forest Park,2014,comparison,1945.8,255.0,1377.1,110
+40920,Pulaski-Forest Park,2015,comparison,1905.7,255.0,1352.4,110
+40920,Pulaski-Forest Park,2016,comparison,1869.7,255.0,1319.2,111
+40920,Pulaski-Forest Park,2017,comparison,1711.1,254.0,1212.1,111
+40920,Pulaski-Forest Park,2018,comparison,1659.1,255.0,1167.0,110
+40920,Pulaski-Forest Park,2019,comparison,1699.0,255.0,1251.3,110
+40030,Pulaski-Lake,2009,comparison,1810.7,255.0,1047.8,110
+40030,Pulaski-Lake,2010,comparison,2044.4,256.0,1128.4,109
+40030,Pulaski-Lake,2011,comparison,2048.5,255.0,1203.9,110
+40030,Pulaski-Lake,2012,comparison,2075.5,255.0,1284.4,111
+40030,Pulaski-Lake,2013,comparison,1915.8,255.0,1137.0,110
+40030,Pulaski-Lake,2014,comparison,1878.3,255.0,1157.8,110
+40030,Pulaski-Lake,2015,comparison,1756.9,255.0,1072.7,110
+40030,Pulaski-Lake,2016,comparison,1495.7,255.0,891.2,111
+40030,Pulaski-Lake,2017,comparison,1405.9,254.0,849.9,111
+40030,Pulaski-Lake,2018,comparison,1395.0,255.0,828.3,110
+40030,Pulaski-Lake,2019,comparison,1425.8,255.0,835.7,110
+40960,Pulaski-Orange,2009,comparison,4738.0,255.0,1663.8,110
+40960,Pulaski-Orange,2010,comparison,4719.9,256.0,1699.1,109
+40960,Pulaski-Orange,2011,comparison,4977.6,255.0,1886.2,110
+40960,Pulaski-Orange,2012,comparison,5278.1,255.0,2050.9,111
+40960,Pulaski-Orange,2013,comparison,5170.1,255.0,1953.2,110
+40960,Pulaski-Orange,2014,comparison,5186.6,255.0,1982.3,110
+40960,Pulaski-Orange,2015,comparison,5338.5,255.0,2104.6,110
+40960,Pulaski-Orange,2016,comparison,5304.4,255.0,2040.4,111
+40960,Pulaski-Orange,2017,comparison,5215.8,254.0,1991.4,111
+40960,Pulaski-Orange,2018,comparison,5088.3,255.0,1872.2,110
+40960,Pulaski-Orange,2019,comparison,4967.1,255.0,1809.0,110
+40040,Quincy/Wells,2009,dropped,7326.8,255.0,1647.8,110
+40040,Quincy/Wells,2010,dropped,7144.6,256.0,1564.2,109
+40040,Quincy/Wells,2011,dropped,7865.9,255.0,1740.6,110
+40040,Quincy/Wells,2012,dropped,8065.8,255.0,1699.3,92
+40040,Quincy/Wells,2013,dropped,7977.8,255.0,1723.9,108
+40040,Quincy/Wells,2014,dropped,8214.7,255.0,1760.1,110
+40040,Quincy/Wells,2015,dropped,7941.2,255.0,1528.1,110
+40040,Quincy/Wells,2016,dropped,8087.2,255.0,1584.1,111
+40040,Quincy/Wells,2017,dropped,8111.4,254.0,1460.8,111
+40040,Quincy/Wells,2018,dropped,7969.4,255.0,1373.0,110
+40040,Quincy/Wells,2019,dropped,8014.2,255.0,1315.7,110
+40470,Racine,2009,comparison,2063.9,255.0,753.5,110
+40470,Racine,2010,comparison,2111.0,256.0,895.5,109
+40470,Racine,2011,comparison,2310.6,255.0,1027.1,110
+40470,Racine,2012,comparison,2369.1,255.0,1108.7,111
+40470,Racine,2013,comparison,2452.1,255.0,1149.5,110
+40470,Racine,2014,comparison,2474.1,255.0,1153.0,110
+40470,Racine,2015,comparison,2456.5,255.0,974.8,110
+40470,Racine,2016,comparison,2280.7,255.0,834.0,111
+40470,Racine,2017,comparison,2215.5,254.0,836.2,111
+40470,Racine,2018,comparison,2281.8,255.0,880.3,110
+40470,Racine,2019,comparison,2089.5,255.0,816.9,110
+40200,Randolph/Wabash,2009,dropped,6955.4,255.0,2950.6,110
+40200,Randolph/Wabash,2010,dropped,6875.9,256.0,2978.4,109
+40200,Randolph/Wabash,2011,dropped,7351.1,255.0,3195.7,110
+40200,Randolph/Wabash,2012,dropped,7675.4,255.0,3375.8,105
+40200,Randolph/Wabash,2013,dropped,7330.3,255.0,3145.0,110
+40200,Randolph/Wabash,2014,dropped,7350.7,255.0,3347.1,110
+40200,Randolph/Wabash,2015,dropped,9774.6,255.0,4398.7,110
+40200,Randolph/Wabash,2016,dropped,9979.8,255.0,4159.3,111
+40200,Randolph/Wabash,2017,dropped,9609.6,175.0,4081.5,75
+40200,Randolph/Wabash,2018,dropped,67.2,5.0,12.0,1
+40610,Ridgeland,2009,comparison,1369.6,255.0,465.0,110
+40610,Ridgeland,2010,comparison,1350.2,256.0,446.8,109
+40610,Ridgeland,2011,comparison,1348.4,255.0,458.8,110
+40610,Ridgeland,2012,comparison,1370.2,255.0,466.9,111
+40610,Ridgeland,2013,comparison,1351.1,255.0,476.6,110
+40610,Ridgeland,2014,comparison,1332.0,255.0,469.3,110
+40610,Ridgeland,2015,comparison,1334.7,255.0,482.3,110
+40610,Ridgeland,2016,comparison,1349.7,255.0,412.2,111
+40610,Ridgeland,2017,comparison,1411.0,254.0,475.4,111
+40610,Ridgeland,2018,comparison,1390.2,255.0,441.2,110
+40610,Ridgeland,2019,comparison,1347.7,255.0,392.0,110
+41010,Rockwell,2009,comparison,1586.6,255.0,695.9,110
+41010,Rockwell,2010,comparison,1619.6,256.0,723.8,109
+41010,Rockwell,2011,comparison,1692.0,255.0,777.9,110
+41010,Rockwell,2012,comparison,1755.0,255.0,825.0,111
+41010,Rockwell,2013,comparison,1852.1,255.0,875.2,110
+41010,Rockwell,2014,comparison,1891.5,255.0,849.2,110
+41010,Rockwell,2015,comparison,1862.7,255.0,814.1,110
+41010,Rockwell,2016,comparison,1906.2,255.0,833.9,111
+41010,Rockwell,2017,comparison,1879.6,254.0,759.3,111
+41010,Rockwell,2018,comparison,1755.8,255.0,685.2,110
+41010,Rockwell,2019,comparison,1815.8,255.0,633.0,110
+41400,Roosevelt,2009,comparison,9546.9,255.0,7227.9,110
+41400,Roosevelt,2010,comparison,10195.7,256.0,7621.6,109
+41400,Roosevelt,2011,comparison,10771.2,255.0,8171.2,110
+41400,Roosevelt,2012,comparison,11191.6,255.0,8627.5,111
+41400,Roosevelt,2013,comparison,11739.2,255.0,9078.0,110
+41400,Roosevelt,2014,comparison,11407.3,255.0,9390.1,110
+41400,Roosevelt,2015,comparison,11192.3,255.0,8745.3,110
+41400,Roosevelt,2016,comparison,11265.6,255.0,8411.0,111
+41400,Roosevelt,2017,comparison,11152.1,254.0,8136.8,111
+41400,Roosevelt,2018,comparison,10687.5,255.0,7542.2,110
+41400,Roosevelt,2019,comparison,10432.1,255.0,7333.7,110
+40820,Rosemont,2009,comparison,4279.1,255.0,2015.3,110
+40820,Rosemont,2010,comparison,4451.4,256.0,2172.6,109
+40820,Rosemont,2011,comparison,4908.1,255.0,2433.7,110
+40820,Rosemont,2012,comparison,5517.7,255.0,2905.5,111
+40820,Rosemont,2013,comparison,5987.1,255.0,3336.5,110
+40820,Rosemont,2014,comparison,6562.1,255.0,3796.7,110
+40820,Rosemont,2015,comparison,6602.0,255.0,3846.8,110
+40820,Rosemont,2016,comparison,6465.8,255.0,3729.1,111
+40820,Rosemont,2017,comparison,6449.3,254.0,3543.1,111
+40820,Rosemont,2018,comparison,6556.7,255.0,3465.5,110
+40820,Rosemont,2019,comparison,6284.0,255.0,3325.9,110
+40800,Sedgwick,2009,treated,3308.3,255.0,2011.7,110
+40800,Sedgwick,2010,treated,3527.4,256.0,2107.4,109
+40800,Sedgwick,2011,treated,3767.8,255.0,2252.8,110
+40800,Sedgwick,2012,treated,4028.1,255.0,2469.6,111
+40800,Sedgwick,2013,treated,3900.4,255.0,2448.0,110
+40800,Sedgwick,2014,treated,3876.5,255.0,2357.4,110
+40800,Sedgwick,2015,treated,3839.8,255.0,1568.4,110
+40800,Sedgwick,2016,treated,3972.8,255.0,2172.6,111
+40800,Sedgwick,2017,treated,3872.8,254.0,2077.0,111
+40800,Sedgwick,2018,treated,3777.2,255.0,2006.1,110
+40800,Sedgwick,2019,treated,3728.8,255.0,1903.7,110
+40080,Sheridan,2009,treated,4853.3,255.0,3090.6,110
+40080,Sheridan,2010,treated,4994.8,256.0,3245.7,109
+40080,Sheridan,2011,treated,5222.3,255.0,3425.0,110
+40080,Sheridan,2012,treated,5384.9,255.0,3586.9,111
+40080,Sheridan,2013,treated,5482.7,255.0,3621.5,110
+40080,Sheridan,2014,treated,5567.1,255.0,3671.1,110
+40080,Sheridan,2015,treated,5707.3,255.0,3557.3,110
+40080,Sheridan,2016,treated,5758.5,255.0,3550.1,111
+40080,Sheridan,2017,treated,5417.7,254.0,3154.5,111
+40080,Sheridan,2018,treated,5034.6,255.0,2807.5,110
+40080,Sheridan,2019,treated,4739.6,255.0,2684.3,110
+40840,South Boulevard,2009,comparison,756.5,255.0,362.3,110
+40840,South Boulevard,2010,comparison,768.2,256.0,352.8,109
+40840,South Boulevard,2011,comparison,803.4,255.0,373.1,110
+40840,South Boulevard,2012,comparison,835.7,255.0,384.9,107
+40840,South Boulevard,2013,comparison,814.4,255.0,383.6,110
+40840,South Boulevard,2014,comparison,841.7,255.0,406.9,110
+40840,South Boulevard,2015,comparison,827.3,255.0,396.9,110
+40840,South Boulevard,2016,comparison,794.6,255.0,381.1,111
+40840,South Boulevard,2017,comparison,775.4,254.0,343.2,111
+40840,South Boulevard,2018,comparison,784.6,255.0,327.3,110
+40840,South Boulevard,2019,comparison,772.1,255.0,326.7,110
+40360,Southport,2009,treated,2926.7,255.0,1551.9,110
+40360,Southport,2010,treated,2857.8,256.0,1524.0,109
+40360,Southport,2011,treated,3004.5,255.0,1605.5,110
+40360,Southport,2012,treated,3227.7,255.0,1685.0,111
+40360,Southport,2013,treated,3299.4,255.0,1841.1,110
+40360,Southport,2014,treated,3346.1,255.0,1884.3,110
+40360,Southport,2015,treated,3341.0,255.0,1734.2,110
+40360,Southport,2016,treated,3564.3,255.0,1957.6,111
+40360,Southport,2017,treated,3636.4,254.0,1929.7,111
+40360,Southport,2018,treated,3600.9,255.0,1860.4,110
+40360,Southport,2019,treated,3489.4,255.0,1774.1,110
+40190,Sox-35th-Dan Ryan,2009,dropped,4668.2,255.0,3367.5,110
+40190,Sox-35th-Dan Ryan,2010,dropped,5033.8,256.0,3581.6,109
+40190,Sox-35th-Dan Ryan,2011,dropped,5112.5,255.0,3640.5,110
+40190,Sox-35th-Dan Ryan,2012,dropped,5218.1,255.0,3694.1,111
+40190,Sox-35th-Dan Ryan,2013,dropped,4169.8,148.0,2685.0,64
+40190,Sox-35th-Dan Ryan,2014,dropped,4915.0,255.0,3573.1,110
+40190,Sox-35th-Dan Ryan,2015,dropped,5201.6,255.0,3512.1,110
+40190,Sox-35th-Dan Ryan,2016,dropped,5019.9,255.0,3432.3,111
+40190,Sox-35th-Dan Ryan,2017,dropped,4697.6,254.0,3163.2,111
+40190,Sox-35th-Dan Ryan,2018,dropped,4387.3,255.0,2915.1,110
+40190,Sox-35th-Dan Ryan,2019,dropped,4198.7,255.0,2913.1,110
+40260,State/Lake,2009,dropped,9042.9,255.0,4672.6,110
+40260,State/Lake,2010,dropped,9080.4,256.0,4714.4,109
+40260,State/Lake,2011,dropped,9450.2,255.0,4878.8,110
+40260,State/Lake,2012,dropped,9888.1,255.0,5190.5,105
+40260,State/Lake,2013,dropped,9806.1,255.0,4936.5,110
+40260,State/Lake,2014,dropped,9850.0,255.0,5276.8,110
+40260,State/Lake,2015,dropped,10411.1,255.0,5827.1,110
+40260,State/Lake,2016,dropped,10270.2,255.0,4799.0,110
+40260,State/Lake,2017,dropped,10815.3,254.0,5039.8,111
+40260,State/Lake,2018,dropped,12306.6,255.0,5833.3,110
+40260,State/Lake,2019,dropped,12459.9,255.0,5508.3,110
+40880,Thorndale,2009,dropped,2745.2,255.0,1672.6,110
+40880,Thorndale,2010,dropped,2780.5,256.0,1714.6,109
+40880,Thorndale,2011,dropped,2901.7,255.0,1822.5,110
+40880,Thorndale,2012,dropped,3032.0,227.0,1856.8,98
+40880,Thorndale,2013,dropped,2954.5,255.0,1819.8,110
+40880,Thorndale,2014,dropped,3079.2,255.0,1905.2,110
+40880,Thorndale,2015,dropped,3162.3,255.0,1886.1,110
+40880,Thorndale,2016,dropped,3193.5,255.0,1871.2,111
+40880,Thorndale,2017,dropped,3115.8,254.0,1808.3,111
+40880,Thorndale,2018,dropped,3066.0,255.0,1744.0,110
+40880,Thorndale,2019,dropped,2923.0,255.0,1679.0,110
+40350,UIC-Halsted,2009,comparison,4730.4,255.0,1220.0,110
+40350,UIC-Halsted,2010,comparison,5039.6,256.0,1572.7,109
+40350,UIC-Halsted,2011,comparison,5666.6,255.0,1895.6,110
+40350,UIC-Halsted,2012,comparison,5892.1,255.0,2018.6,111
+40350,UIC-Halsted,2013,comparison,5851.1,255.0,2029.9,110
+40350,UIC-Halsted,2014,comparison,5836.6,255.0,1879.8,110
+40350,UIC-Halsted,2015,comparison,5793.1,255.0,1814.2,110
+40350,UIC-Halsted,2016,comparison,5992.1,255.0,1779.9,111
+40350,UIC-Halsted,2017,comparison,5946.9,254.0,1733.8,111
+40350,UIC-Halsted,2018,comparison,6023.8,255.0,1692.2,110
+40350,UIC-Halsted,2019,comparison,6049.3,255.0,1695.2,110
+40370,Washington/Dearborn,2009,dropped,7124.6,255.0,1791.2,90
+40370,Washington/Dearborn,2010,dropped,7989.5,256.0,2658.0,109
+40370,Washington/Dearborn,2011,dropped,8736.4,255.0,3061.9,110
+40370,Washington/Dearborn,2012,dropped,9466.6,255.0,3532.8,111
+40370,Washington/Dearborn,2013,dropped,10504.3,255.0,4520.9,110
+40370,Washington/Dearborn,2014,dropped,11271.7,255.0,5068.4,110
+40370,Washington/Dearborn,2015,dropped,11912.2,255.0,5418.5,110
+40370,Washington/Dearborn,2016,dropped,12486.6,255.0,5593.4,111
+40370,Washington/Dearborn,2017,dropped,12960.3,254.0,5683.3,111
+40370,Washington/Dearborn,2018,dropped,13396.2,255.0,5598.4,110
+40370,Washington/Dearborn,2019,dropped,13909.2,255.0,5728.2,110
+41700,Washington/Wabash,2017,dropped,9587.3,87.0,4689.6,39
+41700,Washington/Wabash,2018,dropped,10372.9,255.0,4852.7,110
+41700,Washington/Wabash,2019,dropped,10367.6,255.0,4384.9,110
+40730,Washington/Wells,2009,dropped,6845.3,255.0,1080.4,110
+40730,Washington/Wells,2010,dropped,6594.8,256.0,1056.4,109
+40730,Washington/Wells,2011,dropped,7007.3,255.0,1064.7,110
+40730,Washington/Wells,2012,dropped,7576.9,255.0,1361.9,94
+40730,Washington/Wells,2013,dropped,7481.2,255.0,1138.3,108
+40730,Washington/Wells,2014,dropped,7602.8,255.0,1136.7,110
+40730,Washington/Wells,2015,dropped,7922.8,255.0,1103.8,110
+40730,Washington/Wells,2016,dropped,8340.8,255.0,1577.4,111
+40730,Washington/Wells,2017,dropped,8150.4,254.0,1337.5,111
+40730,Washington/Wells,2018,dropped,8080.3,255.0,1077.0,110
+40730,Washington/Wells,2019,dropped,8241.9,255.0,1025.9,110
+41210,Wellington,2009,dropped,2045.5,110.0,809.8,47
+41210,Wellington,2010,dropped,2426.3,256.0,1048.8,109
+41210,Wellington,2011,dropped,2770.4,255.0,1221.1,110
+41210,Wellington,2012,dropped,2947.8,255.0,1309.7,111
+41210,Wellington,2013,dropped,3035.5,255.0,1395.0,110
+41210,Wellington,2014,dropped,3080.0,255.0,1376.2,110
+41210,Wellington,2015,dropped,3049.9,255.0,1189.6,110
+41210,Wellington,2016,dropped,3159.4,255.0,1227.5,111
+41210,Wellington,2017,dropped,3139.1,254.0,1193.9,111
+41210,Wellington,2018,dropped,3080.0,255.0,1123.0,110
+41210,Wellington,2019,dropped,3048.3,255.0,1107.4,110
+41480,Western-Brown,2009,comparison,3621.5,255.0,2150.7,110
+41480,Western-Brown,2010,comparison,3728.0,256.0,2251.8,109
+41480,Western-Brown,2011,comparison,3884.7,255.0,2349.5,110
+41480,Western-Brown,2012,comparison,4077.0,255.0,2494.5,111
+41480,Western-Brown,2013,comparison,4238.2,255.0,2562.6,110
+41480,Western-Brown,2014,comparison,4264.2,255.0,2616.3,110
+41480,Western-Brown,2015,comparison,4187.1,255.0,2432.5,110
+41480,Western-Brown,2016,comparison,4130.7,255.0,2369.2,111
+41480,Western-Brown,2017,comparison,4046.9,254.0,2318.6,111
+41480,Western-Brown,2018,comparison,4022.7,255.0,2190.8,110
+41480,Western-Brown,2019,comparison,3943.9,255.0,2294.3,110
+40740,Western-Cermak,2009,comparison,991.2,255.0,542.3,110
+40740,Western-Cermak,2010,comparison,1041.5,256.0,563.8,109
+40740,Western-Cermak,2011,comparison,1078.6,255.0,598.2,110
+40740,Western-Cermak,2012,comparison,1129.7,255.0,611.3,111
+40740,Western-Cermak,2013,comparison,1165.6,255.0,647.1,110
+40740,Western-Cermak,2014,comparison,1235.2,255.0,707.8,110
+40740,Western-Cermak,2015,comparison,1262.4,255.0,734.4,110
+40740,Western-Cermak,2016,comparison,1172.4,255.0,641.6,111
+40740,Western-Cermak,2017,comparison,1155.2,254.0,608.4,111
+40740,Western-Cermak,2018,comparison,1139.2,255.0,573.7,110
+40740,Western-Cermak,2019,comparison,1079.1,255.0,511.6,110
+40220,Western-Forest Park,2009,comparison,1411.4,255.0,694.7,110
+40220,Western-Forest Park,2010,comparison,1517.0,256.0,792.5,109
+40220,Western-Forest Park,2011,comparison,1668.8,255.0,918.0,110
+40220,Western-Forest Park,2012,comparison,1783.1,255.0,1024.0,111
+40220,Western-Forest Park,2013,comparison,1686.9,255.0,998.1,110
+40220,Western-Forest Park,2014,comparison,1736.6,255.0,1036.5,110
+40220,Western-Forest Park,2015,comparison,1753.9,255.0,986.3,110
+40220,Western-Forest Park,2016,comparison,1699.9,255.0,907.6,111
+40220,Western-Forest Park,2017,comparison,1647.9,254.0,852.2,111
+40220,Western-Forest Park,2018,comparison,1607.5,255.0,795.9,110
+40220,Western-Forest Park,2019,comparison,1595.3,255.0,797.7,110
+40310,Western-Orange,2009,comparison,3301.9,255.0,1305.5,110
+40310,Western-Orange,2010,comparison,3268.4,256.0,1325.3,109
+40310,Western-Orange,2011,comparison,3405.6,255.0,1432.3,110
+40310,Western-Orange,2012,comparison,3653.8,255.0,1567.4,111
+40310,Western-Orange,2013,comparison,3814.3,255.0,1656.3,110
+40310,Western-Orange,2014,comparison,4277.8,255.0,1844.9,110
+40310,Western-Orange,2015,comparison,4402.3,255.0,1931.0,110
+40310,Western-Orange,2016,comparison,3948.8,255.0,1758.8,111
+40310,Western-Orange,2017,comparison,3828.7,254.0,1681.2,111
+40310,Western-Orange,2018,comparison,3702.9,255.0,1592.4,110
+40310,Western-Orange,2019,comparison,3605.8,255.0,1543.2,110
+40670,Western/Milwaukee,2009,comparison,4192.5,255.0,1520.4,110
+40670,Western/Milwaukee,2010,comparison,4320.2,256.0,1959.1,109
+40670,Western/Milwaukee,2011,comparison,4616.1,255.0,2228.0,110
+40670,Western/Milwaukee,2012,comparison,4949.0,255.0,2404.0,111
+40670,Western/Milwaukee,2013,comparison,5066.5,255.0,2460.8,110
+40670,Western/Milwaukee,2014,comparison,5843.8,255.0,4020.6,110
+40670,Western/Milwaukee,2015,comparison,5523.4,255.0,2551.8,110
+40670,Western/Milwaukee,2016,comparison,5370.8,255.0,2319.7,111
+40670,Western/Milwaukee,2017,comparison,5348.5,254.0,2226.2,111
+40670,Western/Milwaukee,2018,comparison,5479.0,255.0,2189.4,110
+40670,Western/Milwaukee,2019,comparison,5555.2,255.0,2116.8,110
+40540,Wilson,2009,dropped,5647.1,255.0,3087.6,110
+40540,Wilson,2010,dropped,6068.0,256.0,3365.4,109
+40540,Wilson,2011,dropped,6297.5,255.0,3675.8,110
+40540,Wilson,2012,dropped,6547.9,255.0,3899.9,111
+40540,Wilson,2013,dropped,6327.1,255.0,3667.7,110
+40540,Wilson,2014,dropped,6176.2,255.0,3633.8,110
+40540,Wilson,2015,dropped,6088.9,255.0,3520.6,110
+40540,Wilson,2016,dropped,5857.7,255.0,3406.5,111
+40540,Wilson,2017,dropped,5620.4,254.0,3247.4,111
+40540,Wilson,2018,dropped,6478.0,255.0,3726.2,110
+40540,Wilson,2019,dropped,6474.3,255.0,3567.6,110

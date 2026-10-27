@@ -49,4 +49,16 @@ Context for legislators and for the "Why" screen: whether upzoning near transit 
 
 ## 7. Changes after writing
 
-None yet.
+Recorded 2026-10-27 while running the test (results: [CHICAGO_RIDERSHIP_RESULTS.md](CHICAGO_RIDERSHIP_RESULTS.md)). Items 1 to 9 were fixed before any comparison was computed; items 10 and 11 were added after the main results were seen.
+
+1. **"Closed" made measurable** (reason: the plan names no rule). A station is dropped as closed if it had no entries on at least 7 days in a row in 2009–2019, or no entries in some year. This drops 13 stations with temporary closures (7 Red Line North stations closed about 40 days each in 2012; Wellington and Paulina in 2009; California and Damen (Blue) in 2014; Dempster-Skokie in 2015; Kimball 9 days in 2013), in addition to the plan's named groups.
+2. **"Rebuilt" made concrete** (reason: rebuilds without a closure do not show in the entries). Stations rebuilt while open, from CTA project records: Wilson (2014–2018), Clark/Division (2013–2015), Grand (Red, 2012). Blue Line "Your New Blue" renovations that kept stations open were not counted as rebuilds.
+3. **"Loop stations" read as every station inside the Loop**, elevated and subway (18 ids; reason: the plan does not list them).
+4. **Repeated rows** (reason: data defect). The portal file repeats 618 station-days in 2011 with slightly different counts; each pair is averaged.
+5. **Average weekday entries** are averaged over weekdays with entries above zero (reason: a zero is a closure day, not a ridership level).
+6. **Station measures within ½ mile of the CTA station point** (average of its platform points): treated acres by parcel representative point; homes permitted counts all new-construction permits within ½ mile, not only those on eligible land; existing homes are 2010 census housing units. Circles of neighbouring stations overlap. Reason: the plan says "½-mile area" and "near it"; the trait test's own Chicago units split treated land by nearest station instead and were not reused.
+7. **Dose regressions** use all kept stations (treated and comparison), ordinary least squares, one variable at a time. Reason: the plan does not say which stations.
+8. **Resampling:** for the difference in differences, treated and comparison stations are resampled separately (group sizes fixed); for the dose slopes, all stations together. Reason: the plan does not say.
+9. **Sensitivities:** "Saturday plus Sunday" uses the CTA's Saturday and Sunday-or-holiday day types; "5 busiest" means the 5 kept stations with the highest average weekday entries in 2009–2014; "2013 as the change year" uses 2009–2012 before and 2014–2019 after.
+10. **Unplanned check, stations outside Chicago left out** (added after the main results; reason: the ordinances do not apply in Evanston, Skokie, Oak Park, Forest Park, Cicero or Rosemont, and permits there are not in the Chicago file). Reported separately; it does not replace the main estimate.
+11. **Unplanned check, 2013 left out of the before years** (added after the main results; reason: during the 2013 Red Line South closure the CTA sent riders to Green Line South stations, 7 of which are treated; Garfield (Green) averaged 7,030 weekday entries in 2013 against 1,347 in 2012). Reported separately; it does not replace the main estimate.

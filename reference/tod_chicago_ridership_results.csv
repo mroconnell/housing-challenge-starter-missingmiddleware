@@ -1,0 +1,67 @@
+spec,description,n_treated,n_comparison,measure,unit,estimate,low90,high90
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,did_log,difference in mean log average weekday (or weekend-day) entries,-0.0528,-0.1135,0.0066
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,did_percent,percent (exp(did_log)-1),-5.1468,-10.7263,0.6587
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,did_entries,entries per day per station,-132.8706,-318.6398,47.679
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,dose_acres_per_10,percent change in entries per 10 treated eligible acres,-8.3299,-11.9322,-3.3467
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,dose_permitted_per_10,"percent change in entries per 10 homes permitted 2016-2019 per 1,000 existing homes",0.4321,0.252,0.6868
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,treated_entries_before,mean average entries per day per station,4274.1147,,
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,treated_entries_after,mean average entries per day per station,4223.0682,,
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,comparison_entries_before,mean average entries per day per station,3039.1629,,
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,comparison_entries_after,mean average entries per day per station,3120.987,,
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,treated_change_percent,percent (exp(mean change in log)-1),-4.7819,,
+main,"Main: weekday entries, before 2009-2014, after 2016-2019",20,80,comparison_change_percent,percent (exp(mean change in log)-1),0.3847,,
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,did_log,difference in mean log average weekday (or weekend-day) entries,-0.0782,-0.1425,-0.0153
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,did_percent,percent (exp(did_log)-1),-7.524,-13.2807,-1.5203
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,did_entries,entries per day per station,-254.9256,-438.9289,-92.9082
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,dose_acres_per_10,percent change in entries per 10 treated eligible acres,-10.8797,-14.1998,-7.0652
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,dose_permitted_per_10,"percent change in entries per 10 homes permitted 2016-2019 per 1,000 existing homes",0.1722,-0.0301,0.4241
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,treated_entries_before,mean average entries per day per station,2703.3688,,
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,treated_entries_after,mean average entries per day per station,2388.9788,,
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,comparison_entries_before,mean average entries per day per station,1617.1192,,
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,comparison_entries_after,mean average entries per day per station,1557.6548,,
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,treated_change_percent,percent (exp(mean change in log)-1),-12.143,,
+weekend,Sensitivity: Saturday plus Sunday/holiday entries,20,80,comparison_change_percent,percent (exp(mean change in log)-1),-4.9948,,
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,did_log,difference in mean log average weekday (or weekend-day) entries,-0.0523,-0.1175,0.0133
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,did_percent,percent (exp(did_log)-1),-5.094,-11.0864,1.3408
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,did_entries,entries per day per station,-69.9623,-263.6797,111.7792
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,dose_acres_per_10,percent change in entries per 10 treated eligible acres,-8.6276,-12.3091,-3.2018
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,dose_permitted_per_10,"percent change in entries per 10 homes permitted 2016-2019 per 1,000 existing homes",0.5091,0.3069,0.8174
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,treated_entries_before,mean average entries per day per station,3354.4323,,
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,treated_entries_after,mean average entries per day per station,3346.9691,,
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,comparison_entries_before,mean average entries per day per station,2702.0562,,
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,comparison_entries_after,mean average entries per day per station,2764.5553,,
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,treated_change_percent,percent (exp(mean change in log)-1),-4.9299,,
+no_busiest_5,Sensitivity: leaving out the 5 busiest stations,18,77,comparison_change_percent,percent (exp(mean change in log)-1),0.173,,
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,did_log,difference in mean log average weekday (or weekend-day) entries,-0.0259,-0.0685,0.0184
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,did_percent,percent (exp(did_log)-1),-2.5529,-6.6191,1.8597
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,did_entries,entries per day per station,-46.861,-203.2805,115.0399
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,dose_acres_per_10,percent change in entries per 10 treated eligible acres,-4.7397,-7.5822,-0.7729
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,dose_permitted_per_10,"percent change in entries per 10 homes permitted 2016-2019 per 1,000 existing homes",0.344,0.152,0.6321
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,treated_entries_before,mean average entries per day per station,4116.3776,,
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,treated_entries_after,mean average entries per day per station,4298.9468,,
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,comparison_entries_before,mean average entries per day per station,2941.6047,,
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,comparison_entries_after,mean average entries per day per station,3171.0348,,
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,treated_change_percent,percent (exp(mean change in log)-1),3.0909,,
+change_2013,"Sensitivity: 2013 as the change year (before 2009-2012, after 2014-2019)",20,80,comparison_change_percent,percent (exp(mean change in log)-1),5.7916,,
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,did_log,difference in mean log average weekday (or weekend-day) entries,-0.0491,-0.1111,0.0133
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,did_percent,percent (exp(did_log)-1),-4.7942,-10.5155,1.3408
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,did_entries,entries per day per station,-142.7446,-335.1897,41.989
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,dose_acres_per_10,percent change in entries per 10 treated eligible acres,-8.3158,-12.1117,-3.215
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,dose_permitted_per_10,"percent change in entries per 10 homes permitted 2016-2019 per 1,000 existing homes",0.4988,0.3044,0.8203
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,treated_entries_before,mean average entries per day per station,4274.1147,,
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,treated_entries_after,mean average entries per day per station,4223.0682,,
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,comparison_entries_before,mean average entries per day per station,3349.2892,,
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,comparison_entries_after,mean average entries per day per station,3440.9873,,
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,treated_change_percent,percent (exp(mean change in log)-1),-4.7819,,
+x_chicago_only,Unplanned check: stations outside Chicago left out,20,63,comparison_change_percent,percent (exp(mean change in log)-1),0.013,,
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,did_log,difference in mean log average weekday (or weekend-day) entries,-0.0305,-0.0803,0.0184
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,did_percent,percent (exp(did_log)-1),-3.0077,-7.7123,1.8601
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,did_entries,entries per day per station,-69.0017,-233.726,96.7708
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,dose_acres_per_10,percent change in entries per 10 treated eligible acres,-6.139,-9.3606,-1.4785
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,dose_permitted_per_10,"percent change in entries per 10 homes permitted 2016-2019 per 1,000 existing homes",0.4226,0.2438,0.6809
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,treated_entries_before,mean average entries per day per station,4174.0673,,
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,treated_entries_after,mean average entries per day per station,4223.0682,,
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,comparison_entries_before,mean average entries per day per station,3002.9843,,
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,comparison_entries_after,mean average entries per day per station,3120.987,,
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,treated_change_percent,percent (exp(mean change in log)-1),-1.4565,,
+x_no_2013,Unplanned check: 2013 left out of the before years (Red Line South diversion),20,80,comparison_change_percent,percent (exp(mean change in log)-1),1.5993,,
