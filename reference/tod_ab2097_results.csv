@@ -1,0 +1,141 @@
+case,group,outcome,measure,estimate,interval90_low,interval90_high,interval_method,near_rate_before,near_rate_after,comparison_rate_before,comparison_rate_after,near_units_before,near_units_after,comparison_units_before,comparison_units_after,near_denominator,comparison_denominator,n_jurisdictions,n_jurisdictions_near_permits_both_periods,status
+main,P,all_units,per_1000_homes,0.12542,-1.83964,1.72873,jurisdictions,10.93797,12.55196,7.21927,8.70783,69812.0,48068.0,97302.0,70419.0,1276507.0,2695619.0,185.0,169.0,usable
+project_resampling,P,all_units,per_1000_homes,0.12542,-1.27438,1.57067,projects,10.93797,12.55196,7.21927,8.70783,69812.0,48068.0,97302.0,70419.0,1276507.0,2695619.0,185.0,169.0,usable
+main,T+P,all_units,per_1000_homes,-2.49359,-5.50471,0.51807,projects (one jurisdiction),25.73523,25.59737,14.6112,16.96693,96140.0,57375.0,25219.0,17571.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+project_resampling,T+P,all_units,per_1000_homes,-2.49359,-5.50471,0.51807,projects,25.73523,25.59737,14.6112,16.96693,96140.0,57375.0,25219.0,17571.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+main,T+P minus P,all_units,per_1000_homes,-2.61901,-6.07218,0.97711,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+project_resampling,T+P minus P,all_units,per_1000_homes,-2.61901,-5.93663,0.63044,projects,,,,,,,,,,,,,
+main,P,all_units,per_acre,0.00368,-0.00562,0.01149,jurisdictions,0.05524,0.06339,0.02167,0.02614,69812.0,48068.0,97302.0,70419.0,252771.52442,897829.00028,185.0,169.0,usable
+project_resampling,P,all_units,per_acre,0.00368,-0.00307,0.01063,projects,0.05524,0.06339,0.02167,0.02614,69812.0,48068.0,97302.0,70419.0,252771.52442,897829.00028,185.0,169.0,usable
+main,T+P,all_units,per_acre,-0.01034,-0.03637,0.01537,projects (one jurisdiction),0.25693,0.25556,0.0556,0.06456,96140.0,57375.0,25219.0,17571.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+project_resampling,T+P,all_units,per_acre,-0.01034,-0.03637,0.01537,projects,0.25693,0.25556,0.0556,0.06456,96140.0,57375.0,25219.0,17571.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+main,T+P minus P,all_units,per_acre,-0.01402,-0.04073,0.01325,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+project_resampling,T+P minus P,all_units,per_acre,-0.01402,-0.04082,0.01282,projects,,,,,,,,,,,,,
+main,P,units_2plus,per_1000_homes,0.39133,-1.37313,1.88897,jurisdictions,7.68018,8.17256,3.18168,3.28273,49019.0,31297.0,42883.0,26547.0,1276507.0,2695619.0,185.0,99.0,usable
+project_resampling,P,units_2plus,per_1000_homes,0.39133,-1.00486,1.81434,projects,7.68018,8.17256,3.18168,3.28273,49019.0,31297.0,42883.0,26547.0,1276507.0,2695619.0,185.0,99.0,usable
+main,T+P,units_2plus,per_1000_homes,-2.10248,-5.03563,0.9029,projects (one jurisdiction),21.6525,18.96369,5.20103,4.6147,80888.0,42506.0,8977.0,4779.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+project_resampling,T+P,units_2plus,per_1000_homes,-2.10248,-5.03563,0.9029,projects,21.6525,18.96369,5.20103,4.6147,80888.0,42506.0,8977.0,4779.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+main,T+P minus P,units_2plus,per_1000_homes,-2.49381,-5.82882,0.94846,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+project_resampling,T+P minus P,units_2plus,per_1000_homes,-2.49381,-5.7668,0.75445,projects,,,,,,,,,,,,,
+main,P,units_2plus,per_acre,0.00218,-0.00593,0.00938,jurisdictions,0.03879,0.04127,0.00955,0.00986,49019.0,31297.0,42883.0,26547.0,252771.52442,897829.00028,185.0,99.0,usable
+project_resampling,P,units_2plus,per_acre,0.00218,-0.00449,0.00896,projects,0.03879,0.04127,0.00955,0.00986,49019.0,31297.0,42883.0,26547.0,252771.52442,897829.00028,185.0,99.0,usable
+main,T+P,units_2plus,per_acre,-0.02461,-0.05034,0.00085,projects (one jurisdiction),0.21617,0.18933,0.01979,0.01756,80888.0,42506.0,8977.0,4779.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+project_resampling,T+P,units_2plus,per_acre,-0.02461,-0.05034,0.00085,projects,0.21617,0.18933,0.01979,0.01756,80888.0,42506.0,8977.0,4779.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+main,T+P minus P,units_2plus,per_acre,-0.0268,-0.053,-0.00018,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+project_resampling,T+P minus P,units_2plus,per_acre,-0.0268,-0.05364,3e-05,projects,,,,,,,,,,,,,
+after_2023_only,P,all_units,per_1000_homes,0.51048,-1.79616,2.7514,jurisdictions,10.93797,13.31838,7.21927,9.08919,69812.0,17001.0,97302.0,24501.0,1276507.0,2695619.0,185.0,157.0,usable
+after_2023_only,T+P,all_units,per_1000_homes,-2.58411,-6.70834,1.66223,projects (one jurisdiction),25.73523,23.22702,14.6112,14.6871,96140.0,17354.0,25219.0,5070.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+after_2023_only,T+P minus P,all_units,per_1000_homes,-3.09458,-7.85912,1.66212,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2023_only,P,all_units,per_acre,0.00641,-0.00412,0.01669,jurisdictions,0.05524,0.06726,0.02167,0.02729,69812.0,17001.0,97302.0,24501.0,252771.52442,897829.00028,185.0,157.0,usable
+after_2023_only,T+P,all_units,per_acre,-0.02533,-0.06151,0.01206,projects (one jurisdiction),0.25693,0.23189,0.0556,0.05589,96140.0,17354.0,25219.0,5070.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+after_2023_only,T+P minus P,all_units,per_acre,-0.03174,-0.06974,0.00659,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2023_only,P,units_2plus,per_1000_homes,0.87553,-1.29318,2.94231,jurisdictions,7.68018,9.05518,3.18168,3.68116,49019.0,11559.0,42883.0,9923.0,1276507.0,2695619.0,185.0,69.0,usable
+after_2023_only,T+P,units_2plus,per_1000_homes,-3.26595,-7.37856,0.85345,projects (one jurisdiction),21.6525,16.8066,5.20103,3.62108,80888.0,12557.0,8977.0,1250.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+after_2023_only,T+P minus P,units_2plus,per_1000_homes,-4.14148,-8.70496,0.43653,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2023_only,P,units_2plus,per_acre,0.00544,-0.0046,0.0158,jurisdictions,0.03879,0.04573,0.00955,0.01105,49019.0,11559.0,42883.0,9923.0,252771.52442,897829.00028,185.0,69.0,usable
+after_2023_only,T+P,units_2plus,per_acre,-0.04237,-0.0779,-0.00503,projects (one jurisdiction),0.21617,0.16779,0.01979,0.01378,80888.0,12557.0,8977.0,1250.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+after_2023_only,T+P minus P,units_2plus,per_acre,-0.04781,-0.08468,-0.00947,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2024_only,P,all_units,per_1000_homes,-1.43372,-4.09428,0.56603,jurisdictions,10.93797,10.101,7.21927,7.81602,69812.0,12894.0,97302.0,21069.0,1276507.0,2695619.0,185.0,163.0,usable
+after_2024_only,T+P,all_units,per_1000_homes,-0.23697,-4.31029,3.50225,projects (one jurisdiction),25.73523,27.25434,14.6112,16.36728,96140.0,20363.0,25219.0,5650.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+after_2024_only,T+P minus P,all_units,per_1000_homes,1.19675,-3.31944,5.71207,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2024_only,P,all_units,per_acre,-0.00602,-0.01842,0.00421,jurisdictions,0.05524,0.05101,0.02167,0.02347,69812.0,12894.0,97302.0,21069.0,252771.52442,897829.00028,185.0,163.0,usable
+after_2024_only,T+P,all_units,per_acre,0.00848,-0.02918,0.04297,projects (one jurisdiction),0.25693,0.2721,0.0556,0.06228,96140.0,20363.0,25219.0,5650.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+after_2024_only,T+P minus P,all_units,per_acre,0.0145,-0.02393,0.0528,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2024_only,P,units_2plus,per_1000_homes,-1.24552,-3.64254,0.60364,jurisdictions,7.68018,5.93103,3.18168,2.67805,49019.0,7571.0,42883.0,7219.0,1276507.0,2695619.0,185.0,65.0,usable
+after_2024_only,T+P,units_2plus,per_1000_homes,0.08182,-3.92235,3.70562,projects (one jurisdiction),21.6525,20.71346,5.20103,4.18017,80888.0,15476.0,8977.0,1443.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+after_2024_only,T+P minus P,units_2plus,per_1000_homes,1.32733,-3.08015,5.70498,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2024_only,P,units_2plus,per_acre,-0.00732,-0.01799,0.002,jurisdictions,0.03879,0.02995,0.00955,0.00804,49019.0,7571.0,42883.0,7219.0,252771.52442,897829.00028,185.0,65.0,usable
+after_2024_only,T+P,units_2plus,per_acre,-0.00549,-0.043,0.02801,projects (one jurisdiction),0.21617,0.2068,0.01979,0.01591,80888.0,15476.0,8977.0,1443.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+after_2024_only,T+P minus P,units_2plus,per_acre,0.00183,-0.03636,0.03835,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2025_only,P,all_units,per_1000_homes,1.29951,-1.48279,3.95956,jurisdictions,10.93797,14.23651,7.21927,9.21829,69812.0,18173.0,97302.0,24849.0,1276507.0,2695619.0,185.0,160.0,usable
+after_2025_only,T+P,all_units,per_1000_homes,-4.65969,-9.09206,-0.25544,projects (one jurisdiction),25.73523,26.31075,14.6112,19.84641,96140.0,19658.0,25219.0,6851.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+after_2025_only,T+P minus P,all_units,per_1000_homes,-5.9592,-11.23568,-0.81353,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2025_only,P,all_units,per_acre,0.01066,-0.003,0.02375,jurisdictions,0.05524,0.07189,0.02167,0.02768,69812.0,18173.0,97302.0,24849.0,252771.52442,897829.00028,185.0,160.0,usable
+after_2025_only,T+P,all_units,per_acre,-0.01417,-0.05091,0.02432,projects (one jurisdiction),0.25693,0.26268,0.0556,0.07552,96140.0,19658.0,25219.0,6851.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+after_2025_only,T+P minus P,all_units,per_acre,-0.02483,-0.06426,0.01532,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2025_only,P,units_2plus,per_1000_homes,1.54399,-1.10831,4.17365,jurisdictions,7.68018,9.53148,3.18168,3.48899,49019.0,12167.0,42883.0,9405.0,1276507.0,2695619.0,185.0,66.0,usable
+after_2025_only,T+P,units_2plus,per_1000_homes,-3.12331,-7.59703,1.19691,projects (one jurisdiction),21.6525,19.37102,5.20103,6.04286,80888.0,14473.0,8977.0,2086.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+after_2025_only,T+P minus P,units_2plus,per_1000_homes,-4.6673,-9.95528,0.27169,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+after_2025_only,P,units_2plus,per_acre,0.00843,-0.00449,0.02127,jurisdictions,0.03879,0.04813,0.00955,0.01048,49019.0,12167.0,42883.0,9405.0,252771.52442,897829.00028,185.0,66.0,usable
+after_2025_only,T+P,units_2plus,per_acre,-0.02598,-0.06266,0.01205,projects (one jurisdiction),0.21617,0.19339,0.01979,0.02299,80888.0,14473.0,8977.0,2086.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+after_2025_only,T+P minus P,units_2plus,per_acre,-0.03441,-0.07367,0.00508,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+drop_2023,P,all_units,per_1000_homes,-0.0671,-2.3028,1.78891,jurisdictions,10.93797,12.16875,7.21927,8.51715,69812.0,31067.0,97302.0,45918.0,1276507.0,2695619.0,185.0,169.0,usable
+drop_2023,T+P,all_units,per_1000_homes,-2.44833,-5.85565,0.86484,projects (one jurisdiction),25.73523,26.78255,14.6112,18.10684,96140.0,40021.0,25219.0,12501.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+drop_2023,T+P minus P,all_units,per_1000_homes,-2.38122,-6.17548,1.49882,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+drop_2023,P,all_units,per_acre,0.00232,-0.00874,0.01208,jurisdictions,0.05524,0.06145,0.02167,0.02557,69812.0,31067.0,97302.0,45918.0,252771.52442,897829.00028,185.0,169.0,usable
+drop_2023,T+P,all_units,per_acre,-0.00285,-0.03164,0.02476,projects (one jurisdiction),0.25693,0.26739,0.0556,0.0689,96140.0,40021.0,25219.0,12501.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+drop_2023,T+P minus P,all_units,per_acre,-0.00516,-0.03694,0.0243,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+drop_2023,P,units_2plus,per_1000_homes,0.14924,-1.9434,1.93687,jurisdictions,7.68018,7.73125,3.18168,3.08352,49019.0,19738.0,42883.0,16624.0,1276507.0,2695619.0,185.0,91.0,usable
+drop_2023,T+P,units_2plus,per_1000_homes,-1.52075,-4.8071,1.66277,projects (one jurisdiction),21.6525,20.04224,5.20103,5.11151,80888.0,29949.0,8977.0,3529.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+drop_2023,T+P minus P,units_2plus,per_1000_homes,-1.66998,-5.38928,2.04926,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+drop_2023,P,units_2plus,per_acre,0.00055,-0.00934,0.00936,jurisdictions,0.03879,0.03904,0.00955,0.00926,49019.0,19738.0,42883.0,16624.0,252771.52442,897829.00028,185.0,91.0,usable
+drop_2023,T+P,units_2plus,per_acre,-0.01574,-0.04448,0.0117,projects (one jurisdiction),0.21617,0.2001,0.01979,0.01945,80888.0,29949.0,8977.0,3529.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+drop_2023,T+P minus P,units_2plus,per_acre,-0.01629,-0.04781,0.01261,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+include_san_jose_sacramento,P,all_units,per_1000_homes,0.19509,-1.41205,1.68153,jurisdictions,11.17403,12.84362,7.08491,8.55941,83741.0,57752.0,101814.0,73802.0,1498851.0,2874109.0,187.0,171.0,usable
+include_san_jose_sacramento,T+P,all_units,per_1000_homes,-2.49359,-5.50471,0.51807,projects (one jurisdiction),25.73523,25.59737,14.6112,16.96693,96140.0,57375.0,25219.0,17571.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+include_san_jose_sacramento,T+P minus P,all_units,per_1000_homes,-2.68868,-6.01069,0.74649,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+include_san_jose_sacramento,P,all_units,per_acre,0.00391,-0.00395,0.0113,jurisdictions,0.05602,0.06439,0.02145,0.02592,83741.0,57752.0,101814.0,73802.0,298955.05319,949176.2183,187.0,171.0,usable
+include_san_jose_sacramento,T+P,all_units,per_acre,-0.01034,-0.03637,0.01537,projects (one jurisdiction),0.25693,0.25556,0.0556,0.06456,96140.0,57375.0,25219.0,17571.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+include_san_jose_sacramento,T+P minus P,all_units,per_acre,-0.01425,-0.04095,0.01318,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+include_san_jose_sacramento,P,units_2plus,per_1000_homes,0.62163,-0.88917,2.00048,jurisdictions,8.0543,8.82654,3.14351,3.29412,60361.0,39689.0,45174.0,28403.0,1498851.0,2874109.0,187.0,101.0,usable
+include_san_jose_sacramento,T+P,units_2plus,per_1000_homes,-2.10248,-5.03563,0.9029,projects (one jurisdiction),21.6525,18.96369,5.20103,4.6147,80888.0,42506.0,8977.0,4779.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+include_san_jose_sacramento,T+P minus P,units_2plus,per_1000_homes,-2.72411,-5.95619,0.60607,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+include_san_jose_sacramento,P,units_2plus,per_acre,0.00342,-0.00361,0.00999,jurisdictions,0.04038,0.04425,0.00952,0.00997,60361.0,39689.0,45174.0,28403.0,298955.05319,949176.2183,187.0,101.0,usable
+include_san_jose_sacramento,T+P,units_2plus,per_acre,-0.02461,-0.05034,0.00085,projects (one jurisdiction),0.21617,0.18933,0.01979,0.01756,80888.0,42506.0,8977.0,4779.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+include_san_jose_sacramento,T+P minus P,units_2plus,per_acre,-0.02803,-0.05453,-0.00091,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+los_angeles_only,P,all_units,per_1000_homes,2.97095,-0.23563,6.23625,projects (one jurisdiction),15.57373,20.9004,14.6112,16.96693,13569.0,10926.0,25219.0,17571.0,174255.0,345201.0,1.0,1.0,too thin
+los_angeles_only,T+P,all_units,per_1000_homes,-2.49359,-5.50471,0.51807,projects (one jurisdiction),25.73523,25.59737,14.6112,16.96693,96140.0,57375.0,25219.0,17571.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+los_angeles_only,T+P minus P,all_units,per_1000_homes,-5.46453,-10.1503,-1.08954,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+los_angeles_only,P,all_units,per_acre,0.02558,0.00709,0.04432,projects (one jurisdiction),0.10098,0.13552,0.0556,0.06456,13569.0,10926.0,25219.0,17571.0,26874.02138,90721.68362,1.0,1.0,too thin
+los_angeles_only,T+P,all_units,per_acre,-0.01034,-0.03637,0.01537,projects (one jurisdiction),0.25693,0.25556,0.0556,0.06456,96140.0,57375.0,25219.0,17571.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+los_angeles_only,T+P minus P,all_units,per_acre,-0.03592,-0.06988,-0.00396,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+los_angeles_only,P,units_2plus,per_1000_homes,3.11366,-0.00221,6.30328,projects (one jurisdiction),8.52544,11.05277,5.20103,4.6147,7428.0,5778.0,8977.0,4779.0,174255.0,345201.0,1.0,1.0,too thin
+los_angeles_only,T+P,units_2plus,per_1000_homes,-2.10248,-5.03563,0.9029,projects (one jurisdiction),21.6525,18.96369,5.20103,4.6147,80888.0,42506.0,8977.0,4779.0,747147.0,345201.0,1.0,1.0,one jurisdiction
+los_angeles_only,T+P minus P,units_2plus,per_1000_homes,-5.21614,-9.90118,-0.87372,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+los_angeles_only,P,units_2plus,per_acre,0.01862,0.00052,0.03718,projects (one jurisdiction),0.05528,0.07167,0.01979,0.01756,7428.0,5778.0,8977.0,4779.0,26874.02138,90721.68362,1.0,1.0,too thin
+los_angeles_only,T+P,units_2plus,per_acre,-0.02461,-0.05034,0.00085,projects (one jurisdiction),0.21617,0.18933,0.01979,0.01756,80888.0,42506.0,8977.0,4779.0,74836.64612,90721.68362,1.0,1.0,one jurisdiction
+los_angeles_only,T+P minus P,units_2plus,per_acre,-0.04323,-0.07689,-0.0118,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+quarter_mile,P,all_units,per_1000_homes,-0.49551,-3.81036,2.76046,jurisdictions,13.68771,14.87874,6.93156,8.6181,33776.0,22029.0,90590.0,67579.0,493523.0,2613840.0,170.0,145.0,usable
+quarter_mile,T+P,all_units,per_1000_homes,-2.78905,-6.6519,1.29836,projects (one jurisdiction),29.13259,28.69927,14.6112,16.96693,67971.0,40176.0,25219.0,17571.0,466632.0,345201.0,1.0,1.0,one jurisdiction
+quarter_mile,T+P minus P,all_units,per_1000_homes,-2.29354,-7.24245,3.19712,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+quarter_mile,P,all_units,per_acre,0.00189,-0.01764,0.02041,jurisdictions,0.08057,0.08758,0.02104,0.02616,33776.0,22029.0,90590.0,67579.0,83839.02234,861256.84314,170.0,145.0,usable
+quarter_mile,T+P,all_units,per_acre,-0.01386,-0.05444,0.02655,projects (one jurisdiction),0.32938,0.32449,0.0556,0.06456,67971.0,40176.0,25219.0,17571.0,41271.49535,90721.68362,1.0,1.0,one jurisdiction
+quarter_mile,T+P minus P,all_units,per_acre,-0.01576,-0.06021,0.02958,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+quarter_mile,P,units_2plus,per_1000_homes,-0.2805,-3.66648,2.88194,jurisdictions,10.99888,10.98024,2.9291,3.19096,27141.0,16257.0,38281.0,25022.0,493523.0,2613840.0,170.0,59.0,usable
+quarter_mile,T+P,units_2plus,per_1000_homes,-2.25774,-6.18939,1.7229,projects (one jurisdiction),26.06937,23.2253,5.20103,4.6147,60824.0,32513.0,8977.0,4779.0,466632.0,345201.0,1.0,1.0,one jurisdiction
+quarter_mile,T+P minus P,units_2plus,per_1000_homes,-1.97724,-7.05577,3.4402,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+quarter_mile,P,units_2plus,per_acre,-0.0009,-0.02022,0.01767,jurisdictions,0.06475,0.06464,0.00889,0.00968,27141.0,16257.0,38281.0,25022.0,83839.02234,861256.84314,170.0,59.0,usable
+quarter_mile,T+P,units_2plus,per_acre,-0.02993,-0.07034,0.01005,projects (one jurisdiction),0.29475,0.26259,0.01979,0.01756,60824.0,32513.0,8977.0,4779.0,41271.49535,90721.68362,1.0,1.0,one jurisdiction
+quarter_mile,T+P minus P,units_2plus,per_acre,-0.02902,-0.07339,0.0164,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+rail_brt_ferry_stops_only (added check),P,all_units,per_1000_homes,-0.04794,-3.67292,3.19079,jurisdictions,16.03277,17.06131,7.95177,9.02825,38923.0,24852.0,85308.0,58114.0,485543.0,2145636.0,150.0,134.0,usable
+rail_brt_ferry_stops_only (added check),T+P,all_units,per_1000_homes,-6.04082,-11.31329,-0.78487,projects (one jurisdiction),32.23296,28.46816,14.7378,17.01382,54963.0,29126.0,23544.0,16308.0,341036.0,319505.0,1.0,1.0,one jurisdiction
+rail_brt_ferry_stops_only (added check),T+P minus P,all_units,per_1000_homes,-5.99288,-11.9327,0.39741,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+rail_brt_ferry_stops_only (added check),P,all_units,per_acre,0.00067,-0.01403,0.01352,jurisdictions,0.06553,0.06974,0.02614,0.02968,38923.0,24852.0,85308.0,58114.0,118790.27838,652688.02703,150.0,134.0,usable
+rail_brt_ferry_stops_only (added check),T+P,all_units,per_acre,-0.05235,-0.10581,0.00033,projects (one jurisdiction),0.34946,0.30864,0.07469,0.08623,54963.0,29126.0,23544.0,16308.0,31456.2126,63040.83352,1.0,1.0,one jurisdiction
+rail_brt_ferry_stops_only (added check),T+P minus P,all_units,per_acre,-0.05302,-0.10779,0.00387,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+rail_brt_ferry_stops_only (added check),P,units_2plus,per_1000_homes,0.35054,-3.13123,3.53239,jurisdictions,12.49611,12.85296,3.98008,3.98639,30337.0,18722.0,42699.0,25660.0,485543.0,2145636.0,150.0,69.0,usable
+rail_brt_ferry_stops_only (added check),T+P,units_2plus,per_1000_homes,-5.52579,-10.83478,-0.41577,projects (one jurisdiction),29.3318,23.20967,6.7423,6.14597,50016.0,23746.0,10771.0,5891.0,341036.0,319505.0,1.0,1.0,one jurisdiction
+rail_brt_ferry_stops_only (added check),T+P minus P,units_2plus,per_1000_homes,-5.87633,-11.78345,0.55047,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+rail_brt_ferry_stops_only (added check),P,units_2plus,per_acre,0.00144,-0.01267,0.01395,jurisdictions,0.05108,0.05254,0.01308,0.0131,30337.0,18722.0,42699.0,25660.0,118790.27838,652688.02703,150.0,69.0,usable
+rail_brt_ferry_stops_only (added check),T+P,units_2plus,per_acre,-0.06335,-0.1178,-0.01108,projects (one jurisdiction),0.318,0.25163,0.03417,0.03115,50016.0,23746.0,10771.0,5891.0,31456.2126,63040.83352,1.0,1.0,one jurisdiction
+rail_brt_ferry_stops_only (added check),T+P minus P,units_2plus,per_acre,-0.06479,-0.12021,-0.0095,"T+P draw minus P draw, independent",,,,,,,,,,,,,
+drop_largest_project,P,all_units,per_1000_homes,0.04965,-1.68565,1.51724,jurisdictions,10.82015,12.28796,7.16615,8.5843,69060.0,47057.0,96586.0,69420.0,1276507.0,2695619.0,185.0,169.0,
+drop_largest_project,T+P,all_units,per_1000_homes,-2.15079,-4.89814,0.52607,projects (one jurisdiction),25.33103,25.26946,14.22302,16.31224,94630.0,56640.0,24549.0,16893.0,747147.0,345201.0,1.0,1.0,
+drop_largest_project,T+P minus P,all_units,per_1000_homes,-2.20044,-5.27318,1.10574,T+P draw minus P draw,,,,,,,,,,,,,
+drop_largest_project,P,all_units,per_acre,0.00315,-0.00523,0.01034,jurisdictions,0.05464,0.06205,0.02152,0.02577,69060.0,47057.0,96586.0,69420.0,252771.52442,897829.00028,185.0,169.0,
+drop_largest_project,T+P,all_units,per_acre,-0.00856,-0.03282,0.01525,projects (one jurisdiction),0.2529,0.25228,0.05412,0.06207,94630.0,56640.0,24549.0,16893.0,74836.64612,90721.68362,1.0,1.0,
+drop_largest_project,T+P minus P,all_units,per_acre,-0.01172,-0.03714,0.0144,T+P draw minus P draw,,,,,,,,,,,,,
+drop_largest_project,P,units_2plus,per_1000_homes,0.31556,-1.24785,1.67145,jurisdictions,7.56236,7.90856,3.12856,3.1592,48267.0,30286.0,42167.0,25548.0,1276507.0,2695619.0,185.0,99.0,
+drop_largest_project,T+P,units_2plus,per_1000_homes,-1.75968,-4.44762,0.92201,projects (one jurisdiction),21.2483,18.63578,4.81285,3.96001,79378.0,41771.0,8307.0,4101.0,747147.0,345201.0,1.0,1.0,
+drop_largest_project,T+P minus P,units_2plus,per_1000_homes,-2.07524,-5.12581,1.08895,T+P draw minus P draw,,,,,,,,,,,,,
+drop_largest_project,P,units_2plus,per_acre,0.00166,-0.00563,0.00826,jurisdictions,0.03819,0.03994,0.00939,0.00949,48267.0,30286.0,42167.0,25548.0,252771.52442,897829.00028,185.0,99.0,
+drop_largest_project,T+P,units_2plus,per_acre,-0.02284,-0.04743,0.00079,projects (one jurisdiction),0.21214,0.18605,0.01831,0.01507,79378.0,41771.0,8307.0,4101.0,74836.64612,90721.68362,1.0,1.0,
+drop_largest_project,T+P minus P,units_2plus,per_acre,-0.02449,-0.04955,0.00039,T+P draw minus P draw,,,,,,,,,,,,,
+displacement_ring_vs_beyond,P,all_units,per_1000_homes,2.58467,1.58122,3.61466,jurisdictions,7.21927,8.70783,9.05391,7.9578,97302.0,70419.0,147398.0,77732.0,2695619.0,3256007.0,185.0,183.0,
+displacement_ring_vs_beyond,P,all_units,per_acre,0.00459,0.00207,0.00717,jurisdictions,0.02167,0.02614,0.001,0.00088,97302.0,70419.0,147398.0,77732.0,897829.00028,29530034.54892,185.0,183.0,
+displacement_ring_vs_beyond,P,units_2plus,per_1000_homes,0.19751,-0.49725,0.96734,jurisdictions,3.18168,3.28273,2.13495,2.03849,42883.0,26547.0,34757.0,19912.0,2695619.0,3256007.0,185.0,119.0,
+displacement_ring_vs_beyond,P,units_2plus,per_acre,0.00031,-0.00132,0.00208,jurisdictions,0.00955,0.00986,0.00024,0.00022,42883.0,26547.0,34757.0,19912.0,897829.00028,29530034.54892,185.0,119.0,
+displacement_ring_vs_beyond,T+P,all_units,per_1000_homes,2.69026,-0.11433,5.89694,projects (one jurisdiction),14.6112,16.96693,14.26491,13.93038,25219.0,17571.0,10433.0,6113.0,345201.0,146275.0,1.0,1.0,
+displacement_ring_vs_beyond,T+P,all_units,per_acre,0.00947,0.00192,0.01708,projects (one jurisdiction),0.0556,0.06456,0.02151,0.021,25219.0,17571.0,10433.0,6113.0,90721.68362,97018.31299,1.0,1.0,
+displacement_ring_vs_beyond,T+P,units_2plus,per_1000_homes,1.35203,-1.40868,4.43449,projects (one jurisdiction),5.20103,4.6147,3.91181,1.97345,8977.0,4779.0,2861.0,866.0,345201.0,146275.0,1.0,1.0,
+displacement_ring_vs_beyond,T+P,units_2plus,per_acre,0.00069,-0.00666,0.00821,projects (one jurisdiction),0.01979,0.01756,0.0059,0.00298,8977.0,4779.0,2861.0,866.0,90721.68362,97018.31299,1.0,1.0,
