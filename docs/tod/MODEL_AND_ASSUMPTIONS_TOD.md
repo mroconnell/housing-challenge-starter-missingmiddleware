@@ -1,6 +1,6 @@
 # Transit-oriented density (TOD): model and assumptions
 
-Master copy for the TOD section of [MODEL_AND_ASSUMPTIONS.md](../MODEL_AND_ASSUMPTIONS.md). Last updated 2026-10-27. Decisions: AQ-044 to AQ-051 in [ASSUMPTIONS_AND_QUESTIONS.md](../ASSUMPTIONS_AND_QUESTIONS.md). Detail: [GATE3_PACKET.md](GATE3_PACKET.md), [MODEL.md](MODEL.md).
+Master copy for the TOD section of [MODEL_AND_ASSUMPTIONS.md](../MODEL_AND_ASSUMPTIONS.md). Last updated 2026-10-27 (AQ-053, AQ-054). Decisions: AQ-044 to AQ-051 in [ASSUMPTIONS_AND_QUESTIONS.md](../ASSUMPTIONS_AND_QUESTIONS.md). Detail: [GATE3_PACKET.md](GATE3_PACKET.md), [MODEL.md](MODEL.md).
 
 ## 1. Purpose and scope
 
@@ -12,6 +12,18 @@ The tool estimates how many more homes would be permitted in Wisconsin over 2027
 - **Where it applies:** within ½ mile of streetcar and rapid bus stations, and within ¼ mile of bus routes with service every 15 minutes or better at the morning peak.
   - That covers 313,564 of Wisconsin's 2,727,726 homes in the 2020 census (11.5%).
   - 98.7% of those homes are in Milwaukee County and Dane County.
+
+**Shared reporting units (AQ-054).** For comparison across reforms, the TOD scenarios are restated against the statewide all-housing baseline and on Wisconsin's ACS 2020–2024 home count. These figures are not stacked or added to the other reforms.
+
+| Scenario | Extra homes permitted a year, statewide | As a share of the statewide all-housing baseline (122,619 homes over 2027–2031) | As a share of Wisconsin's 2,778,572 homes (ACS 2020–2024) |
+| --- | --- | --- | --- |
+| Little | about 34 | 0.14% | 0.006% |
+| Typical | about 502 | 2.0% | 0.09% |
+| Strong | about 3,430 | 14.0% | 0.62% |
+
+The station-area share in section 2 (0.055%, 0.8% or 5.5% of the 313,564 homes near stops) stays on the 2020 census count, because the station areas are built from census blocks.
+
+**No median line for TOD.** A median line of real cases is shown only when a reform has at least 4 comparable cases. TOD's scenarios rest on 3 whole-city studies, so it has none.
 
 ## 2. Core assumptions and their rationale
 
