@@ -10,3 +10,4 @@
   .reform-nav { font-size: 0.8rem; gap: 2px 8px; }
   .reform-nav a { padding: 2px 8px; }
 }
+.preview-flag { background: var(--warn-bg); border: 1px solid var(--line); border-radius: 4px; padding: 1px 8px; }

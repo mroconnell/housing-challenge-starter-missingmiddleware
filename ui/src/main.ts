@@ -9,14 +9,34 @@ import "./scenarios/shell.css";
 import { labelScrollers } from "./app";
 import { esc } from "./format";
 import { aduReform } from "./scenarios/adu";
+import { parkingReform } from "./scenarios/parking/index";
 import { placeholderReform } from "./scenarios/placeholder";
 import { REGISTRY, reformEntry, type MountedReform, type ReformEntry, type ReformModule, type ShellEnv } from "./scenarios/types";
 
 /** Code for each reform id; a reform without its own module (or not yet "ready") gets the holding page. */
-const MODULES: Record<string, ReformModule> = { adu: aduReform };
+const MODULES: Record<string, ReformModule> = { adu: aduReform, parking: parkingReform };
+
+/** Preview mode lets the owner review a reform that has screens but is not yet "ready" (a Gate 4 pilot).
+ *  Turn it on with `?preview=1` in the URL (off with `?preview=0`); it is remembered for this browser tab only. */
+function previewOn(): boolean {
+  const q = new URLSearchParams((location.hash.split("?")[1] ?? ""));
+  const v = q.get("preview");
+  try {
+    if (v === "1") sessionStorage.setItem("mm-preview", "1");
+    if (v === "0") sessionStorage.removeItem("mm-preview");
+    return sessionStorage.getItem("mm-preview") === "1";
+  } catch {
+    return v === "1";
+  }
+}
+
+/** True when the reform is shown through its own screens only because preview mode is on. */
+function isPreview(e: ReformEntry): boolean {
+  return e.status !== "ready" && !!MODULES[e.id] && previewOn();
+}
 
 function moduleFor(e: ReformEntry): ReformModule {
-  return e.status === "ready" && MODULES[e.id] ? MODULES[e.id] : placeholderReform;
+  return MODULES[e.id] && (e.status === "ready" || isPreview(e)) ? MODULES[e.id] : placeholderReform;
 }
 
 const prefixOf = (id: string) => (id === REGISTRY.default ? "" : `/${id}`);
@@ -32,7 +52,7 @@ function parse(): { reform: string; path: string; params: URLSearchParams } {
   return { reform, path, params: new URLSearchParams(q ?? "") };
 }
 
-interface Active { entry: ReformEntry; m: MountedReform }
+interface Active { entry: ReformEntry; m: MountedReform; mod: ReformModule }
 let active: Active | null = null;
 const cache = new Map<string, unknown>();
 let lastKey = "";
@@ -61,7 +81,7 @@ function shell(e: ReformEntry, m: MountedReform): void {
     </div>
     <div class="wrap">${picker(e)}</div>
     <div class="status-strip" role="note" aria-label="Model run status">
-      <div class="wrap">${m.statusStrip}</div>
+      <div class="wrap">${isPreview(e) ? '<span class="preview-flag" data-testid="preview-flag"><strong>Preview</strong>: not yet reviewed; numbers may change</span>' : ""}${m.statusStrip}</div>
     </div>
     <nav class="tabs" aria-label="Screens"><div class="wrap"><ol>${m.routes.map((r) => `<li><a href="#${pre}${r.path}" data-route="${r.match ?? r.path}"><span class="tab-n" aria-hidden="true">${r.n}</span> ${esc(r.label)}</a></li>`).join("")}</ol></div></nav>
   </header>
@@ -82,7 +102,8 @@ function shell(e: ReformEntry, m: MountedReform): void {
 async function activate(id: string): Promise<Active> {
   const entry = reformEntry(id)!;
   const mod = moduleFor(entry);
-  if (!cache.has(id)) cache.set(id, await mod.load(entry));
+  const key = `${id}:${mod === placeholderReform ? "holding" : "screens"}`;
+  if (!cache.has(key)) cache.set(key, await mod.load(entry));
   const pre = prefixOf(id);
   const env: ShellEnv = {
     entry,
@@ -96,15 +117,15 @@ async function activate(id: string): Promise<Active> {
     announce,
   };
   active?.m.leave?.();
-  const m = mod.mount(env, cache.get(id));
+  const m = mod.mount(env, cache.get(key));
   shell(entry, m);
-  return { entry, m };
+  return { entry, m, mod };
 }
 
 async function route(keepFocus = false): Promise<void> {
   const { reform, path: rawPath, params } = parse();
   let switched = false;
-  if (!active || active.entry.id !== reform) {
+  if (!active || active.entry.id !== reform || moduleFor(active.entry) !== active.mod) {
     active = await activate(reform);
     switched = true;
   }

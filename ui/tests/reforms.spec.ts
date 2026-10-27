@@ -43,3 +43,19 @@ for (const r of registry.reforms.filter((x) => x.status === "in_development")) {
     expect(errors).toEqual([]);
   });
 }
+
+test("preview mode shows a reform's own screens before it is ready, flagged, and only in this tab", async ({ page }) => {
+  const dev = registry.reforms.filter((x) => x.status === "in_development" && x.id === "parking");
+  test.skip(dev.length === 0, "no in-development reform with its own screens");
+  await page.goto("#/parking/");
+  await expect(page.getByTestId("in-development")).toBeVisible();
+  await expect(page.getByTestId("preview-flag")).toHaveCount(0);
+  await page.goto("#/parking/?preview=1");
+  await expect(page.getByTestId("preview-flag")).toBeVisible();
+  await expect(page.getByTestId("in-development")).toHaveCount(0);
+  // the ADU screens never show the preview flag
+  await page.goto("#/today");
+  await expect(page.getByTestId("preview-flag")).toHaveCount(0);
+  await page.goto("#/parking/?preview=0");
+  await expect(page.getByTestId("in-development")).toBeVisible();
+});
