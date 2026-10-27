@@ -56,12 +56,15 @@ def main() -> None:
     at = set(bench.loc[bench["benchmark_rating"] == "at", "area_id"])
     near = set(bench.loc[bench["benchmark_rating"] == "near", "area_id"])
 
+    # rates: the expanded 71-place comparison (owner, 2026-10-27: option A); the first 24-place estimate is a sensitivity
+    xe = pd.read_csv(REFERENCE / "parking_expanded_estimates.csv").set_index("case")
+    upper_all = float(xe.loc["Expanded, all units (headline candidate)", "p95"])
+    upper_apts = float(xe.loc["Expanded, units in buildings of 2+ units", "p95"])
+    upper_no_sf = float(xe.loc["Expanded, without San Francisco", "p95"])
+    upper_ca = float(xe.loc["Expanded US and California, precision-weighted (sensitivity)", "p95"])
     est = pd.read_csv(REFERENCE / "parking_comparison_estimates.csv")
-    rob = pd.read_csv(REFERENCE / "parking_comparison_robustness.csv")
     m0 = est[(est["model"] == "M0 one average") & (est["term"] == "intercept")].set_index("outcome")
-    upper_all = float(m0.loc["all", "p95"])
-    upper_apts = float(m0.loc["2plus", "p95"])
-    upper_no_sf = float(rob[(rob["outcome"] == "all") & (rob["check"] == "without San Francisco")]["p95"].iloc[0])
+    upper_first24 = float(m0.loc["all", "p95"])
     m4 = est[(est["outcome"] == "all") & est["model"].str.startswith("M4")].set_index("term")["estimate"]
     beta = (m4["intercept"], m4["log_pop"], m4["metro"])
 
@@ -110,7 +113,11 @@ def main() -> None:
         dict(case="Buildings of 2 or more units only", moves="statewide addition", value=tot(homes, upper_apts),
              description=f"High end of the likely range when only units in buildings of 2 or more units are counted, {upper_apts:.2f} per 1,000 existing homes per year."),
         dict(case="Without San Francisco", moves="statewide addition", value=tot(homes, upper_no_sf),
-             description=f"High end of the likely range when San Francisco (a quarter of the weight) is left out, {upper_no_sf:.2f} per 1,000 homes per year."),
+             description=f"High end of the likely range when San Francisco is left out, {upper_no_sf:.2f} per 1,000 existing homes per year."),
+        dict(case="Combined with California's transit-area law", moves="statewide addition", value=tot(homes, upper_ca),
+             description=f"High end when the 71 US places are combined with 185 California cities under AB 2097, {upper_ca:.2f} per 1,000 existing homes per year."),
+        dict(case="First 24 places only (earlier estimate)", moves="statewide addition", value=tot(homes, upper_first24),
+             description=f"The high end from the first, smaller comparison of 24 places, {upper_first24:.2f} per 1,000 existing homes per year."),
         dict(case="Size and metro model (central)", moves="statewide addition and where it lands",
              value=tot(homes, pm.size_metro_rate(munis.set_index("area_id")["population"], munis.set_index("area_id")["metro_county"], beta)),
              description="Each place gets its own rate from a model using city size and whether it is in a metro area (never below zero). It favours small places in metro areas. It predicted slightly better than one average for all places, but not reliably so."),
