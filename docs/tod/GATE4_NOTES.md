@@ -22,6 +22,14 @@ Written 2026-10-27 by the TOD Gate 4 work package. Status: built, not yet review
 
 **One new calculation, in the builder.** A corridor's extra homes are each place's modelled addition times the corridor's share of that place's placement measure. That measure is added floor area for Milwaukee and Madison (coded) and the estimated room for new homes for other places. It is the rule the model already uses to place homes, applied within a place. Milwaukee's figures cover CONNECT 1 and The Hop together, because the station-area bands do not separate them. Example: CONNECT 1 plus The Hop, typical response, 199 extra homes over 2027–2031, of which 142 are in Wauwatosa.
 
+**Fixes after the independent check (2026-10-27).**
+- TOD styles are now scoped, so ADU's sort headers are unchanged; a test checks this.
+- The pilot land table shows three figures: acres, acres the law covers, and acres where it adds room (land with added floor area or estimated room above zero).
+- Wording is plainer, and the classification table gives short reasons.
+- The bundle keeps 4 decimals and rounds once on screen.
+- Where explains places that get extra homes but have few homes near stops. It also lists places whose Census permit counts for 2021–2025 are very low: Wauwatosa reported 1, 2, 2, 1 and 2 new homes a year, none of them apartments.
+- An unknown pilot slug shows a not-found message.
+
 ## Not done, or worth a look
 
 - The map is a simple SVG with no basemap, made from stop points and municipality outlines. It is not maplibre. Station areas are drawn as circles around stops, not the model's census-block areas.

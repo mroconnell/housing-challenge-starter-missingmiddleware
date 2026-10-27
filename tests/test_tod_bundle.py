@@ -86,6 +86,8 @@ class TestTodBundle(unittest.TestCase):
         for slug in ("milwaukee-connect-1", "madison-route-a"):
             c = p[slug]["corridor"]
             self.assertLessEqual(c["add"]["typical"], self.sw["scenarios"][1]["additional_total"])
+            for pl in c["places"]:
+                self.assertLessEqual(pl["gain_acres"], pl["eligible_acres"], pl["name"])
 
     def test_no_parcel_ids_and_small(self):
         size = 0

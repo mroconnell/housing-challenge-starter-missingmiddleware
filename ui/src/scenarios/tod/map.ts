@@ -41,8 +41,8 @@ export function stationMap(d: MapData, o: MapOpts): string {
     if (!f.name || !o.labels.includes(f.name) || seen.has(f.name)) continue;
     const ring = [...f.rings].sort((a, b) => b.length - a.length)[0];
     const xs = ring.map((p) => p[0]), ys = ring.map((p) => p[1]);
-    const cx = Math.min(Math.max((Math.min(...xs) + Math.max(...xs)) / 2, x0 + (x1 - x0) * 0.08), x1 - (x1 - x0) * 0.08);
-    const cy = Math.min(Math.max((Math.min(...ys) + Math.max(...ys)) / 2, y0 + (y1 - y0) * 0.05), y1 - (y1 - y0) * 0.05);
+    const cx = Math.min(Math.max((Math.min(...xs) + Math.max(...xs)) / 2, x0 + (x1 - x0) * 0.13), x1 - (x1 - x0) * 0.13);
+    const cy = Math.min(Math.max((Math.min(...ys) + Math.max(...ys)) / 2, y0 + (y1 - y0) * 0.07), y1 - (y1 - y0) * 0.05);
     seen.add(f.name);
     lab.push(`<text x="${X(cx)}" y="${Y(cy)}" text-anchor="middle" class="tod-map-label">${esc(f.name.replace(/ (city|village|town)$/, ""))}</text>`);
   }

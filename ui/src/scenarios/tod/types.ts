@@ -31,6 +31,8 @@ export interface Areas {
   counties: { rows: AggRow[]; total_count: number };
   assembly: { rows: AggRow[]; total_count: number };
   senate: { rows: AggRow[]; total_count: number };
+  few_homes_places: string[];
+  low_permit_places: { name: string; years: number[]; units: number[]; units_5plus: number }[];
 }
 export interface MapData {
   agencies: string[];
@@ -56,9 +58,9 @@ export interface HowSure {
   cannot_tell: { title: string; text: string }[];
 }
 export interface Why {
-  cases: { id: string; name: string; role: string; role_label: string; status: string; estimate: number | null; low: number | null; high: number | null;
-    dose_far: number | null; per_far: number | null; per_far_low: number | null; per_far_high: number | null; parking: string | null; mandate: string | null }[];
-  classification: { city: string; reform: string; strength: string; data: string; parking: string; mandate: string; use: string }[];
+  cases: { id: string; name: string; role: string; role_label: string; estimate: number | null; low: number | null; high: number | null;
+    note: string | null; dose_far: number | null; per_far: number | null; per_far_low: number | null; per_far_high: number | null; parking: string | null; mandate: string | null }[];
+  classification: { city: string; year: string | null; strength: string; data: string; parking: string; mandate: string; use: string }[];
   strength_counts: Record<string, number>;
   madison: {
     prediction: { value: number; low: number; high: number }; measured: { value: number; low: number; high: number };
@@ -70,12 +72,13 @@ export interface Why {
   sources: { scenario: ScenId; study: string; citation: string; url: string; finding: string; status: string }[];
   docs: { label: string; url: string }[];
 }
-export interface CorridorPlace { name: string; coded: boolean; acres: number; eligible_acres: number; existing_homes: number; share_of_place: number; overlay_share: number | null; add_typical: number }
+export interface CorridorPlace { name: string; coded: boolean; acres: number; eligible_acres: number; gain_acres: number; existing_homes: number; share_of_place: number; overlay_share: number | null; add_typical: number }
 export interface Pilot {
   slug: string; title: string; view: string; city: string; line: string; intro: string; stops: Record<string, number>;
   city_homes: number; city_homes_near: number; city_add: ByScen;
   city_baseline?: number; city_add_years?: Record<ScenId, number[]>;
-  corridor?: { places: CorridorPlace[]; add: ByScen; add_years: Record<ScenId, number[]>; acres: number; existing_homes: number };
+  corridor?: { places: CorridorPlace[]; add: ByScen; add_years: Record<ScenId, number[]>; acres: number; eligible_acres: number; gain_acres: number; existing_homes: number };
+  method?: string;
   zoning_note?: string;
   homes_near_high?: number; city_baseline_all?: number; high_case_acres?: number; reason?: string;
 }

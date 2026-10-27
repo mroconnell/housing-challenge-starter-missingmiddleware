@@ -68,6 +68,8 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
       await expect(page.getByTestId("pilot-corridor-typical")).toHaveText(fmt(p.corridor.add.typical));
       await expect(page.getByTestId("pilot-city-typical")).toHaveText(fmt(p.city_add.typical));
       await expect(page.getByTestId("pilot-baseline")).toHaveText(fmt(p.city_baseline));
+      await expect(page.getByTestId("pilot-places")).toContainText(fmt(p.corridor.gain_acres));
+      await expect(page.getByTestId("pilot-method")).toHaveText(p.method);
     } else {
       await expect(page.getByTestId("pilot-homes-near")).toHaveText(fmt(p.city_homes_near));
       await expect(page.getByTestId("pilot-eau-claire-add")).toHaveText(fmt(p.city_add.typical));
@@ -77,6 +79,23 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
   await page.goto("#/tod/brief");
   await expect(page.getByTestId("brief")).toContainText(fmt(sc("typical").additional_total));
   await expect(page.getByTestId("brief")).toContainText(b.run_id);
+});
+
+test("TOD styles leave the ADU Where sort headers unchanged", async ({ page }) => {
+  // the TOD stylesheet is bundled with every screen; it must not restyle ADU's sort buttons
+  await page.goto("#/where");
+  const btn = page.locator("th[aria-sort] button.sort").first();
+  await expect(btn).toBeVisible();
+  const st = await btn.evaluate((e) => { const s = getComputedStyle(e); return { pad: s.paddingTop, display: s.display, width: e.getBoundingClientRect().width, th: e.parentElement!.getBoundingClientRect().width }; });
+  expect(st.pad).toBe("8px");
+  expect(st.display).toBe("block");
+  expect(Math.abs(st.width - st.th)).toBeLessThan(20);
+});
+
+test("an unknown TOD pilot shows a not-found message", async ({ page }) => {
+  await page.goto("#/tod/pilot/no-such-place?preview=1");
+  await expect(page.getByTestId("pilot-not-found")).toBeVisible();
+  await expect(page.locator("main h1")).toHaveText("Pilot example not found");
 });
 
 for (const s of SCREENS) {

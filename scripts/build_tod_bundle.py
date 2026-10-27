@@ -50,6 +50,7 @@ INPUTS = [
     "reference/tod_madison_test_predictions.csv",
     "reference/tod_scale_check.csv", "reference/tod_scale_check_metro_years.csv",
     "reference/housing_baseline_statewide_by_year.csv", "reference/housing_baseline_by_area.csv",
+    "reference/housing_baseline_history.csv",
     GEO_MUNIS,
 ]
 
@@ -64,7 +65,7 @@ SCALE_METRO = {"Milwaukee-Waukesha, WI": "milwaukee", "Madison, WI": "madison"}
 SCEN_TEXT = {
     "little": {
         "label": "Little response", "evidence": "like Los Angeles's transit program",
-        "info": "Like Los Angeles's Transit Oriented Communities program (2017), the only US transit program with a measured citywide net effect. It added 0.04 percentage points to the city's housing growth over six years, and it required affordable homes, which the modelled law does not.",
+        "info": "Like Los Angeles's Transit Oriented Communities program (2017), the only US transit program whose effect on a whole city's housing has been measured. It added 0.04 percentage points to the city's housing growth over six years, and it required affordable homes, which the modelled law does not.",
     },
     "typical": {
         "label": "Typical response", "evidence": "like the average loosening reform in 1,136 US cities",
@@ -95,7 +96,7 @@ BAND_LABELS = {"rapid_quarter": "Within ¼ mile of a rail or rapid transit stati
 AGENCY_LINES = {
     "Milwaukee County": "Milwaukee County Transit System: CONNECT 1 bus rapid transit (rapid) and the bus routes that run every 15 minutes at the morning peak",
     "City of Milwaukee": "The Hop streetcar (rail)",
-    "City of Madison": "Madison Metro: Rapid Route A (rapid) and Routes A, B, C, D and 80, which run at least every 15 minutes on weekdays",
+    "City of Madison": "Madison Metro: Rapid Route A (rapid transit), plus Routes B, C, D and 80, which like Route A run at least every 15 minutes on weekdays",
     "City of Kenosha": "Kenosha streetcar (rail)",
     "City of Eau Claire": "Eau Claire Transit: Routes 9 and 19 run every 20 minutes, so they count only in the wider definitions",
 }
@@ -105,9 +106,9 @@ SENS_LABELS = {
     ("law_addition", "as_published"): ("Each study's effect as published", "Not adjusted for how much of each city the reform covered (Los Angeles about 61% of homes, Auckland 75.2% of residential land)."),
     ("law_addition", "ramp_year5_alt"): ("Smoother final year", "Year 2031 set to the average of 2029–2031 instead of the measured New York drop. Changes timing only; the five-year totals stay the same."),
     ("law_addition", "strong_ny_ramp"): ("Strong response timed like New York", "The strong response spread over the years like the New York rezonings instead of Auckland's own pattern. Same five-year total."),
-    ("where_homes_land", "no_suburbs"): ("Only Milwaukee and Madison get homes", "The suburbs, whose zoning is not coded, get none of the addition."),
+    ("where_homes_land", "no_suburbs"): ("Only Milwaukee and Madison get homes", "The suburbs, whose zoning rules were not entered into the model, get none of the extra homes."),
     ("where_homes_land", "unscaled_suburbs"): ("Suburbs' estimated room not scaled down", "The suburbs' room for new homes is estimated from existing buildings and not scaled by 0.719."),
-    ("where_homes_land", "rapid_only"): ("Only rail and rapid transit stations count", "Buses every 15 minutes do not qualify. Fewer homes are near stops, so the baseline and the addition both fall."),
+    ("where_homes_land", "rapid_only"): ("Only rail and rapid transit stations count", "Buses every 15 minutes do not qualify. Fewer homes are near stops, so fewer homes are expected near stops both with and without the law."),
     ("where_homes_land", "high"): ("Buses every 20 minutes count too", "Adds 20-minute bus routes within ¼ mile, including Eau Claire's."),
     ("where_homes_land", "b_half"): ("All 15-minute stops count within ½ mile", "Bus stops get the same ½ mile as stations."),
     ("baseline_only", "baseline_low"): ("Low current-law path", "Wisconsin's 10th-percentile five-year outcome since 1990."),
@@ -167,20 +168,20 @@ def build_statewide() -> dict:
     t0 = five.loc["typical"]
     base_years = yr[yr["scenario"] == "typical"].sort_values("year")
     baseline = {
-        "years": [{"year": int(x.year), "low": r(x.baseline_near_stops_low, 2), "central": r(x.baseline_near_stops_central, 2),
-                   "high": r(x.baseline_near_stops_high, 2)} for x in base_years.itertuples()],
-        "total": r(t0["baseline_near_stops_central"], 2), "low_total": r(t0["baseline_near_stops_low"], 2),
-        "high_total": r(t0["baseline_near_stops_high"], 2),
+        "years": [{"year": int(x.year), "low": r(x.baseline_near_stops_low, 4), "central": r(x.baseline_near_stops_central, 4),
+                   "high": r(x.baseline_near_stops_high, 4)} for x in base_years.itertuples()],
+        "total": r(t0["baseline_near_stops_central"], 4), "low_total": r(t0["baseline_near_stops_low"], 4),
+        "high_total": r(t0["baseline_near_stops_high"], 4),
     }
     scen = []
     for sid in SCEN:
         f = five.loc[sid]
         ys = yr[yr["scenario"] == sid].sort_values("year")
         row = {"id": sid, **SCEN_TEXT[sid], "share_of_stock": r(f["addition_share_of_stock"], 6),
-               "additional_total": r(f["addition"], 2), "with_law_total": r(f["with_law_central"], 2),
-               "by_year": [r(v, 2) for v in ys["addition"]], "source": s(f["source"])}
+               "additional_total": r(f["addition"], 4), "with_law_total": r(f["with_law_central"], 4),
+               "by_year": [r(v, 4) for v in ys["addition"]], "source": s(f["source"])}
         if sid == "typical":
-            row.update(range_low=r(f["addition_range_low"], 2), range_high=r(f["addition_range_high"], 2))
+            row.update(range_low=r(f["addition_range_low"], 4), range_high=r(f["addition_range_high"], 4))
         scen.append(row)
     refl = five.loc["reference_line"]
     ref_years = yr[yr["scenario"] == "reference_line"].sort_values("year")
@@ -213,17 +214,17 @@ def build_statewide() -> dict:
         "homes_two_cities": {"milwaukee": int(main_def.milwaukee_city_homes), "madison": int(main_def.madison_city_homes),
                              "share": r(main_def.share_in_two_cities, 4)},
         "ladder": ladder, "law": law, "agencies": agencies,
-        "baseline": baseline, "state_baseline_total": r(hbp["central"].sum(), 2),
+        "baseline": baseline, "state_baseline_total": r(hbp["central"].sum(), 4),
         "scenarios": scen,
         "reference_line": {"label": "Median of the three studies", "info": REF_LINE_INFO,
-                           "additional_total": r(refl["addition"], 2), "by_year": [r(v, 2) for v in ref_years["addition"]]},
+                           "additional_total": r(refl["addition"], 4), "by_year": [r(v, 4) for v in ref_years["addition"]]},
         "timing_caveat": TIMING,
     }
 
 
 # ---- areas ------------------------------------------------------------------------------------
 def by_years(row) -> list:
-    return [r(row[f"add_{y}"], 2) for y in YEARS]
+    return [r(row[f"add_{y}"], 4) for y in YEARS]
 
 
 def build_areas() -> dict:
@@ -235,11 +236,11 @@ def build_areas() -> dict:
         m = munis.setdefault(x.area_id, {
             "id": x.area_id, "name": x.name, "county": x.county, "metro": metro_of(x.county), "coded": x.name in coded,
             "homes_near": int(near.loc[x.area_id, "homes_near_main"]), "share_near": r(x.share_near_stops, 4),
-            "eligible_acres": r(x.eligible_acres, 1), "baseline": r(x.baseline_near_central_2027_2031, 2),
-            "baseline_low": r(x.baseline_near_low_2027_2031, 2), "baseline_high": r(x.baseline_near_high_2027_2031, 2),
+            "eligible_acres": r(x.eligible_acres, 1), "baseline": r(x.baseline_near_central_2027_2031, 4),
+            "baseline_low": r(x.baseline_near_low_2027_2031, 4), "baseline_high": r(x.baseline_near_high_2027_2031, 4),
             "add": {}, "add_years": {}})
         if x.scenario in SCEN:
-            m["add"][x.scenario] = r(x.add_2027_2031, 2)
+            m["add"][x.scenario] = r(x.add_2027_2031, 4)
             m["add_years"][x.scenario] = by_years(x._asdict())
     munis = sorted(munis.values(), key=lambda m: -m["add"]["typical"])
 
@@ -248,9 +249,9 @@ def build_areas() -> dict:
         out = {}
         for x in df.itertuples():
             k = getattr(x, key)
-            o = out.setdefault(k, {"id": str(k), "name": name_fn(k), "baseline": r(x.baseline_near_central_2027_2031, 2), "add": {}})
+            o = out.setdefault(k, {"id": str(k), "name": name_fn(k), "baseline": r(x.baseline_near_central_2027_2031, 4), "add": {}})
             if x.scenario in SCEN:
-                o["add"][x.scenario] = r(x.add_2027_2031, 2)
+                o["add"][x.scenario] = r(x.add_2027_2031, 4)
         rows = list(out.values())
         nonzero = [o for o in rows if o["baseline"] > 0 or any(v > 0 for v in o["add"].values())]
         return {"rows": sorted(nonzero, key=lambda o: -o["add"]["typical"]), "total_count": len(rows)}
@@ -264,9 +265,20 @@ def build_areas() -> dict:
         metros.append({"id": mid, "name": label, "places": len(ms),
                        "counties": sorted({m["county"] for m in ms}),
                        "homes_near": sum(m["homes_near"] for m in ms),
-                       "baseline": r(sum(m["baseline"] for m in ms), 2),
-                       "add": {sc: r(sum(m["add"][sc] for m in ms), 2) for sc in SCEN}})
-    return {"munis": munis, "metros": metros, "counties": counties, "assembly": assembly, "senate": senate}
+                       "baseline": r(sum(m["baseline"] for m in ms), 4),
+                       "add": {sc: r(sum(m["add"][sc] for m in ms), 4) for sc in SCEN}})
+    # places that get extra homes with few homes near stops today: homes are placed by land where the law adds room
+    few = [m["name"] for m in munis if m["homes_near"] < 100 and m["add"]["typical"] >= 1]
+    # places whose current-law figure rests on very few reported permits in 2021-2025 while the law adds many homes
+    hist = pd.read_csv(REF / "housing_baseline_history.csv")
+    low = []
+    for m in munis:
+        if m["add"]["typical"] >= 50 and m["baseline"] < 10:
+            h = hist[(hist["area_id"] == m["id"]) & hist["year"].between(2021, 2025)].sort_values("year")
+            low.append({"name": m["name"], "years": [int(y) for y in h["year"]], "units": [r(u, 0) for u in h["units_all"]],
+                        "units_5plus": r(h["units_5plus"].sum(), 0)})
+    return {"munis": munis, "metros": metros, "counties": counties, "assembly": assembly, "senate": senate,
+            "few_homes_places": few, "low_permit_places": low}
 
 
 # ---- map ---------------------------------------------------------------------------------------
@@ -334,28 +346,28 @@ def build_howsure(sw: dict, areas: dict) -> dict:
         for sens in g["sensitivity"].drop_duplicates():
             sg = g[g["sensitivity"] == sens].set_index("scenario")
             label, text = SENS_LABELS[(gid, sens)]
-            row = {"id": sens, "label": label, "text": text, "baseline": r(sg["baseline_near_stops_2027_2031"].iloc[0], 2), "add": {}}
+            row = {"id": sens, "label": label, "text": text, "baseline": r(sg["baseline_near_stops_2027_2031"].iloc[0], 4), "add": {}}
             if sens == "typical_range":
-                row["add"] = {"typical_low": r(sg.loc["typical_low", "addition_2027_2031"], 2), "typical_high": r(sg.loc["typical_high", "addition_2027_2031"], 2)}
+                row["add"] = {"typical_low": r(sg.loc["typical_low", "addition_2027_2031"], 4), "typical_high": r(sg.loc["typical_high", "addition_2027_2031"], 4)}
                 row["milwaukee_metro"] = None
             else:
                 for sc in SCEN:
                     if sc in sg.index:
-                        row["add"][sc] = r(sg.loc[sc, "addition_2027_2031"], 2)
+                        row["add"][sc] = r(sg.loc[sc, "addition_2027_2031"], 4)
                 tsc = "typical" if "typical" in sg.index else sg.index[0]
-                row["milwaukee_metro"] = r(sg.loc[tsc, "milwaukee_metro_2027_2031"], 2)
-                row["madison_metro"] = r(sg.loc[tsc, "madison_metro_2027_2031"], 2)
+                row["milwaukee_metro"] = r(sg.loc[tsc, "milwaukee_metro_2027_2031"], 4)
+                row["madison_metro"] = r(sg.loc[tsc, "madison_metro_2027_2031"], 4)
                 row["metro_scenario"] = tsc
-                row["year_2031"] = {sc: r(sg.loc[sc, "add_2031"], 2) for sc in SCEN if sc in sg.index}
+                row["year_2031"] = {sc: r(sg.loc[sc, "add_2031"], 4) for sc in SCEN if sc in sg.index}
             rows.append(row)
         groups.append({"id": gid, "label": glabel, "rows": rows})
     pa = se[se["sizing"] == "per_acre"]
     pmain = pa[(pa["group"] == "per_acre: main") & pa["scenario"].isin(SCEN)].set_index("scenario")
     wis = pa[pa["group"] == "per_acre"].set_index("sensitivity")
     per_acre = {
-        "add": {sc: r(pmain.loc[sc, "addition_2027_2031"], 2) for sc in SCEN},
-        "wisconsin_uncapped": r(wis.loc["wisconsin_measured_uncapped", "addition_2027_2031"], 2),
-        "wisconsin_capped": r(wis.loc["wisconsin_measured_capped", "addition_2027_2031"], 2),
+        "add": {sc: r(pmain.loc[sc, "addition_2027_2031"], 4) for sc in SCEN},
+        "wisconsin_uncapped": r(wis.loc["wisconsin_measured_uncapped", "addition_2027_2031"], 4),
+        "wisconsin_capped": r(wis.loc["wisconsin_measured_capped", "addition_2027_2031"], 4),
     }
     # scale check: peak year of apartment permitting per metro and scenario
     ck = pd.read_csv(REF / "tod_model_checks.csv")
@@ -367,7 +379,7 @@ def build_howsure(sw: dict, areas: dict) -> dict:
     scale = []
     for metro, mid in SCALE_METRO.items():
         own = my[my["cbsa_name"] == metro].sort_values("rate_5plus_per_1000").iloc[-1]
-        row = {"metro": mid, "name": METROS[mid][0], "own_max": r(own.rate_5plus_per_1000, 2), "own_max_year": int(own.year),
+        row = {"metro": mid, "name": METROS[mid][0], "own_max": r(own.rate_5plus_per_1000, 4), "own_max_year": int(own.year),
                "baseline_per_1000": None, "peak": {}}
         for sc in SCEN:
             g = sc_rows[(sc_rows["metro"] == metro) & (sc_rows["scenario"] == sc)].sort_values("total_per_1000")
@@ -392,19 +404,19 @@ def build_howsure(sw: dict, areas: dict) -> dict:
         {"part": "Homes near qualifying stops", "status": "observed",
          "text": f"2020 census homes in blocks whose centre lies within the distance: {sw['stock_homes']:,} homes in the main case."},
         {"part": "Current-law homes permitted near stops", "status": "calculated",
-         "text": "Each place's share of the shared all-housing baseline (Census building permits, 2023–2025 average, with Milwaukee's apartments from its property file), times its share of homes near stops."},
+         "text": "Each place's expected new homes under current law (Census building permits, 2023–2025 average, with Milwaukee's apartments counted from its property records), times its share of homes near stops."},
         {"part": "Size of the law's addition", "status": "calculated",
-         "text": "Each scenario's share of station-area homes comes from a published study of a whole city's net effect (Los Angeles, 1,136 US cities, Auckland), divided by the study's coverage where it reports one."},
+         "text": "Each scenario's share of the homes near stops comes from a published study of a whole city's net gain in homes after upzoning (Los Angeles, 1,136 US cities, Auckland), divided by the study's coverage where it reports one."},
         {"part": "That those results carry over to Wisconsin", "status": "assumed",
          "text": "No Wisconsin outcome has tested the sizing. Milwaukee's and Madison's shares of homes near stops (68% and 63%) are close to Los Angeles's 61% coverage."},
         {"part": "Timing over 2027–2031", "status": "calculated",
          "text": "The little and typical responses follow the build-up measured after the New York rezonings; the strong response follows Auckland's own yearly pattern."},
         {"part": "Where homes land in Milwaukee and Madison", "status": "calculated",
-         "text": f"From the cities' coded zoning: the extra floor area the law allows on each piece of land. These two cities get {round(coded_typ / tot_typ * 100)}% of the typical response."},
+         "text": f"From the two cities' zoning codes, entered rule by rule: the extra floor area the law allows on each piece of land. These two cities get {round(coded_typ / tot_typ * 100)}% of the typical response."},
         {"part": "Where homes land in the suburbs", "status": "assumed",
-         "text": f"Zoning is not coded, so the room for new homes is estimated from existing buildings and scaled by 0.719, the ratio measured in Milwaukee and Madison. The suburbs get {round(100 - coded_typ / tot_typ * 100)}% of the typical response."},
+         "text": f"Their zoning rules were not entered, so the room for new homes is estimated from existing buildings and scaled by 0.719, the ratio measured in Milwaukee and Madison. The suburbs get {round(100 - coded_typ / tot_typ * 100)}% of the typical response."},
         {"part": "Split into legislative districts", "status": "assumed",
-         "text": "Each place's numbers are split across districts as its detached homes are (the ADU district crosswalk), not by homes near stops."},
+         "text": "Each place's numbers are split across districts in proportion to where its detached houses are (the same split the ADU screens use), not by homes near stops."},
     ]
     cannot = [
         {"title": "Whether Wisconsin will behave like the average city in these studies",
@@ -415,7 +427,7 @@ def build_howsure(sw: dict, areas: dict) -> dict:
         {"title": "Rents, displacement and transit ridership", "text": "These are not modelled."},
         {"title": "Lot-by-lot predictions", "text": "The model works by place. Nothing here says what will be built on any one lot."},
     ]
-    return {"main_baseline": r(main.loc["typical", "baseline_near_stops_2027_2031"], 2), "groups": groups, "per_acre": per_acre,
+    return {"main_baseline": r(main.loc["typical", "baseline_near_stops_2027_2031"], 4), "groups": groups, "per_acre": per_acre,
             "scale": scale, "scale_benchmarks": {"observed_max": r(obsmax.value, 2), "observed_max_metro": s(obsmax.metro),
                                                  "observed_max_year": int(obsmax.year), "p95": r(p95.value, 2)},
             "madison_share": madison, "trace": trace, "cannot_tell": cannot}
@@ -434,7 +446,7 @@ CASE_NAMES = {
     "chicago_tod_2013_2015": "Chicago, 2015 transit-served locations",
     "annarbor_tc1_2021": "Ann Arbor, 2021 transit corridor district",
 }
-ROLE_LABELS = {"fit": "Used to fit the model", "context": "Context only", "heldout": "Held out to test the model"}
+ROLE_LABELS = {"fit": "Used to place homes", "context": "Background only", "heldout": "Held out to test the model"}
 
 
 def build_why() -> dict:
@@ -442,13 +454,42 @@ def build_why() -> dict:
     cases = []
     for x in ce.itertuples():
         cases.append({"id": x.case, "name": CASE_NAMES.get(x.case, x.case.replace("_", " ")), "role": x.role,
-                      "role_label": ROLE_LABELS.get(x.role, x.role), "status": s(x.status),
+                      "role_label": ROLE_LABELS.get(x.role, x.role),
+                      "note": "too few years of permit data" if str(x.status).startswith("context_only") else "no permit data with unit counts" if str(x.status).startswith("no_data") else None,
                       "estimate": r(x.estimate_units_per_acre_yr, 3), "low": r(x.interval90_low, 3), "high": r(x.interval90_high, 3),
-                      "dose_far": r(x.dose_added_far, 2), "per_far": r(x.effect_per_dose, 3), "per_far_low": r(x.effect_per_dose_low, 3),
+                      "dose_far": r(x.dose_added_far, 4), "per_far": r(x.effect_per_dose, 3), "per_far_low": r(x.effect_per_dose_low, 3),
                       "per_far_high": r(x.effect_per_dose_high, 3), "parking": s(x.parking_change), "mandate": s(x.mandate)})
     inv = pd.read_csv(REF / "tod_cases.csv")
-    classification = [{"city": x.city, "reform": x.reform_name, "strength": x.policy_strength, "data": x.data_usability,
-                       "parking": x.parking_minimums_changed, "mandate": x.affordability_mandate, "use": x.recommended_use}
+    import re as _re
+    used = {"charlotte_tod_2019": "Measured: used to place homes", "nyc_bloomberg_rezonings_2003_2013": "Measured: used to place homes",
+            "nyc_park_slope_fourth_ave_2003": "Measured: used to place homes", "nyc_downtown_brooklyn_2004": "Measured: used to place homes",
+            "philadelphia_2012_code": "Measured: used to place homes", "stpaul_green_line_2011": "Measured, background only (too few years before)",
+            "chicago_tod_2013_2015": "Measured: kept aside to test the model", "madison_tod_overlay_2023": "Measured: the Wisconsin test",
+            "annarbor_tc1_2021": "Kept aside to test the model (no usable permit data)", "auckland_aup_2016": "Strong scenario (whole-city result)",
+            "la_toc_2017": "Little scenario (whole-city result)", "raleigh_new_bern_2024": "Left out: too new",
+            "phoenix_walkable_urban_code_2015": "Background only (no usable permit data)"}
+
+    def plain_use(case_id, use, mandate):
+        if case_id in used:
+            return used[case_id]
+        u = use.lower()
+        if u.startswith("exclude"):
+            why_ = "too new" if "new" in u else "mostly design rules" if "design" in u else "an optional bonus" if "opt-in" in u else "not a usable case"
+            return f"Left out: {why_}"
+        if "mandate" in u or mandate == "yes":
+            return "Background: required affordable homes"
+        if "lead" in u or "upgrade" in u or "candidate" in u:
+            return "Not measured: data not found yet"
+        if "upper bound" in u or "strong-response" in u:
+            return "Background: strong-market example"
+        return "Background only"
+
+    def year_of(x):
+        m_ = _re.search(r"(19|20)\d\d", f"{x.effective_date} {x.adoption_date}")
+        return m_.group(0) if m_ else None
+    classification = [{"city": x.city, "year": year_of(x), "strength": x.policy_strength, "data": x.data_usability,
+                       "parking": x.parking_minimums_changed, "mandate": x.affordability_mandate,
+                       "use": plain_use(x.case_id, x.recommended_use, x.affordability_mandate)}
                       for x in inv.sort_values("rank").itertuples()]
     counts = inv.groupby("policy_strength").size().to_dict()
     res = pd.read_csv(REF / "tod_madison_test_results.csv").set_index("estimate")
@@ -480,7 +521,7 @@ def build_why() -> dict:
     sources = [
         {"scenario": "little", "study": "Los Angeles Transit Oriented Communities program (2017)",
          "citation": "Kestelman, Harvard Joint Center for Housing Studies working paper, 2025", "url": "https://www.jchs.harvard.edu/research-areas/working-papers/effects-transit-oriented-incentive-programs-evidence-los-angeles",
-         "finding": "Housing growth rose 0.04 percentage points over six years (2017–2023), about 562 homes in a city of about 1.4 million. The program covered roughly 61% of the city's homes and required affordable units.",
+         "finding": "Housing growth rose 0.04 percentage points over six years (2017–2023), about 562 homes in a city of about 1.4 million homes. The program covered roughly 61% of the city's homes and required affordable units.",
          "status": "observed"},
         {"scenario": "typical", "study": "Zoning reforms in 1,136 US cities, 2005–2019",
          "citation": "Stacy and others, Urban Studies, 2023", "url": "https://doi.org/10.1177/00420980231159500",
@@ -524,12 +565,14 @@ def corridor(agency_counties: list[str], areas: dict, sw: dict) -> dict:
             for i in range(5):
                 add[sc][i] += mu["add_years"][sc][i] * share
         places.append({"name": city, "coded": coded, "acres": r(rap["acres"].sum(), 0), "eligible_acres": r(rap["eligible_acres"].sum(), 0),
+                       "gain_acres": r(rap[rap[measure] > 0]["eligible_acres"].sum(), 0),
                        "existing_homes": r(rap["existing_homes"].sum(), 0), "share_of_place": r(share, 4),
                        "overlay_share": r(rap["acres_in_overlay"].sum() / rap["acres"].sum(), 4) if coded else None,
-                       "add_typical": r(mu["add"]["typical"] * share, 2)})
+                       "add_typical": r(mu["add"]["typical"] * share, 4)})
     places.sort(key=lambda p: -p["acres"])
-    return {"places": places, "add": {sc: r(sum(v), 2) for sc, v in add.items()}, "add_years": {sc: [r(v, 2) for v in vs] for sc, vs in add.items()},
-            "acres": r(sum(p["acres"] for p in places), 0), "existing_homes": r(sum(p["existing_homes"] for p in places), 0)}
+    return {"places": places, "add": {sc: r(sum(v), 4) for sc, v in add.items()}, "add_years": {sc: [r(v, 4) for v in vs] for sc, vs in add.items()},
+            "acres": r(sum(p["acres"] for p in places), 0), "eligible_acres": r(sum(p["eligible_acres"] for p in places), 0),
+            "gain_acres": r(sum(p["gain_acres"] for p in places), 0), "existing_homes": r(sum(p["existing_homes"] for p in places), 0)}
 
 
 def build_pilots(areas: dict, sw: dict) -> list:
@@ -543,23 +586,25 @@ def build_pilots(areas: dict, sw: dict) -> list:
         "slug": "milwaukee-connect-1", "title": "Milwaukee: the CONNECT 1 corridor", "view": "milwaukee", "city": "Milwaukee city",
         "line": "CONNECT 1 bus rapid transit, with The Hop streetcar downtown",
         "intro": "CONNECT 1 is Milwaukee County's bus rapid transit line, running east–west from downtown Milwaukee along Wisconsin Avenue to the Milwaukee Regional Medical Center in Wauwatosa. The station-area figures below cover the land near every rail and rapid transit station in Milwaukee County, which is CONNECT 1 plus The Hop streetcar downtown; the data do not split the two.",
-        "stops": {"CONNECT 1": int(stops[(stops.agency == "Milwaukee County") & (stops.flag_a_rapid == 1)].shape[0]),
-                  "The Hop streetcar": int(stops[(stops.agency == "City of Milwaukee") & (stops.flag_a_rapid == 1)].shape[0])},
+        "stops": {"CONNECT 1 stops": int(stops[(stops.agency == "Milwaukee County") & (stops.flag_a_rapid == 1)].shape[0]),
+                  "The Hop streetcar stops": int(stops[(stops.agency == "City of Milwaukee") & (stops.flag_a_rapid == 1)].shape[0])},
         "city_homes": int(nid.loc[mke["id"], "homes_2020"]), "city_homes_near": mke["homes_near"],
         "city_baseline": mke["baseline"], "city_add": mke["add"], "city_add_years": mke["add_years"],
         "corridor": corridor(["Milwaukee County"], areas, sw),
-        "zoning_note": "Milwaukee's zoning near stops, including the 2025 \"Growing MKE\" changes, is coded, so the law's extra floor area is measured lot by lot.",
+        "method": "The corridor figure is each place's extra homes times the corridor's share of the room the law adds in that place. Milwaukee's figure covers CONNECT 1 and The Hop streetcar together, because the land data do not separate the two lines.",
+        "zoning_note": "Milwaukee's zoning rules near stops, including the 2025 \"Growing MKE\" changes, were entered rule by rule, so the extra floor area the law allows is measured for each piece of land.",
     })
     mad = mt["Madison city"]
     out.append({
         "slug": "madison-route-a", "title": "Madison: the Rapid Route A corridor", "view": "madison", "city": "Madison city",
         "line": "Madison Metro Rapid Route A (bus rapid transit, opened 22 September 2024)",
         "intro": "Rapid Route A is Madison's first bus rapid transit line, running east–west through downtown and the isthmus. Madison already has a transit-oriented development overlay (2023) along much of the route, so part of the corridor is close to what the modelled law would allow.",
-        "stops": {"Rapid Route A": int(stops[(stops.agency == "City of Madison") & (stops.flag_a_rapid == 1)].shape[0])},
+        "stops": {"Rapid Route A stops": int(stops[(stops.agency == "City of Madison") & (stops.flag_a_rapid == 1)].shape[0])},
         "city_homes": int(nid.loc[mad["id"], "homes_2020"]), "city_homes_near": mad["homes_near"],
         "city_baseline": mad["baseline"], "city_add": mad["add"], "city_add_years": mad["add_years"],
         "corridor": corridor(["Dane County"], areas, sw),
-        "zoning_note": "Madison's zoning, including its 2023 transit-oriented development overlay, is coded. Where the overlay already allows as much as the law, the law adds nothing.",
+        "method": "The corridor figure is each place's extra homes times the corridor's share of the room the law adds in that place: land within ½ mile of Rapid Route A's stations.",
+        "zoning_note": "Madison's zoning rules, including its 2023 transit-oriented development overlay, were entered rule by rule. Where the overlay already allows as much as the law, the law adds nothing.",
     })
     hb = pd.read_csv(REF / "housing_baseline_by_area.csv")
     ec = hb[hb["name"] == "Eau Claire city"]
@@ -571,10 +616,10 @@ def build_pilots(areas: dict, sw: dict) -> list:
         "slug": "eau-claire", "title": "Eau Claire: does the law reach a mid-size bus city?", "view": "eau-claire", "city": "Eau Claire city",
         "line": "Eau Claire Transit (no 15-minute routes; Routes 9 and 19 run every 20 minutes)",
         "intro": "Eau Claire is the check of whether the law transfers to Wisconsin's mid-size cities. Under the main definition the answer is no: no Eau Claire bus route runs every 15 minutes, so no Eau Claire home is near a qualifying stop and the law adds nothing there.",
-        "stops": {"Stops on 20-minute routes": int(((ecs.flag_c_20min == 1) & (ecs.flag_b_15min == 0)).sum()),
-                  "Stops on 15-minute routes or rapid transit": int(((ecs.flag_b_15min == 1) | (ecs.flag_a_rapid == 1)).sum())},
+        "stops": {"stops on 20-minute bus routes": int(((ecs.flag_c_20min == 1) & (ecs.flag_b_15min == 0)).sum()),
+                  "stops on 15-minute bus routes or rapid transit": int(((ecs.flag_b_15min == 1) | (ecs.flag_a_rapid == 1)).sum())},
         "city_homes": int(nn["homes_2020"]), "city_homes_near": int(nn["homes_near_main"]), "homes_near_high": int(nn["homes_near_high"]),
-        "city_baseline_all": r(ec["five_year_central"].sum(), 2),
+        "city_baseline_all": r(ec["five_year_central"].sum(), 4),
         "high_case_acres": r(eca[eca["in_high"] == 1]["acres"].sum(), 0),
         "city_add": {sc: 0.0 for sc in SCEN},
         "reason": "No bus route in Eau Claire runs every 15 minutes at the morning peak, and the city has no rail or rapid transit. Its two busiest routes, 9 and 19, run every 20 minutes. They would count only if the law used the wider 20-minute definition.",
@@ -633,7 +678,7 @@ def main():
         "vintages": [{"what": "National Transit Map (stops and routes)", "vintage": "compiled 23 September 2026"},
                      {"what": "Agency schedule files (frequencies)", "vintage": "2025–2026 service days"},
                      {"what": "Census 2020 homes by block", "vintage": "2020"},
-                     {"what": "Census Building Permits Survey (shared baseline)", "vintage": "2015–2025 annual"},
+                     {"what": "Census Building Permits Survey (current-law forecast)", "vintage": "2015–2025 annual"},
                      {"what": "Milwaukee and Madison parcels and zoning", "vintage": "2025–2026"}],
         "validation": val, "repo_url": REPO_URL, "inputs": hashes,
         "files": ["statewide.json", "areas.json", "map.json", "howsure.json", "why.json", "pilots.json"],

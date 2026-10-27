@@ -15,9 +15,9 @@
   .tod-bar-row { grid-template-columns: minmax(0, 1fr) 6em; }
   .tod-bar-row .tod-bar-track { grid-column: 1 / -1; grid-row: 2; }
 }
-th[aria-sort] button, th .sort-btn { all: unset; cursor: pointer; font-weight: 600; display: inline-flex; gap: 4px; align-items: center; min-height: 28px; }
-th .sort-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-th .sort-ind { font-size: 0.8em; opacity: 0.7; }
+button.tod-sort-btn { all: unset; cursor: pointer; font-weight: 600; display: inline-flex; gap: 4px; align-items: center; min-height: 28px; }
+button.tod-sort-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tod-sort-ind { font-size: 0.8em; opacity: 0.7; }
 .tod-ci { display: grid; gap: 10px; margin: 8px 0; }
 .tod-ci-row { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 3fr); gap: 8px; align-items: center; font-size: 0.92rem; }
 .tod-ci-track { position: relative; height: 22px; background: #f3f3f1; border-radius: 4px; }
