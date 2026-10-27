@@ -322,7 +322,7 @@ Wisconsin legislators and staff asking whether a statewide parking repeal would 
 
 ## Part C. Transit-oriented density (TOD)
 
-> **Maintained by the TOD session.** This part is a word-for-word copy of [docs/tod/MODEL_AND_ASSUMPTIONS_TOD.md](tod/MODEL_AND_ASSUMPTIONS_TOD.md) at commit 4b22577 (2026-10-27), with only its heading levels changed. Edit the master copy, not this one. Its links are rewritten to resolve from `docs/` by `scripts/sync_model_doc.py`. Two changes made after the TOD Gate 3 check await the owner's confirmation; neither changes the statewide totals: keeping the measured New York build-up unsmoothed, and scaling the suburbs' share of the placement by 0.719.
+> **Maintained by the TOD session.** This part is a word-for-word copy of [docs/tod/MODEL_AND_ASSUMPTIONS_TOD.md](tod/MODEL_AND_ASSUMPTIONS_TOD.md) at commit b6b92f0 (2026-10-27), with only its heading levels changed. Edit the master copy, not this one. Its links are rewritten to resolve from `docs/` by `scripts/sync_model_doc.py`. Two changes made after the TOD Gate 3 check await the owner's confirmation; neither changes the statewide totals: keeping the measured New York build-up unsmoothed, and scaling the suburbs' share of the placement by 0.719.
 
 ### Transit-oriented density (TOD): model and assumptions
 
@@ -420,6 +420,7 @@ All data are fetched by script, with the source, date, size and checksum recorde
 
 - **No Wisconsin test of the adopted sizing.** The Madison test checked the per-acre method, which now only places homes.
 - **The typical scenario rests on a general study.** Only 28 of Stacy et al.'s 96 loosening reforms changed floor area, density or height. It is measured 3 or more years after reform, but is placed here inside five years.
+- **Why places differ.** A pre-registered effect-heterogeneity analysis tested 12 local traits (such as home values, incomes, rents, lot sizes, existing density and distance to downtown) on 106 rezonings and station areas, using leave-one-city-out cross-validation. Exploratory tests then tried all 66 pairs of traits and a small decision tree. None predicted where upzoning added more homes better than a plain average, so the scenarios stay wide ([TRAITS_RESULTS.md](tod/TRAITS_RESULTS.md)).
 - **TOD alone versus TOD with parking reform.** The cases cannot separate the two.
 - **Concentration.** Almost all extra homes land in Milwaukee County and Dane County.
 - **Edge cases:**
