@@ -121,3 +121,20 @@ Written 2026-10-26 by the TOD conductor, before any permits have been counted fo
 - **New York:** the 6 pooled rezonings dropped for industrial land stay dropped; the rule is unchanged.
 
 Rules: the same as for every other case, including the one area rule and units-per-acre outcome. A case that lacks unit counts or 3 years before falls back to permit counts and is context only. Each new city becomes a fitted city in the trait test, which is rerun with the same pass rule. Chicago and Madison stay held out.
+
+**2026-10-27, how batch 1 of the added cities was measured (deviations recorded while counting).** Details are in [CASE_RESULTS.md](CASE_RESULTS.md), section "Added cities, batch 1".
+- **Los Angeles (Warner Center, Cornfield Arroyo Seco).**
+  - **No FAR dose.** District FARs are not in open data, and the Zoning Archive's FAR field is 0. Whether density rose is judged from an ordinal zone ordering (`case_la.LEVEL`). Neither case enters per-FAR pooling.
+  - **Warner Center.** It is zoned "WC" both before and after, so every Warner Center lot counts as having risen. "Already at the law" is not tested there.
+  - **Cornfield.** Most of its land was manufacturing before, so under section 2 only 13.1 acres are treated.
+  - **Existing homes** for the per-1,000 sensitivity come from the current Assessor roll: buildings built before 2007.
+- **Seattle (North Beacon Hill and Othello 2012, Mount Baker 2014).**
+  - **Effective dates** come from the City's zoning history: 10 May 2012 and 2 August 2014.
+  - **Two citywide code changes are not treated as local rezonings:** the 2011 Lowrise code rename and Mandatory Housing Affordability (April 2019). Both changed every lot of a kind in both areas.
+  - **Dose:** the City's own zoned-capacity residential FAR, 2010 against 2016. Single-family land has no FAR in that model, so the dose covers 63% and 77% of treated acres.
+- **Bellevue (BelRed 2009) is context only.**
+  - Zoning before 2009 is not published by parcel; even the permit file shows today's district on older permits.
+  - BelRed was mostly light industrial before (source_lead), which the eligible-land rule excludes, so the eligible treatment land cannot be known.
+  - A labelled all-land sensitivity counts every BelRed lot that now allows housing as risen from FAR 0 to the base FAR of 1.0. Incentive FAR is not by right.
+  - Rezonings outside BelRed are dated by interpolating ordinance numbers.
+- **Trait-test units.** Each added city is also split into units, written to `reference/tod_case_units.csv`: plan districts in Warner Center, station areas elsewhere. Each unit's treatment lots are set against the case's comparison lots within ¼ mile, as in `traits.py`, and a unit is kept with at least 5 eligible acres in each.

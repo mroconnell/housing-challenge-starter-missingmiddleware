@@ -5,6 +5,8 @@ scripts/fetch_tod_cases.py.
 
 Writes (committed, no parcel, permit or project identifiers):
 - reference/tod_case_rates_by_year.csv: case, area, year, period, units, eligible_acres, rate, status
+- reference/tod_case_units.csv: the added cities (plan section 7, 2026-10-27) split into trait-test units (station
+  areas or district subareas), following missing_middleware/tod/traits.py
 - reference/tod_case_estimates.csv: one row per case: estimate (difference-in-differences, units per eligible acre
   per year), 90% project-bootstrap interval, dose (added FAR), effect per dose, sensitivities, parking change,
   mandate, city median gross rent (ACS 2020-2024, from reference/tod_cases.csv), role
@@ -67,7 +69,90 @@ def builders(selected: list[str]):
     if "chicago" in selected:
         from missing_middleware.tod import case_chicago
         out.append(("chicago_tod_2013_2015", case_chicago.build))
+    # added cities (plan section 7, 2026-10-27): batch 1 (this work package) and batch 2 (separate adapters, registered
+    # when their files exist). An adapter has either CASES and build(case), or build() alone.
+    for key in ADDED:
+        if key in selected:
+            out += added_builders(key)
     return out
+
+
+ADDED = ("la", "seattle", "bellevue", "ottawa", "toronto", "minneapolis")
+
+
+def _module(key: str):
+    import importlib
+    import importlib.util
+    name = f"missing_middleware.tod.case_{key}"
+    if importlib.util.find_spec(name) is None:
+        print(f"(no adapter yet for {key})")
+        return None
+    return importlib.import_module(name)
+
+
+def added_builders(key: str) -> list:
+    m = _module(key)
+    if m is None:
+        return []
+    if hasattr(m, "CASES"):
+        return [(c, (lambda c=c, m=m: m.build(c))) for c in m.CASES]
+    return [(getattr(m, "CASE_ID", getattr(m, "CASE", key)), m.build)]
+
+
+def added_unit_frames(selected: list[str]) -> list:
+    """(case id, unit_frame dict) for the added cities whose adapters provide unit_frame()."""
+    out = []
+    for key in ADDED:
+        if key not in selected:
+            continue
+        m = _module(key)
+        if m is None or not hasattr(m, "unit_frame"):
+            continue
+        cases = list(m.CASES) if hasattr(m, "CASES") else [getattr(m, "CASE_ID", getattr(m, "CASE", key))]
+        for c in cases:
+            try:
+                out.append((c, m.unit_frame(c) if hasattr(m, "CASES") else m.unit_frame()))
+            except Exception as e:  # noqa: BLE001
+                print(f"unit frame {c}: {type(e).__name__}: {e}")
+    return out
+
+
+def unit_rows(case: str, uf: dict) -> list[dict]:
+    """Trait-test units for one case (station areas or district subareas), following missing_middleware/tod/traits.py
+    and scripts/run_tod_traits.py: each unit's eligible treatment lots against the case's comparison lots within 1/4
+    mile of them; kept with at least 5 eligible acres in each; DiD and 90% interval by the case rules."""
+    import numpy as np
+    from missing_middleware.tod import traits as T
+    parcels, permits, per = uf["parcels"], uf["permits"], uf["per"]
+    el = parcels["eligible"].astype(bool)
+    tr = parcels.index[(parcels["area"] == C.TREAT) & el]
+    cp = parcels.index[(parcels["area"] == C.COMP) & el]
+    acres = parcels.geometry.area / C.SQM_PER_ACRE
+    labels = parcels["unit_label"].reindex(tr)
+    b, a = per["before"], per["after"]
+    rows = []
+    for lab in sorted(labels.dropna().astype(str).unique()):
+        ti = labels.index[labels.astype(str) == lab]
+        ci = T.comparison_for_unit(parcels, ti, cp)
+        pu = permits[((permits["area"] == C.TREAT) & permits["pix"].isin(ti)) | ((permits["area"] == C.COMP) & permits["pix"].isin(ci))]
+        pu = pu[["project", "area", "year", "units"]]
+        ac = {C.TREAT: float(acres[ti].sum()), C.COMP: float(acres[ci].sum())}
+        ok, reason = T.keep_unit(ac[C.TREAT], ac[C.COMP])
+        e = T.unit_estimate(pu, ac, b, a) if ok else T.unit_estimate(pu, ac, [], [])
+        du = uf.get("dose_unit", "none")
+        d = np.nan
+        if du and not str(du).startswith("none") and "old_level" in parcels and "new_level" in parcels:
+            sub = pd.DataFrame({"acres": acres[ti], "old_far": parcels["old_level"].reindex(ti), "new_far": parcels["new_level"].reindex(ti)})
+            d = C.dose(sub.replace([np.inf, -np.inf], np.nan))
+        fmt = (lambda y: f"{y[0]} to {y[-1]}" if y else "")
+        rows.append({"case": case, "unit_name": lab, "unit_type": uf.get("unit_type", "station area or district"),
+                     "effective_year": uf.get("effective_year"), "before_years": fmt(b), "after_years": fmt(a),
+                     "treatment_acres": round(ac[C.TREAT], 2), "comparison_acres": round(ac[C.COMP], 2), "kept": ok, "reason": reason,
+                     "effect": e["did"], "interval90_low": e["low"], "interval90_high": e["high"],
+                     "treatment_units_before": T.units_in(pu, C.TREAT, b), "treatment_units_after": T.units_in(pu, C.TREAT, a),
+                     "comparison_units_before": T.units_in(pu, C.COMP, b), "comparison_units_after": T.units_in(pu, C.COMP, a),
+                     "dose": d, "dose_unit": du})
+    return rows
 
 
 def bps_units(state: str, county: str, years) -> dict:
@@ -163,7 +248,7 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--case", nargs="*", default=["charlotte", "stpaul", "nyc", "nyc_pooled", "philadelphia", "raleigh",
                                                    "phoenix", "chicago", "annarbor", "raleigh_counts", "phoenix_counts",
-                                                   "annarbor_counts"])
+                                                   "annarbor_counts", *ADDED])
     a = ap.parse_args(argv)
     rates_all, rows, events, diags = [], [], [], {}
     for case, fn in builders(a.case):
@@ -201,7 +286,8 @@ def main(argv=None) -> None:
              "nyc_pooled_2003_2013", "philadelphia_2012_remapping", "raleigh_tod_2021", "phoenix_walkable_urban_code_2015",
              "chicago_tod_2013_2015", "annarbor_tc1_2021", "raleigh_permit_count_all", "raleigh_permit_count_sf",
              "raleigh_permit_count_mf", "phoenix_permit_count_all", "phoenix_permit_count_sf", "phoenix_permit_count_mf",
-             "annarbor_permit_count_all"]
+             "annarbor_permit_count_all", "la_warner_center_2013", "la_cornfield_arroyo_seco_2013", "seattle_nbh_othello_2012",
+             "seattle_mount_baker_2014", "bellevue_belred_2009"]
     est["_o"] = est["case"].map({c: i for i, c in enumerate(order)}).fillna(99)
     est = est.sort_values("_o").drop(columns="_o")
     rates["_o"] = rates["case"].map({c: i for i, c in enumerate(order)}).fillna(99)
@@ -241,6 +327,17 @@ def main(argv=None) -> None:
     old.update(diags)
     (out / "diagnostics.json").write_text(json.dumps(old, indent=1, default=str) + "\n")
     print(f"wrote {rp.relative_to(REFERENCE.parent)} ({len(rates)} rows), {ep.relative_to(REFERENCE.parent)} ({len(est)} rows)")
+    ufs = added_unit_frames(a.case)
+    if ufs:
+        up = REFERENCE / "tod_case_units.csv"
+        new_rows = pd.DataFrame([r for c, uf in ufs for r in unit_rows(c, uf)])
+        if up.exists():
+            old_u = pd.read_csv(up)
+            new_rows = pd.concat([old_u[~old_u["case"].isin([c for c, _ in ufs])], new_rows], ignore_index=True)
+        for col in ("effect", "interval90_low", "interval90_high", "dose"):
+            new_rows[col] = pd.to_numeric(new_rows[col], errors="coerce").round(4)
+        new_rows.to_csv(up, index=False)
+        print(f"wrote {up.relative_to(REFERENCE.parent)} ({len(new_rows)} units)")
     print("fit set:", summary)
 
 

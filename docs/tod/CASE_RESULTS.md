@@ -14,6 +14,7 @@ Written 2026-10-26 for TOD Gate 2, work package 5. It was revised the same day a
   - The tests are in [tests/test_tod_cases.py](../../tests/test_tod_cases.py).
 - **Results:**
   - [reference/tod_case_estimates.csv](../../reference/tod_case_estimates.csv) has one row per case.
+  - [reference/tod_case_units.csv](../../reference/tod_case_units.csv) splits the added cities (Los Angeles, Seattle, Bellevue) into trait-test units.
   - [reference/tod_case_rates_by_year.csv](../../reference/tod_case_rates_by_year.csv) has every area and year: before, year 0 and after. For the two stacked cases (New York pooled, Philadelphia) `year` is the event year, −6 to +5, years since each member's effective date.
   - Neither file holds parcel, permit or project numbers; a test checks this.
 - **Raw files** are git-ignored, under `data/raw/tod_cases/<city>/`. Each folder has a `manifest.json` with the URL, access time, bytes, SHA-256 and licence.
@@ -59,6 +60,9 @@ Written 2026-10-26 for TOD Gate 2, work package 5. It was revised the same day a
   - **Per-FAR values in the fit set:** Park Slope 2.93, Downtown Brooklyn 2.20, the pooled set 0.67. The plain median of these three is 2.20; the pooled set alone (which already contains the two named members) is 0.67 per added FAR.
   - Charlotte and Philadelphia have no per-FAR value and stay out of every per-FAR pooling (deviations 2 and 8).
   - Saint Paul, Raleigh and Phoenix are context only; Chicago and Ann Arbor are held out. None enters anything fitted (`cases.fit_set`).
+- **With the added cities (2026-10-27).** Los Angeles Warner Center and Cornfield, and Seattle's two cases, join the fit set; Bellevue is context only. Their rows are in the batch 1 section below.
+  - The two Seattle cases add per-FAR values of −0.19 and +0.10, both with intervals spanning zero.
+  - The fit-set per-FAR values are now Park Slope 2.93, Downtown Brooklyn 2.20, New York pooled 0.67, Mount Baker 0.10 and North Beacon Hill + Othello −0.19. Their median is 0.67, and Park Slope and Downtown Brooklyn are still counted twice through the pooled set.
 - **Held-out check.** Chicago's effect per added FAR is 0.24 (90% interval −0.03 to +0.53). That is below every New York value, including the pooled set's 0.67 (interval 0.37 to 1.02); the two intervals do not overlap. Ann Arbor, the other held-out case, has no permit data with unit counts.
 - **Median rents** are the city values in [reference/tod_cases.csv](../../reference/tod_cases.csv): ACS 2020–2024 5-year, table B25064, observed there. They are 2020–2024 values, not values at each case's start.
 
@@ -373,6 +377,64 @@ Before and after are 6 and 5 years (Phoenix in event years, stacked). Original a
   - Washtenaw County's servers did not answer;
   - the Census Building Permits Survey has city totals without locations.
 - The first TC1 map rezoning is April 2022, so there are no before years. A parcel year-built proxy exists but measures completions, not permits.
+
+## Added cities, batch 1: Los Angeles, Seattle, Bellevue (2026-10-27)
+
+Added at the owner's request ([plan section 7](CASE_ANALYSIS_PLAN.md), entries of 2026-10-27, chosen before counting) to widen the trait test. The rules, the one area rule and the outputs are the same as for every other case. The adapters are `case_la.py`, `case_seattle.py` and `case_bellevue.py`. Each city is also split into trait-test units in [reference/tod_case_units.csv](../../reference/tod_case_units.csv): station areas, or plan districts in Warner Center. Each unit's treatment lots are set against the case's comparison lots within ¼ mile, and a unit is kept with at least 5 eligible acres in each, as in `traits.py`. Batch 2 (Ottawa, Toronto, Minneapolis) is built by another work package; `run_tod_cases.py` picks up those adapters when their files exist.
+
+All values are units per eligible acre per year, with 90% project-bootstrap intervals.
+
+| Case | Role / status | Estimate (90% interval) | Dose | Effect per dose (90% interval) | Original area rule | Rent |
+|---|---|---|---|---|---|---|
+| Los Angeles Warner Center 2013 | fit, measured | +0.100 (−0.271 to +0.446) | none (no FAR in open data) | — | +0.037 | $1,933 |
+| Los Angeles Cornfield Arroyo Seco 2013 | fit, measured | −0.383 (−0.939 to −0.020) | none | — | −0.228 | $1,933 |
+| Seattle North Beacon Hill + Othello 2012 | fit, measured | −0.757 (−4.420 to +1.997) | +3.97 FAR (on 63% of treated acres) | −0.190 per FAR (−1.112 to +0.503) | −0.122 | $2,030 |
+| Seattle Mount Baker 2014 | fit, measured | +0.449 (−0.294 to +1.315) | +4.62 FAR (on 77%) | +0.097 per FAR (−0.064 to +0.285) | +0.168 | $2,030 |
+| Bellevue BelRed 2009 | context only | — (zoning before unknown) | +1.0 FAR (base, source_lead) | all-land sensitivity: +0.133 (+0.044 to +0.222) | +0.092 | $2,572 |
+
+| Case | Years (before; after) | Eligible acres: treatment / comparison / second comparison | Units before → after: treatment; comparison |
+|---|---|---|---|
+| Warner Center | 2007–2012; 2014–2018 | 784.8 / 301.4 / 57.6 | 1,399 → 1,552; 4 → 1 |
+| Cornfield Arroyo Seco | 2007–2012; 2014–2018 | 13.1 / 154.3 / 450.6 | 0 → 0; 4 → 299 |
+| North Beacon Hill + Othello | 2006–2011; 2013–2017 | 32.4 / 343.9 / 2,472.8 | 353 → 172; 207 → 176 |
+| Mount Baker | 2008–2013; 2015–2019 | 35.3 / 248.2 / 2,629.7 | 1 → 143; 185 → 596 |
+| BelRed (all-land sensitivity) | 2003–2008; 2010–2014 | 504.4 / 296.5 / 235.5 | 0 → 385; 4 → 33 |
+
+Sensitivities, as DiD in units per eligible acre per year:
+
+| Case | Second comparison | Largest project left out | Per 1,000 existing homes |
+|---|---|---|---|
+| Warner Center | +0.098 | +0.096 | +14.6 |
+| Cornfield | −0.599 | −0.080 | −30.4 |
+| North Beacon Hill + Othello | −0.918 | +0.363 | −132.3 |
+| Mount Baker | +0.607 | +0.025 | +119.0 |
+| BelRed | −0.103 | +0.035 | +736.4 |
+
+**Trait-test units (14; 13 kept).** All are DiD in units per eligible acre per year; doses are in added FAR.
+- **Warner Center:** 7 plan districts. College +0.90, Commerce +0.004, Downtown +0.003, Park −0.000, Topanga +2.56, Uptown 0.00. Northvillage is dropped (no comparison land). There is no dose.
+- **Cornfield:** Lincoln Heights / Cypress Park, 0.00.
+- **North Beacon Hill:** +2.80 (dose +3.31).
+- **Othello:** −2.79 (dose +4.13). This is one 351-unit project permitted in 2010, before the rezone.
+- **Mount Baker:** +0.45 (dose +4.20).
+- **BelRed, all-land, dose +1.0:** BelRed −0.02, Overlake Village +0.98, Spring District −0.06.
+
+**Data problems and judgement calls.**
+- **Los Angeles:**
+  - Neither case has a FAR dose: plan-district FARs are not in open data.
+  - Warner Center was zoned "WC" both before and after, so every lot counts as having risen. Its pre-period was already active (1,399 units in 2007–2012) because the 1993 plan allowed housing.
+  - Cornfield was mostly manufacturing before, so only 13.1 acres are eligible treatment. Its estimate comes entirely from its comparison area, which got 237 units in 2014.
+  - Some APNs are masked in the open permit data; those permits are placed by their point.
+  - About 1,070 and 2,142 acres are dropped as rezoned during the window. These are site rezonings and condition edits, which in Los Angeles often come with the development being counted, so this pushes the estimates up (as noted for Charlotte).
+- **Seattle:**
+  - The permit file is reliable from 2006.
+  - The dose covers only the non-single-family part of the treated land.
+  - One 351-unit Othello project, permitted in 2010, drives the negative North Beacon Hill + Othello estimate. With it left out the estimate is +0.36.
+  - The 2011 Lowrise rename and the 2019 Mandatory Housing Affordability change are not counted as local rezonings (plan section 7).
+- **Bellevue:**
+  - Zoning before 2009 is not published by parcel; the permit file shows today's districts even on 2000–2009 permits.
+  - BelRed was mostly light industrial before (source_lead), which the eligible-land rule excludes, so the pre-registered estimate cannot be made.
+  - The base FAR of 1.0 comes from the City's FAR guidance; the code site refused automated fetches.
+  - Light rail opened in 2024, after the window.
 
 ## Chicago, 2015 transit-served location ordinance (held out)
 

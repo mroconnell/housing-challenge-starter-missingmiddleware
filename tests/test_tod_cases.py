@@ -258,6 +258,9 @@ class TestNoIdsCommitted(unittest.TestCase):
     def test_estimates(self):
         self.check(ROOT / "reference" / "tod_case_estimates.csv", set())
 
+    def test_units(self):
+        self.check(ROOT / "reference" / "tod_case_units.csv", set())
+
     def test_fixture_has_no_real_ids(self):
         self.assertTrue(pd.read_csv(FIX / "permits.csv")["project"].str.fullmatch(r"p\d+").all())
 

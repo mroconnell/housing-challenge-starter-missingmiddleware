@@ -22,6 +22,8 @@ Every file comes from the publishing government's own service (or the Census Bur
 - Phoenix: issued residential permits by structure class (KIVA export, 1995-2025), WU zoning and annual-plan dates,
   approved rezonings, Maricopa parcels near WU areas, Valley Metro rail stops. Raleigh also: Wake County parcels.
 - Ann Arbor: no file is fetched; no bulk permit source with locations before 2022 was found (CASE_RESULTS.md).
+- Los Angeles, Seattle and Bellevue (added cities, plan section 7, 2026-10-27): each adapter's fetch() (case_la.py,
+  case_seattle.py, case_bellevue.py), called through --city la / seattle / bellevue.
 - Chicago (held out): building permits (new construction), zoning as of November 2012 and today, CTA and Metra stops,
   Cook County 2021 parcels in Chicago.
 - Census 2010 blocks with housing-unit counts (TIGER2010BLKPOPHU) for the states above.
@@ -465,9 +467,19 @@ def fetch_phoenix(refresh: bool) -> None:
     save_tiled_layer(man, "parcels.geojson", MARICOPA_PARCELS, aoi, refresh, MARICOPA_LICENCE,
                      out_fields="APN,APN_DASH,PUC,CITY_ZONING,JURISDICTION,PHYSICAL_CITY", id_field="APN", page=1000)
 
+# --------------------------------------------------------------------------- added cities (adapters own their fetch)
+
+def _adapter_fetch(key: str):
+    def f(refresh: bool) -> None:
+        import importlib
+        importlib.import_module(f"missing_middleware.tod.case_{key}").fetch(refresh)
+    return f
+
+
 # --------------------------------------------------------------------------- main
 
-FETCHERS = {"census": fetch_census, "bps": fetch_bps, "charlotte": fetch_charlotte, "nyc": fetch_nyc, "stpaul": fetch_stpaul, "chicago": fetch_chicago, "philadelphia": fetch_philadelphia, "raleigh": fetch_raleigh, "phoenix": fetch_phoenix}
+FETCHERS = {"census": fetch_census, "bps": fetch_bps, "charlotte": fetch_charlotte, "nyc": fetch_nyc, "stpaul": fetch_stpaul, "chicago": fetch_chicago, "philadelphia": fetch_philadelphia, "raleigh": fetch_raleigh, "phoenix": fetch_phoenix,
+            "la": _adapter_fetch("la"), "seattle": _adapter_fetch("seattle"), "bellevue": _adapter_fetch("bellevue")}
 
 
 def main(argv=None) -> None:

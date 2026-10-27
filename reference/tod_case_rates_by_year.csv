@@ -337,3 +337,183 @@ phoenix_permit_count_mf,treatment,2,after,5,136.4,0.03665,context_permit_count
 phoenix_permit_count_mf,treatment,3,after,1,136.4,0.00733,context_permit_count
 phoenix_permit_count_mf,treatment,4,after,0,136.4,0.0,context_permit_count
 phoenix_permit_count_mf,treatment,5,after,5,136.4,0.03665,context_permit_count
+la_warner_center_2013,comparison,2007,before,1,301.4,0.00332,measured
+la_warner_center_2013,comparison,2008,before,0,301.4,0.0,measured
+la_warner_center_2013,comparison,2009,before,2,301.4,0.00664,measured
+la_warner_center_2013,comparison,2010,before,0,301.4,0.0,measured
+la_warner_center_2013,comparison,2011,before,1,301.4,0.00332,measured
+la_warner_center_2013,comparison,2012,before,0,301.4,0.0,measured
+la_warner_center_2013,comparison,2013,year0,0,301.4,0.0,measured
+la_warner_center_2013,comparison,2014,after,0,301.4,0.0,measured
+la_warner_center_2013,comparison,2015,after,0,301.4,0.0,measured
+la_warner_center_2013,comparison,2016,after,0,301.4,0.0,measured
+la_warner_center_2013,comparison,2017,after,0,301.4,0.0,measured
+la_warner_center_2013,comparison,2018,after,1,301.4,0.00332,measured
+la_warner_center_2013,second_comparison,2007,before,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2008,before,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2009,before,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2010,before,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2011,before,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2012,before,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2013,year0,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2014,after,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2015,after,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2016,after,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2017,after,0,57.6,0.0,measured
+la_warner_center_2013,second_comparison,2018,after,0,57.6,0.0,measured
+la_warner_center_2013,treatment,2007,before,0,784.8,0.0,measured
+la_warner_center_2013,treatment,2008,before,419,784.8,0.5339,measured
+la_warner_center_2013,treatment,2009,before,438,784.8,0.55811,measured
+la_warner_center_2013,treatment,2010,before,0,784.8,0.0,measured
+la_warner_center_2013,treatment,2011,before,542,784.8,0.69063,measured
+la_warner_center_2013,treatment,2012,before,0,784.8,0.0,measured
+la_warner_center_2013,treatment,2013,year0,395,784.8,0.50332,measured
+la_warner_center_2013,treatment,2014,after,0,784.8,0.0,measured
+la_warner_center_2013,treatment,2015,after,0,784.8,0.0,measured
+la_warner_center_2013,treatment,2016,after,379,784.8,0.48293,measured
+la_warner_center_2013,treatment,2017,after,277,784.8,0.35296,measured
+la_warner_center_2013,treatment,2018,after,896,784.8,1.14171,measured
+la_cornfield_arroyo_seco_2013,comparison,2007,before,0,154.3,0.0,measured
+la_cornfield_arroyo_seco_2013,comparison,2008,before,0,154.3,0.0,measured
+la_cornfield_arroyo_seco_2013,comparison,2009,before,0,154.3,0.0,measured
+la_cornfield_arroyo_seco_2013,comparison,2010,before,0,154.3,0.0,measured
+la_cornfield_arroyo_seco_2013,comparison,2011,before,4,154.3,0.02593,measured
+la_cornfield_arroyo_seco_2013,comparison,2012,before,0,154.3,0.0,measured
+la_cornfield_arroyo_seco_2013,comparison,2013,year0,0,154.3,0.0,measured
+la_cornfield_arroyo_seco_2013,comparison,2014,after,237,154.3,1.53643,measured
+la_cornfield_arroyo_seco_2013,comparison,2015,after,49,154.3,0.31766,measured
+la_cornfield_arroyo_seco_2013,comparison,2016,after,9,154.3,0.05835,measured
+la_cornfield_arroyo_seco_2013,comparison,2017,after,0,154.3,0.0,measured
+la_cornfield_arroyo_seco_2013,comparison,2018,after,4,154.3,0.02593,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2007,before,6,450.6,0.01332,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2008,before,99,450.6,0.2197,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2009,before,210,450.6,0.46603,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2010,before,166,450.6,0.36839,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2011,before,281,450.6,0.62359,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2012,before,2,450.6,0.00444,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2013,year0,287,450.6,0.63691,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2014,after,160,450.6,0.35507,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2015,after,0,450.6,0.0,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2016,after,3,450.6,0.00666,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2017,after,665,450.6,1.47576,measured
+la_cornfield_arroyo_seco_2013,second_comparison,2018,after,1158,450.6,2.56983,measured
+la_cornfield_arroyo_seco_2013,treatment,2007,before,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2008,before,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2009,before,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2010,before,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2011,before,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2012,before,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2013,year0,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2014,after,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2015,after,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2016,after,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2017,after,0,13.1,0.0,measured
+la_cornfield_arroyo_seco_2013,treatment,2018,after,0,13.1,0.0,measured
+seattle_nbh_othello_2012,comparison,2006,before,50,343.9,0.14539,measured
+seattle_nbh_othello_2012,comparison,2007,before,76,343.9,0.221,measured
+seattle_nbh_othello_2012,comparison,2008,before,44,343.9,0.12795,measured
+seattle_nbh_othello_2012,comparison,2009,before,23,343.9,0.06688,measured
+seattle_nbh_othello_2012,comparison,2010,before,5,343.9,0.01454,measured
+seattle_nbh_othello_2012,comparison,2011,before,9,343.9,0.02617,measured
+seattle_nbh_othello_2012,comparison,2012,year0,2,343.9,0.00582,measured
+seattle_nbh_othello_2012,comparison,2013,after,31,343.9,0.09014,measured
+seattle_nbh_othello_2012,comparison,2014,after,41,343.9,0.11922,measured
+seattle_nbh_othello_2012,comparison,2015,after,26,343.9,0.0756,measured
+seattle_nbh_othello_2012,comparison,2016,after,49,343.9,0.14248,measured
+seattle_nbh_othello_2012,comparison,2017,after,29,343.9,0.08433,measured
+seattle_nbh_othello_2012,second_comparison,2006,before,338,2472.8,0.13668,measured
+seattle_nbh_othello_2012,second_comparison,2007,before,1252,2472.8,0.5063,measured
+seattle_nbh_othello_2012,second_comparison,2008,before,396,2472.8,0.16014,measured
+seattle_nbh_othello_2012,second_comparison,2009,before,101,2472.8,0.04084,measured
+seattle_nbh_othello_2012,second_comparison,2010,before,196,2472.8,0.07926,measured
+seattle_nbh_othello_2012,second_comparison,2011,before,136,2472.8,0.055,measured
+seattle_nbh_othello_2012,second_comparison,2012,year0,499,2472.8,0.20179,measured
+seattle_nbh_othello_2012,second_comparison,2013,after,860,2472.8,0.34778,measured
+seattle_nbh_othello_2012,second_comparison,2014,after,575,2472.8,0.23253,measured
+seattle_nbh_othello_2012,second_comparison,2015,after,671,2472.8,0.27135,measured
+seattle_nbh_othello_2012,second_comparison,2016,after,872,2472.8,0.35263,measured
+seattle_nbh_othello_2012,second_comparison,2017,after,1055,2472.8,0.42663,measured
+seattle_nbh_othello_2012,treatment,2006,before,0,32.4,0.0,measured
+seattle_nbh_othello_2012,treatment,2007,before,0,32.4,0.0,measured
+seattle_nbh_othello_2012,treatment,2008,before,2,32.4,0.06176,measured
+seattle_nbh_othello_2012,treatment,2009,before,0,32.4,0.0,measured
+seattle_nbh_othello_2012,treatment,2010,before,351,32.4,10.83862,measured
+seattle_nbh_othello_2012,treatment,2011,before,0,32.4,0.0,measured
+seattle_nbh_othello_2012,treatment,2012,year0,0,32.4,0.0,measured
+seattle_nbh_othello_2012,treatment,2013,after,46,32.4,1.42045,measured
+seattle_nbh_othello_2012,treatment,2014,after,6,32.4,0.18528,measured
+seattle_nbh_othello_2012,treatment,2015,after,112,32.4,3.45848,measured
+seattle_nbh_othello_2012,treatment,2016,after,2,32.4,0.06176,measured
+seattle_nbh_othello_2012,treatment,2017,after,6,32.4,0.18528,measured
+seattle_mount_baker_2014,comparison,2008,before,12,248.2,0.04834,measured
+seattle_mount_baker_2014,comparison,2009,before,58,248.2,0.23365,measured
+seattle_mount_baker_2014,comparison,2010,before,10,248.2,0.04028,measured
+seattle_mount_baker_2014,comparison,2011,before,1,248.2,0.00403,measured
+seattle_mount_baker_2014,comparison,2012,before,80,248.2,0.32228,measured
+seattle_mount_baker_2014,comparison,2013,before,24,248.2,0.09668,measured
+seattle_mount_baker_2014,comparison,2014,year0,75,248.2,0.30213,measured
+seattle_mount_baker_2014,comparison,2015,after,6,248.2,0.02417,measured
+seattle_mount_baker_2014,comparison,2016,after,111,248.2,0.44716,measured
+seattle_mount_baker_2014,comparison,2017,after,354,248.2,1.42607,measured
+seattle_mount_baker_2014,comparison,2018,after,82,248.2,0.33033,measured
+seattle_mount_baker_2014,comparison,2019,after,43,248.2,0.17322,measured
+seattle_mount_baker_2014,second_comparison,2008,before,559,2629.7,0.21257,measured
+seattle_mount_baker_2014,second_comparison,2009,before,343,2629.7,0.13043,measured
+seattle_mount_baker_2014,second_comparison,2010,before,203,2629.7,0.0772,measured
+seattle_mount_baker_2014,second_comparison,2011,before,378,2629.7,0.14374,measured
+seattle_mount_baker_2014,second_comparison,2012,before,592,2629.7,0.22512,measured
+seattle_mount_baker_2014,second_comparison,2013,before,1029,2629.7,0.3913,measured
+seattle_mount_baker_2014,second_comparison,2014,year0,572,2629.7,0.21752,measured
+seattle_mount_baker_2014,second_comparison,2015,after,824,2629.7,0.31335,measured
+seattle_mount_baker_2014,second_comparison,2016,after,999,2629.7,0.3799,measured
+seattle_mount_baker_2014,second_comparison,2017,after,740,2629.7,0.2814,measured
+seattle_mount_baker_2014,second_comparison,2018,after,868,2629.7,0.33008,measured
+seattle_mount_baker_2014,second_comparison,2019,after,1763,2629.7,0.67043,measured
+seattle_mount_baker_2014,treatment,2008,before,0,35.3,0.0,measured
+seattle_mount_baker_2014,treatment,2009,before,0,35.3,0.0,measured
+seattle_mount_baker_2014,treatment,2010,before,0,35.3,0.0,measured
+seattle_mount_baker_2014,treatment,2011,before,1,35.3,0.02831,measured
+seattle_mount_baker_2014,treatment,2012,before,0,35.3,0.0,measured
+seattle_mount_baker_2014,treatment,2013,before,0,35.3,0.0,measured
+seattle_mount_baker_2014,treatment,2014,year0,0,35.3,0.0,measured
+seattle_mount_baker_2014,treatment,2015,after,0,35.3,0.0,measured
+seattle_mount_baker_2014,treatment,2016,after,0,35.3,0.0,measured
+seattle_mount_baker_2014,treatment,2017,after,12,35.3,0.33975,measured
+seattle_mount_baker_2014,treatment,2018,after,131,35.3,3.70892,measured
+seattle_mount_baker_2014,treatment,2019,after,0,35.3,0.0,measured
+bellevue_belred_2009,comparison,2003,before,0,296.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2004,before,0,296.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2005,before,0,296.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2006,before,3,296.5,0.01012,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2007,before,1,296.5,0.00337,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2008,before,0,296.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2009,year0,0,296.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2010,after,0,296.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2011,after,0,296.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2012,after,24,296.5,0.08095,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2013,after,9,296.5,0.03036,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,comparison,2014,after,0,296.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2003,before,0,235.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2004,before,0,235.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2005,before,0,235.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2006,before,0,235.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2007,before,368,235.5,1.56265,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2008,before,68,235.5,0.28875,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2009,year0,0,235.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2010,after,74,235.5,0.31423,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2011,after,0,235.5,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2012,after,145,235.5,0.61572,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2013,after,318,235.5,1.35033,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,second_comparison,2014,after,127,235.5,0.53928,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2003,before,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2004,before,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2005,before,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2006,before,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2007,before,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2008,before,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2009,year0,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2010,after,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2011,after,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2012,after,0,504.4,0.0,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2013,after,78,504.4,0.15464,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
+bellevue_belred_2009,treatment,2014,after,307,504.4,0.60864,"context_only: zoning before not published by parcel; BelRed was mostly light industrial (source_lead), which the eligible-land rule excludes; estimate counts all non-park BelRed land"
