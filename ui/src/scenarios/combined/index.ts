@@ -1,6 +1,6 @@
 // TOD and parking together: three screens over the bundle written by scripts/build_combined_bundle.py
 // (docs/shared/SCENARIO_CONTRACT.md section 9). The browser only selects, sorts, sums and formats bundle values;
-// both combining rules are applied by the builder.
+// both combining rules are applied by the builder. Headline: the larger of the two near stops (AQ-053); the sum is an upper bound.
 import "./combined.css";
 import { COLORS, DASH } from "../../app";
 import { legendHTML, xyChart } from "../../charts";
@@ -18,7 +18,8 @@ interface RoleRow {
 }
 interface Statewide {
   years: number[]; baseline_total: number; baseline_total_display: number; baseline_note: string; rounding_note: string; roles: RoleRow[];
-  rules: Record<"a" | "b", { label: string; info: string }>; rule_c: string; double_count: string; role_labels: Record<Role, string>;
+  rules: Record<"a" | "b", { label: string; short: string; info: string }>; headline: "b";
+  headline_reason: { text: string; doc: { label: string; path: string } }; rule_c: string; double_count: string; role_labels: Record<Role, string>;
 }
 type Cols = [number, number, number, number, number]; // tod, parking_near, parking_elsewhere, total_a, total_b
 interface AreaRow { id: string; name: string; county: string | null; baseline: number; share_near: number; lower: Cols; central: Cols; upper: Cols }
@@ -63,7 +64,7 @@ function bindRole(main: HTMLElement, env: ShellEnv, params: URLSearchParams, s: 
     q.set("p", i.value);
     env.replaceQuery(q); env.refresh();
     const x = row(s, i.value as Role);
-    env.announce(`${s.role_labels[x.role]}. Both reforms together, 2027–2031: ${int(x.display.total.both_a)} under rule (a), ${int(x.display.total.both_b)} under rule (b).`);
+    env.announce(`${s.role_labels[x.role]}. Both laws together, 2027–2031: ${int(x.display.total.both_b)}; upper bound ${int(x.display.total.both_a)}.`);
   }));
 }
 
@@ -84,45 +85,46 @@ function compare(b: CombinedBundle, env: ShellEnv, params: URLSearchParams, main
   <div class="tiles tiles-4 combined-tiles">
     ${tile("alone-tod", `TOD alone: ${x.tod_label}`, t.tod, "Near major transit stops only.")}
     ${tile("alone-parking", `Parking alone: ${x.parking_label}`, t.parking, `${int(t.parking_near)} near stops and ${int(t.parking_elsewhere)} elsewhere.`)}
-    ${tile("both-a", s.rules.a.label, t.both_a, "Adds both near stops: may count some homes twice.", true)}
-    ${tile("both-b", s.rules.b.label, t.both_b, "Takes the larger of the two near stops.", true)}
+    ${tile("both-b", s.rules.b.label, t.both_b, "Near stops, the larger of the two laws in each place and year; elsewhere, parking's homes are added.", true)}
+    ${tile("both-a", s.rules.a.label, t.both_a, "Adds both near stops, so homes both laws would count are counted twice.")}
   </div>
-  <section class="card combined-double" data-testid="double-count"><h2>Why there are two numbers for both laws</h2>
+  <section class="card combined-double" data-testid="double-count"><h2>Why the headline does not simply add the two laws</h2>
     <p>${esc(s.double_count)}</p>
+    <p data-testid="headline-reason">${esc(s.headline_reason.text)} <a href="${esc(`${b.manifest.repo_url}/blob/main/${s.headline_reason.doc.path}`)}" target="_blank" rel="noopener">${esc(s.headline_reason.doc.label)}<span class="sr-only"> (opens GitHub in a new tab)</span> ↗</a></p>
     <ul>
-      <li><strong>${esc(s.rules.a.label)}.</strong> ${esc(s.rules.a.info)}</li>
       <li><strong>${esc(s.rules.b.label)}.</strong> ${esc(s.rules.b.info)}</li>
+      <li><strong>${esc(s.rules.a.label)}.</strong> ${esc(s.rules.a.info)}</li>
     </ul>
     <p data-testid="overlap">${same
-      ? `In this pairing the two rules give the same total, because the parking path adds nothing (${esc(x.parking_label.toLowerCase())}).`
-      : `In this pairing the two rules differ by <strong>${int(x.display.overlap_counted_twice)}</strong> homes over five years: the most that could be counted twice. The true combined effect has not been measured: it could lie between the two, or above rule (a) if the reforms reinforce each other.`}</p>
-    <p class="small muted">Rule (b) is taken place by place and year, so it can be larger than either law alone statewide.</p>
+      ? `In this pairing the headline and the upper bound are the same, because the parking path adds nothing (${esc(x.parking_label.toLowerCase())}).`
+      : `In this pairing the upper bound is <strong>${int(x.display.overlap_counted_twice)}</strong> homes above the headline over five years: the most that could be counted twice if the two laws' effects simply added.`}</p>
+    <p class="small muted">The headline is taken place by place and year, so statewide it can be larger than either law alone.</p>
   </section>
   <section class="card"><h2>Extra homes permitted each year</h2>
     <div class="chart-box" id="combined-chart"></div>
-    ${legendHTML([{ name: `TOD alone`, color: C.tod, dash: DASH.central }, { name: `Parking alone`, color: C.parking, dash: DASH.lower }, { name: s.rules.a.label, color: C.a, dash: DASH.upper }, { name: s.rules.b.label, color: C.b, dash: DASH.ref }])}
+    ${legendHTML([{ name: `TOD alone`, color: C.tod, dash: DASH.central }, { name: `Parking alone`, color: C.parking, dash: DASH.lower }, { name: s.rules.b.label, color: C.b, dash: DASH.ref, width: 3.5 }, { name: s.rules.a.label, color: C.a, dash: DASH.upper }])}
     <div class="table-wrap"><table class="data" data-testid="combined-years"><caption>Extra homes permitted by year, ${esc(s.role_labels[role].toLowerCase())} (${esc(pairing(x))})</caption>
-      <thead><tr><th scope="col">Year</th><th scope="col" class="num">TOD alone</th><th scope="col" class="num">Parking alone</th><th scope="col" class="num">Both, rule (a)</th><th scope="col" class="num">Both, rule (b)</th></tr></thead>
-      <tbody>${s.years.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${int(x.display.by_year.tod[i])}</td><td class="num">${int(x.display.by_year.parking[i])}</td><td class="num">${int(x.display.by_year.both_a[i])}</td><td class="num">${int(x.display.by_year.both_b[i])}</td></tr>`).join("")}
-      <tr class="combined-total"><th scope="row">2027–2031</th><td class="num">${int(t.tod)}</td><td class="num">${int(t.parking)}</td><td class="num">${int(t.both_a)}</td><td class="num">${int(t.both_b)}</td></tr></tbody></table></div>
+      <thead><tr><th scope="col">Year</th><th scope="col" class="num">TOD alone</th><th scope="col" class="num">Parking alone</th><th scope="col" class="num">${esc(s.rules.b.short)}</th><th scope="col" class="num">${esc(s.rules.a.short)}</th></tr></thead>
+      <tbody>${s.years.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${int(x.display.by_year.tod[i])}</td><td class="num">${int(x.display.by_year.parking[i])}</td><td class="num">${int(x.display.by_year.both_b[i])}</td><td class="num">${int(x.display.by_year.both_a[i])}</td></tr>`).join("")}
+      <tr class="combined-total"><th scope="row">2027–2031</th><td class="num">${int(t.tod)}</td><td class="num">${int(t.parking)}</td><td class="num">${int(t.both_b)}</td><td class="num">${int(t.both_a)}</td></tr></tbody></table></div>
     <p class="small muted">Current law over the same years: ${int(s.baseline_total_display)} homes permitted statewide. ${esc(s.baseline_note)} ${esc(s.rounding_note)}</p></section>
   <section class="card"><h2>Every pairing, statewide, 2027–2031</h2>
     <div class="table-wrap"><table class="data" data-testid="combined-roles"><caption>Extra homes permitted, 2027–2031, for each pairing of paths</caption>
-      <thead><tr><th scope="col">Pairing</th><th scope="col" class="num">TOD alone</th><th scope="col" class="num">Parking alone</th><th scope="col" class="num">Both, rule (a)</th><th scope="col" class="num">Both, rule (b)</th></tr></thead>
-      <tbody>${s.roles.map((r) => `<tr><th scope="row">${esc(s.role_labels[r.role])}<br><span class="small muted">${esc(pairing(r))}</span></th><td class="num">${int(r.display.total.tod)}</td><td class="num">${int(r.display.total.parking)}</td><td class="num">${int(r.display.total.both_a)}</td><td class="num">${int(r.display.total.both_b)}</td></tr>`).join("")}</tbody></table></div>
+      <thead><tr><th scope="col">Pairing</th><th scope="col" class="num">TOD alone</th><th scope="col" class="num">Parking alone</th><th scope="col" class="num">${esc(s.rules.b.short)}</th><th scope="col" class="num">${esc(s.rules.a.short)}</th></tr></thead>
+      <tbody>${s.roles.map((r) => `<tr><th scope="row">${esc(s.role_labels[r.role])}<br><span class="small muted">${esc(pairing(r))}</span></th><td class="num">${int(r.display.total.tod)}</td><td class="num">${int(r.display.total.parking)}</td><td class="num">${int(r.display.total.both_b)}</td><td class="num">${int(r.display.total.both_a)}</td></tr>`).join("")}</tbody></table></div>
     <p class="small muted">Paths are paired by meaning: low with low, central with central, high with high. They are never crossed. The parking reform's central path adds nothing, so in the low and central pairings both laws together equal TOD alone. ${esc(s.rounding_note)}</p></section>
   <section class="card combined-rule-c" data-testid="rule-c"><h2>A third rule, not yet measured</h2><p>${esc(s.rule_c)}</p></section>
   <p><a class="button" href="${env.link(`/where?p=${role}`)}">Next: by place →</a></p>
   </div>`;
   xyChart(document.getElementById("combined-chart")!, {
     title: `Extra homes permitted each year, ${s.role_labels[role].toLowerCase()}`,
-    desc: `2027–2031 totals: TOD alone ${int(t.tod)}, parking alone ${int(t.parking)}, both under rule (a) ${int(t.both_a)}, both under rule (b) ${int(t.both_b)}. The table below has the same values by year.`,
+    desc: `2027–2031 totals: TOD alone ${int(t.tod)}, parking alone ${int(t.parking)}, both laws together ${int(t.both_b)}, upper bound if the effects simply add ${int(t.both_a)}. The table below has the same values by year.`,
     yLabel: "Extra homes per year", xTicks: YEARS,
     series: [
       { name: "TOD alone", values: s.years.map((y, i) => ({ x: y, y: x.by_year.tod[i] })), color: C.tod, dash: DASH.central, marker: "circle" },
       { name: "Parking alone", values: s.years.map((y, i) => ({ x: y, y: x.by_year.parking[i] })), color: C.parking, dash: DASH.lower, marker: "square" },
+      { name: s.rules.b.label, values: s.years.map((y, i) => ({ x: y, y: x.by_year.both_b[i] })), color: C.b, dash: DASH.ref, width: 3.5, marker: "square" },
       { name: s.rules.a.label, values: s.years.map((y, i) => ({ x: y, y: x.by_year.both_a[i] })), color: C.a, dash: DASH.upper, marker: "circle" },
-      { name: s.rules.b.label, values: s.years.map((y, i) => ({ x: y, y: x.by_year.both_b[i] })), color: C.b, dash: DASH.ref, marker: "square" },
     ],
   });
   bindRole(main, env, params, s, "combined-role");
@@ -135,8 +137,8 @@ const SORTS: [string, string, (r: AreaRow & { places?: number }, role: Role) => 
   ["tod", "TOD alone", (r, ro) => r[ro][0]],
   ["pn", "Parking near stops", (r, ro) => r[ro][1]],
   ["pe", "Parking elsewhere", (r, ro) => r[ro][2]],
-  ["a", "Both, rule (a)", (r, ro) => r[ro][3]],
-  ["b", "Both, rule (b)", (r, ro) => r[ro][4]],
+  ["b", "Both laws together", (r, ro) => r[ro][4]],
+  ["a", "Upper bound", (r, ro) => r[ro][3]],
 ];
 
 function where(b: CombinedBundle, env: ShellEnv, params: URLSearchParams, main: HTMLElement): void {
@@ -144,7 +146,7 @@ function where(b: CombinedBundle, env: ShellEnv, params: URLSearchParams, main: 
   const role = roleOf(params);
   const x = row(s, role);
   const level: Level = params.get("level") === "county" ? "county" : "place";
-  const sortKey = SORTS.some(([k]) => k === params.get("sort")) ? params.get("sort")! : "a";
+  const sortKey = SORTS.some(([k]) => k === params.get("sort")) ? params.get("sort")! : "b";
   const dir = params.get("dir") === "asc" ? "asc" : "desc";
   const q = (params.get("q") ?? "").trim().toLowerCase();
   const all = level === "county" ? b.areas.counties : b.areas.munis;
@@ -165,7 +167,7 @@ function where(b: CombinedBundle, env: ShellEnv, params: URLSearchParams, main: 
   main.innerHTML = `
   <div class="combined-view">
   <h1>Both laws together, by place</h1>
-  <p class="lede">Each municipality's extra homes over 2027–2031 from each law alone and from both together. Near major transit stops the two laws are combined two ways (rule (a) adds them, rule (b) takes the larger); away from stops only the parking law acts, so the two rules agree there.</p>
+  <p class="lede">Each municipality's extra homes over 2027–2031 from each law alone and from both together. Near major transit stops the headline takes whichever law adds more; the upper bound adds both, as if their effects simply added. Away from stops only the parking law acts, so the two agree there.</p>
   ${rolePicker(s, role, "combined-where-role")}
   <section class="card">
     <div class="combined-controls">
@@ -175,8 +177,8 @@ function where(b: CombinedBundle, env: ShellEnv, params: URLSearchParams, main: 
     <p class="small" id="combined-count" data-testid="combined-count">${int(rows.filter(matches).length)} of ${int(nonzero.length)} ${level === "county" ? "counties" : "places"} shown</p>
     <div class="table-wrap"><table class="data combined-table" data-testid="combined-where"><caption>Extra homes, ${esc(s.role_labels[role].toLowerCase())} (${esc(pairing(x))}), by ${level === "county" ? "county" : "municipality"}, 2027–2031. Select a column heading to sort.</caption>
       <thead><tr>${head.join("")}</tr></thead>
-      <tbody>${rows.map((r) => `<tr data-name="${esc(`${r.name} ${r.county ?? ""}`.toLowerCase())}" ${matches(r) ? "" : "hidden"}><th scope="row">${esc(r.name)}</th>${level === "place" ? `<td>${esc(r.county ?? "—")}</td>` : ""}${r[role].map((v) => `<td class="num">${small(v)}</td>`).join("")}</tr>`).join("")}</tbody>
-      <tfoot><tr class="combined-total"><th scope="row">Wisconsin</th>${level === "place" ? "<td></td>" : ""}<td class="num" data-testid="where-total-tod">${int(x.display.total.tod)}</td><td class="num">${int(x.display.total.parking_near)}</td><td class="num">${int(x.display.total.parking_elsewhere)}</td><td class="num" data-testid="where-total-a">${int(x.display.total.both_a)}</td><td class="num" data-testid="where-total-b">${int(x.display.total.both_b)}</td></tr></tfoot></table></div>
+      <tbody>${rows.map((r) => `<tr data-name="${esc(`${r.name} ${r.county ?? ""}`.toLowerCase())}" ${matches(r) ? "" : "hidden"}><th scope="row">${esc(r.name)}</th>${level === "place" ? `<td>${esc(r.county ?? "—")}</td>` : ""}${[0, 1, 2, 4, 3].map((i) => `<td class="num">${small(r[role][i])}</td>`).join("")}</tr>`).join("")}</tbody>
+      <tfoot><tr class="combined-total"><th scope="row">Wisconsin</th>${level === "place" ? "<td></td>" : ""}<td class="num" data-testid="where-total-tod">${int(x.display.total.tod)}</td><td class="num">${int(x.display.total.parking_near)}</td><td class="num">${int(x.display.total.parking_elsewhere)}</td><td class="num" data-testid="where-total-b">${int(x.display.total.both_b)}</td><td class="num" data-testid="where-total-a">${int(x.display.total.both_a)}</td></tr></tfoot></table></div>
     <p class="small muted">Places with no extra homes in this pairing are left out. Parking's extra homes are split between near stops and elsewhere by each place's share of homes near qualifying stops. "under 1" means more than zero but less than half a home. ${esc(b.statewide.rounding_note)}</p>
   </section>
   </div>`;
@@ -224,7 +226,8 @@ function about(b: CombinedBundle, env: ShellEnv, main: HTMLElement): void {
       <li><strong>Same current-law forecast.</strong> Both laws are measured against the same current-law forecast (<span data-testid="baseline-version">${esc(m.baseline_version)}</span>). The builder refuses to combine results built on different forecasts.</li>
       <li><strong>Paths paired by meaning.</strong> ${s.roles.map((r) => `${esc(s.role_labels[r.role])}: ${esc(pairing(r))}`).join("; ")}. Paths are never crossed.</li>
       <li><strong>Away from stops, added.</strong> Only the parking law acts there, so nothing is counted twice.</li>
-      <li><strong>Near stops, two rules side by side.</strong> ${esc(s.rules.a.info)} ${esc(s.rules.b.info)}</li>
+      <li><strong>Near stops, the larger of the two is the headline.</strong> ${esc(s.rules.b.info)} ${esc(s.headline_reason.text)}</li>
+      <li><strong>The sum as an upper bound.</strong> ${esc(s.rules.a.info)}</li>
       <li><strong>A third rule as a sensitivity only.</strong> ${esc(s.rule_c)}</li>
     </ol></section>
   <section class="card"><h2>Where the numbers come from</h2>

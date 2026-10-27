@@ -7,9 +7,9 @@ Rules: docs/shared/SCENARIO_CONTRACT.md section 9 (AQ-047, AQ-048, AQ-050).
   reference/tod_near_stop_homes_by_muni.csv for county names and the share of homes near stops.
 - The builder refuses bundles built on different baselines (`baseline_version`), and pairs paths by role:
   lower with lower, central with central, upper with upper. Paths are never crossed.
-- Within each municipality the `elsewhere` parts are added. The `near_stops` parts are shown under two rules side by
-  side: (a) the sum, which double-counts any overlap; (b) the larger of the two, taken per municipality and year.
-  Rule (c), the sum minus a measured overlap term, has no measurement yet, so the bundle carries a note and no number.
+- Within each municipality the `elsewhere` parts are added. Near stops, the headline is (b) the larger of the two,
+  taken per municipality and year (AQ-053, after the California AB 2097 test, AQ-052); (a) the sum, which
+  double-counts any overlap, is shown as an upper bound. Rule (c), the sum minus a measured overlap term, has no measurement yet, so the bundle carries a note and no number.
 - Neither reform's own numbers change; this is a separate bundle with its own run id.
 
 Output: ui/public/scenarios/combined/runs/<run_id>/*.json and latest.json. The run id hashes the input files, so the
@@ -36,13 +36,26 @@ ROLES = ["lower", "central", "upper"]
 # order of the five-year values in each area row of areas.json (role -> list)
 COLS = ("tod", "parking_near", "parking_elsewhere", "total_a", "total_b")
 PARTS = ("near_stops", "elsewhere")
+# Headline rule (AQ-053, docs/shared/SCENARIO_CONTRACT.md section 9): (b) the larger of the two near stops; (a) the sum
+# is shown only as an upper bound.
+HEADLINE = "b"
 RULES = {
-    "a": {"label": "Rule (a): add both near stops",
-          "info": "Near stops, both reforms' additions are added. If the same new building would be counted by both reforms, it is counted twice, so this is the high reading."},
-    "b": {"label": "Rule (b): the larger of the two near stops",
-          "info": "Near stops, each place gets whichever reform adds more there in that year, as if the smaller one were already inside the larger. This is the low reading."},
+    "a": {"label": "Upper bound if the two reforms' effects simply add",
+          "short": "Upper bound",
+          "info": "Near stops, both reforms' additions are added. A new building that both reforms would count is counted twice, so this is an upper bound, not an equal alternative."},
+    "b": {"label": "Both laws together (larger of the two near stops)",
+          "short": "Both laws together",
+          "info": "Near stops, each place gets whichever reform adds more there in that year, as if the smaller effect were already inside the larger. This is the headline."},
 }
-RULE_C = ("Rule (c), adding both and then subtracting the overlap measured in cities that did both reforms, is a "
+HEADLINE_REASON = {
+    "text": ("Why the larger of the two is the headline: California's AB 2097 removed parking minimums near major "
+             "transit in 2023. In Los Angeles, where transit areas had already been upzoned, it brought no measurable "
+             "gain in homes permitted beyond what parking relief brought elsewhere in California (the difference was "
+             "−2.62 homes a year per 1,000 existing homes, 90% interval −6.07 to +0.98). So there is no evidence that "
+             "the two reforms add up near stops."),
+    "doc": {"label": "California AB 2097 test: results", "path": "docs/tod/AB2097_TEST_RESULTS.md"},
+}
+RULE_C = ("A third reading, adding both and then subtracting the overlap measured in cities that did both reforms, is a "
           "sensitivity case only and has no number yet. The cities that could measure it differ from Wisconsin and "
           "from each other: New York kept its parking minimums near transit, while Charlotte, Chicago and Saint Paul "
           "cut them, in different markets and decades.")
@@ -177,7 +190,8 @@ def build(c: dict, tod_meta: dict, park_meta: dict) -> tuple[dict, dict]:
         "years": years, "baseline_total": r(base_total, 2), "baseline_total_display": whole(base_total),
         "rounding_note": "Each figure is rounded on its own, so columns may differ from sums by one home.",
         "baseline_note": "Current law, 2027–2031, all building sizes, from the shared all-housing baseline (the same for every pairing). It includes a small statewide adjustment not assigned to any place.",
-        "roles": roles, "rules": RULES, "rule_c": RULE_C, "double_count": DOUBLE_COUNT,
+        "roles": roles, "rules": RULES, "headline": HEADLINE, "headline_reason": HEADLINE_REASON,
+        "rule_c": RULE_C, "double_count": DOUBLE_COUNT,
         "role_labels": {"lower": "Low pairing", "central": "Central pairing", "upper": "High pairing"},
     }
     munis, counties = [], {}
@@ -200,11 +214,11 @@ def build(c: dict, tod_meta: dict, park_meta: dict) -> tuple[dict, dict]:
         cty["baseline"] = r(cty["baseline"], 2)
         for role in ROLES:
             cty[role] = [r(v, 2) for v in cty[role]]
-    ia = COLS.index("total_a")
+    ia = COLS.index("total_b")  # sorted by the headline (larger of the two near stops)
     munis.sort(key=lambda m: (-m["upper"][ia], m["name"]))
     areas = {"munis": munis, "counties": sorted(counties.values(), key=lambda x: (-x["upper"][ia], x["name"])),
              "cols": list(COLS), "col_labels": {"tod": "TOD alone (near stops)", "parking_near": "Parking alone, near stops",
-                                                "parking_elsewhere": "Parking alone, elsewhere", "total_a": "Both, rule (a)", "total_b": "Both, rule (b)"},
+                                                "parking_elsewhere": "Parking alone, elsewhere", "total_a": "Upper bound if the effects simply add", "total_b": "Both laws together (headline)"},
              "sources": {"tod": tod_meta["run_id"], "parking": park_meta["run_id"]}}
     return statewide, areas
 
@@ -259,7 +273,7 @@ def main(out_root: Path | None = None):
     manifest = {
         "schema_version": 1, "run_id": run_id, "scenario_id": "combined", "title": "Transit-oriented density and parking reform together",
         "outcome": {"short": "Extra homes in issued building permits from a transit-oriented density law and a parking law together, compared with current law, Wisconsin, 2027–2031. Not completed homes.",
-                    "long": "Housing units authorized by building permits, counted at permit issuance, all building sizes. Each reform's addition over current law comes from its own bundle; near major transit stops the two are combined under two rules shown side by side, and elsewhere they are added.",
+                    "long": "Housing units authorized by building permits, counted at permit issuance, all building sizes. Each reform's addition over current law comes from its own bundle; near major transit stops the headline takes the larger of the two in each place and year, with their sum shown as an upper bound, and elsewhere they are added.",
                     "rate_units": "extra homes permitted per year", "count_units": "homes (housing units) in issued permits"},
         "dates": {"last_observed_year": 2025, "forecast_years": c["years"], "effective": "Both stylized statewide laws in effect 1 January 2027"},
         "vintages": [{"what": "Transit-oriented density bundle", "vintage": tod_run}, {"what": "Parking bundle", "vintage": park_run},
@@ -274,7 +288,7 @@ def main(out_root: Path | None = None):
     print(run_id, f"validation {val['passed']} passed, {val['failed']} failed")
     for x in statewide["roles"]:
         t = x["total"]
-        print(f"  {x['role']}: TOD {t['tod']:,.0f} + parking {t['parking']:,.0f}; both (a) {t['both_a']:,.0f}, (b) {t['both_b']:,.0f}")
+        print(f"  {x['role']}: TOD {t['tod']:,.0f} + parking {t['parking']:,.0f}; both together (headline, b) {t['both_b']:,.0f}, upper bound (a) {t['both_a']:,.0f}")
     for x in val["checks"]:
         if not x["passed"]:
             print("FAILED", x)

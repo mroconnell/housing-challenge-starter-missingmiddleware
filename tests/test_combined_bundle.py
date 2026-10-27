@@ -174,6 +174,19 @@ class TestCombinedBundle(unittest.TestCase):
         self.assertEqual(bc.whole(2.5), 3)
         self.assertEqual(self.sw["rounding_note"], "Each figure is rounded on its own, so columns may differ from sums by one home.")
 
+    def test_headline_is_larger_of_two_with_sum_as_upper_bound(self):
+        # AQ-053 (docs/shared/SCENARIO_CONTRACT.md section 9): rule (b) is the headline, rule (a) an upper bound,
+        # because the California AB 2097 test found no measurable gain from combining the reforms (AQ-052)
+        self.assertEqual(self.sw["headline"], "b")
+        self.assertEqual(self.sw["rules"]["a"]["label"], "Upper bound if the two reforms' effects simply add")
+        self.assertIn("headline", self.sw["rules"]["b"]["info"])
+        self.assertIn("upper bound", self.sw["rules"]["a"]["info"])
+        reason = self.sw["headline_reason"]
+        self.assertIn("AB 2097", reason["text"])
+        self.assertTrue((ROOT / reason["doc"]["path"]).is_file(), reason["doc"]["path"])
+        self.assertEqual(self.areas["munis"][0]["upper"][self.areas["cols"].index("total_b")],
+                         max(m["upper"][self.areas["cols"].index("total_b")] for m in self.areas["munis"]), "sorted by the headline")
+
     def test_rule_c_has_no_number(self):
         self.assertFalse(any(ch.isdigit() for ch in self.sw["rule_c"]))
         self.assertNotIn("c", self.sw["rules"])

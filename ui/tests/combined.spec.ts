@@ -54,13 +54,23 @@ test("combined numbers equal the bundle, by pairing and rule", async ({ page }) 
     const yrs = page.getByTestId("combined-years").locator("tbody tr");
     for (let i = 0; i < sw.years.length; i++) {
       const cells = yrs.nth(i).locator("td");
-      await expect(cells.nth(2)).toHaveText(fmt(x.display.by_year.both_a[i]));
-      await expect(cells.nth(3)).toHaveText(fmt(x.display.by_year.both_b[i]));
+      // headline (larger of the two near stops) comes first, then the upper bound
+      await expect(cells.nth(2)).toHaveText(fmt(x.display.by_year.both_b[i]));
+      await expect(cells.nth(3)).toHaveText(fmt(x.display.by_year.both_a[i]));
     }
     await expect(yrs.last()).toContainText(fmt(x.display.total.both_a));
     await expect(page.getByTestId("combined-roles")).toContainText(fmt(x.display.total.both_b));
     if (Math.round(x.total.both_a) !== Math.round(x.total.both_b)) await expect(page.getByTestId("overlap")).toContainText(fmt(x.display.overlap_counted_twice));
   }
+  // the headline is rule (b): accented tile, listed before the upper bound, labelled as such
+  await expect(page.locator(".tile-accent [data-testid=both-b]")).toHaveCount(1);
+  await expect(page.locator(".tile-accent [data-testid=both-a]")).toHaveCount(0);
+  await expect(page.locator(".tile").filter({ has: page.getByTestId("both-a") })).toContainText(sw.rules.a.label);
+  expect(sw.rules.a.label).toBe("Upper bound if the two reforms' effects simply add");
+  expect(sw.headline).toBe("b");
+  // the explanation cites the California AB 2097 test
+  await expect(page.getByTestId("headline-reason")).toContainText("AB 2097");
+  await expect(page.getByTestId("headline-reason").getByRole("link")).toHaveAttribute("href", new RegExp(sw.headline_reason.doc.path.replace(/\./g, "\\.") + "$"));
   // the double-counting explanation and the unmeasured third rule (no number)
   await expect(page.getByTestId("double-count")).toContainText(sw.double_count);
   await expect(page.getByTestId("rule-c")).toContainText(sw.rule_c);
@@ -69,8 +79,9 @@ test("combined numbers equal the bundle, by pairing and rule", async ({ page }) 
   const up = sw.roles.find((r: { role: string }) => r.role === "upper");
   await page.goto("#/combined/compare?p=central");
   await page.getByRole("radio", { name: new RegExp(`^${sw.role_labels.upper}`) }).check();
+  await expect(page.getByTestId("both-b")).toHaveText(fmt(up.display.total.both_b));
   await expect(page.getByTestId("both-a")).toHaveText(fmt(up.display.total.both_a));
-  await expect(page.getByTestId("announce")).toContainText(fmt(up.display.total.both_b));
+  await expect(page.getByTestId("announce")).toContainText(`Both laws together, 2027–2031: ${fmt(up.display.total.both_b)}; upper bound ${fmt(up.display.total.both_a)}`);
 });
 
 test("combined by-place table matches the bundle and filters", async ({ page }) => {
@@ -84,8 +95,9 @@ test("combined by-place table matches the bundle and filters", async ({ page }) 
   const first = table.locator("tbody tr").first();
   await expect(first.locator("th")).toHaveText(top.name);
   await expect(first).toContainText(top.county);
-  await expect(first).toContainText(fmt(top.upper[3]));
-  await expect(first).toContainText(fmt(top.upper[4]));
+  // columns: TOD, parking near, parking elsewhere, headline (b), upper bound (a)
+  await expect(first.locator("td").nth(4)).toHaveText(fmt(top.upper[4]));
+  await expect(first.locator("td").nth(5)).toHaveText(fmt(top.upper[3]));
   // search filters rows in place
   await page.getByLabel(/Find a place/).fill(top.name);
   await expect(table.locator("tbody tr:visible").first().locator("th")).toHaveText(top.name);
@@ -94,7 +106,7 @@ test("combined by-place table matches the bundle and filters", async ({ page }) 
   await page.goto("#/combined/where?p=upper&level=county");
   const c0 = b.areas.counties[0];
   await expect(table.locator("tbody tr").first().locator("th")).toHaveText(c0.name);
-  await expect(table.locator("tbody tr").first()).toContainText(fmt(c0.upper[3]));
+  await expect(table.locator("tbody tr").first()).toContainText(fmt(c0.upper[4]));
   // sorting by name puts the alphabetically first county on top
   await page.getByRole("button", { name: /^County/ }).click();
   await expect(page.locator('th[aria-sort="ascending"]')).toHaveCount(1);
