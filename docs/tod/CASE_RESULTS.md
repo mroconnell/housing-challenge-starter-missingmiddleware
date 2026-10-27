@@ -49,10 +49,10 @@ Written 2026-10-26 for TOD Gate 2, work package 5. It was revised the same day a
 | New York, Downtown Brooklyn 2004 | fit | +13.313 | +7.919 to +19.340 | +6.06 FAR | +2.197 per FAR (+1.307 to +3.191) | +9.040 | kept | no | $1,821 |
 | New York pooled set, 2003–2013 (17 of 23 rezonings) | fit | +1.057 | +0.575 to +1.607 | +1.58 FAR | +0.671 per FAR (+0.365 to +1.020) | +0.111 | kept | no | $1,821 |
 | Philadelphia remapping, 2013–2019 (83 bills) | fit | +1.022 | +0.522 to +1.658 | none (height-only districts) | no per-dose value | +0.013 | none code-wide | no | $1,397 |
-| Raleigh 2021 transit overlay | context only (1 after year with units) | — | — | — | — | — | (overlay cuts minimums) | no | $1,572 |
-| Phoenix 2015 Walkable Urban Code | context only (no permit units) | — | — | — | — | — | unknown | no | $1,582 |
+| Raleigh 2021 transit overlay | context only; not measurable even by permit counts | — | — | — | — | — | (overlay cuts minimums) | no | $1,572 |
+| Phoenix 2015 Walkable Urban Code | context only; permit counts below | — | — | — | — | — | unknown | no | $1,582 |
 | Chicago 2015 (held out) | held out | +0.120 | −0.015 to +0.263 | +0.50 FAR (source_lead) | +0.240 per FAR (−0.029 to +0.525) | +0.528 | reduced | no for the base bonus | $1,440 |
-| Ann Arbor 2021 TC1 (held out) | held out, no data | — | — | — | — | — | removed | no | $1,649 |
+| Ann Arbor 2021 TC1 (held out) | held out, no data (not even permit counts) | — | — | — | — | — | removed | no | $1,649 |
 
 - **Fit set.** It is the cases with role "fit" and status "measured": Charlotte, Park Slope, Downtown Brooklyn, the New York pooled set and Philadelphia.
   - Park Slope and Downtown Brooklyn are also members of the pooled set, so a median over all three New York rows counts them twice.
@@ -319,11 +319,60 @@ Written 2026-10-26 for TOD Gate 2, work package 5. It was revised the same day a
 
 ## Phoenix, 2015 Walkable Urban Code (context only)
 
-- **No permit source with unit counts and before years was found** (probe of 26 October 2026, `case_phoenix.py`):
-  - the City's permit layer (Planning_Permit/MapServer/1) holds 64,852 permits from January 2015 on, with no unit field, mostly solar, sign and commercial work;
-  - the open data portal's only housing-permit table is the federal city-level total;
-  - Walkable Urban Code areas exist (WalkableUrbanCode/MapServer/0, 11 areas), and current WU zoning carries case numbers, but no layer gives the zoning before each WU rezoning or its date.
-- **Status: context only. Rent:** $1,582.
+- **No unit-based estimate.** The first probe (26 October 2026) found only the City's current permit map layer, which starts in 2015 and has no unit field.
+- A second probe (27 October 2026) found the City's Issued Permit Data export, the old KIVA system, with permits from 1995 onward and unit counts.
+- The case is measured by permit counts, as the owner asked: see the next section.
+- **Rent:** $1,582.
+
+## Permit counts for Raleigh, Phoenix and Ann Arbor (context only)
+
+Added 2026-10-27 at the owner's request ([plan section 7](CASE_ANALYSIS_PLAN.md), entry of 2026-10-27, written before counting). These three cases have no usable unit counts, so they are measured by the **count of new residential building permits** per eligible acre per year: permits, not homes. Areas, periods, the area rule and the difference-in-differences are the same as for every other case. Single-family and multifamily permits are counted separately where the type is recorded. The rows are in `tod_case_estimates.csv` with `measure` = "permits per eligible acre per year" and status `context_permit_count`; the `estimate_units_per_acre_yr` and `*_units_*` columns hold permits for these rows. They are never pooled with unit-based cases or used to fit.
+
+| Case | Status | Estimate (permits per eligible acre per year) | 90% interval | Permits before (treatment / comparison) | Permits after (treatment / comparison) | Eligible acres (treatment / comparison) |
+|---|---|---|---|---|---|---|
+| Phoenix WU, multifamily (31 rezonings effective 2016–2020) | context_permit_count | +0.0186 | +0.0098 to +0.0285 | 0 / 23 | 13 / 27 | 136.4 / 3,234.1 |
+| Phoenix WU, single-family (5 rezonings effective 2016) | context_permit_count | +0.0082 | +0.0082 to +0.0082 | 0 / 23 | 0 / 0 | 10.8 / 466.7 |
+| Phoenix WU, all new residential (5 rezonings effective 2016) | context_permit_count | +0.0443 | +0.0428 to +0.0459 | 0 / 23 | 2 / 2 | 10.8 / 466.7 |
+| Raleigh 2024 TOD mapping (all, single-family, multifamily) | not measurable | — | — | 1 / 101 (all) | 0 / 3 (all) | 639.5 / 1,410.3 |
+| Ann Arbor TC1 (held out) | no data | — | — | — | — | — |
+
+Before and after are 6 and 5 years (Phoenix in event years, stacked). Original area rule (every WU parcel against its ring): multifamily +0.0179, single-family +0.0075, all +0.0421. Largest project left out: multifamily +0.0111, single-family +0.0079, all +0.0259. No second comparison is available: within 1.5 km of each member, no light-rail stop has a ½-mile area free of WU treatment.
+
+**Phoenix (context, permit counts).**
+- **Permits.** The City's Issued Permit Data export (the old KIVA system) for residential permits by Census structure class: 001 one unit, 002 two, 003 three–four, 004 five–nine, 007 ten or more. It covers 1995–2025, fetched by year and class (155 files).
+  - New-building rows only: type RSF/RSFC (new single-family) and BLD (new multifamily building), one per permit number. Temporary certificates of occupancy and shell rows are dropped.
+  - Permits are placed on Maricopa County Assessor parcels by parcel number.
+  - **Check against the Census Building Permits Survey for Phoenix:** single-family 2,331 permits in 2016 against 2,479 one-unit buildings; multifamily 136 against 126 two-or-more-unit buildings.
+  - The single-family series stops at 2021: from 2022 the City moved to a new system with no public archive (2022 has 1,458 single-family permits, 2023 has 9).
+- **Reform land.** Current WU zoning polygons with their case numbers. The approval date comes from the City's WU list where given (20 cases); otherwise the year in the case number.
+  - No layer gives the zoning before most WU rezonings, so every WU parcel counts as having risen and "already at the law" cannot be tested.
+  - Parcels in other approved rezonings with a case year in the window, and parcels in other WU cases, are in no area.
+  - Eligible land excludes Assessor use codes 9xxx (exempt and government).
+- **Results.**
+  - The multifamily series is the most informative. Treatment WU land had 0 multifamily permits in the 6 years before and 13 in the 5 years after, on 136.4 acres; the ¼-mile rings had 23 before and 27 after on 3,234.1 acres.
+  - The single-family and all-permit series rest on five 2016 rezonings with 10.8 treated acres and a handful of permits; their intervals are not meaningful.
+- **Caveats.**
+  - Counts of permits, not homes: one multifamily permit can be 5 or 300 units. **The KIVA export does carry unit counts**, so a unit-based Phoenix measure is possible (multifamily through 2025, single-family through 2021); it was not made because the owner asked for counts.
+  - Effective years from case numbers are filing years and may be a year early.
+  - Many members are small: WU rezonings were mostly site-by-site, applicant-initiated, so they select sites about to be built (as in Charlotte and Raleigh), which pushes the estimate up.
+- **Rent:** $1,582.
+
+**Raleigh (not measurable, even by permit counts).**
+- **Reform year.** The City's 2022 overlay-only mappings (Z-18-2022, Z-19-2022) did not raise by-right density: the overlay's extra height needs affordable units, and base districts were unchanged. The first City mapping that also changed base districts and heights is Z-92A to Z-92E-2022, approved March to July 2024. That puts the before years at 2018–2023 and the after year at 2025.
+- **Why it cannot be measured.** The City's open permit layer (Building_Permits) records 497 to 966 detached single-family and multifamily permits a year in 2010–2018. It then records 6 in 2019, 34 in 2020, 1 in 2021 and none in 2022–2025: new homes are coded "townhouse" (775 in 2025), and buildings of 2 or more units vanish. Meanwhile the Census Building Permits Survey shows Raleigh authorizing 2,295 to 6,710 units a year in 5+ unit buildings (2020–2024).
+  - So the layer misses most new homes in every year of the window except 2018. The counts by year are in `tod_case_rates_by_year.csv`: the comparison ring falls from 35 permits in 2018 to between 1 and 52 a year after, the kind of break a coding change produces.
+- **Areas, for the record:** 639.5 eligible treated acres; 1,410.3 comparison acres; 451 other rezonings in the window are dropped.
+- **Rent:** $1,572.
+
+**Ann Arbor (held out; not measurable, even by permit counts).**
+- A second probe (27 October 2026) found zoning before and after TC1: a January 2024 parcel snapshot has both, and 316 parcels went to TC1 from O, C3, C2B and other districts.
+- **No permit records with locations exist before 2022:**
+  - the public permit layer holds only active permits (720, issued 2022–2026; 93 new residential);
+  - A2Trak (2008 to March 2022) is a search screen only;
+  - STREAM refuses scripts (HTTP 403);
+  - Washtenaw County's servers did not answer;
+  - the Census Building Permits Survey has city totals without locations.
+- The first TC1 map rezoning is April 2022, so there are no before years. A parcel year-built proxy exists but measures completions, not permits.
 
 ## Chicago, 2015 transit-served location ordinance (held out)
 
@@ -435,6 +484,10 @@ Written 2026-10-26 for TOD Gate 2, work package 5. It was revised the same day a
 9. **New York job placement.** A job's block-and-lot match is not used when the matched lot is more than 100 m from the job's own point; the job is placed by its point. This affects 37 Brooklyn jobs in the Park Slope window and 46 in Downtown Brooklyn's, and moves the Bergen Street job out of the Park Slope comparison.
 10. **The New York pooled set's membership.** Liao's 22 upzonings plus Park Slope; the plan's "2003–2013" covers Park Slope, which Liao's 2004–2013 list does not.
 11. **Raleigh and Phoenix are context only; Ann Arbor has no estimate.** The reasons are data, not results: see their sections.
+12. **Permit counts (plan section 7, 2026-10-27).**
+    - Raleigh's reform year is 2024 (the first density-raising mapping), and every lot in those cases counts as risen. The permit layer breaks in 2019, so there is no estimate.
+    - Phoenix's effective years come from case numbers where no approval date exists. Every WU parcel counts as risen, and single-family data stop in 2021.
+    - Ann Arbor has no permit data before 2022.
 
 ## Data problems
 
@@ -458,9 +511,15 @@ Written 2026-10-26 for TOD Gate 2, work package 5. It was revised the same day a
   - 2021 is a one-year rush of 25,121 units before the tax abatement was cut.
   - The /TOD overlay has no enactment dates.
   - No FAR dose.
-- **Raleigh:** the housing-unit field is nearly empty from 2024.
-- **Phoenix:** no permit source with unit counts or before years.
-- **Ann Arbor:** no bulk permit source with unit counts.
+- **Raleigh:**
+  - The housing-unit field is nearly empty from 2024.
+  - From 2019 the permit layer no longer records detached single-family or multifamily permits, so permit counts fail too.
+- **Phoenix:**
+  - Single-family permits stop in 2021 (system change).
+  - Zoning before WU rezonings is not published.
+  - Effective years are partly from case numbers.
+  - The old export does carry units, contrary to the first probe.
+- **Ann Arbor:** no permit records with locations before 2022.
 - **Chicago:**
   - There is no unit field, so units come from text parsing; about half the new-construction permits have a readable count.
   - Staged permits remain: parsed units are +54% against BPS in 2013.

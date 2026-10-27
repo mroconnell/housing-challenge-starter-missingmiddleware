@@ -510,6 +510,12 @@ ROLE_LABELS = {"fit": "Used to place homes", "context": "Background only", "held
 
 def build_why() -> dict:
     ce = pd.read_csv(REF / "tod_case_estimates.csv")
+    # Permit-count rows (Raleigh, Phoenix, Ann Arbor; context only, CASE_ANALYSIS_PLAN section 7) count permits, not
+    # homes, so they are kept off the homes-per-acre case table; the documentation reports them.
+    if "measure" in ce.columns:
+        ce = ce[~ce["measure"].fillna("").str.startswith("permits")]
+    ce = ce[~ce["status"].fillna("").str.startswith(("context_permit_count", "not_measurable"))
+            & ~ce["case"].str.contains("_permit_count")]
     cases = []
     for x in ce.itertuples():
         cases.append({"id": x.case, "name": CASE_NAMES.get(x.case, x.case.replace("_", " ")), "role": x.role,

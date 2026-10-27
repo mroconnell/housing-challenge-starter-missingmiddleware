@@ -55,6 +55,15 @@ def builders(selected: list[str]):
     if "annarbor" in selected:
         from missing_middleware.tod import case_annarbor
         out.append(("annarbor_tc1_2021", case_annarbor.build))
+    if "raleigh_counts" in selected:
+        from missing_middleware.tod import case_raleigh
+        out.append(("raleigh_permit_count", case_raleigh.build_counts))
+    if "phoenix_counts" in selected:
+        from missing_middleware.tod import case_phoenix
+        out.append(("phoenix_permit_count", case_phoenix.build_counts))
+    if "annarbor_counts" in selected:
+        from missing_middleware.tod import case_annarbor
+        out.append(("annarbor_permit_count", case_annarbor.build_counts))
     if "chicago" in selected:
         from missing_middleware.tod import case_chicago
         out.append(("chicago_tod_2013_2015", case_chicago.build))
@@ -144,7 +153,8 @@ def permit_file_checks() -> dict:
 def median_rent(case: str) -> float | None:
     inv = pd.read_csv(REFERENCE / "tod_cases.csv", dtype=str)
     key = {"nyc_pooled_2003_2013": "nyc_bloomberg_rezonings_2003_2013", "philadelphia_2012_remapping": "philadelphia_2012_code",
-           "raleigh_tod_2021": "raleigh_new_bern_2024"}.get(case, case)
+           "raleigh_tod_2021": "raleigh_new_bern_2024", "raleigh_permit_count": "raleigh_new_bern_2024",
+           "phoenix_permit_count": "phoenix_walkable_urban_code_2015", "annarbor_permit_count": "annarbor_tc1_2021"}.get(case, case)
     r = inv[inv["case_id"] == key]
     return float(r["median_gross_rent_usd_per_month"].iloc[0]) if len(r) else None
 
@@ -152,24 +162,26 @@ def median_rent(case: str) -> float | None:
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--case", nargs="*", default=["charlotte", "stpaul", "nyc", "nyc_pooled", "philadelphia", "raleigh",
-                                                   "phoenix", "chicago", "annarbor"])
+                                                   "phoenix", "chicago", "annarbor", "raleigh_counts", "phoenix_counts",
+                                                   "annarbor_counts"])
     a = ap.parse_args(argv)
     rates_all, rows, events, diags = [], [], [], {}
     for case, fn in builders(a.case):
         print(f"== {case}")
         try:
-            ci, diag = fn()
+            built = fn()
         except Exception as e:  # noqa: BLE001 - partial results are fine; record why
             traceback.print_exc()
             diags[case] = {"error": f"{type(e).__name__}: {e}"}
             continue
-        ci.median_rent = median_rent(case)
-        rates, row = C.estimate_case(ci)
-        rates_all.append(rates)
-        rows.append(row)
-        diags[case] = diag
-        print({k: row[k] for k in ("status", "estimate_units_per_acre_yr", "interval90_low", "interval90_high",
-                                   "dose_added_far", "effect_per_dose")})
+        built = built if isinstance(built, list) else [built]
+        for ci, diag in built:
+            ci.median_rent = median_rent(case)
+            rates, row = C.estimate_case(ci)
+            rates_all.append(rates)
+            rows.append(row)
+            diags[ci.case] = diag
+            print({k: row[k] for k in ("case", "status", "estimate_units_per_acre_yr", "interval90_low", "interval90_high")})
     if not rows:
         print("no case built")
         return
@@ -187,7 +199,9 @@ def main(argv=None) -> None:
         est = pd.concat([old_e[~old_e["case"].isin(est["case"])], est], ignore_index=True)
     order = ["charlotte_tod_2019", "stpaul_green_line_2011", "nyc_park_slope_fourth_ave_2003", "nyc_downtown_brooklyn_2004",
              "nyc_pooled_2003_2013", "philadelphia_2012_remapping", "raleigh_tod_2021", "phoenix_walkable_urban_code_2015",
-             "chicago_tod_2013_2015", "annarbor_tc1_2021"]
+             "chicago_tod_2013_2015", "annarbor_tc1_2021", "raleigh_permit_count_all", "raleigh_permit_count_sf",
+             "raleigh_permit_count_mf", "phoenix_permit_count_all", "phoenix_permit_count_sf", "phoenix_permit_count_mf",
+             "annarbor_permit_count_all"]
     est["_o"] = est["case"].map({c: i for i, c in enumerate(order)}).fillna(99)
     est = est.sort_values("_o").drop(columns="_o")
     rates["_o"] = rates["case"].map({c: i for i, c in enumerate(order)}).fillna(99)

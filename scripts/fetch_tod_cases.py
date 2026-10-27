@@ -19,7 +19,9 @@ Every file comes from the publishing government's own service (or the Census Bur
 - Philadelphia: L&I new-construction permits (Carto), remapping bills with enactment dates, base-district snapshots
   2015-2025, pre-2012 zoning, overlays, district dimensional table, PWD parcels, SEPTA stops.
 - Raleigh: new residential building permits, rezoning cases, TOD overlay (to show why the case is context only).
-- Phoenix and Ann Arbor: no file is fetched; no permit source with unit counts was found (CASE_RESULTS.md).
+- Phoenix: issued residential permits by structure class (KIVA export, 1995-2025), WU zoning and annual-plan dates,
+  approved rezonings, Maricopa parcels near WU areas, Valley Metro rail stops. Raleigh also: Wake County parcels.
+- Ann Arbor: no file is fetched; no bulk permit source with locations before 2022 was found (CASE_RESULTS.md).
 - Chicago (held out): building permits (new construction), zoning as of November 2012 and today, CTA and Metra stops,
   Cook County 2021 parcels in Chicago.
 - Census 2010 blocks with housing-unit counts (TIGER2010BLKPOPHU) for the states above.
@@ -407,6 +409,8 @@ def fetch_philadelphia(refresh: bool) -> None:
 
 RAL = "https://services.arcgis.com/v400IkDOw1ad7Yad/arcgis/rest/services"
 RAL_LICENCE = "Open Raleigh Data Policy (City of Raleigh open data)"
+WAKE_PARCELS = "https://maps.wake.gov/arcgis/rest/services/Property/Parcels/MapServer/0"
+WAKE_LICENCE = "Wake County GIS / Wake County Revenue; no licence stated; public record (D1)"
 
 
 def fetch_raleigh(refresh: bool) -> None:
@@ -419,10 +423,51 @@ def fetch_raleigh(refresh: bool) -> None:
                out_fields="ZONE_CASE,PrevZoning,ZON_REQ,STATUS,StatusDate", page=1000)
     save_layer(man, "tod_overlays.geojson", f"{RAL}/TOD_Zoning_Overlays_View/FeatureServer/0", refresh, RAL_LICENCE,
                out_fields="*", page=1000)
+    # Wake County parcels around the City's TOD map changes (land use only; owner fields not requested)
+    import geopandas as gpd
+    rz = gpd.read_file(D / "raleigh" / "rezoning_cases.geojson")
+    tod = rz[rz["ZON_REQ"].astype(str).str.contains("TOD", case=False) & rz["PrevZoning"].astype(str).str.strip().eq("Various")]
+    aoi = aoi_from([(tod.geometry, 1500.0)])
+    save_tiled_layer(man, "parcels.geojson", WAKE_PARCELS, aoi, refresh, WAKE_LICENCE,
+                     out_fields="PIN_NUM,LAND_CLASS_DECODE,TYPE_USE_DECODE,CITY_DECODE,PLANNING_JURISDICTION,BILLING_CLASS_DECODE",
+                     id_field="PIN_NUM")
+
+
+# --------------------------------------------------------------------------- Phoenix
+
+PHX_KIVA = "https://apps-secure.phoenix.gov/PDD/Search/IssuedPermit/ExportToCSV"
+PHX_LICENCE = "City of Phoenix public records (Issued Permit search export); no licence stated (D1)"
+MARICOPA_PARCELS = "https://gis.mcassessor.maricopa.gov/arcgis/rest/services/Parcels/MapServer/0"
+MARICOPA_LICENCE = "Maricopa County Assessor GIS; no licence stated; public record (D1)"
+PHX_CLASSES = ("001", "002", "003", "004", "007")  # Census structure classes: 1, 2, 3-4, 5-9, 10+ units
+
+
+def fetch_phoenix(refresh: bool) -> None:
+    import geopandas as gpd
+    man = Manifest(D / "phoenix", "tod_cases_phoenix", "City of Phoenix (issued permits, zoning) and Maricopa County Assessor (parcels)")
+    for y in range(1995, 2026):
+        for c in PHX_CLASSES:
+            name = f"kiva/permits_{c}_{y}.csv"
+            if man.have(name, refresh):
+                continue
+            url = PHX_KIVA + "?" + urllib.parse.urlencode({"PermitType": "PERS", "StructureClass": c, "StartDate": f"1/1/{y}",
+                                                           "EndDate": f"12/31/{y}", "SortBy": "V_STR_CLASS"})
+            man.record(name, http_get(url, timeout=600), url, licence=PHX_LICENCE,
+                       note="Issued Permit Data export (KIVA), residential permits by structure class; raw only (holds owner and contractor names)")
+    PP = "https://maps.phoenix.gov/pub/rest/services/Public/Planning_Permit/MapServer"
+    save_layer(man, "wu_zoning.geojson", f"{PP}/9", refresh, PHX_LICENCE, where="ZONING='WU'", out_fields="*", page=1000)
+    save_layer(man, "approved_zoning.geojson", f"{PP}/3", refresh, PHX_LICENCE, out_fields="*", page=1000)
+    save_layer(man, "wu_annual_plan.geojson", "https://maps.phoenix.gov/pds/rest/services/PDD/WU_Annual_Plan/MapServer/0",
+               refresh, PHX_LICENCE, out_fields="ZYEAR,ZONING,REDEFINE1,DATE_APPRO,LABEL1,TOD_NAME", page=1000)
+    ntm_rail_stops(man, "rail_stops.geojson", ["90209"], refresh)
+    wu = gpd.read_file(D / "phoenix" / "wu_zoning.geojson")
+    aoi = aoi_from([(wu.geometry, 1500.0)])
+    save_tiled_layer(man, "parcels.geojson", MARICOPA_PARCELS, aoi, refresh, MARICOPA_LICENCE,
+                     out_fields="APN,APN_DASH,PUC,CITY_ZONING,JURISDICTION,PHYSICAL_CITY", id_field="APN", page=1000)
 
 # --------------------------------------------------------------------------- main
 
-FETCHERS = {"census": fetch_census, "bps": fetch_bps, "charlotte": fetch_charlotte, "nyc": fetch_nyc, "stpaul": fetch_stpaul, "chicago": fetch_chicago, "philadelphia": fetch_philadelphia, "raleigh": fetch_raleigh}
+FETCHERS = {"census": fetch_census, "bps": fetch_bps, "charlotte": fetch_charlotte, "nyc": fetch_nyc, "stpaul": fetch_stpaul, "chicago": fetch_chicago, "philadelphia": fetch_philadelphia, "raleigh": fetch_raleigh, "phoenix": fetch_phoenix}
 
 
 def main(argv=None) -> None:

@@ -164,6 +164,21 @@ class TestAddedCaseHelpers(unittest.TestCase):
         self.assertEqual(P.zclass("I-2"), "ind")
         self.assertEqual(P.zclass("cmx-2"), "mixed")
 
+    def test_permit_count_rows(self):
+        from missing_middleware.tod import case_phoenix as PX
+        self.assertEqual(PX.apn_key("301-77-005U"), "30177005U")
+        self.assertEqual(PX.case_year("Z-32-18"), 2018)
+        ci = C.CaseInputs(case="t", role="context", effective_year=2016, first_year=2013, last_full_year=2018,
+                          permits=permits(), acres=ACRES, homes={}, dose_table=None, dose_unit="none",
+                          measure="permits per eligible acre per year", status_override="context_permit_count")
+        _, row = C.estimate_case(ci, draws=50)
+        self.assertEqual(row["status"], "context_permit_count")
+        self.assertEqual(row["role"], "context")
+        self.assertTrue(row["measure"].startswith("permits"))
+        self.assertAlmostEqual(row["estimate_units_per_acre_yr"], 3.0)
+        e = pd.DataFrame([row])
+        self.assertTrue(C.fit_set(e).empty)  # permit-count rows never enter a fit
+
     def test_unmeasured_case_rows(self):
         ci = C.CaseInputs(case="t", role="heldout", effective_year=2022, first_year=2008, last_full_year=2025,
                           permits=pd.DataFrame(columns=["project", "area", "year", "units"]), acres={}, homes={},

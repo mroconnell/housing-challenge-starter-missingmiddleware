@@ -217,3 +217,123 @@ chicago_tod_2013_2015,treatment,2017,after,59,258.8,0.22801,measured
 chicago_tod_2013_2015,treatment,2018,after,63,258.8,0.24346,measured
 chicago_tod_2013_2015,treatment,2019,after,91,258.8,0.35167,measured
 chicago_tod_2013_2015,treatment,2020,after,58,258.8,0.22414,measured
+raleigh_permit_count_all,comparison,2018,before,35,1410.3,0.02482,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2019,before,1,1410.3,0.00071,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2020,before,4,1410.3,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2021,before,4,1410.3,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2022,before,5,1410.3,0.00355,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2023,before,52,1410.3,0.03687,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2024,year0,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2025,after,3,1410.3,0.00213,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,treatment,2018,before,1,639.5,0.00156,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,treatment,2019,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,treatment,2020,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,treatment,2021,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,treatment,2022,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,treatment,2023,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,treatment,2024,year0,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,treatment,2025,after,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2018,before,34,1410.3,0.02411,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2019,before,1,1410.3,0.00071,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2020,before,4,1410.3,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2021,before,4,1410.3,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2022,before,5,1410.3,0.00355,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2023,before,52,1410.3,0.03687,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2024,year0,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2025,after,3,1410.3,0.00213,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,treatment,2018,before,1,639.5,0.00156,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,treatment,2019,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,treatment,2020,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,treatment,2021,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,treatment,2022,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,treatment,2023,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,treatment,2024,year0,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,treatment,2025,after,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2018,before,1,1410.3,0.00071,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2019,before,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2020,before,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2021,before,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2022,before,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2023,before,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2024,year0,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2025,after,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,treatment,2018,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,treatment,2019,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,treatment,2020,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,treatment,2021,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,treatment,2022,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,treatment,2023,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,treatment,2024,year0,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,treatment,2025,after,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+phoenix_permit_count_all,comparison,-6,before,0,466.7,0.0,context_permit_count
+phoenix_permit_count_all,comparison,-5,before,0,466.7,0.0,context_permit_count
+phoenix_permit_count_all,comparison,-4,before,1,466.7,0.00214,context_permit_count
+phoenix_permit_count_all,comparison,-3,before,1,466.7,0.00214,context_permit_count
+phoenix_permit_count_all,comparison,-2,before,2,466.7,0.00428,context_permit_count
+phoenix_permit_count_all,comparison,-1,before,19,466.7,0.04071,context_permit_count
+phoenix_permit_count_all,comparison,0,year0,4,466.7,0.00857,context_permit_count
+phoenix_permit_count_all,comparison,1,after,0,466.7,0.0,context_permit_count
+phoenix_permit_count_all,comparison,2,after,1,466.7,0.00214,context_permit_count
+phoenix_permit_count_all,comparison,3,after,0,466.7,0.0,context_permit_count
+phoenix_permit_count_all,comparison,4,after,0,466.7,0.0,context_permit_count
+phoenix_permit_count_all,comparison,5,after,1,466.7,0.00214,context_permit_count
+phoenix_permit_count_all,treatment,-6,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_all,treatment,-5,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_all,treatment,-4,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_all,treatment,-3,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_all,treatment,-2,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_all,treatment,-1,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_all,treatment,0,year0,0,10.8,0.0,context_permit_count
+phoenix_permit_count_all,treatment,1,after,1,10.8,0.09248,context_permit_count
+phoenix_permit_count_all,treatment,2,after,0,10.8,0.0,context_permit_count
+phoenix_permit_count_all,treatment,3,after,1,10.8,0.09248,context_permit_count
+phoenix_permit_count_all,treatment,4,after,0,10.8,0.0,context_permit_count
+phoenix_permit_count_all,treatment,5,after,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,comparison,-6,before,0,466.7,0.0,context_permit_count
+phoenix_permit_count_sf,comparison,-5,before,0,466.7,0.0,context_permit_count
+phoenix_permit_count_sf,comparison,-4,before,1,466.7,0.00214,context_permit_count
+phoenix_permit_count_sf,comparison,-3,before,1,466.7,0.00214,context_permit_count
+phoenix_permit_count_sf,comparison,-2,before,2,466.7,0.00428,context_permit_count
+phoenix_permit_count_sf,comparison,-1,before,19,466.7,0.04071,context_permit_count
+phoenix_permit_count_sf,comparison,0,year0,2,466.7,0.00428,context_permit_count
+phoenix_permit_count_sf,comparison,1,after,0,466.7,0.0,context_permit_count
+phoenix_permit_count_sf,comparison,2,after,0,466.7,0.0,context_permit_count
+phoenix_permit_count_sf,comparison,3,after,0,466.7,0.0,context_permit_count
+phoenix_permit_count_sf,comparison,4,after,0,466.7,0.0,context_permit_count
+phoenix_permit_count_sf,comparison,5,after,0,466.7,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,-6,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,-5,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,-4,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,-3,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,-2,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,-1,before,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,0,year0,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,1,after,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,2,after,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,3,after,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,4,after,0,10.8,0.0,context_permit_count
+phoenix_permit_count_sf,treatment,5,after,0,10.8,0.0,context_permit_count
+phoenix_permit_count_mf,comparison,-6,before,10,3234.1,0.00309,context_permit_count
+phoenix_permit_count_mf,comparison,-5,before,3,3234.1,0.00093,context_permit_count
+phoenix_permit_count_mf,comparison,-4,before,0,3234.1,0.0,context_permit_count
+phoenix_permit_count_mf,comparison,-3,before,4,3234.1,0.00124,context_permit_count
+phoenix_permit_count_mf,comparison,-2,before,5,3234.1,0.00155,context_permit_count
+phoenix_permit_count_mf,comparison,-1,before,1,3234.1,0.00031,context_permit_count
+phoenix_permit_count_mf,comparison,0,year0,3,3234.1,0.00093,context_permit_count
+phoenix_permit_count_mf,comparison,1,after,0,3234.1,0.0,context_permit_count
+phoenix_permit_count_mf,comparison,2,after,5,3234.1,0.00155,context_permit_count
+phoenix_permit_count_mf,comparison,3,after,9,3234.1,0.00278,context_permit_count
+phoenix_permit_count_mf,comparison,4,after,6,3234.1,0.00186,context_permit_count
+phoenix_permit_count_mf,comparison,5,after,7,3234.1,0.00216,context_permit_count
+phoenix_permit_count_mf,treatment,-6,before,0,136.4,0.0,context_permit_count
+phoenix_permit_count_mf,treatment,-5,before,0,136.4,0.0,context_permit_count
+phoenix_permit_count_mf,treatment,-4,before,0,136.4,0.0,context_permit_count
+phoenix_permit_count_mf,treatment,-3,before,0,136.4,0.0,context_permit_count
+phoenix_permit_count_mf,treatment,-2,before,0,136.4,0.0,context_permit_count
+phoenix_permit_count_mf,treatment,-1,before,0,136.4,0.0,context_permit_count
+phoenix_permit_count_mf,treatment,0,year0,1,136.4,0.00733,context_permit_count
+phoenix_permit_count_mf,treatment,1,after,2,136.4,0.01466,context_permit_count
+phoenix_permit_count_mf,treatment,2,after,5,136.4,0.03665,context_permit_count
+phoenix_permit_count_mf,treatment,3,after,1,136.4,0.00733,context_permit_count
+phoenix_permit_count_mf,treatment,4,after,0,136.4,0.0,context_permit_count
+phoenix_permit_count_mf,treatment,5,after,5,136.4,0.03665,context_permit_count

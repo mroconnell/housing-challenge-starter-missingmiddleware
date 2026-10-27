@@ -215,7 +215,7 @@ def assign_areas(parcels, treated: pd.Series, in_city: pd.Series | None = None, 
     treated = treated.astype(bool)
     in_city = pd.Series(True, index=parcels.index) if in_city is None else in_city.astype(bool)
     pts = parcels.geometry.representative_point()
-    tunion = parcels.loc[treated].geometry.union_all()
+    tunion = parcels.loc[treated].geometry.make_valid().union_all()
     area = pd.Series(None, index=parcels.index, dtype=object)
     area[treated] = TREAT
     near = pts.within(tunion.buffer(ring_m)) & ~treated & in_city
@@ -322,6 +322,7 @@ class CaseInputs:
     dose_unit: str = "far"         # "far", or "height_ft" when no defensible FAR conversion exists (Charlotte)
     original_spec: tuple | None = None  # (permits, acres) under the original area rule, for the sensitivity column
     status_override: str | None = None  # e.g. "context_only: no permit source with unit counts"
+    measure: str = "units per eligible acre per year"  # or "permits per eligible acre per year" (counts, not homes)
 
 
 def _fmt(x: float, nd: int = 4) -> float | None:
@@ -341,8 +342,10 @@ def estimate_case(ci: CaseInputs, draws: int = N_DRAWS, seed: int = SEED) -> tup
     rates["period"] = rates["year"].map(lambda y: "before" if y in before else ("year0" if y == ci.effective_year else "after"))
     rates["status"] = status
     rates = rates.rename(columns={"denominator": "eligible_acres"})
+    if status == "measured" and ci.measure.startswith("permits"):
+        status = "context_permit_count"
     role = ci.role if status == "measured" or ci.role == "heldout" else "context"
-    row: dict = {"case": ci.case, "role": role, "planned_role": ci.role, "status": status, "effective_year": ci.effective_year,
+    row: dict = {"case": ci.case, "role": role, "planned_role": ci.role, "status": status, "measure": ci.measure, "effective_year": ci.effective_year,
                  "before_years": f"{before[0]} to {before[-1]}" if before else "", "after_years": f"{after[0]} to {after[-1]}" if after else "",
                  "treatment_acres": _fmt(ci.acres.get(TREAT), 1), "comparison_acres": _fmt(ci.acres.get(COMP), 1),
                  "second_comparison_acres": _fmt(ci.acres.get(COMP2), 1)}
@@ -351,7 +354,7 @@ def estimate_case(ci: CaseInputs, draws: int = N_DRAWS, seed: int = SEED) -> tup
     d_ft = d_raw if ci.dose_unit == "height_ft" else float("nan")
     est = {"did": float("nan"), "treat_before": float("nan"), "treat_after": float("nan"), "comp_before": float("nan"), "comp_after": float("nan")}
     lo = hi = float("nan")
-    if before and after and ci.acres.get(TREAT) and ci.acres.get(COMP) and not ci.status_override:
+    if before and after and ci.acres.get(TREAT) and ci.acres.get(COMP) and (not ci.status_override or ci.status_override == "context_permit_count"):
         est = did(ci.permits, ci.acres, before, after)
         lo, hi, _ = bootstrap_did(ci.permits, ci.acres, before, after, draws=draws, seed=seed)
     row.update({"treat_rate_before": _fmt(est["treat_before"]), "treat_rate_after": _fmt(est["treat_after"]),

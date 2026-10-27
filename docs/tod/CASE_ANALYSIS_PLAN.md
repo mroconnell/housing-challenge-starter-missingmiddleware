@@ -100,3 +100,17 @@ Written 2026-10-26 by the TOD conductor, before any permits have been counted fo
 - **Ann Arbor (held out) has no estimate.** No permit source with unit counts was found.
 
 **2026-10-27, permit counts for cases without unit counts (owner request).** Raleigh 2021, Phoenix 2015 and Ann Arbor 2021 have no usable unit counts. They are measured with **new residential building permits** (count of permits, not homes) per eligible acre per year, using the same areas, periods, area rule and difference-in-differences. If both are available, multifamily permits are counted separately from single-family. These results are context only. They are never pooled with unit-based cases or used to fit, and their units are always labelled "permits, not homes". Ann Arbor stays a test case. This entry was written before any of their permits were counted.
+
+**2026-10-27, how the permit-count cases were measured (deviations recorded while counting them).** Details are in [CASE_RESULTS.md](CASE_RESULTS.md), section "Permit counts".
+- **Raleigh is not measurable, even by permit counts.**
+  - The City's open permit layer records 497 to 966 detached single-family and multifamily permits a year in 2010–2018. It then records 6 in 2019, 34 in 2020, 1 in 2021 and none in 2022–2025: new homes are coded "townhouse" and buildings of 2 or more units disappear.
+  - The Census Building Permits Survey still shows thousands of units a year in 5+ unit buildings for Raleigh.
+  - The reform year is taken as 2024: the first City TOD mapping that also changed base districts and heights, Z-92A to Z-92E-2022. The 2022 overlay-only mappings do not raise by-right density, because the overlay's extra height needs affordable units.
+  - The 2024 reform's before and after years both fall in the broken period, so the counts are shown by year but no estimate is made.
+- **Phoenix.**
+  - **Members:** Walkable Urban Code rezonings, stacked in event time.
+  - **Effective year:** the approval year where the City's list gives one. Otherwise it is the year in the case number, which is the year the case was filed.
+  - **Zoning before** most WU rezonings is not in any layer. Every WU parcel therefore counts as having risen, and "already at the law" cannot be tested.
+  - **Single-family permits** move to a new system with no public archive in 2022, so the single-family and all-permit series use members effective by 2016; the multifamily series uses members effective by 2020.
+  - **Units are available.** The City's export carries unit counts, so a unit-based Phoenix measure is possible. It is not made here, because the owner asked for counts.
+- **Ann Arbor (held out) is not measurable.** No permit records with locations exist before 2022, and the first TC1 map rezoning is April 2022, so there are no before years.
