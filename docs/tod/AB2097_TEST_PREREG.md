@@ -54,4 +54,12 @@ Written 2026-10-27 by the TOD conductor, after the owner approved the test (AQ-0
 
 ## 8. Changes after writing
 
-None yet.
+**2026-10-27, before any counting, from the parking conductor's review:**
+1. **Places where AB 2097 changed nothing.** Some places already had no parking minimums near transit, or citywide, before 2023. They are coded "already no minimums" and dropped from group P.
+   - Listed from `reference/parking_reform_taxonomy.csv`: California records removing minimums rated "at" or "near" the benchmark, and transit-oriented records adopted before 2023. The list will include San Francisco (2019), San Diego transit priority areas (2019), Alameda (2021), Emeryville (2020) and Culver City (2022).
+   - The final list is written into the results before any permits are counted.
+   - San Jose (in effect April 2023) and Sacramento (2024) repealed citywide, so their rings changed too. They are dropped from the main estimate and kept as a sensitivity case.
+2. **Uncertainty.** The main 90% interval resamples whole jurisdictions, since projects in one city are not independent. Resampling projects becomes a sensitivity case.
+3. **Second outcome.** Units in buildings of 2 or more units, from Table A2's unit categories, are counted alongside all units, to match the parking scenario.
+4. **Added threat: displacement.** Projects may move from the ring into the near-transit area, making the difference look bigger than it is. Check: compare the ring with land more than 1½ miles from any stop in the same jurisdiction.
+5. **Group sizes.** Each group's number of jurisdictions and number of projects is reported. If group P has fewer than about 10 jurisdictions with permits in both periods, the result is called too thin to use.
