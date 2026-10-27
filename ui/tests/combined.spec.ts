@@ -46,20 +46,20 @@ test("combined numbers equal the bundle, by pairing and rule", async ({ page }) 
   await expect(page.getByTestId("outcome")).toHaveText(b.manifest.outcome.short);
   for (const x of sw.roles) {
     await page.goto(`#/combined/compare?p=${x.role}`);
-    await expect(page.getByTestId("alone-tod")).toHaveText(fmt(x.total.tod));
-    await expect(page.getByTestId("alone-parking")).toHaveText(fmt(x.total.parking));
-    await expect(page.getByTestId("both-a")).toHaveText(fmt(x.total.both_a));
-    await expect(page.getByTestId("both-b")).toHaveText(fmt(x.total.both_b));
+    await expect(page.getByTestId("alone-tod")).toHaveText(fmt(x.display.total.tod));
+    await expect(page.getByTestId("alone-parking")).toHaveText(fmt(x.display.total.parking));
+    await expect(page.getByTestId("both-a")).toHaveText(fmt(x.display.total.both_a));
+    await expect(page.getByTestId("both-b")).toHaveText(fmt(x.display.total.both_b));
     expect(x.total.both_b).toBeLessThanOrEqual(x.total.both_a);
     const yrs = page.getByTestId("combined-years").locator("tbody tr");
     for (let i = 0; i < sw.years.length; i++) {
       const cells = yrs.nth(i).locator("td");
-      await expect(cells.nth(2)).toHaveText(fmt(x.by_year.both_a[i]));
-      await expect(cells.nth(3)).toHaveText(fmt(x.by_year.both_b[i]));
+      await expect(cells.nth(2)).toHaveText(fmt(x.display.by_year.both_a[i]));
+      await expect(cells.nth(3)).toHaveText(fmt(x.display.by_year.both_b[i]));
     }
-    await expect(yrs.last()).toContainText(fmt(x.total.both_a));
-    await expect(page.getByTestId("combined-roles")).toContainText(fmt(x.total.both_b));
-    if (Math.round(x.total.both_a) !== Math.round(x.total.both_b)) await expect(page.getByTestId("overlap")).toContainText(fmt(x.overlap_counted_twice));
+    await expect(yrs.last()).toContainText(fmt(x.display.total.both_a));
+    await expect(page.getByTestId("combined-roles")).toContainText(fmt(x.display.total.both_b));
+    if (Math.round(x.total.both_a) !== Math.round(x.total.both_b)) await expect(page.getByTestId("overlap")).toContainText(fmt(x.display.overlap_counted_twice));
   }
   // the double-counting explanation and the unmeasured third rule (no number)
   await expect(page.getByTestId("double-count")).toContainText(sw.double_count);
@@ -69,8 +69,8 @@ test("combined numbers equal the bundle, by pairing and rule", async ({ page }) 
   const up = sw.roles.find((r: { role: string }) => r.role === "upper");
   await page.goto("#/combined/compare?p=central");
   await page.getByRole("radio", { name: new RegExp(`^${sw.role_labels.upper}`) }).check();
-  await expect(page.getByTestId("both-a")).toHaveText(fmt(up.total.both_a));
-  await expect(page.getByTestId("announce")).toContainText(fmt(up.total.both_b));
+  await expect(page.getByTestId("both-a")).toHaveText(fmt(up.display.total.both_a));
+  await expect(page.getByTestId("announce")).toContainText(fmt(up.display.total.both_b));
 });
 
 test("combined by-place table matches the bundle and filters", async ({ page }) => {
@@ -78,8 +78,8 @@ test("combined by-place table matches the bundle and filters", async ({ page }) 
   const up = b.statewide.roles.find((r: { role: string }) => r.role === "upper");
   await page.goto("#/combined/where?p=upper&preview=1");
   const table = page.getByTestId("combined-where");
-  await expect(page.getByTestId("where-total-a")).toHaveText(fmt(up.total.both_a));
-  await expect(page.getByTestId("where-total-b")).toHaveText(fmt(up.total.both_b));
+  await expect(page.getByTestId("where-total-a")).toHaveText(fmt(up.display.total.both_a));
+  await expect(page.getByTestId("where-total-b")).toHaveText(fmt(up.display.total.both_b));
   const top = b.areas.munis[0];
   const first = table.locator("tbody tr").first();
   await expect(first.locator("th")).toHaveText(top.name);

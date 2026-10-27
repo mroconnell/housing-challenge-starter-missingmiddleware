@@ -162,10 +162,6 @@ class TestCombinedBundle(unittest.TestCase):
         shown = [y["add_upper"] for y in sw["years"] if y["year"] in self.sw["years"]]
         self.assertEqual(up["display"]["by_year"]["parking"], [round(v) for v in shown])
 
-    # Expected to fail until resolved: the parking bundle's 29,663 is the half-up rounding of 29,662.5, the five-year
-    # sum of reference/parking_model_statewide_by_year.csv, which stores each year rounded to 0.1 (5,932.5). The
-    # municipalities in its own additions_by_area.json add to 29,662.36, so the combined view shows 29,662.
-    @unittest.expectedFailure
     def test_parking_alone_total_equals_the_parking_bundle_display(self):
         sw, up = self._parking_displayed()
         self.assertEqual(up["display"]["total"]["parking"], next(x for x in sw["scenarios"] if x["id"] == "upper")["additional_total"])
