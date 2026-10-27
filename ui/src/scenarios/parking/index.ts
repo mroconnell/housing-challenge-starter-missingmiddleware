@@ -28,6 +28,7 @@ interface HowSure {
   trace: { part: string; status: string; text: string }[];
   traits: { dataset: string; label: string; places: number; gain: number; passes: boolean }[];
   tools: { tool: string; us_gain: number; ca_gain: number }[];
+  placebo: Record<string, number>;
 }
 interface Why {
   places: { place: string; state: string; group: string; year: number; population: number; comparisons: number; after_years: number; before: number; after: number; cmp_before: number; cmp_after: number; effect: number; rewrite: boolean; evidence: string | null; confidence: string | null }[];
@@ -244,6 +245,8 @@ function howSure(b: ParkingBundle, main: HTMLElement): void {
       <thead><tr><th scope="col">Check</th><th scope="col" class="num">Places</th><th scope="col" class="num">Effect</th><th scope="col" class="num">Likely range</th></tr></thead>
       <tbody>${H.robustness.map((x) => `<tr><th scope="row">${esc(x.check)}</th><td class="num">${x.places}</td><td class="num">${signed(x.effect)}</td><td class="num">${x.p05 === null ? "—" : `${signed(x.p05)} to ${signed(x.p95!)}`}</td></tr>`).join("")}</tbody></table></div>
     <p class="small muted"><strong>Do different kinds of places respond differently?</strong> In the first 24 places, we tested this by predicting each repeal place from all the others. One average for all places missed by ${dec(H.models.one_average, 2)} permits per 1,000 homes per year on average. Using ${esc(H.models.best)} missed by ${dec(H.models.best_error, 2)}, and splitting places by size missed by ${dec(H.models.best_band, 2)}. The gain was too small to rely on, so one average is used. "Likely range" means 90 times in 100 the true average would fall inside it.</p></section>
+  <section class="card"><h2>A check with cities that never repealed</h2>
+    <p>We gave ${int(H.placebo.placebo_places)} cities that kept their parking minimums the same "repeal" years as the real places and ran the same calculation, 500 times. Only ${dec(H.placebo.share_placebo_at_or_below_real * 100, 0)}% of those placebo studies came out as low as the real places (${signed(H.placebo.real_average)} permits per 1,000 existing homes per year; placebo middle ${signed(H.placebo.placebo_p50)}). So there is no sign that a repeal raised permits, and the high end shown here is, if anything, generous.</p></section>
   <section class="card"><h2>Do prediction tools do better than one average?</h2>
     <p>With 71 places, we tried tools that look at ten traits at once. Each was scored on places left out of the fit, in the US places and in California's cities. None beat one average, so every place gets the same average.</p>
     <div class="table-wrap"><table class="data"><caption>Change in prediction error compared with one average (negative = worse)</caption>

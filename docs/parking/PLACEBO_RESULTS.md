@@ -26,13 +26,13 @@ All rates are permits per 1,000 existing homes per year.
 
 1. **The method does not centre on zero for random places.** Places that never repealed come out at +1.52 on average against their own comparison places. A likely reason is that the comparison pools are spread differently from the placebo places. Whatever the cause, it means the comparison leans slightly *toward* finding growth. So the real places' −1.10 is, if anything, more negative than it looks.
 2. **Single places are as noisy without a repeal as with one.** The spread of single placebo places (8.1) is at least as large as that of the real places (6.4). The place-to-place differences in the real sample look like ordinary noise, which fits the earlier rounds finding no variable that explains them.
-3. **A placebo-based range.** Taking the spread of the placebo averages and centring it on the real average gives −3.47 to +0.91. That is narrower at the top than the current range from resampling the real places (−3.50 to +1.54). In Wisconsin terms, +0.91 would be about 12,190 extra permits over 2027–2031, against the current 20,672.
+3. **A placebo-based range.** Taking the spread of the placebo averages and centring it on the real average gives −3.47 to +0.91. That is narrower at the top than the current range from resampling the real places (−3.50 to +1.54). In Wisconsin terms, +0.91 would be about 12,184 extra permits over 2027–2031, against the current 20,672.
 
 ## Decision for Ryan
 
 | Option | High end, 2027–2031 |
 | --- | ---: |
 | **A (recommended): keep the current high end; show the placebo test as supporting evidence and as a sensitivity case** | 20,672 |
-| B: use the placebo-based high end | about 12,190 |
+| B: use the placebo-based high end | about 12,184 |
 
 Option A keeps the headline from a method chosen before this test was run. It shows the placebo result openly as a reason to read the high end as generous.
