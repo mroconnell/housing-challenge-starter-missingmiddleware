@@ -132,9 +132,10 @@ def build_areas() -> dict:
         munis.append({"id": x.area_id, "name": x.name, "county": s(x.county_name),
                       "type": s(x.muni_type), "homes": r(x.homes, 0), "eligible_homes": r(x.eligible_homes, 0),
                       "at_benchmark": bool(x.at_benchmark), "near_benchmark": bool(x.near_benchmark),
-                      "baseline": r(x.baseline_five_year_central, 1), "add_upper": r(x.addition_upper_five_year, 1)})
+                      "baseline": r(x.baseline_five_year_central, 1), "add_upper": r(x.addition_upper_five_year, 1),
+                      "acres": r(x.land_acres, 0)})
     c = pd.read_csv(REF / "parking_model_by_county.csv", dtype={"county_id": str})
-    counties = [{"id": x.county_id, "name": x.county_name, "homes": r(x.eligible_homes, 0),
+    counties = [{"id": x.county_id, "name": x.county_name, "homes": r(x.eligible_homes, 0), "acres": r(x.land_acres, 0),
                  "baseline": r(x.baseline_five_year_central, 0), "add_upper": r(x.addition_upper_five_year, 0)}
                 for x in c.itertuples()]
     dist = {}

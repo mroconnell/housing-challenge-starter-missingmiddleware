@@ -13,9 +13,9 @@ interface Statewide {
   baseline_by_type: { type: string; low: number; central: number; high: number }[]; observed_2021_2025: number;
   scenarios: Scen[]; reference_line: { label: string; value: number; info: string };
 }
-interface Muni { id: string; name: string; county: string; type: string; homes: number; eligible_homes: number; at_benchmark: boolean; near_benchmark: boolean; baseline: number; add_upper: number }
+interface Muni { id: string; name: string; county: string; type: string; homes: number; eligible_homes: number; at_benchmark: boolean; near_benchmark: boolean; baseline: number; add_upper: number; acres: number }
 interface Areas {
-  munis: Muni[]; counties: { id: string; name: string; homes: number; baseline: number; add_upper: number }[];
+  munis: Muni[]; counties: { id: string; name: string; homes: number; baseline: number; add_upper: number; acres: number }[];
   districts: { assembly: { id: number; homes: number; baseline: number; add_upper: number }[]; senate: { id: number; homes: number; baseline: number; add_upper: number }[] };
   benchmark_places: { name: string; rating: string; adopted: string | null }[];
 }
@@ -165,10 +165,10 @@ function where(b: ParkingBundle, env: ShellEnv, params: URLSearchParams, main: H
   const q = (params.get("q") ?? "").toLowerCase();
   const A = b.areas;
   const tot = b.statewide.scenarios[1].additional_total;
-  let rows: { name: string; homes: number; baseline: number; add: number; note?: string }[];
-  if (level === "municipality") rows = A.munis.filter((m) => !q || m.name.toLowerCase().includes(q)).map((m) => ({ name: `${m.name}, ${m.county}`, homes: m.eligible_homes, baseline: m.baseline, add: m.add_upper, note: m.at_benchmark ? "already has no parking minimums for housing" : m.near_benchmark ? "removed minimums with conditions" : "" }));
+  let rows: { name: string; homes: number; baseline: number; add: number; acres?: number; note?: string }[];
+  if (level === "municipality") rows = A.munis.filter((m) => !q || m.name.toLowerCase().includes(q)).map((m) => ({ name: `${m.name}, ${m.county}`, homes: m.eligible_homes, baseline: m.baseline, add: m.add_upper, acres: m.acres, note: m.at_benchmark ? "already has no parking minimums for housing" : m.near_benchmark ? "removed minimums with conditions" : "" }));
   else if (level === "assembly" || level === "senate") rows = A.districts[level].map((d) => ({ name: `${level === "assembly" ? "Assembly" : "Senate"} District ${d.id}`, homes: d.homes, baseline: d.baseline, add: d.add_upper }));
-  else rows = A.counties.map((c) => ({ name: c.name, homes: c.homes, baseline: c.baseline, add: c.add_upper }));
+  else rows = A.counties.map((c) => ({ name: c.name, homes: c.homes, baseline: c.baseline, add: c.add_upper, acres: c.acres }));
   rows.sort((a, z) => (z.add || 0) - (a.add || 0));
   const shown = level === "municipality" && !q ? rows.slice(0, 50) : rows;
   main.innerHTML = `
@@ -182,9 +182,9 @@ function where(b: ParkingBundle, env: ShellEnv, params: URLSearchParams, main: H
     <div id="pk-legend"></div>
     <p class="small muted">The map shows the same values as the table below. Boundaries: U.S. Census Bureau cartographic boundary files and Wisconsin Legislative Technology Services Bureau districts.</p></section>
   <div class="table-wrap"><table class="data" data-testid="where-table"><caption>${level === "municipality" && !q ? "The 50 places with the most added homes" : "Added homes"} in "${esc(b.statewide.scenarios[1].label)}", 2027–2031 (statewide total ${int(tot)})</caption>
-    <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes it applies to</th><th scope="col" class="num">Current-law permits</th><th scope="col" class="num">Added (high end)</th></tr></thead>
-    <tbody>${shown.map((r) => `<tr><th scope="row">${esc(r.name)}${r.note ? ` <span class="small muted">(${esc(r.note)})</span>` : ""}</th><td class="num">${int(r.homes)}</td><td class="num">${int(r.baseline)}</td><td class="num">${int(r.add)}</td></tr>`).join("")}</tbody></table></div>
-  <p class="small muted">"Homes it applies to" is 0 where a place already has no parking minimums for housing. District figures are estimated from where each place's homes sit, an approximation. Towns are included; a case on "How sure" leaves them out. Rows may not add exactly because of rounding.</p>`;
+    <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes it applies to</th><th scope="col" class="num">Current-law permits</th><th scope="col" class="num">Added (high end)</th>${level === "county" || level === "municipality" ? `<th scope="col" class="num">Added per 1,000 acres of land</th>` : ""}</tr></thead>
+    <tbody>${shown.map((r) => `<tr><th scope="row">${esc(r.name)}${r.note ? ` <span class="small muted">(${esc(r.note)})</span>` : ""}</th><td class="num">${int(r.homes)}</td><td class="num">${int(r.baseline)}</td><td class="num">${int(r.add)}</td>${level === "county" || level === "municipality" ? `<td class="num">${r.acres ? dec((r.add / r.acres) * 1000, 1) : "—"}</td>` : ""}</tr>`).join("")}</tbody></table></div>
+  <p class="small muted">"Homes it applies to" is 0 where a place already has no parking minimums for housing. "Per 1,000 acres" divides the five-year addition by each area's land area (Census), for comparison with density measures; it is low where land is mostly farms or forest. District figures are estimated from where each place's homes sit, an approximation. Towns are included; a case on "How sure" leaves them out. Rows may not add exactly because of rounding.</p>`;
   // map values by geography (ids as in the shared outline files)
   const geoKind: GeoKind = level === "municipality" ? "munis" : level === "assembly" ? "assembly" : level === "senate" ? "senate" : "counties";
   const vals = new Map<string, number | null>();

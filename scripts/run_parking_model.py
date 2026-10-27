@@ -46,8 +46,9 @@ def benchmark_places(munis: pd.DataFrame) -> pd.DataFrame:
 def main() -> None:
     areas = pd.read_parquet(PROCESSED / "foundation" / "areas.parquet")
     munis = areas[areas["level"] == "municipality"][
-        ["area_id", "name", "parent_county_id", "muni_type", "context_group", "housing_units_acs", "population", "metro_county"]
+        ["area_id", "name", "parent_county_id", "muni_type", "context_group", "housing_units_acs", "population", "metro_county", "land_area_sqm"]
     ].rename(columns={"parent_county_id": "county_id", "housing_units_acs": "homes", "context_group": "context"})
+    munis["land_acres"] = munis.pop("land_area_sqm") / 4046.8564224
     cnames = areas[areas["level"] == "county"].set_index("area_id")["name"]
     munis["county_name"] = munis["county_id"].map(cnames)
     bench = benchmark_places(munis)
@@ -91,7 +92,7 @@ def main() -> None:
     sw.to_csv(REFERENCE / "parking_model_statewide_by_year.csv", index=False)
 
     # by county and district (upper case; central is 0 everywhere)
-    ba.groupby(["county_id", "county_name"])[["eligible_homes", "baseline_five_year_central", "addition_upper_five_year"]].sum().round(1) \
+    ba.groupby(["county_id", "county_name"])[["eligible_homes", "land_acres", "baseline_five_year_central", "addition_upper_five_year"]].sum().round(1) \
         .to_csv(REFERENCE / "parking_model_by_county.csv")
     xw = pd.read_csv(REFERENCE / "adu_model_district_crosswalk.csv")
     for col, out in (("assembly_district", "assembly"), ("senate_district", "senate")):
