@@ -135,6 +135,25 @@ def apply_milwaukee_adjustment(hist: pd.DataFrame, xw: pd.DataFrame, est: pd.Ser
     return h
 
 
+def acs_screen(hist: pd.DataFrame) -> pd.DataFrame | None:
+    """Screen for permit under-reporting: homes built 2020 or later in ACS 2020-2024 (B25034_002)
+    against permits 2019-2023. ACS counts completions and lags, so it should normally be below the
+    permits; a place where ACS exceeds permits by more than its margin of error (and by 100+ homes)
+    is flagged as a likely Census permit gap. A flag is a prompt to check, not a correction."""
+    f = RAW / "census_acs5_2024_tbsf" / "acsdt5y2024-b25034.dat"
+    if not f.exists():
+        return None
+    a = parsers.read_acs_sf(f, state_fips="55", sumlevels=("060",))
+    a["area_id"] = "muni:" + a["geoid"]
+    acs = a.set_index("area_id")[["B25034_E002", "B25034_M002"]].rename(
+        columns={"B25034_E002": "acs_built_2020_or_later", "B25034_M002": "acs_moe"})
+    b = hist[hist["year"].between(2019, 2023)].groupby("area_id")["units"].sum(min_count=1).rename("permits_2019_2023")
+    x = acs.join(b, how="inner").reset_index()
+    x["gap"] = x["acs_built_2020_or_later"] - x["permits_2019_2023"]
+    x["flag_possible_permit_gap"] = (x["gap"] > x["acs_moe"]) & (x["acs_built_2020_or_later"] >= 100)
+    return x.sort_values("gap", ascending=False)
+
+
 def main() -> None:
     import argparse
     ap = argparse.ArgumentParser()
@@ -263,6 +282,9 @@ def main() -> None:
         REFERENCE / "housing_baseline_band.csv", index=False)
     recent_band.assign(candidate=best, basis="held-out years 2019-2022 origins, min-max (sensitivity)").round(4).to_csv(
         REFERENCE / "housing_baseline_band_recent.csv", index=False)
+    scr = acs_screen(hist)
+    if scr is not None:
+        scr.round(1).to_csv(REFERENCE / "housing_baseline_acs_screen.csv", index=False)
     mk = milwaukee_check(hist_published)
     if mk is not None:
         mk.to_csv(REFERENCE / "housing_baseline_milwaukee_check.csv", index=False)

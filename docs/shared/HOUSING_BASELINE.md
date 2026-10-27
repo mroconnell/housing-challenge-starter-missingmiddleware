@@ -72,6 +72,12 @@ Columns use `area_id` (`muni:<10-digit county-subdivision GEOID>`, or `unallocat
 
 - **Milwaukee's apartments come from a completion-side measure.** Year built in MPROP, shifted one year, stands in for permits. It misses condominiums, and the latest year built (2025, giving permit year 2024) may be incomplete if the property file lags. Other cities could have BPS gaps that have not been checked.
 - **Flat, not cyclical.** The central assumes 2023–2025 conditions continue. The low case is milder than 2007–2011: it is 0.53 times the central (64,491 of 122,619 units), while 2007–2011 permitted 0.40 times the 3-year average before it.
+- **Other places may under-report to Census.** A screen compares homes built in 2020 or later (ACS 2020–2024) with permits for 2019–2023 (`reference/housing_baseline_acs_screen.csv`). ACS counts finished homes and lags permits, so it should normally show fewer. Three places show more by more than the survey's margin of error:
+  - Wauwatosa: 310 ± 173 homes built, against 60 permitted;
+  - Superior: 126 ± 56, against 47;
+  - Springdale town: 105 ± 50, against 30.
+
+  Wauwatosa reported 12 months every year, but shows no units in 5+ unit buildings in 2021–2025, after 336 in 2015. It is likely under-counted like Milwaukee, but there is no open property file to correct it from, so it is flagged, not adjusted. South Milwaukee, Greenfield and Cudahy are not flagged: their ACS counts are as low as their permits.
 - **Assumed splits.** Units in county rows (towns without their own BPS row) and in municipalities that cross county lines are split by one-unit detached homes. That is an assumption, and it matters most for apartments in towns.
 - **24 municipality pieces have no BPS row in 2023–2025** and are projected at 0, flagged `no_data_in_window`.
 - **Conversions and ADUs inside existing buildings are not in BPS**, so this is a baseline of new buildings.
