@@ -730,6 +730,18 @@ Approved before the independent check of the Gate 3 packet finished. That check 
 - **G3-3 reversed:** the measured build-up is kept, because the spec fixed it before results and smoothing would be after-the-fact tuning. The smoothed year 5 becomes a sensitivity.
 - **G3-2 amended:** suburbs get a capacity-based dose scaled by 0.719. That is the ratio of the coded capacity to the fallback estimate, measured in Milwaukee and Madison, where the fallback overstated capacity by 41–55%.
 
+## AQ-052 TOD: test California's AB 2097 as a TOD-plus-parking case
+
+**Status:** Adopted (owner, 2026-10-27, "Yeah"). **Related:** [docs/tod/AB2097_TEST_PREREG.md](tod/AB2097_TEST_PREREG.md), docs/shared/SCENARIO_CONTRACT.md section 9.
+
+The owner asked whether AB 2097 (California, 2023: no parking minimums within ½ mile of major transit) shows what happens when parking and TOD reform combine. It is statewide for parking, not for density.
+
+The test compares permits near transit with a comparison ring, before and after 2023, using California's Table A2 permits (2018–2025):
+- in areas already upzoned before 2023, such as Los Angeles's transit program areas, it measures TOD plus parking;
+- elsewhere near transit, it measures parking alone.
+
+The plan was written before counting. The result is a sensitivity for the combined view's rule (c), and California evidence for the parking scenario.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -856,3 +868,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-27 | AQ-051 | TOD Gate 3 approved: three net-effect scenarios (about 171 / 2,509 / 17,148), suburbs placement, year-5 smoothing, timing caveat, go to Gate 4. |
 | 2026-10-27 | AQ-048 | Parking Gate 4: owner accepted the parking screens and the three pilot places (Milwaukee, West Allis, Eau Claire) ("Approved. Move forward"); the parking reform is marked ready in the tool. Next: Gate 5. |
 | 2026-10-27 | AQ-048 | Parking Gate 5: owner accepted the parking scenario as good enough to submit (G5-1) and asked for a map on the parking Where tab (G5-2). |
+| 2026-10-27 | AQ-052 | TOD: owner approved a California AB 2097 test of parking near transit, alone and combined with earlier local upzoning (plan written before counting). |
