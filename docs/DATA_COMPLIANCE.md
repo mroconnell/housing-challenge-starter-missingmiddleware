@@ -218,3 +218,9 @@ Added 2026-10-27. Two industry reports behind the set-aside cost-based method (m
   - An honest note in the personal-data section on the unmasked samples.
 - **DISCLOSURES.md:** a third-party dataset section with licenses.
 - **docs/data-sources/README.md:** a note that Gate 3 sources have no dictionaries yet.
+
+### Parking: OpenStreetMap and National Transit Map (re-checked 2026-10-27)
+
+- **OpenStreetMap parking areas (ODbL 1.0): evaluated, not used.** ODbL is share-alike for derived databases, the same concern behind owner decision D5. The surface-parking variable built from it also failed the parking variable test. The derived table `reference/parking_surface_lots.csv` was removed from git, and its columns were removed from `reference/parking_allvars_values.csv`. `scripts/build_parking_surface_lots.py` now writes only to git-ignored `data/processed/parking/`. The only committed trace is two rows of test statistics in `reference/parking_round3_variables.csv` (V17, V18); they are results, not OSM data. Checked by `git ls-files`.
+- **National Transit Map stops (CC BY 3.0): permitted with attribution.** The attribution is in DISCLOSURES.md and docs/parking/ROUND3_RESULTS.md, and no screen shows NTM data.
+
