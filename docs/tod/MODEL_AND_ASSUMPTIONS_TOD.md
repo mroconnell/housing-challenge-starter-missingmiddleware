@@ -94,6 +94,7 @@ All data are fetched by script, with the source, date, size and checksum recorde
 
 - **No Wisconsin test of the adopted sizing.** The Madison test checked the per-acre method, which now only places homes.
 - **The typical scenario rests on a general study.** Only 28 of Stacy et al.'s 96 loosening reforms changed floor area, density or height. It is measured 3 or more years after reform, but is placed here inside five years.
+- **Why places differ.** A pre-registered effect-heterogeneity analysis tested 12 local traits (such as home values, incomes, rents, lot sizes, existing density and distance to downtown) on 106 rezonings and station areas, using leave-one-city-out cross-validation. Exploratory tests then tried all 66 pairs of traits and a small decision tree. None predicted where upzoning added more homes better than a plain average, so the scenarios stay wide ([TRAITS_RESULTS.md](TRAITS_RESULTS.md)).
 - **TOD alone versus TOD with parking reform.** The cases cannot separate the two.
 - **Concentration.** Almost all extra homes land in Milwaukee County and Dane County.
 - **Edge cases:**
