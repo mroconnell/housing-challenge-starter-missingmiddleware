@@ -98,3 +98,5 @@ Written 2026-10-26 by the TOD conductor, before any permits have been counted fo
   - The permit file's unit field is nearly empty from 2024, leaving one after year.
 - **Phoenix is context only.** No permit source with unit counts and before years was found.
 - **Ann Arbor (held out) has no estimate.** No permit source with unit counts was found.
+
+**2026-10-27, permit counts for cases without unit counts (owner request).** Raleigh 2021, Phoenix 2015 and Ann Arbor 2021 have no usable unit counts. They are measured with **new residential building permits** (count of permits, not homes) per eligible acre per year, using the same areas, periods, area rule and difference-in-differences. If both are available, multifamily permits are counted separately from single-family. These results are context only. They are never pooled with unit-based cases or used to fit, and their units are always labelled "permits, not homes". Ann Arbor stays a test case. This entry was written before any of their permits were counted.
