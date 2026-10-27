@@ -10,7 +10,7 @@ Is the TOD part of the tool right, clear and usable enough to become a full refo
 
 1. Run `bash scripts/run_tool.sh` and open the address it prints. If an old server is still running on port 4173, use `PORT=4180 bash scripts/run_tool.sh` instead.
 2. Go to `#/tod/today?preview=1`. Preview mode then stays on for that browser tab.
-3. Check that the footer shows run `tod-622c134f60`.
+3. Check that the footer shows run `tod-494eba2693` (updated 2026-10-27: the bundle now also publishes `additions_by_area.json` for the combined view; no displayed number changed).
 
 ## 3. Owner review steps
 
