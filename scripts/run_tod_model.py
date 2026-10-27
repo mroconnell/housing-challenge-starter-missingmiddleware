@@ -834,12 +834,18 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
         out["stock_homes_station_areas"] = stock_homes
         return out
 
-    net = net_rows(by_area, stock, effects)
+    # Placement (AQ-051 G3-2 as amended): uncoded places get their capacity-based dose (capacity gain x
+    # pooled floor area per home) x the coded / fallback-rule capacity ratio measured on the same
+    # Milwaukee and Madison lots (fallback_ratio, about 0.719; the fallback overstated capacity there).
+    fr = fallback_ratio(L)
+    x = lot_inputs(L, C.DEFINITION_BANDS["main"], rents, use_ratio, fallback_dose_scale=fr)
+    place = run_areas(x, muni, "share_near_main", cp, take["take_up"], cp["ramp"], baseline)
+    net = net_rows(place, stock, effects)
     # Typical range: Stacy et al.'s 95% interval, 0.008 +/- 1.96 x 0.003
     lo_hi = {}
     for tag, v in (("low", STACY_SHARE - 1.96 * STACY_SE), ("high", STACY_SHARE + 1.96 * STACY_SE)):
         e = effects["typical"][0]
-        lo_hi[tag] = net_rows(by_area, stock, {"typical": (M.NetEffect(v, e.timing, e.source), "")})
+        lo_hi[tag] = net_rows(place, stock, {"typical": (M.NetEffect(v, e.timing, e.source), "")})
     ren = {f"add_y{k}": f"add_{M.CALENDAR[k]}" for k in M.YEARS}
     cols_keep = ["sizing", "scenario", "scenario_label", "parameter", "timing", "source", "area_id", "name", "county",
                  "eligible_acres", "added_far_acres", "share_near_stops", "baseline_near_low_2027_2031",
@@ -884,26 +890,31 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
                          "baseline_near_stops_2027_2031": float(g.drop_duplicates("area_id").baseline_near_central_2027_2031.sum()),
                          "addition_2027_2031": float(g[ycols].sum().sum()),
                          "milwaukee_metro_2027_2031": float(g.loc[g.county.map(metro_of) == "Milwaukee", ycols].sum().sum()),
-                         "madison_metro_2027_2031": float(g.loc[g.county.map(metro_of) == "Madison", ycols].sum().sum())})
+                         "madison_metro_2027_2031": float(g.loc[g.county.map(metro_of) == "Madison", ycols].sum().sum()),
+                         **{f"add_{M.CALENDAR[k]}": float(g[f"add_y{k}"].sum()) for k in M.YEARS}})
 
-    add_s("main", "main", "Net-effect sizing, per upzoned home (AQ-050)", net)
+    add_s("main", "main", f"Net-effect sizing, per upzoned home (AQ-050); uncoded places placed by capacity dose x {fr:.4f} (AQ-051)", net)
+    ny5 = M.timing_from_ramp(cp["ramp_year5_alt"])
+    add_s("law_addition", "ramp_year5_alt", "New York ramp with year 5 = mean of years 3-5 (timing only; totals unchanged). Strong keeps Auckland's profile",
+          net_rows(place, stock, {k: (M.NetEffect(e.five_year_share, ny5 if k != "strong" else e.timing, e.source), lab)
+                                  for k, (e, lab) in effects.items()}))
     add_s("law_addition", "typical_range", "Typical at the low and high ends of Stacy et al.'s 95% interval (0.2% and 1.4%)",
           pd.concat([lo_hi["low"].assign(scenario="typical_low"), lo_hi["high"].assign(scenario="typical_high")]))
     add_s("law_addition", "as_published", "Each effect as published (no division by coverage)",
-          net_rows(by_area, stock, net_effects(cp, "as_published")))
+          net_rows(place, stock, net_effects(cp, "as_published")))
     e = effects["strong"][0]
     add_s("law_addition", "strong_ny_ramp", "Strong timed by the New York pooled ramp instead of Auckland's profile",
-          net_rows(by_area, stock, {"strong": (M.NetEffect(e.five_year_share, M.timing_from_ramp(cp["ramp"]), "NY ramp"), "Strong (NY ramp)")}))
+          net_rows(place, stock, {"strong": (M.NetEffect(e.five_year_share, M.timing_from_ramp(cp["ramp"]), "NY ramp"), "Strong (NY ramp)")}))
+    add_s("where_homes_land", "no_suburbs", "Uncoded places get no placement share (coded cities only)", net_rows(by_area, stock, effects))
     x = lot_inputs(L, C.DEFINITION_BANDS["main"], rents, use_ratio, fallback_dose_scale=1.0)
     ba = run_areas(x, muni, "share_near_main", cp, take["take_up"], cp["ramp"], baseline)
-    wts = ba[(ba.method == "A") & (ba.scenario == "typical")].set_index("area_id")[ycols].sum(axis=1)
-    add_s("where_homes_land", "placement_with_uncoded", "Placement weights give uncoded places a dose from their capacity",
-          net_rows(by_area, stock, effects, weights=wts))
+    add_s("where_homes_land", "unscaled_suburbs", "Uncoded places placed by their capacity dose, not scaled by the coded/fallback ratio",
+          net_rows(ba, stock, effects))
     for d, share_col, homes_col, bands, label in [
             ("rapid_only", "share_near_rapid_half", "homes_near_rapid_half", frozenset({"rapid_quarter", "rapid_half"}), "Rail and rapid stops only: stock and placement"),
             ("high", "share_near_high", "homes_near_high", C.DEFINITION_BANDS["high"], "High case: stock and placement"),
             ("b_half", "share_near_b_half", "homes_near_b_half", C.DEFINITION_BANDS["b_half"], "All 15-minute stops within 1/2 mile: stock and placement")]:
-        x = lot_inputs(L, bands, rents, use_ratio)
+        x = lot_inputs(L, bands, rents, use_ratio, fallback_dose_scale=fr)
         ba = run_areas(x, muni, share_col, cp, take["take_up"], cp["ramp"], baseline)
         add_s("where_homes_land", d, label, net_rows(ba, float(muni[homes_col].sum()), effects))
     for tag, col in (("baseline_low", "baseline_near_low_2027_2031"), ("baseline_high", "baseline_near_high_2027_2031")):

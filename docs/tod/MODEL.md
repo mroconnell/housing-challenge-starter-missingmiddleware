@@ -15,7 +15,11 @@ Written 2026-10-26 by the Gate 3 model work package (stage 1 of 2) and implement
 | Reference line (median of the three studies; equals the typical response) | 0.8% | 245 | 233 | 663 | 1,202 | 166 | 2,509 |
 
 - **The typical response's range** is 665 to 4,352 homes, from Stacy et al.'s 95% interval of +0.2% to +1.4%.
-- **Where the homes go:** Milwaukee city 50.7% and Madison city 49.3%, from method A's per-acre placement.
+- **Where the homes go (typical response, AQ-051):**
+  - Milwaukee metro 1,637 (of which Waukesha County 27) and Madison metro 827; Kenosha County 45.
+  - By city: Milwaukee city 516, Madison city 501, Wauwatosa 293 and West Allis 198.
+  - Placement uses method A's per-acre response, with the uncoded suburbs given their capacity-based dose × 0.719.
+- **No held-out validation in Wisconsin.** The Madison test validated the per-acre method, which now only places homes. The net-effect totals come from Los Angeles, US cities and Auckland and have not been tested against any Wisconsin outcome.
 - **Per-acre sizing (sensitivity):** 14,212, 39,767 and 151,973 homes. The Wisconsin-measured per-acre rate, capped at the peer metros' 95th percentile, gives 6,834.
 - **The Madison test** confirmed method A's per-acre prediction only weakly ([MADISON_TEST_RESULTS.md](MADISON_TEST_RESULTS.md)).
 - **Method B** cannot be computed (section 5).
@@ -293,10 +297,13 @@ The switch is `model.size_additions(..., mode="per_acre" | "net_effect")`. Net e
 - **The statewide addition** = a citywide net effect × the 2020 census homes in the main-case station areas, 313,564 (`tod_near_stop_homes_by_muni.csv`).
 - **Per upzoned home:** each effect is divided by its study's coverage share, so it applies per upzoned home. The as-published reading is a sensitivity.
 - **Timing:** each scenario's yearly shares of the five-year total.
-- **Placement:** each municipality gets its share of method A's per-acre addition.
-  - In the main case that is Milwaukee city 50.7% and Madison city 49.3%.
-  - The uncoded places get no share, because method A gives them no dose (section 6). A sensitivity gives them one.
-- **Never negative:** no addition is negative.
+- **Placement (AQ-051):** each municipality gets its share of method A's per-acre addition.
+  - **Coded cities:** they use their coded added FAR (section 3).
+  - **Uncoded places:** they use their capacity-based dose (capacity gain × 1,467 sq ft, section 6) × **0.7188**. That ratio is not hard-coded: `fallback_ratio()` in `scripts/run_tod_model.py` derives it as the coded capacity ÷ the fallback rule's capacity on the same main-case lots in Milwaukee and Madison. The fallback overstated capacity there by 41% and 55% ([STATION_AREAS.md](STATION_AREAS.md) section 6). It is listed in `tod_model_params.csv`.
+  - **Typical response by area:** Milwaukee metro 1,637 (Milwaukee County 1,609, Waukesha County 27), Madison metro 827 and Kenosha County 45. By city: Milwaukee 516, Madison 501, Wauwatosa 293, West Allis 198 and Verona 130.
+  - **Sensitivities:** "no suburbs" and "unscaled suburbs".
+  - **Placement does not change the totals.**
+- **Never negative:** the "never subtracts" rule (no area's addition below zero, and Auckland's negative 2016 netted into the total) affects only how homes are placed and timed. It cannot change the statewide totals, which are share × stock.
 
 **Scenario values**
 
@@ -329,7 +336,9 @@ The switch is `model.size_additions(..., mode="per_acre" | "net_effect")`. Net e
 | Typical at the ends of Stacy et al.'s 95% interval | | 665 to 4,352 | |
 | As published (no coverage division) | 105 | 2,509 | 12,895 |
 | Strong timed by the New York ramp | | | 17,148 (2030 peak) |
-| Uncoded places placed by their capacity dose (Milwaukee metro share of the typical response: 1,683 instead of 1,272) | 171 | 2,509 | 17,148 |
+| Year 5 of the New York ramp = mean of years 3–5 (timing only; totals unchanged; strong keeps Auckland's profile). Yearly path, typical: 204, 193, 551, 998, **562** (2031); little: 14, 13, 38, 68, 38 | 171 | 2,509 | 17,148 |
+| Where homes land: no suburbs (coded cities only). Typical: Milwaukee metro 1,272, Madison metro 1,237 | 171 | 2,509 | 17,148 |
+| Where homes land: suburbs unscaled (capacity dose × 1). Typical: Milwaukee metro 1,683, Madison metro 774 | 171 | 2,509 | 17,148 |
 | Rail and rapid stops only (stock 89,528) | 49 | 716 | 4,896 |
 | High case (stock 351,606) | 192 | 2,813 | 19,228 |
 | All 15-minute stops within ½ mile (stock 403,304) | 220 | 3,226 | 22,055 |
@@ -366,9 +375,9 @@ The switch is `model.size_additions(..., mode="per_acre" | "net_effect")`. Net e
 
 | Scenario (net effect) | Milwaukee metro: peak extra; peak total (year) | Madison metro: peak extra; peak total (year) | Above the peer maximum (25.7)? | Above the 95th percentile (9.06)? | Above the metro's own maximum (3.44; 16.9)? |
 | --- | --- | --- | --- | --- | --- |
-| Little | 0.06; 1.85 (2030) | 0.12; 13.6 (2030) | no | Madison only, every year, from its own baseline | no |
-| Typical | 0.86; 2.65 (2030) | 1.78; 15.2 (2030) | no | Madison only, as above | no |
-| Strong | 4.57; 6.37 (2031) | 9.51; 23.0 (2031) | no | Madison only, as above | yes, both metros, 2028–2031 |
+| Little | 0.08; 1.87 (2030) | 0.08; 13.5 (2030) | no | Madison only, every year, from its own baseline | no |
+| Typical | 1.10; 2.90 (2030) | 1.19; 14.6 (2030) | no | Madison only, as above | no |
+| Strong | 5.88; 7.68 (2031) | 6.36; 19.8 (2031) | no | Madison only, as above | yes: Milwaukee 2028–2031, Madison 2030–2031 |
 
 - No net-effect scenario reaches the highest peer year.
 - Only the strong scenario passes either metro's own record.
@@ -391,6 +400,13 @@ The switch is `model.size_additions(..., mode="per_acre" | "net_effect")`. Net e
 
 **Limits**
 - **Applying the effects to station-area stock.** All three studies measure citywide effects of citywide or large-area reforms. Wisconsin's station areas cover a smaller part of each city, which leaves more nearby land to pull building from. The source check notes that the per-upzoned-home effect could then be lower, not higher.
-- **Stacy et al.** counts reforms of all kinds, mostly ADU and lot-size rules (28 of 96 changed floor area, density or height). It measures addresses, not permits.
-- **The Los Angeles coverage share (0.61)** is derived from rounded means in the dissertation's Table 1.1. The working-paper PDF could not be read, and its figure may differ slightly ("fewer than 560 units").
-- **Placement rests on method A's shares,** which put every home in the two coded cities.
+- **No held-out validation in Wisconsin.** The adopted sizing has none. The Madison test validated the per-acre method (weakly), and that method now only places homes.
+- **Stacy et al. (typical).**
+  - The effect is +0.8% **per loosening reform, mostly ADU and lot-size rules** (28 of 96 changed floor area, density or height), **in USPS address counts**. It is not the effect of an average US upzoning, and it does not measure housing supply or permits.
+  - It gets **no coverage adjustment**, because the paper does not measure coverage.
+- **Auckland's 0.752** is a share of residential land, used here as if it were a share of homes. The upzoned land is the denser land near centres and transit, so it probably holds more than 75.2% of homes. The true share of homes covered is then higher than 0.752, and dividing by 0.752 **overstates** the per-upzoned-home effect. The strong scenario is high on this count; the as-published sensitivity, 12,895, is the bound on the other side.
+- **The Los Angeles coverage share (0.61)** is derived from rounded means: 2.6 ÷ 2.0 homes per parcel × 46.6% of parcels within ½ mile (Table 1.1 of the dissertation). The working-paper PDF could not be read, and its figure may differ slightly ("fewer than 560 units").
+- **Comparability with Los Angeles.**
+  - Milwaukee (68%) and Madison (63%) have shares of homes near stops close to the 61% of Los Angeles homes the TOC program covered, so the coverage adjustment is of a similar size.
+  - But Los Angeles's TOC program required affordable units in exchange for its bonuses, and the modelled law does not. That cost may have held the Los Angeles response down, which would make the little scenario low for a law without a mandate.
+- **Placement rests on method A's shares.** The suburbs are added with the 0.719-scaled capacity dose.

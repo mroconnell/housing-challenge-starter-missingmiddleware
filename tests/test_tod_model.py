@@ -250,6 +250,25 @@ class TestNetSizing(unittest.TestCase):
         self.assertAlmostEqual(sum(prof.values()), 21_808, delta=0.01)
         self.assertTrue(all(v > 0 for v in prof.values()))
 
+    def test_placement_and_year5_sensitivity(self):
+        # AQ-051: suburbs placed by their capacity dose x the derived coded/fallback ratio; totals unchanged
+        par = read("tod_model_params.csv").set_index("parameter")
+        fr = float(par.loc["fallback_ratio", "value"])
+        self.assertTrue(0.6 < fr < 0.8)
+        area = read("tod_model_by_area.csv")
+        typ = area[area.scenario == "typical"].set_index("name")
+        self.assertGreater(typ.loc["Wauwatosa city", "add_2027_2031"], 0)
+        sens = read("tod_model_sensitivities.csv")
+        net = sens[sens.sizing == "net_effect"]
+        main = net[net.sensitivity == "main"].set_index("scenario").addition_2027_2031
+        for sid in ("no_suburbs", "unscaled_suburbs", "ramp_year5_alt"):
+            alt = net[net.sensitivity == sid].set_index("scenario").addition_2027_2031
+            for k in ("little", "typical", "strong"):
+                self.assertAlmostEqual(alt[k], main[k], delta=0.01, msg=sid)
+        y5 = net[(net.sensitivity == "ramp_year5_alt") & (net.scenario == "typical")].iloc[0]
+        m5 = net[(net.sensitivity == "main") & (net.scenario == "typical")].iloc[0]
+        self.assertGreater(y5.add_2031, m5.add_2031)
+
     def test_capped_sensitivity_within_cap(self):
         ck = read("tod_model_checks.csv")
         c = ck[(ck.check == "scale") & (ck.scenario == "wisconsin_measured_capped")]

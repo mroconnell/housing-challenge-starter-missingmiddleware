@@ -1,107 +1,115 @@
-sizing,group,sensitivity,description,scenario,parameter,baseline_near_stops_2027_2031,addition_2027_2031,milwaukee_metro_2027_2031,madison_metro_2027_2031,eligible_acres,added_far_acres,capacity_gain,feasible_capacity_gain
-net_effect,main,main,"Net-effect sizing, per upzoned home (AQ-050)",little,0.0005,14463.7776,171.3464,86.8846,84.4618,,,,
-net_effect,main,main,"Net-effect sizing, per upzoned home (AQ-050)",typical,0.008,14463.7776,2508.512,1271.9913,1236.5207,,,,
-net_effect,main,main,"Net-effect sizing, per upzoned home (AQ-050)",strong,0.0547,14463.7776,17147.5693,8695.0186,8452.5507,,,,
-net_effect,main,main,"Net-effect sizing, per upzoned home (AQ-050)",reference_line,0.008,14463.7776,2508.512,1271.9913,1236.5207,,,,
-net_effect,law_addition,typical_range,Typical at the low and high ends of Stacy et al.'s 95% interval (0.2% and 1.4%),typical_low,0.0021,14463.7776,664.7557,337.0777,327.678,,,,
-net_effect,law_addition,typical_range,Typical at the low and high ends of Stacy et al.'s 95% interval (0.2% and 1.4%),typical_high,0.0139,14463.7776,4352.2683,2206.9049,2145.3635,,,,
-net_effect,law_addition,as_published,Each effect as published (no division by coverage),little,0.0003,14463.7776,104.5213,52.9996,51.5217,,,,
-net_effect,law_addition,as_published,Each effect as published (no division by coverage),typical,0.008,14463.7776,2508.512,1271.9913,1236.5207,,,,
-net_effect,law_addition,as_published,Each effect as published (no division by coverage),strong,0.0411,14463.7776,12894.9721,6538.654,6356.3181,,,,
-net_effect,law_addition,as_published,Each effect as published (no division by coverage),reference_line,0.008,14463.7776,2508.512,1271.9913,1236.5207,,,,
-net_effect,law_addition,strong_ny_ramp,Strong timed by the New York pooled ramp instead of Auckland's profile,strong,0.0547,14463.7776,17147.5693,8695.0186,8452.5507,,,,
-net_effect,where_homes_land,placement_with_uncoded,Placement weights give uncoded places a dose from their capacity,little,0.0005,14463.7776,171.3464,114.9884,52.8785,,,,
-net_effect,where_homes_land,placement_with_uncoded,Placement weights give uncoded places a dose from their capacity,typical,0.008,14463.7776,2508.512,1683.4302,774.1405,,,,
-net_effect,where_homes_land,placement_with_uncoded,Placement weights give uncoded places a dose from their capacity,strong,0.0547,14463.7776,17147.5693,11507.5134,5291.8337,,,,
-net_effect,where_homes_land,placement_with_uncoded,Placement weights give uncoded places a dose from their capacity,reference_line,0.008,14463.7776,2508.512,1683.4302,774.1405,,,,
-net_effect,where_homes_land,rapid_only,Rail and rapid stops only: stock and placement,little,0.0005,6139.9862,48.9224,11.553,37.3694,,,,
-net_effect,where_homes_land,rapid_only,Rail and rapid stops only: stock and placement,typical,0.008,6139.9862,716.224,169.1355,547.0885,,,,
-net_effect,where_homes_land,rapid_only,Rail and rapid stops only: stock and placement,strong,0.0547,6139.9862,4895.9306,1156.1687,3739.7619,,,,
-net_effect,where_homes_land,rapid_only,Rail and rapid stops only: stock and placement,reference_line,0.008,6139.9862,716.224,169.1355,547.0885,,,,
-net_effect,where_homes_land,high,High case: stock and placement,little,0.0005,15724.865,192.1344,110.0492,82.0852,,,,
-net_effect,where_homes_land,high,High case: stock and placement,typical,0.008,15724.865,2812.848,1611.1204,1201.7276,,,,
-net_effect,where_homes_land,high,High case: stock and placement,strong,0.0547,15724.865,19227.9351,11013.2218,8214.7133,,,,
-net_effect,where_homes_land,high,High case: stock and placement,reference_line,0.008,15724.865,2812.848,1611.1204,1201.7276,,,,
-net_effect,where_homes_land,b_half,All 15-minute stops within 1/2 mile: stock and placement,little,0.0005,18382.511,220.3847,111.444,108.9407,,,,
-net_effect,where_homes_land,b_half,All 15-minute stops within 1/2 mile: stock and placement,typical,0.008,18382.511,3226.432,1631.5408,1594.8912,,,,
-net_effect,where_homes_land,b_half,All 15-minute stops within 1/2 mile: stock and placement,strong,0.0547,18382.511,22055.0933,11152.8108,10902.2825,,,,
-net_effect,where_homes_land,b_half,All 15-minute stops within 1/2 mile: stock and placement,reference_line,0.008,18382.511,3226.432,1631.5408,1594.8912,,,,
-net_effect,baseline_only,baseline_low,baseline low (all-housing baseline v2),little,0.0005,8385.712,171.3464,86.8846,84.4618,,,,
-net_effect,baseline_only,baseline_low,baseline low (all-housing baseline v2),typical,0.008,8385.712,2508.512,1271.9913,1236.5207,,,,
-net_effect,baseline_only,baseline_low,baseline low (all-housing baseline v2),strong,0.0547,8385.712,17147.5693,8695.0186,8452.5507,,,,
-net_effect,baseline_only,baseline_low,baseline low (all-housing baseline v2),reference_line,0.008,8385.712,2508.512,1271.9913,1236.5207,,,,
-net_effect,baseline_only,baseline_high,baseline high (all-housing baseline v2),little,0.0005,21873.6068,171.3464,86.8846,84.4618,,,,
-net_effect,baseline_only,baseline_high,baseline high (all-housing baseline v2),typical,0.008,21873.6068,2508.512,1271.9913,1236.5207,,,,
-net_effect,baseline_only,baseline_high,baseline high (all-housing baseline v2),strong,0.0547,21873.6068,17147.5693,8695.0186,8452.5507,,,,
-net_effect,baseline_only,baseline_high,baseline high (all-housing baseline v2),reference_line,0.008,21873.6068,2508.512,1271.9913,1236.5207,,,,
-net_effect,baseline_only,census_as_published,Census as published for Milwaukee city,little,0.0005,11874.6693,171.3464,86.8846,84.4618,,,,
-net_effect,baseline_only,census_as_published,Census as published for Milwaukee city,typical,0.008,11874.6693,2508.512,1271.9913,1236.5207,,,,
-net_effect,baseline_only,census_as_published,Census as published for Milwaukee city,strong,0.0547,11874.6693,17147.5693,8695.0186,8452.5507,,,,
-net_effect,baseline_only,census_as_published,Census as published for Milwaukee city,reference_line,0.008,11874.6693,2508.512,1271.9913,1236.5207,,,,
-per_acre,per_acre,wisconsin_measured_uncapped,"Method A per acre with the Wisconsin-measured r, uncapped",wisconsin_measured,0.2275,14463.7776,13476.9794,6833.7724,6643.2069,,,,
-per_acre,per_acre,wisconsin_measured_capped,"As above, each metro capped so its total 5+ permits stay at or below the peer 95th percentile (9.06 per 1,000 homes a year): Milwaukee cap 5,161 homes a year, Madison 0 (its 2021-2025 rate is already above)",wisconsin_measured,0.2275,14463.7776,6833.7724,6833.7724,0.0,,,,
-per_acre,per_acre: main,main,Main case as specified,little,0.2399,14463.7776,14211.5488,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: main,main,Main case as specified,reference_line,0.4556,14463.7776,26989.5024,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: main,main,Main case as specified,strong,2.5654,14463.7776,151972.9357,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: main,main,Main case as specified,typical,0.6713,14463.7776,39767.456,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: main,main,Main case as specified,milwaukee_take_up,,14463.7776,,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,r_values,Method A with each other measured r,downtown_brooklyn,2.1966,14463.7776,130125.4193,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,r_values,Method A with each other measured r,park_slope,2.9342,14463.7776,173820.4522,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,r_values,Method A with each other measured r,typical_high,1.0204,14463.7776,60447.9549,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,r_values,Method A with each other measured r,typical_low,0.3649,14463.7776,21616.4825,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,ramp_year5_alt,Year 5 of the ramp = mean of years 3 to 5 (the year-5 drop replaced),little,0.2399,14463.7776,17105.0772,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,ramp_year5_alt,Year 5 of the ramp = mean of years 3 to 5 (the year-5 drop replaced),reference_line,0.4556,14463.7776,32484.6735,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,ramp_year5_alt,Year 5 of the ramp = mean of years 3 to 5 (the year-5 drop replaced),strong,2.5654,14463.7776,182915.236,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,ramp_year5_alt,Year 5 of the ramp = mean of years 3 to 5 (the year-5 drop replaced),typical,0.6713,14463.7776,47864.2699,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,ramp_year5_alt,Year 5 of the ramp = mean of years 3 to 5 (the year-5 drop replaced),milwaukee_take_up,,14463.7776,,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,sqft_1000,"Floor area per home 1,000 sq ft (capacity and building cost; coded added FAR does not depend on it)",little,0.2399,14463.7776,14211.5488,,,34682.4241,11847.894,2061190.8674,428085.75
-per_acre,per_acre: law_addition,sqft_1000,"Floor area per home 1,000 sq ft (capacity and building cost; coded added FAR does not depend on it)",reference_line,0.4556,14463.7776,26989.5024,,,34682.4241,11847.894,2061190.8674,428085.75
-per_acre,per_acre: law_addition,sqft_1000,"Floor area per home 1,000 sq ft (capacity and building cost; coded added FAR does not depend on it)",strong,2.5654,14463.7776,151972.9357,,,34682.4241,11847.894,2061190.8674,428085.75
-per_acre,per_acre: law_addition,sqft_1000,"Floor area per home 1,000 sq ft (capacity and building cost; coded added FAR does not depend on it)",typical,0.6713,14463.7776,39767.456,,,34682.4241,11847.894,2061190.8674,428085.75
-per_acre,per_acre: law_addition,sqft_1000,"Floor area per home 1,000 sq ft (capacity and building cost; coded added FAR does not depend on it)",milwaukee_take_up,,14463.7776,,,,34682.4241,11847.894,2061190.8674,428085.75
-per_acre,per_acre: law_addition,no_single_family,Single-family lots left out (G2-8),little,0.2399,14463.7776,4141.7262,,,19849.0582,3452.8772,1003557.0922,1663.2714
-per_acre,per_acre: law_addition,no_single_family,Single-family lots left out (G2-8),reference_line,0.4556,14463.7776,7865.6542,,,19849.0582,3452.8772,1003557.0922,1663.2714
-per_acre,per_acre: law_addition,no_single_family,Single-family lots left out (G2-8),strong,2.5654,14463.7776,44290.0556,,,19849.0582,3452.8772,1003557.0922,1663.2714
-per_acre,per_acre: law_addition,no_single_family,Single-family lots left out (G2-8),typical,0.6713,14463.7776,11589.5822,,,19849.0582,3452.8772,1003557.0922,1663.2714
-per_acre,per_acre: law_addition,no_single_family,Single-family lots left out (G2-8),milwaukee_take_up,,14463.7776,,,,19849.0582,3452.8772,1003557.0922,1663.2714
-per_acre,per_acre: law_addition,fallback_dose_from_capacity,Uncoded places get a method A dose: capacity gain x pooled floor area per home (law FAR minus existing homes' floor area),little,0.2399,14463.7776,43206.8319,,,34682.4241,36020.7019,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,fallback_dose_from_capacity,Uncoded places get a method A dose: capacity gain x pooled floor area per home (law FAR minus existing homes' floor area),reference_line,0.4556,14463.7776,82055.1588,,,34682.4241,36020.7019,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,fallback_dose_from_capacity,Uncoded places get a method A dose: capacity gain x pooled floor area per home (law FAR minus existing homes' floor area),strong,2.5654,14463.7776,462037.5428,,,34682.4241,36020.7019,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,fallback_dose_from_capacity,Uncoded places get a method A dose: capacity gain x pooled floor area per home (law FAR minus existing homes' floor area),typical,0.6713,14463.7776,120903.4858,,,34682.4241,36020.7019,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,fallback_dose_from_capacity,Uncoded places get a method A dose: capacity gain x pooled floor area per home (law FAR minus existing homes' floor area),milwaukee_take_up,,14463.7776,,,,34682.4241,36020.7019,1918185.2907,1685.9313
-per_acre,per_acre: law_addition,fallback_scaled,"As above, with uncoded places' capacity and dose x 0.7188 (coded / fallback-rule capacity in Milwaukee and Madison)",little,0.2399,14463.7776,35054.6796,,,34682.4241,29224.4099,1716381.2829,1211.9243
-per_acre,per_acre: law_addition,fallback_scaled,"As above, with uncoded places' capacity and dose x 0.7188 (coded / fallback-rule capacity in Milwaukee and Madison)",reference_line,0.4556,14463.7776,66573.2057,,,34682.4241,29224.4099,1716381.2829,1211.9243
-per_acre,per_acre: law_addition,fallback_scaled,"As above, with uncoded places' capacity and dose x 0.7188 (coded / fallback-rule capacity in Milwaukee and Madison)",strong,2.5654,14463.7776,374861.5053,,,34682.4241,29224.4099,1716381.2829,1211.9243
-per_acre,per_acre: law_addition,fallback_scaled,"As above, with uncoded places' capacity and dose x 0.7188 (coded / fallback-rule capacity in Milwaukee and Madison)",typical,0.6713,14463.7776,98091.7317,,,34682.4241,29224.4099,1716381.2829,1211.9243
-per_acre,per_acre: law_addition,fallback_scaled,"As above, with uncoded places' capacity and dose x 0.7188 (coded / fallback-rule capacity in Milwaukee and Madison)",milwaukee_take_up,,14463.7776,,,,34682.4241,29224.4099,1716381.2829,1211.9243
-per_acre,per_acre: baseline_only,baseline_low,Low baseline (Wisconsin's 10th-percentile five-year outcome),little,0.2399,8385.712,14211.5488,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,baseline_low,Low baseline (Wisconsin's 10th-percentile five-year outcome),reference_line,0.4556,8385.712,26989.5024,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,baseline_low,Low baseline (Wisconsin's 10th-percentile five-year outcome),strong,2.5654,8385.712,151972.9357,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,baseline_low,Low baseline (Wisconsin's 10th-percentile five-year outcome),typical,0.6713,8385.712,39767.456,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,baseline_low,Low baseline (Wisconsin's 10th-percentile five-year outcome),milwaukee_take_up,,8385.712,,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,baseline_high,High baseline (90th percentile),little,0.2399,21873.6068,14211.5488,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,baseline_high,High baseline (90th percentile),reference_line,0.4556,21873.6068,26989.5024,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,baseline_high,High baseline (90th percentile),strong,2.5654,21873.6068,151972.9357,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,baseline_high,High baseline (90th percentile),typical,0.6713,21873.6068,39767.456,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,baseline_high,High baseline (90th percentile),milwaukee_take_up,,21873.6068,,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,census_as_published,"Census as published for Milwaukee city (3,797 fewer baseline units statewide, all in Milwaukee city, x its near-stop share 0.6818)",little,0.2399,11874.6693,14211.5488,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,census_as_published,"Census as published for Milwaukee city (3,797 fewer baseline units statewide, all in Milwaukee city, x its near-stop share 0.6818)",reference_line,0.4556,11874.6693,26989.5024,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,census_as_published,"Census as published for Milwaukee city (3,797 fewer baseline units statewide, all in Milwaukee city, x its near-stop share 0.6818)",strong,2.5654,11874.6693,151972.9357,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,census_as_published,"Census as published for Milwaukee city (3,797 fewer baseline units statewide, all in Milwaukee city, x its near-stop share 0.6818)",typical,0.6713,11874.6693,39767.456,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: baseline_only,census_as_published,"Census as published for Milwaukee city (3,797 fewer baseline units statewide, all in Milwaukee city, x its near-stop share 0.6818)",milwaukee_take_up,,11874.6693,,,,34682.4241,11847.894,1918185.2907,1685.9313
-per_acre,per_acre: where_homes_land,rapid_only,Rail and rapid stops only (within 1/2 mile),little,0.2399,6139.9862,3373.2323,,,8292.821,2812.1986,406480.2586,0.0
-per_acre,per_acre: where_homes_land,rapid_only,Rail and rapid stops only (within 1/2 mile),reference_line,0.4556,6139.9862,6406.1885,,,8292.821,2812.1986,406480.2586,0.0
-per_acre,per_acre: where_homes_land,rapid_only,Rail and rapid stops only (within 1/2 mile),strong,2.5654,6139.9862,36072.0721,,,8292.821,2812.1986,406480.2586,0.0
-per_acre,per_acre: where_homes_land,rapid_only,Rail and rapid stops only (within 1/2 mile),typical,0.6713,6139.9862,9439.1448,,,8292.821,2812.1986,406480.2586,0.0
-per_acre,per_acre: where_homes_land,rapid_only,Rail and rapid stops only (within 1/2 mile),milwaukee_take_up,,6139.9862,,,,8292.821,2812.1986,406480.2586,0.0
-per_acre,per_acre: where_homes_land,high,High case: 20-minute buses within 1/4 mile,little,0.2399,15724.865,16397.0932,,,40025.8454,13669.9401,2266107.9388,1685.9313
-per_acre,per_acre: where_homes_land,high,High case: 20-minute buses within 1/4 mile,reference_line,0.4556,15724.865,31140.1236,,,40025.8454,13669.9401,2266107.9388,1685.9313
-per_acre,per_acre: where_homes_land,high,High case: 20-minute buses within 1/4 mile,strong,2.5654,15724.865,175344.3221,,,40025.8454,13669.9401,2266107.9388,1685.9313
-per_acre,per_acre: where_homes_land,high,High case: 20-minute buses within 1/4 mile,typical,0.6713,15724.865,45883.1541,,,40025.8454,13669.9401,2266107.9388,1685.9313
-per_acre,per_acre: where_homes_land,high,High case: 20-minute buses within 1/4 mile,milwaukee_take_up,,15724.865,,,,40025.8454,13669.9401,2266107.9388,1685.9313
-per_acre,per_acre: where_homes_land,b_half,All 15-minute stops within 1/2 mile,little,0.2399,18382.511,20133.3282,,,48702.8702,16784.7671,2827345.2156,3737.7578
-per_acre,per_acre: where_homes_land,b_half,All 15-minute stops within 1/2 mile,reference_line,0.4556,18382.511,38235.6996,,,48702.8702,16784.7671,2827345.2156,3737.7578
-per_acre,per_acre: where_homes_land,b_half,All 15-minute stops within 1/2 mile,strong,2.5654,18382.511,215298.2082,,,48702.8702,16784.7671,2827345.2156,3737.7578
-per_acre,per_acre: where_homes_land,b_half,All 15-minute stops within 1/2 mile,typical,0.6713,18382.511,56338.0709,,,48702.8702,16784.7671,2827345.2156,3737.7578
-per_acre,per_acre: where_homes_land,b_half,All 15-minute stops within 1/2 mile,milwaukee_take_up,,18382.511,,,,48702.8702,16784.7671,2827345.2156,3737.7578
-per_acre,per_acre: law_addition,rent_unscaled,Method B with ACS rents not scaled to new buildings,milwaukee_take_up,,14463.7776,,,,34682.4241,11847.894,1918185.2907,0.0
+sizing,group,sensitivity,description,scenario,parameter,baseline_near_stops_2027_2031,addition_2027_2031,milwaukee_metro_2027_2031,madison_metro_2027_2031,add_2027,add_2028,add_2029,add_2030,add_2031,eligible_acres,added_far_acres,capacity_gain,feasible_capacity_gain
+net_effect,main,main,"Net-effect sizing, per upzoned home (AQ-050); uncoded places placed by capacity dose x 0.7188 (AQ-051)",little,0.0005,14463.7776,171.3464,111.785,56.4784,16.7637,15.8992,45.2613,82.0812,11.341,,,,
+net_effect,main,main,"Net-effect sizing, per upzoned home (AQ-050); uncoded places placed by capacity dose x 0.7188 (AQ-051)",typical,0.008,14463.7776,2508.512,1636.5331,826.844,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,main,main,"Net-effect sizing, per upzoned home (AQ-050); uncoded places placed by capacity dose x 0.7188 (AQ-051)",strong,0.0547,14463.7776,17147.5693,11186.9366,5652.1019,832.9938,2417.106,3186.0234,4303.8014,6407.6447,,,,
+net_effect,main,main,"Net-effect sizing, per upzoned home (AQ-050); uncoded places placed by capacity dose x 0.7188 (AQ-051)",reference_line,0.008,14463.7776,2508.512,1636.5331,826.844,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,law_addition,ramp_year5_alt,New York ramp with year 5 = mean of years 3-5 (timing only; totals unchanged). Strong keeps Auckland's profile,little,0.0005,14463.7776,171.3464,111.785,56.4784,13.9279,13.2097,37.6048,68.1962,38.4078,,,,
+net_effect,law_addition,ramp_year5_alt,New York ramp with year 5 = mean of years 3-5 (timing only; totals unchanged). Strong keeps Auckland's profile,typical,0.008,14463.7776,2508.512,1636.5331,826.844,203.9046,193.39,550.534,998.3926,562.2909,,,,
+net_effect,law_addition,ramp_year5_alt,New York ramp with year 5 = mean of years 3-5 (timing only; totals unchanged). Strong keeps Auckland's profile,strong,0.0547,14463.7776,17147.5693,11186.9366,5652.1019,832.9938,2417.106,3186.0234,4303.8014,6407.6447,,,,
+net_effect,law_addition,ramp_year5_alt,New York ramp with year 5 = mean of years 3-5 (timing only; totals unchanged). Strong keeps Auckland's profile,reference_line,0.008,14463.7776,2508.512,1636.5331,826.844,203.9046,193.39,550.534,998.3926,562.2909,,,,
+net_effect,law_addition,typical_range,Typical at the low and high ends of Stacy et al.'s 95% interval (0.2% and 1.4%),typical_low,0.0021,14463.7776,664.7557,433.6813,219.1137,65.0364,61.6827,175.5956,318.4424,43.9986,,,,
+net_effect,law_addition,typical_range,Typical at the low and high ends of Stacy et al.'s 95% interval (0.2% and 1.4%),typical_high,0.0139,14463.7776,4352.2683,2839.3849,1434.5744,425.8044,403.8473,1149.6542,2084.8963,288.0662,,,,
+net_effect,law_addition,as_published,Each effect as published (no division by coverage),little,0.0003,14463.7776,104.5213,68.1889,34.4518,10.2258,9.6985,27.6094,50.0696,6.918,,,,
+net_effect,law_addition,as_published,Each effect as published (no division by coverage),typical,0.008,14463.7776,2508.512,1636.5331,826.844,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,law_addition,as_published,Each effect as published (no division by coverage),strong,0.0411,14463.7776,12894.9721,8412.5763,4250.3807,626.4114,1817.6637,2395.8896,3236.4586,4818.5488,,,,
+net_effect,law_addition,as_published,Each effect as published (no division by coverage),reference_line,0.008,14463.7776,2508.512,1636.5331,826.844,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,law_addition,strong_ny_ramp,Strong timed by the New York pooled ramp instead of Auckland's profile,strong,0.0547,14463.7776,17147.5693,11186.9366,5652.1019,1677.6332,1591.1242,4529.5403,8214.315,1134.9567,,,,
+net_effect,where_homes_land,no_suburbs,Uncoded places get no placement share (coded cities only),little,0.0005,14463.7776,171.3464,86.8846,84.4618,16.7637,15.8992,45.2613,82.0812,11.341,,,,
+net_effect,where_homes_land,no_suburbs,Uncoded places get no placement share (coded cities only),typical,0.008,14463.7776,2508.512,1271.9913,1236.5207,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,where_homes_land,no_suburbs,Uncoded places get no placement share (coded cities only),strong,0.0547,14463.7776,17147.5693,8695.0186,8452.5507,832.9938,2417.106,3186.0234,4303.8014,6407.6447,,,,
+net_effect,where_homes_land,no_suburbs,Uncoded places get no placement share (coded cities only),reference_line,0.008,14463.7776,2508.512,1271.9913,1236.5207,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,where_homes_land,unscaled_suburbs,"Uncoded places placed by their capacity dose, not scaled by the coded/fallback ratio",little,0.0005,14463.7776,171.3464,114.9884,52.8785,16.7637,15.8992,45.2613,82.0812,11.341,,,,
+net_effect,where_homes_land,unscaled_suburbs,"Uncoded places placed by their capacity dose, not scaled by the coded/fallback ratio",typical,0.008,14463.7776,2508.512,1683.4302,774.1405,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,where_homes_land,unscaled_suburbs,"Uncoded places placed by their capacity dose, not scaled by the coded/fallback ratio",strong,0.0547,14463.7776,17147.5693,11507.5134,5291.8337,832.9938,2417.106,3186.0234,4303.8014,6407.6447,,,,
+net_effect,where_homes_land,unscaled_suburbs,"Uncoded places placed by their capacity dose, not scaled by the coded/fallback ratio",reference_line,0.008,14463.7776,2508.512,1683.4302,774.1405,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,where_homes_land,rapid_only,Rail and rapid stops only: stock and placement,little,0.0005,6139.9862,48.9224,18.9325,25.6977,4.7863,4.5395,12.9229,23.4356,3.2381,,,,
+net_effect,where_homes_land,rapid_only,Rail and rapid stops only: stock and placement,typical,0.008,6139.9862,716.224,277.1718,376.2144,70.0718,66.4585,189.191,343.0976,47.4052,,,,
+net_effect,where_homes_land,rapid_only,Rail and rapid stops only: stock and placement,strong,0.0547,6139.9862,4895.9306,1894.6781,2571.7088,237.8343,690.126,909.6653,1228.8105,1829.4945,,,,
+net_effect,where_homes_land,rapid_only,Rail and rapid stops only: stock and placement,reference_line,0.008,6139.9862,716.224,277.1718,376.2144,70.0718,66.4585,189.191,343.0976,47.4052,,,,
+net_effect,where_homes_land,high,High case: stock and placement,little,0.0005,15724.865,192.1344,130.5776,52.4792,18.7975,17.8282,50.7524,92.0394,12.7169,,,,
+net_effect,where_homes_land,high,High case: stock and placement,typical,0.008,15724.865,2812.848,1911.6553,768.2957,275.1951,261.0044,743.0154,1347.4574,186.1757,,,,
+net_effect,where_homes_land,high,High case: stock and placement,strong,0.0547,15724.865,19227.9351,13067.6044,5251.88,934.0537,2710.3525,3572.5559,4825.9443,7185.0287,,,,
+net_effect,where_homes_land,high,High case: stock and placement,reference_line,0.008,15724.865,2812.848,1911.6553,768.2957,275.1951,261.0044,743.0154,1347.4574,186.1757,,,,
+net_effect,where_homes_land,b_half,All 15-minute stops within 1/2 mile: stock and placement,little,0.0005,18382.511,220.3847,153.2663,64.6314,21.5613,20.4495,58.2147,105.5724,14.5867,,,,
+net_effect,where_homes_land,b_half,All 15-minute stops within 1/2 mile: stock and placement,typical,0.008,18382.511,3226.432,2243.8188,946.2032,315.6581,299.3809,852.2639,1545.5793,213.5498,,,,
+net_effect,where_homes_land,b_half,All 15-minute stops within 1/2 mile: stock and placement,strong,0.0547,18382.511,22055.0933,15338.1918,6468.0116,1071.3913,3108.8662,4097.8428,5535.5217,8241.4715,,,,
+net_effect,where_homes_land,b_half,All 15-minute stops within 1/2 mile: stock and placement,reference_line,0.008,18382.511,3226.432,2243.8188,946.2032,315.6581,299.3809,852.2639,1545.5793,213.5498,,,,
+net_effect,baseline_only,baseline_low,baseline low (all-housing baseline v2),little,0.0005,8385.712,171.3464,111.785,56.4784,16.7637,15.8992,45.2613,82.0812,11.341,,,,
+net_effect,baseline_only,baseline_low,baseline low (all-housing baseline v2),typical,0.008,8385.712,2508.512,1636.5331,826.844,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,baseline_only,baseline_low,baseline low (all-housing baseline v2),strong,0.0547,8385.712,17147.5693,11186.9366,5652.1019,832.9938,2417.106,3186.0234,4303.8014,6407.6447,,,,
+net_effect,baseline_only,baseline_low,baseline low (all-housing baseline v2),reference_line,0.008,8385.712,2508.512,1636.5331,826.844,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,baseline_only,baseline_high,baseline high (all-housing baseline v2),little,0.0005,21873.6068,171.3464,111.785,56.4784,16.7637,15.8992,45.2613,82.0812,11.341,,,,
+net_effect,baseline_only,baseline_high,baseline high (all-housing baseline v2),typical,0.008,21873.6068,2508.512,1636.5331,826.844,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,baseline_only,baseline_high,baseline high (all-housing baseline v2),strong,0.0547,21873.6068,17147.5693,11186.9366,5652.1019,832.9938,2417.106,3186.0234,4303.8014,6407.6447,,,,
+net_effect,baseline_only,baseline_high,baseline high (all-housing baseline v2),reference_line,0.008,21873.6068,2508.512,1636.5331,826.844,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,baseline_only,census_as_published,Census as published for Milwaukee city,little,0.0005,11874.6693,171.3464,111.785,56.4784,16.7637,15.8992,45.2613,82.0812,11.341,,,,
+net_effect,baseline_only,census_as_published,Census as published for Milwaukee city,typical,0.008,11874.6693,2508.512,1636.5331,826.844,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+net_effect,baseline_only,census_as_published,Census as published for Milwaukee city,strong,0.0547,11874.6693,17147.5693,11186.9366,5652.1019,832.9938,2417.106,3186.0234,4303.8014,6407.6447,,,,
+net_effect,baseline_only,census_as_published,Census as published for Milwaukee city,reference_line,0.008,11874.6693,2508.512,1636.5331,826.844,245.4204,232.765,662.6249,1201.6693,166.0324,,,,
+per_acre,per_acre,wisconsin_measured_uncapped,"Method A per acre with the Wisconsin-measured r, uncapped",wisconsin_measured,0.2275,14463.7776,13476.9794,6833.7724,6643.2069,1318.5208,1250.5299,3559.9518,6455.9677,892.0091,,,,
+per_acre,per_acre,wisconsin_measured_capped,"As above, each metro capped so its total 5+ permits stay at or below the peer 95th percentile (9.06 per 1,000 homes a year): Milwaukee cap 5,161 homes a year, Madison 0 (its 2021-2025 rate is already above)",wisconsin_measured,0.2275,14463.7776,6833.7724,6833.7724,0.0,668.5824,634.1062,1805.1449,3273.6278,452.3111,,,,
+per_acre,per_acre: main,main,Main case as specified,little,0.2399,14463.7776,14211.5488,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: main,main,Main case as specified,reference_line,0.4556,14463.7776,26989.5024,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: main,main,Main case as specified,strong,2.5654,14463.7776,151972.9357,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: main,main,Main case as specified,typical,0.6713,14463.7776,39767.456,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: main,main,Main case as specified,milwaukee_take_up,,14463.7776,,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,r_values,Method A with each other measured r,downtown_brooklyn,2.1966,14463.7776,130125.4193,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,r_values,Method A with each other measured r,park_slope,2.9342,14463.7776,173820.4522,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,r_values,Method A with each other measured r,typical_high,1.0204,14463.7776,60447.9549,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,r_values,Method A with each other measured r,typical_low,0.3649,14463.7776,21616.4825,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,ramp_year5_alt,Year 5 of the ramp = mean of years 3 to 5 (the year-5 drop replaced),little,0.2399,14463.7776,17105.0772,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,ramp_year5_alt,Year 5 of the ramp = mean of years 3 to 5 (the year-5 drop replaced),reference_line,0.4556,14463.7776,32484.6735,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,ramp_year5_alt,Year 5 of the ramp = mean of years 3 to 5 (the year-5 drop replaced),strong,2.5654,14463.7776,182915.236,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,ramp_year5_alt,Year 5 of the ramp = mean of years 3 to 5 (the year-5 drop replaced),typical,0.6713,14463.7776,47864.2699,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,ramp_year5_alt,Year 5 of the ramp = mean of years 3 to 5 (the year-5 drop replaced),milwaukee_take_up,,14463.7776,,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,sqft_1000,"Floor area per home 1,000 sq ft (capacity and building cost; coded added FAR does not depend on it)",little,0.2399,14463.7776,14211.5488,,,,,,,,34682.4241,11847.894,2061190.8674,428085.75
+per_acre,per_acre: law_addition,sqft_1000,"Floor area per home 1,000 sq ft (capacity and building cost; coded added FAR does not depend on it)",reference_line,0.4556,14463.7776,26989.5024,,,,,,,,34682.4241,11847.894,2061190.8674,428085.75
+per_acre,per_acre: law_addition,sqft_1000,"Floor area per home 1,000 sq ft (capacity and building cost; coded added FAR does not depend on it)",strong,2.5654,14463.7776,151972.9357,,,,,,,,34682.4241,11847.894,2061190.8674,428085.75
+per_acre,per_acre: law_addition,sqft_1000,"Floor area per home 1,000 sq ft (capacity and building cost; coded added FAR does not depend on it)",typical,0.6713,14463.7776,39767.456,,,,,,,,34682.4241,11847.894,2061190.8674,428085.75
+per_acre,per_acre: law_addition,sqft_1000,"Floor area per home 1,000 sq ft (capacity and building cost; coded added FAR does not depend on it)",milwaukee_take_up,,14463.7776,,,,,,,,,34682.4241,11847.894,2061190.8674,428085.75
+per_acre,per_acre: law_addition,no_single_family,Single-family lots left out (G2-8),little,0.2399,14463.7776,4141.7262,,,,,,,,19849.0582,3452.8772,1003557.0922,1663.2714
+per_acre,per_acre: law_addition,no_single_family,Single-family lots left out (G2-8),reference_line,0.4556,14463.7776,7865.6542,,,,,,,,19849.0582,3452.8772,1003557.0922,1663.2714
+per_acre,per_acre: law_addition,no_single_family,Single-family lots left out (G2-8),strong,2.5654,14463.7776,44290.0556,,,,,,,,19849.0582,3452.8772,1003557.0922,1663.2714
+per_acre,per_acre: law_addition,no_single_family,Single-family lots left out (G2-8),typical,0.6713,14463.7776,11589.5822,,,,,,,,19849.0582,3452.8772,1003557.0922,1663.2714
+per_acre,per_acre: law_addition,no_single_family,Single-family lots left out (G2-8),milwaukee_take_up,,14463.7776,,,,,,,,,19849.0582,3452.8772,1003557.0922,1663.2714
+per_acre,per_acre: law_addition,fallback_dose_from_capacity,Uncoded places get a method A dose: capacity gain x pooled floor area per home (law FAR minus existing homes' floor area),little,0.2399,14463.7776,43206.8319,,,,,,,,34682.4241,36020.7019,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,fallback_dose_from_capacity,Uncoded places get a method A dose: capacity gain x pooled floor area per home (law FAR minus existing homes' floor area),reference_line,0.4556,14463.7776,82055.1588,,,,,,,,34682.4241,36020.7019,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,fallback_dose_from_capacity,Uncoded places get a method A dose: capacity gain x pooled floor area per home (law FAR minus existing homes' floor area),strong,2.5654,14463.7776,462037.5428,,,,,,,,34682.4241,36020.7019,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,fallback_dose_from_capacity,Uncoded places get a method A dose: capacity gain x pooled floor area per home (law FAR minus existing homes' floor area),typical,0.6713,14463.7776,120903.4858,,,,,,,,34682.4241,36020.7019,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,fallback_dose_from_capacity,Uncoded places get a method A dose: capacity gain x pooled floor area per home (law FAR minus existing homes' floor area),milwaukee_take_up,,14463.7776,,,,,,,,,34682.4241,36020.7019,1918185.2907,1685.9313
+per_acre,per_acre: law_addition,fallback_scaled,"As above, with uncoded places' capacity and dose x 0.7188 (coded / fallback-rule capacity in Milwaukee and Madison)",little,0.2399,14463.7776,35054.6796,,,,,,,,34682.4241,29224.4099,1716381.2829,1211.9243
+per_acre,per_acre: law_addition,fallback_scaled,"As above, with uncoded places' capacity and dose x 0.7188 (coded / fallback-rule capacity in Milwaukee and Madison)",reference_line,0.4556,14463.7776,66573.2057,,,,,,,,34682.4241,29224.4099,1716381.2829,1211.9243
+per_acre,per_acre: law_addition,fallback_scaled,"As above, with uncoded places' capacity and dose x 0.7188 (coded / fallback-rule capacity in Milwaukee and Madison)",strong,2.5654,14463.7776,374861.5053,,,,,,,,34682.4241,29224.4099,1716381.2829,1211.9243
+per_acre,per_acre: law_addition,fallback_scaled,"As above, with uncoded places' capacity and dose x 0.7188 (coded / fallback-rule capacity in Milwaukee and Madison)",typical,0.6713,14463.7776,98091.7317,,,,,,,,34682.4241,29224.4099,1716381.2829,1211.9243
+per_acre,per_acre: law_addition,fallback_scaled,"As above, with uncoded places' capacity and dose x 0.7188 (coded / fallback-rule capacity in Milwaukee and Madison)",milwaukee_take_up,,14463.7776,,,,,,,,,34682.4241,29224.4099,1716381.2829,1211.9243
+per_acre,per_acre: baseline_only,baseline_low,Low baseline (Wisconsin's 10th-percentile five-year outcome),little,0.2399,8385.712,14211.5488,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,baseline_low,Low baseline (Wisconsin's 10th-percentile five-year outcome),reference_line,0.4556,8385.712,26989.5024,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,baseline_low,Low baseline (Wisconsin's 10th-percentile five-year outcome),strong,2.5654,8385.712,151972.9357,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,baseline_low,Low baseline (Wisconsin's 10th-percentile five-year outcome),typical,0.6713,8385.712,39767.456,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,baseline_low,Low baseline (Wisconsin's 10th-percentile five-year outcome),milwaukee_take_up,,8385.712,,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,baseline_high,High baseline (90th percentile),little,0.2399,21873.6068,14211.5488,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,baseline_high,High baseline (90th percentile),reference_line,0.4556,21873.6068,26989.5024,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,baseline_high,High baseline (90th percentile),strong,2.5654,21873.6068,151972.9357,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,baseline_high,High baseline (90th percentile),typical,0.6713,21873.6068,39767.456,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,baseline_high,High baseline (90th percentile),milwaukee_take_up,,21873.6068,,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,census_as_published,"Census as published for Milwaukee city (3,797 fewer baseline units statewide, all in Milwaukee city, x its near-stop share 0.6818)",little,0.2399,11874.6693,14211.5488,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,census_as_published,"Census as published for Milwaukee city (3,797 fewer baseline units statewide, all in Milwaukee city, x its near-stop share 0.6818)",reference_line,0.4556,11874.6693,26989.5024,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,census_as_published,"Census as published for Milwaukee city (3,797 fewer baseline units statewide, all in Milwaukee city, x its near-stop share 0.6818)",strong,2.5654,11874.6693,151972.9357,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,census_as_published,"Census as published for Milwaukee city (3,797 fewer baseline units statewide, all in Milwaukee city, x its near-stop share 0.6818)",typical,0.6713,11874.6693,39767.456,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: baseline_only,census_as_published,"Census as published for Milwaukee city (3,797 fewer baseline units statewide, all in Milwaukee city, x its near-stop share 0.6818)",milwaukee_take_up,,11874.6693,,,,,,,,,34682.4241,11847.894,1918185.2907,1685.9313
+per_acre,per_acre: where_homes_land,rapid_only,Rail and rapid stops only (within 1/2 mile),little,0.2399,6139.9862,3373.2323,,,,,,,,8292.821,2812.1986,406480.2586,0.0
+per_acre,per_acre: where_homes_land,rapid_only,Rail and rapid stops only (within 1/2 mile),reference_line,0.4556,6139.9862,6406.1885,,,,,,,,8292.821,2812.1986,406480.2586,0.0
+per_acre,per_acre: where_homes_land,rapid_only,Rail and rapid stops only (within 1/2 mile),strong,2.5654,6139.9862,36072.0721,,,,,,,,8292.821,2812.1986,406480.2586,0.0
+per_acre,per_acre: where_homes_land,rapid_only,Rail and rapid stops only (within 1/2 mile),typical,0.6713,6139.9862,9439.1448,,,,,,,,8292.821,2812.1986,406480.2586,0.0
+per_acre,per_acre: where_homes_land,rapid_only,Rail and rapid stops only (within 1/2 mile),milwaukee_take_up,,6139.9862,,,,,,,,,8292.821,2812.1986,406480.2586,0.0
+per_acre,per_acre: where_homes_land,high,High case: 20-minute buses within 1/4 mile,little,0.2399,15724.865,16397.0932,,,,,,,,40025.8454,13669.9401,2266107.9388,1685.9313
+per_acre,per_acre: where_homes_land,high,High case: 20-minute buses within 1/4 mile,reference_line,0.4556,15724.865,31140.1236,,,,,,,,40025.8454,13669.9401,2266107.9388,1685.9313
+per_acre,per_acre: where_homes_land,high,High case: 20-minute buses within 1/4 mile,strong,2.5654,15724.865,175344.3221,,,,,,,,40025.8454,13669.9401,2266107.9388,1685.9313
+per_acre,per_acre: where_homes_land,high,High case: 20-minute buses within 1/4 mile,typical,0.6713,15724.865,45883.1541,,,,,,,,40025.8454,13669.9401,2266107.9388,1685.9313
+per_acre,per_acre: where_homes_land,high,High case: 20-minute buses within 1/4 mile,milwaukee_take_up,,15724.865,,,,,,,,,40025.8454,13669.9401,2266107.9388,1685.9313
+per_acre,per_acre: where_homes_land,b_half,All 15-minute stops within 1/2 mile,little,0.2399,18382.511,20133.3282,,,,,,,,48702.8702,16784.7671,2827345.2156,3737.7578
+per_acre,per_acre: where_homes_land,b_half,All 15-minute stops within 1/2 mile,reference_line,0.4556,18382.511,38235.6996,,,,,,,,48702.8702,16784.7671,2827345.2156,3737.7578
+per_acre,per_acre: where_homes_land,b_half,All 15-minute stops within 1/2 mile,strong,2.5654,18382.511,215298.2082,,,,,,,,48702.8702,16784.7671,2827345.2156,3737.7578
+per_acre,per_acre: where_homes_land,b_half,All 15-minute stops within 1/2 mile,typical,0.6713,18382.511,56338.0709,,,,,,,,48702.8702,16784.7671,2827345.2156,3737.7578
+per_acre,per_acre: where_homes_land,b_half,All 15-minute stops within 1/2 mile,milwaukee_take_up,,18382.511,,,,,,,,,48702.8702,16784.7671,2827345.2156,3737.7578
+per_acre,per_acre: law_addition,rent_unscaled,Method B with ACS rents not scaled to new buildings,milwaukee_take_up,,14463.7776,,,,,,,,,34682.4241,11847.894,1918185.2907,0.0
