@@ -12,6 +12,10 @@ REGISTRY = ROOT / "ui" / "src" / "scenarios" / "registry.json"
 PUBLIC = ROOT / "ui" / "public"
 # first path segments the ADU screens use; a reform id must never equal one of them (URL prefixes would collide)
 ADU_SEGMENTS = {"today", "compare", "where", "how-sure", "why", "pilot", "brief"}
+# Reforms that are not a challenge benchmark, so their `benchmark` is a short plain description, not spec text.
+# `combined` is TOD and parking together (docs/shared/SCENARIO_CONTRACT.md section 9, AQ-047); it must say so in
+# `benchmark_note`, which the holding page shows in place of "Benchmark text from the challenge specification."
+NOT_A_BENCHMARK = {"combined"}
 CORE_MANIFEST_KEYS = {"run_id", "scenario_id", "title", "outcome", "dates", "vintages", "validation", "repo_url", "inputs"}
 
 
@@ -43,7 +47,12 @@ class ReformRegistryTest(unittest.TestCase):
         spec = re.sub(r"\s+", " ", (ROOT / "docs" / "CHALLENGE_SPEC.md").read_text())
         for r in self.reg["reforms"]:
             with self.subTest(reform=r["id"]):
+                if r["id"] in NOT_A_BENCHMARK:
+                    self.assertNotIn(r["benchmark"], spec)
+                    self.assertTrue(r.get("benchmark_note", "").strip(), "a non-benchmark entry must say so")
+                    continue
                 self.assertIn(r["benchmark"], spec)
+                self.assertNotIn("benchmark_note", r)
 
     def test_ready_reforms_have_a_bundle_with_the_core_manifest(self):
         for r in self.reg["reforms"]:

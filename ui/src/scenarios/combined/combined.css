@@ -1,0 +1,19 @@
+/* TOD and parking together (owned by the TOD conductor). Every rule is scoped under a combined- class so it cannot
+   restyle the ADU, TOD or parking screens; colours come from the tokens in style.css. */
+.combined-view .combined-picker { margin: 4px 0 8px; }
+.combined-view .combined-tiles .tile-num { font-size: 1.9rem; }
+.combined-view .combined-double ul { margin: 8px 0; padding-left: 1.2em; }
+.combined-view .combined-double li { margin: 4px 0; }
+.combined-view .combined-rule-c { border-style: dashed; }
+.combined-view .combined-total th, .combined-view .combined-total td { font-weight: 700; border-top: 2px solid var(--line); }
+.combined-view .combined-controls { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; }
+.combined-view .combined-search { display: grid; gap: 4px; }
+.combined-view .combined-search label { font-weight: 600; font-size: 0.9rem; }
+.combined-view .combined-search input { min-height: 40px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; min-width: 16em; max-width: 100%; }
+.combined-view .combined-search input:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.combined-view .combined-sort-ind { font-size: 0.8em; opacity: 0.7; }
+.combined-view .combined-steps li { margin: 6px 0; }
+@media (max-width: 640px) {
+  .combined-view .combined-search input { min-width: 0; width: 100%; }
+  .combined-view .combined-search { width: 100%; }
+}

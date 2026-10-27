@@ -38,6 +38,20 @@
         "label": "Parking requirement reduction: Gate 3 packet",
         "path": "docs/parking/GATE3_PACKET.md"
       }
+    },
+    {
+      "id": "combined",
+      "label": "TOD and parking together",
+      "subtitle": "Transit-oriented density and parking reform together · in development",
+      "status": "in_development",
+      "bundle_root": "scenarios/combined/runs/",
+      "owner": "TOD conductor",
+      "benchmark": "Not a challenge benchmark: the transit-oriented density and parking reforms above, modelled together. Away from transit stops their additions are added; near stops, where both may count the same new homes, they are shown two ways side by side.",
+      "benchmark_note": "Not from the challenge specification: this combines two of its benchmarks, as the owner asked.",
+      "plan_doc": {
+        "label": "Scenario contract, section 9: combined reforms",
+        "path": "docs/shared/SCENARIO_CONTRACT.md"
+      }
     }
   ]
 }

@@ -23,7 +23,7 @@ function mount(env: ShellEnv): MountedReform {
       <p class="banner" data-testid="in-development"><strong>In development.</strong> This reform does not have estimates yet. Its numbers will appear here once they have passed review.</p>
       <h2>The benchmark being modelled</h2>
       <blockquote data-testid="benchmark"><p>${esc(e.benchmark)}</p></blockquote>
-      <p class="small muted">Benchmark text from the challenge specification.</p>
+      <p class="small muted">${esc(e.benchmark_note ?? "Benchmark text from the challenge specification.")}</p>
       ${e.plan_doc ? `<h2>Work in progress</h2><p><a href="${esc(docUrl(e.plan_doc.path))}" target="_blank" rel="noopener">${esc(e.plan_doc.label)}<span class="sr-only"> (opens GitHub in a new tab)</span> ↗</a></p>` : ""}`;
     },
   };

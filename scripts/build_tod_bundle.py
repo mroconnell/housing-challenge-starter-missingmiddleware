@@ -35,6 +35,10 @@ REPO_URL = "https://github.com/mroconnell/housing-challenge-starter-missingmiddl
 DOC = REPO_URL + "/blob/main/"
 YEARS = [2027, 2028, 2029, 2030, 2031]
 SCEN = ["little", "typical", "strong"]
+# Combined views (docs/shared/SCENARIO_CONTRACT.md section 9): the shared baseline this bundle is built on, and
+# how its paths map to the roles that are paired with other reforms' paths.
+BASELINE_VERSION = "all-housing baseline v2"
+ROLES = {"lower": "little", "central": "typical", "upper": "strong"}
 ADU_RUN = json.loads((ROOT / "ui" / "public" / "runs" / "latest.json").read_text())["run_id"]
 GEO_MUNIS = f"ui/public/runs/{ADU_RUN}/geo_munis.json"
 
@@ -225,6 +229,21 @@ def build_statewide() -> dict:
 # ---- areas ------------------------------------------------------------------------------------
 def by_years(row) -> list:
     return [r(row[f"add_{y}"], 4) for y in YEARS]
+
+
+def build_additions() -> dict:
+    """additions_by_area.json for combined views (docs/shared/SCENARIO_CONTRACT.md section 9): each
+    municipality's additions by year and path. TOD acts only near stops, so every row is part "near_stops"."""
+    a = pd.read_csv(REF / "tod_model_by_area.csv")
+    a = a[(a["sizing"] == "net_effect") & a["scenario"].isin(SCEN)]
+    rows = {}
+    for x in a.itertuples():
+        row = rows.setdefault(x.area_id, {"area_id": x.area_id, "part": "near_stops"})
+        row[x.scenario] = by_years(x._asdict())
+    return {"reform": "tod", "baseline_version": BASELINE_VERSION, "years": YEARS,
+            "paths": [{"id": k, "label": SCEN_TEXT[k]["label"]} for k in SCEN], "roles": ROLES,
+            "split_source": "reference/tod_model_by_area.csv (net-effect sizing; all additions are near stops)",
+            "areas": [rows[k] for k in sorted(rows)]}
 
 
 def build_areas() -> dict:
@@ -681,10 +700,11 @@ def main():
                      {"what": "Census Building Permits Survey (current-law forecast)", "vintage": "2015–2025 annual"},
                      {"what": "Milwaukee and Madison parcels and zoning", "vintage": "2025–2026"}],
         "validation": val, "repo_url": REPO_URL, "inputs": hashes,
-        "files": ["statewide.json", "areas.json", "map.json", "howsure.json", "why.json", "pilots.json"],
+        "files": ["statewide.json", "areas.json", "map.json", "howsure.json", "why.json", "pilots.json", "additions_by_area.json"],
     }
     files = {"manifest.json": manifest, "statewide.json": sw, "areas.json": areas, "map.json": build_map(areas),
-             "howsure.json": build_howsure(sw, areas), "why.json": build_why(), "pilots.json": pilots}
+             "howsure.json": build_howsure(sw, areas), "why.json": build_why(), "pilots.json": pilots,
+             "additions_by_area.json": build_additions()}
     for name, obj in files.items():
         (out / name).write_text(json.dumps(obj, ensure_ascii=False, separators=(",", ":"), sort_keys=True) + "\n")
     (OUT_ROOT / "latest.json").write_text(json.dumps({"run_id": run_id}) + "\n")

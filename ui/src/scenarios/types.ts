@@ -14,8 +14,11 @@ export interface ReformEntry {
   /** Folder under ui/public/ that holds latest.json and runs/<run_id>/ for this reform. */
   bundle_root: string;
   owner: string;
-  /** The challenge benchmark text, verbatim. */
+  /** The challenge benchmark text, verbatim. A reform that is not a challenge benchmark (the combined view) gives a
+   *  short plain description instead and says so in `benchmark_note`. */
   benchmark: string;
+  /** Shown under the benchmark on the holding page instead of "Benchmark text from the challenge specification." */
+  benchmark_note?: string;
   plan_doc: { label: string; path: string } | null;
 }
 
