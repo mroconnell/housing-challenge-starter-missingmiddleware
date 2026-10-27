@@ -94,3 +94,11 @@ All entries are dated 2026-10-27. They were written while running the test; resu
 11. **City land area (trait 5)** is from the 2024 Gazetteer (today's boundaries).
 12. **Wisconsin step (section 6).** The only passing trait (12, parking minimums cut) is a city-level property of the law, so it cannot give each Wisconsin station area its own rate. The sensitivity table gives every area two rates, with the trait at 0 (the current model, parking left to the parking scenario) and at 1 (Gate 1 benchmark T5). Reason: section 6 assumes an area-level trait; this one is not.
 13. **Near-miss before half-of-cities (sections 5.3 and 5.6).** The first run judged added FAR (trait 7) a pass: it is testable in only two fold cities (New York and Saint Paul) and lowered the error in one, which is "half". Section 5.6 calls a trait that passes in only one held-out city a near-miss, so the rule now applies 5.6 first: lower error in exactly one fold city is a near-miss, whatever the number of folds. This was changed after seeing the first run; it changed trait 7 from pass to near-miss and no other verdict.
+
+**2026-10-27, exploratory combinations (owner request, "run it"; written before any pair is tested).** The confirmatory test above allowed pairs only of passing traits. As an exploration, every pair of the 12 traits (66 pairs) is tested, plus one small regression tree with depth at most 2 and at least 8 units per leaf, fitted on the same traits.
+- **Folds and errors:** the same leave-one-city-out folds over New York, Philadelphia, Charlotte and Saint Paul. The same acre-weighted error. Traits use the same logarithms.
+- **Stricter pass rule, fixed now:** a pair or tree passes only if all three hold:
+  - it beats the no-trait baseline in at least 3 of the 4 fitted cities;
+  - it beats the baseline on average across the fitted cities;
+  - it beats the baseline on both held-out cases, Chicago and Madison, each by itself.
+- **How results are shown:** every pair's result is reported. Anything that passes is labelled exploratory: shown as a sensitivity only, never used for the main estimate, and stated with the warning that about 3 of 66 pairs would be expected to look good by chance.
