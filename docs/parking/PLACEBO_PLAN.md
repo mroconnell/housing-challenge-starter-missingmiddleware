@@ -24,3 +24,7 @@ How large an "effect" does the comparison method find in places that never remov
 - where the real average −1.10 falls in it, as the share of placebo averages at or below −1.10;
 - the spread of single placebo places' effects against the spread of the real places' effects. If they match, the place-to-place differences are noise;
 - whether the 90% range from the placebo spread, centred on the real average, is narrower or wider than the current range (−3.50 to +1.54). A change to the tool's high end would go to Ryan as a decision.
+
+## Changes after writing
+
+- **2026-10-27, before running (for computing time):** for each real place, up to 20 eligible placebo places are drawn once, with the same seed, and their effects computed once. Each of the 500 sets then draws one of those 20 at random for each real place. The sets and the reported statistics are otherwise as above.
