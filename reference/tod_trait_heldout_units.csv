@@ -1,0 +1,352 @@
+model,unit_id,city,unit_name,treatment_acres,measured_effect,predicted_effect
+baseline (weighted mean),chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.4768
+baseline (weighted mean),chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.4768
+baseline (weighted mean),chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,0.4768
+baseline (weighted mean),chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,0.4768
+baseline (weighted mean),chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.4768
+baseline (weighted mean),chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,0.4768
+baseline (weighted mean),chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,0.4768
+baseline (weighted mean),chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,0.4768
+baseline (weighted mean),chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,0.4768
+baseline (weighted mean),chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,0.4768
+baseline (weighted mean),chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,0.4768
+baseline (weighted mean),chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,0.4768
+baseline (weighted mean),chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,0.4768
+baseline (weighted mean),chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,0.4768
+baseline (weighted mean),chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.4768
+baseline (weighted mean),chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.4768
+baseline (weighted mean),chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.4768
+baseline (weighted mean),chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.4768
+baseline (weighted mean),chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.4768
+baseline (weighted mean),chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.4768
+baseline (weighted mean),chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.4768
+baseline (weighted mean),chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.4768
+baseline (weighted mean),mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.4768
+baseline (weighted mean),mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.4768
+baseline (weighted mean),mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.4768
+baseline (weighted mean),mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.4768
+baseline (weighted mean),mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.4768
+t01_home_value,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.8057
+t01_home_value,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.8106
+t01_home_value,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,0.3573
+t01_home_value,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,0.3909
+t01_home_value,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.4113
+t01_home_value,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,0.101
+t01_home_value,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,0.9213
+t01_home_value,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,0.9874
+t01_home_value,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,0.5524
+t01_home_value,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,0.5769
+t01_home_value,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,0.9744
+t01_home_value,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,0.573
+t01_home_value,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,0.9586
+t01_home_value,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,1.0513
+t01_home_value,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.6747
+t01_home_value,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.5809
+t01_home_value,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.5337
+t01_home_value,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.9171
+t01_home_value,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.5224
+t01_home_value,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,1.0985
+t01_home_value,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.7945
+t01_home_value,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.7454
+t01_home_value,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.7719
+t01_home_value,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.4902
+t01_home_value,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.4049
+t01_home_value,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.7047
+t01_home_value,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.7191
+t02_lot_size,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.6364
+t02_lot_size,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.6285
+t02_lot_size,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,0.6323
+t02_lot_size,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,0.6262
+t02_lot_size,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.5378
+t02_lot_size,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,0.3357
+t02_lot_size,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,0.6263
+t02_lot_size,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,0.6419
+t02_lot_size,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,0.6283
+t02_lot_size,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,0.6528
+t02_lot_size,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,0.6477
+t02_lot_size,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,0.6377
+t02_lot_size,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,-0.2375
+t02_lot_size,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,0.6472
+t02_lot_size,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.6382
+t02_lot_size,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.6286
+t02_lot_size,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.6207
+t02_lot_size,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.6296
+t02_lot_size,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.6285
+t02_lot_size,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.6479
+t02_lot_size,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.6266
+t02_lot_size,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.6217
+t02_lot_size,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.6419
+t02_lot_size,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.5413
+t02_lot_size,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.4896
+t02_lot_size,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.6085
+t02_lot_size,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.5032
+t03_existing_density,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.3639
+t03_existing_density,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.2419
+t03_existing_density,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,0.399
+t03_existing_density,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,0.4388
+t03_existing_density,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.6666
+t03_existing_density,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,0.0985
+t03_existing_density,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,0.0985
+t03_existing_density,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,0.8346
+t03_existing_density,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,0.7137
+t03_existing_density,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,0.6509
+t03_existing_density,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,0.5555
+t03_existing_density,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,0.3822
+t03_existing_density,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,0.6307
+t03_existing_density,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,0.7199
+t03_existing_density,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.6383
+t03_existing_density,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.8173
+t03_existing_density,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.2638
+t03_existing_density,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.7504
+t03_existing_density,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.8396
+t03_existing_density,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.9393
+t03_existing_density,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.9093
+t03_existing_density,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.5263
+t03_existing_density,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.7839
+t03_existing_density,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.4027
+t03_existing_density,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.5084
+t03_existing_density,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.5226
+t03_existing_density,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.5138
+t04_income,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.2829
+t04_income,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.757
+t04_income,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,-0.0069
+t04_income,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,0.4212
+t04_income,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.4703
+t04_income,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,-0.0375
+t04_income,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,1.3716
+t04_income,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,1.1101
+t04_income,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,-0.1542
+t04_income,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,0.0319
+t04_income,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,1.4047
+t04_income,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,-0.0784
+t04_income,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,1.1906
+t04_income,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,1.4385
+t04_income,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.3853
+t04_income,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.5868
+t04_income,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,-0.134
+t04_income,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.677
+t04_income,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.4768
+t04_income,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.4456
+t04_income,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.6877
+t04_income,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.3973
+t04_income,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.7428
+t04_income,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.7674
+t04_income,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.5812
+t04_income,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.9081
+t04_income,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.5338
+t05_city_land_area,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.4869
+t05_city_land_area,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.4869
+t05_city_land_area,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,0.4869
+t05_city_land_area,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,0.4869
+t05_city_land_area,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.4869
+t05_city_land_area,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,0.4869
+t05_city_land_area,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,0.4869
+t05_city_land_area,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,0.4869
+t05_city_land_area,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,0.4869
+t05_city_land_area,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,0.4869
+t05_city_land_area,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,0.4869
+t05_city_land_area,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,0.4869
+t05_city_land_area,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,0.4869
+t05_city_land_area,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,0.4869
+t05_city_land_area,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.4869
+t05_city_land_area,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.4869
+t05_city_land_area,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.4869
+t05_city_land_area,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.4869
+t05_city_land_area,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.4869
+t05_city_land_area,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.4869
+t05_city_land_area,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.4869
+t05_city_land_area,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.4869
+t05_city_land_area,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.3723
+t05_city_land_area,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.3723
+t05_city_land_area,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.3723
+t05_city_land_area,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.3723
+t05_city_land_area,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.3723
+t06_rent,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.3322
+t06_rent,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.6689
+t06_rent,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,0.0344
+t06_rent,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,0.1916
+t06_rent,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.2574
+t06_rent,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,0.2914
+t06_rent,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,1.3718
+t06_rent,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,1.2867
+t06_rent,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,0.1599
+t06_rent,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,-0.0766
+t06_rent,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,1.2088
+t06_rent,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,0.4133
+t06_rent,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,1.0461
+t06_rent,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,1.5801
+t06_rent,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.3469
+t06_rent,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.5116
+t06_rent,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.3578
+t06_rent,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.5812
+t06_rent,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.3632
+t06_rent,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.045
+t06_rent,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.5032
+t06_rent,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,-0.1128
+t06_rent,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.9283
+t06_rent,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.6295
+t06_rent,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.4168
+t06_rent,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.7014
+t06_rent,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.7575
+t07_added_far,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,-1.0539
+t07_added_far,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,-1.0539
+t07_added_far,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,-1.0539
+t07_added_far,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,-1.0539
+t07_added_far,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,-1.0539
+t07_added_far,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,-1.0539
+t07_added_far,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,-1.0539
+t07_added_far,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,-1.0539
+t07_added_far,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,-1.0539
+t07_added_far,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,-1.0539
+t07_added_far,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,-1.0539
+t07_added_far,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,-1.0539
+t07_added_far,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,-1.0539
+t07_added_far,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,-1.0539
+t07_added_far,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,-1.0539
+t07_added_far,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,-1.0539
+t07_added_far,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,-1.0539
+t07_added_far,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,-1.0539
+t07_added_far,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,-1.0539
+t07_added_far,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,-1.0539
+t07_added_far,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,-1.0539
+t07_added_far,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,-1.0539
+t07_added_far,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,-0.702
+t07_added_far,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.1654
+t07_added_far,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,-0.702
+t07_added_far,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,-0.702
+t07_added_far,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,-0.3396
+t08_rate_before,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.5207
+t08_rate_before,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.4664
+t08_rate_before,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,0.4664
+t08_rate_before,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,0.4664
+t08_rate_before,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.4664
+t08_rate_before,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,0.4664
+t08_rate_before,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,0.6483
+t08_rate_before,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,0.4816
+t08_rate_before,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,0.4664
+t08_rate_before,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,0.4918
+t08_rate_before,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,0.5076
+t08_rate_before,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,0.4664
+t08_rate_before,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,0.4664
+t08_rate_before,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,0.4664
+t08_rate_before,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.4664
+t08_rate_before,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.4664
+t08_rate_before,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.4664
+t08_rate_before,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.4664
+t08_rate_before,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.4855
+t08_rate_before,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.4664
+t08_rate_before,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.4664
+t08_rate_before,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.4664
+t08_rate_before,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.5173
+t08_rate_before,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.4765
+t08_rate_before,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.5338
+t08_rate_before,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.5174
+t08_rate_before,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.4924
+t09_vacant_parking_industrial_share,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,1.5539
+t09_vacant_parking_industrial_share,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,1.9137
+t09_vacant_parking_industrial_share,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,1.3692
+t09_vacant_parking_industrial_share,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,1.9557
+t09_vacant_parking_industrial_share,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.1732
+t09_vacant_parking_industrial_share,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,3.7669
+t09_vacant_parking_industrial_share,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,2.9364
+t09_vacant_parking_industrial_share,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,1.2977
+t09_vacant_parking_industrial_share,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,1.1435
+t09_vacant_parking_industrial_share,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,1.3645
+t09_vacant_parking_industrial_share,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,1.1917
+t09_vacant_parking_industrial_share,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,1.8792
+t09_vacant_parking_industrial_share,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,0.1732
+t09_vacant_parking_industrial_share,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,1.2057
+t09_vacant_parking_industrial_share,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.9786
+t09_vacant_parking_industrial_share,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.4075
+t09_vacant_parking_industrial_share,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.9099
+t09_vacant_parking_industrial_share,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.6753
+t09_vacant_parking_industrial_share,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.3738
+t09_vacant_parking_industrial_share,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.5463
+t09_vacant_parking_industrial_share,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.9107
+t09_vacant_parking_industrial_share,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.1732
+t09_vacant_parking_industrial_share,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.2907
+t09_vacant_parking_industrial_share,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.405
+t09_vacant_parking_industrial_share,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,1.3976
+t09_vacant_parking_industrial_share,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.6846
+t09_vacant_parking_industrial_share,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.5136
+t10_km_to_downtown,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.7452
+t10_km_to_downtown,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.6724
+t10_km_to_downtown,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,0.5944
+t10_km_to_downtown,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,0.5052
+t10_km_to_downtown,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.4685
+t10_km_to_downtown,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,-0.1135
+t10_km_to_downtown,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,1.2116
+t10_km_to_downtown,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,0.843
+t10_km_to_downtown,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,0.1367
+t10_km_to_downtown,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,1.1308
+t10_km_to_downtown,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,1.2572
+t10_km_to_downtown,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,0.3404
+t10_km_to_downtown,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,-0.4681
+t10_km_to_downtown,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,0.9837
+t10_km_to_downtown,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,-0.011
+t10_km_to_downtown,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.014
+t10_km_to_downtown,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.3527
+t10_km_to_downtown,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.6829
+t10_km_to_downtown,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.1087
+t10_km_to_downtown,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,1.1859
+t10_km_to_downtown,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.6836
+t10_km_to_downtown,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.5835
+t10_km_to_downtown,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,1.3637
+t10_km_to_downtown,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.7555
+t10_km_to_downtown,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,1.0463
+t10_km_to_downtown,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,1.1326
+t10_km_to_downtown,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.5792
+t11_transit_jobs_access,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.4999
+t11_transit_jobs_access,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.5107
+t11_transit_jobs_access,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,0.4765
+t11_transit_jobs_access,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,1.0419
+t11_transit_jobs_access,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,1.0496
+t11_transit_jobs_access,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,0.2762
+t11_transit_jobs_access,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,0.6421
+t11_transit_jobs_access,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,0.6321
+t11_transit_jobs_access,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,0.9106
+t11_transit_jobs_access,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,0.644
+t11_transit_jobs_access,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,0.7422
+t11_transit_jobs_access,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,0.494
+t11_transit_jobs_access,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,0.2972
+t11_transit_jobs_access,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,0.6578
+t11_transit_jobs_access,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.4481
+t11_transit_jobs_access,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.4493
+t11_transit_jobs_access,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.3873
+t11_transit_jobs_access,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.6448
+t11_transit_jobs_access,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.4178
+t11_transit_jobs_access,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.6661
+t11_transit_jobs_access,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.5501
+t11_transit_jobs_access,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.5116
+t11_transit_jobs_access,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.1689
+t11_transit_jobs_access,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.1209
+t11_transit_jobs_access,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.144
+t11_transit_jobs_access,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.1359
+t11_transit_jobs_access,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.1434
+t12_parking_cut,chi_43rd,Chicago,Chicago: 43rd,5.71,-0.604,0.083
+t12_parking_cut,chi_47th_green,Chicago,Chicago: 47th-Green,7.22,-0.0846,0.083
+t12_parking_cut,chi_51st,Chicago,Chicago: 51st,8.48,-0.0285,0.083
+t12_parking_cut,chi_51st_53rd_st_hyde_park,Chicago,Chicago: 51st/53rd St. (Hyde Park),6.98,-0.0852,0.083
+t12_parking_cut,chi_55th_56th_57th_st,Chicago,Chicago: 55th - 56th - 57th St.,7.75,-0.0018,0.083
+t12_parking_cut,chi_87th_st_woodruff,Chicago,Chicago: 87th St. (Woodruff),6.78,0.0,0.083
+t12_parking_cut,chi_ashland_lake,Chicago,Chicago: Ashland-Lake,5.22,-2.1801,0.083
+t12_parking_cut,chi_belmont,Chicago,Chicago: Belmont,10.8,0.6873,0.083
+t12_parking_cut,chi_bryn_mawr_2,Chicago,Chicago: Bryn Mawr (2),6.8,0.0,0.083
+t12_parking_cut,chi_cermak_chinatown,Chicago,Chicago: Cermak-Chinatown,5.75,0.1585,0.083
+t12_parking_cut,chi_chicago_blue,Chicago,Chicago: Chicago-Blue,5.32,0.0219,0.083
+t12_parking_cut,chi_cottage_grove,Chicago,Chicago: Cottage Grove,8.3,-0.1073,0.083
+t12_parking_cut,chi_cumberland,Chicago,Chicago: Cumberland,6.23,0.0,0.083
+t12_parking_cut,chi_fullerton,Chicago,Chicago: Fullerton,5.59,1.1366,0.083
+t12_parking_cut,chi_howard,Chicago,Chicago: Howard,7.45,1.0098,0.083
+t12_parking_cut,chi_jarvis,Chicago,Chicago: Jarvis,5.8,-0.0086,0.083
+t12_parking_cut,chi_king_drive,Chicago,Chicago: King Drive,13.21,-0.0591,0.083
+t12_parking_cut,chi_logan_square,Chicago,Chicago: Logan Square,6.31,1.8915,0.083
+t12_parking_cut,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.083
+t12_parking_cut,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.083
+t12_parking_cut,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.083
+t12_parking_cut,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.083
+t12_parking_cut,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.083
+t12_parking_cut,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.083
+t12_parking_cut,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.083
+t12_parking_cut,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.083
+t12_parking_cut,mad_west_of_the_core,Madison,Madison: west of the core,199.31,0.8902,0.083
