@@ -855,3 +855,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-27 | AQ-050 | TOD: owner adopted citywide net-effect sizing (Los Angeles, Stacy et al., Auckland, corrected and per upzoned home), per-acre response for placement only, Wisconsin-measured per-acre rate as a capped sensitivity. |
 | 2026-10-27 | AQ-051 | TOD Gate 3 approved: three net-effect scenarios (about 171 / 2,509 / 17,148), suburbs placement, year-5 smoothing, timing caveat, go to Gate 4. |
 | 2026-10-27 | AQ-048 | Parking Gate 4: owner accepted the parking screens and the three pilot places (Milwaukee, West Allis, Eau Claire) ("Approved. Move forward"); the parking reform is marked ready in the tool. Next: Gate 5. |
+| 2026-10-27 | AQ-048 | Parking Gate 5: owner accepted the parking scenario as good enough to submit (G5-1) and asked for a map on the parking Where tab (G5-2). |
