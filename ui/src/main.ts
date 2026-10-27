@@ -11,10 +11,11 @@ import { esc } from "./format";
 import { aduReform } from "./scenarios/adu";
 import { parkingReform } from "./scenarios/parking/index";
 import { placeholderReform } from "./scenarios/placeholder";
+import { todReform } from "./scenarios/tod/index";
 import { REGISTRY, reformEntry, type MountedReform, type ReformEntry, type ReformModule, type ShellEnv } from "./scenarios/types";
 
 /** Code for each reform id; a reform without its own module (or not yet "ready") gets the holding page. */
-const MODULES: Record<string, ReformModule> = { adu: aduReform, parking: parkingReform };
+const MODULES: Record<string, ReformModule> = { adu: aduReform, parking: parkingReform, tod: todReform };
 
 /** Preview mode lets the owner review a reform that has screens but is not yet "ready" (a Gate 4 pilot).
  *  Turn it on with `?preview=1` in the URL (off with `?preview=0`); it is remembered for this browser tab only. */

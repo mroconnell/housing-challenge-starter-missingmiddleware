@@ -1,0 +1,34 @@
+/* Transit-oriented density screens (owned by the TOD conductor). Uses the colour tokens from style.css. */
+.tod-map { margin: 8px 0; }
+.tod-map svg { width: 100%; height: auto; max-height: 680px; display: block; border: 1px solid var(--line); border-radius: 8px; background: #dce8ef; }
+.tod-map-label { font-size: 24px; font-weight: 600; fill: #1d2623; paint-order: stroke; stroke: #fff; stroke-width: 5px; stroke-linejoin: round; }
+.tod-map-scale { font-size: 20px; fill: #1d2623; }
+.tod-bars { display: grid; gap: 6px; margin: 10px 0; }
+.tod-bar-row { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 3fr) 6.5em; gap: 8px; align-items: center; font-size: 0.92rem; }
+.tod-bar-track { background: #eef0ee; border-radius: 4px; height: 16px; position: relative; overflow: hidden; }
+.tod-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); border-radius: 4px; }
+.tod-bar-row.is-main .tod-bar-fill { background: #17644f; }
+.tod-bar-row.is-context .tod-bar-fill { background: repeating-linear-gradient(45deg, #9aa29e 0 4px, #c9cecb 4px 8px); }
+.tod-bar-row.is-main { font-weight: 600; }
+.tod-bar-val { text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) {
+  .tod-bar-row { grid-template-columns: minmax(0, 1fr) 6em; }
+  .tod-bar-row .tod-bar-track { grid-column: 1 / -1; grid-row: 2; }
+}
+th[aria-sort] button, th .sort-btn { all: unset; cursor: pointer; font-weight: 600; display: inline-flex; gap: 4px; align-items: center; min-height: 28px; }
+th .sort-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+th .sort-ind { font-size: 0.8em; opacity: 0.7; }
+.tod-ci { display: grid; gap: 10px; margin: 8px 0; }
+.tod-ci-row { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 3fr); gap: 8px; align-items: center; font-size: 0.92rem; }
+.tod-ci-track { position: relative; height: 22px; background: #f3f3f1; border-radius: 4px; }
+.tod-ci-zero { position: absolute; top: 0; bottom: 0; width: 1px; background: #4b5450; }
+.tod-ci-range { position: absolute; top: 9px; height: 4px; border-radius: 2px; }
+.tod-ci-pt { position: absolute; top: 5px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; }
+@media (max-width: 640px) { .tod-ci-row { grid-template-columns: minmax(0, 1fr); } }
+.tod-scen-tiles .tile-num { font-size: 2rem; }
+.tod-studies { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.tod-studies .card { margin: 0; }
+.tod-brief .brief-sub { margin-top: 0; }
+@media print {
+  .tod-map svg { max-height: 3.2in; }
+}
