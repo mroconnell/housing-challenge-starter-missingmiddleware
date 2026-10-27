@@ -138,6 +138,15 @@ Added 2026-10-26. Both are fetched in full by `uv run python scripts/fetch_legis
 | Wisconsin State Assembly (99) and Senate (33) districts, 2024 plan (2023 Wisconsin Act 94), LTSB ArcGIS layers (`wi_assembly_districts`, `wi_senate_districts`) | Pass | Pass | Pass | Pass | Pass | Pass | Terms: "open and publicly available ... use at your own risk" (D1 applies). Raw layers stay in `data/raw/`. The tool's bundle carries copies simplified to 150 m with coordinates rounded to 4 decimals (`ui/public/runs/<run_id>/geo_assembly.json`, 143 KB; `geo_senate.json`, 95 KB): district outlines and numbers only, no other attributes |
 | Census 2020 tabulation blocks for Wisconsin with 2020 housing-unit counts (TIGER2020 TABBLOCK20, `census_tiger_2020_tabblock`, 291 MB) | Pass | Pass | Pass | Pass | Pass | Pass | Public domain. Used only to split each municipality's single-family homes across districts (`scripts/build_district_allocation.py`); not committed. Committed outputs are area × district shares and district totals (`reference/adu_model_district_crosswalk.csv`, `adu_model_by_assembly_district.csv`, `adu_model_by_senate_district.csv`) |
 
+### TOD cost-method reports (owner decision T5-3, AQ-055)
+
+Added 2026-10-27. Two industry reports behind the set-aside cost-based method (method B). Both PDFs were fetched by hand with `curl` on 2026-10-26 into git-ignored `data/raw/tod_model/` (URL, bytes and SHA-256 in its `manifest.json`); no script downloads them. Their figures are typed into `scripts/run_tod_model.py`. They are used only for method B's diagnostics table, `reference/tod_model_feasibility.csv`, and the parameter table cites them; **no adopted number uses them**. The files are optional: without them `run_tod_model.py` skips that table with a printed note and writes every other output unchanged.
+
+| Dataset | (1) | (2) | (3) | (4) | (5) | (6) | Notes |
+|---|---|---|---|---|---|---|---|
+| CBRE, U.S. Cap Rate Survey H1 2024 (Milwaukee multifamily infill, Class A stabilised: 5.5%–6%; midpoint 5.75% used) | Owner (D4) | Pass | Fix (manual, optional) | Pass | Pass | Pass | © CBRE. Copy hosted by a third party (taasinvestments.com), not by CBRE; one figure cited, file not redistributed |
+| IREM, Income/Expense IQ National Summary 2024 (multifamily: $7,981.42 operating expenses and $20,575 gross rents per unit per year) | Owner (D4) | Pass | Fix (manual, optional) | Pass | Pass | Pass | © IREM. Public summary from irem.org; two figures cited, file not redistributed |
+
 ## Owner decisions
 
 **Owner decisions (2026-10-25):**

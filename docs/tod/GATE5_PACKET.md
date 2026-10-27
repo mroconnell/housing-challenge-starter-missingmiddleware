@@ -72,8 +72,8 @@ A fresh clone of `main` (commit `3a22322`) into `/private/tmp/claude-501/tod-gat
 | --- | --- | --- | --- | --- |
 | 1 | `fetch_tod_transit.py` | yes (3 min) | yes | **Refetched live on 2026-10-27.** 15 of 19 files had the same SHA-256 as the adopted run; 4 GTFS feeds changed bytes (The Hop, Fond du Lac, Beloit, Stevens Point). Every output below was still byte-identical. |
 | — | other raw inputs (2020 blocks, 2024 boundaries, TIGER 2024, ACS, BPS, Wisconsin V12 parcels, city zoning, Madison parcels and permits, Milwaukee MPROP) | yes | yes: `fetch_legislative_districts.py`, `fetch_map_outlines.sh`, the foundation sources, `fetch_tod_parcels_zoning.py --counties all`, `build_madison_permits.py --fetch`, `build_wi_baseline.py` | **Not refetched** (copied from the working copy; checksums in each manifest). The city parcel, zoning and MPROP layers are "current" layers, so a later refetch will differ. |
-| — | Madison TOD overlay boundary (`data/raw/madison_tod/tod_boundary.geojson`) | — | **no**: no fetch script and no manifest | Gap (decision T5-4) |
-| — | `data/raw/tod_model/` (HUD cost table, ACS B25111, CBRE and IREM PDFs) | yes | **no**: fetched by hand with `curl`; manifest present | Gap; needed only for the abandoned cost-based method's diagnostics (decision T5-3) |
+| — | Madison TOD overlay boundary (`data/raw/madison_tod/tod_boundary.geojson`) | — | yes: `fetch_tod_parcels_zoning.py --only mad_tod` (City of Madison OPEN_DATA_PLANNING layer 16), with a manifest | Closed 2026-10-27 (T5-4); the fetched file is byte-identical to the one used |
+| — | `data/raw/tod_model/` (HUD cost table, ACS B25111, CBRE and IREM PDFs) | yes | **no**: fetched by hand with `curl`; manifest present | Closed 2026-10-27 (T5-3): optional. The model skips the diagnostics table when the reports are absent, all other outputs are unchanged, and both sources are recorded in DATA_COMPLIANCE.md |
 | 2 | `build_tod_stops.py` | no | yes | byte-identical (30 s) |
 | 3 | `build_tod_station_areas.py` | no | yes | byte-identical (39 s) |
 | 4 | `run_tod_model.py` | no | yes | byte-identical |

@@ -1,6 +1,6 @@
 """Download the land and zoning inputs for the TOD station-area tables (TOD Gate 2, WP4).
 
-    uv run --all-extras python scripts/fetch_tod_parcels_zoning.py [--only v12|mke_zoning|mad_zoning|docs] [--counties all]
+    uv run --all-extras python scripts/fetch_tod_parcels_zoning.py [--only v12|mke_zoning|mad_zoning|mad_tod|docs] [--counties all]
 
 Needs network and reference/tod_stops.csv (built by scripts/build_tod_stops.py).
 
@@ -14,12 +14,16 @@ Raw (git-ignored), all under data/raw/tod_capacity/:
 - mke_zoning.geojson: City of Milwaukee zoning districts (planning/zoning MapServer layer 11, CC BY),
   same spatial filter.
 - mad_zoning.geojson: City of Madison zoning districts (Public/OPEN_DATA MapServer layer 9), whole city.
+- data/raw/madison_tod/tod_boundary.geojson (outside tod_capacity/, where the build scripts read it): the City
+  of Madison Transit-Oriented Development Overlay District boundary (Public/OPEN_DATA_PLANNING MapServer
+  layer 16; open data item 4d890b70259846ddb626fcf85af69235), one dissolved polygon. Saved as served, with
+  its own data/raw/madison_tod/manifest.json (owner decision T5-4, AQ-055).
 - docs/: the source documents behind the hand-coded zoning rule tables (reference/tod_zoning_rules_*.csv):
   Madison's Zoning District Summary PDF (live) and Internet Archive copies of Milwaukee Chapter 295
   subchapters 5 to 9 (the city site returns a Cloudflare challenge to scripts; owner decision D2), and
   the adopted text of Common Council file 240997 (RT5 district) from Milwaukee Legistar.
 - manifest.json: URL, access time (UTC), bytes, SHA-256, licence or terms, feature counts, and the
-  already-present raw files reused (Madison tax parcels, Madison TOD overlay, Milwaukee MPROP).
+  already-present raw files reused (Madison tax parcels, Milwaukee MPROP).
 
 Method and rules: docs/tod/STATION_AREAS.md, docs/tod/research/WI_CAPACITY_DATA.md.
 """
@@ -56,6 +60,10 @@ MKE_ZONING_URL = "https://milwaukeemaps.milwaukee.gov/arcgis/rest/services/plann
 MKE_ZONING_LICENCE = "Creative Commons Attribution (data.milwaukee.gov dataset 'zoning'), City of Milwaukee"
 MAD_ZONING_URL = "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA/MapServer/9"
 MAD_LICENCE = "City of Madison open data; no licence stated on the service (public record, D1)"
+MAD_TOD_URL = "https://maps.cityofmadison.com/arcgis/rest/services/Public/OPEN_DATA_PLANNING/MapServer/16"
+MAD_TOD_ITEM = "https://data-cityofmadison.opendata.arcgis.com/datasets/4d890b70259846ddb626fcf85af69235"
+MAD_TOD_LICENCE = "City of Madison Data Policy (https://www.cityofmadison.com/policy/data), as linked from the open data item"
+MAD_TOD_DIR = RAW / "madison_tod"
 COUNTY_FILE = RAW / "census_cb_2024" / "cb_2024_us_county_500k.zip"
 
 MKE_CODE = "https://city.milwaukee.gov/ImageLibrary/Groups/ccClerk/Ordinances/Volume-2/CH295-sub{n}.pdf"
@@ -85,7 +93,6 @@ SOURCE_DOCS = {
 }
 REUSED = {  # raw files already in the repo that the build reads; recorded, not refetched
     "madison_parcels/tax_parcels.geojson": "City of Madison tax parcels (see data/raw/madison_parcels/manifest.json)",
-    "madison_tod/tod_boundary.geojson": "City of Madison TOD overlay boundary (MGO 28.104)",
     "milwaukee_mprop/mprop.csv": "City of Milwaukee Master Property file (CC BY, data.milwaukee.gov)",
 }
 
@@ -262,6 +269,30 @@ def fetch_mad_zoning(manifest: dict) -> None:
     print(f"Madison zoning: {len(feats)} polygons", flush=True)
 
 
+def fetch_mad_tod() -> None:
+    """Madison TOD overlay boundary, saved byte for byte as the service returns it (one feature; the
+    attribute fields are a parcel schema left empty on the dissolved polygon)."""
+    MAD_TOD_DIR.mkdir(parents=True, exist_ok=True)
+    path = MAD_TOD_DIR / "tod_boundary.geojson"
+    old = _sha(path) if path.exists() else None
+    acc = _now()
+    p = dict(where="1=1", outFields="*", returnGeometry="true", outSR=4326, f="geojson")
+    data = _get(MAD_TOD_URL + "/query", p)
+    d = json.loads(data)
+    if "error" in d or not d.get("features"):
+        raise RuntimeError(f"{MAD_TOD_URL}: {d.get('error', 'no features')}")
+    path.write_bytes(data)
+    sha = hashlib.sha256(data).hexdigest()
+    entry = {"url": MAD_TOD_URL + "/query", "query": p, "open_data_item": MAD_TOD_ITEM,
+             "layer": "Transit-Oriented Development Overlay District (MGO 28.104)", "features": len(d["features"]),
+             "accessed_utc": acc, "bytes": len(data), "sha256": sha, "licence": MAD_TOD_LICENCE}
+    mpath = MAD_TOD_DIR / "manifest.json"
+    mpath.write_text(json.dumps({"source_id": "madison_tod", "files": {path.name: entry},
+                                 "note": "Fetched by scripts/fetch_tod_parcels_zoning.py --only mad_tod."}, indent=2))
+    same = "same as the previous file" if old == sha else ("first copy" if old is None else f"CHANGED (previous sha256 {old})")
+    print(f"Madison TOD overlay: {len(d['features'])} feature(s), {len(data)} bytes, {same}; manifest: {mpath}", flush=True)
+
+
 def fetch_docs(manifest: dict) -> None:
     out = D / "docs"
     out.mkdir(parents=True, exist_ok=True)
@@ -288,7 +319,7 @@ def fetch_docs(manifest: dict) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--only", choices=["v12", "mke_zoning", "mad_zoning", "docs"])
+    ap.add_argument("--only", choices=["v12", "mke_zoning", "mad_zoning", "mad_tod", "docs"])
     ap.add_argument("--counties", default="milwaukee,dane",
                     help="comma-separated county keys for V12 (e.g. milwaukee,dane), or 'all' for every county with stops")
     a = ap.parse_args()
@@ -311,6 +342,8 @@ def main() -> None:
         fetch_mke_zoning(manifest, bufs)
     if a.only in (None, "mad_zoning"):
         fetch_mad_zoning(manifest)
+    if a.only in (None, "mad_tod"):
+        fetch_mad_tod()
     if a.only in (None, "docs"):
         fetch_docs(manifest)
     manifest["reused"] = {}

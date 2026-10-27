@@ -10,6 +10,8 @@ In:  reference/tod_station_areas.csv, tod_case_estimates.csv, tod_case_rates_by_
      V12 land values, Milwaukee MPROP land values and year built, 2024 TIGER tracts,
      ACS 2020-2024 B25064 and B25111, and data/raw/tod_model/ (HUD 2024 TDC table, CBRE H1 2024 cap
      rate survey, IREM 2024 income/expense summary; hashes in data/raw/tod_model/manifest.json).
+     The CBRE and IREM PDFs were fetched by hand and are optional (owner decision T5-3, AQ-055): their
+     figures are typed in below, and without the files only tod_model_feasibility.csv is skipped.
 Out: reference/tod_madison_test_predictions.csv  both methods' blind predictions for the Madison test
      Main sizing, citywide net effect (AQ-050; docs/tod/MODEL.md section 11):
      reference/tod_model_statewide.csv              state x scenario x year
@@ -20,7 +22,7 @@ Out: reference/tod_madison_test_predictions.csv  both methods' blind predictions
      Per-acre sizing (method A), a sensitivity:
      reference/tod_model_per_acre_statewide.csv, tod_model_per_acre_by_area.csv, tod_model_per_acre_by_county.csv
      reference/tod_model_params.csv                 every per-acre and method B parameter with its source
-     reference/tod_model_feasibility.csv            method B diagnostics by city
+     reference/tod_model_feasibility.csv            method B diagnostics by city (only with the CBRE and IREM PDFs)
 
 Privacy: no Madison building permit is read by this script (the Madison test is blind). Parcel ids are
 used only to join raw files in memory; no committed output holds a parcel id or a lot-level row.
@@ -52,6 +54,8 @@ LOTS = PROC / "lots.parquet"
 MKE_ALL = PROC / "milwaukee_all_lots.parquet"
 MAD_ALL = PROC / "madison_all_lots.parquet"
 RAWM = RAW / "tod_model"
+# Hand-fetched cost-method sources (T5-3). Needed only for the method B diagnostics table.
+COST_PDFS = (RAWM / "cbre_us_cap_rate_survey_h1_2024.pdf", RAWM / "irem_income_expense_iq_national_summary_2024.pdf")
 CRS_M = B.CRS_M
 M2_PER_ACRE = B.M2_PER_ACRE
 
@@ -651,7 +655,13 @@ def main() -> None:
     # ------------------------------------------------------------------ parameters and diagnostics
     params = param_table(cp, take, minfo, fr)
     write(params, "tod_model_params.csv")
-    write(feasibility_diag(rents, L, take, take_unscaled), "tod_model_feasibility.csv")
+    missing = [p.name for p in COST_PDFS if not p.exists()]
+    if missing:
+        print(f"NOTE: skipping reference/tod_model_feasibility.csv (method B diagnostics only; no adopted number uses it): "
+              f"{', '.join(missing)} not in {RAWM.relative_to(ROOT)}. These PDFs are fetched by hand (docs/DATA_COMPLIANCE.md); "
+              "the committed file is left as it is. Every other output is unaffected.", flush=True)
+    else:
+        write(feasibility_diag(rents, L, take, take_unscaled), "tod_model_feasibility.csv")
 
     run_net_sizing(by_area, L, muni, cp, rents, baseline, take, use_ratio, sdf)
 
