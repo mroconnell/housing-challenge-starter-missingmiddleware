@@ -20,6 +20,7 @@ Run (after build_tod_bundle.py and build_parking_bundle.py): uv run python scrip
 from __future__ import annotations
 
 import hashlib
+import math
 import json
 import shutil
 from pathlib import Path
@@ -63,6 +64,11 @@ def sha256(p: Path) -> str:
 def r(v: float, nd: int = 4) -> float:
     x = round(float(v), nd)
     return 0.0 if x == 0 else x
+
+
+def whole(v: float) -> int:
+    """Round half up to a whole number, once, from an unrounded value (as the parking bundle does for its totals)."""
+    return int(math.floor(float(v) + 0.5))
 
 
 def latest_additions(reform: str) -> tuple[str, Path]:
@@ -161,10 +167,15 @@ def build(c: dict, tod_meta: dict, park_meta: dict) -> tuple[dict, dict]:
             "near_a": na, "near_b": nb, "both_a": [x + y for x, y in zip(na, pe)], "both_b": [x + y for x, y in zip(nb, pe)],
         }
         roles.append({**p, "by_year": {k: [r(v, 2) for v in vs] for k, vs in series.items()},
+                      # what the screens show: each figure rounded half up once from its unrounded sum
+                      "display": {"by_year": {k: [whole(v) for v in vs] for k, vs in series.items()},
+                                  "total": {k: whole(sum(vs)) for k, vs in series.items()},
+                                  "overlap_counted_twice": whole(sum(na) - sum(nb))},
                       "total": {k: r(sum(vs), 2) for k, vs in series.items()},
                       "overlap_counted_twice": r(sum(na) - sum(nb), 2)})
     statewide = {
-        "years": years, "baseline_total": r(base_total, 2),
+        "years": years, "baseline_total": r(base_total, 2), "baseline_total_display": whole(base_total),
+        "rounding_note": "Each figure is rounded on its own, so columns may differ from sums by one home.",
         "baseline_note": "Current law, 2027–2031, all building sizes, from the shared all-housing baseline (the same for every pairing). It includes a small statewide adjustment not assigned to any place.",
         "roles": roles, "rules": RULES, "rule_c": RULE_C, "double_count": DOUBLE_COUNT,
         "role_labels": {"lower": "Low pairing", "central": "Central pairing", "upper": "High pairing"},

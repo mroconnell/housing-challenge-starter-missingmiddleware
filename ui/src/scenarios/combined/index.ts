@@ -13,9 +13,11 @@ type SeriesKey = "tod" | "parking" | "parking_near" | "parking_elsewhere" | "nea
 interface RoleRow {
   role: Role; tod_path: string; tod_label: string; parking_path: string; parking_label: string;
   by_year: Record<SeriesKey, number[]>; total: Record<SeriesKey, number>; overlap_counted_twice: number;
+  /** Whole numbers for display, each rounded half up once by the builder from its unrounded sum. */
+  display: { by_year: Record<SeriesKey, number[]>; total: Record<SeriesKey, number>; overlap_counted_twice: number };
 }
 interface Statewide {
-  years: number[]; baseline_total: number; baseline_note: string; roles: RoleRow[];
+  years: number[]; baseline_total: number; baseline_total_display: number; baseline_note: string; rounding_note: string; roles: RoleRow[];
   rules: Record<"a" | "b", { label: string; info: string }>; rule_c: string; double_count: string; role_labels: Record<Role, string>;
 }
 type Cols = [number, number, number, number, number]; // tod, parking_near, parking_elsewhere, total_a, total_b
@@ -61,7 +63,7 @@ function bindRole(main: HTMLElement, env: ShellEnv, params: URLSearchParams, s: 
     q.set("p", i.value);
     env.replaceQuery(q); env.refresh();
     const x = row(s, i.value as Role);
-    env.announce(`${s.role_labels[x.role]}. Both reforms together, 2027–2031: ${int(x.total.both_a)} under rule (a), ${int(x.total.both_b)} under rule (b).`);
+    env.announce(`${s.role_labels[x.role]}. Both reforms together, 2027–2031: ${int(x.display.total.both_a)} under rule (a), ${int(x.display.total.both_b)} under rule (b).`);
   }));
 }
 
@@ -70,7 +72,7 @@ function compare(b: CombinedBundle, env: ShellEnv, params: URLSearchParams, main
   const s = b.statewide;
   const role = roleOf(params);
   const x = row(s, role);
-  const t = x.total;
+  const t = x.display.total;
   const same = Math.round(t.both_a) === Math.round(t.both_b);
   const tile = (id: string, label: string, v: number, note: string, accent = false) => `<section class="tile${accent ? " tile-accent" : ""}"><h2 class="tile-label">${esc(label)}</h2>
       <p class="tile-num" data-testid="${id}">${int(v)}</p><p class="tile-sub">extra homes permitted, 2027–2031 ${pill("calculated")}</p><p class="tile-note">${note}</p></section>`;
@@ -93,7 +95,7 @@ function compare(b: CombinedBundle, env: ShellEnv, params: URLSearchParams, main
     </ul>
     <p data-testid="overlap">${same
       ? `In this pairing the two rules give the same total, because the parking path adds nothing (${esc(x.parking_label.toLowerCase())}).`
-      : `In this pairing the two rules differ by <strong>${int(x.overlap_counted_twice)}</strong> homes over five years: the most that could be counted twice. The true combined effect has not been measured: it could lie between the two, or above rule (a) if the reforms reinforce each other.`}</p>
+      : `In this pairing the two rules differ by <strong>${int(x.display.overlap_counted_twice)}</strong> homes over five years: the most that could be counted twice. The true combined effect has not been measured: it could lie between the two, or above rule (a) if the reforms reinforce each other.`}</p>
     <p class="small muted">Rule (b) is taken place by place and year, so it can be larger than either law alone statewide.</p>
   </section>
   <section class="card"><h2>Extra homes permitted each year</h2>
@@ -101,14 +103,14 @@ function compare(b: CombinedBundle, env: ShellEnv, params: URLSearchParams, main
     ${legendHTML([{ name: `TOD alone`, color: C.tod, dash: DASH.central }, { name: `Parking alone`, color: C.parking, dash: DASH.lower }, { name: s.rules.a.label, color: C.a, dash: DASH.upper }, { name: s.rules.b.label, color: C.b, dash: DASH.ref }])}
     <div class="table-wrap"><table class="data" data-testid="combined-years"><caption>Extra homes permitted by year, ${esc(s.role_labels[role].toLowerCase())} (${esc(pairing(x))})</caption>
       <thead><tr><th scope="col">Year</th><th scope="col" class="num">TOD alone</th><th scope="col" class="num">Parking alone</th><th scope="col" class="num">Both, rule (a)</th><th scope="col" class="num">Both, rule (b)</th></tr></thead>
-      <tbody>${s.years.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${int(x.by_year.tod[i])}</td><td class="num">${int(x.by_year.parking[i])}</td><td class="num">${int(x.by_year.both_a[i])}</td><td class="num">${int(x.by_year.both_b[i])}</td></tr>`).join("")}
+      <tbody>${s.years.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${int(x.display.by_year.tod[i])}</td><td class="num">${int(x.display.by_year.parking[i])}</td><td class="num">${int(x.display.by_year.both_a[i])}</td><td class="num">${int(x.display.by_year.both_b[i])}</td></tr>`).join("")}
       <tr class="combined-total"><th scope="row">2027–2031</th><td class="num">${int(t.tod)}</td><td class="num">${int(t.parking)}</td><td class="num">${int(t.both_a)}</td><td class="num">${int(t.both_b)}</td></tr></tbody></table></div>
-    <p class="small muted">Current law over the same years: ${int(s.baseline_total)} homes permitted statewide. ${esc(s.baseline_note)} Yearly rows may not add exactly to the totals because of rounding.</p></section>
+    <p class="small muted">Current law over the same years: ${int(s.baseline_total_display)} homes permitted statewide. ${esc(s.baseline_note)} ${esc(s.rounding_note)}</p></section>
   <section class="card"><h2>Every pairing, statewide, 2027–2031</h2>
     <div class="table-wrap"><table class="data" data-testid="combined-roles"><caption>Extra homes permitted, 2027–2031, for each pairing of paths</caption>
       <thead><tr><th scope="col">Pairing</th><th scope="col" class="num">TOD alone</th><th scope="col" class="num">Parking alone</th><th scope="col" class="num">Both, rule (a)</th><th scope="col" class="num">Both, rule (b)</th></tr></thead>
-      <tbody>${s.roles.map((r) => `<tr><th scope="row">${esc(s.role_labels[r.role])}<br><span class="small muted">${esc(pairing(r))}</span></th><td class="num">${int(r.total.tod)}</td><td class="num">${int(r.total.parking)}</td><td class="num">${int(r.total.both_a)}</td><td class="num">${int(r.total.both_b)}</td></tr>`).join("")}</tbody></table></div>
-    <p class="small muted">Paths are paired by meaning: low with low, central with central, high with high. They are never crossed. The parking reform's central path adds nothing, so in the low and central pairings both laws together equal TOD alone.</p></section>
+      <tbody>${s.roles.map((r) => `<tr><th scope="row">${esc(s.role_labels[r.role])}<br><span class="small muted">${esc(pairing(r))}</span></th><td class="num">${int(r.display.total.tod)}</td><td class="num">${int(r.display.total.parking)}</td><td class="num">${int(r.display.total.both_a)}</td><td class="num">${int(r.display.total.both_b)}</td></tr>`).join("")}</tbody></table></div>
+    <p class="small muted">Paths are paired by meaning: low with low, central with central, high with high. They are never crossed. The parking reform's central path adds nothing, so in the low and central pairings both laws together equal TOD alone. ${esc(s.rounding_note)}</p></section>
   <section class="card combined-rule-c" data-testid="rule-c"><h2>A third rule, not yet measured</h2><p>${esc(s.rule_c)}</p></section>
   <p><a class="button" href="${env.link(`/where?p=${role}`)}">Next: by place →</a></p>
   </div>`;
@@ -174,8 +176,8 @@ function where(b: CombinedBundle, env: ShellEnv, params: URLSearchParams, main: 
     <div class="table-wrap"><table class="data combined-table" data-testid="combined-where"><caption>Extra homes, ${esc(s.role_labels[role].toLowerCase())} (${esc(pairing(x))}), by ${level === "county" ? "county" : "municipality"}, 2027–2031. Select a column heading to sort.</caption>
       <thead><tr>${head.join("")}</tr></thead>
       <tbody>${rows.map((r) => `<tr data-name="${esc(`${r.name} ${r.county ?? ""}`.toLowerCase())}" ${matches(r) ? "" : "hidden"}><th scope="row">${esc(r.name)}</th>${level === "place" ? `<td>${esc(r.county ?? "—")}</td>` : ""}${r[role].map((v) => `<td class="num">${small(v)}</td>`).join("")}</tr>`).join("")}</tbody>
-      <tfoot><tr class="combined-total"><th scope="row">Wisconsin</th>${level === "place" ? "<td></td>" : ""}<td class="num" data-testid="where-total-tod">${int(x.total.tod)}</td><td class="num">${int(x.total.parking_near)}</td><td class="num">${int(x.total.parking_elsewhere)}</td><td class="num" data-testid="where-total-a">${int(x.total.both_a)}</td><td class="num" data-testid="where-total-b">${int(x.total.both_b)}</td></tr></tfoot></table></div>
-    <p class="small muted">Places with no extra homes in this pairing are left out. Parking's extra homes are split between near stops and elsewhere by each place's share of homes near qualifying stops. "under 1" means more than zero but less than half a home. Rows may not add exactly to the Wisconsin total because of rounding.</p>
+      <tfoot><tr class="combined-total"><th scope="row">Wisconsin</th>${level === "place" ? "<td></td>" : ""}<td class="num" data-testid="where-total-tod">${int(x.display.total.tod)}</td><td class="num">${int(x.display.total.parking_near)}</td><td class="num">${int(x.display.total.parking_elsewhere)}</td><td class="num" data-testid="where-total-a">${int(x.display.total.both_a)}</td><td class="num" data-testid="where-total-b">${int(x.display.total.both_b)}</td></tr></tfoot></table></div>
+    <p class="small muted">Places with no extra homes in this pairing are left out. Parking's extra homes are split between near stops and elsewhere by each place's share of homes near qualifying stops. "under 1" means more than zero but less than half a home. ${esc(b.statewide.rounding_note)}</p>
   </section>
   </div>`;
   const setQ = (k: string, v: string | null, msg?: string) => {

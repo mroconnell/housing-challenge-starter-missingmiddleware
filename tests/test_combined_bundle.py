@@ -151,6 +151,33 @@ class TestCombinedBundle(unittest.TestCase):
         self.assertEqual(x["total"]["both_a"], x["total"]["tod"])
         self.assertEqual(x["total"]["both_b"], x["total"]["tod"])
 
+    def _parking_displayed(self):
+        run = json.loads((PUBLIC / "parking" / "runs" / "latest.json").read_text())["run_id"]
+        sw = json.loads((PUBLIC / "parking" / "runs" / run / "statewide.json").read_text())
+        up = next(x for x in self.sw["roles"] if x["role"] == "upper")
+        return sw, up
+
+    def test_parking_alone_years_equal_the_parking_bundle_display(self):
+        sw, up = self._parking_displayed()
+        shown = [y["add_upper"] for y in sw["years"] if y["year"] in self.sw["years"]]
+        self.assertEqual(up["display"]["by_year"]["parking"], [round(v) for v in shown])
+
+    # Expected to fail until resolved: the parking bundle's 29,663 is the half-up rounding of 29,662.5, the five-year
+    # sum of reference/parking_model_statewide_by_year.csv, which stores each year rounded to 0.1 (5,932.5). The
+    # municipalities in its own additions_by_area.json add to 29,662.36, so the combined view shows 29,662.
+    @unittest.expectedFailure
+    def test_parking_alone_total_equals_the_parking_bundle_display(self):
+        sw, up = self._parking_displayed()
+        self.assertEqual(up["display"]["total"]["parking"], next(x for x in sw["scenarios"] if x["id"] == "upper")["additional_total"])
+
+    def test_display_values_are_rounded_once_half_up(self):
+        for x in self.sw["roles"]:
+            for k, v in x["total"].items():
+                self.assertLessEqual(abs(x["display"]["total"][k] - v), 0.5 + 0.01, f"{x['role']} {k}")
+        self.assertEqual(bc.whole(29662.5), 29663)
+        self.assertEqual(bc.whole(2.5), 3)
+        self.assertEqual(self.sw["rounding_note"], "Each figure is rounded on its own, so columns may differ from sums by one home.")
+
     def test_rule_c_has_no_number(self):
         self.assertFalse(any(ch.isdigit() for ch in self.sw["rule_c"]))
         self.assertNotIn("c", self.sw["rules"])
