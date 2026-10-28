@@ -83,3 +83,18 @@ Recorded 2026-10-28 while running (results: [CENSUS_CASES_RESULTS.md](CENSUS_CAS
 3. **Method check limited to case areas whose permit table spans 2010 to 2018** (corrected 2026-10-28, item 5). Some cases keep their whole permit file and some keep only each member's own before and after years.
 4. **The census and permit areas are not the same land.** The permit side counts only eligible lots (treated lots, and unchanged lots in the ring). The census side counts every block whose point lies in the treated area or the ¼-mile ring, including streets, parks and ineligible lots. So the count ratios in section 6 compare different land; the per-acre differences are the like-for-like test.
 5. **Correction, 2026-10-28, after the first report.** The first run required permits through 2019 and wrongly dropped Los Angeles, whose stored permits run 2007–2018 and cover the plan's main 2009–2018 alignment. The rule is now "covers 2010 to 2018", from each member's window or its full stored file. Los Angeles is back in. Only one of New York's 17 members (adopted 2013, permits 2007–2018) qualifies, and its land had no homes in either source, so New York is still not comparable.
+
+## 9. Additions requested by the owner, written before running them (2026-10-28)
+
+The owner asked for two more measures: "dropping the per acre in favor of per 1000 existing homes to bring it closer it to the other scenarios", and scoring "blocks based on whether they are entirely in the TOD radius or partially in the TOD radius or not at all". Neither has been computed before this section was committed.
+
+1. **City share.**
+   - **Extra homes** = the per-acre difference × the upzoned acres.
+   - **Shown as:**
+     - **main:** per 1,000 homes in the city in 2010 (2010 Gazetteer), over the decade and per five years (÷ 2). This is the unit of the cities' own net effects in [NET_EFFECT_RESULTS.md](NET_EFFECT_RESULTS.md).
+     - per 1,000 homes already on the upzoned land in 2010, shown only where that land had at least 500 homes.
+   - **Jurisdictions:** Tysons uses Fairfax County, the body that adopted it. Salt Lake City is recomputed with this plan's general rule (comparison = within ½ mile of the boundary).
+2. **Blocks scored by how much of them lies in the area.** Each block's homes are split by the share of its land inside the upzoned area and inside the comparison ring, instead of placing the whole block by its centre point.
+   - Blocks are reported as **wholly inside** (99% or more of their land), **partly inside**, or **outside**.
+   - The per-acre difference and its 90% interval are recomputed this way (whole blocks resampled with their shares, 2,000 draws, seed 20261031). This is shown beside the centre-point result.
+3. **Nothing else changes.** The holdout rule (section 5) is still judged on the centre-point result as planned. The area-share version is reported beside it.
