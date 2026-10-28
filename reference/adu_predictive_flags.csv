@@ -1,0 +1,28 @@
+flag_type,where,column,n_rows,detail
+unit_check,austin tracts,rate,3,"ADU permits per 1,000 one-unit detached homes per year: 3 rows outside the plausible range, e.g. 55.9, 55.9, 86.5"
+unit_check,denver tracts,rate,1,"ADU permits per 1,000 one-unit detached homes per year: 1 rows outside the plausible range, e.g. 73.2"
+unit_check,features,l01_homes_per_sqmi__logratio,1,"log ratio to context homes-weighted mean: 1 geographies outside, e.g. -6.13"
+unit_check,features,l02_people_per_sqmi__logratio,1,"log ratio to context homes-weighted mean: 1 geographies outside, e.g. -6.53"
+unit_check,features,l03_land_sqmi__logratio,4,"log ratio to context homes-weighted mean: 4 geographies outside, e.g. -6.13, -6.07, -6.62"
+unit_check,features,a20_detached_homes_count__logratio,7,"log ratio to context homes-weighted mean: 7 geographies outside, e.g. -6.46, -6.03, -6.78"
+missing_input,values,c01_median_rent,40,40 panel geographies have no ACS value (filled; flagged)
+missing_input,values,c02_rent_lower_quartile,79,79 panel geographies have no ACS value (filled; flagged)
+missing_input,values,c03_rent_upper_quartile,21,21 panel geographies have no ACS value (filled; flagged)
+missing_input,values,c04_median_value,38,38 panel geographies have no ACS value (filled; flagged)
+missing_input,values,c05_value_lower_quartile,58,58 panel geographies have no ACS value (filled; flagged)
+missing_input,values,c06_value_upper_quartile,32,32 panel geographies have no ACS value (filled; flagged)
+missing_input,values,c11_owner_costs_mortgaged,43,43 panel geographies have no ACS value (filled; flagged)
+missing_input,values,c13_median_housing_costs,2,2 panel geographies have no ACS value (filled; flagged)
+missing_input,values,p11_median_income,8,8 panel geographies have no ACS value (filled; flagged)
+missing_input,values,p22_median_earnings,7,7 panel geographies have no ACS value (filled; flagged)
+missing_input,values,a18_owner_costs_no_mortgage,93,93 panel geographies have no ACS value (filled; flagged)
+policy_definition,seattle tracts,count,0,2-per-parcel cap and factors: 4693 ADU units in the years -> 4437.4 kept; 8.6 kept units had no tract inside the city (left out)
+policy_definition,portland tracts,count,0,2-per-parcel cap and factors: 1647 ADU units in the years -> 1551.1 kept; 2.9 kept units had no tract inside the city (left out)
+policy_definition,austin tracts,count,0,2-per-parcel cap and factors: 2811 ADU units in the years -> 2660.9 kept; 343.3 kept units had no tract inside the city (left out)
+policy_definition,denver tracts,count,0,2-per-parcel cap and factors: 564 ADU units in the years -> 532.6 kept; 2.9 kept units had no tract inside the city (left out)
+policy_definition,minneapolis tracts,count,0,2-per-parcel cap and factors: 198 ADU units in the years -> 164.4 kept; 0.0 kept units had no tract inside the city (left out)
+policy_definition,madison tracts,count,0,2-per-parcel cap and factors: 51 ADU units in the years -> 51.0 kept; 1.0 kept units had no tract inside the city (left out)
+policy_definition,all non-California rows,count,0,"ADUs on apartment (multifamily) lots cannot be identified outside California (and Minneapolis duplex lots, removed by factor); they remain in the counts. California: definite A2 multifamily-lot units removed; 'possible' ones remain"
+policy_definition,"Washington, Oregon, aggregates",count,0,"no parcel ids in these series, so the 2-per-parcel cap cannot be applied (rare in practice)"
+out_of_training_range,austin tracts,m18_work_in_home_place,2365,"38% of the unit's home-years have values outside training 1st-99th percentile [0.0772, 0.897]"
+out_of_training_range,Oregon cities,a20_detached_homes_count__logratio,110,"26% of the unit's home-years have values outside training 1st-99th percentile [-4.91, 0.929]"
