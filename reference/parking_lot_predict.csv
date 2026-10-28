@@ -1,0 +1,3 @@
+held_out,brier_without,brier_with,brier_gain,count_error_without,count_error_with,count_gain,reform_lots_built,passes
+Seattle,0.0193,0.0193,0.0013,0.7945,0.7788,0.0197,59,False
+Chicago,0.0154,0.0154,-0.0012,0.5347,0.107,0.7999,474,False
