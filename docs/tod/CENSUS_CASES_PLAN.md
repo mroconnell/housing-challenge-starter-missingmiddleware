@@ -126,3 +126,9 @@ The owner asked to "grow the census set if you can, and add placebo cities to he
 ### 10.3 Pre-reform density
 
 Each census case and placebo records its upzoned area's 2010 homes per acre. It is reported beside each result, and it will be one of the named variables when the prediction tools are rerun on the census set. That rerun gets its own plan.
+
+### 10.4 Changes while running (2026-10-28)
+
+1. **Rail stops chosen by the National Transit Map's stop-type code** (0 light rail, 1 subway, 2 rail), because its text field could not be queried. That gives 5,609 stops in 13 states.
+2. **New York's 2013 rezoning** has no census blocks in its treated land and is reported as not measurable.
+3. **Seattle Roosevelt** uses centre-point placement and a ½-mile ring (section 4 rule), like the method-check cases.

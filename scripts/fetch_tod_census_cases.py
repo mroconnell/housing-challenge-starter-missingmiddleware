@@ -62,6 +62,23 @@ def main(argv=None) -> None:
                       f"https://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/tabblock2010_{st}_pophu.zip", a.refresh, PD)
         download_file(man, f"tl_2020_{st}_tabblock20.zip",
                       f"https://www2.census.gov/geo/tiger/TIGER2020/TABBLOCK20/tl_2020_{st}_tabblock20.zip", a.refresh, PD)
+    # Placebo stations (plan section 10.2): 2020 Census places and National Transit Map rail stops for each state.
+    for st in STATES + ["49"]:
+        download_file(man, f"tl_2020_{st}_place.zip",
+                      f"https://www2.census.gov/geo/tiger/TIGER2020/PLACE/tl_2020_{st}_place.zip", a.refresh, PD)
+    if not man.have("ntm_rail_stops.json", a.refresh):
+        from scripts.fetch_tod_transit import NTM_LAYERS, ntm_query
+        abbr = {"34": "NJ", "06": "CA", "04": "AZ", "51": "VA", "48": "TX", "53": "WA", "39": "OH", "36": "NY", "17": "IL",
+                "27": "MN", "37": "NC", "42": "PA", "49": "UT"}
+        ag, _ = ntm_query(NTM_LAYERS["agencies"], "State IN (" + ",".join(f"'{v}'" for v in abbr.values()) + ")")
+        ids = sorted({a["attributes"].get("NTD_ID") for a in ag if a["attributes"].get("NTD_ID")})
+        stops, urls = [], []
+        for i in range(0, len(ids), 40):
+            where = "ntd_id IN (" + ",".join(f"'{x}'" for x in ids[i:i + 40]) + ") AND stop_type IN ('0','1','2')"
+            f, u = ntm_query(NTM_LAYERS["stops"], where)
+            stops += [x["attributes"] for x in f]
+            urls += u
+        man.record("ntm_rail_stops.json", json.dumps(stops).encode(), urls[0], licence="US DOT BTS, public domain")
     for case, (url, where, lic) in BOUNDARIES.items():
         name = f"boundary_{case}.geojson"
         if not man.have(name, a.refresh):

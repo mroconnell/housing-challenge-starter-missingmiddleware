@@ -115,3 +115,55 @@ Code: [scripts/run_tod_census_share.py](../../scripts/run_tod_census_share.py). 
 - **Milpitas is far outside it (7.7%)** because its plan area is large relative to a small city.
 - **Not net of losses elsewhere in the city.** These shares are the upzoned land's gain over its own ½-mile ring. Losses farther away are not counted, but the permit cases found almost none ([NET_EFFECT_RESULTS.md](NET_EFFECT_RESULTS.md)).
 - **Per 1,000 homes already on the upzoned land** (only where it had at least 500 homes in 2010): Jersey City 160, Tysons 362, Salt Lake City 1,051, Austin 2,437 and Milpitas 5,019 over the decade. These numbers swing hugely because many plan areas started with few homes. That is why per acre and per city home are the steadier units.
+
+## 6. The grown census set, ranked against placebo stations (plan section 10)
+
+Code: [scripts/run_tod_census_grow.py](../../scripts/run_tod_census_grow.py). Outputs: `reference/tod_census_set.csv`, `reference/tod_census_placebos.csv`.
+
+**The census set now has 21 measured reforms:**
+- the 7 boundary cases above (Phoenix covers only 14 acres);
+- 7 re-measured permit cases;
+- 6 New York rezonings adopted 2008–2010;
+- Seattle Roosevelt (2012).
+
+Charlotte is land-only (its reform was in 2019). New York's 2013 rezoning had no measurable blocks.
+
+**Placebo stations.** 1,586 rail stations in 13 states, outside the 58 reform cities and more than 1 mile from any reform in the set. Each is measured the same way: the ½-mile circle against the ring from ½ to 1 mile, blocks scored by the share of land inside.
+- **Median: +0.06 net homes per acre over the decade.** Station areas without a known upzoning grew about as fast as the land around them.
+- **Spread:** 5th to 95th percentile −0.44 to +2.04; 90th percentile +1.14. 63% are above zero.
+- **Pre-reform density:** a median of 3.3 homes per acre in 2010.
+
+**Reforms against the placebos.** The table shows the net homes added per acre over the decade (upzoned land minus its comparison), and the share of placebo stations with a larger figure.
+
+| Reform | Difference per acre, decade (90% interval) | Homes per acre in 2010 | Placebos larger |
+| --- | --- | ---: | ---: |
+| New York 090365ZMX (2009) | 33.0 (14.6 to 52.7) | 37.5 | 0% |
+| Seattle Roosevelt (2012) | 27.9 (8.8 to 49.0) | 11.4 | 0% |
+| Seattle North Beacon Hill and Othello (2012) | 13.8 (0.8 to 28.0) | | 0% |
+| New York 100407ZMX (2010) | 8.8 (−5.8 to 23.2) | 21.7 | 0% |
+| Austin station plans (2006–2009) | 7.6 (3.7 to 11.5) | 3.1 | 0% |
+| Milpitas (2008) | 6.7 (2.0 to 11.9) | 1.3 | 0% |
+| New York 090303ZMX (2009) | 4.0 (−8.8 to 17.8) | 0.1 | 1% |
+| Jersey City (2010) | 3.1 (−7.1 to 13.7) | 19.4 | 2% |
+| Phoenix (2015–2016, 14 acres) | 2.7 (−4.1 to 10.6) | 1.8 | 3% |
+| New York 080099AZMM (2008) | 2.6 (−13.5 to 18.8) | 16.4 | 3% |
+| Philadelphia (2012) | 2.6 (0.7 to 4.6) | | 3% |
+| Bellevue BelRed (2009) | 2.4 (−0.6 to 5.9) | 0.3 | 4% |
+| Salt Lake City (2010) | 1.7 (−0.6 to 4.4) | 1.7 | 6% |
+| Tysons (2010) | 1.6 (−1.0 to 4.0) | 4.3 | 7% |
+| Saint Paul (2011) | 1.3 (−2.4 to 5.0) | | 9% |
+| Los Angeles Warner Center (2013) | 1.2 (−4.2 to 6.7) | | 9% |
+| New York 090104ZMQ (2009) | 1.0 (−37.6 to 38.4) | 34.4 | 11% |
+| Chicago (2013–2015) | 0.4 (−5.7 to 6.5) | | 26% |
+| Los Angeles Cornfield Arroyo Seco (2013) | 0.1 (−3.6 to 4.1) | | 46% |
+| Seattle Mount Baker (2014) | −0.2 (−8.1 to 7.2) | | 86% |
+| New York 090272ZMK (2009) | −1.2 (−12.7 to 10.7) | 6.5 | 98% |
+
+- **16 of the 21 reforms beat 90% of placebo stations.** The median reform adds 2.6 net homes per acre over the decade, against 0.06 for an ordinary station area. Upzoned land near transit grows clearly faster than ordinary station areas, even where a single reform's own interval includes zero.
+- **Five don't stand out:** Chicago, Los Angeles Cornfield Arroyo Seco, Seattle Mount Baker, and two New York rezonings. These are the same weak cases the permit method found.
+- **Caveats:**
+  - Cities choose where to upzone, often where building was already coming, so part of the gap over the placebos may be that choice rather than the zoning.
+  - The reform comparisons use their own ring (¼ or ½ mile), while the placebos use ½ to 1 mile.
+  - This ranking is a reference, not a formal test (plan section 10.2).
+- **Pre-reform density varies from 0.1 to 37 homes per acre** across the reforms that record it. The highest gains are at both ends (New York 090365ZMX at 37.5; Milpitas and Austin at 1 to 3). Testing it as a predictor belongs in the planned rerun of the prediction tools on this set.
+- **Still missing maps:** White Flint, San Francisco's 2008 plans, Minneapolis Hiawatha, Oakland Broadway Valdez, Cincinnati, New Rochelle.
