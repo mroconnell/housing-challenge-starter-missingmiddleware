@@ -875,6 +875,16 @@ Nothing changes until the owner decides.
 - The reference line's points now come from `reference/pooled_revision_reference_points.csv` (written by `scripts/run_pooled_revision.py` with the same coverage and Washington coding). Years 1–4: 0.982, 1.129, 1.043, 1.437 (were 0.754, 0.931, 0.869, 1.293).
 - New sensitivity rows in `reference/adu_model_sensitivities.csv`: no reporting-share scale-up (central 9,562), Maine, Massachusetts and Rhode Island only (10,491), Washington from enactment (10,044), Vermont 2024 dropped (10,360), all three undone (8,938), and no value cap (10,788.3; where permits land only).
 
+## AQ-062 ADU: keep Vermont in the model
+
+**Status:** Adopted. **Added:** 2026-10-28. **Related:** AQ-061, [docs/adu/VERMONT_OPTIONS.md](adu/VERMONT_OPTIONS.md).
+
+**Owner decision:** keep option A as adopted, with Vermont in (central 10,788 additional permits over 2027–2031). Show "Vermont dropped" (central 11,133; lower 6,659; upper 21,514) as a named sensitivity case. Don't adopt "drop Vermont 2024".
+
+**Reasons:**
+- Dropping 2024 makes Vermont's own held-out miss worse: log error 0.34 → 0.49.
+- Dropping Vermont improves the overall error only by removing Vermont. On the same six other states it worsens: 0.138 → 0.154.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -1015,3 +1025,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-28 | AQ-048 | Parking Ask-why review (docs/parking/ASK_WHY_REVIEW.md); owner approved the placebo fix (at least 20 stand-ins per real place). The placebo middle is now +0.01 (was +1.51), and the real result sits at the 21.7th percentile (was 2.7%). High end +1.49 per 1,000 existing homes per year, 19,937 permits 2027–2031 (was 12,695). Combined high case 34,921 headline, 37,085 upper bound. Flag-only run checks adopted. |
 | 2026-10-28 | AQ-058 | ADU placebo: keep the model; rising no-law baseline (605 → 1,083; addition 8,757 → 8,324; total 9,361 → 9,408) shown as a baseline-only sensitivity. |
 | 2026-10-28 | AQ-061 | ADU ask-why fixes (owner accepted all recommendations): reporting shares in the fit (Maine, Massachusetts, Rhode Island 2025 published shares; Utah 0.795–0.804 computed from homes in reporting places), Massachusetts 2025 as 11 months, Washington from local compliance, value gap capped at California's largest (8 areas flagged), seven measured Wisconsin cities pooled into the group rates, allocation text corrected. Baseline 530 (was 605); lower 6,734, central 10,788, upper 20,057 (were 5,538, 8,757, 16,889); reference line 10,558 (was 8,851). Vermont 2024 kept pending the owner (dropping it: central −428). Kaukauna coding confirmed against the official Chapter 17 text. |
+| 2026-10-28 | AQ-062 | ADU: keep Vermont (option A); "Vermont dropped" (central 11,133) shown as a sensitivity. |
