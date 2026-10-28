@@ -29,9 +29,9 @@ from scripts.run_tod_net_effect import _permits_from_points, capture  # noqa: E4
 
 OUT = PROCESSED / "tod_lot_model"
 LOTS = OUT / "lots.parquet"
-HOLD = ("Chicago", "Madison")
+HOLD = ("Chicago", "Madison", "Bellevue")
 STATE = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Seattle": "53",
-         "Los Angeles": "06", "Chicago": "17", "Madison": "55"}
+         "Los Angeles": "06", "Chicago": "17", "Madison": "55", "Bellevue": "53"}
 
 
 def rail(crs):
@@ -201,6 +201,22 @@ def collect() -> None:
 TRACT_VARS = {"c01_median_rent": "rent", "c04_median_value": "home_value", "p11_median_income": "income"}
 
 
+def add_bellevue() -> None:
+    """Bellevue BelRed (2009) lots as a third holdout (plan section 9, item 8), appended to the lot table."""
+    from missing_middleware.tod import case_bellevue as B
+    with capture() as cap:
+        ci, _ = B.build()
+    args, area = cap["uniform"][-1]
+    pg = B._prepare()["permits"]
+    per = C.period_years(B.EFFECTIVE_YEAR, B.FIRST_YEAR, B.LAST_FULL_YEAR)
+    stops = rail(args["parcels"].crs)
+    f = lot_frame("Bellevue", "bellevue_belred_2009", args, area, _permits_from_points(pg, pg["pix"]), per, stops, B.EFFECTIVE_YEAR)
+    D = pd.read_parquet(LOTS)
+    D = pd.concat([D[D["city"] != "Bellevue"], f], ignore_index=True)
+    D.to_parquet(LOTS)
+    print(f.groupby("treated").agg(lots=("acres", "size"), builds_after=("builds_after", "mean"), units_after=("units_after", "sum")))
+
+
 def enrich() -> None:
     """Lots inherit their census tract's median rent, home value and household income (owner, 2026-10-28), from the
     5-year ACS ending the year before each case's reform, read with the all-variables test's own readers."""
@@ -307,7 +323,7 @@ def values() -> None:
 
 BPS_NAME = {"New York": ("36", "New York"), "Philadelphia": ("42", "Philadelphia"), "Charlotte": ("37", "Mecklenburg County"),
             "Saint Paul": ("27", "St. Paul"), "Seattle": ("53", "Seattle"), "Los Angeles": ("06", "Los Angeles"),
-            "Chicago": ("17", "Chicago"), "Madison": ("55", "Madison")}
+            "Chicago": ("17", "Chicago"), "Madison": ("55", "Madison"), "Bellevue": ("53", "Bellevue")}
 
 
 def cost_per_home(city: str, year: int) -> float:
@@ -453,10 +469,12 @@ def fit() -> None:
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "enrich", "values", "fit"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "values", "fit"], required=True)
     a = ap.parse_args(argv)
     if a.stage == "collect":
         collect()
+    if a.stage == "add_bellevue":
+        add_bellevue()
     if a.stage == "enrich":
         enrich()
     if a.stage == "values":
