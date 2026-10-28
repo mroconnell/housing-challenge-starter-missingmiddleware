@@ -111,3 +111,7 @@ The lot model counts as better if it beats the plain baseline on held-out cities
    - The stretch is the 99th percentile, among building lots in the training cities, of homes permitted ÷ homes allowed. It covers bonuses and variances.
    - This applies to both models. Nothing else changed.
 8. **2026-10-28, after the first results, owner's request: more strict holdout cities.** Bellevue (BelRed, 2009) is added as a third holdout, never fitted, from its case adapter (lots, zoning by ordinance, permits with units). Minneapolis cannot be added: its Hiawatha case has no boundary layer and no unit counts before 2010. The pass rule is unchanged: the total must beat the plain average on the fold mean and on each holdout. The fold cities and their results are unchanged.
+9. **2026-10-28, owner's request, written before running: all 91 census variables on every lot.** Each lot inherits its tract's values for all 91 variables of the all-variables test ([ALLVARS_PLAN.md](ALLVARS_PLAN.md)), from the 5-year ACS ending the year before its case's reform. Ratios are the tract's numerator ÷ denominator; medians are the tract value.
+   - They are added to the 22 lot traits, and the boosted two-part model is refitted.
+   - Same holdouts (Chicago, Madison, Bellevue) and the same pass rule.
+   - Reported as a separate run ("all variables"), beside the 22-trait run, with the traits ranked by how much the holdouts' ranking worsens when each is shuffled.
