@@ -800,6 +800,16 @@ The owner restated the principle in AQ-047 item 1: the modelled law should rest 
 - **Owner decision.** Keep the adopted model. Show "Wisconsin's baseline rises like no-law places (×1.11 a year)" as a named baseline-only sensitivity: baseline 1,083 instead of 605, central addition 8,324 instead of 8,757, total with the law 9,408 instead of 9,361.
 - **Why this departs from the plan.** The pre-registered rule would have made the rising baseline the main case. The decision departs from it because the no-law rise comes from local reforms, and Wisconsin's main local reform (Madison 2021) is already in the measured baseline.
 
+## AQ-059 TOD: the typical scenario's source under critique (Stacy et al. 2023 and AEI)
+
+**Status:** Open, owner to decide (raised 2026-10-28). **Related:** AQ-050, AQ-055, [docs/tod/research/STACY_AEI_REVIEW.md](tod/research/STACY_AEI_REVIEW.md).
+
+The AEI Housing Center reviewed all 180 reforms behind Stacy et al.'s 0.8% (the typical scenario). It judged 60 invalid (duplicates, wrong city, out of scope), 118 minor or misclassified, and only 2 major. The authors reply that 0.8% measures the modest reforms cities actually passed. Our own measured cities sit at 0.04% to 1.24% (permits) and 0.3% to 1.2% (census) of a city's homes per five years.
+1. **Recommended:** keep 0.8% as the typical value, and state the critique on the "How sure" and "Why" screens and in the model documentation as a reason it may understate a strong by-right law.
+2. **Alternative:** re-anchor the typical value on our own measured cities.
+
+Nothing changes until the owner decides.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
