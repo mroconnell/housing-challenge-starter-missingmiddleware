@@ -36,3 +36,4 @@ Each candidate is screened first on the network's own summary. Those that pass a
 
 ## Changes after writing
 - **2026-10-28, while running (before Charlotte's effect was computed):** Charlotte is dropped. Its permits are filed in the Mecklenburg County row, and its reform covered only TOD districts.
+- **2026-10-28, after screening:** only Hayward (2011) needed permit years before 2012, so only the West region files for 2007–2011 were added. No citywide reduction passed the screen (all were optional reductions), so there is no reductions split.
