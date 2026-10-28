@@ -76,4 +76,9 @@ Context and a test of the census method, as for Salt Lake City. No finalized TOD
 
 ## 8. Changes after writing
 
-None yet.
+Recorded 2026-10-28 while running (results: [CENSUS_CASES_RESULTS.md](CENSUS_CASES_RESULTS.md)). Items 1 to 3 were fixed before any comparison was computed; item 4 was noticed in the results.
+
+1. **Tysons boundary.** Fairfax County's layer is one polygon of the whole county with Tysons as its only hole (2,140 acres). The hole is used as the boundary.
+2. **Cincinnati dropped.** Its zoning layer is a link-only entry on the city's data portal and could not be downloaded by script.
+3. **Method check limited to case areas whose permit table spans 2010 to 2019.** New York's 17 pooled members and the two Los Angeles cases were built only for each member's own before and after years, so they have no permits for most of the census decade. They are dropped from the method check. Saint Paul's permits start in 2010, so its 2009 is empty.
+4. **The census and permit areas are not the same land.** The permit side counts only eligible lots (treated lots, and unchanged lots in the ring). The census side counts every block whose point lies in the treated area or the ¼-mile ring, including streets, parks and ineligible lots. So the count ratios in section 6 compare different land; the per-acre differences are the like-for-like test.
