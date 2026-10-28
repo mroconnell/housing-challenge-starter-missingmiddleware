@@ -47,3 +47,22 @@ Compiled 2026-10-28 at the owner's request ("take the AEI criticism into account
 - **Which could feed the up-and-down model:** the 41 left after removing wrong-city, duplicate, wrong-direction and out-of-scope entries. Most are local or minor.
   - Those near rail transit are Pasadena (2016), Culver City (2015), Glendale (2011), Burbank (2017) and Long Beach (2017) in the Los Angeles area; Evanston (2009) and Oak Park (2005) near Chicago; Philadelphia (2006, 2017); and Dallas (2012).
   - Each would need its own boundary map and confirmation from the ordinance, because the source articles are behind a paywall (NewsBank).
+
+## The 10 near-rail tightening reforms, identified from public records (2026-10-28)
+
+The owner asked to measure these with census counts and to build their maps. Stacy et al.'s source articles are paywalled, so each reform was first identified from public reporting.
+
+| Stacy/AEI entry | What it was | Near rail? | Usable as a downzoning case? |
+| --- | --- | --- | --- |
+| Philadelphia, May 2017 (Inquirer) | Council President Clarke's remapping of parts of North Philadelphia (Broad, Girard, Ridge, Cecil B. Moore) toward single-family zoning | yes (Broad Street Line) | **Already in our data.** Philadelphia's 2013–2020 remapping bills are in the up-and-down model (44 downzoned units, including 2017 bills). |
+| Philadelphia, July 2006 (Metro) | 65-foot height limit in Old City (Councilman DiCicco), which blocked a waterfront tower | yes (Market–Frankford Line) | Partly: adopted before the 2010 count, so the census shows only years after; it needs the 2000 count or permits for a before period. |
+| Pasadena, Oct 2016 (listed as Monrovia) | Lower Hastings Ranch: no second storeys on 586 single-family homes (neighbourhood overlay) | edge (Sierra Madre Villa station) | Weak: single-family size cap; little multifamily capacity was at stake. |
+| Culver City, Dec 2015 | Anti-"McMansion" limits on single-family house size, citywide | partly (Expo Line) | Weak: same as Pasadena. |
+| Long Beach, Nov 2017 | Revised Land Use Element maps cut 686 acres of proposed height and density | yes (Blue Line) | No: it scaled back a draft plan, not existing zoning, and was adopted in 2018, too late for the 2020 count. |
+| Glendale, Dec 2011 | North Glendale Community Plan; Foothill Boulevard height limit | no | No. |
+| Dallas, Sept 2012 | La Bajada (West Dallas): 27-foot residential height limit | no | No (not near rail). |
+| Evanston, Jan 2009 | West Evanston form-based zoning | partly | No: it allowed new development; "more restrictive" looks miscoded. |
+| Burbank, 2017–2018 | A single development site | — | No (single site). |
+| Oak Park, Oct 2005 | Height cap on a downtown site (the article names the Marshall Field's site) | yes (Green Line) | No: not identifiable beyond one site. |
+
+**Bottom line:** of the ten, one real near-rail downzoning is already in our data (Philadelphia 2017). One more (Old City 2006) could be measured with extra work. Two are single-family size caps that would add little. Six are not usable.
