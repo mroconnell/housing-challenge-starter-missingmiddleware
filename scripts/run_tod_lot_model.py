@@ -469,6 +469,7 @@ def fit(allvars: bool = False) -> None:
                      "fold_mean_auc": f["auc_builds"].mean(), **{f"{c.lower()}_auc": h.loc[c, "auc_builds"] for c in HOLD},
                      "passes_total": bool(ok_total), "passes_where": bool(auc_ok)})
     S = pd.DataFrame(summ)
+    tag = "_allvars" if allvars else ""
     # Which lot traits the boosted "builds" model leans on (fitted on all fold cities; permutation on the holdouts)
     from sklearn.inspection import permutation_importance
     tr = D.index[D["city"].isin(cities)]

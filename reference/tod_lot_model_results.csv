@@ -1,3 +1,3 @@
-model,fold_mean_error_baseline,fold_mean_error_model,fold_cities_model_better,fold_cities,chicago_error_baseline,madison_error_baseline,chicago_error_model,madison_error_model,fold_mean_auc,chicago_auc,madison_auc,passes_total,passes_where
-boosting,1790.742,2361.9092,2,6,456.8974,676.9996,102.7707,443.3544,0.5537,0.7026,0.6568,False,False
-logit,1790.742,1177902.4575,3,6,456.8974,676.9996,144.4709,794.2239,0.6084,0.7038,0.6259,False,False
+model,fold_mean_error_baseline,fold_mean_error_model,fold_cities_model_better,fold_cities,chicago_error_baseline,madison_error_baseline,bellevue_error_baseline,chicago_error_model,madison_error_model,bellevue_error_model,fold_mean_auc,chicago_auc,madison_auc,bellevue_auc,passes_total,passes_where
+boosting,1790.742,2040.1919,4,6,456.8974,676.9996,871.5433,100.7255,439.8821,63.2567,0.5514,0.7026,0.6568,0.2711,False,False
+logit,1790.742,1177937.1185,3,6,456.8974,676.9996,871.5433,144.4553,794.2186,327.3458,0.6084,0.7066,0.6285,0.6276,False,False
