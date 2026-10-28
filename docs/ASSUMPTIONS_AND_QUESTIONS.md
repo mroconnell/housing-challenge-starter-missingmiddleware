@@ -791,6 +791,15 @@ The owner restated the principle in AQ-047 item 1: the modelled law should rest 
 2. **Control cities.** At the owner's request, each reform city's whole-city permits were compared with 10 matched US cities that made no transit-area reform, over the same years, under a plan written first. The cities' own results agree with it in 5 of 6 cities, but it can only detect changes of about 4% to 5% of a city's homes over five years. That is far more than any reform added, so it cannot narrow the range. Seattle's citywide boom shows why the within-city comparison is used.
 3. **No number changes.** The TOD scenarios stay at 171, 2,509 and 17,148 extra homes over 2027–2031 (AQ-055).
 
+## AQ-058 ADU placebo test: rising baseline as a sensitivity, not the main case
+
+**Status:** Adopted. **Added:** 2026-10-28. **Related:** AQ-043, AQ-054.
+
+- **The test.** It compared strong-law, weak-law and no-law places ([docs/adu/PLACEBO_RESULTS.md](adu/PLACEBO_RESULTS.md)). They ranked strong > weak > none: changes of +0.75, +0.45 and +0.25 ADU permits per 1,000 single-family homes per year.
+- **Why the no-law places rose.** Their rise disappears once windows with a local reform are removed.
+- **Owner decision.** Keep the adopted model. Show "Wisconsin's baseline rises like no-law places (×1.11 a year)" as a named baseline-only sensitivity: baseline 1,083 instead of 605, central addition 8,324 instead of 8,757, total with the law 9,408 instead of 9,361.
+- **Why this departs from the plan.** The pre-registered rule would have made the rising baseline the main case. The decision departs from it because the no-law rise comes from local reforms, and Wisconsin's main local reform (Madison 2021) is already in the measured baseline.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -925,3 +934,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-27 | AQ-056 | TOD: widen the case set; if a narrower law design or trait model predicts held-out cities, the modelled law may be narrowed to it (frozen numbers change only with owner approval). |
 | 2026-10-27 | AQ-048 | Parking high end: owner chose option B, the placebo-based high end (+0.91 permits per 1,000 existing homes per year; 12,184 permits 2027–2031, was 20,672 from resampling, now a sensitivity). Combined TOD + parking high case: 27,953 headline, 29,331 upper bound (were 35,582 and 37,819). |
 | 2026-10-27 | AQ-048 | Parking placebo rerun with the full pool of 3,896 never-repealed cities (owner request): high end +0.96 per 1,000 existing homes per year, 12,947 permits 2027–2031 (was 12,184 from 20 cities per place). Combined high case 28,631 headline, 30,095 upper bound. |
+| 2026-10-28 | AQ-058 | ADU placebo: keep the model; rising no-law baseline (605 → 1,083; addition 8,757 → 8,324; total 9,361 → 9,408) shown as a baseline-only sensitivity. |
