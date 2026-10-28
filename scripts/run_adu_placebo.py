@@ -270,6 +270,23 @@ def series_row(s: Series, ba: dict | None, year0, kind: str) -> dict:
 
 
 # ---------------------------------------------------------------- Wisconsin engine cases
+def nolaw_median_ratio() -> float:
+    """Median after/before ratio of the no-law placebo group C (main case: calendar-matched fake law years, every C
+    series in each draw), unrounded. Same draws as the "main" row of reference/adu_placebo_summary.csv."""
+    dist, _ = resample([s for s in load_series() if s.group == "C"], "calendar")
+    return pct(dist["ratio"], 50)
+
+
+def rising_growth(areas: pd.DataFrame, growth: pd.DataFrame, ratio: float) -> pd.DataFrame:
+    """Baseline growth table g (area_id, year, g) with every place's current-law rate rising proportionally:
+    x * ratio^((t - 2023.5) / 4), on top of the adopted g (recently liberalized places' ramps)."""
+    from missing_middleware.model import engine as e
+    gmap = {(r.area_id, int(r.year)): float(r.g) for r in growth.itertuples()}
+    return pd.DataFrame([{"area_id": aid, "year": k,
+                          "g": gmap.get((aid, k), 1.0) * ratio ** (((2026 + k) - WI_WINDOW_CENTRE) / WINDOW_GAP)}
+                         for aid in areas.area_id for k in e.YEARS])
+
+
 def wisconsin_cases(trend_cases: list[tuple[str, str, float]]) -> pd.DataFrame:
     """Adopted engine with only the current-law baseline changed. trend_cases: (case, kind, value) with kind
     'ratio' (proportional: x * f^(t-2023.5), f = value^(1/4)) or 'diff' (additive: + value/4 per year)."""
@@ -310,11 +327,13 @@ def wisconsin_cases(trend_cases: list[tuple[str, str, float]]) -> pd.DataFrame:
                 dt = (2026 + k) - WI_WINDOW_CENTRE
                 g0 = gmap.get((ar.area_id, k), 1.0)
                 if kind == "ratio":
-                    g = g0 * v ** (dt / WINDOW_GAP)
+                    g = None    # replaced by rising_growth() below
                 else:   # additive: x*g0 + v/4*dt, expressed as a growth factor (x = 0 areas get x_t via g only if x>0)
                     g = g0 + (v / WINDOW_GAP * dt) / ar.x_rate if ar.x_rate > 0 else None
                 g2.append({"area_id": ar.area_id, "year": k, "g": g})
         g2 = pd.DataFrame(g2)
+        if kind == "ratio":
+            g2 = rising_growth(areas, growth, v)
         if kind == "diff":
             # areas with x = 0 cannot carry an additive rise through a multiplicative g; give them a tiny x so
             # that x * g equals the additive rise (x_t = 1e-9 * g)

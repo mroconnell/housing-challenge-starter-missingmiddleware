@@ -208,6 +208,27 @@ class TestAdoptedOutputs(unittest.TestCase):
             db, da = r.baseline_5yr - adopted.baseline_5yr, r.difference_central
             self.assertLessEqual(db * da, 1e-9, r.change)
 
+    def test_rising_baseline_like_nolaw_case(self):
+        # AQ-058: baseline-only case from the placebo test; adopted numbers unchanged
+        s = pd.read_csv(self.ref / "adu_model_sensitivities.csv")
+        r = s[s.change.str.startswith("Wisconsin's baseline rises like no-law places")]
+        self.assertEqual(len(r), 1)
+        r = r.iloc[0]
+        self.assertEqual(r.moves, "baseline only")
+        self.assertIn("\u00d71.11 a year", r.change)
+        self.assertAlmostEqual(r.baseline_5yr, 1083.3, delta=0.05)
+        self.assertAlmostEqual(r.central_additional_5yr, 8324.3, delta=0.05)
+        self.assertAlmostEqual(r.lower_additional_5yr, 5107.3, delta=0.05)
+        self.assertAlmostEqual(r.upper_additional_5yr, 16455.2, delta=0.05)
+        a = s[s.moves.eq("none (adopted)")].iloc[0]
+        self.assertAlmostEqual(a.baseline_5yr, 604.6, delta=0.05)
+        self.assertEqual((a.lower_additional_5yr, a.central_additional_5yr, a.upper_additional_5yr), (5538.1, 8756.6, 16888.9))
+        bo = pd.read_csv(self.ref / "adu_model_baseline_only_effects.csv").set_index("case")
+        self.assertAlmostEqual(bo.loc["wi-rising-like-nolaw", "with_law_central"], 9407.5, delta=0.05)
+        pw = pd.read_csv(self.ref / "adu_placebo_wi.csv")
+        pw = pw[pw.case.eq("rising baseline, proportional, C median ratio") & pw.path.eq("central")].iloc[0]
+        self.assertAlmostEqual(pw.additional_5yr, r.central_additional_5yr, delta=0.06)
+
     def test_reference_line_8_states_carried_forward(self):
         lines = pd.read_csv(self.ref / "adu_model_reference_lines.csv")
         self.assertEqual(lines.adopted.sum(), 1)

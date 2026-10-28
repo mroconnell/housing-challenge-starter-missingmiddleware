@@ -15,7 +15,10 @@ Cases (all central x; lower and upper paths reported too):
 - no ramp for recently liberalized places: g = 1 everywhere;
 - Madison x = 2026 provisional pace, 2024-2025, or 2022-2025 without the templated programme;
 - Milwaukee: whichever of its two treatments the adopted baseline does not use (its measured 2022-2025 rate,
-  or the assumed ramp from its pre-reform rate to Madison's rate after its 2025 reform).
+  or the assumed ramp from its pre-reform rate to Madison's rate after its 2025 reform);
+- Wisconsin's baseline rises like no-law places (AQ-058): every place's x grows by the placebo test's median no-law
+  after/before ratio over 4 years (scripts/run_adu_placebo.py nolaw_median_ratio() and rising_growth()); checked
+  against reference/adu_placebo_wi.csv.
 
 Inputs: data/processed/model_baseline/engine_areas.parquet, engine_baseline_growth.parquet,
 reference/wi_baseline_rates_by_group.csv, wi_baseline_observed.csv, wi_baseline_sensitivities.csv (check),
@@ -65,6 +68,12 @@ CASE_TEXT = {
     "milwaukee-ramp": "Milwaukee rises from its pre-reform rate to Madison's rate within about four years of its August "
                       "2025 ADU reform (the assumed ramp used at Gate 3), instead of staying at its measured 2022-2025 "
                       "rate. Changes only the current-law baseline; Milwaukee's addition falls by about as much.",
+    "wi-rising-like-nolaw": "Every Wisconsin place's current-law rate keeps rising as fast as in cities and states without "
+                            "a statewide ADU law: those rose about 1.5 times from their before-period to their "
+                            "after-period, four years later (about \u00d71.11 a year), almost entirely because of local "
+                            "reforms there. Wisconsin's main local reform (Madison 2021) is already in its measured "
+                            "rate, so this is a check rather than the main case. Changes only the current-law "
+                            "baseline; the law's addition falls by nearly as much.",
 }
 
 
@@ -116,6 +125,13 @@ def baseline_only_cases(areas: pd.DataFrame, growth: pd.DataFrame) -> list[tuple
         g = pd.concat([g, pd.DataFrame(rows).query("g < 1 - 1e-12")], ignore_index=True)
         cases.append(("milwaukee-ramp", "Milwaukee rises to Madison's rate after its 2025 reform (assumed ramp)", a, g,
                       "Milwaukee x = assumed ramp to Madison's rate after its 2025 reform"))
+    # Wisconsin's baseline rises like no-law places (AQ-058): the placebo test's median no-law after/before ratio over
+    # a 4-year gap, applied proportionally to every place (scripts/run_adu_placebo.py, same engine logic)
+    import run_adu_placebo as plc
+    ratio = plc.nolaw_median_ratio()
+    cases.append(("wi-rising-like-nolaw",
+                  f"Wisconsin's baseline rises like no-law places (\u00d7{ratio ** (1 / plc.WINDOW_GAP):.2f} a year)",
+                  areas, plc.rising_growth(areas, growth, ratio), None))
     return cases
 
 
@@ -142,6 +158,16 @@ def main():
             row.update({f"baseline_{p}": round(b, 2), f"additional_{p}": round(ad, 2), f"with_law_{p}": round(b + ad, 2),
                         f"d_baseline_{p}": round(b - b0, 2), f"d_additional_{p}": round(ad - ad0, 2),
                         f"d_with_law_{p}": round(b + ad - b0 - ad0, 2)})
+        if cid == "wi-rising-like-nolaw":
+            pw = pd.read_csv(REFERENCE / "adu_placebo_wi.csv")
+            pw = pw[pw.case.eq("rising baseline, proportional, C median ratio")].set_index("path")
+            for p in e.PATHS:
+                if abs(row[f"baseline_{p}"] - pw.loc[p, "baseline_5yr"]) > 0.06 or \
+                        abs(row[f"additional_{p}"] - pw.loc[p, "additional_5yr"]) > 0.06:
+                    raise SystemExit(f"{cid}: engine totals differ from reference/adu_placebo_wi.csv ({p})")
+            row["check"] = "baseline and addition equal reference/adu_placebo_wi.csv (rising baseline, proportional, C median ratio)"
+            cases.append(row)
+            return
         if check_label is not None:
             want = float(check.loc[check_label, "b5yr_central"])
             if abs(row["baseline_central"] - want) > 0.05:

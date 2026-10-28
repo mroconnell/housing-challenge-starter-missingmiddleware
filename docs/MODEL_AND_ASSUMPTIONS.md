@@ -176,6 +176,7 @@ Every place's rate with the law is transferred from other states.
 8. **Districts are shares, not forecasts.** District figures share each municipality's result by where its single-family homes were in 2020. Homes built since 2020 and annexations are not reflected. Plain land-area weights would move 237 of the 8,757 central permits (2.7%) between districts.
 9. **Permits are not homes.** Not every permit becomes a finished home, and some second homes are built without permits.
 10. **Associations, not proven causes.** Results describe what other states experienced after their laws.
+11. **The before-and-after evidence is thin.** In the placebo test ([PLACEBO_RESULTS.md](adu/PLACEBO_RESULTS.md)) the strong-law and weaker-law groups have only 2 series each (California and Washington; Rhode Island and Chittenden County, Vermont). Against placebo groups of the same size (2 no-law series per draw), the strong-law group's change of +0.75 ADU permits per 1,000 one-unit detached homes per year is matched or beaten in 16% of draws (316 of 2,000), and the weaker-law group's +0.45 in 26% (about 520 of 2,000).
 
 ### Sensitivity Notes
 
@@ -205,6 +206,9 @@ Each case changes one assumption and reruns the model. Additional permits over 2
 | Madison's rate = its 2026 pace so far (provisional) | 813.8 | −129.4 | +79.7 |
 | Madison's rate from 2024–2025 only | 617.1 | −12.5 | 0.0 |
 | Madison's rate without one builder's templated programme | 595.9 | +8.8 | 0.0 |
+| Wisconsin's baseline rises like no-law places (×1.11 a year) | 1,083.3 | −432.4 (lower −430.8, upper −433.7) | +46.3 (+0.5%) |
+
+- **Placebo test and the rising-baseline check (AQ-058).** Rates are ADU permits per 1,000 one-unit detached homes per year, after the law (3 years) minus before it (3 years). Strong-law places changed by +0.75, weaker-law places by +0.45 and no-law places by +0.25 (median of 2,000 placebo draws; ratio 1.52, from 0.53 to 0.75), so the order is strong > weak > none ([PLACEBO_RESULTS.md](adu/PLACEBO_RESULTS.md)). The no-law rise disappears (change −0.04) once windows holding a local reform are removed. The last row lets every Wisconsin place's rate rise like the no-law places anyway: baseline 1,083.3 instead of 604.6 permits over 2027–2031; addition 5,107.3 / 8,324.3 / 16,455.2 instead of 5,538.1 / 8,756.6 / 16,888.9 (lower / central / upper); central total with the law 9,407.5 instead of 9,361.3 (+46.3 of 9,361.3). It is a check, not the main case, because Wisconsin's main local reform (Madison 2021) is already in the measured baseline.
 
 **Reading.** What we do not know about local rules moves the split between baseline and addition, not the total. What moves the total is how Wisconsin responds compared with the eight states, and the model form. The two alternative model forms (multiplicative law 666; California-only regression 2,390) are the largest downside cases. Without the ramp, the central would be 1,511 permits higher. Redrawing the urban, suburban, small-community and rural groups moves nothing, because the groups are labels only.
 
