@@ -33,7 +33,7 @@ insight over forecasting complexity.
    analytical logic. Tests must pass on a clean checkout and have a documented
    run command. When you change the model, update its tests.
 1. **Security.** Never hardcode or commit secrets, API keys, or tokens; read
-   them from environment variables (see `.env.example`) and keep `.env`
+   them from environment variables (listed in the README; values live in the git-ignored `.env`) and keep `.env`
    gitignored. Avoid introducing dependencies with known critical/high
    vulnerabilities.
 1. **Separation of data from code.** Do not commit raw or large datasets. Point

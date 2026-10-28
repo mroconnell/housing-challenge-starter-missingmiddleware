@@ -54,7 +54,7 @@ The Gate 4 interactive ADU tool runs locally with the first two commands below (
 
 Environment: macOS or Linux with Python 3.12+, Node.js 20+ for the tool, and internet access for the build steps. The Playwright tests use an installed Chromium (`cd ui && npx playwright install chromium` if none is present). No secrets are required. `pdftotext` (poppler) is only needed for the optional Howard fallback adapter.
 
-If your tool needs environment variables, copy `.env.example` to `.env` and fill in the values before running.
+Environment variables go in a local `.env` file, which git ignores (so do `.env.example` and every other `.env.*` file). The only one is optional: `CENSUS_API_KEY` (free from https://api.census.gov/data/key_signup.html), read by `scripts/fetch_samples.py`; the main pipeline needs no key. Scripts don't load `.env` themselves: run `set -a; source .env; set +a` first.
 
 ## Data
 
