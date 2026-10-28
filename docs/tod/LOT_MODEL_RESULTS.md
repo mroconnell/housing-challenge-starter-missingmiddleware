@@ -34,3 +34,50 @@ Run 2026-10-28 against [LOT_MODEL_PLAN.md](LOT_MODEL_PLAN.md) (changes in its se
   - a feasibility measure with comparable land values. Only New York and Chicago have pre-reform values here.
 
   Both would be new tests, written down first.
+
+## Runs A, B and C (added 2026-10-28): Bellevue as a third holdout, all 91 census variables, all 8 methods
+
+Plan changes: LOT_MODEL_PLAN section 9, items 8–11, each recorded before its run. Outputs: `reference/tod_lot_model_*` (run A), `*_allvars` (run B), `*_all8` (run C).
+
+**No method passes.** Pass = lower mean error than the plain average across the 6 fold cities **and** a smaller error on each of Chicago, Madison and Bellevue.
+
+| Method | Run | Fold mean error (plain average 1,791) | Fold cities closer (of 6) | Chicago | Madison | Bellevue | Passes |
+| --- | --- | ---: | ---: | --- | --- | --- | --- |
+| Boosting, 22 traits | A | 2,040 | 4 | closer | closer | closer | no |
+| Boosting, all variables | B | 2,955 | 3 | closer | closer (by 5 homes) | closer | no |
+| Weighted regression | C | over 1 million (Charlotte blow-up) | 3 | closer | not | closer | no |
+| LASSO | C | over 1 million | 3 | closer | not | closer | no |
+| Elastic net | C | over 1 million | 3 | closer | not | closer | no |
+| Regression tree | C | 1,360 | 4 | closer | not | closer | no |
+| Random forest | C | 1,355 | 4 | closer | not | closer | no |
+| Causal forest (separate forests) | C | **1,126** | 4 | not | not | closer | no |
+| Nearest neighbours | C | 1,363 | 4 | closer | not | closer | no |
+
+**Predicted extra homes, run C, selected methods:**
+
+| City | Actual | Plain average | Random forest | Causal forest | Boosting (B) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| New York | 3,763 | 823 | 95 | 4,170 | 1,806 |
+| Philadelphia | 3,341 | 1,058 | 57 | 1,584 | 839 |
+| Charlotte | 562 | 2,465 | 34 | 2,592 | 7,234 |
+| Saint Paul | 106 | 407 | 1 | 512 | 87 |
+| Seattle | −83 | 168 | 3 | 68 | 47 |
+| Los Angeles | −358 | 2,709 | 101 | 1,648 | 6,090 |
+| Chicago (holdout) | 144 | 601 | 3 | 1,249 | 107 |
+| Madison (holdout) | 794 | 1,471 | −5 | 2,794 | 122 |
+| Bellevue (holdout) | 336 | 1,207 | 38 | 1,159 | 203 |
+
+- **The tree, random forest and nearest-neighbour models learned "almost nothing extra happens".** They predict close to zero everywhere. That beats the plain average on the fold mean only because the average overshoots Charlotte and Los Angeles: guessing zero gives a fold mean error of about 1,369 homes. It misses Madison's real gain.
+- **The causal forest is the most interesting.**
+  - It came closest overall (fold mean error 1,126) and nearly got New York right (4,170 against 3,763).
+  - But it overshot Chicago (1,249 against 144) and Madison (2,794 against 794).
+  - It is the only method that predicts sizeable effects where they happened. It also predicts them where they didn't.
+- **The traits that helped most** (runs A and B):
+  - building activity near the lot before the reform;
+  - a cheap building on valuable land (New York and Chicago only);
+  - rent compared with building cost;
+  - the neighbourhood's share of homes built since 2000;
+  - lot width.
+
+  The two "many stalls" traits didn't rank high.
+- **Conclusion:** after lot-level models with up to 100 traits and 8 methods, no method predicts a new city's total better than the plain average on every test. The city's market still decides most of the outcome. The finalized TOD numbers (AQ-055) stay at 171, 2,509 and 17,148.
