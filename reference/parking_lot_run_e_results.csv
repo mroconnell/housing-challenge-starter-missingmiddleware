@@ -1,0 +1,9 @@
+method,mean_error_model,mean_error_baseline,mean_error_zero,cities_beating_baseline,passes
+wls,3409.026,2973.36,365.874,1,False
+lasso,2930.382,2973.36,365.874,1,False
+elastic_net,2333.01,2973.36,365.874,2,False
+tree,2487.277,2973.36,365.874,1,False
+forest,305.811,2973.36,365.874,2,True
+boosting,13397.949,2973.36,365.874,0,False
+causal_forest,30305.34,2973.36,365.874,0,False
+knn,1386.651,2973.36,365.874,2,False
