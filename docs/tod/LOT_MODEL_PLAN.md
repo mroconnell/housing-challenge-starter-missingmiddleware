@@ -86,4 +86,11 @@ The lot model counts as better if it beats the plain baseline on held-out cities
 
 ## 9. Changes after writing
 
-None yet.
+1. **2026-10-28, before any data was fetched: values only from before the window.** Today's assessor values would leak the outcome, because a lot that was rebuilt now has a high building value. So the building ÷ land value trait, and the land and building cost in section 5, use only snapshots dated before each case's window:
+   - New York: MapPLUTO archives;
+   - Chicago: Cook County assessed-value history;
+   - Seattle: King County value history;
+   - Philadelphia: assessment history, for members whose window starts in 2014 or later;
+   - Madison and Milwaukee: assessor history where available.
+
+   Los Angeles, Charlotte and Saint Paul have no public history, so they get the "missing" flag for this trait. Year built is likewise taken only from before-window snapshots.
