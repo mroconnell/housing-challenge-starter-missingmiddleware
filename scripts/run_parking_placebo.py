@@ -48,7 +48,7 @@ def main() -> None:
     excluded |= set(real["key"])
     rng = np.random.default_rng(SEED)
     rows, scopes = [], []
-    for i, r in real.iterrows():
+    for i, r in (real.iloc[0:0] if "--summary-only" in sys.argv else real).iterrows():
         st = r["key"].split("|")[0]
         pre, post = cmp.windows(int(r["event_year"]))
         post = post[: int(r["n_post"])]
@@ -76,10 +76,19 @@ def main() -> None:
         for x in eff.itertuples():
             rows.append(dict(real_index=i, real_place=r["place"], placebo_key=x.key, event_year=int(r["event_year"]),
                              n_post=int(x.n_post), homes=x.homes, effect=x.effect))
-    pl = pd.DataFrame(rows)
-    pl["weight"] = pl["homes"] * pl["n_post"]
-    pl.round(4).to_csv(REFERENCE / f"parking_placebo{tag}_places.csv", index=False)
-    pd.DataFrame(scopes).to_csv(REFERENCE / f"parking_placebo{tag}_scopes.csv", index=False)
+    if rows:
+        pl = pd.DataFrame(rows)
+        pl["weight"] = pl["homes"] * pl["n_post"]
+        pl.round(4).to_csv(REFERENCE / f"parking_placebo{tag}_places.csv", index=False)
+        pd.DataFrame(scopes).to_csv(REFERENCE / f"parking_placebo{tag}_scopes.csv", index=False)
+    else:  # --summary-only: reuse the saved placebo places
+        pl = pd.read_csv(REFERENCE / f"parking_placebo{tag}_places.csv")
+    # placebo places whose own comparison pool was empty have no effect; they cannot be drawn (Ask-why checks)
+    dropped = int(pl["effect"].isna().sum())
+    pl = pl.dropna(subset=["effect", "weight"])
+    pl = pl[pl["weight"] > 0]
+    print("placebo places without an effect, left out:", dropped)
+    rng = np.random.default_rng(SEED + 1)  # set draws use their own stream, so --summary-only reproduces the full run
     groups = {i: g for i, g in pl.groupby("real_index")}
     n_sets = SETS_FULL if full else SETS
     if full:

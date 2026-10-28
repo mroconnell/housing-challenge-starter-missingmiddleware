@@ -26,3 +26,7 @@ Written 2026-10-28 by the parking conductor, at Ryan's request: a one-off review
 - Values outside each column's unit range. Units are labelled in `checks.UNITS`.
 - Rows that break the policy's own definition (for example, Chicago reform lots farther than 402 m from a station).
 - After each run, the worst-missed held-out unit is named for tracing.
+
+## Outcome of fix 1 (2026-10-28)
+
+Ryan approved it. With at least 20 stand-ins per real place, the placebo middle is +0.01. The real −1.14 sits at the 21.7th percentile, so it is ordinary. The high end rises to +1.49 per 1,000 existing homes per year, 19,937 permits over 2027–2031 (was 12,695). See [PLACEBO_RESULTS.md](PLACEBO_RESULTS.md).

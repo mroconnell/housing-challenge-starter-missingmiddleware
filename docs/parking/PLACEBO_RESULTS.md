@@ -64,3 +64,23 @@ All rates are permits per 1,000 existing homes per year.
 | Placebo cities computed | 4,004 |
 | Placebo-based range | −3.48 to +0.95 |
 | Wisconsin high end, 2027–2031 | 12,759 |
+
+## Fixed run: at least 20 stand-ins per real place (2026-10-28, owner approved; used in the tool)
+
+The Ask-why review ([ASK_WHY_REVIEW.md](ASK_WHY_REVIEW.md)) found that big real cities had only 1 to 4 stand-ins. San Jose had 2, averaging +5.5, and Raleigh had 1, at +3.6. Those few drove the placebo middle up to +1.5. Now each real place draws from its state, then its Census division, then the nation, until it has at least 20. Six stand-ins whose own comparison pools were empty are left out.
+
+All rates are permits per 1,000 existing homes per year.
+
+| Measure | Before the fix | Fixed |
+| --- | ---: | ---: |
+| Stand-in cities | 4,626 | 9,420 |
+| Real places drawing beyond their state | 0 | 38 of 76 (27 from their division, 11 from the nation) |
+| Placebo averages: 5th / 50th / 95th percentile | −0.79 / +1.51 / +3.59 | −2.28 / +0.01 / +2.64 |
+| Share of placebo averages at or below the real −1.14 | 2.7% | 21.7% |
+| Placebo-based range | −3.44 to +0.95 | −3.44 to +1.49 |
+| Wisconsin high end, 2027–2031 | 12,695 | **19,937** |
+
+**Reading:**
+- **The lean toward growth is gone.** The placebo middle is now +0.01.
+- **The real result is ordinary.** It is low but within the normal range, not "worse than 97%".
+- **The high end goes up.** With more varied stand-ins, the spread is wider. It now agrees with resampling the real places (+1.43).

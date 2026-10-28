@@ -1,0 +1,77 @@
+real_place,scope,standins
+San Jose,nation,24
+San Francisco,nation,30
+Raleigh,nation,60
+Minneapolis,nation,74
+Lexington,nation,108
+St. Paul,nation,121
+Anchorage,division,34
+Buffalo,nation,141
+Bridgeport,division,20
+Gainesville,state,35
+Hartford,division,32
+Ann Arbor,state,22
+Cambridge,division,36
+Roanoke,division,82
+Alameda,state,166
+West Allis,state,21
+Corvallis,division,219
+Tigard,division,222
+Dunwoody,state,28
+Culver City,state,183
+Mount Pleasant,state,122
+Windham,state,22
+Cambridge,division,278
+Emeryville,state,138
+Branson,state,81
+Canandaigua,state,302
+Ecorse,state,220
+Bastrop,state,207
+Seabrook,state,74
+River Rouge,state,263
+Hudson,state,433
+Bandera,state,180
+Austin,nation,25
+Sacramento,nation,54
+Durham,division,23
+Richmond,division,29
+Birmingham,nation,254
+Newport News,division,43
+Salem,division,87
+Eugene,division,87
+Berkeley,state,132
+Bend,division,168
+Beaverton,division,176
+Longmont,division,57
+Trenton,state,46
+Duluth,state,20
+Kalamazoo,state,46
+Rogers,division,97
+Portland,division,79
+Springfield,division,215
+Albany,division,221
+La Crosse,state,24
+Burlington,division,146
+Grants Pass,division,229
+Plainfield,state,35
+Tualatin,division,220
+West Linn,division,221
+Kingston,state,159
+Ashland,division,234
+Carrboro,state,34
+Milwaukie,division,234
+Northfield,state,73
+Central Point,state,26
+Portsmouth,state,128
+Taylor,state,161
+Hanover,state,50
+Lansing,state,38
+Hampden,state,69
+King City,state,30
+Social Circle,state,90
+Millersburg,state,28
+South Bend (with unincorporated St. Joseph County),nation,641
+Gastonia,division,105
+Avondale Estates,state,96
+Maumee,state,147
+Saranac Lake,state,476
