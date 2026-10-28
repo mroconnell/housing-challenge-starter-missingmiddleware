@@ -156,3 +156,14 @@ The lot model counts as better if it beats the plain baseline on held-out cities
 
       Run D is judged by the old rule and run E by the new one; the other rule is shown beside each.
     - **Note:** the lot table now carries the two "many stalls" traits, so run D's repeat of run A includes them too. That is the only difference from run A apart from the units fix.
+14. **2026-10-28, owner's direction, written before any rerun: rapid-bus stops added, and only lots within ½ mile of a stop.** The stop list was rail only, so lots near rapid bus were coded as far from transit:
+    - Madison's upzoned lots were coded about 96 km from a stop (its rapid bus is not rail);
+    - Los Angeles's Warner Center lots about 7 km (the G Line is a busway);
+    - in Philadelphia 37% of upzoned lots were beyond ½ mile, because many rezonings were not transit-based.
+
+    Owner: "TOD is meant to be within a certain distance of transit", so this is coded, not trained on. Fix:
+    - **Stops** = the existing National Transit Map rail stops, plus Los Angeles Metro's 17 G Line busway stations from the same map, plus Madison's rapid-bus stops from `reference/tod_stops.csv` (the same map, the Wisconsin benchmark's list). Stops are as of 2026, as for rail; Madison's and Bellevue's lines opened after their reforms but were planned at the time.
+    - **Lots kept:** upzoned and comparison lots within 805 m (½ mile) of a stop, as in the Wisconsin benchmark's rail and rapid ½-mile rung.
+    - Distance to station, stops within 1 mile and share of upzoned land within ½ mile are recomputed on the kept lots.
+    - Runs D (all three parts) and E are repeated on the kept lots, tagged "half mile", with both rules. Everything else is unchanged.
+    - The run D 8-method part was stopped before finishing, as it would be superseded; run E's first version is let finish and reported as superseded.

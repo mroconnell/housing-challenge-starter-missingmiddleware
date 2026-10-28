@@ -29,6 +29,8 @@ from scripts.run_tod_net_effect import _permits_from_points, capture  # noqa: E4
 
 OUT = PROCESSED / "tod_lot_model"
 LOTS = OUT / "lots.parquet"
+LOTS_HALF = OUT / "lots_halfmile.parquet"   # plan section 9, item 14
+FIT = {"lots": LOTS, "suffix": ""}
 HOLD = ("Chicago", "Madison", "Bellevue")
 FAR_CITIES = ("New York", "Chicago", "Madison", "Saint Paul", "Seattle", "Bellevue")   # levels are floor area ratios
 STATE = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Seattle": "53",
@@ -412,7 +414,7 @@ def fit(allvars: bool = False) -> None:
     from sklearn.linear_model import LinearRegression, LogisticRegression
     from sklearn.metrics import roc_auc_score
     from sklearn.preprocessing import StandardScaler
-    D = pd.read_parquet(LOTS)
+    D = pd.read_parquet(FIT["lots"])
     cache = {k: cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(D["city"], D["eff_year"]))}
     D["cost_per_home"] = [cache[(c, y)] for c, y in zip(D["city"], D["eff_year"])]
     print({k: round(v) for k, v in cache.items() if v == v}, flush=True)
@@ -496,7 +498,7 @@ def fit(allvars: bool = False) -> None:
                      "fold_mean_auc": f["auc_builds"].mean(), **{f"{c.lower()}_auc": h.loc[c, "auc_builds"] for c in HOLD},
                      "passes_total": bool(ok_total), "passes_where": bool(auc_ok)})
     S = pd.DataFrame(summ)
-    tag = "_runD_allvars" if allvars else "_runD"
+    tag = ("_runD_allvars" if allvars else "_runD") + FIT["suffix"]
     # Which lot traits the boosted "builds" model leans on (fitted on all fold cities; permutation on the holdouts)
     from sklearn.inspection import permutation_importance
     tr = D.index[D["city"].isin(cities)]
@@ -509,7 +511,7 @@ def fit(allvars: bool = False) -> None:
                         "holdout_auc_drop_when_shuffled": pi.importances_mean}).sort_values("holdout_auc_drop_when_shuffled", ascending=False)
     imp.round(4).to_csv(REFERENCE / f"tod_lot_model_importance{tag}.csv", index=False)
     print(imp.round(4).to_string())
-    tag = "_runD_allvars" if allvars else "_runD"
+    tag = ("_runD_allvars" if allvars else "_runD") + FIT["suffix"]
     E.round(3).to_csv(REFERENCE / f"tod_lot_model_by_city{tag}.csv", index=False)
     S.round(4).to_csv(REFERENCE / f"tod_lot_model_results{tag}.csv", index=False)
     pd.set_option("display.width", 250)
@@ -536,6 +538,60 @@ def add_saturation() -> None:
     D["stops_1mile"] = [len(n) for n in st.query_ball_point(D[["x5070", "y5070"]].to_numpy(), r=1609)]
     D.to_parquet(LOTS)
     print(D.groupby(["city", "treated"])[["share_upzoned_half_mile", "stops_1mile"]].median().round(3).to_string())
+
+
+# Rapid-bus stations missing from the rail-only stop list (plan section 9, item 14). Federal National Transit Map,
+# Los Angeles Metro (NTD 90154) G Line busway stations; Madison's rapid stops come from reference/tod_stops.csv.
+G_LINE = ("North Hollywood Station", "Laurel Canyon Station", "Valley College Station", "Woodman Station",
+          "Sepulveda Station", "Woodley Station", "Balboa Station", "Reseda Station", "Tampa Station",
+          "Pierce College Station", "De Soto Station", "Canoga Station", "Warner Center Transit Hub", "Sherman Way Station",
+          "Roscoe Station", "Nordhoff Station", "Chatsworth Station")
+
+
+def qualifying_stops_5070() -> np.ndarray:
+    from scripts.fetch_tod_transit import NTM_LAYERS, ntm_query
+    s_ = pd.DataFrame(json.load(open(RAW / "tod_census_cases" / "ntm_rail_stops.json"))).dropna(subset=["stop_lat", "stop_lon"])
+    lat, lon = list(s_.stop_lat), list(s_.stop_lon)
+    cache = RAW / "tod_census_cases" / "ntm_la_g_line.json"
+    if not cache.exists():
+        names = ",".join("'" + n + "'" for n in G_LINE)
+        f, _ = ntm_query(NTM_LAYERS["stops"], f"ntd_id='90154' AND stop_name IN ({names})")
+        cache.write_text(json.dumps([x["attributes"] for x in f]))
+    g = pd.DataFrame(json.load(open(cache)))
+    print("G Line stations found:", g["stop_name"].nunique(), "of", len(G_LINE), flush=True)
+    w = pd.read_csv(REFERENCE / "tod_stops.csv")
+    w = w[(w["flag_a_rapid"] == 1) & (w["agency"] == "City of Madison")]
+    lat += list(g.stop_lat) + list(w.lat)
+    lon += list(g.stop_lon) + list(w.lon)
+    p = gpd.GeoSeries(gpd.points_from_xy(lon, lat), crs=4326).to_crs(5070)
+    return np.c_[p.x, p.y]
+
+
+def half_mile() -> None:
+    """Plan section 9, item 14: rail plus rapid-bus stops; keep lots within 1/2 mile; recompute the stop traits."""
+    from scipy.spatial import cKDTree
+    D = pd.read_parquet(LOTS)
+    st = cKDTree(qualifying_stops_5070())
+    xy = D[["x5070", "y5070"]].to_numpy()
+    D["dist_station_m"] = st.query(xy)[0]
+    D["stops_1mile"] = [len(n) for n in st.query_ball_point(xy, r=1609)]
+    before = D.groupby(["city", "treated"]).size()
+    D = D[D["dist_station_m"] <= 805].copy()
+    share = np.full(len(D), np.nan)
+    D = D.reset_index(drop=True)
+    for unit, ix in D.groupby("unit").groups.items():
+        d = D.loc[ix]
+        xy_ = d[["x5070", "y5070"]].to_numpy()
+        nb = cKDTree(xy_).query_ball_point(xy_, r=805)
+        ac, tr = d["acres"].to_numpy(), (d["treated"].to_numpy() == 1)
+        share[D.index.get_indexer(ix)] = [ac[n][tr[n]].sum() / ac[n].sum() if len(n) else np.nan for n in nb]
+    D["share_upzoned_half_mile"] = share
+    D.to_parquet(LOTS_HALF)
+    after = D.groupby(["city", "treated"]).size()
+    t = pd.DataFrame({"lots_before": before, "lots_kept": after}).fillna(0)
+    t["median_dist_m"] = D.groupby(["city", "treated"])["dist_station_m"].median()
+    t["median_share_upzoned"] = D.groupby(["city", "treated"])["share_upzoned_half_mile"].median()
+    print(t.round(2).to_string())
 
 
 def enrich_all() -> None:
@@ -582,7 +638,7 @@ def fit8(tlearner: bool = False) -> None:
     from sklearn.preprocessing import StandardScaler
     from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
     rng = np.random.default_rng(20261027)
-    D = pd.read_parquet(LOTS)
+    D = pd.read_parquet(FIT["lots"])
     cache = {k: cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(D["city"], D["eff_year"]))}
     D["cost_per_home"] = [cache[(c, y)] for c, y in zip(D["city"], D["eff_year"])]
     key = D["city"] + "|" + D["x5070"].round(1).astype(str) + "|" + D["y5070"].round(1).astype(str)
@@ -713,7 +769,7 @@ def fit8(tlearner: bool = False) -> None:
                      **{f"{c.lower()}_better": bool(h.loc[c, "error_model"] < h.loc[c, "error_baseline"]) for c in HOLD},
                      "cities_better_of_9": int((g["error_model"] < g["error_baseline"]).sum()), "passes_total": bool(ok)})
     S = pd.DataFrame(summ)
-    tag = "_runE" if tlearner else "_runD_all8"
+    tag = ("_runE" if tlearner else "_runD_all8") + FIT["suffix"]
     E.round(3).to_csv(REFERENCE / f"tod_lot_model_by_city{tag}.csv", index=False)
     S.round(4).to_csv(REFERENCE / f"tod_lot_model_results{tag}.csv", index=False)
     pd.set_option("display.width", 250)
@@ -722,8 +778,13 @@ def fit8(tlearner: bool = False) -> None:
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile"], required=True)
+    ap.add_argument("--half-mile", action="store_true", help="fit on lots within 1/2 mile of rail or rapid stops (item 14)")
     a = ap.parse_args(argv)
+    if a.half_mile:
+        FIT.update(lots=LOTS_HALF, suffix="_halfmile")
+    if a.stage == "half_mile":
+        half_mile()
     if a.stage == "collect":
         collect()
     if a.stage == "add_bellevue":
