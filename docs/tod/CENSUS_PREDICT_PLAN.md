@@ -79,3 +79,9 @@ None written down. Downzonings in New York often fixed lower-density blocks in p
 ## 6. Changes after writing
 
 None yet.
+
+Recorded 2026-10-28 while running Part A (fixed before any method was fitted):
+
+1. **Variable 6 corrected from the facts.** Rail that opened after 2009 at the area also includes Austin (MetroRail, 2010), Saint Paul (Green Line, 2014) and Seattle Roosevelt (Link, 2021). Seattle North Beacon Hill and Othello (2009) stays "no".
+2. **Salt Lake City** uses this plan's general ½-mile ring around the district boundary (as in CENSUS_CASES_RESULTS section 5), not its station-based comparison.
+3. **Utah blocks** are read from the Salt Lake City folder (linked, not copied).
