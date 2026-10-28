@@ -2,7 +2,7 @@ method,mean_error_model,mean_error_baseline,mean_error_zero,cities_beating_basel
 wls,187.89,465.21,71.107,3.0,False
 lasso,211.193,465.21,71.107,3.0,False
 elastic_net,124.515,465.21,71.107,3.0,False
-tree,359.533,465.21,71.107,2.0,False
+tree,359.676,465.21,71.107,2.0,False
 forest,588.815,465.21,71.107,2.0,False
 boosting,282.528,465.21,71.107,4.0,False
 causal_forest,184.534,465.21,71.107,4.0,False

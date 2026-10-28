@@ -1,0 +1,6 @@
+check,where,column,value,note
+value outside unit range,all rows,acres,5.0,acres: expected 0.0 to 50.0; 5 of 298249 rows outside
+value outside unit range,all rows,width_m,193.0,metres: expected 0.5 to 500.0; 193 of 298249 rows outside
+breaks policy definition,Chicago comparison lots outside 402-805 m,,44.0,44 rows
+breaks policy definition,lots with no area or width,,1.0,1 rows
+worst miss (trace it),Seattle,model,161.35174807525107,"actual 87.4, predicted -73.9"
