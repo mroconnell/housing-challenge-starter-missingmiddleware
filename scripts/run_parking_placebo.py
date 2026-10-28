@@ -22,7 +22,8 @@ from missing_middleware.parking import comparison as cmp  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 SEED, PER_PLACE, SETS = 20261027, 20, 500
-SETS_FULL = 20_000  # full-pool run: 500 sets left the high end varying by about 0.1 from draw to draw (2026-10-28)
+SETS_FULL = 20_000
+MIN_STANDINS = 20  # full run: widen state -> Census division -> nation until at least this many stand-ins  # full-pool run: 500 sets left the high end varying by about 0.1 from draw to draw (2026-10-28)
 
 
 def main() -> None:
@@ -46,7 +47,7 @@ def main() -> None:
     real = real[(real["status"] == "included") & (real["outcome"] == "all")].reset_index(drop=True)
     excluded |= set(real["key"])
     rng = np.random.default_rng(SEED)
-    rows = []
+    rows, scopes = [], []
     for i, r in real.iterrows():
         st = r["key"].split("|")[0]
         pre, post = cmp.windows(int(r["event_year"]))
@@ -55,7 +56,15 @@ def main() -> None:
         pop0 = popn.get(r["key"], np.nan)
         if pd.isna(pop0):  # rescued South Bend: the city's own population (SALVAGE_PLAN.md)
             pop0 = r.get("population", np.nan)
-        cand = [k for k in ok if k.startswith(st + "|") and k not in excluded and 0.5 * pop0 <= popn.get(k, np.nan) <= 2 * pop0]
+        size_ok = [k for k in ok if k not in excluded and 0.5 * pop0 <= popn.get(k, np.nan) <= 2 * pop0]
+        cand = [k for k in size_ok if k.startswith(st + "|")]
+        scope = "state"
+        if full and len(cand) < MIN_STANDINS:  # widen for big cities (Ask-why review, owner 2026-10-28)
+            div = geo["division"].get(r["key"], "")
+            cand, scope = [k for k in size_ok if geo["division"].get(k, "") == div], "division"
+            if len(cand) < MIN_STANDINS:
+                cand, scope = size_ok, "nation"
+        scopes.append(dict(real_place=r["place"], scope=scope, standins=len(cand)))
         if not cand:
             continue
         print(i, r["place"], len(cand), flush=True)
@@ -70,6 +79,7 @@ def main() -> None:
     pl = pd.DataFrame(rows)
     pl["weight"] = pl["homes"] * pl["n_post"]
     pl.round(4).to_csv(REFERENCE / f"parking_placebo{tag}_places.csv", index=False)
+    pd.DataFrame(scopes).to_csv(REFERENCE / f"parking_placebo{tag}_scopes.csv", index=False)
     groups = {i: g for i, g in pl.groupby("real_index")}
     n_sets = SETS_FULL if full else SETS
     if full:
