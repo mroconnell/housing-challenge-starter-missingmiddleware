@@ -95,3 +95,13 @@ The lot model counts as better if it beats the plain baseline on held-out cities
 
    Los Angeles, Charlotte and Saint Paul have no public history, so they get the "missing" flag for this trait. Year built is likewise taken only from before-window snapshots.
 2. **2026-10-28, owner's decision: lots inherit their neighbourhood's averages.** The owner confirmed that each lot takes its census tract's median rent, median home value and median household income. These come from the 5-year American Community Survey ending the year before the case's window, as in the 91-variable test.
+3. **2026-10-28, before fitting: the pays-for-itself trait is simplified.** Assessed values are not comparable across cities: New York, Cook County and others assess different shares of market value, and most cities have no pre-window values. So section 5 becomes a **rent-to-cost ratio**:
+
+   (tract median gross rent × 12 ÷ 5% cap rate) ÷ (Census permit-survey construction value per home in buildings of 5 or more homes, in that city, the year before the reform).
+
+   Per lot, it is computed under the old and new rules as that ratio times the share of the lot's allowed homes not already built. The building ÷ land value trait stays where pre-window values exist (New York, Chicago), with a missing flag elsewhere.
+4. **2026-10-28, before fitting: duplicate lots are down-weighted.** A lot can sit in the comparison area of several New York or Philadelphia rezonings. Each appearance gets weight 1 ÷ (number of appearances of that lot within its city).
+5. **2026-10-28, before fitting: baseline and errors made concrete.**
+   - **Actual extra homes for a held-out city** = homes permitted on its upzoned lots after, minus upzoned acres × the comparison lots' homes per acre after, minus the same difference before.
+   - **Baseline:** the training cities' acre-weighted mean of that difference per upzoned acre, times the held-out city's upzoned acres.
+   - **Model:** the sum over upzoned lots of predicted homes under the new rules minus under the old rules.
