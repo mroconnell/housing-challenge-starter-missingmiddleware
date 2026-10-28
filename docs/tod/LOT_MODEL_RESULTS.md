@@ -1,5 +1,7 @@
 # Lot-level model: results
 
+> **Superseded, 2026-10-28.** Every run below used a density column with mixed units: Charlotte in feet of height, Philadelphia and Los Angeles as an ordering of districts. The fix is in LOT_MODEL_PLAN section 9, item 12. The results below are kept as they ran; reruns will be added.
+
 Run 2026-10-28 against [LOT_MODEL_PLAN.md](LOT_MODEL_PLAN.md) (changes in its section 9; pass rule = regional total only, owner's decision recorded before results). Code: [scripts/run_tod_lot_model.py](../../scripts/run_tod_lot_model.py). Outputs: `reference/tod_lot_model_by_city.csv`, `reference/tod_lot_model_results.csv`. The lot table (about 356,000 lots in 8 cities) is local only.
 
 ## Summary
