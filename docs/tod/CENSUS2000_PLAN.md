@@ -42,3 +42,18 @@ Context for the census results. No finalized TOD number (AQ-055) changes without
 ## 6. Changes after writing
 
 None yet.
+
+## 7. Addition requested by the owner: Pasadena and Culver City (written 2026-10-28, before counting them)
+
+The owner asked not to disregard two single-family size caps from Stacy et al.'s list of tightening reforms. Both are measured with the same 2000/2010/2020 change in change as Old City (section 2).
+
+- **Pasadena, Lower Hastings Ranch (2016).**
+  - The single-storey rules apply through the neighbourhood overlay ("ND"). The 1991 overlay was revised after the 2015 moratorium and the 2016 council action.
+  - **Treated land:** the City zoning layer's RS-6 ND polygon.
+  - **Comparison land:** the City's single-family-zoned polygons within ½ mile, outside it.
+  - The 2010–2020 decade includes about 4 years after the change.
+- **Culver City, house-size limits (first council step December 2015; ordinance 2016).**
+  - The rules apply to single-family lots citywide.
+  - **Treated land:** parcels with a single-family use code (01xx) in Culver City, from the Los Angeles County Assessor parcel layer (geometry and use code only; no parcel numbers or addresses are kept).
+  - **Comparison land:** single-family parcels in other jurisdictions within ½ mile of the Culver City line (mostly the City of Los Angeles). Los Angeles tightened its own single-family size rules in 2008 and 2017, which leans the comparison toward finding no effect.
+- **Expectation, written now:** close to zero for both. These caps limit the size of houses, not the number of homes, except through second units and lot splits.
