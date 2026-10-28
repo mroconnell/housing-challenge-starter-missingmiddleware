@@ -48,7 +48,7 @@ def unit_flags(D: pd.DataFrame, far_cities: tuple[str, ...] = ()) -> list[dict]:
                 out.append({"kind": "units", "city": city, "item": "far_before",
                             "detail": f"{int(n)} lots with floor area ratio above {FAR_MAX:g}: likely another unit"})
         lv = pd.to_numeric(D["far_before"], errors="coerce")
-        lv_after = lv + pd.to_numeric(D.get("far_gain", 0), errors="coerce").fillna(0)
+        lv_after = lv + (pd.to_numeric(D["far_gain"], errors="coerce").fillna(0) if "far_gain" in D else 0.0)
         for city in far_cities:
             m = D["city"] == city
             vals = set(pd.concat([lv[m], lv_after[m]]).dropna().round(6).unique())
