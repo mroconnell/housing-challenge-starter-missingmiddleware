@@ -1,0 +1,7 @@
+test,group,areas,homes,mean_outcome,slope_prior_gap,slope_log_homes,intercept,effect,p05,p95,error,mean_predicted,mean_actual
+1. pattern,Non-reform station areas,1040,3737951.0,-3.0462,-0.8149,-8.2542,33.6284,,,,,,
+1. pattern,"Reform areas (Seattle, Minneapolis)",36,76952.0,0.8073,-0.6887,-8.779,50.6508,,,,,,
+2. parking effect,"reformed vs not, same prior gap and size",1076,,,,,,18.8264,9.3403,28.1891,,,
+3. predict reform areas,one average,36,,,,,,,,,25.9072,-3.0462,0.8073
+3. predict reform areas,weighted regression,36,,,,,,,,,25.4142,-18.0788,0.8073
+3. predict reform areas,lasso,36,,,,,,,,,25.4081,-18.0832,0.8073

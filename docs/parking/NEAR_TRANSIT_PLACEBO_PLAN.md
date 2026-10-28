@@ -32,3 +32,4 @@ The same as the reform areas:
 A second check. The tool changes only if test 2 shows a parking effect whose 90% range excludes zero, and Ryan approves.
 
 ## Changes after writing
+- **2026-10-28, after running:** North Carolina had no qualifying station areas. Robustness checks were added after the result (see the results file).
