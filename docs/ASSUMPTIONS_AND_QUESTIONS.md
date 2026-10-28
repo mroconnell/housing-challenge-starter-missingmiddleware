@@ -810,6 +810,21 @@ The AEI Housing Center reviewed all 180 reforms behind Stacy et al.'s 0.8% (the 
 
 Nothing changes until the owner decides.
 
+## AQ-060 TOD: industrial land near stations is left out of cases and of the Wisconsin law
+
+**Status:** Open, owner to decide (raised 2026-10-28, from the lot-model input audit). **Related:** AQ-047 item 8, [docs/tod/CASE_ANALYSIS_PLAN.md](tod/CASE_ANALYSIS_PLAN.md) section on eligible land, [docs/tod/LOT_MODEL_PLAN.md](tod/LOT_MODEL_PLAN.md) item 14.
+
+Eligible land has been land zoned residential, mixed-use or commercial before the reform, in the cases and in Wisconsin. Industrial land is left out. The audit of our upzoned acres against published plan acres showed this drops much of what some reforms did:
+- **Charlotte 2019:** 587 of 1,579 rezoned acres were industrial before; 2,773 of the 3,793 homes permitted on rezoned lots in 2020–2024 (73%) were on that industrial land.
+- **Los Angeles, Cornfield Arroyo Seco 2013:** 172 of 289 acres whose allowed density rose were industrial; 0 of the 8 homes permitted on lots in the plan were on them.
+- **Bellevue, BelRed 2009:** mostly light industrial before (plan text); not yet counted.
+
+Options:
+1. **Recommended:** test it side by side. Measure the cases and Wisconsin station areas with industrial land included, as a new pre-registered test, with no scenario number changing until the owner decides.
+2. Keep the rule and disclose that industrial-to-housing conversion is left out of both the evidence and the modelled law.
+
+Nothing changes until the owner decides.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
