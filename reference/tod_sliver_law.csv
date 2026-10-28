@@ -1,0 +1,5 @@
+response_set,cities,coverage_pct,response_p25,response_median,response_p75,milwaukee_little,milwaukee_typical,milwaukee_strong,madison_little,madison_typical,madison_strong,both_little,both_typical,both_strong
+all 14 sliver cities,14,3.0,0.19,0.36,0.68,1457.8,2817.19,5292.73,726.77,1404.47,2638.62,2184.57,4221.67,7931.35
+all 14 sliver cities,14,6.0,0.19,0.36,0.68,2915.6,5634.39,10585.47,1453.53,2808.95,5277.24,4369.13,8443.33,15862.71
+without Milpitas and Bellevue,12,3.0,0.16,0.26,0.51,1216.17,2013.89,3905.53,606.3,1004.0,1947.05,1822.47,3017.89,5852.58
+without Milpitas and Bellevue,12,6.0,0.16,0.26,0.51,2432.33,4027.78,7811.06,1212.61,2007.99,3894.1,3644.94,6035.77,11705.16

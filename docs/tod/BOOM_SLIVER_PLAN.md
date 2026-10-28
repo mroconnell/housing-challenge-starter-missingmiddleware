@@ -41,4 +41,7 @@ Both are for the owner to decide on (AQ-059 and the definition question). No num
 
 ## 4. Changes after writing
 
-None yet.
+Recorded 2026-10-28 while running:
+
+1. **Boom cities were chosen on building rate only.** The size band of section 1 was not applied, because the control-city eligibility (size band included) already limits the pool. Where fewer than 10 qualified, the ±25% band widened by 10% at a time.
+2. **The sliver response uses all 14 cities' point estimates.** No weighting was applied.

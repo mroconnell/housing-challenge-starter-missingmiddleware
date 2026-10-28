@@ -1,0 +1,4 @@
+city,reform_year,boom_cities,boom_city_examples,reform_city_before_rate,reform_city_change,boom_cities_median_change,effect_5yr_pct,low_5yr_pct,high_5yr_pct,share_of_boom_cities_falling_as_much
+Seattle,2019,13,Huntsville city; Chandler city; Cape Coral city; Miami city; Orlando city; Tampa city; Henderson city; Reno city,28.7754,-4.2126,6.6126,-5.4126,-15.1226,0.285,0.0769
+Minneapolis,2020,37,Huntsville city; Chandler city; Mesa city; Surprise city; Tempe city; Bakersfield city; Chula Vista city; Fremont city,15.9369,-5.5547,1.2589,-3.4068,-12.2602,1.3427,0.2162
+Portland,2021,18,Huntsville city; Chandler city; Mesa city; Tempe city; Chula Vista city; Fremont city; Washington city; Jacksonville city,17.9891,-10.2575,-0.2932,-4.9822,-7.9394,-1.2611,0.0556
