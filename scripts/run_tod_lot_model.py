@@ -485,14 +485,18 @@ def fit(allvars: bool = False) -> None:
         f, h = g[g.role == "fold"], g[g.role == "holdout"].set_index("city")
         ok_total = f["error_model"].mean() < f["error_baseline"].mean() and all(h.loc[c, "error_model"] < h.loc[c, "error_baseline"] for c in HOLD)
         auc_ok = all(h.loc[c, "auc_builds"] >= 0.70 for c in HOLD) and f["auc_builds"].mean() >= 0.70
-        summ.append({"model": kind, "fold_mean_error_baseline": f["error_baseline"].mean(), "fold_mean_error_model": f["error_model"].mean(),
+        zero = f["actual_extra_homes"].abs().mean()
+        new_ok = f["error_model"].mean() < min(f["error_baseline"].mean(), zero) and \
+            sum(h.loc[c, "error_model"] < h.loc[c, "error_baseline"] for c in HOLD) >= 2
+        summ.append({"model": kind, "fold_mean_error_guess_zero": zero, "passes_new_rule": bool(new_ok),
+                     "fold_mean_error_baseline": f["error_baseline"].mean(), "fold_mean_error_model": f["error_model"].mean(),
                      "fold_cities_model_better": int((f["error_model"] < f["error_baseline"]).sum()), "fold_cities": len(f),
                      **{f"{c.lower()}_error_baseline": h.loc[c, "error_baseline"] for c in HOLD},
                      **{f"{c.lower()}_error_model": h.loc[c, "error_model"] for c in HOLD},
                      "fold_mean_auc": f["auc_builds"].mean(), **{f"{c.lower()}_auc": h.loc[c, "auc_builds"] for c in HOLD},
                      "passes_total": bool(ok_total), "passes_where": bool(auc_ok)})
     S = pd.DataFrame(summ)
-    tag = "_allvars" if allvars else ""
+    tag = "_runD_allvars" if allvars else "_runD"
     # Which lot traits the boosted "builds" model leans on (fitted on all fold cities; permutation on the holdouts)
     from sklearn.inspection import permutation_importance
     tr = D.index[D["city"].isin(cities)]
@@ -505,7 +509,7 @@ def fit(allvars: bool = False) -> None:
                         "holdout_auc_drop_when_shuffled": pi.importances_mean}).sort_values("holdout_auc_drop_when_shuffled", ascending=False)
     imp.round(4).to_csv(REFERENCE / f"tod_lot_model_importance{tag}.csv", index=False)
     print(imp.round(4).to_string())
-    tag = "_allvars" if allvars else ""
+    tag = "_runD_allvars" if allvars else "_runD"
     E.round(3).to_csv(REFERENCE / f"tod_lot_model_by_city{tag}.csv", index=False)
     S.round(4).to_csv(REFERENCE / f"tod_lot_model_results{tag}.csv", index=False)
     pd.set_option("display.width", 250)
@@ -569,7 +573,7 @@ def enrich_all() -> None:
     print("share of lots with each variable (median across variables):", float(new.notna().mean().median()))
 
 
-def fit8() -> None:
+def fit8(tlearner: bool = False) -> None:
     """Run C (plan section 9, item 10): all 8 methods, two-part lot versions, all-variables traits."""
     from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier, RandomForestRegressor
     from sklearn.linear_model import ElasticNet, Lasso, LinearRegression, LogisticRegression
@@ -622,6 +626,28 @@ def fit8() -> None:
     def predict(kind, tr, te):
         tt = te[(D.loc[te, "treated"] == 1).values]
         sample = te if len(te) <= 20000 else rng.choice(te, 20000, replace=False)
+        if tlearner:
+            regs = {"wls": lambda: LinearRegression(), "lasso": lambda: Lasso(alpha=0.01), "elastic_net": lambda: ElasticNet(alpha=0.01, l1_ratio=0.5),
+                    "tree": lambda: DecisionTreeRegressor(max_depth=3, min_samples_leaf=200),
+                    "forest": lambda: RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=20261027),
+                    "causal_forest": lambda: RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=20261027),
+                    "boosting": lambda: GradientBoostingRegressor(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027),
+                    "knn": lambda: KNeighborsRegressor(n_neighbors=50, n_jobs=-1)}
+            scale = kind in ("wls", "lasso", "elastic_net", "knn")
+            sc = StandardScaler().fit(Xb.loc[tr]) if scale else None
+            T = (lambda X: sc.transform(X)) if scale else (lambda X: X)  # noqa: E731
+            out = []
+            for g in (1, 0):
+                ix = tr[(D.loc[tr, "treated"] == g).values]
+                if kind == "knn" and len(ix) > 60000:
+                    ix = rng.choice(ix, 60000, replace=False)
+                m = regs[kind]()
+                try:
+                    m.fit(T(Xb.loc[ix]), dy[D.index.get_indexer(ix)], sample_weight=D.loc[ix, "w"])
+                except TypeError:
+                    m.fit(T(Xb.loc[ix]), dy[D.index.get_indexer(ix)])
+                out.append(m.predict(T(Xb.loc[tt])))
+            return float((out[0] - out[1]) @ D.loc[tt, "w"].values), np.nan
         if kind == "causal_forest":
             out = []
             for g in (1, 0):
@@ -679,20 +705,24 @@ def fit8() -> None:
     for kind, g in E.groupby("method", sort=False):
         f, h = g[g.role == "fold"], g[g.role == "holdout"].set_index("city")
         ok = f["error_model"].mean() < f["error_baseline"].mean() and all(h.loc[c, "error_model"] < h.loc[c, "error_baseline"] for c in HOLD)
-        summ.append({"method": kind, "fold_mean_error_baseline": f["error_baseline"].mean(), "fold_mean_error_model": f["error_model"].mean(),
+        zero = f["actual_extra_homes"].abs().mean()
+        new_ok = f["error_model"].mean() < min(f["error_baseline"].mean(), zero) and \
+            sum(h.loc[c, "error_model"] < h.loc[c, "error_baseline"] for c in HOLD) >= 2
+        summ.append({"method": kind, "fold_mean_error_guess_zero": zero, "passes_new_rule": bool(new_ok), "fold_mean_error_baseline": f["error_baseline"].mean(), "fold_mean_error_model": f["error_model"].mean(),
                      "fold_cities_better": int((f["error_model"] < f["error_baseline"]).sum()),
                      **{f"{c.lower()}_better": bool(h.loc[c, "error_model"] < h.loc[c, "error_baseline"]) for c in HOLD},
                      "cities_better_of_9": int((g["error_model"] < g["error_baseline"]).sum()), "passes_total": bool(ok)})
     S = pd.DataFrame(summ)
-    E.round(3).to_csv(REFERENCE / "tod_lot_model_by_city_all8.csv", index=False)
-    S.round(4).to_csv(REFERENCE / "tod_lot_model_results_all8.csv", index=False)
+    tag = "_runE" if tlearner else "_runD_all8"
+    E.round(3).to_csv(REFERENCE / f"tod_lot_model_by_city{tag}.csv", index=False)
+    S.round(4).to_csv(REFERENCE / f"tod_lot_model_results{tag}.csv", index=False)
     pd.set_option("display.width", 250)
     print(S.round(2).to_string())
 
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "add_saturation"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation"], required=True)
     a = ap.parse_args(argv)
     if a.stage == "collect":
         collect()
@@ -710,6 +740,8 @@ def main(argv=None) -> None:
         fit(allvars=True)
     if a.stage == "fit8":
         fit8()
+    if a.stage == "fit_runE":
+        fit8(tlearner=True)
     if a.stage == "add_saturation":
         add_saturation()
 

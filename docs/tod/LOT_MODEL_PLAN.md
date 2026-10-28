@@ -142,3 +142,17 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     - The homes-per-lot ceiling uses zoning capacity only in floor-area-ratio cities. Elsewhere it uses the training cities' 99th-percentile homes per acre on building lots.
 
     Runs A–C are reported as they ran (superseded). The owner asked for questions before rerunning.
+13. **2026-10-28, owner's decision, before any rerun: two reruns, two rules.**
+    - **Run D** repeats runs A, B and C with the units fix (item 12) and nothing else.
+    - **Run E** builds all 8 methods the causal-forest way, so no method can ignore the reform:
+      - one model is fitted on upzoned training lots and one on unchanged training lots;
+      - each predicts the lot's change in homes permitted (after minus before);
+      - a city's extra homes = the sum over its upzoned lots of the upzoned model's prediction minus the unchanged model's.
+
+      Methods: weighted regression, LASSO, elastic net, depth-3 tree, random forest, boosting, nearest neighbours. The causal forest is the random-forest version.
+    - **Rules.** Both are reported for every method in both runs.
+      - **Old rule:** lower fold mean error than the plain average, and closer on each of Chicago, Madison and Bellevue.
+      - **New rule:** lower fold mean error than both the plain average and a model that always guesses zero, and closer than the plain average on at least 2 of the 3 holdouts.
+
+      Run D is judged by the old rule and run E by the new one; the other rule is shown beside each.
+    - **Note:** the lot table now carries the two "many stalls" traits, so run D's repeat of run A includes them too. That is the only difference from run A apart from the units fix.
