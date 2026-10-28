@@ -1,0 +1,13 @@
+rezoning,name,adopted,downzoned_acres,far_change,homes_permitted_6_years_before,homes_permitted_5_years_after,did_per_acre_year,low,high,implied_homes_per_year
+030194azmk,Park Slope,2003,171.33,-1.009,66.0,177.0,0.066,-0.097,0.25,11.304
+040273zmq,Hunters Point Subdistrict,2004,1.346,-1.0,0.0,0.0,-1.218,-2.613,0.153,-1.639
+050277zmq,East Flushing,2005,1.342,-0.4,0.0,0.0,-0.052,-0.091,-0.013,-0.07
+050111azmk,Greenpoint-Williamsburg,2005,40.003,-1.0,42.0,117.0,0.406,0.022,0.86,16.258
+040499azmm,Hudson Yards,2005,1.857,-1.5,0.0,0.0,-0.623,-1.066,-0.209,-1.157
+050153zmq,Kew Gardens-Richmond Hill,2005,48.419,-0.947,25.0,46.0,0.028,-0.135,0.19,1.373
+060335zmx,Pelham Parkway/Indian Village,2006,1.619,-0.3,0.0,0.0,0.036,0.014,0.052,0.058
+070314azmq,Jamaica Plan,2007,96.895,-1.821,330.0,149.0,-0.148,-0.383,0.071,-14.354
+080099azmm,125th Street Corridor,2008,3.095,-1.0,24.0,8.0,-0.09,-2.085,1.911,-0.278
+090104zmq,Special Forest Hills District,2009,2.925,-1.264,0.0,0.0,0.014,0.014,0.014,0.042
+100407zmx,Third Ave-Tremont Ave,2010,30.061,-1.594,407.0,28.0,-1.903,-3.566,-0.553,-57.193
+130273zmx,East Fordham Road,2013,2.361,-1.0,0.0,0.0,0.0,0.0,0.0,0.0

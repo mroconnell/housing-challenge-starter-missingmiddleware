@@ -97,6 +97,24 @@ def main() -> None:
         rows.append({"side": side, "measure": "permits, stacked event years -6..-1 vs 1..5, per eligible acre per year",
                      "acres": denom[C.TREAT], "did_per_acre_year": val, "low": lo, "high": hi, "far_change": dose,
                      "per_far": val / abs(dose) if dose else np.nan})
+    # Per rezoning, downzoned side only (owner question 2026-10-28: any missed construction?).
+    per = []
+    for r in M.itertuples():
+        if r.downzoned_acres < 1:
+            continue
+        sub = P[P["project"].str.startswith(f"{r.rezoning}:") & P["area"].isin(["downzoned", "comparison"])]
+        d = sub.replace({"area": {"downzoned": C.TREAT, "comparison": C.COMP}})
+        denom = {C.TREAT: r.downzoned_acres, C.COMP: r.comparison_acres}
+        e = C.did(d, denom, BEFORE, AFTER)
+        lo_, hi_, _ = C.bootstrap_did(d, denom, BEFORE, AFTER, seed=SEED)
+        b = d[(d["area"] == C.TREAT) & d["year"].isin(BEFORE)]["units"].sum()
+        a = d[(d["area"] == C.TREAT) & d["year"].isin(AFTER)]["units"].sum()
+        per.append({"rezoning": r.rezoning, "name": r.name, "adopted": r.adopted, "downzoned_acres": r.downzoned_acres,
+                    "far_change": r.downzoned_far_change, "homes_permitted_6_years_before": b, "homes_permitted_5_years_after": a,
+                    "did_per_acre_year": e["did"], "low": lo_, "high": hi_,
+                    "implied_homes_per_year": e["did"] * r.downzoned_acres})
+    pd.DataFrame(per).round(3).to_csv(REFERENCE / "tod_nyc_downzoning_by_rezoning.csv", index=False)
+    print(pd.DataFrame(per).round(2).to_string())
     out = pd.DataFrame(rows)
     out.round(4).to_csv(REFERENCE / "tod_nyc_downzoning.csv", index=False)
     M.round(3).to_csv(REFERENCE / "tod_nyc_downzoning_members.csv", index=False)

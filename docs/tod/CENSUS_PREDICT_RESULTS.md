@@ -45,3 +45,22 @@ Lots inside the 2003–2013 rezonings whose allowed residential floor area fell,
 - **Why:** New York's downzonings mostly locked in low-rise blocks where little was being built anyway: Park Slope's side streets, Kew Gardens–Richmond Hill and Jamaica's residential blocks. A cap that doesn't bind changes nothing.
 - **For Wisconsin:** removing a limit matters only where the limit binds. This supports the model's rule of adding homes only where the law allows more than current zoning, and never subtracting.
 - **Census side (shown, not judged):** only 4 rezonings with downzoned land were adopted 2008–2013. Their census differences range from −4.9 to +3.6 net homes per acre over the decade, with wide intervals. East Fordham Road's 2.4 acres had no homes in 2010.
+
+## Part B, rezoning by rezoning: where did a downzoning cost homes? (added 2026-10-28, after the results, at the owner's question)
+
+Not pre-registered. The same estimate for each rezoning's downzoned lots near stations: homes permitted per acre per year after against before, minus the comparison lots. Output: `reference/tod_nyc_downzoning_by_rezoning.csv`.
+
+| Rezoning (adopted) | Downzoned acres | Homes permitted on them: 6 years before / 5 years after | Difference per acre per year (90% interval) | About this many homes a year |
+| --- | ---: | --- | --- | ---: |
+| Third Ave–Tremont Ave, Bronx (2010) | 30 | 407 / 28 | **−1.90 (−3.57 to −0.55)** | **−57** |
+| Jamaica Plan, Queens (2007) | 97 | 330 / 149 | −0.15 (−0.38 to +0.07) | −14 |
+| Park Slope, Brooklyn (2003) | 171 | 66 / 177 | +0.07 (−0.10 to +0.25) | +11 |
+| Greenpoint–Williamsburg, Brooklyn (2005) | 40 | 42 / 117 | +0.41 (+0.02 to +0.86) | +16 |
+| Kew Gardens–Richmond Hill, Queens (2005) | 48 | 25 / 46 | +0.03 (−0.14 to +0.19) | +1 |
+| Seven others | under 3 each | almost none | | about 0 |
+
+- **One clear opportunity cost: Third Ave–Tremont.** Builders were active on these lots before the cut (407 homes in 6 years), and building nearly stopped afterwards (28 in 5 years), far more than on the unchanged lots nearby. That is about 57 fewer homes a year, roughly 290 over five years, on 30 acres.
+- **Jamaica points the same way** (330 before, 149 after), but its interval includes zero.
+- **Where the cut didn't bind, nothing was lost.** In Park Slope, Kew Gardens and Greenpoint, building on downzoned lots was low before and rose afterwards with the market, as on the unchanged lots.
+- **The pattern:** a cut costs homes where it binds, meaning builders were already pushing past the new limit. That is the mirror image of the upzoning rule the model uses.
+- **Caution:** this was looked for after the pooled result, among 12 rezonings. One clear case out of 12 could partly be chance, and Third Ave–Tremont's before years (2004–2009) were a building boom in the Bronx.
