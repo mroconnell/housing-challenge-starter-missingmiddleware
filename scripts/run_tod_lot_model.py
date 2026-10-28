@@ -31,6 +31,13 @@ OUT = PROCESSED / "tod_lot_model"
 LOTS = OUT / "lots.parquet"
 LOTS_HALF = OUT / "lots_halfmile.parquet"   # plan section 9, item 14
 FIT = {"lots": LOTS, "suffix": ""}
+LOTS_REBUILT = OUT / "lots_rebuilt.parquet"   # plan section 9, item 15
+REBUILT = {"on": False}
+PATHS = {"lots": LOTS, "half": LOTS_HALF}
+LOT_GROUPS = ("upzoned", "upzoned_from_industrial", "upzoned_from_campus", "reform_density_not_rising", "reform_already_allowed",
+              "reform_single_family_untouched", "reform_campus_or_park_unchanged", "reform_rezoned_again_in_window",
+              "reform_other_not_eligible", "comparison_eligible", "comparison_industrial", "comparison_campus_or_park",
+              "other_not_eligible")
 HOLD = ("Chicago", "Madison", "Bellevue")
 FAR_CITIES = ("New York", "Chicago", "Madison", "Saint Paul", "Seattle", "Bellevue")   # levels are floor area ratios
 STATE = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Seattle": "53",
@@ -42,9 +49,66 @@ def rail(crs):
     return gpd.GeoSeries(gpd.points_from_xy(s.stop_lon, s.stop_lat), crs=4326).to_crs(crs)
 
 
+def add_group_shares(D: pd.DataFrame) -> pd.DataFrame:
+    """Each reform unit's share of in-reform acres in each lot group (plan section 9, item 16)."""
+    if "lot_group" not in D:
+        return D
+    r = D[D["in_reform"] == 1]
+    tot = r.groupby("unit")["acres"].sum()
+    for g in LOT_GROUPS:
+        if g.startswith(("reform_", "upzoned")):
+            D[f"share_{g}"] = D["unit"].map(r[r["lot_group"] == g].groupby("unit")["acres"].sum() / tot).fillna(0.0)
+    return D
+
+
+def lot_class(city: str, L) -> pd.Series:
+    """Zoning or use class before the reform, lower case (res, com, mixed, ind, inst, park, single_family, ...)."""
+    for c in ("zclass", "use_class"):
+        if c in L:
+            return L[c].astype(str).str.lower()
+    if city == "Los Angeles" and "zone_before" in L:
+        from missing_middleware.tod import case_la as LA
+        return L["zone_before"].map(LA.zclass).astype(str).str.lower()
+    for c in ("z_before", "zoning_before", "zone_before"):
+        if c in L and city == "Philadelphia":
+            from missing_middleware.tod import case_philadelphia as PH
+            return L[c].map(PH.zclass).astype(str).str.lower()
+    return pd.Series("unknown", index=L.index)
+
+
 def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame, per: dict, stops, eff: int) -> pd.DataFrame:
     L = args["parcels"]
-    keep = area.isin([C.TREAT, C.COMP]) & args["eligible"].astype(bool)
+    if REBUILT["on"]:
+        # plan section 9, items 15-16: every lot inside the reform or in its comparison area is kept, with a label for
+        # what the reform did to it; industrial or institutional land rezoned to allow homes counts as upzoned
+        inr, rose = args["in_reform"].astype(bool), args["rose"].astype(bool)
+        el = args["eligible"].astype(bool)
+        el2 = el | (inr & rose)
+        area, _ = C.uniform_areas(**dict(args, eligible=el2))
+        keep = area.isin([C.TREAT, C.COMP]) | inr
+        in_reform = inr
+        cls = lot_class(city, L)
+        chg = args["changed_outside"].astype(bool)
+        g = pd.Series("other_not_eligible", index=L.index, dtype=object)
+        g[~inr & el] = "comparison_eligible"
+        g[~inr & ~el & cls.str.startswith("ind")] = "comparison_industrial"
+        g[~inr & ~el & cls.str.startswith(("inst", "park"))] = "comparison_campus_or_park"
+        g[inr & ~el & cls.str.startswith(("inst", "park")) & ~rose] = "reform_campus_or_park_unchanged"
+        g[inr & ~el & cls.str.contains("single")] = "reform_single_family_untouched"
+        g[inr & el & ~rose] = "reform_density_not_rising"
+        g[inr & el2 & rose & (area != C.TREAT) & ~chg] = "reform_already_allowed"
+        g[inr & chg] = "reform_rezoned_again_in_window"
+        g[area == C.TREAT] = "upzoned"
+        g[(area == C.TREAT) & ~el & cls.str.startswith("ind")] = "upzoned_from_industrial"
+        g[(area == C.TREAT) & ~el & cls.str.startswith(("inst", "park"))] = "upzoned_from_campus"
+        g[inr & ~el & ~rose & (g == "other_not_eligible")] = "reform_other_not_eligible"
+        lot_group = g
+        comp_eligible = (area == C.COMP) & el2 & ~inr
+    else:
+        keep = area.isin([C.TREAT, C.COMP]) & args["eligible"].astype(bool)
+        in_reform = area == C.TREAT
+        lot_group = pd.Series("upzoned", index=L.index).where(area == C.TREAT, "comparison_eligible")
+        comp_eligible = area == C.COMP
     L = L[keep]
     pts = L.geometry.representative_point()
     d = pd.DataFrame(index=L.index)
@@ -62,6 +126,9 @@ def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame
             return np.nan
     d["width_m"] = [_w(g) for g in L.geometry]
     d["treated"] = (area[keep] == C.TREAT).astype(float)
+    d["in_reform"] = in_reform[keep].astype(float).values
+    d["lot_group"] = lot_group[keep].astype(str).values
+    d["comparison_eligible"] = comp_eligible[keep].astype(float).values
     d["acres"] = L.geometry.area / C.SQM_PER_ACRE
     lb = args["level_before"].astype(float).reindex(L.index).replace(np.inf, np.nan)
     la = args["level_after"].astype(float).reindex(L.index).replace(np.inf, np.nan)
@@ -195,8 +262,8 @@ def collect() -> None:
     frames.append(lot_frame("Madison", "madison_tod_overlay_2023", margs, marea, qm, {"before": list(MT.BEFORE), "after": list(MT.AFTER)},
                             stops[crs], 2023))
     print("Madison", flush=True)
-    D = pd.concat(frames, ignore_index=True)
-    D.to_parquet(LOTS)
+    D = add_group_shares(pd.concat(frames, ignore_index=True))
+    D.to_parquet(PATHS['lots'])
     print(D.groupby(["city", "treated"]).agg(lots=("acres", "size"), builds_before=("built_before", "mean"),
                                              builds_after=("builds_after", "mean"), units_after=("units_after", "sum")).round(3).to_string())
 
@@ -215,9 +282,9 @@ def add_bellevue() -> None:
     per = C.period_years(B.EFFECTIVE_YEAR, B.FIRST_YEAR, B.LAST_FULL_YEAR)
     stops = rail(args["parcels"].crs)
     f = lot_frame("Bellevue", "bellevue_belred_2009", args, area, _permits_from_points(pg, pg["pix"]), per, stops, B.EFFECTIVE_YEAR)
-    D = pd.read_parquet(LOTS)
-    D = pd.concat([D[D["city"] != "Bellevue"], f], ignore_index=True)
-    D.to_parquet(LOTS)
+    D = pd.read_parquet(PATHS['lots'])
+    D = add_group_shares(pd.concat([D[D["city"] != "Bellevue"], f], ignore_index=True))
+    D.to_parquet(PATHS['lots'])
     print(f.groupby("treated").agg(lots=("acres", "size"), builds_after=("builds_after", "mean"), units_after=("units_after", "sum")))
 
 
@@ -229,7 +296,7 @@ def enrich() -> None:
     spec = importlib.util.spec_from_file_location("run_tod_allvars", ROOT / "scripts" / "run_tod_allvars.py")
     AV = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(AV)
-    D = pd.read_parquet(LOTS)
+    D = pd.read_parquet(PATHS['lots'])
     D["end_year"] = D["eff_year"].map(A.survey_end_year)
     D["state"] = D["city"].map(STATE)
     pts = gpd.GeoSeries(gpd.points_from_xy(D["x5070"], D["y5070"]), crs=5070)
@@ -250,7 +317,7 @@ def enrich() -> None:
         for vid, col in TRACT_VARS.items():
             D.loc[ix, col] = j["tract"].map(parts[vid + "__num"]).values
         print(f"  {A.survey_label(int(y))} {st}: {len(ix):,} lots", flush=True)
-    D.to_parquet(LOTS)
+    D.to_parquet(PATHS['lots'])
     print(D.groupby("city")[list(TRACT_VARS.values())].median().round(0).to_string())
 
 
@@ -264,7 +331,7 @@ def values() -> None:
     import urllib.parse
     import urllib.request
     from missing_middleware.tod import case_nyc as N
-    D = pd.read_parquet(LOTS)
+    D = pd.read_parquet(PATHS['lots'])
     for c in ("land_value", "total_value", "year_built"):
         D[c] = np.nan
     pts = gpd.GeoSeries(gpd.points_from_xy(D["x5070"], D["y5070"]), crs=5070)
@@ -321,7 +388,7 @@ def values() -> None:
     D.loc[ix, "total_value"] = (v["certified_land"] + v["certified_bldg"]).values
     print(f"  Chicago: values for {np.isfinite(D.loc[ix, 'total_value']).mean():.0%} of lots", flush=True)
     D["bldg_to_land"] = ((D["total_value"] - D["land_value"]) / D["land_value"]).where(D["land_value"] > 0)
-    D.to_parquet(LOTS)
+    D.to_parquet(PATHS['lots'])
     print(D.groupby("city")[["bldg_to_land", "year_built"]].agg(lambda s: s.notna().mean()).round(2).to_string())
 
 
@@ -385,6 +452,16 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     sqft = (X["far_now"].fillna(0) * D["acres"] * 43560)
     allowed = sqft / 1000.0
     X["pays_room"] = np.log1p((allowed - D["homes_on_lot"].fillna(0)).clip(lower=0)) * X["rent_to_cost"]
+    if "in_reform" in D:   # plan section 9, item 15
+        X["in_reform"] = D["in_reform"].astype(float)
+    if "lot_group" in D:   # plan section 9, item 16: what the reform did to the lot, and the reform's mix
+        for gname in LOT_GROUPS:
+            X[f"group_{gname}"] = (D["lot_group"] == gname).astype(float)
+        for gname in LOT_GROUPS:
+            if gname.startswith(("reform_", "upzoned")) and f"share_{gname}" in D:
+                X[f"reform_share_{gname}"] = D[f"share_{gname}"]
+    if "census_homes" in D:
+        X["log_census_homes"] = np.log1p(D["census_homes"].clip(lower=0))
     for u in ("res", "com", "ind", "mixed"):
         X[f"use_{u}"] = (D["use"].astype(str) == u).astype(float)
     if "share_upzoned_half_mile" in D:
@@ -431,7 +508,8 @@ def fit(allvars: bool = False) -> None:
     cities = [c for c in D["city"].unique() if c not in HOLD]
 
     def actual_extra(d):
-        t, c = d[d.treated == 1], d[d.treated == 0]
+        t = d[d.treated == 1]
+        c = d[(d.treated == 0) & (d["comparison_eligible"] == 1)] if "comparison_eligible" in d else d[d.treated == 0]   # items 15-16
         ta, ca = (t.acres * t.w).sum(), (c.acres * c.w).sum()
         return ((t.units_after * t.w).sum() - ta * (c.units_after * c.w).sum() / ca) - \
                ((t.units_before * t.w).sum() - ta * (c.units_before * c.w).sum() / ca), ta
@@ -522,7 +600,7 @@ def fit(allvars: bool = False) -> None:
 def add_saturation() -> None:
     """Plan section 9, item 11: share of upzoned land within 1/2 mile (same case), and stops within 1 mile."""
     from scipy.spatial import cKDTree
-    D = pd.read_parquet(LOTS)
+    D = pd.read_parquet(PATHS['lots'])
     share = np.full(len(D), np.nan)
     for unit, ix in D.groupby("unit").groups.items():
         d = D.loc[ix]
@@ -536,7 +614,7 @@ def add_saturation() -> None:
     sp = gpd.GeoSeries(gpd.points_from_xy(s_.stop_lon, s_.stop_lat), crs=4326).to_crs(5070)
     st = cKDTree(np.c_[sp.x, sp.y])
     D["stops_1mile"] = [len(n) for n in st.query_ball_point(D[["x5070", "y5070"]].to_numpy(), r=1609)]
-    D.to_parquet(LOTS)
+    D.to_parquet(PATHS['lots'])
     print(D.groupby(["city", "treated"])[["share_upzoned_half_mile", "stops_1mile"]].median().round(3).to_string())
 
 
@@ -570,7 +648,7 @@ def qualifying_stops_5070() -> np.ndarray:
 def half_mile() -> None:
     """Plan section 9, item 14: rail plus rapid-bus stops; keep lots within 1/2 mile; recompute the stop traits."""
     from scipy.spatial import cKDTree
-    D = pd.read_parquet(LOTS)
+    D = pd.read_parquet(PATHS['lots'])
     st = cKDTree(qualifying_stops_5070())
     xy = D[["x5070", "y5070"]].to_numpy()
     D["dist_station_m"] = st.query(xy)[0]
@@ -586,12 +664,35 @@ def half_mile() -> None:
         ac, tr = d["acres"].to_numpy(), (d["treated"].to_numpy() == 1)
         share[D.index.get_indexer(ix)] = [ac[n][tr[n]].sum() / ac[n].sum() if len(n) else np.nan for n in nb]
     D["share_upzoned_half_mile"] = share
-    D.to_parquet(LOTS_HALF)
+    D.to_parquet(PATHS['half'])
     after = D.groupby(["city", "treated"]).size()
     t = pd.DataFrame({"lots_before": before, "lots_kept": after}).fillna(0)
     t["median_dist_m"] = D.groupby(["city", "treated"])["dist_station_m"].median()
     t["median_share_upzoned"] = D.groupby(["city", "treated"])["share_upzoned_half_mile"].median()
     print(t.round(2).to_string())
+
+
+def census_homes() -> None:
+    """Plan section 9, item 15: 2010 census block homes shared among each block's lots in the table by lot area."""
+    D = pd.read_parquet(PATHS["lots"])
+    D["census_homes"] = np.nan
+    pts = gpd.GeoDataFrame(D[["city"]].copy(), geometry=gpd.points_from_xy(D["x5070"], D["y5070"]), crs=5070)
+    for city, st in STATE.items():
+        ix = D.index[D["city"] == city]
+        if not len(ix):
+            continue
+        src = sorted(RAW.rglob(f"tabblock2010_{st}_pophu.zip"))[0]
+        b = gpd.read_file(src, bbox=tuple(pts.loc[ix].to_crs(4269).total_bounds), columns=["BLOCKID10", "HOUSING10"]).to_crs(5070)
+        j = gpd.sjoin(pts.loc[ix, ["geometry"]], b[["BLOCKID10", "HOUSING10", "geometry"]], predicate="within", how="left")
+        j = j[~j.index.duplicated()]
+        blk = j["BLOCKID10"]
+        # lots repeated across overlapping cases share one copy of the block's homes per case unit
+        grp = D.loc[ix, "unit"].astype(str) + "|" + blk.astype(str)
+        share = D.loc[ix, "acres"] / D.loc[ix, "acres"].groupby(grp).transform("sum")
+        D.loc[ix, "census_homes"] = (j["HOUSING10"].astype(float) * share).values
+        print(city, src.name, "lots matched", int(blk.notna().sum()), "of", len(ix), flush=True)
+    D.to_parquet(PATHS["lots"])
+    print(D.groupby("city")["census_homes"].describe()[["mean", "50%", "max"]].round(2).to_string())
 
 
 def sanity_flags(stage: str) -> None:
@@ -611,7 +712,7 @@ def enrich_all() -> None:
     spec = ilu.spec_from_file_location("run_tod_allvars", ROOT / "scripts" / "run_tod_allvars.py")
     AV = ilu.module_from_spec(spec)
     spec.loader.exec_module(AV)
-    D = pd.read_parquet(LOTS)
+    D = pd.read_parquet(PATHS['lots'])
     D["end_year"] = D["eff_year"].map(A.survey_end_year)
     D["state"] = D["city"].map(STATE)
     pts = gpd.GeoSeries(gpd.points_from_xy(D["x5070"], D["y5070"]), crs=5070)
@@ -635,7 +736,7 @@ def enrich_all() -> None:
             new.loc[ix, cols[v["id"]]] = j["tract"].map(val).values
         print(f"  {A.survey_label(int(y))} {st}: {len(ix):,} lots", flush=True)
     D = pd.concat([D.drop(columns=[c for c in cols.values() if c in D]), new], axis=1)
-    D.to_parquet(LOTS)
+    D.to_parquet(PATHS['lots'])
     print("share of lots with each variable (median across variables):", float(new.notna().mean().median()))
 
 
@@ -665,7 +766,8 @@ def fit8(tlearner: bool = False) -> None:
     cities = [c for c in D["city"].unique() if c not in HOLD]
 
     def actual_extra(d):
-        t, c = d[d.treated == 1], d[d.treated == 0]
+        t = d[d.treated == 1]
+        c = d[(d.treated == 0) & (d["comparison_eligible"] == 1)] if "comparison_eligible" in d else d[d.treated == 0]   # items 15-16
         ta, ca = (t.acres * t.w).sum(), (c.acres * c.w).sum()
         return ((t.units_after * t.w).sum() - ta * (c.units_after * c.w).sum() / ca) - \
                ((t.units_before * t.w).sum() - ta * (c.units_before * c.w).sum() / ca), ta
@@ -788,13 +890,21 @@ def fit8(tlearner: bool = False) -> None:
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes"], required=True)
+    ap.add_argument("--rebuilt", action="store_true", help="plan item 15 lot table (industrial conversions, in-reform lots, census homes)")
     ap.add_argument("--half-mile", action="store_true", help="fit on lots within 1/2 mile of rail or rapid stops (item 14)")
     a = ap.parse_args(argv)
-    if a.half_mile:
+    ap_rebuilt = a.rebuilt
+    if ap_rebuilt:
+        REBUILT["on"] = True
+        PATHS.update(lots=LOTS_REBUILT, half=OUT / "lots_rebuilt_halfmile.parquet")
+        FIT.update(lots=PATHS["half"], suffix="_rebuilt")
+    elif a.half_mile:
         FIT.update(lots=LOTS_HALF, suffix="_halfmile")
     if a.stage == "half_mile":
         half_mile()
+    if a.stage == "census_homes":
+        census_homes()
     if a.stage.startswith("fit"):
         sanity_flags(a.stage)
     if a.stage == "collect":
