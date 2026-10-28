@@ -206,7 +206,8 @@ def add_bellevue() -> None:
     from missing_middleware.tod import case_bellevue as B
     with capture() as cap:
         ci, _ = B.build()
-    args, area = cap["uniform"][-1]
+    # the adapter calls the uniform rule more than once; keep the call that has treated land (the context rule)
+    args, area = max(cap["uniform"], key=lambda t: int((t[1] == C.TREAT).sum()))
     pg = B._prepare()["permits"]
     per = C.period_years(B.EFFECTIVE_YEAR, B.FIRST_YEAR, B.LAST_FULL_YEAR)
     stops = rail(args["parcels"].crs)
@@ -373,11 +374,14 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     X["pays_room"] = np.log1p((allowed - D["homes_on_lot"].fillna(0)).clip(lower=0)) * X["rent_to_cost"]
     for u in ("res", "com", "ind", "mixed"):
         X[f"use_{u}"] = (D["use"].astype(str) == u).astype(float)
+    if "share_upzoned_half_mile" in D:
+        X["share_upzoned_half_mile"] = D["share_upzoned_half_mile"]
+        X["log_stops_1mile"] = np.log1p(D["stops_1mile"])
     X = X.replace([np.inf, -np.inf], np.nan)
     return X.fillna(X.median())
 
 
-def fit() -> None:
+def fit(allvars: bool = False) -> None:
     from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
     from sklearn.linear_model import LinearRegression, LogisticRegression
     from sklearn.metrics import roc_auc_score
@@ -389,6 +393,11 @@ def fit() -> None:
     key = D["city"] + "|" + D["x5070"].round(1).astype(str) + "|" + D["y5070"].round(1).astype(str)
     D["w"] = 1.0 / key.map(key.value_counts())
     Xa, Xb = features(D, True), features(D, False)
+    if allvars:
+        vc = [c for c in D.columns if c.startswith("v_")]
+        V = D[vc].replace([np.inf, -np.inf], np.nan)
+        V = V.fillna(V.median())
+        Xa, Xb = pd.concat([Xa, V], axis=1), pd.concat([Xb, V], axis=1)
     y1 = D["builds_after"].values
     y2 = np.log1p(D["units_after"].values)
     cities = [c for c in D["city"].unique() if c not in HOLD]
@@ -431,7 +440,7 @@ def fit() -> None:
         return extra, auc
 
     rows = []
-    for kind in ("logit", "boosting"):
+    for kind in (("boosting",) if allvars else ("logit", "boosting")):
         for c in cities + list(HOLD):
             test_ix = D.index[D["city"] == c]
             train_ix = D.index[D["city"].isin([x for x in cities if x != c])]
@@ -460,16 +469,209 @@ def fit() -> None:
                      "fold_mean_auc": f["auc_builds"].mean(), **{f"{c.lower()}_auc": h.loc[c, "auc_builds"] for c in HOLD},
                      "passes_total": bool(ok_total), "passes_where": bool(auc_ok)})
     S = pd.DataFrame(summ)
-    E.round(3).to_csv(REFERENCE / "tod_lot_model_by_city.csv", index=False)
-    S.round(4).to_csv(REFERENCE / "tod_lot_model_results.csv", index=False)
+    # Which lot traits the boosted "builds" model leans on (fitted on all fold cities; permutation on the holdouts)
+    from sklearn.inspection import permutation_importance
+    tr = D.index[D["city"].isin(cities)]
+    m1 = GradientBoostingClassifier(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027)
+    m1.fit(Xa.loc[tr], y1[tr], sample_weight=D.loc[tr, "w"])
+    ho = D.index[D["city"].isin(HOLD)]
+    pi = permutation_importance(m1, Xa.loc[ho], y1[ho], scoring="roc_auc", n_repeats=5, random_state=20261027,
+                                sample_weight=D.loc[ho, "w"].values)
+    imp = pd.DataFrame({"trait": Xa.columns, "split_importance": m1.feature_importances_,
+                        "holdout_auc_drop_when_shuffled": pi.importances_mean}).sort_values("holdout_auc_drop_when_shuffled", ascending=False)
+    imp.round(4).to_csv(REFERENCE / f"tod_lot_model_importance{tag}.csv", index=False)
+    print(imp.round(4).to_string())
+    tag = "_allvars" if allvars else ""
+    E.round(3).to_csv(REFERENCE / f"tod_lot_model_by_city{tag}.csv", index=False)
+    S.round(4).to_csv(REFERENCE / f"tod_lot_model_results{tag}.csv", index=False)
     pd.set_option("display.width", 250)
     print(E.round(2).to_string())
     print(S.round(3).T.to_string())
 
 
+def add_saturation() -> None:
+    """Plan section 9, item 11: share of upzoned land within 1/2 mile (same case), and stops within 1 mile."""
+    from scipy.spatial import cKDTree
+    D = pd.read_parquet(LOTS)
+    share = np.full(len(D), np.nan)
+    for unit, ix in D.groupby("unit").groups.items():
+        d = D.loc[ix]
+        xy = d[["x5070", "y5070"]].to_numpy()
+        t = cKDTree(xy)
+        nb = t.query_ball_point(xy, r=805)
+        ac, tr = d["acres"].to_numpy(), (d["treated"].to_numpy() == 1)
+        share[D.index.get_indexer(ix)] = [ac[n][tr[n]].sum() / ac[n].sum() if len(n) else np.nan for n in nb]
+    D["share_upzoned_half_mile"] = share
+    s_ = pd.DataFrame(json.load(open(RAW / "tod_census_cases" / "ntm_rail_stops.json"))).dropna(subset=["stop_lat", "stop_lon"])
+    sp = gpd.GeoSeries(gpd.points_from_xy(s_.stop_lon, s_.stop_lat), crs=4326).to_crs(5070)
+    st = cKDTree(np.c_[sp.x, sp.y])
+    D["stops_1mile"] = [len(n) for n in st.query_ball_point(D[["x5070", "y5070"]].to_numpy(), r=1609)]
+    D.to_parquet(LOTS)
+    print(D.groupby(["city", "treated"])[["share_upzoned_half_mile", "stops_1mile"]].median().round(3).to_string())
+
+
+def enrich_all() -> None:
+    """All 91 tract variables of the all-variables test on every lot (plan section 9, item 9)."""
+    import importlib.util as ilu
+    from missing_middleware.tod import allvars as A
+    spec = ilu.spec_from_file_location("run_tod_allvars", ROOT / "scripts" / "run_tod_allvars.py")
+    AV = ilu.module_from_spec(spec)
+    spec.loader.exec_module(AV)
+    D = pd.read_parquet(LOTS)
+    D["end_year"] = D["eff_year"].map(A.survey_end_year)
+    D["state"] = D["city"].map(STATE)
+    pts = gpd.GeoSeries(gpd.points_from_xy(D["x5070"], D["y5070"]), crs=5070)
+    cols = {v["id"]: f"v_{v['id']}" for v in A.VARIABLES}
+    new = pd.DataFrame(np.nan, index=D.index, columns=list(cols.values()))
+    for (y, st), ix in D.groupby(["end_year", "state"]).groups.items():
+        try:
+            cells, ncells, _ = (AV.tbsf_cells if y >= 2021 else AV.seq_cells)(int(y), st)
+            shp = AV.tract_shapes(A.tract_vintage(int(y)), st)
+            cells = cells.join(shp.set_index("tract")[["ALAND_SQMI"]], how="left")
+            parts = A.tract_parts(cells, ncells, int(y))
+        except Exception as e:  # noqa: BLE001
+            print(f"  {y} {st}: {type(e).__name__}: {e}")
+            continue
+        g = gpd.GeoDataFrame(geometry=pts.loc[ix].values, index=ix, crs=5070)
+        j = gpd.sjoin(g, shp[["tract", "geometry"]].to_crs(5070), how="left", predicate="within")
+        j = j[~j.index.duplicated()]
+        for v in A.VARIABLES:
+            n, d = parts[v["id"] + "__num"], parts[v["id"] + "__den"]
+            val = (n / d.where(d > 0)) if v["kind"] == "ratio" else n
+            new.loc[ix, cols[v["id"]]] = j["tract"].map(val).values
+        print(f"  {A.survey_label(int(y))} {st}: {len(ix):,} lots", flush=True)
+    D = pd.concat([D.drop(columns=[c for c in cols.values() if c in D]), new], axis=1)
+    D.to_parquet(LOTS)
+    print("share of lots with each variable (median across variables):", float(new.notna().mean().median()))
+
+
+def fit8() -> None:
+    """Run C (plan section 9, item 10): all 8 methods, two-part lot versions, all-variables traits."""
+    from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor, RandomForestClassifier, RandomForestRegressor
+    from sklearn.linear_model import ElasticNet, Lasso, LinearRegression, LogisticRegression
+    from sklearn.metrics import roc_auc_score
+    from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+    rng = np.random.default_rng(20261027)
+    D = pd.read_parquet(LOTS)
+    cache = {k: cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(D["city"], D["eff_year"]))}
+    D["cost_per_home"] = [cache[(c, y)] for c, y in zip(D["city"], D["eff_year"])]
+    key = D["city"] + "|" + D["x5070"].round(1).astype(str) + "|" + D["y5070"].round(1).astype(str)
+    D["w"] = 1.0 / key.map(key.value_counts())
+    Xa, Xb = features(D, True), features(D, False)
+    vc = [c for c in D.columns if c.startswith("v_")]
+    if vc:
+        V = D[vc].replace([np.inf, -np.inf], np.nan)
+        V = V.fillna(V.median())
+        Xa, Xb = pd.concat([Xa, V], axis=1), pd.concat([Xb, V], axis=1)
+    y1 = D["builds_after"].values
+    y2 = np.log1p(D["units_after"].values)
+    dy = (D["units_after"] - D["units_before"]).values
+    cities = [c for c in D["city"].unique() if c not in HOLD]
+
+    def actual_extra(d):
+        t, c = d[d.treated == 1], d[d.treated == 0]
+        ta, ca = (t.acres * t.w).sum(), (c.acres * c.w).sum()
+        return ((t.units_after * t.w).sum() - ta * (c.units_after * c.w).sum() / ca) - \
+               ((t.units_before * t.w).sum() - ta * (c.units_before * c.w).sum() / ca), ta
+
+    def makers(kind):
+        if kind == "wls":
+            return lambda: LogisticRegression(max_iter=2000), lambda: LinearRegression(), True
+        if kind == "lasso":
+            return lambda: LogisticRegression(penalty="l1", solver="saga", C=0.1, max_iter=500), lambda: Lasso(alpha=0.01), True
+        if kind == "elastic_net":
+            return lambda: LogisticRegression(penalty="elasticnet", l1_ratio=0.5, solver="saga", C=0.1, max_iter=500), lambda: ElasticNet(alpha=0.01, l1_ratio=0.5), True
+        if kind == "tree":
+            return lambda: DecisionTreeClassifier(max_depth=3, min_samples_leaf=200), lambda: DecisionTreeRegressor(max_depth=3, min_samples_leaf=200), False
+        if kind == "forest":
+            return lambda: RandomForestClassifier(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=20261027), \
+                   lambda: RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=20261027), False
+        if kind == "boosting":
+            return lambda: GradientBoostingClassifier(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027), \
+                   lambda: GradientBoostingRegressor(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027), False
+        if kind == "knn":
+            return lambda: KNeighborsClassifier(n_neighbors=50, n_jobs=-1), lambda: KNeighborsRegressor(n_neighbors=50, n_jobs=-1), True
+        raise ValueError(kind)
+
+    def predict(kind, tr, te):
+        tt = te[(D.loc[te, "treated"] == 1).values]
+        sample = te if len(te) <= 20000 else rng.choice(te, 20000, replace=False)
+        if kind == "causal_forest":
+            out = []
+            for g in (1, 0):
+                ix = tr[(D.loc[tr, "treated"] == g).values]
+                m = RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=20261027)
+                m.fit(Xb.loc[ix], dy[D.index.get_indexer(ix)], sample_weight=D.loc[ix, "w"])
+                out.append(m.predict(Xb.loc[tt]))
+            extra = float((out[0] - out[1]) @ D.loc[tt, "w"].values)
+            return extra, np.nan
+        c1, c2, scale = makers(kind)
+        sc = StandardScaler().fit(Xa.loc[tr]) if scale else None
+        T = (lambda X: sc.transform(X)) if scale else (lambda X: X)  # noqa: E731
+        fit_ix = tr if kind != "knn" or len(tr) <= 60000 else rng.choice(tr, 60000, replace=False)
+        ii = D.index.get_indexer(fit_ix)
+        w = D.loc[fit_ix, "w"].values
+        m1 = c1()
+        try:
+            m1.fit(T(Xa.loc[fit_ix]), y1[ii], sample_weight=w)
+        except TypeError:
+            m1.fit(T(Xa.loc[fit_ix]), y1[ii])
+        b = y1[ii] == 1
+        m2 = c2()
+        try:
+            m2.fit(T(Xa.loc[fit_ix][b]), y2[ii][b], sample_weight=w[b])
+        except TypeError:
+            m2.fit(T(Xa.loc[fit_ix][b]), y2[ii][b])
+        allowed_tr = (Xa.loc[fit_ix, "far_now"] * D.loc[fit_ix, "acres"] * 43560 / 1000).clip(lower=1).values
+        u = D.loc[fit_ix, "units_after"].values
+        stretch = float(np.nanquantile(u[b] / allowed_tr[b], 0.99))
+        def homes(X):
+            allowed = (X["far_now"] * D.loc[X.index, "acres"] * 43560 / 1000).clip(lower=1).values
+            size = np.minimum(np.expm1(np.clip(m2.predict(T(X)), 0, 12)), allowed * stretch).clip(min=1)
+            return m1.predict_proba(T(X))[:, 1] * size
+        extra = float((homes(Xa.loc[tt]) - homes(Xb.loc[tt])) @ D.loc[tt, "w"].values)
+        ys = y1[D.index.get_indexer(sample)]
+        auc = roc_auc_score(ys, m1.predict_proba(T(Xa.loc[sample]))[:, 1]) if len(set(ys)) > 1 else np.nan
+        return extra, auc
+
+    rows = []
+    methods = ("wls", "lasso", "elastic_net", "tree", "forest", "boosting", "causal_forest", "knn")
+    for kind in methods:
+        for c in cities + list(HOLD):
+            te = D.index[D["city"] == c].to_numpy()
+            tr = D.index[D["city"].isin([x for x in cities if x != c])].to_numpy()
+            act, ta = actual_extra(D.loc[te])
+            num = den = 0.0
+            for x in [x for x in cities if x != c]:
+                e, a = actual_extra(D[D["city"] == x])
+                num, den = num + e, den + a
+            base = num / den * ta
+            ex, auc = predict(kind, tr, te)
+            rows.append({"method": kind, "city": c, "role": "holdout" if c in HOLD else "fold", "actual_extra_homes": act,
+                         "baseline_extra": base, "model_extra": ex, "error_baseline": abs(base - act), "error_model": abs(ex - act),
+                         "auc_builds": auc})
+            print(kind, c, round(act), round(base), round(ex), flush=True)
+    E = pd.DataFrame(rows)
+    summ = []
+    for kind, g in E.groupby("method", sort=False):
+        f, h = g[g.role == "fold"], g[g.role == "holdout"].set_index("city")
+        ok = f["error_model"].mean() < f["error_baseline"].mean() and all(h.loc[c, "error_model"] < h.loc[c, "error_baseline"] for c in HOLD)
+        summ.append({"method": kind, "fold_mean_error_baseline": f["error_baseline"].mean(), "fold_mean_error_model": f["error_model"].mean(),
+                     "fold_cities_better": int((f["error_model"] < f["error_baseline"]).sum()),
+                     **{f"{c.lower()}_better": bool(h.loc[c, "error_model"] < h.loc[c, "error_baseline"]) for c in HOLD},
+                     "cities_better_of_9": int((g["error_model"] < g["error_baseline"]).sum()), "passes_total": bool(ok)})
+    S = pd.DataFrame(summ)
+    E.round(3).to_csv(REFERENCE / "tod_lot_model_by_city_all8.csv", index=False)
+    S.round(4).to_csv(REFERENCE / "tod_lot_model_results_all8.csv", index=False)
+    pd.set_option("display.width", 250)
+    print(S.round(2).to_string())
+
+
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "values", "fit"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "add_saturation"], required=True)
     a = ap.parse_args(argv)
     if a.stage == "collect":
         collect()
@@ -481,6 +683,14 @@ def main(argv=None) -> None:
         values()
     if a.stage == "fit":
         fit()
+    if a.stage == "enrich_all":
+        enrich_all()
+    if a.stage == "fit_allvars":
+        fit(allvars=True)
+    if a.stage == "fit8":
+        fit8()
+    if a.stage == "add_saturation":
+        add_saturation()
 
 
 if __name__ == "__main__":

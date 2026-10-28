@@ -126,3 +126,8 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     8. Nearest neighbours: the 50 nearest training lots on standardised traits.
 
     Same traits as the all-variables run, same holdouts (Chicago, Madison, Bellevue), same pass rule. Each method is judged separately. The best of 8 is reported with a warning that picking the best of many looks better than it is.
+11. **2026-10-28, owner's question, written before runs B and C: two "many stalls" traits.** Both vary lot to lot.
+    - **Share of upzoned land within ½ mile:** acres of upzoned lots within 805 m of the lot's point ÷ acres of all lots in the table within 805 m, counted within the same case.
+    - **Rail and rapid stops within 1 mile:** National Transit Map stops within 1,609 m of the lot.
+
+    Both are added to the features of runs B and C. Run A (already running) does not have them.
