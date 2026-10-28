@@ -53,3 +53,8 @@ Net new homes permitted on a lot in a year: new units minus units lost. A lot is
 - **If none passes:** the result is reported, and the tool keeps its range.
 
 ## Changes after writing
+- **2026-10-28, while collecting data (before any outcome was computed):**
+  - **Minneapolis dropped.** Its permit files before 2017 do not record home counts, so it has no before-period outcome. That leaves four reform cities, and the pass rule becomes "beat the plain average in at least 3 of 4 cities".
+  - **San Francisco:** the main outcome counts new-construction and demolition permits. Alteration permits that add units, mostly accessory dwelling units under the city's 2014 program, are reported separately, because that program reached the comparison lots too.
+  - **Buffalo:** lots are classed by their previous assessment class where it differs from the current one, because the 2025 roll shows classes after any construction.
+  - **Prediction outcome:** the change in a lot's homes permitted per year (after minus before), with one model for pinched lots and one for comparison lots. This replaces the two-part model, because the parking effect is a change over time.
