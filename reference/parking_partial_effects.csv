@@ -1,0 +1,10 @@
+key,event_year,status,outcome,homes,pre_years,post_years,n_controls,pop_window,n_post,rate_before,rate_after,ctrl_before,ctrl_after,effect,place,state,group,homes_source,weight
+17|147700,2015.0,included,all,1277054.0,2012-2014,2016-2018,1.0,division 0.33-3.00 (fewer than 5),3.0,2.8099,6.3928,9.3968,9.6006,3.3792,Chicago,Illinois,transit-area or district,ACS 2020-2024,3831162.0
+06|385000,2019.0,included,all,568668.0,2014-2018,2020-2022,3.0,division 0.33-3.00 (fewer than 5),3.0,9.033,8.143,17.8028,14.8001,2.1127,San Diego,California,transit-area or district,ACS 2020-2024,1706004.0
+,,not found in permit files,,,,,,,,,,,,,Charlotte,North Carolina,transit-area or district,,
+35|005000,2018.0,included,all,258178.0,2013-2017,2019-2021,5.0,division 0.50-2.00,3.0,5.1097,4.6815,9.1927,14.7673,-6.0027,Albuquerque,New Mexico,transit-area or district,ACS 2020-2024,774534.0
+06|150000,2015.0,included,all,81579.0,2012-2014,2016-2018,46.0,state 0.50-2.00,3.0,2.9542,18.5301,5.2024,8.2547,12.5236,Fremont,California,transit-area or district,ACS 2020-2024,244737.0
+06|173000,2011.0,included,all,48296.0,2007-2010,2012-2014,89.0,state 0.50-2.00,3.0,4.4724,6.5844,4.8573,5.9975,0.9718,Hayward,California,transit-area or district,2010 census,144888.0
+42|523300,2020.0,included,all,1139.0,2015-2019,2021-2023,893.0,state 0.50-2.00,3.0,0.5268,2.3412,2.6185,3.241,1.192,Penndel,Pennsylvania,transit-area or district,ACS 2020-2024,3417.0
+39|382600,2020.0,included,all,6217.0,2015-2019,2021-2023,147.0,state 0.50-2.00,3.0,1.4798,1.5549,3.74,4.8267,-1.0116,Maumee,Ohio,citywide benchmark,ACS 2020-2024,18651.0
+36|648000,2016.0,included,all,2819.0,2012-2015,2017-2019,476.0,state 0.50-2.00,3.0,0.6208,0.3547,2.8867,2.9356,-0.3149,Saranac Lake,New York,citywide benchmark,ACS 2020-2024,8457.0

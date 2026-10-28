@@ -35,3 +35,4 @@ Each candidate is screened first on the network's own summary. Those that pass a
 - **Permit data:** the Census permit place files for 1993–2011 are added for all four regions. The older file layout is read by place name, as for Portland.
 
 ## Changes after writing
+- **2026-10-28, while running (before Charlotte's effect was computed):** Charlotte is dropped. Its permits are filed in the Mecklenburg County row, and its reform covered only TOD districts.

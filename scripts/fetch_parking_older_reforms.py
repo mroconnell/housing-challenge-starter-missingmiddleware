@@ -6,7 +6,8 @@ Raw (git-ignored): data/raw/parking_older_reforms/
 - seattle_res_permits.json: City of Seattle, Residential Building Permits Issued and Final since 1990 (PDDL-1.0).
 - seattle_urban_villages.geojson: City of Seattle, Urban Centers and Villages (ArcGIS Online, City of Seattle).
 - tabblock2010_53_pophu.zip, tl_2020_53_tabblock20.zip: Census 2010 and 2020 blocks, Washington (public domain).
-- we1998a.txt ... we2006a.txt: Census permit place files, West region (public domain).
+- we1998a.txt ... we2011a.txt: Census permit place files, West region (public domain).
+- Gaz_places_national.zip: Census 2010 Gazetteer places with 2010 housing units (public domain).
 - places2k.zip: Census 2000 Gazetteer places with 2000 housing units (public domain).
 """
 from __future__ import annotations
@@ -64,7 +65,8 @@ def main(argv=None) -> None:
                   "https://www2.census.gov/geo/tiger/TIGER2020/TABBLOCK20/tl_2020_53_tabblock20.zip", a.refresh, PD)
     download_file(man, "tl_2020_53_place.zip", "https://www2.census.gov/geo/tiger/TIGER2020/PLACE/tl_2020_53_place.zip", a.refresh, PD)
     download_file(man, "places2k.zip", "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/places2k.zip", a.refresh, PD)
-    for y in range(1998, 2007):
+    download_file(man, "Gaz_places_national.zip", "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/Gaz_places_national.zip", a.refresh, PD)
+    for y in range(1998, 2012):
         download_file(man, f"we{y}a.txt", f"https://www2.census.gov/econ/bps/Place/West%20Region/we{y}a.txt", a.refresh, PD)
 
 
