@@ -1,0 +1,5 @@
+definition,shape,chosen_shape,extra_homes_2027_2031,milwaukee,madison,homes_covered
+current definition,A,False,10398.6,5824.7,2673.0,313562.6
+current definition,B,True,11090.6,5589.3,2673.4,313562.6
+"rail and rapid only, 1/2 mile",A,False,2969.0,1122.6,1561.4,89529.2
+"rail and rapid only, 1/2 mile",B,True,5149.1,2453.7,2043.3,89529.2

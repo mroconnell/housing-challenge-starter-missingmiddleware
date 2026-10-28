@@ -1,0 +1,3 @@
+shape,b,loco_mean_abs_error_pct,pred_madison,pred_chicago,inside_madison,inside_chicago,chosen,offered_to_owner
+A proportional,3.31626,2.38332,0.08271,0.01675,True,False,False,False
+B diminishing (square root),2.62761,2.29784,0.41496,0.18673,True,False,True,False

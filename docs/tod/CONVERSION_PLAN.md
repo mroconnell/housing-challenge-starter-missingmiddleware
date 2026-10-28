@@ -72,4 +72,11 @@ A candidate for AQ-059 (the typical value) and a candidate narrower definition. 
 
 ## 7. Changes after writing
 
-None yet.
+Recorded 2026-10-28 while running, before the fit was examined except where noted.
+
+1. **Coverage is the share of the city's homes** (2010 census blocks), not of its residential land. City-wide land-use maps are not available for every city, and Auckland and Los Angeles TOC are published as shares of land and homes. Upzoned land that was nearly empty (BelRed) therefore counts as low coverage.
+2. **Los Angeles's two sliver cases are taken together** (the net-effect city row), as are Seattle's.
+3. **New York's whole-program window** is 2000–2004 before and 2006–2010 after, because the place permit files start in 2000.
+4. **Portland's coverage** uses Oregon's statewide zoning layer, which carries only state classes. The "Res." class (the single-dwelling zones that the Residential Infill Project changed) is used. Seen after the first run printed 0% coverage, a parsing error; the fit hardly moved.
+5. **Points with no published interval** (Auckland, Los Angeles TOC) take the 25% weight cap.
+6. **The Wisconsin narrower definition** is rail and rapid only within ½ mile, because the per-municipality file holds that rung; ¼ mile is not computed per municipality.

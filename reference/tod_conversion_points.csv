@@ -1,0 +1,21 @@
+city,case,source,coverage_homes,gain_5yr_pct,low,high,pool
+New York,nyc_pooled_2003_2013,"permits, upzoned land net of building moved in the city",0.005,0.10551,0.05175,0.16767,
+Philadelphia,philadelphia_2012_remapping,"permits, upzoned land net of building moved in the city",0.02126,0.64297,0.3006,0.99798,
+Charlotte,charlotte_tod_2019,"permits, upzoned land net of building moved in the city",0.00786,0.33532,0.06978,0.62267,
+Saint Paul,stpaul_green_line_2011,"permits, upzoned land net of building moved in the city",0.00684,-0.12003,-0.4854,0.24048,
+Los Angeles,los_angeles_all_cases,"permits, upzoned land net of building moved in the city",0.00418,0.03593,-0.07275,0.13743,
+Seattle,seattle_all_cases,"permits, upzoned land net of building moved in the city",0.00118,0.08707,-0.14281,0.31519,
+Chicago,chicago_tod_2013_2015,"permits, upzoned land net of building moved in the city",0.00505,0.11046,0.07888,0.13986,
+Madison,madison_tod_overlay_2023,"permits, upzoned land net of building moved in the city",0.02494,1.2434,0.02969,2.42793,
+Jersey City,jersey_city_journal_square_2010,"census 2010-2020, upzoned land vs its 1/2-mile ring",0.03835,0.30703,-0.70484,1.36012,
+Milpitas,milpitas_tasp_2008,"census 2010-2020, upzoned land vs its 1/2-mile ring",0.03072,7.70896,2.33348,13.73491,
+Bellevue,bellevue_belred_2009,"census 2010-2020, upzoned land vs its 1/2-mile ring",0.00345,1.2354,-0.32168,3.09138,
+Austin,austin_tod_station_plans,"census 2010-2020, upzoned land vs its 1/2-mile ring",0.00403,0.4915,0.24002,0.75042,
+Fairfax County,tysons_2010,"census 2010-2020, upzoned land vs its 1/2-mile ring",0.02241,0.40599,-0.26084,1.05367,
+Salt Lake City,salt_lake_city_tsa_2010,"census 2010-2020, upzoned land vs its 1/2-mile ring",0.01186,0.6235,-0.214,1.57428,
+Auckland,auckland_aup_2016,"published (Greenaway-McGrevy and coauthors), AQ-050",0.752,4.11239,,,
+Los Angeles TOC,la_toc_2017,"published (Kestelman, Harvard JCHS), AQ-050",0.61,0.03333,,,
+New York,nyc_program_2005,whole city vs 10 matched cities (permit survey),0.01099,1.04887,-0.23928,4.43001,13.0
+Seattle,seattle_mha_2019,whole city vs 10 matched cities (permit survey),0.45968,-5.00864,-9.11738,-1.98236,84.0
+Minneapolis,minneapolis_2040_2020,whole city vs 10 matched cities (permit survey),0.8102,-7.59444,-12.89511,-3.47165,197.0
+Portland,portland_rip_2021,whole city vs 10 matched cities (permit survey),0.57727,-3.25161,-6.7729,0.47851,104.0

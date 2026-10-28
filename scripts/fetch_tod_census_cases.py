@@ -22,7 +22,7 @@ from missing_middleware.paths import RAW  # noqa: E402
 from scripts.fetch_tod_cases import Manifest, download_file  # noqa: E402
 
 D = RAW / "tod_census_cases"
-STATES = ["34", "06", "04", "51", "48", "53", "39", "36", "17", "27", "37", "42"]
+STATES = ["34", "06", "04", "51", "48", "53", "39", "36", "17", "27", "37", "42", "41"]
 PD = "US Census Bureau, public domain"
 BOUNDARIES = {
     "jersey_city_journal_square_2010": ("https://services2.arcgis.com/UXbywc7dSkfgdPp4/arcgis/rest/services/Zoning_Districts/FeatureServer/0",
