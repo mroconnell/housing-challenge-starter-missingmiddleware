@@ -98,3 +98,31 @@ The owner asked for two more measures: "dropping the per acre in favor of per 10
    - Blocks are reported as **wholly inside** (99% or more of their land), **partly inside**, or **outside**.
    - The per-acre difference and its 90% interval are recomputed this way (whole blocks resampled with their shares, 2,000 draws, seed 20261031). This is shown beside the centre-point result.
 3. **Nothing else changes.** The holdout rule (section 5) is still judged on the centre-point result as planned. The area-share version is reported beside it.
+
+## 10. Growing the census set, and placebo stations: written before running (2026-10-28)
+
+The owner asked to "grow the census set if you can, and add placebo cities to help do that", and to treat pre-reform density as a variable. None of the results below has been computed before this section was committed.
+
+### 10.1 More census-measured reforms
+
+- **Existing cases, census side.** The 8 method-check cases (section 6) already have census estimates of the upzoned land against its ¼-mile ring. They join the census set with that estimate: Saint Paul, Seattle twice, Los Angeles twice, Chicago, Philadelphia, Charlotte. Charlotte is before its reform, so it is labelled "land only" and is not used as a reform.
+- **New York's rezonings adopted 2008–2013**, measured with the census from their existing maps (treated land and ¼-mile ring from the net-effect files), one estimate per rezoning. Rezonings adopted before 2008 are left out, because most of their response came before the 2010 count.
+- **Seattle Roosevelt (2012):** zoning polygons whose history lists Ordinance 123816, from the City zoning layer already in the Seattle case folder. Same estimate as section 4.
+- **Maps still missing** (White Flint, San Francisco 2008 plans, Minneapolis Hiawatha, Oakland Broadway Valdez, Cincinnati, New Rochelle): they stay out unless an official layer is found. This list is reported.
+
+### 10.2 Placebo stations
+
+- **What:** rail stations (National Transit Map stops typed as rail, subway or light rail) in the 13 states already fetched. Stations are left out if they are:
+  - inside a city on the 58-reform list (by 2020 Census place boundaries);
+  - within 1 mile of any reform boundary in the census set.
+- **The fake reform area** is the ½-mile circle around the station. The comparison is the ring from ½ to 1 mile, outside every other placebo station's circle. The estimate is net homes added 2010–2020 per acre, circle minus ring, with blocks scored by the share of their land inside (section 9). Stations with the same name within ¼ mile of each other are merged.
+- **Known limit:** the National Transit Map has no opening dates, so some placebo stations opened after 2010. Station opening itself may raise building, which makes the placebo bar higher, not lower.
+- **Reported:**
+  - the placebo median and 5th to 95th percentile: what station areas gain over their surroundings without a known upzoning;
+  - for each real reform, the share of placebo stations with a larger per-acre difference.
+
+  A reform whose result beats 90% of placebos is read as standing out from ordinary station-area growth. This ranking compares a station circle with a plan boundary, so it is a reference, not a formal test.
+
+### 10.3 Pre-reform density
+
+Each census case and placebo records its upzoned area's 2010 homes per acre. It is reported beside each result, and it will be one of the named variables when the prediction tools are rerun on the census set. That rerun gets its own plan.
