@@ -85,3 +85,9 @@ Recorded 2026-10-28 while running Part A (fixed before any method was fitted):
 1. **Variable 6 corrected from the facts.** Rail that opened after 2009 at the area also includes Austin (MetroRail, 2010), Saint Paul (Green Line, 2014) and Seattle Roosevelt (Link, 2021). Seattle North Beacon Hill and Othello (2009) stays "no".
 2. **Salt Lake City** uses this plan's general ½-mile ring around the district boundary (as in CENSUS_CASES_RESULTS section 5), not its station-based comparison.
 3. **Utah blocks** are read from the Salt Lake City folder (linked, not copied).
+
+Recorded 2026-10-28 while running Part B:
+
+4. **All 23 New York rezonings the adapter builds are used**, not only the 17 that met the pooled case's full-window rule, so that downzoned land is not lost. The upzoned side is recomputed on the same 23 for a like-for-like mirror.
+5. **Stacked denominators:** acres are summed over rezonings for each area, and permits are counted by event year. The pooled New York case stacked units the same way.
+6. **The census side has only 4 rezonings with downzoned land from 2008–2013**, and East Fordham Road (2.4 acres) had no homes in 2010. It is shown, not judged.
