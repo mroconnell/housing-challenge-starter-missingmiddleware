@@ -79,3 +79,39 @@ Each case's own upzoned land and ¼-mile ring. Census: net homes from April 2010
 - **More places, same pattern.** Upzoned land usually gains more homes than the land next to it, and the size varies a lot from place to place. Measured gains range from about 0.1 to 0.7 net homes per acre per year (Milpitas 0.73).
 - **The census method is usable.** It needs no permit file. The only hard part is the boundary map, and it agrees with permits where both exist. More reforms from around 2010 could be added the same way as their maps are found: White Flint, Seattle Roosevelt, Minneapolis Hiawatha, Oakland Broadway Valdez, San Francisco's 2008 plans, Cincinnati and New Rochelle.
 - **It doesn't change Wisconsin's numbers.** These are per-acre effects on the upzoned land itself. Our size rule uses whole-city net effects (AQ-050), and the scale check showed per-acre rates overstate a statewide total.
+
+## 5. Additions (plan section 9): city share, and blocks scored by how much lies inside
+
+Code: [scripts/run_tod_census_share.py](../../scripts/run_tod_census_share.py). Output: `reference/tod_census_share.csv`.
+
+**Blocks scored by share of land inside.** Each block's homes are split by the share of its land inside the upzoned area and inside the ring.
+
+| Reform | Blocks wholly / partly inside (2010) | Difference per acre over the decade: area share (90% interval) | Centre point (sections 1 and 2) |
+| --- | --- | --- | ---: |
+| Milpitas | 8 / 24 | 6.70 (2.03 to 11.94) | 7.34 |
+| Austin | 46 / 86 | 7.55 (3.69 to 11.53) | 6.76 |
+| Jersey City | 43 / 38 | 3.10 (−7.11 to 13.73) | 2.65 |
+| Bellevue | 13 / 39 | 2.38 (−0.62 to 5.94) | 2.43 |
+| Tysons | 151 / 59 | 1.55 (−0.99 to 4.02) | 1.53 |
+| Salt Lake City (general ring rule) | 6 / 68 | 1.74 (−0.60 to 4.38) | 0.92 (station-based comparison) |
+| Phoenix | 0 / 16 | 2.72 (−4.09 to 10.59), 14 acres | not measurable |
+
+- **The two ways of placing blocks agree closely** wherever the area is big enough: within 0.7 per acre over the decade for every case except Salt Lake City.
+- **Salt Lake City differs for another reason.** Its centre-point figure used the station-based comparison from its own plan, and the area-share figure uses this plan's general ½-mile ring.
+- **Edge blocks matter.** In Milpitas, Bellevue and Salt Lake City nearly all of the upzoned land's 2010 homes sat in blocks only partly inside, so scoring by share is the better reading there.
+
+**City share: extra homes per 1,000 homes in the jurisdiction in 2010.** Extra homes = per-acre difference × upzoned acres (area-share version).
+
+| Reform | Extra homes, 2010–2020 | Jurisdiction (homes in 2010) | Per 1,000 homes over the decade (90% interval) | Per 1,000 homes per five years |
+| --- | ---: | --- | --- | ---: |
+| Milpitas | 3,054 | Milpitas (19,806) | 154 (47 to 275) | 77 (7.7%) |
+| Bellevue | 1,373 | Bellevue (55,551) | 25 (−6 to 62) | 12 (1.2%) |
+| Salt Lake City | 1,007 | Salt Lake City (80,724) | 12 (−4 to 31) | 6 (0.6%) |
+| Austin | 3,482 | Austin (354,241) | 10 (5 to 15) | 5 (0.5%) |
+| Tysons | 3,313 | Fairfax County (407,998) | 8 (−5 to 21) | 4 (0.4%) |
+| Jersey City | 668 | Jersey City (108,720) | 6 (−14 to 27) | 3 (0.3%) |
+
+- **Five of the six land at 0.3% to 1.2% of the city's homes per five years.** The permit-based net effects of eight other cities ran 0.04% to 1.24% over five years. The census cities fall in the upper half of that span.
+- **Milpitas is far outside it (7.7%)** because its plan area is large relative to a small city.
+- **Not net of losses elsewhere in the city.** These shares are the upzoned land's gain over its own ½-mile ring. Losses farther away are not counted, but the permit cases found almost none ([NET_EFFECT_RESULTS.md](NET_EFFECT_RESULTS.md)).
+- **Per 1,000 homes already on the upzoned land** (only where it had at least 500 homes in 2010): Jersey City 160, Tysons 362, Salt Lake City 1,051, Austin 2,437 and Milpitas 5,019 over the decade. These numbers swing hugely because many plan areas started with few homes. That is why per acre and per city home are the steadier units.
