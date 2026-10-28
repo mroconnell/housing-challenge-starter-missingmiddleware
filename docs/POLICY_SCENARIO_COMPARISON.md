@@ -33,7 +33,7 @@ Additional homes permitted over 2027–2031, compared with current law. Scenario
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | 1 | **ADUs** | 6,734 | **10,788** | 20,057 | 8.8%; 16.4% | 3.9; 7.2 |
 | 2 | **TOD** | 171 | **2,509** | 17,148 | 2.0%; 14.0% | 0.9; 6.2 |
-| 3 | **Parking** | — | **0** | 12,695 | 0%; 10.4% | 0; 4.6 |
+| 3 | **Parking** | — | **0** | 19,937 | 0%; 16.3% | 0; 7.2 |
 
 What the scenario names mean:
 - **ADUs:** the lower is "sluggish adoption" (the average of Rhode Island and Oregon); the central is "typical adoption"; the upper is "strong adoption", the high end of what states with a statewide ADU law have reached, which only California has passed. If Wisconsin followed the median path the eight statewide-law states actually took, the law would add 10,558 homes.
@@ -46,7 +46,7 @@ ADU figures were revised on 2026-10-28 (AQ-061 in the [assumptions log](ASSUMPTI
 **Against each reform's own baseline:**
 - The ADU central adds 10,788 second homes to a baseline of 530, which is 20.4 times as many as current law would produce.
 - The TOD central adds 2,509 homes to a baseline of 14,464 near stops, which is 17.3% more.
-- The parking upper adds 12,695 homes to a baseline of 122,619, which is 10.4% more (about 2,539 a year).
+- The parking upper adds 19,937 homes to a baseline of 122,619, which is 16.3% more (about 3,987 a year).
 
 **How confident we are.**
 
@@ -56,7 +56,7 @@ ADU figures were revised on 2026-10-28 (AQ-061 in the [assumptions log](ASSUMPTI
 | TOD | Low | The three studies that size the effect disagree about a hundredfold. None is a Wisconsin test, and the typical study is mostly of ADU and lot-size reforms, not transit upzonings. |
 | Parking | Medium that the effect is small within five years; low on the high end | 76 real repeals show no measurable rise on average within three years. |
 
-**The ranking depends on the scenario only for second place.** On the central scenarios the order is ADUs, then TOD, then parking. On the upper scenarios ADUs lead (20,057), then TOD (17,148) and parking (12,695).
+**The ranking depends on the scenario only for second place.** On the central scenarios the order is ADUs, then TOD, then parking. On the upper scenarios ADUs (20,057) and parking (19,937) are nearly tied, then TOD (17,148).
 
 # What Drives the Differences
 
@@ -76,7 +76,7 @@ ADU figures were revised on 2026-10-28 (AQ-061 in the [assumptions log](ASSUMPTI
 - Weighted by each place's number of homes, the average change was −1.14 permits per year per 1,000 existing homes (all housing units, ACS 2020–2024 table B25002). The 90% range was −3.47 to +1.43, which includes zero.
 - In plain words, developers in those places kept building about as much parking as buyers, renters and lenders wanted. In Buffalo, the developers of 36 major projects still built 79% of the spaces the old minimums had required. So where a minimum did not force more parking than the market wanted, removing it changed little.
 - The law is not modelled as reducing housing, so the central is zero rather than negative.
-- The upper case uses a ceiling from a control-city (placebo) test: cities that never repealed were given the real places' repeal years and run through the same calculation 20,000 times. Their spread, centred on the real average, tops out at +0.95 permits per year per 1,000 existing homes. Applied to the 2,684,793 Wisconsin homes outside the 9 places that already have no minimums, that gives 12,695 homes over five years.
+- The upper case uses a ceiling from a control-city (placebo) test: 9,420 cities that never repealed, at least 20 stand-ins for each real place, were given the real places' repeal years and run through the same calculation 20,000 times. Their spread, centred on the real average, tops out at +1.49 permits per year per 1,000 existing homes, which agrees with resampling the 76 places (+1.43). Applied to the 2,684,793 Wisconsin homes outside the 9 places that already have no minimums, that gives 19,937 homes over five years.
 
 **Why the upper cases are so different from the centrals.**
 - **Parking:** the evidence is centred on zero, so its high end is far from its central.
@@ -87,9 +87,9 @@ ADU figures were revised on 2026-10-28 (AQ-061 in the [assumptions log](ASSUMPTI
 
 | Reform | Assumption | What changing it does (additional homes, 2027–2031) |
 | --- | --- | --- |
-| Parking | **The high end of the range** | The upper case is the top of the placebo-based range (+0.95). A lower bound or the central would give 0. |
+| Parking | **The high end of the range** | The upper case is the top of the placebo-based range (+1.49). A lower bound or the central would give 0. |
 | Parking | **Which places are in the evidence** | Using only the first 24 places studied, the high end is 29,662; combining the 76 places with 185 California cities under AB 2097 gives 15,138; leaving out San Francisco gives 24,520. |
-| Parking | **How the range is built** | The earlier range, the 95th percentile of resamples of the 76 places (+1.43), would put the high end at 19,186 instead of 12,695. |
+| Parking | **How the range is built** | An earlier placebo version with too few stand-ins for big cities gave +0.95 (12,695); resampling the 76 places gives +1.43 (19,186), close to the adopted 19,937. |
 | Parking | Counting only buildings of 2 or more units | The high end falls to 10,373. |
 | TOD | **Which study sets the size** | Little 171, typical 2,509, strong 17,148: a hundredfold spread. Within the typical study's own interval the result is 665 to 4,352. |
 | TOD | Adjusting each study for the share of its city it covered | Without that adjustment, little is 105 and strong 12,895. |
@@ -101,7 +101,7 @@ ADU figures were revised on 2026-10-28 (AQ-061 in the [assumptions log](ASSUMPTI
 | ADUs | How the comparison states' counts are read (AQ-061) | Without scaling up for towns that did not report, the central is 9,562; with Washington's law years counted from enactment, 10,044; with all three changes undone, 8,938. |
 
 **Can one input flip the ranking?** Yes:
-- if parking's high end is taken as the expectation, parking passes the ADU central, with 12,695 homes;
+- if parking's high end is taken as the expectation, parking passes the ADU central, with 19,937 homes;
 - if TOD follows the strong study, it passes the ADU central;
 - if the ADU law only multiplies today's rates, ADUs fall below TOD's typical case.
 
@@ -116,7 +116,7 @@ What does *not* move the ADU total much is how we coded local rules. If the 69% 
   - the ADU law already removes parking requirements for ADUs;
   - the TOD cases cannot separate TOD from parking reform.
   
-  The tool shows each reform on its own. Where TOD and parking overlap near transit stops, the tool's combined view takes the larger of the two effects near stops rather than their sum. Its high case is 28,407 extra homes over 2027–2031, and the simple sum, 29,843, is shown only as an upper bound.
+  The tool shows each reform on its own. Where TOD and parking overlap near transit stops, the tool's combined view takes the larger of the two effects near stops rather than their sum. Its high case is 34,921 extra homes over 2027–2031, and the simple sum, 37,085, is shown only as an upper bound.
 - **Rents, prices, displacement, parking supply, traffic or transit ridership.** None is modelled.
 - **Finished homes.** Permits are not completions, and the figures are not net of demolitions.
 - **Local forecasts.** Municipal, county and district figures are shares of a statewide estimate. They reconcile exactly to the state, but they are not forecasts for any place, lot or project.
