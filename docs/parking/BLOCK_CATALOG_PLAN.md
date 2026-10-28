@@ -44,3 +44,4 @@ They are reported as a group and do not enter the 76-place average. They predate
 This is a catalog of evidence, reported case by case. It does not change the tool.
 
 ## Changes after writing
+- **2026-10-28, after running:** blocks are resampled instead of tracts (the 2000 block points have no tract code). Fremont is reported per acre only (5 homes in 2010). Brownville was not matched in the 2000 Gazetteer.

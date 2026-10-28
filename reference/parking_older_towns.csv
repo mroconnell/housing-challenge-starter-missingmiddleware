@@ -1,0 +1,6 @@
+place,status,state_fips,event_year,homes_2000,before,after,cmp_before,cmp_after,effect,comparison_places,permits_before,permits_after
+Brownville,not found,,,,,,,,,,,
+Ozawkie,included,20,2007.0,216.0,15.741,4.63,5.765,2.892,-8.238,129.0,17.0,3.0
+Westmoreland,included,20,2007.0,293.0,47.782,3.413,5.582,5.065,-43.851,135.0,70.0,3.0
+Philip,included,46,2009.0,424.0,6.604,1.572,14.384,5.513,3.839,80.0,14.0,2.0
+Group (weighted by homes),summary,,,933.0,,,,,-13.933,,,
