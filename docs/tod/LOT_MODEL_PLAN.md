@@ -186,3 +186,6 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     - **Largest project out:** in each city, the lot with the most homes permitted after is removed, from both the actual extra homes and the training rows.
 
     It stays a candidate only if it passes the old rule in both. Many versions have been tried (runs A to E and their fixes), so a single pass could be luck; this is stated with any result.
+20. **2026-10-28, written after the rebuilt runs finished, before running the checks: robustness for the causal forest, and D-B's result.**
+    - **D-B (boosting, 91 variables) robustness, item 19:** another seed passes the old rule; largest project out fails it (Madison error 721 homes vs the plain average's 596), though it still passes the new rule. Under item 19's own test, D-B is **not** a candidate.
+    - **Causal forest** (separate forests for upzoned and unchanged lots) passed the old rule on the rebuilt table, in run D-C and in run E (the same method in both). The same two checks of item 19 are run on it, with only that method: seed 7, and each city's largest project out. It becomes a candidate prediction line only if it passes the old rule in both.

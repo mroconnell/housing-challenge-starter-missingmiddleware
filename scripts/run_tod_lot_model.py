@@ -868,6 +868,8 @@ def fit8(tlearner: bool = False) -> None:
 
     rows = []
     methods = ("wls", "lasso", "elastic_net", "tree", "forest", "boosting", "causal_forest", "knn")
+    if ROBUST.get("only"):
+        methods = tuple(m for m in methods if m in ROBUST["only"])
     for kind in methods:
         for c in cities + list(HOLD):
             te = D.index[D["city"] == c].to_numpy()
@@ -907,6 +909,7 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes"], required=True)
     ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
+    ap.add_argument("--only", default="", help="comma-separated methods for fit8/fit_runE (robustness reruns)")
     ap.add_argument("--drop-largest", action="store_true", help="robustness: each city's largest project left out (item 19)")
     ap.add_argument("--rebuilt", action="store_true", help="plan item 15 lot table (industrial conversions, in-reform lots, census homes)")
     ap.add_argument("--half-mile", action="store_true", help="fit on lots within 1/2 mile of rail or rapid stops (item 14)")
@@ -915,6 +918,8 @@ def main(argv=None) -> None:
         SEED["v"] = a.seed
     if a.drop_largest:
         ROBUST["drop_largest"] = True
+    if a.only:
+        ROBUST["only"] = tuple(a.only.split(","))
     ap_rebuilt = a.rebuilt
     if ap_rebuilt:
         REBUILT["on"] = True
