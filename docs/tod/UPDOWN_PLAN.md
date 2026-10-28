@@ -48,8 +48,6 @@ A robust pass would go to the owner as a way to place or size the TOD response b
 
 ## 7. Changes after writing
 
-None yet.
-
 Recorded 2026-10-28 while running:
 
 1. **Down units found:** New York 6 inside rezonings and 9 changed outside them; Philadelphia 44; Saint Paul 1. Chicago and Seattle had no downzoned land near rail with at least 3 acres, so Chicago enters only through its up unit.
