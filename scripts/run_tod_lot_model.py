@@ -455,11 +455,20 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     if "in_reform" in D:   # plan section 9, item 15
         X["in_reform"] = D["in_reform"].astype(float)
     if "lot_group" in D:   # plan section 9, item 16: what the reform did to the lot, and the reform's mix
+        # item 17: a group found in fewer than 3 non-holdout cities is pooled into one "rare" group
+        tr = ~D["city"].isin(HOLD)
+        seen = D[tr].groupby("lot_group")["city"].nunique()
+        common = [g for g in LOT_GROUPS if seen.get(g, 0) >= 3]
+        X["group_rare"] = (~D["lot_group"].isin(common)).astype(float)
+        X["reform_share_rare"] = 0.0
         for gname in LOT_GROUPS:
-            X[f"group_{gname}"] = (D["lot_group"] == gname).astype(float)
-        for gname in LOT_GROUPS:
-            if gname.startswith(("reform_", "upzoned")) and f"share_{gname}" in D:
-                X[f"reform_share_{gname}"] = D[f"share_{gname}"]
+            sh = D[f"share_{gname}"] if f"share_{gname}" in D else None
+            if gname in common:
+                X[f"group_{gname}"] = (D["lot_group"] == gname).astype(float)
+                if sh is not None:
+                    X[f"reform_share_{gname}"] = sh
+            elif sh is not None:
+                X["reform_share_rare"] = X["reform_share_rare"] + sh
     if "census_homes" in D:
         X["log_census_homes"] = np.log1p(D["census_homes"].clip(lower=0))
     for u in ("res", "com", "ind", "mixed"):
