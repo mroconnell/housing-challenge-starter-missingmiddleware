@@ -53,3 +53,14 @@ All rates are permits per 1,000 existing homes per year.
 | Wisconsin high end, 2027–2031 | 12,184 | 12,947 |
 
 **Reading:** the result holds. Using the full pool widens the high end slightly (+0.05). The real places now sit below 98% of placebo sets.
+
+## Current run: 74 places, 20,000 sets (2026-10-28; used in the tool)
+
+| Measure | Value |
+| --- | ---: |
+| Real average, 74 places | −1.14 |
+| Placebo averages: 5th / 50th / 95th percentile | −0.83 / +1.52 / +3.61 |
+| Share at or below the real average | 2.9% |
+| Placebo cities computed | 4,004 |
+| Placebo-based range | −3.48 to +0.95 |
+| Wisconsin high end, 2027–2031 | 12,759 |

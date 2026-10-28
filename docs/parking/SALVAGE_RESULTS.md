@@ -46,3 +46,9 @@ Permits are for 2010–2019. Shifting them a year earlier (2009–2018) changes 
 - **Places of 2,500 homes or more:** the census change tracks permits well. It runs about 10–20% below them, which fits demolitions and permits never built. TOD's Salt Lake City method is sound at that scale.
 - **Small towns:** many lose homes between censuses that permits never record, through demolitions, mobile homes removed, and vacant homes lost. All five dropped 2008–2013 repeal towns lost homes between 2010 and 2020 (Cowpens −16, Eastover −56, Philip −51, Laceyville −12, Meshoppen −50), while issuing 0 to 8 permits each.
 - **Rule outcome:** the plan required a median ratio between 0.7 and 1.1. Overall it is 0.60, so the five towns are not added.
+
+## Outcome (2026-10-28)
+
+Ryan approved adding the three rescued places. They now go through the same scripts as the other places: `run_parking_salvage.py` writes them, and `run_parking_expanded.py` adds them.
+
+The first placebo rerun with 74 places used 500 sets and gave a high end of +1.06 (14,229 permits). Rerunning the same 500-set draw with other seeds moved the high end by about ±0.1, about ±1,300 permits, from chance alone. So the full-pool placebo run now uses 20,000 sets. With them, the high end is +0.95 permits per 1,000 existing homes per year, **12,759 permits over 2027–2031**, against 12,947 before. The median-of-real-cases line is now +0.13 (1,691 permits), against +0.30 (4,089) before.

@@ -1,11 +1,11 @@
 case,moves,value,description
-Upper case (headline),statewide addition,12947.4,"High end from the control-city (placebo) test: the spread of 500 placebo studies of cities that never repealed, centred on the real average, 0.96 permits per 1,000 existing homes per year."
-Resampling the 71 real places (earlier high end),statewide addition,20671.6,"The earlier high end: 95th percentile of the average from 2,000 resamples of the 71 places, 1.54 per 1,000 existing homes per year."
-Buildings of 2 or more units only,statewide addition,12555.4,"Resampling high end when only units in buildings of 2 or more units are counted, 0.94 per 1,000 existing homes per year."
-Without San Francisco,statewide addition,27917.8,"Resampling high end when San Francisco is left out, 2.08 per 1,000 existing homes per year."
-Combined with California's transit-area law,statewide addition,15739.6,"High end when the 71 US places are combined with 185 California cities under AB 2097, 1.17 per 1,000 existing homes per year."
+Upper case (headline),statewide addition,12759.5,"High end from the control-city (placebo) test: the spread of 20,000 placebo studies of cities that never repealed, centred on the real average, 0.95 permits per 1,000 existing homes per year."
+Resampling the real places (earlier high end),statewide addition,17808.2,"The earlier high end: 95th percentile of the average from 2,000 resamples of the 74 places, 1.33 per 1,000 existing homes per year."
+Buildings of 2 or more units only,statewide addition,9831.7,"Resampling high end when only units in buildings of 2 or more units are counted, 0.73 per 1,000 existing homes per year."
+Without San Francisco,statewide addition,25825.0,"Resampling high end when San Francisco is left out, 1.92 per 1,000 existing homes per year."
+Combined with California's transit-area law,statewide addition,15122.1,"High end when the 74 US places are combined with 185 California cities under AB 2097, 1.13 per 1,000 existing homes per year."
 First 24 places only (earlier estimate),statewide addition,29662.5,"The high end from the first, smaller comparison of 24 places, 2.21 per 1,000 existing homes per year."
 Size and metro model (central),statewide addition and where it lands,32134.8,"Each place gets its own rate from a model using city size and whether it is in a metro area (never below zero). It favours small places in metro areas. It predicted slightly better than one average for all places, but not reliably so."
-Towns at zero,statewide addition and where it lands,9004.4,"The high end, with towns left out, in case most towns have few or no parking minimums today."
-Near-benchmark places at zero,statewide addition and where it lands,12869.7,"The high end, with the 9 places that removed minimums with conditions also getting nothing."
+Towns at zero,statewide addition and where it lands,8873.7,"The high end, with towns left out, in case most towns have few or no parking minimums today."
+Near-benchmark places at zero,statewide addition and where it lands,12682.9,"The high end, with the 9 places that removed minimums with conditions also getting nothing."
 Baseline: Census as published for Milwaukee,baseline only,118821.7,Baseline over 2027-2031 without the Milwaukee apartment adjustment (the parking addition does not change).

@@ -1,2 +1,2 @@
-real_average,placebo_p05,placebo_p50,placebo_p95,share_placebo_at_or_below_real,real_places_matched,real_places,placebo_places,spread_real_places,spread_placebo_places,range_from_placebo_low,range_from_placebo_high
--1.1015,-0.7875,1.4982,3.5641,0.02,64,71,3896,6.4307,8.9844,-3.3872,0.9645
+real_average,placebo_p05,placebo_p50,placebo_p95,share_placebo_at_or_below_real,sets,real_places_matched,real_places,placebo_places,spread_real_places,spread_placebo_places,range_from_placebo_low,range_from_placebo_high
+-1.1427,-0.8247,1.5169,3.6102,0.0288,20000,66,74,4004,6.4223,9.1614,-3.4843,0.9505

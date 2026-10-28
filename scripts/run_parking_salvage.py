@@ -66,17 +66,20 @@ def main() -> None:
     excluded = {k for r in reformed.drop_duplicates("prn_key").itertuples()
                 if (k := cmp.match_place(p, rpc.STATE_FIPS.get(r.state, "??"), r.place, r.population))}
     real = pd.read_csv(REFERENCE / "parking_expanded_effects.csv")
+    real = real[real["source"] != "rescued"]
     excluded |= set(real["key"].dropna()) | {SJ_KEY}
 
     match = pd.read_csv(REFERENCE / "parking_expanded_match.csv")
     rows = []
     sb = match[match["place"] == "South Bend"].iloc[0]
     cases = [dict(prn_key=sb.prn_key, place="South Bend (with unincorporated St. Joseph County)", state="Indiana",
-                  key=SJ_KEY, event_year=int(sb.event_year), rating=sb.rating, rule="combined area")]
+                  key=SJ_KEY, event_year=int(sb.event_year), rating=sb.rating, rule="combined area",
+                  simultaneous_rewrite=bool(sb.simultaneous_rewrite))]
     for nm in TRIM_CASES:
         m = match[match["place"] == nm].iloc[0]
         cases.append(dict(prn_key=m.prn_key, place=nm, state=m.state, key=m.key, event_year=int(m.event_year),
-                          rating=m.rating, rule="missing years trimmed"))
+                          rating=m.rating, rule="missing years trimmed",
+                          simultaneous_rewrite=bool(m.simultaneous_rewrite)))
     orig_windows = cmp.windows
     for c in cases:
         pre, post = orig_windows(c["event_year"])
@@ -100,23 +103,27 @@ def main() -> None:
         e = cmp.effects(p, pd.DataFrame([{"key": c["key"], "event_year": c["event_year"]}]), excluded - {c["key"]},
                         homes, popn, min_post=1)
         cmp.windows = orig_windows
-        e = e[e.get("outcome", pd.Series(dtype=str)) == "all"] if "outcome" in e else e
         if e.empty or e.iloc[0]["status"] != "included":
             rows.append({**c, "status": "excluded: " + (str(e.iloc[0]["status"]) if not e.empty else "no result"), "note": note})
             continue
-        x = e.iloc[0].to_dict()
-        x.update({k: v for k, v in c.items()})
-        x["note"] = note
-        if c["key"] == SJ_KEY:
-            x["effect_combined_area"] = x["effect"]
-            x["south_bend_share_of_homes"] = sb_share
-            x["effect"] = x["effect"] / sb_share
-            x["homes"] = float(h2[SOUTH_BEND])
-        rows.append(x)
+        for x in e.to_dict("records"):
+            x.update({k: v for k, v in c.items()})
+            x["note"] = note
+            x["source"] = "rescued"
+            x["population"] = float(popn.get(c["key"], np.nan))
+            if c["key"] == SJ_KEY:
+                x["effect_combined_area"] = x["effect"]
+                x["south_bend_share_of_homes"] = sb_share
+                x["effect"] = x["effect"] / sb_share
+                x["homes"] = float(h2[SOUTH_BEND])
+                x["population"] = float(p2[SOUTH_BEND])
+                x["acs_geoid"] = SOUTH_BEND
+            rows.append(x)
     out = pd.DataFrame(rows)
     out["weight"] = out["homes"] * out["n_post"]
     out.round(4).to_csv(REFERENCE / "parking_salvage_effects.csv", index=False)
-    print(out[["place", "status", "note", "n_post", "homes", "effect"] + [c for c in ("effect_combined_area",) if c in out]].round(2).to_string())
+    print(out[["place", "outcome", "status", "note", "n_post", "homes", "effect"] + [c for c in ("effect_combined_area",) if c in out]].round(2).to_string())
+    out = out[(out.get("outcome") == "all") | (out["status"] != "included")]
 
     base = real[(real["status"] == "included") & (real["outcome"] == "all")][["place", "effect", "homes", "n_post"]].copy()
     base["weight"] = base["homes"] * base["n_post"]

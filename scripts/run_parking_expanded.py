@@ -194,6 +194,12 @@ def cv_score(d: pd.DataFrame, cols, wcol="weight", folds=10, repeats=20, test_ma
 
 def main() -> None:
     match, eff = us_effects()
+    # places rescued under docs/parking/SALVAGE_PLAN.md (owner approved adding them, 2026-10-28)
+    sal = REFERENCE / "parking_salvage_effects.csv"
+    if sal.exists():
+        s = pd.read_csv(sal)
+        s = s[s["status"] == "included"]
+        eff = pd.concat([eff, s[[c for c in s.columns if c in eff.columns]]], ignore_index=True)
     match.to_csv(REFERENCE / "parking_expanded_match.csv", index=False)
     eff.to_csv(REFERENCE / "parking_expanded_effects.csv", index=False)
     inc = eff[(eff["status"] == "included") & (eff["outcome"] == "all")].dropna(subset=["effect"]).reset_index(drop=True)

@@ -17,14 +17,14 @@ Written 2026-10-27 by the parking conductor. Status: the parking section for the
    - **Seattle, Minneapolis and Champaign:** similar reductions in parking built. These are source leads, not yet checked against the full papers.
 
    The scenario does not set a parking ratio itself. It uses the permit outcomes of places that repealed, so whatever parking their developers chose is already built into the result. As an illustration, for Wisconsin we assume developers would build about four-fifths of the spaces today's minimums require, and about all of them for stand-alone apartment buildings, as in Buffalo (79% and 117%). The permit numbers do not depend on this illustration.
-2. **Evidence from cities and villages, not states.** No state has removed minimums for all housing long enough to measure. The response comes from 71 US places that did, between 2017 and 2024 (expanded from a first set of 24; [EXPANDED_RESULTS.md](EXPANDED_RESULTS.md)):
+2. **Evidence from cities and villages, not states.** No state has removed minimums for all housing long enough to measure. The response comes from 74 US places that did, between 2017 and 2024 (expanded from a first set of 24, then 71; three dropped places were rescued in 2026-10-28: South Bend, Gastonia and Avondale Estates; [EXPANDED_RESULTS.md](EXPANDED_RESULTS.md), [SALVAGE_RESULTS.md](SALVAGE_RESULTS.md)):
    - each checked against its ordinance;
    - each compared with similar places in its own state (falling back to its Census division when the state has too few) that kept their minimums.
    A second, independent check agrees. California's AB 2097 removed minimums within ½ mile of major transit stops in 2023. Near transit, permits changed by +0.13 permits per 1,000 existing homes per year against areas ½ to 1½ miles away (90% interval −1.84 to +1.73, 185 jurisdictions); see [COMPARISON_RESULTS.md](COMPARISON_RESULTS.md).
-3. **Central case, "No measurable change" (0 added).** In the one to three years after repeal, the repeal places' permit rate changed by −1.10 permits per 1,000 existing homes per year compared with similar places. The 90% range (5th to 95th percentile of 2,000 resamples) is −3.50 to +1.54 permits per 1,000 existing homes per year. A repeal is not modelled as reducing permits, so the central case is 0.
-4. **Upper case, "High end of the evidence".** +0.96 permits per 1,000 existing homes per year (owner decision, 2026-10-27, option B). It comes from the control-city (placebo) test: 500 placebo studies, drawn from 3,896 cities that never repealed and given the real places' repeal years, have averages whose middle 90% spans 4.4 permits per 1,000 existing homes per year (−0.79 to +3.56). Centred on the real average of −1.10, that spread runs from −3.39 to +0.96. A first run that drew from only 20 cities per real place gave +0.91 (12,184 permits). The earlier high end, the 95th percentile of 2,000 resamples of the 71 places (+1.54, 20,672 permits), is kept as a sensitivity case, as is the first 24 places' +2.21. The rate is applied to the 2,684,793 existing Wisconsin homes outside the 9 places that already have no minimums (10 municipality pieces, because Brodhead spans two counties). That gives 12,947 permits over 2027–2031, 10.6% above current law (12,947 of 122,619).
-   **Shared reporting (AQ-054).** In additional homes permitted per year against the shared all-housing baseline, the central case adds 0 a year and the upper case about 2,589 a year. Home counts that compare reforms use ACS 2020–2024 total housing units: 2,778,572 statewide, of which 2,684,793 are outside places already at the benchmark. The median of real cases, applied to Wisconsin, is shown as a reference line: the median repeal place changed by +0.30 permits per 1,000 existing homes per year, about 4,089 extra permits over 2027–2031, between the two cases.
-   **Control-city (placebo) check.** 3,896 cities that kept their minimums were given the real places' repeal years and run through the same calculation, 500 times. Only 2.0% of these placebo studies came out as low as the real places, so there is no sign that a repeal raised permits. Their spread sets the upper case ([PLACEBO_RESULTS.md](PLACEBO_RESULTS.md)).
+3. **Central case, "No measurable change" (0 added).** In the one to three years after repeal, the repeal places' permit rate changed by −1.14 permits per 1,000 existing homes per year compared with similar places. The 90% range (5th to 95th percentile of 2,000 resamples) is −3.57 to +1.33 permits per 1,000 existing homes per year. A repeal is not modelled as reducing permits, so the central case is 0.
+4. **Upper case, "High end of the evidence".** +0.95 permits per 1,000 existing homes per year (owner decision, 2026-10-27, option B; 74 places, 2026-10-28). It comes from the control-city (placebo) test: 20,000 placebo studies, drawn from 4,004 cities that never repealed and given the real places' repeal years, have averages whose middle 90% spans 4.4 permits per 1,000 existing homes per year (−0.83 to +3.61). Centred on the real average of −1.14, that spread runs from −3.48 to +0.95. Earlier runs gave +0.91 (20 cities per place, 12,184 permits) and +0.96 (71 places, 500 sets, 12,947 permits). The earlier high end, the 95th percentile of 2,000 resamples of the 74 places (+1.33, 17,808 permits), is kept as a sensitivity case, as is the first 24 places' +2.21. The rate is applied to the 2,684,793 existing Wisconsin homes outside the 9 places that already have no minimums (10 municipality pieces, because Brodhead spans two counties). That gives 12,759 permits over 2027–2031, 10.4% above current law (12,759 of 122,619).
+   **Shared reporting (AQ-054).** In additional homes permitted per year against the shared all-housing baseline, the central case adds 0 a year and the upper case about 2,552 a year. Home counts that compare reforms use ACS 2020–2024 total housing units: 2,778,572 statewide, of which 2,684,793 are outside places already at the benchmark. The median of real cases, applied to Wisconsin, is shown as a reference line: the median repeal place changed by +0.13 permits per 1,000 existing homes per year, about 1,691 extra permits over 2027–2031, between the two cases.
+   **Control-city (placebo) check.** 4,004 cities that kept their minimums were given the real places' repeal years and run through the same calculation, 20,000 times. Only 2.9% of these placebo studies came out as low as the real places, so there is no sign that a repeal raised permits. Their spread sets the upper case ([PLACEBO_RESULTS.md](PLACEBO_RESULTS.md)).
 5. **Timing.** The effect was measured over years 1–3, and it does not build up over time. The upper case is held flat through 2031. That is an assumption, and the measured path suggests it is generous.
 6. **Where the upper case lands.** It is spread in proportion to existing homes, because the comparison could not tell which kinds of places respond more (owner decision AQ-046; no size split beat one average).
 
@@ -56,7 +56,7 @@ Cleaning is recorded in [HOUSING_BASELINE.md](../shared/HOUSING_BASELINE.md), [P
 
 ## Limitations and known edge cases
 
-- The sample is 71 places, and most repealed as part of a wider zoning rewrite. Parking's own effect cannot be fully separated out. Some places have only one or two years since repeal.
+- The sample is 74 places, and most repealed as part of a wider zoning rewrite. Parking's own effect cannot be fully separated out. Some places have only one or two years since repeal.
 - No prediction tool (weighted regression, lasso, random or causal forest) and no city trait beat one average on places left out of the fit, so every Wisconsin place gets the same rate.
 - The after period is three years. Larger projects may take longer to reach a permit.
 - The places chose to repeal, so they may differ from places that did not.
@@ -72,14 +72,14 @@ Five-year totals, 2027–2031, in additional permits unless noted. All are in th
 
 | Changes | Case | Value |
 | --- | --- | ---: |
-| The statewide total | Resampling the 71 real places (earlier high end) | 20,672 |
-| The statewide total | Only buildings of 2 or more units counted (resampling) | 12,555 |
-| The statewide total | Without San Francisco (resampling) | 27,918 |
-| The statewide total | Combined with California's transit-area law | 15,740 |
+| The statewide total | Resampling the 74 real places (earlier high end) | 17,808 |
+| The statewide total | Only buildings of 2 or more units counted (resampling) | 9,832 |
+| The statewide total | Without San Francisco (resampling) | 25,825 |
+| The statewide total | Combined with California's transit-area law | 15,122 |
 | The statewide total | First 24 places only (earlier estimate) | 29,662 |
 | The statewide total and where it lands | Prediction by city size and setting (first 24 places) | 32,135 |
-| The statewide total and where it lands | Towns left out | 9,004 |
-| The statewide total and where it lands | Places that partly removed minimums left out | 12,870 |
+| The statewide total and where it lands | Towns left out | 8,874 |
+| The statewide total and where it lands | Places that partly removed minimums left out | 12,683 |
 | Current law only | Census as published for Milwaukee | 118,822 permits under current law |
 
 Stability (first 24 places): leaving one state out at a time gave an average effect of −2.47 to +0.09 permits per 1,000 homes per year.

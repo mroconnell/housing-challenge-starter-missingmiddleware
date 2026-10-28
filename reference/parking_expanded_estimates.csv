@@ -1,10 +1,10 @@
 case,places,effect,p05,p95
-"Expanded, all units (headline candidate)",71,-1.1015,-3.5031,1.5399
-"Expanded, units in buildings of 2+ units",71,-1.0945,-2.886,0.9353
-"Expanded, removed for all housing only",57,-1.3455,-4.0308,1.5975
-"Expanded, places with 3 after-years only",34,-0.9245,-3.0991,1.8768
+"Expanded, all units (headline candidate)",74,-1.1427,-3.5654,1.3266
+"Expanded, units in buildings of 2+ units",74,-1.1748,-2.9582,0.7324
+"Expanded, removed for all housing only",60,-1.3862,-3.9201,1.4359
+"Expanded, places with 3 after-years only",36,-1.0521,-3.1683,1.4527
 "Expanded, without a zoning rewrite at the same time",23,-1.2335,-2.8312,1.1707
-"Expanded, without San Francisco",70,-0.7754,-3.48,2.0797
+"Expanded, without San Francisco",73,-0.8297,-3.5256,1.9238
 First 24 places (for reference),24,-1.1774,-3.5948,1.971
 California AB 2097 near transit (TOD test),185,0.1254,-1.8396,1.7287
-"Expanded US and California, precision-weighted (sensitivity)",256,-0.2839,-1.7404,1.1725
+"Expanded US and California, precision-weighted (sensitivity)",259,-0.315,-1.7564,1.1265

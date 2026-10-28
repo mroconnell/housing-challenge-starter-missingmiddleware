@@ -22,6 +22,7 @@ from missing_middleware.parking import comparison as cmp  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 SEED, PER_PLACE, SETS = 20261027, 20, 500
+SETS_FULL = 20_000  # full-pool run: 500 sets left the high end varying by about 0.1 from draw to draw (2026-10-28)
 
 
 def main() -> None:
@@ -52,6 +53,8 @@ def main() -> None:
         post = post[: int(r["n_post"])]
         ok = cmp.complete(p, pre + post) & set(homes.index)
         pop0 = popn.get(r["key"], np.nan)
+        if pd.isna(pop0):  # rescued South Bend: the city's own population (SALVAGE_PLAN.md)
+            pop0 = r.get("population", np.nan)
         cand = [k for k in ok if k.startswith(st + "|") and k not in excluded and 0.5 * pop0 <= popn.get(k, np.nan) <= 2 * pop0]
         if not cand:
             continue
@@ -68,12 +71,19 @@ def main() -> None:
     pl["weight"] = pl["homes"] * pl["n_post"]
     pl.round(4).to_csv(REFERENCE / f"parking_placebo{tag}_places.csv", index=False)
     groups = {i: g for i, g in pl.groupby("real_index")}
-    avgs = []
-    for _ in range(SETS):
-        picks = [g.iloc[rng.integers(0, len(g))] for g in groups.values()]
-        s = pd.DataFrame(picks)
-        avgs.append(np.average(s["effect"], weights=s["weight"]))
-    avgs = np.array(avgs)
+    n_sets = SETS_FULL if full else SETS
+    if full:
+        draws = np.column_stack([rng.integers(0, len(g), n_sets) for g in groups.values()])
+        eff_m = np.column_stack([g["effect"].values[draws[:, j]] for j, g in enumerate(groups.values())])
+        w_m = np.column_stack([g["weight"].values[draws[:, j]] for j, g in enumerate(groups.values())])
+        avgs = (eff_m * w_m).sum(axis=1) / w_m.sum(axis=1)
+    else:
+        avgs = []
+        for _ in range(SETS):
+            picks = [g.iloc[rng.integers(0, len(g))] for g in groups.values()]
+            s = pd.DataFrame(picks)
+            avgs.append(np.average(s["effect"], weights=s["weight"]))
+        avgs = np.array(avgs)
     real_avg = float(np.average(real["effect"], weights=real["homes"] * real["n_post"]))
     w_real = real["homes"] * real["n_post"]
     sd_real = float(np.sqrt(np.average((real["effect"] - real_avg) ** 2, weights=w_real)))
@@ -81,7 +91,7 @@ def main() -> None:
     sd_pl = float(np.sqrt(np.average((pl["effect"] - pm) ** 2, weights=pl["weight"])))
     summ = dict(real_average=real_avg, placebo_p05=float(np.percentile(avgs, 5)), placebo_p50=float(np.percentile(avgs, 50)),
                 placebo_p95=float(np.percentile(avgs, 95)), share_placebo_at_or_below_real=float((avgs <= real_avg).mean()),
-                real_places_matched=len(groups), real_places=len(real), placebo_places=len(pl),
+                sets=n_sets, real_places_matched=len(groups), real_places=len(real), placebo_places=len(pl),
                 spread_real_places=sd_real, spread_placebo_places=sd_pl,
                 range_from_placebo_low=real_avg + (np.percentile(avgs, 5) - np.percentile(avgs, 50)),
                 range_from_placebo_high=real_avg + (np.percentile(avgs, 95) - np.percentile(avgs, 50)))

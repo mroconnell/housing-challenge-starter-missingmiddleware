@@ -61,3 +61,4 @@ Search for an adoption date in the city code, council and plan commission minute
 - Any change to the tool's high end goes to Ryan before it is final.
 
 ## Changes after writing
+- **2026-10-28, after the owner approved adding the rescued places:** the full-pool placebo run uses 20,000 sets instead of 500. Repeated 500-set draws moved the high end by about ±0.1 permits per 1,000 existing homes per year, from chance alone.
