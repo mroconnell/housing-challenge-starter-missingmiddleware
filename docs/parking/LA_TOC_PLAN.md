@@ -40,3 +40,4 @@ Los Angeles's Transit Oriented Communities (TOC) program, from 2017, lets projec
 A check on how developers respond to lower parking minimums, reported as evidence. It does not change the tool.
 
 ## Changes after writing
+- **2026-10-28, after the first draw (before any parking was recorded):** a search for "TOC" matched many non-housing filings, such as cannabis permits, sidewalk repairs and bars. The frame is now documents matching "Transit Oriented Communities", gathered by quarter, 2018–2026. All other rules are unchanged.
