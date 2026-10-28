@@ -131,3 +131,14 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     - **Rail and rapid stops within 1 mile:** National Transit Map stops within 1,609 m of the lot.
 
     Both are added to the features of runs B and C. Run A (already running) does not have them.
+12. **2026-10-28, after runs A–C: a units error is fixed before any rerun.** The lot table's "allowed density" column mixed units:
+    - floor area ratio in New York, Chicago, Madison, Saint Paul, Seattle and Bellevue;
+    - feet of height in Charlotte;
+    - an ordering of districts (not a dose) in Philadelphia and Los Angeles.
+
+    Charlotte's 40-foot-to-75-foot changes were read as +35 floor area ratio, which is why linear models blew up on Charlotte. Fix:
+    - The raw level is replaced by its rank within the city (unit-free).
+    - The change becomes the relative change (after ÷ before − 1), used only in floor-area-ratio cities, with an "upzoned" flag and a "relative change known" flag everywhere.
+    - The homes-per-lot ceiling uses zoning capacity only in floor-area-ratio cities. Elsewhere it uses the training cities' 99th-percentile homes per acre on building lots.
+
+    Runs A–C are reported as they ran (superseded). The owner asked for questions before rerunning.

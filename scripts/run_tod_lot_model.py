@@ -30,6 +30,7 @@ from scripts.run_tod_net_effect import _permits_from_points, capture  # noqa: E4
 OUT = PROCESSED / "tod_lot_model"
 LOTS = OUT / "lots.parquet"
 HOLD = ("Chicago", "Madison", "Bellevue")
+FAR_CITIES = ("New York", "Chicago", "Madison", "Saint Paul", "Seattle", "Bellevue")   # levels are floor area ratios
 STATE = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Seattle": "53",
          "Los Angeles": "06", "Chicago": "17", "Madison": "55", "Bellevue": "53"}
 
@@ -356,9 +357,19 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     X["homes_on_lot"] = np.log1p(D["homes_on_lot"].fillna(-1).clip(lower=0))
     X["homes_missing"] = D["homes_on_lot"].isna().astype(float)
     X["log_dist_station"] = np.log1p(D["dist_station_m"])
-    X["far_before"] = D["far_before"].fillna(D["far_before"].median())
-    X["far_gain"] = D["far_gain"].fillna(0) if after_rules else 0.0
-    X["far_now"] = X["far_before"] + X["far_gain"]
+    # Unit-free density traits (plan section 9, item 12): cities record allowed density in different units
+    # (floor area ratio; Charlotte feet of height; Philadelphia and Los Angeles an ordering), so the raw level is
+    # replaced by its rank within the city, and the change by the relative change, only where a real FAR exists.
+    far_city = D["city"].isin(FAR_CITIES)
+    lb = D["far_before"].astype(float)
+    X["level_rank_in_city"] = lb.groupby(D["city"]).rank(pct=True).fillna(0.5)
+    up = D["treated"] == 1
+    rel = (D["far_gain"].astype(float) / lb.where(lb > 0)).where(far_city & up)
+    X["upzoned"] = up.astype(float) if after_rules else 0.0
+    X["rel_gain"] = rel.clip(0, 10).fillna(0) if after_rules else 0.0
+    X["rel_gain_known"] = (far_city & up).astype(float) if after_rules else 0.0
+    X["far_now"] = (lb + (D["far_gain"].fillna(0) if after_rules else 0.0)).where(far_city)   # FAR cities only
+    X["far_known"] = far_city.astype(float)
     X["built_before"] = D["built_before"]
     X["log_near_before"] = np.log1p(D["near_units_before"])
     X["log_rent"] = np.log(D["rent"].clip(lower=100)).fillna(np.log(1000))
@@ -369,7 +380,7 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     age = (D["eff_year"] - D["year_built"]) if "year_built" in D else pd.Series(np.nan, index=D.index)
     X["age"] = age.clip(0, 200).fillna(-1)
     X["rent_to_cost"] = (D["rent"].fillna(1000) * 12 / 0.05) / D["cost_per_home"]
-    sqft = (X["far_now"] * D["acres"] * 43560)
+    sqft = (X["far_now"].fillna(0) * D["acres"] * 43560)
     allowed = sqft / 1000.0
     X["pays_room"] = np.log1p((allowed - D["homes_on_lot"].fillna(0)).clip(lower=0)) * X["rent_to_cost"]
     for u in ("res", "com", "ind", "mixed"):
@@ -379,6 +390,21 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
         X["log_stops_1mile"] = np.log1p(D["stops_1mile"])
     X = X.replace([np.inf, -np.inf], np.nan)
     return X.fillna(X.median())
+
+
+def ceiling(Dtr: pd.DataFrame, Xtr: pd.DataFrame):
+    """Homes-per-lot ceiling learned from training building lots (owner, 2026-10-28; plan item 12). Where a real FAR
+    exists: homes the zoning allows x the 99th-percentile stretch. Elsewhere: the 99th-percentile homes per acre."""
+    b = Dtr["units_after"].values > 0
+    far = Xtr["far_known"].values == 1
+    allowed = (Xtr["far_now"] * Dtr["acres"] * 43560 / 1000).clip(lower=1).values
+    stretch = float(np.nanquantile(Dtr["units_after"].values[b & far] / allowed[b & far], 0.99)) if (b & far).any() else np.inf
+    per_acre = float(np.nanquantile(Dtr["units_after"].values[b] / Dtr["acres"].clip(lower=0.01).values[b], 0.99))
+    def lim(D_, X_):
+        a = (X_["far_now"] * D_["acres"] * 43560 / 1000).clip(lower=1).values * stretch
+        p = D_["acres"].clip(lower=0.01).values * per_acre
+        return np.where(X_["far_known"].values == 1, a, p)
+    return lim
 
 
 def fit(allvars: bool = False) -> None:
@@ -426,12 +452,9 @@ def fit(allvars: bool = False) -> None:
             m2.fit(Xa.loc[tr][b], y2[tr][b], sample_weight=D.loc[tr, "w"][b])
             raw = lambda X: np.expm1(m2.predict(X))  # noqa: E731
         # lot ceiling (owner, 2026-10-28): homes the zoning allows on the lot x the stretch real projects reached
-        allowed_tr = (Xa.loc[tr, "far_now"] * D.loc[tr, "acres"] * 43560 / 1000).clip(lower=1)
-        bt = b & (D.loc[tr, "units_after"].values > 0)
-        stretch = float(np.nanquantile(D.loc[tr, "units_after"].values[bt] / allowed_tr.values[bt], 0.99))
+        lim = ceiling(D.loc[tr], Xa.loc[tr])
         def s_(X):
-            allowed = (X["far_now"] * D.loc[X.index, "acres"] * 43560 / 1000).clip(lower=1)
-            return np.minimum(raw(X), allowed.values * stretch).clip(min=1)
+            return np.minimum(raw(X), lim(D.loc[X.index], X)).clip(min=1)
         te = test_ix
         tt = D.loc[te, "treated"] == 1
         Xa_t, Xb_t = Xa.loc[te][tt.values], Xb.loc[te][tt.values]
@@ -625,12 +648,9 @@ def fit8() -> None:
             m2.fit(T(Xa.loc[fit_ix][b]), y2[ii][b], sample_weight=w[b])
         except TypeError:
             m2.fit(T(Xa.loc[fit_ix][b]), y2[ii][b])
-        allowed_tr = (Xa.loc[fit_ix, "far_now"] * D.loc[fit_ix, "acres"] * 43560 / 1000).clip(lower=1).values
-        u = D.loc[fit_ix, "units_after"].values
-        stretch = float(np.nanquantile(u[b] / allowed_tr[b], 0.99))
+        lim = ceiling(D.loc[fit_ix], Xa.loc[fit_ix])
         def homes(X):
-            allowed = (X["far_now"] * D.loc[X.index, "acres"] * 43560 / 1000).clip(lower=1).values
-            size = np.minimum(np.expm1(np.clip(m2.predict(T(X)), 0, 12)), allowed * stretch).clip(min=1)
+            size = np.minimum(np.expm1(np.clip(m2.predict(T(X)), 0, 12)), lim(D.loc[X.index], X)).clip(min=1)
             return m1.predict_proba(T(X))[:, 1] * size
         extra = float((homes(Xa.loc[tt]) - homes(Xb.loc[tt])) @ D.loc[tt, "w"].values)
         ys = y1[D.index.get_indexer(sample)]
