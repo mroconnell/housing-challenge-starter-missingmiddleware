@@ -812,7 +812,7 @@ Nothing changes until the owner decides.
 
 ## AQ-060 TOD: industrial land near stations is left out of cases and of the Wisconsin law
 
-**Status:** Open, owner to decide (raised 2026-10-28, from the lot-model input audit). **Related:** AQ-047 item 8, [docs/tod/CASE_ANALYSIS_PLAN.md](tod/CASE_ANALYSIS_PLAN.md) section on eligible land, [docs/tod/LOT_MODEL_PLAN.md](tod/LOT_MODEL_PLAN.md) item 14.
+**Status:** Decided for the evidence (owner, 2026-10-28): "Let's not leave out industrial land that changes zoning to residential. Brownfield development and other zoning conversions are part of the mix." Cases and the lot model count industrial and institutional land whose zoning changed to allow homes ([LOT_MODEL_PLAN.md](tod/LOT_MODEL_PLAN.md) item 15). The effect on the Wisconsin scenario numbers is shown to the owner before any change. Raised 2026-10-28, from the lot-model input audit. **Related:** AQ-047 item 8, [docs/tod/CASE_ANALYSIS_PLAN.md](tod/CASE_ANALYSIS_PLAN.md) section on eligible land, [docs/tod/LOT_MODEL_PLAN.md](tod/LOT_MODEL_PLAN.md) item 14.
 
 Eligible land has been land zoned residential, mixed-use or commercial before the reform, in the cases and in Wisconsin. Industrial land is left out. The audit of our upzoned acres against published plan acres showed this drops much of what some reforms did:
 - **Charlotte 2019:** 587 of 1,579 rezoned acres were industrial before; 2,773 of the 3,793 homes permitted on rezoned lots in 2020–2024 (73%) were on that industrial land.

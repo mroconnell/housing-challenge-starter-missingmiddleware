@@ -1,0 +1,6 @@
+case,published_acres,in_reform_parcel_acres,treated_acres,not_eligible_industrial_acres,not_eligible_industrial_rezoned_up_acres,not_eligible_institutional_acres,not_eligible_institutional_rezoned_up_acres,not_eligible_park_acres,not_eligible_park_rezoned_up_acres,not_eligible_other_acres,eligible_density_not_rising_acres,eligible_already_at_law_acres,eligible_zoning_changed_in_window_acres,treated_share_of_published
+charlotte_tod_2019,1782.8,1580.1,817.5,587.2,587.2,0.0,0.0,0.0,0.0,31.7,0.7,137.7,5.2,0.5
+la_warner_center_2013,960.0,955.8,784.8,3.8,3.8,2.8,2.8,20.6,20.6,113.0,0.0,0.0,30.8,0.8
+la_cornfield_arroyo_seco_2013,650.0,444.1,13.1,230.0,172.0,85.6,60.2,37.3,0.2,25.0,31.9,0.0,21.1,0.0
+bellevue_belred_2009,900.0,672.4,504.4,168.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.6
+madison_tod_overlay_2023,6031.0,6700.2,614.7,90.7,0.0,1318.4,0.0,2.4,0.0,2357.0,2047.1,0.0,269.9,0.1
