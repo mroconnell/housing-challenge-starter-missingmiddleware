@@ -1,0 +1,25 @@
+# Checks that the CENSUS_API_KEY repository secret gives access to the Census
+# Data API. Manual only; it makes one small request, prints the HTTP status and
+# the returned Wisconsin row, never the key, and commits nothing.
+name: Census key check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the Census Data API with the secret
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          if [ -z "$CENSUS_API_KEY" ]; then echo "CENSUS_API_KEY secret is not set"; exit 1; fi
+          code=$(curl -s -o out.json -w "%{http_code}" \
+            "https://api.census.gov/data/2024/acs/acs5?get=NAME,B25024_001E&for=state:55&key=${CENSUS_API_KEY}")
+          echo "HTTP status: $code"
+          grep -q "Wisconsin" out.json && grep "Wisconsin" out.json || { echo "No Wisconsin row returned"; exit 1; }
+          [ "$code" = "200" ]
