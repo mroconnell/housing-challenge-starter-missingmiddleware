@@ -41,3 +41,4 @@ Extra homes per 1,000 existing homes per year in the near-transit area, after th
 - **If none passes:** the near-transit rate is not supported for prediction. That is reported, and the tool keeps its current range unless Ryan decides otherwise.
 
 ## Changes after writing
+- **2026-10-28, after running:** Minneapolis platforms were merged by name and areas under 100 homes dropped (12 areas). California rail is marked by stops inside the jurisdiction's boundary.

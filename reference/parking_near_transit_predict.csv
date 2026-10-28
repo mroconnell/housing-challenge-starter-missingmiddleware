@@ -1,0 +1,29 @@
+test,held_out,tool,error,gain,passes_rule
+leave one region out,Seattle,one average,23.1183,0.0,
+leave one region out,Seattle,weighted regression,22.3023,0.0353,False
+leave one region out,Seattle,lasso,22.2419,0.0379,False
+leave one region out,Seattle,random forest,25.3664,-0.0972,False
+leave one region out,Minneapolis,one average,35.2356,0.0,
+leave one region out,Minneapolis,weighted regression,27.1838,0.2285,False
+leave one region out,Minneapolis,lasso,27.4911,0.2198,False
+leave one region out,Minneapolis,random forest,32.1548,0.0874,False
+leave one region out,California,one average,7.5679,0.0,
+leave one region out,California,weighted regression,14.0563,-0.8574,False
+leave one region out,California,lasso,17.5433,-1.3181,False
+leave one region out,California,random forest,15.0405,-0.9874,False
+leave one region out,"all, pooled",one average,8.6034,0.0,
+leave one region out,"all, pooled",weighted regression,14.5861,-0.6954,False
+leave one region out,"all, pooled",lasso,17.876,-1.0778,False
+leave one region out,"all, pooled",random forest,15.7124,-0.8263,False
+"within region, 10-fold x 20",Seattle,one average,24.1309,0.0,
+"within region, 10-fold x 20",Seattle,weighted regression,24.5479,-0.0173,False
+"within region, 10-fold x 20",Seattle,lasso,25.012,-0.0365,False
+"within region, 10-fold x 20",Seattle,random forest,25.7911,-0.0688,False
+"within region, 10-fold x 20",Minneapolis,one average,38.5352,0.0,
+"within region, 10-fold x 20",Minneapolis,weighted regression,64.8141,-0.6819,False
+"within region, 10-fold x 20",Minneapolis,lasso,40.0975,-0.0405,False
+"within region, 10-fold x 20",Minneapolis,random forest,38.5087,0.0007,False
+"within region, 10-fold x 20",California,one average,7.7947,0.0,
+"within region, 10-fold x 20",California,weighted regression,6.3443,0.1861,False
+"within region, 10-fold x 20",California,lasso,6.3476,0.1857,False
+"within region, 10-fold x 20",California,random forest,6.5649,0.1578,False
