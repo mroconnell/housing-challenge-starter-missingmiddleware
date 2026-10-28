@@ -1,0 +1,3 @@
+case,note,treated_acres_2010,treated_homes_2000,treated_homes_2010,treated_homes_2020,comparison_homes_2000,comparison_homes_2010,comparison_homes_2020,diff_2000_2010_per_acre,diff_2000_2010_low,diff_2000_2010_high,diff_2010_2020_per_acre,change_in_change,low,high
+pasadena_lower_hastings_ranch_2016,RS-6 ND overlay vs single-family zones within 1/2 mile,165.844,509.0,511.0,507.0,1002.0,1100.0,1094.0,-0.3466,-1.32,0.6868,-0.0035,0.3431,-1.4407,2.0477
+culver_city_house_size_2015,single-family parcels in Culver City vs single-family parcels within 1/2 mile outside it,1225.5705,10170.0,10346.0,9477.0,17859.0,17478.0,18971.0,0.2964,-1.8889,2.5278,-1.3442,-1.6407,-5.5825,2.0958
