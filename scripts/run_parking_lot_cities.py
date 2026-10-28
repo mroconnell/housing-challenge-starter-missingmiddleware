@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from missing_middleware.parking import checks  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 from scripts import run_parking_block_catalog as B  # noqa: E402
 from scripts import run_parking_lot_test as LT  # noqa: E402
@@ -180,6 +181,12 @@ def main() -> None:
         j = gpd.sjoin(pts.assign(geometry=pts.buffer(250))[["geometry"]], pts[["before_py", "geometry"]], predicate="contains")
         near.append(j.groupby(level=0)["before_py"].sum())
     L["near_before"] = pd.concat(near).reindex(L.index).fillna(0)
+    # light checks (flags only, owner 2026-10-28)
+    flags = checks.trait_range(L, "city", ["acres", "width_m", "dist_station_m", "near_before", "before_py"])
+    flags += checks.unit_ranges(L)
+    flags += checks.definition(L, "Chicago pinched lots farther than 402 m", (L["city"] == "Chicago") & (L["pinched"] == 1) & (L["dist_station_m"] > 402.4))
+    flags += checks.definition(L, "Chicago comparison lots outside 402-805 m", (L["city"] == "Chicago") & (L["pinched"] == 0) & ~L["dist_station_m"].between(402.3, 805))
+    flags += checks.definition(L, "lots with no area or width", L["acres"].isna() | L["width_m"].isna())
     X = pd.DataFrame({"log_acres": np.log(L["acres"].clip(lower=0.005)), "log_width": np.log(L["width_m"].clip(lower=1)),
                       "log_dist": np.log1p(L["dist_station_m"].fillna(L["dist_station_m"].median())),
                       "near_before": np.log1p(L["near_before"].clip(lower=0)), "built_before": L["built_before"]}).fillna(0)
@@ -217,6 +224,9 @@ def main() -> None:
         mean_error_model=g["error_model"].mean(), mean_error_baseline=g["error_baseline"].mean(), mean_error_zero=g["error_zero"].mean(),
         cities_beating_baseline=int((g["error_model"] < g["error_baseline"]).sum())))).reset_index()
     S["passes"] = (S["mean_error_model"] < S["mean_error_baseline"]) & (S["mean_error_model"] < S["mean_error_zero"]) & (S["cities_beating_baseline"] >= 3)
+    best = S.sort_values("mean_error_model").iloc[0]["method"]
+    flags += checks.worst_miss(P[P["method"] == best], "held_out", "actual_extra_per_year", "model")
+    checks.report(flags, REFERENCE / "parking_lot_cities_checks.csv")
     P.round(3).to_csv(REFERENCE / "parking_lot_cities_predict.csv", index=False)
     S.round(3).to_csv(REFERENCE / "parking_lot_cities_predict_summary.csv", index=False)
     pd.set_option("display.width", 250)
