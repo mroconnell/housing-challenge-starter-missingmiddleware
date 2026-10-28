@@ -85,3 +85,13 @@ The challenge's data rules are in [CHALLENGE_HANDBOOK.md](../CHALLENGE_HANDBOOK.
 Each owner session posts its shared piece's file locations and contract in its thread when ready, and tells the other session through the coordinator. The contract is a starting point, not a fixed format. The owner expects to iterate between tool design and data, and may redesign "by area", or even the ADU screens, so that all scenarios read as one report.
 
 **Policy inventories belong to each session.** Each session researches and owns its own scenario's policy inventory and benchmark classification. A one-off cross-scenario scan done on 2026-10-26 is in [docs/scenarios/STATE_ADOPTION_INVENTORY.md](../scenarios/STATE_ADOPTION_INVENTORY.md). Treat it as unverified starting leads only; many items are marked source_lead.
+
+## 7. Light sanity checks on every model run (owner rule, 2026-10-28)
+
+These checks flag problems; they never stop a run, because stopping costs far more than flagging.
+1. **Before a run:**
+   - flag any place whose typical trait values sit far outside the training range;
+   - flag any row that breaks the policy's own definition.
+   Print the flags at the top of the results.
+2. **Units:** label each column's unit in code, and check that its values fit the unit.
+3. **After a run:** trace why the worst-missed place was missed. Asking "why is Madison so unpredictable?" is how TOD found its missing rapid-bus stops.
