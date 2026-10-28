@@ -106,3 +106,7 @@ The lot model counts as better if it beats the plain baseline on held-out cities
    - **Baseline:** the training cities' acre-weighted mean of that difference per upzoned acre, times the held-out city's upzoned acres.
    - **Model:** the sum over upzoned lots of predicted homes under the new rules minus under the old rules.
 6. **2026-10-28, owner's decision, recorded before the fit results were read: the pass rule is the total only.** The owner wrote: "we don't actually care about lot building accuracy if the regional total is accurate". The lot ranking (area under the ROC curve) is reported but no longer part of passing. The model passes if it beats the plain baseline on total extra homes, both on the mean error across fold cities and on Chicago and Madison separately.
+7. **2026-10-28, after the first run, which overflowed: project size gets a ceiling for each lot.** In the first run the linear size model's predictions exploded on Charlotte's lots (exponents beyond the training range), giving absurd totals.
+   - At the owner's direction, each lot's ceiling now comes from the data: the homes its zoning allows (lot area × allowed floor area ratio ÷ 1,000 sq ft per home), times the stretch real projects reached.
+   - The stretch is the 99th percentile, among building lots in the training cities, of homes permitted ÷ homes allowed. It covers bonuses and variances.
+   - This applies to both models. Nothing else changed.

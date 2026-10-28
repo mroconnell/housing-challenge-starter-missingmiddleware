@@ -256,7 +256,9 @@ def values() -> None:
         m = bl[bl["ULURPNO"].astype(str).str.lower() == ulurp]
         eff = pd.Timestamp(int(D.loc[ix[0], "eff_year"]), 7, 1)
         if len(m) and "Adopted" in m:
-            eff = pd.to_datetime(m["Adopted"].iloc[0], errors="coerce") or eff
+            t = pd.to_datetime(m["Adopted"].iloc[0], errors="coerce")
+            if pd.notna(t) and t.year == eff.year:
+                eff = t
         per = C.period_years(eff.year, N.FIRST_YEAR, N.LAST_FULL_YEAR)
         vs = N.pick_vintages(eff, per["before"][0], per["after"][-1])
         path = N._shp(vs["before"], boro)
@@ -268,9 +270,10 @@ def values() -> None:
         g = gpd.read_file(path, columns=list(cm.values()), bbox=bb).to_crs(N.CRS_M).rename(columns={v: k for k, v in cm.items()})
         j = gpd.sjoin(gpd.GeoDataFrame(geometry=lp.values, index=ix, crs=N.CRS_M), g, how="left", predicate="within")
         j = j[~j.index.duplicated()]
-        D.loc[ix, "land_value"] = pd.to_numeric(j.get("AssessLand"), errors="coerce").values
-        D.loc[ix, "total_value"] = pd.to_numeric(j.get("AssessTot"), errors="coerce").values
-        D.loc[ix, "year_built"] = pd.to_numeric(j.get("YearBuilt"), errors="coerce").replace(0, np.nan).values
+        col = lambda k: pd.to_numeric(j[k], errors="coerce") if k in j else pd.Series(np.nan, index=j.index)  # noqa: E731
+        D.loc[ix, "land_value"] = col("AssessLand").values
+        D.loc[ix, "total_value"] = col("AssessTot").values
+        D.loc[ix, "year_built"] = col("YearBuilt").replace(0, np.nan).values
         print(f"  New York {name}: values for {np.isfinite(D.loc[ix, 'total_value']).mean():.0%} of lots", flush=True)
     # Chicago (Cook County 2012 assessed values; pins joined through the case's own parcel layer)
     cook_f = OUT / "cook_values_2012.parquet"
@@ -302,6 +305,152 @@ def values() -> None:
     print(D.groupby("city")[["bldg_to_land", "year_built"]].agg(lambda s: s.notna().mean()).round(2).to_string())
 
 
+BPS_NAME = {"New York": ("36", "New York"), "Philadelphia": ("42", "Philadelphia"), "Charlotte": ("37", "Mecklenburg County"),
+            "Saint Paul": ("27", "St. Paul"), "Seattle": ("53", "Seattle"), "Los Angeles": ("06", "Los Angeles"),
+            "Chicago": ("17", "Chicago"), "Madison": ("55", "Madison")}
+
+
+def cost_per_home(city: str, year: int) -> float:
+    """Census permit survey: construction value per home in buildings of 5+ homes, that city and year (else the
+    nearest year with at least 20 such homes)."""
+    st, name = BPS_NAME[city]
+    best = None
+    for y in [year, year - 1, year + 1, year - 2, year + 2]:
+        for reg in ("mw", "ne", "so", "we"):
+            f = RAW / "tod_control_cities" / "bps" / f"{reg}{y}a.txt"
+            if not f.exists():
+                continue
+            lines = f.read_text(errors="replace").splitlines()
+            h2 = [c.strip() for c in lines[1].split(",")]
+            ni = h2.index("Name")
+            for line in lines[2:]:
+                c = line.split(",")
+                if len(c) > ni + 13 and c[1].strip().zfill(2) == st and c[ni].strip() == name:
+                    u, v = float(c[ni + 11] or 0), float(c[ni + 12] or 0)
+                    if u >= 20:
+                        return v / u
+    return best if best is not None else np.nan
+
+
+def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
+    X = pd.DataFrame(index=D.index)
+    X["log_acres"] = np.log(D["acres"].clip(lower=0.005))
+    X["log_width"] = np.log(D["width_m"].clip(lower=1))
+    X["homes_on_lot"] = np.log1p(D["homes_on_lot"].fillna(-1).clip(lower=0))
+    X["homes_missing"] = D["homes_on_lot"].isna().astype(float)
+    X["log_dist_station"] = np.log1p(D["dist_station_m"])
+    X["far_before"] = D["far_before"].fillna(D["far_before"].median())
+    X["far_gain"] = D["far_gain"].fillna(0) if after_rules else 0.0
+    X["far_now"] = X["far_before"] + X["far_gain"]
+    X["built_before"] = D["built_before"]
+    X["log_near_before"] = np.log1p(D["near_units_before"])
+    X["log_rent"] = np.log(D["rent"].clip(lower=100)).fillna(np.log(1000))
+    X["log_value"] = np.log(D["home_value"].clip(lower=10000)).fillna(np.log(200000))
+    X["log_income"] = np.log(D["income"].clip(lower=5000)).fillna(np.log(50000))
+    X["soft_site"] = np.log1p(D["bldg_to_land"].clip(lower=0)).fillna(0) if "bldg_to_land" in D else 0.0
+    X["soft_missing"] = D["bldg_to_land"].isna().astype(float) if "bldg_to_land" in D else 1.0
+    age = (D["eff_year"] - D["year_built"]) if "year_built" in D else pd.Series(np.nan, index=D.index)
+    X["age"] = age.clip(0, 200).fillna(-1)
+    X["rent_to_cost"] = (D["rent"].fillna(1000) * 12 / 0.05) / D["cost_per_home"]
+    sqft = (X["far_now"] * D["acres"] * 43560)
+    allowed = sqft / 1000.0
+    X["pays_room"] = np.log1p((allowed - D["homes_on_lot"].fillna(0)).clip(lower=0)) * X["rent_to_cost"]
+    for u in ("res", "com", "ind", "mixed"):
+        X[f"use_{u}"] = (D["use"].astype(str) == u).astype(float)
+    X = X.replace([np.inf, -np.inf], np.nan)
+    return X.fillna(X.median())
+
+
+def fit() -> None:
+    from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+    from sklearn.linear_model import LinearRegression, LogisticRegression
+    from sklearn.metrics import roc_auc_score
+    from sklearn.preprocessing import StandardScaler
+    D = pd.read_parquet(LOTS)
+    cache = {k: cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(D["city"], D["eff_year"]))}
+    D["cost_per_home"] = [cache[(c, y)] for c, y in zip(D["city"], D["eff_year"])]
+    print({k: round(v) for k, v in cache.items() if v == v}, flush=True)
+    key = D["city"] + "|" + D["x5070"].round(1).astype(str) + "|" + D["y5070"].round(1).astype(str)
+    D["w"] = 1.0 / key.map(key.value_counts())
+    Xa, Xb = features(D, True), features(D, False)
+    y1 = D["builds_after"].values
+    y2 = np.log1p(D["units_after"].values)
+    cities = [c for c in D["city"].unique() if c not in HOLD]
+
+    def actual_extra(d):
+        t, c = d[d.treated == 1], d[d.treated == 0]
+        ta, ca = (t.acres * t.w).sum(), (c.acres * c.w).sum()
+        return ((t.units_after * t.w).sum() - ta * (c.units_after * c.w).sum() / ca) - \
+               ((t.units_before * t.w).sum() - ta * (c.units_before * c.w).sum() / ca), ta
+
+    def model_predict(train_ix, test_ix, kind):
+        tr = train_ix
+        if kind == "logit":
+            sc = StandardScaler().fit(Xa.loc[tr])
+            m1 = LogisticRegression(max_iter=2000, C=1.0).fit(sc.transform(Xa.loc[tr]), y1[tr], sample_weight=D.loc[tr, "w"])
+            p = lambda X: m1.predict_proba(sc.transform(X))[:, 1]  # noqa: E731
+            b = (y1[tr] == 1)
+            m2 = LinearRegression().fit(sc.transform(Xa.loc[tr][b]), y2[tr][b], sample_weight=D.loc[tr, "w"][b])
+            raw = lambda X: np.expm1(m2.predict(sc.transform(X)))  # noqa: E731
+        else:
+            m1 = GradientBoostingClassifier(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027)
+            m1.fit(Xa.loc[tr], y1[tr], sample_weight=D.loc[tr, "w"])
+            p = lambda X: m1.predict_proba(X)[:, 1]  # noqa: E731
+            b = (y1[tr] == 1)
+            m2 = GradientBoostingRegressor(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027)
+            m2.fit(Xa.loc[tr][b], y2[tr][b], sample_weight=D.loc[tr, "w"][b])
+            raw = lambda X: np.expm1(m2.predict(X))  # noqa: E731
+        # lot ceiling (owner, 2026-10-28): homes the zoning allows on the lot x the stretch real projects reached
+        allowed_tr = (Xa.loc[tr, "far_now"] * D.loc[tr, "acres"] * 43560 / 1000).clip(lower=1)
+        bt = b & (D.loc[tr, "units_after"].values > 0)
+        stretch = float(np.nanquantile(D.loc[tr, "units_after"].values[bt] / allowed_tr.values[bt], 0.99))
+        def s_(X):
+            allowed = (X["far_now"] * D.loc[X.index, "acres"] * 43560 / 1000).clip(lower=1)
+            return np.minimum(raw(X), allowed.values * stretch).clip(min=1)
+        te = test_ix
+        tt = D.loc[te, "treated"] == 1
+        Xa_t, Xb_t = Xa.loc[te][tt.values], Xb.loc[te][tt.values]
+        extra = float(((p(Xa_t) * s_(Xa_t)) - (p(Xb_t) * s_(Xb_t))) @ D.loc[te][tt.values]["w"].values)
+        auc = roc_auc_score(y1[te], p(Xa.loc[te]), sample_weight=D.loc[te, "w"]) if len(set(y1[te])) > 1 else np.nan
+        return extra, auc
+
+    rows = []
+    for kind in ("logit", "boosting"):
+        for c in cities + list(HOLD):
+            test_ix = D.index[D["city"] == c]
+            train_ix = D.index[D["city"].isin([x for x in cities if x != c])]
+            act, ta = actual_extra(D.loc[test_ix])
+            # baseline: training cities' acre-weighted extra per upzoned acre
+            num, den = 0.0, 0.0
+            for cc_ in [x for x in cities if x != c]:
+                e, a = actual_extra(D[D["city"] == cc_])
+                num, den = num + e, den + a
+            base = num / den * ta
+            ex, auc = model_predict(train_ix, test_ix, kind)
+            rows.append({"model": kind, "city": c, "role": "holdout" if c in HOLD else "fold", "upzoned_acres": ta,
+                         "actual_extra_homes": act, "baseline_extra": base, "model_extra": ex,
+                         "error_baseline": abs(base - act), "error_model": abs(ex - act), "auc_builds": auc})
+            print(kind, c, round(act), round(base), round(ex), round(auc, 3) if auc == auc else None, flush=True)
+    E = pd.DataFrame(rows)
+    summ = []
+    for kind, g in E.groupby("model"):
+        f, h = g[g.role == "fold"], g[g.role == "holdout"].set_index("city")
+        ok_total = f["error_model"].mean() < f["error_baseline"].mean() and all(h.loc[c, "error_model"] < h.loc[c, "error_baseline"] for c in HOLD)
+        auc_ok = all(h.loc[c, "auc_builds"] >= 0.70 for c in HOLD) and f["auc_builds"].mean() >= 0.70
+        summ.append({"model": kind, "fold_mean_error_baseline": f["error_baseline"].mean(), "fold_mean_error_model": f["error_model"].mean(),
+                     "fold_cities_model_better": int((f["error_model"] < f["error_baseline"]).sum()), "fold_cities": len(f),
+                     **{f"{c.lower()}_error_baseline": h.loc[c, "error_baseline"] for c in HOLD},
+                     **{f"{c.lower()}_error_model": h.loc[c, "error_model"] for c in HOLD},
+                     "fold_mean_auc": f["auc_builds"].mean(), **{f"{c.lower()}_auc": h.loc[c, "auc_builds"] for c in HOLD},
+                     "passes_total": bool(ok_total), "passes_where": bool(auc_ok)})
+    S = pd.DataFrame(summ)
+    E.round(3).to_csv(REFERENCE / "tod_lot_model_by_city.csv", index=False)
+    S.round(4).to_csv(REFERENCE / "tod_lot_model_results.csv", index=False)
+    pd.set_option("display.width", 250)
+    print(E.round(2).to_string())
+    print(S.round(3).T.to_string())
+
+
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--stage", choices=["collect", "enrich", "values", "fit"], required=True)
@@ -312,6 +461,8 @@ def main(argv=None) -> None:
         enrich()
     if a.stage == "values":
         values()
+    if a.stage == "fit":
+        fit()
 
 
 if __name__ == "__main__":
