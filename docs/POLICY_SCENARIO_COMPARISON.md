@@ -99,6 +99,7 @@ ADU figures were revised on 2026-10-28 (AQ-061 in the [assumptions log](ASSUMPTI
 | ADUs | Whether rural and small-town Wisconsin respond like the model says | At Madison's low minimum rate, the central falls from 10,788 to 5,729. |
 | ADUs | The phase-in | Without it, the central rises to 12,621. |
 | ADUs | How the comparison states' counts are read (AQ-061) | Without scaling up for towns that did not report, the central is 9,562; with Washington's law years counted from enactment, 10,044; with all three changes undone, 8,938. |
+| ADUs | Whether Vermont is a comparison state (its counts are by year built, not permit year; AQ-062) | Left out, the central rises from 10,788 to 11,133 and the upper from 20,057 to 21,514; kept in as adopted. |
 
 **Can one input flip the ranking?** Yes:
 - if parking's high end is taken as the expectation, parking passes the ADU central, with 19,937 homes;

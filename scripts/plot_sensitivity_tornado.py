@@ -25,6 +25,12 @@ SHORT = {   # csv `change` prefix -> short bar label
     "eligible-property basis": "Eligible-property basis (no one-unit attached)",
     "multiplicative": "Multiplicative law",
     "California-only market regression": "California-only market regression",
+    "no reporting-share correction": "No reporting-share correction",
+    "reporting-share correction for Maine": "Reporting-share correction without Utah",
+    "Washington's law years": "Washington from enactment",
+    "Vermont 2024 dropped": "Vermont 2024 dropped",
+    "Vermont dropped": "Vermont dropped",
+    "all three AQ-061": "Comparison states as at Gate 4",
 }
 
 

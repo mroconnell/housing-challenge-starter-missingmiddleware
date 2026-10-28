@@ -770,6 +770,7 @@ def build_uncertainty(areas: list) -> dict:
              ("reporting-share correction for Maine", "Scale up for non-reporting towns in Maine, Massachusetts, Rhode Island only"),
              ("Washington's law years", "Count Washington's law years from enactment, not local compliance"),
              ("Vermont 2024 dropped", "Leave out Vermont's 2024 count (changed source)"),
+             ("Vermont dropped", "Leave Vermont out of the comparison states"),
              ("all three AQ-061", "Comparison-state counts and coding as at Gate 4"),
              ("no top-code", "Let small high-value villages keep their extrapolated rates")]
     cases = []

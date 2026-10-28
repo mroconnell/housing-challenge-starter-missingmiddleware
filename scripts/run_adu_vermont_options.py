@@ -8,7 +8,8 @@ compliance as adopted:
   B  Vermont 2024 dropped (fit rows and reference-line point)
   C  Vermont dropped entirely (within-state stage, between-state common level, reference line, lower and upper spread)
 
-Writes only reference/adu_vermont_options.csv. The adopted files are read, never written: the per-option level,
+Writes only reference/adu_vermont_options.csv. scripts/run_adu_model.py reuses context(), temp_reference() and
+engine_option() for its "Vermont dropped" and "Vermont 2024 dropped" sensitivity rows (AQ-062). The adopted files are read, never written: the per-option level,
 stage-2 and reference-point files the run_adu_model.py functions read are written to a temporary folder and the
 module's REFERENCE / ROOT are pointed there for the duration of the run.
 Run: uv run python scripts/run_adu_vermont_options.py   (about 1 minute)
@@ -18,6 +19,7 @@ from __future__ import annotations
 import shutil
 import sys
 import tempfile
+from contextlib import contextmanager
 from pathlib import Path
 
 import numpy as np
@@ -68,54 +70,75 @@ def ref_points(p, pan):
     return pd.concat([pts, ca], ignore_index=True).round(4)
 
 
-def main():
+def context():
+    """Inputs every option shares (loaded once)."""
     d = rp.load()
-    wi, growth = d["wi"], d["growth"]
-    areas = pd.read_parquet(PROCESSED / "model_baseline/engine_areas.parquet")
-    G = rv.growth_matrix(wi, growth)
-    pan = rv.ca_panels(d["panel"])[OPT]
     mlp = pd.read_csv(REFERENCE / "madison_like_median_path.csv")
     rv.MADISON_LIKE_PATH = mlp[mlp["group"].eq("WA+OR Madison-like (main)")].sort_values("year_since_law")["median_rate"].to_numpy()
-    apaths = area_paths(ram.PARAMS)
-    adopted_pts = pd.read_csv(REFERENCE / "pooled_revision_reference_points.csv")
+    return dict(d=d, wi=d["wi"], growth=d["growth"], G=rv.growth_matrix(d["wi"], d["growth"]),
+                pan=rv.ca_panels(d["panel"])[OPT], apaths=area_paths(ram.PARAMS),
+                areas=pd.read_parquet(PROCESSED / "model_baseline/engine_areas.parquet"))
 
+
+@contextmanager
+def temp_reference():
+    """Point run_adu_model's REFERENCE / ROOT at a temporary folder holding one option's level files."""
     tmp = Path(tempfile.mkdtemp(prefix="vt_options_"))
     (tmp / "reference").mkdir()
     shutil.copy(REFERENCE / "pooled_revision_adoption_line.csv", tmp / "reference")
     ram_ref, ram_root = ram.REFERENCE, ram.ROOT
-    rows, err_rows = [], []
     try:
         ram.REFERENCE, ram.ROOT = tmp / "reference", tmp
-        for opt, label in OPTIONS.items():
-            p = pooled_for(opt, d, pan)
-            r, _, f, Y = rv.wi_results(p, CFG_A, d, G, rv.FLOOR_NEW, pan, set(), sens=False)
-            lv = rv.level_frame(opt, CFG_A, wi, Y, r["factor80"], p)
-            lawc = f.beta[f.within_names.index("law")]
-            st2 = pd.DataFrame([dict(option=opt, config=CFG_A, cluster=c, level_with_law_k4=float(np.exp(a + lawc)))
-                                for c, a in f.alpha.items()])
-            lv.to_csv(tmp / "reference/pooled_revision_wi_y_by_area.csv", index=False)
-            st2.to_csv(tmp / "reference/pooled_revision_stage2_levels.csv", index=False)
-            pd.DataFrame([{**r, "option": opt, "config": CFG_A}]).to_csv(tmp / "reference/pooled_revision_wi.csv", index=False)
-            pts = ref_points(p, pan)
-            if opt == "A_adopted":
-                chk = adopted_pts.merge(pts, on=["cluster", "k", "year"], how="outer", indicator=True)
-                if not (chk["_merge"].eq("both").all() and np.allclose(chk.rate_x, chk.rate_y, atol=1e-4)):
-                    raise SystemExit("option A reference points do not reproduce pooled_revision_reference_points.csv")
-            pts.to_csv(tmp / "reference/pooled_revision_reference_points.csv", index=False)
+        yield tmp / "reference"
+    finally:
+        ram.REFERENCE, ram.ROOT = ram_ref, ram_root
+        shutil.rmtree(tmp, ignore_errors=True)
 
-            # engine step exactly as run_adu_model.main(): lower = RI/OR mean, pooled ramps per path, Madison path
-            fac_low = ram.bottom_states_factor(opt, CFG_A)
-            fac_up = float(r["factor80"])
-            ramps = {pth: {"ramp": ram.pooled_ramp(opt, CFG_A, fac, areas)}
-                     for pth, fac in (("lower", fac_low), ("central", 1.0), ("upper", fac_up))}
-            out = e.run(areas, ram.load_scenario(**ramps), growth, ram.load_area_levels(opt, CFG_A), apaths)
-            if e.check_invariants(out):
-                raise SystemExit(f"{opt}: engine invariant failures")
-            tot = ram.path_totals(out)
-            base5 = float(e.five_year_totals(out)["baseline_units"].iloc[0])
-            by_year = out.groupby(["path", "year"])[["baseline_units", "additional_units"]].sum().reset_index()
-            lines, lby = ram.reference_lines(by_year, float(areas["homes"].sum()))
-            l8 = lines[lines.line_id.eq("8_state_median")].iloc[0]
+
+def engine_option(opt, ctx, ref_dir, check_points=None):
+    """Fit one option and run the adopted engine step on it (as run_adu_model.main(): lower = RI/OR mean, pooled
+    ramps per path, Madison path, 8-state reference line). ref_dir is the folder temp_reference() yields.
+    Returns the fit pieces and the engine totals; used here and by scripts/run_adu_model.py (named sensitivities)."""
+    d, wi, areas = ctx["d"], ctx["wi"], ctx["areas"]
+    p = pooled_for(opt, d, ctx["pan"])
+    r, _, f, Y = rv.wi_results(p, CFG_A, d, ctx["G"], rv.FLOOR_NEW, ctx["pan"], set(), sens=False)
+    lv = rv.level_frame(opt, CFG_A, wi, Y, r["factor80"], p)
+    lawc = f.beta[f.within_names.index("law")]
+    st2 = pd.DataFrame([dict(option=opt, config=CFG_A, cluster=c, level_with_law_k4=float(np.exp(a + lawc)))
+                        for c, a in f.alpha.items()])
+    lv.to_csv(ref_dir / "pooled_revision_wi_y_by_area.csv", index=False)
+    st2.to_csv(ref_dir / "pooled_revision_stage2_levels.csv", index=False)
+    pd.DataFrame([{**r, "option": opt, "config": CFG_A}]).to_csv(ref_dir / "pooled_revision_wi.csv", index=False)
+    pts = ref_points(p, ctx["pan"])
+    if check_points is not None:
+        chk = check_points.merge(pts, on=["cluster", "k", "year"], how="outer", indicator=True)
+        if not (chk["_merge"].eq("both").all() and np.allclose(chk.rate_x, chk.rate_y, atol=1e-4)):
+            raise SystemExit(f"{opt}: reference points do not reproduce pooled_revision_reference_points.csv")
+    pts.to_csv(ref_dir / "pooled_revision_reference_points.csv", index=False)
+
+    fac_low = ram.bottom_states_factor(opt, CFG_A)
+    fac_up = float(r["factor80"])
+    ramps = {pth: {"ramp": ram.pooled_ramp(opt, CFG_A, fac, areas)}
+             for pth, fac in (("lower", fac_low), ("central", 1.0), ("upper", fac_up))}
+    out = e.run(areas, ram.load_scenario(**ramps), ctx["growth"], ram.load_area_levels(opt, CFG_A), ctx["apaths"])
+    if e.check_invariants(out):
+        raise SystemExit(f"{opt}: engine invariant failures")
+    by_year = out.groupby(["path", "year"])[["baseline_units", "additional_units"]].sum().reset_index()
+    lines, _ = ram.reference_lines(by_year, float(areas["homes"].sum()))
+    return dict(p=p, r=r, f=f, fac_low=fac_low, fac_up=fac_up, totals=ram.path_totals(out),
+                baseline_5yr=float(e.five_year_totals(out)["baseline_units"].iloc[0]),
+                ref_line=lines[lines.line_id.eq("8_state_median")].iloc[0])
+
+
+def main():
+    ctx = context()
+    adopted_pts = pd.read_csv(REFERENCE / "pooled_revision_reference_points.csv")
+    rows, err_rows = [], []
+    with temp_reference() as ref_dir:
+        for opt, label in OPTIONS.items():
+            o = engine_option(opt, ctx, ref_dir, adopted_pts if opt == "A_adopted" else None)
+            p, r, f, fac_low, fac_up = o["p"], o["r"], o["f"], o["fac_low"], o["fac_up"]
+            tot, base5, l8 = o["totals"], o["baseline_5yr"], o["ref_line"]
 
             # held-out errors: configuration A (California in the common level) and B (out)
             states = tuple(s for s in STATES if s in set(p.rows["cluster"]))
@@ -139,9 +162,6 @@ def main():
                 **{f"log_error_ca_in_{s}": float(la.loc[s, "log_error"]) if s in la.index else np.nan for s in STATES},
                 **{f"log_error_ca_out_{s}": float(lb.loc[s, "log_error"]) if s in lb.index else np.nan for s in STATES}))
             print(opt, {k: round(v, 4) if isinstance(v, float) else v for k, v in rows[-1].items()})
-    finally:
-        ram.REFERENCE, ram.ROOT = ram_ref, ram_root
-        shutil.rmtree(tmp, ignore_errors=True)
 
     res = pd.DataFrame(rows)
     # check: option A reproduces the adopted outputs

@@ -203,10 +203,11 @@ Each case changes one assumption and reruns the model. Additional permits over 2
 | No scale-up for towns that did not report | 6,119 | 9,562 | 18,114 |
 | California out of the common level | 6,735 | 9,729 | 15,924 |
 | Washington's law years from enactment, not local compliance | 6,138 | 10,044 | 18,801 |
-| Vermont 2024 left out (owner to decide) | 6,590 | 10,360 | 19,882 |
+| Vermont 2024 left out (not adopted, AQ-062) | 6,590 | 10,360 | 19,882 |
 | Los Angeles-calibrated multifamily correction | 6,603 | 10,381 | 18,197 |
 | Scale-up for Maine, Massachusetts and Rhode Island only (Utah not) | 6,740 | 10,491 | 19,524 |
 | Madison at its pooled level instead of its path | 6,842 | 11,060 | 20,707 |
+| Vermont left out of the comparison states (counts by year built, not permit year; not adopted, AQ-062). Reference line 11,497 permits (adopted 10,558) | 6,659 | 11,133 | 21,514 |
 | No ramp: full rate from 2027 | — | 12,621 | — |
 
 **A case that moves only where permits land:** without the cap on the value gap, small very high-value villages keep their extrapolated levels. The statewide central barely moves (10,788 → 10,788.3); about 16 permits move back to the 8 capped areas.

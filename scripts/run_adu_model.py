@@ -322,6 +322,20 @@ def main():
         t, _ = run_t(sc=load_scenario(**rr), lv=load_area_levels(opt, cfg))
         add(lab, "statewide addition", what + " The lower is the same Rhode Island and Oregon average, taken from this fit.",
             "engine", "path", t, f"reference/pooled_revision_wi_y_by_area.csv ({opt} x {cfg})")
+    # AQ-062 Vermont options (scripts/run_adu_vermont_options.py, docs/adu/VERMONT_OPTIONS.md): refit with Vermont 2024
+    # dropped (B) and with Vermont dropped entirely (C), each through the adopted engine step including the 8-state
+    # reference line. B's totals must match the cap_a2|vt_2024_dropped row below (built from run_pooled_revision.py).
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import run_adu_vermont_options as vto
+    vctx = vto.context()
+    vt = {}
+    with vto.temp_reference() as ref_dir:
+        for opt in ("B_drop_vt_2024", "C_drop_vt"):
+            o = vto.engine_option(opt, vctx, ref_dir)
+            vt[opt] = {**o["totals"], "ref_line": float(o["ref_line"].additional_5yr), "baseline": o["baseline_5yr"]}
+    ref_line_adopted = float(reference_lines(by_year, float(areas["homes"].sum()))[0]
+                             .query("line_id == '8_state_median'").additional_5yr.iloc[0])
     # AQ-061 measurement and coding choices, each switched back alone (and all together), refitted
     for opt, lab, what in (
             ("cap_a2|no_coverage", "no reporting-share correction (counts divided by every home in the state)",
@@ -339,7 +353,9 @@ def main():
             ("cap_a2|vt_2024_dropped", "Vermont 2024 dropped (57 ADUs from the state housing layer, counted by year built)",
              "Vermont's 2024 count comes from the state's new-housing layer, not the regional planning commission's own "
              "series (which ends at 2023), and every Vermont count is by year built or first occupied, not permit year. "
-             "Owner to decide (AQ-061). The reference line is not refitted here."),
+             "Not adopted (AQ-062): it makes Vermont's own held-out miss worse. "
+             f"Refitted without that point, the 8-state reference line is {vt['B_drop_vt_2024']['ref_line']:,.0f} "
+             f"permits (adopted {ref_line_adopted:,.0f})."),
             ("cap_a2|gate4_coding", "all three AQ-061 comparison-state changes undone (no coverage correction, Washington "
              "from enactment; Massachusetts still 11 months)",
              "The comparison-state counts and coding as at Gate 4, on today's current-law rates.")):
@@ -348,6 +364,21 @@ def main():
         t, _ = run_t(sc=load_scenario(**rr), lv=load_area_levels(opt, cfg0))
         add(lab, "statewide addition", what + " The lower is the Rhode Island and Oregon average from this fit.",
             "engine", "path", t, f"reference/pooled_revision_wi_y_by_area.csv ({opt} x {cfg0})")
+    b_row = next(x for x in sens if x["change"].startswith("Vermont 2024 dropped"))
+    for pth in ("lower", "central", "upper"):
+        if abs(b_row[f"{pth}_additional_5yr"] - vt["B_drop_vt_2024"][pth]) > 0.5:
+            raise SystemExit(f"Vermont 2024 dropped {pth}: options refit {vt['B_drop_vt_2024'][pth]:.1f} != "
+                             f"pooled revision row {b_row[f'{pth}_additional_5yr']:.1f}")
+    c = vt["C_drop_vt"]
+    if abs(c["baseline"] - base5) > 0.05:
+        raise SystemExit(f"Vermont dropped: baseline {c['baseline']:.1f} != adopted {base5:.1f}")
+    add("Vermont dropped (left out of the comparison states)", "statewide addition",
+        "Vermont is left out of the comparison states, because its counts are by year built or first occupied, not "
+        "permit year. It is out of the typical level, the lower and upper spread and the reference line; seven states "
+        "remain, California included. Not adopted (AQ-062): the other six states are predicted less well without it. "
+        f"The 8-state reference line becomes a 7-state line of {c['ref_line']:,.0f} permits (adopted "
+        f"{ref_line_adopted:,.0f}). The lower is the Rhode Island and Oregon average from this fit.",
+        "engine", "path", c, "scripts/run_adu_vermont_options.py engine_option(C_drop_vt) (docs/adu/VERMONT_OPTIONS.md)")
     t, _ = run_t(lv=load_area_levels("cap_a2|no_value_cap", cfg0))
     add("no top-code on the value gap (small high-value villages keep their extrapolated levels)",
         "local distribution only",
@@ -403,8 +434,6 @@ def main():
 
     # baseline-only cases (scripts/run_baseline_only_effects.py builds the same cases and checks each baseline
     # against reference/wi_baseline_sensitivities.csv)
-    import sys
-    sys.path.insert(0, str(ROOT / "scripts"))
     from run_baseline_only_effects import CASE_TEXT, baseline_only_cases
     for cid, label, a, g, _chk in baseline_only_cases(areas, growth):
         t, b = run_t(a=a, g=g)
