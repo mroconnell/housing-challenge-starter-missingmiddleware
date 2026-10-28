@@ -148,6 +148,11 @@ def extra_total(g: pd.DataFrame) -> float:
 def main() -> None:
     rng = np.random.default_rng(SEED)
     lots = pd.concat([sf(), buffalo(), tod_cities()], ignore_index=True)
+    near = "--near-transit" in sys.argv
+    tag = "_near_transit" if near else ""
+    if near:  # added test, owner 2026-10-28: only lots within 805 m of a rail station
+        lots = lots[lots["dist_station_m"] <= 805].reset_index(drop=True)
+        print("near-transit lots:", lots.groupby(["city", "pinched"]).size().to_dict(), flush=True)
     lots["cell"] = lots["city"] + ":" + (lots["x5070"] // CELL).astype(int).astype(str) + "_" + (lots["y5070"] // CELL).astype(int).astype(str)
     eff_rows = []
     for col, lab in (("permits_main", "main"), ("permits_all", "including alterations (San Francisco ADUs)")):
@@ -164,7 +169,7 @@ def main() -> None:
                                  comparison_before=c["before_py"].mean() * 1000, comparison_after=c["after_py"].mean() * 1000,
                                  effect=effect(g), p05=np.percentile(bs, 5), p95=np.percentile(bs, 95), extra_homes_per_year=extra_total(g)))
     E = pd.DataFrame(eff_rows)
-    E.round(3).to_csv(REFERENCE / "parking_lot_cities_effects.csv", index=False)
+    E.round(3).to_csv(REFERENCE / f"parking_lot_cities_effects{tag}.csv", index=False)
 
     # prediction: separate models for pinched and comparison lots, outcome = change in homes per year on the lot
     from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor
@@ -226,9 +231,9 @@ def main() -> None:
     S["passes"] = (S["mean_error_model"] < S["mean_error_baseline"]) & (S["mean_error_model"] < S["mean_error_zero"]) & (S["cities_beating_baseline"] >= 3)
     best = S.sort_values("mean_error_model").iloc[0]["method"]
     flags += checks.worst_miss(P[P["method"] == best], "held_out", "actual_extra_per_year", "model")
-    checks.report(flags, REFERENCE / "parking_lot_cities_checks.csv")
-    P.round(3).to_csv(REFERENCE / "parking_lot_cities_predict.csv", index=False)
-    S.round(3).to_csv(REFERENCE / "parking_lot_cities_predict_summary.csv", index=False)
+    checks.report(flags, REFERENCE / f"parking_lot_cities_checks{tag}.csv")
+    P.round(3).to_csv(REFERENCE / f"parking_lot_cities_predict{tag}.csv", index=False)
+    S.round(3).to_csv(REFERENCE / f"parking_lot_cities_predict_summary{tag}.csv", index=False)
     pd.set_option("display.width", 250)
     print(E.round(2).to_string(index=False))
     print(P.round(1).to_string(index=False))

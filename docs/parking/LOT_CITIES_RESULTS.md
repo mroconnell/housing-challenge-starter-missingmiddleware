@@ -45,3 +45,21 @@ Every method misses by more than guessing zero.
 - **Seattle is still the outlier.**
 - **No lot model carries a gain from one city to another,** so there is no lot-level predictor for Wisconsin.
 - **The tool does not change.**
+
+## Added test: lots within ½ mile of rail only (2026-10-28, at Ryan's request)
+
+Outputs: `reference/parking_lot_cities_*_near_transit.csv`. Net new homes permitted per 1,000 lots per year.
+
+| City | Pinched lots / comparison lots | Effect (90% range) | Extra homes per year |
+| --- | --- | --- | ---: |
+| San Francisco | 36,109 / 34,142 | +0.8 (−6.5 to +9.0) | +28 |
+| Buffalo | 5,362 / 4,688 | **+13.0 (+0.5 to +30.5)** | +70 |
+| Chicago | 33,719 / 31,569 | −2.6 (−5.3 to −0.2) | −86 |
+| Seattle | 2,370 / 1,455 | +29.8 (+2.5 to +64.7) | +71 |
+
+**Prediction:** the best method misses by 117 homes a year on average, against 64 for guessing zero. No method passes.
+
+**Reading:**
+- Near rail, Buffalo's gain becomes clearer. But Buffalo's light-rail line runs along Main Street, which the 2017 Green Code also rezoned for denser mixed use.
+- San Francisco is still about zero.
+- The four cities still disagree, so nothing carries over to Wisconsin.
