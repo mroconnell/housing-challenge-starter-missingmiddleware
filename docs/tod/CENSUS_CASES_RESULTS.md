@@ -62,6 +62,11 @@ Each case's own upzoned land and ¼-mile ring. Census: net homes from April 2010
 
 - **The two methods agree on the direction and rough size in all six.** The gap (census minus permits, 2009–2018 alignment) runs from −4.5 (Seattle North Beacon Hill and Othello) to +1.6 (Philadelphia) net homes per acre over the decade. The census intervals are wide, so agreement is easy to reach; this shows the census method is not biased in an obvious direction, not that it is precise.
 - **Raw counts differ a lot**, because the two sides cover different land (plan section 8, item 4). For example, Chicago's ring holds 33,578 net new census homes against 4,136 permitted homes on its unchanged eligible lots. Census blocks take in all land within ¼ mile, including lots that are not eligible or were rezoned some other way. The census also counts finished homes net of demolitions, while permits count homes approved. Counts from the two methods should not be compared directly. The per-acre differences are the like-for-like measure.
+- **City-scale check from the parking work** ([docs/parking/SALVAGE_RESULTS.md](../parking/SALVAGE_RESULTS.md)). On whole places, in 1,356 places in Wisconsin, Indiana, Minnesota and North Carolina, the census change from 2010 to 2020 ÷ permits issued 2010–2019 had these medians:
+  - 0.90 in places with 2,500 to 25,000 homes;
+  - 0.80 to 0.95 in places with more than 25,000 homes.
+
+  So census-based gains likely read about 10–20% below permits on matching land, mostly from demolitions and permits never built. That would make the census cases here slightly conservative.
 
 ## 4. What this adds
 
