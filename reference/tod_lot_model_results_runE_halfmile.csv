@@ -1,0 +1,9 @@
+method,fold_mean_error_guess_zero,passes_new_rule,fold_mean_error_baseline,fold_mean_error_model,fold_cities_better,chicago_better,madison_better,bellevue_better,cities_better_of_9,passes_total
+wls,1418.5645,False,1884.181,15743.6592,1,False,False,False,1,False
+lasso,1418.5645,False,1884.181,10396.9397,1,False,False,False,1,False
+elastic_net,1418.5645,False,1884.181,10740.2811,1,False,False,False,1,False
+tree,1418.5645,False,1884.181,1076.8744,5,False,False,True,6,False
+forest,1418.5645,False,1884.181,889.7809,6,False,False,True,7,False
+boosting,1418.5645,False,1884.181,10238.5318,2,True,False,True,4,False
+causal_forest,1418.5645,False,1884.181,889.7809,6,False,False,True,7,False
+knn,1418.5645,False,1884.181,1245.1075,5,False,False,True,6,False

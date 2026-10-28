@@ -18,3 +18,8 @@ def test_range_flag_catches_unseen_city():
     X = pd.DataFrame({"d": [1.0, 2, 3, 1, 2, 3, 100, 101]})
     city = pd.Series(list("AAABBBMM"))
     assert "M" in [f["city"] for f in S.range_flags(X, city)]
+
+
+def test_unit_flag_catches_flag_read_as_far():
+    D = pd.DataFrame({"city": ["B", "B"], "far_before": [0.0, 0.0], "far_gain": [1.0, 0.0]})
+    assert any("in/out flag" in f["detail"] for f in S.unit_flags(D, far_cities=("B",)))

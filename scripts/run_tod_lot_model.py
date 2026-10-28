@@ -39,7 +39,7 @@ LOT_GROUPS = ("upzoned", "upzoned_from_industrial", "upzoned_from_campus", "refo
               "reform_other_not_eligible", "comparison_eligible", "comparison_industrial", "comparison_campus_or_park",
               "other_not_eligible")
 HOLD = ("Chicago", "Madison", "Bellevue")
-FAR_CITIES = ("New York", "Chicago", "Madison", "Saint Paul", "Seattle", "Bellevue")   # levels are floor area ratios
+FAR_CITIES = ("New York", "Chicago", "Madison", "Saint Paul", "Seattle")   # Bellevue out: its levels are 0/1 flags (item 18)   # levels are floor area ratios
 STATE = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Seattle": "53",
          "Los Angeles": "06", "Chicago": "17", "Madison": "55", "Bellevue": "53"}
 
