@@ -62,6 +62,7 @@ def main() -> None:
     excluded = {k for r in reformed.drop_duplicates("prn_key").itertuples()
                 if (k := cmp.match_place(p, rpc.STATE_FIPS.get(r.state, "??"), r.place, r.population))}
     real = pd.read_csv(REFERENCE / "parking_expanded_effects.csv")
+    real = real[real["source"] != "partial-reforms search"]
     excluded |= set(real["key"].dropna())
     rows = []
     orig_first = cmp.FIRST_YEAR
@@ -77,22 +78,22 @@ def main() -> None:
         cmp.FIRST_YEAR = 2007 if ey < 2015 else orig_first
         e = cmp.effects(p, pd.DataFrame([{"key": k, "event_year": ey}]), excluded - {k}, homes, popn, min_post=1)
         cmp.FIRST_YEAR = orig_first
-        e = e[e.get("outcome", pd.Series(dtype=str)) == "all"] if "outcome" in e else e
         if e.empty:
             rows.append(dict(place=c.place, state=c.state, group=c.group, key=k, event_year=ey, status="no result"))
             continue
-        x = e.iloc[0].to_dict()
-        x.update(place=c.place, state=c.state, group=c.group, key=k, event_year=ey,
-                 homes_source="2010 census" if ey < 2015 else "ACS 2020-2024")
-        rows.append(x)
+        for x in e.to_dict("records"):
+            x.update(place=c.place, state=c.state, group=c.group, key=k, event_year=ey, population=float(popn.get(k, np.nan)),
+                     prn_key=f"{c.place}, {c.state}, United States", acs_geoid=geo.loc[k, "acs_geoid"],
+                     homes_source="2010 census" if ey < 2015 else "ACS 2020-2024")
+            rows.append(x)
     out = pd.DataFrame(rows)
     if "homes" in out:
         out["weight"] = out["homes"] * out["n_post"]
     out.round(4).to_csv(REFERENCE / "parking_partial_effects.csv", index=False)
     pd.set_option("display.width", 250)
     cols = [c for c in ("place", "state", "group", "event_year", "status", "pre_years", "post_years", "n_controls", "pop_window", "homes", "effect") if c in out]
-    print(out[cols].round(2).to_string(index=False))
-    inc = out[out["status"] == "included"].reset_index(drop=True)
+    print(out[out.get("outcome", "all") != "2plus"][cols].round(2).to_string(index=False))
+    inc = out[(out["status"] == "included") & (out["outcome"] == "all")].reset_index(drop=True)
     est = []
     for lab, d in (("Transit-area or district reforms", inc[inc["group"] == "transit-area or district"]),
                    ("Citywide at the benchmark (main-sample candidates)", inc[inc["group"] == "citywide benchmark"])):

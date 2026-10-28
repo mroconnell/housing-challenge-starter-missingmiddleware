@@ -47,7 +47,7 @@ INPUTS = [
     "reference/parking_reform_taxonomy.csv", "reference/tod_near_stop_homes_by_muni.csv",
     "reference/tod_ab2097_results.csv", "reference/parking_traits_results.csv",
     "reference/parking_expanded_effects.csv", "reference/parking_expanded_estimates.csv", "reference/parking_expanded_tools.csv",
-    "reference/parking_repeal_checks_expanded.csv", "reference/parking_placebo_summary.csv", "reference/parking_placebo_full_summary.csv",
+    "reference/parking_repeal_checks_expanded.csv", "reference/parking_placebo_summary.csv", "reference/parking_placebo_full_summary.csv", "reference/parking_partial_checks.csv",
 ]
 BASELINE_VERSION = "all-housing baseline v2"
 
@@ -100,7 +100,7 @@ def ref_line() -> dict:
     per_year = max(med, 0.0) * homes / 1000
     return {"label": "Median of real cases", "rate_per_1000_homes": r(med), "per_year": r(per_year, 1),
             "value": whole(per_year * len(YEARS)),
-            "info": f"Median of real cases, applied to Wisconsin: the median of the 74 repeal places changed by {med:+.2f} permits per 1,000 existing homes per year against its comparison places. Applied to Wisconsin's {homes:,.0f} homes outside places already at the benchmark, that is about {whole(per_year):,} extra permits a year, {whole(per_year * len(YEARS)):,} over 2027–2031: between the two cases."}
+            "info": f"Median of real cases, applied to Wisconsin: the median of the 76 repeal places changed by {med:+.2f} permits per 1,000 existing homes per year against its comparison places. Applied to Wisconsin's {homes:,.0f} homes outside places already at the benchmark, " + (f"that is about {whole(per_year):,} extra permits a year, {whole(per_year * len(YEARS)):,} over 2027–2031: between the two cases." if med > 0 else "the median is below zero, so the line sits at 0, the same as the central case (a repeal is not modelled as reducing permits).")}
 
 
 def build_statewide() -> dict:
@@ -136,7 +136,7 @@ def build_statewide() -> dict:
         "observed_2021_2025": r(obs[[2021, 2022, 2023, 2024, 2025]].sum(), 0),
         "scenarios": [
             {"id": "central", "label": "No measurable change",
-             "info": "Like the 74 US places that removed parking minimums: in the one to three years after, their permit rates did not rise measurably compared with similar places that kept them.",
+             "info": "Like the 76 US places that removed parking minimums: in the one to three years after, their permit rates did not rise measurably compared with similar places that kept them.",
              "additional_total": 0.0, "with_law_total": r(base5, 0)},
             {"id": "upper", "label": "High end of the evidence",
              "info": f"If the true average effect is at the top of what the evidence allows (95 times in 100, the real average would be lower): {rate:.2f} more permits per 1,000 existing homes per year, everywhere except places that already have no parking minimums for housing.",
@@ -221,8 +221,8 @@ def build_howsure() -> dict:
                    for x in pd.read_csv(REF / "parking_traits_results.csv").itertuples()],
         "trace": [
             {"part": "Current-law baseline", "status": "observed", "text": "Census building permits by municipality and building size, 2023–2025 average; Milwaukee's apartments estimated from the city's property file."},
-            {"part": "No measurable change (central)", "status": "calculated", "text": f"From 74 US repeal places compared with similar places; point estimate {xest('all')['effect']:+.2f} permits per 1,000 homes per year, shown as 0."},
-            {"part": "High end of the evidence (upper)", "status": "calculated", "text": "From 20,000 placebo studies of cities that never repealed: their spread, centred on the 74 real places' average (owner choice; the resampling high end is a sensitivity)."},
+            {"part": "No measurable change (central)", "status": "calculated", "text": f"From 76 US repeal places compared with similar places; point estimate {xest('all')['effect']:+.2f} permits per 1,000 homes per year, shown as 0."},
+            {"part": "High end of the evidence (upper)", "status": "calculated", "text": "From 20,000 placebo studies of cities that never repealed: their spread, centred on the 76 real places' average (owner choice; the resampling high end is a sensitivity)."},
             {"part": "No case below zero", "status": "assumed", "text": "A judgment: the evidence leans slightly negative, but a repeal is not modelled as reducing permits."},
             {"part": "Years 4–5 and evidence carrying over to Wisconsin", "status": "assumed", "text": "The effect was measured over years 1–3 in other places; it is held flat for 2030–2031 and applied in Wisconsin."},
             {"part": "Where the upper case lands", "status": "assumed", "text": "Spread in proportion to existing homes; places that already have no minimums get none."},
@@ -232,8 +232,10 @@ def build_howsure() -> dict:
 
 def build_why() -> dict:
     inc = expanded_included()
-    ck = pd.concat([pd.read_csv(REF / "parking_repeal_checks.csv", dtype=str), pd.read_csv(REF / "parking_repeal_checks_expanded.csv", dtype=str)]) \
-        .drop_duplicates("prn_key").set_index("prn_key")
+    pc = pd.read_csv(REF / "parking_partial_checks.csv", dtype=str)
+    pc = pc.assign(prn_key=pc["place"] + ", " + pc["state"] + ", United States", evidence=pc["coverage"] + ". " + pc["date_basis"] + ".")
+    ck = pd.concat([pd.read_csv(REF / "parking_repeal_checks.csv", dtype=str), pd.read_csv(REF / "parking_repeal_checks_expanded.csv", dtype=str),
+                    pc[["prn_key", "evidence", "confidence"]]]).drop_duplicates("prn_key").set_index("prn_key")
     places = []
     for x in inc.sort_values("population", ascending=False).itertuples():
         c = ck.loc[x.prn_key]
@@ -267,7 +269,7 @@ def build_why() -> dict:
         ],
         "developer_parking": "Assumption about parking developers build without mandates: developers keep building the parking that renters, buyers and lenders want, so a repeal adds homes only where a minimum forced more parking than the market wanted. In Buffalo after its 2017 repeal, major projects provided 79% of the old minimum (mixed-use 47%; stand-alone apartments 117%). The scenario sets no parking ratio itself: it uses the permit outcomes of places that repealed, so whatever parking their developers chose is already built in.",
         "north_carolina": "North Carolina's HB 162, signed 6 July 2026, removes minimum parking for new projects statewide from 1 January 2027 (the 20 coastal counties are exempt). It is the closest real law to this scenario; it has no permit data yet.",
-        "docs": [doc("docs/parking/EXPANDED_RESULTS.md", "Expanded comparison (74 places, with 3 rescued)"), doc("docs/parking/COMPARISON_RESULTS.md", "First comparison (24 places)"), doc("docs/parking/COMPARISON_PLAN.md", "Pre-registered plan"),
+        "docs": [doc("docs/parking/EXPANDED_RESULTS.md", "Expanded comparison (76 places, with 5 added)"), doc("docs/parking/COMPARISON_RESULTS.md", "First comparison (24 places)"), doc("docs/parking/COMPARISON_PLAN.md", "Pre-registered plan"),
                  doc("docs/parking/POLICY_TAXONOMY.md", "Which reforms were real"), doc("docs/parking/GATE3_PACKET.md", "Gate 3 packet")],
     }
 

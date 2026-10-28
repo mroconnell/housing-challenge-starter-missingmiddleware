@@ -200,6 +200,13 @@ def main() -> None:
         s = pd.read_csv(sal)
         s = s[s["status"] == "included"]
         eff = pd.concat([eff, s[[c for c in s.columns if c in eff.columns]]], ignore_index=True)
+    # citywide repeals found in the partial-reforms search (owner approved adding them, 2026-10-28)
+    part = REFERENCE / "parking_partial_effects.csv"
+    if part.exists():
+        s = pd.read_csv(part)
+        s = s[(s["status"] == "included") & (s["group"] == "citywide benchmark")].assign(source="partial-reforms search", rating="at",
+                                                                                          simultaneous_rewrite=False)
+        eff = pd.concat([eff, s[[c for c in s.columns if c in eff.columns]]], ignore_index=True)
     match.to_csv(REFERENCE / "parking_expanded_match.csv", index=False)
     eff.to_csv(REFERENCE / "parking_expanded_effects.csv", index=False)
     inc = eff[(eff["status"] == "included") & (eff["outcome"] == "all")].dropna(subset=["effect"]).reset_index(drop=True)
