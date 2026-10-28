@@ -1,0 +1,6 @@
+estimate,treated_net_homes_per_acre_decade,comparison_net_homes_per_acre_decade,difference_per_acre_decade,low,high,difference_per_acre_year,low_per_year,high_per_year,treated_homes_2010,treated_homes_2020,treated_acres_2010,treated_acres_2020,treated_blocks_2010,treated_blocks_2020,comparison_homes_2010,comparison_homes_2020,comparison_acres_2010,comparison_acres_2020,comparison_blocks_2010,comparison_blocks_2020,treated_net_homes_2010_2020,salt_lake_city_homes_2010,treated_net_gain_share_of_city_pct
+main,2.5766,1.6565,0.9201,-2.151,3.9694,0.092,-0.2151,0.3969,1269.0,3213.0,750.2299,758.7406,58.0,46.0,2541.0,4343.0,1105.1223,1070.6034,113.0,84.0,1944.0,80724.0,2.4082
+vs_new_stations_elsewhere,2.5766,0.5953,1.9812,-0.391,4.7702,0.1981,-0.0391,0.477,1269.0,3213.0,750.2299,758.7406,58.0,46.0,10202.0,14100.0,6188.895,6905.9557,466.0,475.0,1944.0,80724.0,2.4082
+core_only,2.9404,1.6565,1.2839,-2.8197,6.3482,0.1284,-0.282,0.6348,828.0,2072.0,404.9769,441.1693,27.0,24.0,2541.0,4343.0,1105.1223,1070.6034,113.0,84.0,1244.0,80724.0,1.5411
+comparison_quarter_to_half_mile,2.5766,1.8498,0.7268,-2.447,3.908,0.0727,-0.2447,0.3908,1269.0,3213.0,750.2299,758.7406,58.0,46.0,2017.0,3555.0,812.0929,850.8173,95.0,70.0,1944.0,80724.0,2.4082
+largest_2020_block_left_out,,,0.5523,,,,,,,,,,,,,,,,,,,80724.0,

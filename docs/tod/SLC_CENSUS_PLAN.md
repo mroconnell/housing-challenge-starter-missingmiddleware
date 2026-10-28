@@ -66,4 +66,11 @@ None written down. The TSA land is mostly commercial and industrial with few hom
 
 ## 8. Changes after writing
 
-None yet.
+Recorded 2026-10-28 while running (results: [SLC_CENSUS_RESULTS.md](SLC_CENSUS_RESULTS.md)). All were fixed before any comparison was computed.
+
+1. **2200 West dropped.** The ordinance names it, but the Airport line has no rail stop there in the National Transit Map; only bus stops carry the name.
+2. **Rail stops only.** Station points are the National Transit Map stops typed as light rail with the station's name; bus bays sharing a station name are left out, and same-name platforms are averaged.
+3. **Land area is each block's polygon area** in both years, because the 2010 block file with housing counts has no land-area field. Water inside these blocks is small (the Jordan River).
+4. **Each TSA polygon belongs to its nearest rail station.** That is how "TSA land nearest the 2010 ordinance's stations" is applied.
+5. **Treated blocks are those whose internal point lies in that TSA land**; a block counts wholly in one group.
+6. **The share of the city** uses Salt Lake City's 80,724 homes in 2010 (2010 Gazetteer).
