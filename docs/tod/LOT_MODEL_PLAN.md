@@ -115,3 +115,14 @@ The lot model counts as better if it beats the plain baseline on held-out cities
    - They are added to the 22 lot traits, and the boosted two-part model is refitted.
    - Same holdouts (Chicago, Madison, Bellevue) and the same pass rule.
    - Reported as a separate run ("all variables"), beside the 22-trait run, with the traits ranked by how much the holdouts' ranking worsens when each is shuffled.
+10. **2026-10-28, owner's request, written before running: all 8 methods on lots ("run C").** Each method gets a two-part lot version: one model for the chance a lot builds, one for homes if it builds.
+    1. Weighted regression: logistic plus linear (the existing simpler model).
+    2. LASSO: L1-penalised logistic plus L1 linear, penalty fixed by cross-validation on a 20% sample of the training lots.
+    3. Elastic net: same with L1 ratio 0.5.
+    4. Regression tree: depth 3, at least 200 lots per leaf.
+    5. Random forest: 200 trees, at least 50 lots per leaf.
+    6. Gradient boosting: as already run.
+    7. Causal forest: approximated by separate random forests for upzoned and unchanged lots (a "T-learner"); the effect is the upzoned forest's prediction minus the unchanged forest's, on upzoned lots.
+    8. Nearest neighbours: the 50 nearest training lots on standardised traits.
+
+    Same traits as the all-variables run, same holdouts (Chicago, Madison, Bellevue), same pass rule. Each method is judged separately. The best of 8 is reported with a warning that picking the best of many looks better than it is.
