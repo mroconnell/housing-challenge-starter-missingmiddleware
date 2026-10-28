@@ -43,3 +43,20 @@ Within a single region (10-fold cross-validation, 20 repeats):
 
 - **Minneapolis station areas:** platforms were merged by station name and areas with fewer than 100 homes were dropped. That left 12 areas instead of one for each station.
 - **California rail:** marked from rail stops inside each city's or county's boundary, not only inside its near-transit land.
+
+## Added after the result (not in the plan): hold out 10% of each region
+
+Ryan asked: "why not just hold out 10% of the data from each region?" Each fold held out 10% of every region's areas (10 folds, 20 repeats, seed 20261028).
+
+| Tool | All areas | Seattle | Minneapolis | California | Repeats beating one average |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Weighted regression | +10.4% | +5.4% | +21.5% | +10.4% | 20 of 20 |
+| Lasso | +11.8% | +6.0% | +20.3% | +12.1% | 20 of 20 |
+| Random forest | +12.0% | −9.4% | +8.9% | +15.2% | 20 of 20 |
+
+**What the models learned.** Fitted on all 221 areas, the regression gives the following weights, in extra homes permitted per 1,000 existing homes per year:
+- **Prior gap:** −0.57 per 1 unit of prior gap. Areas that outgrew their surroundings before the reform outgrew them by less afterwards. The same sign holds in each region: −0.97 in Seattle, −1.94 in Minneapolis, −0.65 in California.
+- **Rail:** +1.98.
+- **Size:** −2.59 for each tenfold increase in homes.
+
+**Reading.** The models predict well mainly because fast growers slow down. That pattern would also appear without any reform, so it is not a parking effect. Telling the two apart needs the same test on near-transit areas that did not reform.
