@@ -1,0 +1,6 @@
+case,measure,effect,p05,p95,treated_before,treated_after,comparison_before,comparison_after,treated_units,comparison_units,treated_homes,comparison_homes,comparison_window
+"Seattle 2012, urban villages vs rest of city, after 2013-2015","per 1,000 existing homes per year",23.9913,11.4308,37.6395,23.145,49.4123,4.7576,7.0337,24.0,144.0,60039.0,181603.0,
+"Seattle 2012, after 2013-2017 (sensitivity)","per 1,000 existing homes per year",21.5231,11.4479,33.5902,23.145,48.4818,4.7576,8.5714,24.0,144.0,60039.0,181603.0,
+"Seattle 2012, comparison in multifamily and commercial zones only (sensitivity)",difference in log change of permits,0.3849,,,1389.6,2966.6667,885.4,1286.3333,,,,,
+"Portland 2002, citywide vs similar cities","per 1,000 existing homes per year",2.3219,-0.1656,4.4378,9.6837,14.2839,8.9769,11.2552,1.0,9.0,237307.0,1715321.0,division 0.50-2.00
+"Portland 2002, without Seattle (sensitivity)","per 1,000 existing homes per year",2.2247,-0.7401,4.5647,9.6837,14.2839,7.9228,10.2983,1.0,8.0,237307.0,1444797.0,division 0.50-2.00
