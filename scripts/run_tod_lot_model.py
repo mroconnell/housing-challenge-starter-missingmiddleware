@@ -34,6 +34,8 @@ FIT = {"lots": LOTS, "suffix": ""}
 LOTS_REBUILT = OUT / "lots_rebuilt.parquet"   # plan section 9, item 15
 REBUILT = {"on": False}
 PATHS = {"lots": LOTS, "half": LOTS_HALF}
+SEED = {"v": 20261027}
+ROBUST = {"drop_largest": False}
 LOT_GROUPS = ("upzoned", "upzoned_from_industrial", "upzoned_from_campus", "reform_density_not_rising", "reform_already_allowed",
               "reform_single_family_untouched", "reform_campus_or_park_unchanged", "reform_rezoned_again_in_window",
               "reform_other_not_eligible", "comparison_eligible", "comparison_industrial", "comparison_campus_or_park",
@@ -501,6 +503,8 @@ def fit(allvars: bool = False) -> None:
     from sklearn.metrics import roc_auc_score
     from sklearn.preprocessing import StandardScaler
     D = pd.read_parquet(FIT["lots"])
+    if ROBUST["drop_largest"]:   # plan section 9, item 19: each city's largest project (lot with most homes after) out
+        D = D.drop(D.groupby("city")["units_after"].idxmax().values).reset_index(drop=True)
     cache = {k: cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(D["city"], D["eff_year"]))}
     D["cost_per_home"] = [cache[(c, y)] for c, y in zip(D["city"], D["eff_year"])]
     print({k: round(v) for k, v in cache.items() if v == v}, flush=True)
@@ -533,11 +537,11 @@ def fit(allvars: bool = False) -> None:
             m2 = LinearRegression().fit(sc.transform(Xa.loc[tr][b]), y2[tr][b], sample_weight=D.loc[tr, "w"][b])
             raw = lambda X: np.expm1(m2.predict(sc.transform(X)))  # noqa: E731
         else:
-            m1 = GradientBoostingClassifier(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027)
+            m1 = GradientBoostingClassifier(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=SEED["v"])
             m1.fit(Xa.loc[tr], y1[tr], sample_weight=D.loc[tr, "w"])
             p = lambda X: m1.predict_proba(X)[:, 1]  # noqa: E731
             b = (y1[tr] == 1)
-            m2 = GradientBoostingRegressor(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027)
+            m2 = GradientBoostingRegressor(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=SEED["v"])
             m2.fit(Xa.loc[tr][b], y2[tr][b], sample_weight=D.loc[tr, "w"][b])
             raw = lambda X: np.expm1(m2.predict(X))  # noqa: E731
         # lot ceiling (owner, 2026-10-28): homes the zoning allows on the lot x the stretch real projects reached
@@ -589,10 +593,10 @@ def fit(allvars: bool = False) -> None:
     # Which lot traits the boosted "builds" model leans on (fitted on all fold cities; permutation on the holdouts)
     from sklearn.inspection import permutation_importance
     tr = D.index[D["city"].isin(cities)]
-    m1 = GradientBoostingClassifier(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027)
+    m1 = GradientBoostingClassifier(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=SEED["v"])
     m1.fit(Xa.loc[tr], y1[tr], sample_weight=D.loc[tr, "w"])
     ho = D.index[D["city"].isin(HOLD)]
-    pi = permutation_importance(m1, Xa.loc[ho], y1[ho], scoring="roc_auc", n_repeats=5, random_state=20261027,
+    pi = permutation_importance(m1, Xa.loc[ho], y1[ho], scoring="roc_auc", n_repeats=5, random_state=SEED["v"],
                                 sample_weight=D.loc[ho, "w"].values)
     imp = pd.DataFrame({"trait": Xa.columns, "split_importance": m1.feature_importances_,
                         "holdout_auc_drop_when_shuffled": pi.importances_mean}).sort_values("holdout_auc_drop_when_shuffled", ascending=False)
@@ -759,6 +763,8 @@ def fit8(tlearner: bool = False) -> None:
     from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
     rng = np.random.default_rng(20261027)
     D = pd.read_parquet(FIT["lots"])
+    if ROBUST["drop_largest"]:   # plan section 9, item 19: each city's largest project (lot with most homes after) out
+        D = D.drop(D.groupby("city")["units_after"].idxmax().values).reset_index(drop=True)
     cache = {k: cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(D["city"], D["eff_year"]))}
     D["cost_per_home"] = [cache[(c, y)] for c, y in zip(D["city"], D["eff_year"])]
     key = D["city"] + "|" + D["x5070"].round(1).astype(str) + "|" + D["y5070"].round(1).astype(str)
@@ -791,11 +797,11 @@ def fit8(tlearner: bool = False) -> None:
         if kind == "tree":
             return lambda: DecisionTreeClassifier(max_depth=3, min_samples_leaf=200), lambda: DecisionTreeRegressor(max_depth=3, min_samples_leaf=200), False
         if kind == "forest":
-            return lambda: RandomForestClassifier(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=20261027), \
-                   lambda: RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=20261027), False
+            return lambda: RandomForestClassifier(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=SEED["v"]), \
+                   lambda: RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=SEED["v"]), False
         if kind == "boosting":
-            return lambda: GradientBoostingClassifier(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027), \
-                   lambda: GradientBoostingRegressor(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027), False
+            return lambda: GradientBoostingClassifier(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=SEED["v"]), \
+                   lambda: GradientBoostingRegressor(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=SEED["v"]), False
         if kind == "knn":
             return lambda: KNeighborsClassifier(n_neighbors=50, n_jobs=-1), lambda: KNeighborsRegressor(n_neighbors=50, n_jobs=-1), True
         raise ValueError(kind)
@@ -806,9 +812,9 @@ def fit8(tlearner: bool = False) -> None:
         if tlearner:
             regs = {"wls": lambda: LinearRegression(), "lasso": lambda: Lasso(alpha=0.01), "elastic_net": lambda: ElasticNet(alpha=0.01, l1_ratio=0.5),
                     "tree": lambda: DecisionTreeRegressor(max_depth=3, min_samples_leaf=200),
-                    "forest": lambda: RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=20261027),
-                    "causal_forest": lambda: RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=20261027),
-                    "boosting": lambda: GradientBoostingRegressor(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=20261027),
+                    "forest": lambda: RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=SEED["v"]),
+                    "causal_forest": lambda: RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=SEED["v"]),
+                    "boosting": lambda: GradientBoostingRegressor(max_depth=3, n_estimators=200, learning_rate=0.05, subsample=0.5, random_state=SEED["v"]),
                     "knn": lambda: KNeighborsRegressor(n_neighbors=50, n_jobs=-1)}
             scale = kind in ("wls", "lasso", "elastic_net", "knn")
             sc = StandardScaler().fit(Xb.loc[tr]) if scale else None
@@ -829,7 +835,7 @@ def fit8(tlearner: bool = False) -> None:
             out = []
             for g in (1, 0):
                 ix = tr[(D.loc[tr, "treated"] == g).values]
-                m = RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=20261027)
+                m = RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=SEED["v"])
                 m.fit(Xb.loc[ix], dy[D.index.get_indexer(ix)], sample_weight=D.loc[ix, "w"])
                 out.append(m.predict(Xb.loc[tt]))
             extra = float((out[0] - out[1]) @ D.loc[tt, "w"].values)
@@ -900,14 +906,20 @@ def fit8(tlearner: bool = False) -> None:
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes"], required=True)
+    ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
+    ap.add_argument("--drop-largest", action="store_true", help="robustness: each city's largest project left out (item 19)")
     ap.add_argument("--rebuilt", action="store_true", help="plan item 15 lot table (industrial conversions, in-reform lots, census homes)")
     ap.add_argument("--half-mile", action="store_true", help="fit on lots within 1/2 mile of rail or rapid stops (item 14)")
     a = ap.parse_args(argv)
+    if a.seed:
+        SEED["v"] = a.seed
+    if a.drop_largest:
+        ROBUST["drop_largest"] = True
     ap_rebuilt = a.rebuilt
     if ap_rebuilt:
         REBUILT["on"] = True
         PATHS.update(lots=LOTS_REBUILT, half=OUT / "lots_rebuilt_halfmile.parquet")
-        FIT.update(lots=PATHS["half"], suffix="_rebuilt")
+        FIT.update(lots=PATHS["half"], suffix="_rebuilt" + (f"_seed{a.seed}" if a.seed else "") + ("_droplargest" if a.drop_largest else ""))
     elif a.half_mile:
         FIT.update(lots=LOTS_HALF, suffix="_halfmile")
     if a.stage == "half_mile":
