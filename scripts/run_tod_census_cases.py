@@ -183,10 +183,18 @@ def run_method_check(rng) -> pd.DataFrame:
     rows = []
     for case, st in METHOD_CASES.items():
         allm = pickle.loads((PROCESSED / "tod_net_effect" / f"areas_{case}.pkl").read_bytes())
-        # Only members whose permit table spans the census decade (plan section 8, item 3).
-        members = [m for m in allm if len(m["permits"]) and m["permits"]["year"].min() <= 2010 and m["permits"]["year"].max() >= 2019]
+        # Only members whose permit window spans 2009-2018 (plan section 8, item 3, corrected item 5).
+        # A member counts if its stored permit table spans at least 2010-2018 (plan section 8, item 5).
+        def span(m):
+            # Years the stored permit table covers: the member's own window, or the full file where it was kept.
+            w = m["per"]["before"] + m["per"]["after"]
+            y = m["permits"]["year"].dropna()
+            lo = min(min(w), y.min()) if len(y) else min(w)
+            hi = max(max(w), y.max()) if len(y) else max(w)
+            return lo <= 2010 and hi >= 2018
+        members = [m for m in allm if span(m)]
         if not members:
-            rows.append({"case": case, "members": 0, "note": f"dropped: none of {len(allm)} members' permit tables span 2010-2019"})
+            rows.append({"case": case, "members": 0, "note": f"dropped: none of {len(allm)} members' permit tables span 2010-2018"})
             print(f"method {case}: dropped", flush=True)
             continue
         crs = members[0]["crs"]
@@ -218,8 +226,11 @@ def run_method_check(rng) -> pd.DataFrame:
         res["census_over_permits_ring"] = res["census_ring_net_homes"] / res["permit_ring_homes_2009_2018"] \
             if res["permit_ring_homes_2009_2018"] else np.nan
         res["gap_census_minus_permit_difference"] = est - res["permit_difference_per_acre_2009_2018"]
-        res["methods_agree"] = bool(lo <= res["permit_difference_per_acre_2009_2018"] <= hi)
-        res["methods_agree_2010_2019"] = bool(lo <= res["permit_difference_per_acre_2010_2019"] <= hi)
+        ok = lambda x: None if np.isnan(est) or np.isnan(x) else bool(lo <= x <= hi)  # noqa: E731
+        res["methods_agree"] = ok(res["permit_difference_per_acre_2009_2018"])
+        res["methods_agree_2010_2019"] = ok(res["permit_difference_per_acre_2010_2019"])
+        if res["methods_agree"] is None:
+            res["note"] += "; not comparable (no homes in census or permits)"
         rows.append(res)
         print(f"method {case}: done", flush=True)
     return pd.DataFrame(rows)

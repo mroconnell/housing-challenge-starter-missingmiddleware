@@ -13,7 +13,7 @@ All rates below are **net homes added from 2010 to 2020 (census counts) per acre
 - **Holdouts: one of two agrees.**
   - Jersey City falls inside the range the other cases set.
   - Milpitas sits just above that range (0.73 a year against a highest of 0.68, Austin). So the census cases do not reliably predict a new place's size, the same lesson as the trait tests.
-- **Method check: census and permits agree on the effect in all 6 cases that could be compared.** In each, the permit-based difference lies inside the census-based 90% interval. But the census intervals are wide, so this is a weak test. The two differ by −4.5 to +1.6 net homes per acre over the decade, with the largest gap in Seattle's small North Beacon Hill and Othello area.
+- **Method check: census and permits agree on the effect in all 8 cases that could be compared.** In each, the permit-based difference lies inside the census-based 90% interval. But the census intervals are wide, so this is a weak test. The two differ by −4.5 to +2.1 net homes per acre over the decade, with the largest gap in Seattle's small North Beacon Hill and Othello area. (Corrected after the first report: Los Angeles had been dropped by mistake; plan section 8, item 5.)
 - **Nothing changes.** The finalized TOD numbers (AQ-055) stay at 171, 2,509 and 17,148 extra homes over 2027–2031.
 
 ## 1. New reforms
@@ -58,15 +58,21 @@ Each case's own upzoned land and ¼-mile ring. Census: net homes from April 2010
 | Chicago | 0.37 (−6.08 to 6.51) | 0.56 | 0.84 | yes |
 | Philadelphia (82 of 83 members) | 2.56 (0.55 to 4.60) | 0.98 | 3.56 | yes |
 | Charlotte (before its 2019 reform: land only) | −0.64 (−2.29 to 1.06) | −0.24 | −0.29 | yes |
-| New York, Los Angeles (two cases) | dropped: their permit tables do not cover the census decade | | | |
+| Los Angeles, Warner Center | 1.25 (−4.18 to 6.66) | 3.72 | 3.16 | yes |
+| Los Angeles, Cornfield Arroyo Seco | 0.09 (−3.63 to 4.10) | −1.96 | −1.96 | yes |
+| New York | not comparable: only 1 of 17 members' permits span 2010–2018, and its land had no homes in either source | | | |
 
-- **The two methods agree on the direction and rough size in all six.** The gap (census minus permits, 2009–2018 alignment) runs from −4.5 (Seattle North Beacon Hill and Othello) to +1.6 (Philadelphia) net homes per acre over the decade. The census intervals are wide, so agreement is easy to reach; this shows the census method is not biased in an obvious direction, not that it is precise.
+- **The two methods agree in all eight.** The gap (census minus permits, 2009–2018 alignment) runs from −4.5 (Seattle North Beacon Hill and Othello) to +2.1 (Los Angeles Cornfield Arroyo Seco) net homes per acre over the decade. Los Angeles's permits stop at 2018, so its 2010–2019 column has no 2019. The census intervals are wide, so agreement is easy to reach; this shows the census method is not biased in an obvious direction, not that it is precise.
 - **Raw counts differ a lot**, because the two sides cover different land (plan section 8, item 4). For example, Chicago's ring holds 33,578 net new census homes against 4,136 permitted homes on its unchanged eligible lots. Census blocks take in all land within ¼ mile, including lots that are not eligible or were rezoned some other way. The census also counts finished homes net of demolitions, while permits count homes approved. Counts from the two methods should not be compared directly. The per-acre differences are the like-for-like measure.
 - **City-scale check from the parking work** ([docs/parking/SALVAGE_RESULTS.md](../parking/SALVAGE_RESULTS.md)). On whole places, in 1,356 places in Wisconsin, Indiana, Minnesota and North Carolina, the census change from 2010 to 2020 ÷ permits issued 2010–2019 had these medians:
   - 0.90 in places with 2,500 to 25,000 homes;
   - 0.80 to 0.95 in places with more than 25,000 homes.
 
   So census-based gains likely read about 10–20% below permits on matching land, mostly from demolitions and permits never built. That would make the census cases here slightly conservative.
+
+**Permit years stored per case** (why New York cannot be compared):
+- New York's 17 rezonings each keep only their own 12 years, from 6 before to 5 after adoption. That's 1997–2008 for the 2003 rezoning, up to 2004–2015 for the 2010 one, and 2007–2018 for the single 2013 one. The full Department of Buildings file reaches further, so New York could be rebuilt for the census decade.
+- Los Angeles keeps 2007–2018. Saint Paul keeps 2010–2025, Chicago 2006–2026, Charlotte 1993–2026 and Seattle up to 2026. Philadelphia's members each keep their own window; 82 of 83 cover 2010–2018.
 
 ## 4. What this adds
 
