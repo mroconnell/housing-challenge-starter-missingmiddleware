@@ -1,0 +1,20 @@
+ceqanet_id,filed,homes,car_spaces,spaces_note,unit_mix_known,old_rule_spaces_estimate,qualifies_with_count
+2024080193,2024-08-06,38,28,mixed-use; total spaces,False,,True
+2026080218,2026-08-07,16,5,,False,,True
+2024100718,2024-10-17,30,55,"6 one-bed, 18 two-bed, 6 three-bed",True,57,True
+2025050082,2025-05-02,32,20,"27 spaces less 7 reserved for an abutting site",False,,True
+2025010129,2025-01-06,13,13,"4 one-bed, 6 two-bed, 3 three-bed",True,24,True
+2025081104,2025-08-25,100,88,residential spaces only (20 commercial excluded),False,,True
+2026020594,2026-02-17,16,5,,False,,True
+2024050365,2024-05-08,19,17,"11 two-bed, 8 three-bed",True,38,True
+2024080266,2024-08-07,297,410,includes commercial; also cites AB 2097,False,,True
+2025041177,2025-04-24,12,0,no parking under AB 2097,False,,True
+2024090963,2024-09-25,12,24,"3 three-bed, 3 four-bed, 6 five-bed",True,24,True
+2025071128,2025-07-28,60,42,"17 studios, 43 one-bed",True,81.5,True
+2024050043,2024-05-01,25,,no count given,False,,False
+2024030859,2024-03-22,33,,no count given,False,,False
+2025070770,2025-07-18,800,,Costco filing for a larger project; no count,False,,False
+2024050035,2024-05-01,16,,no count given,False,,False
+2024110894,2024-11-25,45,,no count given,False,,False
+2024101348,2024-10-31,70,,no count given,False,,False
+2025100614,2025-10-14,40,,no count given,False,,False

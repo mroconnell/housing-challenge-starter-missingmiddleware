@@ -41,3 +41,4 @@ A check on how developers respond to lower parking minimums, reported as evidenc
 
 ## Changes after writing
 - **2026-10-28, after the first draw (before any parking was recorded):** a search for "TOC" matched many non-housing filings, such as cannabis permits, sidewalk repairs and bars. The frame is now documents matching "Transit Oriented Communities", gathered by quarter, 2018–2026. All other rules are unchanged.
+- **2026-10-28, after the draw:** the CEQAnet search gave 2,507 City of Los Angeles filings, almost all from 2024–2026. Every one was read automatically for the words "Transit Oriented Communities" or "TOC" plus homes. Only 23 qualified, and after removing 4 repeat filings for the same project, 19 projects remained. 12 of them give a parking count. So the sample is these 12, not 50, and there is no 2018–2022 period.
