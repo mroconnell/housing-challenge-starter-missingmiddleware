@@ -19,6 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import run_parking_comparison as rpc  # noqa: E402
 from missing_middleware.parking import comparison as cmp  # noqa: E402
+from missing_middleware.parking import checks  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 SEED, PER_PLACE, SETS = 20261027, 20, 500
@@ -87,7 +88,11 @@ def main() -> None:
     dropped = int(pl["effect"].isna().sum())
     pl = pl.dropna(subset=["effect", "weight"])
     pl = pl[pl["weight"] > 0]
-    print("placebo places without an effect, left out:", dropped)
+    flags = checks.definition(pd.DataFrame(), "placebo places without an effect (left out)", pd.Series([True] * dropped, dtype=bool))
+    if full:
+        sc = pd.read_csv(REFERENCE / f"parking_placebo{tag}_scopes.csv")
+        flags += checks.definition(sc, "real places with fewer than 20 stand-ins", sc["standins"] < MIN_STANDINS)
+    checks.report(flags, REFERENCE / f"parking_placebo{tag}_checks.csv")
     rng = np.random.default_rng(SEED + 1)  # set draws use their own stream, so --summary-only reproduces the full run
     groups = {i: g for i, g in pl.groupby("real_index")}
     n_sets = SETS_FULL if full else SETS

@@ -62,6 +62,9 @@ def main() -> None:
     # owner option B (2026-10-27): the high end is the placebo-based range (spread of 500 placebo averages, centred
     # on the real average); the resampling high end is kept as a sensitivity
     upper_all = float(pd.read_csv(REFERENCE / "parking_placebo_full_summary.csv")["range_from_placebo_high"].iloc[0])
+    if not np.isfinite(upper_all):  # flag, do not stop (owner 2026-10-28); a blank high end must never reach the tool as 0
+        print("=== CHECKS === placebo high end is blank; falling back to the resampling high end")
+        upper_all = upper_resample
     upper_apts = float(xe.loc["Expanded, units in buildings of 2+ units", "p95"])
     upper_no_sf = float(xe.loc["Expanded, without San Francisco", "p95"])
     upper_ca = float(xe.loc["Expanded US and California, precision-weighted (sensitivity)", "p95"])
