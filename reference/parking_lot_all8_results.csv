@@ -1,0 +1,9 @@
+method,cities_better,mean_error_model,mean_error_baseline,passes
+wls,1,487.898,2973.36,False
+lasso,2,925.515,2973.36,True
+elastic_net,2,958.491,2973.36,True
+tree,2,365.874,2973.36,True
+forest,2,407.491,2973.36,True
+boosting,2,664.84,2973.36,True
+causal_forest,0,30690.861,2973.36,False
+knn,2,389.292,2973.36,True
