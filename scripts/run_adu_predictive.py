@@ -3,7 +3,8 @@ flexible models (causal forest, boosted trees, regularised Poisson regression), 
 docs/adu/PREDICTIVE_PLAN.md before any outcome was computed. Results: docs/adu/PREDICTIVE_RESULTS.md.
 
     uv run --all-extras python scripts/build_adu_predictive_panel.py   # first (see its docstring for --fetch)
-    uv run --all-extras python scripts/run_adu_predictive.py
+    uv run --all-extras python scripts/run_adu_predictive.py            # run 2 (default): AQ-061 coding + local strength
+    uv run --all-extras python scripts/run_adu_predictive.py --run 1    # the first run (pre-AQ-061 coding)
 
 Inputs: data/processed/adu_predictive/{panel,features,market,wi_features}.parquet; for the adopted model's aggregate
 members and the Wisconsin step, the same local inputs as scripts/run_pooled_regression.py.
@@ -14,6 +15,8 @@ Outputs (aggregates only):
     reference/adu_predictive_robustness.csv  other seeds, for any forest or boosting pass
     reference/adu_predictive_wi_*.csv      only if a method passes (PREDICTIVE_PLAN section 8)
     data/processed/adu_predictive/predictions.parquet, summary.json
+Run 2 (PREDICTIVE_PLAN section 10, items 8-10) reads data/processed/adu_predictive/run2/ and writes the same files
+with "run2_" after "adu_predictive_" (first-run files are kept), plus reference/adu_predictive_run2_before_after.csv.
 Units: rates are ADU permits per 1,000 one-unit detached homes per year; a miss is |predicted - observed| in that unit.
 """
 from __future__ import annotations
@@ -35,6 +38,10 @@ from missing_middleware.comparison import pooled_regression as pr  # noqa: E402
 PROCESSED = ROOT / "data" / "processed"
 REFERENCE = ROOT / "reference"
 OUT = PROCESSED / "adu_predictive"
+IN = OUT                 # run-specific input/output folder (main() sets it; run 2 = OUT / "run2")
+TAG = ""                 # reference file tag ("" for run 1, "run2_" for run 2)
+STRENGTH = False         # run 2: local reform strength and years-since inputs (PLAN section 10 item 9)
+N_JOBS = 4               # owner rule: keep machine load reasonable
 SEED = 20261028
 ROBUST_SEEDS = (20261029, 20261030, 20261031, 20261032, 20261033)
 
@@ -50,6 +57,7 @@ LABELS = {"plain_average": "Plain average", "current_model": "Adopted model, ref
           "causal_forest": "Causal forest (two parts)", "boosted_trees": "Boosted trees (two parts)",
           "regularised_regression": "Regularised Poisson regression (two parts)", "guess_zero": "Guess zero"}
 CUR_WITHIN = ("value_dev", "income_dev", "log_homes", "law", "local", "k1", "k2", "k3")
+STRENGTH_TERMS = ("local_strength", "ly1", "ly2", "ly3")
 ALPHAS = tuple(np.logspace(-4, 1, 10))
 
 
@@ -58,29 +66,47 @@ ALPHAS = tuple(np.logspace(-4, 1, 10))
 # ---------------------------------------------------------------------------
 
 def load():
-    panel = pd.read_parquet(OUT / "panel.parquet")
-    feats = pd.read_parquet(OUT / "features.parquet").set_index("geo")
-    market = pd.read_parquet(OUT / "market.parquet").set_index("geo")
-    panel["rate"] = panel["count"] / panel["homes"] * 1000
+    panel = pd.read_parquet(IN / "panel.parquet")
+    feats = pd.read_parquet(IN / "features.parquet").set_index("geo")
+    market = pd.read_parquet(IN / "market.parquet").set_index("geo")
+    if "years" not in panel:
+        panel["years"] = 1.0
+    for c in ("local_strength", "local_years"):
+        if c not in panel:
+            panel[c] = 0
+    panel["rate"] = panel["count"] / (panel["homes"] * panel["years"]) * 1000
     return panel, feats, market
+
+
+def home_years(rows: pd.DataFrame) -> np.ndarray:
+    return rows["homes"].to_numpy(float) * (rows["years"].to_numpy(float) if "years" in rows else 1.0)
 
 
 def cluster_weights(rows: pd.DataFrame) -> np.ndarray:
     """Home-years, rescaled so every state (cluster) carries the same total weight (the adopted scheme)."""
-    hy = rows["homes"].to_numpy(float)
+    hy = home_years(rows)
     tot = pd.Series(hy).groupby(rows["cluster"].to_numpy()).transform("sum").to_numpy()
     w = hy / tot
     return w / w.mean()
 
 
+def strength_cols(rows: pd.DataFrame) -> np.ndarray:
+    """Run 2: local reform strength (0-3) and dummies for 1, 2, 3 years since its latest change."""
+    n = len(rows)
+    ls = rows["local_strength"].to_numpy(float) if "local_strength" in rows else np.zeros(n)
+    ly = rows["local_years"].to_numpy(float) if "local_years" in rows else np.zeros(n)
+    return np.column_stack([ls, ly == 1, ly == 2, ly == 3]).astype(float)
+
+
 def treat_cols(rows: pd.DataFrame, part: str, k_override: int | None = None, strong_override: int | None = None) -> np.ndarray:
     local = rows["local"].to_numpy(float)
     if part == "nolaw":
-        return local[:, None]
+        return np.column_stack([local, strength_cols(rows)]) if STRENGTH else local[:, None]
     k = rows["k"].to_numpy(float) if k_override is None else np.full(len(rows), float(k_override))
     k = np.clip(np.nan_to_num(k, nan=4.0), 1, 4)
     strong = rows["strong"].to_numpy(float) if strong_override is None else np.full(len(rows), float(strong_override))
-    return np.column_stack([strong, k == 1, k == 2, k == 3, local]).astype(float)
+    out = np.column_stack([strong, k == 1, k == 2, k == 3, local]).astype(float)
+    return np.hstack([out, strength_cols(rows)]) if STRENGTH else out
 
 
 # ---------------------------------------------------------------------------
@@ -92,7 +118,7 @@ def plain_average(train: pd.DataFrame, test: pd.DataFrame) -> np.ndarray:
     out = np.zeros(len(test))
     for law in (0, 1):
         tr = train[train["law"].eq(law)]
-        by = tr.groupby("cluster").apply(lambda g: g["count"].sum() / g["homes"].sum() * 1000, include_groups=False)
+        by = tr.groupby("cluster").apply(lambda g: g["count"].sum() / home_years(g).sum() * 1000, include_groups=False)
         lev = float(by.mean()) if len(by) else 0.0
         out[test["law"].eq(law).to_numpy()] = lev
     return out
@@ -108,7 +134,7 @@ class TwoPart:
     def _make(self, X, y, w, groups):
         from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor
         if self.kind == "causal_forest":
-            m = RandomForestRegressor(n_estimators=500, min_samples_leaf=20, max_features=1 / 3, n_jobs=-1,
+            m = RandomForestRegressor(n_estimators=500, min_samples_leaf=20, max_features=1 / 3, n_jobs=N_JOBS,
                                       random_state=self.seed)
             m.fit(X, y, sample_weight=w)
             return m
@@ -216,7 +242,8 @@ def current_inputs(panel: pd.DataFrame, market: pd.DataFrame) -> tuple[pd.DataFr
     rows["group_id"] = np.where(rows["level"].eq("aggregate") & rows["series"].isin(
         ["RI_statewide", "MA_statewide", "ME_statewide", "UT_mih", "VT_chittenden"]), rows["series"],
         np.where(rows["cluster"].eq("CA"), "ca:" + rows["ca_geoid"].fillna(""), rows["geo"]))
-    rows["years"] = 1.0
+    rows["years"] = panel["years"].to_numpy(float)
+    rows["ly1"], rows["ly2"], rows["ly3"] = [(rows["local_years"] == i).astype(float) for i in (1, 2, 3)]
     rows["incl_new_house"] = True
     rows["coverage"] = 1.0
     rows["pre_rate"] = np.nan
@@ -248,18 +275,38 @@ def current_inputs(panel: pd.DataFrame, market: pd.DataFrame) -> tuple[pd.DataFr
     return rows, members
 
 
+_DESIGN = pr.design
+
+
+def _design_with_strength(m: pd.DataFrame, terms: tuple[str, ...]):
+    """pooled_regression.design plus the run-2 local-strength terms (read from the row columns carried into m)."""
+    base = tuple(t for t in terms if t not in STRENGTH_TERMS)
+    X, names = _DESIGN(m, base)
+    extra = [t for t in terms if t in STRENGTH_TERMS]
+    if extra:
+        X = np.column_stack([X] + [np.nan_to_num(m[t].astype(float).to_numpy()) for t in extra])
+        names = names + extra
+    return X, names
+
+
+pr.design = _design_with_strength     # used by fit_two_stage and TFit.predict_members (strength terms are not centred)
+
+ROW_COLS = ["cluster", "series", "group_id", "year", "count", "years", "law", "local", "k", "incl_new_house", "coverage",
+            "pre_rate"]
+
+
 def current_fit_predict(rows: pd.DataFrame, members: pd.DataFrame, train: np.ndarray, test: np.ndarray) -> np.ndarray:
+    cols = ROW_COLS + (list(STRENGTH_TERMS) if STRENGTH else [])
+    within = CUR_WITHIN + (STRENGTH_TERMS if STRENGTH else ())
     tr = rows[train].reset_index(drop=True)
-    p_tr = pr.Pooled(tr[["cluster", "series", "group_id", "year", "count", "years", "law", "local", "k", "incl_new_house",
-                          "coverage", "pre_rate"]], members[members["group_id"].isin(tr["group_id"])])
+    p_tr = pr.Pooled(tr[cols], members[members["group_id"].isin(tr["group_id"])])
     s2 = tuple(c for c in LAW_STATES if c in set(tr["cluster"]))
-    f = pr.fit_two_stage(p_tr, pr.TSpec("current", CUR_WITHIN, (), stage2_clusters=s2))
+    f = pr.fit_two_stage(p_tr, pr.TSpec("current", within, (), stage2_clusters=s2))
     te = rows[test].reset_index(drop=True)
-    p_te = pr.Pooled(te[["cluster", "series", "group_id", "year", "count", "years", "law", "local", "k", "incl_new_house",
-                          "coverage", "pre_rate"]], members[members["group_id"].isin(te["group_id"])])
+    p_te = pr.Pooled(te[cols], members[members["group_id"].isin(te["group_id"])])
     pred = pr.predict_rows_ts(f, p_te)
-    # predicted count for the row's own homes (aggregate members' homes can differ slightly from the series' homes)
-    rate = pred["pred_count"].to_numpy() / pred["homes"].to_numpy() * 1000
+    # predicted count for the row's own home-years (aggregate members' homes can differ slightly from the series' homes)
+    rate = pred["pred_count"].to_numpy() / (pred["homes"].to_numpy() * te["years"].to_numpy(float)) * 1000
     return rate
 
 
@@ -308,6 +355,7 @@ def run_all(panel, feats, market, seed=SEED, methods=METHODS, log=print) -> pd.D
 # ---------------------------------------------------------------------------
 
 def pooled_rate(g: pd.DataFrame, col: str) -> float:
+    """Exposure-weighted rate. Callers pass home-years in `homes` (score and placebo multiply by `years`)."""
     return float((g[col] * g["homes"]).sum() / g["homes"].sum())
 
 
@@ -336,8 +384,9 @@ def madison_like_geos() -> set[str]:
 
 
 def score(panel: pd.DataFrame, pred: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
-    P = pred.merge(panel[["row_id", "cluster", "series", "geo", "year", "law", "homes", "rate", "count", "unit_group"]],
-                   on="row_id")
+    P = pred.merge(panel[["row_id", "cluster", "series", "geo", "year", "law", "homes", "years", "rate", "count",
+                          "unit_group"]], on="row_id")
+    P["homes"] = P["homes"] * P["years"]          # home-years (Massachusetts 2025 = 11/12; every other row 1)
     rows = []
     # test 1: statewide
     for st in TEST1_STATES:
@@ -401,7 +450,8 @@ def judge(by_unit: pd.DataFrame, methods=ADVANCED) -> pd.DataFrame:
 def placebo(panel: pd.DataFrame, pred: pd.DataFrame) -> pd.DataFrame:
     """No-law rows in their own state's fold: rate miss of each method, and the law effect (law part at year 4+,
     strong law, minus the no-law part) each two-part method would assign. Rates per 1,000 homes per year."""
-    P = pred.merge(panel[["row_id", "cluster", "series", "geo", "law", "homes", "rate"]], on="row_id")
+    P = pred.merge(panel[["row_id", "cluster", "series", "geo", "law", "homes", "years", "rate"]], on="row_id")
+    P["homes"] = P["homes"] * P["years"]
     P = P[P["law"].eq(0) & P["fold"].eq(P["cluster"])]
     out = []
     for s, g in P.groupby("series"):
@@ -432,9 +482,13 @@ PANEL_UNITS = {   # column -> (unit, check)
     "strong": ("0/1 Mercatus strong law (0 when no law)", lambda s: s.isin([0, 1])),
     "k": ("years since the statewide law (1 = first full year); missing when no law", lambda s: s.isna() | s.between(1, 12)),
     "year": ("calendar year (OFM estimate year for Washington cities)", lambda s: s.between(2012, 2026)),
+    "years": ("share of the year with exposure (Massachusetts 2025 = 11/12)", lambda s: s.between(0.5, 1)),
+    "local_strength": ("local reform strength 0-3 (run 2)", lambda s: s.isin([0, 1, 2, 3])),
+    "local_years": ("years since the latest local strength change, 4 = 4+; 0 when strength 0", lambda s: s.between(0, 4)),
 }
 # First year coded as law in force, from the effective / compliance dates in STATEWIDE_STATES.md
-LAW_FIRST_YEAR = {"CA": 2017, "WA": 2024, "OR": 2019, "RI": 2025, "MA": 2025, "ME": 2025, "UT": 2022, "VT": 2021,
+LAW_FIRST_YEAR = {"CA": 2017, "WA": 2024,   # WA: 2026 in run 2 (local compliance; set in main)
+                  "OR": 2019, "RI": 2025, "MA": 2025, "ME": 2025, "UT": 2022, "VT": 2021,
                   "CO": 2025}
 
 
@@ -479,7 +533,7 @@ def flags(panel: pd.DataFrame, feats: pd.DataFrame) -> pd.DataFrame:
             add("unit_check", "features", col, bad.sum(), f"{unit}: {int(bad.sum())} geographies outside, e.g. "
                 f"{', '.join(f'{v:.3g}' for v in feats.loc[bad, col].head(3))}")
     # units: raw dollar values must be positive
-    vals = pd.read_parquet(OUT / "values.parquet").set_index("geo").reindex(panel["geo"].unique())
+    vals = pd.read_parquet(IN / "values.parquet").set_index("geo").reindex(panel["geo"].unique())
     for vid, _, _, kind, _ in B.VARIABLES:
         if kind == "dollar":
             bad = vals[vid].notna() & (vals[vid] <= 0)
@@ -496,7 +550,7 @@ def flags(panel: pd.DataFrame, feats: pd.DataFrame) -> pd.DataFrame:
     for ug, g in nolaw_late.groupby("unit_group"):
         add("policy_definition", ug, "law", len(g), "coded no law in a year on or after the law's first full year")
     # policy definition: >2 per parcel and apartment lots (what the outcome rules can and cannot remove)
-    info = json.loads((OUT / "build_info.json").read_text())
+    info = json.loads((IN / "build_info.json").read_text())
     for city, d in info.get("tract_cities", {}).items():
         if "units_in_years" in d:
             add("policy_definition", f"{city} tracts", "count", 0,
@@ -509,6 +563,20 @@ def flags(panel: pd.DataFrame, feats: pd.DataFrame) -> pd.DataFrame:
         "'possible' ones remain")
     add("policy_definition", "Washington, Oregon, aggregates", "count", 0,
         "no parcel ids in these series, so the 2-per-parcel cap cannot be applied (rare in practice)")
+    if "coverage" in panel and panel["coverage"].ne(1).any():
+        for (srs, yr), g in panel[panel["coverage"].ne(1)].groupby(["series", "year"]):
+            add("policy_definition", srs, "count", len(g), f"{yr}: count divided by reporting share {g['coverage'].iloc[0]:.4f} "
+                "(AQ-061)")
+    if STRENGTH:
+        import build_adu_predictive_panel as B2
+        for srs in B2.LOCAL_STRENGTH_UNRESEARCHED:
+            g = panel[panel["series"].eq(srs)]
+            add("policy_definition", srs, "local_strength", len(g),
+                "local reform strength coded without a researched source in the repo (" +
+                ", ".join(f"{y}: {v}" for y, v in zip(g["year"], g["local_strength"])) + ")")
+        jump = panel[panel["local_years"].eq(1) & panel["level"].eq("tract")].groupby("series")["year"].min()
+        for srs, y in jump.items():
+            add("policy_definition", srs, "local_strength", 0, f"local strength rises in {y} (first year counted)")
     # out of training range: each held-out unit's homes-weighted median trait vs training rows' 1st-99th pct
     F = feats.reindex(panel["geo"])
     F.index = panel.index
@@ -549,12 +617,13 @@ def wisconsin(panel, feats, method: str, adopted_central: float) -> tuple[pd.Dat
     d = rp.load()
     wi, base, growth = d["wi"], d["baseline"], d["growth"]
     G = rr.growth_matrix(wi, growth)
-    wf = pd.read_parquet(OUT / "wi_features.parquet").set_index("geo")
+    wf = pd.read_parquet(IN / "wi_features.parquet").set_index("geo")
     geo = "cousub:" + wi["area_id"].str.replace("muni:", "", regex=False)
     Fw = wf.reindex(geo).reindex(columns=feats.columns).to_numpy(float)
     Fw = np.where(np.isnan(Fw), np.nanmean(Fw, axis=0), Fw)
     tp = TwoPart(method, SEED).fit(panel, feats.reindex(panel["geo"]).to_numpy(float))
-    rws = pd.DataFrame({"local": 0.0, "k": 1.0, "strong": 1.0, "law": 1}, index=range(len(wi)))
+    rws = pd.DataFrame({"local": 0.0, "k": 1.0, "strong": 1.0, "law": 1, "local_strength": 0, "local_years": 0},
+                       index=range(len(wi)))
     Y = np.column_stack([tp.predict_part(rws, Fw, "law", k_override=min(k, 4), strong_override=1) for k in range(1, 6)])
     add = pr.additional(wi, Y, base, G, per_area_max=True)
     H = wi["homes"].to_numpy(float)
@@ -573,57 +642,92 @@ def wisconsin(panel, feats, method: str, adopted_central: float) -> tuple[pd.Dat
 
 # ---------------------------------------------------------------------------
 
+def ref(name: str) -> Path:
+    """reference/adu_predictive_<TAG><name>"""
+    return REFERENCE / f"adu_predictive_{TAG}{name}"
+
+
+def before_after(res1: pd.DataFrame, res2: pd.DataFrame) -> pd.DataFrame:
+    """First run against the rerun: mean miss, units beating both baselines and pass, per test x method."""
+    k = ["test", "method"]
+    c = ["mean_miss", "units_beating_both", "passes"]
+    a = res1[k + [x for x in c if x in res1]].rename(columns={x: f"run1_{x}" for x in c})
+    b = res2[k + [x for x in c if x in res2]].rename(columns={x: f"run2_{x}" for x in c})
+    out = a.merge(b, on=k, how="outer")
+    out["mean_miss_unit"] = np.where(out["test"].eq("3_where_only"), "share of the unit's permits misplaced (0-1)",
+                                     "ADU permits per 1,000 single-family homes per year")
+    return out
+
+
 def main():
+    global IN, TAG, STRENGTH
+    run = 2
+    if "--run" in sys.argv:
+        run = int(sys.argv[sys.argv.index("--run") + 1])
+    if run >= 2:
+        IN, TAG, STRENGTH = OUT / f"run{run}", f"run{run}_", True
+        LAW_FIRST_YEAR["WA"] = 2026          # AQ-061: Washington from local compliance (Seattle 2024 is flagged)
     panel, feats, market = load()
-    OUT.mkdir(parents=True, exist_ok=True)
+    IN.mkdir(parents=True, exist_ok=True)
     fl = flags(panel, feats)                      # owner rule: flag before each run, never stop
-    fl.to_csv(REFERENCE / "adu_predictive_flags.csv", index=False)
-    print(fl.groupby("flag_type").size().to_string())
-    if "--reuse" in sys.argv and (OUT / "predictions.parquet").exists():   # rescore saved main-seed predictions
-        pred = pd.read_parquet(OUT / "predictions.parquet")
+    fl.to_csv(ref("flags.csv"), index=False)
+    print(fl.groupby("flag_type").size().to_string(), flush=True)
+    if "--reuse" in sys.argv and (IN / "predictions.parquet").exists():   # rescore saved main-seed predictions
+        pred = pd.read_parquet(IN / "predictions.parquet")
     else:
         pred = run_all(panel, feats, market)
-        pred.to_parquet(OUT / "predictions.parquet", index=False)
+        pred.to_parquet(IN / "predictions.parquet", index=False)
     cols = list(METHODS) + ["guess_zero"]
     by_unit = score(panel, pred, cols)
     res = judge(by_unit)
     pl = placebo(panel, pred)
-    by_unit.round(4).to_csv(REFERENCE / "adu_predictive_by_unit.csv", index=False)
-    res.round(4).to_csv(REFERENCE / "adu_predictive_results.csv", index=False)
-    pl.round(4).to_csv(REFERENCE / "adu_predictive_placebo.csv", index=False)
-    summary = {"rows": int(len(panel)), "features": int(feats.shape[1]),
+    by_unit.round(4).to_csv(ref("by_unit.csv"), index=False)
+    res.round(4).to_csv(ref("results.csv"), index=False)
+    pl.round(4).to_csv(ref("placebo.csv"), index=False)
+    if run >= 2 and (REFERENCE / "adu_predictive_results.csv").exists():
+        before_after(pd.read_csv(REFERENCE / "adu_predictive_results.csv"), res).round(4).to_csv(
+            ref("before_after.csv"), index=False)
+    summary = {"run": run, "rows": int(len(panel)), "features": int(feats.shape[1]),
                "rows_by_cluster": panel.groupby("cluster").size().to_dict(),
                "passes": res[res.get("passes", pd.Series(dtype=bool)).fillna(False).astype(bool)][["test", "method"]].to_dict("records")}
-    # current-model log errors on test 1, to compare with the adopted 0.113
+    # current-model log errors on test 1, to compare with the adopted held-out error
     t1 = by_unit[by_unit["test"].eq("1_how_much")]
     summary["test1_rms_log_error"] = {m: float(np.sqrt(np.nanmean(t1[f"log_error__{m}"] ** 2))) for m in METHODS}
-    # robustness of any forest / boosting pass
+    (IN / "summary.json").write_text(json.dumps(summary, indent=2, default=str))
+    print(res.round(3).to_string(), flush=True)
+    # robustness of any forest / boosting pass (run 2 also reruns the boosted trees on every test; PLAN s10 item 10)
     passing = res[res.get("passes", False).fillna(False).astype(bool)] if "passes" in res else res.iloc[0:0]
+    rob_methods = set(passing["method"]) & {"causal_forest", "boosted_trees"}
+    if run >= 2:
+        rob_methods |= {"boosted_trees"}
     rob = []
-    for m in sorted(set(passing["method"]) & {"causal_forest", "boosted_trees"}):
-        for s in ROBUST_SEEDS:
-            p2 = run_all(panel, feats, market, seed=s, methods=(m,), log=lambda *a, **k: None)   # baselines do not use a seed
+    for m in sorted(rob_methods):
+        for sd in ROBUST_SEEDS:
+            p2 = run_all(panel, feats, market, seed=sd, methods=(m,), log=lambda *a, **k: None)   # baselines: no seed
             p2 = p2[["row_id", "fold", m]].merge(pred[["row_id", "fold", "plain_average", "current_model"]],
                                                  on=["row_id", "fold"])
             p2["guess_zero"] = 0.0
             r2 = judge(score(panel, p2, ["plain_average", "current_model", m, "guess_zero"]), methods=(m,))
             for r in r2[r2["method"].eq(m)].itertuples():
-                rob.append({"method": m, "seed": s, "test": r.test, "mean_miss": r.mean_miss, "passes": r.passes})
+                rob.append({"method": m, "seed": sd, "test": r.test, "mean_miss": r.mean_miss,
+                            "units_beating_both": r.units_beating_both, "passes": r.passes,
+                            "main_seed_passes": bool(((passing["method"] == m) & (passing["test"] == r.test)).any())})
+            print(f"robustness {m} seed {sd} done", flush=True)
     if rob:
         rb = pd.DataFrame(rob)
-        rb.to_csv(REFERENCE / "adu_predictive_robustness.csv", index=False)
+        rb.round(4).to_csv(ref("robustness.csv"), index=False)
         summary["robustness"] = rb.groupby(["method", "test"])["passes"].sum().reset_index().to_dict("records")
     # Wisconsin, only for passing methods
     adopted = float(pd.read_csv(REFERENCE / "adu_model_statewide.csv").set_index("path").loc["central", "additional_units"])
+    summary["adopted_central"] = adopted
     summary["wisconsin"] = []
     for m in sorted(set(passing["method"])):
         areas, county, stat = wisconsin(panel, feats, m, adopted)
         stat["tests_passed"] = passing.loc[passing["method"].eq(m), "test"].tolist()
-        county.round(4).to_csv(REFERENCE / f"adu_predictive_wi_by_county_{m}.csv", index=False)
-        areas.round(5).to_parquet(OUT / f"wi_areas_{m}.parquet", index=False)
+        county.round(4).to_csv(ref(f"wi_by_county_{m}.csv"), index=False)
+        areas.round(5).to_parquet(IN / f"wi_areas_{m}.parquet", index=False)
         summary["wisconsin"].append(stat)
-    (OUT / "summary.json").write_text(json.dumps(summary, indent=2, default=str))
-    print(res.round(3).to_string())
+    (IN / "summary.json").write_text(json.dumps(summary, indent=2, default=str))
     print(json.dumps(summary, indent=1, default=str)[:4000])
 
 

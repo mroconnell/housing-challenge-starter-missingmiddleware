@@ -1,5 +1,7 @@
 # ADU predictive test: results
 
+> **Rerun on the adopted data (run 2, 2026-10-28): see [the section at the end](#run-2-rerun-on-the-adopted-aq-061-coding).** Sections 1–7 below are the first run, kept as they were.
+
 Run 2026-10-28 under [PREDICTIVE_PLAN.md](PREDICTIVE_PLAN.md), written before any outcome was computed. Changes made after it are in its section 10. Code: [`scripts/build_adu_predictive_panel.py`](../../scripts/build_adu_predictive_panel.py), [`scripts/run_adu_predictive.py`](../../scripts/run_adu_predictive.py); tests [`tests/test_adu_predictive.py`](../../tests/test_adu_predictive.py). The adopted ADU outputs (`reference/adu_model_*.csv`) are not touched.
 
 **Units.**
@@ -188,7 +190,157 @@ By year, additional permits: boosted 910, 959, 954, 1,095, 1,095; regression 1,2
 ```
 set -a; source .env; set +a
 uv run --all-extras python scripts/build_adu_predictive_panel.py --fetch   # once: ACS API, TIGER tracts, permit points
-uv run --all-extras python scripts/build_adu_predictive_panel.py
-uv run --all-extras python scripts/run_adu_predictive.py                   # add --reuse to rescore saved predictions
+uv run --all-extras python scripts/build_adu_predictive_panel.py --run 1   # first run's coding (run 2 is the default)
+uv run --all-extras python scripts/run_adu_predictive.py --run 1           # add --reuse to rescore saved predictions
 bash scripts/test.sh
 ```
+
+## Run 2: rerun on the adopted AQ-061 coding
+
+Run 2026-10-28 under [PREDICTIVE_PLAN.md](PREDICTIVE_PLAN.md) section 10, items 8–10, written before the rerun was built or fitted. Files: `reference/adu_predictive_run2_*.csv`; first-run files unchanged. Same rows, variables, methods, held-out units, pass rule and seeds, with two changes:
+- **Adopted coding (AQ-061; AQ-062 keeps Vermont).** Reporting-share scale-ups (Maine, Massachusetts, Rhode Island 2025; Utah 2023–2025); Massachusetts 2025 = 11/12 of a year; Washington from local compliance (EY2024–2025 dropped, EY2026 = law year 1). Checked: every state count equals `run_pooled_revision.build()`'s adopted row.
+- **New input for every method: city reform strength (0–3) and years since it changed** (Seattle 2019, Portland 2016/2020, Austin 2015, Denver 2024, Minneapolis 2021, Madison 2021/2024). Also in the refitted adopted model.
+
+Units as above: rates are ADU permits per 1,000 single-family homes per year; "share misplaced" is the share of a unit's permits predicted in the wrong place (0–1).
+
+### Run 2 summary
+
+- **Nothing passes "how much" (test 1).**
+- **Boosted trees pass both "where" tests.**
+  - **Not robust:** 3 of 5 seeds (test 2), 2 of 5 (test 3). 4 of 5 needed.
+  - So, under the plan, not brought to the owner.
+- **Regression no longer passes anything.**
+- **Causal forest still fails all three.**
+- **Reform-strength input did not fix Seattle.**
+  - Seattle miss: about 3 permits per 1,000 single-family homes per year.
+  - It hurt Portland (adopted refit: 3.2 → 7.1).
+- **Adopted model, refit:** still best on "how much".
+- **Dane County: the two "where" methods now agree** (8.2% and 8.7% of the state's addition).
+- **18 chances to pass over two runs; no robust pass.**
+- **Bottom line:** keep the adopted model, for how much and where.
+
+### Before and after, by method and test
+
+[`adu_predictive_run2_before_after.csv`](../../reference/adu_predictive_run2_before_after.csv). "Wins" = held-out units where the method beats both the plain average and the adopted model (need 4 of 7 for test 1, 6 of 10 for tests 2 and 3).
+
+| Method | Test 1, how much: mean miss (wins) run 1 → run 2 | Test 2, where (rates): mean miss (wins) run 1 → run 2 | Test 3, where only: mean share misplaced (wins) run 1 → run 2 |
+| --- | --- | --- | --- |
+| Plain average | 0.237 → 0.268 | 1.060 → 1.074 | 0.411 → 0.410 |
+| Adopted model, refit | **0.127 → 0.193** | 1.506 → 1.778 | 0.397 → 0.395 |
+| Causal forest | 0.219 (2) → 0.328 (2): fail, fail | 0.980 (5) → 1.130 (4): fail, fail | 0.377 (5) → 0.375 (5): fail, fail |
+| Boosted trees | 0.123 (4) → 0.262 (3): **pass → fail** | 0.905 (6) → 0.952 (6): **pass → pass** | 0.373 (5) → 0.362 (6): **fail → pass** |
+| Regularised regression | 0.352 (2) → 0.477 (1): fail, fail | 0.932 (6) → 0.917 (5): **pass → fail** | 0.367 (6) → 0.368 (4): **pass → fail** |
+| Guess zero (floor) | 0.880 → 1.037 | 1.140 → 1.129 | – |
+
+Test 1 and 2 misses in permits per 1,000 single-family homes per year; test 3 in share of permits (0–1).
+
+**Root-mean-square log error, test 1 (7 states):** adopted refit 0.157 → 0.221; boosted 0.205 → 0.322; plain average 0.277 → 0.297; forest 0.283 → 0.392; regression 0.634 → 0.575. The adopted model's own published figure on AQ-061 is 0.180 (its rows differ: Washington and Oregon as series, California from 2020, no tracts).
+
+**Robustness, boosted trees, 5 other seeds** ([`adu_predictive_run2_robustness.csv`](../../reference/adu_predictive_run2_robustness.csv)):
+
+| Test | Main seed | Other seeds passing | Robust? |
+| --- | --- | --- | --- |
+| 1 how much | fail | 0 of 5 | – |
+| 2 where (rates) | pass | 3 of 5 | **no** (need 4) |
+| 3 where only | pass | 2 of 5 | **no** (need 4) |
+
+### Test 1 by state (run 2)
+
+| Held-out state | Observed | Plain average | Adopted refit | Forest | Boosted | Regression |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Washington (EY2026) | 0.80 | 1.25 | 1.05 | 1.00 | **0.80** | 1.24 |
+| Oregon | 0.85 | 1.29 | 1.18 | 1.19 | **1.02** | 1.42 |
+| Rhode Island | 1.12 | 1.28 | 0.98 | 1.05 | 1.08 | **1.08** |
+| Massachusetts | 0.98 | 1.30 | **1.09** | 1.25 | 1.34 | 1.49 |
+| Maine | 1.28 | **1.26** | 1.14 | 0.65 | 0.79 | 0.40 |
+| Utah | 1.34 | **1.25** | 0.96 | 0.73 | 0.75 | 0.90 |
+| Vermont | 0.90 | 1.31 | **0.90** | 1.08 | 1.09 | 1.36 |
+
+Rates in permits per 1,000 single-family homes per year. The reporting-share scale-ups raised Maine (0.93 → 1.28) and Utah (1.07 → 1.34). Every flexible method under-predicts both, by 33–69%; the adopted refit by 11–29%.
+
+### Tests 2 and 3 by unit (run 2)
+
+| Held-out unit | Observed rate | Rate miss: plain / adopted / forest / boosted / regression | Share misplaced: plain / adopted / forest / boosted / regression |
+| --- | ---: | --- | --- |
+| Seattle tracts | 3.82 | 3.13 / 2.93 / 3.03 / 3.04 / 2.85 | 0.19 / 0.26 / 0.27 / 0.35 / 0.30 |
+| Portland tracts | 1.37 | 0.66 / **7.07** / 2.21 / 1.74 / 0.69 | 0.24 / 0.26 / 0.22 / 0.20 / 0.21 |
+| Austin tracts | 1.00 | 1.24 / 1.51 / 1.05 / 0.89 / 0.93 | 0.72 / 0.65 / 0.60 / 0.42 / 0.53 |
+| Denver tracts | 0.40 | 0.73 / 0.77 / 0.86 / 0.45 / 0.83 | 0.63 / 0.64 / 0.51 / 0.50 / 0.45 |
+| Minneapolis tracts | 0.22 | 0.53 / 1.10 / 0.34 / 0.16 / 0.26 | 0.36 / 0.33 / 0.37 / 0.39 / 0.42 |
+| Madison tracts | 0.09 | 0.65 / 1.47 / 0.60 / 0.26 / 0.44 | 0.60 / 0.62 / 0.51 / 0.50 / 0.48 |
+| California jurisdictions | 2.49 | 1.82 / 1.64 / 1.71 / 1.60 / 1.78 | 0.38 / 0.29 / 0.30 / 0.28 / 0.36 |
+| Washington cities | 0.45 | 0.47 / 0.27 / 0.27 / 0.27 / 0.28 | 0.35 / 0.31 / 0.30 / 0.29 / 0.32 |
+| Oregon cities | 0.85 | 0.85 / 0.65 / 0.75 / 0.70 / 0.64 | 0.35 / 0.31 / 0.35 / 0.39 / 0.33 |
+| Madison-like cities (24) | 0.68 | 0.66 / 0.38 / 0.48 / 0.43 / 0.48 | 0.29 / 0.29 / 0.31 / 0.30 / 0.29 |
+
+Rate misses in permits per 1,000 single-family homes per year. As in run 1, the "where" gains come from the low-rate no-law cities (Austin, Denver, Minneapolis, Madison). In the Madison-like cities the adopted model is still best on rates.
+
+### Wisconsin "where" lines (extra; nothing replaced)
+
+Only the boosted trees passed (main seed), and that pass is **not robust**, so this line is **not validated** and is not brought to the owner as a candidate. The regression line is a diagnostic only (it failed every test), computed to answer the Dane County question. Files: [`adu_predictive_run2_wi_by_county_boosted_trees.csv`](../../reference/adu_predictive_run2_wi_by_county_boosted_trees.csv), [`..._regularised_regression_diagnostic.csv`](../../reference/adu_predictive_run2_wi_by_county_regularised_regression_diagnostic.csv). All 72 counties are in each file.
+
+| Line | Additional permits, 2027–2031 | Status |
+| --- | ---: | --- |
+| Adopted central (AQ-061) | 10,788 | adopted |
+| Boosted trees, run 2 (run 1: 5,011) | 7,093 | not validated (no how-much pass; where pass not robust) |
+| Regression, run 2 (run 1: 8,479) | 10,199 | diagnostic only (failed all tests) |
+
+**County shares of Wisconsin's additional permits** (central path). "At central" = share × the adopted central, 10,788 additional permits.
+
+| County | Share of Wisconsin's single-family homes | Adopted model | Boosted run 1 → run 2 (permits at central) | Regression run 1 → run 2 (permits at central) |
+| --- | ---: | ---: | --- | --- |
+| Milwaukee | 10.5% | 9.1% | 14.2% → 12.0% (1,297) | 17.5% → 12.9% (1,396) |
+| Dane | 7.2% | 8.2% | 9.2% → **8.2%** (879) | 4.4% → **8.7%** (942) |
+| Waukesha | 6.6% | 10.3% | 5.9% → 6.2% (672) | 3.0% → 7.3% (788) |
+| Brown | 4.0% | 4.1% | 3.7% → 3.8% (416) | 3.6% → 4.0% (436) |
+| Racine | 3.3% | 3.2% | 3.2% → 3.3% (354) | 4.0% → 3.4% (368) |
+| Kenosha | 2.6% | 2.7% | 3.2% → 2.7% (288) | 2.7% → 2.8% (307) |
+| Rock | 2.9% | 2.6% | 3.0% → 2.7% (289) | 3.0% → 2.8% (303) |
+
+- **Dane County: no longer a disagreement.** 8.2% against 8.7% (run 1: 9.2% against 4.4%).
+- The two lines now differ by 3.6% of the statewide addition (share in a different county).
+- Both still lean toward Milwaukee and away from Waukesha, less than in run 1.
+- Share of the addition in a different county from the adopted model: 8.9% (boosted), 7.9% (regression).
+
+### Placebo rows (run 2)
+
+[`adu_predictive_run2_placebo.csv`](../../reference/adu_predictive_run2_placebo.csv). Each no-law series predicted from the fit that leaves out its own state; rates in permits per 1,000 single-family homes per year.
+- No no-law part misses much worse than the plain average, except the forest and regression in Denver (0.64 and 0.76 against 0.34), as in run 1.
+- The adopted refit now misses Montgomery County by 1.05 (plain average 0.35): its strength-2 years are taught by the other strength-2 places (Austin, Minneapolis, Madison, Denver, Portland 2019).
+- Law effects the two-part methods would add: +0.37 to +1.58, Madison +0.37 to +0.87 (run 1: +0.02 to +0.35).
+
+### Flags (run 2; checked before the run, never stopping it)
+
+[`adu_predictive_run2_flags.csv`](../../reference/adu_predictive_run2_flags.csv), 43 rows. New against run 1:
+- **Seattle 2024 coded "law in force"** before Washington's compliance year (EY2026). This is the adopted city coding, kept; flagged.
+- **Reporting-share scale-ups** listed per series-year (Massachusetts, Maine, Rhode Island 2025; Utah 2023–2025).
+- **Reform strength without a researched source:** Montgomery County (2019 date only), Honolulu, Bozeman.
+- Washington cities now have 1,674 rows (was 2,232): EY2024–2025 dropped (558 rows). Panel 13,666 rows (was 14,224).
+- Other flags as in run 1 (implausible tract rates: Austin 3, Denver 1; small-tract log ratios; missing dollar medians; Austin and Oregon outside the training range on one variable each).
+
+### Why the worst miss was missed again (Seattle) and what the new input did
+
+- **Seattle tracts, all methods:** miss 2.85–3.13 permits per 1,000 single-family homes per year (observed 3.82).
+- **By year, boosted trees:** observed 1.6–1.8 (2016–18) → 3.0, 4.9, 5.8, 5.9 (2020–23). Predicted 0.45 → 0.81, 1.07, 1.08, 1.04. The input moves the prediction the right way, about a fifth of the size.
+- **Why so little:** with Seattle held out, "strength 3" is learned only from Portland (2020–25, rates 0.9–1.4) and Madison 2025 (0.1). Neither rose like Seattle.
+- **The reverse fold shows the same problem:** with Oregon held out, "strength 3" is learned from Seattle. Portland is then over-predicted: adopted refit 11.3 in 2022–25 (observed 0.9–1.6), boosted 3.1–3.4.
+- **So the strength effect rests on one city at a time.** Two strong-reform cities with very different outcomes cannot pin it down.
+- **Worst unit for the adopted refit: Portland** (miss 7.07; run 1: 3.21), for the reason above.
+
+### What run 2 means
+
+- **How much:** keep the adopted model. It is still best of the five; the flexible methods under-predict Maine and Utah by 33–69% once their reporting shares are corrected.
+- **Where:** no method passes robustly. The boosted-tree "where" pass is a coin flip across seeds (3 of 5 and 2 of 5).
+- **Dane County:** the earlier disagreement was not stable; it vanished on the adopted data.
+- **Reform strength:** worth keeping as an idea, not as an input. More strong-reform cities with tract data would be needed.
+- **Limits:** as in run 1 (plan section 9). The strength coding is the author's ordinal reading of each reform, chosen after run 1's results.
+
+### Reproduce run 2
+
+```
+set -a; source .env; set +a      # only if the ACS caches must be refetched (--fetch)
+uv run --all-extras python scripts/build_adu_predictive_panel.py              # run 2 panel (default)
+OMP_NUM_THREADS=4 uv run --all-extras python scripts/run_adu_predictive.py    # run 2 (default); about 1.5 hours under load
+bash scripts/test.sh
+```
+The regression's diagnostic Wisconsin line was computed with `run_adu_predictive.wisconsin(panel, feats, "regularised_regression", 10,788)` on the run-2 inputs.

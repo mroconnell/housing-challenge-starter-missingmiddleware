@@ -92,6 +92,28 @@ class TestOutcome(unittest.TestCase):
         self.assertEqual(B.WA_CODING[2026], (1, 0, 3))
         self.assertEqual(B.STRONG & B.WEAKER, set())
 
+    def test_run2_coding(self):
+        # AQ-061: Washington from local compliance (EY2024-2025 dropped, EY2026 = year 1)
+        self.assertEqual(B.WA_CODING_AQ061[2026], (1, 0, 1))
+        self.assertNotIn(2024, B.WA_CODING_AQ061)
+        self.assertNotIn(2025, B.WA_CODING_AQ061)
+        # local strength (PLAN s10 item 9): reform counts from its effective year if by 1 April, else the next year
+        ls = B.LOCAL_STRENGTH
+        self.assertEqual(ls["seattle"][2018], (1, 4))
+        self.assertEqual(ls["seattle"][2020], (3, 1))              # Ord. 125854 2019-08-08 -> 2020
+        self.assertEqual(ls["seattle"][2024], (3, 4))
+        self.assertEqual(ls["minneapolis"][2017], (1, 3))          # 2014-12-05 -> 2015
+        self.assertEqual(ls["minneapolis"][2021], (2, 1))          # 2021-02-26 (by 1 April)
+        self.assertEqual(ls["madison"][2022], (2, 1))              # 2021-12-16 -> 2022
+        self.assertEqual(ls["madison"][2025], (3, 1))              # 2024-04-25 -> 2025
+        self.assertEqual(ls["denver"][2023], (0, 0))
+        self.assertEqual(ls["denver"][2025], (2, 1))
+        self.assertEqual(ls["austin"][2019], (2, 4))
+        self.assertEqual(ls["portland"][2020], (3, 1))
+        for city, years in B.TRACT_CODING.items():                 # strength 0 exactly where the adopted local = 0
+            for y, (law, local, k) in years.items():
+                self.assertEqual(ls[city][y][0] > 0, local == 1, (city, y))
+
     def test_manifest_never_records_key(self):
         with tempfile.TemporaryDirectory() as t:
             p = Path(t) / "x.json"
@@ -135,6 +157,30 @@ class TestMethodsAndRule(unittest.TestCase):
         self.assertTrue(j.loc["causal_forest", "passes"])
         self.assertFalse(j.loc["boosted_trees", "passes"])
         self.assertTrue(j.loc["regularised_regression", "passes"])
+
+    def test_strength_columns(self):
+        rows = pd.DataFrame({"law": [1, 0], "local": [1.0, 0.0], "k": [2.0, np.nan], "strong": [1, 0],
+                             "local_strength": [3, 0], "local_years": [2, 0]})
+        old = R.STRENGTH
+        try:
+            R.STRENGTH = True
+            self.assertEqual(R.treat_cols(rows, "law").shape, (2, 9))
+            self.assertEqual(R.treat_cols(rows, "nolaw")[0].tolist(), [1.0, 3.0, 0.0, 1.0, 0.0])
+            R.STRENGTH = False
+            self.assertEqual(R.treat_cols(rows, "law").shape, (2, 5))
+        finally:
+            R.STRENGTH = old
+
+    def test_design_wrapper_adds_strength_terms(self):
+        m = pd.DataFrame({"value": [1e5, 2e5], "law": [1.0, 0.0], "k": [1.0, np.nan], "local": [1, 0],
+                          "local_strength": [2.0, 0.0], "ly1": [1.0, 0.0], "ly2": 0.0, "ly3": 0.0})
+        X, names = R.pr.design(m, ("law", "local", "local_strength", "ly1"))
+        self.assertEqual(names, ["intercept", "law", "local", "local_strength", "ly1"])
+        self.assertEqual(X[:, 3].tolist(), [2.0, 0.0])
+
+    def test_home_years_rate(self):
+        tr = pd.DataFrame({"cluster": ["A"], "law": [1], "count": [11.0], "homes": [1000.0], "years": [11 / 12]})
+        self.assertAlmostEqual(R.plain_average(tr, pd.DataFrame({"law": [1]}))[0], 12.0)
 
     def test_two_part_uses_law_status(self):
         rows = pd.DataFrame({"law": [1] * 40 + [0] * 40, "local": 0.0, "k": [4.0] * 40 + [np.nan] * 40,

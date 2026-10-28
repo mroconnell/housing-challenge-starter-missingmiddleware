@@ -191,3 +191,39 @@ All dated 2026-10-28.
 5. **After the main run had started, before its results were read: owner process rule.** Flags are computed before each run and listed at the top of the results (unit checks, law-date checks, 2-per-parcel and apartment-lot handling, held-out units outside the training range), with a trace of the worst-missed unit after each run. They never stop a run. For this run they were computed on the same panel just after the run started.
 6. **After the main results were read: how the robustness step was run.** The first run stalled in the robustness step (machine load about 190), so it was stopped. The main-seed predictions it had saved were rescored unchanged (`--reuse`). The robustness step then refitted only the seeded method for each other seed, reusing the plain average and adopted-model predictions, which do not depend on a seed. Nothing in the pass rule changed.
 7. **After the results: the adopted model changed mid-run (AQ-061, 17:35).** Tests 1–3 used the pre-AQ-061 coding. The Wisconsin step (run later) used AQ-061 inputs and the AQ-061 central (10,788, not the 8,757 named in section 8). A rerun on AQ-061 coding is needed before the owner uses any result. The pass rule is unchanged.
+
+### Rerun on the adopted AQ-061 / AQ-062 coding (written 2026-10-28, before any rerun outcome was computed)
+
+The owner asked for one rerun on the final data before deciding anything. Written before the rerun panel was built or any model refitted. Everything not listed here is unchanged: rows, variables, methods and settings, held-out units, error measures, pass rule, main seed 20261028 and robustness seeds 20261029–20261033. First-run outputs stay as they are; rerun outputs are written beside them with `run2` in the name.
+
+8. **Before the rerun: adopted coding (AQ-061; AQ-062 keeps Vermont).** The panel takes the measurement and coding of `run_pooled_revision.build()` defaults:
+   - **Reporting shares:** each count ÷ the series-year's reporting share (`pooled_regression.COVERAGE`): Maine 2025 ÷ 0.73, Massachusetts 2025 ÷ (293/351), Rhode Island 2025 ÷ (32/39), Utah 2023/2024/2025 ÷ 0.7951/0.8031/0.8042.
+   - **Massachusetts 2025 = 11/12 of a year** of exposure (`PARTIAL_YEAR`). The panel gets a `years` column; a rate is permits ÷ (homes × years) × 1,000.
+   - **Washington from local compliance** (`run_pooled_regression.WA_COMPLIANCE`): Washington cities EY2019–2023 no law; EY2024–2025 dropped; EY2026 = law year 1. Test 1's Washington target becomes EY2026 only. Seattle tracts keep the adopted city coding (2024 = law year 2), which AQ-061 did not change; the flag check marks this.
+   - **Vermont kept** (AQ-062), all four years 2021–2024.
+   - The value top-code and the measured Wisconsin cities in group rates act only on Wisconsin's allocation and current-law rates; the Wisconsin step already reads the adopted engine inputs.
+   - The refitted adopted model gets the same rows (its `years` column is the panel's).
+
+9. **Before the rerun: one new input, city reform strength and timing** (addresses the worst miss, Seattle; first-run results section 6). Every method gets two more inputs on every row, in both parts of the two-part methods and as within-state terms in the refitted adopted model (`local_strength` plus three local-year dummies, through a wrapper around `pooled_regression.design`):
+   - **Local strength (0–3):** 0 = no citywide ADU rules of the city's own (the adopted `local = 0`); 1 = citywide ADU rules with a major barrier (owner occupancy, conditional use or a large minimum lot); 2 = one major barrier removed or by right with one left (or a fee waiver and relaxed siting); 3 = by right with no owner-occupancy and no parking requirement (the benchmark).
+   - **Years since the latest strength change:** 1, 2, 3, 4 or more (dummies for 1–3; 0 when strength is 0).
+   - **When a reform counts:** from the calendar year of its effective date if it took effect by 1 April; otherwise from the next year (the earlier strength stays for the reform year).
+   - **Dates** are from [OTHER_CITIES.md](../gate3/OTHER_CITIES.md) section 2 (`reference/other_cities_reforms.csv`), [PLACEBO_PLAN.md](PLACEBO_PLAN.md) S2 and [WI_BASELINE.md](../gate3/WI_BASELINE.md) (Madison):
+
+   | Place | Panel years | Strength by year | Years since change | Source dates |
+   | --- | --- | --- | --- | --- |
+   | Seattle tracts | 2016–18, 2020–24 | 1 (2016–18); 3 (2020–24) | 4+; 1, 2, 3, 4+, 4+ | Ord. 123141 2009-12-04 (DADUs, owner occupancy and parking kept); Ord. 125854 2019-08-08 (both removed, two ADUs) |
+   | Portland tracts | 2019–25 | 2 (2019); 3 (2020–25) | 4+; 1, 2, 3, 4+… | SDC waiver 2010-04-01, Ord. 187471 2016-01-01; Oregon HB 2001 2020-01-01 bars owner occupancy and parking (RIP 2021/2022 keeps 3) |
+   | Austin tracts | 2012–14, 2016–23 | 0 (2012–14, adopted local 0); 2 (2016–23) | –; 1, 2, 3, 4+… | Ord. 20151119-080 2015-11-30 |
+   | Denver tracts | 2016–23, 2025 | 0 (2016–23; the 2023-07-05 change was design only); 2 (2025) | –; 1 | Citywide ADUs 2024-12-16 |
+   | Minneapolis tracts | 2017–25 | 1 (2017–20); 2 (2021–25) | 3, 4+…; 1, 2, 3, 4+, 4+ | 2014 ordinance 2014-12-05 (owner occupancy); owner occupancy removed 2021-02-26 |
+   | Madison tracts | 2014–25 | 1 (2014–21); 2 (2022–24); 3 (2025) | 4+; 1, 2, 3; 1 | By right 2021-12-16 (owner occupancy kept); owner occupancy removed 2024-04-25 |
+   | Montgomery County, MD | 2019–25 | 1 (2019); 2 (2020–25) | 4+; 1, 2, 3, 4+… | "Montgomery County 2019" (PLACEBO_PLAN S2; content and date not in the repo: a source lead, flagged) |
+   | Honolulu, Bozeman | as listed | 1 | 4+ | Not researched in the repo: flagged |
+   | All other rows (California, Washington and Oregon cities, the state series) | – | 0 | – | adopted `local = 0` |
+
+   Wisconsin areas are predicted with strength 0 (no local reform), as before. This change was chosen after the first run's results were seen (it answers the first run's worst miss), so the rerun is not blind to it; the multiple-testing note (section 7) now covers 18 chances over two runs.
+
+10. **Before the rerun: robustness and load.** The 5 other seeds are rerun for every forest or boosting pass (section 7), and for the boosted trees on all three tests in any case, to compare with the first run (reported, not in the rule). Parallel work is capped at 4 threads (`n_jobs=4`, 4 OpenMP/BLAS threads) to keep machine load reasonable.
+
+11. **After the rerun results were read: one diagnostic line.** The regression failed every test in run 2, so section 8 gives it no Wisconsin line. Its county shares were still computed, marked "diagnostic only", to answer the owner's question whether the two first-run "where" winners still disagree on Dane County (`reference/adu_predictive_run2_wi_by_county_regularised_regression_diagnostic.csv`). Nothing in the pass rule changed.

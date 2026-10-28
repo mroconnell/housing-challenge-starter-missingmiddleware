@@ -1,0 +1,18 @@
+test,method,run1_mean_miss,run1_units_beating_both,run1_passes,run2_mean_miss,run2_units_beating_both,run2_passes,mean_miss_unit
+1_how_much,boosted_trees,0.1226,4.0,True,0.2616,3.0,False,"ADU permits per 1,000 single-family homes per year"
+1_how_much,causal_forest,0.2194,2.0,False,0.3278,2.0,False,"ADU permits per 1,000 single-family homes per year"
+1_how_much,current_model,0.1267,,,0.1932,,,"ADU permits per 1,000 single-family homes per year"
+1_how_much,guess_zero,0.8795,,,1.037,,,"ADU permits per 1,000 single-family homes per year"
+1_how_much,plain_average,0.2372,,,0.268,,,"ADU permits per 1,000 single-family homes per year"
+1_how_much,regularised_regression,0.3522,2.0,False,0.4766,1.0,False,"ADU permits per 1,000 single-family homes per year"
+2_where_rate,boosted_trees,0.9046,6.0,True,0.9524,6.0,True,"ADU permits per 1,000 single-family homes per year"
+2_where_rate,causal_forest,0.9803,5.0,False,1.1295,4.0,False,"ADU permits per 1,000 single-family homes per year"
+2_where_rate,current_model,1.5058,,,1.778,,,"ADU permits per 1,000 single-family homes per year"
+2_where_rate,guess_zero,1.1405,,,1.1293,,,"ADU permits per 1,000 single-family homes per year"
+2_where_rate,plain_average,1.0603,,,1.0737,,,"ADU permits per 1,000 single-family homes per year"
+2_where_rate,regularised_regression,0.9324,6.0,True,0.9174,5.0,False,"ADU permits per 1,000 single-family homes per year"
+3_where_only,boosted_trees,0.3734,5.0,False,0.3617,6.0,True,share of the unit's permits misplaced (0-1)
+3_where_only,causal_forest,0.3771,5.0,False,0.3746,5.0,False,share of the unit's permits misplaced (0-1)
+3_where_only,current_model,0.3972,,,0.3953,,,share of the unit's permits misplaced (0-1)
+3_where_only,plain_average,0.411,,,0.4099,,,share of the unit's permits misplaced (0-1)
+3_where_only,regularised_regression,0.367,6.0,True,0.368,4.0,False,share of the unit's permits misplaced (0-1)

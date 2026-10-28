@@ -1,0 +1,18 @@
+test,method,label,units,mean_miss,plain_average_mean_miss,current_model_mean_miss,guess_zero_mean_miss,units_beating_both,units_needed,beats_plain_on_mean,beats_current_on_mean,loses_to_guess_zero,passes
+1_how_much,plain_average,Plain average,7,0.268,0.268,0.1932,1.037,,,,,,
+1_how_much,current_model,"Adopted model, refitted on the same rows",7,0.1932,0.268,0.1932,1.037,,,,,,
+1_how_much,causal_forest,Causal forest (two parts),7,0.3278,0.268,0.1932,1.037,2.0,4.0,False,False,False,False
+1_how_much,boosted_trees,Boosted trees (two parts),7,0.2616,0.268,0.1932,1.037,3.0,4.0,True,False,False,False
+1_how_much,regularised_regression,Regularised Poisson regression (two parts),7,0.4766,0.268,0.1932,1.037,1.0,4.0,False,False,False,False
+1_how_much,guess_zero,Guess zero,7,1.037,0.268,0.1932,1.037,,,,,,
+2_where_rate,plain_average,Plain average,10,1.0737,1.0737,1.778,1.1293,,,,,,
+2_where_rate,current_model,"Adopted model, refitted on the same rows",10,1.778,1.0737,1.778,1.1293,,,,,,
+2_where_rate,causal_forest,Causal forest (two parts),10,1.1295,1.0737,1.778,1.1293,4.0,6.0,False,True,True,False
+2_where_rate,boosted_trees,Boosted trees (two parts),10,0.9524,1.0737,1.778,1.1293,6.0,6.0,True,True,False,True
+2_where_rate,regularised_regression,Regularised Poisson regression (two parts),10,0.9174,1.0737,1.778,1.1293,5.0,6.0,True,True,False,False
+2_where_rate,guess_zero,Guess zero,10,1.1293,1.0737,1.778,1.1293,,,,,,
+3_where_only,plain_average,Plain average,10,0.4099,0.4099,0.3953,,,,,,,
+3_where_only,current_model,"Adopted model, refitted on the same rows",10,0.3953,0.4099,0.3953,,,,,,,
+3_where_only,causal_forest,Causal forest (two parts),10,0.3746,0.4099,0.3953,,5.0,6.0,True,True,,False
+3_where_only,boosted_trees,Boosted trees (two parts),10,0.3617,0.4099,0.3953,,6.0,6.0,True,True,,True
+3_where_only,regularised_regression,Regularised Poisson regression (two parts),10,0.368,0.4099,0.3953,,4.0,6.0,True,True,,False

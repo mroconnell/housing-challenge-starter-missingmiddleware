@@ -4,7 +4,8 @@ Plan: docs/adu/PREDICTIVE_PLAN.md (written before any outcome was computed). Res
 
     set -a; source .env; set +a                                   # CENSUS_API_KEY, never written to any file
     uv run --all-extras python scripts/build_adu_predictive_panel.py --fetch   # ACS API, TIGER tracts, permit points
-    uv run --all-extras python scripts/build_adu_predictive_panel.py           # build from the caches
+    uv run --all-extras python scripts/build_adu_predictive_panel.py           # build from the caches (run 2)
+    uv run --all-extras python scripts/build_adu_predictive_panel.py --run 1   # the first run's coding
 
 Fetch (network) writes only to data/raw/acs_api_adu/ (git-ignored), each folder with a _downloads.json that lists
 the URL WITHOUT the key, the access date, bytes and SHA-256:
@@ -15,8 +16,11 @@ the URL WITHOUT the key, the access date, bytes and SHA-256:
                     (Seattle and Austin Socrata latitude/longitude; Denver and Minneapolis ArcGIS points).
                     No geocoding service is used; no names or addresses are requested.
 
-Build writes data/processed/adu_predictive/ (panel.parquet, features.parquet, members.parquet, wi_features.parquet,
-tract_assignment.json) and reference/adu_predictive_variables.csv, reference/adu_predictive_panel_summary.csv.
+Build writes data/processed/adu_predictive/ (run 1) or data/processed/adu_predictive/run2/ (run 2: panel.parquet,
+features.parquet, values.parquet, market.parquet, wi_features.parquet, build_info.json) and
+reference/adu_predictive_variables.csv, reference/adu_predictive_[run2_]panel_summary.csv.
+Run 2 (PREDICTIVE_PLAN section 10, items 8-10): the adopted AQ-061 coding (reporting shares, Massachusetts 2025 as
+11/12 of a year, Washington from local compliance) and two new inputs, local reform strength and years since it changed.
 
 Units: a rate is ADU permits in a year / thousands of one-unit detached homes (ACS 2020-2024 B25024_002).
 """
@@ -88,6 +92,36 @@ AGG_CODING = {   # statewide_states_annual series -> (cluster, feature geography
     "MT_bozeman": ("MT", "place:3008950", _span(2020, 2023, 0, 1)),
 }
 WA_CODING = {**_span(2019, 2023, 0, 0), **_span(2024, 2026, 1, 0, 1)}
+# Rerun (run 2, PREDICTIVE_PLAN section 10 item 8): the adopted AQ-061 coding, run_pooled_revision.build() defaults.
+# Washington from local compliance (run_pooled_regression.WA_COMPLIANCE): EY2024-2025 dropped, EY2026 = year 1.
+WA_CODING_AQ061 = {**_span(2019, 2023, 0, 0), **_span(2026, 2026, 1, 0, 1)}
+
+
+def _ls(spans):
+    """[(first year, last year, strength, years-since at first year or None for 4+)] -> {year: (strength, years)}"""
+    out = {}
+    for a, b, s, y0 in spans:
+        for y in range(a, b + 1):
+            out[y] = (s, 0 if s == 0 else (4 if y0 is None else min(y0 + (y - a), 4)))
+    return out
+
+
+# Run 2, PREDICTIVE_PLAN section 10 item 9: local ADU reform strength (0-3) and years since the latest strength change
+# (1, 2, 3, 4 = 4 or more; 0 when strength is 0). A reform counts from its effective year if effective by 1 April,
+# else from the next year. Dates: OTHER_CITIES.md section 2 (reference/other_cities_reforms.csv), PLACEBO_PLAN.md S2,
+# WI_BASELINE.md (Madison). Keys: tract city or aggregate series id; every other row is strength 0.
+LOCAL_STRENGTH = {
+    "seattle": _ls([(2016, 2018, 1, None), (2020, 2024, 3, 1)]),        # Ord. 123141 2009-12-04; Ord. 125854 2019-08-08
+    "portland": _ls([(2019, 2019, 2, None), (2020, 2025, 3, 1)]),       # SDC waiver 2010, Ord. 187471 2016-01-01; HB 2001 2020-01-01
+    "austin": _ls([(2012, 2014, 0, None), (2016, 2023, 2, 1)]),         # Ord. 20151119-080 2015-11-30
+    "denver": _ls([(2016, 2023, 0, None), (2025, 2025, 2, 1)]),         # citywide 2024-12-16 (2023-07-05 design only)
+    "minneapolis": _ls([(2017, 2017, 1, 3), (2018, 2020, 1, None), (2021, 2025, 2, 1)]),   # 2014-12-05; 2021-02-26
+    "madison": _ls([(2014, 2021, 1, None), (2022, 2024, 2, 1), (2025, 2025, 3, 1)]),       # 2021-12-16; 2024-04-25
+    "MD_montgomery": _ls([(2019, 2019, 1, None), (2020, 2025, 2, 1)]),  # "2019" reform: source lead (flagged)
+    "HI_honolulu": _ls([(2016, 2024, 1, None)]),                        # not researched (flagged)
+    "MT_bozeman": _ls([(2020, 2023, 1, None)]),                         # not researched (flagged)
+}
+LOCAL_STRENGTH_UNRESEARCHED = ("MD_montgomery", "HI_honolulu", "MT_bozeman")
 OR_CODING = _span(2019, 2022, 1, 0, 1)
 DLCD_YEARS = {"hb4006_167078.txt": 2022, "hb4006_274745.txt": 2023}
 
@@ -660,7 +694,7 @@ def tract_rows(cells: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     return pd.DataFrame(rows), info
 
 
-def wa_rows(cells: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+def wa_rows(cells: pd.DataFrame, coding: dict = WA_CODING) -> tuple[pd.DataFrame, dict]:
     from missing_middleware.comparison import madison_like as ml
     rows = ml.read_xlsx_sheet(RAW / "statewide_states" / "wa" / "ofm_april1_postcensal_permits_1990-present.xlsx",
                               "xl/worksheets/sheet2.xml")
@@ -668,7 +702,7 @@ def wa_rows(cells: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     df = pd.DataFrame([r + [""] * (len(h) - len(r)) for r in rows[1:]], columns=h)
     df["year"] = pd.to_numeric(df["Estimate Year"], errors="coerce")
     df["adu"] = pd.to_numeric(df[ml.OFM_ADU_COL], errors="coerce")
-    df = df[df["year"].isin(list(WA_CODING)) & ~df["City Name"].str.contains("Unincorporated", case=False, na=False)]
+    df = df[df["year"].isin(list(coding)) & ~df["City Name"].str.contains("Unincorporated", case=False, na=False)]
     by = df.groupby(["City Name", "year"])["adu"].sum(min_count=1).reset_index()
     codes = pd.read_csv(RAW / "statewide_states" / "census_place_codes" / "st53_wa_place2020.txt", sep="|", dtype=str)
     codes = codes[codes["CLASSFP"].str.startswith("C")]
@@ -683,7 +717,7 @@ def wa_rows(cells: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
         hm = cells["B25024_002"].get(f"place:{r.geoid}", np.nan)
         if not (hm and hm > 0):
             continue
-        law, local, k = WA_CODING[int(r.year)]
+        law, local, k = coding[int(r.year)]
         out.append(dict(cluster="WA", series="WA_cities", unit_group="Washington cities", level="place",
                         geo=f"place:{r.geoid}", context="place:WA", year=int(r.year), count=float(r.adu) * VACANT_LOT_FACTOR,
                         homes=float(hm), law=law, local=local, k=k, name=r._1))
@@ -736,7 +770,10 @@ def ca_rows(cells: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     return pd.DataFrame(out), {"ca_rows": len(out), "ca_units_2018_2025": float(adj["adu_main"].sum())}
 
 
-def agg_rows(cells: pd.DataFrame) -> pd.DataFrame:
+def agg_rows(cells: pd.DataFrame, aq061: bool = False) -> pd.DataFrame:
+    """aq061 (run 2): count / reporting share (pooled_regression.COVERAGE) and exposure years
+    (pooled_regression.PARTIAL_YEAR: Massachusetts 2025 = 11/12), as run_pooled_revision.build() defaults."""
+    from missing_middleware.comparison import pooled_regression as pr
     annual = pd.read_csv(REFERENCE / "statewide_states_annual.csv")
     out = []
     for sid, (cl, geo, coding) in AGG_CODING.items():
@@ -745,9 +782,11 @@ def agg_rows(cells: pd.DataFrame) -> pd.DataFrame:
         for y, (law, local, k) in coding.items():
             if y not in a.index or pd.isna(a.loc[y, "adu_count"]):
                 continue
+            cov = pr.coverage_for(sid, y) if aq061 else 1.0
+            yrs = pr.PARTIAL_YEAR.get((sid, int(y)), 1.0) if aq061 else 1.0
             out.append(dict(cluster=cl, series=sid, unit_group=sid, level="aggregate", geo=geo, context=f"agg:{sid}",
-                            year=int(y), count=float(a.loc[y, "adu_count"]) * VACANT_LOT_FACTOR, homes=hm,
-                            law=law, local=local, k=k))
+                            year=int(y), count=float(a.loc[y, "adu_count"]) / cov * VACANT_LOT_FACTOR, homes=hm,
+                            law=law, local=local, k=k, coverage=cov, years=yrs))
     return pd.DataFrame(out)
 
 
@@ -757,21 +796,40 @@ def wi_areas() -> pd.DataFrame:
     return a
 
 
-def build(log=print) -> None:
-    OUT.mkdir(parents=True, exist_ok=True)
+def add_local_strength(panel: pd.DataFrame) -> pd.DataFrame:
+    key = panel["series"].str.replace("_tracts", "", regex=False)
+    st = [LOCAL_STRENGTH.get(k, {}).get(int(y), (0, 0)) for k, y in zip(key, panel["year"])]
+    panel["local_strength"] = [a for a, _ in st]
+    panel["local_years"] = [b for _, b in st]
+    return panel
+
+
+def out_dir(run: int) -> Path:
+    return OUT if run == 1 else OUT / f"run{run}"
+
+
+def build(log=print, run: int = 2) -> None:
+    """run 1 = the first run's coding; run 2 = the adopted AQ-061 coding plus local reform strength (PLAN s10)."""
+    aq = run >= 2
+    od = out_dir(run)
+    od.mkdir(parents=True, exist_ok=True)
     cells = read_acs_cells()
     cells = cells.join(land_areas(), how="left")
     info = {"acs_geographies": int(len(cells))}
     t, ti = tract_rows(cells)
-    w, wi_ = wa_rows(cells)
+    w, wi_ = wa_rows(cells, WA_CODING_AQ061 if aq else WA_CODING)
     o, oi = or_rows(cells)
     c, ci = ca_rows(cells)
-    a = agg_rows(cells)
+    a = agg_rows(cells, aq061=aq)
     info.update({"tract_cities": ti, **wi_, **oi, **ci})
     panel = pd.concat([c, w, o, a, t], ignore_index=True)
     panel["strong"] = np.where(panel["law"].eq(1), panel["cluster"].isin(STRONG).astype(int), 0)
     panel["k"] = pd.to_numeric(panel["k"], errors="coerce")
     panel["row_id"] = np.arange(len(panel))
+    panel["years"] = panel["years"].fillna(1.0) if "years" in panel else 1.0
+    panel["coverage"] = panel["coverage"].fillna(1.0) if "coverage" in panel else 1.0
+    if aq:
+        panel = add_local_strength(panel)
     # ---- features: per distinct geography, context = state (places) / city (tracts) / itself (aggregates)
     geos = panel.drop_duplicates("geo")[["geo", "context", "level"]].set_index("geo")
     wi = wi_areas()
@@ -783,28 +841,29 @@ def build(log=print) -> None:
     feats = transform_features(vals, allg["context"], homes, allg["level"].eq("aggregate"))
     feats.index.name = "geo"
     vals.index.name = "geo"
-    panel.to_parquet(OUT / "panel.parquet", index=False)
-    feats.loc[geos.index].reset_index().to_parquet(OUT / "features.parquet", index=False)
-    vals.reset_index().to_parquet(OUT / "values.parquet", index=False)
+    panel.to_parquet(od / "panel.parquet", index=False)
+    feats.loc[geos.index].reset_index().to_parquet(od / "features.parquet", index=False)
+    vals.reset_index().to_parquet(od / "values.parquet", index=False)
     wf = feats.loc[wi_geo.index].reset_index()
-    wf.to_parquet(OUT / "wi_features.parquet", index=False)
+    wf.to_parquet(od / "wi_features.parquet", index=False)
     # current-model inputs: value, income, rent, renter share per geography (members = the row's own geography)
     mk = pd.DataFrame({"homes": homes, "value": cells["B25077_001"].reindex(allg.index),
                        "income": cells["B19013_001"].reindex(allg.index), "rent": cells["B25064_001"].reindex(allg.index),
                        "renter_share": (cells["B25003_003"] / cells["B25003_001"]).reindex(allg.index)})
     mk.index.name = "geo"
-    mk.reset_index().to_parquet(OUT / "market.parquet", index=False)
-    (OUT / "build_info.json").write_text(json.dumps(info, indent=2, default=str))
+    mk.reset_index().to_parquet(od / "market.parquet", index=False)
+    (od / "build_info.json").write_text(json.dumps(info, indent=2, default=str))
     # ---- reference tables (aggregates only)
     pd.DataFrame([{"variable_id": v[0], "label": v[1], "group": v[2], "kind": v[3],
                    "entered_as": "value" if v[3] in UNIT_FREE else "rank within context; log ratio to context mean",
                    "source": "ACS 2020-2024 5-year, Census Data API"} for v in VARIABLES]) \
         .to_csv(REFERENCE / "adu_predictive_variables.csv", index=False)
-    s = panel.groupby(["unit_group", "cluster", "level", "law"]).agg(
+    s = panel.assign(hy=panel["homes"] * panel["years"]).groupby(["unit_group", "cluster", "level", "law"]).agg(
         rows=("row_id", "size"), geographies=("geo", "nunique"), years=("year", lambda y: f"{y.min()}-{y.max()}"),
-        permits=("count", "sum"), home_years_thousands=("homes", lambda h: h.sum() / 1000)).reset_index()
+        permits=("count", "sum"), home_years_thousands=("hy", lambda h: h.sum() / 1000)).reset_index()
     s["rate_per_1000_homes_per_year"] = s["permits"] / s["home_years_thousands"]
-    s.round(4).to_csv(REFERENCE / "adu_predictive_panel_summary.csv", index=False)
+    s.round(4).to_csv(REFERENCE / ("adu_predictive_panel_summary.csv" if run == 1 else
+                                   f"adu_predictive_run{run}_panel_summary.csv"), index=False)
     log(json.dumps(info, indent=1, default=str)[:3000])
     log(f"panel rows {len(panel)}; features {feats.shape[1]}")
 
@@ -812,12 +871,13 @@ def build(log=print) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true")
+    ap.add_argument("--run", type=int, default=2, help="1 = first run's coding; 2 = AQ-061 coding + local strength")
     a = ap.parse_args()
     if a.fetch:
         fetch_tiger()
         fetch_points()
         fetch_acs()
-    build()
+    build(run=a.run)
 
 
 if __name__ == "__main__":

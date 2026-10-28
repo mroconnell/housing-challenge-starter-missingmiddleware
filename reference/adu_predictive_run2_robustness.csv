@@ -1,0 +1,16 @@
+method,seed,test,mean_miss,units_beating_both,passes,main_seed_passes
+boosted_trees,20261029,1_how_much,0.2907,4.0,False,False
+boosted_trees,20261029,2_where_rate,0.9733,6.0,True,True
+boosted_trees,20261029,3_where_only,0.3712,5.0,False,True
+boosted_trees,20261030,1_how_much,0.2362,3.0,False,False
+boosted_trees,20261030,2_where_rate,0.9331,5.0,False,True
+boosted_trees,20261030,3_where_only,0.3658,5.0,False,True
+boosted_trees,20261031,1_how_much,0.2587,3.0,False,False
+boosted_trees,20261031,2_where_rate,0.9101,6.0,True,True
+boosted_trees,20261031,3_where_only,0.3619,6.0,True,True
+boosted_trees,20261032,1_how_much,0.2058,3.0,False,False
+boosted_trees,20261032,2_where_rate,0.9191,5.0,False,True
+boosted_trees,20261032,3_where_only,0.3658,5.0,False,True
+boosted_trees,20261033,1_how_much,0.2833,4.0,False,False
+boosted_trees,20261033,2_where_rate,0.9873,6.0,True,True
+boosted_trees,20261033,3_where_only,0.3627,6.0,True,True
