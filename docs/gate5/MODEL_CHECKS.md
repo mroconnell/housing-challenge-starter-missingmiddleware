@@ -146,6 +146,8 @@ Table: `reference/gate5_context_contrast.csv`. Home values and incomes are homes
 - **Income.** At the same value, 10% higher income means a 25% lower rate (−3.03, SE 0.18). High value relative to income is what predicts ADU building.
 - **Size.** Barely matters: 10% more homes means a 0.8% higher rate (0.08, SE 0.03).
 
+> **Corrected 2026-10-28 (AQ-061):** these value, income and size terms set only Wisconsin's statewide rate. The statewide total is spread across places by home value alone (the value-only fit, slope about 1.02, `W_ALLOC` in `scripts/run_pooled_revision.py`; `alloc_value_dev` in `reference/gate5_model_drivers.csv`): a place with 10% higher home values gets about a 10% higher level. Income and size do not move one place against another.
+
 So suburban and rural places, where values are higher relative to incomes (lake towns, exurbs), get higher with-law rates than urban places and small cities. Urban places also have the highest current-law rate (0.087, Milwaukee and Madison observed), which shrinks their addition. The context label itself plays no part in the model (section 3d).
 
 **Unsupported contexts.** No Wisconsin rural town or small community has an observed permit series. Their current-law rate is the restricted group's (assumed), and their with-law rate is transferred from statewide-law states' places of similar value and income. The pooled model's members include rural and small places in Oregon, Washington, Maine, Vermont and the other law states, but their behaviour under a Wisconsin climate and market is untested. The sensitivity that puts rural places and small communities at the Madison floor shows how much rests on this: −3,991 permits.

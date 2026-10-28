@@ -105,3 +105,44 @@ class TestFloor(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestAQ059Outputs(unittest.TestCase):
+    """Committed outputs after the AQ-061 fixes (owner decision 2026-10-28)."""
+    REF = Path(__file__).parent.parent / "reference"
+
+    def test_value_top_code_moves_permits_not_the_total(self):
+        y = pd.read_csv(self.REF / "pooled_revision_wi_y_by_area.csv")
+        y = y[y.option.eq("cap_a2") & y.config.eq("A_ca_in_common_level")]
+        h = pd.read_csv(self.REF / "wi_baseline_by_municipality.csv")[["area_id", "homes"]]
+        y = y.merge(h, on="area_id", validate="1:1")
+        cap = float(y.value_gap_cap_log.iloc[0])
+        self.assertAlmostEqual(cap, 1.01, delta=0.01)
+        flagged = y[y.value_capped]
+        self.assertEqual(len(flagged), 8)
+        self.assertTrue((flagged.value_gap_log > cap).all())
+        self.assertTrue((y.loc[~y.value_capped, "value_gap_log"] <= cap + 1e-9).all())
+        # statewide homes-weighted level unchanged by the top-code
+        w = y.homes.to_numpy(float)
+        self.assertAlmostEqual(np.average(y.y_plateau_central, weights=w), np.average(y.y_plateau_central_uncapped, weights=w), places=4)
+        self.assertTrue((flagged.y_plateau_central < flagged.y_plateau_central_uncapped).all())
+
+    def test_coverage_table_matches_code(self):
+        from missing_middleware.comparison import pooled_regression as pr
+        c = pd.read_csv(self.REF / "pooled_revision_coverage.csv")
+        for r in c.itertuples():
+            self.assertAlmostEqual(r.reporting_share, pr.COVERAGE[r.series][r.year], places=4)
+        ut = c[c.series.eq("UT_mih")]
+        self.assertTrue(np.allclose(ut.homes_reporting / ut.homes_state, ut.reporting_share, atol=5e-5))
+
+    def test_measured_pool(self):
+        m = pd.read_csv(self.REF / "wi_baseline_measured_pool.csv", dtype={"GEOID": str})
+        used = m[m.used]
+        self.assertEqual(sorted(used.place.unique()), sorted(["Howard village", "De Pere city", "Verona city", "Waunakee village",
+                                                              "Watertown city", "Neenah city", "Green Bay city"]))
+        self.assertFalse(m.loc[m.place.eq("Kaukauna city"), "used"].any())
+        self.assertFalse(m.loc[m.place.eq("Milwaukee city"), "used"].any())
+        g = pd.read_csv(self.REF / "wi_baseline_rates_by_group.csv").set_index("group")
+        # prohibited 5 permits / 214.27 thousand home-years; restricted 36 / 699.35
+        self.assertAlmostEqual(g.loc["prohibited", "x_central"], 5 / 214.2738, places=4)
+        self.assertAlmostEqual(g.loc["restricted", "x_central"], 36 / 699.3503, places=4)

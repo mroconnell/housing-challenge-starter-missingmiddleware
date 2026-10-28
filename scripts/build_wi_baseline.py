@@ -62,6 +62,59 @@ HOLDOUT_SOURCES = {
 }
 
 
+# Measured Wisconsin cities added to the current-law group rates (AQ-061, owner decision 2026-10-28). Each place's
+# 2022-2025 permits and home-years (reference/wi_measured_permits_2022_2025.csv) join the pool of the rules group in
+# force during its window (window_class in reference/wi_rules_vs_activity_places.csv). A place whose rules changed
+# inside the window is split by months; both split places counted 0 permits, so only home-years are divided.
+# Not added: Madison, Pleasant Prairie, Sun Prairie and Fitchburg (already in the pools, with their own windows);
+# Milwaukee (its measured rate is its own current-law rate, owner 2026-10-26; its window mixes RS districts that
+# barred second units with RT districts that allowed them as two-family homes); Kaukauna (provisional "no ADU
+# provision", confirmed by the official Chapter 17 text, but its 7 "Additional dwelling unit" permits cannot be
+# placed in a rules group without each permit's zoning district: docs/ASSUMPTIONS_AND_QUESTIONS.md AQ-061).
+MEASURED_POOL_SPLITS = {   # GEOID -> ((group, months of 48), ...) for places whose rules changed inside 2022-2025
+    "5500919775": (("prohibited", 12), ("restricted", 36)),   # De Pere: ADUs allowed from 2023-01-01
+    "5502584350": (("prohibited", 28), ("restricted", 20)),   # Waunakee: prohibited until the 2024-05-06 amendment
+}
+MEASURED_POOL_EXCLUDED = {
+    "5502548000": "Madison: already in the pools (benchmark 2022-2025; restricted 2014-2023)",
+    "5505963300": "Pleasant Prairie: already in the prohibited pool (2014-2025)",
+    "5502578600": "Sun Prairie: already in the prohibited pool (2016-2026-05)",
+    "5502525950": "Fitchburg: already in the restricted pool (2022-2026-07)",
+    "5507953000": "Milwaukee: its measured rate is its own current-law rate (owner 2026-10-26); mixed RS/RT regimes",
+    "5508738800": "Kaukauna: 7 'Additional dwelling unit' permits under a code with no ADU provision; rules group of "
+                  "the permits unknown without each permit's zoning district",
+}
+
+
+def measured_pool_observations(meas: pd.DataFrame, places: pd.DataFrame) -> tuple[list[bl.Observation], pd.DataFrame]:
+    """Observations for the measured cities added to the group pools, and a table of what was added or left out."""
+    cls = places.set_index("GEOID")["window_class"]
+    obs, rows = [], []
+    for gid, r in meas.iterrows():
+        if gid in MEASURED_POOL_EXCLUDED:
+            rows.append(dict(place=r["place"], GEOID=gid, group="", permits=r["permits"], thousand_home_years=r["thousand_home_years"],
+                             window_class=cls.get(gid, ""), used=False, note=MEASURED_POOL_EXCLUDED[gid]))
+            continue
+        group = bl.RIGHTS_GROUP[cls[gid]]
+        parts = MEASURED_POOL_SPLITS.get(gid, ((group, 48),))
+        if len(parts) > 1 and float(r["permits"]) != 0:
+            raise SystemExit(f"{r['place']}: a split window needs permits by period")
+        for grp, months in parts:
+            yrs = float(r["years_observed"]) * months / 48
+            o = bl.Observation(
+                key=f"measured_{gid}_{grp}", place=r["place"], jurisdiction_id=gid,
+                series="second-home permits on single-family lots (measured city, 2022-2025)",
+                window=f"{str(r['complete_years']).replace(';', ', ')}" + (f" ({months} of 48 months)" if len(parts) > 1 else ""),
+                units=int(round(float(r["permits"]))) if len(parts) == 1 else 0, homes=float(r["homes"]), years=yrs,
+                regime=grp, status="observed",
+                note=f"stage {r['stage']}, quality {r['quality']}; rules in window: {cls[gid]} (AQ-061)")
+            obs.append(o)
+            rows.append(dict(place=r["place"], GEOID=gid, group=grp, permits=o.units, thousand_home_years=round(o.exposure, 3),
+                             window_class=cls[gid], used=True,
+                             note=f"{months} of 48 months" if len(parts) > 1 else "whole window"))
+    return obs, pd.DataFrame(rows)
+
+
 def log(msg: str) -> None:
     print(msg, flush=True)
 
@@ -285,9 +338,16 @@ def main() -> None:
     ob = {o.key: o for o in obs}
 
     # 3. Group rates (fitting set: Madison, Pleasant Prairie, Sun Prairie, plus Fitchburg, which
-    # is not held out; Milwaukee candidates are a check only).
-    rates = bl.group_rates(benchmark=madison, prohibited=[pleasant, sun],
-                           restricted=[ob["madison_2014_2021"], ob["madison_2022_2023"], fitch],
+    # is not held out, and since AQ-061 the measured cities in MEASURED_POOL; Milwaukee candidates are a check only).
+    meas_all = pd.read_csv(REFERENCE / "wi_measured_permits_2022_2025.csv", dtype={"GEOID": str}).set_index("GEOID")
+    places_rules = pd.read_csv(REFERENCE / "wi_rules_vs_activity_places.csv", dtype={"GEOID": str})
+    pool_obs, pool_tab = measured_pool_observations(meas_all, places_rules)
+    obs += pool_obs
+    pool_tab.to_csv(REFERENCE / "wi_baseline_measured_pool.csv", index=False)
+    rates = bl.group_rates(benchmark=madison,
+                           prohibited=[pleasant, sun] + [o for o in pool_obs if o.regime == "prohibited"],
+                           restricted=[ob["madison_2014_2021"], ob["madison_2022_2023"], fitch]
+                           + [o for o in pool_obs if o.regime == "restricted"],
                            restricted_high=ob["madison_2022_2023"])
     R = rates.set_index("group")
 
@@ -463,7 +523,8 @@ def main() -> None:
                          left_on="jurisdiction_id", right_on="place_id")
     hc = bl.holdout_status_check(coded)
     hc["holdout"] = hc["jurisdiction_id"].isin(held_ids)
-    hc["fitting_set"] = hc["jurisdiction_id"].isin(bl.FIT_PLACE_IDS + (bl.FITCHBURG,))
+    hc["fitting_set"] = hc["jurisdiction_id"].isin(bl.FIT_PLACE_IDS + (bl.FITCHBURG,)
+                                                   + tuple(pool_tab.loc[pool_tab.used, "GEOID"]))
     pred_rate = {"allowed": float(R.loc["restricted", "x_central"]), "prohibited": float(R.loc["prohibited", "x_central"])}
     hc["rate_predicted_from_status"] = hc["predicted"].map(pred_rate)
     hc["rate_observed"] = hc["jurisdiction_id"].map({bl.MILWAUKEE: ob["milwaukee_post_central"].rate})

@@ -1,0 +1,2 @@
+model,fold_mean_error_guess_zero,passes_new_rule,fold_mean_error_baseline,fold_mean_error_model,fold_cities_model_better,fold_cities,chicago_error_baseline,madison_error_baseline,bellevue_error_baseline,chicago_error_model,madison_error_model,bellevue_error_model,fold_mean_auc,chicago_auc,madison_auc,bellevue_auc,passes_total,passes_where
+boosting,1418.5645,False,1884.181,1340.2664,3,6,482.2751,304.427,1099.6532,113.0514,386.0988,1249.5286,0.5336,0.6964,0.72,0.0424,False,False

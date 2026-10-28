@@ -1,16 +1,16 @@
 line,year_since_law,forecast_year,n_states,states,median_rate,basis,carried_forward,with_law_total,baseline,additional
-8_state_median,1,2027,7,"VT 0.6397, WA 0.6439, MA 0.7512, OR 0.7540, RI 0.9200, ME 0.9327, CA 1.5165",0.754,observed median,False,1387.035,120.3423,1266.6927
-8_state_median,2,2028,5,"WA 0.7732, VT 0.7873, OR 0.9314, UT 1.0551, CA 2.3876",0.9314,observed median,False,1713.3746,120.743,1592.6316
-8_state_median,3,2029,5,"VT 0.7627, WA 0.7975, OR 0.8688, UT 0.9768, CA 2.9682",0.8688,observed median,False,1598.2175,121.0545,1477.163
-8_state_median,4,2030,4,"OR 0.8740, UT 1.1836, VT 1.4024, CA 3.2528",1.293,observed median,False,2378.5627,121.2353,2257.3275
-8_state_median,5,2031,1,CA 3.4246,1.293,carried forward from year 4 (2030): only CA has a year 5,True,2378.5627,121.2551,2257.3076
-7_state_median,1,2027,6,,0.7526,observed median,False,1384.4596,120.3423,1264.1173
-7_state_median,2,2028,4,,0.8594,observed median,False,1580.9256,120.743,1460.1826
-7_state_median,3,2029,4,,0.8331,observed median,False,1532.5449,121.0545,1411.4904
-7_state_median,4,2030,3,,1.1836,observed median,False,2177.3139,121.2353,2056.0786
-7_state_median,5,2031,0,,1.1836,carried forward from year 4,True,2177.3139,121.2551,2056.0587
-7_state_median_as_reported,1,2027,6,,0.7914,observed median,False,1455.8349,120.3423,1335.4926
-7_state_median_as_reported,2,2028,4,,0.9036,observed median,False,1662.2345,120.743,1541.4916
-7_state_median_as_reported,3,2029,4,,0.8761,observed median,False,1611.6464,121.0545,1490.5919
-7_state_median_as_reported,4,2030,3,,1.2446,observed median,False,2289.5276,121.2353,2168.2923
-7_state_median_as_reported,5,2031,0,,1.2446,carried forward from year 4,True,2289.5276,121.2551,2168.2724
+8_state_median,1,2027,7,"VT 0.6397, OR 0.7540, WA 0.7975, MA 0.9817, RI 1.1213, ME 1.2776, CA 1.5165",0.9817,observed median,False,1805.9049,105.4815,1700.4234
+8_state_median,2,2028,4,"VT 0.7873, OR 0.9314, UT 1.3269, CA 2.3876",1.1292,observed median,False,2077.1493,105.8494,1971.2999
+8_state_median,3,2029,4,"VT 0.7627, OR 0.8688, UT 1.2163, CA 2.9682",1.0425,observed median,False,1917.8427,106.1321,1811.7105
+8_state_median,4,2030,4,"OR 0.8740, VT 1.4024, UT 1.4717, CA 3.2528",1.4371,observed median,False,2643.5526,106.2919,2537.2607
+8_state_median,5,2031,1,CA 3.4246,1.4371,carried forward from year 4 (2030): only CA has a year 5,True,2643.5526,106.3109,2537.2417
+7_state_median,1,2027,6,,0.8896,observed median,False,1636.4806,105.4815,1530.9991
+7_state_median,2,2028,3,,0.9314,observed median,False,1713.3746,105.8494,1607.5252
+7_state_median,3,2029,3,,0.8688,observed median,False,1598.2175,106.1321,1492.0854
+7_state_median,4,2030,3,,1.4024,observed median,False,2579.8116,106.2919,2473.5197
+7_state_median,5,2031,0,,1.4024,carried forward from year 4,True,2579.8116,106.3109,2473.5006
+7_state_median_as_reported,1,2027,6,,0.9354,observed median,False,1720.7328,105.4815,1615.2514
+7_state_median_as_reported,2,2028,3,,0.9794,observed median,False,1801.6739,105.8494,1695.8245
+7_state_median_as_reported,3,2029,3,,0.9136,observed median,False,1680.6302,106.1321,1574.4981
+7_state_median_as_reported,4,2030,3,,1.4747,observed median,False,2712.8124,106.2919,2606.5205
+7_state_median_as_reported,5,2031,0,,1.4747,carried forward from year 4,True,2712.8124,106.3109,2606.5015

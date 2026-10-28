@@ -72,6 +72,23 @@ class TestCoding(unittest.TestCase):
         self.assertAlmostEqual(a.loc[1, "count"], 100.0)                        # California APR left as is
         self.assertTrue(pr.adjust_counts(r).equals(r))                           # nothing applied by default
 
+    def test_coverage_and_partial_year_by_series_year(self):
+        """AQ-061: reporting shares are per series-year (Rhode Island only 2025) and applied once; Massachusetts
+        2025 counts as 11/12 of a year."""
+        annual = pd.DataFrame({"series": ["RI_statewide"] * 4 + ["MA_statewide"], "year": [2021, 2022, 2023, 2025, 2025],
+                               "adu_count": [62, 53, 71, 262, 1224]})
+        coding = {k: pr.STATE_CODING[k] for k in ("RI_statewide", "MA_statewide")}
+        r = pr.state_rows(annual, coding).set_index(["series", "year"])
+        self.assertEqual(r.loc[("RI_statewide", 2021), "coverage"], 1.0)
+        self.assertAlmostEqual(r.loc[("RI_statewide", 2025), "coverage"], 32 / 39)
+        self.assertAlmostEqual(r.loc[("MA_statewide", 2025), "years"], 11 / 12)
+        a = pr.adjust_counts(r.reset_index(), coverage=True).set_index(["series", "year"])
+        self.assertAlmostEqual(a.loc[("RI_statewide", 2025), "count"], 262 / (32 / 39))
+        self.assertEqual(a.loc[("RI_statewide", 2021), "count"], 62)
+        self.assertTrue((a["coverage"] == 1.0).all())                            # a second call changes nothing
+        self.assertTrue(pr.adjust_counts(a.reset_index(), coverage=True)["count"].equals(a.reset_index()["count"]))
+        self.assertEqual(set(pr.COVERAGE["UT_mih"]), {2023, 2024, 2025})
+
 
 class TestFits(unittest.TestCase):
     def test_one_stage_recovers_single_member(self):

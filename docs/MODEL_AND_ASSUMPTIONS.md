@@ -30,7 +30,7 @@ All three reforms count **housing units in issued building permits**, at the dat
 
 | Reform | Outcome counted | Current-law baseline, 2027–2031 | Rate denominator used inside the reform |
 | --- | --- | --- | --- |
-| ADUs | **Second homes on single-family lots**: ADUs plus single-family-to-duplex conversions on a lot that already has a home (AQ-032, AQ-039) | 605 permits statewide | Per 1,000 single-family (one-unit detached) homes: 1,839,569 homes (ACS 2020–2024, table B25024) |
+| ADUs | **Second homes on single-family lots**: ADUs plus single-family-to-duplex conversions on a lot that already has a home (AQ-032, AQ-039) | 530 permits statewide | Per 1,000 single-family (one-unit detached) homes: 1,839,569 homes (ACS 2020–2024, table B25024) |
 | Parking | **All new housing units**, every building size | 122,619 permits statewide (the shared all-housing baseline, version 2) | Per 1,000 existing homes of all types (ACS 2020–2024, table B25002) |
 | TOD | **All new housing units near major transit stops** | 14,464 permits in the station areas | Share of the 313,564 homes (2020 census) in the station areas |
 
@@ -44,7 +44,7 @@ The forecast years are 2027, 2028, 2029, 2030 and 2031. Totals are summed over t
 
 - **Scenarios are named by what they mean, not by statistical confidence.** Each reform shows a lower, a central and an upper scenario, labelled by the real-world evidence they stand for: for ADUs, "sluggish adoption" (like the slowest statewide-law states), "typical adoption" and "strong adoption"; for parking, "no measurable change" and "high end of the evidence"; for TOD, "little", "typical" and "strong" response, each named after the study it uses. They are not confidence intervals. They show how much the real cases disagree.
 - **A line drawn from real cases.** Each reform also shows the median of what real places actually did:
-  - ADUs: the median observed path of the 8 states with a statewide ADU law (8,851 additional permits);
+  - ADUs: the median observed path of the 8 states with a statewide ADU law (10,558 additional permits);
   - parking: the median repeal place, whose permit rate changed by −0.50 permits per 1,000 homes per year against similar places, which counts as 0 because a repeal is not modelled as removing homes;
   - TOD: the median of the three net-effect studies, which equals the typical scenario (2,509 additional permits).
 - **Sensitivities are grouped by what they move.** Each sensitivity case changes one assumption and is labelled by whether it moves the statewide addition, only where the homes land, or only the current-law baseline.
@@ -60,24 +60,25 @@ It does not forecast rents, prices, displacement, parking supply, traffic or tra
 
 ## Part A. Accessory dwelling units (ADUs)
 
-Written for this document from the final ADU packets: [Gate 3](gate3/README.md) (including its revision of 2026-10-26), [Gate 4](gate4/README.md), [Gate 5](gate5/README.md) and [Gate 5 model checks](gate5/MODEL_CHECKS.md). Adopted decisions: AQ-024 to AQ-043. Engine outputs: [`reference/adu_model_statewide.csv`](../reference/adu_model_statewide.csv), [`adu_model_sensitivities.csv`](../reference/adu_model_sensitivities.csv) and [`adu_model_reference_lines.csv`](../reference/adu_model_reference_lines.csv).
+Written for this document from the final ADU packets: [Gate 3](gate3/README.md) (including its revision of 2026-10-26), [Gate 4](gate4/README.md), [Gate 5](gate5/README.md) and [Gate 5 model checks](gate5/MODEL_CHECKS.md). Adopted decisions: AQ-024 to AQ-043, AQ-058 and AQ-061 (the ask-why fixes of 2026-10-28). Engine outputs: [`reference/adu_model_statewide.csv`](../reference/adu_model_statewide.csv), [`adu_model_sensitivities.csv`](../reference/adu_model_sensitivities.csv) and [`adu_model_reference_lines.csv`](../reference/adu_model_reference_lines.csv).
 
 ### Purpose and Scope
 
 **The question.** If Wisconsin passed the benchmark ADU law, in force from 1 January 2027, how many more second homes would be permitted on single-family lots over 2027–2031 than under current law?
 
 **The answer.**
-- Under current law, the model expects Wisconsin to permit **605 second homes on single-family lots over 2027–2031** (604.6 permits). That is about 121 permits a year. Divided by Wisconsin's 1,839.569 thousand single-family homes, it is 0.066 permits per 1,000 single-family homes per year.
+- Under current law, the model expects Wisconsin to permit **530 second homes on single-family lots over 2027–2031** (530.1 permits). That is about 106 permits a year. Divided by Wisconsin's 1,839.569 thousand single-family homes, it is 0.058 permits per 1,000 single-family homes per year.
 - The law adds, over the same five years:
 
-| Scenario | What it means | Additional permits, 2027–2031 | Total with the 605-permit baseline |
+| Scenario | What it means | Additional permits, 2027–2031 | Total with the 530-permit baseline |
 | --- | --- | ---: | ---: |
-| Sluggish adoption (lower) | Like the average of the two slowest statewide-law states, Rhode Island and Oregon | **5,538** | 6,143 |
-| **Like a typical statewide-law state (central)** | Like a typical statewide-law state | **8,757** | 9,361 |
-| Strong adoption (upper) | The high end of what statewide-law states have reached; only California has gone higher | **16,889** | 17,494 |
-| *Reference line* | The median path the 8 statewide-law states actually took, California included | **8,851** | 9,456 |
+| Sluggish adoption (lower) | Like the average of the two slowest statewide-law states, Rhode Island and Oregon | **6,734** | 7,264 |
+| **Like a typical statewide-law state (central)** | Like a typical statewide-law state | **10,788** | 11,318 |
+| Strong adoption (upper) | The high end of what statewide-law states have reached; only California has gone higher | **20,057** | 20,587 |
+| *Reference line* | The median path the 8 statewide-law states actually took, California included | **10,558** | 11,088 |
 
-- The central's additions by year are 1,299, 1,632, 1,693, 2,059 and 2,074 permits in 2027–2031. The central adds 8,756.6 permits ÷ 1,839.569 thousand single-family homes ÷ 5 years = 0.95 permits per 1,000 single-family homes per year.
+- The central's additions by year are 1,543, 2,038, 2,133, 2,530 and 2,544 permits in 2027–2031. The central adds 10,787.6 permits ÷ 1,839.569 thousand single-family homes ÷ 5 years = 1.17 permits per 1,000 single-family homes per year.
+- **Revised 2026-10-28 (AQ-061, the ask-why fixes).** Before: baseline 605; lower 5,538, central 8,757, upper 16,889; reference line 8,851 permits. The changes: comparison-state counts are scaled up for towns that did not report; Massachusetts' 11-month first year counts as 11 months; Washington's law years start when its cities had to comply; seven more measured Wisconsin cities and villages join the current-law group rates; and the value gap of a few small, very high-value villages is capped at California's largest.
 
 **The outcome counted (AQ-032, AQ-039).** A *second home on a single-family lot* is any permanent dwelling with its own kitchen, legally permitted on a lot that already has a single-family home. That includes ADUs, single-family-to-duplex conversions and California's SB 9 second homes. Two rules keep the count honest:
 - an ADU built together with a new house counts when the lot had a home before (a teardown and rebuild), but not when the lot was vacant, because that is ordinary new construction;
@@ -103,18 +104,21 @@ Written for this document from the final ADU packets: [Gate 3](gate3/README.md) 
 | Denominator for every ADU rate | 1,839,569 one-unit detached ("single-family") homes in Wisconsin | Each one is a lot the law makes eligible; the same measure exists in every state | ACS 2020–2024, table B25024_002 |
 | Law in force | 1 January 2027 (stylized) | The challenge's five-year horizon starts in 2027; the same date is used for all three reforms | [Challenge spec](CHALLENGE_SPEC.md) |
 | Current-law rate in places with their own permit data | Milwaukee 0.0863 (35 candidate permits ÷ 405.608 thousand home-years, 2022–2025, held flat); Madison 0.188 (40 permits ÷ 213.168 thousand home-years, 2022–2025); Pleasant Prairie 0.039 (3 permits ÷ 76.0 thousand home-years, 2014–2025). All in permits per 1,000 single-family homes per year. | Measured in the place's own records. Milwaukee's open permit data have no unit counts, so its 35 permits are unverified candidates (quality C). Its file through 2026-06-15 shows no clear rise after its August 2025 reform. | AQ-043; [WI_BASELINE.md](gate3/WI_BASELINE.md) |
-| Current-law rate by coded rules group | Prohibited 0.031, restricted 0.062, already at the benchmark 0.183 permits per 1,000 single-family homes per year | Measured in Wisconsin places with each kind of rule (Pleasant Prairie and Sun Prairie pooled; Madison 2014–2023 and Fitchburg pooled; Madison 2022–2025). Rules are coded for the 37 largest municipalities. | AQ-026, AQ-027, AQ-037 |
-| Places whose rules are not coded | Treated like places that restrict ADUs (0.062) | 1,267,433 of the 1,839,569 single-family homes (69%) are in such places. The middle choice; prohibited and already-allowed are both sensitivity cases. | AQ-023, AQ-027 |
-| Rate with the law | From a pooled model of 8 statewide-law states and 5 cities. Once a statewide law is in force, one common level across states fits best. Within a state, places differ by home value, household income and number of homes. | The with-law rate must come from measured data, not judgment (AQ-036). No Midwest state yet has data after a statewide law. | AQ-034, AQ-036, AQ-042; [POOLED_REVISION.md](gate3/POOLED_REVISION.md) |
-| California in the common level | Yes (configuration A) | Predicts the 7 other statewide-law states better when each is held out: average log error 0.113 with California, 0.132 without | AQ-040, AQ-042 |
+| Current-law rate by coded rules group | Prohibited 0.023 (5 permits ÷ 214.274 thousand home-years), restricted 0.051 (36 permits ÷ 699.350 thousand home-years), already at the benchmark 0.188 (40 ÷ 213.168) permits per 1,000 single-family homes per year | Measured in Wisconsin places with each kind of rule. Prohibited: Pleasant Prairie, Sun Prairie, Howard, Neenah, and De Pere and Waunakee for their prohibited months. Restricted: Madison 2014–2023, Fitchburg, Green Bay, Verona, Watertown, and De Pere and Waunakee for their restricted months. Benchmark: Madison 2022–2025. These seven places joined on 2026-10-28 (AQ-061); Kaukauna and Milwaukee are left out. Rules are coded for the 37 largest municipalities. | AQ-026, AQ-027, AQ-037, AQ-061 |
+| Places whose rules are not coded | Treated like places that restrict ADUs (0.051) | 1,267,433 of the 1,839,569 single-family homes (69%) are in such places. The middle choice; prohibited and already-allowed are both sensitivity cases. | AQ-023, AQ-027 |
+| Rate with the law | From a pooled model of 8 statewide-law states and 5 cities. Once a statewide law is in force, one common level across states fits best. Two fits are used. A fit on home value, household income and number of homes sets Wisconsin's **statewide** rate. A fit on home value alone (slope about 1.02) **spreads that total across places**. Income and size do not move one Wisconsin place against another. | The with-law rate must come from measured data, not judgment (AQ-036). No Midwest state yet has data after a statewide law. | AQ-034, AQ-036, AQ-042, AQ-061; [POOLED_REVISION.md](gate3/POOLED_REVISION.md) |
+| Places beyond California's value range | Each place's value gap is capped at the largest gap seen among California places (+1.01 in log terms, about 2.7 times its state's typical value) before allocation | 8 areas (7 villages and towns, 2,852 homes) sit further above Wisconsin's typical value than any California place sits above California's. Their uncapped levels were extrapolations. The cap moves about 16 central permits to other places; the statewide total does not change. Flagged places: [`adu_model_value_capped_places.csv`](../reference/adu_model_value_capped_places.csv). | AQ-061 |
+| California in the common level | Yes (configuration A) | Predicts the 7 other statewide-law states better when each is held out: average log error 0.180 with California, 0.198 without (after the AQ-061 changes; 0.113 and 0.132 before) | AQ-040, AQ-042, AQ-061 |
+| Comparison counts cover all of each state | Counts divided by the reporting share: Maine 2025 ÷ 0.73 (share of people in 182 reporting towns), Massachusetts 2025 ÷ 293/351 towns, Rhode Island 2025 ÷ 32/39 towns, Utah ÷ 0.795, 0.803 and 0.804 (2023–2025; share of Utah's single-family homes in the cities and counties that answered). Massachusetts 2025 counts as 11/12 of a year (law in force from 2 February). | Each count covers only reporting towns, but the rate divides it by every single-family home in the state. No town lists are in the repository for Maine, Massachusetts or Rhode Island, so their published shares are used. Non-reporting towns are probably smaller and quieter, so the true figure is likely between the uncorrected case (central 9,562) and the adopted one. | AQ-061; [`pooled_revision_coverage.csv`](../reference/pooled_revision_coverage.csv) |
+| Washington's law years | Counted from local compliance: estimate year 2026 (April 2025–March 2026) is year 1; 2024–2025 are left out | HB 1337 was enacted in July 2023, but cities had to adopt compliant rules only from 30 June 2025 (four largest counties) or later | AQ-061 |
 | Comparison counts cleaned to the same outcome | California: at most 2 ADUs per parcel, and ADUs on multifamily parcels removed (87,303 → 81,368 units in 2023–2025). Other series × 0.951 for vacant-lot ADUs. Minneapolis × 0.873 for duplex-lot ADUs. | The benchmark law covers single-family lots with existing homes only. 0.951 = 1 − 0.049, where 4.9% is the median vacant-lot share of ADUs in 17 cities with demolition records. | AQ-039, AQ-041 |
-| Ramp-up | The law's addition reaches 0.63, 0.80 and 0.82 of its full size in 2027, 2028 and 2029, and its full size from 2030 (central) | Measured in the pooled model's year-since-law terms | [Gate 3 packet](gate3/README.md), step 4 |
+| Ramp-up | The law's addition reaches 0.61, 0.81 and 0.85 of its full size in 2027, 2028 and 2029, and its full size from 2030 (central) | Measured in the pooled model's year-since-law terms | [Gate 3 packet](gate3/README.md), step 4 |
 | Madison's own path | 0.452, 0.542, 0.601, 0.799 and 1.076 permits per 1,000 single-family homes per year in 2027–2031, in every scenario | Madison is the only Wisconsin place that meets the "Madison-like" definition, fixed before outcomes were read. The 9 Madison-like cities in Washington and Oregon ran at about half the model's rate in years 1–3. | AQ-040, AQ-042; [MADISON_LIKE_CITIES.md](gate3/MADISON_LIKE_CITIES.md) |
 | Madison floor | No place's with-law rate is below 0.2345 permits per 1,000 single-family homes per year | Madison's 2022–2025 rate (40 permits ÷ 213.168 thousand home-years = 0.1876) divided by 0.8, because Madison's rules are about 80% of the benchmark | AQ-029, AQ-030, AQ-042 |
 | No negative additions | The addition is never below zero | A law that adds a right does not remove permits | Engine rule |
-| Lower scenario | Every place's central level × 0.6497 | The mean of Rhode Island's 0.62 and Oregon's 0.68 permits per 1,000 single-family homes per year (at a typical place, law in force 4+ years) is 0.65, which is 0.6497 of the central's common level of 1.0035 | AQ-043 |
-| Upper scenario | Every place's central level × 1.885 | The 90th percentile of how much the 8 states' levels differ from one another. At a typical place it is 1.89 permits per 1,000 single-family homes per year; only California (2.45) is higher. | AQ-040, AQ-042 |
-| Reference line | The median observed statewide rate of all 8 statewide-law states, by year since their law: 0.754, 0.931, 0.869 and 1.293 permits per 1,000 single-family homes per year in years 1–4 (from 7, 5, 5 and 4 states); 2031 repeats the 2030 value | Shows what real states did, with no model in between. Only California has a fifth year. | AQ-043 |
+| Lower scenario | Every place's central level × 0.6361 | The mean of Rhode Island's 0.85 and Oregon's 0.70 permits per 1,000 single-family homes per year (at a typical place, law in force 4+ years) is 0.774, which is 0.6361 of the central's common level of 1.2169 | AQ-043, AQ-061 |
+| Upper scenario | Every place's central level × 1.832 | The 90th percentile of how much the 8 states' levels differ from one another. At a typical place it is 2.23 permits per 1,000 single-family homes per year; only California (2.45) is higher. | AQ-040, AQ-042, AQ-061 |
+| Reference line | The median observed statewide rate of all 8 statewide-law states, by year since their law: 0.982, 1.129, 1.043 and 1.437 permits per 1,000 single-family homes per year in years 1–4 (from 7, 4, 4 and 4 states); 2031 repeats the 2030 value | Shows what real states did, with no model in between. Only California has a fifth year. Uses the same reporting-share and Washington coding as the model (AQ-061). | AQ-043, AQ-061 |
 
 ### Data Sources and Cleaning Steps
 
@@ -145,74 +149,87 @@ y[a]           = max(level from the pooled model for a, 0.2345)
 where *H* is the number of one-unit detached homes, *x* the current-law rate and *y* the with-law rate, both in permits per 1,000 single-family homes per year. Madison uses its own yearly path for *y* with no ramp on top.
 
 **Step by step.**
-1. **Current-law rate (x).** Measured where a place has its own permit records (Milwaukee, Madison, Pleasant Prairie). Otherwise taken from the place's coded rules group, or, where rules are not coded, from the "restricted" group.
-2. **Rate with the law (y).** A pooled model is fitted to California's 457 jurisdictions, the seven other statewide-law states (each labelled by the area actually measured: Washington outside Seattle, Oregon in 32 cities outside Portland, Vermont's Chittenden County, Utah's reporting cities, and Maine, Massachusetts and Rhode Island statewide) and five cities (Seattle, Portland, Austin, Denver, Minneapolis). Within a state, a place whose median home value is 10% above its state's average has about a 29% higher rate; at the same value, a place whose household income is 10% higher has about a 25% lower rate; the number of homes barely matters. Across states, one common level fits best once the law is in force. Each Wisconsin place gets its level from its own home value, income and size.
-3. **Ramp.** The addition is phased in at 0.63, 0.80 and 0.82 of its full size in 2027–2029 (central).
-4. **Scenarios.** The lower multiplies each place's central level by 0.6497 and the upper by 1.885. Each has its own ramp, recomputed the same way.
+1. **Current-law rate (x).** Measured where a place has its own permit records (Milwaukee, Madison, Pleasant Prairie). Otherwise taken from the place's coded rules group, or, where rules are not coded, from the "restricted" group. The group rates pool every measured Wisconsin city whose rules in its measurement window are coded (AQ-061).
+2. **Rate with the law (y).** A pooled model is fitted to California's 457 jurisdictions, the seven other statewide-law states (each labelled by the area actually measured: Washington outside Seattle, Oregon in 32 cities outside Portland, Vermont's Chittenden County, Utah's reporting cities, and Maine, Massachusetts and Rhode Island statewide) and five cities (Seattle, Portland, Austin, Denver, Minneapolis). Counts are divided by each state's reporting share, and Washington's law years start at local compliance (AQ-061). Across states, one common level fits best once the law is in force. Two fits then do two jobs:
+   - **The statewide rate** comes from the fit on home value, household income and number of homes. Within a state, a place whose median home value is 10% above its state's average has about a 29% higher rate; at the same value, 10% higher household income goes with about a 25% lower rate; size barely matters. Applied to Wisconsin's 1,925 areas, this fit gives the statewide rate for each year.
+   - **Each place's share** comes from the fit on home value alone (slope 1.02 on the log scale, `W_ALLOC` in `scripts/run_pooled_revision.py`). A place whose median home value is 10% above Wisconsin's average gets about a 10% higher level. The levels are then scaled so they add up to the statewide rate. Income and size do not enter this step. Each place's value gap is capped at California's largest (+1.01 in log terms) first.
+3. **Ramp.** The addition is phased in at 0.61, 0.81 and 0.85 of its full size in 2027–2029 (central).
+4. **Scenarios.** The lower multiplies each place's central level by 0.6361 and the upper by 1.832. Each has its own ramp, recomputed the same way.
 5. **Sum and reconcile.** Areas are summed to counties and the state. Districts are shares of each municipality's result by where its single-family homes were in 2020 census blocks, with an explicit "not allocated" row (0.0 permits).
 
 **Worked example 1, Madison (central).** Madison has 53,292 single-family homes. Its current-law rate is 0.188 permits per 1,000 per year, so its baseline is 53.292 thousand homes × 0.188 × 5 years = 50.0 permits. Its path sums to 0.452 + 0.542 + 0.601 + 0.799 + 1.076 = 3.470 permits per 1,000 homes over the five years. Its addition is 53.292 × (3.470 − 5 × 0.188) = 134.9 permits, in every scenario.
 
-**Worked example 2, Christiana town, Vernon County (central).** It has 389 single-family homes and a current-law rate of 0.061 permits per 1,000 per year. Its central level is 1.567, and the central ramp sums to 0.634 + 0.796 + 0.825 + 1 + 1 = 4.254. Its addition is 0.389 thousand homes × (1.567 − 0.061) × 4.254 = 2.49 permits over 2027–2031.
+**Worked example 2, Christiana town, Vernon County (central).** It has 389 single-family homes and a current-law rate of 0.051 permits per 1,000 per year. Its central level is 1.907, and the central ramp sums to 0.612 + 0.808 + 0.846 + 1 + 1 = 4.266. Its addition is 0.389 thousand homes × (1.907 − 0.051) × 4.266 = 3.08 permits over 2027–2031.
 
-**Checks the model must pass to run.** The engine stops with an error if it fails to reproduce the pooled model's own totals to within 2 permits, or if a stored scenario factor or ramp does not follow from its source files. Lower ≤ central ≤ upper holds in every area and year. The 99 Assembly districts and the 33 Senate districts each add up to the statewide 605 baseline and 8,757 central additional permits.
+**Checks the model must pass to run.** The engine stops with an error if it fails to reproduce the pooled model's own totals to within 2 permits, or if a stored scenario factor or ramp does not follow from its source files. Lower ≤ central ≤ upper holds in every area and year. The 99 Assembly districts and the 33 Senate districts each add up to the statewide 530 baseline and 10,788 central additional permits.
 
-**What rests on what (trace).** Of the 8,757 central additional permits:
-- 482 (5.5%) are in the 3 places whose current-law rate is observed in their own permits;
-- 1,847 (21.1%) are in the 37 places whose rate is calculated from a coded rules group;
-- 6,427 (73.4%) are in the 1,848 places whose rules are not coded, so their current-law rate is assumed.
+**What rests on what (trace).** Of the 10,788 central additional permits:
+- 565 (5.2%) are in the 3 places whose current-law rate is observed in their own permits;
+- 2,285 (21.2%) are in the 37 places whose rate is calculated from a coded rules group;
+- 7,937 (73.6%) are in the 1,848 places whose rules are not coded, so their current-law rate is assumed.
 
 Every place's rate with the law is transferred from other states.
 
 ### Limitations and Known Edge Cases
 
-1. **No Midwest state has data after a statewide ADU law.** The model contains no Wisconsin data after a law. Wisconsin permits 0.07 per 1,000 single-family homes per year today, where the pooled model's no-law level for Wisconsin would be 0.50. States with before-and-after data (California, Rhode Island, Washington, Vermont) reached similar first-year levels however low they started, but they are coastal or New England markets. Iowa's first full year (2026) will be the first Midwest test.
+1. **No Midwest state has data after a statewide ADU law.** The model contains no Wisconsin data after a law. Wisconsin permits 0.06 per 1,000 single-family homes per year today, where the pooled model's no-law level for Wisconsin would be 0.46. States with before-and-after data (California, Rhode Island, Washington, Vermont) reached similar first-year levels however low they started, but they are coastal or New England markets. Iowa's first full year (2026) will be the first Midwest test.
 2. **Mid-size cities may be slower.** Madison-like cities in Washington and Oregon ran at a median 0.45, 0.54 and 0.60 permits per 1,000 single-family homes per year in years 1–3, about half the model's earlier path. Only Madison is moved onto that path. If Wisconsin's other mid-size markets behave the same way, the central is too high in its first three years.
-3. **The hold-out test rests on 7 states.** California stays in the common level because it predicts the others better, but that win holds in 66% of 5,000 resamples, and flips when Washington or Rhode Island is removed.
-4. **Most current-law rates are assumed.** 73.4% of the central addition (6,427 of 8,757 permits) is in places with uncoded rules. This mostly moves the split between baseline and addition, not the total with the law (see Sensitivity Notes).
+3. **The hold-out test rests on 7 states.** California stays in the common level because it predicts the others better. That win holds in 67% of 5,000 resamples and in all 7 checks that drop one state. After the AQ-061 changes the held-out fit is worse overall (average log error 0.180, was 0.113). Massachusetts and Washington are now predicted closely (errors 0.05 and 0.03), but Vermont is over-predicted by about 40% (0.34) and Oregon by about 26% (0.23).
+4. **Most current-law rates are assumed.** 73.6% of the central addition (7,937 of 10,788 permits) is in places with uncoded rules. This mostly moves the split between baseline and addition, not the total with the law (see Sensitivity Notes).
 5. **Milwaukee's count is unverified.** Its 35 candidate permits come from open data with no description or unit count.
-6. **Small, high-value villages get high rates.** For example, Chenequa (271 single-family homes) gets 5.24 permits per 1,000 single-family homes per year in the central. No cap is applied (owner decision).
-7. **Rural areas get a large share.** Rural areas get 3,801 of the 8,757 central permits (43%) with 710,070 of the 1,839,569 single-family homes (39%), partly because a rural home's value includes its land.
-8. **Districts are shares, not forecasts.** District figures share each municipality's result by where its single-family homes were in 2020. Homes built since 2020 and annexations are not reflected. Plain land-area weights would move 237 of the 8,757 central permits (2.7%) between districts.
+6. **Small, very high-value villages are capped.** 8 areas (7 villages and towns, 2,852 single-family homes) have home values further above Wisconsin's average than any California place is above California's. Their value gap is capped at California's largest before allocation (AQ-061; the owner had chosen no cap at Gate 4). For example, Chenequa (271 single-family homes) gets 3.85 permits per 1,000 single-family homes per year in the central, instead of 7.64 uncapped. The cap moves about 16 of the 10,788 central permits to other places. The flagged places are listed in [`adu_model_value_capped_places.csv`](../reference/adu_model_value_capped_places.csv).
+7. **Rural areas get a large share.** Rural areas get 4,700 of the 10,788 central permits (43.6%) with 710,070 of the 1,839,569 single-family homes (38.6%), partly because a rural home's value includes its land.
+8. **Districts are shares, not forecasts.** District figures share each municipality's result by where its single-family homes were in 2020. Homes built since 2020 and annexations are not reflected. At Gate 5, plain land-area weights would have moved 237 of the 8,757 central permits (2.7%) between districts (not rerun).
 9. **Permits are not homes.** Not every permit becomes a finished home, and some second homes are built without permits.
 10. **Associations, not proven causes.** Results describe what other states experienced after their laws.
 11. **The before-and-after evidence is thin.** In the placebo test ([PLACEBO_RESULTS.md](adu/PLACEBO_RESULTS.md)) the strong-law and weaker-law groups have only 2 series each (California and Washington; Rhode Island and Chittenden County, Vermont). Against placebo groups of the same size (2 no-law series per draw), the strong-law group's change of +0.75 ADU permits per 1,000 one-unit detached homes per year is matched or beaten in 16% of draws (316 of 2,000), and the weaker-law group's +0.45 in 26% (about 520 of 2,000).
+12. **Reporting shares are rough.** Maine's share is of people, and Massachusetts' and Rhode Island's are of towns, not of homes. Towns that did not report are probably smaller and quieter, so the scale-up may be too large. Without it the central would be 9,562 (−1,226).
+13. **Vermont's counts are by year built.** Every Vermont count is by the year a unit was built or first occupied, not the permit year. Its 2024 count (57 ADUs) comes from the state's housing layer, not the regional planning commission's own series. Dropping 2024 lowers the central by 428 permits. The owner will decide (AQ-061).
 
 ### Sensitivity Notes
 
 Each case changes one assumption and reruns the model. Additional permits over 2027–2031 unless noted. Source: [`reference/adu_model_sensitivities.csv`](../reference/adu_model_sensitivities.csv); tornado chart: [sensitivity_tornado.png](gate3/sensitivity_tornado.png).
 
-**Cases that move the statewide addition** (adopted: lower 5,538, central 8,757, upper 16,889):
+**Cases that move the statewide addition** (adopted: lower 6,734, central 10,788, upper 20,057):
 
 | Case | Lower | Central | Upper |
 | --- | ---: | ---: | ---: |
-| Multiplicative law: each place's current rate × one statewide factor | — | 666 | — |
-| California-only market regression | — | 2,390 | — |
-| Rural and small-community places at the Madison floor (0.2345) | — | 4,765 | — |
-| Lower as a statistical 10th percentile (every central level ÷ 1.885) | 4,443 | 8,757 | 16,889 |
-| California out of the common level | 5,538 | 7,657 | 11,226 |
-| Eligible-property basis (its own 636-permit baseline; Gate 3 run) | — | 8,164 | 15,318 |
-| Los Angeles-calibrated multifamily correction | 5,446 | 8,438 | 15,206 |
-| Madison at its pooled level instead of its path | 5,599 | 8,948 | 17,410 |
-| No ramp: full rate from 2027 | — | 10,268 | — |
+| Multiplicative law: each place's current rate × one statewide factor | — | 933 | — |
+| California-only market regression | — | 2,435 | — |
+| Rural and small-community places at the Madison floor (0.2345) | — | 5,729 | — |
+| Lower as a statistical 10th percentile (every central level ÷ 1.832) | 5,729 | 10,788 | 20,057 |
+| Eligible-property basis (its own 636-permit baseline; Gate 3 run, not rerun) | — | 8,164 | 15,318 |
+| Comparison-state counts and coding as at Gate 4 (all three AQ-061 changes undone) | 5,619 | 8,938 | 17,060 |
+| No scale-up for towns that did not report | 6,119 | 9,562 | 18,114 |
+| California out of the common level | 6,735 | 9,729 | 15,924 |
+| Washington's law years from enactment, not local compliance | 6,138 | 10,044 | 18,801 |
+| Vermont 2024 left out (owner to decide) | 6,590 | 10,360 | 19,882 |
+| Los Angeles-calibrated multifamily correction | 6,603 | 10,381 | 18,197 |
+| Scale-up for Maine, Massachusetts and Rhode Island only (Utah not) | 6,740 | 10,491 | 19,524 |
+| Madison at its pooled level instead of its path | 6,842 | 11,060 | 20,707 |
+| No ramp: full rate from 2027 | — | 12,621 | — |
+
+**A case that moves only where permits land:** without the cap on the value gap, small very high-value villages keep their extrapolated levels. The statewide central barely moves (10,788 → 10,788.3); about 16 permits move back to the 8 capped areas.
 
 **Cases that move only the current-law baseline** (central). Because the rate with the law does not depend on today's rules, the addition moves the other way by about as much, and the total with the law barely moves:
 
 | Case | Baseline | Change in addition | Change in total with the law |
 | --- | ---: | ---: | ---: |
-| Uncoded places behave like places that prohibit ADUs | 418.3 | +158.6 | −27.8 (−0.3%) |
-| Uncoded places behave like places that already allow ADUs as the bill would | 1,409.3 | −684.7 | +120.0 (+1.3%) |
-| Milwaukee rises to Madison's rate after its 2025 reform | 644.9 | −36.0 | +4.2 |
-| Madison's rate = its 2026 pace so far (provisional) | 813.8 | −129.4 | +79.7 |
-| Madison's rate from 2024–2025 only | 617.1 | −12.5 | 0.0 |
-| Madison's rate without one builder's templated programme | 595.9 | +8.8 | 0.0 |
-| Wisconsin's baseline rises like no-law places (×1.11 a year) | 1,083.3 | −432.4 (lower −430.8, upper −433.7) | +46.3 (+0.5%) |
+| Uncoded places behave like places that prohibit ADUs | 351.7 | +152.2 | −26.2 (−0.2%) |
+| Uncoded places behave like places that already allow ADUs as the bill would | 1,393.0 | −736.2 | +126.7 (+1.1%) |
+| Milwaukee rises to Madison's rate after its 2025 reform | 570.3 | −36.2 | +4.0 |
+| Madison's rate = its 2026 pace so far (provisional) | 739.2 | −129.4 | +79.7 |
+| Madison's rate from 2024–2025 only | 542.6 | −12.5 | 0.0 |
+| Madison's rate without one builder's templated programme | 521.3 | +8.8 | 0.0 |
+| Wisconsin's baseline rises like no-law places (×1.11 a year) | 949.7 | −380.9 (lower −380.0, upper −381.6) | +38.7 (+0.3%) |
 
-- **Placebo test and the rising-baseline check (AQ-058).** Rates are ADU permits per 1,000 one-unit detached homes per year, after the law (3 years) minus before it (3 years). Strong-law places changed by +0.75, weaker-law places by +0.45 and no-law places by +0.25 (median of 2,000 placebo draws; ratio 1.52, from 0.53 to 0.75), so the order is strong > weak > none ([PLACEBO_RESULTS.md](adu/PLACEBO_RESULTS.md)). The no-law rise disappears (change −0.04) once windows holding a local reform are removed. The last row lets every Wisconsin place's rate rise like the no-law places anyway: baseline 1,083.3 instead of 604.6 permits over 2027–2031; addition 5,107.3 / 8,324.3 / 16,455.2 instead of 5,538.1 / 8,756.6 / 16,888.9 (lower / central / upper); central total with the law 9,407.5 instead of 9,361.3 (+46.3 of 9,361.3). It is a check, not the main case, because Wisconsin's main local reform (Madison 2021) is already in the measured baseline.
+Percentages are of the adopted central total with the law, 11,317.7 permits.
 
-**Reading.** What we do not know about local rules moves the split between baseline and addition, not the total. What moves the total is how Wisconsin responds compared with the eight states, and the model form. The two alternative model forms (multiplicative law 666; California-only regression 2,390) are the largest downside cases. Without the ramp, the central would be 1,511 permits higher. Redrawing the urban, suburban, small-community and rural groups moves nothing, because the groups are labels only.
+- **Placebo test and the rising-baseline check (AQ-058).** Rates are ADU permits per 1,000 one-unit detached homes per year, after the law (3 years) minus before it (3 years). Strong-law places changed by +0.75, weaker-law places by +0.45 and no-law places by +0.25 (median of 2,000 placebo draws; ratio 1.52, from 0.53 to 0.75), so the order is strong > weak > none ([PLACEBO_RESULTS.md](adu/PLACEBO_RESULTS.md)). The no-law rise disappears (change −0.04) once windows holding a local reform are removed. The last row lets every Wisconsin place's rate rise like the no-law places anyway: baseline 949.7 instead of 530.1 permits over 2027–2031; addition 6,354.3 / 10,406.7 / 19,675.8 instead of 6,734.3 / 10,787.6 / 20,057.4 (lower / central / upper); central total with the law 11,356.4 instead of 11,317.7 (+38.7 of 11,317.7). It is a check, not the main case, because Wisconsin's main local reform (Madison 2021) is already in the measured baseline.
 
-**Robustness checks** (alternative methods scored on the 7 held-out non-California statewide-law states; average log error, lower is better): the adopted measure, ADU units per one-unit detached home, scores 0.113; permits instead of units 0.132; the eligible-property basis 0.168 without and 0.202 with attached homes.
+**Reading.** What we do not know about local rules moves the split between baseline and addition, not the total. What moves the total is how Wisconsin responds compared with the eight states, how the comparison states' counts are read, and the model form. The two alternative model forms (multiplicative law 933; California-only regression 2,435) are the largest downside cases. The AQ-061 comparison-state changes together add 1,849 central permits (8,938 → 10,788). Without the ramp, the central would be 1,834 permits higher. Redrawing the urban, suburban, small-community and rural groups moves nothing, because the groups are labels only.
+
+**Robustness checks** (alternative methods scored on the 7 held-out non-California statewide-law states; average log error, lower is better): the adopted measure, ADU units per one-unit detached home, scores 0.180 after the AQ-061 changes (0.113 before). The alternatives were scored at Gate 3 and not rerun: permits instead of units 0.132; the eligible-property basis 0.168 without and 0.202 with attached homes.
 
 ### Intended Users and Appropriate Use Cases
 

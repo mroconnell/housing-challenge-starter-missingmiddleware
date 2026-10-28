@@ -81,4 +81,4 @@ If screens 4 and 5 or the brief want them, each is a small CSV in `reference/`:
 - `gate5_context_contrast.csv` and `gate5_context_examples.csv`: urban, suburban, small-community and rural rates, with examples;
 - `gate5_sensitivity_summary.csv`: unknown rules, groupings and response rates in one table;
 - `gate5_pilot_multiplier_check.csv`: why the statewide figure is not a pilot multiplier;
-- `gate5_model_drivers.csv`: home value, income and size effects.
+- `gate5_model_drivers.csv`: home value, income and size effects on the statewide rate, plus `alloc_value_dev`, the home-value term that spreads the total across places (AQ-061: only that term differs place to place).

@@ -825,6 +825,56 @@ Options:
 
 Nothing changes until the owner decides.
 
+## AQ-061 ADU: fixes from the ask-why review (owner accepted all recommendations)
+
+**Status:** Adopted 2026-10-28, except item 3 (Vermont 2024), which the owner decides after the check below. **Related:** AQ-039, AQ-042, AQ-043, AQ-058; review in [docs/adu/ASK_WHY_REVIEW.md](adu/ASK_WHY_REVIEW.md) and [`reference/adu_ask_why_findings.csv`](../reference/adu_ask_why_findings.csv). The review called this "AQ-059"; that number was already taken by a TOD entry, so this is AQ-061.
+
+**Units.** Permits are second-home permits on single-family lots, summed over 2027–2031, statewide. Rates are permits per 1,000 one-unit detached homes per year.
+
+**Before and after** (`reference/adu_model_statewide.csv`, `adu_model_reference_lines.csv`):
+
+| Figure | Before (AQ-043) | After (AQ-061) | Change |
+| --- | ---: | ---: | ---: |
+| Current-law baseline (permits) | 605 | 530 | −75 |
+| Lower addition (permits) | 5,538 | 6,734 | +1,196 |
+| Central addition (permits) | 8,757 | 10,788 | +2,031 |
+| Upper addition (permits) | 16,889 | 20,057 | +3,168 |
+| Reference line addition (permits) | 8,851 | 10,558 | +1,707 |
+| Common level, typical place, law 4+ years (rate) | 1.0035 | 1.2169 | +0.213 |
+| Lower factor (share of central level) | 0.6497 | 0.6361 | −0.014 |
+| Upper factor (× central level) | 1.885 | 1.832 | −0.053 |
+
+**What changed.**
+1. **Reporting shares in the main fit.** Each comparison count covers only reporting towns but was divided by every single-family home in the state. Counts are now divided by the reporting share (`COVERAGE` in `missing_middleware/comparison/pooled_regression.py`; table `reference/pooled_revision_coverage.csv`):
+   - Maine 2025 ÷ 0.73 (share of people in 182 reporting towns), Massachusetts 2025 ÷ 293/351 towns, Rhode Island 2025 ÷ 32/39 towns. No town lists for these three states are in the repository, so the published shares are used, not homes in reporting towns.
+   - Utah: a share could be built from data already in the repository. One-unit detached homes in the cities, metro townships and unincorporated county areas that answered the MIH ADU question ÷ all 813,940 in Utah: 2023 647,196 (0.7951), 2024 653,686 (0.8031), 2025 654,571 (0.8042). Sources: the extracted MIH lists, the 2024 Gazetteer and ACS B25024 (`statewide_states.ut_reporting_share`). This replaces the review's assumed 85%.
+   - Rhode Island 2021–2023 coverage is not stated, so those years are not scaled.
+   - Massachusetts 2025 counts as 11/12 of a year (law in force from 2025-02-02).
+   - Flag: towns that did not report are probably smaller and quieter, so the true central is likely between 9,562 (no scale-up) and 10,788.
+2. **Washington from local compliance.** OFM estimate year 2026 is year 1; 2024–2025 are left out (`run_pooled_regression.WA_COMPLIANCE`, now `ADOPTED_CODING` in `scripts/run_pooled_revision.py`). From enactment instead: central 10,044 (−744). This rests on one partly post-compliance year.
+3. **Vermont 2024: not changed; owner to decide.** The check against the regional planning commission's own series (cached in `data/raw/statewide_states/vt/`):
+   - CCRPC's own Chittenden County ADU series (by year built) ends in 2023: 26, 32 and 31 units in 2021–2023. It has no 2024 row.
+   - The 57 units for 2024 come from the state's Vermont New Housing layer: ADU rows with source "CCRPC" (55) and "CCPRC", a typo (2).
+   - In the years both exist, that layer's CCRPC-sourced rows match CCRPC's own series within 0–2 units: 2019 27 and 27; 2020 30 and 30; 2021 26 and 26; 2022 31 and 32; 2023 29 and 31. So 2024 is the same commission's records, passed through the state layer.
+   - Basis: **year built or first occupied**, not permit year, in both sources and in every Vermont year. 2024 is no different in basis from 2021–2023; every Vermont year is a completion count.
+   - The state layer has no CCRPC rows for 2025 yet, so records arrive in batches; 2024 may include late records from earlier years. The cache cannot show this.
+   - Effect of dropping 2024: central 10,360 (−428), lower 6,590 (−144), upper 19,882 (−176). The reference line would **rise** by about 127 permits: its year-4 median moves from 1.437 to 1.472, because Utah's year 4 is now 1.472 after its reporting share.
+4. **Documentation.** The value–income–size fit sets the statewide rate; home value alone (slope 1.02, `W_ALLOC`) spreads the total across places. Fixed in `docs/MODEL_AND_ASSUMPTIONS.md` Part A, the "Why places differ" text on the Statewide comparison screen (`ui/src/screens/compare.ts`, `scripts/build_ui_bundle.py`), `docs/POLICY_SCENARIO_COMPARISON.md`, and correction notes in `docs/gate5/README.md`, `docs/gate5/MODEL_CHECKS.md`, `docs/gate5/UI_CONTRACT.md` and `docs/gate3/README.md`. `reference/gate5_model_drivers.csv` gains the allocation term `alloc_value_dev` (1.0197, SE 0.091).
+5. **Out-of-range villages capped.** Each area's value gap (log value minus Wisconsin's homes-weighted mean) is capped at the largest gap among California's places, +1.0095, before allocation. 8 areas (7 villages and towns; 2,852 single-family homes) are capped and flagged (`value_capped` in `reference/pooled_revision_wi_y_by_area.csv`; list in `reference/adu_model_value_capped_places.csv`). Central levels fall from 4.10–7.64 to 3.85. Their central addition falls from 62.0 to 46.2 permits; about 16 permits move to other places. The statewide total changes by 0.6 permits.
+6. **Measured Wisconsin cities pooled into the current-law group rates** (`scripts/build_wi_baseline.py`, table `reference/wi_baseline_measured_pool.csv`). Each joins the pool of the rules in force in its 2022–2025 window. De Pere and Waunakee changed rules inside the window; their home-years are split by months (both counted 0 permits).
+   - Prohibited: Howard, Neenah, De Pere (12 of 48 months), Waunakee (28 of 48). Rate 5 permits ÷ 214.274 thousand home-years = 0.0233 (was 0.0313).
+   - Restricted: Green Bay, Verona, Watertown, De Pere (36 of 48), Waunakee (20 of 48). Rate 36 ÷ 699.350 = 0.0515 (was 0.0607). Uncoded places use this rate.
+   - Left out: Milwaukee (its own measured rate is its current-law rate; its window mixes zones that barred and allowed second units) and Kaukauna (below).
+   - Flag: De Pere is a held-out place; it is now in the fitting set (`wi_baseline_holdout_check.csv`).
+   - **Kaukauna verdict: the coding is right; not changed.** The official code (Chapter 17 Zoning Code, kaukauna.municipalcodeonline.com print view, read 2026-10-28; cached in `data/raw/wi_adu_rules_sources/2026-10-28/`) has no ADU provision. Its single-family district (RSF, s. 17.16) permits single-family dwellings only. Two-family dwellings are permitted in the two-family district (RTF, s. 17.18). Its utility storage structures are defined as uninhabited. So "prohibited_implicit" (no ADU provision) stands for single-family districts. The 7 "Additional dwelling unit" permits (2023–2025) are probably second units in two-family or multifamily zones or conversions approved under those rules, but this cannot be shown without each permit's zoning district. Kaukauna stays out of the pools and uncoded in the engine.
+
+**Other effects and flags.**
+- The pooled model now runs on the adopted current-law rates (Milwaukee measured), not the Gate 3 rates. The stored ramps were recomputed: central 0.612, 0.808, 0.846; lower 0.603, 0.804, 0.842; upper 0.619, 0.812, 0.848 (2027–2029).
+- Held-out fit (7 non-California states, average log error): configuration A 0.180, B 0.198 (were 0.113 and 0.132). A still wins (67% of 5,000 resamples; 7 of 7 drop-one checks). Massachusetts' error fell from 0.189 to 0.051 and Washington's from 0.173 to 0.032. Vermont's rose to 0.336 (about 40% too high) and Oregon's to 0.230.
+- Stage-2 levels (rate, typical place, law 4+ years): Rhode Island 0.848 (was 0.621) is now above Oregon 0.700 (was 0.683); Maine 1.432 (1.000); Massachusetts 1.164 (0.851); Utah 1.336 (1.080); Washington 1.642 (1.193).
+- The reference line's points now come from `reference/pooled_revision_reference_points.csv` (written by `scripts/run_pooled_revision.py` with the same coverage and Washington coding). Years 1–4: 0.982, 1.129, 1.043, 1.437 (were 0.754, 0.931, 0.869, 1.293).
+- New sensitivity rows in `reference/adu_model_sensitivities.csv`: no reporting-share scale-up (central 9,562), Maine, Massachusetts and Rhode Island only (10,491), Washington from enactment (10,044), Vermont 2024 dropped (10,360), all three undone (8,938), and no value cap (10,788.3; where permits land only).
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -963,3 +1013,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-28 | AQ-048 | Parking: owner approved adding Maumee (2020) and Saranac Lake (2016), found in the older/partial reforms search (docs/parking/PARTIAL_REFORMS_RESULTS.md). 76 places: average −1.14; high end +0.95, 12,695 permits 2027–2031; median line now −0.12, shown at 0. Combined high case 28,407 headline, 29,843 upper bound. Owner asked for a census-only route (docs/parking/CENSUS_ROUTE_PLAN.md). |
 | 2026-10-28 | AQ-048 | Parking: census-only route, block catalog, option B and near-transit prediction tests run. No model predicted held-out regions. Near-transit placebo comparison: reform areas (Seattle, Minneapolis) +18.8 extra homes per 1,000 existing homes per year against 1,040 similar station areas (90% +9.3 to +28.2), Seattle-driven. Owner agreed: report it as the best near-transit evidence and keep the tool's range (0 to 12,695). |
 | 2026-10-28 | AQ-058 | ADU placebo: keep the model; rising no-law baseline (605 → 1,083; addition 8,757 → 8,324; total 9,361 → 9,408) shown as a baseline-only sensitivity. |
+| 2026-10-28 | AQ-061 | ADU ask-why fixes (owner accepted all recommendations): reporting shares in the fit (Maine, Massachusetts, Rhode Island 2025 published shares; Utah 0.795–0.804 computed from homes in reporting places), Massachusetts 2025 as 11 months, Washington from local compliance, value gap capped at California's largest (8 areas flagged), seven measured Wisconsin cities pooled into the group rates, allocation text corrected. Baseline 530 (was 605); lower 6,734, central 10,788, upper 20,057 (were 5,538, 8,757, 16,889); reference line 10,558 (was 8,851). Vermont 2024 kept pending the owner (dropping it: central −428). Kaukauna coding confirmed against the official Chapter 17 text. |

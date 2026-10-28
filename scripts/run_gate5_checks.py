@@ -5,7 +5,8 @@ Writes, all in reference/:
                                     method with every pilot-derived input to the with-law rate removed
   gate5_context_contrast.csv        urban / suburban / small-community / rural: homes, market, rates, totals
   gate5_context_examples.csv        the three largest places in each context, with their rates and drivers
-  gate5_model_drivers.csv           within-state terms of the adopted pooled model (what moves a place's level)
+  gate5_model_drivers.csv           within-state terms of the adopted pooled model: the statewide-rate fit and the
+                                    value-only allocation term (what moves a place's level; AQ-061)
   gate5_trace.csv                   2027-2031 totals by current-law rate basis x context (observed / estimated / assumed)
   gate5_sensitivity_summary.csv     unknown rules, alternative groupings, transferred response rates
   gate5_housing_health.csv          landing-screen housing indicators with year, source and uncertainty
@@ -48,7 +49,10 @@ def market(areas: pd.DataFrame) -> pd.DataFrame:
 
 
 def drivers() -> pd.DataFrame:
-    """Within-state coefficients of the adopted pooled model (refit, about 3 seconds)."""
+    """Within-state coefficients of the adopted pooled model (refit, about 5 seconds). Two fits (AQ-061 wording):
+    the value-income-size fit sets the statewide rate by year (role "statewide rate"); the value-only fit (W_ALLOC,
+    slope about 1.01) spreads that statewide total across Wisconsin places (role "allocation", term
+    alloc_value_dev). Income and size do not enter the allocation."""
     import run_pooled_regression as rp
     import run_pooled_revision as rv
     from missing_middleware.comparison import pooled_regression as pr
@@ -56,16 +60,25 @@ def drivers() -> pd.DataFrame:
     spec = area_levels_spec()
     d = rp.load()
     pan = rv.ca_panels(d["panel"])[spec["option"]]
-    f = pr.fit_two_stage(rv.build(d, pan), rv.tspec(spec["config"]))
+    p = rv.build(d, pan)
+    f = pr.fit_two_stage(p, rv.tspec(spec["config"]))
+    fa = pr.fit_two_stage(p, rv.tspec(spec["config"], rv.W_ALLOC))
     meaning = {"value_dev": "log of the place's median home value relative to its state's homes-weighted mean",
                "income_dev": "log of the place's median household income relative to its state's mean",
                "log_homes": "log of the place's one-unit detached homes (size)",
                "law": "statewide law in force", "local": "local reform in force",
                "k1": "first year after the law", "k2": "second year", "k3": "third year"}
-    rows = [{"term": n, "coefficient_log_scale": round(float(b), 4), "se_cluster": round(float(s), 4),
-             "rate_ratio_per_unit": round(float(np.exp(b)), 4),
+    rows = [{"term": n, "role": "statewide rate (value-income-size fit)", "coefficient_log_scale": round(float(b), 4),
+             "se_cluster": round(float(s), 4), "rate_ratio_per_unit": round(float(np.exp(b)), 4),
              "rate_ratio_for_10pct_higher": round(float(1.1 ** b), 4) if n in ("value_dev", "income_dev", "log_homes") else None,
              "meaning": meaning.get(n, n)} for n, b, s in zip(f.within_names, f.beta, f.se_within)]
+    j = fa.within_names.index("value_dev")
+    b, s = float(fa.beta[j]), float(fa.se_within[j])
+    rows.append({"term": "alloc_value_dev", "role": "allocation across Wisconsin places (value-only fit, W_ALLOC)",
+                 "coefficient_log_scale": round(b, 4), "se_cluster": round(s, 4), "rate_ratio_per_unit": round(float(np.exp(b)), 4),
+                 "rate_ratio_for_10pct_higher": round(float(1.1 ** b), 4),
+                 "meaning": ("log of the place's median home value relative to Wisconsin's homes-weighted mean, top-coded at "
+                             "California's largest gap (+1.01); the only term that spreads the statewide total across places")})
     return pd.DataFrame(rows)
 
 

@@ -201,7 +201,7 @@ class TestUIBundle(unittest.TestCase):
             # the with-law level does not depend on the current-law rate: a baseline change is mostly offset
             self.assertLessEqual(abs(c["d_with_law"]), abs(c["d_baseline"]) + 0.1, c["id"])
         groups = {"none (adopted)": "addition", "statewide addition": "addition", "baseline only": "baseline",
-                  "local distribution": "local"}
+                  "local distribution": "local", "local distribution only": "local"}   # AQ-061 value top-code case
         ref = {r["change"]: r for r in rows("adu_model_sensitivities.csv")}
         for c in self.unc["sensitivity_cases"]:
             self.assertEqual(c["group"], groups[ref[c["change_as_recorded"]]["moves"]], c["label"])
@@ -263,8 +263,8 @@ class TestUIBundle(unittest.TestCase):
         self.assertNotIn("like_restricted", self.unk["areas"])
         # the plain-language figures quoted on screen (docs/gate5/UI_CONTRACT.md)
         pro, ben = self.unk["variants"][1], self.unk["variants"][2]
-        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (418, 8915, 9333))
-        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (1409, 8072, 9481))
+        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (352, 10940, 11292))
+        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (1393, 10051, 11444))
 
     def test_unknown_rules_areas_and_counties_reconcile(self):
         munis = {a["id"]: a for a in self.areas["munis"]}
@@ -337,7 +337,7 @@ class TestUIBundle(unittest.TestCase):
         tr = {t["status"]: t for t in self.unc["trace"]}
         tot = sum(t["additional_central"] for t in tr.values())
         self.assertAlmostEqual(tot, self.scen["central"]["additional_total"], delta=0.05)
-        self.assertEqual([round(tr[k]["additional_central"] / tot * 100, 1) for k in ("observed", "estimated", "assumed")], [5.5, 21.1, 73.4])
+        self.assertEqual([round(tr[k]["additional_central"] / tot * 100, 1) for k in ("observed", "estimated", "assumed")], [5.2, 21.2, 73.6])  # AQ-061 (was 5.5, 21.1, 73.4)
 
 
     def test_context_why_equals_csv(self):
@@ -359,6 +359,9 @@ class TestUIBundle(unittest.TestCase):
             self.assertAlmostEqual(d["ratio_10pct"], float(drv[d["term"]]["rate_ratio_for_10pct_higher"]), places=4)
             self.assertAlmostEqual(d["coefficient"], float(drv[d["term"]]["coefficient_log_scale"]), places=4)
         ratios = {d["term"]: d["ratio_10pct"] for d in why["drivers"]}
+        # AQ-061: places differ by home value only (allocation fit, slope about 1.02: +10% value -> +10% rate);
+        # the value-income-size terms set the statewide rate only
+        self.assertEqual(round((ratios["alloc_value_dev"] - 1) * 100), 10)
         self.assertEqual(round((ratios["value_dev"] - 1) * 100), 29)
         self.assertEqual(round((1 - ratios["income_dev"]) * 100), 25)
         self.assertEqual(len(why["examples"]), len(rows("gate5_context_examples.csv")))

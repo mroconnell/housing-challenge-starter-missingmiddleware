@@ -1,13 +1,13 @@
 context_group,area_id,name,homes,median_home_value,median_income,x_rate,x_status,x_basis,y_with_law_rate_2031_central,baseline_5yr,additional_central_5yr,additional_rate_central_per_1000_per_year
-urban,muni:5507953000,Milwaukee city,101402,184000.0,54234.0,0.0863,observed,"observed 2022-2025 candidate permits (open data, central rule, quality C); flat, no assumed post-reform rise",0.7961,43.75,306.2153,0.604
+urban,muni:5507953000,Milwaukee city,101402,184000.0,54234.0,0.0863,observed,"observed 2022-2025 candidate permits (open data, central rule, quality C); flat, no assumed post-reform rise",0.9637,43.75,379.5329,0.7486
 urban,muni:5502548000,Madison city,53292,372900.0,78050.0,0.1876,observed,observed 2022-2025 (G2-9),1.076,50.0,134.9232,0.5064
-urban,muni:5500931000,Green Bay city,26655,207200.0,66206.0,0.0607,estimated,restricted_group_rate,0.8977,8.086,94.9199,0.7122
-suburban,muni:5513310025,Brookfield city,12711,443900.0,129548.0,0.0313,estimated,prohibited_group_rate,1.9407,1.9869,103.2579,1.6247
-suburban,muni:5513356375,New Berlin city,12121,365700.0,101091.0,0.0607,estimated,restricted_group_rate,1.5951,3.677,79.1268,1.3056
-suburban,muni:5513351000,Menomonee Falls village,11406,368000.0,100238.0,0.0313,estimated,prohibited_group_rate,1.6053,1.783,76.3812,1.3393
-small_community,muni:5514188200,Wisconsin Rapids city,5698,131900.0,55253.0,0.0607,assumed,uncoded_like_restricted_AQ027,0.5684,1.7285,12.3081,0.432
-small_community,muni:5514149675,Marshfield city,5101,176100.0,58616.0,0.0607,assumed,uncoded_like_restricted_AQ027,0.7615,1.5474,15.2092,0.5963
-small_community,muni:5502705900,Beaver Dam city,4614,201900.0,66673.0,0.0607,assumed,uncoded_like_restricted_AQ027,0.8745,1.3997,15.9753,0.6925
-rural,muni:5507577000,Stephenson town,3897,174600.0,56550.0,0.0607,assumed,uncoded_like_restricted_AQ027,0.755,1.1822,11.5116,0.5908
-rural,muni:5508553225,Minocqua town,3879,311100.0,69112.0,0.0607,assumed,uncoded_like_restricted_AQ027,1.3544,1.1767,21.3502,1.1008
-rural,muni:5513359275,Oconomowoc town,3434,466300.0,114782.0,0.0607,assumed,uncoded_like_restricted_AQ027,2.0398,1.0417,28.9143,1.684
+urban,muni:5500931000,Green Bay city,26655,207200.0,66206.0,0.0515,estimated,restricted_group_rate,1.0877,6.8605,117.8237,0.8841
+suburban,muni:5513310025,Brookfield city,12711,443900.0,129548.0,0.0233,estimated,prohibited_group_rate,2.3655,1.483,126.9983,1.9982
+suburban,muni:5513356375,New Berlin city,12121,365700.0,101091.0,0.0515,estimated,restricted_group_rate,1.9414,3.1197,97.7199,1.6124
+suburban,muni:5513351000,Menomonee Falls village,11406,368000.0,100238.0,0.0233,estimated,prohibited_group_rate,1.9538,1.3308,93.9282,1.647
+small_community,muni:5514188200,Wisconsin Rapids city,5698,131900.0,55253.0,0.0515,assumed,uncoded_like_restricted_AQ027,0.6863,1.4666,15.4304,0.5416
+small_community,muni:5514149675,Marshfield city,5101,176100.0,58616.0,0.0515,assumed,uncoded_like_restricted_AQ027,0.9215,1.3129,18.9316,0.7423
+small_community,muni:5502705900,Beaver Dam city,4614,201900.0,66673.0,0.0515,assumed,uncoded_like_restricted_AQ027,1.0594,1.1876,19.8384,0.8599
+rural,muni:5507577000,Stephenson town,3897,174600.0,56550.0,0.0515,assumed,uncoded_like_restricted_AQ027,0.9135,1.003,14.3301,0.7354
+rural,muni:5508553225,Minocqua town,3879,311100.0,69112.0,0.0515,assumed,uncoded_like_restricted_AQ027,1.6463,0.9984,26.3896,1.3606
+rural,muni:5513359275,Oconomowoc town,3434,466300.0,114782.0,0.0515,assumed,uncoded_like_restricted_AQ027,2.4873,0.8838,35.6818,2.0781

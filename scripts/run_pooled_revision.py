@@ -20,6 +20,11 @@ Outputs:
   reference/pooled_revision_wi_y_by_area.csv     per-area with-law levels for the engine (AQ-042):
                                                  option (ii) cap+A2 x A (adopted), (ii) x B and (iii) x A (sensitivities)
   reference/pooled_revision_adoption_line.csv    statewide adoption reference line, as reported and with the vacant-lot rule
+  reference/pooled_revision_reference_points.csv the 8-state reference-line points read by scripts/run_adu_model.py (AQ-061)
+  reference/pooled_revision_coverage.csv         reporting shares applied to the comparison counts (AQ-061)
+AQ-061 (2026-10-28): the adopted fit divides counts by reporting shares, codes Washington from local compliance and
+top-codes each Wisconsin area's value gap for allocation; extra option rows "cap_a2|<variant>" (FIT_VARIANTS) hold the
+sensitivities. The per-area levels are now computed on the adopted current-law rates (engine_areas.parquet).
   data/processed/pooled_revision/summary.json
 Run: uv run python scripts/run_pooled_revision.py
 """
@@ -99,9 +104,39 @@ def ca_panels(panel):
     return out
 
 
-def build(d, panel, vacant=True, mpls=True):
-    p = rp.pooled({**d, "panel": panel})
-    return pr.Pooled(R.adjust_other_rows(p.rows, vacant_lot=vacant, minneapolis=mpls), p.members)
+# Adopted measurement and coding (AQ-061, owner decision 2026-10-28): counts divided by each series-year's reporting
+# share (pooled_regression.COVERAGE: Maine, Massachusetts and Rhode Island 2025, Utah 2023-2025); Massachusetts 2025
+# counted as 11/12 of a year (pooled_regression.PARTIAL_YEAR, always on); Washington's law years coded from local
+# compliance (OFM estimate year 2026 = year 1; 2024-2025 dropped: run_pooled_regression.WA_COMPLIANCE).
+ADOPTED_CODING = rp.WA_COMPLIANCE
+VT_SOURCE_CHANGE_YEAR = 2024     # Vermont 2024: DHCD layer (CCRPC-sourced records), not CCRPC's own series
+
+
+def build(d, panel, vacant=True, mpls=True, coverage=True, coding=None, drop_vt_2024=False, coverage_states=None):
+    """The pooled data for one California option. Defaults = the adopted fit (AQ-061). coverage_states limits the
+    coverage correction to those series (None = every series in COVERAGE); coding=pr.STATE_CODING restores the
+    Gate 3 Washington coding (law years from enactment)."""
+    p = rp.pooled({**d, "panel": panel}, state_coding=coding or ADOPTED_CODING)
+    rows = p.rows
+    if coverage:
+        sel = rows["series"].isin(coverage_states) if coverage_states is not None else np.ones(len(rows), bool)
+        adj = pr.adjust_counts(rows, coverage=True)
+        rows = rows.copy()
+        rows.loc[sel, ["count", "coverage"]] = adj.loc[sel, ["count", "coverage"]]
+    if drop_vt_2024:
+        rows = rows[~(rows["series"].eq("VT_chittenden") & rows["year"].eq(VT_SOURCE_CHANGE_YEAR))].reset_index(drop=True)
+    return pr.Pooled(R.adjust_other_rows(rows, vacant_lot=vacant, minneapolis=mpls), p.members)
+
+
+# Sensitivities of the adopted fit (option cap_a2 x configuration A), written beside the engine levels as extra
+# "option" rows so scripts/run_adu_model.py can run them through the engine (AQ-061).
+FIT_VARIANTS = {
+    "cap_a2|no_coverage": dict(coverage=False),
+    "cap_a2|coverage_me_ma_ri_only": dict(coverage_states=("ME_statewide", "MA_statewide", "RI_statewide")),
+    "cap_a2|wa_from_enactment": dict(coding=pr.STATE_CODING),
+    "cap_a2|vt_2024_dropped": dict(drop_vt_2024=True),
+    "cap_a2|gate4_coding": dict(coverage=False, coding=pr.STATE_CODING),
+}
 
 
 # ---------------------------------------------------------------------------
@@ -124,13 +159,40 @@ def engine_totals(wi, G, y_plateau, ramp, floor):
     return add, base
 
 
-def wi_paths(p, name, wi):
-    """Main fit, allocation, and the area-by-year central rates (as run_pooled_regression)."""
+def ca_value_dev_max(p) -> float:
+    """Largest value gap seen in the California training data: max over California's member places of log(median
+    value) minus California's homes-weighted mean log value (about +1.01; ACS top-codes values at $2,000,000)."""
+    m = pr.member_frame(p)
+    ca = m[m["cluster"].eq("CA")].drop_duplicates("geoid")
+    return float((np.log(ca["value"].astype(float)) - ca["ctx_log_value"]).max())
+
+
+def cap_value_gap(wi, cap):
+    """Top-code each area's value gap (log value minus Wisconsin's homes-weighted mean log value) at `cap` (AQ-061:
+    no allocation beyond the range seen in California). Returns the capped frame and a boolean flag per area."""
+    w = wi.copy()
+    v0 = wi["value"].to_numpy(float)
+    for _ in range(20):                          # the context moves slightly when the top values are capped
+        ctx = pr.context(w["homes"], w["value"], w["income"])["ctx_log_value"]
+        lim = float(np.exp(ctx + cap))
+        new = np.minimum(v0, lim)
+        if np.allclose(new, w["value"].to_numpy(float), rtol=0, atol=1e-6):
+            break
+        w["value"] = new
+    return w, v0 > lim + 1e-6
+
+
+def wi_paths(p, name, wi, cap=True):
+    """Main fit, allocation, and the area-by-year central rates (as run_pooled_regression). The value-income-size fit
+    (W) sets the statewide rate by year; the value-only fit (W_ALLOC, slope about 1.01) spreads that total across
+    areas. cap: the allocation uses each area's value gap top-coded at California's largest (AQ-061); the statewide
+    rate is unchanged."""
     f = pr.fit_two_stage(p, tspec(name))
     fa = pr.fit_two_stage(p, tspec(name, W_ALLOC))
     H = wi["homes"].to_numpy(float)
     _, rates, nolaw = rp.wi_rates(f, wi)
-    y_v, rates_v, _ = rp.wi_rates(fa, wi)
+    wa = cap_value_gap(wi, ca_value_dev_max(p))[0] if cap else wi
+    y_v, rates_v, _ = rp.wi_rates(fa, wa)
     Y = np.column_stack([y_v[f"y_k{k}"].to_numpy() * rates[k - 1] / rates_v[k - 1] for k in range(1, 6)])
     return f, Y, rates, nolaw, H
 
@@ -159,9 +221,9 @@ def multiplicative(f, wi, base):
     return float(pr.additional(wi, Y, base, per_area_max=True).sum())
 
 
-def wi_results(p, name, d, G, floor, panel_adj, madison_like_ids, sens=True):
+def wi_results(p, name, d, G, floor, panel_adj, madison_like_ids, sens=True, cap=True):
     wi, base = d["wi"], d["baseline"]
-    f, Y, rates, nolaw, H = wi_paths(p, name, wi)
+    f, Y, rates, nolaw, H = wi_paths(p, name, wi, cap=cap)
     fac80 = rp.interval_factor(f, 0.80)
     ctx = pd.DataFrame([pr.context(wi["homes"], wi["value"], wi["income"])])
     a_wi = float(f.alpha_hat(ctx)[0])
@@ -208,6 +270,21 @@ def wi_results(p, name, d, G, floor, panel_adj, madison_like_ids, sens=True):
     return out, by_year, f, Y
 
 
+def level_frame(opt, n, wi, Y, fac80, p):
+    """Per-area levels for the engine, with the value top-code flag (AQ-061) and the uncapped central level."""
+    cap = ca_value_dev_max(p)
+    _, flag = cap_value_gap(wi, cap)
+    _, Yu, _, _, _ = wi_paths(p, n, wi, cap=False)
+    ctx = pr.context(wi["homes"], wi["value"], wi["income"])["ctx_log_value"]
+    return pd.DataFrame({
+        "option": opt, "config": n, "area_id": wi["area_id"].to_numpy(),
+        **{f"y_k{k}_central": Y[:, k - 1] for k in range(1, 6)},
+        "y_plateau_lower_80": Y[:, 4] / fac80, "y_plateau_central": Y[:, 4],
+        "y_plateau_upper_80": Y[:, 4] * fac80,
+        "value_gap_log": np.log(wi["value"].to_numpy(float)) - ctx, "value_gap_cap_log": cap,
+        "value_capped": flag, "y_plateau_central_uncapped": Yu[:, 4]})
+
+
 def wi_madison_like(d):
     acs = pr.read_acs_members(rp.acs_paths(), {"55"}, sumlevels=("160",))
     geo = pd.read_parquet(PROCESSED / "foundation/areas.parquet")
@@ -250,8 +327,8 @@ def main():
     summary["madison_like_wi"] = mlw.loc[mlw["madison_like"], ["name", "homes", "value"]].to_dict("records")
 
     # ---------------- reproduction of the adopted run ----------------
-    p0 = build(d, panels["as_used"], vacant=False, mpls=False)
-    r0, _, f0, Y0 = wi_results(p0, "A_ca_in_common_level", d, G, FLOOR_OLD, panels["as_used"], ml_ids, sens=False)
+    p0 = build(d, panels["as_used"], vacant=False, mpls=False, coverage=False, coding=pr.STATE_CODING)
+    r0, _, f0, Y0 = wi_results(p0, "A_ca_in_common_level", d, G, FLOOR_OLD, panels["as_used"], ml_ids, sens=False, cap=False)
     lv = pd.DataFrame({"area_id": wi["area_id"], "y_central": Y0[:, 4]})
     ramp0 = pr.implied_ramp(wi, Y0)
     eng = e.run(d["areas"], e.Scenario("chk", {"central": e.PathParams(0.0, FLOOR_OLD, 0.0, tuple(ramp0))}), growth, lv)
@@ -331,11 +408,7 @@ def main():
             wy_rows += [dict(option=opt, **b) for b in by]
             if (opt, n) in ENGINE_LEVELS:
                 fac80 = r["factor80"]
-                lv_rows.append(pd.DataFrame({
-                    "option": opt, "config": n, "area_id": wi["area_id"].to_numpy(),
-                    **{f"y_k{k}_central": Y[:, k - 1] for k in range(1, 6)},
-                    "y_plateau_lower_80": Y[:, 4] / fac80, "y_plateau_central": Y[:, 4],
-                    "y_plateau_upper_80": Y[:, 4] * fac80}))
+                lv_rows.append(level_frame(opt, n, wi, Y, fac80, p))
         # toggles on the winner (each rule switched off alone)
         tog = {}
         for lab, kw, fl in (("vacant_lot_off", dict(vacant=False), FLOOR_NEW), ("minneapolis_off", dict(mpls=False), FLOOR_NEW),
@@ -344,6 +417,56 @@ def main():
             tog[lab] = rr["engine_central"]
         summary["g3f2"][opt]["toggles_engine_central"] = tog
         print(opt, "winner", winner, {k: round(v, 3) for k, v in rmsd.items()}, tog)
+
+    # ---------------- named sensitivities of the adopted fit (cap_a2 x A; AQ-061) ----------------
+    adopted_cfg = "A_ca_in_common_level"
+    for vname, kw in FIT_VARIANTS.items():
+        pv = build(d, panels["cap_a2"], **kw)
+        r, by, f, Y = wi_results(pv, adopted_cfg, d, G, FLOOR_NEW, panels["cap_a2"], ml_ids, sens=False)
+        r.update(option=vname, label=CONFIG_LABELS[adopted_cfg], winner=False, in_abc=False)
+        wi_rows.append(r)
+        lawc = f.beta[f.within_names.index("law")]
+        for c, a in f.alpha.items():
+            st2_rows.append(dict(option=vname, config=adopted_cfg, cluster=c, in_stage2=c in set(f.stage2["cluster"]),
+                                 level_with_law_k4=float(np.exp(a + lawc)), alpha=float(a)))
+        wy_rows += [dict(option=vname, **b) for b in by]
+        lv_rows.append(level_frame(vname, adopted_cfg, wi, Y, r["factor80"], pv))
+        print(vname, {k: round(r[k], 1) for k in ("engine_lower", "engine_central", "engine_upper_tau90")})
+    # no value top-code (allocation only; the statewide totals are the adopted ones)
+    pa = build(d, panels["cap_a2"])
+    r, by, f, Y = wi_results(pa, adopted_cfg, d, G, FLOOR_NEW, panels["cap_a2"], ml_ids, sens=False, cap=False)
+    r.update(option="cap_a2|no_value_cap", label=CONFIG_LABELS[adopted_cfg], winner=False, in_abc=False)
+    wi_rows.append(r)
+    lawc = f.beta[f.within_names.index("law")]
+    for c, a in f.alpha.items():
+        st2_rows.append(dict(option="cap_a2|no_value_cap", config=adopted_cfg, cluster=c,
+                             in_stage2=c in set(f.stage2["cluster"]), level_with_law_k4=float(np.exp(a + lawc)), alpha=float(a)))
+    lvn = level_frame("cap_a2|no_value_cap", adopted_cfg, wi, Y, r["factor80"], pa)
+    lvn["value_capped"] = False
+    lv_rows.append(lvn)
+
+    # ---------------- coverage shares used (AQ-061) ----------------
+    from missing_middleware.comparison import statewide_states as ss
+    ut = ss.ut_reporting_share(RAW / "statewide_states/ut", RAW / "census_gazetteer_2024/2024_Gaz_place_national.zip",
+                               RAW / "census_acs5_2024_tbsf/acsdt5y2024-b25024.dat")
+    for row in ut.itertuples():
+        want = pr.COVERAGE["UT_mih"][row.year]
+        if abs(row.share - want) > 5e-5 or row.unmatched:
+            raise SystemExit(f"Utah {row.year} reporting share {row.share:.4f} != COVERAGE {want} ({row.unmatched})")
+    cov_rows = []
+    basis = {"ME_statewide": "published: 182 reporting towns, about 73% of Maine's population (no town list in the repository)",
+             "MA_statewide": "published: 293 of 351 towns responded (share of towns; no town list in the repository)",
+             "RI_statewide": "published: 32 of 39 municipalities reported in 2025 (share of towns; no town list)",
+             "UT_mih": "computed: one-unit detached homes in the jurisdictions that answered / all of Utah's"}
+    for sid, ys in pr.COVERAGE.items():
+        for y, sh in ys.items():
+            u = ut[ut.year.eq(y)] if sid == "UT_mih" else None
+            cov_rows.append(dict(series=sid, year=y, reporting_share=round(sh, 4), basis=basis[sid],
+                                 homes_reporting=float(u.homes_reporting.iloc[0]) if u is not None else np.nan,
+                                 homes_state=float(u.homes_state.iloc[0]) if u is not None else np.nan,
+                                 n_jurisdictions=int(u.n_jurisdictions.iloc[0]) if u is not None else np.nan,
+                                 partial_year_share=pr.PARTIAL_YEAR.get((sid, y), 1.0)))
+    pd.DataFrame(cov_rows).to_csv(REFERENCE / "pooled_revision_coverage.csv", index=False)
 
     pd.concat(loso_rows, ignore_index=True).round(4).to_csv(REFERENCE / "pooled_revision_loso.csv", index=False)
     pd.DataFrame(g3).round(4).to_csv(REFERENCE / "pooled_revision_g3f2.csv", index=False)
@@ -357,7 +480,8 @@ def main():
 
     # adoption reference line (statewide-law states' median path; no California in it)
     pts = pr.adoption_points(p.rows, p.row_homes())   # last option's rows: vacant-lot rule applied
-    pts0 = pr.adoption_points(p0.rows, p0.row_homes())
+    p_rep = build(d, panels["as_used"], vacant=False, mpls=False)   # adopted coding and coverage, no vacant-lot rule
+    pts0 = pr.adoption_points(p_rep.rows, p_rep.row_homes())
     summary["adoption_line"] = {}
     al_rows = []
     for lab, pt in (("as_reported", pts0), ("vacant_lot_x0.951", pts)):
@@ -370,6 +494,15 @@ def main():
         summary["adoption_line"][lab] = {"rates": c["median_rate"].round(4).tolist(), "additional_5yr": float(app["additional"].sum()),
                                          "with_law_total_5yr": float(app["with_law_total"].sum())}
     pd.DataFrame(al_rows).round(4).to_csv(REFERENCE / "pooled_revision_adoption_line.csv", index=False)
+    # 8-state reference-line points (AQ-043 line, AQ-061 inputs): the seven states' adopted rows (coverage, Washington
+    # compliance coding, vacant-lot x0.951) plus California's cap+A2 statewide rate with 2020 = year 1. Replaces
+    # reference/scenario_options_reference_points.csv as the input of scripts/run_adu_model.py reference_lines().
+    ca_in = pd.DataFrame(ca_rows)
+    ca_in = ca_in[ca_in.option.eq("cap_a2") & ca_in.year.isin(list(range(2020, 2026)))]
+    ca_pts = pd.DataFrame({"cluster": "CA", "k": ca_in.year.astype(int) - 2019, "rate": ca_in.rate_per_1000.astype(float),
+                           "year": ca_in.year.astype(int)})
+    pts8 = pd.concat([pts[["cluster", "k", "rate", "year"]], ca_pts], ignore_index=True)
+    pts8.round(4).to_csv(REFERENCE / "pooled_revision_reference_points.csv", index=False)
     (od / "summary.json").write_text(json.dumps(summary, indent=2, default=float))
     pd.set_option("display.width", 250)
     print(pd.DataFrame(g3)[["option", "config", "rms_log_error", "winner", "bootstrap_win_share_abc", "drop_one_wins_of_7"]].round(3).to_string())

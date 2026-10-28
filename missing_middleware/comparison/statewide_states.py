@@ -738,3 +738,90 @@ DATA_GEOGRAPHY = {"CA": "state_CA", "WA": "WA_inc_exSeattle", "OR": "OR_panel32_
                   "ME": "ME_statewide", "MA": "MA_statewide", "AR": "state_AR", "IA": "state_IA",
                   "NH": "NH_conversions", "VT": "VT_chittenden", "CT": "state_CT", "RI": "RI_statewide",
                   "UT": "UT_mih", "HI": "HI_honolulu", "MD": "MD_montgomery", "NV": "state_NV"}
+
+
+# ---------------------------------------------------------------------------
+# 5. Utah reporting share (AQ-061)
+# ---------------------------------------------------------------------------
+# Utah's MIH series sums the ADU building-permit answers of the ~90 "specified" cities and counties that file a
+# Moderate Income Housing report. Its denominator is every one-unit detached home in Utah, so the count is divided by
+# the share of Utah's homes in the jurisdictions that answered (pooled_regression.COVERAGE["UT_mih"]).
+# Jurisdiction lists: data/raw/statewide_states/ut/ut_mih_2023_adu_extracted.json (report year 2023) and
+# ut_mih_adu_building_permits_2024_2025_extracted.csv (2024, 2025). A blank / null answer = did not answer;
+# Cedar Hills 2025 (1,111, a typo) is excluded from the count, so from the reporting set too.
+UT_COUNTY_FIPS = {"box elder": "003", "cache": "005", "iron": "021", "salt lake": "035", "summit": "043",
+                  "tooele": "045", "utah": "049", "washington": "053", "weber": "057"}
+
+
+def _ut_name(s: str) -> str:
+    import re
+    import unicodedata
+    s = unicodedata.normalize("NFKC", str(s)).lower().strip()
+    return re.sub(r"\s+(city|town|metro township)$", "", s)
+
+
+def ut_reporting_lists(ut_dir: Path) -> dict[int, list[str]]:
+    import json
+    j = json.loads((ut_dir / "ut_mih_2023_adu_extracted.json").read_text())
+    c = pd.read_csv(ut_dir / "ut_mih_adu_building_permits_2024_2025_extracted.csv")
+    return {2023: [x["juris"] for x in j if x["bp_num"] is not None and not x["juris"].startswith("Amendment")],
+            2024: c.loc[c["bp_2024"].notna(), "juris"].tolist(),
+            2025: c.loc[c["bp_2025"].notna() & ~c["juris"].str.startswith("Cedar Hills"), "juris"].tolist()}
+
+
+def ut_reporting_share(ut_dir: Path, gazetteer_zip: Path, b25024: Path) -> pd.DataFrame:
+    """Share of Utah's one-unit detached homes (ACS 2020-2024 B25024_002) in the jurisdictions that answered the MIH
+    ADU building-permit question, by report year. Cities and metro townships: their place (160) homes, matched by
+    name to the 2024 Gazetteer's functioning places (FUNCSTAT A). Counties: their unincorporated homes = county (050)
+    homes minus the place-in-county (155) homes of every functioning place in that county (Summit County's two
+    reports together cover its unincorporated area). Returns year, n_jurisdictions, homes_reporting, homes_state,
+    share, unmatched (names not found; should be empty)."""
+    import re
+    import zipfile
+    z = zipfile.ZipFile(gazetteer_zip)
+    g = pd.read_csv(z.open(z.namelist()[0]), sep="\t", dtype=str)
+    g.columns = [c.strip() for c in g.columns]
+    g = g[g["USPS"].eq("UT") & g["FUNCSTAT"].eq("A")]
+    lookup: dict[str, str] = {}
+    for name, gid in zip(g["NAME"], g["GEOID"]):
+        lookup.setdefault(_ut_name(name), gid)
+    rows = []
+    with open(b25024, encoding="utf-8") as f:
+        f.readline()
+        for line in f:
+            if line.startswith(("1550000US49", "1600000US49", "0500000US49", "0400000US49")):
+                p = line.split("|", 4)
+                rows.append((p[0], float(p[3])))
+    a = pd.DataFrame(rows, columns=["gid", "homes"])
+    state = float(a.loc[a.gid.str.startswith("04"), "homes"].iloc[0])
+    a["id"] = a["gid"].str[9:]
+    p160 = a[a.gid.str.startswith("160")].set_index("id")["homes"]
+    co = a[a.gid.str.startswith("050")].set_index("id")["homes"]
+    p155 = a[a.gid.str.startswith("155")].assign(place=lambda d: d.gid.str[9:16], county=lambda d: d.gid.str[16:19])
+    inc = set(g["GEOID"])
+
+    def unincorporated(c):
+        f3 = UT_COUNTY_FIPS[c]
+        return float(co["49" + f3] - p155[(p155.county == f3) & p155.place.isin(inc)]["homes"].sum())
+
+    out = []
+    for year, names in ut_reporting_lists(ut_dir).items():
+        seen, h, miss = set(), 0.0, []
+        for nm in names:
+            m = re.match(r"^(.*?) county", _ut_name(nm))
+            if m:
+                key = "county:" + m.group(1).strip()
+                if key not in seen:
+                    seen.add(key)
+                    h += unincorporated(m.group(1).strip())
+                continue
+            n = _ut_name(nm)
+            gid = next((lookup[c] for c in (n, n + " city", n.replace(" city", "")) if c in lookup), None)
+            if gid is None:
+                miss.append(nm)
+            elif gid not in seen:
+                seen.add(gid)
+                h += float(p160.get(gid, 0.0))
+        out.append(dict(year=year, n_jurisdictions=len(seen), homes_reporting=h, homes_state=state,
+                        share=h / state, unmatched="; ".join(miss)))
+    return pd.DataFrame(out)

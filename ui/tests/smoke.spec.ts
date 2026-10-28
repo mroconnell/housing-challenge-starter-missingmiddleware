@@ -223,9 +223,10 @@ test("scenario choice is kept in the URL and the current tab is in view", async 
 test("unknown-rules switch shows each precomputed run", async ({ page }) => {
   const b = await bundle(page);
   await page.goto("#/how-sure");
-  await expect(page.getByTestId("trace-summary")).toContainText("73.4%");
-  await expect(page.getByTestId("trace-summary")).toContainText("5.5%");
-  await expect(page.getByTestId("trace-summary")).toContainText("21.1%");
+  // AQ-061 values (were 73.4%, 5.5%, 21.1%)
+  await expect(page.getByTestId("trace-summary")).toContainText("73.6%");
+  await expect(page.getByTestId("trace-summary")).toContainText("5.2%");
+  await expect(page.getByTestId("trace-summary")).toContainText("21.2%");
   for (const v of b.unknown.variants) {
     await page.locator(`input[name="unk-howsure"][value="${v.id}"]`).check();
     await expect(page.getByTestId("unk-baseline")).toHaveText(fmt(v.baseline_total));
@@ -314,8 +315,9 @@ test("statewide comparison explains why types of place differ, with the numbers 
   await page.goto("#/compare");
   const box = page.getByTestId("why-differ");
   await expect(box).toContainText("Why places differ.");
-  await expect(box).toContainText(`about a ${Math.round((d.value_dev.ratio_10pct - 1) * 100)}% higher`);
-  await expect(box).toContainText(`about a ${Math.round((1 - d.income_dev.ratio_10pct) * 100)}% lower`);
+  // places differ by home value only (the allocation fit); income and size set only the statewide rate (AQ-061)
+  await expect(box).toContainText(`about a ${Math.round((d.alloc_value_dev.ratio_10pct - 1) * 100)}% higher`);
+  await expect(box).toContainText("by home value alone");
   for (const g of ["urban", "suburban", "small_community", "rural"]) await expect(box).toContainText(c[g].additional_rate_central.toFixed(2));
   await expect(box).toContainText("acreage");
   const tbl = page.getByTestId("why-differ-table");

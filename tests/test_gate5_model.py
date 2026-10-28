@@ -67,9 +67,11 @@ class TestUnknownRulesOutputs(unittest.TestCase):
 
     def test_like_prohibited_matches_earlier_finding(self):
         r = self.row("like_prohibited", "central")
-        self.assertAlmostEqual(r.d_baseline_units, -186.36, delta=0.05)
-        self.assertAlmostEqual(r.d_additional_units, 158.6, delta=0.5)
-        self.assertAlmostEqual(r.d_total_with_law, -27.8, delta=0.5)
+        # AQ-061: the measured cities lowered the prohibited group rate (0.0313 -> 0.0233) and the restricted one
+        # (0.0607 -> 0.0515), so the switch moves the baseline a little less than at Gate 5 (-186.36)
+        self.assertAlmostEqual(r.d_baseline_units, -178.34, delta=0.05)
+        self.assertAlmostEqual(r.d_additional_units, 152.2, delta=0.5)
+        self.assertAlmostEqual(r.d_total_with_law, -26.2, delta=0.5)
 
     def test_totals_and_ordering(self):
         for t in uv.VARIANTS:

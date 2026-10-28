@@ -1,13 +1,13 @@
 {
   "scenario_id": "adu_benchmark_statewide",
-  "status": "Adopted 2026-10-25 (AQ-042): pooled revision option (ii) cap+A2, configuration A (California in the common level); Madison on the observed Madison-like path. Revised 2026-10-26 (AQ-043): lower = mean of Rhode Island and Oregon; Milwaukee at its measured 2022-2025 rate; reference line = median of all 8 statewide-law states",
+  "status": "Adopted 2026-10-25 (AQ-042): pooled revision option (ii) cap+A2, configuration A (California in the common level); Madison on the observed Madison-like path. Revised 2026-10-26 (AQ-043): lower = mean of Rhode Island and Oregon; Milwaukee at its measured 2022-2025 rate; reference line = median of all 8 statewide-law states. Revised 2026-10-28 (AQ-061): reporting-share coverage applied (Maine, Massachusetts, Rhode Island 2025; Utah 2023-2025), Massachusetts 2025 as 11/12 of a year, Washington law years from local compliance, value gap top-coded at California's maximum for allocation, measured Wisconsin cities pooled into the current-law group rates",
   "units": "second-home permits on single-family lots per 1,000 one-unit detached homes per year",
   "area_levels": {
     "file": "reference/pooled_revision_wi_y_by_area.csv",
     "option": "cap_a2",
     "config": "A_ca_in_common_level",
     "columns": "y_plateau_lower_80, y_plateau_central, y_plateau_upper_80",
-    "basis": "pooled two-stage model across California (cap of 2 ADUs per parcel plus the A2 multifamily parcel rule, AQ-041), seven statewide-law states and five cities, with the vacant-lot new-house factor x(1 - 0.049) on non-California series (AQ-039) and Minneapolis x(1 - 0.127); written by scripts/run_pooled_revision.py (docs/gate3/POOLED_REVISION.md)",
+    "basis": "pooled two-stage model across California (cap of 2 ADUs per parcel plus the A2 multifamily parcel rule, AQ-041), seven statewide-law states and five cities, with the vacant-lot new-house factor x(1 - 0.049) on non-California series (AQ-039) and Minneapolis x(1 - 0.127); with each series-year count divided by its reporting share and Washington coded from local compliance (AQ-061); per-area levels spread the statewide total by home value only, with each area's value gap top-coded at California's largest (+1.01 in log terms; AQ-061); written by scripts/run_pooled_revision.py (docs/gate3/POOLED_REVISION.md)",
     "superseded": "reference/pooled_wi_y_by_area.csv (adopted 2026-10-24, AQ-038)"
   },
   "madison_floor": {
@@ -33,9 +33,9 @@
       "level": 0.2345,
       "spillover": 0.0,
       "ramp": [
-        0.6211,
-        0.7886,
-        0.8186,
+        0.6027,
+        0.8036,
+        0.8418,
         1.0,
         1.0
       ],
@@ -45,11 +45,11 @@
           "RI",
           "OR"
         ],
-        "factor": 0.6497,
+        "factor": 0.6361,
         "levels_file": "reference/pooled_revision_stage2_levels.csv",
-        "rule": "each area's central level x (mean of the states' stage-2 levels at a typical place, law in force 4+ years / the common level of the same fit); Rhode Island 0.6214 and Oregon 0.6826, mean 0.6520, / common level 1.0035 = 0.6497"
+        "rule": "each area's central level x (mean of the states' stage-2 levels at a typical place, law in force 4+ years / the common level of the same fit); Rhode Island 0.8484 and Oregon 0.6997, mean 0.7741, / common level 1.2169 = 0.6361 (AQ-061 refit)"
       },
-      "basis": "Like the slowest statewide-law states (owner decision 2026-10-26, AQ-043): the mean of Rhode Island's (0.6214) and Oregon's (0.6826) stage-2 levels, 0.6520 permits per 1,000 single-family homes per year at a typical place with the law in force 4+ years, = 0.6497 of the common level 1.0035. Every area's central level is multiplied by 0.6497 (same within-state differences). Ramp: the pooled ramp recomputed for this level the way the central and upper ramps were (homes-weighted, on the Gate 3 current-law rates), not Oregon's observed ramp. Replaces the 10th percentile of the between-state spread (factor 1/1.885), now a sensitivity case.",
+      "basis": "Like the slowest statewide-law states (owner decision 2026-10-26, AQ-043): the mean of Rhode Island's (0.8484) and Oregon's (0.6997) stage-2 levels, 0.7741 permits per 1,000 single-family homes per year at a typical place with the law in force 4+ years, = 0.6361 of the common level 1.2169 (AQ-061 refit; was 0.6497 of 1.0035). Every area's central level is multiplied by 0.6361 (same within-state differences). Ramp: the pooled ramp recomputed for this level the way the central and upper ramps were (homes-weighted, on the adopted current-law rates since AQ-061), not Oregon's observed ramp. Replaces the 10th percentile of the between-state spread (factor 1/1.885), now a sensitivity case.",
       "label": "Sluggish adoption",
       "info": "Like the average of the two slowest statewide-law states, Rhode Island and Oregon."
     },
@@ -57,9 +57,9 @@
       "level": 0.2345,
       "spillover": 0.0,
       "ramp": [
-        0.6339,
-        0.7958,
-        0.8247,
+        0.612,
+        0.8083,
+        0.8455,
         1.0,
         1.0
       ],
@@ -71,13 +71,13 @@
       "level": 0.2345,
       "spillover": 0.0,
       "ramp": [
-        0.6444,
-        0.8017,
-        0.8297,
+        0.6191,
+        0.8118,
+        0.8484,
         1.0,
         1.0
       ],
-      "basis": "Strong adoption: pooled revision (ii) configuration A, 90th percentile of the between-state spread (factor 1.89). The high end of what statewide-law states have reached; only California has gone higher.",
+      "basis": "Strong adoption: pooled revision (ii) configuration A, 90th percentile of the between-state spread (factor 1.83 after the AQ-061 refit). The high end of what statewide-law states have reached; only California has gone higher.",
       "label": "Strong adoption",
       "info": "The high end of what statewide-law states have reached; only California has gone higher."
     }
@@ -103,6 +103,6 @@
       "basis": "Owner decision 2026-10-25 (AQ-040 follow-up, AQ-042): Madison, the only Wisconsin place meeting the Madison-like definition (incorporated; 20,000-120,000 one-unit detached homes; median value $250,000-$500,000; not the largest city), follows the observed Madison-like path instead of its pooled level."
     }
   },
-  "statewide_adoption_line": "Adopted 2026-10-26 (AQ-043): median observed statewide rate across all 8 statewide-law states, California included (cap+A2 counts, 2020 = year 1; the other seven x0.951 for vacant-lot ADUs), years 1-4 (2027-2030) where data exist; year 5 (2031) has only California, so the year-4 median is carried forward and flagged. Points: reference/scenario_options_reference_points.csv; computed by scripts/run_adu_model.py into reference/adu_model_reference_lines.csv and adu_model_reference_line_by_year.csv. The 7-state line (California out; reference/pooled_revision_adoption_line.csv) is kept as an alternative row.",
+  "statewide_adoption_line": "Adopted 2026-10-26 (AQ-043): median observed statewide rate across all 8 statewide-law states, California included (cap+A2 counts, 2020 = year 1; the other seven x0.951 for vacant-lot ADUs), years 1-4 (2027-2030) where data exist; year 5 (2031) has only California, so the year-4 median is carried forward and flagged. Points: reference/pooled_revision_reference_points.csv (AQ-061: written by scripts/run_pooled_revision.py with the adopted coverage and Washington coding; replaces scenario_options_reference_points.csv); computed by scripts/run_adu_model.py into reference/adu_model_reference_lines.csv and adu_model_reference_line_by_year.csv. The 7-state line (California out; reference/pooled_revision_adoption_line.csv) is kept as an alternative row.",
   "notes": "Uniform 'level' (the Madison floor) applies only where an area has no model level. The Madison floor is set once, in madison_floor (in_use selects the variant; every path and script reads it via missing_middleware.model.params.madison_floor). area_paths replaces an area's level and ramp with an explicit observed path (engine.run area_paths). The California ramp is not applied on top of the pooled ramp. Path-specific ramps reproduce the pooled model's direct totals (each path scales the whole rate path); rounded to 4 decimals. The lower's level_from rule is applied by scripts/run_adu_model.py (load_area_levels); the stored factor and ramp are checked against the files there."
 }

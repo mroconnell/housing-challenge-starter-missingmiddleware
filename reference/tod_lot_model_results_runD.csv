@@ -1,0 +1,3 @@
+model,fold_mean_error_guess_zero,passes_new_rule,fold_mean_error_baseline,fold_mean_error_model,fold_cities_model_better,fold_cities,chicago_error_baseline,madison_error_baseline,bellevue_error_baseline,chicago_error_model,madison_error_model,bellevue_error_model,fold_mean_auc,chicago_auc,madison_auc,bellevue_auc,passes_total,passes_where
+boosting,1368.6839,False,1790.742,1317.4636,4,6,456.8974,676.9996,871.5433,987.5095,9377.3988,2685.0436,0.5342,0.6619,0.5703,0.2734,False,False
+logit,1368.6839,True,1790.742,965.4547,5,6,456.8974,676.9996,871.5433,117.8561,792.7844,327.4088,0.5993,0.7145,0.5662,0.7431,False,False

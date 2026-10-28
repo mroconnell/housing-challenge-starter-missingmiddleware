@@ -1,0 +1,16 @@
+place,GEOID,group,permits,thousand_home_years,window_class,used,note
+Madison city,5502548000,,40.0,213.168,restricted,False,Madison: already in the pools (benchmark 2022-2025; restricted 2014-2023)
+Milwaukee city,5507953000,,35.0,405.608,prohibited_implicit,False,Milwaukee: its measured rate is its own current-law rate (owner 2026-10-26); mixed RS/RT regimes
+Sun Prairie city,5502578600,,1.0,32.472,prohibited_implicit,False,Sun Prairie: already in the prohibited pool (2016-2026-05)
+Pleasant Prairie village,5505963300,,0.0,25.328,prohibited_explicit,False,Pleasant Prairie: already in the prohibited pool (2014-2025)
+Fitchburg city,5502525950,,0.0,23.996,restricted,False,Fitchburg: already in the restricted pool (2022-2026-07)
+Howard village,5500935950,prohibited,0.0,22.176,prohibited_explicit,True,whole window
+De Pere city,5500919775,prohibited,0.0,6.522,restricted,True,12 of 48 months
+De Pere city,5500919775,restricted,0.0,19.566,restricted,True,36 of 48 months
+Verona city,5502582600,restricted,0.0,14.472,restricted,True,whole window
+Waunakee village,5502584350,prohibited,0.0,9.301,prohibited_implicit,True,28 of 48 months
+Waunakee village,5502584350,restricted,0.0,6.643,prohibited_implicit,True,20 of 48 months
+Kaukauna city,5508738800,,7.0,16.203,prohibited_implicit,False,Kaukauna: 7 'Additional dwelling unit' permits under a code with no ADU provision; rules group of the permits unknown without each permit's zoning district
+Watertown city,5505583975,restricted,2.0,18.306,restricted,True,whole window
+Neenah city,5513955750,prohibited,0.0,16.344,prohibited_explicit,True,whole window
+Green Bay city,5500931000,restricted,0.0,79.965,restricted,True,whole window

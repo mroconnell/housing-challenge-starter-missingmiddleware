@@ -59,7 +59,7 @@ export interface StateData {
   /** Why types of place differ (reference/gate5_context_contrast.csv, gate5_model_drivers.csv, gate5_context_examples.csv). */
   context_why: {
     state: ContextRates;
-    drivers: { term: "value_dev" | "income_dev" | "log_homes"; coefficient: number; se: number; ratio_10pct: number; meaning: string }[];
+    drivers: { term: "alloc_value_dev" | "value_dev" | "income_dev" | "log_homes"; role: string; coefficient: number; se: number; ratio_10pct: number; meaning: string }[];
     examples: { context: string; name: string; homes: number; median_home_value: number; median_income: number; additional_rate_central: number }[];
     source: string;
   };

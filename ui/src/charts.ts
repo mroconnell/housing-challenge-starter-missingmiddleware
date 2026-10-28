@@ -128,7 +128,12 @@ export function xyChart(container: HTMLElement, spec: ChartSpec): void {
 /** Diverging horizontal bars in HTML (wraps labels on small screens). */
 export function tornadoHTML(rows: { label: string; value: number; note?: string }[], unit: string): string {
   const max = Math.max(...rows.map((r) => Math.abs(r.value)), 1);
-  return `<div class="tornado" role="img" aria-label="${esc(`Change from the central scenario, ${unit}. ` + rows.map((r) => `${r.label}: ${r.value > 0 ? "+" : ""}${Math.round(r.value).toLocaleString("en-US")}`).join("; "))}">${rows.map((r) => {
+  // Accessible names over about 900 characters are dropped by some screen readers and by the accessibility snapshot,
+  // so a long chart is named by its largest cases and points to the table that lists every case.
+  const all = `Change from the central scenario, ${unit}. ` + rows.map((r) => `${r.label}: ${r.value > 0 ? "+" : ""}${Math.round(r.value).toLocaleString("en-US")}`).join("; ");
+  const name = all.length <= 800 ? all : `Change from the central scenario, ${unit}, for ${rows.length} cases; the largest: ` +
+    [...rows].sort((a, b) => Math.abs(b.value) - Math.abs(a.value)).slice(0, 3).map((r) => `${r.label}: ${r.value > 0 ? "+" : ""}${Math.round(r.value).toLocaleString("en-US")}`).join("; ") + ". Every case is in the table below.";
+  return `<div class="tornado" role="img" aria-label="${esc(name)}">${rows.map((r) => {
     const w = (Math.abs(r.value) / max) * 50;
     const neg = r.value < 0;
     return `<div class="t-row" aria-hidden="true"><div class="t-label">${esc(r.label)}</div><div class="t-track"><div class="t-mid"></div><div class="t-bar ${neg ? "neg" : "pos"}" style="${neg ? `right:50%` : `left:50%`};width:${w}%"></div></div><div class="t-val">${r.value > 0 ? "+" : r.value < 0 ? "−" : ""}${Math.abs(Math.round(r.value)).toLocaleString("en-US")}</div></div>`;

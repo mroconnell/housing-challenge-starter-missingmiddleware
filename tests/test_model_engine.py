@@ -159,10 +159,11 @@ class TestAdoptedParams(unittest.TestCase):
             "option == 'cap_a2' and config == 'A_ca_in_common_level'").set_index("cluster")["level_with_law_k4"]
         common = pd.read_csv(ref / "pooled_revision_wi.csv").query(
             "option == 'cap_a2' and config == 'A_ca_in_common_level'")["common_level_k4"].iloc[0]
-        self.assertAlmostEqual((st2["RI"] + st2["OR"]) / 2, 0.6520, places=4)
+        # AQ-061 refit: Rhode Island 0.8484 (2025 count divided by its 32/39 reporting share), Oregon 0.6997
+        self.assertAlmostEqual((st2["RI"] + st2["OR"]) / 2, 0.7741, places=4)
         self.assertAlmostEqual(rule["factor"], (st2["RI"] + st2["OR"]) / 2 / common, places=4)
-        # the lower sits between the two states: below Oregon and above Rhode Island at a typical place
-        self.assertTrue(st2["RI"] < rule["factor"] * common < st2["OR"])
+        # the lower sits between the two states at a typical place (Oregon now the lower of the two)
+        self.assertTrue(min(st2["RI"], st2["OR"]) < rule["factor"] * common < max(st2["RI"], st2["OR"]))
 
 
 class TestAdoptedOutputs(unittest.TestCase):
@@ -216,15 +217,17 @@ class TestAdoptedOutputs(unittest.TestCase):
         r = r.iloc[0]
         self.assertEqual(r.moves, "baseline only")
         self.assertIn("\u00d71.11 a year", r.change)
-        self.assertAlmostEqual(r.baseline_5yr, 1083.3, delta=0.05)
-        self.assertAlmostEqual(r.central_additional_5yr, 8324.3, delta=0.05)
-        self.assertAlmostEqual(r.lower_additional_5yr, 5107.3, delta=0.05)
-        self.assertAlmostEqual(r.upper_additional_5yr, 16455.2, delta=0.05)
+        # values after the AQ-061 refit (2026-10-28); before: baseline 1083.3, central 8324.3, adopted 604.6 and
+        # 5538.1 / 8756.6 / 16888.9, with-law 9407.5
+        self.assertAlmostEqual(r.baseline_5yr, 949.7, delta=0.05)
+        self.assertAlmostEqual(r.central_additional_5yr, 10406.7, delta=0.05)
+        self.assertAlmostEqual(r.lower_additional_5yr, 6354.3, delta=0.05)
+        self.assertAlmostEqual(r.upper_additional_5yr, 19675.8, delta=0.05)
         a = s[s.moves.eq("none (adopted)")].iloc[0]
-        self.assertAlmostEqual(a.baseline_5yr, 604.6, delta=0.05)
-        self.assertEqual((a.lower_additional_5yr, a.central_additional_5yr, a.upper_additional_5yr), (5538.1, 8756.6, 16888.9))
+        self.assertAlmostEqual(a.baseline_5yr, 530.1, delta=0.05)
+        self.assertEqual((a.lower_additional_5yr, a.central_additional_5yr, a.upper_additional_5yr), (6734.3, 10787.6, 20057.4))
         bo = pd.read_csv(self.ref / "adu_model_baseline_only_effects.csv").set_index("case")
-        self.assertAlmostEqual(bo.loc["wi-rising-like-nolaw", "with_law_central"], 9407.5, delta=0.05)
+        self.assertAlmostEqual(bo.loc["wi-rising-like-nolaw", "with_law_central"], 11356.4, delta=0.05)
         pw = pd.read_csv(self.ref / "adu_placebo_wi.csv")
         pw = pw[pw.case.eq("rising baseline, proportional, C median ratio") & pw.path.eq("central")].iloc[0]
         self.assertAlmostEqual(pw.additional_5yr, r.central_additional_5yr, delta=0.06)

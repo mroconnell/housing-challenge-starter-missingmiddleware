@@ -104,9 +104,28 @@ PRE_LAW = {   # pre-law activity (per 1,000 homes per year) at series level, for
     "seattle": 1.766, "austin": 0.416, "denver": 0.373,
 }
 
-# Measurement (named, optional sensitivities; never applied silently)
-NEW_HOUSE_FACTOR = 0.8      # series that include ADUs built with a new house (all state series; city incl_new_house)
-COVERAGE = {"ME_statewide": 0.73, "MA_statewide": 293 / 351, "RI_statewide": 32 / 39}  # reporting share (lower bound)
+# Measurement
+NEW_HOUSE_FACTOR = 0.8      # named sensitivity only: series that include ADUs built with a new house
+# Reporting share by series and year (AQ-061, owner decision 2026-10-28: applied in the adopted fit through
+# adjust_counts(coverage=True), which divides the count by the share; a series-year not listed counts as 1.0).
+# The counts cover only reporting towns while the denominator is every one-unit detached home in the state.
+# No town lists for Maine, Massachusetts or Rhode Island are in the repository, so their published reporting shares
+# are used (Maine: share of population; Massachusetts and Rhode Island: share of towns). Utah's shares are one-unit
+# detached homes (ACS 2020-2024 B25024_002) in the cities, metro townships and unincorporated county areas that
+# answered the ADU building-permit question in each MIH report year, / all of Utah's (813,940); computed from the
+# extracted MIH lists by statewide_states.ut_reporting_share() and checked in scripts/run_pooled_revision.py.
+# Rhode Island 2021-2023 coverage is not stated, so those years are left at 1.0.
+COVERAGE = {"ME_statewide": {2025: 0.73},
+            "MA_statewide": {2025: 293 / 351},
+            "RI_statewide": {2025: 32 / 39},
+            "UT_mih": {2023: 0.7951, 2024: 0.8031, 2025: 0.8042}}
+# Share of the year the statewide law was in force in a k = 1 calendar year coded as a full year (AQ-061):
+# Massachusetts' law took effect 2025-02-02, so 2025 is 11 of 12 months.
+PARTIAL_YEAR = {("MA_statewide", 2025): 11 / 12}
+
+
+def coverage_for(series: str, year: int) -> float:
+    return float(COVERAGE.get(series, {}).get(int(year), 1.0))
 
 
 # ---------------------------------------------------------------------------
@@ -195,8 +214,8 @@ def state_rows(annual: pd.DataFrame, coding=STATE_CODING) -> pd.DataFrame:
             if y not in a.index or pd.isna(a.loc[y, "adu_count"]):
                 continue
             rows.append(dict(cluster=cluster, series=sid, group_id=sid, year=int(y), count=float(a.loc[y, "adu_count"]),
-                             years=1.0, law=law, local=local, k=k, incl_new_house=True,
-                             coverage=COVERAGE.get(sid, 1.0), pre_rate=PRE_LAW.get(sid, np.nan)))
+                             years=PARTIAL_YEAR.get((sid, int(y)), 1.0), law=law, local=local, k=k, incl_new_house=True,
+                             coverage=coverage_for(sid, y), pre_rate=PRE_LAW.get(sid, np.nan)))
     return pd.DataFrame(rows)
 
 
@@ -253,14 +272,15 @@ def assemble(parts: list[tuple[pd.DataFrame, pd.DataFrame]]) -> Pooled:
 def adjust_counts(rows: pd.DataFrame, new_house: bool = False, coverage: bool = False) -> pd.DataFrame:
     """Named measurement sensitivities: new_house multiplies every count that includes ADUs built
     with a new house by NEW_HOUSE_FACTOR (California's APR counts are left as is: the study
-    excluded the with-new-house ADUs it could identify); coverage divides lower-bound series by
-    their reporting share."""
+    excluded the with-new-house ADUs it could identify); coverage divides each series-year's count by
+    its reporting share (COVERAGE; applied in the adopted fit since AQ-061)."""
     r = rows.copy()
     if new_house:
         m = r["incl_new_house"].astype(bool) & r["cluster"].ne("CA")
         r.loc[m, "count"] *= NEW_HOUSE_FACTOR
     if coverage:
         r["count"] = r["count"] / r["coverage"]
+        r["coverage"] = 1.0          # applied once: a second call (or adoption_curve(coverage=True)) does nothing
     return r
 
 

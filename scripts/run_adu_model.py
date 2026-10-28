@@ -5,19 +5,22 @@ configuration A (California in the between-state common level), per-area levels 
 reference/pooled_revision_wi_y_by_area.csv (written by scripts/run_pooled_revision.py), Madison floor
 0.2345, and Madison on the observed Madison-like path (params `area_paths`, applied by
 engine.run(area_paths=...)). AQ-043: the lower is the mean of Rhode Island's and Oregon's levels (every
-area's central level x 0.6497, params `paths.lower.level_from`); Milwaukee's current-law rate is its
-measured 2022-2025 rate (scripts/build_wi_baseline.py); the reference line is the median of all 8
-statewide-law states including California, 2031 carried forward.
+area's central level x the factor in params `paths.lower.level_from`, 0.6361 since AQ-061); Milwaukee's current-law
+rate is its measured 2022-2025 rate (scripts/build_wi_baseline.py); the reference line is the median of all 8
+statewide-law states including California, 2031 carried forward. AQ-061 (2026-10-28): the pooled fit divides counts
+by reporting shares and codes Washington from local compliance; the allocation top-codes each area's value gap;
+measured Wisconsin cities join the current-law group rates.
 
 Inputs: data/processed/model_baseline/engine_areas.parquet, engine_baseline_growth.parquet and their
 *_milwaukee_ramp variants (Gate 3 rates; from scripts/build_wi_baseline.py); reference/pooled_revision_wi_y_by_area.csv,
-pooled_revision_wi.csv, pooled_revision_stage2_levels.csv, pooled_revision_adoption_line.csv
-(scripts/run_pooled_revision.py); reference/scenario_options_reference_points.csv (scripts/run_scenario_options.py);
+pooled_revision_wi.csv, pooled_revision_stage2_levels.csv, pooled_revision_adoption_line.csv and
+pooled_revision_reference_points.csv (scripts/run_pooled_revision.py; AQ-061);
 reference/eligible_basis_wi.csv (scripts/run_eligible_basis.py). The multiplicative and California-only cases refit
 the adopted pooled model (scripts/run_pooled_revision.py functions; about 3 seconds).
 Outputs: data/processed/model_run/results_long.parquet, and summary tables in reference/adu_model_*.csv
 (statewide, by year, by county, by context group, by rights basis, by x basis, sensitivities, reference lines and
-reference line by year). Run: uv run python scripts/run_adu_model.py
+reference line by year, and the places whose value gap is top-coded: adu_model_value_capped_places.csv).
+Run: uv run python scripts/run_adu_model.py
 """
 from __future__ import annotations
 
@@ -51,7 +54,7 @@ def lower_rule(path=PARAMS) -> dict:
 
 def bottom_states_factor(option: str, config: str, states=None) -> float:
     """Mean of the named states' stage-2 levels (typical place, law in force 4+ years) / the common level, for
-    one option x configuration of the pooled revision. Adopted (cap_a2 x A): (0.6214 + 0.6826) / 2 / 1.0035."""
+    one option x configuration of the pooled revision. Adopted (cap_a2 x A, AQ-061): (0.8484 + 0.6997) / 2 / 1.2169."""
     states = states or lower_rule()["states"]
     st2 = pd.read_csv(REFERENCE / "pooled_revision_stage2_levels.csv")
     st2 = st2[st2.option.eq(option) & st2.config.eq(config) & st2.cluster.isin(states)]
@@ -91,7 +94,7 @@ def load_area_levels(option: str | None = None, config: str | None = None, lower
 def pooled_ramp(option: str, config: str, factor: float, ref_areas: pd.DataFrame) -> list[float]:
     """The pooled model's engine-form ramp for a level scaled by `factor`: homes-weighted
     (ybar_t - xbar) / (ybar_year5 - xbar) over the per-area year levels y_k1..y_k5 (pooled_regression.implied_ramp).
-    ref_areas supplies homes and current-law rates; the adopted ramps were computed on the Gate 3 rates."""
+    ref_areas supplies homes and current-law rates; since AQ-061 the adopted ramps are computed on the adopted rates."""
     y = _level_rows(option, config)
     a = ref_areas[["area_id", "homes", "x_rate"]].merge(y, on="area_id", validate="1:1")
     if len(a) != len(ref_areas):
@@ -150,13 +153,14 @@ def reference_lines(by_year: pd.DataFrame, homes: float) -> tuple[pd.DataFrame, 
     that minus the year's current-law baseline (central engine baseline).
 
     Adopted (AQ-043): the median observed statewide rate across all 8 statewide-law states, California included,
-    by year since the law (reference/scenario_options_reference_points.csv: California cap+A2 with 2020 = year 1;
-    the other seven x0.951 for vacant-lot ADUs). A year with fewer than 2 states carries the last median forward
+    by year since the law (reference/pooled_revision_reference_points.csv: California cap+A2 with 2020 = year 1;
+    the other seven x0.951 for vacant-lot ADUs, divided by their reporting share, Washington from local compliance;
+    AQ-061). A year with fewer than 2 states carries the last median forward
     (flagged carried_forward); only year 5 (2031) does, with California alone.
     Alternative rows: the Gate 3 seven-state line (California out), with and without the vacant-lot factor
     (reference/pooled_revision_adoption_line.csv), recomputed on the current baseline."""
     base = by_year[by_year.path.eq("central")].sort_values("year")["baseline_units"].to_numpy(float)
-    pts = pd.read_csv(REFERENCE / "scenario_options_reference_points.csv")
+    pts = pd.read_csv(REFERENCE / "pooled_revision_reference_points.csv")
     pts["k"] = pts["k"].astype(int)
     rows, last = [], None
     for k in e.YEARS:
@@ -212,10 +216,9 @@ def reference_lines(by_year: pd.DataFrame, homes: float) -> tuple[pd.DataFrame, 
 def main():
     areas = pd.read_parquet(PROCESSED / "model_baseline/engine_areas.parquet")
     growth = pd.read_parquet(PROCESSED / "model_baseline/engine_baseline_growth.parquet")
-    # Gate 3 current-law rates (Milwaukee on its assumed ramp): a baseline sensitivity case, the reference for the
-    # stored ramps, and the check that the engine still reproduces the pooled revision (scripts/build_wi_baseline.py)
-    areas_g3 = pd.read_parquet(PROCESSED / "model_baseline/engine_areas_milwaukee_ramp.parquet")
-    growth_g3 = pd.read_parquet(PROCESSED / "model_baseline/engine_baseline_growth_milwaukee_ramp.parquet")
+    # Since AQ-061 the pooled revision runs on the adopted current-law rates (scripts/run_pooled_revision.py reads
+    # engine_areas.parquet), so the stored ramps and the engine reproduction check use them too (until then both used
+    # the Gate 3 rates, engine_areas_milwaukee_ramp.parquet, which remain a baseline sensitivity case only).
     geo = pd.read_parquet(PROCESSED / "foundation/areas.parquet")[["area_id", "name", "parent_county_id", "context_group"]]
     spec = area_levels_spec(PARAMS)
     opt0, cfg0 = spec["option"], spec["config"]
@@ -234,7 +237,7 @@ def main():
     if abs(fac_low - lower_rule()["factor"]) > 1e-4:
         raise SystemExit(f"lower factor {fac_low:.5f} != params {lower_rule()['factor']}")
     for pth, fac in (("lower", fac_low), ("central", 1.0), ("upper", float(ref["factor80"]))):
-        want = pooled_ramp(opt0, cfg0, fac, areas_g3)
+        want = pooled_ramp(opt0, cfg0, fac, areas)
         got = params["paths"][pth]["ramp"]
         if max(abs(a - b) for a, b in zip(want, got)) > 6e-4:
             raise SystemExit(f"{pth} ramp {got} does not follow from the per-area year levels {want}")
@@ -244,11 +247,11 @@ def main():
     if problems:
         raise SystemExit(f"invariant failures: {problems}")
 
-    # check: on the Gate 3 rates, with the Gate 3 lower and without the Madison path, the engine reproduces the
-    # revision runner's totals
+    # check: on the adopted current-law rates, with the Gate 3 lower and without the Madison path, the engine
+    # reproduces the revision runner's totals
     scen_g3 = load_scenario(**revision_ramps(rev, opt0, cfg0))
     lv_g3 = load_area_levels(lower="percentile10")
-    pooled_g3 = path_totals(e.run(areas_g3, scen_g3, growth_g3, lv_g3))
+    pooled_g3 = path_totals(e.run(areas, scen_g3, growth, lv_g3))
     for p, c in PATH_COLS.items():
         if abs(pooled_g3[p] - ref[c]) > 2.0:     # ramps are stored to 4 decimals
             raise SystemExit(f"engine {p} {pooled_g3[p]:.1f} does not reproduce pooled_revision_wi.csv {ref[c]:.1f}")
@@ -267,7 +270,7 @@ def main():
     # ---------------- named sensitivities ----------------
     # moves: which number the case changes. "statewide addition" = the permits the law adds statewide;
     # "baseline only" = only the current-law rate changes (the addition then moves the other way by about as much);
-    # "local distribution only" = where permits land, with the statewide addition unchanged (no current case).
+    # "local distribution only" = where permits land, with the statewide addition nearly unchanged (value top-code case).
     main_t = path_totals(out)
     base5 = float(state["baseline_units"].iloc[0])
     sens = []
@@ -292,10 +295,11 @@ def main():
         "The three scenarios as adopted.", "engine", "path", main_t, "this run")
     t10, _ = run_t(sc=load_scenario(lower={"ramp": revision_ramps(rev, opt0, cfg0)["lower"]["ramp"]}),
                    lv=load_area_levels(lower="percentile10"))
-    add("Lower as a statistical 10th percentile of the between-state spread (the Gate 3 lower: central levels / 1.885)",
+    f80 = float(ref["factor80"])
+    add(f"Lower as a statistical 10th percentile of the between-state spread (the Gate 3 lower: central levels / {f80:.3f})",
         "statewide addition",
         "The lower scenario is set at the 10th percentile of how much the eight statewide-law states' levels differ "
-        "(every place's central level divided by 1.885), as at Gate 3, instead of the average of the two slowest "
+        f"(every place's central level divided by {f80:.3f}), as at Gate 3, instead of the average of the two slowest "
         "states, Rhode Island and Oregon. That level is below every statewide-law state's. Only the lower changes.",
         "engine", "path", {"lower": t10["lower"], "central": main_t["central"], "upper": main_t["upper"]},
         "reference/pooled_revision_wi_y_by_area.csv (y_plateau_lower_80) and pooled_revision_wi.csv (ramp_lower)")
@@ -314,10 +318,44 @@ def main():
              "California's counts include ADUs on apartment and other multifamily properties, which the benchmark law "
              "does not allow. This removes more of them, using Los Angeles County parcel records.")):
         rr = revision_ramps(rev, opt, cfg)
-        rr["lower"] = {"ramp": pooled_ramp(opt, cfg, bottom_states_factor(opt, cfg), areas_g3)}
+        rr["lower"] = {"ramp": pooled_ramp(opt, cfg, bottom_states_factor(opt, cfg), areas)}
         t, _ = run_t(sc=load_scenario(**rr), lv=load_area_levels(opt, cfg))
         add(lab, "statewide addition", what + " The lower is the same Rhode Island and Oregon average, taken from this fit.",
             "engine", "path", t, f"reference/pooled_revision_wi_y_by_area.csv ({opt} x {cfg})")
+    # AQ-061 measurement and coding choices, each switched back alone (and all together), refitted
+    for opt, lab, what in (
+            ("cap_a2|no_coverage", "no reporting-share correction (counts divided by every home in the state)",
+             "Maine, Massachusetts, Rhode Island 2025 and Utah report permits only for the towns that answered, but the "
+             "rate divides them by every single-family home in the state. Here the counts are not scaled up for the "
+             "towns that did not report (the Gate 4 treatment). Non-reporting towns are probably smaller and quieter, "
+             "so the true figure is likely between this case and the adopted one."),
+            ("cap_a2|coverage_me_ma_ri_only", "reporting-share correction for Maine, Massachusetts and Rhode Island only "
+             "(Utah not corrected)",
+             "Utah's share of homes in reporting places (about 80%) is computed here from the report lists; the other "
+             "three use published town or population shares. This case leaves Utah uncorrected."),
+            ("cap_a2|wa_from_enactment", "Washington's law years counted from enactment (July 2023), not local compliance",
+             "Washington's cities had to adopt compliant rules only from mid-2025. This case counts its law years from "
+             "the 2023 enactment instead, as at Gate 4, so two years under old local rules count as law years."),
+            ("cap_a2|vt_2024_dropped", "Vermont 2024 dropped (57 ADUs from the state housing layer, counted by year built)",
+             "Vermont's 2024 count comes from the state's new-housing layer, not the regional planning commission's own "
+             "series (which ends at 2023), and every Vermont count is by year built or first occupied, not permit year. "
+             "Owner to decide (AQ-061). The reference line is not refitted here."),
+            ("cap_a2|gate4_coding", "all three AQ-061 comparison-state changes undone (no coverage correction, Washington "
+             "from enactment; Massachusetts still 11 months)",
+             "The comparison-state counts and coding as at Gate 4, on today's current-law rates.")):
+        rr = revision_ramps(rev, opt, cfg0)
+        rr["lower"] = {"ramp": pooled_ramp(opt, cfg0, bottom_states_factor(opt, cfg0), areas)}
+        t, _ = run_t(sc=load_scenario(**rr), lv=load_area_levels(opt, cfg0))
+        add(lab, "statewide addition", what + " The lower is the Rhode Island and Oregon average from this fit.",
+            "engine", "path", t, f"reference/pooled_revision_wi_y_by_area.csv ({opt} x {cfg0})")
+    t, _ = run_t(lv=load_area_levels("cap_a2|no_value_cap", cfg0))
+    add("no top-code on the value gap (small high-value villages keep their extrapolated levels)",
+        "local distribution only",
+        "Eight areas (7 villages and towns, 2,852 homes) have home values further above Wisconsin's average than any "
+        "California place is above California's. The adopted allocation top-codes their gap at California's largest "
+        "(+1.01 in log terms). Without it they keep levels up to 7.6 per 1,000 homes per year. The statewide total "
+        "barely moves; permits move between places.", "engine", "path", t,
+        f"reference/pooled_revision_wi_y_by_area.csv (cap_a2|no_value_cap x {cfg0})")
     t, _ = run_t(sc=load_scenario(central={"ramp": [1, 1, 1, 1, 1]}))
     r_c = params["paths"]["central"]["ramp"]
     add("no ramp (full rate from 2027; Madison's observed path unchanged)", "statewide addition",
@@ -345,10 +383,10 @@ def main():
         "model", "path", {"central": r["engine_central_madison_path"], "upper": r["engine_upper_tau90_madison_path"]},
         "reference/eligible_basis_wi.csv (docs/gate3/ELIGIBLE_BASIS.md; Gate 3 run, not recomputed)",
         baseline=float(r["engine_baseline"]))
-    refit = refit_model_sensitivities({"adopted": (areas, growth), "gate3": (areas_g3, growth_g3)})
+    refit = refit_model_sensitivities({"adopted": (areas, growth)})
     for k, col in (("multiplicative", "sens_multiplicative"), ("ca_only", "sens_ca_only_regression")):
-        if abs(refit["gate3"][k] - float(ref[col])) > 0.5:
-            raise SystemExit(f"{k}: refit on the Gate 3 rates {refit['gate3'][k]:.1f} != pooled_revision_wi.csv {ref[col]:.1f}")
+        if abs(refit["adopted"][k] - float(ref[col])) > 0.5:
+            raise SystemExit(f"{k}: refit {refit['adopted'][k]:.1f} != pooled_revision_wi.csv {ref[col]:.1f}")
     add("multiplicative: the law only multiplies each place's current rate by the pooled statewide-law factor",
         "statewide addition",
         "Each place's current rate is multiplied by one statewide factor, instead of rising to the level that similar "
@@ -374,6 +412,18 @@ def main():
             f"changed (reference/adu_model_baseline_only_effects.csv, case {cid})", baseline=b)
     sdf = pd.DataFrame(sens)
     sdf.to_csv(REFERENCE / "adu_model_sensitivities.csv", index=False)
+
+    # ---------------- flag: places whose value gap is top-coded (AQ-061) ----------------
+    yl = _level_rows(opt0, cfg0)
+    capped = yl[yl["value_capped"].astype(bool)][["area_id", "value_gap_log", "value_gap_cap_log",
+                                                     "y_plateau_central_uncapped", "y_plateau_central"]]
+    o_nc = e.run(areas, scen, growth, load_area_levels("cap_a2|no_value_cap", cfg0), apaths)
+    a_nc = o_nc[o_nc.path.eq("central")].groupby("area_id")["additional_units"].sum().rename("central_additional_5yr_uncapped")
+    a_c = out[out.path.eq("central")].groupby("area_id")["additional_units"].sum().rename("central_additional_5yr")
+    capped = (capped.merge(geo, on="area_id").merge(areas[["area_id", "homes"]], on="area_id")
+              .join(a_nc, on="area_id").join(a_c, on="area_id"))
+    capped.insert(0, "flag", "value gap above California's maximum: top-coded for allocation")
+    capped.round(4).to_csv(REFERENCE / "adu_model_value_capped_places.csv", index=False)
 
     # ---------------- reference lines ----------------
     homes = float(areas["homes"].sum())

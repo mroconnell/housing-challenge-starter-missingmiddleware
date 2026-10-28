@@ -106,6 +106,7 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
     <h3 data-testid="sens-group-local">(c) ${esc(G.local.title)}</h3>
     <p>${esc(G.local.intro)} ${esc(u.local_effects.text)}</p>
     <p class="small">${esc(u.local_effects.example)} ${esc(u.local_effects.not_computed)}</p>
+    ${u.sensitivity_cases.filter((c) => c.group === "local").map((c) => `<p class="small" data-testid="sens-local-case"><strong>${esc(c.label)}.</strong> ${esc(c.what)} Central ${int(c.central)} added permits (${c.difference_central === 0 ? "no change" : sign(c.difference_central)}).</p>`).join("")}
     ${details("Technical names of the cases", `<ul class="small">${u.sensitivity_cases.map((c) => `<li><strong>${esc(c.label)}</strong>: ${esc(c.change_as_recorded)} (${esc(c.source)})</li>`).join("")}<li>Baseline-only cases: reference/wi_baseline_sensitivities.csv (baseline) and reference/adu_model_baseline_only_effects.csv (effect on the addition, from the adopted engine with only the current-law rate changed).</li></ul>`)}
   </section>
 

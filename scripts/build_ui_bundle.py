@@ -127,10 +127,16 @@ LABELS = {
 # Scenario titles (editorial). The params file's lower label is the same ("Sluggish adoption").
 SCEN_TITLE = {"lower": "Sluggish adoption", "central": "Typical adoption after a statewide ADU law",
               "upper": "The high end of what statewide-law states have reached"}
-# Gate 3 values used in the scenario explanations (docs/gate3/POOLED_REVISION.md, sections 2-3):
-COMMON_LEVEL = 1.00   # common level at a typical place, law in force 4+ years, permits per 1,000 SF homes per year
-SPREAD = 1.89         # 80% between-state factor: lower = central / 1.89, upper = central x 1.89
-CA_OUT_CENTRAL = 7621 # central with California out of the common level (sensitivity case)
+# Values used in the scenario explanations, read from the adopted fit (reference/pooled_revision_wi.csv, cap_a2 x A;
+# AQ-061 refit): the common level at a typical place, law in force 4+ years (permits per 1,000 SF homes per year), and
+# the 80% between-state factor (upper = central x SPREAD).
+def _adopted_fit_value(col: str) -> float:
+    rev = pd.read_csv(REF / "pooled_revision_wi.csv")
+    return float(rev[rev.option.eq("cap_a2") & rev.config.eq("A_ca_in_common_level")][col].iloc[0])
+
+
+COMMON_LEVEL = _adopted_fit_value("common_level_k4")
+SPREAD = _adopted_fit_value("factor80")
 # Reference line (owner decision 2026-10-26): median across all 8 statewide-law states, California included, observed
 # through 2030, 2031 carried forward (dashed). Series: REFERENCE_FILE rows with line == REFERENCE_LINE.
 REFERENCE_FILE = "reference/adu_model_reference_line_by_year.csv"
@@ -282,7 +288,7 @@ def scenario_defs(p: dict) -> list[dict]:
     lv = stage2_levels()
     lo, up = COMMON_LEVEL / SPREAD, COMMON_LEVEL * SPREAD
     others = sorted(((k, v) for k, v in lv.items() if k != "CA"), key=lambda kv: -kv[1])
-    typical = ", ".join(f"{STATE_NAMES[k]} {v:.2f}" for k, v in others if 0.8 <= v <= 1.25)
+    typical = ", ".join(f"{STATE_NAMES[k]} {v:.2f}" for k, v in others if 0.8 * COMMON_LEVEL <= v <= 1.25 * COMMON_LEVEL)
     unit = "permits per 1,000 single-family homes per year"
     # editorial text: what the scenario means (top level)
     text = {
@@ -290,7 +296,7 @@ def scenario_defs(p: dict) -> list[dict]:
         "lower": (f"Wisconsin performs like the slowest statewide reforms so far, Rhode Island and Oregon (average about "
                   f"{(lv['RI'] + lv['OR']) / 2:.2f} {unit} once the law is fully in force)."),
         "central": (f"Wisconsin performs like most of the eight states with a statewide ADU law: about {COMMON_LEVEL:.2f} "
-                    f"permit per 1,000 single-family homes per year once the law has been in force 4 years ({typical}). "
+                    f"permits per 1,000 single-family homes per year once the law has been in force 4 years ({typical}). "
                     f"California is one of the eight and counts toward this typical level, yet the level sits far below "
                     f"California's own {lv['CA']:.2f}."),
         "upper": (f"Wisconsin does better than every statewide-law state except California: about {up:.2f} {unit} once "
@@ -305,11 +311,12 @@ def scenario_defs(p: dict) -> list[dict]:
                   f"in force (4 years or more), {p['paths']['lower']['level_from']['factor']:.4f} of the central level. Every "
                   "Wisconsin place's central level is multiplied by that factor, so the differences between places stay "
                   "the same. Rhode Island has only one year of data after its law (2025), so its level rests on one year. "
-                  "At Gate 3 the lower was the 10th percentile of the states' spread (central ÷ 1.89); that is now a "
+                  f"At Gate 3 the lower was the 10th percentile of the states' spread (central ÷ {SPREAD:.2f}); that is now a "
                   "sensitivity case."),
         "central": (f"The common level of the eight statewide-law states (California included), about {COMMON_LEVEL:.2f} "
-                    f"{unit} at a typical place once the law has been in force 4 years. Each Wisconsin place is then "
-                    "adjusted for its home values, incomes and size, as places differ within the eight states."),
+                    f"{unit} at a typical place once the law has been in force 4 years. Wisconsin's statewide rate comes "
+                    "from that level and Wisconsin's mix of home values, incomes and sizes; it is then spread across places "
+                    "by home value alone, as places differ within the eight states."),
         "upper": (f"The central level times {SPREAD:.2f}: the 90th percentile of how much the eight states differ, "
                   f"about {up:.2f} {unit} at a typical place."),
     }
@@ -452,10 +459,13 @@ def build_state(p: dict) -> dict:
                   "median_income": r(cs.median_income_homes_weighted_geomean, 0), "x_rate": r(cs.x_current_law_rate, 4),
                   "y_rate_2031_central": r(cs.y_with_law_rate_2031_central, 4),
                   "additional_rate_central": r(cs.additional_rate_central_per_1000_per_year, 4)},
-        # the adopted pooled model refitted, within-state terms: rate ratio for a place 10% above its state's average
-        "drivers": [{"term": t, "coefficient": r(drv.loc[t, "coefficient_log_scale"], 4), "se": r(drv.loc[t, "se_cluster"], 4),
+        # the adopted pooled model refitted, within-state terms: rate ratio for a place 10% above its state's average.
+        # alloc_value_dev (value-only fit) spreads the statewide total across places; value_dev, income_dev and log_homes
+        # (value-income-size fit) set only the statewide rate (AQ-061)
+        "drivers": [{"term": t, "role": drv.loc[t, "role"], "coefficient": r(drv.loc[t, "coefficient_log_scale"], 4),
+                     "se": r(drv.loc[t, "se_cluster"], 4),
                      "ratio_10pct": r(drv.loc[t, "rate_ratio_for_10pct_higher"], 4), "meaning": drv.loc[t, "meaning"]}
-                    for t in ("value_dev", "income_dev", "log_homes")],
+                    for t in ("alloc_value_dev", "value_dev", "income_dev", "log_homes")],
         # the three largest places in each group (reference/gate5_context_examples.csv)
         "examples": [{"context": x.context_group, "name": x.name, "homes": int(x.homes),
                       "median_home_value": r(x.median_home_value, 0), "median_income": r(x.median_income, 0),
@@ -744,7 +754,7 @@ def build_uncertainty(areas: list) -> dict:
     # (reference/adu_model_sensitivities.csv, scripts/run_adu_model.py). Groups: "addition" = the statewide addition from
     # the law; "baseline" = the current-law baseline only; "local" = where permits land, not the state total.
     GROUP = {"none (adopted)": "addition", "statewide addition": "addition", "baseline only": "baseline",
-             "local distribution": "local"}
+             "local distribution": "local", "local distribution only": "local"}
     # Short plain names for the technical `change` text (display only); unknown cases fall back to the recorded text.
     SHORT = [("adopted", "Adopted model (the scenarios)"),
              ("Lower as a statistical 10th percentile", "Lower scenario at the 10th percentile of the state spread (Gate 3 definition)"),
@@ -755,7 +765,13 @@ def build_uncertainty(areas: list) -> dict:
              ("eligible-property", "Count per eligible property, not per single-family home"),
              ("LA-calibrated", "A stricter correction for California's ADUs on apartment properties"),
              ("rural and small", "Rural places and small communities held at the minimum rate"),
-             ("Madison at its pooled", "Madison on the statewide estimate, like every other place")]
+             ("Madison at its pooled", "Madison on the statewide estimate, like every other place"),
+             ("no reporting-share", "Do not scale up states' counts for towns that did not report"),
+             ("reporting-share correction for Maine", "Scale up for non-reporting towns in Maine, Massachusetts, Rhode Island only"),
+             ("Washington's law years", "Count Washington's law years from enactment, not local compliance"),
+             ("Vermont 2024 dropped", "Leave out Vermont's 2024 count (changed source)"),
+             ("all three AQ-061", "Comparison-state counts and coding as at Gate 4"),
+             ("no top-code", "Let small high-value villages keep their extrapolated rates")]
     cases = []
     for row in sens.itertuples(index=False):
         if row.moves not in GROUP:
@@ -783,7 +799,7 @@ def build_uncertainty(areas: list) -> dict:
     tot0 = float(bo[bo.case.eq("adopted")].with_law_central.iloc[0])
     local = {
         "text": ("Each place's rate with the law comes from what similar places reached in the statewide-law states (by home "
-                 "values, incomes and size), not from its current local rules. So if a city's rules are coded wrong, its "
+                 "value), not from its current local rules. So if a city's rules are coded wrong, its "
                  "current-law baseline is wrong, and the law's addition there moves by about the same amount the other way; "
                  "the total with the law barely moves. Coding errors change the split between baseline and addition much "
                  "more than the number of permits expected with the law."),
