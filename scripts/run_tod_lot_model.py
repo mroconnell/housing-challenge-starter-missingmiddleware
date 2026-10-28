@@ -594,6 +594,16 @@ def half_mile() -> None:
     print(t.round(2).to_string())
 
 
+def sanity_flags(stage: str) -> None:
+    """Flags only, never stops the run (owner, 2026-10-28): units, policy distance, traits outside other cities' range."""
+    from missing_middleware.tod import sanity as S
+    D = pd.read_parquet(FIT["lots"])
+    D["cost_per_home"] = 150_000.0   # placeholder: only the range check of the rent-to-cost trait uses it
+    X = features(D, False)
+    fl = S.unit_flags(D, FAR_CITIES) + S.policy_flags(D) + S.range_flags(X, D["city"])
+    S.report(fl, REFERENCE / f"tod_lot_model_flags_{stage}{FIT['suffix']}.csv")
+
+
 def enrich_all() -> None:
     """All 91 tract variables of the all-variables test on every lot (plan section 9, item 9)."""
     import importlib.util as ilu
@@ -785,6 +795,8 @@ def main(argv=None) -> None:
         FIT.update(lots=LOTS_HALF, suffix="_halfmile")
     if a.stage == "half_mile":
         half_mile()
+    if a.stage.startswith("fit"):
+        sanity_flags(a.stage)
     if a.stage == "collect":
         collect()
     if a.stage == "add_bellevue":

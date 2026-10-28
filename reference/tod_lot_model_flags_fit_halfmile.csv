@@ -1,0 +1,10 @@
+kind,city,item,detail
+out of range,New York,homes_on_lot,56% of lots outside other cities' 1st to 99th percentile (0 to 0.693); city median 1.1
+out of range,New York,log_value,34% of lots outside other cities' 1st to 99th percentile (11.1 to 13.7); city median 13.5
+out of range,Seattle,far_now,94% of lots outside other cities' 1st to 99th percentile (0.5 to 4); city median 0
+out of range,Los Angeles,share_upzoned_half_mile,26% of lots outside other cities' 1st to 99th percentile (0 to 0.707); city median 0.151
+out of range,Madison,pays_room,28% of lots outside other cities' 1st to 99th percentile (0 to 8.71); city median 6.21
+out of range,Madison,share_upzoned_half_mile,86% of lots outside other cities' 1st to 99th percentile (0 to 0.613); city median 0.815
+out of range,Bellevue,log_acres,61% of lots outside other cities' 1st to 99th percentile (-4.59 to -0.428); city median -0.0633
+out of range,Bellevue,log_width,58% of lots outside other cities' 1st to 99th percentile (1.28 to 3.82); city median 3.91
+out of range,Bellevue,share_upzoned_half_mile,88% of lots outside other cities' 1st to 99th percentile (0 to 0.706); city median 0.916
