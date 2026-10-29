@@ -232,6 +232,23 @@ Percentages are of the adopted central total with the law, 11,317.7 permits.
 
 **Robustness checks** (alternative methods scored on the 7 held-out non-California statewide-law states; average log error, lower is better): the adopted measure, ADU units per one-unit detached home, scores 0.180 after the AQ-061 changes (0.113 before). The alternatives were scored at Gate 3 and not rerun: permits instead of units 0.132; the eligible-property basis 0.168 without and 0.202 with attached homes.
 
+#### Testing more advanced models
+
+We tested whether flexible models predict ADU permits better than this model. The test was written down before any results were seen ([PREDICTIVE_PLAN.md](adu/PREDICTIVE_PLAN.md), [PREDICTIVE_RESULTS.md](adu/PREDICTIVE_RESULTS.md)).
+
+- **Data:** 13,666 place-years and census-tract-years.
+  - California towns and cities, 2018–2025.
+  - Washington and Oregon cities.
+  - Other statewide-law states.
+  - Census tracts in Seattle, Portland, Austin, Denver, Minneapolis and Madison.
+  - About 100 Census variables for each row.
+- **Methods:** a two-part causal forest, boosted trees and a penalised regression. Each was compared with the plain average and with this model refitted on the same rows.
+- **Pass rule:** beat both, on most held-out states and cities, and hold up with other random seeds.
+- **Result on the final data:**
+  - **How much:** this model missed least, by 0.19 permits per 1,000 single-family homes per year, against 0.27 for the plain average. Every flexible method failed.
+  - **Where:** boosted trees passed with one random seed only and failed the repeat runs. No method passed reliably.
+- **Decision (owner, 2026-10-29):** keep this model, and add no extra "where" line.
+
 ### Intended Users and Appropriate Use Cases
 
 **Intended users:** Wisconsin legislators and their staff, and local officials and planners.

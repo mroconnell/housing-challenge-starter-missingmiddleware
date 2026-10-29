@@ -885,6 +885,14 @@ Nothing changes until the owner decides.
 - Dropping 2024 makes Vermont's own held-out miss worse: log error 0.34 → 0.49.
 - Dropping Vermont improves the overall error only by removing Vermont. On the same six other states it worsens: 0.138 → 0.154.
 
+## AQ-063 ADU: keep the adopted model after the advanced-model test
+
+**Status:** Adopted. **Added:** 2026-10-29. **Related:** AQ-061, AQ-062, [docs/adu/PREDICTIVE_RESULTS.md](adu/PREDICTIVE_RESULTS.md).
+
+**Owner decision:** keep the adopted ADU model (central 10,788 additional permits 2027–2031) for now, and record the advanced-model test in the Model & Assumptions Overview.
+
+**What the test found:** no flexible method (two-part causal forest, boosted trees, penalised regression) beat the adopted model and the plain average robustly on held-out states and cities. The run on the final data (AQ-061 coding, with city reform strength as an input) confirmed this. No "where" line is added.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -1026,3 +1034,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-28 | AQ-058 | ADU placebo: keep the model; rising no-law baseline (605 → 1,083; addition 8,757 → 8,324; total 9,361 → 9,408) shown as a baseline-only sensitivity. |
 | 2026-10-28 | AQ-061 | ADU ask-why fixes (owner accepted all recommendations): reporting shares in the fit (Maine, Massachusetts, Rhode Island 2025 published shares; Utah 0.795–0.804 computed from homes in reporting places), Massachusetts 2025 as 11 months, Washington from local compliance, value gap capped at California's largest (8 areas flagged), seven measured Wisconsin cities pooled into the group rates, allocation text corrected. Baseline 530 (was 605); lower 6,734, central 10,788, upper 20,057 (were 5,538, 8,757, 16,889); reference line 10,558 (was 8,851). Vermont 2024 kept pending the owner (dropping it: central −428). Kaukauna coding confirmed against the official Chapter 17 text. |
 | 2026-10-28 | AQ-062 | ADU: keep Vermont (option A); "Vermont dropped" (central 11,133) shown as a sensitivity. |
+| 2026-10-29 | AQ-063 | ADU: keep adopted model after the pre-registered advanced-model test; test recorded in MODEL_AND_ASSUMPTIONS Part A. |
