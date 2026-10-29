@@ -33,6 +33,7 @@ Rank is by how much the finding could move a result Ryan relies on. "Lot model" 
 | ---: | --- | --- | --- | --- |
 | 1 | New York hotel rooms are counted as homes | Counting | TOD New York cases, lot model | At least 28,950 of 340,490 "homes" in New York new-building jobs 2003–2015 (8.5%) are in buildings the city's lot data later class as hotels. In the Hudson Yards rezoning, hotel rooms are at least 1,570 of about 2,900 homes on upzoned land (over half). |
 | 2 | Lot areas are pre-assembly fragments, and real towers pass 500 homes per acre | Unit / geometry | Lot model traits; the 500-per-acre flag | 9 checked towers sit on lots 2 to 14 times smaller than their real site. 7 of 12 real sites still exceed 500 homes per acre (282 to 876). |
+| 2b | The "FAR" column still mixes different measures: Madison's is height, and Wisconsin's is a third kind | Unit mix-up (same kind as Charlotte) | Lot model, Madison holdout, Wisconsin estimate | Madison prints no FAR. Its "FAR" is stories × 70% coverage. The Wisconsin run uses allowed homes instead. The same Madison lot can get FAR 1.4 in training and 0.49 in the Wisconsin run. See section 2c. |
 | 3 | **Mostly fixed by item 31.** The "rezoned later" trait still carries the project | Trait known only after the fact | Lot model; Wisconsin estimate | Items 29–30 counted developer petitions as upzoning (about 9,700 homes on 1,000 Charlotte acres). Item 31 drops that: groups now follow the day-one map. But "rezoned later" is now a trait. A rezoning often happens because a project is coming. And no Wisconsin lot can have it on day one. See section 2b. |
 | 4 | Madison's measured effect rests on 187 acres of comparison land | Thin comparison | Lot model holdout score; Madison test | Comparison land went from 421 homes before to 0 after. That alone gives Madison 2,069 extra homes. Against the overlay's own lots whose density did not rise, the effect is about zero. |
 | 5 | Chicago counts some buildings twice (foundation permit plus full permit) | Counting | TOD Chicago case, lot model | About 5,600 of 88,372 Chicago permit units in 2009–2025 (6%), of which about 2,800 in 2016–2020, Chicago's after years. |
@@ -153,6 +154,73 @@ Think of it like predicting who will win a race, using "crossed the finish line 
 
 **Ryan's scope note.** Wisconsin's modelled law can have fewer stops or a smaller radius. That keeps it closer to the training cases (about 8 times their upzoned lots now). This is a sound way to limit risk. It is a choice of law, not a model fix, so it can wait.
 
+## 2c. Height or density read as FAR: other cities
+
+Ryan asked if other cities had problems like Charlotte's (height read as FAR). I had not checked this city by city. I have now. Charlotte itself is fixed (plan item 12). Four problems of the same kind remain.
+
+The model's "FAR" column feeds three traits: `far_now`, `rel_gain` (how much FAR rose, as a share) and `pays_room`. It also sets the lot ceiling. So the column should mean the same thing in every city.
+
+**What each city puts in the "FAR" column:**
+
+| City | What the column holds | Same as printed FAR? |
+| --- | --- | --- |
+| New York | Printed residential FAR | Yes |
+| Chicago | Printed FAR | Yes |
+| Saint Paul | Printed FAR. T4 has no limit (stored as blank). Industrial zones are stored as 0. | Mostly |
+| Seattle | City capacity model FAR. Single-family zones are stored as 0. | Mostly |
+| Madison | Stories × 70% lot coverage. Madison's code prints no FAR (0 of 44 rows in its rule table). | **No: it is height** |
+| Wisconsin run (Madison, Milwaukee) | Allowed homes × floor area per home ÷ lot area | **No: a third measure** |
+| Charlotte, Philadelphia, Los Angeles, Bellevue | Left out of FAR traits (rank only) | Correctly handled |
+
+**Problem 1: Madison's "FAR" is height.**
+
+- Madison is a holdout city. It is also one of the two Wisconsin cities.
+- Madison's code limits stories and homes per acre. It prints no FAR.
+- The code turns stories into FAR by multiplying by 70% coverage.
+- This ignores the homes-per-acre limit. 23 Madison districts have one, and it is usually the tighter limit.
+- The overlay adds stories. So Madison's "FAR rose" can mean "more stories allowed", even where allowed homes per acre stayed the same.
+
+**Problem 2: training and Wisconsin use different measures for the same lot.**
+
+- Madison training lots use stories × 70%.
+- Madison and Milwaukee Wisconsin lots use allowed homes × floor area per home ÷ lot area. This one does include the homes-per-acre limit.
+- Example: an SR-C1 lot (2 stories, 14 homes per acre).
+  - Training "FAR" = 2 × 0.70 = 1.4.
+  - Wisconsin "FAR" = 14 × 1,512 sq ft ÷ 43,560 = 0.49.
+- So the same lot looks about 3 times denser in training than in the Wisconsin run.
+- For "already built" districts (`existing_is_rule`), the Wisconsin "FAR" is the floor area of the homes that are there now. That is what is built, not what is allowed.
+
+**Problem 3: zero and "no limit" are read as "no change".**
+
+- The relative gain is "FAR added ÷ FAR before". When FAR before is 0, the code cannot divide. It then sets the gain to 0 but still marks it as "known".
+- This hits Seattle single-family lots (stored as FAR 0) that were upzoned. These are some of the biggest upzonings.
+- It also hits Saint Paul industrial lots (FAR 0) that were rezoned to housing.
+- Saint Paul T4 has no FAR limit. It is stored as blank, so its gain also becomes "known 0".
+- The model is told these lots got no added FAR. In fact they got the most.
+
+**Problem 4: Seattle's before and after come from two different fields.**
+
+- Before uses `MAXFAR` (2010 capacity model). After uses `RES_MAX_FAR` (2016 model, residential only).
+- If the two fields measure different things, some lots will look upzoned or downzoned when nothing changed.
+- Missing before-values are set to 0. A lot with a missing 2010 value and a 2016 value will look upzoned.
+- I could not check this without the Seattle files. It should be checked on Ryan's Mac.
+
+**Not a problem:**
+
+- Philadelphia and Los Angeles use a rank of districts. They are kept out of FAR traits.
+- Bellevue is a 0/1 flag. It is kept out of FAR traits (item 18).
+- New York and Chicago also have homes-per-lot limits that the FAR column ignores. That is the same for every lot in those cities, so it is a smaller issue.
+
+**Suggest one rule for every city:**
+
+1. Use **allowed homes per acre** as the one measure. Work it out the same way everywhere: the lowest of the printed homes-per-acre limit, and printed FAR (or stories × coverage) ÷ floor area per home.
+2. Use this same calculation for training lots and Wisconsin lots.
+3. When the before-value is 0 or has no limit, mark the relative gain as "not known". Do not set it to 0.
+4. Check Seattle's two fields on a sample of lots whose zoning did not change.
+5. Add a sanity flag: for each city, print how many lots get their FAR from printed FAR, from height, from homes per acre, or from what is built now.
+
+None of this changes the headline numbers. It changes the lot model's traits, so it should be fixed before the lot model is offered as an extra line.
+
 ## 3. TOD lot model and Wisconsin estimate: other checks
 
 - **Item 25 fixes (forest sees the upzoning, use dropped, keys apart, 2024 dollars, rail and rapid stops, training-only fills, 2020 block homes):** the code does what the plan says.
@@ -205,7 +273,7 @@ The ADU "ask why" review (AQ-061) was thorough, and its fixes are in. I looked f
 ## Suggested order of work
 
 1. Remove New York hotel rooms (Housing Database or hotel class), then rescore the New York cases and the lot model.
-2. Merge Chicago's staged permits.
+2. Merge Chicago's staged permits. Use one density measure (allowed homes per acre) for every city, in training and in Wisconsin (section 2c).
 3. Score the lot model with and without the "rezoned later" trait (item 31).
 4. Use real sites (assembled lots) in the lot model.
 5. Fix the Saint Paul duplicate weight.
