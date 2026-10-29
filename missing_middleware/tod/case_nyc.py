@@ -207,10 +207,36 @@ def zone_at(pts, vintage: str, boro: str, bbox=None) -> tuple[pd.Series, pd.Seri
 _jobs_cache: dict = {}
 
 
+EXCLUDE_HOTELS = False   # lot model (LOT_MODEL_PLAN.md item 32) sets True; case results keep the original count
+
+
+def hotel_lots() -> set[tuple[str, str, str]]:
+    """(borough name, block, lot) of lots that MapPLUTO 18v1 classes as hotels with no residential units."""
+    import zipfile
+    import pyogrio
+    z = zipfile.ZipFile(DIR / "mappluto_18v1.zip")
+    out = set()
+    for code, (_, _, name, _) in BORO.items():
+        f = [n for n in z.namelist() if n.lower().endswith(f"{code.lower()}mappluto.dbf")]
+        if not f:
+            continue
+        t = pyogrio.read_dataframe(f"/vsizip/{DIR / 'mappluto_18v1.zip'}/{f[0]}", columns=["Block", "Lot", "BldgClass", "UnitsRes"],
+                                   read_geometry=False)
+        h = t[t["BldgClass"].astype(str).str.upper().str.startswith("H") & (pd.to_numeric(t["UnitsRes"], errors="coerce").fillna(0) == 0)]
+        out |= {(name, str(int(b)), str(int(l))) for b, l in zip(h["Block"], h["Lot"])}
+    return out
+
+
 def load_jobs(boro: str | None = None) -> pd.DataFrame:
     if "all" not in _jobs_cache:
         d = pd.read_csv(DIR / "dob_nb_all.csv", dtype=str)
         d = d.drop_duplicates("job__")
+        if EXCLUDE_HOTELS:
+            hl = hotel_lots()
+            key = list(zip(d["borough"].astype(str).str.upper(), d["block"].astype(str).str.lstrip("0"), d["lot"].astype(str).str.lstrip("0")))
+            hot = pd.Series([k in hl for k in key], index=d.index)
+            print(f"  hotel jobs dropped: {int(hot.sum())} jobs, {int(pd.to_numeric(d.loc[hot, 'proposed_dwelling_units'], errors='coerce').fillna(0).sum())} units", flush=True)
+            d = d[~hot]
         d["units"] = pd.to_numeric(d["proposed_dwelling_units"], errors="coerce").fillna(0)
         d["year"] = pd.to_numeric(d["fully_permitted"].str[-4:], errors="coerce")
         d = d[(d["units"] > 0) & d["year"].notna()]

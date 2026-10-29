@@ -79,7 +79,39 @@ def parse_units(desc: str | float) -> int:
     return 0
 
 
+STAGED_RELAXED = False   # lot model (LOT_MODEL_PLAN.md item 32): unit counts within 10% also merge; keep the larger
+
+
+def dedupe_staged_relaxed(p: pd.DataFrame, x: str = "x", y: str = "y") -> pd.DataFrame:
+    """Permits at the same point (within 1 m), issued within STAGE_WINDOW_DAYS, with unit counts within 10% of each
+    other are one building; the larger count is kept (independent audit 2026-10-29, finding 5)."""
+    p = p.copy()
+    p["_d"] = pd.to_datetime(p["issue_date"].str[:10], errors="coerce")
+    p["_pt"] = p[x].round().astype(int).astype(str) + "_" + p[y].round().astype(int).astype(str)
+    p = p.sort_values(["_pt", "_d"]).reset_index(drop=True)
+    drop = set()
+    for _, g in p.groupby("_pt"):
+        ix = list(g.index)
+        for a in range(len(ix)):
+            i = ix[a]
+            if i in drop:
+                continue
+            for j in ix[a + 1:]:
+                if j in drop:
+                    continue
+                di, dj = p.at[i, "_d"], p.at[j, "_d"]
+                ui, uj = float(p.at[i, "units"]), float(p.at[j, "units"])
+                if pd.notna(di) and pd.notna(dj) and abs((dj - di).days) <= STAGE_WINDOW_DAYS and max(ui, uj) > 0 \
+                        and abs(ui - uj) <= 0.1 * max(ui, uj):
+                    drop.add(i if ui < uj else j)
+                    if ui < uj:
+                        break
+    return p.drop(index=list(drop)).drop(columns=["_d", "_pt"]).sort_values("issue_date")
+
+
 def dedupe_staged(p: pd.DataFrame, x: str = "x", y: str = "y") -> pd.DataFrame:
+    if STAGED_RELAXED:
+        return dedupe_staged_relaxed(p, x, y)
     """One record per building: staged permits (foundation, partial superstructure, full building) for one building
     carry the same unit count at the same geocoded address point. Permits at the same point (within 1 m), with the
     same unit count, issued within STAGE_WINDOW_DAYS of the group's first permit, are one building: the first is kept.

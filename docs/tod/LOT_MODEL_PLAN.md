@@ -241,3 +241,12 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     - The "already allowed" lots (allowed density already at the law) stay their own group, as before.
     - The whole lot table is rebuilt (every city), then the ½-mile rule, census homes, values and land values; then the causal forest's three versions, the Wisconsin estimate and the rescore.
     - **Owner's note for later:** Wisconsin's modelled law can be narrowed (fewer stops or a smaller radius) if extrapolating to about 8 times the training cases' upzoned lots looks too bold. To be decided once the model is trusted.
+32. **2026-10-29, owner's go-ahead, after the cloud audit ([docs/audit/INDEPENDENT_AUDIT_2026-10-29.md](../audit/INDEPENDENT_AUDIT_2026-10-29.md) in PR #12), written before the rebuild.** Fixes folded into the item 31 rebuild:
+    1. **New York hotel rooms out:** new-building jobs on lots that MapPLUTO 18v1 classes as hotels (building class H, no residential units) are dropped. This drops 455 jobs and 40,363 "units" across all years. It applies to the lot model only; the case results keep their original count until re-run.
+    2. **Chicago staged permits merged:** permits at the same point within about 18 months whose unit counts are within 10% are one building; the larger count is kept. Lot model only.
+    3. **"Rezoned later" left out of the fitted model** (it partly records the outcome, and no Wisconsin lot has it on day one). A check run keeps it, for comparison only.
+    4. **The unchanged forest learns from eligible comparison lots only,** the same lots the scoring uses.
+    5. **Traits known only in some cities dropped** from the model: homes on the lot from city records, the soft-site ratio, building age, and their missing flags (they acted as city labels; Wisconsin lots were all "missing"). The census-homes trait stays.
+    6. **Duplicate lots:** stacked lots at one point within one reform become one row (the copy with the most homes); the weight is 1 ÷ the number of reforms holding that point. This replaces the old 1 ÷ copies weight, which halved Saint Paul's homes.
+    7. **Madison:** the audit shows Madison's actual rests on 187 comparison acres that went from 421 homes to 0. Against in-overlay lots whose density did not rise, the effect is about zero. Both are reported with any result.
+    Left for later, as the audit suggests: rebuilding sites from the later lot map, spreading Philadelphia townhouse permits, and a federal-permit-survey trend for thin reforms.

@@ -435,6 +435,16 @@ def cost_2024(D: pd.DataFrame) -> pd.Series:
     return D["cost_per_home"] * cpi[2024] / yr.map(cpi)
 
 
+def dedupe_lots(D: pd.DataFrame) -> pd.DataFrame:
+    """Plan section 9, item 32.6: stacked lots at one point within one reform become one row (keeping the copy with
+    the most homes); the weight is 1 / (number of reforms whose table holds that point)."""
+    key = D["city"] + "|" + D["x5070"].round(1).astype(str) + "|" + D["y5070"].round(1).astype(str)
+    D = D.assign(_k=key, _h=D["units_after"] + D["units_before"])
+    D = D.sort_values("_h", ascending=False).drop_duplicates(["_k", "unit"]).sort_index()
+    D["w"] = 1.0 / D["_k"].map(D.groupby("_k")["unit"].nunique())
+    return D.drop(columns=["_k", "_h"])
+
+
 def five_year_basis(D: pd.DataFrame) -> pd.DataFrame:
     """Homes before and after on a 5-year basis (plan section 9, item 24)."""
     by = (D["eff_year"] - D["window_first"]).clip(lower=1)
@@ -516,7 +526,7 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
         X["log_lot_value_per_acre"] = np.log1p(lvpa)
         X["lot_value_missing"] = D["lot_value_missing"]
         X["assessed_not_market"] = D["assessed_not_market"]
-    if "rezoned_later" in D:   # item 31
+    if "rezoned_later" in D and (not FIT.get("item32") or FIT.get("with_rezoned_later")):   # item 31; 32.3
         X["rezoned_later"] = D["rezoned_later"].astype(float)
     if "census_homes" in D:
         X["log_census_homes"] = np.log1p(D["census_homes"].clip(lower=0))
@@ -528,6 +538,8 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     if "share_upzoned_half_mile" in D:
         X["share_upzoned_half_mile"] = D["share_upzoned_half_mile"]
         X["log_stops_1mile"] = np.log1p(D["stops_1mile"])
+    if FIT.get("item32"):   # item 32.5: traits known only in some cities act as city labels
+        X = X.drop(columns=[c for c in ("homes_on_lot", "homes_missing", "soft_site", "soft_missing", "age") if c in X])
     X = X.replace([np.inf, -np.inf], np.nan)
     if FIT.get("item25"):   # item 25.8: fill values from non-holdout case-city rows only
         ref = ~D["city"].isin(HOLD) & ~(D["is_wi"].fillna(0).astype(bool) if "is_wi" in D else False)
@@ -980,8 +992,11 @@ def fit8(tlearner: bool = False) -> None:
         D = D.drop(D.groupby("city")["units_after"].idxmax().values).reset_index(drop=True)
     cache = {k: cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(D["city"], D["eff_year"]))}
     D["cost_per_home"] = [cache[(c, y)] for c, y in zip(D["city"], D["eff_year"])]
-    key = D["city"] + "|" + D["x5070"].round(1).astype(str) + "|" + D["y5070"].round(1).astype(str)
-    D["w"] = 1.0 / key.map(key.value_counts())
+    if FIT.get("item32"):
+        D = dedupe_lots(D).reset_index(drop=True)
+    else:
+        key = D["city"] + "|" + D["x5070"].round(1).astype(str) + "|" + D["y5070"].round(1).astype(str)
+        D["w"] = 1.0 / key.map(key.value_counts())
     Xa, Xb = features(D, True), features(D, False)
     vc = [c for c in D.columns if c.startswith("v_")]
     if vc:
@@ -1036,6 +1051,8 @@ def fit8(tlearner: bool = False) -> None:
             out = []
             for g in (1, 0):
                 ix = tr[(D.loc[tr, "treated"] == g).values]
+                if g == 0 and FIT.get("item32") and "comparison_eligible" in D:   # item 32.4: same lots as the yardstick
+                    ix = tr[((D.loc[tr, "treated"] == 0) & (D.loc[tr, "comparison_eligible"] == 1)).values]
                 if kind == "knn" and len(ix) > 60000:
                     ix = rng.choice(ix, 60000, replace=False)
                 XX = Xa if (g == 1 and FIT.get("item25")) else Xb   # item 25.1
@@ -1127,6 +1144,7 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values", "fix_density", "recollect_item29"], required=True)
     ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
+    ap.add_argument("--with-rezoned-later", action="store_true", help="check run: keep the rezoned-later trait (item 32.3)")
     ap.add_argument("--land-value", action="store_true", help="add the pays-for-itself traits (LAND_VALUE_PLAN.md)")
     ap.add_argument("--only", default="", help="comma-separated methods for fit8/fit_runE (robustness reruns)")
     ap.add_argument("--drop-largest", action="store_true", help="robustness: each city's largest project left out (item 19)")
@@ -1143,8 +1161,11 @@ def main(argv=None) -> None:
     if ap_rebuilt:
         REBUILT["on"] = True
         PATHS.update(lots=LOTS_REBUILT, half=OUT / "lots_rebuilt_halfmile.parquet")
-        FIT.update(item25=True)
-        FIT.update(lots=PATHS["half"], suffix="_v25" + ("_land" if a.land_value else "") + (f"_seed{a.seed}" if a.seed else "")
+        FIT.update(item25=True, item32=True, with_rezoned_later=a.with_rezoned_later)
+        import missing_middleware.tod.case_nyc as _N
+        import missing_middleware.tod.case_chicago as _K
+        _N.EXCLUDE_HOTELS, _K.STAGED_RELAXED = True, True   # item 32.1-2
+        FIT.update(lots=PATHS["half"], suffix="_v32" + ("_rzl" if a.with_rezoned_later else "") + ("_land" if a.land_value else "") + (f"_seed{a.seed}" if a.seed else "")
                    + ("_droplargest" if a.drop_largest else ""), land=a.land_value)
     elif a.half_mile:
         FIT.update(lots=LOTS_HALF, suffix="_halfmile")

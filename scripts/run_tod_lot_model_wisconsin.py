@@ -192,7 +192,8 @@ def predict() -> None:
     from missing_middleware.tod import sanity as S
     L.BPS_NAME["Milwaukee"] = ("55", "Milwaukee")
     L.FAR_CITIES = L.FAR_CITIES + ("Milwaukee",)
-    L.FIT["item25"] = True   # item 21: Milwaukee treated as a floor-area-ratio city
+    L.FIT["item25"] = True
+    L.FIT["item32"] = True   # rezoned-later trait off for Wisconsin; missing-flag traits dropped   # item 21: Milwaukee treated as a floor-area-ratio city
     T = pd.read_parquet(L.OUT / "lots_rebuilt_halfmile.parquet")
     W = pd.read_parquet(OUT)
     W["cost_per_home"] = [L.cost_per_home(c, EFF - 1) for c in W["city"]]
@@ -201,10 +202,10 @@ def predict() -> None:
         Tv = T.drop(T.groupby("city")["units_after"].idxmax().values) if version == "drop_largest" else T
         cache = {k: L.cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(Tv["city"], Tv["eff_year"]))}
         Tv = Tv.assign(cost_per_home=[cache[(c, y)] for c, y in zip(Tv["city"], Tv["eff_year"])])
-        A = pd.concat([Tv.assign(_wi=0), W.assign(_wi=1)], ignore_index=True)
-        A["is_wi"] = A["_wi"]
-        key = A["city"] + "|" + A["_wi"].astype(str) + "|" + A["x5070"].round(1).astype(str) + "|" + A["y5070"].round(1).astype(str)
-        A["w"] = 1.0 / key.map(key.value_counts())   # item 25.3: Wisconsin lots never share keys with training lots
+        Tv = L.dedupe_lots(Tv)   # item 32.6
+        Wd = W.assign(w=1.0)
+        A = pd.concat([Tv.assign(_wi=0), Wd.assign(_wi=1)], ignore_index=True)
+        A["is_wi"] = A["_wi"]   # item 25.3: Wisconsin lots never share keys with training lots
         vc = [c for c in A.columns if c.startswith("v_")]
         V = A[vc].replace([np.inf, -np.inf], np.nan)
         ref = (A._wi == 0) & ~A["city"].isin(L.HOLD)
@@ -225,6 +226,8 @@ def predict() -> None:
         pred = {}
         for gflag in (1, 0):
             ix = tr[(A.loc[tr, "treated"] == gflag).values]
+            if gflag == 0:   # item 32.4: the unchanged forest learns from eligible comparison lots, as the yardstick
+                ix = tr[((A.loc[tr, "treated"] == 0) & (A.loc[tr, "comparison_eligible"] == 1)).values]
             XX = Xa if gflag == 1 else Xb   # item 25.1
             m = RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=seed)
             m.fit(XX.loc[ix], dy[ix], sample_weight=A.loc[ix, "w"])

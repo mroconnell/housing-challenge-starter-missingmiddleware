@@ -20,8 +20,7 @@ import run_tod_lot_model as L  # noqa: E402
 
 
 def per_reform_actuals(D: pd.DataFrame) -> pd.DataFrame:
-    key = D["city"] + "|" + D["x5070"].round(1).astype(str) + "|" + D["y5070"].round(1).astype(str)
-    D = L.five_year_basis(D.assign(w=1.0 / key.map(key.value_counts())))
+    D = L.five_year_basis(L.dedupe_lots(D))   # item 32.6
     rows = []
     for (city, unit), d in D.groupby(["city", "unit"]):
         t = d[d.treated == 1]
@@ -75,7 +74,7 @@ def main() -> None:
     drop = base.drop(base.groupby("city")["units_after"].idxmax().values)
     S, Rs = [], None
     for f in sorted(REFERENCE.glob("tod_lot_model_by_city_*_rebuilt*.csv")):
-        if f.stem.endswith("_rescored") or "_land" in f.stem or "_v25" not in f.stem:
+        if f.stem.endswith("_rescored") or "_land" in f.stem or "_v32" not in f.stem:
             continue
         s, R = rescore(f, drop if "droplargest" in f.stem else base)
         S.append(s)
