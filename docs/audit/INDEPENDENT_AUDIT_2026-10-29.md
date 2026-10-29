@@ -238,33 +238,28 @@ Ryan asked whether all of the roughly 100 traits now use the same unit in every 
 | Density rank in city | rank 0–1 | Unit-free by design. |
 | FAR traits | printed FAR | Now only New York, Chicago, Saint Paul and Seattle (item 34). |
 
-**Not consistent (new):**
+**Not consistent (new), and what happened:**
 
-1. **Census homes: two different measures.**
-   - Training lots: 2010 census homes on the block, split among lots by lot area.
-   - Wisconsin lots: homes on the lot from city records (Milwaukee MPROP, Madison parcels).
-   - A lot with a 200-home building on a block of houses gets a small share in training, but 200 in Wisconsin.
-   - Also, 2010 is after the reform for the 2003–2009 reforms, and 13 years old for Madison 2023.
-   - Suggest: in Wisconsin, also split 2020 census block homes by lot area. Or use city records in both, where training cities have them.
+1. **Census homes: correction, no problem.** I first read that Wisconsin lots use city records. They do at first, but a later step (item 25.9) replaces them with 2020 census block homes split by lot area. That is the same method as training. The only difference is the year: 2010 in training, 2020 in Wisconsin. Both are the latest census before the reform. One note remains: 2010 is after the reform for the 2003–2009 reforms.
 
 2. **Homes built nearby before the reform: Saint Paul counts 1 year, other cities 6.**
    - `near_units_before` and `built_before` add up homes over the before years.
    - Saint Paul's reform is 2011 and its data start in 2010. So it has 1 before year. Every other city has 6.
    - So Saint Paul lots look 6 times quieter than they were.
    - The outcome itself is put on a 5-year basis (item 24). This trait is not.
-   - Suggest: divide by the number of before years (homes per year), or leave Saint Paul's value as missing.
+   - **Fixed in plan item 35:** now counted per before year.
 
 3. **Milwaukee's "built before" uses year built, not permits.**
    - Training cities and Madison count permits issued.
    - Milwaukee counts buildings by the year they were finished, and only those still standing.
    - Finish dates run about 1–2 years after permits. Torn-down buildings are missed.
-   - Suggest: say so in the doc, and check how big the gap is in Madison, which has both.
+   - **Logged in plan item 35.** The lag will be measured in Madison, which has both.
 
 **Already known:**
 
 4. **Homes on the lot, building-to-land value, lot value, year built.** These exist only in some cities. Elsewhere they are missing, and the "missing" flag can act like a city label (finding 8). Values also come from different sources (New York and Chicago assessments; Los Angeles assessed, not market). This is unchanged.
 
-**Short answer:** not all yet. After item 34, the FAR traits are fixed. Census homes, nearby homes before, and Milwaukee's built-before still need the fixes above.
+**Short answer:** after items 34 and 35, yes for every trait, with two notes. Milwaukee's built-before uses year built (lag being measured). The traits that exist only in some cities (item 4) are still uneven.
 
 ## 3. TOD lot model and Wisconsin estimate: other checks
 
