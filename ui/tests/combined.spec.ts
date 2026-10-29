@@ -123,7 +123,9 @@ test("the combined view leaves TOD, parking and ADU numbers unchanged", async ({
   expect(Math.abs(up.total.tod - strong.additional_total)).toBeLessThan(1);
   expect(Math.abs(up.total.parking - pUp.additional_total)).toBeLessThan(1);
   await page.goto("#/combined/compare?preview=1");
+  await expect(page.locator("main h1").first()).toBeVisible();   // let the combined screen finish loading first
   await page.goto("#/tod/compare");
+  await expect(page).toHaveURL(/#\/tod\/compare/);
   await expect(page.getByTestId("add-strong")).toHaveText(fmt(strong.additional_total));
   await page.goto("#/parking/compare");
   await expect(page.getByTestId("add-upper")).toHaveText(fmt(pUp.additional_total));
