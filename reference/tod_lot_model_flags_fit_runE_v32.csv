@@ -1,0 +1,17 @@
+kind,city,item,detail
+out of range,New York,log_value,41% of lots outside other cities' 1st to 99th percentile (11 to 13.7); city median 13.6
+out of range,Seattle,reform_share_upzoned,100% of lots outside other cities' 1st to 99th percentile (0 to 0.957); city median 0.974
+out of range,Los Angeles,share_upzoned_half_mile,28% of lots outside other cities' 1st to 99th percentile (0 to 0.508); city median 0.417
+out of range,Madison,reform_share_rare,100% of lots outside other cities' 1st to 99th percentile (0 to 0.131); city median 0.464
+out of range,Bellevue,log_width,26% of lots outside other cities' 1st to 99th percentile (1.28 to 4.12); city median 3.73
+out of range,Bellevue,share_upzoned_half_mile,43% of lots outside other cities' 1st to 99th percentile (0 to 0.527); city median 0.506
+level source,Bellevue,far_before,703 lots: in/out flag
+level source,Charlotte,far_before,8973 lots: height
+level source,Chicago,far_before,94389 lots: printed FAR
+level source,Los Angeles,far_before,2766 lots: district order
+level source,Madison,far_before,10107 lots: height
+level source,New York,far_before,54227 lots: printed FAR
+level source,Philadelphia,far_before,208544 lots: district order
+level source,Saint Paul,far_before,6212 lots: printed FAR
+level source,Seattle,far_before,4178 lots: printed FAR
+level source,Seattle,far_before,11 lots: level changed with zone unchanged

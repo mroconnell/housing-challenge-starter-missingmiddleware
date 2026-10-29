@@ -1,0 +1,2 @@
+method,fold_mean_error_guess_zero,passes_new_rule,fold_mean_error_baseline,fold_mean_error_model,fold_cities_better,chicago_better,madison_better,bellevue_better,cities_better_of_9,passes_total
+causal_forest,2470.2066,False,2861.9576,1594.3504,5,False,False,True,6,False

@@ -73,7 +73,7 @@ def main() -> None:
     base = pd.read_parquet(L.OUT / "lots_rebuilt_halfmile.parquet")
     drop = base.drop(base.groupby("city")["units_after"].idxmax().values)
     S, Rs = [], None
-    for f in sorted(REFERENCE.glob("tod_lot_model_by_city_*_rebuilt*.csv")):
+    for f in sorted(REFERENCE.glob("tod_lot_model_by_city_*.csv")):
         if f.stem.endswith("_rescored") or "_land" in f.stem or "_v32" not in f.stem:
             continue
         s, R = rescore(f, drop if "droplargest" in f.stem else base)

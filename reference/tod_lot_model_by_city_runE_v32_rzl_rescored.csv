@@ -1,0 +1,10 @@
+method,city,role,actual_extra_homes,baseline_extra,model_extra,error_baseline,error_model,auc_builds
+causal_forest,New York,fold,8239.748,2264.359,6612.039,5975.389,1627.709,
+causal_forest,Philadelphia,fold,3092.894,1366.715,2648.735,1726.179,444.159,
+causal_forest,Saint Paul,fold,403.735,1105.598,498.173,701.863,94.438,
+causal_forest,Charlotte,fold,1685.984,5257.174,3242.742,3571.189,1556.758,
+causal_forest,Seattle,fold,304.521,233.106,-197.594,71.415,502.115,
+causal_forest,Los Angeles,fold,112.294,3524.472,3166.31,3412.178,3054.016,
+causal_forest,Chicago,holdout,892.1,1383.732,346.29,491.632,545.81,
+causal_forest,Madison,holdout,2259.648,2185.621,-830.387,74.027,3090.035,
+causal_forest,Bellevue,holdout,-89.991,1208.728,268.442,1298.719,358.433,
