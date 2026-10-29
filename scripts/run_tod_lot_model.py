@@ -471,7 +471,7 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
                     X[f"reform_share_{gname}"] = sh
             elif sh is not None:
                 X["reform_share_rare"] = X["reform_share_rare"] + sh
-    if "lot_market_value" in D:   # docs/tod/LAND_VALUE_PLAN.md section 2: does a project pay for itself?
+    if "lot_market_value" in D and FIT.get("land"):   # docs/tod/LAND_VALUE_PLAN.md section 2: does a project pay for itself?
         tr_b = (~D["city"].isin(HOLD)) & (D["units_after"] > 0)
         per_acre = float(np.nanquantile(D.loc[tr_b, "units_after"] / D.loc[tr_b, "acres"].clip(lower=0.01), 0.99))
         lvpa = (D["lot_market_value"] / D["acres"].clip(lower=0.01))
@@ -1020,6 +1020,7 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values"], required=True)
     ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
+    ap.add_argument("--land-value", action="store_true", help="add the pays-for-itself traits (LAND_VALUE_PLAN.md)")
     ap.add_argument("--only", default="", help="comma-separated methods for fit8/fit_runE (robustness reruns)")
     ap.add_argument("--drop-largest", action="store_true", help="robustness: each city's largest project left out (item 19)")
     ap.add_argument("--rebuilt", action="store_true", help="plan item 15 lot table (industrial conversions, in-reform lots, census homes)")
@@ -1035,7 +1036,8 @@ def main(argv=None) -> None:
     if ap_rebuilt:
         REBUILT["on"] = True
         PATHS.update(lots=LOTS_REBUILT, half=OUT / "lots_rebuilt_halfmile.parquet")
-        FIT.update(lots=PATHS["half"], suffix="_rebuilt" + (f"_seed{a.seed}" if a.seed else "") + ("_droplargest" if a.drop_largest else ""))
+        FIT.update(lots=PATHS["half"], suffix="_rebuilt" + ("_land" if a.land_value else "") + (f"_seed{a.seed}" if a.seed else "")
+                   + ("_droplargest" if a.drop_largest else ""), land=a.land_value)
     elif a.half_mile:
         FIT.update(lots=LOTS_HALF, suffix="_halfmile")
     if a.stage == "half_mile":
