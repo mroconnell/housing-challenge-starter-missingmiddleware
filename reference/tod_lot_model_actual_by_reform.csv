@@ -1,0 +1,96 @@
+city,unit,upzoned_acres,comparison_acres,actual_extra
+Bellevue,bellevue_belred_2009,395.7,84.3,-112.7
+Charlotte,charlotte,1342.7,2261.3,1965.4
+Chicago,chicago,352.5,6538.5,114.7
+Los Angeles,la_cornfield_arroyo_seco_2013,197.2,100.1,-584.8
+Los Angeles,la_warner_center_2013,636.2,53.8,164.8
+Madison,madison_tod_overlay_2023,482.1,187.4,1507.0
+New York,nyc_030194azmk,23.0,80.9,733.5
+New York,nyc_040171zmk,39.9,136.3,2055.7
+New York,nyc_040273zmq,46.9,0.0,713.0
+New York,nyc_040331zmm,14.7,74.4,244.7
+New York,nyc_040499azmm,83.0,42.3,2616.4
+New York,nyc_050111azmk,175.6,0.1,3919.0
+New York,nyc_050120zmx,29.1,56.2,291.1
+New York,nyc_050153zmq,111.1,252.7,-9.2
+New York,nyc_050162azmm,25.1,40.2,1067.2
+New York,nyc_050277zmq,69.8,189.1,9.2
+New York,nyc_060335zmx,100.9,5.5,4.0
+New York,nyc_060471zmr,64.0,93.4,148.2
+New York,nyc_070314azmq,314.9,382.4,204.1
+New York,nyc_080099azmm,24.2,147.9,151.1
+New York,nyc_090104zmq,19.0,110.6,-70.1
+New York,nyc_090272zmk,16.6,68.4,14.8
+New York,nyc_090303zmx,54.9,75.4,419.9
+New York,nyc_090310zmk,13.3,24.0,155.2
+New York,nyc_090365zmx,5.3,48.9,54.0
+New York,nyc_100369zmm,27.4,8.4,-302.8
+New York,nyc_100407zmx,45.0,226.7,-136.0
+New York,nyc_110177zmm,7.1,1.8,-2132.2
+Philadelphia,phl_130349,6.9,31.5,80.9
+Philadelphia,phl_130727,6.2,3.4,-43.1
+Philadelphia,phl_140149,27.7,17.0,671.0
+Philadelphia,phl_140410,2.1,8.7,-1.1
+Philadelphia,phl_140436,6.4,53.4,-4.6
+Philadelphia,phl_140444-A,32.5,30.5,255.8
+Philadelphia,phl_140447,15.0,31.9,0.0
+Philadelphia,phl_140647,0.9,39.2,-0.1
+Philadelphia,phl_140799,8.6,56.2,-9.9
+Philadelphia,phl_140888,2.1,24.3,0.9
+Philadelphia,phl_140889,2.7,1.3,46.9
+Philadelphia,phl_140901,17.6,201.0,-1.6
+Philadelphia,phl_140936,21.7,53.9,-19.0
+Philadelphia,phl_141031,4.5,4.0,-3.4
+Philadelphia,phl_150215,12.4,30.5,62.5
+Philadelphia,phl_150289,40.7,130.0,49.9
+Philadelphia,phl_150666,27.8,8.5,283.7
+Philadelphia,phl_150843,2.4,2.4,542.8
+Philadelphia,phl_150863,3.3,103.1,-3.1
+Philadelphia,phl_160299,8.3,4.4,-1.3
+Philadelphia,phl_160328,23.9,103.9,-46.2
+Philadelphia,phl_160336,27.9,73.1,555.1
+Philadelphia,phl_160465,10.7,20.5,516.9
+Philadelphia,phl_160466,17.2,26.9,329.6
+Philadelphia,phl_160521,7.9,37.2,656.5
+Philadelphia,phl_160680,3.2,50.9,0.1
+Philadelphia,phl_160776,0.2,37.2,0.0
+Philadelphia,phl_160917,0.1,19.1,0.0
+Philadelphia,phl_160969,31.7,109.0,172.4
+Philadelphia,phl_170005,6.7,124.6,202.5
+Philadelphia,phl_170007,2.3,2.4,-0.6
+Philadelphia,phl_170019,40.7,132.9,-15.1
+Philadelphia,phl_170140-A,19.3,57.9,132.1
+Philadelphia,phl_170265-A,2.8,20.1,96.0
+Philadelphia,phl_170310,9.8,62.2,46.2
+Philadelphia,phl_170430,9.4,34.7,-9.3
+Philadelphia,phl_170463,5.5,33.9,0.0
+Philadelphia,phl_170465,3.0,26.9,1.0
+Philadelphia,phl_170496,3.3,5.6,-0.6
+Philadelphia,phl_170503,2.0,44.3,0.0
+Philadelphia,phl_170516,4.8,4.4,-2.1
+Philadelphia,phl_170793,22.7,22.3,142.7
+Philadelphia,phl_170803,23.1,0.0,142.0
+Philadelphia,phl_170819,19.2,71.5,100.9
+Philadelphia,phl_170924,5.7,98.6,-3.0
+Philadelphia,phl_170995,9.1,10.4,7.7
+Philadelphia,phl_180003,9.3,36.1,458.6
+Philadelphia,phl_180137,34.0,83.1,0.0
+Philadelphia,phl_180172,0.6,0.0,0.0
+Philadelphia,phl_180286-A,4.0,66.9,109.3
+Philadelphia,phl_180505,5.7,67.4,23.9
+Philadelphia,phl_180698,8.0,139.4,5.3
+Philadelphia,phl_180872,9.2,155.2,0.0
+Philadelphia,phl_190016,0.9,69.9,0.0
+Philadelphia,phl_190256,35.9,418.4,190.0
+Philadelphia,phl_190312,4.0,133.5,1.4
+Philadelphia,phl_190409,6.9,33.1,0.0
+Philadelphia,phl_190551,12.6,56.8,49.8
+Philadelphia,phl_190638-A,11.1,96.8,7.4
+Philadelphia,phl_190711,0.2,0.0,0.0
+Philadelphia,phl_190718,2.7,43.9,0.0
+Philadelphia,phl_190897,16.6,44.0,3.5
+Philadelphia,phl_190898,4.5,32.7,2.2
+Philadelphia,phl_190917,12.5,134.2,2.6
+Saint Paul,stpaul,317.5,612.8,310.0
+Seattle,seattle_mount_baker_2014,41.8,218.0,77.1
+Seattle,seattle_nbh_othello_2012,35.0,336.9,183.4

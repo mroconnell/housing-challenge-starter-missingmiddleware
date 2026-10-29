@@ -1,0 +1,10 @@
+model,city,role,upzoned_acres,actual_extra_homes,baseline_extra,model_extra,error_baseline,error_model,auc_builds
+boosting,New York,fold,1310.767,9315.651,2472.38,648.757,6843.271,8666.894,0.602
+boosting,Philadelphia,fold,736.68,4930.144,2017.45,0.0,2912.694,4930.144,0.436
+boosting,Saint Paul,fold,317.485,227.956,1132.246,278.7,904.29,50.744,0.546
+boosting,Charlotte,fold,1342.693,1965.438,5576.597,565.341,3611.159,1400.097,0.441
+boosting,Seattle,fold,75.0,-98.784,258.575,52.814,357.359,151.598,0.636
+boosting,Los Angeles,fold,828.777,-799.066,3580.201,295.801,4379.267,1094.867,0.759
+boosting,Chicago,holdout,352.528,114.725,1188.09,211.244,1073.364,96.519,0.674
+boosting,Madison,holdout,477.599,1190.796,1609.604,469.338,418.808,721.458,0.655
+boosting,Bellevue,holdout,395.692,0.0,1333.559,9.573,1333.559,9.573,0.293
