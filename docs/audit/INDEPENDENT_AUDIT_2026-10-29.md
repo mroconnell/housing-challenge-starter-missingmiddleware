@@ -221,6 +221,46 @@ The model's "FAR" column feeds three traits: `far_now`, `rel_gain` (how much FAR
 
 None of this changes the headline numbers. It changes the lot model's traits, so it should be fixed before the lot model is offered as an extra line.
 
+## 2d. Every trait, checked for the same unit in every city
+
+Ryan asked whether all of the roughly 100 traits now use the same unit in every city. I checked each trait's source, city by city, at `main` after item 34. Most are consistent. Three are not. One more is already known.
+
+**Consistent in every city (no action):**
+
+| Trait | Unit | Why it is consistent |
+| --- | --- | --- |
+| Lot size, lot width | acres, metres | Every city's map is turned into a metre grid first. |
+| Distance to station, stops within 1 mile | metres, count | Same metre grid. Rail and rapid stops on both sides (item 25.7). |
+| Rent, home value, income | 2024 dollars | One reader for every city; it converts to 2024 dollars. |
+| The 91 census (ACS) traits | as labelled | Same reader and table cells for every city; dollars in 2024 dollars. |
+| Construction cost | 2024 dollars | Federal permit survey, converted with CPI (item 25.5). |
+| Lot group, reform share, upzoned flag | yes/no, share | One rule for every city (item 31). |
+| Density rank in city | rank 0–1 | Unit-free by design. |
+| FAR traits | printed FAR | Now only New York, Chicago, Saint Paul and Seattle (item 34). |
+
+**Not consistent (new), and what happened:**
+
+1. **Census homes: correction, no problem.** I first read that Wisconsin lots use city records. They do at first, but a later step (item 25.9) replaces them with 2020 census block homes split by lot area. That is the same method as training. The only difference is the year: 2010 in training, 2020 in Wisconsin. Both are the latest census before the reform. One note remains: 2010 is after the reform for the 2003–2009 reforms.
+
+2. **Homes built nearby before the reform: Saint Paul counts 1 year, other cities 6.**
+   - `near_units_before` and `built_before` add up homes over the before years.
+   - Saint Paul's reform is 2011 and its data start in 2010. So it has 1 before year. Every other city has 6.
+   - So Saint Paul lots look 6 times quieter than they were.
+   - The outcome itself is put on a 5-year basis (item 24). This trait is not.
+   - **Fixed in plan item 35:** now counted per before year.
+
+3. **Milwaukee's "built before" uses year built, not permits.**
+   - Training cities and Madison count permits issued.
+   - Milwaukee counts buildings by the year they were finished, and only those still standing.
+   - Finish dates run about 1–2 years after permits. Torn-down buildings are missed.
+   - **Logged in plan item 35.** The lag will be measured in Madison, which has both.
+
+**Already known:**
+
+4. **Homes on the lot, building-to-land value, lot value, year built.** These exist only in some cities. Elsewhere they are missing, and the "missing" flag can act like a city label (finding 8). Values also come from different sources (New York and Chicago assessments; Los Angeles assessed, not market). This is unchanged.
+
+**Short answer:** after items 34 and 35, yes for every trait, with two notes. Milwaukee's built-before uses year built (lag being measured). The traits that exist only in some cities (item 4) are still uneven.
+
 ## 3. TOD lot model and Wisconsin estimate: other checks
 
 - **Item 25 fixes (forest sees the upzoning, use dropped, keys apart, 2024 dollars, rail and rapid stops, training-only fills, 2020 block homes):** the code does what the plan says.
