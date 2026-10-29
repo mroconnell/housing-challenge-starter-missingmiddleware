@@ -67,4 +67,13 @@ Lots without a usable value get the city median per acre and a missing flag, as 
 
 ## 8. Changes after writing
 
-(none yet)
+1. **2026-10-29, after checking sources, before any value was read: what each source actually offers.**
+   - **King County:** the value-history extract (land and improvement values by tax year). Tax year N holds values as of 1 January of year N−1, so the snapshot used is tax year = reform year (values from the year before).
+   - **Philadelphia:** certified values exist from 2015 only (2013 and 2014 hold a few dozen rows). Members whose bill came before 2016 get the missing flag.
+   - **Saint Paul:** the 2010 regional parcel archive is no longer published (old link gone, new hub starts 2021). Missing flag.
+   - **Charlotte:** no public pre-2019 snapshot found. Missing flag.
+   - **Los Angeles:** County Assessor roll 2012 from its public table (land, improvement, centre point), queried for the two plan areas only. Still flagged "assessed, not market" (Proposition 13).
+   - **Madison:** Wisconsin statewide parcels V9 (2022 tax roll), not V8 (which holds 2021). Market value = the release's estimated fair market value field, which already divides assessed value by the state's assessment ratio.
+   - **Milwaukee:** the latest statewide release (V12), same market value field.
+   - **New York:** MapPLUTO archives carry assessed values only. Market value = assessed ÷ the Department of Finance class ratio (6% class 1; 45% classes 2 to 4). Where the Finance market-value roll covers the year (fiscal 2010/11 on), its full value is used instead.
+   - **Chicago:** Cook County 2012 levels of assessment: 10% residential (classes 1 to 3), 25% commercial and industrial (class 5).
