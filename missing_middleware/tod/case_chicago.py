@@ -176,7 +176,8 @@ def build() -> tuple[C.CaseInputs, dict]:
                           (~known & (parcels["zoning_before"].astype(str).str.upper() != parcels["zoning_now"].astype(str).str.upper())))
     # lot plan item 29: in-window rezonings near a station that raise residential floor area (or go to a planned
     # development or downtown district) are take-up of the transit bonuses
-    up_zone = (f_now > parcels["far_before"].fillna(0)) | parcels["zoning_now"].astype(str).str.upper().str.match(r"^(PD|DC|DX|DR|DS)")
+    # item 30: planned developments and downtown districts are not take-up (Chicago requires a PD for any large project)
+    up_zone = (f_now > parcels["far_before"].fillna(0)) & ~parcels["zoning_now"].astype(str).str.upper().str.match(r"^(PD|DC|DX|DR|DS)")
     parcels["uptake"] = changed & near & up_zone
     parcels["zclass"] = parcels["zoning_before"].map(zone_class)
     cls = parcels["assessorbldgclass"].astype(str).str.upper()
