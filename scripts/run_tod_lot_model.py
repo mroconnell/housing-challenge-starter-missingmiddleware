@@ -486,7 +486,11 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
         X["far_now"] = (lb + (D["far_gain"].fillna(0) if after_rules else 0.0)).where(far_city)   # FAR cities only
     X["far_known"] = far_city.astype(float)
     X["built_before"] = D["built_before"]
-    X["log_near_before"] = np.log1p(D["near_units_before"])
+    if FIT.get("item34"):   # item 35.2: homes built nearby per before year (Saint Paul has 1 before year, others 6)
+        by = (D["eff_year"] - D["window_first"]).clip(lower=1) if "window_first" in D else pd.Series(6.0, index=D.index)
+        X["log_near_before"] = np.log1p(D["near_units_before"] / by.fillna(6.0))
+    else:
+        X["log_near_before"] = np.log1p(D["near_units_before"])
     X["log_rent"] = np.log(D["rent"].clip(lower=100)).fillna(np.log(1000))
     X["log_value"] = np.log(D["home_value"].clip(lower=10000)).fillna(np.log(200000))
     X["log_income"] = np.log(D["income"].clip(lower=5000)).fillna(np.log(50000))
