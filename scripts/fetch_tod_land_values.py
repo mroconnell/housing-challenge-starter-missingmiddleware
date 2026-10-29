@@ -25,9 +25,9 @@ BIG = {
              "King County Assessor; public records (RCW 42.56.070(9): no commercial use of lists of people)"),
     "philly": ("philadelphia_assessments.csv", "https://opendata-downloads.s3.amazonaws.com/assessments.csv",
                "City of Philadelphia open data licence, as is"),
-    "wi": ("wi_parcels_v9_2023.zip", "https://web.s3.wisc.edu/parcels/v9_parcels/V9.0.1_Wisconsin_Parcels_2023_10.3_Compressed.zip",
+    "wi": ("wi_parcels_v9_2023.zip", "https://web.s3.wisc.edu/parcels/v9_parcels/V9.0.1_Wisconsin_Parcels_2023_10.3_Uncompressed.zip",
            "Wisconsin Statewide Parcel Map Initiative, free with citation"),
-    "wi_latest": ("wi_parcels_v12_2026.zip", "https://web.s3.wisc.edu/parcels/v12_parcels/V12.0.0_Wisconsin_Parcels_2026_10.3_Compressed.zip",
+    "wi_latest": ("wi_parcels_v12_2026.zip", "https://web.s3.wisc.edu/parcels/v12_parcels/V12.0.0_Wisconsin_Parcels_2026_10.3_Uncompressed.zip",
                   "Wisconsin Statewide Parcel Map Initiative, free with citation"),
 }
 PHL_POINTS = ("philadelphia_opa_points.csv",

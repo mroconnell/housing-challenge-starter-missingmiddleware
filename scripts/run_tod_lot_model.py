@@ -805,7 +805,8 @@ def land_values() -> None:
     if (LV / "wi_parcels_v9_2023.zip").exists():
         ix = D.index[D["city"] == "Madison"]
         b = tuple(gpd.GeoSeries(gpd.points_from_xy(D.loc[ix, "x5070"], D.loc[ix, "y5070"]), crs=5070).to_crs(3071).total_bounds)
-        w = gpd.read_file(f"zip://{LV / 'wi_parcels_v9_2023.zip'}", bbox=b, columns=["ESTFMKVALUE", "TAXROLLYEAR"])
+        w = gpd.read_file(f"/vsizip/{LV / 'wi_parcels_v9_2023.zip'}/V9.0.1_Wisconsin_Parcels_2023_10.3_Uncompressed.gdb",
+                          layer="V901_WisconsinParcels_2023", bbox=b, columns=["ESTFMKVALUE", "TAXROLLYEAR"])
         mv[ix] = _pin_in_polygon(D, ix, w, "ESTFMKVALUE").astype(float)
         src[ix] = "wi_v9_est_fair_market"
     D["lot_market_value"] = mv.where(mv > 0)
