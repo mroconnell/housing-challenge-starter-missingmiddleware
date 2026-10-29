@@ -142,6 +142,17 @@ def city_frame(p: gpd.GeoDataFrame, city: str, rules, stops, built: gpd.GeoDataF
 
 
 def build() -> None:
+    import hashlib
+    sig = hashlib.sha256((Path(__file__).read_bytes() + (ROOT / "scripts" / "run_tod_lot_model.py").read_bytes())).hexdigest()
+    done = OUT.with_suffix(".done")
+    if OUT.exists() and done.exists() and done.read_text() == sig:
+        print("Wisconsin lot table already built with this code; skipped", flush=True)
+        return
+    _build()
+    done.write_text(sig)
+
+
+def _build() -> None:
     S = _load("build_tod_station_areas")
     stops = S.stop_points()
     mke_rules, mad_rules = S.read_rules("milwaukee"), S.read_rules("madison")
