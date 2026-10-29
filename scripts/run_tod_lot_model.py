@@ -809,6 +809,19 @@ def land_values() -> None:
                           layer="V901_WisconsinParcels_2023", bbox=b, columns=["ESTFMKVALUE", "TAXROLLYEAR"])
         mv[ix] = _pin_in_polygon(D, ix, w, "ESTFMKVALUE").astype(float)
         src[ix] = "wi_v9_est_fair_market"
+    # Los Angeles: scale Proposition 13 assessed values to market by tract (LAND_VALUE_PLAN.md section 8, item 3)
+    ix = D.index[(D["city"] == "Los Angeles") & mv.notna()]
+    if len(ix) and "census_homes" in D:
+        tract = D.loc[ix, "v_tract"] if "v_tract" in D else (D.loc[ix, "rent"].astype(str) + "|" + D.loc[ix, "home_value"].astype(str))
+        res = D.loc[ix, "census_homes"].fillna(0) >= 1   # lots with homes (LA lots carry no use class)
+        per_home = mv[ix] / D.loc[ix, "census_homes"].clip(lower=1)
+        med = per_home[res].groupby(tract[res]).median()
+        n = per_home[res].groupby(tract[res]).size()
+        f = (D.loc[ix, "home_value"].groupby(tract).first() / med.where(n >= 5)).clip(1, 10)
+        fac = tract.map(f)
+        fac = fac.fillna(fac.median() if fac.notna().any() else 1.0)
+        mv[ix] = mv[ix] * fac.values
+        print("Los Angeles market factor: median", round(float(fac.median()), 2), "range", round(float(fac.min()), 2), "to", round(float(fac.max()), 2), flush=True)
     D["lot_market_value"] = mv.where(mv > 0)
     D["lot_value_source"] = src
     D["lot_value_missing"] = D["lot_market_value"].isna().astype(float)
