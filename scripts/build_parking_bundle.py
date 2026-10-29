@@ -22,6 +22,7 @@ import math
 import shutil
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -209,6 +210,8 @@ def build_howsure() -> dict:
         "robustness": [{"check": x.case.replace("Expanded, ", "").replace(" (headline candidate)", " (main result)"), "places": int(x.places), "effect": r(x.effect), "p05": r(x.p05), "p95": r(x.p95)}
                        for x in pd.read_csv(REF / "parking_expanded_estimates.csv").itertuples()],
         "placebo": {k: r(v, 3) for k, v in pd.read_csv(REF / "parking_placebo_full_summary.csv").iloc[0].items()},
+        "average_views": (lambda e: {"weighted": r(float(np.average(e["effect"], weights=e["homes"] * e["n_post"]))),
+                                     "equal": r(float(e["effect"].mean())), "median": r(float(e["effect"].median())), "places": int(len(e))})(expanded_included()),
         "tools": [{"tool": x.tool, "us_gain": r(x.us_gain, 3), "ca_gain": r(x.ca_gain, 3)} for x in pd.read_csv(REF / "parking_expanded_tools.csv").itertuples()],
         "leave_one_state": {"min": r(los["effect"].min()), "max": r(los["effect"].max()),
                             "min_state": los.loc[los["effect"].idxmin(), "check"].replace("leave out ", ""),
@@ -223,7 +226,7 @@ def build_howsure() -> dict:
             {"part": "Current-law baseline", "status": "observed", "text": "Census building permits by municipality and building size, 2023–2025 average; Milwaukee's apartments estimated from the city's property file."},
             {"part": "No measurable change (central)", "status": "calculated", "text": f"From 76 US repeal places compared with similar places; point estimate {xest('all')['effect']:+.2f} permits per 1,000 homes per year, shown as 0."},
             {"part": "High end of the evidence (upper)", "status": "calculated", "text": "From 20,000 placebo studies of cities that never repealed: their spread, centred on the 76 real places' average (owner choice; the resampling high end is a sensitivity)."},
-            {"part": "No case below zero", "status": "assumed", "text": "A judgment: the evidence leans slightly negative, but a repeal is not modelled as reducing permits."},
+            {"part": "No case below zero", "status": "assumed", "text": "A judgment: the evidence centres near zero (weighted by homes slightly below, each place equal slightly above), and a repeal is not modelled as reducing permits."},
             {"part": "Years 4–5 and evidence carrying over to Wisconsin", "status": "assumed", "text": "The effect was measured over years 1–3 in other places; it is held flat for 2030–2031 and applied in Wisconsin."},
             {"part": "Where the upper case lands", "status": "assumed", "text": "Spread in proportion to existing homes; places that already have no minimums get none."},
         ],
@@ -260,6 +263,8 @@ def build_why() -> dict:
         "studies": [
             {"case": "Buffalo, citywide repeal (2017)", "finding": "36 major projects provided 1,942 parking spaces against 2,444 under the old minimums (79%). Mixed-use projects built 47% of the old minimum; stand-alone apartment buildings built 117% of it.", "status": "observed",
              "source": "Hess and Rehler, Journal of the American Planning Association, 2021", "url": "https://doi.org/10.1080/01944363.2020.1864225"},
+            {"case": "Los Angeles transit-area program (2024–2026 filings)", "finding": "12 projects that could cut parking built a median 0.81 spaces per home; one built none. Five that list their unit mix built 67% of what the old rule required: family-size buildings nearly all of it, studio and one-bedroom buildings about half.", "status": "observed",
+             "source": "State CEQA filings, coded by this project (docs/parking/LA_TOC_RESULTS.md)", "url": "https://ceqanet.lci.ca.gov/"},
             {"case": "Seattle, near frequent transit (2012)", "finding": "Reported as about 18,000 fewer parking spaces over five years than the old rules required.", "status": "source lead",
              "source": "Gabbe, Pierce and Clowers, Land Use Policy, 2020", "url": "https://doi.org/10.1016/j.landusepol.2019.104053"},
             {"case": "Los Angeles adaptive reuse (1999)", "finding": "Exempting old downtown buildings from parking helped convert them into thousands of homes.", "status": "source lead",
@@ -267,7 +272,7 @@ def build_why() -> dict:
             {"case": "Denver simulation (2025)", "finding": "A financial model estimates about 12.5% more market-rate apartments; a model, not observed results.", "status": "source lead",
              "source": "University of Denver with the Terner Center's housing simulator", "url": "https://theconversation.com/denver-study-shows-removing-parking-requirements-results-in-more-affordable-housing-being-built-263889"},
         ],
-        "developer_parking": "Assumption about parking developers build without mandates: developers keep building the parking that renters, buyers and lenders want, so a repeal adds homes only where a minimum forced more parking than the market wanted. In Buffalo after its 2017 repeal, major projects provided 79% of the old minimum (mixed-use 47%; stand-alone apartments 117%). The scenario sets no parking ratio itself: it uses the permit outcomes of places that repealed, so whatever parking their developers chose is already built in.",
+        "developer_parking": "Assumption about parking developers build without mandates: developers keep building the parking that renters, buyers and lenders want, so a repeal adds homes only where a minimum forced more parking than the market wanted. In Buffalo after its 2017 repeal, major projects provided 79% of the old minimum (mixed-use 47%; stand-alone apartments 117%). In Los Angeles projects that could cut parking, five that list their unit mix built 67% of the old requirement. The scenario sets no parking ratio itself: it uses the permit outcomes of places that repealed, so whatever parking their developers chose is already built in.",
         "north_carolina": "North Carolina's HB 162, signed 6 July 2026, removes minimum parking for new projects statewide from 1 January 2027 (the 20 coastal counties are exempt). It is the closest real law to this scenario; it has no permit data yet.",
         "docs": [doc("docs/parking/EXPANDED_RESULTS.md", "Expanded comparison (76 places, with 5 added)"), doc("docs/parking/COMPARISON_RESULTS.md", "First comparison (24 places)"), doc("docs/parking/COMPARISON_PLAN.md", "Pre-registered plan"),
                  doc("docs/parking/POLICY_TAXONOMY.md", "Which reforms were real"), doc("docs/parking/GATE3_PACKET.md", "Gate 3 packet")],
