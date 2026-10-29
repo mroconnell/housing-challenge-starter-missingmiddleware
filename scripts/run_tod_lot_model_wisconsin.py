@@ -54,7 +54,7 @@ def built_points_milwaukee(crs) -> gpd.GeoDataFrame:
     m = pd.read_csv(RAW / "milwaukee_mprop" / "mprop.csv", dtype=str, usecols=["TAXKEY", "NR_UNITS", "YR_BUILT", "LAND_USE"])
     m["units"] = pd.to_numeric(m.NR_UNITS, errors="coerce").fillna(0)
     m["year"] = pd.to_numeric(m.YR_BUILT, errors="coerce")
-    m = m[m.year.isin(BEFORE) & (m.units > 0) & m.LAND_USE.fillna("").str.startswith("88")].drop_duplicates("TAXKEY")
+    m = m[m.year.isin(BEFORE) & (m.units > 0)].drop_duplicates("TAXKEY")   # item 25.10: any lot with homes
     v = gpd.read_file(RAW / "tod_capacity" / "v12_milwaukee.geojson", columns=["PARCELID"]).to_crs(crs)
     v = v.merge(m, left_on="PARCELID", right_on="TAXKEY")
     return gpd.GeoDataFrame({"units": v.units.values, "year": v.year.values}, geometry=v.geometry.representative_point().values, crs=crs)
@@ -155,7 +155,7 @@ def build() -> None:
     # qualifying stops for distance and the 1-mile count: the Wisconsin law's stops (rail, rapid, 15-minute bus)
     from scipy.spatial import cKDTree
     s = pd.read_csv(REFERENCE / "tod_stops.csv")
-    s = s[(s.flag_a_rapid == 1) | (s.flag_b_15min == 1)]
+    s = s[s.flag_a_rapid == 1]   # item 25.7: rail and rapid only, as in training
     sp = gpd.GeoSeries(gpd.points_from_xy(s.lon, s.lat), crs=4326).to_crs(5070)
     st = cKDTree(np.c_[sp.x, sp.y])
     xy = D[["x5070", "y5070"]].to_numpy()
@@ -169,6 +169,14 @@ def build() -> None:
         ac, tr = dd["acres"].to_numpy(), (dd["treated"].to_numpy() == 1)
         share[D.index.get_indexer(ix)] = [ac[n][tr[n]].sum() / ac[n].sum() if len(n) else np.nan for n in nb]
     D["share_upzoned_half_mile"] = share
+    # item 25.9: homes on lot = 2020 census block homes shared among the table's lots in the block by lot area
+    src = sorted(RAW.rglob("tl_2020_55_tabblock20.zip"))[0]
+    pts = gpd.GeoDataFrame(geometry=gpd.points_from_xy(D["x5070"], D["y5070"]), index=D.index, crs=5070)
+    b = gpd.read_file(src, bbox=tuple(pts.to_crs(4269).total_bounds), columns=["GEOID20", "HOUSING20"]).to_crs(5070)
+    j = gpd.sjoin(pts, b, predicate="within", how="left")
+    j = j[~j.index.duplicated()]
+    grp = D["unit"].astype(str) + "|" + j["GEOID20"].astype(str)
+    D["census_homes"] = (j["HOUSING20"].astype(float) * D["acres"] / D["acres"].groupby(grp).transform("sum")).values
     D = L.add_group_shares(D)
     D.to_parquet(OUT)
     print(D.groupby(["city", "lot_group"]).agg(lots=("acres", "size"), acres=("acres", "sum")).round(0).to_string())
@@ -183,22 +191,27 @@ def predict() -> None:
     from sklearn.ensemble import RandomForestRegressor
     from missing_middleware.tod import sanity as S
     L.BPS_NAME["Milwaukee"] = ("55", "Milwaukee")
-    L.FAR_CITIES = L.FAR_CITIES + ("Milwaukee",)   # item 21: Milwaukee treated as a floor-area-ratio city
+    L.FAR_CITIES = L.FAR_CITIES + ("Milwaukee",)
+    L.FIT["item25"] = True   # item 21: Milwaukee treated as a floor-area-ratio city
     T = pd.read_parquet(L.OUT / "lots_rebuilt_halfmile.parquet")
     W = pd.read_parquet(OUT)
-    W["cost_per_home"] = [L.cost_per_home(c, 2024) for c in W["city"]]
+    W["cost_per_home"] = [L.cost_per_home(c, EFF - 1) for c in W["city"]]
     out = []
     for version in ("main", "seed7", "drop_largest"):
         Tv = T.drop(T.groupby("city")["units_after"].idxmax().values) if version == "drop_largest" else T
         cache = {k: L.cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(Tv["city"], Tv["eff_year"]))}
         Tv = Tv.assign(cost_per_home=[cache[(c, y)] for c, y in zip(Tv["city"], Tv["eff_year"])])
         A = pd.concat([Tv.assign(_wi=0), W.assign(_wi=1)], ignore_index=True)
-        key = A["city"] + "|" + A["x5070"].round(1).astype(str) + "|" + A["y5070"].round(1).astype(str)
-        A["w"] = 1.0 / key.map(key.value_counts())
-        X = L.features(A.drop(columns=["_wi"]), False)
+        A["is_wi"] = A["_wi"]
+        key = A["city"] + "|" + A["_wi"].astype(str) + "|" + A["x5070"].round(1).astype(str) + "|" + A["y5070"].round(1).astype(str)
+        A["w"] = 1.0 / key.map(key.value_counts())   # item 25.3: Wisconsin lots never share keys with training lots
         vc = [c for c in A.columns if c.startswith("v_")]
         V = A[vc].replace([np.inf, -np.inf], np.nan)
-        X = pd.concat([X, V.fillna(V[A._wi == 0].median())], axis=1)
+        ref = (A._wi == 0) & ~A["city"].isin(L.HOLD)
+        V = V.fillna(V[ref].median())
+        Xb = pd.concat([L.features(A.drop(columns=["_wi"]), False), V], axis=1)
+        Xa = pd.concat([L.features(A.drop(columns=["_wi"]), True), V], axis=1)
+        X = Xb
         if version == "main":
             fl = S.unit_flags(A, L.FAR_CITIES) + S.policy_flags(A[A._wi == 1]) + S.range_flags(X, A["city"])
             S.report([f for f in fl if f["city"] in ("Milwaukee", "Madison") or f["kind"] != "out of range"],
@@ -212,10 +225,15 @@ def predict() -> None:
         pred = {}
         for gflag in (1, 0):
             ix = tr[(A.loc[tr, "treated"] == gflag).values]
+            XX = Xa if gflag == 1 else Xb   # item 25.1
             m = RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=seed)
-            m.fit(X.loc[ix], dy[ix], sample_weight=A.loc[ix, "w"])
+            m.fit(XX.loc[ix], dy[ix], sample_weight=A.loc[ix, "w"])
             wt = A.index[(A._wi == 1) & (A["treated"] == 1)]
-            pred[gflag] = pd.Series(m.predict(X.loc[wt]), index=wt)
+            pred[gflag] = pd.Series(m.predict(XX.loc[wt]), index=wt)
+        if version == "main":   # item 25 note 13: per-lot effects by size of the gain
+            e = pred[1] - pred[0]
+            rg = Xa.loc[e.index, "rel_gain"]
+            print("effect per lot by relative gain:", e.groupby(pd.cut(rg, [-0.01, 0.25, 1, 3, 10.01])).agg(["size", "mean", "sum"]).round(3).to_string(), flush=True)
         eff = (pred[1] - pred[0]) * A.loc[pred[1].index, "w"]
         for city in ("Milwaukee", "Madison"):
             ii = [i for i in eff.index if A.at[i, "city"] == city]

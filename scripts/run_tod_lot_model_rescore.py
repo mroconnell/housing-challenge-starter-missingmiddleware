@@ -29,12 +29,17 @@ def per_reform_actuals(D: pd.DataFrame) -> pd.DataFrame:
         ta, ca = (t.acres * t.w).sum(), (c.acres * c.w).sum()
         if ta == 0:
             continue
+        thin = ca < 0.25 * ta   # item 25.4: too little own comparison land -> the city's eligible comparison land
+        if thin:
+            c = D[(D.city == city) & (D.treated == 0) & (D["comparison_eligible"] == 1)]
+            ca = (c.acres * c.w).sum()
         ua, ub = (t.ua5 * t.w).sum(), (t.ub5 * t.w).sum()
         if ca > 0:
             ex = (ua - ta * (c.ua5 * c.w).sum() / ca) - (ub - ta * (c.ub5 * c.w).sum() / ca)
         else:
             ex = ua - ub
-        rows.append({"city": city, "unit": unit, "upzoned_acres": ta, "comparison_acres": ca, "actual_extra": ex})
+        rows.append({"city": city, "unit": unit, "upzoned_acres": ta, "comparison_acres": ca, "actual_extra": ex,
+                     "comparison_from_city": bool(thin)})
     return pd.DataFrame(rows)
 
 
@@ -71,7 +76,7 @@ def main() -> None:
     drop = base.drop(base.groupby("city")["units_after"].idxmax().values)
     S, Rs = [], None
     for f in sorted(REFERENCE.glob("tod_lot_model_by_city_*_rebuilt*.csv")):
-        if f.stem.endswith("_rescored") or "_land" in f.stem:
+        if f.stem.endswith("_rescored") or "_land" in f.stem or "_v25" not in f.stem:
             continue
         s, R = rescore(f, drop if "droplargest" in f.stem else base)
         S.append(s)

@@ -421,6 +421,17 @@ def cost_per_home(city: str, year: int) -> float:
     return best if best is not None else np.nan
 
 
+# CPI-U annual averages (BLS CUUR0000SA0); 2009 on as in allvars.CPI_U (plan section 9, item 25.5)
+CPI_U = {2001: 177.1, 2002: 179.9, 2003: 184.0, 2004: 188.9, 2005: 195.3, 2006: 201.6, 2007: 207.342, 2008: 215.303}
+
+
+def cost_2024(D: pd.DataFrame) -> pd.Series:
+    from missing_middleware.tod.allvars import CPI_U as C2
+    cpi = {**CPI_U, **C2}
+    yr = (D["eff_year"] - 1).clip(lower=min(cpi), upper=2024).astype(int)
+    return D["cost_per_home"] * cpi[2024] / yr.map(cpi)
+
+
 def five_year_basis(D: pd.DataFrame) -> pd.DataFrame:
     """Homes before and after on a 5-year basis (plan section 9, item 24)."""
     by = (D["eff_year"] - D["window_first"]).clip(lower=1)
@@ -440,7 +451,8 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     # replaced by its rank within the city, and the change by the relative change, only where a real FAR exists.
     far_city = D["city"].isin(FAR_CITIES)
     lb = D["far_before"].astype(float)
-    X["level_rank_in_city"] = lb.groupby(D["city"]).rank(pct=True).fillna(0.5)
+    grp = D["city"] + ("|wi" * D["is_wi"].fillna(0).astype(int) if "is_wi" in D else "")   # item 25.3
+    X["level_rank_in_city"] = lb.groupby(grp).rank(pct=True).fillna(0.5)
     up = D["treated"] == 1
     rel = (D["far_gain"].astype(float) / lb.where(lb > 0)).where(far_city & up)
     X["upzoned"] = up.astype(float) if after_rules else 0.0
@@ -457,7 +469,7 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     X["soft_missing"] = D["bldg_to_land"].isna().astype(float) if "bldg_to_land" in D else 1.0
     age = (D["eff_year"] - D["year_built"]) if "year_built" in D else pd.Series(np.nan, index=D.index)
     X["age"] = age.clip(0, 200).fillna(-1)
-    X["rent_to_cost"] = (D["rent"].fillna(1000) * 12 / 0.05) / D["cost_per_home"]
+    X["rent_to_cost"] = (D["rent"].fillna(1000) * 12 / 0.05) / cost_2024(D)   # item 25.5: both in 2024 dollars
     sqft = (X["far_now"].fillna(0) * D["acres"] * 43560)
     allowed = sqft / 1000.0
     X["pays_room"] = np.log1p((allowed - D["homes_on_lot"].fillna(0)).clip(lower=0)) * X["rent_to_cost"]
@@ -484,7 +496,8 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
         lvpa = (D["lot_market_value"] / D["acres"].clip(lower=0.01))
         lvpa = lvpa.fillna(lvpa.groupby(D["city"]).transform("median")).fillna(lvpa.median())
         buy = lvpa * D["acres"].clip(lower=0.01)
-        cost = D["cost_per_home"].fillna(D["cost_per_home"].median())
+        cost = cost_2024(D)
+        cost = cost.fillna(cost.median())
         price = D["rent"].fillna(1000) * 12 / 0.05
 
         def margin(after: bool):
@@ -502,12 +515,18 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
         X["assessed_not_market"] = D["assessed_not_market"]
     if "census_homes" in D:
         X["log_census_homes"] = np.log1p(D["census_homes"].clip(lower=0))
-    for u in ("res", "com", "ind", "mixed"):
-        X[f"use_{u}"] = (D["use"].astype(str) == u).astype(float)
+    if not FIT.get("item25"):
+        for u in ("res", "com", "ind", "mixed"):
+            X[f"use_{u}"] = (D["use"].astype(str) == u).astype(float)
+    else:   # item 25.2: use traits dropped; 25.6: traits dated after the reform flagged
+        X["traits_after_reform"] = (D["eff_year"] <= 2009).astype(float)
     if "share_upzoned_half_mile" in D:
         X["share_upzoned_half_mile"] = D["share_upzoned_half_mile"]
         X["log_stops_1mile"] = np.log1p(D["stops_1mile"])
     X = X.replace([np.inf, -np.inf], np.nan)
+    if FIT.get("item25"):   # item 25.8: fill values from non-holdout case-city rows only
+        ref = ~D["city"].isin(HOLD) & ~(D["is_wi"].fillna(0).astype(bool) if "is_wi" in D else False)
+        return X.fillna(X[ref].median())
     return X.fillna(X.median())
 
 
@@ -956,20 +975,24 @@ def fit8(tlearner: bool = False) -> None:
                 ix = tr[(D.loc[tr, "treated"] == g).values]
                 if kind == "knn" and len(ix) > 60000:
                     ix = rng.choice(ix, 60000, replace=False)
+                XX = Xa if (g == 1 and FIT.get("item25")) else Xb   # item 25.1
+                if scale:
+                    sc = StandardScaler().fit(XX.loc[ix])
                 m = regs[kind]()
                 try:
-                    m.fit(T(Xb.loc[ix]), dy[D.index.get_indexer(ix)], sample_weight=D.loc[ix, "w"])
+                    m.fit(T(XX.loc[ix]), dy[D.index.get_indexer(ix)], sample_weight=D.loc[ix, "w"])
                 except TypeError:
-                    m.fit(T(Xb.loc[ix]), dy[D.index.get_indexer(ix)])
-                out.append(m.predict(T(Xb.loc[tt])))
+                    m.fit(T(XX.loc[ix]), dy[D.index.get_indexer(ix)])
+                out.append(m.predict(T(XX.loc[tt])))
             return float((out[0] - out[1]) @ D.loc[tt, "w"].values), np.nan
         if kind == "causal_forest":
             out = []
             for g in (1, 0):
                 ix = tr[(D.loc[tr, "treated"] == g).values]
+                XX = Xa if (g == 1 and FIT.get("item25")) else Xb   # item 25.1: the upzoned forest sees the rules after
                 m = RandomForestRegressor(n_estimators=200, min_samples_leaf=50, n_jobs=-1, random_state=SEED["v"])
-                m.fit(Xb.loc[ix], dy[D.index.get_indexer(ix)], sample_weight=D.loc[ix, "w"])
-                out.append(m.predict(Xb.loc[tt]))
+                m.fit(XX.loc[ix], dy[D.index.get_indexer(ix)], sample_weight=D.loc[ix, "w"])
+                out.append(m.predict(XX.loc[tt]))
             extra = float((out[0] - out[1]) @ D.loc[tt, "w"].values)
             return extra, np.nan
         c1, c2, scale = makers(kind)
@@ -1057,7 +1080,8 @@ def main(argv=None) -> None:
     if ap_rebuilt:
         REBUILT["on"] = True
         PATHS.update(lots=LOTS_REBUILT, half=OUT / "lots_rebuilt_halfmile.parquet")
-        FIT.update(lots=PATHS["half"], suffix="_rebuilt5y" + ("_land" if a.land_value else "") + (f"_seed{a.seed}" if a.seed else "")
+        FIT.update(item25=True)
+        FIT.update(lots=PATHS["half"], suffix="_v25" + ("_land" if a.land_value else "") + (f"_seed{a.seed}" if a.seed else "")
                    + ("_droplargest" if a.drop_largest else ""), land=a.land_value)
     elif a.half_mile:
         FIT.update(lots=LOTS_HALF, suffix="_halfmile")
