@@ -262,3 +262,7 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     4. **Seattle flags:** its before (2010 MAXFAR) and after (2016 RES_MAX_FAR) come from two fields. Lots whose base zone did not change but whose level did, and lots with no 2010 level but a 2016 level, are flagged.
     5. **A level-source flag per city:** each run's flag file lists, by city, how many lots have levels from a printed FAR, a height, a district order, an in/out flag or homes per acre.
     The full "allowed homes per acre everywhere" measure needs New York and Chicago lot-area rules and comes later. Item 33 (spreading assembled sites) runs in the same rebuild, after the ½-mile step.
+35. **2026-10-29, owner's go-ahead ("fix those"), from the cloud audit's units check (section 2d), written before the refit.**
+    1. **Wisconsin homes on the lot** are already 2020 census-block homes shared by lot area, the same rule as training (item 25.9 overwrites the city-record count in the Wisconsin build); no change needed.
+    2. **Homes built nearby before** become homes per before year (÷ the case's before years; Wisconsin 6), so Saint Paul's single before year is on the same scale as the others. The yes/no "built before" trait stays as is and is noted as weaker for Saint Paul.
+    3. **Milwaukee's building before** comes from year built in the property file (finished and still standing), not permit years. The lag between permit and completion will be measured on Madison, where both exist, and reported with the Wisconsin estimate.
