@@ -1,0 +1,132 @@
+city,unit,eff_year,lot_group,treated,acres,units_before,units_after,permit_years,approx_lat,approx_lon,dist_station_m
+New York,nyc_040499azmm,2005,upzoned_from_industrial,1.0,0.102,0.0,835.0,2008.0:835,40.757,-73.998,326.0
+Chicago,chicago,2015,other_not_eligible,0.0,1.467,0.0,805.0,2016:400;2017:405,41.903,-87.635,193.0
+New York,nyc_040171zmk,2004,upzoned,1.0,0.025,0.0,631.0,2008.0:631,40.694,-73.983,310.0
+New York,nyc_040499azmm,2005,reform_rezoned_again_in_window,0.0,0.646,0.0,568.0,2007.0:568,40.755,-73.993,302.0
+New York,nyc_040499azmm,2005,upzoned_from_industrial,1.0,0.177,0.0,411.0,2008.0:411,40.756,-73.992,239.0
+Philadelphia,phl_150843,2015,upzoned,1.0,0.609,0.0,405.0,2019.0:405,39.955,-75.198,254.0
+New York,nyc_040499azmm,2005,upzoned_from_industrial,1.0,0.056,0.0,394.0,2007.0:394,40.756,-73.997,407.0
+Chicago,chicago,2015,other_not_eligible,0.0,0.628,0.0,373.0,2017:373,41.962,-87.651,545.0
+New York,nyc_050162azmm,2005,upzoned_from_industrial,1.0,0.402,0.0,369.0,2008.0:369,40.753,-74.003,358.0
+New York,nyc_040171zmk,2004,upzoned,1.0,0.049,0.0,322.0,2007.0:322,40.691,-73.985,98.0
+Chicago,chicago,2015,reform_rezoned_again_in_window,0.0,0.042,0.0,318.0,2020:318,41.897,-87.635,116.0
+New York,nyc_040499azmm,2005,upzoned_from_industrial,1.0,0.147,0.0,310.0,2008.0:310,40.757,-73.993,267.0
+New York,nyc_040171zmk,2004,upzoned_from_industrial,1.0,0.283,0.0,303.0,2006.0:303,40.695,-73.984,379.0
+New York,nyc_040171zmk,2004,comparison_eligible,0.0,0.394,0.0,300.0,2008.0:300,40.691,-73.991,166.0
+Chicago,chicago,2015,reform_rezoned_again_in_window,0.0,0.282,0.0,278.0,2020:278,41.885,-87.663,369.0
+New York,nyc_040171zmk,2004,upzoned,1.0,0.04,0.0,271.0,2008.0:271,40.689,-73.985,72.0
+New York,nyc_040171zmk,2004,upzoned,1.0,0.059,0.0,246.0,2006.0:246,40.689,-73.986,152.0
+Chicago,chicago,2015,reform_rezoned_again_in_window,0.0,0.104,0.0,246.0,2018:246,41.8,-87.586,96.0
+New York,nyc_040499azmm,2005,upzoned_from_industrial,1.0,0.226,0.0,244.0,2006.0:244,40.756,-73.992,249.0
+Chicago,chicago,2015,reform_rezoned_again_in_window,0.0,0.152,0.0,242.0,2020:242,41.885,-87.664,249.0
+New York,nyc_040171zmk,2004,upzoned,1.0,0.01,0.0,240.0,2007.0:240,40.693,-73.983,285.0
+New York,nyc_040499azmm,2005,upzoned_from_industrial,1.0,0.112,0.0,240.0,2006.0:240,40.756,-73.992,209.0
+New York,nyc_040499azmm,2005,comparison_industrial,0.0,0.134,0.0,236.0,2006.0:236,40.747,-73.991,163.0
+New York,nyc_040499azmm,2005,reform_rezoned_again_in_window,0.0,0.087,0.0,224.0,2007.0:224,40.754,-73.994,237.0
+New York,nyc_050111azmk,2005,upzoned_from_industrial,1.0,0.198,0.0,211.0,2008.0:211,40.718,-73.955,197.0
+New York,nyc_040499azmm,2005,upzoned_from_industrial,1.0,0.087,0.0,210.0,2007.0:210,40.756,-73.993,299.0
+New York,nyc_040499azmm,2005,reform_rezoned_again_in_window,0.0,0.225,0.0,207.0,2008.0:207,40.755,-73.994,295.0
+New York,nyc_040499azmm,2005,reform_density_not_rising,0.0,0.053,0.0,194.0,2008.0:194,40.756,-73.995,421.0
+Seattle,seattle_mount_baker_2014,2014,comparison_eligible,0.0,0.138,0.0,194.0,2017.0:194,47.579,-122.301,278.0
+New York,nyc_040171zmk,2004,upzoned,1.0,0.294,0.0,184.0,2008.0:184,40.692,-73.985,125.0
+New York,nyc_050162azmm,2005,comparison_eligible,0.0,0.112,0.0,168.0,2010.0:168,40.748,-74.001,312.0
+Philadelphia,phl_160969,2016,upzoned,1.0,0.269,0.0,162.0,2021.0:162,39.96,-75.163,237.0
+New York,nyc_030194azmk,2003,upzoned,1.0,0.219,0.0,156.0,2007.0:156,40.669,-73.991,212.0
+New York,nyc_040499azmm,2005,upzoned_from_industrial,1.0,0.074,0.0,155.0,2008.0:155,40.757,-73.993,271.0
+Chicago,chicago,2015,other_not_eligible,0.0,0.261,0.0,148.0,2016:148,41.947,-87.655,143.0
+New York,nyc_050153zmq,2005,comparison_eligible,0.0,0.066,0.0,133.0,2007.0:133,40.699,-73.817,352.0
+New York,nyc_050111azmk,2005,upzoned_from_industrial,1.0,0.149,0.0,130.0,2007.0:130,40.733,-73.957,316.0
+New York,nyc_040331zmm,2004,comparison_industrial,0.0,0.096,0.0,124.0,2006.0:124,40.743,-73.991,153.0
+New York,nyc_040499azmm,2005,comparison_industrial,0.0,0.053,0.0,122.0,2007.0:122,40.747,-73.992,148.0
+New York,nyc_100369zmm,2010,comparison_industrial,0.0,0.117,0.0,122.0,2012.0:122,40.726,-74.009,350.0
+New York,nyc_040331zmm,2004,comparison_eligible,0.0,0.139,0.0,110.0,2005.0:110,40.743,-73.996,156.0
+New York,nyc_040499azmm,2005,comparison_industrial,0.0,0.089,0.0,110.0,2007.0:110,40.746,-73.991,199.0
+New York,nyc_040331zmm,2004,upzoned_from_industrial,1.0,0.172,0.0,109.0,2007.0:109,40.741,-73.992,184.0
+New York,nyc_100407zmx,2010,comparison_eligible,0.0,0.065,0.0,108.0,2014.0:108,40.85,-73.891,803.0
+Seattle,seattle_mount_baker_2014,2014,comparison_eligible,0.0,0.159,0.0,107.0,2017.0:107,47.58,-122.301,350.0
+Chicago,chicago,2015,reform_rezoned_again_in_window,0.0,0.081,0.0,105.0,2019:105,41.907,-87.638,338.0
+New York,nyc_090303zmx,2009,upzoned_from_industrial,1.0,0.108,0.0,100.0,2013.0:100,40.815,-73.925,427.0
+New York,nyc_040331zmm,2004,comparison_eligible,0.0,0.048,0.0,99.0,2007.0:99,40.743,-73.994,138.0
+New York,nyc_040499azmm,2005,upzoned_from_industrial,1.0,0.053,0.0,98.0,2008.0:98,40.756,-73.996,476.0
+New York,nyc_030194azmk,2003,upzoned,1.0,0.045,0.0,95.0,2008.0:95,40.68,-73.982,305.0
+Chicago,chicago,2015,reform_rezoned_again_in_window,0.0,0.065,0.0,89.0,2020:89,41.904,-87.629,195.0
+New York,nyc_070314azmq,2007,comparison_eligible,0.0,0.059,0.0,81.0,2009.0:81,40.708,-73.812,339.0
+New York,nyc_080099azmm,2008,comparison_eligible,0.0,0.056,0.0,80.0,2010.0:80,40.81,-73.945,280.0
+New York,nyc_040273zmq,2004,reform_density_not_rising,0.0,0.109,0.0,75.0,2008.0:75,40.748,-73.947,82.0
+New York,nyc_040171zmk,2004,upzoned,1.0,0.072,0.0,71.0,2005.0:71,40.686,-73.979,164.0
+New York,nyc_040171zmk,2004,upzoned,1.0,0.021,0.0,71.0,2008.0:71,40.687,-73.981,119.0
+New York,nyc_040171zmk,2004,other_not_eligible,0.0,0.125,0.0,69.0,2005.0:69,40.691,-73.991,174.0
+Chicago,chicago,2015,reform_already_allowed,0.0,0.126,0.0,69.0,2016:69,41.911,-87.637,206.0
+New York,nyc_040331zmm,2004,comparison_eligible,0.0,0.055,0.0,64.0,2007.0:64,40.741,-73.988,124.0
+New York,nyc_050111azmk,2005,upzoned_from_industrial,1.0,0.114,0.0,62.0,2007.0:62,40.72,-73.961,503.0
+New York,nyc_050162azmm,2005,reform_other_not_eligible,0.0,0.112,0.0,61.0,2009.0:61,40.75,-74.003,617.0
+New York,nyc_070314azmq,2007,upzoned_from_industrial,1.0,0.112,0.0,61.0,2012.0:61,40.7,-73.811,217.0
+New York,nyc_040499azmm,2005,comparison_industrial,0.0,0.112,0.0,61.0,2009.0:61,40.75,-74.003,617.0
+New York,nyc_040273zmq,2004,reform_already_allowed,0.0,0.047,0.0,60.0,2007.0:28;2008.0:32,40.742,-73.954,64.0
+Chicago,chicago,2015,reform_already_allowed,0.0,0.105,0.0,57.0,2020:57,41.968,-87.655,306.0
+New York,nyc_100407zmx,2010,comparison_eligible,0.0,0.053,0.0,55.0,2014.0:55,40.843,-73.894,729.0
+New York,nyc_030194azmk,2003,upzoned,1.0,0.047,0.0,51.0,2008.0:51,40.671,-73.989,36.0
+New York,nyc_050111azmk,2005,upzoned_from_industrial,1.0,0.029,0.0,50.0,2008.0:50,40.717,-73.965,676.0
+New York,nyc_030194azmk,2003,upzoned,1.0,0.035,0.0,49.0,2007.0:49,40.681,-73.981,339.0
+New York,nyc_040331zmm,2004,comparison_eligible,0.0,0.066,0.0,47.0,2007.0:47,40.737,-73.995,118.0
+New York,nyc_050111azmk,2005,upzoned_from_industrial,1.0,0.091,0.0,46.0,2007.0:46,40.713,-73.952,37.0
+New York,nyc_050111azmk,2005,reform_density_not_rising,0.0,0.043,0.0,44.0,2007.0:44,40.718,-73.959,195.0
+New York,nyc_080099azmm,2008,comparison_eligible,0.0,0.039,0.0,40.0,2009.0:40,40.809,-73.937,463.0
+Philadelphia,phl_140444-A,2014,upzoned,1.0,0.011,0.0,39.0,2015.0:39,39.964,-75.142,425.0
+New York,nyc_100407zmx,2010,comparison_eligible,0.0,0.037,2.0,38.0,2007.0:2;2013.0:38,40.851,-73.901,378.0
+Chicago,chicago,2015,upzoned,1.0,0.057,0.0,38.0,2018:38,42.019,-87.67,276.0
+New York,nyc_040273zmq,2004,upzoned_from_industrial,1.0,0.051,0.0,32.0,2008.0:32,40.745,-73.955,314.0
+Chicago,chicago,2015,comparison_industrial,0.0,0.051,0.0,30.0,2017:30,41.916,-87.685,177.0
+New York,nyc_050111azmk,2005,upzoned_from_industrial,1.0,0.035,0.0,29.0,2008.0:29,40.733,-73.96,465.0
+Philadelphia,phl_170140-A,2017,upzoned,1.0,0.02,0.0,28.0,2019.0:4;2022.0:24,39.965,-75.159,298.0
+Philadelphia,phl_170793,2018,upzoned,1.0,0.012,0.0,27.0,2020.0:27,39.975,-75.138,589.0
+Philadelphia,phl_140444-A,2014,upzoned,1.0,0.015,0.0,27.0,2019.0:27,39.965,-75.143,533.0
+Chicago,chicago,2015,other_not_eligible,0.0,0.025,0.0,18.0,2016:18,41.944,-87.672,70.0
+Philadelphia,phl_130349,2013,comparison_eligible,0.0,0.022,0.0,16.0,2017.0:16,39.971,-75.164,104.0
+Philadelphia,phl_140444-A,2014,upzoned,1.0,0.021,0.0,15.0,2015.0:15,39.962,-75.143,274.0
+New York,nyc_040171zmk,2004,comparison_eligible,0.0,0.027,0.0,15.0,2005.0:15,40.685,-73.981,253.0
+New York,nyc_050111azmk,2005,reform_density_not_rising,0.0,0.002,0.0,12.0,2006.0:12,40.72,-73.947,603.0
+Philadelphia,phl_150215,2015,comparison_eligible,0.0,0.019,0.0,11.0,2017.0:11,39.972,-75.136,384.0
+Philadelphia,phl_150289,2015,comparison_eligible,0.0,0.019,0.0,11.0,2017.0:11,39.972,-75.136,384.0
+Philadelphia,phl_160465,2016,comparison_eligible,0.0,0.019,0.0,11.0,2017.0:11,39.972,-75.136,384.0
+Philadelphia,phl_160466,2016,comparison_eligible,0.0,0.019,0.0,11.0,2017.0:11,39.972,-75.136,384.0
+Philadelphia,phl_140149,2014,comparison_eligible,0.0,0.019,0.0,11.0,2017.0:11,39.972,-75.136,384.0
+Philadelphia,phl_160465,2016,upzoned,1.0,0.014,0.0,10.0,2018.0:10,39.977,-75.137,360.0
+Philadelphia,phl_170005,2017,reform_density_not_rising,0.0,0.019,0.0,10.0,2018.0:9;2020.0:1,39.975,-75.164,268.0
+Philadelphia,phl_180003,2018,upzoned,1.0,0.016,21.0,0.0,2013.0:21,39.967,-75.146,380.0
+Chicago,chicago,2015,other_not_eligible,0.0,0.493,250.0,0.0,2011:250,41.905,-87.634,136.0
+New York,nyc_040331zmm,2004,comparison_eligible,0.0,0.094,49.0,0.0,2002.0:49,40.743,-73.996,123.0
+New York,nyc_040331zmm,2004,other_not_eligible,0.0,0.213,210.0,0.0,2002.0:210,40.742,-73.994,193.0
+New York,nyc_040273zmq,2004,comparison_industrial,0.0,0.474,522.0,0.0,1998.0:522,40.744,-73.957,300.0
+New York,nyc_040499azmm,2005,upzoned_from_industrial,1.0,0.484,259.0,0.0,2003.0:259,40.755,-73.996,382.0
+Chicago,chicago,2015,other_not_eligible,0.0,0.407,216.0,0.0,2013:216,41.882,-87.657,566.0
+Chicago,chicago,2015,comparison_eligible,0.0,0.048,29.0,0.0,2012:29,42.002,-87.662,151.0
+Chicago,chicago,2015,comparison_eligible,0.0,0.042,30.0,0.0,2014:30,41.881,-87.659,604.0
+Chicago,chicago,2015,other_not_eligible,0.0,0.147,180.0,0.0,2014:180,41.802,-87.589,293.0
+New York,nyc_040273zmq,2004,comparison_industrial,0.0,0.391,372.0,0.0,2003.0:372,40.744,-73.958,273.0
+Philadelphia,phl_180286-A,2018,comparison_eligible,0.0,0.022,16.0,0.0,2017.0:16,39.971,-75.164,104.0
+Philadelphia,phl_180003,2018,upzoned,1.0,0.015,8.0,0.0,2016.0:8,39.963,-75.147,593.0
+New York,nyc_090272zmk,2009,comparison_eligible,0.0,0.073,38.0,0.0,2005.0:38,40.578,-73.982,115.0
+Philadelphia,phl_170793,2018,comparison_eligible,0.0,0.019,11.0,0.0,2017.0:11,39.972,-75.136,384.0
+New York,nyc_100407zmx,2010,reform_density_not_rising,0.0,0.04,48.0,0.0,2008.0:48,40.854,-73.894,577.0
+New York,nyc_090104zmq,2009,upzoned,1.0,0.073,95.0,0.0,2005.0:95,40.72,-73.843,136.0
+New York,nyc_100369zmm,2010,comparison_industrial,0.0,0.06,39.0,0.0,2008.0:39,40.724,-74.004,222.0
+New York,nyc_080099azmm,2008,comparison_eligible,0.0,0.042,25.0,0.0,2004.0:25,40.809,-73.938,432.0
+New York,nyc_100369zmm,2010,comparison_industrial,0.0,0.57,390.0,0.0,2007.0:390,40.725,-74.005,174.0
+New York,nyc_100369zmm,2010,comparison_industrial,0.0,0.122,150.0,0.0,2005.0:150,40.727,-74.006,155.0
+New York,nyc_100369zmm,2010,upzoned_from_industrial,1.0,0.259,369.0,0.0,2008.0:369,40.721,-74.004,74.0
+New York,nyc_100407zmx,2010,reform_density_not_rising,0.0,0.222,118.0,0.0,2008.0:118,40.855,-73.894,591.0
+New York,nyc_100407zmx,2010,reform_density_not_rising,0.0,0.081,89.0,0.0,2007.0:89,40.854,-73.892,730.0
+New York,nyc_100407zmx,2010,comparison_eligible,0.0,0.117,97.0,0.0,2007.0:97,40.848,-73.895,386.0
+New York,nyc_080099azmm,2008,comparison_eligible,0.0,0.05,60.0,0.0,2003.0:60,40.802,-73.939,241.0
+Philadelphia,phl_170793,2018,reform_density_not_rising,0.0,0.014,21.0,0.0,2014.0:21,39.971,-75.136,253.0
+New York,nyc_100407zmx,2010,upzoned_from_industrial,1.0,0.034,68.0,0.0,2007.0:68,40.846,-73.897,264.0
+New York,nyc_080099azmm,2008,comparison_eligible,0.0,0.039,46.0,0.0,2007.0:46,40.81,-73.948,337.0
+New York,nyc_110177zmm,2011,upzoned_from_industrial,1.0,0.12,89.0,0.0,2010.0:89,40.764,-73.995,776.0
+Philadelphia,phl_140444-A,2014,upzoned,1.0,0.021,22.0,0.0,2012.0:22,39.967,-75.146,368.0
+Philadelphia,phl_140444-A,2014,upzoned,1.0,0.016,20.0,0.0,2013.0:20,39.964,-75.143,450.0
+Philadelphia,phl_140744,2014,comparison_eligible,0.0,0.018,10.0,0.0,2011.0:10,39.983,-75.163,675.0
+New York,nyc_070314azmq,2007,reform_density_not_rising,0.0,0.078,55.0,0.0,2006.0:55,40.71,-73.787,399.0
+New York,nyc_090310zmk,2009,comparison_eligible,0.0,0.03,33.0,0.0,2008.0:33,40.702,-73.983,347.0
+New York,nyc_050162azmm,2005,reform_density_not_rising,0.0,0.171,337.0,0.0,2003.0:337,40.749,-74.006,719.0
+New York,nyc_080099azmm,2008,comparison_eligible,0.0,0.051,48.0,0.0,2006.0:48,40.812,-73.946,426.0
