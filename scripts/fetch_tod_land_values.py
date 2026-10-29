@@ -30,6 +30,10 @@ BIG = {
     "wi_latest": ("wi_parcels_v12_2026.zip", "https://web.s3.wisc.edu/parcels/v12_parcels/V12.0.0_Wisconsin_Parcels_2026_10.3_Compressed.zip",
                   "Wisconsin Statewide Parcel Map Initiative, free with citation"),
 }
+PHL_POINTS = ("philadelphia_opa_points.csv",
+              "https://phl.carto.com/api/v2/sql?format=csv&q=" + urllib.parse.quote(
+                  "SELECT parcel_number, ST_Y(the_geom) AS lat, ST_X(the_geom) AS lon FROM opa_properties_public"),
+              "City of Philadelphia open data licence, as is")
 LA_TABLE = "https://services.arcgis.com/RmCCgQtiZLDCtblq/arcgis/rest/services/Parcel_Data_2011_2015_Table/FeatureServer/0"
 LA_BOXES = {"warner_center": (-118.63, 34.15, -118.54, 34.21), "cornfield": (-118.26, 34.04, -118.19, 34.10)}
 
@@ -95,6 +99,10 @@ def main(argv=None) -> None:
         print(k, flush=True)
         if k == "la":
             la(m)
+        elif k == "philly_points":
+            name, url, lic = PHL_POINTS
+            subprocess.run(["curl", "-sSfL", "--retry", "4", "-o", str(DIR / name), url], check=True)
+            record(m, name, url, lic)
         else:
             big(m, k)
 

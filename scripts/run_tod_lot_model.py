@@ -471,6 +471,28 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
                     X[f"reform_share_{gname}"] = sh
             elif sh is not None:
                 X["reform_share_rare"] = X["reform_share_rare"] + sh
+    if "lot_market_value" in D:   # docs/tod/LAND_VALUE_PLAN.md section 2: does a project pay for itself?
+        tr_b = (~D["city"].isin(HOLD)) & (D["units_after"] > 0)
+        per_acre = float(np.nanquantile(D.loc[tr_b, "units_after"] / D.loc[tr_b, "acres"].clip(lower=0.01), 0.99))
+        lvpa = (D["lot_market_value"] / D["acres"].clip(lower=0.01))
+        lvpa = lvpa.fillna(lvpa.groupby(D["city"]).transform("median")).fillna(lvpa.median())
+        buy = lvpa * D["acres"].clip(lower=0.01)
+        cost = D["cost_per_home"].fillna(D["cost_per_home"].median())
+        price = D["rent"].fillna(1000) * 12 / 0.05
+
+        def margin(after: bool):
+            far = (lb + (D["far_gain"].fillna(0) if after else 0.0)).where(far_city)
+            homes = (far * D["acres"] * 43560 / 1000).where(far_city, D["acres"] * per_acre).fillna(0)
+            return homes * (price - cost) - buy
+        m_old, m_now = margin(False), margin(after_rules)
+        slog = lambda v: np.sign(v) * np.log1p(np.abs(v))  # noqa: E731
+        X["pays"] = (m_now > 0).astype(float)
+        X["flips_to_pays"] = ((m_now > 0) & (m_old <= 0)).astype(float)
+        X["margin_per_acre"] = slog(m_now / D["acres"].clip(lower=0.01))
+        X["margin_change_per_acre"] = slog((m_now - m_old) / D["acres"].clip(lower=0.01))
+        X["log_lot_value_per_acre"] = np.log1p(lvpa)
+        X["lot_value_missing"] = D["lot_value_missing"]
+        X["assessed_not_market"] = D["assessed_not_market"]
     if "census_homes" in D:
         X["log_census_homes"] = np.log1p(D["census_homes"].clip(lower=0))
     for u in ("res", "com", "ind", "mixed"):
@@ -708,6 +730,94 @@ def census_homes() -> None:
     print(D.groupby("city")["census_homes"].describe()[["mean", "50%", "max"]].round(2).to_string())
 
 
+LV = RAW / "tod_land_values"
+
+
+def _nearest_value(D: pd.DataFrame, ix, lat, lon, val, max_m: float) -> pd.Series:
+    from scipy.spatial import cKDTree
+    pts = gpd.GeoSeries(gpd.points_from_xy(lon, lat), crs=4326).to_crs(5070)
+    ok = np.isfinite(pts.x.values) & np.isfinite(pts.y.values)
+    t = cKDTree(np.c_[pts.x.values[ok], pts.y.values[ok]])
+    d, j = t.query(D.loc[ix, ["x5070", "y5070"]].to_numpy())
+    v = np.asarray(val)[ok][np.minimum(j, ok.sum() - 1)]
+    return pd.Series(np.where(d <= max_m, v, np.nan), index=ix)
+
+
+def _pin_in_polygon(D: pd.DataFrame, ix, polys, col: str) -> pd.Series:
+    pts = gpd.GeoDataFrame(geometry=gpd.points_from_xy(D.loc[ix, "x5070"], D.loc[ix, "y5070"]), index=ix, crs=5070)
+    j = gpd.sjoin(pts, polys[[col, "geometry"]].to_crs(5070), predicate="within", how="left")
+    return j[~j.index.duplicated()][col].reindex(ix)
+
+
+def land_values() -> None:
+    """Lot market value before each reform (docs/tod/LAND_VALUE_PLAN.md section 3 and section 8)."""
+    import zipfile
+    D = pd.read_parquet(PATHS["half"])
+    mv = pd.Series(np.nan, index=D.index)
+    src = pd.Series("missing", index=D.index, dtype=object)
+    # New York: assessed / Department of Finance class ratio (6% class 1 = 1-3 family homes; 45% otherwise)
+    ix = D.index[D["city"] == "New York"]
+    av = D.loc[ix, "total_value"].fillna(D.loc[ix, "land_value"])
+    cls1 = (D.loc[ix, "use"].astype(str) == "res") & (D.loc[ix, "homes_on_lot"].fillna(9) <= 3)
+    mv[ix] = av / np.where(cls1, 0.06, 0.45)
+    src[ix] = "nyc_pluto_assessed_over_class_ratio"
+    # Chicago: Cook County 2012 assessed / level (10% residential, 25% commercial and industrial)
+    ix = D.index[D["city"] == "Chicago"]
+    mv[ix] = D.loc[ix, "total_value"] / np.where(D.loc[ix, "use"].astype(str).isin(["com", "ind"]), 0.25, 0.10)
+    src[ix] = "cook_2012_assessed_over_level"
+    # King County: appraised land + improvements, tax year = reform year (values from 1 January of the year before)
+    if (LV / "king_value_history.zip").exists():
+        z = zipfile.ZipFile(LV / "king_value_history.zip")
+        name = [n for n in z.namelist() if n.lower().endswith(".csv")][0]
+        years = set(D.loc[D["city"].isin(["Seattle", "Bellevue"]), "eff_year"].astype(int))
+        parts = []
+        for ch in pd.read_csv(z.open(name), dtype={"Major": str, "Minor": str}, usecols=["Major", "Minor", "TaxYr", "ApprLandVal", "ApprImpsVal"],
+                              chunksize=2_000_000, encoding="latin-1"):
+            parts.append(ch[ch["TaxYr"].isin(years)])
+        kv = pd.concat(parts)
+        kv["pin"] = kv["Major"].str.zfill(6) + kv["Minor"].str.zfill(4)
+        kv["v"] = kv["ApprLandVal"] + kv["ApprImpsVal"]
+        kv = kv.groupby(["pin", "TaxYr"])["v"].max()
+        for city, f, col in (("Seattle", RAW / "tod_cases" / "seattle" / "parcels_2010.geojson", "PIN"),
+                             ("Bellevue", RAW / "tod_cases" / "bellevue" / "parcels.geojson", "ParcelAFN")):
+            ix = D.index[D["city"] == city]
+            pins = _pin_in_polygon(D, ix, gpd.read_file(f), col).astype(str).str.zfill(10)
+            yrs = D.loc[ix, "eff_year"].astype(int)
+            mv[ix] = [kv.get((p, y), np.nan) for p, y in zip(pins, yrs)]
+            src[ix] = "king_county_appraised"
+    # Philadelphia: certified market value for the reform's tax year, 2016 on (section 8, item 1)
+    if (LV / "philadelphia_assessments.csv").exists() and (LV / "philadelphia_opa_points.csv").exists():
+        ix = D.index[(D["city"] == "Philadelphia") & (D["eff_year"] >= 2016)]
+        pp = pd.read_csv(LV / "philadelphia_opa_points.csv", dtype={"parcel_number": str}).dropna()
+        pid = _nearest_value(D, ix, pp["lat"].values, pp["lon"].values, pp["parcel_number"].values, 30.0)
+        a = pd.read_csv(LV / "philadelphia_assessments.csv", usecols=["parcel_number", "year", "market_value"], dtype={"parcel_number": str})
+        a = a.groupby(["parcel_number", "year"])["market_value"].max()
+        mv[ix] = [a.get((p, int(y)), np.nan) if isinstance(p, str) else np.nan for p, y in zip(pid, D.loc[ix, "eff_year"])]
+        src[ix] = "philadelphia_certified_market"
+    # Los Angeles: roll 2012, assessed (Proposition 13), flagged
+    la = [f for f in LV.glob("la_roll2012_*.json")]
+    if la:
+        r = pd.concat([pd.DataFrame(json.load(open(f))) for f in la]).dropna(subset=["CENTER_LAT", "CENTER_LON"])
+        ix = D.index[D["city"] == "Los Angeles"]
+        mv[ix] = _nearest_value(D, ix, r["CENTER_LAT"].values, r["CENTER_LON"].values, r["Roll_TotalValue"].values, 40.0)
+        src[ix] = "la_roll2012_assessed_not_market"
+    # Madison: Wisconsin statewide parcels V9 (2022 roll), estimated fair market value
+    if (LV / "wi_parcels_v9_2023.zip").exists():
+        ix = D.index[D["city"] == "Madison"]
+        b = tuple(gpd.GeoSeries(gpd.points_from_xy(D.loc[ix, "x5070"], D.loc[ix, "y5070"]), crs=5070).to_crs(3071).total_bounds)
+        w = gpd.read_file(f"zip://{LV / 'wi_parcels_v9_2023.zip'}", bbox=b, columns=["ESTFMKVALUE", "TAXROLLYEAR"])
+        mv[ix] = _pin_in_polygon(D, ix, w, "ESTFMKVALUE").astype(float)
+        src[ix] = "wi_v9_est_fair_market"
+    D["lot_market_value"] = mv.where(mv > 0)
+    D["lot_value_source"] = src
+    D["lot_value_missing"] = D["lot_market_value"].isna().astype(float)
+    D["assessed_not_market"] = (src == "la_roll2012_assessed_not_market").astype(float)
+    D.to_parquet(PATHS["half"])
+    t = D.groupby("city").agg(lots=("acres", "size"), have_value=("lot_market_value", lambda v: v.notna().mean()),
+                              median_value_per_acre=("lot_market_value", lambda v: (v / D.loc[v.index, "acres"]).median()))
+    print(t.round(2).to_string())
+
+
 def sanity_flags(stage: str) -> None:
     """Flags only, never stops the run (owner, 2026-10-28): units, policy distance, traits outside other cities' range."""
     from missing_middleware.tod import sanity as S
@@ -907,7 +1017,7 @@ def fit8(tlearner: bool = False) -> None:
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values"], required=True)
     ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
     ap.add_argument("--only", default="", help="comma-separated methods for fit8/fit_runE (robustness reruns)")
     ap.add_argument("--drop-largest", action="store_true", help="robustness: each city's largest project left out (item 19)")
@@ -931,6 +1041,8 @@ def main(argv=None) -> None:
         half_mile()
     if a.stage == "census_homes":
         census_homes()
+    if a.stage == "land_values":
+        land_values()
     if a.stage.startswith("fit"):
         sanity_flags(a.stage)
     if a.stage == "collect":

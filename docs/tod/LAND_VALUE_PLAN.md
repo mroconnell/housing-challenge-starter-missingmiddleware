@@ -77,3 +77,7 @@ Lots without a usable value get the city median per acre and a missing flag, as 
    - **Milwaukee:** the latest statewide release (V12), same market value field.
    - **New York:** MapPLUTO archives carry assessed values only. Market value = assessed ÷ the Department of Finance class ratio (6% class 1; 45% classes 2 to 4). Where the Finance market-value roll covers the year (fiscal 2010/11 on), its full value is used instead.
    - **Chicago:** Cook County 2012 levels of assessment: 10% residential (classes 1 to 3), 25% commercial and industrial (class 5).
+2. **2026-10-29, written while coding, before any value was read.**
+   - **Cities without floor area ratios** (Charlotte, Philadelphia, Los Angeles, Bellevue): homes allowed come from the per-acre ceiling under both rules, so their margin does not change with the reform; "flips" can only happen in floor-area-ratio cities. Their lot value per acre and margin level still enter as traits.
+   - **New York class:** class 1 (6%) is taken as residential lots with 3 or fewer homes; all other lots use 45%.
+   - **Matching values to lots:** by the lot's point inside the source parcel polygon (King County, Wisconsin), or the nearest source point within 30 m (Philadelphia) or 40 m (Los Angeles). Unmatched lots get the missing flag.
