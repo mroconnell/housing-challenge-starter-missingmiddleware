@@ -271,6 +271,57 @@ Ryan asked whether all of the roughly 100 traits now use the same unit in every 
 - **Construction cost.** Charlotte's cost is looked up as "Mecklenburg County" in the city permit files, which list places. It probably comes back blank and is filled with the median. Small.
 - **Milwaukee building before** comes from year built (finished homes), not permits. Already noted in item 21.
 
+## 2e. Parking and ADU data columns, checked for the same unit everywhere
+
+Ryan asked for the same check on the parking and ADU work. I checked each input column, place by place, at `main` after PR #13. **No finding changes a headline.** Parking's central (0) and ADU's numbers (6,734 / 10,788 / 20,057) stand. Some findings change side tests.
+
+### Parking
+
+**Consistent (no action):**
+
+- Permits come from the federal permit survey's estimate columns for every place.
+- The outcome is homes permitted per 1,000 existing homes per year, worked out the same way for repeal places, comparison places and placebo places.
+- The four-city lot test turns Buffalo's front feet into metres correctly. Every map uses metres.
+
+**Not consistent:**
+
+1. **The first parking lot test reads the TOD "FAR" column raw.**
+   - `scripts/run_parking_lot_test.py` uses `far_before` from the TOD lot table as a trait, for every city.
+   - That column holds feet of height in Charlotte, a rank in Philadelphia and Los Angeles, stories × 70% in Madison, and a 0/1 flag in Bellevue. This is the same mix-up TOD fixed in items 12 and 34.
+   - The test found that no model beats "guess zero". That will probably still hold, but it should be rerun with the rank-in-city trait TOD now uses.
+2. **The four-city lot test counts homes two ways.**
+   - San Francisco and Buffalo: **net** homes (new homes minus homes torn down).
+   - Seattle and Chicago: **gross** new homes from TOD's permit table (nothing subtracted).
+   - So one test compares net with gross. Its "hold one city out" scores mix the two.
+   - Suggest: use gross homes in all four, or net in all four where demolitions are known.
+3. **Place traits are measured after most repeals.** Rent relative to the state, population and metro status all come from ACS 2020–2024 (and the 2024 metro map). Most repeals were 2017–2023. This is the same kind of issue as TOD item 25.6. These traits only test whether the effect differs by place type. The central does not use them.
+4. **Already known (finding 12):** homes from 2020–2024 are the denominator for every year, 2012–2025.
+
+### ADU
+
+**Consistent (no action):**
+
+- Home value, income and rent come from one ACS release (2020–2024) for every state and Wisconsin. So they share the same dollars.
+- California counts are units with the 2-per-parcel cap. City counts include ADUs built with a new house, and the vacant-lot factor is applied the same way to the matching series.
+- ADU's own review (`docs/adu/ASK_WHY_REVIEW.md` section 4) already checked that output tables add up. It also labelled the mixed counts (Vermont by year built; Washington and Utah years not calendar years). Ryan decided Vermont (option A).
+
+**Not consistent:**
+
+5. **The reporting-share column mixes three measures.**
+   - Maine: share of **people** in reporting towns (0.73).
+   - Massachusetts and Rhode Island: share of **towns** that reported (293 of 351; 32 of 39).
+   - Utah: share of **homes**, worked out from the town lists.
+   - Small towns report less often. So the town share is lower than the homes share. Dividing by it then raises the count too much, by an unknown amount.
+   - Rhode Island has a share only for 2025. Its 2021–2024 rows are also "reporting municipalities" but are treated as full coverage.
+   - Suggest: use the homes share wherever the town list can be found. Where it can't, say which way the error goes.
+6. **The denominator is 2020–2024 homes for every year from 2005 to 2026.**
+   - Washington rows start in 2011, Vermont in 2010, and the five cities in 2005.
+   - Homes grew over that time. So early-year rates, including the "before the law" rates the model uses, are a little too low (about 5–15% for the oldest years).
+   - Suggest: use homes for the matching year, or state the size of the gap.
+7. **The ADU prediction test (not adopted) mixes geographies.** Its rows are census tracts (5 cities and Madison), state totals, and Wisconsin county subdivisions. A median income for a whole state is not on the same scale as one for a tract. That test was not adopted, so nothing in the tool uses it. If it is revisited, it should use one geography level, or traits that work at any level (such as shares).
+
+**Short answer:** parking's and ADU's headline inputs use the same units across places, with two exceptions: the reporting share (item 5) and the fixed denominator (item 6). Both are small and could each be fixed or bounded. The parking lot tests (items 1 and 2) should be rerun once the inputs match.
+
 ## 4. ADU
 
 The ADU "ask why" review (AQ-061) was thorough, and its fixes are in. I looked for more mistakes of the listed kinds and found none that move the numbers.
