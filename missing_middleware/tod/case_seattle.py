@@ -214,6 +214,12 @@ def _frame(case: str) -> dict:
     p["zone_after"] = [zone_at(h or [], pd.Timestamp(f"{eyear}-12-31")) for h in p["hist"]]
     far10 = pd.to_numeric(p["MAXFAR"], errors="coerce")
     far16 = pd.to_numeric(p["RES_MAX_FAR"], errors="coerce")
+    # lot plan item 34.4: before (MAXFAR, 2010 capacity model) and after (RES_MAX_FAR, 2016) come from two fields; flag
+    # in-reform lots whose base zone did not change but whose level did, and lots with no 2010 value but a 2016 one
+    same_zone = p["zone_before"].map(base_zone) == p["zone_after"].map(base_zone)
+    p["level_flag"] = ""
+    p.loc[in_reform & same_zone & ((far16 - far10).abs() > 1e-9), "level_flag"] = "level changed with zone unchanged"
+    p.loc[far10.isna() & far16.notna(), "level_flag"] = "no 2010 level, 2016 level present"
     p["old_level"] = far10.fillna(0.0)
     p["new_level"] = np.where(in_reform, far16, far10).astype(float)
     p["new_level"] = p["new_level"].fillna(p["old_level"])

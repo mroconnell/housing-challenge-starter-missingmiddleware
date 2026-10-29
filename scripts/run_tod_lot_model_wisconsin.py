@@ -193,7 +193,8 @@ def predict() -> None:
     L.BPS_NAME["Milwaukee"] = ("55", "Milwaukee")
     L.FAR_CITIES = L.FAR_CITIES + ("Milwaukee",)
     L.FIT["item25"] = True
-    L.FIT["item32"] = True   # rezoned-later trait off for Wisconsin; missing-flag traits dropped   # item 21: Milwaukee treated as a floor-area-ratio city
+    L.FIT["item32"] = True
+    L.FIT["item34"] = True   # rezoned-later trait off for Wisconsin; missing-flag traits dropped   # item 21: Milwaukee treated as a floor-area-ratio city
     T = pd.read_parquet(L.OUT / "lots_rebuilt_halfmile.parquet")
     W = pd.read_parquet(OUT)
     W["cost_per_home"] = [L.cost_per_home(c, EFF - 1) for c in W["city"]]

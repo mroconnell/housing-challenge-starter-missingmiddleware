@@ -41,7 +41,10 @@ LOT_GROUPS = ("upzoned", "upzoned_from_industrial", "upzoned_from_campus", "upzo
               "reform_other_not_eligible", "comparison_eligible", "comparison_industrial", "comparison_campus_or_park",
               "other_not_eligible")
 HOLD = ("Chicago", "Madison", "Bellevue")
-FAR_CITIES = ("New York", "Chicago", "Madison", "Saint Paul", "Seattle")   # Bellevue out: its levels are 0/1 flags (item 18)   # levels are floor area ratios
+FAR_CITIES = ("New York", "Chicago", "Saint Paul", "Seattle")   # levels are printed floor area ratios. Bellevue out: 0/1 flags (item 18); Madison out: stories x 0.70, i.e. height (item 34)
+LEVEL_SOURCE = {"New York": "printed FAR", "Chicago": "printed FAR", "Saint Paul": "printed FAR", "Seattle": "printed FAR",
+                "Madison": "height", "Charlotte": "height", "Philadelphia": "district order", "Los Angeles": "district order",
+                "Bellevue": "in/out flag", "Milwaukee": "homes per acre"}
 STATE = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Seattle": "53",
          "Los Angeles": "06", "Chicago": "17", "Madison": "55", "Bellevue": "53"}
 
@@ -132,6 +135,8 @@ def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame
     d["treated"] = (area[keep] == C.TREAT).astype(float)
     d["in_reform"] = in_reform[keep].astype(float).values
     d["lot_group"] = lot_group[keep].astype(str).values
+    d["level_source"] = LEVEL_SOURCE.get(city, "unknown")   # item 34.5
+    d["level_flag"] = L["level_flag"].astype(str).values if "level_flag" in L else ""
     d["rezoned_later"] = (chg_later[keep].astype(float).values if REBUILT["on"] else 0.0)
     d["comparison_eligible"] = comp_eligible[keep].astype(float).values
     d["acres"] = L.geometry.area / C.SQM_PER_ACRE
@@ -467,11 +472,18 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     grp = D["city"] + ("|wi" * D["is_wi"].fillna(0).astype(int) if "is_wi" in D else "")   # item 25.3
     X["level_rank_in_city"] = lb.groupby(grp).rank(pct=True).fillna(0.5)
     up = D["treated"] == 1
-    rel = (D["far_gain"].astype(float) / lb.where(lb > 0)).where(far_city & up)
+    fg = D["far_gain"].astype(float)
+    rel = (fg / lb.where(lb > 0)).where(far_city & up)
     X["upzoned"] = up.astype(float) if after_rules else 0.0
     X["rel_gain"] = rel.clip(0, 10).fillna(0) if after_rules else 0.0
-    X["rel_gain_known"] = (far_city & up).astype(float) if after_rules else 0.0
-    X["far_now"] = (lb + (D["far_gain"].fillna(0) if after_rules else 0.0)).where(far_city)   # FAR cities only
+    if FIT.get("item34"):   # item 34.3: "known" only where the before level is positive and the gain finite
+        known = far_city & up & (lb > 0) & np.isfinite(fg)
+        X["rel_gain_known"] = known.astype(float) if after_rules else 0.0
+        now = (lb + (fg.fillna(0) if after_rules else 0.0))
+        X["far_now"] = now.where(far_city & np.isfinite(now))
+    else:
+        X["rel_gain_known"] = (far_city & up).astype(float) if after_rules else 0.0
+        X["far_now"] = (lb + (D["far_gain"].fillna(0) if after_rules else 0.0)).where(far_city)   # FAR cities only
     X["far_known"] = far_city.astype(float)
     X["built_before"] = D["built_before"]
     X["log_near_before"] = np.log1p(D["near_units_before"])
@@ -933,6 +945,74 @@ def recollect_item29() -> None:
     D.to_parquet(PATHS["lots"])
 
 
+PLUTO_VERSIONS = {2002: "02b", 2003: "03c", 2004: "04c", 2005: "05d", 2006: "06c", 2007: "07c", 2008: "08b", 2009: "09v1",
+                  2010: "10v1", 2011: "11v1", 2012: "12v1", 2013: "13v1", 2014: "14v1", 2015: "15v1", 2016: "16v1",
+                  2017: "17v1", 2018: "18v1"}
+
+
+def spread_assembly() -> None:
+    """Plan section 9, item 33: a New York lot's homes are shared over the day-one lots of the same reform that sit
+    inside the tax lot that held the building in the first MapPLUTO release after the permit year."""
+    import zipfile
+    nyc_dir = RAW / "tod_cases" / "nyc"
+    D = pd.read_parquet(PATHS["half"])
+    D["assembled_site"] = 0.0
+    ny = D.index[D["city"] == "New York"]
+    pts = gpd.GeoSeries(gpd.points_from_xy(D.loc[ny, "x5070"], D.loc[ny, "y5070"]), index=ny, crs=5070)
+    moved = {"units_before": 0.0, "units_after": 0.0}
+    for col in ("units_before", "units_after"):
+        src = [i for i in ny if D.at[i, col] > 0]
+        jobs = []
+        for i in src:
+            yrs = []
+            for part in str(D.at[i, "permit_years"]).split(";"):
+                if ":" in part:
+                    y = int(float(part.split(":")[0]))
+                    after = y >= int(D.at[i, "eff_year"])
+                    if after == (col == "units_after"):
+                        yrs.append(y)
+            y = max(yrs) if yrs else int(D.at[i, "eff_year"])
+            jobs.append((i, min(max(y + 1, 2002), 2018)))
+        byv = {}
+        for i, y in jobs:
+            byv.setdefault(PLUTO_VERSIONS[y], []).append(i)
+        for v, idx in byv.items():
+            z = zipfile.ZipFile(nyc_dir / f"mappluto_{v}.zip")
+            shps = [n for n in z.namelist() if n.lower().endswith("mappluto.shp")]
+            sp = pts.loc[idx]
+            polys = []
+            for n in shps:
+                g = gpd.read_file(f"/vsizip/{nyc_dir / f'mappluto_{v}.zip'}/{n}", columns=[],
+                                  bbox=tuple(sp.to_crs(2263).total_bounds))
+                if len(g):
+                    polys.append(g.to_crs(5070)[["geometry"]])
+            if not polys:
+                continue
+            P = pd.concat(polys, ignore_index=True)
+            P = gpd.GeoDataFrame(P, geometry="geometry", crs=5070)
+            js = gpd.sjoin(gpd.GeoDataFrame(geometry=sp, crs=5070), P, predicate="within", how="inner")
+            js = js[~js.index.duplicated()]
+            for site, g in js.groupby("index_right"):
+                poly = P.geometry.iloc[site]
+                for i in g.index:
+                    u = D.at[i, "unit"]
+                    sib = D.index[(D["unit"] == u)]
+                    sib = sib[pts.reindex(sib).within(poly).fillna(False).values]
+                    if len(sib) <= 1:
+                        continue
+                    h = D.at[i, col]
+                    a = D.loc[sib, "acres"].clip(lower=0.001)
+                    D.at[i, col] -= h
+                    D.loc[sib, col] += h * a / a.sum()
+                    D.loc[sib, "assembled_site"] = 1.0
+                    moved[col] += h * (1 - a.get(i, 0) / a.sum())
+        print(col, "homes spread to other day-one lots:", round(moved[col]), flush=True)
+    D["builds_after"] = (D["units_after"] > 0.5).astype(float)
+    D["built_before"] = (D["units_before"] > 0.5).astype(float)
+    D.to_parquet(PATHS["half"])
+    print("lots marked part of an assembled site:", int(D["assembled_site"].sum()))
+
+
 def sanity_flags(stage: str) -> None:
     """Flags only, never stops the run (owner, 2026-10-28): units, policy distance, traits outside other cities' range."""
     from missing_middleware.tod import sanity as S
@@ -940,6 +1020,12 @@ def sanity_flags(stage: str) -> None:
     D["cost_per_home"] = 150_000.0   # placeholder: only the range check of the rent-to-cost trait uses it
     X = features(D, False)
     fl = S.unit_flags(D, FAR_CITIES) + S.policy_flags(D) + S.range_flags(X, D["city"])
+    if "level_source" in D:   # item 34.5: where each city's density level comes from
+        for (c, src), n in D.groupby(["city", "level_source"]).size().items():
+            fl.append({"kind": "level source", "city": c, "item": "far_before", "detail": f"{n} lots: {src}"})
+    if "level_flag" in D:
+        for (c, f), n in D[D["level_flag"].astype(str).str.len() > 0].groupby(["city", "level_flag"]).size().items():
+            fl.append({"kind": "level source", "city": c, "item": "far_before", "detail": f"{n} lots: {f}"})
     S.report(fl, REFERENCE / f"tod_lot_model_flags_{stage}{FIT['suffix']}.csv")
 
 
@@ -1142,7 +1228,7 @@ def fit8(tlearner: bool = False) -> None:
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values", "fix_density", "recollect_item29"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values", "fix_density", "recollect_item29", "spread_assembly"], required=True)
     ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
     ap.add_argument("--with-rezoned-later", action="store_true", help="check run: keep the rezoned-later trait (item 32.3)")
     ap.add_argument("--land-value", action="store_true", help="add the pays-for-itself traits (LAND_VALUE_PLAN.md)")
@@ -1161,7 +1247,7 @@ def main(argv=None) -> None:
     if ap_rebuilt:
         REBUILT["on"] = True
         PATHS.update(lots=LOTS_REBUILT, half=OUT / "lots_rebuilt_halfmile.parquet")
-        FIT.update(item25=True, item32=True, with_rezoned_later=a.with_rezoned_later)
+        FIT.update(item25=True, item32=True, item34=True, with_rezoned_later=a.with_rezoned_later)
         import missing_middleware.tod.case_nyc as _N
         import missing_middleware.tod.case_chicago as _K
         _N.EXCLUDE_HOTELS, _K.STAGED_RELAXED = True, True   # item 32.1-2
@@ -1179,6 +1265,8 @@ def main(argv=None) -> None:
         fix_density()
     if a.stage == "recollect_item29":
         recollect_item29()
+    if a.stage == "spread_assembly":
+        spread_assembly()
     if a.stage.startswith("fit"):
         sanity_flags(a.stage)
     if a.stage == "collect":
