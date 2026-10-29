@@ -1,0 +1,70 @@
+# Does a project pay for itself? Land values on every lot. Plan written before fetching
+
+Written 2026-10-29 by the TOD conductor, at the owner's request (the Terner Center's SB 9 approach, "that's smart"; "run land value plan concurrently"). No land value beyond New York's and Chicago's has been fetched, and no feasibility number computed, before this file was committed. Changes go in section 8 with a date and a reason.
+
+## 1. Question
+
+For each lot, under the rules before and after the reform: would a new apartment building be worth more than it costs to build, including buying the lot? An upzoning should matter most where it turns "doesn't pay" into "pays". This adds a lot trait to the lot model ([LOT_MODEL_PLAN.md](LOT_MODEL_PLAN.md)), and the same trait for Milwaukee and Madison lots when the model is applied to Wisconsin.
+
+## 2. The calculation (per lot, old rules and new rules)
+
+| Item | Formula | Unit |
+| --- | --- | --- |
+| Homes allowed | allowed floor area ÷ 1,000 sq ft per home (floor-area-ratio cities); elsewhere lot acres × the training cities' 99th-percentile homes per acre (as the lot ceiling, item 12) | homes |
+| Value when built | homes allowed × tract median gross rent × 12 months ÷ 5% cap rate | dollars |
+| Cost to build | homes allowed × Census permit-survey construction value per home in 5+ home buildings, that city, year before the reform | dollars |
+| Cost to buy the lot | the lot's market value before the reform (section 3) | dollars |
+| **Margin** | value − cost to build − cost to buy | dollars |
+| **Pays** | margin > 0 | yes / no |
+
+**Traits added to the model:**
+- pays under old rules (yes/no), pays under new rules (yes/no), and "flips" (no → yes);
+- margin per acre, old and new, and the change, in dollars per acre (log-scaled with sign);
+- lot market value per acre before (dollars per acre).
+
+## 3. Lot market value before each reform
+
+Only values dated before each case's window are used (lot plan item 1). Assessed values are turned into market values with each assessor's published level of assessment.
+
+| City | Source | Snapshot | Assessed → market |
+| --- | --- | --- | --- |
+| New York | MapPLUTO archive (already in the lot table) | before each rezoning | Department of Finance market value where present; else assessed ÷ class ratio (6% class 1, 45% classes 2 and 4) |
+| Chicago | Cook County assessed values 2012 (already in the lot table) | 2012 | ÷ 10% residential, ÷ 25% commercial |
+| Philadelphia | Office of Property Assessment certified values history | year before each member's bill (2014 on; earlier members get the missing flag) | market value as published (assessed at 100%) |
+| Seattle, Bellevue | King County Assessor value history extract | year before each reform | appraised value as published (100%) |
+| Saint Paul | Metropolitan Council regional parcel archive (Ramsey County) | 2010 | estimated market value as published |
+| Charlotte | Mecklenburg County assessor | 2018 or the nearest earlier public snapshot | as published (100%); missing flag if no pre-2019 snapshot is public |
+| Los Angeles | Los Angeles County Assessor parcel data, roll 2012 | 2012 | **flagged:** Proposition 13 keeps assessed values far below market for long-held lots, so the value is kept but marked "assessed, not market" |
+| Madison | Wisconsin statewide parcels (V8, 2022 values) | 2022 | ÷ the city's published ratio of assessed to equalized value |
+| Milwaukee (application only) | Wisconsin statewide parcels, latest version | latest | ÷ the city's ratio of assessed to equalized value |
+
+Lots without a usable value get the city median per acre and a missing flag, as for other traits. No owner names are kept; no parcel ids are committed.
+
+## 4. Data rules
+
+- Raw files go under `data/raw/` and are never committed.
+- Only public downloads; no account creation; no bot-protection bypass. If a source needs either, that city gets the missing flag and it is reported.
+- Licences are recorded in each raw folder's manifest.
+
+## 5. Checks before use (standing checks, [CHECKS.md](CHECKS.md))
+
+- **Units:** market value per acre within $1,000 to $500 million; margin computed in dollars, not thousands.
+- **Two sources:** each city's median lot value per acre against the tract median home value × homes per acre, as a rough cross-check.
+- **Ask why:** the 10 lots with the largest margin change in each city, by group.
+
+## 6. How it is judged
+
+- The lot model is rerun with these traits (causal forest and boosting, rebuilt table, same holdouts, old and new rules, plus the two robustness checks of lot plan item 19).
+- Reported beside the run without them. It counts as helping only if the pass holds and the fold mean error falls.
+- Also reported, as context: the share of upzoned lots that flip from "doesn't pay" to "pays", by city, and whether flipping lots built more often than others.
+
+## 7. Limits stated up front
+
+- Rents and construction costs are tract- or city-level, not project-level.
+- One cap rate (5%) for every city and year; a 4% and 6% sensitivity is reported.
+- Assessed values lag markets and differ by assessor; Los Angeles is the weakest.
+- This is a rough "is the limit likely to bind" test, not a developer pro forma.
+
+## 8. Changes after writing
+
+(none yet)
