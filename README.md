@@ -1,7 +1,7 @@
 # Missing Middleware
 
 An interactive tool for Wisconsin legislators and legislative aides that estimates how three statewide housing reforms could change housing permitted over 2027–2031, compared with current law: an accessory dwelling unit (ADU) law, parking requirement reduction and transit-oriented density (TOD). Pick a reform in the header. Each reform has its own outcome and evidence ([Model & Assumptions Overview](docs/MODEL_AND_ASSUMPTIONS.md); [Policy Scenario Comparison](docs/POLICY_SCENARIO_COMPARISON.md)); the ADU section below describes the ADU reform. Headlines, 2027–2031:
-- **ADU:** 10,788 additional second-home permits (6,734 to 20,057), on a 530-permit current-law baseline (revised 2026-10-28, AQ-061).
+- **ADU:** 10,629 additional second-home permits (6,804 to 19,460), on a 530-permit current-law baseline (revised 2026-10-29, AQ-064).
 - **Parking reduction:** 0 additional permitted homes in the central case and 19,937 at the high end of the evidence, on a 122,619-home all-housing baseline.
 - **TOD:** 2,509 additional permitted homes near major transit stops in the typical case (171 to 17,148), on a 14,464-home near-stop baseline.
 
@@ -13,13 +13,13 @@ The tool runs locally in a web browser and shows the adopted Gate 3 model ([Gate
 
 **Outcome.** Second-home permits at issuance on lots that already have a single-family home: ADUs plus single-family-to-duplex conversions. They are not completed homes, and every result is for an area, never for a lot. A rate is permits in a year ÷ thousands of one-unit detached homes (Wisconsin has 1,839,569, ACS 2020–2024).
 
-**Headline (model output, 2027–2031, law in effect 1 January 2027, stylized).** All numbers are second-home permits summed over the five years 2027–2031, statewide; the source of truth is [`reference/adu_model_statewide.csv`](reference/adu_model_statewide.csv) (adopted run, AQ-043 and the 2026-10-28 ask-why fixes, AQ-061, in [ASSUMPTIONS_AND_QUESTIONS.md](docs/ASSUMPTIONS_AND_QUESTIONS.md)).
+**Headline (model output, 2027–2031, law in effect 1 January 2027, stylized).** All numbers are second-home permits summed over the five years 2027–2031, statewide; the source of truth is [`reference/adu_model_statewide.csv`](reference/adu_model_statewide.csv) (adopted run, AQ-043, the 2026-10-28 ask-why fixes, AQ-061, and the 2026-10-29 audit fixes, AQ-064, in [ASSUMPTIONS_AND_QUESTIONS.md](docs/ASSUMPTIONS_AND_QUESTIONS.md)).
 - Under current law: **530** permits.
-- Added by the law: **10,788** additional permits in the central scenario, **6,734** in the lower scenario and **20,057** in the strong adoption scenario. The scenarios show how much eight statewide-law states differ from one another; they are not statistical confidence intervals. How each input moves these numbers is in [`reference/adu_model_sensitivities.csv`](reference/adu_model_sensitivities.csv).
+- Added by the law: **10,629** additional permits in the central scenario, **6,804** in the lower scenario and **19,460** in the strong adoption scenario. The scenarios show how much eight statewide-law states differ from one another; they are not statistical confidence intervals. How each input moves these numbers is in [`reference/adu_model_sensitivities.csv`](reference/adu_model_sensitivities.csv).
 
 **Seven screens.**
 1. **Wisconsin today:** housing units, single-family homes, vacancy (including seasonal homes), homes permitted and the production rate (9.0 per 1,000 housing units in 2025), housing mix, and, labelled separately, the ADU baseline and addition.
-2. **Statewide comparison:** the modelled law, the three scenarios explained, annual and five-year permits, and the adoption reference line (10,558 permits over 2027–2031: the median observed path of the eight statewide-law states; [`reference/adu_model_reference_lines.csv`](reference/adu_model_reference_lines.csv)).
+2. **Statewide comparison:** the modelled law, the three scenarios explained, annual and five-year permits, and the adoption reference line (10,308 permits over 2027–2031: the median observed path of the eight statewide-law states; [`reference/adu_model_reference_lines.csv`](reference/adu_model_reference_lines.csv)).
 3. **Where:** county, municipality, Assembly-district and Senate-district map (area fills only) with a year slider, a details panel, and a searchable table that reconciles to the state.
 4. **How sure:** how much of the addition rests on observed, calculated and assumed current-law rates, a switch for how places with uncoded local rules behave (three precomputed runs), the sensitivity analysis, robustness checks, and the strongest challenges.
 5. **Why:** evidence and assumption cards with links to the write-ups, and the comparison-state charts.

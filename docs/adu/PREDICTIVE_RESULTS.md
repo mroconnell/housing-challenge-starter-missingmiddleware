@@ -2,6 +2,8 @@
 
 > **Rerun on the adopted data (run 2, 2026-10-28): see [the section at the end](#run-2-rerun-on-the-adopted-aq-061-coding).** Sections 1–7 below are the first run, kept as they were.
 
+> **Mixed geographies (independent audit 2026-10-29, section 2e item 7; AQ-064).** This test was not adopted, so nothing in the tool uses it. Its rows mix three levels: census tracts (five cities and Madison), whole states, and Wisconsin county subdivisions. A median income for a whole state is not on the same scale as one for a tract, so a trait's slope learned from tracts does not carry over cleanly to states, and the reverse. If the test is revisited, use one geography level, or only traits that mean the same at any level (shares, ranks). Its rows also read every year against 2020–2024 homes; the adopted fit now uses year-matched homes (AQ-064).
+
 Run 2026-10-28 under [PREDICTIVE_PLAN.md](PREDICTIVE_PLAN.md), written before any outcome was computed. Changes made after it are in its section 10. Code: [`scripts/build_adu_predictive_panel.py`](../../scripts/build_adu_predictive_panel.py), [`scripts/run_adu_predictive.py`](../../scripts/run_adu_predictive.py); tests [`tests/test_adu_predictive.py`](../../tests/test_adu_predictive.py). The adopted ADU outputs (`reference/adu_model_*.csv`) are not touched.
 
 **Units.**

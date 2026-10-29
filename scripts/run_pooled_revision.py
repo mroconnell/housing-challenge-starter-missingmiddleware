@@ -44,6 +44,7 @@ import run_pooled_regression as rp  # noqa: E402
 from missing_middleware.comparison import ca_inputs as I  # noqa: E402
 from missing_middleware.comparison import ca_mf_lot as M  # noqa: E402
 from missing_middleware.comparison import ca_regression as cr  # noqa: E402
+from missing_middleware.comparison import homes_by_year as hb  # noqa: E402
 from missing_middleware.comparison import pooled_regression as pr  # noqa: E402
 from missing_middleware.comparison import pooled_revision as R  # noqa: E402
 from missing_middleware.foundation.parsers import read_acs_sf  # noqa: E402
@@ -112,12 +113,46 @@ ADOPTED_CODING = rp.WA_COMPLIANCE
 VT_SOURCE_CHANGE_YEAR = 2024     # Vermont 2024: DHCD layer (CCRPC-sourced records), not CCRPC's own series
 
 
-def build(d, panel, vacant=True, mpls=True, coverage=True, coding=None, drop_vt_2024=False, coverage_states=None):
-    """The pooled data for one California option. Defaults = the adopted fit (AQ-061). coverage_states limits the
-    coverage correction to those series (None = every series in COVERAGE); coding=pr.STATE_CODING restores the
-    Gate 3 Washington coding (law years from enactment)."""
+CLUSTER_FIPS = {"CA": "06", "WA": "53", "OR": "41", "RI": "44", "MA": "25", "ME": "23", "UT": "49", "VT": "50",
+                "TX": "48", "CO": "08", "MN": "27"}
+_HOMES_INDEX = {}
+
+
+def homes_index() -> pd.DataFrame:
+    """Year-matched homes index (AQ-064) for every comparison state and city: homes in mid-year y / ACS 2020-2024
+    homes, from 1-unit building permits (missing_middleware.comparison.homes_by_year)."""
+    if "ix" not in _HOMES_INDEX:
+        places = [g for _, g, _ in pr.CITY_CODING.values()]
+        geos = list(CLUSTER_FIPS.values()) + places
+        h = {}
+        with open(RAW / "census_acs5_2024_tbsf/acsdt5y2024-b25024.dat", encoding="utf-8") as f:
+            f.readline()
+            for line in f:
+                g = line.split("|", 4)
+                gid = g[0][9:]
+                if (g[0].startswith("0400000US") or g[0].startswith("1600000US")) and gid in geos:
+                    h[gid] = float(g[3])
+        permits = pd.concat([hb.read_bps_state(RAW / "census_bps_state"),
+                             hb.read_bps_places(RAW / "census_bps_place_us", places)])
+        _HOMES_INDEX["ix"] = hb.stock_index(permits, h, range(2005, 2027))
+    return _HOMES_INDEX["ix"]
+
+
+def build(d, panel, vacant=True, mpls=True, coverage=True, coding=None, drop_vt_2024=False, coverage_states=None,
+          year_homes=True, coverage_override=None):
+    """The pooled data for one California option. Defaults = the adopted fit (AQ-061, AQ-064). coverage_states limits
+    the coverage correction to those series (None = every series in COVERAGE); coding=pr.STATE_CODING restores the
+    Gate 3 Washington coding (law years from enactment); year_homes=False reads every year against ACS 2020-2024
+    homes (before AQ-064); coverage_override replaces COVERAGE shares ({series: {year: share}})."""
     p = rp.pooled({**d, "panel": panel}, state_coding=coding or ADOPTED_CODING)
     rows = p.rows
+    if coverage_override:
+        rows = rows.copy()
+        for sid, ys in coverage_override.items():
+            for y, sh in ys.items():
+                rows.loc[rows["series"].eq(sid) & rows["year"].eq(y), "coverage"] = sh
+    if year_homes:
+        rows = hb.apply_homes_index(rows, homes_index(), CLUSTER_FIPS)
     if coverage:
         sel = rows["series"].isin(coverage_states) if coverage_states is not None else np.ones(len(rows), bool)
         adj = pr.adjust_counts(rows, coverage=True)
@@ -136,6 +171,8 @@ FIT_VARIANTS = {
     "cap_a2|wa_from_enactment": dict(coding=pr.STATE_CODING),
     "cap_a2|vt_2024_dropped": dict(drop_vt_2024=True),
     "cap_a2|gate4_coding": dict(coverage=False, coding=pr.STATE_CODING),
+    "cap_a2|homes_2020_24_every_year": dict(year_homes=False),
+    "cap_a2|coverage_me_ma_homes_estimate": dict(coverage_override=pr.COVERAGE_ME_MA_HOMES_ESTIMATE),
 }
 
 
@@ -454,9 +491,9 @@ def main():
         if abs(row.share - want) > 5e-5 or row.unmatched:
             raise SystemExit(f"Utah {row.year} reporting share {row.share:.4f} != COVERAGE {want} ({row.unmatched})")
     cov_rows = []
-    basis = {"ME_statewide": "published: 182 reporting towns, about 73% of Maine's population (no town list in the repository)",
-             "MA_statewide": "published: 293 of 351 towns responded (share of towns; no town list in the repository)",
-             "RI_statewide": "published: 32 of 39 municipalities reported in 2025 (share of towns; no town list)",
+    basis = {"ME_statewide": "published: 182 reporting towns, about 73% of Maine's population (share of people; no town list; homes share likely about 0.62-0.70, AQ-064)",
+             "MA_statewide": "published: 293 of 351 towns responded (share of towns; homes share about 0.81 from a non-official tracker copy, AQ-064)",
+             "RI_statewide": "computed: one-unit detached homes in the towns listed in RI EOH ADU reports (2023-24: 33 of 39; 2025: 32 of 39) / all of Rhode Island's (AQ-064)",
              "UT_mih": "computed: one-unit detached homes in the jurisdictions that answered / all of Utah's"}
     for sid, ys in pr.COVERAGE.items():
         for y, sh in ys.items():

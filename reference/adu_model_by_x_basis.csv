@@ -1,46 +1,46 @@
 x_basis,path,baseline_units,additional_units
-"benchmark group rate, ramping from prohibited since 2021-07-13",central,20.35014636343166,95.19800437325465
-"benchmark group rate, ramping from prohibited since 2021-07-13",lower,20.35014636343166,54.01054701904669
-"benchmark group rate, ramping from prohibited since 2021-07-13",upper,20.35014636343166,189.46951963839336
-benchmark_group_rate,central,12.133153193725137,88.78056912444147
-benchmark_group_rate,lower,12.133153193725137,52.48607810398542
-benchmark_group_rate,upper,12.133153193725137,171.82236528061838
-observed 2014-2025,central,1.25,50.59757691912
-observed 2014-2025,lower,1.25,31.664253310363712
-observed 2014-2025,upper,1.25,93.89266562696
+"benchmark group rate, ramping from prohibited since 2021-07-13",central,20.35014636343166,93.28245701446033
+"benchmark group rate, ramping from prohibited since 2021-07-13",lower,20.35014636343166,54.46315928238814
+"benchmark group rate, ramping from prohibited since 2021-07-13",upper,20.35014636343166,182.97382836972722
+benchmark_group_rate,central,12.133153193725137,87.35987187354421
+benchmark_group_rate,lower,12.133153193725137,53.080229363072526
+benchmark_group_rate,upper,12.133153193725137,166.5265392213921
+observed 2014-2025,central,1.25,49.92536774784
+observed 2014-2025,lower,1.25,32.03800987134204
+observed 2014-2025,upper,1.25,91.21178297879999
 observed 2022-2025 (G2-9),central,50.0,134.92324000000002
 observed 2022-2025 (G2-9),lower,50.0,134.92324000000002
 observed 2022-2025 (G2-9),upper,50.0,134.92324000000002
-"observed 2022-2025 candidate permits (open data, central rule, quality C); flat, no assumed post-reform rise",central,43.75,379.53294994692
-"observed 2022-2025 candidate permits (open data, central rule, quality C); flat, no assumed post-reform rise",lower,43.75,226.88585158688048
-"observed 2022-2025 candidate permits (open data, central rule, quality C); flat, no assumed post-reform rise",upper,43.75,728.7455819340199
-prohibited_group_rate,central,15.790895538266298,739.3684493453727
-prohibited_group_rate,lower,15.790895538266298,463.4662587241933
-prohibited_group_rate,upper,15.790895538266298,1370.2663823641394
-"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",central,1.7776762566331104,65.66994728785905
-"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",lower,1.7776762566331104,41.03156133712405
-"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",upper,1.7776762566331104,122.0070882506504
-"restricted group rate, ramping from prohibited since 2022-05-03",central,3.967282209688183,66.93815107338243
-"restricted group rate, ramping from prohibited since 2022-05-03",lower,3.967282209688183,41.174936758310125
-"restricted group rate, ramping from prohibited since 2022-05-03",upper,3.967282209688183,125.86858870095628
-"restricted group rate, ramping from prohibited since 2023-02-28",central,4.222090136740946,61.4827295732581
-"restricted group rate, ramping from prohibited since 2023-02-28",lower,4.222090136740946,37.64044738623279
-"restricted group rate, ramping from prohibited since 2023-02-28",upper,4.222090136740946,116.0102754880889
-"restricted group rate, ramping from prohibited since 2024-02-17",central,2.938566680684362,52.16008487523844
-"restricted group rate, ramping from prohibited since 2024-02-17",lower,2.938566680684362,32.127058252109876
-"restricted group rate, ramping from prohibited since 2024-02-17",upper,2.938566680684362,97.97548745725892
-"restricted group rate, ramping from prohibited since 2025-02-26",central,2.887729667924798,43.9308126816544
-"restricted group rate, ramping from prohibited since 2025-02-26",lower,2.887729667924798,26.920719645948026
-"restricted group rate, ramping from prohibited since 2025-02-26",upper,2.887729667924798,82.83662833586645
-"restricted group rate, ramping from prohibited since 2025-06-09",central,2.1269499617651157,72.1293986365067
-"restricted group rate, ramping from prohibited since 2025-06-09",lower,2.1269499617651157,45.019738364544445
-"restricted group rate, ramping from prohibited since 2025-06-09",upper,2.1269499617651157,134.12033673854717
-"restricted group rate, ramping from prohibited since 2026-09-01",central,3.351911637944884,110.53610304803271
-"restricted group rate, ramping from prohibited since 2026-09-01",lower,3.351911637944884,68.94503883585439
-"restricted group rate, ramping from prohibited since 2026-09-01",upper,3.351911637944884,205.6423370553157
-restricted_group_rate,central,39.30528096573905,888.99929405361
-restricted_group_rate,lower,39.30528096573905,550.9786194266153
-restricted_group_rate,upper,39.30528096573905,1662.0328110840326
-uncoded_like_restricted_AQ027,central,326.21411657400563,7937.379224967502
-uncoded_like_restricted_AQ027,lower,326.21411657400563,4927.05285048293
-uncoded_like_restricted_AQ027,upper,326.21411657400563,14821.80816807422
+"observed 2022-2025 candidate permits (open data, central rule, quality C); flat, no assumed post-reform rise",central,43.75,372.25300117404004
+"observed 2022-2025 candidate permits (open data, central rule, quality C); flat, no assumed post-reform rise",lower,43.75,228.56496966663403
+"observed 2022-2025 candidate permits (open data, central rule, quality C); flat, no assumed post-reform rise",upper,43.75,704.1174456084999
+prohibited_group_rate,central,15.790895538266298,728.3205879122102
+prohibited_group_rate,lower,15.790895538266298,468.108889997486
+prohibited_group_rate,upper,15.790895538266298,1328.968441952673
+"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",central,1.7776762566331104,64.79925289010035
+"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",lower,1.7776762566331104,41.520859582822276
+"restricted group rate, ramping from its observed prohibited-period rate since 2026-05-08",upper,1.7776762566331104,118.53176052565357
+"restricted group rate, ramping from prohibited since 2022-05-03",central,3.967282209688183,65.78690103236555
+"restricted group rate, ramping from prohibited since 2022-05-03",lower,3.967282209688183,41.521434244401846
+"restricted group rate, ramping from prohibited since 2022-05-03",upper,3.967282209688183,121.81136731387295
+"restricted group rate, ramping from prohibited since 2023-02-28",central,4.222090136740946,60.36267072869069
+"restricted group rate, ramping from prohibited since 2023-02-28",lower,4.222090136740946,37.92356379258319
+"restricted group rate, ramping from prohibited since 2023-02-28",upper,4.222090136740946,112.16782604542337
+"restricted group rate, ramping from prohibited since 2024-02-17",central,2.938566680684362,51.27267049277681
+"restricted group rate, ramping from prohibited since 2024-02-17",lower,2.938566680684362,32.4021933213209
+"restricted group rate, ramping from prohibited since 2024-02-17",upper,2.938566680684362,94.83788386124913
+"restricted group rate, ramping from prohibited since 2025-02-26",central,2.887729667924798,43.12936719594096
+"restricted group rate, ramping from prohibited since 2025-02-26",lower,2.887729667924798,27.122190456237284
+"restricted group rate, ramping from prohibited since 2025-02-26",upper,2.887729667924798,80.08379428277232
+"restricted group rate, ramping from prohibited since 2025-06-09",central,2.1269499617651157,71.16483720235578
+"restricted group rate, ramping from prohibited since 2025-06-09",lower,2.1269499617651157,45.552821163260866
+"restricted group rate, ramping from prohibited since 2025-06-09",upper,2.1269499617651157,130.2865846189736
+"restricted group rate, ramping from prohibited since 2026-09-01",central,3.351911637944884,108.97761093753778
+"restricted group rate, ramping from prohibited since 2026-09-01",lower,3.351911637944884,69.71255144284464
+"restricted group rate, ramping from prohibited since 2026-09-01",upper,3.351911637944884,199.6136499306533
+restricted_group_rate,central,39.30528096573905,875.6367318289726
+restricted_group_rate,lower,39.30528096573905,556.7036822486651
+restricted_group_rate,upper,39.30528096573905,1611.8998619459596
+uncoded_like_restricted_AQ027,central,326.21411657400563,7821.988004024901
+uncoded_like_restricted_AQ027,lower,326.21411657400563,4980.477199817543
+uncoded_like_restricted_AQ027,upper,326.21411657400563,14381.590711742383

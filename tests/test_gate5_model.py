@@ -70,8 +70,8 @@ class TestUnknownRulesOutputs(unittest.TestCase):
         # AQ-061: the measured cities lowered the prohibited group rate (0.0313 -> 0.0233) and the restricted one
         # (0.0607 -> 0.0515), so the switch moves the baseline a little less than at Gate 5 (-186.36)
         self.assertAlmostEqual(r.d_baseline_units, -178.34, delta=0.05)
-        self.assertAlmostEqual(r.d_additional_units, 152.2, delta=0.5)
-        self.assertAlmostEqual(r.d_total_with_law, -26.2, delta=0.5)
+        self.assertAlmostEqual(r.d_additional_units, 153.9, delta=0.5)     # AQ-064 refit (AQ-061: 152.2)
+        self.assertAlmostEqual(r.d_total_with_law, -24.4, delta=0.5)
 
     def test_totals_and_ordering(self):
         for t in uv.VARIANTS:

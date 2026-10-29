@@ -263,8 +263,8 @@ class TestUIBundle(unittest.TestCase):
         self.assertNotIn("like_restricted", self.unk["areas"])
         # the plain-language figures quoted on screen (docs/gate5/UI_CONTRACT.md)
         pro, ben = self.unk["variants"][1], self.unk["variants"][2]
-        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (352, 10940, 11292))
-        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (1393, 10051, 11444))
+        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (352, 10783, 11135))
+        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (1393, 9884, 11277))
 
     def test_unknown_rules_areas_and_counties_reconcile(self):
         munis = {a["id"]: a for a in self.areas["munis"]}

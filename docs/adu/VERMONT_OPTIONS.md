@@ -1,5 +1,7 @@
 # ADU model: three Vermont options
 
+> **Note (2026-10-29):** the numbers on this page are from before AQ-064. The current Vermont-dropped case is in [MODEL_AND_ASSUMPTIONS.md](../MODEL_AND_ASSUMPTIONS.md), Part A, Sensitivity Notes.
+
 Run 2026-10-28. Code: `scripts/run_adu_vermont_options.py`. Table: `reference/adu_vermont_options.csv`.
 The adopted outputs (`reference/adu_model_*.csv`, `reference/pooled_revision_*.csv`) are unchanged.
 

@@ -109,16 +109,27 @@ NEW_HOUSE_FACTOR = 0.8      # named sensitivity only: series that include ADUs b
 # Reporting share by series and year (AQ-061, owner decision 2026-10-28: applied in the adopted fit through
 # adjust_counts(coverage=True), which divides the count by the share; a series-year not listed counts as 1.0).
 # The counts cover only reporting towns while the denominator is every one-unit detached home in the state.
-# No town lists for Maine, Massachusetts or Rhode Island are in the repository, so their published reporting shares
-# are used (Maine: share of population; Massachusetts and Rhode Island: share of towns). Utah's shares are one-unit
-# detached homes (ACS 2020-2024 B25024_002) in the cities, metro townships and unincorporated county areas that
-# answered the ADU building-permit question in each MIH report year, / all of Utah's (813,940); computed from the
-# extracted MIH lists by statewide_states.ut_reporting_share() and checked in scripts/run_pooled_revision.py.
-# Rhode Island 2021-2023 coverage is not stated, so those years are left at 1.0.
+# Utah and Rhode Island (AQ-064, audit 2026-10-29 item 5) use the share of the state's one-unit detached homes
+# (ACS 2020-2024 B25024_002, county subdivisions matched by name to the 2024 Gazetteer) in the towns that reported:
+# - Utah: from the extracted MIH lists by statewide_states.ut_reporting_share(), checked in run_pooled_revision.py.
+# - Rhode Island (RI EOH ADU annual reports; town counts sum to the published totals):
+#   2023 and 2024 (2025 report, Attachment 1): 33 of 39 towns; missing Barrington, Hopkinton, North Kingstown,
+#   North Providence, North Smithfield, Tiverton -> 0.8704. 2025 (2026 report, Attachment 1): 32 of 39; missing
+#   Coventry, Johnston, Little Compton, North Providence, North Smithfield, Pawtucket, Tiverton -> 0.8099.
+#   2021-2022: no town list found (earlier report editions not online); left at 1.0, which under-corrects them.
+# Maine and Massachusetts keep their published shares (no official town list could be fetched automatically):
+# - Maine 0.73 is a share of population. Reporting towns are mostly the larger ones, and the largest towns holding
+#   73% of Maine's people hold about 62% of its detached homes, so 0.73 probably under-corrects (true share about
+#   0.62-0.70).
+# - Massachusetts 293/351 is a share of towns. A non-official copy of the EOHLC tracker file gives a homes share of
+#   0.809 with towns that answered only the mid-year survey at half weight (0.897 at full weight), so 0.835 is
+#   close. Both bounds are run as the sensitivity "cap_a2|coverage_me_ma_homes_estimate".
 COVERAGE = {"ME_statewide": {2025: 0.73},
             "MA_statewide": {2025: 293 / 351},
-            "RI_statewide": {2025: 32 / 39},
+            "RI_statewide": {2023: 0.8704, 2024: 0.8704, 2025: 0.8099},
             "UT_mih": {2023: 0.7951, 2024: 0.8031, 2025: 0.8042}}
+# Homes-share estimates for Maine and Massachusetts 2025, run only as a sensitivity (see above).
+COVERAGE_ME_MA_HOMES_ESTIMATE = {"ME_statewide": {2025: 0.62}, "MA_statewide": {2025: 0.809}}
 # Share of the year the statewide law was in force in a k = 1 calendar year coded as a full year (AQ-061):
 # Massachusetts' law took effect 2025-02-02, so 2025 is 11 of 12 months.
 PARTIAL_YEAR = {("MA_statewide", 2025): 11 / 12}

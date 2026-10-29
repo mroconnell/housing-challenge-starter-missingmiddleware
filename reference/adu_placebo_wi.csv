@@ -1,13 +1,13 @@
 case,trend_kind,trend_value,path,baseline_5yr,additional_5yr,with_law_5yr,d_baseline,d_additional,d_with_law
-adopted,none,,lower,530.1,6734.3,7264.4,0.0,0.0,0.0
-adopted,none,,central,530.1,10787.6,11317.7,0.0,0.0,0.0
-adopted,none,,upper,530.1,20057.4,20587.5,0.0,0.0,0.0
-"rising baseline, proportional, C median ratio",ratio,1.5158,lower,949.7,6354.3,7304.0,419.6,-380.0,39.6
-"rising baseline, proportional, C median ratio",ratio,1.5158,central,949.7,10406.7,11356.4,419.6,-380.9,38.7
-"rising baseline, proportional, C median ratio",ratio,1.5158,upper,949.7,19675.8,20625.5,419.6,-381.6,38.0
-"rising baseline, proportional, C 95th-percentile ratio",ratio,1.7094,lower,1128.5,6190.8,7319.3,598.4,-543.5,54.9
-"rising baseline, proportional, C 95th-percentile ratio",ratio,1.7094,central,1128.5,10242.8,11371.3,598.4,-544.8,53.6
-"rising baseline, proportional, C 95th-percentile ratio",ratio,1.7094,upper,1128.5,19511.6,20640.1,598.4,-545.8,52.6
-"rising baseline, additive, C median change",diff,0.2486,lower,3674.0,3953.1,7627.1,3144.0,-2781.3,362.7
-"rising baseline, additive, C median change",diff,0.2486,central,3674.0,7985.0,11659.1,3144.0,-2802.6,341.4
-"rising baseline, additive, C median change",diff,0.2486,upper,3674.0,17248.0,20922.1,3144.0,-2809.4,334.6
+adopted,none,,lower,530.1,6804.1,7334.2,0.0,0.0,0.0
+adopted,none,,central,530.1,10629.2,11159.2,0.0,0.0,0.0
+adopted,none,,upper,530.1,19459.5,19989.6,0.0,0.0,0.0
+"rising baseline, proportional, C median ratio",ratio,1.5158,lower,949.7,6421.2,7370.9,419.6,-382.9,36.7
+"rising baseline, proportional, C median ratio",ratio,1.5158,central,949.7,10245.4,11195.1,419.6,-383.8,35.9
+"rising baseline, proportional, C median ratio",ratio,1.5158,upper,949.7,19075.1,20024.8,419.6,-384.4,35.2
+"rising baseline, proportional, C 95th-percentile ratio",ratio,1.7094,lower,1128.5,6256.5,7385.0,598.4,-547.6,50.8
+"rising baseline, proportional, C 95th-percentile ratio",ratio,1.7094,central,1128.5,10080.4,11208.9,598.4,-548.8,49.6
+"rising baseline, proportional, C 95th-percentile ratio",ratio,1.7094,upper,1128.5,18909.8,20038.3,598.4,-549.7,48.7
+"rising baseline, additive, C median change",diff,0.2486,lower,3674.0,3997.7,7671.7,3144.0,-2806.4,337.6
+"rising baseline, additive, C median change",diff,0.2486,central,3674.0,7802.1,11476.1,3144.0,-2827.1,316.9
+"rising baseline, additive, C median change",diff,0.2486,upper,3674.0,16625.9,20299.9,3144.0,-2833.6,310.3
