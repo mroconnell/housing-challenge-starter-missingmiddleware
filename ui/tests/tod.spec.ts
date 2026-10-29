@@ -100,8 +100,10 @@ test("TOD styles leave the ADU Where sort headers unchanged", async ({ page }) =
   await page.goto("#/where");
   const btn = page.locator("th[aria-sort] button.sort").first();
   await expect(btn).toBeVisible();
-  const st = await btn.evaluate((e) => { const s = getComputedStyle(e); return { pad: s.paddingTop, display: s.display, width: e.getBoundingClientRect().width, th: e.parentElement!.getBoundingClientRect().width }; });
-  expect(st.pad).toBe("8px");
+  // the Where table re-renders once its data loads; read the style after it settles (poll), not mid-render
+  const read = () => btn.evaluate((e) => { const s = getComputedStyle(e); return { pad: s.paddingTop, display: s.display, width: e.getBoundingClientRect().width, th: e.parentElement!.getBoundingClientRect().width }; });
+  await expect.poll(async () => (await read()).pad).toBe("8px");
+  const st = await read();
   expect(st.display).toBe("block");
   expect(Math.abs(st.width - st.th)).toBeLessThan(20);
 });

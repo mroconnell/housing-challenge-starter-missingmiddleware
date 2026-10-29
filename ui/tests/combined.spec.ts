@@ -131,8 +131,9 @@ test("the combined view leaves TOD, parking and ADU numbers unchanged", async ({
   await page.goto("#/where");
   const btn = page.locator("th[aria-sort] button.sort").first();
   await expect(btn).toBeVisible();
-  const st = await btn.evaluate((e) => { const s = getComputedStyle(e); return { pad: s.paddingTop, display: s.display }; });
-  expect(st).toEqual({ pad: "8px", display: "block" });
+  // read after the Where table settles (it re-renders when its data loads)
+  await expect.poll(() => btn.evaluate((e) => { const s = getComputedStyle(e); return { pad: s.paddingTop, display: s.display }; }))
+    .toEqual({ pad: "8px", display: "block" });
 });
 
 for (const s of SCREENS) {
