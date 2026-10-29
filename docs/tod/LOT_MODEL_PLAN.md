@@ -211,3 +211,15 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     - Saint Paul's single before year is noisy; it stays, flagged, as in the case results.
     - Build-or-not and size outcomes (used by the other methods, not the causal forest) are unchanged.
     - The causal forest (three versions) is refitted and rescored; the "does it pay" runs and the Wisconsin estimate are restarted on the fixed outcome. Earlier causal-forest scores stay in their files as run.
+25. **2026-10-29, after the independent audit ([LOT_MODEL_AUDIT_2026-10-29.md](LOT_MODEL_AUDIT_2026-10-29.md)), written before any refit.** Fixes, all applied together:
+    1. **Causal forest sees the upzoning:** the upzoned forest is fitted on upzoned lots' traits under the rules after (including relative gain and floor area after) and predicts upzoned lots under the rules after; the unchanged forest uses the rules before, as now. This is a design change made after results were seen, so the method is judged again by both rules and the item 19 checks, and this is stated with any result.
+    2. **Use traits dropped** from the causal forest.
+    3. **Wisconsin lots kept apart** from training lots in duplicate-lot keys and within-city ranks.
+    4. **Minimum comparison land:** a reform whose eligible comparison land is under 25% of its upzoned acres is scored against all eligible comparison land in its city; such reforms are listed.
+    5. **Construction cost in 2024 dollars** (CPI-U, as rent).
+    6. **Early reforms flagged:** lots whose tract traits or 2010 homes come from after their reform get a flag trait; a check run leaves those reforms out.
+    7. **Stop traits on rail and rapid stops only,** in training and in Wisconsin (the 15-minute bus rule still decides which Wisconsin lots the law upzones).
+    8. **Fill values from training rows only** (non-holdout case cities), frozen for Wisconsin.
+    9. **Wisconsin homes on lot** shared from 2020 census blocks by lot area, as training.
+    10. **Milwaukee building-before** from any lot with homes built 2019–2024.
+    Then: the causal forest's three versions (item 19), rescored with item 23–24 scoring; the check without early reforms; then the Wisconsin estimate.
