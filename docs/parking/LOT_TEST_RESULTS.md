@@ -45,3 +45,7 @@ The Brier score is the average squared error of the predicted chance that a lot 
 - **Chicago shows nothing.** This matches TOD's finding that Chicago's station areas were already growing.
 - **The flag does not travel between cities,** so it cannot be used to predict Wisconsin lots.
 - **The tool does not change.**
+
+## Audit 2e fix (2026-10-29, owner approved)
+
+The prediction model now uses prior floor area as a rank within each city, because TOD's raw column has different units by city. Rerun pending; the prediction results above are from the raw column.

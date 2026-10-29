@@ -112,7 +112,9 @@ def main() -> None:
 
     # prediction on unseen cities
     from sklearn.ensemble import HistGradientBoostingClassifier
-    feats = ["acres", "width_m", "far_before", "dist_station_m", "homes_on_lot", "built_before", "rent", "home_value", "income"]
+    # far_before has different units by city (feet, ranks, stories, 0/1): use its rank within each city (audit 2e, 2026-10-29)
+    d["far_rank_in_city"] = d.groupby("city")["far_before"].rank(pct=True).fillna(0.5)
+    feats = ["acres", "width_m", "far_rank_in_city", "dist_station_m", "homes_on_lot", "built_before", "rent", "home_value", "income"]
     X = d[feats].copy()
     X["use"] = d["use"].astype("category").cat.codes
     for c in d["city"].unique():

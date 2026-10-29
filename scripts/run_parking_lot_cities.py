@@ -71,7 +71,9 @@ def sf() -> pd.DataFrame:
     p["year"] = pd.to_datetime(p["issued_date"]).dt.year
     for c in ("existing_units", "proposed_units"):
         p[c] = pd.to_numeric(p[c], errors="coerce").fillna(0)
-    p["net"] = np.where(p["permit_type"] == "6", -p["existing_units"], p["proposed_units"] - p["existing_units"])
+    # gross new homes, the same measure as TOD's Seattle and Chicago permit years (audit 2e, 2026-10-29): demolitions are not subtracted
+    p["net"] = np.where(p["permit_type"].isin(["1", "2"]), p["proposed_units"],
+                        np.where(p["permit_type"] == "6", 0.0, (p["proposed_units"] - p["existing_units"]).clip(lower=0)))
     p["kind"] = np.where(p["permit_type"].isin(["1", "2", "6"]), "new or demolition", "alteration")
     p["blklot"] = p["block"].astype(str) + p["lot"].astype(str)
     out = pd.DataFrame({"city": "San Francisco", "pinched": g["pinched"], "acres": g["acres"], "width_m": g["width_m"],
@@ -96,7 +98,7 @@ def buffalo() -> pd.DataFrame:
     pts = gpd.GeoDataFrame(r[["sbl"]], geometry=gpd.points_from_xy(r["longitude"], r["latitude"]), crs=4326).to_crs(CRS)
     p = pd.DataFrame(json.load(open(D / "buffalo_permits.json")))
     p["year"] = pd.to_datetime(p["issued"]).dt.year
-    p["net"] = pd.to_numeric(p["units_added"], errors="coerce").fillna(0) - pd.to_numeric(p["units_lost"], errors="coerce").fillna(0)
+    p["net"] = pd.to_numeric(p["units_added"], errors="coerce").fillna(0)  # gross new homes, as for Seattle and Chicago (audit 2e)
     yrs = per_lot_years(p, "sbl")
     acres = r["acres"].where(r["acres"] > 0, pd.to_numeric(r["front"], errors="coerce") * pd.to_numeric(r["depth"], errors="coerce") / 43560)
     out = pd.DataFrame({"city": "Buffalo", "pinched": r["pinched"].values, "acres": acres.values, "width_m": (r["front"] * 0.3048).values,
