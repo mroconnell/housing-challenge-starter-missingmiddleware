@@ -36,7 +36,7 @@ REBUILT = {"on": False}
 PATHS = {"lots": LOTS, "half": LOTS_HALF}
 SEED = {"v": 20261027}
 ROBUST = {"drop_largest": False}
-LOT_GROUPS = ("upzoned", "upzoned_from_industrial", "upzoned_from_campus", "reform_density_not_rising", "reform_already_allowed",
+LOT_GROUPS = ("upzoned", "upzoned_from_industrial", "upzoned_from_campus", "upzoned_by_later_rezoning", "reform_density_not_rising", "reform_already_allowed",
               "reform_single_family_untouched", "reform_campus_or_park_unchanged", "reform_rezoned_again_in_window",
               "reform_other_not_eligible", "comparison_eligible", "comparison_industrial", "comparison_campus_or_park",
               "other_not_eligible")
@@ -86,7 +86,12 @@ def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame
         inr, rose = args["in_reform"].astype(bool), args["rose"].astype(bool)
         el = args["eligible"].astype(bool)
         el2 = el | (inr & rose)
+        uptake = L["uptake"].astype(bool) if "uptake" in L else pd.Series(False, index=L.index)   # item 29
+        el2 = el2 | uptake
         area, _ = C.uniform_areas(**dict(args, eligible=el2))
+        area = area.astype(object)
+        area[uptake] = C.TREAT
+        inr = inr | uptake
         keep = area.isin([C.TREAT, C.COMP]) | inr
         in_reform = inr
         cls = lot_class(city, L)
@@ -103,6 +108,7 @@ def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame
         g[area == C.TREAT] = "upzoned"
         g[(area == C.TREAT) & ~el & cls.str.startswith("ind")] = "upzoned_from_industrial"
         g[(area == C.TREAT) & ~el & cls.str.startswith(("inst", "park"))] = "upzoned_from_campus"
+        g[uptake] = "upzoned_by_later_rezoning"
         g[inr & ~el & ~rose & (g == "other_not_eligible")] = "reform_other_not_eligible"
         lot_group = g
         comp_eligible = (area == C.COMP) & el2 & ~inr
@@ -894,6 +900,28 @@ def fix_density() -> None:
     print("lots left flagged:", int(D["density_flag"].sum()))
 
 
+def recollect_item29() -> None:
+    """Plan section 9, item 29: rebuild Chicago and Charlotte (take-up rezonings) and replace their rows."""
+    frames, stops = [], {}
+    for key, city in (("chicago", "Chicago"), ("charlotte", "Charlotte")):
+        mod = importlib.import_module(f"missing_middleware.tod.case_{key}")
+        with capture() as cap:
+            ci, _ = mod.build()
+        args, area = cap["uniform"][0]
+        pts, pix = cap["locate"][-1]
+        per = C.period_years(ci.effective_year, ci.first_year, ci.last_full_year)
+        crs = str(args["parcels"].crs)
+        stops.setdefault(crs, rail(args["parcels"].crs))
+        f = lot_frame(city, key, args, area, _permits_from_points(pts, pix), per, stops[crs], ci.effective_year)
+        print(city, f.groupby("lot_group").agg(lots=("acres", "size"), acres=("acres", "sum"), after=("units_after", "sum")).round(0).to_string(), flush=True)
+        frames.append(f)
+    D = pd.read_parquet(PATHS["lots"])
+    keep = [c for c in frames[0].columns]
+    D = pd.concat([D[~D["city"].isin(["Chicago", "Charlotte"])][[c for c in D.columns if c in keep]]] + frames, ignore_index=True)
+    D = add_group_shares(D)
+    D.to_parquet(PATHS["lots"])
+
+
 def sanity_flags(stage: str) -> None:
     """Flags only, never stops the run (owner, 2026-10-28): units, policy distance, traits outside other cities' range."""
     from missing_middleware.tod import sanity as S
@@ -1098,7 +1126,7 @@ def fit8(tlearner: bool = False) -> None:
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values", "fix_density"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values", "fix_density", "recollect_item29"], required=True)
     ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
     ap.add_argument("--land-value", action="store_true", help="add the pays-for-itself traits (LAND_VALUE_PLAN.md)")
     ap.add_argument("--only", default="", help="comma-separated methods for fit8/fit_runE (robustness reruns)")
@@ -1129,6 +1157,8 @@ def main(argv=None) -> None:
         land_values()
     if a.stage == "fix_density":
         fix_density()
+    if a.stage == "recollect_item29":
+        recollect_item29()
     if a.stage.startswith("fit"):
         sanity_flags(a.stage)
     if a.stage == "collect":

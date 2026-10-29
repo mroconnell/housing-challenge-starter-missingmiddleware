@@ -174,6 +174,14 @@ def build(blocks_zip: Path | None = None) -> tuple[C.CaseInputs, dict]:
              & rz["Status"].astype(str).str.startswith("App") & ~rz["Petition"].astype(str).str.startswith("2019-102")]
     win = win[win["ExistingZoning"].map(base_district) != win["RequestedZoning"].map(base_district)]
     changed = pts.geometry.within(win.geometry.union_all()) if len(win) else pd.Series(False, index=parcels.index)
+    # lot plan item 29: what each in-window petition rezoned the lot to (TOD district = take-up of the reform)
+    if len(win):
+        jw = gpd.sjoin(pts, win[["RequestedZoning", "approved", "geometry"]], how="left", predicate="within").sort_values("approved")
+        jw = jw[~jw.index.duplicated(keep="first")].reindex(pts.index)
+        parcels["changed_to"] = jw["RequestedZoning"].values
+    else:
+        parcels["changed_to"] = None
+    parcels["uptake"] = changed & parcels["changed_to"].map(lambda z: str(base_district(z) or "").startswith("TOD-"))
     parcels["area"], rule = C.uniform_areas(parcels, parcels["treated"], rose, parcels["h_before"], parcels["h_after"],
                                             ~parcels["capped"], changed, parcels["eligible"], in_city=in_city, stations=stations)
     el = parcels[parcels["area"].notna() & parcels["eligible"]].copy()
