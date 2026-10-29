@@ -858,6 +858,42 @@ def land_values() -> None:
     print(t.round(2).to_string())
 
 
+def fix_density() -> None:
+    """Plan section 9, item 26: homes on lots too small to hold them (> 500 per acre) move to the nearest big-enough
+    lot of the same reform within 60 m."""
+    from scipy.spatial import cKDTree
+    D = pd.read_parquet(PATHS["half"])
+    D["density_flag"] = 0.0
+    moves = []
+    for col in ("units_before", "units_after"):
+        bad = D.index[(D[col] / D["acres"].clip(lower=0.001)) > 500]
+        for unit, ix in pd.Series(bad, index=bad).groupby(D.loc[bad, "unit"]).groups.items():
+            u = D.index[D["unit"] == unit]
+            t = cKDTree(D.loc[u, ["x5070", "y5070"]].to_numpy())
+            for i in ix:
+                h = D.at[i, col]
+                nb = [u[j] for j in t.query_ball_point(D.loc[i, ["x5070", "y5070"]].to_numpy(), r=60) if u[j] != i]
+                ok = [j for j in nb if D.at[j, "acres"] * 500 >= h]
+                if not ok:
+                    D.at[i, "density_flag"] = 1.0
+                    continue
+                same = [j for j in ok if D.at[j, "lot_group"] == D.at[i, "lot_group"]]
+                pool = same or ok
+                d2 = ((D.loc[pool, "x5070"] - D.at[i, "x5070"]) ** 2 + (D.loc[pool, "y5070"] - D.at[i, "y5070"]) ** 2)
+                j = d2.idxmin()
+                D.at[j, col] += h
+                D.at[i, col] = 0.0
+                moves.append({"unit": unit, "column": col, "homes": h, "crosses_group": bool(D.at[j, "treated"] != D.at[i, "treated"])})
+    D["builds_after"] = (D["units_after"] > 0).astype(float)
+    D["built_before"] = (D["units_before"] > 0).astype(float)
+    D.to_parquet(PATHS["half"])
+    M = pd.DataFrame(moves)
+    if len(M):
+        M.groupby(["unit", "column", "crosses_group"])["homes"].sum().round(0).to_csv(REFERENCE / "tod_lot_model_density_moves.csv")
+        print(M.groupby(["column", "crosses_group"])["homes"].agg(["size", "sum"]).to_string())
+    print("lots left flagged:", int(D["density_flag"].sum()))
+
+
 def sanity_flags(stage: str) -> None:
     """Flags only, never stops the run (owner, 2026-10-28): units, policy distance, traits outside other cities' range."""
     from missing_middleware.tod import sanity as S
@@ -1062,7 +1098,7 @@ def fit8(tlearner: bool = False) -> None:
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values", "fix_density"], required=True)
     ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
     ap.add_argument("--land-value", action="store_true", help="add the pays-for-itself traits (LAND_VALUE_PLAN.md)")
     ap.add_argument("--only", default="", help="comma-separated methods for fit8/fit_runE (robustness reruns)")
@@ -1091,6 +1127,8 @@ def main(argv=None) -> None:
         census_homes()
     if a.stage == "land_values":
         land_values()
+    if a.stage == "fix_density":
+        fix_density()
     if a.stage.startswith("fit"):
         sanity_flags(a.stage)
     if a.stage == "collect":
