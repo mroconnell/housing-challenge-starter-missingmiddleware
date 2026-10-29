@@ -199,3 +199,6 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     - **Range:** the three versions' lowest and highest, and a second range from the model's held-out misses: the median ratio of |miss| to the plain average's |miss| across the 9 leave-one-out cities, applied around the point estimate. Both are reported; neither is a statistical interval.
     - **Flags:** the standing flag check is run on the Wisconsin lots against the training cities, and every flag is reported with the estimate.
     - **Shown beside:** the current scenarios for Milwaukee and Madison (`reference/tod_model_by_area.csv`), and the statewide 171 / 2,509 / 17,148.
+22. **2026-10-29, while building the Wisconsin lot table, before any prediction: two practical changes to item 21.**
+    - Tract traits come from the 5-year ACS 2018–2022, the latest release the all-variables readers hold locally (the same release Madison's training lots use), not 2020–2024.
+    - The Wisconsin law upzones most lots near its stops: 130,190 Milwaukee lots (21,208 acres) and 37,823 Madison lots (11,776 acres) count as upzoned. This is far broader than any training case; the flag check will show it, and the result is read with that in mind.
