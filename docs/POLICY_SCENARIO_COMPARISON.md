@@ -31,20 +31,20 @@ Additional homes permitted over 2027–2031, compared with current law. Scenario
 
 | Rank (central) | Reform | Lower | **Central** | Upper | Central, then upper, as a share of the 122,619-home all-housing baseline | Central, then upper, per 1,000 existing homes (five-year total) |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| 1 | **ADUs** | 6,804 | **10,629** | 19,460 | 8.7%; 15.9% | 3.8; 7.0 |
+| 1 | **ADUs** | 6,804 | **10,679** | 19,535 | 8.7%; 15.9% | 3.8; 7.0 |
 | 2 | **TOD** | 171 | **2,509** | 17,148 | 2.0%; 14.0% | 0.9; 6.2 |
 | 3 | **Parking** | — | **0** | 19,937 | 0%; 16.3% | 0; 7.2 |
 
 What the scenario names mean:
-- **ADUs:** the lower is "sluggish adoption" (the average of Rhode Island and Oregon); the central is "typical adoption"; the upper is "strong adoption", the high end of what states with a statewide ADU law have reached, which only California has passed. If Wisconsin followed the median path the eight statewide-law states actually took, the law would add 10,308 homes.
+- **ADUs:** the lower is "sluggish adoption" (the average of Rhode Island and Oregon); the central is "typical adoption"; the upper is "strong adoption", the high end of what states with a statewide ADU law have reached, which only California has passed. If Wisconsin followed the median path the eight statewide-law states actually took, the law would add 10,374 homes.
 - **TOD:** the lower is a "little response", like Los Angeles's transit program; the central is a "typical response", like the average loosening reform across 1,136 US cities (Stacy et al. 2023); the upper is a "strong response", like Auckland's 2016 upzoning.
 - **Parking:** the central is "no measurable change"; the upper is "the high end of the evidence". There is no separate lower case, because the central is already zero.
 - **Median lines.** A "median of real cases" line is shown only where a reform has at least four comparable cases. ADUs (8 states) and parking (76 places) have one. Parking's median place changed by −0.12 permits per year per 1,000 existing homes, so its line is shown at 0, the same as its central. TOD has only three whole-city studies, so it has none.
 
-ADU figures were revised on 2026-10-29 (AQ-064 in the [assumptions log](ASSUMPTIONS_AND_QUESTIONS.md)): lower 6,804, central 10,629, upper 19,460 on a 530 baseline. Before that they were 6,734, 10,788 and 20,057 (AQ-061, 2026-10-28), and first 5,538, 8,757 and 16,889 on 605. ADU shares are of the 122,619-home all-housing baseline (central 10,629 ÷ 122,619 = 8.7%; upper 19,460 ÷ 122,619 = 15.9%); per 1,000 existing homes they are ÷ 2,778.572 thousand housing units (central 3.8; upper 7.0).
+ADU figures were revised on 2026-10-29 (AQ-064 in the [assumptions log](ASSUMPTIONS_AND_QUESTIONS.md)): lower 6,804, central 10,679, upper 19,535 on a 530 baseline. Before that they were 6,734, 10,788 and 20,057 (AQ-061, 2026-10-28), and first 5,538, 8,757 and 16,889 on 605. ADU shares are of the 122,619-home all-housing baseline (central 10,679 ÷ 122,619 = 8.7%; upper 19,535 ÷ 122,619 = 15.9%); per 1,000 existing homes they are ÷ 2,778.572 thousand housing units (central 3.8; upper 7.0).
 
 **Against each reform's own baseline:**
-- The ADU central adds 10,629 second homes to a baseline of 530, which is 20.1 times as many as current law would produce.
+- The ADU central adds 10,679 second homes to a baseline of 530, which is 20.1 times as many as current law would produce.
 - The TOD central adds 2,509 homes to a baseline of 14,464 near stops, which is 17.3% more.
 - The parking upper adds 19,937 homes to a baseline of 122,619, which is 16.3% more (about 3,987 a year).
 
@@ -52,11 +52,11 @@ ADU figures were revised on 2026-10-29 (AQ-064 in the [assumptions log](ASSUMPTI
 
 | Reform | Confidence in the central | Why |
 | --- | --- | --- |
-| ADUs | Medium | Eight states have passed similar laws. When each is left out, the model predicts five of the seven non-California states within about 15%; it is about 22% too high for Oregon and 39% too high for Vermont. No Midwest state has data yet. |
+| ADUs | Medium | Eight states have passed similar laws. When each is left out, the model predicts five of the seven non-California states within about 15%; it is about 23% too high for Oregon and 39% too high for Vermont. No Midwest state has data yet. |
 | TOD | Low | The three studies that size the effect disagree about a hundredfold. None is a Wisconsin test, and the typical study is mostly of ADU and lot-size reforms, not transit upzonings. |
 | Parking | Medium that the effect is small within five years; low on the high end | 76 real repeals show no measurable rise on average within three years. |
 
-**The ranking depends on the scenario.** On the central scenarios the order is ADUs, then TOD, then parking. On the upper scenarios parking (19,937) is just ahead of ADUs (19,460), then TOD (17,148). The gap is 477 homes: 2.4% of parking's 19,937. So the top two are about tied on the upper scenarios.
+**The ranking depends on the scenario.** On the central scenarios the order is ADUs, then TOD, then parking. On the upper scenarios parking (19,937) is just ahead of ADUs (19,535), then TOD (17,148). The gap is 402 homes: 2.0% of parking's 19,937. So the top two are about tied on the upper scenarios.
 
 # What Drives the Differences
 
@@ -81,7 +81,7 @@ ADU figures were revised on 2026-10-29 (AQ-064 in the [assumptions log](ASSUMPTI
 **Why the upper cases are so different from the centrals.**
 - **Parking:** the evidence is centred on zero, so its high end is far from its central.
 - **TOD:** the three studies disagree by a factor of about 100, from Los Angeles's 0.055% of station-area homes to Auckland's 5.5%.
-- **ADUs:** the upper is almost twice the central (1.8 times: 19,460 ÷ 10,629). It is set at the high end of how much the eight statewide-law states differ from one another; only California has gone higher.
+- **ADUs:** the upper is almost twice the central (1.8 times: 19,535 ÷ 10,679). It is set at the high end of how much the eight statewide-law states differ from one another; only California has gone higher.
 
 # Which Assumptions Matter Most
 
@@ -94,19 +94,19 @@ ADU figures were revised on 2026-10-29 (AQ-064 in the [assumptions log](ASSUMPTI
 | TOD | **Which study sets the size** | Little 171, typical 2,509, strong 17,148: a hundredfold spread. Within the typical study's own interval the result is 665 to 4,352. |
 | TOD | Adjusting each study for the share of its city it covered | Without that adjustment, little is 105 and strong 12,895. |
 | TOD | The definition of a major transit stop | Rail and rapid-bus stops only: 716. Twenty-minute buses: 2,813. All 15-minute stops within ½ mile: 3,226. |
-| ADUs | **How the law works**: whether it lifts every place toward one common level, as in the eight states, or only multiplies today's low rates | A multiplicative law adds 870; a model fitted on California cities alone adds 2,435; the adopted model adds 10,629. |
-| ADUs | **Whether Wisconsin responds like a typical state or like the slowest** | 6,804 (like Rhode Island and Oregon) to 19,460 (strong adoption). |
-| ADUs | Whether rural and small-town Wisconsin respond like the model says | At Madison's low minimum rate, the central falls from 10,629 to 5,665. |
-| ADUs | The phase-in | Without it, the central rises to 12,293. |
-| ADUs | How the comparison states' counts are read (AQ-061, AQ-064) | Without scaling up for towns that did not report, the central is 9,391; with Washington's law years counted from enactment, 9,883; with all three AQ-061 changes undone, 8,763. With every comparison year read against 2020–2024 homes, 10,821; with Maine's and Massachusetts' reporting shares as shares of homes, 10,900. |
-| ADUs | Whether Vermont is a comparison state (its counts are by year built, not permit year; AQ-062) | Left out, the central rises from 10,629 to 10,958 and the upper from 19,460 to 20,853; kept in as adopted. |
+| ADUs | **How the law works**: whether it lifts every place toward one common level, as in the eight states, or only multiplies today's low rates | A multiplicative law adds 870; a model fitted on California cities alone adds 2,435; the adopted model adds 10,679. |
+| ADUs | **Whether Wisconsin responds like a typical state or like the slowest** | 6,804 (like Rhode Island and Oregon) to 19,535 (strong adoption). |
+| ADUs | Whether rural and small-town Wisconsin respond like the model says | At Madison's low minimum rate, the central falls from 10,679 to 5,687. |
+| ADUs | The phase-in | Without it, the central rises to 12,351. |
+| ADUs | How the comparison states' counts are read (AQ-061, AQ-064) | Without scaling up for towns that did not report, the central is 9,397; with Washington's law years counted from enactment, 9,929; with all three AQ-061 changes undone, 8,769. With every comparison year read against 2020–2024 homes, 10,872; with Maine's reporting share as a share of homes (0.62, not 0.73), 10,907. |
+| ADUs | Whether Vermont is a comparison state (its counts are by year built, not permit year; AQ-062) | Left out, the central rises from 10,679 to 11,016 and the upper from 19,535 to 20,922; kept in as adopted. |
 
 **Can one input flip the ranking?** Yes:
 - if parking's high end is taken as the expectation, parking passes the ADU central, with 19,937 homes;
 - if TOD follows the strong study, it passes the ADU central;
 - if the ADU law only multiplies today's rates, ADUs fall below TOD's typical case.
 
-What does *not* move the ADU total much is how we coded local rules. If the 69% of single-family homes in places with uncoded ADU rules behaved like places that ban ADUs, the total with the law would fall by only 0.2%, from 11,159 to 11,135 homes.
+What does *not* move the ADU total much is how we coded local rules. If the 69% of single-family homes in places with uncoded ADU rules behaved like places that ban ADUs, the total with the law would fall by only 0.2%, from 11,209 to 11,185 homes.
 
 # What the Tool Cannot Say
 

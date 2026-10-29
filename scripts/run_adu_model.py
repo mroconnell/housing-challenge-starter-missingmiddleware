@@ -54,7 +54,7 @@ def lower_rule(path=PARAMS) -> dict:
 
 def bottom_states_factor(option: str, config: str, states=None) -> float:
     """Mean of the named states' stage-2 levels (typical place, law in force 4+ years) / the common level, for
-    one option x configuration of the pooled revision. Adopted (cap_a2 x A, AQ-064): (0.8358 + 0.7086) / 2 / 1.1851."""
+    one option x configuration of the pooled revision. Adopted (cap_a2 x A, AQ-064): (0.8358 + 0.7086) / 2 / 1.1905."""
     states = states or lower_rule()["states"]
     st2 = pd.read_csv(REFERENCE / "pooled_revision_stage2_levels.csv")
     st2 = st2[st2.option.eq(option) & st2.config.eq(config) & st2.cluster.isin(states)]
@@ -363,13 +363,10 @@ def main():
              "Each comparison rate divides permits by single-family homes. The adopted fit matches homes to the year, "
              "from ACS 2020-2024 homes moved back or forward by one-unit building permits (AQ-064). Here every year "
              "uses 2020-2024 homes, as before AQ-064, so early years read a little low and 2025-2026 a little high."),
-            ("cap_a2|coverage_me_ma_homes_estimate", "Maine and Massachusetts reporting shares as homes shares "
-             "(Maine 0.62, Massachusetts 0.809)",
-             "Maine's published share (0.73) counts people and Massachusetts' (0.835) counts towns. Reporting towns "
-             "are mostly larger, so their share of single-family homes is likely lower: about 0.62 in Maine (the "
-             "largest towns holding 73% of its people hold 62% of its detached homes) and 0.809 in Massachusetts "
-             "(from a non-official copy of the state's tracker file, towns that answered only mid-year at half "
-             "weight). The adopted fit keeps the published shares until official town lists are in hand.")):
+            ("cap_a2|coverage_me_homes_estimate", "Maine's reporting share as a homes share (0.62, not 0.73)",
+             "Maine's published share (0.73) counts people in the 182 reporting towns; no town list is published. "
+             "Reporting towns are mostly the larger ones, and the largest towns holding 73% of Maine's people hold "
+             "62% of its single-family homes. This case divides Maine's 2025 count by 0.62.")):
         rr = revision_ramps(rev, opt, cfg0)
         rr["lower"] = {"ramp": pooled_ramp(opt, cfg0, bottom_states_factor(opt, cfg0), areas)}
         t, _ = run_t(sc=load_scenario(**rr), lv=load_area_levels(opt, cfg0))

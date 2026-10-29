@@ -172,7 +172,7 @@ FIT_VARIANTS = {
     "cap_a2|vt_2024_dropped": dict(drop_vt_2024=True),
     "cap_a2|gate4_coding": dict(coverage=False, coding=pr.STATE_CODING),
     "cap_a2|homes_2020_24_every_year": dict(year_homes=False),
-    "cap_a2|coverage_me_ma_homes_estimate": dict(coverage_override=pr.COVERAGE_ME_MA_HOMES_ESTIMATE),
+    "cap_a2|coverage_me_homes_estimate": dict(coverage_override=pr.COVERAGE_ME_HOMES_ESTIMATE),
 }
 
 
@@ -492,7 +492,7 @@ def main():
             raise SystemExit(f"Utah {row.year} reporting share {row.share:.4f} != COVERAGE {want} ({row.unmatched})")
     cov_rows = []
     basis = {"ME_statewide": "published: 182 reporting towns, about 73% of Maine's population (share of people; no town list; homes share likely about 0.62-0.70, AQ-064)",
-             "MA_statewide": "published: 293 of 351 towns responded (share of towns; homes share about 0.81 from a non-official tracker copy, AQ-064)",
+             "MA_statewide": "computed: one-unit detached homes in the 294 responding towns (69 mid-year-only towns at half weight) / all of Massachusetts' (EOHLC tracker file, AQ-064)",
              "RI_statewide": "computed: one-unit detached homes in the towns listed in RI EOH ADU reports (2023-24: 33 of 39; 2025: 32 of 39) / all of Rhode Island's (AQ-064)",
              "UT_mih": "computed: one-unit detached homes in the jurisdictions that answered / all of Utah's"}
     for sid, ys in pr.COVERAGE.items():

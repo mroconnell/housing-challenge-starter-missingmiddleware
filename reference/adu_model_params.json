@@ -45,9 +45,9 @@
           "RI",
           "OR"
         ],
-        "factor": 0.6516,
+        "factor": 0.6486,
         "levels_file": "reference/pooled_revision_stage2_levels.csv",
-        "rule": "each area's central level x (mean of the states' stage-2 levels at a typical place, law in force 4+ years / the common level of the same fit); Rhode Island 0.8358 and Oregon 0.7086, mean 0.7722, / common level 1.1851 = 0.6516 (AQ-064 refit)"
+        "rule": "each area's central level x (mean of the states' stage-2 levels at a typical place, law in force 4+ years / the common level of the same fit); Rhode Island 0.8358 and Oregon 0.7086, mean 0.7722, / common level 1.1905 = 0.6486 (AQ-064 refit)"
       },
       "basis": "Like the slowest statewide-law states (owner decision 2026-10-26, AQ-043): the mean of Rhode Island's (0.8484) and Oregon's (0.6997) stage-2 levels, 0.7741 permits per 1,000 single-family homes per year at a typical place with the law in force 4+ years, = 0.6361 of the common level 1.2169 (AQ-061 refit; was 0.6497 of 1.0035). Every area's central level is multiplied by 0.6361 (same within-state differences). Ramp: the pooled ramp recomputed for this level the way the central and upper ramps were (homes-weighted, on the adopted current-law rates since AQ-061), not Oregon's observed ramp. Replaces the 10th percentile of the between-state spread (factor 1/1.885), now a sensitivity case.",
       "label": "Sluggish adoption",
@@ -57,8 +57,8 @@
       "level": 0.2345,
       "spillover": 0.0,
       "ramp": [
-        0.6274,
-        0.8304,
+        0.6275,
+        0.8305,
         0.858,
         1.0,
         1.0

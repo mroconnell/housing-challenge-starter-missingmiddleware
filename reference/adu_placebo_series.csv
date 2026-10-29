@@ -10,7 +10,7 @@ WA_Tacoma,A_sub,real law,"Tacoma, WA (Madison-like)","OFM ADU permits, estimate 
 WA_Vancouver,A_sub,real law,"Vancouver, WA (Madison-like)","OFM ADU permits, estimate years",43238.0,2023.0,False,,2020|2021|2022,68.0,129.714,0.5242,2024|2025|2026,87.0,129.714,0.6707,0.1465,1.2794
 WA_Yakima,A_sub,real law,"Yakima, WA (Madison-like)","OFM ADU permits, estimate years",22133.0,2023.0,False,,2020|2021|2022,6.0,66.399,0.0904,2024|2025|2026,30.0,66.399,0.4518,0.3615,5.0
 ME_statewide,level,level only,"Maine, 182 reporting municipalities (~73% of population)",level only (no before year),526150.0,,False,,,,,,2025,516.0,,0.9807,,
-MA_statewide,level,level only,"Massachusetts, responding municipalities (293 of 351 for 2025)",level only (no before year),1549565.0,,False,,,,,,2025,1224.0,,0.7899,,
+MA_statewide,level,level only,"Massachusetts, responding municipalities (294 of 351 for 2025)",level only (no before year),1549565.0,,False,,,,,,2025,1230.0,,0.7938,,
 UT_mih,level,level only,"Utah, ~90 'specified' cities and counties filing MIH reports",level only (no before year),813940.0,,False,,,,,,2023|2024|2025,2752.0,,1.127,,
 NH_conversions,level,level only,"New Hampshire, all municipalities",level only (no before year),410440.0,,False,,,,,,2020|2021|2022|2023|2024,1886.0,,0.919,,
 OR_madison_like,level,level only,"Oregon Madison-like cities (4), pooled",DLCD HB 4006 ADU permits,129423.0,,False,,,,,,2018|2019|2020|2021|2022|2023,529.0,,0.6812,,

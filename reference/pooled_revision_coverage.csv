@@ -1,6 +1,6 @@
 series,year,reporting_share,basis,homes_reporting,homes_state,n_jurisdictions,partial_year_share
 ME_statewide,2025,0.73,"published: 182 reporting towns, about 73% of Maine's population (share of people; no town list; homes share likely about 0.62-0.70, AQ-064)",,,,1.0
-MA_statewide,2025,0.8348,"published: 293 of 351 towns responded (share of towns; homes share about 0.81 from a non-official tracker copy, AQ-064)",,,,0.9166666666666666
+MA_statewide,2025,0.809,"computed: one-unit detached homes in the 294 responding towns (69 mid-year-only towns at half weight) / all of Massachusetts' (EOHLC tracker file, AQ-064)",,,,0.9166666666666666
 RI_statewide,2023,0.8704,computed: one-unit detached homes in the towns listed in RI EOH ADU reports (2023-24: 33 of 39; 2025: 32 of 39) / all of Rhode Island's (AQ-064),,,,1.0
 RI_statewide,2024,0.8704,computed: one-unit detached homes in the towns listed in RI EOH ADU reports (2023-24: 33 of 39; 2025: 32 of 39) / all of Rhode Island's (AQ-064),,,,1.0
 RI_statewide,2025,0.8099,computed: one-unit detached homes in the towns listed in RI EOH ADU reports (2023-24: 33 of 39; 2025: 32 of 39) / all of Rhode Island's (AQ-064),,,,1.0

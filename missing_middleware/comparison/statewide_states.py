@@ -181,7 +181,7 @@ STATES: list[dict] = [
          law_source="https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40A/Section3",
          data_source="EOHLC Accessory Dwelling Unit Tracker (semi-annual surveys of building officials under 760 CMR 71.04)",
          data_kind="official_partial", years_covered="2025 and Jan-Jun 2026",
-         unit_definition="ADU building permits issued ('approved'); 293 of 351 municipalities answered for 2025 (undercount)",
+         unit_definition="ADU building permits issued ('approved'); 294 of 351 municipalities answered for 2025 (69 mid-year only)",
          access="mass.gov dashboard (scripted download blocked; totals from EOHLC and Boston Indicators)",
          years_after_effective=1, years_after_compliance=1, before_baseline=False,
          notes="Strong law with an official count, but no statewide pre-law baseline; high-value market."),
@@ -414,11 +414,12 @@ SERIES: dict[str, dict] = {
         status="observed",
         counts={2021: 62, 2022: 53, 2023: 71, 2024: 163, 2025: 262}),
     "MA_statewide": dict(
-        state="MA", geography="Massachusetts, responding municipalities (293 of 351 for 2025)",
+        state="MA", geography="Massachusetts, responding municipalities (294 of 351 for 2025)",
         measure="ADU building permits issued", year_basis="calendar year",
         denominator=("state", "25"),
-        source="EOHLC ADU Tracker / Boston Indicators ADU one-year report (2025 = 1,224 approvals; undercount)",
-        status="observed", counts={2025: 1224}),
+        source="EOHLC ADU Tracker municipality file (ADUSurvey2026Midyear_DownloadableComposite.csv, Approved_25 "
+               "summed over the 294 responding towns; the one-year report's 1,224 predates late responses)",
+        status="observed", counts={2025: 1230}),
     "ME_statewide": dict(
         state="ME", geography="Maine, 182 reporting municipalities (~73% of population)",
         measure="ADUs permitted", year_basis="calendar year", denominator=("state", "23"),

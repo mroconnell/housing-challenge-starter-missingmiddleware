@@ -902,23 +902,24 @@ Nothing changes until the owner decides.
 | Scenario | Before | After |
 | --- | --- | --- |
 | Lower (sluggish adoption) | 6,734 | 6,804 |
-| Central (typical adoption) | 10,788 | 10,629 |
-| Upper (strong adoption) | 20,057 | 19,460 |
-| 8-state reference line | 10,558 | 10,309 |
+| Central (typical adoption) | 10,788 | 10,679 |
+| Upper (strong adoption) | 20,057 | 19,535 |
+| 8-state reference line | 10,558 | 10,374 |
 
-Held-out average log error (7 statewide-law states, each predicted with itself left out; lower is better): 0.180 → 0.169. California still stays in the common level.
+Held-out average log error (7 statewide-law states, each predicted with itself left out; lower is better): 0.180 → 0.168. California still stays in the common level.
 
 **1. Reporting shares now count homes where a town list exists.** Comparison counts cover only the towns that reported, so each count is divided by the share of the state it covers.
 - Rhode Island: share of single-family homes in the reporting towns, from the state's ADU reports. 2023 and 2024: 33 of 39 towns, 0.8704 of homes. 2025: 32 of 39 towns, 0.8099 (was 32 ÷ 39 = 0.8205 of towns). Each year's town counts add up to the published total.
 - Rhode Island 2021–2022: no town list found, so left at 1.0. Later years each miss 6–7 towns, so these years are likely under-corrected (counts too low).
-- Maine (0.73, a share of people) and Massachusetts (293 ÷ 351 towns) keep their published shares. No official town list could be fetched automatically. Reporting towns are mostly larger, so the homes share is likely lower: about 0.62 in Maine, 0.809 in Massachusetts (from a non-official copy of the state tracker; towns that answered only mid-year at half weight). The adopted fit therefore probably under-corrects both. Sensitivity with those shares: central 10,900, upper 20,303 (lower unchanged at 6,804).
+- Massachusetts 2025: from the state's ADU tracker file (downloaded by the owner from mass.gov). 294 of 351 towns answered: 225 for the whole year, 69 for January–June only. Count 1,230 permits (was 1,224 from the earlier one-year report). Homes share 0.8090: full-year towns 0.7208, plus half of the mid-year towns' 0.1764 (was 293 ÷ 351 = 0.8348 of towns).
+- Maine keeps its published share (0.73, a share of people). The file the owner found is a state housing profile with no permit or ADU data, and no town list is published. Reporting towns are mostly larger: the largest towns holding 73% of Maine's people hold 62% of its single-family homes. So 0.73 probably under-corrects. Sensitivity with 0.62: central 10,907, upper 20,314 (lower unchanged).
 - Utah already used a homes share (AQ-061).
 
-**2. Rates use homes for the matching year.** Each comparison rate was ADU permits ÷ single-family homes in 2020–2024, for every year from 2005 to 2026. Now the homes are moved back or forward from the 2020–2024 count by one-unit building permits issued in between (Census Building Permits Survey, already in the repository). Example: Washington 2026 homes are 3.6% above 2020–2024; Utah 2023–2025 are 1–6% above; Oregon 2019 is 3% below. Code: `missing_middleware/comparison/homes_by_year.py`. It ignores demolitions and the delay from permit to finished home. Sensitivity with 2020–2024 homes every year: central 10,821.
+**2. Rates use homes for the matching year.** Each comparison rate was ADU permits ÷ single-family homes in 2020–2024, for every year from 2005 to 2026. Now the homes are moved back or forward from the 2020–2024 count by one-unit building permits issued in between (Census Building Permits Survey, already in the repository). Example: Washington 2026 homes are 3.6% above 2020–2024; Utah 2023–2025 are 1–6% above; Oregon 2019 is 3% below. Code: `missing_middleware/comparison/homes_by_year.py`. It ignores demolitions and the delay from permit to finished home. Sensitivity with 2020–2024 homes every year: central 10,872.
 
 **3. The advanced-model test mixes geographies.** Its rows are census tracts, whole states and Wisconsin county subdivisions. It was not adopted, so nothing changes; a note is added to [PREDICTIVE_RESULTS.md](adu/PREDICTIVE_RESULTS.md).
 
-**Not fixed:** Maine's and Massachusetts' official town lists. To finish: download Massachusetts' tracker file from mass.gov and Maine's 2025 permit data (mainestatehousingdata.org) by hand, then rerun.
+**Not fixed:** Maine's town list (not published). Asking the Maine Office of Community Affairs (housing.moca@maine.gov) for its 182 reporting towns would close it.
 
 ## Questions for office hours
 
@@ -1062,4 +1063,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-28 | AQ-061 | ADU ask-why fixes (owner accepted all recommendations): reporting shares in the fit (Maine, Massachusetts, Rhode Island 2025 published shares; Utah 0.795–0.804 computed from homes in reporting places), Massachusetts 2025 as 11 months, Washington from local compliance, value gap capped at California's largest (8 areas flagged), seven measured Wisconsin cities pooled into the group rates, allocation text corrected. Baseline 530 (was 605); lower 6,734, central 10,788, upper 20,057 (were 5,538, 8,757, 16,889); reference line 10,558 (was 8,851). Vermont 2024 kept pending the owner (dropping it: central −428). Kaukauna coding confirmed against the official Chapter 17 text. |
 | 2026-10-28 | AQ-062 | ADU: keep Vermont (option A); "Vermont dropped" (central 11,133) shown as a sensitivity. |
 | 2026-10-29 | AQ-063 | ADU: keep adopted model after the pre-registered advanced-model test; test recorded in MODEL_AND_ASSUMPTIONS Part A. |
-| 2026-10-29 | AQ-064 | ADU: audit fixes; Rhode Island homes-based reporting shares, year-matched homes. Central 10,788 → 10,629. |
+| 2026-10-29 | AQ-064 | ADU: audit fixes; Rhode Island and Massachusetts homes-based reporting shares, year-matched homes. Central 10,788 → 10,679. |
