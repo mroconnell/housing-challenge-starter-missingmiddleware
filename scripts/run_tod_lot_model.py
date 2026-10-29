@@ -86,16 +86,13 @@ def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame
         inr, rose = args["in_reform"].astype(bool), args["rose"].astype(bool)
         el = args["eligible"].astype(bool)
         el2 = el | (inr & rose)
-        uptake = L["uptake"].astype(bool) if "uptake" in L else pd.Series(False, index=L.index)   # item 29
-        el2 = el2 | uptake
-        area, _ = C.uniform_areas(**dict(args, eligible=el2))
-        area = area.astype(object)
-        area[uptake] = C.TREAT
-        inr = inr | uptake
+        # item 31: groups fixed by the reform's map on the day it passed; later rezonings are a trait, not an exclusion
+        chg_later = args["changed_outside"].astype(bool)
+        area, _ = C.uniform_areas(**dict(args, eligible=el2, changed_outside=pd.Series(False, index=L.index)))
         keep = area.isin([C.TREAT, C.COMP]) | inr
         in_reform = inr
         cls = lot_class(city, L)
-        chg = args["changed_outside"].astype(bool)
+        chg = pd.Series(False, index=L.index)   # item 31: no "rezoned again" group
         g = pd.Series("other_not_eligible", index=L.index, dtype=object)
         g[~inr & el] = "comparison_eligible"
         g[~inr & ~el & cls.str.startswith("ind")] = "comparison_industrial"
@@ -108,7 +105,6 @@ def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame
         g[area == C.TREAT] = "upzoned"
         g[(area == C.TREAT) & ~el & cls.str.startswith("ind")] = "upzoned_from_industrial"
         g[(area == C.TREAT) & ~el & cls.str.startswith(("inst", "park"))] = "upzoned_from_campus"
-        g[uptake] = "upzoned_by_later_rezoning"
         g[inr & ~el & ~rose & (g == "other_not_eligible")] = "reform_other_not_eligible"
         lot_group = g
         comp_eligible = (area == C.COMP) & el2 & ~inr
@@ -136,6 +132,7 @@ def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame
     d["treated"] = (area[keep] == C.TREAT).astype(float)
     d["in_reform"] = in_reform[keep].astype(float).values
     d["lot_group"] = lot_group[keep].astype(str).values
+    d["rezoned_later"] = (chg_later[keep].astype(float).values if REBUILT["on"] else 0.0)
     d["comparison_eligible"] = comp_eligible[keep].astype(float).values
     d["acres"] = L.geometry.area / C.SQM_PER_ACRE
     lb = args["level_before"].astype(float).reindex(L.index).replace(np.inf, np.nan)
@@ -519,6 +516,8 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
         X["log_lot_value_per_acre"] = np.log1p(lvpa)
         X["lot_value_missing"] = D["lot_value_missing"]
         X["assessed_not_market"] = D["assessed_not_market"]
+    if "rezoned_later" in D:   # item 31
+        X["rezoned_later"] = D["rezoned_later"].astype(float)
     if "census_homes" in D:
         X["log_census_homes"] = np.log1p(D["census_homes"].clip(lower=0))
     if not FIT.get("item25"):
