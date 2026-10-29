@@ -204,7 +204,10 @@ def predict() -> None:
             S.report([f for f in fl if f["city"] in ("Milwaukee", "Madison") or f["kind"] != "out of range"],
                      REFERENCE / "tod_lot_model_wisconsin_flags.csv")
         tr = A.index[A._wi == 0]
-        dy = (A["units_after"] - A["units_before"]).values
+        Tb = L.five_year_basis(A[A._wi == 0])   # item 24
+        dy = pd.Series(0.0, index=A.index)
+        dy[Tb.index] = (Tb["ua5"] - Tb["ub5"]).values
+        dy = dy.values
         seed = 7 if version == "seed7" else 20261027
         pred = {}
         for gflag in (1, 0):

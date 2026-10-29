@@ -21,7 +21,7 @@ import run_tod_lot_model as L  # noqa: E402
 
 def per_reform_actuals(D: pd.DataFrame) -> pd.DataFrame:
     key = D["city"] + "|" + D["x5070"].round(1).astype(str) + "|" + D["y5070"].round(1).astype(str)
-    D = D.assign(w=1.0 / key.map(key.value_counts()))
+    D = L.five_year_basis(D.assign(w=1.0 / key.map(key.value_counts())))
     rows = []
     for (city, unit), d in D.groupby(["city", "unit"]):
         t = d[d.treated == 1]
@@ -29,9 +29,9 @@ def per_reform_actuals(D: pd.DataFrame) -> pd.DataFrame:
         ta, ca = (t.acres * t.w).sum(), (c.acres * c.w).sum()
         if ta == 0:
             continue
-        ua, ub = (t.units_after * t.w).sum(), (t.units_before * t.w).sum()
+        ua, ub = (t.ua5 * t.w).sum(), (t.ub5 * t.w).sum()
         if ca > 0:
-            ex = (ua - ta * (c.units_after * c.w).sum() / ca) - (ub - ta * (c.units_before * c.w).sum() / ca)
+            ex = (ua - ta * (c.ua5 * c.w).sum() / ca) - (ub - ta * (c.ub5 * c.w).sum() / ca)
         else:
             ex = ua - ub
         rows.append({"city": city, "unit": unit, "upzoned_acres": ta, "comparison_acres": ca, "actual_extra": ex})

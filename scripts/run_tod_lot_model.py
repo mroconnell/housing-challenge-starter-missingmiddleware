@@ -421,6 +421,13 @@ def cost_per_home(city: str, year: int) -> float:
     return best if best is not None else np.nan
 
 
+def five_year_basis(D: pd.DataFrame) -> pd.DataFrame:
+    """Homes before and after on a 5-year basis (plan section 9, item 24)."""
+    by = (D["eff_year"] - D["window_first"]).clip(lower=1)
+    ay = np.where(D["city"] == "Madison", 3, (D["window_last"] - D["eff_year"]).clip(lower=1))
+    return D.assign(ub5=D["units_before"] * 5 / by, ua5=D["units_after"] * 5 / ay)
+
+
 def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     X = pd.DataFrame(index=D.index)
     X["log_acres"] = np.log(D["acres"].clip(lower=0.005))
@@ -901,15 +908,16 @@ def fit8(tlearner: bool = False) -> None:
         Xa, Xb = pd.concat([Xa, V], axis=1), pd.concat([Xb, V], axis=1)
     y1 = D["builds_after"].values
     y2 = np.log1p(D["units_after"].values)
-    dy = (D["units_after"] - D["units_before"]).values
+    D = five_year_basis(D)
+    dy = (D["ua5"] - D["ub5"]).values   # item 24
     cities = [c for c in D["city"].unique() if c not in HOLD]
 
     def actual_extra(d):
         t = d[d.treated == 1]
         c = d[(d.treated == 0) & (d["comparison_eligible"] == 1)] if "comparison_eligible" in d else d[d.treated == 0]   # items 15-16
         ta, ca = (t.acres * t.w).sum(), (c.acres * c.w).sum()
-        return ((t.units_after * t.w).sum() - ta * (c.units_after * c.w).sum() / ca) - \
-               ((t.units_before * t.w).sum() - ta * (c.units_before * c.w).sum() / ca), ta
+        return ((t.ua5 * t.w).sum() - ta * (c.ua5 * c.w).sum() / ca) - \
+               ((t.ub5 * t.w).sum() - ta * (c.ub5 * c.w).sum() / ca), ta
 
     def makers(kind):
         if kind == "wls":
@@ -1049,7 +1057,7 @@ def main(argv=None) -> None:
     if ap_rebuilt:
         REBUILT["on"] = True
         PATHS.update(lots=LOTS_REBUILT, half=OUT / "lots_rebuilt_halfmile.parquet")
-        FIT.update(lots=PATHS["half"], suffix="_rebuilt" + ("_land" if a.land_value else "") + (f"_seed{a.seed}" if a.seed else "")
+        FIT.update(lots=PATHS["half"], suffix="_rebuilt5y" + ("_land" if a.land_value else "") + (f"_seed{a.seed}" if a.seed else "")
                    + ("_droplargest" if a.drop_largest else ""), land=a.land_value)
     elif a.half_mile:
         FIT.update(lots=LOTS_HALF, suffix="_halfmile")
