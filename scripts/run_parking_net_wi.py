@@ -53,7 +53,7 @@ def main() -> None:
     wi = R[(R["state_fips"] == NR.WI) & (R["origin"] == 2025)].copy()
     wi_open = wi[wi["key"].map(lambda k: reform_year.get(k, 9999) == 9999)]  # places that still have minimums
     m0_sum = float(wi["units_3y"].sum())
-    scale = 5 * CENTRAL / (5 * m0_sum)  # model places -> whole state, by the baseline's own ratio
+    scale = CENTRAL / (5 * m0_sum)  # model places -> whole state, by the baseline's own ratio (round 2 fix: m0_sum is per year)
 
     flags = [dict(check="reform rows", where="training", value=int(data["reform"].sum()),
                   note=f"{len(reform_keys)} reform places; trait = material repeal from 1 year before to 2 years after the origin")]
@@ -95,7 +95,10 @@ def main() -> None:
         # noise floor: a fake reform on no-reform places, same fit, same Wisconsin read-out
         fake_keys = set(rng.choice(data.loc[data["reform"] == 0, "key"].unique(), size=len(reform_keys), replace=False))
         fd = data[data["reform"] == 0].copy()
-        fd["reform"] = [int(k in fake_keys) for k in fd["key"]]
+        # round 2 fix: like a real repeal, the fake one is on only at origins 1 year before to 2 years after a fake year
+        real_y = data.loc[data["reform"] == 1, "reform_year"].astype(int).values
+        fy = {k: int(rng.choice(real_y)) for k in fake_keys}
+        fd["reform"] = [int(k in fy and o - 1 <= fy[k] <= o + 2) for k, o in zip(fd["key"], fd["origin"])]
         for name, (kind, cols) in COLS.items():
             setting = NR.choose(fd, cols, kind, seed)[0] if kind == "glm" else (0.05, 15)
             mf = fit_model(kind, cols, fd, seed, setting)

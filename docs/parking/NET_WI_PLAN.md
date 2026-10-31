@@ -36,3 +36,8 @@ Written 2026-10-31 by the parking conductor. Ryan asked all three scenarios to r
 
 ## Changes after writing
 - **2026-10-31, Ryan (before running):** after each run, check for errors and odd outliers, fix the code and rerun. Stop when a round has no errors and every outlier is explained and verified.
+- **2026-10-31, round 1 checks → round 2 fixes (before round 2 ran):**
+  - **Coding error:** the scale from model places to the whole state used one year of same-pace permits where it needed five. Every round 1 net was 5 times too large.
+  - **Coding error:** the fake reform was switched on at every origin of a fake place. A real repeal is on at only 1 or 2 origins. So the trees could learn place identity, and the noise floor was inflated. The fake now uses the same window around a fake year drawn from the real repeal years.
+  - **Data note:** only 29 reform places (60 rows) have a dated, apartment-scale repeal that falls inside the window, outside Wisconsin. The route is thin, and that is stated.
+  - **No-reform round 4 (leak fixed) moves the trees' baseline side case** from 114,042 to 124,582 (1.016 times same pace). The leak had pulled it down.
