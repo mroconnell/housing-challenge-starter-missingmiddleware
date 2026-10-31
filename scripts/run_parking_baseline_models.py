@@ -40,13 +40,13 @@ CENTRAL, PUBLISHED = 122_619, 118_822
 # model -> (constructor(setting, seed), grid)
 MODELS = {
     "Weighted Poisson regression": (lambda g, s: make_pipeline(StandardScaler(), PoissonRegressor(alpha=g, max_iter=1000)), [1e-5, 1e-4, 1e-3, 1e-2, 1e-1]),
-    "Lasso": (lambda g, s: make_pipeline(StandardScaler(), Lasso(alpha=g, max_iter=5000)), [1e-4, 1e-3, 0.01, 0.1, 0.5]),
-    "Elastic net": (lambda g, s: make_pipeline(StandardScaler(), ElasticNet(alpha=g, l1_ratio=0.5, max_iter=5000)), [1e-4, 1e-3, 0.01, 0.1, 0.5]),
-    "Depth-3 tree": (lambda g, s: DecisionTreeRegressor(max_depth=3, min_samples_leaf=g, random_state=s), [5, 20, 100]),
+    "Lasso": (lambda g, s: make_pipeline(StandardScaler(), Lasso(alpha=g, max_iter=5000)), [1e-5, 1e-4, 1e-3, 0.01, 0.1, 0.5]),
+    "Elastic net": (lambda g, s: make_pipeline(StandardScaler(), ElasticNet(alpha=g, l1_ratio=0.5, max_iter=5000)), [1e-5, 1e-4, 1e-3, 0.01, 0.1, 0.5]),
+    "Depth-3 tree": (lambda g, s: DecisionTreeRegressor(max_depth=3, min_samples_leaf=g, random_state=s), [1, 5, 20, 100]),
     "Random forest": (lambda g, s: RandomForestRegressor(n_estimators=300, min_samples_leaf=g, max_features=0.5, n_jobs=-1, random_state=s), [2, 5, 20]),
     "Boosted trees": (lambda g, s: HistGradientBoostingRegressor(loss="poisson", learning_rate=g[0], max_leaf_nodes=g[1], max_iter=300,
-                                                                  min_samples_leaf=40, random_state=s), [(0.05, 15), (0.05, 31), (0.1, 15), (0.03, 31), (0.05, 63), (0.1, 31)]),
-    "Honest forest (GRF)": (lambda g, s: RegressionForest(n_estimators=500, min_samples_leaf=g, honest=True, inference=False, n_jobs=-1, random_state=s), [2, 5, 20]),
+                                                                  min_samples_leaf=40, random_state=s), [(0.05, 15), (0.05, 31), (0.1, 15), (0.03, 31), (0.05, 63), (0.1, 31), (0.05, 127)]),
+    "Honest forest (GRF)": (lambda g, s: RegressionForest(n_estimators=500, min_samples_leaf=g, honest=True, inference=False, n_jobs=-1, random_state=s), [1, 2, 5, 20]),
     "50 nearest neighbours": (lambda g, s: make_pipeline(StandardScaler(), KNeighborsRegressor(n_neighbors=50, weights=g)), ["uniform", "distance"]),
 }
 NO_WEIGHT = {"50 nearest neighbours"}

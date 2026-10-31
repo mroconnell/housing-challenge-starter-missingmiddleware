@@ -1,0 +1,41 @@
+seed,model,setting
+20261031,Weighted Poisson regression,0.0001
+20261031,Lasso,0.001
+20261031,Elastic net,0.001
+20261031,Depth-3 tree,20
+20261031,Random forest,20
+20261031,Boosted trees,"(0.05, 31)"
+20261031,Honest forest (GRF),2
+20261031,50 nearest neighbours,distance
+20261032,Weighted Poisson regression,0.0001
+20261032,Lasso,0.01
+20261032,Elastic net,0.0001
+20261032,Depth-3 tree,5
+20261032,Random forest,5
+20261032,Boosted trees,"(0.05, 63)"
+20261032,Honest forest (GRF),2
+20261032,50 nearest neighbours,distance
+20261033,Weighted Poisson regression,0.0001
+20261033,Lasso,0.01
+20261033,Elastic net,0.0001
+20261033,Depth-3 tree,5
+20261033,Random forest,2
+20261033,Boosted trees,"(0.05, 63)"
+20261033,Honest forest (GRF),2
+20261033,50 nearest neighbours,distance
+20261034,Weighted Poisson regression,0.01
+20261034,Lasso,0.0001
+20261034,Elastic net,0.01
+20261034,Depth-3 tree,100
+20261034,Random forest,5
+20261034,Boosted trees,"(0.1, 31)"
+20261034,Honest forest (GRF),2
+20261034,50 nearest neighbours,distance
+20261035,Weighted Poisson regression,0.001
+20261035,Lasso,0.0001
+20261035,Elastic net,0.001
+20261035,Depth-3 tree,5
+20261035,Random forest,20
+20261035,Boosted trees,"(0.05, 63)"
+20261035,Honest forest (GRF),5
+20261035,50 nearest neighbours,distance

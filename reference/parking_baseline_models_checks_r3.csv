@@ -1,0 +1,12 @@
+check,where,column,value,note
+worst miss (seed 1),M0 same pace,,,"Nashville-Davidson 47|605000 origin 2018: predicted 7514, actual 12408"
+worst miss (seed 1),M1 same pace x state momentum,,,"Brooklyn borough 36|084500 origin 2018: predicted 5297, actual 10493"
+worst miss (seed 1),M2 shrunk 3-year,,,"Nashville-Davidson 47|605000 origin 2018: predicted 6711, actual 12408"
+worst miss (seed 1),Weighted Poisson regression,,,"Nashville-Davidson 47|605000 origin 2018: predicted 7755, actual 12408"
+worst miss (seed 1),Lasso,,,"Nashville-Davidson 47|605000 origin 2018: predicted 7362, actual 12408"
+worst miss (seed 1),Elastic net,,,"Nashville-Davidson 47|605000 origin 2018: predicted 7365, actual 12408"
+worst miss (seed 1),Depth-3 tree,,,"Nashville-Davidson 47|605000 origin 2018: predicted 4573, actual 12408"
+worst miss (seed 1),Random forest,,,"Nashville-Davidson 47|605000 origin 2018: predicted 6896, actual 12408"
+worst miss (seed 1),Boosted trees,,,"Nashville-Davidson 47|605000 origin 2018: predicted 6909, actual 12408"
+worst miss (seed 1),Honest forest (GRF),,,"Nashville-Davidson 47|605000 origin 2018: predicted 7359, actual 12408"
+worst miss (seed 1),50 nearest neighbours,,,"Nashville-Davidson 47|605000 origin 2018: predicted 5434, actual 12408"

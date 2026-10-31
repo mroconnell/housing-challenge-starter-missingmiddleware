@@ -68,3 +68,18 @@ The audit reviews each round. Once a round is clean, a baseline is chosen with R
     - random forest and honest forest leaf 2;
     - boosting adds (0.05, 63) and (0.1, 31).
   - **Rule (audit):** if the held-out state totals show no clear model win, same pace stays as the simplest baseline.
+- **2026-10-31, round 3 results → round 4 (before round 4 ran):**
+  - **Held-out divisions, state totals (median |log|, with the 90% range):**
+    - random forest 0.113 (0.090–0.150);
+    - honest forest 0.115 (0.094–0.150);
+    - boosted trees 0.125 (0.100–0.163);
+    - Poisson regression 0.133;
+    - same pace 0.227 (0.176–0.249).
+  - **The tree models still predict state totals better on held-out divisions,** and their 90% ranges do not overlap same pace's. So the win survives the fairer test.
+  - **Single places:** lasso and elastic net on the log rate (0.519–0.520) edge out same pace (0.533). The seed ranges overlap.
+  - **Settings still at a grid edge, extended one more step:**
+    - boosting (0.05, 63) was chosen in 3 of 5 seeds; (0.05, 127) is added;
+    - honest forest leaf 2 in 4 of 5; leaf 1 is added;
+    - depth-3 tree leaf 5 in 3 of 5; leaf 1 is added;
+    - lasso and elastic net 1e-4 in 2 of 5; 1e-5 is added.
+  - Round 4 also reruns under a different Python hash seed, to check reproducibility.
