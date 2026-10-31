@@ -30,3 +30,9 @@ The unit is permits per 1,000 existing homes per year. The average is weighted b
 - **The central estimate is still about zero** under every cleaning: the real average is between −1.10 and −0.28, inside the noise.
 - **The high end depends on the cleaning.** It ranges from 19,937 to 49,712 homes. The two best-founded cleanings (V7, V7s) give about 27,700–29,300.
 - **Proposal to Ryan** (not applied): the rule keeps 19,937 because two big cities are 1–3 stand-ins short. If Ryan prefers the better-cleaned data, V7s's 27,671 is the candidate.
+
+## Audit review (section G)
+
+- **V7s is cautious.** It treats every city in California, Oregon and Washington as reformed from the state law's year. The laws cover transit areas, not whole cities, so some clean comparison years are lost.
+- **The audit leans toward V7s's 27,671** for the high end, with 19,937 kept as a sensitivity. Its reason: every cleaned version fails the 20-stand-in rule because of the same two big cities (San Jose and Austin). So the rule always falls back to the least-clean data.
+- **It is Ryan's call.** Switching would be a stated override of the pre-set rule.
