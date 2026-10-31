@@ -43,6 +43,20 @@ def main(argv=None) -> None:
     y = D["ua5"].clip(lower=0).values   # item 51: homes after, with homes before as a trait
     Xa["log_before5"] = np.log1p(D["ub5"].values)
     Xb["log_before5"] = np.log1p(D["ub5"].values)
+    # item 53: the place's own pace before the reform (study area, and within 400 m of the lot)
+    from scipy.spatial import cKDTree
+    wa = D["w"] * D["acres"].clip(lower=0.01)
+    area_rate = (D["ub5"] * D["w"]).groupby(D["unit"]).transform("sum") / wa.groupby(D["unit"]).transform("sum")
+    near = np.zeros(len(D))
+    for u, ix in D.groupby("unit").groups.items():
+        d = D.loc[ix]
+        xy = d[["x5070", "y5070"]].to_numpy()
+        nb = cKDTree(xy).query_ball_point(xy, r=400)
+        h, ac = (d["ub5"] * d["w"]).to_numpy(), (d["acres"].clip(lower=0.01) * d["w"]).to_numpy()
+        near[D.index.get_indexer(ix)] = [h[n].sum() / ac[n].sum() for n in nb]
+    for X in (Xa, Xb):
+        X["log_area_rate_before"] = np.log1p(area_rate.values)
+        X["log_near400_rate_before"] = np.log1p(near)
     w = D["w"].values
     up = (D["treated"] == 1).values
     rows = []
