@@ -35,3 +35,4 @@ Written 2026-10-31 by the parking conductor. Ryan asked all three scenarios to r
 - Route B's net and range are set beside route A's 0 and 19,937. They go to Ryan and to the audit through the coordinator.
 
 ## Changes after writing
+- **2026-10-31, Ryan (before running):** after each run, check for errors and odd outliers, fix the code and rerun. Stop when a round has no errors and every outlier is explained and verified.
