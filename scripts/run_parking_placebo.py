@@ -29,8 +29,9 @@ MIN_STANDINS = 20  # full run: widen state -> Census division -> nation until at
 
 def main() -> None:
     full = "--full" in sys.argv
-    v6 = "--v6" in sys.argv  # improvement round 1 data (docs/parking/IMPROVE_R1_PLAN.md): scaled permits, clean pools, pre-repeal traits
-    tag = ("_full" if full else "") + ("_v6" if v6 else "")
+    v6u = "--v6u" in sys.argv  # V6u: undated reform entries do not exclude (IMPROVE_R1_PLAN.md, audit section E)
+    v6 = "--v6" in sys.argv or v6u  # improvement round 1 data (docs/parking/IMPROVE_R1_PLAN.md): scaled permits, clean pools, pre-repeal traits
+    tag = ("_full" if full else "") + ("_v6u" if v6u else "_v6" if v6 else "")
     if v6:
         import run_parking_improve_r1 as R1
         p = R1.panel_with(rpc.read_bps_us(), "scaled")
@@ -56,7 +57,7 @@ def main() -> None:
     reform_year = {}
     if v6:
         real = pd.read_csv(REFERENCE / "parking_improve_r1_places.csv")
-        real = real[real["variant"].str.startswith("V6")].dropna(subset=["effect"]).reset_index(drop=True)
+        real = real[real["variant"].str.startswith("V6u" if v6u else "V6 ")].dropna(subset=["effect"]).reset_index(drop=True)
         housing = tax[tax["land_use"].fillna("").str.contains("resid|all uses") & (tax["place_type"] == "city")]
         for r in housing.itertuples():
             k = cmp.match_place(p, rpc.STATE_FIPS.get(r.state, "??"), r.place, r.population)
@@ -73,7 +74,7 @@ def main() -> None:
         post = post[: int(r["n_post"])]
         if v6:  # date-aware clean pools and pre-repeal homes/population for this real place's repeal year
             ey = int(r["event_year"])
-            excluded = base_excluded | {k for k, y in reform_year.items() if y <= (pre + post)[-1]}
+            excluded = base_excluded | {k for k, y in reform_year.items() if (0 if v6u else -1) <= y <= (pre + post)[-1]}
             since = permits_by[[y for y in permits_by.columns if ey <= y <= 2024]].sum(axis=1)
             homes = (homes_all - since.reindex(homes_all.index).fillna(0)).clip(lower=homes_all * 0.5)
             popn = popn_all * (homes / homes_all).reindex(popn_all.index).fillna(1.0)

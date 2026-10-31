@@ -85,3 +85,27 @@ Outputs: `reference/parking_placebo_full_v6_*.csv`. All rates are permits per 1,
 - **Strict cleaning removes most large comparison cities.** That widens the noise, and a wider range is the result.
 
 **Proposal for Ryan:** keep the tool's high end at 19,937 and add the V6 lines as sensitivity cases. The alternative is to raise the high end to about 38,300, the clean-pool resampling figure. The tool changes only with Ryan's decision.
+
+## V6u: undated reform entries do not exclude (audit section E, rule set before running)
+
+Outputs: `reference/parking_placebo_full_v6u_*.csv`. All rates are permits per 1,000 existing homes per year.
+
+| Measure | V6u |
+| --- | ---: |
+| Real average (73 places) | −0.83 (resampling 90% −3.58 to +2.02) |
+| Placebo averages: 5th / 50th / 95th percentile | −2.74 / −0.04 / +3.01 |
+| Share of placebo sets at or below the real average | 32.7% |
+| Placebo-based high end | +2.22 |
+| Wisconsin high end, 2027–2031 | 29,843 |
+| Fewest stand-ins | **19 (San Jose)**; all others 20 or more |
+
+**Applying the pre-set rule:**
+- The rule needed every real place to have at least 20 stand-ins. San Jose has 19, so V6u does not replace the headline.
+- **The headline high end stays at 19,937.**
+- These figures are added to the tool's "How sure" sensitivities: V6u placebo 29,843; strict cleaning, resampling 38,230; strict cleaning, placebo 49,712.
+- The tool states that the high end is uncertain by about 2×.
+- Ryan has the final call.
+
+**Reading:**
+- **The central "about zero" holds in every version,** at −1.14, −0.83, −0.28 and in between.
+- **The high end moves with how comparison cities are cleaned,** from 19,937 to 49,712. That spread is itself the honest measure of uncertainty about the upper bound.

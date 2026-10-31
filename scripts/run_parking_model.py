@@ -43,6 +43,15 @@ def benchmark_places(munis: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows).drop_duplicates(["area_id", "benchmark_rating"])
 
 
+def v6_resample_high() -> float:
+    """95th percentile of 2,000 resamples of the V6 places (docs/parking/IMPROVE_R1_RESULTS.md)."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import run_parking_expanded as rpe
+    g = pd.read_csv(REFERENCE / "parking_improve_r1_places.csv")
+    g = g[g["variant"].str.startswith("V6 ")].dropna(subset=["effect"]).reset_index(drop=True)
+    return rpe.boot_mean(g["effect"].values, g["weight"].values)[2]
+
+
 def main() -> None:
     areas = pd.read_parquet(PROCESSED / "foundation" / "areas.parquet")
     munis = areas[areas["level"] == "municipality"][
@@ -118,6 +127,15 @@ def main() -> None:
              description=f"High end from the control-city (placebo) test: the spread of 20,000 placebo studies of cities that never repealed, centred on the real average, {upper_all:.2f} permits per 1,000 existing homes per year."),
         dict(case="Resampling the real places (earlier high end)", moves="statewide addition", value=tot(homes, upper_resample),
              description=f"The earlier high end: 95th percentile of the average from 2,000 resamples of the 76 places, {upper_resample:.2f} per 1,000 existing homes per year."),
+        dict(case="Cleaned data, undated reforms kept as comparisons (placebo)", moves="statewide addition",
+             value=tot(homes, float(pd.read_csv(REFERENCE / "parking_placebo_full_v6u_summary.csv")["range_from_placebo_high"].iloc[0])),
+             description="High end after round-1 data fixes (estimated permit months scaled, comparison places with dated parking reforms left out, pre-repeal homes), from the placebo test. One big city fell 1 short of 20 look-alikes, so by the rule set in advance it does not replace the headline."),
+        dict(case="Cleaned data, strict comparison cleaning (resampling)", moves="statewide addition",
+             value=tot(homes, v6_resample_high()),
+             description="High end after round-1 data fixes, with every comparison city that has any recorded parking reform left out, from resampling the 73 repeal places. Shown as a sensitivity: switching to this method after seeing results is not allowed."),
+        dict(case="Cleaned data, strict comparison cleaning (placebo)", moves="statewide addition",
+             value=tot(homes, float(pd.read_csv(REFERENCE / "parking_placebo_full_v6_summary.csv")["range_from_placebo_high"].iloc[0])),
+             description="As above, from the placebo test. Big repeal cities are left with 3 to 18 look-alikes, so this figure is noisy. Together these cases show that the high end is uncertain by about 2x."),
         dict(case="Buildings of 2 or more units only", moves="statewide addition", value=tot(homes, upper_apts),
              description=f"Resampling high end when only units in buildings of 2 or more units are counted, {upper_apts:.2f} per 1,000 existing homes per year."),
         dict(case="Without San Francisco", moves="statewide addition", value=tot(homes, upper_no_sf),

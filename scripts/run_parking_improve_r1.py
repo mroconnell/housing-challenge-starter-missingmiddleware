@@ -100,6 +100,7 @@ def main() -> None:
         "V1b reported months scaled to 12": dict(p=p_scl, ex=base_ex, pre=False, drop_est=False),
         "V3b date-aware clean pools": dict(p=p_est, ex=base_ex, pre=False, drop_est=False, nation=True, date_aware=True),
         "V6 all fixes (V1b+V3b+V4)": dict(p=p_scl, ex=base_ex, pre=True, drop_est=False, nation=True, date_aware=True),
+        "V6u as V6, undated reform entries do not exclude": dict(p=p_scl, ex=base_ex, pre=True, drop_est=False, nation=True, date_aware=True, undated_ok=True),
     }
     rows = []
     for name, v in variants.items():
@@ -113,7 +114,8 @@ def main() -> None:
             ex = v["ex"]
             if v.get("date_aware"):
                 end = (pre + post)[-1]
-                ex = base_ex | {k for k, y in reform_year.items() if y <= end}
+                lo = 0 if v.get("undated_ok") else -1  # V6u: undated entries (year -1) do not exclude
+                ex = base_ex | {k for k, y in reform_year.items() if lo <= y <= end}
             cmp.controls = controls_nation if v.get("nation") else _orig_controls
             e = cmp.effects(v["p"], pd.DataFrame([{"key": r.key, "event_year": int(r.event_year)}]), ex - {r.key}, h, pp, min_post=1)
             if "outcome" not in e:
@@ -147,7 +149,7 @@ def main() -> None:
     S = pd.DataFrame(S).rename(columns={"p05": "resampling_p05", "p95": "resampling_p95"})
     S.round(3).to_csv(REFERENCE / "parking_improve_r1_summary.csv", index=False)
     # flags
-    v5 = P[P["variant"].str.startswith("V6")].set_index("key")
+    v5 = P[P["variant"].str.startswith("V6 ")].set_index("key")
     v0 = P[P["variant"].str.startswith("V0")].set_index("key")
     d = (v5["effect"] - v0["effect"].reindex(v5.index)).dropna()
     flags = checks.definition(P, "place-variants with fewer than 5 comparison places", P["n_controls"] < 5)

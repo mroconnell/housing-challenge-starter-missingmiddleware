@@ -9,6 +9,7 @@ V5 all fixes (V1+V3+V4),73,-0.247,-3.626,3.679,0.254,-0.134,37.0,2
 V1b reported months scaled to 12,73,-1.262,-3.773,1.448,0.319,-0.081,28.0,0
 V3b date-aware clean pools,73,-0.146,-2.784,2.872,0.038,-0.059,31.0,2
 V6 all fixes (V1b+V3b+V4),73,-0.277,-3.004,2.848,0.044,-0.374,37.0,2
+"V6u as V6, undated reform entries do not exclude",73,-0.827,-3.576,2.018,0.676,-0.206,27.0,0
 V0 current | without the 4 heaviest places,69,-0.169,-1.992,1.999,0.537,-0.053,34.0,0
 V0 current | 3 after-years only,36,-0.924,-3.062,1.673,0.362,-0.284,35.0,0
 V0 current | drop places with under 5 comparison places,73,-1.101,-3.591,1.534,0.424,-0.053,28.0,0
