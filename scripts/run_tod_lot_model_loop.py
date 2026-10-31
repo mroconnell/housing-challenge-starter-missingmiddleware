@@ -25,6 +25,20 @@ from missing_middleware.paths import REFERENCE  # noqa: E402
 import run_tod_lot_model as L  # noqa: E402
 
 
+DOWNTOWN = {"Columbus placebo": (39.9612, -82.9988), "Kansas City placebo": (39.0997, -94.5786)}
+
+
+def fake_area(d: pd.DataFrame, c: str) -> np.ndarray:
+    """Item 58: the placebo's fake reform area: lots within 805 m of a rail or rapid stop, or of the downtown point."""
+    import geopandas as gpd
+    if c in DOWNTOWN:
+        lat, lon = DOWNTOWN[c]
+        p = gpd.GeoSeries(gpd.points_from_xy([lon], [lat]), crs=4326).to_crs(5070)
+        dist = np.hypot(d["x5070"].values - p.x.iloc[0], d["y5070"].values - p.y.iloc[0])
+        return dist <= 805
+    return (d["dist_station_m"].fillna(1e9) <= 805).values
+
+
 def main(argv=None) -> None:
     from sklearn.ensemble import HistGradientBoostingRegressor
     ap = argparse.ArgumentParser()
@@ -96,6 +110,8 @@ def main(argv=None) -> None:
         te = (D["city"] == c).values
         tr = D["city"].isin(L.training_cities(list(D["city"].unique()), c)).values
         pred = np.zeros(len(D))
+        models = {}
+        ac = D["acres"].clip(lower=0.01).values
         for g, X in ((True, Xa), (False, Xb)):
             fit = tr & (up == g)
             if fit.sum() < 50:
@@ -106,6 +122,7 @@ def main(argv=None) -> None:
                 m.fit(X[fit], y[fit] / ac[fit], sample_weight=w[fit] * ac[fit])
             else:
                 m.fit(X[fit], y[fit], sample_weight=w[fit])
+            models[g] = m
             pm = te & (up == g)
             if pm.any():
                 built = fit & (y > 0)
@@ -118,6 +135,27 @@ def main(argv=None) -> None:
                     pred[pm] = np.clip(m.predict(L.forecast_view(X[pm])), 0, cap)   # item 52: 0 to a physical ceiling
         ub, ua = D.loc[te, "ub5"].values, D.loc[te, "ua5"].values
         wt, u = w[te], up[te]
+        if a.round >= 8:   # item 57.5: two-part design: city total = same pace; lots get shares
+            total = float(ub @ wt)
+            p_on = np.clip(pred[te], 0, None)
+            share_on = p_on * wt / max(float(p_on @ wt), 1e-9)
+            # law off on upzoned lots too
+            p_off = p_on.copy()
+            if u.any():
+                m_off = models[False]
+                p_off[u] = np.clip(m_off.predict(L.forecast_view(Xb[te][u])), 0, None) * ac[te][u]
+            share_off = p_off * wt / max(float(p_off @ wt), 1e-9)
+            fake = fake_area(D[te], c) if c.endswith("placebo") else np.zeros(int(te.sum()), bool)
+            grp = u if u.any() else fake
+            act_share_after = float(ua[grp] @ wt[grp]) / max(float(ua @ wt), 1e-9)
+            act_share_before = float(ub[grp] @ wt[grp]) / max(float(ub @ wt), 1e-9)
+            rows.append({"city": c, "group": "upzoned" if u.any() else "fake area (placebo)", "group_lots": int(grp.sum()),
+                         "city_total_same_pace": total, "actual_total_after": float(ua @ wt),
+                         "share_before": act_share_before, "share_after_actual": act_share_after,
+                         "share_after_model": float(share_on[grp].sum()), "share_after_model_law_off": float(share_off[grp].sum()),
+                         "tod_effect_homes": float((share_on[grp].sum() - share_off[grp].sum()) * total) if u.any() else 0.0})
+            print(rows[-1], flush=True)
+            continue
         if a.round >= 7 and trend.get(c) == trend.get(c):   # item 56: scale to before x market trend on non-upzoned lots
             p_te = pred[te]
             denom = float(p_te[~u] @ wt[~u])
@@ -130,6 +168,16 @@ def main(argv=None) -> None:
                      "upzoned_model_after": float(pred[te][u] @ wt[u])})
         print(rows[-1], flush=True)
     R = pd.DataFrame(rows)
+    if a.round >= 8:
+        ok = (R["share_after_model"] > 0) & (R["share_after_actual"] > 0)
+        R["abs_log_model"] = np.abs(np.log(R["share_after_model"] / R["share_after_actual"])).where(ok)
+        R["abs_log_same_share"] = np.abs(np.log(R["share_before"] / R["share_after_actual"])).where(ok & (R["share_before"] > 0))
+        tag = "" if a.seed == 20261031 else f"_seed{a.seed}"
+        R.round(4).to_csv(REFERENCE / f"tod_lot_model_loop_round{a.round}{tag}_shares.csv", index=False)
+        pd.set_option("display.width", 250)
+        print(R.round(3).to_string(index=False))
+        print("median |log| model:", round(R["abs_log_model"].median(), 3), " same share as before:", round(R["abs_log_same_share"].median(), 3))
+        return
     R["actual_change"] = R["actual_after"] - R["before"]
     R["model_change"] = R["model_after"] - R["before"]
     R["error_after_pct"] = 100 * (R["model_after"] - R["actual_after"]) / R["actual_after"].where(R["actual_after"] != 0)
