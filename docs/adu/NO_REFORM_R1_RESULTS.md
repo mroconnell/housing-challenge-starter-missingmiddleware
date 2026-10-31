@@ -8,9 +8,11 @@ Run 2026-10-31 under [NO_REFORM_R1_PLAN.md](NO_REFORM_R1_PLAN.md), committed bef
 - **Bias** is the mean of log(predicted ÷ actual). Below 0 means the model predicts too low.
 - **Wisconsin totals** are ADU permits over 2027–2031.
 
-## Answer
+## Answer (updated after the audit's review)
 
-- **The tool's no-reform baseline (530 permits) holds up as the main case.** No model beat "same pace as before" by the plan's rule.
+- **Candidate baseline: same pace plus trend, about 786 permits** (758 by the simple sum; 786 through the tool's engine, which centres today's rates on mid-2023). The audit's reading: the plan set no pass bar, so the better-scoring model is the candidate. It scores 0.28 against same pace's 0.51, and same pace is biased about 30% low. The two models' resampling ranges overlap.
+- **What it does to the law's addition:** each scenario falls by about 233 permits. Lower 6,804 → 6,571; central 10,679 → 10,446; upper 19,535 → 19,301. The total with the law barely moves (+23), because a higher baseline mostly shifts permits from "added by the law" to "would happen anyway". **Ryan decides.**
+- **First reading (before the review):** the tool's 530 holds up as the main case; no model beat "same pace as before" by a clear margin.
 - **It probably runs a little low.** With no statewide law, the comparison places' ADU permits kept rising. "Same pace" predicted 29% too low on average (bias −0.35).
 - **Adding the other places' trend (N1) fit better:** score 0.28 against 0.51. Its resampling range overlaps "same pace" (0.21–0.42 against 0.24–0.59), so it does not pass the pre-set bar.
 - **With that trend, Wisconsin's baseline would be about 758 permits** instead of 530 (+228). The tool already shows a similar case among its sensitivities: "Wisconsin's baseline rises like no-law places", with a baseline of 950.
@@ -28,6 +30,8 @@ Forward test: fit on years up to Y; predict the average over Y+1 to Y+5. 34 case
 | N2 pooled level (no own history) | 0.475 | 0.13–1.85 | −0.50 |
 
 Held-out places (each place's last-3-year rate from the others' median): N2 scores 0.667.
+
+**Spread.** The resampling above draws whole series, and there are only 8, so it is coarse. Across the 34 cases themselves, same pace's middle half of misses is 0.31–0.60 and the trend model's is 0.18–0.47. The trend model is closer in 23 of 34 cases.
 
 ## 2. Wisconsin, 2027–2031, no statewide law
 
@@ -47,7 +51,7 @@ Held-out places (each place's last-3-year rate from the others' median): N2 scor
 - **Seattle from 2018 and 2019:** same pace 1.4, actual 3.0–3.4. Seattle's 2019 ordinance (two ADUs per lot, no owner-occupancy or parking rules) is a reform. Our trait marks Seattle as "reformed" in every year, so it missed this second step.
 - **Portland from 2014:** same pace 0.88, actual 2.54. A development-charge waiver ran out in 2018, and builders rushed before it ended. That is a fee policy.
 
-So the biggest no-reform misses are reforms our coding did not mark. A finer reform trait (each ordinance, not just "reformed or not") is the next round's fix.
+So the biggest no-reform misses are reforms our coding did not mark. Next round applies the same training rule (no window spans a city's own reform) to Seattle's 2019 ordinance and to the end of Portland's fee waiver, once each date is sourced. No special fixes for those two.
 
 ## 4. Data left out (Ryan asked to see it)
 
