@@ -311,3 +311,9 @@ The lot model counts as better if it beats the plain baseline on held-out cities
 43. **2026-10-31, found by the item 39.4 units table, before any item 37 fit finished (the fits were stopped).**
     1. **No-reform cities had no tract traits:** the 5-year ACS releases ending 2016 and 2018 were not on hand for Wisconsin, so every placebo lot got the default fill (rent $1,000, value $200,000, income $50,000). The same gap hit New York lots whose release ends 2010 or 2012. Those four releases are now fetched (public Census summary files) and the tract traits are recomputed.
     2. **Construction cost per home swung by year, and New York had none:** the permit survey reports New York City by borough, so the city lookup found nothing and New York lots got a filled value; the five boroughs are now summed. Milwaukee's permit-survey value per home in 5+ home buildings was $14,908 in 2018 (vs about $115,000–$180,000 in nearby years), giving a rent-to-cost ratio of 12.9 against 1.2–2.7 elsewhere. Cost is now the median over the 5 years around, each year with at least 20 such homes.
+44. **2026-10-31, from the audit's review of item 43, before any fit ran.**
+    1. **Filled-value flag:** each run's flag file lists, by city and trait, the share of lots with a missing value (later filled from training medians); any share above 5% is flagged.
+    2. **No hard-coded fallbacks** for rent, home value and income (and rent in the rent-to-cost ratio): missing values are left blank and filled once, from the non-holdout training medians (item 25.8).
+    3. **Dollar-ratio flag:** for rent, home value, income and construction cost (2024 dollars), a city whose median is under half or over twice the other cities' median is flagged.
+    4. **Source years** per city (reform years, ACS release, cost window) are listed in the flag file.
+    Milwaukee's construction cost ($81,500 per home, 5-year median) is low beside other cities' and is checked with flag 3.

@@ -515,14 +515,19 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
         X["log_near_before"] = np.log1p(D["near_units_before"] / by.fillna(6.0))
     else:
         X["log_near_before"] = np.log1p(D["near_units_before"])
-    X["log_rent"] = np.log(D["rent"].clip(lower=100)).fillna(np.log(1000))
-    X["log_value"] = np.log(D["home_value"].clip(lower=10000)).fillna(np.log(200000))
-    X["log_income"] = np.log(D["income"].clip(lower=5000)).fillna(np.log(50000))
+    if FIT.get("item37"):   # item 44.2: no hard-coded fallbacks; missing values are filled once, from training medians
+        X["log_rent"] = np.log(D["rent"].clip(lower=100))
+        X["log_value"] = np.log(D["home_value"].clip(lower=10000))
+        X["log_income"] = np.log(D["income"].clip(lower=5000))
+    else:
+        X["log_rent"] = np.log(D["rent"].clip(lower=100)).fillna(np.log(1000))
+        X["log_value"] = np.log(D["home_value"].clip(lower=10000)).fillna(np.log(200000))
+        X["log_income"] = np.log(D["income"].clip(lower=5000)).fillna(np.log(50000))
     X["soft_site"] = np.log1p(D["bldg_to_land"].clip(lower=0)).fillna(0) if "bldg_to_land" in D else 0.0
     X["soft_missing"] = D["bldg_to_land"].isna().astype(float) if "bldg_to_land" in D else 1.0
     age = (D["eff_year"] - D["year_built"]) if "year_built" in D else pd.Series(np.nan, index=D.index)
     X["age"] = age.clip(0, 200).fillna(-1)
-    X["rent_to_cost"] = (D["rent"].fillna(1000) * 12 / 0.05) / cost_2024(D)   # item 25.5: both in 2024 dollars
+    X["rent_to_cost"] = ((D["rent"] if FIT.get("item37") else D["rent"].fillna(1000)) * 12 / 0.05) / cost_2024(D)   # 25.5; 44.2
     sqft = (X["far_now"].fillna(0) * D["acres"] * 43560)
     allowed = sqft / 1000.0
     X["pays_room"] = np.log1p((allowed - D["homes_on_lot"].fillna(0)).clip(lower=0)) * X["rent_to_cost"]
@@ -1123,7 +1128,8 @@ def sanity_flags(stage: str) -> None:
     """Flags only, never stops the run (owner, 2026-10-28): units, policy distance, traits outside other cities' range."""
     from missing_middleware.tod import sanity as S
     D = pd.read_parquet(FIT["lots"])
-    D["cost_per_home"] = 150_000.0   # placeholder: only the range check of the rent-to-cost trait uses it
+    cache = {k: cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(D["city"], D["eff_year"]))}
+    D["cost_per_home"] = [cache[(c, y)] for c, y in zip(D["city"], D["eff_year"])]   # item 44: real costs, not a placeholder
     X = features(D, False)
     fl = S.unit_flags(D, FAR_CITIES) + S.policy_flags(D) + S.range_flags(X, D["city"])
     if "level_source" in D:   # item 34.5: where each city's density level comes from
@@ -1132,6 +1138,26 @@ def sanity_flags(stage: str) -> None:
     if "level_flag" in D:
         for (c, f), n in D[D["level_flag"].astype(str).str.len() > 0].groupby(["city", "level_flag"]).size().items():
             fl.append({"kind": "level source", "city": c, "item": "far_before", "detail": f"{n} lots: {f}"})
+    # item 44.1: share of lots with a missing value (filled later), per city and trait
+    raw = {"rent": D["rent"], "home_value": D["home_value"], "income": D["income"], "cost_per_home": D["cost_per_home"],
+           "far_before": D["far_before"], "census_homes": D.get("census_homes", pd.Series(np.nan, index=D.index))}
+    for k, v in raw.items():
+        for c, sh in v.isna().groupby(D["city"]).mean().items():
+            if sh > 0.05:
+                fl.append({"kind": "filled", "city": c, "item": k, "detail": f"{sh:.0%} of lots missing, filled from training medians"})
+    # item 44.3: dollar traits more than 2x off the other cities' median
+    dol = pd.DataFrame({"rent": D["rent"], "home_value": D["home_value"], "income": D["income"],
+                        "cost_2024": cost_2024(D)})
+    med = dol.groupby(D["city"]).median()
+    for k in med.columns:
+        for c in med.index:
+            other = med[k].drop(c).median()
+            if pd.notna(med.at[c, k]) and other and not (0.5 <= med.at[c, k] / other <= 2):
+                fl.append({"kind": "dollar ratio", "city": c, "item": k, "detail": f"median {med.at[c, k]:,.0f} vs other cities {other:,.0f}"})
+    # item 44.4: source years
+    from missing_middleware.tod import allvars as A
+    for c, y in D.groupby("city")["eff_year"].agg(lambda s: sorted(set(int(x) for x in s))).items():
+        fl.append({"kind": "source year", "city": c, "item": "years", "detail": f"reform years {y[0]}–{y[-1]}; ACS ending {A.survey_end_year(y[0])}–{A.survey_end_year(y[-1])}; cost median over the 5 years around year before"})
     S.report(fl, REFERENCE / f"tod_lot_model_flags_{stage}{FIT['suffix']}.csv")
 
 
