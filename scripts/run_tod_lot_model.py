@@ -544,8 +544,10 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
         X["log_lot_value_per_acre"] = np.log1p(lvpa)
         X["lot_value_missing"] = D["lot_value_missing"]
         X["assessed_not_market"] = D["assessed_not_market"]
-    if "rezoned_later" in D and (not FIT.get("item32") or FIT.get("with_rezoned_later")):   # item 31; 32.3
+    if "rezoned_later" in D and (not FIT.get("item32") or FIT.get("with_rezoned_later") or FIT.get("item37")):   # 31; 32.3; 39.1
         X["rezoned_later"] = D["rezoned_later"].astype(float)
+    if FIT.get("item37"):   # item 39.2: no-reform (placebo) lots carry their own trait
+        X["no_reform"] = (D["placebo"].fillna(0) if "placebo" in D else pd.Series(0.0, index=D.index)).astype(float)
     if "census_homes" in D:
         X["log_census_homes"] = np.log1p(D["census_homes"].clip(lower=0))
     if not FIT.get("item25"):
@@ -1312,10 +1314,11 @@ def fit8(tlearner: bool = False) -> None:
             h = g[g.role == "holdout"].set_index("city")
             pl = g[g.role == "placebo"]
             better = {c: bool(h.loc[c, "total_error_model"] < h.loc[c, "total_error_baseline"]) for c in HOLD if c in h.index}
-            ok = bool(g["total_error_model"].mean() < g["total_error_baseline"].mean() and sum(better.values()) >= 2
-                      and (pl["total_error_model"] <= pl["total_error_baseline"]).all())
+            within = {c: bool(h.loc[c, "total_error_model"] <= 0.25 * abs(h.loc[c, "total_actual"])) for c in HOLD if c in h.index}
+            ok = bool(sum(better.values()) >= 2 and sum(within.values()) >= 2)   # item 39.3
             TS.append({"method": kind, "mean_error_baseline": g["total_error_baseline"].mean(), "mean_error_model": g["total_error_model"].mean(),
                        **{f"{c.lower()}_better": v for c, v in better.items()},
+                       **{f"{c.lower()}_within_25pct": v for c, v in within.items()},
                        "placebo_ok": bool((pl["total_error_model"] <= pl["total_error_baseline"]).all()), "passes_totals_test": ok})
         TS = pd.DataFrame(TS)
         TS.round(2).to_csv(REFERENCE / f"tod_lot_model_totals{('_runE' if tlearner else '_runD_all8') + FIT['suffix']}.csv", index=False)
