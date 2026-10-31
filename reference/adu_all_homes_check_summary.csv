@@ -1,0 +1,3 @@
+outcome,n_states,average_effect,median_effect,placebo_p05,placebo_p50,placebo_p95,share_placebo_at_or_above,wi_homes_2027_2031
+all_units,7,-0.9745,-0.4454,-1.1967,-0.0448,1.0222,0.9137,-13842.5605
+units_1_4,7,-0.5752,-0.2171,-0.4105,0.1035,0.7226,0.9852,-8170.461
