@@ -173,8 +173,16 @@ def main() -> None:
             "structure_type == 'all' and kind == 'projected' and 2027 <= year <= 2031")["central"].sum())
         sens.append(dict(case="Baseline: boosted-trees no-reform model", moves="baseline only", value=ratio * central,
                          description=f"Baseline over 2027-2031 from a model trained on places with no parking reform nationwide, {ratio:.2f} times the same-pace baseline. "
-                                     "It predicts state totals about twice as well as same pace in held-out tests; same pace predicts single cities better and ran 17-22% low in recent years. "
+                                     "In held-out tests no model beat same pace: on single cities same pace is as good as any, and on state totals the tree models only match same pace with a national level adjustment. Same pace ran 17-23% low in 2020-2025. "
                                      "The parking addition does not change."))
+    bm = REFERENCE / "parking_baseline_models_wisconsin_r4.csv"
+    if bm.exists():  # owner, 2026-10-31: follow the audit - central stays same pace; side line "if recent strength continues"
+        w = pd.read_csv(bm).query("origin == 2025").set_index("model")["wisconsin_2027_2031_scaled_to_122619_central"]
+        sens.append(dict(case="Baseline: if recent strength continues", moves="baseline only", value=float(w["Honest forest (GRF)"]),
+                         description=f"Baseline over 2027-2031 if 2020-2025's strength continues: {w['Honest forest (GRF)']:,.0f} (honest forest) to "
+                                     f"{w['Random forest']:,.0f} (random forest), and up to {w['M0L same pace x level']:,.0f} if every place keeps 2020-2025's full "
+                                     "level over its earlier pace. In Wisconsin's own 2021-2025 back-test, same pace came in at 0.77 of actual, the forests at 0.95 "
+                                     "and the full-level version at 1.01. The parking addition does not change (docs/parking/BASELINE_MODELS_RESULTS.md)."))
     pd.DataFrame(sens).round(1).to_csv(REFERENCE / "parking_model_sensitivities.csv", index=False)
 
     print(f"eligible homes {homes.sum():,.0f}; places at benchmark {len(at)}, near {len(near)}")
