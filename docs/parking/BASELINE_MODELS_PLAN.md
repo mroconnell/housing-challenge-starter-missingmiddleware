@@ -83,3 +83,8 @@ The audit reviews each round. Once a round is clean, a baseline is chosen with R
     - depth-3 tree leaf 5 in 3 of 5; leaf 1 is added;
     - lasso and elastic net 1e-4 in 2 of 5; 1e-5 is added.
   - Round 4 also reruns under a different Python hash seed, to check reproducibility.
+- **2026-10-31, audit review of round 3 → round 4 (round 4 restarted before finishing; logged before running):**
+  - **The forests' state-total win is a level effect.** Same pace times one national level factor, taken from the other divisions in the same years, scores 0.122 on held-out-division state totals. That is against 0.113 (random forest), 0.115 (honest forest) and 0.125 (boosted). The random forest beats it in only 50% of state-origins. So the forests learn the national level of the overlapping calendar years (same pace ran at 0.82 in 2020–2025). They do not predict states better. The wording is now: "tree models match same pace with a national level adjustment".
+  - **New benchmark M0L** in every test: same pace × (permits actually issued ÷ same pace, summed over the fitted rows only). No test data are used. Every model's state-total score also reports the share of state-origins where it beats M0L.
+  - **Tuning note:** the settings for the division runs were picked by cross-validation over all training places, including the held-out divisions' places (fitting origins only). Stated, not changed.
+  - **Audit recommendation (Ryan's call):** keep same pace (122,619) as the central baseline. A side line, "if recent strength continues", would sit at about the forests' 131,000–133,000, or at M0L.

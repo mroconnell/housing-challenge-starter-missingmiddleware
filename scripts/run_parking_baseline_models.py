@@ -107,10 +107,19 @@ def choose(name, df, seed):
     return best
 
 
-def benchmarks(pool, new):
-    return {"M0 same pace": new["units_3y"].values,
+def level(fitted):
+    """M0L's level factor: permits actually issued over same pace, summed over the fitted rows (no test data)."""
+    f = fitted[fitted["actual"].notna()]
+    return float(f["actual"].sum() / f["units_3y"].sum())
+
+
+def benchmarks(pool, new, lev=None):
+    out = {"M0 same pace": new["units_3y"].values,
             "M1 same pace x state momentum": (new["units_3y"] * new["state_fips_momentum"].fillna(1)).values,
             "M2 shrunk 3-year": NR.m2_shrunk(pool, new)}
+    if lev is not None:  # round 4 (audit): same pace times one national level factor from the fitted rows
+        out["M0L same pace x level"] = new["units_3y"].values * lev
+    return out
 
 
 def main() -> None:
@@ -142,7 +151,7 @@ def main() -> None:
             choices.append(dict(seed=seed, model=name, setting=str(g)))
             fitted[name] = (fit(name, g, seed, F, med), g)
         for tname, te in tests.items():
-            preds = benchmarks(pool, te)
+            preds = benchmarks(pool, te, level(F))
             for name, (m, g) in fitted.items():
                 nb = []
                 preds[name] = predict(m, te, med, nb, name)
@@ -175,7 +184,7 @@ def main() -> None:
         if te.empty:
             continue
         med = F[COLS].median()
-        preds = benchmarks(T0[T0["division"] != dv], te)
+        preds = benchmarks(T0[T0["division"] != dv], te, level(F))
         for name in MODELS:
             preds[name] = predict(fit(name, pick[name], NR.SEEDS[0], F, med), te, med, [], name)
         for name, pr in preds.items():
@@ -183,9 +192,13 @@ def main() -> None:
         print("division", dv, "done", flush=True)
     ST = pd.concat(st_rows).groupby(["model", "division", "state_fips", "origin"], as_index=False)[["pred", "actual"]].sum()
     ST.to_csv(REFERENCE / f"parking_baseline_models_state_totals{TAG}.csv", index=False)
+    ref = ST[ST["model"] == "M0L same pace x level"].set_index(["state_fips", "origin"])
+    ref_lg = np.abs(np.log((ref["pred"] + 0.5) / (ref["actual"] + 0.5)))
     for name, g in ST.groupby("model"):
         sc = NR.score(g["pred"].values, g["actual"].values)
         lg = np.abs(np.log((g["pred"].values + 0.5) / (g["actual"].values + 0.5)))
+        # round 4 (audit): share of state-origins where this model is closer than M0L
+        sc["beats_M0L_share"] = float(np.mean(lg < ref_lg.reindex(pd.MultiIndex.from_frame(g[["state_fips", "origin"]])).values))
         brng = np.random.default_rng(20261031)
         bs = [np.median(lg[brng.integers(0, len(lg), len(lg))]) for _ in range(2000)]
         rows.append(dict(seed=0, test="state totals, held-out divisions", model=name, **sc,
@@ -204,7 +217,7 @@ def main() -> None:
         allfit = allfit_all[allfit_all["origin"].isin(NR.FIT_ORIGINS)] if o == 2019 else allfit_all
         med = allfit[COLS].median()
         te = R[(R["state_fips"] == NR.WI) & (R["origin"] == o)].assign(fake_reform=0)
-        preds = benchmarks(train[train["state_fips"] != NR.WI], te)
+        preds = benchmarks(train[train["state_fips"] != NR.WI], te, level(allfit))
         for name in MODELS:
             g = pick[name]
             preds[name] = predict(fit(name, g, seed, allfit, med), te, med, [], name)
