@@ -36,7 +36,7 @@ REBUILT = {"on": False}
 PATHS = {"lots": LOTS, "half": LOTS_HALF}
 SEED = {"v": 20261027}
 ROBUST = {"drop_largest": False}
-LOT_GROUPS = ("upzoned", "upzoned_from_industrial", "upzoned_from_campus", "upzoned_by_later_rezoning", "reform_density_not_rising", "reform_already_allowed",
+LOT_GROUPS = ("upzoned", "upzoned_from_industrial", "upzoned_from_campus", "upzoned_by_later_rezoning", "upzoned_not_near_transit", "reform_density_not_rising", "reform_already_allowed",
               "reform_single_family_untouched", "reform_campus_or_park_unchanged", "reform_rezoned_again_in_window",
               "reform_other_not_eligible", "comparison_eligible", "comparison_industrial", "comparison_campus_or_park",
               "other_not_eligible")
@@ -792,6 +792,12 @@ def half_mile() -> None:
     D["stops_1mile"] = [len(n) for n in st.query_ball_point(xy, r=1609)]
     nr = D["city"].isin(NO_RAIL)   # item 46: no rail or rapid stop open in their windows
     D.loc[nr, "dist_station_m"], D.loc[nr, "stops_1mile"] = np.nan, 0
+    if FIT.get("item37"):   # item 48: upzoned lots more than 1/2 mile from a rail or rapid stop are not TOD lots
+        far = (D["treated"] == 1) & (D["dist_station_m"] > 805)
+        D.loc[far, "treated"] = 0.0
+        D.loc[far, "lot_group"] = "upzoned_not_near_transit"
+        D.loc[far, "comparison_eligible"] = 0.0
+        print("upzoned lots relabelled 'not near transit':", D[far].groupby("city").size().to_dict(), flush=True)
     before = D.groupby(["city", "treated"]).size()
     if not FIT.get("item37"):
         D = D[D["dist_station_m"] <= 805].copy()   # item 14; item 37.1 stops trimming
@@ -1457,7 +1463,7 @@ def fit8(tlearner: bool = False) -> None:
     if ROBUST.get("only"):
         methods = tuple(m for m in methods if m in ROBUST["only"])
     for kind in methods:
-        for c in cities + list(HOLD):
+        for c in [x for x in cities + list(HOLD) if not ROBUST.get("cities") or x in ROBUST["cities"]]:
             te = D.index[D["city"] == c].to_numpy()
             # item 40.1: a city's own no-reform lots never train the model that predicts it (Madison placebo vs Madison)
             base_c = c.removesuffix(" placebo")
@@ -1521,6 +1527,7 @@ def main(argv=None) -> None:
     ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
     ap.add_argument("--with-rezoned-later", action="store_true", help="check run: keep the rezoned-later trait (item 32.3)")
     ap.add_argument("--land-value", action="store_true", help="add the pays-for-itself traits (LAND_VALUE_PLAN.md)")
+    ap.add_argument("--cities", default="", help="comma-separated cities to predict (quick test); training is unchanged")
     ap.add_argument("--only", default="", help="comma-separated methods for fit8/fit_runE (robustness reruns)")
     ap.add_argument("--drop-largest", action="store_true", help="robustness: each city's largest project left out (item 19)")
     ap.add_argument("--rebuilt", action="store_true", help="plan item 15 lot table (industrial conversions, in-reform lots, census homes)")
@@ -1532,6 +1539,8 @@ def main(argv=None) -> None:
         ROBUST["drop_largest"] = True
     if a.only:
         ROBUST["only"] = tuple(a.only.split(","))
+    if a.cities:
+        ROBUST["cities"] = tuple(a.cities.split(","))
     ap_rebuilt = a.rebuilt
     if ap_rebuilt:
         REBUILT["on"] = True
