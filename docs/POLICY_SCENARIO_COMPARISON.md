@@ -123,6 +123,16 @@ Each scenario's answer is "with the reform minus without it". This table lines u
 - **Nesting checks.** TOD's station-area baseline (14,464) is below the statewide total (122,619): about 12% of it. ADU's 786 is under 1% of the statewide total (0.6%).
 - **ADUs need a place-by-place baseline.** A statewide no-law level from other states' cities would give 4,390 ADU permits, about 5.6 times the tool's 786. Those cities are much more active than typical Wisconsin places.
 
+# Net Added Homes, Statewide (in progress)
+
+Owner ask (2026-10-31): permits after each reform minus permits with no reform, Wisconsin, 2027–2031, on the shared all-housing baseline (122,619 homes; 118,822 as published).
+
+| Scenario | Lower | Central | Upper | Central as a share of 122,619 | Source |
+| --- | ---: | ---: | ---: | ---: | --- |
+| ADUs (ADU permits) | 6,223 | 10,349 | 19,294 | 8.4% | [NET_STATEWIDE_R1.md](adu/NET_STATEWIDE_R1.md) |
+| TOD | to come | | | | |
+| Parking | to come | | | | |
+
 # What the Tool Cannot Say
 
 - **Whether Wisconsin will behave like the places the evidence comes from.** No Midwest state has data after a statewide ADU law; no state has removed parking minimums long enough to measure; the TOD sizing has no Wisconsin test of its own.
