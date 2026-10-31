@@ -62,7 +62,7 @@ def main() -> None:
     flags += [dict(check="reform row outcome above national 99th percentile (per 1,000 homes)", where=f"{r.name} {r.key}",
                    value=round(r.actual / r.homes * 1000, 1), note=f"origin {r.origin}, homes {r.homes:.0f}") for r in odd.itertuples()]
 
-    score_rows, net_rows, place_rows, miss_rows = [], [], [], []
+    score_rows, net_rows, place_rows, miss_rows, fake_trace = [], [], [], [], []
     for seed in NR.SEEDS:
         rng = np.random.default_rng(seed)
         held = set(rng.choice(reform_keys, size=max(1, int(round(0.2 * len(reform_keys)))), replace=False))
@@ -101,6 +101,13 @@ def main() -> None:
         real_y = data.loc[data["reform"] == 1, "reform_year"].astype(int).values
         fy = {k: int(rng.choice(real_y)) for k in sorted(fake_keys)}  # sorted: set order changes between runs (round 4 fix)
         fd["reform"] = [int(k in fy and o - 1 <= fy[k] <= o + 2) for k, o in zip(fd["key"], fd["origin"])]
+        # round 5 trace: how the fake-reform rows differ from the rest (change in permits per 1,000 homes per year)
+        chg = (fd["actual"] - fd["units_3y"]) / fd["homes"] * 1000
+        on_rows = fd[fd["reform"] == 1]
+        top = on_rows.assign(chg=chg[fd["reform"] == 1]).sort_values("chg", ascending=False).head(3)
+        fake_trace.append(dict(seed=seed, fake_rows=len(on_rows), fake_change=float(chg[fd["reform"] == 1].mean()),
+                               other_change=float(chg[fd["reform"] == 0].mean()),
+                               top=", ".join(f"{r.name} {r.chg:+.0f}" for r in top.itertuples())))
         for name, (kind, cols) in COLS.items():
             setting = NR.choose(fd, cols, kind, seed)[0] if kind == "glm" else (0.05, 15)
             mf = fit_model(kind, cols, fd, seed, setting)
@@ -128,6 +135,10 @@ def main() -> None:
             flags.append(dict(check="held-out reform place, largest miss (M4, trait on)", where=f"{r.name} {r.key}",
                               column="homes per year", value=round(r.miss),
                               note=f"origin {r.origin}, repeal {int(r.reform_year)}, actual {r.actual:.0f}, same pace {r.units_3y:.0f}, on {r.pred_on:.0f}, off {r.pred_off:.0f}"))
+    for t in fake_trace:
+        flags.append(dict(check="fake-reform rows vs the rest (change per 1,000 homes per year)", where=f"seed {t['seed']}",
+                          value=round(t["fake_change"] - t["other_change"], 2),
+                          note=f"{t['fake_rows']} fake rows: {t['fake_change']:+.2f} vs {t['other_change']:+.2f}; fastest: {t['top']}"))
     fk = N[N["model"].str.contains("fake")]
     for r in fk.itertuples():
         flags.append(dict(check="fake-reform Wisconsin net by seed", where=r.model, column="homes 2027-2031",

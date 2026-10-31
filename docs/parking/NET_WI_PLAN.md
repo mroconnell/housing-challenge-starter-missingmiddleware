@@ -48,3 +48,6 @@ Written 2026-10-31 by the parking conductor. Ryan asked all three scenarios to r
     - The held-out reform place with the largest miss is San Francisco, origin 2018. 1,689 homes a year were permitted against a same pace of 4,590, a real post-2018 collapse. Minneapolis (2021 repeal, with the 2040 plan) and Hayward also came in below same pace.
     - The largest Wisconsin net is Madison: −2.2 homes a year, out of 2,938 a year at same pace (0.07%).
   - Round 4 reruns both scripts with the sorted loop. No other change.
+- **2026-10-31, round 4 checks → round 5 (before round 5 ran):**
+  - **Round 4 had no coding errors.** It was rerun with a different Python hash seed and gave identical results: the fake nets are now reproducible.
+  - **One outlier is not yet verified.** The trees' fake-reform Wisconsin net is 0 in 3 seeds, but about 10,500–10,900 homes in 2 (seeds 20261033 and 20261034). Round 5 records, for each seed, how the fake-reform rows' change in permits compares with the rest's, and which fake places grew fastest. Nothing else changes.
