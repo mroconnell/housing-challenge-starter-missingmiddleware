@@ -58,3 +58,30 @@ Per the audit, if V6's data become the standard, the placebo test and high end m
 - **Comparison-pool labels** are now saved in `parking_improve_r1_places.csv`. In V6, 41 places draw from their state, 24 from their division and 8 from the nation.
 - **Why the V6 3-after-year line is −1.37:** those 36 places are older repeals. San Francisco (repealed 2019, after-years 2020–2022 under COVID) carries 22% of their weight at −6.2. Minneapolis (2021, right after its 2019–2020 rush to permit before the 2040 plan) carries 11% at −8.8. Together they account for most of the negative.
 - **Every line stays within about ±1.4 of zero,** and every 90% range spans zero.
+
+## Placebo test on V6 data (audit rule: range and central from the same data)
+
+Outputs: `reference/parking_placebo_full_v6_*.csv`. All rates are permits per 1,000 existing homes per year.
+
+| Measure | Current tool (76 places) | V6 (73 places) |
+| --- | ---: | ---: |
+| Real average | −1.14 | −0.28 |
+| Placebo averages: 5th / 50th / 95th percentile | −2.28 / +0.01 / +2.64 | −3.89 / −0.53 / +3.45 |
+| Share of placebo sets at or below the real average | 21.7% | 54.4% |
+| Placebo-based high end | +1.49 | **+3.70** |
+| Wisconsin high end, 2027–2031 | 19,937 | **about 49,700** |
+| Resampling 95th percentile, Wisconsin | 19,186 | about 38,300 |
+
+**Flag:** 9 real places have fewer than 20 stand-ins: San Jose (3), Austin (4), Sacramento (7), San Francisco (8), Raleigh (8), Minneapolis (10), Lexington (13), St. Paul (16) and Anchorage (18). Together they carry **57% of the weight**.
+- **Why:** clean pools leave out every city with any recorded housing parking entry. Most large US cities have one, usually undated. Even the national pool at ½–2× population has few big cities left.
+- **The effect:** this is the same thin-pool problem the placebo fix solved on 2026-10-28. The spread is lumpy, so the V6 high end is not reliable.
+
+**Reading:**
+- **The central result holds.** With cleaner data, the real average is −0.28, which is a typical placebo result (54th percentile). "About zero" holds under every data fix.
+- **The high end depends on how strictly comparison cities are cleaned:**
+  - current pools: about 19,900–19,200;
+  - clean pools, resampling: about 38,300;
+  - clean pools, placebo: about 49,700, which rests on thin pools.
+- **Strict cleaning removes most large comparison cities.** That widens the noise, and a wider range is the result.
+
+**Proposal for Ryan:** keep the tool's high end at 19,937 and add the V6 lines as sensitivity cases. The alternative is to raise the high end to about 38,300, the clean-pool resampling figure. The tool changes only with Ryan's decision.

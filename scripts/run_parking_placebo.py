@@ -29,8 +29,14 @@ MIN_STANDINS = 20  # full run: widen state -> Census division -> nation until at
 
 def main() -> None:
     full = "--full" in sys.argv
-    tag = "_full" if full else ""
-    p = cmp.panel(rpc.read_bps_us())
+    v6 = "--v6" in sys.argv  # improvement round 1 data (docs/parking/IMPROVE_R1_PLAN.md): scaled permits, clean pools, pre-repeal traits
+    tag = ("_full" if full else "") + ("_v6" if v6 else "")
+    if v6:
+        import run_parking_improve_r1 as R1
+        p = R1.panel_with(rpc.read_bps_us(), "scaled")
+        cmp.controls = R1.controls_nation
+    else:
+        p = cmp.panel(rpc.read_bps_us())
     homes_geo = rpc.acs_table(RAW / "census_acs5_2024_tbsf" / "acsdt5y2024-b25002.dat", "B25002_E001")
     pop_geo = rpc.acs_table(RAW / "census_acs5_2024_tbsf" / "acsdt5y2024-b01003.dat", "B01003_E001")
     geo = p.drop_duplicates("key", keep="last").set_index("key")
@@ -47,12 +53,30 @@ def main() -> None:
     real = pd.read_csv(REFERENCE / "parking_expanded_effects.csv")
     real = real[(real["status"] == "included") & (real["outcome"] == "all")].reset_index(drop=True)
     excluded |= set(real["key"])
+    reform_year = {}
+    if v6:
+        real = pd.read_csv(REFERENCE / "parking_improve_r1_places.csv")
+        real = real[real["variant"].str.startswith("V6")].dropna(subset=["effect"]).reset_index(drop=True)
+        housing = tax[tax["land_use"].fillna("").str.contains("resid|all uses") & (tax["place_type"] == "city")]
+        for r in housing.itertuples():
+            k = cmp.match_place(p, rpc.STATE_FIPS.get(r.state, "??"), r.place, r.population)
+            if k:
+                y = r.adopted_year if pd.notna(r.adopted_year) else -1
+                reform_year[k] = min(reform_year.get(k, 9999), y)
+        permits_by = p.pivot_table(index="key", columns="year", values="units_total", aggfunc="sum").fillna(0)
+    homes_all, popn_all, base_excluded = homes, popn, set(excluded)
     rng = np.random.default_rng(SEED)
     rows, scopes = [], []
     for i, r in (real.iloc[0:0] if "--summary-only" in sys.argv else real).iterrows():
         st = r["key"].split("|")[0]
         pre, post = cmp.windows(int(r["event_year"]))
         post = post[: int(r["n_post"])]
+        if v6:  # date-aware clean pools and pre-repeal homes/population for this real place's repeal year
+            ey = int(r["event_year"])
+            excluded = base_excluded | {k for k, y in reform_year.items() if y <= (pre + post)[-1]}
+            since = permits_by[[y for y in permits_by.columns if ey <= y <= 2024]].sum(axis=1)
+            homes = (homes_all - since.reindex(homes_all.index).fillna(0)).clip(lower=homes_all * 0.5)
+            popn = popn_all * (homes / homes_all).reindex(popn_all.index).fillna(1.0)
         ok = cmp.complete(p, pre + post) & set(homes.index)
         pop0 = popn.get(r["key"], np.nan)
         if pd.isna(pop0):  # rescued South Bend: the city's own population (SALVAGE_PLAN.md)

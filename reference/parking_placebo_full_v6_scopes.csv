@@ -1,0 +1,74 @@
+real_place,scope,standins
+San Jose,nation,3
+San Francisco,nation,8
+Raleigh,nation,8
+Minneapolis,nation,10
+Lexington,nation,13
+St. Paul,nation,16
+Anchorage,nation,18
+Buffalo,nation,25
+Bridgeport,nation,160
+Gainesville,state,22
+Hartford,nation,226
+Ann Arbor,nation,236
+Cambridge,nation,257
+Roanoke,division,49
+Alameda,state,146
+West Allis,division,80
+Corvallis,division,183
+Tigard,division,182
+Dunwoody,division,78
+Culver City,state,178
+Mount Pleasant,state,87
+Windham,division,166
+Cambridge,division,175
+Emeryville,state,127
+Branson,state,39
+Canandaigua,state,254
+Ecorse,state,171
+Bastrop,state,228
+Seabrook,state,71
+River Rouge,state,213
+Hudson,state,379
+Bandera,state,186
+Austin,nation,4
+Sacramento,nation,7
+Durham,nation,21
+Richmond,nation,47
+Birmingham,nation,83
+Newport News,division,20
+Salem,division,41
+Eugene,division,40
+Berkeley,state,94
+Bend,division,124
+Beaverton,division,126
+Longmont,nation,340
+Trenton,state,23
+Duluth,nation,405
+Kalamazoo,division,55
+Rogers,division,65
+Portland,division,26
+Springfield,division,181
+Albany,division,184
+La Crosse,division,97
+Burlington,division,61
+Grants Pass,division,182
+Plainfield,division,163
+Tualatin,division,170
+West Linn,division,169
+Kingston,state,129
+Ashland,division,169
+Carrboro,division,140
+Milwaukie,division,169
+Northfield,state,25
+Central Point,division,171
+Portsmouth,state,61
+Taylor,state,158
+Hanover,state,48
+Lansing,division,132
+Hampden,state,37
+King City,division,112
+Social Circle,state,62
+Millersburg,division,94
+Maumee,state,68
+Saranac Lake,state,411
