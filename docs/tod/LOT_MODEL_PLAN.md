@@ -402,3 +402,4 @@ The lot model counts as better if it beats the plain baseline on held-out cities
 62. **2026-10-31, no-reform pace model loop** (owner go 14:34). Plan logged before any run: [PACE_MODEL_PLAN.md](PACE_MODEL_PLAN.md).
 63. **2026-10-31, census homes in sampled cities fixed.** Columbus and Kansas City lots carried about 5× their 2010 block homes (shared over the 20% sample, then weighted by 5). `census_homes()` now divides each lot's share by `sample_w`; both lot tables patched in place. Round-8 lot-model results used the old values for these two no-reform cities.
 64. **2026-10-31, pace loop rounds 1–4:** [PACE_MODEL_RESULTS.md](PACE_MODEL_RESULTS.md). The permit survey's same pace beat the lot model on place totals; station areas' share of new homes is well above their share of existing homes.
+65. **2026-10-31, Wisconsin statewide net rounds** (owner go 16:11; the paused Wisconsin estimate now runs). Plan logged before any run: [WI_NET_PLAN.md](WI_NET_PLAN.md).
