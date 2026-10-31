@@ -332,3 +332,8 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     4. Both carry the "no reform" trait, get tract traits from the ACS release ending the year before the pretend year, and 2010 census-block homes.
     5. **Cost traits dropped:** "rent vs cost" and "room to build × rent vs cost" are removed from the model. The permit survey's self-reported value per home is not comparable across cities (New York about $70,000 per home in 2004).
     6. Sources are public; licences are recorded in the raw folder manifest; no parcel ids or addresses are committed.
+47. **2026-10-31, while building item 46, before any run with it.**
+    - **No rail or rapid stops in Columbus's and Kansas City's windows** (Kansas City's streetcar opened 2016; Columbus's CMAX in 2018; the federal map tags no MAX stops). Their distance-to-stop trait is −1 with a "no rail or rapid" flag, not a distance to the nearest stop hundreds of miles away and not a filled median.
+    - **Kansas City's window:** before 2006–2011, after 2013–2015 (pretend year 2012), from the 2000–2009 and 2010–2019 permit listings, both with unit counts.
+    - **Sample:** 20% of each city's lots at random (seed fixed), each weighted ×5. Columbus: 62,403 sampled lots, 4,337 homes before and 3,538 after in the sample; Kansas City: 40,978 lots, 876 before and 1,061 after.
+    - **Data added:** ACS 5-year 2007–2011 (Missouri) and 2012–2016 (Ohio) summary files, 2010 tract boundaries for both states, and Missouri's 2010 census blocks; all public, recorded in the raw manifests.

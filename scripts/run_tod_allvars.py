@@ -49,7 +49,8 @@ ERRORS_PKL = "allvars_errors.pkl"
 CENSUS_LICENCE = "Public domain (U.S. government work)"
 SF = "https://www2.census.gov/programs-surveys/acs/summary_file"
 STATES = {"36": ("NewYork", "ny"), "53": ("Washington", "wa"), "27": ("Minnesota", "mn"), "06": ("California", "ca"),
-          "17": ("Illinois", "il"), "42": ("Pennsylvania", "pa"), "37": ("NorthCarolina", "nc"), "55": ("Wisconsin", "wi")}
+          "17": ("Illinois", "il"), "42": ("Pennsylvania", "pa"), "37": ("NorthCarolina", "nc"), "55": ("Wisconsin", "wi"),
+          "29": ("Missouri", "mo"), "39": ("Ohio", "oh")}   # 29, 39: no-reform cities of the lot model (item 46)
 CITY_STATE = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Chicago": "17", "Madison": "55",
               "Los Angeles": "06", "Seattle": "53", "Bellevue": "53"}   # Toronto: no ACS
 CITY_KEY = {"New York": "nyc", "Philadelphia": "philadelphia", "Charlotte": "charlotte", "Saint Paul": "stpaul", "Chicago": "chicago",

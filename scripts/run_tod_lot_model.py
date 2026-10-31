@@ -45,8 +45,8 @@ FAR_CITIES = ("New York", "Chicago", "Saint Paul", "Seattle")   # levels are pri
 LEVEL_SOURCE = {"New York": "printed FAR", "Chicago": "printed FAR", "Saint Paul": "printed FAR", "Seattle": "printed FAR",
                 "Madison": "height", "Charlotte": "height", "Philadelphia": "district order", "Los Angeles": "district order",
                 "Bellevue": "in/out flag", "Milwaukee": "homes per acre", "Madison placebo": "homes per acre",
-                "Milwaukee placebo": "homes per acre"}
-STATE = {"Madison placebo": "55", "Milwaukee placebo": "55", "New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Seattle": "53",
+                "Milwaukee placebo": "homes per acre", "Columbus placebo": "none", "Kansas City placebo": "none"}
+STATE = {"Madison placebo": "55", "Milwaukee placebo": "55", "Columbus placebo": "39", "Kansas City placebo": "29", "New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Seattle": "53",
          "Los Angeles": "06", "Chicago": "17", "Madison": "55", "Bellevue": "53"}
 
 
@@ -406,7 +406,8 @@ def values() -> None:
 BPS_NAME = {"New York": ("36", "New York"), "Philadelphia": ("42", "Philadelphia"), "Charlotte": ("37", "Mecklenburg County"),
             "Saint Paul": ("27", "St. Paul"), "Seattle": ("53", "Seattle"), "Los Angeles": ("06", "Los Angeles"),
             "Chicago": ("17", "Chicago"), "Madison": ("55", "Madison"), "Bellevue": ("53", "Bellevue"),
-            "Madison placebo": ("55", "Madison"), "Milwaukee placebo": ("55", "Milwaukee")}
+            "Madison placebo": ("55", "Madison"), "Milwaukee placebo": ("55", "Milwaukee"),
+            "Columbus placebo": ("39", "Columbus"), "Kansas City placebo": ("29", "Kansas City")}
 
 
 def cost_per_home(city: str, year: int) -> float:
@@ -471,6 +472,8 @@ def dedupe_lots(D: pd.DataFrame) -> pd.DataFrame:
     D = D.assign(_k=key, _h=D["units_after"] + D["units_before"])
     D = D.sort_values("_h", ascending=False).drop_duplicates(["_k", "unit"]).sort_index()
     D["w"] = 1.0 / D["_k"].map(D.groupby("_k")["unit"].nunique())
+    if "sample_w" in D:   # item 46.3: sampled lots stand for the lots not drawn
+        D["w"] = D["w"] * D["sample_w"].fillna(1.0)
     return D.drop(columns=["_k", "_h"])
 
 
@@ -488,6 +491,9 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     X["homes_on_lot"] = np.log1p(D["homes_on_lot"].fillna(-1).clip(lower=0))
     X["homes_missing"] = D["homes_on_lot"].isna().astype(float)
     X["log_dist_station"] = np.log1p(D["dist_station_m"])
+    if FIT.get("item46"):   # item 46: cities with no rail or rapid stop get -1 and their own flag, not a filled median
+        X["no_rail_rapid"] = D["dist_station_m"].isna().astype(float)
+        X["log_dist_station"] = X["log_dist_station"].fillna(-1.0)
     # Unit-free density traits (plan section 9, item 12): cities record allowed density in different units
     # (floor area ratio; Charlotte feet of height; Philadelphia and Los Angeles an ordering), so the raw level is
     # replaced by its rank within the city, and the change by the relative change, only where a real FAR exists.
@@ -784,6 +790,8 @@ def half_mile() -> None:
     xy = D[["x5070", "y5070"]].to_numpy()
     D["dist_station_m"] = st.query(xy)[0]
     D["stops_1mile"] = [len(n) for n in st.query_ball_point(xy, r=1609)]
+    nr = D["city"].isin(NO_RAIL)   # item 46: no rail or rapid stop open in their windows
+    D.loc[nr, "dist_station_m"], D.loc[nr, "stops_1mile"] = np.nan, 0
     before = D.groupby(["city", "treated"]).size()
     if not FIT.get("item37"):
         D = D[D["dist_station_m"] <= 805].copy()   # item 14; item 37.1 stops trimming
@@ -1055,7 +1063,8 @@ def spread_assembly() -> None:
     print("lots marked part of an assembled site:", int(D["assembled_site"].sum()))
 
 
-PLACEBO = {"Madison placebo": 2017, "Milwaukee placebo": 2019}   # plan section 9, item 37.3: pretend reform years
+PLACEBO = {"Madison placebo": 2017, "Milwaukee placebo": 2019, "Columbus placebo": 2017, "Kansas City placebo": 2012}   # 37.3, 46
+NO_RAIL = ("Columbus placebo", "Kansas City placebo")   # item 46: no rail or rapid-bus stop open in their windows
 
 
 def add_placebo() -> None:
@@ -1128,6 +1137,97 @@ def add_placebo() -> None:
     D = D[~D["city"].isin(list(PLACEBO))]
     D = add_group_shares(pd.concat([D] + frames, ignore_index=True))
     D.to_parquet(PATHS["lots"])
+
+
+def add_placebo_us() -> None:
+    """Plan section 9, item 46: Columbus (pretend 2017) and Kansas City (pretend 2012) no-reform lots, a 20% random
+    sample of each city's lots (sample weight 5), homes from new-construction permits with unit counts."""
+    from scipy.spatial import cKDTree
+    src = RAW / "tod_placebo_cities"
+    rng = np.random.default_rng(20261031)
+    frames = []
+    # --- Columbus
+    p = gpd.read_file(src / "columbus_parcels.geojson")
+    p = p[p.geometry.notna()].drop_duplicates("PARCELID")
+    p["acres"] = pd.to_numeric(p["ACRES"], errors="coerce")
+    p["cls"] = p["CLASSCD"].astype(str).str[:1]
+    q = gpd.read_file(src / "columbus_permits.geojson")
+    sub, cat = q["B1_PER_SUB_TYPE"].astype(str), q["B1_PER_CATEGORY"].astype(str)
+    new = ((sub == "New Construction") & cat.isin(["Structure", "Structural"])) | (cat == "New Structure")
+    q = q[new & q.geometry.notna()].copy()
+    q["year"] = pd.to_numeric(q["ISSUED_YEAR"], errors="coerce")
+    q["units"] = pd.to_numeric(q["UNITS"], errors="coerce")
+    frames.append(_placebo_frame("Columbus placebo", 2017, p, q, lambda c: np.where(c == "I", "comparison_industrial",
+                  np.where(c == "E", "comparison_campus_or_park", "comparison_eligible")), rng))
+    # --- Kansas City
+    k = gpd.read_file(src / "kc_parcels.geojson")
+    k = k[k.geometry.notna()].drop_duplicates("kivapin")
+    k["acres"] = pd.to_numeric(k["shape_area"], errors="coerce") / 43560.0
+    k["cls"] = pd.to_numeric(k["landusecode"], errors="coerce").fillna(0).astype(int).astype(str).str[:1]
+    r = pd.DataFrame(json.load(open(src / "kc_permits.json")))
+    r["year"] = pd.to_numeric(r["year"], errors="coerce")
+    r["units"] = pd.to_numeric(r["units"], errors="coerce")
+    r = r[(r["units"] > 0)]
+    pts = k.set_index("kivapin").geometry.representative_point()
+    r = r[r["pin"].isin(pts.index)]
+    r = gpd.GeoDataFrame(r, geometry=pts.reindex(r["pin"]).values, crs=k.crs)
+    frames.append(_placebo_frame("Kansas City placebo", 2012, k, r, lambda c: np.where(c == "4", "comparison_industrial",
+                  "comparison_eligible"), rng))
+    D = pd.read_parquet(PATHS["lots"])
+    D = D[~D["city"].isin(["Columbus placebo", "Kansas City placebo"])]
+    D = add_group_shares(pd.concat([D] + frames, ignore_index=True))
+    D.to_parquet(PATHS["lots"])
+
+
+def _placebo_frame(city: str, yr: int, p, q, group_of, rng) -> pd.DataFrame:
+    from scipy.spatial import cKDTree
+    first = 2006 if city.startswith("Kansas") else yr - 6
+    last = 2015 if city.startswith("Kansas") else yr + 5
+    p = p.to_crs(5070)
+    pts = p.geometry.representative_point()
+    q = q.to_crs(5070)
+    q = q[q["year"].between(first, last) & (q["units"] > 0)]
+    j = gpd.sjoin(q[["year", "units", "geometry"]], p[["geometry"]], predicate="within", how="inner")
+    j = j[~j.index.duplicated()]
+    bb = j[j["year"] < yr].groupby("index_right")["units"].sum()
+    aa = j[j["year"] > yr].groupby("index_right")["units"].sum()
+    take = rng.random(len(p)) < 0.20                 # item 46.3: 20% random sample of all city lots, weight 5
+    p, pts = p[take], pts[take]
+    d = pd.DataFrame(index=p.index)
+    d["city"], d["unit"], d["eff_year"] = city, city.lower().replace(" ", "_"), yr
+    d["x5070"], d["y5070"] = pts.x.values, pts.y.values
+    d["width_m"] = [_mrr_width(g) for g in p.geometry]
+    d["acres"] = p["acres"].values
+    d["treated"], d["in_reform"], d["sample_w"] = 0.0, 0.0, 5.0
+    d["lot_group"] = group_of(p["cls"].values)
+    d["comparison_eligible"] = (d["lot_group"] == "comparison_eligible").astype(float)
+    d["far_before"], d["far_gain"] = np.nan, 0.0
+    d["level_source"], d["level_flag"], d["rezoned_later"], d["use"] = "none", "", 0.0, "unknown"
+    d["units_before"] = bb.reindex(d.index).fillna(0).values
+    d["units_after"] = aa.reindex(d.index).fillna(0).values
+    yrs = j.groupby(["index_right", "year"])["units"].sum().reset_index()
+    yrs["s"] = yrs["year"].astype(int).astype(str) + ":" + yrs["units"].round(0).astype(int).astype(str)
+    d["permit_years"] = yrs.groupby("index_right")["s"].agg(";".join).reindex(d.index).fillna("").values
+    d["window_first"], d["window_last"] = first, last
+    d["builds_after"] = (d["units_after"] > 0).astype(float)
+    d["built_before"] = (d["units_before"] > 0).astype(float)
+    bq = q[q["year"] < yr]
+    t = cKDTree(np.c_[bq.geometry.x, bq.geometry.y]) if len(bq) else None
+    d["near_units_before"] = ([float(bq["units"].values[n].sum()) for n in t.query_ball_point(np.c_[d.x5070, d.y5070], r=150)]
+                              if t is not None else 0.0)
+    d["placebo"] = 1.0
+    print(city, len(d), "sampled lots; homes before", int(d.units_before.sum()), "after", int(d.units_after.sum()),
+          "(x5 for the city)", flush=True)
+    return d.reset_index(drop=True)
+
+
+def _mrr_width(g) -> float:
+    try:
+        r = g.minimum_rotated_rectangle
+        xs, ys = r.exterior.coords.xy
+        return float(min(((xs[i + 1] - xs[i]) ** 2 + (ys[i + 1] - ys[i]) ** 2) ** 0.5 for i in range(4)))
+    except Exception:  # noqa: BLE001
+        return np.nan
 
 
 def sanity_flags(stage: str) -> None:
@@ -1417,7 +1517,7 @@ def fit8(tlearner: bool = False) -> None:
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values", "fix_density", "recollect_item29", "spread_assembly", "add_placebo"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values", "fix_density", "recollect_item29", "spread_assembly", "add_placebo", "add_placebo_us"], required=True)
     ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
     ap.add_argument("--with-rezoned-later", action="store_true", help="check run: keep the rezoned-later trait (item 32.3)")
     ap.add_argument("--land-value", action="store_true", help="add the pays-for-itself traits (LAND_VALUE_PLAN.md)")
@@ -1458,6 +1558,8 @@ def main(argv=None) -> None:
         spread_assembly()
     if a.stage == "add_placebo":
         add_placebo()
+    if a.stage == "add_placebo_us":
+        add_placebo_us()
     if a.stage.startswith("fit"):
         sanity_flags(a.stage)
     if a.stage == "collect":
