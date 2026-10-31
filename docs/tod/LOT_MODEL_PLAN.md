@@ -324,3 +324,4 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     4. **Charlotte's cost** is Mecklenburg County's permit-survey value (Charlotte has no separate permit office): $90,215 per home, which gives the high rent-to-cost ratio (2.75). It is kept and noted.
     5. **Census homes:** 2010 blocks in training and placebo cities, 2020 blocks in the Wisconsin run; labelled so.
     6. **Units table** now lists the median, 5th and 95th percentile per city and trait, and a separate table lists missing shares.
+    - **2026-10-31 addendum to item 43:** the Wisconsin 2010 census tract boundaries (TIGER/Line 2010, tl_2010_55_tract10) were also missing, so the 2016 and 2018 Wisconsin releases could not be joined to lots on the first try; downloaded and rerun. The placebo cities now have their own tract values (Madison outside the overlay: median rent $1,239, home value $273,032; Milwaukee: $1,053, $124,423).
