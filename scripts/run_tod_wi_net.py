@@ -62,6 +62,9 @@ def main(argv=None) -> None:
     if a.variant == "b":   # item 48 as in training: upzoned lots far from rail/rapid are not law-on lots
         W.loc[far, "lot_group"] = "upzoned_not_near_transit"
         W.loc[far, "treated"] = 0.0
+    if a.round >= 3:   # round 3: training labels upzoned industrial-use lots "upzoned_from_industrial" (lot model line ~110);
+        # the Wisconsin table had labelled them plain "upzoned" (222 lots)
+        W.loc[(W["lot_group"] == "upzoned") & (W["use"] == "ind"), "lot_group"] = "upzoned_from_industrial"
     W["city"] = "WI " + W["city"]
     W["unit"] = "wi|" + W["unit"].astype(str)
     A = pd.concat([T.assign(_wi=0), W.assign(_wi=1)], ignore_index=True)
@@ -85,6 +88,12 @@ def main(argv=None) -> None:
         X["log_area_rate_before"] = np.log1p(area_rate.values)
         X["log_near400_rate_before"] = np.log1p(near)
         X.drop(columns=[c for c in X.columns if c.startswith("reform_share_")], inplace=True)
+    if a.round >= 3:   # standing checks (flag only, never stop): units, policy, out of range
+        from missing_middleware.tod import sanity as SN
+        fl = SN.unit_flags(A, L.FAR_CITIES) + SN.policy_flags(A[A["_wi"] == 1]) + SN.range_flags(Xa, A["city"])
+        fl = [f for f in fl if str(f.get("city", "")).startswith("WI") or f.get("kind") != "out of range"]
+        SN.report(fl, REFERENCE / f"tod_wi_net_round{a.round}{a.variant}_flags.csv")
+        print("flags:", pd.Series([f.get("kind") for f in fl]).value_counts().to_dict(), flush=True)
     y = A["ua5"].clip(lower=0).values
     w = A["w"].values
     ac = A["acres"].clip(lower=0.01).values

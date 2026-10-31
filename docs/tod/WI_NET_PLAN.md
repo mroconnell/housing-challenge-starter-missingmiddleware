@@ -53,3 +53,16 @@ Checks:
 - **Not errors:**
   - Lots near rail show negative effects in variant a. In a share model, when most of the city gets the law, lots already allowed lose share to newly upzoned lots.
   - Large vacant upzoned lots in northeast Madison (57 and 40 acres; zoning level 0 before) are plausible greenfield.
+
+**Round 2 (acre cap; 3 seeds × 2 variants).** Acres used are capped at 2.97, the 99th percentile of training lots that built; 2,914 Wisconsin lots are above it. The airport and mall outliers are gone, and the top lots are now 140–340 homes over 5 years on 1–6 acres.
+
+Statewide bound B, homes over 2027–2031:
+
+| Variant | Raw | Calibrated |
+| --- | --- | --- |
+| a | 8,683–11,505 | 1,563–2,071 |
+| b | 7,229–10,754 | 1,301–1,936 |
+
+The seed spread is about ±15% around the middle.
+
+New finding, a coding mismatch: training labels upzoned industrial-use lots "upzoned_from_industrial", but the Wisconsin table called them plain "upzoned" (222 lots). Round 3 relabels them and adds the standing sanity flags.
