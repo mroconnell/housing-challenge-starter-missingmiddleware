@@ -193,7 +193,8 @@ def predict_all(fit, new, seed, choices=None, fake=False, pool=None):
     return out, choices
 
 
-def main() -> None:
+def prepare():
+    """Data prep shared with scripts/run_parking_net_wi.py. Returns (R, reform_year, months, geo, shared_keys)."""
     bps = rpc.read_bps_us()
     p = R1.panel_with(bps, "scaled")
     if ROUND >= 3:  # round 3: pieces of one town split across counties or parts are summed into one place
@@ -258,6 +259,11 @@ def main() -> None:
     R = build_rows(p, homes_acs, reform_year, traits)
     R["estimated_months"] = [sum(1 for y in range(o - 4, o + 6) if months.get((k, y), 12) < 12)
                              for k, o in zip(R["key"], R["origin"])]
+    return R, reform_year, months, geo, shared, shared_keys
+
+
+def main() -> None:
+    R, reform_year, months, geo, shared, shared_keys = prepare()
     real_years = [y for y in reform_year.values() if 2012 <= y <= 2022]
     train = R[R["no_reform"]].copy()
     flags = checks.unit_ranges(train, {"rate_3y": ("permits per 1,000 existing homes per year", 0.0, 200.0),
