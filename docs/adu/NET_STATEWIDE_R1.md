@@ -39,3 +39,12 @@ Rerun of the same checks with the fixed check. **No errors.** Net added permits 
 | Uncoded places' current-law rate 0.076 | Restricted-group rate 0.0515 × 1.48 | `wi_baseline_rates_by_group.csv` |
 
 Stopping rule met: a round with no errors and every outlier explained and verified.
+
+## Round 3: audit checks (no errors)
+
+- **Does the trend double-count growth in the number of homes? No.** The engine holds each place's homes fixed at ACS 2020–2024 (`engine.py`: baseline = homes × rate × g ÷ 1,000). The 7.3% trend was measured on permit counts over fixed 2020–2024 homes in the comparison places. So it is applied once, to counts.
+- **Do Madison's path and the trend double up? No.** Madison's baseline factor is the trend alone (1.28, 1.37, 1.47, 1.58, 1.70 for 2027–2031). It has no baseline ramp. Its with-law level comes from the Madison-like cities' observed path, which the trend does not touch. A higher baseline only lowers Madison's addition (110.8 permits).
+- **Ramping places** (for example Appleton, liberalized 2021) have finished their baseline ramp by 2027. Their factor is also the trend alone.
+- **Bayside's two pieces add up:** Milwaukee County 1,345 homes plus Ozaukee County 46 = 1,391, the ACS figure for the whole village. Its five-year addition is 12.36 + 0.74 = 13.09 permits.
+
+**Stopping rule met:** two rounds in a row with no errors, and every outlier verified.
