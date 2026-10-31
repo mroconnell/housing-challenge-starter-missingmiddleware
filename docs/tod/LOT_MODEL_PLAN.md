@@ -395,5 +395,5 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     - **Item 57.4 checks:**
       - New York: 416 lots are marked part of an assembled site, holding 3,500 of 28,199 homes after.
       - 28 New York lots still exceed 1,000 homes per acre, holding 5,510 homes: fragments of sites the later lot map does not join. Shares are unaffected where the fragment is in the same group as the rest of its site.
-      - Los Angeles Cornfield: 0 homes before and after on every in-reform group (upzoned, from industrial, from campus). Permit matching works next door: its comparison lots hold 324 homes after, Blossom Plaza among them. So the 0 inside the plan is most likely real (railyards, industrial land and a state park), not a matching gap.
+      - Los Angeles Cornfield: 0 homes before and after on every in-reform group (upzoned, from industrial, from campus). Permit matching works next door: its comparison lots hold 324 homes after (likely including Blossom Plaza, not confirmed). So the 0 inside the plan is most likely real (railyards, industrial land and a state park), not a matching gap.
     - **Calibration k** (item 59.4) is computed from the main-seed round-8 file over the 6 training cities, and applied to all three holdouts.
