@@ -1233,7 +1233,10 @@ def fit8(tlearner: bool = False) -> None:
                     m.fit(T(XX.loc[ix]), dy[D.index.get_indexer(ix)], sample_weight=D.loc[ix, "w"])
                 except TypeError:
                     m.fit(T(XX.loc[ix]), dy[D.index.get_indexer(ix)])
-                out.append(m.predict(T(XX.loc[tt])) if len(tt) else np.zeros(0))
+                Xt = XX.loc[tt].copy()
+                if FIT.get("item37") and "rezoned_later" in Xt:   # item 41.1: unknown at forecast time, also in this score
+                    Xt["rezoned_later"] = 0.0
+                out.append(m.predict(T(Xt)) if len(tt) else np.zeros(0))
                 models[g] = (m, XX, sc if scale else None)
             if FIT.get("item37"):   # item 37.2: total homes built in the study area (law on for upzoned lots)
                 up = (D.loc[te, "treated"] == 1).values
@@ -1296,7 +1299,8 @@ def fit8(tlearner: bool = False) -> None:
         for c in cities + list(HOLD):
             te = D.index[D["city"] == c].to_numpy()
             # item 40.1: a city's own no-reform lots never train the model that predicts it (Madison placebo vs Madison)
-            tr = D.index[D["city"].isin([x for x in cities if x != c and x.split()[0] != c.split()[0]])].to_numpy()
+            base_c = c.removesuffix(" placebo")
+            tr = D.index[D["city"].isin([x for x in cities if x != c and x.removesuffix(" placebo") != base_c])].to_numpy()
             act, ta = actual_extra(D.loc[te])
             num = den = 0.0
             for x in [x for x in cities if x != c]:
