@@ -69,3 +69,10 @@ Flags and open items:
 - **Gradient boosting, Milwaukee:** still overshoots (12,880 near stops vs a recent 5,197 per 5 years), and the back-test shows the same. The identical Milwaukee totals across windows in round 2 no longer occur with the fixed place trait.
 - **Item 63 is in:** Columbus and Kansas City census homes × weight = 540,432 (2010 homes 592,825).
 - **Lot file vs city-wide survey** (`reference/tod_menu_pace_lotfile_vs_survey.csv`): flagged where the study area built more than the whole city. Milwaukee is 3.1× and 6.8× the uncorrected survey (the survey under-count, now fixed). Saint Paul 2010 is 50 vs 22, a single year of small numbers.
+
+Kansas City trace:
+- Lots over 1 acre hold 77% of the sample's acres, against 62% in Columbus and 51% in Milwaukee. They did build: 3,290 of 5,305 sample homes in 2013–2015.
+- Kansas City is the lowest-density city in the sample, with the most land per home.
+- The per-lot models learn homes per large lot from cities where large lots in the study areas built more. The place-pace trait does not pull Kansas City's total down enough.
+
+So this is a weakness of the model form, not a data error: lot sums are not tied to the place's own pace. It is the same finding as pace rounds 1–4. The fix that matches it is to take the place total from the survey and use the lot model only to split it (two-part design).
