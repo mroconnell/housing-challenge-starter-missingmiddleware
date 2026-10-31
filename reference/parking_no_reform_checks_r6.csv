@@ -1,0 +1,47 @@
+check,where,column,value,note
+homes floored at half of ACS,training rows,,346.0,place-origin rows
+estimated permit months in window,training rows,,43606.0,place-origin rows with at least one estimated year
+BPS keys sharing one ACS geography,"Balance of State-Part 1 Anchorage, Balance of State-Part 2 Fairbanks, Balance of State-Part 3 Juneau, Bronx borough, Brooklyn borough, Manhattan borough, Queens borough, Staten Island borough, Noble County Unincorporated Area, Noble County Part, Pickaway County Part, Pickaway County Unincorporated Area",,16.0,left out from round 2
+3-year rate outside national 1st-99th percentile,923 place-origin rows,,263.0,places; 10 largest traced below
+  traced,Frisco 48|246500,rate_3y,79.7,"homes 59273, origin 2018"
+  traced,Meridian 16|597000,rate_3y,75.4,"homes 37924, origin 2019"
+  traced,Georgetown 48|259000,rate_3y,112.0,"homes 37206, origin 2023"
+  traced,Buckeye 04|025000,rate_3y,81.4,"homes 35276, origin 2021"
+  traced,Leander 48|399000,rate_3y,100.1,"homes 27000, origin 2023"
+  traced,Apex town 37|014000,rate_3y,70.3,"homes 26500, origin 2020"
+  traced,New Braunfels 48|495000,rate_3y,61.7,"homes 25718, origin 2016"
+  traced,Queen Creek town 04|289000,rate_3y,96.4,"homes 23569, origin 2023"
+  traced,Westfield 18|817500,rate_3y,92.6,"homes 22030, origin 2023"
+  traced,Kyle 48|376500,rate_3y,99.0,"homes 21218, origin 2022"
+consolidated city-county,Jacksonville 01|266000,rate_3y,2.0,homes 5096
+consolidated city-county,Municipality of Anchorage 02|041000,rate_3y,7.6,homes 114443
+consolidated city-county,Jacksonville 05|273000,rate_3y,3.6,homes 11882
+consolidated city-county,Nashville 05|381000,rate_3y,1.0,homes 1998
+consolidated city-county,Louisville 08|403000,rate_3y,21.3,homes 8342
+consolidated city-county,Jacksonville-Duval County 12|395000,rate_3y,11.7,homes 372432
+consolidated city-county,Jacksonville Beach 12|397000,rate_3y,9.6,homes 12924
+consolidated city-county,Nashville 13|483000,rate_3y,0.0,homes 2272
+consolidated city-county,Jacksonville 17|384100,rate_3y,0.4,homes 7941
+consolidated city-county,Nashville 17|540700,rate_3y,1.9,homes 1408
+consolidated city-county,South Jacksonville village 17|736900,rate_3y,1.8,homes 1808
+consolidated city-county,Lexington-Fayette 21|301000,rate_3y,9.7,homes 138858
+consolidated city-county,Lexington town 25|325000,rate_3y,7.1,homes 12161
+consolidated city-county,Louisville 28|383000,rate_3y,10.9,homes 2794
+consolidated city-county,Lexington 29|372000,rate_3y,0.2,homes 2201
+consolidated city-county,Lexington 31|279000,rate_3y,5.3,homes 3511
+consolidated city-county,Lexington town 36|398500,rate_3y,1.9,homes 1064
+consolidated city-county,Louisville town 36|415500,rate_3y,4.0,homes 1572
+consolidated city-county,Jacksonville 37|292000,rate_3y,2.0,homes 24167
+consolidated city-county,Lexington 37|334000,rate_3y,2.1,homes 8164
+consolidated city-county,Louisville 39|351100,rate_3y,2.1,homes 4021
+consolidated city-county,New Lexington village 39|442900,rate_3y,0.3,homes 1924
+consolidated city-county,Jacksonville 41|245000,rate_3y,0.0,homes 1555
+consolidated city-county,Lexington town 45|347000,rate_3y,14.6,homes 8530
+consolidated city-county,Lexington 47|477000,rate_3y,1.3,homes 3658
+consolidated city-county,Nashville-Davidson 47|605000,rate_3y,28.1,homes 284276
+consolidated city-county,Jacksonville 48|343000,rate_3y,0.6,homes 5712
+consolidated city-county,Lexington 51|039000,rate_3y,3.0,homes 2138
+consolidated city-county,Nashville town 55|603000,rate_3y,1.2,homes 1502
+consolidated city-county,Louisville 47|496000,rate_3y,0.0,homes 1855
+consolidated city-county,Lexington 27|431500,rate_3y,98.5,homes 1249
+worst miss (units per year),Nashville-Davidson 47|605000 origin 2018,,-5697.0,"M2 shrunk 3-year: predicted 6711, actual 12408, homes 295259"

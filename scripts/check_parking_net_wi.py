@@ -30,12 +30,19 @@ for a, b in ((2019, 2020), (2021, 2022)):
     names = R.drop_duplicates("key").set_index("key")["name"]
     out.append(dict(check=f"homes change > 5% from origin {a} to {b}", value=f"{len(big)} of {len(j)}",
                     note=f"median change {j.median():+.3f}; largest: " + ", ".join(f"{names[k]} {v:+.2f}" for k, v in big.abs().sort_values(ascending=False).head(6).items())))
-# 4. added permits stop at the origin: rebuild one place by hand
+# 4. added permits stop at the origin (round 6 source): origins 2016-2019 use the ACS release ending at the origin and add
+# no permits; origin 2025 = ACS 2020-24 + 2025 permits only. Checked on Madison, WI against the raw inputs.
+import run_parking_comparison as rpc  # noqa: E402
+from missing_middleware.paths import RAW  # noqa: E402
 k0 = R.loc[R["name"].eq("Madison") & R["state_fips"].eq("55"), "key"].iloc[0]
-r19 = R[(R["key"] == k0) & (R["origin"] == 2019)].iloc[0]
-r20 = R[(R["key"] == k0) & (R["origin"] == 2020)].iloc[0]
-out.append(dict(check="added permits stop at origin (Madison)", value=f"{r20.homes - r19.homes:.0f}",
-                note=f"homes(2020) - homes(2019) should equal 2020 permits ({r20.u4:.0f}); u4 is the origin-year permits"))
+acs24 = float(rpc.acs_table(RAW / "census_acs5_2024_tbsf" / "acsdt5y2024-b25002.dat", "B25002_E001")["160|5548000"])
+H = pd.read_csv(REFERENCE / "parking_acs_history_homes.csv", dtype={"acs_geoid": str}).query("acs_geoid == '160|5548000'").set_index("year")["homes"]
+r25 = R[(R["key"] == k0) & (R["origin"] == 2025)].iloc[0]
+out.append(dict(check="added permits stop at origin (Madison, origin 2025)", value=f"{r25.homes - acs24:.0f}",
+                note=f"homes(2025) - ACS 2020-24 homes ({acs24:.0f}) should equal 2025 permits ({r25.u4:.0f})"))
+for o in (2016, 2019):
+    ro = R[(R["key"] == k0) & (R["origin"] == o)].iloc[0]
+    out.append(dict(check=f"homes = ACS release ending {o} (Madison)", value=f"{ro.homes - H[o]:.0f}", note=f"should be 0 (ACS {H[o]:.0f})"))
 # 5. held-out reform misses by log error; Hartford and Ecorse
 M = pd.read_csv(REFERENCE / "parking_net_wi_heldout_reform_r7.csv")
 M["log_err"] = np.log((M["pred_on"] + 0.5) / (M["actual"] + 0.5))

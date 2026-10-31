@@ -307,7 +307,7 @@ def main() -> None:
     flags += [dict(check="estimated permit months in window", where="training rows", value=int((train["estimated_months"] > 0).sum()),
                    note="place-origin rows with at least one estimated year")]
     flags += [dict(check="BPS keys sharing one ACS geography", where=", ".join(geo.loc[shared_keys, "name"].head(12)),
-                   value=len(shared_keys), note="left out from round 2" if ROUND >= 2 else "kept in round 1")]
+                   value=len(shared_keys), note={1: "kept in round 1", 2: "left out in round 2"}.get(ROUND, "NYC boroughs given county homes; split towns merged; the rest left out (round 3 on)"))]
 
     if ROUND >= 3:  # land-mismatch flag (audit): 3-year rate outside the national 1st-99th percentile at its origin
         q = R.groupby("origin")["rate_3y_raw"].quantile([0.01, 0.99]).unstack()
