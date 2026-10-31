@@ -57,6 +57,9 @@ def main(argv=None) -> None:
     for X in (Xa, Xb):
         X["log_area_rate_before"] = np.log1p(area_rate.values)
         X["log_near400_rate_before"] = np.log1p(near)
+    if a.round >= 5:   # item 54: reform-level shares act as city labels and extrapolate; dropped
+        Xa = Xa.drop(columns=[c for c in Xa.columns if c.startswith("reform_share_")])
+        Xb = Xb.drop(columns=[c for c in Xb.columns if c.startswith("reform_share_")])
     w = D["w"].values
     up = (D["treated"] == 1).values
     rows = []
