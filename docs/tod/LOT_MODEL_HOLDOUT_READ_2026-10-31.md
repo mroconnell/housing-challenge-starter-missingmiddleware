@@ -37,9 +37,9 @@ Written 2026-10-31, right after the read. Chicago, Madison and Bellevue were nev
 | Madison | 72 | 400 |
 | Bellevue | 3 | 18 |
 
-- **Rough Wisconsin cross-check, labelled as such.**
-  - As a share of the homes on each holdout's upzoned lots (2010 census), calibrated B is 1.2% (Chicago), 3.4% (Madison) and 2.5% (Bellevue) over 5 years.
-  - Applied to the 313,564 homes in Wisconsin's station areas, that is about 3,900 to 10,600 homes. That sits between the tool's typical (2,509) and strong (17,148) scenarios.
+- **Upper Wisconsin cross-check, rough.** It applies only if every extra home on upzoned lots is new (bound B); if homes only move (bound A), the figure is 0.
+  - As a share of the homes on each scorable holdout's upzoned lots (2010 census), calibrated B is 1.2% (Chicago) and 3.4% (Madison) over 5 years. Bellevue, which failed the read, is not used.
+  - Applied to the 313,564 homes in Wisconsin's station areas, that range gives about 3,900 to 10,600 homes. That sits between the tool's typical (2,509) and strong (17,148) scenarios.
   - It extrapolates from slivers to a law covering most station areas (about 8 times the training scale), so it is a cross-check, not an estimate.
 
 **Limits stated with it**
