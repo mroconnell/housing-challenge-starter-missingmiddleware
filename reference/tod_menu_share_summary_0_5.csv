@@ -1,0 +1,3 @@
+method,held_out_city_share,held_out_city_calibrated,bench_same_share,K,WI_B_raw,WI_B_calibrated,worst_miss,minutes
+plain_average,0.5337,0.39,0.6863,0.0809,7088.3834,573.324,Chicago: 0.353 vs 0.099,0.1
+gradient_boosting,0.8352,0.3694,0.6863,0.0772,11920.6629,919.9293,Chicago: 0.530 vs 0.099,27.7

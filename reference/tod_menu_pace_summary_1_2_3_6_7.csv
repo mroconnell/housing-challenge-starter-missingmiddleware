@@ -1,0 +1,6 @@
+method,held_out_city,later_years,bench_same_pace_city,bench_same_pace_later,worst_miss,minutes
+linear_regression,0.602,0.599,0.594,0.378,Bellevue before 2003: 293 vs 26,0.2
+lasso,0.432,0.593,0.594,0.378,Bellevue before 2003: 225 vs 26,0.2
+regression_tree,0.73,0.306,0.594,0.378,Bellevue before 2003: 660 vs 26,1.4
+nearest_neighbours,1.177,1.724,0.594,0.378,"Saint Paul before 2010: 21,939 vs 250",2.8
+multilevel,1.77,2.756,0.594,0.378,"Bellevue before 2003: 3,045 vs 26",0.4

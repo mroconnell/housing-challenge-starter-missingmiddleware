@@ -1,0 +1,31 @@
+city,window,start,actual,place_out,forward,bps_same_pace,bps_years,abslog_place_out,abslog_forward,abslog_bps_same_pace
+Charlotte,before,2013,2535.0,1440.49,,1755.21,5,0.57,,0.37
+Columbus placebo,after,2018,17690.0,20750.28,21755.8,16885.22,5,0.16,0.21,0.05
+Columbus placebo,before,2011,18070.83,20750.28,,9871.06,5,0.14,,0.6
+Kansas City placebo,after,2013,8841.67,32730.9,10139.09,3437.45,5,1.31,0.14,0.94
+Kansas City placebo,before,2006,3650.0,31498.21,,12144.56,5,2.16,,1.2
+Los Angeles,before,2007,1180.0,2136.76,,852.53,5,0.59,,0.33
+Madison placebo,after,2018,5153.0,4326.91,6598.84,4762.16,5,0.17,0.25,0.08
+Madison placebo,before,2011,4221.67,2958.32,,2357.4,5,0.36,,0.58
+Milwaukee placebo,after,2020,5633.0,9552.33,10699.18,2861.8,5,0.53,0.64,0.68
+Milwaukee placebo,before,2013,8647.5,9552.33,,2111.39,5,0.1,,1.41
+New York,before,1997,207.5,387.85,,,0,0.63,,
+New York,before,1998,2604.58,3244.62,,,0,0.22,,
+New York,before,1999,2515.0,3941.8,,,0,0.45,,
+New York,before,2000,218.33,298.49,,,0,0.31,,
+New York,before,2001,2207.92,1560.34,,1039.13,1,0.35,,0.75
+New York,before,2002,986.67,370.73,,481.99,2,0.98,,0.72
+New York,before,2003,920.0,1499.44,,756.87,3,0.49,,0.2
+New York,before,2004,2585.83,820.67,,995.91,4,1.15,,0.95
+New York,before,2005,69.17,232.69,,116.19,5,1.21,,0.52
+New York,before,2007,0.0,10.02,,65.87,5,,,
+Philadelphia,before,2007,142.92,56.47,,22.01,5,0.93,,1.87
+Philadelphia,before,2008,888.63,2125.62,,892.52,5,0.87,,0.0
+Philadelphia,before,2009,747.99,1603.69,,478.05,5,0.76,,0.45
+Philadelphia,before,2010,1437.78,1326.25,,547.01,5,0.08,,0.97
+Philadelphia,before,2011,1659.47,2550.9,,780.29,5,0.43,,0.75
+Philadelphia,before,2012,927.65,1093.93,,500.17,5,0.16,,0.62
+Philadelphia,before,2013,1246.39,1934.65,,887.38,5,0.44,,0.34
+Saint Paul,before,2010,250.0,293.64,,149.28,5,0.16,,0.52
+Seattle,before,2006,467.5,123.21,,294.5,5,1.33,,0.46
+Seattle,before,2008,210.83,129.23,,206.96,5,0.49,,0.02

@@ -1,0 +1,2 @@
+method,held_out_city,later_years,bench_same_pace_city,bench_same_pace_later,worst_miss,minutes,WI_Milwaukee_near_2027_2031,WI_Milwaukee_table_2027_2031,WI_Madison_near_2027_2031,WI_Madison_table_2027_2031,WI_statewide_near_2027_2031
+random_forest,0.364,0.136,0.594,0.378,Bellevue before 2003: 597 vs 26,28.2,6944.661,8421.83,7655.771,11526.274,16741.313
