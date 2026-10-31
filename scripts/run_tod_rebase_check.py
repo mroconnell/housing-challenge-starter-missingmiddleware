@@ -5,8 +5,8 @@
 Today's baseline (missing_middleware/tod/model.py section 6): each municipality's all-housing baseline x its share of
 EXISTING homes near stops (main case). Re-based: x share of new homes near stops = min(1, share of homes x m), where m is
 the measured ratio (share of new homes / share of 2010 homes, main-case stops) from the lot data:
-Milwaukee 1.35-1.37 and Madison 1.15-1.16 (their own); every other municipality 1.15 (low), 1.28 (both cities pooled,
-central), 1.37 (high). A look only: the tool's numbers are not changed. Writes reference/tod_rebase_check.csv.
+Milwaukee 1.393 and Madison 1.226 (their own, reconciled); every other municipality an assumption: 1.226 (low),
+1.240 (both cities pooled, central), 1.393 (high). A look only: the tool's numbers are not changed. Writes reference/tod_rebase_check.csv.
 """
 from __future__ import annotations
 
@@ -17,8 +17,13 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 REF = ROOT / "reference"
-OWN = {"Milwaukee city": (1.353, 1.351, 1.369), "Madison city": (1.150, 1.155, 1.162)}   # (low, central, high)
-OTHER = (1.15, 1.28, 1.37)
+# Reconciled 2026-10-31 (audit): one stop list (reference/tod_stops.csv, main case), 2020 homes, whole-city
+# denominators, homes built 2019-2024: share of the city's new homes near stops / share of its 2020 homes near stops.
+# Milwaukee: 6,236 of 6,566 (property file, all years built 2019-2024) = 95.0% vs 68.2% -> 1.393.
+# Madison: 11,739 of 15,261 (permit survey 2019-2024) = 76.9% vs 62.8% -> 1.226.
+# Elsewhere: ASSUMPTION, both cities pooled (17,975 of 21,827 = 82.4% vs 66.4%) -> 1.240; range 1.226-1.393.
+OWN = {"Milwaukee city": (1.393, 1.393, 1.393), "Madison city": (1.226, 1.226, 1.226)}   # (low, central, high)
+OTHER = (1.226, 1.240, 1.393)
 
 
 def main() -> None:
