@@ -1,11 +1,11 @@
-"""ADU improvement loop, round 1 (docs/adu/IMPROVE_R1_PLAN.md, written before running).
+"""ADU improvement loop, rounds 1-2 (docs/adu/IMPROVE_R1_PLAN.md, IMPROVE_R2_PLAN.md, written before running).
 
 Data variants V0-V4 x models M1 (plain average), M2 (median), M3 (adopted two-stage), scored by leaving each
 non-California statewide-law state out in turn. M3 also runs the Wisconsin engine step for each variant.
 Units: ADU permits per 1,000 one-unit detached homes per year; log error = log(predicted / observed).
 
-Run: uv run python scripts/run_adu_improve.py   (about 2 minutes)
-Outputs: reference/adu_improve_r1_scores.csv, adu_improve_r1_by_state.csv, adu_improve_r1_flags.csv
+Run: uv run python scripts/run_adu_improve.py [--round 2]   (about 2 minutes per round)
+Outputs: reference/adu_improve_r<round>_scores.csv, _by_state.csv, _flags.csv
 """
 from __future__ import annotations
 
@@ -35,6 +35,12 @@ VARIANTS = {
     "V3": "Rhode Island 2021-2022 homes share 0.8704",
     "V4": "V1 + V2 + V3",
 }
+VARIANTS_R2 = {
+    "V0": "current data",
+    "V1": "Vermont by permit year (counts one year earlier)",
+    "V5": "Oregon law years from the benchmark rules (2020-01-01)",
+    "V6": "V1 + V5",
+}
 
 
 def shift_vermont(rows: pd.DataFrame) -> pd.DataFrame:
@@ -46,17 +52,34 @@ def shift_vermont(rows: pd.DataFrame) -> pd.DataFrame:
     return r[~(vt & (r["k"] < 1))].reset_index(drop=True)
 
 
+def recode_oregon(rows: pd.DataFrame) -> pd.DataFrame:
+    """Oregon law years from HB 2001's ADU rules (2020-01-01): the 32-city panel drops 2019 (transition) and 2020 = 1;
+    Portland 2019 = local rules only (law 0, k none), 2020 = 1."""
+    r = rows.copy()
+    panel = r["series"].eq("OR_panel32_exPortland")
+    r = r[~(panel & r["year"].eq(2019))].copy()
+    panel = r["series"].eq("OR_panel32_exPortland")
+    pdx = r["series"].eq("portland")
+    r.loc[panel | pdx, "k"] = r.loc[panel | pdx, "year"] - 2019
+    pdx19 = pdx & r["year"].eq(2019)
+    r.loc[pdx19, "law"] = 0
+    r.loc[pdx19, "k"] = np.nan
+    return r.reset_index(drop=True)
+
+
 def build_variant(v: str, d, pan) -> pr.Pooled:
     cov = {}
     if v in ("V2", "V4"):
         cov["ME_statewide"] = {2025: ME_HOMES_SHARE}
     if v in ("V3", "V4"):
         cov["RI_statewide"] = {2021: RI_EARLY_SHARE, 2022: RI_EARLY_SHARE}
-    vt = v in ("V1", "V4")
+    vt = v in ("V1", "V4", "V6")
     p = rv.build(d, pan, coverage_override=cov or None, year_homes=not vt)
-    if not vt:
-        return p
-    rows = hb.apply_homes_index(shift_vermont(p.rows), rv.homes_index(), rv.CLUSTER_FIPS)
+    rows = p.rows
+    if vt:
+        rows = hb.apply_homes_index(shift_vermont(rows), rv.homes_index(), rv.CLUSTER_FIPS)
+    if v in ("V5", "V6"):
+        rows = recode_oregon(rows)
     return pr.Pooled(rows, p.members)
 
 
@@ -90,11 +113,16 @@ def flags(v: str, p: pr.Pooled) -> list[dict]:
 
 
 def main():
+    import argparse
+    a = argparse.ArgumentParser()
+    a.add_argument("--round", type=int, default=1)
+    rnd = a.parse_args().round
+    variants = VARIANTS if rnd == 1 else VARIANTS_R2
     ctx = vto.context()
     d, pan = ctx["d"], ctx["pan"]
     scores, by_state, flag_rows = [], [], []
     with vto.temp_reference() as ref_dir:
-        for v, label in VARIANTS.items():
+        for v, label in variants.items():
             p = build_variant(v, d, pan)
             vto.pooled_for = lambda opt, d_, pan_, _p=p: _p     # engine_option fits this variant's rows
             o = vto.engine_option(v, ctx, ref_dir)
@@ -124,9 +152,9 @@ def main():
     st = pd.read_csv(REFERENCE / "adu_model_statewide.csv").set_index("path")["additional_units"]
     if abs(sc.iloc[0].central_additional_5yr - st["central"]) > 0.5:
         raise SystemExit("V0 does not reproduce the adopted central")
-    sc.round(4).to_csv(REFERENCE / "adu_improve_r1_scores.csv", index=False)
-    pd.DataFrame(by_state).round(4).to_csv(REFERENCE / "adu_improve_r1_by_state.csv", index=False)
-    pd.DataFrame(flag_rows).to_csv(REFERENCE / "adu_improve_r1_flags.csv", index=False)
+    sc.round(4).to_csv(REFERENCE / f"adu_improve_r{rnd}_scores.csv", index=False)
+    pd.DataFrame(by_state).round(4).to_csv(REFERENCE / f"adu_improve_r{rnd}_by_state.csv", index=False)
+    pd.DataFrame(flag_rows).to_csv(REFERENCE / f"adu_improve_r{rnd}_flags.csv", index=False)
     pd.set_option("display.width", 250)
     print(sc.round(3).to_string(index=False))
     print(pd.DataFrame(by_state).pivot_table(index=["state"], columns=["variant", "model"], values="log_error").round(3)

@@ -1,0 +1,5 @@
+variant,label,rms_m1_plain_average,rms_m2_median,rms_m3_adopted,worst_state_m3,worst_log_error_m3,lower_additional_5yr,central_additional_5yr,upper_additional_5yr,reference_line_additional_5yr,baseline_5yr
+V0,current data,0.3188,0.2303,0.1684,VT,0.3311,6803.6707,10679.2148,19534.9446,10374.3,530.0658
+V1,Vermont by permit year (counts one year earlier),0.3089,0.2162,0.1354,OR,0.2356,6790.2401,10833.5288,19518.7865,10848.7,530.0658
+V5,Oregon law years from the benchmark rules (2020-01-01),0.3118,0.2235,0.1406,VT,0.2546,6179.8058,9945.0801,18464.3608,10304.4,530.0658
+V6,V1 + V5,0.3015,0.2089,0.1102,UT,-0.1288,6100.1196,9999.6379,18447.5158,14215.8,530.0658
