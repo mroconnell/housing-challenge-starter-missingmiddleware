@@ -28,6 +28,7 @@ NAMES = {0: "plain_average", 1: "linear_regression", 2: "lasso", 3: "regression_
 ACAP = 2.97
 EXCLUDE_HOLD = False
 DROP_DATED = False   # audit check: drop traits dated after a window starts (2010 census homes; ACS at the reform year)
+EXCLUDE_CITY = ""    # audit check: leave one city out of all share-model training
 TAG = ""
 
 
@@ -262,7 +263,7 @@ def run_share(methods: list[int]) -> None:
     ac = A["acres"].clip(lower=0.01).values
     hpa = y / ac
     up = (A["treated"] == 1).values
-    tr = (A["_wi"] == 0).values
+    tr = (A["_wi"] == 0).values & (A["city"] != EXCLUDE_CITY).values
     allc = sorted(A.loc[tr, "city"].unique())
     reform = [c for c in allc if not c.endswith("placebo")]
     tot = WN.city_totals()
@@ -339,7 +340,7 @@ def run_share(methods: list[int]) -> None:
             total = float(t["all_housing"]) * min(1.0, float(A.loc[te, "census_homes"].sum()) / float(t["homes_2020"]))
             braw += float(so[uu].sum() - sf[uu].sum()) * total
         scale = WN.NEAR_STATE["today"] / float(tot.loc[["Milwaukee city", "Madison city"], "near"].sum())
-        Rk.round(4).to_csv(REFERENCE / f"tod_menu_share_{NAMES[k]}.csv", index=False)
+        Rk.round(4).to_csv(REFERENCE / f"tod_menu_share_{NAMES[k]}{TAG}.csv", index=False)
         worst = Rk.loc[Rk["abslog_model"].idxmax()] if Rk["abslog_model"].notna().any() else None
         summ.append({"method": NAMES[k], "held_out_city_share": Rk["abslog_model"].median(),
                      "held_out_city_calibrated": Rk["abslog_calibrated"].median(), "bench_same_share": Rk["abslog_same_share"].median(),
@@ -347,7 +348,7 @@ def run_share(methods: list[int]) -> None:
                      "worst_miss": None if worst is None else f"{worst.city}: {worst.model_on:.3f} vs {worst.share_after:.3f}",
                      "minutes": round((time.time() - t0) / 60, 1)})
         print(summ[-1], flush=True)
-        pd.DataFrame(summ).round(4).to_csv(REFERENCE / f"tod_menu_share_summary{'_' + '_'.join(map(str, methods)) if len(methods) < 9 else ''}.csv", index=False)
+        pd.DataFrame(summ).round(4).to_csv(REFERENCE / f"tod_menu_share_summary{TAG}{'_' + '_'.join(map(str, methods)) if len(methods) < 9 else ''}.csv", index=False)
 
 
 def main(argv=None) -> None:
@@ -355,12 +356,17 @@ def main(argv=None) -> None:
     ap.add_argument("--model", choices=["pace", "share"], required=True)
     ap.add_argument("--methods", default="0,1,2,3,4,5,6,7,8")
     ap.add_argument("--no-holdouts", action="store_true", help="check: leave Chicago, Madison and Bellevue out")
+    ap.add_argument("--exclude-city", default="", help="share model check: leave this city out of all training")
     ap.add_argument("--drop-dated", action="store_true", help="check: drop census homes and ACS traits (dated after windows start)")
     a = ap.parse_args(argv)
     ms = [int(x) for x in a.methods.split(",")]
-    global EXCLUDE_HOLD, TAG, DROP_DATED
+    global EXCLUDE_HOLD, TAG, DROP_DATED  # noqa: PLW0603
     EXCLUDE_HOLD, DROP_DATED = a.no_holdouts, a.drop_dated
     TAG = ("_noholdouts" if a.no_holdouts else "") + ("_nodated" if a.drop_dated else "")
+    global EXCLUDE_CITY
+    EXCLUDE_CITY = a.exclude_city
+    if EXCLUDE_CITY:
+        TAG += "_without_" + EXCLUDE_CITY.replace(" ", "_").lower()
     (run_pace if a.model == "pace" else run_share)(ms)
 
 

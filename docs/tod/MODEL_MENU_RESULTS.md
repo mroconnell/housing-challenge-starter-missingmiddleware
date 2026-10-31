@@ -76,3 +76,12 @@ Kansas City trace:
 - The per-lot models learn homes per large lot from cities where large lots in the study areas built more. The place-pace trait does not pull Kansas City's total down enough.
 
 So this is a weakness of the model form, not a data error: lot sums are not tied to the place's own pace. It is the same finding as pace rounds 1–4. The fix that matches it is to take the place total from the survey and use the lot model only to split it (two-part design).
+
+### Baseline decision (provisional; owner 23:27: "follow the auditor's recommendations for now")
+
+- Round 3 is clean (audit; no coding error).
+- **Central no-reform baseline near stops, 2027–2031: 18,322.** This is the survey pace re-based on new-home shares, the same rule as parking's central; it nests inside 122,619.
+- **Cross-check:** random forest with all traits gives 16,588, so the lot model agrees within 10%. Madison's place pace (25.7) is above every training window (top 16.8), so trees likely under-predict Madison.
+- **Side line, "recent strength continues"** (parking's factor ×1.07–1.26): 19,605–23,086.
+- Not candidates: gradient boosting, and the versions without dated traits.
+- Kansas City is not a blocker. The share runs add one check with Kansas City left out of training.
