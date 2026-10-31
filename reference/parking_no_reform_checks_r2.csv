@@ -1,0 +1,5 @@
+check,where,column,value,note
+homes floored at half of ACS,training rows,,280,place-origin rows
+estimated permit months in window,training rows,,43099,place-origin rows with at least one estimated year
+BPS keys sharing one ACS geography,"Noble County Unincorporated Area, Pickaway County Unincorporated Area, Scioto County Unincorporated Area, Noble County Part, Pickaway County Part, Scioto County Part, Cabot village, Bellmont town (South), Bellmont town, Bronx borough, Brooklyn borough, Manhattan borough",,26,left out from round 2
+worst miss (units per year),Fort Worth 48|240500 origin 2018,,-5004,"M2 shrunk 3-year: predicted 6262, actual 11266, homes 306281"

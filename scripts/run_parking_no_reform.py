@@ -71,6 +71,7 @@ def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits:
         d["units_5y"] = tot.loc[k, hist].mean(axis=1)
         d["rate_1y"] = tot.loc[k, t] / h * 1000
         d["rate_3y"] = d["units_3y"] / h * 1000
+        d["rate_3y_raw"] = d["rate_3y"]
         d["rate_5y"] = d["units_5y"] / h * 1000
         d["share_2plus"] = (mf.loc[k, hist].sum(axis=1) / tot.loc[k, hist].sum(axis=1).replace(0, np.nan)).fillna(0)
         x = np.arange(5) - 2.0
@@ -195,6 +196,20 @@ def predict_all(fit, new, seed, choices=None, fake=False, pool=None):
 def main() -> None:
     bps = rpc.read_bps_us()
     p = R1.panel_with(bps, "scaled")
+    if ROUND >= 3:  # round 3: pieces of one town split across counties or parts are summed into one place
+        g0 = p.drop_duplicates("key", keep="last")
+        multi = g0[g0.groupby("acs_geoid")["key"].transform("nunique") > 1]
+        merge = {}
+        for gid, g in multi.groupby("acs_geoid"):
+            if gid.startswith("160|3651000") or g["name"].str.contains("County|Balance of State", regex=True).any():
+                continue
+            if g["name"].str.contains("village").any() and g["name"].str.contains("town").any():
+                continue  # a village inside a town (Cabot, VT): no geography of its own
+            first = sorted(g["key"])[0]
+            merge.update({k: first for k in g["key"] if k != first})
+        p["key"] = p["key"].replace(merge)
+        p = p.groupby(["key", "year"], as_index=False).agg({**{c: "first" for c in p.columns if c not in ("key", "year", "units_total", "units_2plus", "pop")},
+                                                            "units_total": "sum", "units_2plus": "sum", "pop": "sum"})
     months = bps.assign(key=bps["state_fips"].astype(str).str.strip() + "|" + bps["bps_id"].astype(str).str.strip()) \
         .drop_duplicates(["key", "year"]).set_index(["key", "year"])["months_reported"]
     geo = p.drop_duplicates("key", keep="last").set_index("key")
@@ -212,8 +227,19 @@ def main() -> None:
     # New York City's 3.7 million homes); they are left out and listed
     shared = geo.groupby("acs_geoid")["name"].transform("size") > 1
     shared_keys = geo.index[shared]
-    if ROUND >= 2:
+    if ROUND == 2:
         homes_acs = homes_acs.drop(shared_keys, errors="ignore")
+    if ROUND >= 3:
+        # New York City's boroughs are counties: each gets its county's ACS homes
+        cnty = pd.read_csv(RAW / "census_acs5_2024_tbsf" / "acsdt5y2024-b25002.dat", sep="|", dtype=str)
+        cnty = cnty[cnty["GEO_ID"].str.startswith("0500000US")].set_index("GEO_ID")["B25002_E001"].astype(float)
+        nyc = geo.index[geo["acs_geoid"].eq("160|3651000")]
+        for k in nyc:
+            homes_acs[k] = cnty.get("0500000US36" + geo.loc[k, "county_fips"].zfill(3), np.nan)
+        still = geo.index[shared & ~geo.index.isin(nyc)]
+        homes_acs = homes_acs.drop([k for k in still if k in homes_acs.index and
+                                    geo.loc[k, "acs_geoid"] in set(geo.loc[still, "acs_geoid"]) and
+                                    (geo["acs_geoid"] == geo.loc[k, "acs_geoid"]).sum() > 1], errors="ignore")
 
     # reform dates: material entries (V7 coding) plus state laws (V7s)
     tax = pd.read_csv(REFERENCE / "parking_reform_taxonomy.csv")
@@ -242,6 +268,18 @@ def main() -> None:
     flags += [dict(check="BPS keys sharing one ACS geography", where=", ".join(geo.loc[shared_keys, "name"].head(12)),
                    value=len(shared_keys), note="left out from round 2" if ROUND >= 2 else "kept in round 1")]
 
+    if ROUND >= 3:  # land-mismatch flag (audit): 3-year rate outside the national 1st-99th percentile at its origin
+        q = R.groupby("origin")["rate_3y_raw"].quantile([0.01, 0.99]).unstack()
+        out = R[(R["rate_3y_raw"] < R["origin"].map(q[0.01])) | (R["rate_3y_raw"] > R["origin"].map(q[0.99]))]
+        big = out.sort_values("homes", ascending=False).drop_duplicates("key").head(10)
+        flags += [dict(check="3-year rate outside national 1st-99th percentile", where=f"{len(out)} place-origin rows",
+                       value=out["key"].nunique(), note="places; 10 largest traced below")]
+        flags += [dict(check="  traced", where=f"{r.name} {r.key}", column="rate_3y", value=round(float(r.rate_3y_raw), 1),
+                       note=f"homes {r.homes:.0f}, origin {r.origin}") for r in big.itertuples()]
+        cc = R[R["name"].str.contains("Nashville|Indianapolis|Louisville|Honolulu|Lexington|Augusta-Richmond|Athens-Clarke|Anchorage|Jacksonville",
+                                      regex=True)].drop_duplicates("key")
+        flags += [dict(check="consolidated city-county", where=f"{r.name} {r.key}", column="rate_3y", value=round(float(r.rate_3y_raw), 1),
+                       note=f"homes {r.homes:.0f}") for r in cc.itertuples()]
     places = train.drop_duplicates("key")[["key", "division", "state_fips"]]
     score_rows, kept_rows, choices_log = [], [], []
     for seed in SEEDS:
