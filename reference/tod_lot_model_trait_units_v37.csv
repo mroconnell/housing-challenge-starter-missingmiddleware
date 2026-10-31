@@ -1,40 +1,521 @@
-,unit,Bellevue,Charlotte,Chicago,Los Angeles,Madison,Madison placebo,Milwaukee placebo,New York,Philadelphia,Saint Paul,Seattle
-log_acres,log of acres,-0.95,-1.513,-2.573,-1.757,-1.917,-1.522,-2.128,-2.854,-3.618,-2.17,-2.155
-log_width,log of metres,3.582,3.006,2.071,2.906,2.819,3.148,2.573,2.069,1.6,2.505,2.724
-log_dist_station,log of (1 + metres to rail or rapid stop),6.647,6.433,5.948,6.624,6.582,7.925,8.433,5.935,6.404,5.863,6.171
-level_rank_in_city,"rank within city, 0 to 1",0.5,0.487,0.545,0.302,0.42,0.445,0.5,0.481,0.397,0.305,0.458
-upzoned,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-rel_gain,after ÷ before − 1 (printed-FAR cities),0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-rel_gain_known,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-far_now,floor area ratio (printed-FAR cities only),0.9,0.9,1.2,0.9,0.9,0.9,0.9,0.9,0.9,0.5,0.0
-far_known,0 or 1,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,1.0,1.0
-built_before,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-log_near_before,"log of (1 + homes per year within 150 m, before)",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.288,0.0,0.0,0.154
-log_rent,log of 2024 dollars per month,7.558,7.162,7.15,7.294,7.274,6.908,6.908,7.42,7.081,6.953,7.081
-log_value,log of 2024 dollars,13.596,12.462,12.788,13.136,12.814,12.206,12.206,13.507,12.088,12.534,13.081
-log_income,log of 2024 dollars per year,11.72,11.008,11.044,10.931,11.234,10.82,10.82,11.28,10.817,10.793,11.11
-rent_to_cost,ratio (both 2024 dollars),1.685,2.745,1.457,1.509,1.953,1.289,12.887,1.674,1.475,1.223,1.567
-pays_room,log homes room × rent-to-cost,0.0,0.0,2.377,0.0,0.0,0.0,0.0,0.0,0.0,1.632,0.0
-in_reform,0 or 1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-group_rare,0 or 1,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-reform_share_rare,share 0 to 1,0.0,0.0,0.0,0.277,0.464,0.0,0.0,0.011,0.0,0.0,0.0
-group_upzoned,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-reform_share_upzoned,share 0 to 1,0.75,0.538,0.715,0.128,0.132,0.0,0.0,0.374,0.305,0.314,0.974
-group_upzoned_from_industrial,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-reform_share_upzoned_from_industrial,share 0 to 1,0.0,0.372,0.0,0.387,0.0,0.0,0.0,0.064,0.0,0.512,0.0
-group_reform_density_not_rising,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-reform_share_reform_density_not_rising,share 0 to 1,0.0,0.0,0.0,0.072,0.306,0.0,0.0,0.383,0.525,0.073,0.007
-group_reform_already_allowed,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-reform_share_reform_already_allowed,share 0 to 1,0.0,0.09,0.285,0.0,0.0,0.0,0.0,0.003,0.0,0.075,0.0
-group_reform_other_not_eligible,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-reform_share_reform_other_not_eligible,share 0 to 1,0.25,0.0,0.0,0.136,0.098,0.0,0.0,0.109,0.035,0.026,0.019
-group_comparison_eligible,0 or 1,0.0,1.0,1.0,1.0,0.0,1.0,1.0,0.0,1.0,1.0,1.0
-group_comparison_industrial,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-group_comparison_campus_or_park,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-group_other_not_eligible,0 or 1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-rezoned_later,0 or 1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-no_reform,0 or 1,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0
-log_census_homes,log of (1 + 2010 block homes shared by area),0.408,0.515,1.018,0.867,0.745,0.689,0.781,1.122,0.662,0.752,0.698
-traits_after_reform,0 or 1,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0
-share_upzoned_half_mile,share 0 to 1,0.403,0.254,0.027,0.351,0.047,0.0,0.0,0.147,0.044,0.21,0.117
-log_stops_1mile,"log of (1 + rail and rapid stops within 1,609 m)",1.609,1.099,2.639,2.197,2.398,0.0,0.0,2.773,2.485,2.197,1.946
+trait,city,median,p5,p95,unit
+log_acres,Bellevue,-0.95,-2.15,1.426,log of acres
+log_width,Bellevue,3.582,2.732,4.791,log of metres
+log_dist_station,Bellevue,6.647,5.264,7.263,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Bellevue,0.5,0.5,0.5,"rank within city, 0 to 1"
+upzoned,Bellevue,0.0,0.0,0.0,0 or 1
+rel_gain,Bellevue,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Bellevue,0.0,0.0,0.0,0 or 1
+far_now,Bellevue,-1.0,-1.0,-1.0,floor area ratio (printed-FAR cities only)
+far_known,Bellevue,0.0,0.0,0.0,0 or 1
+built_before,Bellevue,0.0,0.0,0.0,0 or 1
+log_near_before,Bellevue,0.0,0.0,0.154,"log of (1 + homes per year within 150 m, before)"
+log_rent,Bellevue,7.558,7.251,7.842,log of 2024 dollars per month
+log_value,Bellevue,13.596,13.295,13.75,log of 2024 dollars
+log_income,Bellevue,11.72,11.42,11.98,log of 2024 dollars per year
+rent_to_cost,Bellevue,1.808,1.33,2.4,ratio (both 2024 dollars)
+pays_room,Bellevue,0.0,0.0,0.0,log homes room × rent-to-cost
+in_reform,Bellevue,0.0,0.0,1.0,0 or 1
+group_rare,Bellevue,0.0,0.0,0.0,0 or 1
+reform_share_rare,Bellevue,0.0,0.0,0.0,share 0 to 1
+group_upzoned,Bellevue,0.0,0.0,1.0,0 or 1
+reform_share_upzoned,Bellevue,0.75,0.75,0.75,share 0 to 1
+group_upzoned_from_industrial,Bellevue,0.0,0.0,0.0,0 or 1
+reform_share_upzoned_from_industrial,Bellevue,0.0,0.0,0.0,share 0 to 1
+group_upzoned_not_near_transit,Bellevue,0.0,0.0,1.0,0 or 1
+group_reform_density_not_rising,Bellevue,0.0,0.0,0.0,0 or 1
+reform_share_reform_density_not_rising,Bellevue,0.0,0.0,0.0,share 0 to 1
+group_reform_already_allowed,Bellevue,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Bellevue,0.0,0.0,0.0,share 0 to 1
+group_reform_other_not_eligible,Bellevue,0.0,0.0,1.0,0 or 1
+reform_share_reform_other_not_eligible,Bellevue,0.25,0.25,0.25,share 0 to 1
+group_comparison_eligible,Bellevue,0.0,0.0,1.0,0 or 1
+group_comparison_industrial,Bellevue,0.0,0.0,0.0,0 or 1
+group_comparison_campus_or_park,Bellevue,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Bellevue,1.0,0.0,1.0,0 or 1
+rezoned_later,Bellevue,0.0,0.0,1.0,0 or 1
+no_reform,Bellevue,0.0,0.0,0.0,0 or 1
+log_census_homes,Bellevue,0.408,0.0,2.437,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Bellevue,1.0,1.0,1.0,0 or 1
+share_upzoned_half_mile,Bellevue,0.266,0.002,0.619,share 0 to 1
+log_stops_1mile,Bellevue,1.609,1.099,2.398,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Charlotte,-1.513,-3.849,0.65,log of acres
+log_width,Charlotte,3.006,1.585,4.366,log of metres
+log_dist_station,Charlotte,6.433,5.575,6.917,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Charlotte,0.487,0.487,0.487,"rank within city, 0 to 1"
+upzoned,Charlotte,0.0,0.0,0.0,0 or 1
+rel_gain,Charlotte,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Charlotte,0.0,0.0,0.0,0 or 1
+far_now,Charlotte,-1.0,-1.0,-1.0,floor area ratio (printed-FAR cities only)
+far_known,Charlotte,0.0,0.0,0.0,0 or 1
+built_before,Charlotte,0.0,0.0,1.0,0 or 1
+log_near_before,Charlotte,0.0,0.0,1.466,"log of (1 + homes per year within 150 m, before)"
+log_rent,Charlotte,7.162,6.861,7.494,log of 2024 dollars per month
+log_value,Charlotte,12.462,11.318,13.686,log of 2024 dollars
+log_income,Charlotte,11.008,10.432,11.802,log of 2024 dollars per year
+rent_to_cost,Charlotte,2.745,2.032,3.828,ratio (both 2024 dollars)
+pays_room,Charlotte,0.0,0.0,0.0,log homes room × rent-to-cost
+in_reform,Charlotte,0.0,0.0,1.0,0 or 1
+group_rare,Charlotte,0.0,0.0,0.0,0 or 1
+reform_share_rare,Charlotte,0.0,0.0,0.0,share 0 to 1
+group_upzoned,Charlotte,0.0,0.0,1.0,0 or 1
+reform_share_upzoned,Charlotte,0.538,0.538,0.538,share 0 to 1
+group_upzoned_from_industrial,Charlotte,0.0,0.0,1.0,0 or 1
+reform_share_upzoned_from_industrial,Charlotte,0.372,0.372,0.372,share 0 to 1
+group_upzoned_not_near_transit,Charlotte,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Charlotte,0.0,0.0,0.0,0 or 1
+reform_share_reform_density_not_rising,Charlotte,0.0,0.0,0.0,share 0 to 1
+group_reform_already_allowed,Charlotte,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Charlotte,0.09,0.09,0.09,share 0 to 1
+group_reform_other_not_eligible,Charlotte,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Charlotte,0.0,0.0,0.0,share 0 to 1
+group_comparison_eligible,Charlotte,1.0,0.0,1.0,0 or 1
+group_comparison_industrial,Charlotte,0.0,0.0,1.0,0 or 1
+group_comparison_campus_or_park,Charlotte,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Charlotte,0.0,0.0,0.0,0 or 1
+rezoned_later,Charlotte,0.0,0.0,1.0,0 or 1
+no_reform,Charlotte,0.0,0.0,0.0,0 or 1
+log_census_homes,Charlotte,0.515,0.0,1.739,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Charlotte,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Charlotte,0.24,0.127,0.378,share 0 to 1
+log_stops_1mile,Charlotte,1.099,0.693,1.792,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Chicago,-2.573,-3.656,-1.043,log of acres
+log_width,Chicago,2.071,1.741,3.439,log of metres
+log_dist_station,Chicago,5.948,4.783,6.511,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Chicago,0.545,0.029,0.964,"rank within city, 0 to 1"
+upzoned,Chicago,0.0,0.0,0.0,0 or 1
+rel_gain,Chicago,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Chicago,0.0,0.0,0.0,0 or 1
+far_now,Chicago,1.2,-1.0,3.0,floor area ratio (printed-FAR cities only)
+far_known,Chicago,1.0,1.0,1.0,0 or 1
+built_before,Chicago,0.0,0.0,0.0,0 or 1
+log_near_before,Chicago,0.0,0.0,1.344,"log of (1 + homes per year within 150 m, before)"
+log_rent,Chicago,7.15,6.579,7.723,log of 2024 dollars per month
+log_value,Chicago,12.788,11.918,13.498,log of 2024 dollars
+log_income,Chicago,11.044,10.047,11.935,log of 2024 dollars per year
+rent_to_cost,Chicago,1.457,0.823,2.584,ratio (both 2024 dollars)
+pays_room,Chicago,1.393,0.0,4.517,log homes room × rent-to-cost
+in_reform,Chicago,0.0,0.0,0.0,0 or 1
+group_rare,Chicago,0.0,0.0,0.0,0 or 1
+reform_share_rare,Chicago,0.0,0.0,0.0,share 0 to 1
+group_upzoned,Chicago,0.0,0.0,0.0,0 or 1
+reform_share_upzoned,Chicago,0.715,0.715,0.715,share 0 to 1
+group_upzoned_from_industrial,Chicago,0.0,0.0,0.0,0 or 1
+reform_share_upzoned_from_industrial,Chicago,0.0,0.0,0.0,share 0 to 1
+group_upzoned_not_near_transit,Chicago,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Chicago,0.0,0.0,0.0,0 or 1
+reform_share_reform_density_not_rising,Chicago,0.0,0.0,0.0,share 0 to 1
+group_reform_already_allowed,Chicago,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Chicago,0.285,0.285,0.285,share 0 to 1
+group_reform_other_not_eligible,Chicago,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Chicago,0.0,0.0,0.0,share 0 to 1
+group_comparison_eligible,Chicago,1.0,0.0,1.0,0 or 1
+group_comparison_industrial,Chicago,0.0,0.0,1.0,0 or 1
+group_comparison_campus_or_park,Chicago,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Chicago,0.0,0.0,1.0,0 or 1
+rezoned_later,Chicago,0.0,0.0,1.0,0 or 1
+no_reform,Chicago,0.0,0.0,0.0,0 or 1
+log_census_homes,Chicago,1.018,0.0,2.477,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Chicago,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Chicago,0.027,0.002,0.104,share 0 to 1
+log_stops_1mile,Chicago,2.639,1.386,3.296,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Columbus placebo,-1.905,-4.209,-0.402,log of acres
+log_width,Columbus placebo,2.758,1.704,3.806,log of metres
+log_dist_station,Columbus placebo,6.668,6.668,6.668,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Columbus placebo,0.5,0.5,0.5,"rank within city, 0 to 1"
+upzoned,Columbus placebo,0.0,0.0,0.0,0 or 1
+rel_gain,Columbus placebo,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Columbus placebo,0.0,0.0,0.0,0 or 1
+far_now,Columbus placebo,-1.0,-1.0,-1.0,floor area ratio (printed-FAR cities only)
+far_known,Columbus placebo,0.0,0.0,0.0,0 or 1
+built_before,Columbus placebo,0.0,0.0,0.0,0 or 1
+log_near_before,Columbus placebo,0.0,0.0,1.969,"log of (1 + homes per year within 150 m, before)"
+log_rent,Columbus placebo,7.056,6.784,7.363,log of 2024 dollars per month
+log_value,Columbus placebo,12.038,11.251,12.748,log of 2024 dollars
+log_income,Columbus placebo,11.139,10.293,11.673,log of 2024 dollars per year
+rent_to_cost,Columbus placebo,1.861,1.421,2.536,ratio (both 2024 dollars)
+pays_room,Columbus placebo,0.0,0.0,0.0,log homes room × rent-to-cost
+in_reform,Columbus placebo,0.0,0.0,0.0,0 or 1
+group_rare,Columbus placebo,0.0,0.0,0.0,0 or 1
+reform_share_rare,Columbus placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned,Columbus placebo,0.0,0.0,0.0,0 or 1
+reform_share_upzoned,Columbus placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned_from_industrial,Columbus placebo,0.0,0.0,0.0,0 or 1
+reform_share_upzoned_from_industrial,Columbus placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned_not_near_transit,Columbus placebo,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Columbus placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_density_not_rising,Columbus placebo,0.0,0.0,0.0,share 0 to 1
+group_reform_already_allowed,Columbus placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Columbus placebo,0.0,0.0,0.0,share 0 to 1
+group_reform_other_not_eligible,Columbus placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Columbus placebo,0.0,0.0,0.0,share 0 to 1
+group_comparison_eligible,Columbus placebo,1.0,1.0,1.0,0 or 1
+group_comparison_industrial,Columbus placebo,0.0,0.0,0.0,0 or 1
+group_comparison_campus_or_park,Columbus placebo,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Columbus placebo,0.0,0.0,0.0,0 or 1
+rezoned_later,Columbus placebo,0.0,0.0,0.0,0 or 1
+no_reform,Columbus placebo,1.0,1.0,1.0,0 or 1
+log_census_homes,Columbus placebo,1.592,0.026,2.637,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Columbus placebo,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Columbus placebo,0.0,0.0,0.0,share 0 to 1
+log_stops_1mile,Columbus placebo,0.0,0.0,0.0,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Kansas City placebo,-1.576,-2.655,0.619,log of acres
+log_width,Kansas City placebo,3.084,2.204,4.33,log of metres
+log_dist_station,Kansas City placebo,6.668,6.668,6.668,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Kansas City placebo,0.5,0.5,0.5,"rank within city, 0 to 1"
+upzoned,Kansas City placebo,0.0,0.0,0.0,0 or 1
+rel_gain,Kansas City placebo,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Kansas City placebo,0.0,0.0,0.0,0 or 1
+far_now,Kansas City placebo,-1.0,-1.0,-1.0,floor area ratio (printed-FAR cities only)
+far_known,Kansas City placebo,0.0,0.0,0.0,0 or 1
+built_before,Kansas City placebo,0.0,0.0,0.0,0 or 1
+log_near_before,Kansas City placebo,0.0,0.0,0.606,"log of (1 + homes per year within 150 m, before)"
+log_rent,Kansas City placebo,7.023,6.676,7.504,log of 2024 dollars per month
+log_value,Kansas City placebo,12.089,11.154,13.0,log of 2024 dollars
+log_income,Kansas City placebo,11.043,10.297,11.779,log of 2024 dollars per year
+rent_to_cost,Kansas City placebo,1.829,1.829,1.829,ratio (both 2024 dollars)
+pays_room,Kansas City placebo,0.0,0.0,0.0,log homes room × rent-to-cost
+in_reform,Kansas City placebo,0.0,0.0,0.0,0 or 1
+group_rare,Kansas City placebo,0.0,0.0,0.0,0 or 1
+reform_share_rare,Kansas City placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned,Kansas City placebo,0.0,0.0,0.0,0 or 1
+reform_share_upzoned,Kansas City placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned_from_industrial,Kansas City placebo,0.0,0.0,0.0,0 or 1
+reform_share_upzoned_from_industrial,Kansas City placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned_not_near_transit,Kansas City placebo,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Kansas City placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_density_not_rising,Kansas City placebo,0.0,0.0,0.0,share 0 to 1
+group_reform_already_allowed,Kansas City placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Kansas City placebo,0.0,0.0,0.0,share 0 to 1
+group_reform_other_not_eligible,Kansas City placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Kansas City placebo,0.0,0.0,0.0,share 0 to 1
+group_comparison_eligible,Kansas City placebo,1.0,1.0,1.0,0 or 1
+group_comparison_industrial,Kansas City placebo,0.0,0.0,0.0,0 or 1
+group_comparison_campus_or_park,Kansas City placebo,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Kansas City placebo,0.0,0.0,0.0,0 or 1
+rezoned_later,Kansas City placebo,0.0,0.0,0.0,0 or 1
+no_reform,Kansas City placebo,1.0,1.0,1.0,0 or 1
+log_census_homes,Kansas City placebo,1.495,0.114,2.586,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Kansas City placebo,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Kansas City placebo,0.0,0.0,0.0,share 0 to 1
+log_stops_1mile,Kansas City placebo,0.0,0.0,0.0,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Los Angeles,-1.757,-2.821,0.745,log of acres
+log_width,Los Angeles,2.906,2.213,4.421,log of metres
+log_dist_station,Los Angeles,6.624,5.293,7.472,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Los Angeles,0.302,0.302,0.954,"rank within city, 0 to 1"
+upzoned,Los Angeles,0.0,0.0,0.0,0 or 1
+rel_gain,Los Angeles,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Los Angeles,0.0,0.0,0.0,0 or 1
+far_now,Los Angeles,-1.0,-1.0,-1.0,floor area ratio (printed-FAR cities only)
+far_known,Los Angeles,0.0,0.0,0.0,0 or 1
+built_before,Los Angeles,0.0,0.0,0.0,0 or 1
+log_near_before,Los Angeles,0.0,0.0,0.154,"log of (1 + homes per year within 150 m, before)"
+log_rent,Los Angeles,7.294,6.734,7.913,log of 2024 dollars per month
+log_value,Los Angeles,13.136,12.531,13.614,log of 2024 dollars
+log_income,Los Angeles,10.931,10.034,11.727,log of 2024 dollars per year
+rent_to_cost,Los Angeles,1.494,0.853,2.776,ratio (both 2024 dollars)
+pays_room,Los Angeles,0.0,0.0,0.0,log homes room × rent-to-cost
+in_reform,Los Angeles,0.0,0.0,1.0,0 or 1
+group_rare,Los Angeles,0.0,0.0,0.0,0 or 1
+reform_share_rare,Los Angeles,0.277,0.024,0.277,share 0 to 1
+group_upzoned,Los Angeles,0.0,0.0,1.0,0 or 1
+reform_share_upzoned,Los Angeles,0.128,0.128,0.972,share 0 to 1
+group_upzoned_from_industrial,Los Angeles,0.0,0.0,0.0,0 or 1
+reform_share_upzoned_from_industrial,Los Angeles,0.387,0.004,0.387,share 0 to 1
+group_upzoned_not_near_transit,Los Angeles,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Los Angeles,0.0,0.0,0.0,0 or 1
+reform_share_reform_density_not_rising,Los Angeles,0.072,0.0,0.072,share 0 to 1
+group_reform_already_allowed,Los Angeles,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Los Angeles,0.0,0.0,0.0,share 0 to 1
+group_reform_other_not_eligible,Los Angeles,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Los Angeles,0.136,0.0,0.136,share 0 to 1
+group_comparison_eligible,Los Angeles,1.0,0.0,1.0,0 or 1
+group_comparison_industrial,Los Angeles,0.0,0.0,0.0,0 or 1
+group_comparison_campus_or_park,Los Angeles,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Los Angeles,0.0,0.0,0.0,0 or 1
+rezoned_later,Los Angeles,0.0,0.0,1.0,0 or 1
+no_reform,Los Angeles,0.0,0.0,0.0,0 or 1
+log_census_homes,Los Angeles,0.867,0.0,2.611,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Los Angeles,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Los Angeles,0.262,0.0,0.579,share 0 to 1
+log_stops_1mile,Los Angeles,2.197,0.0,2.639,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Madison,-1.917,-2.679,0.35,log of acres
+log_width,Madison,2.819,2.309,4.133,log of metres
+log_dist_station,Madison,6.582,5.116,8.415,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Madison,0.42,0.42,0.956,"rank within city, 0 to 1"
+upzoned,Madison,0.0,0.0,0.0,0 or 1
+rel_gain,Madison,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Madison,0.0,0.0,0.0,0 or 1
+far_now,Madison,-1.0,-1.0,-1.0,floor area ratio (printed-FAR cities only)
+far_known,Madison,0.0,0.0,0.0,0 or 1
+built_before,Madison,0.0,0.0,0.0,0 or 1
+log_near_before,Madison,0.0,0.0,2.383,"log of (1 + homes per year within 150 m, before)"
+log_rent,Madison,7.274,6.947,7.488,log of 2024 dollars per month
+log_value,Madison,12.814,12.122,13.353,log of 2024 dollars
+log_income,Madison,11.234,10.693,11.961,log of 2024 dollars per year
+rent_to_cost,Madison,2.419,1.745,2.997,ratio (both 2024 dollars)
+pays_room,Madison,0.0,0.0,0.0,log homes room × rent-to-cost
+in_reform,Madison,1.0,0.0,1.0,0 or 1
+group_rare,Madison,1.0,0.0,1.0,0 or 1
+reform_share_rare,Madison,0.464,0.464,0.464,share 0 to 1
+group_upzoned,Madison,0.0,0.0,0.0,0 or 1
+reform_share_upzoned,Madison,0.132,0.132,0.132,share 0 to 1
+group_upzoned_from_industrial,Madison,0.0,0.0,0.0,0 or 1
+reform_share_upzoned_from_industrial,Madison,0.0,0.0,0.0,share 0 to 1
+group_upzoned_not_near_transit,Madison,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Madison,0.0,0.0,1.0,0 or 1
+reform_share_reform_density_not_rising,Madison,0.306,0.306,0.306,share 0 to 1
+group_reform_already_allowed,Madison,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Madison,0.0,0.0,0.0,share 0 to 1
+group_reform_other_not_eligible,Madison,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Madison,0.098,0.098,0.098,share 0 to 1
+group_comparison_eligible,Madison,0.0,0.0,0.0,0 or 1
+group_comparison_industrial,Madison,0.0,0.0,0.0,0 or 1
+group_comparison_campus_or_park,Madison,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Madison,0.0,0.0,1.0,0 or 1
+rezoned_later,Madison,0.0,0.0,0.0,0 or 1
+no_reform,Madison,0.0,0.0,0.0,0 or 1
+log_census_homes,Madison,0.745,0.048,1.826,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Madison,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Madison,0.026,0.0,0.171,share 0 to 1
+log_stops_1mile,Madison,2.398,0.0,3.178,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Madison placebo,-1.522,-2.469,0.187,log of acres
+log_width,Madison placebo,3.148,2.49,4.081,log of metres
+log_dist_station,Madison placebo,7.925,5.916,8.663,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Madison placebo,0.445,0.028,0.952,"rank within city, 0 to 1"
+upzoned,Madison placebo,0.0,0.0,0.0,0 or 1
+rel_gain,Madison placebo,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Madison placebo,0.0,0.0,0.0,0 or 1
+far_now,Madison placebo,-1.0,-1.0,-1.0,floor area ratio (printed-FAR cities only)
+far_known,Madison placebo,0.0,0.0,0.0,0 or 1
+built_before,Madison placebo,0.0,0.0,0.0,0 or 1
+log_near_before,Madison placebo,0.0,0.0,1.674,"log of (1 + homes per year within 150 m, before)"
+log_rent,Madison placebo,7.122,6.979,7.455,log of 2024 dollars per month
+log_value,Madison placebo,12.517,12.237,12.954,log of 2024 dollars
+log_income,Madison placebo,11.452,10.745,11.685,log of 2024 dollars per year
+rent_to_cost,Madison placebo,1.597,1.384,2.227,ratio (both 2024 dollars)
+pays_room,Madison placebo,0.0,0.0,0.0,log homes room × rent-to-cost
+in_reform,Madison placebo,0.0,0.0,0.0,0 or 1
+group_rare,Madison placebo,0.0,0.0,0.0,0 or 1
+reform_share_rare,Madison placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned,Madison placebo,0.0,0.0,0.0,0 or 1
+reform_share_upzoned,Madison placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned_from_industrial,Madison placebo,0.0,0.0,0.0,0 or 1
+reform_share_upzoned_from_industrial,Madison placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned_not_near_transit,Madison placebo,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Madison placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_density_not_rising,Madison placebo,0.0,0.0,0.0,share 0 to 1
+group_reform_already_allowed,Madison placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Madison placebo,0.0,0.0,0.0,share 0 to 1
+group_reform_other_not_eligible,Madison placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Madison placebo,0.0,0.0,0.0,share 0 to 1
+group_comparison_eligible,Madison placebo,1.0,1.0,1.0,0 or 1
+group_comparison_industrial,Madison placebo,0.0,0.0,0.0,0 or 1
+group_comparison_campus_or_park,Madison placebo,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Madison placebo,0.0,0.0,0.0,0 or 1
+rezoned_later,Madison placebo,0.0,0.0,0.0,0 or 1
+no_reform,Madison placebo,1.0,1.0,1.0,0 or 1
+log_census_homes,Madison placebo,0.689,0.142,1.948,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Madison placebo,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Madison placebo,0.0,0.0,0.0,share 0 to 1
+log_stops_1mile,Madison placebo,0.0,0.0,3.296,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Milwaukee placebo,-2.128,-2.649,-0.869,log of acres
+log_width,Milwaukee placebo,2.573,2.206,3.592,log of metres
+log_dist_station,Milwaukee placebo,8.433,6.559,9.24,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Milwaukee placebo,0.5,0.05,0.956,"rank within city, 0 to 1"
+upzoned,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+rel_gain,Milwaukee placebo,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+far_now,Milwaukee placebo,-1.0,-1.0,-1.0,floor area ratio (printed-FAR cities only)
+far_known,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+built_before,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+log_near_before,Milwaukee placebo,0.0,0.0,0.154,"log of (1 + homes per year within 150 m, before)"
+log_rent,Milwaukee placebo,6.959,6.786,7.192,log of 2024 dollars per month
+log_value,Milwaukee placebo,11.733,10.983,12.449,log of 2024 dollars
+log_income,Milwaukee placebo,10.804,10.128,11.382,log of 2024 dollars per year
+rent_to_cost,Milwaukee placebo,2.482,2.087,3.132,ratio (both 2024 dollars)
+pays_room,Milwaukee placebo,0.0,0.0,0.0,log homes room × rent-to-cost
+in_reform,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+group_rare,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+reform_share_rare,Milwaukee placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+reform_share_upzoned,Milwaukee placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned_from_industrial,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+reform_share_upzoned_from_industrial,Milwaukee placebo,0.0,0.0,0.0,share 0 to 1
+group_upzoned_not_near_transit,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_density_not_rising,Milwaukee placebo,0.0,0.0,0.0,share 0 to 1
+group_reform_already_allowed,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Milwaukee placebo,0.0,0.0,0.0,share 0 to 1
+group_reform_other_not_eligible,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Milwaukee placebo,0.0,0.0,0.0,share 0 to 1
+group_comparison_eligible,Milwaukee placebo,1.0,1.0,1.0,0 or 1
+group_comparison_industrial,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+group_comparison_campus_or_park,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+rezoned_later,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+no_reform,Milwaukee placebo,1.0,1.0,1.0,0 or 1
+log_census_homes,Milwaukee placebo,0.781,0.283,1.451,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Milwaukee placebo,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Milwaukee placebo,0.0,0.0,0.0,share 0 to 1
+log_stops_1mile,Milwaukee placebo,0.0,0.0,2.639,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,New York,-2.854,-3.469,-1.131,log of acres
+log_width,New York,2.069,1.644,3.427,log of metres
+log_dist_station,New York,5.935,4.678,7.021,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,New York,0.481,0.08,0.926,"rank within city, 0 to 1"
+upzoned,New York,0.0,0.0,0.0,0 or 1
+rel_gain,New York,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,New York,0.0,0.0,0.0,0 or 1
+far_now,New York,0.9,-1.0,4.0,floor area ratio (printed-FAR cities only)
+far_known,New York,1.0,1.0,1.0,0 or 1
+built_before,New York,0.0,0.0,0.0,0 or 1
+log_near_before,New York,0.288,0.0,2.663,"log of (1 + homes per year within 150 m, before)"
+log_rent,New York,7.423,6.743,7.851,log of 2024 dollars per month
+log_value,New York,13.507,12.179,14.195,log of 2024 dollars
+log_income,New York,11.28,10.302,12.019,log of 2024 dollars per year
+rent_to_cost,New York,3.388,1.692,5.216,ratio (both 2024 dollars)
+pays_room,New York,1.885,0.0,7.871,log homes room × rent-to-cost
+in_reform,New York,0.0,0.0,1.0,0 or 1
+group_rare,New York,0.0,0.0,0.0,0 or 1
+reform_share_rare,New York,0.011,0.0,0.131,share 0 to 1
+group_upzoned,New York,0.0,0.0,1.0,0 or 1
+reform_share_upzoned,New York,0.374,0.0,0.793,share 0 to 1
+group_upzoned_from_industrial,New York,0.0,0.0,1.0,0 or 1
+reform_share_upzoned_from_industrial,New York,0.064,0.002,0.798,share 0 to 1
+group_upzoned_not_near_transit,New York,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,New York,0.0,0.0,1.0,0 or 1
+reform_share_reform_density_not_rising,New York,0.383,0.018,0.808,share 0 to 1
+group_reform_already_allowed,New York,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,New York,0.003,0.0,0.085,share 0 to 1
+group_reform_other_not_eligible,New York,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,New York,0.109,0.009,0.134,share 0 to 1
+group_comparison_eligible,New York,0.0,0.0,1.0,0 or 1
+group_comparison_industrial,New York,0.0,0.0,1.0,0 or 1
+group_comparison_campus_or_park,New York,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,New York,0.0,0.0,0.0,0 or 1
+rezoned_later,New York,0.0,0.0,1.0,0 or 1
+no_reform,New York,0.0,0.0,0.0,0 or 1
+log_census_homes,New York,1.122,0.1,2.781,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,New York,1.0,0.0,1.0,0 or 1
+share_upzoned_half_mile,New York,0.14,0.024,0.435,share 0 to 1
+log_stops_1mile,New York,2.773,1.099,4.127,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Philadelphia,-3.618,-4.273,-2.127,log of acres
+log_width,Philadelphia,1.6,1.416,2.738,log of metres
+log_dist_station,Philadelphia,6.404,4.81,7.479,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Philadelphia,0.397,0.051,0.963,"rank within city, 0 to 1"
+upzoned,Philadelphia,0.0,0.0,0.0,0 or 1
+rel_gain,Philadelphia,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Philadelphia,0.0,0.0,0.0,0 or 1
+far_now,Philadelphia,-1.0,-1.0,-1.0,floor area ratio (printed-FAR cities only)
+far_known,Philadelphia,0.0,0.0,0.0,0 or 1
+built_before,Philadelphia,0.0,0.0,0.0,0 or 1
+log_near_before,Philadelphia,0.0,0.0,2.319,"log of (1 + homes per year within 150 m, before)"
+log_rent,Philadelphia,7.081,6.666,7.518,log of 2024 dollars per month
+log_value,Philadelphia,12.088,11.021,13.122,log of 2024 dollars
+log_income,Philadelphia,10.817,10.069,11.594,log of 2024 dollars per year
+rent_to_cost,Philadelphia,1.548,0.94,2.405,ratio (both 2024 dollars)
+pays_room,Philadelphia,0.0,0.0,0.0,log homes room × rent-to-cost
+in_reform,Philadelphia,0.0,0.0,1.0,0 or 1
+group_rare,Philadelphia,0.0,0.0,0.0,0 or 1
+reform_share_rare,Philadelphia,0.0,0.0,0.0,share 0 to 1
+group_upzoned,Philadelphia,0.0,0.0,0.0,0 or 1
+reform_share_upzoned,Philadelphia,0.305,0.017,0.941,share 0 to 1
+group_upzoned_from_industrial,Philadelphia,0.0,0.0,0.0,0 or 1
+reform_share_upzoned_from_industrial,Philadelphia,0.0,0.0,0.0,share 0 to 1
+group_upzoned_not_near_transit,Philadelphia,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Philadelphia,0.0,0.0,1.0,0 or 1
+reform_share_reform_density_not_rising,Philadelphia,0.525,0.021,0.937,share 0 to 1
+group_reform_already_allowed,Philadelphia,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Philadelphia,0.0,0.0,0.138,share 0 to 1
+group_reform_other_not_eligible,Philadelphia,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Philadelphia,0.035,0.0,0.337,share 0 to 1
+group_comparison_eligible,Philadelphia,1.0,0.0,1.0,0 or 1
+group_comparison_industrial,Philadelphia,0.0,0.0,0.0,0 or 1
+group_comparison_campus_or_park,Philadelphia,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Philadelphia,0.0,0.0,0.0,0 or 1
+rezoned_later,Philadelphia,0.0,0.0,1.0,0 or 1
+no_reform,Philadelphia,0.0,0.0,0.0,0 or 1
+log_census_homes,Philadelphia,0.662,0.175,1.405,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Philadelphia,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Philadelphia,0.022,0.0,0.141,share 0 to 1
+log_stops_1mile,Philadelphia,2.485,0.0,4.174,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Saint Paul,-2.17,-2.66,-0.081,log of acres
+log_width,Saint Paul,2.505,2.245,3.933,log of metres
+log_dist_station,Saint Paul,5.863,4.581,6.638,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Saint Paul,0.305,0.044,0.929,"rank within city, 0 to 1"
+upzoned,Saint Paul,0.0,0.0,0.0,0 or 1
+rel_gain,Saint Paul,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Saint Paul,0.0,0.0,0.0,0 or 1
+far_now,Saint Paul,0.5,-1.0,2.25,floor area ratio (printed-FAR cities only)
+far_known,Saint Paul,1.0,1.0,1.0,0 or 1
+built_before,Saint Paul,0.0,0.0,0.0,0 or 1
+log_near_before,Saint Paul,0.0,0.0,0.0,"log of (1 + homes per year within 150 m, before)"
+log_rent,Saint Paul,6.953,6.466,7.24,log of 2024 dollars per month
+log_value,Saint Paul,12.534,12.22,12.725,log of 2024 dollars
+log_income,Saint Paul,10.793,10.22,11.343,log of 2024 dollars per year
+rent_to_cost,Saint Paul,1.585,0.975,2.113,ratio (both 2024 dollars)
+pays_room,Saint Paul,1.512,0.0,5.691,log homes room × rent-to-cost
+in_reform,Saint Paul,0.0,0.0,1.0,0 or 1
+group_rare,Saint Paul,0.0,0.0,0.0,0 or 1
+reform_share_rare,Saint Paul,0.0,0.0,0.0,share 0 to 1
+group_upzoned,Saint Paul,0.0,0.0,0.0,0 or 1
+reform_share_upzoned,Saint Paul,0.314,0.314,0.314,share 0 to 1
+group_upzoned_from_industrial,Saint Paul,0.0,0.0,1.0,0 or 1
+reform_share_upzoned_from_industrial,Saint Paul,0.512,0.512,0.512,share 0 to 1
+group_upzoned_not_near_transit,Saint Paul,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Saint Paul,0.0,0.0,0.0,0 or 1
+reform_share_reform_density_not_rising,Saint Paul,0.073,0.073,0.073,share 0 to 1
+group_reform_already_allowed,Saint Paul,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Saint Paul,0.075,0.075,0.075,share 0 to 1
+group_reform_other_not_eligible,Saint Paul,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Saint Paul,0.026,0.026,0.026,share 0 to 1
+group_comparison_eligible,Saint Paul,1.0,0.0,1.0,0 or 1
+group_comparison_industrial,Saint Paul,0.0,0.0,0.0,0 or 1
+group_comparison_campus_or_park,Saint Paul,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Saint Paul,0.0,0.0,0.0,0 or 1
+rezoned_later,Saint Paul,0.0,0.0,0.0,0 or 1
+no_reform,Saint Paul,0.0,0.0,0.0,0 or 1
+log_census_homes,Saint Paul,0.752,0.048,1.654,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Saint Paul,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Saint Paul,0.21,0.022,0.705,share 0 to 1
+log_stops_1mile,Saint Paul,2.197,1.792,2.398,"log of (1 + rail and rapid stops within 1,609 m)"
+log_acres,Seattle,-2.155,-3.234,-1.116,log of acres
+log_width,Seattle,2.724,2.117,3.441,log of metres
+log_dist_station,Seattle,6.171,5.21,6.659,log of (1 + metres to rail or rapid stop)
+level_rank_in_city,Seattle,0.458,0.458,0.936,"rank within city, 0 to 1"
+upzoned,Seattle,0.0,0.0,0.0,0 or 1
+rel_gain,Seattle,0.0,0.0,0.0,after ÷ before − 1 (printed-FAR cities)
+rel_gain_known,Seattle,0.0,0.0,0.0,0 or 1
+far_now,Seattle,-1.0,-1.0,0.5,floor area ratio (printed-FAR cities only)
+far_known,Seattle,1.0,1.0,1.0,0 or 1
+built_before,Seattle,0.0,0.0,0.0,0 or 1
+log_near_before,Seattle,0.154,0.0,2.178,"log of (1 + homes per year within 150 m, before)"
+log_rent,Seattle,7.081,6.633,7.156,log of 2024 dollars per month
+log_value,Seattle,13.081,12.98,13.452,log of 2024 dollars
+log_income,Seattle,11.11,10.81,11.757,log of 2024 dollars per year
+rent_to_cost,Seattle,1.567,1.001,1.706,ratio (both 2024 dollars)
+pays_room,Seattle,0.0,0.0,1.944,log homes room × rent-to-cost
+in_reform,Seattle,0.0,0.0,0.0,0 or 1
+group_rare,Seattle,0.0,0.0,0.0,0 or 1
+reform_share_rare,Seattle,0.0,0.0,0.0,share 0 to 1
+group_upzoned,Seattle,0.0,0.0,0.0,0 or 1
+reform_share_upzoned,Seattle,0.974,0.974,0.981,share 0 to 1
+group_upzoned_from_industrial,Seattle,0.0,0.0,0.0,0 or 1
+reform_share_upzoned_from_industrial,Seattle,0.0,0.0,0.0,share 0 to 1
+group_upzoned_not_near_transit,Seattle,0.0,0.0,0.0,0 or 1
+group_reform_density_not_rising,Seattle,0.0,0.0,0.0,0 or 1
+reform_share_reform_density_not_rising,Seattle,0.007,0.007,0.019,share 0 to 1
+group_reform_already_allowed,Seattle,0.0,0.0,0.0,0 or 1
+reform_share_reform_already_allowed,Seattle,0.0,0.0,0.0,share 0 to 1
+group_reform_other_not_eligible,Seattle,0.0,0.0,0.0,0 or 1
+reform_share_reform_other_not_eligible,Seattle,0.019,0.0,0.019,share 0 to 1
+group_comparison_eligible,Seattle,1.0,0.0,1.0,0 or 1
+group_comparison_industrial,Seattle,0.0,0.0,0.0,0 or 1
+group_comparison_campus_or_park,Seattle,0.0,0.0,0.0,0 or 1
+group_other_not_eligible,Seattle,0.0,0.0,0.0,0 or 1
+rezoned_later,Seattle,0.0,0.0,0.0,0 or 1
+no_reform,Seattle,0.0,0.0,0.0,0 or 1
+log_census_homes,Seattle,0.698,0.181,1.771,"log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)"
+traits_after_reform,Seattle,0.0,0.0,0.0,0 or 1
+share_upzoned_half_mile,Seattle,0.117,0.065,0.24,share 0 to 1
+log_stops_1mile,Seattle,1.946,1.099,2.398,"log of (1 + rail and rapid stops within 1,609 m)"

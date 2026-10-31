@@ -3,7 +3,8 @@
     uv run --all-extras python scripts/run_tod_lot_model_loop.py --round 1
 
 Fast tool: two histogram gradient boosting models (upzoned lots under the rules after; every other lot under the rules
-before), outcome = change in homes per lot on the 5-year basis. Leave-one-city-out over the training and no-reform
+before). Round 1: outcome = change in homes per lot. From round 2 (item 51): outcome = homes after (5-year basis), Poisson
+loss, homes before as a trait. Leave-one-city-out over the training and no-reform
 cities only; Chicago, Madison and Bellevue are never fitted on and never predicted here.
 
 Writes reference/tod_lot_model_loop_round{N}.csv (per city) and prints a summary.
@@ -39,7 +40,9 @@ def main(argv=None) -> None:
     vc = [c for c in D.columns if c.startswith("v_")]
     V = D[vc].replace([np.inf, -np.inf], np.nan)
     Xa, Xb = pd.concat([Xa, V], axis=1), pd.concat([Xb, V], axis=1)
-    dy = (D["ua5"] - D["ub5"]).values
+    y = D["ua5"].clip(lower=0).values   # item 51: homes after, with homes before as a trait
+    Xa["log_before5"] = np.log1p(D["ub5"].values)
+    Xb["log_before5"] = np.log1p(D["ub5"].values)
     w = D["w"].values
     up = (D["treated"] == 1).values
     rows = []
@@ -51,17 +54,17 @@ def main(argv=None) -> None:
             fit = tr & (up == g)
             if fit.sum() < 50:
                 continue
-            m = HistGradientBoostingRegressor(random_state=20261031)
-            m.fit(X[fit], dy[fit], sample_weight=w[fit])
+            m = HistGradientBoostingRegressor(loss="poisson", random_state=20261031)
+            m.fit(X[fit], y[fit], sample_weight=w[fit])
             pm = te & (up == g)
             if pm.any():
                 pred[pm] = m.predict(L.forecast_view(X[pm]))
         ub, ua = D.loc[te, "ub5"].values, D.loc[te, "ua5"].values
         wt, u = w[te], up[te]
         rows.append({"city": c, "lots": int(te.sum()), "upzoned_lots": int(u.sum()),
-                     "before": float(ub @ wt), "actual_after": float(ua @ wt), "model_after": float((ub + pred[te]) @ wt),
+                     "before": float(ub @ wt), "actual_after": float(ua @ wt), "model_after": float(pred[te] @ wt),
                      "upzoned_before": float(ub[u] @ wt[u]), "upzoned_actual_after": float(ua[u] @ wt[u]),
-                     "upzoned_model_after": float((ub[u] + pred[te][u]) @ wt[u])})
+                     "upzoned_model_after": float(pred[te][u] @ wt[u])})
         print(rows[-1], flush=True)
     R = pd.DataFrame(rows)
     R["actual_change"] = R["actual_after"] - R["before"]

@@ -1,0 +1,7 @@
+,Bellevue,Charlotte,Chicago,Columbus placebo,Kansas City placebo,Los Angeles,Madison,Madison placebo,Milwaukee placebo,New York,Philadelphia,Saint Paul,Seattle
+rent,0.0,0.001,0.001,0.004,0.033,0.0,0.0,0.0,0.0,0.02,0.0,0.0,0.0
+home_value,0.0,0.0,0.004,0.005,0.001,0.033,0.03,0.028,0.007,0.039,0.001,0.0,0.0
+income,0.0,0.0,0.0,0.001,0.001,0.0,0.0,0.001,0.0,0.006,0.0,0.0,0.0
+far_before,0.0,0.0,0.075,1.0,1.0,0.004,0.058,0.0,0.0,0.012,0.003,0.015,0.0
+census_homes,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dist_station_m,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
