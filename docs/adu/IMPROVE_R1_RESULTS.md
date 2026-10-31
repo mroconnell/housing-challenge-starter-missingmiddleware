@@ -59,6 +59,20 @@ Measured from Austin's secondary-apartment permits issued since 2012 (3,104 perm
 | Completed two or more years later | 20% |
 | Permits issued 2012–2021 that were completed | 97% |
 
+**California check (added 2026-10-31 at the owner's suggestion).** The state's Annual Progress Reports give a permit date and a completion date for each ADU. Linking 2018–2023 permits to later completions on the same parcel (`reference/adu_completion_lag_ca.csv`):
+
+| Share of permits completed by the end of… | 2018 permits | 2021 permits |
+| --- | ---: | ---: |
+| the permit's own calendar year | 14% | 16% |
+| the next calendar year | 47% | 49% |
+| two years later | 59% | 62% |
+| three years later | 64% | 67% |
+| seven years later | 70% | n/a |
+
+- **About half are finished by the end of the next calendar year,** then a tail follows for years. Completed ADUs took a median of 0.94–0.99 years.
+- **Shares are lower bounds.** Some completions are not reported, or the parcel number changes, so they do not link.
+- **Both Austin and California put the modal completion in the next calendar year.** So a one-year shift is still the best single-year match for Vermont. A full conversion would spread each year's completions back over several permit years.
+
 So most ADUs are finished the calendar year after their permit, and almost all permits become homes. Counting Vermont's homes one year earlier is the best single-year match. This check was added after the V1 result was seen (see the plan's "Changes after writing").
 
 ## 4. Data checks (flags; nothing was stopped)
