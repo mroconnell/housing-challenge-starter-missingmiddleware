@@ -46,7 +46,7 @@ def score(pred: np.ndarray, act: np.ndarray) -> dict:
                 total_ratio=float(pred.sum() / max(act.sum(), 1e-9)), n=int(len(act)))
 
 
-def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits: pd.DataFrame) -> pd.DataFrame:
+def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits: pd.DataFrame, pop_acs: pd.Series | None = None) -> pd.DataFrame:
     tot = p.pivot_table(index="key", columns="year", values="units_total", aggfunc="sum")
     mf = p.pivot_table(index="key", columns="year", values="units_2plus", aggfunc="sum")
     pop = p.pivot_table(index="key", columns="year", values="pop", aggfunc="first", dropna=False).reindex(tot.index)
@@ -61,6 +61,12 @@ def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits:
         k = tot.index[ok]
         since = tot.loc[k, [y for y in years if t < y <= 2024]].sum(axis=1).fillna(0)
         h = (homes_acs.reindex(k) - since).clip(lower=homes_acs.reindex(k) * 0.5)
+        if ROUND >= 4:
+            # audit leak fix: the back-cast above subtracts permits from the outcome years. Homes at the origin are now
+            # the Census population estimate for the origin year (BPS) times the place's homes per resident in ACS 2020-24.
+            pt = pop.reindex(k)[t]
+            pt = pt.where((pt > 0) & (pt != 99999))
+            h = pt * (homes_acs.reindex(k) / pop_acs.reindex(k).where(pop_acs.reindex(k) > 0))
         d = pd.DataFrame(index=k)
         d["origin"] = t
         d["homes"] = h
@@ -79,7 +85,7 @@ def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits:
         d["pop_growth"] = np.log(pop.reindex(k)[t].clip(lower=1) / pop.reindex(k)[t - 4].clip(lower=1))
         d["actual"] = tot.loc[k, fut].mean(axis=1) if len(fut) == 5 else np.nan
         d = d.join(info)
-        d = d[d["homes"] >= MIN_HOMES]
+        d = d[d["homes"].notna() & (d["homes"] >= MIN_HOMES)]
         ry = d.index.map(lambda q: reform_year.get(q, 9999))
         d["reform_year"] = ry
         # never reformed, or every outcome year before the repeal; undated reforms (-1) never qualify
@@ -256,7 +262,13 @@ def prepare():
         if y is not None:
             reform_year[k] = min(reform_year.get(k, 9999), y)
 
-    R = build_rows(p, homes_acs, reform_year, traits)
+    pop_acs = geo["acs_geoid"].map(rpc.acs_table(RAW / "census_acs5_2024_tbsf" / "acsdt5y2024-b01003.dat", "B01003_E001"))
+    if ROUND >= 3:  # NYC boroughs: county population, matching their county homes
+        cp = pd.read_csv(RAW / "census_acs5_2024_tbsf" / "acsdt5y2024-b01003.dat", sep="|", dtype=str)
+        cp = cp[cp["GEO_ID"].str.startswith("0500000US")].set_index("GEO_ID")["B01003_E001"].astype(float)
+        for k in geo.index[geo["acs_geoid"].eq("160|3651000")]:
+            pop_acs[k] = cp.get("0500000US36" + geo.loc[k, "county_fips"].zfill(3), np.nan)
+    R = build_rows(p, homes_acs, reform_year, traits, pop_acs)
     R["estimated_months"] = [sum(1 for y in range(o - 4, o + 6) if months.get((k, y), 12) < 12)
                              for k, o in zip(R["key"], R["origin"])]
     return R, reform_year, months, geo, shared, shared_keys
@@ -361,7 +373,8 @@ def main() -> None:
     # the shared baseline's flat 3-year total with Census as published (118,822 units, 2027-2031)
     m0 = W.set_index(["origin", "model"])["five_year_total"].xs("M0 flat 3-year", level="model")
     W["vs_M0"] = W["five_year_total"] / W["origin"].map(m0)
-    W["wisconsin_2027_2031_scaled"] = np.where(W["origin"] == 2025, W["vs_M0"] * 118_822, np.nan)
+    W["wisconsin_2027_2031_scaled_to_122619_central"] = np.where(W["origin"] == 2025, W["vs_M0"] * 122_619, np.nan)
+    W["wisconsin_2027_2031_scaled_to_118822_as_published"] = np.where(W["origin"] == 2025, W["vs_M0"] * 118_822, np.nan)
     W.to_csv(REFERENCE / f"parking_no_reform_wisconsin{TAG}.csv", index=False)
 
     main_t = S[S["test"] == "held-out places, later years"]

@@ -27,7 +27,7 @@ Gate 2 settles whether the data are good enough to build the scenario, and which
 - **Central:** no measurable change from current law, so 0 additional permits over 2027–2031.
 - **Upper, "the high end of the likely range":** +2.21 permits per 1,000 existing homes per year.
   - Wisconsin has 2,684,793 existing homes outside the 9 places already at the benchmark (2,778,572 statewide minus 93,779).
-  - So the upper case is about 5,933 more permits per year, or about 29,700 over 2027–2031. That is 25% more than the baseline's 118,822 permits.
+  - So the upper case is about 5,933 more permits per year, or about 29,700 over 2027–2031. That is 25% more than the baseline's 118,822 permits. (118,822 was baseline version 1; it is now the "Census as published" sensitivity, and the current central is 122,619. Note added 2026-10-31.)
   - It depends on San Francisco, which carries a quarter of the weight. Without it, the high end is +3.11, or about 41,700 over five years.
   - The apartments-only high end (+1.06 per 1,000 homes, counting only units in buildings of 2+ units) gives about 14,200.
 - **No case below zero:** a repeal never subtracts.
