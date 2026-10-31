@@ -24,3 +24,18 @@ No model change came out of this round.
 ## Note on overlap with the all-housing baseline
 
 The Census permit survey often does not count ADUs (conversions and units in existing buildings). So most ADU permits are on top of the 122,619, not inside it. The share column is a scale, not a part of a whole.
+
+## Round 2: clean rerun, every outlier verified (Ryan's stopping rule)
+
+Rerun of the same checks with the fixed check. **No errors.** Net added permits unchanged: 6,223 / 10,349 / 19,294. Each outlier was checked against the source tables:
+
+| Outlier | What it is | Verified against |
+| --- | --- | --- |
+| 8 highest additions, all 3.21 permits per 1,000 single-family homes per year (Chenequa, Shorewood Hills, Lac La Belle ×2, Oconomowoc Lake, Manitowish Waters, Bayside, Maple Bluff) | Very high-value places held at the value cap (AQ-061) | The same 8 area ids are the 8 rows of `reference/adu_model_value_capped_places.csv` |
+| Bayside with 46 homes; Lac La Belle with 1 | Village pieces in a second county (Bayside: Milwaukee County 1,345 homes, Ozaukee County 46; Lac La Belle: Waukesha 110, Jefferson 1) | `engine_areas.parquet` and `foundation/areas.parquet` |
+| Lowest additions among places with 1,000+ homes (Antigo, Menominee, Clintonville, Marinette 0.38–0.45) | Lowest home values in the state, so the value-based spread gives them the least | Their uncoded current rate is the common 0.076 (below) |
+| Madison's low addition (0.42) | Madison follows the Madison-like cities' path, and its own measured rate is already high (owner decision, Gate 4) | `adu_model_params.json` area path |
+| Highest current-law rates: 0.278 (Wauwatosa, Appleton, Madison) and 0.128 (Milwaukee) | Benchmark-group rate 0.1876 (Madison 2022–2025: 40 permits ÷ 213.2 thousand home-years) and Milwaukee's measured 0.0863, each × the average no-reform trend over 2027–2031 (×1.48) | `wi_baseline_rates_by_group.csv`, `wi_baseline_observed.csv`, `adu_no_reform_trend.csv` |
+| Uncoded places' current-law rate 0.076 | Restricted-group rate 0.0515 × 1.48 | `wi_baseline_rates_by_group.csv` |
+
+Stopping rule met: a round with no errors and every outlier explained and verified.
