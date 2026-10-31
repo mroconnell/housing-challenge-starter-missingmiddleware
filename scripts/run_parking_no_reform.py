@@ -93,6 +93,11 @@ def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits:
     r["size_class"] = pd.cut(r["homes"], [0, 5_000, 20_000, 100_000, np.inf], labels=False)
     r["log_homes"] = np.log(r["homes"])
     r = r.merge(traits, left_on="key", right_index=True, how="left")
+    if ROUND >= 2:  # round 2: regressions see log rates and a clipped trend (round 1 regressions were unstable)
+        for c in ("rate_1y", "rate_3y", "rate_5y"):
+            r[c] = np.log1p(r[c].clip(lower=0))
+        lo, hi = r["trend"].quantile([0.01, 0.99])
+        r["trend"] = r["trend"].clip(lo, hi)
     return r
 
 
@@ -102,7 +107,8 @@ ACS = ["income", "renter_share", "vacancy", "pre1980"]
 
 
 def m2_shrunk(fit: pd.DataFrame, new: pd.DataFrame) -> np.ndarray:
-    """Empirical Bayes: each place's 3-year rate pulled toward its division x size-class mean at the same origin."""
+    """Empirical Bayes: each place's 3-year rate pulled toward its division x size-class mean at the same origin.
+    `fit` here is the pool of training places (past permits only, known at the origin)."""
     rates = new[["u2", "u3", "u4"]].values / new["homes"].values[:, None] * 1000
     s2 = rates.var(axis=1, ddof=1) / 3
     out = np.empty(len(new))
@@ -110,6 +116,9 @@ def m2_shrunk(fit: pd.DataFrame, new: pd.DataFrame) -> np.ndarray:
         pool = fit[(fit["origin"] == o) & (fit["division"] == dv) & (fit["size_class"] == sc)]
         if len(pool) < 5:
             pool = fit[(fit["origin"] == o) & (fit["size_class"] == sc)]
+        if pool["homes"].sum() <= 0:
+            out[idx] = new["units_3y"].values[idx]
+            continue
         pr = pool[["u2", "u3", "u4"]].values / pool["homes"].values[:, None] * 1000
         m = np.average(pr.mean(axis=1), weights=pool["homes"])
         tau2 = max(np.var(pr.mean(axis=1)) - np.mean(pr.var(axis=1, ddof=1) / 3), 1e-6)
@@ -162,11 +171,11 @@ def choose(fit, cols, kind, seed):
     return best, bs
 
 
-def predict_all(fit, new, seed, choices=None, fake=False):
+def predict_all(fit, new, seed, choices=None, fake=False, pool=None):
     """Every model's prediction for `new`, fitted on `fit`. Returns dict model -> array, and the choices made."""
     out = {"M0 flat 3-year": new["units_3y"].values,
            "M1 flat 3-year x state momentum": (new["units_3y"] * new["state_fips_momentum"].fillna(1)).values,
-           "M2 shrunk 3-year": m2_shrunk(fit, new)}
+           "M2 shrunk 3-year": m2_shrunk(fit if pool is None else pool, new)}
     choices = choices or {}
     extra = ["fake_reform"] if fake else []
     for name, kind, cols in (("M3a regression", "glm", BASE + extra), ("M3b regression + ACS", "glm", BASE + ACS + extra),
@@ -199,6 +208,12 @@ def main() -> None:
     traits = pd.DataFrame({"income": inc, "renter_share": rent / own.replace(0, np.nan), "vacancy": vac / homes_acs,
                            "pre1980": geo["acs_geoid"].map(old / yb.replace(0, np.nan))})
     homes_acs = homes_acs[homes_acs > 0]
+    # round 2: BPS keys sharing one ACS geography get the whole geography's homes (e.g. each NYC borough had all of
+    # New York City's 3.7 million homes); they are left out and listed
+    shared = geo.groupby("acs_geoid")["name"].transform("size") > 1
+    shared_keys = geo.index[shared]
+    if ROUND >= 2:
+        homes_acs = homes_acs.drop(shared_keys, errors="ignore")
 
     # reform dates: material entries (V7 coding) plus state laws (V7s)
     tax = pd.read_csv(REFERENCE / "parking_reform_taxonomy.csv")
@@ -221,9 +236,11 @@ def main() -> None:
     train = R[R["no_reform"]].copy()
     flags = checks.unit_ranges(train, {"rate_3y": ("permits per 1,000 existing homes per year", 0.0, 200.0),
                                        "actual": ("permits per place per year", 0.0, 50_000.0)})
-    flags += [dict(check="homes floored at half of ACS", row=int(train["homes_floored"].sum()), detail="place-origin rows")]
-    flags += [dict(check="estimated permit months in window", row=int((train["estimated_months"] > 0).sum()),
-                   detail="place-origin rows with at least one estimated year")]
+    flags += [dict(check="homes floored at half of ACS", where="training rows", value=int(train["homes_floored"].sum()), note="place-origin rows")]
+    flags += [dict(check="estimated permit months in window", where="training rows", value=int((train["estimated_months"] > 0).sum()),
+                   note="place-origin rows with at least one estimated year")]
+    flags += [dict(check="BPS keys sharing one ACS geography", where=", ".join(geo.loc[shared_keys, "name"].head(12)),
+                   value=len(shared_keys), note="left out from round 2" if ROUND >= 2 else "kept in round 1")]
 
     places = train.drop_duplicates("key")[["key", "division", "state_fips"]]
     score_rows, kept_rows, choices_log = [], [], []
@@ -248,7 +265,7 @@ def main() -> None:
         choices = None
         for name, te in tests.items():
             te = te[te["actual"].notna()]
-            preds, choices = predict_all(fit, te, seed, choices, fake=True)
+            preds, choices = predict_all(fit, te, seed, choices, fake=True, pool=T[T["key"].isin(tr_keys)])
             for mname, pr in preds.items():
                 if "fake on-off" in mname:
                     score_rows.append(dict(seed=seed, test=name, model=mname, median_abs_log=np.nan,
@@ -289,21 +306,26 @@ def main() -> None:
     wi_rows = []
     for o in (2019, 2025):
         te = R[(R["state_fips"] == WI) & (R["origin"] == o)].assign(fake_reform=0)
-        preds, _ = predict_all(allfit, te, SEEDS[0])
+        preds, _ = predict_all(allfit, te, SEEDS[0], pool=train[train["state_fips"] != WI])
         for mname, pr in preds.items():
             row = dict(origin=o, model=mname, places=len(te), five_year_total=float(pr.sum() * 5))
             if o == 2019:
                 row.update(actual_five_year=float(te["actual"].sum() * 5), **score(pr, te["actual"].values))
             wi_rows.append(row)
     W = pd.DataFrame(wi_rows)
+    # coverage: the places here hold part of Wisconsin's permits, so each model is also shown as its ratio to M0 times
+    # the shared baseline's flat 3-year total with Census as published (118,822 units, 2027-2031)
+    m0 = W.set_index(["origin", "model"])["five_year_total"].xs("M0 flat 3-year", level="model")
+    W["vs_M0"] = W["five_year_total"] / W["origin"].map(m0)
+    W["wisconsin_2027_2031_scaled"] = np.where(W["origin"] == 2025, W["vs_M0"] * 118_822, np.nan)
     W.to_csv(REFERENCE / f"parking_no_reform_wisconsin{TAG}.csv", index=False)
 
     main_t = S[S["test"] == "held-out places, later years"]
     worst_model = main_t.groupby("model")["median_abs_log"].mean().idxmin()
     k0 = K[(K["model"] == worst_model) & (K["seed"] == SEEDS[0])].assign(miss=lambda d: d["pred"] - d["actual"])
     w = k0.loc[k0["miss"].abs().idxmax()]
-    flags += [dict(check="worst miss (units per year)", row=f"{w['name']} {w['key']} origin {w['origin']}",
-                   detail=f"{worst_model}: predicted {w['pred']:.0f}, actual {w['actual']:.0f}, homes {w['homes']:.0f}")]
+    flags += [dict(check="worst miss (units per year)", where=f"{w['name']} {w['key']} origin {w['origin']}", value=round(float(w["miss"])),
+                   note=f"{worst_model}: predicted {w['pred']:.0f}, actual {w['actual']:.0f}, homes {w['homes']:.0f}")]
     checks.report(flags, REFERENCE / f"parking_no_reform_checks{TAG}.csv")
 
     pd.set_option("display.width", 220)

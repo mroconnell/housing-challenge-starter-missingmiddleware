@@ -1,0 +1,5 @@
+check,where,column,value,note
+value outside unit range,all rows,rate_3y,123.0,"permits per 1,000 existing homes per year: expected 0.0 to 200.0; 123 of 83220 rows outside"
+homes floored at half of ACS,,,,
+estimated permit months in window,,,,
+worst miss (units per year),,,,
