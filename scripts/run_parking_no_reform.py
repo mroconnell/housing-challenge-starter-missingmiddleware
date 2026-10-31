@@ -67,6 +67,11 @@ def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits:
             pt = pop.reindex(k)[t]
             pt = pt.where((pt > 0) & (pt != 99999))
             h = pt * (homes_acs.reindex(k) / pop_acs.reindex(k).where(pop_acs.reindex(k) > 0))
+        if ROUND >= 5:
+            # BPS population is the last decennial count (2010 until 2021, 2020 from 2022; checked: 94% of places
+            # unchanged 2013-2021). Add the permits issued since that census, up to the origin (round 5).
+            base = 2010 if t <= 2021 else 2020
+            h = h + tot.loc[k, [y for y in years if max(base, 2012) <= y <= t]].sum(axis=1).fillna(0)
         d = pd.DataFrame(index=k)
         d["origin"] = t
         d["homes"] = h

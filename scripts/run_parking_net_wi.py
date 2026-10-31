@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROUND = int(sys.argv[sys.argv.index("--round") + 1]) if "--round" in sys.argv else 1
 _argv = sys.argv
-sys.argv = [sys.argv[0], "--round", "4"]  # the no-reform model's round 4 data (leak fixed)
+sys.argv = [sys.argv[0], "--round", "5"]  # the no-reform model's round 5 data (leak fixed; census-year population plus permits since)
 import run_parking_no_reform as NR  # noqa: E402
 sys.argv = _argv
 from missing_middleware.parking import checks  # noqa: E402
@@ -105,7 +105,9 @@ def main() -> None:
         chg = (fd["actual"] - fd["units_3y"]) / fd["homes"] * 1000
         on_rows = fd[fd["reform"] == 1]
         top = on_rows.assign(chg=chg[fd["reform"] == 1]).sort_values("chg", ascending=False).head(3)
+        wch = lambda m: float(np.average(chg[m], weights=fd.loc[m, "homes"]))  # noqa: E731
         fake_trace.append(dict(seed=seed, fake_rows=len(on_rows), fake_change=float(chg[fd["reform"] == 1].mean()),
+                               fake_change_w=wch(fd["reform"] == 1), other_change_w=wch(fd["reform"] == 0),
                                other_change=float(chg[fd["reform"] == 0].mean()),
                                top=", ".join(f"{r.name} {r.chg:+.0f}" for r in top.itertuples())))
         for name, (kind, cols) in COLS.items():
@@ -138,7 +140,7 @@ def main() -> None:
     for t in fake_trace:
         flags.append(dict(check="fake-reform rows vs the rest (change per 1,000 homes per year)", where=f"seed {t['seed']}",
                           value=round(t["fake_change"] - t["other_change"], 2),
-                          note=f"{t['fake_rows']} fake rows: {t['fake_change']:+.2f} vs {t['other_change']:+.2f}; fastest: {t['top']}"))
+                          note=f"{t['fake_rows']} fake rows: {t['fake_change']:+.2f} vs {t['other_change']:+.2f} (home-weighted {t['fake_change_w']:+.2f} vs {t['other_change_w']:+.2f}); fastest: {t['top']}"))
     fk = N[N["model"].str.contains("fake")]
     for r in fk.itertuples():
         flags.append(dict(check="fake-reform Wisconsin net by seed", where=r.model, column="homes 2027-2031",

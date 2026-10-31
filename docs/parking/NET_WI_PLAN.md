@@ -51,3 +51,7 @@ Written 2026-10-31 by the parking conductor. Ryan asked all three scenarios to r
 - **2026-10-31, round 4 checks → round 5 (before round 5 ran):**
   - **Round 4 had no coding errors.** It was rerun with a different Python hash seed and gave identical results: the fake nets are now reproducible.
   - **One outlier is not yet verified.** The trees' fake-reform Wisconsin net is 0 in 3 seeds, but about 10,500–10,900 homes in 2 (seeds 20261033 and 20261034). Round 5 records, for each seed, how the fake-reform rows' change in permits compares with the rest's, and which fake places grew fastest. Nothing else changes.
+- **2026-10-31, round 5 checks → round 6 (before round 6 ran):**
+  - **Fake-reform outlier, seed 20261034, explained:** its fake rows grew 32.8 more permits per 1,000 homes per year than the rest (+32.78 against +3.05). Most of the gap is Hardeeville, SC (+542, +462, +389). It is a real boom, enlarged by a stale population (see the no-reform plan, round 5). The trees learned "fake = fast growth".
+  - **Seed 20261033 is not explained by the plain average** (−0.32). Round 6 adds the home-weighted average.
+  - Round 6 uses the no-reform model's round 5 data.
