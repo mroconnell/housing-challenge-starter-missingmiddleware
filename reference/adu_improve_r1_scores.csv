@@ -1,0 +1,6 @@
+variant,label,rms_m1_plain_average,rms_m2_median,rms_m3_adopted,worst_state_m3,worst_log_error_m3,lower_additional_5yr,central_additional_5yr,upper_additional_5yr,reference_line_additional_5yr,baseline_5yr
+V0,current data,0.3188,0.2303,0.1684,VT,0.3311,6803.6707,10679.2148,19534.9446,10374.3,530.0658
+V1,Vermont by permit year (counts one year earlier),0.3089,0.2162,0.1354,OR,0.2356,6790.2401,10833.5288,19518.7865,10848.7,530.0658
+V2,Maine homes share 0.62,0.338,0.2571,0.2067,VT,0.3544,6803.6707,10906.7442,20313.4789,10374.3,530.0658
+V3,Rhode Island 2021-2022 homes share 0.8704,0.3188,0.2303,0.1695,VT,0.3335,6892.8292,10698.531,19458.1282,10374.3,530.0658
+V4,V1 + V2 + V3,0.3275,0.2436,0.1786,ME,-0.2899,6878.3328,11082.9166,20180.1466,10848.7,530.0658

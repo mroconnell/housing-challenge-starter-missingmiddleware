@@ -1,0 +1,2 @@
+city,permits_issued,permits_completed,completed_share_issued_2012_2021,median_lag_years,p25_lag_years,p75_lag_years,share_completed_same_calendar_year,share_completed_next_calendar_year,share_completed_2plus_years_later
+Austin,3104,2950,0.9682,0.9719,0.7064,1.3272,0.1607,0.6349,0.2044

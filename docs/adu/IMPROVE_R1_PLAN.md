@@ -46,4 +46,4 @@ Written 2026-10-31 by the ADU conductor, under Ryan's standing ask: improve the 
 
 ## Changes after writing
 
-None yet.
+- **2026-10-31, after the V1 result was seen:** added a measured check of the one-year Vermont shift. It measures how long ADUs take from permit to completion in Austin, the only comparison city whose public permit file gives both dates (`scripts/run_adu_completion_lag.py`). It does not change V1; it tests V1's assumption.

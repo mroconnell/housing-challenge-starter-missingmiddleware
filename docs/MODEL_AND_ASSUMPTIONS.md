@@ -241,6 +241,24 @@ Percentages are of the adopted central total with the law, 11,209.3 permits.
 
 **Robustness checks** (alternative methods scored on the 7 held-out non-California statewide-law states; average log error, lower is better): the adopted measure, ADU units per one-unit detached home, scores 0.168 after AQ-064 (0.180 after AQ-061; 0.113 before AQ-061). The alternatives were scored at Gate 3 and not rerun: permits instead of units 0.132; the eligible-property basis 0.168 without and 0.202 with attached homes.
 
+#### Held-out test: predicting a state the model never saw
+
+Each of the 7 non-California statewide-law states is left out in turn. The model is refitted on the rest and predicts the left-out state's ADU permits per 1,000 single-family homes per year over its law years. Log error = log(predicted ÷ observed); +0.10 is about 10% too high. Details: [IMPROVE_R1_RESULTS.md](adu/IMPROVE_R1_RESULTS.md).
+
+| State | Observed rate | Adopted model | Plain average of the other states | Median of the other states |
+| --- | ---: | ---: | ---: | ---: |
+| Washington | 0.77 | +0.07 | +0.52 | +0.37 |
+| Oregon | 0.87 | +0.20 | +0.42 | +0.31 |
+| Rhode Island | 1.13 | −0.12 | +0.16 | +0.04 |
+| Massachusetts | 1.01 | +0.02 | +0.28 | +0.16 |
+| Maine | 1.24 | −0.15 | +0.05 | −0.11 |
+| Utah | 1.29 | −0.07 | +0.01 | −0.14 |
+| Vermont | 0.90 | +0.33 | +0.41 | +0.28 |
+| **Root mean square** | | **0.168** | 0.319 | 0.230 |
+
+- **Vermont's outcome differs.** It counts ADUs when built, not when permitted. Most ADUs are finished the calendar year after their permit (63% of Austin's; median 0.97 years). Counted one year earlier, Vermont's miss falls to +0.19, the root mean square to 0.135, and the central rises from 10,679 to 10,834 additional permits. Left out entirely, the central is 11,016. Not adopted; awaiting the owner's decision (improvement loop round 1).
+- **Maine's reporting share is a share of people** (0.73), because its town list is not published. A homes share of about 0.62 is likely; it would raise the central to 10,907 and the upper to 20,313.
+
 #### Testing more advanced models
 
 We tested whether flexible models predict ADU permits better than this model. The test was written down before any results were seen ([PREDICTIVE_PLAN.md](adu/PREDICTIVE_PLAN.md), [PREDICTIVE_RESULTS.md](adu/PREDICTIVE_RESULTS.md)).
