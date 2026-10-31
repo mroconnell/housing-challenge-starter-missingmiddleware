@@ -44,8 +44,9 @@ HOLD = ("Chicago", "Madison", "Bellevue")
 FAR_CITIES = ("New York", "Chicago", "Saint Paul", "Seattle")   # levels are printed floor area ratios. Bellevue out: 0/1 flags (item 18); Madison out: stories x 0.70, i.e. height (item 34)
 LEVEL_SOURCE = {"New York": "printed FAR", "Chicago": "printed FAR", "Saint Paul": "printed FAR", "Seattle": "printed FAR",
                 "Madison": "height", "Charlotte": "height", "Philadelphia": "district order", "Los Angeles": "district order",
-                "Bellevue": "in/out flag", "Milwaukee": "homes per acre"}
-STATE = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Seattle": "53",
+                "Bellevue": "in/out flag", "Milwaukee": "homes per acre", "Madison placebo": "homes per acre",
+                "Milwaukee placebo": "homes per acre"}
+STATE = {"Madison placebo": "55", "Milwaukee placebo": "55", "New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Seattle": "53",
          "Los Angeles": "06", "Chicago": "17", "Madison": "55", "Bellevue": "53"}
 
 
@@ -404,7 +405,8 @@ def values() -> None:
 
 BPS_NAME = {"New York": ("36", "New York"), "Philadelphia": ("42", "Philadelphia"), "Charlotte": ("37", "Mecklenburg County"),
             "Saint Paul": ("27", "St. Paul"), "Seattle": ("53", "Seattle"), "Los Angeles": ("06", "Los Angeles"),
-            "Chicago": ("17", "Chicago"), "Madison": ("55", "Madison"), "Bellevue": ("53", "Bellevue")}
+            "Chicago": ("17", "Chicago"), "Madison": ("55", "Madison"), "Bellevue": ("53", "Bellevue"),
+            "Madison placebo": ("55", "Madison"), "Milwaukee placebo": ("55", "Milwaukee")}
 
 
 def cost_per_home(city: str, year: int) -> float:
@@ -732,7 +734,7 @@ def qualifying_stops_5070() -> np.ndarray:
     g = pd.DataFrame(json.load(open(cache)))
     print("G Line stations found:", g["stop_name"].nunique(), "of", len(G_LINE), flush=True)
     w = pd.read_csv(REFERENCE / "tod_stops.csv")
-    w = w[(w["flag_a_rapid"] == 1) & (w["agency"] == "City of Madison")]
+    w = w[(w["flag_a_rapid"] == 1)]   # Wisconsin rail and rapid stops (Madison; Milwaukee for the item 37 placebo)
     lat += list(g.stop_lat) + list(w.lat)
     lon += list(g.stop_lon) + list(w.lon)
     p = gpd.GeoSeries(gpd.points_from_xy(lon, lat), crs=4326).to_crs(5070)
@@ -748,7 +750,8 @@ def half_mile() -> None:
     D["dist_station_m"] = st.query(xy)[0]
     D["stops_1mile"] = [len(n) for n in st.query_ball_point(xy, r=1609)]
     before = D.groupby(["city", "treated"]).size()
-    D = D[D["dist_station_m"] <= 805].copy()
+    if not FIT.get("item37"):
+        D = D[D["dist_station_m"] <= 805].copy()   # item 14; item 37.1 stops trimming
     share = np.full(len(D), np.nan)
     D = D.reset_index(drop=True)
     for unit, ix in D.groupby("unit").groups.items():
@@ -1000,7 +1003,7 @@ def spread_assembly() -> None:
                 poly = P.geometry.iloc[site]
                 for i in g.index:
                     u = D.at[i, "unit"]
-                    sib = D.index[(D["unit"] == u)]
+                    sib = D.index[(D["unit"] == u) & (D["treated"] == D.at[i, "treated"])]   # item 37.5: within the group
                     sib = sib[pts.reindex(sib).within(poly).fillna(False).values]
                     if len(sib) <= 1:
                         continue
@@ -1011,10 +1014,85 @@ def spread_assembly() -> None:
                     D.loc[sib, "assembled_site"] = 1.0
                     moved[col] += h * (1 - a.get(i, 0) / a.sum())
         print(col, "homes spread to other day-one lots:", round(moved[col]), flush=True)
-    D["builds_after"] = (D["units_after"] > 0.5).astype(float)
-    D["built_before"] = (D["units_before"] > 0.5).astype(float)
+    D["builds_after"] = (D["units_after"] > 0).astype(float)
+    D["built_before"] = (D["units_before"] > 0).astype(float)
     D.to_parquet(PATHS["half"])
     print("lots marked part of an assembled site:", int(D["assembled_site"].sum()))
+
+
+PLACEBO = {"Madison placebo": 2017, "Milwaukee placebo": 2019}   # plan section 9, item 37.3: pretend reform years
+
+
+def add_placebo() -> None:
+    """Plan section 9, item 37.3: no-reform lots (Madison outside its 2023 overlay; Milwaukee), law-area lots of the
+    Wisconsin station-area build, with homes in 6 pretend-before and 6 pretend-after years. treated = 0 everywhere."""
+    import importlib.util as ilu
+    spec = ilu.spec_from_file_location("run_tod_lot_model_wisconsin", ROOT / "scripts" / "run_tod_lot_model_wisconsin.py")
+    W = ilu.module_from_spec(spec)
+    spec.loader.exec_module(W)
+    from missing_middleware.tod import madison_test as MT
+    S = W._load("build_tod_station_areas")
+    stops = S.stop_points()
+    frames = []
+    for city, yr in PLACEBO.items():
+        years = list(range(yr - 6, yr + 6))
+        W.BEFORE = years
+        if city.startswith("Madison"):
+            MT.BEFORE, MT.SHOWN = years[:6], [years[-1]]
+            rules = S.read_rules("madison")
+            p = S.load_madison({r["district"] for r in rules})
+            p = p[~p["in_overlay"].astype(bool)]          # outside the 2023 overlay
+            built = W.built_points_madison(p.crs)
+        else:
+            rules = S.read_rules("milwaukee")
+            p = S.load_milwaukee()
+            built = W.built_points_milwaukee(p.crs)
+        c = S.compute(p, city.split()[0] + " city", rules, stops)
+        c = gpd.GeoDataFrame(c, geometry="geometry", crs=p.crs)
+        d = pd.DataFrame(index=c.index)
+        d["city"], d["unit"], d["eff_year"] = city, city.lower().replace(" ", "_"), yr
+        p5070 = gpd.GeoSeries(c["pt"].values, crs=p.crs).to_crs(5070)
+        d["x5070"], d["y5070"] = p5070.x.values, p5070.y.values
+        d["width_m"] = W.width(c.geometry)
+        d["acres"] = c["acres"].values
+        el = c["eligible"].astype(bool)
+        d["treated"], d["in_reform"], d["comparison_eligible"] = 0.0, 0.0, el.astype(float).values
+        cls = c["use_class"].astype(str).str.lower()
+        g = pd.Series("other_not_eligible", index=c.index, dtype=object)
+        g[el] = "comparison_eligible"
+        g[~el & cls.str.contains("industr")] = "comparison_industrial"
+        g[~el & cls.str.contains("institution|park|govern|exempt")] = "comparison_campus_or_park"
+        d["lot_group"] = g.values
+        sq = float(c["sqft_per_home"].iloc[0])
+        d["far_before"] = (c["current_allowed_homes"] * sq / (c["acres"] * 43560)).values
+        d["far_gain"] = 0.0
+        d["level_source"], d["level_flag"], d["rezoned_later"] = "homes per acre", "", 0.0
+        d["use"] = "unknown"
+        b = built.to_crs(5070)
+        b = b[b["year"].isin(years)]
+        j = gpd.sjoin(b, c[["geometry"]].to_crs(5070), predicate="within")
+        bb = j[j["year"] < yr].groupby("index_right")["units"].sum()
+        aa = j[j["year"] > yr].groupby("index_right")["units"].sum()   # after = the 5 years after the pretend year, as in the cases
+        d["units_before"] = bb.reindex(d.index).fillna(0).values
+        d["units_after"] = aa.reindex(d.index).fillna(0).values
+        yrs = j.groupby(["index_right", "year"])["units"].sum().reset_index()
+        yrs["s"] = yrs["year"].astype(int).astype(str) + ":" + yrs["units"].round(0).astype(int).astype(str)
+        d["permit_years"] = yrs.groupby("index_right")["s"].agg(";".join).reindex(d.index).fillna("").values
+        d["window_first"], d["window_last"] = years[0], years[-1]
+        d["builds_after"] = (d["units_after"] > 0).astype(float)
+        d["built_before"] = (d["units_before"] > 0).astype(float)
+        from scipy.spatial import cKDTree
+        bb_pts = b[b["year"] < yr]
+        t = cKDTree(np.c_[bb_pts.geometry.x, bb_pts.geometry.y]) if len(bb_pts) else None
+        d["near_units_before"] = ([float(bb_pts["units"].values[n].sum()) for n in t.query_ball_point(np.c_[d.x5070, d.y5070], r=150)]
+                                  if t is not None else 0.0)
+        d["placebo"] = 1.0
+        print(city, len(d), "lots; homes before", int(d.units_before.sum()), "after", int(d.units_after.sum()), flush=True)
+        frames.append(d.reset_index(drop=True))
+    D = pd.read_parquet(PATHS["lots"])
+    D = D[~D["city"].isin(list(PLACEBO))]
+    D = add_group_shares(pd.concat([D] + frames, ignore_index=True))
+    D.to_parquet(PATHS["lots"])
 
 
 def sanity_flags(stage: str) -> None:
@@ -1138,10 +1216,10 @@ def fit8(tlearner: bool = False) -> None:
             scale = kind in ("wls", "lasso", "elastic_net", "knn")
             sc = StandardScaler().fit(Xb.loc[tr]) if scale else None
             T = (lambda X: sc.transform(X)) if scale else (lambda X: X)  # noqa: E731
-            out = []
+            out, models = [], {}
             for g in (1, 0):
                 ix = tr[(D.loc[tr, "treated"] == g).values]
-                if g == 0 and FIT.get("item32") and "comparison_eligible" in D:   # item 32.4: same lots as the yardstick
+                if g == 0 and FIT.get("item32") and not FIT.get("item37") and "comparison_eligible" in D:   # item 32.4
                     ix = tr[((D.loc[tr, "treated"] == 0) & (D.loc[tr, "comparison_eligible"] == 1)).values]
                 if kind == "knn" and len(ix) > 60000:
                     ix = rng.choice(ix, 60000, replace=False)
@@ -1153,8 +1231,21 @@ def fit8(tlearner: bool = False) -> None:
                     m.fit(T(XX.loc[ix]), dy[D.index.get_indexer(ix)], sample_weight=D.loc[ix, "w"])
                 except TypeError:
                     m.fit(T(XX.loc[ix]), dy[D.index.get_indexer(ix)])
-                out.append(m.predict(T(XX.loc[tt])))
-            return float((out[0] - out[1]) @ D.loc[tt, "w"].values), np.nan
+                out.append(m.predict(T(XX.loc[tt])) if len(tt) else np.zeros(0))
+                models[g] = (m, XX, sc if scale else None)
+            if FIT.get("item37"):   # item 37.2: total homes built in the study area (law on for upzoned lots)
+                up = (D.loc[te, "treated"] == 1).values
+                pd_ = np.zeros(len(te))
+                for g, mask in ((1, up), (0, ~up)):
+                    if mask.any():
+                        m, XX, scg = models[g]
+                        Xg = XX.loc[te[mask]]
+                        pd_[mask] = m.predict(scg.transform(Xg) if scg is not None else Xg)
+                wv = D.loc[te, "w"].values
+                TOT[(kind, D.at[te[0], "city"])] = {"total_actual": float(D.loc[te, "ua5"].values @ wv),
+                                                     "total_baseline": float(D.loc[te, "ub5"].values @ wv),
+                                                     "total_model": float((D.loc[te, "ub5"].values + pd_) @ wv)}
+            return float((out[0] - out[1]) @ D.loc[tt, "w"].values) if len(tt) else 0.0, np.nan
         if kind == "causal_forest":
             out = []
             for g in (1, 0):
@@ -1191,7 +1282,7 @@ def fit8(tlearner: bool = False) -> None:
         auc = roc_auc_score(ys, m1.predict_proba(T(Xa.loc[sample]))[:, 1]) if len(set(ys)) > 1 else np.nan
         return extra, auc
 
-    rows = []
+    rows, TOT = [], {}
     methods = ("wls", "lasso", "elastic_net", "tree", "forest", "boosting", "causal_forest", "knn")
     if ROBUST.get("only"):
         methods = tuple(m for m in methods if m in ROBUST["only"])
@@ -1206,11 +1297,29 @@ def fit8(tlearner: bool = False) -> None:
                 num, den = num + e, den + a
             base = num / den * ta
             ex, auc = predict(kind, tr, te)
-            rows.append({"method": kind, "city": c, "role": "holdout" if c in HOLD else "fold", "actual_extra_homes": act,
+            rows.append({"method": kind, "city": c, "role": "holdout" if c in HOLD else ("placebo" if c in PLACEBO else "fold"), "actual_extra_homes": act,
                          "baseline_extra": base, "model_extra": ex, "error_baseline": abs(base - act), "error_model": abs(ex - act),
                          "auc_builds": auc})
             print(kind, c, round(act), round(base), round(ex), flush=True)
     E = pd.DataFrame(rows)
+    if TOT:   # item 37.2: totals test
+        for k in ("total_actual", "total_baseline", "total_model"):
+            E[k] = [TOT.get((m, c), {}).get(k, np.nan) for m, c in zip(E["method"], E["city"])]
+        E["total_error_model"] = (E["total_model"] - E["total_actual"]).abs()
+        E["total_error_baseline"] = (E["total_baseline"] - E["total_actual"]).abs()
+        TS = []
+        for kind, g in E.groupby("method", sort=False):
+            h = g[g.role == "holdout"].set_index("city")
+            pl = g[g.role == "placebo"]
+            better = {c: bool(h.loc[c, "total_error_model"] < h.loc[c, "total_error_baseline"]) for c in HOLD if c in h.index}
+            ok = bool(g["total_error_model"].mean() < g["total_error_baseline"].mean() and sum(better.values()) >= 2
+                      and (pl["total_error_model"] <= pl["total_error_baseline"]).all())
+            TS.append({"method": kind, "mean_error_baseline": g["total_error_baseline"].mean(), "mean_error_model": g["total_error_model"].mean(),
+                       **{f"{c.lower()}_better": v for c, v in better.items()},
+                       "placebo_ok": bool((pl["total_error_model"] <= pl["total_error_baseline"]).all()), "passes_totals_test": ok})
+        TS = pd.DataFrame(TS)
+        TS.round(2).to_csv(REFERENCE / f"tod_lot_model_totals{('_runE' if tlearner else '_runD_all8') + FIT['suffix']}.csv", index=False)
+        print(TS.round(1).to_string(), flush=True)
     summ = []
     for kind, g in E.groupby("method", sort=False):
         f, h = g[g.role == "fold"], g[g.role == "holdout"].set_index("city")
@@ -1232,7 +1341,7 @@ def fit8(tlearner: bool = False) -> None:
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values", "fix_density", "recollect_item29", "spread_assembly"], required=True)
+    ap.add_argument("--stage", choices=["collect", "add_bellevue", "enrich", "enrich_all", "values", "fit", "fit_allvars", "fit8", "fit_runE", "add_saturation", "half_mile", "census_homes", "land_values", "fix_density", "recollect_item29", "spread_assembly", "add_placebo"], required=True)
     ap.add_argument("--seed", type=int, default=0, help="robustness: another random seed (item 19)")
     ap.add_argument("--with-rezoned-later", action="store_true", help="check run: keep the rezoned-later trait (item 32.3)")
     ap.add_argument("--land-value", action="store_true", help="add the pays-for-itself traits (LAND_VALUE_PLAN.md)")
@@ -1251,11 +1360,11 @@ def main(argv=None) -> None:
     if ap_rebuilt:
         REBUILT["on"] = True
         PATHS.update(lots=LOTS_REBUILT, half=OUT / "lots_rebuilt_halfmile.parquet")
-        FIT.update(item25=True, item32=True, item34=True, with_rezoned_later=a.with_rezoned_later)
+        FIT.update(item25=True, item32=True, item34=True, item37=True, with_rezoned_later=a.with_rezoned_later)
         import missing_middleware.tod.case_nyc as _N
         import missing_middleware.tod.case_chicago as _K
         _N.EXCLUDE_HOTELS, _K.STAGED_RELAXED = True, True   # item 32.1-2
-        FIT.update(lots=PATHS["half"], suffix="_v32" + ("_rzl" if a.with_rezoned_later else "") + ("_land" if a.land_value else "") + (f"_seed{a.seed}" if a.seed else "")
+        FIT.update(lots=PATHS["half"], suffix="_v37" + ("_rzl" if a.with_rezoned_later else "") + ("_land" if a.land_value else "") + (f"_seed{a.seed}" if a.seed else "")
                    + ("_droplargest" if a.drop_largest else ""), land=a.land_value)
     elif a.half_mile:
         FIT.update(lots=LOTS_HALF, suffix="_halfmile")
@@ -1271,6 +1380,8 @@ def main(argv=None) -> None:
         recollect_item29()
     if a.stage == "spread_assembly":
         spread_assembly()
+    if a.stage == "add_placebo":
+        add_placebo()
     if a.stage.startswith("fit"):
         sanity_flags(a.stage)
     if a.stage == "collect":
