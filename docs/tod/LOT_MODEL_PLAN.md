@@ -301,3 +301,8 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     2. **"No reform" trait:** the Wisconsin estimate, when run, is shown both with the trait as for a reform city and with it switched off.
     3. **The totals test does not check the reform's own effect** (the with/without gap). The comparison-area score stays beside it as that check.
     4. **"Rezoned later" (item 39.1) is known after the fact for test cities but not for Wisconsin's future lots.** Pending the owner's answer, results are reported both with and without it; which one counts is the owner's call before results are read.
+41. **2026-10-31, from the audit's detailed review, written before any fit ran (owner to confirm the threshold before results are read).**
+    1. **"Rezoned later" at prediction time:** it stays a trait in training, but is set to "no" for the city being predicted, as it will be for Wisconsin. This replaces item 40.4's "both ways".
+    2. **Pass rule judged on the change, not the level** (replaces item 39.3's 25% on totals, which "no effect" could pass because homes before dominate the total). On Chicago, Madison and Bellevue: the predicted change in total homes (after minus before, 5-year basis) is within 50% of the actual change in at least 2 of the 3, **and** the model is closer than "same pace as before" in at least 2 of the 3.
+    3. **Reported beside it:** the same totals for upzoned lots only and for the rest, placebo and training-city errors, and the old comparison-area score (item 37.4), in one table.
+    4. The per-city trait units table (item 39.4) is posted for the audit.

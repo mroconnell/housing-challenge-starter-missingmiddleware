@@ -1241,12 +1241,16 @@ def fit8(tlearner: bool = False) -> None:
                 for g, mask in ((1, up), (0, ~up)):
                     if mask.any():
                         m, XX, scg = models[g]
-                        Xg = XX.loc[te[mask]]
+                        Xg = XX.loc[te[mask]].copy()
+                        if "rezoned_later" in Xg:   # item 41.1: unknown at forecast time, as for Wisconsin
+                            Xg["rezoned_later"] = 0.0
                         pd_[mask] = m.predict(scg.transform(Xg) if scg is not None else Xg)
                 wv = D.loc[te, "w"].values
-                TOT[(kind, D.at[te[0], "city"])] = {"total_actual": float(D.loc[te, "ua5"].values @ wv),
-                                                     "total_baseline": float(D.loc[te, "ub5"].values @ wv),
-                                                     "total_model": float((D.loc[te, "ub5"].values + pd_) @ wv)}
+                ua, ub = D.loc[te, "ua5"].values, D.loc[te, "ub5"].values
+                TOT[(kind, D.at[te[0], "city"])] = {"total_actual": float(ua @ wv), "total_baseline": float(ub @ wv),
+                                                     "total_model": float((ub + pd_) @ wv),
+                                                     "upzoned_actual": float(ua[up] @ wv[up]), "upzoned_baseline": float(ub[up] @ wv[up]),
+                                                     "upzoned_model": float((ub[up] + pd_[up]) @ wv[up])}
             return float((out[0] - out[1]) @ D.loc[tt, "w"].values) if len(tt) else 0.0, np.nan
         if kind == "causal_forest":
             out = []
@@ -1306,7 +1310,7 @@ def fit8(tlearner: bool = False) -> None:
             print(kind, c, round(act), round(base), round(ex), flush=True)
     E = pd.DataFrame(rows)
     if TOT:   # item 37.2: totals test
-        for k in ("total_actual", "total_baseline", "total_model"):
+        for k in ("total_actual", "total_baseline", "total_model", "upzoned_actual", "upzoned_baseline", "upzoned_model"):
             E[k] = [TOT.get((m, c), {}).get(k, np.nan) for m, c in zip(E["method"], E["city"])]
         E["total_error_model"] = (E["total_model"] - E["total_actual"]).abs()
         E["total_error_baseline"] = (E["total_baseline"] - E["total_actual"]).abs()
@@ -1315,11 +1319,14 @@ def fit8(tlearner: bool = False) -> None:
             h = g[g.role == "holdout"].set_index("city")
             pl = g[g.role == "placebo"]
             better = {c: bool(h.loc[c, "total_error_model"] < h.loc[c, "total_error_baseline"]) for c in HOLD if c in h.index}
-            within = {c: bool(h.loc[c, "total_error_model"] <= 0.25 * abs(h.loc[c, "total_actual"])) for c in HOLD if c in h.index}
-            ok = bool(sum(better.values()) >= 2 and sum(within.values()) >= 2)   # item 39.3
+            # item 41.2: judge the predicted change (after minus before), not the level
+            chg_a = h["total_actual"] - h["total_baseline"]
+            chg_m = h["total_model"] - h["total_baseline"]
+            within = {c: bool(abs(chg_m[c] - chg_a[c]) <= 0.5 * abs(chg_a[c])) for c in HOLD if c in h.index}
+            ok = bool(sum(better.values()) >= 2 and sum(within.values()) >= 2)
             TS.append({"method": kind, "mean_error_baseline": g["total_error_baseline"].mean(), "mean_error_model": g["total_error_model"].mean(),
                        **{f"{c.lower()}_better": v for c, v in better.items()},
-                       **{f"{c.lower()}_within_25pct": v for c, v in within.items()},
+                       **{f"{c.lower()}_change_within_50pct": v for c, v in within.items()},
                        "placebo_ok": bool((pl["total_error_model"] <= pl["total_error_baseline"]).all()), "passes_totals_test": ok})
         TS = pd.DataFrame(TS)
         TS.round(2).to_csv(REFERENCE / f"tod_lot_model_totals{('_runE' if tlearner else '_runD_all8') + FIT['suffix']}.csv", index=False)
