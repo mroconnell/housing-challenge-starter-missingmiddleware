@@ -69,3 +69,16 @@ So the biggest no-reform misses are reforms our coding did not mark. Next round 
 1. Code each local ordinance as its own dated reform (Seattle 2019, Portland's fee waiver and its end, Austin 2015, Minneapolis 2014 and 2021), then retest.
 2. Rerun the forward test with year-matched homes.
 3. Check Wisconsin's assumed current rates (74% of the central addition) against the 2022–2025 permits now in hand for other Wisconsin places.
+
+## 6. The two open decisions together
+
+Additional ADU permits over 2027–2031, Wisconsin. Rows: the law-side coding (today, or the improvement loop's round-2 corrections, V6s). Columns: the no-reform baseline (today's same pace, 530, or the trend baseline, 786).
+
+| Law side | Baseline | Baseline permits | Lower | Central | Upper |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Today | Same pace (today) | 530 | 6,804 | 10,679 | 19,535 |
+| Round-2 corrections (V6s) | Same pace (today) | 530 | 6,464 | 10,591 | 19,536 |
+| Today | Trend baseline | 786 | 6,571 | 10,446 | 19,301 |
+| **Both** | Trend baseline | 786 | **6,223** | **10,349** | **19,294** |
+
+The two changes add up almost exactly: each lowers the central on its own, and together they lower it by 330 permits (3.1%).
