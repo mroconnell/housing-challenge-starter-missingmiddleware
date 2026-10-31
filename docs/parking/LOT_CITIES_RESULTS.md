@@ -63,3 +63,19 @@ Outputs: `reference/parking_lot_cities_*_near_transit.csv`. Net new homes permit
 - Near rail, Buffalo's gain becomes clearer. But Buffalo's light-rail line runs along Main Street, which the 2017 Green Code also rezoned for denser mixed use.
 - San Francisco is still about zero.
 - The four cities still disagree, so nothing carries over to Wisconsin.
+
+## Audit 2e rerun: the same home count in all four cities (2026-10-30, owner approved)
+
+Every city now counts gross new homes. San Francisco no longer subtracts demolitions, and Buffalo uses units added only, as Seattle and Chicago already did. The answers are unchanged. Effects are new homes permitted per 1,000 lots per year (90% range):
+
+| City | All lots, before → after the fix | Near-transit lots, before → after the fix |
+| --- | --- | --- |
+| San Francisco | +0.3 → **+0.1** (−3.6 to +3.7) | +0.8 → **+0.8** (−6.5 to +9.0) |
+| Buffalo | +2.5 → **+2.7** (−0.7 to +6.4) | +13.0 → **+12.9** (+0.5 to +30.3) |
+| Chicago | −2.6 → −2.6 | −2.6 → −2.6 |
+| Seattle | +35.7 → +35.7 | +29.8 → +29.8 |
+
+**Prediction:**
+- All lots: guessing zero misses by 69 homes a year, against 132 for the best method.
+- Near-transit lots: 63, against 115.
+- No method passes in either run.

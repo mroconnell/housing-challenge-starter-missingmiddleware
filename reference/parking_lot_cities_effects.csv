@@ -1,6 +1,6 @@
 city,outcome,pinched_lots,comparison_lots,pinched_before,pinched_after,comparison_before,comparison_after,effect,p05,p95,extra_homes_per_year
-Buffalo,main,36326,37971,4.025,6.866,-0.2,0.163,2.478,-0.817,6.246,89.998
+Buffalo,main,36326,37971,5.17,7.978,0.374,0.527,2.655,-0.647,6.442,96.451
 Chicago,main,33719,31613,2.061,7.011,3.685,11.185,-2.55,-5.16,-0.212,-85.995
-San Francisco,main,81080,73544,4.09,4.507,0.188,0.345,0.259,-3.33,3.895,21.011
+San Francisco,main,81080,73544,4.351,4.591,0.269,0.441,0.068,-3.574,3.676,5.509
 Seattle,main,2450,1547,20.816,58.192,3.017,4.71,35.683,6.525,75.663,87.424
-San Francisco,including alterations (San Francisco ADUs),81080,73544,9.25,14.085,1.836,2.7,3.97,-0.209,8.634,321.883
+San Francisco,including alterations (San Francisco ADUs),81080,73544,10.446,14.366,2.029,2.806,3.142,-0.926,7.703,254.739

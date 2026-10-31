@@ -1,9 +1,9 @@
 method,mean_error_model,mean_error_baseline,mean_error_zero,cities_beating_baseline,passes
-wls,187.89,465.21,71.107,3.0,False
-lasso,211.193,465.21,71.107,3.0,False
-elastic_net,124.515,465.21,71.107,3.0,False
-tree,359.676,465.21,71.107,2.0,False
-forest,588.815,465.21,71.107,2.0,False
-boosting,282.528,465.21,71.107,4.0,False
-causal_forest,184.534,465.21,71.107,4.0,False
-knn,280.606,465.21,71.107,4.0,False
+wls,196.721,468.059,68.845,3.0,False
+lasso,220.755,468.059,68.845,3.0,False
+elastic_net,131.557,468.059,68.845,3.0,False
+tree,355.691,468.059,68.845,2.0,False
+forest,597.007,468.059,68.845,1.0,False
+boosting,311.405,468.059,68.845,4.0,False
+causal_forest,171.611,468.059,68.845,4.0,False
+knn,300.747,468.059,68.845,3.0,False

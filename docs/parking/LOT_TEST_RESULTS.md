@@ -48,4 +48,11 @@ The Brier score is the average squared error of the predicted chance that a lot 
 
 ## Audit 2e fix (2026-10-29, owner approved)
 
-The prediction model now uses prior floor area as a rank within each city, because TOD's raw column has different units by city. Rerun pending; the prediction results above are from the raw column.
+The prediction model now uses prior floor area as a rank within each city, because TOD's raw column has different units by city. Rerun 2026-10-30. The answer is unchanged: the flag still fails.
+
+| Held-out city | Brier score, without → with the flag | Error in predicted count of reform lots built, without → with | Passes |
+| --- | --- | --- | --- |
+| Seattle | 0.019 → 0.019 (0.1% worse) | 48% → 51% (7% worse) | No |
+| Chicago | 0.016 → 0.016 (0.1% better) | 46% → 53% (14% worse) | No |
+
+The effects table above does not use this column and is unchanged.
