@@ -32,3 +32,11 @@ Written 2026-10-31 by the parking conductor, under Ryan's standing ask: improve 
 - Otherwise the current numbers stand, and V5's data checks become the standard.
 
 ## Changes after writing
+- **2026-10-31, after the first run:** with clean comparison pools (V3, V5), Minneapolis and Austin had no comparison places, and 7 other big cities had fewer than 5. Dropping them would bias the average, because both have large negative effects. For V3 and V5 only, a place with fewer than 5 comparison places now also draws from the whole country at ½–2× population, as the placebo fix does. V3 and V5 are rerun; the first-run figures are kept in the results.
+- **2026-10-31, audit round 1 asks (before these were computed):**
+  - V1b: reported permits scaled by 12 ÷ months reported, with the Census estimate where no month was reported.
+  - V3b: date-aware clean pools. A comparison place is left out only if its housing parking entry is undated or dated on or before the end of the case's after-window. National fallback as in V3.
+  - V6 = V1b + V3b + V4. South Bend is not in any variant: its combined county row is not in the standard panel, so the scaling question does not arise here.
+  - Extra lines for V0 and V6: without the 4 heaviest places (San Francisco, Austin, San Jose, Raleigh), and places with 3 after-years only.
+  - Comparison pool sizes are reported for each variant.
+  - The 90% resampling range is labelled separately from the placebo range.

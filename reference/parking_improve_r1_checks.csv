@@ -1,0 +1,4 @@
+check,where,column,value,note
+breaks policy definition,place-variants with fewer than 5 comparison places,,17.0,17 rows
+breaks policy definition,place-variants with no effect (empty comparison pool),,2.0,2 rows
+largest move V0 -> V6 (trace it),Bastrop,effect,18.391395157503283,"V0 30.65, V6 49.04, estimated years 0"

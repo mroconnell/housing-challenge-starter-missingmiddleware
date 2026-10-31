@@ -1,0 +1,15 @@
+variant,places,weighted,resampling_p05,resampling_p95,equal_weight,median,controls_median,controls_under_5
+V0 current,73,-1.101,-3.591,1.534,0.424,-0.053,28.0,0
+V1 reported months only,73,-0.643,-3.244,2.33,0.647,0.039,28.0,0
+V2 drop places with estimated years,41,-1.201,-5.55,3.934,0.777,0.331,34.0,0
+V3 clean comparison pools,73,-0.818,-3.976,2.776,-0.056,-0.025,31.0,2
+V4 pre-repeal traits,73,-0.907,-3.532,1.893,0.703,-0.156,27.0,0
+V5 all fixes (V1+V3+V4),73,-0.247,-3.626,3.679,0.254,-0.134,37.0,2
+"V3a clean pools, no national fallback (first run)",71,1.166,-1.446,3.735,0.339,0.442,31.0,7
+V1b reported months scaled to 12,73,-1.262,-3.773,1.448,0.319,-0.081,28.0,0
+V3b date-aware clean pools,73,-0.146,-2.784,2.872,0.038,-0.059,31.0,2
+V6 all fixes (V1b+V3b+V4),73,-0.277,-3.004,2.848,0.044,-0.374,37.0,2
+V0 current | without the 4 heaviest places,69,-0.169,-1.992,1.999,0.537,-0.053,34.0,0
+V0 current | 3 after-years only,36,-0.924,-3.062,1.673,0.362,-0.284,35.0,0
+V6 all fixes (V1b+V3b+V4) | without the 4 heaviest places,69,0.013,-1.867,2.187,-0.03,-0.374,40.0,0
+V6 all fixes (V1b+V3b+V4) | 3 after-years only,36,-1.366,-4.051,2.19,0.433,-0.794,44.5,0
