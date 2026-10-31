@@ -12,6 +12,20 @@ Run 2026-10-31 under [IMPROVE_R2_PLAN.md](IMPROVE_R2_PLAN.md), committed before 
 - **One rule now covers every city:** a law year starts only where the state law changed that place's rules. Portland (2019) and Seattle (2024) already met the benchmark before their state laws, so those years count as local rules only (V6s; sections 1b and 1c).
 - **Ryan decides.** Recommended: adopt V6s with the reference-line fix below: lower 6,464, central 10,591, upper 19,536 additional permits; held-out RMS 0.130.
 
+## 0. How the recommendation moved today, step by step
+
+The recommended central changed three times on 2026-10-31. Each step adds one coding correction. The rule behind each was set before its result was read, except where marked.
+
+| Step | What changed | Rule behind it | Lower | Central | Upper | Held-out RMS |
+| --- | --- | --- | ---: | ---: | ---: | ---: |
+| V0 | Nothing (the tool today) | n/a | 6,804 | 10,679 | 19,535 | 0.168 |
+| V1 | Vermont counted by permit year, not year built | Every state's outcome is permits at issuance; ADUs finish about one year after the permit (Austin, median 0.97 years). Planned in round 1 | 6,790 | 10,834 | 19,519 | 0.135 |
+| V6 | + Oregon law years from 2020 (panel 2019 dropped; Portland 2019 as local rules only) | Law years start when the benchmark rules bind, as for Washington (AQ-061). Planned in round 2 | 6,100 | 10,000 | 18,448 | 0.110 |
+| V6p | + Portland 2019 dropped, not local rules only | Portland met the benchmark before 2019, so its 2019-to-2020 switch marks no real change; both Oregon series treat 2019 alike. Added at the audit's request after V6 was seen | 6,718 | 10,721 | 19,415 | 0.111 |
+| **V6s** | + Seattle 2024 as local rules only | One rule for every city: a law year starts only where the state law changed that place's rules. Seattle met HB 1337 before 2024 (city report). Added at the audit's request after V6p was seen; adopted only after the rules check | **6,464** | **10,591** | **19,536** | **0.130** |
+
+Why it moved so much: the law's estimated effect leans on the few cities with years both before and after a state law. V6 created a new before-and-after pair in Portland that did not reflect a real rule change, and that pulled the central down by about 7%. V6p and V6s remove such pairs by one rule. The held-out score was not used to pick any step; V6s scores worse than V6p and is still recommended because the rule decides.
+
 ## 1. Held-out test
 
 | Variant | Plain average | Same-year average, no California | Median | Adopted model | Worst state (adopted) | Lower | Central | Upper |
