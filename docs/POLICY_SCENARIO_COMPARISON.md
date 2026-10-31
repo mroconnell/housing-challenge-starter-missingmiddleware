@@ -109,6 +109,19 @@ ADU figures were revised on 2026-10-29 (AQ-064 in the [assumptions log](ASSUMPTI
 
 What does *not* move the ADU total much is how we coded local rules. If the 69% of single-family homes in places with uncoded ADU rules behaved like places that ban ADUs, the total with the law would fall by only 0.2%, from 11,209 to 11,185 homes.
 
+# Baselines With No Reform (in progress)
+
+Each scenario's answer is "with the reform minus without it". This table lines up the "without" half for Wisconsin, 2027–2031. The three count different things, so they should nest, not match. Each scenario is testing its baseline with forward and held-out checks (improvement loop, 2026-10-31).
+
+| Scenario | What the baseline counts | In the tool | Tested alternative | Status |
+| --- | --- | ---: | ---: | --- |
+| Parking | All permitted homes, statewide | 122,619 | to come | being tested |
+| TOD | Homes permitted in station areas | 14,464 | to come | being tested |
+| ADUs | ADU permits on single-family lots | 530 | 758 (same pace plus the trend of no-law places) | Same pace kept; trend case shown ([NO_REFORM_R1_RESULTS.md](adu/NO_REFORM_R1_RESULTS.md)) |
+
+- **Nesting checks.** TOD's station-area baseline (14,464) is below the statewide total (122,619): about 12% of it. ADU's 530 is under 0.5% of the statewide total.
+- **ADUs need a place-by-place baseline.** A statewide no-law level from other states' cities would give 4,390 ADU permits, eight times the tool's 530. Those cities are much more active than typical Wisconsin places.
+
 # What the Tool Cannot Say
 
 - **Whether Wisconsin will behave like the places the evidence comes from.** No Midwest state has data after a statewide ADU law; no state has removed parking minimums long enough to measure; the TOD sizing has no Wisconsin test of its own.
