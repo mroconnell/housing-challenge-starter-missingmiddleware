@@ -165,6 +165,16 @@ def main() -> None:
         sens.append(dict(case="Baseline: Census as published for Milwaukee", moves="baseline only",
                          value=float(p.loc["all", "central"]),
                          description="Baseline over 2027-2031 without the Milwaukee apartment adjustment (the parking addition does not change)."))
+    nr = REFERENCE / "parking_no_reform_wisconsin_r3.csv"
+    if nr.exists():  # no-reform model, boosted trees (docs/parking/NO_REFORM_MODEL_RESULTS.md); owner approved 2026-10-31
+        w = pd.read_csv(nr).set_index(["origin", "model"])
+        ratio = float(w.loc[(2025, "M4 boosted trees"), "vs_M0"])
+        central = float(pd.read_csv(REFERENCE / "housing_baseline_statewide_by_year.csv").query(
+            "structure_type == 'all' and kind == 'projected' and 2027 <= year <= 2031")["central"].sum())
+        sens.append(dict(case="Baseline: boosted-trees no-reform model", moves="baseline only", value=ratio * central,
+                         description=f"Baseline over 2027-2031 from a model trained on places with no parking reform nationwide, {ratio:.2f} times the same-pace baseline. "
+                                     "It predicts state totals about twice as well as same pace in held-out tests; same pace predicts single cities better and ran 17-22% low in recent years. "
+                                     "The parking addition does not change."))
     pd.DataFrame(sens).round(1).to_csv(REFERENCE / "parking_model_sensitivities.csv", index=False)
 
     print(f"eligible homes {homes.sum():,.0f}; places at benchmark {len(at)}, near {len(near)}")
