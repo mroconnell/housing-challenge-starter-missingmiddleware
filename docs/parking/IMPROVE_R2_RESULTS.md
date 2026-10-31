@@ -36,3 +36,7 @@ The unit is permits per 1,000 existing homes per year. The average is weighted b
 - **V7s is cautious.** It treats every city in California, Oregon and Washington as reformed from the state law's year. The laws cover transit areas, not whole cities, so some clean comparison years are lost.
 - **The audit leans toward V7s's 27,671** for the high end, with 19,937 kept as a sensitivity. Its reason: every cleaned version fails the 20-stand-in rule because of the same two big cities (San Jose and Austin). So the rule always falls back to the least-clean data.
 - **It is Ryan's call.** Switching would be a stated override of the pre-set rule.
+
+## Decision
+
+- **2026-10-31, Ryan:** "Keep our current high end." The high end stays 19,937. V7 and V7s stay as sensitivities.
