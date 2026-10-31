@@ -85,3 +85,19 @@ So this is a weakness of the model form, not a data error: lot sums are not tied
 - **Side line, "recent strength continues"** (parking's factor ×1.07–1.26): 19,605–23,086.
 - Not candidates: gradient boosting, and the versions without dated traits.
 - Kansas City is not a blocker. The share runs add one check with Kansas City left out of training.
+
+### Which traits matter most for development with no reform (owner ask, 23:53)
+
+Method: permutation importance of the baseline random forest. The forest is round 3, with all traits and the Milwaukee fix, fitted on 85% of lot-windows. Each trait is shuffled on a held-back 60,000 lot-windows, 5 times. The score is the rise in weighted squared error, as a percent of the unshuffled error. Script: `scripts/run_tod_pace_importance.py`. Table: `reference/tod_pace_importance.csv`.
+
+| Rank | Trait | Error rise when shuffled | Plain meaning |
+| ---: | --- | ---: | --- |
+| 1 | City has no rail or rapid stop | 34% | In practice this marks Columbus and Kansas City, so it acts as a city label more than a lot trait |
+| 2 | Distance to the nearest rail or rapid stop | 14% | A real lot trait |
+| 3 | Upper-quartile rent in the tract | 11% | Market strength |
+| 4 | Existing homes on the lot (2010 census) | 9% | How built-up the lot already is |
+| 5+ | Tract land area, share of homes built before 1940, density, walking commute, … | under 0.5% each | Little weight |
+| — | Place's past permit pace | 0.05% | Barely used |
+| last | **Lot acres and lot width** | **−11% and −6%** | Shuffling them makes predictions better |
+
+Reading: lot size is used in a way that hurts. The forest learns "big lot → big project" from a few large builds, and that does not carry over. This matches the Kansas City over-prediction, where most of the excess sits on lots over 1 acre. Candidate fix for a baseline round 4: predict homes per acre with a cap on acres, as the share model does, or leave out lot size. Not run yet; for the audit.
