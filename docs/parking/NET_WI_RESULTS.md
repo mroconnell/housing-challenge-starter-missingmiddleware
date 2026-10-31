@@ -28,7 +28,7 @@ A statewide parking repeal adds about **0 homes** over 2027–2031, net of the n
 
 - **San Francisco,** the largest held-out miss in homes: actual 1,689 a year against a same pace of 4,590. This is SF's real post-2018 drop in permits.
 - **Ecorse, MI,** the largest miss by log error: predicted 11 a year, actual 0. It permitted 198 in 2017, 59 in 2019, then 0 every year through 2025.
-- **Hartford, CT:** predicted 98 a year, actual 7. It permits 5–11 a year, with one spike of 141 in 2023.
+- **Hartford, CT:** predicted 98 a year, actual 7. It permits a steady 5–11 a year (one spike of 141 in 2023). The trees rate it like a typical city of its size (53,000 homes), which is why same pace wins on single places.
 - **Fake repeal, seed 20261034:** its fake places grew faster. Home-weighted, they gained 4.23 permits per 1,000 homes per year against 2.47 for the rest, led by Hardeeville, SC, a real boom (209 permits in 2016, 1,718 in 2025). In the other seeds the fake places grew more slowly, and the trees follow that sign.
 
 ## Data problems found and fixed along the way
