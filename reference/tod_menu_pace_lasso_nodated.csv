@@ -1,0 +1,34 @@
+city,window,start,actual,place_out,forward,bps_same_pace,bps_years,abslog_place_out,abslog_forward,abslog_bps_same_pace
+Bellevue,before,2003,25.83,213.92,,161.69,3,2.11,,1.83
+Charlotte,before,2013,2535.0,1677.97,,1755.21,5,0.41,,0.37
+Chicago,before,2009,4465.83,11765.94,,14335.77,5,0.97,,1.17
+Columbus placebo,after,2018,17690.0,9698.48,16351.49,16885.38,5,0.6,0.08,0.05
+Columbus placebo,before,2011,18070.83,9698.48,,9871.15,5,0.62,,0.6
+Kansas City placebo,after,2013,8841.67,25305.22,17794.67,3437.45,5,1.05,0.7,0.94
+Kansas City placebo,before,2006,3650.0,25305.22,,12144.56,5,1.94,,1.2
+Los Angeles,before,2007,1180.0,1062.97,,852.53,5,0.1,,0.33
+Madison,before,2017,4320.83,713.57,,3249.05,5,1.8,,0.29
+Madison placebo,after,2018,5153.0,1413.95,3077.42,4762.16,5,1.29,0.52,0.08
+Madison placebo,before,2011,4221.67,1611.34,,2357.4,5,0.96,,0.58
+Milwaukee placebo,after,2020,5633.0,16061.75,13125.38,9228.61,5,1.05,0.85,0.49
+Milwaukee placebo,before,2013,8647.5,16061.75,,2111.39,5,0.62,,1.41
+New York,before,1997,207.5,409.64,,,0,0.68,,
+New York,before,1998,2604.58,382.0,,,0,1.92,,
+New York,before,1999,2515.0,1719.66,,,0,0.38,,
+New York,before,2000,218.33,295.95,,,0,0.3,,
+New York,before,2001,2207.92,1469.5,,1039.13,1,0.41,,0.75
+New York,before,2002,986.67,175.63,,481.99,2,1.73,,0.72
+New York,before,2003,920.0,357.12,,756.87,3,0.95,,0.2
+New York,before,2004,2585.83,466.06,,995.91,4,1.71,,0.95
+New York,before,2005,69.17,31.17,,116.19,5,0.8,,0.52
+New York,before,2007,0.0,10.79,,65.87,5,,,
+Philadelphia,before,2007,142.92,14.93,,22.01,5,2.26,,1.87
+Philadelphia,before,2008,888.63,455.28,,892.52,5,0.67,,0.0
+Philadelphia,before,2009,747.99,300.22,,478.05,5,0.91,,0.45
+Philadelphia,before,2010,1437.78,384.07,,547.01,5,1.32,,0.97
+Philadelphia,before,2011,1659.47,876.98,,780.29,5,0.64,,0.75
+Philadelphia,before,2012,927.65,848.48,,500.17,5,0.09,,0.62
+Philadelphia,before,2013,1246.39,459.47,,887.38,5,1.0,,0.34
+Saint Paul,before,2010,250.0,352.29,,149.28,5,0.34,,0.52
+Seattle,before,2006,467.5,242.56,,294.5,5,0.66,,0.46
+Seattle,before,2008,210.83,168.79,,206.96,5,0.22,,0.02

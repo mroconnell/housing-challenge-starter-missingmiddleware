@@ -1,0 +1,6 @@
+method,held_out_city,later_years,matched_rows_model,matched_rows_survey,city_median_model,city_median_survey,start2011_model,start2011_survey,bench_same_pace_city,bench_same_pace_later,worst_miss,minutes,WI_Milwaukee_near_2027_2031,WI_Milwaukee_table_2027_2031,WI_Madison_near_2027_2031,WI_Madison_table_2027_2031,WI_statewide_near_2027_2031
+plain_average,0.917,0.386,0.965,0.551,0.897,0.516,0.703,0.538,0.551,0.286,"New York before 1998: 228 vs 2,605",0.1,5820.378,8561.716,1919.641,3249.39,8874.948
+linear_regression,0.702,0.834,0.666,0.551,0.874,0.516,0.799,0.538,0.551,0.286,Bellevue before 2003: 411 vs 26,0.0,5285.747,7407.704,4078.183,6325.265,10736.975
+lasso,0.855,0.607,0.93,0.551,0.833,0.516,0.8,0.538,0.551,0.286,Philadelphia before 2007: 15 vs 143,0.1,7567.924,12153.964,3079.764,5764.375,12208.973
+regression_tree,0.571,0.547,0.571,0.551,0.689,0.516,0.36,0.538,0.551,0.286,"Bellevue before 2003: 1,279 vs 26",0.3,4892.983,5835.695,6750.427,9142.49,13350.7
+gradient_boosting,0.813,0.109,0.813,0.551,0.779,0.516,0.791,0.538,0.551,0.286,"Kansas City placebo before 2006: 164,262 vs 3,650",12.9,5391.705,6922.793,9885.042,13005.508,17516.798

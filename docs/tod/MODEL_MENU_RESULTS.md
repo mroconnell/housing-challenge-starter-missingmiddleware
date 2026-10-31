@@ -37,3 +37,35 @@ Reference points for Wisconsin near stops, 2027–2031:
   - Saint Paul: one before year.
 - **Nearest neighbours and multilevel fail both tests and blow up in Wisconsin.** They extrapolate per-lot homes linearly from 15 principal components. These are method failures, not data errors; they are not usable as lines.
 - **Gradient boosting:** Milwaukee 12,724 vs a recent 5,197 per 5 years (2.4×). This is to be traced in the next round.
+
+## No-reform baseline, round 3 (audit checks 1 and 2)
+
+Changes:
+1. **Milwaukee survey fix** (shared baseline rule P8): permit years 2015–2024 use survey 1–2 unit permits plus property-file 3+ unit homes built the next year. This applies to both the benchmark and the place-pace trait.
+2. **Timing check:** each method was rerun without 2010 census homes and without ACS traits, which are dated after many windows start.
+
+Scores are median |log|. "Matched" covers the 29 city-windows where the survey exists. "City median" is the median across cities of each city's median. "2011+" is the 12 windows starting in 2011 or later, where 2010 census homes predate the window.
+
+| Method | Traits | Held-out city (matched) | City median | 2011+ windows | Later years (4) | Wisconsin near stops |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Survey, same pace | — | 0.55 | 0.52 | 0.54 | 0.38 | — |
+| Random forest | all | 0.36 | 0.38 | 0.22 | 0.14 | 16,588 |
+| Gradient boosting | all | 0.37 | 0.35 | 0.24 | 0.20 | 25,078 |
+| Random forest | no dated traits | 0.76 | 0.67 | 0.69 | 0.22 | 13,254 |
+| Gradient boosting | no dated traits | 0.81 | 0.78 | 0.79 | 0.11 | 17,517 |
+| Regression tree | no dated traits | 0.57 | 0.69 | 0.36 | 0.55 | 13,351 |
+| LASSO | no dated traits | 0.93 | 0.83 | 0.80 | 0.61 | 12,209 |
+| Linear | no dated traits | 0.67 | 0.87 | 0.80 | 0.83 | 10,737 |
+| Plain average | — | 0.97 | 0.90 | 0.70 | 0.39 | 8,875 |
+
+Reading:
+- **The forests' edge depends on existing homes and census traits.** Without them, no method beats the survey on held-out cities.
+- **Where the census homes predate the window** (12 windows from 2011), the forests with all traits still beat the survey (0.22–0.24 vs 0.54). The ACS traits are still dated at the reform year there, so a small timing leak cannot be ruled out.
+- **For Wisconsin 2027–2031** every trait predates the window (2020 census, ACS 2018–2022), so the full-trait models are usable there.
+
+Flags and open items:
+- **Wisconsin, Madison:** the place-pace trait (25.7 permits per 1,000 homes per year) is above every training city-window (top 16.8). Madison is building faster than any training city. Trees read it as the top value.
+- **Kansas City, open:** forest and boosting predict about 29,000 homes vs 8,842 (2013–2015) and 3,650 (2006–2011). Most of the excess is on lots over 1 acre. Kansas City's permit file holds 61–72% of survey permits, which explains part of it, not 3–8×. Being traced.
+- **Gradient boosting, Milwaukee:** still overshoots (12,880 near stops vs a recent 5,197 per 5 years), and the back-test shows the same. The identical Milwaukee totals across windows in round 2 no longer occur with the fixed place trait.
+- **Item 63 is in:** Columbus and Kansas City census homes × weight = 540,432 (2010 homes 592,825).
+- **Lot file vs city-wide survey** (`reference/tod_menu_pace_lotfile_vs_survey.csv`): flagged where the study area built more than the whole city. Milwaukee is 3.1× and 6.8× the uncorrected survey (the survey under-count, now fixed). Saint Paul 2010 is 50 vs 22, a single year of small numbers.

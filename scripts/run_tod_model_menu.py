@@ -27,6 +27,7 @@ NAMES = {0: "plain_average", 1: "linear_regression", 2: "lasso", 3: "regression_
          5: "gradient_boosting", 6: "nearest_neighbours", 7: "multilevel", 8: "causal_forest"}
 ACAP = 2.97
 EXCLUDE_HOLD = False
+DROP_DATED = False   # audit check: drop traits dated after a window starts (2010 census homes; ACS at the reform year)
 TAG = ""
 
 
@@ -97,6 +98,18 @@ class Method:
         return self.m.predict(Z)
 
 
+def milwaukee_fix(series: dict) -> None:
+    """Shared baseline rule P8 (docs/shared/HOUSING_BASELINE.md 3a): the permit survey under-counts Milwaukee's 3+ unit
+    buildings. Permit years 2015-2024 = survey 1- and 2-unit + property-file (MPROP) 3-4 and 5+ units built the next year."""
+    d = pd.read_csv(REFERENCE / "housing_baseline_milwaukee_check.csv")
+    p = d.pivot_table(index="year", columns="structure_type", values=["bps_permitted_units", "mprop_units_by_year_built"])
+    s = series["Milwaukee placebo"].copy().astype(float)
+    for yr in range(2015, 2025):
+        s.loc[yr] = (p.loc[yr, ("bps_permitted_units", "1unit")] + p.loc[yr, ("bps_permitted_units", "2units")]
+                     + p.loc[yr + 1, ("mprop_units_by_year_built", "3_4units")] + p.loc[yr + 1, ("mprop_units_by_year_built", "5plus")])
+    series["Milwaukee placebo"] = s
+
+
 def thin(y: np.ndarray, w: np.ndarray, mask: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """Keep every building row; draw 10% of the zero rows and weight them x10 (same draw for every method)."""
     rng = np.random.default_rng(SEED)
@@ -116,7 +129,11 @@ def run_pace(methods: list[int]) -> None:
     for c in ("Chicago", "Madison", "Bellevue"):
         P.PLACE.setdefault(c, {"Chicago": ("Chicago city", "17"), "Madison": ("Madison city", "55"), "Bellevue": ("Bellevue city", "53")}[c])
     series, hu = P.bps_series()
+    milwaukee_fix(series)   # round 3 (audit check 2)
     X = P.traits(R, 2, series, hu)
+    if DROP_DATED:
+        X = X.drop(columns=[c for c in X.columns if c.startswith("v_") or c in ("log_census_homes", "log_rent", "log_home_value", "log_income")])
+        print("traits kept:", list(X.columns), flush=True)
     y = R["y5"].clip(lower=0).values
     w = R["w"].values
     cities = sorted(R["city"].unique())
@@ -149,7 +166,12 @@ def run_pace(methods: list[int]) -> None:
         T.round(2).to_csv(REFERENCE / f"tod_menu_pace_{NAMES[k]}{TAG}.csv", index=False)
         worst = T.loc[T["abslog_place_out"].idxmax()] if T["abslog_place_out"].notna().any() else None
         af = T["window"] == "after"
+        mt, st = T["bps_same_pace"].notna(), T["start"] >= 2011
         summ.append({"method": NAMES[k], "held_out_city": T["abslog_place_out"].median(), "later_years": T.loc[af, "abslog_forward"].median(),
+                     "matched_rows_model": T.loc[mt, "abslog_place_out"].median(), "matched_rows_survey": T.loc[mt, "abslog_bps_same_pace"].median(),
+                     "city_median_model": T.groupby("city")["abslog_place_out"].median().median(),
+                     "city_median_survey": T.groupby("city")["abslog_bps_same_pace"].median().median(),
+                     "start2011_model": T.loc[st, "abslog_place_out"].median(), "start2011_survey": T.loc[st, "abslog_bps_same_pace"].median(),
                      "bench_same_pace_city": T["abslog_bps_same_pace"].median(), "bench_same_pace_later": T.loc[af, "abslog_bps_same_pace"].median(),
                      "worst_miss": None if worst is None else f"{worst.city} {worst.window} {worst.start}: {worst.place_out:,.0f} vs {worst.actual:,.0f}",
                      "minutes": round((time.time() - t0) / 60, 1)})
@@ -158,6 +180,13 @@ def run_pace(methods: list[int]) -> None:
         if not EXCLUDE_HOLD:
             Wr, near = wi_pace_rows(P, series, hu)
             Xw = P.traits(Wr, 2, series, hu)[X.columns]
+            if k == methods[0]:   # audit: Wisconsin lots outside the training range (flag only)
+                from missing_middleware.tod import sanity as SN
+                Xall = pd.concat([X, Xw], ignore_index=True)
+                cty = pd.concat([R["city"].where(~R["city"].isin(["Milwaukee placebo", "Madison placebo"]), "train " + R["city"]),
+                                 "WI " + Wr["city"]], ignore_index=True)
+                fl = [f for f in SN.range_flags(Xall, cty) if str(f["city"]).startswith("WI")]
+                SN.report(fl, REFERENCE / f"tod_menu_pace_wi_flags{TAG}.csv")
             keep, w2 = thin(y, w, np.ones(len(R), bool))
             m = Method(k).fit(X[keep], y[keep], w2[keep], R.loc[keep, "city"].values)
             pw = np.clip(m.predict(Xw), 0, None)
@@ -326,10 +355,12 @@ def main(argv=None) -> None:
     ap.add_argument("--model", choices=["pace", "share"], required=True)
     ap.add_argument("--methods", default="0,1,2,3,4,5,6,7,8")
     ap.add_argument("--no-holdouts", action="store_true", help="check: leave Chicago, Madison and Bellevue out")
+    ap.add_argument("--drop-dated", action="store_true", help="check: drop census homes and ACS traits (dated after windows start)")
     a = ap.parse_args(argv)
     ms = [int(x) for x in a.methods.split(",")]
-    global EXCLUDE_HOLD, TAG
-    EXCLUDE_HOLD, TAG = a.no_holdouts, ("_noholdouts" if a.no_holdouts else "")
+    global EXCLUDE_HOLD, TAG, DROP_DATED
+    EXCLUDE_HOLD, DROP_DATED = a.no_holdouts, a.drop_dated
+    TAG = ("_noholdouts" if a.no_holdouts else "") + ("_nodated" if a.drop_dated else "")
     (run_pace if a.model == "pace" else run_share)(ms)
 
 

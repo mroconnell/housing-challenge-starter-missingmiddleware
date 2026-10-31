@@ -1,0 +1,3 @@
+method,held_out_city,later_years,matched_rows_model,matched_rows_survey,city_median_model,city_median_survey,start2011_model,start2011_survey,bench_same_pace_city,bench_same_pace_later,worst_miss,minutes,WI_Milwaukee_near_2027_2031,WI_Milwaukee_table_2027_2031,WI_Madison_near_2027_2031,WI_Madison_table_2027_2031,WI_statewide_near_2027_2031
+random_forest,0.373,0.139,0.364,0.551,0.38,0.516,0.221,0.538,0.551,0.286,Bellevue before 2003: 595 vs 26,29.0,6817.675,8270.606,7649.473,11516.053,16588.485
+gradient_boosting,0.371,0.195,0.371,0.551,0.353,0.516,0.236,0.538,0.551,0.286,"Kansas City placebo before 2006: 34,538 vs 3,650",4.8,12880.447,15988.74,8990.892,12712.114,25078.363
