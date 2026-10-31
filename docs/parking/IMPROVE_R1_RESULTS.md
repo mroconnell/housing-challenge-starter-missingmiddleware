@@ -103,7 +103,7 @@ Outputs: `reference/parking_placebo_full_v6u_*.csv`. All rates are permits per 1
 - The rule needed every real place to have at least 20 stand-ins. San Jose has 19, so V6u does not replace the headline.
 - **The headline high end stays at 19,937.**
 - These figures are added to the tool's "How sure" sensitivities: V6u placebo 29,843; strict cleaning, resampling 38,230; strict cleaning, placebo 49,712.
-- The tool states that the high end is uncertain by about 2×.
+- All three cleaned-data high ends are above 19,937. The tool says plainly that the headline high end is the lowest of the four and may be understated, and that the high end is uncertain by about 2× (audit E2).
 - Ryan has the final call.
 
 **Reading:**

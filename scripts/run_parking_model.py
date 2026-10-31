@@ -135,7 +135,7 @@ def main() -> None:
              description="High end after round-1 data fixes, with every comparison city that has any recorded parking reform left out, from resampling the 73 repeal places. Shown as a sensitivity: switching to this method after seeing results is not allowed."),
         dict(case="Cleaned data, strict comparison cleaning (placebo)", moves="statewide addition",
              value=tot(homes, float(pd.read_csv(REFERENCE / "parking_placebo_full_v6_summary.csv")["range_from_placebo_high"].iloc[0])),
-             description="As above, from the placebo test. Big repeal cities are left with 3 to 18 look-alikes, so this figure is noisy. Together these cases show that the high end is uncertain by about 2x."),
+             description="As above, from the placebo test. Big repeal cities are left with 3 to 18 look-alikes, so this figure is noisy. All three cleaned-data high ends are above the headline 19,937, so the headline high end is the lowest of the four and may be understated; the high end is uncertain by about 2x."),
         dict(case="Buildings of 2 or more units only", moves="statewide addition", value=tot(homes, upper_apts),
              description=f"Resampling high end when only units in buildings of 2 or more units are counted, {upper_apts:.2f} per 1,000 existing homes per year."),
         dict(case="Without San Francisco", moves="statewide addition", value=tot(homes, upper_no_sf),
