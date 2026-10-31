@@ -29,6 +29,7 @@ def main(argv=None) -> None:
     from sklearn.ensemble import HistGradientBoostingRegressor
     ap = argparse.ArgumentParser()
     ap.add_argument("--round", type=int, required=True)
+    ap.add_argument("--seed", type=int, default=20261031, help="random seed (item 57: seed spread of a round)")
     a = ap.parse_args(argv)
     L.FIT.update(item25=True, item32=True, item34=True, item37=True, item46=True)
     D = pd.read_parquet(L.OUT / "lots_rebuilt_halfmile.parquet")
@@ -99,7 +100,7 @@ def main(argv=None) -> None:
             fit = tr & (up == g)
             if fit.sum() < 50:
                 continue
-            m = HistGradientBoostingRegressor(random_state=20261031)   # item 52: squared error on the level
+            m = HistGradientBoostingRegressor(random_state=a.seed)   # item 52: squared error on the level
             ac = D["acres"].clip(lower=0.01).values
             if a.round >= 6:   # item 55: homes per acre, weighted by acres
                 m.fit(X[fit], y[fit] / ac[fit], sample_weight=w[fit] * ac[fit])
@@ -136,7 +137,8 @@ def main(argv=None) -> None:
     if trend:
         R["market_trend"] = R["city"].map(trend)
         R["error_before_x_trend_pct"] = 100 * (R["before"] * R["market_trend"] - R["actual_after"]) / R["actual_after"]
-    R.round(1).to_csv(REFERENCE / f"tod_lot_model_loop_round{a.round}.csv", index=False)
+    tag = "" if a.seed == 20261031 else f"_seed{a.seed}"
+    R.round(1).to_csv(REFERENCE / f"tod_lot_model_loop_round{a.round}{tag}.csv", index=False)
     pd.set_option("display.width", 250)
     print(R[["city", "before", "actual_after", "model_after", "error_after_pct", "error_vs_same_pace_pct"] + (["error_before_x_trend_pct"] if trend else []) + [
              "upzoned_actual_after", "upzoned_model_after"]].round(0).to_string(index=False))

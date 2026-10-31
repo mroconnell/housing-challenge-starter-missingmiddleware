@@ -365,3 +365,15 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     - **Market pace:** the city's own Census permit-survey homes per year, after vs before, over the case's windows (whole city, all buildings), as a known trend. For Wisconsin this role is played by the tool's existing baseline forecast, not by the lot model.
     - **Lot model:** the no-TOD model's predictions for a city are scaled so that, on the city's non-upzoned lots, predicted homes after = homes before × the city's market trend. The same scale is applied to the TOD model on upzoned lots, so the TOD model's extra homes are kept in proportion.
     - Reported per city beside rounds 1–6: predicted vs actual homes after (all lots, and upzoned lots), and "same pace as before" and "before × market trend" for reference.
+57. **2026-10-31, from the audit's review of rounds 1–6, before any further round.**
+    1. **Round 7 result** (scaling to before × the city's permit-survey trend): Philadelphia +5%, Seattle +35%, Kansas City −15%, Madison placebo +26%, Columbus +34%, Charlotte −40%, Milwaukee −54%, Los Angeles −80%, New York +69%; Saint Paul 0 (a bug: its non-upzoned lots had no homes before, so the scale was 0 and wiped out its upzoned lots too).
+    2. **One summary score, fixed now and applied to every round including the bad ones:** the median over cities of |log(predicted ÷ actual homes after)|. All rounds and cities go in one table (`reference/tod_lot_model_loop_summary.csv`). The score was chosen after rounds 1–7 were seen; that is stated with it.
+    3. **Seed spread:** round 6 is rerun with 5 seeds; if the seed spread is as big as the round-to-round swings, that is said plainly.
+    4. **Checks before blaming the model:** New York homes per acre on assembled sites (hotels, fragments), Los Angeles's lot count and Cornfield's 0 homes, and that Saint Paul's "built before" (item 35) is in the loop's data.
+    5. **Round 8 design (the two-part idea), fixed here before it is built or run:**
+       - **City total = "same pace as before"**, with no tuning.
+       - **The lot model predicts each lot's share** of the city's homes after.
+       - **TOD effect = the upzoned lots' predicted share after minus their share before**, times the city total.
+       - **Built-in placebo:** each of the 4 no-reform cities gets a fake reform map (the Wisconsin law area in Madison and Milwaukee; in Columbus and Kansas City, the lots within ½ mile of the downtown point); its predicted uplift should be about 0 and is reported beside the real cities.
+       - **Score:** the median |log(predicted ÷ actual share)| on upzoned lots, beside "same share as before". No pass mark.
+       - **Stop** when a round finds no new problem; then the holdouts are read once.
