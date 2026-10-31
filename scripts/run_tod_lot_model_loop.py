@@ -72,13 +72,21 @@ def main(argv=None) -> None:
             if fit.sum() < 50:
                 continue
             m = HistGradientBoostingRegressor(random_state=20261031)   # item 52: squared error on the level
-            m.fit(X[fit], y[fit], sample_weight=w[fit])
+            ac = D["acres"].clip(lower=0.01).values
+            if a.round >= 6:   # item 55: homes per acre, weighted by acres
+                m.fit(X[fit], y[fit] / ac[fit], sample_weight=w[fit] * ac[fit])
+            else:
+                m.fit(X[fit], y[fit], sample_weight=w[fit])
             pm = te & (up == g)
             if pm.any():
                 built = fit & (y > 0)
-                hpa = float(np.quantile(y[built] / D.loc[built, "acres"].clip(lower=0.01).values, 0.999))
-                cap = D.loc[pm, "acres"].clip(lower=0.01).values * hpa
-                pred[pm] = np.clip(m.predict(L.forecast_view(X[pm])), 0, cap)   # item 52: 0 to a physical ceiling
+                if a.round >= 6:   # item 55: density capped at the 99th percentile of building lots, times acres
+                    hpa = float(np.quantile(y[built] / ac[built], 0.99))
+                    pred[pm] = np.clip(m.predict(L.forecast_view(X[pm])), 0, hpa) * ac[pm]
+                else:
+                    hpa = float(np.quantile(y[built] / D.loc[built, "acres"].clip(lower=0.01).values, 0.999))
+                    cap = D.loc[pm, "acres"].clip(lower=0.01).values * hpa
+                    pred[pm] = np.clip(m.predict(L.forecast_view(X[pm])), 0, cap)   # item 52: 0 to a physical ceiling
         ub, ua = D.loc[te, "ub5"].values, D.loc[te, "ua5"].values
         wt, u = w[te], up[te]
         rows.append({"city": c, "lots": int(te.sum()), "upzoned_lots": int(u.sum()),
