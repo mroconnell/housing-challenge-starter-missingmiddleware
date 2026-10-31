@@ -27,7 +27,8 @@ from missing_middleware.parking import checks  # noqa: E402
 from missing_middleware.parking import comparison as cmp  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
-FIT_ORIGINS, TEST_ORIGINS = (2016, 2017, 2018), (2019, 2020)
+FIT_ORIGINS, TEST_ORIGINS = (2016, 2017), (2018, 2019)
+LEAD = 2  # outcome = years 2-6 after the origin, so origin 2025 predicts the tool window 2027-2031 (audit, 2026-10-31)
 SEEDS = range(20261031, 20261036)
 MIN_HOMES = 1000
 WI = "55"
@@ -48,17 +49,17 @@ def score(pred: np.ndarray, act: np.ndarray) -> dict:
 def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits: pd.DataFrame) -> pd.DataFrame:
     tot = p.pivot_table(index="key", columns="year", values="units_total", aggfunc="sum")
     mf = p.pivot_table(index="key", columns="year", values="units_2plus", aggfunc="sum")
-    pop = p.pivot_table(index="key", columns="year", values="pop", aggfunc="first")
+    pop = p.pivot_table(index="key", columns="year", values="pop", aggfunc="first", dropna=False).reindex(tot.index)
     info = p.drop_duplicates("key", keep="last").set_index("key")[["state_fips", "division", "name"]]
     years = sorted(tot.columns)
     rows = []
     for t in range(2016, 2026):
         hist = [t - 4, t - 3, t - 2, t - 1, t]
-        fut = [y for y in range(t + 1, t + 6) if y in years]
+        fut = [y for y in range(t + LEAD, t + LEAD + 5) if y in years]
         need = hist + fut
         ok = tot[need].notna().all(axis=1)
         k = tot.index[ok]
-        since = tot.loc[k, [y for y in years if t < y <= 2024]].sum(axis=1)
+        since = tot.loc[k, [y for y in years if t < y <= 2024]].sum(axis=1).fillna(0)
         h = (homes_acs.reindex(k) - since).clip(lower=homes_acs.reindex(k) * 0.5)
         d = pd.DataFrame(index=k)
         d["origin"] = t
@@ -74,14 +75,14 @@ def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits:
         d["share_2plus"] = (mf.loc[k, hist].sum(axis=1) / tot.loc[k, hist].sum(axis=1).replace(0, np.nan)).fillna(0)
         x = np.arange(5) - 2.0
         d["trend"] = (tot.loc[k, hist].values / h.values[:, None] * 1000 @ x) / (x @ x)
-        d["pop_growth"] = np.log(pop.loc[k, t].clip(lower=1) / pop.loc[k, t - 4].clip(lower=1))
+        d["pop_growth"] = np.log(pop.reindex(k)[t].clip(lower=1) / pop.reindex(k)[t - 4].clip(lower=1))
         d["actual"] = tot.loc[k, fut].mean(axis=1) if len(fut) == 5 else np.nan
         d = d.join(info)
         d = d[d["homes"] >= MIN_HOMES]
         ry = d.index.map(lambda q: reform_year.get(q, 9999))
         d["reform_year"] = ry
         # never reformed, or every outcome year before the repeal; undated reforms (-1) never qualify
-        d["no_reform"] = (np.asarray(ry) == 9999) | (np.asarray(ry) > t + 5)
+        d["no_reform"] = (np.asarray(ry) == 9999) | (np.asarray(ry) > t + LEAD + 4)
         rows.append(d.reset_index())
     r = pd.concat(rows, ignore_index=True)
     # state and division momentum: 3-year over 5-year permits, from all places (data any state has at the origin)
@@ -286,12 +287,12 @@ def main() -> None:
     # and origin 2025 (forecast 2026-2030, compared with the shared baseline's 2027-2031)
     allfit = train[(train["state_fips"] != WI) & train["actual"].notna()].assign(fake_reform=0)
     wi_rows = []
-    for o in (2020, 2025):
+    for o in (2019, 2025):
         te = R[(R["state_fips"] == WI) & (R["origin"] == o)].assign(fake_reform=0)
         preds, _ = predict_all(allfit, te, SEEDS[0])
         for mname, pr in preds.items():
             row = dict(origin=o, model=mname, places=len(te), five_year_total=float(pr.sum() * 5))
-            if o == 2020:
+            if o == 2019:
                 row.update(actual_five_year=float(te["actual"].sum() * 5), **score(pr, te["actual"].values))
             wi_rows.append(row)
     W = pd.DataFrame(wi_rows)
