@@ -85,3 +85,12 @@ Settings for M2–M4 are chosen by 5-fold cross-validation over places within th
   - **Coding fix:** the flag rows wrote to the wrong columns and printed blank.
   - **Regression inputs:** the M3 regressions were unstable. Their fake-reform on-minus-off ranged from −62 to +50 units per place per year, and they had the worst scores. Rates now enter as log(1 + rate), and the trend is clipped at its 1st and 99th percentiles. M0, M1 and M2 do not use these inputs.
   - **Wisconsin coverage:** the 331 Wisconsin places with at least 1,000 homes and every year present hold about 70% of the state's permits. Each model's Wisconsin total is also shown as its ratio to M0, times 118,822.
+- **2026-10-31, audit review of round 1 (logged while round 2 ran; these go into round 3):**
+  - **Fix the shared-geography keys instead of dropping them:**
+    - New York City's five boroughs get their own county's ACS homes (Bronx, Kings, New York, Queens and Richmond counties).
+    - Pieces of one town or village split across counties or parts are summed into one place (Bellmont NY, Danville GA, Rushville NY, Red Springs NC, Rutherford College NC).
+    - Rows with no geography of their own are dropped and named: Alaska's balance-of-state parts, Ohio's county "Part" and "Unincorporated" rows, and Cabot village, VT, which sits inside Cabot town.
+    - Round 2 dropped all 11 groups. It is kept as a check.
+  - **General land-mismatch flag:** a place-origin whose 3-year rate (permits per 1,000 homes per year) is outside the national 1st–99th percentile is flagged. The 10 largest by homes are traced. Consolidated city-counties are also listed (Nashville-Davidson, Indianapolis, Louisville, Honolulu and others).
+  - **Main baseline:** place-level same pace (M0) stays the main rule, consistent with TOD and ADU. It is shown beside its past bias: totals ran 17% low on held-out places, and 22% low in Wisconsin's 2021–2025 back-test. Boosted trees' state total is a sensitivity for Ryan. There is no ad-hoc correction.
+  - Seed spread is reported for every score.
