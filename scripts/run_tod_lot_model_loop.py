@@ -62,6 +62,34 @@ def main(argv=None) -> None:
         Xb = Xb.drop(columns=[c for c in Xb.columns if c.startswith("reform_share_")])
     w = D["w"].values
     up = (D["treated"] == 1).values
+    # item 56: each city's whole-city permit-survey trend (after vs before, homes per year) over its windows
+    trend = {}
+    if a.round >= 7:
+        from missing_middleware.paths import RAW
+        from missing_middleware.tod import control_cities as cc
+        bps = cc.read_bps(RAW / "tod_control_cities" / "bps")
+        gaz = cc.read_gazetteer(RAW / "tod_control_cities" / "Gaz_places_national.zip")
+        panel, places = cc.link(bps, gaz, cc.read_county_hu(RAW / "tod_control_cities" / "Gaz_counties_national.zip"))
+        names = {"New York": ("New York city", "36"), "Philadelphia": ("Philadelphia city", "42"), "Charlotte": ("Charlotte city", "37"),
+                 "Saint Paul": ("St. Paul city", "27"), "Seattle": ("Seattle city", "53"), "Los Angeles": ("Los Angeles city", "06"),
+                 "Madison placebo": ("Madison city", "55"), "Milwaukee placebo": ("Milwaukee city", "55"),
+                 "Columbus placebo": ("Columbus city", "39"), "Kansas City placebo": ("Kansas City city", "29")}
+        series = {}
+        for c, (n, st) in names.items():
+            g = places[(places.place_name == n) & (places.geoid.str[:2] == st)].geoid.iloc[0]
+            series[c] = panel[panel.geoid == g].set_index("year")["units"]
+        for c in names:
+            d = D[D["city"] == c]
+            ratios, wts = [], []
+            for (ef, wf, wl), n in d.groupby(["eff_year", "window_first", "window_last"]).size().items():
+                s_ = series[c]
+                b = s_.reindex(range(int(wf), int(ef))).mean()
+                aft = s_.reindex(range(int(ef) + 1, int(wl) + 1)).mean() if c != "Madison placebo" else s_.reindex(range(int(ef) + 1, int(wl) + 1)).mean()
+                if b and b == b and aft == aft:
+                    ratios.append(aft / b)
+                    wts.append(n)
+            trend[c] = float(np.average(ratios, weights=wts)) if ratios else np.nan
+        print("market trend (after / before, whole city):", {k: round(v, 2) for k, v in trend.items()}, flush=True)
     rows = []
     for c in sorted(D["city"].unique()):
         te = (D["city"] == c).values
@@ -89,6 +117,12 @@ def main(argv=None) -> None:
                     pred[pm] = np.clip(m.predict(L.forecast_view(X[pm])), 0, cap)   # item 52: 0 to a physical ceiling
         ub, ua = D.loc[te, "ub5"].values, D.loc[te, "ua5"].values
         wt, u = w[te], up[te]
+        if a.round >= 7 and trend.get(c) == trend.get(c):   # item 56: scale to before x market trend on non-upzoned lots
+            p_te = pred[te]
+            denom = float(p_te[~u] @ wt[~u])
+            if denom > 0:
+                k = float(ub[~u] @ wt[~u]) * trend[c] / denom
+                pred[te] = p_te * k
         rows.append({"city": c, "lots": int(te.sum()), "upzoned_lots": int(u.sum()),
                      "before": float(ub @ wt), "actual_after": float(ua @ wt), "model_after": float(pred[te] @ wt),
                      "upzoned_before": float(ub[u] @ wt[u]), "upzoned_actual_after": float(ua[u] @ wt[u]),
@@ -99,9 +133,12 @@ def main(argv=None) -> None:
     R["model_change"] = R["model_after"] - R["before"]
     R["error_after_pct"] = 100 * (R["model_after"] - R["actual_after"]) / R["actual_after"].where(R["actual_after"] != 0)
     R["error_vs_same_pace_pct"] = 100 * (R["before"] - R["actual_after"]) / R["actual_after"].where(R["actual_after"] != 0)
+    if trend:
+        R["market_trend"] = R["city"].map(trend)
+        R["error_before_x_trend_pct"] = 100 * (R["before"] * R["market_trend"] - R["actual_after"]) / R["actual_after"]
     R.round(1).to_csv(REFERENCE / f"tod_lot_model_loop_round{a.round}.csv", index=False)
     pd.set_option("display.width", 250)
-    print(R[["city", "before", "actual_after", "model_after", "error_after_pct", "error_vs_same_pace_pct",
+    print(R[["city", "before", "actual_after", "model_after", "error_after_pct", "error_vs_same_pace_pct"] + (["error_before_x_trend_pct"] if trend else []) + [
              "upzoned_actual_after", "upzoned_model_after"]].round(0).to_string(index=False))
 
 
