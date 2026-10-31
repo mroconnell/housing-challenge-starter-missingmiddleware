@@ -275,3 +275,17 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     - **Known issue, logged now, fixed in the next run:** item 33 spreading shares a site's homes over all day-one lots of the reform inside the site, so homes can cross between upzoned and comparison lots. The next run keeps spread homes within the source lot's group (upzoned or not). How many crossed in this run is measured and reported with the results.
     - **To check before blaming the model for Los Angeles:** whether Los Angeles's permits are complete (Cornfield's upzoned land shows 0 homes before and after).
     - **Also logged (cloud note on item 33):** after spreading, "builds" uses more than 0.5 homes, where everything else uses more than 0. The next run uses more than 0 again. The main version decides; the old rule decides candidacy, and the new rule is reported beside it.
+37. **2026-10-31, owner's direction, written before anything below is built or run. Labelled "after results": every change here comes after the item 36 result was seen, which stays reported beside the new one.**
+    Owner: "why drop lots? feels like cherry picking … we really just care about what gets developed city-wide and statewide regardless of whether the lot was in the TOD, rezoned, or anything else"; "add no-reform cities".
+    1. **Keep every lot.** The study area is every lot the case adapter puts in the reform or its ring. No lot is dropped for later rezoning, class or distance. Item 14's ½-mile rule stops trimming: distance stays a trait. (This also ends the Madison comparison trim found on 2026-10-31.)
+    2. **Main test: total homes built.** For each lot, predicted homes after = homes before (5-year basis) + the forest's predicted change, using the upzoned forest on upzoned lots (law on) and the unchanged forest elsewhere. The model's total for a city's study area is compared with the actual total built after the reform (5-year basis).
+       - **Baseline:** "same pace as before": the study area's homes before (5-year basis).
+       - **Pass rule (fixed now):** lower mean absolute error across all leave-one-out cities than the baseline, **and** closer than the baseline on at least 2 of Chicago, Madison and Bellevue, **and** the no-reform placebo check below.
+    3. **No-reform cities (placebo).** Lots with no reform, scored the same way with the law off:
+       - **Madison outside the 2023 overlay**, pretend reform year 2017 (before 2011–2016, after 2017–2022), from Madison's permits with unit counts.
+       - **Milwaukee**, pretend reform year 2019 (before 2013–2018, after 2019–2024). Homes from the property file's year built (completion, not permit); flagged.
+       - Each enters the unchanged forest's training only in folds where it is not the city being predicted.
+       - **Placebo check:** in each no-reform city the model's error on the after total is no worse than the baseline's. A model that shows a jump with no reform fails.
+    4. **The reform's effect for Wisconsin** stays "law on minus law off" on the same lots. The old comparison-area score (items 23–27, 36) is kept as a second check, not a pass rule.
+    5. **Carried from item 36:** spread assembled sites only within the source lot's group; "builds" = more than 0 homes; check Los Angeles permit matching before reading its result.
+    6. Methods: the causal forest (three versions, item 19). The other 7 methods and the EconML causal forest follow only if the owner asks.
