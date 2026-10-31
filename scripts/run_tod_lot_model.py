@@ -591,6 +591,8 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
         X["log_stops_1mile"] = np.log1p(D["stops_1mile"])
     if FIT.get("item32"):   # item 32.5: traits known only in some cities act as city labels
         X = X.drop(columns=[c for c in ("homes_on_lot", "homes_missing", "soft_site", "soft_missing", "age") if c in X])
+    if FIT.get("item46"):   # item 46.5: permit-survey cost is not comparable across cities
+        X = X.drop(columns=[c for c in ("rent_to_cost", "pays_room") if c in X])
     X = X.replace([np.inf, -np.inf], np.nan)
     if FIT.get("item25"):   # item 25.8: fill values from non-holdout case-city rows only
         ref = ~D["city"].isin(HOLD) & ~(D["is_wi"].fillna(0).astype(bool) if "is_wi" in D else False)
@@ -1434,7 +1436,7 @@ def main(argv=None) -> None:
     if ap_rebuilt:
         REBUILT["on"] = True
         PATHS.update(lots=LOTS_REBUILT, half=OUT / "lots_rebuilt_halfmile.parquet")
-        FIT.update(item25=True, item32=True, item34=True, item37=True, with_rezoned_later=a.with_rezoned_later)
+        FIT.update(item25=True, item32=True, item34=True, item37=True, item46=True, with_rezoned_later=a.with_rezoned_later)
         import missing_middleware.tod.case_nyc as _N
         import missing_middleware.tod.case_chicago as _K
         _N.EXCLUDE_HOTELS, _K.STAGED_RELAXED = True, True   # item 32.1-2
