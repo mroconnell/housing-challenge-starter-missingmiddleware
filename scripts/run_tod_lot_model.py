@@ -415,8 +415,11 @@ def cost_per_home(city: str, year: int) -> float:
     st, name = BPS_NAME[city]
     best = None
     if FIT.get("item37"):   # item 43: median over the 5 years around, each with at least 20 such homes (one-year values swing)
+        names = (["Bronx borough", "Brooklyn borough", "Manhattan borough", "Queens borough", "Staten Island borough"]
+                 if city == "New York" else [name])   # the permit survey reports New York City by borough
         vals = []
         for y in range(year - 2, year + 3):
+            uu = vv = 0.0
             for reg in ("mw", "ne", "so", "we"):
                 f = RAW / "tod_control_cities" / "bps" / f"{reg}{y}a.txt"
                 if not f.exists():
@@ -426,10 +429,11 @@ def cost_per_home(city: str, year: int) -> float:
                 ni = h2.index("Name")
                 for line in lines[2:]:
                     c = line.split(",")
-                    if len(c) > ni + 13 and c[1].strip().zfill(2) == st and c[ni].strip() == name:
-                        u, v = float(c[ni + 11] or 0), float(c[ni + 12] or 0)
-                        if u >= 20:
-                            vals.append(v / u)
+                    if len(c) > ni + 13 and c[1].strip().zfill(2) == st and c[ni].strip() in names:
+                        uu += float(c[ni + 11] or 0)
+                        vv += float(c[ni + 12] or 0)
+            if uu >= 20:
+                vals.append(vv / uu)
         if vals:
             return float(np.median(vals))
     for y in [year, year - 1, year + 1, year - 2, year + 2]:
