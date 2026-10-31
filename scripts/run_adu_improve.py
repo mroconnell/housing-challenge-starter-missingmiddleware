@@ -40,6 +40,7 @@ VARIANTS_R2 = {
     "V1": "Vermont by permit year (counts one year earlier)",
     "V5": "Oregon law years from the benchmark rules (2020-01-01)",
     "V6": "V1 + V5",
+    "V6p": "V6 with Portland 2019 dropped instead of local-only (audit check)",
 }
 
 
@@ -73,13 +74,15 @@ def build_variant(v: str, d, pan) -> pr.Pooled:
         cov["ME_statewide"] = {2025: ME_HOMES_SHARE}
     if v in ("V3", "V4"):
         cov["RI_statewide"] = {2021: RI_EARLY_SHARE, 2022: RI_EARLY_SHARE}
-    vt = v in ("V1", "V4", "V6")
+    vt = v in ("V1", "V4", "V6", "V6p")
     p = rv.build(d, pan, coverage_override=cov or None, year_homes=not vt)
     rows = p.rows
     if vt:
         rows = hb.apply_homes_index(shift_vermont(rows), rv.homes_index(), rv.CLUSTER_FIPS)
-    if v in ("V5", "V6"):
+    if v in ("V5", "V6", "V6p"):
         rows = recode_oregon(rows)
+    if v == "V6p":
+        rows = rows[~(rows["series"].eq("portland") & rows["year"].eq(2019))].reset_index(drop=True)
     return pr.Pooled(rows, p.members)
 
 

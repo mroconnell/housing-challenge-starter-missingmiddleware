@@ -23,4 +23,4 @@ As round 1: held-out log error by state and RMS for the plain average, the media
 
 ## Changes after writing
 
-None yet.
+- **2026-10-31, audit request after the results:** added V6p, V6 with Portland's 2019 dropped instead of coded as local rules only. It moved the central by 721 permits, so it is reported and recommended over V6 (results section 1b).
