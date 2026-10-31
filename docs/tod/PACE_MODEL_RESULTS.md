@@ -67,3 +67,15 @@ Table: `reference/tod_stop_type_allotment.csv`, one row per city and stop band. 
 Years: Milwaukee before 2013–2018, after 2020–2024. Madison varies by area: before 2011–2022, after 2018–2025. Counts are in the CSV.
 
 Reading: rail and rapid stops take two to five times their share of homes. Lots within ¼ mile of a 15-minute bus roughly match their share. Lots ¼ to ½ mile from a bus stop get almost nothing.
+
+## Re-base look (owner, 16:09: "let's see what TOD looks like rebased"; not applied)
+
+`scripts/run_tod_rebase_check.py` → `reference/tod_rebase_check.csv`. Each place's baseline near stops is multiplied by the measured ratio of new-home share to existing-home share (main-case stops). The ratios are Milwaukee 1.35, Madison 1.16, and 1.28 elsewhere (both cities pooled; range 1.15–1.37). A share cannot go above 100%.
+
+| | Today | Re-based |
+| --- | ---: | ---: |
+| Homes near stops without the law, 2027–2031, central | 14,464 | 17,597 (17,322–17,885 from the share range) |
+| Pace range (low–high) | 8,386–21,874 | 10,201–26,619 |
+| Typical TOD effect, as a share of the baseline | 2,509 = 17.3% | 2,509 = 14.3% |
+
+The extra homes (171 / 2,509 / 17,148) do not change, because they are built on existing homes.
