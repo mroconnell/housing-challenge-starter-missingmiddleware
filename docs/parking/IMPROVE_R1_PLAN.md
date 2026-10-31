@@ -40,3 +40,8 @@ Written 2026-10-31 by the parking conductor, under Ryan's standing ask: improve 
   - Extra lines for V0 and V6: without the 4 heaviest places (San Francisco, Austin, San Jose, Raleigh), and places with 3 after-years only.
   - Comparison pool sizes are reported for each variant.
   - The 90% resampling range is labelled separately from the placebo range.
+- **2026-10-31, audit round 1 review (registered before computing):** two more lines for V0 and V6.
+  - Places with fewer than 5 comparison places are dropped.
+  - Pool-shrunk weights: homes × after-years × pool ÷ (pool + 5), so places with small comparison pools count less.
+  - The comparison-pool label (state, division or nation, with its population window) is saved for each place-variant.
+  - The placebo already draws stand-ins only from places with a computable effect: stand-ins with an empty pool, such as Nashville, are dropped before the sets are drawn.
