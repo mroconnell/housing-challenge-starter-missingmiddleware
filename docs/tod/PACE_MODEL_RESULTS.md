@@ -32,6 +32,8 @@ The held-out place test has 30 city-windows. The later-years test has only 4 (th
 
    Windows: Milwaukee 2013–2018 and 2020–2024; Madison 2011–2022 and 2018–2025 by area. The two cities hold 82% of the main case's homes near stops. Under the main case, station areas got about 1.15× (Madison) to 1.35× (Milwaukee) their share of homes. So the 14,464 baseline may be low by roughly 15–35%, not 1.4–4×. Owner decision; no number changed.
 
+   For the write-up (audit): under the main case, station areas already get 94–99% of new homes in Milwaukee and Madison, so a share-based TOD effect has little room to move there. A narrower benchmark definition (plan item 61, option a) would give it room.
+
 ## Bad data and code found and fixed
 
 | Round | Problem | Fix |
