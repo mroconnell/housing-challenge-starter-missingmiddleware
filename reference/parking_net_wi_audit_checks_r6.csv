@@ -1,0 +1,20 @@
+check,value,note
+homes varies by origin,0.989,share of 9584 places with more than one homes value across origins
+homes change > 5% from origin 2019 to 2020,326 of 9189,"median change +0.003; largest: Liberty Hill +0.79, Iowa Colony village +0.45, Venus +0.41, Fulshear +0.40, Bordentown township +0.38, Northlake town +0.33"
+homes change > 5% from origin 2021 to 2022,3545 of 9049,"median change -0.014; largest: Milwaukee +12.50, West Allis +10.86, Oak Creek +8.21, Ossining town +5.64, Marion township +4.45, Massena town +3.88"
+added permits stop at origin (Madison),2185,homes(2020) - homes(2019) should equal 2020 permits (2185); u4 is the origin-year permits
+held-out reform miss by log error,+3.18,"Ecorse origin 2019 repeal 2021: predicted 12, actual 0, same pace 86, homes 4593"
+held-out reform miss by log error,+2.49,"Hartford origin 2016 repeal 2017: predicted 90, actual 7, same pace 6, homes 58191"
+held-out reform miss by log error,+1.55,"Hudson origin 2017 repeal 2019: predicted 8, actual 1, same pace 5, homes 4098"
+held-out reform miss by log error,+1.42,"River Rouge origin 2019 repeal 2021: predicted 2, actual 0, same pace 0, homes 3529"
+held-out reform miss by log error,+1.22,"Seabrook town origin 2019 repeal 2019: predicted 40, actual 11, same pace 13, homes 4403"
+held-out reform miss by log error,+1.08,"Hayward origin 2019 repeal 2020: predicted 659, actual 223, same pace 683, homes 51213"
+trace Hartford,01|236000,"permits by year 2016: 7, 2017: 10, 2018: 11, 2019: 11, 2020: 14, 2021: 16, 2022: 12, 2023: 11, 2024: 11, 2025: 6; homes 1218"
+trace Hartford,09|285000,"permits by year 2016: 5, 2017: 5, 2018: 5, 2019: 7, 2020: 10, 2021: 11, 2022: 2, 2023: 141, 2024: 6, 2025: 12; homes 56807"
+trace Hartford,26|401000,"permits by year 2016: 0, 2017: 1, 2018: 0, 2019: 0, 2020: 0, 2021: 0; homes 1027"
+trace Hartford,26|401500,"permits by year 2016: 0, 2017: 0, 2018: 0, 2019: 0, 2020: 0, 2021: 0, 2022: 0, 2023: 0, 2024: 1, 2025: 0; homes 1321"
+trace Hartford,46|266500,"permits by year 2016: 61, 2017: 53, 2018: 22, 2019: 20, 2020: 33, 2021: 27, 2022: 113, 2023: 21, 2024: 18, 2025: 13; homes 1595"
+trace Hartford,50|215000,"permits by year 2016: 52, 2017: 48, 2018: 10, 2019: 37, 2020: 17, 2021: 19, 2022: 16, 2023: 15, 2024: 253, 2025: 16; homes 5688"
+trace Hartford,55|377500,"permits by year 2016: 226, 2017: 140, 2018: 84, 2019: 132, 2020: 56, 2021: 59, 2022: 59, 2023: 52, 2024: 39, 2025: 42; homes 7057"
+trace Hartford,55|378000,"permits by year 2016: 4, 2017: 7, 2018: 2, 2019: 6, 2020: 5, 2021: 2, 2022: 1, 2023: 5, 2024: 3, 2025: 6; homes 1470"
+trace Ecorse,26|266500,"permits by year 2016: 0, 2017: 198, 2018: 0, 2019: 59, 2020: 0, 2021: 0, 2022: 0, 2023: 0, 2024: 0, 2025: 0; homes 4376"

@@ -55,3 +55,11 @@ Written 2026-10-31 by the parking conductor. Ryan asked all three scenarios to r
   - **Fake-reform outlier, seed 20261034, explained:** its fake rows grew 32.8 more permits per 1,000 homes per year than the rest (+32.78 against +3.05). Most of the gap is Hardeeville, SC (+542, +462, +389). It is a real boom, enlarged by a stale population (see the no-reform plan, round 5). The trees learned "fake = fast growth".
   - **Seed 20261033 is not explained by the plain average** (−0.32). Round 6 adds the home-weighted average.
   - Round 6 uses the no-reform model's round 5 data.
+- **2026-10-31, round 6 results and audit checks → round 7 (before round 7 ran):**
+  - **Round 6 (trees), Wisconsin net 2027–2031:** median 0 (57% of 105 runs exactly 0), mean −1,024, 5th to 95th percentile −5,438 to 0. The fake-reform range is −3,148 to 6,095.
+  - **Fake-reform seeds explained:** home-weighted, the fake rows in seeds 32–34 grew 1.3–4.0 more permits per 1,000 homes per year than the rest. In seeds 31 and 35, they grew 1.2–1.3 less. The trees follow that sign.
+  - **Audit checks on round 6 data:** homes varied by origin in 98.9% of places, and Madison's homes rose by exactly its origin-year permits. But 107 places jumped more than 3× where the source switched (Milwaukee ×13.5), because the permit file's population is unreliable. Round 7 uses ACS homes from the release ending at each origin (no-reform round 6).
+  - **Held-out misses by log error:**
+    - Ecorse, MI: predicted 12 a year, actual 0. Its permits were 198 in 2017, 59 in 2019, then 0 every year to 2025.
+    - Hartford, CT: predicted 90, actual 7. Its permits were 5–11 a year, with one spike of 141 in 2023.
+    - Both are lumpy small series, not data errors.

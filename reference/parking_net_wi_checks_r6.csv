@@ -1,0 +1,32 @@
+check,where,column,value,note
+reform rows,training,,60.0,29 reform places; trait = material repeal from 1 year before to 2 years after the origin
+"largest Wisconsin net (M4, mean over seeds)",Madison 55|516500,net per year,-25.1,"homes 143356, same-pace permits 2938 per year"
+"largest Wisconsin net (M4, mean over seeds)",Kenosha 55|437500,net per year,-5.9,"homes 43586, same-pace permits 141 per year"
+"largest Wisconsin net (M4, mean over seeds)",Eau Claire 55|255500,net per year,-4.4,"homes 33433, same-pace permits 588 per year"
+"largest Wisconsin net (M4, mean over seeds)",Howard village 55|405500,net per year,-3.1,"homes 9935, same-pace permits 209 per year"
+"largest Wisconsin net (M4, mean over seeds)",Green Bay 55|351000,net per year,-3.0,"homes 45877, same-pace permits 265 per year"
+"largest Wisconsin net (M4, mean over seeds)",Milwaukee 55|572000,net per year,-2.7,"homes 270094, same-pace permits 135 per year"
+"largest Wisconsin net (M4, mean over seeds)",Middleton 55|565000,net per year,-2.6,"homes 11774, same-pace permits 314 per year"
+"largest Wisconsin net (M4, mean over seeds)",Waukesha 55|917000,net per year,-2.6,"homes 32365, same-pace permits 67 per year"
+"largest Wisconsin net (M4, mean over seeds)",Oshkosh 55|654000,net per year,-2.2,"homes 30641, same-pace permits 167 per year"
+"largest Wisconsin net (M4, mean over seeds)",Grand Chute town 55|343500,net per year,-2.1,"homes 11904, same-pace permits 241 per year"
+"held-out reform place, largest miss (M4, trait on)",San Francisco 06|389000,homes per year,2132.0,"origin 2018, repeal 2018, actual 1689, same pace 4590, on 3820, off 3820"
+"held-out reform place, largest miss (M4, trait on)",Hayward 06|173000,homes per year,436.0,"origin 2019, repeal 2020, actual 223, same pace 683, on 659, off 659"
+"held-out reform place, largest miss (M4, trait on)",Champaign 17|137800,homes per year,-391.0,"origin 2016, repeal 2015, actual 741, same pace 800, on 350, off 350"
+"held-out reform place, largest miss (M4, trait on)",Bastrop 48|045500,homes per year,-232.0,"origin 2019, repeal 2019, actual 364, same pace 82, on 132, off 133"
+"held-out reform place, largest miss (M4, trait on)",Buffalo 36|089500,homes per year,218.0,"origin 2016, repeal 2017, actual 265, same pace 246, on 483, off 483"
+"fake-reform rows vs the rest (change per 1,000 homes per year)",seed 20261031,,-1.58,"82 fake rows: +1.40 vs +2.97 (home-weighted +1.27 vs +2.42); fastest: Garner town +44, Garner town +39, Garner town +39"
+"fake-reform rows vs the rest (change per 1,000 homes per year)",seed 20261032,,3.62,"83 fake rows: +6.58 vs +2.96 (home-weighted +6.38 vs +2.40); fastest: Saratoga Springs +95, Saratoga Springs +88, Saratoga Springs +85"
+"fake-reform rows vs the rest (change per 1,000 homes per year)",seed 20261033,,3.61,"69 fake rows: +6.57 vs +2.96 (home-weighted +5.45 vs +2.40); fastest: Royse City +168, Royse City +136, Cicero town +29"
+"fake-reform rows vs the rest (change per 1,000 homes per year)",seed 20261034,,3.26,"61 fake rows: +6.22 vs +2.96 (home-weighted +3.70 vs +2.41); fastest: Wendell town +182, Leesburg +84, Leesburg +79"
+"fake-reform rows vs the rest (change per 1,000 homes per year)",seed 20261035,,-2.63,"75 fake rows: +0.35 vs +2.97 (home-weighted +1.09 vs +2.41); fastest: McCall +12, St. Louis Park +10, Grantville +10"
+fake-reform Wisconsin net by seed,M4 boosted trees | fake reform,homes 2027-2031,4980.0,seed 20261031
+fake-reform Wisconsin net by seed,M3b regression + ACS | fake reform,homes 2027-2031,-20579.0,seed 20261031
+fake-reform Wisconsin net by seed,M4 boosted trees | fake reform,homes 2027-2031,6374.0,seed 20261032
+fake-reform Wisconsin net by seed,M3b regression + ACS | fake reform,homes 2027-2031,39123.0,seed 20261032
+fake-reform Wisconsin net by seed,M4 boosted trees | fake reform,homes 2027-2031,0.0,seed 20261033
+fake-reform Wisconsin net by seed,M3b regression + ACS | fake reform,homes 2027-2031,39681.0,seed 20261033
+fake-reform Wisconsin net by seed,M4 boosted trees | fake reform,homes 2027-2031,-3935.0,seed 20261034
+fake-reform Wisconsin net by seed,M3b regression + ACS | fake reform,homes 2027-2031,3463.0,seed 20261034
+fake-reform Wisconsin net by seed,M4 boosted trees | fake reform,homes 2027-2031,0.0,seed 20261035
+fake-reform Wisconsin net by seed,M3b regression + ACS | fake reform,homes 2027-2031,-8239.0,seed 20261035

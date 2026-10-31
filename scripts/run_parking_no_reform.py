@@ -46,7 +46,8 @@ def score(pred: np.ndarray, act: np.ndarray) -> dict:
                 total_ratio=float(pred.sum() / max(act.sum(), 1e-9)), n=int(len(act)))
 
 
-def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits: pd.DataFrame, pop_acs: pd.Series | None = None) -> pd.DataFrame:
+def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits: pd.DataFrame, pop_acs: pd.Series | None = None,
+               acs_hist_homes: dict | None = None) -> pd.DataFrame:
     tot = p.pivot_table(index="key", columns="year", values="units_total", aggfunc="sum")
     mf = p.pivot_table(index="key", columns="year", values="units_2plus", aggfunc="sum")
     pop = p.pivot_table(index="key", columns="year", values="pop", aggfunc="first", dropna=False).reindex(tot.index)
@@ -67,7 +68,15 @@ def build_rows(p: pd.DataFrame, homes_acs: pd.Series, reform_year: dict, traits:
             pt = pop.reindex(k)[t]
             pt = pt.where((pt > 0) & (pt != 99999))
             h = pt * (homes_acs.reindex(k) / pop_acs.reindex(k).where(pop_acs.reindex(k) > 0))
-        if ROUND >= 5:
+        if ROUND >= 6:
+            # round 6: homes from the ACS 5-year release ending at the origin (2016-2019), fetched by
+            # scripts/fetch_parking_acs_history.py; from 2020 on, ACS 2020-24 plus permits issued after 2024 up to the origin.
+            # The permit file's population is unreliable (Milwaukee 34,451 until 2021), so it is no longer used.
+            if t <= 2019:
+                h = acs_hist_homes.get(t, pd.Series(dtype=float)).reindex(k)
+            else:
+                h = homes_acs.reindex(k) + tot.loc[k, [y for y in years if 2025 <= y <= t]].sum(axis=1).fillna(0)
+        elif ROUND >= 5:
             # BPS population is the last decennial count (2010 until 2021, 2020 from 2022; checked: 94% of places
             # unchanged 2013-2021). Add the permits issued since that census, up to the origin (round 5).
             base = 2010 if t <= 2021 else 2020
@@ -273,7 +282,16 @@ def prepare():
         cp = cp[cp["GEO_ID"].str.startswith("0500000US")].set_index("GEO_ID")["B01003_E001"].astype(float)
         for k in geo.index[geo["acs_geoid"].eq("160|3651000")]:
             pop_acs[k] = cp.get("0500000US36" + geo.loc[k, "county_fips"].zfill(3), np.nan)
-    R = build_rows(p, homes_acs, reform_year, traits, pop_acs)
+    acs_hist_homes = {}
+    if ROUND >= 6:
+        H = pd.read_csv(REFERENCE / "parking_acs_history_homes.csv", dtype={"acs_geoid": str})
+        gid = geo["acs_geoid"].copy()
+        for k in geo.index[geo["acs_geoid"].eq("160|3651000")]:  # NYC boroughs: their county
+            gid[k] = "050|36" + geo.loc[k, "county_fips"].zfill(3)
+        gid = gid.drop(shared_keys.difference(geo.index[geo["acs_geoid"].eq("160|3651000")]), errors="ignore")
+        for y, g in H.groupby("year"):
+            acs_hist_homes[int(y)] = gid.map(g.set_index("acs_geoid")["homes"]).where(lambda v: v > 0)
+    R = build_rows(p, homes_acs, reform_year, traits, pop_acs, acs_hist_homes)
     R["estimated_months"] = [sum(1 for y in range(o - 4, o + 6) if months.get((k, y), 12) < 12)
                              for k, o in zip(R["key"], R["origin"])]
     return R, reform_year, months, geo, shared, shared_keys
