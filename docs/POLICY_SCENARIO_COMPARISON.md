@@ -91,7 +91,7 @@ ADU figures were revised on 2026-10-31 (AQ-065 in the [assumptions log](ASSUMPTI
 | Parking | **The high end of the range** | The upper case is the top of the placebo-based range (+1.49). A lower bound or the central would give 0. |
 | Parking | **Which places are in the evidence** | Using only the first 24 places studied, the high end is 29,662; combining the 76 places with 185 California cities under AB 2097 gives 15,138; leaving out San Francisco gives 24,520. |
 | Parking | **How the range is built** | An earlier placebo version with too few stand-ins for big cities gave +0.95 (12,695); resampling the 76 places gives +1.43 (19,186), close to the adopted 19,937. |
-| Parking | **How the comparison cities are cleaned** (improvement loop round 1) | The headline high end (19,937) is the lowest of four versions and may be understated; it is uncertain by about 2×. The other versions: undated reform entries kept as comparisons 29,843; strict cleaning, resampling 38,230; strict cleaning, placebo 49,712. The central stays about zero in every version. |
+| Parking | **How the comparison cities are cleaned** (improvement loop round 1) | The headline high end (19,937) is the lowest of four versions and may be understated; it is uncertain by about 2×. The other versions: undated reform entries kept as comparisons 29,843; strict cleaning, resampling 38,230; strict cleaning, placebo 49,712. The central stays about zero in every version. Round 2 kept 19,937 (owner); its better-cleaned versions are sensitivities: apartment-scale reforms only 29,307; with California, Oregon and Washington state laws excluded too 27,671. |
 | Parking | Counting only buildings of 2 or more units | The high end falls to 10,373. |
 | TOD | **Which study sets the size** | Little 171, typical 2,509, strong 17,148: a hundredfold spread. Within the typical study's own interval the result is 665 to 4,352. |
 | TOD | Adjusting each study for the share of its city it covered | Without that adjustment, little is 105 and strong 12,895. |
@@ -116,7 +116,7 @@ Each scenario's answer is "with the reform minus without it". This table lines u
 
 | Scenario | What the baseline counts | In the tool | Tested alternative | Status |
 | --- | --- | ---: | ---: | --- |
-| Parking | All permitted homes, statewide | 122,619 | to come | being tested |
+| Parking | All permitted homes, statewide | 122,619 | 114,042 (boosted trees; owner-approved side case) | Same pace kept as the main rule. It ran 22% low in Wisconsin's 2021–2025; the trees expect some of the recent pace to fade ([NO_REFORM_MODEL_RESULTS.md](parking/NO_REFORM_MODEL_RESULTS.md)) |
 | TOD | Homes permitted in station areas | 14,464 | to come | being tested |
 | ADUs | ADU permits on single-family lots | 786 | 786 (same pace plus the trend of no-law places; was 530 at today's pace) | Adopted 2026-10-31 (AQ-065). The trend model scored better; it lowers the law's addition by about 233 ([NO_REFORM_R1_RESULTS.md](adu/NO_REFORM_R1_RESULTS.md)) |
 
