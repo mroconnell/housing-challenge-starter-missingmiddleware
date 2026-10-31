@@ -390,3 +390,10 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     3. **The placebo is a "law-off check" only:** law on equals law off there, so it cannot test uplift. It shows the law-off model overstating Wisconsin's fake-area shares (Madison 0.65 vs 0.55 actual; Milwaukee 0.49 vs 0.42), which would make a Wisconsin TOD effect too small.
     4. **No more tuning rounds on the overshoot** (5 of 6 cities). Instead, one calibration fixed now: k = Σ actual uplift ÷ Σ predicted uplift in upzoned share (uplift = share after − share before), over the training cities other than the one predicted (leave one city out). Calibrated share = share before + k × (model share − share before).
     5. **Holdout read, declared now:** after the 57.4 checks, the main version predicts Chicago, Madison and Bellevue once, reporting both raw and calibrated shares, the A and B bounds, and the round-8 score beside "same share as before".
+60. **2026-10-31, before the holdout read.**
+    - **Round 8 with 6 seeds:** median |log| on the 6 real cities is 0.31–0.47 against 0.65 for "same share as before"; the model is ahead in every seed.
+    - **Item 57.4 checks:**
+      - New York: 416 lots are marked part of an assembled site, holding 3,500 of 28,199 homes after.
+      - 28 New York lots still exceed 1,000 homes per acre, holding 5,510 homes: fragments of sites the later lot map does not join. Shares are unaffected where the fragment is in the same group as the rest of its site.
+      - Los Angeles Cornfield: 0 homes before and after on every in-reform group (upzoned, from industrial, from campus). Permit matching works next door: its comparison lots hold 324 homes after, Blossom Plaza among them. So the 0 inside the plan is most likely real (railyards, industrial land and a state park), not a matching gap.
+    - **Calibration k** (item 59.4) is computed from the main-seed round-8 file over the 6 training cities, and applied to all three holdouts.

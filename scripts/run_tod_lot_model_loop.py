@@ -44,10 +44,12 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--round", type=int, required=True)
     ap.add_argument("--seed", type=int, default=20261031, help="random seed (item 57: seed spread of a round)")
+    ap.add_argument("--holdouts", action="store_true", help="item 59.5: the one-time read of Chicago, Madison and Bellevue")
     a = ap.parse_args(argv)
     L.FIT.update(item25=True, item32=True, item34=True, item37=True, item46=True)
     D = pd.read_parquet(L.OUT / "lots_rebuilt_halfmile.parquet")
-    D = D[~D["city"].isin(L.HOLD)].reset_index(drop=True)          # item 49.2: holdouts never touched here
+    if not a.holdouts:
+        D = D[~D["city"].isin(L.HOLD)].reset_index(drop=True)          # item 49.2: holdouts never touched here
     cache = {k: L.cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(D["city"], D["eff_year"]))}
     D["cost_per_home"] = [cache[(c, y)] for c, y in zip(D["city"], D["eff_year"])]
     D = L.five_year_basis(L.dedupe_lots(D)).reset_index(drop=True)
@@ -106,9 +108,11 @@ def main(argv=None) -> None:
             trend[c] = float(np.average(ratios, weights=wts)) if ratios else np.nan
         print("market trend (after / before, whole city):", {k: round(v, 2) for k, v in trend.items()}, flush=True)
     rows = []
-    for c in sorted(D["city"].unique()):
+    targets = list(L.HOLD) if a.holdouts else sorted(D["city"].unique())
+    for c in targets:
         te = (D["city"] == c).values
-        tr = D["city"].isin(L.training_cities(list(D["city"].unique()), c)).values
+        pool = [x for x in D["city"].unique() if x not in L.HOLD]
+        tr = D["city"].isin(L.training_cities(pool, c)).values
         pred = np.zeros(len(D))
         models = {}
         ac = D["acres"].clip(lower=0.01).values
@@ -173,6 +177,17 @@ def main(argv=None) -> None:
         R["abs_log_model"] = np.abs(np.log(R["share_after_model"] / R["share_after_actual"])).where(ok)
         R["abs_log_same_share"] = np.abs(np.log(R["share_before"] / R["share_after_actual"])).where(ok & (R["share_before"] > 0))
         tag = "" if a.seed == 20261031 else f"_seed{a.seed}"
+        if a.holdouts:   # item 59.4: calibration from the main-seed round-8 training cities
+            T = pd.read_csv(REFERENCE / "tod_lot_model_loop_round8_shares.csv")
+            T = T[T["group"] == "upzoned"]
+            k = float((T["share_after_actual"] - T["share_before"]).sum() / (T["share_after_model"] - T["share_before"]).sum())
+            R["calibration_k"] = k
+            R["share_after_calibrated"] = R["share_before"] + k * (R["share_after_model"] - R["share_before"])
+            okc = (R["share_after_calibrated"] > 0) & (R["share_after_actual"] > 0)
+            R["abs_log_calibrated"] = np.abs(np.log(R["share_after_calibrated"] / R["share_after_actual"])).where(okc)
+            R["net_addition_A_relocation"] = 0.0
+            R["net_addition_B_addition"] = R["tod_effect_homes"]
+            tag = "_holdouts"
         R.round(4).to_csv(REFERENCE / f"tod_lot_model_loop_round{a.round}{tag}_shares.csv", index=False)
         pd.set_option("display.width", 250)
         print(R.round(3).to_string(index=False))
