@@ -45,3 +45,6 @@ Written 2026-10-31 by the parking conductor, under Ryan's standing ask: improve 
   - Pool-shrunk weights: homes × after-years × pool ÷ (pool + 5), so places with small comparison pools count less.
   - The comparison-pool label (state, division or nation, with its population window) is saved for each place-variant.
   - The placebo already draws stand-ins only from places with a computable effect: stand-ins with an empty pool, such as Nashville, are dropped before the sets are drawn.
+- **2026-10-31, audit round 1 section E (registered before running):** V6u is the same as V6, except that undated Parking Reform Network housing entries (88% of them) do not remove a place from comparison pools. Dated entries stay date-aware, and repeals at or near the benchmark stay excluded. The rule, fixed now:
+  - If every real place has at least 20 placebo stand-ins in V6u, V6u's placebo high end replaces 19,937, whatever it is (Ryan has the final call).
+  - If not, 19,937 stays, and 49,700 and 38,300 are shown as sensitivity cases with a note that the high end is uncertain by about 2×.
