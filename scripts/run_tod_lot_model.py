@@ -477,6 +477,20 @@ def dedupe_lots(D: pd.DataFrame) -> pd.DataFrame:
     return D.drop(columns=["_k", "_h"])
 
 
+def training_cities(cities: list[str], c: str) -> list[str]:
+    """Cities that may train the model predicting city c: never c itself, nor its own no-reform lots (item 40.1)."""
+    base = c.removesuffix(" placebo")
+    return [x for x in cities if x != c and x.removesuffix(" placebo") != base]
+
+
+def forecast_view(X: pd.DataFrame) -> pd.DataFrame:
+    """Traits as they would be known at forecast time: no later rezoning is known yet (item 41.1)."""
+    X = X.copy()
+    if "rezoned_later" in X:
+        X["rezoned_later"] = 0.0
+    return X
+
+
 def five_year_basis(D: pd.DataFrame) -> pd.DataFrame:
     """Homes before and after on a 5-year basis (plan section 9, item 24)."""
     by = (D["eff_year"] - D["window_first"]).clip(lower=1)
@@ -1466,8 +1480,7 @@ def fit8(tlearner: bool = False) -> None:
         for c in [x for x in cities + list(HOLD) if not ROBUST.get("cities") or x in ROBUST["cities"]]:
             te = D.index[D["city"] == c].to_numpy()
             # item 40.1: a city's own no-reform lots never train the model that predicts it (Madison placebo vs Madison)
-            base_c = c.removesuffix(" placebo")
-            tr = D.index[D["city"].isin([x for x in cities if x != c and x.removesuffix(" placebo") != base_c])].to_numpy()
+            tr = D.index[D["city"].isin(training_cities(cities, c))].to_numpy()
             act, ta = actual_extra(D.loc[te])
             num = den = 0.0
             for x in [x for x in cities if x != c]:

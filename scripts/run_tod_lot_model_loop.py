@@ -45,8 +45,7 @@ def main(argv=None) -> None:
     rows = []
     for c in sorted(D["city"].unique()):
         te = (D["city"] == c).values
-        base_c = c.removesuffix(" placebo")
-        tr = ~te & ~D["city"].str.removesuffix(" placebo").eq(base_c).values
+        tr = D["city"].isin(L.training_cities(list(D["city"].unique()), c)).values
         pred = np.zeros(len(D))
         for g, X in ((True, Xa), (False, Xb)):
             fit = tr & (up == g)
@@ -56,10 +55,7 @@ def main(argv=None) -> None:
             m.fit(X[fit], dy[fit], sample_weight=w[fit])
             pm = te & (up == g)
             if pm.any():
-                Xp = X[pm].copy()
-                if "rezoned_later" in Xp:
-                    Xp["rezoned_later"] = 0.0
-                pred[pm] = m.predict(Xp)
+                pred[pm] = m.predict(L.forecast_view(X[pm]))
         ub, ua = D.loc[te, "ub5"].values, D.loc[te, "ua5"].values
         wt, u = w[te], up[te]
         rows.append({"city": c, "lots": int(te.sum()), "upzoned_lots": int(u.sum()),

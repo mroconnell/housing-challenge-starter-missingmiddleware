@@ -346,3 +346,10 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     3. **After each round:** the flag file, the units table and the per-city errors are reviewed for bad data or coding; fixes are written here before the next round; the audit session reviews each round.
     4. **Queued improvements, in order:** whole-city lot samples for the reform cities (20%, ×5, as for Columbus and Kansas City); site assembly as its own model (two-step, New York); the true causal forest (EconML) as a final method; then the other methods if the owner asks.
     5. **Stop rule:** when a round finds no new data or coding problem and the audit session agrees, the final methods are fitted once and the three holdouts are read once and reported as they come out. The tool's scenario numbers stay as they are unless the owner decides otherwise.
+50. **2026-10-31, from the audit's round-1 scorecard, added to the loop's to-do.**
+    1. **"Locked vs final" table:** one short table, the item-36 locked result beside the final result, with each later change and its effect, so a reader can see the answer was not chased.
+    2. **Holdouts read once at the end** and reported even if bad (as item 49).
+    3. **Scale stated next to any Wisconsin number:** Wisconsin's law covers about 8 times the training cases' upzoned lots.
+    4. **Explain the model:** the traits that matter most, and one worked city.
+    5. **Open data items** worked through in the loop: lot fragments outside New York, Philadelphia townhouse permits, Los Angeles Cornfield's 0 homes, mixed hotel towers, Chicago downtown planned developments, Seattle FAR flag, Saint Paul's "built before", Milwaukee's year-built lag.
+    6. **Tests added** (`tests/test_tod_lot_model.py`): a city's own no-reform lots never train its model; "rezoned later" is 0 at forecast time; the units table covers every trait.
