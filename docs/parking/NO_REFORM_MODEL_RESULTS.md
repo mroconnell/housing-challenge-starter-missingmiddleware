@@ -4,6 +4,8 @@ Written 2026-10-31 by the parking conductor. Plan: [NO_REFORM_MODEL_PLAN.md](NO_
 
 ## Answer
 
+**Round 6 update (2026-10-31), current:** homes at the origin now come from the ACS 5-year release ending at each origin year. The permit file's population was unreliable (Milwaukee 34,451 until 2021). On held-out places, the median |log| is M0 0.533 and M4 0.581. On state totals it is M0 0.221 and M4 0.116, and M4's total ratio is 0.99. M4's fake-reform on−off is −0.19 (−1.15 to 0). In the Wisconsin back-test, predicted ÷ actual is M0 0.77 and M4 0.84. **Trees, Wisconsin 2027–2031: 118,417 (0.966 × same pace).** The round 4 figures below are superseded.
+
 **Round 4 update (2026-10-31): the round 1–3 trees figures below had a leak.** Homes at the origin subtracted the outcome years' own permits (audit basic-error sweep §5). With homes taken from the Census population estimate for the origin year instead, the trees give **124,582** for Wisconsin 2027–2031 (1.016 times same pace; 122,619 central), not 114,042. On held-out places the median |log| is M0 0.526 and M4 0.580; on state totals, M0 0.222 and M4 0.102. M4's fake-reform on−off is −0.6 (−3.5 to 0) homes per place per year. In the Wisconsin back-test from origin 2019, predicted ÷ actual is M0 0.79 and M4 0.90. Same pace (M0, M1) is not affected. Files: `reference/parking_no_reform_*_r4.csv`.
 
 - **Main rule:** keep "same pace as before", the flat 3-year average for each place, as the parking baseline. Per place, no model beat it on held-out places in later years. It is also the rule TOD and ADU use.
