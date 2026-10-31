@@ -352,6 +352,7 @@ Cleaning is recorded in [HOUSING_BASELINE.md](shared/HOUSING_BASELINE.md), [POLI
 - The Census permit data have reporting gaps. Milwaukee's apartments are estimated, and its 2025 figure is missing.
 - The upper case is spread by homes, not by where minimums actually bind. Rural towns with few minimums get a share.
 - The tool does not estimate rents, parking supply, traffic or street-parking spillover.
+- **Timing of place traits (audit 2e, 2026-10-29):** population (used to match comparison places), existing homes (the rate's denominator), relative rent and the metro flag all come from ACS 2020–2024. That is after most repeals (2016–2024). If a repeal raised a place's growth, its 2020–2024 homes and population are a little higher, which lowers its measured rate slightly and can shift its comparison window. The trait tests that used rent and metro (none passed) share this caveat. Pre-repeal values would need ACS 5-year tables from before each repeal.
 - Whether evidence from cities that repealed by choice may stand in for a statewide law is still open: office-hours question 26.
 - The baseline and the bundle rebuild exactly from the committed reference tables. A full rebuild from raw data follows the order in [REBUILD.md](parking/REBUILD.md).
 
