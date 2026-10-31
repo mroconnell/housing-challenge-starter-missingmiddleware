@@ -130,8 +130,12 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
 | Scenario | Lower | Central | Upper | Central as a share of 122,619 | Source |
 | --- | ---: | ---: | ---: | ---: | --- |
 | ADUs (ADU permits) | 6,223 | 10,349 | 19,294 | 8.4% | [NET_STATEWIDE_R1.md](adu/NET_STATEWIDE_R1.md) |
-| TOD | to come | | | | |
+| TOD (all homes) | 0 | to be chosen by Ryan | 839–1,382 | n/a | [WI_NET_PLAN.md](tod/WI_NET_PLAN.md) (round 4) |
 | Parking | to come | | | | |
+
+- **TOD lower is 0:** homes may only move into station areas from elsewhere, with no net gain.
+- **TOD upper 839–1,382:** the calibrated range, with the calibration factor K about 0.11–0.12, measured by leaving each of 9 reform cities out in turn.
+- **TOD sensitivities** (the tool is unchanged): with K at the median city's ratio (0.42), about 3,040–4,830; uncalibrated, 7,229–11,505.
 
 # What the Tool Cannot Say
 
