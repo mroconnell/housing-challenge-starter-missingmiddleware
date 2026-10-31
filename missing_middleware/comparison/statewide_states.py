@@ -54,7 +54,7 @@ STATE_FIPS = {"AZ": "04", "AR": "05", "CA": "06", "CO": "08", "CT": "09", "HI": 
 # source does not use calendar years). "5" means 5 or more.
 STATES: list[dict] = [
     dict(abbr="CA", state="California", mercatus_class="strong",
-         key_laws="AB 2299 / SB 1069 (2016); AB 494 / SB 229 (2017); AB 68, AB 881, SB 13 (2019)",
+         key_laws="AB 2299 / SB 1069 (2016); AB 494 (Ch. 602) / SB 229 (Ch. 594) (2017); AB 68, AB 881, SB 13 (2019)",
          effective_date="2017-01-01", compliance_date="2017-01-01 (2020-01-01 for the 2019 package)",
          treatment_date="2017-01-01",
          coverage="all cities and counties",
@@ -331,8 +331,30 @@ STATES: list[dict] = [
 STATE_COLUMNS = list(STATES[0].keys())
 
 
+# Date each comparison state's ADU law was adopted (signed by the governor), with the official source (owner request
+# 2026-10-31: keep adoption and effective dates apart). The model's law years use treatment_date, not this.
+ADOPTED = {
+    "CA": ("2016-09-27 (SB 1069, AB 2299); 2017-10-08 (SB 229, AB 494); 2019-10-09 (AB 68, AB 881, SB 13)",
+           "leginfo.ca.gov chaptered texts (2016); Governor's press releases 2017-10-08 and 2019-10-09"),
+    "WA": ("2023-05-08 (EHB 1337, partial veto)", "https://app.leg.wa.gov/billsummary?BillNumber=1337&Year=2023"),
+    "OR": ("2017-08-15 (SB 1051); 2018-03-16 (HB 4031); 2019-08-08 (HB 2001)",
+           "https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2017orLaw0745.pdf; 2018orLaw0015.pdf; 2019orLaw0639.pdf"),
+    "ME": ("2022-04-27 (LD 2003); 2023-06-16 (LD 1706); 2025-06-20 (LD 1829: owner-occupancy ban applies 2026-07-01 / "
+           "2027-07-01)", "https://legislature.maine.gov/LawMakerWeb/summary.asp?LD=2003&SessionID=14; LD 1706, LD 1829 pages"),
+    "MA": ("2024-08-06 (Acts 2024 c. 150; ADU section 8 effective 2025-02-02)",
+           "https://malegislature.gov/Laws/SessionLaws/Acts/2024/Chapter150"),
+    "VT": ("2020-10-12 (Act 179); 2023-06-05 (Act 47: ADU rule 2023-07-01 via Act 81, parking cap 2024-12-01)",
+           "https://legislature.vermont.gov/bill/status/2020/S.237; https://legislature.vermont.gov/bill/status/2024/S.100"),
+    "RI": ("2024-06-25 (P.L. 2024 ch. 284, 285)", "https://webserver.rilegislature.gov/PublicLaws/law24/law24284.htm"),
+    "UT": ("2021-03-16 (HB 82; bill effective 2021-05-05, ADU sections 2021-10-01)",
+           "https://le.utah.gov/~2021/bills/static/HB0082.html"),
+}
+
+
 def states_table() -> pd.DataFrame:
     df = pd.DataFrame(STATES)[STATE_COLUMNS]
+    df.insert(df.columns.get_loc("effective_date"), "adopted_date", df["abbr"].map(lambda a: ADOPTED.get(a, ("",))[0]))
+    df.insert(df.columns.get_loc("effective_date"), "adopted_source", df["abbr"].map(lambda a: ADOPTED.get(a, ("", ""))[1]))
     df["accessed"] = ACCESSED
     return df
 
