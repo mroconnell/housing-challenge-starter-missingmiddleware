@@ -1291,7 +1291,8 @@ def fit8(tlearner: bool = False) -> None:
     for kind in methods:
         for c in cities + list(HOLD):
             te = D.index[D["city"] == c].to_numpy()
-            tr = D.index[D["city"].isin([x for x in cities if x != c])].to_numpy()
+            # item 40.1: a city's own no-reform lots never train the model that predicts it (Madison placebo vs Madison)
+            tr = D.index[D["city"].isin([x for x in cities if x != c and x.split()[0] != c.split()[0]])].to_numpy()
             act, ta = actual_extra(D.loc[te])
             num = den = 0.0
             for x in [x for x in cities if x != c]:
