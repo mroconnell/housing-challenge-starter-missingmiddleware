@@ -1,10 +1,10 @@
 term,role,coefficient_log_scale,se_cluster,rate_ratio_per_unit,rate_ratio_for_10pct_higher,meaning
-value_dev,statewide rate (value-income-size fit),2.6963,0.1345,14.8248,1.293,log of the place's median home value relative to its state's homes-weighted mean
-income_dev,statewide rate (value-income-size fit),-2.9787,0.1774,0.0509,0.7528,log of the place's median household income relative to its state's mean
-log_homes,statewide rate (value-income-size fit),0.0913,0.033,1.0956,1.0087,log of the place's one-unit detached homes (size)
-law,statewide rate (value-income-size fit),1.11,0.3712,3.0344,,statewide law in force
-local,statewide rate (value-income-size fit),0.7302,0.3137,2.0756,,local reform in force
-k1,statewide rate (value-income-size fit),-0.4424,0.2327,0.6425,,first year after the law
-k2,statewide rate (value-income-size fit),-0.1776,0.1303,0.8373,,second year
-k3,statewide rate (value-income-size fit),-0.1465,0.0924,0.8637,,third year
-alloc_value_dev,"allocation across Wisconsin places (value-only fit, W_ALLOC)",1.0251,0.0961,2.7873,1.1026,"log of the place's median home value relative to Wisconsin's homes-weighted mean, top-coded at California's largest gap (+1.01); the only term that spreads the statewide total across places"
+value_dev,statewide rate (value-income-size fit),2.7145,0.1522,15.0971,1.2953,log of the place's median home value relative to its state's homes-weighted mean
+income_dev,statewide rate (value-income-size fit),-2.9703,0.2072,0.0513,0.7534,log of the place's median household income relative to its state's mean
+log_homes,statewide rate (value-income-size fit),0.0943,0.0388,1.0989,1.009,log of the place's one-unit detached homes (size)
+law,statewide rate (value-income-size fit),1.0002,0.4801,2.7188,,statewide law in force
+local,statewide rate (value-income-size fit),0.7538,0.3504,2.1251,,local reform in force
+k1,statewide rate (value-income-size fit),-0.3588,0.2918,0.6985,,first year after the law
+k2,statewide rate (value-income-size fit),-0.1584,0.1665,0.8535,,second year
+k3,statewide rate (value-income-size fit),0.023,0.1472,1.0233,,third year
+alloc_value_dev,"allocation across Wisconsin places (value-only fit, W_ALLOC)",1.035,0.1054,2.8152,1.1037,"log of the place's median home value relative to Wisconsin's homes-weighted mean, top-coded at California's largest gap (+1.01); the only term that spreads the statewide total across places"

@@ -54,7 +54,7 @@ def lower_rule(path=PARAMS) -> dict:
 
 def bottom_states_factor(option: str, config: str, states=None) -> float:
     """Mean of the named states' stage-2 levels (typical place, law in force 4+ years) / the common level, for
-    one option x configuration of the pooled revision. Adopted (cap_a2 x A, AQ-064): (0.8358 + 0.7086) / 2 / 1.1905."""
+    one option x configuration of the pooled revision. Adopted (cap_a2 x A, AQ-065): (0.7545 + 0.6450) / 2 / 1.1236."""
     states = states or lower_rule()["states"]
     st2 = pd.read_csv(REFERENCE / "pooled_revision_stage2_levels.csv")
     st2 = st2[st2.option.eq(option) & st2.config.eq(config) & st2.cluster.isin(states)]
@@ -148,6 +148,9 @@ def refit_model_sensitivities(areas_by_case: dict) -> dict:
     return out
 
 
+MIN_REF_STATES = 4    # AQ-065: a year's median needs at least 4 states (the cross-scenario rule, AQ-054); was 2
+
+
 def reference_lines(by_year: pd.DataFrame, homes: float) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Statewide adoption reference lines, applied to Wisconsin: with-law total = homes x rate / 1,000, addition =
     that minus the year's current-law baseline (central engine baseline).
@@ -155,8 +158,7 @@ def reference_lines(by_year: pd.DataFrame, homes: float) -> tuple[pd.DataFrame, 
     Adopted (AQ-043): the median observed statewide rate across all 8 statewide-law states, California included,
     by year since the law (reference/pooled_revision_reference_points.csv: California cap+A2 with 2020 = year 1;
     the other seven x0.951 for vacant-lot ADUs, divided by their reporting share, Washington from local compliance;
-    AQ-061). A year with fewer than 2 states carries the last median forward
-    (flagged carried_forward); only year 5 (2031) does, with California alone.
+    AQ-061). A year with fewer than 4 states carries the last median forward (flagged carried_forward; AQ-065, was 2).
     Alternative rows: the Gate 3 seven-state line (California out), with and without the vacant-lot factor
     (reference/pooled_revision_adoption_line.csv), recomputed on the current baseline."""
     base = by_year[by_year.path.eq("central")].sort_values("year")["baseline_units"].to_numpy(float)
@@ -165,7 +167,7 @@ def reference_lines(by_year: pd.DataFrame, homes: float) -> tuple[pd.DataFrame, 
     rows, last = [], None
     for k in e.YEARS:
         g = pts[pts.k.eq(k)].sort_values("rate")
-        if g.cluster.nunique() >= 2:
+        if g.cluster.nunique() >= MIN_REF_STATES:
             last = (k, float(g.rate.median()))
             basis, cf = "observed median", False
         else:

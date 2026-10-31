@@ -921,6 +921,33 @@ Held-out average log error (7 statewide-law states, each predicted with itself l
 
 **Not fixed:** Maine's town list (not published). Asking the Maine Office of Community Affairs (housing.moca@maine.gov) for its 182 reporting towns would close it.
 
+## AQ-065 ADU: one law-year rule, a no-reform trend, and a 4-state reference line
+
+**Status:** Adopted. **Added:** 2026-10-31. **Owner decision:** "yes to both" (2026-10-31). **Related:** [improvement rounds 1–2](adu/IMPROVE_R2_RESULTS.md), [no-reform round 1](adu/NO_REFORM_R1_RESULTS.md), AQ-054, AQ-058, AQ-064.
+
+**Result.** Additional ADU permits, Wisconsin, 2027–2031:
+
+| | Before (AQ-064) | After (AQ-065) |
+| --- | ---: | ---: |
+| Current-law baseline | 530 | 786 |
+| Lower (sluggish adoption) | 6,804 | 6,223 |
+| Central (typical adoption) | 10,679 | 10,349 |
+| Upper (strong adoption) | 19,535 | 19,294 |
+| Reference line (median of the states) | 10,374 | 10,142 |
+
+Held-out average log error (each of 7 states predicted with itself left out): 0.168 → 0.130.
+
+**1. One rule for law years:** a law year starts only where the state law changed that place's rules, and every count is a permit.
+- Vermont counts homes by year built, so each count moves one year earlier. Austin and California data both show most ADUs are finished the calendar year after the permit.
+- Oregon's law years count from 2020, when HB 2001 barred owner-on-site and parking rules. 2019 is a transition year for the 32-city panel and for Portland.
+- Seattle 2024 counts as local rules only. Seattle met HB 1337 before 2024 (city report).
+
+**2. A no-reform trend in the baseline.** Places with no statewide law kept issuing more ADU permits. Over 2014–2020 forecasts, "same pace as before" predicted about 30% too low. Same pace plus the other places' trend scored better (0.28 vs 0.51; ranges overlap; 8 places). Every Wisconsin place's current rate now rises 7.3% a year from mid-2023. The trend is measured outside the years of each place's own reform (`reference/adu_no_reform_trend.csv`). The earlier "rises like no-law places (×1.11 a year)" case now replaces this trend instead of adding to it.
+
+**3. Reference line needs 4 states per year,** the cross-scenario rule (AQ-054); it was 2. Years 4–5 now carry year 3's median forward.
+
+**What it does:** the law-side fixes lower the central by 88; the trend lowers it by 233 (the baseline rises by 256, the total with the law by 23). Together −330 (3.1%).
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -1064,3 +1091,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-28 | AQ-062 | ADU: keep Vermont (option A); "Vermont dropped" (central 11,133) shown as a sensitivity. |
 | 2026-10-29 | AQ-063 | ADU: keep adopted model after the pre-registered advanced-model test; test recorded in MODEL_AND_ASSUMPTIONS Part A. |
 | 2026-10-29 | AQ-064 | ADU: audit fixes; Rhode Island and Massachusetts homes-based reporting shares, year-matched homes. Central 10,788 → 10,679. |
+| 2026-10-31 | AQ-065 | ADU: one law-year rule (Vermont permit year, Oregon from 2020, Seattle 2024 local), no-reform trend baseline (786), 4-state reference line. Central 10,679 → 10,349. |

@@ -32,6 +32,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -71,10 +72,31 @@ CASE_TEXT = {
     "wi-rising-like-nolaw": "Every Wisconsin place's current-law rate keeps rising as fast as in cities and states without "
                             "a statewide ADU law: those rose about 1.5 times from their before-period to their "
                             "after-period, four years later (about \u00d71.11 a year), almost entirely because of local "
-                            "reforms there. Wisconsin's main local reform (Madison 2021) is already in its measured "
-                            "rate, so this is a check rather than the main case. Changes only the current-law "
-                            "baseline; the law's addition falls by nearly as much.",
+                            "reforms there. It replaces the adopted no-reform trend (about 7% a year, measured in no-law places "
+                            "outside the years of their own reforms; AQ-065), so it is an upper check that counts local "
+                            "reforms as part of the trend. Changes only the current-law baseline; the law's addition "
+                            "falls by nearly as much.",
 }
+
+
+def trend_factor(year_idx) -> np.ndarray:
+    """The no-reform trend (AQ-065) for engine years 1-5: growth ** (forecast year - centre)."""
+    import build_wi_baseline as bwb
+    gr, centre = bwb.no_reform_trend()
+    return gr ** ((2026 + np.asarray(year_idx, float)) - centre)
+
+
+def with_trend(growth: pd.DataFrame, areas: pd.DataFrame) -> pd.DataFrame:
+    """Every area gets a row; areas missing from `growth` get the trend alone (their own path g = 1)."""
+    full = pd.MultiIndex.from_product([list(areas.area_id), [1, 2, 3, 4, 5]], names=["area_id", "year"]).to_frame(index=False)
+    g = full.merge(growth, on=["area_id", "year"], how="left")
+    miss = g["g"].isna()
+    g.loc[miss, "g"] = trend_factor(g.loc[miss, "year"])
+    return g
+
+
+def untrended(growth: pd.DataFrame) -> pd.DataFrame:
+    return growth.assign(g=growth["g"] / trend_factor(growth["year"]))
 
 
 def baseline_only_cases(areas: pd.DataFrame, growth: pd.DataFrame) -> list[tuple]:
@@ -91,7 +113,7 @@ def baseline_only_cases(areas: pd.DataFrame, growth: pd.DataFrame) -> list[tuple
     cases.append(("uncoded-prohibited", "Places with uncoded rules behave like prohibited places", a, growth,
                   "uncoded places behave like prohibited (old AQ-023 default)"))
     cases.append(("no-baseline-ramp", "No ramp for recently liberalized places (full current-law rate at once)", areas,
-                  growth.iloc[0:0], "no ramp: liberalized places at their class rate at once (g = 1)"))
+                  with_trend(growth.iloc[0:0], areas), "no ramp: liberalized places at their class rate at once (g = 1)"))
     for key, cid, label, chk in (
             ("madison_2026_provisional", "madison-2026", "Madison's current-law rate = its 2026 pace so far (provisional)",
              "Madison x = 2026 provisional to date"),
@@ -110,7 +132,7 @@ def baseline_only_cases(areas: pd.DataFrame, growth: pd.DataFrame) -> list[tuple
     mke_ids = set(areas.loc[mke, "area_id"])
     on_ramp = areas.loc[mke, "x_basis"].astype(str).str.startswith("assumed ramp").any()
     a = areas.copy()
-    g = growth[~growth.area_id.isin(mke_ids)]
+    g = with_trend(growth[~growth.area_id.isin(mke_ids)], areas)
     if on_ramp:
         a.loc[mke, "x_rate"] = mke_measured
         cases.append(("milwaukee-measured", "Milwaukee at its measured 2022–2025 rate (no assumed rise to Madison's rate)",
@@ -119,10 +141,10 @@ def baseline_only_cases(areas: pd.DataFrame, growth: pd.DataFrame) -> list[tuple
         target = orate["madison_2022_2025"]
         pre = orate["milwaukee_pre_central"]
         reform = date(2025, 8, 2)
-        rows = [{"area_id": i, "year": k + 1, "g": bl.ramped_rate(2027 + k, pre, target, reform, bl.RAMP_YEARS["central"]) / target}
-                for i in mke_ids for k in range(5)]
+        rows = [{"area_id": i, "year": k + 1, "g": bl.ramped_rate(2027 + k, pre, target, reform, bl.RAMP_YEARS["central"])
+                 / target * float(trend_factor(k + 1))} for i in mke_ids for k in range(5)]
         a.loc[mke, "x_rate"] = target
-        g = pd.concat([g, pd.DataFrame(rows).query("g < 1 - 1e-12")], ignore_index=True)
+        g = pd.concat([g[~g.area_id.isin(mke_ids)], pd.DataFrame(rows)], ignore_index=True)
         cases.append(("milwaukee-ramp", "Milwaukee rises to Madison's rate after its 2025 reform (assumed ramp)", a, g,
                       "Milwaukee x = assumed ramp to Madison's rate after its 2025 reform"))
     # Wisconsin's baseline rises like no-law places (AQ-058): the placebo test's median no-law after/before ratio over
@@ -168,11 +190,13 @@ def main():
             row["check"] = "baseline and addition equal reference/adu_placebo_wi.csv (rising baseline, proportional, C median ratio)"
             cases.append(row)
             return
-        if check_label is not None:
+        if check_label is not None:     # wi_baseline_sensitivities.csv has no no-reform trend: compare without it
             want = float(check.loc[check_label, "b5yr_central"])
-            if abs(row["baseline_central"] - want) > 0.05:
-                raise SystemExit(f"{cid}: engine baseline {row['baseline_central']:.2f} != wi_baseline_sensitivities {want:.2f}")
-        row["check"] = f"baseline equals reference/wi_baseline_sensitivities.csv ({check_label})" if check_label else "no baseline counterpart"
+            got = run(a, untrended(g))["central"][0]
+            if abs(got - want) > 0.05:
+                raise SystemExit(f"{cid}: engine baseline without the trend {got:.2f} != wi_baseline_sensitivities {want:.2f}")
+        row["check"] = (f"baseline without the no-reform trend equals reference/wi_baseline_sensitivities.csv ({check_label})"
+                        if check_label else "no baseline counterpart")
         cases.append(row)
 
     case("adopted", "Adopted model", areas, growth, "main (central path)")

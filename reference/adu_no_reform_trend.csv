@@ -1,0 +1,2 @@
+yearly_growth,centre_year,source
+1.073209,2023.5,"scripts/run_adu_no_reform.py: median yearly growth of no-law series' 3-year mean rates, latest years, no window spanning a local reform (NO_REFORM_R1_RESULTS.md)"

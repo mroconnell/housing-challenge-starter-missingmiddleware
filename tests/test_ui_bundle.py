@@ -132,9 +132,9 @@ class TestUIBundle(unittest.TestCase):
         slugs = {p["slug"]: p for p in self.pilots}
         self.assertEqual(set(slugs), {"madison", "pleasant-prairie", "sun-prairie"})
         mad = slugs["madison"]
-        self.assertAlmostEqual(sum(mad["add"]["central"]), 134.92, delta=0.05)   # Gate 3 packet step 2
+        self.assertAlmostEqual(sum(mad["add"]["central"]), 110.81, delta=0.05)   # AQ-065 (Gate 3 packet step 2: 134.92)
         self.assertEqual(mad["add"]["lower"], mad["add"]["upper"])               # Madison path in every scenario
-        self.assertAlmostEqual(sum(mad["base"]), 50.0, delta=0.05)
+        self.assertAlmostEqual(sum(mad["base"]), 74.11, delta=0.05)   # AQ-065 no-reform trend (was 50.0)
         by_id = {a["id"]: a for a in self.areas["munis"]}
         for p in self.pilots:
             self.assertEqual(p["add"], by_id[p["area_id"]]["add"])
@@ -191,11 +191,12 @@ class TestUIBundle(unittest.TestCase):
         self.assertNotIn("floor", " ".join(self.scen[p]["text"] for p in PATHS).lower())
 
     def test_baseline_only_effects(self):
-        # baseline-only sensitivity cases: the engine baseline equals the baseline sensitivity table
-        ref = {r["sensitivity"]: float(r["b5yr_central"]) for r in rows("wi_baseline_sensitivities.csv")}
+        # baseline-only sensitivity cases: the bundle equals the engine table (which checks itself against the
+        # builder's sensitivities with the no-reform trend taken out, AQ-065)
+        ref = {r["case"]: float(r["baseline_central"]) for r in rows("adu_model_baseline_only_effects.csv")}
         bo = {c["id"]: c for c in self.unc["baseline_only"]}
-        self.assertAlmostEqual(bo["madison-2026"]["baseline"], ref["Madison x = 2026 provisional to date"], delta=0.1)
-        self.assertAlmostEqual(bo["uncoded-prohibited"]["baseline"], ref["uncoded places behave like prohibited (old AQ-023 default)"], delta=0.1)
+        self.assertAlmostEqual(bo["madison-2026"]["baseline"], ref["madison-2026"], delta=0.1)
+        self.assertAlmostEqual(bo["uncoded-prohibited"]["baseline"], ref["uncoded-prohibited"], delta=0.1)
         self.assertEqual(len(rows("adu_model_sensitivities.csv")), len(self.unc["sensitivity_cases"]))
         for c in bo.values():
             # the with-law level does not depend on the current-law rate: a baseline change is mostly offset
@@ -263,8 +264,8 @@ class TestUIBundle(unittest.TestCase):
         self.assertNotIn("like_restricted", self.unk["areas"])
         # the plain-language figures quoted on screen (docs/gate5/UI_CONTRACT.md)
         pro, ben = self.unk["variants"][1], self.unk["variants"][2]
-        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (352, 10833, 11185))
-        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (1393, 9934, 11327))
+        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (522, 10591, 11113))
+        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (2065, 9176, 11241))
 
     def test_unknown_rules_areas_and_counties_reconcile(self):
         munis = {a["id"]: a for a in self.areas["munis"]}
@@ -337,7 +338,7 @@ class TestUIBundle(unittest.TestCase):
         tr = {t["status"]: t for t in self.unc["trace"]}
         tot = sum(t["additional_central"] for t in tr.values())
         self.assertAlmostEqual(tot, self.scen["central"]["additional_total"], delta=0.05)
-        self.assertEqual([round(tr[k]["additional_central"] / tot * 100, 1) for k in ("observed", "estimated", "assumed")], [5.2, 21.2, 73.6])  # AQ-061 (was 5.5, 21.1, 73.4)
+        self.assertEqual([round(tr[k]["additional_central"] / tot * 100, 1) for k in ("observed", "estimated", "assumed")], [4.9, 21.2, 73.9])  # AQ-065 (AQ-061: 5.2, 21.2, 73.6; before: 5.5, 21.1, 73.4)
 
 
     def test_context_why_equals_csv(self):
@@ -362,7 +363,7 @@ class TestUIBundle(unittest.TestCase):
         # AQ-061: places differ by home value only (allocation fit, slope about 1.02: +10% value -> +10% rate);
         # the value-income-size terms set the statewide rate only
         self.assertEqual(round((ratios["alloc_value_dev"] - 1) * 100), 10)
-        self.assertEqual(round((ratios["value_dev"] - 1) * 100), 29)
+        self.assertEqual(round((ratios["value_dev"] - 1) * 100), 30)   # AQ-065 refit (was 29)
         self.assertEqual(round((1 - ratios["income_dev"]) * 100), 25)
         self.assertEqual(len(why["examples"]), len(rows("gate5_context_examples.csv")))
 

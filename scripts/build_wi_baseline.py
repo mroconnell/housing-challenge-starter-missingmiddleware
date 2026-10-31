@@ -115,6 +115,27 @@ def measured_pool_observations(meas: pd.DataFrame, places: pd.DataFrame) -> tupl
     return obs, pd.DataFrame(rows)
 
 
+def no_reform_trend() -> tuple[float, float]:
+    """(yearly growth, centre year) of the current-law baseline (AQ-065): reference/adu_no_reform_trend.csv, written
+    by scripts/run_adu_no_reform.py. (1.0, 2023.5) when the file is absent."""
+    f = REFERENCE / "adu_no_reform_trend.csv"
+    if not f.exists():
+        return 1.0, 2023.5
+    t = pd.read_csv(f).iloc[0]
+    return float(t["yearly_growth"]), float(t["centre_year"])
+
+
+def with_no_reform_trend(growth: pd.DataFrame, area_ids) -> pd.DataFrame:
+    """Engine growth table (area_id, year 1-5, g) for every area: each place's own path g (1 where not ramping) times
+    the no-reform trend, growth ** (forecast year - centre). The current rates describe about 2022-2025 (centre
+    mid-2023), so 2027 is 3.5 years on."""
+    gr, centre = no_reform_trend()
+    full = pd.MultiIndex.from_product([list(area_ids), [1, 2, 3, 4, 5]], names=["area_id", "year"]).to_frame(index=False)
+    g = full.merge(growth, on=["area_id", "year"], how="left").fillna({"g": 1.0})
+    g["g"] = g["g"] * gr ** ((2026 + g["year"]) - centre)
+    return g
+
+
 def log(msg: str) -> None:
     print(msg, flush=True)
 
@@ -427,8 +448,9 @@ def main() -> None:
     engine_areas.to_parquet(out / "engine_areas.parquet", index=False)
     yidx = {y: i + 1 for i, y in enumerate(bl.FORECAST_YEARS)}
     growth = central[central.year.isin(bl.FORECAST_YEARS) & (central.g < 1 - 1e-12)]
-    growth.assign(year=growth.year.map(yidx))[["area_id", "year", "g"]].to_parquet(
-        out / "engine_baseline_growth.parquet", index=False)
+    growth = with_no_reform_trend(growth.assign(year=growth.year.map(yidx))[["area_id", "year", "g"]],
+                                  engine_areas["area_id"])
+    growth.to_parquet(out / "engine_baseline_growth.parquet", index=False)
 
     # Baseline sensitivity: Milwaukee on the assumed ramp to Madison's rate (the Gate 3 treatment). Engine inputs
     # for it are written beside the adopted ones (scripts/run_adu_model.py uses them for its sensitivity case and
@@ -444,8 +466,8 @@ def main() -> None:
                   rights_basis=asg_mr["current_class"])[engine_areas.columns].to_parquet(
         out / "engine_areas_milwaukee_ramp.parquet", index=False)
     g_mr = c_mr[c_mr.year.isin(bl.FORECAST_YEARS) & (c_mr.g < 1 - 1e-12)]
-    g_mr.assign(year=g_mr.year.map(yidx))[["area_id", "year", "g"]].to_parquet(
-        out / "engine_baseline_growth_milwaukee_ramp.parquet", index=False)
+    with_no_reform_trend(g_mr.assign(year=g_mr.year.map(yidx))[["area_id", "year", "g"]], engine_areas["area_id"]) \
+        .to_parquet(out / "engine_baseline_growth_milwaukee_ramp.parquet", index=False)
 
     ref_obs = pd.DataFrame([o.row() for o in obs])
     ref_obs.to_csv(REFERENCE / "wi_baseline_observed.csv", index=False, float_format="%.4f")

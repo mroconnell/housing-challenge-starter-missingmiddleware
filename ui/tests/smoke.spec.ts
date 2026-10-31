@@ -96,7 +96,7 @@ test("pilot pages show baselines and additions from the bundle", async ({ page }
     await expect(obs).toHaveCount(p.permits.years.length);
   }
   const mad = b.pilots.find((p: { slug: string }) => p.slug === "madison");
-  expect(sum(mad.add.central).toFixed(1)).toBe("134.9");
+  expect(sum(mad.add.central).toFixed(1)).toBe("110.8");
 });
 
 test("keyboard: skip link, tab navigation and scenario radios", async ({ page, isMobile }) => {
@@ -207,7 +207,7 @@ test("sensitivity cases are grouped by the number they move", async ({ page }) =
   await expect(page.getByTestId("sens-group-addition")).toBeVisible();
   await expect(page.getByTestId("sens-group-baseline")).toBeVisible();
   await expect(page.getByTestId("sens-group-local")).toBeVisible();
-  await expect(page.getByTestId("baseline-only-table")).toContainText("+209");
+  await expect(page.getByTestId("baseline-only-table")).toContainText("+310");
 });
 
 test("scenario choice is kept in the URL and the current tab is in view", async ({ page }) => {
@@ -223,9 +223,9 @@ test("scenario choice is kept in the URL and the current tab is in view", async 
 test("unknown-rules switch shows each precomputed run", async ({ page }) => {
   const b = await bundle(page);
   await page.goto("#/how-sure");
-  // AQ-061 values (were 73.4%, 5.5%, 21.1%)
-  await expect(page.getByTestId("trace-summary")).toContainText("73.6%");
-  await expect(page.getByTestId("trace-summary")).toContainText("5.2%");
+  // AQ-065 values (AQ-061: 73.6%, 5.2%, 21.2%; before: 73.4%, 5.5%, 21.1%)
+  await expect(page.getByTestId("trace-summary")).toContainText("73.9%");
+  await expect(page.getByTestId("trace-summary")).toContainText("4.9%");
   await expect(page.getByTestId("trace-summary")).toContainText("21.2%");
   for (const v of b.unknown.variants) {
     await page.locator(`input[name="unk-howsure"][value="${v.id}"]`).check();

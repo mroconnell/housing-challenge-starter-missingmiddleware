@@ -171,6 +171,11 @@ def main():
     f.round(4).to_csv(REFERENCE / f"adu_no_reform_{tag}_forward.csv", index=False)
     scores.round(4).to_csv(REFERENCE / f"adu_no_reform_{tag}_scores.csv", index=False)
     wi.round(1).to_csv(REFERENCE / f"adu_no_reform_{tag}_wi.csv", index=False)
+    if CLEAN:    # adopted (AQ-065): the engine's current-law baseline rises at this yearly growth from mid-2023
+        pd.DataFrame([dict(yearly_growth=round(gr_now, 6), centre_year=2023.5,
+                           source="scripts/run_adu_no_reform.py: median yearly growth of no-law series' 3-year mean "
+                                  "rates, latest years, no window spanning a local reform (NO_REFORM_R1_RESULTS.md)")]
+                     ).to_csv(REFERENCE / "adu_no_reform_trend.csv", index=False)
     print(p.groupby("series").agg(level=("level", "first"), y0=("year", "min"), y1=("year", "max"),
                                   mean_rate=("rate", "mean"), last3=("rate", lambda r: r.tail(3).mean())).round(3))
     print(scores.round(3).to_string(index=False))

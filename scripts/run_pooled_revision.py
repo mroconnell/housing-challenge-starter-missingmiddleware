@@ -139,13 +139,18 @@ def homes_index() -> pd.DataFrame:
 
 
 def build(d, panel, vacant=True, mpls=True, coverage=True, coding=None, drop_vt_2024=False, coverage_states=None,
-          year_homes=True, coverage_override=None):
+          year_homes=True, coverage_override=None, law_year_rule=True):
     """The pooled data for one California option. Defaults = the adopted fit (AQ-061, AQ-064). coverage_states limits
     the coverage correction to those series (None = every series in COVERAGE); coding=pr.STATE_CODING restores the
     Gate 3 Washington coding (law years from enactment); year_homes=False reads every year against ACS 2020-2024
-    homes (before AQ-064); coverage_override replaces COVERAGE shares ({series: {year: share}})."""
+    homes (before AQ-064); coverage_override replaces COVERAGE shares ({series: {year: share}}); law_year_rule=False
+    restores the coding before AQ-065 (Vermont by year built, Oregon from 2019, Seattle 2024 as a law year)."""
     p = rp.pooled({**d, "panel": panel}, state_coding=coding or ADOPTED_CODING)
     rows = p.rows
+    if drop_vt_2024:      # before the year shift: Vermont's 2024 count is the state housing layer's
+        rows = rows[~(rows["series"].eq("VT_chittenden") & rows["year"].eq(VT_SOURCE_CHANGE_YEAR))].reset_index(drop=True)
+    if law_year_rule:
+        rows = R.law_year_rule(rows)
     if coverage_override:
         rows = rows.copy()
         for sid, ys in coverage_override.items():
@@ -158,8 +163,6 @@ def build(d, panel, vacant=True, mpls=True, coverage=True, coding=None, drop_vt_
         adj = pr.adjust_counts(rows, coverage=True)
         rows = rows.copy()
         rows.loc[sel, ["count", "coverage"]] = adj.loc[sel, ["count", "coverage"]]
-    if drop_vt_2024:
-        rows = rows[~(rows["series"].eq("VT_chittenden") & rows["year"].eq(VT_SOURCE_CHANGE_YEAR))].reset_index(drop=True)
     return pr.Pooled(R.adjust_other_rows(rows, vacant_lot=vacant, minneapolis=mpls), p.members)
 
 
@@ -173,6 +176,7 @@ FIT_VARIANTS = {
     "cap_a2|gate4_coding": dict(coverage=False, coding=pr.STATE_CODING),
     "cap_a2|homes_2020_24_every_year": dict(year_homes=False),
     "cap_a2|coverage_me_homes_estimate": dict(coverage_override=pr.COVERAGE_ME_HOMES_ESTIMATE),
+    "cap_a2|before_aq065_coding": dict(law_year_rule=False),
 }
 
 

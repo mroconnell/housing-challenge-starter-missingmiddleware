@@ -129,11 +129,15 @@ def main():
 
     # check 2: each variant's baseline equals the baseline builder's sensitivity where one exists
     bsens = pd.read_csv(REFERENCE / "wi_baseline_sensitivities.csv").set_index("sensitivity")["b5yr_central"]
+    # (the builder's sensitivities carry no no-reform trend, AQ-065: compare with the engine run without it)
+    from run_baseline_only_effects import untrended
+    g0 = untrended(growth)
     for t, lab in ((ADOPTED, "main (central path)"), ("like_prohibited", "uncoded places behave like prohibited (old AQ-023 default)")):
-        b = out[out.unknown_treatment.eq(t) & out.path.eq("central")].baseline_units.sum()
+        o0 = e.run(variant_areas(areas, t, rates), scen, g0, levels, apaths)
+        b = o0[o0.path.eq("central")].baseline_units.sum()
         if abs(b - float(bsens[lab])) > 0.05:
-            raise SystemExit(f"{t}: baseline {b:.2f} != wi_baseline_sensitivities.csv {bsens[lab]}")
-        checks.append(f"{t}: baseline {b:.2f} equals reference/wi_baseline_sensitivities.csv '{lab}'")
+            raise SystemExit(f"{t}: baseline without the trend {b:.2f} != wi_baseline_sensitivities.csv {bsens[lab]}")
+        checks.append(f"{t}: baseline without the no-reform trend {b:.2f} equals reference/wi_baseline_sensitivities.csv '{lab}'")
 
     od = processed_dir("model_run/unknown_rules")
     out.to_parquet(od / "results_long.parquet", index=False)

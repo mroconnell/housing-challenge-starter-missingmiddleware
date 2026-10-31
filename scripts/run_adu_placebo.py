@@ -281,7 +281,9 @@ def rising_growth(areas: pd.DataFrame, growth: pd.DataFrame, ratio: float) -> pd
     """Baseline growth table g (area_id, year, g) with every place's current-law rate rising proportionally:
     x * ratio^((t - 2023.5) / 4), on top of the adopted g (recently liberalized places' ramps)."""
     from missing_middleware.model import engine as e
-    gmap = {(r.area_id, int(r.year)): float(r.g) for r in growth.itertuples()}
+    import build_wi_baseline as bwb
+    gr, centre = bwb.no_reform_trend()      # the adopted trend (AQ-065) is replaced by this case's rise, not added to
+    gmap = {(r.area_id, int(r.year)): float(r.g) / gr ** ((2026 + int(r.year)) - centre) for r in growth.itertuples()}
     return pd.DataFrame([{"area_id": aid, "year": k,
                           "g": gmap.get((aid, k), 1.0) * ratio ** (((2026 + k) - WI_WINDOW_CENTRE) / WINDOW_GAP)}
                          for aid in areas.area_id for k in e.YEARS])

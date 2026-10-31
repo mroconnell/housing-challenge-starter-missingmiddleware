@@ -166,3 +166,46 @@ def madison_like_wi(places: pd.DataFrame, min_homes=20_000, max_homes=120_000, m
     p["madison_like"] = (p["homes"].between(min_homes, max_homes) & p["value"].between(min_value, max_value)
                          & ~p["largest_city"])
     return p
+
+
+# ---------------------------------------------------------------------------
+# AQ-065 (improvement loop rounds 1-2, owner decision 2026-10-31): law-year coding by one rule
+# ---------------------------------------------------------------------------
+# Rule: a law year starts only where the state law changed that place's rules, and every outcome is permits at
+# issuance. (1) Vermont counts homes by year built: each count moves one year earlier (ADUs finish about a year after
+# the permit; Austin and California completion data), k falls by one and the pre-law year is dropped. (2) Oregon:
+# law years from HB 2001's ADU rules (2020-01-01); 2019 is a transition year in the 32-city panel and in Portland.
+# (3) Seattle 2024: local rules only, since Seattle met HB 1337's rules before 2024 (SDCI Director's Report, 2024).
+
+def shift_vermont(rows: pd.DataFrame) -> pd.DataFrame:
+    r = rows.copy()
+    vt = r["series"].eq("VT_chittenden")
+    r.loc[vt, "year"] = r.loc[vt, "year"] - 1
+    r.loc[vt, "k"] = r.loc[vt, "k"] - 1
+    return r[~(vt & (r["k"] < 1))].reset_index(drop=True)
+
+
+def recode_oregon(rows: pd.DataFrame, drop_portland_2019: bool = True) -> pd.DataFrame:
+    r = rows.copy()
+    panel, pdx = r["series"].eq("OR_panel32_exPortland"), r["series"].eq("portland")
+    drop = (panel | (pdx & drop_portland_2019)) & r["year"].eq(2019)
+    r = r[~drop].copy()
+    panel, pdx = r["series"].eq("OR_panel32_exPortland"), r["series"].eq("portland")
+    r.loc[panel | pdx, "k"] = r.loc[panel | pdx, "year"] - 2019
+    pdx19 = pdx & r["year"].eq(2019)
+    r.loc[pdx19, "law"] = 0
+    r.loc[pdx19, "k"] = np.nan
+    return r.reset_index(drop=True)
+
+
+def seattle_2024_local_only(rows: pd.DataFrame) -> pd.DataFrame:
+    r = rows.copy()
+    sea = r["series"].eq("seattle") & r["year"].eq(2024)
+    r.loc[sea, "law"] = 0
+    r.loc[sea, "k"] = np.nan
+    return r
+
+
+def law_year_rule(rows: pd.DataFrame) -> pd.DataFrame:
+    """The adopted AQ-065 coding: Vermont by permit year, Oregon from 2020 (2019 dropped), Seattle 2024 local only."""
+    return seattle_2024_local_only(recode_oregon(shift_vermont(rows)))

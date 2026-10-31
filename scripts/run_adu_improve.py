@@ -76,7 +76,7 @@ def build_variant(v: str, d, pan) -> pr.Pooled:
     if v in ("V3", "V4"):
         cov["RI_statewide"] = {2021: RI_EARLY_SHARE, 2022: RI_EARLY_SHARE}
     vt = v in ("V1", "V4", "V6", "V6p", "V6s")
-    p = rv.build(d, pan, coverage_override=cov or None, year_homes=not vt)
+    p = rv.build(d, pan, coverage_override=cov or None, year_homes=not vt, law_year_rule=False)
     rows = p.rows
     if vt:
         rows = hb.apply_homes_index(shift_vermont(rows), rv.homes_index(), rv.CLUSTER_FIPS)
