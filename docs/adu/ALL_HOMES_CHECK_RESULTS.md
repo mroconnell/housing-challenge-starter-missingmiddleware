@@ -14,6 +14,8 @@ Run 2026-10-31 under [ALL_HOMES_CHECK_PLAN.md](ALL_HOMES_CHECK_PLAN.md), committ
 - **Units in 1–4 unit buildings:** average −0.58, median −0.22, just below the placebo spread (−0.41 to +0.72), again driven by Utah (−3.83).
 - **Why it can't see ADUs:** the survey counts new buildings. ADUs in existing houses and garages are often not counted at all. So this check leans toward zero by design.
 - **Nothing changes in the tool.** This is a cross-check only.
+- **What the check could see.** The placebo spread is about ±1.1 permits per 1,000 homes per year. In Wisconsin that is about 15,600 homes over 2027–2031 (1.1 × 2,840,960 × 5 ÷ 1,000). So only an effect near the upper scenario (19,294) would show. A result of about zero is not evidence against the central.
+- **Other limits.** Maine, Massachusetts and Rhode Island have only one after-year (2025). Comparing with every no-law state ignores Utah's own boom and bust; a comparison with states that grew like Utah before 2022 would be fairer, and could be added later.
 
 ## By state (all units)
 
