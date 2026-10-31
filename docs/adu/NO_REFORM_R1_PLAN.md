@@ -67,4 +67,4 @@ For each model, the Wisconsin 2027–2031 no-reform total, beside today's 530:
 
 ## Changes after writing
 
-None yet.
+- **2026-10-31, after the first run (worst miss: Madison across its 2021 reform):** no training or test window may span a city's own reform. This applies the plan's rule (years before each reform) to the forward windows and the trend. First-run outputs are kept as `adu_no_reform_r1_*.csv`; adopted outputs are `adu_no_reform_r1b_*.csv`.

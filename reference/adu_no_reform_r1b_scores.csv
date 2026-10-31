@@ -1,0 +1,6 @@
+test,model,median_abs_log,p05,p95,n_cases,n_series,mean_log_bias
+forward,B0,0.507,0.2418,0.5863,34,8,-0.3463
+forward,B1,0.7158,0.4954,0.892,34,8,-0.6338
+forward,N1,0.2806,0.2108,0.4174,34,8,0.0108
+forward,N2,0.4745,0.1307,1.8512,34,8,-0.5022
+held-out places,N2,0.6668,,,12,12,-0.2565
