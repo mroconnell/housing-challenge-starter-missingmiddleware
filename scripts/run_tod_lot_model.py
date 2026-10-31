@@ -849,6 +849,8 @@ def census_homes() -> None:
         # lots repeated across overlapping cases share one copy of the block's homes per case unit
         grp = D.loc[ix, "unit"].astype(str) + "|" + blk.astype(str)
         share = D.loc[ix, "acres"] / D.loc[ix, "acres"].groupby(grp).transform("sum")
+        if "sample_w" in D:   # item 63: a sampled city holds 1 in sample_w of each block's lots, so each lot's share is 1/sample_w
+            share = share / D.loc[ix, "sample_w"].fillna(1.0)
         D.loc[ix, "census_homes"] = (j["HOUSING10"].astype(float) * share).values
         print(city, src.name, "lots matched", int(blk.notna().sum()), "of", len(ix), flush=True)
     D.to_parquet(PATHS["lots"])

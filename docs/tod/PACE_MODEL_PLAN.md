@@ -9,7 +9,7 @@ How many homes get built on a lot over 5 years **with no TOD reform**? Summed ov
 ## Training rows (lot-windows with no TOD rules in force)
 
 1. **Before window of every lot** in every non-holdout city (the 6 years before each reform; untreated by definition).
-2. **After window of lots that never got the reform:** all lots in the no-reform cities (Madison outside overlay, Milwaukee, Columbus, Kansas City), and the comparison lots outside each reform area. Lots inside a reform area are left out of their after window.
+2. **After window of the no-reform cities only** (Madison outside overlay, Milwaukee, Columbus, Kansas City). In reform cities the after window is left out for every lot, including comparison lots, because building may move between them (audit advice, 14:36).
 
 Holdouts Chicago, Madison and Bellevue are never fitted on or scored in the loop (same rule as plan item 49).
 
@@ -22,11 +22,16 @@ Holdouts Chicago, Madison and Bellevue are never fitted on or scored in the loop
 
 ## Outcome and tool
 
-Homes per acre over 5 years, weighted by acres and the lot weight; prediction times acres. Fast tool: histogram gradient boosting. Leave-one-city-out.
+Two parts (audit advice): chance the lot builds anything in 5 years, times homes per acre if it builds, times acres. Fast tool: histogram gradient boosting. Three seeds per round.
+
+## Two held-out tests
+
+1. **Held-out place:** leave one city out; predict both its windows.
+2. **Held-out later years (forward):** fit on before windows only (every city, including each no-reform city's own); predict the no-reform cities' after windows. This is the test closest to forecasting 2027–2031.
 
 ## Scores (no pass/fail; owner item 42)
 
-For each city and window: predicted total homes vs actual. Median |log(predicted ÷ actual)|.
+For each city and window: predicted total homes vs actual, also as homes per 1,000 existing homes per year. One summary score, fixed now: median |log(predicted ÷ actual)| over the city-windows of each test. The worst miss is traced to data or code before the model changes.
 Baselines:
 - **Flat:** training cities' average homes per acre × acres.
 - **Permit survey pace:** the place's permits per year in the 5 years before the window (national file) × 5 × (study area's 2010 homes ÷ place's 2010 homes).
@@ -38,3 +43,15 @@ Units table, sanity flags, a data check of lot sums vs the permit survey for who
 ## Comparison with parking and ADU
 
 The place totals (permit survey pace and model) are sent to the parking and ADU threads, which are building the same no-reform model at city and state level.
+
+## Data left out because not every state has it (owner asked for this list)
+
+| Left out | Why not in every state |
+| --- | --- |
+| Zoning level before and after (floor area, height) | Each city codes it differently; no statewide zoning map in most states |
+| Homes on the lot from city property records | Only some cities record it; 2010 census-block homes used instead |
+| Building age and building-to-land value | Only in some city or county files |
+| Land and lot market values | Assessor files differ by state; some are not market values |
+| City permit history at lot level as a trait | Needs geocoded city permits; the national permit survey (place level) used instead |
+| Lot use (residential, commercial, industrial) | 78% "unknown"; coded differently by city |
+| Reform-area traits (group, shares) | Not a no-reform trait |
