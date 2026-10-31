@@ -69,3 +69,9 @@ Settings for M2–M4 are chosen by 5-fold cross-validation over places within th
 - **Rounds:** each round's fixes are logged below before the round is run. Rounds go to the audit through the coordinator.
 
 ## Changes after writing
+- **2026-10-31, audit judging plan (`audit/no_reform_model_judging_plan_2026-10-31.md`), before any outcome was computed:**
+  - **One summary score, fixed now:** the median over held-out places of |log((predicted + 0.5) ÷ (actual + 0.5))|, with both in units per place per year. The 0.5 keeps places with no permits in. Error per unit permitted stays as a second score, for comparison with the baseline's 0.526.
+  - **Benchmark:** M0 ("same pace as before", from the national permit survey). A model must beat it on both held-out tests (places, and later years).
+  - **Seed spread:** the place holdout is redrawn with 5 seeds (20261031 to 20261035). M2–M4 are refit on each. A model passes only if it beats M0 under all 5.
+  - **Fake-reform placebo:** 10% of no-reform training places get a fake reform year, drawn from the real repeal years. M3 and M4 get a trait "fake reform in effect". The prediction with it on, minus with it off, should be about 0, and is reported in units per place per year.
+  - **Training set:** as section 3, never-reformed places in all years, and reformed places only in years before their reform, so reform status is a dated trait, not a reason to drop a place.
