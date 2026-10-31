@@ -317,3 +317,10 @@ The lot model counts as better if it beats the plain baseline on held-out cities
     3. **Dollar-ratio flag:** for rent, home value, income and construction cost (2024 dollars), a city whose median is under half or over twice the other cities' median is flagged.
     4. **Source years** per city (reform years, ACS release, cost window) are listed in the flag file.
     Milwaukee's construction cost ($81,500 per home, 5-year median) is low beside other cities' and is checked with flag 3.
+45. **2026-10-31, from the audit's review of the first units table, before any fit ran.**
+    1. **Floor area after** is −1 (with "known" = 0) wherever there is no printed floor area ratio, including Seattle single-family lots at 0, instead of a shared median that looked like a real 0.9.
+    2. **"Room to build"** subtracts census-block homes, not the city-record homes on the lot (which only some cities have), and is 0 where there is no floor area ratio.
+    3. **Distance flag:** the share of each city's lots beyond the training cities' 95th-percentile distance to a rail or rapid stop is flagged (placebo and Wisconsin lots measure to rail and rapid stops only, while their study areas include 15-minute bus lots).
+    4. **Charlotte's cost** is Mecklenburg County's permit-survey value (Charlotte has no separate permit office): $90,215 per home, which gives the high rent-to-cost ratio (2.75). It is kept and noted.
+    5. **Census homes:** 2010 blocks in training and placebo cities, 2020 blocks in the Wisconsin run; labelled so.
+    6. **Units table** now lists the median, 5th and 95th percentile per city and trait, and a separate table lists missing shares.

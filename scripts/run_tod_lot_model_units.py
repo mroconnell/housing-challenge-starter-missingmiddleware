@@ -23,7 +23,7 @@ UNIT = {"log_acres": "log of acres", "log_width": "log of metres", "log_dist_sta
         "built_before": "0 or 1", "log_near_before": "log of (1 + homes per year within 150 m, before)",
         "log_rent": "log of 2024 dollars per month", "log_value": "log of 2024 dollars", "log_income": "log of 2024 dollars per year",
         "rent_to_cost": "ratio (both 2024 dollars)", "pays_room": "log homes room × rent-to-cost", "in_reform": "0 or 1",
-        "rezoned_later": "0 or 1", "no_reform": "0 or 1", "log_census_homes": "log of (1 + 2010 block homes shared by area)",
+        "rezoned_later": "0 or 1", "no_reform": "0 or 1", "log_census_homes": "log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)",
         "share_upzoned_half_mile": "share 0 to 1", "log_stops_1mile": "log of (1 + rail and rapid stops within 1,609 m)",
         "traits_after_reform": "0 or 1"}
 
@@ -34,9 +34,19 @@ def main() -> None:
     cache = {k: L.cost_per_home(k[0], int(k[1]) - 1) for k in set(zip(D["city"], D["eff_year"]))}
     D["cost_per_home"] = [cache[(c, y)] for c, y in zip(D["city"], D["eff_year"])]
     X = L.features(D, False)
-    med = X.groupby(D["city"]).median().T
-    med.insert(0, "unit", [UNIT.get(c, "0 or 1" if c.startswith("group_") else ("share 0 to 1" if "share" in c else "")) for c in med.index])
-    med.round(3).to_csv(REFERENCE / "tod_lot_model_trait_units_v37.csv")
+    raw = L.features.__wrapped__(D, False) if hasattr(L.features, "__wrapped__") else None
+    rows = []
+    for c, g in X.groupby(D["city"]):
+        for t in X.columns:
+            rows.append({"trait": t, "city": c, "median": g[t].median(), "p5": g[t].quantile(0.05), "p95": g[t].quantile(0.95)})
+    T = pd.DataFrame(rows)
+    T["unit"] = T["trait"].map(lambda t: UNIT.get(t, "0 or 1" if t.startswith("group_") else ("share 0 to 1" if "share" in t else "")))
+    miss = {"rent": D["rent"], "home_value": D["home_value"], "income": D["income"], "far_before": D["far_before"],
+            "census_homes": D["census_homes"], "dist_station_m": D["dist_station_m"]}
+    M = pd.DataFrame({k: v.isna().groupby(D["city"]).mean() for k, v in miss.items()}).T
+    T.round(3).to_csv(REFERENCE / "tod_lot_model_trait_units_v37.csv", index=False)
+    M.round(3).to_csv(REFERENCE / "tod_lot_model_trait_missing_v37.csv")
+    med = T.pivot(index="trait", columns="city", values="median")
     pd.set_option("display.width", 250)
     print(med.round(2).to_string())
 

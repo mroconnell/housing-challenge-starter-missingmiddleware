@@ -505,6 +505,9 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
         X["rel_gain_known"] = known.astype(float) if after_rules else 0.0
         now = (lb + (fg.fillna(0) if after_rules else 0.0))
         X["far_now"] = now.where(far_city & np.isfinite(now))
+        if FIT.get("item37"):   # item 45.1: no floor area ratio (other cities; Seattle single-family's 0) -> -1, not a median
+            X["far_now"] = X["far_now"].where(far_city & (lb > 0) & np.isfinite(now), -1.0)
+            X["far_known"] = (far_city & (lb > 0)).astype(float)
     else:
         X["rel_gain_known"] = (far_city & up).astype(float) if after_rules else 0.0
         X["far_now"] = (lb + (D["far_gain"].fillna(0) if after_rules else 0.0)).where(far_city)   # FAR cities only
@@ -530,7 +533,8 @@ def features(D: pd.DataFrame, after_rules: bool) -> pd.DataFrame:
     X["rent_to_cost"] = ((D["rent"] if FIT.get("item37") else D["rent"].fillna(1000)) * 12 / 0.05) / cost_2024(D)   # 25.5; 44.2
     sqft = (X["far_now"].fillna(0) * D["acres"] * 43560)
     allowed = sqft / 1000.0
-    X["pays_room"] = np.log1p((allowed - D["homes_on_lot"].fillna(0)).clip(lower=0)) * X["rent_to_cost"]
+    have = D["census_homes"].fillna(0) if (FIT.get("item37") and "census_homes" in D) else D["homes_on_lot"].fillna(0)   # 45.2
+    X["pays_room"] = np.log1p((allowed.where(X["far_now"] > 0, 0) - have).clip(lower=0)) * X["rent_to_cost"]
     if "in_reform" in D:   # plan section 9, item 15
         X["in_reform"] = D["in_reform"].astype(float)
     if "lot_group" in D:   # plan section 9, item 16: what the reform did to the lot, and the reform's mix
@@ -1154,6 +1158,13 @@ def sanity_flags(stage: str) -> None:
             other = med[k].drop(c).median()
             if pd.notna(med.at[c, k]) and other and not (0.5 <= med.at[c, k] / other <= 2):
                 fl.append({"kind": "dollar ratio", "city": c, "item": k, "detail": f"median {med.at[c, k]:,.0f} vs other cities {other:,.0f}"})
+    # item 45.3: lots farther from a rail or rapid stop than the training cities' 95th percentile
+    if "dist_station_m" in D:
+        trn = D["dist_station_m"][~D["city"].isin(HOLD) & ~D["city"].isin(list(PLACEBO))]
+        p95 = float(trn.quantile(0.95))
+        for c, sh in (D["dist_station_m"] > p95).groupby(D["city"]).mean().items():
+            if sh > 0.05:
+                fl.append({"kind": "out of range", "city": c, "item": "dist_station_m", "detail": f"{sh:.0%} of lots beyond the training 95th percentile ({p95:,.0f} m)"})
     # item 44.4: source years
     from missing_middleware.tod import allvars as A
     for c, y in D.groupby("city")["eff_year"].agg(lambda s: sorted(set(int(x) for x in s))).items():
