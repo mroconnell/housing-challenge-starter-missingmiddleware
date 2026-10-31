@@ -6,7 +6,7 @@ Written 2026-10-31 by the parking conductor. Plan: [NO_REFORM_MODEL_PLAN.md](NO_
 
 - **Main rule:** keep "same pace as before", the flat 3-year average for each place, as the parking baseline. Per place, no model beat it on held-out places in later years. It is also the rule TOD and ADU use.
 - **Its past bias:** on held-out places it predicted 0.83 times what was actually permitted, and 0.78 times in Wisconsin's 2021–2025 back-test. The test years include the 2020–2022 boom.
-- **Sensitivity for Ryan:** boosted trees predict state totals about twice as well (0.10 against 0.21 on the summary score). For Wisconsin 2027–2031 they give about 110,500 homes, against 118,822 for the flat rule (Census as published).
+- **Sensitivity for Ryan:** boosted trees predict state totals about twice as well (0.10 against 0.21 on the summary score). For Wisconsin 2027–2031 they give about 110,500 homes, against 118,822 for the flat rule. Both figures use the baseline's "Census as published" sensitivity; scaled to the shared central of 122,619, the trees give about 114,041.
 
 ## Data
 
@@ -53,12 +53,14 @@ On average the fake reform does nothing. The regressions swing widely from seed 
 
 The 331 Wisconsin places with at least 1,000 homes and every year present hold about 70% of the state's permits. So each model is shown as its ratio to M0, times the shared baseline with Census as published (118,822).
 
-| Model | Back-test: predicted ÷ actual, 2021–2025 | 2027–2031, scaled |
-| --- | ---: | ---: |
-| M0 same pace | 0.78 | 118,822 |
-| M1 same pace × state trend | 0.78 | 119,428 |
-| M2 shrunk | 0.70 | 99,123 |
-| M4 boosted trees | 0.81 | 110,510 |
+| Model | Back-test: predicted ÷ actual, 2021–2025 | 2027–2031, scaled to the as-published sensitivity (118,822) | 2027–2031, scaled to the shared central (122,619) |
+| --- | ---: | ---: | ---: |
+| M0 same pace | 0.78 | 118,822 | 122,619 |
+| M1 same pace × state trend | 0.78 | 119,428 | 123,244 |
+| M2 shrunk | 0.70 | 99,123 | 102,291 |
+| M4 boosted trees | 0.81 | 110,510 | 114,041 |
+
+**Which baseline:** the shared baseline's central is 122,619 (v2, with Milwaukee's apartments from the city property file). 118,822 is its "Census as published" sensitivity. This model uses only Census permits, which every state has, so it matches 118,822 like for like. The last column applies the same ratios to the central.
 
 All the models under-predicted Wisconsin's 2021–2025, the flat rule by 22%. The trees' lower forecast for 2027–2031 means they expect some of the recent pace to fade.
 
