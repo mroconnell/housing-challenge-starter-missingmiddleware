@@ -91,6 +91,20 @@ def state_rates(p: pr.Pooled) -> pd.Series:
     return g["count"].sum() / (g.apply(lambda x: (x["years"] * x["homes"]).sum(), include_groups=False)) * 1000
 
 
+def m1b_pred(p: pr.Pooled, s: str) -> float:
+    """M1b (audit round 1): the plain average of the other non-California states at the same year since the law
+    (nearest earlier year if none), applied to the held-out state's own law rows, exposure-weighted."""
+    r = p.rows.assign(homes=p.row_homes().values)
+    r = r[r["law"].eq(1) & pr.eval_mask(p.rows) & r["cluster"].isin(STATES)].copy()
+    r["expo"] = r["years"] * r["homes"]
+    by_k = (r[r["cluster"].ne(s)].groupby(["cluster", "k"])
+            .apply(lambda g: g["count"].sum() / g["expo"].sum() * 1000, include_groups=False)
+            .groupby("k").mean())
+    own = r[r["cluster"].eq(s)]
+    rate = own["k"].map(lambda k: by_k[by_k.index <= k].iloc[-1] if (by_k.index <= k).any() else by_k.iloc[0])
+    return float((rate * own["expo"]).sum() / own["expo"].sum())
+
+
 def flags(v: str, p: pr.Pooled) -> list[dict]:
     out = []
     r = p.rows.assign(homes=p.row_homes().values)
@@ -132,6 +146,7 @@ def main():
                 others = rates.drop(s)
                 obs = float(la.loc[s, "obs_rate"])
                 for m, pred in (("M1 plain average", float(others.mean())), ("M2 median", float(others.median())),
+                                ("M1b same-year average, no California", m1b_pred(p, s)),
                                 ("M3 adopted", float(la.loc[s, "pred_rate"]))):
                     by_state.append(dict(variant=v, model=m, state=s, obs_rate=obs, pred_rate=pred,
                                          log_error=float(np.log(pred / obs))))
@@ -140,6 +155,7 @@ def main():
             m3 = b[b.model.eq("M3 adopted")].set_index("state")["log_error"]
             worst = m3.abs().idxmax()
             scores.append(dict(variant=v, label=label, rms_m1_plain_average=rms["M1 plain average"],
+                               rms_m1b_same_year_no_ca=rms["M1b same-year average, no California"],
                                rms_m2_median=rms["M2 median"], rms_m3_adopted=rms["M3 adopted"],
                                worst_state_m3=worst, worst_log_error_m3=float(m3[worst]),
                                lower_additional_5yr=o["totals"]["lower"], central_additional_5yr=o["totals"]["central"],

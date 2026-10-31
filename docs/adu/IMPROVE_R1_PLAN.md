@@ -47,3 +47,4 @@ Written 2026-10-31 by the ADU conductor, under Ryan's standing ask: improve the 
 ## Changes after writing
 
 - **2026-10-31, after the V1 result was seen:** added a measured check of the one-year Vermont shift. It measures how long ADUs take from permit to completion in Austin, the only comparison city whose public permit file gives both dates (`scripts/run_adu_completion_lag.py`). It does not change V1; it tests V1's assumption.
+- **2026-10-31, audit round 1 review:** added model M1b, the plain average of the other non-California states at the same year since the law. Reported beside M1–M3; it does not change the decision rule.

@@ -10,23 +10,27 @@ Run 2026-10-31 under [IMPROVE_R1_PLAN.md](IMPROVE_R1_PLAN.md), which was committ
 
 ## Answer
 
-- **The adopted model predicts unseen states best.** On the current data its RMS is 0.168. The plain average scores 0.319 and the median 0.230. So the simpler models do not replace it.
+- **The adopted model predicts unseen states best.** On the current data its RMS is 0.168. The plain average scores 0.319, the median 0.230, and the plain average by year since the law without California 0.338. So the simpler models do not replace it.
 - **One data fix helps a lot: Vermont by permit year (V1).** Vermont counts ADUs when they are built. Moving each count one year earlier, to its likely permit year, cuts Vermont's miss from +0.33 to +0.19 and the RMS from 0.168 to 0.135. A measured lag supports the one-year shift (section 3).
 - **V1 would raise the central from 10,679 to 10,834 additional permits** (+155). The lower goes 6,804 → 6,790 and the upper 19,535 → 19,519. The reference line goes 10,374 → 10,849. **Ryan decides** whether to adopt it.
-- **Maine's homes share (V2) is not adopted.** 0.62 is an estimate, not a town list. It makes Maine's miss worse (−0.15 → −0.32). It stays a sensitivity until Maine's town list arrives.
+- **Maine's homes share (V2) is not adopted, because 0.62 is an estimate, not a town list.** Today's 0.73 is a share of people used as if it were a share of homes, so it likely corrects too little. 0.62 is the other end: with it the central is 10,907 and the upper 20,313. Both ends are shown until Maine's town list arrives.
 - **Rhode Island 2021–2022 (V3) barely matters.** It moves the central by +19 and the RMS by +0.001. It is not adopted, as there is no town list for those years.
 
 ## 1. Held-out test: every model, every variant
 
 RMS of the 7 states' log errors (lower is better), and the adopted model's Wisconsin results.
 
-| Variant | Plain average | Median | Adopted model | Worst state (adopted) | Lower | Central | Upper | Reference line |
-| --- | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: |
-| V0 current data | 0.319 | 0.230 | **0.168** | Vermont +0.33 | 6,804 | 10,679 | 19,535 | 10,374 |
-| V1 Vermont by permit year | 0.309 | 0.216 | **0.135** | Oregon +0.24 | 6,790 | 10,834 | 19,519 | 10,849 |
-| V2 Maine homes share 0.62 | 0.338 | 0.257 | 0.207 | Vermont +0.35 | 6,804 | 10,907 | 20,313 | 10,374 |
-| V3 Rhode Island 2021–22 at 0.8704 | 0.319 | 0.230 | 0.170 | Vermont +0.33 | 6,893 | 10,699 | 19,458 | 10,374 |
-| V4 all three | 0.327 | 0.244 | 0.179 | Maine −0.29 | 6,878 | 11,083 | 20,180 | 10,849 |
+| Variant | Plain average | Same-year average, no California | Median | Adopted model | Worst state (adopted) | Lower | Central | Upper | Reference line |
+| --- | ---: | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: |
+| V0 current data | 0.319 | 0.338 | 0.230 | **0.168** | Vermont +0.33 | 6,804 | 10,679 | 19,535 | 10,374 |
+| V1 Vermont by permit year | 0.309 | 0.343 | 0.216 | **0.135** | Oregon +0.24 | 6,790 | 10,834 | 19,519 | 10,849 |
+| V2 Maine homes share 0.62 | 0.338 | 0.368 | 0.257 | 0.207 | Vermont +0.35 | 6,804 | 10,907 | 20,313 | 10,374 |
+| V3 Rhode Island 2021–22 at 0.8704 | 0.319 | 0.338 | 0.230 | 0.170 | Vermont +0.33 | 6,893 | 10,699 | 19,458 | 10,374 |
+| V4 all three | 0.327 | 0.372 | 0.244 | 0.179 | Maine −0.29 | 6,878 | 11,083 | 20,180 | 10,849 |
+
+The same-year average (added at the audit's request after round 1) predicts each state from the other non-California states' average at the same year since the law. It is the simplest model that allows for the phase-in. It does worse than the plain average because only Oregon, Utah and Vermont have years 2–4, and they differ a lot.
+
+**Why the reference line moves more than the central under V1 (+475 vs +155 permits).** The reference line is the median of only 4 states in years 2–4. V1 moves Vermont's 2024 count (1.39 permits per 1,000 homes per year) from year 4 to year 3. That lifts year 3's median from 1.02 to 1.28: 0.26 × 1,839,569 homes ÷ 1,000 = 475 permits. The central comes from the model, which fits every state and year together, so one point moves it less.
 
 ## 2. Held-out log error by state (adopted model)
 
