@@ -25,7 +25,7 @@ UNIT = {"log_acres": "log of acres", "log_width": "log of metres", "log_dist_sta
         "rent_to_cost": "ratio (both 2024 dollars)", "pays_room": "log homes room × rent-to-cost", "in_reform": "0 or 1",
         "rezoned_later": "0 or 1", "no_reform": "0 or 1", "log_census_homes": "log of (1 + census block homes shared by area: 2010 blocks in training and placebo cities, 2020 in the Wisconsin run)",
         "share_upzoned_half_mile": "share 0 to 1", "log_stops_1mile": "log of (1 + rail and rapid stops within 1,609 m)",
-        "traits_after_reform": "0 or 1"}
+        "traits_after_reform": "0 or 1", "no_rail_rapid": "0 or 1", "far_known": "0 or 1"}
 
 
 def main() -> None:
@@ -41,6 +41,9 @@ def main() -> None:
             rows.append({"trait": t, "city": c, "median": g[t].median(), "p5": g[t].quantile(0.05), "p95": g[t].quantile(0.95)})
     T = pd.DataFrame(rows)
     T["unit"] = T["trait"].map(lambda t: UNIT.get(t, "0 or 1" if t.startswith("group_") else ("share 0 to 1" if "share" in t else "")))
+    missing = sorted(set(T.loc[T["unit"] == "", "trait"]))
+    if missing:
+        print("traits without a unit:", missing, flush=True)
     miss = {"rent": D["rent"], "home_value": D["home_value"], "income": D["income"], "far_before": D["far_before"],
             "census_homes": D["census_homes"], "dist_station_m": D["dist_station_m"]}
     M = pd.DataFrame({k: v.isna().groupby(D["city"]).mean() for k, v in miss.items()}).T

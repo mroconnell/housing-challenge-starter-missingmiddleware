@@ -1414,9 +1414,7 @@ def fit8(tlearner: bool = False) -> None:
                     m.fit(T(XX.loc[ix]), dy[D.index.get_indexer(ix)], sample_weight=D.loc[ix, "w"])
                 except TypeError:
                     m.fit(T(XX.loc[ix]), dy[D.index.get_indexer(ix)])
-                Xt = XX.loc[tt].copy()
-                if FIT.get("item37") and "rezoned_later" in Xt:   # item 41.1: unknown at forecast time, also in this score
-                    Xt["rezoned_later"] = 0.0
+                Xt = forecast_view(XX.loc[tt]) if FIT.get("item37") else XX.loc[tt]   # item 41.1
                 out.append(m.predict(T(Xt)) if len(tt) else np.zeros(0))
                 models[g] = (m, XX, sc if scale else None)
             if FIT.get("item37"):   # item 37.2: total homes built in the study area (law on for upzoned lots)
@@ -1425,9 +1423,7 @@ def fit8(tlearner: bool = False) -> None:
                 for g, mask in ((1, up), (0, ~up)):
                     if mask.any():
                         m, XX, scg = models[g]
-                        Xg = XX.loc[te[mask]].copy()
-                        if "rezoned_later" in Xg:   # item 41.1: unknown at forecast time, as for Wisconsin
-                            Xg["rezoned_later"] = 0.0
+                        Xg = forecast_view(XX.loc[te[mask]])   # item 41.1: unknown at forecast time, as for Wisconsin
                         pd_[mask] = m.predict(scg.transform(Xg) if scg is not None else Xg)
                 wv = D.loc[te, "w"].values
                 ua, ub = D.loc[te, "ua5"].values, D.loc[te, "ub5"].values
