@@ -117,7 +117,7 @@ Each scenario's answer is "with the reform minus without it". This table lines u
 | --- | --- | ---: | ---: | --- |
 | Parking | All permitted homes, statewide | 122,619 | to come | being tested |
 | TOD | Homes permitted in station areas | 14,464 | to come | being tested |
-| ADUs | ADU permits on single-family lots | 530 | 758 (same pace plus the trend of no-law places) | Same pace kept; trend case shown ([NO_REFORM_R1_RESULTS.md](adu/NO_REFORM_R1_RESULTS.md)) |
+| ADUs | ADU permits on single-family lots | 530 | 786 (same pace plus the trend of no-law places) | Trend model scores better and is the candidate; it lowers the law's addition by about 233. Owner decides ([NO_REFORM_R1_RESULTS.md](adu/NO_REFORM_R1_RESULTS.md)) |
 
 - **Nesting checks.** TOD's station-area baseline (14,464) is below the statewide total (122,619): about 12% of it. ADU's 530 is under 0.5% of the statewide total.
 - **ADUs need a place-by-place baseline.** A statewide no-law level from other states' cities would give 4,390 ADU permits, eight times the tool's 530. Those cities are much more active than typical Wisconsin places.
