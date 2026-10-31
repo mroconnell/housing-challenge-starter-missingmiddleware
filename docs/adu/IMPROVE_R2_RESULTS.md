@@ -9,7 +9,8 @@ Run 2026-10-31 under [IMPROVE_R2_PLAN.md](IMPROVE_R2_PLAN.md), committed before 
 - **V6 lowers the Wisconsin numbers:** lower 6,804 → 6,100, central 10,679 → 10,000, upper 19,535 → 18,448 additional permits. Oregon's early years now count as weaker rules, so the typical level and the slow-state lower both fall.
 - **The adopted model still beats the simple ones on every version** (plain average 0.30–0.32, same-year average without California 0.34–0.35, median 0.21–0.23).
 - **But most of that drop comes from one Portland row, not from Oregon's panel (section 1b).** If Portland's 2019 is dropped as a transition year, as the panel's 2019 is, the central is 10,721 and the RMS 0.111.
-- **Ryan decides.** Recommended: adopt V6p (both corrections, both Oregon series treating 2019 the same way), with the reference-line fix below: lower 6,718, central 10,721, upper 19,415.
+- **One rule now covers every city:** a law year starts only where the state law changed that place's rules. Portland (2019) and Seattle (2024) already met the benchmark before their state laws, so those years count as local rules only (V6s; sections 1b and 1c).
+- **Ryan decides.** Recommended: adopt V6s with the reference-line fix below: lower 6,464, central 10,591, upper 19,536 additional permits; held-out RMS 0.130.
 
 ## 1. Held-out test
 
@@ -19,7 +20,8 @@ Run 2026-10-31 under [IMPROVE_R2_PLAN.md](IMPROVE_R2_PLAN.md), committed before 
 | V1 Vermont by permit year | 0.309 | 0.343 | 0.216 | 0.135 | Oregon +0.24 | 6,790 | 10,834 | 19,519 |
 | V5 Oregon from benchmark rules | 0.312 | 0.341 | 0.223 | 0.141 | Vermont +0.26 | 6,180 | 9,945 | 18,464 |
 | V6 = V1 + V5 | 0.302 | 0.346 | 0.209 | 0.110 | Utah −0.13 | 6,100 | 10,000 | 18,448 |
-| **V6p = V6, Portland 2019 dropped** | 0.302 | 0.346 | 0.209 | **0.111** | Vermont +0.19 | **6,718** | **10,721** | **19,415** |
+| V6p = V6, Portland 2019 dropped | 0.302 | 0.346 | 0.209 | 0.111 | Vermont +0.19 | 6,718 | 10,721 | 19,415 |
+| **V6s = V6p, Seattle 2024 local rules only** | 0.302 | 0.346 | 0.209 | **0.130** | Washington +0.20 | **6,464** | **10,591** | **19,536** |
 
 Adopted model's log error by state:
 
@@ -41,7 +43,19 @@ V5 codes Portland's 2019 as "local rules only" (law 0), since the statewide benc
 
 Why: Portland already had strong local ADU rules. Its 2019 and 2020 rates are about the same. As a law-0 row, Portland 2019 becomes a new before-and-after comparison that says the statewide law adds almost nothing to a permissive city. That lowers the law's estimated effect everywhere, including Wisconsin. Dropping it treats both Oregon series alike and adds no comparison the plan did not intend. The held-out score is the same (0.111 vs 0.110).
 
-So the Oregon panel recode on its own barely moves the central; the drop in V6 came from Portland's row. Recommended: V6p.
+So the Oregon panel recode on its own barely moves the central; the drop in V6 came from Portland's row. **One city-year moved the central by about 7%.** That shows how much the law's estimated effect leans on the few cities with years both before and after a state law.
+
+The audit's reading: Portland's own rules met the benchmark before 2019, and HB 2001 did not change them in 2020. So a switch from "no law" to "law" there marks a change that did not happen. It is a coding artifact, not evidence. The uniform rule follows: **a law year starts only where the state law changed that place's rules.**
+
+## 1c. The same rule applied to Seattle
+
+Seattle was coded as local rules only for 2020–2023 and as law plus local rules for 2024, its second year after Washington's HB 1337. Seattle's own ADU ordinance of 2019 already allowed two ADUs per lot, with no owner-on-site rule and no parking. The city's report on HB 1337 says Seattle is "largely compliant with the state requirements now". The changes it needed (two detached ADUs on one lot, height, lot coverage, condo ownership) were proposed in late 2024, so they bind from 2025 at the earliest. So Seattle 2024 is also local rules only under the uniform rule (V6s).
+
+- **Effect:** the central moves 10,721 → 10,591 (−130); the lower 6,718 → 6,464; the upper 19,415 → 19,536.
+- **Held-out RMS rises** 0.111 → 0.130, because Washington is now predicted 20% too high. The plan judges coding corrections on the rules, not the score, so V6s is recommended.
+- **No law × local-rules interaction is added.** Only Portland and Seattle would identify it. It can be planned in a later round if Ryan wants it.
+
+Source: Seattle Department of Construction and Inspections, Director's Report, "Accessory Dwelling Unit Amendments – Implementing HB 1337" (2024), seattle.gov.
 
 ## 2. Flag found: the reference line uses too few states in later years
 

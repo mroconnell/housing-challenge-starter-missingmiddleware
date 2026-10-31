@@ -24,3 +24,4 @@ As round 1: held-out log error by state and RMS for the plain average, the media
 ## Changes after writing
 
 - **2026-10-31, audit request after the results:** added V6p, V6 with Portland's 2019 dropped instead of coded as local rules only. It moved the central by 721 permits, so it is reported and recommended over V6 (results section 1b).
+- **2026-10-31, audit request:** added V6s, V6p with Seattle 2024 coded as local rules only, under the uniform rule that a law year starts only where the state law changed that place's rules. Adopted only after a rules check (Seattle's HB 1337 report; results section 1c).

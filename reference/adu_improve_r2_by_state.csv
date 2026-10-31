@@ -139,3 +139,31 @@ V6p,M1 plain average,VT,0.9842,1.3452,0.3125
 V6p,M2 median,VT,0.9842,1.1853,0.1859
 V6p,"M1b same-year average, no California",VT,0.9842,1.6412,0.5114
 V6p,M3 adopted,VT,0.9842,1.1952,0.1943
+V6s,M1 plain average,WA,0.7696,1.2973,0.5222
+V6s,M2 median,WA,0.7696,1.1058,0.3624
+V6s,"M1b same-year average, no California",WA,0.7696,1.0533,0.3138
+V6s,M3 adopted,WA,0.7696,0.9392,0.1991
+V6s,M1 plain average,OR,0.9006,1.2579,0.3341
+V6s,M2 median,OR,0.9006,1.0667,0.1692
+V6s,"M1b same-year average, no California",OR,0.9006,1.1686,0.2604
+V6s,M3 adopted,OR,0.9006,1.0269,0.1311
+V6s,M1 plain average,RI,1.1261,1.2528,0.1066
+V6s,M2 median,RI,1.1261,1.0464,-0.0734
+V6s,"M1b same-year average, no California",RI,1.1261,0.982,-0.1369
+V6s,M3 adopted,RI,1.1261,1.0442,-0.0755
+V6s,M1 plain average,MA,1.0073,1.2676,0.2299
+V6s,M2 median,MA,1.0073,1.1058,0.0933
+V6s,"M1b same-year average, no California",MA,1.0073,1.0058,-0.0015
+V6s,M3 adopted,MA,1.0073,1.0653,0.0559
+V6s,M1 plain average,ME,1.2444,1.238,-0.0052
+V6s,M2 median,ME,1.2444,1.0464,-0.1733
+V6s,"M1b same-year average, no California",ME,1.2444,0.9584,-0.2612
+V6s,M3 adopted,ME,1.2444,1.1075,-0.1165
+V6s,M1 plain average,UT,1.2852,1.2329,-0.0416
+V6s,M2 median,UT,1.2852,1.0464,-0.2056
+V6s,"M1b same-year average, no California",UT,1.2852,1.152,-0.1094
+V6s,M3 adopted,UT,1.2852,1.2094,-0.0608
+V6s,M1 plain average,VT,0.9842,1.2705,0.2554
+V6s,M2 median,VT,0.9842,1.1058,0.1165
+V6s,"M1b same-year average, no California",VT,0.9842,1.1213,0.1304
+V6s,M3 adopted,VT,0.9842,1.1863,0.1868
