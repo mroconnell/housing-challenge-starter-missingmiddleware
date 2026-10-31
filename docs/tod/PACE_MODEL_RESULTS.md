@@ -15,20 +15,22 @@ Score: median |log(predicted ÷ actual)| of 5-year homes built, over city-window
 | — | **Benchmark: same pace as before (permit survey)** | **0.58** | 0.38 |
 | — | Flat average homes per acre | 1.39 | — |
 
-The held-out place test has 30 city-windows. The later-years test has only 4 (the no-reform cities' after windows), so it is noisy.
+The held-out place test has 30 city-windows. The later-years test has only 4 (the no-reform cities' after windows): too few to weigh (audit).
 
 ## Findings
 
 1. **For a place's total, the permit survey's "same pace as before" is the best no-reform estimate so far.** The lot model beat it only on the later-years test in round 3, which has 4 data points. It never beat it on held-out places.
 2. **The lot model's value is where homes go inside a place, not how many.** This supports the round-8 design: place total from the permit survey; lot model splits it.
-3. **Station areas get far more than their share of existing homes** (lots within 805 m of a rail or rapid stop):
+3. **Station areas get more than their share of existing homes.** Correction (same day): the first table used rail and rapid stops only (½ mile). The tool's main case also counts 15-minute bus stops (¼ mile); `reference/tod_stops.csv`. Under the main case the gap is much smaller:
 
-| Place | Share of 2010 homes | Share of new homes, before window | Share of new homes, after window |
+| Place and definition | Share of 2010 homes | Share of new homes, before window | Share of new homes, after window |
 | --- | ---: | ---: | ---: |
-| Milwaukee (2013–2018; 2020–2024) | 12.7% (30,298 of 238,237) | 57.4% (4,964 of 8,648) | 41.6% (2,341 of 5,633) |
-| Madison, whole city (2011–2016/2022; 2018–2025) | 48.0% (47,943 of 99,944) | 63.7% (5,440 of 8,542) | 67.3% (9,219 of 13,703) |
+| Milwaukee, main case | 72.0% (171,644 of 238,237) | 98.6% (8,523 of 8,648) | 97.3% (5,479 of 5,633) |
+| Madison (whole city), main case | 81.5% (81,409 of 99,944) | 93.7% (8,007 of 8,542) | 94.7% (12,972 of 13,703) |
+| Milwaukee, rail and rapid only | 12.7% (30,298 of 238,237) | 57.4% (4,964 of 8,648) | 41.6% (2,341 of 5,633) |
+| Madison, rail and rapid only | 48.0% (47,943 of 99,944) | 63.7% (5,440 of 8,542) | 67.3% (9,219 of 13,703) |
 
-   The tool's TOD baseline (14,464 homes near stops, 2027–2031) assumes station areas build at their share of existing homes. On this evidence it may be too low, by roughly 1.4× (Madison) to 3–4× (Milwaukee). Owner decision; no number changed.
+   Windows: Milwaukee 2013–2018 and 2020–2024; Madison 2011–2022 and 2018–2025 by area. The two cities hold 82% of the main case's homes near stops. Under the main case, station areas got about 1.15× (Madison) to 1.35× (Milwaukee) their share of homes. So the 14,464 baseline may be low by roughly 15–35%, not 1.4–4×. Owner decision; no number changed.
 
 ## Bad data and code found and fixed
 
