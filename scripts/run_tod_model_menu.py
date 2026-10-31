@@ -28,6 +28,8 @@ NAMES = {0: "plain_average", 1: "linear_regression", 2: "lasso", 3: "regression_
 ACAP = 2.97
 EXCLUDE_HOLD = False
 DROP_DATED = False   # audit check: drop traits dated after a window starts (2010 census homes; ACS at the reform year)
+LEAF = 50            # random forest leaf size (baseline round 4 grid)
+DROP_TRAITS: list[str] = []
 EXCLUDE_CITY = ""    # audit check: leave one city out of all share-model training
 TAG = ""
 
@@ -64,7 +66,7 @@ class Method:
         if k in (3, 4, 5):
             Z = X
             m = {3: tree.DecisionTreeRegressor(min_samples_leaf=200, random_state=SEED),
-                 4: ensemble.RandomForestRegressor(n_estimators=300, min_samples_leaf=50, n_jobs=-1, random_state=SEED),
+                 4: ensemble.RandomForestRegressor(n_estimators=300, min_samples_leaf=LEAF, n_jobs=-1, random_state=SEED),
                  5: ensemble.HistGradientBoostingRegressor(random_state=SEED)}[k]
             if k in (3, 4):
                 self.med = X.median()
@@ -132,6 +134,8 @@ def run_pace(methods: list[int]) -> None:
     series, hu = P.bps_series()
     milwaukee_fix(series)   # round 3 (audit check 2)
     X = P.traits(R, 2, series, hu)
+    if DROP_TRAITS:
+        X = X.drop(columns=[c for c in DROP_TRAITS if c in X.columns])
     if DROP_DATED:
         X = X.drop(columns=[c for c in X.columns if c.startswith("v_") or c in ("log_census_homes", "log_rent", "log_home_value", "log_income")])
         print("traits kept:", list(X.columns), flush=True)
@@ -356,6 +360,8 @@ def main(argv=None) -> None:
     ap.add_argument("--model", choices=["pace", "share"], required=True)
     ap.add_argument("--methods", default="0,1,2,3,4,5,6,7,8")
     ap.add_argument("--no-holdouts", action="store_true", help="check: leave Chicago, Madison and Bellevue out")
+    ap.add_argument("--leaf", type=int, default=50)
+    ap.add_argument("--drop-traits", default="", help="comma list of traits to leave out (baseline round 4 grid)")
     ap.add_argument("--exclude-city", default="", help="share model check: leave this city out of all training")
     ap.add_argument("--drop-dated", action="store_true", help="check: drop census homes and ACS traits (dated after windows start)")
     a = ap.parse_args(argv)
@@ -363,8 +369,13 @@ def main(argv=None) -> None:
     global EXCLUDE_HOLD, TAG, DROP_DATED  # noqa: PLW0603
     EXCLUDE_HOLD, DROP_DATED = a.no_holdouts, a.drop_dated
     TAG = ("_noholdouts" if a.no_holdouts else "") + ("_nodated" if a.drop_dated else "")
-    global EXCLUDE_CITY
+    global EXCLUDE_CITY, LEAF, DROP_TRAITS
     EXCLUDE_CITY = a.exclude_city
+    LEAF, DROP_TRAITS = a.leaf, [t for t in a.drop_traits.split(",") if t]
+    if LEAF != 50:
+        TAG += f"_leaf{LEAF}"
+    if DROP_TRAITS:
+        TAG += "_no_" + "_".join(t.replace("log_", "") for t in DROP_TRAITS)
     if EXCLUDE_CITY:
         TAG += "_without_" + EXCLUDE_CITY.replace(" ", "_").lower()
     (run_pace if a.model == "pace" else run_share)(ms)

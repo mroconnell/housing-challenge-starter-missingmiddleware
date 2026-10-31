@@ -81,7 +81,7 @@ So this is a weakness of the model form, not a data error: lot sums are not tied
 
 - Round 3 is clean (audit; no coding error).
 - **Central no-reform baseline near stops, 2027–2031: 18,322.** This is the survey pace re-based on new-home shares, the same rule as parking's central; it nests inside 122,619.
-- **Cross-check:** random forest with all traits gives 16,588, so the lot model agrees within 10%. Madison's place pace (25.7) is above every training window (top 16.8), so trees likely under-predict Madison.
+- **Cross-check (provisional, lot-size fix pending):** random forest with all traits gives 16,588, so the lot model agrees within 10%. Madison's place pace (25.7) is above every training window (top 16.8), so trees likely under-predict Madison.
 - **Side line, "recent strength continues"** (parking's factor ×1.07–1.26): 19,605–23,086.
 - Not candidates: gradient boosting, and the versions without dated traits.
 - Kansas City is not a blocker. The share runs add one check with Kansas City left out of training.

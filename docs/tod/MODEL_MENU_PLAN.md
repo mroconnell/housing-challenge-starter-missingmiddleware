@@ -43,3 +43,21 @@ Every lot that built is kept. 10% of lots that built nothing are drawn (seed 202
 ## Reported for each method
 
 Scores on both tests, worst miss, fit time, and the Wisconsin numbers. One seed per method; gradient boosting's seed spread is known from round 4.
+
+## Baseline round 4 rule (logged before running; audit section 9, 2026-10-31 23:57)
+
+Nothing is dropped or capped by hand. The choice is made by the registered scores only.
+
+1. **Grid:** random forest leaf size 50, 200 or 500 × trait set:
+   - all traits;
+   - no lot size (acres, width);
+   - no "no rail or rapid stop" flag.
+
+   Each is scored by leave one city out.
+2. **Pick:** the cell with the lowest matched-rows median |log|. A tie within 0.02 goes to the 2011+ windows score, then to fewer traits.
+3. **Importance on held-out cities:** for the chosen cell, each of the top traits (plus lot size and the flag) is shuffled within the held-out city's rows. Its importance is the rise in the matched median |log| of city-window totals.
+4. **Reporting:**
+   - Madison's and Milwaukee's flag values (both 0: they have rapid stops);
+   - the Wisconsin figure with and without the flag;
+   - the Wisconsin cross-check, updated (the central stays 18,322).
+5. **Share model:** the same held-out importance check.
