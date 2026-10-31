@@ -1,0 +1,2 @@
+real_average,placebo_p05,placebo_p50,placebo_p95,share_placebo_at_or_below_real,sets,real_places_matched,real_places,placebo_places,spread_real_places,spread_placebo_places,range_from_placebo_low,range_from_placebo_high
+-0.5301,-2.495,0.0073,2.5987,0.3632,20000,73,73,35375,7.5848,10.3932,-3.0324,2.0613

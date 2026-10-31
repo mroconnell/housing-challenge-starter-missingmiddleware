@@ -29,9 +29,11 @@ MIN_STANDINS = 20  # full run: widen state -> Census division -> nation until at
 
 def main() -> None:
     full = "--full" in sys.argv
+    v7s = "--v7s" in sys.argv  # V7s: V7 plus state laws (IMPROVE_R2_PLAN.md)
+    v7 = "--v7" in sys.argv or v7s  # V7: material reform entries only (IMPROVE_R2_PLAN.md)
     v6u = "--v6u" in sys.argv  # V6u: undated reform entries do not exclude (IMPROVE_R1_PLAN.md, audit section E)
-    v6 = "--v6" in sys.argv or v6u  # improvement round 1 data (docs/parking/IMPROVE_R1_PLAN.md): scaled permits, clean pools, pre-repeal traits
-    tag = ("_full" if full else "") + ("_v6u" if v6u else "_v6" if v6 else "")
+    v6 = "--v6" in sys.argv or v6u or v7  # improvement round 1 data (docs/parking/IMPROVE_R1_PLAN.md): scaled permits, clean pools, pre-repeal traits
+    tag = ("_full" if full else "") + ("_v7s" if v7s else "_v7" if v7 else "_v6u" if v6u else "_v6" if v6 else "")
     if v6:
         import run_parking_improve_r1 as R1
         p = R1.panel_with(rpc.read_bps_us(), "scaled")
@@ -57,14 +59,21 @@ def main() -> None:
     reform_year = {}
     if v6:
         real = pd.read_csv(REFERENCE / "parking_improve_r1_places.csv")
-        real = real[real["variant"].str.startswith("V6u" if v6u else "V6 ")].dropna(subset=["effect"]).reset_index(drop=True)
+        real = real[real["variant"].str.startswith("V7s" if v7s else "V7 " if v7 else "V6u" if v6u else "V6 ")].dropna(subset=["effect"]).reset_index(drop=True)
         housing = tax[tax["land_use"].fillna("").str.contains("resid|all uses") & (tax["place_type"] == "city")]
+        if v7:
+            housing = housing[housing["prn_key"].isin(set(pd.read_csv(REFERENCE / "parking_reform_material.csv").query("material")["prn_key"]))]
         for r in housing.itertuples():
             k = cmp.match_place(p, rpc.STATE_FIPS.get(r.state, "??"), r.place, r.population)
             if k:
                 y = r.adopted_year if pd.notna(r.adopted_year) else -1
                 reform_year[k] = min(reform_year.get(k, 9999), y)
         permits_by = p.pivot_table(index="key", columns="year", values="units_total", aggfunc="sum").fillna(0)
+        if v7s:
+            for k in homes.index:
+                y = R1.STATE_LAW.get(k.split("|")[0])
+                if y is not None:
+                    reform_year[k] = min(reform_year.get(k, 9999), y)
     homes_all, popn_all, base_excluded = homes, popn, set(excluded)
     rng = np.random.default_rng(SEED)
     rows, scopes = [], []

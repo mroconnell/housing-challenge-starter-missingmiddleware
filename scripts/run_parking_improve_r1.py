@@ -23,6 +23,9 @@ from missing_middleware.parking import comparison as cmp  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 
+STATE_LAW = {"06": 2023, "41": 2023, "53": 2024}  # state fips -> first year housing minimums were removed near transit statewide
+
+
 def panel_with(bps: pd.DataFrame, reported, ) -> pd.DataFrame:
     b = bps.copy()
     if reported == "scaled":  # reported months scaled to 12; the Census estimate where none reported (audit R1)
@@ -75,6 +78,13 @@ def main() -> None:
     base_ex |= set(real["key"].dropna())
     any_ex = base_ex | keys_for(tax[tax["land_use"].fillna("").str.contains("resid|all uses") & (tax["place_type"] == "city")])
     housing = tax[tax["land_use"].fillna("").str.contains("resid|all uses") & (tax["place_type"] == "city")]
+    material_keys = set(pd.read_csv(REFERENCE / "parking_reform_material.csv").query("material")["prn_key"])
+    material_year = {}
+    for r in housing[housing["prn_key"].isin(material_keys)].itertuples():
+        k = cmp.match_place(p_est, rpc.STATE_FIPS.get(r.state, "??"), r.place, r.population)
+        if k:
+            y = r.adopted_year if pd.notna(r.adopted_year) else -1
+            material_year[k] = min(material_year.get(k, 9999), y)
     reform_year = {}
     for r in housing.itertuples():
         k = cmp.match_place(p_est, rpc.STATE_FIPS.get(r.state, "??"), r.place, r.population)
@@ -101,6 +111,8 @@ def main() -> None:
         "V3b date-aware clean pools": dict(p=p_est, ex=base_ex, pre=False, drop_est=False, nation=True, date_aware=True),
         "V6 all fixes (V1b+V3b+V4)": dict(p=p_scl, ex=base_ex, pre=True, drop_est=False, nation=True, date_aware=True),
         "V6u as V6, undated reform entries do not exclude": dict(p=p_scl, ex=base_ex, pre=True, drop_est=False, nation=True, date_aware=True, undated_ok=True),
+        "V7 as V6, material reform entries only": dict(p=p_scl, ex=base_ex, pre=True, drop_est=False, nation=True, date_aware=True, material=True),
+        "V7s as V7, plus state laws (CA, OR 2023; WA 2024)": dict(p=p_scl, ex=base_ex, pre=True, drop_est=False, nation=True, date_aware=True, material=True, state_laws=True),
     }
     rows = []
     for name, v in variants.items():
@@ -115,7 +127,14 @@ def main() -> None:
             if v.get("date_aware"):
                 end = (pre + post)[-1]
                 lo = 0 if v.get("undated_ok") else -1  # V6u: undated entries (year -1) do not exclude
-                ex = base_ex | {k for k, y in reform_year.items() if lo <= y <= end}
+                src = material_year if v.get("material") else reform_year  # V7: material entries only (IMPROVE_R2_PLAN.md)
+                if v.get("state_laws"):  # V7s: CA AB 2097 (2023), OR climate-friendly rules (2023), WA 2024 laws
+                    src = dict(src)
+                    for k in homes.index:
+                        y = STATE_LAW.get(k.split("|")[0])
+                        if y is not None:
+                            src[k] = min(src.get(k, 9999), y)
+                ex = base_ex | {k for k, y in src.items() if lo <= y <= end}
             cmp.controls = controls_nation if v.get("nation") else _orig_controls
             e = cmp.effects(v["p"], pd.DataFrame([{"key": r.key, "event_year": int(r.event_year)}]), ex - {r.key}, h, pp, min_post=1)
             if "outcome" not in e:

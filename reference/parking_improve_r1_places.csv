@@ -770,3 +770,149 @@ V6 all fixes (V1b+V3b+V4),Saranac Lake,New York,36|648000,2016,3,2803.0,412,stat
 "V6u as V6, undated reform entries do not exclude",Millersburg,Oregon,41|335000,2024,1,1166.0,27,state 0.50-2.00,-33.6801,0,1166.0
 "V6u as V6, undated reform entries do not exclude",Maumee,Ohio,39|382600,2020,3,6174.0,137,state 0.50-2.00,-0.4176,1,18522.0
 "V6u as V6, undated reform entries do not exclude",Saranac Lake,New York,36|648000,2016,3,2803.0,463,state 0.50-2.00,-0.3878,7,8409.0
+"V7 as V6, material reform entries only",San Jose,California,06|394000,2023,2,340418.0,18,nation 0.50-2.00,5.6658,0,680836.0
+"V7 as V6, material reform entries only",San Francisco,California,06|389000,2019,3,402959.0,6,state 0.33-3.00,-3.7334,1,1208877.0
+"V7 as V6, material reform entries only",Raleigh,North Carolina,37|466000,2022,3,204786.0,7,division 0.50-2.00,12.7643,0,614358.0
+"V7 as V6, material reform entries only",Minneapolis,Minnesota,27|497800,2021,3,200237.0,5,division 0.50-2.00,-8.1194,0,600711.0
+"V7 as V6, material reform entries only",Lexington,Kentucky,21|301000,2022,3,144794.0,7,division 0.50-2.00,-3.8831,7,434382.0
+"V7 as V6, material reform entries only",St. Paul,Minnesota,27|712600,2021,3,128154.0,8,division 0.50-2.00,-1.967,1,384462.0
+"V7 as V6, material reform entries only",Anchorage,Alaska,02|041000,2023,2,119708.0,27,division 0.50-2.00,-3.8358,4,239416.0
+"V7 as V6, material reform entries only",Buffalo,New York,36|089500,2017,3,134903.0,10,state 0.50-2.00,-0.4472,8,404709.0
+"V7 as V6, material reform entries only",Bridgeport,Connecticut,09|061000,2021,3,58792.0,6,state 0.50-2.00,5.2737,3,176376.0
+"V7 as V6, material reform entries only",Gainesville,Florida,12|271000,2022,3,62807.0,32,state 0.50-2.00,9.4139,4,188421.0
+"V7 as V6, material reform entries only",Hartford,Connecticut,09|285000,2017,3,56248.0,10,state 0.50-2.00,-0.136,6,168744.0
+"V7 as V6, material reform entries only",Ann Arbor,Michigan,26|026500,2022,3,53744.0,22,state 0.50-2.00,4.9325,2,161232.0
+"V7 as V6, material reform entries only",Cambridge,Massachusetts,25|103000,2022,3,53687.0,18,state 0.50-2.00,-7.3904,5,161061.0
+"V7 as V6, material reform entries only",Roanoke,Virginia,51|065000,2021,3,48116.0,6,state 0.50-2.00,-1.264,5,144348.0
+"V7 as V6, material reform entries only",Alameda,California,06|003000,2021,3,31250.0,164,state 0.50-2.00,-3.219,0,93750.0
+"V7 as V6, material reform entries only",West Allis,Wisconsin,55|932000,2022,3,29682.0,20,state 0.50-2.00,4.2398,0,89046.0
+"V7 as V6, material reform entries only",Corvallis,Oregon,41|099000,2022,3,24975.0,210,division 0.50-2.00,4.0827,0,74925.0
+"V7 as V6, material reform entries only",Tigard,Oregon,41|505000,2022,3,22489.0,6,state 0.33-3.00,-0.8003,0,67467.0
+"V7 as V6, material reform entries only",Dunwoody,Georgia,13|233500,2019,3,22722.0,23,state 0.50-2.00,2.2436,0,68166.0
+"V7 as V6, material reform entries only",Culver City,California,06|101000,2022,3,18490.0,185,state 0.50-2.00,-1.0286,0,55470.0
+"V7 as V6, material reform entries only",Mount Pleasant,Michigan,26|617500,2018,3,8436.0,122,state 0.50-2.00,-1.4099,0,25308.0
+"V7 as V6, material reform entries only",Windham,Maine,23|493000,2018,3,7678.0,24,state 0.50-2.00,6.1864,2,23034.0
+"V7 as V6, material reform entries only",Cambridge,Maryland,24|093000,2021,3,6564.0,8,state 0.50-2.00,-4.1174,5,19692.0
+"V7 as V6, material reform entries only",Emeryville,California,06|129000,2020,3,7698.0,131,state 0.50-2.00,-0.1684,0,23094.0
+"V7 as V6, material reform entries only",Branson,Missouri,29|068500,2018,3,8210.0,81,state 0.50-2.00,4.1266,0,24630.0
+"V7 as V6, material reform entries only",Canandaigua,New York,36|103000,2020,3,5301.0,302,state 0.50-2.00,2.8609,0,15903.0
+"V7 as V6, material reform entries only",Ecorse,Michigan,26|266500,2020,3,4121.0,217,state 0.50-2.00,-12.67,1,12363.0
+"V7 as V6, material reform entries only",Bastrop,Texas,48|045500,2019,3,3344.0,232,state 0.50-2.00,48.7884,0,10032.0
+"V7 as V6, material reform entries only",Seabrook,New Hampshire,33|797000,2019,3,4069.0,73,state 0.50-2.00,-1.8949,0,12207.0
+"V7 as V6, material reform entries only",River Rouge,Michigan,26|748000,2021,3,3129.0,263,state 0.50-2.00,0.3638,0,9387.0
+"V7 as V6, material reform entries only",Hudson,New York,36|348000,2019,3,3545.0,428,state 0.50-2.00,-1.4394,2,10635.0
+"V7 as V6, material reform entries only",Bandera,Texas,48|041000,2021,3,354.0,186,state 0.50-2.00,-2.1362,0,1062.0
+"V7 as V6, material reform entries only",Austin,Texas,48|033000,2023,2,459943.0,5,state 0.33-3.00,-13.653,0,919886.0
+"V7 as V6, material reform entries only",Sacramento,California,06|374000,2024,1,210442.0,6,state 0.50-2.00,1.3974,0,210442.0
+"V7 as V6, material reform entries only",Durham,North Carolina,37|164000,2023,2,129679.0,20,division 0.50-2.00,5.0542,3,259358.0
+"V7 as V6, material reform entries only",Richmond,Virginia,51|063000,2023,2,109470.0,8,state 0.33-3.00,15.1129,0,218940.0
+"V7 as V6, material reform entries only",Birmingham,Alabama,01|048000,2024,1,108673.0,7,state 0.33-3.00,0.7268,2,108673.0
+"V7 as V6, material reform entries only",Newport News,Virginia,51|049000,2024,1,82046.0,6,state 0.50-2.00,2.5028,1,82046.0
+"V7 as V6, material reform entries only",Salem,Oregon,41|445000,2023,2,69533.0,81,division 0.50-2.00,-1.8366,0,139066.0
+"V7 as V6, material reform entries only",Eugene,Oregon,41|151000,2024,1,79854.0,79,division 0.50-2.00,0.4387,0,79854.0
+"V7 as V6, material reform entries only",Berkeley,California,06|039000,2021,3,51294.0,128,state 0.50-2.00,3.9882,4,153882.0
+"V7 as V6, material reform entries only",Bend,Oregon,41|041000,2023,2,45698.0,163,division 0.50-2.00,3.2833,0,91396.0
+"V7 as V6, material reform entries only",Beaverton,Oregon,41|039000,2023,2,42280.0,165,division 0.50-2.00,-2.2535,0,84560.0
+"V7 as V6, material reform entries only",Longmont,Colorado,08|401000,2024,1,42580.0,8,state 0.50-2.00,14.7487,1,42580.0
+"V7 as V6, material reform entries only",Trenton,New Jersey,34|516000,2023,2,34502.0,43,state 0.50-2.00,1.0712,4,69004.0
+"V7 as V6, material reform entries only",Duluth,Minnesota,27|196900,2023,2,39250.0,20,state 0.50-2.00,5.839,0,78500.0
+"V7 as V6, material reform entries only",Kalamazoo,Michigan,26|463500,2023,2,32368.0,45,state 0.50-2.00,-0.1489,0,64736.0
+"V7 as V6, material reform entries only",Rogers,Arkansas,05|462000,2024,1,27946.0,10,state 0.50-2.00,-16.6577,6,27946.0
+"V7 as V6, material reform entries only",Portland,Maine,23|363000,2024,1,36432.0,77,division 0.50-2.00,2.9455,0,36432.0
+"V7 as V6, material reform entries only",Springfield,Oregon,41|481000,2024,1,25523.0,208,division 0.50-2.00,6.3583,2,25523.0
+"V7 as V6, material reform entries only",Albany,Oregon,41|009000,2023,2,22654.0,5,state 0.33-3.00,-1.1339,1,45308.0
+"V7 as V6, material reform entries only",La Crosse,Wisconsin,55|452000,2024,1,24385.0,22,state 0.50-2.00,-2.1589,0,24385.0
+"V7 as V6, material reform entries only",Burlington,Vermont,50|085000,2023,2,17830.0,144,division 0.50-2.00,14.136,2,35660.0
+"V7 as V6, material reform entries only",Grants Pass,Oregon,41|191000,2024,1,17203.0,9,state 0.33-3.00,15.8966,0,17203.0
+"V7 as V6, material reform entries only",Plainfield,Indiana,18|584500,2022,3,12564.0,37,state 0.50-2.00,-11.3758,1,37692.0
+"V7 as V6, material reform entries only",Tualatin,Oregon,41|517000,2024,1,11171.0,9,state 0.50-2.00,17.8285,0,11171.0
+"V7 as V6, material reform entries only",West Linn,Oregon,41|555000,2024,1,10348.0,9,state 0.50-2.00,13.3381,0,10348.0
+"V7 as V6, material reform entries only",Kingston,New York,36|375000,2023,2,11022.0,160,state 0.50-2.00,9.9864,5,22044.0
+"V7 as V6, material reform entries only",Ashland,Oregon,41|017000,2023,2,11342.0,13,state 0.50-2.00,3.9924,0,22684.0
+"V7 as V6, material reform entries only",Carrboro,North Carolina,37|092000,2023,2,10129.0,31,state 0.50-2.00,-8.1619,0,20258.0
+"V7 as V6, material reform entries only",Milwaukie,Oregon,41|339000,2024,1,9552.0,14,state 0.50-2.00,1.6518,0,9552.0
+"V7 as V6, material reform entries only",Northfield,Minnesota,27|551800,2024,1,6761.0,73,state 0.50-2.00,-1.7327,0,6761.0
+"V7 as V6, material reform entries only",Central Point,Oregon,41|071000,2023,2,7845.0,21,state 0.50-2.00,-4.7611,0,15690.0
+"V7 as V6, material reform entries only",Portsmouth,Ohio,39|522700,2022,3,8452.0,130,state 0.50-2.00,0.3908,2,25356.0
+"V7 as V6, material reform entries only",Taylor,Texas,48|688000,2023,2,6725.0,163,state 0.50-2.00,-10.8333,5,13450.0
+"V7 as V6, material reform entries only",Hanover,New Hampshire,33|397000,2024,1,4044.0,50,state 0.50-2.00,-4.0327,3,4044.0
+"V7 as V6, material reform entries only",Lansing,Kansas,20|296200,2024,1,3671.0,37,state 0.50-2.00,-6.8413,0,3671.0
+"V7 as V6, material reform entries only",Hampden,Maine,23|190000,2022,3,3196.0,68,state 0.50-2.00,-2.2488,0,9588.0
+"V7 as V6, material reform entries only",King City,Oregon,41|265000,2024,1,2752.0,28,state 0.50-2.00,15.4998,0,2752.0
+"V7 as V6, material reform entries only",Social Circle,Georgia,13|616000,2023,2,1754.0,92,state 0.50-2.00,-12.7529,0,3508.0
+"V7 as V6, material reform entries only",Millersburg,Oregon,41|335000,2024,1,1166.0,26,state 0.50-2.00,-34.322,0,1166.0
+"V7 as V6, material reform entries only",Maumee,Ohio,39|382600,2020,3,6174.0,143,state 0.50-2.00,-0.5138,1,18522.0
+"V7 as V6, material reform entries only",Saranac Lake,New York,36|648000,2016,3,2803.0,463,state 0.50-2.00,-0.3878,7,8409.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",San Jose,California,06|394000,2023,2,340418.0,17,nation 0.50-2.00,5.6982,0,680836.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",San Francisco,California,06|389000,2019,3,402959.0,6,state 0.33-3.00,-3.7334,1,1208877.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Raleigh,North Carolina,37|466000,2022,3,204786.0,7,division 0.50-2.00,12.7643,0,614358.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Minneapolis,Minnesota,27|497800,2021,3,200237.0,5,division 0.50-2.00,-8.1194,0,600711.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Lexington,Kentucky,21|301000,2022,3,144794.0,7,division 0.50-2.00,-3.8831,7,434382.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",St. Paul,Minnesota,27|712600,2021,3,128154.0,8,division 0.50-2.00,-1.967,1,384462.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Anchorage,Alaska,02|041000,2023,2,119708.0,84,nation 0.50-2.00,-2.9136,4,239416.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Buffalo,New York,36|089500,2017,3,134903.0,10,state 0.50-2.00,-0.4472,8,404709.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Bridgeport,Connecticut,09|061000,2021,3,58792.0,6,state 0.50-2.00,5.2737,3,176376.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Gainesville,Florida,12|271000,2022,3,62807.0,32,state 0.50-2.00,9.4139,4,188421.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Hartford,Connecticut,09|285000,2017,3,56248.0,10,state 0.50-2.00,-0.136,6,168744.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Ann Arbor,Michigan,26|026500,2022,3,53744.0,22,state 0.50-2.00,4.9325,2,161232.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Cambridge,Massachusetts,25|103000,2022,3,53687.0,18,state 0.50-2.00,-7.3904,5,161061.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Roanoke,Virginia,51|065000,2021,3,48116.0,6,state 0.50-2.00,-1.264,5,144348.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Alameda,California,06|003000,2021,3,31250.0,672,nation 0.50-2.00,-3.9,0,93750.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",West Allis,Wisconsin,55|932000,2022,3,29682.0,20,state 0.50-2.00,4.2398,0,89046.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Corvallis,Oregon,41|099000,2022,3,24975.0,925,nation 0.50-2.00,4.043,0,74925.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Tigard,Oregon,41|505000,2022,3,22489.0,1037,nation 0.50-2.00,-2.6651,0,67467.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Dunwoody,Georgia,13|233500,2019,3,22722.0,23,state 0.50-2.00,2.2436,0,68166.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Culver City,California,06|101000,2022,3,18490.0,1417,nation 0.50-2.00,-0.8979,0,55470.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Mount Pleasant,Michigan,26|617500,2018,3,8436.0,122,state 0.50-2.00,-1.4099,0,25308.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Windham,Maine,23|493000,2018,3,7678.0,24,state 0.50-2.00,6.1864,2,23034.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Cambridge,Maryland,24|093000,2021,3,6564.0,8,state 0.50-2.00,-4.1174,5,19692.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Emeryville,California,06|129000,2020,3,7698.0,67,division 0.50-2.00,3.6419,0,23094.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Branson,Missouri,29|068500,2018,3,8210.0,81,state 0.50-2.00,4.1266,0,24630.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Canandaigua,New York,36|103000,2020,3,5301.0,302,state 0.50-2.00,2.8609,0,15903.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Ecorse,Michigan,26|266500,2020,3,4121.0,217,state 0.50-2.00,-12.67,1,12363.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Bastrop,Texas,48|045500,2019,3,3344.0,232,state 0.50-2.00,48.7884,0,10032.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Seabrook,New Hampshire,33|797000,2019,3,4069.0,73,state 0.50-2.00,-1.8949,0,12207.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",River Rouge,Michigan,26|748000,2021,3,3129.0,263,state 0.50-2.00,0.3638,0,9387.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Hudson,New York,36|348000,2019,3,3545.0,428,state 0.50-2.00,-1.4394,2,10635.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Bandera,Texas,48|041000,2021,3,354.0,186,state 0.50-2.00,-2.1362,0,1062.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Austin,Texas,48|033000,2023,2,459943.0,5,state 0.33-3.00,-13.653,0,919886.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Sacramento,California,06|374000,2024,1,210442.0,34,nation 0.50-2.00,0.2053,0,210442.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Durham,North Carolina,37|164000,2023,2,129679.0,20,division 0.50-2.00,5.0542,3,259358.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Richmond,Virginia,51|063000,2023,2,109470.0,8,state 0.33-3.00,15.1129,0,218940.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Birmingham,Alabama,01|048000,2024,1,108673.0,7,state 0.33-3.00,0.7268,2,108673.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Newport News,Virginia,51|049000,2024,1,82046.0,6,state 0.50-2.00,2.5028,1,82046.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Salem,Oregon,41|445000,2023,2,69533.0,202,nation 0.50-2.00,-1.8805,0,139066.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Eugene,Oregon,41|151000,2024,1,79854.0,202,nation 0.50-2.00,0.4948,0,79854.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Berkeley,California,06|039000,2021,3,51294.0,372,nation 0.50-2.00,3.3353,4,153882.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Bend,Oregon,41|041000,2023,2,45698.0,473,nation 0.50-2.00,3.6938,0,91396.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Beaverton,Oregon,41|039000,2023,2,42280.0,486,nation 0.50-2.00,-1.8305,0,84560.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Longmont,Colorado,08|401000,2024,1,42580.0,8,state 0.50-2.00,14.7487,1,42580.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Trenton,New Jersey,34|516000,2023,2,34502.0,43,state 0.50-2.00,1.0712,4,69004.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Duluth,Minnesota,27|196900,2023,2,39250.0,20,state 0.50-2.00,5.839,0,78500.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Kalamazoo,Michigan,26|463500,2023,2,32368.0,45,state 0.50-2.00,-0.1489,0,64736.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Rogers,Arkansas,05|462000,2024,1,27946.0,10,state 0.50-2.00,-16.6577,6,27946.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Portland,Maine,23|363000,2024,1,36432.0,77,division 0.50-2.00,2.9455,0,36432.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Springfield,Oregon,41|481000,2024,1,25523.0,911,nation 0.50-2.00,7.1221,2,25523.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Albany,Oregon,41|009000,2023,2,22654.0,967,nation 0.50-2.00,-6.7254,1,45308.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",La Crosse,Wisconsin,55|452000,2024,1,24385.0,22,state 0.50-2.00,-2.1589,0,24385.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Burlington,Vermont,50|085000,2023,2,17830.0,144,division 0.50-2.00,14.136,2,35660.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Grants Pass,Oregon,41|191000,2024,1,17203.0,1436,nation 0.50-2.00,4.1855,0,17203.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Plainfield,Indiana,18|584500,2022,3,12564.0,37,state 0.50-2.00,-11.3758,1,37692.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Tualatin,Oregon,41|517000,2024,1,11171.0,1948,nation 0.50-2.00,5.6387,0,11171.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",West Linn,Oregon,41|555000,2024,1,10348.0,1974,nation 0.50-2.00,1.1918,0,10348.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Kingston,New York,36|375000,2023,2,11022.0,160,state 0.50-2.00,9.9864,5,22044.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Ashland,Oregon,41|017000,2023,2,11342.0,2310,nation 0.50-2.00,-2.5337,0,22684.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Carrboro,North Carolina,37|092000,2023,2,10129.0,31,state 0.50-2.00,-8.1619,0,20258.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Milwaukie,Oregon,41|339000,2024,1,9552.0,2341,nation 0.50-2.00,-7.69,0,9552.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Northfield,Minnesota,27|551800,2024,1,6761.0,73,state 0.50-2.00,-1.7327,0,6761.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Central Point,Oregon,41|071000,2023,2,7845.0,2455,nation 0.50-2.00,-10.2938,0,15690.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Portsmouth,Ohio,39|522700,2022,3,8452.0,130,state 0.50-2.00,0.3908,2,25356.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Taylor,Texas,48|688000,2023,2,6725.0,163,state 0.50-2.00,-10.8333,5,13450.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Hanover,New Hampshire,33|397000,2024,1,4044.0,50,state 0.50-2.00,-4.0327,3,4044.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Lansing,Kansas,20|296200,2024,1,3671.0,37,state 0.50-2.00,-6.8413,0,3671.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Hampden,Maine,23|190000,2022,3,3196.0,68,state 0.50-2.00,-2.2488,0,9588.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",King City,Oregon,41|265000,2024,1,2752.0,11,division 0.50-2.00,12.1458,0,2752.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Social Circle,Georgia,13|616000,2023,2,1754.0,92,state 0.50-2.00,-12.7529,0,3508.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Millersburg,Oregon,41|335000,2024,1,1166.0,14,division 0.50-2.00,-38.1486,0,1166.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Maumee,Ohio,39|382600,2020,3,6174.0,143,state 0.50-2.00,-0.5138,1,18522.0
+"V7s as V7, plus state laws (CA, OR 2023; WA 2024)",Saranac Lake,New York,36|648000,2016,3,2803.0,463,state 0.50-2.00,-0.3878,7,8409.0
