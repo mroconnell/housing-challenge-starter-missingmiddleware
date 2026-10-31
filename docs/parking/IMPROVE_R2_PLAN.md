@@ -44,3 +44,10 @@ The same as V6: scaled reported permits, pre-repeal homes and population, nation
   - the worst-moving place, traced.
 
 ## Changes after writing
+
+- **2026-10-31, audit section F (before any V7 result was computed; a first V7 run was stopped and discarded):**
+  - **Material needs apartments:** an entry counts as material only if its land use includes multi-family, "residential, all uses" or "all uses". 48 low-density-only entries are dropped, mostly California rules for accessory units near transit.
+  - **Not material:** the "conditions: other" entries that cover elderly housing only (Barneveld, Boscobel, Highland, Ridgeway) or parking near public parking only (Remington, VA).
+  - **State laws:** California's AB 2097 removed housing minimums near major transit from 1 January 2023, Oregon's climate-friendly rules applied from 2023, and Washington's 2024 laws apply from 2024. In **V7s**, every place in those states counts as reformed from that year, so it leaves the comparison pools of cases whose after-window reaches it.
+  - **V7s is the candidate under the rule:** if every real place has at least 20 placebo stand-ins in V7s, its high end is proposed to replace 19,937. V7 (without state laws) is reported beside it.
+  - The coding table is committed: `reference/parking_reform_material.csv`.
