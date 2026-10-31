@@ -309,7 +309,7 @@ def main() -> None:
         # fake reform for 10% of training places
         tr_keys = sorted(set(nonwi["key"]) - held)
         fake_keys = set(rng.choice(tr_keys, size=int(0.1 * len(tr_keys)), replace=False))
-        fake_year = {k: int(rng.choice(real_years)) for k in fake_keys}
+        fake_year = {k: int(rng.choice(real_years)) for k in sorted(fake_keys)}  # sorted: set order changes between runs
         T = train.assign(fake_reform=[int(k in fake_year and o >= fake_year[k]) for k, o in zip(train["key"], train["origin"])])
         fit = T[T["key"].isin(tr_keys) & T["origin"].isin(FIT_ORIGINS) & T["actual"].notna()]
         tests = {

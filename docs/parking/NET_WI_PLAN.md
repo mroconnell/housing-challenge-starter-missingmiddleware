@@ -42,3 +42,9 @@ Written 2026-10-31 by the parking conductor. Ryan asked all three scenarios to r
   - **Data note:** only 29 reform places (60 rows) have a dated, apartment-scale repeal that falls inside the window, outside Wisconsin. The route is thin, and that is stated.
   - **No-reform round 4 (leak fixed) moves the trees' baseline side case** from 114,042 to 124,582 (1.016 times same pace). The leak had pulled it down.
 - **2026-10-31, round 2 checks → round 3 (before round 3 ran):** round 2 had no coding errors. Two things are not yet traced: the held-out reform places' worst misses, and why the trees' fake-reform net is 0 for most seeds but up to about 21,000 for one. Round 3 adds both traces and changes nothing else. The regression (M3b) is reported but not used: its real net (−25,000) and its fake net (−17,000 to +35,000) swing as widely as in the no-reform model.
+- **2026-10-31, round 3 checks → round 4 (before round 4 ran):**
+  - **Coding error:** the fake-reform years were drawn while looping over a Python set. Its order changes from run to run, so the fake nets were not reproducible: round 2's trees fake net was 5,778 on average, and round 3's was 1,984, from identical code paths. The real nets are not affected; they were identical in rounds 2 and 3. The loop is now sorted, in this script and in the no-reform model's placebo.
+  - **Outliers traced in round 3:**
+    - The held-out reform place with the largest miss is San Francisco, origin 2018. 1,689 homes a year were permitted against a same pace of 4,590, a real post-2018 collapse. Minneapolis (2021 repeal, with the 2040 plan) and Hayward also came in below same pace.
+    - The largest Wisconsin net is Madison: −2.2 homes a year, out of 2,938 a year at same pace (0.07%).
+  - Round 4 reruns both scripts with the sorted loop. No other change.

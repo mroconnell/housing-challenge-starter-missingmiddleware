@@ -99,7 +99,7 @@ def main() -> None:
         fd = data[data["reform"] == 0].copy()
         # round 2 fix: like a real repeal, the fake one is on only at origins 1 year before to 2 years after a fake year
         real_y = data.loc[data["reform"] == 1, "reform_year"].astype(int).values
-        fy = {k: int(rng.choice(real_y)) for k in fake_keys}
+        fy = {k: int(rng.choice(real_y)) for k in sorted(fake_keys)}  # sorted: set order changes between runs (round 4 fix)
         fd["reform"] = [int(k in fy and o - 1 <= fy[k] <= o + 2) for k, o in zip(fd["key"], fd["origin"])]
         for name, (kind, cols) in COLS.items():
             setting = NR.choose(fd, cols, kind, seed)[0] if kind == "glm" else (0.05, 15)
