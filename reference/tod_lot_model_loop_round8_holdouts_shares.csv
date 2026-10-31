@@ -1,0 +1,4 @@
+city,group,group_lots,city_total_same_pace,actual_total_after,share_before,share_after_actual,share_after_model,share_after_model_law_off,tod_effect_homes,abs_log_model,abs_log_same_share,calibration_k,share_after_calibrated,abs_log_calibrated,net_addition_A_relocation,net_addition_B_addition
+Chicago,upzoned,2440,4465.8333,14006.0,0.0396,0.0991,0.2184,0.0774,629.4242,0.7901,0.9183,0.1803,0.0718,0.3222,0.0,629.4242
+Madison,upzoned,762,4320.8333,8550.0,0.1209,0.1904,0.2974,0.2047,400.2878,0.4456,0.4542,0.1803,0.1527,0.2207,0.0,400.2878
+Bellevue,upzoned,231,25.8333,466.0,0.0,0.0,0.956,0.2555,18.0965,,,0.1803,0.1724,,0.0,18.0965
