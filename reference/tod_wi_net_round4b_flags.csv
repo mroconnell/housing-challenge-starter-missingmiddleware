@@ -1,0 +1,14 @@
+kind,city,item,detail
+units,Columbus placebo,acres,1 lots outside 0 to 500 (acres)
+units,Kansas City placebo,acres,2 lots outside 0 to 500 (acres)
+units,Milwaukee placebo,acres,1 lots outside 0 to 500 (acres)
+units,WI Milwaukee,acres,1 lots outside 0 to 500 (acres)
+units,Columbus placebo,width_m,1 lots outside 0 to 2000 (metres)
+units,Milwaukee placebo,width_m,1 lots outside 0 to 2000 (metres)
+units,WI Milwaukee,width_m,1 lots outside 0 to 2000 (metres)
+units,Madison,dist_station_m,485 lots outside 0 to 5000 (metres to nearest rail or rapid-bus stop)
+units,Madison placebo,dist_station_m,3870 lots outside 0 to 5000 (metres to nearest rail or rapid-bus stop)
+units,Milwaukee placebo,dist_station_m,61894 lots outside 0 to 5000 (metres to nearest rail or rapid-bus stop)
+units,WI Madison,dist_station_m,5527 lots outside 0 to 5000 (metres to nearest rail or rapid-bus stop)
+units,WI Milwaukee,dist_station_m,64290 lots outside 0 to 5000 (metres to nearest rail or rapid-bus stop)
+out of range,WI Milwaukee,share_upzoned_half_mile,38% of lots outside other cities' 1st to 99th percentile (0 to 0.773); city median 0.712

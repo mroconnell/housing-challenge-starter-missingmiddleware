@@ -89,3 +89,54 @@ New finding, a coding mismatch: training labels upzoned industrial-use lots "upz
 The ranges are the spread over 3 seeds. Milwaukee and Madison are modelled; the rest of the state is scaled by the near-stop baseline (×1.147 today, ×1.143 re-based), which is an assumption. The re-based baseline barely changes the result, because the shares, not the baseline, carry the effect.
 
 For comparison, the tool's literature scenarios are 171 / 2,509 / 17,148.
+
+**Round 4 (audit E1: calibration measured on this model).** K was hard-coded at 0.18 from item 59, which used the 6-city round-8 model and a different uplift. It is now measured on the current model with the uplift bound B uses: law-on share minus law-off share on upzoned lots. Each of the 9 reform cities is left out in turn, and K = sum of actual share changes ÷ sum of model uplifts. One coding error was fixed before the run: a path-join error when saving the K table.
+
+| Seed | K (pooled, 9 cities) |
+| --- | ---: |
+| 20261031 | 0.116 |
+| 7 | 0.110 |
+| 11 | 0.120 |
+
+Per city, main seed (`reference/tod_wi_net_round4a_k.csv`):
+
+| City | Model uplift | Actual change in share | Ratio |
+| --- | ---: | ---: | ---: |
+| Bellevue | 0.542 | 0.000 | 0.00 |
+| Charlotte | 0.612 | 0.259 | 0.42 |
+| Chicago | 0.055 | 0.060 | 1.09 |
+| Los Angeles | 0.522 | −0.268 | −0.51 |
+| Madison | 0.127 | 0.070 | 0.55 |
+| New York | 0.376 | 0.338 | 0.90 |
+| Philadelphia | 0.168 | 0.121 | 0.72 |
+| Saint Paul | 0.530 | −0.205 | −0.39 |
+| Seattle | 0.138 | −0.018 | −0.13 |
+
+Outliers explained:
+- **Los Angeles and Saint Paul:** the share falls because the upzoned lots held nearly all of the before-window homes (98.8% and 100%). Saint Paul has one before year and 50 homes. Los Angeles's comparison land built almost nothing before; Cornfield was checked in item 60.
+- **Bellevue:** almost nothing was built (as in the holdout read).
+
+These are thin-data cities, not coding errors, and they pull the pooled K down.
+
+**K is not well pinned down.** These are sensitivities only; the main stays pooled over all 9 cities (no cities dropped, owner item 37):
+
+| K | Value |
+| --- | ---: |
+| Median of city ratios | 0.42 |
+| Pooled without the three thin cities | 0.56 |
+
+**Statewide net added homes, 2027–2031 (round 4):**
+
+| Bound | Variant a (all upzoned lots) | Variant b (rail/rapid ½ mile only) |
+| --- | --- | --- |
+| A, pure relocation | 0 | 0 |
+| B calibrated, K measured (0.110–0.120) | 1,008–1,382 | 839–1,292 |
+| B, K = 0.42 (median ratio; sensitivity) | about 3,650–4,830 | about 3,040–4,520 |
+| B raw | 8,683–11,505 | 7,229–10,754 |
+
+**Write-up notes (audit):**
+- The 2.97-acre cap may understate large greenfield lots, such as the 57- and 40-acre lots in northeast Madison.
+- Madison now trains the model and is also a forecast target, so it no longer works as a test.
+- The raw law-off level is 2.5–5× too high. It is not used; only shares are.
+
+**Central value:** this is the owner's call, with the reason written beside it. The tool is not changed (owner, 17:44: finish the rounds first).

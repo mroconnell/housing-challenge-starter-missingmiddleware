@@ -107,6 +107,41 @@ def main(argv=None) -> None:
         built = fit & (y > 0)
         models[g], cap[g] = m, float(np.quantile(y[built] / ac[built], 0.99))
     wi = ~tr
+    k_used = K
+    if a.round >= 4:   # round 4 (audit E1): K measured on THIS model and THIS uplift (law-on share - law-off share),
+        # leaving one reform city out at a time over all 9 reform cities: K = sum(actual change in share) / sum(model uplift)
+        reform = sorted(c for c in A.loc[tr, "city"].unique() if not c.endswith("placebo"))
+        allc = sorted(A.loc[tr, "city"].unique())
+        krows = []
+        for c in reform:
+            te = (A["city"] == c).values
+            trc = A["city"].isin(L.training_cities(allc, c)).values & tr
+            mm = {}
+            for g, X in ((True, Xa), (False, Xb)):
+                fit = trc & (up == g)
+                mm[g] = HistGradientBoostingRegressor(random_state=a.seed).fit(X[fit], y[fit] / ac[fit], sample_weight=w[fit] * ac[fit])
+            bl = trc & (y > 0)
+            acap_c = float(np.quantile(ac[bl], 0.99))
+            acc = np.minimum(ac[te], acap_c)
+            uu = up[te]
+            off = np.clip(mm[False].predict(L.forecast_view(Xb[te])), 0, None) * acc
+            on = off.copy()
+            if uu.any():
+                on[uu] = np.clip(mm[True].predict(L.forecast_view(Xa[te][uu])), 0, None) * acc[uu]
+            wt = w[te]
+            s_on = float((on * wt)[uu].sum() / max((on * wt).sum(), 1e-9))
+            s_off = float((off * wt)[uu].sum() / max((off * wt).sum(), 1e-9))
+            ua, ub = A.loc[te, "ua5"].values, A.loc[te, "ub5"].values
+            act_a = float((ua * wt)[uu].sum() / max((ua * wt).sum(), 1e-9))
+            act_b = float((ub * wt)[uu].sum() / max((ub * wt).sum(), 1e-9))
+            krows.append({"city": c, "model_uplift": s_on - s_off, "actual_change": act_a - act_b,
+                          "share_before": act_b, "share_after": act_a, "model_on": s_on, "model_off": s_off})
+            print(krows[-1], flush=True)
+        KR = pd.DataFrame(krows)
+        k_used = float(KR["actual_change"].sum() / KR["model_uplift"].sum())
+        KR["k_pooled"] = k_used
+        KR.round(4).to_csv(REFERENCE / (f"tod_wi_net_round{a.round}{a.variant}" + ("" if a.seed == 20261031 else f"_seed{a.seed}") + "_k.csv"), index=False)
+        print(f"K measured on this model (leave one reform city out, 9 cities): {k_used:.3f}  (item 59 value {K})", flush=True)
     if a.round >= 2:   # round 2: per-acre predictions times acres extrapolated on the airport (1,504 acres) and the
         # West Towne Mall lots (37 acres: 1,939 homes in 5 years). Acres used are capped at the largest building lot
         # in training (99th percentile of lots that built), the size of project the model has seen.
@@ -136,7 +171,7 @@ def main(argv=None) -> None:
                      "city_all_housing_2027_2031": float(t["all_housing"]), "table_total_2027_2031": total,
                      "near_baseline_today": float(t["near"]), "near_baseline_rebased": float(t["near_rebased"]),
                      "law_on_share_with": float(so[uu].sum()), "law_on_share_without": float(sf[uu].sum()),
-                     "share_change": d_share, "B_raw": d_share * total, "B_calibrated": K * d_share * total,
+                     "share_change": d_share, "B_raw": d_share * total, "B_calibrated": k_used * d_share * total, "k_used": k_used,
                      "before_homes_2019_2024_5yr": float(A.loc[m, "ub5"].sum()),
                      "model_homes_law_off_raw_5yr": float(p_off_all[m].sum()), "model_homes_law_on_raw_5yr": float(p_on[m].sum())})
         e = (so - sf) * total

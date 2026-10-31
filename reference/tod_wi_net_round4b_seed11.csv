@@ -1,0 +1,3 @@
+city,variant,seed,lots,law_on_lots,table_homes_2020,city_homes_2020,city_all_housing_2027_2031,table_total_2027_2031,near_baseline_today,near_baseline_rebased,law_on_share_with,law_on_share_without,share_change,B_raw,B_calibrated,k_used,before_homes_2019_2024_5yr,model_homes_law_off_raw_5yr,model_homes_law_on_raw_5yr,statewide_scale_today,statewide_scale_rebased
+Milwaukee,b,11,139872,6000,245266.0,257614.0,4977.5,4738.9176,3393.6595,4727.368,0.5454,0.0628,0.4826,2287.1155,274.7052,0.1201,5381.6667,13557.5608,27950.9426,1.1466,1.1429
+Madison,b,11,53085,11169,112231.0,128430.0,14691.667,12838.5928,9220.4902,11304.321,0.6695,0.1172,0.5524,7091.4373,851.7517,0.1201,10715.8333,11895.6964,31778.8853,1.1466,1.1429
