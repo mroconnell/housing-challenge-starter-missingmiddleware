@@ -1,0 +1,71 @@
+# Parking: a model of homes permitted with no parking reform, plan written before running
+
+Written 2026-10-31 by the parking conductor. Ryan asked each scenario to predict "how many homes would have been developed in the same state without ANY reform", trained for parking on places with no parking reform, and to run fast fit-and-fix rounds. The coordinator asked that the three scenarios agree on Wisconsin's no-reform total, or explain why not. No outcome below has been computed before this file was committed. Changes go in the last section with a date and a reason.
+
+## 1. Question
+
+For a place with no parking reform, how many homes will it permit per year over the next five years, given only data that every state has?
+
+- **Unit:** housing units authorized by building permits, per place per year (Census Building Permits Survey, BPS), averaged over the five years after an origin year.
+- **Same unit as the shared baseline** (`docs/shared/HOUSING_BASELINE.md`): 122,619 units over 2027–2031 for Wisconsin, with Milwaukee's apartments added; 118,822 with Census as published.
+
+## 2. Data (public, any state)
+
+| Input | Source | Years |
+| --- | --- | --- |
+| Permits by place, year and building size | BPS place files, whole country (`data/raw/census_bps_place_us`), scaled reported months as in V6 | 2012–2025 |
+| Homes at the origin | ACS 2020–2024 homes (B25002) minus permits issued from the origin year to 2024, as in V4 | – |
+| Population at the origin | BPS place population for the origin year | 2012–2025 |
+| Place traits | ACS 2020–2024: median household income, share renting, vacancy, share of homes built before 1980 | 2020–2024 (after the origins; flagged, see 7) |
+| Reform coding | `reference/parking_reform_material.csv` (V7 coding) and the V7s state laws | – |
+
+## 3. Training and test places
+
+- **No-reform places:** places with no material parking entry at any date, outside California, Oregon and Washington from the year their state law applies. Undated material entries count as reformed.
+- **Repeal places before their repeal:** an origin is used only if its five outcome years all end before the repeal year.
+- **Origins:** 2016 to 2020. Features use the origin year and the four before it. The outcome is the average of the five years after (2017–2021 up to 2021–2025).
+- **Places:** every place with all years present and at least 1,000 homes. County balance rows are left out.
+
+## 4. Holdouts
+
+Two holdouts, both set now:
+1. **Held-out places:** 20% of places drawn at random within each Census division (seed 20261031). They are never used to fit or choose.
+2. **Held-out years:** fitting and choosing use origins 2016–2018. Scoring uses origins 2019–2020.
+
+The score is reported on held-out places at held-out origins. **Wisconsin** is held out whole, in addition: no Wisconsin place is used to fit or choose.
+
+## 5. Models, simplest first
+
+| Model | What it predicts |
+| --- | --- |
+| M0 flat 3-year | The place's average over the origin year and the two before. This is the shared baseline's rule. |
+| M1 flat 3-year × state momentum | M0 times the state's own 3-year over 5-year ratio. |
+| M2 shrunk 3-year | M0's rate per 1,000 homes, pulled toward the average of places of the same size class in the same division, by how noisy the place's own years are (empirical Bayes). |
+| M3 regression | Poisson regression of the five-year average on log homes, past rates (1, 3 and 5 years, per 1,000 homes), share in 2+ unit buildings, the place's trend, state and division momentum, and size class. M3a without the ACS traits; M3b with them. |
+| M4 boosted trees | Gradient-boosted trees (Poisson loss, scikit-learn) on the M3b inputs. |
+
+Settings for M2–M4 are chosen by 5-fold cross-validation over places within the fitting origins, grouped by place.
+
+## 6. Scores and pass rule
+
+- **Main score:** error per unit permitted, the shared baseline's score: the sum over places of |predicted − actual| ÷ the sum of actual units. M0 scored 0.526 in Wisconsin's own test.
+- **Also:** the state total's error (predicted ÷ actual), for every state and for Wisconsin.
+- **90% range:** 2,000 resamples of held-out places.
+- **Pass rule:** a model passes if it beats M0 on the main score in held-out places at held-out years, with the 90% range of the difference above zero, and does not do worse than M0 in Wisconsin. If several pass, the one with the best cross-validation score is chosen, not the best test score.
+
+## 7. Flags (flag only, never stop)
+
+- Places with estimated permit months in the window.
+- Homes back-cast below half of ACS homes.
+- ACS traits come from after every origin (audit 2e); M3a has none, so the gap between M3a and M3b shows how much this matters.
+- The worst-missed place in each round, traced.
+- Milwaukee's apartments are under-counted in BPS, so the Wisconsin comparison is shown both against Census as published and with the baseline's Milwaukee adjustment.
+
+## 8. Use
+
+- **Comparison with the baseline:** the chosen model is run from origin 2025 on every Wisconsin place. Its five-year total is set beside 122,619 and 118,822.
+- **If a model passes:** it goes to Ryan as a candidate for the shared baseline and for the parking scenario's comparison side, after TOD and ADU report theirs.
+- **If none passes:** the flat 3-year baseline stands, with the test as evidence.
+- **Rounds:** each round's fixes are logged below before the round is run. Rounds go to the audit through the coordinator.
+
+## Changes after writing
