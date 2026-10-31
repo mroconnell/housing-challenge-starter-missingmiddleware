@@ -69,9 +69,10 @@ Cleaning is recorded in [HOUSING_BASELINE.md](../shared/HOUSING_BASELINE.md), [P
 - The Census permit data have reporting gaps. Milwaukee's apartments are estimated, and its 2025 figure is missing.
 - The upper case is spread by homes, not by where minimums actually bind. Rural towns with few minimums get a share.
 - The tool does not estimate rents, parking supply, traffic or street-parking spillover.
-- **The high end may be understated (improvement round 1, 2026-10-31):** after data fixes, three versions of the high end (29,843, 38,230 and 49,712 permits over 2027–2031; [IMPROVE_R1_RESULTS.md](IMPROVE_R1_RESULTS.md)) all exceed the headline 19,937. The headline is kept by a rule set before running, but it is the lowest of the four, and the high end is uncertain by about 2×. The central case, about zero, holds in every version.
+- **The high end may be understated (improvement round 1, 2026-10-31):** after data fixes, three versions of the high end (29,843, 38,230 and 49,712 permits over 2027–2031; [IMPROVE_R1_RESULTS.md](IMPROVE_R1_RESULTS.md)) all exceed the headline 19,937. The headline is kept by a rule set before running, but it is the lowest of the four, and the high end is uncertain by about 2×. The central case, about zero, holds in every version. Round 2 (only apartment-scale reforms disqualify comparison places, V7: 29,307; plus California, Oregon and Washington state laws, V7s: 27,671; [IMPROVE_R2_RESULTS.md](IMPROVE_R2_RESULTS.md)) also exceeds it. San Jose and Austin fell 1–3 short of 20 stand-ins, and the owner kept 19,937 (2026-10-31).
 - **Timing of place traits (audit 2e, 2026-10-29):** population (used to match comparison places), existing homes (the rate's denominator), relative rent and the metro flag all come from ACS 2020–2024. That is after most repeals (2016–2024). If a repeal raised a place's growth, its 2020–2024 homes and population are a little higher, which lowers its measured rate slightly and can shift its comparison window. The trait tests that used rent and metro (none passed) share this caveat. Pre-repeal values would need ACS 5-year tables from before each repeal.
 - Whether evidence from cities that repealed by choice may stand in for a statewide law is still open: office-hours question 26.
+- **The current-law baseline may run low (no-reform model, 2026-10-31; [NO_REFORM_MODEL_RESULTS.md](NO_REFORM_MODEL_RESULTS.md)):** a "same pace as before" baseline was tested on places with no parking reform nationwide, on places and years held out. It is the best predictor for single places, but its totals came out at 0.83 of what was actually permitted, and at 0.78 in Wisconsin's 2021–2025 back-test. The test years include the 2020–2022 boom. A boosted-trees model predicts state totals about twice as well and gives 114,042 for Wisconsin. It is shown as a sensitivity.
 - The baseline and the bundle rebuild exactly from the committed reference tables. A full rebuild from raw data follows the order in [REBUILD.md](REBUILD.md).
 
 ## Sensitivity notes
@@ -88,7 +89,13 @@ Five-year totals, 2027–2031, in additional permits unless noted. All are in th
 | The statewide total and where it lands | Prediction by city size and setting (first 24 places) | 32,135 |
 | The statewide total and where it lands | Towns left out | 13,866 |
 | The statewide total and where it lands | Places that partly removed minimums left out | 19,818 |
+| The statewide total | Cleaned data, undated reforms kept as comparisons (placebo, round 1) | 29,843 |
+| The statewide total | Cleaned data, strict comparison cleaning (resampling, round 1) | 38,230 |
+| The statewide total | Cleaned data, strict comparison cleaning (placebo, round 1) | 49,712 |
+| The statewide total | Cleaned data, only apartment-scale reforms disqualify comparisons (placebo, round 2, V7) | 29,307 |
+| The statewide total | As above, plus CA, OR and WA state laws (placebo, round 2, V7s) | 27,671 |
 | Current law only | Census as published for Milwaukee | 118,822 permits under current law |
+| Current law only | Boosted-trees no-reform model | 114,042 permits under current law |
 
 Stability (first 24 places): leaving one state out at a time gave an average effect of −2.47 to +0.09 permits per 1,000 homes per year.
 
