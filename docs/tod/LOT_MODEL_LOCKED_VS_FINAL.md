@@ -8,9 +8,11 @@ Written 2026-10-31 for readers and judges (audit scorecard, plan item 50.1). Man
 | --- | --- | --- |
 | Model | Causal forest (two random forests), extra homes vs a comparison area | Gradient boosting, two models; share of a city's new homes on upzoned lots |
 | Chicago | Predicted 294 extra homes; actual 892; plain average 1,384 (plain average closer) | Upzoned share: actual 9.9%; raw 21.8%; calibrated 7.2%; same-as-before 4.0% (calibrated closest) |
-| Madison | Predicted −435; actual 2,260; plain average 2,186 (plain average closer) | Actual 19.0%; raw 29.7%; calibrated 15.3%; same-as-before 12.1% (calibrated closest) |
+| Madison | Predicted −435; actual 2,260*; plain average 2,186 (plain average closer) | Actual 19.0%; raw 29.7%; calibrated 15.3%; same-as-before 12.1% (calibrated closest) |
 | Bellevue | Predicted 91; actual −90; plain average 1,209 (model closer) | Actual 0%; raw 95.6%; calibrated 17.2%; same-as-before 0% (model wrong) |
 | Verdict | Failed its locked rule (closer on 1 of 3) | No pass rule (owner, item 42). Closest on 2 of 3 when calibrated; Bellevue wrong |
+
+\* Madison's 2,260 (lot model, item 36) and the pre-registered Madison test's +190 measure different areas. The lot model's comparison land had been trimmed to lots within ½ mile of a rapid-bus stop: 218 acres that built nothing after 2023. The Madison test uses the full ring of nearby lots (458 acres, 792 homes after). Item 37 ended the trimming.
 
 The two do not measure the same thing.
 - The locked result scores **extra homes** against a hand-picked comparison area. That area turned out to be mis-measured in Madison (item 37).
@@ -29,14 +31,14 @@ The two do not measure the same thing.
 | 48 | Upzoned lots more than ½ mile from transit relabelled | Owner | Training TOD lots are transit-based |
 | 49 | Improvement loop with a fast tool; holdouts untouched until the end | Owner | — |
 | 51–56 | Rounds 1–7 fixes: predict homes after (not change); stable loss; place's own pace; reform-share traits dropped (acted as city labels); homes per acre; market trend | Each round's "ask why" | Seed spread found as large as round-to-round swings (item 58) |
-| 57–59 | Two-part design: city total = same pace; model predicts shares; one calibration declared; holdout read declared | Audit | Round 8: model 0.31–0.47 vs 0.65 (same share) across 6 seeds |
+| 57–59 | Two-part design: city total = same pace; model predicts shares; one calibration declared; holdout read declared | Audit | Round 8 on the 6 training cities, 6 seeds: model 0.31–0.47 vs 0.65 (same share) |
 | 60 | Checks: New York assembled sites, Los Angeles Cornfield | Audit | Cornfield's 0 is most likely real |
 
 ## What the final result supports
 
-- **Direction:** upzoning near transit shifts where new homes go. The share on upzoned lots rose in New York, Charlotte, Philadelphia, Chicago and Madison, and the model predicts a rise.
-- **Size:** the raw model overstates the shift about fivefold (k = 0.18). The calibrated model is the closest of the three guesses in Chicago and Madison.
-- **Net new homes:** not identified. Bound A (pure relocation) is 0; bound B (pure addition) is Chicago 629, Madison 400 and Bellevue 18 homes over 5 years, raw.
+- **Direction:** upzoning near transit shifts where new homes go. The clean evidence is Chicago and Madison (never used for training). New York, Charlotte and Philadelphia show the same pattern, but they are training cities.
+- **Size:** the raw model overstates the shift about fivefold (k = 0.18; partly a data problem: New York lot fragments). In the two scorable holdout cities, a small rise above the before-share (calibrated) predicted better than "no change" or the raw model. This rests on 2 cities.
+- **Net new homes:** not identified. Bound A (pure relocation) is 0. Bound B (pure addition), calibrated, is Chicago 113, Madison 72 and Bellevue 3 homes over 5 years (raw: 629, 400 and 18). B is a labelled sensitivity only.
 - **Fails:** Bellevue, where almost nothing was built.
 - **Not supported:** using this model alone for Wisconsin's headline. Wisconsin's law covers about 8 times the training cases' upzoned lots, and the law-off check overstated Wisconsin shares.
 - The tool's scenarios (171 / 2,509 / 17,148) are unchanged.
