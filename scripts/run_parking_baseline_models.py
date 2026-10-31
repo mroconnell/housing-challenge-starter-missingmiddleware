@@ -39,14 +39,14 @@ CENTRAL, PUBLISHED = 122_619, 118_822
 
 # model -> (constructor(setting, seed), grid)
 MODELS = {
-    "Weighted Poisson regression": (lambda g, s: make_pipeline(StandardScaler(), PoissonRegressor(alpha=g, max_iter=1000)), [1e-4, 1e-3, 1e-2, 1e-1]),
-    "Lasso": (lambda g, s: make_pipeline(StandardScaler(), Lasso(alpha=g, max_iter=5000)), [0.01, 0.1, 0.5, 2.0]),
-    "Elastic net": (lambda g, s: make_pipeline(StandardScaler(), ElasticNet(alpha=g, l1_ratio=0.5, max_iter=5000)), [0.01, 0.1, 0.5, 2.0]),
-    "Depth-3 tree": (lambda g, s: DecisionTreeRegressor(max_depth=3, min_samples_leaf=g, random_state=s), [20, 100]),
-    "Random forest": (lambda g, s: RandomForestRegressor(n_estimators=300, min_samples_leaf=g, max_features=0.5, n_jobs=-1, random_state=s), [5, 20]),
+    "Weighted Poisson regression": (lambda g, s: make_pipeline(StandardScaler(), PoissonRegressor(alpha=g, max_iter=1000)), [1e-5, 1e-4, 1e-3, 1e-2, 1e-1]),
+    "Lasso": (lambda g, s: make_pipeline(StandardScaler(), Lasso(alpha=g, max_iter=5000)), [1e-4, 1e-3, 0.01, 0.1, 0.5]),
+    "Elastic net": (lambda g, s: make_pipeline(StandardScaler(), ElasticNet(alpha=g, l1_ratio=0.5, max_iter=5000)), [1e-4, 1e-3, 0.01, 0.1, 0.5]),
+    "Depth-3 tree": (lambda g, s: DecisionTreeRegressor(max_depth=3, min_samples_leaf=g, random_state=s), [5, 20, 100]),
+    "Random forest": (lambda g, s: RandomForestRegressor(n_estimators=300, min_samples_leaf=g, max_features=0.5, n_jobs=-1, random_state=s), [2, 5, 20]),
     "Boosted trees": (lambda g, s: HistGradientBoostingRegressor(loss="poisson", learning_rate=g[0], max_leaf_nodes=g[1], max_iter=300,
-                                                                  min_samples_leaf=40, random_state=s), [(0.05, 15), (0.05, 31), (0.1, 15), (0.03, 31)]),
-    "Honest forest (GRF)": (lambda g, s: RegressionForest(n_estimators=500, min_samples_leaf=g, honest=True, inference=False, n_jobs=-1, random_state=s), [5, 20]),
+                                                                  min_samples_leaf=40, random_state=s), [(0.05, 15), (0.05, 31), (0.1, 15), (0.03, 31), (0.05, 63), (0.1, 31)]),
+    "Honest forest (GRF)": (lambda g, s: RegressionForest(n_estimators=500, min_samples_leaf=g, honest=True, inference=False, n_jobs=-1, random_state=s), [2, 5, 20]),
     "50 nearest neighbours": (lambda g, s: make_pipeline(StandardScaler(), KNeighborsRegressor(n_neighbors=50, weights=g)), ["uniform", "distance"]),
 }
 NO_WEIGHT = {"50 nearest neighbours"}
@@ -153,9 +153,6 @@ def main() -> None:
                     rows.append(dict(seed=seed, test="fake on-off", model=name, mean_on_minus_off=float(np.mean(on - off))))
             for name, pr in preds.items():
                 rows.append(dict(seed=seed, test=tname, model=name, **NR.score(pr, te["actual"].values)))
-                if tname == "training places, later years":
-                    st = te.assign(pred=pr).groupby(["state_fips", "origin"])[["pred", "actual"]].sum()
-                    rows.append(dict(seed=seed, test="state totals, later years", model=name, **NR.score(st["pred"].values, st["actual"].values)))
                 if tname == "held-out places, later years":
                     k = te.assign(pred=pr, miss=pr - te["actual"].values)
                     w = k.loc[k["miss"].abs().idxmax()]
@@ -165,17 +162,51 @@ def main() -> None:
     S.to_csv(REFERENCE / f"parking_baseline_models_scores{TAG}.csv", index=False)
     pd.DataFrame(choices).to_csv(REFERENCE / f"parking_baseline_models_choices{TAG}.csv", index=False)
 
+    # round 3 (audit): state totals from whole held-out Census divisions. Each division is predicted from the others,
+    # fitted on origins 2016-2017, scored on its states' totals at origins 2018-2019. Settings: each model's most common
+    # cross-validated choice above. Calendar years still overlap: fitted outcomes run to 2023, test outcomes 2020-2025.
+    C = pd.DataFrame(choices)
+    pick = {n: MODELS[n][1][[str(x) for x in MODELS[n][1]].index(C.query("model == @n")["setting"].mode().iloc[0])] for n in MODELS}
+    T0 = train[train["state_fips"] != NR.WI].assign(fake_reform=0)
+    st_rows = []
+    for dv in sorted(T0["division"].unique()):
+        F = T0[(T0["division"] != dv) & T0["origin"].isin(NR.FIT_ORIGINS) & T0["actual"].notna()]
+        te = T0[(T0["division"] == dv) & T0["origin"].isin(NR.TEST_ORIGINS) & T0["actual"].notna()]
+        if te.empty:
+            continue
+        med = F[COLS].median()
+        preds = benchmarks(T0[T0["division"] != dv], te)
+        for name in MODELS:
+            preds[name] = predict(fit(name, pick[name], NR.SEEDS[0], F, med), te, med, [], name)
+        for name, pr in preds.items():
+            st_rows.append(te.assign(pred=pr, model=name)[["model", "division", "state_fips", "origin", "pred", "actual"]])
+        print("division", dv, "done", flush=True)
+    ST = pd.concat(st_rows).groupby(["model", "division", "state_fips", "origin"], as_index=False)[["pred", "actual"]].sum()
+    ST.to_csv(REFERENCE / f"parking_baseline_models_state_totals{TAG}.csv", index=False)
+    for name, g in ST.groupby("model"):
+        sc = NR.score(g["pred"].values, g["actual"].values)
+        lg = np.abs(np.log((g["pred"].values + 0.5) / (g["actual"].values + 0.5)))
+        brng = np.random.default_rng(20261031)
+        bs = [np.median(lg[brng.integers(0, len(lg), len(lg))]) for _ in range(2000)]
+        rows.append(dict(seed=0, test="state totals, held-out divisions", model=name, **sc,
+                         p05=float(np.percentile(bs, 5)), p95=float(np.percentile(bs, 95))))
+    S = pd.DataFrame(rows)
+    S.to_csv(REFERENCE / f"parking_baseline_models_scores{TAG}.csv", index=False)
+
     # Wisconsin: fit on all non-Wisconsin rows (origins 2016-2019), back-test origin 2019, forecast origin 2025
     allfit = train[(train["state_fips"] != NR.WI) & train["actual"].notna()].assign(fake_reform=0)
     med = allfit[COLS].median()
     seed = NR.SEEDS[0]
     W = []
+    allfit_all = allfit
     for o in (2019, 2025):
+        # round 3 (audit): the 2019 back-test is fitted on origins 2016-2017 only (outcomes to 2023 still overlap 2021-2025)
+        allfit = allfit_all[allfit_all["origin"].isin(NR.FIT_ORIGINS)] if o == 2019 else allfit_all
+        med = allfit[COLS].median()
         te = R[(R["state_fips"] == NR.WI) & (R["origin"] == o)].assign(fake_reform=0)
         preds = benchmarks(train[train["state_fips"] != NR.WI], te)
         for name in MODELS:
-            g = pd.DataFrame(choices).query("model == @name")["setting"].mode().iloc[0]
-            g = MODELS[name][1][[str(x) for x in MODELS[name][1]].index(g)]
+            g = pick[name]
             preds[name] = predict(fit(name, g, seed, allfit, med), te, med, [], name)
         for name, pr in preds.items():
             row = dict(origin=o, model=name, places=len(te), five_year_total=float(pr.sum() * 5))

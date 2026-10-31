@@ -56,3 +56,15 @@ The audit reviews each round. Once a round is clean, a baseline is chosen with R
     - The depth-3 tree (1.23×) and 50 nearest neighbours (1.18×) are far from same pace in Wisconsin. They are coarse, and their held-out place scores are the worst (0.69 and 0.64).
   - **Fake reform:** the 50 nearest neighbours swing ±38 homes per place, because the trait shifts which neighbours are chosen. Elastic net and the Poisson regression swing as before. The trees and forests stay near 0.
   - Round 2 also reruns under a different Python hash seed, to check that it reproduces.
+- **2026-10-31, audit review of round 1 → round 3 (round 2 was stopped before finishing; its log fix is kept):**
+  - **Main issue (test design):** the "state totals" score summed training places at the later origins. For those places, the models had already seen 4 of the 5 outcome years, through the fitting origins' outcomes. So the trees' win there (0.105 against 0.221) is not a fair held-out result. The same applied to the no-reform rounds, and to the claim in the tool's trees sensitivity note.
+  - **Fix:** state totals come from whole held-out Census divisions. Each of the 9 divisions is predicted from the other 8 (fitted on origins 2016–2017, Wisconsin excluded), and each of its states' totals is scored at origins 2018–2019. A 90% range comes from 2,000 resamples of state totals. Settings: each model's most common cross-validated choice.
+  - **Calendar overlap:** the fitted outcomes run to 2023 and the test outcomes to 2025, so the years overlap. It cannot be removed with permit data starting in 2012. Stated.
+  - **Wisconsin 2019 back-test:** now fitted on origins 2016–2017 only.
+  - **Grids extended by one step where the choice sat at an edge:**
+    - Poisson regression from 1e-5;
+    - lasso and elastic net (log target) 1e-4 to 0.5;
+    - depth-3 tree leaf 5;
+    - random forest and honest forest leaf 2;
+    - boosting adds (0.05, 63) and (0.1, 31).
+  - **Rule (audit):** if the held-out state totals show no clear model win, same pace stays as the simplest baseline.
