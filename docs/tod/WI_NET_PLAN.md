@@ -66,3 +66,26 @@ Statewide bound B, homes over 2027–2031:
 The seed spread is about ±15% around the middle.
 
 New finding, a coding mismatch: training labels upzoned industrial-use lots "upzoned_from_industrial", but the Wisconsin table called them plain "upzoned" (222 lots). Round 3 relabels them and adds the standing sanity flags.
+
+**Round 3 (industrial label; standing checks; 3 seeds × 2 variants): clean round.** No new errors. Every flag and outlier is explained:
+
+| Check | Finding | Explained / verified |
+| --- | --- | --- |
+| Industrial relabel (222 lots) | Results identical to round 2 to the home | The model never splits on that label; the training and Wisconsin rows are otherwise unchanged |
+| Acres > 500, width > 2,000 m (1 Milwaukee lot) | Milwaukee's airport | Capped since round 2; it contributes at most 2.97 acres' worth |
+| Distance > 5 km to rail or rapid (64,290 Milwaukee and 5,527 Madison lots) | True distances: Milwaukee's rail and rapid lines are the downtown streetcar and one east–west bus rapid line | Same in the training no-reform rows (Milwaukee placebo 61,894) |
+| 95% (Milwaukee) and 70% (Madison) of upzoned lots beyond 805 m | The Wisconsin law includes 15-minute bus stops | Variant b runs the training rule |
+| Share upzoned within ½ mile above training's 99th percentile for 38% of Milwaukee lots (median 0.71 vs top 0.77) | The law upzones most of the city | Trees cannot extrapolate: values above the top are read as the top. Scale is not a blocker (item 61) |
+| Top lots by effect | 140–340 homes on 1–6 acres, mostly lots where the law first allows homes (zoning level 0) near downtown Milwaukee and on Madison's east side | Plausible project sizes |
+
+### Result: net added homes statewide, 2027–2031
+
+| Bound | Variant a (all upzoned lots) | Variant b (rail/rapid ½ mile only) |
+| --- | --- | --- |
+| A, pure relocation | 0 | 0 |
+| B, pure addition, calibrated (k = 0.18) | 1,563–2,071 | 1,301–1,936 |
+| B raw (uncalibrated sensitivity) | 8,683–11,505 | 7,229–10,754 |
+
+The ranges are the spread over 3 seeds. Milwaukee and Madison are modelled; the rest of the state is scaled by the near-stop baseline (×1.147 today, ×1.143 re-based), which is an assumption. The re-based baseline barely changes the result, because the shares, not the baseline, carry the effect.
+
+For comparison, the tool's literature scenarios are 171 / 2,509 / 17,148.
