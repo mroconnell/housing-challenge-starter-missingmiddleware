@@ -46,3 +46,24 @@ The held-out place test has 30 city-windows. The later-years test has only 4 (th
 ## Data left out (not in every state)
 
 See the plan's table: zoning levels, city property records, building age, land values, lot-level permit history, lot use.
+
+## Allotment by stop type (owner ask, 16:05; kept for the benchmark-definition decision)
+
+Table: `reference/tod_stop_type_allotment.csv`, one row per city and stop band. Each lot is placed in its first matching band, in this order: rail/rapid within ¼ mile, rail/rapid ¼ to ½ mile, 15-minute bus within ¼ mile, 15-minute bus ¼ to ½ mile, 20-minute bus (same two rings), then not near a major stop. Stops come from `reference/tod_stops.csv`. New homes are on a 5-year basis.
+
+| City | Stop band | Share of 2010 homes | Share of new homes, before | Share of new homes, after |
+| --- | --- | ---: | ---: | ---: |
+| Milwaukee | Rail/rapid, within ¼ mi | 7.8% | 41.0% | 27.8% |
+| Milwaukee | Rail/rapid, ¼–½ mi | 4.9% | 16.4% | 13.8% |
+| Milwaukee | 15-min bus, within ¼ mi | 59.3% | 41.2% | 55.7% |
+| Milwaukee | 15-min bus, ¼–½ mi | 17.4% | 1.2% | 0.8% |
+| Milwaukee | 20-min bus, within ½ mi | 10.6% | 0.2% | 2.0% |
+| Madison | Rail/rapid, within ¼ mi | 24.8% | 48.8% | 40.5% |
+| Madison | Rail/rapid, ¼–½ mi | 23.2% | 14.9% | 26.8% |
+| Madison | 15-min bus, within ¼ mi | 33.5% | 30.0% | 27.4% |
+| Madison | 15-min bus, ¼–½ mi | 17.4% | 5.4% | 1.2% |
+| Madison | Not near a major stop | 1.2% | 0.8% | 4.2% |
+
+Years: Milwaukee before 2013–2018, after 2020–2024. Madison varies by area: before 2011–2022, after 2018–2025. Counts are in the CSV.
+
+Reading: rail and rapid stops take two to five times their share of homes. Lots within ¼ mile of a 15-minute bus roughly match their share. Lots ¼ to ½ mile from a bus stop get almost nothing.

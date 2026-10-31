@@ -1,0 +1,13 @@
+city,stop_band,lots,acres,homes_2010,share_of_homes_2010,new_homes_before_5yr,share_of_new_before,new_homes_after_5yr,share_of_new_after,before_years,after_years
+Milwaukee,"rail/rapid, within 1/4 mi",3722,1555,18627,0.078,3543,0.41,1565,0.278,2013-2018,2020-2024
+Milwaukee,"rail/rapid, 1/4 to 1/2 mi",4007,1715,11671,0.049,1422,0.164,776,0.138,2013-2018,2020-2024
+Milwaukee,"15-min bus, within 1/4 mi",87358,19549,141345,0.593,3559,0.412,3138,0.557,2013-2018,2020-2024
+Milwaukee,"15-min bus, 1/4 to 1/2 mi",28277,9807,41477,0.174,100,0.012,43,0.008,2013-2018,2020-2024
+Milwaukee,"20-min bus, within 1/4 mi",7277,2944,13972,0.059,21,0.002,110,0.02,2013-2018,2020-2024
+Milwaukee,"20-min bus, 1/4 to 1/2 mi",6209,3782,11093,0.047,3,0.0,1,0.0,2013-2018,2020-2024
+Milwaukee,not near a major stop,12,5,51,0.0,0,0.0,0,0.0,2013-2018,2020-2024
+Madison,"rail/rapid, within 1/4 mi",6406,3754,24788,0.248,4170,0.488,5550,0.405,2011-2022 by area,2018-2025 by area
+Madison,"rail/rapid, 1/4 to 1/2 mi",8577,4859,23154,0.232,1270,0.149,3669,0.268,2011-2022 by area,2018-2025 by area
+Madison,"15-min bus, within 1/4 mi",17973,8099,33467,0.335,2567,0.3,3753,0.274,2011-2022 by area,2018-2025 by area
+Madison,"15-min bus, 1/4 to 1/2 mi",11231,6933,17367,0.174,463,0.054,160,0.012,2011-2022 by area,2018-2025 by area
+Madison,not near a major stop,269,296,1167,0.012,72,0.008,572,0.042,2011-2022 by area,2018-2025 by area
