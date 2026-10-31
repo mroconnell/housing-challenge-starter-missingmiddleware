@@ -1,5 +1,7 @@
 # ADU no-reform model, round 1: results
 
+Adopted 2026-10-31 (AQ-065): V6s and the trend baseline; tool now 6,223 / 10,349 / 19,294, baseline 786.
+
 Run 2026-10-31 under [NO_REFORM_R1_PLAN.md](NO_REFORM_R1_PLAN.md), committed before any result was computed. Code: [`scripts/run_adu_no_reform.py`](../../scripts/run_adu_no_reform.py). Outputs: `reference/adu_no_reform_r1b_*.csv` (adopted cleaning) and `adu_no_reform_r1_*.csv` (first run).
 
 **Units.**

@@ -1,5 +1,7 @@
 # ADU improvement loop, round 2: results
 
+Adopted 2026-10-31 (AQ-065): V6s and the trend baseline; tool now 6,223 / 10,349 / 19,294, baseline 786.
+
 Run 2026-10-31 under [IMPROVE_R2_PLAN.md](IMPROVE_R2_PLAN.md), committed before any result was computed. Code: `scripts/run_adu_improve.py --round 2`. Outputs: `reference/adu_improve_r2_scores.csv`, `adu_improve_r2_by_state.csv`, `adu_improve_r2_flags.csv`. Units as in [round 1](IMPROVE_R1_RESULTS.md): rates are ADU permits per 1,000 single-family homes per year; log error = log(predicted ÷ observed); RMS over the 7 held-out states, lower is better; additional permits are Wisconsin, 2027–2031.
 
 ## Answer

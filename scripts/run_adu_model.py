@@ -365,6 +365,10 @@ def main():
              "Each comparison rate divides permits by single-family homes. The adopted fit matches homes to the year, "
              "from ACS 2020-2024 homes moved back or forward by one-unit building permits (AQ-064). Here every year "
              "uses 2020-2024 homes, as before AQ-064, so early years read a little low and 2025-2026 a little high."),
+            ("cap_a2|before_aq065_coding", "law years coded as before AQ-065 (Vermont by year built, Oregon from 2019, "
+             "Seattle 2024 as a law year)",
+             "The adopted fit counts a law year only where the state law changed a place's rules, and counts Vermont's "
+             "ADUs by permit year (AQ-065). This case restores the earlier coding; the no-reform trend stays."),
             ("cap_a2|coverage_me_homes_estimate", "Maine's reporting share as a homes share (0.62, not 0.73)",
              "Maine's published share (0.73) counts people in the 182 reporting towns; no town list is published. "
              "Reporting towns are mostly the larger ones, and the largest towns holding 73% of Maine's people hold "
