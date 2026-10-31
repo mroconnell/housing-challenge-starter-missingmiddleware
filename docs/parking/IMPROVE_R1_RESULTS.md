@@ -45,3 +45,16 @@ The 4 heaviest places are San Francisco, Austin, San Jose and Raleigh.
 ## Next
 
 Per the audit, if V6's data become the standard, the placebo test and high end must be rerun on V6. They are being run so that Ryan can compare. The tool does not change unless Ryan approves.
+
+## Audit round 1 review: added lines (registered before computing)
+
+| Line | Places | Home-weighted average | 90% resampling range |
+| --- | ---: | ---: | --- |
+| V0, drop places with under 5 comparison places | 73 | −1.10 | −3.59 to +1.53 |
+| V0, pool-shrunk weights (homes × after-years × pool ÷ (pool + 5)) | 73 | −0.78 | −2.92 to +1.46 |
+| V6, drop places with under 5 comparison places | 71 | −0.18 | −2.51 to +2.54 |
+| V6, pool-shrunk weights | 73 | −0.42 | −2.61 to +2.16 |
+
+- **Comparison-pool labels** are now saved in `parking_improve_r1_places.csv`. In V6, 41 places draw from their state, 24 from their division and 8 from the nation.
+- **Why the V6 3-after-year line is −1.37:** those 36 places are older repeals. San Francisco (repealed 2019, after-years 2020–2022 under COVID) carries 22% of their weight at −6.2. Minneapolis (2021, right after its 2019–2020 rush to permit before the 2040 plan) carries 11% at −8.8. Together they account for most of the negative.
+- **Every line stays within about ±1.4 of zero,** and every 90% range spans zero.

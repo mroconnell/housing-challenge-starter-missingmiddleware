@@ -11,5 +11,9 @@ V3b date-aware clean pools,73,-0.146,-2.784,2.872,0.038,-0.059,31.0,2
 V6 all fixes (V1b+V3b+V4),73,-0.277,-3.004,2.848,0.044,-0.374,37.0,2
 V0 current | without the 4 heaviest places,69,-0.169,-1.992,1.999,0.537,-0.053,34.0,0
 V0 current | 3 after-years only,36,-0.924,-3.062,1.673,0.362,-0.284,35.0,0
+V0 current | drop places with under 5 comparison places,73,-1.101,-3.591,1.534,0.424,-0.053,28.0,0
+V0 current | pool-shrunk weights,73,-0.782,-2.918,1.465,0.424,-0.053,28.0,0
 V6 all fixes (V1b+V3b+V4) | without the 4 heaviest places,69,0.013,-1.867,2.187,-0.03,-0.374,40.0,0
 V6 all fixes (V1b+V3b+V4) | 3 after-years only,36,-1.366,-4.051,2.19,0.433,-0.794,44.5,0
+V6 all fixes (V1b+V3b+V4) | drop places with under 5 comparison places,71,-0.179,-2.507,2.541,0.023,-0.374,40.0,0
+V6 all fixes (V1b+V3b+V4) | pool-shrunk weights,73,-0.417,-2.609,2.161,0.044,-0.374,37.0,2

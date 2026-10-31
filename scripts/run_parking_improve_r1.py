@@ -123,7 +123,7 @@ def main() -> None:
                 continue
             x = e.iloc[0]
             rows.append(dict(variant=name, place=r.place, state=r.state, key=r.key, event_year=int(r.event_year), n_post=int(x["n_post"]),
-                             homes=float(x["homes"]), n_controls=int(x["n_controls"]), effect=float(x["effect"]), estimated_years=est_years))
+                             homes=float(x["homes"]), n_controls=int(x["n_controls"]), pool=str(x["pop_window"]), effect=float(x["effect"]), estimated_years=est_years))
     P = pd.DataFrame(rows)
     P["weight"] = P["homes"] * P["n_post"]
     P.round(4).to_csv(REFERENCE / "parking_improve_r1_places.csv", index=False)
@@ -136,7 +136,10 @@ def main() -> None:
     top4 = {"San Francisco", "Austin", "San Jose", "Raleigh"}
     for name in ("V0 current", "V6 all fixes (V1b+V3b+V4)"):
         g0 = P[(P["variant"] == name)].dropna(subset=["effect"])
-        for lab, g in ((" | without the 4 heaviest places", g0[~g0["place"].isin(top4)]), (" | 3 after-years only", g0[g0["n_post"] == 3])):
+        shrunk = g0.assign(weight=g0["weight"] * g0["n_controls"] / (g0["n_controls"] + 5))
+        for lab, g in ((" | without the 4 heaviest places", g0[~g0["place"].isin(top4)]), (" | 3 after-years only", g0[g0["n_post"] == 3]),
+                       (" | drop places with under 5 comparison places", g0[g0["n_controls"] >= 5]),
+                       (" | pool-shrunk weights", shrunk)):
             g = g.reset_index(drop=True)
             m, lo, hi = rpe.boot_mean(g["effect"].values, g["weight"].values)
             S.append(dict(variant=name + lab, places=len(g), weighted=m, p05=lo, p95=hi, equal_weight=g["effect"].mean(), median=g["effect"].median(),

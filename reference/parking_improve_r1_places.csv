@@ -1,699 +1,699 @@
-variant,place,state,key,event_year,n_post,homes,n_controls,effect,estimated_years,weight
-V0 current,San Jose,California,06|394000,2023,2,345066.0,5,2.4828,0,690132.0
-V0 current,San Francisco,California,06|389000,2019,3,414602.0,9,-3.2802,1,1243806.0
-V0 current,Raleigh,North Carolina,37|466000,2022,3,224853.0,9,7.0376,0,674559.0
-V0 current,Minneapolis,Minnesota,27|497800,2021,3,209080.0,5,-8.5188,0,627240.0
-V0 current,Lexington,Kentucky,21|301000,2022,3,148959.0,6,-5.0767,7,446877.0
-V0 current,St. Paul,Minnesota,27|712600,2021,3,133051.0,9,-2.2157,1,399153.0
-V0 current,Anchorage,Alaska,02|041000,2023,2,120348.0,34,-3.1595,4,240696.0
-V0 current,Buffalo,New York,36|089500,2017,3,136850.0,10,0.4778,8,410550.0
-V0 current,Bridgeport,Connecticut,09|061000,2021,3,59844.0,5,5.9482,3,179532.0
-V0 current,Gainesville,Florida,12|271000,2022,3,66114.0,35,5.2079,4,198342.0
-V0 current,Hartford,Connecticut,09|285000,2017,3,56435.0,11,-0.254,6,169305.0
-V0 current,Ann Arbor,Michigan,26|026500,2022,3,54399.0,22,4.4132,2,163197.0
-V0 current,Cambridge,Massachusetts,25|103000,2022,3,54840.0,18,-7.0783,5,164520.0
-V0 current,Roanoke,Virginia,51|065000,2021,3,49106.0,6,-1.1273,5,147318.0
-V0 current,Alameda,California,06|003000,2021,3,32291.0,166,-3.1284,0,96873.0
-V0 current,West Allis,Wisconsin,55|932000,2022,3,30294.0,21,4.3383,0,90882.0
-V0 current,Corvallis,Oregon,41|099000,2022,3,25628.0,9,3.2514,0,76884.0
-V0 current,Tigard,Oregon,41|505000,2022,3,23877.0,11,-2.5668,0,71631.0
-V0 current,Dunwoody,Georgia,13|233500,2019,3,23491.0,28,2.068,0,70473.0
-V0 current,Culver City,California,06|101000,2022,3,18803.0,183,-0.7408,0,56409.0
-V0 current,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,122,-1.4108,0,25653.0
-V0 current,Windham,Maine,23|493000,2018,3,8709.0,22,8.3904,2,26127.0
-V0 current,Cambridge,Maryland,24|093000,2021,3,6652.0,9,-6.6796,5,19956.0
-V0 current,Emeryville,California,06|129000,2020,3,8497.0,138,-0.0527,0,25491.0
-V0 current,Branson,Missouri,29|068500,2018,3,9006.0,81,3.1586,0,27018.0
-V0 current,Canandaigua,New York,36|103000,2020,3,5390.0,302,2.7644,0,16170.0
-V0 current,Ecorse,Michigan,26|266500,2020,3,4121.0,220,-13.0485,1,12363.0
-V0 current,Bastrop,Texas,48|045500,2019,3,5100.0,207,30.6516,0,15300.0
-V0 current,Seabrook,New Hampshire,33|797000,2019,3,4151.0,74,-1.9208,0,12453.0
-V0 current,River Rouge,Michigan,26|748000,2021,3,3129.0,263,0.3311,0,9387.0
-V0 current,Hudson,New York,36|348000,2019,3,3551.0,433,-1.5418,2,10653.0
-V0 current,Bandera,Texas,48|041000,2021,3,367.0,180,3.4077,0,1101.0
-V0 current,Austin,Texas,48|033000,2023,2,483071.0,6,-12.3289,0,966142.0
-V0 current,Sacramento,California,06|374000,2024,1,212485.0,9,1.0026,0,212485.0
-V0 current,Durham,North Carolina,37|164000,2023,2,136837.0,23,0.3046,3,273674.0
-V0 current,Richmond,Virginia,51|063000,2023,2,114293.0,5,15.1049,0,228586.0
-V0 current,Birmingham,Alabama,01|048000,2024,1,109349.0,7,0.8046,2,109349.0
-V0 current,Newport News,Virginia,51|049000,2024,1,82052.0,6,2.342,1,82052.0
-V0 current,Salem,Oregon,41|445000,2023,2,71124.0,87,-1.2401,0,142248.0
-V0 current,Eugene,Oregon,41|151000,2024,1,80856.0,87,0.9278,0,80856.0
-V0 current,Berkeley,California,06|039000,2021,3,53145.0,132,3.7866,4,159435.0
-V0 current,Bend,Oregon,41|041000,2023,2,47957.0,168,3.4129,0,95914.0
-V0 current,Beaverton,Oregon,41|039000,2023,2,42771.0,176,-1.9635,0,85542.0
-V0 current,Longmont,Colorado,08|401000,2024,1,43528.0,11,13.7589,1,43528.0
-V0 current,Trenton,New Jersey,34|516000,2023,2,34513.0,46,0.7801,4,69026.0
-V0 current,Duluth,Minnesota,27|196900,2023,2,39978.0,20,5.723,0,79956.0
-V0 current,Kalamazoo,Michigan,26|463500,2023,2,32379.0,46,-0.1807,0,64758.0
-V0 current,Rogers,Arkansas,05|462000,2024,1,28579.0,10,-7.8179,6,28579.0
-V0 current,Portland,Maine,23|363000,2024,1,36559.0,79,2.6488,0,36559.0
-V0 current,Springfield,Oregon,41|481000,2024,1,25905.0,8,9.8546,2,25905.0
-V0 current,Albany,Oregon,41|009000,2023,2,22768.0,11,-4.6139,1,45536.0
-V0 current,La Crosse,Wisconsin,55|452000,2024,1,24404.0,24,-2.0282,0,24404.0
-V0 current,Burlington,Vermont,50|085000,2023,2,18079.0,146,13.7186,2,36158.0
-V0 current,Grants Pass,Oregon,41|191000,2024,1,17297.0,8,10.3167,0,17297.0
-V0 current,Plainfield,Indiana,18|584500,2022,3,13359.0,35,-10.2824,1,40077.0
-V0 current,Tualatin,Oregon,41|517000,2024,1,11303.0,14,13.889,0,11303.0
-V0 current,West Linn,Oregon,41|555000,2024,1,10395.0,14,9.4532,0,10395.0
-V0 current,Kingston,New York,36|375000,2023,2,11221.0,159,10.121,5,22442.0
-V0 current,Ashland,Oregon,41|017000,2023,2,11494.0,18,3.5989,0,22988.0
-V0 current,Carrboro,North Carolina,37|092000,2023,2,10189.0,34,-13.1014,0,20378.0
-V0 current,Milwaukie,Oregon,41|339000,2024,1,9859.0,18,-0.2891,0,9859.0
-V0 current,Northfield,Minnesota,27|551800,2024,1,6771.0,73,-1.6221,0,6771.0
-V0 current,Central Point,Oregon,41|071000,2023,2,7978.0,26,-4.6562,0,15956.0
-V0 current,Portsmouth,Ohio,39|522700,2022,3,8466.0,128,0.4577,2,25398.0
-V0 current,Taylor,Texas,48|688000,2023,2,7016.0,161,-9.5515,5,14032.0
-V0 current,Hanover,New Hampshire,33|397000,2024,1,4056.0,50,-4.2281,3,4056.0
-V0 current,Lansing,Kansas,20|296200,2024,1,3723.0,38,-7.3807,0,3723.0
-V0 current,Hampden,Maine,23|190000,2022,3,3295.0,69,-2.4007,0,9885.0
-V0 current,King City,Oregon,41|265000,2024,1,2782.0,30,15.5608,0,2782.0
-V0 current,Social Circle,Georgia,13|616000,2023,2,1796.0,90,-10.0641,0,3592.0
-V0 current,Millersburg,Oregon,41|335000,2024,1,1187.0,28,-33.6607,0,1187.0
-V0 current,Maumee,Ohio,39|382600,2020,3,6217.0,147,-1.0116,1,18651.0
-V0 current,Saranac Lake,New York,36|648000,2016,3,2819.0,476,-0.3149,7,8457.0
-V1 reported months only,San Jose,California,06|394000,2023,2,345066.0,5,2.7575,0,690132.0
-V1 reported months only,San Francisco,California,06|389000,2019,3,414602.0,9,-3.1722,1,1243806.0
-V1 reported months only,Raleigh,North Carolina,37|466000,2022,3,224853.0,9,7.1343,0,674559.0
-V1 reported months only,Minneapolis,Minnesota,27|497800,2021,3,209080.0,5,-10.9662,0,627240.0
-V1 reported months only,Lexington,Kentucky,21|301000,2022,3,148959.0,6,-3.3917,7,446877.0
-V1 reported months only,St. Paul,Minnesota,27|712600,2021,3,133051.0,9,-3.8914,1,399153.0
-V1 reported months only,Anchorage,Alaska,02|041000,2023,2,120348.0,34,3.891,4,240696.0
-V1 reported months only,Buffalo,New York,36|089500,2017,3,136850.0,10,-0.878,8,410550.0
-V1 reported months only,Bridgeport,Connecticut,09|061000,2021,3,59844.0,5,6.027,3,179532.0
-V1 reported months only,Gainesville,Florida,12|271000,2022,3,66114.0,35,18.4504,4,198342.0
-V1 reported months only,Hartford,Connecticut,09|285000,2017,3,56435.0,11,-0.039,6,169305.0
-V1 reported months only,Ann Arbor,Michigan,26|026500,2022,3,54399.0,22,4.0906,2,163197.0
-V1 reported months only,Cambridge,Massachusetts,25|103000,2022,3,54840.0,18,0.6521,5,164520.0
-V1 reported months only,Roanoke,Virginia,51|065000,2021,3,49106.0,6,2.4617,5,147318.0
-V1 reported months only,Alameda,California,06|003000,2021,3,32291.0,166,-3.1865,0,96873.0
-V1 reported months only,West Allis,Wisconsin,55|932000,2022,3,30294.0,21,4.2744,0,90882.0
-V1 reported months only,Corvallis,Oregon,41|099000,2022,3,25628.0,9,3.1616,0,76884.0
-V1 reported months only,Tigard,Oregon,41|505000,2022,3,23877.0,11,-3.0818,0,71631.0
-V1 reported months only,Dunwoody,Georgia,13|233500,2019,3,23491.0,28,2.0355,0,70473.0
-V1 reported months only,Culver City,California,06|101000,2022,3,18803.0,183,-0.9877,0,56409.0
-V1 reported months only,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,122,-1.2706,0,25653.0
-V1 reported months only,Windham,Maine,23|493000,2018,3,8709.0,22,-4.2939,2,26127.0
-V1 reported months only,Cambridge,Maryland,24|093000,2021,3,6652.0,9,-9.1698,5,19956.0
-V1 reported months only,Emeryville,California,06|129000,2020,3,8497.0,138,0.0392,0,25491.0
-V1 reported months only,Branson,Missouri,29|068500,2018,3,9006.0,81,3.4083,0,27018.0
-V1 reported months only,Canandaigua,New York,36|103000,2020,3,5390.0,302,2.5969,0,16170.0
-V1 reported months only,Ecorse,Michigan,26|266500,2020,3,4121.0,220,-12.7178,1,12363.0
-V1 reported months only,Bastrop,Texas,48|045500,2019,3,5100.0,207,31.3163,0,15300.0
-V1 reported months only,Seabrook,New Hampshire,33|797000,2019,3,4151.0,74,-1.4408,0,12453.0
-V1 reported months only,River Rouge,Michigan,26|748000,2021,3,3129.0,263,0.2536,0,9387.0
-V1 reported months only,Hudson,New York,36|348000,2019,3,3551.0,433,-1.0263,2,10653.0
-V1 reported months only,Bandera,Texas,48|041000,2021,3,367.0,180,4.5058,0,1101.0
-V1 reported months only,Austin,Texas,48|033000,2023,2,483071.0,6,-12.08,0,966142.0
-V1 reported months only,Sacramento,California,06|374000,2024,1,212485.0,9,1.2536,0,212485.0
-V1 reported months only,Durham,North Carolina,37|164000,2023,2,136837.0,23,1.8198,3,273674.0
-V1 reported months only,Richmond,Virginia,51|063000,2023,2,114293.0,5,14.782,0,228586.0
-V1 reported months only,Birmingham,Alabama,01|048000,2024,1,109349.0,7,-3.7721,2,109349.0
-V1 reported months only,Newport News,Virginia,51|049000,2024,1,82052.0,6,2.0445,1,82052.0
-V1 reported months only,Salem,Oregon,41|445000,2023,2,71124.0,87,-1.1941,0,142248.0
-V1 reported months only,Eugene,Oregon,41|151000,2024,1,80856.0,87,0.938,0,80856.0
-V1 reported months only,Berkeley,California,06|039000,2021,3,53145.0,132,5.6429,4,159435.0
-V1 reported months only,Bend,Oregon,41|041000,2023,2,47957.0,168,3.4614,0,95914.0
-V1 reported months only,Beaverton,Oregon,41|039000,2023,2,42771.0,176,-1.9162,0,85542.0
-V1 reported months only,Longmont,Colorado,08|401000,2024,1,43528.0,11,6.8415,1,43528.0
-V1 reported months only,Trenton,New Jersey,34|516000,2023,2,34513.0,46,2.3083,4,69026.0
-V1 reported months only,Duluth,Minnesota,27|196900,2023,2,39978.0,20,5.6307,0,79956.0
-V1 reported months only,Kalamazoo,Michigan,26|463500,2023,2,32379.0,46,-0.2408,0,64758.0
-V1 reported months only,Rogers,Arkansas,05|462000,2024,1,28579.0,10,-4.3977,6,28579.0
-V1 reported months only,Portland,Maine,23|363000,2024,1,36559.0,79,2.5142,0,36559.0
-V1 reported months only,Springfield,Oregon,41|481000,2024,1,25905.0,8,-1.277,2,25905.0
-V1 reported months only,Albany,Oregon,41|009000,2023,2,22768.0,11,-3.6745,1,45536.0
-V1 reported months only,La Crosse,Wisconsin,55|452000,2024,1,24404.0,24,-2.0056,0,24404.0
-V1 reported months only,Burlington,Vermont,50|085000,2023,2,18079.0,146,15.9318,2,36158.0
-V1 reported months only,Grants Pass,Oregon,41|191000,2024,1,17297.0,8,10.8962,0,17297.0
-V1 reported months only,Plainfield,Indiana,18|584500,2022,3,13359.0,35,-10.2325,1,40077.0
-V1 reported months only,Tualatin,Oregon,41|517000,2024,1,11303.0,14,14.5974,0,11303.0
-V1 reported months only,West Linn,Oregon,41|555000,2024,1,10395.0,14,10.1616,0,10395.0
-V1 reported months only,Kingston,New York,36|375000,2023,2,11221.0,159,10.2602,5,22442.0
-V1 reported months only,Ashland,Oregon,41|017000,2023,2,11494.0,18,3.6809,0,22988.0
-V1 reported months only,Carrboro,North Carolina,37|092000,2023,2,10189.0,34,-12.4018,0,20378.0
-V1 reported months only,Milwaukie,Oregon,41|339000,2024,1,9859.0,18,0.5307,0,9859.0
-V1 reported months only,Northfield,Minnesota,27|551800,2024,1,6771.0,73,-1.577,0,6771.0
-V1 reported months only,Central Point,Oregon,41|071000,2023,2,7978.0,26,-5.1037,0,15956.0
-V1 reported months only,Portsmouth,Ohio,39|522700,2022,3,8466.0,128,0.272,2,25398.0
-V1 reported months only,Taylor,Texas,48|688000,2023,2,7016.0,161,-3.9486,5,14032.0
-V1 reported months only,Hanover,New Hampshire,33|397000,2024,1,4056.0,50,-3.616,3,4056.0
-V1 reported months only,Lansing,Kansas,20|296200,2024,1,3723.0,38,-6.3462,0,3723.0
-V1 reported months only,Hampden,Maine,23|190000,2022,3,3295.0,69,-0.366,0,9885.0
-V1 reported months only,King City,Oregon,41|265000,2024,1,2782.0,30,14.5824,0,2782.0
-V1 reported months only,Social Circle,Georgia,13|616000,2023,2,1796.0,90,-8.7843,0,3592.0
-V1 reported months only,Millersburg,Oregon,41|335000,2024,1,1187.0,28,-34.3999,0,1187.0
-V1 reported months only,Maumee,Ohio,39|382600,2020,3,6217.0,147,-1.1047,1,18651.0
-V1 reported months only,Saranac Lake,New York,36|648000,2016,3,2819.0,476,-0.0249,7,8457.0
-V2 drop places with estimated years,San Jose,California,06|394000,2023,2,345066.0,5,2.4828,0,690132.0
-V2 drop places with estimated years,Raleigh,North Carolina,37|466000,2022,3,224853.0,9,7.0376,0,674559.0
-V2 drop places with estimated years,Minneapolis,Minnesota,27|497800,2021,3,209080.0,5,-8.5188,0,627240.0
-V2 drop places with estimated years,Alameda,California,06|003000,2021,3,32291.0,166,-3.1284,0,96873.0
-V2 drop places with estimated years,West Allis,Wisconsin,55|932000,2022,3,30294.0,21,4.3383,0,90882.0
-V2 drop places with estimated years,Corvallis,Oregon,41|099000,2022,3,25628.0,9,3.2514,0,76884.0
-V2 drop places with estimated years,Tigard,Oregon,41|505000,2022,3,23877.0,11,-2.5668,0,71631.0
-V2 drop places with estimated years,Dunwoody,Georgia,13|233500,2019,3,23491.0,28,2.068,0,70473.0
-V2 drop places with estimated years,Culver City,California,06|101000,2022,3,18803.0,183,-0.7408,0,56409.0
-V2 drop places with estimated years,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,122,-1.4108,0,25653.0
-V2 drop places with estimated years,Emeryville,California,06|129000,2020,3,8497.0,138,-0.0527,0,25491.0
-V2 drop places with estimated years,Branson,Missouri,29|068500,2018,3,9006.0,81,3.1586,0,27018.0
-V2 drop places with estimated years,Canandaigua,New York,36|103000,2020,3,5390.0,302,2.7644,0,16170.0
-V2 drop places with estimated years,Bastrop,Texas,48|045500,2019,3,5100.0,207,30.6516,0,15300.0
-V2 drop places with estimated years,Seabrook,New Hampshire,33|797000,2019,3,4151.0,74,-1.9208,0,12453.0
-V2 drop places with estimated years,River Rouge,Michigan,26|748000,2021,3,3129.0,263,0.3311,0,9387.0
-V2 drop places with estimated years,Bandera,Texas,48|041000,2021,3,367.0,180,3.4077,0,1101.0
-V2 drop places with estimated years,Austin,Texas,48|033000,2023,2,483071.0,6,-12.3289,0,966142.0
-V2 drop places with estimated years,Sacramento,California,06|374000,2024,1,212485.0,9,1.0026,0,212485.0
-V2 drop places with estimated years,Richmond,Virginia,51|063000,2023,2,114293.0,5,15.1049,0,228586.0
-V2 drop places with estimated years,Salem,Oregon,41|445000,2023,2,71124.0,87,-1.2401,0,142248.0
-V2 drop places with estimated years,Eugene,Oregon,41|151000,2024,1,80856.0,87,0.9278,0,80856.0
-V2 drop places with estimated years,Bend,Oregon,41|041000,2023,2,47957.0,168,3.4129,0,95914.0
-V2 drop places with estimated years,Beaverton,Oregon,41|039000,2023,2,42771.0,176,-1.9635,0,85542.0
-V2 drop places with estimated years,Duluth,Minnesota,27|196900,2023,2,39978.0,20,5.723,0,79956.0
-V2 drop places with estimated years,Kalamazoo,Michigan,26|463500,2023,2,32379.0,46,-0.1807,0,64758.0
-V2 drop places with estimated years,Portland,Maine,23|363000,2024,1,36559.0,79,2.6488,0,36559.0
-V2 drop places with estimated years,La Crosse,Wisconsin,55|452000,2024,1,24404.0,24,-2.0282,0,24404.0
-V2 drop places with estimated years,Grants Pass,Oregon,41|191000,2024,1,17297.0,8,10.3167,0,17297.0
-V2 drop places with estimated years,Tualatin,Oregon,41|517000,2024,1,11303.0,14,13.889,0,11303.0
-V2 drop places with estimated years,West Linn,Oregon,41|555000,2024,1,10395.0,14,9.4532,0,10395.0
-V2 drop places with estimated years,Ashland,Oregon,41|017000,2023,2,11494.0,18,3.5989,0,22988.0
-V2 drop places with estimated years,Carrboro,North Carolina,37|092000,2023,2,10189.0,34,-13.1014,0,20378.0
-V2 drop places with estimated years,Milwaukie,Oregon,41|339000,2024,1,9859.0,18,-0.2891,0,9859.0
-V2 drop places with estimated years,Northfield,Minnesota,27|551800,2024,1,6771.0,73,-1.6221,0,6771.0
-V2 drop places with estimated years,Central Point,Oregon,41|071000,2023,2,7978.0,26,-4.6562,0,15956.0
-V2 drop places with estimated years,Lansing,Kansas,20|296200,2024,1,3723.0,38,-7.3807,0,3723.0
-V2 drop places with estimated years,Hampden,Maine,23|190000,2022,3,3295.0,69,-2.4007,0,9885.0
-V2 drop places with estimated years,King City,Oregon,41|265000,2024,1,2782.0,30,15.5608,0,2782.0
-V2 drop places with estimated years,Social Circle,Georgia,13|616000,2023,2,1796.0,90,-10.0641,0,3592.0
-V2 drop places with estimated years,Millersburg,Oregon,41|335000,2024,1,1187.0,28,-33.6607,0,1187.0
-V3 clean comparison pools,San Jose,California,06|394000,2023,2,345066.0,3,10.9232,0,690132.0
-V3 clean comparison pools,San Francisco,California,06|389000,2019,3,414602.0,5,-11.0947,1,1243806.0
-V3 clean comparison pools,Raleigh,North Carolina,37|466000,2022,3,224853.0,7,9.9396,0,674559.0
-V3 clean comparison pools,Minneapolis,Minnesota,27|497800,2021,3,209080.0,10,-8.3232,0,627240.0
-V3 clean comparison pools,Lexington,Kentucky,21|301000,2022,3,148959.0,12,-2.1089,7,446877.0
-V3 clean comparison pools,St. Paul,Minnesota,27|712600,2021,3,133051.0,14,-1.7012,1,399153.0
-V3 clean comparison pools,Anchorage,Alaska,02|041000,2023,2,120348.0,31,-2.7893,4,240696.0
-V3 clean comparison pools,Buffalo,New York,36|089500,2017,3,136850.0,7,1.1202,8,410550.0
-V3 clean comparison pools,Bridgeport,Connecticut,09|061000,2021,3,59844.0,7,3.3077,3,179532.0
-V3 clean comparison pools,Gainesville,Florida,12|271000,2022,3,66114.0,24,3.9272,4,198342.0
-V3 clean comparison pools,Hartford,Connecticut,09|285000,2017,3,56435.0,10,-0.0252,6,169305.0
-V3 clean comparison pools,Ann Arbor,Michigan,26|026500,2022,3,54399.0,9,4.14,2,163197.0
-V3 clean comparison pools,Cambridge,Massachusetts,25|103000,2022,3,54840.0,6,-7.5368,5,164520.0
-V3 clean comparison pools,Roanoke,Virginia,51|065000,2021,3,49106.0,51,-3.1716,5,147318.0
-V3 clean comparison pools,Alameda,California,06|003000,2021,3,32291.0,144,-2.9769,0,96873.0
-V3 clean comparison pools,West Allis,Wisconsin,55|932000,2022,3,30294.0,8,4.7833,0,90882.0
-V3 clean comparison pools,Corvallis,Oregon,41|099000,2022,3,25628.0,182,3.9828,0,76884.0
-V3 clean comparison pools,Tigard,Oregon,41|505000,2022,3,23877.0,183,-2.2013,0,71631.0
-V3 clean comparison pools,Dunwoody,Georgia,13|233500,2019,3,23491.0,8,-1.838,0,70473.0
-V3 clean comparison pools,Culver City,California,06|101000,2022,3,18803.0,177,-0.7946,0,56409.0
-V3 clean comparison pools,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,85,-1.8621,0,25653.0
-V3 clean comparison pools,Windham,Maine,23|493000,2018,3,8709.0,6,9.4577,2,26127.0
-V3 clean comparison pools,Cambridge,Maryland,24|093000,2021,3,6652.0,5,-6.7622,5,19956.0
-V3 clean comparison pools,Emeryville,California,06|129000,2020,3,8497.0,133,-0.12,0,25491.0
-V3 clean comparison pools,Branson,Missouri,29|068500,2018,3,9006.0,38,5.3982,0,27018.0
-V3 clean comparison pools,Canandaigua,New York,36|103000,2020,3,5390.0,255,2.7662,0,16170.0
-V3 clean comparison pools,Ecorse,Michigan,26|266500,2020,3,4121.0,173,-12.8426,1,12363.0
-V3 clean comparison pools,Bastrop,Texas,48|045500,2019,3,5100.0,202,30.7854,0,15300.0
-V3 clean comparison pools,Seabrook,New Hampshire,33|797000,2019,3,4151.0,72,-2.0403,0,12453.0
-V3 clean comparison pools,River Rouge,Michigan,26|748000,2021,3,3129.0,212,0.4417,0,9387.0
-V3 clean comparison pools,Hudson,New York,36|348000,2019,3,3551.0,383,-1.5809,2,10653.0
-V3 clean comparison pools,Bandera,Texas,48|041000,2021,3,367.0,180,3.4077,0,1101.0
-V3 clean comparison pools,Austin,Texas,48|033000,2023,2,483071.0,4,-8.5926,0,966142.0
-V3 clean comparison pools,Sacramento,California,06|374000,2024,1,212485.0,7,3.6791,0,212485.0
-V3 clean comparison pools,Durham,North Carolina,37|164000,2023,2,136837.0,5,2.3767,3,273674.0
-V3 clean comparison pools,Richmond,Virginia,51|063000,2023,2,114293.0,10,11.8661,0,228586.0
-V3 clean comparison pools,Birmingham,Alabama,01|048000,2024,1,109349.0,80,1.686,2,109349.0
-V3 clean comparison pools,Newport News,Virginia,51|049000,2024,1,82052.0,20,1.1482,1,82052.0
-V3 clean comparison pools,Salem,Oregon,41|445000,2023,2,71124.0,40,-0.9109,0,142248.0
-V3 clean comparison pools,Eugene,Oregon,41|151000,2024,1,80856.0,40,0.7858,0,80856.0
-V3 clean comparison pools,Berkeley,California,06|039000,2021,3,53145.0,93,4.4761,4,159435.0
-V3 clean comparison pools,Bend,Oregon,41|041000,2023,2,47957.0,118,3.5168,0,95914.0
-V3 clean comparison pools,Beaverton,Oregon,41|039000,2023,2,42771.0,126,-1.9372,0,85542.0
-V3 clean comparison pools,Longmont,Colorado,08|401000,2024,1,43528.0,13,15.1451,1,43528.0
-V3 clean comparison pools,Trenton,New Jersey,34|516000,2023,2,34513.0,24,0.7744,4,69026.0
-V3 clean comparison pools,Duluth,Minnesota,27|196900,2023,2,39978.0,5,8.4481,0,79956.0
-V3 clean comparison pools,Kalamazoo,Michigan,26|463500,2023,2,32379.0,19,0.1756,0,64758.0
-V3 clean comparison pools,Rogers,Arkansas,05|462000,2024,1,28579.0,66,3.0965,6,28579.0
-V3 clean comparison pools,Portland,Maine,23|363000,2024,1,36559.0,25,3.2035,0,36559.0
-V3 clean comparison pools,Springfield,Oregon,41|481000,2024,1,25905.0,178,6.3865,2,25905.0
-V3 clean comparison pools,Albany,Oregon,41|009000,2023,2,22768.0,183,-7.6141,1,45536.0
-V3 clean comparison pools,La Crosse,Wisconsin,55|452000,2024,1,24404.0,9,-0.812,0,24404.0
-V3 clean comparison pools,Burlington,Vermont,50|085000,2023,2,18079.0,61,13.3979,2,36158.0
-V3 clean comparison pools,Grants Pass,Oregon,41|191000,2024,1,17297.0,184,3.309,0,17297.0
-V3 clean comparison pools,Plainfield,Indiana,18|584500,2022,3,13359.0,13,-17.147,1,40077.0
-V3 clean comparison pools,Tualatin,Oregon,41|517000,2024,1,11303.0,168,5.4104,0,11303.0
-V3 clean comparison pools,West Linn,Oregon,41|555000,2024,1,10395.0,169,1.0723,0,10395.0
-V3 clean comparison pools,Kingston,New York,36|375000,2023,2,11221.0,128,10.1026,5,22442.0
-V3 clean comparison pools,Ashland,Oregon,41|017000,2023,2,11494.0,5,-2.0487,0,22988.0
-V3 clean comparison pools,Carrboro,North Carolina,37|092000,2023,2,10189.0,6,-7.5218,0,20378.0
-V3 clean comparison pools,Milwaukie,Oregon,41|339000,2024,1,9859.0,5,-8.3639,0,9859.0
-V3 clean comparison pools,Northfield,Minnesota,27|551800,2024,1,6771.0,25,-2.2556,0,6771.0
-V3 clean comparison pools,Central Point,Oregon,41|071000,2023,2,7978.0,5,-9.592,0,15956.0
-V3 clean comparison pools,Portsmouth,Ohio,39|522700,2022,3,8466.0,60,0.5525,2,25398.0
-V3 clean comparison pools,Taylor,Texas,48|688000,2023,2,7016.0,157,-9.2906,5,14032.0
-V3 clean comparison pools,Hanover,New Hampshire,33|397000,2024,1,4056.0,48,-4.5837,3,4056.0
-V3 clean comparison pools,Lansing,Kansas,20|296200,2024,1,3723.0,15,-12.8166,0,3723.0
-V3 clean comparison pools,Hampden,Maine,23|190000,2022,3,3295.0,37,-1.5338,0,9885.0
-V3 clean comparison pools,King City,Oregon,41|265000,2024,1,2782.0,6,11.0236,0,2782.0
-V3 clean comparison pools,Social Circle,Georgia,13|616000,2023,2,1796.0,60,-11.3304,0,3592.0
-V3 clean comparison pools,Millersburg,Oregon,41|335000,2024,1,1187.0,7,-32.8612,0,1187.0
-V3 clean comparison pools,Maumee,Ohio,39|382600,2020,3,6217.0,70,-0.8832,1,18651.0
-V3 clean comparison pools,Saranac Lake,New York,36|648000,2016,3,2819.0,423,-0.2646,7,8457.0
-V4 pre-repeal traits,San Jose,California,06|394000,2023,2,340418.0,5,2.5169,0,680836.0
-V4 pre-repeal traits,San Francisco,California,06|389000,2019,3,402959.0,9,-3.3527,1,1208877.0
-V4 pre-repeal traits,Raleigh,North Carolina,37|466000,2022,3,204786.0,10,7.9233,0,614358.0
-V4 pre-repeal traits,Minneapolis,Minnesota,27|497800,2021,3,200237.0,6,-8.4498,0,600711.0
-V4 pre-repeal traits,Lexington,Kentucky,21|301000,2022,3,144794.0,7,-1.1668,7,434382.0
-V4 pre-repeal traits,St. Paul,Minnesota,27|712600,2021,3,128154.0,9,-2.3072,1,384462.0
-V4 pre-repeal traits,Anchorage,Alaska,02|041000,2023,2,119708.0,34,-3.1533,4,239416.0
-V4 pre-repeal traits,Buffalo,New York,36|089500,2017,3,134903.0,10,0.484,8,404709.0
-V4 pre-repeal traits,Bridgeport,Connecticut,09|061000,2021,3,58792.0,6,5.55,3,176376.0
-V4 pre-repeal traits,Gainesville,Florida,12|271000,2022,3,62807.0,33,6.4208,4,188421.0
-V4 pre-repeal traits,Hartford,Connecticut,09|285000,2017,3,56248.0,10,-0.2234,6,168744.0
-V4 pre-repeal traits,Ann Arbor,Michigan,26|026500,2022,3,53744.0,22,4.4645,2,161232.0
-V4 pre-repeal traits,Cambridge,Massachusetts,25|103000,2022,3,53687.0,19,-5.879,5,161061.0
-V4 pre-repeal traits,Roanoke,Virginia,51|065000,2021,3,48116.0,6,-1.1584,5,144348.0
-V4 pre-repeal traits,Alameda,California,06|003000,2021,3,31250.0,168,-3.3448,0,93750.0
-V4 pre-repeal traits,West Allis,Wisconsin,55|932000,2022,3,29682.0,21,4.4287,0,89046.0
-V4 pre-repeal traits,Corvallis,Oregon,41|099000,2022,3,24975.0,9,3.3262,0,74925.0
-V4 pre-repeal traits,Tigard,Oregon,41|505000,2022,3,22489.0,11,-2.7247,0,67467.0
-V4 pre-repeal traits,Dunwoody,Georgia,13|233500,2019,3,22722.0,24,1.8326,0,68166.0
-V4 pre-repeal traits,Culver City,California,06|101000,2022,3,18490.0,185,-1.0441,0,55470.0
-V4 pre-repeal traits,Mount Pleasant,Michigan,26|617500,2018,3,8436.0,122,-1.34,0,25308.0
-V4 pre-repeal traits,Windham,Maine,23|493000,2018,3,7678.0,24,9.6216,2,23034.0
-V4 pre-repeal traits,Cambridge,Maryland,24|093000,2021,3,6564.0,9,-6.9802,5,19692.0
-V4 pre-repeal traits,Emeryville,California,06|129000,2020,3,7698.0,131,-0.1557,0,23094.0
-V4 pre-repeal traits,Branson,Missouri,29|068500,2018,3,8210.0,81,4.1168,0,24630.0
-V4 pre-repeal traits,Canandaigua,New York,36|103000,2020,3,5301.0,302,2.8073,0,15903.0
-V4 pre-repeal traits,Ecorse,Michigan,26|266500,2020,3,4121.0,217,-13.0983,1,12363.0
-V4 pre-repeal traits,Bastrop,Texas,48|045500,2019,3,3344.0,232,48.6845,0,10032.0
-V4 pre-repeal traits,Seabrook,New Hampshire,33|797000,2019,3,4069.0,73,-1.909,0,12207.0
-V4 pre-repeal traits,River Rouge,Michigan,26|748000,2021,3,3129.0,263,0.3175,0,9387.0
-V4 pre-repeal traits,Hudson,New York,36|348000,2019,3,3545.0,428,-1.535,2,10635.0
-V4 pre-repeal traits,Bandera,Texas,48|041000,2021,3,354.0,186,-1.9562,0,1062.0
-V4 pre-repeal traits,Austin,Texas,48|033000,2023,2,459943.0,7,-13.2003,0,919886.0
-V4 pre-repeal traits,Sacramento,California,06|374000,2024,1,210442.0,9,1.0071,0,210442.0
-V4 pre-repeal traits,Durham,North Carolina,37|164000,2023,2,129679.0,23,0.3003,3,259358.0
-V4 pre-repeal traits,Richmond,Virginia,51|063000,2023,2,109470.0,8,15.1128,0,218940.0
-V4 pre-repeal traits,Birmingham,Alabama,01|048000,2024,1,108673.0,7,0.8113,2,108673.0
-V4 pre-repeal traits,Newport News,Virginia,51|049000,2024,1,82046.0,6,2.3643,1,82046.0
-V4 pre-repeal traits,Salem,Oregon,41|445000,2023,2,69533.0,89,-1.2696,0,139066.0
-V4 pre-repeal traits,Eugene,Oregon,41|151000,2024,1,79854.0,87,0.9323,0,79854.0
-V4 pre-repeal traits,Berkeley,California,06|039000,2021,3,51294.0,134,3.9166,4,153882.0
-V4 pre-repeal traits,Bend,Oregon,41|041000,2023,2,45698.0,174,3.5505,0,91396.0
-V4 pre-repeal traits,Beaverton,Oregon,41|039000,2023,2,42280.0,176,-1.9827,0,84560.0
-V4 pre-repeal traits,Longmont,Colorado,08|401000,2024,1,42580.0,11,13.9944,1,42580.0
-V4 pre-repeal traits,Trenton,New Jersey,34|516000,2023,2,34502.0,44,0.8335,4,69004.0
-V4 pre-repeal traits,Duluth,Minnesota,27|196900,2023,2,39250.0,20,5.8426,0,78500.0
-V4 pre-repeal traits,Kalamazoo,Michigan,26|463500,2023,2,32368.0,45,-0.1559,0,64736.0
-V4 pre-repeal traits,Rogers,Arkansas,05|462000,2024,1,27946.0,10,-7.9767,6,27946.0
-V4 pre-repeal traits,Portland,Maine,23|363000,2024,1,36432.0,79,2.658,0,36432.0
-V4 pre-repeal traits,Springfield,Oregon,41|481000,2024,1,25523.0,8,10.0095,2,25523.0
-V4 pre-repeal traits,Albany,Oregon,41|009000,2023,2,22654.0,10,-4.7798,1,45308.0
-V4 pre-repeal traits,La Crosse,Wisconsin,55|452000,2024,1,24385.0,23,-2.1596,0,24385.0
-V4 pre-repeal traits,Burlington,Vermont,50|085000,2023,2,17830.0,148,13.9132,2,35660.0
-V4 pre-repeal traits,Grants Pass,Oregon,41|191000,2024,1,17203.0,8,10.4766,0,17203.0
-V4 pre-repeal traits,Plainfield,Indiana,18|584500,2022,3,12564.0,37,-11.0477,1,37692.0
-V4 pre-repeal traits,Tualatin,Oregon,41|517000,2024,1,11171.0,14,14.0974,0,11171.0
-V4 pre-repeal traits,West Linn,Oregon,41|555000,2024,1,10348.0,14,9.6071,0,10348.0
-V4 pre-repeal traits,Kingston,New York,36|375000,2023,2,11022.0,161,10.3285,5,22044.0
-V4 pre-repeal traits,Ashland,Oregon,41|017000,2023,2,11342.0,18,3.7623,0,22684.0
-V4 pre-repeal traits,Carrboro,North Carolina,37|092000,2023,2,10129.0,32,-9.5804,0,20258.0
-V4 pre-repeal traits,Milwaukie,Oregon,41|339000,2024,1,9552.0,19,-0.5668,0,9552.0
-V4 pre-repeal traits,Northfield,Minnesota,27|551800,2024,1,6761.0,73,-1.6122,0,6761.0
-V4 pre-repeal traits,Central Point,Oregon,41|071000,2023,2,7845.0,26,-4.6724,0,15690.0
-V4 pre-repeal traits,Portsmouth,Ohio,39|522700,2022,3,8452.0,130,0.3867,2,25356.0
-V4 pre-repeal traits,Taylor,Texas,48|688000,2023,2,6725.0,163,-10.7391,5,13450.0
-V4 pre-repeal traits,Hanover,New Hampshire,33|397000,2024,1,4044.0,50,-4.245,3,4044.0
-V4 pre-repeal traits,Lansing,Kansas,20|296200,2024,1,3671.0,37,-6.8619,0,3671.0
-V4 pre-repeal traits,Hampden,Maine,23|190000,2022,3,3196.0,68,-2.3973,0,9588.0
-V4 pre-repeal traits,King City,Oregon,41|265000,2024,1,2752.0,29,15.7592,0,2752.0
-V4 pre-repeal traits,Social Circle,Georgia,13|616000,2023,2,1754.0,92,-12.8987,0,3508.0
-V4 pre-repeal traits,Millersburg,Oregon,41|335000,2024,1,1166.0,27,-34.0422,0,1166.0
-V4 pre-repeal traits,Maumee,Ohio,39|382600,2020,3,6174.0,143,-0.5314,1,18522.0
-V4 pre-repeal traits,Saranac Lake,New York,36|648000,2016,3,2803.0,463,-0.3105,7,8409.0
-V5 all fixes (V1+V3+V4),San Jose,California,06|394000,2023,2,340418.0,3,10.776,0,680836.0
-V5 all fixes (V1+V3+V4),San Francisco,California,06|389000,2019,3,402959.0,5,-11.1814,1,1208877.0
-V5 all fixes (V1+V3+V4),Raleigh,North Carolina,37|466000,2022,3,204786.0,5,9.8711,0,614358.0
-V5 all fixes (V1+V3+V4),Minneapolis,Minnesota,27|497800,2021,3,200237.0,10,-8.7853,0,600711.0
-V5 all fixes (V1+V3+V4),Lexington,Kentucky,21|301000,2022,3,144794.0,13,-0.271,7,434382.0
-V5 all fixes (V1+V3+V4),St. Paul,Minnesota,27|712600,2021,3,128154.0,16,-1.6593,1,384462.0
-V5 all fixes (V1+V3+V4),Anchorage,Alaska,02|041000,2023,2,119708.0,30,3.2541,4,239416.0
-V5 all fixes (V1+V3+V4),Buffalo,New York,36|089500,2017,3,134903.0,7,-0.206,8,404709.0
-V5 all fixes (V1+V3+V4),Bridgeport,Connecticut,09|061000,2021,3,58792.0,7,3.6508,3,176376.0
-V5 all fixes (V1+V3+V4),Gainesville,Florida,12|271000,2022,3,62807.0,22,19.9404,4,188421.0
-V5 all fixes (V1+V3+V4),Hartford,Connecticut,09|285000,2017,3,56248.0,10,0.1833,6,168744.0
-V5 all fixes (V1+V3+V4),Ann Arbor,Michigan,26|026500,2022,3,53744.0,9,3.8877,2,161232.0
-V5 all fixes (V1+V3+V4),Cambridge,Massachusetts,25|103000,2022,3,53687.0,6,0.0448,5,161061.0
-V5 all fixes (V1+V3+V4),Roanoke,Virginia,51|065000,2021,3,48116.0,49,1.4933,5,144348.0
-V5 all fixes (V1+V3+V4),Alameda,California,06|003000,2021,3,31250.0,145,-3.1027,0,93750.0
-V5 all fixes (V1+V3+V4),West Allis,Wisconsin,55|932000,2022,3,29682.0,8,4.7077,0,89046.0
-V5 all fixes (V1+V3+V4),Corvallis,Oregon,41|099000,2022,3,24975.0,183,3.9708,0,74925.0
-V5 all fixes (V1+V3+V4),Tigard,Oregon,41|505000,2022,3,22489.0,182,-2.5841,0,67467.0
-V5 all fixes (V1+V3+V4),Dunwoody,Georgia,13|233500,2019,3,22722.0,12,-3.5286,0,68166.0
-V5 all fixes (V1+V3+V4),Culver City,California,06|101000,2022,3,18490.0,178,-1.4197,0,55470.0
-V5 all fixes (V1+V3+V4),Mount Pleasant,Michigan,26|617500,2018,3,8436.0,84,-1.6858,0,25308.0
-V5 all fixes (V1+V3+V4),Windham,Maine,23|493000,2018,3,7678.0,7,-3.1462,2,23034.0
-V5 all fixes (V1+V3+V4),Cambridge,Maryland,24|093000,2021,3,6564.0,5,-9.5838,5,19692.0
-V5 all fixes (V1+V3+V4),Emeryville,California,06|129000,2020,3,7698.0,126,-0.1341,0,23094.0
-V5 all fixes (V1+V3+V4),Branson,Missouri,29|068500,2018,3,8210.0,38,6.3408,0,24630.0
-V5 all fixes (V1+V3+V4),Canandaigua,New York,36|103000,2020,3,5301.0,254,2.5873,0,15903.0
-V5 all fixes (V1+V3+V4),Ecorse,Michigan,26|266500,2020,3,4121.0,169,-12.4424,1,12363.0
-V5 all fixes (V1+V3+V4),Bastrop,Texas,48|045500,2019,3,3344.0,228,50.3959,0,10032.0
-V5 all fixes (V1+V3+V4),Seabrook,New Hampshire,33|797000,2019,3,4069.0,71,-1.492,0,12207.0
-V5 all fixes (V1+V3+V4),River Rouge,Michigan,26|748000,2021,3,3129.0,212,0.5522,0,9387.0
-V5 all fixes (V1+V3+V4),Hudson,New York,36|348000,2019,3,3545.0,379,-1.134,2,10635.0
-V5 all fixes (V1+V3+V4),Bandera,Texas,48|041000,2021,3,354.0,186,-1.5586,0,1062.0
-V5 all fixes (V1+V3+V4),Austin,Texas,48|033000,2023,2,459943.0,4,-9.3786,0,919886.0
-V5 all fixes (V1+V3+V4),Sacramento,California,06|374000,2024,1,210442.0,7,3.5895,0,210442.0
-V5 all fixes (V1+V3+V4),Durham,North Carolina,37|164000,2023,2,129679.0,5,4.1992,3,259358.0
-V5 all fixes (V1+V3+V4),Richmond,Virginia,51|063000,2023,2,109470.0,11,14.0402,0,218940.0
-V5 all fixes (V1+V3+V4),Birmingham,Alabama,01|048000,2024,1,108673.0,79,-3.3809,2,108673.0
-V5 all fixes (V1+V3+V4),Newport News,Virginia,51|049000,2024,1,82046.0,20,1.8604,1,82046.0
-V5 all fixes (V1+V3+V4),Salem,Oregon,41|445000,2023,2,69533.0,41,-1.1596,0,139066.0
-V5 all fixes (V1+V3+V4),Eugene,Oregon,41|151000,2024,1,79854.0,40,0.475,0,79854.0
-V5 all fixes (V1+V3+V4),Berkeley,California,06|039000,2021,3,51294.0,94,6.5207,4,153882.0
-V5 all fixes (V1+V3+V4),Bend,Oregon,41|041000,2023,2,45698.0,124,3.4114,0,91396.0
-V5 all fixes (V1+V3+V4),Beaverton,Oregon,41|039000,2023,2,42280.0,126,-2.1523,0,84560.0
-V5 all fixes (V1+V3+V4),Longmont,Colorado,08|401000,2024,1,42580.0,12,7.6728,1,42580.0
-V5 all fixes (V1+V3+V4),Trenton,New Jersey,34|516000,2023,2,34502.0,23,1.9265,4,69004.0
-V5 all fixes (V1+V3+V4),Duluth,Minnesota,27|196900,2023,2,39250.0,5,8.6265,0,78500.0
-V5 all fixes (V1+V3+V4),Kalamazoo,Michigan,26|463500,2023,2,32368.0,19,0.2883,0,64736.0
-V5 all fixes (V1+V3+V4),Rogers,Arkansas,05|462000,2024,1,27946.0,65,6.0983,6,27946.0
-V5 all fixes (V1+V3+V4),Portland,Maine,23|363000,2024,1,36432.0,25,3.3657,0,36432.0
-V5 all fixes (V1+V3+V4),Springfield,Oregon,41|481000,2024,1,25523.0,181,-5.2477,2,25523.0
-V5 all fixes (V1+V3+V4),Albany,Oregon,41|009000,2023,2,22654.0,184,-6.7846,1,45308.0
-V5 all fixes (V1+V3+V4),La Crosse,Wisconsin,55|452000,2024,1,24385.0,9,-0.7009,0,24385.0
-V5 all fixes (V1+V3+V4),Burlington,Vermont,50|085000,2023,2,17830.0,61,16.2645,2,35660.0
-V5 all fixes (V1+V3+V4),Grants Pass,Oregon,41|191000,2024,1,17203.0,182,3.2507,0,17203.0
-V5 all fixes (V1+V3+V4),Plainfield,Indiana,18|584500,2022,3,12564.0,14,-15.966,1,37692.0
-V5 all fixes (V1+V3+V4),Tualatin,Oregon,41|517000,2024,1,11171.0,170,5.3466,0,11171.0
-V5 all fixes (V1+V3+V4),West Linn,Oregon,41|555000,2024,1,10348.0,168,0.7951,0,10348.0
-V5 all fixes (V1+V3+V4),Kingston,New York,36|375000,2023,2,11022.0,129,10.4564,5,22044.0
-V5 all fixes (V1+V3+V4),Ashland,Oregon,41|017000,2023,2,11342.0,169,-3.3164,0,22684.0
-V5 all fixes (V1+V3+V4),Carrboro,North Carolina,37|092000,2023,2,10129.0,6,-5.3779,0,20258.0
-V5 all fixes (V1+V3+V4),Milwaukie,Oregon,41|339000,2024,1,9552.0,5,-9.1729,0,9552.0
-V5 all fixes (V1+V3+V4),Northfield,Minnesota,27|551800,2024,1,6761.0,25,-2.3658,0,6761.0
-V5 all fixes (V1+V3+V4),Central Point,Oregon,41|071000,2023,2,7845.0,5,-11.7724,0,15690.0
-V5 all fixes (V1+V3+V4),Portsmouth,Ohio,39|522700,2022,3,8452.0,61,-0.2033,2,25356.0
-V5 all fixes (V1+V3+V4),Taylor,Texas,48|688000,2023,2,6725.0,158,-4.0212,5,13450.0
-V5 all fixes (V1+V3+V4),Hanover,New Hampshire,33|397000,2024,1,4044.0,48,-4.0795,3,4044.0
-V5 all fixes (V1+V3+V4),Lansing,Kansas,20|296200,2024,1,3671.0,14,-11.2784,0,3671.0
-V5 all fixes (V1+V3+V4),Hampden,Maine,23|190000,2022,3,3196.0,37,0.7947,0,9588.0
-V5 all fixes (V1+V3+V4),King City,Oregon,41|265000,2024,1,2752.0,6,10.3453,0,2752.0
-V5 all fixes (V1+V3+V4),Social Circle,Georgia,13|616000,2023,2,1754.0,62,-17.5451,0,3508.0
-V5 all fixes (V1+V3+V4),Millersburg,Oregon,41|335000,2024,1,1166.0,7,-33.6931,0,1166.0
-V5 all fixes (V1+V3+V4),Maumee,Ohio,39|382600,2020,3,6174.0,68,-1.1247,1,18522.0
-V5 all fixes (V1+V3+V4),Saranac Lake,New York,36|648000,2016,3,2803.0,412,0.1718,7,8409.0
-"V3a clean pools, no national fallback (first run)",San Jose,California,06|394000,2023,2,345066.0,1,5.1481,0,690132.0
-"V3a clean pools, no national fallback (first run)",San Francisco,California,06|389000,2019,3,414602.0,1,-8.2992,1,1243806.0
-"V3a clean pools, no national fallback (first run)",Raleigh,North Carolina,37|466000,2022,3,224853.0,4,9.2719,0,674559.0
-"V3a clean pools, no national fallback (first run)",Minneapolis,Minnesota,27|497800,2021,3,209080.0,0,,0,627240.0
-"V3a clean pools, no national fallback (first run)",Lexington,Kentucky,21|301000,2022,3,148959.0,1,5.0878,7,446877.0
-"V3a clean pools, no national fallback (first run)",St. Paul,Minnesota,27|712600,2021,3,133051.0,2,1.3123,1,399153.0
-"V3a clean pools, no national fallback (first run)",Anchorage,Alaska,02|041000,2023,2,120348.0,31,-2.7893,4,240696.0
-"V3a clean pools, no national fallback (first run)",Buffalo,New York,36|089500,2017,3,136850.0,7,1.1202,8,410550.0
-"V3a clean pools, no national fallback (first run)",Bridgeport,Connecticut,09|061000,2021,3,59844.0,7,3.3077,3,179532.0
-"V3a clean pools, no national fallback (first run)",Gainesville,Florida,12|271000,2022,3,66114.0,24,3.9272,4,198342.0
-"V3a clean pools, no national fallback (first run)",Hartford,Connecticut,09|285000,2017,3,56435.0,10,-0.0252,6,169305.0
-"V3a clean pools, no national fallback (first run)",Ann Arbor,Michigan,26|026500,2022,3,54399.0,9,4.14,2,163197.0
-"V3a clean pools, no national fallback (first run)",Cambridge,Massachusetts,25|103000,2022,3,54840.0,6,-7.5368,5,164520.0
-"V3a clean pools, no national fallback (first run)",Roanoke,Virginia,51|065000,2021,3,49106.0,51,-3.1716,5,147318.0
-"V3a clean pools, no national fallback (first run)",Alameda,California,06|003000,2021,3,32291.0,144,-2.9769,0,96873.0
-"V3a clean pools, no national fallback (first run)",West Allis,Wisconsin,55|932000,2022,3,30294.0,8,4.7833,0,90882.0
-"V3a clean pools, no national fallback (first run)",Corvallis,Oregon,41|099000,2022,3,25628.0,182,3.9828,0,76884.0
-"V3a clean pools, no national fallback (first run)",Tigard,Oregon,41|505000,2022,3,23877.0,183,-2.2013,0,71631.0
-"V3a clean pools, no national fallback (first run)",Dunwoody,Georgia,13|233500,2019,3,23491.0,8,-1.838,0,70473.0
-"V3a clean pools, no national fallback (first run)",Culver City,California,06|101000,2022,3,18803.0,177,-0.7946,0,56409.0
-"V3a clean pools, no national fallback (first run)",Mount Pleasant,Michigan,26|617500,2018,3,8551.0,85,-1.8621,0,25653.0
-"V3a clean pools, no national fallback (first run)",Windham,Maine,23|493000,2018,3,8709.0,6,9.4577,2,26127.0
-"V3a clean pools, no national fallback (first run)",Cambridge,Maryland,24|093000,2021,3,6652.0,5,-6.7622,5,19956.0
-"V3a clean pools, no national fallback (first run)",Emeryville,California,06|129000,2020,3,8497.0,133,-0.12,0,25491.0
-"V3a clean pools, no national fallback (first run)",Branson,Missouri,29|068500,2018,3,9006.0,38,5.3982,0,27018.0
-"V3a clean pools, no national fallback (first run)",Canandaigua,New York,36|103000,2020,3,5390.0,255,2.7662,0,16170.0
-"V3a clean pools, no national fallback (first run)",Ecorse,Michigan,26|266500,2020,3,4121.0,173,-12.8426,1,12363.0
-"V3a clean pools, no national fallback (first run)",Bastrop,Texas,48|045500,2019,3,5100.0,202,30.7854,0,15300.0
-"V3a clean pools, no national fallback (first run)",Seabrook,New Hampshire,33|797000,2019,3,4151.0,72,-2.0403,0,12453.0
-"V3a clean pools, no national fallback (first run)",River Rouge,Michigan,26|748000,2021,3,3129.0,212,0.4417,0,9387.0
-"V3a clean pools, no national fallback (first run)",Hudson,New York,36|348000,2019,3,3551.0,383,-1.5809,2,10653.0
-"V3a clean pools, no national fallback (first run)",Bandera,Texas,48|041000,2021,3,367.0,180,3.4077,0,1101.0
-"V3a clean pools, no national fallback (first run)",Austin,Texas,48|033000,2023,2,483071.0,0,,0,966142.0
-"V3a clean pools, no national fallback (first run)",Sacramento,California,06|374000,2024,1,212485.0,1,0.3291,0,212485.0
-"V3a clean pools, no national fallback (first run)",Durham,North Carolina,37|164000,2023,2,136837.0,5,2.3767,3,273674.0
-"V3a clean pools, no national fallback (first run)",Richmond,Virginia,51|063000,2023,2,114293.0,10,11.8661,0,228586.0
-"V3a clean pools, no national fallback (first run)",Birmingham,Alabama,01|048000,2024,1,109349.0,3,9.7459,2,109349.0
-"V3a clean pools, no national fallback (first run)",Newport News,Virginia,51|049000,2024,1,82052.0,20,1.1482,1,82052.0
-"V3a clean pools, no national fallback (first run)",Salem,Oregon,41|445000,2023,2,71124.0,40,-0.9109,0,142248.0
-"V3a clean pools, no national fallback (first run)",Eugene,Oregon,41|151000,2024,1,80856.0,40,0.7858,0,80856.0
-"V3a clean pools, no national fallback (first run)",Berkeley,California,06|039000,2021,3,53145.0,93,4.4761,4,159435.0
-"V3a clean pools, no national fallback (first run)",Bend,Oregon,41|041000,2023,2,47957.0,118,3.5168,0,95914.0
-"V3a clean pools, no national fallback (first run)",Beaverton,Oregon,41|039000,2023,2,42771.0,126,-1.9372,0,85542.0
-"V3a clean pools, no national fallback (first run)",Longmont,Colorado,08|401000,2024,1,43528.0,13,15.1451,1,43528.0
-"V3a clean pools, no national fallback (first run)",Trenton,New Jersey,34|516000,2023,2,34513.0,24,0.7744,4,69026.0
-"V3a clean pools, no national fallback (first run)",Duluth,Minnesota,27|196900,2023,2,39978.0,5,8.4481,0,79956.0
-"V3a clean pools, no national fallback (first run)",Kalamazoo,Michigan,26|463500,2023,2,32379.0,19,0.1756,0,64758.0
-"V3a clean pools, no national fallback (first run)",Rogers,Arkansas,05|462000,2024,1,28579.0,66,3.0965,6,28579.0
-"V3a clean pools, no national fallback (first run)",Portland,Maine,23|363000,2024,1,36559.0,25,3.2035,0,36559.0
-"V3a clean pools, no national fallback (first run)",Springfield,Oregon,41|481000,2024,1,25905.0,178,6.3865,2,25905.0
-"V3a clean pools, no national fallback (first run)",Albany,Oregon,41|009000,2023,2,22768.0,183,-7.6141,1,45536.0
-"V3a clean pools, no national fallback (first run)",La Crosse,Wisconsin,55|452000,2024,1,24404.0,9,-0.812,0,24404.0
-"V3a clean pools, no national fallback (first run)",Burlington,Vermont,50|085000,2023,2,18079.0,61,13.3979,2,36158.0
-"V3a clean pools, no national fallback (first run)",Grants Pass,Oregon,41|191000,2024,1,17297.0,184,3.309,0,17297.0
-"V3a clean pools, no national fallback (first run)",Plainfield,Indiana,18|584500,2022,3,13359.0,13,-17.147,1,40077.0
-"V3a clean pools, no national fallback (first run)",Tualatin,Oregon,41|517000,2024,1,11303.0,168,5.4104,0,11303.0
-"V3a clean pools, no national fallback (first run)",West Linn,Oregon,41|555000,2024,1,10395.0,169,1.0723,0,10395.0
-"V3a clean pools, no national fallback (first run)",Kingston,New York,36|375000,2023,2,11221.0,128,10.1026,5,22442.0
-"V3a clean pools, no national fallback (first run)",Ashland,Oregon,41|017000,2023,2,11494.0,5,-2.0487,0,22988.0
-"V3a clean pools, no national fallback (first run)",Carrboro,North Carolina,37|092000,2023,2,10189.0,6,-7.5218,0,20378.0
-"V3a clean pools, no national fallback (first run)",Milwaukie,Oregon,41|339000,2024,1,9859.0,5,-8.3639,0,9859.0
-"V3a clean pools, no national fallback (first run)",Northfield,Minnesota,27|551800,2024,1,6771.0,25,-2.2556,0,6771.0
-"V3a clean pools, no national fallback (first run)",Central Point,Oregon,41|071000,2023,2,7978.0,5,-9.592,0,15956.0
-"V3a clean pools, no national fallback (first run)",Portsmouth,Ohio,39|522700,2022,3,8466.0,60,0.5525,2,25398.0
-"V3a clean pools, no national fallback (first run)",Taylor,Texas,48|688000,2023,2,7016.0,157,-9.2906,5,14032.0
-"V3a clean pools, no national fallback (first run)",Hanover,New Hampshire,33|397000,2024,1,4056.0,48,-4.5837,3,4056.0
-"V3a clean pools, no national fallback (first run)",Lansing,Kansas,20|296200,2024,1,3723.0,15,-12.8166,0,3723.0
-"V3a clean pools, no national fallback (first run)",Hampden,Maine,23|190000,2022,3,3295.0,37,-1.5338,0,9885.0
-"V3a clean pools, no national fallback (first run)",King City,Oregon,41|265000,2024,1,2782.0,6,11.0236,0,2782.0
-"V3a clean pools, no national fallback (first run)",Social Circle,Georgia,13|616000,2023,2,1796.0,60,-11.3304,0,3592.0
-"V3a clean pools, no national fallback (first run)",Millersburg,Oregon,41|335000,2024,1,1187.0,7,-32.8612,0,1187.0
-"V3a clean pools, no national fallback (first run)",Maumee,Ohio,39|382600,2020,3,6217.0,70,-0.8832,1,18651.0
-"V3a clean pools, no national fallback (first run)",Saranac Lake,New York,36|648000,2016,3,2819.0,423,-0.2646,7,8457.0
-V1b reported months scaled to 12,San Jose,California,06|394000,2023,2,345066.0,5,2.2956,0,690132.0
-V1b reported months scaled to 12,San Francisco,California,06|389000,2019,3,414602.0,9,-3.4392,1,1243806.0
-V1b reported months scaled to 12,Raleigh,North Carolina,37|466000,2022,3,224853.0,9,7.0008,0,674559.0
-V1b reported months scaled to 12,Minneapolis,Minnesota,27|497800,2021,3,209080.0,5,-9.052,0,627240.0
-V1b reported months scaled to 12,Lexington,Kentucky,21|301000,2022,3,148959.0,6,-7.4839,7,446877.0
-V1b reported months scaled to 12,St. Paul,Minnesota,27|712600,2021,3,133051.0,9,-2.5442,1,399153.0
-V1b reported months scaled to 12,Anchorage,Alaska,02|041000,2023,2,120348.0,34,-2.2862,4,240696.0
-V1b reported months scaled to 12,Buffalo,New York,36|089500,2017,3,136850.0,10,-0.4391,8,410550.0
-V1b reported months scaled to 12,Bridgeport,Connecticut,09|061000,2021,3,59844.0,5,5.6656,3,179532.0
-V1b reported months scaled to 12,Gainesville,Florida,12|271000,2022,3,66114.0,35,7.5195,4,198342.0
-V1b reported months scaled to 12,Hartford,Connecticut,09|285000,2017,3,56435.0,11,-0.1722,6,169305.0
-V1b reported months scaled to 12,Ann Arbor,Michigan,26|026500,2022,3,54399.0,22,4.8754,2,163197.0
-V1b reported months scaled to 12,Cambridge,Massachusetts,25|103000,2022,3,54840.0,18,-9.3494,5,164520.0
-V1b reported months scaled to 12,Roanoke,Virginia,51|065000,2021,3,49106.0,6,-1.2299,5,147318.0
-V1b reported months scaled to 12,Alameda,California,06|003000,2021,3,32291.0,166,-3.169,0,96873.0
-V1b reported months scaled to 12,West Allis,Wisconsin,55|932000,2022,3,30294.0,21,4.3149,0,90882.0
-V1b reported months scaled to 12,Corvallis,Oregon,41|099000,2022,3,25628.0,9,3.4869,0,76884.0
-V1b reported months scaled to 12,Tigard,Oregon,41|505000,2022,3,23877.0,11,-2.3399,0,71631.0
-V1b reported months scaled to 12,Dunwoody,Georgia,13|233500,2019,3,23491.0,28,2.3522,0,70473.0
-V1b reported months scaled to 12,Culver City,California,06|101000,2022,3,18803.0,183,-0.7258,0,56409.0
-V1b reported months scaled to 12,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,122,-1.4798,0,25653.0
-V1b reported months scaled to 12,Windham,Maine,23|493000,2018,3,8709.0,22,5.3683,2,26127.0
-V1b reported months scaled to 12,Cambridge,Maryland,24|093000,2021,3,6652.0,9,-6.687,5,19956.0
-V1b reported months scaled to 12,Emeryville,California,06|129000,2020,3,8497.0,138,-0.0811,0,25491.0
-V1b reported months scaled to 12,Branson,Missouri,29|068500,2018,3,9006.0,81,3.1682,0,27018.0
-V1b reported months scaled to 12,Canandaigua,New York,36|103000,2020,3,5390.0,302,2.8136,0,16170.0
-V1b reported months scaled to 12,Ecorse,Michigan,26|266500,2020,3,4121.0,220,-12.6174,1,12363.0
-V1b reported months scaled to 12,Bastrop,Texas,48|045500,2019,3,5100.0,207,30.8346,0,15300.0
-V1b reported months scaled to 12,Seabrook,New Hampshire,33|797000,2019,3,4151.0,74,-1.849,0,12453.0
-V1b reported months scaled to 12,River Rouge,Michigan,26|748000,2021,3,3129.0,263,0.3869,0,9387.0
-V1b reported months scaled to 12,Hudson,New York,36|348000,2019,3,3551.0,433,-1.5239,2,10653.0
-V1b reported months scaled to 12,Bandera,Texas,48|041000,2021,3,367.0,180,3.418,0,1101.0
-V1b reported months scaled to 12,Austin,Texas,48|033000,2023,2,483071.0,6,-12.3814,0,966142.0
-V1b reported months scaled to 12,Sacramento,California,06|374000,2024,1,212485.0,9,1.0035,0,212485.0
-V1b reported months scaled to 12,Durham,North Carolina,37|164000,2023,2,136837.0,23,2.5012,3,273674.0
-V1b reported months scaled to 12,Richmond,Virginia,51|063000,2023,2,114293.0,5,15.1051,0,228586.0
-V1b reported months scaled to 12,Birmingham,Alabama,01|048000,2024,1,109349.0,7,0.721,2,109349.0
-V1b reported months scaled to 12,Newport News,Virginia,51|049000,2024,1,82052.0,6,2.4805,1,82052.0
-V1b reported months scaled to 12,Salem,Oregon,41|445000,2023,2,71124.0,87,-1.1836,0,142248.0
-V1b reported months scaled to 12,Eugene,Oregon,41|151000,2024,1,80856.0,87,0.9272,0,80856.0
-V1b reported months scaled to 12,Berkeley,California,06|039000,2021,3,53145.0,132,3.9091,4,159435.0
-V1b reported months scaled to 12,Bend,Oregon,41|041000,2023,2,47957.0,168,3.4694,0,95914.0
-V1b reported months scaled to 12,Beaverton,Oregon,41|039000,2023,2,42771.0,176,-1.9117,0,85542.0
-V1b reported months scaled to 12,Longmont,Colorado,08|401000,2024,1,43528.0,11,13.6558,1,43528.0
-V1b reported months scaled to 12,Trenton,New Jersey,34|516000,2023,2,34513.0,46,1.0748,4,69026.0
-V1b reported months scaled to 12,Duluth,Minnesota,27|196900,2023,2,39978.0,20,5.7195,0,79956.0
-V1b reported months scaled to 12,Kalamazoo,Michigan,26|463500,2023,2,32379.0,46,-0.1738,0,64758.0
-V1b reported months scaled to 12,Rogers,Arkansas,05|462000,2024,1,28579.0,10,-16.3066,6,28579.0
-V1b reported months scaled to 12,Portland,Maine,23|363000,2024,1,36559.0,79,2.9473,0,36559.0
-V1b reported months scaled to 12,Springfield,Oregon,41|481000,2024,1,25905.0,8,9.7924,2,25905.0
-V1b reported months scaled to 12,Albany,Oregon,41|009000,2023,2,22768.0,11,-3.706,1,45536.0
-V1b reported months scaled to 12,La Crosse,Wisconsin,55|452000,2024,1,24404.0,24,-2.0331,0,24404.0
-V1b reported months scaled to 12,Burlington,Vermont,50|085000,2023,2,18079.0,146,13.8757,2,36158.0
-V1b reported months scaled to 12,Grants Pass,Oregon,41|191000,2024,1,17297.0,8,10.6669,0,17297.0
-V1b reported months scaled to 12,Plainfield,Indiana,18|584500,2022,3,13359.0,35,-10.6059,1,40077.0
-V1b reported months scaled to 12,Tualatin,Oregon,41|517000,2024,1,11303.0,14,14.1546,0,11303.0
-V1b reported months scaled to 12,West Linn,Oregon,41|555000,2024,1,10395.0,14,9.7188,0,10395.0
-V1b reported months scaled to 12,Kingston,New York,36|375000,2023,2,11221.0,159,9.7496,5,22442.0
-V1b reported months scaled to 12,Ashland,Oregon,41|017000,2023,2,11494.0,18,3.8351,0,22988.0
-V1b reported months scaled to 12,Carrboro,North Carolina,37|092000,2023,2,10189.0,34,-12.7768,0,20378.0
-V1b reported months scaled to 12,Milwaukie,Oregon,41|339000,2024,1,9859.0,18,-0.0462,0,9859.0
-V1b reported months scaled to 12,Northfield,Minnesota,27|551800,2024,1,6771.0,73,-1.7415,0,6771.0
-V1b reported months scaled to 12,Central Point,Oregon,41|071000,2023,2,7978.0,26,-4.4703,0,15956.0
-V1b reported months scaled to 12,Portsmouth,Ohio,39|522700,2022,3,8466.0,128,0.4675,2,25398.0
-V1b reported months scaled to 12,Taylor,Texas,48|688000,2023,2,7016.0,161,-9.6369,5,14032.0
-V1b reported months scaled to 12,Hanover,New Hampshire,33|397000,2024,1,4056.0,50,-4.0171,3,4056.0
-V1b reported months scaled to 12,Lansing,Kansas,20|296200,2024,1,3723.0,38,-7.3606,0,3723.0
-V1b reported months scaled to 12,Hampden,Maine,23|190000,2022,3,3295.0,69,-2.2586,0,9885.0
-V1b reported months scaled to 12,King City,Oregon,41|265000,2024,1,2782.0,30,15.7412,0,2782.0
-V1b reported months scaled to 12,Social Circle,Georgia,13|616000,2023,2,1796.0,90,-9.9642,0,3592.0
-V1b reported months scaled to 12,Millersburg,Oregon,41|335000,2024,1,1187.0,28,-33.3298,0,1187.0
-V1b reported months scaled to 12,Maumee,Ohio,39|382600,2020,3,6217.0,147,-1.0167,1,18651.0
-V1b reported months scaled to 12,Saranac Lake,New York,36|648000,2016,3,2819.0,476,-0.3239,7,8457.0
-V3b date-aware clean pools,San Jose,California,06|394000,2023,2,345066.0,3,10.9232,0,690132.0
-V3b date-aware clean pools,San Francisco,California,06|389000,2019,3,414602.0,8,-6.0104,1,1243806.0
-V3b date-aware clean pools,Raleigh,North Carolina,37|466000,2022,3,224853.0,7,9.9396,0,674559.0
-V3b date-aware clean pools,Minneapolis,Minnesota,27|497800,2021,3,209080.0,10,-8.3232,0,627240.0
-V3b date-aware clean pools,Lexington,Kentucky,21|301000,2022,3,148959.0,12,-2.1089,7,446877.0
-V3b date-aware clean pools,St. Paul,Minnesota,27|712600,2021,3,133051.0,14,-1.7012,1,399153.0
-V3b date-aware clean pools,Anchorage,Alaska,02|041000,2023,2,120348.0,31,-2.7893,4,240696.0
-V3b date-aware clean pools,Buffalo,New York,36|089500,2017,3,136850.0,7,1.1202,8,410550.0
-V3b date-aware clean pools,Bridgeport,Connecticut,09|061000,2021,3,59844.0,8,3.5339,3,179532.0
-V3b date-aware clean pools,Gainesville,Florida,12|271000,2022,3,66114.0,24,3.9272,4,198342.0
-V3b date-aware clean pools,Hartford,Connecticut,09|285000,2017,3,56435.0,12,-0.0589,6,169305.0
-V3b date-aware clean pools,Ann Arbor,Michigan,26|026500,2022,3,54399.0,9,4.14,2,163197.0
-V3b date-aware clean pools,Cambridge,Massachusetts,25|103000,2022,3,54840.0,7,-7.2354,5,164520.0
-V3b date-aware clean pools,Roanoke,Virginia,51|065000,2021,3,49106.0,51,-3.1716,5,147318.0
-V3b date-aware clean pools,Alameda,California,06|003000,2021,3,32291.0,144,-2.9769,0,96873.0
-V3b date-aware clean pools,West Allis,Wisconsin,55|932000,2022,3,30294.0,8,4.7833,0,90882.0
-V3b date-aware clean pools,Corvallis,Oregon,41|099000,2022,3,25628.0,182,3.9828,0,76884.0
-V3b date-aware clean pools,Tigard,Oregon,41|505000,2022,3,23877.0,183,-2.2013,0,71631.0
-V3b date-aware clean pools,Dunwoody,Georgia,13|233500,2019,3,23491.0,8,-1.838,0,70473.0
-V3b date-aware clean pools,Culver City,California,06|101000,2022,3,18803.0,177,-0.7946,0,56409.0
-V3b date-aware clean pools,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,88,-2.0335,0,25653.0
-V3b date-aware clean pools,Windham,Maine,23|493000,2018,3,8709.0,7,11.0297,2,26127.0
-V3b date-aware clean pools,Cambridge,Maryland,24|093000,2021,3,6652.0,5,-6.7622,5,19956.0
-V3b date-aware clean pools,Emeryville,California,06|129000,2020,3,8497.0,134,-0.1083,0,25491.0
-V3b date-aware clean pools,Branson,Missouri,29|068500,2018,3,9006.0,40,5.3036,0,27018.0
-V3b date-aware clean pools,Canandaigua,New York,36|103000,2020,3,5390.0,255,2.7662,0,16170.0
-V3b date-aware clean pools,Ecorse,Michigan,26|266500,2020,3,4121.0,175,-12.8268,1,12363.0
-V3b date-aware clean pools,Bastrop,Texas,48|045500,2019,3,5100.0,202,30.7854,0,15300.0
-V3b date-aware clean pools,Seabrook,New Hampshire,33|797000,2019,3,4151.0,72,-2.0403,0,12453.0
-V3b date-aware clean pools,River Rouge,Michigan,26|748000,2021,3,3129.0,213,0.4288,0,9387.0
-V3b date-aware clean pools,Hudson,New York,36|348000,2019,3,3551.0,383,-1.5809,2,10653.0
-V3b date-aware clean pools,Bandera,Texas,48|041000,2021,3,367.0,180,3.4077,0,1101.0
-V3b date-aware clean pools,Austin,Texas,48|033000,2023,2,483071.0,4,-8.5926,0,966142.0
-V3b date-aware clean pools,Sacramento,California,06|374000,2024,1,212485.0,7,3.6791,0,212485.0
-V3b date-aware clean pools,Durham,North Carolina,37|164000,2023,2,136837.0,5,2.3767,3,273674.0
-V3b date-aware clean pools,Richmond,Virginia,51|063000,2023,2,114293.0,10,11.8661,0,228586.0
-V3b date-aware clean pools,Birmingham,Alabama,01|048000,2024,1,109349.0,81,1.6765,2,109349.0
-V3b date-aware clean pools,Newport News,Virginia,51|049000,2024,1,82052.0,20,1.1482,1,82052.0
-V3b date-aware clean pools,Salem,Oregon,41|445000,2023,2,71124.0,40,-0.9109,0,142248.0
-V3b date-aware clean pools,Eugene,Oregon,41|151000,2024,1,80856.0,40,0.7858,0,80856.0
-V3b date-aware clean pools,Berkeley,California,06|039000,2021,3,53145.0,93,4.4761,4,159435.0
-V3b date-aware clean pools,Bend,Oregon,41|041000,2023,2,47957.0,118,3.5168,0,95914.0
-V3b date-aware clean pools,Beaverton,Oregon,41|039000,2023,2,42771.0,126,-1.9372,0,85542.0
-V3b date-aware clean pools,Longmont,Colorado,08|401000,2024,1,43528.0,13,15.1451,1,43528.0
-V3b date-aware clean pools,Trenton,New Jersey,34|516000,2023,2,34513.0,24,0.7744,4,69026.0
-V3b date-aware clean pools,Duluth,Minnesota,27|196900,2023,2,39978.0,5,8.4481,0,79956.0
-V3b date-aware clean pools,Kalamazoo,Michigan,26|463500,2023,2,32379.0,19,0.1756,0,64758.0
-V3b date-aware clean pools,Rogers,Arkansas,05|462000,2024,1,28579.0,66,3.0965,6,28579.0
-V3b date-aware clean pools,Portland,Maine,23|363000,2024,1,36559.0,26,3.1931,0,36559.0
-V3b date-aware clean pools,Springfield,Oregon,41|481000,2024,1,25905.0,178,6.3865,2,25905.0
-V3b date-aware clean pools,Albany,Oregon,41|009000,2023,2,22768.0,183,-7.6141,1,45536.0
-V3b date-aware clean pools,La Crosse,Wisconsin,55|452000,2024,1,24404.0,9,-0.812,0,24404.0
-V3b date-aware clean pools,Burlington,Vermont,50|085000,2023,2,18079.0,61,13.3979,2,36158.0
-V3b date-aware clean pools,Grants Pass,Oregon,41|191000,2024,1,17297.0,184,3.309,0,17297.0
-V3b date-aware clean pools,Plainfield,Indiana,18|584500,2022,3,13359.0,13,-17.147,1,40077.0
-V3b date-aware clean pools,Tualatin,Oregon,41|517000,2024,1,11303.0,168,5.4104,0,11303.0
-V3b date-aware clean pools,West Linn,Oregon,41|555000,2024,1,10395.0,169,1.0723,0,10395.0
-V3b date-aware clean pools,Kingston,New York,36|375000,2023,2,11221.0,128,10.1026,5,22442.0
-V3b date-aware clean pools,Ashland,Oregon,41|017000,2023,2,11494.0,5,-2.0487,0,22988.0
-V3b date-aware clean pools,Carrboro,North Carolina,37|092000,2023,2,10189.0,6,-7.5218,0,20378.0
-V3b date-aware clean pools,Milwaukie,Oregon,41|339000,2024,1,9859.0,5,-8.3639,0,9859.0
-V3b date-aware clean pools,Northfield,Minnesota,27|551800,2024,1,6771.0,25,-2.2556,0,6771.0
-V3b date-aware clean pools,Central Point,Oregon,41|071000,2023,2,7978.0,5,-9.592,0,15956.0
-V3b date-aware clean pools,Portsmouth,Ohio,39|522700,2022,3,8466.0,60,0.5525,2,25398.0
-V3b date-aware clean pools,Taylor,Texas,48|688000,2023,2,7016.0,157,-9.2906,5,14032.0
-V3b date-aware clean pools,Hanover,New Hampshire,33|397000,2024,1,4056.0,48,-4.5837,3,4056.0
-V3b date-aware clean pools,Lansing,Kansas,20|296200,2024,1,3723.0,15,-12.8166,0,3723.0
-V3b date-aware clean pools,Hampden,Maine,23|190000,2022,3,3295.0,37,-1.5338,0,9885.0
-V3b date-aware clean pools,King City,Oregon,41|265000,2024,1,2782.0,6,11.0236,0,2782.0
-V3b date-aware clean pools,Social Circle,Georgia,13|616000,2023,2,1796.0,60,-11.3304,0,3592.0
-V3b date-aware clean pools,Millersburg,Oregon,41|335000,2024,1,1187.0,7,-32.8612,0,1187.0
-V3b date-aware clean pools,Maumee,Ohio,39|382600,2020,3,6217.0,70,-0.8832,1,18651.0
-V3b date-aware clean pools,Saranac Lake,New York,36|648000,2016,3,2819.0,423,-0.2646,7,8457.0
-V6 all fixes (V1b+V3b+V4),San Jose,California,06|394000,2023,2,340418.0,3,10.9872,0,680836.0
-V6 all fixes (V1b+V3b+V4),San Francisco,California,06|389000,2019,3,402959.0,8,-6.2344,1,1208877.0
-V6 all fixes (V1b+V3b+V4),Raleigh,North Carolina,37|466000,2022,3,204786.0,5,9.9163,0,614358.0
-V6 all fixes (V1b+V3b+V4),Minneapolis,Minnesota,27|497800,2021,3,200237.0,10,-8.7912,0,600711.0
-V6 all fixes (V1b+V3b+V4),Lexington,Kentucky,21|301000,2022,3,144794.0,13,-3.8219,7,434382.0
-V6 all fixes (V1b+V3b+V4),St. Paul,Minnesota,27|712600,2021,3,128154.0,16,-1.5631,1,384462.0
-V6 all fixes (V1b+V3b+V4),Anchorage,Alaska,02|041000,2023,2,119708.0,30,-2.468,4,239416.0
-V6 all fixes (V1b+V3b+V4),Buffalo,New York,36|089500,2017,3,134903.0,7,0.1226,8,404709.0
-V6 all fixes (V1b+V3b+V4),Bridgeport,Connecticut,09|061000,2021,3,58792.0,8,3.372,3,176376.0
-V6 all fixes (V1b+V3b+V4),Gainesville,Florida,12|271000,2022,3,62807.0,22,8.1153,4,188421.0
-V6 all fixes (V1b+V3b+V4),Hartford,Connecticut,09|285000,2017,3,56248.0,12,-0.3742,6,168744.0
-V6 all fixes (V1b+V3b+V4),Ann Arbor,Michigan,26|026500,2022,3,53744.0,9,4.5924,2,161232.0
-V6 all fixes (V1b+V3b+V4),Cambridge,Massachusetts,25|103000,2022,3,53687.0,7,-9.6481,5,161061.0
-V6 all fixes (V1b+V3b+V4),Roanoke,Virginia,51|065000,2021,3,48116.0,49,-2.8307,5,144348.0
-V6 all fixes (V1b+V3b+V4),Alameda,California,06|003000,2021,3,31250.0,145,-3.0659,0,93750.0
-V6 all fixes (V1b+V3b+V4),West Allis,Wisconsin,55|932000,2022,3,29682.0,8,4.8017,0,89046.0
-V6 all fixes (V1b+V3b+V4),Corvallis,Oregon,41|099000,2022,3,24975.0,183,4.1277,0,74925.0
-V6 all fixes (V1b+V3b+V4),Tigard,Oregon,41|505000,2022,3,22489.0,182,-2.4389,0,67467.0
-V6 all fixes (V1b+V3b+V4),Dunwoody,Georgia,13|233500,2019,3,22722.0,12,-2.6672,0,68166.0
-V6 all fixes (V1b+V3b+V4),Culver City,California,06|101000,2022,3,18490.0,178,-1.0844,0,55470.0
-V6 all fixes (V1b+V3b+V4),Mount Pleasant,Michigan,26|617500,2018,3,8436.0,87,-2.1511,0,25308.0
-V6 all fixes (V1b+V3b+V4),Windham,Maine,23|493000,2018,3,7678.0,8,8.1441,2,23034.0
-V6 all fixes (V1b+V3b+V4),Cambridge,Maryland,24|093000,2021,3,6564.0,5,-7.0627,5,19692.0
-V6 all fixes (V1b+V3b+V4),Emeryville,California,06|129000,2020,3,7698.0,127,-0.2438,0,23094.0
-V6 all fixes (V1b+V3b+V4),Branson,Missouri,29|068500,2018,3,8210.0,40,5.9759,0,24630.0
-V6 all fixes (V1b+V3b+V4),Canandaigua,New York,36|103000,2020,3,5301.0,254,2.8093,0,15903.0
-V6 all fixes (V1b+V3b+V4),Ecorse,Michigan,26|266500,2020,3,4121.0,171,-12.4393,1,12363.0
-V6 all fixes (V1b+V3b+V4),Bastrop,Texas,48|045500,2019,3,3344.0,228,49.043,0,10032.0
-V6 all fixes (V1b+V3b+V4),Seabrook,New Hampshire,33|797000,2019,3,4069.0,71,-2.0116,0,12207.0
-V6 all fixes (V1b+V3b+V4),River Rouge,Michigan,26|748000,2021,3,3129.0,213,0.4388,0,9387.0
-V6 all fixes (V1b+V3b+V4),Hudson,New York,36|348000,2019,3,3545.0,379,-1.4751,2,10635.0
-V6 all fixes (V1b+V3b+V4),Bandera,Texas,48|041000,2021,3,354.0,186,-2.1362,0,1062.0
-V6 all fixes (V1b+V3b+V4),Austin,Texas,48|033000,2023,2,459943.0,4,-9.429,0,919886.0
-V6 all fixes (V1b+V3b+V4),Sacramento,California,06|374000,2024,1,210442.0,7,3.6378,0,210442.0
-V6 all fixes (V1b+V3b+V4),Durham,North Carolina,37|164000,2023,2,129679.0,5,5.2699,3,259358.0
-V6 all fixes (V1b+V3b+V4),Richmond,Virginia,51|063000,2023,2,109470.0,11,13.3632,0,218940.0
-V6 all fixes (V1b+V3b+V4),Birmingham,Alabama,01|048000,2024,1,108673.0,80,1.6899,2,108673.0
-V6 all fixes (V1b+V3b+V4),Newport News,Virginia,51|049000,2024,1,82046.0,20,2.118,1,82046.0
-V6 all fixes (V1b+V3b+V4),Salem,Oregon,41|445000,2023,2,69533.0,41,-1.0258,0,139066.0
-V6 all fixes (V1b+V3b+V4),Eugene,Oregon,41|151000,2024,1,79854.0,40,0.6432,0,79854.0
-V6 all fixes (V1b+V3b+V4),Berkeley,California,06|039000,2021,3,51294.0,94,4.7491,4,153882.0
-V6 all fixes (V1b+V3b+V4),Bend,Oregon,41|041000,2023,2,45698.0,124,3.5889,0,91396.0
-V6 all fixes (V1b+V3b+V4),Beaverton,Oregon,41|039000,2023,2,42280.0,126,-1.957,0,84560.0
-V6 all fixes (V1b+V3b+V4),Longmont,Colorado,08|401000,2024,1,42580.0,12,15.3984,1,42580.0
-V6 all fixes (V1b+V3b+V4),Trenton,New Jersey,34|516000,2023,2,34502.0,23,0.3961,4,69004.0
-V6 all fixes (V1b+V3b+V4),Duluth,Minnesota,27|196900,2023,2,39250.0,5,8.636,0,78500.0
-V6 all fixes (V1b+V3b+V4),Kalamazoo,Michigan,26|463500,2023,2,32368.0,19,0.0197,0,64736.0
-V6 all fixes (V1b+V3b+V4),Rogers,Arkansas,05|462000,2024,1,27946.0,65,-5.7568,6,27946.0
-V6 all fixes (V1b+V3b+V4),Portland,Maine,23|363000,2024,1,36432.0,26,3.2219,0,36432.0
-V6 all fixes (V1b+V3b+V4),Springfield,Oregon,41|481000,2024,1,25523.0,181,6.2813,2,25523.0
-V6 all fixes (V1b+V3b+V4),Albany,Oregon,41|009000,2023,2,22654.0,184,-6.9706,1,45308.0
-V6 all fixes (V1b+V3b+V4),La Crosse,Wisconsin,55|452000,2024,1,24385.0,9,-0.8232,0,24385.0
-V6 all fixes (V1b+V3b+V4),Burlington,Vermont,50|085000,2023,2,17830.0,61,13.8351,2,35660.0
-V6 all fixes (V1b+V3b+V4),Grants Pass,Oregon,41|191000,2024,1,17203.0,182,3.4338,0,17203.0
-V6 all fixes (V1b+V3b+V4),Plainfield,Indiana,18|584500,2022,3,12564.0,14,-18.4998,1,37692.0
-V6 all fixes (V1b+V3b+V4),Tualatin,Oregon,41|517000,2024,1,11171.0,170,5.5958,0,11171.0
-V6 all fixes (V1b+V3b+V4),West Linn,Oregon,41|555000,2024,1,10348.0,168,1.2094,0,10348.0
-V6 all fixes (V1b+V3b+V4),Kingston,New York,36|375000,2023,2,11022.0,129,10.0037,5,22044.0
-V6 all fixes (V1b+V3b+V4),Ashland,Oregon,41|017000,2023,2,11342.0,169,-2.8466,0,22684.0
-V6 all fixes (V1b+V3b+V4),Carrboro,North Carolina,37|092000,2023,2,10129.0,6,-6.0871,0,20258.0
-V6 all fixes (V1b+V3b+V4),Milwaukie,Oregon,41|339000,2024,1,9552.0,5,-8.6293,0,9552.0
-V6 all fixes (V1b+V3b+V4),Northfield,Minnesota,27|551800,2024,1,6761.0,25,-2.2246,0,6761.0
-V6 all fixes (V1b+V3b+V4),Central Point,Oregon,41|071000,2023,2,7845.0,5,-9.2856,0,15690.0
-V6 all fixes (V1b+V3b+V4),Portsmouth,Ohio,39|522700,2022,3,8452.0,61,0.2005,2,25356.0
-V6 all fixes (V1b+V3b+V4),Taylor,Texas,48|688000,2023,2,6725.0,158,-10.437,5,13450.0
-V6 all fixes (V1b+V3b+V4),Hanover,New Hampshire,33|397000,2024,1,4044.0,48,-4.3812,3,4044.0
-V6 all fixes (V1b+V3b+V4),Lansing,Kansas,20|296200,2024,1,3671.0,14,-11.1902,0,3671.0
-V6 all fixes (V1b+V3b+V4),Hampden,Maine,23|190000,2022,3,3196.0,37,-1.4394,0,9588.0
-V6 all fixes (V1b+V3b+V4),King City,Oregon,41|265000,2024,1,2752.0,6,11.1468,0,2752.0
-V6 all fixes (V1b+V3b+V4),Social Circle,Georgia,13|616000,2023,2,1754.0,62,-15.8365,0,3508.0
-V6 all fixes (V1b+V3b+V4),Millersburg,Oregon,41|335000,2024,1,1166.0,7,-33.517,0,1166.0
-V6 all fixes (V1b+V3b+V4),Maumee,Ohio,39|382600,2020,3,6174.0,68,-0.5033,1,18522.0
-V6 all fixes (V1b+V3b+V4),Saranac Lake,New York,36|648000,2016,3,2803.0,412,-0.341,7,8409.0
+variant,place,state,key,event_year,n_post,homes,n_controls,pool,effect,estimated_years,weight
+V0 current,San Jose,California,06|394000,2023,2,345066.0,5,state 0.33-3.00,2.4828,0,690132.0
+V0 current,San Francisco,California,06|389000,2019,3,414602.0,9,state 0.33-3.00,-3.2802,1,1243806.0
+V0 current,Raleigh,North Carolina,37|466000,2022,3,224853.0,9,division 0.50-2.00,7.0376,0,674559.0
+V0 current,Minneapolis,Minnesota,27|497800,2021,3,209080.0,5,division 0.50-2.00,-8.5188,0,627240.0
+V0 current,Lexington,Kentucky,21|301000,2022,3,148959.0,6,division 0.50-2.00,-5.0767,7,446877.0
+V0 current,St. Paul,Minnesota,27|712600,2021,3,133051.0,9,division 0.50-2.00,-2.2157,1,399153.0
+V0 current,Anchorage,Alaska,02|041000,2023,2,120348.0,34,division 0.50-2.00,-3.1595,4,240696.0
+V0 current,Buffalo,New York,36|089500,2017,3,136850.0,10,state 0.50-2.00,0.4778,8,410550.0
+V0 current,Bridgeport,Connecticut,09|061000,2021,3,59844.0,5,state 0.50-2.00,5.9482,3,179532.0
+V0 current,Gainesville,Florida,12|271000,2022,3,66114.0,35,state 0.50-2.00,5.2079,4,198342.0
+V0 current,Hartford,Connecticut,09|285000,2017,3,56435.0,11,state 0.50-2.00,-0.254,6,169305.0
+V0 current,Ann Arbor,Michigan,26|026500,2022,3,54399.0,22,state 0.50-2.00,4.4132,2,163197.0
+V0 current,Cambridge,Massachusetts,25|103000,2022,3,54840.0,18,state 0.50-2.00,-7.0783,5,164520.0
+V0 current,Roanoke,Virginia,51|065000,2021,3,49106.0,6,state 0.50-2.00,-1.1273,5,147318.0
+V0 current,Alameda,California,06|003000,2021,3,32291.0,166,state 0.50-2.00,-3.1284,0,96873.0
+V0 current,West Allis,Wisconsin,55|932000,2022,3,30294.0,21,state 0.50-2.00,4.3383,0,90882.0
+V0 current,Corvallis,Oregon,41|099000,2022,3,25628.0,9,state 0.33-3.00,3.2514,0,76884.0
+V0 current,Tigard,Oregon,41|505000,2022,3,23877.0,11,state 0.33-3.00,-2.5668,0,71631.0
+V0 current,Dunwoody,Georgia,13|233500,2019,3,23491.0,28,state 0.50-2.00,2.068,0,70473.0
+V0 current,Culver City,California,06|101000,2022,3,18803.0,183,state 0.50-2.00,-0.7408,0,56409.0
+V0 current,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,122,state 0.50-2.00,-1.4108,0,25653.0
+V0 current,Windham,Maine,23|493000,2018,3,8709.0,22,state 0.50-2.00,8.3904,2,26127.0
+V0 current,Cambridge,Maryland,24|093000,2021,3,6652.0,9,state 0.50-2.00,-6.6796,5,19956.0
+V0 current,Emeryville,California,06|129000,2020,3,8497.0,138,state 0.50-2.00,-0.0527,0,25491.0
+V0 current,Branson,Missouri,29|068500,2018,3,9006.0,81,state 0.50-2.00,3.1586,0,27018.0
+V0 current,Canandaigua,New York,36|103000,2020,3,5390.0,302,state 0.50-2.00,2.7644,0,16170.0
+V0 current,Ecorse,Michigan,26|266500,2020,3,4121.0,220,state 0.50-2.00,-13.0485,1,12363.0
+V0 current,Bastrop,Texas,48|045500,2019,3,5100.0,207,state 0.50-2.00,30.6516,0,15300.0
+V0 current,Seabrook,New Hampshire,33|797000,2019,3,4151.0,74,state 0.50-2.00,-1.9208,0,12453.0
+V0 current,River Rouge,Michigan,26|748000,2021,3,3129.0,263,state 0.50-2.00,0.3311,0,9387.0
+V0 current,Hudson,New York,36|348000,2019,3,3551.0,433,state 0.50-2.00,-1.5418,2,10653.0
+V0 current,Bandera,Texas,48|041000,2021,3,367.0,180,state 0.50-2.00,3.4077,0,1101.0
+V0 current,Austin,Texas,48|033000,2023,2,483071.0,6,state 0.33-3.00,-12.3289,0,966142.0
+V0 current,Sacramento,California,06|374000,2024,1,212485.0,9,state 0.50-2.00,1.0026,0,212485.0
+V0 current,Durham,North Carolina,37|164000,2023,2,136837.0,23,division 0.50-2.00,0.3046,3,273674.0
+V0 current,Richmond,Virginia,51|063000,2023,2,114293.0,5,state 0.50-2.00,15.1049,0,228586.0
+V0 current,Birmingham,Alabama,01|048000,2024,1,109349.0,7,state 0.33-3.00,0.8046,2,109349.0
+V0 current,Newport News,Virginia,51|049000,2024,1,82052.0,6,state 0.50-2.00,2.342,1,82052.0
+V0 current,Salem,Oregon,41|445000,2023,2,71124.0,87,division 0.50-2.00,-1.2401,0,142248.0
+V0 current,Eugene,Oregon,41|151000,2024,1,80856.0,87,division 0.50-2.00,0.9278,0,80856.0
+V0 current,Berkeley,California,06|039000,2021,3,53145.0,132,state 0.50-2.00,3.7866,4,159435.0
+V0 current,Bend,Oregon,41|041000,2023,2,47957.0,168,division 0.50-2.00,3.4129,0,95914.0
+V0 current,Beaverton,Oregon,41|039000,2023,2,42771.0,176,division 0.50-2.00,-1.9635,0,85542.0
+V0 current,Longmont,Colorado,08|401000,2024,1,43528.0,11,state 0.50-2.00,13.7589,1,43528.0
+V0 current,Trenton,New Jersey,34|516000,2023,2,34513.0,46,state 0.50-2.00,0.7801,4,69026.0
+V0 current,Duluth,Minnesota,27|196900,2023,2,39978.0,20,state 0.50-2.00,5.723,0,79956.0
+V0 current,Kalamazoo,Michigan,26|463500,2023,2,32379.0,46,state 0.50-2.00,-0.1807,0,64758.0
+V0 current,Rogers,Arkansas,05|462000,2024,1,28579.0,10,state 0.50-2.00,-7.8179,6,28579.0
+V0 current,Portland,Maine,23|363000,2024,1,36559.0,79,division 0.50-2.00,2.6488,0,36559.0
+V0 current,Springfield,Oregon,41|481000,2024,1,25905.0,8,state 0.33-3.00,9.8546,2,25905.0
+V0 current,Albany,Oregon,41|009000,2023,2,22768.0,11,state 0.33-3.00,-4.6139,1,45536.0
+V0 current,La Crosse,Wisconsin,55|452000,2024,1,24404.0,24,state 0.50-2.00,-2.0282,0,24404.0
+V0 current,Burlington,Vermont,50|085000,2023,2,18079.0,146,division 0.50-2.00,13.7186,2,36158.0
+V0 current,Grants Pass,Oregon,41|191000,2024,1,17297.0,8,state 0.50-2.00,10.3167,0,17297.0
+V0 current,Plainfield,Indiana,18|584500,2022,3,13359.0,35,state 0.50-2.00,-10.2824,1,40077.0
+V0 current,Tualatin,Oregon,41|517000,2024,1,11303.0,14,state 0.50-2.00,13.889,0,11303.0
+V0 current,West Linn,Oregon,41|555000,2024,1,10395.0,14,state 0.50-2.00,9.4532,0,10395.0
+V0 current,Kingston,New York,36|375000,2023,2,11221.0,159,state 0.50-2.00,10.121,5,22442.0
+V0 current,Ashland,Oregon,41|017000,2023,2,11494.0,18,state 0.50-2.00,3.5989,0,22988.0
+V0 current,Carrboro,North Carolina,37|092000,2023,2,10189.0,34,state 0.50-2.00,-13.1014,0,20378.0
+V0 current,Milwaukie,Oregon,41|339000,2024,1,9859.0,18,state 0.50-2.00,-0.2891,0,9859.0
+V0 current,Northfield,Minnesota,27|551800,2024,1,6771.0,73,state 0.50-2.00,-1.6221,0,6771.0
+V0 current,Central Point,Oregon,41|071000,2023,2,7978.0,26,state 0.50-2.00,-4.6562,0,15956.0
+V0 current,Portsmouth,Ohio,39|522700,2022,3,8466.0,128,state 0.50-2.00,0.4577,2,25398.0
+V0 current,Taylor,Texas,48|688000,2023,2,7016.0,161,state 0.50-2.00,-9.5515,5,14032.0
+V0 current,Hanover,New Hampshire,33|397000,2024,1,4056.0,50,state 0.50-2.00,-4.2281,3,4056.0
+V0 current,Lansing,Kansas,20|296200,2024,1,3723.0,38,state 0.50-2.00,-7.3807,0,3723.0
+V0 current,Hampden,Maine,23|190000,2022,3,3295.0,69,state 0.50-2.00,-2.4007,0,9885.0
+V0 current,King City,Oregon,41|265000,2024,1,2782.0,30,state 0.50-2.00,15.5608,0,2782.0
+V0 current,Social Circle,Georgia,13|616000,2023,2,1796.0,90,state 0.50-2.00,-10.0641,0,3592.0
+V0 current,Millersburg,Oregon,41|335000,2024,1,1187.0,28,state 0.50-2.00,-33.6607,0,1187.0
+V0 current,Maumee,Ohio,39|382600,2020,3,6217.0,147,state 0.50-2.00,-1.0116,1,18651.0
+V0 current,Saranac Lake,New York,36|648000,2016,3,2819.0,476,state 0.50-2.00,-0.3149,7,8457.0
+V1 reported months only,San Jose,California,06|394000,2023,2,345066.0,5,state 0.33-3.00,2.7575,0,690132.0
+V1 reported months only,San Francisco,California,06|389000,2019,3,414602.0,9,state 0.33-3.00,-3.1722,1,1243806.0
+V1 reported months only,Raleigh,North Carolina,37|466000,2022,3,224853.0,9,division 0.50-2.00,7.1343,0,674559.0
+V1 reported months only,Minneapolis,Minnesota,27|497800,2021,3,209080.0,5,division 0.50-2.00,-10.9662,0,627240.0
+V1 reported months only,Lexington,Kentucky,21|301000,2022,3,148959.0,6,division 0.50-2.00,-3.3917,7,446877.0
+V1 reported months only,St. Paul,Minnesota,27|712600,2021,3,133051.0,9,division 0.50-2.00,-3.8914,1,399153.0
+V1 reported months only,Anchorage,Alaska,02|041000,2023,2,120348.0,34,division 0.50-2.00,3.891,4,240696.0
+V1 reported months only,Buffalo,New York,36|089500,2017,3,136850.0,10,state 0.50-2.00,-0.878,8,410550.0
+V1 reported months only,Bridgeport,Connecticut,09|061000,2021,3,59844.0,5,state 0.50-2.00,6.027,3,179532.0
+V1 reported months only,Gainesville,Florida,12|271000,2022,3,66114.0,35,state 0.50-2.00,18.4504,4,198342.0
+V1 reported months only,Hartford,Connecticut,09|285000,2017,3,56435.0,11,state 0.50-2.00,-0.039,6,169305.0
+V1 reported months only,Ann Arbor,Michigan,26|026500,2022,3,54399.0,22,state 0.50-2.00,4.0906,2,163197.0
+V1 reported months only,Cambridge,Massachusetts,25|103000,2022,3,54840.0,18,state 0.50-2.00,0.6521,5,164520.0
+V1 reported months only,Roanoke,Virginia,51|065000,2021,3,49106.0,6,state 0.50-2.00,2.4617,5,147318.0
+V1 reported months only,Alameda,California,06|003000,2021,3,32291.0,166,state 0.50-2.00,-3.1865,0,96873.0
+V1 reported months only,West Allis,Wisconsin,55|932000,2022,3,30294.0,21,state 0.50-2.00,4.2744,0,90882.0
+V1 reported months only,Corvallis,Oregon,41|099000,2022,3,25628.0,9,state 0.33-3.00,3.1616,0,76884.0
+V1 reported months only,Tigard,Oregon,41|505000,2022,3,23877.0,11,state 0.33-3.00,-3.0818,0,71631.0
+V1 reported months only,Dunwoody,Georgia,13|233500,2019,3,23491.0,28,state 0.50-2.00,2.0355,0,70473.0
+V1 reported months only,Culver City,California,06|101000,2022,3,18803.0,183,state 0.50-2.00,-0.9877,0,56409.0
+V1 reported months only,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,122,state 0.50-2.00,-1.2706,0,25653.0
+V1 reported months only,Windham,Maine,23|493000,2018,3,8709.0,22,state 0.50-2.00,-4.2939,2,26127.0
+V1 reported months only,Cambridge,Maryland,24|093000,2021,3,6652.0,9,state 0.50-2.00,-9.1698,5,19956.0
+V1 reported months only,Emeryville,California,06|129000,2020,3,8497.0,138,state 0.50-2.00,0.0392,0,25491.0
+V1 reported months only,Branson,Missouri,29|068500,2018,3,9006.0,81,state 0.50-2.00,3.4083,0,27018.0
+V1 reported months only,Canandaigua,New York,36|103000,2020,3,5390.0,302,state 0.50-2.00,2.5969,0,16170.0
+V1 reported months only,Ecorse,Michigan,26|266500,2020,3,4121.0,220,state 0.50-2.00,-12.7178,1,12363.0
+V1 reported months only,Bastrop,Texas,48|045500,2019,3,5100.0,207,state 0.50-2.00,31.3163,0,15300.0
+V1 reported months only,Seabrook,New Hampshire,33|797000,2019,3,4151.0,74,state 0.50-2.00,-1.4408,0,12453.0
+V1 reported months only,River Rouge,Michigan,26|748000,2021,3,3129.0,263,state 0.50-2.00,0.2536,0,9387.0
+V1 reported months only,Hudson,New York,36|348000,2019,3,3551.0,433,state 0.50-2.00,-1.0263,2,10653.0
+V1 reported months only,Bandera,Texas,48|041000,2021,3,367.0,180,state 0.50-2.00,4.5058,0,1101.0
+V1 reported months only,Austin,Texas,48|033000,2023,2,483071.0,6,state 0.33-3.00,-12.08,0,966142.0
+V1 reported months only,Sacramento,California,06|374000,2024,1,212485.0,9,state 0.50-2.00,1.2536,0,212485.0
+V1 reported months only,Durham,North Carolina,37|164000,2023,2,136837.0,23,division 0.50-2.00,1.8198,3,273674.0
+V1 reported months only,Richmond,Virginia,51|063000,2023,2,114293.0,5,state 0.50-2.00,14.782,0,228586.0
+V1 reported months only,Birmingham,Alabama,01|048000,2024,1,109349.0,7,state 0.33-3.00,-3.7721,2,109349.0
+V1 reported months only,Newport News,Virginia,51|049000,2024,1,82052.0,6,state 0.50-2.00,2.0445,1,82052.0
+V1 reported months only,Salem,Oregon,41|445000,2023,2,71124.0,87,division 0.50-2.00,-1.1941,0,142248.0
+V1 reported months only,Eugene,Oregon,41|151000,2024,1,80856.0,87,division 0.50-2.00,0.938,0,80856.0
+V1 reported months only,Berkeley,California,06|039000,2021,3,53145.0,132,state 0.50-2.00,5.6429,4,159435.0
+V1 reported months only,Bend,Oregon,41|041000,2023,2,47957.0,168,division 0.50-2.00,3.4614,0,95914.0
+V1 reported months only,Beaverton,Oregon,41|039000,2023,2,42771.0,176,division 0.50-2.00,-1.9162,0,85542.0
+V1 reported months only,Longmont,Colorado,08|401000,2024,1,43528.0,11,state 0.50-2.00,6.8415,1,43528.0
+V1 reported months only,Trenton,New Jersey,34|516000,2023,2,34513.0,46,state 0.50-2.00,2.3083,4,69026.0
+V1 reported months only,Duluth,Minnesota,27|196900,2023,2,39978.0,20,state 0.50-2.00,5.6307,0,79956.0
+V1 reported months only,Kalamazoo,Michigan,26|463500,2023,2,32379.0,46,state 0.50-2.00,-0.2408,0,64758.0
+V1 reported months only,Rogers,Arkansas,05|462000,2024,1,28579.0,10,state 0.50-2.00,-4.3977,6,28579.0
+V1 reported months only,Portland,Maine,23|363000,2024,1,36559.0,79,division 0.50-2.00,2.5142,0,36559.0
+V1 reported months only,Springfield,Oregon,41|481000,2024,1,25905.0,8,state 0.33-3.00,-1.277,2,25905.0
+V1 reported months only,Albany,Oregon,41|009000,2023,2,22768.0,11,state 0.33-3.00,-3.6745,1,45536.0
+V1 reported months only,La Crosse,Wisconsin,55|452000,2024,1,24404.0,24,state 0.50-2.00,-2.0056,0,24404.0
+V1 reported months only,Burlington,Vermont,50|085000,2023,2,18079.0,146,division 0.50-2.00,15.9318,2,36158.0
+V1 reported months only,Grants Pass,Oregon,41|191000,2024,1,17297.0,8,state 0.50-2.00,10.8962,0,17297.0
+V1 reported months only,Plainfield,Indiana,18|584500,2022,3,13359.0,35,state 0.50-2.00,-10.2325,1,40077.0
+V1 reported months only,Tualatin,Oregon,41|517000,2024,1,11303.0,14,state 0.50-2.00,14.5974,0,11303.0
+V1 reported months only,West Linn,Oregon,41|555000,2024,1,10395.0,14,state 0.50-2.00,10.1616,0,10395.0
+V1 reported months only,Kingston,New York,36|375000,2023,2,11221.0,159,state 0.50-2.00,10.2602,5,22442.0
+V1 reported months only,Ashland,Oregon,41|017000,2023,2,11494.0,18,state 0.50-2.00,3.6809,0,22988.0
+V1 reported months only,Carrboro,North Carolina,37|092000,2023,2,10189.0,34,state 0.50-2.00,-12.4018,0,20378.0
+V1 reported months only,Milwaukie,Oregon,41|339000,2024,1,9859.0,18,state 0.50-2.00,0.5307,0,9859.0
+V1 reported months only,Northfield,Minnesota,27|551800,2024,1,6771.0,73,state 0.50-2.00,-1.577,0,6771.0
+V1 reported months only,Central Point,Oregon,41|071000,2023,2,7978.0,26,state 0.50-2.00,-5.1037,0,15956.0
+V1 reported months only,Portsmouth,Ohio,39|522700,2022,3,8466.0,128,state 0.50-2.00,0.272,2,25398.0
+V1 reported months only,Taylor,Texas,48|688000,2023,2,7016.0,161,state 0.50-2.00,-3.9486,5,14032.0
+V1 reported months only,Hanover,New Hampshire,33|397000,2024,1,4056.0,50,state 0.50-2.00,-3.616,3,4056.0
+V1 reported months only,Lansing,Kansas,20|296200,2024,1,3723.0,38,state 0.50-2.00,-6.3462,0,3723.0
+V1 reported months only,Hampden,Maine,23|190000,2022,3,3295.0,69,state 0.50-2.00,-0.366,0,9885.0
+V1 reported months only,King City,Oregon,41|265000,2024,1,2782.0,30,state 0.50-2.00,14.5824,0,2782.0
+V1 reported months only,Social Circle,Georgia,13|616000,2023,2,1796.0,90,state 0.50-2.00,-8.7843,0,3592.0
+V1 reported months only,Millersburg,Oregon,41|335000,2024,1,1187.0,28,state 0.50-2.00,-34.3999,0,1187.0
+V1 reported months only,Maumee,Ohio,39|382600,2020,3,6217.0,147,state 0.50-2.00,-1.1047,1,18651.0
+V1 reported months only,Saranac Lake,New York,36|648000,2016,3,2819.0,476,state 0.50-2.00,-0.0249,7,8457.0
+V2 drop places with estimated years,San Jose,California,06|394000,2023,2,345066.0,5,state 0.33-3.00,2.4828,0,690132.0
+V2 drop places with estimated years,Raleigh,North Carolina,37|466000,2022,3,224853.0,9,division 0.50-2.00,7.0376,0,674559.0
+V2 drop places with estimated years,Minneapolis,Minnesota,27|497800,2021,3,209080.0,5,division 0.50-2.00,-8.5188,0,627240.0
+V2 drop places with estimated years,Alameda,California,06|003000,2021,3,32291.0,166,state 0.50-2.00,-3.1284,0,96873.0
+V2 drop places with estimated years,West Allis,Wisconsin,55|932000,2022,3,30294.0,21,state 0.50-2.00,4.3383,0,90882.0
+V2 drop places with estimated years,Corvallis,Oregon,41|099000,2022,3,25628.0,9,state 0.33-3.00,3.2514,0,76884.0
+V2 drop places with estimated years,Tigard,Oregon,41|505000,2022,3,23877.0,11,state 0.33-3.00,-2.5668,0,71631.0
+V2 drop places with estimated years,Dunwoody,Georgia,13|233500,2019,3,23491.0,28,state 0.50-2.00,2.068,0,70473.0
+V2 drop places with estimated years,Culver City,California,06|101000,2022,3,18803.0,183,state 0.50-2.00,-0.7408,0,56409.0
+V2 drop places with estimated years,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,122,state 0.50-2.00,-1.4108,0,25653.0
+V2 drop places with estimated years,Emeryville,California,06|129000,2020,3,8497.0,138,state 0.50-2.00,-0.0527,0,25491.0
+V2 drop places with estimated years,Branson,Missouri,29|068500,2018,3,9006.0,81,state 0.50-2.00,3.1586,0,27018.0
+V2 drop places with estimated years,Canandaigua,New York,36|103000,2020,3,5390.0,302,state 0.50-2.00,2.7644,0,16170.0
+V2 drop places with estimated years,Bastrop,Texas,48|045500,2019,3,5100.0,207,state 0.50-2.00,30.6516,0,15300.0
+V2 drop places with estimated years,Seabrook,New Hampshire,33|797000,2019,3,4151.0,74,state 0.50-2.00,-1.9208,0,12453.0
+V2 drop places with estimated years,River Rouge,Michigan,26|748000,2021,3,3129.0,263,state 0.50-2.00,0.3311,0,9387.0
+V2 drop places with estimated years,Bandera,Texas,48|041000,2021,3,367.0,180,state 0.50-2.00,3.4077,0,1101.0
+V2 drop places with estimated years,Austin,Texas,48|033000,2023,2,483071.0,6,state 0.33-3.00,-12.3289,0,966142.0
+V2 drop places with estimated years,Sacramento,California,06|374000,2024,1,212485.0,9,state 0.50-2.00,1.0026,0,212485.0
+V2 drop places with estimated years,Richmond,Virginia,51|063000,2023,2,114293.0,5,state 0.50-2.00,15.1049,0,228586.0
+V2 drop places with estimated years,Salem,Oregon,41|445000,2023,2,71124.0,87,division 0.50-2.00,-1.2401,0,142248.0
+V2 drop places with estimated years,Eugene,Oregon,41|151000,2024,1,80856.0,87,division 0.50-2.00,0.9278,0,80856.0
+V2 drop places with estimated years,Bend,Oregon,41|041000,2023,2,47957.0,168,division 0.50-2.00,3.4129,0,95914.0
+V2 drop places with estimated years,Beaverton,Oregon,41|039000,2023,2,42771.0,176,division 0.50-2.00,-1.9635,0,85542.0
+V2 drop places with estimated years,Duluth,Minnesota,27|196900,2023,2,39978.0,20,state 0.50-2.00,5.723,0,79956.0
+V2 drop places with estimated years,Kalamazoo,Michigan,26|463500,2023,2,32379.0,46,state 0.50-2.00,-0.1807,0,64758.0
+V2 drop places with estimated years,Portland,Maine,23|363000,2024,1,36559.0,79,division 0.50-2.00,2.6488,0,36559.0
+V2 drop places with estimated years,La Crosse,Wisconsin,55|452000,2024,1,24404.0,24,state 0.50-2.00,-2.0282,0,24404.0
+V2 drop places with estimated years,Grants Pass,Oregon,41|191000,2024,1,17297.0,8,state 0.50-2.00,10.3167,0,17297.0
+V2 drop places with estimated years,Tualatin,Oregon,41|517000,2024,1,11303.0,14,state 0.50-2.00,13.889,0,11303.0
+V2 drop places with estimated years,West Linn,Oregon,41|555000,2024,1,10395.0,14,state 0.50-2.00,9.4532,0,10395.0
+V2 drop places with estimated years,Ashland,Oregon,41|017000,2023,2,11494.0,18,state 0.50-2.00,3.5989,0,22988.0
+V2 drop places with estimated years,Carrboro,North Carolina,37|092000,2023,2,10189.0,34,state 0.50-2.00,-13.1014,0,20378.0
+V2 drop places with estimated years,Milwaukie,Oregon,41|339000,2024,1,9859.0,18,state 0.50-2.00,-0.2891,0,9859.0
+V2 drop places with estimated years,Northfield,Minnesota,27|551800,2024,1,6771.0,73,state 0.50-2.00,-1.6221,0,6771.0
+V2 drop places with estimated years,Central Point,Oregon,41|071000,2023,2,7978.0,26,state 0.50-2.00,-4.6562,0,15956.0
+V2 drop places with estimated years,Lansing,Kansas,20|296200,2024,1,3723.0,38,state 0.50-2.00,-7.3807,0,3723.0
+V2 drop places with estimated years,Hampden,Maine,23|190000,2022,3,3295.0,69,state 0.50-2.00,-2.4007,0,9885.0
+V2 drop places with estimated years,King City,Oregon,41|265000,2024,1,2782.0,30,state 0.50-2.00,15.5608,0,2782.0
+V2 drop places with estimated years,Social Circle,Georgia,13|616000,2023,2,1796.0,90,state 0.50-2.00,-10.0641,0,3592.0
+V2 drop places with estimated years,Millersburg,Oregon,41|335000,2024,1,1187.0,28,state 0.50-2.00,-33.6607,0,1187.0
+V3 clean comparison pools,San Jose,California,06|394000,2023,2,345066.0,3,nation 0.50-2.00,10.9232,0,690132.0
+V3 clean comparison pools,San Francisco,California,06|389000,2019,3,414602.0,5,nation 0.50-2.00,-11.0947,1,1243806.0
+V3 clean comparison pools,Raleigh,North Carolina,37|466000,2022,3,224853.0,7,nation 0.50-2.00,9.9396,0,674559.0
+V3 clean comparison pools,Minneapolis,Minnesota,27|497800,2021,3,209080.0,10,nation 0.50-2.00,-8.3232,0,627240.0
+V3 clean comparison pools,Lexington,Kentucky,21|301000,2022,3,148959.0,12,nation 0.50-2.00,-2.1089,7,446877.0
+V3 clean comparison pools,St. Paul,Minnesota,27|712600,2021,3,133051.0,14,nation 0.50-2.00,-1.7012,1,399153.0
+V3 clean comparison pools,Anchorage,Alaska,02|041000,2023,2,120348.0,31,division 0.33-3.00,-2.7893,4,240696.0
+V3 clean comparison pools,Buffalo,New York,36|089500,2017,3,136850.0,7,state 0.50-2.00,1.1202,8,410550.0
+V3 clean comparison pools,Bridgeport,Connecticut,09|061000,2021,3,59844.0,7,division 0.50-2.00,3.3077,3,179532.0
+V3 clean comparison pools,Gainesville,Florida,12|271000,2022,3,66114.0,24,state 0.50-2.00,3.9272,4,198342.0
+V3 clean comparison pools,Hartford,Connecticut,09|285000,2017,3,56435.0,10,division 0.50-2.00,-0.0252,6,169305.0
+V3 clean comparison pools,Ann Arbor,Michigan,26|026500,2022,3,54399.0,9,state 0.50-2.00,4.14,2,163197.0
+V3 clean comparison pools,Cambridge,Massachusetts,25|103000,2022,3,54840.0,6,state 0.50-2.00,-7.5368,5,164520.0
+V3 clean comparison pools,Roanoke,Virginia,51|065000,2021,3,49106.0,51,division 0.50-2.00,-3.1716,5,147318.0
+V3 clean comparison pools,Alameda,California,06|003000,2021,3,32291.0,144,state 0.50-2.00,-2.9769,0,96873.0
+V3 clean comparison pools,West Allis,Wisconsin,55|932000,2022,3,30294.0,8,state 0.50-2.00,4.7833,0,90882.0
+V3 clean comparison pools,Corvallis,Oregon,41|099000,2022,3,25628.0,182,division 0.50-2.00,3.9828,0,76884.0
+V3 clean comparison pools,Tigard,Oregon,41|505000,2022,3,23877.0,183,division 0.50-2.00,-2.2013,0,71631.0
+V3 clean comparison pools,Dunwoody,Georgia,13|233500,2019,3,23491.0,8,state 0.50-2.00,-1.838,0,70473.0
+V3 clean comparison pools,Culver City,California,06|101000,2022,3,18803.0,177,state 0.50-2.00,-0.7946,0,56409.0
+V3 clean comparison pools,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,85,state 0.50-2.00,-1.8621,0,25653.0
+V3 clean comparison pools,Windham,Maine,23|493000,2018,3,8709.0,6,state 0.50-2.00,9.4577,2,26127.0
+V3 clean comparison pools,Cambridge,Maryland,24|093000,2021,3,6652.0,5,state 0.50-2.00,-6.7622,5,19956.0
+V3 clean comparison pools,Emeryville,California,06|129000,2020,3,8497.0,133,state 0.50-2.00,-0.12,0,25491.0
+V3 clean comparison pools,Branson,Missouri,29|068500,2018,3,9006.0,38,state 0.50-2.00,5.3982,0,27018.0
+V3 clean comparison pools,Canandaigua,New York,36|103000,2020,3,5390.0,255,state 0.50-2.00,2.7662,0,16170.0
+V3 clean comparison pools,Ecorse,Michigan,26|266500,2020,3,4121.0,173,state 0.50-2.00,-12.8426,1,12363.0
+V3 clean comparison pools,Bastrop,Texas,48|045500,2019,3,5100.0,202,state 0.50-2.00,30.7854,0,15300.0
+V3 clean comparison pools,Seabrook,New Hampshire,33|797000,2019,3,4151.0,72,state 0.50-2.00,-2.0403,0,12453.0
+V3 clean comparison pools,River Rouge,Michigan,26|748000,2021,3,3129.0,212,state 0.50-2.00,0.4417,0,9387.0
+V3 clean comparison pools,Hudson,New York,36|348000,2019,3,3551.0,383,state 0.50-2.00,-1.5809,2,10653.0
+V3 clean comparison pools,Bandera,Texas,48|041000,2021,3,367.0,180,state 0.50-2.00,3.4077,0,1101.0
+V3 clean comparison pools,Austin,Texas,48|033000,2023,2,483071.0,4,nation 0.50-2.00,-8.5926,0,966142.0
+V3 clean comparison pools,Sacramento,California,06|374000,2024,1,212485.0,7,nation 0.50-2.00,3.6791,0,212485.0
+V3 clean comparison pools,Durham,North Carolina,37|164000,2023,2,136837.0,5,division 0.50-2.00,2.3767,3,273674.0
+V3 clean comparison pools,Richmond,Virginia,51|063000,2023,2,114293.0,10,division 0.50-2.00,11.8661,0,228586.0
+V3 clean comparison pools,Birmingham,Alabama,01|048000,2024,1,109349.0,80,nation 0.50-2.00,1.686,2,109349.0
+V3 clean comparison pools,Newport News,Virginia,51|049000,2024,1,82052.0,20,division 0.50-2.00,1.1482,1,82052.0
+V3 clean comparison pools,Salem,Oregon,41|445000,2023,2,71124.0,40,division 0.50-2.00,-0.9109,0,142248.0
+V3 clean comparison pools,Eugene,Oregon,41|151000,2024,1,80856.0,40,division 0.50-2.00,0.7858,0,80856.0
+V3 clean comparison pools,Berkeley,California,06|039000,2021,3,53145.0,93,state 0.50-2.00,4.4761,4,159435.0
+V3 clean comparison pools,Bend,Oregon,41|041000,2023,2,47957.0,118,division 0.50-2.00,3.5168,0,95914.0
+V3 clean comparison pools,Beaverton,Oregon,41|039000,2023,2,42771.0,126,division 0.50-2.00,-1.9372,0,85542.0
+V3 clean comparison pools,Longmont,Colorado,08|401000,2024,1,43528.0,13,division 0.50-2.00,15.1451,1,43528.0
+V3 clean comparison pools,Trenton,New Jersey,34|516000,2023,2,34513.0,24,state 0.50-2.00,0.7744,4,69026.0
+V3 clean comparison pools,Duluth,Minnesota,27|196900,2023,2,39978.0,5,state 0.50-2.00,8.4481,0,79956.0
+V3 clean comparison pools,Kalamazoo,Michigan,26|463500,2023,2,32379.0,19,state 0.50-2.00,0.1756,0,64758.0
+V3 clean comparison pools,Rogers,Arkansas,05|462000,2024,1,28579.0,66,division 0.50-2.00,3.0965,6,28579.0
+V3 clean comparison pools,Portland,Maine,23|363000,2024,1,36559.0,25,division 0.50-2.00,3.2035,0,36559.0
+V3 clean comparison pools,Springfield,Oregon,41|481000,2024,1,25905.0,178,division 0.50-2.00,6.3865,2,25905.0
+V3 clean comparison pools,Albany,Oregon,41|009000,2023,2,22768.0,183,division 0.50-2.00,-7.6141,1,45536.0
+V3 clean comparison pools,La Crosse,Wisconsin,55|452000,2024,1,24404.0,9,state 0.50-2.00,-0.812,0,24404.0
+V3 clean comparison pools,Burlington,Vermont,50|085000,2023,2,18079.0,61,division 0.50-2.00,13.3979,2,36158.0
+V3 clean comparison pools,Grants Pass,Oregon,41|191000,2024,1,17297.0,184,division 0.50-2.00,3.309,0,17297.0
+V3 clean comparison pools,Plainfield,Indiana,18|584500,2022,3,13359.0,13,state 0.50-2.00,-17.147,1,40077.0
+V3 clean comparison pools,Tualatin,Oregon,41|517000,2024,1,11303.0,168,division 0.50-2.00,5.4104,0,11303.0
+V3 clean comparison pools,West Linn,Oregon,41|555000,2024,1,10395.0,169,division 0.50-2.00,1.0723,0,10395.0
+V3 clean comparison pools,Kingston,New York,36|375000,2023,2,11221.0,128,state 0.50-2.00,10.1026,5,22442.0
+V3 clean comparison pools,Ashland,Oregon,41|017000,2023,2,11494.0,5,state 0.33-3.00,-2.0487,0,22988.0
+V3 clean comparison pools,Carrboro,North Carolina,37|092000,2023,2,10189.0,6,state 0.50-2.00,-7.5218,0,20378.0
+V3 clean comparison pools,Milwaukie,Oregon,41|339000,2024,1,9859.0,5,state 0.33-3.00,-8.3639,0,9859.0
+V3 clean comparison pools,Northfield,Minnesota,27|551800,2024,1,6771.0,25,state 0.50-2.00,-2.2556,0,6771.0
+V3 clean comparison pools,Central Point,Oregon,41|071000,2023,2,7978.0,5,state 0.33-3.00,-9.592,0,15956.0
+V3 clean comparison pools,Portsmouth,Ohio,39|522700,2022,3,8466.0,60,state 0.50-2.00,0.5525,2,25398.0
+V3 clean comparison pools,Taylor,Texas,48|688000,2023,2,7016.0,157,state 0.50-2.00,-9.2906,5,14032.0
+V3 clean comparison pools,Hanover,New Hampshire,33|397000,2024,1,4056.0,48,state 0.50-2.00,-4.5837,3,4056.0
+V3 clean comparison pools,Lansing,Kansas,20|296200,2024,1,3723.0,15,state 0.50-2.00,-12.8166,0,3723.0
+V3 clean comparison pools,Hampden,Maine,23|190000,2022,3,3295.0,37,state 0.50-2.00,-1.5338,0,9885.0
+V3 clean comparison pools,King City,Oregon,41|265000,2024,1,2782.0,6,state 0.50-2.00,11.0236,0,2782.0
+V3 clean comparison pools,Social Circle,Georgia,13|616000,2023,2,1796.0,60,state 0.50-2.00,-11.3304,0,3592.0
+V3 clean comparison pools,Millersburg,Oregon,41|335000,2024,1,1187.0,7,state 0.50-2.00,-32.8612,0,1187.0
+V3 clean comparison pools,Maumee,Ohio,39|382600,2020,3,6217.0,70,state 0.50-2.00,-0.8832,1,18651.0
+V3 clean comparison pools,Saranac Lake,New York,36|648000,2016,3,2819.0,423,state 0.50-2.00,-0.2646,7,8457.0
+V4 pre-repeal traits,San Jose,California,06|394000,2023,2,340418.0,5,state 0.33-3.00,2.5169,0,680836.0
+V4 pre-repeal traits,San Francisco,California,06|389000,2019,3,402959.0,9,state 0.33-3.00,-3.3527,1,1208877.0
+V4 pre-repeal traits,Raleigh,North Carolina,37|466000,2022,3,204786.0,10,division 0.50-2.00,7.9233,0,614358.0
+V4 pre-repeal traits,Minneapolis,Minnesota,27|497800,2021,3,200237.0,6,division 0.50-2.00,-8.4498,0,600711.0
+V4 pre-repeal traits,Lexington,Kentucky,21|301000,2022,3,144794.0,7,division 0.50-2.00,-1.1668,7,434382.0
+V4 pre-repeal traits,St. Paul,Minnesota,27|712600,2021,3,128154.0,9,division 0.50-2.00,-2.3072,1,384462.0
+V4 pre-repeal traits,Anchorage,Alaska,02|041000,2023,2,119708.0,34,division 0.50-2.00,-3.1533,4,239416.0
+V4 pre-repeal traits,Buffalo,New York,36|089500,2017,3,134903.0,10,state 0.50-2.00,0.484,8,404709.0
+V4 pre-repeal traits,Bridgeport,Connecticut,09|061000,2021,3,58792.0,6,state 0.50-2.00,5.55,3,176376.0
+V4 pre-repeal traits,Gainesville,Florida,12|271000,2022,3,62807.0,33,state 0.50-2.00,6.4208,4,188421.0
+V4 pre-repeal traits,Hartford,Connecticut,09|285000,2017,3,56248.0,10,state 0.50-2.00,-0.2234,6,168744.0
+V4 pre-repeal traits,Ann Arbor,Michigan,26|026500,2022,3,53744.0,22,state 0.50-2.00,4.4645,2,161232.0
+V4 pre-repeal traits,Cambridge,Massachusetts,25|103000,2022,3,53687.0,19,state 0.50-2.00,-5.879,5,161061.0
+V4 pre-repeal traits,Roanoke,Virginia,51|065000,2021,3,48116.0,6,state 0.50-2.00,-1.1584,5,144348.0
+V4 pre-repeal traits,Alameda,California,06|003000,2021,3,31250.0,168,state 0.50-2.00,-3.3448,0,93750.0
+V4 pre-repeal traits,West Allis,Wisconsin,55|932000,2022,3,29682.0,21,state 0.50-2.00,4.4287,0,89046.0
+V4 pre-repeal traits,Corvallis,Oregon,41|099000,2022,3,24975.0,9,state 0.33-3.00,3.3262,0,74925.0
+V4 pre-repeal traits,Tigard,Oregon,41|505000,2022,3,22489.0,11,state 0.33-3.00,-2.7247,0,67467.0
+V4 pre-repeal traits,Dunwoody,Georgia,13|233500,2019,3,22722.0,24,state 0.50-2.00,1.8326,0,68166.0
+V4 pre-repeal traits,Culver City,California,06|101000,2022,3,18490.0,185,state 0.50-2.00,-1.0441,0,55470.0
+V4 pre-repeal traits,Mount Pleasant,Michigan,26|617500,2018,3,8436.0,122,state 0.50-2.00,-1.34,0,25308.0
+V4 pre-repeal traits,Windham,Maine,23|493000,2018,3,7678.0,24,state 0.50-2.00,9.6216,2,23034.0
+V4 pre-repeal traits,Cambridge,Maryland,24|093000,2021,3,6564.0,9,state 0.50-2.00,-6.9802,5,19692.0
+V4 pre-repeal traits,Emeryville,California,06|129000,2020,3,7698.0,131,state 0.50-2.00,-0.1557,0,23094.0
+V4 pre-repeal traits,Branson,Missouri,29|068500,2018,3,8210.0,81,state 0.50-2.00,4.1168,0,24630.0
+V4 pre-repeal traits,Canandaigua,New York,36|103000,2020,3,5301.0,302,state 0.50-2.00,2.8073,0,15903.0
+V4 pre-repeal traits,Ecorse,Michigan,26|266500,2020,3,4121.0,217,state 0.50-2.00,-13.0983,1,12363.0
+V4 pre-repeal traits,Bastrop,Texas,48|045500,2019,3,3344.0,232,state 0.50-2.00,48.6845,0,10032.0
+V4 pre-repeal traits,Seabrook,New Hampshire,33|797000,2019,3,4069.0,73,state 0.50-2.00,-1.909,0,12207.0
+V4 pre-repeal traits,River Rouge,Michigan,26|748000,2021,3,3129.0,263,state 0.50-2.00,0.3175,0,9387.0
+V4 pre-repeal traits,Hudson,New York,36|348000,2019,3,3545.0,428,state 0.50-2.00,-1.535,2,10635.0
+V4 pre-repeal traits,Bandera,Texas,48|041000,2021,3,354.0,186,state 0.50-2.00,-1.9562,0,1062.0
+V4 pre-repeal traits,Austin,Texas,48|033000,2023,2,459943.0,7,state 0.33-3.00,-13.2003,0,919886.0
+V4 pre-repeal traits,Sacramento,California,06|374000,2024,1,210442.0,9,state 0.50-2.00,1.0071,0,210442.0
+V4 pre-repeal traits,Durham,North Carolina,37|164000,2023,2,129679.0,23,division 0.50-2.00,0.3003,3,259358.0
+V4 pre-repeal traits,Richmond,Virginia,51|063000,2023,2,109470.0,8,state 0.33-3.00,15.1128,0,218940.0
+V4 pre-repeal traits,Birmingham,Alabama,01|048000,2024,1,108673.0,7,state 0.33-3.00,0.8113,2,108673.0
+V4 pre-repeal traits,Newport News,Virginia,51|049000,2024,1,82046.0,6,state 0.50-2.00,2.3643,1,82046.0
+V4 pre-repeal traits,Salem,Oregon,41|445000,2023,2,69533.0,89,division 0.50-2.00,-1.2696,0,139066.0
+V4 pre-repeal traits,Eugene,Oregon,41|151000,2024,1,79854.0,87,division 0.50-2.00,0.9323,0,79854.0
+V4 pre-repeal traits,Berkeley,California,06|039000,2021,3,51294.0,134,state 0.50-2.00,3.9166,4,153882.0
+V4 pre-repeal traits,Bend,Oregon,41|041000,2023,2,45698.0,174,division 0.50-2.00,3.5505,0,91396.0
+V4 pre-repeal traits,Beaverton,Oregon,41|039000,2023,2,42280.0,176,division 0.50-2.00,-1.9827,0,84560.0
+V4 pre-repeal traits,Longmont,Colorado,08|401000,2024,1,42580.0,11,state 0.50-2.00,13.9944,1,42580.0
+V4 pre-repeal traits,Trenton,New Jersey,34|516000,2023,2,34502.0,44,state 0.50-2.00,0.8335,4,69004.0
+V4 pre-repeal traits,Duluth,Minnesota,27|196900,2023,2,39250.0,20,state 0.50-2.00,5.8426,0,78500.0
+V4 pre-repeal traits,Kalamazoo,Michigan,26|463500,2023,2,32368.0,45,state 0.50-2.00,-0.1559,0,64736.0
+V4 pre-repeal traits,Rogers,Arkansas,05|462000,2024,1,27946.0,10,state 0.50-2.00,-7.9767,6,27946.0
+V4 pre-repeal traits,Portland,Maine,23|363000,2024,1,36432.0,79,division 0.50-2.00,2.658,0,36432.0
+V4 pre-repeal traits,Springfield,Oregon,41|481000,2024,1,25523.0,8,state 0.33-3.00,10.0095,2,25523.0
+V4 pre-repeal traits,Albany,Oregon,41|009000,2023,2,22654.0,10,state 0.33-3.00,-4.7798,1,45308.0
+V4 pre-repeal traits,La Crosse,Wisconsin,55|452000,2024,1,24385.0,23,state 0.50-2.00,-2.1596,0,24385.0
+V4 pre-repeal traits,Burlington,Vermont,50|085000,2023,2,17830.0,148,division 0.50-2.00,13.9132,2,35660.0
+V4 pre-repeal traits,Grants Pass,Oregon,41|191000,2024,1,17203.0,8,state 0.50-2.00,10.4766,0,17203.0
+V4 pre-repeal traits,Plainfield,Indiana,18|584500,2022,3,12564.0,37,state 0.50-2.00,-11.0477,1,37692.0
+V4 pre-repeal traits,Tualatin,Oregon,41|517000,2024,1,11171.0,14,state 0.50-2.00,14.0974,0,11171.0
+V4 pre-repeal traits,West Linn,Oregon,41|555000,2024,1,10348.0,14,state 0.50-2.00,9.6071,0,10348.0
+V4 pre-repeal traits,Kingston,New York,36|375000,2023,2,11022.0,161,state 0.50-2.00,10.3285,5,22044.0
+V4 pre-repeal traits,Ashland,Oregon,41|017000,2023,2,11342.0,18,state 0.50-2.00,3.7623,0,22684.0
+V4 pre-repeal traits,Carrboro,North Carolina,37|092000,2023,2,10129.0,32,state 0.50-2.00,-9.5804,0,20258.0
+V4 pre-repeal traits,Milwaukie,Oregon,41|339000,2024,1,9552.0,19,state 0.50-2.00,-0.5668,0,9552.0
+V4 pre-repeal traits,Northfield,Minnesota,27|551800,2024,1,6761.0,73,state 0.50-2.00,-1.6122,0,6761.0
+V4 pre-repeal traits,Central Point,Oregon,41|071000,2023,2,7845.0,26,state 0.50-2.00,-4.6724,0,15690.0
+V4 pre-repeal traits,Portsmouth,Ohio,39|522700,2022,3,8452.0,130,state 0.50-2.00,0.3867,2,25356.0
+V4 pre-repeal traits,Taylor,Texas,48|688000,2023,2,6725.0,163,state 0.50-2.00,-10.7391,5,13450.0
+V4 pre-repeal traits,Hanover,New Hampshire,33|397000,2024,1,4044.0,50,state 0.50-2.00,-4.245,3,4044.0
+V4 pre-repeal traits,Lansing,Kansas,20|296200,2024,1,3671.0,37,state 0.50-2.00,-6.8619,0,3671.0
+V4 pre-repeal traits,Hampden,Maine,23|190000,2022,3,3196.0,68,state 0.50-2.00,-2.3973,0,9588.0
+V4 pre-repeal traits,King City,Oregon,41|265000,2024,1,2752.0,29,state 0.50-2.00,15.7592,0,2752.0
+V4 pre-repeal traits,Social Circle,Georgia,13|616000,2023,2,1754.0,92,state 0.50-2.00,-12.8987,0,3508.0
+V4 pre-repeal traits,Millersburg,Oregon,41|335000,2024,1,1166.0,27,state 0.50-2.00,-34.0422,0,1166.0
+V4 pre-repeal traits,Maumee,Ohio,39|382600,2020,3,6174.0,143,state 0.50-2.00,-0.5314,1,18522.0
+V4 pre-repeal traits,Saranac Lake,New York,36|648000,2016,3,2803.0,463,state 0.50-2.00,-0.3105,7,8409.0
+V5 all fixes (V1+V3+V4),San Jose,California,06|394000,2023,2,340418.0,3,nation 0.50-2.00,10.776,0,680836.0
+V5 all fixes (V1+V3+V4),San Francisco,California,06|389000,2019,3,402959.0,5,nation 0.50-2.00,-11.1814,1,1208877.0
+V5 all fixes (V1+V3+V4),Raleigh,North Carolina,37|466000,2022,3,204786.0,5,division 0.33-3.00,9.8711,0,614358.0
+V5 all fixes (V1+V3+V4),Minneapolis,Minnesota,27|497800,2021,3,200237.0,10,nation 0.50-2.00,-8.7853,0,600711.0
+V5 all fixes (V1+V3+V4),Lexington,Kentucky,21|301000,2022,3,144794.0,13,nation 0.50-2.00,-0.271,7,434382.0
+V5 all fixes (V1+V3+V4),St. Paul,Minnesota,27|712600,2021,3,128154.0,16,nation 0.50-2.00,-1.6593,1,384462.0
+V5 all fixes (V1+V3+V4),Anchorage,Alaska,02|041000,2023,2,119708.0,30,division 0.33-3.00,3.2541,4,239416.0
+V5 all fixes (V1+V3+V4),Buffalo,New York,36|089500,2017,3,134903.0,7,state 0.50-2.00,-0.206,8,404709.0
+V5 all fixes (V1+V3+V4),Bridgeport,Connecticut,09|061000,2021,3,58792.0,7,division 0.50-2.00,3.6508,3,176376.0
+V5 all fixes (V1+V3+V4),Gainesville,Florida,12|271000,2022,3,62807.0,22,state 0.50-2.00,19.9404,4,188421.0
+V5 all fixes (V1+V3+V4),Hartford,Connecticut,09|285000,2017,3,56248.0,10,division 0.50-2.00,0.1833,6,168744.0
+V5 all fixes (V1+V3+V4),Ann Arbor,Michigan,26|026500,2022,3,53744.0,9,state 0.50-2.00,3.8877,2,161232.0
+V5 all fixes (V1+V3+V4),Cambridge,Massachusetts,25|103000,2022,3,53687.0,6,state 0.50-2.00,0.0448,5,161061.0
+V5 all fixes (V1+V3+V4),Roanoke,Virginia,51|065000,2021,3,48116.0,49,division 0.50-2.00,1.4933,5,144348.0
+V5 all fixes (V1+V3+V4),Alameda,California,06|003000,2021,3,31250.0,145,state 0.50-2.00,-3.1027,0,93750.0
+V5 all fixes (V1+V3+V4),West Allis,Wisconsin,55|932000,2022,3,29682.0,8,state 0.50-2.00,4.7077,0,89046.0
+V5 all fixes (V1+V3+V4),Corvallis,Oregon,41|099000,2022,3,24975.0,183,division 0.50-2.00,3.9708,0,74925.0
+V5 all fixes (V1+V3+V4),Tigard,Oregon,41|505000,2022,3,22489.0,182,division 0.50-2.00,-2.5841,0,67467.0
+V5 all fixes (V1+V3+V4),Dunwoody,Georgia,13|233500,2019,3,22722.0,12,state 0.33-3.00,-3.5286,0,68166.0
+V5 all fixes (V1+V3+V4),Culver City,California,06|101000,2022,3,18490.0,178,state 0.50-2.00,-1.4197,0,55470.0
+V5 all fixes (V1+V3+V4),Mount Pleasant,Michigan,26|617500,2018,3,8436.0,84,state 0.50-2.00,-1.6858,0,25308.0
+V5 all fixes (V1+V3+V4),Windham,Maine,23|493000,2018,3,7678.0,7,state 0.50-2.00,-3.1462,2,23034.0
+V5 all fixes (V1+V3+V4),Cambridge,Maryland,24|093000,2021,3,6564.0,5,state 0.50-2.00,-9.5838,5,19692.0
+V5 all fixes (V1+V3+V4),Emeryville,California,06|129000,2020,3,7698.0,126,state 0.50-2.00,-0.1341,0,23094.0
+V5 all fixes (V1+V3+V4),Branson,Missouri,29|068500,2018,3,8210.0,38,state 0.50-2.00,6.3408,0,24630.0
+V5 all fixes (V1+V3+V4),Canandaigua,New York,36|103000,2020,3,5301.0,254,state 0.50-2.00,2.5873,0,15903.0
+V5 all fixes (V1+V3+V4),Ecorse,Michigan,26|266500,2020,3,4121.0,169,state 0.50-2.00,-12.4424,1,12363.0
+V5 all fixes (V1+V3+V4),Bastrop,Texas,48|045500,2019,3,3344.0,228,state 0.50-2.00,50.3959,0,10032.0
+V5 all fixes (V1+V3+V4),Seabrook,New Hampshire,33|797000,2019,3,4069.0,71,state 0.50-2.00,-1.492,0,12207.0
+V5 all fixes (V1+V3+V4),River Rouge,Michigan,26|748000,2021,3,3129.0,212,state 0.50-2.00,0.5522,0,9387.0
+V5 all fixes (V1+V3+V4),Hudson,New York,36|348000,2019,3,3545.0,379,state 0.50-2.00,-1.134,2,10635.0
+V5 all fixes (V1+V3+V4),Bandera,Texas,48|041000,2021,3,354.0,186,state 0.50-2.00,-1.5586,0,1062.0
+V5 all fixes (V1+V3+V4),Austin,Texas,48|033000,2023,2,459943.0,4,nation 0.50-2.00,-9.3786,0,919886.0
+V5 all fixes (V1+V3+V4),Sacramento,California,06|374000,2024,1,210442.0,7,nation 0.50-2.00,3.5895,0,210442.0
+V5 all fixes (V1+V3+V4),Durham,North Carolina,37|164000,2023,2,129679.0,5,division 0.50-2.00,4.1992,3,259358.0
+V5 all fixes (V1+V3+V4),Richmond,Virginia,51|063000,2023,2,109470.0,11,division 0.50-2.00,14.0402,0,218940.0
+V5 all fixes (V1+V3+V4),Birmingham,Alabama,01|048000,2024,1,108673.0,79,nation 0.50-2.00,-3.3809,2,108673.0
+V5 all fixes (V1+V3+V4),Newport News,Virginia,51|049000,2024,1,82046.0,20,division 0.50-2.00,1.8604,1,82046.0
+V5 all fixes (V1+V3+V4),Salem,Oregon,41|445000,2023,2,69533.0,41,division 0.50-2.00,-1.1596,0,139066.0
+V5 all fixes (V1+V3+V4),Eugene,Oregon,41|151000,2024,1,79854.0,40,division 0.50-2.00,0.475,0,79854.0
+V5 all fixes (V1+V3+V4),Berkeley,California,06|039000,2021,3,51294.0,94,state 0.50-2.00,6.5207,4,153882.0
+V5 all fixes (V1+V3+V4),Bend,Oregon,41|041000,2023,2,45698.0,124,division 0.50-2.00,3.4114,0,91396.0
+V5 all fixes (V1+V3+V4),Beaverton,Oregon,41|039000,2023,2,42280.0,126,division 0.50-2.00,-2.1523,0,84560.0
+V5 all fixes (V1+V3+V4),Longmont,Colorado,08|401000,2024,1,42580.0,12,division 0.50-2.00,7.6728,1,42580.0
+V5 all fixes (V1+V3+V4),Trenton,New Jersey,34|516000,2023,2,34502.0,23,state 0.50-2.00,1.9265,4,69004.0
+V5 all fixes (V1+V3+V4),Duluth,Minnesota,27|196900,2023,2,39250.0,5,state 0.50-2.00,8.6265,0,78500.0
+V5 all fixes (V1+V3+V4),Kalamazoo,Michigan,26|463500,2023,2,32368.0,19,state 0.50-2.00,0.2883,0,64736.0
+V5 all fixes (V1+V3+V4),Rogers,Arkansas,05|462000,2024,1,27946.0,65,division 0.50-2.00,6.0983,6,27946.0
+V5 all fixes (V1+V3+V4),Portland,Maine,23|363000,2024,1,36432.0,25,division 0.50-2.00,3.3657,0,36432.0
+V5 all fixes (V1+V3+V4),Springfield,Oregon,41|481000,2024,1,25523.0,181,division 0.50-2.00,-5.2477,2,25523.0
+V5 all fixes (V1+V3+V4),Albany,Oregon,41|009000,2023,2,22654.0,184,division 0.50-2.00,-6.7846,1,45308.0
+V5 all fixes (V1+V3+V4),La Crosse,Wisconsin,55|452000,2024,1,24385.0,9,state 0.50-2.00,-0.7009,0,24385.0
+V5 all fixes (V1+V3+V4),Burlington,Vermont,50|085000,2023,2,17830.0,61,division 0.50-2.00,16.2645,2,35660.0
+V5 all fixes (V1+V3+V4),Grants Pass,Oregon,41|191000,2024,1,17203.0,182,division 0.50-2.00,3.2507,0,17203.0
+V5 all fixes (V1+V3+V4),Plainfield,Indiana,18|584500,2022,3,12564.0,14,state 0.50-2.00,-15.966,1,37692.0
+V5 all fixes (V1+V3+V4),Tualatin,Oregon,41|517000,2024,1,11171.0,170,division 0.50-2.00,5.3466,0,11171.0
+V5 all fixes (V1+V3+V4),West Linn,Oregon,41|555000,2024,1,10348.0,168,division 0.50-2.00,0.7951,0,10348.0
+V5 all fixes (V1+V3+V4),Kingston,New York,36|375000,2023,2,11022.0,129,state 0.50-2.00,10.4564,5,22044.0
+V5 all fixes (V1+V3+V4),Ashland,Oregon,41|017000,2023,2,11342.0,169,division 0.50-2.00,-3.3164,0,22684.0
+V5 all fixes (V1+V3+V4),Carrboro,North Carolina,37|092000,2023,2,10129.0,6,state 0.50-2.00,-5.3779,0,20258.0
+V5 all fixes (V1+V3+V4),Milwaukie,Oregon,41|339000,2024,1,9552.0,5,state 0.33-3.00,-9.1729,0,9552.0
+V5 all fixes (V1+V3+V4),Northfield,Minnesota,27|551800,2024,1,6761.0,25,state 0.50-2.00,-2.3658,0,6761.0
+V5 all fixes (V1+V3+V4),Central Point,Oregon,41|071000,2023,2,7845.0,5,state 0.33-3.00,-11.7724,0,15690.0
+V5 all fixes (V1+V3+V4),Portsmouth,Ohio,39|522700,2022,3,8452.0,61,state 0.50-2.00,-0.2033,2,25356.0
+V5 all fixes (V1+V3+V4),Taylor,Texas,48|688000,2023,2,6725.0,158,state 0.50-2.00,-4.0212,5,13450.0
+V5 all fixes (V1+V3+V4),Hanover,New Hampshire,33|397000,2024,1,4044.0,48,state 0.50-2.00,-4.0795,3,4044.0
+V5 all fixes (V1+V3+V4),Lansing,Kansas,20|296200,2024,1,3671.0,14,state 0.50-2.00,-11.2784,0,3671.0
+V5 all fixes (V1+V3+V4),Hampden,Maine,23|190000,2022,3,3196.0,37,state 0.50-2.00,0.7947,0,9588.0
+V5 all fixes (V1+V3+V4),King City,Oregon,41|265000,2024,1,2752.0,6,state 0.50-2.00,10.3453,0,2752.0
+V5 all fixes (V1+V3+V4),Social Circle,Georgia,13|616000,2023,2,1754.0,62,state 0.50-2.00,-17.5451,0,3508.0
+V5 all fixes (V1+V3+V4),Millersburg,Oregon,41|335000,2024,1,1166.0,7,state 0.50-2.00,-33.6931,0,1166.0
+V5 all fixes (V1+V3+V4),Maumee,Ohio,39|382600,2020,3,6174.0,68,state 0.50-2.00,-1.1247,1,18522.0
+V5 all fixes (V1+V3+V4),Saranac Lake,New York,36|648000,2016,3,2803.0,412,state 0.50-2.00,0.1718,7,8409.0
+"V3a clean pools, no national fallback (first run)",San Jose,California,06|394000,2023,2,345066.0,1,division 0.33-3.00 (fewer than 5),5.1481,0,690132.0
+"V3a clean pools, no national fallback (first run)",San Francisco,California,06|389000,2019,3,414602.0,1,division 0.33-3.00 (fewer than 5),-8.2992,1,1243806.0
+"V3a clean pools, no national fallback (first run)",Raleigh,North Carolina,37|466000,2022,3,224853.0,4,division 0.33-3.00 (fewer than 5),9.2719,0,674559.0
+"V3a clean pools, no national fallback (first run)",Minneapolis,Minnesota,27|497800,2021,3,209080.0,0,division 0.33-3.00 (fewer than 5),,0,627240.0
+"V3a clean pools, no national fallback (first run)",Lexington,Kentucky,21|301000,2022,3,148959.0,1,division 0.33-3.00 (fewer than 5),5.0878,7,446877.0
+"V3a clean pools, no national fallback (first run)",St. Paul,Minnesota,27|712600,2021,3,133051.0,2,division 0.33-3.00 (fewer than 5),1.3123,1,399153.0
+"V3a clean pools, no national fallback (first run)",Anchorage,Alaska,02|041000,2023,2,120348.0,31,division 0.33-3.00,-2.7893,4,240696.0
+"V3a clean pools, no national fallback (first run)",Buffalo,New York,36|089500,2017,3,136850.0,7,state 0.50-2.00,1.1202,8,410550.0
+"V3a clean pools, no national fallback (first run)",Bridgeport,Connecticut,09|061000,2021,3,59844.0,7,division 0.50-2.00,3.3077,3,179532.0
+"V3a clean pools, no national fallback (first run)",Gainesville,Florida,12|271000,2022,3,66114.0,24,state 0.50-2.00,3.9272,4,198342.0
+"V3a clean pools, no national fallback (first run)",Hartford,Connecticut,09|285000,2017,3,56435.0,10,division 0.50-2.00,-0.0252,6,169305.0
+"V3a clean pools, no national fallback (first run)",Ann Arbor,Michigan,26|026500,2022,3,54399.0,9,state 0.50-2.00,4.14,2,163197.0
+"V3a clean pools, no national fallback (first run)",Cambridge,Massachusetts,25|103000,2022,3,54840.0,6,state 0.50-2.00,-7.5368,5,164520.0
+"V3a clean pools, no national fallback (first run)",Roanoke,Virginia,51|065000,2021,3,49106.0,51,division 0.50-2.00,-3.1716,5,147318.0
+"V3a clean pools, no national fallback (first run)",Alameda,California,06|003000,2021,3,32291.0,144,state 0.50-2.00,-2.9769,0,96873.0
+"V3a clean pools, no national fallback (first run)",West Allis,Wisconsin,55|932000,2022,3,30294.0,8,state 0.50-2.00,4.7833,0,90882.0
+"V3a clean pools, no national fallback (first run)",Corvallis,Oregon,41|099000,2022,3,25628.0,182,division 0.50-2.00,3.9828,0,76884.0
+"V3a clean pools, no national fallback (first run)",Tigard,Oregon,41|505000,2022,3,23877.0,183,division 0.50-2.00,-2.2013,0,71631.0
+"V3a clean pools, no national fallback (first run)",Dunwoody,Georgia,13|233500,2019,3,23491.0,8,state 0.50-2.00,-1.838,0,70473.0
+"V3a clean pools, no national fallback (first run)",Culver City,California,06|101000,2022,3,18803.0,177,state 0.50-2.00,-0.7946,0,56409.0
+"V3a clean pools, no national fallback (first run)",Mount Pleasant,Michigan,26|617500,2018,3,8551.0,85,state 0.50-2.00,-1.8621,0,25653.0
+"V3a clean pools, no national fallback (first run)",Windham,Maine,23|493000,2018,3,8709.0,6,state 0.50-2.00,9.4577,2,26127.0
+"V3a clean pools, no national fallback (first run)",Cambridge,Maryland,24|093000,2021,3,6652.0,5,state 0.50-2.00,-6.7622,5,19956.0
+"V3a clean pools, no national fallback (first run)",Emeryville,California,06|129000,2020,3,8497.0,133,state 0.50-2.00,-0.12,0,25491.0
+"V3a clean pools, no national fallback (first run)",Branson,Missouri,29|068500,2018,3,9006.0,38,state 0.50-2.00,5.3982,0,27018.0
+"V3a clean pools, no national fallback (first run)",Canandaigua,New York,36|103000,2020,3,5390.0,255,state 0.50-2.00,2.7662,0,16170.0
+"V3a clean pools, no national fallback (first run)",Ecorse,Michigan,26|266500,2020,3,4121.0,173,state 0.50-2.00,-12.8426,1,12363.0
+"V3a clean pools, no national fallback (first run)",Bastrop,Texas,48|045500,2019,3,5100.0,202,state 0.50-2.00,30.7854,0,15300.0
+"V3a clean pools, no national fallback (first run)",Seabrook,New Hampshire,33|797000,2019,3,4151.0,72,state 0.50-2.00,-2.0403,0,12453.0
+"V3a clean pools, no national fallback (first run)",River Rouge,Michigan,26|748000,2021,3,3129.0,212,state 0.50-2.00,0.4417,0,9387.0
+"V3a clean pools, no national fallback (first run)",Hudson,New York,36|348000,2019,3,3551.0,383,state 0.50-2.00,-1.5809,2,10653.0
+"V3a clean pools, no national fallback (first run)",Bandera,Texas,48|041000,2021,3,367.0,180,state 0.50-2.00,3.4077,0,1101.0
+"V3a clean pools, no national fallback (first run)",Austin,Texas,48|033000,2023,2,483071.0,0,division 0.33-3.00 (fewer than 5),,0,966142.0
+"V3a clean pools, no national fallback (first run)",Sacramento,California,06|374000,2024,1,212485.0,1,division 0.33-3.00 (fewer than 5),0.3291,0,212485.0
+"V3a clean pools, no national fallback (first run)",Durham,North Carolina,37|164000,2023,2,136837.0,5,division 0.50-2.00,2.3767,3,273674.0
+"V3a clean pools, no national fallback (first run)",Richmond,Virginia,51|063000,2023,2,114293.0,10,division 0.50-2.00,11.8661,0,228586.0
+"V3a clean pools, no national fallback (first run)",Birmingham,Alabama,01|048000,2024,1,109349.0,3,division 0.33-3.00 (fewer than 5),9.7459,2,109349.0
+"V3a clean pools, no national fallback (first run)",Newport News,Virginia,51|049000,2024,1,82052.0,20,division 0.50-2.00,1.1482,1,82052.0
+"V3a clean pools, no national fallback (first run)",Salem,Oregon,41|445000,2023,2,71124.0,40,division 0.50-2.00,-0.9109,0,142248.0
+"V3a clean pools, no national fallback (first run)",Eugene,Oregon,41|151000,2024,1,80856.0,40,division 0.50-2.00,0.7858,0,80856.0
+"V3a clean pools, no national fallback (first run)",Berkeley,California,06|039000,2021,3,53145.0,93,state 0.50-2.00,4.4761,4,159435.0
+"V3a clean pools, no national fallback (first run)",Bend,Oregon,41|041000,2023,2,47957.0,118,division 0.50-2.00,3.5168,0,95914.0
+"V3a clean pools, no national fallback (first run)",Beaverton,Oregon,41|039000,2023,2,42771.0,126,division 0.50-2.00,-1.9372,0,85542.0
+"V3a clean pools, no national fallback (first run)",Longmont,Colorado,08|401000,2024,1,43528.0,13,division 0.50-2.00,15.1451,1,43528.0
+"V3a clean pools, no national fallback (first run)",Trenton,New Jersey,34|516000,2023,2,34513.0,24,state 0.50-2.00,0.7744,4,69026.0
+"V3a clean pools, no national fallback (first run)",Duluth,Minnesota,27|196900,2023,2,39978.0,5,state 0.50-2.00,8.4481,0,79956.0
+"V3a clean pools, no national fallback (first run)",Kalamazoo,Michigan,26|463500,2023,2,32379.0,19,state 0.50-2.00,0.1756,0,64758.0
+"V3a clean pools, no national fallback (first run)",Rogers,Arkansas,05|462000,2024,1,28579.0,66,division 0.50-2.00,3.0965,6,28579.0
+"V3a clean pools, no national fallback (first run)",Portland,Maine,23|363000,2024,1,36559.0,25,division 0.50-2.00,3.2035,0,36559.0
+"V3a clean pools, no national fallback (first run)",Springfield,Oregon,41|481000,2024,1,25905.0,178,division 0.50-2.00,6.3865,2,25905.0
+"V3a clean pools, no national fallback (first run)",Albany,Oregon,41|009000,2023,2,22768.0,183,division 0.50-2.00,-7.6141,1,45536.0
+"V3a clean pools, no national fallback (first run)",La Crosse,Wisconsin,55|452000,2024,1,24404.0,9,state 0.50-2.00,-0.812,0,24404.0
+"V3a clean pools, no national fallback (first run)",Burlington,Vermont,50|085000,2023,2,18079.0,61,division 0.50-2.00,13.3979,2,36158.0
+"V3a clean pools, no national fallback (first run)",Grants Pass,Oregon,41|191000,2024,1,17297.0,184,division 0.50-2.00,3.309,0,17297.0
+"V3a clean pools, no national fallback (first run)",Plainfield,Indiana,18|584500,2022,3,13359.0,13,state 0.50-2.00,-17.147,1,40077.0
+"V3a clean pools, no national fallback (first run)",Tualatin,Oregon,41|517000,2024,1,11303.0,168,division 0.50-2.00,5.4104,0,11303.0
+"V3a clean pools, no national fallback (first run)",West Linn,Oregon,41|555000,2024,1,10395.0,169,division 0.50-2.00,1.0723,0,10395.0
+"V3a clean pools, no national fallback (first run)",Kingston,New York,36|375000,2023,2,11221.0,128,state 0.50-2.00,10.1026,5,22442.0
+"V3a clean pools, no national fallback (first run)",Ashland,Oregon,41|017000,2023,2,11494.0,5,state 0.33-3.00,-2.0487,0,22988.0
+"V3a clean pools, no national fallback (first run)",Carrboro,North Carolina,37|092000,2023,2,10189.0,6,state 0.50-2.00,-7.5218,0,20378.0
+"V3a clean pools, no national fallback (first run)",Milwaukie,Oregon,41|339000,2024,1,9859.0,5,state 0.33-3.00,-8.3639,0,9859.0
+"V3a clean pools, no national fallback (first run)",Northfield,Minnesota,27|551800,2024,1,6771.0,25,state 0.50-2.00,-2.2556,0,6771.0
+"V3a clean pools, no national fallback (first run)",Central Point,Oregon,41|071000,2023,2,7978.0,5,state 0.33-3.00,-9.592,0,15956.0
+"V3a clean pools, no national fallback (first run)",Portsmouth,Ohio,39|522700,2022,3,8466.0,60,state 0.50-2.00,0.5525,2,25398.0
+"V3a clean pools, no national fallback (first run)",Taylor,Texas,48|688000,2023,2,7016.0,157,state 0.50-2.00,-9.2906,5,14032.0
+"V3a clean pools, no national fallback (first run)",Hanover,New Hampshire,33|397000,2024,1,4056.0,48,state 0.50-2.00,-4.5837,3,4056.0
+"V3a clean pools, no national fallback (first run)",Lansing,Kansas,20|296200,2024,1,3723.0,15,state 0.50-2.00,-12.8166,0,3723.0
+"V3a clean pools, no national fallback (first run)",Hampden,Maine,23|190000,2022,3,3295.0,37,state 0.50-2.00,-1.5338,0,9885.0
+"V3a clean pools, no national fallback (first run)",King City,Oregon,41|265000,2024,1,2782.0,6,state 0.50-2.00,11.0236,0,2782.0
+"V3a clean pools, no national fallback (first run)",Social Circle,Georgia,13|616000,2023,2,1796.0,60,state 0.50-2.00,-11.3304,0,3592.0
+"V3a clean pools, no national fallback (first run)",Millersburg,Oregon,41|335000,2024,1,1187.0,7,state 0.50-2.00,-32.8612,0,1187.0
+"V3a clean pools, no national fallback (first run)",Maumee,Ohio,39|382600,2020,3,6217.0,70,state 0.50-2.00,-0.8832,1,18651.0
+"V3a clean pools, no national fallback (first run)",Saranac Lake,New York,36|648000,2016,3,2819.0,423,state 0.50-2.00,-0.2646,7,8457.0
+V1b reported months scaled to 12,San Jose,California,06|394000,2023,2,345066.0,5,state 0.33-3.00,2.2956,0,690132.0
+V1b reported months scaled to 12,San Francisco,California,06|389000,2019,3,414602.0,9,state 0.33-3.00,-3.4392,1,1243806.0
+V1b reported months scaled to 12,Raleigh,North Carolina,37|466000,2022,3,224853.0,9,division 0.50-2.00,7.0008,0,674559.0
+V1b reported months scaled to 12,Minneapolis,Minnesota,27|497800,2021,3,209080.0,5,division 0.50-2.00,-9.052,0,627240.0
+V1b reported months scaled to 12,Lexington,Kentucky,21|301000,2022,3,148959.0,6,division 0.50-2.00,-7.4839,7,446877.0
+V1b reported months scaled to 12,St. Paul,Minnesota,27|712600,2021,3,133051.0,9,division 0.50-2.00,-2.5442,1,399153.0
+V1b reported months scaled to 12,Anchorage,Alaska,02|041000,2023,2,120348.0,34,division 0.50-2.00,-2.2862,4,240696.0
+V1b reported months scaled to 12,Buffalo,New York,36|089500,2017,3,136850.0,10,state 0.50-2.00,-0.4391,8,410550.0
+V1b reported months scaled to 12,Bridgeport,Connecticut,09|061000,2021,3,59844.0,5,state 0.50-2.00,5.6656,3,179532.0
+V1b reported months scaled to 12,Gainesville,Florida,12|271000,2022,3,66114.0,35,state 0.50-2.00,7.5195,4,198342.0
+V1b reported months scaled to 12,Hartford,Connecticut,09|285000,2017,3,56435.0,11,state 0.50-2.00,-0.1722,6,169305.0
+V1b reported months scaled to 12,Ann Arbor,Michigan,26|026500,2022,3,54399.0,22,state 0.50-2.00,4.8754,2,163197.0
+V1b reported months scaled to 12,Cambridge,Massachusetts,25|103000,2022,3,54840.0,18,state 0.50-2.00,-9.3494,5,164520.0
+V1b reported months scaled to 12,Roanoke,Virginia,51|065000,2021,3,49106.0,6,state 0.50-2.00,-1.2299,5,147318.0
+V1b reported months scaled to 12,Alameda,California,06|003000,2021,3,32291.0,166,state 0.50-2.00,-3.169,0,96873.0
+V1b reported months scaled to 12,West Allis,Wisconsin,55|932000,2022,3,30294.0,21,state 0.50-2.00,4.3149,0,90882.0
+V1b reported months scaled to 12,Corvallis,Oregon,41|099000,2022,3,25628.0,9,state 0.33-3.00,3.4869,0,76884.0
+V1b reported months scaled to 12,Tigard,Oregon,41|505000,2022,3,23877.0,11,state 0.33-3.00,-2.3399,0,71631.0
+V1b reported months scaled to 12,Dunwoody,Georgia,13|233500,2019,3,23491.0,28,state 0.50-2.00,2.3522,0,70473.0
+V1b reported months scaled to 12,Culver City,California,06|101000,2022,3,18803.0,183,state 0.50-2.00,-0.7258,0,56409.0
+V1b reported months scaled to 12,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,122,state 0.50-2.00,-1.4798,0,25653.0
+V1b reported months scaled to 12,Windham,Maine,23|493000,2018,3,8709.0,22,state 0.50-2.00,5.3683,2,26127.0
+V1b reported months scaled to 12,Cambridge,Maryland,24|093000,2021,3,6652.0,9,state 0.50-2.00,-6.687,5,19956.0
+V1b reported months scaled to 12,Emeryville,California,06|129000,2020,3,8497.0,138,state 0.50-2.00,-0.0811,0,25491.0
+V1b reported months scaled to 12,Branson,Missouri,29|068500,2018,3,9006.0,81,state 0.50-2.00,3.1682,0,27018.0
+V1b reported months scaled to 12,Canandaigua,New York,36|103000,2020,3,5390.0,302,state 0.50-2.00,2.8136,0,16170.0
+V1b reported months scaled to 12,Ecorse,Michigan,26|266500,2020,3,4121.0,220,state 0.50-2.00,-12.6174,1,12363.0
+V1b reported months scaled to 12,Bastrop,Texas,48|045500,2019,3,5100.0,207,state 0.50-2.00,30.8346,0,15300.0
+V1b reported months scaled to 12,Seabrook,New Hampshire,33|797000,2019,3,4151.0,74,state 0.50-2.00,-1.849,0,12453.0
+V1b reported months scaled to 12,River Rouge,Michigan,26|748000,2021,3,3129.0,263,state 0.50-2.00,0.3869,0,9387.0
+V1b reported months scaled to 12,Hudson,New York,36|348000,2019,3,3551.0,433,state 0.50-2.00,-1.5239,2,10653.0
+V1b reported months scaled to 12,Bandera,Texas,48|041000,2021,3,367.0,180,state 0.50-2.00,3.418,0,1101.0
+V1b reported months scaled to 12,Austin,Texas,48|033000,2023,2,483071.0,6,state 0.33-3.00,-12.3814,0,966142.0
+V1b reported months scaled to 12,Sacramento,California,06|374000,2024,1,212485.0,9,state 0.50-2.00,1.0035,0,212485.0
+V1b reported months scaled to 12,Durham,North Carolina,37|164000,2023,2,136837.0,23,division 0.50-2.00,2.5012,3,273674.0
+V1b reported months scaled to 12,Richmond,Virginia,51|063000,2023,2,114293.0,5,state 0.50-2.00,15.1051,0,228586.0
+V1b reported months scaled to 12,Birmingham,Alabama,01|048000,2024,1,109349.0,7,state 0.33-3.00,0.721,2,109349.0
+V1b reported months scaled to 12,Newport News,Virginia,51|049000,2024,1,82052.0,6,state 0.50-2.00,2.4805,1,82052.0
+V1b reported months scaled to 12,Salem,Oregon,41|445000,2023,2,71124.0,87,division 0.50-2.00,-1.1836,0,142248.0
+V1b reported months scaled to 12,Eugene,Oregon,41|151000,2024,1,80856.0,87,division 0.50-2.00,0.9272,0,80856.0
+V1b reported months scaled to 12,Berkeley,California,06|039000,2021,3,53145.0,132,state 0.50-2.00,3.9091,4,159435.0
+V1b reported months scaled to 12,Bend,Oregon,41|041000,2023,2,47957.0,168,division 0.50-2.00,3.4694,0,95914.0
+V1b reported months scaled to 12,Beaverton,Oregon,41|039000,2023,2,42771.0,176,division 0.50-2.00,-1.9117,0,85542.0
+V1b reported months scaled to 12,Longmont,Colorado,08|401000,2024,1,43528.0,11,state 0.50-2.00,13.6558,1,43528.0
+V1b reported months scaled to 12,Trenton,New Jersey,34|516000,2023,2,34513.0,46,state 0.50-2.00,1.0748,4,69026.0
+V1b reported months scaled to 12,Duluth,Minnesota,27|196900,2023,2,39978.0,20,state 0.50-2.00,5.7195,0,79956.0
+V1b reported months scaled to 12,Kalamazoo,Michigan,26|463500,2023,2,32379.0,46,state 0.50-2.00,-0.1738,0,64758.0
+V1b reported months scaled to 12,Rogers,Arkansas,05|462000,2024,1,28579.0,10,state 0.50-2.00,-16.3066,6,28579.0
+V1b reported months scaled to 12,Portland,Maine,23|363000,2024,1,36559.0,79,division 0.50-2.00,2.9473,0,36559.0
+V1b reported months scaled to 12,Springfield,Oregon,41|481000,2024,1,25905.0,8,state 0.33-3.00,9.7924,2,25905.0
+V1b reported months scaled to 12,Albany,Oregon,41|009000,2023,2,22768.0,11,state 0.33-3.00,-3.706,1,45536.0
+V1b reported months scaled to 12,La Crosse,Wisconsin,55|452000,2024,1,24404.0,24,state 0.50-2.00,-2.0331,0,24404.0
+V1b reported months scaled to 12,Burlington,Vermont,50|085000,2023,2,18079.0,146,division 0.50-2.00,13.8757,2,36158.0
+V1b reported months scaled to 12,Grants Pass,Oregon,41|191000,2024,1,17297.0,8,state 0.50-2.00,10.6669,0,17297.0
+V1b reported months scaled to 12,Plainfield,Indiana,18|584500,2022,3,13359.0,35,state 0.50-2.00,-10.6059,1,40077.0
+V1b reported months scaled to 12,Tualatin,Oregon,41|517000,2024,1,11303.0,14,state 0.50-2.00,14.1546,0,11303.0
+V1b reported months scaled to 12,West Linn,Oregon,41|555000,2024,1,10395.0,14,state 0.50-2.00,9.7188,0,10395.0
+V1b reported months scaled to 12,Kingston,New York,36|375000,2023,2,11221.0,159,state 0.50-2.00,9.7496,5,22442.0
+V1b reported months scaled to 12,Ashland,Oregon,41|017000,2023,2,11494.0,18,state 0.50-2.00,3.8351,0,22988.0
+V1b reported months scaled to 12,Carrboro,North Carolina,37|092000,2023,2,10189.0,34,state 0.50-2.00,-12.7768,0,20378.0
+V1b reported months scaled to 12,Milwaukie,Oregon,41|339000,2024,1,9859.0,18,state 0.50-2.00,-0.0462,0,9859.0
+V1b reported months scaled to 12,Northfield,Minnesota,27|551800,2024,1,6771.0,73,state 0.50-2.00,-1.7415,0,6771.0
+V1b reported months scaled to 12,Central Point,Oregon,41|071000,2023,2,7978.0,26,state 0.50-2.00,-4.4703,0,15956.0
+V1b reported months scaled to 12,Portsmouth,Ohio,39|522700,2022,3,8466.0,128,state 0.50-2.00,0.4675,2,25398.0
+V1b reported months scaled to 12,Taylor,Texas,48|688000,2023,2,7016.0,161,state 0.50-2.00,-9.6369,5,14032.0
+V1b reported months scaled to 12,Hanover,New Hampshire,33|397000,2024,1,4056.0,50,state 0.50-2.00,-4.0171,3,4056.0
+V1b reported months scaled to 12,Lansing,Kansas,20|296200,2024,1,3723.0,38,state 0.50-2.00,-7.3606,0,3723.0
+V1b reported months scaled to 12,Hampden,Maine,23|190000,2022,3,3295.0,69,state 0.50-2.00,-2.2586,0,9885.0
+V1b reported months scaled to 12,King City,Oregon,41|265000,2024,1,2782.0,30,state 0.50-2.00,15.7412,0,2782.0
+V1b reported months scaled to 12,Social Circle,Georgia,13|616000,2023,2,1796.0,90,state 0.50-2.00,-9.9642,0,3592.0
+V1b reported months scaled to 12,Millersburg,Oregon,41|335000,2024,1,1187.0,28,state 0.50-2.00,-33.3298,0,1187.0
+V1b reported months scaled to 12,Maumee,Ohio,39|382600,2020,3,6217.0,147,state 0.50-2.00,-1.0167,1,18651.0
+V1b reported months scaled to 12,Saranac Lake,New York,36|648000,2016,3,2819.0,476,state 0.50-2.00,-0.3239,7,8457.0
+V3b date-aware clean pools,San Jose,California,06|394000,2023,2,345066.0,3,nation 0.50-2.00,10.9232,0,690132.0
+V3b date-aware clean pools,San Francisco,California,06|389000,2019,3,414602.0,8,nation 0.50-2.00,-6.0104,1,1243806.0
+V3b date-aware clean pools,Raleigh,North Carolina,37|466000,2022,3,224853.0,7,nation 0.50-2.00,9.9396,0,674559.0
+V3b date-aware clean pools,Minneapolis,Minnesota,27|497800,2021,3,209080.0,10,nation 0.50-2.00,-8.3232,0,627240.0
+V3b date-aware clean pools,Lexington,Kentucky,21|301000,2022,3,148959.0,12,nation 0.50-2.00,-2.1089,7,446877.0
+V3b date-aware clean pools,St. Paul,Minnesota,27|712600,2021,3,133051.0,14,nation 0.50-2.00,-1.7012,1,399153.0
+V3b date-aware clean pools,Anchorage,Alaska,02|041000,2023,2,120348.0,31,division 0.33-3.00,-2.7893,4,240696.0
+V3b date-aware clean pools,Buffalo,New York,36|089500,2017,3,136850.0,7,state 0.50-2.00,1.1202,8,410550.0
+V3b date-aware clean pools,Bridgeport,Connecticut,09|061000,2021,3,59844.0,8,division 0.50-2.00,3.5339,3,179532.0
+V3b date-aware clean pools,Gainesville,Florida,12|271000,2022,3,66114.0,24,state 0.50-2.00,3.9272,4,198342.0
+V3b date-aware clean pools,Hartford,Connecticut,09|285000,2017,3,56435.0,12,division 0.50-2.00,-0.0589,6,169305.0
+V3b date-aware clean pools,Ann Arbor,Michigan,26|026500,2022,3,54399.0,9,state 0.50-2.00,4.14,2,163197.0
+V3b date-aware clean pools,Cambridge,Massachusetts,25|103000,2022,3,54840.0,7,state 0.50-2.00,-7.2354,5,164520.0
+V3b date-aware clean pools,Roanoke,Virginia,51|065000,2021,3,49106.0,51,division 0.50-2.00,-3.1716,5,147318.0
+V3b date-aware clean pools,Alameda,California,06|003000,2021,3,32291.0,144,state 0.50-2.00,-2.9769,0,96873.0
+V3b date-aware clean pools,West Allis,Wisconsin,55|932000,2022,3,30294.0,8,state 0.50-2.00,4.7833,0,90882.0
+V3b date-aware clean pools,Corvallis,Oregon,41|099000,2022,3,25628.0,182,division 0.50-2.00,3.9828,0,76884.0
+V3b date-aware clean pools,Tigard,Oregon,41|505000,2022,3,23877.0,183,division 0.50-2.00,-2.2013,0,71631.0
+V3b date-aware clean pools,Dunwoody,Georgia,13|233500,2019,3,23491.0,8,state 0.50-2.00,-1.838,0,70473.0
+V3b date-aware clean pools,Culver City,California,06|101000,2022,3,18803.0,177,state 0.50-2.00,-0.7946,0,56409.0
+V3b date-aware clean pools,Mount Pleasant,Michigan,26|617500,2018,3,8551.0,88,state 0.50-2.00,-2.0335,0,25653.0
+V3b date-aware clean pools,Windham,Maine,23|493000,2018,3,8709.0,7,state 0.50-2.00,11.0297,2,26127.0
+V3b date-aware clean pools,Cambridge,Maryland,24|093000,2021,3,6652.0,5,state 0.50-2.00,-6.7622,5,19956.0
+V3b date-aware clean pools,Emeryville,California,06|129000,2020,3,8497.0,134,state 0.50-2.00,-0.1083,0,25491.0
+V3b date-aware clean pools,Branson,Missouri,29|068500,2018,3,9006.0,40,state 0.50-2.00,5.3036,0,27018.0
+V3b date-aware clean pools,Canandaigua,New York,36|103000,2020,3,5390.0,255,state 0.50-2.00,2.7662,0,16170.0
+V3b date-aware clean pools,Ecorse,Michigan,26|266500,2020,3,4121.0,175,state 0.50-2.00,-12.8268,1,12363.0
+V3b date-aware clean pools,Bastrop,Texas,48|045500,2019,3,5100.0,202,state 0.50-2.00,30.7854,0,15300.0
+V3b date-aware clean pools,Seabrook,New Hampshire,33|797000,2019,3,4151.0,72,state 0.50-2.00,-2.0403,0,12453.0
+V3b date-aware clean pools,River Rouge,Michigan,26|748000,2021,3,3129.0,213,state 0.50-2.00,0.4288,0,9387.0
+V3b date-aware clean pools,Hudson,New York,36|348000,2019,3,3551.0,383,state 0.50-2.00,-1.5809,2,10653.0
+V3b date-aware clean pools,Bandera,Texas,48|041000,2021,3,367.0,180,state 0.50-2.00,3.4077,0,1101.0
+V3b date-aware clean pools,Austin,Texas,48|033000,2023,2,483071.0,4,nation 0.50-2.00,-8.5926,0,966142.0
+V3b date-aware clean pools,Sacramento,California,06|374000,2024,1,212485.0,7,nation 0.50-2.00,3.6791,0,212485.0
+V3b date-aware clean pools,Durham,North Carolina,37|164000,2023,2,136837.0,5,division 0.50-2.00,2.3767,3,273674.0
+V3b date-aware clean pools,Richmond,Virginia,51|063000,2023,2,114293.0,10,division 0.50-2.00,11.8661,0,228586.0
+V3b date-aware clean pools,Birmingham,Alabama,01|048000,2024,1,109349.0,81,nation 0.50-2.00,1.6765,2,109349.0
+V3b date-aware clean pools,Newport News,Virginia,51|049000,2024,1,82052.0,20,division 0.50-2.00,1.1482,1,82052.0
+V3b date-aware clean pools,Salem,Oregon,41|445000,2023,2,71124.0,40,division 0.50-2.00,-0.9109,0,142248.0
+V3b date-aware clean pools,Eugene,Oregon,41|151000,2024,1,80856.0,40,division 0.50-2.00,0.7858,0,80856.0
+V3b date-aware clean pools,Berkeley,California,06|039000,2021,3,53145.0,93,state 0.50-2.00,4.4761,4,159435.0
+V3b date-aware clean pools,Bend,Oregon,41|041000,2023,2,47957.0,118,division 0.50-2.00,3.5168,0,95914.0
+V3b date-aware clean pools,Beaverton,Oregon,41|039000,2023,2,42771.0,126,division 0.50-2.00,-1.9372,0,85542.0
+V3b date-aware clean pools,Longmont,Colorado,08|401000,2024,1,43528.0,13,division 0.50-2.00,15.1451,1,43528.0
+V3b date-aware clean pools,Trenton,New Jersey,34|516000,2023,2,34513.0,24,state 0.50-2.00,0.7744,4,69026.0
+V3b date-aware clean pools,Duluth,Minnesota,27|196900,2023,2,39978.0,5,state 0.50-2.00,8.4481,0,79956.0
+V3b date-aware clean pools,Kalamazoo,Michigan,26|463500,2023,2,32379.0,19,state 0.50-2.00,0.1756,0,64758.0
+V3b date-aware clean pools,Rogers,Arkansas,05|462000,2024,1,28579.0,66,division 0.50-2.00,3.0965,6,28579.0
+V3b date-aware clean pools,Portland,Maine,23|363000,2024,1,36559.0,26,division 0.50-2.00,3.1931,0,36559.0
+V3b date-aware clean pools,Springfield,Oregon,41|481000,2024,1,25905.0,178,division 0.50-2.00,6.3865,2,25905.0
+V3b date-aware clean pools,Albany,Oregon,41|009000,2023,2,22768.0,183,division 0.50-2.00,-7.6141,1,45536.0
+V3b date-aware clean pools,La Crosse,Wisconsin,55|452000,2024,1,24404.0,9,state 0.50-2.00,-0.812,0,24404.0
+V3b date-aware clean pools,Burlington,Vermont,50|085000,2023,2,18079.0,61,division 0.50-2.00,13.3979,2,36158.0
+V3b date-aware clean pools,Grants Pass,Oregon,41|191000,2024,1,17297.0,184,division 0.50-2.00,3.309,0,17297.0
+V3b date-aware clean pools,Plainfield,Indiana,18|584500,2022,3,13359.0,13,state 0.50-2.00,-17.147,1,40077.0
+V3b date-aware clean pools,Tualatin,Oregon,41|517000,2024,1,11303.0,168,division 0.50-2.00,5.4104,0,11303.0
+V3b date-aware clean pools,West Linn,Oregon,41|555000,2024,1,10395.0,169,division 0.50-2.00,1.0723,0,10395.0
+V3b date-aware clean pools,Kingston,New York,36|375000,2023,2,11221.0,128,state 0.50-2.00,10.1026,5,22442.0
+V3b date-aware clean pools,Ashland,Oregon,41|017000,2023,2,11494.0,5,state 0.33-3.00,-2.0487,0,22988.0
+V3b date-aware clean pools,Carrboro,North Carolina,37|092000,2023,2,10189.0,6,state 0.50-2.00,-7.5218,0,20378.0
+V3b date-aware clean pools,Milwaukie,Oregon,41|339000,2024,1,9859.0,5,state 0.33-3.00,-8.3639,0,9859.0
+V3b date-aware clean pools,Northfield,Minnesota,27|551800,2024,1,6771.0,25,state 0.50-2.00,-2.2556,0,6771.0
+V3b date-aware clean pools,Central Point,Oregon,41|071000,2023,2,7978.0,5,state 0.33-3.00,-9.592,0,15956.0
+V3b date-aware clean pools,Portsmouth,Ohio,39|522700,2022,3,8466.0,60,state 0.50-2.00,0.5525,2,25398.0
+V3b date-aware clean pools,Taylor,Texas,48|688000,2023,2,7016.0,157,state 0.50-2.00,-9.2906,5,14032.0
+V3b date-aware clean pools,Hanover,New Hampshire,33|397000,2024,1,4056.0,48,state 0.50-2.00,-4.5837,3,4056.0
+V3b date-aware clean pools,Lansing,Kansas,20|296200,2024,1,3723.0,15,state 0.50-2.00,-12.8166,0,3723.0
+V3b date-aware clean pools,Hampden,Maine,23|190000,2022,3,3295.0,37,state 0.50-2.00,-1.5338,0,9885.0
+V3b date-aware clean pools,King City,Oregon,41|265000,2024,1,2782.0,6,state 0.50-2.00,11.0236,0,2782.0
+V3b date-aware clean pools,Social Circle,Georgia,13|616000,2023,2,1796.0,60,state 0.50-2.00,-11.3304,0,3592.0
+V3b date-aware clean pools,Millersburg,Oregon,41|335000,2024,1,1187.0,7,state 0.50-2.00,-32.8612,0,1187.0
+V3b date-aware clean pools,Maumee,Ohio,39|382600,2020,3,6217.0,70,state 0.50-2.00,-0.8832,1,18651.0
+V3b date-aware clean pools,Saranac Lake,New York,36|648000,2016,3,2819.0,423,state 0.50-2.00,-0.2646,7,8457.0
+V6 all fixes (V1b+V3b+V4),San Jose,California,06|394000,2023,2,340418.0,3,nation 0.50-2.00,10.9872,0,680836.0
+V6 all fixes (V1b+V3b+V4),San Francisco,California,06|389000,2019,3,402959.0,8,nation 0.50-2.00,-6.2344,1,1208877.0
+V6 all fixes (V1b+V3b+V4),Raleigh,North Carolina,37|466000,2022,3,204786.0,5,division 0.33-3.00,9.9163,0,614358.0
+V6 all fixes (V1b+V3b+V4),Minneapolis,Minnesota,27|497800,2021,3,200237.0,10,nation 0.50-2.00,-8.7912,0,600711.0
+V6 all fixes (V1b+V3b+V4),Lexington,Kentucky,21|301000,2022,3,144794.0,13,nation 0.50-2.00,-3.8219,7,434382.0
+V6 all fixes (V1b+V3b+V4),St. Paul,Minnesota,27|712600,2021,3,128154.0,16,nation 0.50-2.00,-1.5631,1,384462.0
+V6 all fixes (V1b+V3b+V4),Anchorage,Alaska,02|041000,2023,2,119708.0,30,division 0.33-3.00,-2.468,4,239416.0
+V6 all fixes (V1b+V3b+V4),Buffalo,New York,36|089500,2017,3,134903.0,7,state 0.50-2.00,0.1226,8,404709.0
+V6 all fixes (V1b+V3b+V4),Bridgeport,Connecticut,09|061000,2021,3,58792.0,8,division 0.50-2.00,3.372,3,176376.0
+V6 all fixes (V1b+V3b+V4),Gainesville,Florida,12|271000,2022,3,62807.0,22,state 0.50-2.00,8.1153,4,188421.0
+V6 all fixes (V1b+V3b+V4),Hartford,Connecticut,09|285000,2017,3,56248.0,12,division 0.50-2.00,-0.3742,6,168744.0
+V6 all fixes (V1b+V3b+V4),Ann Arbor,Michigan,26|026500,2022,3,53744.0,9,state 0.50-2.00,4.5924,2,161232.0
+V6 all fixes (V1b+V3b+V4),Cambridge,Massachusetts,25|103000,2022,3,53687.0,7,state 0.50-2.00,-9.6481,5,161061.0
+V6 all fixes (V1b+V3b+V4),Roanoke,Virginia,51|065000,2021,3,48116.0,49,division 0.50-2.00,-2.8307,5,144348.0
+V6 all fixes (V1b+V3b+V4),Alameda,California,06|003000,2021,3,31250.0,145,state 0.50-2.00,-3.0659,0,93750.0
+V6 all fixes (V1b+V3b+V4),West Allis,Wisconsin,55|932000,2022,3,29682.0,8,state 0.50-2.00,4.8017,0,89046.0
+V6 all fixes (V1b+V3b+V4),Corvallis,Oregon,41|099000,2022,3,24975.0,183,division 0.50-2.00,4.1277,0,74925.0
+V6 all fixes (V1b+V3b+V4),Tigard,Oregon,41|505000,2022,3,22489.0,182,division 0.50-2.00,-2.4389,0,67467.0
+V6 all fixes (V1b+V3b+V4),Dunwoody,Georgia,13|233500,2019,3,22722.0,12,state 0.33-3.00,-2.6672,0,68166.0
+V6 all fixes (V1b+V3b+V4),Culver City,California,06|101000,2022,3,18490.0,178,state 0.50-2.00,-1.0844,0,55470.0
+V6 all fixes (V1b+V3b+V4),Mount Pleasant,Michigan,26|617500,2018,3,8436.0,87,state 0.50-2.00,-2.1511,0,25308.0
+V6 all fixes (V1b+V3b+V4),Windham,Maine,23|493000,2018,3,7678.0,8,state 0.50-2.00,8.1441,2,23034.0
+V6 all fixes (V1b+V3b+V4),Cambridge,Maryland,24|093000,2021,3,6564.0,5,state 0.50-2.00,-7.0627,5,19692.0
+V6 all fixes (V1b+V3b+V4),Emeryville,California,06|129000,2020,3,7698.0,127,state 0.50-2.00,-0.2438,0,23094.0
+V6 all fixes (V1b+V3b+V4),Branson,Missouri,29|068500,2018,3,8210.0,40,state 0.50-2.00,5.9759,0,24630.0
+V6 all fixes (V1b+V3b+V4),Canandaigua,New York,36|103000,2020,3,5301.0,254,state 0.50-2.00,2.8093,0,15903.0
+V6 all fixes (V1b+V3b+V4),Ecorse,Michigan,26|266500,2020,3,4121.0,171,state 0.50-2.00,-12.4393,1,12363.0
+V6 all fixes (V1b+V3b+V4),Bastrop,Texas,48|045500,2019,3,3344.0,228,state 0.50-2.00,49.043,0,10032.0
+V6 all fixes (V1b+V3b+V4),Seabrook,New Hampshire,33|797000,2019,3,4069.0,71,state 0.50-2.00,-2.0116,0,12207.0
+V6 all fixes (V1b+V3b+V4),River Rouge,Michigan,26|748000,2021,3,3129.0,213,state 0.50-2.00,0.4388,0,9387.0
+V6 all fixes (V1b+V3b+V4),Hudson,New York,36|348000,2019,3,3545.0,379,state 0.50-2.00,-1.4751,2,10635.0
+V6 all fixes (V1b+V3b+V4),Bandera,Texas,48|041000,2021,3,354.0,186,state 0.50-2.00,-2.1362,0,1062.0
+V6 all fixes (V1b+V3b+V4),Austin,Texas,48|033000,2023,2,459943.0,4,nation 0.50-2.00,-9.429,0,919886.0
+V6 all fixes (V1b+V3b+V4),Sacramento,California,06|374000,2024,1,210442.0,7,nation 0.50-2.00,3.6378,0,210442.0
+V6 all fixes (V1b+V3b+V4),Durham,North Carolina,37|164000,2023,2,129679.0,5,division 0.50-2.00,5.2699,3,259358.0
+V6 all fixes (V1b+V3b+V4),Richmond,Virginia,51|063000,2023,2,109470.0,11,division 0.50-2.00,13.3632,0,218940.0
+V6 all fixes (V1b+V3b+V4),Birmingham,Alabama,01|048000,2024,1,108673.0,80,nation 0.50-2.00,1.6899,2,108673.0
+V6 all fixes (V1b+V3b+V4),Newport News,Virginia,51|049000,2024,1,82046.0,20,division 0.50-2.00,2.118,1,82046.0
+V6 all fixes (V1b+V3b+V4),Salem,Oregon,41|445000,2023,2,69533.0,41,division 0.50-2.00,-1.0258,0,139066.0
+V6 all fixes (V1b+V3b+V4),Eugene,Oregon,41|151000,2024,1,79854.0,40,division 0.50-2.00,0.6432,0,79854.0
+V6 all fixes (V1b+V3b+V4),Berkeley,California,06|039000,2021,3,51294.0,94,state 0.50-2.00,4.7491,4,153882.0
+V6 all fixes (V1b+V3b+V4),Bend,Oregon,41|041000,2023,2,45698.0,124,division 0.50-2.00,3.5889,0,91396.0
+V6 all fixes (V1b+V3b+V4),Beaverton,Oregon,41|039000,2023,2,42280.0,126,division 0.50-2.00,-1.957,0,84560.0
+V6 all fixes (V1b+V3b+V4),Longmont,Colorado,08|401000,2024,1,42580.0,12,division 0.50-2.00,15.3984,1,42580.0
+V6 all fixes (V1b+V3b+V4),Trenton,New Jersey,34|516000,2023,2,34502.0,23,state 0.50-2.00,0.3961,4,69004.0
+V6 all fixes (V1b+V3b+V4),Duluth,Minnesota,27|196900,2023,2,39250.0,5,state 0.50-2.00,8.636,0,78500.0
+V6 all fixes (V1b+V3b+V4),Kalamazoo,Michigan,26|463500,2023,2,32368.0,19,state 0.50-2.00,0.0197,0,64736.0
+V6 all fixes (V1b+V3b+V4),Rogers,Arkansas,05|462000,2024,1,27946.0,65,division 0.50-2.00,-5.7568,6,27946.0
+V6 all fixes (V1b+V3b+V4),Portland,Maine,23|363000,2024,1,36432.0,26,division 0.50-2.00,3.2219,0,36432.0
+V6 all fixes (V1b+V3b+V4),Springfield,Oregon,41|481000,2024,1,25523.0,181,division 0.50-2.00,6.2813,2,25523.0
+V6 all fixes (V1b+V3b+V4),Albany,Oregon,41|009000,2023,2,22654.0,184,division 0.50-2.00,-6.9706,1,45308.0
+V6 all fixes (V1b+V3b+V4),La Crosse,Wisconsin,55|452000,2024,1,24385.0,9,state 0.50-2.00,-0.8232,0,24385.0
+V6 all fixes (V1b+V3b+V4),Burlington,Vermont,50|085000,2023,2,17830.0,61,division 0.50-2.00,13.8351,2,35660.0
+V6 all fixes (V1b+V3b+V4),Grants Pass,Oregon,41|191000,2024,1,17203.0,182,division 0.50-2.00,3.4338,0,17203.0
+V6 all fixes (V1b+V3b+V4),Plainfield,Indiana,18|584500,2022,3,12564.0,14,state 0.50-2.00,-18.4998,1,37692.0
+V6 all fixes (V1b+V3b+V4),Tualatin,Oregon,41|517000,2024,1,11171.0,170,division 0.50-2.00,5.5958,0,11171.0
+V6 all fixes (V1b+V3b+V4),West Linn,Oregon,41|555000,2024,1,10348.0,168,division 0.50-2.00,1.2094,0,10348.0
+V6 all fixes (V1b+V3b+V4),Kingston,New York,36|375000,2023,2,11022.0,129,state 0.50-2.00,10.0037,5,22044.0
+V6 all fixes (V1b+V3b+V4),Ashland,Oregon,41|017000,2023,2,11342.0,169,division 0.50-2.00,-2.8466,0,22684.0
+V6 all fixes (V1b+V3b+V4),Carrboro,North Carolina,37|092000,2023,2,10129.0,6,state 0.50-2.00,-6.0871,0,20258.0
+V6 all fixes (V1b+V3b+V4),Milwaukie,Oregon,41|339000,2024,1,9552.0,5,state 0.33-3.00,-8.6293,0,9552.0
+V6 all fixes (V1b+V3b+V4),Northfield,Minnesota,27|551800,2024,1,6761.0,25,state 0.50-2.00,-2.2246,0,6761.0
+V6 all fixes (V1b+V3b+V4),Central Point,Oregon,41|071000,2023,2,7845.0,5,state 0.33-3.00,-9.2856,0,15690.0
+V6 all fixes (V1b+V3b+V4),Portsmouth,Ohio,39|522700,2022,3,8452.0,61,state 0.50-2.00,0.2005,2,25356.0
+V6 all fixes (V1b+V3b+V4),Taylor,Texas,48|688000,2023,2,6725.0,158,state 0.50-2.00,-10.437,5,13450.0
+V6 all fixes (V1b+V3b+V4),Hanover,New Hampshire,33|397000,2024,1,4044.0,48,state 0.50-2.00,-4.3812,3,4044.0
+V6 all fixes (V1b+V3b+V4),Lansing,Kansas,20|296200,2024,1,3671.0,14,state 0.50-2.00,-11.1902,0,3671.0
+V6 all fixes (V1b+V3b+V4),Hampden,Maine,23|190000,2022,3,3196.0,37,state 0.50-2.00,-1.4394,0,9588.0
+V6 all fixes (V1b+V3b+V4),King City,Oregon,41|265000,2024,1,2752.0,6,state 0.50-2.00,11.1468,0,2752.0
+V6 all fixes (V1b+V3b+V4),Social Circle,Georgia,13|616000,2023,2,1754.0,62,state 0.50-2.00,-15.8365,0,3508.0
+V6 all fixes (V1b+V3b+V4),Millersburg,Oregon,41|335000,2024,1,1166.0,7,state 0.50-2.00,-33.517,0,1166.0
+V6 all fixes (V1b+V3b+V4),Maumee,Ohio,39|382600,2020,3,6174.0,68,state 0.50-2.00,-0.5033,1,18522.0
+V6 all fixes (V1b+V3b+V4),Saranac Lake,New York,36|648000,2016,3,2803.0,412,state 0.50-2.00,-0.341,7,8409.0
