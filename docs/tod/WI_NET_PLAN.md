@@ -28,3 +28,28 @@ Sanity flags (units, policy, out of range), the 20 lots with the largest effect,
 ## Comparison
 
 The tool's literature scenarios (171 / 2,509 / 17,148) are shown alongside. No tool number changes without the owner.
+
+## Round log
+
+**Round 1 (both variants, one seed).** Coding errors fixed before it ran:
+- the cost lookup was repeated for every one of 193,000 lots (an hour lost);
+- a string-times-number error in the Wisconsin rank key (city names now carry "WI ").
+
+Results (bound B, homes over 2027–2031):
+- Variant a: raw 8,786, calibrated 1,581.
+- Variant b: raw 7,056, calibrated 1,270.
+
+Checks:
+- **Law-off share on law-on lots, model vs actual 2019–2024:**
+  - Milwaukee: 34.5% vs 24.5% (a); 6.5% vs 3.8% (b).
+  - Madison: 22.7% vs 26.1% (a); 12.2% vs 13.0% (b).
+  - Reasonable.
+- **Raw law-off level:** about 25,000–27,000 homes per city over 5 years, against 5,382 (Milwaukee) and 10,716 (Madison) built 2019–2024 on a 5-year basis. The raw level is 2.5–5× too high. Only shares are used, so this does not enter the result.
+- **Outliers (errors):**
+  - Milwaukee's airport lot (1,504 acres, 42.945 −87.899);
+  - the West Towne Mall lots in Madison (37, 16 and 12 acres; 1,939 homes predicted on one lot in 5 years with no law).
+  - Cause: homes per acre times acres, far beyond any training project.
+  - Round 2 caps the acres used at the 99th percentile of training lots that built.
+- **Not errors:**
+  - Lots near rail show negative effects in variant a. In a share model, when most of the city gets the law, lots already allowed lose share to newly upzoned lots.
+  - Large vacant upzoned lots in northeast Madison (57 and 40 acres; zoning level 0 before) are plausible greenfield.
