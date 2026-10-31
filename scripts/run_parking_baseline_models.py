@@ -52,16 +52,21 @@ MODELS = {
 NO_WEIGHT = {"50 nearest neighbours"}
 
 
-def xy(df, med):
+LOG_TARGET = {"Lasso", "Elastic net"}  # round 2: fitted on log(1 + rate), so predictions cannot go negative
+
+
+def xy(df, med, name=""):
     X = df[COLS].fillna(med)
     y = (df["actual"] / df["homes"] * 1000).clip(lower=0)
+    if ROUND >= 2 and name in LOG_TARGET:
+        y = np.log1p(y)
     return X, y
 
 
 def fit(name, g, seed, df, med):
     ctor, _ = MODELS[name]
     m = ctor(g, seed)
-    X, y = xy(df, med)
+    X, y = xy(df, med, name)
     w = (df["homes"] / 1000).values
     if name in NO_WEIGHT:
         m.fit(X, y)
@@ -74,9 +79,11 @@ def fit(name, g, seed, df, med):
     return m
 
 
-def predict(m, df, med, flags_neg):
+def predict(m, df, med, flags_neg, name=""):
     X = df[COLS].fillna(med)
     r = np.asarray(m.predict(X.values if isinstance(m, RegressionForest) else X)).ravel()
+    if ROUND >= 2 and name in LOG_TARGET:
+        r = np.expm1(r)
     bad = ~np.isfinite(r) | (r < 0)
     flags_neg.append(int(bad.sum()))
     r = np.where(np.isfinite(r), np.clip(r, 0, None), 0.0)
@@ -93,7 +100,7 @@ def choose(name, df, seed):
         for a, b in GroupKFold(n_splits=5).split(df, groups=df["key"]):
             fa, fb = df.iloc[a], df.iloc[b]
             med = fa[COLS].median()
-            pr = predict(fit(name, g, seed, fa, med), fb, med, [])
+            pr = predict(fit(name, g, seed, fa, med), fb, med, [], name)
             s.append(NR.score(pr, fb["actual"].values)["median_abs_log"])
         if np.mean(s) < bs:
             best, bs = g, float(np.mean(s))
@@ -138,11 +145,11 @@ def main() -> None:
             preds = benchmarks(pool, te)
             for name, (m, g) in fitted.items():
                 nb = []
-                preds[name] = predict(m, te, med, nb)
+                preds[name] = predict(m, te, med, nb, name)
                 negs[name] = negs.get(name, 0) + sum(nb)
                 if tname == "held-out places, later years":
-                    on = predict(m, te.assign(fake_reform=1), med, [])
-                    off = predict(m, te.assign(fake_reform=0), med, [])
+                    on = predict(m, te.assign(fake_reform=1), med, [], name)
+                    off = predict(m, te.assign(fake_reform=0), med, [], name)
                     rows.append(dict(seed=seed, test="fake on-off", model=name, mean_on_minus_off=float(np.mean(on - off))))
             for name, pr in preds.items():
                 rows.append(dict(seed=seed, test=tname, model=name, **NR.score(pr, te["actual"].values)))
@@ -169,7 +176,7 @@ def main() -> None:
         for name in MODELS:
             g = pd.DataFrame(choices).query("model == @name")["setting"].mode().iloc[0]
             g = MODELS[name][1][[str(x) for x in MODELS[name][1]].index(g)]
-            preds[name] = predict(fit(name, g, seed, allfit, med), te, med, [])
+            preds[name] = predict(fit(name, g, seed, allfit, med), te, med, [], name)
         for name, pr in preds.items():
             row = dict(origin=o, model=name, places=len(te), five_year_total=float(pr.sum() * 5))
             if o == 2019:

@@ -48,3 +48,11 @@ Written 2026-10-31 by the parking conductor. Ryan: "run several models (I think 
 The audit reviews each round. Once a round is clean, a baseline is chosen with Ryan and the audit, and then the reform-prediction runs start.
 
 ## Changes after writing
+- **2026-10-31, round 1 checks → round 2 (before round 2 ran):**
+  - **Coding/model error:** lasso and elastic net were fitted on the raw rate and predicted below zero for 10,895 and 14,356 held-out rows. Clipping those to 0 skewed them, and lasso's Wisconsin total came out 1.25× same pace. In round 2 both are fitted on log(1 + rate) and back-transformed, as the other regressions already were in spirit.
+  - **Outliers traced:**
+    - The worst miss is Nashville-Davidson for most models: actual 12,408 a year against 4,573–7,755 predicted. This is a real boom (see NO_REFORM_MODEL_RESULTS).
+    - Brooklyn is the worst for M1 and elastic net: actual 10,493 against 3,633–5,297. Brooklyn's 2019–2022 permits rose ahead of the 421-a tax break's expiry. This is a real surge, not a data error.
+    - The depth-3 tree (1.23×) and 50 nearest neighbours (1.18×) are far from same pace in Wisconsin. They are coarse, and their held-out place scores are the worst (0.69 and 0.64).
+  - **Fake reform:** the 50 nearest neighbours swing ±38 homes per place, because the trait shifts which neighbours are chosen. Elastic net and the Poisson regression swing as before. The trees and forests stay near 0.
+  - Round 2 also reruns under a different Python hash seed, to check that it reproduces.
