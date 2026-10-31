@@ -18,7 +18,9 @@ geo = [
   "pyproj>=3.6",
 ]
 ml = [
+    "econml>=0.15",
     "scikit-learn>=1.5",
+    "statsmodels>=0.14",
 ]
 
 [build-system]
