@@ -498,6 +498,33 @@ def robust_a() -> None:
     print(out.round(3).to_string(index=False))
 
 
+# ---------------------------------------------------------------- audit fix 1: A3 and 5+ homes on A1's 38 places
+def same_places_a() -> None:
+    inc = pd.read_csv(REFERENCE / "parking_mechanism_part_a_places.csv")
+    d = inc[np.isfinite(inc["A1"]) & (inc["A1_weight"] > 0)]
+    pl = pd.concat([pd.read_csv(f) for f in sorted(CKPT.glob("placebo_*.csv"))], ignore_index=True)
+    pl = pl[pl["status"] == "included"]
+    groups = {k: g for k, g in pl.groupby("real_key")}
+    keys = [k for k in d["key"] if k in groups]
+    rng = np.random.default_rng(SEED)
+    picks = {k: rng.integers(0, len(groups[k]), PLACEBO_SETS) for k in keys}
+    rows = []
+    for o, (col, wcol) in OUT_DEF.items():
+        real = wavg(d[col], d[wcol])
+        bs = [wavg(d[col].values[i], d[wcol].values[i]) for i in (rng.integers(0, len(d), len(d)) for _ in range(2000))]
+        Y = np.column_stack([groups[k][col].values[picks[k]] for k in keys])
+        W = np.column_stack([groups[k][wcol].values[picks[k]] for k in keys])
+        W = np.where(np.isfinite(Y) & (W > 0), W, 0.0)
+        Y = np.where(np.isfinite(Y), Y, 0.0)
+        fake = (Y * W).sum(1) / np.where(W.sum(1) > 0, W.sum(1), np.nan)
+        rows.append(dict(outcome=o, places=len(d), average=real, boot_p05=np.percentile(bs, 5), boot_p95=np.percentile(bs, 95),
+                         placebo_mean=np.nanmean(fake), placebo_p05=np.nanpercentile(fake, 5),
+                         placebo_p95=np.nanpercentile(fake, 95), placebo_percentile=float(np.nanmean(fake < real) * 100)))
+    out = pd.DataFrame(rows)
+    out.to_csv(REFERENCE / "parking_mechanism_part_a_same38.csv", index=False)
+    print(out.round(4).to_string(index=False))
+
+
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "part_a"
-    {"part_a": part_a, "summarise_a": summarise_a, "part_c": part_c, "part_b": part_b, "robust_a": robust_a}[cmd]()
+    {"part_a": part_a, "summarise_a": summarise_a, "part_c": part_c, "part_b": part_b, "robust_a": robust_a, "same_places_a": same_places_a}[cmd]()

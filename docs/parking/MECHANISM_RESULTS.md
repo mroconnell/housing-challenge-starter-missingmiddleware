@@ -1,6 +1,6 @@
 # Parking: per-project (mechanism) estimate, results
 
-Written 2026-11-01 by the parking mechanism thread. Plan, committed before any result: [MECHANISM_PLAN.md](MECHANISM_PLAN.md) (4 deviations logged there). Script: `scripts/run_parking_mechanism.py`. Files: `reference/parking_mechanism_*.csv`. This is a candidate line for Ryan; the tool and other scenarios are unchanged.
+Written 2026-11-01 by the parking mechanism thread. Plan, committed before any result: [MECHANISM_PLAN.md](MECHANISM_PLAN.md) (4 deviations logged there; deviations 1–2 were made before results but committed with them, so their timing cannot be checked from git). Audit fixes 2026-11-01: same-places check, placebo runs explained, tool low line updated, fake-range centre noted. Script: `scripts/run_parking_mechanism.py`. Files: `reference/parking_mechanism_*.csv`. This is a candidate line for Ryan; the tool and other scenarios are unchanged.
 
 ## Answer
 
@@ -11,7 +11,7 @@ Written 2026-11-01 by the parking mechanism thread. Plan, committed before any r
 
 | What changed after repeal (38–73 US repeal places) | Result | Unusual against fake repeals? |
 | --- | --- | --- |
-| Homes per apartment building (5+ units) | **+43%** (pre-set weighting); +13% to +20% other ways | Yes for the pre-set version (99.9th percentile); borderline otherwise (94th) |
+| Homes per apartment building (5+ units) | **+43%** (pre-set weighting); +13% to +20% other ways | Yes for the pre-set version (99.7th percentile); borderline otherwise (94th) |
 | Number of apartment buildings permitted | **−0.063 buildings per 1,000 existing homes per year** | Yes, low side (3rd percentile) |
 | Homes in apartment buildings | −1.03 permits per 1,000 existing homes per year (−2.74 to +0.89) | No (17th percentile) |
 | Homes in 2–4 unit buildings (small lots) | −0.065 permits per 1,000 existing homes per year (−0.14 to +0.03) | No (27th percentile) |
@@ -22,11 +22,10 @@ Written 2026-11-01 by the parking mechanism thread. Plan, committed before any r
 
 | Line | Lower | Central | Upper | Status |
 | --- | ---: | ---: | ---: | --- |
-| Tool today (count comparison) | 0 | 0 | 19,937 | In use |
-| Route A, bigger projects only (pre-set conversion) | 16,306 | 18,590 | 20,030 | Passes its pre-set tests, **but its key assumption fails** (see below) |
+| Tool today (count comparison) | −15,326 | 0 | 19,937 | In use (low line decided after this work started) |
+| Route A, bigger projects only (pre-set conversion) | 16,306 | 18,590 | 20,030 | A labelled figure, not a line: passes its pre-set tests, **but its key assumption fails** (see below) |
 | Route A, all apartment homes (bigger but fewer projects) | about −36,800 | about −13,800 | about +12,000 | No measurable change |
 | Route B, cost chain | 227 | 566 | 1,226 | Evidence only (pre-set rule) |
-| Low-line candidates from earlier work | −15,303 / −18,100 | – | – | Pending |
 
 - **Route A, bigger projects only:** +43% homes per building × 42,807 apartment homes in the baseline where minimums still bind. The range is the 5th–95th percentile when each place is left out in turn. With the whole 76-place resampling range it is 5,601 to 29,717.
 - **Why that line should not be used:** it assumes the number of apartment buildings stays at baseline. The data say it fell. Bigger-but-fewer adds up to no measurable change in apartment homes.
@@ -40,13 +39,29 @@ Source: Census Building Permits Survey place files, 2012–2025, which give buil
 
 | Measure (homes per apartment building) | Change after repeal, against comparison places | Percent | Placebo percentile | Fake-repeal 5th–95th |
 | --- | ---: | ---: | ---: | --- |
-| Weighted by buildings (pre-set) | +0.361 log points | +43% | 99.9 | −0.48 to +0.17 |
+| Weighted by buildings (pre-set) | +0.361 log points | +43% | 99.7 | −0.51 to +0.19 |
 | Same, without Austin (31% of the weight) | +0.287 | +33% | 99.1 | −0.52 to +0.18 |
 | Unweighted mean | +0.127 | +13% | 93.9 | −0.31 to +0.14 |
 | Median place | +0.186 | +20% | 93.8 | −0.26 to +0.22 |
 | Own change only, no comparison places | +0.128 | +14% | 93.9 | −0.50 to +0.14 |
 
 Pre-set tests for the main version: outside the fake-repeal 5th–95th range (yes), and the average from other states predicts each state's places better than zero (yes: error 0.44 against 0.52 log points). Rows from the unplanned checks are in `parking_mechanism_part_a_robustness.csv`.
+
+**Which placebo run is the pre-set one.** The pre-set run is `summarise_a` (seed 20261101, 20,000 fake sets): 99.7th percentile, fake range −0.51 to +0.19 (`parking_mechanism_part_a_summary.csv`). The other numbers differ only by run settings:
+- `robust_a` (unplanned checks) used seed 1 and 5,000 sets, and only the 38 places' partners: 99.86th, −0.48 to +0.17. The text earlier rounded that to 99.9.
+- `same_places_a` (audit fix 1) uses seed 20261101, 20,000 sets and only the 38 places' partners: 99.6th, −0.54 to +0.20.
+- The pre-set run drew partners for all 73 places. Some partners of the 35 places without an A1 value do have one, so they enter the fake averages. The 38-place versions match the real sample more closely. All three put the real result above the 99th percentile.
+
+**The fake range is centred below zero.** Fake repeals average −0.08 log points (−8%), not 0. So the real +0.36 sits about +0.44 above the typical fake. Comparison groups pool many buildings, and a single place's own size jumps around more, which may tilt the fakes.
+
+**Same 38 places for every outcome (audit fix 1).** The cancellation holds on the same places (`parking_mechanism_part_a_same38.csv`):
+
+| Outcome, the 38 places with a size measure | Average | Resampling 5th–95th | Placebo percentile |
+| --- | ---: | --- | ---: |
+| Homes per apartment building | +0.361 log points (+43%) | +0.12 to +0.52 | 99.6 |
+| Apartment buildings, per 1,000 existing homes per year | −0.064 | −0.109 to −0.018 | 4.3 |
+| Apartment homes, permits per 1,000 existing homes per year | −1.10 | −2.96 to +1.04 | 17.0 |
+| All homes, permits per 1,000 existing homes per year | −1.24 | −3.90 to +1.72 | 15.8 |
 
 **Reading.**
 - The direction is steady: 21 of 38 places (55%) got bigger, and every version is above the 93rd placebo percentile.
