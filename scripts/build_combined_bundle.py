@@ -45,7 +45,7 @@ RULES = {
           "info": "Near stops, both reforms' additions are added. A new building that both reforms would count is counted twice, so this is an upper bound, not an equal alternative."},
     "b": {"label": "Both laws together (larger of the two near stops)",
           "short": "Both laws together",
-          "info": "Near stops, each place gets whichever reform adds more there in that year, as if the smaller effect were already inside the larger. This is the headline."},
+          "info": "Near stops, each place gets whichever reform adds more there in that year, as if the smaller effect were already inside the larger. A reform estimated to reduce homes is subtracted in full, never set to zero. This is the headline."},
 }
 HEADLINE_REASON = {
     "text": ("Why the larger of the two is the headline: California's AB 2097 removed parking minimums near major "
@@ -141,7 +141,10 @@ def combine(tod: dict, parking: dict) -> dict:
             pn = P[role]["values"].get((aid, "near_stops"), zero)
             pe = P[role]["values"].get((aid, "elsewhere"), zero)
             near_a = [x + y for x, y in zip(t, pn)]
-            near_b = [max(x, y) for x, y in zip(t, pn)]
+            # rule (b), contract section 9 as amended 2026-11-01: the overlap applies to additions only. The larger of the
+            # two positive parts is kept; a negative part (a reform estimated to reduce homes) passes through as is,
+            # never floored at 0 and never absorbed by the other reform's addition
+            near_b = [max(max(x, 0.0), max(y, 0.0)) + min(x, 0.0) + min(y, 0.0) for x, y in zip(t, pn)]
             areas[aid][role] = {"tod": t, "parking_near": pn, "parking_elsewhere": pe, "near_a": near_a, "near_b": near_b,
                                 "total_a": [x + y for x, y in zip(near_a, pe)], "total_b": [x + y for x, y in zip(near_b, pe)]}
     return {"years": years, "baseline_version": tod["baseline_version"], "pairing": pairing, "areas": areas}
@@ -234,16 +237,18 @@ def validate(c: dict, statewide: dict, areas: dict) -> dict:
     eps = 1e-6
     b_le_a = all(b <= a + eps for v in c["areas"].values() for role in ROLES for a, b in zip(v[role]["near_a"], v[role]["near_b"]))
     check("rule (b) never exceeds rule (a)", b_le_a, "every place, year and role")
-    b_ge = all(b + eps >= max(t, p) for v in c["areas"].values() for role in ROLES
+    b_ge = all(b + eps >= max(max(t, 0), max(p, 0)) + min(t, 0) + min(p, 0) and b - eps <= max(max(t, 0), max(p, 0)) + min(t, 0) + min(p, 0)
+               for v in c["areas"].values() for role in ROLES
                for t, p, b in zip(v[role]["tod"], v[role]["parking_near"], v[role]["near_b"]))
-    check("rule (b) is at least each reform alone", b_ge, "every place, year and role")
+    check("rule (b) is the larger addition plus any reductions", b_ge, "every place, year and role")
     rec = all(abs(x["total"]["both_a"] - x["total"]["tod"] - x["total"]["parking"]) < 0.05 for x in statewide["roles"])
     check("rule (a) total equals TOD plus parking", rec, "every role")
     ia, ib = COLS.index("total_a"), COLS.index("total_b")
     m_tot = all(abs(sum(m[x["role"]][ia] for m in areas["munis"]) - x["total"]["both_a"]) < 1
                 and abs(sum(m[x["role"]][ib] for m in areas["munis"]) - x["total"]["both_b"]) < 1 for x in statewide["roles"])
     check("places add up to the statewide totals", m_tot, "both rules, every role")
-    check("no place below zero", all(v >= 0 for m in areas["munis"] for role in ROLES for v in m[role]), "every role")
+    neg_ok = all(all(x >= -eps for x in roles_v[role]["tod"]) for roles_v in c["areas"].values() for role in ROLES)
+    check("TOD never below zero (a negative combined value can only come from parking)", neg_ok, "every place, year and role")
     check("every place has a name", all(not m["name"].startswith("muni:") for m in areas["munis"]), f"{len(areas['munis'])} places")
     return {"passed": sum(x["passed"] for x in checks), "failed": sum(not x["passed"] for x in checks), "checks": checks}
 

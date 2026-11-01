@@ -46,6 +46,26 @@ class TestCombineRules(unittest.TestCase):
         self.assertEqual(c["areas"]["muni:2"]["upper"]["total_b"], [7, 7])
         self.assertEqual(c["areas"]["muni:1"]["central"]["total_a"], [2, 2])
 
+    def test_negative_parking_passes_through(self):
+        """Contract section 9 as amended 2026-11-01: a negative parking line is never floored at 0 nor absorbed by TOD."""
+        neg = copy.deepcopy(PARK)
+        neg["paths"].append({"id": "lower", "label": "Lower"})
+        neg["roles"]["lower"] = "lower"
+        neg["areas"][0]["lower"] = [-3, -1]   # muni:1 near stops
+        neg["areas"][1]["lower"] = [-4, -4]   # muni:1 elsewhere
+        neg["areas"][2]["lower"] = [-2, -2]   # muni:2 elsewhere
+        for row in neg["areas"]:
+            row.setdefault("lower", [0, 0])
+        c = bc.combine(TOD, neg)
+        lo = c["areas"]["muni:1"]["lower"]
+        self.assertEqual(lo["near_a"], [-2, 0])          # TOD 1 + parking -3, 1 + -1
+        self.assertEqual(lo["near_b"], [-2, 0])          # larger addition (TOD 1) plus parking's reduction
+        self.assertEqual(lo["total_b"], [-6, -4])
+        self.assertEqual(c["areas"]["muni:2"]["lower"]["total_b"], [-2, -2])
+        for v in c["areas"].values():
+            for role in bc.ROLES:
+                self.assertTrue(all(b <= a for a, b in zip(v[role]["near_a"], v[role]["near_b"])))
+
     def test_paths_paired_by_role_never_crossed(self):
         c = bc.combine(TOD, PARK)
         self.assertEqual([(p["role"], p["tod_path"], p["parking_path"]) for p in c["pairing"]],
