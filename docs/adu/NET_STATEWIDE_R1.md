@@ -2,6 +2,8 @@
 
 Updated 2026-11-01 (AQ-066): Madison on the statewide model; net now 6,321 / 10,615 / 19,925 (central 8.7% of 122,619).
 
+Updated again 2026-11-01 (AQ-067): 6,321 / 10,492 / 19,784; central 8.6% of 122,619. Massachusetts' 2025 count is now divided by a full year. Held-out score 0.136. The tables below are from earlier runs.
+
 Ryan's ask: using the existing model, permits after the reform minus permits with no reform, statewide in Wisconsin, 2027–2031. Run, check for errors and odd outliers, fix, rerun. Code: [`scripts/run_adu_net_statewide.py`](../../scripts/run_adu_net_statewide.py). Outputs: `reference/adu_net_statewide.csv`, `adu_net_statewide_top_places.csv`.
 
 ## Answer
