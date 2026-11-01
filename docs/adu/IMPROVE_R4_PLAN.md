@@ -22,4 +22,8 @@ Against the adopted run: the held-out log error by state and RMS (each of 7 stat
 
 ## Changes after writing
 
-None yet.
+- **2026-11-01, audit review of the first run (before any rerun):** W1 divided all 12 months' permits (437) by 0.75 years, which overstates the four counties' rate by about a third. Two corrected versions replace it, and both are reported:
+  - **W2 (pre-law months removed):** 437 minus the four counties' permits expected in the 3 pre-law months at their rate in the year before (estimate year 2025: 502 permits, so 502 × 3/12 = 125.5), over 0.75 years.
+  - **W3 (even spread):** 437 over 1.0 year.
+- **The same rule applies to Massachusetts.** Its 2025 count covers the whole calendar year, but the law took effect on 2 February, and it is divided by 11/12 of a year. No Massachusetts pre-law rate exists, so variant M counts it over 1.0 year. Reported alone and with W2 and W3.
+- **Check:** no city is split by OFM between one of the four counties and any other county. The split cities (Auburn, Bothell, Enumclaw, Milton, Pacific) lie wholly within the four counties.
