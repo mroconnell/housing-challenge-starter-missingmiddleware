@@ -35,15 +35,40 @@ def city_of(case: str) -> str:
     return "New York" if case.startswith("nyc_") else "Philadelphia" if case.startswith("phl_") else case
 
 
-def case_effects() -> pd.DataFrame:
+def county_of(case: str) -> str:
+    return next((k for k in ("la", "san_diego", "denver") if case.startswith(k)), "other")
+
+
+def event_windows(case: str, D: pd.DataFrame, mode: str) -> pd.DataFrame:
+    """Window totals per lot recomputed from the per-building events, on one date type for both sides of the case:
+    mode "permit_est" (actual permit year, else completion year minus the county's gap) or "completed". Where a case
+    has both a permit file and county year built for the same buildings without a one-to-one match (LA, San Diego),
+    only the source used on both sides (county year built) is read, to avoid counting a building twice."""
+    import build_tod_station_lot_table as B
+    E = pd.read_parquet(OUT / f"events_{case}.parquet")
+    if "match" in E:
+        E = E[E["match"] != "completed_only_near_permit"]
+    elif E.completed_year.notna().any() and E.permit_year.notna().any():
+        E = E[E.completed_year.notna()]
+    yr = permit_year_est(E, county_of(case)) if mode == "permit_est" else E.completed_year
+    cfg = {**B.CASES, **{k: v for k, (_, v) in B.adapter_cases().items()}}[case]
+    out = D.copy()
+    for col, (a, b) in (("homes_before_win", cfg["before"]), ("homes_after_win", cfg["after"])):
+        out[col] = E[yr.between(a, b)].groupby("lot_index").homes.sum().reindex(out.index).fillna(0)
+    return out
+
+
+def case_effects(mode: str = "stored") -> pd.DataFrame:
     rows = []
     for f in sorted(OUT.glob("lots_*.parquet")):
         case = f.stem.removeprefix("lots_")
-        D = pd.read_parquet(f, columns=["group", "band", "homes_existing", "homes_before_win", "homes_after_win", "in_reform_area", "implausible"])
+        D = pd.read_parquet(f, columns=["group", "band", "homes_existing", "homes_before_win", "homes_after_win", "in_reform_area", "implausible", "acres"])
+        if mode != "stored" and (OUT / f"events_{case}.parquet").exists():
+            D = event_windows(case, D, mode)
         D = D[~D.implausible.fillna(False)]
         yb, ya = windows(case)
         g = D.groupby(["group", "band"]).agg(e=("homes_existing", "sum"), b=("homes_before_win", "sum"), a=("homes_after_win", "sum"),
-                                             cov=("in_reform_area", "mean"), lots=("band", "size"))
+                                             cov=("in_reform_area", "mean"), lots=("band", "size"), ac=("acres", "sum"))
         for band in BANDS:
             try:
                 r, c = g.loc[("reform", band)], g.loc[("comparison", band)]
@@ -53,8 +78,10 @@ def case_effects() -> pd.DataFrame:
                 continue
             dr = 1000 * (r.a / ya - r.b / yb) / r.e
             dc = 1000 * (c.a / ya - c.b / yb) / c.e
+            pr = 100 * (r.a / ya - r.b / yb) / r.ac if r.ac > 0 else np.nan   # per 100 lot acres
+            pc = 100 * (c.a / ya - c.b / yb) / c.ac if c.ac > 0 else np.nan
             rows.append({"case": case, "city": city_of(case), "band": band, "reform_change": dr, "comparison_change": dc,
-                         "effect_raw": dr - dc, "coverage": r["cov"], "comparison_coverage": c["cov"],
+                         "effect_raw": dr - dc, "effect_per_100_acres": pr - pc, "coverage": r["cov"], "comparison_coverage": c["cov"],
                          "reform_homes": r.e, "comparison_homes": c.e, "reform_new": r.a + r.b, "comparison_new": c.a + c.b})
     E = pd.DataFrame(rows)
     E["effect_scaled"] = E.effect_raw / (E.coverage - E.comparison_coverage).where(lambda x: x >= 0.2)   # scaling below 20% coverage multiplies noise
@@ -63,7 +90,7 @@ def case_effects() -> pd.DataFrame:
 
 def city_level(E: pd.DataFrame) -> pd.DataFrame:
     """One row per city and band: New York and Philadelphia averaged over their rezonings."""
-    num = ["reform_change", "comparison_change", "effect_raw", "effect_scaled", "coverage"]
+    num = ["reform_change", "comparison_change", "effect_raw", "effect_scaled", "effect_per_100_acres", "coverage"]
     return E.groupby(["city", "band"])[num].mean().reset_index()
 
 
@@ -80,18 +107,18 @@ def pooled(C: pd.DataFrame, col: str) -> pd.DataFrame:
 
 
 def main() -> None:
-    E = case_effects()
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dates", choices=["stored", "permit_est", "completed"], default="permit_est")
+    E = case_effects(ap.parse_args().dates)
     C = city_level(E)
     pd.set_option("display.width", 200)
     print(C.round(2).to_string(index=False))
-    for col in ("effect_raw", "effect_scaled"):
+    for col in ("effect_raw", "effect_scaled", "effect_per_100_acres"):
         print(f"\n{col}:")
         print(pooled(C, col).round(2).to_string(index=False))
     C.round(4).to_csv(REFERENCE / "tod_station_area_effects_by_city.csv", index=False)
 
-
-if __name__ == "__main__":
-    main()
 
 
 # ---------------------------------------------------------------------- dates (owner, 17:33: permit year, completion
@@ -110,3 +137,7 @@ def permit_year_est(E: pd.DataFrame, county: str = "la") -> pd.Series:
     size = pd.cut(E.homes, [0, 1, 4, 49, np.inf], labels=list(lag)).astype(str)
     est = E.completed_year - size.map(lag).astype(float)
     return E.permit_year.where(E.permit_year.notna(), est)
+
+
+if __name__ == "__main__":
+    main()
