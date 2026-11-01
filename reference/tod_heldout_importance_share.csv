@@ -1,0 +1,14 @@
+group,traits,score,uplift_change_corr,score_rise
+existing homes on the lot,1,0.4167,0.255,0.0138
+"people (age, households, education, poverty)",19,0.4141,0.2433,0.0111
+building nearby before,6,0.4041,0.0742,0.0012
+lot's group in the reform,13,0.403,0.2488,0.0
+(none),0,0.4029,0.2521,0.0
+city has no rail or rapid stop,1,0.4029,0.2521,0.0
+density and tract size,3,0.4019,0.2482,-0.001
+"housing stock (age, type, vacancy)",21,0.3995,0.0475,-0.0034
+distance to rail or rapid stop,1,0.3986,0.1757,-0.0043
+"rents, values, incomes",20,0.3969,0.1953,-0.006
+commuting and cars,18,0.3896,0.2471,-0.0133
+lot size and shape,2,0.3744,0.4415,-0.0285
+zoning level and change,6,0.3423,0.3307,-0.0606

@@ -192,3 +192,35 @@ Other findings:
 - Larger leaves are worse on every test.
 
 **Share-model check without Kansas City** (gradient boosting, menu version): K 0.079 (main 0.077); Wisconsin B raw 11,019 (main 11,921); calibrated 874 (main 920). Kansas City does not drive the result.
+
+## Which traits matter, judged on held-out cities
+
+Each trait group is shuffled jointly within the left-out city's rows; the score is the registered held-out score. Script `scripts/run_tod_heldout_importance.py`; tables `reference/tod_heldout_importance_{pace,share}.csv`.
+
+**No-reform baseline** (forest, leaf 50, no lot size). Unshuffled score: 0.362 (matched rows). A rise means the group helps.
+
+| Trait group | Traits | Score rise when shuffled |
+| --- | ---: | ---: |
+| Rents, values, incomes | 20 | +0.075 |
+| Housing stock (age, type, vacancy) | 21 | +0.062 |
+| People (age, households, education, poverty) | 19 | +0.056 |
+| Commuting and cars | 18 | +0.034 |
+| Place's past permit pace and size | 2 | +0.019 |
+| Distance to rail or rapid stop | 1 | +0.006 |
+| Density and tract size | 3 | +0.001 |
+| City has no rail or rapid stop | 1 | 0.000 |
+| Existing homes on the lot (2010 census) | 1 | −0.028 (shuffling helps) |
+
+**TOD prediction** (gradient boosting, calibrated with K left out). Unshuffled score: 0.403; uplift-change correlation 0.25.
+
+| Trait group | Score rise when shuffled |
+| --- | ---: |
+| Existing homes on the lot | +0.014 |
+| People | +0.011 |
+| Everything else | between −0.013 and +0.001 |
+| Lot size and shape | −0.029 |
+| Zoning level and change | −0.061 (shuffling helps; correlation rises to 0.33) |
+
+Reading:
+- **Without reform,** a place's market (rents, values, incomes), its housing stock and its people predict building in cities the model never saw. Within-city fit importance had pointed elsewhere: the no-rail flag (a city label) and existing homes (dated after many windows). Neither carries over.
+- **With the reform,** no trait group helps the share model predict the size of the change in a new city. The zoning-change traits make it worse. This agrees with the menu: no method beats the no-model benchmark.

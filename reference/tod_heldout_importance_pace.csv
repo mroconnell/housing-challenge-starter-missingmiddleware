@@ -1,0 +1,11 @@
+group,traits,score,score_rise
+"rents, values, incomes",20,0.4371,0.0753
+"housing stock (age, type, vacancy)",21,0.4241,0.0623
+"people (age, households, education, poverty)",19,0.4182,0.0564
+commuting and cars,18,0.3953,0.0335
+place's past permit pace and size,2,0.3805,0.0187
+distance to rail or rapid stop,1,0.3681,0.0063
+density and tract size,3,0.3631,0.0013
+(none),0,0.3618,0.0
+city has no rail or rapid stop,1,0.3618,0.0
+existing homes on the lot,1,0.334,-0.0278
