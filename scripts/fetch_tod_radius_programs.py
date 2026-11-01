@@ -161,7 +161,9 @@ def arcgis_csv(layer: str, out: Path, fields: str, page: int = 2000, idf: str = 
                 q.update({"returnCentroid": "true", "outSR": 4326})
             for f in json.loads(_get(f"{layer}/query", urllib.parse.urlencode(q).encode()))["features"]:
                 a = dict(f["attributes"])
-                if centroid == "geom" and f.get("geometry", {}).get("rings"):
+                if centroid == "geom" and "x" in f.get("geometry", {}):
+                    a["cx"], a["cy"] = f["geometry"]["x"], f["geometry"]["y"]
+                elif centroid == "geom" and f.get("geometry", {}).get("rings"):
                     r = f["geometry"]["rings"][0]
                     a["cx"], a["cy"] = sum(p[0] for p in r) / len(r), sum(p[1] for p in r) / len(r)
                 elif centroid and f.get("centroid"):
@@ -333,7 +335,20 @@ def portland_taxlots() -> None:
     print("portland taxlots", n)
 
 
-STAGES = {"portland_taxlots": portland_taxlots, "travis_parcels": travis_parcels, "mecklenburg_parcels": mecklenburg_parcels, "denver_parcels": denver_parcels, "stpaul_parcels": stpaul_parcels, "slc_parcels": slc_parcels, "cook_parcels": cook_parcels, "king_parcels": king_parcels, "king_assessor": king_assessor, "honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
+def twin_cities_parcels() -> None:
+    """Hennepin and Ramsey County parcel points (Metropolitan Council, 2025): values, use, year built, homes, last
+    sale. For Saint Paul's comparison stops in Minneapolis. Owner and taxpayer fields not requested."""
+    base = "https://arcgis.metc.state.mn.us/data1/rest/services/parcels/Parcel_Points_2025/FeatureServer"
+    f = ("OBJECTID,COUNTY_PIN,CTU_NAME,CO_NAME,ACRES_POLY,EMV_LAND,EMV_BLDG,MKT_YEAR,USECLASS1,TAX_EXEMPT,DWELL_TYPE,"
+         "YEAR_BUILT,NUM_UNITS,SALE_DATE,SALE_VALUE,OWNERSHIP")
+    for lid, name in ((3, "hennepin"), (4, "ramsey")):
+        out = RAW / "twin_cities" / f"{name}_parcel_points_2025.csv"
+        n = arcgis_csv(f"{base}/{lid}", out, f, page=2000, idf="OBJECTID", centroid="geom")
+        _manifest("twin_cities", out.name, f"{base}/{lid}", n, out, "Metropolitan Council parcel points 2025; no owner fields; local only")
+        print(name, n)
+
+
+STAGES = {"twin_cities_parcels": twin_cities_parcels, "portland_taxlots": portland_taxlots, "travis_parcels": travis_parcels, "mecklenburg_parcels": mecklenburg_parcels, "denver_parcels": denver_parcels, "stpaul_parcels": stpaul_parcels, "slc_parcels": slc_parcels, "cook_parcels": cook_parcels, "king_parcels": king_parcels, "king_assessor": king_assessor, "honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser(); a.add_argument("stage", choices=STAGES); STAGES[a.parse_args().stage]()
