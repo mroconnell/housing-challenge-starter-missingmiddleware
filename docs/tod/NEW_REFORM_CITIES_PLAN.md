@@ -109,6 +109,7 @@ Every change found is logged below as qualifies or ruled out, with the reason. A
 | Austin | TOD regulating plans: Plaza Saltillo, MLK, Lamar/Justin | 2008–2009 (effective March 2009 for Saltillo and MLK) | Ruled out | Before MetroRail opened (March 2010): no rapid stop open on the adoption date |
 | Austin | ETOD overlay | May 2024 | Ruled out | Under 3 after-years |
 | Austin | Later changes 2010–2020 | — | To search | Zoning cases |
-| Portland | Comprehensive Plan map and zones ("mp", including the conversion to mixed-use zones) | 2018 (effective May 2018) | To check | Mapped from/to zones exist; whether each change raised allowed homes is judged from the zones' limits |
+| Portland | Mixed-use zone conversion (CS/CG/CM/CN to CM1/CM2/CM3/CE, citywide centers and corridors) | 2018 (effective May 2018) | Not testable from public GIS yet | The proposal layers hold no from/to zones for it (the "mp" entries are 9 small industrial/employment polygons). Needs Portland's 2017 zoning snapshot: Metro RLIS archive or a request to the city's GIS team |
+| Portland | Map amendments "mp" (IG1/IH/EG to EX/EG1; industrial to central employment, which allows homes) | To confirm | To check | 9 polygons |
 | Portland | Better Housing by Design ("bhd") | 2019 (effective March 2020) | Ruled out | Permit layers end in 2022: 2 after-years |
-| Portland | 82nd Avenue plan ("82nd") | To confirm | To check | — |
+| Portland | 82nd Avenue study map amendments | Adopted 30 May 2019 | To check | 21.5 acres, mostly employment zones (EG1, no homes); a few R5 to R2 and R5/R2.5 to CE (homes raised). After-years 2020–2022 (3). Needs a MAX stop within ½ mile |
