@@ -63,6 +63,9 @@ CASES = {"denver_2018": {"before": (2013, 2017), "after": (2019, 2023)},
          "austin_2009": {"before": (2003, 2008), "after": (2010, 2014)},
          "slc_2010": {"before": (2004, 2009), "after": (2011, 2015)}}
 
+# one row per new-building record on a lot in D, from 2000 on (owner: keep the data, compute windows later); see events()
+EVENTS: dict[str, pd.DataFrame] = {}
+
 # case: (city label, census place name, state FIPS, BPS place name)
 CITY = {"denver_2018": ("Denver", "Denver", "08", "Denver"),
         "portland_2020": ("Portland", "Portland", "41", "Portland"),
@@ -375,6 +378,48 @@ def bps(case: str) -> pd.Series:
     return b[(b.state == st) & (b.name == nm)].groupby("year").units.sum()
 
 
+def events(case: str, P: pd.DataFrame, pos: np.ndarray, L: pd.DataFrame, D: pd.DataFrame) -> pd.DataFrame:
+    """One row per new-building record placed on a lot in D, from 2000 on (ADUs left out, as in the window counts).
+    Columns: lot_index (D's index), homes, permit_year, completed_year, preferred ("permit" when a permit year exists,
+    else "completed"), source, match.
+    Denver has both dates: each permit is matched to its lot's parcel year built when that year is 0-5 years after the
+    permit year (match "both"); a lot with a year built from 2000 on and no matching permit gives a "completed_only"
+    row with the lot's units ("completed_only_near_permit" when a permit for as many or more homes, issued 0-5 years
+    before, lies on another lot within 100 m: likely the same building, e.g. condo-unit parcels; do not add it to the
+    permit rows). Portland and Austin: permits only (taxlot year built is blank for units on most lots; Travis file
+    has no year built). Salt Lake City: completions only (housing unit inventory year built)."""
+    inD = (pos >= 0) & np.isin(pos, D.index.values)
+    if case == "slc_2010":
+        y = P.year.values[inD]
+        E = pd.DataFrame({"lot_index": pos[inD], "homes": P.units.values[inD], "permit_year": np.nan, "completed_year": y,
+                          "preferred": "completed", "source": "SLC housing unit inventory (year built)", "match": "completed_only"})
+        return E[E.completed_year >= 2000].reset_index(drop=True)
+    src = {"denver_2018": "Denver building permits", "portland_2020": "Portland building permits (no ADUs)",
+           "austin_2009": "Austin building permits"}[case]
+    E = pd.DataFrame({"lot_index": pos[inD], "homes": P.units.values[inD], "permit_year": P.year.values[inD].astype(float),
+                      "completed_year": np.nan, "preferred": "permit", "source": src, "match": "permit_only"})
+    E = E[E.permit_year >= 2000].reset_index(drop=True)
+    if case != "denver_2018":
+        return E
+    yb = D.year_built.reindex(E.lot_index).values
+    ok = (yb - E.permit_year.values >= 0) & (yb - E.permit_year.values <= 5)
+    E.loc[ok, "completed_year"] = yb[ok]
+    E.loc[ok, "match"] = "both"
+    E.loc[ok, "source"] = "Denver building permits + parcel year built"
+    units = L.units_now.reindex(D.index)
+    lots = D[(D.year_built >= 2000) & (units > 0) & ~D.index.isin(E.lot_index[ok])]
+    C = pd.DataFrame({"lot_index": lots.index.values, "homes": units.loc[lots.index].values, "permit_year": np.nan,
+                      "completed_year": lots.year_built.values, "preferred": "completed",
+                      "source": "Denver parcel year built x units", "match": "completed_only"})
+    # completed-only rows near a permit for as many homes issued 0-5 years before: likely the same building
+    t = cKDTree(np.c_[D.geometry.x.reindex(E.lot_index).values, D.geometry.y.reindex(E.lot_index).values])
+    near = t.query_ball_point(np.c_[lots.geometry.x.values, lots.geometry.y.values], 100.0)
+    py, ph = E.permit_year.values, E.homes.values
+    same = [any((0 <= cy - py[j] <= 5) and ph[j] >= h for j in nb) for nb, cy, h in zip(near, C.completed_year.values, C.homes.values)]
+    C.loc[np.array(same, bool), "match"] = "completed_only_near_permit"
+    return pd.concat([E, C], ignore_index=True)
+
+
 def coverage_poly(case: str):
     """The reform city, cut to the area the lot file covers (Austin: the Travis County part; 8% of the city's land, in
     Williamson and Hays counties, has no lots in the Travis file)."""
@@ -483,6 +528,11 @@ def build(case: str):
             "_yb", "_un", "geometry"]
     D = gpd.GeoDataFrame(D[keep], geometry="geometry", crs=CRS)
     D["city_name"] = CITY[case][0]
+
+    EVENTS[case] = events(case, Pn, posn, L, D)
+    ev = EVENTS[case]
+    print(f"--- {case} events: {len(ev):,} rows, {ev.homes.sum():,.0f} homes; by match: "
+          + ", ".join(f"{k} {v:,.0f}" for k, v in ev.groupby("match").homes.sum().items()))
 
     # ---- diagnostics (printed; nothing written outside data/)
     bp = bps(case)
