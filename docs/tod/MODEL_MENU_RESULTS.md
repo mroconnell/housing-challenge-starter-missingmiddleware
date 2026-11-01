@@ -242,4 +242,4 @@ Run once, reported as is (owner: "just run it and see what it says"):
 | Wisconsin B raw | 12,925 |
 | Wisconsin B calibrated (range) | 1,882 (107–3,811) |
 
-It does not beat the no-model benchmark. Its predicted uplift does not line up with the cities' actual change in share: it is highest in Saint Paul and Charlotte, and its correlation with the actual change is −0.15. Its Wisconsin figure is the highest of the calibrated methods.
+It does not beat the no-model benchmark. Its predicted uplift does not line up with the cities' actual change in share: it is highest in Saint Paul and Charlotte, and its correlation with the actual change is −0.15. Its Wisconsin figure is the highest of the calibrated methods. Its largest uplift is in Saint Paul, where upzoned lots already held 100% of new homes before the reform, so a rise was impossible. Audit (section 10): no error; a standard R-learner. Kept as a named comparison only, not a line.
