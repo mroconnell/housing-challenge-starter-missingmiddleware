@@ -1,0 +1,7 @@
+method,median_abs_log,mean_abs_log,units,worst_unit
+plain_average,0.8416,0.9433,10,madison tracts
+current_model,0.9386,0.9755,10,madison tracts
+causal_forest,0.6224,0.6966,10,madison tracts
+boosted_trees,0.5806,0.7271,10,austin tracts
+regularised_regression,0.4697,0.6675,10,madison tracts
+guess_zero,2.1183,2.481,10,seattle tracts

@@ -808,6 +808,26 @@ def out_dir(run: int) -> Path:
     return OUT if run == 1 else OUT / f"run{run}"
 
 
+def aq065_recode(panel: pd.DataFrame) -> pd.DataFrame:
+    """Run 3 (PREDICTIVE_R3_PLAN.md): the adopted AQ-065 law-year rule. Vermont by permit year (counts one year
+    earlier, k - 1, the pre-law year dropped); Oregon law years from 2020 (2019 dropped for the city panel and
+    Portland's tracts, k = year - 2019); Seattle's 2024 tracts as local rules only."""
+    p = panel.copy()
+    p["k"] = pd.to_numeric(p["k"], errors="coerce")
+    vt = p["series"].eq("VT_chittenden")
+    p.loc[vt, "year"] -= 1
+    p.loc[vt, "k"] -= 1
+    p = p[~(vt & (p["k"] < 1))]
+    ore = p["series"].isin(["OR_cities", "portland_tracts"])
+    p = p[~(ore & p["year"].eq(2019))].copy()
+    ore = p["series"].isin(["OR_cities", "portland_tracts"])
+    p.loc[ore, "k"] = p.loc[ore, "year"] - 2019
+    sea = p["series"].eq("seattle_tracts") & p["year"].eq(2024)
+    p.loc[sea, "law"] = 0
+    p.loc[sea, "k"] = np.nan
+    return p.reset_index(drop=True)
+
+
 def build(log=print, run: int = 2) -> None:
     """run 1 = the first run's coding; run 2 = the adopted AQ-061 coding plus local reform strength (PLAN s10)."""
     aq = run >= 2
@@ -823,6 +843,8 @@ def build(log=print, run: int = 2) -> None:
     a = agg_rows(cells, aq061=aq)
     info.update({"tract_cities": ti, **wi_, **oi, **ci})
     panel = pd.concat([c, w, o, a, t], ignore_index=True)
+    if run >= 3:
+        panel = aq065_recode(panel)
     panel["strong"] = np.where(panel["law"].eq(1), panel["cluster"].isin(STRONG).astype(int), 0)
     panel["k"] = pd.to_numeric(panel["k"], errors="coerce")
     panel["row_id"] = np.arange(len(panel))
@@ -871,7 +893,7 @@ def build(log=print, run: int = 2) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true")
-    ap.add_argument("--run", type=int, default=2, help="1 = first run's coding; 2 = AQ-061 coding + local strength")
+    ap.add_argument("--run", type=int, default=2, help="1 = first run's coding; 2 = AQ-061 coding + local strength; 3 = + AQ-065 law-year rule")
     a = ap.parse_args()
     if a.fetch:
         fetch_tiger()

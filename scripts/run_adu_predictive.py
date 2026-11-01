@@ -659,6 +659,28 @@ def before_after(res1: pd.DataFrame, res2: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def no_reform_scores(panel: pd.DataFrame, pred: pd.DataFrame, cols: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Run 3 (PREDICTIVE_R3_PLAN.md): every no-law row scored when its fold is held out. Per held-out unit
+    (unit_group), pooled predicted vs observed rate; score = |log((pred + 0.05) / (obs + 0.05))|; summary = median."""
+    d = pred.merge(panel[["row_id", "unit_group", "cluster", "law", "count", "homes", "years"]], on="row_id")
+    d = d[d["law"].eq(0) & d["fold"].eq(d["cluster"])].copy()      # each row once, with its own state held out
+    d["hy"] = d["homes"] * d["years"] / 1000
+    rows = []
+    for u, g in d.groupby("unit_group"):
+        obs = g["count"].sum() / g["hy"].sum()
+        r = {"unit": u, "rows": len(g), "observed_rate": obs}
+        for m in cols:
+            pr_ = (g[m] * g["hy"]).sum() / g["hy"].sum()
+            r[f"pred__{m}"] = pr_
+            r[f"abs_log__{m}"] = abs(np.log((pr_ + 0.05) / (obs + 0.05)))
+        rows.append(r)
+    by = pd.DataFrame(rows)
+    summ = pd.DataFrame([{"method": m, "median_abs_log": float(by[f"abs_log__{m}"].median()),
+                          "mean_abs_log": float(by[f"abs_log__{m}"].mean()), "units": len(by),
+                          "worst_unit": by.loc[by[f"abs_log__{m}"].idxmax(), "unit"]} for m in cols])
+    return by, summ
+
+
 def main():
     global IN, TAG, STRENGTH
     run = 2
@@ -667,6 +689,8 @@ def main():
     if run >= 2:
         IN, TAG, STRENGTH = OUT / f"run{run}", f"run{run}_", True
         LAW_FIRST_YEAR["WA"] = 2026          # AQ-061: Washington from local compliance (Seattle 2024 is flagged)
+    if run >= 3:
+        LAW_FIRST_YEAR["OR"] = 2020          # AQ-065: Oregon law years from HB 2001's ADU rules
     panel, feats, market = load()
     IN.mkdir(parents=True, exist_ok=True)
     fl = flags(panel, feats)                      # owner rule: flag before each run, never stop
@@ -684,8 +708,14 @@ def main():
     by_unit.round(4).to_csv(ref("by_unit.csv"), index=False)
     res.round(4).to_csv(ref("results.csv"), index=False)
     pl.round(4).to_csv(ref("placebo.csv"), index=False)
-    if run >= 2 and (REFERENCE / "adu_predictive_results.csv").exists():
-        before_after(pd.read_csv(REFERENCE / "adu_predictive_results.csv"), res).round(4).to_csv(
+    if run >= 3:
+        nb, ns = no_reform_scores(panel, pred, cols)
+        nb.round(4).to_csv(ref("no_reform_by_unit.csv"), index=False)
+        ns.round(4).to_csv(ref("no_reform_scores.csv"), index=False)
+        print(ns.round(3).to_string(), flush=True)
+    prev = REFERENCE / ("adu_predictive_results.csv" if run == 2 else f"adu_predictive_run{run - 1}_results.csv")
+    if run >= 2 and prev.exists():
+        before_after(pd.read_csv(prev), res).round(4).to_csv(
             ref("before_after.csv"), index=False)
     summary = {"run": run, "rows": int(len(panel)), "features": int(feats.shape[1]),
                "rows_by_cluster": panel.groupby("cluster").size().to_dict(),
