@@ -152,6 +152,16 @@ def implausible(D: pd.DataFrame) -> pd.Series:
     return dense.fillna(False) & (new >= 20)
 
 
+def blocks_to_lots(D: gpd.GeoDataFrame, zip_path: Path) -> pd.Series:
+    """2010 census block housing counts spread equally over the lots inside each block (lots outside any block get 0)."""
+    b = gpd.read_file(f"zip://{zip_path}", bbox=tuple(D.to_crs(4269).total_bounds)).to_crs(CRS)
+    hu = b.columns[b.columns.str.upper() == "HOUSING10"][0]
+    j = gpd.sjoin(D[["geometry"]], b[[hu, "geometry"]], how="left", predicate="within")
+    j = j[~j.index.duplicated()]
+    n = j.groupby("index_right").size()
+    return (j[hu] / j.index_right.map(n)).reindex(D.index).fillna(0).astype(float)
+
+
 # --------------------------------------------------------------------------- build
 
 def build(case: str) -> pd.DataFrame:
@@ -202,8 +212,8 @@ def build(case: str) -> pd.DataFrame:
         if "after_v2" in c:
             w = pj[pj.year.between(*c["after_v2"])]
             D["homes_after_v2"] = w.groupby("index_right").units.sum().reindex(D.index).fillna(0)
-        D["homes_existing"] = np.nan   # filled from census blocks below
-        D["source"] = "city permits (both sides)"
+        D["homes_existing"] = blocks_to_lots(D, RAW / "tod_census_cases" / "tabblock2010_15_pophu.zip")
+        D["source"] = "city permits (both sides); existing homes from 2010 census blocks spread over each block's lots"
     else:
         D["homes_before_win"] = homes_between(D, b0, b1)
         D["homes_after_win"] = homes_between(D, a0, a1)
