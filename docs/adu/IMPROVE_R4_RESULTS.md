@@ -9,7 +9,7 @@ Run 2026-11-01 under [IMPROVE_R4_PLAN.md](IMPROVE_R4_PLAN.md), committed before 
 - **Counting only Washington's time under the law fixes Washington's miss:** +0.20 (20% too high) → −0.10.
 - **Held-out RMS improves:** 0.130 → 0.121. Vermont (+0.22) is now the worst state.
 - **Wisconsin rises:** lower 6,320 → 6,604; central 10,615 → 10,931; upper 19,925 → 20,761. Baseline (786) and reference line (10,142) unchanged.
-- **Why it rises:** the four counties under the law issued 437 ADU permits in the 12 months, 9 of them under the law. That is a higher rate than all of Washington's cities averaged over a full law year, so the law's measured effect goes up.
+- **Why it rises:** Washington's measured law-year rate goes from 0.77 to 0.98 permits per 1,000 single-family homes per year. The four counties issued 437 ADU permits in the estimate year, 9 months of it under the law, a higher rate than all Washington cities averaged over a full year. So the law's measured effect goes up.
 - **Ryan decides** whether the tool adopts it.
 
 ## Detail
@@ -36,4 +36,4 @@ Held-out log error by state, adopted model:
 
 Simple models score better too (plain average 0.27 → 0.23; median 0.19 → 0.14). The adopted model still scores best.
 
-**Limits.** The 3 months before 2025-06-30 are counted as law months (as Massachusetts' 2025 counts 11 of 12), which slightly understates the four counties' rate. Cities in counties that bound from about 2025-12-31 (3 months) are left out, not counted at a fraction.
+**Limits.** All 12 months' permits (437) are divided by 9 months of exposure, as Massachusetts' 2025 count is divided by 11 of 12. Permits from the 3 months before 2025-06-30 are counted as law-period permits, which slightly overstates the four counties' rate. Cities in counties that bound from about 2025-12-31 (3 months) are left out, not counted at a fraction.
