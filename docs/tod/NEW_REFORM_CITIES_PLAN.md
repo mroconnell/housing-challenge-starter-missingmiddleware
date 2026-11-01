@@ -317,3 +317,10 @@ So far the drift rule beats both benchmarks on the city median. The two station-
 - **Lots:** the inventory's residential parcels, plus each parcel's points.
 - **Windows, on the reform date:** before, built 2004–2009; after, built 2011–2015.
 - **Reporting:** the city median is reported both with and without Salt Lake City.
+
+Audit notes on Austin (review of 2026-11-01): clean. The maps were committed (0bf7e55) before the results (e08a2dc). Reported with it:
+1. **Per case** (4 cases, Portland counted twice), the medians are drift 1.11, average change 1.02 and same share 1.02: essentially a tie. The city count was set before Austin and stays the main count.
+2. **"Upzoned" is assumed** from the subdistricts, because the pre-plan zoning is not in GIS. The version without low-density residential (score 0.33) is the check.
+3. **Relabelling:** 550 of about 831 plan lots were more than ½ mile from a station and were relabelled.
+4. **Great Recession:** the windows straddle it (2003–2008 before, 2010–2014 after), with no adjustment, per the owner's rule.
+5. **2005 version:** its same-share score is inflated because the share before was only 0.5%.
