@@ -142,21 +142,25 @@ def program_areas() -> None:
         print(rel, n)
 
 
-def arcgis_csv(layer: str, out: Path, fields: str, page: int = 2000, idf: str = "objectid") -> int:
+def arcgis_csv(layer: str, out: Path, fields: str, page: int = 2000, idf: str = "objectid", centroid: bool = False) -> int:
     """Page an ArcGIS layer's attributes (no geometry) into a CSV, by object-id ranges."""
     import csv
     ids = sorted(json.loads(_get(f"{layer}/query?" + urllib.parse.urlencode({"where": "1=1", "returnIdsOnly": "true", "f": "json"})))["objectIds"])
     out.parent.mkdir(parents=True, exist_ok=True)
-    cols = fields.split(",")
+    cols = fields.split(",") + (["cx", "cy"] if centroid else [])
     with open(out, "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
         for i in range(0, len(ids), page):
             c = ids[i:i + page]
-            body = urllib.parse.urlencode({"where": f"{idf}>={c[0]} AND {idf}<={c[-1]}", "outFields": fields,
-                                           "returnGeometry": "false", "f": "json"}).encode()
-            for f in json.loads(_get(f"{layer}/query", body))["features"]:
-                w.writerow(f["attributes"])
+            q = {"where": f"{idf}>={c[0]} AND {idf}<={c[-1]}", "outFields": fields, "returnGeometry": "false", "f": "json"}
+            if centroid:
+                q.update({"returnCentroid": "true", "outSR": 4326})
+            for f in json.loads(_get(f"{layer}/query", urllib.parse.urlencode(q).encode()))["features"]:
+                a = dict(f["attributes"])
+                if centroid and f.get("centroid"):
+                    a["cx"], a["cy"] = f["centroid"]["x"], f["centroid"]["y"]
+                w.writerow(a)
     return len(ids)
 
 
@@ -253,7 +257,31 @@ def cook_parcels() -> None:
     print("cook res chars", n)
 
 
-STAGES = {"cook_parcels": cook_parcels, "king_parcels": king_parcels, "king_assessor": king_assessor, "honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
+def slc_parcels() -> None:
+    """Salt Lake County parcels (Utah UGRC LIR): market values, year built and effective year, homes, class, centre point."""
+    layer = "https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/Parcels_SaltLake_LIR/FeatureServer/0"
+    f = ("OBJECTID,PARCEL_ID,PARCEL_CITY,CURRENT_ASOF,TAXEXEMPT_TYPE,TOTAL_MKT_VALUE,LAND_MKT_VALUE,PARCEL_ACRES,PROP_CLASS,"
+         "HOUSE_CNT,BLDG_SQFT,FLOORS_CNT,BUILT_YR,EFFBUILT_YR,PROP_TYPE")
+    out = RAW / "salt_lake" / "county_parcels.csv"
+    n = arcgis_csv(layer, out, f, page=2000, idf="OBJECTID", centroid=True)
+    _manifest("salt_lake", out.name, layer, n, out, "Salt Lake County LIR parcels (UGRC); local only")
+    print("salt lake parcels", n)
+
+
+def stpaul_parcels() -> None:
+    """Saint Paul tax parcels (Ramsey County via the City): values, land use, year built, homes, last sale, point.
+    Owner, taxpayer and homestead name and address fields are not requested."""
+    layer = "https://services1.arcgis.com/9meaaHE3uiba0zr8/arcgis/rest/services/Saint_Paul_Tax_Parcels/FeatureServer/0"
+    f = ("OBJECTID,ParcelID,SiteCityName,OwnershipCategory,ParcelSquareFeet,EMVYear,EMVLand,EMVBuilding,LandUseCode,"
+         "LandUseCodeDescription,TaxExemptYN,StructureDescription,DwellingType,LivingUnit,YearBuilt,EffectiveYearBuilt,"
+         "LastSaleDate,SalePrice,Latitude,Longitude")
+    out = RAW / "saint_paul" / "parcels.csv"
+    n = arcgis_csv(layer, out, f, page=2000, idf="OBJECTID")
+    _manifest("saint_paul", out.name, layer, n, out, "Saint Paul tax parcels; no owner fields; local only")
+    print("saint paul parcels", n)
+
+
+STAGES = {"stpaul_parcels": stpaul_parcels, "slc_parcels": slc_parcels, "cook_parcels": cook_parcels, "king_parcels": king_parcels, "king_assessor": king_assessor, "honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser(); a.add_argument("stage", choices=STAGES); STAGES[a.parse_args().stage]()
