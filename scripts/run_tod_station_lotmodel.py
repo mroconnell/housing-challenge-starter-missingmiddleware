@@ -119,6 +119,40 @@ def effect_by_band(model, D: pd.DataFrame, cols: list[str]) -> pd.Series:
     return 100 * extra.groupby(R.band).sum() / acres
 
 
+def wisconsin_rows() -> pd.DataFrame:
+    """Wisconsin lots near rail and rapid stops (scripts/build_tod_station_wisconsin.py), with the training features.
+    The law applies at every such stop: reform_stop = 1; in_reform_area = lot the law would upzone; coverage = share of
+    that stop-band's lots the law would upzone. rate_before = homes built on the lot in the latest 5 years / 5."""
+    W = pd.read_parquet(OUT / "wi_lots_station.parquet")
+    W["rate_before"] = W.homes_before_win.fillna(0) / 5
+    eff = 2027
+    W["log_acres"] = np.log(W.acres.clip(lower=0.01).fillna(0.1))
+    lva = W.land_value / W.acres.where(W.acres > 0)
+    W["log_land_value_per_acre"] = np.log(lva.clip(lower=1000))
+    W["land_value_rank_in_case"] = lva.groupby(W["case"]).rank(pct=True)
+    W["bldg_to_land"] = (W.bldg_value / W.land_value.where(W.land_value > 0)).clip(0, 50)
+    W["building_age"] = (eff - W.year_built).clip(0, 200)
+    W["log_homes_existing"] = np.log1p(W.homes_existing.clip(lower=0))
+    W["vacant"] = (W.bldg_value.fillna(0) <= 0).astype(float)
+    W["public"] = W.public.astype(float)
+    W["log_dist_m"] = np.log1p(W.dist_m)
+    W["band_q"], W["band_h"] = (W.band == "0-1/4").astype(float), (W.band == "1/4-1/2").astype(float)
+    W["historic"] = W.get("historic", pd.Series(False, index=W.index)).astype(float)
+    W["reform_stop"] = 1.0
+    W["in_reform_area"] = W.in_reform_area.astype(float)
+    W["coverage"] = W.groupby([W["case"], W.stop_id, W.band]).in_reform_area.transform("mean")
+    W["w"] = 1.0
+    return W
+
+
+def wisconsin_extra(model, W: pd.DataFrame, cols: list[str]) -> pd.Series:
+    """Extra homes a year by band (Milwaukee and Madison lots near rail and rapid stops)."""
+    on = model.predict(W[cols].astype(float))
+    off_X = W[cols].astype(float).copy()
+    off_X[["reform_stop", "in_reform_area", "coverage"]] = 0.0
+    return pd.Series(on - model.predict(off_X), index=W.index).groupby(W.band).sum()
+
+
 def main(argv=None) -> None:
     from sklearn.ensemble import HistGradientBoostingRegressor
     ap = argparse.ArgumentParser()
@@ -132,11 +166,14 @@ def main(argv=None) -> None:
     cols = features(D, groups)
     print(f"rows {len(D):,}; cities {D.city.nunique()}; features {len(cols)}")
     measured = M.city_level(M.case_effects(a.dates)).set_index(["city", "band"])["effect_per_100_acres"]
-    rows = []
+    W = wisconsin_rows() if (OUT / "wi_lots_station.parquet").exists() else None
+    rows, wi = [], []
     for city in sorted(D.city.unique()):
         tr, te = D[D.city != city], D[D.city == city]
         m = HistGradientBoostingRegressor(max_iter=300, learning_rate=0.05, min_samples_leaf=200, random_state=SEED)
         m.fit(tr[cols].astype(float), tr.y, sample_weight=tr.w)
+        if W is not None:
+            wi.append(wisconsin_extra(m, W, cols).rename(f"without {city}"))
         pred = effect_by_band(m, te, cols)
         for band, v in pred.items():
             obs = measured.get((city, band), np.nan)
@@ -149,6 +186,16 @@ def main(argv=None) -> None:
     print("\nmedian absolute error by band (per 100 acres a year):")
     print(R.groupby("band")[["err_model", "err_avg", "err_zero"]].median().round(2).to_string())
     tag = a.trait_groups.replace(",", "_") or "none"
+    if W is not None:
+        m = HistGradientBoostingRegressor(max_iter=300, learning_rate=0.05, min_samples_leaf=200, random_state=SEED)
+        m.fit(D[cols].astype(float), D.y, sample_weight=D.w)
+        full = wisconsin_extra(m, W, cols)
+        X = pd.concat(wi, axis=1)
+        out = pd.DataFrame({"all_cities": full, "low": X.min(axis=1), "high": X.max(axis=1)})
+        out.loc["total"] = out.sum()
+        print("\nWisconsin (Milwaukee + Madison lots near rail and rapid stops), extra homes over 5 years:")
+        print((5 * out).round(0).to_string())
+        (5 * out).round(1).to_csv(REFERENCE / f"tod_station_lotmodel_wisconsin_{tag}.csv")
     R.round(4).to_csv(REFERENCE / f"tod_station_lotmodel_loco_{tag}.csv", index=False)
 
 
