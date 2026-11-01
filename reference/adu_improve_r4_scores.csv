@@ -1,3 +1,8 @@
 variant,label,rms_m1_plain_average,rms_m1b_same_year_no_ca,rms_m2_median,rms_m3_adopted,worst_state_m3,worst_log_error_m3,lower_additional_5yr,central_additional_5yr,upper_additional_5yr,reference_line_additional_5yr,baseline_5yr
 A0,adopted (AQ-066),0.2714,0.2008,0.1927,0.1297,WA,0.1991,6320.467,10615.0612,19925.0972,10141.6,785.9208
-W1,"Washington 2026 = King, Pierce, Snohomish, Kitsap cities, 9 of 12 months",0.2267,0.155,0.1429,0.1206,VT,0.2184,6604.0733,10930.8752,20761.1511,10141.6,785.9208
+W1,"Washington 2026 = four counties, 12 months' permits over 9 months (first run; overstated)",0.2267,0.155,0.1429,0.1206,VT,0.2184,6604.0733,10930.8752,20761.1511,10141.6,785.9208
+W2,"Washington 2026 = four counties, pre-law 3 months removed, over 9 months",0.2959,0.2272,0.2199,0.1426,WA,0.2368,6407.8539,10731.8712,20298.9251,10141.6,785.9208
+W3,"Washington 2026 = four counties, over the full year",0.2825,0.2128,0.2052,0.1297,VT,0.1944,6333.2561,10653.5155,20120.263,10141.6,785.9208
+M,Massachusetts 2025 over the full year (not 11/12),0.2788,0.2039,0.2037,0.136,WA,0.1867,6320.467,10491.9654,19784.4593,10038.2,785.9208
+W2M,W2 + M,0.3022,0.2287,0.2297,0.149,WA,0.2244,6407.8539,10607.5045,20166.0719,10038.2,785.9208
+W3M,W3 + M,0.2894,0.2151,0.2156,0.1369,VT,0.182,6333.2561,10529.765,19982.9029,10038.2,785.9208

@@ -69,12 +69,20 @@ def recode_oregon(rows: pd.DataFrame) -> pd.DataFrame:
     return r.reset_index(drop=True)
 
 
-VARIANTS_R4 = {"A0": "adopted (AQ-066)", "W1": "Washington 2026 = King, Pierce, Snohomish, Kitsap cities, 9 of 12 months"}
+VARIANTS_R4 = {"A0": "adopted (AQ-066)",
+               "W1": "Washington 2026 = four counties, 12 months' permits over 9 months (first run; overstated)",
+               "W2": "Washington 2026 = four counties, pre-law 3 months removed, over 9 months",
+               "W3": "Washington 2026 = four counties, over the full year",
+               "M": "Massachusetts 2025 over the full year (not 11/12)",
+               "W2M": "W2 + M", "W3M": "W3 + M"}
+R4_KW = {"A0": {}, "W1": dict(wa_partial=True), "W2": dict(wa_partial="pre_removed"), "W3": dict(wa_partial="full_year"),
+         "M": dict(ma_full_year=True), "W2M": dict(wa_partial="pre_removed", ma_full_year=True),
+         "W3M": dict(wa_partial="full_year", ma_full_year=True)}
 
 
 def build_variant(v: str, d, pan) -> pr.Pooled:
     if v in VARIANTS_R4:       # round 4: from the adopted build
-        return rv.build(d, pan, wa_partial=(v == "W1"))
+        return rv.build(d, pan, **R4_KW[v])
     cov = {}
     if v in ("V2", "V4"):
         cov["ME_statewide"] = {2025: ME_HOMES_SHARE}
