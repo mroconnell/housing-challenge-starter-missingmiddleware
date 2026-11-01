@@ -147,8 +147,9 @@ class TestCombinedBundle(unittest.TestCase):
             for k, v in t.items():
                 self.assertAlmostEqual(sum(x["by_year"][k]), v, delta=0.1, msg=f"{role} {k}: years add to the total")
             ia, ib = self.areas["cols"].index("total_a"), self.areas["cols"].index("total_b")
-            self.assertAlmostEqual(sum(m[role][ia] for m in self.areas["munis"]), t["both_a"], delta=1)
-            self.assertAlmostEqual(sum(m[role][ib] for m in self.areas["munis"]), t["both_b"], delta=1)
+            tol = max(1.0, 0.01 * len(self.areas["munis"]))   # each place rounded to 2 decimals
+            self.assertAlmostEqual(sum(m[role][ia] for m in self.areas["munis"]), t["both_a"], delta=tol)
+            self.assertAlmostEqual(sum(m[role][ib] for m in self.areas["munis"]), t["both_b"], delta=tol)
             self.assertAlmostEqual(sum(c[role][ia] for c in self.areas["counties"]), t["both_a"], delta=1)
 
     def test_rule_b_at_most_rule_a_and_at_least_each_alone(self):

@@ -244,11 +244,24 @@ def validate(c: dict, statewide: dict, areas: dict) -> dict:
     rec = all(abs(x["total"]["both_a"] - x["total"]["tod"] - x["total"]["parking"]) < 0.05 for x in statewide["roles"])
     check("rule (a) total equals TOD plus parking", rec, "every role")
     ia, ib = COLS.index("total_a"), COLS.index("total_b")
-    m_tot = all(abs(sum(m[x["role"]][ia] for m in areas["munis"]) - x["total"]["both_a"]) < 1
-                and abs(sum(m[x["role"]][ib] for m in areas["munis"]) - x["total"]["both_b"]) < 1 for x in statewide["roles"])
+    tol = max(1.0, 0.01 * len(areas["munis"]))   # each place is rounded to 2 decimals; rounding error grows with places
+    m_tot = all(abs(sum(m[x["role"]][ia] for m in areas["munis"]) - x["total"]["both_a"]) < tol
+                and abs(sum(m[x["role"]][ib] for m in areas["munis"]) - x["total"]["both_b"]) < tol for x in statewide["roles"])
     check("places add up to the statewide totals", m_tot, "both rules, every role")
-    neg_ok = all(all(x >= -eps for x in roles_v[role]["tod"]) for roles_v in c["areas"].values() for role in ROLES)
-    check("TOD never below zero (a negative combined value can only come from parking)", neg_ok, "every place, year and role")
+    # physical check (audit 2026-11-01): current-law homes + combined change >= 0, every place, year and role
+    base = pd.read_csv(ROOT / "reference" / "housing_baseline_by_area.csv").groupby("area_id")[["annual_low", "annual_central"]].sum()
+    short = [(aid, role) for aid, roles_v in c["areas"].items() for role in ROLES
+             for x in roles_v[role]["total_b"] if float(base["annual_central"].get(aid, 0.0)) + x < -eps]
+    check("current-law homes plus the combined change never below zero", not short,
+          f"{len(short)} place-year-roles below zero" if short else "every place, year and role (central current-law path)")
+    sign = all(not (x < -eps) or min(min(t, 0), min(pn, 0), min(pe, 0)) < 0
+               for roles_v in c["areas"].values() for role in ROLES
+               for x, t, pn, pe in zip(roles_v[role]["total_b"], roles_v[role]["tod"], roles_v[role]["parking_near"], roles_v[role]["parking_elsewhere"]))
+    check("a combined value is below zero only where a reform's part is below zero", sign, "every place, year and role")
+    tod_neg = sum(x < -eps for roles_v in c["areas"].values() for role in ROLES for x in roles_v[role]["tod"])
+    low_short = sum(float(base["annual_low"].get(aid, 0.0)) + x < -eps for aid, roles_v in c["areas"].items() for role in ROLES
+                    for x in roles_v[role]["total_b"])
+    print(f"FLAG (printed only): TOD values below zero: {tod_neg}; place-year-roles below zero on the low current-law path: {low_short}", flush=True)
     check("every place has a name", all(not m["name"].startswith("muni:") for m in areas["munis"]), f"{len(areas['munis'])} places")
     return {"passed": sum(x["passed"] for x in checks), "failed": sum(not x["passed"] for x in checks), "checks": checks}
 
