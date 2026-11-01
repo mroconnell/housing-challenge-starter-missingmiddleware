@@ -184,3 +184,12 @@ Rent, value, income, land value tested first as one "market strength" group.
 
 ### Correction (2026-11-01 14:13): start from the lot model's 125 traits
 Source: reference/tod_lot_model_importance_runD_allvars_rebuilt_seed7.csv. 78 tract census traits (v_h 21, v_p 22, v_m 18, v_c 14, v_l 3); 17 lot; 5 location; 21 zoning-map flags (group_ 11, reform_share 7, upzoned, share_upzoned_half_mile, in_reform); 4 missing-data flags. Plan: keep the 104 non-map traits; replace the 21 map flags with distance band and coverage; add the new traits from the 14:12 list. About 120 traits in total.
+
+### Trait list v2 (2026-11-01 14:15, owner: keep 104, replace map flags, add new) — 123 traits
+Lot 26 = kept 20 (soft_site, soft_missing, log_width, log_acres, use_ind/res/com/mixed, homes_on_lot, homes_missing, age, built_before, rent_to_cost, log_near_before; zoning-rule traits level_rank_in_city, rel_gain, rel_gain_known, far_now, far_known, pays_room) + new 6 (land value per sq ft, building-to-land value, recent sale price, publicly owned, floodplain, historic district).
+Block 2 = log_census_homes + jobs nearby (LODES).
+Block group 1 = walkability (EPA Smart Location Database).
+Tract 82 = 78 ACS v_ traits + log_rent, log_value, log_income + FHFA price trend.
+Stop 7 = log_stops_1mile, log_dist_station + band, rail or bus, trips per hour, years since opening, distance to downtown.
+City 5 = by-right or incentive, parking cut, affordable units required, coverage by band, metro permits per person.
+Open: the 6 zoning-rule lot traits need a zoning layer; proposed: keep with a "rules unknown" flag where missing (awaiting owner).
