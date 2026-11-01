@@ -1,0 +1,13 @@
+model,wi_net_2027_2031,left_out
+M0 same pace,0.0,San Francisco + Minneapolis
+M0L same pace x level,0.0,San Francisco + Minneapolis
+M0 + route A high end,19953.416810702958,San Francisco + Minneapolis
+Weighted Poisson regression,-8942.401690537788,San Francisco + Minneapolis
+Lasso,-4596.720958580659,San Francisco + Minneapolis
+Elastic net,-4473.946565963031,San Francisco + Minneapolis
+Depth-3 tree,0.0,San Francisco + Minneapolis
+Random forest,4.428871458301193e-12,San Francisco + Minneapolis
+Boosted trees,0.0,San Francisco + Minneapolis
+Honest forest (GRF),3.1497750082503066e-12,San Francisco + Minneapolis
+50 nearest neighbours,33877.573723172834,San Francisco + Minneapolis
+Causal forest (DML),34860.604773938794,San Francisco + Minneapolis

@@ -5,7 +5,7 @@ Written 2026-11-01 by the parking conductor. Plan and changes: [REFORM_MODELS_PL
 ## Answer
 
 - **No model finds a parking effect that stands out from noise.**
-  - The tree models (random forest, honest forest, depth-3 tree) ignore the repeal trait: their net is exactly 0.
+  - The tree models (random forest, honest forest, depth-3 tree) never split on the repeal trait. Their 0 means "no signal learned", not a measured 0.
   - The boosted trees give −398 homes (−1,674 to 0).
   - Every other model's Wisconsin net sits inside its own fake-repeal range.
 - **Predicting held-out repeal cities,** the random forest is closest (0.404), about as close as same pace (0.410). It beats same pace in 59% of rows.
@@ -35,6 +35,20 @@ The 58 held-out repeal rows come from 28 repeal places, each left out in turn.
 | Causal forest (econml, one-off) | 0.724 | 1.07 | 36% | 11,660 | −7,557 to 26,982 | −55,827 to 22,158 |
 
 ## Reading
+
+- **Audit (2026-11-01): clean, no coding error.** On the 28 held-out repeal places, same pace (0.410) beats the negative-effect regressions (0.459–0.465) and same pace + route A high end (0.484). So a central of about 0 is evidence-based, and 19,937 is labelled "placebo high end; held-out places fit 0 better".
+- **Repeal places against other places:** the repeal places ran at 0.69 of same pace in total (0.95 without San Francisco). Places with no reform ran at about 1.2 (held-out ratio 0.82 = predicted ÷ actual). The noise check is the headline placebo, where the repeal average sits at the 22nd percentile of 20,000 fake-repeal sets.
+- **The regressions' negative is about half San Francisco:**
+
+| Wisconsin net, 2027–2031 | All 28 | San Francisco out | Minneapolis out | Both out |
+| --- | ---: | ---: | ---: | ---: |
+| Poisson regression | −24,240 | −15,419 | −22,624 | −8,942 |
+| Lasso | −23,461 | −8,257 | −22,909 | −4,597 |
+| Elastic net | −23,504 | −8,149 | −22,956 | −4,474 |
+| Boosted trees | −398 | 0 | −316 | 0 |
+| Causal forest (econml) | +11,660 | +13,665 | +34,989 | +34,861 |
+
+The jackknife band above hides San Francisco, because its single leave-out sits at the band's edge. File: `reference/parking_reform_models_sf_mpls_out.csv` (script `scripts/check_parking_reform_sf_mpls.py`).
 
 - **The regressions' −23,500 is driven by San Francisco and Minneapolis,** and lies within the fake range of the Poisson regression and the elastic net. Lasso's sits just inside its fake low (−24,460).
 - **The causal forest** has a negative effect on the held-out repeal places (−63 homes per place per year) but a positive one for Wisconsin (+11,660). Its fake range is ±56,000, so it does not separate a repeal effect from noise.
