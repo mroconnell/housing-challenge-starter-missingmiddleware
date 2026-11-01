@@ -111,11 +111,171 @@ def stage_stations() -> None:
     print(T.groupby(["city", "role"]).stop.nunique().unstack(fill_value=0).to_string())
 
 
+# ---------------------------------------------------------------- shares
+TC = RAW / "tod_cases"
+
+
+def _pts(df, x, y, crs=4326):
+    df = df.dropna(subset=[x, y, "year"]).copy()
+    df = df[(pd.to_numeric(df[x], errors="coerce").notna()) & (pd.to_numeric(df[y], errors="coerce").notna())]
+    g = gpd.GeoDataFrame(df[["year", "units"]], geometry=gpd.points_from_xy(df[x].astype(float), df[y].astype(float)), crs=crs)
+    return g.to_crs(CRS)
+
+
+def permits(city: str) -> gpd.GeoDataFrame | None:
+    """Citywide new homes by year, as points (CRS 5070): columns year, units. None where no citywide file exists."""
+    if city == "New York":
+        d = pd.read_csv(TC / "nyc" / "dob_nb_all.csv", low_memory=False)
+        d = d[d.job_type == "NB"]
+        d["units"] = pd.to_numeric(d.proposed_dwelling_units, errors="coerce").fillna(0)
+        d["year"] = pd.to_numeric(d.fully_permitted.astype(str).str[-4:], errors="coerce")
+        d = d.drop_duplicates(subset=["job__"])
+        return _pts(d[d.units > 0], "gis_longitude", "gis_latitude")
+    if city == "Philadelphia":
+        d = pd.read_csv(TC / "philadelphia" / "permits_new_construction.csv", low_memory=False)
+        d["units"] = pd.to_numeric(d.numberofunits, errors="coerce").fillna(0)
+        d["year"] = pd.to_numeric(d.permitissuedate.astype(str).str[:4], errors="coerce")
+        return _pts(d[d.units > 0], "lon", "lat")
+    if city == "Charlotte":
+        from missing_middleware.tod import case_charlotte as CC
+        d = CC.load_permits()
+        return _pts(d, "X", "Y", crs=2264)
+    if city == "Saint Paul":
+        g = gpd.read_file(TC / "stpaul" / "housing_production.geojson").to_crs(CRS)
+        g["units"] = pd.to_numeric(g.NewDwellingUnits, errors="coerce").fillna(0)
+        g["year"] = pd.to_numeric(g.ProjectPermitIssueYear, errors="coerce")
+        return g[g.units > 0][["year", "units", "geometry"]]
+    if city == "Seattle":
+        d = pd.read_csv(TC / "seattle" / "permits_new_units.csv", low_memory=False)
+        d["units"] = pd.to_numeric(d.housingunitsadded, errors="coerce").fillna(0)
+        d["year"] = pd.to_datetime(d.issueddate, errors="coerce").dt.year
+        return _pts(d[d.units > 0], "longitude", "latitude")
+    if city == "Chicago":
+        from missing_middleware.tod import case_chicago as CH
+        d = pd.read_csv(TC / "chicago" / "permits_new_construction.csv", low_memory=False)
+        d["units"] = d.work_description.map(CH.parse_units)
+        d["year"] = pd.to_datetime(d.issue_date, errors="coerce").dt.year
+        return _pts(d[d.units > 0], "longitude", "latitude")
+    if city == "Bellevue":
+        g = gpd.read_file(TC / "bellevue" / "permits_units.geojson").to_crs(CRS)
+        g["units"] = pd.to_numeric(g.DWELLINGUNITSCREATED, errors="coerce").fillna(0)
+        g["year"] = pd.to_datetime(g.ISSUEDDATE, errors="coerce", utc=True).dt.year
+        return g[g.units > 0][["year", "units", "geometry"]]
+    import run_tod_new_city_test as N
+    if city == "Denver":
+        d = RAW / "tod_new_cities" / "denver"
+        g = pd.concat([gpd.read_file(d / "residential_permits.geojson"), gpd.read_file(d / "commercial_permits.geojson")], ignore_index=True)
+        g["units"] = pd.to_numeric(g.UNITS, errors="coerce").fillna(0)
+        g = g[g.CLASS.str.upper().eq("NEW BUILDING") & (g.units > 0) & g.CANCEL.isna() & g.geometry.notna()].to_crs(CRS)
+        g["year"] = pd.to_datetime(g.DATE_ISSUED, unit="ms").dt.year
+        return g[["year", "units", "geometry"]]
+    if city == "Portland":
+        d = RAW / "tod_new_cities" / "portland"
+        g = pd.concat([gpd.read_file(d / "residential_permits.geojson"), gpd.read_file(d / "commercial_permits.geojson")], ignore_index=True)
+        g["units"] = pd.to_numeric(g.NUMNEWUNITS, errors="coerce").fillna(0)
+        g = g[(g.units > 0) & g.geometry.notna()].to_crs(CRS)
+        g["year"] = pd.to_datetime(g.ISSUED, unit="ms").dt.year
+        return g[["year", "units", "geometry"]]
+    if city == "Austin":
+        pm = pd.read_json(RAW / "tod_new_cities" / "austin" / "permits.json").dropna(subset=["latitude", "longitude"])
+        pm["units"] = pd.to_numeric(pm.housing_units, errors="coerce").fillna(0)
+        pm["year"] = pd.to_datetime(pm.issue_date).dt.year
+        return _pts(pm[pm.units > 0], "longitude", "latitude")
+    if city == "Salt Lake City":
+        h = gpd.read_file(RAW / "tod_new_cities" / "slc" / "housing_unit_inventory.geojson").to_crs(CRS)
+        h = h[h.geometry.notna()]
+        return gpd.GeoDataFrame({"year": pd.to_numeric(h.APX_BLT_YR, errors="coerce"), "units": pd.to_numeric(h.UNIT_COUNT, errors="coerce").fillna(0)},
+                                geometry=h.geometry.representative_point(), crs=CRS).query("units > 0")
+    if city == "San Diego":
+        return sd_permits()
+    return None   # Los Angeles (reform areas only), Madison (address placement needed): flagged
+
+
+SD_SKIP_STATUS = "Cancel|Created|Opened|Expired|Void|Withdrawn"
+SD_NOT_HOMES = "No Chg|Acc Struct|Pool|Spa"
+
+
+def sd_permits() -> gpd.GeoDataFrame:
+    """San Diego city Housing Element permit layer, cleaned (STATION_AREA_PLAN, step B):
+    issued permits only; new-home job codes only; one home per one-family permit, two per two-family,
+    four per three-or-four-family (the legacy system sometimes stores the whole subdivision on each permit);
+    one row per approval id."""
+    d = pd.DataFrame(json.load(open(RAW / "tod_radius_programs" / "san_diego" / "permits.json")))
+    d["year"] = pd.to_datetime(d.APPROVAL_ISSUE_DATE, unit="ms").dt.year
+    job = d.JOB_BC_CODE_DESCRIPTION.fillna("")
+    keep = (~d.APPROVAL_STATUS.str.contains(SD_SKIP_STATUS, case=False, na=False)
+            & job.str.contains("Family|Increase DU", case=False) & ~job.str.contains(SD_NOT_HOMES, case=False))
+    d = d[keep].drop_duplicates("APPROVAL_ID").copy()
+    j = d.JOB_BC_CODE_DESCRIPTION
+    cap = np.select([j.str.contains("One Family"), j.str.contains("Two [Ff]amily"), j.str.contains("Three or Four")], [1, 2, 4], np.inf)
+    d["units"] = np.minimum(pd.to_numeric(d.TOTAL_DU, errors="coerce").fillna(0), cap)
+    return _pts(d[d.units > 0], "LNG_JOB", "LAT_JOB")
+
+
+def case_windows() -> list[dict]:
+    """Reform date and year windows per case (lot-model windows for the 9 cities; NEW_REFORM_CITIES_PLAN for the rest)."""
+    import run_tod_lot_model as L
+    D = pd.read_parquet(L.OUT / "lots_rebuilt_halfmile.parquet", columns=["city", "unit", "eff_year", "window_first", "window_last", "placebo"])
+    D = D[D.placebo != 1].drop_duplicates(["city", "unit"])
+    rows = [{"city": r.city, "case": str(r.unit), "eff": int(r.eff_year), "b0": int(r.window_first), "b1": int(r.eff_year) - 1,
+             "a0": int(r.eff_year) + 1, "a1": int(r.window_last)} for r in D.itertuples()]
+    rows += [{"city": "Denver", "case": "denver_2018", "eff": 2018, "b0": 2013, "b1": 2017, "a0": 2019, "a1": 2023},
+             {"city": "Portland", "case": "portland_2020", "eff": 2020, "b0": 2014, "b1": 2019, "a0": 2021, "a1": 2025},
+             {"city": "Austin", "case": "austin_2009", "eff": 2009, "b0": 2003, "b1": 2008, "a0": 2010, "a1": 2014},
+             {"city": "Salt Lake City", "case": "slc_2010", "eff": 2010, "b0": 2004, "b1": 2009, "a0": 2011, "a1": 2015}]
+    return rows
+
+
+def stage_shares() -> None:
+    from scipy.spatial import cKDTree
+    S = pd.read_csv(REFERENCE / "tod_station_area_stations.csv")
+    out = []
+    cache: dict = {}
+    for w in case_windows():
+        c = w["city"]
+        if c not in cache:
+            cache[c] = permits(c)
+            print(c, "permits:", None if cache[c] is None else len(cache[c]), flush=True)
+        P = cache[c]
+        st = S[(S.city == c) & (S.case == w["case"])]
+        row = {**w, "reform_stops": int((st.role == "reform").sum()), "control_stops": int((st.role == "control").sum())}
+        if P is None or st.empty:
+            out.append({**row, "flag": "no citywide permits" if P is None else "no station list"})
+            continue
+        g = gpd.GeoSeries(gpd.points_from_xy(st.lon, st.lat), crs=4326).to_crs(CRS)
+        tree = cKDTree(np.c_[g.x, g.y])
+        dist, idx = tree.query(np.c_[P.geometry.x, P.geometry.y])
+        near = dist <= HALF
+        role = np.where(near, st.role.values[idx], "none")         # a home within 1/2 mile of both goes to the nearest stop
+        dt = np.where(near, st.downtown.values[idx], False)
+        for ver, keep in (("with_downtown", np.ones(len(P), bool)), ("without_downtown", ~dt)):
+            r = {**row, "version": ver}
+            for k, (y0, y1) in (("before", (w["b0"], w["b1"])), ("after", (w["a0"], w["a1"]))):
+                m = P.year.between(y0, y1).values
+                tot = float(P.units.values[m].sum())     # denominator: the whole city, downtown included in both versions
+                r[f"homes_{k}"] = tot
+                r[f"years_{k}"] = y1 - y0 + 1
+                for rl in ("reform", "control"):
+                    h = float(P.units.values[m & (role == rl) & keep].sum())
+                    r[f"{rl}_homes_{k}"] = h
+                    r[f"S_{rl}_{k}"] = h / tot if tot > 0 else np.nan
+            r["dS_reform"] = r["S_reform_after"] - r["S_reform_before"]
+            r["dS_control"] = r["S_control_after"] - r["S_control_before"]
+            r["effect"] = r["dS_reform"] - r["dS_control"]
+            out.append(r)
+    T = pd.DataFrame(out)
+    T.round(5).to_csv(REFERENCE / "tod_station_area_shares.csv", index=False)
+    m = T[T.get("version") == "with_downtown"]
+    city = m.groupby("city")[["S_reform_before", "S_reform_after", "dS_reform", "dS_control", "effect"]].mean()
+    pd.set_option("display.width", 200)
+    print(city.round(3).to_string())
+
+
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", choices=["stations", "inventory", "shares"], required=True)
     a = ap.parse_args(argv)
-    {"stations": stage_stations}[a.stage]()
+    {"stations": stage_stations, "shares": stage_shares}[a.stage]()
 
 
 if __name__ == "__main__":
