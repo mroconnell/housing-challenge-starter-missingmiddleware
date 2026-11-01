@@ -203,7 +203,8 @@ def build(c: dict, tod_meta: dict, park_meta: dict) -> tuple[dict, dict]:
         row = {"id": aid, "name": meta["name"], "county": meta["county"], "baseline": r(base.get(aid, 0.0), 2),
                "share_near": r(share.get(aid, 0.0), 4)}
         for role in ROLES:
-            row[role] = [r(sum(roles_v[role][k]), 2) for k in COLS]
+            # 4 decimals: parking's inputs carry 3, so rounding to 2 put many values on a half and biased the sum (audit)
+            row[role] = [r(sum(roles_v[role][k]), 4) for k in COLS]
         munis.append(row)
         cid = meta["county_id"] or "unknown"
         cty = counties.setdefault(cid, {"id": cid, "name": meta["county"] or "County not known", "places": 0, "baseline": 0.0,
@@ -244,9 +245,11 @@ def validate(c: dict, statewide: dict, areas: dict) -> dict:
     rec = all(abs(x["total"]["both_a"] - x["total"]["tod"] - x["total"]["parking"]) < 0.05 for x in statewide["roles"])
     check("rule (a) total equals TOD plus parking", rec, "every role")
     ia, ib = COLS.index("total_a"), COLS.index("total_b")
-    tol = max(1.0, 0.01 * len(areas["munis"]))   # each place is rounded to 2 decimals; rounding error grows with places
-    m_tot = all(abs(sum(m[x["role"]][ia] for m in areas["munis"]) - x["total"]["both_a"]) < tol
-                and abs(sum(m[x["role"]][ib] for m in areas["munis"]) - x["total"]["both_b"]) < tol for x in statewide["roles"])
+    m_tot = all(abs(sum(m[x["role"]][ia] for m in areas["munis"]) - x["total"]["both_a"]) < 1
+                and abs(sum(m[x["role"]][ib] for m in areas["munis"]) - x["total"]["both_b"]) < 1 for x in statewide["roles"])
+    unr = all(abs(sum(sum(v[x["role"]]["total_b"]) for v in c["areas"].values()) - x["total"]["both_b"]) < 1e-6 * max(1.0, abs(x["total"]["both_b"]))
+              for x in statewide["roles"])
+    check("unrounded place sums equal the statewide totals", unr, "every role, before any rounding")
     check("places add up to the statewide totals", m_tot, "both rules, every role")
     # physical check (audit 2026-11-01): current-law homes + combined change >= 0, every place, year and role
     base = pd.read_csv(ROOT / "reference" / "housing_baseline_by_area.csv").groupby("area_id")[["annual_low", "annual_central"]].sum()
