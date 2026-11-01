@@ -1,0 +1,7 @@
+method,held_out_city_share,held_out_city_calibrated,bench_same_share,K,WI_B_raw,WI_B_calibrated,worst_miss,minutes
+plain_average,0.5337,0.39,0.6863,0.0809,7088.3834,573.324,Chicago: 0.353 vs 0.099,0.1
+linear_regression,0.558,0.4818,0.6863,0.153,2975.6686,455.4015,Saint Paul: 0.223 vs 0.795,0.1
+lasso,0.6415,0.4433,0.6863,0.1468,3483.1051,511.1527,Saint Paul: 0.198 vs 0.795,0.2
+regression_tree,0.7467,0.4793,0.6863,0.181,3806.1031,688.7608,Seattle: 0.148 vs 0.417,0.8
+nearest_neighbours,0.2501,0.5314,0.6863,0.1469,3398.7691,499.1351,Charlotte: 0.604 vs 0.279,2.3
+multilevel,0.3183,0.3628,0.6863,0.2637,-3105.449,-818.7899,Chicago: 0.601 vs 0.099,0.2

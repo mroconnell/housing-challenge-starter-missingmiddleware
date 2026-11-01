@@ -101,3 +101,31 @@ Method: permutation importance of the baseline random forest. The forest is roun
 | last | **Lot acres and lot width** | **−11% and −6%** | Shuffling them makes predictions better |
 
 Reading: lot size is used in a way that hurts. The forest learns "big lot → big project" from a few large builds, and that does not carry over. This matches the Kansas City over-prediction, where most of the excess sits on lots over 1 acre. Candidate fix for a baseline round 4: predict homes per acre with a cap on acres, as the share model does, or leave out lot size. Not run yet; for the audit.
+
+## TOD prediction (share model), all methods (2026-10-31/11-01)
+
+Leave one of the 9 reform cities out. Scores are median |log(predicted ÷ actual)| of the upzoned lots' share of new homes after the reform.
+- Raw: the model's own law-on share.
+- Calibrated: share before + K × model uplift, where K is each method's own.
+- Benchmark "same share as before": 0.69.
+
+Wisconsin is the statewide net (bound B) for 2027–2031, variant a; bound A is 0. Tables: `reference/tod_menu_share_*.csv`.
+
+| Method | Raw | Calibrated | K | Wisconsin B raw | Wisconsin B calibrated |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Plain average | 0.53 | 0.39 | 0.081 | 7,088 | 573 |
+| Linear regression | 0.56 | 0.48 | 0.153 | 2,976 | 455 |
+| LASSO | 0.64 | 0.44 | 0.147 | 3,483 | 511 |
+| Regression tree | 0.75 | 0.48 | 0.181 | 3,806 | 689 |
+| Random forest | 0.30 | 0.53 | 0.166 | 7,214 | 1,198 |
+| Gradient boosting | 0.84 | 0.37 | 0.077 | 11,921 | 920 |
+| Nearest neighbours | 0.25 | 0.53 | 0.147 | 3,399 | 499 |
+| Multilevel | 0.32 | 0.36 | 0.264 | −3,105 | −819 |
+| Causal forest (EconML) | 1.09 | 0.31 | 0.048 | 14,549 | 700 |
+
+First read (before the audit):
+- Calibrated, every method lands between about 450 and 1,200 extra homes statewide, except multilevel.
+- Raw, the methods spread from about 3,000 to 14,500.
+- Multilevel's negative Wisconsin figure is an outlier to trace: its law-on share in Wisconsin is below its law-off share.
+- The causal forest has the best calibrated score after multilevel (0.31), but its raw shares are far off (Chicago 0.99 vs 0.10).
+- Gradient boosting here is the menu version (rows thinned). Its K of 0.077 differs from Wisconsin net round 4 (0.110–0.120, no thinning).

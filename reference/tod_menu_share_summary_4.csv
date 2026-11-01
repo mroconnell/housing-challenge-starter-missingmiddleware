@@ -1,0 +1,2 @@
+method,held_out_city_share,held_out_city_calibrated,bench_same_share,K,WI_B_raw,WI_B_calibrated,worst_miss,minutes
+random_forest,0.2961,0.5338,0.6863,0.1661,7214.1473,1198.3004,Charlotte: 0.725 vs 0.279,12.5
