@@ -50,3 +50,13 @@ Years 4–7 after repeal exist only for repeals in 2018 or earlier (6 places), a
 If the adjusted average moves clearly away from the noise check, it goes to Ryan as a candidate for the central or low line. The tool does not change from this run.
 
 ## Changes after writing
+- **2026-11-01, audit log fixes (after the run; no rerun):**
+  - **Four of the 76 places are not in the 72:**
+    - Bandera, TX: 367 homes, under the 1,000-home minimum; headline effect +3.41.
+    - South Bend with unincorporated St. Joseph County: a combined area, not in the standard panel; −6.16.
+    - Gastonia, NC: missing permit years in the standard panel; +8.00.
+    - Avondale Estates, GA: 1,931 homes, but missing permit years in the standard panel; −0.73.
+    - The headline average on the same 72 places is −1.10, against −1.14 on all 76.
+  - **The plan's counts for years 4–7 were wrong.** It said 6 places at years 4–7 and 11 at years 4–6. Permits run through 2025, so the actual counts are 25 places at year 4, 15 at year 5, 11 at year 6 and 6 at year 7.
+  - **Path counts:** `reference/parking_traits_adjust_path.csv` has 75, 57 and 37 rows at years 1–3 (one row per place and year, no missing effects), which matches the results table. If a count of 74/56/36 was taken, it was probably the line count minus the header, done twice.
+  - **Low-line equivalents** at 13,424 homes per 1.0: −1.22 ≈ −16,400 and −1.42 ≈ −19,100 Wisconsin homes over 2027–2031. Both are inside the existing range.
