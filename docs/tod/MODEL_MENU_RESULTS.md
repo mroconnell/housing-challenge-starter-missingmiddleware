@@ -144,7 +144,7 @@ Wisconsin calibrated B uses K from all 9 cities, since Wisconsin is never scored
 
 | Method | Calibrated (K left out) | Uplift vs actual change (correlation) | K, all 9 (range by left-out city) | Wisconsin B calibrated (range) |
 | --- | ---: | ---: | --- | --- |
-| **Benchmark: same share + others' average change (+0.040)** | **0.345** | — | — | **797** |
+| **Benchmark: same share + others' average change (+0.040)** | **0.345** | — | — | **798** |
 | Benchmark: same share as before | 0.686 | — | — | 0 |
 | Causal forest | 0.335 | 0.57 | 0.048 (0.003–0.093) | 700 (40–1,357) |
 | Gradient boosting | 0.403 | 0.25 | 0.077 (0.005–0.147) | 920 (55–1,758) |
@@ -162,7 +162,7 @@ Findings:
 - **K swings up to about 30× depending on which city is left out.**
 - **Multilevel is dropped.** Its law-on and law-off models are separate linear fits that can cross. In Wisconsin it predicts 0 or fewer homes per acre on 77–78% of law-on lots, against under 1% for law-off on the same lots. Its law-on share therefore falls below its law-off share (Milwaukee 0.665 vs 0.725; Madison 0.454 vs 0.643).
 
-**Headline (audit wording; share menu clean, audit section 7):** B is about 500–1,200 extra homes over 2027–2031 (no-model benchmark 797). Single fits range from about 30 to 2,500. The tool's typical figure is 2,509. (The earlier "0 if homes only move" floor is withdrawn by the owner's rule of 2026-11-01: no evidence-free floors.)
+**Headline (audit wording; share menu clean, audit section 7):** B is about 500–1,200 extra homes over 2027–2031 (no-model benchmark 798). Single fits range from about 30 to 2,500. The tool's typical figure is 2,509. (The earlier "0 if homes only move" floor is withdrawn by the owner's rule of 2026-11-01: no evidence-free floors.)
 
 No tool change.
 
@@ -253,7 +253,7 @@ The same as method 9, plus honesty. Half the lots grow the trees. The other half
 | Calibrated score, K left out | 0.516 | 0.429 | 0.335 | 0.345 |
 | Raw score | 0.313 | 0.348 | 1.092 | — |
 | Uplift vs actual change (correlation) | −0.32 | −0.15 | 0.57 | — |
-| Wisconsin B calibrated (range) | 1,708 (98–3,410) | 1,882 | 700 | 797 |
+| Wisconsin B calibrated (range) | 1,708 (98–3,410) | 1,882 | 700 | 798 |
 | Wisconsin B raw | 12,150 | 12,925 | 14,549 | — |
 
 Per city, the honest forest's predicted rise in share vs the actual change:
@@ -294,10 +294,10 @@ Note on the fitted form: an intercept is included here. The audit's version with
 Reading:
 - Mean reversion plus the average rise explains most of the change. A no-model reversion rule (0.160) is about as good as the best models (0.138–0.150), and K swings around 0.
 - The lot models add little beyond that, which supports a line built on the benchmarks.
-- **Wisconsin under the reversion rule:** fitted on all 9 cities, a = −0.038 and b = −0.398. Milwaukee's and Madison's share before on law-on lots is about 25% (2019–2024 actual), which gives a predicted rise of 0.06. That is 300 + 730 homes, about **1,180** statewide over 2027–2031. The average-change benchmark gives 797.
+- **Wisconsin under the reversion rule:** fitted on all 9 cities, a = −0.038 and b = −0.398. Milwaukee's and Madison's share before on law-on lots is about 25% (2019–2024 actual), which gives a predicted rise of 0.06. That is 300 + 730 homes, about **1,180** statewide over 2027–2031. The average-change benchmark gives 798.
   - **Where the share before comes from:** the actual 2019–2024 homes on Wisconsin law-on lots (variant a) as a share of all homes in each city's lot table (`wi_lots.parquet`). This uses each city's own figure: Milwaukee 0.245 (predicted rise 0.063 × table total 4,739 = 300 homes) and Madison 0.261 (rise 0.057 × 12,839 = 730). Then ×1.147 to the state, giving 1,181. Using 0.25 for both, as the audit did, gives 0.0615 × 17,578 × 1.147 ≈ 1,240; the difference is only the per-city shares.
   - **Range from the 9 left-out fits:** 601 (without New York) to 1,662 (without Bellevue). The other fits: Charlotte 867, Saint Paul 1,077, Philadelphia 1,213, Seattle 1,195, Los Angeles 1,296, Madison 1,299, Chicago 1,429.
 
 **Two views on the line (owner's call):**
-- **Audit lean:** central about 1,200 (reversion rule: best held-out score, 0.160 vs 0.345; keeps every city; range 601–1,662), with 797 shown beside it as the pre-registered figure, labelled.
+- **Audit lean:** central about 1,200 (reversion rule: best held-out score, 0.160 vs 0.345; keeps every city; range 601–1,662), with 798 shown beside it as the pre-registered figure, labelled.
 - **Mine:** about 800 as the line, because it was pre-registered, with about 1,200 as its upper sensitivity, because the reversion rule was found after seeing results.

@@ -787,7 +787,7 @@ def net_effects(cp: dict, reading: str = "per_upzoned_home") -> dict:
         # kept as a labelled comparison (sensitivity "stacy_typical") and in the reference line.
         "typical": (M.NetEffect(lot["central"] / lot["stock"], ny, f"Lot model, drift rule: {lot['central']:,.0f} extra homes over 2027-2031 "
                                 f"(range {lot['low']:,.0f}-{lot['high']:,.0f}), reference/tod_lot_model_line.csv; New York pooled ramp"),
-                    "Central: lot model (9 reform cities)"),
+                    "Central: upzoned-share trend in 9 reform cities"),
         "strong": (M.NetEffect(ak, auck_t, f"Auckland: 21,808 / 530,300 = 4.11%{'' if suffix else ' / 0.752 coverage'}; Auckland 2017-2021 profile rescaled to the stated total"),
                    f"Strong response (Auckland{suffix})"),
     }

@@ -75,7 +75,7 @@ SCEN_TEXT = {
         "info": "Like Los Angeles's Transit Oriented Communities program (2017), the only US transit program whose effect on a whole city's housing has been measured. It added 0.04 percentage points to the city's housing growth over six years, and it required affordable homes, which the modelled law does not.",
     },
     "typical": {
-        "label": "Central: lot model", "evidence": "measured on 9 US transit upzonings",
+        "label": "Central: upzoned-share trend in 9 reform cities", "evidence": "measured on 9 US transit upzonings",
         "info": "From our own lot-by-lot data on 9 US cities that upzoned land near transit (New York, Philadelphia, Charlotte, Chicago, Los Angeles, Seattle, Saint Paul, Madison and Bellevue). After each reform, upzoned lots took a larger share of the city's new homes, and cities that started low rose more (a drift toward the middle, found after seeing the results). Applied to Milwaukee and Madison, which start low (about a quarter of recent homes on lots the law would upzone), it gives about 1,200 extra homes over 2027–2031 (range about 600 to 1,660), counted as new homes. The rule set in advance (each city gets the average rise) gives about 800 and is shown beside it. Building next door to upzoned land did not fall in those cities. This replaced the earlier typical line, the average loosening reform in 1,136 US cities (Stacy and others, 2023), which gave 2,509 and is shown as a comparison.",
     },
     "strong": {
@@ -111,7 +111,7 @@ AGENCY_LINES = {
 }
 
 SENS_LABELS = {
-    ("law_addition", "typical_range"): ("Central line at the low and high ends of its range", "The lot model refitted 9 times, each time leaving one reform city out."),
+    ("law_addition", "typical_range"): ("Central line at the low and high ends of its range", "The upzoned-share trend refitted 9 times, each time leaving one reform city out."),
     ("law_addition", "average_change"): ("Lot model, rule set in advance (pre-registered)", "Every reform city's average rise in the upzoned lots' share of new homes (+4.0 points), applied to Wisconsin. The central line's drift rule was found after seeing results (post hoc); this is the rule logged beforehand."),
     ("law_addition", "stacy_typical"): ("Former typical line: the average loosening reform", "Stacy and others (2023): about +0.8% more addresses after a loosening reform in 1,136 US cities. Most of those reforms were about accessory dwellings and lot sizes, not transit upzonings."),
     ("law_addition", "as_published"): ("Each study's effect as published", "Not adjusted for how much of each city the reform covered (Los Angeles about 61% of homes, Auckland 75.2% of residential land)."),
@@ -469,7 +469,7 @@ def build_howsure(sw: dict, areas: dict) -> dict:
         {"part": "Current-law homes permitted near stops", "status": "calculated",
          "text": "Each place's expected new homes under current law (Census building permits, 2023–2025 average, with Milwaukee's apartments counted from its property records), times its share of homes near stops."},
         {"part": "Size of the law's addition", "status": "calculated",
-         "text": "The little and strong lines come from published studies of a whole city's net gain in homes after upzoning (Los Angeles, Auckland), divided by the study's coverage where it reports one. The central line comes from our lot model of 9 US transit upzonings (docs/tod/MODEL_MENU_RESULTS.md)."},
+         "text": "The little and strong lines come from published studies of a whole city's net gain in homes after upzoning (Los Angeles, Auckland), divided by the study's coverage where it reports one. The central line comes from the trend in upzoned lots' share of new homes in 9 US transit upzonings, from our lot data (docs/tod/MODEL_MENU_RESULTS.md)."},
         {"part": "That those results carry over to Wisconsin", "status": "assumed",
          "text": "No Wisconsin outcome has tested the sizing. Milwaukee's and Madison's shares of homes near stops (68% and 63%) are close to Los Angeles's 61% coverage."},
         {"part": "Timing over 2027–2031", "status": "calculated",
@@ -646,7 +646,7 @@ def build_why() -> dict:
          "citation": "Kestelman, Harvard Joint Center for Housing Studies working paper, 2025", "url": "https://www.jchs.harvard.edu/research-areas/working-papers/effects-transit-oriented-incentive-programs-evidence-los-angeles",
          "finding": "Housing growth rose 0.04 percentage points over six years (2017–2023), about 562 homes in a city of about 1.4 million homes. The program covered roughly 61% of the city's homes and required affordable units.",
          "status": "observed"},
-        {"scenario": "typical", "study": "TOD lot model: 9 US transit upzonings (our own data)",
+        {"scenario": "typical", "study": "Upzoned-share trend: 9 US transit upzonings (our own lot data)",
          "citation": "docs/tod/MODEL_MENU_RESULTS.md and reference/tod_lot_model_line.csv", "url": DOC + "docs/tod/MODEL_MENU_RESULTS.md",
          "finding": "After each reform, upzoned lots took a larger share of the city's new homes; cities starting low rose more (a drift toward the middle). No machine-learning model predicted this better on cities it did not see. Replaces Stacy and others (2023), +0.8% per loosening reform in 1,136 US cities, kept as a comparison (2,509 homes).",
          "status": "calculated"},

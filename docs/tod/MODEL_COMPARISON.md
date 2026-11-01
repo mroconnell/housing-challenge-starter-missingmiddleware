@@ -16,7 +16,7 @@ For the owner's decision. **No tool number has changed.** Sources: [MODEL_MENU_R
 | Option | Extra homes | Evidence | Status |
 | --- | ---: | --- | --- |
 | Tool: little / typical / strong (literature) | 171 / 2,509 / 17,148 | Published studies | Current lines |
-| **Lot models, pure addition, calibrated (bound B)** | **about 500–1,200** (method range 455–1,198; licence-clean causal forest 1,882) | 7 methods + two causal forests (multilevel dropped); no-model benchmark 797; single fits (one left-out calibration each) range from about 30 to 2,500 | Candidate new line |
+| **Lot models, pure addition, calibrated (bound B)** | **about 500–1,200** (method range 455–1,198; licence-clean causal forest 1,882) | 7 methods + two causal forests (multilevel dropped); no-model benchmark 798; single fits (one left-out calibration each) range from about 30 to 2,500 | Candidate new line |
 | Lot models, raw | about 3,000–14,500 | Overstates the shift about fivefold or more on held-out cities | Not a line |
 
 What the lot models can and cannot say:
