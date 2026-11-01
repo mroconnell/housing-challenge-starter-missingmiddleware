@@ -154,3 +154,7 @@ Nothing is counted until the owner confirms the locked plan.
 3. City traits, a short list of the biggest theories only (by-right or incentive, parking cut too, market strength), tested on what stages 1–2 leave unexplained, at most 1–2 kept.
 
 Every stage is scored by hiding a whole city at a time. A stage's traits are kept only if they beat the stage before. The order and the city shortlist are fixed before any counting.
+
+### Owner note (2026-11-01 13:57): lot rows for stage 1
+
+Use lot-by-lot rows where parcels allow: vacancy, existing homes on the lot, lot size, building-to-land value as lot traits. New homes are predicted per lot, summed by band, divided by the band's existing homes (rate per 1,000). Parcel tables are needed for San Diego, Chicago and Honolulu (to fetch and check fields). Wisconsin uses the statewide parcel layer. Blocks are the fallback where parcels lack those fields.
