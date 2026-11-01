@@ -149,7 +149,7 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
   - the ADU law already removes parking requirements for ADUs;
   - the TOD cases cannot separate TOD from parking reform.
   
-  The tool shows each reform on its own. Where TOD and parking overlap near transit stops, the tool's combined view takes the larger of the two effects near stops rather than their sum. Its high case is 34,921 extra homes over 2027–2031, and the simple sum, 37,085, is shown only as an upper bound.
+  The tool shows each reform on its own. Where TOD and parking overlap near transit stops, the tool's combined view takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −15,155 homes (TOD 171 plus parking −15,326), its central 1,181, and its high case 34,921, with the simple sum, 37,085, shown only as an upper bound.
 - **Rents, prices, displacement, parking supply, traffic or transit ridership.** None is modelled.
 - **Finished homes.** Permits are not completions, and the figures are not net of demolitions.
 - **Local forecasts.** Municipal, county and district figures are shares of a statewide estimate. They reconcile exactly to the state, but they are not forecasts for any place, lot or project.
