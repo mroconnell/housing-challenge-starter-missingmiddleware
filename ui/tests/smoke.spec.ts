@@ -371,3 +371,34 @@ test("statewide comparison explains why types of place differ, with the numbers 
   await page.getByText("Why places differ: the numbers").click();
   await expect(tbl.locator("tbody tr")).toHaveCount(5);
 });
+
+test("ADU charts toggle between totals and extra homes only", async ({ page }) => {
+  const b = await bundle(page);
+  const cen = b.state.scenarios.find((s: { id: string }) => s.id === "central");
+  await page.goto("#/compare");
+  const toggle = page.getByTestId("adu-chart-mode");
+  await expect(toggle.getByLabel("Totals")).toBeChecked();
+  const title = page.locator("#path-chart svg title"), desc = page.locator("#path-chart svg desc");
+  const legend = page.locator("#path-legend");
+  await expect(title).toContainText("Statewide second-home permits per year");
+  await expect(legend).toContainText(b.state.labels.band);
+  await expect(page.locator('#path-chart svg path[opacity="0.16"]')).toHaveCount(1);
+  await toggle.getByLabel("Extra homes only").check();
+  await expect(page.getByTestId("announce")).toContainText("only the extra permits");
+  await expect(title).toContainText("Extra second-home permits from the law");
+  // 2031 value in the chart summary is the bundle's central addition for 2031, and the reference line's addition
+  await expect(desc).toContainText(`${cen.name} ${fmt(cen.additional_by_year[4])}`);
+  await expect(desc).toContainText(fmt(b.state.reference_line.additional_by_year[4]));
+  await expect(legend).not.toContainText(b.state.labels.band);
+  await expect(page.locator('#path-chart svg path[opacity="0.16"]')).toHaveCount(0);
+  // keyboard: arrow key moves back to Totals
+  await toggle.getByLabel("Extra homes only").press("ArrowLeft");
+  await expect(toggle.getByLabel("Totals")).toBeChecked();
+  await expect(title).toContainText("Statewide second-home permits per year");
+  await expect(legend).toContainText(b.state.labels.band);
+  // pilot chart has the same toggle
+  await page.goto("#/pilot/madison");
+  const pt = page.getByTestId("adu-pilot-chart-mode");
+  await pt.getByLabel("Extra homes only").check();
+  await expect(page.locator("#pilot-chart svg title")).toContainText("extra second-home permits from the law");
+});

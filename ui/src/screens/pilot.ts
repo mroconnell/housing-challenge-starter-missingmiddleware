@@ -1,5 +1,5 @@
 import { COLORS, DASH, details, pilotBanner, scenKey, scenPhrase, scenShort, type Ctx } from "../app";
-import { legendHTML, xyChart } from "../charts";
+import { bindChartMode, chartModeToggleHTML, legendHTML, xyChart, type ChartMode } from "../charts";
 import { PATHS, sum } from "../data";
 import { dec, esc, int, missing, pill, YEARS } from "../format";
 
@@ -74,9 +74,9 @@ export function renderPilot(ctx: Ctx, main: HTMLElement, slug: string): void {
       <p class="small">2026 is provisional and partial (${esc(provWhen)}). The drop from the 2026 bar to the 2027 line is not the law cutting permits: the forecast starts from Madison's complete years 2022–2025, and Madison's 2026 count so far (${int(prov.units)} second homes on ${int(prov.permits ?? null)} permits) already exceeds the forecast for 2027 with the law (${int(with2027)}).</p>
       ${details("Details", `<p class="small">${esc(p.programme.detail)}</p>${bo2026 ? `<p class="small">If Madison's 2026 pace held as its current-law rate, the statewide baseline would be ${int(bo2026.baseline)} permits over 2027–2031 (${bo2026.d_baseline > 0 ? "+" : "−"}${int(Math.abs(bo2026.d_baseline))}), the law's addition ${bo2026.d_additional > 0 ? "+" : "−"}${int(Math.abs(bo2026.d_additional))} and the total with the law ${bo2026.d_with_law > 0 ? "+" : "−"}${int(Math.abs(bo2026.d_with_law))} (central scenario); see How sure.</p>` : ""}`)}</div>` : ""}
     <p class="summary">Without statewide reform the model expects about ${int(base5)} permits over 2027–2031. With the law, ${esc(scenPhrase(ctx))} adds ${int(add5(sel))}${p.like ? " (Madison follows the path of similar cities in Washington and Oregon, so all three scenarios are the same)" : `, with ${int(add5("lower"))} to ${int(add5("upper"))} from the lower to the strong adoption scenario`}.</p>
+    ${chartModeToggleHTML("adu-pilot-chart-mode")}
     <div class="chart-box" id="pilot-chart"></div>
-    ${legendHTML([{ name: `Observed ${stage}`, color: COLORS.observed, kind: "bar" }, { name: `2026: provisional, partial year (${provWhen})`, color: COLORS.observed, kind: "hatch" }, { name: L.baseline, color: COLORS.baseline, dash: DASH.baseline },
-      ...PATHS.map((k) => ({ name: scenKey(ctx, k), color: COLORS[k], dash: DASH[k], width: k === sel ? 4 : 2 }))])}
+    <div id="pilot-legend"></div>
     <div class="grid-obs">
     <div class="table-wrap"><table class="data" data-testid="pilot-observed"><caption>Observed ${esc(stage)}, by year</caption>
       <thead><tr><th scope="col">Year</th><th scope="col" class="num">Second homes (units)</th><th scope="col" class="num">Permits</th><th scope="col">Status</th></tr></thead>
@@ -90,19 +90,41 @@ export function renderPilot(ctx: Ctx, main: HTMLElement, slug: string): void {
   </section>`;
 
   const years = [...obs.map((o) => o.year), ...YEARS];
-  xyChart(main.querySelector("#pilot-chart")!, {
-    title: `${p.name}: second-home permits per year, observed and forecast`,
-    desc: `Observed ${obs.filter((o) => o.units !== null).map((o) => `${o.year} ${o.units}`).join(", ")}. Forecast 2027–2031 baseline about ${dec(p.base[0], 1)} a year; with the law in 2031: ${PATHS.map((k) => `${ctx.scen(k).label} ${dec(p.base[4] + p.add[k][4], 1)}`).join(", ")}.`,
-    yLabel: "Permits per year", xTicks: years, xFormat: (x) => (x % 2 === 0 || x === 2027 ? String(x) : `’${String(x).slice(2)}`),
-    vline: { x: 2026.5, label: "law (stylized)" },
-    notes: [
-      ...(prov ? [{ x: prov.year, y: prov.units ?? 0, text: p.note ? "2026: provisional,\npartial year" : "provisional", anchor: "end" as const }] : []),
-      ...(p.note ? [{ x: 2027, y: with2027, text: `2027 with the law: ${int(with2027)}\n(path of cities like Madison)`, anchor: "start" as const, dy: 32 }] : []),
-    ],
-    bars: { name: "observed", color: COLORS.observed, values: obs.map((o) => ({ x: o.year, y: o.units, hatch: o.status === "provisional" })) },
-    series: [
-      { name: "baseline", color: COLORS.baseline, dash: DASH.baseline, values: YEARS.map((y, i) => ({ x: y, y: p.base[i] })) },
-      ...PATHS.map((k) => ({ name: k, color: COLORS[k], dash: DASH[k], width: k === sel ? 4 : 2, marker: k === sel ? ("circle" as const) : undefined, values: YEARS.map((y, i) => ({ x: y, y: p.base[i] + p.add[k][i] })) })),
-    ],
-  });
+  const legend = (mode: ChartMode) => legendHTML([
+    ...(mode === "totals" ? [{ name: `Observed ${stage}`, color: COLORS.observed, kind: "bar" as const }, { name: `2026: provisional, partial year (${provWhen})`, color: COLORS.observed, kind: "hatch" as const }] : []),
+    { name: mode === "extra" ? `${L.baseline}: the zero line` : L.baseline, color: COLORS.baseline, dash: DASH.baseline },
+    ...PATHS.map((k) => ({ name: scenKey(ctx, k), color: COLORS[k], dash: DASH[k], width: k === sel ? 4 : 2 }))]);
+  const draw = (mode: ChartMode) => {
+    main.querySelector("#pilot-legend")!.innerHTML = legend(mode);
+    if (mode === "extra") {
+      xyChart(main.querySelector("#pilot-chart")!, {
+        title: `${p.name}: extra second-home permits from the law, 2027 to 2031`,
+        desc: `Extra permits above ${L.baseline.toLowerCase()}, which is the zero line. In 2031: ${PATHS.map((k) => `${ctx.scen(k).label} ${dec(p.add[k][4], 1)}`).join(", ")}. Over 2027–2031: ${PATHS.map((k) => `${ctx.scen(k).label} ${dec(add5(k), 1)}`).join(", ")}. The forecast table below has the same values.`,
+        yLabel: "Extra permits per year", xTicks: YEARS,
+        series: [
+          { name: "baseline", color: COLORS.baseline, dash: DASH.baseline, values: YEARS.map((y) => ({ x: y, y: 0 })) },
+          ...PATHS.map((k) => ({ name: k, color: COLORS[k], dash: DASH[k], width: k === sel ? 4 : 2, marker: k === sel ? ("circle" as const) : undefined, values: YEARS.map((y, i) => ({ x: y, y: p.add[k][i] })) })),
+        ],
+      });
+      return;
+    }
+    xyChart(main.querySelector("#pilot-chart")!, {
+      title: `${p.name}: second-home permits per year, observed and forecast`,
+      desc: `Observed ${obs.filter((o) => o.units !== null).map((o) => `${o.year} ${o.units}`).join(", ")}. Forecast 2027–2031 baseline about ${dec(p.base[0], 1)} a year; with the law in 2031: ${PATHS.map((k) => `${ctx.scen(k).label} ${dec(p.base[4] + p.add[k][4], 1)}`).join(", ")}.`,
+      yLabel: "Permits per year", xTicks: years, xFormat: (x) => (x % 2 === 0 || x === 2027 ? String(x) : `’${String(x).slice(2)}`),
+      vline: { x: 2026.5, label: "law (stylized)" },
+      notes: [
+        ...(prov ? [{ x: prov.year, y: prov.units ?? 0, text: p.note ? "2026: provisional,\npartial year" : "provisional", anchor: "end" as const }] : []),
+        ...(p.note ? [{ x: 2027, y: with2027, text: `2027 with the law: ${int(with2027)}\n(path of cities like Madison)`, anchor: "start" as const, dy: 32 }] : []),
+      ],
+      bars: { name: "observed", color: COLORS.observed, values: obs.map((o) => ({ x: o.year, y: o.units, hatch: o.status === "provisional" })) },
+      series: [
+        { name: "baseline", color: COLORS.baseline, dash: DASH.baseline, values: YEARS.map((y, i) => ({ x: y, y: p.base[i] })) },
+        ...PATHS.map((k) => ({ name: k, color: COLORS[k], dash: DASH[k], width: k === sel ? 4 : 2, marker: k === sel ? ("circle" as const) : undefined, values: YEARS.map((y, i) => ({ x: y, y: p.base[i] + p.add[k][i] })) })),
+      ],
+    });
+  };
+  bindChartMode("adu-pilot-chart-mode", draw);
+  main.querySelector("#adu-pilot-chart-mode")?.addEventListener("change", (e) =>
+    ctx.announce((e.target as HTMLInputElement).value === "extra" ? "Chart shows only the extra permits from the law. Current law is the zero line." : "Chart shows observed permits and total permits, with and without the law."));
 }

@@ -1,5 +1,5 @@
 import { COLORS, DASH, LAW_TEXT, bindScenarioPicker, details, labelScrollers, scenarioPicker, scenKey, scenPhrase, scenShort, type Ctx } from "../app";
-import { legendHTML, xyChart } from "../charts";
+import { bindChartMode, chartModeToggleHTML, legendHTML, xyChart, type ChartMode } from "../charts";
 import { PATHS } from "../data";
 import { dec, esc, int, pct, pill, YEARS } from "../format";
 
@@ -43,6 +43,14 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
   const L = s.labels;
   // TODO(lower scenario): the lower scenario's definition is being revised (docs/gate4/SCENARIO_OPTIONS.md). Its name,
   // title, text and method all come from the bundle (scripts/build_ui_bundle.py, DISPLAY block), so only that changes.
+  // Chart key: the shaded range only appears in the totals view; in the extra-homes view current law is the zero line.
+  const legend = (mode: ChartMode) => legendHTML([
+    { name: mode === "extra" ? `${L.baseline}: the zero line` : L.baseline, color: COLORS.baseline, dash: DASH.baseline },
+    ...PATHS.map((p) => ({ name: scenKey(ctx, p), color: COLORS[p], dash: DASH[p], width: p === ctx.ui.scenario ? 4 : 2 })),
+    ...(mode === "totals" ? [{ name: L.band, color: COLORS.central, kind: "band" as const }] : []),
+    { name: L.reference, color: COLORS.ref },
+    ...(ref.carried_forward_years?.length ? [{ name: `${ref.carried_forward_years.join(", ")}: carried forward`, color: COLORS.ref, dash: "4 4" }] : []),
+  ]);
   main.innerHTML = `
   <h1>A statewide ADU law: what it adds</h1>
   <p class="lede" data-testid="compare-intro">${esc(s.page_intro.compare)}</p>
@@ -55,14 +63,9 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
         <label><input type="radio" name="units" value="rate" ${units === "rate" ? "checked" : ""}> Per 1,000 single-family homes</label>
       </fieldset>
     </div>
+    ${chartModeToggleHTML("adu-chart-mode")}
     <div class="chart-box" id="path-chart"></div>
-    ${legendHTML([
-      { name: L.baseline, color: COLORS.baseline, dash: DASH.baseline },
-      ...PATHS.map((p) => ({ name: scenKey(ctx, p), color: COLORS[p], dash: DASH[p], width: p === ctx.ui.scenario ? 4 : 2 })),
-      { name: L.band, color: COLORS.central, kind: "band" as const },
-      { name: L.reference, color: COLORS.ref },
-      ...(ref.carried_forward_years?.length ? [{ name: `${ref.carried_forward_years.join(", ")}: carried forward`, color: COLORS.ref, dash: "4 4" }] : []),
-    ])}
+    <div id="path-legend">${legend("totals")}</div>
     <p class="summary" data-testid="compare-summary">Over 2027–2031, ${esc(scenPhrase(ctx))} adds about <strong>${int(sel.additional_total)}</strong> permits on top of <strong>${int(base.total)}</strong> without statewide reform. The three scenarios run from ${int(lo.additional_total)} to ${int(up.additional_total)} added permits. The ${esc(L.reference.charAt(0).toLowerCase() + L.reference.slice(1))} gives ${int(ref.additional_total)}.</p>
     <p class="muted small">${esc(ref.info)} 2026 is a bridge year without reform (${int(base.bridge_2026.central)} permits, ${int(base.bridge_2026.low)}–${int(base.bridge_2026.high)}). The 1 January 2027 start date is stylized.</p>
   </section>
@@ -137,20 +140,49 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
   const withLaw = (p: string) => YEARS.map((_, i) => base.by_year[i] + ctx.scen(p as never).additional_by_year[i]);
   const prior = [{ x: 2026, y: f(base.bridge_2026.central) }];
   const cf = ref.carried_forward_years ?? [];
-  xyChart(main.querySelector("#path-chart")!, {
-    title: units === "rate" ? "Statewide second-home permit rate per 1,000 single-family homes per year, 2026 to 2031" : "Statewide second-home permits per year, 2026 to 2031",
-    desc: `${L.baseline}: about ${int(base.by_year[0])} to ${int(base.by_year[4])} permits a year. With the law in 2031: ${PATHS.map((p) => `${ctx.scen(p).name} ${int(withLaw(p)[4])}`).join(", ")} permits. ${L.reference}: ${int(ref.with_law_by_year[4])}.`,
-    yLabel: units === "rate" ? "Permits per 1,000 single-family homes per year" : "Permits per year",
-    yFormat: units === "rate" ? (y) => y.toFixed(1) : undefined,
-    xTicks: [2026, ...YEARS], xPad: 0.4,
-    vline: { x: 2026.5, label: "law takes effect (stylized)" },
-    band: { name: "range", lo: pts(withLaw("lower")), hi: pts(withLaw("upper")), color: COLORS.central },
-    series: [
-      { name: "Baseline", color: COLORS.baseline, dash: DASH.baseline, values: [...prior, ...pts(base.by_year)], width: 2.5 },
-      ...PATHS.map((p) => ({ name: p, color: COLORS[p], dash: DASH[p], width: p === ctx.ui.scenario ? 4 : 2, values: [...prior, ...pts(withLaw(p))], marker: p === ctx.ui.scenario ? ("circle" as const) : undefined })),
+  const rateTitle = (t: string) => units === "rate" ? `${t} per 1,000 single-family homes per year, 2026 to 2031` : `${t} per year, 2026 to 2031`;
+  const draw = (mode: ChartMode) => {
+    main.querySelector("#path-legend")!.innerHTML = legend(mode);
+    const refVals = mode === "extra" ? ref.additional_by_year : ref.with_law_by_year;
+    const refLines = [
       // reference line: solid through the last drawn year, then dashed where values are carried forward
-      { name: "Reference", color: COLORS.ref, width: 2, values: YEARS.map((y, i) => ({ x: y, y: cf.includes(y) ? null : f(ref.with_law_by_year[i]) })) },
-      ...(cf.length ? [{ name: "Reference, carried forward", color: COLORS.ref, dash: "4 4", width: 2, values: YEARS.map((y, i) => ({ x: y, y: cf.includes(y) || cf.includes(y + 1) ? f(ref.with_law_by_year[i]) : null })) }] : []),
-    ],
-  });
+      { name: "Reference", color: COLORS.ref, width: 2, values: YEARS.map((y, i) => ({ x: y, y: cf.includes(y) ? null : f(refVals[i]) })) },
+      ...(cf.length ? [{ name: "Reference, carried forward", color: COLORS.ref, dash: "4 4", width: 2, values: YEARS.map((y, i) => ({ x: y, y: cf.includes(y) || cf.includes(y + 1) ? f(refVals[i]) : null })) }] : []),
+    ];
+    const common = {
+      yFormat: units === "rate" ? (y: number) => y.toFixed(1) : undefined,
+      xTicks: [2026, ...YEARS], xPad: 0.4,
+      vline: { x: 2026.5, label: "law takes effect (stylized)" },
+    };
+    if (mode === "extra") {
+      const fmt = (v: number) => units === "rate" ? dec(f(v)) : int(v);
+      xyChart(main.querySelector("#path-chart")!, {
+        ...common,
+        title: rateTitle("Extra second-home permits from the law"),
+        desc: `Extra permits above ${L.baseline.toLowerCase()}, which is the zero line. In 2031: ${PATHS.map((p) => `${ctx.scen(p).name} ${fmt(ctx.scen(p).additional_by_year[4])}`).join(", ")}${units === "rate" ? " per 1,000 single-family homes" : " permits"}. ${L.reference}: ${fmt(ref.additional_by_year[4])}. Over 2027–2031: ${PATHS.map((p) => `${ctx.scen(p).name} ${int(ctx.scen(p).additional_total)}`).join(", ")} permits.`,
+        yLabel: units === "rate" ? "Extra permits per 1,000 single-family homes per year" : "Extra permits per year",
+        series: [
+          { name: "Baseline", color: COLORS.baseline, dash: DASH.baseline, values: [2026, ...YEARS].map((y) => ({ x: y, y: 0 })), width: 2.5 },
+          ...PATHS.map((p) => ({ name: p, color: COLORS[p], dash: DASH[p], width: p === ctx.ui.scenario ? 4 : 2, values: [{ x: 2026, y: 0 }, ...pts(ctx.scen(p).additional_by_year)], marker: p === ctx.ui.scenario ? ("circle" as const) : undefined })),
+          ...refLines,
+        ],
+      });
+      return;
+    }
+    xyChart(main.querySelector("#path-chart")!, {
+      ...common,
+      title: units === "rate" ? "Statewide second-home permit rate per 1,000 single-family homes per year, 2026 to 2031" : "Statewide second-home permits per year, 2026 to 2031",
+      desc: `${L.baseline}: about ${int(base.by_year[0])} to ${int(base.by_year[4])} permits a year. With the law in 2031: ${PATHS.map((p) => `${ctx.scen(p).name} ${int(withLaw(p)[4])}`).join(", ")} permits. ${L.reference}: ${int(ref.with_law_by_year[4])}.`,
+      yLabel: units === "rate" ? "Permits per 1,000 single-family homes per year" : "Permits per year",
+      band: { name: "range", lo: pts(withLaw("lower")), hi: pts(withLaw("upper")), color: COLORS.central },
+      series: [
+        { name: "Baseline", color: COLORS.baseline, dash: DASH.baseline, values: [...prior, ...pts(base.by_year)], width: 2.5 },
+        ...PATHS.map((p) => ({ name: p, color: COLORS[p], dash: DASH[p], width: p === ctx.ui.scenario ? 4 : 2, values: [...prior, ...pts(withLaw(p))], marker: p === ctx.ui.scenario ? ("circle" as const) : undefined })),
+        ...refLines,
+      ],
+    });
+  };
+  bindChartMode("adu-chart-mode", draw);
+  main.querySelector("#adu-chart-mode")?.addEventListener("change", (e) =>
+    ctx.announce((e.target as HTMLInputElement).value === "extra" ? "Chart shows only the extra permits from the law. Current law is the zero line." : "Chart shows total permits, with and without the law."));
 }
