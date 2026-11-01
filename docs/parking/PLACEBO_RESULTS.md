@@ -1,5 +1,7 @@
 # Parking placebo test: results
 
+> **Superseded (note added 2026-11-01).** This 2026-10-27 run (71 places, average −1.10, 3.2% of placebo sets at or below it) used too few stand-ins for big cities. The current placebo is the full-pool run in `reference/parking_placebo_full_summary.csv`: 76 places, average −1.14, at the 22nd percentile of 20,000 sets, high end +1.49. Do not cite the figures below.
+
 Written 2026-10-27 by the parking conductor. Plan: [PLACEBO_PLAN.md](PLACEBO_PLAN.md), with one computing-time change made before running. Script: `scripts/run_parking_placebo.py`. Outputs: `reference/parking_placebo_places.csv` and `reference/parking_placebo_summary.csv`.
 
 ## Answer
