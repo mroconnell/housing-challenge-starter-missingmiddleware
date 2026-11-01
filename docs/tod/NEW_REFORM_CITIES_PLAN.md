@@ -262,3 +262,24 @@ Owner: "developers know a rail line is being planned ahead of its opening ... Th
 - **Salt Lake City 2010:** the October study used a 2020 zoning snapshot for the district boundary, since the 2010 ordinance map is no longer online. For homes, the Utah Housing Unit Inventory (statewide GIS, units and year built per parcel) can stand in for permits, counting completions as Milwaukee's property file does.
 
 **Open question for the owner and the audit:** use today's amended maps as a stand-in for the day-one maps, flagged for hindsight, or rule these cases out under "no day-one map"? Using today's maps risks counting later rezonings, which were made because building came, as part of the reform.
+
+## Austin day-one maps, committed before any Austin permit is loaded (2026-11-01)
+
+**File:** `reference/tod_austin_dayone_regulating_plans.geojson`, the city's regulating-plan subdistrict polygons for Plaza Saltillo, MLK and Lamar/Justin (566 polygons; 96, 87 and 178 acres).
+
+**Check against the original plans** (archived copies in `data/raw/tod_new_cities/austin/plans/`):
+
+| Plan | Original | Revisions | What the revisions changed | Day-one map |
+| --- | --- | --- | --- | --- |
+| Lamar/Justin | Adopted 11 Dec 2008, effective 1 Mar 2009 | None on the archived copy | — | Today's polygons; outer boundary matches the adoption cover map |
+| MLK | Approved 12 Mar 2009, effective 23 Mar 2009 | 24 May 2012 (ordinance 20120524-128) | The district outline on the revised cover matches the adopted subdistrict pattern | Today's polygons; boundary unchanged |
+| Plaza Saltillo | Adopted 11 Dec 2008, effective 1 Mar 2009 | 2013, and twice in 2018 | 2018 added a fifth subdistrict, "TOD Urban Mixed Use", on the Capital Metro tract; it is mapped back to its day-one subdistrict (TOD Mixed Use) | Today's polygons; boundary unchanged |
+
+**Rules:**
+- **Upzoned:** every lot in a regulating-plan subdistrict, except right-of-way (TROW). The TOD base district replaced the earlier zoning with TOD subdistricts. Version 2 leaves out the low-density residential subdistrict (TOD LDR).
+- **Pre-plan zoning:** not in public GIS. Whether each lot's allowed homes rose is assumed from the subdistricts (flagged).
+- **Reform date:** main version 1 March 2009 (the regulating plans). Version 2 uses May 2005, the TOD ordinance that first drew the district boundaries with interim rules.
+- **Windows:** main, before 2003–2008 and after 2010–2014. Version 2, before 1999–2004 and after 2006–2010.
+- **Stops:** the planned MetroRail stations named in each station area plan (Plaza Saltillo, MLK, Crestview/Lamar-Justin), from the station list. Not open on the reform date (MetroRail opened March 2010); recorded as a trait.
+- **North Burnet/Gateway (about 2009) and East Riverside (2013):** no original map could be found, in the archive or on the city site. Ruled out as "no day-one map" unless one is found.
+- **Austin is one city:** the three plans are scored together as one case.
