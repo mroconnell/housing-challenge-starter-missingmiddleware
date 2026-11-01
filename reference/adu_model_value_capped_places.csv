@@ -1,9 +1,9 @@
 flag,area_id,value_gap_log,value_gap_cap_log,y_plateau_central_uncapped,y_plateau_central,name,parent_county_id,context_group,homes,central_additional_5yr_uncapped,central_additional_5yr
-value gap above California's maximum: top-coded for allocation,muni:5513314225,1.6822,1.0095,7.248,3.6164,Chenequa village,55133,small_community,271,8.8072,4.3468
-value gap above California's maximum: top-coded for allocation,muni:5513340750,1.6392,1.0095,6.9327,3.6164,Lac La Belle village,55133,small_community,110,3.4177,1.7644
-value gap above California's maximum: top-coded for allocation,muni:5513359300,1.535,1.0095,6.2243,3.6164,Oconomowoc Lake village,55133,small_community,300,8.3578,4.812
-value gap above California's maximum: top-coded for allocation,muni:5508905450,1.1678,1.0095,4.256,3.6164,Bayside village,55089,suburban,46,0.8712,0.7378
-value gap above California's maximum: top-coded for allocation,muni:5512548462,1.072,1.0095,3.8544,3.6164,Manitowish Waters town,55125,rural,1020,17.461,16.3608
-value gap above California's maximum: top-coded for allocation,muni:5502548750,1.2189,1.0095,4.4873,3.6164,Maple Bluff village,55025,suburban,544,10.8729,8.7257
-value gap above California's maximum: top-coded for allocation,muni:5502573750,1.2817,1.0095,4.7886,3.6164,Shorewood Hills village,55025,suburban,560,11.9574,8.9824
-value gap above California's maximum: top-coded for allocation,muni:5505540750,1.6392,1.0095,6.9327,3.6164,Lac La Belle village,55055,small_community,1,0.0311,0.016
+value gap above California's maximum: top-coded for allocation,muni:5513314225,1.6822,1.0095,7.1696,3.5773,Chenequa village,55133,small_community,271,8.7105,4.2986
+value gap above California's maximum: top-coded for allocation,muni:5513340750,1.6392,1.0095,6.8577,3.5773,Lac La Belle village,55133,small_community,110,3.3801,1.7448
+value gap above California's maximum: top-coded for allocation,muni:5513359300,1.535,1.0095,6.157,3.5773,Oconomowoc Lake village,55133,small_community,300,8.2659,4.7586
+value gap above California's maximum: top-coded for allocation,muni:5508905450,1.1678,1.0095,4.21,3.5773,Bayside village,55089,suburban,46,0.8616,0.7297
+value gap above California's maximum: top-coded for allocation,muni:5512548462,1.072,1.0095,3.8127,3.5773,Manitowish Waters town,55125,rural,1020,17.2674,16.1793
+value gap above California's maximum: top-coded for allocation,muni:5502548750,1.2189,1.0095,4.4388,3.5773,Maple Bluff village,55025,suburban,544,10.7529,8.629
+value gap above California's maximum: top-coded for allocation,muni:5502573750,1.2817,1.0095,4.7368,3.5773,Shorewood Hills village,55025,suburban,560,11.8254,8.8827
+value gap above California's maximum: top-coded for allocation,muni:5505540750,1.6392,1.0095,6.8577,3.5773,Lac La Belle village,55055,small_community,1,0.0307,0.0159

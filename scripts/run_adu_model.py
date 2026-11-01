@@ -363,7 +363,7 @@ def main():
              f"Refitted without that point, the 8-state reference line is {vt['B_drop_vt_2024']['ref_line']:,.0f} "
              f"permits (adopted {ref_line_adopted:,.0f})."),
             ("cap_a2|gate4_coding", "all three AQ-061 comparison-state changes undone (no coverage correction, Washington "
-             "from enactment; Massachusetts still 11 months)",
+             "from enactment; Massachusetts a full year)",
              "The comparison-state counts and coding as at Gate 4, on today's current-law rates."),
             ("cap_a2|homes_2020_24_every_year", "every comparison year read against 2020-2024 homes (not year-matched)",
              "Each comparison rate divides permits by single-family homes. The adopted fit matches homes to the year, "

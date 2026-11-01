@@ -132,7 +132,7 @@ class TestUIBundle(unittest.TestCase):
         slugs = {p["slug"]: p for p in self.pilots}
         self.assertEqual(set(slugs), {"madison", "pleasant-prairie", "sun-prairie"})
         mad = slugs["madison"]
-        self.assertAlmostEqual(sum(mad["add"]["central"]), 376.89, delta=0.05)   # AQ-066 statewide model (AQ-065: 110.81; Gate 3: 134.92)
+        self.assertAlmostEqual(sum(mad["add"]["central"]), 372.06, delta=0.05)   # AQ-067 (AQ-066: 376.89; AQ-065: 110.81; Gate 3: 134.92)
         self.assertLess(sum(mad["add"]["lower"]), sum(mad["add"]["upper"]))      # AQ-066: Madison follows the scenarios
         self.assertAlmostEqual(sum(mad["base"]), 74.11, delta=0.05)   # AQ-065 no-reform trend (was 50.0)
         by_id = {a["id"]: a for a in self.areas["munis"]}
@@ -264,8 +264,8 @@ class TestUIBundle(unittest.TestCase):
         self.assertNotIn("like_restricted", self.unk["areas"])
         # the plain-language figures quoted on screen (docs/gate5/UI_CONTRACT.md)
         pro, ben = self.unk["variants"][1], self.unk["variants"][2]
-        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (522, 10858, 11379))
-        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (2065, 9442, 11507))
+        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (522, 10734, 11256))
+        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (2065, 9319, 11384))
 
     def test_unknown_rules_areas_and_counties_reconcile(self):
         munis = {a["id"]: a for a in self.areas["munis"]}

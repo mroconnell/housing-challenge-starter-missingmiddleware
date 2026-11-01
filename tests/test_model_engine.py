@@ -219,17 +219,17 @@ class TestAdoptedOutputs(unittest.TestCase):
         r = r.iloc[0]
         self.assertEqual(r.moves, "baseline only")
         self.assertIn("\u00d71.11 a year", r.change)
-        # values after AQ-066 (2026-11-01: Madison on the statewide model); AQ-065: rise 10193.3 / 6067.4 / 19137.8, adopted 6222.9 / 10349.0 / 19293.7; values after the AQ-065 refit (2026-10-31: law-year rule, no-reform trend); AQ-064: rise 10295.4 / 6421.1 / 19150.5, adopted 6804.0 / 10679.2 / 19534.9, with-law 11245.1; AQ-061 (2026-10-28): central 10406.7, lower 6354.3, upper 19675.8,
+        # values after AQ-067 (2026-11-01: Massachusetts a full year); AQ-066: rise 10460.2, adopted 6320.6 / 10615.1 / 19925.1; AQ-065: rise 10193.3 / 6067.4 / 19137.8, adopted 6222.9 / 10349.0 / 19293.7; values after the AQ-065 refit (2026-10-31: law-year rule, no-reform trend); AQ-064: rise 10295.4 / 6421.1 / 19150.5, adopted 6804.0 / 10679.2 / 19534.9, with-law 11245.1; AQ-061 (2026-10-28): central 10406.7, lower 6354.3, upper 19675.8,
         # adopted 6734.3 / 10787.6 / 20057.4, with-law 11356.4; before AQ-061: baseline 1083.3, central 8324.3
         self.assertAlmostEqual(r.baseline_5yr, 949.7, delta=0.05)
-        self.assertAlmostEqual(r.central_additional_5yr, 10460.2, delta=0.05)
-        self.assertAlmostEqual(r.lower_additional_5yr, 6165.9, delta=0.05)
-        self.assertAlmostEqual(r.upper_additional_5yr, 19770.0, delta=0.05)
+        self.assertAlmostEqual(r.central_additional_5yr, 10337.1, delta=0.05)
+        self.assertAlmostEqual(r.lower_additional_5yr, 6166.2, delta=0.05)
+        self.assertAlmostEqual(r.upper_additional_5yr, 19629.4, delta=0.05)
         a = s[s.moves.eq("none (adopted)")].iloc[0]
         self.assertAlmostEqual(a.baseline_5yr, 785.9, delta=0.05)   # AQ-065 no-reform trend (was 530.1)
-        self.assertEqual((a.lower_additional_5yr, a.central_additional_5yr, a.upper_additional_5yr), (6320.6, 10615.1, 19925.1))
+        self.assertEqual((a.lower_additional_5yr, a.central_additional_5yr, a.upper_additional_5yr), (6320.9, 10492.0, 19784.4))
         bo = pd.read_csv(self.ref / "adu_model_baseline_only_effects.csv").set_index("case")
-        self.assertAlmostEqual(bo.loc["wi-rising-like-nolaw", "with_law_central"], 11409.9, delta=0.05)
+        self.assertAlmostEqual(bo.loc["wi-rising-like-nolaw", "with_law_central"], 11286.8, delta=0.05)
         pw = pd.read_csv(self.ref / "adu_placebo_wi.csv")
         pw = pw[pw.case.eq("rising baseline, proportional, C median ratio") & pw.path.eq("central")].iloc[0]
         self.assertAlmostEqual(pw.additional_5yr, r.central_additional_5yr, delta=0.06)
@@ -242,14 +242,14 @@ class TestAdoptedOutputs(unittest.TestCase):
         self.assertEqual(len(r), 1)
         r = r.iloc[0]
         self.assertEqual(r.moves, "statewide addition")
-        self.assertIn("9,025", r.description)
+        self.assertIn("8,767", r.description)
         vt = pd.read_csv(self.ref / "adu_vermont_options.csv").set_index("option")
         for opt, row in (("C_drop_vt", r), ("B_drop_vt_2024", s[s.change.str.startswith("Vermont 2024 dropped")].iloc[0])):
             for p in ("lower", "central", "upper"):
                 # within half a permit: the two scripts round the lower factor and ramps at different steps
                 self.assertAlmostEqual(row[f"{p}_additional_5yr"], vt.loc[opt, f"{p}_additional_5yr"], delta=0.5)
-        self.assertAlmostEqual(vt.loc["C_drop_vt", "reference_line_additional_5yr"], 9025, delta=0.5)
-        self.assertEqual((r.lower_additional_5yr, r.central_additional_5yr, r.upper_additional_5yr), (6336.9, 10915.9, 21686.4))
+        self.assertAlmostEqual(vt.loc["C_drop_vt", "reference_line_additional_5yr"], 8767, delta=0.5)
+        self.assertEqual((r.lower_additional_5yr, r.central_additional_5yr, r.upper_additional_5yr), (6336.9, 10771.7, 21540.1))
 
     def test_reference_line_8_states_carried_forward(self):
         lines = pd.read_csv(self.ref / "adu_model_reference_lines.csv")

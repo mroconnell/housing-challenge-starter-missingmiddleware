@@ -96,7 +96,7 @@ test("pilot pages show baselines and additions from the bundle", async ({ page }
     await expect(obs).toHaveCount(p.permits.years.length);
   }
   const mad = b.pilots.find((p: { slug: string }) => p.slug === "madison");
-  expect(sum(mad.add.central).toFixed(1)).toBe("376.9");
+  expect(sum(mad.add.central).toFixed(1)).toBe("372.1");
 });
 
 test("keyboard: skip link, tab navigation and scenario radios", async ({ page, isMobile }) => {

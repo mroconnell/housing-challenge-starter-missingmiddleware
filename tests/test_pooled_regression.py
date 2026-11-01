@@ -74,7 +74,7 @@ class TestCoding(unittest.TestCase):
 
     def test_coverage_and_partial_year_by_series_year(self):
         """AQ-061/AQ-064: reporting shares are per series-year (Rhode Island 2023 and 2025 as homes shares, 2021 not
-        corrected) and applied once; Massachusetts 2025 counts as 11/12 of a year."""
+        corrected) and applied once; Massachusetts 2025 counts as a full year (AQ-067)."""
         annual = pd.DataFrame({"series": ["RI_statewide"] * 4 + ["MA_statewide"], "year": [2021, 2022, 2023, 2025, 2025],
                                "adu_count": [62, 53, 71, 262, 1224]})
         coding = {k: pr.STATE_CODING[k] for k in ("RI_statewide", "MA_statewide")}
@@ -82,7 +82,7 @@ class TestCoding(unittest.TestCase):
         self.assertEqual(r.loc[("RI_statewide", 2021), "coverage"], 1.0)
         self.assertAlmostEqual(r.loc[("RI_statewide", 2025), "coverage"], 0.8099)
         self.assertAlmostEqual(r.loc[("RI_statewide", 2023), "coverage"], 0.8704)
-        self.assertAlmostEqual(r.loc[("MA_statewide", 2025), "years"], 11 / 12)
+        self.assertAlmostEqual(r.loc[("MA_statewide", 2025), "years"], 1.0)   # AQ-067: full year (was 11/12)
         a = pr.adjust_counts(r.reset_index(), coverage=True).set_index(["series", "year"])
         self.assertAlmostEqual(a.loc[("RI_statewide", 2025), "count"], 262 / 0.8099)
         self.assertEqual(a.loc[("RI_statewide", 2021), "count"], 62)

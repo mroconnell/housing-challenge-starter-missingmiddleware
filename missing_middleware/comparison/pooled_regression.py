@@ -131,7 +131,9 @@ COVERAGE = {"ME_statewide": {2025: 0.73},
 COVERAGE_ME_HOMES_ESTIMATE = {"ME_statewide": {2025: 0.62}}
 # Share of the year the statewide law was in force in a k = 1 calendar year coded as a full year (AQ-061):
 # Massachusetts' law took effect 2025-02-02, so 2025 is 11 of 12 months.
-PARTIAL_YEAR = {("MA_statewide", 2025): 11 / 12}
+# AQ-067 (owner decision 2026-11-01): Massachusetts' 2025 count covers the whole calendar year (EOHLC's mid-year survey
+# ran from 1 January), so it is no longer divided by 11/12. Empty: no series-year is counted as a partial year.
+PARTIAL_YEAR: dict = {}
 
 
 def coverage_for(series: str, year: int) -> float:

@@ -1,7 +1,7 @@
 option,config,cluster,in_stage2,level_with_law_k4,alpha
 as_used,A_ca_in_common_level,CA,True,2.4538,-0.1495
 as_used,A_ca_in_common_level,CO,False,0.8894,-1.1643
-as_used,A_ca_in_common_level,MA,True,1.114,-0.9392
+as_used,A_ca_in_common_level,MA,True,1.0211,-1.0262
 as_used,A_ca_in_common_level,ME,True,1.2923,-0.7907
 as_used,A_ca_in_common_level,MN,False,0.3003,-2.2502
 as_used,A_ca_in_common_level,OR,True,0.6591,-1.464
@@ -12,7 +12,7 @@ as_used,A_ca_in_common_level,VT,True,0.9801,-1.0673
 as_used,A_ca_in_common_level,WA,True,1.582,-0.5884
 as_used,B_ca_out_of_common_level,CA,False,2.4538,-0.1495
 as_used,B_ca_out_of_common_level,CO,False,0.8894,-1.1643
-as_used,B_ca_out_of_common_level,MA,True,1.114,-0.9392
+as_used,B_ca_out_of_common_level,MA,True,1.0211,-1.0262
 as_used,B_ca_out_of_common_level,ME,True,1.2923,-0.7907
 as_used,B_ca_out_of_common_level,MN,False,0.3003,-2.2502
 as_used,B_ca_out_of_common_level,OR,True,0.6591,-1.464
@@ -23,7 +23,7 @@ as_used,B_ca_out_of_common_level,VT,True,0.9801,-1.0673
 as_used,B_ca_out_of_common_level,WA,True,1.582,-0.5884
 as_used,C_value,CA,True,2.4538,-0.1495
 as_used,C_value,CO,False,0.8894,-1.1643
-as_used,C_value,MA,True,1.114,-0.9392
+as_used,C_value,MA,True,1.0211,-1.0262
 as_used,C_value,ME,True,1.2923,-0.7907
 as_used,C_value,MN,False,0.3003,-2.2502
 as_used,C_value,OR,True,0.6591,-1.464
@@ -34,7 +34,7 @@ as_used,C_value,VT,True,0.9801,-1.0673
 as_used,C_value,WA,True,1.582,-0.5884
 as_used,C_income,CA,True,2.4538,-0.1495
 as_used,C_income,CO,False,0.8894,-1.1643
-as_used,C_income,MA,True,1.114,-0.9392
+as_used,C_income,MA,True,1.0211,-1.0262
 as_used,C_income,ME,True,1.2923,-0.7907
 as_used,C_income,MN,False,0.3003,-2.2502
 as_used,C_income,OR,True,0.6591,-1.464
@@ -45,7 +45,7 @@ as_used,C_income,VT,True,0.9801,-1.0673
 as_used,C_income,WA,True,1.582,-0.5884
 as_used,C_price_to_income,CA,True,2.4538,-0.1495
 as_used,C_price_to_income,CO,False,0.8894,-1.1643
-as_used,C_price_to_income,MA,True,1.114,-0.9392
+as_used,C_price_to_income,MA,True,1.0211,-1.0262
 as_used,C_price_to_income,ME,True,1.2923,-0.7907
 as_used,C_price_to_income,MN,False,0.3003,-2.2502
 as_used,C_price_to_income,OR,True,0.6591,-1.464
@@ -56,7 +56,7 @@ as_used,C_price_to_income,VT,True,0.9801,-1.0673
 as_used,C_price_to_income,WA,True,1.582,-0.5884
 cap_a2,A_ca_in_common_level,CA,True,2.2978,-0.1682
 cap_a2,A_ca_in_common_level,CO,False,0.8431,-1.1708
-cap_a2,A_ca_in_common_level,MA,True,1.0699,-0.9326
+cap_a2,A_ca_in_common_level,MA,True,0.9808,-1.0196
 cap_a2,A_ca_in_common_level,ME,True,1.2442,-0.7817
 cap_a2,A_ca_in_common_level,MN,False,0.2783,-2.2793
 cap_a2,A_ca_in_common_level,OR,True,0.645,-1.4387
@@ -67,7 +67,7 @@ cap_a2,A_ca_in_common_level,VT,True,0.9521,-1.0493
 cap_a2,A_ca_in_common_level,WA,True,1.5118,-0.5869
 cap_a2,B_ca_out_of_common_level,CA,False,2.2978,-0.1682
 cap_a2,B_ca_out_of_common_level,CO,False,0.8431,-1.1708
-cap_a2,B_ca_out_of_common_level,MA,True,1.0699,-0.9326
+cap_a2,B_ca_out_of_common_level,MA,True,0.9808,-1.0196
 cap_a2,B_ca_out_of_common_level,ME,True,1.2442,-0.7817
 cap_a2,B_ca_out_of_common_level,MN,False,0.2783,-2.2793
 cap_a2,B_ca_out_of_common_level,OR,True,0.645,-1.4387
@@ -78,7 +78,7 @@ cap_a2,B_ca_out_of_common_level,VT,True,0.9521,-1.0493
 cap_a2,B_ca_out_of_common_level,WA,True,1.5118,-0.5869
 cap_a2,C_value,CA,True,2.2978,-0.1682
 cap_a2,C_value,CO,False,0.8431,-1.1708
-cap_a2,C_value,MA,True,1.0699,-0.9326
+cap_a2,C_value,MA,True,0.9808,-1.0196
 cap_a2,C_value,ME,True,1.2442,-0.7817
 cap_a2,C_value,MN,False,0.2783,-2.2793
 cap_a2,C_value,OR,True,0.645,-1.4387
@@ -89,7 +89,7 @@ cap_a2,C_value,VT,True,0.9521,-1.0493
 cap_a2,C_value,WA,True,1.5118,-0.5869
 cap_a2,C_income,CA,True,2.2978,-0.1682
 cap_a2,C_income,CO,False,0.8431,-1.1708
-cap_a2,C_income,MA,True,1.0699,-0.9326
+cap_a2,C_income,MA,True,0.9808,-1.0196
 cap_a2,C_income,ME,True,1.2442,-0.7817
 cap_a2,C_income,MN,False,0.2783,-2.2793
 cap_a2,C_income,OR,True,0.645,-1.4387
@@ -100,7 +100,7 @@ cap_a2,C_income,VT,True,0.9521,-1.0493
 cap_a2,C_income,WA,True,1.5118,-0.5869
 cap_a2,C_price_to_income,CA,True,2.2978,-0.1682
 cap_a2,C_price_to_income,CO,False,0.8431,-1.1708
-cap_a2,C_price_to_income,MA,True,1.0699,-0.9326
+cap_a2,C_price_to_income,MA,True,0.9808,-1.0196
 cap_a2,C_price_to_income,ME,True,1.2442,-0.7817
 cap_a2,C_price_to_income,MN,False,0.2783,-2.2793
 cap_a2,C_price_to_income,OR,True,0.645,-1.4387
@@ -111,7 +111,7 @@ cap_a2,C_price_to_income,VT,True,0.9521,-1.0493
 cap_a2,C_price_to_income,WA,True,1.5118,-0.5869
 cap_la_calibrated,A_ca_in_common_level,CA,True,1.9296,-0.2687
 cap_la_calibrated,A_ca_in_common_level,CO,False,0.7797,-1.1749
-cap_la_calibrated,A_ca_in_common_level,MA,True,1.0273,-0.8991
+cap_la_calibrated,A_ca_in_common_level,MA,True,0.9417,-0.9861
 cap_la_calibrated,A_ca_in_common_level,ME,True,1.1923,-0.7502
 cap_la_calibrated,A_ca_in_common_level,MN,False,0.2542,-2.2956
 cap_la_calibrated,A_ca_in_common_level,OR,True,0.6239,-1.3979
@@ -122,7 +122,7 @@ cap_la_calibrated,A_ca_in_common_level,VT,True,0.925,-1.004
 cap_la_calibrated,A_ca_in_common_level,WA,True,1.4158,-0.5783
 cap_la_calibrated,B_ca_out_of_common_level,CA,False,1.9296,-0.2687
 cap_la_calibrated,B_ca_out_of_common_level,CO,False,0.7797,-1.1749
-cap_la_calibrated,B_ca_out_of_common_level,MA,True,1.0273,-0.8991
+cap_la_calibrated,B_ca_out_of_common_level,MA,True,0.9417,-0.9861
 cap_la_calibrated,B_ca_out_of_common_level,ME,True,1.1923,-0.7502
 cap_la_calibrated,B_ca_out_of_common_level,MN,False,0.2542,-2.2956
 cap_la_calibrated,B_ca_out_of_common_level,OR,True,0.6239,-1.3979
@@ -133,7 +133,7 @@ cap_la_calibrated,B_ca_out_of_common_level,VT,True,0.925,-1.004
 cap_la_calibrated,B_ca_out_of_common_level,WA,True,1.4158,-0.5783
 cap_la_calibrated,C_value,CA,True,1.9296,-0.2687
 cap_la_calibrated,C_value,CO,False,0.7797,-1.1749
-cap_la_calibrated,C_value,MA,True,1.0273,-0.8991
+cap_la_calibrated,C_value,MA,True,0.9417,-0.9861
 cap_la_calibrated,C_value,ME,True,1.1923,-0.7502
 cap_la_calibrated,C_value,MN,False,0.2542,-2.2956
 cap_la_calibrated,C_value,OR,True,0.6239,-1.3979
@@ -144,7 +144,7 @@ cap_la_calibrated,C_value,VT,True,0.925,-1.004
 cap_la_calibrated,C_value,WA,True,1.4158,-0.5783
 cap_la_calibrated,C_income,CA,True,1.9296,-0.2687
 cap_la_calibrated,C_income,CO,False,0.7797,-1.1749
-cap_la_calibrated,C_income,MA,True,1.0273,-0.8991
+cap_la_calibrated,C_income,MA,True,0.9417,-0.9861
 cap_la_calibrated,C_income,ME,True,1.1923,-0.7502
 cap_la_calibrated,C_income,MN,False,0.2542,-2.2956
 cap_la_calibrated,C_income,OR,True,0.6239,-1.3979
@@ -155,7 +155,7 @@ cap_la_calibrated,C_income,VT,True,0.925,-1.004
 cap_la_calibrated,C_income,WA,True,1.4158,-0.5783
 cap_la_calibrated,C_price_to_income,CA,True,1.9296,-0.2687
 cap_la_calibrated,C_price_to_income,CO,False,0.7797,-1.1749
-cap_la_calibrated,C_price_to_income,MA,True,1.0273,-0.8991
+cap_la_calibrated,C_price_to_income,MA,True,0.9417,-0.9861
 cap_la_calibrated,C_price_to_income,ME,True,1.1923,-0.7502
 cap_la_calibrated,C_price_to_income,MN,False,0.2542,-2.2956
 cap_la_calibrated,C_price_to_income,OR,True,0.6239,-1.3979
@@ -166,7 +166,7 @@ cap_la_calibrated,C_price_to_income,VT,True,0.925,-1.004
 cap_la_calibrated,C_price_to_income,WA,True,1.4158,-0.5783
 cap_a2|no_coverage,A_ca_in_common_level,CA,True,2.2998,-0.0707
 cap_a2|no_coverage,A_ca_in_common_level,CO,False,0.7877,-1.1422
-cap_a2|no_coverage,A_ca_in_common_level,MA,True,0.8643,-1.0493
+cap_a2|no_coverage,A_ca_in_common_level,MA,True,0.7923,-1.1363
 cap_a2|no_coverage,A_ca_in_common_level,ME,True,0.9081,-0.9999
 cap_a2|no_coverage,A_ca_in_common_level,MN,False,0.2499,-2.2902
 cap_a2|no_coverage,A_ca_in_common_level,OR,True,0.6418,-1.347
@@ -177,7 +177,7 @@ cap_a2|no_coverage,A_ca_in_common_level,VT,True,0.9499,-0.9549
 cap_a2|no_coverage,A_ca_in_common_level,WA,True,1.3928,-0.5722
 cap_a2|coverage_me_ma_ri_only,A_ca_in_common_level,CA,True,2.2965,-0.1679
 cap_a2|coverage_me_ma_ri_only,A_ca_in_common_level,CO,False,0.8423,-1.1709
-cap_a2|coverage_me_ma_ri_only,A_ca_in_common_level,MA,True,1.069,-0.9326
+cap_a2|coverage_me_ma_ri_only,A_ca_in_common_level,MA,True,0.9799,-1.0196
 cap_a2|coverage_me_ma_ri_only,A_ca_in_common_level,ME,True,1.2431,-0.7817
 cap_a2|coverage_me_ma_ri_only,A_ca_in_common_level,MN,False,0.278,-2.2795
 cap_a2|coverage_me_ma_ri_only,A_ca_in_common_level,OR,True,0.6444,-1.4388
@@ -188,7 +188,7 @@ cap_a2|coverage_me_ma_ri_only,A_ca_in_common_level,VT,True,0.9509,-1.0497
 cap_a2|coverage_me_ma_ri_only,A_ca_in_common_level,WA,True,1.5103,-0.587
 cap_a2|wa_from_enactment,A_ca_in_common_level,CA,True,2.3009,0.1029
 cap_a2|wa_from_enactment,A_ca_in_common_level,CO,False,0.6825,-1.1123
-cap_a2|wa_from_enactment,A_ca_in_common_level,MA,True,0.9887,-0.7417
+cap_a2|wa_from_enactment,A_ca_in_common_level,MA,True,0.9063,-0.8287
 cap_a2|wa_from_enactment,A_ca_in_common_level,ME,True,1.1534,-0.5877
 cap_a2|wa_from_enactment,A_ca_in_common_level,MN,False,0.2098,-2.2919
 cap_a2|wa_from_enactment,A_ca_in_common_level,OR,True,0.6428,-1.1722
@@ -199,7 +199,7 @@ cap_a2|wa_from_enactment,A_ca_in_common_level,VT,True,0.9447,-0.7872
 cap_a2|wa_from_enactment,A_ca_in_common_level,WA,True,1.0724,-0.6605
 cap_a2|vt_2024_dropped,A_ca_in_common_level,CA,True,2.2911,-0.095
 cap_a2|vt_2024_dropped,A_ca_in_common_level,CO,False,0.7811,-1.1711
-cap_a2|vt_2024_dropped,A_ca_in_common_level,MA,True,0.9916,-0.9325
+cap_a2|vt_2024_dropped,A_ca_in_common_level,MA,True,0.9089,-1.0195
 cap_a2|vt_2024_dropped,A_ca_in_common_level,ME,True,1.1531,-0.7816
 cap_a2|vt_2024_dropped,A_ca_in_common_level,MN,False,0.2577,-2.2801
 cap_a2|vt_2024_dropped,A_ca_in_common_level,OR,True,0.642,-1.3672
@@ -210,7 +210,7 @@ cap_a2|vt_2024_dropped,A_ca_in_common_level,VT,True,0.7908,-1.1588
 cap_a2|vt_2024_dropped,A_ca_in_common_level,WA,True,1.4004,-0.5873
 cap_a2|gate4_coding,A_ca_in_common_level,CA,True,2.3058,0.1853
 cap_a2|gate4_coding,A_ca_in_common_level,CO,False,0.6464,-1.0864
-cap_a2|gate4_coding,A_ca_in_common_level,MA,True,0.8101,-0.8607
+cap_a2|gate4_coding,A_ca_in_common_level,MA,True,0.7426,-0.9477
 cap_a2|gate4_coding,A_ca_in_common_level,ME,True,0.8539,-0.808
 cap_a2|gate4_coding,A_ca_in_common_level,MN,False,0.1923,-2.2985
 cap_a2|gate4_coding,A_ca_in_common_level,OR,True,0.6428,-1.0919
@@ -221,7 +221,7 @@ cap_a2|gate4_coding,A_ca_in_common_level,VT,True,0.9448,-0.7069
 cap_a2|gate4_coding,A_ca_in_common_level,WA,True,1.0193,-0.631
 cap_a2|homes_2020_24_every_year,A_ca_in_common_level,CA,True,2.3354,-0.2156
 cap_a2|homes_2020_24_every_year,A_ca_in_common_level,CO,False,0.8666,-1.2069
-cap_a2|homes_2020_24_every_year,A_ca_in_common_level,MA,True,1.1118,-0.9578
+cap_a2|homes_2020_24_every_year,A_ca_in_common_level,MA,True,1.0191,-1.0448
 cap_a2|homes_2020_24_every_year,A_ca_in_common_level,ME,True,1.3154,-0.7896
 cap_a2|homes_2020_24_every_year,A_ca_in_common_level,MN,False,0.2864,-2.3141
 cap_a2|homes_2020_24_every_year,A_ca_in_common_level,OR,True,0.6409,-1.5087
@@ -232,7 +232,7 @@ cap_a2|homes_2020_24_every_year,A_ca_in_common_level,VT,True,0.9725,-1.0916
 cap_a2|homes_2020_24_every_year,A_ca_in_common_level,WA,True,1.5848,-0.6033
 cap_a2|coverage_me_homes_estimate,A_ca_in_common_level,CA,True,2.2978,-0.1682
 cap_a2|coverage_me_homes_estimate,A_ca_in_common_level,CO,False,0.8431,-1.1708
-cap_a2|coverage_me_homes_estimate,A_ca_in_common_level,MA,True,1.0699,-0.9326
+cap_a2|coverage_me_homes_estimate,A_ca_in_common_level,MA,True,0.9808,-1.0196
 cap_a2|coverage_me_homes_estimate,A_ca_in_common_level,ME,True,1.465,-0.6184
 cap_a2|coverage_me_homes_estimate,A_ca_in_common_level,MN,False,0.2783,-2.2793
 cap_a2|coverage_me_homes_estimate,A_ca_in_common_level,OR,True,0.645,-1.4387
@@ -243,7 +243,7 @@ cap_a2|coverage_me_homes_estimate,A_ca_in_common_level,VT,True,0.9521,-1.0493
 cap_a2|coverage_me_homes_estimate,A_ca_in_common_level,WA,True,1.5118,-0.5869
 cap_a2|before_aq065_coding,A_ca_in_common_level,CA,True,2.4092,-0.2307
 cap_a2|before_aq065_coding,A_ca_in_common_level,CO,False,0.9401,-1.1717
-cap_a2|before_aq065_coding,A_ca_in_common_level,MA,True,1.1665,-0.956
+cap_a2|before_aq065_coding,A_ca_in_common_level,MA,True,1.0693,-1.043
 cap_a2|before_aq065_coding,A_ca_in_common_level,ME,True,1.3603,-0.8023
 cap_a2|before_aq065_coding,A_ca_in_common_level,MN,False,0.318,-2.2558
 cap_a2|before_aq065_coding,A_ca_in_common_level,OR,True,0.7086,-1.4545
@@ -254,7 +254,7 @@ cap_a2|before_aq065_coding,A_ca_in_common_level,VT,True,0.8896,-1.227
 cap_a2|before_aq065_coding,A_ca_in_common_level,WA,True,1.5843,-0.6499
 cap_a2|no_value_cap,A_ca_in_common_level,CA,True,2.2978,-0.1682
 cap_a2|no_value_cap,A_ca_in_common_level,CO,False,0.8431,-1.1708
-cap_a2|no_value_cap,A_ca_in_common_level,MA,True,1.0699,-0.9326
+cap_a2|no_value_cap,A_ca_in_common_level,MA,True,0.9808,-1.0196
 cap_a2|no_value_cap,A_ca_in_common_level,ME,True,1.2442,-0.7817
 cap_a2|no_value_cap,A_ca_in_common_level,MN,False,0.2783,-2.2793
 cap_a2|no_value_cap,A_ca_in_common_level,OR,True,0.645,-1.4387

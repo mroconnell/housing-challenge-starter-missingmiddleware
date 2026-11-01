@@ -1,8 +1,8 @@
 case,central_additional_5yr,numerator,denominator,note,share_of_adopted
-adopted statewide method (central),10615.1,"sum over 1,925 areas of homes x (with-law rate - current-law rate) x ramp / 1,000",,with-law rate from the pooled 8-state + 5-city model; current-law rate by area,1.0
-Madison multiplier: Madison's addition per single-family home x Wisconsin's homes,13009.6,Madison addition 376.9 permits,"Madison homes 53,292; x 1,839,569 state homes",not used,1.2256
-Three-pilot multiplier: pilots' addition per home x Wisconsin's homes,13309.4,pilots' addition 490.1 permits,"pilots' homes 67,742; x 1,839,569 state homes",not used,1.2538
-Madison ratio: statewide baseline x (Madison with-law / Madison baseline) - baseline,3996.6,Madison with-law 451.0,Madison baseline 74.1; x state baseline 785.9,not used,0.3765
-adopted method without the Madison floor and without Madison's own path,10615.1,"as the adopted method, floor 0 and Madison at its pooled level",,"lower 6320.5, upper 19925.1",1.0
+adopted statewide method (central),10492.0,"sum over 1,925 areas of homes x (with-law rate - current-law rate) x ramp / 1,000",,with-law rate from the pooled 8-state + 5-city model; current-law rate by area,1.0
+Madison multiplier: Madison's addition per single-family home x Wisconsin's homes,12843.1,Madison addition 372.1 permits,"Madison homes 53,292; x 1,839,569 state homes",not used,1.2241
+Three-pilot multiplier: pilots' addition per home x Wisconsin's homes,13143.7,pilots' addition 484.0 permits,"pilots' homes 67,742; x 1,839,569 state homes",not used,1.2527
+Madison ratio: statewide baseline x (Madison with-law / Madison baseline) - baseline,3945.4,Madison with-law 446.2,Madison baseline 74.1; x state baseline 785.9,not used,0.376
+adopted method without the Madison floor and without Madison's own path,10492.0,"as the adopted method, floor 0 and Madison at its pooled level",,"lower 6320.8, upper 19784.4",1.0
 addition in areas where the Madison floor sets the with-law rate (central),0.0,"1 areas, 11 homes",,floor binds where the pooled level is below 0.2345,0.0
-addition in the three pilot areas (central),490.1,"Madison city 376.9, Pleasant Prairie village 49.3, Sun Prairie city 63.9","67,742 homes (3.7% of the state)",,0.0462
+addition in the three pilot areas (central),484.0,"Madison city 372.1, Pleasant Prairie village 48.8, Sun Prairie city 63.2","67,742 homes (3.7% of the state)",,0.0461

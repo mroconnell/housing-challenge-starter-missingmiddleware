@@ -967,6 +967,27 @@ Held-out average log error (each of 7 states predicted with itself left out): 0.
 
 The tool's "benchmark group" label for places with Madison-type rules is to be renamed "partial reform", since those rules are not at the benchmark.
 
+**Revisit list.**
+- **Madison, December 2026:** recheck its current-law rate when its 2026 permits are final (Gate 4 note).
+- **Milwaukee, when its 2026 permits are published (2027):** Milwaukee has allowed ADUs since 2025-08-02, so its first full year under its own rules is the first direct test of the with-law rate: our model assumes about 0.9 ADU permits per 1,000 single-family homes a year, the causal-forest view about 4.0.
+
+## AQ-067 ADU: Massachusetts 2025 counted as a full year
+
+**Status:** Adopted. **Added:** 2026-11-01. **Owner decision:** "Ok" (2026-11-01) to the recommended fix. **Related:** AQ-061, [improvement round 4](adu/IMPROVE_R4_RESULTS.md).
+
+**Why.** Massachusetts' 2025 ADU count covers the whole calendar year: EOHLC's mid-year survey ran from 1 January to 30 June and the year-end survey covered the rest ([mass.gov ADU tracker](https://www.mass.gov/info-details/accessory-dwelling-unit-tracker)). AQ-061 divided it by 11/12 of a year because the law took effect on 2 February, which overstated the rate by about 9%. No Massachusetts rate from before the law exists to take January out, so the count is now divided by the full year.
+
+**Result.** Additional ADU permits, Wisconsin, 2027–2031 (baseline 786 unchanged):
+
+| | Before (AQ-066) | After (AQ-067) |
+| --- | ---: | ---: |
+| Lower | 6,321 | 6,321 |
+| Central | 10,615 | 10,492 |
+| Upper | 19,925 | 19,784 |
+| Reference line | 10,142 | 10,038 |
+
+Held-out RMS 0.130 → 0.136; the audit agreed that is no reason to keep a counting error. Washington's partial law year was also tested in the same round and left unchanged (round 4 results).
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -1112,3 +1133,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-29 | AQ-064 | ADU: audit fixes; Rhode Island and Massachusetts homes-based reporting shares, year-matched homes. Central 10,788 → 10,679. |
 | 2026-10-31 | AQ-065 | ADU: one law-year rule (Vermont permit year, Oregon from 2020, Seattle 2024 local), no-reform trend baseline (786), 4-state reference line. Central 10,679 → 10,349. |
 | 2026-11-01 | AQ-066 | ADU: Madison on the statewide model (its Washington/Oregon path now a sensitivity). Central 10,349 → 10,615. |
+| 2026-11-01 | AQ-067 | ADU: Massachusetts 2025 counted over the full year (its survey covers January). Central 10,615 → 10,492. |
