@@ -15,13 +15,15 @@ There is no clearer signal. The unit is permits per 1,000 existing homes per yea
 | Rest of the country | 56 | −1.11 | −2.66 to 0.75 | −0.22 |
 | Homes in 2+ unit buildings | 76 | −1.17 | −2.89 to 0.83 | −0.03 |
 | Homes in 1-unit buildings | 76 | 0.03 | −0.74 to 0.76 | 0.18 |
-| Share in 2+ unit buildings (percentage points) | 72 | −0.83 | −5.53 to 3.47 | −1.43 |
+| Share in 2+ unit buildings (percentage points; 4 places with no homes in a period left out) | 72 | −0.83 | −5.53 to 3.47 | −1.43 |
+
+Booming and cooling are defined from the comparison places' own change, which is part of the effect. That builds in a small bias (correlation −0.15) toward finding a booming-market gain; none appeared. The 2+ unit × booming/cooling rows in the CSV are unplanned.
 
 ## Parking increases
 
 Cities that raised minimum parking for multi-family housing, citywide or near transit, with permit data:
 
-| City | Year | What changed | Before | After | Effect | Comparison places |
+| City | Year | What changed | Before | After | Effect (positive = more permits after the increase) | Comparison places |
 | --- | --- | --- | --- | --- | ---: | ---: |
 | Kirkland, WA | 2015 | Minimums raised for most buildings, plus 15% cushion and 10% guest parking; several projects cancelled by 2017 | 2012–2014 | 2016–2018 | +14.18 | 21 |
 | Portland, OR | 2013 | Minimums reinstated near transit for buildings over 30 units; undone from 2018 | – | – | not measurable (permit files start in 2012) | – |

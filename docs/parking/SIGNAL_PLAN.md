@@ -31,3 +31,8 @@ Cities that raised minimum parking requirements for housing between 2010 and 202
 A separate plan will be written before it runs.
 
 ## Changes after writing
+- **2026-11-01, audit wording fixes (after the run; no rerun):**
+  - **Increase search:** it took in 2023 cases (Lake Havasu City, North Miami Beach), where the plan said 2010–2022, and a near-transit rule (Portland 2013), where the plan said citywide. Both are departures from the plan.
+  - **Unplanned rows:** the two rows crossing 2+ unit homes with booming and cooling markets were not in the plan.
+  - **The share row has 72 places, not 76.** The share of homes in 2+ unit buildings is undefined where a place or its comparison permitted no homes in a period (4 places).
+  - **Booming vs cooling** is defined from the comparison places' change, which is also part of the effect. That builds in a small bias (correlation −0.15) toward finding a larger effect in booming markets. None appeared.
