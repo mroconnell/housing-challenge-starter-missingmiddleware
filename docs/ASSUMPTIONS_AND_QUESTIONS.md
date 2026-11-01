@@ -988,6 +988,16 @@ The tool's "benchmark group" label for places with Madison-type rules is to be r
 
 Held-out RMS 0.130 → 0.136; the audit agreed that is no reason to keep a counting error. Washington's partial law year was also tested in the same round and left unchanged (round 4 results).
 
+## AQ-070 TOD: central line = the average reform city at Wisconsin's coverage
+
+**Status:** Adopted. **Added:** 2026-11-01. **Owner decision:** "Let's do it at Auckland for high for now. I also like plotting that average reform city. Sounds like that should be central." (2026-11-01 22:31). **Related:** AQ-068, AQ-069, [STATION_AREA_PLAN.md](tod/STATION_AREA_PLAN.md).
+
+**What changed.** The TOD central line (id `typical`) is now the station-area pre-registered scaled version: one pooled ratio of sums within ¼ mile across 16 places (68.9 extra homes per 100 lot acres a year at full coverage) × Wisconsin's coverage (0.712 of lots within ¼ mile of rail and rapid stops) × 4,874 lot acres × 5 years × 1.106 (rest of state) = **13,229**, range **9,147–17,108** (each place left out in turn). File: `reference/tod_station_area_line.csv` (line `average_reform_scaled`). Label: "Central: if Wisconsin did as well as the average reform city." The former central line (lot-model drift rule, 1,196; AQ-068) is the what-if `drift_central`; Stacy et al. (2,509) and the pre-registered average change (808) stay as what-ifs. Upper line unchanged (Auckland 17,148).
+
+**Cautions recorded.** The Milwaukee streetcar check (+18 per 100 acres a year with no rezoning) marks this figure as closer to an upper estimate; broad programs most like Wisconsin's law gained about nothing (lower line 43). Scale check: the central line now exceeds the Milwaukee metro's own record year of permits in 2029 and 2030 (5.0 and 7.6 homes per 1,000 a year including current law, vs its record 3.4) but stays below the 95th percentile of peer metro-years (9.1).
+
+**Result.** Extra homes near stops, Wisconsin, 2027–2031: lower 43, central 1,196 → **13,229**, upper 17,148. Combined TOD and parking view, central path: 13,229 (rule (b)).
+
 ## AQ-069 TOD: little line from the station-area model
 
 **Status:** Adopted. **Added:** 2026-11-01. **Owner decision:** "okay, I see, yes draft A" (2026-11-01 20:31; draft docs/tod/STATION_AREA_TOOL_DRAFT.md option A). **Related:** AQ-068, [STATION_AREA_PLAN.md](tod/STATION_AREA_PLAN.md) (locked plan, round 5, auditor round-5 items).
@@ -1177,3 +1187,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-11-01 | AQ-067 | ADU: Massachusetts 2025 counted over the full year (its survey covers January). Central 10,615 → 10,492. |
 | 2026-11-01 | AQ-068 | TOD: central line from the lot model's drift rule (1,181, range 601–1,662); 798 pre-registered and Stacy's 2,509 shown beside it. Central 2,509 → 1,181. |
 | 2026-11-01 | AQ-069 | TOD: little line from the station-area model (43, range −161 to 343; no zero floor); Los Angeles TOC (171) and with-strings (214) shown as what-ifs. Lower 171 → 43. |
+| 2026-11-01 | AQ-070 | TOD: central line = average reform city at Wisconsin's coverage (13,229, range 9,147–17,108); drift rule 1,196 kept as a what-if. Central 1,196 → 13,229. |

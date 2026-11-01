@@ -32,6 +32,19 @@ def main() -> None:
         rows.append({"line": line, "extra_homes_2027_2031": round(w.all_cities * scale, 1), "range_low": round(w.low * scale, 1),
                      "range_high": round(w.high * scale, 1), "two_city_value": w.all_cities, "statewide_scale": round(scale, 4),
                      "note": note})
+    # Central (owner 2026-11-01 22:31): the pre-registered scaled version, "if Wisconsin did as well as the average
+    # reform city, at its coverage": pooled ratio of sums within 1/4 mile (effect per 100 lot acres a year / coverage
+    # difference, each place once) x Wisconsin coverage x Wisconsin lot acres x 5 years x statewide scale; range = the
+    # same with each place left out in turn. An upper bound per the Milwaukee streetcar check.
+    C = pd.read_csv(REFERENCE / "tod_station_area_effects_by_city.csv")
+    V = pd.read_csv(REFERENCE / "tod_station_area_wisconsin_versions.csv").set_index("band").loc["0-1/4"]
+    q = C[C.band == "0-1/4"].dropna(subset=["effect_per_100_acres", "coverage_diff"])
+    val = lambda d: d.effect_per_100_acres.sum() / d.coverage_diff.sum() * V.wi_coverage * V.wi_acres / 100 * 5 * scale  # noqa: E731
+    loo = [val(q[q.city != c]) for c in q.city]
+    rows.append({"line": "average_reform_scaled", "extra_homes_2027_2031": round(val(q), 1), "range_low": round(min(loo), 1),
+                 "range_high": round(max(loo), 1), "two_city_value": round(val(q) / scale, 1), "statewide_scale": round(scale, 4),
+                 "note": f"pre-registered scaled version: {len(q)} places, pooled ratio within 1/4 mile x Wisconsin coverage "
+                         f"{V.wi_coverage:.3f} x {V.wi_acres:,.0f} lot acres; range = each place left out"})
     out = pd.DataFrame(rows)
     out.to_csv(REFERENCE / "tod_station_area_line.csv", index=False)
     print(out.to_string(index=False))

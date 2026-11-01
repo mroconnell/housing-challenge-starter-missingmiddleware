@@ -781,6 +781,7 @@ def net_effects(cp: dict, reading: str = "per_upzoned_home") -> dict:
     suffix = "" if reading == "per_upzoned_home" else ", as published"
     lot = lot_model_line()
     sal = station_area_line()
+    avg = station_area_line("average_reform_scaled")
     eff = {
         # Little (owner 2026-11-01 20:31, option A): the station-area lot model, extra homes vs similar stops without
         # reform in 16 places (docs/tod/STATION_AREA_PLAN.md). Los Angeles TOC (the former little line) is kept as the
@@ -788,11 +789,12 @@ def net_effects(cp: dict, reading: str = "per_upzoned_home") -> dict:
         "little": (M.NetEffect(sal["central"] / sal["stock"], ny, f"Station-area lot model: {sal['central']:,.1f} extra homes over 2027-2031 "
                                f"(range {sal['low']:,.1f} to {sal['high']:,.1f}), reference/tod_station_area_line.csv; New York pooled ramp"),
                    "Little or no response: station-area model"),
-        # Central (owner 2026-11-01, AQ-068): the lot-model drift rule, measured on the 9 reform cities. Stacy et al. is
-        # kept as a labelled comparison (sensitivity "stacy_typical") and in the reference line.
-        "typical": (M.NetEffect(lot["central"] / lot["stock"], ny, f"Lot model, drift rule: {lot['central']:,.0f} extra homes over 2027-2031 "
-                                f"(range {lot['low']:,.0f}-{lot['high']:,.0f}), reference/tod_lot_model_line.csv; New York pooled ramp"),
-                    "Central: upzoned-share trend in 9 reform cities"),
+        # Central (owner 2026-11-01 22:31, AQ-070): if Wisconsin did as well as the average reform city, at its coverage
+        # (the station-area pre-registered scaled version; an upper bound per the Milwaukee streetcar check). The lot-model
+        # drift rule (AQ-068, 1,196) is kept as the what-if "drift_central"; Stacy et al. as "stacy_typical".
+        "typical": (M.NetEffect(avg["central"] / avg["stock"], ny, f"Average reform city at Wisconsin's coverage: {avg['central']:,.0f} extra homes "
+                                f"over 2027-2031 (range {avg['low']:,.0f}-{avg['high']:,.0f}), reference/tod_station_area_line.csv; New York pooled ramp"),
+                    "Central: if Wisconsin did as well as the average reform city"),
         "strong": (M.NetEffect(ak, auck_t, f"Auckland: 21,808 / 530,300 = 4.11%{'' if suffix else ' / 0.752 coverage'}; Auckland 2017-2021 profile rescaled to the stated total"),
                    f"Strong response (Auckland{suffix})"),
     }
@@ -890,7 +892,8 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
     lot = lot_model_line()
     lo_hi, lo_hi_l = {}, {}
     sal = station_area_line()
-    for tag, v in (("low", lot["low"] / lot["stock"]), ("high", lot["high"] / lot["stock"])):
+    avg = station_area_line("average_reform_scaled")
+    for tag, v in (("low", avg["low"] / avg["stock"]), ("high", avg["high"] / avg["stock"])):
         e = effects["typical"][0]
         lo_hi[tag] = net_rows(place, stock, {"typical": (M.NetEffect(v, e.timing, e.source), "")})
     for tag, v in (("low", sal["low"] / sal["stock"]), ("high", sal["high"] / sal["stock"])):
@@ -949,7 +952,7 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
     add_s("law_addition", "ramp_year5_alt", "New York ramp with year 5 = mean of years 3-5 (timing only; totals unchanged). Strong keeps Auckland's profile",
           net_rows(place, stock, {k: (M.NetEffect(e.five_year_share, ny5 if k != "strong" else e.timing, e.source), lab)
                                   for k, (e, lab) in effects.items()}))
-    add_s("law_addition", "typical_range", "Central (lot model) at the low and high ends of its 9 left-out fits",
+    add_s("law_addition", "typical_range", "Central (average reform city) at the low and high ends: each of the 16 places left out in turn",
           pd.concat([lo_hi["low"].assign(scenario="typical_low"), lo_hi["high"].assign(scenario="typical_high")]))
     add_s("law_addition", "little_range", "Little or no response (station-area model) at the low and high ends of its range",
           pd.concat([lo_hi_l["low"].assign(scenario="little_low"), lo_hi_l["high"].assign(scenario="little_high")]))
@@ -959,6 +962,9 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
     add_s("law_addition", "little_strings", "Station-area model with the strings-attached city trait (did not earn a place)",
           net_rows(place, stock, {"little": (M.NetEffect(sas["central"] / sas["stock"], effects["little"][0].timing,
                                                          "station-area model with strings attached"), "")}))
+    add_s("law_addition", "drift_central", "Former central line: lot-model drift rule, 9 reform cities (AQ-068)",
+          net_rows(place, stock, {"typical": (M.NetEffect(lot["central"] / lot["stock"], effects["typical"][0].timing,
+                                                          "lot-model drift rule"), "Lot model, drift rule (former central)")}))
     add_s("law_addition", "stacy_typical", "Former typical line: Stacy et al. 2023 (+0.8% per loosening reform), for comparison",
           net_rows(place, stock, {"typical": (stacy_effect(cp), "Stacy et al. 2023 (former typical)")}))
     avg = float(pd.read_csv(REFERENCE / "tod_lot_model_line.csv").set_index("line").loc["average_change_benchmark", "extra_homes_2027_2031"])

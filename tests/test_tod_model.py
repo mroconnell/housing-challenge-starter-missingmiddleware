@@ -240,9 +240,13 @@ class TestNetSizing(unittest.TestCase):
         la = se[(se.sensitivity == "la_toc_little") & (se.scenario == "little")].addition_2027_2031.iloc[0]
         self.assertAlmostEqual(la / float(net.stock_homes_station_areas.iloc[0]), 0.0004 * 5 / 6 / 0.61, places=7)
         self.assertAlmostEqual(net.loc["strong", "parameter"], 21_808 / 530_300 / 0.752, places=6)
-        # central = the lot-model drift rule (AQ-068): its five-year total over the main-case stock
+        # central = the average reform city at Wisconsin's coverage (AQ-070); the drift rule (AQ-068) is a what-if
+        avg = read("tod_station_area_line.csv").set_index("line").loc["average_reform_scaled"]
+        self.assertAlmostEqual(net.loc["typical", "parameter"] * 313_564, avg.extra_homes_2027_2031, delta=1.0)
         lot = read("tod_lot_model_line.csv").set_index("line")
-        self.assertAlmostEqual(net.loc["typical", "parameter"] * 313_564, lot.loc["lot_model_drift", "extra_homes_2027_2031"], delta=1.0)
+        dc = read("tod_model_sensitivities.csv")
+        dc = dc[(dc.sensitivity == "drift_central") & (dc.scenario == "typical")].addition_2027_2031.iloc[0]
+        self.assertAlmostEqual(dc, lot.loc["lot_model_drift", "extra_homes_2027_2031"], delta=1.0)
         # Stacy et al. kept as a labelled comparison, at its published 0.008
         sens = read("tod_model_sensitivities.csv")
         st = sens[(sens.sensitivity == "stacy_typical") & (sens.scenario == "typical")]
