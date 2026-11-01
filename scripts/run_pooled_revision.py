@@ -138,8 +138,37 @@ def homes_index() -> pd.DataFrame:
     return _HOMES_INDEX["ix"]
 
 
+WA_EARLY_COUNTIES = {"King": "033", "Pierce": "053", "Snohomish": "061", "Kitsap": "035"}   # HB 1337 from 2025-06-30
+_WA_PARTIAL = {}
+
+
+def wa_partial_inputs():
+    """Round 4 (IMPROVE_R4_PLAN.md): OFM EY2026 ADU permits of incorporated cities (Seattle excluded) in King, Pierce,
+    Snohomish and Kitsap, and the place geoids of those cities (Census permit place file, 2025)."""
+    if not _WA_PARTIAL:
+        from missing_middleware.comparison import madison_like as ml
+        rows = ml.read_xlsx_sheet(RAW / "statewide_states/wa/ofm_april1_postcensal_permits_1990-present.xlsx",
+                                  "xl/worksheets/sheet2.xml")
+        h = rows[0]
+        ic, icity, iy, ia = (h.index(c) for c in ("County Name", "City Name", "Estimate Year",
+                                                   "Permitted Accessory Dwelling units"))
+        count = 0.0
+        for r in rows[1:]:
+            r = r + [""] * (len(h) - len(r))
+            if (r[iy] == "2026" and r[ic] in WA_EARLY_COUNTIES and r[ia] != "" and r[icity] != "Seattle"
+                    and not r[icity].startswith("Unincorporated")):
+                count += float(r[ia])
+        geoids = set()
+        for line in (RAW / "census_bps_place_us/we2025a.txt").read_text(encoding="latin-1").splitlines():
+            q = [x.strip() for x in line.split(",")]
+            if len(q) > 6 and q[1] == "53" and q[3] in WA_EARLY_COUNTIES.values() and q[5] not in ("", "99990", "00000"):
+                geoids.add("53" + q[5].zfill(5))
+        _WA_PARTIAL.update(count=count, geoids=geoids)
+    return _WA_PARTIAL
+
+
 def build(d, panel, vacant=True, mpls=True, coverage=True, coding=None, drop_vt_2024=False, coverage_states=None,
-          year_homes=True, coverage_override=None, law_year_rule=True):
+          year_homes=True, coverage_override=None, law_year_rule=True, wa_partial=False):
     """The pooled data for one California option. Defaults = the adopted fit (AQ-061, AQ-064). coverage_states limits
     the coverage correction to those series (None = every series in COVERAGE); coding=pr.STATE_CODING restores the
     Gate 3 Washington coding (law years from enactment); year_homes=False reads every year against ACS 2020-2024
@@ -151,6 +180,15 @@ def build(d, panel, vacant=True, mpls=True, coverage=True, coding=None, drop_vt_
         rows = rows[~(rows["series"].eq("VT_chittenden") & rows["year"].eq(VT_SOURCE_CHANGE_YEAR))].reset_index(drop=True)
     if law_year_rule:
         rows = R.law_year_rule(rows)
+    members = p.members
+    if wa_partial:      # round 4: Washington's 2026 law row = the four counties under HB 1337 for 9 of 12 months
+        wp = wa_partial_inputs()
+        wa26 = rows["series"].eq("WA_inc_exSeattle") & rows["year"].eq(2026)
+        rows = rows.copy()
+        rows.loc[wa26, ["count", "group_id"]] = [wp["count"], "WA_early_counties_2026"]
+        rows.loc[wa26, "years"] = 0.75
+        m = members[members["group_id"].eq("WA_inc_exSeattle") & members["geoid"].isin(wp["geoids"])]
+        members = pd.concat([members, m.assign(group_id="WA_early_counties_2026")], ignore_index=True)
     if coverage_override:
         rows = rows.copy()
         for sid, ys in coverage_override.items():
@@ -163,7 +201,7 @@ def build(d, panel, vacant=True, mpls=True, coverage=True, coding=None, drop_vt_
         adj = pr.adjust_counts(rows, coverage=True)
         rows = rows.copy()
         rows.loc[sel, ["count", "coverage"]] = adj.loc[sel, ["count", "coverage"]]
-    return pr.Pooled(R.adjust_other_rows(rows, vacant_lot=vacant, minneapolis=mpls), p.members)
+    return pr.Pooled(R.adjust_other_rows(rows, vacant_lot=vacant, minneapolis=mpls), members)
 
 
 # Sensitivities of the adopted fit (option cap_a2 x configuration A), written beside the engine levels as extra
