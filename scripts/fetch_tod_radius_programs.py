@@ -142,10 +142,11 @@ def program_areas() -> None:
         print(rel, n)
 
 
-def arcgis_csv(layer: str, out: Path, fields: str, page: int = 2000, idf: str = "objectid", centroid: bool = False) -> int:
+def arcgis_csv(layer: str, out: Path, fields: str, page: int = 2000, idf: str = "objectid", centroid: bool = False,
+               where: str = "1=1") -> int:
     """Page an ArcGIS layer's attributes (no geometry) into a CSV, by object-id ranges."""
     import csv
-    ids = sorted(json.loads(_get(f"{layer}/query?" + urllib.parse.urlencode({"where": "1=1", "returnIdsOnly": "true", "f": "json"})))["objectIds"])
+    ids = sorted(json.loads(_get(f"{layer}/query?" + urllib.parse.urlencode({"where": where, "returnIdsOnly": "true", "f": "json"})))["objectIds"])
     out.parent.mkdir(parents=True, exist_ok=True)
     cols = fields.split(",") + (["cx", "cy"] if centroid else [])
     with open(out, "w", newline="") as fh:
@@ -153,12 +154,17 @@ def arcgis_csv(layer: str, out: Path, fields: str, page: int = 2000, idf: str = 
         w.writeheader()
         for i in range(0, len(ids), page):
             c = ids[i:i + page]
-            q = {"where": f"{idf}>={c[0]} AND {idf}<={c[-1]}", "outFields": fields, "returnGeometry": "false", "f": "json"}
-            if centroid:
+            q = {"where": f"{idf}>={c[0]} AND {idf}<={c[-1]} AND ({where})", "outFields": fields, "returnGeometry": "false", "f": "json"}
+            if centroid == "geom":   # services without centroid support: coarse shape, centre of its first ring
+                q.update({"returnGeometry": "true", "outSR": 4326, "maxAllowableOffset": 0.0002, "geometryPrecision": 6})
+            elif centroid:
                 q.update({"returnCentroid": "true", "outSR": 4326})
             for f in json.loads(_get(f"{layer}/query", urllib.parse.urlencode(q).encode()))["features"]:
                 a = dict(f["attributes"])
-                if centroid and f.get("centroid"):
+                if centroid == "geom" and f.get("geometry", {}).get("rings"):
+                    r = f["geometry"]["rings"][0]
+                    a["cx"], a["cy"] = sum(p[0] for p in r) / len(r), sum(p[1] for p in r) / len(r)
+                elif centroid and f.get("centroid"):
                     a["cx"], a["cy"] = f["centroid"]["x"], f["centroid"]["y"]
                 w.writerow(a)
     return len(ids)
@@ -281,7 +287,53 @@ def stpaul_parcels() -> None:
     print("saint paul parcels", n)
 
 
-STAGES = {"stpaul_parcels": stpaul_parcels, "slc_parcels": slc_parcels, "cook_parcels": cook_parcels, "king_parcels": king_parcels, "king_assessor": king_assessor, "honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
+def denver_parcels() -> None:
+    """Denver parcels, whole city (Assessor via the City): class, zoning, appraised values, year built, homes, last
+    sale, centre point. Owner name and address fields are not requested."""
+    layer = "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/ArcGIS/rest/services/ODC_PROP_PARCELS_A/FeatureServer/245"
+    f = ("OBJECTID,SCHEDNUM,PROP_CLASS,D_CLASS_CN,ZONE_ID,APPRAISED_LAND_VALUE,APPRAISED_IMP_VALUE,LAND_AREA,"
+         "RES_ORIG_YEAR_BUILT,COM_ORIG_YEAR_BUILT,COM_STRUCTURE_TYPE,TOT_UNITS,SALE_YEAR,SALE_PRICE,EXEMPT_AMT_LOCAL")
+    out = RAW / "denver" / "parcels_citywide.csv"
+    n = arcgis_csv(layer, out, f, page=2000, idf="OBJECTID", centroid=True)
+    _manifest("denver", out.name, layer, n, out, "Denver parcels, whole city; no owner fields; local only")
+    print("denver parcels", n)
+
+
+def mecklenburg_parcels() -> None:
+    """Mecklenburg County parcels from NC OneMap statewide parcels: land and building values, structure year,
+    number of structures, use, last sale date, centre point. Owner names and mailing addresses not requested.
+    No homes-per-parcel field: Charlotte counts come from city permits."""
+    layer = "https://services.nconemap.gov/secure/rest/services/NC1Map_Parcels/FeatureServer/1"
+    f = "objectid,parno,scity,landval,improvval,parval,gisacres,struct,structno,structyear,parusecode,parusedesc,owntype,saledate,revisedate"
+    out = RAW / "mecklenburg" / "parcels.csv"
+    n = arcgis_csv(layer, out, f, page=5000, idf="objectid", centroid=True, where="stcntyfips='37119'")
+    _manifest("mecklenburg", out.name, layer, n, out, "NC OneMap parcels, Mecklenburg County; no owner fields; local only")
+    print("mecklenburg parcels", n)
+
+
+def travis_parcels() -> None:
+    """Travis County appraisal district parcels (City of Austin copy): land value, zoning, centre point. Current
+    values only; no year built or homes (Austin counts come from city permits)."""
+    layer = "https://services.arcgis.com/0L95CJ0VTaxqcmED/arcgis/rest/services/EXTERNAL_tcad_parcel/FeatureServer/0"
+    out = RAW / "travis" / "parcels.csv"
+    n = arcgis_csv(layer, out, "OBJECTID_1,PROP_ID,CONDOID,NBHD,ZONING,LAND_VALUE,Shape__Area", page=2000, idf="OBJECTID_1", centroid=True)
+    _manifest("travis", out.name, layer, n, out, "TCAD parcels (City of Austin copy); local only")
+    print("travis parcels", n)
+
+
+def portland_taxlots() -> None:
+    """Portland-area taxlots (PortlandMaps; Multnomah, Washington and Clackamas): year built, homes, land and
+    building values for three years, last sale, use, centre point. Owner names and addresses not requested."""
+    layer = "https://www.portlandmaps.com/arcgis/rest/services/Public/Taxlots/MapServer/0"
+    f = ("OBJECTID,STATE_ID,SITECITY,COUNTY,PROP_CODE,PRPCD_DESC,LANDUSE,YEARBUILT,BLDGSQFT,FLOORS,UNITS,MKTVALYR1,LANDVAL1,"
+         "BLDGVAL1,MKTVALYR3,LANDVAL3,BLDGVAL3,SALEDATE,SALEPRICE,A_T_ACRES")
+    out = RAW / "portland" / "taxlots.csv"
+    n = arcgis_csv(layer, out, f, page=2000, idf="OBJECTID", centroid="geom")
+    _manifest("portland", out.name, layer, n, out, "PortlandMaps taxlots (tri-county); no owner fields; local only")
+    print("portland taxlots", n)
+
+
+STAGES = {"portland_taxlots": portland_taxlots, "travis_parcels": travis_parcels, "mecklenburg_parcels": mecklenburg_parcels, "denver_parcels": denver_parcels, "stpaul_parcels": stpaul_parcels, "slc_parcels": slc_parcels, "cook_parcels": cook_parcels, "king_parcels": king_parcels, "king_assessor": king_assessor, "honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser(); a.add_argument("stage", choices=STAGES); STAGES[a.parse_args().stage]()
