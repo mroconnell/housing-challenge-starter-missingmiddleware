@@ -31,13 +31,13 @@ Additional homes permitted over 2027–2031, compared with current law. Scenario
 
 | Rank (central) | Reform | Lower | **Central** | Upper | Central, then upper, as a share of the 124,000-home all-housing baseline | Central, then upper, per 1,000 existing homes (five-year total) |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| 1 | **ADUs** | 6,321 | **10,492** | 19,784 | 8.5%; 16.0% | 3.8; 7.1 |
-| 2 | **TOD** | 43 | **1,196** | 17,148 | 1.0%; 13.8% | 0.4; 6.2 |
+| 1 | **TOD** | 43 | **13,229** | 17,148 | 10.7%; 13.8% | 4.8; 6.2 |
+| 2 | **ADUs** | 6,321 | **10,492** | 19,784 | 8.5%; 16.0% | 3.8; 7.1 |
 | 3 | **Parking** | −15,326 | **0** | 19,937 | 0%; 16.1% | 0; 7.2 |
 
 What the scenario names mean:
 - **ADUs:** the lower is "sluggish adoption" (the average of Rhode Island and Oregon); the central is "typical adoption"; the upper is "strong adoption", the high end of what states with a statewide ADU law have reached, which only California has passed. If Wisconsin followed the median path the eight statewide-law states actually took, the law would add 10,038 homes.
-- **TOD:** the lower is a "little or no response": since AQ-069 it comes from the station-area model, building near 16 US places' reform stations against similar stations without reform, 43 extra homes (−161 to 343; Los Angeles's transit program, the former lower, gave 171); the central (since AQ-068) is the lot model's drift rule, measured on 9 US transit upzonings: 1,196 extra homes near stops (609 to 1,684 when each city is left out in turn). It was found after seeing results; the rule set in advance gives 808, and Stacy et al.'s typical loosening reform (2,509, the former central) is kept as a comparison. The upper is a "strong response", like Auckland's 2016 upzoning.
+- **TOD:** the lower is a "little or no response": since AQ-069 it comes from the station-area model, building near 16 US places' reform stations against similar stations without reform, 43 extra homes (−161 to 343; Los Angeles's transit program, the former lower, gave 171); the central (since AQ-070) is "if Wisconsin did as well as the average reform city": the same 16 places' pooled gain within ¼ mile (68.9 extra homes per 100 lot acres a year at full coverage) × Wisconsin's coverage (0.712), 13,229 extra homes near stops (9,147 to 17,108 when each place is left out in turn). It is closer to an upper estimate: broad programs like Wisconsin's gained about nothing, and building near Milwaukee's streetcar rose by a similar amount with no rezoning. The former central, the lot model's drift rule (1,196, AQ-068), is kept as a what-if, as are the rule set in advance (808) and Stacy et al.'s typical loosening reform (2,509). The upper is a "strong response", like Auckland's 2016 upzoning.
 - **Parking:** the central is "no measurable change"; the upper is "the high end of the evidence"; the lower is "the low end of the evidence" (owner, 2026-11-01): the measured average of 76 repeal places against similar places, −1.14 permits per 1,000 existing homes per year, applied without a floor at zero. That is −15,326 homes over 2027–2031, 12.5% below current law. It is driven mostly by San Francisco and Minneapolis.
 - **Median lines.** A "median of real cases" line is shown only where a reform has at least four comparable cases. ADUs (8 states) and parking (76 places) have one. Parking's median place changed by −0.12 permits per year per 1,000 existing homes, so its line is shown at 0, the same as its central. TOD has only three whole-city studies, so it has none.
 
@@ -45,7 +45,7 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 
 **Against each reform's own baseline:**
 - The ADU central adds 10,492 second homes to a baseline of 786, which is 13.3 times as many as current law would produce.
-- The TOD central adds 1,196 homes to a baseline of 14,654 near stops, which is 8.2% more.
+- The TOD central adds 13,229 homes to a baseline of 14,654 near stops, which is 90.3% more.
 - The parking upper adds 19,937 homes to a baseline of 124,000, which is 16.1% more (about 3,987 a year).
 
 **How confident we are.**
@@ -53,10 +53,10 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 | Reform | Confidence in the central | Why |
 | --- | --- | --- |
 | ADUs | Medium | Eight states have passed similar laws. When each is left out, the model predicts five of the seven non-California states within about 15%; it is about 21% too high for Washington and 19% too high for Vermont. No Midwest state has data yet. |
-| TOD | Low | The three studies that size the effect disagree about a hundredfold. None is a Wisconsin test, and the typical study is mostly of ADU and lot-size reforms, not transit upzonings. |
+| TOD | Low | The central averages 16 US places' reform stations; none is in Wisconsin. It is closer to an upper estimate: broad programs like Wisconsin's gained about nothing (lower 43). |
 | Parking | Medium that the effect is small within five years; low on the high end | 76 real repeals show no measurable rise on average within three years. |
 
-**The ranking depends on the scenario.** On the central scenarios the order is ADUs, then TOD, then parking. On the upper scenarios parking (19,937) is just ahead of ADUs (19,784), then TOD (17,148). The gap is 153 homes: 0.8% of parking's 19,937. So the top two are close to tied on the upper scenarios.
+**The ranking depends on the scenario.** On the central scenarios the order is TOD (13,229), then ADUs (10,492), then parking (0). TOD's central is closer to an upper estimate (AQ-070), so its lead over ADUs is not firm. On the upper scenarios parking (19,937) is just ahead of ADUs (19,784), then TOD (17,148). The gap is 153 homes: 0.8% of parking's 19,937. So the top two are close to tied on the upper scenarios.
 
 # What Drives the Differences
 
@@ -66,9 +66,12 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 - In the eight states with a statewide ADU law, a typical place reached about 1.1 permits per 1,000 single-family homes per year once the law had been in force four years.
 - The model applies that rate to Wisconsin's 1,839,569 single-family homes, phased in (about 68% of the full effect in 2027, 85% in 2028 and all of it from 2029). It spreads the statewide total across places by home value alone: a place with 10% higher home values gets about a 10% higher rate.
 
-**TOD adds a small share in the typical case because the area it covers is small, and the measured citywide effects of upzoning are modest within five years.**
+**TOD adds the most in the central scenario because it assumes Wisconsin does as well as the average reform city, and Wisconsin's law upzones most of the land near rail and rapid stops.**
 - The law reaches the 313,564 homes near frequent transit, which is 11.5% of Wisconsin's 2,727,726 homes (2020 census).
-- The typical study found an extra 0.8% growth in the housing stock three or more years after a loosening reform. Applied to the station areas, that is 2,509 homes, the former central; since AQ-068 the central is the lot model's drift rule, 1,196.
+- Near 16 US places' reform stations, building within ¼ mile rose by about 69 extra homes per 100 lot acres a year at full coverage, against similar stations without reform.
+- Wisconsin's law would upzone about 71% of the land within ¼ mile of rail and rapid stops (4,874 lot acres). That gives 13,229 extra homes over 2027–2031 (range 9,147 to 17,108).
+- Treat it as closer to an upper estimate. Places that upzoned broadly gained less, and building near Milwaukee's streetcar rose by a similar amount without rezoning.
+- Earlier centrals were much smaller. Stacy et al.'s 0.8% extra stock growth gave 2,509; the drift rule (AQ-068) gave 1,196. Both are kept as what-ifs.
 - Places already at or above the law's heights and densities get no addition.
 
 **Parking's central is zero because the 76 US places that removed their parking minimums did not permit measurably more homes in the next three years than similar places that kept them.**
@@ -93,7 +96,7 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 | Parking | **How the range is built** | An earlier placebo version with too few stand-ins for big cities gave +0.95 (12,695); resampling the 76 places gives +1.43 (19,186), close to the adopted 19,937. |
 | Parking | **How the comparison cities are cleaned** (improvement loop round 1) | The headline high end (19,937) is the lowest of four versions and may be understated; it is uncertain by about 2×. The other versions: undated reform entries kept as comparisons 29,843; strict cleaning, resampling 38,230; strict cleaning, placebo 49,712. The central stays about zero in every version. Round 2 kept 19,937 (owner); its better-cleaned versions are sensitivities: apartment-scale reforms only 29,307; with California, Oregon and Washington state laws excluded too 27,671. |
 | Parking | Counting only buildings of 2 or more units | The high end falls to 10,373. |
-| TOD | **Which study sets the size** | Little 43 (station-area model, AQ-069; Los Angeles's program, the former little line, 171), central 1,196 (drift rule; 808 by the rule set in advance; 2,509 by Stacy et al.), strong 17,148: a hundredfold spread. Within the typical study's own interval the result is 665 to 4,352. |
+| TOD | **Which study sets the size** | Little 43 (station-area model, AQ-069; Los Angeles's program, the former little line, 171), central 13,229 (average reform city at Wisconsin's coverage, AQ-070; range 9,147 to 17,108; drift rule 1,196; 808 by the rule set in advance; 2,509 by Stacy et al.), strong 17,148. Within the typical study's own interval the result is 665 to 4,352. |
 | TOD | Adjusting each study for the share of its city it covered | Without that adjustment, little is 105 and strong 12,895. |
 | TOD | The definition of a major transit stop | Rail and rapid-bus stops only: 716. Twenty-minute buses: 2,813. All 15-minute stops within ½ mile: 3,226. |
 | ADUs | **How the law works**: whether it lifts every place toward one common level, as in the eight states, or only multiplies today's low rates | A multiplicative law adds 791; a model fitted on California cities alone adds 2,255; the adopted model adds 10,492. |
@@ -106,7 +109,7 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 
 **Can one input flip the ranking?** Yes:
 - if parking's high end is taken as the expectation, parking passes the ADU central, with 19,937 homes;
-- if TOD follows the strong study, it passes the ADU central;
+- TOD's central (13,229) already passes the ADU central (10,492); if TOD instead follows the drift rule (1,196), ADUs lead again;
 - if the ADU law only multiplies today's rates, ADUs fall below TOD's former typical case (2,509).
 
 What does *not* move the ADU total much is how we coded local rules. If the 69% of single-family homes in places with uncoded ADU rules behaved like places that ban ADUs, the total with the law would fall by only 0.2%, from 11,278 to 11,256 homes.
@@ -131,12 +134,12 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
 | Scenario | Lower | Central | Upper | Central as a share of 124,000 | Source |
 | --- | ---: | ---: | ---: | ---: | --- |
 | ADUs (ADU permits) | 6,321 | 10,492 | 19,784 | 8.5% | [NET_STATEWIDE_R1.md](adu/NET_STATEWIDE_R1.md) |
-| TOD (all homes) | 0 | 1,196 (tool central, AQ-068) | 839–1,382 | 1.0% | [WI_NET_PLAN.md](tod/WI_NET_PLAN.md) (round 4); AQ-068 |
+| TOD (all homes) | 0 | 13,229 (tool central, AQ-070) | 839–1,382 | 10.7% | [WI_NET_PLAN.md](tod/WI_NET_PLAN.md) (round 4); AQ-068 |
 | Parking, route A (the tool) | −15,326 | 0 | 19,937 | 0% | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 | Parking, route B (trees) | −4,171 | 0 | 0 | 0% | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 
 - **TOD lower is 0:** homes may only move into station areas from elsewhere, with no net gain.
-- **TOD upper 839–1,382:** the calibrated range, with the calibration factor K about 0.11–0.12, measured by leaving each of 9 reform cities out in turn.
+- **TOD upper 839–1,382:** set before AQ-070, so it is below the new central. It is the calibrated range, with the calibration factor K about 0.11–0.12, measured by leaving each of 9 reform cities out in turn.
 - **TOD sensitivities** (the tool is unchanged): with K at the median city's ratio (0.42), about 3,040–4,830; uncalibrated, 7,229–11,505.
 - **Parking route B is thin:** it rests on 28 reform places, so it only backs up the central (about zero), not the range.
 
@@ -149,7 +152,7 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
   - the ADU law already removes parking requirements for ADUs;
   - the TOD cases cannot separate TOD from parking reform.
   
-  The tool shows each reform on its own. Where TOD and parking overlap near transit stops, the tool's combined view takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −15,283 homes (TOD 43 plus parking −15,326), its central 1,196, and its high case 34,921, with the simple sum, 37,085, shown only as an upper bound.
+  The tool shows each reform on its own. Where TOD and parking overlap near transit stops, the tool's combined view takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −15,283 homes (TOD 43 plus parking −15,326), its central 13,229, and its high case 34,921, with the simple sum, 37,085, shown only as an upper bound.
 - **Rents, prices, displacement, parking supply, traffic or transit ridership.** None is modelled.
 - **Finished homes.** Permits are not completions, and the figures are not net of demolitions.
 - **Local forecasts.** Municipal, county and district figures are shares of a statewide estimate. They reconcile exactly to the state, but they are not forecasts for any place, lot or project.
