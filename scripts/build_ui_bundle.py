@@ -1161,11 +1161,23 @@ def build_forest(state: dict, munis: list, counties: list, dist: dict) -> dict:
     meas = pd.read_csv(REF / "wi_measured_permits_2022_2025.csv", dtype={"GEOID": str}).set_index("GEOID")
     city_now = float(meas.loc["5507953000", "rate_per_1000_homes_yr"])
     city_forest = float(f.loc[city, "predicted_rate_year5"])
+    yl = pd.read_csv(REF / "pooled_revision_wi_y_by_area.csv")
+    yl = yl[yl.option.eq("cap_a2") & yl.config.eq("A_ca_in_common_level") & yl.area_id.eq(city)]
+    city_model = float(yl.y_plateau_central.iloc[0])
+    pan = pd.read_parquet(PROC / "adu_predictive/run3/panel.parquet")
+    law = pan[pan.law.eq(1) & pan.level.eq("place")].assign(hy=lambda x: x.homes * x.years / 1000)
+    pl = law.groupby("geo").agg(c=("count", "sum"), hy=("hy", "sum"), h=("homes", "first"))
+    pl = pl[pl.h >= 5000]
+    q10, q50, q90 = (float(v) for v in (pl.c / pl.hy).quantile([0.1, 0.5, 0.9]))
     mke_text = (f" Check on Milwaukee County: spread by single-family homes alone it would get {plain:,.0f} of the "
-                f"{total:,.0f} central permits; the forest gives it {forest_mke:,.0f}. The forest predicts Milwaukee city at "
-                f"{city_forest:.2f} permits per 1,000 single-family homes per year with the law, against its measured "
-                f"{city_now:.2f} in 2022 to 2025 without it. Milwaukee city is outside the forest's training range on "
-                "housing density and the number of detached homes, so treat this view of Milwaukee with care.")
+                f"{total:,.0f} central permits; the forest gives it {forest_mke:,.0f}. The forest assumes Milwaukee city would build about "
+                f"{city_forest:.1f} ADUs per 1,000 single-family homes a year with the law; our model assumes "
+                f"{city_model:.1f}. In the cities the forest learned from ({len(pl)} places with 5,000 or more single-family "
+                f"homes and a statewide law), the with-law rate was {q10:.1f} at the 10th percentile, {q50:.1f} at the median "
+                f"and {q90:.1f} at the 90th, so the forest puts Milwaukee near the top. Milwaukee's recent record, "
+                f"{city_now:.2f} in 2022 to 2025, was under a ban on ADUs (lifted 2025-08-02), so it says little about "
+                "the rate with a law. Milwaukee city is outside the forest's training range on housing density and the "
+                "number of detached homes, so treat this view of Milwaukee with care.")
 
     def rate(v5, h):
         return r(v5 / h / 5 * 1000, 4) if h > 0 else None
