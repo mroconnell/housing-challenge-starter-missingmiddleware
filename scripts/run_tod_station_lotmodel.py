@@ -39,14 +39,31 @@ PLACE = ["log_dist_m", "band_q", "band_h", "sld_transit_freq", "sld_jobs_per_acr
 REFORM = ["reform_stop", "in_reform_area", "coverage"]
 
 
+BASE = ["group", "band", "stop_id", "dist_m", "in_reform_area", "acres", "land_value", "bldg_value", "year_built", "public",
+        "homes_existing", "homes_before_win", "homes_after_win", "implausible"]
+
+
 def load_case(case: str, mode: str, rng: np.random.Generator) -> pd.DataFrame | None:
+    import pyarrow.parquet as pq
     f = OUT / f"lots_{case}.parquet"
-    D = pd.read_parquet(f)
+    have = pq.ParquetFile(f).schema.names
+    D = pd.read_parquet(f, columns=[c for c in have if c in BASE or c in PLACE or c.startswith("v_") or c == "historic"])
     if (OUT / f"events_{case}.parquet").exists() and mode != "stored":
         D = M.event_windows(case, D, mode)
-    D = D[~D.implausible.fillna(False)].copy()
+    D = D[~D.implausible.fillna(False)]
     if not (D.group == "reform").any():
         return None
+    # New York and Philadelphia list every lot of the city for each of their many rezonings: smaller caps per case
+    many = case.startswith(("nyc_", "phl_"))
+    cap_c, cap_r = (4_000, 8_000) if many else (MAX_COMPARISON, MAX_REFORM)
+    D = D.copy()
+    D["w"] = 1.0
+    for grp, cap in (("comparison", cap_c), ("reform", cap_r)):
+        ix = D.index[D.group == grp]
+        if len(ix) > cap:
+            keep = rng.choice(ix, cap, replace=False)
+            D = D.drop(index=ix.difference(keep))
+            D.loc[keep, "w"] = len(ix) / cap
     yb, ya = M.windows(case)
     D["rate_before"] = D.homes_before_win / yb
     D["y"] = D.homes_after_win / ya
@@ -69,13 +86,8 @@ def load_case(case: str, mode: str, rng: np.random.Generator) -> pd.DataFrame | 
     cov = D.groupby(["stop_id", "band"]).in_reform_area.transform("mean")
     D["coverage"] = cov.where(D.group == "reform", 0.0)
     D["case"], D["city"] = case, M.city_of(case)
-    D["w"] = 1.0
-    for grp, cap in (("comparison", MAX_COMPARISON), ("reform", MAX_REFORM)):
-        ix = D.index[D.group == grp]
-        if len(ix) > cap:
-            keep = rng.choice(ix, cap, replace=False)
-            D = D.drop(index=ix.difference(keep))
-            D.loc[keep, "w"] = len(ix) / cap
+    num = D.select_dtypes("float64").columns
+    D[num] = D[num].astype("float32")
     return D
 
 
