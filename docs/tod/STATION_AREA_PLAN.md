@@ -172,3 +172,12 @@ Lot (assessor; FEMA; NRHP): vacant; existing homes; lot size; building-to-land v
 City: by-right or incentive; parking cut at same time; affordable units required; coverage; metro permits per person (Census BPS).
 Caveat: ACS block groups start 2009; earlier reforms use Census 2000.
 Market strength at lot level (owner question 14:06): land value per sq ft (assessor, ranked within city); recent sale price and date (assessor or deeds; WI real estate transfer returns); building-to-land value; permits within ~500 ft in the 5 years before the reform (no after-reform years, to avoid leakage); building age. ACS and FHFA tract measures kept as neighborhood backups. Check point-permit coverage across Wisconsin before relying on the nearby-building trait statewide.
+
+### Trait list by level (2026-11-01 14:12, shown to owner; 32 traits)
+Lot (11): vacant; existing homes; lot size; land value per sq ft; building-to-land value; building age; recent sale price; publicly owned; floodplain; historic district; permits within ~500 ft in prior 5 years.
+Block (2): existing homes per acre; jobs nearby (LEHD).
+Block group (8, ACS before reform; EPA): car ownership; commute time; transit commute share; median income; median rent; median home value; vacancy rate; walkability.
+Tract (1): FHFA home price trend.
+Stop (5): rail or bus; trips per hour; years since opening; distance to downtown; band.
+City (5): by-right or incentive; parking cut at same time; affordable units required; coverage by band; metro permits per person.
+Rent, value, income, land value tested first as one "market strength" group.
