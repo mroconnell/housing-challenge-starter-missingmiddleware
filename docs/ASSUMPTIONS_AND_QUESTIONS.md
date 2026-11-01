@@ -988,6 +988,16 @@ The tool's "benchmark group" label for places with Madison-type rules is to be r
 
 Held-out RMS 0.130 → 0.136; the audit agreed that is no reason to keep a counting error. Washington's partial law year was also tested in the same round and left unchanged (round 4 results).
 
+## AQ-069 TOD: little line from the station-area model
+
+**Status:** Adopted. **Added:** 2026-11-01. **Owner decision:** "okay, I see, yes draft A" (2026-11-01 20:31; draft docs/tod/STATION_AREA_TOOL_DRAFT.md option A). **Related:** AQ-068, [STATION_AREA_PLAN.md](tod/STATION_AREA_PLAN.md) (locked plan, round 5, auditor round-5 items).
+
+**What changed.** The TOD lower line (id `little`) no longer uses Los Angeles's TOC study. It now uses the station-area lot model: building near 16 US places' reform stations compared with similar stations without reform, every lot within a mile, tested by hiding one place at a time. The model beat both simple rules only within ¼ mile; beyond ¼ mile it counts zero (locked rule). Wisconsin (Milwaukee and Madison lots within ¼ mile of rail and rapid stops) gives 39 extra homes over five years, ×1.106 for the rest of the state (homes within ½ mile: 89,528 / 80,930) = **43 (range −161 to 343)**. No floor at zero (owner rule). File: `reference/tod_station_area_line.csv` (`scripts/build_tod_station_area_line.py`). Label: "Little or no response" — about the same as no reform.
+
+**Shown beside it (what-ifs):** Los Angeles TOC, the former little line (171); the model with the strings-attached city trait (214; the trait did not improve hidden-place predictions).
+
+**Result.** Extra homes near stops, Wisconsin, 2027–2031: lower 171 → **43** (−161 to 343); central 1,196 and upper 17,148 unchanged. Combined TOD and parking view, lower path: −15,283 (rule (b) unchanged).
+
 ## AQ-068 TOD: central line from the lot model (drift rule)
 
 **Status:** Adopted as the current favorite (provisional; the tool can be changed back). **Added:** 2026-11-01. **Owner decision:** "okay, let's take the drift rule as our current favorite in the tool" (2026-11-01). **Related:** AQ-055, [MODEL_MENU_RESULTS.md](tod/MODEL_MENU_RESULTS.md), [MODEL_COMPARISON.md](tod/MODEL_COMPARISON.md), TOD plan items 61–67.
@@ -1161,3 +1171,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-11-01 | AQ-066 | ADU: Madison on the statewide model (its Washington/Oregon path now a sensitivity). Central 10,349 → 10,615. |
 | 2026-11-01 | AQ-067 | ADU: Massachusetts 2025 counted over the full year (its survey covers January). Central 10,615 → 10,492. |
 | 2026-11-01 | AQ-068 | TOD: central line from the lot model's drift rule (1,181, range 601–1,662); 798 pre-registered and Stacy's 2,509 shown beside it. Central 2,509 → 1,181. |
+| 2026-11-01 | AQ-069 | TOD: little line from the station-area model (43, range −161 to 343; no zero floor); Los Angeles TOC (171) and with-strings (214) shown as what-ifs. Lower 171 → 43. |

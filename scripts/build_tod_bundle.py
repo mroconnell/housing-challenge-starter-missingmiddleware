@@ -71,8 +71,8 @@ SCALE_METRO = {"Milwaukee-Waukesha, WI": "milwaukee", "Madison, WI": "madison"}
 
 SCEN_TEXT = {
     "little": {
-        "label": "Little response", "evidence": "like Los Angeles's transit program",
-        "info": "Like Los Angeles's Transit Oriented Communities program (2017), the only US transit program whose effect on a whole city's housing has been measured. It added 0.04 percentage points to the city's housing growth over six years, and it required affordable homes, which the modelled law does not.",
+        "label": "Little or no response", "evidence": "measured against similar stops without reform",
+        "info": "From our own lot-by-lot data on 16 US places that upzoned land near rail or rapid transit. For each, we compared building near the reform's stations with building near similar stations without a reform, before and after. A model trained on these places, tested by hiding one place at a time, beat simple rules only within a quarter mile of stops. Places that upzoned a small area near their stations gained; places that upzoned most of the land near every station (Los Angeles, San Diego, Chicago in 2022, Honolulu) gained about nothing so far. Wisconsin's law is broad, so the model puts it with them: about 40 extra homes over five years, between about −160 and 340 — about the same as no reform. If the broad programs' affordable-housing requirements are what held them back, it would be about 210. Caution: near Milwaukee's new streetcar, building rose by a similar amount with no rezoning at all. This replaced the earlier little line, Los Angeles's Transit Oriented Communities program (171), shown as a comparison.",
     },
     "typical": {
         "label": "Central: upzoned-share trend in 9 reform cities", "evidence": "measured on 9 US transit upzonings",
@@ -112,6 +112,9 @@ AGENCY_LINES = {
 
 SENS_LABELS = {
     ("law_addition", "typical_range"): ("Central line at the low and high ends of its range", "The upzoned-share trend refitted 9 times, each time leaving one reform city out."),
+    ("law_addition", "little_range"): ("Little-or-no line at the low and high ends of its range", "The station-area model refitted 16 times, each time leaving one place out. The low end is below zero: no floor is set where the evidence does not set one."),
+    ("law_addition", "la_toc_little"): ("Former little line: Los Angeles's transit program", "Los Angeles's Transit Oriented Communities program (2017) added 0.04 percentage points to the city's housing growth over six years (per upzoned home). It required affordable homes, which the modelled law does not."),
+    ("law_addition", "little_strings"): ("Little-or-no line if affordability rules held the broad programs back", "The station-area model with a trait for programs that required affordable homes (Los Angeles, San Diego, Chicago 2022). The trait did not improve predictions for hidden places, so it is not in the main line."),
     ("law_addition", "average_change"): ("Lot model, rule set in advance (pre-registered)", "Every reform city's average rise in the upzoned lots' share of new homes (+4.0 points), applied to Wisconsin. The central line's drift rule was found after seeing results (post hoc); this is the rule logged beforehand."),
     ("law_addition", "stacy_typical"): ("Former typical line: the average loosening reform", "Stacy and others (2023): about +0.8% more addresses after a loosening reform in 1,136 US cities. Most of those reforms were about accessory dwellings and lot sizes, not transit upzonings."),
     ("law_addition", "as_published"): ("Each study's effect as published", "Not adjusted for how much of each city the reform covered (Los Angeles about 61% of homes, Auckland 75.2% of residential land)."),
@@ -204,7 +207,7 @@ def build_statewide() -> dict:
         row = {"id": sid, **SCEN_TEXT[sid], "share_of_stock": r(f["addition_share_of_stock"], 6),
                "additional_total": r(f["addition"], 4), "with_law_total": r(f["with_law_central"], 4),
                "by_year": [r(v, 4) for v in ys["addition"]], "source": s(f["source"])}
-        if sid == "typical":
+        if sid in ("typical", "little"):
             row.update(range_low=r(f["addition_range_low"], 4), range_high=r(f["addition_range_high"], 4))
         scen.append(row)
     # statewide all-housing baseline (the TOD baseline is the part of it near qualifying stops), and the shared
@@ -413,6 +416,9 @@ def build_howsure(sw: dict, areas: dict) -> dict:
             if sens == "typical_range":
                 row["add"] = {"typical_low": r(sg.loc["typical_low", "addition_2027_2031"], 4), "typical_high": r(sg.loc["typical_high", "addition_2027_2031"], 4)}
                 row["milwaukee_metro"] = None
+            elif sens == "little_range":
+                row["add"] = {"little_low": r(sg.loc["little_low", "addition_2027_2031"], 4), "little_high": r(sg.loc["little_high", "addition_2027_2031"], 4)}
+                row["milwaukee_metro"] = None
             else:
                 for sc in SCEN:
                     if sc in sg.index:
@@ -469,9 +475,9 @@ def build_howsure(sw: dict, areas: dict) -> dict:
         {"part": "Current-law homes permitted near stops", "status": "calculated",
          "text": "Each place's expected new homes under current law (Census building permits, 2023–2025 average, with Milwaukee's apartments counted from its property records), times its share of homes near stops."},
         {"part": "Size of the law's addition", "status": "calculated",
-         "text": "The little and strong lines come from published studies of a whole city's net gain in homes after upzoning (Los Angeles, Auckland), divided by the study's coverage where it reports one. The central line comes from the trend in upzoned lots' share of new homes in 9 US transit upzonings, from our lot data (docs/tod/MODEL_MENU_RESULTS.md)."},
+         "text": "The little-or-no line comes from our station-area model: building near 16 US places' reform stations compared with similar stations without reform, every lot within a mile, tested by hiding one place at a time; it beat simple rules only within a quarter mile, and broad upzonings near every station gained about nothing (docs/tod/STATION_AREA_PLAN.md; 1,275 large projects checked by hand, removing hotel rooms, storage units and beds counted as homes). The strong line comes from a published study of a whole city's net gain in homes after upzoning (Auckland), divided by its coverage. The central line comes from the trend in upzoned lots' share of new homes in 9 US transit upzonings, from our lot data (docs/tod/MODEL_MENU_RESULTS.md)."},
         {"part": "That those results carry over to Wisconsin", "status": "assumed",
-         "text": "No Wisconsin outcome has tested the sizing. Milwaukee's and Madison's shares of homes near stops (68% and 63%) are close to Los Angeles's 61% coverage."},
+         "text": "No Wisconsin outcome has tested the sizing. Milwaukee's and Madison's shares of homes near stops (68% and 63%) are close to Los Angeles's 61% coverage. A check near Milwaukee's streetcar, with no rezoning, found building rose about as much as in a typical reform city, so quarter-mile gains of that size can happen without zoning changes."},
         {"part": "Timing over 2027–2031", "status": "calculated",
          "text": "The little response and the central line follow the build-up measured after the New York rezonings; the strong response follows Auckland's own yearly pattern."},
         {"part": "Where homes land in Milwaukee and Madison", "status": "calculated",

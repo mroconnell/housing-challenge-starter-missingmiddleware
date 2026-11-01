@@ -79,12 +79,12 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
   const typ = scen(b, "typical");
   main.innerHTML = `
   <h1>A statewide transit-oriented density law: what it adds</h1>
-  <p class="lede">If Wisconsin allowed taller, denser housing near major transit stops from 1 January 2027 (an illustrative start date), how many more homes would be permitted near those stops over 2027–2031 than under current law? There are three scenarios, each named after the study whose result it uses, because the evidence disagrees by about a hundredfold.</p>
+  <p class="lede">If Wisconsin allowed taller, denser housing near major transit stops from 1 January 2027 (an illustrative start date), how many more homes would be permitted near those stops over 2027–2031 than under current law? There are three scenarios, each built on different evidence, because the evidence disagrees by several hundredfold.</p>
   <div class="note-box" role="note" data-testid="timing-caveat"><p><strong>About timing.</strong> ${esc(s.timing_caveat)}</p></div>
   <div class="tiles tiles-3 tod-scen-tiles">
     ${SCEN_IDS.map((id) => { const x = scen(b, id); return `<section class="tile${id === "typical" ? " tile-accent" : ""}"><h2 class="tile-label">${esc(x.label)}, ${esc(x.evidence)}</h2>
       <p class="tile-num" data-testid="add-${id}">${int(x.additional_total)}</p>
-      <p class="tile-sub">extra homes permitted, 2027–2031${x.range_low !== undefined ? ` (range from the study's 95% interval: ${int(x.range_low)}–${int(x.range_high)})` : ""} ${pill("calculated")}</p>
+      <p class="tile-sub">extra homes permitted, 2027–2031${x.range_low !== undefined ? ` (range ${int(x.range_low)} to ${int(x.range_high)}, refitting with one place left out at a time)` : ""} ${pill("calculated")}</p>
       <p class="tile-sub">${sharePct(x.share_of_stock)} of the ${int(s.stock_homes)} homes near stops (2020 census); about ${int(x.per_year)} a year</p>
       <p class="tile-note">${esc(x.info)}</p></section>`; }).join("")}
   </div>
@@ -227,13 +227,15 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
       <thead><tr><th scope="col">What if</th><th scope="col">What it means</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(scen(b, id).label.toLowerCase())}</th>`).join("")}${where_ ? `<th scope="col" class="num">Milwaukee metro (central)</th><th scope="col" class="num">Madison metro (central)</th>` : ""}</tr></thead>
       <tbody>${where_ ? mainRow.replace("</tr>", `<td class="num">${int(mm[0].add.typical)}</td><td class="num">${int(mm[1].add.typical)}</td></tr>`) : mainRow}${g.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td>${esc(r.text)}${r.id === "ramp_year5_alt" && r.year_2031 ? ` Central line in 2031: ${int(r.year_2031.typical)} instead of ${int(scen(b, "typical").by_year[4])}.` : ""}</td><td class="num">${int(r.baseline)}</td>${r.id === "typical_range"
         ? `<td class="num">—</td><td class="num">${int(r.add.typical_low)} to ${int(r.add.typical_high)}</td><td class="num">—</td>`
+        : r.id === "little_range"
+        ? `<td class="num">${int(r.add.little_low)} to ${int(r.add.little_high)}</td><td class="num">—</td><td class="num">—</td>`
         : SCEN_IDS.map((id) => cell(r.add[id])).join("")}${where_ ? `<td class="num">${r.milwaukee_metro === null ? "—" : int(r.milwaukee_metro)}</td><td class="num">${r.madison_metro === undefined ? "—" : int(r.madison_metro)}</td>` : ""}</tr>`).join("")}</tbody></table></div></section>`;
   };
   const sb = H.scale_benchmarks;
   const ms = H.madison_share;
   main.innerHTML = `
   <h1>How sure are we?</h1>
-  <p class="lede">The three scenarios differ about a hundredfold because the studies behind them disagree, not because the model adds noise. This page shows which choices move the numbers, whether the results are believable for Milwaukee and Madison, and which parts rest on data and which on judgment.</p>
+  <p class="lede">The three scenarios differ several hundredfold because the evidence behind them disagrees, not because the model adds noise. This page shows which choices move the numbers, whether the results are believable for Milwaukee and Madison, and which parts rest on data and which on judgment.</p>
   ${H.groups.map(groupTable).join("")}
   <section class="card"><h2>A sizing method that was tested and set aside</h2>
     <p data-testid="per-acre">The model was first sized from the extra homes per acre measured right where cities upzoned. Spread over all the land near Wisconsin's stops, that gave ${int(H.per_acre.add.little)}, ${int(H.per_acre.add.typical)} and ${int(H.per_acre.add.strong)} extra homes over 2027–2031: even the smallest would have taken Madison's apartment permitting above its own record. Upzoning one block partly moves building there from nearby blocks, so block-level gains overstate a city's net gain. Using the per-acre response measured in Madison and Chicago instead gives ${int(H.per_acre.wisconsin_uncapped)}. Capping each metro at the level comparable metros stayed under in 95% of years (${dec(H.scale_benchmarks.p95, 2)} apartment homes permitted per 1,000 existing homes a year) gives ${int(H.per_acre.wisconsin_capped)}, all in the Milwaukee metro: Madison gets none under the cap, because its current permitting is already above that level. The tool therefore uses whole-city results instead.</p></section>
@@ -409,7 +411,7 @@ export function brief(b: TodBundle, main: HTMLElement): void {
     <h2>Where</h2>
     <p>${A.metros.map((m) => `${esc(m.name)} ${int(m.add.typical)}`).join("; ")} (central line). By place: ${top.map((m) => `${esc(m.name.replace(/ (city|village|town)$/, ""))} ${int(m.add.typical)}`).join(", ")}. Eau Claire and other mid-size cities get none: they have no bus route every 15 minutes.</p>
     <h2>Why these numbers</h2>
-    <p>The little and strong lines use a study of a whole city's net gain after upzoning: Los Angeles's transit program (little) and Auckland's 2016 upzoning (strong). The central line comes from the trend in upzoned lots' share of new homes in 9 US transit upzonings (our lot data); the average loosening reform in 1,136 US cities (Stacy and others) is shown as a comparison. Measuring only right where land was rezoned would give ${int(H.per_acre.add.little)} to ${int(H.per_acre.add.strong)}, above both metros' yearly apartment records, because upzoning partly moves building from nearby blocks.</p>
+    <p>The little-or-no line is our own measurement: building near 16 places' reform stations compared with similar stations without reform (Los Angeles's transit program, the earlier little line, is shown as a comparison). The strong line uses a study of a whole city's net gain after upzoning: Auckland's 2016 upzoning. The central line comes from the trend in upzoned lots' share of new homes in 9 US transit upzonings (our lot data); the average loosening reform in 1,136 US cities (Stacy and others) is shown as a comparison. Measuring only right where land was rezoned would give ${int(H.per_acre.add.little)} to ${int(H.per_acre.add.strong)}, above both metros' yearly apartment records, because upzoning partly moves building from nearby blocks.</p>
     <h2>What it cannot tell you</h2>
     <p>${esc(s.timing_caveat)} The sizing has no Wisconsin test of its own. The model does not cover rents, displacement, ridership, or the law combined with parking reform, and it predicts nothing for any single lot.</p>
     <p class="small muted brief-foot">Run ${esc(b.manifest.run_id)} · ${esc(b.manifest.outcome.short)} · ${esc(b.manifest.repo_url)}</p>

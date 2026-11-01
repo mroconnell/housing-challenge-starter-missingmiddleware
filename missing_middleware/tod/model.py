@@ -236,8 +236,8 @@ class NetEffect:
             raise ValueError("timing needs one share per year 1..5")
         if any(t < 0 for t in self.timing) or abs(sum(self.timing) - 1.0) > 1e-9:
             raise ValueError("timing shares must be non-negative and sum to 1")
-        if self.five_year_share < 0:
-            raise ValueError("net effect must not be negative")
+        # No floor at zero (owner rule, 2026-11-01: no evidence-free floors): a measured net effect can be negative,
+        # e.g. the low end of the station-area line.
 
 
 def timing_from_profile(values: Sequence[float]) -> tuple[float, ...]:

@@ -206,7 +206,11 @@ class TestNetSizing(unittest.TestCase):
         area = read("tod_model_by_area.csv")
         self.assertEqual(set(st.sizing), {"net_effect"})
         self.assertTrue(M.check_no_negative(st.addition))
-        self.assertTrue(M.check_no_negative(st.addition_range_low.dropna()))
+        # the little line's range may go below zero (station-area model; owner rule: no evidence-free floors)
+        self.assertTrue(M.check_no_negative(st[st.scenario != "little"].addition_range_low.dropna()))
+        lit = st[(st.scenario == "little") & (st.year == "2027-2031")].iloc[0]
+        self.assertLess(lit.addition_range_low, lit.addition)
+        self.assertGreater(lit.addition_range_high, lit.addition)
         add_cols = [f"add_{y}" for y in range(2027, 2032)] + ["add_2027_2031"]
         self.assertTrue(M.check_no_negative(area[add_cols].to_numpy().ravel()))
         net = st[st.year == "2027-2031"].set_index("scenario")
@@ -229,8 +233,12 @@ class TestNetSizing(unittest.TestCase):
         self.assertLess(net.loc["typical", "addition_range_low"], t["typical"])
         self.assertLess(t["typical"], net.loc["typical", "addition_range_high"])
         self.assertAlmostEqual(float(net.stock_homes_station_areas.iloc[0]), 313_564, delta=0.5)
-        # corrected values (AQ-050): LA over six years, coverage shares
-        self.assertAlmostEqual(net.loc["little", "parameter"], 0.0004 * 5 / 6 / 0.61, places=7)
+        # little = the station-area line over the main-case stock (owner 2026-11-01, option A); LA TOC is a what-if
+        sal = read("tod_station_area_line.csv").set_index("line").loc["station_area"]
+        self.assertAlmostEqual(net.loc["little", "addition"], sal.extra_homes_2027_2031, delta=0.05)
+        se = read("tod_model_sensitivities.csv")
+        la = se[(se.sensitivity == "la_toc_little") & (se.scenario == "little")].addition_2027_2031.iloc[0]
+        self.assertAlmostEqual(la / float(net.stock_homes_station_areas.iloc[0]), 0.0004 * 5 / 6 / 0.61, places=7)
         self.assertAlmostEqual(net.loc["strong", "parameter"], 21_808 / 530_300 / 0.752, places=6)
         # central = the lot-model drift rule (AQ-068): its five-year total over the main-case stock
         lot = read("tod_lot_model_line.csv").set_index("line")

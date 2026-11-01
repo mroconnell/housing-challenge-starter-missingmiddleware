@@ -780,9 +780,14 @@ def net_effects(cp: dict, reading: str = "per_upzoned_home") -> dict:
     ak = AUCKLAND_SHARE / cov(AUCKLAND_COVERAGE)
     suffix = "" if reading == "per_upzoned_home" else ", as published"
     lot = lot_model_line()
+    sal = station_area_line()
     eff = {
-        "little": (M.NetEffect(la, ny, f"Los Angeles TOC: 0.04 pp over 6 years x 5/6{'' if suffix else ' / 0.61 coverage'}; New York pooled ramp"),
-                   f"Little response (Los Angeles{suffix})"),
+        # Little (owner 2026-11-01 20:31, option A): the station-area lot model, extra homes vs similar stops without
+        # reform in 16 places (docs/tod/STATION_AREA_PLAN.md). Los Angeles TOC (the former little line) is kept as the
+        # what-if "la_toc_little" and in the reference line. Same in both readings (it is not a published share).
+        "little": (M.NetEffect(sal["central"] / sal["stock"], ny, f"Station-area lot model: {sal['central']:,.1f} extra homes over 2027-2031 "
+                               f"(range {sal['low']:,.1f} to {sal['high']:,.1f}), reference/tod_station_area_line.csv; New York pooled ramp"),
+                   "Little or no response: station-area model"),
         # Central (owner 2026-11-01, AQ-068): the lot-model drift rule, measured on the 9 reform cities. Stacy et al. is
         # kept as a labelled comparison (sensitivity "stacy_typical") and in the reference line.
         "typical": (M.NetEffect(lot["central"] / lot["stock"], ny, f"Lot model, drift rule: {lot['central']:,.0f} extra homes over 2027-2031 "
@@ -801,6 +806,19 @@ def stacy_effect(cp: dict) -> M.NetEffect:
     """Stacy et al. 2023 as the former typical line (AQ-055), kept as a labelled comparison."""
     return M.NetEffect(STACY_SHARE / STACY_COVERAGE, M.timing_from_ramp(cp["ramp"]),
                        "Stacy et al. 2023: 0.008 per loosening reform, years 3+ after; New York pooled ramp")
+
+
+def station_area_line(line: str = "station_area") -> dict:
+    """The station-area line (scripts/build_tod_station_area_line.py) and the main-case stock."""
+    t = pd.read_csv(REFERENCE / "tod_station_area_line.csv").set_index("line").loc[line]
+    stock = float(pd.read_csv(REFERENCE / "tod_definition_summary.csv").set_index("definition").loc["main", "homes"])
+    return {"central": float(t.extra_homes_2027_2031), "low": float(t.range_low), "high": float(t.range_high), "stock": stock}
+
+
+def la_toc_effect(cp: dict) -> M.NetEffect:
+    """Los Angeles TOC (the little line before 2026-11-01), kept as a labelled what-if."""
+    return M.NetEffect(LA_PP_SIX_YEARS * 5 / 6 / LA_COVERAGE, M.timing_from_ramp(cp["ramp"]),
+                       "Los Angeles TOC: 0.04 pp over 6 years x 5/6 / 0.61 coverage; New York pooled ramp")
 
 
 def lot_model_line() -> dict:
@@ -870,10 +888,14 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
     net = net_rows(place, stock, effects)
     # Central range: the lot model's 9 left-out fits (AQ-068; formerly Stacy et al.'s 95% interval)
     lot = lot_model_line()
-    lo_hi = {}
+    lo_hi, lo_hi_l = {}, {}
+    sal = station_area_line()
     for tag, v in (("low", lot["low"] / lot["stock"]), ("high", lot["high"] / lot["stock"])):
         e = effects["typical"][0]
         lo_hi[tag] = net_rows(place, stock, {"typical": (M.NetEffect(v, e.timing, e.source), "")})
+    for tag, v in (("low", sal["low"] / sal["stock"]), ("high", sal["high"] / sal["stock"])):
+        e = effects["little"][0]
+        lo_hi_l[tag] = net_rows(place, stock, {"little": (M.NetEffect(v, e.timing, e.source), "")})
     ren = {f"add_y{k}": f"add_{M.CALENDAR[k]}" for k in M.YEARS}
     cols_keep = ["sizing", "scenario", "scenario_label", "parameter", "timing", "source", "area_id", "name", "county",
                  "eligible_acres", "added_far_acres", "share_near_stops", "baseline_near_low_2027_2031",
@@ -894,7 +916,8 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
         for k in [*M.YEARS, None]:
             col = [f"add_y{k}"] if k else ycols
             add = float(g[col].sum().sum())
-            rng = {t: (float(lo_hi[t][col].sum().sum()) if sid == "typical" else np.nan) for t in ("low", "high")}
+            rng = {t: (float(lo_hi[t][col].sum().sum()) if sid == "typical" else float(lo_hi_l[t][col].sum().sum()) if sid == "little"
+                       else np.nan) for t in ("low", "high")}
             div = 1.0 if k is None else 5.0
             rows.append({"sizing": "net_effect", "scenario": sid, "scenario_label": g.scenario_label.iloc[0],
                          "parameter": float(g.parameter.iloc[0]),
@@ -928,6 +951,14 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
                                   for k, (e, lab) in effects.items()}))
     add_s("law_addition", "typical_range", "Central (lot model) at the low and high ends of its 9 left-out fits",
           pd.concat([lo_hi["low"].assign(scenario="typical_low"), lo_hi["high"].assign(scenario="typical_high")]))
+    add_s("law_addition", "little_range", "Little or no response (station-area model) at the low and high ends of its range",
+          pd.concat([lo_hi_l["low"].assign(scenario="little_low"), lo_hi_l["high"].assign(scenario="little_high")]))
+    add_s("law_addition", "la_toc_little", "Former little line: Los Angeles TOC (0.04 pp over 6 years / 0.61 coverage), for comparison",
+          net_rows(place, stock, {"little": (la_toc_effect(cp), "Los Angeles TOC (former little)")}))
+    sas = station_area_line("station_area_strings")
+    add_s("law_addition", "little_strings", "Station-area model with the strings-attached city trait (did not earn a place)",
+          net_rows(place, stock, {"little": (M.NetEffect(sas["central"] / sas["stock"], effects["little"][0].timing,
+                                                         "station-area model with strings attached"), "")}))
     add_s("law_addition", "stacy_typical", "Former typical line: Stacy et al. 2023 (+0.8% per loosening reform), for comparison",
           net_rows(place, stock, {"typical": (stacy_effect(cp), "Stacy et al. 2023 (former typical)")}))
     avg = float(pd.read_csv(REFERENCE / "tod_lot_model_line.csv").set_index("line").loc["average_change_benchmark", "extra_homes_2027_2031"])

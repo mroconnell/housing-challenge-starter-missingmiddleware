@@ -1,0 +1,3 @@
+line,extra_homes_2027_2031,range_low,range_high,two_city_value,statewide_scale,note
+station_area,43.1,-161.0,342.8,39.0,1.1062,lot-trait model (main)
+station_area_strings,213.7,71.5,639.4,193.2,1.1062,lot-trait model with the strings-attached city trait (did not earn a place; shown as a what-if)

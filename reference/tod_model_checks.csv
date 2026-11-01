@@ -2,23 +2,23 @@ check,sizing,scenario,basis,extra_homes_3yr,extra_homes_3yr_low,extra_homes_3yr_
 madison_share,measured,Madison overlay 2023-2025,judged estimate x all eligible overlay acres / all homes on overlay lots,707.1,-1471.4,2715.0,40185.0,0.017597,-0.036616,0.067564,per-FAR effect carried over all overlay land at its dose 0.374,,,,,,,,,,,,
 madison_share,measured,Madison overlay 2023-2025,main estimate x treated acres / all homes on overlay lots,387.6,-806.4,1488.2,40185.0,0.009646,-0.020068,0.037033,effect only where allowed FAR rose (614.7 acres),,,,,,,,,,,,
 madison_share,measured,Madison overlay 2023-2025,main estimate x treated acres / homes on treated land,387.6,-806.4,1488.2,4461.0,0.086893,-0.180772,0.3336,"per upzoned home: 4,461 homes in the treatment (MADISON_TEST_RESULTS.md)",,,,,,,,,,,,
-madison_share,net_effect,little,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.000249,,,Los Angeles TOC: 0.04 pp over 6 years x 5/6 / 0.61 coverage; New York pooled ramp,,,,,,,,,,,,
+madison_share,net_effect,little,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,6.3e-05,,,"Station-area lot model: 43.1 extra homes over 2027-2031 (range -161.0 to 342.8), reference/tod_station_area_line.csv; New York pooled ramp",,,,,,,,,,,,
 madison_share,net_effect,typical,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.001735,,,"Lot model, drift rule: 1,196 extra homes over 2027-2031 (range 609-1,684), reference/tod_lot_model_line.csv; New York pooled ramp",,,,,,,,,,,,
 madison_share,net_effect,strong,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.020526,,,"Auckland: 21,808 / 530,300 = 4.11% / 0.752 coverage; Auckland 2017-2021 profile rescaled to the stated total",,,,,,,,,,,,
 madison_share,net_effect,reference_line,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.003638,,,median of the three studies' net-effect values,,,,,,,,,,,,
 madison_share,per_acre,little,scenario share of station-area stock in years 1-3,,,,313564.0,0.020612,,,method A per acre,,,,,,,,,,,,
 madison_share,per_acre,typical,scenario share of station-area stock in years 1-3,,,,313564.0,0.057676,,,method A per acre,,,,,,,,,,,,
 madison_share,per_acre,strong,scenario share of station-area stock in years 1-3,,,,313564.0,0.220413,,,method A per acre,,,,,,,,,,,,
-scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,10.9,0.0154,1.7961,1.8115,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,10.4,0.0146,1.7961,1.8107,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2029.0,29.5,0.0415,1.7961,1.8376,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2030.0,53.5,0.0753,1.7961,1.8714,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2031.0,7.4,0.0104,1.7961,1.8065,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,little,,,,,,,,,,"Madison, WI",2027.0,5.5,0.0166,13.4474,13.464,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,little,,,,,,,,,,"Madison, WI",2028.0,5.2,0.0158,13.4474,13.4632,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,little,,,,,,,,,,"Madison, WI",2029.0,14.9,0.0449,13.4474,13.4923,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,little,,,,,,,,,,"Madison, WI",2030.0,27.1,0.0815,13.4474,13.5289,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,little,,,,,,,,,,"Madison, WI",2031.0,3.7,0.0113,13.4474,13.4587,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,2.8,0.0039,1.7961,1.8,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,2.6,0.0037,1.7961,1.7998,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2029.0,7.4,0.0104,1.7961,1.8065,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2030.0,13.5,0.0189,1.7961,1.815,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2031.0,1.9,0.0026,1.7961,1.7987,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,little,,,,,,,,,,"Madison, WI",2027.0,1.4,0.0042,13.4474,13.4516,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,little,,,,,,,,,,"Madison, WI",2028.0,1.3,0.004,13.4474,13.4514,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,little,,,,,,,,,,"Madison, WI",2029.0,3.8,0.0113,13.4474,13.4587,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,little,,,,,,,,,,"Madison, WI",2030.0,6.8,0.0205,13.4474,13.4679,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,little,,,,,,,,,,"Madison, WI",2031.0,0.9,0.0028,13.4474,13.4502,False,True,False,25.7418,9.0553,16.9124
 scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,76.4,0.1074,1.7961,1.9035,False,False,False,25.7418,9.0553,3.4441
 scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,72.4,0.1019,1.7961,1.898,False,False,False,25.7418,9.0553,3.4441
 scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2029.0,206.2,0.29,1.7961,2.0861,False,False,False,25.7418,9.0553,3.4441
