@@ -1,0 +1,14 @@
+check,where,column,value,note
+negative held-out predictions clipped to 0,Causal forest (DML),,3,
+worst held-out miss,M0 same pace,,2901,"San Francisco origin 2018 repeal 2018: on 4590, off 4590, actual 1689, same pace 4590"
+worst held-out miss,M0L same pace x level,,4105,"San Francisco origin 2018 repeal 2018: on 5794, off 5794, actual 1689, same pace 4590"
+worst held-out miss,M0 + route A high end,,3488,"San Francisco origin 2018 repeal 2018: on 5177, off 4590, actual 1689, same pace 4590"
+worst held-out miss,Weighted Poisson regression,,1147,"San Francisco origin 2018 repeal 2018: on 2836, off 3245, actual 1689, same pace 4590"
+worst held-out miss,Lasso,,1667,"San Francisco origin 2018 repeal 2018: on 3355, off 3649, actual 1689, same pace 4590"
+worst held-out miss,Elastic net,,1678,"San Francisco origin 2018 repeal 2018: on 3367, off 3657, actual 1689, same pace 4590"
+worst held-out miss,Depth-3 tree,,5636,"San Francisco origin 2018 repeal 2018: on 7325, off 7325, actual 1689, same pace 4590"
+worst held-out miss,Random forest,,1657,"San Francisco origin 2018 repeal 2018: on 3346, off 3346, actual 1689, same pace 4590"
+worst held-out miss,Boosted trees,,1765,"San Francisco origin 2018 repeal 2018: on 3453, off 3453, actual 1689, same pace 4590"
+worst held-out miss,Honest forest (GRF),,2166,"San Francisco origin 2018 repeal 2018: on 3854, off 3854, actual 1689, same pace 4590"
+worst held-out miss,50 nearest neighbours,,2890,"San Francisco origin 2019 repeal 2018: on 4467, off 4453, actual 1577, same pace 4294"
+worst held-out miss,Causal forest (DML),,1692,"San Francisco origin 2019 repeal 2018: on 3269, off 3292, actual 1577, same pace 4294"
