@@ -349,3 +349,5 @@ Audit notes on Austin (review of 2026-11-01): clean. The maps were committed (0b
 - Counted by case instead (5 cases), the medians are 0.94, 1.11 and 1.81.
 - In the three station-area upzonings (Denver, Austin, Salt Lake City), the upzoned share jumped (2→45%, 4→24%, 1→40%), more than the drift rule predicted in two of the three. Portland's citywide re-codings barely moved.
 - Caveats: few cities; Austin's upzoning is assumed; Salt Lake City's map is from 2020; stops were not yet open in Austin and Salt Lake City (a trait). Like the lot share, this cannot tell homes that moved from new homes.
+
+**Caveat (audit; not a rule):** in all three targeted station-area upzonings, the actual rise beat the drift prediction: Denver 45% vs 18%, Austin 24% vs 18%, Salt Lake City 40% vs 17%. Portland's citywide re-codings came in below it. If Wisconsin's law acts like a targeted upzoning, 1,196 may be on the low side. But Wisconsin's share before (about 0.25) is far from these cases' 0.01–0.04. Track A was closed as clean by the audit.
