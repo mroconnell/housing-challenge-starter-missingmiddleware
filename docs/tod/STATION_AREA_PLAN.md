@@ -68,3 +68,39 @@ The central line (1,196) stays until this is tested. The Austin and Salt Lake Ci
 - One miss: "erect a new 2 story w/ basement ... attached garage ... RM5" was read as 0, probably 1 home.
 - One false positive: "fourth floor addition to existing single family residence" was read as 1 new home.
 - One staged permit: "foundation and superstructure through the 4th floor ... 31 story ... 349 dwelling units" counts 349 homes, which a later full permit would count again. The shares stage applies the lot model's staged-permit merge (`case_chicago.dedupe_staged_relaxed`), as in item 32.2.
+
+## Revised design: rates by distance band (DRAFT for the owner's check before anything is counted, 2026-11-01)
+
+Owner, 13:25 and 13:27: measure new homes per 1,000 existing homes in each kind of area. Distance to a high-quality stop stands in for being upzoned. This replaces the share outcome (items 1 and 9 above). The audit's updated list (section E of its pre-registration note) is folded in.
+
+**Bands.** Each permit and each census block goes to its nearest stop.
+- **TOD:** within ½ mile.
+- **Near:** ½ to 1 mile.
+- **Far:** the rest of the city.
+
+TOD takes priority over near. Each band is drawn around reform stops and, separately, around control stops (same city, no reform, open or planned at the reform date).
+
+**Measure.** New homes per 1,000 existing homes per year in each band, before and after; existing homes come from census blocks by centroid. The census is the last one before the reform: 2000 for Austin and Salt Lake City, 2010 for reforms from 2011 to 2020, 2020 for Wisconsin. Anything after the reform is flagged.
+- A per-acre version is reported too, because upzoned industrial land with few homes makes per-home rates explode (Denver, Charlotte, parts of Chicago and Philadelphia).
+- **Primary version: per 1,000 homes**, matching Wisconsin's near-stop baseline. Per acre is shown beside it.
+
+**Effect.** (After − before in the reform TOD band) − (after − before in the control TOD band). Shown beside it:
+- **Near-band spillover:** the same difference for the near band. It can be negative.
+- **Far-band check:** the far band's change in reform cities against Milwaukee's (no reform), to test whether homes moved.
+
+**Coverage.** Each case records the share of its ½-mile land actually upzoned: Chicago 1%, Philadelphia 3%, New York 5%, Seattle 6%, Madison 8%, Saint Paul 10%, Denver and Portland 14%, Charlotte, Austin and Salt Lake City 15–16%, Los Angeles 27%, Bellevue 32%. Wisconsin's law: about 87% of law-area lots.
+- **Raw:** the effect as measured.
+- **Coverage-adjusted:** effect ÷ coverage × Wisconsin's coverage. This is the same idea as the tool's "per upzoned home" sizing for the published studies.
+
+Both are reported. Which is primary is the owner's call.
+
+**Combining:** the city is the unit. New York's 22 cases and Philadelphia's 64 are averaged, as Portland's and Austin's were (owner's pick pending). Los Angeles has no citywide permits, so it gets the plain change in its reform TOD band, flagged.
+
+**Fast model:** effect per city, leaving one city out, scored by absolute error in homes per 1,000 per year. Benchmarks: zero, and the other cities' average. The 4 new cities are held out. Milwaukee, the placebo, should show about 0.
+
+**Wisconsin formula (fixed now):** extra homes 2027–2031 = effect (per 1,000 existing homes per year) × existing homes in Wisconsin's rail and rapid-bus ½-mile areas (2020 census: 89,528) ÷ 1,000 × 5.
+- Bus-only areas get no TOD effect under the owner's pick (pending).
+- The result is shown beside 1,196.
+- Bands match the near-stop baseline's definition (rail and rapid ½ mile).
+
+**Kept from before:** stop opening year and mode as traits; Milwaukee placebo; Chicago staged-permit merge; Madison with and without; framing that moved homes and new homes are told apart only through the near and far bands.
