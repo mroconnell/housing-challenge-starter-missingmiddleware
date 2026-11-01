@@ -127,3 +127,18 @@ The owner (13:36) pointed out that the training reforms are mostly lot clusters,
 7. **Coverage** is measured the same way everywhere. Wisconsin's 87%, a share of lots, is recomputed on the buildable-land basis.
 8. **Weighting:** the radius programs are the main evidence; the cluster cases feed the coverage slope. With 3 cases, scoring is leave-one-out and labelled "3 cases".
 9. **Coverage stays a continuous trait**, with no "radius-like" cut-off.
+
+### Radius programs: scoping so far (2026-11-01; owner said go to scoping, 13:43)
+
+| Program | In force | Radius rule | Stops | Whole-city permits with homes | Status |
+| --- | --- | --- | --- | --- | --- |
+| Los Angeles Transit Oriented Communities | 22 Sep 2017 (guidelines revised Feb 2018) | Four tiers within ½ mile (2,640 ft) of a major transit stop | Rail stations and crossings of two 15-minute bus routes (existing or planned) | Yes: LADBS permits 2010–2019 (`dyxf-7hc4`) and 2020 on (`pi9x-tg5x`), `du_changed`, lat/lon | Training only (not blind; LA_TOC_RESULTS.md exists). Opt-in incentive with affordable homes |
+| San Diego Complete Communities Housing Solutions | 8 Jan 2021 (ordinance O-21275); later amendments 2022 and 2023, which moved to "Sustainable Development Areas" | Transit priority areas: ½ mile of an existing or planned major transit stop | State major-transit-stop definition (includes frequent buses) | To check (city open data portal) | Candidate. After window 2022–2025 (4 years). Parking rules also changed |
+| Chicago Connected Communities | Adopted 20 Jul 2022 | ½ mile (2,640 ft) of rail entrances; ¼ mile (1,320 ft) of listed bus corridors | CTA rail and listed bus corridors | Yes: city permits (units parsed from text; staged-permit merge) | Candidate. After window 2023–2025 (3 years, the minimum). Parking also changed |
+| Honolulu TOD Special District, Waipahu | October 2017 (ordinances 17-54 and 17-56); other station areas later | Special district around each rail station; mixed-use zoning replacing single-use | Skyline rail (opened June 2023; planned at the reform; a trait) | Yes: building permits 2005–June 2025 (`4vab-c87q`), `numunitsadd`, location | Candidate |
+| Seattle Mandatory Housing Affordability | 2019 | Partly: urban villages, including station areas | — | Yes (Seattle permits) | To scope |
+| Minneapolis 2040 | 2020 | Partly: higher allowances along transit corridors | — | To check | To scope |
+| Raleigh frequent transit areas | 2022 | Near frequent transit | — | To check | To scope |
+| Washington HB 1110, Massachusetts MBTA Communities, Charlotte UDO, Toronto station areas, California SB 79 | 2023–2025 | Yes | — | — | Too recent (under 3 after-years) |
+
+Nothing is counted until the owner confirms the locked plan.
