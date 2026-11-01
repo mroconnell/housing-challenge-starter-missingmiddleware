@@ -321,3 +321,4 @@ details.more[open] > summary { margin-bottom: 4px; }
   table.dist-table th, table.dist-table td { padding: 0 4px; line-height: 1.22; }
   .brief-districts .small-h { font-size: 9.5pt; margin: 5px 0 2px; }
 }
+.chart-mode { margin: 4px 0 8px; }

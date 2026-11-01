@@ -1,6 +1,6 @@
 // The seven TOD screens. Every number comes from the bundle (scripts/build_tod_bundle.py); the browser only selects,
 // sorts and formats. Plain language first: each screen opens with what the reader is looking at.
-import { legendHTML, xyChart } from "../../charts";
+import { bindChartMode, chartModeToggleHTML, legendHTML, xyChart } from "../../charts";
 import { dec, esc, int, pill, small } from "../../format";
 import type { ShellEnv } from "../types";
 import { mapKey, stationMap } from "./map";
@@ -90,6 +90,7 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
   </div>
   <section class="card"><h2>Homes permitted near stops each year</h2>
     <p class="muted">Current law alone (grey, with its range shaded), and current law plus each scenario's extra homes.</p>
+    ${chartModeToggleHTML("tod-chart-mode")}
     <div class="chart-box" id="tod-chart"></div>
     ${legendHTML([{ name: "Current law (range shaded)", color: C.baseline, dash: DASH.baseline }, ...SCEN_IDS.map((id) => ({ name: `With the law: ${scen(b, id).label.toLowerCase()}`, color: C[id], dash: DASH[id] }))])}
     <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Homes permitted near major transit stops: current law and the extra homes the law adds</caption>
@@ -107,7 +108,7 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     <p class="small muted">This is the unit the tool uses to compare reforms. The homes near stops are part of Wisconsin's all-homes count, and the reforms overlap (homes near stops can gain from parking reform too), so the extra homes of different reforms are never added together; the combined view handles that. Station-area shares above use the 2020 census, because the station areas are built from census blocks.</p></section>
   <p><a class="button" href="${env.link("/where")}">Next: where the homes would be →</a></p>`;
   const yrs = base.years;
-  xyChart(document.getElementById("tod-chart")!, {
+  bindChartMode("tod-chart-mode", (mode) => xyChart(document.getElementById("tod-chart")!, mode === "totals" ? {
     title: "Homes permitted near major transit stops each year, 2027–2031",
     desc: `Current law ${int(base.total)} over 2027–2031. With the law: ${SCEN_IDS.map((id) => `${scen(b, id).label.toLowerCase()} ${int(scen(b, id).with_law_total)}`).join(", ")}. The table below has the same values.`,
     yLabel: "Homes permitted per year", xTicks: YEARS,
@@ -116,7 +117,15 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
       ...SCEN_IDS.map((id) => ({ name: scen(b, id).label, values: yrs.map((y, i) => ({ x: y.year, y: y.central + scen(b, id).by_year[i] })), color: C[id], dash: DASH[id], marker: "circle" as const })),
     ],
     band: { name: "Current-law range", lo: yrs.map((y) => ({ x: y.year, y: y.low })), hi: yrs.map((y) => ({ x: y.year, y: y.high })), color: C.baseline },
-  });
+  } : {
+    title: "Extra homes permitted near major transit stops each year, 2027–2031",
+    desc: `Extra homes above current law over 2027–2031: ${SCEN_IDS.map((id) => `${scen(b, id).label.toLowerCase()} ${int(scen(b, id).additional_total)}`).join(", ")}. Current law is the zero line. The table below has the same values.`,
+    yLabel: "Extra homes per year", xTicks: YEARS,
+    series: [
+      { name: "Current law", values: yrs.map((y) => ({ x: y.year, y: 0 })), color: C.baseline, dash: DASH.baseline },
+      ...SCEN_IDS.map((id) => ({ name: scen(b, id).label, values: yrs.map((y, i) => ({ x: y.year, y: scen(b, id).by_year[i] })), color: C[id], dash: DASH[id], marker: "circle" as const })),
+    ],
+  }));
 }
 
 // ---- 3. Where ------------------------------------------------------------------------------------

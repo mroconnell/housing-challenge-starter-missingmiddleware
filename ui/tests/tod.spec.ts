@@ -153,3 +153,12 @@ for (const s of SCREENS) {
     expect(unnamed, "every control, chart, table and region has an accessible name").toEqual([]);
   });
 }
+
+test("TOD chart toggles between totals and extra homes only", async ({ page }) => {
+  await page.goto("#/tod/compare");
+  const toggle = page.getByTestId("tod-chart-mode");
+  await expect(toggle.getByLabel("Totals")).toBeChecked();
+  await expect(page.locator("#tod-chart svg title")).toContainText("Homes permitted near major transit stops");
+  await toggle.getByLabel("Extra homes only").check();
+  await expect(page.locator("#tod-chart svg title")).toContainText("Extra homes permitted");
+});

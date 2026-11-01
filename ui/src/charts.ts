@@ -153,3 +153,28 @@ export function stackHTML(parts: { label: string; value: number; cls: string }[]
   const tot = parts.reduce((a, p) => a + p.value, 0) || 1;
   return `<div class="stack" role="img" aria-label="${esc(aria)}">${parts.map((p) => `<div class="stack-seg ${p.cls}" style="width:${(p.value / tot) * 100}%" title="${esc(p.label)}"><span>${Math.round((p.value / tot) * 100)}%</span></div>`).join("")}</div>`;
 }
+
+/** Chart view toggle shared by the reform screens: "totals" (current law plus each path, the default) or "extra"
+ *  (only what each path adds, with current law as the zero line). The choice is remembered per viewer. */
+export type ChartMode = "totals" | "extra";
+const MODE_KEY = "chart-mode";
+
+export function chartMode(): ChartMode {
+  try { return localStorage.getItem(MODE_KEY) === "extra" ? "extra" : "totals"; } catch { return "totals"; }
+}
+
+export function chartModeToggleHTML(id: string): string {
+  const m = chartMode();
+  return `<fieldset class="seg chart-mode" id="${id}" data-testid="${id}"><legend class="sr-only">Chart shows</legend>
+    <label><input type="radio" name="${id}" value="totals" ${m === "totals" ? "checked" : ""}> Totals</label>
+    <label><input type="radio" name="${id}" value="extra" ${m === "extra" ? "checked" : ""}> Extra homes only</label></fieldset>`;
+}
+
+export function bindChartMode(id: string, draw: (m: ChartMode) => void): void {
+  draw(chartMode());
+  document.getElementById(id)?.addEventListener("change", (e) => {
+    const v = (e.target as HTMLInputElement).value === "extra" ? "extra" : "totals";
+    try { localStorage.setItem(MODE_KEY, v); } catch { /* storage may be blocked; the toggle still works */ }
+    draw(v);
+  });
+}
