@@ -1,0 +1,331 @@
+case,stop_name,place,comparison_lots,own_tod_rule_in_window,note,source
+la_toc_2017,Compton Station,Compton,8296,yes-late,"Compton Station TOD Specific Plan, Nov 2022","https://ceqanet.lci.ca.gov/2021090474 (Compton Station TOD Specific Plan, notice of determination 17 Nov 2022)"
+la_toc_2017,Burbank - Downtown,Burbank,7743,no,TOD specific plans still drafts,https://ceqanet.lci.ca.gov/2021050436; https://urbanize.la/post/burbank-launches-zoning-update-airport-adjacent-district (Downtown TOD and Golden State specific plans still drafts after 2022)
+la_toc_2017,Lakewood Blvd Station,Downey,6930,unknown,,
+la_toc_2017,Lynwood Station,Lynwood,6569,yes,Lynwood Transit Area Specific Plan Sep 2016,https://ceqanet.lci.ca.gov/2015121020 (Lynwood Transit Area Specific Plan adopted Sep 2016)
+la_toc_2017,Norwalk Station,Norwalk,6435,unknown,,
+la_toc_2017,Monrovia Station,Monrovia,6401,yes,site specific plans in the station's transit village 2019-2020,"https://www.monroviaca.gov/your-government/community-development/planning/zoning/specific-plans/arroyo-at-monrovia-station-specific-plan (site specific plans in the Station Square Transit Village: Ord. 2019-11, 127 Pomona Jan 2020; Station Square SP 2008)"
+la_toc_2017,Allen Station - Main Entrance,Pasadena,6219,yes-late,East Colorado Specific Plan 2022,https://www.cityofpasadena.net/planning/planning-division/community-planning/specific-plans/east-colorado-boulevard/; .../south-fair-oaks/ (East Colorado SP Feb-Jun 2022; South Fair Oaks SP Jul-Oct 2022)
+la_toc_2017,Crenshaw Station,Hawthorne,5878,yes,Green Line Mixed Use Specific Plan Oct 2017,"https://ceqanet.lci.ca.gov/2016061043 (Green Line Mixed Use Specific Plan, adopted 10 Oct 2017, Crenshaw station)"
+la_toc_2017,Wardlow Station,Long Beach,5825,unknown,,
+la_toc_2017,Redondo Beach Station,Redondo Beach,5815,unknown,,
+la_toc_2017,South Pasadena Station,South Pasadena,5750,unknown,,
+la_toc_2017,Lake Station - Northbound Lake - East Entrance,Pasadena,5705,unknown,,
+la_toc_2017,Westchester / Veterans Station - NB Ramp to Hindry,Inglewood,5664,unknown,TOD plan drafted 2021; adoption not found,https://ceqanet.lci.ca.gov/2017101068 (Westchester/Veterans TOD plan: draft EIR 2021; adoption not found)
+la_toc_2017,Glendale,Glendale,5522,no,Tropico plan 2018 is a plan; TOD zoning 2023,"https://ceqanet.lci.ca.gov/2016091026 (South Glendale Community Plan / Tropico Center Plan Jul 2018 = plan; Tropico TOD zoning project 2023, after window)"
+la_toc_2017,Downtown Inglewood Station,Inglewood,5427,yes,"Downtown Inglewood & Fairview Heights TOD plan and zoning, Nov 2016","https://ceqanet.lci.ca.gov/2016041011 (Downtown Inglewood and Fairview Heights TOD Plan, adopted 1 Nov 2016)"
+la_toc_2017,Arcadia Station - 1st Street Ramp - North Entrance,Arcadia,5197,unknown,,
+la_toc_2017,Downtown Santa Monica Station,Santa Monica,5169,yes,Downtown Community Plan Jul 2017,https://www.santamonicalookout.com/ssm_site/the_lookout/news/News-2013/September-2013/09_12_2013_Santa_Monica_City_Council_Adopts_Bergamot_Area_Plan.html; https://www.smdp.com/santa-monica-city-council-approves-downtown-community-plan/ (Bergamot Area Plan Sep 2013; Downtown Community Plan Jul 2017)
+la_toc_2017,1st Street Station,Long Beach,5168,yes,Downtown Plan 2012,https://www.gruenassociates.com/?p=15280 (Long Beach Downtown Plan 2012)
+la_toc_2017,17th Street / SMC Station,Santa Monica,5099,unknown,,
+la_toc_2017,Sierra Madre Villa Station - Main Entrance,Pasadena,4939,unknown,,
+la_toc_2017,Fairview Heights Station,Inglewood,4775,yes,"Downtown Inglewood & Fairview Heights TOD plan and zoning, Nov 2016","https://ceqanet.lci.ca.gov/2016041011 (Downtown Inglewood and Fairview Heights TOD Plan, adopted 1 Nov 2016)"
+la_toc_2017,26th Street / Bergamot Station,Santa Monica,4511,yes,Bergamot Area Plan Sep 2013,https://www.santamonicalookout.com/ssm_site/the_lookout/news/News-2013/September-2013/09_12_2013_Santa_Monica_City_Council_Adopts_Bergamot_Area_Plan.html; https://www.smdp.com/santa-monica-city-council-approves-downtown-community-plan/ (Bergamot Area Plan Sep 2013; Downtown Community Plan Jul 2017)
+la_toc_2017,Azusa Downtown Station - Azusa Avenue Entrance - North,Azusa,4500,yes,Azusa TOD Specific Plan 2015,"https://ceqanet.lci.ca.gov/2015021018 (Azusa TOD Specific Plan, adopted Oct/Nov 2015, both stations rezoned)"
+la_toc_2017,APU / Citrus College Station,Azusa,4499,yes,Azusa TOD Specific Plan 2015,"https://ceqanet.lci.ca.gov/2015021018 (Azusa TOD Specific Plan, adopted Oct/Nov 2015, both stations rezoned)"
+la_toc_2017,Fillmore Station,Pasadena,4307,yes-late,South Fair Oaks Specific Plan 2022,https://www.cityofpasadena.net/planning/planning-division/community-planning/specific-plans/east-colorado-boulevard/; .../south-fair-oaks/ (East Colorado SP Feb-Jun 2022; South Fair Oaks SP Jul-Oct 2022)
+la_toc_2017,Culver City Station,Culver City,4267,unknown,TOD zone begun 2012; adoption not found,https://www.culvercityobserver.com/story/2012/11/14/news/council-takes-step-to-develop-transit-zone/2685.html (first council step 2012; adoption not found)
+la_toc_2017,Pacific Coast Hwy Station,Long Beach,4257,yes,Midtown Specific Plan 2016,"https://placeworks.com/portfolio/midtown-specific-plan/; https://patch.com/california/belmontshore/midtown-specific-plan-wins-scag-sustainability-award (Midtown Specific Plan 2016, Long Beach Blvd Blue Line corridor)"
+la_toc_2017,Norwalk / Santa Fe Springs,Norwalk,4089,unknown,,
+la_toc_2017,Willow Street Station,Long Beach,3990,yes,Midtown Specific Plan 2016,"https://placeworks.com/portfolio/midtown-specific-plan/; https://patch.com/california/belmontshore/midtown-specific-plan-wins-scag-sustainability-award (Midtown Specific Plan 2016, Long Beach Blvd Blue Line corridor)"
+la_toc_2017,Burbank Airport - South (VC Line),Burbank,3984,no,TOD specific plans still drafts,https://ceqanet.lci.ca.gov/2021050436; https://urbanize.la/post/burbank-launches-zoning-update-airport-adjacent-district (Downtown TOD and Golden State specific plans still drafts after 2022)
+la_toc_2017,Burbank Airport - North (AV Line),Burbank,3827,no,TOD specific plans still drafts,https://ceqanet.lci.ca.gov/2021050436; https://urbanize.la/post/burbank-launches-zoning-update-airport-adjacent-district (Downtown TOD and Golden State specific plans still drafts after 2022)
+la_toc_2017,Del Mar Station - Central Park Entrance,Pasadena,3418,unknown,,
+la_toc_2017,Duarte / City of Hope Station,Duarte,3107,yes,Duarte Station Specific Plan Dec 2013 (amended 2019),https://foothillgoldline.org/duarte/ (Duarte Station Specific Plan adopted 10 Dec 2013; amended 2019)
+la_toc_2017,Pacific Ave Station,Long Beach,3072,yes,Downtown Plan 2012,https://www.gruenassociates.com/?p=15280 (Long Beach Downtown Plan 2012)
+la_toc_2017,Douglas Station,El Segundo,2561,unknown,,
+la_toc_2017,Memorial Park Station - West Entrance,Pasadena,2544,unknown,,
+la_toc_2017,Anaheim Street Station,Long Beach,2492,yes,Midtown Specific Plan 2016,"https://placeworks.com/portfolio/midtown-specific-plan/; https://patch.com/california/belmontshore/midtown-specific-plan-wins-scag-sustainability-award (Midtown Specific Plan 2016, Long Beach Blvd Blue Line corridor)"
+la_toc_2017,5th Street Station,Long Beach,2405,yes,Downtown Plan 2012,https://www.gruenassociates.com/?p=15280 (Long Beach Downtown Plan 2012)
+la_toc_2017,Artesia Station - Bus Plaza Side Entrance,Compton,2133,unknown,specific plan begun 2018; adoption not found,https://planetizen.com/node/107067 (Artesia Station specific plan begun 2018; adoption not found)
+la_toc_2017,Mariposa Station,El Segundo,1182,unknown,,
+la_toc_2017,Commerce,Commerce,1182,unknown,,
+la_toc_2017,El Segundo Station,El Segundo,968,unknown,,
+la_toc_2017,Irwindale Station - West Stairs,Irwindale,748,unknown,,
+la_toc_2017,Downtown Long Beach Station,Long Beach,614,yes,Downtown Plan 2012,https://www.gruenassociates.com/?p=15280 (Long Beach Downtown Plan 2012)
+san_diego_2021,Massachusetts Ave Station,Lemon Grove,5834,unknown,,
+san_diego_2021,70th Street Station,La Mesa,5501,unknown,Alvarado Specific Plan; adoption not found,https://ceqanet.lci.ca.gov/Project/2019059095 (Alvarado Specific Plan near 70th St; adoption not found)
+san_diego_2021,Santee Town Center Station,Santee,4465,yes-late,Town Center Specific Plan update Mar 2025,https://cityofsanteeca.gov/planning/town-center-specific-plan (Town Center Specific Plan update adopted 12 Mar 2025)
+san_diego_2021,Lemon Grove Depot,Lemon Grove,4317,no,2018 downtown plan never adopted,https://www.lemongrove.ca.gov/our-government/community-development-department/planning-division/advanced-planning/update-downtown-specific-plan/ (2018 draft never adopted; Downtown Village SP 2005)
+san_diego_2021,El Cajon Station,El Cajon,4021,yes,Transit District Specific Plan May 2018,https://elcajon.gov/your-government/departments/community-development/planning/transit-district-specific-plan (Transit District Specific Plan adopted 8 May 2018)
+san_diego_2021,Amaya Drive Station,La Mesa,3294,unknown,,
+san_diego_2021,H Street Station,Chula Vista,3129,unknown,,
+san_diego_2021,Palomar Street Station,Chula Vista,3109,unknown,,
+san_diego_2021,La Mesa Blvd Station,La Mesa,3045,unknown,,
+san_diego_2021,Grossmont Station,La Mesa,2759,unknown,,
+san_diego_2021,Spring Street Station,La Mesa,2522,unknown,,
+san_diego_2021,Arnele Avenue Station,El Cajon,2274,unknown,,
+san_diego_2021,8th Street Station,National City,2245,unknown,downtown plan amendment 2017; content unclear,https://nationalcityca.gov/home/showpublisheddocument/15465/636434273338470000 (Downtown Specific Plan amendment 2017-24A; content and adoption not confirmed)
+san_diego_2021,Gillespie Field Station,El Cajon,2157,unknown,,
+san_diego_2021,E Street Station,Chula Vista,2156,unknown,,
+san_diego_2021,24th Street Station,National City,1607,unknown,,
+honolulu_2017,Kalihi Station,Urban Honolulu,2337,unknown,,
+honolulu_2017,Ala Moana Center Station,Urban Honolulu,2128,no,TOD plan 2021; zoning not adopted by 2022,https://www.honolulu.gov/tod/zoning-policies/ (Ala Moana TOD plan Sep 2021; special district zoning not adopted by 2022)
+honolulu_2017,Hālawa Station,Urban Honolulu,2029,no,"Halawa TOD district 2023, after window","https://files.amlegal.com/pdffiles/Honolulu/ORD23-032.pdf (Halawa TOD special district Ord. 23-32, 2023: after window)"
+honolulu_2017,East Kapolei Station,Urban Honolulu,1818,unknown,,
+honolulu_2017,Iwilei Station,Urban Honolulu,1665,unknown,,
+honolulu_2017,Pearl Highlands Station,Urban Honolulu,1510,yes-late,Aiea-Pearl City TOD zoning Oct 2022,"https://www.honolulu.gov/tod/neighborhoods/aiea-pearl-city/ (Aiea-Pearl City TOD special district and zoning, Ord. 22-29/22-30, Oct 2022)"
+honolulu_2017,Kalauao Station,Urban Honolulu,1353,yes-late,Aiea-Pearl City TOD zoning Oct 2022,"https://www.honolulu.gov/tod/neighborhoods/aiea-pearl-city/ (Aiea-Pearl City TOD special district and zoning, Ord. 22-29/22-30, Oct 2022)"
+honolulu_2017,Leeward Community College Station,Urban Honolulu,1268,unknown,,
+honolulu_2017,Kapalama Station,Urban Honolulu,1223,unknown,,
+honolulu_2017,Pearl Harbor Naval Base Station,Urban Honolulu,997,unknown,,
+honolulu_2017,Hoʻopili Station,Urban Honolulu,745,unknown,,
+honolulu_2017,Chinatown Station,Urban Honolulu,651,unknown,,
+honolulu_2017,Middle Street Transit Center Station,Urban Honolulu,507,unknown,,
+honolulu_2017,Kaka'ako Station,Urban Honolulu,440,yes,HCDA Mauka Area Rules Nov 2011,"https://dbedt.hawaii.gov/hcda/files/2012/11/Chapter-217-Mauka-Area-Rules-EFF-2011.11.11.pdf (HCDA Kaka'ako Mauka Area Rules, form-based, effective 11 Nov 2011)"
+honolulu_2017,Lagoon Drive Station,Urban Honolulu,435,unknown,,
+honolulu_2017,Honolulu International Airport Station,Urban Honolulu,419,unknown,,
+honolulu_2017,Civic Center Station,Urban Honolulu,411,yes,HCDA Mauka Area Rules Nov 2011,"https://dbedt.hawaii.gov/hcda/files/2012/11/Chapter-217-Mauka-Area-Rules-EFF-2011.11.11.pdf (HCDA Kaka'ako Mauka Area Rules, form-based, effective 11 Nov 2011)"
+honolulu_2017,UH West O’ahu Station,Urban Honolulu,383,unknown,,
+honolulu_2017,Downtown Station,Urban Honolulu,316,unknown,,
+chicago_2015,Oak Lawn Patriot,Oak Lawn,8243,unknown,,
+chicago_2015,Harvey,Harvey,7071,unknown,,
+chicago_2015,Lavergne,Berwyn,7057,unknown,,
+chicago_2015,Oakton-Skokie,Skokie,6912,unknown,,
+chicago_2015,Bellwood,Bellwood,6145,unknown,,
+chicago_2015,Melrose Park,Melrose Park,6075,unknown,,
+chicago_2015,Dempster-Skokie,Skokie,5693,unknown,,
+chicago_2015,54th/Cermak,Cicero,5140,unknown,,
+chicago_2015,Park Ridge,Park Ridge,5074,unknown,,
+chicago_2015,Cumberland,Des Plaines,5007,unknown,,
+chicago_2015,Homewood,Homewood,4823,unknown,,
+chicago_2015,Dee Road,Park Ridge,4821,unknown,,
+chicago_2015,Congress Park,Brookfield,4758,yes,"form-based code for its three Metra station areas, Jan 2017",https://nita.illinois.gov/blog/2017/01/25/rta-helps-brookfield-stay-on-track-with-zoning-updates (form-based code for the three Metra station areas adopted Jan 2017)
+chicago_2015,Oak Park-Blue,Oak Park,4582,unknown,,
+chicago_2015,Morton Grove,Morton Grove,4549,unknown,,
+chicago_2015,River Grove,River Grove,4493,unknown,,
+chicago_2015,Western Springs,Western Springs,4466,unknown,,
+chicago_2015,Des Plaines,Des Plaines,4437,unknown,,
+chicago_2015,Austin-Blue,Oak Park,4407,unknown,,
+chicago_2015,Chicago Ridge,Chicago Ridge,4345,unknown,,
+chicago_2015,147th St.,Harvey,4073,unknown,,
+chicago_2015,Brookfield,Brookfield,4058,yes,"form-based code for its three Metra station areas, Jan 2017",https://nita.illinois.gov/blog/2017/01/25/rta-helps-brookfield-stay-on-track-with-zoning-updates (form-based code for the three Metra station areas adopted Jan 2017)
+chicago_2015,Hazel Crest,Hazel Crest,3973,unknown,,
+chicago_2015,Ivanhoe,Riverdale,3855,unknown,,
+chicago_2015,Maywood,Maywood,3630,unknown,,
+chicago_2015,Berwyn,Berwyn,3615,unknown,,
+chicago_2015,Harlem Ave.,Berwyn,3520,unknown,,
+chicago_2015,Franklin Park,Franklin Park,3390,unknown,,
+chicago_2015,Wilmette,Wilmette,3228,unknown,,
+chicago_2015,Mannheim,Franklin Park,3218,unknown,,
+chicago_2015,Stone Ave.,La Grange,3140,unknown,,
+chicago_2015,Central St.,Evanston,2921,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2015,Harlem (Blue - Forest Park Branch),Forest Park,2837,unknown,,
+chicago_2015,Worth,Worth,2833,unknown,,
+chicago_2015,Cicero,Cicero,2680,unknown,,
+chicago_2015,Ridgeland,Oak Park,2633,unknown,,
+chicago_2015,Glencoe,Glencoe,2504,unknown,,
+chicago_2015,Schiller Park,Schiller Park,2486,unknown,,
+chicago_2015,Cicero-Cermak,Cicero,2428,unknown,,
+chicago_2015,LaGrange Road,La Grange,2423,unknown,,
+chicago_2015,Riverside,Riverside,2413,unknown,,
+chicago_2015,Blue Island-Vermont,Blue Island,2390,unknown,,
+chicago_2015,Ashland,Calumet Park,2327,unknown,,
+chicago_2015,Hubbard Woods,Winnetka,2318,unknown,,
+chicago_2015,Summit,Summit,2317,unknown,,
+chicago_2015,Riverdale,Riverdale,2272,unknown,,
+chicago_2015,Kenilworth,Kenilworth,2246,unknown,,
+chicago_2015,South Boulevard,Evanston,2144,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2015,Palos Heights,Worth,2013,unknown,,
+chicago_2015,Winnetka,Winnetka,1875,unknown,,
+chicago_2015,Harlem/Lake (Marion St entry),Oak Park,1749,unknown,,
+chicago_2015,River Forest,River Forest,1689,unknown,,
+chicago_2015,Franklin Pk,Franklin Park,1615,unknown,,
+chicago_2015,Forest Park,Forest Park,1600,unknown,,
+chicago_2015,Dempster,Evanston,1567,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2015,123rd St.,Blue Island,1489,unknown,,
+chicago_2015,Indian Hill,Winnetka,1487,unknown,,
+chicago_2015,Main St.,Evanston,1479,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2015,Oak Park-Green,Oak Park,1462,unknown,,
+chicago_2015,Evanston (Davis St.),Evanston,1433,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2015,Prairie St.,Blue Island,1395,unknown,,
+chicago_2015,Linden,Wilmette,1355,unknown,,
+chicago_2015,Hollywood,Brookfield,1236,yes,"form-based code for its three Metra station areas, Jan 2017",https://nita.illinois.gov/blog/2017/01/25/rta-helps-brookfield-stay-on-track-with-zoning-updates (form-based code for the three Metra station areas adopted Jan 2017)
+chicago_2015,Burr Oak,Blue Island,1233,unknown,,
+chicago_2015,Oak Park,Oak Park,1080,unknown,,
+chicago_2015,Rosemont,Rosemont,789,unknown,,
+chicago_2015,119th St.,Blue Island,779,unknown,,
+chicago_2015,Foster,Evanston,715,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2015,Central-Purple,Evanston,691,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2015,Blue Island,Blue Island,571,unknown,,
+chicago_2015,Noyes,Evanston,525,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2015,Main,Evanston,487,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2015,Rosemont,Rosemont,447,unknown,,
+chicago_2015,Davis,Evanston,249,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2022,Oak Lawn Patriot,Oak Lawn,8243,unknown,,
+chicago_2022,Harvey,Harvey,7071,unknown,,
+chicago_2022,Lavergne,Berwyn,7057,unknown,,
+chicago_2022,Oakton-Skokie,Skokie,6912,unknown,,
+chicago_2022,Bellwood,Bellwood,6145,unknown,,
+chicago_2022,Melrose Park,Melrose Park,6075,unknown,,
+chicago_2022,Dempster-Skokie,Skokie,5693,unknown,,
+chicago_2022,54th/Cermak,Cicero,5140,unknown,,
+chicago_2022,Park Ridge,Park Ridge,5074,unknown,,
+chicago_2022,Cumberland,Des Plaines,5007,unknown,,
+chicago_2022,Homewood,Homewood,4823,unknown,,
+chicago_2022,Dee Road,Park Ridge,4821,unknown,,
+chicago_2022,Congress Park,Brookfield,4758,yes,"form-based code for its three Metra station areas, Jan 2017",https://nita.illinois.gov/blog/2017/01/25/rta-helps-brookfield-stay-on-track-with-zoning-updates (form-based code for the three Metra station areas adopted Jan 2017)
+chicago_2022,Oak Park-Blue,Oak Park,4582,unknown,,
+chicago_2022,Morton Grove,Morton Grove,4549,unknown,,
+chicago_2022,River Grove,River Grove,4493,unknown,,
+chicago_2022,Western Springs,Western Springs,4466,unknown,,
+chicago_2022,Des Plaines,Des Plaines,4437,unknown,,
+chicago_2022,Austin-Blue,Oak Park,4407,unknown,,
+chicago_2022,Chicago Ridge,Chicago Ridge,4345,unknown,,
+chicago_2022,147th St.,Harvey,4073,unknown,,
+chicago_2022,Brookfield,Brookfield,4058,yes,"form-based code for its three Metra station areas, Jan 2017",https://nita.illinois.gov/blog/2017/01/25/rta-helps-brookfield-stay-on-track-with-zoning-updates (form-based code for the three Metra station areas adopted Jan 2017)
+chicago_2022,Hazel Crest,Hazel Crest,3973,unknown,,
+chicago_2022,Ivanhoe,Riverdale,3855,unknown,,
+chicago_2022,Maywood,Maywood,3630,unknown,,
+chicago_2022,Berwyn,Berwyn,3615,unknown,,
+chicago_2022,Harlem Ave.,Berwyn,3520,unknown,,
+chicago_2022,Franklin Park,Franklin Park,3390,unknown,,
+chicago_2022,Wilmette,Wilmette,3228,unknown,,
+chicago_2022,Mannheim,Franklin Park,3218,unknown,,
+chicago_2022,Stone Ave.,La Grange,3140,unknown,,
+chicago_2022,Central St.,Evanston,2921,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2022,Harlem (Blue - Forest Park Branch),Forest Park,2837,unknown,,
+chicago_2022,Worth,Worth,2833,unknown,,
+chicago_2022,Cicero,Cicero,2680,unknown,,
+chicago_2022,Ridgeland,Oak Park,2633,unknown,,
+chicago_2022,Glencoe,Glencoe,2504,unknown,,
+chicago_2022,Schiller Park,Schiller Park,2486,unknown,,
+chicago_2022,Cicero-Cermak,Cicero,2428,unknown,,
+chicago_2022,LaGrange Road,La Grange,2423,unknown,,
+chicago_2022,Riverside,Riverside,2413,unknown,,
+chicago_2022,Blue Island-Vermont,Blue Island,2390,unknown,,
+chicago_2022,Ashland,Calumet Park,2327,unknown,,
+chicago_2022,Hubbard Woods,Winnetka,2318,unknown,,
+chicago_2022,Summit,Summit,2317,unknown,,
+chicago_2022,Riverdale,Riverdale,2272,unknown,,
+chicago_2022,Kenilworth,Kenilworth,2246,unknown,,
+chicago_2022,South Boulevard,Evanston,2144,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2022,Palos Heights,Worth,2013,unknown,,
+chicago_2022,Winnetka,Winnetka,1875,unknown,,
+chicago_2022,Harlem/Lake (Marion St entry),Oak Park,1749,unknown,,
+chicago_2022,River Forest,River Forest,1689,unknown,,
+chicago_2022,Franklin Pk,Franklin Park,1615,unknown,,
+chicago_2022,Forest Park,Forest Park,1600,unknown,,
+chicago_2022,Dempster,Evanston,1567,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2022,123rd St.,Blue Island,1489,unknown,,
+chicago_2022,Indian Hill,Winnetka,1487,unknown,,
+chicago_2022,Main St.,Evanston,1479,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2022,Oak Park-Green,Oak Park,1462,unknown,,
+chicago_2022,Evanston (Davis St.),Evanston,1433,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2022,Prairie St.,Blue Island,1395,unknown,,
+chicago_2022,Linden,Wilmette,1355,unknown,,
+chicago_2022,Hollywood,Brookfield,1236,yes,"form-based code for its three Metra station areas, Jan 2017",https://nita.illinois.gov/blog/2017/01/25/rta-helps-brookfield-stay-on-track-with-zoning-updates (form-based code for the three Metra station areas adopted Jan 2017)
+chicago_2022,Burr Oak,Blue Island,1233,unknown,,
+chicago_2022,Oak Park,Oak Park,1080,unknown,,
+chicago_2022,Rosemont,Rosemont,789,unknown,,
+chicago_2022,119th St.,Blue Island,779,unknown,,
+chicago_2022,Foster,Evanston,715,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2022,Central-Purple,Evanston,691,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2022,Blue Island,Blue Island,571,unknown,,
+chicago_2022,Noyes,Evanston,525,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2022,Main,Evanston,487,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+chicago_2022,Rosemont,Rosemont,447,unknown,,
+chicago_2022,Davis,Evanston,249,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
+seattle_othello_2012,Columbia City,Seattle,6417,no,"MHA rezone Mar 2019, after window","https://www.theurbanist.org/2019/01/14/citywide-mha/ (citywide MHA urban-village rezones incl. Columbia City and Rainier Beach, Mar 2019)"
+seattle_othello_2012,Rainier Beach,Seattle,3122,no,"MHA rezone Mar 2019, after window","https://www.theurbanist.org/2019/01/14/citywide-mha/ (citywide MHA urban-village rezones incl. Columbia City and Rainier Beach, Mar 2019)"
+seattle_othello_2012,Tukwila Int'l Blvd,Tukwila,2647,unknown,SeaTac's S 154th St station area plan Dec 2006; zoning not confirmed,https://www.seatacwa.gov/government/city-departments/community-and-economic-development/planning-division/long-range-planning/south-154th-street-station-area-plan (S 154th St station area action plan Dec 2006; zoning not confirmed)
+seattle_othello_2012,Westlake,Seattle,1620,yes,Downtown MHA upzone Apr 2017,"https://sccinsight.com/2017/04/10/downtownslu-mha-upzone-passes-law/ (Ord. 125291, Downtown/SLU MHA upzone, Apr 2017)"
+seattle_othello_2012,SeaTac/Airport,SeaTac,1583,unknown,,
+seattle_othello_2012,Int'l Dist/Chinatown,Seattle,866,yes,CID rezone Aug 2017,"https://www.theurbanist.org/2017/08/01/council-signs-off-on-cid-rezone-and-tackles-tower-spacing/ (Ord. 125371, CID rezone, Aug 2017)"
+seattle_othello_2012,Stadium,Seattle,733,unknown,,
+seattle_othello_2012,Pioneer Square,Seattle,719,yes,Downtown MHA upzone Apr 2017,"https://sccinsight.com/2017/04/10/downtownslu-mha-upzone-passes-law/ (Ord. 125291, Downtown/SLU MHA upzone, Apr 2017)"
+seattle_othello_2012,SODO,Seattle,368,unknown,,
+seattle_othello_2012,Symphony,Seattle,169,yes,Downtown MHA upzone Apr 2017,"https://sccinsight.com/2017/04/10/downtownslu-mha-upzone-passes-law/ (Ord. 125291, Downtown/SLU MHA upzone, Apr 2017)"
+seattle_mount_baker_2014,Columbia City,Seattle,6417,yes-late,MHA urban-village rezone Mar 2019,"https://www.theurbanist.org/2019/01/14/citywide-mha/ (citywide MHA urban-village rezones incl. Columbia City and Rainier Beach, Mar 2019)"
+seattle_mount_baker_2014,Rainier Beach,Seattle,3122,yes-late,MHA urban-village rezone Mar 2019,"https://www.theurbanist.org/2019/01/14/citywide-mha/ (citywide MHA urban-village rezones incl. Columbia City and Rainier Beach, Mar 2019)"
+seattle_mount_baker_2014,Tukwila Int'l Blvd,Tukwila,2647,unknown,SeaTac's S 154th St station area plan Dec 2006; zoning not confirmed,https://www.seatacwa.gov/government/city-departments/community-and-economic-development/planning-division/long-range-planning/south-154th-street-station-area-plan (S 154th St station area action plan Dec 2006; zoning not confirmed)
+seattle_mount_baker_2014,Westlake,Seattle,1620,yes,Downtown MHA upzone Apr 2017,"https://sccinsight.com/2017/04/10/downtownslu-mha-upzone-passes-law/ (Ord. 125291, Downtown/SLU MHA upzone, Apr 2017)"
+seattle_mount_baker_2014,SeaTac/Airport,SeaTac,1583,unknown,,
+seattle_mount_baker_2014,Int'l Dist/Chinatown,Seattle,866,yes,CID rezone Aug 2017,"https://www.theurbanist.org/2017/08/01/council-signs-off-on-cid-rezone-and-tackles-tower-spacing/ (Ord. 125371, CID rezone, Aug 2017)"
+seattle_mount_baker_2014,Stadium,Seattle,733,unknown,,
+seattle_mount_baker_2014,Pioneer Square,Seattle,719,yes,Downtown MHA upzone Apr 2017,"https://sccinsight.com/2017/04/10/downtownslu-mha-upzone-passes-law/ (Ord. 125291, Downtown/SLU MHA upzone, Apr 2017)"
+seattle_mount_baker_2014,SODO,Seattle,368,unknown,,
+seattle_mount_baker_2014,Symphony,Seattle,169,yes,Downtown MHA upzone Apr 2017,"https://sccinsight.com/2017/04/10/downtownslu-mha-upzone-passes-law/ (Ord. 125291, Downtown/SLU MHA upzone, Apr 2017)"
+bellevue_belred_2009,Judkins Park,Seattle,8045,unknown,,
+bellevue_belred_2009,Mercer Island,Mercer Island,2298,unknown,Town Center code 2016 is after window; earlier not checked,"https://www.mercerisland.gov/sites/default/files/fileattachments/community/page/9321/ordinance_16c-06.pdf (Town Center code Ord. 16C-06, 2016: after the 2003-2014 window)"
+bellevue_belred_2009,South Bellevue,Bellevue,1871,unknown,,
+bellevue_belred_2009,East Main,Bellevue,1200,unknown,,
+bellevue_belred_2009,Redmond Technology,Redmond,1018,yes,Overlake plan and zoning 2007-2011,cluster_north.OWN_TOD (Redmond Overlake plan and zoning 2007-2011)
+bellevue_belred_2009,Bellevue Downtown,Bellevue,941,unknown,,
+bellevue_belred_2009,Overlake Village,Redmond,84,yes,Overlake plan and zoning 2007-2011,cluster_north.OWN_TOD (Redmond Overlake plan and zoning 2007-2011)
+stpaul_2011,10th St Station,St. Paul,1905,unknown,,
+stpaul_2011,Union Depot Station,St. Paul,1730,unknown,,
+stpaul_2011,Central Station,St. Paul,1638,unknown,,
+stpaul_2011,Robert St Station,St. Paul,465,unknown,,
+charlotte_2019,French St CityLYNX,Charlotte,3041,unknown,,
+charlotte_2019,Sunnyside St CityLYNX,Charlotte,2344,unknown,,
+charlotte_2019,Hawthorne Ln & 5th St CityLYNX,Charlotte,1438,unknown,,
+charlotte_2019,Mint St CityLYNX,Charlotte,1417,unknown,,
+charlotte_2019,UNC Charlotte Station,Charlotte,1365,no,campus master plan 2010; outside city TOD petition,https://ui.charlotte.edu/story/city-work-owners-station-area-properties/ (campus covered by UNC Charlotte master plan 2010; city petition 2019-102 stops at the campus)
+charlotte_2019,Wesley Heights CityLYNX,Charlotte,1284,unknown,,
+charlotte_2019,Elizabeth Ave & Hawthorne Ln CityLYNX,Charlotte,1208,unknown,,
+charlotte_2019,Hawthorne Ln & 8th St CityLYNX,Charlotte,1092,unknown,,
+charlotte_2019,Tryon St CityLYNX,Charlotte,807,unknown,,
+charlotte_2019,Johnson C. Smith University CityLYNX,Charlotte,739,unknown,,
+charlotte_2019,Johnson & Wales CityLYNX,Charlotte,627,unknown,,
+charlotte_2019,Bruns Ave CityLYNX,Charlotte,564,unknown,,
+charlotte_2019,Irwin Ave CityLYNX,Charlotte,427,unknown,,
+charlotte_2019,CPCC CityLYNX,Charlotte,366,unknown,,
+charlotte_2019,Gateway Station CityLYNX,Charlotte,364,unknown,,
+charlotte_2019,7th St Station,Charlotte,293,unknown,,
+charlotte_2019,McDowell St CityLYNX,Charlotte,257,unknown,,
+charlotte_2019,Davidson St CityLYNX,Charlotte,102,unknown,,
+charlotte_2019,CTC/Arena CityLYNX,Charlotte,72,unknown,,
+denver_2018,Alameda,Denver,5596,unknown,,
+denver_2018,Denver Union Station,Denver,5421,unknown,,
+denver_2018,University of Denver,Denver,5402,unknown,,
+denver_2018,Colorado,Denver,4428,unknown,,
+denver_2018,Southmoor,Denver,4099,unknown,,
+denver_2018,41st & Fox,Denver,4025,yes,site rezonings to 8-12 stories 2018-2019,"https://denverite.com/2018/06/19/denver-council-sets-stage-for-density-on-fox-island-but-some-question-affordable-housing-strategy/ (41st & Fox site rezonings to 8-12 stories, 2018-2019)"
+denver_2018,Louisiana - Pearl,Denver,3825,unknown,,
+denver_2018,Yale,Denver,3760,unknown,,
+denver_2018,Evans,Denver,3411,unknown,,
+denver_2018,40th & Colorado,Denver,3346,unknown,,
+denver_2018,Central Park,Denver,3318,unknown,,
+denver_2018,Perry,Denver,3247,unknown,,
+denver_2018,20th & Welton,Denver,3120,unknown,,
+denver_2018,Belleview,Denver,2795,unknown,,
+denver_2018,10th & Osage,Denver,2589,unknown,,
+denver_2018,Knox,Denver,2262,unknown,,
+denver_2018,I-25 & Broadway,Denver,2232,unknown,,
+denver_2018,Convention Center,Denver,1855,unknown,,
+denver_2018,Sheridan,Denver,1832,unknown,,
+denver_2018,Ball Arena - Elitch Gardens,Denver,1741,unknown,,
+denver_2018,Decatur - Federal,Denver,1547,unknown,,
+denver_2018,16th & California,Denver,1350,unknown,,
+denver_2018,61st & Pena,Denver,886,unknown,,
+denver_2018,Colfax at Auraria,Denver,881,unknown,,
+denver_2018,18th & Stout,Denver,510,unknown,,
+denver_2018,Empower Field at Mile High,Denver,464,unknown,,
+denver_2018,Auraria West Campus,Denver,131,unknown,,
+denver_2018,Denver Airport,Denver,19,unknown,,
+portland_2020,Washington Park,Portland,2082,unknown,,
+portland_2020,Expo Center,Portland,354,unknown,,
+portland_2020,Cascades,Portland,209,unknown,,
+portland_2020,Mt Hood Ave,Portland,148,unknown,,
+portland_2020,Delta Park/Vanport,Portland,138,unknown,,
+portland_2020,Yamhill District,Portland,82,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
+portland_2020,Union Station/NW 6th & Hoyt,Portland,75,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
+portland_2020,NW 5th & Couch,Portland,75,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
+portland_2020,Portland International Airport,Portland,74,unknown,,
+portland_2020,Oak/ SW 1st Ave,Portland,59,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
+portland_2020,Pioneer Courthouse/SW 6th Ave,Portland,56,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
+portland_2020,Skidmore Fountain,Portland,48,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
+portland_2020,Old Town/Chinatown,Portland,30,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
+austin_2009,UT Pickle / Braker Lane,Austin,1661,unknown,,
+slc_2010,Fairmont Station,Salt Lake City,3807,no,"Sugar House form-based zones 2016, after window",https://www.valleyjournals.com/2016/07/13/116895/streetcar-corridor-plan-to-limit-building-height (FB-SC/FB-SE form-based zones 2016: after the 2004-2015 window)
+slc_2010,Ballpark Station,Salt Lake City,3533,unknown,,
+slc_2010,700 East Station,Salt Lake City,3319,unknown,,
+slc_2010,Stadium Station,Salt Lake City,2284,unknown,,
+slc_2010,City Center Station,Salt Lake City,2181,unknown,,
+slc_2010,Sugarmont Station,Salt Lake City,1257,no,"Sugar House form-based zones 2016, after window",https://www.valleyjournals.com/2016/07/13/116895/streetcar-corridor-plan-to-limit-building-height (FB-SC/FB-SE form-based zones 2016: after the 2004-2015 window)
+slc_2010,900 South Station,Salt Lake City,954,unknown,,
+slc_2010,University Medical Center,Salt Lake City,825,unknown,,
+slc_2010,University South Campus Station,Salt Lake City,677,unknown,,
+slc_2010,Airport Station,Salt Lake City,79,unknown,,
+slc_2010,Fort Douglas Station,Salt Lake City,49,unknown,,

@@ -1,0 +1,19 @@
+band,cities,average,loo_low,loo_high,median,mae_others_average,mae_zero,version,measure
+0-1/4,16,39.976,30.299,43.969,20.823,51.083,47.888,main run,effect_raw
+1/2-1,16,-5.014,-7.17,-2.532,-0.645,14.958,13.557,main run,effect_raw
+1/4-1/2,16,6.52,1.133,11.594,2.526,27.832,25.597,main run,effect_raw
+0-1/4,16,22.055,16.042,25.709,18.534,28.368,30.88,main run,effect_per_100_acres
+1/2-1,16,-1.306,-3.697,0.16,-1.174,8.418,8.024,main run,effect_per_100_acres
+1/4-1/2,16,-2.574,-5.569,2.046,0.892,20.541,18.614,main run,effect_per_100_acres
+0-1/4,16,43.196,32.384,47.985,14.609,61.388,54.375,drop yes (all kinds),effect_raw
+1/2-1,16,-1.18,-3.081,1.557,1.171,12.718,11.735,drop yes (all kinds),effect_raw
+1/4-1/2,16,15.195,10.387,17.878,4.624,23.101,20.767,drop yes (all kinds),effect_raw
+0-1/4,16,25.872,19.406,30.014,19.612,33.91,35.819,drop yes (all kinds),effect_per_100_acres
+1/2-1,16,1.636,-0.559,2.97,0.543,7.541,7.07,drop yes (all kinds),effect_per_100_acres
+1/4-1/2,16,6.99,4.633,8.356,3.658,13.334,12.407,drop yes (all kinds),effect_per_100_acres
+0-1/4,16,40.416,29.417,45.018,14.609,56.803,51.085,drop yes (core only),effect_raw
+1/2-1,16,-0.715,-2.584,2.053,1.34,13.088,12.094,drop yes (core only),effect_raw
+1/4-1/2,16,15.477,10.687,18.001,4.454,22.913,20.661,drop yes (core only),effect_raw
+0-1/4,16,24.644,18.096,28.705,19.612,31.794,34.136,drop yes (core only),effect_per_100_acres
+1/2-1,16,1.681,-0.51,3.018,0.99,7.471,7.004,drop yes (core only),effect_per_100_acres
+1/4-1/2,16,7.15,4.804,8.498,3.613,13.387,12.339,drop yes (core only),effect_per_100_acres
