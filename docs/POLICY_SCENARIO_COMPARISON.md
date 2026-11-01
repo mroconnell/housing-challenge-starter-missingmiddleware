@@ -32,7 +32,7 @@ Additional homes permitted over 2027–2031, compared with current law. Scenario
 | Rank (central) | Reform | Lower | **Central** | Upper | Central, then upper, as a share of the 123,950-home all-housing baseline | Central, then upper, per 1,000 existing homes (five-year total) |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | 1 | **ADUs** | 6,321 | **10,492** | 19,784 | 8.5%; 16.0% | 3.8; 7.1 |
-| 2 | **TOD** | 171 | **1,181** | 17,148 | 1.0%; 13.9% | 0.4; 6.2 |
+| 2 | **TOD** | 171 | **1,181** | 17,148 | 1.0%; 13.8% | 0.4; 6.2 |
 | 3 | **Parking** | −15,326 | **0** | 19,937 | 0%; 16.1% | 0; 7.2 |
 
 What the scenario names mean:
