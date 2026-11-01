@@ -9,7 +9,8 @@ export function esc(s: unknown): string {
 /** Whole number with thousands separators. */
 export function int(v: number | null | undefined): string {
   if (v === null || v === undefined || Number.isNaN(v)) return MISSING;
-  return Math.round(v).toLocaleString("en-US");
+  const r = Math.round(v);
+  return (r === 0 ? 0 : r).toLocaleString("en-US");   // never "-0"
 }
 
 /** Fixed decimals (rates). */
@@ -27,6 +28,7 @@ export function pct(v: number | null | undefined, d = 0): string {
 export function small(v: number | null | undefined): string {
   if (v === null || v === undefined || Number.isNaN(v)) return MISSING;
   if (v > 0 && v < 0.5) return "under 1";
+  if (v < 0 && v > -0.5) return "under 1 fewer";
   return int(v);
 }
 

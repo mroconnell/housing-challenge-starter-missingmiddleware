@@ -46,24 +46,32 @@ export function xyChart(container: HTMLElement, spec: ChartSpec): void {
     const pad = spec.xPad ?? 0.5;
     const x0 = Math.min(...xs) - pad, x1 = Math.max(...xs) + pad;
     let ymax = spec.yMax ?? 0;
+    // negative values (e.g. a reform estimated to reduce homes) extend the axis below zero; never floored
+    let ymin = 0;
+    for (const s of spec.series) for (const p of s.values) if (p.y !== null) ymin = Math.min(ymin, p.y);
+    if (spec.band) for (const p of spec.band.lo) if (p.y !== null) ymin = Math.min(ymin, p.y);
+    if (spec.bars) for (const p of spec.bars.values) if (p.y !== null) ymin = Math.min(ymin, p.y);
     if (!spec.yMax) {
       for (const s of spec.series) for (const p of s.values) if (p.y !== null) ymax = Math.max(ymax, p.y);
       if (spec.band) for (const p of spec.band.hi) if (p.y !== null) ymax = Math.max(ymax, p.y);
       if (spec.bars) for (const p of spec.bars.values) if (p.y !== null) ymax = Math.max(ymax, p.y);
-      ymax = niceMax(ymax * (spec.notes?.length ? 1.2 : 1.05));
+      ymax = ymax > 0 ? niceMax(ymax * (spec.notes?.length ? 1.2 : 1.05)) : 0;
     }
-    const stepRaw = ymax / 4, pw = Math.pow(10, Math.floor(Math.log10(stepRaw)));
+    if (ymin < 0) ymin = -niceMax(-ymin * 1.05);
+    if (ymax <= 0 && ymin === 0) ymax = 1;
+    const stepRaw = (ymax - ymin) / 4, pw = Math.pow(10, Math.floor(Math.log10(stepRaw)));
     const ystep = [1, 2, 2.5, 5, 10].map((m) => m * pw).find((s) => s >= stepRaw - 1e-12)!;
     ymax = Math.ceil(ymax / ystep - 1e-9) * ystep;
+    ymin = Math.floor(ymin / ystep + 1e-9) * ystep;
     const X = (x: number) => m.l + ((x - x0) / (x1 - x0)) * (W - m.l - m.r);
-    const Y = (y: number) => H - m.b - (y / ymax) * (H - m.t - m.b);
+    const Y = (y: number) => H - m.b - ((y - ymin) / (ymax - ymin)) * (H - m.t - m.b);
     const yf = spec.yFormat ?? ((y: number) => y.toLocaleString("en-US"));
     const xf = spec.xFormat ?? ((x: number) => String(x));
     const id = `c${++uid}`;
     const parts: string[] = [];
     // grid + y axis
-    for (let i = 0; i <= Math.round(ymax / ystep); i++) {
-      const v = i * ystep;
+    for (let i = 0; i <= Math.round((ymax - ymin) / ystep); i++) {
+      const v = ymin + i * ystep;
       parts.push(`<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" class="grid"/>`);
       parts.push(`<text x="${m.l - 6}" y="${Y(v) + 4}" text-anchor="end" class="tick">${esc(yf(v))}</text>`);
     }
@@ -85,8 +93,8 @@ export function xyChart(container: HTMLElement, spec: ChartSpec): void {
           parts.push(`<text x="${X(p.x)}" y="${Y(0) - 4}" text-anchor="middle" class="tick">—</text>`);
           continue;
         }
-        const top = Y(p.y);
-        parts.push(`<rect x="${X(p.x) - bw / 2}" y="${top}" width="${bw}" height="${Math.max(0, Y(0) - top)}" fill="${p.hatch ? `url(#${id}-h)` : spec.bars.color}" stroke="${spec.bars.color}"/>`);
+        const top = Math.min(Y(p.y), Y(0));
+        parts.push(`<rect x="${X(p.x) - bw / 2}" y="${top}" width="${bw}" height="${Math.abs(Y(0) - Y(p.y))}" fill="${p.hatch ? `url(#${id}-h)` : spec.bars.color}" stroke="${spec.bars.color}"/>`);
       }
     }
     if (spec.band) {
