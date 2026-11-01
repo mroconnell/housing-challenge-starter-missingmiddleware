@@ -57,6 +57,34 @@ def cf_effect(mm, df):
     return np.asarray(m.effect(X.values)).ravel() * df["homes"].values / 1000  # homes per place per year
 
 
+def sk_causal_forest(fitdf):
+    """Causal forest with scikit-learn only (R-learner; core copied from TOD's dml_forest, 2026-11-01): 3-fold
+    cross-fitted boosted trees for the outcome m(x) and the repeal propensity e(x), e clipped to [0.02, 0.98], then a
+    random forest on (y - m)/(t - e) with weights w * (t - e)^2. Returns (forest, training medians)."""
+    from sklearn.ensemble import RandomForestRegressor
+    from sklearn.model_selection import KFold
+    cols = NR.BASE + NR.ACS
+    med = fitdf[cols].median()
+    X = fitdf[cols].fillna(med).values
+    y = (fitdf["actual"] / fitdf["homes"] * 1000).clip(lower=0).values
+    t = fitdf["reform"].values.astype(float)
+    w = (fitdf["homes"] / 1000).values
+    m, e = np.zeros(len(y)), np.zeros(len(y))
+    for a, b in KFold(3, shuffle=True, random_state=SEED).split(X):
+        m[b] = HistGradientBoostingRegressor(max_leaf_nodes=31, learning_rate=0.05, random_state=SEED).fit(X[a], y[a], sample_weight=w[a]).predict(X[b])
+        if t[a].sum() > 0:
+            e[b] = HistGradientBoostingClassifier(max_leaf_nodes=15, learning_rate=0.05, random_state=SEED).fit(X[a], t[a]).predict_proba(X[b])[:, 1]
+    e = np.clip(e, 0.02, 0.98)
+    rf = RandomForestRegressor(n_estimators=400, min_samples_leaf=50, max_samples=0.3, n_jobs=-1, random_state=SEED)
+    rf.fit(X, (y - m) / (t - e), sample_weight=w * (t - e) ** 2)
+    return rf, med
+
+
+def sk_effect(mm, df):
+    rf, med = mm
+    return rf.predict(df[NR.BASE + NR.ACS].fillna(med).values) * df["homes"].values / 1000
+
+
 def all_models(fitdf, te, wi):
     """{model: (pred_on_test, pred_off_test, wi_on_minus_off)}; predictions in homes per place per year."""
     med = fitdf[BM.COLS].median()
@@ -101,6 +129,16 @@ def main() -> None:
         else:
             res = all_models(fitdf, te, wi)
             pd.to_pickle(res, f)
+        if ROUND >= 3:  # scikit-learn causal forest, added to the round 1 fits (econml no longer a dependency)
+            f3 = ck / (k.replace("|", "_") + "_skcf.pkl")
+            if f3.exists():
+                res["Causal forest (scikit-learn)"] = pd.read_pickle(f3)
+            else:
+                cfm = sk_causal_forest(fitdf)
+                base = BM.predict(BM.fit("Boosted trees", PICK["Boosted trees"], SEED, fitdf.assign(reform=0), fitdf[BM.COLS].median()),
+                                  te.assign(reform=0), fitdf[BM.COLS].median(), [], "Boosted trees")
+                res["Causal forest (scikit-learn)"] = (base + sk_effect(cfm, te), base, sk_effect(cfm, wi))
+                pd.to_pickle(res["Causal forest (scikit-learn)"], f3)
         for name, (on, off, w) in res.items():
             held.append(te[["key", "name", "origin", "reform_year", "homes", "units_3y", "actual"]].assign(model=name, pred_on=on, pred_off=off))
             nets.append(dict(left_out=k, model=name, wi_net_2027_2031=float(np.sum(w) * 5 * scale)))
@@ -140,6 +178,14 @@ def main() -> None:
         else:
             res = all_models(fd, fd.head(1), wi)
             pd.to_pickle(res, f)
+        if ROUND >= 3:
+            f3 = ck / f"fake_{seed}_skcf.pkl"
+            if f3.exists():
+                w3 = pd.read_pickle(f3)
+            else:
+                w3 = sk_effect(sk_causal_forest(fd), wi)
+                pd.to_pickle(w3, f3)
+            res["Causal forest (scikit-learn)"] = (None, None, w3)
         for name, (_, _, w) in res.items():
             fakes.append(dict(seed=seed, model=name, fake_rows=int(fd["reform"].sum()), wi_net_2027_2031=float(np.sum(w) * 5 * scale)))
         print("fake seed", seed, "done", flush=True)
