@@ -77,7 +77,7 @@ INPUTS = [
 # Unknown-rules switch (docs/gate5/UI_CONTRACT.md section 1): screen labels, in switch order.
 UNKNOWN = [("like_restricted", "Like places that restrict ADUs (adopted)"),
            ("like_prohibited", "Like places that prohibit ADUs"),
-           ("like_benchmark", "Like places that already allow ADUs as the bill would")]
+           ("like_benchmark", "Like places with partial reform (Madison-type rules)")]
 DISTRICT_CAVEAT = ("District figures share each municipality's result by where its single-family homes are (2020 census "
                    "blocks). They are not forecasts for any neighbourhood or lot.")
 DISTRICT_METHOD = ("Each city, village and town's result is split across the districts it touches in proportion to its "
@@ -209,9 +209,9 @@ def basis_text(status: str, basis: str) -> str:
                 "by mid-2029, because the new rules (ADUs by right, no parking) are close to Madison's; Milwaukee is coded "
                 "restricted, so this is not the restricted-group rate")
     if b.startswith("benchmark group rate, ramping"):
-        return f"the rate of places with benchmark-like rules (Madison's), ramping up from the prohibited-group rate since its rules changed on {since}"
+        return f"the rate of places with partial reform (Madison-type rules), ramping up from the prohibited-group rate since its rules changed on {since}"
     if b == "benchmark_group_rate":
-        return "the rate of places with benchmark-like rules (Madison's observed rate)"
+        return "the rate of places with partial reform (Madison's observed rate)"
     if b == "prohibited_group_rate":
         return "the prohibited-group rate (Pleasant Prairie and Sun Prairie before reform, pooled)"
     if b.startswith("restricted group rate, ramping from its observed"):
@@ -230,7 +230,7 @@ CLASS_TEXT = {
     "prohibited_implicit": "Prohibits ADUs (no provision allows them)",
     "undetermined": "Rules not coded (assumed restricted)",
 }
-CLASS_SHORT = {"scenario_benchmark": "Benchmark-like", "restricted": "Restricted", "prohibited_explicit": "Prohibited",
+CLASS_SHORT = {"scenario_benchmark": "Partial reform", "restricted": "Restricted", "prohibited_explicit": "Prohibited",
                "prohibited_implicit": "Prohibited", "undetermined": "Not coded"}
 
 
