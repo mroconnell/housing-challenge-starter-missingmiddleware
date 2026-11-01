@@ -59,7 +59,69 @@ def sd_permits() -> None:
     print("san diego permits", len(rows))
 
 
-STAGES = {"sd_permits": sd_permits}
+def honolulu_permits() -> None:
+    base = "https://data.honolulu.gov/resource/4vab-c87q.json"
+    cols = ("buildingpermitno,issuedate,createddate,statusdescription,tmk,joblocation,numunitsadd,newbuilding,"
+            "proposeduse,occupancygroupassessed,accessorydwellingunitadu,ohana,commercialresidential,structurecode")
+    rows, off = [], 0
+    while True:
+        q = urllib.parse.urlencode({"$select": cols, "$where": "numunitsadd>0", "$order": "objectid", "$limit": 50000, "$offset": off})
+        b = json.loads(_get(f"{base}?{q}"))
+        rows += b; off += len(b)
+        if len(b) < 50000:
+            break
+    p = RAW / "honolulu" / "permits.json"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(rows))
+    _manifest("honolulu", "permits.json", base, len(rows), p, "City and County of Honolulu building permits with homes added; placed by TMK")
+    print("honolulu permits", len(rows))
+
+
+def arcgis_geojson(layer: str, out: Path, fields: str, page: int = 1000, offset: float = 0.00002) -> int:
+    """Page an ArcGIS layer into one GeoJSON file (EPSG 4326, lightly simplified)."""
+    ids = sorted(json.loads(_get(f"{layer}/query?" + urllib.parse.urlencode({"where": "1=1", "returnIdsOnly": "true", "f": "json"})))["objectIds"])
+    feats = []
+    for i in range(0, len(ids), page):
+        c = ids[i:i + page]
+        body = urllib.parse.urlencode({"where": f"objectid>={c[0]} AND objectid<={c[-1]}", "outFields": fields, "outSR": 4326,
+                                       "geometryPrecision": 6, "maxAllowableOffset": offset, "f": "geojson"}).encode()
+        feats += json.loads(_get(f"{layer}/query", body))["features"]
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps({"type": "FeatureCollection", "features": feats}))
+    return len(feats)
+
+
+def honolulu_parcels() -> None:
+    layer = "https://geodata.hawaii.gov/arcgis/rest/services/ParcelsZoning/MapServer/11"
+    p = RAW / "honolulu" / "parcels.geojson"
+    n = arcgis_geojson(layer, p, "objectid,tmk,tmk8num,tmk9num,zone,section,plat,gisacres,street_parcel")
+    _manifest("honolulu", "parcels.geojson", layer, n, p, "Oahu tax parcels (State GIS mirror of the City's HOLIS layer, April 2026); current parcels only")
+    print("honolulu parcels", n)
+
+
+def la_permits() -> None:
+    """LADBS new-building permits, whole city (same fields as the earlier reform-area extracts; no people fields)."""
+    sel = "permit_nbr,permit_type,permit_sub_type,issue_date,du_changed,adu_changed,apn,zone,work_desc,lat,lon"
+    for ds in ("e67z-kt2n", "dyxf-7hc4", "pi9x-tg5x"):
+        base = f"https://data.lacity.org/resource/{ds}.csv"
+        out = RAW / "la" / f"permits_citywide_{ds}.csv"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        parts, off = [], 0
+        while True:
+            q = urllib.parse.urlencode({"$select": sel, "$where": "permit_type='Bldg-New'", "$order": "permit_nbr", "$limit": 100000, "$offset": off})
+            b = _get(f"{base}?{q}").decode()
+            lines = b.splitlines()
+            parts.append(lines if not parts else lines[1:])
+            n = len(lines) - 1
+            off += n
+            if n < 100000:
+                break
+        out.write_text("\n".join(l for p in parts for l in p) + "\n")
+        _manifest("la", out.name, base, off, out, "LADBS building permits, type Bldg-New, whole city")
+        print(ds, off)
+
+
+STAGES = {"la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser(); a.add_argument("stage", choices=STAGES); STAGES[a.parse_args().stage]()

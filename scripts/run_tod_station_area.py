@@ -188,6 +188,13 @@ def permits(city: str) -> gpd.GeoDataFrame | None:
                                 geometry=h.geometry.representative_point(), crs=CRS).query("units > 0")
     if city == "San Diego":
         return sd_permits()
+    if city == "Los Angeles":
+        # whole-city LADBS new-building permits (step B); 0.2% (2011-16) and 1.3% (2018-22) of homes lack a location
+        d = pd.concat([pd.read_csv(RAW / "tod_radius_programs" / "la" / f"permits_citywide_{x}.csv", low_memory=False)
+                       for x in ("e67z-kt2n", "dyxf-7hc4", "pi9x-tg5x")]).drop_duplicates("permit_nbr")
+        d["units"] = pd.to_numeric(d.du_changed, errors="coerce").fillna(0)
+        d["year"] = pd.to_datetime(d.issue_date, errors="coerce").dt.year
+        return _pts(d[d.units > 0], "lon", "lat")
     return None   # Los Angeles (reform areas only), Madison (address placement needed): flagged
 
 
