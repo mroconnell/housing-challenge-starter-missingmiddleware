@@ -50,7 +50,10 @@ CENSUS_LICENCE = "Public domain (U.S. government work)"
 SF = "https://www2.census.gov/programs-surveys/acs/summary_file"
 STATES = {"36": ("NewYork", "ny"), "53": ("Washington", "wa"), "27": ("Minnesota", "mn"), "06": ("California", "ca"),
           "17": ("Illinois", "il"), "42": ("Pennsylvania", "pa"), "37": ("NorthCarolina", "nc"), "55": ("Wisconsin", "wi"),
-          "29": ("Missouri", "mo"), "39": ("Ohio", "oh")}   # 29, 39: no-reform cities of the lot model (item 46)
+          "29": ("Missouri", "mo"), "39": ("Ohio", "oh"),   # 29, 39: no-reform cities of the lot model (item 46)
+          "08": ("Colorado", "co"), "41": ("Oregon", "or"), "48": ("Texas", "tx"), "49": ("Utah", "ut"), "15": ("Hawaii", "hi")}
+# station-area cases (docs/tod/STATION_AREA_PLAN.md, LOCKED): survey end year (year before reform) and state, added to needs()
+STATION_AREA_NEEDS = [(2017, "08"), (2019, "41"), (2009, "48"), (2009, "49"), (2016, "06"), (2020, "06"), (2021, "17"), (2016, "15")]
 CITY_STATE = {"New York": "36", "Philadelphia": "42", "Charlotte": "37", "Saint Paul": "27", "Chicago": "17", "Madison": "55",
               "Los Angeles": "06", "Seattle": "53", "Bellevue": "53"}   # Toronto: no ACS
 CITY_KEY = {"New York": "nyc", "Philadelphia": "philadelphia", "Charlotte": "charlotte", "Saint Paul": "stpaul", "Chicago": "chicago",
@@ -71,7 +74,7 @@ def units() -> pd.DataFrame:
 
 def needs() -> list[tuple[int, str]]:
     u = units().dropna(subset=["state"])
-    return sorted({(int(y), s) for y, s in zip(u["end_year"], u["state"])})
+    return sorted({(int(y), s) for y, s in zip(u["end_year"], u["state"])} | set(STATION_AREA_NEEDS))
 
 
 # =========================================================================== fetch

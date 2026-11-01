@@ -252,3 +252,14 @@ Cities: Charlotte, Austin, Salt Lake City, Seattle, LA Warner Center, Bellevue B
 - **Los Angeles**: 27 of 30 read correctly (homes match the work description; garages, carports, shade structures correctly at 0; ADUs sit in their own field). 2 double counts: a "supplemental to permit …" and a "permit extension … re-check plans" each repeat an earlier permit's homes. Across the city such supplements and extensions carry 0.7% of homes in 2011–16 and 1.0% in 2018–22, nearly equal, so left in and flagged. 1 unclear: "21-unit apartment" recorded as 13 homes added (likely net of homes demolished).
 - **San Diego**: the layer has no work description, so the check is on job type and status: 30 of 30 handled as intended (5 cancelled permits dropped; 9 ADU/companion-unit permits excluded, as ADUs belong to the ADU scenario; one-family permits at 1 home).
 - **Honolulu**: 2 revoked permits correctly dropped; but ADU and ohana permits (5 of 30) were being counted. Fixed: ADU, ohana and "accessory dwelling" permits now excluded, as in LA and San Diego. After the fix Honolulu matches the Census permit survey: 1.02 in 2011–16, 1.00 in 2018–22, 1.06 in 2023–25 (was 1.14–1.17).
+
+### Step C, first pass (2026-11-01; fit-and-fix, nothing final)
+`scripts/build_tod_station_lot_table.py` builds the lot table for LA TOC, San Diego and Honolulu (lots within 1 mile of a reform or comparison rail stop; bands by distance; coverage = share of lots in the program map; new homes from county year built on both sides, Honolulu from island-wide permits). Fixes made in the first rounds:
+1. San Diego: the same building on two records (possessory-interest copy) and condo master records duplicating their unit parcels — removed.
+2. Existing homes: buildings with unknown year now count as existing (were dropped).
+3. Implausible counts: more than 2,000 new homes per acre (catches the LA roll's placeholder counts 999/1,001/1,003 on small lots; 5 lots, 5,001 homes). A building-value test was tried and dropped: LA's roll carries many new buildings at a partial in-construction value.
+4. Honolulu values: condo units summed to their parcel.
+Open issues found:
+- **Completion lag**: year built counts finished homes, about two years after the permit, so an "after" window starting the reform year mostly counts projects permitted before the reform. Proposed fix (for the owner): shift year-built windows two years later (LA 2013–18 / 2020–24; San Diego 2017–22 / 2023–25, three after-years).
+- **Big projects dominate**: lots with 100+ new homes carry 53% (LA), 61% (San Diego), 69% (Honolulu) of new homes; each is listed for a hand check (e.g. an 838-home record in Lemon Grove, 1.25 acres).
+- Honolulu existing homes need census blocks (not yet joined); Honolulu's two reform stations saw almost no building (2 and 4 homes within ¼ mile).
