@@ -63,3 +63,20 @@ Each city's score is reported too. With about 3 to 5 new cases, one city can fli
 | Austin TOD districts (Plaza Saltillo, MLK, Lamar/Justin; about 2005–2008) | To check: they were planned around MetroRail stations, which opened in March 2010 |
 | Portland Mixed Use Zones, 2018 | To check: share of the area within ½ mile of MAX or streetcar |
 | Portland Better Housing by Design, 2020 | To check: the same |
+
+## Results so far
+
+**Denver 2016, 61st & Peña: ruled out** before counting. Ordinance 347 of 2016 kept every base zone (C-MU-30 to C-MU-30, C-MU-20 to C-MU-20, and so on) and changed only overlays (airport influence). No allowance was raised.
+
+**Denver 2018, 38th & Blake (run 2026-11-01): `reference/tod_new_city_test_denver_2018.csv`.** Data and placement:
+- **Permits:** Denver's residential and commercial construction permits, "new building" with units. Apartments are filed as commercial permits; a first pass that read only the residential file found about 230 homes and was corrected before scoring.
+- **Placement:** each permit is placed on the lot whose shape holds its point, with the schedule number as fallback.
+- **Windows:** before, July 2012 to 2017 (5.5 years); after, 2019–2023.
+- **Study area:** 8,313 lots, 4,782 acres. Upzoned lots more than ½ mile from a rail station open in 2018 are relabelled (75 lots).
+
+| Version | Upzoned lots (acres) | Share before | Share after (actual) | Drift rule | Average change | Same share |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Main (incentive overlay IO-1 or a higher base zone) | 447 (404) | 2.4% (88 of 3,650) | **45.0%** (2,638 of 5,859) | 17.6% (score 0.94) | 6.4% (1.96) | 2.4% (2.93) |
+| Base zone only | 86 (47) | 0.0% (1 of 3,650) | **19.8%** (1,159 of 5,859) | 16.1% (0.21) | 4.0% (1.60) | 0.0% (6.58) |
+
+Scores are |log(predicted ÷ actual)|; lower is better. In both versions the drift rule beats both benchmarks. In the main version, all three under-predict the rise: the actual share went from 2% to 45%.

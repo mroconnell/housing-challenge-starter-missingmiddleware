@@ -21,10 +21,17 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from missing_middleware.paths import RAW  # noqa: E402
 
+# Parcels only around the 2018 and 2016 candidate areas (north-east Denver), not the whole city
+PARCEL_ENVELOPE = "-105.02,39.74,-104.75,39.82"
 UA = {"User-Agent": "missing-middleware research (TOD lot model, new reform cities)"}
 DEN = "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/ArcGIS/rest/services"
 DENVER = {
     "zone_map_amendments": (f"{DEN}/ODC_ZONE_MAPAMENDMENTS_A/FeatureServer/356", "*"),
+    "rail_stations": (f"{DEN}/ODC_TRANS_RAILTRANSITSTATIONS_P/FeatureServer/212", "*"),
+    "parcels": (f"{DEN}/ODC_PROP_PARCELS_A/FeatureServer/245", "OBJECTID,SCHEDNUM,D_CLASS_CN,ZONE_ID,LAND_AREA,APPRAISED_LAND_VALUE,APPRAISED_IMP_VALUE,RES_ORIG_YEAR_BUILT,COM_ORIG_YEAR_BUILT,TOT_UNITS"),
+    # Denver files apartment buildings as commercial construction permits, with their dwelling units
+    "commercial_permits": (f"{DEN}/ODC_DEV_COMMERCIALCONSTPERMIT_P/FeatureServer/317",
+                           "OBJECTID,DATE_ISSUED,PERMIT_NUM,CLASS,UNITS,SCHEDNUM,STAT_CODE_1,STAT_CODE_2,STAT_CODE_3,CANCEL"),
     "residential_permits": (f"{DEN}/ODC_DEV_RESIDENTIALCONSTPERMIT_P/FeatureServer/316",
                             "OBJECTID,DATE_ISSUED,PERMIT_NUM,CLASS,UNITS,SCHEDNUM,STAT_CODE_1,STAT_CODE_2,STAT_CODE_3,CANCEL"),
 }
@@ -42,11 +49,13 @@ def get(url: str) -> bytes:
     return b""
 
 
-def arcgis_all(layer: str, fields: str, page: int = 2000) -> tuple[list, str]:
+def arcgis_all(layer: str, fields: str, page: int = 2000, envelope: str = "") -> tuple[list, str]:
     feats, off, first = [], 0, None
     while True:
         p = dict(where="1=1", outFields=fields, returnGeometry="true", outSR=4326, f="geojson",
                  resultOffset=off, resultRecordCount=page, orderByFields="OBJECTID")
+        if envelope:   # xmin,ymin,xmax,ymax in WGS84
+            p.update(geometry=envelope, geometryType="esriGeometryEnvelope", inSR=4326, spatialRel="esriSpatialRelIntersects")
         url = f"{layer}/query?" + urllib.parse.urlencode(p)
         first = first or url
         d = json.loads(get(url))
@@ -74,7 +83,8 @@ def main(argv=None) -> None:
         if a.only and name not in a.only.split(","):
             continue
         print(name, flush=True)
-        f, url = arcgis_all(layer, fields)
+        env = PARCEL_ENVELOPE if name == "parcels" else ""
+        f, url = arcgis_all(layer, fields, envelope=env)
         data = json.dumps({"type": "FeatureCollection", "features": f}).encode()
         (d / f"{name}.geojson").write_bytes(data)
         m["files"][f"{name}.geojson"] = {"url": url, "accessed_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
