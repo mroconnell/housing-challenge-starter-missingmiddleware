@@ -33,12 +33,12 @@ Additional homes permitted over 2027–2031, compared with current law. Scenario
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | 1 | **ADUs** | 6,321 | **10,492** | 19,784 | 8.6%; 16.1% | 3.8; 7.1 |
 | 2 | **TOD** | 171 | **1,181** | 17,148 | 1.0%; 14.0% | 0.4; 6.2 |
-| 3 | **Parking** | — | **0** | 19,937 | 0%; 16.3% | 0; 7.2 |
+| 3 | **Parking** | −15,326 | **0** | 19,937 | 0%; 16.3% | 0; 7.2 |
 
 What the scenario names mean:
 - **ADUs:** the lower is "sluggish adoption" (the average of Rhode Island and Oregon); the central is "typical adoption"; the upper is "strong adoption", the high end of what states with a statewide ADU law have reached, which only California has passed. If Wisconsin followed the median path the eight statewide-law states actually took, the law would add 10,038 homes.
 - **TOD:** the lower is a "little response", like Los Angeles's transit program; the central (since AQ-068) is the lot model's drift rule, measured on 9 US transit upzonings: 1,181 extra homes near stops (601 to 1,662 when each city is left out in turn). It was found after seeing results; the rule set in advance gives 798, and Stacy et al.'s typical loosening reform (2,509, the former central) is kept as a comparison. The upper is a "strong response", like Auckland's 2016 upzoning.
-- **Parking:** the central is "no measurable change"; the upper is "the high end of the evidence". There is no separate lower case, because the central is already zero.
+- **Parking:** the central is "no measurable change"; the upper is "the high end of the evidence"; the lower is "the low end of the evidence" (owner, 2026-11-01): the measured average of 76 repeal places against similar places, −1.14 permits per 1,000 existing homes per year, applied without a floor at zero. That is −15,326 homes over 2027–2031, 12.5% below current law. It is driven mostly by San Francisco and Minneapolis.
 - **Median lines.** A "median of real cases" line is shown only where a reform has at least four comparable cases. ADUs (8 states) and parking (76 places) have one. Parking's median place changed by −0.12 permits per year per 1,000 existing homes, so its line is shown at 0, the same as its central. TOD has only three whole-city studies, so it has none.
 
 ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](ASSUMPTIONS_AND_QUESTIONS.md)): lower 6,321, central 10,492, upper 19,784 on a 786 baseline. Massachusetts' 2025 count is now divided by a full year, because its survey covers January. Earlier that day (AQ-066) they were 6,321, 10,615 and 19,925, when Madison moved onto the statewide model like every other place. Before that they were 6,223, 10,349 and 19,294 on 786 (AQ-065, 2026-10-31), 6,804, 10,679 and 19,535 on 530 (AQ-064, 2026-10-29), 6,734, 10,788 and 20,057 (AQ-061, 2026-10-28), and first 5,538, 8,757 and 16,889 on 605. ADU shares are of the 122,619-home all-housing baseline (central 10,492 ÷ 122,619 = 8.6%; upper 19,784 ÷ 122,619 = 16.1%); per 1,000 existing homes they are ÷ 2,778.572 thousand housing units (central 3.8; upper 7.1).
@@ -88,7 +88,7 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 
 | Reform | Assumption | What changing it does (additional homes, 2027–2031) |
 | --- | --- | --- |
-| Parking | **The high end of the range** | The upper case is the top of the placebo-based range (+1.49). A lower bound or the central would give 0. |
+| Parking | **The ends of the range** | The upper case is the top of the placebo-based range (+1.49). The lower case is the measured average (−1.14), unfloored: −15,326. |
 | Parking | **Which places are in the evidence** | Using only the first 24 places studied, the high end is 29,662; combining the 76 places with 185 California cities under AB 2097 gives 15,138; leaving out San Francisco gives 24,520. |
 | Parking | **How the range is built** | An earlier placebo version with too few stand-ins for big cities gave +0.95 (12,695); resampling the 76 places gives +1.43 (19,186), close to the adopted 19,937. |
 | Parking | **How the comparison cities are cleaned** (improvement loop round 1) | The headline high end (19,937) is the lowest of four versions and may be understated; it is uncertain by about 2×. The other versions: undated reform entries kept as comparisons 29,843; strict cleaning, resampling 38,230; strict cleaning, placebo 49,712. The central stays about zero in every version. Round 2 kept 19,937 (owner); its better-cleaned versions are sensitivities: apartment-scale reforms only 29,307; with California, Oregon and Washington state laws excluded too 27,671. |
@@ -132,7 +132,7 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
 | --- | ---: | ---: | ---: | ---: | --- |
 | ADUs (ADU permits) | 6,321 | 10,492 | 19,784 | 8.6% | [NET_STATEWIDE_R1.md](adu/NET_STATEWIDE_R1.md) |
 | TOD (all homes) | 0 | 1,181 (tool central, AQ-068) | 839–1,382 | 1.0% | [WI_NET_PLAN.md](tod/WI_NET_PLAN.md) (round 4); AQ-068 |
-| Parking, route A (the tool) | 0 | 0 | 19,937 | 0% | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
+| Parking, route A (the tool) | −15,326 | 0 | 19,937 | 0% | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 | Parking, route B (trees) | −4,171 | 0 | 0 | 0% | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 
 - **TOD lower is 0:** homes may only move into station areas from elsewhere, with no net gain.
