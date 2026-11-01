@@ -196,7 +196,7 @@ The same archive will be used to check BHD's lot zones (archive layers before an
 | Main | 3.9% (1,056 of 27,344) | 3.1% (638 of 20,602) | 18.4% (1.78) | 7.8% (0.93) | 3.9% (0.22) |
 | Into mixed use from other zones only | 1.3% | 0.9% | 16.9% (2.88) | 5.3% (1.72) | 1.3% (0.34) |
 
-**Score so far: 3 new cases, main versions.** Austin's Garrison Park (2016) is still to check under the search log.
+**Score so far: 3 new cases from 2 cities, main versions.** Austin's Garrison Park (2016) is still to check under the search log. As a third city, it could break the tie.
 
 | Case | Drift rule | Average change | Same share |
 | --- | ---: | ---: | ---: |
@@ -205,7 +205,14 @@ The same archive will be used to check BHD's lot zones (archive layers before an
 | Portland 2018 | 1.78 | 0.93 | 0.22 |
 | **Median** | **1.28** | **0.93** | **0.22** |
 
-**Outcome by the pre-set rule:** the drift rule loses to same share. Message to the owner, as fixed in advance: the effect near stops may be about 0. Caveats, stated with it:
+**Outcome: inconclusive** (audit review, 2026-11-01).
+- The two Portland cases share a city, study areas and windows, so they are not independent. The plan did not say how to merge cases from one city.
+- Counting each case: same share wins (median 0.22).
+- Counting Portland once (mean of its two cases): the medians over Denver and Portland are drift 1.24, average change 1.32, same share 1.58, so drift narrowly wins.
+- So the central line stays at 1,196 unless the owner decides otherwise, and "about 0" is shown as a sensitivity.
+- Infill Project check: per year, single-dwelling ring homes fell 21% (694 to 547), against 36% for the whole study area (5,200 to 3,327). It barely affected the result.
+
+Caveats:
 - One case can flip the median.
-- The two Portland reforms were citywide re-codings with modest raises; Denver's was a targeted station-area upzoning. In Denver the share rose far more than any rule predicted.
+- The two Portland reforms were citywide re-codings with modest raises; Denver's was a targeted station-area upzoning. In Denver the share rose far more than any rule predicted. This is a caveat only, not a pre-registered split. It matches the 9 training cities, where low-share cases ranged from 0 (Bellevue) to +0.34 (New York).
 - Portland's study areas are most of the city, so "share" there is diluted by citywide building.
