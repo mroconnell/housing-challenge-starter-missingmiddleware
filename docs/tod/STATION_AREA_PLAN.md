@@ -146,3 +146,11 @@ Nothing is counted until the owner confirms the locked plan.
 ### Owner change (2026-11-01 13:48): split the inner band
 
 "we can differentiate between .25 and .5 mile." The TOD band becomes two bands: inner (0 to ¼ mile) and outer (¼ to ½ mile). Each gets its own rate per 1,000 existing homes, its own reform-minus-control effect, and its own coverage. Wisconsin is applied band by band (homes within ¼ mile, and homes from ¼ to ½ mile, of rail and rapid stops). Programs with a ¼-mile rule (Chicago bus corridors) count only in the inner band for those stops.
+
+### Owner proposal (2026-11-01 13:56): test traits in three stages
+
+1. Block traits (distance band, existing density, vacant land, land value, home prices).
+2. Stop traits (rail or bus, open at reform or not), tested on what stage 1 leaves unexplained.
+3. City traits, a short list of the biggest theories only (by-right or incentive, parking cut too, market strength), tested on what stages 1–2 leave unexplained, at most 1–2 kept.
+
+Every stage is scored by hiding a whole city at a time. A stage's traits are kept only if they beat the stage before. The order and the city shortlist are fixed before any counting.
