@@ -88,8 +88,8 @@ Recomputed on one stop list (main case), 2020 homes and whole-city denominators,
 
 | City | Share of 2020 homes near stops (tool) | New homes near stops, 2019–2024 | Ratio |
 | --- | ---: | ---: | ---: |
-| Milwaukee | 68.2% (175,633 of 257,614) | 95.0% (6,236 of 6,566; property file) | 1.393 |
-| Madison | 62.8% (80,609 of 128,430) | 76.9% (11,739 of 15,261; permit survey) | 1.226 |
+| Milwaukee | 68.2% (175,633 of 257,614) | 95.0% (6,236 of 6,566; property file, by year built) | 1.393 |
+| Madison | 62.8% (80,609 of 128,430) | 76.9% (11,739 of 15,261; permits, by permit year) | 1.226 |
 | Elsewhere (**assumption**: both cities pooled) | 66.4% | 82.4% | 1.240 (range 1.226–1.393) |
 
 Re-based baseline near stops, 2027–2031: **18,322** (share range 18,297–18,598; pace range 10,623–27,715). This replaces the earlier 17,597.
