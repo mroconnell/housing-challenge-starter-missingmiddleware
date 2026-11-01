@@ -217,3 +217,10 @@ Caveats:
 - One case can flip the median.
 - The two Portland reforms were citywide re-codings with modest raises; Denver's was a targeted station-area upzoning. In Denver the share rose far more than any rule predicted. This is a caveat only, not a pre-registered split. It matches the 9 training cities, where low-share cases ranged from 0 (Bellevue) to +0.34 (New York).
 - Portland's study areas are most of the city, so "share" there is diluted by citywide building.
+
+**Garrison Park (Austin), settled before any permit is read (audit, 2026-11-01):**
+1. Infill options are scored by allowed homes per acre, before vs after. A secondary apartment adds 1 home per lot. A small-lot option uses the homes per acre implied by the new minimum lot size.
+2. "Upzoned" means lots where that figure rose, taken from the ordinance's day-one tract map. Base rezonings use the Austin zone table.
+3. Windows: before 2009–2014, after 2015–2019, on the 5-year basis.
+
+If the ordinance cannot be read tract by tract, the case is logged as "ruled out: no day-one map" (a data reason).
