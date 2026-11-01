@@ -1,6 +1,6 @@
 // The parking requirement reduction reform: seven screens over the bundle written by
 // scripts/build_parking_bundle.py. The browser only selects, sums and formats bundle values.
-import { legendHTML, xyChart } from "../../charts";
+import { bindChartMode, chartModeToggleHTML, legendHTML, xyChart } from "../../charts";
 import { createMap, RAMP, WATER, type GeoKind, type MapHandle } from "../../map";
 import { dec, esc, int, pill, YEARS } from "../../format";
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
@@ -120,7 +120,7 @@ function compare(b: ParkingBundle, main: HTMLElement): void {
     <section class="tile"><h2 class="tile-label">Current law</h2><p class="tile-num">${int(s.baseline_total)}</p>
       <p class="tile-sub">permits, 2027–2031</p><p class="tile-note">"${esc(up.label)}" would add ${dec((up.additional_total / s.baseline_total) * 100, 0)}% to it.</p></section>
   </div>
-  <section class="card"><h2>New homes permitted each year</h2><div class="chart-box" id="pk-chart"></div>
+  <section class="card"><h2>New homes permitted each year</h2>${chartModeToggleHTML("pk-chart-mode")}<div class="chart-box" id="pk-chart"></div>
     ${legendHTML([{ name: "Observed", color: C.observed, width: 2 }, { name: "Current law (range shaded)", color: C.baseline, dash: "7 5" }, { name: up.label, color: C.upper, dash: "9 3 2 3" }, ...(lo ? [{ name: lo.label, color: C.lower, dash: "3 3" }] : []), { name: s.reference_line.label, color: "#b0501a", dash: "12 4 3 4" }])}
     <p class="small muted">"${esc(cen.label)}" is identical to current law, so it is not drawn separately.</p>
     <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Permits per year: current law and with the law</caption>
@@ -129,7 +129,8 @@ function compare(b: ParkingBundle, main: HTMLElement): void {
       <tr><th scope="row">2027–2031</th><td class="num">${int(s.baseline_total)}</td>${lo ? `<td class="num">${int(lo.with_law_total)}</td>` : ""}<td class="num">${int(cen.with_law_total)}</td><td class="num">${int(up.with_law_total)}</td><td class="num">${int(s.baseline_total + s.reference_line.value)}</td></tr></tbody></table></div>
     <p class="small muted">${esc(s.reference_line.info)} Yearly rows may not add exactly to the totals because of rounding.</p></section>`;
   const ys = s.years;
-  xyChart(document.getElementById("pk-chart")!, {
+  const fy = ys.filter((y) => YEARS.includes(y.year));
+  bindChartMode("pk-chart-mode", (mode) => xyChart(document.getElementById("pk-chart")!, mode === "totals" ? {
     title: "New homes permitted each year in Wisconsin", desc: `Observed 2015–2025; current law ${int(s.baseline_total)} over 2027–2031; with the law ${int(cen.with_law_total)} (no measurable change) or ${int(up.with_law_total)} (high end of the evidence).`,
     yLabel: "Permits per year", xTicks: ys.map((y) => y.year),
     xFormat: (x: number) => (window.innerWidth < 600 && (x - 2015) % 4 !== 0 ? "" : String(x)),
@@ -142,7 +143,17 @@ function compare(b: ParkingBundle, main: HTMLElement): void {
     ],
     band: { name: "Current-law range", lo: ys.map((y) => ({ x: y.year, y: y.baseline_low ?? null })), hi: ys.map((y) => ({ x: y.year, y: y.baseline_high ?? null })), color: C.baseline },
     vline: { x: 2026.5, label: "Law in effect" },
-  });
+  } : {
+    title: "Extra homes permitted each year in Wisconsin, 2027–2031",
+    desc: `Extra homes against current law over 2027–2031: ${esc(up.label.toLowerCase())} ${int(up.additional_total)}${lo ? `, ${esc(lo.label.toLowerCase())} ${int(lo.additional_total)}` : ""}, ${esc(cen.label.toLowerCase())} ${int(cen.additional_total)}. Current law is the zero line. The table below has the same values.`,
+    yLabel: "Extra homes per year", xTicks: YEARS,
+    series: [
+      { name: "Current law", values: fy.map((y) => ({ x: y.year, y: 0 })), color: C.baseline, dash: "7 5" },
+      { name: up.label, values: fy.map((y) => ({ x: y.year, y: y.add_upper ?? null })), color: C.upper, dash: "9 3 2 3", marker: "circle" as const },
+      ...(lo ? [{ name: lo.label, values: fy.map((y) => ({ x: y.year, y: y.add_lower ?? null })), color: C.lower, dash: "3 3", marker: "circle" as const }] : []),
+      { name: s.reference_line.label, values: fy.map((y) => ({ x: y.year, y: s.reference_line.per_year })), color: "#b0501a", dash: "12 4 3 4" },
+    ],
+  }));
 }
 
 // ---- map (shared geography from the ADU bundle: county, municipality and district outlines) ----

@@ -35,3 +35,12 @@ test("parking screens show the bundle's numbers", async ({ page }) => {
   }
   await expect(page.getByTestId("brief")).toContainText(fmt(up.additional_total));
 });
+
+test("parking chart toggles between totals and extra homes only", async ({ page }) => {
+  await page.goto("#/parking/compare");
+  const toggle = page.getByTestId("pk-chart-mode");
+  await expect(toggle.getByLabel("Totals")).toBeChecked();
+  await expect(page.locator("#pk-chart svg title")).toContainText("New homes permitted each year");
+  await toggle.getByLabel("Extra homes only").check();
+  await expect(page.locator("#pk-chart svg title")).toContainText("Extra homes permitted");
+});
