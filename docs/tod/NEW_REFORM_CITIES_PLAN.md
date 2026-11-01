@@ -86,3 +86,29 @@ Audit notes on Denver (2026-11-01):
 - **Placement in the study area:** the 0.548 match rate is citywide. Inside the study area, July 2012–2023 new-building permits hold 10,137 homes; 10,002 were placed by point, 18 by schedule number, and 117 (1.2%) were not placed. Inside the reform area: 4,306 by point, 0 by number, 56 not placed, out of 4,362. Outside it, in the ring: 5,696 by point, 18 by number, 61 not placed, out of 5,775.
 - **Scoring:** Denver counts once in the median, using the main version. The base-zone-only version (1 home of 3,650 before) is a check only.
 - **Reading:** the drift rule wins but misses the size, 17.6% predicted against 45.0% actual.
+
+## Search scope for Austin and Portland (logged before any of their permits are counted; audit review sections 5–6)
+
+**Scope (both cities):** every city zoning change adopted 2010–2020 that raised allowed homes on a mapped area within ½ mile of a rail or bus rapid transit stop open on the adoption date, with at least 3 years of permit data before and 3 after.
+
+- **Austin rapid stops:** MetroRail (opened March 2010); MetroRapid 801 and 803 (January 2014 and August 2014).
+- **Portland rapid stops:** MAX light rail and the Portland Streetcar, using each line's opening date.
+
+**Sources searched for zoning changes:**
+- Portland: the city's zoning-proposal layers, which hold the existing and adopted zone for each mapped change (`BPS_Planning_Projects`, base zone proposals, status "adopted" or "amended").
+- Austin: the city's zoning cases with ordinance numbers and dates (to search).
+
+Every change found is logged below as qualifies or ruled out, with the reason. All that qualify are scored. Permits are not looked at by area before this log is complete.
+
+**Permit data limits found:** Portland's published permit layers run 2005–2022 by year, with a field for new units (`NUMNEWUNITS`). So a Portland change needs to be adopted by 2019 to have 3 after-years.
+
+### Log
+
+| City | Change | Adopted | Status | Reason |
+| --- | --- | --- | --- | --- |
+| Austin | TOD regulating plans: Plaza Saltillo, MLK, Lamar/Justin | 2008–2009 (effective March 2009 for Saltillo and MLK) | Ruled out | Before MetroRail opened (March 2010): no rapid stop open on the adoption date |
+| Austin | ETOD overlay | May 2024 | Ruled out | Under 3 after-years |
+| Austin | Later changes 2010–2020 | — | To search | Zoning cases |
+| Portland | Comprehensive Plan map and zones ("mp", including the conversion to mixed-use zones) | 2018 (effective May 2018) | To check | Mapped from/to zones exist; whether each change raised allowed homes is judged from the zones' limits |
+| Portland | Better Housing by Design ("bhd") | 2019 (effective March 2020) | Ruled out | Permit layers end in 2022: 2 after-years |
+| Portland | 82nd Avenue plan ("82nd") | To confirm | To check | — |
