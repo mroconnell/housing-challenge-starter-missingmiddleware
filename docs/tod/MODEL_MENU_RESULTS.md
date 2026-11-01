@@ -129,3 +129,42 @@ First read (before the audit):
 - Multilevel's negative Wisconsin figure is an outlier to trace: its law-on share in Wisconsin is below its law-off share.
 - The causal forest has the best calibrated score after multilevel (0.31), but its raw shares are far off (Chicago 0.99 vs 0.10).
 - Gradient boosting here is the menu version (rows thinned). Its K of 0.077 differs from Wisconsin net round 4 (0.110–0.120, no thinning).
+
+### Share menu, re-scored with the audit's fixes (2026-11-01)
+
+Script `scripts/run_tod_share_menu_score.py` → `reference/tod_menu_share_rescored.csv`. No refits.
+
+What changed:
+- K for each scored city is now computed leaving that city out. Before, it used all 9 cities, which leaked.
+- A no-model benchmark is added: share before + the other cities' average change.
+- The table now shows the correlation of each method's predicted uplift with the actual change.
+- K's range by left-out city is shown.
+
+Wisconsin calibrated B uses K from all 9 cities, since Wisconsin is never scored. Its range uses the left-out K's.
+
+| Method | Calibrated (K left out) | Uplift vs actual change (correlation) | K, all 9 (range by left-out city) | Wisconsin B calibrated (range) |
+| --- | ---: | ---: | --- | --- |
+| **Benchmark: same share + others' average change (+0.040)** | **0.345** | — | — | **797** |
+| Benchmark: same share as before | 0.686 | — | — | 0 |
+| Causal forest | 0.335 | 0.57 | 0.048 (0.003–0.093) | 700 (40–1,357) |
+| Gradient boosting | 0.403 | 0.25 | 0.077 (0.005–0.147) | 920 (55–1,758) |
+| Multilevel | 0.425 | 0.33 | 0.264 | −819: **dropped** (see below) |
+| Plain average | 0.432 | −0.22 | 0.081 (0.005–0.163) | 573 (33–1,154) |
+| LASSO | 0.495 | 0.37 | 0.147 (0.010–0.310) | 511 (36–1,081) |
+| Regression tree | 0.505 | −0.01 | 0.181 (0.012–0.412) | 689 (45–1,568) |
+| Linear regression | 0.527 | 0.47 | 0.153 (0.011–0.316) | 455 (32–940) |
+| Nearest neighbours | 0.553 | 0.14 | 0.147 (0.009–0.277) | 499 (30–943) |
+| Random forest | 0.579 | −0.24 | 0.166 (0.009–0.350) | 1,198 (65–2,527) |
+
+Findings:
+- **No method beats the no-model benchmark.** The causal forest ties it (0.335 vs 0.345). The lot models get the direction right, not the size.
+- **Raw scores track the level of the after-share, not the change.** The causal forest's raw law-on share is about 0.99 everywhere, which is broken, so only its calibrated version is usable.
+- **K swings up to about 30× depending on which city is left out.**
+- **Multilevel is dropped.** Its law-on and law-off models are separate linear fits that can cross. In Wisconsin it predicts 0 or fewer homes per acre on 77–78% of law-on lots, against under 1% for law-off on the same lots. Its law-on share therefore falls below its law-off share (Milwaukee 0.665 vs 0.725; Madison 0.454 vs 0.643).
+
+**Wisconsin, extra homes from the law, 2027–2031:**
+- If homes only move: 0.
+- Pure addition: about 500–1,200 (methods, calibrated), with the no-model benchmark at about 800.
+- The tool's typical figure is 2,509.
+
+No tool change.
