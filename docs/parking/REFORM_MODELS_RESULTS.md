@@ -33,6 +33,7 @@ The 58 held-out repeal rows come from 28 repeal places, each left out in turn.
 | Honest forest (econml, one-off) | 0.415 | 1.36 | 59% | 0 | 0 | 0 to 0 |
 | 50 nearest neighbours | 1.033 | 1.77 | 29% | 26,562 | 18,410 to 33,198 | −37,960 to 5,130 |
 | Causal forest (econml, one-off) | 0.724 | 1.07 | 36% | 11,660 | −7,557 to 26,982 | −55,827 to 22,158 |
+| Causal forest (scikit-learn, round 3) | 0.582 | 0.99 | 40% | −20,825 | −35,715 to −2,558 | −57,786 to 16,754 |
 
 ## Reading
 
@@ -54,6 +55,8 @@ The jackknife band above hides San Francisco, because its single leave-out sits 
 - **The causal forest** has a negative effect on the held-out repeal places (−63 homes per place per year) but a positive one for Wisconsin (+11,660). Its fake range is ±56,000, so it does not separate a repeal effect from noise.
 - **50 nearest neighbours** scores worst (1.03) and shifts its neighbours with the trait.
 - **Same pace overpredicted the repeal places by 45% in total,** almost all from San Francisco.
+
+- **The scikit-learn causal forest (round 3)** gives −20,825 for Wisconsin, but its fake range (−57,786 to +16,754) covers it. It scores worse than same pace on held-out repeal places (0.582 against 0.410). The two causal forests disagree in sign (econml +11,660), which also says the signal is noise. It replaces econml for any future use.
 
 ## Possible tool lines (for Ryan, not applied)
 
