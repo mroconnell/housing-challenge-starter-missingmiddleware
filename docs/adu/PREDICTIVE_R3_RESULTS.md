@@ -1,16 +1,16 @@
 # ADU model runs, run 3: results
 
-Run 2026-10-31 under [PREDICTIVE_R3_PLAN.md](PREDICTIVE_R3_PLAN.md), committed before running. Code: `scripts/build_adu_predictive_panel.py --run 3`, `scripts/run_adu_predictive.py --run 3`. Outputs: `reference/adu_predictive_run3_*.csv`. The run was cut off twice when the session ended; the seed checks and the Wisconsin step were finished by rerunning on the saved predictions (`--reuse`), which changes nothing in the main-seed results.
+Run 2026-10-31 under [PREDICTIVE_R3_PLAN.md](PREDICTIVE_R3_PLAN.md), committed before running. Code: `scripts/build_adu_predictive_panel.py --run 3`, `scripts/run_adu_predictive.py --run 3`. Outputs: `reference/adu_predictive_run3_*.csv`. The run was cut off twice when the session ended; the seed checks and the Wisconsin step were finished by rerunning on the saved predictions (`--reuse`), which changes nothing in the main-seed results. Check: rerunning the plain average on the main seed reproduces the saved predictions exactly (15,223 rows, largest difference 0.0).
 
 **Units.** Rates are ADU permits per 1,000 single-family homes per year. A log error is log(predicted ÷ observed) for a place or state whose whole state was left out of training. Wisconsin figures are additional ADU permits, 2027–2031.
 
 ## Answer
 
 - **No-reform side:** the flexible models predict other states' no-law levels better than the adopted model's law-off part. But every model over-predicts Madison, Wisconsin's own city, by 4 to 18 times. So a cross-state model is not a safe Wisconsin baseline. The tool's baseline (each place's own measured rate plus the no-reform trend) stays.
-- **Law side, "how much":** boosted trees passed on the main seed (0.17 against the adopted model's 0.22), but only 2 of the 5 extra seeds. **Not robust.**
-- **Law side, "where":** the causal forest passes on all 5 seeds; boosted trees on 4 of 5. These are candidates for a "where" line, not for the statewide total.
-- **Wisconsin, from the two models that passed something:** boosted trees 6,619; causal forest 13,942. The tool's central is 10,349. They sit inside the tool's range (6,223–19,294).
-- **Worst misses:** Utah is under-predicted by every method (−0.36 to −0.96). Its counts are self-reported internal ADUs only, so its rate is hard to place. Seattle's tracts (3.8 permits per 1,000 homes per year with no state law) are under-predicted by every method on the no-reform side.
+- **Law side, "how much":** boosted trees passed on the main seed (0.17 against the adopted model's 0.22), but only 2 of the 5 extra seeds. **Not robust.** Averaged over the 5 extra seeds, boosted trees score 0.255 and the causal forest 0.253, both worse than the adopted model's 0.218. So neither is offered as a statewide line.
+- **Law side, "where":** steady on every seed. The causal forest scores 0.98–0.99 and boosted trees 0.86–0.89, against the adopted model's 2.27. The forest's county pattern, scaled to the adopted statewide total, is a fair candidate "where" view.
+- **Other models land inside the tool's range.** Their Wisconsin totals (6,619 and 13,942 additional permits) fall between the tool's lower and upper (6,223–19,294); they are not offered as separate lines.
+- **Worst misses:** Utah is under-predicted by every method (−0.36 to −0.96). Its counts are self-reported internal ADUs only, so its rate is hard to place. Seattle's tracts (3.8 permits per 1,000 homes per year with no state law, under Seattle's own 2019 ADU reform) are under-predicted by every method on the no-reform side.
 
 ## 1. No-reform side (every row with no statewide law, own state held out)
 
@@ -30,7 +30,7 @@ Score: median over 10 units of |log((predicted + 0.05) ÷ (observed + 0.05))|.
 | Madison tracts (WI) | 0.09 | 0.75 | 1.59 | 0.73 | 0.34 | 0.52 |
 | Minneapolis tracts | 0.22 | 0.73 | 1.26 | 0.52 | 0.15 | 0.39 |
 | Austin tracts | 1.00 | 0.63 | 1.42 | 0.59 | 0.16 | 0.64 |
-| Seattle tracts | 3.82 | 0.63 | 0.65 | 0.75 | 0.80 | 1.10 |
+| Seattle tracts (local reform) | 3.82 | 0.63 | 0.65 | 0.75 | 0.80 | 1.10 |
 | Washington cities | 0.38 | 0.63 | 0.35 | 0.26 | 0.09 | 0.15 |
 
 ## 2. Law side
@@ -58,6 +58,11 @@ The adopted model scores 0.24 here, not the tool's 0.13, because this panel spli
 ## 3. Flags before the run (owner rule; nothing stopped)
 
 43 flags: 24 policy-definition (reporting shares, partial years, recoded law years), 11 missing inputs (small tracts' ACS medians, filled and flagged), 6 unit checks, 2 held-out units far from the training range. Same kinds as run 2.
+
+## 3b. Audit checks
+
+- **Washington 2026 counts a full year of law, not the months covered.** Every Washington city row for estimate year 2026 (April 2025 to March 2026) has exposure 1.0 year. But HB 1337 bound King, Pierce, Snohomish and Kitsap cities only from 2025-06-30 (about 9 of the 12 months) and most other cities from about 2025-12-31 (about 3 months). So Washington's law-year rate is read too low, which fits Washington being over-predicted in the adopted model (+0.20). The same coding is in the tool's fit (AQ-061). Weighting the year by the share of homes under the law, month by month, is a candidate fix for the next round; it is not applied here.
+- **Seattle's 3.82** permits per 1,000 homes per year with no state law is under Seattle's own 2019 ADU reform.
 
 ## 4. Next
 
