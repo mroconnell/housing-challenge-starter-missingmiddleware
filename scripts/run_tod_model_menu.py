@@ -1,5 +1,8 @@
 """TOD full model runs: 8 methods plus the EconML causal forest (docs/tod/MODEL_MENU_PLAN.md; plan item 66).
 
+Method 8 (causal forest) needs EconML installed separately (`uv pip install econml`); it is not a project dependency
+(licence allowlist, see MODEL_MENU_PLAN.md dependency note).
+
     uv run --all-extras python scripts/run_tod_model_menu.py --model pace|share [--methods 0,1,...]
 
 pace: the no-reform baseline (rows and traits of run_tod_pace_loop.py round 2), held-out city and later-years tests.

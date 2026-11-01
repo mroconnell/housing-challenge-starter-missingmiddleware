@@ -61,3 +61,5 @@ Nothing is dropped or capped by hand. The choice is made by the registered score
    - the Wisconsin figure with and without the flag;
    - the Wisconsin cross-check, updated (the central stays 18,322).
 5. **Share model:** the same held-out importance check.
+
+**Dependency note (2026-11-01):** EconML is removed from the `ml` extra. It pulls in packages outside the project's permissive licence allowlist (llvmlite, Apache-2.0 WITH LLVM-exception; tqdm, MPL-2.0), which broke `scripts/check_python_licenses.py`. The causal-forest row (method 8) was run once for comparison and is kept as a reported result. Reproducing it needs EconML installed separately; it is not part of the submitted pipeline. No tool number or proposal depends on it: the ~800 line rests on the no-model benchmark.
