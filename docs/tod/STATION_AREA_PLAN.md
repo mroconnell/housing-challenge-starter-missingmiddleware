@@ -208,3 +208,9 @@ Cities: Charlotte, Austin, Salt Lake City, Seattle, LA Warner Center, Bellevue B
 3. **Incentive vs by-right.** Tracked separately with inclusionary requirements; tested only together as one "strings attached" city trait. LA TOC is training only. If only one city has strings attached, the owner is asked whether to drop it from training.
 4. **Parking overlap.** Parking cut is tracked per city and held as the leading candidate for the one spare city test. San Diego and Chicago results are shown with and without, and the combined view's rule (b) is unchanged.
 5. **Wisconsin coverage on the same definition.** Coverage is the share of homes in each stop's band that sit on lots the reform upzones. Wisconsin's is recomputed per stop and band the same way: the share of band homes on lots the proposed law would upzone (eligible zoning classes), not assumed 100%.
+
+### Auditor fixes applied (2026-11-01 14:32; review: audit/tod_station_area_locked_plan_review_2026-11-01.md)
+- San Diego windows corrected: before 2015–20, after 2021–25 (in force 8 Jan 2021). This replaces the 2014–19 before window above and the "2022–2025" note in the scoping table.
+- Honolulu: primary after window 2018–22; second version 2023–25 (after the rail opening).
+- Each comparison city will be listed with "own TOD rezoning in window: yes/no + source"; stops in cities that did their own are flagged and shown with and without.
+- Put to owner (pending): keep all 14 cases with coverage as the trait (auditor's recommendation) or one written coverage rule; county year-built for comparison areas; bus-only Wisconsin areas get no TOD effect; average NYC and Philadelphia; single strings-attached city shown with and without, or dropped.
