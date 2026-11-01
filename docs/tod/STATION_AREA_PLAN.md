@@ -88,17 +88,20 @@ TOD takes priority over near. Each band is drawn around reform stops and, separa
 - **Near-band spillover:** the same difference for the near band. It can be negative.
 - **Far-band check:** the far band's change in reform cities against Milwaukee's (no reform), to test whether homes moved.
 
-**Coverage.** Each case records the share of its ½-mile land actually upzoned: Chicago 1%, Philadelphia 3%, New York 5%, Seattle 6%, Madison 8%, Saint Paul 10%, Denver and Portland 14%, Charlotte, Austin and Salt Lake City 15–16%, Los Angeles 27%, Bellevue 32%. Wisconsin's law: about 87% of law-area lots.
-- **Raw:** the effect as measured.
-- **Coverage-adjusted:** effect ÷ coverage × Wisconsin's coverage. This is the same idea as the tool's "per upzoned home" sizing for the published studies.
-
-Both are reported. Which is primary is the owner's call.
+**Coverage (revised after the audit, section F).**
+- **One definition for training and Wisconsin:** the share of the TOD band's existing homes (census blocks) that sit on upzoned lots. This replaces the earlier land shares, which counted streets and parks for the training cities but not for Wisconsin's 87% (a lots figure). The land shares (Chicago 1% … Bellevue 32%) are kept only as a description.
+- **No city-by-city division and no cap.** One pooled ratio of sums: effect per covered home = Σ(city effect × band homes) ÷ Σ(coverage × band homes). Low-coverage cities add little to either sum, so their noise is not multiplied.
+- **Two versions, both pre-registered; the owner picks the tool line:**
+  - **Raw (distance only):** the measured effect, applied to Wisconsin's band homes.
+  - **Scaled (Wisconsin's law):** effect per covered home × Wisconsin's coverage (same definition) × band homes.
+- **Testing the straight-line assumption:** coverage goes into the fast model as a trait, with the slope of effect on coverage fitted leaving one city out. Reading set now: if the effect rises with coverage, scaling is supported; if not, that is said beside the scaled figure.
+- Wisconsin's coverage is outside the training range (the training maximum is about a third). Under the owner's rule this is stated, not a reason to withhold the number.
 
 **Combining:** the city is the unit. New York's 22 cases and Philadelphia's 64 are averaged, as Portland's and Austin's were (owner's pick pending). Los Angeles has no citywide permits, so it gets the plain change in its reform TOD band, flagged.
 
 **Fast model:** effect per city, leaving one city out, scored by absolute error in homes per 1,000 per year. Benchmarks: zero, and the other cities' average. The 4 new cities are held out. Milwaukee, the placebo, should show about 0.
 
-**Wisconsin formula (fixed now):** extra homes 2027–2031 = effect (per 1,000 existing homes per year) × existing homes in Wisconsin's rail and rapid-bus ½-mile areas (2020 census: 89,528) ÷ 1,000 × 5.
+**Wisconsin formula (fixed now):** raw: extra homes 2027–2031 = effect (per 1,000 existing homes per year) × existing homes in Wisconsin's rail and rapid-bus ½-mile areas (2020 census: 89,528) ÷ 1,000 × 5. Scaled: the pooled effect per covered home × Wisconsin's coverage × 89,528 ÷ 1,000 × 5.
 - Bus-only areas get no TOD effect under the owner's pick (pending).
 - The result is shown beside 1,196.
 - Bands match the near-stop baseline's definition (rail and rapid ½ mile).
