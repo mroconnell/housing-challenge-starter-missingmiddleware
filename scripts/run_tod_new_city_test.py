@@ -222,13 +222,43 @@ def portland_2018(version: str) -> dict:
     return out
 
 
+def austin(version: str) -> dict:
+    """Austin TOD regulating plans (Plaza Saltillo, MLK, Lamar/Justin) as one case; day-one maps in
+    reference/tod_austin_dayone_regulating_plans.geojson (committed before permits were loaded)."""
+    d = RAW / "tod_new_cities" / "austin"
+    r = gpd.read_file(REFERENCE / "tod_austin_dayone_regulating_plans.geojson").to_crs(CRS)
+    r = r[r.SUBDISTRICT_MAP != "TROW"].copy()
+    r["up"] = True
+    if version.endswith("no_ldr"):
+        r.loc[r.SUBDISTRICT_MAP == "TODLDR", "up"] = False
+    st = gpd.read_file(d / "metrorail_stations.geojson").to_crs(CRS)
+    st = st[st.NAME.str.contains("Saltillo|MLK|Crestview", case=False, na=False)]
+    parcels = gpd.read_file(d / "tcad_parcels.geojson").to_crs(CRS)
+    pm = pd.read_json(d / "permits.json")
+    pm = pm.dropna(subset=["latitude", "longitude"])
+    perm = gpd.GeoDataFrame(pm, geometry=gpd.points_from_xy(pm.longitude, pm.latitude), crs=4326).to_crs(CRS)
+    perm["date"] = pd.to_datetime(perm.issue_date)
+    perm["units"] = pd.to_numeric(perm.housing_units, errors="coerce").fillna(0)
+    perm = perm[perm.units > 0]
+    if version.startswith("2005"):
+        eff, windows = pd.Timestamp("2005-05-01"), {"before": (pd.Timestamp("1999-01-01"), pd.Timestamp("2004-12-31")),
+                                                     "after": (pd.Timestamp("2006-01-01"), pd.Timestamp("2010-12-31"))}
+    else:
+        eff, windows = pd.Timestamp("2009-03-01"), {"before": (pd.Timestamp("2003-01-01"), pd.Timestamp("2008-12-31")),
+                                                     "after": (pd.Timestamp("2010-01-01"), pd.Timestamp("2014-12-31"))}
+    out = share_case(f"austin_{version}", r, parcels, st, perm, eff, windows)
+    out["stop_open_at_reform"] = "no (MetroRail opened March 2010)"
+    return out
+
+
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--case", required=True, choices=["denver_2018", "portland_2020", "portland_2018"])
+    ap.add_argument("--case", required=True, choices=["denver_2018", "portland_2020", "portland_2018", "austin"])
     a = ap.parse_args(argv)
     rows = ([denver_2018("main"), denver_2018("base_zone_only")] if a.case == "denver_2018"
             else [portland_2020("main"), portland_2020("no_rh_rm4"), portland_2020("no_r1_rm2")] if a.case == "portland_2020"
-            else [portland_2018("main"), portland_2018("to_mixed_from_other")])
+            else [portland_2018("main"), portland_2018("to_mixed_from_other")] if a.case == "portland_2018"
+            else [austin("2009_main"), austin("2009_no_ldr"), austin("2005_main")])
     T = pd.DataFrame(rows)
     sb, sa = T.share_before, T.share_after
     T["pred_drift"] = sb + A + B * (sb - 0.5)

@@ -283,3 +283,25 @@ Owner: "developers know a rail line is being planned ahead of its opening ... Th
 - **Stops:** the planned MetroRail stations named in each station area plan (Plaza Saltillo, MLK, Crestview/Lamar-Justin), from the station list. Not open on the reform date (MetroRail opened March 2010); recorded as a trait.
 - **North Burnet/Gateway (about 2009) and East Riverside (2013):** no original map could be found, in the archive or on the city site. Ruled out as "no day-one map" unless one is found.
 - **Austin is one city:** the three plans are scored together as one case.
+
+**Austin TOD regulating plans (run 2026-11-01): `reference/tod_new_city_test_austin.csv`.**
+- Study area: 11,602 lots, 3,265 acres. Upzoned: 281 lots (177 acres). 550 lots in plan areas more than ½ mile from the three planned stations were relabelled; most are MLK's eastern patches.
+- Placement: 0 homes before and 1 after were not placed.
+- Stops were not open on the reform date (trait).
+
+| Version | Share before | Share after (actual) | Drift rule | Average change | Same share |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 2009 plans (main) | 3.9% (93 of 2,368) | **23.9%** (592 of 2,472) | 18.5% (score 0.26) | 7.9% (1.11) | 3.9% (1.81) |
+| 2009, without low-density residential | 1.7% | 23.9% | 17.1% (0.33) | 5.7% (1.43) | 1.7% (2.62) |
+| 2005 TOD ordinance date | 0.5% (6 of 1,146) | 10.4% (206 of 1,979) | 16.4% (0.46) | 4.5% (0.84) | 0.5% (2.99) |
+
+**By city, main versions, Salt Lake City still to come.** The city is the unit; Portland is the mean of its two cases.
+
+| City | Drift rule | Average change | Same share |
+| --- | ---: | ---: | ---: |
+| Denver | 0.94 | 1.96 | 2.93 |
+| Portland (mean of 2) | 1.53 | 0.69 | 0.22 |
+| Austin | 0.26 | 1.11 | 1.81 |
+| **Median** | **0.94** | **1.11** | **1.81** |
+
+So far the drift rule beats both benchmarks on the city median. The two station-area upzonings (Denver, Austin) jumped and the drift rule came closest. Portland's citywide re-codings barely moved.

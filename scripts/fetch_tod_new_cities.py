@@ -70,7 +70,8 @@ def arcgis_all(layer: str, fields: str, page: int = 2000, envelope: str = "", wh
     return feats, first
 
 
-LICENCE = {"denver": "City and County of Denver Open Data (data.denvergov.org), Creative Commons Attribution 3.0",
+LICENCE = {"austin": "City of Austin open data (data.austintexas.gov; Austin ArcGIS Online)",
+           "denver": "City and County of Denver Open Data (data.denvergov.org), Creative Commons Attribution 3.0",
            "portland": "City of Portland, PortlandMaps open data (licence as stated on the service)"}
 PDX = "https://www.portlandmaps.com/arcgis/rest/services/Public"
 PORTLAND = {
@@ -91,16 +92,49 @@ PORTLAND = {
 }
 
 
+AUS = "https://services.arcgis.com/0L95CJ0VTaxqcmED/arcgis/rest/services"
+AUSTIN = {
+    "metrorail_stations": (f"{AUS}/MetroRail/FeatureServer/0", "*", "1=1"),
+    "tcad_parcels": (f"{AUS}/EXTERNAL_tcad_parcel/FeatureServer/0", "OBJECTID,PROP_ID,ZONING", "1=1"),
+}
+AUSTIN_ENVELOPE = "-97.765,30.24,-97.69,30.36"   # the three TOD districts plus about 1 km
+AUSTIN_PERMITS = ("https://data.austintexas.gov/resource/3syk-w9eu.json",
+                  "permittype='BP' AND work_class='New' AND housing_units > 0 AND issue_date between '1999-01-01' and '2015-12-31'")
+
+
+def socrata_permits(d: Path, m: dict) -> None:
+    """Austin issued construction permits: new building permits with homes, 1999-2015, with coordinates."""
+    url0, where = AUSTIN_PERMITS
+    rows, off = [], 0
+    while True:
+        q = urllib.parse.urlencode({"$select": "permit_number,issue_date,housing_units,latitude,longitude,tcad_id,permit_class_mapped,status_current",
+                                    "$where": where, "$limit": 50000, "$offset": off, "$order": "permit_number"})
+        part = json.loads(get(f"{url0}?{q}"))
+        rows += part
+        if len(part) < 50000:
+            break
+        off += 50000
+    data = json.dumps(rows).encode()
+    (d / "permits.json").write_bytes(data)
+    m["files"]["permits.json"] = {"url": f"{url0}?$where={where}", "accessed_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                                  "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(),
+                                  "licence": "City of Austin open data (data.austintexas.gov)"}
+    print(f"  permits.json: {len(rows):,} rows", flush=True)
+
+
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--city", required=True, choices=["denver", "portland"])
+    ap.add_argument("--city", required=True, choices=["denver", "portland", "austin"])
     ap.add_argument("--only", default="")
     a = ap.parse_args(argv)
     d = RAW / "tod_new_cities" / a.city
     d.mkdir(parents=True, exist_ok=True)
     mp = d / "manifest.json"
     m = json.loads(mp.read_text()) if mp.exists() else {"source_id": f"tod_new_cities_{a.city}", "files": {}}
-    layers = DENVER if a.city == "denver" else PORTLAND
+    if a.city == "austin" and (not a.only or "permits" in a.only.split(",")):
+        socrata_permits(d, m)
+        mp.write_text(json.dumps(m, indent=1) + "\n")
+    layers = DENVER if a.city == "denver" else PORTLAND if a.city == "portland" else AUSTIN
     for name, spec in layers.items():
         if a.only and name not in a.only.split(","):
             continue
@@ -108,7 +142,8 @@ def main(argv=None) -> None:
         layer, fields = spec[0], spec[1]
         where = spec[2] if len(spec) > 2 else "1=1"
         env = PARCEL_ENVELOPE if (a.city == "denver" and name == "parcels") else (
-            "-122.84,45.43,-122.47,45.66" if (a.city == "portland" and name == "taxlots") else "")   # Portland city extent
+            "-122.84,45.43,-122.47,45.66" if (a.city == "portland" and name == "taxlots") else
+            AUSTIN_ENVELOPE if (a.city == "austin" and name == "tcad_parcels") else "")
         f, url = arcgis_all(layer, fields, envelope=env, where=where)
         data = json.dumps({"type": "FeatureCollection", "features": f}).encode()
         (d / f"{name}.geojson").write_bytes(data)
