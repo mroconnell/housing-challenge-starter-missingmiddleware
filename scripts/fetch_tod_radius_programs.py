@@ -194,7 +194,66 @@ def honolulu_values() -> None:
     print("honolulu values", n)
 
 
-STAGES = {"honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
+def king_assessor() -> None:
+    """King County Assessor extracts (Seattle, Bellevue and comparison cities): parcels, residential buildings,
+    apartment complexes, commercial buildings, condo complexes. Year built and homes; no owner fields in these files.
+    Values come from the King County value-history file already used by the lot model (tod_land_values)."""
+    out = RAW / "king"
+    out.mkdir(parents=True, exist_ok=True)
+    for f in ("Parcel.zip", "Residential Building.zip", "Apartment Complex.zip", "Commercial Building.zip", "Condo Complex and Units.zip"):
+        url = "https://aqua.kingcounty.gov/extranet/assessor/" + urllib.parse.quote(f)
+        p = out / f.replace(" ", "_")
+        p.write_bytes(_get(url))
+        _manifest("king", p.name, url, -1, p, "King County Assessor data download; local only")
+        print(f, p.stat().st_size)
+
+
+def king_parcels() -> None:
+    """King County parcel points with appraised land and building values, zoning, use, lot size. Taxpayer name and
+    address fields are not requested."""
+    layer = "https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/PARCEL_ADDRESS_PUB_AREA_3069/FeatureServer/0"
+    f = "OBJECTID,PIN,MAJOR,MINOR,CTYNAME,LAT,LON,LOTSQFT,APPRLNDVAL,APPR_IMPR,KCA_ZONING,KCA_ACRES,PREUSE_CODE,PREUSE_DESC,PROPTYPE,NEW_CONSTR"
+    out = RAW / "king" / "parcels.csv"
+    n = arcgis_csv(layer, out, f, page=1000, idf="OBJECTID")
+    _manifest("king", out.name, layer, n, out, "King County parcels with address (public layer); no taxpayer fields; local only")
+    print("king parcels", n)
+
+
+def _socrata_csv(base: str, select: str, where: str, out: Path, page: int = 200000) -> int:
+    parts, off = [], 0
+    while True:
+        q = urllib.parse.urlencode({"$select": select, "$where": where, "$order": ":id", "$limit": page, "$offset": off})
+        lines = _get(f"{base}?{q}").decode().splitlines()
+        parts.append(lines if not parts else lines[1:])
+        n = len(lines) - 1
+        off += n
+        if n < page:
+            break
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(l for p in parts for l in p) + "\n")
+    return off
+
+
+def cook_parcels() -> None:
+    """Cook County Assessor parcel universe (points, class, census geography) and assessed values, for the
+    Chicago 2022 before-window start (2016) and today (2024). No owner fields. Residential year built comes from
+    the single- and multi-family characteristics file (large apartment and condo buildings have none: flagged)."""
+    for y in (2016, 2024):
+        n = _socrata_csv("https://datacatalog.cookcountyil.gov/resource/nj4t-kc8j.csv",
+                         "pin,year,class,lon,lat,census_block_geoid,census_place_geoid,township_name",
+                         f"year={y}", RAW / "cook" / f"parcel_universe_{y}.csv")
+        _manifest("cook", f"parcel_universe_{y}.csv", "https://datacatalog.cookcountyil.gov/resource/nj4t-kc8j", n, RAW / "cook" / f"parcel_universe_{y}.csv", "local only")
+        n = _socrata_csv("https://datacatalog.cookcountyil.gov/resource/uzyt-m557.csv",
+                         "pin,year,class,certified_bldg,certified_land,board_bldg,board_land", f"year={y}", RAW / "cook" / f"assessed_values_{y}.csv")
+        _manifest("cook", f"assessed_values_{y}.csv", "https://datacatalog.cookcountyil.gov/resource/uzyt-m557", n, RAW / "cook" / f"assessed_values_{y}.csv", "local only")
+        print(y, "done")
+    n = _socrata_csv("https://datacatalog.cookcountyil.gov/resource/x54s-btds.csv", "pin,year,card,class,char_yrblt,char_apts,char_bldg_sf,char_land_sf",
+                     "year=2024", RAW / "cook" / "res_characteristics_2024.csv")
+    _manifest("cook", "res_characteristics_2024.csv", "https://datacatalog.cookcountyil.gov/resource/x54s-btds", n, RAW / "cook" / "res_characteristics_2024.csv", "local only")
+    print("cook res chars", n)
+
+
+STAGES = {"cook_parcels": cook_parcels, "king_parcels": king_parcels, "king_assessor": king_assessor, "honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser(); a.add_argument("stage", choices=STAGES); STAGES[a.parse_args().stage]()
