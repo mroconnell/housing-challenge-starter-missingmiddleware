@@ -52,3 +52,6 @@ For each model and each of the 28 refits, the sum over Wisconsin places that sti
 
 ## Changes after writing
 - **2026-11-01, dependency note:** econml is no longer a project dependency. The causal forest (CausalForestDML) and the honest forest are imported only when used. Their results are a one-off comparison, as in TOD.
+- **2026-11-01, round 1 checks → round 2 (before round 2 ran):**
+  - **Coding error:** the causal forest's prediction (the boosted baseline plus its effect) fell below 0 for some held-out rows, so its summary score came out NaN. Round 2 clips held-out predictions at 0 for scoring and counts the clipped rows. Its Wisconsin net (effect only) is unchanged. Round 2 rescores the round 1 fits from their checkpoints; no model is refitted.
+  - **Outlier traced:** San Francisco (origin 2018 and 2019) is every model's worst miss. 1,689 homes a year were permitted, against a same pace of 4,590. This is the real post-2018 drop, already traced in the net rounds.

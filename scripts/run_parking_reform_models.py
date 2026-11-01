@@ -89,7 +89,8 @@ def main() -> None:
     scale = CENTRAL / (5 * float(wi_all["units_3y"].sum()))
 
     held, nets = [], []
-    ck = REFERENCE.parent / "data" / "interim" / f"parking_reform_models_ckpt{TAG}"  # resumable: one file per left-out place
+    ckt = f"_r{sys.argv[sys.argv.index('--ckpt') + 1]}" if "--ckpt" in sys.argv else TAG  # reuse an earlier round's fits
+    ck = REFERENCE.parent / "data" / "interim" / f"parking_reform_models_ckpt{ckt}"  # resumable: one file per left-out place
     ck.mkdir(parents=True, exist_ok=True)
     for i, k in enumerate(reform_keys):
         fitdf = data[data["key"] != k]
@@ -105,6 +106,9 @@ def main() -> None:
             nets.append(dict(left_out=k, model=name, wi_net_2027_2031=float(np.sum(w) * 5 * scale)))
         print(i + 1, "of", len(reform_keys), te["name"].iloc[0], flush=True)
     H = pd.concat(held, ignore_index=True)
+    # round 2: the causal forest's base + effect can fall below 0 (round 1 scored it as NaN); count and clip for scoring
+    neg = H.groupby("model")["pred_on"].apply(lambda v: int((v < 0).sum()))
+    H["pred_on"] = H["pred_on"].clip(lower=0)
     H.to_csv(REFERENCE / f"parking_reform_models_heldout{TAG}.csv", index=False)
     N = pd.DataFrame(nets)
 
@@ -146,7 +150,7 @@ def main() -> None:
     S.to_csv(REFERENCE / f"parking_reform_models_scores{TAG}.csv", index=False)
     N.to_csv(REFERENCE / f"parking_reform_models_wisconsin{TAG}.csv", index=False)
 
-    flags = []
+    flags = [dict(check="negative held-out predictions clipped to 0", where=m, value=v) for m, v in neg.items() if v]
     for name, g in H.groupby("model", sort=False):
         w = g.assign(miss=g["pred_on"] - g["actual"]).sort_values("miss", key=abs).iloc[-1]
         flags.append(dict(check="worst held-out miss", where=name, value=round(float(w["miss"])),
