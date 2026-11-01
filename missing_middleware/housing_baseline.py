@@ -261,7 +261,7 @@ def project(hist: pd.DataFrame, candidate: str, bands: pd.DataFrame) -> pd.DataF
                 "method", "window_years", "no_data_in_window"]]
 
 
-ACS_YEARS_COVERED = 4.5  # ACS 2020-2024 "built 2020 or later": about 4.5 years of completions on average
+ACS_YEARS_COVERED = 4.5  # conservative: the pooled ACS 2020-2024 "built 2020 or later" covers about 2.5-3 years of completions on average, so 4.5 gives a low pace
 
 
 def impute_missing(proj: pd.DataFrame, meta: pd.DataFrame, bands: pd.DataFrame, under_reported: dict | set | None = None) -> pd.DataFrame:
