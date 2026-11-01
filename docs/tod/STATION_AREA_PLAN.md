@@ -192,4 +192,4 @@ Block group 1 = walkability (EPA Smart Location Database).
 Tract 82 = 78 ACS v_ traits + log_rent, log_value, log_income + FHFA price trend.
 Stop 7 = log_stops_1mile, log_dist_station + band, rail or bus, trips per hour, years since opening, distance to downtown.
 City 5 = by-right or incentive, parking cut, affordable units required, coverage by band, metro permits per person.
-Open: the 6 zoning-rule lot traits need a zoning layer; proposed: keep with a "rules unknown" flag where missing (awaiting owner).
+Decided (owner 14:18): keep the 6 zoning-rule lot traits, with a "rules unknown" flag where no zoning layer exists.
