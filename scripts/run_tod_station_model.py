@@ -98,10 +98,15 @@ if __name__ == "__main__":
 # year, and a third column: permit year, actual where known, else estimated from completion minus the typical gap)
 # Gap measured in LA, where 8,091 lots have both an LADBS new-building permit and a county year built 1 year before to
 # 6 years after it: median gap 1 year for 1, 2-4 and 5-49 homes, 2 years for 50+ homes (means 1.04, 0.70, 1.53, 1.91).
+# The gap is a property of each county's records: San Diego (860 lots with city permit and county effective year):
+# medians 1, 1, 2, 2 (means 1.01, 1.27, 1.90, 2.00); Denver (6,690 matched): 0 in every size group. Counties with no
+# matched pairs use the LA/San Diego gap, flagged.
 LAG_BY_SIZE = {"1": 1, "2-4": 1, "5-49": 1, "50+": 2}
+LAG_BY_COUNTY = {"la": LAG_BY_SIZE, "san_diego": {"1": 1, "2-4": 1, "5-49": 2, "50+": 2}, "denver": {"1": 0, "2-4": 0, "5-49": 0, "50+": 0}}
 
 
-def permit_year_est(E: pd.DataFrame) -> pd.Series:
-    size = pd.cut(E.homes, [0, 1, 4, 49, np.inf], labels=list(LAG_BY_SIZE)).astype(str)
-    est = E.completed_year - size.map(LAG_BY_SIZE).astype(float)
+def permit_year_est(E: pd.DataFrame, county: str = "la") -> pd.Series:
+    lag = LAG_BY_COUNTY.get(county, LAG_BY_SIZE)
+    size = pd.cut(E.homes, [0, 1, 4, 49, np.inf], labels=list(lag)).astype(str)
+    est = E.completed_year - size.map(lag).astype(float)
     return E.permit_year.where(E.permit_year.notna(), est)

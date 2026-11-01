@@ -243,9 +243,9 @@ def events(D: gpd.GeoDataFrame, c: dict) -> pd.DataFrame:
                 if y >= 2000 and u > 0:
                     rows.append((ix, float(u), np.nan, float(y), "county year built"))
     pref = "completed"
-    if c["metro"] in ("la", "hnl"):
+    if c["metro"] in ("la", "hnl", "sd"):
         import run_tod_station_area as SA
-        p = SA.permits("Los Angeles") if c["metro"] == "la" else SA.hnl_permits()
+        p = {"la": lambda: SA.permits("Los Angeles"), "hnl": SA.hnl_permits, "sd": SA.sd_permits}[c["metro"]]()
         p = p[p.year >= 2000]
         pj = gpd.sjoin_nearest(p, D[["geometry"]], how="inner", max_distance=60, distance_col="_d")
         pj = pj[~pj.index.duplicated()]
