@@ -231,3 +231,16 @@ If the ordinance cannot be read tract by tract, the case is logged as "ruled out
 - Counting Portland once, the drift rule narrowly wins: median 1.24, against 1.32 for average change and 1.58 for same share.
 - Counting each case, same share wins (0.22).
 - The central line stays at 1,196 unless the owner decides otherwise. "About 0" is shown as a sensitivity.
+
+## Owner rule change, 2026-11-01 11:11 (after the Denver and Portland results were seen)
+
+Owner: "developers know a rail line is being planned ahead of its opening ... This is a trait (transit stop not opened at time of reform) not a disqualifier."
+
+- **"Rapid stop open on the reform date" is dropped as a reason to rule a case out.** A stop that was planned or under construction on the reform date counts, if it opened later. Whether the stop was open on the reform date is recorded as a trait: `stop_open_at_reform` (yes or no), with years until opening.
+- **Windows** stay anchored on the reform date. As a second version, the after window starts when the line opens.
+- **Reopened:**
+  - Austin TOD regulating plans (Plaza Saltillo and MLK, effective March 2009; Lamar/Justin, 2008); MetroRail opened March 2010.
+  - Austin Bouldin VMU (Dec 2012); MetroRapid 801 opened January 2014.
+  - Salt Lake City station-area districts (2010); the North Temple line opened 2013. It needs permits with home counts; the October work used census blocks only.
+- **Not reopened:** Denver 61st & Peña, ruled out because no base zone was raised; Austin ETOD 2024 (too few after-years); Garrison Park (no day-one map).
+- The change was made after results were seen and is labelled as such. The already-scored cases do not change, since all three had stops open.
