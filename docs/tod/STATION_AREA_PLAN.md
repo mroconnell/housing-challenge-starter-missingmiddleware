@@ -62,3 +62,9 @@ The central line (1,196) stays until this is tested. The Austin and Salt Lake Ci
   - Counts, control / reform: New York 425/122, Philadelphia 335/229, Charlotte 21/23, Chicago 96/182, Los Angeles 212/17, Seattle 31/3, Saint Paul 4/10, Madison 27/105, Bellevue 3/3, Denver 30/5, Portland 19/116, Austin 4/5, Salt Lake City 13/16. Milwaukee has 83 control stations (no reform; placebo).
   - `stop_open_at_reform`: known for Austin and Salt Lake City (no), Denver and Portland (yes). For the 9 cities it is filled from the lot model's case notes when the shares are run.
 - **Citywide permit inventory** (`reference/tod_station_area_permit_inventory.csv`). Every city has a whole-city file except Los Angeles, whose downloads hold the reform areas only. Los Angeles uses the Census permit survey place total as its denominator and is flagged "mixed sources; no control stations". Chicago's units are parsed from text, as in its case adapter. Salt Lake City's homes are completions.
+
+**Chicago hand check (audit fix 5; 30 random permits, seed 20261101, read before any share):**
+- 27 of 30 were parsed correctly. That includes 14 non-housing permits (tents, cranes, offices) correctly at 0.
+- One miss: "erect a new 2 story w/ basement ... attached garage ... RM5" was read as 0, probably 1 home.
+- One false positive: "fourth floor addition to existing single family residence" was read as 1 new home.
+- One staged permit: "foundation and superstructure through the 4th floor ... 31 story ... 349 dwelling units" counts 349 homes, which a later full permit would count again. The shares stage applies the lot model's staged-permit merge (`case_chicago.dedupe_staged_relaxed`), as in item 32.2.
