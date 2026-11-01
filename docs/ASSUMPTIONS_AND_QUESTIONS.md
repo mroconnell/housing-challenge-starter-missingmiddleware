@@ -998,6 +998,11 @@ Held-out RMS 0.130 → 0.136; the audit agreed that is no reason to keep a count
 
 **Result.** Extra homes near stops, Wisconsin, 2027–2031: lower 171 → **43** (−161 to 343); central 1,196 and upper 17,148 unchanged. Combined TOD and parking view, lower path: −15,283 (rule (b) unchanged).
 
+**What the 43 rests on.** Wisconsin's law is broad (71% of lots within ¼ mile upzoned), so the lot model leans on the four broad programs in training, each with a known weakness: Los Angeles TOC (training only; its published result was seen before, so not a blind test), San Diego (county completion dates; only 3 after-years), Chicago 2022 (3 after-years; the comparison suburbs' county records are incomplete after 2023), Honolulu (two quiet stations whose rail opened only in 2023). BelRed (50% coverage, +29) is the one broad case that gained.
+
+**Pre-registered figures, kept visible but not used for the line.** Raw (pooled average effect within ¼ mile × Wisconsin lot acres): 5,375 for Milwaukee and Madison, about **5,900** statewide (× 1.106). Scaled (pooled ratio to full coverage × Wisconsin coverage 0.71 × acres): 11,965, about **13,200** statewide. Both are in reference/tod_station_area_wisconsin_versions.csv. Not used because both average over places without regard to how much land each upzoned, while measured gains fall with coverage (rank correlation −0.66) and the lot model, which sees coverage, predicts hidden places better (median error 16.9 vs 27.6 for the others' average); the Milwaukee streetcar check (+18 per 100 acres a year with no rezoning) also suggests the averages overstate what zoning adds.
+
+
 ## AQ-068 TOD: central line from the lot model (drift rule)
 
 **Status:** Adopted as the current favorite (provisional; the tool can be changed back). **Added:** 2026-11-01. **Owner decision:** "okay, let's take the drift rule as our current favorite in the tool" (2026-11-01). **Related:** AQ-055, [MODEL_MENU_RESULTS.md](tod/MODEL_MENU_RESULTS.md), [MODEL_COMPARISON.md](tod/MODEL_COMPARISON.md), TOD plan items 61–67.
