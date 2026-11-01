@@ -30,3 +30,36 @@ Owner, 2026-11-01: "add reform cities, especially those three." Why: lots teach 
 1. Pick one reform per city using the lot model's rules: transit-linked, a raised allowance, a mapped day-one boundary, and at least 5 years after. Log the choice here before counting permits.
 2. Write a case adapter for each, like `case_bellevue.py`: lots, day-one groups, permits placed on lots.
 3. Build their lot rows, run the frozen test, and report.
+
+## Added 2026-11-01, before any permit is counted (audit review of this plan)
+
+**1. What each outcome means.** There is no threshold. The drift rule "held" if its median score over the new cities beats both the average-change rule and same share.
+
+| Outcome | What we tell the owner |
+| --- | --- |
+| Drift rule beats both | It stays the central line |
+| Loses to average change | The pre-registered 798 may be the better central |
+| Loses to same share | The effect near stops may be about 0 |
+
+Each city's score is reported too. With about 3 to 5 new cases, one city can flip the median, and that is said with the result.
+
+**2. Which reform.** Every candidate that meets the lot model's rules is scored. No choice is made, and nothing is dropped. Ruled-out candidates are logged here with the reason before any permit is counted.
+
+**3. Edge cases, settled now:**
+- **Fewer before-years than 6:** a case needs at least 3 before-years and 3 after-years. Fewer than 6 is put on the 5-year basis as usual. Denver's permits start in July 2012, so 38th & Blake (2018) has about 5.5 before-years, and 61st & Peña (2016) about 3.5; both qualify.
+- **"Rapid":** means rail or bus rapid transit open on the reform date. Upzoned lots more than ½ mile from such a stop are relabelled as in item 48. The result is accepted even if this removes most of a case's lots. If no lot is left within ½ mile, the case is ruled out as "not transit-linked".
+- **Corridor reforms:** the ½-mile ring is kept. Each case's study-area acres and its share of the city's homes are reported.
+- **Denver's incentive overlay (IO-1):** extra height is earned by providing affordable homes. It counts as a raised allowance, like Los Angeles's transit incentive program. It is flagged, and a second version scores only lots whose base zone allows more (for example, industrial I-A to mixed-use I-MX-8).
+- **No refit:** the central line (1,181) is not refitted with the new cities until this test is reported. Any refit is a separate, later step.
+
+### Candidates logged so far
+
+| Case | Status |
+| --- | --- |
+| Denver 2018, 38th & Blake station area (ordinances 15 and 17 of 2018; incentive overlay IO-1 and design overlay DO-7; Five Points, Elyria Swansea, Globeville, Cole) | Qualifies (rail station 38th & Blake, A Line, open 2016) |
+| Denver 2016, 61st & Peña station area | To check: the station opened in April 2016; the rezoning date is to be confirmed against it |
+| Austin ETOD overlay, May 2024 | Ruled out: under 3 after-years |
+| Austin Vertical Mixed Use, 2006–2008 | To check: no rail or rapid open then (MetroRail opened 2010; MetroRapid 2014), so it is likely "not transit-linked" |
+| Austin TOD districts (Plaza Saltillo, MLK, Lamar/Justin; about 2005–2008) | To check: they were planned around MetroRail stations, which opened in March 2010 |
+| Portland Mixed Use Zones, 2018 | To check: share of the area within ½ mile of MAX or streetcar |
+| Portland Better Housing by Design, 2020 | To check: the same |
