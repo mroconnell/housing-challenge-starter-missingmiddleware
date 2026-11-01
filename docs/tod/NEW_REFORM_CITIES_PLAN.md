@@ -108,7 +108,13 @@ Every change found is logged below as qualifies or ruled out, with the reason. A
 | --- | --- | --- | --- | --- |
 | Austin | TOD regulating plans: Plaza Saltillo, MLK, Lamar/Justin | 2008–2009 (effective March 2009 for Saltillo and MLK) | Ruled out | Before MetroRail opened (March 2010): no rapid stop open on the adoption date |
 | Austin | ETOD overlay | May 2024 | Ruled out | Under 3 after-years |
-| Austin | Later changes 2010–2020 | — | To search | Zoning cases |
+| Austin | Search done 2026-11-01: City of Austin zoning cases (open data `edir-dcnf`), approved 2010–2020 with the City as applicant (85 cases), plus "Neighborhood Planning" cases (29 approved, none a zoning change) | — | — | — |
+| Austin | Bouldin Vertical Mixed Use (C14-2007-0220), 764 acres | 17 Dec 2012 | Ruled out | MetroRapid 801 on South Congress opened January 2014; no rail or rapid stop within ½ mile open on the adoption date |
+| Austin | Garrison Park neighborhood plan rezoning (C14-2014-0019), 1,258 acres | 11 Feb 2016 | To check | Whether it raised allowed homes (the case lists zones as "see comments") and whether MetroRapid 803 stops lie within ½ mile |
+| Austin | Parks, greenbelts and historic designations (about 70 cases) | 2011–2018 | Ruled out | Do not raise allowed homes (to P-Public or adding H) |
+| Austin | PUD amendments and single sites (Estancia, North Austin Medical Center, Lamar/Manchaca and others) | 2011–2018 | Ruled out | Single-owner or applicant-led changes, not a city policy area (see the note below) |
+
+**Note on the scope (added before any Austin or Portland permit is counted):** "zoning change" means a city-initiated change covering many owners, like Denver's legislative ordinances. Rezonings requested by one owner for one project are left out. They are chosen because a project is coming, so their share of new homes after would rise by construction, not by policy.
 | Portland | Mixed-use zone conversion (CS/CG/CM/CN to CM1/CM2/CM3/CE, citywide centers and corridors) | 2018 (effective May 2018) | Not testable from public GIS yet | The proposal layers hold no from/to zones for it (the "mp" entries are 9 small industrial/employment polygons). Needs Portland's 2017 zoning snapshot: Metro RLIS archive or a request to the city's GIS team |
 | Portland | Map amendments "mp" (IG1/IH/EG to EX/EG1; industrial to central employment, which allows homes) | To confirm | To check | 9 polygons |
 | Portland | Better Housing by Design ("bhd") | 2019 (effective March 2020) | Ruled out | Permit layers end in 2022: 2 after-years |
