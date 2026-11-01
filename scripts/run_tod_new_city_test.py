@@ -251,14 +251,50 @@ def austin(version: str) -> dict:
     return out
 
 
+def slc_2010(version: str) -> dict:
+    """Salt Lake City TSA district (Ordinance 59 of 2010, effective 11 Aug 2010). Map: 2020 zoning snapshot
+    (hindsight risk). Homes: Utah Housing Unit Inventory, units by approximate year built (completions)."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import run_tod_slc_census as SC
+    st = SC.stations().to_crs(CRS)
+    z = gpd.read_file(RAW / "tod_slc" / "slc_zoning_2020_jacobs.geojson").to_crs(CRS)
+    tsa = z[z["ZONING"].str.startswith("TSA")].copy()
+    rp = tsa.copy()
+    rp["geometry"] = tsa.representative_point()
+    near = gpd.sjoin_nearest(rp, st[["name", "geometry"]], distance_col="d")
+    near = near[~near.index.duplicated()]
+    tsa["station"] = near["name"]
+    reform = tsa[tsa["station"].isin(SC.TSA_STATIONS)].copy()
+    reform["up"] = True
+    if version == "core_only":
+        reform["up"] = reform["ZONING"].str.endswith("-C")
+    stops = st[st["name"].isin(SC.TSA_STATIONS)]
+    h = gpd.read_file(RAW / "tod_new_cities" / "slc" / "housing_unit_inventory.geojson").to_crs(CRS)
+    h = h[h.geometry.notna()].reset_index(drop=True)
+    yr = pd.to_numeric(h.APX_BLT_YR, errors="coerce")
+    homes = gpd.GeoDataFrame({"units": pd.to_numeric(h.UNIT_COUNT, errors="coerce").fillna(0),
+                              "date": pd.to_datetime(yr.fillna(0).astype(int).astype(str) + "-07-01", errors="coerce")},
+                             geometry=h.geometry.representative_point(), crs=CRS)
+    homes = homes[homes.units > 0]
+    eff = pd.Timestamp("2010-08-11")
+    windows = {"before": (pd.Timestamp("2004-01-01"), pd.Timestamp("2009-12-31")),
+               "after": (pd.Timestamp("2011-01-01"), pd.Timestamp("2015-12-31"))}
+    out = share_case(f"slc_2010_{version}", reform[["up", "geometry"]], h[["geometry"]], stops, homes, eff, windows)
+    out["stop_open_at_reform"] = "no (opened April 2013)"
+    out["map"] = "2020 boundary, hindsight risk"
+    out["homes_source"] = "Utah Housing Unit Inventory (completions by approximate year built; standing homes only)"
+    return out
+
+
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--case", required=True, choices=["denver_2018", "portland_2020", "portland_2018", "austin"])
+    ap.add_argument("--case", required=True, choices=["denver_2018", "portland_2020", "portland_2018", "austin", "slc_2010"])
     a = ap.parse_args(argv)
     rows = ([denver_2018("main"), denver_2018("base_zone_only")] if a.case == "denver_2018"
             else [portland_2020("main"), portland_2020("no_rh_rm4"), portland_2020("no_r1_rm2")] if a.case == "portland_2020"
             else [portland_2018("main"), portland_2018("to_mixed_from_other")] if a.case == "portland_2018"
-            else [austin("2009_main"), austin("2009_no_ldr"), austin("2005_main")])
+            else [austin("2009_main"), austin("2009_no_ldr"), austin("2005_main")] if a.case == "austin"
+            else [slc_2010("main"), slc_2010("core_only")])
     T = pd.DataFrame(rows)
     sb, sa = T.share_before, T.share_after
     T["pred_drift"] = sb + A + B * (sb - 0.5)

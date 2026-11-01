@@ -324,3 +324,28 @@ Audit notes on Austin (review of 2026-11-01): clean. The maps were committed (0b
 3. **Relabelling:** 550 of about 831 plan lots were more than ½ mile from a station and were relabelled.
 4. **Great Recession:** the windows straddle it (2003–2008 before, 2010–2014 after), with no adjustment, per the owner's rule.
 5. **2005 version:** its same-share score is inflated because the share before was only 0.5%.
+
+**Salt Lake City 2010 (run 2026-11-01; 2020 boundary, hindsight risk): `reference/tod_new_city_test_slc_2010.csv`.**
+- Lots are the inventory's residential parcels in the study area (4,035). Upzoned: 242; 6 were relabelled.
+- Homes are completions by approximate year built, standing homes only.
+
+| Version | Share before (built 2004–2009) | Share after (built 2011–2015) | Drift rule | Average change | Same share |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Main (all TSA zones near the five stations) | 0.7% (8 of 1,102) | **39.6%** (343 of 866) | 16.5% (score 0.87) | 4.7% (2.13) | 0.7% (4.00) |
+| Core zones only | 0.0% | 14.0% | 16.1% (0.14) | 4.0% (1.26) | 0.0% (unscorable) |
+
+## Track A result: 4 cities (main versions; city = unit; Portland = mean of its 2 cases)
+
+| City | Drift rule | Average change | Same share |
+| --- | ---: | ---: | ---: |
+| Denver 2018 | 0.94 | 1.96 | 2.93 |
+| Portland 2018 + 2020 | 1.53 | 0.69 | 0.22 |
+| Austin 2009 | 0.26 | 1.11 | 1.81 |
+| Salt Lake City 2010 (2020 boundary, flagged) | 0.87 | 2.13 | 4.00 |
+| **Median, all 4** | **0.91** | **1.54** | **2.37** |
+| **Median, without Salt Lake City** | **0.94** | **1.11** | **1.81** |
+
+**Outcome by the pre-set rule:** the drift rule beats both benchmarks, with or without Salt Lake City, so it stays the central line (1,196).
+- Counted by case instead (5 cases), the medians are 0.94, 1.11 and 1.81.
+- In the three station-area upzonings (Denver, Austin, Salt Lake City), the upzoned share jumped (2→45%, 4→24%, 1→40%), more than the drift rule predicted in two of the three. Portland's citywide re-codings barely moved.
+- Caveats: few cities; Austin's upzoning is assumed; Salt Lake City's map is from 2020; stops were not yet open in Austin and Salt Lake City (a trait). Like the lot share, this cannot tell homes that moved from new homes.

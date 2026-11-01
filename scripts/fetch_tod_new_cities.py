@@ -70,7 +70,8 @@ def arcgis_all(layer: str, fields: str, page: int = 2000, envelope: str = "", wh
     return feats, first
 
 
-LICENCE = {"austin": "City of Austin open data (data.austintexas.gov; Austin ArcGIS Online)",
+LICENCE = {"slc": "Utah Geospatial Resource Center (SGID), Housing Unit Inventory (WFRC, MAG, UGRC)",
+           "austin": "City of Austin open data (data.austintexas.gov; Austin ArcGIS Online)",
            "denver": "City and County of Denver Open Data (data.denvergov.org), Creative Commons Attribution 3.0",
            "portland": "City of Portland, PortlandMaps open data (licence as stated on the service)"}
 PDX = "https://www.portlandmaps.com/arcgis/rest/services/Public"
@@ -122,9 +123,13 @@ def socrata_permits(d: Path, m: dict) -> None:
     print(f"  permits.json: {len(rows):,} rows", flush=True)
 
 
+SLC = {"housing_unit_inventory": ("https://services1.arcgis.com/99lidPhWCzftIe9K/arcgis/rest/services/HousingUnitInventory/FeatureServer/0",
+                                   "OBJECTID,UNIT_ID,TYPE,SUBTYPE,UNIT_COUNT,APX_BLT_YR,CITY", "CITY='Salt Lake City'")}
+
+
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--city", required=True, choices=["denver", "portland", "austin"])
+    ap.add_argument("--city", required=True, choices=["denver", "portland", "austin", "slc"])
     ap.add_argument("--only", default="")
     a = ap.parse_args(argv)
     d = RAW / "tod_new_cities" / a.city
@@ -134,7 +139,7 @@ def main(argv=None) -> None:
     if a.city == "austin" and (not a.only or "permits" in a.only.split(",")):
         socrata_permits(d, m)
         mp.write_text(json.dumps(m, indent=1) + "\n")
-    layers = DENVER if a.city == "denver" else PORTLAND if a.city == "portland" else AUSTIN
+    layers = DENVER if a.city == "denver" else PORTLAND if a.city == "portland" else AUSTIN if a.city == "austin" else SLC
     for name, spec in layers.items():
         if a.only and name not in a.only.split(","):
             continue
