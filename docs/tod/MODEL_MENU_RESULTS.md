@@ -162,7 +162,7 @@ Findings:
 - **K swings up to about 30× depending on which city is left out.**
 - **Multilevel is dropped.** Its law-on and law-off models are separate linear fits that can cross. In Wisconsin it predicts 0 or fewer homes per acre on 77–78% of law-on lots, against under 1% for law-off on the same lots. Its law-on share therefore falls below its law-off share (Milwaukee 0.665 vs 0.725; Madison 0.454 vs 0.643).
 
-**Headline (audit wording; share menu clean, audit section 7):** B is about 500–1,200 extra homes over 2027–2031 (no-model benchmark 797). Single fits range from about 30 to 2,500. If homes only move, it is 0. The tool's typical figure is 2,509.
+**Headline (audit wording; share menu clean, audit section 7):** B is about 500–1,200 extra homes over 2027–2031 (no-model benchmark 797). Single fits range from about 30 to 2,500. The tool's typical figure is 2,509. (The earlier "0 if homes only move" floor is withdrawn by the owner's rule of 2026-11-01: no evidence-free floors.)
 
 No tool change.
 
