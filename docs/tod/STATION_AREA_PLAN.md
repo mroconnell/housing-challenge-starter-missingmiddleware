@@ -142,3 +142,7 @@ The owner (13:36) pointed out that the training reforms are mostly lot clusters,
 | Washington HB 1110, Massachusetts MBTA Communities, Charlotte UDO, Toronto station areas, California SB 79 | 2023–2025 | Yes | — | — | Too recent (under 3 after-years) |
 
 Nothing is counted until the owner confirms the locked plan.
+
+### Owner change (2026-11-01 13:48): split the inner band
+
+"we can differentiate between .25 and .5 mile." The TOD band becomes two bands: inner (0 to ¼ mile) and outer (¼ to ½ mile). Each gets its own rate per 1,000 existing homes, its own reform-minus-control effect, and its own coverage. Wisconsin is applied band by band (homes within ¼ mile, and homes from ¼ to ½ mile, of rail and rapid stops). Programs with a ¼-mile rule (Chicago bus corridors) count only in the inner band for those stops.
