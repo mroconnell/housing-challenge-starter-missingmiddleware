@@ -1,0 +1,2 @@
+method,held_out_city_share,held_out_city_calibrated,bench_same_share,K,WI_B_raw,WI_B_calibrated,worst_miss,minutes
+causal_forest_sklearn_honest,0.3125,0.4777,0.6863,0.1406,12149.583,1707.7467,Chicago: 0.232 vs 0.099,19.0

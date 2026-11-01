@@ -28,7 +28,7 @@ import run_tod_lot_model as L  # noqa: E402
 SEED = 20261031
 NAMES = {0: "plain_average", 1: "linear_regression", 2: "lasso", 3: "regression_tree", 4: "random_forest",
          5: "gradient_boosting", 6: "nearest_neighbours", 7: "multilevel", 8: "causal_forest",
-         9: "causal_forest_sklearn"}
+         9: "causal_forest_sklearn", 10: "causal_forest_sklearn_honest"}
 ACAP = 2.97
 EXCLUDE_HOLD = False
 DROP_DATED = False   # audit check: drop traits dated after a window starts (2010 census homes; ACS at the reform year)
@@ -120,14 +120,33 @@ def milwaukee_fix(series: dict) -> None:
 class _SkForest:
     """The fitted final stage, with the same .effect(X) call as EconML's CausalForestDML."""
 
-    def __init__(self, rf):
-        self.rf = rf
+    def __init__(self, rf, leaf_values=None):
+        self.rf, self.leaf_values = rf, leaf_values
 
     def effect(self, Z):
-        return self.rf.predict(Z)
+        if self.leaf_values is None:
+            return self.rf.predict(Z)
+        leaves = self.rf.apply(Z)
+        return np.mean([self.leaf_values[t][leaves[:, t]] for t in range(leaves.shape[1])], axis=0)
 
 
-def dml_forest(Xb, y, t, wt, mask):
+def honest_leaves(rf, Z, ry, rt, w) -> list[np.ndarray]:
+    """Honesty: each leaf's effect is re-estimated on the held-back half (never used to grow the trees), solving the
+    local R-learner moment: tau = sum(w * rt * ry) / sum(w * rt^2). Leaves the half never reaches keep the tree's value."""
+    leaves = rf.apply(Z)
+    out = []
+    for t, est in enumerate(rf.estimators_):
+        n = est.tree_.node_count
+        num = np.bincount(leaves[:, t], weights=w * rt * ry, minlength=n)
+        den = np.bincount(leaves[:, t], weights=w * rt ** 2, minlength=n)
+        v = est.tree_.value[:, 0, 0].copy()
+        ok = den > 0
+        v[ok] = num[ok] / den[ok]
+        out.append(v)
+    return out
+
+
+def dml_forest(Xb, y, t, wt, mask, honest: bool = False):
     """Causal forest without EconML (licence allowlist): the same double-machine-learning design, scikit-learn only.
     1. cross-fitted (3 folds) outcome model m(x) = E[y | x] and upzoning model e(x) = P(upzoned | x);
     2. residuals y - m and t - e;
@@ -148,8 +167,12 @@ def dml_forest(Xb, y, t, wt, mask):
     e_hat = np.clip(e_hat, 0.02, 0.98)
     ry, rt = yy - m_hat, tt - e_hat
     rf = RandomForestRegressor(n_estimators=400, min_samples_leaf=50, max_samples=0.3, n_jobs=-1, random_state=SEED)
-    rf.fit(Z, ry / rt, sample_weight=ww * rt ** 2)
-    return off, _SkForest(rf), med
+    if not honest:
+        rf.fit(Z, ry / rt, sample_weight=ww * rt ** 2)
+        return off, _SkForest(rf), med
+    half = np.random.default_rng(SEED + 1).random(len(yy)) < 0.5   # half grows the trees, the other half estimates
+    rf.fit(Z[half], (ry / rt)[half], sample_weight=(ww * rt ** 2)[half])
+    return off, _SkForest(rf, honest_leaves(rf, Z[~half], ry[~half], rt[~half], ww[~half])), med
 
 
 def thin(y: np.ndarray, w: np.ndarray, mask: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -315,8 +338,8 @@ def run_share(methods: list[int]) -> None:
         t0 = time.time()
 
         def fit_pair(mask):
-            if k == 9:   # causal forest built from scikit-learn only (BSD): double machine learning, R-learner final stage
-                return ("cf", *dml_forest(Xb, hpa, up, w * ac, mask))
+            if k in (9, 10):   # causal forest built from scikit-learn only (BSD): double machine learning, R-learner final stage
+                return ("cf", *dml_forest(Xb, hpa, up, w * ac, mask, honest=(k == 10)))
             if k == 8:   # causal forest: law-off level from boosting; law-on = law-off + forest effect of being upzoned
                 from econml.dml import CausalForestDML
                 from sklearn.ensemble import HistGradientBoostingRegressor, HistGradientBoostingClassifier

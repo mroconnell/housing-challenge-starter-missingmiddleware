@@ -243,3 +243,24 @@ Run once, reported as is (owner: "just run it and see what it says"):
 | Wisconsin B calibrated (range) | 1,882 (107–3,811) |
 
 It does not beat the no-model benchmark. Its predicted uplift does not line up with the cities' actual change in share: it is highest in Saint Paul and Charlotte, and its correlation with the actual change is −0.15. Its Wisconsin figure is the highest of the calibrated methods. Its largest uplift is in Saint Paul, where upzoned lots already held 100% of new homes before the reform, so a rise was impossible. Audit (section 10): no error; a standard R-learner. Kept as a named comparison only, not a line.
+
+### Causal forest from scikit-learn, with honesty (method 10, 2026-11-01)
+
+The same as method 9, plus honesty. Half the lots grow the trees. The other half re-estimate each leaf's effect by solving the local R-learner equation: effect = Σ w·(t−e)·(y−m) ÷ Σ w·(t−e)². This is how GRF/EconML estimate leaves. The splitting rule still differs from EconML's.
+
+| | Method 10 (honest) | Method 9 | EconML | No-model benchmark |
+| --- | ---: | ---: | ---: | ---: |
+| Calibrated score, K left out | 0.516 | 0.429 | 0.335 | 0.345 |
+| Raw score | 0.313 | 0.348 | 1.092 | — |
+| Uplift vs actual change (correlation) | −0.32 | −0.15 | 0.57 | — |
+| Wisconsin B calibrated (range) | 1,708 (98–3,410) | 1,882 | 700 | 797 |
+| Wisconsin B raw | 12,150 | 12,925 | 14,549 | — |
+
+Per city, the honest forest's predicted rise in share vs the actual change:
+- **Five cities where the share had room to rise and something was built** track closely: Charlotte 0.25 vs 0.26, Chicago 0.11 vs 0.06, Madison 0.13 vs 0.07, New York 0.33 vs 0.34, Philadelphia 0.10 vs 0.12.
+- **The misses are four cities where a rise was impossible or nothing was measured:**
+  - Los Angeles and Saint Paul: upzoned lots already held 99–100% of new homes before the reform.
+  - Bellevue: almost nothing was built.
+  - Seattle: share before 0.43, with a small change.
+
+These four pull the correlation negative and K down. Picking cities after seeing results would be cherry-picking. A rule such as "leave out cities where the share before is over 90% or no homes were built" would need to be logged before any rerun. This is for the audit.
