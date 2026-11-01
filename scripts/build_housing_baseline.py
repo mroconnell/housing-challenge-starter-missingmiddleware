@@ -226,9 +226,10 @@ def main() -> None:
     proj = hb.project(hist, best, bands[bands["structure_type"] != "all"])
     imp_meta = munis.rename(columns={"context_group": "context"})[["area_id", "context", "housing_units_acs"]]
     scr0 = acs_screen(hist)  # audit 2026-11-01: under-reporting is a screen on every place, not a hand-written list
-    under = set(scr0.loc[scr0["flag_under_reported"], "area_id"]) if scr0 is not None else set()
-    if args.published:  # "Census as published": no under-report correction (the screen would also catch Milwaukee)
-        under = set()
+    # the screen runs on the adjusted series (Milwaukee's MPROP fix applied), so Milwaukee is not flagged
+    under = scr0.loc[scr0["flag_under_reported"]].set_index("area_id")["acs_lower_bound"].to_dict() if scr0 is not None else {}
+    if args.published:  # "Census as published": no corrections; the Milwaukee fix and the screen are both corrections,
+        under = {}      # while filling places with no report is not
     proj = hb.impute_missing(proj, imp_meta, bands[bands["structure_type"] != "all"], under)
 
     if args.published:

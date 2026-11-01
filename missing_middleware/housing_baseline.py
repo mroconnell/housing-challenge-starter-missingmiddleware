@@ -261,15 +261,21 @@ def project(hist: pd.DataFrame, candidate: str, bands: pd.DataFrame) -> pd.DataF
                 "method", "window_years", "no_data_in_window"]]
 
 
-def impute_missing(proj: pd.DataFrame, meta: pd.DataFrame, bands: pd.DataFrame, under_reported: set | None = None) -> pd.DataFrame:
+ACS_YEARS_COVERED = 4.5  # ACS 2020-2024 "built 2020 or later": about 4.5 years of completions on average
+
+
+def impute_missing(proj: pd.DataFrame, meta: pd.DataFrame, bands: pd.DataFrame, under_reported: dict | set | None = None) -> pd.DataFrame:
     """Owner-approved fix (2026-11-01): places with no permit data in the level window (not reported, never zero;
     FOUNDATION.md finding 3) and UNDER_REPORTED places get the median current-law rate of their context class
     (permits per 1,000 ACS homes per year, over places with data), split by building size in the class's own
     proportions; low/high use the same long-run band as every other place.
     under_reported: places flagged by the ACS screen (permits below the ACS lower 90% bound of homes built 2020 or
-    later; audit 2026-11-01). Their own projection is a lower bound, so they take the larger of it and the class rate.
+    later; audit 2026-11-01), as {area_id: ACS lower bound of homes built 2020 or later}. The flag shows their own count
+    is a lower bound, so this is evidence, not a floor: they take the largest of their own projection, the class
+    rate, and the ACS lower-bound pace (lower bound / ACS_YEARS_COVERED a year).
     meta: area_id, context, housing_units_acs."""
-    UNDER_REPORTED = set(under_reported or ())
+    UR = dict(under_reported) if isinstance(under_reported, dict) else {a: 0.0 for a in (under_reported or ())}
+    UNDER_REPORTED = set(UR)
     out = proj.copy()
     m = meta.set_index("area_id")
     y0 = out[out["year"] == FORECAST_YEARS[0]]
@@ -283,11 +289,14 @@ def impute_missing(proj: pd.DataFrame, meta: pd.DataFrame, bands: pd.DataFrame, 
         .groupby(["context", "structure_type"])["central"].sum()
     share = share / share.groupby(level=0).transform("sum")
     cls_total = tot["context"].map(rate) * tot["housing_units_acs"] / 1000
-    tgt = nr | {a for a in UNDER_REPORTED if a in tot.index and cls_total.get(a, 0) > tot.loc[a, "central"]}
+    target = cls_total.copy()
+    for a, lb in UR.items():  # under-reported: largest of class rate and ACS lower-bound pace
+        if a in target.index:
+            target[a] = max(float(target.get(a, 0) or 0), float(lb) / ACS_YEARS_COVERED)
+    tgt = nr | {a for a in UNDER_REPORTED if a in tot.index and target.get(a, 0) > tot.loc[a, "central"]}
     sel = out["area_id"].isin(tgt)
     ctx = out.loc[sel, "area_id"].map(m["context"])
-    hu = out.loc[sel, "area_id"].map(m["housing_units_acs"])
-    c = ctx.map(rate) * hu / 1000 * [share.get((cc, t), 0.0) for cc, t in zip(ctx, out.loc[sel, "structure_type"])]
+    c = out.loc[sel, "area_id"].map(target) * [share.get((cc, t), 0.0) for cc, t in zip(ctx, out.loc[sel, "structure_type"])]
     b = out.loc[sel, ["structure_type"]].merge(bands[["structure_type", "low", "high"]], on="structure_type", how="left")
     out.loc[sel, "central"] = c.fillna(0.0).values
     out.loc[sel, "low"] = (out.loc[sel, "central"].values * b["low"].values)

@@ -1,20 +1,20 @@
 # All-housing baseline (shared by the parking and TOD scenarios)
 
-Written 2026-10-26 by the parking conductor. Status: version 3 (2026-11-01). Version 3 fills places whose permits are not reported, or are under-reported by a general ACS screen, with their context class's median rate (owner-approved; audit-revised to a screen, see step 5a). It adds 1,331 homes to the central. Version 2 (2026-10-26): Milwaukee city's apartment permits are now estimated from the city's property file, and the range uses Wisconsin's long-run history. Both are owner decisions P8 and P9 (AQ-048). Version 1 had a central of 118,822 units, which is now the "Census as published" sensitivity.
+Written 2026-10-26 by the parking conductor. Status: version 3 (2026-11-01). Version 3 fills places whose permits are not reported, or are under-reported by a general ACS screen, with their context class's median rate (owner-approved; audit-revised to a screen, see step 5a). It adds 1,381 homes to the central. Version 2 (2026-10-26): Milwaukee city's apartment permits are now estimated from the city's property file, and the range uses Wisconsin's long-run history. Both are owner decisions P8 and P9 (AQ-048). Version 1 had a central of 118,822 units, which is now the "Census as published" sensitivity.
 
 ## What it answers
 
 How many housing units Wisconsin would permit each year in 2027–2031 under current law, by municipality and by building size, with a range. Every reform scenario's addition is measured against it.
 
-**Answer.** Under current law, Wisconsin would permit about 124,000 housing units over 2027–2031, or about 24,800 units per year. The range is 65,200 to 177,600 units over the five years. (Version 2: 122,619, range 64,491 to 175,628.) For comparison, Wisconsin permitted 120,723 units over 2021–2025. That is the published Census state total of 117,405, plus 3,318 Milwaukee apartment units in 2021–2024 that Census did not count. 2025 is not adjusted, so this is a floor.
+**Answer.** Under current law, Wisconsin would permit about 124,000 housing units over 2027–2031 (124,000 exactly), or about 24,800 units per year. The range is 65,250 to 177,672 units over the five years. (Version 2: 122,619, range 64,491 to 175,628.) For comparison, Wisconsin permitted 120,723 units over 2021–2025. That is the published Census state total of 117,405, plus 3,318 Milwaukee apartment units in 2021–2024 that Census did not count. 2025 is not adjusted, so this is a floor.
 
 | Building size | 2027–2031 low | 2027–2031 central | 2027–2031 high | 2021–2025 permitted (adjusted) |
 | --- | ---: | ---: | ---: | ---: |
-| 1 unit | 31,112 | 63,452 | 82,110 | 62,600 |
-| 2 units | 3,052 | 7,863 | 14,995 | 7,768 |
+| 1 unit | 31,132 | 63,494 | 82,164 | 62,600 |
+| 2 units | 3,054 | 7,866 | 15,000 | 7,768 |
 | 3–4 units | 207 | 680 | 815 | 698 |
-| 5+ units | 30,854 | 51,955 | 79,684 | 49,657 |
-| All | 65,225 | 123,950 | 177,604 | 120,723 |
+| 5+ units | 30,856 | 51,960 | 79,692 | 49,657 |
+| All | 65,250 | 124,000 | 177,672 | 120,723 |
 
 Columns may not add exactly because of rounding. All figures are housing units authorized by building permits (at permit issuance), the same milestone as the ADU scenario. Source: `reference/housing_baseline_statewide_by_year.csv`.
 
@@ -44,15 +44,15 @@ Columns may not add exactly because of rounding. All figures are housing units a
 5. **Projection.** Each municipality and building size is held flat at its 2023–2025 average for 2026 (a bridge year, shown but not in five-year totals) and 2027–2031.
 5a. **Places not reported, or under-reported (version 3, owner-approved 2026-11-01; screen per audit).** These places get the median current-law rate of their context class, in permits per 1,000 ACS homes per year over places with data (about 3.9 urban, 7.0 suburban, 8.0 rural, 3.0 small community). It is split by building size in the class's own proportions, with the same long-run band (`housing_baseline.impute_missing`).
    - **Not reported** (no permit data in 2023–2025; FOUNDATION.md finding 3, "not reported, never zero"): Caledonia village, Lake Hallie village, Clayton town, Yorkville village, Forest town, Westfield village, Wauzeka town, Fairchild village, Genoa village, Melvina village and Mount Sterling village.
-   - **Under-reported, by a screen run on every place:** Census permits for 2019–2023 below the ACS lower 90% bound of homes built 2020 or later (B25034, ACS 2020–2024). The ACS also counts conversions and some homes permitted before 2019, so a flag means a large gap. Flagged places take the larger of their own projection and the class rate, since their own series is a lower bound. Flagged (ACS ± margin, against permits):
+   - **Under-reported, by a screen run on every place:** Census permits for 2019–2023 below the ACS lower 90% bound of homes built 2020 or later (B25034, ACS 2020–2024). The ACS also counts conversions and some homes permitted before 2019, so a flag means a large gap. Flagged places take the largest of their own projection, the class rate, and the ACS lower-bound pace (the lower bound ÷ 4.5 years a year). The flag shows their own count is a lower bound, so this is evidence, not a floor. The screen runs on the adjusted series, so Milwaukee is not flagged and its central is unchanged. Flagged (ACS ± margin, against permits):
      - Wauwatosa 310 ± 173 against 60, now 466 over 2027–2031 (its 2015–2017 pace was about 290 a year; the imputed pace is about 93 a year);
      - Superior 126 ± 56 against 47 (253);
-     - Springdale town 105 ± 50 against 30 (36);
+     - Springdale town 105 ± 50 against 30 (61);
      - Neillsville, Marshfield (piece), Butler village, Maple Bluff, Park Falls and Dorchester (small);
-     - Whitestown town is flagged but keeps its own, higher projection.
+     - Whitestown town 61 ± 35 against 24 (29); Neillsville 19 and the Marshfield piece 17 now meet their ACS lower bounds.
      - Shorewood (29 ± 35 against 83), Cudahy (0 ± 16 against 7), Greendale (14 ± 26 against 6) and South Milwaukee (72 ± 74 against 10) are not flagged.
-   - **Effect:** the central rises from 122,619 to 123,950 (+1,331).
-   - **"Census as published":** applies the not-reported fill only. The screen would otherwise also catch Milwaukee. It is 119,379.
+   - **Effect:** the central rises from 122,619 to 124,000 (+1,381).
+   - **"Census as published":** applies the not-reported fill only, giving 119,379. The Milwaukee fix and the screen are both corrections, while filling places that sent no report is not. On the unadjusted series, the screen would also catch Milwaukee.
 6. **Range from Wisconsin's own history.** For every year from 1992 to 2020, the 3-year state average was compared with what Wisconsin actually permitted in the next five years (29 five-year periods per building size). The low and high cases use the 10th and 90th percentile of those outcomes, by building size: 0.49 and 1.29 times the central for 1-unit buildings, 0.39 and 1.91 for 2 units, 0.30 and 1.20 for 3–4 units, and 0.59 and 1.53 for 5+ units. The worst five-year period on record was 2007–2011, when Wisconsin permitted 0.40 times as many units as the 3-year average before it. Source: `reference/housing_baseline_band.csv`, `reference/housing_baseline_long_run_ratios.csv`.
    - The low and high cases apply the same multiplier to every municipality, so building sizes and places move together; the statewide low and high are their sums and are not independent.
    - A narrower range from the recent held-out test alone is kept as a sensitivity (`reference/housing_baseline_band_recent.csv`). In all four recent tests the flat average under-predicted every building size except 3–4 units, because permits rose over 2015–2025, so that range runs almost only upward (1.00 to 1.46 times central for 5+ units).

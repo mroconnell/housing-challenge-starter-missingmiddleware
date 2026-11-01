@@ -1015,10 +1015,10 @@ muni:5501951125,Mentor town,55019,town,rural,364.0,1unit,flat_3y,2023-2025,False
 muni:5501951125,Mentor town,55019,town,rural,364.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5501951125,Mentor town,55019,town,rural,364.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5501951125,Mentor town,55019,town,rural,364.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5501955800,Neillsville city,55019,city,small_community,1113.0,1unit,imputed: under-reported,2023-2025,False,0.916,1.864,2.41,4.58,9.319,12.048
-muni:5501955800,Neillsville city,55019,city,small_community,1113.0,2units,imputed: under-reported,2023-2025,False,0.203,0.523,0.997,1.014,2.613,4.984
-muni:5501955800,Neillsville city,55019,city,small_community,1113.0,3_4units,imputed: under-reported,2023-2025,False,0.014,0.047,0.057,0.072,0.236,0.283
-muni:5501955800,Neillsville city,55019,city,small_community,1113.0,5plus,imputed: under-reported,2023-2025,False,0.604,1.018,1.561,3.021,5.088,7.803
+muni:5501955800,Neillsville city,55019,city,small_community,1113.0,1unit,imputed: under-reported,2023-2025,False,1.003,2.04,2.638,5.013,10.201,13.188
+muni:5501955800,Neillsville city,55019,city,small_community,1113.0,2units,imputed: under-reported,2023-2025,False,0.222,0.572,1.091,1.11,2.861,5.455
+muni:5501955800,Neillsville city,55019,city,small_community,1113.0,3_4units,imputed: under-reported,2023-2025,False,0.016,0.052,0.062,0.079,0.259,0.31
+muni:5501955800,Neillsville city,55019,city,small_community,1113.0,5plus,imputed: under-reported,2023-2025,False,0.661,1.114,1.708,3.307,5.569,8.542
 muni:5501960825,Owen city,55019,city,small_community,381.0,1unit,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5501960825,Owen city,55019,city,small_community,381.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5501960825,Owen city,55019,city,small_community,381.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1507,10 +1507,10 @@ muni:5502573750,Shorewood Hills village,55025,village,suburban,932.0,1unit,flat_
 muni:5502573750,Shorewood Hills village,55025,village,suburban,932.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502573750,Shorewood Hills village,55025,village,suburban,932.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502573750,Shorewood Hills village,55025,village,suburban,932.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502575850,Springdale town,55025,town,rural,901.0,1unit,imputed: under-reported,2023-2025,False,3.325,6.765,8.747,16.625,33.827,43.735
-muni:5502575850,Springdale town,55025,town,rural,901.0,2units,imputed: under-reported,2023-2025,False,0.071,0.183,0.349,0.355,0.915,1.745
-muni:5502575850,Springdale town,55025,town,rural,901.0,3_4units,imputed: under-reported,2023-2025,False,0.001,0.004,0.005,0.007,0.022,0.026
-muni:5502575850,Springdale town,55025,town,rural,901.0,5plus,imputed: under-reported,2023-2025,False,0.128,0.215,0.33,0.638,1.075,1.649
+muni:5502575850,Springdale town,55025,town,rural,901.0,1unit,imputed: under-reported,2023-2025,False,5.67,11.536,14.915,28.349,57.681,74.575
+muni:5502575850,Springdale town,55025,town,rural,901.0,2units,imputed: under-reported,2023-2025,False,0.121,0.312,0.595,0.606,1.56,2.976
+muni:5502575850,Springdale town,55025,town,rural,901.0,3_4units,imputed: under-reported,2023-2025,False,0.002,0.007,0.009,0.011,0.037,0.044
+muni:5502575850,Springdale town,55025,town,rural,901.0,5plus,imputed: under-reported,2023-2025,False,0.218,0.367,0.562,1.088,1.833,2.811
 muni:5502575875,Springfield town,55025,town,rural,1166.0,1unit,flat_3y,2023-2025,False,1.892,3.849,4.977,9.459,19.246,24.883
 muni:5502575875,Springfield town,55025,town,rural,1166.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502575875,Springfield town,55025,town,rural,1166.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -3919,10 +3919,10 @@ muni:5507349100,Marathon City village,55073,village,small_community,584.0,1unit,
 muni:5507349100,Marathon City village,55073,village,small_community,584.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507349100,Marathon City village,55073,village,small_community,584.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507349100,Marathon City village,55073,village,small_community,584.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507349675,Marshfield city,55073,city,small_community,492.0,1unit,imputed: under-reported,2023-2025,False,0.405,0.824,1.065,2.025,4.119,5.326
-muni:5507349675,Marshfield city,55073,city,small_community,492.0,2units,imputed: under-reported,2023-2025,False,0.09,0.231,0.441,0.448,1.155,2.203
-muni:5507349675,Marshfield city,55073,city,small_community,492.0,3_4units,imputed: under-reported,2023-2025,False,0.006,0.021,0.025,0.032,0.104,0.125
-muni:5507349675,Marshfield city,55073,city,small_community,492.0,5plus,imputed: under-reported,2023-2025,False,0.267,0.45,0.69,1.336,2.249,3.45
+muni:5507349675,Marshfield city,55073,city,small_community,492.0,1unit,imputed: under-reported,2023-2025,False,0.885,1.8,2.327,4.424,9.0,11.637
+muni:5507349675,Marshfield city,55073,city,small_community,492.0,2units,imputed: under-reported,2023-2025,False,0.196,0.505,0.963,0.98,2.524,4.813
+muni:5507349675,Marshfield city,55073,city,small_community,492.0,3_4units,imputed: under-reported,2023-2025,False,0.014,0.046,0.055,0.069,0.228,0.273
+muni:5507349675,Marshfield city,55073,city,small_community,492.0,5plus,imputed: under-reported,2023-2025,False,0.584,0.983,1.507,2.918,4.914,7.537
 muni:5507354500,Mosinee city,55073,city,small_community,2173.0,1unit,flat_3y,2023-2025,False,3.604,7.333,9.481,18.021,36.667,47.406
 muni:5507354500,Mosinee city,55073,city,small_community,2173.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507354500,Mosinee city,55073,city,small_community,2173.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -6715,10 +6715,10 @@ muni:5512386525,Wheatland town,55123,town,rural,375.0,1unit,flat_3y,2023-2025,Fa
 muni:5512386525,Wheatland town,55123,town,rural,375.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5512386525,Wheatland town,55123,town,rural,375.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5512386525,Wheatland town,55123,town,rural,375.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512386900,Whitestown town,55123,town,rural,330.0,1unit,flat_3y,2023-2025,False,1.474,3.0,3.879,7.372,15.0,19.393
-muni:5512386900,Whitestown town,55123,town,rural,330.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512386900,Whitestown town,55123,town,rural,330.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512386900,Whitestown town,55123,town,rural,330.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512386900,Whitestown town,55123,town,rural,330.0,1unit,imputed: under-reported,2023-2025,False,2.68,5.453,7.051,13.401,27.267,35.254
+muni:5512386900,Whitestown town,55123,town,rural,330.0,2units,imputed: under-reported,2023-2025,False,0.057,0.148,0.281,0.286,0.738,1.407
+muni:5512386900,Whitestown town,55123,town,rural,330.0,3_4units,imputed: under-reported,2023-2025,False,0.001,0.003,0.004,0.005,0.017,0.021
+muni:5512386900,Whitestown town,55123,town,rural,330.0,5plus,imputed: under-reported,2023-2025,False,0.103,0.173,0.266,0.515,0.866,1.329
 muni:5512502450,Arbor Vitae town,55125,town,rural,2845.0,1unit,flat_3y,2023-2025,False,15.927,32.407,41.899,79.637,162.035,209.493
 muni:5512502450,Arbor Vitae town,55125,town,rural,2845.0,2units,flat_3y,2023-2025,False,0.533,1.373,2.618,2.665,6.864,13.089
 muni:5512502450,Arbor Vitae town,55125,town,rural,2845.0,3_4units,flat_3y,2023-2025,False,0.119,0.392,0.47,0.596,1.961,2.348
