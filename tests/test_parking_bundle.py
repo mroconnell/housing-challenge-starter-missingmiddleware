@@ -41,7 +41,7 @@ class TestAdditionsByArea(unittest.TestCase):
         run = json.loads((RUNS / "latest.json").read_text())["run_id"]
         a = json.loads((RUNS / run / "additions_by_area.json").read_text())
         self.assertEqual(a["baseline_version"], "all-housing baseline v2")
-        self.assertEqual(a["roles"], {"lower": "central", "central": "central", "upper": "upper"})
+        self.assertEqual(a["roles"], {"lower": "lower", "central": "central", "upper": "upper"})
         ref = pd.read_csv(ROOT / "reference" / "parking_model_by_area.csv").set_index("area_id")["addition_upper_five_year"]
         tot = {}
         for r in a["areas"]:

@@ -325,9 +325,8 @@ def build_additions() -> dict:
     return {"reform": "parking", "baseline_version": BASELINE_VERSION, "years": YEARS,
             "paths": [{"id": "lower", "label": "Low end of the evidence"}, {"id": "central", "label": "No measurable change"},
                       {"id": "upper", "label": "High end of the evidence"}],
-            # the combined TOD + parking rules (contract section 9) assume additions are not negative, so the combined
-            # low pairing keeps parking's central (0) until the shared rule for a negative low line is agreed (2026-11-01)
-            "roles": {"lower": "central", "central": "central", "upper": "upper"},
+            # combined rule (b) handles negative lines since TOD commit 097718a (2026-11-01)
+            "roles": {"lower": "lower", "central": "central", "upper": "upper"},
             "split_source": "reference/tod_near_stop_homes_by_muni.csv, share_near_main", "areas": rows}
 
 
