@@ -188,6 +188,8 @@ def permits(city: str) -> gpd.GeoDataFrame | None:
                                 geometry=h.geometry.representative_point(), crs=CRS).query("units > 0")
     if city == "San Diego":
         return sd_permits()
+    if city == "Honolulu":
+        return hnl_permits()
     if city == "Los Angeles":
         # whole-city LADBS new-building permits (step B); 0.2% (2011-16) and 1.3% (2018-22) of homes lack a location
         d = pd.concat([pd.read_csv(RAW / "tod_radius_programs" / "la" / f"permits_citywide_{x}.csv", low_memory=False)
@@ -217,6 +219,40 @@ def sd_permits() -> gpd.GeoDataFrame:
     cap = np.select([j.str.contains("One Family"), j.str.contains("Two [Ff]amily"), j.str.contains("Three or Four")], [1, 2, 4], np.inf)
     d["units"] = np.minimum(pd.to_numeric(d.TOTAL_DU, errors="coerce").fillna(0), cap)
     return _pts(d[d.units > 0], "LNG_JOB", "LAT_JOB")
+
+
+HNL_SKIP_STATUS = "Cancel|revoked|review|Start|approved to issue"
+
+
+def hnl_permits() -> gpd.GeoDataFrame:
+    """Honolulu permits with homes added (STATION_AREA_PLAN step B): issued only; no hotels; no foundation-only
+    permits; one row per tax-map key, year, homes and address. Placed at the first listed tax-map key found in
+    today's parcels, else at the centre of its plat (a block-sized tax-map unit; parcels redrawn since)."""
+    d = pd.DataFrame(json.load(open(RAW / "tod_radius_programs" / "honolulu" / "permits.json")))
+    d["units"] = pd.to_numeric(d.numunitsadd, errors="coerce").fillna(0)
+    d["year"] = pd.to_datetime(d.issuedate, errors="coerce").dt.year
+    bad = d.statusdescription.str.contains(HNL_SKIP_STATUS, case=False, na=False) | d.structurecode.str.startswith("57", na=False)
+    d = d[~bad & (d.foundationonly != "Y") & (d.units > 0)].copy()
+    keys = d.tmk.fillna("").str.findall(r"\d{8}")
+    d["k0"] = keys.str[0]
+    d = d.drop_duplicates(["k0", "year", "units", "joblocation"])
+    P = gpd.read_file(RAW / "tod_radius_programs" / "honolulu" / "parcels.geojson", columns=["tmk8num"]).to_crs(CRS)
+    P["k"] = pd.to_numeric(P.tmk8num, errors="coerce")
+    P = P.dropna(subset=["k"]).assign(k=lambda x: x.k.astype(int))
+    pt = P.drop_duplicates("k").set_index("k").geometry.representative_point()
+    plat = gpd.GeoSeries(pt.values, index=pt.index // 100, crs=CRS).groupby(level=0).apply(lambda g: g.union_all().centroid)
+    geo, how = [], []
+    for ks in keys.loc[d.index]:
+        ks = [int(k) for k in ks]
+        hit = next((k for k in ks if k in pt.index), None)
+        if hit is not None:
+            geo.append(pt[hit]); how.append("parcel")
+        elif ks and ks[0] // 100 in plat.index:
+            geo.append(plat[ks[0] // 100]); how.append("plat centre")
+        else:
+            geo.append(None); how.append("none")
+    g = gpd.GeoDataFrame(d[["year", "units"]].assign(placed=how), geometry=geo, crs=CRS)
+    return g[g.geometry.notna()]
 
 
 def case_windows() -> list[dict]:

@@ -62,7 +62,8 @@ def sd_permits() -> None:
 def honolulu_permits() -> None:
     base = "https://data.honolulu.gov/resource/4vab-c87q.json"
     cols = ("buildingpermitno,issuedate,createddate,statusdescription,tmk,joblocation,numunitsadd,newbuilding,"
-            "proposeduse,occupancygroupassessed,accessorydwellingunitadu,ohana,commercialresidential,structurecode")
+            "proposeduse,occupancygroupassessed,accessorydwellingunitadu,ohana,commercialresidential,structurecode,"
+            "foundationonly,shellonly,addition,alteration,repair,demolition,externalfilenum,estimatedvalueofwork")
     rows, off = [], 0
     while True:
         q = urllib.parse.urlencode({"$select": cols, "$where": "numunitsadd>0", "$order": "objectid", "$limit": 50000, "$offset": off})
