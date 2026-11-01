@@ -779,18 +779,35 @@ def net_effects(cp: dict, reading: str = "per_upzoned_home") -> dict:
     st = STACY_SHARE / cov(STACY_COVERAGE)
     ak = AUCKLAND_SHARE / cov(AUCKLAND_COVERAGE)
     suffix = "" if reading == "per_upzoned_home" else ", as published"
+    lot = lot_model_line()
     eff = {
         "little": (M.NetEffect(la, ny, f"Los Angeles TOC: 0.04 pp over 6 years x 5/6{'' if suffix else ' / 0.61 coverage'}; New York pooled ramp"),
                    f"Little response (Los Angeles{suffix})"),
-        "typical": (M.NetEffect(st, ny, "Stacy et al. 2023: 0.008 per loosening reform, years 3+ after; applied inside 2027-2031 on the New York pooled ramp (the paper shows no ramp)"),
-                    "Typical response (Stacy et al. 2023)"),
+        # Central (owner 2026-11-01, AQ-068): the lot-model drift rule, measured on the 9 reform cities. Stacy et al. is
+        # kept as a labelled comparison (sensitivity "stacy_typical") and in the reference line.
+        "typical": (M.NetEffect(lot["central"] / lot["stock"], ny, f"Lot model, drift rule: {lot['central']:,.0f} extra homes over 2027-2031 "
+                                f"(range {lot['low']:,.0f}-{lot['high']:,.0f}), reference/tod_lot_model_line.csv; New York pooled ramp"),
+                    "Central: lot model (9 reform cities)"),
         "strong": (M.NetEffect(ak, auck_t, f"Auckland: 21,808 / 530,300 = 4.11%{'' if suffix else ' / 0.752 coverage'}; Auckland 2017-2021 profile rescaled to the stated total"),
                    f"Strong response (Auckland{suffix})"),
     }
-    # Reference line: the median of the three net-effect values (each study counted once).
-    med = float(np.median([e.five_year_share for e, _ in eff.values()]))
-    eff["reference_line"] = (M.NetEffect(med, ny, "median of the three net-effect values"), "Reference line (median of the three studies)")
+    # Reference line: the median of the three studies' net-effect values (each study counted once).
+    med = float(np.median([la, st, ak]))
+    eff["reference_line"] = (M.NetEffect(med, ny, "median of the three studies' net-effect values"), "Reference line (median of the three studies)")
     return eff
+
+
+def stacy_effect(cp: dict) -> M.NetEffect:
+    """Stacy et al. 2023 as the former typical line (AQ-055), kept as a labelled comparison."""
+    return M.NetEffect(STACY_SHARE / STACY_COVERAGE, M.timing_from_ramp(cp["ramp"]),
+                       "Stacy et al. 2023: 0.008 per loosening reform, years 3+ after; New York pooled ramp")
+
+
+def lot_model_line() -> dict:
+    """The lot-model central and its range (scripts/build_tod_lot_model_line.py), and the main-case stock."""
+    t = pd.read_csv(REFERENCE / "tod_lot_model_line.csv").set_index("line").loc["lot_model_drift"]
+    stock = float(pd.read_csv(REFERENCE / "tod_definition_summary.csv").set_index("definition").loc["main", "homes"])
+    return {"central": float(t.extra_homes_2027_2031), "low": float(t.range_low), "high": float(t.range_high), "stock": stock}
 
 
 def metro_scale_params() -> dict:
@@ -851,9 +868,10 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
     x = lot_inputs(L, C.DEFINITION_BANDS["main"], rents, use_ratio, fallback_dose_scale=fr)
     place = run_areas(x, muni, "share_near_main", cp, take["take_up"], cp["ramp"], baseline)
     net = net_rows(place, stock, effects)
-    # Typical range: Stacy et al.'s 95% interval, 0.008 +/- 1.96 x 0.003
+    # Central range: the lot model's 9 left-out fits (AQ-068; formerly Stacy et al.'s 95% interval)
+    lot = lot_model_line()
     lo_hi = {}
-    for tag, v in (("low", STACY_SHARE - 1.96 * STACY_SE), ("high", STACY_SHARE + 1.96 * STACY_SE)):
+    for tag, v in (("low", lot["low"] / lot["stock"]), ("high", lot["high"] / lot["stock"])):
         e = effects["typical"][0]
         lo_hi[tag] = net_rows(place, stock, {"typical": (M.NetEffect(v, e.timing, e.source), "")})
     ren = {f"add_y{k}": f"add_{M.CALENDAR[k]}" for k in M.YEARS}
@@ -908,8 +926,14 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
     add_s("law_addition", "ramp_year5_alt", "New York ramp with year 5 = mean of years 3-5 (timing only; totals unchanged). Strong keeps Auckland's profile",
           net_rows(place, stock, {k: (M.NetEffect(e.five_year_share, ny5 if k != "strong" else e.timing, e.source), lab)
                                   for k, (e, lab) in effects.items()}))
-    add_s("law_addition", "typical_range", "Typical at the low and high ends of Stacy et al.'s 95% interval (0.2% and 1.4%)",
+    add_s("law_addition", "typical_range", "Central (lot model) at the low and high ends of its 9 left-out fits",
           pd.concat([lo_hi["low"].assign(scenario="typical_low"), lo_hi["high"].assign(scenario="typical_high")]))
+    add_s("law_addition", "stacy_typical", "Former typical line: Stacy et al. 2023 (+0.8% per loosening reform), for comparison",
+          net_rows(place, stock, {"typical": (stacy_effect(cp), "Stacy et al. 2023 (former typical)")}))
+    avg = float(pd.read_csv(REFERENCE / "tod_lot_model_line.csv").set_index("line").loc["average_change_benchmark", "extra_homes_2027_2031"])
+    add_s("law_addition", "average_change", "Lot model, pre-registered rule: other reform cities' average rise in the upzoned share (+4.0 points)",
+          net_rows(place, stock, {"typical": (M.NetEffect(avg / lot["stock"], M.timing_from_ramp(cp["ramp"]), "average-change benchmark"),
+                                              "Lot model, average change (pre-registered)")}))
     add_s("law_addition", "as_published", "Each effect as published (no division by coverage)",
           net_rows(place, stock, net_effects(cp, "as_published")))
     e = effects["strong"][0]

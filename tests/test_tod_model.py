@@ -232,7 +232,13 @@ class TestNetSizing(unittest.TestCase):
         # corrected values (AQ-050): LA over six years, coverage shares
         self.assertAlmostEqual(net.loc["little", "parameter"], 0.0004 * 5 / 6 / 0.61, places=7)
         self.assertAlmostEqual(net.loc["strong", "parameter"], 21_808 / 530_300 / 0.752, places=6)
-        self.assertAlmostEqual(net.loc["typical", "parameter"], 0.008, places=7)
+        # central = the lot-model drift rule (AQ-068): its five-year total over the main-case stock
+        lot = read("tod_lot_model_line.csv").set_index("line")
+        self.assertAlmostEqual(net.loc["typical", "parameter"] * 313_564, lot.loc["lot_model_drift", "extra_homes_2027_2031"], delta=1.0)
+        # Stacy et al. kept as a labelled comparison, at its published 0.008
+        sens = read("tod_model_sensitivities.csv")
+        st = sens[(sens.sensitivity == "stacy_typical") & (sens.scenario == "typical")]
+        self.assertAlmostEqual(float(st.parameter.iloc[0]), 0.008, places=7)
         # per-acre sizing still in the sensitivity file and ordered
         pa = read("tod_model_per_acre_statewide.csv")
         pa = pa[(pa.year == "2027-2031") & (pa.method == "A")].set_index("scenario").addition

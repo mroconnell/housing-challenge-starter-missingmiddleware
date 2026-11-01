@@ -100,7 +100,7 @@ The owner asked to see each reform alone and the two together (AQ-047). The text
   - Parking splits each municipality's additions by `share_near_main` in `reference/tod_near_stop_homes_by_muni.csv`.
 - **Same baseline.** Each bundle states its `baseline_version`, currently all-housing baseline v2. The combined builder refuses to combine bundles built on different baselines.
 - **Paths paired by meaning.** Each reform maps its paths to three roles: `lower`, `central` and `upper`. Lower is combined with lower, central with central and upper with upper; paths are never crossed. Current mapping:
-  - TOD: little = lower, typical = central, strong = upper.
+  - TOD: little = lower, typical = central, strong = upper. Since AQ-068 (2026-11-01) the `typical` id carries the lot model's central line (label "Central: lot model"), not Stacy et al.
   - Parking: "No measurable change" = lower and central, "High end of the evidence" = upper.
 - **Rules.** A combined view is a separate result set, with its own bundle and run id. Neither reform's own numbers change.
   - The `elsewhere` parts are added.

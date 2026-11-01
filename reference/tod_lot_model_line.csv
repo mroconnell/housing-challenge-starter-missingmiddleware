@@ -1,0 +1,3 @@
+line,extra_homes_2027_2031,range_low,range_high,rule,range_rule
+lot_model_drift,1180.9,601.0,1661.7,"change in upzoned share = a + b x (share before - 0.5), 9 reform cities; Wisconsin share before 2019-2024",9 fits leaving one reform city out
+average_change_benchmark,797.5,,,"others' average change in upzoned share (+0.040), pre-registered",

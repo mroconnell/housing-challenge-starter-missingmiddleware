@@ -25,7 +25,7 @@ const placeName = (n: string) => n.replace(/ (city|village|town)$/, " ($1)");
 function sharedLine(b: TodBundle): string {
   const s = b.statewide;
   const t = scen(b, "typical"), l = scen(b, "little"), g = scen(b, "strong");
-  return `In the typical response the law adds about ${int(t.per_year)} homes a year statewide, about ${sharePct(t.share_of_state_baseline)} above the ${int(s.state_baseline_per_year)} homes a year Wisconsin is expected to permit under current law (all homes, all places, 2027–2031), or ${sharePct(t.share_of_acs_homes)} of Wisconsin's ${int(s.acs_homes)} homes (ACS 2020–2024). The little response adds about ${int(l.per_year)} a year (${sharePct(l.share_of_state_baseline)} above) and the strong response about ${int(g.per_year)} a year (${sharePct(g.share_of_state_baseline)} above).`;
+  return `On the central line the law adds about ${int(t.per_year)} homes a year statewide, about ${sharePct(t.share_of_state_baseline)} above the ${int(s.state_baseline_per_year)} homes a year Wisconsin is expected to permit under current law (all homes, all places, 2027–2031), or ${sharePct(t.share_of_acs_homes)} of Wisconsin's ${int(s.acs_homes)} homes (ACS 2020–2024). The little response adds about ${int(l.per_year)} a year (${sharePct(l.share_of_state_baseline)} above) and the strong response about ${int(g.per_year)} a year (${sharePct(g.share_of_state_baseline)} above).`;
 }
 const ext = (url: string, label: string) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}<span class="sr-only"> (opens in a new tab)</span> ↗</a>`;
 
@@ -98,9 +98,9 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
       <tr><th scope="row">2027–2031</th><td class="num">${int(base.total)}</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).additional_total)}</td>`).join("")}</tr>
       <tr><th scope="row">With the law, 2027–2031</th><td class="num">—</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).with_law_total)}</td>`).join("")}</tr></tbody></table></div>
     <p class="small" data-testid="median-note">${esc(s.median_line.note)}</p>
-    <p class="small muted">Current law near stops is held at each place's 2023–2025 average, so it is flat; its range (${int(base.low_total)}–${int(base.high_total)} over five years) comes from Wisconsin's own five-year swings. The typical response's 2031 dip comes from the build-up measured after the New York rezonings, fixed before the results; a smoothed version is on <a href="${env.link("/how-sure")}">How sure</a>. Yearly rows may not add exactly to the totals because of rounding.</p></section>
+    <p class="small muted">Current law near stops is held at each place's 2023–2025 average, so it is flat; its range (${int(base.low_total)}–${int(base.high_total)} over five years) comes from Wisconsin's own five-year swings. The central line's 2031 dip comes from the build-up measured after the New York rezonings, fixed before the results; a smoothed version is on <a href="${env.link("/how-sure")}">How sure</a>. Yearly rows may not add exactly to the totals because of rounding.</p></section>
   <section class="card"><h2>How big is that?</h2>
-    <p data-testid="compare-size">In the typical response, the law adds ${int(typ.additional_total)} homes to the ${int(base.total)} expected near stops under current law: ${sharePct(typ.additional_total / base.total)} more over five years. The little response adds ${sharePct(scen(b, "little").additional_total / base.total)} and the strong response ${sharePct(scen(b, "strong").additional_total / base.total)}.</p>
+    <p data-testid="compare-size">On the central line, the law adds ${int(typ.additional_total)} homes to the ${int(base.total)} expected near stops under current law: ${sharePct(typ.additional_total / base.total)} more over five years. The little response adds ${sharePct(scen(b, "little").additional_total / base.total)} and the strong response ${sharePct(scen(b, "strong").additional_total / base.total)}.</p>
     <p class="small muted">These are homes in issued building permits, not completed homes, and they are compared with current law in the same places. The scenarios are not a statistical interval: each is what happened in one body of evidence.</p></section>
   <section class="card"><h2>Against all new homes in Wisconsin</h2>
     <p data-testid="shared-unit">${sharedLine(b)}</p>
@@ -215,8 +215,8 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     const mm = b.areas.metros;
     return `<section class="card"><h2>${esc(g.label)}</h2>
     <div class="table-wrap"><table class="data" data-testid="sens-${esc(g.id)}"><caption>${esc(g.label)}: homes permitted near stops, 2027–2031</caption>
-      <thead><tr><th scope="col">What if</th><th scope="col">What it means</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(scen(b, id).label.toLowerCase())}</th>`).join("")}${where_ ? `<th scope="col" class="num">Milwaukee metro (typical)</th><th scope="col" class="num">Madison metro (typical)</th>` : ""}</tr></thead>
-      <tbody>${where_ ? mainRow.replace("</tr>", `<td class="num">${int(mm[0].add.typical)}</td><td class="num">${int(mm[1].add.typical)}</td></tr>`) : mainRow}${g.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td>${esc(r.text)}${r.id === "ramp_year5_alt" && r.year_2031 ? ` Typical response in 2031: ${int(r.year_2031.typical)} instead of ${int(scen(b, "typical").by_year[4])}.` : ""}</td><td class="num">${int(r.baseline)}</td>${r.id === "typical_range"
+      <thead><tr><th scope="col">What if</th><th scope="col">What it means</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(scen(b, id).label.toLowerCase())}</th>`).join("")}${where_ ? `<th scope="col" class="num">Milwaukee metro (central)</th><th scope="col" class="num">Madison metro (central)</th>` : ""}</tr></thead>
+      <tbody>${where_ ? mainRow.replace("</tr>", `<td class="num">${int(mm[0].add.typical)}</td><td class="num">${int(mm[1].add.typical)}</td></tr>`) : mainRow}${g.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td>${esc(r.text)}${r.id === "ramp_year5_alt" && r.year_2031 ? ` Central line in 2031: ${int(r.year_2031.typical)} instead of ${int(scen(b, "typical").by_year[4])}.` : ""}</td><td class="num">${int(r.baseline)}</td>${r.id === "typical_range"
         ? `<td class="num">—</td><td class="num">${int(r.add.typical_low)} to ${int(r.add.typical_high)}</td><td class="num">—</td>`
         : SCEN_IDS.map((id) => cell(r.add[id])).join("")}${where_ ? `<td class="num">${r.milwaukee_metro === null ? "—" : int(r.milwaukee_metro)}</td><td class="num">${r.madison_metro === undefined ? "—" : int(r.madison_metro)}</td>` : ""}</tr>`).join("")}</tbody></table></div></section>`;
   };
@@ -321,11 +321,11 @@ export function pilot(b: TodBundle, env: ShellEnv, slug: string, main: HTMLEleme
     <div class="tiles tiles-3">
       <section class="tile tile-accent"><h2 class="tile-label">Extra homes near the corridor's stations, 2027–2031</h2>
         <p class="tile-num" data-testid="pilot-corridor-typical">${int(c.add.typical)}</p>
-        <p class="tile-sub">typical response (${rng(c.add)}) ${pill("calculated")}</p>
+        <p class="tile-sub">central line (${rng(c.add)}) ${pill("calculated")}</p>
         </section>
       <section class="tile"><h2 class="tile-label">Extra homes near all qualifying stops in ${esc(placeName(p.city))}, 2027–2031</h2>
         <p class="tile-num" data-testid="pilot-city-typical">${int(p.city_add.typical)}</p>
-        <p class="tile-sub">typical response (${rng(p.city_add)}) ${pill("calculated")}</p></section>
+        <p class="tile-sub">central line (${rng(p.city_add)}) ${pill("calculated")}</p></section>
       <section class="tile"><h2 class="tile-label">Homes permitted near all qualifying stops in ${esc(placeName(p.city))} under current law, 2027–2031</h2>
         <p class="tile-num" data-testid="pilot-baseline">${int(p.city_baseline)}</p>
         <p class="tile-sub">new homes in permits, without the law ${pill("calculated")}</p>
@@ -337,7 +337,7 @@ export function pilot(b: TodBundle, env: ShellEnv, slug: string, main: HTMLEleme
       ${stationMap(b.map, { view: p.view, labels, emphasizeRapid: true, title: `${p.title}: station areas`, desc: `Purple circles are land within ½ mile of the corridor's stations; green circles are ¼ mile from 15-minute bus stops. The tables below have the numbers.` })}
       ${mapKey()}</section>
     <section class="card"><h2>Land near the corridor's stations</h2>
-      <div class="table-wrap"><table class="data" data-testid="pilot-places"><caption>Land within ½ mile of the corridor's stations, by place, and its share of each place's extra homes (typical response, 2027–2031)</caption>
+      <div class="table-wrap"><table class="data" data-testid="pilot-places"><caption>Land within ½ mile of the corridor's stations, by place, and its share of each place's extra homes (central line, 2027–2031)</caption>
         <thead><tr><th scope="col">Place</th><th scope="col" class="num">Acres</th><th scope="col" class="num">Acres the law covers</th><th scope="col" class="num">Acres where it adds room</th><th scope="col" class="num">Existing homes</th><th scope="col" class="num">Share of the place's extra homes</th><th scope="col" class="num">Extra homes</th></tr></thead>
         <tbody>${c.places.map((x) => `<tr><th scope="row">${esc(placeName(x.name))}<br><span class="small muted">${x.coded ? `room from the city's zoning code${x.overlay_share ? `; ${sharePct(x.overlay_share)} of this land is in Madison's 2023 overlay` : ""}` : "room estimated from existing buildings"}</span></th><td class="num">${int(x.acres)}</td><td class="num">${int(x.eligible_acres)}</td><td class="num">${int(x.gain_acres)}</td><td class="num">${int(x.existing_homes)}</td><td class="num">${sharePct(x.share_of_place)}</td><td class="num">${small(x.add_typical)}</td></tr>`).join("")}
         <tr><th scope="row">Corridor</th><td class="num">${int(c.acres)}</td><td class="num">${int(c.eligible_acres)}</td><td class="num">${int(c.gain_acres)}</td><td class="num">${int(c.existing_homes)}</td><td class="num">—</td><td class="num">${small(c.add.typical)}</td></tr></tbody></table></div>
@@ -395,12 +395,12 @@ export function brief(b: TodBundle, main: HTMLElement): void {
       <thead><tr><th scope="col">Scenario</th><th scope="col">Evidence</th><th scope="col" class="num">Extra homes</th><th scope="col" class="num">Total with current law</th></tr></thead>
       <tbody><tr><th scope="row">Current law</th><td>Each place's 2023–2025 permits, share near stops</td><td class="num">—</td><td class="num">${int(s.baseline.total)}</td></tr>
       ${SCEN_IDS.map((id) => { const x = scen(b, id); return `<tr><th scope="row">${esc(x.label)}</th><td>${esc(x.evidence.charAt(0).toUpperCase() + x.evidence.slice(1))}</td><td class="num">${int(x.additional_total)}</td><td class="num">${int(x.with_law_total)}</td></tr>`; }).join("")}</tbody></table></div>
-    <p class="small">Typical response by year, 2027–2031: ${typ.by_year.map((v) => int(v)).join(", ")}. Its range is ${int(typ.range_low)} to ${int(typ.range_high)}. These are homes in issued permits, not completed homes.</p>
+    <p class="small">Central line by year, 2027–2031: ${typ.by_year.map((v) => int(v)).join(", ")}. Its range is ${int(typ.range_low)} to ${int(typ.range_high)}. These are homes in issued permits, not completed homes.</p>
     <p class="small" data-testid="brief-shared">${sharedLine(b)} Reforms overlap, so their extra homes are never added together.</p>
     <h2>Where</h2>
-    <p>${A.metros.map((m) => `${esc(m.name)} ${int(m.add.typical)}`).join("; ")} (typical response). By place: ${top.map((m) => `${esc(m.name.replace(/ (city|village|town)$/, ""))} ${int(m.add.typical)}`).join(", ")}. Eau Claire and other mid-size cities get none: they have no bus route every 15 minutes.</p>
+    <p>${A.metros.map((m) => `${esc(m.name)} ${int(m.add.typical)}`).join("; ")} (central line). By place: ${top.map((m) => `${esc(m.name.replace(/ (city|village|town)$/, ""))} ${int(m.add.typical)}`).join(", ")}. Eau Claire and other mid-size cities get none: they have no bus route every 15 minutes.</p>
     <h2>Why these numbers</h2>
-    <p>Each scenario uses a study of a whole city's net gain after upzoning: Los Angeles's transit program (little), the average of loosening reforms in 1,136 US cities (typical), Auckland's 2016 upzoning (strong). Measuring only right where land was rezoned would give ${int(H.per_acre.add.little)} to ${int(H.per_acre.add.strong)}, above both metros' yearly apartment records, because upzoning partly moves building from nearby blocks.</p>
+    <p>The little and strong lines use a study of a whole city's net gain after upzoning: Los Angeles's transit program (little) and Auckland's 2016 upzoning (strong). The central line comes from our lot model of 9 US transit upzonings; the average loosening reform in 1,136 US cities (Stacy and others) is shown as a comparison. Measuring only right where land was rezoned would give ${int(H.per_acre.add.little)} to ${int(H.per_acre.add.strong)}, above both metros' yearly apartment records, because upzoning partly moves building from nearby blocks.</p>
     <h2>What it cannot tell you</h2>
     <p>${esc(s.timing_caveat)} The sizing has no Wisconsin test of its own. The model does not cover rents, displacement, ridership, or the law combined with parking reform, and it predicts nothing for any single lot.</p>
     <p class="small muted brief-foot">Run ${esc(b.manifest.run_id)} · ${esc(b.manifest.outcome.short)} · ${esc(b.manifest.repo_url)}</p>

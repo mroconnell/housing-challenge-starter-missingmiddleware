@@ -988,6 +988,30 @@ The tool's "benchmark group" label for places with Madison-type rules is to be r
 
 Held-out RMS 0.130 → 0.136; the audit agreed that is no reason to keep a counting error. Washington's partial law year was also tested in the same round and left unchanged (round 4 results).
 
+## AQ-068 TOD: central line from the lot model (drift rule)
+
+**Status:** Adopted as the current favorite (provisional; the tool can be changed back). **Added:** 2026-11-01. **Owner decision:** "okay, let's take the drift rule as our current favorite in the tool" (2026-11-01). **Related:** AQ-055, [MODEL_MENU_RESULTS.md](tod/MODEL_MENU_RESULTS.md), [MODEL_COMPARISON.md](tod/MODEL_COMPARISON.md), TOD plan items 61–67.
+
+**What changed.** The TOD central line (id `typical`, role `central`) no longer uses Stacy et al. (2023). It now uses the lot model's drift rule, measured on 9 US transit upzonings:
+- Across the 9 cities, the rise in the upzoned lots' share of a city's new homes = −0.038 − 0.398 × (share before − 0.5).
+- Wisconsin's share before comes from Milwaukee's and Madison's actual 2019–2024 homes on law-on lots: 0.245 and 0.261.
+- Each rise is applied to that city's no-reform total for 2027–2031, then scaled to the state (×1.147).
+- Every predicted home is counted as new. The evidence for that: next-door blocks did not lose building (NET_EFFECT_RESULTS.md).
+- File: `reference/tod_lot_model_line.csv` (`scripts/build_tod_lot_model_line.py`).
+
+**Labels.** The drift rule was found after seeing results (post hoc). The rule set in advance (pre-registered), each city's average rise, gives 798 and is shown beside the central line. Stacy et al.'s 2,509 is kept as a labelled comparison. The reference line stays the median of the three studies (2,509).
+
+**Result.** Extra homes near stops, Wisconsin, 2027–2031:
+
+| | Before (AQ-055) | After (AQ-068) |
+| --- | ---: | ---: |
+| Lower (little) | 171 | 171 |
+| Central | 2,509 (Stacy et al.) | **1,181** (range 601–1,662, the 9 fits leaving one city out) |
+| Upper (strong) | 17,148 | 17,148 |
+| Shown beside the central | — | 798 (pre-registered), 2,509 (Stacy et al.) |
+
+The baseline near stops is unchanged at 14,464 (re-base to 18,322 proposed, not adopted). The combined view's central moves from 2,509 to 1,181.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -1134,3 +1158,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-31 | AQ-065 | ADU: one law-year rule (Vermont permit year, Oregon from 2020, Seattle 2024 local), no-reform trend baseline (786), 4-state reference line. Central 10,679 → 10,349. |
 | 2026-11-01 | AQ-066 | ADU: Madison on the statewide model (its Washington/Oregon path now a sensitivity). Central 10,349 → 10,615. |
 | 2026-11-01 | AQ-067 | ADU: Massachusetts 2025 counted over the full year (its survey covers January). Central 10,615 → 10,492. |
+| 2026-11-01 | AQ-068 | TOD: central line from the lot model's drift rule (1,181, range 601–1,662); 798 pre-registered and Stacy's 2,509 shown beside it. Central 2,509 → 1,181. |
