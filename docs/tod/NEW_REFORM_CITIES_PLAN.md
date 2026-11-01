@@ -244,3 +244,15 @@ Owner: "developers know a rail line is being planned ahead of its opening ... Th
   - Salt Lake City station-area districts (2010); the North Temple line opened 2013. It needs permits with home counts; the October work used census blocks only.
 - **Not reopened:** Denver 61st & Peña, ruled out because no base zone was raised; Austin ETOD 2024 (too few after-years); Garrison Park (no day-one map).
 - The change was made after results were seen and is labelled as such. The already-scored cases do not change, since all three had stops open.
+
+**Settled before counting any Austin or Salt Lake City permit (audit, 2026-11-01 11:12):**
+1. **"Planned" stops:** stops in the alignment that was adopted or funded on the reform date, taken from a dated plan document, never "stops eventually built". A stop moved or cancelled later is kept at its planned place. Sources:
+   - **Austin 2008–09 TOD plans:** the stations named in each station area plan itself (Plaza Saltillo Final SAP, adopted Dec 2008; MLK Jr. Blvd. Final SAP, March 2009; Lamar/Justin Final SAP, 2008). Capital Metro's commuter rail was approved by voters in November 2004 ("All Systems Go").
+   - **Austin Bouldin VMU 2012:** MetroRapid route 801 stops as funded in Capital Metro's federal Small Starts grant (2011–2012). The stop list is taken from the funding document.
+   - **Salt Lake City 2010:** the Airport TRAX (North Temple) line stations as funded under UTA FrontLines 2015 (approved 2006; the line was under construction from 2008).
+2. **Windows:** the reform-date window is the main version. The window starting at line opening is a labelled second version.
+3. **The city is the unit.** Each city's cases are averaged into one score, with the per-case results shown beside it. This applies to Portland (2 cases) and Austin (3–4) too.
+4. **The trait `stop_open_at_reform`** is filled for every case, including the 9 training cities. Charlotte's LYNX Blue Line opened in November 2007; some Charlotte rezonings came earlier.
+5. **No refit.** The trait is recorded only, and is not used in this test.
+
+**Noted, not adjusted** (owner's rule): Austin's 2008–09 windows run through the Great Recession. Austin's permit data (Issued Construction Permits, `housing_units`) starts long before 2003; new-construction building permits with homes are present every year from 1980.
