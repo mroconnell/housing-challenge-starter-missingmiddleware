@@ -13,7 +13,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from econml.grf import RegressionForest
 from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor
 from sklearn.linear_model import ElasticNet, Lasso, PoissonRegressor
 from sklearn.model_selection import GroupKFold
@@ -37,6 +36,17 @@ TAG = f"_r{ROUND}"
 COLS = NR.BASE + NR.ACS + ["fake_reform"]
 CENTRAL, PUBLISHED = 122_619, 118_822
 
+def _grf(g, s):
+    """Honest forest from econml, imported only when used: econml is not in the project's dependencies (its licence
+    check failed), so this model is a one-off comparison that needs `pip install econml` (2026-11-01)."""
+    from econml.grf import RegressionForest
+    return RegressionForest(n_estimators=500, min_samples_leaf=g, honest=True, inference=False, n_jobs=-1, random_state=s)
+
+
+def _is_grf(m) -> bool:
+    return type(m).__name__ == "RegressionForest"
+
+
 # model -> (constructor(setting, seed), grid)
 MODELS = {
     "Weighted Poisson regression": (lambda g, s: make_pipeline(StandardScaler(), PoissonRegressor(alpha=g, max_iter=1000)), [1e-5, 1e-4, 1e-3, 1e-2, 1e-1]),
@@ -46,7 +56,7 @@ MODELS = {
     "Random forest": (lambda g, s: RandomForestRegressor(n_estimators=300, min_samples_leaf=g, max_features=0.5, n_jobs=-1, random_state=s), [2, 5, 20]),
     "Boosted trees": (lambda g, s: HistGradientBoostingRegressor(loss="poisson", learning_rate=g[0], max_leaf_nodes=g[1], max_iter=300,
                                                                   min_samples_leaf=40, random_state=s), [(0.05, 15), (0.05, 31), (0.1, 15), (0.03, 31), (0.05, 63), (0.1, 31), (0.05, 127)]),
-    "Honest forest (GRF)": (lambda g, s: RegressionForest(n_estimators=500, min_samples_leaf=g, honest=True, inference=False, n_jobs=-1, random_state=s), [1, 2, 5, 20]),
+    "Honest forest (GRF)": (_grf, [1, 2, 5, 20]),
     "50 nearest neighbours": (lambda g, s: make_pipeline(StandardScaler(), KNeighborsRegressor(n_neighbors=50, weights=g)), ["uniform", "distance"]),
 }
 NO_WEIGHT = {"50 nearest neighbours"}
@@ -70,7 +80,7 @@ def fit(name, g, seed, df, med):
     w = (df["homes"] / 1000).values
     if name in NO_WEIGHT:
         m.fit(X, y)
-    elif isinstance(m, RegressionForest):
+    elif _is_grf(m):
         m.fit(X.values, y.values, sample_weight=w)
     elif hasattr(m, "steps"):
         m.fit(X, y, **{f"{m.steps[-1][0]}__sample_weight": w})
@@ -81,7 +91,7 @@ def fit(name, g, seed, df, med):
 
 def predict(m, df, med, flags_neg, name=""):
     X = df[COLS].fillna(med)
-    r = np.asarray(m.predict(X.values if isinstance(m, RegressionForest) else X)).ravel()
+    r = np.asarray(m.predict(X.values if _is_grf(m) else X)).ravel()
     if ROUND >= 2 and name in LOG_TARGET:
         r = np.expm1(r)
     bad = ~np.isfinite(r) | (r < 0)

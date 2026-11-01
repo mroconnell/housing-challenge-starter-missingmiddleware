@@ -13,7 +13,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from econml.dml import CausalForestDML
 from sklearn.ensemble import HistGradientBoostingClassifier, HistGradientBoostingRegressor
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -40,6 +39,9 @@ SEED = NR.SEEDS[0]
 
 
 def cf_fit(df):
+    """Causal forest from econml, imported only here: econml is not in the project's dependencies (licence check),
+    so this model is a one-off comparison (2026-11-01)."""
+    from econml.dml import CausalForestDML
     X = df[NR.BASE + NR.ACS].fillna(df[NR.BASE + NR.ACS].median())
     y = (df["actual"] / df["homes"] * 1000).clip(lower=0)
     m = CausalForestDML(model_y=HistGradientBoostingRegressor(max_leaf_nodes=31, learning_rate=0.05, random_state=SEED),

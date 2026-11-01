@@ -51,3 +51,4 @@ For each model and each of the 28 refits, the sum over Wisconsin places that sti
 - A rerun under a different Python hash seed.
 
 ## Changes after writing
+- **2026-11-01, dependency note:** econml is no longer a project dependency. The causal forest (CausalForestDML) and the honest forest are imported only when used. Their results are a one-off comparison, as in TOD.
