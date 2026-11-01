@@ -1,0 +1,15 @@
+city,source_file,covers_whole_city,homes_field,location_field,denominator,flag
+New York,data/raw/tod_cases/nyc/dob_nb_all.csv,yes,proposed_dwelling_units (new-building jobs),gis_latitude/gis_longitude,city file,
+Philadelphia,data/raw/tod_cases/philadelphia/permits_new_construction.csv,yes,numberofunits,lat/lon,city file,
+Charlotte,data/raw/tod_cases/charlotte/permits.csv,yes,numunits,xcoord/ycoord (state plane),city file,
+Saint Paul,data/raw/tod_cases/stpaul/housing_production.geojson,yes (2010 on),NewDwellingUnits,point geometry,city file,one before-year (2010) as in the lot model
+Seattle,data/raw/tod_cases/seattle/permits_new_units.csv,yes,housingunitsadded,latitude/longitude,city file,
+Los Angeles,data/raw/tod_cases/la/permits_*_*.csv,no (reform areas only),du_changed,lat/lon,Census permit survey place total,"mixed sources; no control stations (city file holds reform areas only)"
+Chicago,data/raw/tod_cases/chicago/permits_new_construction.csv,yes,units parsed from work_description (as the lot model's case adapter),latitude/longitude,city file,units parsed from text
+Madison,data/raw/madison_permits/construction_summary_*.csv,yes,units (city construction summaries),placed on lots as in the Madison test,city file,
+Bellevue,data/raw/tod_cases/bellevue/permits_units.geojson,yes,DWELLINGUNITSCREATED,point geometry,city file,
+Denver,data/raw/tod_new_cities/denver/{residential,commercial}_permits.geojson,yes (from July 2012),UNITS (new buildings),point geometry,city file,before window 5.5 years
+Portland,data/raw/tod_new_cities/portland/{residential,commercial}_permits.geojson,yes,NUMNEWUNITS,point geometry,city file,
+Austin,data/raw/tod_new_cities/austin/permits.json,yes,housing_units (new building permits),latitude/longitude,city file,
+Salt Lake City,data/raw/tod_new_cities/slc/housing_unit_inventory.geojson,yes,UNIT_COUNT by approximate year built (completions),parcel polygons,city file,"completions, standing homes only; 2020 boundary for the reform"
+Milwaukee,data/raw/milwaukee_mprop (property file year built),yes,units by year built,parcel join,city file,completions (no-reform placebo)
