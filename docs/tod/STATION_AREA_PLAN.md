@@ -107,3 +107,23 @@ TOD takes priority over near. Each band is drawn around reform stops and, separa
 - Bands match the near-stop baseline's definition (rail and rapid ½ mile).
 
 **Kept from before:** stop opening year and mode as traits; Milwaukee placebo; Chicago staged-permit merge; Madison with and without; framing that moved homes and new homes are told apart only through the near and far bands.
+
+## Proposed next step: true radius programs (awaiting the owner's go; audit section G noted in advance)
+
+The owner (13:36) pointed out that the training reforms are mostly lot clusters, not radius upzonings like the Wisconsin benchmark.
+
+**Share of buildable land upzoned near each case's stations** (gross land × 0.75 for streets), within ¼ mile / ½ mile:
+- LA Warner Center 74% / 57%; Bellevue BelRed 72% / 43%;
+- Austin 37/20, Charlotte 35/19, Salt Lake City 32/21, Saint Paul 30/13, LA Cornfield 23/17, Denver and Portland 16–20/18;
+- Seattle and Madison 12–20 / 5–10; New York, Chicago and Philadelphia 2–8 / 1–4.
+
+**Proposed radius cases:** LA Transit Oriented Communities (2017); San Diego Complete Communities (2020); Chicago Connected Communities (2022). The audit's conditions, to be locked once the owner says go:
+1. **Controls:** same-type stops in other cities of the same metro without the program (LA County cities outside Los Angeles, San Diego County cities, Cook County suburbs). The ½–1 mile band is not used as a control, because of spillover.
+2. **Windows:** LA 2011–16 before and 2018–22 after; San Diego 2014–19 and 2021–25; Chicago 2016–21 and 2023–25. No COVID or interest-rate adjustment; the outside-city controls absorb those shocks.
+3. **LA TOC is opt-in by incentive.** It counts, with "incentive vs by-right" as a trait; Wisconsin's benchmark is by-right.
+4. **San Diego and Chicago also changed parking rules**, so their effect is upzoning plus parking. This is stated, and the combined view's max rule keeps the two from being added.
+5. **LA TOC is not blind** (LA_TOC_RESULTS.md exists), so it is used for training only.
+6. **Stop lists and radii** are each program's own on its adoption date. They include frequent buses, which is closer to Wisconsin's definition.
+7. **Coverage** is measured the same way everywhere. Wisconsin's 87%, a share of lots, is recomputed on the buildable-land basis.
+8. **Weighting:** the radius programs are the main evidence; the cluster cases feed the coverage slope. With 3 cases, scoring is leave-one-out and labelled "3 cases".
+9. **Coverage stays a continuous trait**, with no "radius-like" cut-off.
