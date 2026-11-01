@@ -122,7 +122,23 @@ def la_permits() -> None:
         print(ds, off)
 
 
-STAGES = {"la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
+def program_areas() -> None:
+    """Each program's own eligibility map: LA TOC tiers as of October 2017 (City Planning), San Diego transit priority
+    areas (City Planning; check vintage against the 2021 regional plan)."""
+    src = {"la/toc_tiers_oct2017.geojson": ("https://services1.arcgis.com/tzwalEyxl2rpamKs/arcgis/rest/services/TOC_Tiers_Oct2017_new/FeatureServer/0", "*"),
+           "san_diego/transit_priority_areas.geojson": ("https://webmaps.sandiego.gov/arcgis/rest/services/Planning/PLN_TransitPriorityArea/MapServer/0", "*")}
+    for rel, (layer, fields) in src.items():
+        out = RAW / rel
+        out.parent.mkdir(parents=True, exist_ok=True)
+        q = urllib.parse.urlencode({"where": "1=1", "outFields": fields, "outSR": 4326, "f": "geojson"})
+        b = _get(f"{layer}/query?{q}")
+        out.write_bytes(b)
+        n = len(json.loads(b)["features"])
+        _manifest(rel.split("/")[0], out.name, layer, n, out, "program eligibility map")
+        print(rel, n)
+
+
+STAGES = {"program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser(); a.add_argument("stage", choices=STAGES); STAGES[a.parse_args().stage]()
