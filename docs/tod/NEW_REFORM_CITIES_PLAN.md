@@ -256,3 +256,9 @@ Owner: "developers know a rail line is being planned ahead of its opening ... Th
 5. **No refit.** The trait is recorded only, and is not used in this test.
 
 **Noted, not adjusted** (owner's rule): Austin's 2008–09 windows run through the Great Recession. Austin's permit data (Issued Construction Permits, `housing_units`) starts long before 2003; new-construction building permits with homes are present every year from 1980.
+
+**Data found for the reopened cases (2026-11-01, before any permit is counted):**
+- **Austin regulating plans:** the city publishes subdistrict maps for five plans, with floor area, height and density limits (`PLANNINGCADASTRE_regulating_plan_subdistrict`): Plaza Saltillo (PS), MLK, Lamar/Justin (LJ), and two plans not yet in the log, North Burnet/Gateway (NBG, about 2009, around the Kramer station) and East Riverside Corridor (ERC, 2013). The maps are the plans as amended to 2024–2025, not day-one maps. The day-one maps exist only as images in the original plan PDFs. The pre-plan zoning is not in public GIS.
+- **Salt Lake City 2010:** the October study used a 2020 zoning snapshot for the district boundary, since the 2010 ordinance map is no longer online. For homes, the Utah Housing Unit Inventory (statewide GIS, units and year built per parcel) can stand in for permits, counting completions as Milwaukee's property file does.
+
+**Open question for the owner and the audit:** use today's amended maps as a stand-in for the day-one maps, flagged for hindsight, or rule these cases out under "no day-one map"? Using today's maps risks counting later rezonings, which were made because building came, as part of the reform.
