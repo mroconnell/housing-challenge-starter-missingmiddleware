@@ -6,8 +6,8 @@ import { dec, esc, int, pill, YEARS } from "../../format";
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
 
 // ---- bundle types --------------------------------------------------------------------------
-interface YearRow { year: number; observed?: number; observed_published?: number; baseline_low?: number; baseline?: number; baseline_high?: number; bridge?: boolean; add_central?: number; add_upper?: number }
-interface Scen { id: "central" | "upper"; label: string; info: string; additional_total: number; with_law_total: number; rate_per_1000_homes?: number }
+interface YearRow { year: number; observed?: number; observed_published?: number; baseline_low?: number; baseline?: number; baseline_high?: number; bridge?: boolean; add_central?: number; add_upper?: number; add_lower?: number }
+interface Scen { id: "central" | "upper" | "lower"; label: string; info: string; additional_total: number; with_law_total: number; rate_per_1000_homes?: number }
 interface Statewide {
   years: YearRow[]; baseline_total: number; baseline_low_total: number; baseline_high_total: number; baseline_published_total: number;
   baseline_by_type: { type: string; low: number; central: number; high: number }[]; observed_2021_2025: number;
@@ -53,7 +53,7 @@ async function load(entry: ReformEntry): Promise<ParkingBundle> {
 }
 
 // ---- helpers ----------------------------------------------------------------------------------
-const C = { baseline: "#4b5450", central: "#17644f", upper: "#7b3fb0", observed: "#4b5450" };
+const C = { baseline: "#4b5450", central: "#17644f", upper: "#7b3fb0", lower: "#a8452c", observed: "#4b5450" };
 const TYPE_LABEL: Record<string, string> = { "1unit": "1 unit", "2units": "2 units", "3_4units": "3–4 units", "5plus": "5+ units" };
 const signed = (v: number, d = 2) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${dec(Math.abs(v), d)}`;
 const more = (summary: string, html: string) => `<details class="more"><summary>${esc(summary)}</summary>${html}</details>`;
@@ -104,11 +104,15 @@ function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
 
 function compare(b: ParkingBundle, main: HTMLElement): void {
   const s = b.statewide;
-  const [cen, up] = s.scenarios;
+  const cen = s.scenarios.find((x) => x.id === "central")!;
+  const up = s.scenarios.find((x) => x.id === "upper")!;
+  const lo = s.scenarios.find((x) => x.id === "lower");
   main.innerHTML = `
   <h1>A statewide parking law: what it adds</h1>
   <p class="lede">If Wisconsin removed minimum parking requirements for all housing from 1 January 2027 (an illustrative start date), how many more homes would be permitted over 2027–2031 than under current law?</p>
-  <div class="tiles tiles-3">
+  <div class="tiles ${lo ? "tiles-4" : "tiles-3"}">
+    ${lo ? `<section class="tile"><h2 class="tile-label">${esc(lo.label)}</h2><p class="tile-num" data-testid="add-lower">${int(lo.additional_total)}</p>
+      <p class="tile-sub">permits, 2027–2031, against current law ${pill("calculated")}</p><p class="tile-note">${esc(lo.info)}</p></section>` : ""}
     <section class="tile tile-accent"><h2 class="tile-label">${esc(cen.label)}</h2><p class="tile-num" data-testid="add-central">${int(cen.additional_total)}</p>
       <p class="tile-sub">additional permits, 2027–2031 ${pill("calculated")}</p><p class="tile-note">${esc(cen.info)}</p></section>
     <section class="tile"><h2 class="tile-label">${esc(up.label)}</h2><p class="tile-num" data-testid="add-upper">${int(up.additional_total)}</p>
@@ -117,12 +121,12 @@ function compare(b: ParkingBundle, main: HTMLElement): void {
       <p class="tile-sub">permits, 2027–2031</p><p class="tile-note">"${esc(up.label)}" would add ${dec((up.additional_total / s.baseline_total) * 100, 0)}% to it.</p></section>
   </div>
   <section class="card"><h2>New homes permitted each year</h2><div class="chart-box" id="pk-chart"></div>
-    ${legendHTML([{ name: "Observed", color: C.observed, width: 2 }, { name: "Current law (range shaded)", color: C.baseline, dash: "7 5" }, { name: up.label, color: C.upper, dash: "9 3 2 3" }, { name: s.reference_line.label, color: "#b0501a", dash: "12 4 3 4" }])}
+    ${legendHTML([{ name: "Observed", color: C.observed, width: 2 }, { name: "Current law (range shaded)", color: C.baseline, dash: "7 5" }, { name: up.label, color: C.upper, dash: "9 3 2 3" }, ...(lo ? [{ name: lo.label, color: C.lower, dash: "3 3" }] : []), { name: s.reference_line.label, color: "#b0501a", dash: "12 4 3 4" }])}
     <p class="small muted">"${esc(cen.label)}" is identical to current law, so it is not drawn separately.</p>
     <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Permits per year: current law and with the law</caption>
-      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th><th scope="col" class="num">${esc(cen.label)}</th><th scope="col" class="num">${esc(up.label)}</th><th scope="col" class="num">${esc(s.reference_line.label)}</th></tr></thead>
-      <tbody>${s.years.filter((y) => YEARS.includes(y.year)).map((y) => `<tr><th scope="row">${y.year}</th><td class="num">${int(y.baseline)}</td><td class="num">${int((y.baseline ?? 0) + (y.add_central ?? 0))}</td><td class="num">${int((y.baseline ?? 0) + (y.add_upper ?? 0))}</td><td class="num">${int((y.baseline ?? 0) + s.reference_line.per_year)}</td></tr>`).join("")}
-      <tr><th scope="row">2027–2031</th><td class="num">${int(s.baseline_total)}</td><td class="num">${int(cen.with_law_total)}</td><td class="num">${int(up.with_law_total)}</td><td class="num">${int(s.baseline_total + s.reference_line.value)}</td></tr></tbody></table></div>
+      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th>${lo ? `<th scope="col" class="num">${esc(lo.label)}</th>` : ""}<th scope="col" class="num">${esc(cen.label)}</th><th scope="col" class="num">${esc(up.label)}</th><th scope="col" class="num">${esc(s.reference_line.label)}</th></tr></thead>
+      <tbody>${s.years.filter((y) => YEARS.includes(y.year)).map((y) => `<tr><th scope="row">${y.year}</th><td class="num">${int(y.baseline)}</td>${lo ? `<td class="num">${int((y.baseline ?? 0) + (y.add_lower ?? 0))}</td>` : ""}<td class="num">${int((y.baseline ?? 0) + (y.add_central ?? 0))}</td><td class="num">${int((y.baseline ?? 0) + (y.add_upper ?? 0))}</td><td class="num">${int((y.baseline ?? 0) + s.reference_line.per_year)}</td></tr>`).join("")}
+      <tr><th scope="row">2027–2031</th><td class="num">${int(s.baseline_total)}</td>${lo ? `<td class="num">${int(lo.with_law_total)}</td>` : ""}<td class="num">${int(cen.with_law_total)}</td><td class="num">${int(up.with_law_total)}</td><td class="num">${int(s.baseline_total + s.reference_line.value)}</td></tr></tbody></table></div>
     <p class="small muted">${esc(s.reference_line.info)} Yearly rows may not add exactly to the totals because of rounding.</p></section>`;
   const ys = s.years;
   xyChart(document.getElementById("pk-chart")!, {
@@ -133,6 +137,7 @@ function compare(b: ParkingBundle, main: HTMLElement): void {
       { name: "Observed", values: ys.map((y) => ({ x: y.year, y: y.observed ?? null })), color: C.observed, width: 2, marker: "circle" },
       { name: "Current law", values: ys.map((y) => ({ x: y.year, y: y.baseline ?? null })), color: C.baseline, dash: "7 5" },
       { name: up.label, values: ys.map((y) => ({ x: y.year, y: y.add_upper !== undefined ? (y.baseline ?? 0) + y.add_upper : null })), color: C.upper, dash: "9 3 2 3" },
+      ...(lo ? [{ name: lo.label, values: ys.map((y) => ({ x: y.year, y: y.add_lower !== undefined ? (y.baseline ?? 0) + y.add_lower : null })), color: C.lower, dash: "3 3" }] : []),
       { name: s.reference_line.label, values: ys.map((y) => ({ x: y.year, y: y.add_upper !== undefined ? (y.baseline ?? 0) + s.reference_line.per_year : null })), color: "#b0501a", dash: "12 4 3 4" },
     ],
     band: { name: "Current-law range", lo: ys.map((y) => ({ x: y.year, y: y.baseline_low ?? null })), hi: ys.map((y) => ({ x: y.year, y: y.baseline_high ?? null })), color: C.baseline },
@@ -308,12 +313,12 @@ function pilot(b: ParkingBundle, env: ShellEnv, slug: string, main: HTMLElement)
 }
 
 function brief(b: ParkingBundle, main: HTMLElement): void {
-  const s = b.statewide, [cen, up] = s.scenarios, W = b.why.average.all;
+  const s = b.statewide, [cen, up] = s.scenarios, W = b.why.average.all, lo = s.scenarios.find((x) => x.id === "lower");
   main.innerHTML = `
   <h1>Brief: a statewide parking law for Wisconsin</h1>
   <section class="card" data-testid="brief">
     <p><strong>The question.</strong> If Wisconsin removed minimum parking requirements for all housing from 1 January 2027, how many more homes would be permitted over 2027–2031?</p>
-    <p><strong>The answer.</strong> About zero that we can measure. Current law is expected to permit ${int(s.baseline_total)} homes over 2027–2031. US places that removed their minimums did not permit measurably more homes in the three years after than similar places that kept them (${signed(W.effect)} permits per 1,000 existing homes per year; likely range ${signed(W.p05)} to ${signed(W.p95)}). So "${esc(cen.label)}" adds ${int(cen.additional_total)}. At the high end of the evidence, the law would add ${int(up.additional_total)} permits (${dec((up.additional_total / s.baseline_total) * 100, 0)}% more than current law).</p>
+    <p><strong>The answer.</strong> About zero that we can measure. Current law is expected to permit ${int(s.baseline_total)} homes over 2027–2031. US places that removed their minimums did not permit measurably more homes in the three years after than similar places that kept them (${signed(W.effect)} permits per 1,000 existing homes per year; likely range ${signed(W.p05)} to ${signed(W.p95)}). So "${esc(cen.label)}" adds ${int(cen.additional_total)}. At the high end of the evidence, the law would add ${int(up.additional_total)} permits (${dec((up.additional_total / s.baseline_total) * 100, 0)}% more than current law).${lo ? ` At the low end it would mean ${int(Math.abs(lo.additional_total))} fewer (${dec((Math.abs(lo.additional_total) / s.baseline_total) * 100, 0)}% less), the measured average of the repeal places, pulled down mostly by San Francisco and Minneapolis.` : ""}</p>
     <p><strong>Why so small.</strong> Developers keep building parking that renters, buyers and lenders want. In Buffalo, major projects built 79% of the old minimum after it was repealed. In Los Angeles projects that could cut parking, the typical one still built 0.81 spaces per home. Family-size buildings kept nearly all their parking, while studio and one-bedroom buildings dropped about half.</p>
     <p><strong>What it cannot tell you.</strong> Effects beyond three years, effects in places where minimums bind hard, and what a repeal does to rents or parking supply.</p>
     <p class="small muted">Run ${esc(b.manifest.run_id)}.</p>

@@ -85,6 +85,10 @@ def main() -> None:
 
     homes = pm.eligible_homes(munis, at)
     upper = pm.additions(homes, upper_all)
+    # owner 2026-11-01: no logical floor at 0; the low line is the measured average of the 76 repeal places against
+    # similar places (the same comparison as the high end), applied unfloored
+    lower_all = float(pd.read_csv(REFERENCE / "parking_placebo_full_summary.csv")["real_average"].iloc[0])
+    lower = pm.additions(homes, lower_all, floor=False)
     base = pd.read_csv(REFERENCE / "housing_baseline_by_area.csv")
     base = base[base["area_id"] != "unallocated"].groupby("area_id")[["five_year_low", "five_year_central", "five_year_high"]].sum()
 
@@ -93,6 +97,8 @@ def main() -> None:
     ba["near_benchmark"] = ba.index.isin(near)
     ba["eligible_homes"] = homes
     ba["addition_central_five_year"] = 0.0
+    ba["addition_lower_per_year"] = lower[pm.FORECAST_YEARS[0]]
+    ba["addition_lower_five_year"] = lower.sum(axis=1)
     ba["addition_upper_per_year"] = upper[pm.FORECAST_YEARS[0]]
     ba["addition_upper_five_year"] = upper.sum(axis=1)
     ba = ba.reset_index()
@@ -103,7 +109,9 @@ def main() -> None:
     sw = sw[(sw["structure_type"] == "all") & (sw["kind"].isin(["projected", "projected_bridge_year"]))][
         ["year", "low", "central", "high"]].rename(columns=lambda c: c if c == "year" else f"baseline_{c}")
     sw["addition_central"] = 0.0
+    sw["addition_lower"] = [float(lower[y].sum()) if y in pm.FORECAST_YEARS else 0.0 for y in sw["year"]]
     sw["addition_upper"] = [float(upper[y].sum()) if y in pm.FORECAST_YEARS else 0.0 for y in sw["year"]]
+    sw["lower_rate_per_1000_homes"] = round(lower_all, 2)
     sw["upper_rate_per_1000_homes"] = upper_all
     sw = sw.round(3)
     sw["upper_rate_per_1000_homes"] = round(upper_all, 2)
@@ -125,6 +133,8 @@ def main() -> None:
     sens = [
         dict(case="Upper case (headline)", moves="statewide addition", value=tot(homes, upper_all),
              description=f"High end from the control-city (placebo) test: the spread of 20,000 placebo studies of cities that never repealed, centred on the real average, {upper_all:.2f} permits per 1,000 existing homes per year."),
+        dict(case="Low end (headline)", moves="statewide addition", value=float(lower.values.sum()),
+             description=f"Low end: the measured average of the 76 repeal places against similar places, {lower_all:.2f} permits per 1,000 existing homes per year, applied without a floor at zero (owner, 2026-11-01). Mostly San Francisco and Minneapolis; the typical repeal place changed by about 0."),
         dict(case="Resampling the real places (earlier high end)", moves="statewide addition", value=tot(homes, upper_resample),
              description=f"The earlier high end: 95th percentile of the average from 2,000 resamples of the 76 places, {upper_resample:.2f} per 1,000 existing homes per year."),
         dict(case="Cleaned data, undated reforms kept as comparisons (placebo)", moves="statewide addition",

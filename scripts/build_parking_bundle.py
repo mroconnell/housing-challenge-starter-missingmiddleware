@@ -121,11 +121,13 @@ def build_statewide() -> dict:
             row.update(baseline_low=r(proj.loc[y, "low"], 0), baseline=r(proj.loc[y, "central"], 0),
                        baseline_high=r(proj.loc[y, "high"], 0), bridge=bool(y == 2026))
         if y in YEARS:
-            row.update(add_central=0.0, add_upper=r(m.loc[y, "addition_upper"], 0))
+            row.update(add_central=0.0, add_upper=r(m.loc[y, "addition_upper"], 0), add_lower=r(m.loc[y, "addition_lower"], 0))
         years.append(row)
     base5 = whole(proj.loc[YEARS, "central"].sum())
     up5 = whole(m.loc[YEARS, "addition_upper"].sum())
     rate = float(m["upper_rate_per_1000_homes"].iloc[0])
+    lo5 = whole(m.loc[YEARS, "addition_lower"].sum())
+    lrate = float(m["lower_rate_per_1000_homes"].iloc[0])
     pubsens = pd.read_csv(REF / "housing_baseline_sensitivity_published.csv").set_index("structure_type")
     return {
         "years": years,
@@ -142,6 +144,9 @@ def build_statewide() -> dict:
             {"id": "upper", "label": "High end of the evidence",
              "info": f"If the true average effect is at the top of what the evidence allows (95 times in 100, the real average would be lower): {rate:.2f} more permits per 1,000 existing homes per year, everywhere except places that already have no parking minimums for housing.",
              "additional_total": up5, "with_law_total": base5 + up5, "rate_per_1000_homes": rate},
+            {"id": "lower", "label": "Low end of the evidence",
+             "info": f"The measured average of the 76 repeal places against similar places: {lrate:.2f} permits per 1,000 existing homes per year. It is pulled down mostly by San Francisco and Minneapolis, whose permits fell after repeal while their metro neighbours' did not; the typical repeal place changed by about 0. Shown without a floor at zero.",
+             "additional_total": lo5, "with_law_total": base5 + lo5, "rate_per_1000_homes": lrate},
         ],
         "reference_line": ref_line(),
     }
@@ -155,7 +160,7 @@ def build_areas() -> dict:
                       "type": s(x.muni_type), "homes": r(x.homes, 0), "eligible_homes": r(x.eligible_homes, 0),
                       "at_benchmark": bool(x.at_benchmark), "near_benchmark": bool(x.near_benchmark),
                       "baseline": r(x.baseline_five_year_central, 1), "add_upper": r(x.addition_upper_five_year, 2),
-                      "acres": r(x.land_acres, 0)})
+                      "add_lower": r(x.addition_lower_five_year, 2), "acres": r(x.land_acres, 0)})
     c = pd.read_csv(REF / "parking_model_by_county.csv", dtype={"county_id": str})
     counties = [{"id": x.county_id, "name": x.county_name, "homes": r(x.eligible_homes, 0), "acres": r(x.land_acres, 0),
                  "baseline": r(x.baseline_five_year_central, 0), "add_upper": r(x.addition_upper_five_year, 0)}
@@ -224,7 +229,8 @@ def build_howsure() -> dict:
                    for x in pd.read_csv(REF / "parking_traits_results.csv").itertuples()],
         "trace": [
             {"part": "Current-law baseline", "status": "observed", "text": "Census building permits by municipality and building size, 2023–2025 average; Milwaukee's apartments estimated from the city's property file."},
-            {"part": "No measurable change (central)", "status": "calculated", "text": f"From 76 US repeal places compared with similar places; point estimate {xest('all')['effect']:+.2f} permits per 1,000 homes per year, shown as 0."},
+            {"part": "No measurable change (central)", "status": "calculated", "text": f"From 76 US repeal places compared with similar places; point estimate {xest('all')['effect']:+.2f} permits per 1,000 homes per year. Held-out repeal places are predicted best by no effect, so the central is 0; the measured average is the low end (owner, 2026-11-01)."},
+            {"part": "Low end of the evidence (lower)", "status": "calculated", "text": "The measured average of the 76 repeal places against similar places, applied without a floor at zero; mostly San Francisco and Minneapolis."},
             {"part": "High end of the evidence (upper)", "status": "calculated", "text": "From 20,000 placebo studies of cities that never repealed: their spread, centred on the 76 real places' average (owner choice; the resampling high end is a sensitivity)."},
             {"part": "No case below zero", "status": "assumed", "text": "A judgment: the evidence centres near zero (weighted by homes slightly below, each place equal slightly above), and a repeal is not modelled as reducing permits."},
             {"part": "Years 4–5 and evidence carrying over to Wisconsin", "status": "assumed", "text": "The effect was measured over years 1–3 in other places; it is held flat for 2030–2031 and applied in Wisconsin."},
@@ -314,9 +320,13 @@ def build_additions() -> dict:
             if f <= 0 and part == "near_stops":
                 continue
             rows.append({"area_id": x.area_id, "part": part, "central": [0.0] * len(YEARS),
-                         "upper": [round(per_year * f, 4)] * len(YEARS)})
+                         "upper": [round(per_year * f, 4)] * len(YEARS),
+                         "lower": [round(float(x.addition_lower_per_year) * f, 4)] * len(YEARS)})
     return {"reform": "parking", "baseline_version": BASELINE_VERSION, "years": YEARS,
-            "paths": [{"id": "central", "label": "No measurable change"}, {"id": "upper", "label": "High end of the evidence"}],
+            "paths": [{"id": "lower", "label": "Low end of the evidence"}, {"id": "central", "label": "No measurable change"},
+                      {"id": "upper", "label": "High end of the evidence"}],
+            # the combined TOD + parking rules (contract section 9) assume additions are not negative, so the combined
+            # low pairing keeps parking's central (0) until the shared rule for a negative low line is agreed (2026-11-01)
             "roles": {"lower": "central", "central": "central", "upper": "upper"},
             "split_source": "reference/tod_near_stop_homes_by_muni.csv, share_near_main", "areas": rows}
 

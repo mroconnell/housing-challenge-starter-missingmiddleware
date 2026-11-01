@@ -29,11 +29,12 @@ def eligible_homes(areas: pd.DataFrame, at_benchmark: set, zero_types: tuple = (
     return h
 
 
-def additions(homes: pd.Series, rate_per_1000: float | pd.Series, years=FORECAST_YEARS) -> pd.DataFrame:
+def additions(homes: pd.Series, rate_per_1000: float | pd.Series, years=FORECAST_YEARS, floor: bool = True) -> pd.DataFrame:
     """Additional permits per area and year at a flat rate (permits per 1,000 homes per year),
-    floored at zero. rate may be one number or a Series by area."""
+    floored at zero unless floor=False (the measured low line, owner 2026-11-01). rate may be one number or a Series by area."""
     r = rate_per_1000 if isinstance(rate_per_1000, pd.Series) else pd.Series(rate_per_1000, index=homes.index)
-    per_year = (homes * r.reindex(homes.index).fillna(0.0).clip(lower=0.0) / 1000.0)
+    r = r.reindex(homes.index).fillna(0.0)
+    per_year = (homes * (r.clip(lower=0.0) if floor else r) / 1000.0)
     out = pd.DataFrame({y: per_year for y in years})
     out.index.name = "area_id"
     return out
