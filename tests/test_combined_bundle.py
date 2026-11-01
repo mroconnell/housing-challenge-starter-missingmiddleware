@@ -152,10 +152,13 @@ class TestCombinedBundle(unittest.TestCase):
             self.assertAlmostEqual(sum(c[role][ia] for c in self.areas["counties"]), t["both_a"], delta=1)
 
     def test_rule_b_at_most_rule_a_and_at_least_each_alone(self):
+        # contract section 9 as amended 2026-11-01: reductions pass through, so (b) >= each reform alone holds only
+        # when neither line is negative; with a negative line, (b) is at least the larger addition plus the reductions
         for x in self.sw["roles"]:
             t = x["total"]
             self.assertLessEqual(t["both_b"], t["both_a"] + 1e-6)
-            self.assertGreaterEqual(t["both_b"] + 1e-6, max(t["tod"], t["parking"]))
+            if min(t["tod"], t["parking"]) >= 0:
+                self.assertGreaterEqual(t["both_b"] + 1e-6, max(t["tod"], t["parking"]))
             for a, b in zip(x["by_year"]["both_a"], x["by_year"]["both_b"]):
                 self.assertLessEqual(b, a + 1e-6)
         cols = self.areas["cols"]
@@ -163,7 +166,8 @@ class TestCombinedBundle(unittest.TestCase):
             for role in bc.ROLES:
                 v = dict(zip(cols, m[role]))
                 self.assertLessEqual(v["total_b"], v["total_a"] + 0.02, m["id"])
-                self.assertGreaterEqual(v["total_b"] + 0.02, max(v["tod"], v["parking_near"]) + v["parking_elsewhere"], m["id"])
+                floor = max(max(v["tod"], 0), max(v["parking_near"], 0)) + min(v["tod"], 0) + min(v["parking_near"], 0)
+                self.assertGreaterEqual(v["total_b"] + 0.02 * len(bc.ROLES), floor + v["parking_elsewhere"] - 0.5, m["id"])
 
     def test_parking_central_is_zero_so_central_equals_tod(self):
         x = next(r for r in self.sw["roles"] if r["role"] == "central")
