@@ -27,7 +27,8 @@ import run_tod_lot_model as L  # noqa: E402
 
 SEED = 20261031
 NAMES = {0: "plain_average", 1: "linear_regression", 2: "lasso", 3: "regression_tree", 4: "random_forest",
-         5: "gradient_boosting", 6: "nearest_neighbours", 7: "multilevel", 8: "causal_forest"}
+         5: "gradient_boosting", 6: "nearest_neighbours", 7: "multilevel", 8: "causal_forest",
+         9: "causal_forest_sklearn"}
 ACAP = 2.97
 EXCLUDE_HOLD = False
 DROP_DATED = False   # audit check: drop traits dated after a window starts (2010 census homes; ACS at the reform year)
@@ -114,6 +115,41 @@ def milwaukee_fix(series: dict) -> None:
         s.loc[yr] = (p.loc[yr, ("bps_permitted_units", "1unit")] + p.loc[yr, ("bps_permitted_units", "2units")]
                      + p.loc[yr + 1, ("mprop_units_by_year_built", "3_4units")] + p.loc[yr + 1, ("mprop_units_by_year_built", "5plus")])
     series["Milwaukee placebo"] = s
+
+
+class _SkForest:
+    """The fitted final stage, with the same .effect(X) call as EconML's CausalForestDML."""
+
+    def __init__(self, rf):
+        self.rf = rf
+
+    def effect(self, Z):
+        return self.rf.predict(Z)
+
+
+def dml_forest(Xb, y, t, wt, mask):
+    """Causal forest without EconML (licence allowlist): the same double-machine-learning design, scikit-learn only.
+    1. cross-fitted (3 folds) outcome model m(x) = E[y | x] and upzoning model e(x) = P(upzoned | x);
+    2. residuals y - m and t - e;
+    3. a random forest fitted to (y - m) / (t - e) with weights (t - e)^2 (the R-learner), giving the effect tau(x).
+    Law-off level from gradient boosting on non-upzoned lots, as for method 8. Returns (off, effect model, medians)."""
+    from sklearn.ensemble import HistGradientBoostingClassifier, HistGradientBoostingRegressor, RandomForestRegressor
+    keep, w2 = thin(y, wt, mask)
+    off = Method(5).fit(Xb[keep & ~t], y[keep & ~t], w2[keep & ~t])
+    med = Xb[keep].median()
+    Z = Xb[keep].fillna(med).to_numpy()
+    yy, tt, ww = y[keep], t[keep].astype(int), w2[keep]
+    fold = np.random.default_rng(SEED).integers(0, 3, len(yy))
+    m_hat, e_hat = np.zeros(len(yy)), np.zeros(len(yy))
+    for f in range(3):
+        a, b = fold != f, fold == f
+        m_hat[b] = HistGradientBoostingRegressor(random_state=SEED).fit(Z[a], yy[a], sample_weight=ww[a]).predict(Z[b])
+        e_hat[b] = HistGradientBoostingClassifier(random_state=SEED).fit(Z[a], tt[a], sample_weight=ww[a]).predict_proba(Z[b])[:, 1]
+    e_hat = np.clip(e_hat, 0.02, 0.98)
+    ry, rt = yy - m_hat, tt - e_hat
+    rf = RandomForestRegressor(n_estimators=400, min_samples_leaf=50, max_samples=0.3, n_jobs=-1, random_state=SEED)
+    rf.fit(Z, ry / rt, sample_weight=ww * rt ** 2)
+    return off, _SkForest(rf), med
 
 
 def thin(y: np.ndarray, w: np.ndarray, mask: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -279,6 +315,8 @@ def run_share(methods: list[int]) -> None:
         t0 = time.time()
 
         def fit_pair(mask):
+            if k == 9:   # causal forest built from scikit-learn only (BSD): double machine learning, R-learner final stage
+                return ("cf", *dml_forest(Xb, hpa, up, w * ac, mask))
             if k == 8:   # causal forest: law-off level from boosting; law-on = law-off + forest effect of being upzoned
                 from econml.dml import CausalForestDML
                 from sklearn.ensemble import HistGradientBoostingRegressor, HistGradientBoostingClassifier

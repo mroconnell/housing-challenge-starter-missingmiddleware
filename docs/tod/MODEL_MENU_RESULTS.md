@@ -224,3 +224,22 @@ Each trait group is shuffled jointly within the left-out city's rows; the score 
 Reading:
 - **Without reform,** a place's market (rents, values, incomes), its housing stock and its people predict building in cities the model never saw. Within-city fit importance had pointed elsewhere: the no-rail flag (a city label) and existing homes (dated after many windows). Neither carries over.
 - **With the reform,** no trait group helps the share model predict the size of the change in a new city. The zoning-change traits make it worse. This agrees with the menu: no method beats the no-model benchmark.
+
+### Causal forest built from scikit-learn only (method 9, 2026-11-01)
+
+The same double-machine-learning design as EconML, built from scikit-learn (BSD licence), so it passes the licence check:
+1. Cross-fitted outcome and upzoning models (gradient boosting, 3 folds).
+2. A random forest on the residual ratio, weighted by the squared treatment residual (R-learner).
+
+Run once, reported as is (owner: "just run it and see what it says"):
+
+| | Value |
+| --- | ---: |
+| Calibrated score, K left out | 0.429 (benchmark 0.345) |
+| Raw score | 0.348 |
+| Uplift vs actual-change correlation | −0.15 |
+| K, all 9 cities (range by left-out city) | 0.146 (0.008–0.295) |
+| Wisconsin B raw | 12,925 |
+| Wisconsin B calibrated (range) | 1,882 (107–3,811) |
+
+It does not beat the no-model benchmark. Its predicted uplift does not line up with the cities' actual change in share: it is highest in Saint Paul and Charlotte, and its correlation with the actual change is −0.15. Its Wisconsin figure is the highest of the calibrated methods.

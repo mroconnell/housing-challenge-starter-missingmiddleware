@@ -25,7 +25,7 @@ sys.path.insert(0, str(ROOT))
 from missing_middleware.paths import REFERENCE  # noqa: E402
 
 METHODS = ["plain_average", "linear_regression", "lasso", "regression_tree", "random_forest", "gradient_boosting",
-           "nearest_neighbours", "multilevel", "causal_forest"]
+           "nearest_neighbours", "multilevel", "causal_forest", "causal_forest_sklearn"]
 WI_TABLE_TOTAL = 4738.918 + 12838.593   # Milwaukee + Madison table totals 2027-2031 (Wisconsin net rounds)
 SCALE = 14463.78 / (9220.49 + 3393.66)
 
