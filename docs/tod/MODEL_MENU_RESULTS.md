@@ -165,3 +165,30 @@ Findings:
 **Headline (audit wording; share menu clean, audit section 7):** B is about 500–1,200 extra homes over 2027–2031 (no-model benchmark 797). Single fits range from about 30 to 2,500. If homes only move, it is 0. The tool's typical figure is 2,509.
 
 No tool change.
+
+## Baseline round 4: forest grid (rule logged before running)
+
+Random forest, leave one city out. Scores are median |log|. Wisconsin is near-stop homes with no reform, 2027–2031, statewide.
+
+| Leaf | Traits | Matched (29) | City median | 2011+ (12) | Later years (4) | Wisconsin |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 50 | all | 0.364 | 0.380 | **0.221** | 0.139 | 16,588 |
+| 50 | no lot size | 0.362 | **0.315** | 0.234 | 0.157 | **18,255** |
+| 50 | no "no rail or rapid" flag | **0.358** | 0.380 | 0.227 | 0.140 | 16,562 |
+| 200 | all | 0.518 | 0.536 | 0.418 | 0.210 | 11,602 |
+| 200 | no lot size | 0.478 | 0.391 | 0.373 | 0.223 | 14,444 |
+| 200 | no flag | 0.518 | 0.536 | 0.418 | 0.210 | 11,602 |
+| 500 | all | 0.609 | 0.706 | 0.443 | 0.329 | 9,499 |
+| 500 | no lot size | 0.520 | 0.505 | 0.472 | 0.185 | 11,258 |
+| 500 | no flag | 0.609 | 0.706 | 0.443 | 0.329 | 9,498 |
+
+**Pick, by the logged rule:**
+1. The three leaf-50 cells tie on matched rows (0.358–0.364, within 0.02).
+2. They also tie on the 2011+ windows (0.221–0.234, within 0.02).
+3. The tie goes to fewer traits: **leaf 50, no lot size**. Its Wisconsin cross-check is **18,255**, within 0.4% of the central 18,322, and it replaces the provisional 16,588.
+
+Other findings:
+- Dropping the "no rail or rapid" flag changes almost nothing (Wisconsin 16,562 vs 16,588). Its large fit importance did not carry over to prediction, and the Wisconsin lots have it at 0 anyway (both cities have rapid stops).
+- Larger leaves are worse on every test.
+
+**Share-model check without Kansas City** (gradient boosting, menu version): K 0.079 (main 0.077); Wisconsin B raw 11,019 (main 11,921); calibrated 874 (main 920). Kansas City does not drive the result.
