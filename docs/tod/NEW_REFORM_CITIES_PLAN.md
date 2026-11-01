@@ -111,7 +111,7 @@ Every change found is logged below as qualifies or ruled out, with the reason. A
 | Austin | Search done 2026-11-01: City of Austin zoning cases (open data `edir-dcnf`), approved 2010–2020 with the City as applicant (85 cases), plus "Neighborhood Planning" cases (29 approved, none a zoning change) | — | — | — |
 | Austin | Bouldin Vertical Mixed Use (C14-2007-0220), 764 acres | 17 Dec 2012 | Ruled out | MetroRapid 801 on South Congress opened January 2014; no rail or rapid stop within ½ mile open on the adoption date |
 | Salt Lake City | 2010 transit station-area districts on the North Temple line (SLC_CENSUS_RESULTS.md) | 2010 | Ruled out under this test | The North Temple TRAX line opened in 2013, so no rail stop was open on the reform date. It was measured in October with 2010 and 2020 census blocks, not permits, so it has no before window for the share test. That result: +0.92 homes per acre over the decade, interval −2.15 to +3.97 |
-| Austin | Garrison Park neighborhood plan combining district (C14-2014-0019), 1,258 acres; part of the South Austin Combined Plan | Adopted 6 Nov 2014 (the case file's 2016 date is a later status) | Unresolved | It is a neighborhood plan combining district: mostly residential infill options (such as secondary apartments and small lots), which are ADU-type allowances, plus possibly some base rezonings. Public GIS holds no from/to zones. The city's zoning-ordinance polygons have no zones, and the case lists them as "see comments". Settling it needs the ordinance documents read tract by tract. MetroRapid 803 (opened August 2014) runs nearby on South Lamar and at Westgate |
+| Austin | Garrison Park neighborhood plan combining district (C14-2014-0019), 1,258 acres; part of the South Austin Combined Plan | Adopted 6 Nov 2014 as ordinance 20141106-088 (amended 11 Feb 2016) | Ruled out: no day-one map (data reason, as pre-set) | It is a neighborhood plan combining district: mostly residential infill options (such as secondary apartments and small lots), which are ADU-type allowances, plus possibly some base rezonings. Public GIS holds no from/to zones. The city's zoning-ordinance polygons have no zones, and the case lists them as "see comments". Settling it needs the ordinance documents read tract by tract. MetroRapid 803 (opened August 2014) runs nearby on South Lamar and at Westgate |
 | Austin | Parks, greenbelts and historic designations (about 70 cases) | 2011–2018 | Ruled out | Do not raise allowed homes (to P-Public or adding H) |
 | Austin | PUD amendments and single sites (Estancia, North Austin Medical Center, Lamar/Manchaca and others) | 2011–2018 | Ruled out | Single-owner or applicant-led changes, not a city policy area (see the note below) |
 
@@ -224,3 +224,10 @@ Caveats:
 3. Windows: before 2009–2014, after 2015–2019, on the 5-year basis.
 
 If the ordinance cannot be read tract by tract, the case is logged as "ruled out: no day-one map" (a data reason).
+
+**Garrison Park, 2026-11-01:** the ordinance (20141106-088) and its tract exhibits could not be found in public form. The city's document system, ordinance chart and council pages give only the number and short descriptions. Without a tract-by-tract day-one map it is ruled out, as pre-set. No permit was read.
+
+**Final state of this test: 3 cases from 2 cities (Denver, Portland ×2). Inconclusive.**
+- Counting Portland once, the drift rule narrowly wins: median 1.24, against 1.32 for average change and 1.58 for same share.
+- Counting each case, same share wins (0.22).
+- The central line stays at 1,196 unless the owner decides otherwise. "About 0" is shown as a sensitivity.
