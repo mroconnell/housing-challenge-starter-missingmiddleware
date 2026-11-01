@@ -43,3 +43,9 @@ This is the same lesson as the repeals: permit counts move with the market more 
 **From the literature:**
 - Oakland's 1961 increase to one space per unit is the classic case (Bertha, cited by Shoup). It was followed by about 30% fewer units per project and lower densities.
 - New York (Manville 2013): 10% higher minimums go with 6% lower housing density.
+
+## 8. California's 2023 law (AB 2097)
+
+This has already been measured, by the TOD thread ([docs/tod/AB2097_TEST_RESULTS.md](../tod/AB2097_TEST_RESULTS.md)), with permits through 2025 (2018–2022 before, 2023–2025 after). It compares permits within ½ mile of major transit with a ½–1½ mile ring, across 185 California jurisdictions that had no earlier local repeal.
+
+**Result: no measurable change.** The effect is +0.13 permits per 1,000 existing homes per year, with a 90% range of −1.84 to +1.73. Per acre it is +0.004 homes per acre per year (−0.006 to +0.011). It is already one of the parking tool's sensitivity cases: combined with the 76 repeal places, the high end becomes 15,138. No new run is needed. When 2026 permits are published (spring 2027), a 4-year after-period can be added.
