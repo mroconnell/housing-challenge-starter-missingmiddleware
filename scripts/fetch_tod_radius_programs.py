@@ -142,7 +142,59 @@ def program_areas() -> None:
         print(rel, n)
 
 
-STAGES = {"program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
+def arcgis_csv(layer: str, out: Path, fields: str, page: int = 2000, idf: str = "objectid") -> int:
+    """Page an ArcGIS layer's attributes (no geometry) into a CSV, by object-id ranges."""
+    import csv
+    ids = sorted(json.loads(_get(f"{layer}/query?" + urllib.parse.urlencode({"where": "1=1", "returnIdsOnly": "true", "f": "json"})))["objectIds"])
+    out.parent.mkdir(parents=True, exist_ok=True)
+    cols = fields.split(",")
+    with open(out, "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
+        w.writeheader()
+        for i in range(0, len(ids), page):
+            c = ids[i:i + page]
+            body = urllib.parse.urlencode({"where": f"{idf}>={c[0]} AND {idf}<={c[-1]}", "outFields": fields,
+                                           "returnGeometry": "false", "f": "json"}).encode()
+            for f in json.loads(_get(f"{layer}/query", body))["features"]:
+                w.writerow(f["attributes"])
+    return len(ids)
+
+
+def sd_parcels() -> None:
+    """San Diego County parcels (SANDAG copy of SanGIS/Assessor): values, homes, effective year built, last
+    recorded document date, land use and zoning, point coordinates. No owner names. Stays local."""
+    layer = "https://geo.sandag.org/server/rest/services/Hosted/Parcels/FeatureServer/0"
+    f = ("objectid,apn,situs_juris,asr_land,asr_impr,docdate,acreage,taxstat,ownerocc,asr_zone,asr_landuse,unitqty,"
+         "nucleus_zone_cd,nucleus_use_cd,year_effective,total_lvg_area,x_coord,y_coord,multi")
+    out = RAW / "san_diego" / "county_parcels.csv"
+    n = arcgis_csv(layer, out, f)
+    _manifest("san_diego", out.name, layer, n, out, "San Diego County parcels (SANDAG hosted); no owner names; local only")
+    print("sd parcels", n)
+
+
+def la_parcels() -> None:
+    """LA County parcels (Assessor via county GIS): year built and homes for up to 5 buildings, roll values and
+    base years (Proposition 13: values reflect the last sale year), use, public-agency flag, centre point. No owner names."""
+    layer = "https://public.gis.lacounty.gov/public/rest/services/LACounty_Cache/LACounty_Parcel/MapServer/0"
+    f = ("OBJECTID,AIN,SitusCity,UseCode,UseType,AgencyType,YearBuilt1,EffectiveYear1,Units1,SQFTmain1,YearBuilt2,Units2,"
+         "YearBuilt3,Units3,YearBuilt4,Units4,YearBuilt5,Units5,Roll_Year,Roll_LandValue,Roll_ImpValue,Roll_LandBaseYear,"
+         "Roll_ImpBaseYear,ParcelCreateDate,CENTER_LAT,CENTER_LON,Shape.STArea()")
+    out = RAW / "la" / "county_parcels.csv"
+    n = arcgis_csv(layer, out, f, page=1000, idf="OBJECTID")
+    _manifest("la", out.name, layer, n, out, "LA County parcels (Assessor via county GIS); no owner names; local only")
+    print("la parcels", n)
+
+
+def honolulu_values() -> None:
+    """Honolulu assessed land and building values by tax-map key (City cadastral table ASMTGIS). No owner fields."""
+    layer = "https://services.arcgis.com/tNJpAOha4mODLkXz/arcgis/rest/services/CadastralTables/FeatureServer/9"
+    out = RAW / "honolulu" / "assessed_values.csv"
+    n = arcgis_csv(layer, out, "objectid,tmk,suffix,seq,taxyr,buildingvalue,landvalue,taxratecode,ovrclass,pittsqft,pittacre")
+    _manifest("honolulu", out.name, layer, n, out, "Honolulu assessed values (ASMTGIS); local only")
+    print("honolulu values", n)
+
+
+STAGES = {"honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser(); a.add_argument("stage", choices=STAGES); STAGES[a.parse_args().stage]()
