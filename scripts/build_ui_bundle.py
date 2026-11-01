@@ -91,8 +91,8 @@ DISTRICT_METHOD = ("Each city, village and town's result is split across the dis
                    "districts (Milwaukee across 14, Madison across 9); 1,842 lie in one district. Senate districts are the "
                    "sum of their three Assembly districts. Boundaries: the 2024 legislative districts (2023 Wisconsin Act 94), "
                    "Legislative Technology Services Bureau.")
-FOREST_NOTE = ("Same statewide total (central); the causal forest only changes where permits land. It predicted where "
-               "better than our model in held-out tests, but not how many.")
+FOREST_NOTE = ("Alternative view: a model trained on ADU patterns in Seattle, Austin, Portland and other cities. It puts "
+               "more ADUs in older, denser places such as Milwaukee County. Same statewide total; only where they land differs.")
 FOREST_METHOD = ("Each place's share is its causal-forest addition for 2027 to 2031 divided by the forest's Wisconsin total. "
                  "Each year, the adopted central statewide addition is split by those shares, so every year and the five-year "
                  "total add up to the adopted central figures. Places with no single-family homes get 0. Counties add up "
@@ -1152,6 +1152,20 @@ def build_forest(state: dict, munis: list, counties: list, dist: dict) -> dict:
     total = float(pd.read_csv(REF / "adu_model_statewide.csv").set_index("path").loc["central", "additional_units"])
     assert abs(sum(cen) - total) < 1e-6, "central by year must sum to the central total"
     add = {aid: [float(share[aid]) * y for y in cen] for aid in share.index}
+    # Milwaukee checks (audit 2026-11-01): plain spread by single-family homes, and the city's measured current rate
+    mke_ids = [a["id"] for a in munis if a["county_id"].endswith("55079")]
+    mke_homes = sum(homes[i] for i in mke_ids)
+    plain = mke_homes / sum(homes.values()) * total
+    forest_mke = sum(sum(add[i]) for i in mke_ids)
+    city = "muni:5507953000"
+    meas = pd.read_csv(REF / "wi_measured_permits_2022_2025.csv", dtype={"GEOID": str}).set_index("GEOID")
+    city_now = float(meas.loc["5507953000", "rate_per_1000_homes_yr"])
+    city_forest = float(f.loc[city, "predicted_rate_year5"])
+    mke_text = (f" Check on Milwaukee County: spread by single-family homes alone it would get {plain:,.0f} of the "
+                f"{total:,.0f} central permits; the forest gives it {forest_mke:,.0f}. The forest predicts Milwaukee city at "
+                f"{city_forest:.2f} permits per 1,000 single-family homes per year with the law, against its measured "
+                f"{city_now:.2f} in 2022 to 2025 without it. Milwaukee city is outside the forest's training range on "
+                "housing density and the number of detached homes, so treat this view of Milwaukee with care.")
 
     def rate(v5, h):
         return r(v5 / h / 5 * 1000, 4) if h > 0 else None
@@ -1184,7 +1198,7 @@ def build_forest(state: dict, munis: list, counties: list, dist: dict) -> dict:
         d_out[level] = {"rows": rows_, "unallocated": [r(v, 6) for v in unalloc]}
     return {
         "label": "Causal forest pattern", "path": "central", "statewide_central": r(total, 4),
-        "statewide_by_year": [r(v, 4) for v in cen], "note": FOREST_NOTE, "method": FOREST_METHOD,
+        "statewide_by_year": [r(v, 4) for v in cen], "note": FOREST_NOTE, "method": FOREST_METHOD + mke_text,
         "units": {"add": "additional permits per year, 2027 to 2031", "total": "additional permits over 2027 to 2031",
                   "rate": "additional permits per 1,000 single-family homes per year, 2027 to 2031"},
         "munis": m_out, "counties": c_out, "districts": d_out,

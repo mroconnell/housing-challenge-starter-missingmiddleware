@@ -393,7 +393,8 @@ class TestUIBundle(unittest.TestCase):
             by_c[a["county_id"]] = by_c.get(a["county_id"], 0) + f["munis"][a["id"]]["total"]
         for cid, v in f["counties"].items():
             self.assertAlmostEqual(v["total"], by_c[cid], delta=0.01)
-        self.assertIn("Same statewide total (central)", f["note"])
+        self.assertIn("Same statewide total", f["note"])
+        self.assertIn("Milwaukee County", f["method"])
         self.assertNotIn("\u2014", f["note"] + f["method"])   # owner rule: no em-dashes in UI text
 
     @unittest.skipUnless((ROOT / "data/processed/adu_predictive/run3/wi_areas_causal_forest.parquet").exists(),
