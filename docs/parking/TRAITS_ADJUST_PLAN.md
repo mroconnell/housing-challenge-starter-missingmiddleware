@@ -58,5 +58,5 @@ If the adjusted average moves clearly away from the noise check, it goes to Ryan
     - Avondale Estates, GA: 1,931 homes, but missing permit years in the standard panel; −0.73.
     - The headline average on the same 72 places is −1.10, against −1.14 on all 76.
   - **The plan's counts for years 4–7 were wrong.** It said 6 places at years 4–7 and 11 at years 4–6. Permits run through 2025, so the actual counts are 25 places at year 4, 15 at year 5, 11 at year 6 and 6 at year 7.
-  - **Path counts:** `reference/parking_traits_adjust_path.csv` has 75, 57 and 37 rows at years 1–3 (one row per place and year, no missing effects), which matches the results table. If a count of 74/56/36 was taken, it was probably the line count minus the header, done twice.
+  - **Path counts:** `reference/parking_traits_adjust_path.csv` has 75, 57 and 37 rows at years 1–3 (one row per place and year, no missing effects), which matches the results table. The audit's 74/56/36 counted by place name, and two Cambridges (MA and MD) share a name; it withdrew the point.
   - **Low-line equivalents** at 13,424 homes per 1.0: −1.22 ≈ −16,400 and −1.42 ≈ −19,100 Wisconsin homes over 2027–2031. Both are inside the existing range.
