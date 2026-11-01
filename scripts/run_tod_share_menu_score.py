@@ -54,10 +54,22 @@ def main() -> None:
             rows.append({"method": "benchmark: same share as before",
                          "calibrated_K_left_out": np.nanmedian(abslog(R["share_before"], R["share_after"]))})
             bench_done = True
+        # post-hoc sensitivity (audit section 11; logged as such): actual change = a + K x uplift + b x (share before - 0.5),
+        # fitted leaving the scored city out; every city kept (Bellevue unscorable: 0 homes before and after)
+        sens, ks = [], []
+        for c in R.city:
+            o = R[R.city != c]
+            Xo = np.c_[np.ones(len(o)), o["model_uplift"], o["share_before"] - 0.5]
+            coef = np.linalg.lstsq(Xo, o["actual_change"].to_numpy(), rcond=None)[0]
+            r = R[R.city == c].iloc[0]
+            sens.append(r["share_before"] + coef @ [1.0, r["model_uplift"], r["share_before"] - 0.5])
+            ks.append(coef[1])
         braw = float(S.loc[m, "WI_B_raw"])
         rows.append({"method": m, "raw": np.nanmedian(abslog(R["model_on"], R["share_after"])),
                      "calibrated_K_left_out": np.nanmedian(abslog(cal, R["share_after"])),
                      "uplift_vs_change_corr": float(np.corrcoef(R["model_uplift"], R["actual_change"])[0, 1]),
+                     "sens_reversion_score": np.nanmedian(abslog(sens, R["share_after"])),
+                     "sens_reversion_K_min": min(ks), "sens_reversion_K_max": max(ks),
                      "K_all9": k_all, "K_left_out_min": k_loo.min(), "K_left_out_max": k_loo.max(),
                      "WI_B_raw": braw, "WI_B_calibrated": k_all * braw,
                      "WI_B_cal_low": k_loo.min() * braw, "WI_B_cal_high": k_loo.max() * braw})

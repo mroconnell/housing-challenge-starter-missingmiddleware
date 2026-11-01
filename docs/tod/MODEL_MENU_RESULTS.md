@@ -264,3 +264,34 @@ Per city, the honest forest's predicted rise in share vs the actual change:
   - Seattle: share before 0.43, with a small change.
 
 These four pull the correlation negative and K down. Picking cities after seeing results would be cherry-picking. A rule such as "leave out cities where the share before is over 90% or no homes were built" would need to be logged before any rerun. This is for the audit.
+
+### Post-hoc sensitivity: mean reversion (audit section 11; not the headline)
+
+Ceiling cities are **not dropped**:
+- Los Angeles and Saint Paul's shares fell from 99–100% to 72–79%. That is evidence (mean reversion on small before-counts), not an impossible rise.
+- Dropping them after seeing results would be cherry-picking.
+- Bellevue is left out of scoring only because 0 homes before and after (0/0) cannot be scored.
+
+Instead, every city is kept and calibrated with: actual change = a + K × uplift + b × (share before − 0.5), fitted leaving the scored city out. This was logged after the results, so it is a sensitivity. The headline stays K-only scoring.
+
+| Method | K-only (headline) | With mean reversion | K under reversion (range by left-out city) |
+| --- | ---: | ---: | --- |
+| **Reversion only, no model (a + b × (share before − 0.5))** | — | **0.160** | — |
+| Gradient boosting | 0.403 | 0.138 | −0.07 to 0.52 |
+| Random forest | 0.579 | 0.148 | −0.16 to 0.23 |
+| Multilevel (dropped) | 0.425 | 0.150 | −0.05 to 0.30 |
+| Regression tree | 0.505 | 0.166 | −0.07 to 0.21 |
+| Causal forest, scikit-learn (method 9) | 0.429 | 0.167 | 0.34 to 0.58 |
+| Nearest neighbours | 0.553 | 0.183 | −0.10 to 0.70 |
+| Causal forest, honest (method 10) | 0.516 | 0.220 | −0.16 to 0.82 |
+| EconML causal forest | 0.335 | 0.264 | −0.68 to 0.05 |
+| Plain average | 0.432 | 0.271 | 0.01 to 0.62 |
+| Linear regression | 0.527 | 0.284 | −0.11 to 0.35 |
+| LASSO | 0.494 | 0.296 | −0.12 to 0.29 |
+
+Note on the fitted form: an intercept is included here. The audit's version without one gives other numbers (for example, boosting 0.311 and LASSO 0.272); without an intercept, reversion alone scores 0.248 and boosting 0.205.
+
+Reading:
+- Mean reversion plus the average rise explains most of the change. A no-model reversion rule (0.160) is about as good as the best models (0.138–0.150), and K swings around 0.
+- The lot models add little beyond that, which supports a line built on the benchmarks.
+- **Wisconsin under the reversion rule:** fitted on all 9 cities, a = −0.038 and b = −0.398. Milwaukee's and Madison's share before on law-on lots is about 25% (2019–2024 actual), which gives a predicted rise of 0.06. That is 300 + 730 homes, about **1,180** statewide over 2027–2031. The average-change benchmark gives 797.
