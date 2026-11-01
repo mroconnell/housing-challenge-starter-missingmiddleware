@@ -175,3 +175,37 @@ Upzoned means homes per acre rose:
 "Upzoned" means homes per acre rose. On paper CS→CM2 and CG→CE are falls: base floor area went from 3.0 to 2.5. In practice CS was capped at 45 feet. That is accepted as written and flagged. A second version counts only lots whose zone changed from residential, employment or industrial to a mixed-use zone.
 
 The same archive will be used to check BHD's lot zones (archive layers before and after 1 March 2020) against the proposal layer.
+
+**Portland 2020, Better Housing by Design (run 2026-11-01): `reference/tod_new_city_test_portland_2020.csv`.**
+- Study area: 193,507 lots, 49,703 acres. Upzoned: 8,600 lots in the main version; 13,999 upzoned lots more than ½ mile from MAX or streetcar were relabelled.
+- Placement: 17 of 31,305 homes before and 4 of 16,638 after were not placed.
+- Ring homes on single-dwelling (Infill-Project) lots: 4,165 before, 2,735 after.
+
+| Version | Share before | Share after (actual) | Drift rule | Average change | Same share |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Main | 4.2% (1,300 of 31,198) | 5.2% (863 of 16,634) | 18.6% (score 1.28) | 8.1% (0.45) | 4.2% (0.22) |
+| Without RH→RM4 | 2.9% | 3.8% | 17.8% (1.54) | 6.8% (0.58) | 2.9% (0.29) |
+| Without R1→RM2 | 2.5% | 3.6% | 17.6% (1.58) | 6.5% (0.59) | 2.5% (0.36) |
+
+**Portland 2018, mixed-use conversion and Comprehensive Plan map (run 2026-11-01): `reference/tod_new_city_test_portland_2018.csv`.** Lot zones were read from the archive before 24 May 2018 and from 25 May 2018; 22,869 lots changed zone.
+- Study area: 211,347 lots. Upzoned: 1,976 lots in the main version; 4,952 relabelled for being more than ½ mile from rail.
+- Placement: 62 of 27,405 homes before and 0 of 20,602 after were not placed.
+
+| Version | Share before | Share after (actual) | Drift rule | Average change | Same share |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Main | 3.9% (1,056 of 27,344) | 3.1% (638 of 20,602) | 18.4% (1.78) | 7.8% (0.93) | 3.9% (0.22) |
+| Into mixed use from other zones only | 1.3% | 0.9% | 16.9% (2.88) | 5.3% (1.72) | 1.3% (0.34) |
+
+**Score so far: 3 new cases, main versions.** Austin's Garrison Park (2016) is still to check under the search log.
+
+| Case | Drift rule | Average change | Same share |
+| --- | ---: | ---: | ---: |
+| Denver 2018 | 0.94 | 1.96 | 2.93 |
+| Portland 2020 | 1.28 | 0.45 | 0.22 |
+| Portland 2018 | 1.78 | 0.93 | 0.22 |
+| **Median** | **1.28** | **0.93** | **0.22** |
+
+**Outcome by the pre-set rule:** the drift rule loses to same share. Message to the owner, as fixed in advance: the effect near stops may be about 0. Caveats, stated with it:
+- One case can flip the median.
+- The two Portland reforms were citywide re-codings with modest raises; Denver's was a targeted station-area upzoning. In Denver the share rose far more than any rule predicted.
+- Portland's study areas are most of the city, so "share" there is diluted by citywide building.

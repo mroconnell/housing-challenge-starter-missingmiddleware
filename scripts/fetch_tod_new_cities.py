@@ -49,10 +49,10 @@ def get(url: str) -> bytes:
     return b""
 
 
-def arcgis_all(layer: str, fields: str, page: int = 2000, envelope: str = "") -> tuple[list, str]:
+def arcgis_all(layer: str, fields: str, page: int = 2000, envelope: str = "", where: str = "1=1") -> tuple[list, str]:
     feats, off, first = [], 0, None
     while True:
-        p = dict(where="1=1", outFields=fields, returnGeometry="true", outSR=4326, f="geojson",
+        p = dict(where=where, outFields=fields, returnGeometry="true", outSR=4326, f="geojson",
                  resultOffset=off, resultRecordCount=page, orderByFields="OBJECTID")
         if envelope:   # xmin,ymin,xmax,ymax in WGS84
             p.update(geometry=envelope, geometryType="esriGeometryEnvelope", inSR=4326, spatialRel="esriSpatialRelIntersects")
@@ -70,26 +70,51 @@ def arcgis_all(layer: str, fields: str, page: int = 2000, envelope: str = "") ->
     return feats, first
 
 
+LICENCE = {"denver": "City and County of Denver Open Data (data.denvergov.org), Creative Commons Attribution 3.0",
+           "portland": "City of Portland, PortlandMaps open data (licence as stated on the service)"}
+PDX = "https://www.portlandmaps.com/arcgis/rest/services/Public"
+PORTLAND = {
+    "bhd_zone_changes": (f"{PDX}/BPS_Planning_Projects/MapServer/10", "OBJECTID,ex_zone,pr_zone,proposal,proposal_draft",
+                         "proposal='bhd' AND proposal_draft='adopted'"),
+    "max_stops": (f"{PDX}/Transit/MapServer/2", "*", "1=1"),
+    "streetcar_stops": (f"{PDX}/Transit/MapServer/3", "*", "1=1"),
+    "residential_permits": (f"{PDX}/BDS_Permit/MapServer/5", "OBJECTID,ISSUED,YEAR,NUMNEWUNITS,TYPE,WORK_DESCRIPTION,STATUS,PROPERTYKEY",
+                            "NUMNEWUNITS > 0"),
+    "commercial_permits": (f"{PDX}/BDS_Permit/MapServer/2", "OBJECTID,ISSUED,YEAR,NUMNEWUNITS,TYPE,WORK_DESCRIPTION,STATUS,PROPERTYKEY",
+                           "NUMNEWUNITS > 0"),
+    "taxlots": (f"{PDX}/Taxlots/MapServer/0", "OBJECTID,STATE_ID,RNO", "1=1"),
+    # the city's zoning archive: whole-city zoning maps for each period
+    "zoning_pre_2018_05_24": (f"{PDX}/PPD_Zoning_Archive/MapServer/91", "OBJECTID,ZONE,OVRLY,PLDIST", "1=1"),
+    "zoning_2018_05_25": (f"{PDX}/PPD_Zoning_Archive/MapServer/3", "OBJECTID,ZONE,OVRLY,PLDIST", "1=1"),
+    "zoning_2018_08_21_to_2020_02_29": (f"{PDX}/PPD_Zoning_Archive/MapServer/194", "OBJECTID,ZONE,OVRLY,PLDIST", "1=1"),
+    "zoning_2020_03_01": (f"{PDX}/PPD_Zoning_Archive/MapServer/178", "OBJECTID,ZONE,OVRLY,PLDIST", "1=1"),
+}
+
+
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--city", required=True, choices=["denver"])
+    ap.add_argument("--city", required=True, choices=["denver", "portland"])
     ap.add_argument("--only", default="")
     a = ap.parse_args(argv)
     d = RAW / "tod_new_cities" / a.city
     d.mkdir(parents=True, exist_ok=True)
     mp = d / "manifest.json"
     m = json.loads(mp.read_text()) if mp.exists() else {"source_id": f"tod_new_cities_{a.city}", "files": {}}
-    for name, (layer, fields) in DENVER.items():
+    layers = DENVER if a.city == "denver" else PORTLAND
+    for name, spec in layers.items():
         if a.only and name not in a.only.split(","):
             continue
         print(name, flush=True)
-        env = PARCEL_ENVELOPE if name == "parcels" else ""
-        f, url = arcgis_all(layer, fields, envelope=env)
+        layer, fields = spec[0], spec[1]
+        where = spec[2] if len(spec) > 2 else "1=1"
+        env = PARCEL_ENVELOPE if (a.city == "denver" and name == "parcels") else (
+            "-122.84,45.43,-122.47,45.66" if (a.city == "portland" and name == "taxlots") else "")   # Portland city extent
+        f, url = arcgis_all(layer, fields, envelope=env, where=where)
         data = json.dumps({"type": "FeatureCollection", "features": f}).encode()
         (d / f"{name}.geojson").write_bytes(data)
         m["files"][f"{name}.geojson"] = {"url": url, "accessed_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                                          "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(),
-                                         "licence": "City and County of Denver Open Data (data.denvergov.org), Creative Commons Attribution 3.0"}
+                                         "licence": LICENCE[a.city]}
         mp.write_text(json.dumps(m, indent=1) + "\n")
         print(f"  {name}: {len(f):,} features", flush=True)
 
