@@ -181,3 +181,6 @@ Tract (1): FHFA home price trend.
 Stop (5): rail or bus; trips per hour; years since opening; distance to downtown; band.
 City (5): by-right or incentive; parking cut at same time; affordable units required; coverage by band; metro permits per person.
 Rent, value, income, land value tested first as one "market strength" group.
+
+### Correction (2026-11-01 14:13): start from the lot model's 125 traits
+Source: reference/tod_lot_model_importance_runD_allvars_rebuilt_seed7.csv. 78 tract census traits (v_h 21, v_p 22, v_m 18, v_c 14, v_l 3); 17 lot; 5 location; 21 zoning-map flags (group_ 11, reform_share 7, upzoned, share_upzoned_half_mile, in_reform); 4 missing-data flags. Plan: keep the 104 non-map traits; replace the 21 map flags with distance band and coverage; add the new traits from the 14:12 list. About 120 traits in total.
