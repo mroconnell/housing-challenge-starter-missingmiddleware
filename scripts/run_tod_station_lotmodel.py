@@ -86,6 +86,7 @@ def load_case(case: str, mode: str, rng: np.random.Generator) -> pd.DataFrame | 
     cov = D.groupby(["stop_id", "band"]).in_reform_area.transform("mean")
     D["coverage"] = cov.where(D.group == "reform", 0.0)
     D["case"], D["city"] = case, M.city_of(case)
+    D["strings_attached"] = float(case in STRINGS) * D["reform_stop"]
     num = D.select_dtypes("float64").columns
     D[num] = D[num].astype("float32")
     return D
@@ -97,8 +98,14 @@ def M_eff(case: str) -> int:
     return int(cfg.get("eff", cfg["after"][0] - 1))
 
 
+DROP: set[str] = set()
+STRINGS = {"la_toc_2017", "san_diego_2021", "chicago_2022"}   # incentive with required affordable homes (city trait)
+
+
 def features(D: pd.DataFrame, groups: list[str]) -> list[str]:
-    cols = list(REFORM)
+    cols = [c for c in REFORM if c not in DROP]
+    if "strings" in groups:
+        cols.append("strings_attached")
     if "lot" in groups:
         cols += LOT
     if "place" in groups:
@@ -112,7 +119,7 @@ def effect_by_band(model, D: pd.DataFrame, cols: list[str]) -> pd.Series:
     R = D[D.reform_stop == 1]
     on = model.predict(R[cols].astype(float))
     off_X = R[cols].astype(float).copy()
-    off_X[["reform_stop", "in_reform_area", "coverage"]] = 0.0
+    off_X[[c for c in ("reform_stop", "in_reform_area", "coverage", "strings_attached") if c in cols]] = 0.0
     off = model.predict(off_X)
     extra = (on - off) * R.w
     acres = (R.acres.fillna(0) * R.w).groupby(R.band).sum()
@@ -141,6 +148,7 @@ def wisconsin_rows() -> pd.DataFrame:
     W["reform_stop"] = 1.0
     W["in_reform_area"] = W.in_reform_area.astype(float)
     W["coverage"] = W.groupby([W["case"], W.stop_id, W.band]).in_reform_area.transform("mean")
+    W["strings_attached"] = 0.0   # Wisconsin's law: by right, no affordability requirement
     W["w"] = 1.0
     return W
 
@@ -149,7 +157,7 @@ def wisconsin_extra(model, W: pd.DataFrame, cols: list[str]) -> pd.Series:
     """Extra homes a year by band (Milwaukee and Madison lots near rail and rapid stops)."""
     on = model.predict(W[cols].astype(float))
     off_X = W[cols].astype(float).copy()
-    off_X[["reform_stop", "in_reform_area", "coverage"]] = 0.0
+    off_X[[c for c in ("reform_stop", "in_reform_area", "coverage", "strings_attached") if c in cols]] = 0.0
     return pd.Series(on - model.predict(off_X), index=W.index).groupby(W.band).sum()
 
 
@@ -158,7 +166,9 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dates", default="permit_est", choices=["stored", "permit_est", "completed"])
     ap.add_argument("--trait-groups", default="lot,place,tract")
+    ap.add_argument("--drop", default="", help="reform features to leave out, e.g. coverage")
     a = ap.parse_args(argv)
+    DROP.update(x for x in a.drop.split(",") if x)
     groups = a.trait_groups.split(",") if a.trait_groups else []
     rng = np.random.default_rng(SEED)
     parts = [load_case(f.stem.removeprefix("lots_"), a.dates, rng) for f in sorted(OUT.glob("lots_*.parquet"))]
@@ -185,7 +195,7 @@ def main(argv=None) -> None:
     print(R.round(2).to_string(index=False))
     print("\nmedian absolute error by band (per 100 acres a year):")
     print(R.groupby("band")[["err_model", "err_avg", "err_zero"]].median().round(2).to_string())
-    tag = a.trait_groups.replace(",", "_") or "none"
+    tag = (a.trait_groups.replace(",", "_") or "none") + (f"_no_{a.drop.replace(',', '_')}" if a.drop else "")
     if W is not None:
         m = HistGradientBoostingRegressor(max_iter=300, learning_rate=0.05, min_samples_leaf=200, random_state=SEED)
         m.fit(D[cols].astype(float), D.y, sample_weight=D.w)

@@ -120,13 +120,15 @@ def case_effects(mode: str = "stored") -> pd.DataFrame:
                          "effect_raw": dr - dc, "effect_per_100_acres": pr - pc, "coverage": r["cov"], "comparison_coverage": c["cov"],
                          "reform_homes": r.e, "comparison_homes": c.e, "reform_new": r.a + r.b, "comparison_new": c.a + c.b})
     E = pd.DataFrame(rows)
-    E["effect_scaled"] = E.effect_raw / (E.coverage - E.comparison_coverage).where(lambda x: x >= 0.2)   # scaling below 20% coverage multiplies noise
+    # per-city scaled effect kept for display only; the locked scaling is one pooled ratio per band (pooled_scaled)
+    E["coverage_diff"] = E.coverage - E.comparison_coverage
+    E["effect_scaled"] = E.effect_raw / E.coverage_diff.where(lambda x: x > 0)
     return E
 
 
 def city_level(E: pd.DataFrame) -> pd.DataFrame:
     """One row per city and band: New York and Philadelphia averaged over their rezonings."""
-    num = ["reform_change", "comparison_change", "effect_raw", "effect_scaled", "effect_per_100_acres", "coverage"]
+    num = ["reform_change", "comparison_change", "effect_raw", "effect_scaled", "effect_per_100_acres", "coverage", "coverage_diff"]
     return E.groupby(["city", "band"])[num].mean().reset_index()
 
 
@@ -142,6 +144,29 @@ def pooled(C: pd.DataFrame, col: str) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def pooled_scaled(C: pd.DataFrame, col: str = "effect_per_100_acres") -> pd.Series:
+    """Locked coverage scaling (plan, audit section F): one pooled ratio of sums per band, no cap: sum over cities of
+    the measured effect / sum over cities of the coverage difference (reform minus comparison), each city once."""
+    g = C.dropna(subset=[col, "coverage_diff"]).groupby("band")
+    return g[col].sum() / g["coverage_diff"].sum()
+
+
+def wisconsin_versions(C: pd.DataFrame) -> pd.DataFrame:
+    """The two pre-registered Wisconsin versions by band, extra homes over 5 years on Milwaukee and Madison lots near
+    rail and rapid stops: raw = pooled average effect per 100 lot acres x Wisconsin lot acres; scaled = pooled ratio x
+    Wisconsin coverage (share of the band's lots the law would upzone) x acres."""
+    W = pd.read_parquet(OUT / "wi_lots_station.parquet", columns=["band", "acres", "in_reform_area"])
+    w = W.groupby("band").agg(acres=("acres", "sum"), coverage=("in_reform_area", "mean"))
+    raw = C.groupby("band").effect_per_100_acres.mean()
+    ratio = pooled_scaled(C)
+    out = pd.DataFrame({"wi_acres": w.acres, "wi_coverage": w.coverage, "pooled_effect_per_100_acres": raw,
+                        "pooled_ratio_per_100_acres_full_coverage": ratio})
+    out["raw_5yr"] = 5 * out.pooled_effect_per_100_acres * out.wi_acres / 100
+    out["scaled_5yr"] = 5 * out.pooled_ratio_per_100_acres_full_coverage * out.wi_coverage * out.wi_acres / 100
+    out.loc["total"] = out[["raw_5yr", "scaled_5yr"]].sum()
+    return out
+
+
 def main() -> None:
     import argparse
     ap = argparse.ArgumentParser()
@@ -154,6 +179,12 @@ def main() -> None:
         print(f"\n{col}:")
         print(pooled(C, col).round(2).to_string(index=False))
     C.round(4).to_csv(REFERENCE / "tod_station_area_effects_by_city.csv", index=False)
+    print("\npooled ratio per 100 acres at full coverage (locked scaling):", pooled_scaled(C).round(2).to_dict())
+    if (OUT / "wi_lots_station.parquet").exists():
+        V = wisconsin_versions(C)
+        print("\nWisconsin, pre-registered versions (Milwaukee + Madison, extra homes over 5 years):")
+        print(V.round(2).to_string())
+        V.round(3).to_csv(REFERENCE / "tod_station_area_wisconsin_versions.csv")
 
 
 
