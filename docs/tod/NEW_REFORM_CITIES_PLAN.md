@@ -150,3 +150,12 @@ Upzoned means homes per acre rose:
 - RH areas mapped at floor area 4:1 before (some central areas) would make RH→RM4 equal too. This is flagged and checked in a second version that leaves out RH→RM4.
 
 **Outcome so far, if Denver stays the only new case:** "1 new case: the drift rule beat both benchmarks but under-predicted (17.6% vs 45.0%)." One case can neither confirm nor overturn the central line, so 1,181 stays.
+
+**Portland BHD, settled before counting (audit review section 8):**
+- **Versions:**
+  - main (all raises in the table);
+  - leave out RH→RM4 (RH may have been 4:1 already);
+  - leave out R1→RM2 (473 changes). At about 1,500 sq ft per home, RM2 allows about what R1 did. Its lots stay in the study area as not upzoned.
+- **Residential Infill Project (effective August 2021):** it raised allowed homes on most single-dwelling lots citywide, inside BHD's after window, so many ring lots also rose. The day-one groups are kept. Ring homes on single-dwelling (Infill-Project) lots are reported separately.
+- **½-mile rule:** stops are MAX and Portland Streetcar stops open in March 2020. Division FX2 bus rapid transit opened in 2022 and does not count. BHD is citywide, so many upzoned lots will be relabelled; this is accepted in advance and the count is reported.
+- **Also in the before window:** the 2017 inclusionary housing rule (mandatory affordable homes in buildings of 20 or more units). It may have pulled permits forward into early 2017.
