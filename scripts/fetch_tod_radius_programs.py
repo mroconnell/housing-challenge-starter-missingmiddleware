@@ -127,6 +127,9 @@ def program_areas() -> None:
     areas (City Planning; check vintage against the 2021 regional plan)."""
     src = {"la/toc_tiers_oct2017.geojson": ("https://services1.arcgis.com/tzwalEyxl2rpamKs/arcgis/rest/services/TOC_Tiers_Oct2017_new/FeatureServer/0", "*"),
            "san_diego/transit_priority_areas_sandag_2022.geojson": ("https://geo.sandag.org/server/rest/services/Hosted/Transit_Priority_Areas/FeatureServer/0", "*"),
+           "honolulu/tod_zone_change_waipahu_tc.geojson": ("https://services.arcgis.com/tNJpAOha4mODLkXz/arcgis/rest/services/TOD_ZoneChange_WaipahuTC_Approved/FeatureServer/0", "*"),
+           "honolulu/tod_zone_change_west_loch.geojson": ("https://services.arcgis.com/tNJpAOha4mODLkXz/arcgis/rest/services/TOD_ZoneChange_WestLoch_Approved/FeatureServer/0", "*"),
+           "honolulu/rail_stations.geojson": ("https://services6.arcgis.com/2cZSk3EXXiOHcbOl/arcgis/rest/services/HART_Transit_Stations_PUBLIC/FeatureServer/0", "*"),
            "san_diego/transit_priority_areas.geojson": ("https://webmaps.sandiego.gov/arcgis/rest/services/Planning/PLN_TransitPriorityArea/MapServer/0", "*")}
     for rel, (layer, fields) in src.items():
         out = RAW / rel
