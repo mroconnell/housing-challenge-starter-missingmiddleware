@@ -261,29 +261,29 @@ def project(hist: pd.DataFrame, candidate: str, bands: pd.DataFrame) -> pd.DataF
                 "method", "window_years", "no_data_in_window"]]
 
 
-# Places whose Census permit series is under-reported although reported as complete (owner-approved fix, 2026-11-01):
-# Wauwatosa reports 1-2 homes a year since 2021 against about 290 a year in 2015-2017, and the ACS shows 310 +/- 173
-# homes built 2020 or later.
-UNDER_REPORTED = {"muni:5507984675": "Wauwatosa city"}
-
-
-def impute_missing(proj: pd.DataFrame, meta: pd.DataFrame, bands: pd.DataFrame) -> pd.DataFrame:
+def impute_missing(proj: pd.DataFrame, meta: pd.DataFrame, bands: pd.DataFrame, under_reported: set | None = None) -> pd.DataFrame:
     """Owner-approved fix (2026-11-01): places with no permit data in the level window (not reported, never zero;
     FOUNDATION.md finding 3) and UNDER_REPORTED places get the median current-law rate of their context class
     (permits per 1,000 ACS homes per year, over places with data), split by building size in the class's own
     proportions; low/high use the same long-run band as every other place.
+    under_reported: places flagged by the ACS screen (permits below the ACS lower 90% bound of homes built 2020 or
+    later; audit 2026-11-01). Their own projection is a lower bound, so they take the larger of it and the class rate.
     meta: area_id, context, housing_units_acs."""
+    UNDER_REPORTED = set(under_reported or ())
     out = proj.copy()
     m = meta.set_index("area_id")
     y0 = out[out["year"] == FORECAST_YEARS[0]]
     tot = y0.groupby("area_id").agg(central=("central", "sum"), nod=("no_data_in_window", "all"))
     tot = tot.join(m[["context", "housing_units_acs"]])
-    tgt = set(tot.index[tot["nod"] & (tot["housing_units_acs"] > 0)]) | set(UNDER_REPORTED)
+    nr = set(tot.index[tot["nod"] & (tot["housing_units_acs"] > 0)])
+    tgt = nr | set(UNDER_REPORTED)
     peers = tot[~tot.index.isin(tgt) & (tot["housing_units_acs"] > 0) & tot["context"].notna()]
     rate = (peers["central"] / peers["housing_units_acs"] * 1000).groupby(peers["context"]).median()
     share = y0[y0["area_id"].isin(peers.index)].assign(context=lambda d: d["area_id"].map(m["context"])) \
         .groupby(["context", "structure_type"])["central"].sum()
     share = share / share.groupby(level=0).transform("sum")
+    cls_total = tot["context"].map(rate) * tot["housing_units_acs"] / 1000
+    tgt = nr | {a for a in UNDER_REPORTED if a in tot.index and cls_total.get(a, 0) > tot.loc[a, "central"]}
     sel = out["area_id"].isin(tgt)
     ctx = out.loc[sel, "area_id"].map(m["context"])
     hu = out.loc[sel, "area_id"].map(m["housing_units_acs"])

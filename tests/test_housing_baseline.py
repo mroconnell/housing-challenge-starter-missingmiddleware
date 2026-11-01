@@ -173,6 +173,8 @@ class TestCommittedOutputs(unittest.TestCase):
         imp = a[a["method"].str.startswith("imputed")].groupby("name")["five_year_central"].sum()
         self.assertGreater(imp.get("Wauwatosa city", 0), 100)
         self.assertGreater(imp.get("Caledonia village", 0), 100)
+        scr = pd.read_csv(REF / "housing_baseline_acs_screen.csv")
+        self.assertTrue(bool(scr.loc[scr["area_id"] == "muni:5507984675", "flag_under_reported"].iloc[0]))
 
 
 if __name__ == "__main__":

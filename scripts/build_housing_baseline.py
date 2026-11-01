@@ -151,6 +151,10 @@ def acs_screen(hist: pd.DataFrame) -> pd.DataFrame | None:
     x = acs.join(b, how="inner").reset_index()
     x["gap"] = x["acs_built_2020_or_later"] - x["permits_2019_2023"]
     x["flag_possible_permit_gap"] = (x["gap"] > x["acs_moe"]) & (x["acs_built_2020_or_later"] >= 100)
+    # under-reported (audit 2026-11-01): permits below the ACS lower 90% bound of homes built 2020 or later. The ACS
+    # also counts conversions and homes permitted before 2019, so a flag means a large gap, not a small one.
+    x["acs_lower_bound"] = x["acs_built_2020_or_later"] - x["acs_moe"]
+    x["flag_under_reported"] = x["permits_2019_2023"] < x["acs_lower_bound"]
     return x.sort_values("gap", ascending=False)
 
 
@@ -221,7 +225,11 @@ def main() -> None:
     bands = hb.long_run_band(lr)
     proj = hb.project(hist, best, bands[bands["structure_type"] != "all"])
     imp_meta = munis.rename(columns={"context_group": "context"})[["area_id", "context", "housing_units_acs"]]
-    proj = hb.impute_missing(proj, imp_meta, bands[bands["structure_type"] != "all"])
+    scr0 = acs_screen(hist)  # audit 2026-11-01: under-reporting is a screen on every place, not a hand-written list
+    under = set(scr0.loc[scr0["flag_under_reported"], "area_id"]) if scr0 is not None else set()
+    if args.published:  # "Census as published": no under-report correction (the screen would also catch Milwaukee)
+        under = set()
+    proj = hb.impute_missing(proj, imp_meta, bands[bands["structure_type"] != "all"], under)
 
     if args.published:
         p5 = proj[proj["in_five_year_total"]].groupby("structure_type")[["low", "central", "high"]].sum()
