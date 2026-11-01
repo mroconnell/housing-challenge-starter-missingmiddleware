@@ -16,20 +16,20 @@ Missing Middle and development fee reduction are not modelled.
 
 **Comparing the three fairly.** The three reforms count different things against different baselines:
 - the ADU baseline is 786 second homes on single-family lots statewide over 2027–2031;
-- the parking baseline is 123,950 new homes of all kinds statewide over 2027–2031 (shared baseline v3 final, 2026-11-01; was 122,619);
+- the parking baseline is 124,000 new homes of all kinds statewide over 2027–2031 (shared baseline v3 final, 2026-11-01; was 122,619);
 - the TOD baseline is 14,464 new homes of all kinds near major transit stops over 2027–2031.
 
 So this comparison puts every reform on two common footings:
-- **as a share of the all-housing baseline**: additional permits ÷ the 123,950 homes Wisconsin is expected to permit over 2027–2031 under current law;
+- **as a share of the all-housing baseline**: additional permits ÷ the 124,000 homes Wisconsin is expected to permit over 2027–2031 under current law;
 - **per 1,000 existing homes**: additional permits over 2027–2031 ÷ Wisconsin's 2,778,572 housing units (ACS 2020–2024, table B25002) × 1,000.
 
-The ADU share is an approximate size comparison, not a strict share: the Census permit count behind the 123,950 misses many ADUs, especially those built inside or attached to an existing house.
+The ADU share is an approximate size comparison, not a strict share: the Census permit count behind the 124,000 misses many ADUs, especially those built inside or attached to an existing house.
 
 # Ranking of Results
 
 Additional homes permitted over 2027–2031, compared with current law. Scenarios are named by the evidence they stand for, not by statistical confidence.
 
-| Rank (central) | Reform | Lower | **Central** | Upper | Central, then upper, as a share of the 123,950-home all-housing baseline | Central, then upper, per 1,000 existing homes (five-year total) |
+| Rank (central) | Reform | Lower | **Central** | Upper | Central, then upper, as a share of the 124,000-home all-housing baseline | Central, then upper, per 1,000 existing homes (five-year total) |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | 1 | **ADUs** | 6,321 | **10,492** | 19,784 | 8.5%; 16.0% | 3.8; 7.1 |
 | 2 | **TOD** | 171 | **1,181** | 17,148 | 1.0%; 13.8% | 0.4; 6.2 |
@@ -41,12 +41,12 @@ What the scenario names mean:
 - **Parking:** the central is "no measurable change"; the upper is "the high end of the evidence"; the lower is "the low end of the evidence" (owner, 2026-11-01): the measured average of 76 repeal places against similar places, −1.14 permits per 1,000 existing homes per year, applied without a floor at zero. That is −15,326 homes over 2027–2031, 12.5% below current law. It is driven mostly by San Francisco and Minneapolis.
 - **Median lines.** A "median of real cases" line is shown only where a reform has at least four comparable cases. ADUs (8 states) and parking (76 places) have one. Parking's median place changed by −0.12 permits per year per 1,000 existing homes, so its line is shown at 0, the same as its central. TOD has only three whole-city studies, so it has none.
 
-ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](ASSUMPTIONS_AND_QUESTIONS.md)): lower 6,321, central 10,492, upper 19,784 on a 786 baseline. Massachusetts' 2025 count is now divided by a full year, because its survey covers January. Earlier that day (AQ-066) they were 6,321, 10,615 and 19,925, when Madison moved onto the statewide model like every other place. Before that they were 6,223, 10,349 and 19,294 on 786 (AQ-065, 2026-10-31), 6,804, 10,679 and 19,535 on 530 (AQ-064, 2026-10-29), 6,734, 10,788 and 20,057 (AQ-061, 2026-10-28), and first 5,538, 8,757 and 16,889 on 605. ADU shares are of the 123,950-home all-housing baseline (central 10,492 ÷ 123,950 = 8.5%; upper 19,784 ÷ 123,950 = 16.0%); per 1,000 existing homes they are ÷ 2,778.572 thousand housing units (central 3.8; upper 7.1).
+ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](ASSUMPTIONS_AND_QUESTIONS.md)): lower 6,321, central 10,492, upper 19,784 on a 786 baseline. Massachusetts' 2025 count is now divided by a full year, because its survey covers January. Earlier that day (AQ-066) they were 6,321, 10,615 and 19,925, when Madison moved onto the statewide model like every other place. Before that they were 6,223, 10,349 and 19,294 on 786 (AQ-065, 2026-10-31), 6,804, 10,679 and 19,535 on 530 (AQ-064, 2026-10-29), 6,734, 10,788 and 20,057 (AQ-061, 2026-10-28), and first 5,538, 8,757 and 16,889 on 605. ADU shares are of the 124,000-home all-housing baseline (central 10,492 ÷ 124,000 = 8.5%; upper 19,784 ÷ 124,000 = 16.0%); per 1,000 existing homes they are ÷ 2,778.572 thousand housing units (central 3.8; upper 7.1).
 
 **Against each reform's own baseline:**
 - The ADU central adds 10,492 second homes to a baseline of 786, which is 13.3 times as many as current law would produce.
 - The TOD central adds 1,181 homes to a baseline of 14,464 near stops, which is 8.2% more.
-- The parking upper adds 19,937 homes to a baseline of 123,950, which is 16.1% more (about 3,987 a year).
+- The parking upper adds 19,937 homes to a baseline of 124,000, which is 16.1% more (about 3,987 a year).
 
 **How confident we are.**
 
@@ -117,18 +117,18 @@ Each scenario's answer is "with the reform minus without it". This table lines u
 
 | Scenario | What the baseline counts | In the tool | Tested alternative | Status |
 | --- | --- | ---: | ---: | --- |
-| Parking | All permitted homes, statewide | 123,950 | 119,703 (boosted trees; owner-approved side case) | Same pace kept as the main rule. It ran 22% low in Wisconsin's 2021–2025; the trees expect some of the recent pace to fade ([NO_REFORM_MODEL_RESULTS.md](parking/NO_REFORM_MODEL_RESULTS.md)) |
+| Parking | All permitted homes, statewide | 124,000 | 119,703 (boosted trees; owner-approved side case) | Same pace kept as the main rule. It ran 22% low in Wisconsin's 2021–2025; the trees expect some of the recent pace to fade ([NO_REFORM_MODEL_RESULTS.md](parking/NO_REFORM_MODEL_RESULTS.md)) |
 | TOD | Homes permitted in station areas | 14,464 | to come | being tested |
 | ADUs | ADU permits on single-family lots | 786 | 786 (same pace plus the trend of no-law places; was 530 at today's pace) | Adopted 2026-10-31 (AQ-065). The trend model scored better; it lowers the law's addition by about 233 ([NO_REFORM_R1_RESULTS.md](adu/NO_REFORM_R1_RESULTS.md)) |
 
-- **Nesting checks.** TOD's station-area baseline (14,464) is below the statewide total (123,950): about 12% of it. ADU's 786 is under 1% of the statewide total (0.6%).
+- **Nesting checks.** TOD's station-area baseline (14,464) is below the statewide total (124,000): about 12% of it. ADU's 786 is under 1% of the statewide total (0.6%).
 - **ADUs need a place-by-place baseline.** A statewide no-law level from other states' cities would give 4,390 ADU permits, about 5.6 times the tool's 786. Those cities are much more active than typical Wisconsin places.
 
 # Net Added Homes, Statewide (in progress)
 
-Owner ask (2026-10-31): permits after each reform minus permits with no reform, Wisconsin, 2027–2031, on the shared all-housing baseline (123,950 homes; 119,379 as published).
+Owner ask (2026-10-31): permits after each reform minus permits with no reform, Wisconsin, 2027–2031, on the shared all-housing baseline (124,000 homes; 119,379 as published).
 
-| Scenario | Lower | Central | Upper | Central as a share of 123,950 | Source |
+| Scenario | Lower | Central | Upper | Central as a share of 124,000 | Source |
 | --- | ---: | ---: | ---: | ---: | --- |
 | ADUs (ADU permits) | 6,321 | 10,492 | 19,784 | 8.5% | [NET_STATEWIDE_R1.md](adu/NET_STATEWIDE_R1.md) |
 | TOD (all homes) | 0 | 1,181 (tool central, AQ-068) | 839–1,382 | 1.0% | [WI_NET_PLAN.md](tod/WI_NET_PLAN.md) (round 4); AQ-068 |
