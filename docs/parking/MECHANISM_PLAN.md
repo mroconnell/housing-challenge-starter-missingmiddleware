@@ -93,4 +93,7 @@ Building sizes:
 
 ## Deviations
 
-(none yet)
+1. **Old minimums (m), before results.** Code lookups for the top 10 municipalities mostly failed (codes not readable online). Instead, m comes from one 2025 staff compilation of multifamily minimums that lists 17 Wisconsin cities (Mankato, MN Planning Commission packet, 2025-08-27, "Parking Information – Other Communities"). La Crosse is dropped (repealed in 2024). Bedroom-based rules use 1.5 bedrooms per home (half studio or one-bedroom, half two-bedroom; assumed). Places not listed take, in each draw, one value picked at random from the listed cities other than Madison and Milwaukee. The plan's "top 10 by 5+ homes" would also have included Fitchburg and West Allis, which have no minimums.
+2. **Madison's TOD overlay, before results.** Whether the 2023 overlay removes minimums could not be confirmed. Madison's exempt share is drawn between downtown districts only (11.4% of new 5+ unit homes) and downtown plus the overlay (44.2%).
+3. **Land values.** 63% of 2+ unit baseline rows matched a municipality in the statewide parcel file by name and county. The rest take their county's median (flagged in `parking_mechanism_where_binding.csv`).
+4. **Unplanned checks, after results.** Austin carries 31% of A1's weight, so A1 was re-tested unweighted, as a median, without Austin, and as each place's own change without comparison places (`parking_mechanism_part_a_robustness.csv`). These are checks, not replacements for the pre-set result.
