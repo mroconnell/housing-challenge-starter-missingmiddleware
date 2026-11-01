@@ -954,7 +954,7 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
     for tag, col in (("baseline_low", "baseline_near_low_2027_2031"), ("baseline_high", "baseline_near_high_2027_2031")):
         g = net.drop_duplicates("area_id")
         for r0 in [r for r in sens if r["sensitivity"] == "main"]:
-            sens.append({**r0, "group": "baseline_only", "sensitivity": tag, "description": f"{tag.replace('_', ' ')} (all-housing baseline v2)",
+            sens.append({**r0, "group": "baseline_only", "sensitivity": tag, "description": f"{tag.replace('_', ' ')} (all-housing baseline v3)",
                          "baseline_near_stops_2027_2031": float(g[col].sum())})
     pa_census = per_acre_sens[per_acre_sens.sensitivity == "census_as_published"].baseline_near_stops_2027_2031.iloc[0]
     for r0 in [r for r in sens if r["sensitivity"] == "main"]:

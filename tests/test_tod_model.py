@@ -125,7 +125,7 @@ class TestOutputs(unittest.TestCase):
                     self.assertAlmostEqual(v, tot.loc[k], delta=max(1.0, 1e-5 * tot.loc[k]), msg=f"{name} {k}")
             b = df.groupby(["method", "scenario"]).baseline_near_central_2027_2031.sum()
             for v in b:
-                self.assertAlmostEqual(v, 14_463.78, delta=1.0, msg=name)
+                self.assertAlmostEqual(v, 14_654.10, delta=1.0, msg=name)
 
     def test_baseline_matches_shared_near_stop_split(self):
         b = pd.read_csv(REF / "housing_baseline_by_area.csv", dtype={"area_id": str})
@@ -134,7 +134,7 @@ class TestOutputs(unittest.TestCase):
         expected = float((t.five_year_central * t.share_near_main.fillna(0)).sum())
         row = self.state[(self.state.year == "2027-2031") & (self.state.method == "A") & (self.state.scenario == "typical")]
         self.assertAlmostEqual(float(row.baseline_near_stops_central.iloc[0]), expected, delta=0.5)
-        self.assertAlmostEqual(expected, 14_464, delta=1)
+        self.assertAlmostEqual(expected, 14_654, delta=1)
 
     def test_capacity_matches_station_area_table(self):
         st = pd.read_csv(REF / "tod_station_area_summary.csv")
@@ -217,7 +217,7 @@ class TestNetSizing(unittest.TestCase):
             for name in ("tod_model_by_county.csv", "tod_model_by_assembly_district.csv", "tod_model_by_senate_district.csv"):
                 d = read(name)
                 self.assertAlmostEqual(d[d.scenario == sid].add_2027_2031.sum(), r.addition, delta=1.0, msg=name)
-                self.assertAlmostEqual(d[d.scenario == sid].baseline_near_central_2027_2031.sum(), 14_463.78, delta=1.0, msg=name)
+                self.assertAlmostEqual(d[d.scenario == sid].baseline_near_central_2027_2031.sum(), 14_654.10, delta=1.0, msg=name)
         yrs = st[st.year != "2027-2031"].groupby("scenario").addition.sum()
         for sid, v in yrs.items():
             self.assertAlmostEqual(v, net.loc[sid, "addition"], delta=0.01)

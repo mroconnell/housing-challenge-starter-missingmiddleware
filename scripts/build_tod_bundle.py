@@ -37,7 +37,7 @@ YEARS = [2027, 2028, 2029, 2030, 2031]
 SCEN = ["little", "typical", "strong"]
 # Combined views (docs/shared/SCENARIO_CONTRACT.md section 9): the shared baseline this bundle is built on, and
 # how its paths map to the roles that are paired with other reforms' paths.
-BASELINE_VERSION = "all-housing baseline v2"
+BASELINE_VERSION = "all-housing baseline v3"
 ROLES = {"lower": "little", "central": "typical", "upper": "strong"}
 ADU_RUN = json.loads((ROOT / "ui" / "public" / "runs" / "latest.json").read_text())["run_id"]
 GEO_MUNIS = f"ui/public/runs/{ADU_RUN}/geo_munis.json"

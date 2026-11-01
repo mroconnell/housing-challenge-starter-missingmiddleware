@@ -1012,6 +1012,8 @@ Held-out RMS 0.130 → 0.136; the audit agreed that is no reason to keep a count
 
 The baseline near stops is unchanged at 14,464 (re-base to 18,322 proposed, not adopted). The combined view's central moves from 2,509 to 1,181.
 
+**Re-synced to the shared baseline v3 (2026-11-01).** The baseline near stops is 14,654 (range 8,495–22,161). The central line is 1,196 (range 609–1,684) and the pre-registered rule 808. Milwaukee's and Madison's own totals are unchanged; only the statewide scale moved (×1.1466 → ×1.1617). The re-based figure, still not adopted, would be 18,558. Little, strong and the reference line are unchanged (171 / 17,148 / 2,509).
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.

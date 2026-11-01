@@ -19,11 +19,11 @@ muni:5502548000,Madison city,Dane County,10179.698,5840.1819,464239.2661,0.0,0.6
 muni:5502548000,Madison city,Dane County,10179.698,5840.1819,464239.2661,0.0,0.6276,5364.8014,9220.4902,13912.028,A,strong,Strong response,2.5654,7329.0199,6951.0912,19788.0514,35885.6037,4958.2472,74912.0134
 muni:5502548000,Madison city,Dane County,10179.698,5840.1819,464239.2661,0.0,0.6276,5364.8014,9220.4902,13912.028,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,1301.591,1234.473,3514.2419,6373.0728,880.5556,13303.9344
 muni:5502548000,Madison city,Dane County,10179.698,5840.1819,464239.2661,0.0,0.6276,5364.8014,9220.4902,13912.028,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502548750,Maple Bluff village,Dane County,84.9,0.0,6003.7151,0.0,0.445,0.3645,0.7418,0.959,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502548750,Maple Bluff village,Dane County,84.9,0.0,6003.7151,0.0,0.445,0.3645,0.7418,0.959,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502548750,Maple Bluff village,Dane County,84.9,0.0,6003.7151,0.0,0.445,0.3645,0.7418,0.959,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502548750,Maple Bluff village,Dane County,84.9,0.0,6003.7151,0.0,0.445,0.3645,0.7418,0.959,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502548750,Maple Bluff village,Dane County,84.9,0.0,6003.7151,0.0,0.445,0.3645,0.7418,0.959,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502548750,Maple Bluff village,Dane County,84.9,0.0,6003.7151,0.0,0.445,4.814,9.1167,13.2779,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502548750,Maple Bluff village,Dane County,84.9,0.0,6003.7151,0.0,0.445,4.814,9.1167,13.2779,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502548750,Maple Bluff village,Dane County,84.9,0.0,6003.7151,0.0,0.445,4.814,9.1167,13.2779,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502548750,Maple Bluff village,Dane County,84.9,0.0,6003.7151,0.0,0.445,4.814,9.1167,13.2779,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502548750,Maple Bluff village,Dane County,84.9,0.0,6003.7151,0.0,0.445,4.814,9.1167,13.2779,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
 muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3298,0.0,0.0004,0.0141,0.0287,0.0371,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3298,0.0,0.0004,0.0141,0.0287,0.0371,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3298,0.0,0.0004,0.0141,0.0287,0.0371,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
@@ -114,11 +114,11 @@ muni:5507975125,South Milwaukee city,Milwaukee County,680.8833,0.0,45890.8396,0.
 muni:5507975125,South Milwaukee city,Milwaukee County,680.8833,0.0,45890.8396,0.0,0.4997,3.6838,7.4955,9.6907,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507975125,South Milwaukee city,Milwaukee County,680.8833,0.0,45890.8396,0.0,0.4997,3.6838,7.4955,9.6907,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507975125,South Milwaukee city,Milwaukee County,680.8833,0.0,45890.8396,0.0,0.4997,3.6838,7.4955,9.6907,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507984675,Wauwatosa city,Milwaukee County,1941.0349,0.0,141202.5946,0.0,0.3976,1.6286,3.3132,4.2837,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,Milwaukee County,1941.0349,0.0,141202.5946,0.0,0.3976,1.6286,3.3132,4.2837,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,Milwaukee County,1941.0349,0.0,141202.5946,0.0,0.3976,1.6286,3.3132,4.2837,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,Milwaukee County,1941.0349,0.0,141202.5946,0.0,0.3976,1.6286,3.3132,4.2837,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,Milwaukee County,1941.0349,0.0,141202.5946,0.0,0.3976,1.6286,3.3132,4.2837,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507984675,Wauwatosa city,Milwaukee County,1941.0349,0.0,141202.5946,0.0,0.3976,105.9787,185.2581,279.5832,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507984675,Wauwatosa city,Milwaukee County,1941.0349,0.0,141202.5946,0.0,0.3976,105.9787,185.2581,279.5832,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507984675,Wauwatosa city,Milwaukee County,1941.0349,0.0,141202.5946,0.0,0.3976,105.9787,185.2581,279.5832,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507984675,Wauwatosa city,Milwaukee County,1941.0349,0.0,141202.5946,0.0,0.3976,105.9787,185.2581,279.5832,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507984675,Wauwatosa city,Milwaukee County,1941.0349,0.0,141202.5946,0.0,0.3976,105.9787,185.2581,279.5832,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
 muni:5507985300,West Allis city,Milwaukee County,1423.6696,0.0,95402.6989,0.0,0.331,222.0848,375.6847,574.7504,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507985300,West Allis city,Milwaukee County,1423.6696,0.0,95402.6989,0.0,0.331,222.0848,375.6847,574.7504,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507985300,West Allis city,Milwaukee County,1423.6696,0.0,95402.6989,0.0,0.331,222.0848,375.6847,574.7504,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0

@@ -21,7 +21,7 @@ def additions(reform: str) -> dict:
     return json.loads((PUBLIC / reform / "runs" / run / "additions_by_area.json").read_text())
 
 
-def tiny(reform: str, paths: list[str], roles: dict, rows: list[dict], baseline="all-housing baseline v2") -> dict:
+def tiny(reform: str, paths: list[str], roles: dict, rows: list[dict], baseline="all-housing baseline v3") -> dict:
     return {"reform": reform, "baseline_version": baseline, "years": [2027, 2028], "roles": roles,
             "paths": [{"id": p, "label": p.title()} for p in paths], "areas": rows}
 
