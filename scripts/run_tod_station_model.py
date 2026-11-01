@@ -36,7 +36,30 @@ def city_of(case: str) -> str:
 
 
 def county_of(case: str) -> str:
+    if case.startswith(("seattle", "bellevue")):
+        return "king"
+    if case.startswith("chicago"):
+        return "cook"
     return next((k for k in ("la", "san_diego", "denver") if case.startswith(k)), "other")
+
+
+def king_permit_years(case: str, E: pd.DataFrame) -> pd.Series:
+    """Actual permit year for King County completion records where a city permit (Seattle or Bellevue) for new homes
+    sits on the same lot (within 40 m) and was issued 1 year after to 6 years before completion (hand check found the
+    estimated year runs early in Seattle)."""
+    import geopandas as gpd
+    import run_tod_station_area as SA
+    L = pd.read_parquet(OUT / f"lots_{case}.parquet", columns=["x", "y"])
+    g = gpd.GeoDataFrame(L, geometry=gpd.points_from_xy(L.x, L.y), crs=5070)
+    p = pd.concat([SA.permits("Seattle"), SA.permits("Bellevue")], ignore_index=True)
+    j = gpd.sjoin_nearest(p, g[["geometry"]], max_distance=40, how="inner")
+    j = j[~j.index.duplicated()]
+    py = j.groupby("index_right").year.apply(list)
+    out = []
+    for ix, cy in zip(E.lot_index, E.completed_year):
+        ys = [y for y in py.get(ix, []) if pd.notna(cy) and -1 <= cy - y <= 6]
+        out.append(max(ys) if ys else np.nan)
+    return pd.Series(out, index=E.index, dtype=float)
 
 
 def event_windows(case: str, D: pd.DataFrame, mode: str) -> pd.DataFrame:
@@ -50,11 +73,24 @@ def event_windows(case: str, D: pd.DataFrame, mode: str) -> pd.DataFrame:
         E = E[E["match"] != "completed_only_near_permit"]
     elif E.completed_year.notna().any() and E.permit_year.notna().any():
         E = E[E.completed_year.notna()]
+    if mode == "permit_est" and county_of(case) == "king" and E.permit_year.isna().all():
+        E = E.copy()
+        E["permit_year"] = king_permit_years(case, E)
     yr = permit_year_est(E, county_of(case)) if mode == "permit_est" else E.completed_year
     cfg = {**B.CASES, **{k: v for k, (_, v) in B.adapter_cases().items()}}[case]
     out = D.copy()
     for col, (a, b) in (("homes_before_win", cfg["before"]), ("homes_after_win", cfg["after"])):
         out[col] = E[yr.between(a, b)].groupby("lot_index").homes.sum().reindex(out.index).fillna(0)
+    # hand-check corrections (every lot with 100+ new homes): wrong counts take the corrected number, duplicates 0
+    h = OUT / "hand_check_big_lots.csv"
+    if h.exists() and mode == "permit_est":
+        H = pd.read_csv(h)
+        H = H[(H["case"] == case) & H.lot_index.isin(out.index) & H["class"].isin(["wrong count", "duplicate"])]
+        for _, r in H.iterrows():
+            col = "homes_after_win" if r["window"] == "after" else "homes_before_win"
+            v = 0.0 if r["class"] == "duplicate" else r["homes_corrected"]
+            if pd.notna(v):
+                out.loc[r["lot_index"], col] = float(v)
     return out
 
 
@@ -129,7 +165,11 @@ def main() -> None:
 # medians 1, 1, 2, 2 (means 1.01, 1.27, 1.90, 2.00); Denver (6,690 matched): 0 in every size group. Counties with no
 # matched pairs use the LA/San Diego gap, flagged.
 LAG_BY_SIZE = {"1": 1, "2-4": 1, "5-49": 1, "50+": 2}
-LAG_BY_COUNTY = {"la": LAG_BY_SIZE, "san_diego": {"1": 1, "2-4": 1, "5-49": 2, "50+": 2}, "denver": {"1": 0, "2-4": 0, "5-49": 0, "50+": 0}}
+LAG_BY_COUNTY = {"la": LAG_BY_SIZE, "san_diego": {"1": 1, "2-4": 1, "5-49": 2, "50+": 2}, "denver": {"1": 0, "2-4": 0, "5-49": 0, "50+": 0},
+                 # King County (Seattle permits vs county year built, 4,522 lots): median 1 in every size group
+                 "king": {"1": 1, "2-4": 1, "5-49": 1, "50+": 1},
+                 # Cook County: earliest year built across Assessor sheets trails permits by about a year (Chicago helper)
+                 "cook": {"1": 1, "2-4": 1, "5-49": 1, "50+": 1}}
 
 
 def permit_year_est(E: pd.DataFrame, county: str = "la") -> pd.Series:
