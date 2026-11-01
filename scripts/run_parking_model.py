@@ -88,7 +88,14 @@ def main() -> None:
     # owner 2026-11-01: no logical floor at 0; the low line is the measured average of the 76 repeal places against
     # similar places (the same comparison as the high end), applied unfloored
     lower_all = float(pd.read_csv(REFERENCE / "parking_placebo_full_summary.csv")["real_average"].iloc[0])
-    lower = pm.additions(homes, lower_all, floor=False)
+    lower_total = float(pm.additions(homes, lower_all, floor=False).values.sum())
+    # spread (audit, 2026-11-01): a reduction cuts what would have been built, so the statewide total is shared in
+    # proportion to each eligible place's current-law permits, not its existing homes; no place can go below zero
+    bl = pd.read_csv(REFERENCE / "housing_baseline_by_area.csv")
+    bl = bl[bl["area_id"] != "unallocated"].groupby("area_id")["annual_central"].sum().reindex(homes.index).fillna(0.0)
+    bl = bl.where(homes > 0, 0.0)
+    lower = pd.DataFrame({y: lower_total / len(pm.FORECAST_YEARS) * bl / bl.sum() for y in pm.FORECAST_YEARS})
+    lower.index.name = "area_id"
     base = pd.read_csv(REFERENCE / "housing_baseline_by_area.csv")
     base = base[base["area_id"] != "unallocated"].groupby("area_id")[["five_year_low", "five_year_central", "five_year_high"]].sum()
 
