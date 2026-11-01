@@ -80,3 +80,9 @@ Each city's score is reported too. With about 3 to 5 new cases, one city can fli
 | Base zone only | 86 (47) | 0.0% (1 of 3,650) | **19.8%** (1,159 of 5,859) | 16.1% (0.21) | 4.0% (1.60) | 0.0% (6.58) |
 
 Scores are |log(predicted ÷ actual)|; lower is better. In both versions the drift rule beats both benchmarks. In the main version, all three under-predict the rise: the actual share went from 2% to 45%.
+
+Audit notes on Denver (2026-11-01):
+- **Commercial-permit fix:** it was committed in the same commit as the results, so git cannot show that it came before scoring. The first pass's output (about 230 homes) was read before any share was computed.
+- **Placement in the study area:** the 0.548 match rate is citywide. Inside the study area, July 2012–2023 new-building permits hold 10,137 homes; 10,002 were placed by point, 18 by schedule number, and 117 (1.2%) were not placed. Inside the reform area: 4,306 by point, 0 by number, 56 not placed, out of 4,362. Outside it, in the ring: 5,696 by point, 18 by number, 61 not placed, out of 5,775.
+- **Scoring:** Denver counts once in the median, using the main version. The base-zone-only version (1 home of 3,650 before) is a check only.
+- **Reading:** the drift rule wins but misses the size, 17.6% predicted against 45.0% actual.
