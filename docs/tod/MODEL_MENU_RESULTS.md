@@ -270,7 +270,7 @@ These four pull the correlation negative and K down. Picking cities after seeing
 Ceiling cities are **not dropped**:
 - Los Angeles and Saint Paul's shares fell from 99–100% to 72–79%. That is evidence (mean reversion on small before-counts), not an impossible rise.
 - Dropping them after seeing results would be cherry-picking.
-- Bellevue is left out of scoring only because 0 homes before and after (0/0) cannot be scored.
+- **Bellevue's share is a real 0, so it stays in the fit.** Its study area built 26 homes before the reform and 466 after (5-year basis), none on upzoned lots: 0 of 26 and 0 of 466. Its log score is undefined, so it is not scored. The central is unchanged at about 1,180.
 
 Instead, every city is kept and calibrated with: actual change = a + K × uplift + b × (share before − 0.5), fitted leaving the scored city out. This was logged after the results, so it is a sensitivity. The headline stays K-only scoring.
 
