@@ -115,7 +115,7 @@ Every change found is logged below as qualifies or ruled out, with the reason. A
 | Austin | PUD amendments and single sites (Estancia, North Austin Medical Center, Lamar/Manchaca and others) | 2011–2018 | Ruled out | Single-owner or applicant-led changes, not a city policy area (see the note below) |
 
 **Note on the scope (added before any Austin or Portland permit is counted):** "zoning change" means a city-initiated change covering many owners, like Denver's legislative ordinances. Rezonings requested by one owner for one project are left out. They are chosen because a project is coming, so their share of new homes after would rise by construction, not by policy.
-| Portland | Mixed-use zone conversion (CS/CG/CM/CN to CM1/CM2/CM3/CE, citywide centers and corridors) | 2018 (effective May 2018) | Not testable from public GIS yet | The proposal layers hold no from/to zones for it (the "mp" entries are 9 small industrial/employment polygons). Needs Portland's 2017 zoning snapshot: Metro RLIS archive or a request to the city's GIS team |
+| Portland | Mixed-use zone conversion and 2035 Comprehensive Plan map (CS/CG/CM/CN/CO to CM1/CM2/CM3/CE, citywide centers and corridors) | Effective 24 May 2018 | Qualifies on data (2026-11-01) | The city's zoning archive (`PPD_Zoning_Archive`) publishes the whole zoning map before 24 May 2018 (layer 91) and from 25 May 2018 (layer 3). Each lot's zone is read from both. Before window 2012–2017, after window 2019–2023. Raised allowed homes judged by the table below |
 | Portland | Map amendments "mp" (IG1/IH/EG to EX/EG1; industrial to central employment, which allows homes) | To confirm | To check | 9 polygons |
 | Portland | Better Housing by Design ("bhd"), 1,296 adopted zone changes | Effective 1 March 2020 | Qualifies on data (2026-11-01 data check) | The earlier "permits end 2022" was wrong: the city's current permit layers (`BDS_Permit`, residential and commercial construction, with `NUMNEWUNITS`) run 1996–2026. Before window 2014–2019, after window 2021–2025. Raised allowed homes judged by the table below |
 | Portland | 82nd Avenue study map amendments | Adopted 30 May 2019 | To check | 21.5 acres, mostly employment zones (EG1, no homes); a few R5 to R2 and R5/R2.5 to CE (homes raised). After-years 2020–2022 (3). Needs a MAX stop within ½ mile |
@@ -159,3 +159,19 @@ Upzoned means homes per acre rose:
 - **Residential Infill Project (effective August 2021):** it raised allowed homes on most single-dwelling lots citywide, inside BHD's after window, so many ring lots also rose. The day-one groups are kept. Ring homes on single-dwelling (Infill-Project) lots are reported separately.
 - **½-mile rule:** stops are MAX and Portland Streetcar stops open in March 2020. Division FX2 bus rapid transit opened in 2022 and does not count. BHD is citywide, so many upzoned lots will be relabelled; this is accepted in advance and the count is reported.
 - **Also in the before window:** the 2017 inclusionary housing rule (mandatory affordable homes in buildings of 20 or more units). It may have pulled permits forward into early 2017.
+
+
+**Portland 2018 capacity table (logged before counting).** Base floor area from Title 33 (2017 code for the old zones, 2018 code for the new), turned into homes per acre at 1,000 square feet per home (× 43.56). Residential zones use the BHD table above, with R2.5 at 1 home per 2,500 sq ft (17.4) and R7 at 1 per 7,000 (6.2). Employment and industrial zones that allow no homes count as 0.
+
+| Old zone | Floor area | New zone | Floor area |
+| --- | ---: | --- | ---: |
+| CN1, CN2, CO1 | 0.75 | CM1 | 1.5 |
+| CO2 | 2.0 | CM2 | 2.5 |
+| CM (old mixed commercial) | 1.0 | CM3 | 3.0 |
+| CS, CG | 3.0 | CE | 2.5 |
+| CX | 4.0 | CX | 4.0 |
+| EX | 3.0 | EX | 3.0 |
+
+"Upzoned" means homes per acre rose. On paper CS→CM2 and CG→CE are falls: base floor area went from 3.0 to 2.5. In practice CS was capped at 45 feet. That is accepted as written and flagged. A second version counts only lots whose zone changed from residential, employment or industrial to a mixed-use zone.
+
+The same archive will be used to check BHD's lot zones (archive layers before and after 1 March 2020) against the proposal layer.
