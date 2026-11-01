@@ -134,13 +134,12 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
 | Scenario | Lower | Central | Upper | Central as a share of 124,000 | Source |
 | --- | ---: | ---: | ---: | ---: | --- |
 | ADUs (ADU permits) | 6,321 | 10,492 | 19,784 | 8.5% | [NET_STATEWIDE_R1.md](adu/NET_STATEWIDE_R1.md) |
-| TOD (all homes) | 0 | 13,229 (tool central, AQ-070) | 839–1,382 | 10.7% | [WI_NET_PLAN.md](tod/WI_NET_PLAN.md) (round 4); AQ-068 |
+| TOD (all homes) | 43 (−161 to 343) | 13,229 (9,147–17,108) | 17,148 | 10.7% | [STATION_AREA_PLAN.md](tod/STATION_AREA_PLAN.md); AQ-069, AQ-070 |
 | Parking, route A (the tool) | −15,326 | 0 | 19,937 | 0% | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 | Parking, route B (trees) | −4,171 | 0 | 0 | 0% | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 
-- **TOD lower is 0:** homes may only move into station areas from elsewhere, with no net gain.
-- **TOD upper 839–1,382:** set before AQ-070, so it is below the new central. It is the calibrated range, with the calibration factor K about 0.11–0.12, measured by leaving each of 9 reform cities out in turn.
-- **TOD sensitivities** (the tool is unchanged): with K at the median city's ratio (0.42), about 3,040–4,830; uncalibrated, 7,229–11,505.
+- **TOD lines now match the tool** (AQ-069, AQ-070): lower = station-area lot model (extra homes vs similar stops without reform, 16 places; about the same as no reform); central = the average reform city at Wisconsin's coverage (closer to an upper estimate: the measured effect fell with coverage); upper = Auckland's 2016 upzoning.
+- **Earlier TOD net figures** (WI_NET_PLAN.md round 4, kept for the record): calibrated 839–1,382; with K at the median city's ratio (0.42) about 3,040–4,830; uncalibrated 7,229–11,505; the drift-rule central 1,196 (AQ-068) is now a what-if.
 - **Parking route B is thin:** it rests on 28 reform places, so it only backs up the central (about zero), not the range.
 
 # What the Tool Cannot Say

@@ -996,6 +996,8 @@ Held-out RMS 0.130 → 0.136; the audit agreed that is no reason to keep a count
 
 **Cautions recorded.** The Milwaukee streetcar check (+18 per 100 acres a year with no rezoning) marks this figure as closer to an upper estimate; broad programs most like Wisconsin's law gained about nothing (lower line 43). Scale check: the central line now exceeds the Milwaukee metro's own record year of permits in 2029 and 2030 (5.0 and 7.6 homes per 1,000 a year including current law, vs its record 3.4) but stays below the 95th percentile of peer metro-years (9.1).
 
+**Method notes (auditor, 2026-11-01).** (1) Weighting: the code takes Σ effect ÷ Σ coverage difference with each place counted once; the lock's text said weighted by band homes. Weighted by each place's existing homes within ¼ mile of reform stops it gives about 11,706, shown beside 13,229. (2) The range 9,147–17,108 shows only the effect of leaving out one place at a time, not the disagreement about coverage. (3) Stated beside the central in the tool (plan section F): the measured effect fell, not rose, with coverage (rank correlation −0.66 within ¼ mile); a line fitted through the places at Wisconsin's 71% gives about −570; the five broad places alone about −460; the unscaled average about 5,950.
+
 **Result.** Extra homes near stops, Wisconsin, 2027–2031: lower 43, central 1,196 → **13,229**, upper 17,148. Combined TOD and parking view, central path: 13,229 (rule (b)).
 
 ## AQ-069 TOD: little line from the station-area model
