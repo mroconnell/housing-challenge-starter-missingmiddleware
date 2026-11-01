@@ -9,7 +9,7 @@ Limit 25 pages. Estimate: about 7,500 words with 9 tables, **16 to 19 pages**.
 | Part | Status | Maintained by |
 | --- | --- | --- |
 | Whole-tool introduction (question, three reforms, horizon, outcome definitions, what is common) | Draft, final numbers | ADU conductor |
-| Part A, ADUs | Final (adopted numbers AQ-065, 2026-10-31: baseline 786; lower 6,223 / central 10,349 / upper 19,294; reference line 10,142; all additional permits, 2027–2031) | ADU conductor |
+| Part A, ADUs | Final (adopted numbers AQ-066, 2026-11-01: baseline 786; lower 6,321 / central 10,615 / upper 19,925; reference line 10,142; all additional permits, 2027–2031; Madison on the statewide model) | ADU conductor |
 | Part B, parking | Final: word-for-word copy of [parking/MODEL_AND_ASSUMPTIONS_PARKING.md](../parking/MODEL_AND_ASSUMPTIONS_PARKING.md), heading levels changed | Parking session; recopy if the master changes |
 | Part C, TOD | Final copy of [tod/MODEL_AND_ASSUMPTIONS_TOD.md](../tod/MODEL_AND_ASSUMPTIONS_TOD.md) at commit 8ea24b0, heading levels changed. **Pending:** two post-check changes await the owner (measured build-up kept unsmoothed; suburbs' placement × 0.719); neither changes the totals. TOD Gate 4 not yet accepted. | TOD session; recopy if the master changes |
 

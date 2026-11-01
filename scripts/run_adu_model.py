@@ -294,7 +294,7 @@ def main():
 
     add("adopted: pooled revision (ii) cap+A2, configuration A, Madison on the statewide model (AQ-066); lower = mean of "
         "Rhode Island and Oregon; Milwaukee at its measured 2022-2025 rate", "none (adopted)",
-        "The three scenarios as adopted.", "engine", "path", main_t, "this run")
+        "The three scenarios as adopted.", "engine", "statewide model", main_t, "this run")
     t10, _ = run_t(sc=load_scenario(lower={"ramp": revision_ramps(rev, opt0, cfg0)["lower"]["ramp"]}),
                    lv=load_area_levels(lower="percentile10"))
     f80 = float(ref["factor80"])
@@ -303,7 +303,7 @@ def main():
         "The lower scenario is set at the 10th percentile of how much the eight statewide-law states' levels differ "
         f"(every place's central level divided by {f80:.3f}), as at Gate 3, instead of the average of the two slowest "
         "states, Rhode Island and Oregon. That level is below every statewide-law state's. Only the lower changes.",
-        "engine", "path", {"lower": t10["lower"], "central": main_t["central"], "upper": main_t["upper"]},
+        "engine", "statewide model", {"lower": t10["lower"], "central": main_t["central"], "upper": main_t["upper"]},
         "reference/pooled_revision_wi_y_by_area.csv (y_plateau_lower_80) and pooled_revision_wi.csv (ramp_lower)")
     retired = json.loads(PARAMS.read_text())["area_paths_retired"]["madison_like_path"]
     ml_path = pd.DataFrame([{"override": "madison_like_path", "area_id": a, "year": t, "rate": float(r)}
@@ -327,7 +327,7 @@ def main():
         rr["lower"] = {"ramp": pooled_ramp(opt, cfg, bottom_states_factor(opt, cfg), areas)}
         t, _ = run_t(sc=load_scenario(**rr), lv=load_area_levels(opt, cfg))
         add(lab, "statewide addition", what + " The lower is the same Rhode Island and Oregon average, taken from this fit.",
-            "engine", "path", t, f"reference/pooled_revision_wi_y_by_area.csv ({opt} x {cfg})")
+            "engine", "statewide model", t, f"reference/pooled_revision_wi_y_by_area.csv ({opt} x {cfg})")
     # AQ-062 Vermont options (scripts/run_adu_vermont_options.py, docs/adu/VERMONT_OPTIONS.md): refit with Vermont 2024
     # dropped (B) and with Vermont dropped entirely (C), each through the adopted engine step including the 8-state
     # reference line. B's totals must match the cap_a2|vt_2024_dropped row below (built from run_pooled_revision.py).
@@ -381,7 +381,7 @@ def main():
         rr["lower"] = {"ramp": pooled_ramp(opt, cfg0, bottom_states_factor(opt, cfg0), areas)}
         t, _ = run_t(sc=load_scenario(**rr), lv=load_area_levels(opt, cfg0))
         add(lab, "statewide addition", what + " The lower is the Rhode Island and Oregon average from this fit.",
-            "engine", "path", t, f"reference/pooled_revision_wi_y_by_area.csv ({opt} x {cfg0})")
+            "engine", "statewide model", t, f"reference/pooled_revision_wi_y_by_area.csv ({opt} x {cfg0})")
     b_row = next(x for x in sens if x["change"].startswith("Vermont 2024 dropped"))
     for pth in ("lower", "central", "upper"):
         if abs(b_row[f"{pth}_additional_5yr"] - vt["B_drop_vt_2024"][pth]) > 0.5:
@@ -396,21 +396,21 @@ def main():
         "remain, California included. Not adopted (AQ-062): the other six states are predicted less well without it. "
         f"The 8-state reference line becomes a 7-state line of {c['ref_line']:,.0f} permits (adopted "
         f"{ref_line_adopted:,.0f}). The lower is the Rhode Island and Oregon average from this fit.",
-        "engine", "path", c, "scripts/run_adu_vermont_options.py engine_option(C_drop_vt) (docs/adu/VERMONT_OPTIONS.md)")
+        "engine", "statewide model", c, "scripts/run_adu_vermont_options.py engine_option(C_drop_vt) (docs/adu/VERMONT_OPTIONS.md)")
     t, _ = run_t(lv=load_area_levels("cap_a2|no_value_cap", cfg0))
     add("no top-code on the value gap (small high-value villages keep their extrapolated levels)",
         "local distribution only",
         "Eight areas (7 villages and towns, 2,852 homes) have home values further above Wisconsin's average than any "
         "California place is above California's. The adopted allocation top-codes their gap at California's largest "
         "(+1.01 in log terms). Without it they keep levels up to 7.6 per 1,000 homes per year. The statewide total "
-        "barely moves; permits move between places.", "engine", "path", t,
+        "barely moves; permits move between places.", "engine", "statewide model", t,
         f"reference/pooled_revision_wi_y_by_area.csv (cap_a2|no_value_cap x {cfg0})")
     t, _ = run_t(sc=load_scenario(central={"ramp": [1, 1, 1, 1, 1]}))
     r_c = params["paths"]["central"]["ramp"]
-    add("no ramp (full rate from 2027; Madison's observed path unchanged)", "statewide addition",
+    add("no ramp (full rate from 2027)", "statewide addition",
         f"In the adopted model the law reaches about {r_c[0]:.0%}, {r_c[1]:.0%} and {r_c[2]:.0%} of its full effect in "
         "2027, 2028 and 2029 (central), as it did in other states. Here it is at full strength from the first year.",
-        "engine", "path", {"central": t["central"]}, "engine, central ramp set to 1")
+        "engine", "statewide model", {"central": t["central"]}, "engine, central ramp set to 1")
     rural_ids = set(geo.loc[geo.context_group.isin(["rural", "small_community"]), "area_id"])
     lv2 = levels.copy()
     floor = madison_floor()
@@ -420,7 +420,7 @@ def main():
         f"Rural areas and small communities, which have no measured activity, get only the minimum rate set from "
         f"Madison's permits ({floor:g} per 1,000 single-family homes per year) instead of their level from the "
         "statewide estimate. Shows how much of the addition comes from those places.",
-        "engine", "path", {"central": t["central"]}, "engine, rural y_central = floor")
+        "engine", "statewide model", {"central": t["central"]}, "engine, rural y_central = floor")
     eb = pd.read_csv(REFERENCE / "eligible_basis_wi.csv")
     r = eb[eb["run"].eq("denominator without one-unit attached homes")].iloc[0]
     add("eligible-property basis without one-unit attached homes: permits per 1,000 properties eligible under each "
@@ -429,7 +429,7 @@ def main():
         "properties) instead of by single-family homes. A separate model with its own baseline "
         f"({float(r['engine_baseline']):,.0f} permits); it was run at Gate 3 (Milwaukee on its assumed ramp) and is not "
         "rerun here, and its 10th-percentile lower is left out because the adopted lower is defined differently.",
-        "model", "path", {"central": r["engine_central_madison_path"], "upper": r["engine_upper_tau90_madison_path"]},
+        "model", "statewide model", {"central": r["engine_central"], "upper": r["engine_upper_tau90"]},   # AQ-066: Madison on the model
         "reference/eligible_basis_wi.csv (docs/gate3/ELIGIBLE_BASIS.md; Gate 3 run, not recomputed)",
         baseline=float(r["engine_baseline"]))
     refit = refit_model_sensitivities({"adopted": (areas, growth)})
@@ -455,7 +455,7 @@ def main():
     from run_baseline_only_effects import CASE_TEXT, baseline_only_cases
     for cid, label, a, g, _chk in baseline_only_cases(areas, growth):
         t, b = run_t(a=a, g=g)
-        add(label, "baseline only", CASE_TEXT[cid], "baseline", "path", t, f"engine with only the current-law rate "
+        add(label, "baseline only", CASE_TEXT[cid], "baseline", "statewide model", t, f"engine with only the current-law rate "
             f"changed (reference/adu_model_baseline_only_effects.csv, case {cid})", baseline=b)
     sdf = pd.DataFrame(sens)
     sdf.to_csv(REFERENCE / "adu_model_sensitivities.csv", index=False)

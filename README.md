@@ -1,7 +1,7 @@
 # Missing Middleware
 
 An interactive tool for Wisconsin legislators and legislative aides that estimates how three statewide housing reforms could change housing permitted over 2027–2031, compared with current law: an accessory dwelling unit (ADU) law, parking requirement reduction and transit-oriented density (TOD). Pick a reform in the header. Each reform has its own outcome and evidence ([Model & Assumptions Overview](docs/MODEL_AND_ASSUMPTIONS.md); [Policy Scenario Comparison](docs/POLICY_SCENARIO_COMPARISON.md)); the ADU section below describes the ADU reform. Headlines, 2027–2031:
-- **ADU:** 10,349 additional second-home permits (6,223 to 19,294), on a 786-permit current-law baseline (revised 2026-10-31, AQ-065).
+- **ADU:** 10,615 additional second-home permits (6,321 to 19,925), on a 786-permit current-law baseline (revised 2026-11-01, AQ-066).
 - **Parking reduction:** 0 additional permitted homes in the central case and 19,937 at the high end of the evidence, on a 122,619-home all-housing baseline.
 - **TOD:** 2,509 additional permitted homes near major transit stops in the typical case (171 to 17,148), on a 14,464-home near-stop baseline.
 
@@ -13,9 +13,9 @@ The tool runs locally in a web browser and shows the adopted Gate 3 model ([Gate
 
 **Outcome.** Second-home permits at issuance on lots that already have a single-family home: ADUs plus single-family-to-duplex conversions. They are not completed homes, and every result is for an area, never for a lot. A rate is permits in a year ÷ thousands of one-unit detached homes (Wisconsin has 1,839,569, ACS 2020–2024).
 
-**Headline (model output, 2027–2031, law in effect 1 January 2027, stylized).** All numbers are second-home permits summed over the five years 2027–2031, statewide; the source of truth is [`reference/adu_model_statewide.csv`](reference/adu_model_statewide.csv) (adopted run, AQ-043, the 2026-10-28 ask-why fixes, AQ-061, the 2026-10-29 audit fixes, AQ-064, and the 2026-10-31 law-year rule and no-reform trend, AQ-065, in [ASSUMPTIONS_AND_QUESTIONS.md](docs/ASSUMPTIONS_AND_QUESTIONS.md)).
+**Headline (model output, 2027–2031, law in effect 1 January 2027, stylized).** All numbers are second-home permits summed over the five years 2027–2031, statewide; the source of truth is [`reference/adu_model_statewide.csv`](reference/adu_model_statewide.csv) (adopted run, AQ-043, the 2026-10-28 ask-why fixes, AQ-061, the 2026-10-29 audit fixes, AQ-064, the 2026-10-31 law-year rule and no-reform trend, AQ-065, and Madison on the statewide model from 2026-11-01, AQ-066, in [ASSUMPTIONS_AND_QUESTIONS.md](docs/ASSUMPTIONS_AND_QUESTIONS.md)).
 - Under current law: **786** permits. Today's rates would give 530; the baseline also rises 7.3% a year, as ADU permits did in places with no statewide law (AQ-065).
-- Added by the law: **10,349** additional permits in the central scenario, **6,223** in the lower scenario and **19,294** in the strong adoption scenario. The scenarios show how much eight statewide-law states differ from one another; they are not statistical confidence intervals. How each input moves these numbers is in [`reference/adu_model_sensitivities.csv`](reference/adu_model_sensitivities.csv).
+- Added by the law: **10,615** additional permits in the central scenario, **6,321** in the lower scenario and **19,925** in the strong adoption scenario. The scenarios show how much eight statewide-law states differ from one another; they are not statistical confidence intervals. How each input moves these numbers is in [`reference/adu_model_sensitivities.csv`](reference/adu_model_sensitivities.csv).
 
 **Seven screens.**
 1. **Wisconsin today:** housing units, single-family homes, vacancy (including seasonal homes), homes permitted and the production rate (9.0 per 1,000 housing units in 2025), housing mix, and, labelled separately, the ADU baseline and addition.
@@ -26,7 +26,7 @@ The tool runs locally in a web browser and shows the adopted Gate 3 model ([Gate
 6. **Pilot examples:** Madison, Pleasant Prairie and Sun Prairie: current rules with ordinance sections, observed permits, and the forecast.
 7. **Brief:** a printable three-page summary.
 
-Owner decisions carried into Gate 5: Madison alone keeps the observed path of Madison-like cities (so its rate with the law is below its suburbs') and is re-examined in December 2026, when its 2026 count is final. Since 2026-10-28 (AQ-061) the few small villages whose home values lie beyond California's range are capped at California's largest value gap (flagged in [`reference/adu_model_value_capped_places.csv`](reference/adu_model_value_capped_places.csv)); the Gate 4 choice was no cap. The Gate 5 decision packet is [docs/gate5/README.md](docs/gate5/README.md).
+Owner decisions carried into Gate 5: since 2026-11-01 (AQ-066) Madison follows the statewide model like every other place. Its central addition is 377 permits over 2027–2031 (209 lower, 742 upper); it was 111 on its former path. The former path of similar cities in Washington and Oregon is now a sensitivity. Madison's rules are not at the benchmark (parking, excluded neighbourhoods). California's 91 already-permissive cities also rose several-fold after the state law (0.40 permits per 1,000 single-family homes per year in 2016; 5.33 in 2022). Since 2026-10-28 (AQ-061) the few small villages whose home values lie beyond California's range are capped at California's largest value gap (flagged in [`reference/adu_model_value_capped_places.csv`](reference/adu_model_value_capped_places.csv)); the Gate 4 choice was no cap. The Gate 5 decision packet is [docs/gate5/README.md](docs/gate5/README.md).
 
 ## Command contract
 
