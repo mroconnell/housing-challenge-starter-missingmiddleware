@@ -183,7 +183,7 @@ def stage_fetch() -> None:
                          "when it was written (see plan section 6); unset it to use the summary files.")
     tables = A.tables_used()
     jobs = []
-    for y in sorted({y for y, _ in nd if y <= 2019}):
+    for y in sorted({y for y, _ in nd if y <= 2020}):   # 2016-2020 is the last sequence-file release
         if not man.have(f"{y}/lookup.txt"):
             man.record(f"{y}/lookup.txt", get(lookup_url(y))[0], lookup_url(y), note=f"ACS {A.survey_label(y)} 5-year sequence/table lookup")
         lk = read_lookup(y)

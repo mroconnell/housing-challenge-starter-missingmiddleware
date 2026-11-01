@@ -225,11 +225,31 @@ def rates(D: pd.DataFrame, years_b: int, years_a: int) -> pd.DataFrame:
     return g
 
 
+def adapter_cases() -> dict:
+    """Cases built by modules in scripts/station_cases/ (one module per group of cities). Each module defines
+    CASES = {case: {"before": (y0, y1), "after": (y0, y1), ...}} and build(case) -> (D, S) in this file's schema."""
+    import importlib
+    out = {}
+    for f in sorted((ROOT / "scripts" / "station_cases").glob("*.py")):
+        if f.stem.startswith("_"):
+            continue
+        m = importlib.import_module(f"station_cases.{f.stem}")
+        out.update({k: (m, v) for k, v in m.CASES.items()})
+    return out
+
+
 def main(argv=None) -> None:
+    ext = adapter_cases()
     ap = argparse.ArgumentParser()
-    ap.add_argument("--case", choices=list(CASES), required=True)
+    ap.add_argument("--case", choices=list(CASES) + list(ext), required=True)
     a = ap.parse_args(argv)
-    D, S = build(a.case)
+    if a.case in ext:
+        mod, cfg = ext[a.case]
+        D, S = mod.build(a.case)
+        CASES[a.case] = cfg
+        D["implausible"] = D.get("implausible", False) | implausible(D)
+    else:
+        D, S = build(a.case)
     OUT.mkdir(parents=True, exist_ok=True)
     D.drop(columns=["_yb", "_un"]).assign(x=D.geometry.x, y=D.geometry.y).drop(columns="geometry").to_parquet(OUT / f"lots_{a.case}.parquet")
     c = CASES[a.case]
