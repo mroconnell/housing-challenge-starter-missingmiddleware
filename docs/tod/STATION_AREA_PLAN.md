@@ -158,3 +158,8 @@ Every stage is scored by hiding a whole city at a time. A stage's traits are kep
 ### Owner note (2026-11-01 13:57): lot rows for stage 1
 
 Use lot-by-lot rows where parcels allow: vacancy, existing homes on the lot, lot size, building-to-land value as lot traits. New homes are predicted per lot, summed by band, divided by the band's existing homes (rate per 1,000). Parcel tables are needed for San Diego, Chicago and Honolulu (to fetch and check fields). Wisconsin uses the statewide parcel layer. Blocks are the fallback where parcels lack those fields.
+
+### Structure and baseline (2026-11-01 14:03, owner questions)
+
+- Steps B–C end in one frozen lot table (band, lot traits, before/after counts, reform or comparison stop, coverage). Step D reads only that table, so a model can be swapped by rerunning D and E only.
+- Baseline: the shared all-housing baseline v3 (14,654 near stops over 5 years). This method adds extra homes on top; comparison stops are used only inside training cities. Check: Wisconsin before-rates × band homes should roughly match 14,654.
