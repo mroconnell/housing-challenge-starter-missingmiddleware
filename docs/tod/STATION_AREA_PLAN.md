@@ -171,3 +171,4 @@ Neighborhood (ACS block group unless noted, values from before each reform): car
 Lot (assessor; FEMA; NRHP): vacant; existing homes; lot size; building-to-land value; publicly owned; floodplain; historic district.
 City: by-right or incentive; parking cut at same time; affordable units required; coverage; metro permits per person (Census BPS).
 Caveat: ACS block groups start 2009; earlier reforms use Census 2000.
+Market strength at lot level (owner question 14:06): land value per sq ft (assessor, ranked within city); recent sale price and date (assessor or deeds; WI real estate transfer returns); building-to-land value; permits within ~500 ft in the 5 years before the reform (no after-reform years, to avoid leakage); building age. ACS and FHFA tract measures kept as neighborhood backups. Check point-permit coverage across Wisconsin before relying on the nearby-building trait statewide.
