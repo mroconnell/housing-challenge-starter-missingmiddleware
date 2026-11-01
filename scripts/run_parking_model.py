@@ -194,7 +194,9 @@ def main() -> None:
                                      "The parking addition does not change."))
     bm = REFERENCE / "parking_baseline_models_wisconsin_r4.csv"
     if bm.exists():  # owner, 2026-10-31: follow the audit - central stays same pace; side line "if recent strength continues"
-        w = pd.read_csv(bm).query("origin == 2025").set_index("model")["wisconsin_2027_2031_scaled_to_122619_central"]
+        cen = float(pd.read_csv(REFERENCE / "housing_baseline_statewide_by_year.csv").query(
+            "structure_type == 'all' and kind == 'projected' and 2027 <= year <= 2031")["central"].sum())
+        w = pd.read_csv(bm).query("origin == 2025").set_index("model")["vs_M0"] * cen  # scaled to the current central
         sens.append(dict(case="Baseline: if recent strength continues", moves="baseline only", value=float(w["Honest forest (GRF)"]),
                          description=f"Baseline over 2027-2031 if 2020-2025's strength continues: {w['Honest forest (GRF)']:,.0f} (honest forest) to "
                                      f"{w['Random forest']:,.0f} (random forest), and up to {w['M0L same pace x level']:,.0f} if every place keeps 2020-2025's full "

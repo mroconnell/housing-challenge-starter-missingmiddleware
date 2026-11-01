@@ -261,6 +261,42 @@ def project(hist: pd.DataFrame, candidate: str, bands: pd.DataFrame) -> pd.DataF
                 "method", "window_years", "no_data_in_window"]]
 
 
+# Places whose Census permit series is under-reported although reported as complete (owner-approved fix, 2026-11-01):
+# Wauwatosa reports 1-2 homes a year since 2021 against about 290 a year in 2015-2017, and the ACS shows 310 +/- 173
+# homes built 2020 or later.
+UNDER_REPORTED = {"muni:5507984675": "Wauwatosa city"}
+
+
+def impute_missing(proj: pd.DataFrame, meta: pd.DataFrame, bands: pd.DataFrame) -> pd.DataFrame:
+    """Owner-approved fix (2026-11-01): places with no permit data in the level window (not reported, never zero;
+    FOUNDATION.md finding 3) and UNDER_REPORTED places get the median current-law rate of their context class
+    (permits per 1,000 ACS homes per year, over places with data), split by building size in the class's own
+    proportions; low/high use the same long-run band as every other place.
+    meta: area_id, context, housing_units_acs."""
+    out = proj.copy()
+    m = meta.set_index("area_id")
+    y0 = out[out["year"] == FORECAST_YEARS[0]]
+    tot = y0.groupby("area_id").agg(central=("central", "sum"), nod=("no_data_in_window", "all"))
+    tot = tot.join(m[["context", "housing_units_acs"]])
+    tgt = set(tot.index[tot["nod"] & (tot["housing_units_acs"] > 0)]) | set(UNDER_REPORTED)
+    peers = tot[~tot.index.isin(tgt) & (tot["housing_units_acs"] > 0) & tot["context"].notna()]
+    rate = (peers["central"] / peers["housing_units_acs"] * 1000).groupby(peers["context"]).median()
+    share = y0[y0["area_id"].isin(peers.index)].assign(context=lambda d: d["area_id"].map(m["context"])) \
+        .groupby(["context", "structure_type"])["central"].sum()
+    share = share / share.groupby(level=0).transform("sum")
+    sel = out["area_id"].isin(tgt)
+    ctx = out.loc[sel, "area_id"].map(m["context"])
+    hu = out.loc[sel, "area_id"].map(m["housing_units_acs"])
+    c = ctx.map(rate) * hu / 1000 * [share.get((cc, t), 0.0) for cc, t in zip(ctx, out.loc[sel, "structure_type"])]
+    b = out.loc[sel, ["structure_type"]].merge(bands[["structure_type", "low", "high"]], on="structure_type", how="left")
+    out.loc[sel, "central"] = c.fillna(0.0).values
+    out.loc[sel, "low"] = (out.loc[sel, "central"].values * b["low"].values)
+    out.loc[sel, "high"] = (out.loc[sel, "central"].values * b["high"].values)
+    out.loc[sel, "method"] = ["imputed: under-reported" if a in UNDER_REPORTED else "imputed: not reported"
+                              for a in out.loc[sel, "area_id"]]
+    return out
+
+
 def state_long_run_ratios(state: pd.DataFrame, k: int, horizon: int = HORIZON) -> pd.DataFrame:
     """Long-run check of a flat k-year mean at the state level.
 

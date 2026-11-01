@@ -168,7 +168,11 @@ class TestCommittedOutputs(unittest.TestCase):
         w = pd.read_csv(REF / "housing_baseline_window_choice.csv")
         self.assertEqual(int(w["chosen"].sum()), 1)
         a = pd.read_csv(REF / "housing_baseline_by_area.csv")
-        self.assertEqual(set(a["method"]), set(w.loc[w["chosen"], "candidate"]))
+        self.assertEqual(set(a["method"]) - {"imputed: not reported", "imputed: under-reported"}, set(w.loc[w["chosen"], "candidate"]))
+        # owner-approved fix (2026-11-01): not-reported and under-reported places carry their context class's rate
+        imp = a[a["method"].str.startswith("imputed")].groupby("name")["five_year_central"].sum()
+        self.assertGreater(imp.get("Wauwatosa city", 0), 100)
+        self.assertGreater(imp.get("Caledonia village", 0), 100)
 
 
 if __name__ == "__main__":

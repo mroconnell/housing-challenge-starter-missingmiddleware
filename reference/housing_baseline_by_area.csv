@@ -867,10 +867,10 @@ muni:5501740900,Lafayette town,55017,town,rural,2792.0,1unit,flat_3y,2023-2025,F
 muni:5501740900,Lafayette town,55017,town,rural,2792.0,2units,flat_3y,2023-2025,False,1.889,4.866,9.28,9.446,24.332,46.401
 muni:5501740900,Lafayette town,55017,town,rural,2792.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5501740900,Lafayette town,55017,town,rural,2792.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5501741525,Lake Hallie village,55017,village,suburban,3222.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5501741525,Lake Hallie village,55017,village,suburban,3222.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5501741525,Lake Hallie village,55017,village,suburban,3222.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5501741525,Lake Hallie village,55017,village,suburban,3222.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5501741525,Lake Hallie village,55017,village,suburban,3222.0,1unit,imputed: not reported,2023-2025,True,5.002,10.177,13.158,25.01,50.887,65.791
+muni:5501741525,Lake Hallie village,55017,village,suburban,3222.0,2units,imputed: not reported,2023-2025,True,0.775,1.996,3.807,3.875,9.982,19.036
+muni:5501741525,Lake Hallie village,55017,village,suburban,3222.0,3_4units,imputed: not reported,2023-2025,True,0.039,0.129,0.154,0.195,0.643,0.77
+muni:5501741525,Lake Hallie village,55017,village,suburban,3222.0,5plus,imputed: not reported,2023-2025,True,6.147,10.351,15.875,30.734,51.753,79.375
 muni:5501741550,Lake Holcombe town,55017,town,rural,652.0,1unit,flat_3y,2023-2025,False,3.714,7.557,9.77,18.57,37.783,48.849
 muni:5501741550,Lake Holcombe town,55017,town,rural,652.0,2units,flat_3y,2023-2025,False,0.422,1.088,2.075,2.112,5.441,10.376
 muni:5501741550,Lake Holcombe town,55017,town,rural,652.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1239,10 +1239,10 @@ muni:5502309550,Bridgeport town,55023,town,rural,481.0,1unit,flat_3y,2023-2025,F
 muni:5502309550,Bridgeport town,55023,town,rural,481.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502309550,Bridgeport town,55023,town,rural,481.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502309550,Bridgeport town,55023,town,rural,481.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502315075,Clayton town,55023,town,rural,509.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502315075,Clayton town,55023,town,rural,509.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502315075,Clayton town,55023,town,rural,509.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502315075,Clayton town,55023,town,rural,509.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502315075,Clayton town,55023,town,rural,509.0,1unit,imputed: not reported,2023-2025,True,1.879,3.822,4.942,9.393,19.111,24.709
+muni:5502315075,Clayton town,55023,town,rural,509.0,2units,imputed: not reported,2023-2025,True,0.04,0.103,0.197,0.2,0.516,0.985
+muni:5502315075,Clayton town,55023,town,rural,509.0,3_4units,imputed: not reported,2023-2025,True,0.001,0.002,0.003,0.004,0.012,0.015
+muni:5502315075,Clayton town,55023,town,rural,509.0,5plus,imputed: not reported,2023-2025,True,0.072,0.121,0.186,0.36,0.607,0.93
 muni:5502319850,De Soto village,55023,village,small_community,103.0,1unit,flat_3y,2023-2025,False,0.041,0.083,0.107,0.203,0.414,0.535
 muni:5502319850,De Soto village,55023,village,small_community,103.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502319850,De Soto village,55023,village,small_community,103.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1279,10 +1279,10 @@ muni:5502349275,Marietta town,55023,town,rural,264.0,1unit,flat_3y,2023-2025,Fal
 muni:5502349275,Marietta town,55023,town,rural,264.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502349275,Marietta town,55023,town,rural,264.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502349275,Marietta town,55023,town,rural,264.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502354900,Mount Sterling village,55023,village,small_community,76.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502354900,Mount Sterling village,55023,village,small_community,76.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502354900,Mount Sterling village,55023,village,small_community,76.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502354900,Mount Sterling village,55023,village,small_community,76.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502354900,Mount Sterling village,55023,village,small_community,76.0,1unit,imputed: not reported,2023-2025,True,0.061,0.124,0.161,0.306,0.622,0.804
+muni:5502354900,Mount Sterling village,55023,village,small_community,76.0,2units,imputed: not reported,2023-2025,True,0.014,0.035,0.067,0.068,0.174,0.333
+muni:5502354900,Mount Sterling village,55023,village,small_community,76.0,3_4units,imputed: not reported,2023-2025,True,0.001,0.003,0.004,0.005,0.016,0.019
+muni:5502354900,Mount Sterling village,55023,village,small_community,76.0,5plus,imputed: not reported,2023-2025,True,0.04,0.068,0.104,0.201,0.339,0.52
 muni:5502365050,Prairie du Chien city,55023,city,small_community,2558.0,1unit,flat_3y,2023-2025,False,2.457,5.0,6.464,12.287,25.0,32.322
 muni:5502365050,Prairie du Chien city,55023,city,small_community,2558.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502365050,Prairie du Chien city,55023,city,small_community,2558.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1315,10 +1315,10 @@ muni:5502384725,Wauzeka village,55023,village,small_community,272.0,1unit,flat_3
 muni:5502384725,Wauzeka village,55023,village,small_community,272.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502384725,Wauzeka village,55023,village,small_community,272.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502384725,Wauzeka village,55023,village,small_community,272.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502384750,Wauzeka town,55023,town,rural,174.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502384750,Wauzeka town,55023,town,rural,174.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502384750,Wauzeka town,55023,town,rural,174.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502384750,Wauzeka town,55023,town,rural,174.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502384750,Wauzeka town,55023,town,rural,174.0,1unit,imputed: not reported,2023-2025,True,0.642,1.307,1.689,3.211,6.533,8.447
+muni:5502384750,Wauzeka town,55023,town,rural,174.0,2units,imputed: not reported,2023-2025,True,0.014,0.035,0.067,0.069,0.177,0.337
+muni:5502384750,Wauzeka town,55023,town,rural,174.0,3_4units,imputed: not reported,2023-2025,True,0.0,0.001,0.001,0.001,0.004,0.005
+muni:5502384750,Wauzeka town,55023,town,rural,174.0,5plus,imputed: not reported,2023-2025,True,0.025,0.041,0.064,0.123,0.207,0.318
 muni:5502500875,Albion town,55025,town,rural,839.0,1unit,flat_3y,2023-2025,False,2.403,4.889,6.321,12.014,24.444,31.603
 muni:5502500875,Albion town,55025,town,rural,839.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5502500875,Albion town,55025,town,rural,839.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2051,10 +2051,10 @@ muni:5503522300,Eau Claire city,55035,city,urban,31005.0,1unit,flat_3y,2023-2025
 muni:5503522300,Eau Claire city,55035,city,urban,31005.0,2units,flat_3y,2023-2025,False,23.38,60.226,114.852,116.899,301.13,574.26
 muni:5503522300,Eau Claire city,55035,city,urban,31005.0,3_4units,flat_3y,2023-2025,False,1.575,5.181,6.203,7.873,25.904,31.016
 muni:5503522300,Eau Claire city,55035,city,urban,31005.0,5plus,flat_3y,2023-2025,False,273.433,460.437,706.185,1367.163,2302.184,3530.924
-muni:5503524825,Fairchild village,55035,village,small_community,249.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5503524825,Fairchild village,55035,village,small_community,249.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5503524825,Fairchild village,55035,village,small_community,249.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5503524825,Fairchild village,55035,village,small_community,249.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5503524825,Fairchild village,55035,village,small_community,249.0,1unit,imputed: not reported,2023-2025,True,0.2,0.408,0.527,1.002,2.038,2.635
+muni:5503524825,Fairchild village,55035,village,small_community,249.0,2units,imputed: not reported,2023-2025,True,0.044,0.114,0.218,0.222,0.572,1.09
+muni:5503524825,Fairchild village,55035,village,small_community,249.0,3_4units,imputed: not reported,2023-2025,True,0.003,0.01,0.012,0.016,0.052,0.062
+muni:5503524825,Fairchild village,55035,village,small_community,249.0,5plus,imputed: not reported,2023-2025,True,0.132,0.222,0.341,0.66,1.111,1.705
 muni:5503524850,Fairchild town,55035,town,rural,196.0,1unit,flat_3y,2023-2025,False,0.916,1.864,2.41,4.581,9.322,12.052
 muni:5503524850,Fairchild town,55035,town,rural,196.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5503524850,Fairchild town,55035,town,rural,196.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -4179,10 +4179,10 @@ muni:5507775925,Springfield town,55077,town,rural,638.0,1unit,flat_3y,2023-2025,
 muni:5507775925,Springfield town,55077,town,rural,638.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507775925,Springfield town,55077,town,rural,638.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507775925,Springfield town,55077,town,rural,638.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507785575,Westfield village,55077,village,small_community,564.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507785575,Westfield village,55077,village,small_community,564.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507785575,Westfield village,55077,village,small_community,564.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507785575,Westfield village,55077,village,small_community,564.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507785575,Westfield village,55077,village,small_community,564.0,1unit,imputed: not reported,2023-2025,True,0.454,0.923,1.194,2.269,4.616,5.968
+muni:5507785575,Westfield village,55077,village,small_community,564.0,2units,imputed: not reported,2023-2025,True,0.101,0.259,0.494,0.503,1.295,2.469
+muni:5507785575,Westfield village,55077,village,small_community,564.0,3_4units,imputed: not reported,2023-2025,True,0.007,0.023,0.028,0.036,0.117,0.14
+muni:5507785575,Westfield village,55077,village,small_community,564.0,5plus,imputed: not reported,2023-2025,True,0.299,0.503,0.772,1.495,2.517,3.861
 muni:5507785600,Westfield town,55077,town,rural,496.0,1unit,flat_3y,2023-2025,False,2.383,4.848,6.268,11.915,24.242,31.342
 muni:5507785600,Westfield town,55077,town,rural,496.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507785600,Westfield town,55077,town,rural,496.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -4255,10 +4255,10 @@ muni:5507975125,South Milwaukee city,55079,city,suburban,8885.0,1unit,flat_3y,20
 muni:5507975125,South Milwaukee city,55079,city,suburban,8885.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507975125,South Milwaukee city,55079,city,suburban,8885.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507975125,South Milwaukee city,55079,city,suburban,8885.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,55079,city,urban,23528.0,1unit,flat_3y,2023-2025,False,0.819,1.667,2.155,4.096,8.333,10.774
-muni:5507984675,Wauwatosa city,55079,city,urban,23528.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,55079,city,urban,23528.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,55079,city,urban,23528.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507984675,Wauwatosa city,55079,city,urban,23528.0,1unit,imputed: under-reported,2023-2025,False,6.234,12.683,16.398,31.168,63.416,81.99
+muni:5507984675,Wauwatosa city,55079,city,urban,23528.0,2units,imputed: under-reported,2023-2025,False,1.019,2.624,5.004,5.093,13.121,25.021
+muni:5507984675,Wauwatosa city,55079,city,urban,23528.0,3_4units,imputed: under-reported,2023-2025,False,0.182,0.598,0.716,0.908,2.989,3.578
+muni:5507984675,Wauwatosa city,55079,city,urban,23528.0,5plus,imputed: under-reported,2023-2025,False,45.066,75.888,116.391,225.332,379.439,581.957
 muni:5507985300,West Allis city,55079,city,urban,30294.0,1unit,flat_3y,2023-2025,False,2.294,4.667,6.033,11.468,23.333,30.167
 muni:5507985300,West Allis city,55079,city,urban,30294.0,2units,flat_3y,2023-2025,False,0.259,0.667,1.271,1.294,3.333,6.357
 muni:5507985300,West Allis city,55079,city,urban,30294.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -4331,10 +4331,10 @@ muni:5508144975,Little Falls town,55081,town,rural,637.0,1unit,flat_3y,2023-2025
 muni:5508144975,Little Falls town,55081,town,rural,637.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5508144975,Little Falls town,55081,town,rural,637.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5508144975,Little Falls town,55081,town,rural,637.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5508150800,Melvina village,55081,village,small_community,41.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5508150800,Melvina village,55081,village,small_community,41.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5508150800,Melvina village,55081,village,small_community,41.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5508150800,Melvina village,55081,village,small_community,41.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5508150800,Melvina village,55081,village,small_community,41.0,1unit,imputed: not reported,2023-2025,True,0.033,0.067,0.087,0.165,0.336,0.434
+muni:5508150800,Melvina village,55081,village,small_community,41.0,2units,imputed: not reported,2023-2025,True,0.007,0.019,0.036,0.037,0.094,0.18
+muni:5508150800,Melvina village,55081,village,small_community,41.0,3_4units,imputed: not reported,2023-2025,True,0.001,0.002,0.002,0.003,0.009,0.01
+muni:5508150800,Melvina village,55081,village,small_community,41.0,5plus,imputed: not reported,2023-2025,True,0.022,0.037,0.056,0.109,0.183,0.281
 muni:5508156950,New Lyme town,55081,town,rural,75.0,1unit,flat_3y,2023-2025,False,0.331,0.674,0.871,1.655,3.368,4.355
 muni:5508156950,New Lyme town,55081,town,rural,75.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5508156950,New Lyme town,55081,town,rural,75.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -5331,10 +5331,10 @@ muni:5510111225,Burlington town,55101,town,rural,3036.0,1unit,flat_3y,2023-2025,
 muni:5510111225,Burlington town,55101,town,rural,3036.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5510111225,Burlington town,55101,town,rural,3036.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5510111225,Burlington town,55101,town,rural,3036.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5510111950,Caledonia village,55101,village,suburban,10499.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5510111950,Caledonia village,55101,village,suburban,10499.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5510111950,Caledonia village,55101,village,suburban,10499.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5510111950,Caledonia village,55101,village,suburban,10499.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510111950,Caledonia village,55101,village,suburban,10499.0,1unit,imputed: not reported,2023-2025,True,16.299,33.163,42.877,81.496,165.817,214.383
+muni:5510111950,Caledonia village,55101,village,suburban,10499.0,2units,imputed: not reported,2023-2025,True,2.525,6.506,12.406,12.627,32.528,62.031
+muni:5510111950,Caledonia village,55101,village,suburban,10499.0,3_4units,imputed: not reported,2023-2025,True,0.127,0.419,0.502,0.637,2.095,2.509
+muni:5510111950,Caledonia village,55101,village,suburban,10499.0,5plus,imputed: not reported,2023-2025,True,20.029,33.728,51.729,100.147,168.64,258.647
 muni:5510120625,Dover town,55101,town,rural,1321.0,1unit,flat_3y,2023-2025,False,3.637,7.401,9.569,18.187,37.005,47.843
 muni:5510120625,Dover town,55101,town,rural,1321.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5510120625,Dover town,55101,town,rural,1321.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -5387,10 +5387,10 @@ muni:5510187700,Wind Point village,55101,village,suburban,782.0,1unit,flat_3y,20
 muni:5510187700,Wind Point village,55101,village,suburban,782.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5510187700,Wind Point village,55101,village,suburban,782.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5510187700,Wind Point village,55101,village,suburban,782.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5510189550,Yorkville village,55101,village,small_community,1231.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5510189550,Yorkville village,55101,village,small_community,1231.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5510189550,Yorkville village,55101,village,small_community,1231.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5510189550,Yorkville village,55101,village,small_community,1231.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5510189550,Yorkville village,55101,village,small_community,1231.0,1unit,imputed: not reported,2023-2025,True,0.99,2.015,2.605,4.952,10.076,13.027
+muni:5510189550,Yorkville village,55101,village,small_community,1231.0,2units,imputed: not reported,2023-2025,True,0.219,0.565,1.078,1.097,2.826,5.39
+muni:5510189550,Yorkville village,55101,village,small_community,1231.0,3_4units,imputed: not reported,2023-2025,True,0.016,0.051,0.061,0.078,0.255,0.306
+muni:5510189550,Yorkville village,55101,village,small_community,1231.0,5plus,imputed: not reported,2023-2025,True,0.653,1.099,1.685,3.263,5.494,8.427
 muni:5510300675,Akan town,55103,town,rural,207.0,1unit,flat_3y,2023-2025,False,0.894,1.819,2.352,4.47,9.096,11.76
 muni:5510300675,Akan town,55103,town,rural,207.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5510300675,Akan town,55103,town,rural,207.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
@@ -6615,18 +6615,18 @@ muni:5512319850,De Soto village,55123,village,small_community,196.0,1unit,flat_3
 muni:5512319850,De Soto village,55123,village,small_community,196.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5512319850,De Soto village,55123,village,small_community,196.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5512319850,De Soto village,55123,village,small_community,196.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512326550,Forest town,55123,town,rural,323.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512326550,Forest town,55123,town,rural,323.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512326550,Forest town,55123,town,rural,323.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512326550,Forest town,55123,town,rural,323.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512326550,Forest town,55123,town,rural,323.0,1unit,imputed: not reported,2023-2025,True,1.192,2.426,3.136,5.96,12.128,15.68
+muni:5512326550,Forest town,55123,town,rural,323.0,2units,imputed: not reported,2023-2025,True,0.025,0.066,0.125,0.127,0.328,0.625
+muni:5512326550,Forest town,55123,town,rural,323.0,3_4units,imputed: not reported,2023-2025,True,0.0,0.002,0.002,0.002,0.008,0.009
+muni:5512326550,Forest town,55123,town,rural,323.0,5plus,imputed: not reported,2023-2025,True,0.046,0.077,0.118,0.229,0.385,0.59
 muni:5512327400,Franklin town,55123,town,rural,408.0,1unit,flat_3y,2023-2025,False,0.983,2.0,2.586,4.915,10.0,12.929
 muni:5512327400,Franklin town,55123,town,rural,408.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5512327400,Franklin town,55123,town,rural,408.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5512327400,Franklin town,55123,town,rural,408.0,5plus,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512328625,Genoa village,55123,village,small_community,130.0,1unit,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512328625,Genoa village,55123,village,small_community,130.0,2units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512328625,Genoa village,55123,village,small_community,130.0,3_4units,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5512328625,Genoa village,55123,village,small_community,130.0,5plus,flat_3y,2023-2025,True,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5512328625,Genoa village,55123,village,small_community,130.0,1unit,imputed: not reported,2023-2025,True,0.105,0.213,0.275,0.523,1.064,1.376
+muni:5512328625,Genoa village,55123,village,small_community,130.0,2units,imputed: not reported,2023-2025,True,0.023,0.06,0.114,0.116,0.298,0.569
+muni:5512328625,Genoa village,55123,village,small_community,130.0,3_4units,imputed: not reported,2023-2025,True,0.002,0.005,0.006,0.008,0.027,0.032
+muni:5512328625,Genoa village,55123,village,small_community,130.0,5plus,imputed: not reported,2023-2025,True,0.069,0.116,0.178,0.345,0.58,0.89
 muni:5512328650,Genoa town,55123,town,rural,415.0,1unit,flat_3y,2023-2025,False,1.311,2.667,3.448,6.553,13.333,17.239
 muni:5512328650,Genoa town,55123,town,rural,415.0,2units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5512328650,Genoa town,55123,town,rural,415.0,3_4units,flat_3y,2023-2025,False,0.0,0.0,0.0,0.0,0.0,0.0

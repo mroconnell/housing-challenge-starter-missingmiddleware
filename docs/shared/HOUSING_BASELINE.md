@@ -1,20 +1,20 @@
 # All-housing baseline (shared by the parking and TOD scenarios)
 
-Written 2026-10-26 by the parking conductor. Status: version 2 (2026-10-26). Milwaukee city's apartment permits are now estimated from the city's property file, and the range uses Wisconsin's long-run history. Both are owner decisions P8 and P9 (AQ-048). Version 1 had a central of 118,822 units, which is now the "Census as published" sensitivity.
+Written 2026-10-26 by the parking conductor. Status: version 3 (2026-11-01). Version 3 fills 12 places whose permits are not reported, or are under-reported, with their context class's median rate (owner-approved, see step 5a); it adds 1,008 homes to the central. Version 2 (2026-10-26): Milwaukee city's apartment permits are now estimated from the city's property file, and the range uses Wisconsin's long-run history. Both are owner decisions P8 and P9 (AQ-048). Version 1 had a central of 118,822 units, which is now the "Census as published" sensitivity.
 
 ## What it answers
 
 How many housing units Wisconsin would permit each year in 2027–2031 under current law, by municipality and by building size, with a range. Every reform scenario's addition is measured against it.
 
-**Answer.** Under current law, Wisconsin would permit about 122,600 housing units over 2027–2031, or about 24,500 units per year. The range is 64,500 to 175,600 units over the five years. For comparison, Wisconsin permitted 120,723 units over 2021–2025. That is the published Census state total of 117,405, plus 3,318 Milwaukee apartment units in 2021–2024 that Census did not count. 2025 is not adjusted, so this is a floor.
+**Answer.** Under current law, Wisconsin would permit about 123,600 housing units over 2027–2031, or about 24,700 units per year. The range is 65,000 to 177,100 units over the five years. (Version 2: 122,619, range 64,491 to 175,628.) For comparison, Wisconsin permitted 120,723 units over 2021–2025. That is the published Census state total of 117,405, plus 3,318 Milwaukee apartment units in 2021–2024 that Census did not count. 2025 is not adjusted, so this is a floor.
 
 | Building size | 2027–2031 low | 2027–2031 central | 2027–2031 high | 2021–2025 permitted (adjusted) |
 | --- | ---: | ---: | ---: | ---: |
-| 1 unit | 30,926 | 63,075 | 81,622 | 62,600 |
-| 2 units | 3,023 | 7,786 | 14,850 | 7,768 |
-| 3–4 units | 204 | 672 | 804 | 698 |
-| 5+ units | 30,338 | 51,086 | 78,352 | 49,657 |
-| All | 64,491 | 122,619 | 175,628 | 120,723 |
+| 1 unit | 31,088 | 63,404 | 82,047 | 62,600 |
+| 2 units | 3,047 | 7,848 | 14,968 | 7,768 |
+| 3–4 units | 206 | 678 | 812 | 698 |
+| 5+ units | 30,700 | 51,697 | 79,290 | 49,657 |
+| All | 65,042 | 123,627 | 177,115 | 120,723 |
 
 Columns may not add exactly because of rounding. All figures are housing units authorized by building permits (at permit issuance), the same milestone as the ADU scenario. Source: `reference/housing_baseline_statewide_by_year.csv`.
 
@@ -42,6 +42,10 @@ Columns may not add exactly because of rounding. All figures are housing units a
    - The sensitivity case "Census as published" (`reference/housing_baseline_sensitivity_published.csv`, built with `--published`) gives 118,822 units over 2027–2031.
 4. **Choose the projection by a held-out-year test.** Each candidate predicts each municipality's average annual units by building size over the next up to five years, using only data up to an origin year (origins 2019, 2020, 2021 and 2022, scored on 2020–2025). The candidates were a flat average of the last 1, 2, 3, 4 or 5 years, and the same 3- or 5-year level scaled by the state's straight-line trend (fitted over 5 years or over all years). The score is the municipality-level error per unit permitted, over all building sizes. **The flat average of the last three years (2023–2025) predicted best.** Its error was 0.526 units of error per unit permitted, against 0.531 to 0.589 for the other multi-year candidates and 0.618 for the last year alone. The trend candidates did worse because past trends did not persist. Source: `reference/housing_baseline_window_choice.csv` and `reference/housing_baseline_holdout.csv`.
 5. **Projection.** Each municipality and building size is held flat at its 2023–2025 average for 2026 (a bridge year, shown but not in five-year totals) and 2027–2031.
+5a. **Places not reported, or under-reported (version 3, owner-approved 2026-11-01).** Twelve places get the median current-law rate of their context class instead of 0. The rates are permits per 1,000 ACS homes per year, over places with data: urban 3.90, suburban 7.03, rural 7.97, small community 3.03. The result is split by building size in the class's own proportions, with the same long-run band as every other place (`housing_baseline.impute_missing`).
+   - **Not reported** (no permit data in 2023–2025; FOUNDATION.md finding 3, "not reported, never zero"): Caledonia village (369 over 2027–2031), Lake Hallie village (113), Clayton town, Yorkville village, Forest town, Westfield village, Wauzeka town, Fairchild village, Genoa village, Melvina village and Mount Sterling village.
+   - **Under-reported:** Wauwatosa (459, previously 8). It reports 12 months every year but only 1–2 homes a year since 2021, against about 290 a year in 2015–2017, and the ACS shows 310 ± 173 homes built 2020 or later.
+   - Together these add 1,008 homes to the central. "Census as published" moves from 118,822 to 119,818.
 6. **Range from Wisconsin's own history.** For every year from 1992 to 2020, the 3-year state average was compared with what Wisconsin actually permitted in the next five years (29 five-year periods per building size). The low and high cases use the 10th and 90th percentile of those outcomes, by building size: 0.49 and 1.29 times the central for 1-unit buildings, 0.39 and 1.91 for 2 units, 0.30 and 1.20 for 3–4 units, and 0.59 and 1.53 for 5+ units. The worst five-year period on record was 2007–2011, when Wisconsin permitted 0.40 times as many units as the 3-year average before it. Source: `reference/housing_baseline_band.csv`, `reference/housing_baseline_long_run_ratios.csv`.
    - The low and high cases apply the same multiplier to every municipality, so building sizes and places move together; the statewide low and high are their sums and are not independent.
    - A narrower range from the recent held-out test alone is kept as a sensitivity (`reference/housing_baseline_band_recent.csv`). In all four recent tests the flat average under-predicted every building size except 3–4 units, because permits rose over 2015–2025, so that range runs almost only upward (1.00 to 1.46 times central for 5+ units).
@@ -72,7 +76,7 @@ Columns use `area_id` (`muni:<10-digit county-subdivision GEOID>`, or `unallocat
 
 - **Milwaukee's apartments come from a completion-side measure.** Year built in MPROP, shifted one year, stands in for permits. It misses condominiums, and the latest year built (2025, giving permit year 2024) may be incomplete if the property file lags. Other cities could have BPS gaps that have not been checked.
 - **Flat, not cyclical.** The central assumes 2023–2025 conditions continue. The low case is milder than 2007–2011: it is 0.53 times the central (64,491 of 122,619 units), while 2007–2011 permitted 0.40 times the 3-year average before it.
-- **Other places may under-report to Census.** A screen compares homes built in 2020 or later (ACS 2020–2024) with permits for 2019–2023 (`reference/housing_baseline_acs_screen.csv`). ACS counts finished homes and lags permits, so it should normally show fewer. Three places show more by more than the survey's margin of error:
+- **Other places may under-report to Census** (Wauwatosa is now adjusted, step 5a; the others below are flagged only). A screen compares homes built in 2020 or later (ACS 2020–2024) with permits for 2019–2023 (`reference/housing_baseline_acs_screen.csv`). ACS counts finished homes and lags permits, so it should normally show fewer. Three places show more by more than the survey's margin of error:
   - Wauwatosa: 310 ± 173 homes built, against 60 permitted;
   - Superior: 126 ± 56, against 47;
   - Springdale town: 105 ± 50, against 30.

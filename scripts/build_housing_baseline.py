@@ -220,6 +220,8 @@ def main() -> None:
     lr = hb.state_long_run_ratios(read_state_long_run(), k_best)
     bands = hb.long_run_band(lr)
     proj = hb.project(hist, best, bands[bands["structure_type"] != "all"])
+    imp_meta = munis.rename(columns={"context_group": "context"})[["area_id", "context", "housing_units_acs"]]
+    proj = hb.impute_missing(proj, imp_meta, bands[bands["structure_type"] != "all"])
 
     if args.published:
         p5 = proj[proj["in_five_year_total"]].groupby("structure_type")[["low", "central", "high"]].sum()
