@@ -1,4 +1,4 @@
 path,baseline_no_reform,with_law,net_added,net_share_of_all_homes_central,net_share_of_all_homes_as_published,held_out_rms_log_error,flags
-central,785.9208,11134.923,10349.0023,0.0844,0.0871,0.1297,none
-lower,785.9208,7008.8527,6222.9319,0.0508,0.0524,0.1297,none
-upper,785.9208,20079.6505,19293.7297,0.1573,0.1624,0.1297,none
+central,785.9208,11400.9992,10615.0784,0.0866,0.0893,0.1297,none
+lower,785.9208,7106.4955,6320.5747,0.0515,0.0532,0.1297,none
+upper,785.9208,20711.032,19925.1112,0.1625,0.1677,0.1297,none

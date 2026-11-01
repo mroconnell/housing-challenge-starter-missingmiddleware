@@ -96,7 +96,7 @@ test("pilot pages show baselines and additions from the bundle", async ({ page }
     await expect(obs).toHaveCount(p.permits.years.length);
   }
   const mad = b.pilots.find((p: { slug: string }) => p.slug === "madison");
-  expect(sum(mad.add.central).toFixed(1)).toBe("110.8");
+  expect(sum(mad.add.central).toFixed(1)).toBe("376.9");
 });
 
 test("keyboard: skip link, tab navigation and scenario radios", async ({ page, isMobile }) => {
@@ -162,7 +162,7 @@ test("Madison's different treatment is explained on its pilot page and only when
   await page.getByRole("radio", { name: "Cities, villages and towns" }).check();
   await page.locator("#q").fill("Madison city");
   await page.getByRole("button", { name: "Details for Madison city" }).click();
-  await expect(page.getByTestId("detail-madison-note")).toContainText("December 2026");
+  await expect(page.getByTestId("detail-madison-note")).toContainText("statewide estimate like every other place");
   await page.locator("#q").fill("Middleton city");
   await page.getByRole("button", { name: "Details for Middleton city" }).click();
   await expect(page.getByTestId("detail-madison-note")).toHaveCount(0);
@@ -223,10 +223,10 @@ test("scenario choice is kept in the URL and the current tab is in view", async 
 test("unknown-rules switch shows each precomputed run", async ({ page }) => {
   const b = await bundle(page);
   await page.goto("#/how-sure");
-  // AQ-065 values (AQ-061: 73.6%, 5.2%, 21.2%; before: 73.4%, 5.5%, 21.1%)
-  await expect(page.getByTestId("trace-summary")).toContainText("73.9%");
-  await expect(page.getByTestId("trace-summary")).toContainText("4.9%");
-  await expect(page.getByTestId("trace-summary")).toContainText("21.2%");
+  // AQ-066 values (AQ-065: 73.9%, 4.9%, 21.2%; AQ-061: 73.6%, 5.2%, 21.2%)
+  await expect(page.getByTestId("trace-summary")).toContainText("72.1%");
+  await expect(page.getByTestId("trace-summary")).toContainText("7.3%");
+  await expect(page.getByTestId("trace-summary")).toContainText("20.6%");
   for (const v of b.unknown.variants) {
     await page.locator(`input[name="unk-howsure"][value="${v.id}"]`).check();
     await expect(page.getByTestId("unk-baseline")).toHaveText(fmt(v.baseline_total));

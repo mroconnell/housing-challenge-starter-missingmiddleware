@@ -948,6 +948,25 @@ Held-out average log error (each of 7 states predicted with itself left out): 0.
 
 **What it does:** the law-side fixes lower the central by 88; the trend lowers it by 233 (the baseline rises by 256, the total with the law by 23). Together −330 (3.1%).
 
+## AQ-066 ADU: Madison follows the statewide model
+
+**Status:** Adopted. **Added:** 2026-11-01. **Owner decision:** "sure you can use the full statewide model for Madison post statewide reform" (2026-11-01). **Supersedes** the Madison part of AQ-042. **Related:** AQ-065.
+
+**Why.** Madison's own rules are not at the benchmark: parking rules and excluded neighbourhoods remain. And a statewide law lifts places that already allow ADUs: in California, the 91 cities most active before the 2017 law went from 0.40 permits per 1,000 single-family homes per year (2016) to 5.33 (2022) and 5.84 (2025); without Los Angeles their rise was still about 3-fold (`reference/ca_study_event_study.csv`; docs/gate3/CA_STUDY_RESULTS.md).
+
+**Change.** Madison's with-law rate now comes from the statewide model, like every other place. The path of 9 similar Washington and Oregon cities (0.45 rising to 1.08) is kept as a sensitivity (`area_paths_retired` in `reference/adu_model_params.json`).
+
+**Result.** Additional ADU permits, Wisconsin, 2027–2031 (baseline 786 unchanged):
+
+| | Before (AQ-065) | After (AQ-066) |
+| --- | ---: | ---: |
+| Lower | 6,223 | 6,321 |
+| Central | 10,349 | 10,615 |
+| Upper | 19,294 | 19,925 |
+| Madison, central | 111 | 377 |
+
+The tool's "benchmark group" label for places with Madison-type rules is to be renamed "partial reform", since those rules are not at the benchmark.
+
 ## Questions for office hours
 
 Kept here so the owner can take them to mentor office hours or the Administrator (housing.challenge@turnout.rocks). Answers are recorded against the related entry.
@@ -1092,3 +1111,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-10-29 | AQ-063 | ADU: keep adopted model after the pre-registered advanced-model test; test recorded in MODEL_AND_ASSUMPTIONS Part A. |
 | 2026-10-29 | AQ-064 | ADU: audit fixes; Rhode Island and Massachusetts homes-based reporting shares, year-matched homes. Central 10,788 → 10,679. |
 | 2026-10-31 | AQ-065 | ADU: one law-year rule (Vermont permit year, Oregon from 2020, Seattle 2024 local), no-reform trend baseline (786), 4-state reference line. Central 10,679 → 10,349. |
+| 2026-11-01 | AQ-066 | ADU: Madison on the statewide model (its Washington/Oregon path now a sensitivity). Central 10,349 → 10,615. |

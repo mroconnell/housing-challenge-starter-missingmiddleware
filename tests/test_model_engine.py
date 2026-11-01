@@ -116,12 +116,14 @@ class TestAdoptedParams(unittest.TestCase):
 
         from missing_middleware.model import params
         ref = Path(__file__).parent.parent / "reference"
-        ap = params.area_paths()
-        mad = ap[ap.area_id == "muni:5502548000"].sort_values("year")
+        # AQ-066: Madison follows the statewide model; its former path is kept (retired) for the sensitivity
+        import json
+        self.assertTrue(params.area_paths().empty)
+        p = json.loads((ref / "adu_model_params.json").read_text())
+        rates = p["area_paths_retired"]["madison_like_path"]["rates"]
         med = pd.read_csv(ref / "madison_like_median_path.csv")
         med = med[med.group == "WA+OR Madison-like (main)"].sort_values("year_since_law")
-        self.assertEqual(mad.rate.round(3).tolist(), med.median_rate.round(3).tolist())
-        self.assertEqual(sorted(set(ap.area_id)), ["muni:5502548000"])
+        self.assertEqual([round(r, 3) for r in rates], med.median_rate.round(3).tolist())
         self.assertAlmostEqual(params.madison_floor(), 0.2345)
         spec = params.area_levels_spec()
         self.assertEqual((spec["option"], spec["config"]), ("cap_a2", "A_ca_in_common_level"))
@@ -217,17 +219,17 @@ class TestAdoptedOutputs(unittest.TestCase):
         r = r.iloc[0]
         self.assertEqual(r.moves, "baseline only")
         self.assertIn("\u00d71.11 a year", r.change)
-        # values after the AQ-065 refit (2026-10-31: law-year rule, no-reform trend); AQ-064: rise 10295.4 / 6421.1 / 19150.5, adopted 6804.0 / 10679.2 / 19534.9, with-law 11245.1; AQ-061 (2026-10-28): central 10406.7, lower 6354.3, upper 19675.8,
+        # values after AQ-066 (2026-11-01: Madison on the statewide model); AQ-065: rise 10193.3 / 6067.4 / 19137.8, adopted 6222.9 / 10349.0 / 19293.7; values after the AQ-065 refit (2026-10-31: law-year rule, no-reform trend); AQ-064: rise 10295.4 / 6421.1 / 19150.5, adopted 6804.0 / 10679.2 / 19534.9, with-law 11245.1; AQ-061 (2026-10-28): central 10406.7, lower 6354.3, upper 19675.8,
         # adopted 6734.3 / 10787.6 / 20057.4, with-law 11356.4; before AQ-061: baseline 1083.3, central 8324.3
         self.assertAlmostEqual(r.baseline_5yr, 949.7, delta=0.05)
-        self.assertAlmostEqual(r.central_additional_5yr, 10193.3, delta=0.05)
-        self.assertAlmostEqual(r.lower_additional_5yr, 6067.4, delta=0.05)
-        self.assertAlmostEqual(r.upper_additional_5yr, 19137.8, delta=0.05)
+        self.assertAlmostEqual(r.central_additional_5yr, 10460.2, delta=0.05)
+        self.assertAlmostEqual(r.lower_additional_5yr, 6165.9, delta=0.05)
+        self.assertAlmostEqual(r.upper_additional_5yr, 19770.0, delta=0.05)
         a = s[s.moves.eq("none (adopted)")].iloc[0]
         self.assertAlmostEqual(a.baseline_5yr, 785.9, delta=0.05)   # AQ-065 no-reform trend (was 530.1)
-        self.assertEqual((a.lower_additional_5yr, a.central_additional_5yr, a.upper_additional_5yr), (6222.9, 10349.0, 19293.7))
+        self.assertEqual((a.lower_additional_5yr, a.central_additional_5yr, a.upper_additional_5yr), (6320.6, 10615.1, 19925.1))
         bo = pd.read_csv(self.ref / "adu_model_baseline_only_effects.csv").set_index("case")
-        self.assertAlmostEqual(bo.loc["wi-rising-like-nolaw", "with_law_central"], 11143.0, delta=0.05)
+        self.assertAlmostEqual(bo.loc["wi-rising-like-nolaw", "with_law_central"], 11409.9, delta=0.05)
         pw = pd.read_csv(self.ref / "adu_placebo_wi.csv")
         pw = pw[pw.case.eq("rising baseline, proportional, C median ratio") & pw.path.eq("central")].iloc[0]
         self.assertAlmostEqual(pw.additional_5yr, r.central_additional_5yr, delta=0.06)
@@ -247,7 +249,7 @@ class TestAdoptedOutputs(unittest.TestCase):
                 # within half a permit: the two scripts round the lower factor and ramps at different steps
                 self.assertAlmostEqual(row[f"{p}_additional_5yr"], vt.loc[opt, f"{p}_additional_5yr"], delta=0.5)
         self.assertAlmostEqual(vt.loc["C_drop_vt", "reference_line_additional_5yr"], 9025, delta=0.5)
-        self.assertEqual((r.lower_additional_5yr, r.central_additional_5yr, r.upper_additional_5yr), (6238.8, 10638.2, 20986.0))
+        self.assertEqual((r.lower_additional_5yr, r.central_additional_5yr, r.upper_additional_5yr), (6336.9, 10915.9, 21686.4))
 
     def test_reference_line_8_states_carried_forward(self):
         lines = pd.read_csv(self.ref / "adu_model_reference_lines.csv")

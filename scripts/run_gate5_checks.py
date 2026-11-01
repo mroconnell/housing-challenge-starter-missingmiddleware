@@ -268,7 +268,7 @@ def main():
                      ("LA-calibrated", "LA-calibrated multifamily correction for California"),
                      ("eligible-property basis", "eligible-property basis (per eligible property, not per house)"),
                      ("no ramp", "no ramp (full effect from 2027)"),
-                     ("Madison at its pooled level", "Madison on the statewide estimate"),
+                     ("Madison on the path of similar cities", "Madison on the path of similar cities in Washington and Oregon (before AQ-066)"),
                      ("multiplicative", "multiplicative law (scales current rates)"),
                      ("California-only", "California-only market regression")):
         r = sw[sw.change.str.contains(key, regex=False)].iloc[0]

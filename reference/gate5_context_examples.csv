@@ -1,6 +1,6 @@
 context_group,area_id,name,homes,median_home_value,median_income,x_rate,x_status,x_basis,y_with_law_rate_2031_central,baseline_5yr,additional_central_5yr,additional_rate_central_per_1000_per_year
 urban,muni:5507953000,Milwaukee city,101402,184000.0,54234.0,0.0863,observed,"observed 2022-2025 candidate permits (open data, central rule, quality C); flat, no assumed post-reform rise",0.8867,64.8496,348.014,0.6864
-urban,muni:5502548000,Madison city,53292,372900.0,78050.0,0.1876,observed,observed 2022-2025 (G2-9),1.076,74.1138,110.8094,0.4159
+urban,muni:5502548000,Madison city,53292,372900.0,78050.0,0.1876,observed,observed 2022-2025 (G2-9),1.8419,74.1138,376.8856,1.4144
 urban,muni:5500931000,Green Bay city,26655,207200.0,66206.0,0.0515,estimated,restricted_group_rate,1.0026,10.1692,111.7898,0.8388
 suburban,muni:5513310025,Brookfield city,12711,443900.0,129548.0,0.0233,estimated,prohibited_group_rate,2.2061,2.1983,125.0717,1.9679
 suburban,muni:5513356375,New Berlin city,12121,365700.0,101091.0,0.0515,estimated,restricted_group_rate,1.8051,4.6243,94.9191,1.5662

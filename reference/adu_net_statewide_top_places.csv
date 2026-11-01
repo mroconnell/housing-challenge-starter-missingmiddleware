@@ -1,6 +1,6 @@
 area_id,baseline_units,additional_units,homes,x_basis,add_rate,base_rate,name
-muni:5513340750,0.042,1.764,110,uncoded_like_restricted_AQ027,3.208,0.076,Lac La Belle village
-muni:5513359300,0.114,4.812,300,uncoded_like_restricted_AQ027,3.208,0.076,Oconomowoc Lake village
+muni:5505540750,0.0,0.016,1,uncoded_like_restricted_AQ027,3.208,0.076,Lac La Belle village
 muni:5512548462,0.389,16.361,1020,uncoded_like_restricted_AQ027,3.208,0.076,Manitowish Waters town
+muni:5513359300,0.114,4.812,300,uncoded_like_restricted_AQ027,3.208,0.076,Oconomowoc Lake village
 muni:5508905450,0.018,0.738,46,uncoded_like_restricted_AQ027,3.208,0.076,Bayside village
-muni:5502548750,0.208,8.726,544,uncoded_like_restricted_AQ027,3.208,0.076,Maple Bluff village
+muni:5513340750,0.042,1.764,110,uncoded_like_restricted_AQ027,3.208,0.076,Lac La Belle village

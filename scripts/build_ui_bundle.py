@@ -164,33 +164,33 @@ def madison_like() -> dict:
 
 def madison_texts(p: dict) -> dict:
     ml = madison_like()
-    r = p["area_paths"]["madison_like_path"]["rates"]
+    r = p["area_paths_retired"]["madison_like_path"]["rates"]
     assert [round(x, 3) for x in r] == [round(x, 3) for x in ml["median"]], "Madison's path should be the WA+OR median"
     names = (f"{', '.join(ml['by_state']['WA'][:-1])} and {ml['by_state']['WA'][-1]} in Washington; "
              f"{', '.join(ml['by_state']['OR'][:-1])} and {ml['by_state']['OR'][-1]} in Oregon")
     last_n = ml["n_by_year"][-1]
     sens = pd.read_csv(REF / "adu_model_sensitivities.csv")
-    pooled = float(sens[sens.change.str.startswith("Madison at its pooled")].difference_central.iloc[0])
+    on_path = float(sens[sens.change.str.startswith("Madison on the path of similar cities")].difference_central.iloc[0])
     return {
         "title": "Cities like Madison",
         "text": (f"In Washington and Oregon, {ml['n']} cities similar to Madison in size and home values ({names}) had a "
                  f"median of {r[0]:.2f} permits per 1,000 single-family homes per year in the first year after their "
-                 f"statewide ADU law, rising to {r[-1]:.2f} by year 5. Madison is modelled the same way: with the law, "
-                 f"its rate follows that path in every scenario, while every other Wisconsin place, Madison's suburbs "
-                 "included, follows the statewide estimate. This choice is being reviewed."),
+                 f"statewide ADU law, rising to {r[-1]:.2f} by year 5. Since 1 November 2026 Madison follows the statewide "
+                 "estimate like every other Wisconsin place: Madison's own rules are not at the benchmark (parking rules "
+                 "and excluded neighbourhoods remain), and in California cities that already allowed ADUs still rose "
+                 "several-fold after the state law. The Washington and Oregon path is kept as a sensitivity."),
         "detail": (f"Cities like Madison are defined in docs/gate3/MADISON_LIKE_CITIES.md: 20,000–120,000 single-family "
                    "homes, median home value $250,000–$500,000, not the state's largest city; the definition was fixed "
                    "before any city's permits were read. Path, years 1–5 (2027–2031 for Madison): "
                    + ", ".join(f"{x:.2f}" for x in r) + f" permits per 1,000 single-family homes per year; years 4 and 5 "
                    f"rest on the {last_n} Oregon cities only, as Washington's law is newer. {ml['own_reform']} of the "
-                   f"{ml['n']} cities also changed their own ADU rules in the same window. The path replaces Madison's "
-                   "statewide-model level (owner decision AQ-042, 2026-10-25); with the statewide-model level instead, "
-                   f"Madison would add {pooled:,.0f} more permits over 2027–2031 (central scenario). The choice is under review at Gate 5."),
+                   f"{ml['n']} cities also changed their own ADU rules in the same window. From 2026-10-25 this path replaced "
+                   "Madison's statewide-model level (AQ-042); since 2026-11-01 Madison uses the statewide model (AQ-066). "
+                   f"On the path instead, the statewide central would change by {on_path:+,.0f} permits over 2027–2031."),
         # one short sentence, used in the map details panel and the brief
-        "note": (f"Madison follows the observed path of {ml['n']} similar cities in Washington and Oregon ({r[0]:.2f} rising "
-                 f"to {r[-1]:.2f} permits per 1,000 single-family homes per year, 2027–2031) in every scenario, so the law "
-                 "adds less here per 1,000 homes than in its suburbs. This choice will be looked at again in December "
-                 "2026, when Madison's 2026 permit count is final."),
+        "note": ("Madison follows the statewide estimate like every other place (since 1 November 2026). The path of "
+                 f"{ml['n']} similar cities in Washington and Oregon ({r[0]:.2f} rising to {r[-1]:.2f} permits per 1,000 "
+                 "single-family homes per year) is shown as a sensitivity."),
     }
 
 
@@ -765,7 +765,7 @@ def build_uncertainty(areas: list) -> dict:
              ("eligible-property", "Count per eligible property, not per single-family home"),
              ("LA-calibrated", "A stricter correction for California's ADUs on apartment properties"),
              ("rural and small", "Rural places and small communities held at the minimum rate"),
-             ("Madison at its pooled", "Madison on the statewide estimate, like every other place"),
+             ("Madison on the path of similar cities", "Madison on the path of similar cities in Washington and Oregon (before AQ-066)"),
              ("no reporting-share", "Do not scale up states' counts for towns that did not report"),
              ("reporting-share correction for Maine", "Scale up for non-reporting towns in Maine, Massachusetts, Rhode Island only"),
              ("Washington's law years", "Count Washington's law years from enactment, not local compliance"),
@@ -891,10 +891,9 @@ def build_pilots(areas: list) -> list:
     conv = pd.read_csv(REF / "pooled_convergence.csv")
     conv_txt = ", ".join(f"{STATE_NAMES[x.state]} {x.pre_rate:.2f} before → {x.year1_rate:.2f} in year 1" for x in conv.itertuples())
     desc = {
-        "madison": ("Madison already allows ADUs much like the benchmark law, with a few exceptions (its rules are below). "
-                    "In other states, places that already allowed ADUs still saw more permits when a statewide law passed, "
-                    "but they gained less than places that had no ADU rules before. So the law is expected to add fewer "
-                    "permits per 1,000 single-family homes in Madison than in its neighbours."),
+        "madison": ("Madison already allows ADUs, but not at the benchmark: parking rules and excluded neighbourhoods remain "
+                    "(its rules are below). In California, cities that already allowed ADUs before the state law still "
+                    "rose several-fold once it passed. So Madison follows the statewide estimate like every other place."),
         "pleasant-prairie": ("Pleasant Prairie, a village in Kenosha County, prohibits ADUs today: its own permit records show "
                              "{n} second homes on single-family lots in 2014–2025. The law would allow one ADU on every lot "
                              "with a single-family home, so here it starts from almost nothing."),
@@ -1011,8 +1010,8 @@ def build_evidence(p: dict) -> dict:
     mad = mad[mad.category.eq("second_home_sf_lot") & mad.year.between(2021, 2025)]
     clines.append({"name": "Madison, observed 2021–2025 (plotted as if a law took effect in 2027)", "kind": "wi_today",
                    "points": [{"k": int(y - 2026), "rate": r(u / 53292 * 1000, 3)} for y, u in zip(mad.year, mad.units)]})
-    ap = p["area_paths"]["madison_like_path"]["rates"]
-    clines.append({"name": "Madison's adopted path (all three scenarios)", "kind": "wi_central",
+    ap = p["area_paths_retired"]["madison_like_path"]["rates"]
+    clines.append({"name": "Madison's earlier path (a sensitivity since AQ-066)", "kind": "wi_central",
                    "points": [{"k": i + 1, "rate": v} for i, v in enumerate(ap)]})
 
     E = "evidence"

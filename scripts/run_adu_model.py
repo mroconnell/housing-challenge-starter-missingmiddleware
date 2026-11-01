@@ -3,8 +3,8 @@
 Adopted basis (AQ-042, revised by AQ-043 on 2026-10-26): pooled revision option (ii) "cap + A2",
 configuration A (California in the between-state common level), per-area levels from
 reference/pooled_revision_wi_y_by_area.csv (written by scripts/run_pooled_revision.py), Madison floor
-0.2345, and Madison on the observed Madison-like path (params `area_paths`, applied by
-engine.run(area_paths=...)). AQ-043: the lower is the mean of Rhode Island's and Oregon's levels (every
+0.2345. Madison followed the observed Madison-like path (params `area_paths`) until AQ-066 (2026-11-01); it now
+follows the statewide model like every other place, and the path is a sensitivity (params `area_paths_retired`). AQ-043: the lower is the mean of Rhode Island's and Oregon's levels (every
 area's central level x the factor in params `paths.lower.level_from`, 0.6361 since AQ-061); Milwaukee's current-law
 rate is its measured 2022-2025 rate (scripts/build_wi_baseline.py); the reference line is the median of all 8
 statewide-law states including California, 2031 carried forward. AQ-061 (2026-10-28): the pooled fit divides counts
@@ -292,7 +292,7 @@ def main():
         o = e.run(a, sc, g, lv, ap)
         return path_totals(o), float(e.five_year_totals(o)["baseline_units"].iloc[0])
 
-    add("adopted: pooled revision (ii) cap+A2, configuration A, Madison on the Madison-like path; lower = mean of "
+    add("adopted: pooled revision (ii) cap+A2, configuration A, Madison on the statewide model (AQ-066); lower = mean of "
         "Rhode Island and Oregon; Milwaukee at its measured 2022-2025 rate", "none (adopted)",
         "The three scenarios as adopted.", "engine", "path", main_t, "this run")
     t10, _ = run_t(sc=load_scenario(lower={"ramp": revision_ramps(rev, opt0, cfg0)["lower"]["ramp"]}),
@@ -305,11 +305,15 @@ def main():
         "states, Rhode Island and Oregon. That level is below every statewide-law state's. Only the lower changes.",
         "engine", "path", {"lower": t10["lower"], "central": main_t["central"], "upper": main_t["upper"]},
         "reference/pooled_revision_wi_y_by_area.csv (y_plateau_lower_80) and pooled_revision_wi.csv (ramp_lower)")
-    tm, _ = run_t(ap=None)
-    add("Madison at its pooled level (no Madison-like path)", "statewide addition",
-        "Madison follows the statewide estimate for places like it instead of the path that similar cities in "
-        "Washington and Oregon took. This changes Madison's addition only, and through it the statewide total.",
-        "engine", "pooled level", tm, "engine without area_paths")
+    retired = json.loads(PARAMS.read_text())["area_paths_retired"]["madison_like_path"]
+    ml_path = pd.DataFrame([{"override": "madison_like_path", "area_id": a, "year": t, "rate": float(r)}
+                            for a in retired["area_ids"] for t, r in enumerate(retired["rates"], start=1)])
+    tm, _ = run_t(ap=ml_path)
+    add("Madison on the path of similar cities in Washington and Oregon (before AQ-066)", "statewide addition",
+        "Madison follows the path that similar cities in Washington and Oregon took after their statewide laws, instead "
+        "of the statewide estimate every other place follows (the treatment from 2026-10-25 to 2026-11-01). This changes "
+        "Madison's addition only, and through it the statewide total.",
+        "engine", "Madison-like path", tm, "engine with the retired area path (params area_paths_retired)")
     for lab, opt, cfg, what in (
             ("California out of the common level (configuration B)", "cap_a2", "B_ca_out_of_common_level",
              "The eight states' typical level is set without California. The central falls, and Strong adoption falls "

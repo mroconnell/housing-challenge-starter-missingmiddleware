@@ -132,8 +132,8 @@ class TestUIBundle(unittest.TestCase):
         slugs = {p["slug"]: p for p in self.pilots}
         self.assertEqual(set(slugs), {"madison", "pleasant-prairie", "sun-prairie"})
         mad = slugs["madison"]
-        self.assertAlmostEqual(sum(mad["add"]["central"]), 110.81, delta=0.05)   # AQ-065 (Gate 3 packet step 2: 134.92)
-        self.assertEqual(mad["add"]["lower"], mad["add"]["upper"])               # Madison path in every scenario
+        self.assertAlmostEqual(sum(mad["add"]["central"]), 376.89, delta=0.05)   # AQ-066 statewide model (AQ-065: 110.81; Gate 3: 134.92)
+        self.assertLess(sum(mad["add"]["lower"]), sum(mad["add"]["upper"]))      # AQ-066: Madison follows the scenarios
         self.assertAlmostEqual(sum(mad["base"]), 74.11, delta=0.05)   # AQ-065 no-reform trend (was 50.0)
         by_id = {a["id"]: a for a in self.areas["munis"]}
         for p in self.pilots:
@@ -170,9 +170,9 @@ class TestUIBundle(unittest.TestCase):
         self.assertEqual(sum(1 for a in self.areas["munis"] if a.get("water")), 12)
 
     def test_madison_note_present(self):
-        # Gate 4 verification B2: Madison's different treatment is explained wherever its numbers appear
+        # Gate 4 verification B2, updated for AQ-066: Madison's treatment is explained wherever its numbers appear
         mad = next(p for p in self.pilots if p["slug"] == "madison")
-        self.assertIn("December 2026", mad["note"])
+        self.assertIn("statewide estimate like every other place", mad["note"])
         self.assertEqual(sum(1 for a in self.areas["munis"] if a.get("note")), 1)
 
     def test_labels_come_from_the_bundle(self):
@@ -264,8 +264,8 @@ class TestUIBundle(unittest.TestCase):
         self.assertNotIn("like_restricted", self.unk["areas"])
         # the plain-language figures quoted on screen (docs/gate5/UI_CONTRACT.md)
         pro, ben = self.unk["variants"][1], self.unk["variants"][2]
-        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (522, 10591, 11113))
-        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (2065, 9176, 11241))
+        self.assertEqual((round(pro["baseline_total"]), round(pro["additional_total"]["central"]), round(pro["with_law_total"]["central"])), (522, 10858, 11379))
+        self.assertEqual((round(ben["baseline_total"]), round(ben["additional_total"]["central"]), round(ben["with_law_total"]["central"])), (2065, 9442, 11507))
 
     def test_unknown_rules_areas_and_counties_reconcile(self):
         munis = {a["id"]: a for a in self.areas["munis"]}
@@ -338,7 +338,7 @@ class TestUIBundle(unittest.TestCase):
         tr = {t["status"]: t for t in self.unc["trace"]}
         tot = sum(t["additional_central"] for t in tr.values())
         self.assertAlmostEqual(tot, self.scen["central"]["additional_total"], delta=0.05)
-        self.assertEqual([round(tr[k]["additional_central"] / tot * 100, 1) for k in ("observed", "estimated", "assumed")], [4.9, 21.2, 73.9])  # AQ-065 (AQ-061: 5.2, 21.2, 73.6; before: 5.5, 21.1, 73.4)
+        self.assertEqual([round(tr[k]["additional_central"] / tot * 100, 1) for k in ("observed", "estimated", "assumed")], [7.3, 20.6, 72.1])  # AQ-066 (AQ-065: 4.9, 21.2, 73.9; AQ-061: 5.2, 21.2, 73.6; before: 5.5, 21.1, 73.4)
 
 
     def test_context_why_equals_csv(self):

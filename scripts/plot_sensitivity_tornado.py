@@ -17,7 +17,7 @@ import pandas as pd  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 SHORT = {   # csv `change` prefix -> short bar label
-    "Madison at its pooled level": "Madison at its pooled level",
+    "Madison on the path of similar cities": "Madison on the Madison-like path",
     "California out of the common level": "California out of the common level",
     "LA-calibrated multifamily correction": "LA-calibrated multifamily correction",
     "no ramp": "No ramp (full rate from 2027)",

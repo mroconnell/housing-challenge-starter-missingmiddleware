@@ -100,7 +100,7 @@ class Engine:
 def main():
     pd.set_option("display.width", 250)
     params = json.loads((REFERENCE / "adu_model_params.json").read_text())
-    mpath = np.array(params["area_paths"]["madison_like_path"]["rates"], float)
+    mpath = np.array(params.get("area_paths", {}).get("madison_like_path", params.get("area_paths_retired", {}).get("madison_like_path"))["rates"], float)
     d = gate3_inputs(rp.load())
     wi, base = d["wi"], d["baseline"]
     G = rv.growth_matrix(wi, d["growth"])

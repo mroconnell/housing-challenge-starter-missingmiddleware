@@ -1,6 +1,6 @@
 {
   "scenario_id": "adu_benchmark_statewide",
-  "status": "Adopted 2026-10-25 (AQ-042): pooled revision option (ii) cap+A2, configuration A (California in the common level); Madison on the observed Madison-like path. Revised 2026-10-26 (AQ-043): lower = mean of Rhode Island and Oregon; Milwaukee at its measured 2022-2025 rate; reference line = median of all 8 statewide-law states. Revised 2026-10-28 (AQ-061): reporting-share coverage applied (Maine, Massachusetts, Rhode Island 2025; Utah 2023-2025), Massachusetts 2025 as 11/12 of a year, Washington law years from local compliance, value gap top-coded at California's maximum for allocation, measured Wisconsin cities pooled into the current-law group rates",
+  "status": "Adopted 2026-10-25 (AQ-042): pooled revision option (ii) cap+A2, configuration A (California in the common level); Madison on the observed Madison-like path. Revised 2026-10-26 (AQ-043): lower = mean of Rhode Island and Oregon; Milwaukee at its measured 2022-2025 rate; reference line = median of all 8 statewide-law states. Revised 2026-10-28 (AQ-061): reporting-share coverage applied (Maine, Massachusetts, Rhode Island 2025; Utah 2023-2025), Massachusetts 2025 as 11/12 of a year, Washington law years from local compliance, value gap top-coded at California's maximum for allocation, measured Wisconsin cities pooled into the current-law group rates. Revised 2026-11-01 (AQ-066): Madison on the statewide model (the Madison-like path is a sensitivity)",
   "units": "second-home permits on single-family lots per 1,000 one-unit detached homes per year",
   "area_levels": {
     "file": "reference/pooled_revision_wi_y_by_area.csv",
@@ -82,7 +82,10 @@
       "info": "The high end of what statewide-law states have reached; only California has gone higher."
     }
   },
-  "area_paths": {
+  "area_paths": {},
+  "statewide_adoption_line": "Adopted 2026-10-26 (AQ-043): median observed statewide rate across all 8 statewide-law states, California included (cap+A2 counts, 2020 = year 1; the other seven x0.951 for vacant-lot ADUs), years 1-4 (2027-2030) where data exist; year 5 (2031) has only California, so the year-4 median is carried forward and flagged. Points: reference/pooled_revision_reference_points.csv (AQ-061: written by scripts/run_pooled_revision.py with the adopted coverage and Washington coding; replaces scenario_options_reference_points.csv); computed by scripts/run_adu_model.py into reference/adu_model_reference_lines.csv and adu_model_reference_line_by_year.csv. The 7-state line (California out; reference/pooled_revision_adoption_line.csv) is kept as an alternative row.",
+  "notes": "Uniform 'level' (the Madison floor) applies only where an area has no model level. The Madison floor is set once, in madison_floor (in_use selects the variant; every path and script reads it via missing_middleware.model.params.madison_floor). area_paths replaces an area's level and ramp with an explicit observed path (engine.run area_paths). The California ramp is not applied on top of the pooled ramp. Path-specific ramps reproduce the pooled model's direct totals (each path scales the whole rate path); rounded to 4 decimals. The lower's level_from rule is applied by scripts/run_adu_model.py (load_area_levels); the stored factor and ramp are checked against the files there.",
+  "area_paths_retired": {
     "madison_like_path": {
       "area_ids": [
         "muni:5502548000"
@@ -100,9 +103,8 @@
       "units": "second-home permits on single-family lots per 1,000 one-unit detached homes per year, forecast years 1-5 (2027-2031); already ramped, so the engine applies no ramp on top",
       "applies_to": "all paths (lower, central, upper)",
       "source": "reference/madison_like_median_path.csv, group 'WA+OR Madison-like (main)': median of 9 Washington and Oregon Madison-like cities in years 1-3 and 4 Oregon cities in years 4-5 (docs/gate3/MADISON_LIKE_CITIES.md)",
-      "basis": "Owner decision 2026-10-25 (AQ-040 follow-up, AQ-042): Madison, the only Wisconsin place meeting the Madison-like definition (incorporated; 20,000-120,000 one-unit detached homes; median value $250,000-$500,000; not the largest city), follows the observed Madison-like path instead of its pooled level."
+      "basis": "Owner decision 2026-10-25 (AQ-040 follow-up, AQ-042): Madison, the only Wisconsin place meeting the Madison-like definition (incorporated; 20,000-120,000 one-unit detached homes; median value $250,000-$500,000; not the largest city), follows the observed Madison-like path instead of its pooled level.",
+      "retired": "AQ-066 (owner decision 2026-11-01): Madison follows the statewide model like every other place after a statewide law; this path is kept as a sensitivity only"
     }
-  },
-  "statewide_adoption_line": "Adopted 2026-10-26 (AQ-043): median observed statewide rate across all 8 statewide-law states, California included (cap+A2 counts, 2020 = year 1; the other seven x0.951 for vacant-lot ADUs), years 1-4 (2027-2030) where data exist; year 5 (2031) has only California, so the year-4 median is carried forward and flagged. Points: reference/pooled_revision_reference_points.csv (AQ-061: written by scripts/run_pooled_revision.py with the adopted coverage and Washington coding; replaces scenario_options_reference_points.csv); computed by scripts/run_adu_model.py into reference/adu_model_reference_lines.csv and adu_model_reference_line_by_year.csv. The 7-state line (California out; reference/pooled_revision_adoption_line.csv) is kept as an alternative row.",
-  "notes": "Uniform 'level' (the Madison floor) applies only where an area has no model level. The Madison floor is set once, in madison_floor (in_use selects the variant; every path and script reads it via missing_middleware.model.params.madison_floor). area_paths replaces an area's level and ramp with an explicit observed path (engine.run area_paths). The California ramp is not applied on top of the pooled ramp. Path-specific ramps reproduce the pooled model's direct totals (each path scales the whole rate path); rounded to 4 decimals. The lower's level_from rule is applied by scripts/run_adu_model.py (load_area_levels); the stored factor and ramp are checked against the files there."
+  }
 }
