@@ -126,6 +126,7 @@ def program_areas() -> None:
     """Each program's own eligibility map: LA TOC tiers as of October 2017 (City Planning), San Diego transit priority
     areas (City Planning; check vintage against the 2021 regional plan)."""
     src = {"la/toc_tiers_oct2017.geojson": ("https://services1.arcgis.com/tzwalEyxl2rpamKs/arcgis/rest/services/TOC_Tiers_Oct2017_new/FeatureServer/0", "*"),
+           "san_diego/transit_priority_areas_sandag_2022.geojson": ("https://geo.sandag.org/server/rest/services/Hosted/Transit_Priority_Areas/FeatureServer/0", "*"),
            "san_diego/transit_priority_areas.geojson": ("https://webmaps.sandiego.gov/arcgis/rest/services/Planning/PLN_TransitPriorityArea/MapServer/0", "*")}
     for rel, (layer, fields) in src.items():
         out = RAW / rel
