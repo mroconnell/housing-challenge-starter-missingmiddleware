@@ -84,10 +84,11 @@ def la_lots() -> gpd.GeoDataFrame:
                       "land_value": pd.to_numeric(d.Roll_LandValue, errors="coerce"),
                       "bldg_value": pd.to_numeric(d.Roll_ImpValue, errors="coerce"),
                       "land_base_year": pd.to_numeric(d.Roll_LandBaseYear, errors="coerce"),
-                      "use": d.UseType.astype(str), "public": d.AgencyType.notna() & (d.AgencyType.astype(str).str.strip() != ""),
+                      "use": d.UseType.astype(str), "use_code": d.UseCode.astype(str), "public": d.AgencyType.notna() & (d.AgencyType.astype(str).str.strip() != ""),
                       "year_built": pd.concat(yb, axis=1).where(pd.concat(yb, axis=1) > 0).min(axis=1)})
+    hotel = d.UseCode.astype(str).str.startswith("18")   # hotels and motels: the roll's unit count is rooms (hand check)
     L["_yb"] = list(zip(*[y.fillna(0).astype(int) for y in yb]))
-    L["_un"] = list(zip(*un))
+    L["_un"] = [tuple(0.0 for _ in u) if h else u for u, h in zip(zip(*un), hotel)]
     return gpd.GeoDataFrame(L, geometry=gpd.points_from_xy(d.CENTER_LON, d.CENTER_LAT), crs=4326).to_crs(CRS)
 
 
@@ -111,6 +112,7 @@ def sd_lots() -> gpd.GeoDataFrame:
                       "use": d.asr_landuse.astype(str), "public": d.taxstat.astype(str).str.upper().eq("E"),
                       "year_built": yr})
     u = pd.to_numeric(d.unitqty, errors="coerce").fillna(0)
+    u = u.where(~pd.to_numeric(d.asr_landuse, errors="coerce").isin([26, 44]), 0)   # hotels (26), self-storage (44): rooms/units, not homes
     L["_yb"] = [(int(y) if y == y else 0,) for y in yr]
     L["_un"] = [(float(x),) for x in u]
     # SANDAG coordinates are state plane (feet), NAD83 California zone 6
@@ -221,7 +223,27 @@ def build(case: str) -> pd.DataFrame:
         D["source"] = "county year built (both sides)"
     D["case"] = case
     D["implausible"] = implausible(D)
+    apply_hand_check(D, case)
     return D, S
+
+
+def apply_hand_check(D: pd.DataFrame, case: str) -> None:
+    """Corrections from the hand check of every lot with 100+ new homes (data/processed/tod_station_area/
+    hand_check_big_lots.csv): 'wrong count' rows take the corrected number, 'duplicate' rows go to 0; 'unverifiable'
+    rows are flagged (column hand_check) so the rates can be shown with and without them."""
+    f = OUT / "hand_check_big_lots.csv"
+    D["hand_check"] = ""
+    if not f.exists():
+        return
+    h = pd.read_csv(f)
+    h = h[(h.case == case) & h.lot_index.isin(D.index)]
+    for _, r in h.iterrows():
+        col = "homes_after_win" if r["window"] == "after" else "homes_before_win"
+        D.loc[r["lot_index"], "hand_check"] = r["class"]
+        if r["class"] == "duplicate":
+            D.loc[r["lot_index"], col] = 0.0
+        elif r["class"] == "wrong count" and pd.notna(r["homes_corrected"]):
+            D.loc[r["lot_index"], col] = float(r["homes_corrected"])
 
 
 def rates(D: pd.DataFrame, years_b: int, years_a: int) -> pd.DataFrame:
@@ -261,7 +283,7 @@ def main(argv=None) -> None:
     else:
         D, S = build(a.case)
     OUT.mkdir(parents=True, exist_ok=True)
-    D.drop(columns=["_yb", "_un"]).assign(x=D.geometry.x, y=D.geometry.y).drop(columns="geometry").to_parquet(OUT / f"lots_{a.case}.parquet")
+    D.drop(columns=[c for c in ("_yb", "_un") if c in D]).assign(x=D.geometry.x, y=D.geometry.y).drop(columns="geometry").to_parquet(OUT / f"lots_{a.case}.parquet")
     c = CASES[a.case]
     print(S.groupby(["group", "place"]).size().to_string())
     bad = D[D.implausible]
