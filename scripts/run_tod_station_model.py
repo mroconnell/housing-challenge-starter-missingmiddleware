@@ -92,3 +92,16 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+# ---------------------------------------------------------------------- dates (owner, 17:33: permit year, completion
+# year, and a third column: permit year, actual where known, else estimated from completion minus the typical gap)
+# Gap measured in LA, where 8,091 lots have both an LADBS new-building permit and a county year built 1 year before to
+# 6 years after it: median gap 1 year for 1, 2-4 and 5-49 homes, 2 years for 50+ homes (means 1.04, 0.70, 1.53, 1.91).
+LAG_BY_SIZE = {"1": 1, "2-4": 1, "5-49": 1, "50+": 2}
+
+
+def permit_year_est(E: pd.DataFrame) -> pd.Series:
+    size = pd.cut(E.homes, [0, 1, 4, 49, np.inf], labels=list(LAG_BY_SIZE)).astype(str)
+    est = E.completed_year - size.map(LAG_BY_SIZE).astype(float)
+    return E.permit_year.where(E.permit_year.notna(), est)
