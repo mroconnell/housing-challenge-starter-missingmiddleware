@@ -87,10 +87,17 @@ def main() -> None:
     scale = CENTRAL / (5 * float(wi_all["units_3y"].sum()))
 
     held, nets = [], []
+    ck = REFERENCE.parent / "data" / "interim" / f"parking_reform_models_ckpt{TAG}"  # resumable: one file per left-out place
+    ck.mkdir(parents=True, exist_ok=True)
     for i, k in enumerate(reform_keys):
         fitdf = data[data["key"] != k]
         te = data[(data["key"] == k) & (data["reform"] == 1)]
-        res = all_models(fitdf, te, wi)
+        f = ck / (k.replace("|", "_") + ".pkl")
+        if f.exists():
+            res = pd.read_pickle(f)
+        else:
+            res = all_models(fitdf, te, wi)
+            pd.to_pickle(res, f)
         for name, (on, off, w) in res.items():
             held.append(te[["key", "name", "origin", "reform_year", "homes", "units_3y", "actual"]].assign(model=name, pred_on=on, pred_off=off))
             nets.append(dict(left_out=k, model=name, wi_net_2027_2031=float(np.sum(w) * 5 * scale)))
@@ -121,7 +128,12 @@ def main() -> None:
         fy = {k: int(rng.choice(real_y)) for k in fk}
         fd = data[data["reform"] == 0].copy()
         fd["reform"] = [int(k in fy and oo - 1 <= fy[k] <= oo + 2) for k, oo in zip(fd["key"], fd["origin"])]
-        res = all_models(fd, fd.head(1), wi)
+        f = ck / f"fake_{seed}.pkl"
+        if f.exists():
+            res = pd.read_pickle(f)
+        else:
+            res = all_models(fd, fd.head(1), wi)
+            pd.to_pickle(res, f)
         for name, (_, _, w) in res.items():
             fakes.append(dict(seed=seed, model=name, fake_rows=int(fd["reform"].sum()), wi_net_2027_2031=float(np.sum(w) * 5 * scale)))
         print("fake seed", seed, "done", flush=True)
