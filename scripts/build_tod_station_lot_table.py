@@ -151,7 +151,10 @@ def implausible(D: pd.DataFrame) -> pd.Series:
     rates and listed; every lot with 100 or more new homes is also listed for a hand check."""
     new = D[["homes_before_win", "homes_after_win"]].max(axis=1)
     dense = (new / D.acres.where(D.acres > 0)) > 2000
-    return dense.fillna(False) & (new >= 20)
+    # real towers on small parcels (e.g. Seattle: 1,050 homes on 0.31 acre, $480M building) carry a building value of
+    # $150,000+ per home; placeholder counts do not
+    tower = (D.bldg_value / new.where(new > 0)) >= 150_000
+    return dense.fillna(False) & ~tower.fillna(False) & (new >= 20)
 
 
 def blocks_to_lots(D: gpd.GeoDataFrame, zip_path: Path) -> pd.Series:
