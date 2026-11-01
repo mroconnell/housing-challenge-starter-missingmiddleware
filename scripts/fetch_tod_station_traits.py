@@ -66,7 +66,24 @@ def nrhp() -> None:
     print("nrhp polygons", len(feats))
 
 
-STAGES = {"lodes": lodes, "nrhp": nrhp}
+def sld() -> None:
+    """EPA Smart Location Database, national: version 2 (2013; 2012 transit schedules) and version 3 (2021; 2020
+    schedules). Transit frequency, walkability, jobs access by block group. Public domain."""
+    out = RAW / "sld"
+    out.mkdir(parents=True, exist_ok=True)
+    man = {}
+    for name, url in (("SmartLocationDb_v2.zip", "https://edg.epa.gov/data/PUBLIC/OP/SLD/SmartLocationDb.zip"),
+                      ("SmartLocationDatabaseV3.zip", "https://edg.epa.gov/EPADataCommons/public/OA/SLD/SmartLocationDatabaseV3.zip")):
+        p = out / name
+        if not p.exists():
+            p.write_bytes(_get(url))
+        man[name] = {"url": url, "accessed": str(date.today()), "bytes": p.stat().st_size,
+                     "sha256": hashlib.sha256(p.read_bytes()).hexdigest(), "licence": "Public domain (US EPA)"}
+        print(name, p.stat().st_size)
+    (out / "manifest.json").write_text(json.dumps(man, indent=1))
+
+
+STAGES = {"lodes": lodes, "nrhp": nrhp, "sld": sld}
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser(); a.add_argument("stage", choices=STAGES); STAGES[a.parse_args().stage]()
