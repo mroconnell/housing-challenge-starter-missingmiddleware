@@ -163,3 +163,11 @@ Use lot-by-lot rows where parcels allow: vacancy, existing homes on the lot, lot
 
 - Steps B–C end in one frozen lot table (band, lot traits, before/after counts, reform or comparison stop, coverage). Step D reads only that table, so a model can be swapped by rerunning D and E only.
 - Baseline: the shared all-housing baseline v3 (14,654 near stops over 5 years). This method adds extra homes on top; comparison stops are used only inside training cities. Check: Wisconsin before-rates × band homes should roughly match 14,654.
+
+### Trait list draft (2026-11-01 14:05; owner list plus additions, awaiting lock)
+
+Stop: rail or bus (GTFS); trips per hour as ridership stand-in (GTFS); distance to downtown; years since opening.
+Neighborhood (ACS block group unless noted, values from before each reform): car ownership; commute time; transit commute share; income; median rent; median home value; vacancy rate; FHFA tract price index; jobs nearby (LEHD LODES; EPA Smart Location Database); age of existing buildings.
+Lot (assessor; FEMA; NRHP): vacant; existing homes; lot size; building-to-land value; publicly owned; floodplain; historic district.
+City: by-right or incentive; parking cut at same time; affordable units required; coverage; metro permits per person (Census BPS).
+Caveat: ACS block groups start 2009; earlier reforms use Census 2000.
