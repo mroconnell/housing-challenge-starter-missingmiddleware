@@ -117,5 +117,36 @@ Every change found is logged below as qualifies or ruled out, with the reason. A
 **Note on the scope (added before any Austin or Portland permit is counted):** "zoning change" means a city-initiated change covering many owners, like Denver's legislative ordinances. Rezonings requested by one owner for one project are left out. They are chosen because a project is coming, so their share of new homes after would rise by construction, not by policy.
 | Portland | Mixed-use zone conversion (CS/CG/CM/CN to CM1/CM2/CM3/CE, citywide centers and corridors) | 2018 (effective May 2018) | Not testable from public GIS yet | The proposal layers hold no from/to zones for it (the "mp" entries are 9 small industrial/employment polygons). Needs Portland's 2017 zoning snapshot: Metro RLIS archive or a request to the city's GIS team |
 | Portland | Map amendments "mp" (IG1/IH/EG to EX/EG1; industrial to central employment, which allows homes) | To confirm | To check | 9 polygons |
-| Portland | Better Housing by Design ("bhd") | 2019 (effective March 2020) | Ruled out | Permit layers end in 2022: 2 after-years |
+| Portland | Better Housing by Design ("bhd"), 1,296 adopted zone changes | Effective 1 March 2020 | Qualifies on data (2026-11-01 data check) | The earlier "permits end 2022" was wrong: the city's current permit layers (`BDS_Permit`, residential and commercial construction, with `NUMNEWUNITS`) run 1996–2026. Before window 2014–2019, after window 2021–2025. Raised allowed homes judged by the table below |
 | Portland | 82nd Avenue study map amendments | Adopted 30 May 2019 | To check | 21.5 acres, mostly employment zones (EG1, no homes); a few R5 to R2 and R5/R2.5 to CE (homes raised). After-years 2020–2022 (3). Needs a MAX stop within ½ mile |
+
+
+**Existing 9 cities, checked against the city-initiated rule:** all nine are city-initiated, area-wide reforms:
+- New York's pooled rezonings (city-led area rezonings);
+- Philadelphia's zoning remapping;
+- Charlotte's 2019 TOD ordinance;
+- Saint Paul's Green Line rezoning;
+- Los Angeles's Warner Center and Cornfield Arroyo Seco specific plans;
+- Seattle's station-area legislative rezonings;
+- Chicago's 2015 TOD ordinance;
+- Madison's 2023 transit overlay;
+- Bellevue's BelRed plan.
+
+None of them is a single-owner, single-site rezoning, so the rule matches them.
+
+**Portland zone capacity table (logged before any Portland permit is counted).** Allowed homes per acre, from Title 33. Densities are as written; floor-area zones are turned into homes at 1,000 square feet per home.
+
+| Zone | Before 2020 | Homes per acre | Zone | From 2020 | Homes per acre |
+| --- | --- | ---: | --- | --- | ---: |
+| R5 | 1 per 5,000 sq ft | 8.7 | RM1 | floor area 1.0 | 43.6 |
+| R3 | 1 per 3,000 sq ft | 14.5 | RM2 | floor area 1.5 | 65.3 |
+| R2 | 1 per 2,000 sq ft | 21.8 | RM3 | floor area 2.0 | 87.1 |
+| R1 | 1 per 1,000 sq ft | 43.6 | RM4 | floor area 4.0 | 174.2 |
+| RH | floor area 2.0 (base) | 87.1 | | | |
+
+Upzoned means homes per acre rose:
+- R2→RM1, R1→RM2, R3→RM1, R5→RM1 and RH→RM4 are upzoned.
+- RH→RM3 is equal, so not rising.
+- RH areas mapped at floor area 4:1 before (some central areas) would make RH→RM4 equal too. This is flagged and checked in a second version that leaves out RH→RM4.
+
+**Outcome so far, if Denver stays the only new case:** "1 new case: the drift rule beat both benchmarks but under-predicted (17.6% vs 45.0%)." One case can neither confirm nor overturn the central line, so 1,181 stays.
