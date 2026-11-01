@@ -17,6 +17,8 @@ bundle is built only from the adopted outputs:
   (unknown-rules switch), reference/adu_model_by_{assembly,senate}_district.csv, adu_model_district_crosswalk.csv and
   data/processed/districts/geo_{assembly,senate}.geojson (legislative districts; the simplified outlines are copied
   into the committed bundle, so a fresh clone draws them without data/processed), reference/gate5_trace.csv.
+- Optional "where" view (owner decision 2026-11-01): data/processed/adu_predictive/run3/wi_areas_causal_forest.parquet
+  spreads the adopted central statewide addition across places by the causal forest's pattern (where_forest.json).
 
 Output: ui/public/runs/<run_id>/*.json and ui/public/runs/latest.json. The run id is a hash of the
 input files, so the same inputs give the same bundle byte for byte (no timestamps).
@@ -73,6 +75,9 @@ INPUTS = [
     "data/processed/districts/geo_assembly.geojson", "data/processed/districts/geo_senate.geojson",
     # Gate 5 owner decision: "why areas differ" on the comparison screen (docs/gate5/MODEL_CHECKS.md, section 3b)
     "reference/gate5_context_contrast.csv", "reference/gate5_model_drivers.csv", "reference/gate5_context_examples.csv",
+    # Owner decision 2026-11-01: optional "where" view on the Where map, spreading the same adopted central
+    # statewide addition by the causal forest's place pattern (scripts/run_adu_predictive.py --run 3).
+    "data/processed/adu_predictive/run3/wi_areas_causal_forest.parquet",
 ]
 # Unknown-rules switch (docs/gate5/UI_CONTRACT.md section 1): screen labels, in switch order.
 UNKNOWN = [("like_restricted", "Like places that restrict ADUs (adopted)"),
@@ -86,6 +91,14 @@ DISTRICT_METHOD = ("Each city, village and town's result is split across the dis
                    "districts (Milwaukee across 14, Madison across 9); 1,842 lie in one district. Senate districts are the "
                    "sum of their three Assembly districts. Boundaries: the 2024 legislative districts (2023 Wisconsin Act 94), "
                    "Legislative Technology Services Bureau.")
+FOREST_NOTE = ("Same statewide total (central); the causal forest only changes where permits land. It predicted where "
+               "better than our model in held-out tests, but not how many.")
+FOREST_METHOD = ("Each place's share is its causal-forest addition for 2027 to 2031 divided by the forest's Wisconsin total. "
+                 "Each year, the adopted central statewide addition is split by those shares, so every year and the five-year "
+                 "total add up to the adopted central figures. Places with no single-family homes get 0. Counties add up "
+                 "their places. Assembly and Senate districts use the same block-based split of each place as the main map. "
+                 "Held-out test (run 3, 5 seeds): median log error for where rates land 0.98 to 0.99 for the forest against "
+                 "2.27 for our model; for how many permits, the forest was worse (0.253 against 0.218 over the 5 seeds).")
 CB_URL = "https://www2.census.gov/geo/tiger/GENZ2024/shp/"
 
 PILOTS = {
@@ -1116,7 +1129,73 @@ def build_geo(out: Path, munis: list, county_names: dict | None = None) -> dict:
     return sizes
 
 
-def validate(state: dict, counties: list, munis: list, unc: dict, unk: dict | None = None, dist: dict | None = None) -> dict:
+def build_forest(state: dict, munis: list, counties: list, dist: dict) -> dict:
+    """Causal-forest "where" view (owner decision 2026-11-01): the adopted central statewide addition, split across
+    places by the forest's pattern. Statewide numbers never change; only the per-place, county and district shares do.
+
+    share_i = forest additional_2027_2031_i / its Wisconsin sum; add_i[year] = share_i x adopted central addition[year].
+    """
+    f = pd.read_parquet(PROC / "adu_predictive/run3/wi_areas_causal_forest.parquet").set_index("area_id")
+    res_ids = set(pd.read_parquet(PROC / "model_run/results_long.parquet", columns=["area_id"]).area_id)
+    bundle_ids = {a["id"] for a in munis}
+    if set(f.index) != res_ids or set(f.index) != bundle_ids or f.index.has_duplicates:
+        raise SystemExit(f"causal forest areas do not match the adopted run: {len(set(f.index) ^ res_ids)} differ")
+    homes = {a["id"]: a["homes"] for a in munis}
+    if any(int(f.loc[a, "homes"]) != h for a, h in homes.items()):
+        raise SystemExit("causal forest homes differ from the adopted run's homes")
+    if (f.additional_2027_2031 < 0).any() or f.additional_2027_2031.isna().any():
+        raise SystemExit("causal forest additions must be finite and not negative")
+    raw = f.additional_2027_2031.where(f.homes > 0, 0.0)
+    share = raw / raw.sum()
+    by = pd.read_csv(REF / "adu_model_statewide_by_year.csv")
+    cen = by[by.path.eq("central")].sort_values("year").additional_units.tolist()
+    total = float(pd.read_csv(REF / "adu_model_statewide.csv").set_index("path").loc["central", "additional_units"])
+    assert abs(sum(cen) - total) < 1e-6, "central by year must sum to the central total"
+    add = {aid: [float(share[aid]) * y for y in cen] for aid in share.index}
+
+    def rate(v5, h):
+        return r(v5 / h / 5 * 1000, 4) if h > 0 else None
+
+    m_out = {a["id"]: {"add": [r(v, 4) for v in add[a["id"]]], "share": r(share[a["id"]], 8),
+                       "total": r(sum(add[a["id"]]), 4), "rate": rate(sum(add[a["id"]]), a["homes"])} for a in munis}
+    c_out = {}
+    for c in counties:
+        ids = [a["id"] for a in munis if a["county_id"] == c["id"]]
+        yv = [sum(add[i][k] for i in ids) for k in range(5)]
+        c_out[c["id"]] = {"add": [r(v, 6) for v in yv], "total": r(sum(yv), 4), "rate": rate(sum(yv), c["homes"])}
+    # districts: the same area -> district shares the main map uses (reference/adu_model_district_crosswalk.csv),
+    # normalised per area (the CSV rounds shares to 6 decimals); areas with no share go to the unallocated row.
+    cw = pd.read_csv(REF / "adu_model_district_crosswalk.csv", dtype={"assembly_district": str, "senate_district": str})
+    cw["w"] = cw.share / cw.groupby("area_id").share.transform("sum")
+    d_out, in_cw = {}, set(cw.area_id)
+    for level, prefix, col in (("assembly", "asm:", "assembly_district"), ("senate", "sen:", "senate_district")):
+        acc: dict[str, list] = {}
+        for x in cw.itertuples(index=False):
+            v = acc.setdefault(prefix + str(int(getattr(x, col))), [0.0] * 5)
+            for k in range(5):
+                v[k] += x.w * add[x.area_id][k]
+        unalloc = [sum(add[i][k] for i in add if i not in in_cw) for k in range(5)]
+        L = dist["levels"][level]
+        rows_ = {}
+        for d in L["rows"]:
+            yv = acc.pop(d["id"], [0.0] * 5)
+            rows_[d["id"]] = {"add": [r(v, 6) for v in yv], "total": r(sum(yv), 4), "rate": rate(sum(yv), d["homes"])}
+        assert not acc, f"forest districts not in the main map: {sorted(acc)}"
+        d_out[level] = {"rows": rows_, "unallocated": [r(v, 6) for v in unalloc]}
+    return {
+        "label": "Causal forest pattern", "path": "central", "statewide_central": r(total, 4),
+        "statewide_by_year": [r(v, 4) for v in cen], "note": FOREST_NOTE, "method": FOREST_METHOD,
+        "units": {"add": "additional permits per year, 2027 to 2031", "total": "additional permits over 2027 to 2031",
+                  "rate": "additional permits per 1,000 single-family homes per year, 2027 to 2031"},
+        "munis": m_out, "counties": c_out, "districts": d_out,
+        "results_doc": doc("docs/adu/PREDICTIVE_R3_RESULTS.md", "Model runs, run 3: results"),
+        "source": ("data/processed/adu_predictive/run3/wi_areas_causal_forest.parquet (scripts/run_adu_predictive.py --run 3); "
+                   "reference/adu_model_statewide_by_year.csv (central); reference/adu_model_district_crosswalk.csv"),
+    }
+
+
+def validate(state: dict, counties: list, munis: list, unc: dict, unk: dict | None = None, dist: dict | None = None,
+             forest: dict | None = None) -> dict:
     """Reconciliation and ordering checks recorded in the manifest; raise on failure."""
     checks = []
 
@@ -1196,6 +1275,19 @@ def validate(state: dict, counties: list, munis: list, unc: dict, unk: dict | No
                 nest = max(nest, abs(sum(sum(asm[a]["add"][k]) for a in sd["assembly"]) - sum(sd["add"][k])))
         check("each Senate district equals the sum of its three Assembly districts", nest < 0.01 and
               all(len(sd["assembly"]) == 3 for sd in dist["levels"]["senate"]["rows"]), f"largest gap {nest:.4f} permits")
+    if forest is not None:
+        # causal-forest "where" view: same central total, every geography reconciles, nothing negative
+        sc = next(x for x in state["scenarios"] if x["id"] == "central")
+        gaps = []
+        for name, vals in (("places", forest["munis"].values()), ("counties", forest["counties"].values())):
+            for i in range(5):
+                gaps.append(abs(sum(v["add"][i] for v in vals) - sc["additional_by_year"][i]))
+        for L in forest["districts"].values():
+            for i in range(5):
+                gaps.append(abs(sum(v["add"][i] for v in L["rows"].values()) + L["unallocated"][i] - sc["additional_by_year"][i]))
+        neg = sum(1 for g in ("munis", "counties") for v in forest[g].values() for x in v["add"] if x < 0)
+        check("causal forest view: places, counties and districts reconcile to the central statewide addition",
+              max(gaps) < 0.05 and neg == 0, f"largest gap {max(gaps):.4f} permits (every year); {neg} negative values")
     failed = [c for c in checks if not c["passed"]]
     if failed:
         raise SystemExit(f"bundle validation failed: {failed}")
@@ -1221,7 +1313,8 @@ def main():
     unk = build_unknown_rules(munis, counties)
     dist = build_districts(out)
     unc["trace"] = build_trace()
-    val = validate(state, counties, munis, unc, unk, dist)
+    forest = build_forest(state, munis, counties, dist)
+    val = validate(state, counties, munis, unc, unk, dist, forest)
     geo_n.update(dist.pop("sizes"))
     rules = pd.read_csv(REF / "wi_adu_rules.csv")
 
@@ -1288,7 +1381,7 @@ def main():
         "repo_url": REPO_URL,
         "files": ["manifest.json", "state.json", "areas.json", "uncertainty.json", "pilots.json", "evidence.json",
                   "geo_counties.json", "geo_munis.json", "geo_labels.json", "unknown_rules.json", "districts.json",
-                  "geo_assembly.json", "geo_senate.json", "geo_district_labels.json"],
+                  "geo_assembly.json", "geo_senate.json", "geo_district_labels.json", "where_forest.json"],
     }
 
     def dump(name, obj):
@@ -1303,6 +1396,7 @@ def main():
     dump("evidence.json", ev)
     dump("unknown_rules.json", unk)
     dump("districts.json", dist)
+    dump("where_forest.json", forest)
     (OUT_ROOT / "latest.json").write_text(json.dumps({"run_id": run_id}) + "\n")
     total = sum(f.stat().st_size for f in out.iterdir())
     print(f"bundle {run_id}: {len(list(out.iterdir()))} files, {total / 1e6:.2f} MB -> {out.relative_to(ROOT)}")

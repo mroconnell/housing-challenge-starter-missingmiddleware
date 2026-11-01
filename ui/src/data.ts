@@ -130,6 +130,16 @@ export interface Districts {
   caveat: string; method: string; homes_range: [number, number]; boundaries: string; source: string;
 }
 
+/** Optional "where" view (where_forest.json): the adopted central statewide addition split across places by the
+ *  causal forest's pattern. Central scenario only; statewide figures are the adopted ones. */
+type ForestVals = { add: number[]; total: number; rate: number | null };
+export interface ForestWhere {
+  label: string; path: "central"; statewide_central: number; statewide_by_year: number[]; note: string; method: string;
+  units: Record<string, string>; results_doc: DocLink; source: string;
+  munis: Record<string, ForestVals & { share: number }>; counties: Record<string, ForestVals>;
+  districts: Record<"assembly" | "senate", { rows: Record<string, ForestVals>; unallocated: number[] }>;
+}
+
 export interface Pilot {
   slug: string; area_id: string; name: string; county: string; role: "pilot" | "same_market_check"; description: string;
   homes: number; x_rate: number; x_low: number; x_high: number; x_status: string; x_basis: string; basis_text: string; note: string | null; provisional_through: string | null; provisional_detail: string | null; current_class: string;
@@ -153,7 +163,7 @@ export interface Evidence {
 
 export interface Bundle {
   manifest: Manifest; state: StateData; areas: AreasData; uncertainty: Uncertainty; pilots: Pilot[]; evidence: Evidence;
-  unknown: UnknownRules; districts: Districts;
+  unknown: UnknownRules; districts: Districts; forest: ForestWhere;
   base: string;
 }
 
@@ -166,12 +176,13 @@ async function getJSON<T>(url: string): Promise<T> {
 export async function loadBundle(): Promise<Bundle> {
   const { run_id } = await getJSON<{ run_id: string }>("runs/latest.json");
   const base = `runs/${run_id}/`;
-  const [manifest, state, areas, uncertainty, pilots, evidence, unknown, districts] = await Promise.all([
+  const [manifest, state, areas, uncertainty, pilots, evidence, unknown, districts, forest] = await Promise.all([
     getJSON<Manifest>(base + "manifest.json"), getJSON<StateData>(base + "state.json"), getJSON<AreasData>(base + "areas.json"),
     getJSON<Uncertainty>(base + "uncertainty.json"), getJSON<Pilot[]>(base + "pilots.json"), getJSON<Evidence>(base + "evidence.json"),
     getJSON<UnknownRules>(base + "unknown_rules.json"), getJSON<Districts>(base + "districts.json"),
+    getJSON<ForestWhere>(base + "where_forest.json"),
   ]);
-  return { manifest, state, areas, uncertainty, pilots, evidence, unknown, districts, base };
+  return { manifest, state, areas, uncertainty, pilots, evidence, unknown, districts, forest, base };
 }
 
 export const sum = (xs: number[]) => xs.reduce((a, b) => a + b, 0);

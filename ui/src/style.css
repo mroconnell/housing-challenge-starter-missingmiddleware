@@ -302,7 +302,8 @@ details.more[open] > summary { margin-bottom: 4px; }
 .unk-picker input { accent-color: var(--accent); }
 .unk-picker[disabled] label { opacity: 0.55; cursor: not-allowed; }
 .unk-picker p { flex-basis: 100%; margin: 2px 0 0; }
-.unk-inline { flex-basis: 100%; }
+.unk-inline, .spread-inline { flex-basis: 100%; }
+.spread-inline p { margin: 0.25rem 0 0; }
 .small-h { font-size: 0.95rem; margin: 10px 0 4px; }
 .delta { font-size: 0.85rem; color: var(--muted, #5b625f); }
 .section-h { font-size: 1.1rem; margin: 18px 0 0; }

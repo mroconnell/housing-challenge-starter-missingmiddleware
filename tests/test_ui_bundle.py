@@ -367,6 +367,48 @@ class TestUIBundle(unittest.TestCase):
         self.assertEqual(round((1 - ratios["income_dev"]) * 100), 25)
         self.assertEqual(len(why["examples"]), len(rows("gate5_context_examples.csv")))
 
+    # -- causal-forest "where" view (owner decision 2026-11-01): same central total, only the spread changes --------
+    def test_forest_file_and_reconcile(self):
+        self.assertIn("where_forest.json", self.manifest["files"])
+        f = strict_load(self.dir / "where_forest.json")
+        cen = self.scen["central"]
+        self.assertAlmostEqual(f["statewide_central"], cen["additional_total"], delta=0.01)
+        self.assertEqual(set(f["munis"]), {a["id"] for a in self.areas["munis"]})
+        self.assertEqual(set(f["counties"]), {c["id"] for c in self.areas["counties"]})
+        groups = {"munis": f["munis"].values(), "counties": f["counties"].values()}
+        for level, L in f["districts"].items():
+            self.assertEqual(set(L["rows"]), {d["id"] for d in self.dist["levels"][level]["rows"]})
+            groups[level] = list(L["rows"].values()) + [{"add": L["unallocated"]}]
+        for name, vals in groups.items():
+            vals = list(vals)
+            self.assertAlmostEqual(sum(sum(v["add"]) for v in vals), cen["additional_total"], delta=0.5, msg=name)
+            for i in range(5):
+                self.assertAlmostEqual(sum(v["add"][i] for v in vals), cen["additional_by_year"][i], delta=0.5, msg=f"{name} year {i + 1}")
+            self.assertFalse([v for v in vals for x in v["add"] if x < 0], f"{name}: negative additions")
+        # places with no homes get nothing; counties are the sum of their places
+        homes = {a["id"]: a["homes"] for a in self.areas["munis"]}
+        self.assertTrue(all(f["munis"][a]["total"] == 0 for a, h in homes.items() if h == 0))
+        by_c: dict = {}
+        for a in self.areas["munis"]:
+            by_c[a["county_id"]] = by_c.get(a["county_id"], 0) + f["munis"][a["id"]]["total"]
+        for cid, v in f["counties"].items():
+            self.assertAlmostEqual(v["total"], by_c[cid], delta=0.01)
+        self.assertIn("Same statewide total (central)", f["note"])
+        self.assertNotIn("\u2014", f["note"] + f["method"])   # owner rule: no em-dashes in UI text
+
+    @unittest.skipUnless((ROOT / "data/processed/adu_predictive/run3/wi_areas_causal_forest.parquet").exists(),
+                         "forest parquet not present (data/ is not committed)")
+    def test_forest_shares_match_parquet(self):
+        import pandas as pd
+        f = strict_load(self.dir / "where_forest.json")
+        pq = pd.read_parquet(ROOT / "data/processed/adu_predictive/run3/wi_areas_causal_forest.parquet").set_index("area_id")
+        raw = pq.additional_2027_2031.where(pq.homes > 0, 0.0)
+        share = raw / raw.sum()
+        tot = self.scen["central"]["additional_total"]
+        for aid, v in f["munis"].items():
+            self.assertAlmostEqual(v["share"], share[aid], places=7)
+            self.assertAlmostEqual(v["total"], share[aid] * tot, delta=0.001)
+
 
 if __name__ == "__main__":
     unittest.main()

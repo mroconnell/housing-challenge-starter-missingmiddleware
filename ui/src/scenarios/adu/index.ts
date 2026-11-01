@@ -1,6 +1,6 @@
 // The ADU reform: status strip, footer, vintages dialog and a router over its seven screens.
 // The screens themselves live in ui/src/screens/ (owned by the ADU conductor).
-import { type Ctx, type UIState } from "../../app";
+import { type Ctx, type Spread, type UIState } from "../../app";
 import { loadBundle, type Bundle, type PathId, type UnknownId } from "../../data";
 import { esc, int } from "../../format";
 import { renderBrief } from "../../screens/brief";
@@ -27,7 +27,7 @@ const UNKNOWN_IDS: UnknownId[] = ["like_restricted", "like_prohibited", "like_be
 function mount(env: ShellEnv, data: unknown): MountedReform {
   const b = data as Bundle;
   const m = b.manifest;
-  const ui: UIState = { scenario: "central", year: 2031, unknown: "like_restricted" };
+  const ui: UIState = { scenario: "central", year: 2031, unknown: "like_restricted", spread: "model" };
   const ctx: Ctx = {
     b, ui,
     setScenario(p: PathId) {
@@ -44,6 +44,12 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       const v = b.unknown.variants.find((x) => x.id === u)!;
       ctx.announce(`Places with uncoded rules treated ${v.label.toLowerCase()}. Over 2027 to 2031, central scenario: baseline ${int(v.baseline_total)}, added by the law ${int(v.additional_total.central)}, total with the law ${int(v.with_law_total.central)} permits.`);
     },
+    setSpread(s: Spread) {
+      ui.spread = s;
+      writeUrl();
+      env.refresh();
+      ctx.announce(s === "forest" ? `Central addition spread by the causal forest pattern. ${b.forest.note}` : "Central addition spread by our model.");
+    },
     scen(p?: PathId) { return b.state.scenarios.find((s) => s.id === (p ?? ui.scenario))!; },
     link: (path: string) => env.link(path),
     announce: (msg: string) => env.announce(msg),
@@ -53,6 +59,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
     const q = new URLSearchParams();
     if (ui.scenario !== "central") q.set("s", ui.scenario);
     if (ui.unknown !== "like_restricted") q.set("u", ui.unknown);
+    if (ui.spread === "forest") q.set("w", "forest");   // "w" = where-spread; "s" is the scenario
     env.replaceQuery(q);
   }
   return {
@@ -88,6 +95,9 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       if (s === "lower" || s === "central" || s === "upper") ui.scenario = s;
       const u = params.get("u") as UnknownId | null;
       if (u && UNKNOWN_IDS.includes(u)) ui.unknown = u;
+      // like s= and u=, an absent w= keeps the current choice (tab links carry no query)
+      const w = params.get("w");
+      if (w === "forest" || w === "model") ui.spread = w;
       if (!path.startsWith("/where")) leaveWhere();
       if (path.startsWith("/compare")) renderCompare(ctx, main);
       else if (path.startsWith("/where")) renderWhere(ctx, main);

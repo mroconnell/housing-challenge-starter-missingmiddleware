@@ -270,6 +270,52 @@ test("districts reconcile to the state and disable the unknown-rules switch", as
   await expect(page.locator('input[name="unk-where"][value="like_prohibited"]')).toBeChecked();
 });
 
+test("causal forest view: same statewide total, counties match the bundle, central only", async ({ page }) => {
+  const b = await bundle(page);
+  const forest = await (await page.request.get(`runs/${b.run_id}/where_forest.json`)).json();
+  const cen = b.state.scenarios.find((s: { id: string }) => s.id === "central");
+  await page.goto("#/where");
+  const sw = page.getByTestId("spread-switch");
+  await expect(sw.locator('input[value="model"]')).toBeChecked();
+  await expect(page.getByTestId("forest-note")).toHaveCount(0);
+  await sw.getByLabel("Causal forest pattern").check();
+  await expect(page).toHaveURL(/w=forest/);
+  await expect(page.getByTestId("forest-note")).toHaveText(forest.note);
+  // the county whose central addition the forest moves most: its table value and details equal the bundle
+  const county = b.areas.counties
+    .map((c: { id: string; name: string; add: Record<string, number[]> }) => ({ ...c, d: forest.counties[c.id].total - sum(c.add.central) }))
+    .sort((x: { d: number }, y: { d: number }) => Math.abs(y.d) - Math.abs(x.d))[0];
+  const ft = forest.counties[county.id].total;
+  const row = page.getByTestId("where-table").locator("tbody tr").filter({ has: page.locator(`button[data-sel="${county.id}"]`) });
+  await expect(row.locator("td").nth(2)).toHaveText(fmt(ft));
+  await page.locator(`button[data-sel="${county.id}"]`).click();
+  await expect(page.getByTestId("detail-forest-central")).toHaveText(`${fmt(ft)} permits`);
+  await expect(page.getByTestId("detail-model-central")).toHaveText(`${fmt(sum(county.add.central))} permits`);
+  // the statewide total does not change, and the table still reconciles
+  const rec = page.getByTestId("reconcile");
+  await expect(rec).toContainText("✓");
+  await expect(rec).toContainText(fmt(cen.additional_total));
+  await expect(rec).toContainText("causal forest pattern");
+  for (const [name] of [["Cities, villages and towns"], ["Assembly districts"], ["Senate districts"]] as const) {
+    await page.getByRole("radio", { name }).check();
+    await expect(page.getByTestId("reconcile")).toContainText("✓");
+    await expect(page.getByTestId("reconcile")).toContainText(fmt(cen.additional_total));
+    await expect(page.getByTestId("reconcile")).toContainText("causal forest pattern");
+  }
+  // other scenarios: the toggle is disabled and says the view is central only
+  await page.getByRole("radio", { name: "Counties", exact: true }).check();
+  await page.locator('input[name="scen-where"][value="upper"]').check();
+  for (const i of await sw.locator("input").all()) await expect(i).toBeDisabled();
+  await expect(page.getByTestId("forest-note")).toContainText("central scenario only");
+  await expect(page.getByTestId("reconcile")).not.toContainText("causal forest");
+  // a non-adopted unknown-rules assumption also turns it off
+  await page.goto("#/where?w=forest&u=like_prohibited");
+  await expect(page.locator('input[name="scen-where"][value="upper"]')).toBeChecked();
+  await page.locator('input[name="scen-where"][value="central"]').check();
+  for (const i of await sw.locator("input").all()) await expect(i).toBeDisabled();
+  await expect(page.getByTestId("forest-note")).toContainText("adopted assumption");
+});
+
 test("keyboard: unknown-rules switch and district view", async ({ page, isMobile }) => {
   test.skip(isMobile, "keyboard test runs on desktop");
   const b = await bundle(page);

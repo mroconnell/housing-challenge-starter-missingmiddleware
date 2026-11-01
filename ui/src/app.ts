@@ -13,13 +13,17 @@ export const COLORS = {
 export const DASH: Record<string, string | undefined> = { baseline: "7 5", lower: "2 4", central: undefined, upper: "9 3 2 3", ref: "12 4 3 4" };
 
 /** unknown: how places with uncoded local ADU rules are treated (precomputed runs; "like_restricted" is adopted). */
-export interface UIState { scenario: PathId; year: number; unknown: UnknownId }
+/** spread: how the central addition is shared across places on the Where screen ("model" = adopted; "forest" =
+ *  the causal forest's pattern, same statewide total). URL parameter w=forest. */
+export type Spread = "model" | "forest";
+export interface UIState { scenario: PathId; year: number; unknown: UnknownId; spread: Spread }
 
 export interface Ctx {
   b: Bundle;
   ui: UIState;
   setScenario(p: PathId): void;
   setUnknown(u: UnknownId): void;
+  setSpread(s: Spread): void;
   scen(p?: PathId): Scenario;
   link(path: string): string;
   /** Say a short message through the page's polite live region (screen readers), e.g. after a switch changes the numbers. */
