@@ -232,7 +232,8 @@ def hnl_permits() -> gpd.GeoDataFrame:
     d["units"] = pd.to_numeric(d.numunitsadd, errors="coerce").fillna(0)
     d["year"] = pd.to_datetime(d.issuedate, errors="coerce").dt.year
     bad = d.statusdescription.str.contains(HNL_SKIP_STATUS, case=False, na=False) | d.structurecode.str.startswith("57", na=False)
-    d = d[~bad & (d.foundationonly != "Y") & (d.units > 0)].copy()
+    adu = (d.accessorydwellingunitadu == "Y") | (d.ohana == "Y") | d.proposeduse.str.contains(r"\bADU\b|ACCESSORY DWELL|OHANA", case=False, na=False)
+    d = d[~bad & ~adu & (d.foundationonly != "Y") & (d.units > 0)].copy()   # ADUs are the ADU scenario's, as in LA and San Diego
     keys = d.tmk.fillna("").str.findall(r"\d{8}")
     d["k0"] = keys.str[0]
     d = d.drop_duplicates(["k0", "year", "units", "joblocation"])
