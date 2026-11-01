@@ -224,7 +224,38 @@ def build(case: str) -> pd.DataFrame:
     D["case"] = case
     D["implausible"] = implausible(D)
     apply_hand_check(D, case)
+    EVENTS[case] = events(D, c)
     return D, S
+
+
+EVENTS: dict[str, pd.DataFrame] = {}
+
+
+def events(D: gpd.GeoDataFrame, c: dict) -> pd.DataFrame:
+    """One row per new-building record from 2000 on (owner, 17:33: keep permit and completion dates side by side and
+    compute windows later). Completion rows come from county year built (buildings 1-5 on LA lots); permit rows from
+    the city permit file where one exists (LA city side, Honolulu). Records are not matched across the two sources:
+    each row has one date; `preferred` names the date type used on both sides of the comparison for that case."""
+    rows = []
+    if "_yb" in D and D["_yb"].map(len).sum():
+        for ix, ys, us in zip(D.index, D["_yb"], D["_un"]):
+            for y, u in zip(ys, us):
+                if y >= 2000 and u > 0:
+                    rows.append((ix, float(u), np.nan, float(y), "county year built"))
+    pref = "completed"
+    if c["metro"] in ("la", "hnl"):
+        import run_tod_station_area as SA
+        p = SA.permits("Los Angeles") if c["metro"] == "la" else SA.hnl_permits()
+        p = p[p.year >= 2000]
+        pj = gpd.sjoin_nearest(p, D[["geometry"]], how="inner", max_distance=60, distance_col="_d")
+        pj = pj[~pj.index.duplicated()]
+        rows += [(ix, float(u), float(y), np.nan, "city permits") for ix, u, y in zip(pj.index_right, pj.units, pj.year)]
+        if c["metro"] == "hnl":
+            pref = "permit"
+    E = pd.DataFrame(rows, columns=["lot_index", "homes", "permit_year", "completed_year", "source"])
+    E["preferred"] = pref
+    E["hand_check"] = E.lot_index.map(D.get("hand_check", pd.Series(dtype=str)))
+    return E
 
 
 def apply_hand_check(D: pd.DataFrame, case: str) -> None:
@@ -284,6 +315,13 @@ def main(argv=None) -> None:
         D, S = build(a.case)
     OUT.mkdir(parents=True, exist_ok=True)
     D.drop(columns=[c for c in ("_yb", "_un") if c in D]).assign(x=D.geometry.x, y=D.geometry.y).drop(columns="geometry").to_parquet(OUT / f"lots_{a.case}.parquet")
+    ev = EVENTS.get(a.case)
+    if ev is None and a.case in ext:
+        ev = getattr(ext[a.case][0], "EVENTS", {}).get(a.case)
+    if ev is not None:
+        ev.to_parquet(OUT / f"events_{a.case}.parquet")
+        print(f"events: {len(ev):,} rows; homes by date type: permit {ev.loc[ev.permit_year.notna(), 'homes'].sum():,.0f}, "
+              f"completed {ev.loc[ev.completed_year.notna(), 'homes'].sum():,.0f}")
     c = CASES[a.case]
     print(S.groupby(["group", "place"]).size().to_string())
     bad = D[D.implausible]
