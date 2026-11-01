@@ -305,3 +305,15 @@ Owner: "developers know a rail line is being planned ahead of its opening ... Th
 | **Median** | **0.94** | **1.11** | **1.81** |
 
 So far the drift rule beats both benchmarks on the city median. The two station-area upzonings (Denver, Austin) jumped and the drift rule came closest. Portland's citywide re-codings barely moved.
+
+## Salt Lake City 2010, set before counting (owner: use today's map; audit conditions)
+
+- **Reform:** Transit Station Area district, Ordinance 59 of 2010, effective 11 August 2010. Stops: the five Airport TRAX (North Temple) stations it named, under construction then and opened April 2013. The trait `stop_open_at_reform` is "no".
+- **Map:** TSA zones nearest those five stations, from the 2020 zoning snapshot used in October (`data/raw/tod_slc/slc_zoning_2020_jacobs.geojson`). Labelled **"2020 boundary, hindsight risk"**. Upzoned = lots in those TSA zones.
+- **Homes:** the Utah Housing Unit Inventory (UGRC; `UNIT_COUNT` and `APX_BLT_YR` per parcel, Salt Lake City), standing in for permits. How it differs:
+  - It records completions (year built), which come about 1–2 years after the permit.
+  - It counts only homes that still stand.
+  - Its year built is approximate.
+- **Lots:** the inventory's residential parcels, plus each parcel's points.
+- **Windows, on the reform date:** before, built 2004–2009; after, built 2011–2015.
+- **Reporting:** the city median is reported both with and without Salt Lake City.
