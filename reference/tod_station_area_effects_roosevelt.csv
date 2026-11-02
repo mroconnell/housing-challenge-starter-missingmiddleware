@@ -1,0 +1,4 @@
+city,band,reform_change,comparison_change,effect_raw,effect_scaled,effect_per_100_acres,coverage,coverage_diff
+seattle_roosevelt_2012,0-1/4,508.3933,24.2868,484.1064,2003.0781,478.7173,0.2417,0.2417
+seattle_roosevelt_2012,1/2-1,24.1213,43.0505,-18.9292,,0.8702,0.0,0.0
+seattle_roosevelt_2012,1/4-1/2,9.3,65.7078,-56.4078,,-55.3798,0.0,0.0

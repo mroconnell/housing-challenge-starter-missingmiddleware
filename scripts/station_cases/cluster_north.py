@@ -9,9 +9,16 @@ as case_windows() in scripts/run_tod_station_area.py: before = window_first..eff
     bellevue_belred_2009      lot-model unit bellevue_belred_2009
     stpaul_2011               lot-model unit stpaul (reform year 2011 in the lot model, not 2012)
     charlotte_2019            lot-model unit charlotte
+    seattle_roosevelt_2012    not a lot-model unit (added 2026-11-02, docs/tod/OPTION_D_CANDIDATES.md): windows set by
+                              the same rule (before = eff-6..eff-1, after = eff+1..eff+5); upzoned area from the City
+                              zoning layer (see roosevelt_points)
 
 Upzoned area: the lot model's treated lots (as points, the same input as upzoned_points()); a lot is in the reform
 area if it lies within 30 m of a treated lot point.
+
+Seattle Roosevelt: the light rail station opened in 2021, after the windows (owner rule: a trait, not a disqualifier).
+Its reform stop is the Roosevelt station site (META reform_stop); the comparison stops follow the Seattle rule (Link
+stations open by the reform year), with Othello (2012) and Mount Baker (2014) stops left out as contaminated.
 
 Stops (platforms within 150 m merged into one station; the case's rail_stops.geojson, BTS national transit map):
 - reform stops: stops of the reform city within 1/2 mile (805 m) of the upzoned area;
@@ -74,6 +81,9 @@ META = {
     "bellevue_belred_2009": {"unit": "bellevue_belred_2009", "city": "Bellevue", "metro": "king", "stops": "bellevue", "state": "53"},
     "stpaul_2011": {"unit": "stpaul", "city": "Saint Paul", "metro": "stpaul", "stops": "stpaul", "state": "27"},
     "charlotte_2019": {"unit": "charlotte", "city": "Charlotte", "metro": "clt", "stops": "charlotte", "state": "37"},
+    # not in the lot model: eff from the City zoning layer (Ordinance 123816, effective 2012-03-02); reform stop opened 2021
+    "seattle_roosevelt_2012": {"unit": "seattle_roosevelt_2012", "city": "Seattle", "metro": "king", "stops": "seattle", "state": "53",
+                               "eff": 2012, "reform_stop": "Roosevelt", "reform_stop_opened": 2021},
 }
 PLACE = {"Seattle": "Seattle", "Bellevue": "Bellevue", "Saint Paul": "St. Paul", "Charlotte": "Charlotte"}
 
@@ -95,6 +105,10 @@ def _windows() -> dict:
     d = d[d.placebo != 1].drop_duplicates("unit").set_index("unit")
     out = {}
     for case, m in META.items():
+        if m["unit"] not in d.index:          # not a lot-model unit: the lot model's rule (6 years before, 5 after)
+            e = int(m["eff"])
+            out[case] = {"eff": e, "before": (e - 6, e - 1), "after": (e + 1, e + 5), "reform_city": m["city"], "lot_model_unit": ""}
+            continue
         r = d.loc[m["unit"]]
         e = int(r.eff_year)
         out[case] = {"eff": e, "before": (int(r.window_first), e - 1), "after": (e + 1, int(r.window_last)),
@@ -110,10 +124,56 @@ EVENTS: dict[str, pd.DataFrame] = {}
 # --------------------------------------------------------------------------- upzoned land
 
 def treated_points() -> dict[str, np.ndarray]:
-    """Treated lot points of each lot-model unit, an (n, 2) array in CRS 5070."""
+    """Treated lot points of each lot-model unit, an (n, 2) array in CRS 5070 (plus Seattle Roosevelt, roosevelt_points)."""
     D = pd.read_parquet(LOTS, columns=["city", "unit", "treated", "x5070", "y5070", "placebo"])
     D = D[(D.treated == 1) & (D.placebo != 1)]
-    return {str(u): np.c_[g.x5070.values, g.y5070.values] for u, g in D.groupby("unit")}
+    out = {str(u): np.c_[g.x5070.values, g.y5070.values] for u, g in D.groupby("unit")}
+    out["seattle_roosevelt_2012"] = roosevelt_points()
+    return out
+
+
+def _zone(z: str) -> str:
+    """Base zone without suffixes: "NC3P-65 (1.3)" -> "NC3-65", "LR3 RC" -> "LR3" (P = pedestrian designation, RC =
+    residential-commercial; neither changes height or density)."""
+    z = re.sub(r"\s*\(.*?\)", "", str(z)).replace(" RC", "").strip()
+    return re.sub(r"^(NC\d)P", r"\1", z)
+
+
+def roosevelt_polys() -> pd.DataFrame:
+    """Polygons of the City of Seattle zoning layer (Current_Land_Use_Zoning_Detail_2; data/raw/tod_cases/seattle/
+    zoning_current.geojson, manifest there) whose history lists Ordinance 123816 (Roosevelt rezone, effective
+    2012-03-02), as in scripts/run_tod_census_grow.py, kept only where the ordinance changed the base zone (e.g. SF 5000
+    -> LR3, LR2 -> NC3-65, NC3-65 -> NC3-85). Polygons where it kept the zone and changed only a suffix or the P
+    designation are left out. Columns zone_before, zone_set, geometry (CRS 5070)."""
+    z = X.read_vector(TC / "seattle" / "zoning_current.geojson", dst=CRS)
+    z = z[z.ZONINGHISTORY.astype(str).str.contains("ORD123816")].copy()
+    sets, befores = [], []
+    for h in z.ZONINGHISTORY.astype(str):
+        parts = [p.strip() for p in h.split(";")]
+        i = next(k for k, p in enumerate(parts) if "ORD123816" in p)
+        sets.append(parts[i].split(",")[0].strip())
+        befores.append(parts[i + 1].split(",")[0].strip() if i + 1 < len(parts) else "")
+    z["zone_set"], z["zone_before"] = sets, befores
+    up = [_zone(a) != _zone(b) for a, b in zip(z.zone_set, z.zone_before)]
+    return z[up].reset_index(drop=True)[["zone_before", "zone_set", "geometry"]]
+
+
+_RV: list = []
+
+
+def roosevelt_points() -> np.ndarray:
+    """King County parcel points inside the Roosevelt upzoned polygons: the treated lot points of the case."""
+    if not _RV:
+        from missing_middleware import geom as G
+        P = pd.read_csv(RP / "king" / "parcels.csv", usecols=["MAJOR", "MINOR", "LAT", "LON"], dtype=str).dropna(subset=["LAT"])
+        P = P.drop_duplicates(["MAJOR", "MINOR"])
+        x, y = X.transform(P.LON.astype(float).values, P.LAT.astype(float).values, 4326, CRS)
+        lon, lat = -122.317, 47.676                          # box around the station before the polygon test
+        cx, cy = X.transform(np.array([lon]), np.array([lat]), 4326, CRS)
+        near = np.hypot(x - cx[0], y - cy[0]) < 3000
+        inside = G.points_in_any(x[near], y[near], list(roosevelt_polys().geometry), union=True)
+        _RV.append(np.c_[x[near][inside], y[near][inside]])
+    return _RV[0]
 
 
 def dist_to_points(x, y, pts: np.ndarray) -> np.ndarray:
@@ -161,9 +221,13 @@ def stops_for(case: str) -> pd.DataFrame:
     if m["metro"] == "king":
         if case.startswith("seattle"):
             same = nm.map(LINK_OPENED).le(c["eff"])          # open by the reform year
+            if m.get("reform_stop"):                         # the case's own station, opened after the windows
+                same = same | nm.eq(m["reform_stop"])
         else:
             same = nm.isin(EAST_LINK_ST2)                       # approved 2008, none open in the window
         S["stop_type_text"] = np.where(case.startswith("seattle"), "Link light rail (open)", "Link light rail (approved 2008, opened 2024+)")
+        if m.get("reform_stop"):
+            S.loc[nm.eq(m["reform_stop"]), "stop_type_text"] = f"Link light rail (opened {m['reform_stop_opened']}, after the windows)"
     elif m["metro"] == "stpaul":
         green = S.place.eq("St. Paul") | nm.isin(["Prospect Park", "Stadium Village", "East Bank", "West Bank"])
         same = green & S.place.eq("St. Paul")                  # Minneapolis: no homes counts in the Hennepin file

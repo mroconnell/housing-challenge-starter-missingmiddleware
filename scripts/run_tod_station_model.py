@@ -7,6 +7,11 @@ cases (each case once), with the range from leaving one case out. Scores: each l
 average vs by zero (the two simple rules).
 
     uv run --all-extras python scripts/run_tod_station_model.py
+
+A candidate case kept outside the training set (lot table in data/processed/tod_station_area/candidates/) is measured
+alone, writing only its own file and leaving the committed outputs as they are:
+
+    .venv/bin/python scripts/run_tod_station_model.py --candidate seattle_roosevelt_2012 --write tod_station_area_effects_roosevelt.csv
 """
 from __future__ import annotations
 
@@ -22,6 +27,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from missing_middleware.paths import REFERENCE  # noqa: E402
 
 OUT = ROOT / "data" / "processed" / "tod_station_area"
+CANDIDATES = OUT / "candidates"
 BANDS = ["0-1/4", "1/4-1/2", "1/2-1"]
 
 
@@ -43,13 +49,13 @@ def county_of(case: str) -> str:
     return next((k for k in ("la", "san_diego", "denver") if case.startswith(k)), "other")
 
 
-def king_permit_years(case: str, E: pd.DataFrame) -> pd.Series:
+def king_permit_years(case: str, E: pd.DataFrame, out: Path = OUT) -> pd.Series:
     """Actual permit year for King County completion records where a city permit (Seattle or Bellevue) for new homes
     sits on the same lot (within 40 m) and was issued 1 year after to 6 years before completion (hand check found the
     estimated year runs early in Seattle)."""
     import run_tod_station_area as SA
     from missing_middleware import geom_extra_station as X
-    L = pd.read_parquet(OUT / f"lots_{case}.parquet", columns=["x", "y"])
+    L = pd.read_parquet(out / f"lots_{case}.parquet", columns=["x", "y"])
     p = pd.concat([SA.permits("Seattle"), SA.permits("Bellevue")], ignore_index=True)
     i, _ = X.nearest_lowest(p.x.values, p.y.values, L.x.values, L.y.values, 40.0)
     j = p[i >= 0].assign(index_right=L.index.values[i[i >= 0]])
@@ -61,20 +67,20 @@ def king_permit_years(case: str, E: pd.DataFrame) -> pd.Series:
     return pd.Series(out, index=E.index, dtype=float)
 
 
-def event_windows(case: str, D: pd.DataFrame, mode: str) -> pd.DataFrame:
+def event_windows(case: str, D: pd.DataFrame, mode: str, src: Path = OUT) -> pd.DataFrame:
     """Window totals per lot recomputed from the per-building events, on one date type for both sides of the case:
     mode "permit_est" (actual permit year, else completion year minus the county's gap) or "completed". Where a case
     has both a permit file and county year built for the same buildings without a one-to-one match (LA, San Diego),
     only the source used on both sides (county year built) is read, to avoid counting a building twice."""
     import build_tod_station_lot_table as B
-    E = pd.read_parquet(OUT / f"events_{case}.parquet")
+    E = pd.read_parquet(src / f"events_{case}.parquet")
     if "match" in E:
         E = E[E["match"] != "completed_only_near_permit"]
     elif E.completed_year.notna().any() and E.permit_year.notna().any():
         E = E[E.completed_year.notna()]
     if mode == "permit_est" and county_of(case) == "king" and E.permit_year.isna().all():
         E = E.copy()
-        E["permit_year"] = king_permit_years(case, E)
+        E["permit_year"] = king_permit_years(case, E, src)
     yr = permit_year_est(E, county_of(case)) if mode == "permit_est" else E.completed_year
     cfg = {**B.CASES, **{k: v for k, (_, v) in B.adapter_cases().items()}}[case]
     out = D.copy()
@@ -93,13 +99,16 @@ def event_windows(case: str, D: pd.DataFrame, mode: str) -> pd.DataFrame:
     return out
 
 
-def case_effects(mode: str = "stored") -> pd.DataFrame:
+def case_effects(mode: str = "stored", src: Path = OUT, only: str | None = None) -> pd.DataFrame:
+    """Effects of every case in src (default: the training cases); only = one case of src."""
     rows = []
-    for f in sorted(OUT.glob("lots_*.parquet")):
+    for f in sorted(src.glob("lots_*.parquet")):
         case = f.stem.removeprefix("lots_")
+        if only and case != only:
+            continue
         D = pd.read_parquet(f, columns=["group", "band", "homes_existing", "homes_before_win", "homes_after_win", "in_reform_area", "implausible", "acres"])
-        if mode != "stored" and (OUT / f"events_{case}.parquet").exists():
-            D = event_windows(case, D, mode)
+        if mode != "stored" and (src / f"events_{case}.parquet").exists():
+            D = event_windows(case, D, mode, src)
         D = D[~D.implausible.fillna(False)]
         yb, ya = windows(case)
         g = D.groupby(["group", "band"]).agg(e=("homes_existing", "sum"), b=("homes_before_win", "sum"), a=("homes_after_win", "sum"),
@@ -170,7 +179,17 @@ def main() -> None:
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--dates", choices=["stored", "permit_est", "completed"], default="permit_est")
-    E = case_effects(ap.parse_args().dates)
+    ap.add_argument("--candidate", help="measure one case from data/processed/tod_station_area/candidates/ only")
+    ap.add_argument("--write", help="with --candidate: file name in reference/ for its effects (same columns as by_city)")
+    a = ap.parse_args()
+    if a.candidate:
+        C = city_level(case_effects(a.dates, CANDIDATES, a.candidate))
+        pd.set_option("display.width", 200)
+        print(C.round(2).to_string(index=False))
+        if a.write:
+            C.round(4).to_csv(REFERENCE / a.write, index=False)
+        return
+    E = case_effects(a.dates)
     C = city_level(E)
     pd.set_option("display.width", 200)
     print(C.round(2).to_string(index=False))

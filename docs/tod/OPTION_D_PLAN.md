@@ -163,3 +163,11 @@ Departures and fixes after locking are logged below with dates, before each reru
   miss 41.4), the scaled rule 136 to 273 (median miss 226), zero misses by a median 10.7: these results describe
   districts, not citywide upzoning. (d) The Madison (2029, 2030) and Milwaukee (2030) record-year exceedance of the
   central and upper lines is stated beside the lines on the compare screen.
+- **2026-11-02 16:31, exploration "B" (owner: "Give B a whirl. We're just exploring the data for now.").** Not a tool
+  change. Inclusion rule, written before the rerun (from docs/tod/OPTION_D_CANDIDATES.md codes): a place is in B if
+  its reform (1) was mapped by the city around one or more stations (not citywide, not owner-by-owner rezonings),
+  (2) is at least partly by right, and (3) covers under 30% of the lots within ¼ mile. Out of the 11: Chicago 2015
+  (bonus only through a Council rezoning per site), Portland 2020 and Philadelphia (citywide changes, not
+  station-aimed). In: New York, Austin, Charlotte, Denver, Seattle Mount Baker, Seattle Othello, Salt Lake City, Saint
+  Paul; Seattle Roosevelt 2012 to be added (fits with the "rail not open" trait). Caveat recorded: the per-place
+  effects were known before this rule was written, so B is exploratory and not a pre-registered line.

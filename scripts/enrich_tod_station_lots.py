@@ -116,8 +116,8 @@ def in_any_polygon(D: pd.DataFrame, layer: pd.DataFrame) -> np.ndarray:
     return out
 
 
-def enrich(case: str) -> None:
-    f = OUT / f"lots_{case}.parquet"
+def enrich(case: str, out: Path = OUT) -> None:
+    f = out / f"lots_{case}.parquet"
     D = pd.read_parquet(f)
     eff = case_year(case)
     pts = D[["x", "y"]]
@@ -211,10 +211,12 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--case")
     ap.add_argument("--all", action="store_true")
+    ap.add_argument("--dir", default=str(OUT), help="folder of the lot tables (candidates: OUT/candidates)")
     a = ap.parse_args(argv)
-    cases = [p.stem.removeprefix("lots_") for p in sorted(OUT.glob("lots_*.parquet"))] if a.all else [a.case]
+    d = Path(a.dir)
+    cases = [p.stem.removeprefix("lots_") for p in sorted(d.glob("lots_*.parquet"))] if a.all else [a.case]
     for c in cases:
-        enrich(c)
+        enrich(c, d)
 
 
 if __name__ == "__main__":

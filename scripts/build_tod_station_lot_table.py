@@ -11,6 +11,9 @@ too (Honolulu: the city is the whole island). Lot tables stay local (data/proces
 rates are written to reference/.
 
     uv run --all-extras python scripts/build_tod_station_lot_table.py --case la_toc_2017
+
+Candidate cases not yet in the training set (e.g. seattle_roosevelt_2012) are written with --out-dir to
+data/processed/tod_station_area/candidates/, so the runs that glob lots_*.parquet in the main folder do not pick them up.
 """
 from __future__ import annotations
 
@@ -340,7 +343,9 @@ def main(argv=None) -> None:
     ext = adapter_cases()
     ap = argparse.ArgumentParser()
     ap.add_argument("--case", choices=list(CASES) + list(ext), required=True)
+    ap.add_argument("--out-dir", default=str(OUT), help="folder for lots_/events_ files (candidates: OUT/candidates)")
     a = ap.parse_args(argv)
+    out = Path(a.out_dir)
     if a.case in ext:
         mod, cfg = ext[a.case]
         D, S = mod.build(a.case)
@@ -348,14 +353,14 @@ def main(argv=None) -> None:
         D["implausible"] = D.get("implausible", False) | implausible(D)
     else:
         D, S = build(a.case)
-    OUT.mkdir(parents=True, exist_ok=True)
+    out.mkdir(parents=True, exist_ok=True)
     keep = [c for c in D.columns if c not in ("_yb", "_un", "x", "y", "geometry")] + ["x", "y"]
-    D[keep].to_parquet(OUT / f"lots_{a.case}.parquet")
+    D[keep].to_parquet(out / f"lots_{a.case}.parquet")
     ev = EVENTS.get(a.case)
     if ev is None and a.case in ext:
         ev = getattr(ext[a.case][0], "EVENTS", {}).get(a.case)
     if ev is not None:
-        ev.to_parquet(OUT / f"events_{a.case}.parquet")
+        ev.to_parquet(out / f"events_{a.case}.parquet")
         print(f"events: {len(ev):,} rows; homes by date type: permit {ev.loc[ev.permit_year.notna(), 'homes'].sum():,.0f}, "
               f"completed {ev.loc[ev.completed_year.notna(), 'homes'].sum():,.0f}")
     c = CASES[a.case]
