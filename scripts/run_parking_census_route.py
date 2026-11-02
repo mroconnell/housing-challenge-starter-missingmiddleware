@@ -5,6 +5,8 @@
 For each state with a repeal place effective before 1 April 2020: downloads Census 2010 and 2020 blocks and 2020
 places (public domain) into data/raw/parking_census_route/ (kept; place counts are cached per state), places both years' blocks in 2020 place boundaries, and compares growth 2010-2020 in
 repeal places with same-state places of 1/2-2x population, pro-rated by the share of the decade under repeal.
+Geometry: missing_middleware/geom.py (open licence, docs/GEOMETRY.md) with the block-to-place join shared with
+run_parking_census_check.py (GEOS representative points for the 2010 blocks, ported there).
 Outputs: reference/parking_census_route_places.csv, reference/parking_census_route_cases.csv,
 reference/parking_census_route_results.csv
 """
@@ -13,13 +15,13 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import run_parking_census_check as rcc  # noqa: E402
 import run_parking_comparison as rpc  # noqa: E402
 import run_parking_expanded as rpe  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
@@ -38,7 +40,7 @@ MIN_HOMES = 2500
 def place_counts(st: str, man: Manifest) -> pd.DataFrame:
     out_csv = D / f"places_{st}.csv"
     if out_csv.exists():
-        return pd.read_csv(out_csv, dtype={"GEOID": str})
+        return pd.read_csv(out_csv, dtype={"GEOID": str, "state_fips": str})   # str: "05", as when first built
     src = KEEP if (KEEP / f"tl_2020_{st}_tabblock20.zip").exists() else D
     files = {f"tabblock2010_{st}_pophu.zip": f"https://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/tabblock2010_{st}_pophu.zip",
              f"tl_2020_{st}_tabblock20.zip": f"https://www2.census.gov/geo/tiger/TIGER2020/TABBLOCK20/tl_2020_{st}_tabblock20.zip",
@@ -46,21 +48,23 @@ def place_counts(st: str, man: Manifest) -> pd.DataFrame:
     if src is D:
         for n, u in files.items():
             download_file(man, n, u, False, PD)
-    places = gpd.read_file(f"zip://{src}/tl_2020_{st}_place.zip")[["GEOID", "NAME", "geometry"]].to_crs(EA)
-    b20 = gpd.read_file(f"zip://{src}/tl_2020_{st}_tabblock20.zip", columns=["INTPTLAT20", "INTPTLON20", "HOUSING20", "POP20"], ignore_geometry=True)
-    b20 = gpd.GeoDataFrame(b20[["HOUSING20", "POP20"]], crs=4269,
-                           geometry=gpd.points_from_xy(b20["INTPTLON20"].astype(float), b20["INTPTLAT20"].astype(float))).to_crs(EA)
-    b10 = gpd.read_file(f"zip://{src}/tabblock2010_{st}_pophu.zip", columns=["HOUSING10", "POP10"]).to_crs(EA)
-    b10["geometry"] = b10.geometry.representative_point()
-    parts = []
-    for b, cols in ((b20, ["HOUSING20", "POP20"]), (b10, ["HOUSING10", "POP10"])):
-        j = gpd.sjoin(b[cols + ["geometry"]], places, predicate="within", how="inner")
-        parts.append(j.groupby("GEOID")[cols].sum())
-    r = pd.concat(parts, axis=1).fillna(0)
-    r["name"] = places.set_index("GEOID")["NAME"]
+    r = count_places(st, src)
     r["state_fips"] = st
     r = r.reset_index().rename(columns={"index": "GEOID"})
     r.to_csv(out_csv, index=False)
+    return r
+
+
+def count_places(st: str, src: Path) -> pd.DataFrame:
+    """Homes and people in 2010 and 2020 inside each 2020 place (blocks placed by internal point)."""
+    places = rcc.read_places(src / f"tl_2020_{st}_place.zip", EA)
+    b20 = rcc.block_points(src / f"tl_2020_{st}_tabblock20.zip", ["HOUSING20", "POP20"], EA)
+    b10 = rcc.block_points_2010(src / f"tabblock2010_{st}_pophu.zip", ["HOUSING10", "POP10"], EA)
+    parts = []
+    for (a, x, y), cols in ((b20, ["HOUSING20", "POP20"]), (b10, ["HOUSING10", "POP10"])):
+        parts.append(rcc.sum_in_places(a, x, y, places, cols))
+    r = pd.concat(parts, axis=1).fillna(0)
+    r["name"] = places.attrs.set_index("GEOID")["NAME"]
     return r
 
 

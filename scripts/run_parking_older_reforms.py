@@ -5,6 +5,12 @@
 
 Outputs: reference/parking_older_seattle_areas.csv, reference/parking_older_portland_places.csv,
 reference/parking_older_results.csv
+
+Geometry: missing_middleware/geom.py (open licence, docs/GEOMETRY.md); 2010 blocks are placed by GEOS's representative
+point, ported in run_parking_census_check.py; joins to the city and the urban villages count ray crossings over all
+rings of a feature, as GEOS did (the city's Greater Duwamish feature has a shell nested inside another shell, which
+GEOS treats as a hole: Georgetown is outside the village). A 2010 block point's 2020 tract is the tract of the 2020
+block that contains it (the old code dissolved 2020 blocks into tracts first; same answer).
 """
 from __future__ import annotations
 
@@ -15,12 +21,14 @@ import sys
 import zipfile
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import run_parking_census_check as rcc  # noqa: E402
+from missing_middleware import geom  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 D = RAW / "parking_older_reforms"
@@ -33,26 +41,31 @@ MF_CLASSES = ("L", "M", "H", "N", "C", "S")   # lowrise, midrise, highrise, neig
 
 # ---------------------------------------------------------------- Seattle
 def seattle() -> list[dict]:
-    v = gpd.read_file(D / "seattle_urban_villages.geojson").to_crs(EA)
-    city = gpd.read_file(f"zip://{D}/tl_2020_53_place.zip")
-    city = city[city["GEOID"] == "5363000"].to_crs(EA)
-    b20 = gpd.read_file(f"zip://{D}/tl_2020_53_tabblock20.zip", where="COUNTYFP20='033'",
-                        columns=["GEOID20", "COUNTYFP20", "TRACTCE20", "INTPTLAT20", "INTPTLON20"])
-    b20 = b20.to_crs(EA)
-    pts20 = gpd.GeoDataFrame(b20[["GEOID20", "TRACTCE20"]], crs=4269,
-                             geometry=gpd.points_from_xy(b20["INTPTLON20"].astype(float), b20["INTPTLAT20"].astype(float))).to_crs(EA)
-    tracts = b20.dissolve("TRACTCE20")[["geometry"]].reset_index()
-    b10 = gpd.read_file(f"zip://{D}/tabblock2010_53_pophu.zip", where="COUNTYFP10='033'", columns=["COUNTYFP10", "HOUSING10"]).to_crs(EA)
-    b10["geometry"] = b10.geometry.representative_point()
-    b10 = gpd.sjoin(b10, city[["geometry"]], predicate="within").drop(columns="index_right")
-    b10 = gpd.sjoin(b10, v[["UV_NAME", "UV_TYPE", "geometry"]], predicate="within", how="left").drop(columns="index_right")
-    b10 = gpd.sjoin(b10, tracts, predicate="within", how="left").drop(columns="index_right")
+    v = geom.read_geojson(D / "seattle_urban_villages.geojson").to_crs(EA)
+    city = geom.read_shapefile(D / "tl_2020_53_place.zip")
+    city = city.subset(city.attrs["GEOID"] == "5363000").to_crs(EA)
+    b20 = geom.read_shapefile(D / "tl_2020_53_tabblock20.zip")
+    b20 = b20.subset(b20.attrs["COUNTYFP20"] == "033").to_crs(EA)
+    b20.attrs = b20.attrs[["GEOID20", "COUNTYFP20", "TRACTCE20", "INTPTLAT20", "INTPTLON20"]]
+    x20, y20 = geom.transform(b20.attrs["INTPTLON20"].astype(float).values, b20.attrs["INTPTLAT20"].astype(float).values, 4269, EA)
+    pts20 = b20.attrs[["GEOID20", "TRACTCE20"]]
+    b10a, x10, y10 = rcc.block_points_2010(D / "tabblock2010_53_pophu.zip", ["COUNTYFP10", "HOUSING10"], EA,
+                                           where=lambda a: a["COUNTYFP10"] == "033")
+    inside = rcc.points_in_polygons_evenodd(x10, y10, city.polys) >= 0      # within Seattle (inner join)
+    b10, x10, y10 = b10a[inside].reset_index(drop=True), x10[inside], y10[inside]
+    k = rcc.points_in_polygons_evenodd(x10, y10, v.polys)                   # urban villages do not overlap
+    b10["UV_NAME"] = np.where(k >= 0, v.attrs["UV_NAME"].values[np.maximum(k, 0)], None)
+    b10["UV_TYPE"] = np.where(k >= 0, v.attrs["UV_TYPE"].values[np.maximum(k, 0)], None)
+    k = geom.points_in_polygons(x10, y10, b20.polys)                        # 2020 tract = tract of the 2020 block
+    b10["TRACTCE20"] = np.where(k >= 0, b20.attrs["TRACTCE20"].values[np.maximum(k, 0)], np.nan)
     b10["UV_TYPE"] = b10["UV_TYPE"].fillna("OUT")
     b10["UV_NAME"] = b10["UV_NAME"].fillna("outside")
     b10["cluster"] = np.where(b10["UV_TYPE"] == "OUT", "tract " + b10["TRACTCE20"].astype(str), b10["UV_NAME"])
     homes = b10.groupby(["UV_TYPE", "cluster"])["HOUSING10"].sum()
 
-    blk = gpd.sjoin(pts20, v[["UV_NAME", "UV_TYPE", "geometry"]], predicate="within", how="left").drop(columns="index_right")
+    k = rcc.points_in_polygons_evenodd(x20, y20, v.polys)
+    blk = pts20.assign(UV_NAME=np.where(k >= 0, v.attrs["UV_NAME"].values[np.maximum(k, 0)], None),
+                       UV_TYPE=np.where(k >= 0, v.attrs["UV_TYPE"].values[np.maximum(k, 0)], None))
     blk["UV_TYPE"] = blk["UV_TYPE"].fillna("OUT")
     blk["cluster"] = np.where(blk["UV_TYPE"] == "OUT", "tract " + blk["TRACTCE20"].astype(str), blk["UV_NAME"])
     p = pd.DataFrame(json.load(open(D / "seattle_res_permits.json")))
