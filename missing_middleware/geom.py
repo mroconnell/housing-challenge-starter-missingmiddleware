@@ -543,24 +543,32 @@ def _point_in_ring_fast(px: np.ndarray, py: np.ndarray, ring: np.ndarray) -> np.
     return out
 
 
-def points_in_feature(px, py, feature) -> np.ndarray:
-    """True for points inside a polygon feature: the even-odd rule over all of the feature's rings, as GEOS does for
-    point location (so nested shells and islands inside holes behave as in GEOS)."""
+def points_in_feature(px, py, feature, union: bool = False) -> np.ndarray:
+    """True for points inside a polygon feature.
+
+    Default: the even-odd rule over all of the feature's rings, as GEOS does for point location ("within"), so nested
+    shells and islands inside holes behave as in GEOS; note that overlapping parts of one feature cancel each other.
+    union=True: each part is tested on its own (even-odd within the part) and a point is inside if any part holds it,
+    i.e. membership of the union of the parts (use for buffers or zones whose parts may overlap)."""
     px, py = np.asarray(px, float), np.asarray(py, float)
     res = np.zeros(len(px), bool)
     for part in feature:
+        acc = np.zeros(len(px), bool) if union else res
         for ring in part:
             bx = (px >= ring[:, 0].min()) & (px <= ring[:, 0].max()) & (py >= ring[:, 1].min()) & (py <= ring[:, 1].max())
             if not bx.any():
                 continue
             ix = np.flatnonzero(bx)
             f = _point_in_ring_fast if len(ring) > 64 else _point_in_ring
-            res[ix] ^= f(px[ix], py[ix], ring)
+            acc[ix] ^= f(px[ix], py[ix], ring)
+        if union:
+            res |= acc
     return res
 
 
-def points_in_polygons(px, py, polys: list) -> np.ndarray:
-    """Index of the first polygon feature containing each point, or -1 (a spatial join 'within')."""
+def points_in_polygons(px, py, polys: list, union: bool = False) -> np.ndarray:
+    """Index of the first polygon feature containing each point, or -1 (a spatial join 'within').
+    union: passed to points_in_feature (parts of one feature as a union instead of even-odd)."""
     px, py = np.asarray(px, float), np.asarray(py, float)
     out = np.full(len(px), -1, dtype=np.int64)
     if not len(px):
@@ -579,13 +587,15 @@ def points_in_polygons(px, py, polys: list) -> np.ndarray:
         cand = cand[(py[cand] >= ally.min()) & (py[cand] <= ally.max()) & (out[cand] < 0)]
         if not len(cand):
             continue
-        hit = points_in_feature(px[cand], py[cand], feat)
+        hit = points_in_feature(px[cand], py[cand], feat, union=union)
         out[cand[hit]] = k
     return out
 
 
-def points_in_any(px, py, polys: list) -> np.ndarray:
-    return points_in_polygons(px, py, polys) >= 0
+def points_in_any(px, py, polys: list, union: bool = False) -> np.ndarray:
+    """True where a point is inside any feature (features are always combined as a union; `union` applies within
+    each feature, see points_in_feature)."""
+    return points_in_polygons(px, py, polys, union=union) >= 0
 
 
 def feature_area(feature) -> float:

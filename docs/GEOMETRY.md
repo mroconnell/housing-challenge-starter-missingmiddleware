@@ -26,6 +26,8 @@ ring's first vertex (large EPSG:5070 coordinates had cost up to 0.94% on small p
 7e-11); point-in-polygon uses the even-odd rule over all of a feature's rings, as GEOS does (nested shells, islands in
 holes; 100,000-point checks in California, Washington and Kansas: 0 mismatches); shapefile holes go to the shell
 holding most of their vertices and edge midpoints; .dbf text decoded with the .cpg code page (TIGER is UTF-8).
+Point location follows GEOS "within" (even-odd over a feature's rings); for zones whose parts may overlap (buffers,
+unions of program areas) pass `union=True`, which tests each part on its own and combines them (parking's suggestion).
 NAD27 data are refused (a datum grid shift would be needed); none of our sources use NAD27.
 
 **Proof that outputs are unchanged.** `scripts/check_geo_port.py` compares every `reference/` CSV with the last

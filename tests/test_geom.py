@@ -71,6 +71,14 @@ class TestOperations(unittest.TestCase):
         py = np.array([1, 5, 2, 2, 9.99])
         self.assertEqual(G.points_in_polygons(px, py, self.polys).tolist(), [0, -1, 1, -1, 0])
 
+    def test_union_of_overlapping_parts(self):
+        a = np.array([[0, 0], [4, 0], [4, 4], [0, 4], [0, 0]], float)
+        b = np.array([[2, 2], [6, 2], [6, 6], [2, 6], [2, 2]], float)
+        feat = [[a], [b]]                         # two overlapping parts in one feature
+        px, py = np.array([3.0, 1.0]), np.array([3.0, 1.0])
+        self.assertEqual(G.points_in_feature(px, py, feat).tolist(), [False, True])          # even-odd cancels
+        self.assertEqual(G.points_in_feature(px, py, feat, union=True).tolist(), [True, True])
+
     def test_distance_to_polygons(self):
         d = G.distance_to_polygons(np.array([15.0, 1.0, 40.0]), np.array([2.0, 1.0, 2.0]), self.polys, 6.0)
         self.assertAlmostEqual(d[0], 5.0)
