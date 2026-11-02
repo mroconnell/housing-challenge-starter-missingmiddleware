@@ -1,4 +1,4 @@
-# Option D: transit district mandate — modelling plan (draft for owner check-in, 2026-11-02)
+# Option D: transit district mandate — modelling plan (LOCKED 2026-11-02 10:45)
 
 Owner, 2026-11-02 10:37: "Let's adopt option D rigorously for the tool. Model it out with the fast fit and fix like
 before, improve it until you have a clean round, and then run all the models to see if the more advanced tools
@@ -85,8 +85,16 @@ would force. The random-placement line is the guard against that.
   The rule is fixed now, before any results.
 - No zero floors (owner rule).
 
-## 6. Decisions for the owner before locking
+## 6. Owner decisions (2026-11-02 10:45)
 
-1. District size: 15% central, with a 10% to 25% range. OK?
-2. Replace the current TOD benchmark law in the tool with option D, rather than showing both?
-3. Main placement "like the training cities", with random placement as the sensitivity?
+1. District size: "base the district size on the benchmark policy which is based on what we have good data for ...
+   15% of lot acres within .25 miles of the stops is a good start." Locked: 15%.
+2. Option D replaces the current TOD benchmark law in the tool: "correct".
+3. "I'd rather not pick specific sites but instead just show density in a radius of the TOD. But random is fine too."
+   Locked: no site picking. The district is spread at random over the ¼-mile land, so each lot there is in the
+   district with probability 0.15, and the answer is the expected extra homes. This replaces section 4's placement
+   model; the "like the training cities" placement is dropped.
+
+Departures and fixes after locking are logged below with dates, before each rerun.
+
+## 7. Log
