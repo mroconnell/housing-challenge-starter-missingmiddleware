@@ -80,6 +80,9 @@ Wisconsin: exact GTFS stop ids of the station's members, all routes stopping the
 use sld_d4c_station_bg.
 
 ### Ridership (average weekday)
+System (metro) level annual ridership (NTD) and multi-system node columns: section "System (metro) level ridership"
+below.
+
 | Column | Meaning |
 |---|---|
 | ridership_weekday_2019, ridership_weekday_latest, ridership_year_latest | average weekday boardings or entries |
@@ -227,6 +230,117 @@ Checks (build of 2026-11-02):
 - Ridership vs peak trips per hour (Spearman rank, unique stations, latest pre-2020 value): New York 0.75 (122), Chicago 0.73 (119), Salt Lake City 0.65 (15), Portland 0.59 (37), Philadelphia 0.56 (128, mixed modes), San Diego 0.60 (46, latest), Los Angeles 0.19 (61: BRT and rail mixed; G Line stations have high peak trips and low boardings), Saint Paul −0.06 (one line, same frequency everywhere).
 - New series vs the stop table's 2019 ridership (same station, same year): New York ratio 0.98–1.03 (annual table vs hourly file), Philadelphia and Salt Lake City 1.00, Chicago 1.00 except LaSalle/Van Buren 2.04 (the merged station also holds the Blue Line LaSalle station 140 m away; the stop table's own column counted only one).
 - One Philadelphia pair (Broad Street subway and Girard trolley, 0.5 m apart) shares a stop_key, so it shares its extra traits.
+
+## System (metro) level ridership and multi-system nodes (reference/tod_stop_system_traits.csv)
+
+Owner asks (2026-11-02 20:10, 20:11, 20:12): system-total ridership before / after / overall; how stations where
+several systems meet are counted. Built by `scripts/build_tod_stop_system_traits.py` for **every row (reform,
+comparison, Wisconsin)**; written to `reference/tod_stop_system_traits.csv`, merged into
+`reference/tod_stop_extra_traits.csv` (which therefore now also has rows for comparison stations, blank in its other
+columns) and added to the stop table by `--merge-extra`. Only columns were added; the 143 earlier columns are unchanged
+(checked value by value).
+
+**This is a system (metro) level trait, not a station or city value.** A transit system spans its metro area, so
+every station of one system in one case gets the same number. It is one of the few metro-level slots in the stop
+model. **Only system_upt_pre5_avg (and the pre sum) is usable as a trait**; the post average partly reflects the homes
+the reform allowed (an outcome), and the all-years average mixes before and after.
+
+Source: FTA National Transit Database, "Complete Monthly Ridership (with Adjustments and Estimates)"
+(data.transportation.gov 8bui-9xvu, the monthly module adjusted data release; public domain), in
+`data/raw/tod_stop_table/ntd/` with manifest.json. Unit: **annual unlinked passenger trips (UPT)**: every boarding
+counts, including transfers between lines, so NTD totals are higher than an agency's "entries" (New York subway 2019:
+2,724 million UPT vs MTA's ~1,698 million entries, ratio 1.6). Annual = calendar-year sum over months and types of
+service; a year is used only when all 12 months have a value and the total is above 0 (the opening year and 2026, which
+ends in August, are left out). Data cover 2002–2025.
+
+| Column | Meaning |
+|---|---|
+| systems_at_node, n_systems_at_node | every NTD system (agency NTD ID + mode, with agency name) with a stop point within node_radius_m of the station point: the station's own system, other stop-table stations, and National Transit Map rail stops of all agencies. Bus stops are not included (only BRT / streetcar systems the stop table holds); Amtrak is not in the NTD |
+| transfer_hub | 1 if n_systems_at_node ≥ 2 |
+| node_radius_m | the larger of 200 m (the stop table's GTFS matching distance) and 150 m + half the station's footprint (the station builder merges points within 150 m) |
+| own_system | the station's own system ("NTDID MODE"); the Philadelphia pair sharing a stop_key has two |
+| system_ntd_id, system_mode, system_agency | the system used for system_upt_*: the **largest system at the node** (highest all-years average UPT) |
+| system_series_note | mode changes and gaps in that system's series (table below) |
+| system_upt_pre5_avg, _years, _n | mean annual UPT over reform_year−5 … reform_year−1 (complete years only): **the trait** |
+| system_upt_post5_avg, _years, _n | the same for reform_year+1 … +5 (an outcome) |
+| system_upt_all_avg, _years, _n | mean over every complete year 2002–2025 |
+| system_upt_{pre5,post5,all}_covid_years | the years 2020–2022 inside that window (COVID-affected) |
+| system_upt_unit | "annual unlinked passenger trips (NTD UPT, calendar year, all types of service)" |
+| system_upt_reform_year_used | the case's reform year; **Wisconsin 2027** (the law's start, owner 20:10; the stop table's reform_year column says 2025, the lot table's value). Wisconsin pre = the latest 5 complete years (2021–2025, or fewer where the system is newer); no post |
+| own_system_upt_pre5_avg | pre average of the station's own system (differs from system_upt_pre5_avg only at nodes where another system is larger) |
+| system_upt_pre5_sum_all, system_upt_pre5_sum_all_n_systems | pre averages summed over every system at the node that has pre years, and how many were summed |
+| trips_peak_all_systems, trips_midday_all_systems | unique trips per hour (07–09 ÷ 2, 10–14 ÷ 4, as tph_*) at **every** GTFS stop within node_radius_m, each feed of the city counted, summed over feeds. Wisconsin: the stop table's tph (own agency, exact member stop ids, all routes) + the other Wisconsin agencies' trips within node_radius_m. Madison blank (AQ-045) |
+| trips_all_systems_feeds | feeds and weekday used |
+| trips_all_systems_missing | systems at the node with no local feed: **not counted** in trips_*_all_systems (e.g. LIRR, Metro-North, NJ Transit, PATH, PATCO, Metrolink, Keystone) |
+
+Station → system mapping (complete: every one of the 1,470 stations has one):
+
+| Stations | System used (NTD ID, mode) | Series note |
+|---|---|---|
+| New York subway | 20008 HR (MTA NYCT); Staten Island Railway stations 20099 HR | — |
+| Philadelphia | 30019 HR (Market-Frankford, Broad St), 30019 CR (Regional Rail), 30019 LR/SR (trolleys) | trolleys are LR in the NTD to 2011 and SR from 2012: one series |
+| Chicago | 50066 HR (CTA), 50118 CR (Metra) | — |
+| Los Angeles | 90154 HR, LR; G Line 90154 RB | RB only from 2012 (the G Line was inside bus before), complete from 2013 |
+| San Diego | 90026 LR (MTS) | from 2008 |
+| Honolulu | 90002 HR (Skyline) | opened 2023; complete years 2024–2025: no pre or post for the 2017 case |
+| Denver | 80006 LR, 80006 CR (RTD) | CR from 2016 (complete 2017) |
+| Portland | 00008 LR (TriMet MAX); streetcar 00058 SR | streetcar: TriMet SR 2012, City of Portland from 2013; inside TriMet LR before |
+| Salt Lake City | 80001 LR (UTA TRAX/S-Line) | — |
+| Austin | 60048 YR (MetroRail) | CR 2010–2011, YR from 2012; opened 2010, so no pre for the 2009 case |
+| Seattle, Bellevue | 00040 LR (Sound Transit Link) | before 2009 this is Tacoma Link only (Bellevue 2009 pre = 0.88 million) |
+| Saint Paul | 50027 LR (Metro Transit) | — |
+| Charlotte | 40008 LR (LYNX), 40008 SR (CityLYNX) | SR from 2015 |
+| Milwaukee BRT (CONNECT 1) | 50008 MB (MCTS bus) | **BRT is not a separate NTD mode for MCTS: the whole bus system** |
+| Milwaukee streetcar | 55312 SR (The Hop) | opened 2018; complete 2019– |
+| Madison BRT (Route A) | 50005 RB (Madison Metro) | RB from Sept 2024: one complete year (2025), so pre_n = 1 |
+| Kenosha streetcar | 50003 SR | LR to 2011, SR from 2012 |
+
+### How multi-system nodes are counted (owner question 20:12)
+
+Stations are built **per mode group** (Philadelphia: Regional Rail, subway/elevated and trolley merged separately;
+Chicago: CTA and Metra separately; other cities one group from one source), so a place where several systems meet is
+usually **several rows**, one per mode group.
+
+- **tph_peak / tph_midday (existing columns): not summed across a node.** Every feed of the city is used and summed
+  per row, but each GTFS stop goes to its **nearest** row within 200 m only, so a node split into rows splits its
+  trips; systems with no feed in the stop table (NJ Transit, PATCO, LIRR, Metro-North, PATH, Metrolink, Amtrak) are
+  never counted. Hence the new trips_*_all_systems columns. They are **not additive across rows**: two rows of one node
+  both hold the whole node's trips.
+- **Station ridership (existing and extra-traits columns): one agency's source per row**, matched to the nearest row;
+  never summed across agencies (e.g. Philadelphia 30th St: Regional Rail boardings on the Regional Rail row, the
+  subway row blank because the Market-Frankford file cannot be copied).
+
+| Node | Rows in the table | systems_at_node | tph_peak → trips_peak_all_systems | Not counted (no feed) |
+|---|---|---|---|---|
+| Philadelphia 30th St | subway row and trolley row ("Drexel Station at 30th St"), Regional Rail row ("Gray 30th St Station") 250 m away | subway / trolley rows: SEPTA HR + LR/SR; Regional Rail row: SEPTA CR + NJ Transit CR + PennDOT Keystone CR | subway 64.5 → 109.5; trolley 45.0 → 109.5; Regional Rail 29.5 → 29.5 | NJ Transit, Keystone (and Amtrak) |
+| LA Union Station | one row (B/D Lines; the A Line and "L.A. Union Station" points merged into it) | Metro HR + Metro LR + Metrolink CR | 38.5 → 38.5 (Metro rail feed already holds the A Line there) | Metrolink (and Amtrak) |
+| Chicago Clark/Lake | one CTA row | CTA HR only: Ogilvie (Metra, "Chicago OTC" row) is ~890 m from the station point, outside the node | 71.0 → 71.0 | — |
+| Chicago LaSalle St (Metra) and LaSalle/Van Buren (CTA) | two rows | CTA HR + Metra CR at both | Metra row 43.5 → 65.5; CTA row 22.0 → 65.5 | — |
+| Chicago Union Station | one Metra row | Metra CR (Clinton Blue Line beyond the radius) | 26.5 → 26.5 | (Amtrak) |
+| Denver Union Station | one row | RTD LR + RTD CR | 47.0 → 47.0 (one RTD feed, both route types, already summed) | — |
+| New York with LIRR / PATH / Metro-North / NJ Transit | Atlantic Av–Barclays Ctr and Atlantic Av (LIRR), Woodside–61 St (LIRR), 34 St–Penn Station (LIRR / NJ Transit), Grand Central (Metro-North), Cortlandt St, 6 Av, 23 St, 34 St–Herald Sq (PATH) | NYCT HR + the railroad | unchanged (subway only) | LIRR, Metro-North, NJ Transit, PATH |
+
+Transfer hubs (n_systems_at_node ≥ 2): 86 of 1,470 stations (Philadelphia 22, Los Angeles 15, New York 15, Chicago 11,
+Denver 6, Portland 5, San Diego 4, Kenosha 2, Salt Lake City 2, Seattle 2, Charlotte 1, Milwaukee 1). The largest
+system differs from the station's own at Metra stations next to CTA, trolley stations next to the subway or Regional
+Rail, Portland streetcar stops next to MAX, LA Union Station and 7th St/Metro Center (LA LR is larger than HR), and
+Philadelphia's Regional Rail 30th St row, where **NJ Transit's commuter rail (73 million a year) is larger than SEPTA
+Regional Rail (30 million)**, so that row's system_upt_* is NJ Transit's; own_system_upt_pre5_avg keeps SEPTA's.
+
+### Checks (build of 2026-11-02)
+
+- Magnitudes (million UPT, 2019): NYCT subway 2,724 (MTA entries ~1,698: NTD counts transfers), CTA rail 218, SEPTA
+  subway/elevated 91, LA Metro HR 42, Sound Transit Link 25, MCTS bus 29, The Hop 0.76. All in line with published
+  agency totals for unlinked trips.
+- Mapping complete: 0 stations without a system.
+- Coverage (rows with a value, of 12,010): pre 11,983 (missing: Austin 2009, MetroRail opened 2010; Honolulu 2017,
+  Skyline opened 2023); post 11,885 (Honolulu and, by design, Wisconsin); all-years 12,010. Short pre windows: New
+  York cases 2003–2006 (data start 2002), Denver commuter rail (1 year), LA G Line (4), Charlotte streetcar (3),
+  Madison (1).
+- COVID years in the pre window: chicago_2022 (2020, 2021), san_diego_2021 (2020), Wisconsin Milwaukee and other
+  (2021, 2022). Post windows of cases from 2015 on include 2020–2022.
+- trips_peak_all_systems ≥ tph_peak at every station (ratio median 1.00; up to 7.7 in Chicago, where Metra and CTA rows
+  sit next to each other).
 
 ## Developable land: use mapping by city
 

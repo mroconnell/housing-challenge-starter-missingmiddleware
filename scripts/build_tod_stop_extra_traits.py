@@ -15,6 +15,9 @@ Ridership columns (average weekday boardings or entries; measure differs by city
   ridership_post5_avg = mean over reform_year+1 .. reform_year+5 (an OUTCOME: partly reflects new homes; not a trait)
 
     .venv/bin/python scripts/build_tod_stop_extra_traits.py          # writes the csv and prints checks
+
+System (metro) level NTD ridership and multi-system node columns (all roles, so this file also has rows for comparison
+stations) come from scripts/build_tod_stop_system_traits.py (reference/tod_stop_system_traits.csv), merged in main().
 """
 from __future__ import annotations
 
@@ -538,6 +541,10 @@ def checks(E: pd.DataFrame) -> None:
 
 def main() -> None:
     E = assemble()
+    # system (metro) level ridership and multi-system node columns, all roles (scripts/build_tod_stop_system_traits.py)
+    SYS = REFERENCE / "tod_stop_system_traits.csv"
+    if SYS.exists():
+        E = E.merge(pd.read_csv(SYS, low_memory=False), on=["case", "stop_key"], how="outer", validate="one_to_one")
     E.to_csv(OUT, index=False)
     print(f"wrote {OUT} ({len(E):,} rows, {E.shape[1]} columns)")
     checks(E)
