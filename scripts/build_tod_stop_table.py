@@ -20,6 +20,7 @@ Denver RTD station layer (YEAR_OPEN). OpenStreetMap is not used (ODbL share-alik
 
     .venv/bin/python scripts/build_tod_stop_table.py            # writes reference/tod_stop_table.csv
     .venv/bin/python scripts/build_tod_stop_table.py --checks   # prints the sanity checks from the written table
+    .venv/bin/python scripts/build_tod_stop_table.py --merge-extra   # adds reference/tod_stop_extra_traits.csv columns only
 """
 from __future__ import annotations
 
@@ -49,6 +50,7 @@ LOTDIR = ROOT / "data" / "processed" / "tod_station_area"
 SRC = RAW / "tod_stop_table"
 OUT = Path(os.environ.get("STOP_TABLE_OUT", REFERENCE / "tod_stop_table.csv"))
 STAGE1 = Path(os.environ.get("STOP_TABLE_STAGE1", LOTDIR / "stop_table_stage1.pkl"))   # local cache (stops + surroundings)
+EXTRA = REFERENCE / "tod_stop_extra_traits.csv"   # scripts/build_tod_stop_extra_traits.py: added columns, merged by (case, stop_key)
 BANDS = {"q1": "0-1/4", "q2": "1/4-1/2", "m1": "1/2-1"}
 TARGET_DAY = date(2026, 11, 10)      # a Tuesday; each feed uses the nearest Tuesday it covers
 
@@ -857,10 +859,20 @@ def write(T: pd.DataFrame) -> pd.DataFrame:
              "excluded_reason", "own_tod_rezoning", "downtown")]
     keep = [c for c in FRONT if c in T] + ["comparison_kind", "excluded_reason", "downtown", "agency", "gtfs_stop_ids", "in_lot_table"] + rest
     keep = list(dict.fromkeys(c for c in keep if c in T))
-    out = T[keep]
+    out = merge_extra(T[keep])
     out.to_csv(OUT, index=False)
     print(f"wrote {OUT} ({len(out):,} rows, {len(keep)} columns)")
     return out
+
+
+def merge_extra(out: pd.DataFrame) -> pd.DataFrame:
+    """Add the extra-traits columns (opening year, grade, ridership series; reform and Wisconsin stations) at the end.
+    Only adds columns: any column already in the table is left as it is."""
+    if not EXTRA.exists():
+        return out
+    E = pd.read_csv(EXTRA, low_memory=False)
+    E = E[["case", "stop_key"] + [c for c in E.columns if c not in out.columns]]
+    return out.merge(E, on=["case", "stop_key"], how="left", validate="many_to_one")
 
 
 # =========================================================================== sanity checks
@@ -935,7 +947,16 @@ def checks(T: pd.DataFrame) -> None:
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--checks", action="store_true", help="only print the checks from the written table")
+    ap.add_argument("--merge-extra", action="store_true", help="only merge reference/tod_stop_extra_traits.csv into the written table")
     a = ap.parse_args(argv)
+    if a.merge_extra:   # merge step only: re-read the written table, drop old extra columns, merge the current extra file
+        T = pd.read_csv(OUT, low_memory=False)
+        if EXTRA.exists():
+            T = T.drop(columns=[c for c in pd.read_csv(EXTRA, nrows=0).columns if c not in ("case", "stop_key") and c in T])
+        out = merge_extra(T)
+        out.to_csv(OUT, index=False)
+        print(f"merged {EXTRA.name} into {OUT} ({len(out):,} rows, {out.shape[1]} columns)")
+        return
     if a.checks:
         checks(pd.read_csv(OUT, low_memory=False))
         return

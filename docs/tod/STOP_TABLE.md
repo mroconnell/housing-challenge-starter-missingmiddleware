@@ -94,7 +94,8 @@ use sld_d4c_station_bg.
 | Salt Lake City | TRAX/S-Line average weekday boardings, mean of monthly averages, summed over lines; 2019 and 2025 | UTA open data |
 | Others | blank: Sound Transit (dashboard/PDF), RTD (dashboard), TriMet (PDF), LA Metro (line totals), CATS (2018 PDF), MTS (none open), CapMetro (raw APC only), Skyline (system totals), MCTS/Hop (system totals), Madison (none) | — |
 
-Measures differ by city; compare ranks within a city only.
+Measures differ by city; compare ranks within a city only. Longer annual series for reform and Wisconsin stations (and
+the 5-year pre/post averages) are in the extra-traits columns, section "Extra traits" below.
 
 ### Surroundings (from the case's lot table; each lot counts once, at its nearest stop as assigned in the lot table)
 | Column | Meaning |
@@ -127,6 +128,105 @@ member point** (platform, entrance or parent point).
 | distchk_lots_band_changed, distchk_acres_band_changed | lots (and their acres) whose band changes |
 | distchk_lots_{q1,q2,m1}_centroid / _nearest, distchk_acres_… | lots and acres per band under each definition |
 | distchk_max_shift_m | largest drop in a lot's distance (m) |
+
+## Extra traits: opening year, grade, ridership series (reference/tod_stop_extra_traits.csv)
+
+Owner ask (2026-11-02 18:26): ridership, grade and opening year for more stations; scope (18:27) reform stations of the
+16 places (+ Seattle Roosevelt) and Wisconsin's stations; **comparison stations are not filled yet**. Built by
+`scripts/build_tod_stop_extra_traits.py`; merged into the stop table as **added columns only** (no existing column
+changes) by `scripts/build_tod_stop_table.py --merge-extra` (the full build merges it too). One row per (case,
+stop_key) for every case row of a priority station (in New York and Philadelphia that includes the cases where the
+station is a comparison stop). Blank on all other rows.
+
+| Column | Meaning |
+|---|---|
+| wikidata_qids, wikidata_labels, wikidata_lines | Wikidata items matched to the station: within 300 m of the station point and label similar to a member name (normalised ratio ≥ 0.6, or one name containing the other); items closed (P3730) or "former railway station" left out |
+| wikidata_match_m, wikidata_name_sim | farthest matched item (m); weakest name similarity of the matched items |
+| opening_year_extra, opening_year_extra_source | agency fact hand-coded in `reference/tod_stop_grade_opening_handcoded.csv` (with URL), else Wikidata P1619 date of official opening (earliest matched item), else Wikidata P571 inception |
+| opening_year_best | the stop table's opening_year where it has one, else opening_year_extra |
+| opening_after_reform | 1 if opening_year_best > the case's reform year (the station did not exist at the reform) |
+| grade_extra, grade_extra_source | Wikidata P31 station class: underground / elevated / at grade ("station located on surface") / open cut ("in a cut") / highway median; several classes = "mixed (...)" (stations merged across lines, or one item with two classes) |
+| grade_best | the stop table's grade where known, else grade_extra, else unknown |
+| ridership_series | every year with a value, `year:value;…` (the station's sources summed over lines / platforms / directions) |
+| ridership_series_measure, ridership_series_source | measure and source of the series (see table below) |
+| ridership_pre5_avg, ridership_pre5_years, ridership_pre5_n | mean over the years reform_year−5 … reform_year−1 that have a value, the years used and their count |
+| ridership_post5_avg, ridership_post5_years, ridership_post5_n | the same for reform_year+1 … reform_year+5 |
+| ridership_near_reform, ridership_near_reform_year | the value of the year nearest the reform year (tie: the earlier) |
+| ridership_pre2020_last, ridership_pre2020_last_year | latest value up to 2019 |
+| ridership_last, ridership_last_year | latest value |
+
+**Use only the PRE average as a model trait.** Ridership after the reform partly reflects the new homes the reform
+allowed, so ridership_post5_avg is an outcome, not a trait. The pre average uses whatever years exist in the window
+(see _years / _n); a station that opened after the reform has none. Wisconsin: every station opened 2018–2024, so any
+"pre-reform" ridership would be the 2023–2025 years just before the 2025 law (none is filled yet, see below). COVID
+years (2020–2022) sit inside several windows (Portland post, Denver post, Chicago 2022 pre): check _years.
+
+Years: calendar years, except LA Metro, SEPTA subway/trolley (Annual Service Plans) and SANDAG, which are fiscal years
+named by the calendar year they end in (FY2017 = Jul 2016–Jun 2017).
+
+| City | Years in the series | Measure | Source (data/raw/tod_stop_table/ridership/…) |
+|---|---|---|---|
+| New York | 2007–2019, 2024, 2025 | average weekday entries by station complex, split equally over the stations a complex matches | MTA "Average Weekday Subway Ridership" tables (mta_annual: Internet Archive copies of mta.info 2007–2013, MTA 2019 ridership tables 2014–2019); 2024–2025 the stop table's MTA hourly file |
+| Chicago (CTA) | 2001–2025 | average weekday entries | City of Chicago 5neh-572f daily entries, weekday mean per year (cta_annual); Metra none |
+| Philadelphia | Regional Rail 2008, 2009, 2011, 2013, 2015, 2017, 2019, 2022–2024; MFL/BSL FY2015–2018; trolley FY2015–2018 (101/102 to 2018, city routes 2015) and summer 2025 | boardings (Regional Rail, trolley), turnstile entries (MFL/BSL) | SEPTA Annual Service Plans FY2010–FY2020 (septa_hist; numbers recorded as facts, SEPTA site copyright notice in its manifest); OpenDataPhilly Regional Rail 2017–2024 and trolley 2025 |
+| Saint Paul | 2014 (part year) – 2025 | average weekday boardings | Met Council stop boardings/alightings by year (metc_annual, public domain) |
+| Salt Lake City | 2017–2025 (2026 part year left out) | average weekday boardings, mean of monthly averages | UTA open data (existing file) |
+| Los Angeles | rail FY2017–FY2019; G Line FY2017–FY2019, FY2025 | average weekday boardings | LA Metro DPGTL archive station workbooks and G Line stop APC (la_metro). A 2025 rail sheet by a third party was **not used** |
+| San Diego | FY2025–FY2026 | average weekday boardings (APC) | SANDAG Transit Ridership Dashboard service (sd_mts); nothing before 2024 found |
+| Denver | 2012–2019 | average weekday boardings (Mon–Thu from Aug 2014) | RTD Rail Station Activity reports, Internet Archive copies (denver_rtd); RTD stopped station reports after 2019 |
+| Portland (MAX) | 2017–2025 except 2022 | average weekday boardings (census ons) | TriMet MAX passenger census (trimet); 2022 repeats 2021 and is left out; streetcar stops none |
+| Seattle | 2013 (fall sample), 2016 (Q4), 2017–2019, 2020 (Q4) | average weekday boardings | Sound Transit SIP 2015 and Q4 service delivery reports (sound_transit); none after 2020 (dashboard only) |
+| Austin | 2016 (April only) | weekday boardings | CapMetro TOD Priority Tool station profiles (capmetro) |
+| Bellevue, Charlotte, Honolulu reform stations, Wisconsin | none | — | CATS: only a removed records-request PDF; Skyline: top 5 stations only (no reform station); Madison: MPO April 2025 stop boardings exist but were assigned to stops with Metro's GTFS, held back pending an AQ-045 ruling; MCTS, The Hop, Kenosha: system totals only |
+
+Matching: by coordinates to the nearest station of the whole table within 250–300 m (150 m for trolley stops) where the
+source has coordinates; else by normalised name against every member name of the station (New York: name + borough +
+routes against the MTA station list, digits must agree, same-name stations need a route in common). Rows dropped as
+unreliable: SEPTA MFL FY2018 (repeats FY2017), BSL City Hall (definition jump), Regional Rail 2015 rows equal to 2013
+(not recounted), Highland 2013 (listed twice), "North Philadelphia" Regional Rail (two stations share the name).
+
+Opening years and grade, hand-coded agency facts (`reference/tod_stop_grade_opening_handcoded.csv`): MCTS CONNECT 1
+2023 (revenue service 2023-06-04, Milwaukee County Legistar 23-828); Madison Rapid Route A 2024 (2024-09-22, city news
+release); The Hop M Line 2018 (2018-11-02), Lakefront stop (L Line only) 2024 (full L Line opening 2024-04-11);
+Kenosha streetcar 2000 (SEWRPC); Honolulu Skyline segment 1 2023 (2023-06-30). Wikidata (CC0) supplies the rest; its
+dates are what Wikidata holds (for a rebuilt station it may be the original or the rebuilt station's date, e.g. CTA
+Grand/Cicero 2006).
+
+**Coverage, reform and Wisconsin stations** (count of unique stations with a value; before = the stop table's own
+grade / opening_year / ridership_weekday_2019-or-latest columns, after = grade_best / opening_year_best / any ridership
+year; build of 2026-11-02):
+
+| Place | Stations | Grade before | Grade after | Opening year before | Opening year after | Ridership before | Ridership after | Pre-5-year average | Post-5-year average |
+|---|---|---|---|---|---|---|---|---|---|
+| Austin | 5 | 0 | 0 | 5 | 5 | 0 | 5 | 0 | 0 |
+| Bellevue | 3 | 0 | 1 | 0 | 3 | 0 | 0 | 0 | 0 |
+| Charlotte | 23 | 0 | 20 | 0 | 12 | 0 | 0 | 0 | 0 |
+| Chicago | 194 | 0 | 122 | 0 | 147 | 119 | 120 | 117 | 119 |
+| Denver | 5 | 0 | 3 | 5 | 5 | 0 | 4 | 4 | 4 |
+| Honolulu | 2 | 2 | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
+| Kenosha | 5 | 5 | 5 | 0 | 5 | 0 | 0 | 0 | 0 |
+| Los Angeles | 82 | 38 | 67 | 0 | 59 | 0 | 62 | 0 | 62 |
+| Madison | 53 | 53 | 53 | 0 | 53 | 0 | 0 | 0 | 0 |
+| Milwaukee | 31 | 31 | 31 | 0 | 31 | 0 | 0 | 0 | 0 |
+| New York | 129 | 126 | 129 | 0 | 118 | 126 | 126 | 6 | 120 |
+| Philadelphia | 149 | 0 | 48 | 0 | 60 | 109 | 148 | 48 | 96 |
+| Portland | 75 | 37 | 37 | 0 | 36 | 0 | 38 | 37 | 38 |
+| Saint Paul | 10 | 0 | 0 | 10 | 10 | 10 | 10 | 0 | 10 |
+| Salt Lake City | 16 | 0 | 16 | 0 | 16 | 16 | 16 | 0 | 0 |
+| San Diego | 48 | 0 | 3 | 0 | 39 | 0 | 46 | 0 | 46 |
+| Seattle | 4 | 0 | 4 | 4 | 4 | 0 | 3 | 3 | 3 |
+| Shorewood Hills | 3 | 3 | 3 | 0 | 3 | 0 | 0 | 0 | 0 |
+| Sun Prairie | 1 | 1 | 1 | 0 | 1 | 0 | 0 | 0 | 0 |
+| Wauwatosa | 11 | 11 | 11 | 0 | 11 | 0 | 0 | 0 | 0 |
+| Total | 849 | 307 | 556 | 24 | 620 | 380 | 578 | 215 | 498 |
+
+Checks (build of 2026-11-02):
+- Opening year: 40 priority stations (43 case rows) opened after their case's reform year (opening_after_reform = 1): Austin MetroRail 2010, Bellevue East Link 2024, Saint Paul Green Line 2014, Honolulu Skyline 2023, Seattle Roosevelt 2021, Denver National Western Center 2020, LA K Line / Regional Connector / D Line extension 2022–2026, Salt Lake North Temple 2013 and 600 South 2022, Chicago Washington/Wabash 2017, Damen and Peterson/Ridge 2024, New York 34 St–Hudson Yards 2015. One date before 1860: Chicago LaSalle Street (Metra) 1852 (Wikidata's original-station item; the other matched item says 1951). Where the stop table already had an opening year (Denver, Seattle, Saint Paul, Austin), Wikidata never differs by more than 1 year.
+- Grade: where the stop table already had a grade and Wikidata has one, they agree for 118 of 139 stations; the 21 others are mostly New York stations the MTA layer calls elevated and Wikidata calls at grade or mixed (the MTA value is kept in grade_best).
+- Wikidata match: median 29 m, 95% under ~200 m; 55 of 613 matched stations have a name similarity under 0.7 (check wikidata_labels before relying on them).
+- Ridership vs peak trips per hour (Spearman rank, unique stations, latest pre-2020 value): New York 0.75 (122), Chicago 0.73 (119), Salt Lake City 0.65 (15), Portland 0.59 (37), Philadelphia 0.56 (128, mixed modes), San Diego 0.60 (46, latest), Los Angeles 0.19 (61: BRT and rail mixed; G Line stations have high peak trips and low boardings), Saint Paul −0.06 (one line, same frequency everywhere).
+- New series vs the stop table's 2019 ridership (same station, same year): New York ratio 0.98–1.03 (annual table vs hourly file), Philadelphia and Salt Lake City 1.00, Chicago 1.00 except LaSalle/Van Buren 2.04 (the merged station also holds the Blue Line LaSalle station 140 m away; the stop table's own column counted only one).
+- One Philadelphia pair (Broad Street subway and Girard trolley, 0.5 m apart) shares a stop_key, so it shares its extra traits.
 
 ## Developable land: use mapping by city
 
@@ -248,7 +348,8 @@ Size: 12,010 rows (stop × case); 1,470 physical stations (`stop_key`).
    - Coarse use data: Los Angeles, San Diego, Salt Lake City and Chicago, and Milwaukee parks.
 8. **Missing data** (share of station rows blank):
    - grade: unknown for 828 of 1,470 stations;
-   - opening year: known only for Denver, Seattle, Saint Paul and Austin;
+   - opening year: known only for Denver, Seattle, Saint Paul and Austin (extra traits now fill reform and Wisconsin
+     stations, see "Extra traits");
    - trips per hour, blank for these reasons:
      - Madison: barred (AQ-045);
      - Honolulu: 8 of 21 stations, Kalihi to Ala Moana, have no service in the 2026 feed;
@@ -258,5 +359,6 @@ Size: 12,010 rows (stop × case); 1,470 physical stations (`stop_key`).
      - Los Angeles: 10%;
    - SLD D4c is blank for 80% of San Diego rows: the lot table's SLD transit frequency is blank for 92% of San Diego
      lots, so check the lot table's join;
-   - ridership: only New York, Chicago CTA, Philadelphia Regional Rail and trolley, Saint Paul and Salt Lake City;
+   - ridership: only New York, Chicago CTA, Philadelphia Regional Rail and trolley, Saint Paul and Salt Lake City (extra
+     traits add LA, San Diego, Denver, Portland MAX, Seattle, Austin, Philadelphia subway and longer series);
    - Wisconsin has no stop names, because tod_stops.csv has none.
