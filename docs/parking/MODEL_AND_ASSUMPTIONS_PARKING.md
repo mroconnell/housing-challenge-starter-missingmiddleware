@@ -102,8 +102,8 @@ Five-year totals, 2027–2031, in additional permits unless noted. All are in th
 | The statewide total | Cleaned data, only apartment-scale reforms disqualify comparisons (placebo, round 2, V7) | 29,307 |
 | The statewide total | As above, plus CA, OR and WA state laws (placebo, round 2, V7s) | 27,671 |
 | Current law only | Census as published for Milwaukee | 118,822 permits under current law |
-| Current law only | Boosted-trees no-reform model (round 6: homes from the ACS release ending at each origin) | 118,417 permits under current law |
-| Current law only | If recent strength continues (honest forest; random forest 132,827; full 2020–2025 level 154,951) | 130,969 permits under current law |
+| Current law only | Boosted-trees no-reform model (round 6: homes from the ACS release ending at each origin; scaled to the v3 central) | 119,750 permits under current law |
+| Current law only | If recent strength continues (random forest, scikit-learn; full 2020–2025 level higher) | 134,323 permits under current law |
 
 Stability (first 24 places): leaving one state out at a time gave an average effect of −2.47 to +0.09 permits per 1,000 homes per year.
 

@@ -197,9 +197,9 @@ def main() -> None:
         cen = float(pd.read_csv(REFERENCE / "housing_baseline_statewide_by_year.csv").query(
             "structure_type == 'all' and kind == 'projected' and 2027 <= year <= 2031")["central"].sum())
         w = pd.read_csv(bm).query("origin == 2025").set_index("model")["vs_M0"] * cen  # scaled to the current central
-        sens.append(dict(case="Baseline: if recent strength continues", moves="baseline only", value=float(w["Honest forest (GRF)"]),
-                         description=f"Baseline over 2027-2031 if 2020-2025's strength continues: {w['Honest forest (GRF)']:,.0f} (honest forest) to "
-                                     f"{w['Random forest']:,.0f} (random forest), and up to {w['M0L same pace x level']:,.0f} if every place keeps 2020-2025's full "
+        sens.append(dict(case="Baseline: if recent strength continues", moves="baseline only", value=float(w["Random forest"]),
+                         description=f"Baseline over 2027-2031 if 2020-2025's strength continues: {w['Random forest']:,.0f} (random forest, scikit-learn; "
+                                     "owner 2026-11-02: no dependency on the removed econml package; its honest forest gave a similar figure), and up to {w['M0L same pace x level']:,.0f} if every place keeps 2020-2025's full "
                                      "level over its earlier pace. In Wisconsin's own 2021-2025 back-test, same pace came in at 0.77 of actual, the forests at 0.95 "
                                      "and the full-level version at 1.01. The parking addition does not change (docs/parking/BASELINE_MODELS_RESULTS.md)."))
     pd.DataFrame(sens).round(1).to_csv(REFERENCE / "parking_model_sensitivities.csv", index=False)
