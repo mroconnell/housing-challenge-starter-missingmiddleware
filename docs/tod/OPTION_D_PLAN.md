@@ -507,3 +507,51 @@ Departures and fixes after locking are logged below with dates, before each reru
   every place with a large measured effect (Denver 115, Mount Baker 76, Philadelphia 47 → predictions 1–6), because
   most of the measured band effect sits on lots outside the mapped district or comes from place-level differences
   the within-case comparison removes. Remaining seeds and ¼–½ mile are still running; final summary to follow.
+- **2026-11-02 (after 22:33), "remove the noise" with no-reform lots in the outcome model (exploration; logged before
+  running).** Owner, 22:32–22:33: let step 1 (the outcome model) also learn from lots of cities with no reform. Same
+  script (`--placebo`), same settings as the seed-1 run above (within-case centring, within-case treatment model, A
+  and B-PLR, 150 rounds at 0.1, 5 place-folds full / 3 hidden), D-11 and D-B, seed 1, ¼ mile, with the hidden-place
+  test; compared with the seed-1 results above.
+  - *Which lots.* The no-reform lots of the lot model (data/processed/tod_lot_model/lots_rebuilt_halfmile.parquet,
+    `placebo` = 1; LOT_MODEL_PLAN item 38): Milwaukee (pretend year 2019) and Madison outside its 2023 overlay
+    (pretend 2017). They are put in the station-area feature space by matching each to the Wisconsin station-area lot
+    table (data/processed/tod_station_area/wi_lots_station.parquet; same parcel point within 5 m; Milwaukee 99% of
+    that table's lots match, Madison 33% because the overlay lots are left out), ¼-mile band only. Traits then follow
+    the same definitions as the training lots (lot, place, tract, stop-table traits of the Wisconsin stops by case and
+    stop), except building age, taken at the pretend year. Outcome: new homes a year after (5 years after the pretend
+    year) minus before (6 years before), per 100 land acres, as the station-area lots.
+  - *Columbus and Kansas City are left out* (gap, not a choice of results): in the lot-model table they are 20%
+    samples of all city lots with no distance to any stop (no rail or rapid stop was open in their windows), no land
+    value, building value or year built, and their raw parcel and permit files are not on this machine, so most
+    station-area traits would be invented. Kansas City's after window is also only 3 years (2013–2015).
+  - *Use.* The no-reform lots enter only the outcome-model training folds (every fold, full and hidden-place fits),
+    with a `no_reform` trait (1 for them, 0 for the training places), each no-reform city weighted like one place.
+    They are never in the final within-case comparison and never treated.
+  - *Caveat.* Their lot values and tract traits are recorded after the pretend year (as the training places' lot
+    tables are after many reforms), so buildings finished in the after window can show in their traits.
+- **2026-11-02 23:29, stabilised causal forest dropped (owner approved).** Not run, at stop level or lot level.
+  Reasons: the 4-seed test above showed the honest causal forest is unstable (no seed beats the others' average;
+  Wisconsin answers flip sign between seeds), and the partialling-out / double ML results answer the "remove the
+  noise" question. The code stays in scripts/run_tod_optiond.py (`--learner cf_stable`, stop or lot level), tested
+  only on simulated data.
+- **2026-11-02, result: random forest and causal forest on hidden places (the owner's 14:25 question).** Data:
+  the lot tables before the 10:08 and 12:04 (Pacific) rebuilds, so the benchmarks are the earlier ones (others'
+  average 19.3, zero 28.1 within ¼ mile; 10.4 and 9.3 in ¼–½ mile). Gaps filled, each place equal weight.
+  Median miss = extra new homes per 100 lot acres a year, 11 hidden places. Wisconsin = extra homes statewide
+  2027–2031 within ¼ mile, full fit (range = each place left out).
+
+  | Learner | Level | Traits | Within ¼ mile | ¼–½ mile | Wisconsin ¼ mile (range) |
+  | --- | --- | --- | --- | --- | --- |
+  | Random forest, 5 fits | stop | lot + place + tract (93) | 28.1 | 17.6 | 172 (11 to 518) |
+  | Random forest, 5 fits | stop | lot + place | 28.1 | 17.6 | 625 (65 to 3,180) |
+  | Random forest, 1 fit, 5% of lots per tree | lot | lot + place + tract | 27.4 | 11.2 | 85 (50 to 89) |
+  | Random forest, 1 fit, 5% of lots per tree | lot | lot + place | 27.4 | 11.5 | 159 (90 to 159) |
+  | Causal forest | stop | lot + place + tract | 43.6 | 61.4 | −9,368 (−7,364 to 26,209) |
+  | Causal forest | stop | lot + place | 60.1 | 25.2 | −1,341 (−5,542 to 23,804) |
+  | Honest causal forest | stop | lot + place + tract | 49.2 | 34.6 | 5,684 (−14,131 to 12,344) |
+  | Honest causal forest, 1 seed | stop | lot + place | 19.0 | 17.6 | −658 (−5,742 to 16,197) |
+
+  None beats the others' average. The random forests predict close to zero for every hidden place (they almost
+  never split on the reform switch), so they score like the zero rule. The causal forests swing widely. The one
+  honest-forest score of 19.0 (just under 19.3) did not hold up: on one data load, 4 seeds scored 35–60 (entry above).
+  Files: reference/tod_optiond_{loco,wisconsin}_*_{rf,rf_ms0.05,cf,cf_honest}.csv.
