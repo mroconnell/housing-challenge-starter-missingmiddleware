@@ -34,7 +34,10 @@ DONUT, SEG, PUBLIC_MAX, WATER_M, MIN_LOTS = 25.0, 400.0, 0.5, 30.0, 20
 SEED, DRAWS = 20261103, 1000
 POLY_CASES = {"denver_2018", "portland_2020", "austin_2009", "slc_2010"}
 WATER = {"New York": ["36005", "36047", "36061", "36081", "36085"], "Philadelphia": ["42101"], "Charlotte 2019": ["37119"],
-         "Chicago 2015": ["17031"], "Seattle Mount Baker 2014": ["53033"], "Seattle Othello 2012": ["53033"], "Saint Paul 2011": ["27123"]}
+         "Chicago 2015": ["17031"], "Seattle Mount Baker 2014": ["53033"], "Seattle Othello 2012": ["53033"], "Saint Paul 2011": ["27123"],
+         "Denver 2018": ["08031"], "Portland 2020": ["41051", "41067", "41005"], "Austin 2009": ["48453", "48491"],
+         "Salt Lake City 2010": ["49035"]}
+ART_M, ART_COS, ART_SHARE = 20.0, np.cos(np.radians(30)), 0.5      # arterial: within 20 m, within 30 degrees of parallel
 WI_QUARTER_ACRES, WI_SHARE, YEARS, RAMP = 4874.1, 0.15, 5, 1.2269
 COLS = ["group", "dist_m", "band", "in_reform_area", "acres_land", "public", "land_value", "bldg_value", "year_built",
         "v_h14_vacancy_rate", "implausible", "homes_existing", "homes_before_win", "homes_after_win", "x", "y"]
@@ -57,13 +60,14 @@ def boundary_points(polys: list, step: float = 5.0) -> np.ndarray:
     rep = np.repeat(np.arange(len(seg)), n + 1)
     t = np.concatenate([np.linspace(0, 1, k + 1) for k in n])
     s = seg[rep]
-    return np.c_[s[:, 0] + t * (s[:, 2] - s[:, 0]), s[:, 1] + t * (s[:, 3] - s[:, 1])]
+    u = np.c_[(s[:, 2] - s[:, 0]), (s[:, 3] - s[:, 1])] / L[rep][:, None]
+    return np.c_[s[:, 0] + t * (s[:, 2] - s[:, 0]), s[:, 1] + t * (s[:, 3] - s[:, 1]), u]
 
 
 def lot_midway(D: pd.DataFrame, idx: np.ndarray):
     ins = D.in_reform_area.to_numpy()
     xy = D[["x", "y"]].to_numpy()
-    d = np.full(len(idx), np.nan); bx = d.copy(); by = d.copy()
+    d = np.full(len(idx), np.nan); bx = d.copy(); by = d.copy(); ux = d.copy(); uy = d.copy()
     for side in (True, False):
         opp = xy[ins != side]
         m = ins[idx] == side
@@ -72,13 +76,55 @@ def lot_midway(D: pd.DataFrame, idx: np.ndarray):
         dd, j = cKDTree(opp).query(xy[idx[m]])
         d[m] = dd / 2
         bx[m] = (xy[idx[m], 0] + opp[j, 0]) / 2; by[m] = (xy[idx[m], 1] + opp[j, 1]) / 2
-    return d, bx, by
+        v = opp[j] - xy[idx[m]]; n = np.hypot(v[:, 0], v[:, 1]); n[n == 0] = np.nan
+        ux[m], uy[m] = -v[:, 1] / n, v[:, 0] / n
+    return d, bx, by, ux, uy
+
+
+def arterials(place: str):
+    """TIGER 2020 primary and secondary roads (MTFCC S1100, S1200) of the place's counties as points every <= 5 m with
+    a unit direction; None if no file."""
+    pts, dirs = [], []
+    for c in WATER.get(place, []):
+        f = RAW / "tod_causal_roads" / "roads" / f"tl_2020_{c}_roads.zip"
+        if not f.exists():
+            continue
+        r = X.read_vector(f, dst=CRS, columns=["MTFCC"])
+        for g in r.geometry[r.MTFCC.isin(["S1100", "S1200"])]:
+            for a in g or []:
+                if len(a) < 2:
+                    continue
+                d = np.diff(a, axis=0); L = np.hypot(d[:, 0], d[:, 1]); k = L > 0
+                a0, d, L = a[:-1][k], d[k], L[k]
+                n = np.maximum(1, np.ceil(L / 5.0)).astype(int)
+                rep_ = np.repeat(np.arange(len(L)), n)
+                t = np.concatenate([np.arange(m) / m for m in n])
+                pts.append(a0[rep_] + t[:, None] * d[rep_]); dirs.append((d / L[:, None])[rep_])
+    if not pts:
+        return None
+    P = np.concatenate(pts)
+    return cKDTree(P), np.concatenate(dirs)
+
+
+def arterial_flag(bx, by, ux, uy, art) -> np.ndarray:
+    """Boundary point within ART_M of an arterial whose direction is within 30 degrees of the boundary direction."""
+    if art is None:
+        return np.zeros(len(bx), bool)
+    tree, D = art
+    dd, j = tree.query(np.c_[bx, by], distance_upper_bound=ART_M)
+    ok = np.isfinite(dd)
+    out = np.zeros(len(bx), bool)
+    jj = j[ok]
+    out[ok] = np.abs(D[jj, 0] * ux[ok] + D[jj, 1] * uy[ok]) >= ART_COS
+    return out
 
 
 def water_polys(place: str) -> list:
     out = []
     for c in WATER.get(place, []):
         f = RAW / "tod_net_coverage" / "areawater" / f"tl_2024_{c}_areawater.zip"
+        if not f.exists():
+            f = RAW / "tod_causal_roads" / "areawater" / f"tl_2024_{c}_areawater.zip"
         if f.exists():
             out += [g for g in X.read_vector(f, dst=CRS).geometry if g]
     return out
@@ -86,7 +132,7 @@ def water_polys(place: str) -> list:
 
 # ------------------------------------------------------------------ lot sample
 
-def case_sample(case: str, place: str, water: list) -> pd.DataFrame:
+def case_sample(case: str, place: str, water: list, art=None) -> pd.DataFrame:
     D = pd.read_parquet(OUT / f"lots_{case}.parquet", columns=COLS)
     if (OUT / f"events_{case}.parquet").exists():
         D = M.event_windows(case, D, "permit_est")
@@ -95,18 +141,20 @@ def case_sample(case: str, place: str, water: list) -> pd.DataFrame:
     if not D.in_reform_area.any() or D.in_reform_area.all():
         return pd.DataFrame()
     samp = np.flatnonzero(((D.group == "reform") & (D.acres_land > 0)).to_numpy())
-    dm, mx, my = lot_midway(D, samp)
+    dm, mx, my, mux, muy = lot_midway(D, samp)
     if case in POLY_CASES:
         from station_cases import cluster_west as W
         bp = boundary_points(W.reform_area(case))
-        dd, j = cKDTree(bp).query(D[["x", "y"]].to_numpy()[samp])
-        d, bx, by = dd, bp[j, 0], bp[j, 1]
+        dd, j = cKDTree(bp[:, :2]).query(D[["x", "y"]].to_numpy()[samp])
+        d, bx, by, ux, uy = dd, bp[j, 0], bp[j, 1], bp[j, 2], bp[j, 3]
     else:
-        d, bx, by = dm, mx, my
+        d, bx, by, ux, uy = dm, mx, my, mux, muy
     S = D.iloc[samp].copy()
     sign = np.where(S.in_reform_area.to_numpy(), 1.0, -1.0)
     S["s"], S["s_lotmid"] = sign * d, sign * dm
     S["bx"], S["by"], S["bx_lm"], S["by_lm"] = bx, by, mx, my
+    S["art"] = arterial_flag(bx, by, ux, uy, art)
+    S["art_lm"] = arterial_flag(mx, my, mux, muy, art)
     S = S[(S.s.abs() <= 200) | (S.s_lotmid.abs() <= 200)]
     yb, ya = M.windows(case)
     c = cfg(case)
@@ -124,7 +172,7 @@ def case_sample(case: str, place: str, water: list) -> pd.DataFrame:
     if water:
         S["water"] = np.isfinite(G.distance_to_polygons(S.bx.values, S.by.values, water, WATER_M))
     S["half_mile"] = S.dist_m <= 805
-    return S[["case", "s", "s_lotmid", "bx", "by", "bx_lm", "by_lm", "in_reform_area", "acres_land", "public", "water", "half_mile",
+    return S[["case", "s", "s_lotmid", "bx", "by", "bx_lm", "by_lm", "in_reform_area", "acres_land", "public", "water", "half_mile", "art", "art_lm",
               "chg", "pre", "post", "log_lv_acre", "log_acres", "bldg_age", "lot_vacant", "v_h14_vacancy_rate", "x", "y", "dist_m", "band"]]
 
 
@@ -134,7 +182,7 @@ def seg_ids(bx, by):
     return pd.Series(np.floor(bx / SEG).astype(np.int64) * 1_000_003 + np.floor(by / SEG).astype(np.int64)).to_numpy()
 
 
-def select(S, h, dist="s", donut=0.0, half=False):
+def select(S, h, dist="s", donut=0.0, half=False, no_art=False):
     """Lots within h of the line in usable segments (both sides present, public < 50% of either side, no water)."""
     s = S[dist].to_numpy()
     m = (np.abs(s) <= h) & (np.abs(s) >= donut)
@@ -156,7 +204,11 @@ def select(S, h, dist="s", donut=0.0, half=False):
         ok &= g[("n", side)].fillna(0) > 0
         ok &= (g[("pub", side)].fillna(0) / g[("ac", side)].replace(0, np.nan)).fillna(1) < PUBLIC_MAX
         ok &= ~g[("wat", side)].fillna(False).astype(bool)
-    return T[T.seg.isin(ok[ok].index)]
+    T = T[T.seg.isin(ok[ok].index)]
+    if no_art and len(T):
+        a = T.groupby("seg")["art" if dist == "s" else "art_lm"].mean()
+        T = T[T.seg.isin(a[a < ART_SHARE].index)]
+    return T
 
 
 def seg_sums(T, y):
@@ -232,10 +284,12 @@ def main() -> None:
     rows, draws = [], {}
     variants = {"main (91 m)": dict(h=H_MAIN), "46 m": dict(h=H_LO), "183 m": dict(h=H_HI),
                 "donut 25 m (91 m)": dict(h=H_MAIN, donut=DONUT), "half mile only (91 m)": dict(h=H_MAIN, half=True),
-                "lot-midway distance (91 m)": dict(h=H_MAIN, dist="s_lotmid")}
+                "lot-midway distance (91 m)": dict(h=H_MAIN, dist="s_lotmid"),
+                "without arterial segments (91 m)": dict(h=H_MAIN, no_art=True)}
     for pi, (place, cases) in enumerate(PL.items()):
         water = water_polys(place)
-        parts = [case_sample(c, place, water) for c in cases]
+        art = arterials(place)
+        parts = [case_sample(c, place, water, art) for c in cases]
         S = pd.concat([p for p in parts if len(p)], ignore_index=True) if any(len(p) for p in parts) else pd.DataFrame()
         if not len(S):
             rows.append({"place": place, "variant": "main (91 m)", "status": "no district lots"}); continue
@@ -254,14 +308,15 @@ def main() -> None:
         for vname, kw in variants.items():
             if vname.startswith("lot-midway") and cases[0] not in POLY_CASES:
                 continue
-            T = select(S, kw["h"], kw.get("dist", "s"), kw.get("donut", 0.0), kw.get("half", False))
+            T = select(S, kw["h"], kw.get("dist", "s"), kw.get("donut", 0.0), kw.get("half", False), kw.get("no_art", False))
             nin, nout = int(T.in_reform_area.sum()) if len(T) else 0, int((~T.in_reform_area).sum()) if len(T) else 0
             r = {"place": place, "variant": vname, "bandwidth_m": kw["h"], "lots_inside": nin, "lots_outside": nout,
                  "segments": int(T.seg.nunique()) if len(T) else 0,
                  "acres_inside": float((T.acres_land * T.w)[T.in_reform_area].sum()) if len(T) else 0.0,
                  "acres_outside": float((T.acres_land * T.w)[~T.in_reform_area].sum()) if len(T) else 0.0,
                  "distance_method": "polygon union boundary" if (cases[0] in POLY_CASES and kw.get("dist", "s") == "s") else "lot midway",
-                 "water_layer": "TIGER 2024 area water" if water else "none on disk", "arterial_tag": "not done (no road layer on disk)"}
+                 "water_layer": "TIGER 2024 area water" if water else "none on disk", "arterial_tag": "TIGER 2020 S1100/S1200 within 20 m, within 30 deg of parallel" if art is not None else "no road file",
+                 "arterial_segment_share": float((T.groupby("seg")["art" if kw.get("dist", "s") == "s" else "art_lm"].mean() >= ART_SHARE).mean()) if len(T) else np.nan}
             if nin < MIN_LOTS or nout < MIN_LOTS:
                 r["status"] = f"too few lots (< {MIN_LOTS} a side)"; rows.append(r); continue
             pt, dr = boot(T, "chg", rng)

@@ -125,6 +125,8 @@ Script: `scripts/run_tod_causal_edge.py`. Output: `reference/tod_causal_edge_tes
     Portland, Austin, Salt Lake City: no water layer on disk, not tagged (noted).
   - **Arterial roads:** no open road layer is on disk, so segments are **not** tagged for arterials in this run
     (downloading TIGER roads needs the owner's OK). Reported as a gap.
+    *Update 2026-11-02 (after the first run, coordinator-approved):* TIGER roads fetched and segments tagged; see the
+    results section. Main = all segments; "without arterial segments" reported beside it.
 - **Places and pooling:** a place's cases are pooled lot by lot (a lot in k of the place's edge samples weighted 1/k).
   A place is estimable at h if it has at least 20 lots on each side. Pooled = equal-weight mean of passing places.
   Interval: 1,000 cluster-bootstrap draws resampling segments within each place (seed 20261103); pooled draws are the
@@ -366,5 +368,49 @@ bandwidth; 90% intervals from resampling 400 m boundary segments.
 - **Locked rule: PASS** (5 places pass balance; 46 m and 183 m inside the main interval; no bunching, so the main is used).
 - **Direct-effect-only Wisconsin floor** = 88.2 × 15% × 4,874.1 ÷ 100 × 5 × 1.2269 = **3,958 extra homes, 2027–2031
   (2,279 to 5,791; leave one place out 1,600 to 4,873)**. Denver carries much of it.
-- Gaps: no arterial-road tag (no road layer on disk); no water layer for Denver, Portland, Austin, Salt Lake City.
-  Chicago's district is a lot-by-lot zoning mosaic, so nearly all its inside lots sit within 46 m of an outside lot.
+- Chicago's district is a lot-by-lot zoning mosaic, so nearly all its inside lots sit within 46 m of an outside lot.
+
+**Rerun 2026-11-02 with arterial and water tags** (coordinator-approved fetch of public-domain TIGER/Line files,
+`scripts/fetch_tod_causal_roads.py` → `data/raw/tod_causal_roads/` with manifest; added after the first run, no rule
+changed). Arterials = TIGER 2020 primary and secondary roads (MTFCC S1100, S1200) of each place's counties; a lot's
+boundary point is "on an arterial" if within 20 m of one and within 30° of parallel to the boundary (polygon edge
+direction, or perpendicular to the lot-to-opposite-lot line); a segment follows an arterial if at least half its lots
+within the bandwidth are. Area water (TIGER 2024) added for Denver, Portland (Multnomah, Washington, Clackamas),
+Austin (Travis, Williamson) and Salt Lake City, applied under the locked water rule.
+- Water: only Portland changes (6 of 423 segments dropped; 8.1 → 9.0; still fails balance). Other places unchanged.
+- Arterial segments are rare: 0–2% of segments per place (Philadelphia 1%, Charlotte 2%, New York 1%, others 0%).
+  Only 1–12% of boundary points sit within 20 m of an S1100/S1200 road at all. TIGER codes many city arterials as
+  local roads (S1400), so this tag likely under-counts arterial edges.
+- **With arterial segments (main): 88.2 (50.8 to 129.1). Without: 87.7 (50.2 to 126.0).** The pass rule result is
+  unchanged (PASS), and the Wisconsin direct-effect-only floor stays **3,958 (2,279 to 5,791; leave one place out
+  1,600 to 4,873)**; without arterial segments it would be 3,933 (2,253 to 5,653).
+
+## Test 5 (T5): Massachusetts MBTA Communities, feasibility then year-1 direction (locked 2026-11-02, before any count)
+
+Script: `scripts/run_tod_causal_mbta.py`. Outputs: `docs/tod/MBTA_FEASIBILITY.md` (scan and go / no-go) and
+`reference/tod_causal_mbta_event.csv` (summaries).
+
+- **Data:** Census Building Permits Survey annual Northeast place files `ne2015a`–`ne2025a` (already on disk,
+  `data/raw/tod_control_cities/bps`; public domain); Massachusetts towns are the rows with state 25 (county
+  subdivisions, 351 a year). Town homes: ACS 2015–2019 B25001 by county subdivision (`data/raw/parking_acs_history/
+  acs5_2019_cousub25.json`). Community list, deadline and status: the state's (EOHLC) compliance status sheet dated
+  2025-09-18 (https://www.mass.gov/files/csv/2025-09/Compliance%20Status%20Sheet%20as%20of%209-18-25.csv), saved
+  under `data/raw/tod_mbta/`. Its deadline column is the original category deadline, except towns that missed theirs,
+  which show 7/14/2025 (the post-*Milton* deadline).
+- **Cohorts (intent to treat, by original deadline):** 2023 = rows with 12/31/2023 plus Milton (a rapid-transit
+  community; its 2023 zoning was overturned by referendum, listed 7/14/2025); 2024 = rows with 12/31/2024 plus the
+  other 7/14/2025 rows (missed a 2024 deadline); 2025 = rows with 12/31/2025 (adjacent small towns).
+- **Feasibility PASS (learning plan):** at least 20 towns that are Compliant or Conditionally compliant on the sheet
+  and whose original deadline is 12/31/2024 or earlier (so 2025, or 2024 and 2025, are full years after it in BPS).
+- **If it passes, year-1 effect only (sign and 90% interval; no size carried to Wisconsin):** outcome = units
+  permitted per 1,000 homes (all units; 5+ units as a second series). For cohort g, year 1 = g + 1; base = mean of
+  g − 3 … g − 1. ATT(g) = (cohort's year-1 − base) − (not-yet-due towns' year-1 − base); not-yet-due controls: for g =
+  2023 (year 2024) the 2024 and 2025 cohorts; for g = 2024 (year 2025) the 2025 cohort. Towns weighted equally;
+  pooled = cohort-size-weighted mean of the two ATTs. Interval: 2,000 bootstrap draws resampling towns within each
+  group, seed 20261105. **Pre-trend placebo:** the same estimator one year early (pseudo year 1 = g, base g − 4 … g − 2).
+- **Variants:** compliant-only treated towns; reported-only BPS columns with towns reporting 0 months dropped;
+  homes-weighted.
+- **Reading rule:** "positive" if the pooled 90% interval is above 0, "negative" if below, else "no detectable
+  year-1 change". Per the learning plan, a zero or negative mandated effect whose interval excludes the D-11
+  chosen-district average adds a "mandated district" sensitivity; the per-town BPS measure is not in the same unit as
+  the station-area effect, so this comparison is stated in words only.
