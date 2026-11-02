@@ -4,9 +4,9 @@ la_toc_2017,Burbank - Downtown,Burbank,7743,no,TOD specific plans still drafts,h
 la_toc_2017,Lakewood Blvd Station,Downey,6930,unknown,,
 la_toc_2017,Lynwood Station,Lynwood,6569,yes,Lynwood Transit Area Specific Plan Sep 2016,https://ceqanet.lci.ca.gov/2015121020 (Lynwood Transit Area Specific Plan adopted Sep 2016)
 la_toc_2017,Norwalk Station,Norwalk,6435,unknown,,
-la_toc_2017,Monrovia Station,Monrovia,6401,yes,site specific plans in the station's transit village 2019-2020,"https://www.monroviaca.gov/your-government/community-development/planning/zoning/specific-plans/arroyo-at-monrovia-station-specific-plan (site specific plans in the Station Square Transit Village: Ord. 2019-11, 127 Pomona Jan 2020; Station Square SP 2008)"
-la_toc_2017,Allen Station - Main Entrance,Pasadena,6219,yes-late,East Colorado Specific Plan 2022,https://www.cityofpasadena.net/planning/planning-division/community-planning/specific-plans/east-colorado-boulevard/; .../south-fair-oaks/ (East Colorado SP Feb-Jun 2022; South Fair Oaks SP Jul-Oct 2022)
-la_toc_2017,Crenshaw Station,Hawthorne,5878,yes,Green Line Mixed Use Specific Plan Oct 2017,"https://ceqanet.lci.ca.gov/2016061043 (Green Line Mixed Use Specific Plan, adopted 10 Oct 2017, Crenshaw station)"
+la_toc_2017,Monrovia Station - East Ramp,Monrovia,6401,yes,site specific plans in the station's transit village 2019-2020,"https://www.monroviaca.gov/your-government/community-development/planning/zoning/specific-plans/arroyo-at-monrovia-station-specific-plan (site specific plans in the Station Square Transit Village: Ord. 2019-11, 127 Pomona Jan 2020; Station Square SP 2008)"
+la_toc_2017,Allen Station,Pasadena,6219,yes-late,East Colorado Specific Plan 2022,https://www.cityofpasadena.net/planning/planning-division/community-planning/specific-plans/east-colorado-boulevard/; .../south-fair-oaks/ (East Colorado SP Feb-Jun 2022; South Fair Oaks SP Jul-Oct 2022)
+la_toc_2017,Crenshaw C-Line Station,Hawthorne,5878,yes,Green Line Mixed Use Specific Plan Oct 2017,"https://ceqanet.lci.ca.gov/2016061043 (Green Line Mixed Use Specific Plan, adopted 10 Oct 2017, Crenshaw station)"
 la_toc_2017,Wardlow Station,Long Beach,5825,unknown,,
 la_toc_2017,Redondo Beach Station,Redondo Beach,5815,unknown,,
 la_toc_2017,South Pasadena Station,South Pasadena,5750,unknown,,
@@ -96,7 +96,7 @@ chicago_2015,Morton Grove,Morton Grove,4549,unknown,,
 chicago_2015,River Grove,River Grove,4493,unknown,,
 chicago_2015,Western Springs,Western Springs,4466,unknown,,
 chicago_2015,Des Plaines,Des Plaines,4437,unknown,,
-chicago_2015,Austin-Blue,Oak Park,4407,unknown,,
+chicago_2015,Austin (Blue),Oak Park,4407,unknown,,
 chicago_2015,Chicago Ridge,Chicago Ridge,4345,unknown,,
 chicago_2015,147th St.,Harvey,4073,unknown,,
 chicago_2015,Brookfield,Brookfield,4058,yes,"form-based code for its three Metra station areas, Jan 2017",https://nita.illinois.gov/blog/2017/01/25/rta-helps-brookfield-stay-on-track-with-zoning-updates (form-based code for the three Metra station areas adopted Jan 2017)
@@ -110,7 +110,7 @@ chicago_2015,Wilmette,Wilmette,3228,unknown,,
 chicago_2015,Mannheim,Franklin Park,3218,unknown,,
 chicago_2015,Stone Ave.,La Grange,3140,unknown,,
 chicago_2015,Central St.,Evanston,2921,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
-chicago_2015,Harlem (Blue - Forest Park Branch),Forest Park,2837,unknown,,
+chicago_2015,Harlem-Forest Park,Forest Park,2837,unknown,,
 chicago_2015,Worth,Worth,2833,unknown,,
 chicago_2015,Cicero,Cicero,2680,unknown,,
 chicago_2015,Ridgeland,Oak Park,2633,unknown,,
@@ -136,7 +136,7 @@ chicago_2015,Dempster,Evanston,1567,yes-parking,TOD parking cut Sept 2017 (parki
 chicago_2015,123rd St.,Blue Island,1489,unknown,,
 chicago_2015,Indian Hill,Winnetka,1487,unknown,,
 chicago_2015,Main St.,Evanston,1479,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
-chicago_2015,Oak Park-Green,Oak Park,1462,unknown,,
+chicago_2015,Oak Park (Green),Oak Park,1462,unknown,,
 chicago_2015,Evanston (Davis St.),Evanston,1433,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
 chicago_2015,Prairie St.,Blue Island,1395,unknown,,
 chicago_2015,Linden,Wilmette,1355,unknown,,
@@ -170,7 +170,7 @@ chicago_2022,Morton Grove,Morton Grove,4549,unknown,,
 chicago_2022,River Grove,River Grove,4493,unknown,,
 chicago_2022,Western Springs,Western Springs,4466,unknown,,
 chicago_2022,Des Plaines,Des Plaines,4437,unknown,,
-chicago_2022,Austin-Blue,Oak Park,4407,unknown,,
+chicago_2022,Austin (Blue),Oak Park,4407,unknown,,
 chicago_2022,Chicago Ridge,Chicago Ridge,4345,unknown,,
 chicago_2022,147th St.,Harvey,4073,unknown,,
 chicago_2022,Brookfield,Brookfield,4058,yes,"form-based code for its three Metra station areas, Jan 2017",https://nita.illinois.gov/blog/2017/01/25/rta-helps-brookfield-stay-on-track-with-zoning-updates (form-based code for the three Metra station areas adopted Jan 2017)
@@ -184,7 +184,7 @@ chicago_2022,Wilmette,Wilmette,3228,unknown,,
 chicago_2022,Mannheim,Franklin Park,3218,unknown,,
 chicago_2022,Stone Ave.,La Grange,3140,unknown,,
 chicago_2022,Central St.,Evanston,2921,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
-chicago_2022,Harlem (Blue - Forest Park Branch),Forest Park,2837,unknown,,
+chicago_2022,Harlem-Forest Park,Forest Park,2837,unknown,,
 chicago_2022,Worth,Worth,2833,unknown,,
 chicago_2022,Cicero,Cicero,2680,unknown,,
 chicago_2022,Ridgeland,Oak Park,2633,unknown,,
@@ -210,7 +210,7 @@ chicago_2022,Dempster,Evanston,1567,yes-parking,TOD parking cut Sept 2017 (parki
 chicago_2022,123rd St.,Blue Island,1489,unknown,,
 chicago_2022,Indian Hill,Winnetka,1487,unknown,,
 chicago_2022,Main St.,Evanston,1479,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
-chicago_2022,Oak Park-Green,Oak Park,1462,unknown,,
+chicago_2022,Oak Park (Green),Oak Park,1462,unknown,,
 chicago_2022,Evanston (Davis St.),Evanston,1433,yes-parking,TOD parking cut Sept 2017 (parking only),"plan file (STATION_AREA_PLAN.md step C, Chicago): Evanston cut TOD parking Sept 2017"
 chicago_2022,Prairie St.,Blue Island,1395,unknown,,
 chicago_2022,Linden,Wilmette,1355,unknown,,
@@ -263,7 +263,7 @@ charlotte_2019,Hawthorne Ln & 5th St CityLYNX,Charlotte,1438,unknown,,
 charlotte_2019,Mint St CityLYNX,Charlotte,1417,unknown,,
 charlotte_2019,UNC Charlotte Station,Charlotte,1365,no,campus master plan 2010; outside city TOD petition,https://ui.charlotte.edu/story/city-work-owners-station-area-properties/ (campus covered by UNC Charlotte master plan 2010; city petition 2019-102 stops at the campus)
 charlotte_2019,Wesley Heights CityLYNX,Charlotte,1284,unknown,,
-charlotte_2019,Elizabeth Ave & Hawthorne Ln CityLYNX,Charlotte,1208,unknown,,
+charlotte_2019,Elizabeth Av & Hawthorne Ln CityLYNX,Charlotte,1208,unknown,,
 charlotte_2019,Hawthorne Ln & 8th St CityLYNX,Charlotte,1092,unknown,,
 charlotte_2019,Tryon St CityLYNX,Charlotte,807,unknown,,
 charlotte_2019,Johnson C. Smith University CityLYNX,Charlotte,739,unknown,,
@@ -300,7 +300,7 @@ denver_2018,Decatur - Federal,Denver,1547,unknown,,
 denver_2018,16th & California,Denver,1350,unknown,,
 denver_2018,61st & Pena,Denver,886,unknown,,
 denver_2018,Colfax at Auraria,Denver,881,unknown,,
-denver_2018,18th & Stout,Denver,510,unknown,,
+denver_2018,18th & California,Denver,510,unknown,,
 denver_2018,Empower Field at Mile High,Denver,464,unknown,,
 denver_2018,Auraria West Campus,Denver,131,unknown,,
 denver_2018,Denver Airport,Denver,19,unknown,,
@@ -311,7 +311,7 @@ portland_2020,Mt Hood Ave,Portland,148,unknown,,
 portland_2020,Delta Park/Vanport,Portland,138,unknown,,
 portland_2020,Yamhill District,Portland,82,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
 portland_2020,Union Station/NW 6th & Hoyt,Portland,75,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
-portland_2020,NW 5th & Couch,Portland,75,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
+portland_2020,NW 6th & Davis,Portland,75,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
 portland_2020,Portland International Airport,Portland,74,unknown,,
 portland_2020,Oak/ SW 1st Ave,Portland,59,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)
 portland_2020,Pioneer Courthouse/SW 6th Ave,Portland,56,yes,Central City 2035 zoning Jul 2018,https://www.portland.gov/bps/cc2035/news/2018/7/11/central-city-2035-plan-effect (Central City 2035 zoning in effect Jul 2018)

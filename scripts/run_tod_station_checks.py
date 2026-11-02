@@ -234,7 +234,7 @@ FLAGS = [
 # in-city comparison cases (one place): stop-name rules
 CITY_FLAGS = {
     "portland_2020": [(n, "yes", "Central City 2035 zoning Jul 2018", SRC["portland_cc"]) for n in
-                      ("Yamhill", "Union Station", "NW 5th", "Oak/", "Pioneer Courthouse", "Skidmore", "Old Town")],
+                      ("Yamhill", "Union Station", "NW 5th", "NW 6th & Davis", "Oak/", "Pioneer Courthouse", "Skidmore", "Old Town")],
     "slc_2010": [(n, "no", "Sugar House form-based zones 2016, after window", SRC["slc_sugar"]) for n in ("Fairmont", "Sugarmont")],
     "denver_2018": [("41st & Fox", "yes", "site rezonings to 8-12 stories 2018-2019", SRC["denver_fox"])],
     "charlotte_2019": [("UNC Charlotte", "no", "campus master plan 2010; outside city TOD petition", SRC["charlotte_unc"])],

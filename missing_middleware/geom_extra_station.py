@@ -130,10 +130,20 @@ def areas(polys: list) -> np.ndarray:
 # --------------------------------------------------------------------------------------- nearest with fixed ties
 def nearest_lowest(px, py, tx, ty, max_distance: float | None = None, k: int = 16):
     """Nearest target for each point (index -1 and distance inf beyond max_distance). Exact ties go to the lowest
-    target position. Returns (index, distance)."""
-    from scipy.spatial import cKDTree
+    target position. Points or targets without a location (NaN) never match, as geopandas skips empty geometry.
+    Returns (index, distance)."""
     px, py = np.asarray(px, float), np.asarray(py, float)
     tx, ty = np.asarray(tx, float), np.asarray(ty, float)
+    okp, okt = np.isfinite(px) & np.isfinite(py), np.isfinite(tx) & np.isfinite(ty)
+    if not (okp.all() and okt.all()):
+        ti = np.flatnonzero(okt)
+        bi, bd = np.full(len(px), -1, dtype=np.int64), np.full(len(px), np.inf)
+        if okp.any():
+            b, d = nearest_lowest(px[okp], py[okp], tx[okt], ty[okt], max_distance, k)
+            bi[okp] = np.where(b >= 0, ti[np.maximum(b, 0)], -1)
+            bd[okp] = d
+        return bi, bd
+    from scipy.spatial import cKDTree
     n = len(px)
     if not len(tx) or not n:
         return np.full(n, -1, dtype=np.int64), np.full(n, np.inf)
@@ -1469,3 +1479,28 @@ def buffer_input_polys(polys: list, r: float, factor: float = 0.01) -> list:
             parts.append(rings)
         out.append(parts)
     return out
+
+
+# --------------------------------------------------------------------------------------- point-buffer join (pairs)
+def point_buffer_pairs(px, py, sx, sy, r: float) -> tuple[np.ndarray, np.ndarray]:
+    """Every (point, centre) pair with the point inside the GEOS point buffer of radius r (64-gon, vertex at angle 0)
+    around the centre: sjoin(points, buffers, predicate='within'), all matches, sorted by point then centre. The
+    polygon test is the one within_point_buffers uses."""
+    from scipy.spatial import cKDTree
+    px, py = np.asarray(px, float), np.asarray(py, float)
+    sx, sy = np.asarray(sx, float), np.asarray(sy, float)
+    pi, si = [], []
+    if not len(sx) or not len(px):
+        return np.zeros(0, int), np.zeros(0, int)
+    ok = np.isfinite(px) & np.isfinite(py)
+    step = 2 * math.pi / 64
+    apothem = r * math.cos(step / 2)
+    tree = cKDTree(np.c_[sx, sy])
+    for i in np.flatnonzero(ok):
+        for s in sorted(tree.query_ball_point([px[i], py[i]], r)):
+            dx, dy = px[i] - sx[s], py[i] - sy[s]
+            a = math.atan2(dy, dx) % (2 * math.pi)
+            mid = (math.floor(a / step) + 0.5) * step
+            if dx * math.cos(mid) + dy * math.sin(mid) <= apothem:
+                pi.append(i); si.append(s)
+    return np.asarray(pi, int), np.asarray(si, int)
