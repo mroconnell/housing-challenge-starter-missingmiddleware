@@ -105,25 +105,37 @@ test("TOD today shows homes per acre near rail and rapid stops from the bundle",
   await expect(page.getByTestId("density-tiles")).toContainText("Milwaukee 106 · Madison 138 · Kenosha 22");
   await expect(page.getByTestId("hpa-half")).toHaveText(one(t.state.half.homes_per_acre));
   await expect(page.getByTestId("hpa-quarter")).toHaveText(one(t.state.quarter.homes_per_acre));
-  await expect(page.getByTestId("hpa-half-six")).toHaveText(one(t.six_places.half.homes_per_acre));
-  await expect(page.getByTestId("hpa-quarter-six")).toHaveText(one(t.six_places.quarter.homes_per_acre));
+  await expect(page.getByTestId("hpa-half-five")).toHaveText(one(t.five_places.half.homes_per_acre));
+  await expect(page.getByTestId("hpa-quarter-five")).toHaveText(one(t.five_places.quarter.homes_per_acre));
   const wi = page.getByTestId("density-wi-table");
   for (const x of t.systems) {
     const row = wi.locator("tbody tr", { hasText: x.label });
     await expect(row.locator("td")).toHaveText([String(x.half.stops), one(x.quarter.homes_per_acre), one(x.half.homes_per_acre)]);
   }
-  const six = page.getByTestId("density-six-table");
-  for (const name of ["Austin, 2009", "Bellevue (BelRed), 2009", "Salt Lake City, 2010", "Saint Paul, 2011", "Seattle (Othello), 2012", "Seattle (Mount Baker), 2014", "Six places together"]) await expect(six).toContainText(name);
-  await expect(six).not.toContainText("_20");  // plain names, not case ids
+  const five = page.getByTestId("density-five-table");
+  for (const name of ["Austin, 2009", "Salt Lake City, 2010", "Saint Paul, 2011", "Seattle (Othello), 2012", "Seattle (Mount Baker), 2014", "Five places together"]) await expect(five).toContainText(name);
+  await expect(five.locator("tbody tr")).toHaveCount(6);
+  await expect(five).not.toContainText("_20");  // plain names, not case ids
+  // industrial rezones (BelRed) are off the screen's tables and tiles
+  for (const id of ["density-tiles", "density-wi-table", "density-five-table", "density-ring-table", "density-context"]) await expect(page.getByTestId(id)).not.toContainText("BelRed");
   await expect(page.getByTestId("density-extra")).toHaveText(fmt(t.context.half.extra_homes_rounded));
   await expect(page.getByTestId("density-context")).toContainText(`+${Math.round(t.context.half.extra_share * 100)}%`);
-  await expect(page.getByTestId("density-context")).toContainText("already denser");
+  await expect(page.getByTestId("density-context")).toContainText("five places");
   for (const c of t.caveats) await expect(page.getByTestId("density-caveats")).toContainText(c);
-  // second measure: near the stops ÷ the rest of the same city (raw density first, ratio second)
-  const ratio = page.getByTestId("density-ratio-table");
-  for (const x of t.ratio) await expect(ratio.locator("tbody tr", { hasText: x.name }).locator("td").last()).toHaveText(one(x.half.ratio));
-  await expect(page.getByTestId("density-ratio")).toContainText("airport");
-  const order = await page.evaluate(() => ["density-raw", "density-ratio"].map((id) => document.querySelector(`[data-testid="${id}"]`)!.getBoundingClientRect().top));
+  // second measure: near the stops compared with ½ to 1 mile away (raw density first, ring second)
+  const x1 = (v: number) => `${v.toFixed(1)}×`;
+  const ring = page.getByTestId("density-ring-table");
+  const ringRows: [string, any][] = [...t.systems.map((x: any) => [x.label, x]), ["Wisconsin, all", t.state],
+    ...t.reforms.map((x: any) => [`${x.area ? `${x.place} (${x.area})` : x.place}, ${x.year}`, x]), ["Five places together", t.five_places]];
+  await expect(ring.locator("tbody tr:not(:has(.tod-group))")).toHaveCount(ringRows.length);
+  for (const [name, x] of ringRows) {
+    await expect(ring.locator("tbody tr", { hasText: name }).first().locator("td")).toHaveText([one(x.ring.homes_per_acre), x1(x.vs_ring.quarter), x1(x.vs_ring.half)]);
+  }
+  await expect(page.getByTestId("ring-half-wi")).toHaveText(x1(t.state.vs_ring.half));
+  await expect(page.getByTestId("ring-half-five")).toHaveText(x1(t.five_places.vs_ring.half));
+  await expect(page.getByTestId("density-ring")).toContainText("nearby neighborhoods");
+  await expect(page.getByTestId("density-ratio")).toHaveCount(0);
+  const order = await page.evaluate(() => ["density-raw", "density-ring"].map((id) => document.querySelector(`[data-testid="${id}"]`)!.getBoundingClientRect().top));
   expect(order[0]).toBeLessThan(order[1]);
   // map: rail and rapid stops only, one view at a time
   await page.getByRole("radio", { name: "Madison area" }).check();

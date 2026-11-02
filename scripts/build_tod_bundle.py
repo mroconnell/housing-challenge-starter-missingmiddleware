@@ -9,9 +9,9 @@ committed files:
 - reference/tod_case_estimates.csv, tod_cases.csv, tod_madison_test_results.csv, tod_madison_test_rates_by_year.csv,
   tod_madison_test_predictions.csv, tod_scale_check.csv, tod_scale_check_metro_years.csv
 - reference/housing_baseline_statewide_by_year.csv, housing_baseline_by_area.csv (the shared all-housing baseline)
-- reference/tod_today_density.csv (the "today" snapshot: existing homes per acre of land near rail and rapid stops,
-  2020 census blocks; scripts/build_tod_today_density.py) and reference/tod_today_ratio.csv (homes per acre near the
-  stops divided by homes per acre in the rest of the same city; scripts/build_tod_today_ratio.py)
+- reference/tod_today_density.csv (the "today" snapshot: existing homes per acre of land within 1/4 and 1/2 mile of
+  rail and rapid stops and in the 1/2-1 mile ring around them, 2020 census blocks; scripts/build_tod_today_density.py).
+  The near-stops-vs-rest-of-city ratio (reference/tod_today_ratio.csv) is no longer on the screen (owner 2026-11-02).
 - the municipality outlines already published in the ADU bundle (ui/public/runs/<run>/geo_munis.json), cut to the
   map views and rounded to about 100 m
 
@@ -61,7 +61,7 @@ INPUTS = [
     "reference/housing_baseline_statewide_by_year.csv", "reference/housing_baseline_by_area.csv",
     "reference/housing_baseline_history.csv",
     "reference/gate5_housing_health.csv", "reference/adu_model_district_crosswalk.csv",
-    "reference/tod_today_density.csv", "reference/tod_today_ratio.csv",
+    "reference/tod_today_density.csv",
     GEO_MUNIS,
 ]
 
@@ -766,50 +766,33 @@ def build_pilots(areas: dict, sw: dict) -> list:
 TODAY_SYSTEMS = [("Milwaukee (BRT and streetcar)", "Milwaukee", "CONNECT 1 bus rapid transit and The Hop streetcar", ["Milwaukee County", "City of Milwaukee"]),
                  ("Madison (BRT)", "Madison", "Rapid Route A bus rapid transit", ["City of Madison"]),
                  ("Kenosha (streetcar)", "Kenosha", "Kenosha streetcar", ["City of Kenosha"])]
-# The six older reforms: case id -> plain place name, the area the reform covered, and the year it was adopted.
-TODAY_REFORMS = [("austin_2009", "Austin", None, 2009),
-                 ("bellevue_belred_2009", "Bellevue", "BelRed", 2009),
-                 ("slc_2010", "Salt Lake City", None, 2010),
-                 ("stpaul_2011", "Saint Paul", None, 2011),
-                 ("seattle_othello_2012", "Seattle", "Othello", 2012),
-                 ("seattle_mount_baker_2014", "Seattle", "Mount Baker", 2014)]
-TODAY_POOLED = "six older reforms (pooled)"
-# tod_today_ratio.csv places -> group, plain name (city), and the reform year(s) for the six older reforms
-TODAY_RATIO = [("Milwaukee (BRT and streetcar)", "wisconsin", "Milwaukee", None),
-               ("Madison (BRT)", "wisconsin", "Madison", None),
-               ("Kenosha (streetcar)", "wisconsin", "Kenosha", None),
-               ("Austin (2009 reform)", "reform", "Austin", "2009"),
-               ("Salt Lake City (2010 reform)", "reform", "Salt Lake City", "2010"),
-               ("Saint Paul (2011 reform)", "reform", "Saint Paul", "2011"),
-               ("Bellevue BelRed (2009 reform)", "reform", "Bellevue (BelRed)", "2009"),
-               ("Seattle Othello and Mount Baker (2012, 2014 reforms)", "reform", "Seattle (Othello and Mount Baker)", "2012, 2014")]
-
-
-def build_today_ratio() -> list[dict]:
-    d = pd.read_csv(REF / "tod_today_ratio.csv")
-    out = []
-    for label, group, name, year in TODAY_RATIO:
-        row = {"label": label, "group": group, "name": name, "year": year}
-        for b, key in (("quarter_mile", "quarter"), ("half_mile", "half")):
-            x = d[(d["place"] == label) & (d["band"] == b)].iloc[0]
-            near, rest = x.homes_near / x.land_acres_near, x.homes_rest_of_city / x.land_acres_rest_of_city
-            row[key] = {"stops": int(x.stops), "homes_near": int(x.homes_near), "acres_near": r(x.land_acres_near, 1),
-                        "homes_per_acre_near": r(near, 3), "homes_rest": int(x.homes_rest_of_city),
-                        "acres_rest": r(x.land_acres_rest_of_city, 1), "homes_per_acre_rest": r(rest, 3),
-                        "ratio": r(near / rest, 3), "ratio_in_file": r(x.ratio_near_to_rest, 2)}
-        out.append(row)
-    return out
+# The older reforms: case id -> plain place name, the area the reform covered, the year it was adopted, and whether it
+# was an industrial rezone. BelRed (a former light-industrial district whose stops sat on industrial land) stays in the
+# CSV but is left off the today screen (owner 2026-11-02): the comparison is the five non-industrial reforms.
+TODAY_REFORMS = [("austin_2009", "Austin", None, 2009, False),
+                 ("bellevue_belred_2009", "Bellevue", "BelRed", 2009, True),
+                 ("slc_2010", "Salt Lake City", None, 2010, False),
+                 ("stpaul_2011", "Saint Paul", None, 2011, False),
+                 ("seattle_othello_2012", "Seattle", "Othello", 2012, False),
+                 ("seattle_mount_baker_2014", "Seattle", "Mount Baker", 2014, False)]
+TODAY_POOLED = "five older non-industrial reforms (pooled)"
+TODAY_BANDS = (("quarter_mile", "quarter"), ("half_mile", "half"), ("ring_half_to_one_mile", "ring"))
 
 
 def build_today() -> dict:
     d = pd.read_csv(REF / "tod_today_density.csv")
 
     def bands(rows: pd.DataFrame) -> dict:
+        if len(rows) != len(TODAY_BANDS):
+            raise SystemExit(f"today: expected {len(TODAY_BANDS)} bands, got {len(rows)}")
         out = {}
-        for b, key in (("quarter_mile", "quarter"), ("half_mile", "half")):
+        for b, key in TODAY_BANDS:
             x = rows[rows["band"] == b].iloc[0]
             out[key] = {"stops": int(x.n_stops), "homes": int(x.homes_2020), "acres": r(x.land_acres, 1),
                         "homes_per_acre": r(x.homes_2020 / x.land_acres, 3)}
+        # times as dense near the stops as in the ½–1 mile ring around the same stops
+        ring = out["ring"]["homes"] / out["ring"]["acres"]
+        out["vs_ring"] = {k: r(out[k]["homes"] / out[k]["acres"] / ring, 3) for k in ("quarter", "half")}
         return out
 
     wi = d[d["group"] == "wisconsin"]
@@ -821,35 +804,38 @@ def build_today() -> dict:
     systems = [{"name": short, "label": label, "lines": lines, "agencies": ags,
                 "stops_in_stop_file": int(rapid["agency"].isin(ags).sum()), **bands(wi[wi["place"] == label])}
                for label, short, lines, ags in TODAY_SYSTEMS]
+    shown = [x for x in TODAY_REFORMS if not x[4]]
     reforms = [{"id": cid, "place": place, "area": area, "year": year, **bands(rf[rf["place"] == cid])}
-               for cid, place, area, year in TODAY_REFORMS]
-    # Context: Wisconsin's land near stops at the six places' pooled density (homes per acre times Wisconsin's acres)
+               for cid, place, area, year, _ in shown]
+    # Context: Wisconsin's land near stops at the five places' pooled density (homes per acre times Wisconsin's acres)
     context = {}
     for key in ("half", "quarter"):
         w, p = state[key], pooled[key]
         diff = p["homes_per_acre"] - w["homes_per_acre"]
         extra = (p["homes"] / p["acres"] - w["homes"] / w["acres"]) * w["acres"]
-        context[key] = {"wisconsin": w["homes_per_acre"], "six_places": p["homes_per_acre"], "difference": r(diff, 3),
+        context[key] = {"wisconsin": w["homes_per_acre"], "five_places": p["homes_per_acre"], "difference": r(diff, 3),
                         "acres": w["acres"], "homes": w["homes"], "extra_homes": r(extra, 1),
                         "extra_homes_rounded": int(round(extra, -2)), "extra_share": r(extra / w["homes"], 4)}
     return {
         "year": 2020,
         "stops_total": int(len(rapid)),
-        "state": state, "systems": systems, "six_places": pooled, "reforms": reforms, "context": context,
-        "reform_years": [min(x[3] for x in TODAY_REFORMS), max(x[3] for x in TODAY_REFORMS)],
+        "state": state, "systems": systems, "five_places": pooled, "reforms": reforms, "context": context,
+        "reform_years": [min(x[3] for x in shown), max(x[3] for x in shown)],
         "stops_counted_twice": sum(x["half"]["stops"] for x in reforms) - pooled["half"]["stops"],
-        "ratio": build_today_ratio(),
-        "ratio_caveats": [
-            "Near-stop density ÷ rest of the same city.",
-            "Only stops inside the city's limits.",
-            "Salt Lake City's limits include the airport and much empty land.",
-            "That lowers its rest-of-city density.",
+        "left_out": [{"id": cid, "place": place, "area": area, "year": year,
+                      "reason": "a former light-industrial district; its stops sat on industrial land"}
+                     for cid, place, area, year, ind in TODAY_REFORMS if ind],
+        "ring_caveats": [
+            "Ring: ½ to 1 mile from the stops.",
+            "The same city's nearby neighborhoods.",
+            "So city size and market mostly cancel out.",
+            "Ring is not cut at city limits.",
         ],
-        "source": "Census 2020 blocks (housing units and land area); a block counts if its centre point is within ¼ or ½ mile of a stop. Land excludes water.",
+        "source": "Census 2020 blocks (housing units and land area); a block counts if its centre point is within ¼ or ½ mile of a stop, or, for the ring, beyond ½ mile of every stop and within 1 mile of one. Land excludes water.",
         "caveats": [
             "Density reflects city size, age and market, not only zoning.",
             "A 2020 snapshot, not a reform effect.",
-            "BelRed's light rail opened in 2024, after the snapshot.",
+            "Industrial rezones left out (Bellevue's BelRed).",
         ],
     }
 
@@ -859,21 +845,39 @@ def validate_today(t: dict, check) -> None:
     check("today: systems' stops add up to Wisconsin's rail and rapid stops",
           sum(x["half"]["stops"] for x in t["systems"]) == st["half"]["stops"] == t["stops_total"], f"{st['half']['stops']} stops")
     check("today: each system's stops match the stop file",
-          all(x["half"]["stops"] == x["quarter"]["stops"] == x["stops_in_stop_file"] for x in t["systems"]), "flag_a_rapid by agency")
+          all(x["half"]["stops"] == x["quarter"]["stops"] == x["ring"]["stops"] == x["stops_in_stop_file"] for x in t["systems"]),
+          "flag_a_rapid by agency")
     for key in ("quarter", "half"):
         check(f"today: systems' homes and land add up to Wisconsin ({key} mile)",
               sum(x[key]["homes"] for x in t["systems"]) == st[key]["homes"]
               and abs(sum(x[key]["acres"] for x in t["systems"]) - st[key]["acres"]) < 0.5, f"{st[key]['homes']:,} homes")
-    rows = [st, t["six_places"], *t["systems"], *t["reforms"]]
-    check("today: homes per acre = homes / land acres", all(abs(x[k]["homes_per_acre"] - x[k]["homes"] / x[k]["acres"]) < 0.001
-                                                            for x in rows for k in ("quarter", "half")), "every row")
-    check("today: six reforms present, adopted 2009-2014", len(t["reforms"]) == 6 and t["reform_years"] == [2009, 2014], "Austin to Mount Baker")
-    check("today: ratio recomputes from homes and land (matches the file's ratio to 0.01)",
-          len(t["ratio"]) == 8 and all(abs(x[k]["ratio"] - x[k]["ratio_in_file"]) <= 0.006 for x in t["ratio"] for k in ("quarter", "half")),
-          "8 cities, both bands")
+    # the systems are far apart, so their rings do not overlap and add up too
+    check("today: systems' ½–1 mile rings add up to Wisconsin's ring",
+          sum(x["ring"]["homes"] for x in t["systems"]) == st["ring"]["homes"]
+          and abs(sum(x["ring"]["acres"] for x in t["systems"]) - st["ring"]["acres"]) < 0.5, f"{st['ring']['homes']:,} homes")
+    rows = [st, t["five_places"], *t["systems"], *t["reforms"]]
+    check("today: homes per acre = homes / land acres (¼, ½ and ½–1 mile)",
+          all(abs(x[k]["homes_per_acre"] - x[k]["homes"] / x[k]["acres"]) < 0.001 for x in rows for k in ("quarter", "half", "ring")), "every row")
+    check("today: times as dense = near homes per acre ÷ ring homes per acre",
+          all(abs(x["vs_ring"][k] - x[k]["homes_per_acre"] / x["ring"]["homes_per_acre"]) < 0.002 for x in rows for k in ("quarter", "half")),
+          "every row, both bands")
+    d = pd.read_csv(REF / "tod_today_density.csv").set_index(["place", "band"])
+    check("today: ring homes, land and homes per acre match the density file",
+          all(x["ring"]["homes"] == int(d.loc[(pl, "ring_half_to_one_mile"), "homes_2020"])
+              and abs(x["ring"]["homes_per_acre"] - d.loc[(pl, "ring_half_to_one_mile"), "homes_per_acre"]) <= 0.006
+              for pl, x in [("Wisconsin (all)", st), (TODAY_POOLED, t["five_places"])] + [(x["label"], x) for x in t["systems"]]
+              + [(x["id"], x) for x in t["reforms"]]), "Wisconsin, systems, five places, pooled")
+    check("today: five non-industrial reforms shown, adopted 2009-2014, BelRed left out",
+          len(t["reforms"]) == 5 and t["reform_years"] == [2009, 2014] and all(x["id"] != "bellevue_belred_2009" for x in t["reforms"])
+          and [x["id"] for x in t["left_out"]] == ["bellevue_belred_2009"], "Austin to Mount Baker")
+    n_sum = sum(x["half"]["stops"] for x in t["reforms"])
+    check("today: five places together count each stop once",
+          t["five_places"]["half"]["stops"] == n_sum - t["stops_counted_twice"] and 0 <= t["stops_counted_twice"] <= 1
+          and t["five_places"]["half"]["stops"] == int(d.loc[(TODAY_POOLED, "half_mile"), "n_stops"]),
+          f"{t['five_places']['half']['stops']} stops ({n_sum} listed)")
     c = t["context"]["half"]
-    check("today: context recomputes (½ mile)", abs(c["extra_homes"] - c["difference"] * c["acres"]) < 0.01 * c["acres"] + 1,
-          f"{c['extra_homes']:,.0f} homes")
+    check("today: context recomputes (½ mile, five places)", abs(c["extra_homes"] - c["difference"] * c["acres"]) < 0.01 * c["acres"] + 1
+          and c["five_places"] == t["five_places"]["half"]["homes_per_acre"], f"{c['extra_homes']:,.0f} homes")
 
 
 # ---- validation ---------------------------------------------------------------------------------
@@ -942,7 +946,7 @@ def main():
         "vintages": [{"what": "National Transit Map (stops and routes)", "vintage": "compiled 23 September 2026"},
                      {"what": "Agency schedule files (frequencies)", "vintage": "2025–2026 service days"},
                      {"what": "Census 2020 homes by block (station areas)", "vintage": "2020"},
-                     {"what": "Census 2020 homes and land by block (homes per acre near rail and rapid stops, here and in six older reform places)", "vintage": "2020"},
+                     {"what": "Census 2020 homes and land by block (homes per acre near rail and rapid stops, here and in five older non-industrial reform places)", "vintage": "2020"},
                      {"what": "Wisconsin's total homes for cross-reform shares (ACS B25002)", "vintage": "ACS 2020–2024 five-year"},
                      {"what": "Census Building Permits Survey (current-law forecast)", "vintage": "2015–2025 annual"},
                      {"what": "Milwaukee and Madison parcels and zoning", "vintage": "2025–2026"}],

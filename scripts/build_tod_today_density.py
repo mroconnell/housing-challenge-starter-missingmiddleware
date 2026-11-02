@@ -6,7 +6,10 @@ older TOD upzonings (2020 census blocks, one snapshot, no before/after).
 In:  reference/tod_stops.csv (Wisconsin stops; flag_a_rapid = rail and rapid, the stops behind the 89,528 figure)
      reference/tod_station_area_stations.csv (reform and comparison rail stops of the station-area study)
      data/raw/census_tiger_2020_tabblock/tl_2020_{55,48,53,49,27}_tabblock20.zip (HOUSING20, ALAND20, INTPTLAT20/LON20)
-Out: reference/tod_today_density.csv        one row per place and band (aggregates)
+Out: reference/tod_today_density.csv        one row per place and band (aggregates); bands quarter_mile, half_mile and
+                                            ring_half_to_one_mile (beyond 1/2 mile and within 1 mile of any stop);
+                                            industrial_rezone = 1 for rows that include BelRed's stops (BelRed, the six-place
+                                            pool, Bellevue's all-rail row)
      reference/tod_today_density_stops.csv  one row per stop (each stop's own blocks; aggregates)
 
 Method: a block counts if its internal point lies within the radius (1/4 or 1/2 mile, exact distance) of any of the
@@ -40,6 +43,10 @@ D = RAW / "census_tiger_2020_tabblock"
 URL = "https://www2.census.gov/geo/tiger/TIGER2020/TABBLOCK20/tl_2020_{st}_tabblock20.zip"
 ACRE_M2 = 4046.8564224
 BANDS = {"quarter_mile": 0.25 * T.MILE_M, "half_mile": 0.5 * T.MILE_M}
+# Third band (owner 2026-11-02): the ring beyond 1/2 mile and within 1 mile of the stops, the nearby neighbourhoods the
+# near-stop density is compared with. Pooled totals only (no per-stop rows).
+RING = "ring_half_to_one_mile"
+RING_M = (0.5 * T.MILE_M, 1.0 * T.MILE_M)
 OUT, OUT_STOPS = REFERENCE / "tod_today_density.csv", REFERENCE / "tod_today_density_stops.csv"
 
 # The six older reforms (station-area study case ids) and their state FIPS.
@@ -52,6 +59,9 @@ REFORMS = [
     ("seattle_mount_baker_2014", "Seattle", "53"),
 ]
 REFORM_LABEL = {"stpaul": "stpaul_2011", "seattle_nbh_othello_2012": "seattle_othello_2012"}
+# BelRed (Bellevue) was a light-industrial district rezoned for housing; its stops sat on industrial land, so it is kept
+# in the files (flag industrial_rezone = 1) but left out of the five-place comparison (owner 2026-11-02).
+INDUSTRIAL = {"bellevue_belred_2009"}
 WI_PLACES = {  # Wisconsin rail/rapid stops grouped by operating agency
     "Milwaukee (BRT and streetcar)": ["Milwaukee County", "City of Milwaukee"],
     "Madison (BRT)": ["City of Madison"],
@@ -120,7 +130,7 @@ def read_blocks(st: str) -> pd.DataFrame:
 
 
 def measure(blocks: pd.DataFrame, stops: pd.DataFrame, proj) -> tuple[dict, pd.DataFrame]:
-    """Pooled totals per band, and each stop's own 1/2-mile and 1/4-mile totals."""
+    """Pooled totals per band (and the 1/2-1 mile ring), and each stop's own 1/2-mile and 1/4-mile totals."""
     lon0, lat0 = stops.lon.mean(), stops.lat.mean()
     # Pre-filter blocks to a box around the stops (5 km margin) before projecting.
     pad_lat, pad_lon = 0.05, 0.05 / max(np.cos(np.radians(lat0)), 0.1)
@@ -134,6 +144,8 @@ def measure(blocks: pd.DataFrame, stops: pd.DataFrame, proj) -> tuple[dict, pd.D
     for band, r in BANDS.items():
         m = T.blocks_within(bp, sp, r)
         pooled[band] = (homes[m].sum(), land[m].sum())
+    m = T.blocks_within(bp, sp, RING_M[1]) & ~T.blocks_within(bp, sp, RING_M[0])
+    pooled[RING] = (homes[m].sum(), land[m].sum())
     per = []
     for i in range(len(sp)):
         row = {}
@@ -162,14 +174,11 @@ def main() -> None:
         raise SystemExit(f"unassigned Wisconsin agencies: {extra}")
 
     st = pd.read_csv(REFERENCE / "tod_station_area_stations.csv")
-    rf_all = []
     for case, city, fips in REFORMS:
         s = st[(st.case == case) & (st.role == "reform")]
         if s.empty:
             raise SystemExit(f"no reform stops for {case}")
-        rf_all.append(s.assign(state=fips))
         places.append(("reform_stops", REFORM_LABEL.get(case, case), f"{city}: reform-group rail stops", fips, s))
-    rf_all = pd.concat(rf_all).drop_duplicates(["city", "stop", "lat", "lon"])
     for city in dict.fromkeys(c for _, c, _ in REFORMS):
         fips = next(f for _, c, f in REFORMS if c == city)
         s = st[(st.city == city) & st.case.isin([c for c, cc, _ in REFORMS if cc == city])]
@@ -184,7 +193,7 @@ def main() -> None:
             blocks[fips] = read_blocks(fips)
         proj = 3071 if fips == "55" else local_tm(s)
         pooled, per = measure(blocks[fips], s, proj)
-        for band in BANDS:
+        for band in [*BANDS, RING]:
             h, a = pooled[band]
             rows.append({"group": group, "place": place, "stops": desc, "band": band, "n_stops": len(s),
                          "homes_2020": int(round(h)), "land_acres": round(a, 1),
@@ -197,23 +206,31 @@ def main() -> None:
                                   "lon": round(r.lon, 5),
                                   **{k: (round(v, 2) if "per_acre" in k else round(v, 1) if "land" in k else int(v))
                                      for k, v in q.items()}})
-    # The six reforms pooled: each city's reform stops once (Beacon Hill sits in both Seattle cases).
-    tot = {b: [0.0, 0.0] for b in BANDS}
-    meds = []
-    for city, s in rf_all.groupby("city", sort=False):
-        pooled, per = measure(blocks[s.state.iloc[0]], s, local_tm(s))
-        for b in BANDS:
-            tot[b][0] += pooled[b][0]
-            tot[b][1] += pooled[b][1]
-        meds.append(per["homes_per_acre_half_mile"])
-    for b, (h, a) in tot.items():
-        rows.append({"group": "reform_stops", "place": "six older reforms (pooled)", "band": b, "n_stops": len(rf_all),
-                     "stops": "reform-group rail stops of the six reforms, each stop once",
-                     "homes_2020": int(round(h)), "land_acres": round(a, 1), "homes_per_acre": round(h / a, 2),
-                     "typical_stop_homes_per_acre_half_mile": round(float(pd.concat(meds).median()), 2)
-                     if b == "half_mile" else np.nan})
+    # The reforms pooled: each city's reform stops once (Beacon Hill sits in both Seattle cases). Six = all; five = the
+    # non-industrial ones (BelRed left out).
+    for label, cases, desc in (
+            ("six older reforms (pooled)", [c for c, _, _ in REFORMS], "reform-group rail stops of the six reforms, each stop once"),
+            ("five older non-industrial reforms (pooled)", [c for c, _, _ in REFORMS if c not in INDUSTRIAL],
+             "reform-group rail stops of the five non-industrial reforms (BelRed left out), each stop once")):
+        sel = pd.concat([st[(st.case == c) & (st.role == "reform")].assign(state=f) for c, _, f in REFORMS if c in cases])
+        sel = sel.drop_duplicates(["city", "stop", "lat", "lon"])
+        tot = {b: [0.0, 0.0] for b in [*BANDS, RING]}
+        meds = []
+        for city, s in sel.groupby("city", sort=False):
+            pooled, per = measure(blocks[s.state.iloc[0]], s, local_tm(s))
+            for b in tot:
+                tot[b][0] += pooled[b][0]
+                tot[b][1] += pooled[b][1]
+            meds.append(per["homes_per_acre_half_mile"])
+        for b, (h, a) in tot.items():
+            rows.append({"group": "reform_stops", "place": label, "band": b, "n_stops": len(sel), "stops": desc,
+                         "homes_2020": int(round(h)), "land_acres": round(a, 1), "homes_per_acre": round(h / a, 2),
+                         "typical_stop_homes_per_acre_half_mile": round(float(pd.concat(meds).median()), 2)
+                         if b == "half_mile" else np.nan})
     out = pd.DataFrame(rows)
-    out["source"] = "Census 2020 blocks (TIGER/Line tabblock20 HOUSING20, ALAND20); block counted if its internal point is within the band of any stop"
+    ind_places = {REFORM_LABEL.get(c, c) for c in INDUSTRIAL} | {"six older reforms (pooled)", "Bellevue"}
+    out.insert(2, "industrial_rezone", out.place.isin(ind_places).astype(int))
+    out["source"] = "Census 2020 blocks (TIGER/Line tabblock20 HOUSING20, ALAND20); block counted if its internal point is within the band of any stop; ring_half_to_one_mile: beyond 1/2 mile of every stop and within 1 mile of any"
     out.to_csv(OUT, index=False)
     pd.DataFrame(stop_rows).to_csv(OUT_STOPS, index=False)
     with pd.option_context("display.width", 250, "display.max_columns", 20):

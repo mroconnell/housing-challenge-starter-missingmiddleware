@@ -108,40 +108,48 @@ class TestTodBundle(unittest.TestCase):
         self.assertAlmostEqual(met["madison"]["add"]["typical"], mm["madison_metro_2027_2031"], delta=0.5)
 
     def test_today_density_matches_reference(self):
-        """Today screen: homes per acre of land near rail and rapid stops (2020 snapshot), from the reference CSVs."""
+        """Today screen: homes per acre of land within 1/4 and 1/2 mile of rail and rapid stops and in the 1/2-1 mile ring
+        (2020 snapshot), Wisconsin beside the five older non-industrial reforms (BelRed left out), from the reference CSV."""
         self.assertIn("today.json", self.m["files"])
         t = json.loads((self.d / "today.json").read_text())
         d = pd.read_csv(REF / "tod_today_density.csv").set_index(["place", "band"])
-        bands = {"quarter": "quarter_mile", "half": "half_mile"}
-        for place, got in [("Wisconsin (all)", t["state"]), ("six older reforms (pooled)", t["six_places"])] + \
-                [(x["label"], x) for x in t["systems"]] + [(x["id"], x) for x in t["reforms"]]:
+        bands = {"quarter": "quarter_mile", "half": "half_mile", "ring": "ring_half_to_one_mile"}
+        pooled = "five older non-industrial reforms (pooled)"
+        rows = [("Wisconsin (all)", t["state"]), (pooled, t["five_places"])] + \
+            [(x["label"], x) for x in t["systems"]] + [(x["id"], x) for x in t["reforms"]]
+        for place, got in rows:
             for k, band in bands.items():
                 ref = d.loc[(place, band)]
                 self.assertEqual(got[k]["homes"], int(ref["homes_2020"]), place)
                 self.assertEqual(got[k]["stops"], int(ref["n_stops"]), place)
                 self.assertAlmostEqual(got[k]["homes_per_acre"], ref["homes_per_acre"], delta=0.006, msg=place)
+            ring = d.loc[(place, "ring_half_to_one_mile")]
+            for k, band in (("quarter", "quarter_mile"), ("half", "half_mile")):
+                near = d.loc[(place, band)]
+                want = (near["homes_2020"] / near["land_acres"]) / (ring["homes_2020"] / ring["land_acres"])
+                self.assertAlmostEqual(got["vs_ring"][k], want, delta=0.002, msg=place)
+        # systems' rings do not overlap, so they add up to Wisconsin's
+        self.assertEqual(sum(x["ring"]["homes"] for x in t["systems"]), t["state"]["ring"]["homes"])
         stops = pd.read_csv(REF / "tod_stops.csv")
         self.assertEqual(t["stops_total"], int(stops["flag_a_rapid"].astype(bool).sum()))
         self.assertEqual([x["half"]["stops"] for x in t["systems"]], [106, 138, 22])
-        self.assertEqual([x["place"] for x in t["reforms"]], ["Austin", "Bellevue", "Salt Lake City", "Saint Paul", "Seattle", "Seattle"])
+        self.assertEqual([x["place"] for x in t["reforms"]], ["Austin", "Salt Lake City", "Saint Paul", "Seattle", "Seattle"])
+        self.assertEqual([x["id"] for x in t["left_out"]], ["bellevue_belred_2009"])
         self.assertEqual(t["reform_years"], [2009, 2014])
-        # context: Wisconsin's ½-mile land at the six places' pooled density
-        w, p = d.loc[("Wisconsin (all)", "half_mile")], d.loc[("six older reforms (pooled)", "half_mile")]
+        # five together counts each stop once (Beacon Hill is in both Seattle reforms)
+        self.assertEqual(t["five_places"]["half"]["stops"], 34)
+        self.assertEqual(sum(x["half"]["stops"] for x in t["reforms"]) - t["stops_counted_twice"], 34)
+        # BelRed stays in the file, flagged; the five-place pool has no industrial rezone in it
+        self.assertEqual(int(d.loc[("bellevue_belred_2009", "half_mile"), "industrial_rezone"]), 1)
+        self.assertEqual(int(d.loc[(pooled, "half_mile"), "industrial_rezone"]), 0)
+        # context: Wisconsin's 1/2-mile land at the five places' pooled density
+        w, p = d.loc[("Wisconsin (all)", "half_mile")], d.loc[(pooled, "half_mile")]
         extra = (p["homes_2020"] / p["land_acres"] - w["homes_2020"] / w["land_acres"]) * w["land_acres"]
         c = t["context"]["half"]
         self.assertAlmostEqual(c["extra_homes"], extra, delta=0.1)
         self.assertEqual(c["extra_homes_rounded"], round(extra, -2))
         self.assertAlmostEqual(c["extra_share"], extra / w["homes_2020"], delta=1e-4)
-        self.assertLess(t["context"]["quarter"]["difference"], 0, "within ¼ mile Wisconsin is already denser")
-        # second measure: near the stops ÷ rest of the same city
-        r = pd.read_csv(REF / "tod_today_ratio.csv").set_index(["place", "band"])
-        self.assertEqual(len(t["ratio"]), len(r) // 2)
-        for x in t["ratio"]:
-            for k, band in bands.items():
-                ref = r.loc[(x["label"], band)]
-                self.assertAlmostEqual(x[k]["ratio"], ref["ratio_near_to_rest"], delta=0.006, msg=x["label"])
-                self.assertEqual(x[k]["homes_near"], int(ref["homes_near"]))
-                self.assertEqual(x[k]["homes_rest"], int(ref["homes_rest_of_city"]))
+        self.assertNotIn("ratio", t, "the rest-of-city ratio is no longer on the screen")
 
     def test_eau_claire_pilot_adds_nothing(self):
         p = {x["slug"]: x for x in json.loads((self.d / "pilots.json").read_text())}
