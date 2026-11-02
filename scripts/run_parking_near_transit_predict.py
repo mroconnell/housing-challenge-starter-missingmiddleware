@@ -4,15 +4,14 @@
 
 Units: Seattle urban villages, Minneapolis light-rail station areas (census blocks 2000/2010/2020, via TOD's block
 points) and California AB 2097 jurisdictions (reference/tod_ab2097_by_jurisdiction.csv).
+Geometry: missing_middleware/geom.py via the point-membership regions in scripts/run_parking_block_catalog.py.
 Outputs: reference/parking_near_transit_units.csv, reference/parking_near_transit_predict.csv
 """
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
@@ -22,8 +21,6 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 from scripts import run_parking_block_catalog as B  # noqa: E402
-from scripts import run_tod_census2000 as T  # noqa: E402
-from scripts import run_tod_census_cases as R  # noqa: E402
 
 SEED, FOLDS, REPEATS, MIN_GAIN = 20261028, 10, 20, 0.05
 CENSUS_TO_PERMITS = 0.86
@@ -34,17 +31,17 @@ def growth(a, b):
     return (b["homes"].sum() - a["homes"].sum()) / a["homes"].sum() * 100 if a["homes"].sum() > 0 else np.nan
 
 
-def city_units(st, region, units: dict, comp, rail_pts) -> list[dict]:
-    pts = {y: (T.points_2000(st) if y == 2000 else R.block_points(st, y)) for y in (2000, 2010, 2020)}
-    cm = {y: pts[y][R.within(pts[y], comp)] for y in pts}
+def city_units(st, region, units: dict, comp, rail_xy) -> list[dict]:
+    pts = {y: B.block_points(st, y) for y in (2000, 2010, 2020)}
+    cm = {y: pts[y][B.within(pts[y], comp)] for y in pts}
     cg0, cg1 = growth(cm[2000], cm[2010]), growth(cm[2010], cm[2020])
     rows = []
     for name, geom in units.items():
-        t = {y: pts[y][R.within(pts[y], geom)] for y in pts}
+        t = {y: pts[y][B.within(pts[y], geom)] for y in pts}
         if t[2010]["homes"].sum() < 100 or t[2000]["homes"].sum() < 100:
             continue
         g0, g1 = growth(t[2000], t[2010]), growth(t[2010], t[2020])
-        rows.append(dict(region=region, unit=name, homes=t[2010]["homes"].sum(), rail=float(rail_pts.within(geom).any()),
+        rows.append(dict(region=region, unit=name, homes=t[2010]["homes"].sum(), rail=float(geom.contains(*rail_xy).any()),
                          prior_gap=(g0 - cg0) / CENSUS_TO_PERMITS, outcome=((g1 - cg1) - (g0 - cg0)) / CENSUS_TO_PERMITS))
     return rows
 
@@ -52,43 +49,40 @@ def city_units(st, region, units: dict, comp, rail_pts) -> list[dict]:
 def build_units() -> pd.DataFrame:
     stops = B.stops()
     rail = stops[stops["stop_type_text"].astype(str).str.contains("rail|Rail|Tram|Subway|Metro")]
+    rail_xy = (rail["x"].to_numpy(), rail["y"].to_numpy())
     rows = []
     # Seattle villages
-    v = gpd.read_file(B.OLD / "seattle_urban_villages.geojson").to_crs(R.CRS)
+    v = B.urban_villages()
     sea = B.place("53", "5363000")
-    vil = v[v["UV_TYPE"].isin(["HUV", "RUV"])]
-    other = v[v["UV_TYPE"].isin(["UC", "MIC"])].geometry.union_all()
-    comp = sea.difference(vil.geometry.union_all()).difference(other)
-    rows += city_units("53", "Seattle", {r.UV_NAME: r.geometry.intersection(sea) for r in vil.itertuples()}, comp, rail.geometry)
+    vil = v.subset(v.attrs["UV_TYPE"].isin(["HUV", "RUV"]))
+    other = B.Region.polygons(v.subset(v.attrs["UV_TYPE"].isin(["UC", "MIC"])).polys)
+    comp = sea - B.Region.polygons(vil.polys) - other
+    rows += city_units("53", "Seattle", {n: B.Region.polygons([f]) & sea for n, f in zip(vil.attrs["UV_NAME"], vil.polys)}, comp, rail_xy)
     # Minneapolis station areas (nearest-station assignment within 1/2 mile, downtown left out)
     mpls = B.place("27", "2743000")
-    dt = B.pt(*B.MPLS_DOWNTOWN).buffer(1500)
-    s = rail[rail.within(mpls)].copy()
+    dt = B.Region.circle(*B.pt(*B.MPLS_DOWNTOWN), 1500)
+    s = rail[mpls.contains(rail["x"], rail["y"])].copy()
     s["key"] = s["stop_name"].str.replace(r"\s*(Station|Platform).*$", "", regex=True).str.strip()
-    s = s.dissolve("key").reset_index()
-    s["geometry"] = s.geometry.centroid
-    vor = s.geometry.voronoi_polygons() if hasattr(s.geometry, "voronoi_polygons") else None
-    from shapely.ops import voronoi_diagram
-    cells = gpd.GeoSeries(list(voronoi_diagram(s.geometry.union_all(), envelope=mpls.buffer(5000)).geoms), crs=R.CRS)
+    # dissolve by key, then centroid: the mean of each key's distinct stop points
+    s = s.drop_duplicates(["key", "x", "y"]).groupby("key")[["x", "y"]].mean().reset_index()
     units = {}
-    for r in s.itertuples():
-        cell = cells[cells.contains(r.geometry)].union_all()
-        units[r.key] = r.geometry.buffer(B.MILE / 2).intersection(cell).intersection(mpls).difference(dt)
-    near = gpd.GeoSeries(list(units.values()), crs=R.CRS).union_all()
-    rows += city_units("27", "Minneapolis", units, mpls.difference(near).difference(dt), rail.geometry)
+    for k, r in enumerate(s.itertuples()):
+        cell = B.Region.nearest_site(s["x"].to_numpy(), s["y"].to_numpy(), k)   # its Voronoi cell
+        units[r.key] = ((B.Region.circle(r.x, r.y, B.MILE / 2) & cell) & mpls) - dt
+    near = B.Region.any_of(list(units.values()))
+    rows += city_units("27", "Minneapolis", units, mpls - near - dt, rail_xy)
     # California AB 2097 jurisdictions
     ca = pd.read_csv(REFERENCE / "tod_ab2097_by_jurisdiction.csv")
-    pl = gpd.read_file(f"zip://{B.TOD_DIR}/tl_2020_06_place.zip").to_crs(R.CRS)
-    co = gpd.read_file(f"zip://{RAW / 'census_tiger_2024' / 'tl_2024_us_county.zip'}")
-    co = co[co["STATEFP"] == "06"].to_crs(R.CRS)
-    rca = rail[rail.geometry.y < 0] if False else rail
+    pl = B.read_tiger(B.TOD_DIR / "tl_2020_06_place.zip")
+    co = B.read_tiger(RAW / "census_tiger_2024" / "tl_2024_us_county.zip")
+    co = co.subset(co.attrs["STATEFP"] == "06")
     for r in ca.itertuples():
         nm = r.jurisdiction
         if nm.endswith(" COUNTY"):
-            g = co[co["NAME"].str.upper() == nm.replace(" COUNTY", "")]
+            g = co.subset(co.attrs["NAME"].str.upper() == nm.replace(" COUNTY", ""))
         else:
-            g = pl[pl["NAME"].str.upper() == nm]
-        has_rail = float(rca.within(g.geometry.union_all()).any()) if len(g) else np.nan
+            g = pl.subset(pl.attrs["NAME"].str.upper() == nm)
+        has_rail = float(B.Region.polygons(g.polys).contains(*rail_xy).any()) if len(g) else np.nan
         rows.append(dict(region="California", unit=nm, homes=r.homes_near_transit_2020, rail=has_rail,
                          prior_gap=r.near_rate_before - r.ring_rate_before, outcome=r.did_per_1000_homes_per_year))
     u = pd.DataFrame(rows)
