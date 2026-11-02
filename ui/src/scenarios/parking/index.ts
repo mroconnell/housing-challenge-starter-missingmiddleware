@@ -84,7 +84,7 @@ function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
     <section class="tile tile-accent"><h2 class="tile-label">Expected under current law, 2027–2031</h2>
       <p class="tile-num" data-testid="baseline-total">${int(s.baseline_total)}</p>
       <p class="tile-sub">permits over five years (range ${int(s.baseline_low_total)}–${int(s.baseline_high_total)}) ${pill("calculated")}</p>
-      <p class="tile-note">Each place held at its 2023–2025 average (Milwaukee's apartments: 2023–2024). Places with no Census report, or a clear under-report (Wauwatosa, Caledonia and others), get the typical rate of similar places. The range comes from Wisconsin's own five-year swings since 1990.${s.baseline_recent_strength_total ? ` If 2020–2025's strength continues: about ${int(s.baseline_recent_strength_total)}.` : ""}</p></section>
+      <p class="tile-note">Each place held at its 2023–2025 average (Milwaukee's apartments: 2023–2024). Places with no Census report, or a clear under-report (Wauwatosa, Caledonia and others), get the typical rate of similar places. The range comes from Wisconsin's own five-year swings since 1990.</p></section>
     <section class="tile"><h2 class="tile-label">Places with no parking minimums for housing</h2>
       <p class="tile-num" data-testid="bench-count">${bench.filter((x) => x.rating === "at").length}</p>
       <p class="tile-sub">cities and villages, plus ${bench.filter((x) => x.rating === "near").length} with conditions ${pill("observed")}</p>
