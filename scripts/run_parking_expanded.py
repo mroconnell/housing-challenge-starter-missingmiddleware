@@ -107,9 +107,8 @@ def us_effects() -> tuple[pd.DataFrame, pd.DataFrame]:
     eff["population"] = eff["key"].map(popn)
     eff["log_pop"] = cmp.log_pop(eff["population"])
     eff["rel_rent"] = [rent_geo.get(g) / st_rent.get(str(k).split("|")[0], np.nan) for g, k in zip(eff["acs_geoid"], eff["key"])]
-    import geopandas as gpd
-    g = gpd.read_file("zip://" + str(RAW / "census_cbsa_cb_2024" / "cb_2024_us_cbsa_20m.zip"), ignore_geometry=True)
-    cbsa = g.set_index("CBSAFP")["LSAD"]
+    from missing_middleware.dbf import read_shapefile_attributes  # no geo stack (contest licence rules, 2026-11-02)
+    cbsa = read_shapefile_attributes(RAW / "census_cbsa_cb_2024" / "cb_2024_us_cbsa_20m.zip").set_index("CBSAFP")["LSAD"]
     bcb = rpc.read_bps_us().assign(key=lambda d: d["state_fips"].str.strip() + "|" + d["bps_id"].str.strip()) \
         .drop_duplicates("key", keep="last").set_index("key")["cbsa"].astype(str).str.strip()
     eff["metro"] = [1.0 if cbsa.get(bcb.get(k, ""), "") == "M1" else 0.0 for k in eff["key"]]

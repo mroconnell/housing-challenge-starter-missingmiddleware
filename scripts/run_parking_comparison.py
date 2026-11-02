@@ -149,10 +149,9 @@ def main() -> None:
     st_rent = {k.split("|")[1]: v for k, v in rent_geo.items() if k.startswith("040|")}
     eff["rel_rent"] = [rent_geo.get(geo["acs_geoid"].get(k)) / st_rent.get(k.split("|")[0], np.nan) for k in eff["key"]]
     cbsa = pd.Series(dtype=str)
-    try:
-        import geopandas as gpd
-        g = gpd.read_file("zip://" + str(RAW / "census_cbsa_cb_2024" / "cb_2024_us_cbsa_20m.zip"), ignore_geometry=True)
-        cbsa = g.set_index("CBSAFP")["LSAD"]
+    try:  # attributes only, read with the standard library (no geo stack: contest licence rules, 2026-11-02)
+        from missing_middleware.dbf import read_shapefile_attributes
+        cbsa = read_shapefile_attributes(RAW / "census_cbsa_cb_2024" / "cb_2024_us_cbsa_20m.zip").set_index("CBSAFP")["LSAD"]
     except Exception as e:  # noqa: BLE001
         print("CBSA file not read:", e)
     bps_cbsa = read_bps_us().assign(key=lambda d: d["state_fips"].str.strip() + "|" + d["bps_id"].str.strip()) \
