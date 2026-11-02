@@ -70,8 +70,11 @@ class Region:
 
     @staticmethod
     def polygons(feats: list) -> "Region":
-        """Inside any of the polygon features (the union of them)."""
-        return Region(lambda x, y: geom.points_in_any(x, y, feats))
+        """Inside any of the polygon features (the union of them). The old code took shapely's union_all, where every
+        part counts with its own holes; geom.points_in_feature uses GEOS's even-odd rule over all rings (right for a
+        spatial join 'within', not for a union), so each part is passed as its own feature."""
+        parts = [[part] for f in feats for part in f]
+        return Region(lambda x, y: geom.points_in_any(x, y, parts))
 
     @staticmethod
     def any_of(regions: list) -> "Region":
