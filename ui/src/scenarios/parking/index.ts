@@ -9,7 +9,7 @@ import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "
 interface YearRow { year: number; observed?: number; observed_published?: number; baseline_low?: number; baseline?: number; baseline_high?: number; bridge?: boolean; add_central?: number; add_upper?: number; add_lower?: number }
 interface Scen { id: "central" | "upper" | "lower"; label: string; info: string; additional_total: number; with_law_total: number; rate_per_1000_homes?: number }
 interface Statewide {
-  years: YearRow[]; baseline_total: number; baseline_low_total: number; baseline_high_total: number; baseline_published_total: number;
+  years: YearRow[]; baseline_total: number; baseline_low_total: number; baseline_high_total: number; baseline_published_total: number; baseline_recent_strength_total?: number | null;
   baseline_by_type: { type: string; low: number; central: number; high: number }[]; observed_2021_2025: number;
   scenarios: Scen[]; reference_line: { label: string; value: number; per_year: number; rate_per_1000_homes: number; info: string };
 }
@@ -84,12 +84,15 @@ function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
     <section class="tile tile-accent"><h2 class="tile-label">Expected under current law, 2027–2031</h2>
       <p class="tile-num" data-testid="baseline-total">${int(s.baseline_total)}</p>
       <p class="tile-sub">permits over five years (range ${int(s.baseline_low_total)}–${int(s.baseline_high_total)}) ${pill("calculated")}</p>
-      <p class="tile-note">Each place held at its 2023–2025 average (Milwaukee's apartments: 2023–2024). The range comes from Wisconsin's own five-year swings since 1990.</p></section>
+      <p class="tile-note">Each place held at its 2023–2025 average (Milwaukee's apartments: 2023–2024). Places with no Census report, or a clear under-report (Wauwatosa, Caledonia and others), get the typical rate of similar places. The range comes from Wisconsin's own five-year swings since 1990.${s.baseline_recent_strength_total ? ` If 2020–2025's strength continues: about ${int(s.baseline_recent_strength_total)}.` : ""}</p></section>
     <section class="tile"><h2 class="tile-label">Places with no parking minimums for housing</h2>
       <p class="tile-num" data-testid="bench-count">${bench.filter((x) => x.rating === "at").length}</p>
       <p class="tile-sub">cities and villages, plus ${bench.filter((x) => x.rating === "near").length} with conditions ${pill("observed")}</p>
       <p class="tile-note">From the Parking Reform Network's reform map. A statewide law adds nothing in these places.</p></section>
   </div>
+  <section class="card"><h2>New homes permitted each year: past and current law</h2><div class="chart-box" id="pk-today-chart"></div>
+    ${legendHTML([{ name: "Observed", color: C.observed, width: 2 }, { name: "Current law (range shaded)", color: C.baseline, dash: "7 5" }])}
+    <p class="small muted">Observed 2015–2025 from Census building permits, with Milwaukee's apartments estimated from the city's property file. 2026 is a bridge year; the law's window is 2027–2031.</p></section>
   <section class="card"><h2>Current-law permits by building size, 2027–2031</h2>
     <div class="table-wrap"><table class="data"><caption class="sr-only">Expected permits under current law by building size</caption>
     <thead><tr><th scope="col">Building size</th><th scope="col" class="num">Low</th><th scope="col" class="num">Central</th><th scope="col" class="num">High</th></tr></thead>
@@ -100,6 +103,18 @@ function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
     ${more("Places that removed minimums with conditions", `<p>${bench.filter((x) => x.rating === "near").map((x) => esc(x.name)).join(", ")}. Madison and Milwaukee have partial reforms (downtown and some districts; Madison's 2023 transit overlay) and still require parking elsewhere.</p>`)}
   </section>
   <p><a class="button" href="${env.link("/compare")}">Next: what a statewide law would add →</a></p>`;
+  const ys = s.years;
+  xyChart(document.getElementById("pk-today-chart")!, {
+    title: "New homes permitted each year in Wisconsin: observed and current law",
+    desc: `Observed 2015–2025; current law ${int(s.baseline_total)} over 2027–2031 (range ${int(s.baseline_low_total)}–${int(s.baseline_high_total)}).`,
+    yLabel: "Permits per year", xTicks: ys.map((y) => y.year),
+    xFormat: (x: number) => (window.innerWidth < 600 && (x - 2015) % 4 !== 0 ? "" : String(x)),
+    series: [
+      { name: "Observed", values: ys.map((y) => ({ x: y.year, y: y.observed ?? null })), color: C.observed, width: 2, marker: "circle" },
+      { name: "Current law", values: ys.map((y) => ({ x: y.year, y: y.baseline ?? null })), color: C.baseline, dash: "7 5" },
+    ],
+    band: { name: "Current-law range", lo: ys.map((y) => ({ x: y.year, y: y.baseline_low ?? null })), hi: ys.map((y) => ({ x: y.year, y: y.baseline_high ?? null })), color: C.baseline },
+  });
 }
 
 function compare(b: ParkingBundle, main: HTMLElement): void {

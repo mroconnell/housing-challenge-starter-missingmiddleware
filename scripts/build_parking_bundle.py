@@ -137,6 +137,7 @@ def build_statewide() -> dict:
         "baseline_by_type": [{"type": t, "low": r(v["low"], 0), "central": r(v["central"], 0), "high": r(v["high"], 0)}
                              for t, v in by_type.iterrows()],
         "observed_2021_2025": r(obs[[2021, 2022, 2023, 2024, 2025]].sum(), 0),
+        "baseline_recent_strength_total": recent_strength(),
         "scenarios": [
             {"id": "central", "label": "No measurable change",
              "info": "Like the 76 US places that removed parking minimums: in the one to three years after, their permit rates did not rise measurably compared with similar places that kept them.",
@@ -150,6 +151,13 @@ def build_statewide() -> dict:
         ],
         "reference_line": ref_line(),
     }
+
+
+def recent_strength() -> float | None:
+    """The "if recent strength continues" baseline side line (parking_model_sensitivities.csv), five-year total."""
+    sens = pd.read_csv(REF / "parking_model_sensitivities.csv").set_index("case")
+    v = sens["value"].get("Baseline: if recent strength continues")
+    return r(float(v), 0) if v is not None and pd.notna(v) else None
 
 
 def build_areas() -> dict:
