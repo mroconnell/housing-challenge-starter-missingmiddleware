@@ -32,12 +32,12 @@ Additional homes permitted over 2027–2031, compared with current law. Scenario
 | Rank (central) | Reform | Lower | **Central** | Upper | Central, then upper, as a share of the 124,000-home all-housing baseline | Central, then upper, per 1,000 existing homes (five-year total) |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | 1 | **ADUs** | 6,321 | **10,492** | 19,784 | 8.5%; 16.0% | 3.8; 7.1 |
-| 2 | **TOD** | 499 | **9,822** | 12,264 | 7.9%; 9.9% | 3.5; 4.4 |
+| 2 | **TOD** | 824 | **10,028** | 12,521 | 8.1%; 10.1% | 3.6; 4.5 |
 | 3 | **Parking** | −15,326 | **0** | 19,937 | 0%; 16.1% | 0; 7.2 |
 
 What the scenario names mean:
 - **ADUs:** the lower is "sluggish adoption" (the average of Rhode Island and Oregon); the central is "typical adoption"; the upper is "strong adoption", the high end of what states with a statewide ADU law have reached, which only California has passed. If Wisconsin followed the median path the eight statewide-law states actually took, the law would add 10,038 homes.
-- **TOD** (option D since AQ-071, 2026-11-02): all three lines come from 11 US places that zoned a district near some of their rail or rapid stops (on average 12% of the land within ¼ mile), measured against similar stops without reform. The central is "the average district place": their mean effect within ¼ mile (32.85 extra homes per 100 lot acres a year) applied to Wisconsin's ¼-mile land, 9,822 (7,448 to 11,784 when each place is left out in turn); no model beat this average on hidden places. The upper is the same scaled to a 15% district, 12,264 (8,931 to 16,454); it leans on the smallest districts (among the 11, the effect fell as the district share grew, rank correlation −0.41; a straight line through them at 15% gives 7,718). The lower is the best lot model (lot and place traits), 499 (−134 to 908). Statewide scale since 2026-11-02 (owner: "You can switch."): all lot acres within ¼ mile of rail and rapid stops ÷ those in Milwaukee and Madison cities, 6,394 ÷ 5,212 = 1.227 (was homes within ½ mile, 1.106). The former lines for the broader law (central 13,229, Auckland 17,148, little 43) are kept as what-ifs.
+- **TOD** (option D since AQ-071, 2026-11-02): all three lines come from 11 US places that zoned a district near some of their rail or rapid stops (on average 12% of the land within ¼ mile), measured against similar stops without reform. The central is "the average district place, across about 12% of lots within ¼ mile of transit": their mean effect within ¼ mile (33.54 extra homes per 100 lot acres a year) applied to Wisconsin's ¼-mile land, 10,028 (7,580 to 12,010 when each place is left out in turn); no model beat this average on hidden places. The upper is "scaled to 15% of lots within ¼ mile of transit", 12,521 (9,089 to 16,771); it leans on the smallest districts (among the 11, the effect fell as the district share grew, rank correlation −0.32; a straight line through them at 15% gives 8,143). The lower is the best lot model (lot and place traits), 824 (−90 to 1,006). The owner approved these lines and labels on 2026-11-02, after data fixes (AQ-071). Statewide scale since 2026-11-02 (owner: "You can switch."): all lot acres within ¼ mile of rail and rapid stops ÷ those in Milwaukee and Madison cities, 6,394 ÷ 5,212 = 1.227 (was homes within ½ mile, 1.106). The former lines for the broader law are kept as what-ifs. Recomputed on the corrected data: central 13,686 (shown as 13,229), Auckland 17,148, little −70 (shown as 43).
 - **Parking:** the central is "no measurable change"; the upper is "the high end of the evidence"; the lower is "the low end of the evidence" (owner, 2026-11-01): the measured average of 76 repeal places against similar places, −1.14 permits per 1,000 existing homes per year, applied without a floor at zero. That is −15,326 homes over 2027–2031, 12.4% below current law (124,000). It is driven mostly by San Francisco and Minneapolis.
 - **Median lines.** A "median of real cases" line is shown only where a reform has at least four comparable cases. ADUs (8 states) and parking (76 places) have one. Parking's median place changed by −0.12 permits per year per 1,000 existing homes, so its line is shown at 0, the same as its central. TOD shows none: its central is already the average of the 11 district places (AQ-071), so a separate median line would repeat it.
 
@@ -45,7 +45,7 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 
 **Against each reform's own baseline:**
 - The ADU central adds 10,492 second homes to a baseline of 786, which is 13.3 times as many as current law would produce.
-- The TOD central adds 9,822 homes to a baseline of 14,654 near stops, which is 67.0% more.
+- The TOD central adds 10,028 homes to a baseline of 14,654 near stops, which is 68.4% more.
 - The parking upper adds 19,937 homes to a baseline of 124,000, which is 16.1% more (about 3,987 a year).
 
 **How confident we are.**
@@ -56,7 +56,7 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 | TOD | Low | The central averages 11 US places that chose their own district land, often land builders wanted; none is in Wisconsin, and a state mandate may do less. No model beat that average on places it had not seen. |
 | Parking | Medium that the effect is small within five years; low on the high end | 76 real repeals show no measurable rise on average within three years. |
 
-**The ranking depends on the scenario.** On the central scenarios the order is ADUs (10,492), then TOD (9,822), then parking (0). On the upper scenarios parking (19,937) is just ahead of ADUs (19,784), then TOD (12,264). The gap is 153 homes: 0.8% of parking's 19,937. So the top two are close to tied on the upper scenarios. (Before AQ-071, TOD's central of 13,229 for the broader law ranked first.)
+**The ranking depends on the scenario.** On the central scenarios the order is ADUs (10,492), then TOD (10,028), then parking (0). The gap between ADUs and TOD is 464 homes. On the upper scenarios parking (19,937) is just ahead of ADUs (19,784), then TOD (12,521). The gap is 153 homes: 0.8% of parking's 19,937. So the top two are close to tied on the upper scenarios. (Before AQ-071, TOD's central of 13,229 for the broader law ranked first.)
 
 # What Drives the Differences
 
@@ -68,14 +68,14 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 
 **TOD's central rests on the average of 11 places that zoned a transit district.**
 - The law (option D, AQ-071): every city with rail or rapid stops zones a by-right apartment district on 15% of the land within ¼ mile of them.
-- Near the 11 places' reform stops, building within ¼ mile rose by about 32.85 extra homes per 100 lot acres a year, against similar stops without reform.
-- Applied to Wisconsin's 4,874 lot acres within ¼ mile of rail and rapid stops in Milwaukee and Madison, for 5 years, and scaled to the state by its share of that land (×1.227): 9,822 extra homes over 2027–2031 (range 7,448 to 11,784).
-- The places' districts averaged 12% of that land; scaled to the law's 15%, 12,264 (the upper). Districts of 10% and 25% give 8,176 and 20,440.
-- These results describe districts, not citywide upzoning: for the 5 broad upzonings left out (BelRed, Honolulu, Los Angeles TOC, San Diego, Chicago 2022; measured −14.3 to +29.4 per 100 lot acres a year), the average rule missed by a median 41.4, the scaled rule by 226, and zero by 10.7.
+- Near the 11 places' reform stops, building within ¼ mile rose by about 33.54 extra homes per 100 lot acres a year, against similar stops without reform.
+- Applied to Wisconsin's 4,874 lot acres within ¼ mile of rail and rapid stops in Milwaukee and Madison, for 5 years, and scaled to the state by its share of that land (×1.227): 10,028 extra homes over 2027–2031 (range 7,580 to 12,010).
+- The places' districts averaged 12% of that land; scaled to the law's 15%, 12,521 (the upper). Districts of 10% and 25% give 8,347 and 20,868.
+- These results describe districts, not citywide upzoning: for the 5 broad upzonings left out (BelRed, Honolulu, Los Angeles TOC, San Diego, Chicago 2022; measured −13.3 to +29.4 per 100 lot acres a year), the average rule missed by a median 42.9, the scaled rule by 240, and zero by 10.6.
 - Land beyond ¼ mile counts zero: no rule beat zero there on hidden places.
 - Homes are placed by each place's lot acres within ¼ mile of rail and rapid stops (the district is spread at random over that land).
 - Caveat: the training cities chose their land, often land builders already wanted; a mandate may do less.
-- The former central for the broader law (13,229, AQ-070) and the earlier ones (Stacy et al. 2,509; drift rule 1,196) are kept as what-ifs.
+- The former central for the broader law (13,229 as shown; 13,686 on the corrected data; AQ-070) and the earlier ones (Stacy et al. 2,509; drift rule 1,196) are kept as what-ifs.
 
 **Parking's central is zero because the 76 US places that removed their parking minimums did not permit measurably more homes in the next three years than similar places that kept them.**
 - The places removed minimums between 2017 and 2022. They were drawn from 46 places that adopted repeals in 2015–2022, each checked against its ordinance.
@@ -87,7 +87,7 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 
 **Why the upper cases are so different from the centrals.**
 - **Parking:** the evidence is centred on zero, so its high end is far from its central.
-- **TOD:** the upper only scales the central from the places' 12% districts to the law's 15% (12,264 ÷ 9,822 = 1.25 times).
+- **TOD:** the upper only scales the central from the places' 12% districts to the law's 15% (12,521 ÷ 10,028 = 1.25 times).
 - **ADUs:** the upper is almost twice the central (1.9 times: 19,784 ÷ 10,492). It is set at the high end of how much the eight statewide-law states differ from one another; only California has gone higher.
 
 # Which Assumptions Matter Most
@@ -99,9 +99,9 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 | Parking | **How the range is built** | An earlier placebo version with too few stand-ins for big cities gave +0.95 (12,695); resampling the 76 places gives +1.43 (19,186), close to the adopted 19,937. |
 | Parking | **How the comparison cities are cleaned** (improvement loop round 1) | The headline high end (19,937) is the lowest of four versions and may be understated; it is uncertain by about 2×. The other versions: undated reform entries kept as comparisons 29,843; strict cleaning, resampling 38,230; strict cleaning, placebo 49,712. The central stays about zero in every version. Round 2 kept 19,937 (owner); its better-cleaned versions are sensitivities: apartment-scale reforms only 29,307; with California, Oregon and Washington state laws excluded too 27,671. |
 | Parking | Counting only buildings of 2 or more units | The high end falls to 10,373. |
-| TOD | **Which law, and which line** (AQ-071) | Option D: little 499 (−134 to 908), central 9,822 (7,448 to 11,784), strong 12,264 (8,931 to 16,454), each range with one place left out. The former lines for the broader law: little 43, central 13,229, strong (Auckland) 17,148; earlier: Los Angeles 171, drift rule 1,196, Stacy et al. 2,509. |
-| TOD | District size | 9,822 unscaled (central; the places averaged 12%) or 12,264 scaled to 15% (upper). Scaled to 10%: 8,176; to 25%: 20,440. A straight line through the places at 15%: 7,718. |
-| TOD | Where homes land | By ¼-mile land (adopted): Milwaukee metro 3,347, Madison metro 6,068 (central). By the broader law's added floor area: 6,408 and 3,238. Totals unchanged. |
+| TOD | **Which law, and which line** (AQ-071) | Option D: little 824 (−90 to 1,006), central 10,028 (7,580 to 12,010), strong 12,521 (9,089 to 16,771), each range with one place left out. The former lines for the broader law, recomputed on the corrected data: little −70 (shown as 43), central 13,686 (shown as 13,229), strong (Auckland) 17,148; earlier: Los Angeles 171, drift rule 1,196, Stacy et al. 2,509. |
+| TOD | District size | 10,028 unscaled (central; the places averaged 12%) or 12,521 scaled to 15% (upper). Scaled to 10%: 8,347; to 25%: 20,868. A straight line through the places at 15%: 8,143. |
+| TOD | Where homes land | By ¼-mile land (adopted): Milwaukee metro 3,417, Madison metro 6,195 (central). By the broader law's added floor area: 6,408 and 3,238. Totals unchanged. |
 | TOD | The definition of a major transit stop | The law's addition does not change (the district is tied to rail and rapid stops). Current law near stops does: 6,206 (rail and rapid only), 14,654 (main), 15,984 (20-minute buses), 18,676 (all 15-minute stops within ½ mile). |
 | ADUs | **How the law works**: whether it lifts every place toward one common level, as in the eight states, or only multiplies today's low rates | A multiplicative law adds 791; a model fitted on California cities alone adds 2,255; the adopted model adds 10,492. |
 | ADUs | **Whether Wisconsin responds like a typical state or like the slowest** | 6,321 (like Rhode Island and Oregon) to 19,784 (strong adoption). |
@@ -113,8 +113,8 @@ ADU figures were revised again on 2026-11-01 (AQ-067 in the [assumptions log](AS
 
 **Can one input flip the ranking?** Yes:
 - if parking's high end is taken as the expectation, parking passes the ADU central, with 19,937 homes;
-- TOD's upper (12,264) passes the ADU central (10,492); the former central for the broader law (13,229) would too;
-- if the ADU law only multiplies today's rates (791), ADUs fall below TOD's central (9,822), though they stay above TOD's lower (499).
+- TOD's upper (12,521) passes the ADU central (10,492); the former central for the broader law (13,229 as shown) would too;
+- if the ADU law only multiplies today's rates (791), ADUs fall below TOD's central (10,028). They also fall just below TOD's lower (824), by 33 homes.
 
 What does *not* move the ADU total much is how we coded local rules. If the 69% of single-family homes in places with uncoded ADU rules behaved like places that ban ADUs, the total with the law would fall by only 0.2%, from 11,278 to 11,256 homes.
 
@@ -138,11 +138,11 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
 | Scenario | Lower | Central | Upper | Central as a share of 124,000 | Source |
 | --- | ---: | ---: | ---: | ---: | --- |
 | ADUs (ADU permits) | 6,321 | 10,492 | 19,784 | 8.5% | [NET_STATEWIDE_R1.md](adu/NET_STATEWIDE_R1.md) |
-| TOD (all homes) | 499 (−134 to 908) | 9,822 (7,448–11,784) | 12,264 (8,931–16,454) | 7.9% | [OPTION_D_PLAN.md](tod/OPTION_D_PLAN.md); AQ-071 |
+| TOD (all homes) | 824 (−90 to 1,006) | 10,028 (7,580–12,010) | 12,521 (9,089–16,771) | 8.1% | [OPTION_D_PLAN.md](tod/OPTION_D_PLAN.md); AQ-071 |
 | Parking, route A (the tool) | −15,326 | 0 | 19,937 | 0% | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 | Parking, route B (trees) | −4,171 | 0 | 0 | 0% | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 
-- **TOD lines now match the tool** (AQ-071, option D): lower = best lot model (lot and place traits); central = the 11 district places' average within ¼ mile; upper = the same scaled to a 15% district. The former lines (43, 13,229, Auckland 17,148; AQ-069, AQ-070) are what-ifs.
+- **TOD lines now match the tool** (AQ-071, option D): lower = best lot model (lot and place traits); central = the 11 district places' average within ¼ mile; upper = the same scaled to a 15% district. The former lines (43, 13,229, Auckland 17,148 as shown; AQ-069, AQ-070) are what-ifs.
 - **Earlier TOD net figures** (WI_NET_PLAN.md round 4, kept for the record): calibrated 839–1,382; with K at the median city's ratio (0.42) about 3,040–4,830; uncalibrated 7,229–11,505; the drift-rule central 1,196 (AQ-068) is now a what-if.
 - **Parking route B is thin:** it rests on 28 reform places, so it only backs up the central (about zero), not the range.
 
@@ -155,7 +155,7 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
   - the ADU law already removes parking requirements for ADUs;
   - the TOD cases cannot separate TOD from parking reform.
   
-  The tool shows each reform on its own. Where TOD and parking overlap near transit stops, the tool's combined view takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −14,828 homes (TOD 499 plus parking −15,326), its central 9,822, and its high case 30,222, with the simple sum, 32,201, shown only as an upper bound (before AQ-071: −15,283, 13,229 and 34,921; sum 37,085).
+  The tool shows each reform on its own. The combined TOD and parking view is shelved by the owner and not shown in the tool; its numbers are kept consistent with the current bundle. Where TOD and parking overlap near transit stops, it takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −14,503 homes (TOD 824 plus parking −15,326, summed before rounding), its central 10,028, and its high case 30,475. The simple sum, 32,458, is only an upper bound (before AQ-071: −15,283, 13,229 and 34,921; sum 37,085).
 - **Rents, prices, displacement, parking supply, traffic or transit ridership.** None is modelled.
 - **Finished homes.** Permits are not completions, and the figures are not net of demolitions.
 - **Local forecasts.** Municipal, county and district figures are shares of a statewide estimate. They reconcile exactly to the state, but they are not forecasts for any place, lot or project.
