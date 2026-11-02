@@ -15,9 +15,13 @@ wisconsin_rule,Madison,1.0,,Mankato 2025 staff comparison of Wisconsin codes
 wisconsin_rule,Superior,1.0,,Mankato 2025 staff comparison of Wisconsin codes
 wisconsin_rule,Oak Creek,1.0,,Mankato 2025 staff comparison of Wisconsin codes
 wisconsin_rule,Milwaukee,0.667,,Mankato 2025 staff comparison of Wisconsin codes
-after_repeal,Buffalo,,0.795,project study (docs/parking/MECHANISM_RESULTS.md)
-after_repeal,Los Angeles,0.81,0.673,12 projects filed 2024-2026 (docs/parking/LA_TOC_RESULTS.md)
-after_repeal,Seattle,0.5,0.6,"386 near-transit projects 2012-2016, city data via Seattle Times (2016-12-03)"
-after_repeal,Champaign,,0.461,project study (docs/parking/MECHANISM_RESULTS.md)
+after_repeal,Minneapolis,0.62,,"cold|approved projects 2021-2023 after the 2021 repeal: 4,914 car spaces for 7,925 homes (Minneapolis Planning Commission approvals compiled by A. Schieferdecker; old rule 1 per home)"
+after_repeal,St. Paul,0.719,,"cold|one building, Lexington and Randolph: redesigned after the 2021 repeal from 91 homes and 88 spaces to 114 homes and 82 spaces (Minnesota Reformer, 2023-08-31); a single example"
+after_repeal,Buffalo,0.795,0.795,"cold|36 major developments in the first two years of the 2017 Green Code (Hess and Rehler, JAPA 2021); old residential rule 1 per home, so about 0.79 per home if homes kept the overall share (all uses)"
+after_repeal,Los Angeles,0.81,0.673,car-dependent|median of 12 projects filed 2024-2026 (docs/parking/LA_TOC_RESULTS.md); share from transit-program projects (docs/parking/MECHANISM_RESULTS.md)
+after_repeal,Seattle,0.5,0.6,"|386 near-transit projects 2012-2016, city data via Seattle Times (2016-12-03)"
+after_repeal,Champaign,,0.461,"cold|43 downtown and campus projects in 7 years after the 2015-16 repeal (Sohoni and Lee, JAPA 2023)"
+after_repeal_note,Anchorage,,,"Removed minimums citywide in 2023. The city's 2026 review found no verified negative effects; developments still provide off-street parking, and one Girdwood housing project used the freedom to build fewer spaces."
+after_repeal_note,Duluth,,,Removed minimums citywide in December 2023 (downtown and Canal Park already had none). The city sold two downtown ramps to a housing developer to serve tenants; new buildings with under 0.5 spaces per home must file a parking plan.
 summary,"Wisconsin, homes where minimums bind (weighted)",1.32,,parking_mechanism_part_b_per_project.csv
 summary,Same homes without a mandate (typical share built),0.84,0.636,median of the four project studies

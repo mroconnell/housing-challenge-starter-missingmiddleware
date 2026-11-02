@@ -163,10 +163,12 @@ def parking_checkup() -> dict | None:
         return None
     d = pd.read_csv(f)
     clean = lambda v: None if pd.isna(v) else r(float(v), 3)  # noqa: E731
-    rows = lambda g: [{"place": x.place, "spaces_per_home": clean(x.spaces_per_home), "share_built": clean(x.share_of_old_rule_built)}  # noqa: E731
+    rows = lambda g: [{"place": x.place, "spaces_per_home": clean(x.spaces_per_home), "share_built": clean(x.share_of_old_rule_built),  # noqa: E731
+                       "climate": str(x.source).split("|")[0] if "|" in str(x.source) else "",
+                       "source": str(x.source).split("|")[-1]}
                       for x in d[d["group"] == g].itertuples()]
     summ = d[d["group"] == "summary"].reset_index(drop=True)
-    return {"wisconsin": rows("wisconsin_rule"), "after_repeal": rows("after_repeal"),
+    return {"wisconsin": rows("wisconsin_rule"), "after_repeal": rows("after_repeal"), "notes": rows("after_repeal_note"),
             "wisconsin_weighted": clean(summ.loc[0, "spaces_per_home"]), "without_mandate": clean(summ.loc[1, "spaces_per_home"]),
             "typical_share_built": clean(summ.loc[1, "share_of_old_rule_built"])}
 

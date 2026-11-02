@@ -8,9 +8,10 @@ import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "
 // ---- bundle types --------------------------------------------------------------------------
 interface YearRow { year: number; observed?: number; observed_published?: number; baseline_low?: number; baseline?: number; baseline_high?: number; bridge?: boolean; add_central?: number; add_upper?: number; add_lower?: number }
 interface Scen { id: "central" | "upper" | "lower"; label: string; info: string; additional_total: number; with_law_total: number; rate_per_1000_homes?: number }
+interface PkRow { place: string; spaces_per_home: number | null; share_built: number | null; climate?: string; source?: string }
 interface Statewide {
   years: YearRow[]; baseline_total: number; baseline_low_total: number; baseline_high_total: number; baseline_published_total: number; baseline_recent_strength_total?: number | null;
-  parking_checkup?: { wisconsin: { place: string; spaces_per_home: number | null; share_built: number | null }[]; after_repeal: { place: string; spaces_per_home: number | null; share_built: number | null }[]; wisconsin_weighted: number; without_mandate: number; typical_share_built: number } | null;
+  parking_checkup?: { wisconsin: PkRow[]; after_repeal: PkRow[]; notes?: PkRow[]; wisconsin_weighted: number; without_mandate: number; typical_share_built: number } | null;
   checkup?: { wisconsin_rate: number; wisconsin_years: string; wisconsin_homes: number; places: number; p10: number; p25: number; p50: number; p75: number; p90: number; max_shown: number };
   baseline_by_type: { type: string; low: number; central: number; high: number }[]; observed_2021_2025: number;
   scenarios: Scen[]; reference_line: { label: string; value: number; per_year: number; rate_per_1000_homes: number; info: string };
@@ -78,16 +79,19 @@ function parkingCheckupHTML(c: NonNullable<Statewide["parking_checkup"]>): strin
     <span class="pk-bar-track"><span class="pk-bar" style="width:${(v / max) * 100}%;background:${color}"></span></span><span class="pk-bar-val">${dec(v, 2)}${note}</span></div>`;
   const built = c.after_repeal.filter((r) => r.spaces_per_home != null);
   const shares = c.after_repeal.filter((r) => r.share_built != null).map((r) => `${esc(r.place)} ${dec((r.share_built ?? 0) * 100, 0)}%`).join(", ");
+  const tag = (r: PkRow) => (r.climate === "cold" ? " ❄" : r.climate === "car-dependent" ? " 🚗" : "");
+  const note = (r: PkRow) => (r.place === "Buffalo" ? " (share of old 1-per-home rule)" : r.place === "St. Paul" ? " (one building)" : r.place === "Minneapolis" ? " (all approvals 2021–23)" : " (median project)");
   return `<section class="card" data-testid="parking-checkup"><h2>Check-up: parking per new apartment</h2>
     <p>Your cities require about <strong>${dec(c.wisconsin_weighted, 2)}</strong> parking spaces for every new apartment (weighted by where apartments are expected). Where cities removed the mandate, builders still added parking, but less: about <strong>${dec(c.without_mandate, 2)}</strong> per apartment at the typical rate.</p>
     <div class="pk-bars" role="group" aria-label="Parking spaces per new apartment">
       <p class="small"><strong>Required today in Wisconsin cities</strong></p>
       ${c.wisconsin.map((w) => bar(w.place, w.spaces_per_home ?? 0, C.baseline)).join("")}
       <p class="small"><strong>Built in cities without a mandate</strong></p>
-      ${built.map((w) => bar(w.place, w.spaces_per_home ?? 0, C.central, " (median project)")).join("")}
+      ${built.map((w) => bar(w.place + tag(w), w.spaces_per_home ?? 0, C.central, note(w))).join("")}
       ${bar("Wisconsin apartments, if built like that", c.without_mandate, C.central, " (estimate)")}
     </div>
-    <p class="small muted">Wisconsin rules: 16 city codes as compiled by Mankato's planning staff (2025), at a typical mix of one- and two-bedroom homes. After repeal, builders still built ${shares} of the old requirement (project studies); the estimate applies the typical share (${dec(c.typical_share_built * 100, 0)}%) to Wisconsin's rules. Los Angeles: 12 projects filed 2024–2026; Seattle: projects near frequent transit, 2012–2016.</p></section>`;
+    ${(c.notes ?? []).length ? `<p class="small">${(c.notes ?? []).map((n) => `<strong>${esc(n.place)} ❄</strong>: ${esc(n.source ?? "")}`).join(" ")}</p>` : ""}
+    <p class="small muted">❄ cold-winter city; 🚗 famously car-dependent. Minneapolis: all apartment approvals 2021–2023, after its 2021 repeal (old rule 1 per home). St. Paul: one 114-home building redesigned after its 2021 repeal. Buffalo: 36 major projects after its 2017 repeal kept about 80% of the old 1-per-home rule (all uses). Wisconsin rules: 16 city codes as compiled by Mankato's planning staff (2025), at a typical mix of one- and two-bedroom homes. After repeal, builders still built ${shares} of the old requirement (project studies); the estimate applies the typical share (${dec(c.typical_share_built * 100, 0)}%) to Wisconsin's rules. Los Angeles: 12 projects filed 2024–2026; Seattle: projects near frequent transit, 2012–2016.</p></section>`;
 }
 
 /** Owner, 2026-11-02: a "check-up" — Wisconsin's building rate against the range seen after repeals elsewhere. */
