@@ -79,7 +79,7 @@ function parkingCheckupHTML(c: NonNullable<Statewide["parking_checkup"]>): strin
     <span class="pk-bar-track"><span class="pk-bar" style="width:${(v / max) * 100}%;background:${color}"></span></span><span class="pk-bar-val">${dec(v, 2)}${note}</span></div>`;
   const built = c.after_repeal.filter((r) => r.spaces_per_home != null);
   const shares = c.after_repeal.filter((r) => r.share_built != null).map((r) => `${esc(r.place)} ${dec((r.share_built ?? 0) * 100, 0)}%`).join(", ");
-  const tag = (r: PkRow) => (r.climate === "cold" ? " ❄" : r.climate === "car-dependent" ? " 🚗" : "");
+  const tag = (r: PkRow) => (r.climate === "cold" ? " (cold winters)" : r.climate === "car-dependent" ? " (car-dependent)" : "");
   const note = (r: PkRow) => (r.place === "Buffalo" ? " (share of old 1-per-home rule)" : r.place === "St. Paul" ? " (one building)" : r.place === "Minneapolis" ? " (all approvals 2021–23)" : " (median project)");
   return `<section class="card" data-testid="parking-checkup"><h2>Check-up: parking per new apartment</h2>
     <p>Your cities require about <strong>${dec(c.wisconsin_weighted, 2)}</strong> parking spaces for every new apartment (weighted by where apartments are expected). Where cities removed the mandate, builders still added parking, but less: about <strong>${dec(c.without_mandate, 2)}</strong> per apartment at the typical rate.</p>
@@ -90,8 +90,8 @@ function parkingCheckupHTML(c: NonNullable<Statewide["parking_checkup"]>): strin
       ${built.map((w) => bar(w.place + tag(w), w.spaces_per_home ?? 0, C.central, note(w))).join("")}
       ${bar("Wisconsin apartments, if built like that", c.without_mandate, C.central, " (estimate)")}
     </div>
-    ${(c.notes ?? []).length ? `<p class="small">${(c.notes ?? []).map((n) => `<strong>${esc(n.place)} ❄</strong>: ${esc(n.source ?? "")}`).join(" ")}</p>` : ""}
-    <p class="small muted">❄ cold-winter city; 🚗 famously car-dependent. Minneapolis: all apartment approvals 2021–2023, after its 2021 repeal (old rule 1 per home). St. Paul: one 114-home building redesigned after its 2021 repeal. Buffalo: 36 major projects after its 2017 repeal kept about 80% of the old 1-per-home rule (all uses). Wisconsin rules: 16 city codes as compiled by Mankato's planning staff (2025), at a typical mix of one- and two-bedroom homes. After repeal, builders still built ${shares} of the old requirement (project studies); the estimate applies the typical share (${dec(c.typical_share_built * 100, 0)}%) to Wisconsin's rules. Los Angeles: 12 projects filed 2024–2026; Seattle: projects near frequent transit, 2012–2016.</p></section>`;
+    ${(c.notes ?? []).length ? `<p class="small">${(c.notes ?? []).map((n) => `<strong>${esc(n.place)} (cold winters)</strong>: ${esc(n.source ?? "")}`).join(" ")}</p>` : ""}
+    <p class="small muted">Minneapolis: all apartment approvals 2021–2023, after its 2021 repeal (old rule 1 per home). St. Paul: one 114-home building redesigned after its 2021 repeal. Buffalo: 36 major projects after its 2017 repeal kept about 80% of the old 1-per-home rule (all uses). Wisconsin rules: 16 city codes as compiled by Mankato's planning staff (2025), at a typical mix of one- and two-bedroom homes. After repeal, builders still built ${shares} of the old requirement (project studies); the estimate applies the typical share (${dec(c.typical_share_built * 100, 0)}%) to Wisconsin's rules. Los Angeles: 12 projects filed 2024–2026; Seattle: projects near frequent transit, 2012–2016.</p></section>`;
 }
 
 /** Owner, 2026-11-02: a "check-up" — Wisconsin's building rate against the range seen after repeals elsewhere. */
