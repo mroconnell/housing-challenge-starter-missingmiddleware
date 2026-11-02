@@ -10,6 +10,7 @@ interface YearRow { year: number; observed?: number; observed_published?: number
 interface Scen { id: "central" | "upper" | "lower"; label: string; info: string; additional_total: number; with_law_total: number; rate_per_1000_homes?: number }
 interface Statewide {
   years: YearRow[]; baseline_total: number; baseline_low_total: number; baseline_high_total: number; baseline_published_total: number; baseline_recent_strength_total?: number | null;
+  checkup?: { wisconsin_rate: number; wisconsin_years: string; wisconsin_homes: number; places: number; p10: number; p25: number; p50: number; p75: number; p90: number; max_shown: number };
   baseline_by_type: { type: string; low: number; central: number; high: number }[]; observed_2021_2025: number;
   scenarios: Scen[]; reference_line: { label: string; value: number; per_year: number; rate_per_1000_homes: number; info: string };
 }
@@ -69,6 +70,25 @@ const ROUTES: Route[] = [
 ];
 
 // ---- screens --------------------------------------------------------------------------------
+/** Owner, 2026-11-02: a "check-up" — Wisconsin's building rate against the range seen after repeals elsewhere. */
+function checkupHTML(c: NonNullable<Statewide["checkup"]>): string {
+  const top = Math.max(c.max_shown, c.wisconsin_rate * 1.2, c.p90);
+  const x = (v: number) => (Math.min(v, top) / top) * 100;
+  const where = c.wisconsin_rate < c.p25 ? "below the usual range" : c.wisconsin_rate > c.p75 ? "above the usual range" : "inside the usual range";
+  return `<section class="card" data-testid="checkup"><h2>Check-up: how fast Wisconsin builds, against places that removed parking minimums</h2>
+    <p>Wisconsin permitted <strong>${dec(c.wisconsin_rate, 1)}</strong> new homes per 1,000 existing homes a year in ${esc(c.wisconsin_years.replace("-", "–"))}. In the ${c.places} US places that removed parking minimums, the middle half permitted ${dec(c.p25, 1)} to ${dec(c.p75, 1)} in the years after (typical ${dec(c.p50, 1)}). So Wisconsin is ${where}.</p>
+    <div class="checkup-bar" role="img" aria-label="Wisconsin ${dec(c.wisconsin_rate, 1)} per 1,000 homes a year; places after repeal: low below ${dec(c.p25, 1)}, usual ${dec(c.p25, 1)} to ${dec(c.p75, 1)}, high above ${dec(c.p75, 1)}">
+      <svg viewBox="0 0 100 14" preserveAspectRatio="none" width="100%" height="40">
+        <rect x="0" y="4" width="${x(c.p25)}" height="6" fill="var(--line)"></rect>
+        <rect x="${x(c.p25)}" y="4" width="${x(c.p75) - x(c.p25)}" height="6" fill="${C.central}" opacity="0.55"></rect>
+        <rect x="${x(c.p75)}" y="4" width="${100 - x(c.p75)}" height="6" fill="${C.upper}" opacity="0.35"></rect>
+        <line x1="${x(c.wisconsin_rate)}" x2="${x(c.wisconsin_rate)}" y1="0" y2="14" stroke="var(--ink)" stroke-width="0.8"></line>
+      </svg>
+      <div class="small" style="display:flex;justify-content:space-between"><span>Low (below ${dec(c.p25, 1)})</span><span>Usual (${dec(c.p25, 1)}–${dec(c.p75, 1)})</span><span>High (above ${dec(c.p75, 1)})</span></div>
+    </div>
+    <p class="small muted">The black line is Wisconsin. Ranges are the 25th and 75th percentiles of the repeal places' permit rates in the one to three years after repeal (permits per 1,000 existing homes per year). A place's rate depends mostly on its market; this is context, not a forecast.</p></section>`;
+}
+
 function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
   const s = b.statewide;
   const last = s.years.find((y) => y.year === 2025)!;
@@ -90,6 +110,7 @@ function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
       <p class="tile-sub">cities and villages, plus ${bench.filter((x) => x.rating === "near").length} with conditions ${pill("observed")}</p>
       <p class="tile-note">From the Parking Reform Network's reform map. A statewide law adds nothing in these places.</p></section>
   </div>
+  ${s.checkup ? checkupHTML(s.checkup) : ""}
   <section class="card"><h2>New homes permitted each year: past and current law</h2><div class="chart-box" id="pk-today-chart"></div>
     ${legendHTML([{ name: "Observed", color: C.observed, width: 2 }, { name: "Current law (range shaded)", color: C.baseline, dash: "7 5" }])}
     <p class="small muted">Observed 2015–2025 from Census building permits, with Milwaukee's apartments estimated from the city's property file. 2026 is a bridge year; the law's window is 2027–2031.</p></section>

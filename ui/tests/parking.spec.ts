@@ -44,3 +44,9 @@ test("parking chart toggles between totals and extra homes only", async ({ page 
   await toggle.getByLabel("Extra homes only").check();
   await expect(page.locator("#pk-chart svg title")).toContainText("Extra homes permitted");
 });
+
+test("parking today screen shows the check-up against places after repeal", async ({ page }) => {
+  await page.goto("#/parking/today");
+  await expect(page.getByTestId("checkup")).toContainText("per 1,000 existing homes");
+  await expect(page.locator("#pk-today-chart svg")).toBeVisible();
+});

@@ -138,6 +138,7 @@ def build_statewide() -> dict:
                              for t, v in by_type.iterrows()],
         "observed_2021_2025": r(obs[[2021, 2022, 2023, 2024, 2025]].sum(), 0),
         "baseline_recent_strength_total": recent_strength(),
+        "checkup": checkup(obs),
         "scenarios": [
             {"id": "central", "label": "No measurable change",
              "info": "Like the 76 US places that removed parking minimums: in the one to three years after, their permit rates did not rise measurably compared with similar places that kept them.",
@@ -151,6 +152,20 @@ def build_statewide() -> dict:
         ],
         "reference_line": ref_line(),
     }
+
+
+def checkup(obs: pd.Series) -> dict:
+    """A health check-up (owner, 2026-11-02): Wisconsin's recent building rate against the range seen in the 76 US
+    places after they removed parking minimums. Unit: homes permitted per 1,000 existing homes per year."""
+    e = pd.read_csv(REF / "parking_expanded_effects.csv")
+    e = e[(e["status"] == "included") & (e["outcome"] == "all")]["rate_after"].dropna()
+    homes = float(pd.read_csv(REF / "parking_model_by_area.csv")["homes"].sum())
+    wi = float(obs[[2023, 2024, 2025]].mean()) / homes * 1000
+    q = e.quantile([0.10, 0.25, 0.50, 0.75, 0.90])
+    return {"wisconsin_rate": r(wi, 2), "wisconsin_years": "2023-2025", "wisconsin_homes": r(homes, 0),
+            "places": int(len(e)), "p10": r(q[0.10], 2), "p25": r(q[0.25], 2), "p50": r(q[0.50], 2), "p75": r(q[0.75], 2),
+            "p90": r(q[0.90], 2), "max_shown": r(float(e.quantile(0.95)), 2),
+            "source": "reference/parking_expanded_effects.csv (rate_after: years 1-3 after each repeal, all homes)"}
 
 
 def recent_strength() -> float | None:
