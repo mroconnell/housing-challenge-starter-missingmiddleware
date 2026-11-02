@@ -95,6 +95,44 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
   await expect(page.getByTestId("brief-shared")).toContainText(fmt(sw.state_baseline_per_year));
 });
 
+test("TOD today shows homes per acre near rail and rapid stops from the bundle", async ({ page }) => {
+  const root = "scenarios/tod/runs/";
+  const { run_id } = await (await page.request.get(`${root}latest.json`)).json();
+  const t = await (await page.request.get(`${root}${run_id}/today.json`)).json();
+  const one = (v: number) => v.toFixed(1);
+  await page.goto("#/tod/today");
+  await expect(page.getByTestId("rapid-stops")).toHaveText(fmt(t.stops_total));
+  await expect(page.getByTestId("density-tiles")).toContainText("Milwaukee 106 · Madison 138 · Kenosha 22");
+  await expect(page.getByTestId("hpa-half")).toHaveText(one(t.state.half.homes_per_acre));
+  await expect(page.getByTestId("hpa-quarter")).toHaveText(one(t.state.quarter.homes_per_acre));
+  await expect(page.getByTestId("hpa-half-six")).toHaveText(one(t.six_places.half.homes_per_acre));
+  await expect(page.getByTestId("hpa-quarter-six")).toHaveText(one(t.six_places.quarter.homes_per_acre));
+  const wi = page.getByTestId("density-wi-table");
+  for (const x of t.systems) {
+    const row = wi.locator("tbody tr", { hasText: x.label });
+    await expect(row.locator("td")).toHaveText([String(x.half.stops), one(x.quarter.homes_per_acre), one(x.half.homes_per_acre)]);
+  }
+  const six = page.getByTestId("density-six-table");
+  for (const name of ["Austin, 2009", "Bellevue (BelRed), 2009", "Salt Lake City, 2010", "Saint Paul, 2011", "Seattle (Othello), 2012", "Seattle (Mount Baker), 2014", "Six places together"]) await expect(six).toContainText(name);
+  await expect(six).not.toContainText("_20");  // plain names, not case ids
+  await expect(page.getByTestId("density-extra")).toHaveText(fmt(t.context.half.extra_homes_rounded));
+  await expect(page.getByTestId("density-context")).toContainText(`+${Math.round(t.context.half.extra_share * 100)}%`);
+  await expect(page.getByTestId("density-context")).toContainText("already denser");
+  for (const c of t.caveats) await expect(page.getByTestId("density-caveats")).toContainText(c);
+  // second measure: near the stops ÷ the rest of the same city (raw density first, ratio second)
+  const ratio = page.getByTestId("density-ratio-table");
+  for (const x of t.ratio) await expect(ratio.locator("tbody tr", { hasText: x.name }).locator("td").last()).toHaveText(one(x.half.ratio));
+  await expect(page.getByTestId("density-ratio")).toContainText("airport");
+  const order = await page.evaluate(() => ["density-raw", "density-ratio"].map((id) => document.querySelector(`[data-testid="${id}"]`)!.getBoundingClientRect().top));
+  expect(order[0]).toBeLessThan(order[1]);
+  // map: rail and rapid stops only, one view at a time
+  await page.getByRole("radio", { name: "Madison area" }).check();
+  await expect(page).toHaveURL(/view=madison/);
+  await expect(page.locator("figure.tod-map title")).toHaveText("Rail and rapid transit stops: Madison area");
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow, "no sideways page scroll").toBeLessThanOrEqual(0);
+});
+
 test("TOD styles leave the ADU Where sort headers unchanged", async ({ page }) => {
   // the TOD stylesheet is bundled with every screen; it must not restyle ADU's sort buttons
   await page.goto("#/where");

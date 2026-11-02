@@ -3,8 +3,8 @@
 import { bindChartMode, chartModeToggleHTML, legendHTML, xyChart } from "../../charts";
 import { dec, esc, int, pill, small } from "../../format";
 import type { ShellEnv } from "../types";
-import { mapKey, stationMap } from "./map";
-import { SCEN_IDS, type AggRow, type Muni, type Pilot, type ScenId, type TodBundle } from "./types";
+import { mapKey, rapidMapKey, stationMap } from "./map";
+import { SCEN_IDS, type AggRow, type DensityBands, type Muni, type Pilot, type ScenId, type TodBundle } from "./types";
 
 const YEARS = [2027, 2028, 2029, 2030, 2031];
 const C: Record<string, string> = { baseline: "#4b5450", little: "#2f6db5", typical: "#17644f", strong: "#7b3fb0" };
@@ -30,8 +30,101 @@ function sharedLine(b: TodBundle): string {
 const ext = (url: string, label: string) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}<span class="sr-only"> (opens in a new tab)</span> ↗</a>`;
 
 // ---- 1. Wisconsin today ------------------------------------------------------------------------
-export function today(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
+/** Order of the two density measures on the today screen (owner has not chosen which leads; swap to reorder). */
+const TODAY_MEASURES: ("raw" | "ratio")[] = ["raw", "ratio"];
+const TODAY_VIEWS: [string, string][] = [["milwaukee", "Milwaukee area"], ["madison", "Madison area"], ["kenosha", "Kenosha"]];
+/** Homes per acre of land, one decimal. */
+const hpa = (v: number) => dec(v, 1);
+
+/** The 2020 snapshot: existing homes per acre of land near Wisconsin's rail and rapid stops, beside six older reform places. */
+function densityToday(b: TodBundle, view: string): string {
+  const t = b.today;
+  const half = t.context.half, qtr = t.context.quarter;
+  const reformName = (x: TodBundle["today"]["reforms"][number]) => x.area ? `${x.place} (${x.area})` : x.place;
+  const cells = (x: DensityBands) => `<td class="num">${hpa(x.quarter.homes_per_acre)}</td><td class="num">${hpa(x.half.homes_per_acre)}</td>`;
+  const sysByName = (n: string) => t.systems.find((x) => x.name === n)?.half.stops ?? 0;
+  const allRows: [string, DensityBands][] = [["Wisconsin, all rail and rapid stops", t.state], ...t.systems.map((x) => [x.label, x] as [string, DensityBands]),
+    [`Six places together (${t.reform_years[0]}–${t.reform_years[1]})`, t.six_places], ...t.reforms.map((x) => [`${reformName(x)}, ${x.year}`, x] as [string, DensityBands])];
+  const qtrLine = qtr.difference < 0
+    ? `<li>Within ¼ mile: Wisconsin already denser (${hpa(qtr.wisconsin)} vs ${hpa(qtr.six_places)}).</li>`
+    : `<li>Within ¼ mile: about ${int(qtr.extra_homes_rounded)} more homes (${hpa(qtr.wisconsin)} vs ${hpa(qtr.six_places)}).</li>`;
+  // measure 1: raw homes per acre near the stops
+  const rawBlock = `<div data-testid="density-raw">
+  <div>
+    <section class="card" aria-labelledby="h-density-wi"><h3 id="h-density-wi">Wisconsin, by transit system</h3>
+      <div class="table-wrap"><table class="data tod-density" data-testid="density-wi-table"><caption>Existing homes per acre of land near rail and rapid stops, ${t.year} census</caption>
+        <thead><tr><th scope="col">Transit system</th><th scope="col" class="num">Stops</th><th scope="col" class="num">Homes per acre, within ¼ mile</th><th scope="col" class="num">Homes per acre, within ½ mile</th></tr></thead>
+        <tbody>${t.systems.map((x) => `<tr><th scope="row">${esc(x.label)}<br><span class="small muted">${esc(x.lines)}</span></th><td class="num">${int(x.half.stops)}</td>${cells(x)}</tr>`).join("")}
+        <tr><th scope="row"><strong>Wisconsin, all</strong></th><td class="num"><strong>${int(t.state.half.stops)}</strong></td>${cells(t.state)}</tr></tbody></table></div>
+      <p class="small muted">BRT is bus rapid transit.</p></section>
+    <section class="card" aria-labelledby="h-density-six"><h3 id="h-density-six">Six places that upzoned near rail, ${t.reform_years[0]}–${t.reform_years[1]}</h3>
+      <div class="table-wrap"><table class="data tod-density" data-testid="density-six-table"><caption>Existing homes per acre of land near each place's reform stops, ${t.year} census</caption>
+        <thead><tr><th scope="col">Place, year upzoned</th><th scope="col" class="num">Stops</th><th scope="col" class="num">Homes per acre, within ¼ mile</th><th scope="col" class="num">Homes per acre, within ½ mile</th></tr></thead>
+        <tbody>${t.reforms.map((x) => `<tr><th scope="row">${esc(reformName(x))}, ${x.year}</th><td class="num">${int(x.half.stops)}</td>${cells(x)}</tr>`).join("")}
+        <tr><th scope="row"><strong>Six places together</strong></th><td class="num"><strong>${int(t.six_places.half.stops)}</strong></td>${cells(t.six_places)}</tr></tbody></table></div>
+      <p class="small muted">Only the stops each reform upzoned.${t.stops_counted_twice > 0 ? ` Together counts each stop once (${int(t.six_places.half.stops)}, not ${int(t.six_places.half.stops + t.stops_counted_twice)}).` : ""}</p></section>
+  </div>
+  ${more("Show homes and acres of land", `<div class="table-wrap"><table class="data tod-density" data-testid="density-detail-table"><caption>Existing homes and acres of land near the stops, ${t.year} census</caption>
+    <thead><tr><th scope="col">Stops</th><th scope="col" class="num">Homes, within ¼ mile</th><th scope="col" class="num">Land acres, within ¼ mile</th><th scope="col" class="num">Homes, within ½ mile</th><th scope="col" class="num">Land acres, within ½ mile</th></tr></thead>
+    <tbody>${allRows.map(([n, x]) => `<tr><th scope="row">${esc(n)}</th><td class="num">${int(x.quarter.homes)}</td><td class="num">${int(x.quarter.acres)}</td><td class="num">${int(x.half.homes)}</td><td class="num">${int(x.half.acres)}</td></tr>`).join("")}</tbody></table></div>`)}
+</div>`;
+  // measure 2: near the stops compared with the rest of the same city
+  const ratioRows = (g: "wisconsin" | "reform") => t.ratio.filter((x) => x.group === g).map((x) => `<tr><th scope="row">${esc(x.name)}${x.year ? `, ${esc(x.year)}` : ""}</th><td class="num">${hpa(x.half.homes_per_acre_near)}</td><td class="num">${hpa(x.half.homes_per_acre_rest)}</td><td class="num"><strong>${hpa(x.half.ratio)}</strong></td></tr>`).join("");
+  const ratioBlock = `<section class="card" aria-labelledby="h-density-ratio" data-testid="density-ratio"><h3 id="h-density-ratio">Near the stops compared with the rest of the city</h3>
+    <ul class="tod-points">${t.ratio_caveats.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
+    <div class="table-wrap"><table class="data tod-density" data-testid="density-ratio-table"><caption>Homes per acre of land within ½ mile of the stops, and in the rest of the same city, ${t.year} census</caption>
+      <thead><tr><th scope="col">City</th><th scope="col" class="num">Homes per acre, within ½ mile</th><th scope="col" class="num">Homes per acre, rest of city</th><th scope="col" class="num">Times as dense near stops</th></tr></thead>
+      <tbody><tr><th scope="rowgroup" colspan="4" class="tod-group">Wisconsin</th></tr>${ratioRows("wisconsin")}</tbody>
+      <tbody><tr><th scope="rowgroup" colspan="4" class="tod-group">Six places that upzoned near rail, ${t.reform_years[0]}–${t.reform_years[1]}</th></tr>${ratioRows("reform")}</tbody></table></div>
+    ${more("Show the ¼-mile ratio, homes and acres", `<div class="table-wrap"><table class="data tod-density" data-testid="density-ratio-detail"><caption>Homes and acres of land near the stops and in the rest of each city, ${t.year} census</caption>
+      <thead><tr><th scope="col">City</th><th scope="col" class="num">Stops in the city</th><th scope="col" class="num">Times as dense, within ¼ mile</th><th scope="col" class="num">Homes, within ½ mile</th><th scope="col" class="num">Land acres, within ½ mile</th><th scope="col" class="num">Homes, rest of city</th><th scope="col" class="num">Land acres, rest of city</th></tr></thead>
+      <tbody>${t.ratio.map((x) => `<tr><th scope="row">${esc(x.name)}${x.year ? `, ${esc(x.year)}` : ""}</th><td class="num">${int(x.half.stops)}</td><td class="num">${hpa(x.quarter.ratio)}</td><td class="num">${int(x.half.homes_near)}</td><td class="num">${int(x.half.acres_near)}</td><td class="num">${int(x.half.homes_rest)}</td><td class="num">${int(x.half.acres_rest)}</td></tr>`).join("")}</tbody></table></div>`)}
+  </section>`;
+  return `
+  <h2 class="section-h" id="h-density">How built-up the land near rail and rapid stops is</h2>
+  <ul class="tod-points">
+    <li>One snapshot: the ${t.year} census.</li>
+    <li>Existing homes per acre of land.</li>
+    <li>Beside six places that upzoned long ago.</li>
+  </ul>
+  <div class="tiles tiles-3" data-testid="density-tiles">
+    <section class="tile" aria-labelledby="t-rapid-stops"><h3 id="t-rapid-stops" class="tile-label">Rail and rapid transit stops</h3>
+      <p class="tile-num" data-testid="rapid-stops">${int(t.stops_total)}</p>
+      <p class="tile-sub">Milwaukee ${int(sysByName("Milwaukee"))} · Madison ${int(sysByName("Madison"))} · Kenosha ${int(sysByName("Kenosha"))} ${pill("observed")}</p>
+      <p class="tile-note">Bus rapid transit and streetcar stops. Each direction of a street counts once.</p></section>
+    <section class="tile tile-accent" aria-labelledby="t-hpa-half"><h3 id="t-hpa-half" class="tile-label">Homes per acre within ½ mile</h3>
+      <p class="tile-num" data-testid="hpa-half">${hpa(t.state.half.homes_per_acre)}</p>
+      <p class="tile-sub">Six older reform places: <strong data-testid="hpa-half-six">${hpa(t.six_places.half.homes_per_acre)}</strong> ${pill("calculated")}</p>
+      <p class="tile-note">Wisconsin: ${int(t.state.half.homes)} homes on ${int(t.state.half.acres)} acres of land.</p></section>
+    <section class="tile" aria-labelledby="t-hpa-qtr"><h3 id="t-hpa-qtr" class="tile-label">Homes per acre within ¼ mile</h3>
+      <p class="tile-num" data-testid="hpa-quarter">${hpa(t.state.quarter.homes_per_acre)}</p>
+      <p class="tile-sub">Six older reform places: <strong data-testid="hpa-quarter-six">${hpa(t.six_places.quarter.homes_per_acre)}</strong> ${pill("calculated")}</p>
+      <p class="tile-note">Wisconsin: ${int(t.state.quarter.homes)} homes on ${int(t.state.quarter.acres)} acres of land.</p></section>
+  </div>
+  <section class="card" aria-labelledby="h-density-map"><h3 id="h-density-map">Where the stops are</h3>
+    <form id="tod-today-view"><fieldset class="seg"><legend>Map area</legend>${TODAY_VIEWS.map(([v, l]) => `<label><input type="radio" name="tod-today-view" value="${v}" ${view === v ? "checked" : ""}> ${l}</label>`).join("")}</fieldset></form>
+    ${stationMap(b.map, { view, rapidOnly: true, labels: ["Milwaukee city", "Wauwatosa city", "Madison city", "Kenosha city"], title: `Rail and rapid transit stops: ${TODAY_VIEWS.find(([v]) => v === view)![1]}`, desc: "Dots are rail and rapid transit stops. The darker circle is land within ¼ mile, the paler ring ¼ to ½ mile. The tables below give homes per acre of land in these circles." })}
+    ${rapidMapKey()}
+  </section>
+${TODAY_MEASURES.map((m) => (m === "raw" ? rawBlock : ratioBlock)).join("")}
+  <div class="grid-2">
+    <section class="card" aria-labelledby="h-density-gap" data-testid="density-context"><h3 id="h-density-gap">If Wisconsin matched the six places</h3>
+      <ul class="tod-points">
+        <li>Within ½ mile: ${hpa(half.wisconsin)} vs ${hpa(half.six_places)} homes per acre.</li>
+        <li>At ${hpa(half.six_places)}: about <strong data-testid="density-extra">${int(half.extra_homes_rounded)}</strong> more homes (${half.extra_share >= 0 ? "+" : "−"}${Math.round(Math.abs(half.extra_share) * 100)}%).</li>
+        ${qtrLine}
+      </ul>
+      <p class="small muted">${dec(half.difference, 3)} more homes per acre × ${int(half.acres)} acres of land within ½ mile ≈ ${int(half.extra_homes)} homes, beside ${int(half.homes)} there now. ${pill("calculated")} A what-if for scale, not a forecast.</p></section>
+    <section class="card" aria-labelledby="h-density-care" data-testid="density-caveats"><h3 id="h-density-care">Read with care</h3>
+      <ul class="tod-points">${t.caveats.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
+      <p class="small muted">${esc(t.source)}</p></section>
+  </div>
+  <h2 class="section-h" id="h-law-counts">Which stops and homes the law counts</h2>`;
+}
+
+export function today(b: TodBundle, env: ShellEnv, params: URLSearchParams, main: HTMLElement): void {
   const s = b.statewide;
+  const view = TODAY_VIEWS.some(([v]) => v === params.get("view")) ? params.get("view")! : "milwaukee";
   const max = Math.max(...s.ladder.map((l) => l.homes));
   main.innerHTML = `
   <h1>Homes near major transit stops in Wisconsin today</h1>
@@ -50,6 +143,7 @@ export function today(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
       <p class="tile-sub">${int(s.homes_two_cities.milwaukee)} homes in Milwaukee and ${int(s.homes_two_cities.madison)} in Madison, of the ${int(s.stock_homes)} ${pill("observed")}</p>
       <p class="tile-note">No bus route outside the Milwaukee and Madison areas runs every 15 minutes. The Kenosha streetcar is the one qualifying line elsewhere.</p></section>
   </div>
+  ${densityToday(b, view)}
   <section class="card"><h2>How many homes count as "near a major transit stop"</h2>
     <p>It depends on the definition. From the narrowest to the widest, with the main case in bold:</p>
     <div class="tod-bars" role="img" aria-label="${esc(`Homes near stops by definition, 2020 census: ${s.ladder.map((l) => `${l.label}: ${int(l.homes)}`).join("; ")}. The table below has the same values.`)}">
@@ -70,6 +164,11 @@ export function today(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
       <tbody>${s.agencies.map((a) => `<tr><th scope="row"><strong>${esc(a.agency)}</strong><br><span class="small">${esc(a.lines)}</span></th><td class="num">${int(a.rapid)}</td><td class="num">${int(a.bus15)}</td><td class="num">${int(a.bus20_only)}</td></tr>`).join("")}</tbody></table></div>
     <p class="small muted">Green Bay has no current schedule file, so none of its routes could be tested and none counts. A map of the station areas is on <a href="${env.link("/where")}">Where</a>.</p></section>
   <p><a class="button" href="${env.link("/compare")}">Next: what the law would add →</a></p>`;
+  main.querySelectorAll<HTMLInputElement>('input[name="tod-today-view"]').forEach((i) => i.addEventListener("change", () => {
+    const q = new URLSearchParams(params);
+    q.set("view", i.value);
+    env.replaceQuery(q); env.refresh(); env.announce(`Map: ${TODAY_VIEWS.find(([v]) => v === i.value)![1]}.`);
+  }));
 }
 
 // ---- 2. Statewide comparison --------------------------------------------------------------------

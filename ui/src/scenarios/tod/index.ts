@@ -11,9 +11,9 @@ async function load(entry: ReformEntry): Promise<TodBundle> {
   const get = async (p: string) => { const r = await fetch(p); if (!r.ok) throw new Error(`${p}: ${r.status}`); return r.json(); };
   const { run_id } = await get(`${root}latest.json`);
   const dir = `${root}${run_id}/`;
-  const [manifest, statewide, areas, map, howsure, why_, pilots] = await Promise.all(
-    ["manifest", "statewide", "areas", "map", "howsure", "why", "pilots"].map((f) => get(`${dir}${f}.json`)));
-  return { manifest, statewide, areas, map, howsure, why: why_, pilots };
+  const [manifest, statewide, areas, map, howsure, why_, pilots, today_] = await Promise.all(
+    ["manifest", "statewide", "areas", "map", "howsure", "why", "pilots", "today"].map((f) => get(`${dir}${f}.json`)));
+  return { manifest, statewide, areas, map, howsure, why: why_, pilots, today: today_ };
 }
 
 const ROUTES: Route[] = [
@@ -46,7 +46,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       else if (path.startsWith("/why")) why(b, main);
       else if (path.startsWith("/pilot")) pilot(b, env, path.split("/")[2] ?? "", main);
       else if (path.startsWith("/brief")) brief(b, main);
-      else today(b, env, main);
+      else today(b, env, params, main);
     },
   };
 }

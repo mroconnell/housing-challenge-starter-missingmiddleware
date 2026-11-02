@@ -28,6 +28,12 @@ button.tod-sort-btn:focus-visible { outline: 2px solid var(--accent); outline-of
 .tod-scen-tiles .tile-num { font-size: 2rem; }
 .tod-studies { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
 .tod-studies .card { margin: 0; }
+table.data th.tod-group { text-align: left; font-weight: 600; background: #f3f3f1; }
+/* today screen density tables: let the long unit headings wrap so the place column keeps its width on phones */
+table.tod-density thead th.num { white-space: normal; min-width: 4.5em; }
+@media (max-width: 640px) { table.tod-density th, table.tod-density td { padding: 6px 5px; } }
+ul.tod-points { margin: 6px 0; padding-left: 1.2em; }
+ul.tod-points li { margin: 2px 0; }
 .tod-brief .brief-sub { margin-top: 0; }
 @media print {
   .tod-map svg { max-height: 3.2in; }

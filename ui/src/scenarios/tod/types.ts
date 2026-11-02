@@ -99,4 +99,26 @@ export interface Manifest {
   validation: { passed: number; failed: number; checks: { check: string; passed: boolean; detail: string }[] };
   repo_url: string;
 }
-export interface TodBundle { manifest: Manifest; statewide: Statewide; areas: Areas; map: MapData; howsure: HowSure; why: Why; pilots: Pilot[] }
+/** Homes and land around a group of stops in one band (2020 census blocks). */
+export interface DensityBand { stops: number; homes: number; acres: number; homes_per_acre: number }
+export interface RatioBand { stops: number; homes_near: number; acres_near: number; homes_per_acre_near: number; homes_rest: number; acres_rest: number; homes_per_acre_rest: number; ratio: number; ratio_in_file: number }
+export interface DensityBands { quarter: DensityBand; half: DensityBand }
+/** The 2020 snapshot of existing homes per acre of land near rail and rapid stops: Wisconsin, and six older reform places. */
+export interface Today {
+  year: number; stops_total: number;
+  state: DensityBands;
+  systems: ({ name: string; label: string; lines: string; agencies: string[]; stops_in_stop_file: number } & DensityBands)[];
+  six_places: DensityBands;
+  reforms: ({ id: string; place: string; area: string | null; year: number } & DensityBands)[];
+  reform_years: [number, number];
+  stops_counted_twice: number;
+  /** Second measure: homes per acre near the stops ÷ homes per acre in the rest of the same city (tod_today_ratio.csv) */
+  ratio: { label: string; group: "wisconsin" | "reform"; name: string; year: string | null;
+    quarter: RatioBand; half: RatioBand }[];
+  ratio_caveats: string[];
+  /** Wisconsin's land near stops at the six places' pooled density: extra homes = difference in homes per acre × Wisconsin's acres */
+  context: Record<"quarter" | "half", { wisconsin: number; six_places: number; difference: number; acres: number; homes: number; extra_homes: number; extra_homes_rounded: number; extra_share: number }>;
+  source: string;
+  caveats: string[];
+}
+export interface TodBundle { manifest: Manifest; statewide: Statewide; areas: Areas; map: MapData; howsure: HowSure; why: Why; pilots: Pilot[]; today: Today }
