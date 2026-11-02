@@ -204,6 +204,7 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
       <p class="tile-sub">${sharePct(x.share_of_stock)} of the ${int(s.stock_homes)} homes near stops (2020 census); about ${int(x.per_year)} a year</p>
       <p class="tile-note">${esc(x.info)}</p></section>`; }).join("")}
   </div>
+  ${s.record_years.length ? `<div class="note-box" role="note" data-testid="record-years"><p><strong>Above the metros' own records.</strong> In its busiest years, apartment permitting (current law plus the law) would pass the metro's own record year: ${SCEN_IDS.filter((id) => s.record_years.some((r) => r.scenario === id)).map((id) => `${esc(scen(b, id).label.toLowerCase())}: ${s.record_years.filter((r) => r.scenario === id).map((r) => `${esc(r.metro)} ${r.years.join(" and ")}`).join("; ")}`).join(". ")}. No line passes the busiest year any comparable US metro has recorded. Details on <a href="${env.link("/how-sure")}">How sure</a>.</p></div>` : ""}
   <section class="card"><h2>Homes permitted near stops each year</h2>
     <p class="muted">Current law alone (grey, with its range shaded), and current law plus each scenario's extra homes.</p>
     ${chartModeToggleHTML("tod-chart-mode")}

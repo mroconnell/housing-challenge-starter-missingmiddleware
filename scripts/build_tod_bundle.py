@@ -78,15 +78,15 @@ SCEN_TEXT = {
     # rapid stops zones a by-right multifamily district on 15% of the lot acres within 1/4 mile of them.
     "little": {
         "label": "Little response", "evidence": "best lot model, 11 district places",
-        "info": "From our own lot-by-lot data on 11 US places that zoned a district for denser housing near some of their rail or rapid stops (on average about 12% of the land within ¼ mile). A model trained on lot and place traits (5 fits averaged) predicts what a 15% district, spread at random over Wisconsin's land within ¼ mile of rail and rapid stops, would add: about 450 extra homes over 2027–2031 (range about −120 to 820, refitting with one place left out at a time). The low end is below zero: no floor is set where the evidence does not set one. No model beat the plain average of the places on places it had not seen, so this is the low line, not the central one. The earlier little line, the station-area model for the broader law (43), is shown as a comparison.",
+        "info": "From our own lot-by-lot data on 11 US places that zoned a district for denser housing near some of their rail or rapid stops (on average about 12% of the land within ¼ mile). A model trained on lot and place traits (5 fits averaged) predicts what a 15% district, spread at random over Wisconsin's land within ¼ mile of rail and rapid stops, would add: about 500 extra homes over 2027–2031 (range about −130 to 910, refitting with one place left out at a time). The low end is below zero: no floor is set where the evidence does not set one. No model beat the plain average of the places on places it had not seen, so this is the low line, not the central one. The earlier little line, the station-area model for the broader law (43), is shown as a comparison.",
     },
     "typical": {
         "label": "Central: the average district place", "evidence": "measured near 11 US places' stops",
-        "info": "The 11 places' average measured effect within ¼ mile of their reform stops, compared with similar stops without reform, before and after: about 33 extra new homes per 100 acres of lots a year. Applied to Wisconsin's lots within ¼ mile of rail and rapid stops (about 4,870 acres in Milwaukee and Madison, scaled to the state by homes near those stops, ×1.106) for five years: about 8,860 extra homes over 2027–2031 (range about 6,720 to 10,620, leaving out one place at a time). No model we tried beat this average on places it had not seen, so by the rule set before the results it is the central line. Caution: those cities chose their district land themselves, often land builders already wanted; a state mandate may do less. Land beyond ¼ mile counts zero. The earlier central line (the average reform city at the broader law's 71% coverage, 13,229) is shown as a comparison.",
+        "info": "The 11 places' average measured effect within ¼ mile of their reform stops, compared with similar stops without reform, before and after: about 33 extra new homes per 100 acres of lots a year. Applied to Wisconsin's lots within ¼ mile of rail and rapid stops (about 4,870 acres in Milwaukee and Madison, scaled to the state by its share of that land, ×1.227) for five years: about 9,820 extra homes over 2027–2031 (range about 7,450 to 11,780, leaving out one place at a time). No model we tried beat this average on places it had not seen, so by the rule set before the results it is the central line. Caution: those cities chose their district land themselves, often land builders already wanted; a state mandate may do less. Land beyond ¼ mile counts zero. The earlier central line (the average reform city at the broader law's 71% coverage, 13,229) is shown as a comparison.",
     },
     "strong": {
         "label": "Strong: the average district place, scaled to 15%", "evidence": "same 11 places, scaled to a 15% district",
-        "info": "The same 11 places, whose districts covered on average about 12% of the land within ¼ mile, less than the law's 15%. Scaling by the places' pooled effect per share of land zoned (their summed effects ÷ their summed district shares × 15%) gives about 11,060 extra homes over 2027–2031 (range about 8,050 to 14,840, leaving out one place at a time). This assumes a bigger district adds homes in proportion, which the places do not prove. The earlier strong line (Auckland's 2016 citywide upzoning, 17,148) is shown as a comparison.",
+        "info": "The same 11 places, whose districts covered on average about 12% of the land within ¼ mile, less than the law's 15%. Scaling by the places' pooled effect per share of land zoned (their summed effects ÷ their summed district shares × 15%) gives about 12,260 extra homes over 2027–2031 (range about 8,930 to 16,450, leaving out one place at a time). This assumes a bigger district adds homes in proportion, which the places do not show: among them the effect fell as the district share grew (rank correlation −0.41), and a straight line through them at 15% gives about 7,720. So this line leans on the small districts. Districts of 10% and 25% are on How sure. The earlier strong line (Auckland's 2016 citywide upzoning, 17,148) is shown as a comparison.",
     },
 }
 # The modelled law (AQ-071), for the screens.
@@ -123,6 +123,8 @@ SENS_LABELS = {
     ("law_addition", "typical_range"): ("Central line at the low and high ends of its range", "The 11 places' average recomputed 11 times, each time leaving one place out."),
     ("law_addition", "strong_range"): ("Strong line at the low and high ends of its range", "The 15% scaling recomputed 11 times, each time leaving one place out."),
     ("law_addition", "little_range"): ("Little line at the low and high ends of its range", "The best lot model refitted 11 times, each time leaving one place out. The low end is below zero: no floor is set where the evidence does not set one."),
+    ("law_addition", "district_10"): ("District of 10% instead of 15%", "The strong line's method (the places' pooled effect per share of land zoned) at a 10% district."),
+    ("law_addition", "district_25"): ("District of 25% instead of 15%", "The same at a 25% district. The places' effect fell as their district share grew, so this may overstate."),
     ("law_addition", "former_central_average_reform"): ("Former central line: average reform city, broader law", "The line used before 2 November 2026, for a law that upzoned about 71% of the land within ¼ mile: 16 places' pooled effect per share of land upzoned, applied at 71%. About 13,200."),
     ("law_addition", "former_strong_auckland"): ("Former strong line: Auckland", "Auckland, New Zealand, upzoned three-quarters of its residential land in 2016 and permitted 21,808 extra homes over 2016–2021 (4.1% of its homes, per upzoned home). About 17,100, timed like Auckland."),
     ("law_addition", "former_little_station_area"): ("Former little line: station-area model, broader law", "The station-area lot model's answer for the broader law (about 71% of the land within ¼ mile upzoned). About 40."),
@@ -252,16 +254,24 @@ def build_statewide() -> dict:
                          "main_case": int(((g.flag_a_rapid == 1) | (g.flag_b_15min == 1)).sum())})
     agencies.sort(key=lambda a: -a["main_case"])
     main_def = d.set_index("definition").loc["main"]
+    ck = pd.read_csv(REF / "tod_model_checks.csv")
+    ck = ck[(ck["check"] == "scale") & (ck["sizing"] == "net_effect") & ck["scenario"].isin(SCEN) & (ck["exceeds_own_max"] == True)]  # noqa: E712
+    record = []
+    for sc_, g in ck.groupby("scenario", sort=False):
+        for metro, h in g.groupby("metro", sort=True):
+            record.append({"scenario": sc_, "metro": METROS[SCALE_METRO[metro]][0], "years": [int(y) for y in sorted(h["year"])]})
     od = pd.read_csv(REF / "tod_optiond_line.csv").set_index("line")
     district = {**DISTRICT, "places": int(od.loc["optiond_average", "places"]),
                 "places_mean_share": r(od.loc["optiond_average", "mean_district_share"], 3),
                 "effect_per_100_acres": r(od.loc["optiond_average", "mean_effect_per_100_acres"], 2),
-                "wi_acres_two_cities": r(od.loc["optiond_average", "wi_acres_quarter"], 1)}
+                "wi_acres_two_cities": r(od.loc["optiond_average", "wi_acres_quarter"], 1),
+                "statewide_scale": r(od.loc["optiond_average", "statewide_scale"], 4),
+                "linear_fit_15": r(od.loc["optiond_linear_fit_15", "extra_homes_2027_2031"], 1)}
     return {
         "state_homes": int(main_def.state_homes_2020), "stock_homes": int(t0["stock_homes_station_areas"]),
         "homes_two_cities": {"milwaukee": int(main_def.milwaukee_city_homes), "madison": int(main_def.madison_city_homes),
                              "share": r(main_def.share_in_two_cities, 4)},
-        "ladder": ladder, "law": law, "district": district, "agencies": agencies,
+        "ladder": ladder, "law": law, "district": district, "record_years": record, "agencies": agencies,
         "baseline": baseline, "state_baseline_total": r(state_base, 4), "state_baseline_per_year": r(state_base / len(YEARS), 4),
         "acs_homes": acs_homes,
         "scenarios": scen,
@@ -527,7 +537,9 @@ def build_howsure(sw: dict, areas: dict) -> dict:
         {"title": "Whether a required district does as well as a chosen one",
          "text": "The lines rest on 11 US places that chose to zone a district near some of their stops, often on land builders already wanted. A state mandate makes every city act, on land it may pick less well, so it may do less. Near Milwaukee's new streetcar, building rose by a similar amount with no rezoning, so part of the measured gain may come from new transit or booming neighborhoods rather than zoning."},
         {"title": "Whether a bigger district adds proportionally more",
-         "text": "The places' districts averaged about 12% of the land within ¼ mile; the law asks for 15%. The strong line assumes the effect grows in proportion; the central line does not scale it."},
+         "text": "The places' districts averaged about 12% of the land within ¼ mile; the law asks for 15%. The strong line assumes the effect grows in proportion; the central line does not scale it. Among the 11 places the effect fell as the district share grew, so the strong line leans on the smallest districts."},
+        {"title": "Whether a citywide upzoning would do the same",
+         "text": "These results describe districts, not citywide upzoning. For the five broad upzonings left out (Bellevue's BelRed, Honolulu, Los Angeles, San Diego, Chicago 2022), the average rule missed by a median 41 extra homes per 100 lot acres a year, the scaled rule by 226, and simply predicting zero by 11."},
         trait_line,
         {"title": "Timing", "text": TIMING},
         {"title": "Transit-oriented density alone versus with parking reform",
@@ -678,7 +690,7 @@ def build_why() -> dict:
          "status": "calculated"},
         {"scenario": "typical", "study": "Average of 11 district places (our own lot data)",
          "citation": "docs/tod/OPTION_D_PLAN.md and reference/tod_optiond_line.csv", "url": plan,
-         "finding": f"Within ¼ mile of reform stops, against similar stops without reform: on average {od.loc['optiond_average', 'mean_effect_per_100_acres']:.1f} extra new homes per 100 lot acres a year. Times Wisconsin's {od.loc['optiond_average', 'wi_acres_quarter']:,.0f} lot acres within ¼ mile of rail and rapid stops in Milwaukee and Madison, 5 years and the statewide scale (×1.106): {od.loc['optiond_average', 'extra_homes_2027_2031']:,.0f} extra homes (range {od.loc['optiond_average', 'range_low']:,.0f} to {od.loc['optiond_average', 'range_high']:,.0f}, each place left out).",
+         "finding": f"Within ¼ mile of reform stops, against similar stops without reform: on average {od.loc['optiond_average', 'mean_effect_per_100_acres']:.1f} extra new homes per 100 lot acres a year. Times Wisconsin's {od.loc['optiond_average', 'wi_acres_quarter']:,.0f} lot acres within ¼ mile of rail and rapid stops in Milwaukee and Madison, 5 years and the statewide scale (×{od.loc['optiond_average', 'statewide_scale']:.3f}, all ¼-mile land ÷ the two cities'): {od.loc['optiond_average', 'extra_homes_2027_2031']:,.0f} extra homes (range {od.loc['optiond_average', 'range_low']:,.0f} to {od.loc['optiond_average', 'range_high']:,.0f}, each place left out).",
          "status": "calculated"},
         {"scenario": "strong", "study": "Average of 11 district places, scaled to a 15% district",
          "citation": "docs/tod/OPTION_D_PLAN.md and reference/tod_optiond_line.csv", "url": plan,
@@ -919,6 +931,10 @@ def validate(sw: dict, areas: dict, pilots: list, today: dict) -> dict:
               abs(sc["additional_total"] - od.loc[line, "extra_homes_2027_2031"]) < 0.1
               and abs(sc["range_low"] - od.loc[line, "range_low"]) < 0.1 and abs(sc["range_high"] - od.loc[line, "range_high"]) < 0.1,
               f"{sc['additional_total']:,.1f} ({sc['range_low']:,.1f} to {sc['range_high']:,.1f})")
+    ck = pd.read_csv(REF / "tod_model_checks.csv")
+    ck = ck[(ck["check"] == "scale") & (ck["sizing"] == "net_effect") & ck["scenario"].isin(SCEN)]
+    check("no line passes the highest peer-metro year (compare-screen note)", not (ck["exceeds_observed_max"] == True).any(), "scale check")  # noqa: E712
+    check("record-year note matches the scale check", sum(len(x["years"]) for x in sw["record_years"]) == int((ck["exceeds_own_max"] == True).sum()), "scenario-years")  # noqa: E712
     check("no addition below zero", all(v >= 0 for m in areas["munis"] for v in m["add"].values()), "every place and scenario")
     check("no median line with fewer than 4 comparable cases (AQ-054)", not sw["median_line"]["shown"] and "reference_line" not in sw,
           f"{sw['median_line']['n_studies']} studies")

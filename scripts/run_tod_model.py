@@ -978,6 +978,10 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
     add_s("law_addition", "little_range", "Little (best lot model) at the low and high ends: the fits that each leave one place out",
           pd.concat([rng_rows["little"]["low"].assign(scenario="little_low"), rng_rows["little"]["high"].assign(scenario="little_high")]))
     ny = M.timing_from_ramp(cp["ramp"])
+    for share in (10, 25):
+        o = optiond_line(f"optiond_scaled_{share}")
+        add_s("law_addition", f"district_{share}", f"District {share}% of the 1/4-mile land instead of 15% (pooled ratio x {share / 100:.2f}; strong-line method)",
+              net_rows(place, stock, {"strong": (M.NetEffect(o["central"] / o["stock"], ny, f"district {share}%"), f"District {share}%")}, qa))
     add_s("law_addition", "former_central_average_reform", f"Former central line: average reform city at Wisconsin's 71% coverage ({avg['central']:,.0f}; AQ-070)",
           net_rows(place, stock, {"typical": (M.NetEffect(avg["central"] / avg["stock"], ny, "average reform city, 71% coverage"),
                                               "Average reform city at 71% coverage (former central)")}, qa))

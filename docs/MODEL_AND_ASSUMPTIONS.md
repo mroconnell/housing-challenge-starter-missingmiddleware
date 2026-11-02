@@ -462,11 +462,11 @@ The tool estimates how many more homes would be permitted in Wisconsin over 2027
 
 | Scenario | Extra homes permitted a year, statewide | As a share of the statewide all-housing baseline (124,000 homes over 2027–2031) | As a share of Wisconsin's 2,778,572 homes (ACS 2020–2024) |
 | --- | --- | --- | --- |
-| Little: best lot model (450 over five years) | about 90 | 0.36% | 0.016% |
-| Central: the average district place (8,856) | about 1,771 | 7.1% | 0.32% |
-| Strong: scaled to a 15% district (11,057) | about 2,211 | 8.9% | 0.40% |
+| Little: best lot model (499 over five years) | about 100 | 0.40% | 0.018% |
+| Central: the average district place (9,822) | about 1,964 | 7.9% | 0.35% |
+| Strong: scaled to a 15% district (12,264) | about 2,453 | 9.9% | 0.44% |
 
-The station-area shares (0.14%, 2.8% and 3.5% of the 313,564 homes near stops) stay on the 2020 census count, because the station areas are built from census blocks.
+The station-area shares (0.16%, 3.1% and 3.9% of the 313,564 homes near stops) stay on the 2020 census count, because the station areas are built from census blocks.
 
 **No median line for TOD.** A median line of real cases is shown only when a reform has at least 4 comparable cases. TOD shows none: its central is already the average of the 11 district places.
 
@@ -479,12 +479,13 @@ The station-area shares (0.14%, 2.8% and 3.5% of the 313,564 homes near stops) s
 - **The law (AQ-071; replaces AQ-047, AQ-049).** Option D: every city with rail or rapid stops (The Hop, the Kenosha streetcar, CONNECT 1, Rapid Route A) zones a by-right multifamily district, at least 15 homes per acre, on **15% of the lot acres within ¼ mile** of those stops. No affordability mandate; parking unchanged. The 15% follows what the training places used (owner: "base the district size on the benchmark policy which is based on what we have good data for ... 15% of lot acres within .25 miles of the stops is a good start", 2026-11-02). No site is picked: the district is spread at random over the ¼-mile land (owner: "I'd rather not pick specific sites but instead just show density in a radius of the TOD. But random is fine too."), so each lot there is in the district with probability 0.15. Land beyond ¼ mile counts zero. The former law (65 feet, FAR 3.0 and 100 homes per acre within ¼ mile of a station; 55 feet beyond) is kept only for the what-ifs.
 - **Evidence (AQ-071).** 11 US places whose reform covered under 30% of the lots within ¼ mile (Philadelphia, Chicago 2015, Seattle Mount Baker, Denver, Seattle Othello, New York, Salt Lake City, Saint Paul, Charlotte, Portland 2020, Austin), each measured as reform stops against similar comparison stops, before and after. Their districts averaged 12% of the ¼-mile lots. By the rule fixed before results, the central is the best model only if it beats the other places' average on hidden places; no model did (median error within ¼ mile: average 19.3, zero 28.1, best model 22.3; extra homes per 100 lot acres a year).
 - **Size of the effect (AQ-071).** Extra homes near stops over 2027–2031, Wisconsin (`reference/tod_optiond_line.csv`; ranges = each place left out in turn):
-  - **Little: the best lot model, 450 (range −121 to 818).** Lot and place traits, 5 averaged fits, a 15% district spread at random over Wisconsin's ¼-mile land, statewide (owner: "I love that", 2026-11-02 14:24).
-  - **Central: the average district place, 8,856 (range 6,715 to 10,624).** The places' mean effect within ¼ mile, 32.85 extra homes per 100 lot acres a year × 4,874 lot acres within ¼ mile of rail and rapid stops (Milwaukee and Madison) × 5 years × 1.106 for the rest of the state.
-  - **Strong: scaled to a 15% district, 11,057 (range 8,053 to 14,836).** The places' pooled ratio (summed effects ÷ summed district shares) × 0.15, same acres and scale.
+  - **Little: the best lot model, 499 (range −134 to 908).** Lot and place traits, 5 averaged fits, a 15% district spread at random over Wisconsin's ¼-mile land, statewide (owner: "I love that", 2026-11-02 14:24). The model's output used the old ½-mile homes scale (×1.106) and is rescaled to the ¼-mile land scale (×1.227 ÷ 1.106).
+  - **Central: the average district place, 9,822 (range 7,448 to 11,784).** The places' mean effect within ¼ mile, 32.85 extra homes per 100 lot acres a year × 4,874 lot acres within ¼ mile of rail and rapid stops (Milwaukee and Madison) × 5 years × 1.227 for the rest of the state.
+  - **Statewide scale (owner 2026-11-02 14:54, "You can switch.").** All Wisconsin lot acres within ¼ mile of rail and rapid stops ÷ those in the cities of Milwaukee and Madison: 6,394 ÷ 5,212 = 1.227, computed from `reference/tod_station_areas.csv` (the same land the placement uses). It replaced homes within ½ mile, 89,528 ÷ 80,930 = 1.106.
+  - **Strong: scaled to a 15% district, 12,264 (range 8,931 to 16,454).** The places' pooled ratio (summed effects ÷ summed district shares) × 0.15, same acres and scale. It leans on the small districts: among the 11 places the effect fell as the district share grew (rank correlation −0.41), and a straight line through them at 15% gives 7,718.
   - Former lines (broader law), now what-ifs: central 13,229 (average reform city at 71% coverage, AQ-070), strong 17,148 (Auckland), little 43 (station-area model, AQ-069).
-- **Where homes land (AQ-071).** Each place's share of the statewide total = its share of the lot acres within ¼ mile of rail and rapid stops (central: Madison 5,052, Milwaukee 2,167, Wauwatosa 851, Kenosha 367, Shorewood Hills 222, Sun Prairie 128, Burke 65, Blooming Grove 3). The former placement by the old law's added floor area (AQ-051) is a what-if.
-- **No floor at zero.** Places already at or above the law get no addition, but a measured line may be below zero where the evidence says so (the little line's low end, −121; owner rule against evidence-free floors).
+- **Where homes land (AQ-071).** Each place's share of the statewide total = its share of the lot acres within ¼ mile of rail and rapid stops (central: Madison 5,604, Milwaukee 2,403, Wauwatosa 944, Kenosha 408, Shorewood Hills 247, Sun Prairie 142, Burke 72, Blooming Grove 4). The former placement by the old law's added floor area (AQ-051) is a what-if.
+- **No floor at zero.** Places already at or above the law get no addition, but a measured line may be below zero where the evidence says so (the little line's low end, −134; owner rule against evidence-free floors).
 - **Timing.**
   - All three lines follow the yearly build-up measured after 17 New York City rezonings in 2003–2013.
   - The former strong line (Auckland) keeps Auckland's own yearly pattern in its what-if.
@@ -537,6 +538,8 @@ All data are fetched by script, with the source, date, size and checksum recorde
 - **Chosen land versus a mandate.** The 11 places chose their district land, often land builders already wanted (old industrial land, low-value lots). A state mandate makes every city act, on land it may pick less well, so it may do less; the random placement does not capture this. Near Milwaukee's new streetcar, building rose by a similar amount with no rezoning, so part of the measured gain may come from new transit or booming neighbourhoods.
 - **District size.** The places averaged 12% districts; the law asks for 15%. The strong line assumes the effect grows in proportion; the central does not scale it.
 - **No model beat the average.** Lot, stop-level, place, tract and affordability-rule models were all tried (OPTION_D_PLAN.md log); none beat the plain average on hidden places, so the lines carry no Wisconsin-specific trait adjustment.
+- **Districts, not citywide upzoning.** For the 5 broad upzonings left out of training (BelRed, Honolulu, Los Angeles TOC, San Diego, Chicago 2022; measured −14.3 to +29.4 extra homes per 100 lot acres a year within ¼ mile), the average rule predicts +32.9 for each (median miss 41.4), the scaled rule 136 to 273 (median miss 226), and zero misses by a median 10.7 (`reference/tod_optiond_broad_check.csv`). The lines describe districts, not citywide upzoning.
+- **Record years.** The central and strong lines take the Madison metro's apartment permitting above its own record year in 2029 and 2030, and the Milwaukee metro's in 2030; no line passes the highest peer-metro year. The compare screen says so beside the lines.
 - **Madison's 2023 overlay** already allows more along much of Rapid Route A; the model does not credit it, so Madison's share may be overstated.
 - **Former typical line (Stacy et al. 2023, now a what-if).** Only 28 of Stacy et al.'s 96 loosening reforms changed floor area, density or height; a 2025–2026 AEI Housing Center review found most of its 180 reforms minor, misplaced or misclassified ([research/STACY_AEI_REVIEW.md](tod/research/STACY_AEI_REVIEW.md), AQ-059).
 - **Why places differ.** A pre-registered effect-heterogeneity analysis tested 12 local traits (such as home values, incomes, rents, lot sizes, existing density and distance to downtown) on rezonings and station areas in six cities, using leave-one-city-out cross-validation. Eight methods were tried: weighted regression, LASSO, a regression tree, a random forest, gradient boosting, a causal forest, nearest neighbours and a multilevel model. All 66 pairs of traits were also tested. None predicted where upzoning added more homes better than a plain average, so the scenarios stay wide ([TRAITS_RESULTS.md](tod/TRAITS_RESULTS.md)). A second test entered 91 census variables (housing, incomes, commuting, car ownership and more) for 8 cities; again nothing beat the plain average ([ALLVARS_RESULTS.md](tod/ALLVARS_RESULTS.md)).
@@ -555,12 +558,13 @@ All data are fetched by script, with the source, date, size and checksum recorde
 #### 6. Sensitivity notes (extra homes 2027–2031, central unless stated)
 
 - **The law's addition:**
-  - Little at the ends of its range: −121 to 818. Central: 6,715 to 10,624. Strong: 8,053 to 14,836 (each place left out in turn).
+  - Little at the ends of its range: −134 to 908. Central: 7,448 to 11,784. Strong: 8,931 to 16,454 (each place left out in turn).
+  - District of 10%: 8,176; of 25%: 20,440 (strong line's method). Straight line through the places at 15%: 7,718.
   - Former lines for the broader law: central 13,229 (AQ-070), strong 17,148 (Auckland, its own yearly pattern), little 43 (AQ-069). Earlier: Los Angeles TOC 171, drift rule 1,196 (AQ-068), Stacy et al. 2,509.
-  - Final year smoothed: same totals, with 1,985 homes in 2031 instead of 586.
+  - Final year smoothed: same totals, with 2,202 homes in 2031 instead of 650.
 - **Where homes land (totals unchanged):**
-  - Placed by the broader law's added floor area (AQ-051): Milwaukee metro 5,778 and Madison metro 2,919 (main: 3,018 and 5,471).
-  - Only Milwaukee and Madison cities get homes: Milwaukee metro 2,658 and Madison metro 6,198.
+  - Placed by the broader law's added floor area (AQ-051): Milwaukee metro 6,408 and Madison metro 3,238 (main: 3,347 and 6,068).
+  - Only Milwaukee and Madison cities get homes: Milwaukee metro 2,948 and Madison metro 6,874.
   - Stop definitions change only current law near stops: rail and rapid only 6,206; 20-minute buses 15,984; all 15-minute stops within ½ mile 18,676 (main 14,654). The law's addition is the same.
 - **Baseline only:** 8,495 to 22,161, or 11,503 with Milwaukee's apartments as the Census published them. The addition is unchanged.
 

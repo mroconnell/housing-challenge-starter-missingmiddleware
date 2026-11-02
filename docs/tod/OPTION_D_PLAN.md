@@ -127,3 +127,39 @@ Departures and fixes after locking are logged below with dates, before each reru
   acres within ¼ mile × 5 years × 1.106 statewide scale (scripts/build_tod_optiond_line.py,
   reference/tod_optiond_line.csv). The places' districts averaged 12% of ¼-mile lots, against the law's 15%; scaled to
   15% by their pooled ratio: 11,057 (8,053 to 14,836). Which one the tool shows is the owner's call.
+- **2026-11-02 (after 14:25), random forest and causal forest added (logged before running).** Owner, 14:25: "did we
+  run a causal forest and random forest on all 90ish traits?" Not yet for option D. Added `--learner` to
+  scripts/run_tod_optiond.py (default `gb` = the gradient boosting above, unchanged):
+  - `rf`: random forest (300 trees, leaf ≥50 stop-band rows at stop level / ≥200 lots at lot level, each tree on 30%
+    of rows at stop level; at lot level a smaller share per tree for run time, stated with the result). Same on/off
+    effect as the boosting model.
+  - `cf` and `cf_honest`: a causal forest at stop level, scikit-learn only (no EconML, licence rule), as methods 9/10
+    of scripts/run_tod_model_menu.py: cross-fitted outcome and treatment models, then a forest on the residuals
+    (R-learner); the honest version re-estimates each leaf on a held-back half. Treatment = reform stop; outcome =
+    change in new homes per 100 lot acres a year; traits = the acre-weighted trait means. Coverage is not a trait
+    (it exists only at reform stops): one forest per band, so the ¼-mile forest gives the effect of a district like
+    the training places' (about 12% of ¼-mile lots). Hidden place = acre-weighted effect over its reform stops;
+    Wisconsin = that effect on Wisconsin ¼-mile stops × their lot acres, × 5 years × statewide scale.
+  - All runs: gaps filled, each place equal weight (fixes fill,equal). Trait groups lot+place+tract (~90 traits)
+    and lot+place. Test and benchmarks unchanged (others' average 19.3, zero 28.1 within ¼ mile).
+- **2026-11-02, the tool's lines (owner decisions; AQ-071).** Central = the average rule, 8,856 (6,715 to 10,624);
+  upper = the same scaled to a 15% district, 11,057 (8,053 to 14,836), replacing Auckland; lower = the best lot model
+  (lot + place traits, 5 averaged fits), 450 (−121 to 818), owner 14:24: "I love that". All three are rows of
+  reference/tod_optiond_line.csv (lower: `optiond_little`), timed by the New York pooled ramp, beyond ¼ mile zero, no
+  zero floors. Homes are placed by each place's lot acres within ¼ mile of rail and rapid stops (the random district).
+  scripts/run_tod_model.py, the TOD bundle and the combined bundle rebuilt; the former lines (13,229; Auckland 17,148;
+  43) are what-ifs on How sure.
+- **2026-11-02 14:54, statewide scale switched (owner: "You can switch.").** The scale to the state is now land, not
+  homes: all Wisconsin lot acres within ¼ mile of rail and rapid stops ÷ those in the cities of Milwaukee and Madison
+  (reference/tod_station_areas.csv, band rapid_quarter): 6,394 ÷ 5,212 = 1.2269, computed in
+  scripts/build_tod_optiond_line.py (the same land the placement uses). Was homes within ½ mile, 1.1062. The lot model's
+  file already carried ×1.1062, so the little line is rescaled by 1.2269 ÷ 1.1062. Lines: little 499 (−134 to 908),
+  central 9,822 (7,448 to 11,784), upper 12,264 (8,931 to 16,454). Combined headline −14,828 / 9,822 / 30,222.
+- **2026-11-02, auditor review items (no line changes).** (a) District-size what-ifs by the upper line's method:
+  10% 8,176, 25% 20,440 (How sure). (b) The upper line leans on small districts: among the 11 places the effect falls
+  with district share (Spearman −0.41); a straight-line fit at 15% gives 7,718 (6,960 on the old scale). (c) Broad-places
+  check (reference/tod_optiond_broad_check.csv): for the 5 broad places (BelRed, Honolulu, LA TOC, San Diego, Chicago
+  2022; measured −14.3 to +29.4 per 100 lot acres a year within ¼ mile) the average rule predicts +32.9 for each (median
+  miss 41.4), the scaled rule 136 to 273 (median miss 226), zero misses by a median 10.7: these results describe
+  districts, not citywide upzoning. (d) The Madison (2029, 2030) and Milwaukee (2030) record-year exceedance of the
+  central and upper lines is stated beside the lines on the compare screen.

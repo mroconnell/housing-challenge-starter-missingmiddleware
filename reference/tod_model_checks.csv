@@ -2,43 +2,43 @@ check,sizing,scenario,basis,extra_homes_3yr,extra_homes_3yr_low,extra_homes_3yr_
 madison_share,measured,Madison overlay 2023-2025,judged estimate x all eligible overlay acres / all homes on overlay lots,707.1,-1471.4,2715.0,40185.0,0.017597,-0.036616,0.067564,per-FAR effect carried over all overlay land at its dose 0.374,,,,,,,,,,,,
 madison_share,measured,Madison overlay 2023-2025,main estimate x treated acres / all homes on overlay lots,387.6,-806.4,1488.2,40185.0,0.009646,-0.020068,0.037033,effect only where allowed FAR rose (614.7 acres),,,,,,,,,,,,
 madison_share,measured,Madison overlay 2023-2025,main estimate x treated acres / homes on treated land,387.6,-806.4,1488.2,4461.0,0.086893,-0.180772,0.3336,"per upzoned home: 4,461 homes in the treatment (MADISON_TEST_RESULTS.md)",,,,,,,,,,,,
-madison_share,net_effect,little,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.000652,,,"Best lot model (lot + place traits, 5 averaged fits), Wisconsin within 1/4 mile: 449.6 extra homes over 2027-2031 (range -120.9 to 818.4), reference/tod_optiond_line.csv; New York pooled ramp",,,,,,,,,,,,
-madison_share,net_effect,typical,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.012844,,,"Average of the 11 district places' measured effect within 1/4 mile: 8,855.9 extra homes over 2027-2031 (range 6,715.3 to 10,624.4), reference/tod_optiond_line.csv; New York pooled ramp",,,,,,,,,,,,
-madison_share,net_effect,strong,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.016037,,,"Average district place scaled to a 15% district by the pooled ratio: 11,057.3 extra homes over 2027-2031 (range 8,052.6 to 14,835.7), reference/tod_optiond_line.csv; New York pooled ramp",,,,,,,,,,,,
+madison_share,net_effect,little,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.000723,,,"Best lot model (lot + place traits, 5 averaged fits), Wisconsin within 1/4 mile: 498.7 extra homes over 2027-2031 (range -134.1 to 907.7), reference/tod_optiond_line.csv; New York pooled ramp",,,,,,,,,,,,
+madison_share,net_effect,typical,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.014246,,,"Average of the 11 district places' measured effect within 1/4 mile: 9,822.2 extra homes over 2027-2031 (range 7,448.0 to 11,783.6), reference/tod_optiond_line.csv; New York pooled ramp",,,,,,,,,,,,
+madison_share,net_effect,strong,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.017787,,,"Average district place scaled to a 15% district by the pooled ratio: 12,263.8 extra homes over 2027-2031 (range 8,931.2 to 16,454.5), reference/tod_optiond_line.csv; New York pooled ramp",,,,,,,,,,,,
 madison_share,net_effect,reference_line,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.003638,,,median of the three studies' net-effect values,,,,,,,,,,,,
 madison_share,per_acre,little,scenario share of station-area stock in years 1-3,,,,313564.0,0.020612,,,method A per acre,,,,,,,,,,,,
 madison_share,per_acre,typical,scenario share of station-area stock in years 1-3,,,,313564.0,0.057677,,,method A per acre,,,,,,,,,,,,
 madison_share,per_acre,strong,scenario share of station-area stock in years 1-3,,,,313564.0,0.220413,,,method A per acre,,,,,,,,,,,,
-scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,15.0,0.0211,1.7961,1.8172,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,14.2,0.02,1.7961,1.8161,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2029.0,40.5,0.0569,1.7961,1.853,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2030.0,73.4,0.1032,1.7961,1.8993,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2031.0,10.1,0.0143,1.7961,1.8104,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,little,,,,,,,,,,"Madison, WI",2027.0,27.2,0.0819,13.4474,13.5293,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,little,,,,,,,,,,"Madison, WI",2028.0,25.8,0.0776,13.4474,13.525,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,little,,,,,,,,,,"Madison, WI",2029.0,73.4,0.221,13.4474,13.6684,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,little,,,,,,,,,,"Madison, WI",2030.0,133.1,0.4008,13.4474,13.8482,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,little,,,,,,,,,,"Madison, WI",2031.0,18.4,0.0554,13.4474,13.5028,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,295.2,0.4153,1.7961,2.2114,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,280.0,0.3938,1.7961,2.1899,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2029.0,797.1,1.1212,1.7961,2.9173,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2030.0,1445.5,2.0332,1.7961,3.8293,False,False,True,25.7418,9.0553,3.4441
-scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2031.0,199.7,0.2809,1.7961,2.077,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,typical,,,,,,,,,,"Madison, WI",2027.0,535.3,1.6124,13.4474,15.0598,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,typical,,,,,,,,,,"Madison, WI",2028.0,507.6,1.5292,13.4474,14.9766,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,typical,,,,,,,,,,"Madison, WI",2029.0,1445.1,4.3533,13.4474,17.8007,False,True,True,25.7418,9.0553,16.9124
-scale,net_effect,typical,,,,,,,,,,"Madison, WI",2030.0,2620.8,7.8946,13.4474,21.342,False,True,True,25.7418,9.0553,16.9124
-scale,net_effect,typical,,,,,,,,,,"Madison, WI",2031.0,362.1,1.0908,13.4474,14.5382,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,strong,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,368.6,0.5185,1.7961,2.3146,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,strong,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,349.6,0.4917,1.7961,2.2878,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,strong,,,,,,,,,,"Milwaukee-Waukesha, WI",2029.0,995.2,1.3999,1.7961,3.196,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,strong,,,,,,,,,,"Milwaukee-Waukesha, WI",2030.0,1804.9,2.5387,1.7961,4.3348,False,False,True,25.7418,9.0553,3.4441
-scale,net_effect,strong,,,,,,,,,,"Milwaukee-Waukesha, WI",2031.0,249.4,0.3508,1.7961,2.1469,False,False,False,25.7418,9.0553,3.4441
-scale,net_effect,strong,,,,,,,,,,"Madison, WI",2027.0,668.3,2.0132,13.4474,15.4606,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,strong,,,,,,,,,,"Madison, WI",2028.0,633.8,1.9093,13.4474,15.3567,False,True,False,25.7418,9.0553,16.9124
-scale,net_effect,strong,,,,,,,,,,"Madison, WI",2029.0,1804.4,5.4354,13.4474,18.8828,False,True,True,25.7418,9.0553,16.9124
-scale,net_effect,strong,,,,,,,,,,"Madison, WI",2030.0,3272.2,9.8571,13.4474,23.3045,False,True,True,25.7418,9.0553,16.9124
-scale,net_effect,strong,,,,,,,,,,"Madison, WI",2031.0,452.1,1.362,13.4474,14.8094,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,16.6,0.0234,1.7961,1.8195,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,15.8,0.0222,1.7961,1.8183,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2029.0,44.9,0.0631,1.7961,1.8592,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2030.0,81.4,0.1145,1.7961,1.9106,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2031.0,11.2,0.0158,1.7961,1.8119,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,little,,,,,,,,,,"Madison, WI",2027.0,30.1,0.0908,13.4474,13.5382,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,little,,,,,,,,,,"Madison, WI",2028.0,28.6,0.0861,13.4474,13.5335,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,little,,,,,,,,,,"Madison, WI",2029.0,81.4,0.2451,13.4474,13.6925,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,little,,,,,,,,,,"Madison, WI",2030.0,147.6,0.4446,13.4474,13.892,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,little,,,,,,,,,,"Madison, WI",2031.0,20.4,0.0614,13.4474,13.5088,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,327.4,0.4606,1.7961,2.2567,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,310.5,0.4368,1.7961,2.2329,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2029.0,884.1,1.2435,1.7961,3.0396,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2030.0,1603.2,2.2551,1.7961,4.0512,False,False,True,25.7418,9.0553,3.4441
+scale,net_effect,typical,,,,,,,,,,"Milwaukee-Waukesha, WI",2031.0,221.5,0.3116,1.7961,2.1077,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,typical,,,,,,,,,,"Madison, WI",2027.0,593.7,1.7883,13.4474,15.2357,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,typical,,,,,,,,,,"Madison, WI",2028.0,563.0,1.696,13.4474,15.1434,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,typical,,,,,,,,,,"Madison, WI",2029.0,1602.8,4.8283,13.4474,18.2757,False,True,True,25.7418,9.0553,16.9124
+scale,net_effect,typical,,,,,,,,,,"Madison, WI",2030.0,2906.7,8.7561,13.4474,22.2035,False,True,True,25.7418,9.0553,16.9124
+scale,net_effect,typical,,,,,,,,,,"Madison, WI",2031.0,401.6,1.2098,13.4474,14.6572,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,strong,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,408.8,0.5751,1.7961,2.3712,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,strong,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,387.7,0.5454,1.7961,2.3415,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,strong,,,,,,,,,,"Milwaukee-Waukesha, WI",2029.0,1103.8,1.5526,1.7961,3.3487,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,strong,,,,,,,,,,"Milwaukee-Waukesha, WI",2030.0,2001.8,2.8157,1.7961,4.6118,False,False,True,25.7418,9.0553,3.4441
+scale,net_effect,strong,,,,,,,,,,"Milwaukee-Waukesha, WI",2031.0,276.6,0.389,1.7961,2.1851,False,False,False,25.7418,9.0553,3.4441
+scale,net_effect,strong,,,,,,,,,,"Madison, WI",2027.0,741.2,2.2328,13.4474,15.6802,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,strong,,,,,,,,,,"Madison, WI",2028.0,703.0,2.1176,13.4474,15.565,False,True,False,25.7418,9.0553,16.9124
+scale,net_effect,strong,,,,,,,,,,"Madison, WI",2029.0,2001.3,6.0285,13.4474,19.4759,False,True,True,25.7418,9.0553,16.9124
+scale,net_effect,strong,,,,,,,,,,"Madison, WI",2030.0,3629.3,10.9326,13.4474,24.38,False,True,True,25.7418,9.0553,16.9124
+scale,net_effect,strong,,,,,,,,,,"Madison, WI",2031.0,501.5,1.5106,13.4474,14.958,False,True,False,25.7418,9.0553,16.9124
 scale,net_effect,reference_line,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,83.6,0.1176,1.7961,1.9137,False,False,False,25.7418,9.0553,3.4441
 scale,net_effect,reference_line,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,79.3,0.1116,1.7961,1.9077,False,False,False,25.7418,9.0553,3.4441
 scale,net_effect,reference_line,,,,,,,,,,"Milwaukee-Waukesha, WI",2029.0,225.8,0.3176,1.7961,2.1137,False,False,False,25.7418,9.0553,3.4441

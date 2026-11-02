@@ -17,7 +17,9 @@ export interface Statewide {
   law: { band: string; label: string; height_ft: number; homes_per_acre: number; far: number }[];
   /** The modelled law (option D, AQ-071): a by-right district on a share of the land within ¼ mile of rail and rapid stops */
   district: { share: number; radius: string; min_homes_per_acre: number; text: string; places: number; places_mean_share: number;
-    effect_per_100_acres: number; wi_acres_two_cities: number };
+    effect_per_100_acres: number; wi_acres_two_cities: number; statewide_scale: number; linear_fit_15: number };
+  /** Scenario-years in which a metro's apartment permitting (current law plus the law) passes its own record year */
+  record_years: { scenario: ScenId; metro: string; years: number[] }[];
   agencies: { agency: string; lines: string; rapid: number; bus15: number; bus20_only: number; main_case: number }[];
   baseline: { years: { year: number; low: number; central: number; high: number }[]; total: number; low_total: number; high_total: number };
   state_baseline_total: number; state_baseline_per_year: number;

@@ -1,4 +1,7 @@
-line,extra_homes_2027_2031,range_low,range_high,places,mean_effect_per_100_acres,mean_district_share,wi_acres_quarter,note
-optiond_average,8855.9,6715.3,10624.4,11,32.85,0.12,4874.1,average rule (central by the pre-set rule)
-optiond_average_scaled_15,11057.3,8052.6,14835.7,11,32.85,0.12,4874.1,average scaled to a 15% district by the pooled ratio
-optiond_little,449.6,-120.9,818.4,11,,,4874.1,"best lot model (lot + place traits, 5 averaged fits), tod_optiond_wisconsin_lot_place_fix_equal_fill_k5_s1.csv; range = each place left out"
+line,extra_homes_2027_2031,range_low,range_high,places,mean_effect_per_100_acres,mean_district_share,wi_acres_quarter,statewide_scale,note
+optiond_average,9822.2,7448.0,11783.6,11,32.85,0.12,4874.1,1.2269,average rule (central by the pre-set rule)
+optiond_average_scaled_15,12263.8,8931.2,16454.5,11,32.85,0.12,4874.1,1.2269,average scaled to a 15% district by the pooled ratio
+optiond_scaled_10,8175.9,5954.1,10969.7,11,32.85,0.12,4874.1,1.2269,what-if: district 10% (pooled ratio x 0.10)
+optiond_scaled_25,20439.7,14885.3,27424.1,11,32.85,0.12,4874.1,1.2269,what-if: district 25% (pooled ratio x 0.25)
+optiond_linear_fit_15,7718.1,6065.5,9864.6,11,32.85,0.12,4874.1,1.2269,"check: straight line of effect on district share through the 11 places, at 15%"
+optiond_little,498.7,-134.1,907.7,11,,,4874.1,1.2269,"best lot model (lot + place traits, 5 averaged fits), tod_optiond_wisconsin_lot_place_fix_equal_fill_k5_s1.csv x 1.2269 / 1.1062 (file used the 1/2-mile homes scale); range = each place left out"
