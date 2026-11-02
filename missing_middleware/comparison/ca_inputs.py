@@ -187,11 +187,11 @@ def read_compilation(path: str | Path) -> tuple[pd.DataFrame, list[list[str]]]:
 # ---------------------------------------------------------------------------
 
 def read_tiger_places(path: str | Path) -> pd.DataFrame:
-    import pyogrio
+    from missing_middleware.geom_extra_foundation import read_attributes
 
-    t = pyogrio.read_dataframe(path, read_geometry=False, columns=["GEOID", "PLACEFP", "NAME", "NAMELSAD",
-                                                                     "CLASSFP", "FUNCSTAT"])
-    t = pd.DataFrame(t)
+    t = read_attributes(path)
+    keep = {"GEOID", "PLACEFP", "NAME", "NAMELSAD", "CLASSFP", "FUNCSTAT"}
+    t = pd.DataFrame(t[[c for c in t.columns if c in keep]])   # file column order
     t["incorporated"] = t["CLASSFP"].str.startswith("C") & (t["FUNCSTAT"] == "A")
     return t.rename(columns=str.lower)
 

@@ -562,13 +562,17 @@ def cap_per_parcel(df: pd.DataFrame, key: str, units: str = "units", date: str =
 # 6. Build
 # ---------------------------------------------------------------------------
 
+def _tract_zip(st: str) -> Path:
+    return (RAW / "tiger_wi" / "tl_2024_55_tract.zip") if st == "55" else (ADIR / "tiger" / f"tl_2024_{st}_tract.zip")
+
+
 def land_areas() -> pd.Series:
-    import geopandas as gpd
     import zipfile
+
+    from missing_middleware.geom_extra_foundation import read_attributes
     s = {}
     for st in TRACT_STATES:
-        p = (RAW / "tiger_wi" / "tl_2024_55_tract.zip") if st == "55" else (ADIR / "tiger" / f"tl_2024_{st}_tract.zip")
-        t = gpd.read_file(f"zip://{p}", columns=["GEOID", "ALAND"], ignore_geometry=True)
+        t = read_attributes(_tract_zip(st))[["GEOID", "ALAND"]]
         s.update({f"tract:{g}": a / 2_589_988.11 for g, a in zip(t.GEOID, t.ALAND)})
     for name, prefix, col in (("census_gazetteer_2024/2024_Gaz_place_national.zip", "place", "GEOID"),
                               ("census_gazetteer_2024/2024_Gaz_cousubs_national.zip", "cousub", "GEOID"),
@@ -582,30 +586,30 @@ def land_areas() -> pd.Series:
 
 def tract_universe() -> pd.DataFrame:
     """2020 tracts whose internal point lies inside each city's 2024 boundary (cartographic boundary file)."""
-    import geopandas as gpd
-    pl = gpd.read_file(f"zip://{RAW / 'census_cb_2024' / 'cb_2024_us_place_500k.zip'}")
+    from missing_middleware import geom as G
+    from missing_middleware import geom_extra_foundation as GX
+    pl, _ = GX.read_shapefile_polygons(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip")   # NAD83 = WGS 84 here
     out = []
     for city, place in CITY_PLACE.items():
-        st = place[:2]
-        p = (RAW / "tiger_wi" / "tl_2024_55_tract.zip") if st == "55" else (ADIR / "tiger" / f"tl_2024_{st}_tract.zip")
-        t = gpd.read_file(f"zip://{p}")
-        poly = pl[pl["GEOID"] == place].to_crs(4326)
-        pts = gpd.GeoDataFrame(t[["GEOID"]], geometry=gpd.points_from_xy(t.INTPTLON.astype(float), t.INTPTLAT.astype(float)), crs=4326)
-        inside = gpd.sjoin(pts, poly[["geometry"]], predicate="within")
-        out.append(pd.DataFrame({"city": city, "tract": inside["GEOID"].values}))
+        t = GX.read_attributes(_tract_zip(place[:2]))
+        poly = [pl.polys[i] for i in np.flatnonzero((pl.attrs["GEOID"] == place).to_numpy())]
+        inside = G.points_in_any(t.INTPTLON.astype(float).to_numpy(), t.INTPTLAT.astype(float).to_numpy(), poly)
+        out.append(pd.DataFrame({"city": city, "tract": t["GEOID"].to_numpy()[inside]}))
     return pd.concat(out, ignore_index=True)
 
 
 def tracts_for_points(pts: pd.DataFrame, state: str, x: str = "longitude", y: str = "latitude", crs: int = 4326) -> pd.Series:
-    import geopandas as gpd
-    p = (RAW / "tiger_wi" / "tl_2024_55_tract.zip") if state == "55" else (ADIR / "tiger" / f"tl_2024_{state}_tract.zip")
-    t = gpd.read_file(f"zip://{p}", columns=["GEOID"]).to_crs(4326)
+    """2020 tract GEOID containing each point (missing when outside every tract or without coordinates)."""
+    from missing_middleware import geom as G
+    from missing_middleware import geom_extra_foundation as GX
+    t, _ = GX.read_shapefile_polygons(_tract_zip(state))                # NAD83 longitude/latitude, used as WGS 84
     xs, ys = pd.to_numeric(pts[x], errors="coerce"), pd.to_numeric(pts[y], errors="coerce")
     ok = xs.notna() & ys.notna() & (xs != 0) & (ys != 0)
-    g = gpd.GeoDataFrame(index=pts.index[ok], geometry=gpd.points_from_xy(xs[ok], ys[ok]), crs=crs).to_crs(4326)
-    j = gpd.sjoin(g, t, predicate="within", how="left")
-    j = j[~j.index.duplicated()]
-    return j["GEOID"].reindex(pts.index)
+    lon, lat = G.transform(xs[ok].to_numpy(float), ys[ok].to_numpy(float), crs, 4326)
+    k = G.points_in_polygons(lon, lat, t.polys)
+    ids = t.attrs["GEOID"].to_numpy(dtype=object)
+    found = pd.Series([ids[i] if i >= 0 else None for i in k], index=pts.index[ok], dtype="str")
+    return found.reindex(pts.index)
 
 
 def city_permits() -> tuple[pd.DataFrame, dict]:

@@ -645,7 +645,8 @@ def build_unknown_rules(munis: list, counties: list) -> dict:
 
 def build_districts(out: Path) -> dict:
     """Assembly and Senate district tables, area lists and (copied, simplified) outlines for the Where screen."""
-    import geopandas as gpd
+    from missing_middleware import geom as G
+    from missing_middleware import geom_extra_foundation as GX
     cw = pd.read_csv(REF / "adu_model_district_crosswalk.csv", dtype={"assembly_district": str, "senate_district": str})
     levels, label_feats, sizes = {}, [], {}
     for level, prefix, f in (("assembly", "asm:", "adu_model_by_assembly_district.csv"),
@@ -676,20 +677,21 @@ def build_districts(out: Path) -> dict:
         assert unalloc is not None, f"{f}: the unallocated row must stay in the table"
         levels[level] = {"rows": rows_, "unallocated": unalloc}
 
-        g = gpd.read_file(PROC / f"districts/geo_{level}.geojson").to_crs(4326)
-        g["id"] = prefix + g.district.astype(int).astype(str)
-        pts = g.to_crs(3071).geometry.representative_point().to_crs(4326)
-        for aid, pt, num in sorted(zip(g.id, pts, g.district.astype(int)), key=lambda t: t[2]):
+        path = PROC / f"districts/geo_{level}.geojson"
+        lay = G.read_geojson(path)
+        kinds = GX.geojson_kinds(path)
+        ids = [prefix + str(int(d)) for d in lay.attrs.district]
+        # label anchor: a point inside each district (shapely representative_point), found in Wisconsin TM metres
+        px, py = GX.interior_points(lay.to_crs(3071).polys)
+        lx, ly = G.transform(px, py, 3071, 4326)
+        for aid, x, y, num in sorted(zip(ids, lx, ly, lay.attrs.district.astype(int)), key=lambda t: t[3]):
             label_feats.append({"type": "Feature", "properties": {"id": aid, "name": str(num), "kind": level},
-                                "geometry": {"type": "Point", "coordinates": [round(pt.x, 4), round(pt.y, 4)]}})
-        g["geometry"] = g.geometry.set_precision(1e-4)
-        g = g[~g.geometry.is_empty]
-        assert g.geometry.is_valid.all(), f"invalid {level} polygons after rounding"
-        fc = json.loads(g[["id", "geometry"]].to_json(drop_id=True))
-        fc.pop("bbox", None)
-        for feat in fc["features"]:
-            feat["properties"] = {"id": feat["properties"]["id"]}
-            feat.pop("bbox", None)
+                                "geometry": {"type": "Point", "coordinates": [round(float(x), 4), round(float(y), 4)]}})
+        polys = GX.set_precision_polygons(lay.polys, 1e-4)
+        feats = [(i, f, k) for i, f, k in zip(ids, polys, kinds) if f]
+        assert all(GX.rings_are_simple(f) for _, f, _ in feats), f"invalid {level} polygons after rounding"
+        fc = {"type": "FeatureCollection", "features": [
+            {"type": "Feature", "properties": {"id": i}, "geometry": GX.geometry_dict(f, k)} for i, f, k in feats]}
         (out / f"geo_{level}.json").write_text(json.dumps(fc, separators=(",", ":")))
         sizes[level] = len(fc["features"])
     (out / "geo_district_labels.json").write_text(json.dumps({"type": "FeatureCollection", "features": label_feats},
@@ -1089,40 +1091,41 @@ def build_geo(out: Path, munis: list, county_names: dict | None = None) -> dict:
     The areas themselves (ids, homes, results) come from the TIGER/Line foundation; the cartographic file only supplies
     the outline drawn on screen. Water-only areas ("County subdivisions not defined") are not in it and are not drawn.
     """
-    import geopandas as gpd
+    from missing_middleware import geom as G
+    from missing_middleware import geom_extra_foundation as GX
     sizes = {}
     raw = ROOT / "data/raw/census_cb_2024"
     known = {a["id"] for a in munis}
     water = {a["id"] for a in munis if a.get("water")}
     for name, f, tol, prefix in (("counties", "cb_2024_us_county_500k.zip", 600, ""),
                                  ("munis", "cb_2024_55_cousub_500k.zip", 120, "muni:")):
-        g = gpd.read_file(raw / f)
-        g = g[g.STATEFP.eq("55")].copy()
-        g["area_id"] = prefix + g.GEOID
+        lay, kinds = GX.read_shapefile_polygons(raw / f)        # NAD83 longitude/latitude
+        keep = (lay.attrs.STATEFP == "55").to_numpy().copy()
+        area_id = prefix + lay.attrs.GEOID
         if name == "munis":
-            missing = known - set(g.area_id) - water
+            missing = known - set(area_id[keep]) - water
             assert not missing, f"areas with homes missing from the cartographic file: {sorted(missing)[:5]}"
-            g = g[g.area_id.isin(known)]
-        g = g[["area_id", "geometry"]].to_crs(3071)
+            keep = keep & area_id.isin(known).to_numpy()
+        lay, kinds, area_id = lay.subset(keep), [k for k, z in zip(kinds, keep) if z], list(area_id[keep])
+        lay.crs = G.crs(4269)
+        polys = lay.to_crs(3071).polys                              # Wisconsin Transverse Mercator, metres
         if name == "counties" and county_names:
             # label anchors: one point inside each county (text labels only, never a marker), for the optional
             # "County names" layer; further label sets (e.g. transit stations) can be added the same way
-            pts = g.assign(geometry=g.geometry.representative_point()).to_crs(4326)
+            px, py = GX.interior_points(polys)
+            lx, ly = G.transform(px, py, 3071, 4326)
             labels = {"type": "FeatureCollection", "features": [
                 {"type": "Feature", "properties": {"id": a, "name": county_names[a].removesuffix(" County"), "kind": "county"},
-                 "geometry": {"type": "Point", "coordinates": [round(pt.x, 4), round(pt.y, 4)]}}
-                for a, pt in sorted(zip(pts.area_id, pts.geometry))]}
+                 "geometry": {"type": "Point", "coordinates": [round(float(x), 4), round(float(y), 4)]}}
+                for a, x, y in sorted(zip(area_id, lx, ly))]}
             (out / "geo_labels.json").write_text(json.dumps(labels, separators=(",", ":")))
             sizes["labels"] = len(labels["features"])
-        g["geometry"] = g.geometry.simplify(tol, preserve_topology=True)
-        g = g.to_crs(4326)
-        g["geometry"] = g.geometry.set_precision(1e-4)
-        g = g[~g.geometry.is_empty]
-        fc = json.loads(g.to_json(drop_id=True))
-        fc.pop("bbox", None)
-        for feat in fc["features"]:
-            feat["properties"] = {"id": feat["properties"]["area_id"]}
-            feat.pop("bbox", None)
+        polys = GX.simplify_preserve(polys, tol)                    # topology-preserving, tol in metres
+        polys = G.Layer(lay.attrs, "polygon", polys=polys, crs=G.crs(3071)).to_crs(4326).polys
+        polys = GX.set_precision_polygons(polys, 1e-4)
+        fc = {"type": "FeatureCollection", "features": [
+            {"type": "Feature", "properties": {"id": a}, "geometry": GX.geometry_dict(f, k)}
+            for a, f, k in zip(area_id, polys, kinds) if f]}
         path = out / f"geo_{name}.json"
         path.write_text(json.dumps(fc, separators=(",", ":")))
         sizes[name] = len(fc["features"])

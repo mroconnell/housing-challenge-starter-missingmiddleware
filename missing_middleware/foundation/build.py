@@ -18,11 +18,11 @@ import json
 import subprocess
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 from missing_middleware import contracts
+from missing_middleware import geom_extra_foundation as GX
 from missing_middleware.paths import ROOT, processed_dir, raw_dir
 
 from . import crosswalk as xwmod
@@ -185,13 +185,18 @@ def build(out_name: str = "foundation", force_download: bool = False, log=print)
 
     log("6/7 geometry and coverage")
     for level, g in geoms.items():
-        g.to_parquet(out / "geo" / f"areas_{level}.parquet")
-    disp = []
+        GX.write_geoparquet(g[["GEOID", "area_id"]], list(g["geometry"]), list(g["geom_type"]),
+                            out / "geo" / f"areas_{level}.parquet", geo.TIGER_CRS, geometry_position=1)
+    disp_attrs, disp_polys, disp_kinds = [], [], []
     for level, tol in (("state", 200), ("county", 100), ("municipality", 30), ("tract", 30), ("block_group", 15)):
-        g = geoms[level].to_crs(geo.WI_CRS)
-        g["geometry"] = g.geometry.simplify(tol, preserve_topology=True)
-        disp.append(g.to_crs("EPSG:4326").assign(level=level))
-    gpd.GeoDataFrame(pd.concat(disp, ignore_index=True), crs="EPSG:4326").to_parquet(out / "geo" / "areas_display.parquet")
+        g = geoms[level]
+        # topology-preserving simplification in Wisconsin Transverse Mercator metres, then WGS 84 for display
+        simple = GX.simplify_preserve(geo.to_crs(g["geometry"], geo.TIGER_CRS, geo.WI_CRS), tol)
+        disp_polys += geo.to_crs(simple, geo.WI_CRS, 4326)
+        disp_kinds += list(g["geom_type"])
+        disp_attrs.append(g[["GEOID", "area_id"]].assign(level=level))
+    GX.write_geoparquet(pd.concat(disp_attrs, ignore_index=True), disp_polys, disp_kinds,
+                        out / "geo" / "areas_display.parquet", 4326, geometry_position=1)
 
     cov = coverage_table(areas, inv, xw, bps_place)
     cov.to_csv(out / "coverage_municipalities.csv", index=False)

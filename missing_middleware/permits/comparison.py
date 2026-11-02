@@ -94,12 +94,14 @@ def fetch_v12_parcels(raw_dir: Path, source_id: str, placename: str, coname: str
 
 def load_v12_parcel_table(raw_dir: Path) -> pd.DataFrame:
     """Standard parcel table (base.PARCEL_COLUMNS) plus lon/lat and V12 value/class fields."""
-    import geopandas as gpd
+    from missing_middleware import geom as G
+    from missing_middleware import geom_extra_foundation as GX
 
     from .address import street_key_from_parts
 
-    g = gpd.read_file(raw_dir / "v12_parcels.geojson").set_crs(4326, allow_override=True)
-    rp = g.geometry.representative_point()
+    layer = G.read_geojson(raw_dir / "v12_parcels.geojson")
+    g = layer.attrs
+    rx, ry = GX.interior_points(layer.polys)   # a point inside each parcel (shapely representative_point)
     out = pd.DataFrame({
         "parcel_id": g["PARCELID"].astype(str),
         "stateid": g["STATEID"],
@@ -117,7 +119,7 @@ def load_v12_parcel_table(raw_dir: Path) -> pd.DataFrame:
         "impvalue": pd.to_numeric(g["IMPVALUE"], errors="coerce"),
         "placename": g["PLACENAME"],
         "taxrollyear": g["TAXROLLYEAR"],
-        "x": rp.x.values, "y": rp.y.values,
+        "x": rx, "y": ry,
     })
     # V12 can hold several rows per PARCELID (condo units, multi-part); keep the first, count them
     n = out.groupby("parcel_id")["parcel_id"].transform("size")

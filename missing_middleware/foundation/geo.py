@@ -32,12 +32,15 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
+from missing_middleware import geom as G
+from missing_middleware import geom_extra_foundation as GX
+
 SQM_PER_SQMI = 2_589_988.110336
 WI_CRS = "EPSG:3071"  # NAD83(HARN) / Wisconsin Transverse Mercator, metres
+TIGER_CRS = 4269      # NAD83 longitude/latitude, as TIGER/Line publishes
 BOUNDARY_SOURCE_ID = "census_tiger_2024"
 BOUNDARY_VINTAGE = "TIGER/Line 2024"
 
@@ -56,11 +59,29 @@ CONTEXT_RULE = (
 )
 
 
-def read_tiger(raw: Path, name: str, state_fips: str = "55") -> gpd.GeoDataFrame:
-    g = gpd.read_file(f"zip://{raw / name}")
+def geometry_column(polys: list) -> np.ndarray:
+    """An object array holding one polygon feature (missing_middleware.geom model) per row."""
+    out = np.empty(len(polys), dtype=object)
+    for i, f in enumerate(polys):
+        out[i] = f
+    return out
+
+
+def read_tiger(raw: Path, name: str, state_fips: str = "55") -> pd.DataFrame:
+    """A TIGER/Line polygon shapefile: its attributes plus 'geometry' (polygon features, NAD83 longitude/latitude)
+    and 'geom_type' (Polygon or MultiPolygon, as GDAL reports it)."""
+    layer, kinds = GX.read_shapefile_polygons(raw / name)
+    g = layer.attrs.copy()
+    g["geometry"] = geometry_column(layer.polys)
+    g["geom_type"] = kinds
     if "STATEFP" in g.columns:
         g = g[g["STATEFP"] == state_fips]
     return g.reset_index(drop=True)
+
+
+def to_crs(polys, src, dst) -> list:
+    """Polygon features reprojected from src to dst (EPSG codes or 'EPSG:n')."""
+    return G.Layer(pd.DataFrame(index=range(len(polys))), "polygon", polys=list(polys), crs=G.crs(src)).to_crs(dst).polys
 
 
 def muni_type(classfp: str, namelsad: str) -> str:
@@ -73,7 +94,7 @@ def muni_type(classfp: str, namelsad: str) -> str:
     return "other"
 
 
-def metro_counties(county: gpd.GeoDataFrame, cbsa: pd.DataFrame) -> pd.Series:
+def metro_counties(county: pd.DataFrame, cbsa: pd.DataFrame) -> pd.Series:
     """True where the county belongs to a metropolitan (LSAD M1) CBSA."""
     metro_ids = set(cbsa.loc[cbsa["LSAD"] == "M1", "CBSAFP"])
     return county.set_index("GEOID")["CBSAFP"].isin(metro_ids)
@@ -101,12 +122,15 @@ def assign_muni_context(munis: pd.DataFrame) -> pd.Series:
     return pd.Series(out, index=munis.index, dtype=object)
 
 
-def majority_parent(child: gpd.GeoDataFrame, parent: gpd.GeoDataFrame, child_id: str, parent_id: str) -> pd.DataFrame:
-    """For each child polygon, the parent with the largest land-area overlap and its share."""
-    c = child[[child_id, "geometry"]].to_crs(WI_CRS)
-    p = parent[[parent_id, "geometry"]].to_crs(WI_CRS)
-    inter = gpd.overlay(c, p, how="intersection", keep_geom_type=True)
-    inter["a"] = inter.geometry.area
+def majority_parent(child: pd.DataFrame, parent: pd.DataFrame, child_id: str, parent_id: str) -> pd.DataFrame:
+    """For each child polygon, the parent with the largest land-area overlap and its share (overlap areas in
+    Wisconsin Transverse Mercator)."""
+    c = to_crs(child["geometry"], TIGER_CRS, WI_CRS)
+    p = to_crs(parent["geometry"], TIGER_CRS, WI_CRS)
+    ov = GX.intersection_areas(c, p)
+    inter = pd.DataFrame({child_id: child[child_id].to_numpy()[ov["i"].to_numpy()],
+                          parent_id: parent[parent_id].to_numpy()[ov["j"].to_numpy()],
+                          "a": ov["area"].to_numpy()})
     tot = inter.groupby(child_id)["a"].transform("sum")
     inter["share"] = inter["a"] / tot
     inter["n_parents"] = (inter["share"] > 0.01).groupby(inter[child_id]).transform("sum")
@@ -117,7 +141,8 @@ def majority_parent(child: gpd.GeoDataFrame, parent: gpd.GeoDataFrame, child_id:
 
 
 def build_areas(raw_tiger: Path, raw_cbsa: Path, acs_hu: pd.DataFrame, acs_pop: pd.DataFrame, log=print):
-    """Return (areas DataFrame, dict level -> GeoDataFrame of full-resolution geometry).
+    """Return (areas DataFrame, dict level -> DataFrame of full-resolution geometry: GEOID, geometry, area_id,
+    geom_type; NAD83 longitude/latitude).
 
     acs_hu / acs_pop: DataFrames with columns geoid, level, value (ACS total
     housing units B25024_001, total population B01003_001).
@@ -127,7 +152,7 @@ def build_areas(raw_tiger: Path, raw_cbsa: Path, acs_hu: pd.DataFrame, acs_pop: 
     cousub = read_tiger(raw_tiger, "tl_2024_55_cousub.zip")
     tract = read_tiger(raw_tiger, "tl_2024_55_tract.zip")
     bg = read_tiger(raw_tiger, "tl_2024_55_bg.zip")
-    cbsa = gpd.read_file(f"zip://{raw_cbsa / 'cb_2024_us_cbsa_20m.zip'}", ignore_geometry=True)
+    cbsa = GX.read_attributes(raw_cbsa / "cb_2024_us_cbsa_20m.zip")
     metro = metro_counties(county, cbsa)
 
     hu = {(r.level, r.geoid): r.value for r in acs_hu.itertuples()}
@@ -235,10 +260,10 @@ def build_areas(raw_tiger: Path, raw_cbsa: Path, acs_hu: pd.DataFrame, acs_pop: 
     areas["boundary_vintage"] = BOUNDARY_VINTAGE
 
     geoms = {
-        "state": state[["GEOID", "geometry"]].assign(area_id="55"),
-        "county": county[["GEOID", "geometry"]].assign(area_id=county["GEOID"]),
-        "municipality": m[["GEOID", "geometry"]].assign(area_id=m["area_id"]),
-        "tract": tract[["GEOID", "geometry"]].assign(area_id=tract["GEOID"]),
-        "block_group": bg[["GEOID", "geometry"]].assign(area_id=bg["GEOID"]),
+        "state": state[["GEOID", "geometry"]].assign(area_id="55", geom_type=state["geom_type"]),
+        "county": county[["GEOID", "geometry"]].assign(area_id=county["GEOID"], geom_type=county["geom_type"]),
+        "municipality": m[["GEOID", "geometry"]].assign(area_id=m["area_id"], geom_type=m["geom_type"]),
+        "tract": tract[["GEOID", "geometry"]].assign(area_id=tract["GEOID"], geom_type=tract["geom_type"]),
+        "block_group": bg[["GEOID", "geometry"]].assign(area_id=bg["GEOID"], geom_type=bg["geom_type"]),
     }
     return areas, geoms

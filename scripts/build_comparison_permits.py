@@ -62,10 +62,7 @@ def build_city(name: str, fetch: bool, refresh: bool, log=print) -> dict:
     bgs = geo.load_tiger(traw, a.state_fips, "block_group")
 
     def areas_fn(xy: pd.DataFrame) -> pd.DataFrame:
-        import geopandas as gpd
-
-        pts = gpd.GeoDataFrame(index=xy.index, geometry=gpd.points_from_xy(xy["x"], xy["y"]), crs=4326)
-        return geo.attach_areas(pts, tracts, bgs)
+        return geo.attach_areas(xy, tracts, bgs)
 
     full = build_permits_observed(
         raw, index, parcels, parcels[["parcel_id", "x", "y"]], areas_fn, raze_types=a.raze_types,

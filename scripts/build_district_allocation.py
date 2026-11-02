@@ -44,11 +44,12 @@ import json
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from missing_middleware import geom as G  # noqa: E402
+from missing_middleware import geom_extra_foundation as GX  # noqa: E402
 from missing_middleware.paths import PROCESSED, RAW, REFERENCE, processed_dir  # noqa: E402
 
 EQUAL_AREA = "EPSG:3071"     # Wisconsin Transverse Mercator (metres)
@@ -58,8 +59,9 @@ SIMPLIFY_M = 150             # outline simplification tolerance for the UI (metr
 
 
 def load_blocks() -> pd.DataFrame:
-    b = gpd.read_file(f"zip://{RAW / 'census_tiger_2020_tabblock/tl_2020_55_tabblock20.zip'}", ignore_geometry=True,
-                      columns=["GEOID20", "HOUSING20", "INTPTLAT20", "INTPTLON20", "ALAND20"])
+    b = GX.read_attributes(RAW / "census_tiger_2020_tabblock/tl_2020_55_tabblock20.zip")
+    keep = {"GEOID20", "HOUSING20", "INTPTLAT20", "INTPTLON20", "ALAND20"}
+    b = b[[c for c in b.columns if c in keep]].copy()
     b["bg"] = b.GEOID20.str[:12]
     b["county"] = b.GEOID20.str[:5]
     b["lat"] = b.INTPTLAT20.astype(float)
@@ -77,22 +79,32 @@ def detached_weights(blocks: pd.DataFrame, inv: pd.DataFrame) -> pd.Series:
     return blocks.HOUSING20.astype(float) * s
 
 
-def locate(points: gpd.GeoDataFrame, polys: gpd.GeoDataFrame, key: str) -> pd.Series:
-    """Polygon `key` for each point: within, else nearest (both in EQUAL_AREA)."""
-    j = gpd.sjoin(points, polys[[key, "geometry"]], how="left", predicate="within")
-    j = j[~j.index.duplicated(keep="first")]
-    miss = j[key].isna()
+def read_layer(path, src_crs) -> tuple[pd.DataFrame, list, list]:
+    """(attributes, polygons in EQUAL_AREA, geometry types) from a GeoJSON file or a foundation GeoParquet file."""
+    if str(path).endswith(".parquet"):
+        attrs, polys, kinds, epsg = GX.read_geoparquet(path)
+        src_crs = epsg
+    else:
+        lay = G.read_geojson(path)
+        attrs, polys, kinds = lay.attrs, lay.polys, GX.geojson_kinds(path)
+    proj = G.Layer(attrs, "polygon", polys=polys, crs=G.crs(src_crs)).to_crs(EQUAL_AREA)
+    return attrs.reset_index(drop=True), proj.polys, kinds
+
+
+def locate(px: np.ndarray, py: np.ndarray, polys: list, keys: pd.Series) -> tuple[pd.Series, pd.Series]:
+    """Polygon key for each point: the polygon it lies in, else the nearest polygon (both in EQUAL_AREA)."""
+    k = G.points_in_polygons(px, py, polys)
+    miss = k < 0
     if miss.any():
-        nn = gpd.sjoin_nearest(points[miss], polys[[key, "geometry"]], how="left")
-        nn = nn[~nn.index.duplicated(keep="first")]
-        j.loc[miss, key] = nn[key]
-    return j[key], miss
+        k[miss] = GX.nearest_polygon(px[miss], py[miss], polys)
+    return pd.Series(keys.to_numpy()[k]), pd.Series(miss)
 
 
-def area_weight_shares(munis: gpd.GeoDataFrame, dist: gpd.GeoDataFrame) -> pd.DataFrame:
+def area_weight_shares(munis: pd.DataFrame, munis_polys: list, dist: pd.DataFrame, dist_polys: list) -> pd.DataFrame:
     """Share of each area's polygon in each district (plain area weights)."""
-    ov = gpd.overlay(munis[["area_id", "geometry"]], dist[["district", "geometry"]], how="intersection", keep_geom_type=True)
-    ov["a"] = ov.geometry.area
+    o = GX.intersection_areas(munis_polys, dist_polys)
+    ov = pd.DataFrame({"area_id": munis["area_id"].to_numpy()[o["i"].to_numpy()],
+                       "district": dist["district"].to_numpy()[o["j"].to_numpy()], "a": o["area"].to_numpy()})
     ov = ov.groupby(["area_id", "district"], as_index=False)["a"].sum()
     ov["share"] = ov.a / ov.groupby("area_id").a.transform("sum")
     return ov[ov.share > 1e-9][["area_id", "district", "share"]]
@@ -119,9 +131,9 @@ def allocate(values: pd.DataFrame, shares: pd.DataFrame, keys: list[str]) -> pd.
 
 def main():
     inv = pd.read_parquet(PROCESSED / "foundation/inventory.parquet")
-    munis = gpd.read_parquet(PROCESSED / "foundation/geo/areas_municipality.parquet").to_crs(EQUAL_AREA)
-    asm = gpd.read_file(RAW / "wi_assembly_districts/assembly_2024.geojson").to_crs(EQUAL_AREA)
-    sen = gpd.read_file(RAW / "wi_senate_districts/senate_2024.geojson").to_crs(EQUAL_AREA)
+    munis, munis_polys, _ = read_layer(PROCESSED / "foundation/geo/areas_municipality.parquet", 4269)
+    asm, asm_polys, asm_kinds = read_layer(RAW / "wi_assembly_districts/assembly_2024.geojson", 4326)
+    sen, sen_polys, sen_kinds = read_layer(RAW / "wi_senate_districts/senate_2024.geojson", 4326)
     asm["district"] = asm.ASM2024.astype(int)
     asm["senate"] = asm.SEN2024.astype(int)
     sen_col = [c for c in sen.columns if c.upper().startswith("SEN")][0]
@@ -133,9 +145,9 @@ def main():
     # 1-2. blocks: weights, area and district
     blocks = load_blocks()
     blocks["w"] = detached_weights(blocks, inv)
-    pts = gpd.GeoDataFrame(blocks, geometry=gpd.points_from_xy(blocks.lon, blocks.lat), crs="EPSG:4269").to_crs(EQUAL_AREA)
-    blocks["area_id"], miss_m = locate(pts, munis, "area_id")
-    blocks["district"], miss_d = locate(pts, asm, "district")
+    px, py = G.transform(blocks.lon.to_numpy(float), blocks.lat.to_numpy(float), 4269, EQUAL_AREA)
+    blocks["area_id"], miss_m = locate(px, py, munis_polys, munis["area_id"])
+    blocks["district"], miss_d = locate(px, py, asm_polys, asm["district"])
     blocks["district"] = blocks["district"].astype(int)
     checks["blocks"] = {"n": int(len(blocks)), "housing20": int(blocks.HOUSING20.sum()),
                         "detached_weight": round(float(blocks.w.sum()), 1),
@@ -146,7 +158,7 @@ def main():
     tot = bw.groupby("area_id").w.transform("sum")
     bw = bw[tot > 0].assign(share=lambda d: d.w / d.groupby("area_id").w.transform("sum"))
     bw = bw[bw.share > 0][["area_id", "district", "share"]].assign(method="blocks (2020 housing units x ACS detached share)")
-    aw = area_weight_shares(munis, asm)
+    aw = area_weight_shares(munis, munis_polys, asm, asm_polys)
     need = homes[homes > 0].index.difference(bw.area_id.unique())
     fb = aw[aw.area_id.isin(need)].assign(method="area weights (no block weight in this area)")
     shares = pd.concat([bw, fb], ignore_index=True)
@@ -227,11 +239,12 @@ def main():
     checks["reconciliation"] = rec
 
     # Senate: Assembly-to-Senate nesting checked against the Senate layer by overlap
-    ov = gpd.overlay(asm[["district", "senate", "geometry"]], sen[["district", "geometry"]].rename(columns={"district": "sen_layer"}),
-                     how="intersection", keep_geom_type=True)
-    ov["a"] = ov.geometry.area
+    o = GX.intersection_areas(asm_polys, sen_polys)
+    ov = pd.DataFrame({"district": asm["district"].to_numpy()[o["i"].to_numpy()],
+                       "senate": asm["senate"].to_numpy()[o["i"].to_numpy()],
+                       "sen_layer": sen["district"].to_numpy()[o["j"].to_numpy()], "a": o["area"].to_numpy()})
     best = ov.sort_values("a").groupby("district").tail(1).set_index("district")
-    frac = (best.a / asm.set_index("district").geometry.area).min()
+    frac = (best.a / pd.Series(G.areas(asm_polys), index=asm["district"].to_numpy())).min()
     checks["senate_nesting"] = {"assembly_in_named_senate": bool((best.sen_layer == best.senate).all()),
                                 "min_share_of_assembly_area_in_its_senate": round(float(frac), 4),
                                 "assembly_per_senate": sorted(set(asm.groupby("senate").size().tolist()))}
@@ -254,14 +267,14 @@ def main():
 
     # 5. simplified outlines for the UI
     od = processed_dir("districts")
-    for name, g, extra in (("assembly", asm, ["senate"]), ("senate", sen, [])):
-        out = g[["district"] + extra + ["geometry"]].copy()
-        out["geometry"] = out.geometry.simplify(SIMPLIFY_M, preserve_topology=True)
-        out = out.to_crs("EPSG:4326")
-        out["geometry"] = out.geometry.set_precision(1e-5)
+    for name, g, polys, kinds, extra in (("assembly", asm, asm_polys, asm_kinds, ["senate"]),
+                                         ("senate", sen, sen_polys, sen_kinds, [])):
+        simple = GX.simplify_preserve(polys, SIMPLIFY_M)          # topology-preserving, metres
+        simple = G.Layer(g, "polygon", polys=simple, crs=G.crs(EQUAL_AREA)).to_crs(4326).polys
+        simple = GX.set_precision_polygons(simple, 1e-5)
         p = od / f"geo_{name}.geojson"
         p.unlink(missing_ok=True)
-        out.to_file(p, driver="GeoJSON")
+        GX.write_geojson_gdal(p, f"geo_{name}", g[["district"] + extra].reset_index(drop=True), simple, kinds)
         checks[f"geo_{name}_bytes"] = p.stat().st_size
     (od / "allocation_checks.json").write_text(json.dumps(checks, indent=2, default=str) + "\n")
     print(json.dumps(checks, indent=2, default=str))

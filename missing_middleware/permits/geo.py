@@ -29,7 +29,7 @@ def fetch_tiger(raw_dir: Path, state_fips: str, year: int = TIGER_YEAR, log=prin
         if not path.exists():
             log(f"downloading {url}")
             path.write_bytes(fu.get(url, timeout=600))
-        with zipfile.ZipFile(path) as z:  # integrity check only; read via pyogrio zip://
+        with zipfile.ZipFile(path) as z:  # integrity check only; read by missing_middleware.geom_extra_foundation
             bad = z.testzip()
             if bad:
                 raise RuntimeError(f"{path.name}: corrupt member {bad}")
@@ -43,21 +43,29 @@ def fetch_tiger(raw_dir: Path, state_fips: str, year: int = TIGER_YEAR, log=prin
 
 
 def load_tiger(raw_dir: Path, state_fips: str, level: str, year: int = TIGER_YEAR):
-    import geopandas as gpd
+    """The state's tracts or block groups as a missing_middleware.geom Layer (attribute GEOID; longitude/latitude).
+    NAD83 coordinates are used as WGS 84 unchanged (as PROJ's NAD83 -> WGS 84 step does)."""
+    from missing_middleware import geom as G
+    from missing_middleware import geom_extra_foundation as GX
 
     url = TIGER_URLS[level].format(y=year, st=state_fips)
-    gdf = gpd.read_file(f"zip://{raw_dir / url.rsplit('/', 1)[-1]}")
-    return gdf[["GEOID", "geometry"]].to_crs(4326)
+    layer, _ = GX.read_shapefile_polygons(raw_dir / url.rsplit("/", 1)[-1])
+    layer.attrs = layer.attrs[["GEOID"]].reset_index(drop=True)
+    layer.crs = G.crs(4326)
+    return layer
 
 
-def attach_areas(points, tracts, bgs) -> pd.DataFrame:
-    """For a GeoDataFrame of points (EPSG:4326), return tract_geoid and bg_geoid columns."""
-    import geopandas as gpd
+def attach_areas(points: pd.DataFrame, tracts, bgs) -> pd.DataFrame:
+    """For points (columns x = longitude, y = latitude; missing allowed), return tract_geoid and bg_geoid columns:
+    the polygon each point lies in (the first one if several), missing outside every polygon."""
+    from missing_middleware import geom as G
 
     out = pd.DataFrame(index=points.index)
+    x = pd.to_numeric(points["x"], errors="coerce").to_numpy(float)
+    y = pd.to_numeric(points["y"], errors="coerce").to_numpy(float)
     for name, polys in (("tract_geoid", tracts), ("bg_geoid", bgs)):
-        j = gpd.sjoin(points[["geometry"]], polys.rename(columns={"GEOID": name}), how="left",
-                      predicate="within")
-        j = j[~j.index.duplicated(keep="first")]
-        out[name] = j[name]
+        k = G.points_in_polygons(x, y, polys.polys)
+        ids = polys.attrs["GEOID"].to_numpy(dtype=object)
+        vals = [ids[i] if i >= 0 else None for i in k]
+        out[name] = pd.Series(vals, index=points.index, dtype="str")
     return out

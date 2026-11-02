@@ -67,10 +67,7 @@ def main(argv=None) -> int:
     bgs = geo.load_tiger(traw, a.state_fips, "block_group")
 
     def areas_fn(xy: pd.DataFrame) -> pd.DataFrame:
-        import geopandas as gpd
-
-        pts = gpd.GeoDataFrame(index=xy.index, geometry=gpd.points_from_xy(xy["x"], xy["y"]), crs=4326)
-        return geo.attach_areas(pts, tracts, bgs)
+        return geo.attach_areas(xy, tracts, bgs)
 
     full = build_permits_observed(raw, index, parcels, parcels[["parcel_id", "x", "y"]], areas_fn,
                                   new_residential_types=a.new_residential_types, host_uses=a.host_uses,
@@ -165,19 +162,21 @@ def main(argv=None) -> int:
     return 1 if problems else 0
 
 
-def second_home_judgment_table(full: pd.DataFrame, parcels_gdf, judgments: dict) -> pd.DataFrame:
+def second_home_judgment_table(full: pd.DataFrame, parcels, judgments: dict) -> pd.DataFrame:
     """Local audit table (has parcel ids): each judged record, its host parcel and the evidence.
 
     Host = matched parcel, else the parcel containing the record's (geocoded) point.
+    parcels: the tax-parcel Layer from madison.load_parcels.
     """
-    import geopandas as gpd
+    from missing_middleware import geom as G
 
     j = full[full["permit_id"].isin(list(judgments))].copy()
-    pts = gpd.GeoDataFrame(j[["permit_id"]], geometry=gpd.points_from_xy(j["x"], j["y"]), crs=4326)
     cols = ["Parcel", "YearBuilt", "MaxConstructionYear", "MoreThanOneBuild", "TotalDwellingUnits", "PropertyUse"]
-    hit = gpd.sjoin(pts, parcels_gdf[cols + ["geometry"]], predicate="within", how="left")
-    hit = hit[~hit.index.duplicated()]
-    by_id = parcels_gdf.drop_duplicates("Parcel").set_index("Parcel")[cols[1:]]
+    k = G.points_in_polygons(pd.to_numeric(j["x"], errors="coerce").to_numpy(float),
+                             pd.to_numeric(j["y"], errors="coerce").to_numpy(float), parcels.polys)
+    pid = parcels.attrs["Parcel"].to_numpy(dtype=object)
+    hit = pd.DataFrame({"Parcel": [pid[i] if i >= 0 else None for i in k]}, index=j.index)
+    by_id = parcels.attrs.drop_duplicates("Parcel").set_index("Parcel")[cols[1:]]
     rows = []
     for idx, r in j.iterrows():
         host = r["parcel_id"] if pd.notna(r["parcel_id"]) else hit.at[idx, "Parcel"]

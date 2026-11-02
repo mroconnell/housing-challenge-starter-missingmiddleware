@@ -256,17 +256,21 @@ def fetch_gis(raw_parcels_dir: Path, log=print) -> dict:
 
 
 def load_parcels(raw_parcels_dir: Path):
-    import geopandas as gpd
+    """Tax parcels as a missing_middleware.geom Layer (attributes in .attrs, polygons in .polys, longitude/latitude)."""
+    from missing_middleware import geom as G
 
-    gdf = gpd.read_file(raw_parcels_dir / "tax_parcels.geojson")
-    return gdf.set_crs(4326, allow_override=True)
+    layer = G.read_geojson(raw_parcels_dir / "tax_parcels.geojson")
+    layer.crs = G.crs(4326)
+    return layer
 
 
 def load_address_points(raw_parcels_dir: Path):
-    import geopandas as gpd
+    """Address points as a missing_middleware.geom point Layer (attributes in .attrs, longitude/latitude in .x/.y)."""
+    from missing_middleware import geom as G
 
-    gdf = gpd.read_file(raw_parcels_dir / "address_points.geojson")
-    return gdf.set_crs(4326, allow_override=True)
+    layer = G.read_geojson(raw_parcels_dir / "address_points.geojson")
+    layer.crs = G.crs(4326)
+    return layer
 
 
 class MadisonAdapter(CityAdapter):
@@ -299,11 +303,14 @@ class MadisonAdapter(CityAdapter):
 
 # --------------------------------------------------------------------------- reference tables
 def parcel_table(parcels) -> pd.DataFrame:
-    """Standard parcel table (PARCEL_COLUMNS) plus representative-point lon/lat."""
+    """Standard parcel table (PARCEL_COLUMNS) plus representative-point lon/lat (a point inside each parcel,
+    as shapely's representative_point)."""
+    from missing_middleware import geom_extra_foundation as GX
+
     from .address import street_key_from_parts
 
-    g = parcels
-    rp = g.geometry.representative_point()
+    g = parcels.attrs
+    rx, ry = GX.interior_points(parcels.polys)
     out = pd.DataFrame({
         "parcel_id": g["Parcel"].astype(str),
         "xref_parcel": g["XRefParcel"].astype(str),
@@ -318,7 +325,7 @@ def parcel_table(parcels) -> pd.DataFrame:
         "zoning": g["ZoningAll"],
         "year_built": pd.to_numeric(g["YearBuilt"], errors="coerce"),
         "more_than_one_building": g["MoreThanOneBuild"],
-        "x": rp.x.values, "y": rp.y.values,
+        "x": rx, "y": ry,
     })
     # a parcel id can repeat only if the layer has multipart duplicates; keep first
     return out.drop_duplicates("parcel_id").reset_index(drop=True)
@@ -328,7 +335,7 @@ def address_reference(parcels_tbl: pd.DataFrame, addr_points) -> pd.DataFrame:
     """Union of address points (address -> parcel) and parcel situs addresses."""
     from .address import street_key_from_parts
 
-    a = addr_points
+    a = addr_points.attrs
     pts = pd.DataFrame({
         "house_nbr": pd.to_numeric(a["HouseNbr"], errors="coerce"),
         "street_key": [street_key_from_parts(d, n, t) for d, n, t in
@@ -336,7 +343,7 @@ def address_reference(parcels_tbl: pd.DataFrame, addr_points) -> pd.DataFrame:
         "unit": a["Unit"].fillna(""),
         "parcel_id": a["Parcel"].astype(str).where(a["Parcel"].notna()),
         "address_full": a["Address"],
-        "x": a.geometry.x.values, "y": a.geometry.y.values,
+        "x": addr_points.x, "y": addr_points.y,
         "ref_source": "address_point",
     })
     known = set(parcels_tbl["parcel_id"])
