@@ -163,8 +163,8 @@ def _shp(vintage: str, boro: str) -> str:
 
 
 def _cols(path: str, wanted: list[str]) -> dict:
-    import pyogrio
-    fields = list(pyogrio.read_info(path)["fields"])
+    from missing_middleware.geom_extra_station import shapefile_fields
+    fields = shapefile_fields(path)
     low = {f.lower(): f for f in fields}
     return {w: low[w.lower()] for w in wanted if w.lower() in low}
 
@@ -172,36 +172,38 @@ def _cols(path: str, wanted: list[str]) -> dict:
 _cache: dict = {}
 
 
-def read_vintage(vintage: str, boro: str, bbox=None, base: bool = False):
-    """Lots of one borough from one MapPLUTO archive (zoning only, or the base-year fields), in CRS_M."""
-    import geopandas as gpd
+def read_vintage(vintage: str, boro: str, bbox=None, base: bool = False) -> pd.DataFrame:
+    """Lots of one borough from one MapPLUTO archive (zoning only, or the base-year fields), as a parcel frame
+    (polygon features in CRS_M). bbox (CRS_M) keeps lots whose bounds meet it, as GDAL's bbox read."""
+    from missing_middleware.geom_extra_station import nonempty, read_vector
     key = (vintage, boro, bbox, base)
     if key in _cache:
         return _cache[key]
     path = _shp(vintage, boro)
     want = ["zoneDist1"] + (["block", "lot", "landUse2", "LandUse", "unitsRes", "maxAllwFAR", "lotArea"] if base else ["maxAllwFAR"])
     cm = _cols(path, want)
-    crs = gpd.read_file(path, rows=1).crs
-    bb = None
-    if bbox is not None:
-        bb = tuple(gpd.GeoSeries([__import__("shapely").geometry.box(*bbox)], crs=CRS_M).to_crs(crs).total_bounds)
-    g = gpd.read_file(path, columns=list(cm.values()), bbox=bb).to_crs(CRS_M)
+    g = read_vector(path, CRS_M, columns=list(cm.values()), bbox=bbox)
     g = g.rename(columns={v: k for k, v in cm.items()})
     if "LandUse" in g.columns and "landUse2" not in g.columns:
         g = g.rename(columns={"LandUse": "landUse2"})
-    g = g[g.geometry.notna() & ~g.geometry.is_empty].reset_index(drop=True)
+    g = g[nonempty(g["geometry"])].reset_index(drop=True)
     _cache[key] = g
     return g
 
 
-def zone_at(pts, vintage: str, boro: str, bbox=None) -> tuple[pd.Series, pd.Series]:
-    import geopandas as gpd
+def zone_at(pts: pd.DataFrame, vintage: str, boro: str, bbox=None) -> tuple[pd.Series, pd.Series]:
+    """District and PLUTO maximum FAR at each point (point frame x, y) from one snapshot."""
+    from missing_middleware.geom_extra_station import first_within
     z = read_vintage(vintage, boro, bbox)
-    j = gpd.sjoin(gpd.GeoDataFrame(geometry=pts, crs=CRS_M), z[["zoneDist1", "maxAllwFAR", "geometry"]] if "maxAllwFAR" in z
-                  else z[["zoneDist1", "geometry"]], how="left", predicate="within")
-    j = j[~j.index.duplicated()].reindex(pts.index)
-    mx = pd.to_numeric(j["maxAllwFAR"], errors="coerce") if "maxAllwFAR" in j else pd.Series(np.nan, index=pts.index)
-    return j["zoneDist1"], mx
+    k = first_within(pts["x"].to_numpy(), pts["y"].to_numpy(), list(z["geometry"]))
+    hit = k >= 0
+
+    def take(col):
+        v = z[col].reset_index(drop=True).iloc[np.maximum(k, 0)].reset_index(drop=True).where(pd.Series(hit), np.nan)
+        return pd.Series(v.to_numpy(), index=pts.index)
+    zd = take("zoneDist1")
+    mx = pd.to_numeric(take("maxAllwFAR"), errors="coerce") if "maxAllwFAR" in z else pd.Series(np.nan, index=pts.index)
+    return zd, mx
 
 
 _jobs_cache: dict = {}
@@ -213,15 +215,16 @@ EXCLUDE_HOTELS = False   # lot model (LOT_MODEL_PLAN.md item 32) sets True; case
 def hotel_lots() -> set[tuple[str, str, str]]:
     """(borough name, block, lot) of lots that MapPLUTO 18v1 classes as hotels with no residential units."""
     import zipfile
-    import pyogrio
+
+    from missing_middleware.geom_extra_station import read_vector
     z = zipfile.ZipFile(DIR / "mappluto_18v1.zip")
     out = set()
     for code, (_, _, name, _) in BORO.items():
         f = [n for n in z.namelist() if n.lower().endswith(f"{code.lower()}mappluto.dbf")]
         if not f:
             continue
-        t = pyogrio.read_dataframe(f"/vsizip/{DIR / 'mappluto_18v1.zip'}/{f[0]}", columns=["Block", "Lot", "BldgClass", "UnitsRes"],
-                                   read_geometry=False)
+        t = read_vector(f"zip://{DIR / 'mappluto_18v1.zip'}!{f[0]}", columns=["Block", "Lot", "BldgClass", "UnitsRes"],
+                        geometry=False)
         h = t[t["BldgClass"].astype(str).str.upper().str.startswith("H") & (pd.to_numeric(t["UnitsRes"], errors="coerce").fillna(0) == 0)]
         out |= {(name, str(int(b)), str(int(l))) for b, l in zip(h["Block"], h["Lot"])}
     return out
@@ -258,11 +261,11 @@ def zoning_changed(z0: pd.Series, z1: pd.Series, f0: pd.Series, f1: pd.Series) -
     return ~missing & ((known & ((f0 - f1).abs() > 1e-9)) | (~known & (a != b)))
 
 
-def locate_jobs(jg, lots, max_m: float = 40.0) -> pd.Series:
+def locate_jobs(jg: pd.DataFrame, lots: pd.DataFrame, max_m: float = 40.0) -> pd.Series:
     """Index of the base-year lot for each job: same block and lot number first, unless that lot lies more than
     ID_MATCH_MAX_M from the job's own point; otherwise the lot containing or nearest to the job's geocoded point (DOB
     points sit on the street frontage), within max_m metres."""
-    import geopandas as gpd
+    from missing_middleware.geom_extra_station import point_feature_distances
     key = lots["block"].astype(int).astype(str) + "-" + lots["lot"].astype(int).astype(str)
     lut = pd.Series(lots.index, index=key)
     lut = lut[~lut.index.duplicated()]
@@ -273,7 +276,9 @@ def locate_jobs(jg, lots, max_m: float = 40.0) -> pd.Series:
     # lot point to a lot 1,345 m away): such jobs are placed by their point instead
     hit = ix.notna()
     if hit.any():
-        d = jg.loc[hit].geometry.distance(lots.geometry.reindex(ix[hit].astype(int)).set_axis(jg.index[hit]), align=True)
+        h = jg.loc[hit]
+        d = pd.Series(point_feature_distances(h["x"].to_numpy(), h["y"].to_numpy(), list(lots["geometry"].reindex(ix[hit].astype(int)))),
+                      index=h.index)
         far = d[d > ID_MATCH_MAX_M].index
         ix.loc[far] = np.nan
         jg.attrs["rejected"] = int(len(far))
@@ -285,26 +290,32 @@ def locate_jobs(jg, lots, max_m: float = 40.0) -> pd.Series:
 
 def build_member(ulurp: str, boro: str, whole_borough: bool = False, use_stations: bool = False) -> dict:
     """Areas, permits and dose of one rezoning under the uniform rule (cases.uniform_areas)."""
-    import geopandas as gpd
-    zma = gpd.read_file(DIR / "nyzma.geojson").to_crs(CRS_M)
+    from missing_middleware.geom_extra_station import feature_bounds
+    zma = C.polygons(DIR / "nyzma.geojson", CRS_M)
     m = zma[zma["ULURPNO"].astype(str).str.lower() == ulurp]
     if m.empty or pd.isna(m["EFFECTIVE"].iloc[0]):
-        bl = gpd.read_file(DIR / "bloomberg_rezonings.geojson").to_crs(CRS_M)
+        bl = C.polygons(DIR / "bloomberg_rezonings.geojson", CRS_M)
         m = bl[bl["ULURPNO"].astype(str).str.lower() == ulurp].rename(columns={"Adopted": "EFFECTIVE"})
     eff = pd.to_datetime(m["EFFECTIVE"].iloc[0], unit="ms").normalize()
-    poly = m.geometry.union_all()
+    poly = list(m["geometry"])
     eyear = eff.year
     per = C.period_years(eyear, FIRST_YEAR, LAST_FULL_YEAR)
     vs = pick_vintages(eff, per["before"][0], per["after"][-1])
-    bbox = None if whole_borough else tuple(gpd.GeoSeries([poly], crs=CRS_M).buffer(1500).total_bounds)
+    if whole_borough:
+        bbox = None
+    else:
+        fb = feature_bounds(poly)
+        bbox = (float(np.nanmin(fb[:, 0])) - 1500, float(np.nanmin(fb[:, 1])) - 1500, float(np.nanmax(fb[:, 2])) + 1500, float(np.nanmax(fb[:, 3])) + 1500)
     lots = read_vintage(vs["before"], boro, bbox, base=True).copy()
-    pts = lots.geometry.representative_point()
+    rx, ry = C.rep_xy(lots)
+    pts = pd.DataFrame({"x": rx, "y": ry})
     lots["zone_start"], _ = zone_at(pts, vs["start"], boro, bbox) if vs["start"] != vs["before"] else (lots["zoneDist1"], None)
     # PLUTO lags the zoning map: "after" is the first snapshot from AFTER_MARGIN_DAYS on in which at least 1% of the
     # amendment's lots show a different district (within 3 years), else the nominal pick
     keys = list(VINTAGES)
     cands = [k for k in keys[keys.index(vs["after"]):] if pd.Timestamp(VINTAGES[k]) <= eff + pd.Timedelta(days=3 * 365)]
-    pin = pts[pts.within(poly)]
+    in_zma = pd.Series(C.in_any(pts["x"].to_numpy(), pts["y"].to_numpy(), poly), index=lots.index)
+    pin = pts[in_zma]
     for k in cands:
         z, _ = zone_at(pin, k, boro, bbox)
         if (z.astype(str).str.strip() != lots.loc[pin.index, "zoneDist1"].astype(str).str.strip()).mean() >= 0.01:
@@ -315,17 +326,16 @@ def build_member(ulurp: str, boro: str, whole_borough: bool = False, use_station
     for c in ("start", "after", "end"):
         lots[f"far_{c}"] = lots[f"zone_{c}"].map(resid_far)
     lots["far_before"] = lots["zoneDist1"].map(resid_far)
-    lots["acres"] = lots.geometry.area / C.SQM_PER_ACRE
+    lots["acres"] = C.parcel_acres(lots)
     lots["zclass"] = lots["zoneDist1"].map(zone_class)
-    in_zma = pts.within(poly)
     rose = lots["far_after"] > lots["far_before"] + 1e-9
     changed = zoning_changed(lots["zone_start"], lots["zoneDist1"], lots["far_start"], lots["far_before"]) | \
         (~in_zma & zoning_changed(lots["zoneDist1"], lots["zone_after"], lots["far_before"], lots["far_after"])) | \
         zoning_changed(lots["zone_after"], lots["zone_end"], lots["far_after"], lots["far_end"])
     stations = None
     if use_stations:
-        st = gpd.read_file(DIR / "subway_stations.geojson").to_crs(CRS_M)
-        stations = st[st["Borough"].astype(str) == BORO[boro][3]].geometry
+        st = C.points(DIR / "subway_stations.geojson", CRS_M)
+        stations = st[st["Borough"].astype(str) == BORO[boro][3]][["x", "y"]]
     lu = lots["landUse2"].astype(str).str.replace(r"\.0$", "", regex=True).str.zfill(2)
     lots["eligible"] = lots["zclass"].isin(["res", "com", "mixed"]) & ~lu.isin(["08", "09"])
     lots["area"], rule = C.uniform_areas(lots, in_zma, rose, lots["far_before"], lots["far_after"],
@@ -334,9 +344,9 @@ def build_member(ulurp: str, boro: str, whole_borough: bool = False, use_station
     jobs = load_jobs(boro)
     if bbox is not None:
         jobs = jobs[jobs["lon"].between(-74.3, -73.6)]
-    jg = gpd.GeoDataFrame(jobs, geometry=gpd.points_from_xy(jobs["lon"], jobs["lat"]), crs=4326).to_crs(CRS_M)
+    jg = C.points_from_lonlat(jobs, "lon", "lat", CRS_M)
     if bbox is not None:
-        jg = jg.cx[bbox[0]:bbox[2], bbox[1]:bbox[3]]
+        jg = jg[jg["x"].between(bbox[0], bbox[2]) & jg["y"].between(bbox[1], bbox[3])]
     jg = jg[jg["year"].between(per["before"][0], per["after"][-1])].copy()
     jg["lot_ix"] = locate_jobs(jg, lots)
     jg["eligible"] = lots["eligible"].reindex(jg["lot_ix"]).fillna(False).astype(bool).values
@@ -363,7 +373,7 @@ def build_member(ulurp: str, boro: str, whole_borough: bool = False, use_station
                  "lots_missing_far_in_amendment": int(lots.loc[in_zma, ["far_before", "far_after"]].isna().any(axis=1).sum()),
                  "dose_pluto_maxallwfar": round(C.dose(tr.assign(o=pd.to_numeric(tr.get("maxAllwFAR"), errors="coerce"), n=tr["maxfar_after"]), old="o", new="n"), 3),
                  "jobs_id_match_rejected_far_from_point": int(getattr(jg, "attrs", {}).get("rejected", 0)),
-                 "second_comparison_stations": int(len(C.stations_not_upzoned(stations, tr.geometry.union_all()))) if stations is not None and len(tr) else 0},
+                 "second_comparison_stations": int(len(C.stations_not_upzoned(stations, list(tr["geometry"])))) if stations is not None and len(tr) else 0},
     }
     return out
 

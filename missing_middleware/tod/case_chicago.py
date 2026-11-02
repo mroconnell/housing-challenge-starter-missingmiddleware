@@ -179,26 +179,22 @@ def tod_far_gain(z: str | None) -> float:
 
 
 def build() -> tuple[C.CaseInputs, dict]:
-    import geopandas as gpd
-    parcels = gpd.read_file(DIR / "parcels.geojson").to_crs(CRS_M)
-    parcels = parcels[parcels.geometry.notna() & ~parcels.geometry.is_empty].drop_duplicates("pin10").reset_index(drop=True)
+    from missing_middleware.geom_extra_station import convex_hull_feature, within_point_buffers
+    parcels = C.read_parcels(DIR / "parcels.geojson", CRS_M, dedupe="pin10")
     parcels = parcels[parcels["municipality"].astype(str).str.upper().str.contains("CHICAGO")].reset_index(drop=True)
-    parcels["acres"] = parcels.geometry.area / C.SQM_PER_ACRE
-    pts = gpd.GeoDataFrame(geometry=parcels.geometry.representative_point(), crs=CRS_M)
-    z = gpd.read_file(f"zip://{DIR / 'zoning_nov2012.zip'}").to_crs(CRS_M)
+    rx, ry = parcels["rx"].to_numpy(), parcels["ry"].to_numpy()
+    z = C.polygons(DIR / "zoning_nov2012.zip", CRS_M)
     zcol = next(c for c in z.columns if c.upper() in ("ZONE_CLASS", "ZONING", "ZONE_TYPE_CLASS", "ZONING_CLA", "ZONE_CLA"))
-    j = gpd.sjoin(pts, z[[zcol, "geometry"]], how="left", predicate="within")
-    parcels["zoning_before"] = j[~j.index.duplicated()].reindex(pts.index)[zcol].values
-    stops = gpd.read_file(DIR / "rail_stops.geojson").to_crs(CRS_M)
-    city = parcels.union_all().convex_hull
-    stops = stops[stops.geometry.within(city)]
-    near = pts.geometry.within(stops.geometry.buffer(TOD_RADIUS_M).union_all())
+    parcels["zoning_before"] = C.join_within(parcels, z, [zcol])[zcol].values
+    stops = C.points(DIR / "rail_stops.geojson", CRS_M)
+    city = convex_hull_feature(list(parcels["geometry"]))
+    stops = stops[C.in_any(stops["x"].to_numpy(), stops["y"].to_numpy(), [city])][["x", "y"]]
+    near = pd.Series(within_point_buffers(rx, ry, stops["x"].to_numpy(), stops["y"].to_numpy(), TOD_RADIUS_M), index=parcels.index)
     gain = parcels["zoning_before"].map(tod_far_gain)
     in_reform = near & gain.notna()
     parcels["treated"] = in_reform
-    zc = gpd.read_file(DIR / "zoning_current.geojson").to_crs(CRS_M)
-    k = gpd.sjoin(pts, zc[["zone_class", "geometry"]], how="left", predicate="within")
-    parcels["zoning_now"] = k[~k.index.duplicated()].reindex(pts.index)["zone_class"].values
+    zc = C.polygons(DIR / "zoning_current.geojson", CRS_M)
+    parcels["zoning_now"] = C.join_within(parcels, zc, ["zone_class"])["zone_class"].values
     parcels["far_before"] = parcels["zoning_before"].map(resid_far)
     parcels["far_after"] = parcels["far_before"] + gain.where(in_reform, 0.0)
     f_now = parcels["zoning_now"].map(resid_far)
@@ -216,8 +212,8 @@ def build() -> tuple[C.CaseInputs, dict]:
     parcels["eligible"] = parcels["zclass"].isin(["res", "com", "mixed"]) & ~cls.str.startswith(("EX", "RR"))
     parcels["area"], rule = C.uniform_areas(parcels, in_reform, in_reform, parcels["far_before"], parcels["far_after"],
                                             pd.Series(True, index=parcels.index), changed, parcels["eligible"],
-                                            stations=stops.geometry)
-    orig_area = C.assign_areas(parcels, in_reform, stations=stops.geometry)
+                                            stations=stops)
+    orig_area = C.assign_areas(parcels, in_reform, stations=stops)
     el = parcels[parcels["area"].notna() & parcels["eligible"]]
     acres = el.groupby("area")["acres"].sum().to_dict()
 
@@ -227,8 +223,7 @@ def build() -> tuple[C.CaseInputs, dict]:
     p["lat"] = pd.to_numeric(p["latitude"], errors="coerce")
     p["lon"] = pd.to_numeric(p["longitude"], errors="coerce")
     p = p[(p["units"] > 0) & p["year"].notna()].dropna(subset=["lat", "lon"])
-    pg = gpd.GeoDataFrame(p, geometry=gpd.points_from_xy(p["lon"], p["lat"]), crs=4326).to_crs(CRS_M)
-    pg["x"], pg["y"] = pg.geometry.x, pg.geometry.y
+    pg = C.points_from_lonlat(p, "lon", "lat", CRS_M)
     n_before_dedupe = len(pg)
     pg = dedupe_staged(pg)
     pg["project"] = pg["x"].round().astype(int).astype(str) + "_" + pg["y"].round().astype(int).astype(str)
@@ -250,10 +245,7 @@ def build() -> tuple[C.CaseInputs, dict]:
     homes = {}
     bz = RAW / "tod_cases" / "census_2010_blocks" / "tabblock2010_17_pophu.zip"
     if bz.exists():
-        bbox = tuple(gpd.GeoSeries([el.union_all().envelope], crs=CRS_M).to_crs(4269).total_bounds)
-        b = gpd.read_file(bz, bbox=bbox).to_crs(CRS_M)
-        b = gpd.GeoDataFrame({"homes": b["HOUSING10"]}, geometry=b.geometry.representative_point(), crs=CRS_M)
-        homes = C.homes_by_area(b, el[["area", "geometry"]])
+        homes = C.homes_by_area(C.block_points(bz, el, CRS_M), el[["area", "geometry"]])
     allp = pd.read_csv(DIR / "permits_new_construction.csv", dtype=str).drop_duplicates("permit_")
     allp["units"] = allp["work_description"].map(parse_units)
     allp["year"] = allp["issue_date"].str[:4]

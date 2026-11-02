@@ -17,7 +17,7 @@ departure are in docs/tod/TRAITS_RESULTS.md; departures are also in the plan's s
   near-miss, not a finding. Two-trait models use passing traits only.
 
 The arithmetic here takes plain pandas tables so it can be tested without geography; geometry helpers take
-GeoDataFrames in a projected CRS in metres.
+pandas frames (polygon features in a "geometry" column, or x/y points) in a projected CRS in metres.
 """
 from __future__ import annotations
 
@@ -87,13 +87,13 @@ def units_in(permits: pd.DataFrame, area: str, years: list[int]) -> float:
     return float(permits[(permits["area"] == area) & permits["year"].isin(years)]["units"].sum())
 
 
-def cluster_stations(stops, names: pd.Series | None = None, within_m: float = STATION_CLUSTER_M):
-    """One point per station: stops within within_m of each other (platforms, directions) are merged. Returns a
-    GeoDataFrame with columns station (name of the first stop, or 'station N') and geometry (mean point)."""
-    import geopandas as gpd
-    from shapely.geometry import Point
-    pts = list(stops.geometry) if hasattr(stops, "geometry") else list(stops)
-    n = len(pts)
+def cluster_stations(stops, names: pd.Series | None = None, within_m: float = STATION_CLUSTER_M) -> pd.DataFrame:
+    """One point per station: stops within within_m of each other (platforms, directions) are merged. stops: point
+    frame (x, y) or an (x, y) pair in metres. Returns a frame with columns station (shortest name of its stops, or
+    'station N'), x and y (mean point)."""
+    from scipy.spatial import cKDTree
+    sx, sy = C.xy(stops)
+    n = len(sx)
     parent = list(range(n))
 
     def find(i):
@@ -101,9 +101,9 @@ def cluster_stations(stops, names: pd.Series | None = None, within_m: float = ST
             parent[i] = parent[parent[i]]
             i = parent[i]
         return i
-    for i in range(n):
-        for j in range(i + 1, n):
-            if pts[i].distance(pts[j]) <= within_m:
+    if n:
+        for i, j in sorted(cKDTree(np.c_[sx, sy]).query_pairs(within_m)):
+            if math.hypot(sx[i] - sx[j], sy[i] - sy[j]) <= within_m:
                 parent[find(i)] = find(j)
     groups: dict[int, list[int]] = {}
     for i in range(n):
@@ -115,9 +115,8 @@ def cluster_stations(stops, names: pd.Series | None = None, within_m: float = ST
             vals = [str(names.iloc[i]) for i in ix if isinstance(names.iloc[i], str)]
             nm = sorted(vals, key=len)[0] if vals else None
         rows.append({"station": clean_station_name(nm) if nm else f"station {k + 1}",
-                     "geometry": Point(np.mean([pts[i].x for i in ix]), np.mean([pts[i].y for i in ix]))})
-    crs = getattr(stops, "crs", None)
-    g = gpd.GeoDataFrame(rows, geometry="geometry", crs=crs)
+                     "x": float(np.mean([sx[i] for i in ix])), "y": float(np.mean([sy[i] for i in ix]))})
+    g = pd.DataFrame(rows, columns=["station", "x", "y"])
     # distinct stations sharing a name (e.g. two 'Western' stops on different lines) get a number
     dup = g["station"].duplicated(keep=False)
     if dup.any():
@@ -130,12 +129,15 @@ def clean_station_name(s: str) -> str:
     return s.strip(" -")
 
 
-def nearest_station(points, stations) -> pd.Series:
-    """Name of the nearest station for each point (GeoSeries in the same CRS)."""
-    import geopandas as gpd
-    j = gpd.sjoin_nearest(gpd.GeoDataFrame(geometry=points, crs=stations.crs), stations[["station", "geometry"]], how="left")
-    j = j[~j.index.duplicated()]
-    return j["station"].reindex(points.index)
+def nearest_station(points, stations: pd.DataFrame) -> pd.Series:
+    """Name of the nearest station for each point (point frame with x, y, index kept; stations from
+    cluster_stations, same CRS). Ties go to the first station."""
+    from missing_middleware.geom_extra_station import nearest_lowest
+    px, py = C.xy(points)
+    sx, sy = C.xy(stations)
+    i, _ = nearest_lowest(px, py, sx, sy)
+    idx = points.index if isinstance(points, pd.DataFrame) else pd.RangeIndex(len(px))
+    return pd.Series(np.where(i >= 0, stations["station"].to_numpy()[np.maximum(i, 0)], None), index=idx)
 
 
 SECTORS = ("north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest")
@@ -152,10 +154,11 @@ def sector_label(dx: float, dy: float, core_m: float) -> str:
 
 def comparison_for_unit(parcels, treat_ix, comp_ix, ring_m: float = C.QUARTER_MILE_M) -> pd.Index:
     """The case's comparison lots whose representative point lies within ring_m of the unit's treatment lots
-    (the rule of cases.assign_areas applied to the unit)."""
-    tu = parcels.loc[treat_ix].geometry.union_all().buffer(ring_m)
-    pts = parcels.loc[comp_ix].geometry.representative_point()
-    return pts.index[pts.within(tu)]
+    (the rule of cases.assign_areas applied to the unit). parcels: frame with polygon "geometry"."""
+    rx, ry = C.rep_xy(parcels)
+    rx, ry = rx.loc[comp_ix], ry.loc[comp_ix]
+    m = C.within_distance(rx.to_numpy(), ry.to_numpy(), list(parcels.loc[treat_ix, "geometry"]), ring_m)
+    return rx.index[m]
 
 
 # --------------------------------------------------------------------------- trait arithmetic

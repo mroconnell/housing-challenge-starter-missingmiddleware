@@ -126,27 +126,21 @@ _cache: dict = {}
 
 
 def _prepare():
-    import geopandas as gpd
     if _cache:
         return _cache
-    z = gpd.read_file(DIR / "zoning.geojson").to_crs(CRS_M)
-    z["geometry"] = z.geometry.make_valid()
+    z = C.polygons(DIR / "zoning.geojson", CRS_M, make_valid=True)
     yr = ord_year_map(z)
     z["ord_year"] = [max([yr(ord_number(a)) for a in (o1, o2) if not np.isnan(ord_number(a))] or [np.nan])
                      for o1, o2 in zip(z["ORDNUM"], z["ORDNUM2"])]
     z["is_belred_ord"] = z["ORDNUM"].map(ord_number).eq(BELRED_ORD) | z["ORDNUM2"].map(ord_number).eq(BELRED_ORD)
-    parcels = gpd.read_file(DIR / "parcels.geojson").to_crs(CRS_M)
-    parcels = parcels[parcels.geometry.notna() & ~parcels.geometry.is_empty].drop_duplicates("ParcelAFN").reset_index(drop=True)
-    parcels["acres"] = parcels.geometry.area / C.SQM_PER_ACRE
-    pts = gpd.GeoDataFrame(geometry=parcels.geometry.representative_point(), crs=CRS_M)
-    j = gpd.sjoin(pts, z[["Zoning", "ord_year", "is_belred_ord", "geometry"]], how="left", predicate="within")
-    j = j[~j.index.duplicated()].reindex(pts.index)
+    parcels = C.read_parcels(DIR / "parcels.geojson", CRS_M, dedupe="ParcelAFN")
+    j = C.join_within(parcels, z, ["Zoning", "ord_year", "is_belred_ord"])
     parcels["zoning_now"] = j["Zoning"].fillna(parcels["Zoning"]).astype(str).str.strip()
     parcels["ord_year"] = j["ord_year"].values
     parcels["is_belred_ord"] = j["is_belred_ord"].fillna(False).astype(bool).values
     parcels["zclass"] = parcels["zoning_now"].map(zclass)
-    stops = gpd.read_file(DIR / "rail_stops.geojson").to_crs(CRS_M)
-    p = gpd.read_file(DIR / "permits_units.geojson").to_crs(CRS_M)
+    stops = C.points(DIR / "rail_stops.geojson", CRS_M)
+    p = C.points(DIR / "permits_units.geojson", CRS_M)
     p = p.drop_duplicates("PERMITNUMBER")
     p = p[p["PERMITTYPE"].astype(str).str.strip().isin(BUILDING_TYPES) & p["ISSUEDDATE"].notna()].copy()
     p = p[~p["PROJECTNAME"].astype(str).str.contains(STAGED)]
@@ -178,12 +172,11 @@ def _areas(parcels, stops, eligible_rule: str):
     one = pd.Series(1.0, index=parcels.index)
     in_city = parcels["Jurisdicti"].astype(str).str.upper().str.contains("BELLEVUE")
     area, rule = C.uniform_areas(parcels, in_reform, rose, one * 0, one, pd.Series(False, index=parcels.index), changed,
-                                 eligible, in_city=in_city, stations=stops.geometry)
+                                 eligible, in_city=in_city, stations=stops[["x", "y"]])
     return area, eligible, rose, in_reform, rule, per
 
 
 def build() -> tuple[C.CaseInputs, dict]:
-    import geopandas as gpd
     d = _prepare()
     parcels, stops, p = d["parcels"], d["stops"], d["permits"]
     area, eligible, rose, in_reform, rule, per = _areas(parcels, stops, "context")
@@ -204,10 +197,7 @@ def build() -> tuple[C.CaseInputs, dict]:
     homes = {}
     bz = DIR / "tabblock2010_53_pophu.zip"
     if bz.exists():
-        bbox = tuple(gpd.GeoSeries([el.union_all().envelope], crs=CRS_M).to_crs(4269).total_bounds)
-        b = gpd.read_file(bz, bbox=bbox).to_crs(CRS_M)
-        b = gpd.GeoDataFrame({"homes": b["HOUSING10"]}, geometry=b.geometry.representative_point(), crs=CRS_M)
-        homes = C.homes_by_area(b, el.assign(area=area[el.index])[["area", "geometry"]])
+        homes = C.homes_by_area(C.block_points(bz, el, CRS_M), el.assign(area=area[el.index])[["area", "geometry"]])
     plan_acres = parcels[area_plan.notna() & elig_plan].groupby(area_plan)["acres"].sum().to_dict()
     # the all-land estimate (not pre-registered): reported in extra columns, since the plan's rule leaves no treatment
     extra = {}
@@ -225,7 +215,7 @@ def build() -> tuple[C.CaseInputs, dict]:
         "acres_under_plan_eligible_rule": {k: round(v, 1) for k, v in plan_acres.items()},
         "staged_permits_merged": int(d["staged_merged"]),
         "permits_located_share": round(float(p["pix"].notna().mean()), 4),
-        "second_comparison_stations": int(len(C.stations_not_upzoned(stops.geometry, parcels.loc[area == C.TREAT].geometry.union_all()))),
+        "second_comparison_stations": int(len(C.stations_not_upzoned(stops[["x", "y"]], list(parcels.loc[area == C.TREAT, "geometry"])))),
     }
     ci = C.CaseInputs(case=CASE, role="medium", effective_year=EFFECTIVE_YEAR, first_year=FIRST_YEAR,
                       last_full_year=LAST_FULL_YEAR, permits=permits, acres=acres, homes=homes, dose_table=dose_table,
@@ -247,11 +237,11 @@ def unit_frame() -> dict:
     parcels, stops, p = d["parcels"], d["stops"], d["permits"]
     area, eligible, rose, in_reform, rule, per = _areas(parcels, stops, "context")
     st = T.cluster_stations(stops.reset_index(drop=True), stops["stop_name"].reset_index(drop=True))
-    out = parcels[["acres", "zoning_now", "geometry"]].copy()
+    out = parcels[["acres", "zoning_now", "geometry", "rx", "ry"]].copy()
     out["area"], out["eligible"] = area, eligible
     tr = out.index[(area == C.TREAT) & eligible]
     out["unit_label"] = None
-    out.loc[tr, "unit_label"] = T.nearest_station(out.loc[tr].geometry.representative_point(), st).values
+    out.loc[tr, "unit_label"] = T.nearest_station(out.loc[tr, ["rx", "ry"]].rename(columns={"rx": "x", "ry": "y"}), st).values
     out["old_level"] = np.where(area == C.TREAT, 0.0, np.nan)
     out["new_level"] = np.where(area == C.TREAT, BASE_FAR, np.nan)
     out["vpi"] = np.nan  # vacant/parking/industrial share is not available by parcel here

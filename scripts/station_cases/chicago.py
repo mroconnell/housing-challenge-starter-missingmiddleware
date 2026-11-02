@@ -31,13 +31,13 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
+from missing_middleware import geom_extra_station as X  # noqa: E402
 from missing_middleware.paths import RAW  # noqa: E402
 
 CRS = 5070
@@ -122,30 +122,30 @@ def fetch() -> dict[str, Path]:
 
 # --------------------------------------------------------------------------- stops
 
-def stations() -> gpd.GeoDataFrame:
+def stations() -> pd.DataFrame:
     """CTA (NTD 50066) and Metra (NTD 50118) stops from the national transit map, platforms within 150 m merged into
     one station, tagged with their 2024 Census place."""
     import json
     s = pd.DataFrame(json.load(open(RAW / "tod_census_cases" / "ntm_rail_stops.json"))).dropna(subset=["stop_lat", "stop_lon"])
     s = s[s.stop_lon.between(-88.4, -87.5) & s.stop_lat.between(41.4, 42.5) & s.ntd_id.astype(str).isin(["50066", "50118"])]
     s["stop_type_text"] = np.where(s.ntd_id.astype(str) == "50066", "CTA rail", "Metra")
-    g = gpd.GeoDataFrame(s[["stop_name", "stop_type_text"]], geometry=gpd.points_from_xy(s.stop_lon, s.stop_lat), crs=4326).to_crs(CRS)
+    g = s[["stop_name", "stop_type_text"]].copy()
+    g["x"], g["y"] = X.transform(s.stop_lon.values.astype(float), s.stop_lat.values.astype(float), 4326, CRS)
     out = []
     for t, gg in g.groupby("stop_type_text"):   # merge platforms within one agency only
-        blobs = gg.buffer(75).union_all()
-        parts = list(blobs.geoms) if hasattr(blobs, "geoms") else [blobs]
-        st = gpd.GeoDataFrame(geometry=[q.centroid for q in parts], crs=CRS)
-        j = gpd.sjoin_nearest(st, gg[["stop_name", "stop_type_text", "geometry"]], how="left")
-        out.append(j[~j.index.duplicated()][["stop_name", "stop_type_text", "geometry"]])
-    S = gpd.GeoDataFrame(pd.concat(out, ignore_index=True), crs=CRS)
-    p = gpd.read_file(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip")
-    p = p[p.STATEFP == "17"].to_crs(CRS)[["NAME", "geometry"]]
-    j = gpd.sjoin(S[["geometry"]], p, how="left", predicate="within")
-    S["place"] = j[~j.index.duplicated()]["NAME"].reindex(S.index)
+        cx, cy, i = X.merge_stops(gg.x.values, gg.y.values, 75.0)
+        j = gg[["stop_name", "stop_type_text"]].iloc[i].reset_index(drop=True)
+        j["x"], j["y"] = cx, cy
+        out.append(j)
+    S = pd.concat(out, ignore_index=True)
+    p = X.read_vector(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip", dst=CRS, columns=["NAME", "STATEFP"])
+    p = p[p.STATEFP == "17"].reset_index(drop=True)
+    k = X.first_within(S.x.values, S.y.values, list(p.geometry))
+    S["place"] = pd.Series(np.where(k >= 0, p.NAME.values[np.maximum(k, 0)], None), index=S.index, dtype=object).where(k >= 0)
     S["group"] = np.where(S.place == "Chicago", "reform", np.where(S.place.isin(COMPARISON_PLACES), "comparison", "other"))
     S = S[S.group != "other"].reset_index(drop=True)
     S["stop_id"] = np.arange(len(S))
-    return S[["stop_id", "stop_name", "stop_type_text", "group", "place", "geometry"]]
+    return S[["stop_id", "stop_name", "stop_type_text", "group", "place", "x", "y"]]
 
 
 # --------------------------------------------------------------------------- homes records (county year built)
@@ -211,12 +211,11 @@ def records() -> pd.DataFrame:
     return R
 
 
-def lots() -> gpd.GeoDataFrame:
+def lots() -> pd.DataFrame:
     """Lots (Assessor land parcels, PIN10) with points, place, class, values, acres, year built (cached in data/)."""
     cache = CACHE / "_cook_lots.parquet"
     if cache.exists():
-        L = pd.read_parquet(cache)
-        return gpd.GeoDataFrame(L, geometry=gpd.points_from_xy(L.x, L.y), crs=CRS)
+        return pd.read_parquet(cache)
     f = fetch()
     U = pd.read_csv(f["universe"], dtype=str)
     U["lon"], U["lat"] = _num(U.lon), _num(U.lat)
@@ -224,7 +223,7 @@ def lots() -> gpd.GeoDataFrame:
     g = U.groupby("pin10")
     L = pd.DataFrame({"lon": g.lon.mean(), "lat": g.lat.mean(), "use": g["class"].agg(lambda x: x.mode().iat[0] if len(x.mode()) else ""),
                       "place_geoid": g.census_place_geoid.first(), "pins": g.size()})
-    pl = gpd.read_file(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip", columns=["GEOID", "NAME", "STATEFP"])
+    pl = X.read_vector(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip", columns=["GEOID", "NAME", "STATEFP"], geometry=False)
     pl = pl[pl.STATEFP == "17"]
     L["city_name"] = L.place_geoid.map(dict(zip(pl.GEOID, pl.NAME))).fillna("Unincorporated")
     L["public"] = L.use.eq("EX")
@@ -253,16 +252,16 @@ def lots() -> gpd.GeoDataFrame:
     m = pd.read_csv(f["comm"], dtype=str, usecols=["township", "year"])
     L["apt_sheet_last"] = L.township.map(m.assign(y=_num(m.year)).groupby("township").y.max())
     L = L.dropna(subset=["lon", "lat"])
-    G = gpd.GeoDataFrame(L, geometry=gpd.points_from_xy(L.lon, L.lat), crs=4326).to_crs(CRS)
-    G["x"], G["y"] = G.geometry.x, G.geometry.y
+    G = L.copy()
+    G["x"], G["y"] = X.transform(L.lon.values.astype(float), L.lat.values.astype(float), 4326, CRS)
     CACHE.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame(G.drop(columns="geometry")).to_parquet(cache)
+    G.to_parquet(cache)
     return G
 
 
 # --------------------------------------------------------------------------- Chicago permits (check, Chicago lots only)
 
-def chicago_permits() -> gpd.GeoDataFrame:
+def chicago_permits() -> pd.DataFrame:
     """City of Chicago new-construction permits: units parsed from the work description, staged permits merged
     (lot model rule: same point within 1 m, issued within 18 months, unit counts within 10%; larger count kept)."""
     from missing_middleware.tod import case_chicago as CH
@@ -270,11 +269,10 @@ def chicago_permits() -> gpd.GeoDataFrame:
     d["units"] = d.work_description.map(CH.parse_units)
     d["year"] = _num(d.issue_date.str[:4])
     d = d[(d.units > 0) & d.year.notna()].dropna(subset=["latitude", "longitude"])
-    g = gpd.GeoDataFrame(d, geometry=gpd.points_from_xy(_num(d.longitude), _num(d.latitude)), crs=4326).to_crs(CRS)
-    g["x"], g["y"] = g.geometry.x, g.geometry.y
+    g = d.copy()
+    g["x"], g["y"] = X.transform(_num(d.longitude).values, _num(d.latitude).values, 4326, CRS)
     n0, u0 = len(g), g.units.sum()
     g = CH.dedupe_staged_relaxed(g)
-    g = gpd.GeoDataFrame(g, geometry="geometry", crs=CRS)
     # second pass (fit-and-fix, round 3): partial-stage permits (caissons, piles, foundation, "superstructure through",
     # "phase 1") at the same point as another permit for 20+ homes within 4 years are the same building; the stage
     # permit is merged into its partner whatever the unit counts (the lot-model merge needs counts within 10% and 18
@@ -299,7 +297,7 @@ def chicago_permits() -> gpd.GeoDataFrame:
             drop.add(i)
     g = g.drop(index=list(drop))
     g.attrs["staged_removed"] = (n0 - len(g), float(u0 - g.units.sum()))
-    return g[["year", "units", "work_description", "geometry"]]
+    return g[["year", "units", "work_description", "x", "y"]]
 
 
 # --------------------------------------------------------------------------- build
@@ -314,9 +312,11 @@ def build(case: str):
     parts = []
     for side, mask in (("reform", chi), ("comparison", ~chi)):
         st = S[S.group == side]
-        nj = gpd.sjoin_nearest(L.loc[mask, ["geometry"]], st[["stop_id", "group", "geometry"]], how="inner",
-                               max_distance=MILE, distance_col="dist_m")
-        parts.append(nj[~nj.index.duplicated()][["stop_id", "group", "dist_m"]])
+        lm = L.loc[mask]
+        i, d = X.nearest_lowest(lm.x.values, lm.y.values, st.x.values, st.y.values, MILE)
+        ok = i >= 0
+        parts.append(pd.DataFrame({"stop_id": st.stop_id.values[i[ok]], "group": st.group.values[i[ok]], "dist_m": d[ok]},
+                                  index=lm.index[ok]))
     near = pd.concat(parts)
     D = L.loc[near.index].copy()
     D[["stop_id", "group", "dist_m"]] = near
@@ -341,11 +341,10 @@ def build(case: str):
 
     # Chicago permits as a check column (Chicago lots only; nearest lot within 60 m)
     P = chicago_permits()
-    Lc = L.loc[chi, ["geometry"]].copy()
-    Lc["lot_key"] = Lc.index
-    pj = gpd.sjoin_nearest(P, Lc.reset_index(drop=True), how="left", max_distance=60, distance_col="_d")
-    pj = pj[~pj.index.duplicated()]
-    pj["index_right"] = pj["lot_key"]
+    Lc = L.loc[chi, ["x", "y"]]
+    ni, _ = X.nearest_lowest(P.x.values, P.y.values, Lc.x.values, Lc.y.values, 60.0)
+    pj = P.copy()
+    pj["index_right"] = pd.Series(np.where(ni >= 0, Lc.index.values[np.maximum(ni, 0)], None), index=P.index, dtype=object).where(ni >= 0)
     for lab, (x, y) in {"permits_before_win": (b0, b1), "permits_after_win": (a0, a1)}.items():
         w = pj[pj.year.between(x, y)]
         D[lab] = w.groupby("index_right").units.sum().reindex(D.index)
@@ -356,10 +355,10 @@ def build(case: str):
         D["in_reform_area"] = D.group.eq("reform") & (D.dist_m <= HALF)
     else:
         from missing_middleware.tod import case_chicago as CH
-        z = gpd.read_file(f"zip://{RAW / 'tod_cases' / 'chicago' / 'zoning_nov2012.zip'}").to_crs(CRS)
+        z = X.read_vector(RAW / "tod_cases" / "chicago" / "zoning_nov2012.zip", dst=CRS)
         zcol = next(k for k in z.columns if k.upper() in ("ZONE_CLASS", "ZONING", "ZONE_TYPE_CLASS", "ZONING_CLA", "ZONE_CLA"))
-        j = gpd.sjoin(D[["geometry"]], z[[zcol, "geometry"]], how="left", predicate="within")
-        D["zoning_2012"] = j[~j.index.duplicated()][zcol].reindex(D.index)
+        k = X.first_within(D.x.values, D.y.values, list(z.geometry))
+        D["zoning_2012"] = pd.Series(np.where(k >= 0, z[zcol].values[np.maximum(k, 0)], None), index=D.index, dtype=object).where(k >= 0)
         D["in_reform_area"] = D.group.eq("reform") & (D.dist_m <= QUARTER) & D.zoning_2012.map(CH.tod_far_gain).notna()
 
     D["case"] = case
@@ -383,8 +382,8 @@ def build(case: str):
     keep = ["case", "city_name", "group", "stop_id", "place_of_stop", "dist_m", "band", "in_reform_area", "acres", "township", "apt_sheet_last",
             "land_value", "bldg_value", "year_built", "use", "public", "homes_existing", "homes_now", "homes_before_win",
             "homes_after_win", "before_res", "before_condo", "before_apartments", "after_res", "after_condo",
-            "after_apartments", "permits_before_win", "permits_after_win", "source", "implausible", "lot_key", "_yb", "_un", "geometry"]
-    return gpd.GeoDataFrame(D[keep + (["zoning_2012"] if "zoning_2012" in D else [])], geometry="geometry", crs=CRS), S
+            "after_apartments", "permits_before_win", "permits_after_win", "source", "implausible", "lot_key", "_yb", "_un", "x", "y"]
+    return D[keep + (["zoning_2012"] if "zoning_2012" in D else [])].copy(), S
 
 
 # --------------------------------------------------------------------------- checks (approach test; Census ratios)
@@ -393,7 +392,7 @@ def checks() -> None:
     """(a) new PINs between the 2016 and 2024 parcel universes vs (c) county year built; (b) Chicago permits vs
     county year built vs the Census permit survey, by year, citywide."""
     pd.set_option("display.width", 200)
-    pl = gpd.read_file(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip", columns=["GEOID", "NAME", "STATEFP"])
+    pl = X.read_vector(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip", columns=["GEOID", "NAME", "STATEFP"], geometry=False)
     name = dict(zip(pl[pl.STATEFP == "17"].GEOID, pl[pl.STATEFP == "17"].NAME))
     u16 = pd.read_csv(COOK / "parcel_universe_2016.csv", dtype=str, usecols=["pin", "class", "census_place_geoid"])
     u24 = pd.read_csv(COOK / "parcel_universe_2024.csv", dtype=str, usecols=["pin", "class", "census_place_geoid"])

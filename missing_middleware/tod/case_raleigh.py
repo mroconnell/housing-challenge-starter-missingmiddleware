@@ -24,12 +24,12 @@ MIN_FILL = 0.9  # share of new residential permits with a unit count for a year 
 
 
 def build() -> tuple[C.CaseInputs, dict]:
-    import geopandas as gpd
-    p = gpd.read_file(DIR / "permits_new_residential.geojson")
+    from missing_middleware.geom_extra_station import read_vector
+    p = read_vector(DIR / "permits_new_residential.geojson")
     p["year"] = pd.to_numeric(p["issueddate_yr"], errors="coerce")
     p["has_units"] = pd.to_numeric(p["housingunitstotal"], errors="coerce").fillna(0) > 0
     fill = p.groupby("year")["has_units"].mean()
-    rz = gpd.read_file(DIR / "rezoning_cases.geojson")
+    rz = read_vector(DIR / "rezoning_cases.geojson")
     rz["date"] = pd.to_datetime(rz["StatusDate"], unit="ms", errors="coerce")
     tod = rz[rz["ZON_REQ"].astype(str).str.contains("TOD", case=False) & rz["STATUS"].astype(str).str.startswith("Approv")]
     # the City's own overlay mappings ("Various" -> "add TOD"): the reform; the others are site-specific conditional
@@ -45,7 +45,7 @@ def build() -> tuple[C.CaseInputs, dict]:
     diag = {"city_overlay_mappings": city[["ZONE_CASE", "ZON_REQ"]].astype(str).assign(date=city["date"].dt.date.astype(str)).values.tolist(),
             "applicant_tod_rezonings_approved": int((~tod.index.isin(city.index)).sum()),
             "unit_fill_share_by_year": {int(k): round(float(v), 3) for k, v in fill.items() if k >= 2015},
-            "overlay_polygons": int(len(gpd.read_file(DIR / "tod_overlays.geojson")))}
+            "overlay_polygons": int(len(read_vector(DIR / "tod_overlays.geojson")))}
     ci = C.CaseInputs(case="raleigh_tod_2021", role="fit", effective_year=eff, first_year=int(p["year"].min()), last_full_year=2025,
                       permits=pd.DataFrame(columns=["project", "area", "year", "units"]), acres={}, homes={}, dose_table=None,
                       parking_change="unknown", mandate="no", status_override=status,
@@ -70,9 +70,7 @@ def build_counts() -> list:
     density (the overlay's extra height needs affordable units), so they are rezonings outside the reform. The case
     record gives no lot-level zoning before ("Various"), so every lot in those cases counts as having risen and no
     land can be tested for "already at the law". Lots in any other rezoning approved 2018-2025 are in no area."""
-    import geopandas as gpd
-    rz = gpd.read_file(DIR / "rezoning_cases.geojson").to_crs(CRS_M)
-    rz["geometry"] = rz.geometry.make_valid()
+    rz = C.polygons(DIR / "rezoning_cases.geojson", CRS_M, make_valid=True)
     rz["date"] = pd.to_datetime(rz["StatusDate"], unit="ms", errors="coerce")
     approved = rz[rz["STATUS"].astype(str).str.startswith("Approv")]
     reform = approved[approved["ZON_REQ"].astype(str).str.contains("Base District", case=False) &
@@ -81,12 +79,10 @@ def build_counts() -> list:
     per = C.period_years(eff, 2000, 2025)
     other = approved[~approved.index.isin(reform.index) &
                      approved["date"].between(pd.Timestamp(f"{per['before'][0]}-01-01"), pd.Timestamp(f"{per['after'][-1]}-12-31"))]
-    parcels = gpd.read_file(DIR / "parcels.geojson").to_crs(CRS_M)
-    parcels = parcels[parcels.geometry.notna() & ~parcels.geometry.is_empty].drop_duplicates("PIN_NUM").reset_index(drop=True)
-    parcels["acres"] = parcels.geometry.area / C.SQM_PER_ACRE
-    pts = parcels.geometry.representative_point()
-    in_reform = pts.within(reform.geometry.union_all())
-    changed = pts.within(other.geometry.union_all()) & ~in_reform
+    parcels = C.read_parcels(DIR / "parcels.geojson", CRS_M, dedupe="PIN_NUM")
+    px, py = parcels["rx"].to_numpy(), parcels["ry"].to_numpy()
+    in_reform = pd.Series(C.in_any(px, py, reform), index=parcels.index)
+    changed = pd.Series(C.in_any(px, py, other), index=parcels.index) & ~in_reform
     in_city = parcels["PLANNING_JURISDICTION"].astype(str).str.upper().eq("RA") | \
         parcels["CITY_DECODE"].astype(str).str.upper().str.contains("RALEIGH")
     use = (parcels["LAND_CLASS_DECODE"].astype(str) + " " + parcels["TYPE_USE_DECODE"].astype(str) + " " +
@@ -101,11 +97,11 @@ def build_counts() -> list:
     orig = C.assign_areas(parcels, in_reform, in_city=in_city)
     orig_acres = parcels[orig.notna() & eligible].groupby(orig)["acres"].sum().to_dict()
 
-    p = gpd.read_file(DIR / "permits_new_residential.geojson").to_crs(CRS_M)
+    p = C.points(DIR / "permits_new_residential.geojson", CRS_M)
     p = p.drop_duplicates("permitnum")
     p["kind"] = p["censuslanduse"].astype(str).str.strip().str.upper()
     p["series"] = np.where(p["kind"].isin(SF_TYPES), "sf", np.where(p["kind"].isin(MF_TYPES), "mf", None))
-    p = p[p["series"].notna() & p.geometry.notna()].copy()
+    p = p[p["series"].notna() & p["x"].notna()].copy()
     p["year"] = pd.to_numeric(p["issueddate_yr"], errors="coerce")
     # coverage check: the layer stops recording detached single-family and 2+ unit buildings after 2018 (everything
     # new is coded townhouse); a window year with neither is a broken year

@@ -52,22 +52,19 @@ GREEN_LINE_STP = re.compile(r"Westgate|Raymond|Fairview|Snelling|Hamline|Lexingt
 
 
 def build() -> tuple[C.CaseInputs, dict]:
-    import geopandas as gpd
-    parcels = gpd.read_file(DIR / "parcels.geojson").to_crs(CRS_M)
-    parcels = parcels[parcels.geometry.notna() & ~parcels.geometry.is_empty].drop_duplicates("ParcelID").reset_index(drop=True)
-    parcels["acres"] = parcels.geometry.area / C.SQM_PER_ACRE
-    pts = gpd.GeoDataFrame(geometry=parcels.geometry.representative_point(), crs=CRS_M)
+    parcels = C.read_parcels(DIR / "parcels.geojson", CRS_M, dedupe="ParcelID")
+    rx, ry = parcels["rx"].to_numpy(), parcels["ry"].to_numpy()
 
     def zone(fn):
-        z = gpd.read_file(DIR / fn).to_crs(CRS_M)[["Zoning", "geometry"]]
-        j = gpd.sjoin(pts, z, how="left", predicate="within")
-        return j[~j.index.duplicated()].reindex(pts.index)["Zoning"].astype(str).str.strip()
+        z = C.polygons(DIR / fn, CRS_M)[["Zoning", "geometry"]]
+        return C.join_within(parcels, z, ["Zoning"])["Zoning"].astype(str).str.strip()
 
     parcels["z_before"] = zone("zoning_2010_11.geojson")
     parcels["z_after"] = zone("zoning_2012_11.geojson")
-    stops = gpd.read_file(DIR / "rail_stops.geojson").to_crs(CRS_M)
-    gl = stops[stops["stop_name"].astype(str).str.contains(GREEN_LINE_STP)].geometry
-    near_gl = pts.geometry.within(gl.buffer(C.HALF_MILE_M).union_all())
+    from missing_middleware.geom_extra_station import within_point_buffers
+    stops = C.points(DIR / "rail_stops.geojson", CRS_M)
+    gl = stops[stops["stop_name"].astype(str).str.contains(GREEN_LINE_STP)][["x", "y"]]
+    near_gl = pd.Series(within_point_buffers(rx, ry, gl["x"].to_numpy(), gl["y"].to_numpy(), C.HALF_MILE_M), index=parcels.index)
     parcels["z_end"] = zone("zoning_2017_11.geojson")
     ren = lambda col: parcels[col].map(lambda z: RENAME.get(z, z))  # noqa: E731
     in_reform = near_gl & parcels["z_after"].isin(T_DISTRICTS) & (ren("z_before") != parcels["z_after"])
@@ -76,8 +73,7 @@ def build() -> tuple[C.CaseInputs, dict]:
     parcels["far_after"] = parcels["z_after"].map(STP_FAR)
     rose = in_reform & (parcels["far_after"] > parcels["far_before"])
     changed = (~in_reform & (ren("z_before") != ren("z_after"))) | (ren("z_after") != ren("z_end"))
-    city = parcels.union_all()
-    stations_in_city = stops[stops.geometry.within(city)].geometry
+    stations_in_city = stops[C.in_any(stops["x"].to_numpy(), stops["y"].to_numpy(), parcels)][["x", "y"]]
     parcels["zclass"] = parcels["z_before"].map(CLASS)
     lu = parcels["LandUseCodeDescription"].astype(str)
     parcels["eligible"] = parcels["zclass"].isin(["res", "com", "mixed"]) & ~lu.str.contains(NOT_ELIGIBLE_LANDUSE)
@@ -88,7 +84,7 @@ def build() -> tuple[C.CaseInputs, dict]:
     el = parcels[parcels["area"].notna() & parcels["eligible"]]
     acres = el.groupby("area")["acres"].sum().to_dict()
 
-    h = gpd.read_file(DIR / "housing_production.geojson").to_crs(CRS_M)
+    h = C.points(DIR / "housing_production.geojson", CRS_M)
     h = h[(h["TypeOfWork"] == "New")].copy()
     h["units"] = pd.to_numeric(h["NewDwellingUnits"], errors="coerce").fillna(0)
     h["year"] = pd.to_numeric(h["ProjectPermitIssueYear"], errors="coerce")
@@ -111,16 +107,13 @@ def build() -> tuple[C.CaseInputs, dict]:
     homes = {}
     bz = RAW / "tod_cases" / "census_2010_blocks" / "tabblock2010_27_pophu.zip"
     if bz.exists():
-        bbox = tuple(gpd.GeoSeries([el.union_all().envelope], crs=CRS_M).to_crs(4269).total_bounds)
-        b = gpd.read_file(bz, bbox=bbox).to_crs(CRS_M)
-        b = gpd.GeoDataFrame({"homes": b["HOUSING10"]}, geometry=b.geometry.representative_point(), crs=CRS_M)
-        homes = C.homes_by_area(b, el[["area", "geometry"]])
+        homes = C.homes_by_area(C.block_points(bz, el, CRS_M), el[["area", "geometry"]])
     diag = {"rule": rule, "treated_parcels": int((parcels["area"] == C.TREAT).sum()),
             "t4_acres_out_of_dose": round(float(tr.loc[tr["far_after"] == np.inf, "acres"].sum()), 1),
             "zoning_before_treated": parcels.loc[parcels["treated"], "z_before"].value_counts().head(10).to_dict(),
             "zoning_after_treated": parcels.loc[parcels["treated"], "z_after"].value_counts().head(10).to_dict(),
             "green_line_stops_in_saint_paul": int(len(gl)),
-            "second_comparison_stations": int(len(C.stations_not_upzoned(stations_in_city, parcels.loc[parcels["area"] == C.TREAT].geometry.union_all()))),
+            "second_comparison_stations": int(len(C.stations_not_upzoned(stations_in_city, list(parcels.loc[parcels["area"] == C.TREAT, "geometry"])))),
             "permits_located_share": round(float(h["pix"].notna().mean()), 4),
             "treated_parcels_already_T_in_2011_11_snapshot": int(zone("zoning_2011_11.geojson")[parcels["treated"]].isin(T_DISTRICTS).sum()),
             "parcels_changed_2010_11_to_2011_11": int((zone("zoning_2011_11.geojson") != parcels["z_before"]).sum())}

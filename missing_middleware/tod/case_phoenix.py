@@ -76,34 +76,30 @@ def load_permits() -> pd.DataFrame:
 
 
 def build_counts() -> list:
-    import geopandas as gpd
-    wu = gpd.read_file(DIR / "wu_zoning.geojson").to_crs(CRS_M)
-    wu["geometry"] = wu.geometry.make_valid()
-    plan = gpd.read_file(DIR / "wu_annual_plan.geojson")
+    from missing_middleware.geom_extra_station import read_vector
+    wu = C.polygons(DIR / "wu_zoning.geojson", CRS_M, make_valid=True)
+    plan = read_vector(DIR / "wu_annual_plan.geojson")
     dates = {str(r.REDEFINE1).strip(): pd.to_datetime(r.DATE_APPRO, errors="coerce") for r in plan.itertuples()}
     wcol = next(c for c in wu.columns if c.upper().endswith("REDEFINE1"))
     wu["case"] = wu[wcol].astype(str).str.strip()
     wu["eff"] = [dates.get(c).year if pd.notna(dates.get(c)) else case_year(c) for c in wu["case"]]
     wu["dated_by"] = ["approval" if pd.notna(dates.get(c)) else "case number" for c in wu["case"]]
     wu = wu[wu["eff"].notna()]
-    appr = gpd.read_file(DIR / "approved_zoning.geojson").to_crs(CRS_M)
-    appr["geometry"] = appr.geometry.make_valid()
+    appr = C.polygons(DIR / "approved_zoning.geojson", CRS_M, make_valid=True)
     ccol = next(c for c in appr.columns if c.upper().endswith("REDEFINE1"))
     appr["year"] = appr[ccol].map(case_year)
-    parcels = gpd.read_file(DIR / "parcels.geojson").to_crs(CRS_M)
-    parcels = parcels[parcels.geometry.notna() & ~parcels.geometry.is_empty].drop_duplicates("APN").reset_index(drop=True)
-    parcels["acres"] = parcels.geometry.area / C.SQM_PER_ACRE
+    parcels = C.read_parcels(DIR / "parcels.geojson", CRS_M, dedupe="APN")
     parcels["apn"] = parcels["APN"].map(apn_key)
-    pts = parcels.geometry.representative_point()
+    px, py = parcels["rx"].to_numpy(), parcels["ry"].to_numpy()
     in_city = parcels["JURISDICTION"].astype(str).str.upper().str.contains("PHOENIX") | \
         parcels["PHYSICAL_CITY"].astype(str).str.upper().str.contains("PHOENIX")
     eligible = ~parcels["PUC"].astype(str).str.match(EXEMPT_PUC) & ~parcels["CITY_ZONING"].astype(str).str.upper().str.startswith(("PARK", "GC"))
-    stops = gpd.read_file(DIR / "rail_stops.geojson").to_crs(CRS_M).geometry
+    stops = C.points(DIR / "rail_stops.geojson", CRS_M)[["x", "y"]]
     permits = load_permits()
     lut = pd.Series(parcels.index, index=parcels["apn"])
     lut = lut[~lut.index.duplicated()]
     permits["pix"] = permits["apn"].map(lut)
-    in_any_wu = pts.within(wu.geometry.union_all())
+    in_any_wu = pd.Series(C.in_any(px, py, wu), index=parcels.index)
     out = []
     for series in ("all", "sf", "mf"):
         last = SERIES_LAST[series]
@@ -114,11 +110,11 @@ def build_counts() -> list:
             mem = wu[wu["case"] == case]
             eff = int(mem["eff"].iloc[0])
             per = C.period_years(eff, FIRST_YEAR, last)
-            in_mem = pts.within(mem.geometry.union_all())
+            in_mem = pd.Series(C.in_any(px, py, mem), index=parcels.index)
             lo, hi = per["before"][0], per["after"][-1]
             oth = appr[appr["year"].between(lo, hi) & (appr[ccol].astype(str).str.strip() != case)]
-            changed = (pts.within(oth.geometry.union_all()) if len(oth) else False) | (in_any_wu & ~in_mem)
-            near = pts.within(mem.geometry.union_all().buffer(1500))
+            changed = (pd.Series(C.in_any(px, py, oth), index=parcels.index) if len(oth) else False) | (in_any_wu & ~in_mem)
+            near = pd.Series(C.within_distance(px, py, list(mem["geometry"]), 1500.0), index=parcels.index)
             sub = parcels[near]
             one = pd.Series(1.0, index=sub.index)
             area, rule = C.uniform_areas(sub, in_mem[near], in_mem[near], one * 0, one, pd.Series(False, index=sub.index),

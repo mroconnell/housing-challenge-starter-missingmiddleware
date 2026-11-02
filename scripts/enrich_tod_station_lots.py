@@ -20,20 +20,20 @@ import sys
 from functools import lru_cache
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
+from missing_middleware import geom_extra_station as X  # noqa: E402
 from missing_middleware.paths import RAW  # noqa: E402
 
 CRS = 5070
 OUT = ROOT / "data" / "processed" / "tod_station_area"
 TR = RAW / "tod_station_traits"
-SLD_V2 = "/vsizip/" + str(TR / "sld" / "SmartLocationDb_v2.zip") + "/SMARTLOCATIONDB/SmartLocationDb.gdb"
-SLD_V3 = "/vsizip/" + str(TR / "sld" / "SmartLocationDatabaseV3.zip") + "/SmartLocationDatabase.gdb"
+SLD_V2 = str(TR / "sld" / "SmartLocationDb_v2.zip") + "/SMARTLOCATIONDB/SmartLocationDb.gdb"
+SLD_V3 = str(TR / "sld" / "SmartLocationDatabaseV3.zip") + "/SmartLocationDatabase.gdb"
 ABBR = {"06": "ca", "08": "co", "15": "hi", "17": "il", "27": "mn", "36": "ny", "37": "nc", "41": "or", "42": "pa",
         "48": "tx", "49": "ut", "53": "wa", "55": "wi"}
 LODES_YEARS = [2004, 2008, 2010, 2013, 2015, 2016, 2019, 2020, 2022]
@@ -46,21 +46,51 @@ def case_year(case: str) -> int:
 
 
 @lru_cache(maxsize=None)
-def sld(version: int, state: str) -> gpd.GeoDataFrame:
+def _sld_table(version: int):
+    """Every row of a Smart Location Database version (File Geodatabase read with geom_extra_station.read_gdb_raw;
+    geometry left encoded until a state is asked for). About 25 s per version."""
     if version == 2:
         cols = ["GEOID10", "SFIPS", "D4c", "D4d", "D1C", "D5br", "PCT_AO0"]
-        g = gpd.read_file(SLD_V2, columns=cols, where=f"SFIPS = '{state}'")
+        return X.read_gdb_raw(SLD_V2, cols)
+    cols = ["GEOID10", "GEOID20", "STATEFP", "D4C", "D4D", "D1C", "D5BR", "Pct_AO0", "NatWalkInd"]
+    return X.read_gdb_raw(SLD_V3, cols)
+
+
+@lru_cache(maxsize=None)
+def sld(version: int, state: str) -> pd.DataFrame:
+    """Block groups of one state with the SLD traits; column geometry = polygon features in CRS 5070."""
+    df, blobs, decode, src = _sld_table(version)
+    m = (df.SFIPS if version == 2 else df.STATEFP).eq(state).values
+    g = df[m].reset_index(drop=True)
+    g["geometry"] = X.polys_to_crs([decode(b) for b, k in zip(blobs, m) if k], src, CRS)
+    if version == 2:
         g = g.rename(columns={"D4c": "sld_transit_freq", "D4d": "sld_transit_freq_sqmi", "D1C": "sld_jobs_per_acre",
                               "D5br": "sld_transit_job_access", "PCT_AO0": "sld_share_no_car"})
         g["sld_walk_index"] = np.nan
     else:
-        cols = ["GEOID10", "GEOID20", "STATEFP", "D4C", "D4D", "D1C", "D5BR", "Pct_AO0", "NatWalkInd"]
-        g = gpd.read_file(SLD_V3, columns=cols, where=f"STATEFP = '{state}'")
         g = g.rename(columns={"D4C": "sld_transit_freq", "D4D": "sld_transit_freq_sqmi", "D1C": "sld_jobs_per_acre",
                               "D5BR": "sld_transit_job_access", "Pct_AO0": "sld_share_no_car", "NatWalkInd": "sld_walk_index"})
     for c in ("sld_transit_freq", "sld_transit_freq_sqmi", "sld_transit_job_access"):
         g[c] = pd.to_numeric(g[c], errors="coerce").where(lambda s: s > -99999)   # -99999: no transit in the feed
-    return g.to_crs(CRS)
+    return g
+
+
+def join_first(D: pd.DataFrame, layer: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
+    """sjoin 'within' (left) of D's points (x, y in CRS 5070) to a polygon layer, first match kept: the layer's
+    columns cols for each lot (NaN where no polygon holds the point), indexed like D."""
+    k = X.first_within(D.x.values, D.y.values, list(layer.geometry))
+    out = pd.DataFrame({c: layer[c].values[np.maximum(k, 0)] for c in cols}, index=D.index)
+    return out.where(pd.Series(k >= 0, index=D.index), axis=0)
+
+
+def join_states(D: pd.DataFrame, version: int, states: list[str], cols: list[str]) -> pd.DataFrame:
+    """join_first over the block groups of several states: the first state (in the given order) whose block group
+    holds the lot."""
+    out = None
+    for s in states:
+        j = join_first(D, sld(version, s), cols)
+        out = j if out is None else out.where(out[cols[0]].notna(), j)
+    return out
 
 
 @lru_cache(maxsize=None)
@@ -72,17 +102,25 @@ def lodes_bg(state: str, year: int) -> pd.Series:
 
 
 @lru_cache(maxsize=None)
-def nrhp() -> gpd.GeoDataFrame:
-    g = gpd.read_file(TR / "nrhp" / "nrhp_polygons.geojson").to_crs(CRS)
+def nrhp() -> pd.DataFrame:
+    g = X.read_vector(TR / "nrhp" / "nrhp_polygons.geojson", dst=CRS)
     g["listed"] = pd.to_datetime(g.CertDate, errors="coerce", unit="ms").dt.year
     return g[["listed", "ResType", "geometry"]]
+
+
+def in_any_polygon(D: pd.DataFrame, layer: pd.DataFrame) -> np.ndarray:
+    """True where a lot point lies within at least one polygon of the layer (sjoin 'within', any match)."""
+    pi, _ = X.point_poly_pairs(D.x.values, D.y.values, list(layer.geometry))
+    out = np.zeros(len(D), bool)
+    out[pi] = True
+    return out
 
 
 def enrich(case: str) -> None:
     f = OUT / f"lots_{case}.parquet"
     D = pd.read_parquet(f)
     eff = case_year(case)
-    pts = gpd.GeoDataFrame(D[[]], geometry=gpd.points_from_xy(D.x, D.y), crs=CRS)
+    pts = D[["x", "y"]]
     # state of each lot from the SLD block groups of candidate states (cheap: a case sits in one or two states)
     states = sorted({s for s in ABBR if s in _states_for(case)})
     # version 3 (2020 schedules) for every case and for Wisconsin: versions 2 and 3 measure transit frequency on different
@@ -90,19 +128,15 @@ def enrich(case: str) -> None:
     # mean different things in different cases. Version 2 (2012 schedules) is kept beside it as a check.
     version = 3
     keep = ["sld_transit_freq", "sld_transit_freq_sqmi", "sld_jobs_per_acre", "sld_transit_job_access", "sld_share_no_car", "sld_walk_index"]
-    j = pd.concat([gpd.sjoin(pts, sld(version, s)[["GEOID10", *keep, "geometry"]], how="left", predicate="within") for s in states])
-    j = j[j.GEOID10.notna() | ~j.index.duplicated(keep=False)]
-    j = j[~j.index.duplicated()]
+    j = join_states(pts, version, states, ["GEOID10", *keep])
     for c in keep + ["GEOID10"]:
         D[c if c != "GEOID10" else "bg_geoid"] = j[c].reindex(D.index).values
     D["sld_version"] = version
-    j2 = pd.concat([gpd.sjoin(pts, sld(2, s)[["sld_transit_freq", "geometry"]], how="left", predicate="within") for s in states])
-    D["sld_transit_freq_v2"] = j2[~j2.index.duplicated()]["sld_transit_freq"].reindex(D.index).values
+    # as before the port: the version 2 value is the first state's match, else NaN (no fall-through to the next state)
+    D["sld_transit_freq_v2"] = join_first(pts, sld(2, states[0]), ["sld_transit_freq"]).sld_transit_freq.values
     # job growth in the block group, 5 years before the reform (LODES 8 uses 2020 blocks for every year, so the lot's
     # 2020 block group comes from the version 3 shapes)
-    j20 = pd.concat([gpd.sjoin(pts, sld(3, s)[["GEOID20", "geometry"]], how="left", predicate="within") for s in states])
-    j20 = j20[~j20.index.duplicated()]
-    bg20 = j20.GEOID20.reindex(D.index)
+    bg20 = join_first(pts, sld(3, states[0]), ["GEOID20"]).GEOID20.reindex(D.index)
     g = pd.Series(np.nan, index=D.index)
     for s, ix in D.groupby(bg20.str[:2]).groups.items():
         if s not in ABBR:
@@ -113,8 +147,7 @@ def enrich(case: str) -> None:
     # historic register
     h = nrhp()
     h = h[h.listed.fillna(0) < eff]
-    hj = gpd.sjoin(pts, h[["geometry"]], how="left", predicate="within")
-    D["historic"] = hj.index_right.notna().groupby(level=0).any().reindex(D.index).fillna(False).values
+    D["historic"] = in_any_polygon(pts, h)
     tract_vars(D, pts, eff, states)
     D.to_parquet(f)
     print(case, f"version {version}; block group found {D.bg_geoid.notna().mean():.3f};",
@@ -129,7 +162,21 @@ def _av():
     return AV
 
 
-def tract_vars(D: pd.DataFrame, pts: gpd.GeoDataFrame, eff: int, states: list[str]) -> None:
+def tract_shapes(vintage: str, st: str) -> pd.DataFrame:
+    """run_tod_allvars.tract_shapes without the geo stack: tract, ALAND_SQMI, geometry (CRS 5070)."""
+    from missing_middleware.tod import allvars as A
+    AV = _av()
+    if vintage == "2000":
+        g = X.read_vector(f"zip://{AV.RAWV / 'tiger2000' / f'tl_2010_{st}_tract00.zip'}", dst=CRS)
+        return pd.DataFrame({"tract": g["CTIDFP00"], "ALAND_SQMI": g["ALAND00"].astype(float) / A.SQM_PER_SQMI, "geometry": g.geometry})
+    if vintage == "2010":
+        g = X.read_vector(f"zip://{RAW / 'tod_traits' / 'tiger2010' / f'tl_2010_{st}_tract10.zip'}", dst=CRS)
+        return pd.DataFrame({"tract": g["GEOID10"], "ALAND_SQMI": g["ALAND10"].astype(float) / A.SQM_PER_SQMI, "geometry": g.geometry})
+    g = X.read_vector(f"zip://{RAW / 'census_tiger_2024' / f'tl_2024_{st}_tract.zip'}", dst=CRS)
+    return pd.DataFrame({"tract": g["GEOID"], "ALAND_SQMI": g["ALAND"].astype(float) / A.SQM_PER_SQMI, "geometry": g.geometry})
+
+
+def tract_vars(D: pd.DataFrame, pts: pd.DataFrame, eff: int, states: list[str]) -> None:
     """The lot model's tract variables (v_*), 5-year ACS ending the year before the reform (enrich_all's method)."""
     from missing_middleware.tod import allvars as A
     AV = _av()
@@ -137,14 +184,13 @@ def tract_vars(D: pd.DataFrame, pts: gpd.GeoDataFrame, eff: int, states: list[st
     for st in states:
         try:
             cells, ncells, _ = (AV.tbsf_cells if y >= 2021 else AV.seq_cells)(int(y), st)
-            shp = AV.tract_shapes(A.tract_vintage(int(y)), st)
+            shp = tract_shapes(A.tract_vintage(int(y)), st)
             cells = cells.join(shp.set_index("tract")[["ALAND_SQMI"]], how="left")
             parts = A.tract_parts(cells, ncells, int(y))
         except Exception as e:  # noqa: BLE001
             print(f"  tract variables {y} {st}: {type(e).__name__}: {e}")
             continue
-        j = gpd.sjoin(pts, shp[["tract", "geometry"]].to_crs(CRS), how="inner", predicate="within")
-        j = j[~j.index.duplicated()]
+        j = join_first(pts, shp, ["tract"]).dropna(subset=["tract"])
         for v in A.VARIABLES:
             n, d = parts[v["id"] + "__num"], parts[v["id"] + "__den"]
             val = (n / d.where(d > 0)) if v["kind"] == "ratio" else n

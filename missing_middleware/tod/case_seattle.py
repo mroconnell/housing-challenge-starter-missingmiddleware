@@ -133,26 +133,20 @@ _cache: dict = {}
 
 
 def _load():
-    import geopandas as gpd
+    from missing_middleware.geom_extra_station import convex_hull_feature, read_vector
     if _cache:
         return _cache
-    p10 = gpd.read_file(DIR / "parcels_2010.geojson").to_crs(CRS_M)
-    p10 = p10[p10.geometry.notna() & ~p10.geometry.is_empty].drop_duplicates("PIN").reset_index(drop=True)
-    p10 = p10[p10["JURIS_NAME"].astype(str).str.upper().eq("SEATTLE")].reset_index(drop=True)
-    p10["geometry"] = p10.geometry.make_valid()
-    p10["acres"] = p10.geometry.area / C.SQM_PER_ACRE
-    pts = p10.geometry.representative_point()
-    zc = gpd.read_file(DIR / "zoning_current.geojson").to_crs(CRS_M)
-    zc["geometry"] = zc.geometry.make_valid()
-    j = gpd.sjoin(gpd.GeoDataFrame(geometry=pts, crs=CRS_M), zc[["ZONINGHISTORY", "ZONING", "geometry"]], how="left", predicate="within")
-    j = j[~j.index.duplicated()].reindex(pts.index)
+    p10 = C.read_parcels(DIR / "parcels_2010.geojson", CRS_M, dedupe="PIN", make_valid=True,
+                         keep=lambda g: g["JURIS_NAME"].astype(str).str.upper().eq("SEATTLE"))
+    zc = C.polygons(DIR / "zoning_current.geojson", CRS_M, make_valid=True)
+    j = C.join_within(p10, zc, ["ZONINGHISTORY", "ZONING"])
     p10["hist"] = j["ZONINGHISTORY"].map(parse_history)
-    p16 = gpd.read_file(DIR / "parcels_2016.geojson")[["PIN", "RES_MAX_FAR", "ZONING"]].rename(columns={"ZONING": "ZONING_16"})
+    p16 = read_vector(DIR / "parcels_2016.geojson")[["PIN", "RES_MAX_FAR", "ZONING"]].rename(columns={"ZONING": "ZONING_16"})
     p10 = p10.merge(p16.drop_duplicates("PIN"), on="PIN", how="left")
     p10.index = range(len(p10))
-    p10 = gpd.GeoDataFrame(p10, geometry="geometry", crs=CRS_M)
-    st = gpd.read_file(DIR / "rail_stops.geojson").to_crs(CRS_M)
-    st = st[st.geometry.within(p10.geometry.union_all().convex_hull.buffer(500))].reset_index(drop=True)
+    st = C.points(DIR / "rail_stops.geojson", CRS_M)
+    hull = convex_hull_feature(list(p10["geometry"]))
+    st = st[C.within_distance(st["x"].to_numpy(), st["y"].to_numpy(), [hull], 500.0)].reset_index(drop=True)
     from missing_middleware.tod import traits as T
     stations = T.cluster_stations(st, st["stop_name"].reset_index(drop=True))
     perm = pd.read_csv(DIR / "permits_new_units.csv", dtype=str)
@@ -160,12 +154,19 @@ def _load():
     perm["units"] = pd.to_numeric(perm["housingunitsadded"], errors="coerce").fillna(0)
     perm["year"] = pd.to_datetime(perm["issueddate"], errors="coerce").dt.year
     perm = perm[(perm["units"] > 0) & perm["year"].notna()].dropna(subset=["latitude", "longitude"])
-    pg = gpd.GeoDataFrame(perm, geometry=gpd.points_from_xy(perm["longitude"].astype(float), perm["latitude"].astype(float)),
-                          crs=4326).to_crs(CRS_M)
+    pg = C.points_from_lonlat(perm, perm["longitude"].astype(float), perm["latitude"].astype(float), CRS_M)
     pg["pix"] = C.locate_points(pg, p10)
     pg["project"] = pg["pix"].astype("Int64").astype(str)
     _cache.update(parcels=p10, stations=stations, permits=pg)
     return _cache
+
+
+def _near_stations(p: pd.DataFrame, stations: pd.DataFrame) -> pd.Series:
+    """Parcels whose representative point lies within 1/2 mile of the stations (GEOS point buffers)."""
+    from missing_middleware.geom_extra_station import within_point_buffers
+    rx, ry = C.rep_xy(p)
+    return pd.Series(within_point_buffers(rx.to_numpy(), ry.to_numpy(), stations["x"].to_numpy(), stations["y"].to_numpy(),
+                                          C.HALF_MILE_M), index=p.index)
 
 
 def reform_ordinances(case: str) -> tuple[set, pd.DataFrame]:
@@ -175,7 +176,7 @@ def reform_ordinances(case: str) -> tuple[set, pd.DataFrame]:
     spec = CASES[case]
     p, st = d["parcels"], d["stations"]
     mine = st[st["station"].isin(spec["stations"])]
-    near = p.geometry.representative_point().within(mine.buffer(C.HALF_MILE_M).union_all())
+    near = _near_stations(p, mine)
     rows = []
     for ix in p.index[near]:
         for z, o, dt in p.at[ix, "hist"] or []:
@@ -200,8 +201,7 @@ def _frame(case: str) -> dict:
     per = C.period_years(eyear, FIRST_YEAR, LAST_FULL_YEAR)
     lo, hi = pd.Timestamp(f"{per['before'][0]}-01-01"), pd.Timestamp(f"{per['after'][-1]}-12-31")
     mine = st[st["station"].isin(spec["stations"])]
-    pts = p.geometry.representative_point()
-    near_mine = pts.within(mine.buffer(C.HALF_MILE_M).union_all())
+    near_mine = _near_stations(p, mine)
     rdate = {}
     for ix in p.index:
         for z, o, dt in p.at[ix, "hist"] or []:
@@ -233,13 +233,13 @@ def _frame(case: str) -> dict:
         r"PARK|CEMETER|SCHOOL|CHURCH|RELIG|UTILIT|GOVERN|RIGHT.OF.WAY|WATER|HOSPITAL|COLLEGE|UNIVERS")
     uncapped = ~zb.str.startswith("SF")  # single-family zones: one home per lot (a density cap)
     p["area"], rule = C.uniform_areas(p, in_reform, rose, p["old_level"], p["new_level"], uncapped, changed, eligible,
-                                      stations=st.geometry)
+                                      stations=st)
     p["eligible"] = eligible
     from missing_middleware.tod import traits as T
     lab = pd.Series(np.nan, index=p.index, dtype=object)
     tr = p.index[p["area"] == C.TREAT]
     if len(tr):
-        lab.loc[tr] = T.nearest_station(p.loc[tr].geometry.representative_point(), mine).map(lambda s: UNIT_NAMES.get(s, s)).values
+        lab.loc[tr] = T.nearest_station(p.loc[tr, ["rx", "ry"]].rename(columns={"rx": "x", "ry": "y"}), mine).map(lambda s: UNIT_NAMES.get(s, s)).values
     p["unit_label"] = lab
     p["vpi"] = use.str.contains(r"VACANT|PARKING|INDUSTR|WAREHOUSE")
     p["homes_before"] = pd.to_numeric(p["NR_UNITS"], errors="coerce").fillna(0)
@@ -261,7 +261,7 @@ def unit_frame(case: str) -> dict:
     """For the trait test: parcels (metre CRS) with area, eligible, unit_label (station area), old_level, new_level,
     vpi, homes_before; permits with project, area, year, units, pix; effective_year; per; dose_unit."""
     f = _frame(case)
-    cols = ["area", "eligible", "unit_label", "old_level", "new_level", "vpi", "homes_before", "acres", "geometry"]
+    cols = ["area", "eligible", "unit_label", "old_level", "new_level", "vpi", "homes_before", "acres", "geometry", "rx", "ry"]
     return {"parcels": f["parcels"][cols], "permits": f["permits"], "effective_year": f["effective_year"], "per": f["per"],
             "dose_unit": f["dose_unit"]}
 

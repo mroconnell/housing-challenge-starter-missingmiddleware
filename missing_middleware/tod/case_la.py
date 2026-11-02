@@ -169,45 +169,45 @@ def _zone_col(z) -> str:
 
 
 def _load(tag: str):
-    import geopandas as gpd
-    parcels = gpd.read_file(DIR / f"parcels_{tag}.geojson").to_crs(CRS_M)
-    parcels = parcels[parcels.geometry.notna() & ~parcels.geometry.is_empty].drop_duplicates("AIN")
+    from missing_middleware.geom_extra_station import areas, centroids_geos, nonempty, read_vector
+    parcels = read_vector(DIR / f"parcels_{tag}.geojson", CRS_M)
+    parcels = parcels[nonempty(parcels["geometry"])].drop_duplicates("AIN")
     # condominium units are mapped as copies of their lot: keep one parcel per footprint
-    key = parcels.geometry.centroid.x.round(0).astype(int).astype(str) + "_" + parcels.geometry.centroid.y.round(0).astype(int).astype(str) \
-        + "_" + parcels.geometry.area.round(-1).astype(int).astype(str)
+    cx, cy = centroids_geos(list(parcels["geometry"]))
+    ar = pd.Series(areas(list(parcels["geometry"])), index=parcels.index)
+    key = pd.Series(cx, index=parcels.index).round(0).astype(int).astype(str) + "_" + pd.Series(cy, index=parcels.index).round(0).astype(int).astype(str) \
+        + "_" + ar.round(-1).astype(int).astype(str)
     parcels = parcels.assign(_k=key)
     units = pd.to_numeric(parcels["Units1"], errors="coerce").fillna(0)
     parcels["Units1"] = units.groupby(parcels["_k"]).transform("sum")
     parcels = parcels.drop_duplicates("_k").drop(columns="_k").reset_index(drop=True)
-    parcels["acres"] = parcels.geometry.area / C.SQM_PER_ACRE
-    pts = gpd.GeoDataFrame(geometry=parcels.geometry.representative_point(), crs=CRS_M)
+    parcels["acres"] = C.parcel_acres(parcels)
+    rx, ry = C.rep_xy(parcels)
+    pts = pd.DataFrame({"x": rx, "y": ry})
     for key, yr in SNAP.items():
-        z = gpd.read_file(DIR / f"zoning_{tag}_{yr}.geojson").to_crs(CRS_M)
+        z = C.polygons(DIR / f"zoning_{tag}_{yr}.geojson", CRS_M, make_valid=True)
         col = _zone_col(z)
         z = z[[col, "geometry"]].rename(columns={col: "zone"})
-        z["geometry"] = z.geometry.make_valid()
-        j = gpd.sjoin(pts, z, how="left", predicate="within")
-        parcels[f"zone_{key}"] = j[~j.index.duplicated()].reindex(pts.index)["zone"].values
+        parcels[f"zone_{key}"] = C.join_within(parcels, z, ["zone"])["zone"].values
     perms = []
     for ds in DATASETS:
         f = DIR / f"permits_{tag}_{ds}.csv"
         if f.exists() and f.stat().st_size > 0:
             perms.append(pd.read_csv(f, dtype=str))
     p = pd.concat(perms, ignore_index=True).drop_duplicates("permit_nbr")
-    stops = gpd.read_file(DIR / f"transit_stops_{tag}.geojson").to_crs(CRS_M)
+    stops = C.points(DIR / f"transit_stops_{tag}.geojson", CRS_M)
     return parcels, pts, p, stops
 
 
 def _areas(case: str):
-    import geopandas as gpd
     spec = CASES[case]
     tag = "wc" if "warner" in case else "casp"
     parcels, pts, p, stops = _load(tag)
-    spa = gpd.read_file(DIR / "specific_plans.geojson").to_crs(CRS_M)
-    poly = spa[spa["SPA_NM"] == spec["plan"]].geometry.make_valid().union_all()
+    spa = C.polygons(DIR / "specific_plans.geojson", CRS_M, make_valid=True)
+    poly = spa[spa["SPA_NM"] == spec["plan"]]
     eff = pd.Timestamp(spec["effective"])
     per = C.period_years(eff.year, FIRST_YEAR, LAST_FULL_YEAR)
-    in_plan = pts.geometry.within(poly)
+    in_plan = pd.Series(C.in_any(pts["x"].to_numpy(), pts["y"].to_numpy(), poly), index=parcels.index)
     lb, la_ = parcels["zone_before"].map(level), parcels["zone_after"].map(level)
     if spec["zone_rule"] == "whole plan":
         rose = in_plan.copy()
@@ -222,7 +222,7 @@ def _areas(case: str):
         zone_changed(parcels["zone_after"], parcels["zone_end"])
     use = (parcels["UseType"].astype(str) + " " + parcels["UseDescription"].astype(str)).str.upper()
     eligible = parcels["zone_before"].map(zclass).isin(["res", "com", "mixed"]) & ~use.str.contains(NOT_ELIGIBLE_USE)
-    stations = stops.geometry
+    stations = stops[["x", "y"]]
     area, rule = C.uniform_areas(parcels, in_plan, rose, level_before, level_after, uncapped, changed, eligible, stations=stations)
     parcels["area"], parcels["eligible"], parcels["in_plan"] = area, eligible, in_plan
     parcels["old_level"], parcels["new_level"] = lb, la_
@@ -237,7 +237,7 @@ def _areas(case: str):
     q = q[q["year"].between(per["before"][0], per["after"][-1])]
     q["lat"], q["lon"] = pd.to_numeric(q["lat"], errors="coerce"), pd.to_numeric(q["lon"], errors="coerce")
     q = q.dropna(subset=["lat", "lon"])
-    qg = gpd.GeoDataFrame(q, geometry=gpd.points_from_xy(q["lon"], q["lat"]), crs=4326).to_crs(CRS_M)
+    qg = C.points_from_lonlat(q, "lon", "lat", CRS_M)
     apn_lut = pd.Series(parcels.index, index=parcels["APN"].astype(str).str.replace(r"\D", "", regex=True))
     apn_lut = apn_lut[~apn_lut.index.duplicated()]
     ix = qg["apn"].astype(str).str.replace(r"\D", "", regex=True).map(apn_lut)  # masked APNs map to nothing
@@ -289,11 +289,10 @@ def unit_frame(case: str) -> dict:
     """Parcels and permits at the level the trait test uses: each treatment parcel labelled with its unit. Warner
     Center: the 2013 plan's district (subarea), read from the 2019 Zoning Archive. Cornfield Arroyo Seco: the nearest
     Metro station (stops within 150 m merged, traits.cluster_stations)."""
-    import geopandas as gpd
     from missing_middleware.tod import traits as T
     parcels, qg, per, eff, rule, stations = _areas(case)
     tag = "wc" if "warner" in case else "casp"
-    s = gpd.read_file(DIR / f"transit_stops_{tag}.geojson").to_crs(CRS_M).reset_index(drop=True)
+    s = C.points(DIR / f"transit_stops_{tag}.geojson", CRS_M).reset_index(drop=True)
     st = T.cluster_stations(s, s["stop_name"])
     tr = parcels.index[(parcels["area"] == C.TREAT) & parcels["eligible"].astype(bool)]
     parcels["unit_label"] = None
@@ -303,7 +302,7 @@ def unit_frame(case: str) -> dict:
             d = parcels.loc[tr, "zone_end"].astype(str).str.extract(r"^\(WC\)([A-Z ]+)", expand=False).str.strip().str.title()
             parcels.loc[tr, "unit_label"] = ("Warner Center " + d.fillna("unknown district")).values
         else:
-            parcels.loc[tr, "unit_label"] = T.nearest_station(parcels.loc[tr].geometry.representative_point(), st).values
-    keep = ["area", "eligible", "unit_label", "old_level", "new_level", "vpi", "homes_before", "geometry"]
+            parcels.loc[tr, "unit_label"] = T.nearest_station(parcels.loc[tr, ["rx", "ry"]].rename(columns={"rx": "x", "ry": "y"}), st).values
+    keep = ["area", "eligible", "unit_label", "old_level", "new_level", "vpi", "homes_before", "geometry", "rx", "ry"]
     return {"parcels": parcels[keep].copy(), "permits": _permits_for(qg, parcels, parcels["area"]),
             "effective_year": eff.year, "per": per, "dose_unit": "none (no FAR in open data; ordinal levels only)"}

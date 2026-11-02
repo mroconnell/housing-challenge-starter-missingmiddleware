@@ -190,12 +190,15 @@ class TestAddedCaseHelpers(unittest.TestCase):
         self.assertTrue(rates.empty)
 
 
+def box(x0, y0, x1, y1):
+    """A square lot as a polygon feature (missing_middleware.geom's model)."""
+    return [[np.array([[x0, y0], [x0, y1], [x1, y1], [x1, y0], [x0, y0]], float)]]
+
+
 class TestUniformAreas(unittest.TestCase):
     def test_rule(self):
-        import geopandas as gpd
-        from shapely.geometry import box
         # a row of 100 m lots: 0-2 in the reform; lot 2 already at the law; lot 4 changed outside the reform
-        lots = gpd.GeoDataFrame(geometry=[box(i * 100, 0, i * 100 + 90, 90) for i in range(8)], crs=32119)
+        lots = pd.DataFrame({"geometry": [box(i * 100, 0, i * 100 + 90, 90) for i in range(8)]})
         in_reform = pd.Series([True, True, True] + [False] * 5)
         before = pd.Series([1.0, 1.0, 6.0, 1.0, 1.0, 1.0, 1.0, 1.0])
         after = pd.Series([6.0, 3.0, 7.0, 1.0, 1.0, 1.0, 1.0, 1.0])

@@ -15,14 +15,17 @@ import json
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
+from missing_middleware import geom as G  # noqa: E402
+from missing_middleware import geom_extra_station as X  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
+
+LOT_MODEL_OUT = ROOT / "data" / "processed" / "tod_lot_model"   # run_tod_lot_model.OUT (not imported: it loads the geo stack)
 
 CRS = 5070
 HALF, MILE = 805.0, 1609.0
@@ -38,7 +41,7 @@ CITIES = {
 }
 
 
-def stops() -> gpd.GeoDataFrame:
+def stops() -> pd.DataFrame:
     s = pd.DataFrame(json.load(open(RAW / "tod_census_cases" / "ntm_rail_stops.json"))).dropna(subset=["stop_lat", "stop_lon"])
     s = s.assign(name=s.stop_name, src="national transit map rail stops")[["name", "stop_lat", "stop_lon", "src"]]
     g = pd.DataFrame(json.load(open(RAW / "tod_census_cases" / "ntm_la_g_line.json")))
@@ -46,44 +49,53 @@ def stops() -> gpd.GeoDataFrame:
     w = pd.read_csv(REFERENCE / "tod_stops.csv")
     w = w[w.flag_a_rapid == 1].rename(columns={"lat": "stop_lat", "lon": "stop_lon"}).assign(name=lambda x: x.stop_id.astype(str), src="Wisconsin rapid stops")
     # the national rail-stop extract holds the case cities only; Denver and Portland come from their cities' layers
-    dn = gpd.read_file(RAW / "tod_new_cities" / "denver" / "rail_stations.geojson")
+    dn = X.read_vector(RAW / "tod_new_cities" / "denver" / "rail_stations.geojson", dst=4326)
     dn = dn[dn.STATUS == "Existing"]
-    dn = pd.DataFrame({"name": dn.STATION_NAME, "stop_lat": dn.geometry.y, "stop_lon": dn.geometry.x, "src": "Denver rail stations (RTD)"})
-    pdx = pd.concat([gpd.read_file(RAW / "tod_new_cities" / "portland" / f) for f in ("max_stops.geojson", "streetcar_stops.geojson")], ignore_index=True).to_crs(4326)
+    dn = pd.DataFrame({"name": dn.STATION_NAME, "stop_lat": dn.y, "stop_lon": dn.x, "src": "Denver rail stations (RTD)"})
+    pdx = pd.concat([X.read_vector(RAW / "tod_new_cities" / "portland" / f, dst=4326) for f in ("max_stops.geojson", "streetcar_stops.geojson")], ignore_index=True)
     nm = next(c for c in pdx.columns if c.upper() in ("STATION", "NAME", "STOP_NAME", "STOPNAME", "LOCATION"))
-    pdx = pd.DataFrame({"name": pdx[nm].astype(str), "stop_lat": pdx.geometry.y, "stop_lon": pdx.geometry.x, "src": "Portland MAX and Streetcar (TriMet)"})
+    pdx = pd.DataFrame({"name": pdx[nm].astype(str), "stop_lat": pdx.y, "stop_lon": pdx.x, "src": "Portland MAX and Streetcar (TriMet)"})
     a = pd.concat([s, g, w[["name", "stop_lat", "stop_lon", "src"]], dn, pdx], ignore_index=True)
-    return gpd.GeoDataFrame(a, geometry=gpd.points_from_xy(a.stop_lon, a.stop_lat), crs=4326).to_crs(CRS)
+    a["x"], a["y"] = X.transform(a.stop_lon.values, a.stop_lat.values, 4326, CRS)
+    return a
 
 
-def places() -> gpd.GeoDataFrame:
-    p = gpd.read_file(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip")
+def places() -> pd.DataFrame:
+    p = X.read_vector(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip", dst=CRS, columns=["NAME", "STATEFP"])
     out = []
     for city, (name, st, *_ ) in CITIES.items():
         m = p[(p.NAME == name) & (p.STATEFP == st)]
         out.append(m.assign(city=city)[["city", "geometry"]])
-    return pd.concat(out).to_crs(CRS)
+    return pd.concat(out)
 
 
-def upzoned_points() -> dict[str, list[tuple[str, gpd.GeoSeries]]]:
-    """Upzoned land by city and case, as points or polygons (CRS 5070)."""
-    import run_tod_lot_model as L
-    D = pd.read_parquet(L.OUT / "lots_rebuilt_halfmile.parquet", columns=["city", "unit", "treated", "x5070", "y5070"])
+def upzoned_points() -> dict[str, list[tuple[str, tuple]]]:
+    """Upzoned land by city and case (CRS 5070): ("points", x, y) or ("polygons", list of geom.py features)."""
+    D = pd.read_parquet(LOT_MODEL_OUT / "lots_rebuilt_halfmile.parquet", columns=["city", "unit", "treated", "x5070", "y5070"])
     D = D[(D.treated == 1) & ~D.city.str.endswith("placebo")]
     out: dict = {}
     for (c, u), g in D.groupby(["city", "unit"]):
-        out.setdefault(c, []).append((str(u), gpd.GeoSeries(gpd.points_from_xy(g.x5070, g.y5070), crs=CRS)))
-    z = gpd.read_file(RAW / "tod_new_cities" / "denver" / "zone_map_amendments.geojson").to_crs(CRS)
-    out["Denver"] = [("denver_2018", z[(z.ORD_YEAR == 2018) & z.ORD_NUM.isin([15, 17])].geometry)]
+        out.setdefault(c, []).append((str(u), ("points", g.x5070.values, g.y5070.values)))
+    z = X.read_vector(RAW / "tod_new_cities" / "denver" / "zone_map_amendments.geojson", dst=CRS)
+    out["Denver"] = [("denver_2018", ("polygons", list(z[(z.ORD_YEAR == 2018) & z.ORD_NUM.isin([15, 17])].geometry)))]
     import run_tod_new_city_test as N
-    b = gpd.read_file(RAW / "tod_new_cities" / "portland" / "bhd_zone_changes.geojson").to_crs(CRS)
+    b = X.read_vector(RAW / "tod_new_cities" / "portland" / "bhd_zone_changes.geojson", dst=CRS)
     b = b[b.pr_zone.map(N.PDX_HPA) > b.ex_zone.map(N.PDX_HPA)]
-    out["Portland"] = [("portland_2020", b.geometry)]
-    a = gpd.read_file(REFERENCE / "tod_austin_dayone_regulating_plans.geojson").to_crs(CRS)
-    out["Austin"] = [("austin_2009", a[a.SUBDISTRICT_MAP != "TROW"].geometry)]
-    sl = gpd.read_file(RAW / "tod_slc" / "slc_zoning_2020_jacobs.geojson").to_crs(CRS)
-    out["Salt Lake City"] = [("slc_2010", sl[sl.ZONING.str.startswith("TSA")].geometry)]
+    out["Portland"] = [("portland_2020", ("polygons", list(b.geometry)))]
+    a = X.read_vector(REFERENCE / "tod_austin_dayone_regulating_plans.geojson", dst=CRS)
+    out["Austin"] = [("austin_2009", ("polygons", list(a[a.SUBDISTRICT_MAP != "TROW"].geometry)))]
+    sl = X.read_vector(RAW / "tod_slc" / "slc_zoning_2020_jacobs.geojson", dst=CRS)
+    out["Salt Lake City"] = [("slc_2010", ("polygons", list(sl[sl.ZONING.str.startswith("TSA")].geometry)))]
     return out
+
+
+def distance_to(px, py, geo, max_distance: float) -> np.ndarray:
+    """Distance from points to an upzoned area (union of points or polygons), inf beyond max_distance."""
+    from scipy.spatial import cKDTree
+    if geo[0] == "points":
+        d, _ = cKDTree(np.c_[geo[1], geo[2]]).query(np.c_[px, py], distance_upper_bound=max_distance)
+        return d
+    return X.distance_within(px, py, geo[1], max_distance)
 
 
 def stage_stations() -> None:
@@ -91,21 +103,22 @@ def stage_stations() -> None:
     up = upzoned_points()
     rows = []
     for city, (_, _, hlat, hlon) in CITIES.items():
-        poly = pl[pl.city == city].geometry.union_all()
-        s = st[st.within(poly)].drop_duplicates(subset=["name"]).copy()
-        hall = gpd.GeoSeries(gpd.points_from_xy([hlon], [hlat]), crs=4326).to_crs(CRS).iloc[0]
-        s["downtown"] = s.distance(hall) <= MILE
+        poly = list(pl[pl.city == city].geometry)
+        s = st[G.points_in_any(st.x.values, st.y.values, poly, union=True)].drop_duplicates(subset=["name"]).copy()
+        hx, hy = X.transform([hlon], [hlat], 4326, CRS)
+        s["downtown"] = np.hypot(s.x - hx[0], s.y - hy[0]) <= MILE
+        lon, lat = X.transform(s.x.values, s.y.values, CRS, 4326)
+        s["lon_out"], s["lat_out"] = lon, lat
         cases = up.get(city, [])
         for case, geo in cases or [("none", None)]:
-            if geo is None or not len(geo):
+            if geo is None or not len(geo[1]):
                 role = pd.Series("control", index=s.index)
             else:
-                u = geo.union_all()
-                role = np.where(s.distance(u) <= HALF, "reform", "control")
+                role = np.where(distance_to(s.x.values, s.y.values, geo, HALF + 1.0) <= HALF, "reform", "control")
             for (_, r), rl in zip(s.iterrows(), role):
                 rows.append({"city": city, "case": case, "stop": r["name"], "source": r["src"], "role": rl,
-                             "downtown": bool(r["downtown"]), "lat": round(float(gpd.GeoSeries([r.geometry], crs=CRS).to_crs(4326).y.iloc[0]), 6),
-                             "lon": round(float(gpd.GeoSeries([r.geometry], crs=CRS).to_crs(4326).x.iloc[0]), 6)})
+                             "downtown": bool(r["downtown"]), "lat": round(float(r["lat_out"]), 6),
+                             "lon": round(float(r["lon_out"]), 6)})
     T = pd.DataFrame(rows)
     T.to_csv(REFERENCE / "tod_station_area_stations.csv", index=False)
     print(T.groupby(["city", "role"]).stop.nunique().unstack(fill_value=0).to_string())
@@ -118,12 +131,13 @@ TC = RAW / "tod_cases"
 def _pts(df, x, y, crs=4326):
     df = df.dropna(subset=[x, y, "year"]).copy()
     df = df[(pd.to_numeric(df[x], errors="coerce").notna()) & (pd.to_numeric(df[y], errors="coerce").notna())]
-    g = gpd.GeoDataFrame(df[["year", "units"]], geometry=gpd.points_from_xy(df[x].astype(float), df[y].astype(float)), crs=crs)
-    return g.to_crs(CRS)
+    out = df[["year", "units"]].copy()
+    out["x"], out["y"] = X.transform(df[x].astype(float).values, df[y].astype(float).values, crs, CRS)
+    return out
 
 
-def permits(city: str) -> gpd.GeoDataFrame | None:
-    """Citywide new homes by year, as points (CRS 5070): columns year, units. None where no citywide file exists."""
+def permits(city: str) -> pd.DataFrame | None:
+    """Citywide new homes by year, as points (CRS 5070): columns year, units, x, y. None where no citywide file exists."""
     if city == "New York":
         d = pd.read_csv(TC / "nyc" / "dob_nb_all.csv", low_memory=False)
         d = d[d.job_type == "NB"]
@@ -141,10 +155,10 @@ def permits(city: str) -> gpd.GeoDataFrame | None:
         d = CC.load_permits()
         return _pts(d, "X", "Y", crs=2264)
     if city == "Saint Paul":
-        g = gpd.read_file(TC / "stpaul" / "housing_production.geojson").to_crs(CRS)
+        g = X.read_vector(TC / "stpaul" / "housing_production.geojson", dst=CRS)
         g["units"] = pd.to_numeric(g.NewDwellingUnits, errors="coerce").fillna(0)
         g["year"] = pd.to_numeric(g.ProjectPermitIssueYear, errors="coerce")
-        return g[g.units > 0][["year", "units", "geometry"]]
+        return g[g.units > 0][["year", "units", "x", "y"]]
     if city == "Seattle":
         d = pd.read_csv(TC / "seattle" / "permits_new_units.csv", low_memory=False)
         d["units"] = pd.to_numeric(d.housingunitsadded, errors="coerce").fillna(0)
@@ -157,35 +171,36 @@ def permits(city: str) -> gpd.GeoDataFrame | None:
         d["year"] = pd.to_datetime(d.issue_date, errors="coerce").dt.year
         return _pts(d[d.units > 0], "longitude", "latitude")
     if city == "Bellevue":
-        g = gpd.read_file(TC / "bellevue" / "permits_units.geojson").to_crs(CRS)
+        g = X.read_vector(TC / "bellevue" / "permits_units.geojson", dst=CRS)
         g["units"] = pd.to_numeric(g.DWELLINGUNITSCREATED, errors="coerce").fillna(0)
         g["year"] = pd.to_datetime(g.ISSUEDDATE, errors="coerce", utc=True).dt.year
-        return g[g.units > 0][["year", "units", "geometry"]]
+        return g[g.units > 0][["year", "units", "x", "y"]]
     import run_tod_new_city_test as N
     if city == "Denver":
         d = RAW / "tod_new_cities" / "denver"
-        g = pd.concat([gpd.read_file(d / "residential_permits.geojson"), gpd.read_file(d / "commercial_permits.geojson")], ignore_index=True)
+        g = pd.concat([X.read_vector(d / "residential_permits.geojson", dst=CRS), X.read_vector(d / "commercial_permits.geojson", dst=CRS)], ignore_index=True)
         g["units"] = pd.to_numeric(g.UNITS, errors="coerce").fillna(0)
-        g = g[g.CLASS.str.upper().eq("NEW BUILDING") & (g.units > 0) & g.CANCEL.isna() & g.geometry.notna()].to_crs(CRS)
+        g = g[g.CLASS.str.upper().eq("NEW BUILDING") & (g.units > 0) & g.CANCEL.isna() & g.x.notna()].copy()
         g["year"] = pd.to_datetime(g.DATE_ISSUED, unit="ms").dt.year
-        return g[["year", "units", "geometry"]]
+        return g[["year", "units", "x", "y"]]
     if city == "Portland":
         d = RAW / "tod_new_cities" / "portland"
-        g = pd.concat([gpd.read_file(d / "residential_permits.geojson"), gpd.read_file(d / "commercial_permits.geojson")], ignore_index=True)
+        g = pd.concat([X.read_vector(d / "residential_permits.geojson", dst=CRS), X.read_vector(d / "commercial_permits.geojson", dst=CRS)], ignore_index=True)
         g["units"] = pd.to_numeric(g.NUMNEWUNITS, errors="coerce").fillna(0)
-        g = g[(g.units > 0) & g.geometry.notna()].to_crs(CRS)
+        g = g[(g.units > 0) & g.x.notna()].copy()
         g["year"] = pd.to_datetime(g.ISSUED, unit="ms").dt.year
-        return g[["year", "units", "geometry"]]
+        return g[["year", "units", "x", "y"]]
     if city == "Austin":
         pm = pd.read_json(RAW / "tod_new_cities" / "austin" / "permits.json").dropna(subset=["latitude", "longitude"])
         pm["units"] = pd.to_numeric(pm.housing_units, errors="coerce").fillna(0)
         pm["year"] = pd.to_datetime(pm.issue_date).dt.year
         return _pts(pm[pm.units > 0], "longitude", "latitude")
     if city == "Salt Lake City":
-        h = gpd.read_file(RAW / "tod_new_cities" / "slc" / "housing_unit_inventory.geojson").to_crs(CRS)
-        h = h[h.geometry.notna()]
-        return gpd.GeoDataFrame({"year": pd.to_numeric(h.APX_BLT_YR, errors="coerce"), "units": pd.to_numeric(h.UNIT_COUNT, errors="coerce").fillna(0)},
-                                geometry=h.geometry.representative_point(), crs=CRS).query("units > 0")
+        h = X.read_vector(RAW / "tod_new_cities" / "slc" / "housing_unit_inventory.geojson", dst=CRS)
+        h = h[X.nonempty(list(h.geometry))]
+        px, py = X.interior_points(list(h.geometry))
+        return pd.DataFrame({"year": pd.to_numeric(h.APX_BLT_YR, errors="coerce"), "units": pd.to_numeric(h.UNIT_COUNT, errors="coerce").fillna(0),
+                             "x": px, "y": py}, index=h.index).query("units > 0")
     if city == "San Diego":
         return sd_permits()
     if city == "Honolulu":
@@ -204,7 +219,7 @@ SD_SKIP_STATUS = "Cancel|Created|Opened|Expired|Void|Withdrawn"
 SD_NOT_HOMES = "No Chg|Acc Struct|Pool|Spa"
 
 
-def sd_permits() -> gpd.GeoDataFrame:
+def sd_permits() -> pd.DataFrame:
     """San Diego city Housing Element permit layer, cleaned (STATION_AREA_PLAN, step B):
     issued permits only; new-home job codes only; one home per one-family permit, two per two-family,
     four per three-or-four-family (the legacy system sometimes stores the whole subdivision on each permit);
@@ -224,7 +239,7 @@ def sd_permits() -> gpd.GeoDataFrame:
 HNL_SKIP_STATUS = "Cancel|revoked|review|Start|approved to issue"
 
 
-def hnl_permits() -> gpd.GeoDataFrame:
+def hnl_permits() -> pd.DataFrame:
     """Honolulu permits with homes added (STATION_AREA_PLAN step B): issued only; no hotels; no foundation-only
     permits; one row per tax-map key, year, homes and address. Placed at the first listed tax-map key found in
     today's parcels, else at the centre of its plat (a block-sized tax-map unit; parcels redrawn since)."""
@@ -237,29 +252,32 @@ def hnl_permits() -> gpd.GeoDataFrame:
     keys = d.tmk.fillna("").str.findall(r"\d{8}")
     d["k0"] = keys.str[0]
     d = d.drop_duplicates(["k0", "year", "units", "joblocation"])
-    P = gpd.read_file(RAW / "tod_radius_programs" / "honolulu" / "parcels.geojson", columns=["tmk8num"]).to_crs(CRS)
+    P = X.read_vector(RAW / "tod_radius_programs" / "honolulu" / "parcels.geojson", dst=CRS, columns=["tmk8num"])
     P["k"] = pd.to_numeric(P.tmk8num, errors="coerce")
     P = P.dropna(subset=["k"]).assign(k=lambda x: x.k.astype(int))
-    pt = P.drop_duplicates("k").set_index("k").geometry.representative_point()
-    plat = gpd.GeoSeries(pt.values, index=pt.index // 100, crs=CRS).groupby(level=0).apply(lambda g: g.union_all().centroid)
-    geo, how = [], []
+    P = P.drop_duplicates("k").set_index("k")
+    rx, ry = X.interior_points(list(P.geometry))
+    pt = pd.DataFrame({"x": rx, "y": ry}, index=P.index)
+    # plat centre: centroid of the plat's distinct parcel points (the centroid of a union of points)
+    u = pt.assign(plat=pt.index // 100).drop_duplicates(["plat", "x", "y"])
+    plat = u.groupby("plat")[["x", "y"]].mean()
+    gx, gy, how = [], [], []
     for ks in keys.loc[d.index]:
         ks = [int(k) for k in ks]
         hit = next((k for k in ks if k in pt.index), None)
         if hit is not None:
-            geo.append(pt[hit]); how.append("parcel")
+            gx.append(pt.at[hit, "x"]); gy.append(pt.at[hit, "y"]); how.append("parcel")
         elif ks and ks[0] // 100 in plat.index:
-            geo.append(plat[ks[0] // 100]); how.append("plat centre")
+            gx.append(plat.at[ks[0] // 100, "x"]); gy.append(plat.at[ks[0] // 100, "y"]); how.append("plat centre")
         else:
-            geo.append(None); how.append("none")
-    g = gpd.GeoDataFrame(d[["year", "units"]].assign(placed=how), geometry=geo, crs=CRS)
-    return g[g.geometry.notna()]
+            gx.append(np.nan); gy.append(np.nan); how.append("none")
+    g = d[["year", "units"]].assign(placed=how, x=gx, y=gy)
+    return g[g.x.notna()]
 
 
 def case_windows() -> list[dict]:
     """Reform date and year windows per case (lot-model windows for the 9 cities; NEW_REFORM_CITIES_PLAN for the rest)."""
-    import run_tod_lot_model as L
-    D = pd.read_parquet(L.OUT / "lots_rebuilt_halfmile.parquet", columns=["city", "unit", "eff_year", "window_first", "window_last", "placebo"])
+    D = pd.read_parquet(LOT_MODEL_OUT / "lots_rebuilt_halfmile.parquet", columns=["city", "unit", "eff_year", "window_first", "window_last", "placebo"])
     D = D[D.placebo != 1].drop_duplicates(["city", "unit"])
     rows = [{"city": r.city, "case": str(r.unit), "eff": int(r.eff_year), "b0": int(r.window_first), "b1": int(r.eff_year) - 1,
              "a0": int(r.eff_year) + 1, "a1": int(r.window_last)} for r in D.itertuples()]
@@ -286,9 +304,9 @@ def stage_shares() -> None:
         if P is None or st.empty:
             out.append({**row, "flag": "no citywide permits" if P is None else "no station list"})
             continue
-        g = gpd.GeoSeries(gpd.points_from_xy(st.lon, st.lat), crs=4326).to_crs(CRS)
-        tree = cKDTree(np.c_[g.x, g.y])
-        dist, idx = tree.query(np.c_[P.geometry.x, P.geometry.y])
+        gx, gy = X.transform(st.lon.values, st.lat.values, 4326, CRS)
+        tree = cKDTree(np.c_[gx, gy])
+        dist, idx = tree.query(np.c_[P.x, P.y])
         near = dist <= HALF
         role = np.where(near, st.role.values[idx], "none")         # a home within 1/2 mile of both goes to the nearest stop
         dt = np.where(near, st.downtown.values[idx], False)

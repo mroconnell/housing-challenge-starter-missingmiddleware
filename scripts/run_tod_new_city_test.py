@@ -14,13 +14,31 @@ import re
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+from missing_middleware import geom_extra_station as X  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
+
+
+def read(path, **kw) -> pd.DataFrame:
+    """A vector file in CRS 5070 (polygons in column geometry, points in x, y)."""
+    return X.read_vector(path, dst=CRS, **kw)
+
+
+def rep_xy(polys: list) -> tuple[np.ndarray, np.ndarray]:
+    """GEOS representative points."""
+    return X.interior_points(polys)
+
+
+def first_in(px, py, layer: pd.DataFrame, col: str | None = None) -> pd.Series:
+    """sjoin 'within' (left), first match: position of the polygon (or its column col), NaN where none."""
+    k = X.first_within(np.asarray(px, float), np.asarray(py, float), list(layer.geometry))
+    if col is None:
+        return pd.Series(np.where(k >= 0, k, np.nan))
+    return pd.Series(np.where(k >= 0, layer[col].values[np.maximum(k, 0)], None), dtype=object).where(k >= 0)
 
 A, B, AVG = -0.038, -0.398, 0.0396   # frozen on the 9 cities (AQ-068); AVG = their mean change
 RING_M, NEAR_M = 805.0, 805.0
@@ -40,32 +58,31 @@ def stories(zone: str | None) -> float:
 
 def denver_2018(version: str) -> dict:
     d = RAW / "tod_new_cities" / "denver"
-    z = gpd.read_file(d / "zone_map_amendments.geojson").to_crs(CRS)
-    r = z[(z.ORD_YEAR == 2018) & z.ORD_NUM.isin([15, 17])].copy()
+    z = read(d / "zone_map_amendments.geojson")
+    r = z[(z.ORD_YEAR == 2018) & z.ORD_NUM.isin([15, 17])].reset_index(drop=True).copy()
     io_new = r.OVERLAY_DISTRICT.fillna("").str.contains("IO-1") & ~r.FROM_OVERLAY_DIST_1.fillna("").str.contains("IO-1")
     base_up = r.ZONE_DISTRICT.map(stories) > r.FROM_ZONE_1.map(stories)
     r["up"] = (io_new | base_up) if version == "main" else base_up
-    st = gpd.read_file(d / "rail_stations.geojson").to_crs(CRS)
+    st = read(d / "rail_stations.geojson")
     yo = pd.to_numeric(st.YEAR_OPEN, errors="coerce")
     st = st[(st.STATUS == "Existing") & (yo <= 2018)]
-    p = gpd.read_file(d / "parcels.geojson").to_crs(CRS)
-    p = p[p.geometry.notna()].copy()
-    p["pt"] = p.geometry.representative_point()
-    pts = gpd.GeoDataFrame(p[["SCHEDNUM"]], geometry=p["pt"], crs=CRS)
-    j = gpd.sjoin(pts, r[["up", "geometry"]], predicate="within", how="left")
-    j = j[~j.index.duplicated()]
-    inref = j.index_right.notna()
-    up = j["up"].fillna(False).astype(bool) & inref
-    area = r.geometry.union_all()
-    dist_area = pts.distance(area)
+    p = read(d / "parcels.geojson")
+    p = p[X.nonempty(list(p.geometry))].reset_index(drop=True)
+    px, py = rep_xy(list(p.geometry))
+    k = first_in(px, py, r)
+    inref = k.notna()
+    up = pd.Series(r.up.values[k.fillna(0).astype(int)], dtype=bool).where(inref, False).astype(bool) & inref
+    area = list(r.geometry)
+    dist_area = pd.Series(X.distance_within(px, py, area, RING_M + 1.0))
     ring = (~inref) & (dist_area <= RING_M)
-    dist_st = pts.geometry.apply(lambda g: st.distance(g).min())
+    from scipy.spatial import cKDTree
+    dist_st = pd.Series(cKDTree(np.c_[st.x, st.y]).query(np.c_[px, py])[0])
     far = up & (dist_st > NEAR_M)   # item 48: upzoned lots more than 1/2 mile from rail open on the reform date
-    lots = pd.DataFrame({"SCHEDNUM": p.SCHEDNUM.values, "acres": p.geometry.area.values / 4046.86,
+    lots = pd.DataFrame({"SCHEDNUM": p.SCHEDNUM.values, "acres": X.areas(list(p.geometry)) / 4046.86,
                          "in_reform": inref.values, "upzoned": (up & ~far).values, "far_upzoned": far.values,
                          "study": (inref | ring).values})
-    perm = pd.concat([gpd.read_file(d / "residential_permits.geojson").assign(src="residential"),
-                      gpd.read_file(d / "commercial_permits.geojson").assign(src="commercial")], ignore_index=True)
+    perm = pd.concat([read(d / "residential_permits.geojson").assign(src="residential"),
+                      read(d / "commercial_permits.geojson").assign(src="commercial")], ignore_index=True)
     perm["UNITS"] = pd.to_numeric(perm.UNITS, errors="coerce").fillna(0)
     perm = perm[perm.CLASS.str.upper().eq("NEW BUILDING") & (perm.UNITS > 0) & perm.CANCEL.isna()].copy()
     perm["date"] = pd.to_datetime(perm.DATE_ISSUED, unit="ms")
@@ -74,11 +91,8 @@ def denver_2018(version: str) -> dict:
                "after": (pd.Timestamp("2019-01-01"), pd.Timestamp("2023-12-31"))}
     # permits are placed on the lot whose shape holds the permit point (schedule numbers change when lots are
     # merged or split after the permit; only 35% matched today's parcels by number); the number is the fallback
-    perm = perm[perm.geometry.notna()].to_crs(CRS)
-    pj = gpd.sjoin(perm[["geometry"]], gpd.GeoDataFrame({"lot": np.arange(len(p))}, geometry=p.geometry.values, crs=CRS),
-                   predicate="within", how="left")
-    pj = pj[~pj.index.duplicated()]
-    perm["lot"] = pj["lot"].reindex(perm.index)
+    perm = perm[perm.x.notna()]
+    perm["lot"] = first_in(perm.x.values, perm.y.values, p).values
     num = pd.Series(np.arange(len(p)), index=p.SCHEDNUM.values)
     num = num[~num.index.duplicated()]
     perm["lot"] = perm["lot"].fillna(perm.SCHEDNUM.map(num))
@@ -103,37 +117,37 @@ def denver_2018(version: str) -> dict:
 PDX_HPA = {"R5": 8.7, "R3": 14.5, "R2": 21.8, "R1": 43.6, "RH": 87.1, "RM1": 43.6, "RM2": 65.3, "RM3": 87.1, "RM4": 174.2}
 
 
-def share_case(case: str, reform: gpd.GeoDataFrame, parcels: gpd.GeoDataFrame, stations: gpd.GeoDataFrame,
-               permits: gpd.GeoDataFrame, eff: pd.Timestamp, windows: dict, ring_masks: dict | None = None) -> dict:
-    """Generic frozen-test case: reform polygons (column up), parcels, rapid stops open on the reform date, permits
-    (columns date, units; points). Lots in the reform area and a 1/2-mile ring; permits placed by point."""
-    p = parcels[parcels.geometry.notna()].reset_index(drop=True)
-    pts = gpd.GeoDataFrame(geometry=p.geometry.representative_point(), crs=CRS)
-    j = gpd.sjoin(pts, reform[["up", "geometry"]], predicate="within", how="left")
-    j = j[~j.index.duplicated()]
-    inref = j.index_right.notna().values
-    up = j["up"].fillna(False).astype(bool).values & inref
-    area = reform.geometry.union_all()
-    ring = (~inref) & (pts.distance(area).values <= RING_M)
+def share_case(case: str, reform: pd.DataFrame, parcels: pd.DataFrame, stations: pd.DataFrame,
+               permits: pd.DataFrame, eff: pd.Timestamp, windows: dict, ring_masks: dict | None = None) -> dict:
+    """Generic frozen-test case: reform polygons (column up; CRS 5070 features in column geometry), parcels, rapid
+    stops open on the reform date (x, y), permits (columns date, units, x, y). Lots in the reform area and a
+    1/2-mile ring; permits placed by point."""
+    p = parcels[X.nonempty(list(parcels.geometry))].reset_index(drop=True)
+    reform = reform.reset_index(drop=True)
+    px, py = rep_xy(list(p.geometry))
+    pts = pd.DataFrame({"x": px, "y": py})
+    k = first_in(px, py, reform)
+    inref = k.notna().values
+    up = np.where(inref, reform.up.values[k.fillna(0).astype(int)], False).astype(bool) & inref
+    area = list(reform.geometry)
+    ring = (~inref) & (X.distance_within(px, py, area, RING_M + 1.0) <= RING_M)
     from scipy.spatial import cKDTree
-    sx = np.c_[stations.geometry.x, stations.geometry.y]
-    dist_st = cKDTree(sx).query(np.c_[pts.geometry.x, pts.geometry.y])[0]
+    sx = np.c_[stations.x, stations.y]
+    dist_st = cKDTree(sx).query(np.c_[px, py])[0]
     far = up & (dist_st > NEAR_M)
     study = inref | ring
     upz = up & ~far
-    permits = permits[permits.geometry.notna()].copy()
-    pj = gpd.sjoin(permits[["geometry"]], gpd.GeoDataFrame({"lot": np.arange(len(p))}, geometry=p.geometry.values, crs=CRS),
-                   predicate="within", how="left")
-    pj = pj[~pj.index.duplicated()]
-    permits["lot"] = pj["lot"].reindex(permits.index)
-    acres = p.geometry.area.values / 4046.86
+    permits = permits[permits.x.notna()].copy()
+    permits["lot"] = first_in(permits.x.values, permits.y.values, p).values
+    permits["in_study"] = X.within_buffer_geos(permits.x.values, permits.y.values, area, RING_M)
+    acres = X.areas(list(p.geometry)) / 4046.86
     out = {"case": case, "reform_date": str(eff.date()), "study_lots": int(study.sum()), "study_acres": float(acres[study].sum()),
            "upzoned_lots": int((study & upz).sum()), "upzoned_acres": float(acres[study & upz].sum()),
            "relabelled_far_from_rail": int((study & far).sum())}
     for w, (a, b) in windows.items():
         x = permits[(permits.date >= a) & (permits.date <= b)]
         out[f"{w}_years"] = round((b - a).days / 365.25, 2)
-        inside = x[x.within(area.buffer(RING_M))]
+        inside = x[x.in_study.values]
         out[f"permit_homes_in_study_{w}"] = float(inside.units.sum())
         out[f"permit_homes_not_placed_{w}"] = float(inside.units[inside.lot.isna()].sum())
         per = x.dropna(subset=["lot"]).groupby("lot").units.sum()
@@ -148,29 +162,27 @@ def share_case(case: str, reform: gpd.GeoDataFrame, parcels: gpd.GeoDataFrame, s
 
 def portland_2020(version: str) -> dict:
     d = RAW / "tod_new_cities" / "portland"
-    r = gpd.read_file(d / "bhd_zone_changes.geojson").to_crs(CRS)
+    r = read(d / "bhd_zone_changes.geojson")
     ex, pr = r.ex_zone.map(PDX_HPA), r.pr_zone.map(PDX_HPA)
     r["up"] = (pr > ex).fillna(False)
     if version == "no_rh_rm4":   # RH mapped at 4:1 before in some central areas: RH->RM4 may not be a raise
         r.loc[(r.ex_zone == "RH") & (r.pr_zone == "RM4"), "up"] = False
     if version == "no_r1_rm2":   # at about 1,500 sq ft per home RM2 allows about what R1 did
         r.loc[(r.ex_zone == "R1") & (r.pr_zone == "RM2"), "up"] = False
-    st = pd.concat([gpd.read_file(d / "max_stops.geojson"), gpd.read_file(d / "streetcar_stops.geojson")], ignore_index=True).to_crs(CRS)
-    parcels = gpd.read_file(d / "taxlots.geojson").to_crs(CRS)
-    perm = pd.concat([gpd.read_file(d / "residential_permits.geojson"), gpd.read_file(d / "commercial_permits.geojson")],
-                     ignore_index=True).to_crs(CRS)
+    st = pd.concat([read(d / "max_stops.geojson"), read(d / "streetcar_stops.geojson")], ignore_index=True)
+    parcels = read(d / "taxlots.geojson")
+    perm = pd.concat([read(d / "residential_permits.geojson"), read(d / "commercial_permits.geojson")], ignore_index=True)
     perm["date"] = pd.to_datetime(perm.ISSUED, unit="ms")
     perm["units"] = pd.to_numeric(perm.NUMNEWUNITS, errors="coerce").fillna(0)
     perm = perm[perm.units > 0]
     eff = pd.Timestamp("2020-03-01")
     windows = {"before": (pd.Timestamp("2014-01-01"), pd.Timestamp("2019-12-31")),
                "after": (pd.Timestamp("2021-01-01"), pd.Timestamp("2025-12-31"))}
-    z20 = gpd.read_file(d / "zoning_2020_03_01.geojson").to_crs(CRS)
-    single = z20[z20.ZONE.isin(["RF", "R20", "R10", "R7", "R5", "R2.5"])]
+    z20 = read(d / "zoning_2020_03_01.geojson")
+    single = z20[z20.ZONE.isin(["RF", "R20", "R10", "R7", "R5", "R2.5"])].reset_index(drop=True)
 
     def on_single(pts):
-        j = gpd.sjoin(pts, single[["geometry"]], predicate="within", how="left")
-        return j[~j.index.duplicated()].index_right.notna().values
+        return first_in(pts.x.values, pts.y.values, single).notna().values
     return share_case(f"portland_2020_{version}", r, parcels, st, perm, eff, windows, {"single_dwelling": on_single})
 
 
@@ -195,22 +207,20 @@ def pdx18_hpa(z) -> float:
 
 def portland_2018(version: str) -> dict:
     d = RAW / "tod_new_cities" / "portland"
-    parcels = gpd.read_file(d / "taxlots.geojson").to_crs(CRS)
-    parcels = parcels[parcels.geometry.notna()].reset_index(drop=True)
-    pts = gpd.GeoDataFrame(geometry=parcels.geometry.representative_point(), crs=CRS)
+    parcels = read(d / "taxlots.geojson")
+    parcels = parcels[X.nonempty(list(parcels.geometry))].reset_index(drop=True)
+    px, py = rep_xy(list(parcels.geometry))
     zone = {}
     for k, f in (("old", "zoning_pre_2018_05_24.geojson"), ("new", "zoning_2018_05_25.geojson")):
-        z = gpd.read_file(d / f).to_crs(CRS)
-        j = gpd.sjoin(pts, z[["ZONE", "geometry"]], predicate="within", how="left")
-        zone[k] = j[~j.index.duplicated()]["ZONE"].reindex(pts.index)
+        z = read(d / f)
+        zone[k] = first_in(px, py, z, "ZONE")
     changed = zone["old"].notna() & zone["new"].notna() & (zone["old"].str.upper() != zone["new"].str.upper())
     up = zone["new"].map(pdx18_hpa) > zone["old"].map(pdx18_hpa)
     if version == "to_mixed_from_other":   # only lots moved into a mixed-use zone from residential, employment or industrial
         up = up & zone["new"].str.upper().isin(MIXED_NEW) & ~zone["old"].str.upper().isin(list(PDX18_FAR))
-    reform = gpd.GeoDataFrame({"up": up[changed].fillna(False).values}, geometry=parcels.geometry[changed].values, crs=CRS)
-    st = pd.concat([gpd.read_file(d / "max_stops.geojson"), gpd.read_file(d / "streetcar_stops.geojson")], ignore_index=True).to_crs(CRS)
-    perm = pd.concat([gpd.read_file(d / "residential_permits.geojson"), gpd.read_file(d / "commercial_permits.geojson")],
-                     ignore_index=True).to_crs(CRS)
+    reform = pd.DataFrame({"up": up[changed].fillna(False).values, "geometry": parcels.geometry[changed].values})
+    st = pd.concat([read(d / "max_stops.geojson"), read(d / "streetcar_stops.geojson")], ignore_index=True)
+    perm = pd.concat([read(d / "residential_permits.geojson"), read(d / "commercial_permits.geojson")], ignore_index=True)
     perm["date"] = pd.to_datetime(perm.ISSUED, unit="ms")
     perm["units"] = pd.to_numeric(perm.NUMNEWUNITS, errors="coerce").fillna(0)
     perm = perm[perm.units > 0]
@@ -226,17 +236,18 @@ def austin(version: str) -> dict:
     """Austin TOD regulating plans (Plaza Saltillo, MLK, Lamar/Justin) as one case; day-one maps in
     reference/tod_austin_dayone_regulating_plans.geojson (committed before permits were loaded)."""
     d = RAW / "tod_new_cities" / "austin"
-    r = gpd.read_file(REFERENCE / "tod_austin_dayone_regulating_plans.geojson").to_crs(CRS)
+    r = read(REFERENCE / "tod_austin_dayone_regulating_plans.geojson")
     r = r[r.SUBDISTRICT_MAP != "TROW"].copy()
     r["up"] = True
     if version.endswith("no_ldr"):
         r.loc[r.SUBDISTRICT_MAP == "TODLDR", "up"] = False
-    st = gpd.read_file(d / "metrorail_stations.geojson").to_crs(CRS)
+    st = read(d / "metrorail_stations.geojson")
     st = st[st.NAME.str.contains("Saltillo|MLK|Crestview", case=False, na=False)]
-    parcels = gpd.read_file(d / "tcad_parcels.geojson").to_crs(CRS)
+    parcels = read(d / "tcad_parcels.geojson")
     pm = pd.read_json(d / "permits.json")
     pm = pm.dropna(subset=["latitude", "longitude"])
-    perm = gpd.GeoDataFrame(pm, geometry=gpd.points_from_xy(pm.longitude, pm.latitude), crs=4326).to_crs(CRS)
+    perm = pm.copy()
+    perm["x"], perm["y"] = X.transform(pm.longitude.values.astype(float), pm.latitude.values.astype(float), 4326, CRS)
     perm["date"] = pd.to_datetime(perm.issue_date)
     perm["units"] = pd.to_numeric(perm.housing_units, errors="coerce").fillna(0)
     perm = perm[perm.units > 0]
@@ -254,27 +265,25 @@ def austin(version: str) -> dict:
 def slc_2010(version: str) -> dict:
     """Salt Lake City TSA district (Ordinance 59 of 2010, effective 11 Aug 2010). Map: 2020 zoning snapshot
     (hindsight risk). Homes: Utah Housing Unit Inventory, units by approximate year built (completions)."""
-    sys.path.insert(0, str(ROOT / "scripts"))
-    import run_tod_slc_census as SC
-    st = SC.stations().to_crs(CRS)
-    z = gpd.read_file(RAW / "tod_slc" / "slc_zoning_2020_jacobs.geojson").to_crs(CRS)
+    st = slc_stations()
+    tsa_names = slc_tsa_stations()
+    z = read(RAW / "tod_slc" / "slc_zoning_2020_jacobs.geojson")
     tsa = z[z["ZONING"].str.startswith("TSA")].copy()
-    rp = tsa.copy()
-    rp["geometry"] = tsa.representative_point()
-    near = gpd.sjoin_nearest(rp, st[["name", "geometry"]], distance_col="d")
-    near = near[~near.index.duplicated()]
-    tsa["station"] = near["name"]
-    reform = tsa[tsa["station"].isin(SC.TSA_STATIONS)].copy()
+    rx, ry = rep_xy(list(tsa.geometry))
+    ni, _ = X.nearest_lowest(rx, ry, st.x.values, st.y.values)
+    tsa["station"] = st.name.values[ni]
+    reform = tsa[tsa["station"].isin(tsa_names)].copy()
     reform["up"] = True
     if version == "core_only":
         reform["up"] = reform["ZONING"].str.endswith("-C")
-    stops = st[st["name"].isin(SC.TSA_STATIONS)]
-    h = gpd.read_file(RAW / "tod_new_cities" / "slc" / "housing_unit_inventory.geojson").to_crs(CRS)
-    h = h[h.geometry.notna()].reset_index(drop=True)
+    stops = st[st["name"].isin(tsa_names)]
+    h = read(RAW / "tod_new_cities" / "slc" / "housing_unit_inventory.geojson")
+    h = h[X.nonempty(list(h.geometry))].reset_index(drop=True)
     yr = pd.to_numeric(h.APX_BLT_YR, errors="coerce")
-    homes = gpd.GeoDataFrame({"units": pd.to_numeric(h.UNIT_COUNT, errors="coerce").fillna(0),
-                              "date": pd.to_datetime(yr.fillna(0).astype(int).astype(str) + "-07-01", errors="coerce")},
-                             geometry=h.geometry.representative_point(), crs=CRS)
+    hx, hy = rep_xy(list(h.geometry))
+    homes = pd.DataFrame({"units": pd.to_numeric(h.UNIT_COUNT, errors="coerce").fillna(0),
+                          "date": pd.to_datetime(yr.fillna(0).astype(int).astype(str) + "-07-01", errors="coerce"),
+                          "x": hx, "y": hy})
     homes = homes[homes.units > 0]
     eff = pd.Timestamp("2010-08-11")
     windows = {"before": (pd.Timestamp("2004-01-01"), pd.Timestamp("2009-12-31")),
@@ -284,6 +293,29 @@ def slc_2010(version: str) -> dict:
     out["map"] = "2020 boundary, hindsight risk"
     out["homes_source"] = "Utah Housing Unit Inventory (completions by approximate year built; standing homes only)"
     return out
+
+
+def slc_stations() -> pd.DataFrame:
+    """run_tod_slc_census.stations() (that script still loads the geo stack at import): UTA rail stops by name, the
+    mean of their platforms' coordinates, as x, y in CRS 5070."""
+    import json
+    s = pd.DataFrame(json.load(open(RAW / "tod_slc" / "uta_stops.json")))
+    s = s[s["stop_type_text"].str.contains("rail", case=False, na=False)]
+    s["name"] = s["stop_name"].str.strip()
+    s.loc[s["name"].str.upper() == "RIVER TRAIL STATION", "name"] = "River Trail Station"
+    s = s.groupby("name", as_index=False)[["stop_lat", "stop_lon"]].mean()
+    s["x"], s["y"] = X.transform(s.stop_lon.values, s.stop_lat.values, 4326, CRS)
+    return s
+
+
+def slc_tsa_stations() -> list[str]:
+    """run_tod_slc_census.TSA_STATIONS, read from that script's source (importing it would load the geo stack)."""
+    import ast
+    tree = ast.parse((ROOT / "scripts" / "run_tod_slc_census.py").read_text())
+    for n in tree.body:
+        if isinstance(n, ast.Assign) and any(getattr(t, "id", None) == "TSA_STATIONS" for t in n.targets):
+            return ast.literal_eval(n.value)
+    raise KeyError("TSA_STATIONS")
 
 
 def main(argv=None) -> None:

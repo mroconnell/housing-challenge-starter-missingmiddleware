@@ -37,13 +37,13 @@ import importlib.util as ilu
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
+from missing_middleware import geom_extra_station as X  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 from missing_middleware.tod import transit as T  # noqa: E402
 import enrich_tod_station_lots as E  # noqa: E402
@@ -59,7 +59,7 @@ OUT_FILE = OUT / "wi_lots_station.parquet"
 WI_LOTS = ROOT / "data" / "processed" / "tod_lot_model" / "wi_lots.parquet"
 BLOCKS = RAW / "census_tiger_2020_tabblock" / "tl_2020_55_tabblock20.zip"
 COUSUB = RAW / "census_cb_2024" / "cb_2024_55_cousub_500k.zip"
-V9 = "/vsizip/" + str(RAW / "tod_land_values" / "wi_parcels_v9_2023.zip") + "/V9.0.1_Wisconsin_Parcels_2023_10.3_Uncompressed.gdb"
+V9 = str(RAW / "tod_land_values" / "wi_parcels_v9_2023.zip") + "/V9.0.1_Wisconsin_Parcels_2023_10.3_Uncompressed.gdb"
 MILWAUKEE_CITY, MADISON_CITY = "5507953000", "5502548000"
 STATEWIDE_HALF_MILE = 89_528  # docs/tod/TRANSIT_PIPELINE.md section 4, definition (a)
 
@@ -74,25 +74,24 @@ def _load(name: str):
 SA = _load("build_tod_station_areas")
 
 
-def group_outlines(g: gpd.GeoDataFrame, sums: list[str], firsts: list[str]) -> gpd.GeoDataFrame:
+def group_outlines(g: pd.DataFrame, sums: list[str], firsts: list[str]) -> pd.DataFrame:
     """Collapse records sharing one outline (stacked condominium units) into one lot, the way
     build_tod_station_areas.group_by_outline does (sorted by homes, so 'first' is the record with most homes, and the
     representative point is the same as wi_lots.parquet's)."""
     g = g.copy()
-    g["_wkb"] = g.geometry.apply(lambda x: x.wkb if x is not None else None)
+    g["_wkb"] = X.outline_keys(list(g.geometry))           # equal exactly when the outlines are (as WKB)
     g = g[g["_wkb"].notna()].sort_values("homes", ascending=False, kind="stable")
     agg = {**{c: "sum" for c in sums}, **{c: "first" for c in firsts}, "geometry": "first",
            "year_built": "min", "public": "all", "matched": "any"}
     out = g.groupby("_wkb", sort=False).agg(agg).reset_index(drop=True)
-    out = gpd.GeoDataFrame(out, geometry="geometry", crs=g.crs)
-    out["pt"] = out.geometry.representative_point()
-    out["acres"] = out.geometry.area / M2_PER_ACRE
+    out["ptx"], out["pty"] = X.interior_points(list(out.geometry))      # GEOS representative point
+    out["acres"] = X.areas(list(out.geometry)) / M2_PER_ACRE
     return out
 
 
 # --------------------------------------------------------------------------- lots
 
-def milwaukee_lots() -> gpd.GeoDataFrame:
+def milwaukee_lots() -> pd.DataFrame:
     cols = ["TAXKEY", "C_A_LAND", "C_A_IMPRV", "C_A_EXM_LAND", "C_A_EXM_IMPRV", "C_A_EXM_TYPE", "YR_BUILT", "NR_UNITS",
             "LAND_USE", "LAND_USE_GP"]
     m = pd.read_csv(RAW / "milwaukee_mprop" / "mprop.csv", dtype=str, usecols=cols).drop_duplicates("TAXKEY")
@@ -104,8 +103,8 @@ def milwaukee_lots() -> gpd.GeoDataFrame:
                       "public": m.C_A_EXM_TYPE.notna().values,
                       "year_built": num["YR_BUILT"].where(num["YR_BUILT"] > 1800).values,
                       "homes": np.where(res, num["NR_UNITS"].fillna(0), 0.0)})
-    v = gpd.read_file(RAW / "tod_capacity" / "v12_milwaukee.geojson", columns=["PARCELID", "PLACENAME", "LNDVALUE", "IMPVALUE"])
-    v = v[v.PLACENAME == "CITY OF MILWAUKEE"].to_crs(CRS_M)
+    v = X.read_vector(RAW / "tod_capacity" / "v12_milwaukee.geojson", dst=CRS_M, columns=["PARCELID", "PLACENAME", "LNDVALUE", "IMPVALUE"])
+    v = v[v.PLACENAME == "CITY OF MILWAUKEE"]
     v = v.merge(m, left_on="PARCELID", right_on="TAXKEY", how="left")
     v["matched"] = v.TAXKEY.notna()
     # a tax key on two outlines carries its homes and values once
@@ -125,9 +124,9 @@ def milwaukee_lots() -> gpd.GeoDataFrame:
     return L
 
 
-def madison_lots() -> gpd.GeoDataFrame:
-    g = gpd.read_file(RAW / "madison_parcels" / "tax_parcels.geojson",
-                      columns=["Parcel", "PropertyClass", "PropertyUse", "TotalDwellingUnits", "YearBuilt"]).to_crs(CRS_M)
+def madison_lots() -> pd.DataFrame:
+    g = X.read_vector(RAW / "madison_parcels" / "tax_parcels.geojson", dst=CRS_M,
+                      columns=["Parcel", "PropertyClass", "PropertyUse", "TotalDwellingUnits", "YearBuilt"])
     units = pd.to_numeric(g.TotalDwellingUnits, errors="coerce").fillna(0)
     notation = g.PropertyUse.fillna("").str.lower().isin(SA.MAD_CONDO_NOTATION)   # whole-condo records: homes are on units
     g["homes"] = np.where(notation, 0.0, units)
@@ -136,9 +135,8 @@ def madison_lots() -> gpd.GeoDataFrame:
     g["public"] = g.PropertyClass.fillna("").str.strip().eq("Exempt")
     g["use"] = g.PropertyUse.fillna("")
     g["matched"] = True
-    import pyogrio
-    v9 = pyogrio.read_dataframe(V9, where="PLACENAME='CITY OF MADISON'", columns=["PARCELID", "PLACENAME", "LNDVALUE", "IMPVALUE"],   # the where field must be read too
-                                read_geometry=False).drop_duplicates("PARCELID").set_index("PARCELID")
+    v9 = X.read_gdb(V9, ["PARCELID", "PLACENAME", "LNDVALUE", "IMPVALUE"], where={"PLACENAME": "CITY OF MADISON"},
+                    geometry=False, contains=b"CITY OF MADISON").drop_duplicates("PARCELID").set_index("PARCELID")
     g["land_value"] = g.Parcel.map(v9.LNDVALUE).astype(float)
     g["bldg_value"] = g.Parcel.map(v9.IMPVALUE).astype(float)
     g["has_value"] = g.land_value.notna().astype(float)
@@ -151,13 +149,11 @@ def madison_lots() -> gpd.GeoDataFrame:
     return L.drop(columns="has_value")
 
 
-def census_fallback(L: gpd.GeoDataFrame, blocks: gpd.GeoDataFrame) -> pd.Series:
+def census_fallback(L: pd.DataFrame, blocks: pd.DataFrame) -> pd.Series:
     """Homes for lots with no assessor record: the 2020 block's homes not already on recorded lots, spread over the
     block's unrecorded lots by area."""
-    pts = gpd.GeoDataFrame(geometry=L.pt.values, index=L.index, crs=CRS_M)
-    j = gpd.sjoin(pts, blocks, predicate="within", how="left")
-    j = j[~j.index.duplicated()]
-    blk = j.GEOID20.reindex(L.index)
+    k = X.first_within(L.ptx.values, L.pty.values, list(blocks.geometry))
+    blk = pd.Series(np.where(k >= 0, blocks.GEOID20.values[np.maximum(k, 0)], None), index=L.index, dtype=object).where(k >= 0)
     rec = L.homes_existing_rec.where(L.matched, 0).groupby(blk).sum()
     resid = (blocks.set_index("GEOID20").HOUSING20.astype(float) - rec.reindex(blocks.GEOID20).fillna(0).values).clip(lower=0)
     un = ~L.matched
@@ -168,30 +164,29 @@ def census_fallback(L: gpd.GeoDataFrame, blocks: gpd.GeoDataFrame) -> pd.Series:
 
 # --------------------------------------------------------------------------- stops
 
-def muni_of(points: np.ndarray, cs: gpd.GeoDataFrame) -> np.ndarray:
-    import shapely
-    tree = shapely.STRtree(cs.geometry.values)
-    out = np.full(len(points), -1)
-    pi, gi = tree.query(points, predicate="within")
-    out[pi] = gi
+def muni_of(px: np.ndarray, py: np.ndarray, cs: pd.DataFrame) -> np.ndarray:
+    """GEOID of the county subdivision holding each point (the nearest one when none does)."""
+    polys = list(cs.geometry)
+    pi, gi = X.point_poly_pairs(px, py, polys)
+    out = np.full(len(px), -1)
+    out[pi] = gi                      # several matches: the last one, as numpy assignment did with the STRtree pairs
     miss = np.flatnonzero(out < 0)
     if len(miss):
-        out[miss] = tree.query_nearest(points[miss], return_distance=False, all_matches=False)[1]
+        out[miss] = X.nearest_polygon(px[miss], py[miss], polys, 1e7)[0]
     return cs.GEOID.values[out]
 
 
-def stations(cs: gpd.GeoDataFrame) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
+def stations(cs: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Rail and rapid stops; platforms within 150 m are one station (as ntm_stations in the training builder)."""
     s = pd.read_csv(REFERENCE / "tod_stops.csv", dtype={"stop_id": str, "ntd_id": str})
     s = s[s.flag_a_rapid == 1]
-    g = gpd.GeoDataFrame(s[["agency", "stop_id"]], geometry=gpd.points_from_xy(s.lon, s.lat), crs=4326).to_crs(CRS_M)
-    g["muni"] = muni_of(g.geometry.values, cs)
+    g = s[["agency", "stop_id"]].copy()
+    g["x"], g["y"] = X.transform(s.lon.values, s.lat.values, 4326, CRS_M)
+    g["muni"] = muni_of(g.x.values, g.y.values, cs)
     keep = g[g.muni.isin([MILWAUKEE_CITY, MADISON_CITY])]
-    blobs = keep.buffer(75).union_all()
-    parts = list(blobs.geoms) if hasattr(blobs, "geoms") else [blobs]
-    st = gpd.GeoDataFrame({"stop_id": np.arange(len(parts))}, geometry=[p.centroid for p in parts], crs=CRS_M)
-    j = gpd.sjoin_nearest(st, keep[["agency", "muni", "geometry"]], how="left")
-    st = j[~j.index.duplicated()].drop(columns="index_right")
+    cx, cy, i = X.merge_stops(keep.x.values, keep.y.values, 75.0)
+    st = pd.DataFrame({"stop_id": np.arange(len(cx)), "x": cx, "y": cy,
+                       "agency": keep.agency.values[i], "muni": keep.muni.values[i]})
     return st, g
 
 
@@ -199,23 +194,20 @@ def stations(cs: gpd.GeoDataFrame) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
 
 def enrich(D: pd.DataFrame) -> pd.DataFrame:
     """enrich_tod_station_lots.enrich() for a frame, with Wisconsin's years (no edit to that script)."""
-    pts = gpd.GeoDataFrame(D[[]], geometry=gpd.points_from_xy(D.x, D.y), crs=CRS)
+    pts = D[["x", "y"]]
     keep = ["sld_transit_freq", "sld_transit_freq_sqmi", "sld_jobs_per_acre", "sld_transit_job_access", "sld_share_no_car", "sld_walk_index"]
-    j = gpd.sjoin(pts, E.sld(3, "55")[["GEOID10", "GEOID20", *keep, "geometry"]], how="left", predicate="within")
-    j = j[~j.index.duplicated()]
+    j = E.join_first(pts, E.sld(3, "55"), ["GEOID10", "GEOID20", *keep])
     for c in keep:
         D[c] = j[c].reindex(D.index).values
     D["bg_geoid"] = j.GEOID10.reindex(D.index).values
     D["sld_version"] = 3
-    j2 = gpd.sjoin(pts, E.sld(2, "55")[["sld_transit_freq", "geometry"]], how="left", predicate="within")
-    D["sld_transit_freq_v2"] = j2[~j2.index.duplicated()]["sld_transit_freq"].reindex(D.index).values
+    D["sld_transit_freq_v2"] = E.join_first(pts, E.sld(2, "55"), ["sld_transit_freq"]).sld_transit_freq.values
     bg20 = j.GEOID20.reindex(D.index)
     a, b = E.lodes_bg("55", EFF - 1), E.lodes_bg("55", EFF - 6)
     D["bg_job_growth_5y"] = (bg20.map(a) / bg20.map(b).where(lambda v: v > 0) - 1).clip(-0.9, 5).values
     h = E.nrhp()
     h = h[h.listed.fillna(0) < EFF]
-    hj = gpd.sjoin(pts, h[["geometry"]], how="left", predicate="within")
-    D["historic"] = hj.index_right.notna().groupby(level=0).any().reindex(D.index).fillna(False).values
+    D["historic"] = E.in_any_polygon(pts, h)
     E.tract_vars(D, pts, ACS_EFF, ["55"])
     return D
 
@@ -223,26 +215,28 @@ def enrich(D: pd.DataFrame) -> pd.DataFrame:
 # --------------------------------------------------------------------------- build
 
 def build() -> pd.DataFrame:
-    cs = gpd.read_file(f"zip://{COUSUB}").to_crs(CRS_M).reset_index(drop=True)
+    cs = X.read_vector(COUSUB, dst=CRS_M).reset_index(drop=True)
     st, allstops = stations(cs)
     print(f"rail/rapid stops statewide {len(allstops)}; in Milwaukee or Madison {int(allstops.muni.isin([MILWAUKEE_CITY, MADISON_CITY]).sum())}"
           f" -> {len(st)} stations (platforms within 150 m merged)", flush=True)
     print("  stops outside the two cities by place:", allstops[~allstops.muni.isin([MILWAUKEE_CITY, MADISON_CITY])]
           .muni.map(cs.set_index("GEOID").NAMELSAD).value_counts().to_dict(), flush=True)
-    blocks = gpd.read_file(f"zip://{BLOCKS}", columns=["GEOID20", "HOUSING20"]).to_crs(CRS_M)
+    blocks = X.read_vector(BLOCKS, dst=CRS_M, columns=["GEOID20", "HOUSING20"])
+    bb_blocks = X.feature_bounds(list(blocks.geometry))
     parts = []
     for name, f in (("Milwaukee", milwaukee_lots), ("Madison", madison_lots)):
         print(f"{name} lots ...", flush=True)
         L = f()
-        bb = L.total_bounds
-        fb = census_fallback(L, blocks.cx[bb[0]:bb[2], bb[1]:bb[3]])
+        fbb = X.feature_bounds(list(L.geometry))
+        bb = (np.nanmin(fbb[:, 0]), np.nanmin(fbb[:, 1]), np.nanmax(fbb[:, 2]), np.nanmax(fbb[:, 3]))
+        cx = ~((bb_blocks[:, 0] > bb[2]) | (bb_blocks[:, 2] < bb[0]) | (bb_blocks[:, 1] > bb[3]) | (bb_blocks[:, 3] < bb[1]))
+        fb = census_fallback(L, blocks[cx])
         L["homes_existing"] = L.homes_existing_rec.where(L.matched, fb)
         L["homes_source"] = np.where(L.matched, "assessor units", "2020 census block remainder by area")
         # distance check against every Wisconsin rail/rapid stop (including ones outside the two cities)
-        d_all = SA.nearest_distance(L.pt, allstops)
-        pts = gpd.GeoDataFrame(L[[]], geometry=L.pt.values, crs=CRS_M)
-        near = gpd.sjoin_nearest(pts, st[["stop_id", "geometry"]], how="inner", max_distance=MILE, distance_col="dist_m")
-        near = near[~near.index.duplicated()]
+        d_all = SA.nearest_distance(L.ptx.values, L.pty.values, allstops)
+        ni, nd = X.nearest_lowest(L.ptx.values, L.pty.values, st.x.values, st.y.values, MILE)
+        near = pd.DataFrame({"stop_id": st.stop_id.values[ni[ni >= 0]], "dist_m": nd[ni >= 0]}, index=L.index[ni >= 0])
         extra = int(((d_all <= MILE) & ~L.index.isin(near.index)).sum())
         print(f"  {name}: lots {len(L):,}; within 1 mile of a kept station {len(near):,}; "
               f"lots within 1 mile only of stops outside the two cities (left out) {extra:,}", flush=True)
@@ -250,8 +244,7 @@ def build() -> pd.DataFrame:
         D[["stop_id", "dist_m"]] = near[["stop_id", "dist_m"]]
         parts.append(D)
     D = pd.concat(parts, ignore_index=True)
-    p5070 = gpd.GeoSeries(D.pt.values, crs=CRS_M).to_crs(CRS)
-    D["x"], D["y"] = p5070.x.values, p5070.y.values
+    D["x"], D["y"] = X.transform(D.ptx.values, D.pty.values, CRS_M, CRS)
     D["band"] = pd.cut(D.dist_m, [-1, QUARTER, HALF, MILE], labels=["0-1/4", "1/4-1/2", "1/2-1"]).astype(str)
     D["group"] = "reform"
     # law's upzoned lots: wi_lots.parquet treated flag, matched by location (same outline grouping and point)
@@ -279,16 +272,16 @@ def build() -> pd.DataFrame:
     return D[cols]
 
 
-def statewide_check(cs: gpd.GeoDataFrame) -> None:
-    import pyogrio
-    bl = pyogrio.read_dataframe(BLOCKS, read_geometry=False, columns=["GEOID20", "HOUSING20", "INTPTLAT20", "INTPTLON20"])
-    bp = gpd.GeoSeries(gpd.points_from_xy(bl.INTPTLON20.astype(float), bl.INTPTLAT20.astype(float)), crs=4269).to_crs(CRS_M).values
+def statewide_check(cs: pd.DataFrame) -> None:
+    bl = X.read_vector(BLOCKS, columns=["GEOID20", "HOUSING20", "INTPTLAT20", "INTPTLON20"], geometry=False)
+    bx, by = X.transform(bl.INTPTLON20.astype(float).values, bl.INTPTLAT20.astype(float).values, 4269, CRS_M)
+    bp = np.c_[bx, by]
     s = pd.read_csv(REFERENCE / "tod_stops.csv")
     s = s[s.flag_a_rapid == 1]
-    sp = gpd.GeoSeries(gpd.points_from_xy(s.lon, s.lat), crs=4326).to_crs(CRS_M).values
-    m = T.blocks_within(bp, sp, 0.5 * T.MILE_M)
+    sx, sy = X.transform(s.lon.values, s.lat.values, 4326, CRS_M)
+    m = T.blocks_within(bp, np.c_[sx, sy], 0.5 * T.MILE_M)
     hu = bl.HOUSING20.astype(float).values
-    muni = muni_of(bp[m], cs)
+    muni = muni_of(bx[m], by[m], cs)
     by = pd.Series(hu[m]).groupby(muni).sum().sort_values(ascending=False)
     tot = by.sum()
     two = by.get(MILWAUKEE_CITY, 0) + by.get(MADISON_CITY, 0)
@@ -381,7 +374,7 @@ def main() -> None:
     print(f"wrote {OUT_FILE.relative_to(ROOT)}: {len(D):,} rows, {D.shape[1]} columns; block group found "
           f"{D.bg_geoid.notna().mean():.3f}; tract variables {sum(c.startswith('v_') for c in D.columns)}")
     checks(D)
-    statewide_check(gpd.read_file(f"zip://{COUSUB}").to_crs(CRS_M).reset_index(drop=True))
+    statewide_check(X.read_vector(COUSUB, dst=CRS_M).reset_index(drop=True))
     compare_training(D)
 
 

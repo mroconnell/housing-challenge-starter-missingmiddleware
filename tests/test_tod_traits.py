@@ -55,18 +55,16 @@ class TestUnits(unittest.TestCase):
         self.assertEqual(T.sector_label(-3000, -3000, 100), "southwest")
 
     def test_station_clusters_merge_platforms(self):
-        import geopandas as gpd
-        from shapely.geometry import Point
-        s = gpd.GeoSeries([Point(0, 0), Point(50, 0), Point(1000, 0), Point(5000, 0)], crs=32616)
+        s = pd.DataFrame({"x": [0.0, 50.0, 1000.0, 5000.0], "y": [0.0, 0.0, 0.0, 0.0]})
         names = pd.Series(["Main St Station", "Main St Station Platform 2", "Oak Ave Station", "Main St Station"])
         g = T.cluster_stations(s, names)
         self.assertEqual(len(g), 3)
         self.assertEqual(sorted(g["station"]), ["Main St (1)", "Main St (2)", "Oak Ave"])
 
     def test_comparison_for_unit_uses_quarter_mile(self):
-        import geopandas as gpd
-        from shapely.geometry import box
-        lots = gpd.GeoDataFrame(geometry=[box(0, 0, 10, 10), box(300, 0, 310, 10), box(1000, 0, 1010, 10)], crs=32616)
+        def box(x0, y0, x1, y1):
+            return [[np.array([[x0, y0], [x0, y1], [x1, y1], [x1, y0], [x0, y0]], float)]]
+        lots = pd.DataFrame({"geometry": [box(0, 0, 10, 10), box(300, 0, 310, 10), box(1000, 0, 1010, 10)]})
         ix = T.comparison_for_unit(lots, pd.Index([0]), pd.Index([1, 2]))
         self.assertEqual(list(ix), [1])
 

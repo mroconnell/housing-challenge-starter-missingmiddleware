@@ -94,21 +94,17 @@ _cache: dict = {}
 
 
 def _load():
-    import geopandas as gpd
     if _cache:
         return _cache
-    parcels = gpd.read_file(DIR / "parcels.geojson").to_crs(CRS_M)
-    parcels = parcels[parcels.geometry.notna() & ~parcels.geometry.is_empty].reset_index(drop=True)
-    parcels["acres"] = parcels.geometry.area / C.SQM_PER_ACRE
-    pts = gpd.GeoDataFrame(geometry=parcels.geometry.representative_point(), crs=CRS_M)
+    parcels = C.read_parcels(DIR / "parcels.geojson", CRS_M)
+    pts = parcels[["rx", "ry"]].rename(columns={"rx": "x", "ry": "y"})
     snaps = _snapshots()
     zcols = {}
     for t, f in snaps.items():
-        z = gpd.read_file(f).to_crs(CRS_M)
+        z = C.polygons(f, CRS_M)
         col = "long_code" if "long_code" in z.columns else next(c for c in z.columns if c.lower() in ("zoning", "code", "zone"))
-        j = gpd.sjoin(pts, z[[col, "geometry"]], how="left", predicate="within")
-        zcols[t] = j[~j.index.duplicated()].reindex(pts.index)[col].map(norm)
-    rm = gpd.read_file(DIR / "remapping.geojson").to_crs(CRS_M)
+        zcols[t] = C.join_within(parcels, z, [col])[col].map(norm)
+    rm = C.polygons(DIR / "remapping.geojson", CRS_M)
     rm["enacted"] = pd.to_datetime(rm["Enacted_Date"], errors="coerce", format="mixed")
     rm = rm[rm["ReMap_Status"].astype(str).str.startswith("Enacted") & rm["enacted"].notna()].reset_index(drop=True)
     rm["changes"] = rm["ExistCode"].map(norm) != rm["PropZone"].map(norm)
@@ -117,17 +113,17 @@ def _load():
     p["units"] = pd.to_numeric(p["numberofunits"], errors="coerce").fillna(0)
     p["year"] = pd.to_numeric(p["permitissuedate"].str[:4], errors="coerce")
     p = p[(p["units"] > 0) & p["year"].notna()].dropna(subset=["lat", "lon"])
-    pg = gpd.GeoDataFrame(p, geometry=gpd.points_from_xy(p["lon"].astype(float), p["lat"].astype(float)), crs=4326).to_crs(CRS_M)
+    pg = C.points_from_lonlat(p, p["lon"].astype(float), p["lat"].astype(float), CRS_M)
     # the permit system changed in 2019-2020: the same building can appear in both systems, and staged permits remain;
     # keep one record per address point, unit count and 18-month window (as for Chicago)
     from missing_middleware.tod.case_chicago import dedupe_staged
-    pg["x"], pg["y"], pg["issue_date"] = pg.geometry.x, pg.geometry.y, pg["permitissuedate"]
+    pg["issue_date"] = pg["permitissuedate"]
     n0 = len(pg)
     pg = dedupe_staged(pg)
     pg.attrs["merged"] = n0 - len(pg)
     pg["pix"] = C.locate_points(pg, parcels)
-    pg["project"] = pg["parcel_id_num"].fillna(pg.geometry.x.round().astype(int).astype(str) + "_" + pg.geometry.y.round().astype(int).astype(str))
-    stops = gpd.read_file(DIR / "rail_stops.geojson").to_crs(CRS_M).geometry
+    pg["project"] = pg["parcel_id_num"].fillna(pg["x"].round().astype(int).astype(str) + "_" + pg["y"].round().astype(int).astype(str))
+    stops = C.points(DIR / "rail_stops.geojson", CRS_M)[["x", "y"]]
     _cache.update(parcels=parcels, pts=pts, snaps=snaps, zcols=zcols, rm=rm, permits=pg, stops=stops)
     return _cache
 
@@ -139,9 +135,7 @@ def build_member(bill: str) -> dict:
     eff = mem["enacted"].min()
     per = C.period_years(eff.year, FIRST_YEAR, LAST_FULL_YEAR)
     lo, hi = pd.Timestamp(f"{per['before'][0]}-01-01"), pd.Timestamp(f"{per['after'][-1]}-12-31")
-    import geopandas as gpd
-    j = gpd.sjoin(pts, mem[["ExistCode", "PropZone", "geometry"]], how="left", predicate="within")
-    j = j[~j.index.duplicated()].reindex(pts.index)
+    j = C.join_within(parcels, mem, ["ExistCode", "PropZone"])
     in_mem = j["PropZone"].notna()
     snaps = list(zcols)
     first = zcols[snaps[0]]
@@ -153,14 +147,12 @@ def build_member(bill: str) -> dict:
     lv_b, lv_a = z_before.map(level), z_after.map(level)
     rose = in_mem & (lv_a > lv_b)
     other = rm[(rm["Bill_Number_TXT"].astype(str) != bill) & rm["changes"] & rm["enacted"].between(lo, hi)]
-    oj = gpd.sjoin(pts, other[["geometry"]], how="inner", predicate="within")
-    in_other = pd.Series(False, index=parcels.index)
-    in_other.loc[oj.index.unique()] = True
+    in_other = pd.Series(C.in_any(pts["x"].to_numpy(), pts["y"].to_numpy(), other), index=parcels.index)
     snap_change = (first.notna() & zcols[end_t].notna() & (first != zcols[end_t]))
     changed = in_other | (~in_mem & snap_change)
     eligible = z_before.map(zclass).isin(["res", "mixed", "com"])
     # restrict the work to 2 km around the member
-    near = pts.geometry.within(mem.geometry.union_all().buffer(2000))
+    near = pd.Series(C.within_distance(pts["x"].to_numpy(), pts["y"].to_numpy(), list(mem["geometry"]), 2000.0), index=parcels.index)
     sub = parcels[near].copy()
     area, rule = C.uniform_areas(sub, in_mem[near], rose[near], lv_b[near], lv_a[near], pd.Series(True, index=sub.index),
                                  changed[near], eligible[near], stations=d["stops"])
@@ -183,7 +175,6 @@ def build_member(bill: str) -> dict:
 
 
 def build() -> tuple[C.CaseInputs, dict]:
-    import geopandas as gpd
     d = _load()
     rm = d["rm"]
     dp = rm[(rm["Origination"] == "DistrictPlan") & rm["changes"] & rm["enacted"].dt.year.between(*MEMBER_YEARS)]

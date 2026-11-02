@@ -133,12 +133,50 @@ def load_permits() -> pd.DataFrame:
     return select_new_permits(pd.concat(parts, ignore_index=True))
 
 
-def load_stations():
-    import geopandas as gpd
+def load_stations() -> pd.DataFrame:
+    """TTC stations (GTFS location_type 1) as a point frame (x, y) in CRS_M."""
     with zipfile.ZipFile(DIR / "ttc_gtfs.zip") as z:
         s = pd.read_csv(z.open("stops.txt"), dtype=str)
     s = s[s["location_type"] == "1"]
-    return gpd.GeoSeries(gpd.points_from_xy(s["stop_lon"].astype(float), s["stop_lat"].astype(float)), crs=4326).to_crs(CRS_M)
+    from missing_middleware.geom_extra_station import crs, wgs84_to_csrs
+    lo, la = wgs84_to_csrs(s["stop_lon"].astype(float).to_numpy(), s["stop_lat"].astype(float).to_numpy())
+    x, y = crs(CRS_M).forward(lo, la)
+    return pd.DataFrame({"x": x, "y": y})
+
+
+def _wgs84_layer(path) -> pd.DataFrame:
+    """A WGS 84 polygon layer in CRS_M (NAD83(CSRS)), with PROJ's datum shift (about 1 m) so it lines up with the
+    property boundaries, which are published in CRS_M."""
+    from missing_middleware.geom_extra_station import polys_wgs84_to, read_vector, wgs84_to_csrs
+    g = read_vector(path)
+    assert g.attrs["crs"].kind == "longlat"
+    g["geometry"] = polys_wgs84_to(list(g["geometry"]), CRS_M, wgs84_to_csrs)
+    return g
+
+
+def _aoi_distance(px, py, treat_polys: list, step: float = 5.0) -> np.ndarray:
+    """Approximate distance from points to the treated polygons (0 inside), from boundary points every `step` metres:
+    used only to choose which parcels and address points to read (the area of interest), as the geopandas version's
+    `mask` did; exact to within step / 2."""
+    from scipy.spatial import cKDTree
+
+    from missing_middleware.geom_extra_station import _segments_of
+    seg, _ = _segments_of(treat_polys)
+    L = np.hypot(seg[:, 2] - seg[:, 0], seg[:, 3] - seg[:, 1])
+    k = np.maximum(1, np.ceil(L / step).astype(int))
+    t = np.concatenate([np.arange(n) / n for n in k])
+    s = seg[np.repeat(np.arange(len(seg)), k)]
+    pts = np.c_[s[:, 0] + t * (s[:, 2] - s[:, 0]), s[:, 1] + t * (s[:, 3] - s[:, 1])]
+    d = cKDTree(pts).query(np.c_[px, py])[0]
+    return np.where(C.in_any(px, py, treat_polys), 0.0, d)
+
+
+def _in_aoi(px, py, treat_polys: list, stations: pd.DataFrame, extra: float = 0.0) -> np.ndarray:
+    """Points within 1,600 m of the by-law's lands or within 1/2 mile + 50 m of a station (plus `extra`)."""
+    from scipy.spatial import cKDTree
+    near_t = _aoi_distance(px, py, treat_polys) <= 1600 + extra
+    ds = cKDTree(stations[["x", "y"]].to_numpy()).query(np.c_[px, py])[0]
+    return near_t | (ds <= C.HALF_MILE_M + 50 + extra)
 
 
 def nearest_number(street_nums: pd.DataFrame, want: pd.DataFrame, max_gap: int = NEAREST_NUMBER_MAX_GAP) -> pd.Series:
@@ -157,14 +195,14 @@ def nearest_number(street_nums: pd.DataFrame, want: pd.DataFrame, max_gap: int =
 def locate_permits(pr: pd.DataFrame, addr, parcels) -> pd.DataFrame:
     """Permit -> address point (GEO_ID; else the same address; else the nearest house number on the same street side,
     within NEAREST_NUMBER_MAX_GAP: big sites are re-addressed after construction) -> parcel index ('pix')."""
-    import geopandas as gpd
     a = addr.copy().reset_index(drop=True)
     a["apid"] = pd.to_numeric(a["ADDRESS_POINT_ID"], errors="coerce")
-    by_id = a.dropna(subset=["apid"]).drop_duplicates("apid").set_index("apid").geometry
+    a["pos"] = np.arange(len(a), dtype=float)
+    by_id = a.dropna(subset=["apid"]).drop_duplicates("apid").set_index("apid")["pos"]
     a["key"] = [address_key(n, nm, d) for n, nm, d in zip(a["LO_NUM"], a["LINEAR_NAME"], a["LINEAR_NAME_DIR"])]
-    by_key = a.drop_duplicates("key").set_index("key").geometry
+    by_key = a.drop_duplicates("key").set_index("key")["pos"]
     gid = pd.to_numeric(pr["GEO_ID"], errors="coerce")
-    geom = gid.map(by_id)
+    geom = gid.map(by_id)          # position of the address point in `a`
     keys = pd.Series([address_key(n, nm, d) for n, nm, d in zip(pr["STREET_NUM"], pr["STREET_NAME"], pr["STREET_DIRECTION"])], index=pr.index)
     how = pd.Series(np.where(geom.notna(), "geo_id", "none"), index=pr.index)
     miss = geom.isna()
@@ -180,10 +218,12 @@ def locate_permits(pr: pd.DataFrame, addr, parcels) -> pd.DataFrame:
         want["num"] = want["num"].astype(int)
         lab = nearest_number(sn, want)
         hit = lab.dropna()
-        geom[hit.index] = a.geometry.loc[hit.astype(int).values].values
+        geom[hit.index] = a["pos"].loc[hit.astype(int).values].values
         how[hit.index] = "nearest_number"
     pr = pr.assign(located_by=how)
-    g = gpd.GeoDataFrame(pr[geom.notna()].copy(), geometry=gpd.GeoSeries(geom[geom.notna()], crs=CRS_M), crs=CRS_M)
+    g = pr[geom.notna()].copy()
+    pos = geom[geom.notna()].astype(int).to_numpy()
+    g["x"], g["y"] = a["x"].to_numpy()[pos], a["y"].to_numpy()[pos]
     g["pix"] = C.locate_points(g, parcels)
     return g, pr["located_by"].value_counts().to_dict()
 
@@ -204,23 +244,34 @@ def _did_row(permits: pd.DataFrame, acres: dict, per: dict, added, parcels) -> d
 
 
 def build(effective_year: int = EFFECTIVE_YEAR) -> tuple[C.CaseInputs, dict]:
-    import geopandas as gpd
-
-    z = gpd.read_file(DIR / "zoning_area.gpkg").to_crs(CRS_M)
+    from missing_middleware.geom_extra_station import feature_bounds, nonempty, read_vector
+    z = _wgs84_layer(DIR / "zoning_area.gpkg")
     z["exc"] = z["ZN_STRING"].map(exception_no)
     z["in_bylaw"] = z["exc"].map(in_bylaw)
     treat_poly = z[z["in_bylaw"]]
+    tpolys = list(treat_poly["geometry"])
     stations = load_stations()
-    aoi = gpd.GeoSeries([treat_poly.union_all().buffer(1600), stations.buffer(C.HALF_MILE_M + 50).union_all()], crs=CRS_M).union_all()
-    parcels = gpd.read_file(DIR / "property_boundaries.gpkg", mask=aoi).to_crs(CRS_M)
-    parcels = parcels[parcels.geometry.notna() & ~parcels.geometry.is_empty].drop_duplicates("PARCELID").reset_index(drop=True)
-    parcels["acres"] = parcels.geometry.area / C.SQM_PER_ACRE
-    pts = gpd.GeoDataFrame(parcels[["PARCELID"]], geometry=parcels.geometry.representative_point(), crs=CRS_M)
-    j = gpd.sjoin(pts, z[["ZN_ZONE", "ZN_STRING", "exc", "in_bylaw", "geometry"]], how="left", predicate="within")
-    j = j[~j.index.duplicated()].reindex(pts.index)
-    h = gpd.read_file(DIR / "zoning_height_overlay.geojson").to_crs(CRS_M)[["HT_LABEL", "geometry"]]
-    jh = gpd.sjoin(pts, h, how="left", predicate="within")
-    jh = jh[~jh.index.duplicated()].reindex(pts.index)
+    # area of interest (the geopandas version read features meeting the union of the buffers): a box prefilter, then
+    # parcels with a vertex in the area
+    tb = feature_bounds(tpolys)
+    r = C.HALF_MILE_M + 50
+    box = (min(np.nanmin(tb[:, 0]) - 1600, stations["x"].min() - r), min(np.nanmin(tb[:, 1]) - 1600, stations["y"].min() - r),
+           max(np.nanmax(tb[:, 2]) + 1600, stations["x"].max() + r), max(np.nanmax(tb[:, 3]) + 1600, stations["y"].max() + r))
+    parcels = read_vector(DIR / "property_boundaries.gpkg", CRS_M, bbox=box)
+    parcels = parcels[nonempty(parcels["geometry"])].reset_index(drop=True)
+    verts = [np.concatenate([rr for part in f for rr in part]) for f in parcels["geometry"]]
+    own = np.repeat(np.arange(len(verts)), [len(v) for v in verts])
+    V = np.concatenate(verts)
+    hit = _in_aoi(V[:, 0], V[:, 1], tpolys, stations)
+    keep = np.zeros(len(parcels), bool)
+    keep[np.unique(own[hit])] = True
+    parcels = parcels[keep].drop_duplicates("PARCELID").reset_index(drop=True)
+    parcels["acres"] = C.parcel_acres(parcels)
+    rx, ry = C.rep_xy(parcels)
+    pts = pd.DataFrame({"x": rx, "y": ry})
+    j = C.join_within(parcels, z, ["ZN_ZONE", "ZN_STRING", "exc", "in_bylaw"])
+    h = _wgs84_layer(DIR / "zoning_height_overlay.geojson")[["HT_LABEL", "geometry"]]
+    jh = C.join_within(parcels, h, ["HT_LABEL"])
     parcels["zone"] = j["ZN_ZONE"].values
     parcels["exc"] = j["exc"].values
     parcels["treated"] = j["in_bylaw"].fillna(False).astype(bool).values
@@ -244,8 +295,10 @@ def build(effective_year: int = EFFECTIVE_YEAR) -> tuple[C.CaseInputs, dict]:
     acres = el.groupby("area")["acres"].sum().to_dict()
 
     pr = load_permits()
-    addr = gpd.read_file(DIR / "address_points.gpkg", mask=aoi.buffer(100),
-                         columns=["ADDRESS_POINT_ID", "LO_NUM", "LINEAR_NAME", "LINEAR_NAME_DIR"]).to_crs(CRS_M)
+    abox = (box[0] - 100, box[1] - 100, box[2] + 100, box[3] + 100)
+    addr = read_vector(DIR / "address_points.gpkg", CRS_M, bbox=abox,
+                       columns=["ADDRESS_POINT_ID", "LO_NUM", "LINEAR_NAME", "LINEAR_NAME_DIR"])
+    addr = addr[_in_aoi(addr["x"].to_numpy(), addr["y"].to_numpy(), tpolys, stations, extra=100.0)].reset_index(drop=True)
     near, located = locate_permits(pr, addr, parcels)
     near["eligible"] = parcels["eligible"].reindex(near["pix"]).fillna(False).astype(bool).values
 
@@ -264,9 +317,10 @@ def build(effective_year: int = EFFECTIVE_YEAR) -> tuple[C.CaseInputs, dict]:
     # LATER_REZONED_NEAR_M of the by-law's lands. They are where most Eglinton projects stand, and the strict
     # boundary cannot contain them; whether each was in the by-law in 2014 cannot be checked from open data.
     eg = addr[addr["LINEAR_NAME"].astype(str).str.upper().str.strip().eq("EGLINTON")]
-    eg_hit = gpd.sjoin(eg[["geometry"]], parcels[["geometry"]], predicate="within")["index_right"].unique()
+    from missing_middleware.geom_extra_station import point_poly_pairs
+    eg_hit = np.unique(point_poly_pairs(eg["x"].to_numpy(), eg["y"].to_numpy(), list(parcels["geometry"]))[1])
     hole_eg = (parcels["zone"].isna() & parcels.index.isin(eg_hit)
-               & pts.geometry.within(treat_poly.union_all().buffer(LATER_REZONED_NEAR_M)))
+               & pd.Series(C.within_distance(pts["x"].to_numpy(), pts["y"].to_numpy(), tpolys, LATER_REZONED_NEAR_M), index=parcels.index))
     t_s, el_s = parcels["treated"] | hole_eg, parcels["eligible"] | hole_eg
     area_s, _ = C.uniform_areas(parcels, t_s, t_s, pd.Series(np.nan, index=parcels.index), level_after, none, none, el_s,
                                 in_city=in_city, stations=stations)
@@ -287,7 +341,7 @@ def build(effective_year: int = EFFECTIVE_YEAR) -> tuple[C.CaseInputs, dict]:
         "rule": rule,
         "bylaw_exceptions_found": sorted(int(e) for e in treat_poly["exc"].unique()),
         "bylaw_exceptions_missing": sorted(set(EXCEPTIONS) - set(int(e) for e in treat_poly["exc"].unique())),
-        "bylaw_zone_polygon_acres": round(float(treat_poly.area.sum() / C.SQM_PER_ACRE), 1),
+        "bylaw_zone_polygon_acres": round(float(C.parcel_acres(treat_poly).sum()), 1),
         "eligible_parcels_by_area": el.groupby("area").size().to_dict(),
         "permits_new_with_units": int(len(pr)),
         "permits_located_by (address points of the case area only)": located,
@@ -301,7 +355,7 @@ def build(effective_year: int = EFFECTIVE_YEAR) -> tuple[C.CaseInputs, dict]:
         "dose_land_share": round(float(dt["acres"].sum() / tr["acres"].sum()), 3) if len(tr) else None,
         "dose_added_height_m": round(C.dose(pd.DataFrame({"acres": dt["acres"], "old_far": dt["overlay_m"], "new_far": dt["overlay_m"] + dt["dose_m"]})), 2) if len(dt) else None,
         "original_rule_acres": {k: round(v, 1) for k, v in orig_acres.items()},
-        "second_comparison_stations": int(len(C.stations_not_upzoned(stations, parcels.loc[parcels["area"] == C.TREAT].geometry.union_all()))),
+        "second_comparison_stations": int(len(C.stations_not_upzoned(stations, list(parcels.loc[parcels["area"] == C.TREAT, "geometry"])))),
         "sens_with_later_rezoned_eglinton_lots": _did_row(permits_s, acres_s, per, hole_eg, parcels),
         f"did_effective_{ALT_EFFECTIVE_YEAR}": C.did(permits, acres, alt["before"], alt["after"]) if acres.get(C.TREAT) and acres.get(C.COMP) else None,
     }

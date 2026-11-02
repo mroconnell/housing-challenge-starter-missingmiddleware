@@ -27,6 +27,7 @@ from __future__ import annotations
 import glob
 import re
 
+import numpy as np
 import pandas as pd
 
 from missing_middleware.paths import RAW
@@ -50,25 +51,30 @@ def new_res_permits(p: pd.DataFrame) -> pd.DataFrame:
     return q.drop_duplicates("Permit_Number")
 
 
-def load_permits():
-    import geopandas as gpd
+def load_permits(crs_m=CRS_M) -> pd.DataFrame:
+    """All yearly permit layers as one point frame (x, y in crs_m) with layer_year."""
     parts = []
     for f in sorted(glob.glob(str(DIR / "permits" / "permits_*.geojson"))):
-        g = gpd.read_file(f)
+        g = C.points(f, crs_m)
         g["layer_year"] = int(re.search(r"(\d{4})", f.split("/")[-1]).group(1))
         parts.append(g)
-    g = pd.concat(parts, ignore_index=True)
-    return gpd.GeoDataFrame(g, geometry="geometry", crs=parts[0].crs)
+    return pd.concat(parts, ignore_index=True)
 
 
-def station_counts(permits, stations) -> pd.DataFrame:
-    """Yearly count of new residential permits within 1/2 mile of each named station (IB/OB platforms merged)."""
-    import geopandas as gpd
+def station_counts(permits: pd.DataFrame, stations: pd.DataFrame) -> pd.DataFrame:
+    """Yearly count of new residential permits within 1/2 mile of each named station (IB/OB platforms merged: the
+    centre of the platforms' distinct points, buffered as GEOS does)."""
+    from missing_middleware.geom_extra_station import within_point_buffers
     st = stations.copy()
     st["station"] = st["STN_NAME"].map(station_name)
-    st = st[st["station"].isin(list(REZONED) + list(OTHER))].dissolve("station").reset_index()
-    st["geometry"] = st.geometry.centroid.buffer(C.HALF_MILE_M)
-    j = gpd.sjoin(permits[["Permit_Number", "layer_year", "geometry"]], st[["station", "geometry"]], predicate="within")
+    st = st[st["station"].isin(list(REZONED) + list(OTHER))]
+    rows = []
+    px, py = permits["x"].to_numpy(), permits["y"].to_numpy()
+    for name, g in st.groupby("station"):
+        u = np.unique(np.c_[g["x"], g["y"]], axis=0)
+        m = within_point_buffers(px, py, [u[:, 0].mean()], [u[:, 1].mean()], C.HALF_MILE_M)
+        rows.append(permits.loc[m, ["layer_year"]].assign(station=name))
+    j = pd.concat(rows) if rows else pd.DataFrame(columns=["layer_year", "station"])
     t = j.groupby(["station", "layer_year"]).size().unstack(fill_value=0)
     return t
 
@@ -78,12 +84,11 @@ def build() -> tuple[C.CaseInputs, dict]:
                   "boundary": "PDF image maps only (City pages removed; Wayback copies); no GIS or parcel list",
                   "zoning_before": "no layer before January 2017"}
     try:
-        import geopandas as gpd
         p = load_permits()
         diag["layer_2011_duplicates_2012"] = bool(
             set(p.loc[p["layer_year"] == 2011, "Permit_Number"]) == set(p.loc[p["layer_year"] == 2012, "Permit_Number"]))
-        q = new_res_permits(p[p["layer_year"] != 2011]).to_crs(CRS_M)
-        st = gpd.read_file(DIR / "transit_stations.geojson").to_crs(CRS_M)
+        q = new_res_permits(p[p["layer_year"] != 2011])
+        st = C.points(DIR / "transit_stations.geojson", CRS_M)
         diag["new_residential_permits_within_half_mile_by_year"] = station_counts(q, st).to_dict(orient="index")
         diag["citywide_new_residential_permits_by_year"] = q.groupby("layer_year").size().to_dict()
     except Exception as e:  # noqa: BLE001  (raw files absent: the case still records why it has no estimate)

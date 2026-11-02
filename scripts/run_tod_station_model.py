@@ -47,13 +47,12 @@ def king_permit_years(case: str, E: pd.DataFrame) -> pd.Series:
     """Actual permit year for King County completion records where a city permit (Seattle or Bellevue) for new homes
     sits on the same lot (within 40 m) and was issued 1 year after to 6 years before completion (hand check found the
     estimated year runs early in Seattle)."""
-    import geopandas as gpd
     import run_tod_station_area as SA
+    from missing_middleware import geom_extra_station as X
     L = pd.read_parquet(OUT / f"lots_{case}.parquet", columns=["x", "y"])
-    g = gpd.GeoDataFrame(L, geometry=gpd.points_from_xy(L.x, L.y), crs=5070)
     p = pd.concat([SA.permits("Seattle"), SA.permits("Bellevue")], ignore_index=True)
-    j = gpd.sjoin_nearest(p, g[["geometry"]], max_distance=40, how="inner")
-    j = j[~j.index.duplicated()]
+    i, _ = X.nearest_lowest(p.x.values, p.y.values, L.x.values, L.y.values, 40.0)
+    j = p[i >= 0].assign(index_right=L.index.values[i[i >= 0]])
     py = j.groupby("index_right").year.apply(list)
     out = []
     for ix, cy in zip(E.lot_index, E.completed_year):

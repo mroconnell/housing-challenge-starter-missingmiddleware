@@ -24,7 +24,7 @@ The plan was written before any permits were counted; these functions implement 
   added foot; such cases have no effect per added FAR and stay out of any per-FAR pooling.
 
 Inputs are plain pandas tables so the arithmetic can be tested without any geography. Geometry helpers take
-GeoDataFrames in a projected CRS measured in metres.
+pandas frames with polygon features (missing_middleware.geom's model) in a projected CRS measured in metres.
 """
 from __future__ import annotations
 
@@ -203,28 +203,160 @@ def far_from_density(units_per_acre: float, sqft_per_unit: float) -> float:
 
 
 # --------------------------------------------------------------------------- geometry helpers
+# Geometry is held in plain pandas frames (no geopandas: the contest allows permissive licences only): a parcel frame
+# has a column "geometry" of polygon features (missing_middleware.geom's model: list of parts, each a list of rings)
+# in a metre CRS, and optionally "rx"/"ry", its representative points (GEOS's point on surface, computed here when
+# absent); point sets (stations, permits, blocks) are frames with "x" and "y" columns, or an (x, y) pair of arrays.
+
+def xy(points) -> tuple[np.ndarray, np.ndarray]:
+    """x and y arrays of a point frame (columns x, y) or an (x, y) pair."""
+    if points is None:
+        return np.zeros(0), np.zeros(0)
+    if isinstance(points, pd.DataFrame):
+        return points["x"].to_numpy(float), points["y"].to_numpy(float)
+    x, y = points
+    return np.asarray(x, float), np.asarray(y, float)
+
+
+def subset_points(points, mask):
+    """Rows of a point frame or (x, y) pair."""
+    m = np.asarray(mask, bool)
+    if isinstance(points, pd.DataFrame):
+        return points[m]
+    x, y = xy(points)
+    return x[m], y[m]
+
+
+def rep_xy(parcels: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
+    """Representative points (GEOS point on surface) of a parcel frame, as Series on its index; cached in rx/ry."""
+    if "rx" not in parcels.columns or "ry" not in parcels.columns:
+        from missing_middleware.geom_extra_station import interior_points
+        x, y = interior_points(list(parcels["geometry"]))
+        parcels["rx"], parcels["ry"] = x, y
+    return parcels["rx"], parcels["ry"]
+
+
+def parcel_acres(parcels: pd.DataFrame) -> pd.Series:
+    from missing_middleware.geom_extra_station import areas
+    return pd.Series(areas(list(parcels["geometry"])) / SQM_PER_ACRE, index=parcels.index)
+
+
+def within_distance(px, py, polys: list, d: float) -> np.ndarray:
+    """Points inside the polygons' union buffered by d metres, with GEOS's segmented round corners
+    (geom_extra_station.within_buffer_geos)."""
+    from missing_middleware.geom_extra_station import within_buffer_geos
+    if not len(polys):
+        return np.zeros(len(px), bool)
+    return within_buffer_geos(px, py, polys, d)
+
+
+def read_parcels(path, crs_m, dedupe: str | None = None, columns: list[str] | None = None, make_valid: bool = False,
+                 keep=None) -> pd.DataFrame:
+    """Parcel layer as a parcel frame in crs_m: empty shapes dropped, one row per `dedupe` id (first kept), rows kept by
+    the optional `keep(frame)` mask, index 0..n-1, with acres (GEOS area) and representative points rx, ry.
+    make_valid: repair nested rings first (geom_extra_station.make_valid_nested), as GEOS make_valid did."""
+    from missing_middleware.geom_extra_station import make_valid_nested, nonempty, read_vector
+    g = read_vector(path, crs_m, columns=columns)
+    g = g[nonempty(g["geometry"])]
+    if dedupe:
+        g = g.drop_duplicates(dedupe)
+    if keep is not None:
+        g = g[keep(g)]
+    g = g.reset_index(drop=True)
+    if make_valid:
+        g["geometry"] = make_valid_nested(list(g["geometry"]))
+    g["acres"] = parcel_acres(g)
+    rep_xy(g)
+    return g
+
+
+def polygons(path, crs_m, columns: list[str] | None = None, make_valid: bool = False) -> pd.DataFrame:
+    """Any polygon layer (zoning, rezonings) as a frame with "geometry" in crs_m (make_valid: nested rings repaired,
+    as GEOS make_valid did)."""
+    from missing_middleware.geom_extra_station import make_valid_nested, read_vector
+    g = read_vector(path, crs_m, columns=columns)
+    if make_valid:
+        g["geometry"] = make_valid_nested(list(g["geometry"]))
+    return g
+
+
+def points(path, crs_m, columns: list[str] | None = None) -> pd.DataFrame:
+    """A point layer as a frame with x, y in crs_m."""
+    from missing_middleware.geom_extra_station import read_vector
+    return read_vector(path, crs_m, columns=columns)
+
+
+def points_from_lonlat(df: pd.DataFrame, lon, lat, crs_m, src=4326) -> pd.DataFrame:
+    """df with x, y (crs_m) from coordinate columns (or arrays) in src."""
+    from missing_middleware.geom_extra_station import transform
+    lo = df[lon] if isinstance(lon, str) else lon
+    la = df[lat] if isinstance(lat, str) else lat
+    x, y = transform(np.asarray(lo, float), np.asarray(la, float), src, crs_m)
+    return df.assign(x=x, y=y)
+
+
+def join_within(parcels: pd.DataFrame, layer: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
+    """Attributes of the first polygon of `layer` holding each parcel's representative point (sjoin 'within', first
+    match kept); NaN where none. Indexed like parcels."""
+    from missing_middleware.geom_extra_station import first_within
+    rx, ry = rep_xy(parcels)
+    k = first_within(rx.to_numpy(), ry.to_numpy(), list(layer["geometry"]))
+    hit = k >= 0
+    out = pd.DataFrame(index=parcels.index)
+    for c in cols:
+        src = layer[c].reset_index(drop=True)
+        v = src.iloc[np.maximum(k, 0)].reset_index(drop=True) if len(src) else pd.Series([np.nan] * len(k))
+        v = v.where(pd.Series(hit), np.nan)
+        out[c] = v.infer_objects().to_numpy()
+    return out
+
+
+def in_any(px, py, layer) -> np.ndarray:
+    """Points inside any polygon of a frame (or list of features): `within(union_all())`, so the parts of a feature
+    count as their union (a nested shell does not cut a hole)."""
+    from missing_middleware.geom_extra_station import first_within
+    polys = list(layer["geometry"]) if isinstance(layer, pd.DataFrame) else list(layer)
+    if not polys:
+        return np.zeros(len(px), bool)
+    return first_within(np.asarray(px, float), np.asarray(py, float), polys, union=True) >= 0
+
+
+def block_points(zip_path, el: pd.DataFrame, crs_m) -> pd.DataFrame:
+    """2010 census blocks (HOUSING10) read within the envelope of the given parcels (bbox in the file's NAD83
+    coordinates, as GDAL's bbox read), as representative points in crs_m with column homes."""
+    from missing_middleware.geom_extra_station import (bbox_to, feature_bounds, interior_points, polys_to_crs,
+                                                         read_vector)
+    b = feature_bounds(list(el["geometry"]))
+    env = (np.nanmin(b[:, 0]), np.nanmin(b[:, 1]), np.nanmax(b[:, 2]), np.nanmax(b[:, 3]))
+    g = read_vector(zip_path, None, columns=["HOUSING10"], bbox=bbox_to(env, crs_m, 4269))
+    polys = polys_to_crs(list(g["geometry"]), g.attrs["crs"], crs_m)
+    x, y = interior_points(polys)
+    return pd.DataFrame({"homes": g["HOUSING10"].to_numpy(), "x": x, "y": y})
+
 
 def assign_areas(parcels, treated: pd.Series, in_city: pd.Series | None = None, stations=None,
                  ring_m: float = QUARTER_MILE_M, station_m: float = HALF_MILE_M) -> pd.Series:
-    """Area label for each parcel (GeoDataFrame in metres): treatment, comparison, second_comparison or None.
+    """Area label for each parcel (frame with polygon "geometry" in metres): treatment, comparison, second_comparison
+    or None.
 
     Comparison: not treated, representative point within ring_m of the treated parcels.
     Second comparison: not treated or comparison, representative point within station_m of a station whose own
-    station_m circle contains no treated land (stations: GeoSeries of points in the same CRS)."""
-    import geopandas as gpd  # noqa: F401
+    station_m circle contains no treated land (stations: point frame or (x, y) in the same CRS)."""
+    from missing_middleware.geom_extra_station import within_point_buffers
     treated = treated.astype(bool)
     in_city = pd.Series(True, index=parcels.index) if in_city is None else in_city.astype(bool)
-    pts = parcels.geometry.representative_point()
-    tunion = parcels.loc[treated].geometry.make_valid().union_all()
+    rx, ry = rep_xy(parcels)
+    tpolys = list(parcels.loc[treated, "geometry"])
     area = pd.Series(None, index=parcels.index, dtype=object)
     area[treated] = TREAT
-    near = pts.within(tunion.buffer(ring_m)) & ~treated & in_city
+    near = pd.Series(within_distance(rx.to_numpy(), ry.to_numpy(), tpolys, ring_m), index=parcels.index) & ~treated & in_city
     area[near] = COMP
-    if stations is not None and len(stations):
-        keep = stations_not_upzoned(stations, tunion, station_m)
-        if len(keep):
-            zone = keep.buffer(station_m).union_all()
-            sec = pts.within(zone) & area.isna() & in_city
+    if stations is not None and len(xy(stations)[0]):
+        keep = stations_not_upzoned(stations, tpolys, station_m)
+        kx, ky = xy(keep)
+        if len(kx):
+            inz = within_point_buffers(rx.to_numpy(), ry.to_numpy(), kx, ky, station_m)
+            sec = pd.Series(inz, index=parcels.index) & area.isna() & in_city
             area[sec] = COMP2
     return area
 
@@ -251,7 +383,7 @@ def uniform_areas(parcels, in_reform: pd.Series, rose: pd.Series, level_before: 
     - Comparison and second comparison: as in assign_areas, among the remaining lots (allowed density unchanged).
     Levels: use +inf for "no limit"."""
     in_reform, rose = in_reform.astype(bool), rose.astype(bool)
-    acres = parcels.geometry.area / SQM_PER_ACRE
+    acres = parcel_acres(parcels)
     base = in_reform & rose & eligible.astype(bool)
     med = weighted_median(level_after[base].replace(np.inf, np.nan).fillna(1e9), acres[base])
     at_law = uncapped_before.astype(bool) & (level_before.fillna(-1) >= med)
@@ -267,36 +399,42 @@ def uniform_areas(parcels, in_reform: pd.Series, rose: pd.Series, level_before: 
     return area, info
 
 
-def stations_not_upzoned(stations, treated_union, station_m: float = HALF_MILE_M):
-    """Stations whose station_m circle contains no treated land."""
-    return stations[stations.distance(treated_union) > station_m]
+def stations_not_upzoned(stations, treated_polys, station_m: float = HALF_MILE_M):
+    """Stations whose station_m circle contains no treated land (treated_polys: list of polygon features, or a parcel
+    frame). Returns the same kind of object as `stations`."""
+    from missing_middleware.geom_extra_station import distance_within
+    if isinstance(treated_polys, pd.DataFrame):
+        treated_polys = list(treated_polys["geometry"])
+    sx, sy = xy(stations)
+    if not len(treated_polys):                  # distance to an empty union is undefined: no station qualifies
+        return subset_points(stations, np.zeros(len(sx), bool))
+    d = distance_within(sx, sy, list(treated_polys), station_m)
+    return subset_points(stations, d > station_m)
 
 
 def locate_points(points, parcels, max_m: float = 30.0) -> pd.Series:
     """Index of the parcel containing each point; points in no parcel (address points on the street frontage)
-    take the nearest parcel within max_m metres. NaN when none."""
-    import geopandas as gpd
-    pp = parcels[["geometry"]]
-    w = gpd.sjoin(points[["geometry"]], pp, how="left", predicate="within")
-    w = w[~w.index.duplicated()]
-    ix = w["index_right"].reindex(points.index)
-    miss = ix.isna()
-    if miss.any():
-        n = gpd.sjoin_nearest(points.loc[miss, ["geometry"]], pp, how="left", max_distance=max_m)
-        n = n[~n.index.duplicated()]
-        ix.loc[miss] = n["index_right"].reindex(points.index[miss]).values
-    return ix
+    take the nearest parcel within max_m metres. NaN when none. points: point frame (index kept)."""
+    from missing_middleware.geom_extra_station import nearest_polygon
+    px, py = xy(points)
+    pos, _ = nearest_polygon(px, py, list(parcels["geometry"]), max_m)
+    lab = np.where(pos >= 0, parcels.index.to_numpy()[np.maximum(pos, 0)], np.nan).astype(float)
+    return pd.Series(lab, index=points.index)
 
 
 def homes_by_area(blocks, parcels_area) -> dict[str, float]:
     """Existing homes per area: census block housing units whose internal point falls in a labelled parcel.
 
-    blocks: GeoDataFrame of points with column 'homes'; parcels_area: GeoDataFrame with column 'area'."""
-    import geopandas as gpd
-    j = gpd.sjoin(blocks[["homes", "geometry"]], parcels_area[["area", "geometry"]].dropna(subset=["area"]),
-                  how="inner", predicate="within")
-    j = j[~j.index.duplicated()]
-    return {a: float(v) for a, v in j.groupby("area")["homes"].sum().items()}
+    blocks: point frame with column 'homes'; parcels_area: parcel frame with columns 'area' and 'geometry'."""
+    from missing_middleware.geom_extra_station import first_within
+    pa = parcels_area.dropna(subset=["area"])
+    bx, by = xy(blocks)
+    k = first_within(bx, by, list(pa["geometry"]))
+    hit = k >= 0
+    if not hit.any():
+        return {}
+    s = pd.Series(blocks["homes"].to_numpy()[hit]).groupby(pa["area"].to_numpy()[k[hit]]).sum()
+    return {a: float(v) for a, v in s.items()}
 
 
 # --------------------------------------------------------------------------- one case end to end

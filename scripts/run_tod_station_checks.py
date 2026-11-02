@@ -31,13 +31,14 @@ import json
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
+from scipy.spatial import cKDTree
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
+from missing_middleware import geom_extra_station as X  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 import run_tod_station_model as M  # noqa: E402
 
@@ -94,7 +95,7 @@ def case_effect(case: str, drop_stops: set | None = None) -> pd.DataFrame:
 
 # =========================================================================== stop lists (rebuilt as in each builder)
 
-def stops_for(case: str) -> gpd.GeoDataFrame:
+def stops_for(case: str) -> pd.DataFrame:
     import build_tod_station_lot_table as B
     if case in ("la_toc_2017", "san_diego_2021"):
         box, st = ((-118.95, 33.70, -117.65, 34.35), "06") if case == "la_toc_2017" else ((-117.30, 32.53, -116.90, 32.95), "06")
@@ -106,11 +107,11 @@ def stops_for(case: str) -> gpd.GeoDataFrame:
         S["stop_id"] = np.arange(len(S))
         return S
     if case == "honolulu_2017":
-        r = gpd.read_file(B.RP / "honolulu" / "rail_stations.geojson").to_crs(CRS)
-        S = gpd.GeoDataFrame({"stop_name": r.station_name_FEIS.values, "place": "Urban Honolulu"}, geometry=r.geometry.values, crs=CRS)
+        r = X.read_vector(B.RP / "honolulu" / "rail_stations.geojson", dst=CRS)
+        S = pd.DataFrame({"stop_name": r.station_name_FEIS.values, "place": "Urban Honolulu", "x": r.x.values, "y": r.y.values})
         S["group"] = np.where(S.stop_name.str.contains("Waipahu Transit|West Loch"), "reform", "comparison")
         S["stop_id"] = np.arange(len(S))
-        S["lon"] = S.to_crs(4326).geometry.x
+        S["lon"] = X.transform(S.x.values, S.y.values, CRS, 4326)[0]
         return S
     if case.startswith("chicago"):
         from station_cases import chicago as CH
@@ -321,20 +322,20 @@ def task3() -> pd.DataFrame:
 
 # =========================================================================== task 1: Milwaukee placebo
 
-def mke_stops() -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
+def mke_stops() -> tuple[np.ndarray, np.ndarray]:
+    """Station points ((n, 2), CRS 5070) of the Hop streetcar and the BRT line, platforms within 150 m merged."""
     s = pd.read_csv(REFERENCE / "tod_stops.csv", dtype={"stop_id": str})
     s = s[s.flag_a_rapid == 1]
 
-    def merged(agency: str) -> gpd.GeoDataFrame:
+    def merged(agency: str) -> np.ndarray:
         a = s[s.agency == agency]
-        g = gpd.GeoDataFrame(geometry=gpd.points_from_xy(a.lon, a.lat), crs=4326).to_crs(CRS)
-        blobs = g.buffer(75).union_all()
-        parts = list(blobs.geoms) if hasattr(blobs, "geoms") else [blobs]
-        return gpd.GeoDataFrame(geometry=[p.centroid for p in parts], crs=CRS)
+        x, y = X.transform(a.lon.values, a.lat.values, 4326, CRS)
+        cx, cy, _ = X.merge_within(x, y, 75.0)
+        return np.c_[cx, cy]
     return merged("City of Milwaukee"), merged("Milwaukee County")
 
 
-def mke_lots() -> gpd.GeoDataFrame:
+def mke_lots() -> pd.DataFrame:
     cols = ["TAXKEY", "YR_BUILT", "NR_UNITS", "LAND_USE", "LAND_USE_GP"]          # no owner fields
     m = pd.read_csv(RAW / "milwaukee_mprop" / "mprop.csv", dtype=str, usecols=cols).drop_duplicates("TAXKEY")
     res = m.LAND_USE.fillna("").str.startswith("88") & (m.LAND_USE_GP != "12")
@@ -342,8 +343,8 @@ def mke_lots() -> gpd.GeoDataFrame:
     yb = pd.to_numeric(m.YR_BUILT, errors="coerce")
     yb = yb.where(yb > 1800)
     m = pd.DataFrame({"TAXKEY": m.TAXKEY, "homes": homes, "yb": yb.values})
-    v = gpd.read_file(RAW / "tod_capacity" / "v12_milwaukee.geojson", columns=["PARCELID", "PLACENAME"])
-    v = v[v.PLACENAME == "CITY OF MILWAUKEE"].to_crs(CRS)
+    v = X.read_vector(RAW / "tod_capacity" / "v12_milwaukee.geojson", dst=CRS, columns=["PARCELID", "PLACENAME"])
+    v = v[v.PLACENAME == "CITY OF MILWAUKEE"]
     v = v.merge(m, left_on="PARCELID", right_on="TAXKEY", how="left")
     v.loc[v.TAXKEY.notna() & v.duplicated("PARCELID"), "homes"] = 0.0          # a tax key on two outlines counts once
     v["homes"] = v.homes.fillna(0.0)
@@ -353,27 +354,24 @@ def mke_lots() -> gpd.GeoDataFrame:
             "a1923": v.yb.between(2019, 2023)}
     for k, msk in cols.items():
         v[k] = np.where(msk, v.homes, 0.0)
-    v["_wkb"] = v.geometry.apply(lambda x: x.wkb if x is not None else None)
+    v["_wkb"] = X.outline_keys(list(v.geometry))          # equal exactly when the outlines are (as WKB)
     v = v[v._wkb.notna()]
     L = v.groupby("_wkb", sort=False).agg(**{k: (k, "sum") for k in cols}, geometry=("geometry", "first")).reset_index(drop=True)
-    L = gpd.GeoDataFrame(L, geometry="geometry", crs=CRS)
-    L["acres"] = L.area / 4046.8564224
-    L["pt"] = L.representative_point()
+    L["acres"] = X.areas(list(L.geometry)) / 4046.8564224
+    L["ptx"], L["pty"] = X.interior_points(list(L.geometry))
     return L, log
 
 
 def task1() -> tuple[pd.DataFrame, pd.DataFrame, dict]:
     hop, brt = mke_stops()
     L, log = mke_lots()
-    pts = gpd.GeoDataFrame(L.drop(columns="geometry"), geometry=L.pt, crs=CRS).drop(columns="pt")
-    dh = gpd.sjoin_nearest(pts[["geometry"]], hop, how="left", distance_col="d")
-    dh = dh[~dh.index.duplicated()].d
-    db = gpd.sjoin_nearest(pts[["geometry"]], brt, how="left", distance_col="d")
-    db = db[~db.index.duplicated()].d
+    xy = np.c_[L.ptx.values, L.pty.values]
+    dh = pd.Series(cKDTree(hop).query(xy)[0], index=L.index)
+    db = pd.Series(cKDTree(brt).query(xy)[0], index=L.index)
     grp = np.where(dh <= MILE, "reform", np.where(db <= MILE, "comparison", ""))
     dist = np.where(grp == "reform", dh, db)
     D = pd.DataFrame({"group": grp, "dist_m": dist, "homes_existing": L.existing, "acres": L.acres,
-                      "b": L.b1418, "a2024": L.a2024, "a1923": L.a1923, "x": pts.geometry.x, "y": pts.geometry.y})
+                      "b": L.b1418, "a2024": L.a2024, "a1923": L.a1923, "x": L.ptx, "y": L.pty})
     D = D[D.group != ""].copy()
     D["band"] = pd.cut(D.dist_m, [-1, QUARTER, HALF, MILE], labels=BANDS).astype(str)
     D["implausible"] = False

@@ -56,10 +56,9 @@ def build() -> tuple[C.CaseInputs, dict]:
     diag: dict = {"permit_files_first_month": PERMITS_FIRST_MONTH,
                   "full_before_years": {b: full_before_years(y) for b, y in STEPS.items()}}
     try:
-        import geopandas as gpd
-        td = gpd.read_file(DIR / "td_zones.geojson").to_crs(CRS_M)
+        td = C.polygons(DIR / "td_zones.geojson", CRS_M)
         td["step"] = [bylaw_step(str(b), str(h)) for b, h in zip(td["BYLAW_NUM"], td["HISTORY"])]
-        td["acres"] = td.geometry.area / C.SQM_PER_ACRE
+        td["acres"] = C.parcel_acres(td)
         diag["td_acres_by_step"] = td.groupby(td["step"].fillna("later site-specific"))["acres"].sum().round(1).to_dict()
         diag["td_acres_by_zone"] = td.groupby("ZONE_CODE")["acres"].sum().round(1).to_dict()
         man = json.loads((DIR / "manifest.json").read_text())

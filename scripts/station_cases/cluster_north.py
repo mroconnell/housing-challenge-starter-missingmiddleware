@@ -52,13 +52,14 @@ import sys
 import zipfile
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
+from scipy.spatial import cKDTree
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
+from missing_middleware import geom_extra_station as X  # noqa: E402
 from missing_middleware.paths import RAW  # noqa: E402
 
 CRS = 5070
@@ -108,39 +109,51 @@ EVENTS: dict[str, pd.DataFrame] = {}
 
 # --------------------------------------------------------------------------- upzoned land
 
-def treated_points() -> dict[str, gpd.GeoSeries]:
+def treated_points() -> dict[str, np.ndarray]:
+    """Treated lot points of each lot-model unit, an (n, 2) array in CRS 5070."""
     D = pd.read_parquet(LOTS, columns=["city", "unit", "treated", "x5070", "y5070", "placebo"])
     D = D[(D.treated == 1) & (D.placebo != 1)]
-    return {str(u): gpd.GeoSeries(gpd.points_from_xy(g.x5070, g.y5070), crs=CRS) for u, g in D.groupby("unit")}
+    return {str(u): np.c_[g.x5070.values, g.y5070.values] for u, g in D.groupby("unit")}
+
+
+def dist_to_points(x, y, pts: np.ndarray) -> np.ndarray:
+    """Distance from each point to the nearest of pts (the distance to their union)."""
+    return cKDTree(pts).query(np.c_[x, y])[0]
+
+
+def lonlat_points(df: pd.DataFrame, lon, lat, crs=4326) -> pd.DataFrame:
+    df = df.copy()
+    df["x"], df["y"] = X.transform(np.asarray(lon, float), np.asarray(lat, float), crs, CRS)
+    return df
 
 
 # --------------------------------------------------------------------------- stops
 
-def stations(name: str) -> gpd.GeoDataFrame:
-    g = gpd.read_file(TC / name / "rail_stops.geojson").to_crs(CRS)
-    blobs = g.buffer(75).union_all()
-    parts = list(blobs.geoms) if hasattr(blobs, "geoms") else [blobs]
-    st = gpd.GeoDataFrame(geometry=[p.centroid for p in parts], crs=CRS)
-    j = gpd.sjoin_nearest(st, g[["stop_name", "stop_type_text", "geometry"]], how="left").drop_duplicates(subset="geometry")
-    j = j.reset_index(drop=True)[["stop_name", "stop_type_text", "geometry"]]
+def stations(name: str) -> pd.DataFrame:
+    g = X.read_vector(TC / name / "rail_stops.geojson", dst=CRS)
+    g = g[g.x.notna()].reset_index(drop=True)
+    cx, cy, i = X.merge_stops(g.x.values, g.y.values, 75.0)
+    j = g[["stop_name", "stop_type_text"]].iloc[i].reset_index(drop=True)
+    j["x"], j["y"] = cx, cy
     j["stop_type_text"] = j.stop_type_text.str.strip('"')
     return j
 
 
-def place_of(g: gpd.GeoDataFrame, state: str) -> pd.Series:
-    p = gpd.read_file(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip")
-    p = p[p.STATEFP == state].to_crs(CRS)[["NAME", "geometry"]]
-    j = gpd.sjoin(g[["geometry"]], p, how="left", predicate="within")
-    return j[~j.index.duplicated()]["NAME"].reindex(g.index)
+def place_of(g: pd.DataFrame, state: str) -> pd.Series:
+    p = X.read_vector(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip", dst=CRS, columns=["NAME", "STATEFP"])
+    p = p[p.STATEFP == state].reset_index(drop=True)
+    k = X.first_within(g.x.values, g.y.values, list(p.geometry))
+    return pd.Series(np.where(k >= 0, p.NAME.values[np.maximum(k, 0)], None), index=g.index, dtype=object).where(k >= 0)
 
 
-def city_hall(city: str):
+def city_hall(city: str) -> tuple[float, float]:
     import run_tod_station_area as SA
     _, _, la, lo = SA.CITIES[city]
-    return gpd.GeoSeries(gpd.points_from_xy([lo], [la]), crs=4326).to_crs(CRS).iloc[0]
+    x, y = X.transform([lo], [la], 4326, CRS)
+    return float(x[0]), float(y[0])
 
 
-def stops_for(case: str) -> gpd.GeoDataFrame:
+def stops_for(case: str) -> pd.DataFrame:
     m, c = META[case], CASES[case]
     S = stations(m["stops"])
     S["place"] = place_of(S, m["state"])
@@ -160,8 +173,7 @@ def stops_for(case: str) -> gpd.GeoDataFrame:
         S["stop_type_text"] = np.where(S.stop_name.str.contains("CityLYNX"), "CityLYNX Gold Line streetcar", "LYNX Blue Line light rail")
     S = S[same].copy()
     tp = treated_points()
-    area = tp[m["unit"]].union_all()
-    S["dist_upzoned_m"] = S.distance(area).round(0)
+    S["dist_upzoned_m"] = np.round(dist_to_points(S.x.values, S.y.values, tp[m["unit"]]), 0)
     in_city = S.place.eq(PLACE[m["city"]])
     S["group"] = np.where(in_city & (S.dist_upzoned_m <= HALF), "reform", "comparison")
     S["comparison_kind"] = np.where(S.group == "reform", "", np.where(in_city, "in-city", "out-of-city"))
@@ -171,10 +183,11 @@ def stops_for(case: str) -> gpd.GeoDataFrame:
         if other == case or om["city"] != m["city"]:
             continue
         if c["before"][0] <= CASES[other]["eff"] <= c["after"][1]:
-            near = S.distance(tp[om["unit"]].union_all()) <= HALF
+            near = dist_to_points(S.x.values, S.y.values, tp[om["unit"]]) <= HALF
             S.loc[near & (S.group == "comparison"), "excluded_reason"] = f"own rezoning {CASES[other]['eff']} ({other})"
     S["own_tod_rezoning"] = nm.map(OWN_TOD).reindex(S.index).fillna("")
-    S["downtown"] = S.distance(city_hall(m["city"])) <= MILE
+    hx, hy = city_hall(m["city"])
+    S["downtown"] = np.hypot(S.x - hx, S.y - hy) <= MILE
     S = S.reset_index(drop=True)
     S["stop_id"] = np.arange(len(S))
     return S
@@ -221,7 +234,7 @@ def king_records() -> pd.DataFrame:
     return R[R.units > 0]
 
 
-def king_lots() -> gpd.GeoDataFrame:
+def king_lots() -> pd.DataFrame:
     P = pd.read_csv(RP / "king" / "parcels.csv", dtype={"MAJOR": str, "MINOR": str, "PIN": str}, low_memory=False)
     P["key"] = P.MAJOR.str.zfill(6) + P.MINOR.str.zfill(4)
     P["major"] = P.MAJOR.str.zfill(6)
@@ -246,13 +259,14 @@ def king_lots() -> gpd.GeoDataFrame:
     yb = g.yb.apply(tuple)
     un = g.units.apply(tuple)
     kinds = g.kind.agg(lambda k: "+".join(sorted(set(k))))
-    out = gpd.GeoDataFrame({
+    out = pd.DataFrame({
         "lot_key": L.key, "city_name": L.CTYNAME.astype(str).str.title().replace({"Seatac": "SeaTac", "Nan": None}),
         "acres": pd.to_numeric(L.LOTSQFT, errors="coerce") / 43560.0,
         "land_value": pd.to_numeric(L.APPRLNDVAL, errors="coerce"), "bldg_value": pd.to_numeric(L.APPR_IMPR, errors="coerce"),
         "use": L.PREUSE_DESC.astype(str).str.strip(), "public": L.PREUSE_DESC.astype(str).str.contains(PUBLIC_KC),
         "placed": L.placed, "record_kind": L.key.map(kinds).fillna(""),
-    }, geometry=gpd.points_from_xy(L.LON, L.LAT), crs=4326).to_crs(CRS)
+    })
+    out = lonlat_points(out, L.LON, L.LAT)
     out["_yb"] = [t if isinstance(t, tuple) else () for t in L.key.map(yb)]
     out["_un"] = [t if isinstance(t, tuple) else () for t in L.key.map(un)]
     out["year_built"] = [min([y for y in t if y > 0], default=np.nan) for t in out["_yb"]]
@@ -261,7 +275,7 @@ def king_lots() -> gpd.GeoDataFrame:
 
 # --------------------------------------------------------------------------- Saint Paul lots
 
-def stpaul_lots() -> gpd.GeoDataFrame:
+def stpaul_lots() -> pd.DataFrame:
     d = pd.read_csv(RP / "saint_paul" / "parcels.csv", low_memory=False)
     yb = pd.to_numeric(d.YearBuilt, errors="coerce")
     un = pd.to_numeric(d.LivingUnit, errors="coerce").fillna(0)
@@ -269,13 +283,14 @@ def stpaul_lots() -> gpd.GeoDataFrame:
     beds = (d.LandUseCodeDescription.fillna("") + " " + d.DwellingType.fillna("")).str.contains("HOTEL|MOTEL|NURSING HOME", case=False)
     print(f"Saint Paul living units on hotel or nursing-home parcels left out: {un[beds].sum():.0f}", flush=True)
     un = un.where(~beds, 0)
-    L = gpd.GeoDataFrame({
+    L = pd.DataFrame({
         "lot_key": d.ParcelID.astype(str), "city_name": "Saint Paul",
         "acres": pd.to_numeric(d.ParcelSquareFeet, errors="coerce") / 43560.0,
         "land_value": pd.to_numeric(d.EMVLand, errors="coerce"), "bldg_value": pd.to_numeric(d.EMVBuilding, errors="coerce"),
         "use": d.LandUseCodeDescription.astype(str), "public": d.OwnershipCategory.astype(str).ne("Unknown") | d.TaxExemptYN.eq("Y"),
         "year_built": yb.where(yb > 0), "record_kind": d.DwellingType.astype(str), "placed": "parcel point",
-    }, geometry=gpd.points_from_xy(d.Longitude, d.Latitude), crs=4326).to_crs(CRS)
+    })
+    L = lonlat_points(L, d.Longitude, d.Latitude)
     L["_yb"] = [((int(y) if y == y else 0),) for y in yb]
     L["_un"] = [(float(u),) for u in un]
     return L
@@ -287,24 +302,24 @@ PUBLIC_CLT = re.compile(r"COUNTY|MUNICIPAL|SCHOOL - PUBLIC|RIGHT OF WAY|STATE|FE
 RES_CLT = re.compile(r"SINGLE FAMILY|TOWN HOUSE  SFR|CONDOMINIUM$|CONDOMINIUM HIGH|CONDOMINIUM WATER|MULTI FAM|MOBILE HOME|RURAL HOMESITE|DUPLEX", re.I)
 
 
-def charlotte_lots() -> gpd.GeoDataFrame:
+def charlotte_lots() -> pd.DataFrame:
     d = pd.read_csv(RP / "mecklenburg" / "parcels.csv", low_memory=False)
     d["sy"] = pd.to_numeric(d.structyear, errors="coerce").where(lambda s: s > 1700)
     g = d.groupby("parno")
     d = g.first().assign(year_built=g.sy.min()).reset_index()
-    return gpd.GeoDataFrame({
+    return lonlat_points(pd.DataFrame({
         "lot_key": d.parno.astype(str), "city_name": d.scity.astype(str).str.title(),
         "acres": pd.to_numeric(d.gisacres, errors="coerce"),
         "land_value": pd.to_numeric(d.landval, errors="coerce"), "bldg_value": pd.to_numeric(d.improvval, errors="coerce"),
         "use": d.parusedesc.astype(str), "public": d.parusedesc.astype(str).str.contains(PUBLIC_CLT),
         "year_built": d.year_built, "record_kind": "", "placed": "parcel point",
-    }, geometry=gpd.points_from_xy(d.cx, d.cy), crs=4326).to_crs(CRS)
+    }), d.cx, d.cy)
 
 
 STAGED = r"level|lvl|fl(?:oo)?r\b|story|podium|upfit|shell|core|F/F|\bS/C\b|units? \d|residential units"
 
 
-def charlotte_permits() -> gpd.GeoDataFrame:
+def charlotte_permits() -> pd.DataFrame:
     """County building permits with homes (case_charlotte.load_permits: new residential buildings, placeholders out),
     points in CRS 5070 with year, units and the permit's parcel number.
 
@@ -318,22 +333,26 @@ def charlotte_permits() -> gpd.GeoDataFrame:
     d = CC.load_permits()
     staged = d.projname.astype(str).str.contains(STAGED, case=False)
     d = d[~(staged & d.duplicated(["parcelnum", "units", "year"]))]
-    g = gpd.GeoDataFrame(d[["year", "units"]].assign(parcelnum=d.parcelnum.astype(str)),
-                         geometry=gpd.points_from_xy(d.X.astype(float), d.Y.astype(float)), crs=2264).to_crs(CRS)
+    g = lonlat_points(d[["year", "units"]].assign(parcelnum=d.parcelnum.astype(str)), d.X.astype(float), d.Y.astype(float), crs=2264)
     return g.reset_index(drop=True)
 
 
-def census_existing(D: gpd.GeoDataFrame, all_lots: gpd.GeoDataFrame, state: str) -> pd.Series:
+def census_existing(D: pd.DataFrame, all_lots: pd.DataFrame, state: str) -> pd.Series:
     """2010 Census block homes spread over the block's residential lots standing in 2010, by building value
     (all lots of the block if none is residential; equally if values are missing)."""
     f = RAW / "tod_census_cases" / f"tabblock2010_{state}_pophu.zip"
-    box = D.total_bounds
-    B = gpd.read_file(f, bbox=tuple(gpd.GeoSeries(gpd.points_from_xy(box[[0, 2]], box[[1, 3]]), crs=CRS).to_crs(4269).total_bounds))
-    B = B[B.HOUSING10 > 0].to_crs(CRS)[["BLOCKID10", "HOUSING10", "geometry"]]
-    L = all_lots[["geometry", "use", "bldg_value", "year_built"]]
-    L = L[L.intersects(B.union_all().envelope)] if len(L) > 200000 else L
-    j = gpd.sjoin(L, B, how="inner", predicate="within")
-    j = j[~j.index.duplicated()]
+    bx = np.array([D.x.min(), D.x.max()]); by = np.array([D.y.min(), D.y.max()])
+    lon, lat = X.transform(bx, by, CRS, 4269)
+    B = X.read_vector(f, columns=["BLOCKID10", "HOUSING10"], bbox=(lon.min(), lat.min(), lon.max(), lat.max()))
+    B = B[B.HOUSING10 > 0].reset_index(drop=True)
+    B["geometry"] = X.polys_to_crs(list(B.geometry), B.attrs["crs"], CRS)
+    L = all_lots[["x", "y", "use", "bldg_value", "year_built"]]
+    if len(L) > 200000:
+        fb = X.feature_bounds(list(B.geometry))
+        x0, y0, x1, y1 = np.nanmin(fb[:, 0]), np.nanmin(fb[:, 1]), np.nanmax(fb[:, 2]), np.nanmax(fb[:, 3])
+        L = L[L.x.between(x0, x1) & L.y.between(y0, y1)]
+    k = X.first_within(L.x.values, L.y.values, list(B.geometry))
+    j = L[k >= 0].assign(BLOCKID10=B.BLOCKID10.values[k[k >= 0]], HOUSING10=B.HOUSING10.values[k[k >= 0]])
     res = j.use.str.contains(RES_CLT) & ~(j.year_built >= 2010)
     blk_has_res = res.groupby(j.BLOCKID10).transform("any")
     w = np.where(blk_has_res, res.astype(float), 1.0) * np.where(j.bldg_value.fillna(0) > 0, j.bldg_value.fillna(0), 1.0)
@@ -346,7 +365,7 @@ def census_existing(D: gpd.GeoDataFrame, all_lots: gpd.GeoDataFrame, state: str)
 
 # --------------------------------------------------------------------------- build
 
-def _assign(L: gpd.GeoDataFrame, S: gpd.GeoDataFrame, reform_city: str) -> gpd.GeoDataFrame:
+def _assign(L: pd.DataFrame, S: pd.DataFrame, reform_city: str) -> pd.DataFrame:
     """Nearest stop on the lot's own side (reform-city lots: reform-city stops; other lots: out-of-city stops)."""
     out = []
     in_city = L.city_name.eq(reform_city)
@@ -354,8 +373,9 @@ def _assign(L: gpd.GeoDataFrame, S: gpd.GeoDataFrame, reform_city: str) -> gpd.G
                          (False, L[~in_city], S[S.comparison_kind == "out-of-city"])):
         if ss.empty or ls.empty:
             continue
-        n = gpd.sjoin_nearest(ls[["geometry"]], ss[["stop_id", "geometry"]], how="inner", max_distance=MILE, distance_col="dist_m")
-        out.append(n[~n.index.duplicated()][["stop_id", "dist_m"]])
+        i, d = X.nearest_lowest(ls.x.values, ls.y.values, ss.x.values, ss.y.values, MILE)
+        ok = i >= 0
+        out.append(pd.DataFrame({"stop_id": ss.stop_id.values[i[ok]], "dist_m": d[ok]}, index=ls.index[ok]))
     return pd.concat(out)
 
 
@@ -385,15 +405,14 @@ def build(case: str):
     D["downtown_stop"] = st.downtown.reindex(D.stop_id).values
     D["band"] = pd.cut(D.dist_m, [-1, QUARTER, HALF, MILE], labels=["0-1/4", "1/4-1/2", "1/2-1"]).astype(str)
     tp = treated_points()[m["unit"]]
-    tj = gpd.sjoin_nearest(D[["geometry"]], gpd.GeoDataFrame(geometry=tp), how="left", max_distance=30, distance_col="_d")
-    D["in_reform_area"] = tj[~tj.index.duplicated()]._d.notna().reindex(D.index).values
+    D["in_reform_area"] = dist_to_points(D.x.values, D.y.values, tp) <= 30
     b0, b1 = c["before"]; a0, a1 = c["after"]
     if m["metro"] == "clt":
         p = charlotte_permits()
         # placed on the permit's own parcel number where that parcel is a lot of the table, else the nearest lot within 60 m
         own = pd.Series(D.index, index=D.lot_key).reindex(p.parcelnum.values).values
-        pn = gpd.sjoin_nearest(p, D[["geometry"]], how="left", max_distance=60, distance_col="_d")
-        pn = pn[~pn.index.duplicated()].index_right.reindex(p.index)
+        ni, _ = X.nearest_lowest(p.x.values, p.y.values, D.x.values, D.y.values, 60.0)
+        pn = pd.Series(np.where(ni >= 0, D.index.values[np.maximum(ni, 0)], np.nan), index=p.index).where(ni >= 0)
         on_parcel = pd.Series(own, index=p.index).notna()
         # a permit whose own parcel exists in the county file but lies outside the table stays off the table
         known = p.parcelnum.isin(set(L.lot_key))
@@ -406,7 +425,8 @@ def build(case: str):
             w = pj[hit & pj.year.between(x, y)]
             D[lab] = w.groupby("index_right").units.sum().reindex(D.index).fillna(0).values
         # permits near the kept stops but on no lot (diagnostic)
-        sp = gpd.sjoin_nearest(p[~hit], S[["geometry"]], how="inner", max_distance=MILE)
+        q = p[~hit]
+        sp = q[X.nearest_lowest(q.x.values, q.y.values, S.x.values, S.y.values, MILE)[0] >= 0]
         D.attrs["permits_on_no_lot"] = {k: float(sp[sp.year.between(*w)].units.sum()) for k, w in (("before", (b0, b1)), ("after", (a0, a1)))}
         print(f"permit homes within 1 mile of kept stops but on no lot (60 m): {D.attrs['permits_on_no_lot']}", flush=True)
         D["homes_census_2010"] = census_existing(D, L, m["state"])
@@ -435,7 +455,7 @@ def build(case: str):
     D["source"] = source
     D["implausible"] = False
     S = S[["stop_id", "stop_name", "stop_type_text", "group", "comparison_kind", "place", "dist_upzoned_m", "downtown",
-           "own_tod_rezoning", "geometry"]]
+           "own_tod_rezoning", "x", "y"]]
     return D, S
 
 

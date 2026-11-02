@@ -44,7 +44,6 @@ import zipfile
 from functools import lru_cache
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 from scipy.spatial import cKDTree
@@ -52,6 +51,8 @@ from scipy.spatial import cKDTree
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
+from missing_middleware import geom as GM  # noqa: E402
+from missing_middleware import geom_extra_station as X  # noqa: E402
 from missing_middleware.paths import RAW  # noqa: E402
 
 CRS = 5070
@@ -92,31 +93,27 @@ def _treated() -> pd.DataFrame:
 
 # --------------------------------------------------------------------------- stops
 
-def _merge(g: gpd.GeoDataFrame, name: str, kind: str) -> gpd.GeoDataFrame:
-    blobs = g.buffer(75).union_all()
-    parts = list(blobs.geoms) if hasattr(blobs, "geoms") else [blobs]
-    st = gpd.GeoDataFrame(geometry=[p.centroid for p in parts], crs=CRS)
-    j = gpd.sjoin_nearest(st, g[[name, "geometry"]], how="left")
-    j = j[~j.index.duplicated()]
-    return gpd.GeoDataFrame({"stop_name": j[name].values, "stop_type_text": kind}, geometry=j.geometry.values, crs=CRS)
+def _merge(g: pd.DataFrame, name: str, kind: str) -> pd.DataFrame:
+    """Platforms within 150 m are one station (union of 75 m GEOS buffers), named after the nearest stop."""
+    cx, cy, i = X.merge_stops(g.x.values, g.y.values, 75.0)
+    return pd.DataFrame({"stop_name": g[name].values[i], "stop_type_text": kind, "x": cx, "y": cy})
 
 
 @lru_cache(maxsize=2)
-def stops(city: str) -> gpd.GeoDataFrame:
+def stops(city: str) -> pd.DataFrame:
     if city == "nyc":
-        g = gpd.read_file(NYC_DIR / "subway_stations.geojson").to_crs(CRS)
+        g = X.read_vector(NYC_DIR / "subway_stations.geojson", dst=CRS)
         S = _merge(g, "STATION", "Subway")
         S["place"] = "New York"
     else:
-        g = gpd.read_file(PHL_DIR / "rail_stops.geojson")
-        g = g[g.location_type.astype(str).isin(["Null", "0", "None", "nan", ""])].to_crs(CRS)
+        g = X.read_vector(PHL_DIR / "rail_stops.geojson", dst=CRS)
+        g = g[g.location_type.astype(str).isin(["Null", "0", "None", "nan", ""])].copy()
         g["kind"] = g.stop_type_text.str.strip('"').replace({"Subway, Metro": "Subway/elevated",
                                                              "Tram, Streetcar, Light rail": "Trolley"})
-        p = gpd.read_file(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip")
-        poly = p[(p.STATEFP == "42") & (p.NAME == "Philadelphia")].to_crs(CRS).union_all()
-        g = g[g.within(poly)]
+        p = X.read_vector(RAW / "census_cb_2024" / "cb_2024_us_place_500k.zip", dst=CRS, columns=["NAME", "STATEFP"])
+        poly = list(p[(p.STATEFP == "42") & (p.NAME == "Philadelphia")].geometry)
+        g = g[GM.points_in_any(g.x.values, g.y.values, poly, union=True)]
         S = pd.concat([_merge(gg, "stop_name", k) for k, gg in g.groupby("kind")], ignore_index=True)
-        S = gpd.GeoDataFrame(S, geometry="geometry", crs=CRS)
         S["place"] = "Philadelphia"
     S["stop_id"] = np.arange(len(S))
     return S
@@ -138,15 +135,24 @@ def _vintage_for(eff: int) -> str:
     return have[-1]
 
 
+def _dbf_fields(data: bytes) -> list[str]:
+    """Field names of a dBASE table."""
+    out, pos = [], 32
+    while data[pos] != 0x0D:
+        out.append(data[pos:pos + 11].split(b"\x00")[0].decode("ascii"))
+        pos += 32
+    return out
+
+
 def _pluto_raw(v: str) -> pd.DataFrame:
-    import pyogrio
     z = NYC_DIR / f"mappluto_{v}.zip"
-    names = [n for n in zipfile.ZipFile(z).namelist() if n.lower().endswith("mappluto.dbf")]
+    zf = zipfile.ZipFile(z)
+    names = [n for n in zf.namelist() if n.lower().endswith("mappluto.dbf")]
     out = []
     for n in names:
-        info = pyogrio.read_info(f"/vsizip/{z}/{n}")
-        cols = {c.lower(): c for c in info["fields"]}
-        d = pyogrio.read_dataframe(f"/vsizip/{z}/{n}", read_geometry=False, columns=[cols[f] for f in PLUTO_FIELDS if f in cols])
+        data = zf.read(n)
+        cols = {c.lower(): c for c in _dbf_fields(data)}
+        d, _ = X._dbf_columns(data, [cols[f] for f in PLUTO_FIELDS if f in cols], "latin-1")
         d.columns = [c.lower() for c in d.columns]
         out.append(d)
     d = pd.concat(out, ignore_index=True)
@@ -172,9 +178,7 @@ def pluto(v: str) -> pd.DataFrame:
         r = pluto("18v1").set_index("bbl")
         bad = ~(d.xcoord > 0) | ~(d.ycoord > 0)
         d["x"], d["y"] = np.nan, np.nan
-        from pyproj import Transformer
-        t = Transformer.from_crs(2263, CRS, always_xy=True)
-        x, y = t.transform(d.xcoord.values, d.ycoord.values)
+        x, y = X.transform(d.xcoord.values.astype(float), d.ycoord.values.astype(float), 2263, CRS)
         d["x"], d["y"] = np.where(bad, d.bbl.map(r.x), x), np.where(bad, d.bbl.map(r.y), y)
         d["year_built_18"] = d.bbl.map(r.yearbuilt.where(r.yearbuilt > 0))
         d["homes_18v1"] = d.bbl.map(r.unitsres)
@@ -190,10 +194,8 @@ def pluto(v: str) -> pd.DataFrame:
         if "values_from" not in d:
             d["values_from"] = v
     else:
-        from pyproj import Transformer
-        t = Transformer.from_crs(2263, CRS, always_xy=True)
         ok = (d.xcoord > 0) & (d.ycoord > 0)
-        x, y = t.transform(d.xcoord.values, d.ycoord.values)
+        x, y = X.transform(d.xcoord.values.astype(float), d.ycoord.values.astype(float), 2263, CRS)
         d["x"], d["y"] = np.where(ok, x, np.nan), np.where(ok, y, np.nan)
     d = d.dropna(subset=["x", "y"]).reset_index(drop=True)
     d["landuse"] = d.landuse.astype(str)
@@ -202,22 +204,21 @@ def pluto(v: str) -> pd.DataFrame:
     return d
 
 
-def lots18_polys() -> gpd.GeoDataFrame:
-    """MapPLUTO 18v1 lot shapes (bbl, geometry in EPSG 5070), cached."""
+def lots18_polys() -> pd.DataFrame:
+    """MapPLUTO 18v1 lot shapes (bbl, geometry = geom.py features in EPSG 5070). Read from the GeoParquet cache
+    written before the port when present (WKB decoded here), else from the shapefiles (not cached: writing GeoParquet
+    would need a WKB writer, and the cache is only needed for vintages without a lot-number map)."""
     f = CACHE / "pluto_18v1_shapes.parquet"
     if f.exists():
-        return gpd.read_parquet(f)
-    import pyogrio
+        L = X.read_geoparquet_wkb(f, columns=["bbl"])
+        return pd.DataFrame({"bbl": L.attrs.bbl.values, "geometry": L.polys})
     z = NYC_DIR / "mappluto_18v1.zip"
     out = []
     for n in [n for n in zipfile.ZipFile(z).namelist() if n.lower().endswith("mappluto.shp")]:
-        g = pyogrio.read_dataframe(f"/vsizip/{z}/{n}", columns=["BBL"])
-        out.append(g)
-    g = gpd.GeoDataFrame(pd.concat(out, ignore_index=True), crs=2263).to_crs(CRS)
+        out.append(X.read_vector(f"zip://{z}!{n}", dst=CRS, columns=["BBL"]))
+    g = pd.concat(out, ignore_index=True)
     g["bbl"] = pd.to_numeric(g.BBL, errors="coerce")
-    g = g.dropna(subset=["bbl"]).drop_duplicates("bbl")[["bbl", "geometry"]]
-    g.to_parquet(f)
-    return g
+    return g.dropna(subset=["bbl"]).drop_duplicates("bbl")[["bbl", "geometry"]].reset_index(drop=True)
 
 
 def to18(v: str) -> pd.Series:
@@ -228,10 +229,11 @@ def to18(v: str) -> pd.Series:
         return pd.read_parquet(f).set_index("bbl").bbl18
     L = pluto(v)
     P = lots18_polys()
-    j = gpd.sjoin(gpd.GeoDataFrame({"bbl": L.bbl.values}, geometry=gpd.points_from_xy(L.x, L.y), crs=CRS),
-                  P.rename(columns={"bbl": "bbl18"}), how="left", predicate="within")
+    pi, gi = X.point_poly_pairs(L.x.values, L.y.values, list(P.geometry))
+    pairs = pd.DataFrame({"bbl18": P.bbl.values[gi]}, index=pi)
+    j = pd.DataFrame({"bbl": L.bbl.values}).join(pairs, how="left")          # every match, as sjoin 'within' (left)
     j["same"] = j.bbl == j.bbl18
-    j = j.sort_values("same", ascending=False)
+    j = j.sort_values("same", ascending=False, kind="stable")
     j = j[~j.index.duplicated()].sort_index()
     # fit-and-fix 4: lot number first (02b and 03c lot points often fall outside their 18v1 shape, which left 96% of
     # their lots unmatched and duplicated beside the 18v1 lots); the shape containing the point only when the number
@@ -290,8 +292,8 @@ def nyc_permits_bbl() -> pd.DataFrame:
     d = d.sort_values(["bbl", "units", "year"])
     same = (d.bbl == d.bbl.shift()) & (d.units == d.units.shift()) & ((d.year - d.year.shift()) <= 2)
     d = d[~same]
-    g = gpd.GeoSeries(gpd.points_from_xy(d.gis_longitude.astype(float), d.gis_latitude.astype(float)), crs=4326).to_crs(CRS)
-    p = pd.DataFrame({"year": d.year.values, "units": d.units.values, "bbl": d.bbl.values, "x": g.x.values, "y": g.y.values})
+    gx, gy = X.transform(d.gis_longitude.astype(float).values, d.gis_latitude.astype(float).values, 4326, CRS)
+    p = pd.DataFrame({"year": d.year.values, "units": d.units.values, "bbl": d.bbl.values, "x": gx, "y": gy})
     return _move_to_building_lot(p)
 
 
@@ -334,17 +336,16 @@ def phl_lots() -> pd.DataFrame:
     f = CACHE / "phl_lots.parquet"
     if f.exists():
         return pd.read_parquet(f)
-    P = gpd.read_file(PHL_DIR / "parcels.geojson").to_crs(CRS)
-    P = P[P.geometry.notna() & ~P.geometry.is_empty].reset_index(drop=True)
-    pt = P.geometry.representative_point()
-    L = pd.DataFrame({"pid": P.parcelid.values, "use": P.bldg_desc.astype(str).values, "acres": P.geometry.area.values / 4046.86,
-                      "x": pt.x.values, "y": pt.y.values})
+    P = X.read_vector(PHL_DIR / "parcels.geojson", dst=CRS)
+    P = P[X.nonempty(list(P.geometry))].reset_index(drop=True)
+    px, py = X.interior_points(list(P.geometry))
+    L = pd.DataFrame({"pid": P.parcelid.values, "use": P.bldg_desc.astype(str).values, "acres": X.areas(list(P.geometry)) / 4046.86,
+                      "x": px, "y": py})
     # 2010 census block homes, spread over the block's lots by building-type weight
-    b = gpd.read_file(RAW / "tod_census_cases" / "tabblock2010_42_pophu.zip", where="COUNTYFP10 = '101'").to_crs(CRS)
-    j = gpd.sjoin(gpd.GeoDataFrame(geometry=gpd.points_from_xy(L.x, L.y), crs=CRS), b[["BLOCKID10", "HOUSING10", "geometry"]],
-                  how="left", predicate="within")
-    j = j[~j.index.duplicated()]
-    L["block"] = j.BLOCKID10.values
+    b = X.read_vector(RAW / "tod_census_cases" / "tabblock2010_42_pophu.zip", dst=CRS)
+    b = b[b.COUNTYFP10 == "101"].reset_index(drop=True)
+    k = X.first_within(L.x.values, L.y.values, list(b.geometry))
+    L["block"] = pd.Series(np.where(k >= 0, b.BLOCKID10.values[np.maximum(k, 0)], None), dtype=object).where(k >= 0).values
     w = home_weight(L.use)
     L["w"] = w
     blk = b.set_index("BLOCKID10").HOUSING10.astype(float)
@@ -357,10 +358,9 @@ def phl_lots() -> pd.DataFrame:
           f"(blocks with no lot point: {unplaced:.0f})", flush=True)
     # OPA values, summed over OPA points inside each parcel (condo units to their building)
     o = pd.read_csv(RAW / "tod_land_values" / "philadelphia_opa_points.csv", dtype={"parcel_number": str}).dropna(subset=["lat", "lon"])
-    og = gpd.GeoDataFrame(o[["parcel_number"]], geometry=gpd.points_from_xy(o.lon, o.lat), crs=4326).to_crs(CRS)
-    oj = gpd.sjoin(og, P[["geometry"]], how="inner", predicate="within")
-    oj = oj[~oj.index.duplicated()]
-    pmap = pd.Series(oj.index_right.values, index=oj.parcel_number.values)
+    ox, oy = X.transform(o.lon.values.astype(float), o.lat.values.astype(float), 4326, CRS)
+    k = X.first_within(ox, oy, list(P.geometry))
+    pmap = pd.Series(k[k >= 0], index=o.parcel_number.values[k >= 0])
     pmap = pmap[~pmap.index.duplicated()]
     a = pd.read_csv(RAW / "tod_land_values" / "philadelphia_assessments.csv", dtype={"parcel_number": str},
                     usecols=["parcel_number", "year", "taxable_land", "taxable_building", "exempt_land", "exempt_building"])
@@ -397,8 +397,8 @@ def city_permits(city: str) -> pd.DataFrame:
     d["units"] = pd.to_numeric(d.numberofunits, errors="coerce").fillna(0)
     d["year"] = pd.to_numeric(d.permitissuedate.str[:4], errors="coerce")
     d = d[(d.units > 0) & d.year.notna()].dropna(subset=["lat", "lon"])
-    g = gpd.GeoSeries(gpd.points_from_xy(d.lon.astype(float), d.lat.astype(float)), crs=4326).to_crs(CRS)
-    d["x"], d["y"], d["issue_date"] = g.x.values, g.y.values, d.permitissuedate
+    gx, gy = X.transform(d.lon.astype(float).values, d.lat.astype(float).values, 4326, CRS)
+    d["x"], d["y"], d["issue_date"] = gx, gy, d.permitissuedate
     d = dedupe_staged(d)
     return d[["year", "units", "x", "y"]].reset_index(drop=True)
 
@@ -440,23 +440,28 @@ def _treated_rows(unit: str, lx, ly) -> np.ndarray:
     return np.unique(i[np.isfinite(d)])
 
 
+@lru_cache(maxsize=2)
+def _zone_layer(city: str) -> pd.DataFrame:
+    return X.read_vector(NYC_DIR / "nyzma.geojson" if city == "nyc" else PHL_DIR / "remapping.geojson", dst=CRS)
+
+
 def _polygon(city: str, unit: str):
+    """The rezoning's polygons (features whose union is the rezoned area), or None."""
+    z = _zone_layer(city)
     if city == "nyc":
-        z = gpd.read_file(NYC_DIR / "nyzma.geojson")
         z = z[("nyc_" + z.ULURPNO.astype(str).str.lower()) == unit]
     else:
-        z = gpd.read_file(PHL_DIR / "remapping.geojson")
         z = z[("phl_" + z.Bill_Number_TXT.astype(str)) == unit]
         z = z[z.ReMap_Status.astype(str).str.startswith("Enacted")]
-    return z.to_crs(CRS).union_all() if len(z) else None
+    return [f for f in z.geometry if f] if len(z) else None
 
 
 def _other_zma_nyc(case: str, y0: int, y1: int):
     """Adopted NYC zoning map amendments effective in the span that are not lot-model cases (flag only)."""
-    z = gpd.read_file(NYC_DIR / "nyzma.geojson")
+    z = _zone_layer("nyc").copy()
     z["eff"] = pd.to_datetime(z.EFFECTIVE, unit="ms", errors="coerce").dt.year
     z = z[(z.STATUS == "Adopted") & z.eff.between(y0, y1) & ~("nyc_" + z.ULURPNO.astype(str).str.lower()).isin(CASES)]
-    return z.to_crs(CRS).union_all() if len(z) else None
+    return [f for f in z.geometry if f] if len(z) else None
 
 
 def build(case: str):
@@ -484,7 +489,7 @@ def build(case: str):
 
     # reform area = treated lots of this rezoning; reform and comparison stops
     tr = _treated_rows(case, lx, ly)
-    sxy = np.c_[S0.geometry.x, S0.geometry.y]
+    sxy = np.c_[S0.x, S0.y]
     near_t = np.zeros(len(S0), bool)
     if len(tr):
         d, _ = cKDTree(np.c_[lx[tr], ly[tr]]).query(sxy)
@@ -500,10 +505,10 @@ def build(case: str):
     grp = np.where(near_t, "reform", np.where(~near_o & S0.stop_type_text.isin(types), "comparison", "other"))
     S = S0.assign(group=grp)
     S = S[S.group != "other"].reset_index(drop=True)
-    S = gpd.GeoDataFrame(S[["stop_id", "stop_name", "stop_type_text", "group", "place", "geometry"]], geometry="geometry", crs=CRS)
+    S = S[["stop_id", "stop_name", "stop_type_text", "group", "place", "x", "y"]]
 
     # nearest kept stop within 1 mile
-    d, i = cKDTree(np.c_[S.geometry.x, S.geometry.y]).query(np.c_[lx, ly], distance_upper_bound=MILE)
+    d, i = cKDTree(np.c_[S.x, S.y]).query(np.c_[lx, ly], distance_upper_bound=MILE)
     keep = np.isfinite(d)
     rows = np.flatnonzero(keep)
     D = L.iloc[rows].copy()
@@ -540,13 +545,13 @@ def build(case: str):
 
     D["case"] = case
     D["city_name"] = CITY[city]
-    G = gpd.GeoDataFrame(D, geometry=gpd.points_from_xy(D.x, D.y), crs=CRS)
+    G = D
     poly = _polygon(city, case)
-    G["in_rezoning_polygon"] = G.within(poly) if poly is not None else False
+    G["in_rezoning_polygon"] = GM.points_in_any(G.x.values, G.y.values, poly, union=True) if poly is not None else False
     if city == "nyc":
         oz = _other_zma_nyc(case, b0, a1)
         if oz is not None:
-            sz = S.set_index("stop_id").geometry.distance(oz) <= HALF
+            sz = pd.Series(X.distance_within(S.x.values, S.y.values, oz, HALF + 1.0) <= HALF, index=S.stop_id.values)
             G["stop_near_other_zma"] = G.stop_id.map(sz).fillna(False).astype(bool)
         else:
             G["stop_near_other_zma"] = False
@@ -555,7 +560,7 @@ def build(case: str):
     G["_un"] = [()] * len(G)
     cols = ["case", "city_name", "group", "stop_id", "dist_m", "band", "in_reform_area", "in_rezoning_polygon", "acres",
             "land_value", "bldg_value", "year_built", "use", "public", "homes_existing", "homes_before_win", "homes_after_win",
-            "source", "implausible"] + [x for x in ("homes_18v1", "stop_near_other_zma") if x in G] + ["_yb", "_un", "geometry"]
+            "source", "implausible"] + [x for x in ("homes_18v1", "stop_near_other_zma") if x in G] + ["_yb", "_un", "x", "y"]
     G = G[cols].reset_index(drop=True)
     G["public"] = G.public.astype(bool)
     return G, S

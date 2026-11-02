@@ -129,26 +129,29 @@ def load_permits() -> pd.DataFrame:
 
 
 def build(blocks_zip: Path | None = None) -> tuple[C.CaseInputs, dict]:
-    import geopandas as gpd
-
-    rz = gpd.read_file(DIR / "rezoning_history.geojson").to_crs(CRS_M)
+    rz = C.polygons(DIR / "rezoning_history.geojson", CRS_M)
     rz["approved"] = pd.to_datetime(rz["Approved"], unit="ms", errors="coerce")
     treat_poly = rz[rz["Petition"].astype(str).str.startswith("2019-102")][["ExistingZoning", "RequestedZoning", "geometry"]]
     later = rz[(rz["approved"] > EFFECTIVE) & (rz["approved"] < UDO_DATE) & (rz["Status"].astype(str).str.startswith("App")) &
                ~rz["Petition"].astype(str).str.startswith("2019-102")][["ExistingZoning", "approved", "geometry"]]
-    pre = gpd.read_file(DIR / "pre_udo_zoning.geojson").to_crs(CRS_M)[["ZoneDes", "geometry"]]
-    parcels = gpd.read_file(DIR / "parcels.geojson").to_crs(CRS_M)
-    parcels = parcels[parcels.geometry.notna() & ~parcels.geometry.is_empty].copy()
-    parcels = parcels.drop_duplicates("parcelid").reset_index(drop=True)
-    parcels["acres"] = parcels.geometry.area / C.SQM_PER_ACRE
-    pts = gpd.GeoDataFrame(parcels[["parcelid"]], geometry=parcels.geometry.representative_point(), crs=CRS_M)
+    pre = C.polygons(DIR / "pre_udo_zoning.geojson", CRS_M)[["ZoneDes", "geometry"]]
+    parcels = C.read_parcels(DIR / "parcels.geojson", CRS_M, dedupe="parcelid")
+    rx, ry = parcels["rx"].to_numpy(), parcels["ry"].to_numpy()
 
     def first_hit(polys, cols):
-        j = gpd.sjoin(pts, polys, how="left", predicate="within")
-        if "approved" in j.columns:
-            j = j.sort_values("approved")
-        j = j[~j.index.duplicated(keep="first")]
-        return j.reindex(pts.index)[cols]
+        from missing_middleware.geom_extra_station import point_poly_pairs
+        pi, gi = point_poly_pairs(rx, ry, list(polys["geometry"]))
+        j = pd.DataFrame({"pi": pi, "gi": gi})
+        if "approved" in polys.columns:
+            j["approved"] = polys["approved"].to_numpy()[gi]
+            j = j.sort_values(["pi", "approved", "gi"], kind="stable")
+        j = j.drop_duplicates("pi")
+        out = pd.DataFrame(index=parcels.index)
+        for c in cols:
+            v = pd.Series(np.nan, index=parcels.index, dtype=object)
+            v.iloc[j["pi"].to_numpy()] = polys[c].to_numpy()[j["gi"].to_numpy()]
+            out[c] = v.infer_objects()
+        return out
 
     t = first_hit(treat_poly, ["ExistingZoning", "RequestedZoning"])
     lz = first_hit(later, ["ExistingZoning"])
@@ -158,9 +161,9 @@ def build(blocks_zip: Path | None = None) -> tuple[C.CaseInputs, dict]:
                                         np.where(lz["ExistingZoning"].notna(), lz["ExistingZoning"], pz["ZoneDes"]))
     parcels["zoning_after"] = np.where(parcels["treated"], t["RequestedZoning"], None)
     parcels["zclass"] = parcels["zoning_before"].map(zoning_class)
-    city = gpd.read_file(DIR / "council_districts.geojson").to_crs(CRS_M).union_all()
-    in_city = parcels.geometry.representative_point().within(city) | parcels["treated"]
-    stations = gpd.read_file(DIR / "rail_stops.geojson").to_crs(CRS_M).geometry
+    city = C.polygons(DIR / "council_districts.geojson", CRS_M)
+    in_city = pd.Series(C.in_any(rx, ry, city), index=parcels.index) | parcels["treated"]
+    stations = C.points(DIR / "rail_stops.geojson", CRS_M)[["x", "y"]]
     lu = parcels["landuse_description"].astype(str)
     parcels["eligible"] = parcels["zclass"].isin(["res", "mixed", "com"]) & ~lu.str.contains(NOT_ELIGIBLE_LANDUSE)
     per = C.period_years(EFFECTIVE_YEAR, FIRST_YEAR, LAST_FULL_YEAR)
@@ -173,12 +176,10 @@ def build(blocks_zip: Path | None = None) -> tuple[C.CaseInputs, dict]:
     win = rz[rz["approved"].between(pd.Timestamp(f"{per['before'][0]}-01-01"), pd.Timestamp(f"{per['after'][-1]}-12-31"))
              & rz["Status"].astype(str).str.startswith("App") & ~rz["Petition"].astype(str).str.startswith("2019-102")]
     win = win[win["ExistingZoning"].map(base_district) != win["RequestedZoning"].map(base_district)]
-    changed = pts.geometry.within(win.geometry.union_all()) if len(win) else pd.Series(False, index=parcels.index)
+    changed = pd.Series(C.in_any(rx, ry, win), index=parcels.index) if len(win) else pd.Series(False, index=parcels.index)
     # lot plan item 29: what each in-window petition rezoned the lot to (TOD district = take-up of the reform)
     if len(win):
-        jw = gpd.sjoin(pts, win[["RequestedZoning", "approved", "geometry"]], how="left", predicate="within").sort_values("approved")
-        jw = jw[~jw.index.duplicated(keep="first")].reindex(pts.index)
-        parcels["changed_to"] = jw["RequestedZoning"].values
+        parcels["changed_to"] = first_hit(win, ["RequestedZoning"])["RequestedZoning"].values
     else:
         parcels["changed_to"] = None
     parcels["uptake"] = changed & parcels["changed_to"].map(lambda z: str(base_district(z) or "").startswith("TOD-"))
@@ -189,8 +190,8 @@ def build(blocks_zip: Path | None = None) -> tuple[C.CaseInputs, dict]:
 
     # permits located to parcels
     pr = load_permits()
-    pg = gpd.GeoDataFrame(pr, geometry=gpd.points_from_xy(pr["X"], pr["Y"]), crs=2264).to_crs(CRS_M)
-    near = pg[pg.geometry.within(parcels.union_all().buffer(50))].copy()
+    pg = C.points_from_lonlat(pr, "X", "Y", CRS_M, src=2264)
+    near = pg[C.within_distance(pg["x"].to_numpy(), pg["y"].to_numpy(), list(parcels["geometry"]), 50.0)].copy()
     near["pix"] = C.locate_points(near, parcels)
     near["eligible"] = parcels["eligible"].reindex(near["pix"]).fillna(False).astype(bool).values
 
@@ -216,10 +217,7 @@ def build(blocks_zip: Path | None = None) -> tuple[C.CaseInputs, dict]:
     homes = {}
     bz = blocks_zip or (RAW / "tod_cases" / "census_2010_blocks" / "tabblock2010_37_pophu.zip")
     if bz.exists():
-        bbox = tuple(gpd.GeoSeries([el.union_all().envelope], crs=CRS_M).to_crs(4269).total_bounds)
-        b = gpd.read_file(bz, bbox=bbox).to_crs(CRS_M)
-        b = gpd.GeoDataFrame({"homes": b["HOUSING10"]}, geometry=b.geometry.representative_point(), crs=CRS_M)
-        homes = C.homes_by_area(b, el[["area", "geometry"]])
+        homes = C.homes_by_area(C.block_points(bz, el, CRS_M), el[["area", "geometry"]])
 
     tp = permits[permits["area"] == C.TREAT]
     diag = {
@@ -232,7 +230,7 @@ def build(blocks_zip: Path | None = None) -> tuple[C.CaseInputs, dict]:
         "permits_located_share": round(float(near["pix"].notna().mean()), 4),
         "treatment_units_before": int(tp[tp["year"].isin(per["before"])]["units"].sum()),
         "original_rule_acres": {k: round(v, 1) for k, v in orig_acres.items()},
-        "second_comparison_stations": int(len(C.stations_not_upzoned(stations, parcels.loc[parcels["area"] == C.TREAT].geometry.union_all()))),
+        "second_comparison_stations": int(len(C.stations_not_upzoned(stations, list(parcels.loc[parcels["area"] == C.TREAT, "geometry"])))),
         "rezoning_petitions_in_window_changing_district": int(len(win)),
     }
     ci = C.CaseInputs(case="charlotte_tod_2019", role="fit", effective_year=EFFECTIVE_YEAR, first_year=FIRST_YEAR,
