@@ -159,7 +159,9 @@ class TestTodBundle(unittest.TestCase):
             c = p[slug]["corridor"]
             self.assertLessEqual(c["add"]["typical"], self.sw["scenarios"][1]["additional_total"])
             for pl in c["places"]:
-                self.assertLessEqual(pl["gain_acres"], pl["eligible_acres"], pl["name"])
+                # option D (AQ-071): the district is 15% of the place's land within 1/4 mile of rail and rapid stops
+                self.assertAlmostEqual(pl["district_acres"], 0.15 * pl["acres"], delta=1.0, msg=pl["name"])
+                self.assertEqual(pl["share_of_place"], 1.0, pl["name"])
 
     def test_no_parcel_ids_and_small(self):
         size = 0

@@ -206,7 +206,7 @@ class TestNetSizing(unittest.TestCase):
         area = read("tod_model_by_area.csv")
         self.assertEqual(set(st.sizing), {"net_effect"})
         self.assertTrue(M.check_no_negative(st.addition))
-        # the little line's range may go below zero (station-area model; owner rule: no evidence-free floors)
+        # the little line's range may go below zero (best lot model; owner rule: no evidence-free floors)
         self.assertTrue(M.check_no_negative(st[st.scenario != "little"].addition_range_low.dropna()))
         lit = st[(st.scenario == "little") & (st.year == "2027-2031")].iloc[0]
         self.assertLess(lit.addition_range_low, lit.addition)
@@ -233,16 +233,33 @@ class TestNetSizing(unittest.TestCase):
         self.assertLess(net.loc["typical", "addition_range_low"], t["typical"])
         self.assertLess(t["typical"], net.loc["typical", "addition_range_high"])
         self.assertAlmostEqual(float(net.stock_homes_station_areas.iloc[0]), 313_564, delta=0.5)
-        # little = the station-area line over the main-case stock (owner 2026-11-01, option A); LA TOC is a what-if
-        sal = read("tod_station_area_line.csv").set_index("line").loc["station_area"]
-        self.assertAlmostEqual(net.loc["little", "addition"], sal.extra_homes_2027_2031, delta=0.05)
+        # option D (AQ-071, owner 2026-11-02): little = best lot model, central = the 11 district places' average,
+        # strong = that average scaled to a 15% district; totals and ranges straight from reference/tod_optiond_line.csv
+        od = read("tod_optiond_line.csv").set_index("line")
+        for sid, line, tot, lo, hi in (("little", "optiond_little", 449.6, -120.9, 818.4),
+                                       ("typical", "optiond_average", 8855.9, 6715.3, 10624.4),
+                                       ("strong", "optiond_average_scaled_15", 11057.3, 8052.6, 14835.7)):
+            self.assertAlmostEqual(od.loc[line, "extra_homes_2027_2031"], tot, delta=0.05)
+            self.assertAlmostEqual(net.loc[sid, "addition"], tot, delta=0.05)
+            self.assertAlmostEqual(net.loc[sid, "addition_range_low"], lo, delta=0.05)
+            self.assertAlmostEqual(net.loc[sid, "addition_range_high"], hi, delta=0.05)
         se = read("tod_model_sensitivities.csv")
+        se = se[se.sizing == "net_effect"]
         la = se[(se.sensitivity == "la_toc_little") & (se.scenario == "little")].addition_2027_2031.iloc[0]
         self.assertAlmostEqual(la / float(net.stock_homes_station_areas.iloc[0]), 0.0004 * 5 / 6 / 0.61, places=7)
-        self.assertAlmostEqual(net.loc["strong", "parameter"], 21_808 / 530_300 / 0.752, places=6)
-        # central = the average reform city at Wisconsin's coverage (AQ-070); the drift rule (AQ-068) is a what-if
-        avg = read("tod_station_area_line.csv").set_index("line").loc["average_reform_scaled"]
-        self.assertAlmostEqual(net.loc["typical", "parameter"] * 313_564, avg.extra_homes_2027_2031, delta=1.0)
+        # the former lines (broader law) are labelled what-ifs
+        fs = se[(se.sensitivity == "former_strong_auckland") & (se.scenario == "strong")].iloc[0]
+        self.assertAlmostEqual(fs.parameter, 21_808 / 530_300 / 0.752, places=4)
+        self.assertAlmostEqual(fs.addition_2027_2031, 17_147.6, delta=0.5)
+        sal = read("tod_station_area_line.csv").set_index("line")
+        fc = se[(se.sensitivity == "former_central_average_reform") & (se.scenario == "typical")].addition_2027_2031.iloc[0]
+        self.assertAlmostEqual(fc, sal.loc["average_reform_scaled", "extra_homes_2027_2031"], delta=0.1)
+        fl = se[(se.sensitivity == "former_little_station_area") & (se.scenario == "little")].addition_2027_2031.iloc[0]
+        self.assertAlmostEqual(fl, sal.loc["station_area", "extra_homes_2027_2031"], delta=0.1)
+        for sens, k in (("typical_range", "typical"), ("strong_range", "strong"), ("little_range", "little")):
+            g = se[se.sensitivity == sens].set_index("scenario").addition_2027_2031
+            self.assertAlmostEqual(g[f"{k}_low"], net.loc[k, "addition_range_low"], delta=0.05)
+            self.assertAlmostEqual(g[f"{k}_high"], net.loc[k, "addition_range_high"], delta=0.05)
         lot = read("tod_lot_model_line.csv").set_index("line")
         dc = read("tod_model_sensitivities.csv")
         dc = dc[(dc.sensitivity == "drift_central") & (dc.scenario == "typical")].addition_2027_2031.iloc[0]
@@ -269,7 +286,15 @@ class TestNetSizing(unittest.TestCase):
         self.assertTrue(all(v > 0 for v in prof.values()))
 
     def test_placement_and_year5_sensitivity(self):
-        # AQ-051: suburbs placed by their capacity dose x the derived coded/fallback ratio; totals unchanged
+        # AQ-071: each place's share of the statewide homes = its share of lot acres within 1/4 mile of rail and rapid
+        # stops; the old-law placement (AQ-051) is a what-if with the same totals
+        sa = read("tod_station_areas.csv")
+        qa = sa[(sa.band == "rapid_quarter") & (sa.in_main == 1)].groupby("city").acres.sum()
+        area0 = read("tod_model_by_area.csv")
+        typ0 = area0[area0.scenario == "typical"].set_index("name").add_2027_2031
+        tot = typ0.sum()
+        for city in ("Milwaukee city", "Madison city", "Wauwatosa city", "Kenosha city"):
+            self.assertAlmostEqual(typ0[city] / tot, qa[city] / qa.drop("(unknown)", errors="ignore").sum(), delta=0.002, msg=city)
         par = read("tod_model_params.csv").set_index("parameter")
         fr = float(par.loc["fallback_ratio", "value"])
         self.assertTrue(0.6 < fr < 0.8)
@@ -279,7 +304,7 @@ class TestNetSizing(unittest.TestCase):
         sens = read("tod_model_sensitivities.csv")
         net = sens[sens.sizing == "net_effect"]
         main = net[net.sensitivity == "main"].set_index("scenario").addition_2027_2031
-        for sid in ("no_suburbs", "unscaled_suburbs", "ramp_year5_alt"):
+        for sid in ("no_suburbs", "old_law_placement", "ramp_year5_alt", "rapid_only", "high", "b_half"):
             alt = net[net.sensitivity == sid].set_index("scenario").addition_2027_2031
             for k in ("little", "typical", "strong"):
                 self.assertAlmostEqual(alt[k], main[k], delta=0.01, msg=sid)

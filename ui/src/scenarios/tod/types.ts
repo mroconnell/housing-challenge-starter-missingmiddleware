@@ -15,6 +15,9 @@ export interface Statewide {
   homes_two_cities: { milwaukee: number; madison: number; share: number };
   ladder: { id: string; label: string; stops: number; homes: number; share_of_state: number; main: boolean; context: boolean }[];
   law: { band: string; label: string; height_ft: number; homes_per_acre: number; far: number }[];
+  /** The modelled law (option D, AQ-071): a by-right district on a share of the land within ¼ mile of rail and rapid stops */
+  district: { share: number; radius: string; min_homes_per_acre: number; text: string; places: number; places_mean_share: number;
+    effect_per_100_acres: number; wi_acres_two_cities: number };
   agencies: { agency: string; lines: string; rapid: number; bus15: number; bus20_only: number; main_case: number }[];
   baseline: { years: { year: number; low: number; central: number; high: number }[]; total: number; low_total: number; high_total: number };
   state_baseline_total: number; state_baseline_per_year: number;
@@ -27,7 +30,7 @@ export interface Statewide {
 }
 export interface Muni {
   id: string; name: string; county: string; metro: string; coded: boolean; homes_near: number; share_near: number;
-  eligible_acres: number; baseline: number; baseline_low: number; baseline_high: number; add: ByScen; add_years: Record<ScenId, number[]>;
+  eligible_acres: number; quarter_acres: number; baseline: number; baseline_low: number; baseline_high: number; add: ByScen; add_years: Record<ScenId, number[]>;
   /** all homes the place is expected to permit under current law, 2027–2031 (shared all-housing baseline) */
   all_baseline: number;
 }
@@ -82,12 +85,12 @@ export interface Why {
   city_checks?: { title: string; text: string; doc: { label: string; url: string } }[];
   docs: { label: string; url: string }[];
 }
-export interface CorridorPlace { name: string; coded: boolean; acres: number; eligible_acres: number; gain_acres: number; existing_homes: number; share_of_place: number; overlay_share: number | null; add_typical: number }
+export interface CorridorPlace { name: string; coded: boolean; acres: number; district_acres: number; existing_homes: number; share_of_place: number; add_typical: number }
 export interface Pilot {
   slug: string; title: string; view: string; city: string; line: string; intro: string; stops: Record<string, number>;
   city_homes: number; city_homes_near: number; city_add: ByScen;
   city_baseline?: number; city_add_years?: Record<ScenId, number[]>;
-  corridor?: { places: CorridorPlace[]; add: ByScen; add_years: Record<ScenId, number[]>; acres: number; eligible_acres: number; gain_acres: number; existing_homes: number };
+  corridor?: { places: CorridorPlace[]; add: ByScen; add_years: Record<ScenId, number[]>; acres: number; district_acres: number; existing_homes: number };
   method?: string;
   zoning_note?: string;
   homes_near_high?: number; city_baseline_all?: number; high_case_acres?: number; reason?: string;

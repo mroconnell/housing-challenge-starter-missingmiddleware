@@ -8,6 +8,10 @@ place left out in turn. Beyond 1/4 mile: zero (no rule beat zero there in the 1/
 Also written: the same scaled to a 15% district by the places' pooled ratio of effect to coverage (sum of effects /
 sum of coverage differences x 0.15), since the 11 places' districts averaged about 12% of the 1/4-mile lots.
 
+Little line (owner 2026-11-02 14:24, "I love that"; AQ-071): the best lot model (lot + place traits, 5 averaged fits,
+the "fix_equal_fill" round) Wisconsin answer within 1/4 mile, already statewide and over 5 years; range = the fits that
+each leave one training place out. To change the little line, change LITTLE_FILE (one row, optiond_little).
+
     uv run --all-extras python scripts/build_tod_optiond_line.py  -> reference/tod_optiond_line.csv
 """
 from __future__ import annotations
@@ -21,6 +25,10 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT)); sys.path.insert(0, str(ROOT / "scripts"))
 from missing_middleware.paths import REFERENCE  # noqa: E402
 import run_tod_optiond as O  # noqa: E402
+
+
+# The tool's little line (AQ-071): one file, band 0-1/4 (statewide, extra homes over 2027-2031).
+LITTLE_FILE = "tod_optiond_wisconsin_lot_place_fix_equal_fill_k5_s1.csv"
 
 
 def main() -> None:
@@ -39,6 +47,12 @@ def main() -> None:
                      "mean_effect_per_100_acres": round(q.effect_per_100_acres.mean(), 2),
                      "mean_district_share": round(q.coverage_diff.mean(), 3), "wi_acres_quarter": round(V.wi_acres, 1),
                      "note": note})
+    w = pd.read_csv(REFERENCE / LITTLE_FILE).drop_duplicates("band").set_index("band").loc["0-1/4"]
+    rows.append({"line": "optiond_little", "extra_homes_2027_2031": round(float(w.central), 1),
+                 "range_low": round(float(w.low), 1), "range_high": round(float(w.high), 1), "places": len(q),
+                 "mean_effect_per_100_acres": float("nan"), "mean_district_share": float("nan"),
+                 "wi_acres_quarter": round(V.wi_acres, 1),
+                 "note": f"best lot model (lot + place traits, 5 averaged fits), {LITTLE_FILE}; range = each place left out"})
     out = pd.DataFrame(rows)
     out.to_csv(REFERENCE / "tod_optiond_line.csv", index=False)
     print(out.to_string(index=False))

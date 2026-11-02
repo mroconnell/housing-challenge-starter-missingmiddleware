@@ -49,8 +49,14 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
   await expect(page.getByTestId("stock-homes")).toHaveText(fmt(sw.stock_homes));
   await expect(page.getByTestId("baseline-total")).toHaveText(fmt(sw.baseline.total));
   await expect(page.getByTestId("acs-homes")).toHaveText(fmt(sw.acs_homes));
+  // option D (AQ-071): the law is a by-right district on 15% of the land within ¼ mile of rail and rapid stops
+  await expect(page.getByTestId("law-district")).toContainText("15%");
+  await expect(page.getByTestId("law-district")).toContainText(sw.district.text);
   await page.goto("#/tod/compare");
-  for (const id of ["little", "typical", "strong"]) await expect(page.getByTestId(`add-${id}`)).toHaveText(fmt(sc(id).additional_total));
+  for (const id of ["little", "typical", "strong"]) {
+    await expect(page.getByTestId(`add-${id}`)).toHaveText(fmt(sc(id).additional_total));
+    expect(sc(id).range_low).toBeLessThan(sc(id).additional_total);
+  }
   await expect(page.getByTestId("compare-table")).toContainText(fmt(sc("strong").with_law_total));
   await expect(page.getByTestId("timing-caveat")).toContainText(sw.timing_caveat);
   // AQ-054: shared unit against the statewide all-housing baseline and the ACS home count; no median line for 3 studies
@@ -80,7 +86,7 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
       await expect(page.getByTestId("pilot-corridor-typical")).toHaveText(fmt(p.corridor.add.typical));
       await expect(page.getByTestId("pilot-city-typical")).toHaveText(fmt(p.city_add.typical));
       await expect(page.getByTestId("pilot-baseline")).toHaveText(fmt(p.city_baseline));
-      await expect(page.getByTestId("pilot-places")).toContainText(fmt(p.corridor.gain_acres));
+      await expect(page.getByTestId("pilot-places")).toContainText(fmt(p.corridor.district_acres));
       await expect(page.getByTestId("pilot-method")).toHaveText(p.method);
     } else {
       await expect(page.getByTestId("pilot-homes-near")).toHaveText(fmt(p.city_homes_near));
