@@ -10,7 +10,9 @@ Checkpoints: data/interim/parking_mechanism/. Outputs: reference/parking_mechani
 from __future__ import annotations
 
 import json
+import struct
 import sys
+import zipfile
 from pathlib import Path
 
 import numpy as np
@@ -244,7 +246,8 @@ def summarise_a() -> None:
 EXEMPT_AT = {"Algoma", "Brodhead", "Cottage Grove", "Fitchburg", "Franklin", "Gilman", "La Crosse", "Omro", "West Allis"}
 EXEMPT_GUIDANCE = {"Pewaukee", "Roberts"}  # guidance only, no mandates ("Pewaukee (City)" in the taxonomy)
 MADISON_DOWNTOWN = {"DC", "UMX", "UOR", "DR1", "DR2"}
-V9 = "/vsizip/" + str(RAW / "tod_land_values" / "wi_parcels_v9_2023.zip") + "/V9.0.1_Wisconsin_Parcels_2023_10.3_Uncompressed.gdb"
+V9_ZIP = RAW / "tod_land_values" / "wi_parcels_v9_2023.zip"
+V9_GDB = "V9.0.1_Wisconsin_Parcels_2023_10.3_Uncompressed.gdb"
 
 
 def base_name(n: str) -> tuple[str, str]:
@@ -255,13 +258,54 @@ def base_name(n: str) -> tuple[str, str]:
     return n, ""
 
 
+def interior_points(polys: list) -> tuple[np.ndarray, np.ndarray]:
+    """shapely's representative_point (GEOS InteriorPointArea, GEOS >= 3.8), per polygon feature: for each part, a
+    horizontal scan line midway between the vertex heights nearest the middle of the part's envelope; the point is
+    the middle of the widest interior run along it; the part with the widest run wins (first part on ties).
+    Local copy of the helper in scripts/build_parking_transit_share.py (geom.py is not ours to change)."""
+    out = np.full((len(polys), 2), np.nan)
+    for k, feat in enumerate(polys):
+        best_w = -1.0
+        for part in feat:
+            rings = [r if (r[0] == r[-1]).all() else np.vstack([r, r[:1]]) for r in (np.asarray(q, float) for q in part)]
+            lo, hi = rings[0][:, 1].min(), rings[0][:, 1].max()
+            centre = (lo + hi) / 2.0
+            ys = np.concatenate([r[:, 1] for r in rings])
+            below, above = ys[ys <= centre], ys[ys > centre]
+            lo_y = max(lo, below.max()) if below.size else lo
+            hi_y = min(hi, above.min()) if above.size else hi
+            scan = (hi_y + lo_y) / 2.0
+            xs = []
+            for r in rings:
+                if scan < r[:, 1].min() or scan > r[:, 1].max():
+                    continue
+                x0, y0, x1, y1 = r[:-1, 0], r[:-1, 1], r[1:, 0], r[1:, 1]
+                m = ~((y0 > scan) & (y1 > scan)) & ~((y0 < scan) & (y1 < scan)) & (y0 != y1)
+                m &= ~((y0 == scan) & (y1 < scan)) & ~((y1 == scan) & (y0 < scan))
+                x0, y0, x1, y1 = x0[m], y0[m], x1[m], y1[m]
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    xs.append(np.where(x0 == x1, x0, x0 + (scan - y0) / ((y1 - y0) / (x1 - x0))))
+            pt, w = rings[0][0].copy(), 0.0
+            c = np.sort(np.concatenate(xs)) if xs else np.zeros(0)
+            for i in range(0, len(c) - 1, 2):
+                if c[i + 1] - c[i] > w:
+                    w, pt = c[i + 1] - c[i], np.array([(c[i] + c[i + 1]) / 2.0, scan])
+            if w > best_w:
+                best_w, out[k] = w, pt
+    return out[:, 0], out[:, 1]
+
+
 def madison_shares() -> dict:
-    import geopandas as gpd
-    g = gpd.read_file(RAW / "madison_parcels" / "tax_parcels.geojson", columns=["TotalDwellingUnits", "YearBuilt", "ZoningAll"])
-    n = g[g["YearBuilt"].between(2015, 2024) & (g["TotalDwellingUnits"] >= 5)].copy()
+    from missing_middleware import geom
+    g = geom.read_geojson(RAW / "madison_parcels" / "tax_parcels.geojson", columns=["TotalDwellingUnits", "YearBuilt", "ZoningAll"])
+    a = g.attrs
+    g = g.subset((a["YearBuilt"].between(2015, 2024) & (a["TotalDwellingUnits"] >= 5)).to_numpy())
+    n = g.attrs.copy()
     n["zone"] = n["ZoningAll"].astype(str).str.split(r"[ ,;/]").str[0]
-    tod = gpd.read_file(RAW / "madison_tod" / "tod_boundary.geojson").to_crs(n.crs).geometry.union_all()
-    n["in_tod"] = n.geometry.representative_point().within(tod)
+    # TOD overlay (several polygons; a point is in their union when it is in any of them), same CRS (WGS 84)
+    tod = geom.read_geojson(RAW / "madison_tod" / "tod_boundary.geojson").to_crs(g.crs)
+    px, py = interior_points(g.polys)
+    n["in_tod"] = geom.points_in_any(px, py, tod.polys)
     u = n["TotalDwellingUnits"]
     down = n["zone"].isin(MADISON_DOWNTOWN)
     return dict(madison_units=float(u.sum()), madison_buildings=len(n),
@@ -278,13 +322,137 @@ def milwaukee_shares() -> dict:
     return dict(milwaukee_units=float(n["NR_UNITS"].sum()), milwaukee_buildings=len(n), milwaukee_c9_units=float(n.loc[c9, "NR_UNITS"].sum()))
 
 
+_GDB_FIXED = {0: 2, 1: 4, 2: 4, 3: 8, 5: 8, 10: 16, 11: 16, 13: 8, 14: 8, 15: 8, 16: 10}
+_GDB_DECODE = {0: "<h", 1: "<i", 2: "<f", 3: "<d", 13: "<q"}
+
+
+def _gdb_varuint(b: bytes, p: int) -> tuple[int, int]:
+    v = s = 0
+    while True:
+        c = b[p]
+        p += 1
+        v |= (c & 0x7F) << s
+        if c < 0x80:
+            return v, p
+        s += 7
+
+
+def _gdb_fields(b: bytes) -> list:
+    """(name, type, nullable) per field, from a .gdbtable field-description section (size word, version, flags,
+    field count, fields)."""
+    nf = struct.unpack_from("<H", b, 12)[0]
+    p, out = 14, []
+    for _ in range(nf):
+        n = b[p]
+        name = b[p + 1:p + 1 + 2 * n].decode("utf-16le")
+        p += 1 + 2 * n
+        p += 1 + 2 * b[p]                                        # alias
+        ty = b[p]
+        p += 1
+        if ty == 4:                                              # string: width, flags, default value
+            flag = b[p + 4]
+            dl, p = _gdb_varuint(b, p + 5)
+            p += dl
+        elif ty == 7:                                            # geometry: WKT, flags, origins/scales, extent, grids
+            flag = b[p + 1]
+            p += 2
+            p += 2 + struct.unpack_from("<H", b, p)[0]
+            magic = b[p]
+            p += 1
+            hm, hz = bool(magic & 2), bool(magic & 4)
+            p += 8 * (3 + 2 * hm + 2 * hz + 1 + hm + hz + 4)
+            for skip in (0, 16):                                 # (z range present in some versions)
+                q = p + skip
+                if b[q] == 0 and 1 <= struct.unpack_from("<I", b, q + 1)[0] <= 3:
+                    p = q + 5 + 8 * struct.unpack_from("<I", b, q + 1)[0]
+                    break
+            else:
+                raise ValueError("unrecognised FileGDB geometry field header")
+        elif ty in (6, 8, 10, 11, 12):                           # object id, binary, GUID, GlobalID, XML
+            flag = b[p + 1]
+            p += 2
+        elif ty in _GDB_FIXED:                                   # numbers and dates: width, flags, default value
+            flag, dl = b[p + 1], b[p + 2]
+            p += 3 + dl
+        else:
+            raise ValueError(f"FileGDB field type {ty} not supported")
+        out.append((name, ty, bool(flag & 1)))
+    return out
+
+
+def read_filegdb_attributes(zip_path: Path, gdb: str, columns: list[str]) -> pd.DataFrame:
+    """Attribute columns of the first layer of an ESRI file geodatabase inside a zip (no geometry), with the standard
+    library: format per GDAL's OpenFileGDB notes (github.com/rouault/dump_gdbtable/wiki/FGDB-Spec). Rows in feature
+    order, deleted rows skipped; columns in the layer's order (as pyogrio returned them before the port)."""
+    with zipfile.ZipFile(zip_path) as z:
+        def fields_of(stem):
+            with z.open(stem + ".gdbtable") as f:
+                f.seek(struct.unpack_from("<q", f.read(40), 32)[0])
+                size = struct.unpack("<i", f.read(4))[0]
+                return _gdb_fields(struct.pack("<i", size) + f.read(size))
+
+        def offsets(stem):
+            tx = z.read(stem + ".gdbtablx")
+            _, n1024, nrows, osz = struct.unpack_from("<iiii", tx, 0)
+            n = min(nrows, n1024 * 1024)
+            raw = np.frombuffer(tx, np.uint8, n * osz, 16).reshape(n, osz).astype(np.int64)
+            o = (raw << (8 * np.arange(osz, dtype=np.int64))).sum(axis=1)
+            return np.flatnonzero(o > 0) + 1, o[o > 0]                   # feature ids, row offsets
+
+        def rows(stem, want):
+            stored = [f for f in fields_of(stem) if f[1] != 6]           # object id is not stored in rows
+            nb = (sum(nl for _, _, nl in stored) + 7) // 8
+            last = max(i for i, f in enumerate(stored) if f[0] in want)
+            plan, bit = [], 0
+            for nm, ty, nl in stored[:last + 1]:
+                plan.append((ty, bit if nl else -1, want.get(nm, -1)))
+                bit += nl
+            fids, offs = offsets(stem)
+            out = [[None] * len(offs) for _ in want]
+            with z.open(stem + ".gdbtable") as f:
+                buf, start = b"", 0
+                for k in np.argsort(offs, kind="stable"):
+                    o = int(offs[k])
+                    if o < start or o + 4 > start + len(buf):
+                        if o < start or o > start + len(buf):
+                            f.seek(o)
+                            buf, start = f.read(1 << 24), o
+                        else:
+                            buf, start = buf[o - start:] + f.read(1 << 24), o
+                    rs = struct.unpack_from("<i", buf, o - start)[0]
+                    if o + 4 + rs > start + len(buf):
+                        buf, start = buf[o - start:] + f.read(max(1 << 24, rs + 4)), o
+                    b, p = buf, o - start + 4
+                    flags = b[p:p + nb]
+                    p += nb
+                    for ty, bt, col in plan:
+                        if bt >= 0 and (flags[bt >> 3] >> (bt & 7)) & 1:
+                            continue                                  # null
+                        if ty in (4, 7, 8, 12):
+                            v, p = _gdb_varuint(b, p)
+                            if col >= 0:
+                                out[col][k] = b[p:p + v].decode("utf-8")
+                            p += v
+                        else:
+                            if col >= 0:
+                                out[col][k] = struct.unpack_from(_GDB_DECODE.get(ty, "<d"), b, p)[0]
+                            p += _GDB_FIXED[ty]
+            return fids, out
+
+        base = gdb.rstrip("/") + "/"
+        fids, (cat,) = rows(base + "a00000001", {"Name": 0})              # the catalog: table names by id
+        stem = next(base + f"a{i:08x}" for i, nm in zip(fids, cat)
+                    if nm and not nm.startswith("GDB_") and base + f"a{i:08x}.gdbtable" in z.namelist())
+        order = [nm for nm, _, _ in fields_of(stem) if nm in columns]
+        _, vals = rows(stem, {c: i for i, c in enumerate(order)})
+    return pd.DataFrame(dict(zip(order, vals)))
+
+
 def land_values() -> pd.DataFrame:
     """Median assessed land value per sq ft of residential (1) and commercial (2) parcels, by municipality and county."""
     f = CKPT / "v9_land.parquet"
     if not f.exists():
-        import pyogrio
-        pyogrio.read_dataframe(V9, columns=["PLACENAME", "CONAME", "PROPCLASS", "LNDVALUE", "GISACRES", "PARCELFIPS"],
-                               read_geometry=False).to_parquet(f)
+        read_filegdb_attributes(V9_ZIP, V9_GDB, ["PLACENAME", "CONAME", "PROPCLASS", "LNDVALUE", "GISACRES", "PARCELFIPS"]).to_parquet(f)
     d = pd.read_parquet(f)
     d = d[d["PROPCLASS"].isin(["1", "2"]) & d["GISACRES"].between(0.05, 10) & (d["LNDVALUE"] > 0)].copy()
     d["per_sqft"] = d["LNDVALUE"] / (d["GISACRES"] * 43560)
