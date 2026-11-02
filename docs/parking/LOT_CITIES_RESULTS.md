@@ -79,3 +79,9 @@ Every city now counts gross new homes. San Francisco no longer subtracts demolit
 - All lots: guessing zero misses by 69 homes a year, against 132 for the best method.
 - Near-transit lots: 63, against 115.
 - No method passes in either run.
+
+## Open-licence geometry port (2026-11-02)
+
+The script now uses `missing_middleware/geom.py` and numpy/scipy in place of geopandas and shapely. The effects files are byte-identical. In the prediction files, model predictions moved by up to 9.3 homes per year (13 in the near-transit run). Every method's pass/fail result and its count of cities beating the baseline are unchanged.
+
+The cause is lot width. It is the minimum rotated rectangle, which GEOS computed at full EPSG:5070 coordinates, adding rounding noise of about 0.1 mm. The port computes it about a local origin. The tree-based models are sensitive to such tiny input changes, so the shift is model noise, not a change in the evidence.

@@ -11,17 +11,17 @@ import json
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
+from scipy.spatial import ConvexHull, cKDTree
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from missing_middleware import geom  # noqa: E402
 from missing_middleware.parking import checks  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
-from scripts import run_parking_block_catalog as B  # noqa: E402
 from scripts import run_parking_lot_test as LT  # noqa: E402
 
 D = RAW / "parking_lot_cities"
@@ -32,27 +32,127 @@ WIN = {"San Francisco": (range(2014, 2019), range(2020, 2025)), "Buffalo": (rang
        "Chicago": (range(2009, 2013), range(2016, 2021))}
 
 
-def rail_points():
-    s = B.stops()
+def rail_points() -> pd.DataFrame:
+    """Rail stops (the parking block catalog's stop table, ntm_rail_stops.json) with x/y in EPSG:5070."""
+    s = pd.DataFrame(json.load(open(RAW / "tod_census_cases" / "ntm_rail_stops.json")))
+    s["x"], s["y"] = geom.transform(s["stop_lon"].values, s["stop_lat"].values, 4326, CRS)
     return s[s["stop_type_text"].astype(str).str.contains("rail|Rail|Tram|Subway|Metro")]
 
 
-def dist_to(rail, pts):
-    j = gpd.sjoin_nearest(pts[["geometry"]], rail[["geometry"]], how="left", distance_col="d")
-    return j.groupby(level=0)["d"].min().reindex(pts.index).values
+def dist_to(rail: pd.DataFrame, px, py) -> np.ndarray:
+    """Distance (m) from each point to the nearest rail stop; NaN for points without coordinates."""
+    px, py = np.asarray(px, float), np.asarray(py, float)
+    out = np.full(len(px), np.nan)
+    ok = np.isfinite(px) & np.isfinite(py)
+    out[ok] = geom.nearest(px[ok], py[ok], rail["x"].values, rail["y"].values)[1]
+    return out
 
 
-def width_of(geoms):
+def width_of(polys) -> np.ndarray:
+    """Shorter side of each lot's minimum-area enclosing rectangle (as GEOS >= 3.12 minimum_rotated_rectangle)."""
     out = []
-    for g in geoms:
+    for f in polys:
+        pts = np.concatenate([r[:, :2] for part in f for r in part[:1]]) if f else np.zeros((0, 2))
         try:
-            r = g.minimum_rotated_rectangle
-            xs, ys = r.exterior.coords.xy
-            e = [((xs[i + 1] - xs[i]) ** 2 + (ys[i + 1] - ys[i]) ** 2) ** 0.5 for i in range(2)]
-            out.append(min(e))
-        except Exception:  # noqa: BLE001
+            h = pts[ConvexHull(pts).vertices]
+        except Exception:  # noqa: BLE001  (empty or degenerate lot)
             out.append(np.nan)
+            continue
+        h = h - h[0]                                  # local origin: no cancellation at 5070's large coordinates
+        e = np.roll(h, -1, axis=0) - h
+        e = e / np.hypot(e[:, 0], e[:, 1])[:, None]
+        u = h @ e.T                                   # projections on each edge direction
+        v = h @ np.c_[-e[:, 1], e[:, 0]].T            # and on its normal
+        w, d = u.max(0) - u.min(0), v.max(0) - v.min(0)
+        k = int(np.argmin(w * d))
+        out.append(min(w[k], d[k]))
     return np.array(out)
+
+
+def lot_areas(polys) -> np.ndarray:
+    """Planar area of each lot (NaN when it has no geometry), shoelace about the first vertex of each ring, as GEOS
+    does: about the projected origin, small lots at EPSG:5070's coordinates (millions of metres) lose precision."""
+    out = np.full(len(polys), np.nan)
+    for k, f in enumerate(polys):
+        if not f:
+            continue
+        a = 0.0
+        for part in f:
+            for i, r in enumerate(part):
+                x, y = r[:, 0] - r[0, 0], r[:, 1] - r[0, 1]
+                ra = abs(0.5 * float(np.dot(x, np.roll(y, -1)) - np.dot(y, np.roll(x, -1))))
+                a += ra if i == 0 else -ra
+        out[k] = a
+    return out
+
+
+def interior_points(polys) -> tuple[np.ndarray, np.ndarray]:
+    """GEOS InteriorPointArea (shapely representative_point): per polygon, a horizontal scan line midway between the
+    vertex heights nearest the envelope centre; the midpoint of the widest inside run; the widest over all parts."""
+    xs, ys = np.full(len(polys), np.nan), np.full(len(polys), np.nan)
+    for k, f in enumerate(polys):
+        best_w = -1.0
+        for part in f:
+            shell = part[0]
+            lo, hi = shell[:, 1].min(), shell[:, 1].max()
+            centre = (lo + hi) / 2
+            for r in part:
+                y = r[:, 1]
+                below, above = y[y <= centre], y[y > centre]
+                if len(below) and below.max() > lo:
+                    lo = below.max()
+                if len(above) and above.min() < hi:
+                    hi = above.min()
+            sy = (lo + hi) / 2
+            cross = []
+            for r in part:
+                if sy < r[:, 1].min() or sy > r[:, 1].max():
+                    continue
+                for (x0, y0), (x1, y1) in zip(r[:-1], r[1:]):
+                    if (y0 > sy and y1 > sy) or (y0 < sy and y1 < sy) or y0 == y1:
+                        continue
+                    if (y0 == sy and y1 < sy) or (y1 == sy and y0 < sy):
+                        continue
+                    cross.append(x0 if x0 == x1 else x0 + (sy - y0) / ((y1 - y0) / (x1 - x0)))
+            cross.sort()
+            w, pt = 0.0, (shell[0, 0], shell[0, 1])
+            for i in range(0, len(cross) - 1, 2):
+                if cross[i + 1] - cross[i] > w:
+                    w, pt = cross[i + 1] - cross[i], ((cross[i] + cross[i + 1]) / 2, sy)
+            if w > best_w:
+                best_w, (xs[k], ys[k]) = w, pt
+    return xs, ys
+
+
+def _buffer_ring(r: float) -> np.ndarray:
+    """The 64-sided polygon GEOS draws for a point buffer of radius r (quadrant segments 16), centred on 0, 0."""
+    n = 64
+    a = -np.arange(n) * (2 * np.pi / n)
+    ring = np.c_[r * np.cos(a), r * np.sin(a)]
+    return np.vstack([ring, ring[:1]])
+
+
+def near_sum(x, y, val, r: float) -> np.ndarray:
+    """Sum of val over points strictly inside each point's 250 m buffer polygon (itself included), as a shapely
+    buffer + 'contains' join: every point within the polygon's inscribed radius counts; the few in the thin band
+    between the inscribed radius and r are tested against the 64-gon itself."""
+    xy = np.c_[x, y]
+    tree = cKDTree(xy)
+    inner = r * np.cos(np.pi / 64)
+    ring = _buffer_ring(r)
+    out = np.zeros(len(x))
+    for i, nb in enumerate(tree.query_ball_point(xy, r)):
+        nb = np.asarray(nb, dtype=np.int64)
+        if not len(nb):
+            continue
+        d = np.hypot(x[nb] - x[i], y[nb] - y[i])
+        edge = nb[d >= inner]
+        keep = nb[d < inner]
+        if len(edge):
+            ins = geom.points_in_feature(x[edge] - x[i], y[edge] - y[i], [[ring]])
+            keep = np.concatenate([keep, edge[ins]])
+        out[i] = val[np.sort(keep)].sum()
+    return out
 
 
 def per_lot_years(perm: pd.DataFrame, key: str) -> dict:
@@ -60,12 +160,13 @@ def per_lot_years(perm: pd.DataFrame, key: str) -> dict:
 
 
 def sf() -> pd.DataFrame:
-    g = gpd.read_file(D / "sf_parcels.geojson")
-    g = g[g["zoning_code"].isin(SF_PINCHED | SF_COMPARE)].to_crs(CRS).reset_index(drop=True)
+    lay = geom.read_geojson(D / "sf_parcels.geojson")
+    lay = lay.subset(lay.attrs["zoning_code"].isin(SF_PINCHED | SF_COMPARE)).to_crs(CRS)
+    g = lay.attrs.copy()
     g["pinched"] = g["zoning_code"].isin(SF_PINCHED).astype(float)
-    g["acres"] = g.geometry.area / 4046.8564
-    g["width_m"] = width_of(g.geometry)
-    pts = gpd.GeoDataFrame(g[["blklot"]], geometry=g.geometry.representative_point(), crs=CRS)
+    g["acres"] = lot_areas(lay.polys) / 4046.8564
+    g["width_m"] = width_of(lay.polys)
+    px, py = interior_points(lay.polys)
     p = pd.DataFrame(json.load(open(D / "sf_permits.json")))
     p = p[p["status"] != "cancelled"]
     p["year"] = pd.to_datetime(p["issued_date"]).dt.year
@@ -77,10 +178,10 @@ def sf() -> pd.DataFrame:
     p["kind"] = np.where(p["permit_type"].isin(["1", "2", "6"]), "new or demolition", "alteration")
     p["blklot"] = p["block"].astype(str) + p["lot"].astype(str)
     out = pd.DataFrame({"city": "San Francisco", "pinched": g["pinched"], "acres": g["acres"], "width_m": g["width_m"],
-                        "x5070": pts.geometry.x, "y5070": pts.geometry.y, "key": g["blklot"]})
+                        "x5070": px, "y5070": py, "key": g["blklot"]})
     out["permits_main"] = out["key"].map(per_lot_years(p[p["kind"] == "new or demolition"], "blklot"))
     out["permits_all"] = out["key"].map(per_lot_years(p, "blklot"))
-    out["dist_station_m"] = dist_to(rail_points(), pts)
+    out["dist_station_m"] = dist_to(rail_points(), px, py)
     return out
 
 
@@ -95,17 +196,17 @@ def buffalo() -> pd.DataFrame:
     compare = use == 210
     r = r[(pinched | compare) & r["latitude"].notna()].copy()
     r["pinched"] = pinched[r.index].astype(float)
-    pts = gpd.GeoDataFrame(r[["sbl"]], geometry=gpd.points_from_xy(r["longitude"], r["latitude"]), crs=4326).to_crs(CRS)
+    px, py = geom.transform(r["longitude"].values, r["latitude"].values, 4326, CRS)
     p = pd.DataFrame(json.load(open(D / "buffalo_permits.json")))
     p["year"] = pd.to_datetime(p["issued"]).dt.year
     p["net"] = pd.to_numeric(p["units_added"], errors="coerce").fillna(0)  # gross new homes, as for Seattle and Chicago (audit 2e)
     yrs = per_lot_years(p, "sbl")
     acres = r["acres"].where(r["acres"] > 0, pd.to_numeric(r["front"], errors="coerce") * pd.to_numeric(r["depth"], errors="coerce") / 43560)
     out = pd.DataFrame({"city": "Buffalo", "pinched": r["pinched"].values, "acres": acres.values, "width_m": (r["front"] * 0.3048).values,
-                        "x5070": pts.geometry.x.values, "y5070": pts.geometry.y.values, "key": r["sbl"].values})
+                        "x5070": px, "y5070": py, "key": r["sbl"].values})
     out["permits_main"] = out["key"].map(yrs)
     out["permits_all"] = out["permits_main"]
-    out["dist_station_m"] = dist_to(rail_points(), pts.reset_index(drop=True))
+    out["dist_station_m"] = dist_to(rail_points(), px, py)
     return out
 
 
@@ -184,9 +285,7 @@ def main() -> None:
     # homes permitted within 250 m before (per year), from the same lot table
     near = []
     for city, g in L.groupby("city"):
-        pts = gpd.GeoDataFrame(g[["before_py"]], geometry=gpd.points_from_xy(g["x5070"], g["y5070"]), crs=CRS)
-        j = gpd.sjoin(pts.assign(geometry=pts.buffer(250))[["geometry"]], pts[["before_py", "geometry"]], predicate="contains")
-        near.append(j.groupby(level=0)["before_py"].sum())
+        near.append(pd.Series(near_sum(g["x5070"].values, g["y5070"].values, g["before_py"].values, 250.0), index=g.index))
     L["near_before"] = pd.concat(near).reindex(L.index).fillna(0)
     # light checks (flags only, owner 2026-10-28)
     flags = checks.trait_range(L, "city", ["acres", "width_m", "dist_station_m", "near_before", "before_py"])

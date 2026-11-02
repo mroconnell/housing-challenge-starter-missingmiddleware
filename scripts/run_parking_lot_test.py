@@ -10,13 +10,13 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from missing_middleware import geom  # noqa: E402
 from missing_middleware.paths import PROCESSED, RAW, REFERENCE  # noqa: E402
 
 SEED, DRAWS, CELL = 20261028, 2000, 500.0
@@ -35,11 +35,10 @@ def parse(py: str) -> dict[int, float]:
 def lots() -> pd.DataFrame:
     d = pd.read_parquet(PROCESSED / "tod_lot_model" / "lots.parquet")
     d["permits"] = d["permit_years"].map(parse)
-    v = gpd.read_file(RAW / "parking_older_reforms" / "seattle_urban_villages.geojson").to_crs(5070)
-    v = v[v["UV_TYPE"].isin(["HUV", "RUV"])]
+    v = geom.read_geojson(RAW / "parking_older_reforms" / "seattle_urban_villages.geojson")
+    v = v.subset(v.attrs["UV_TYPE"].isin(["HUV", "RUV"])).to_crs(5070)
     s = d[d["city"] == "Seattle"]
-    g = gpd.GeoDataFrame(s[[]], geometry=gpd.points_from_xy(s["x5070"], s["y5070"]), crs=5070)
-    inside = gpd.sjoin(g, v[["geometry"]], predicate="within").index.unique()
+    inside = s.index[geom.points_in_any(s["x5070"].values, s["y5070"].values, v.polys)]
     d["parking"] = 0.0
     d.loc[inside, "parking"] = 1.0
     chi = d["city"] == "Chicago"
