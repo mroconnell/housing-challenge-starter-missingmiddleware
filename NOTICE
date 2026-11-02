@@ -14,4 +14,8 @@ you may leave the section below empty.
 Third-party attributions
 --------------------------------------------------------------------------------
 
-[none]
+JTS Topology Suite (https://github.com/locationtech/jts)
+Copyright (c) Vivid Solutions and others; Eclipse Distribution License 1.0
+(BSD-3-Clause). The geometry modules in missing_middleware/ (geom_extra_*.py)
+reimplement several JTS algorithms so that results match the shapely/GEOS
+outputs they replace (see docs/DISCLOSURES.md, "Generated or Copied Code").

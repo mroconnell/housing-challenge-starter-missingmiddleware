@@ -14,9 +14,10 @@ from __future__ import annotations
 
 import json
 
-import geopandas as gpd
+import numpy as np
 import pandas as pd
 
+from missing_middleware import geom_extra_foundation as F
 from missing_middleware.paths import PROCESSED, REFERENCE
 
 ADU_CATS = {"adu_detached", "adu_attached", "adu_conversion", "adu_equivalent"}
@@ -27,8 +28,27 @@ CITIES = {
 }
 
 
-def pilot_tracts() -> gpd.GeoDataFrame:
-    geo = gpd.read_parquet(PROCESSED / "foundation/geo/areas_display.parquet")
+def display_areas() -> pd.DataFrame:
+    """areas_display.parquet as a table with `geometry` (polygon features) and `kind` (Polygon / MultiPolygon)."""
+    attrs, feats, kinds, _ = F.read_geoparquet(PROCESSED / "foundation/geo/areas_display.parquet")
+    attrs["geometry"], attrs["kind"] = feats, kinds
+    return attrs
+
+
+def to_geojson(d: pd.DataFrame) -> str:
+    """FeatureCollection text in the layout geopandas' to_json gave (id = row position, NaN as null)."""
+    props = [c for c in d.columns if c not in ("geometry", "kind")]
+    feats = []
+    for i, row in enumerate(d.itertuples(index=False)):
+        r = row._asdict()
+        p = {c: (None if (not isinstance(r[c], str) and pd.isna(r[c])) else
+                 (r[c].item() if isinstance(r[c], np.generic) else r[c])) for c in props}
+        feats.append({"id": str(i), "type": "Feature", "properties": p, "geometry": F.geometry_dict(r["geometry"], r["kind"])})
+    return json.dumps({"type": "FeatureCollection", "features": feats})
+
+
+def pilot_tracts() -> pd.DataFrame:
+    geo = display_areas()
     inv = pd.read_parquet(PROCESSED / "foundation/inventory.parquet")[["area_id", "homes_1unit_detached"]]
     frames = []
     for folder, city in CITIES.items():
@@ -43,12 +63,12 @@ def pilot_tracts() -> gpd.GeoDataFrame:
     t = pd.concat(frames).drop_duplicates("area_id")
     t = t.merge(inv, on="area_id", how="left")
     return geo.merge(t, on="area_id", how="inner")[
-        ["area_id", "city", "adu_permits_2014_2025", "homes_1unit_detached", "geometry"]
+        ["area_id", "city", "adu_permits_2014_2025", "homes_1unit_detached", "geometry", "kind"]
     ]
 
 
-def rights_munis() -> gpd.GeoDataFrame:
-    geo = gpd.read_parquet(PROCESSED / "foundation/geo/areas_display.parquet")
+def rights_munis() -> pd.DataFrame:
+    geo = display_areas()
     geo = geo[geo.level == "municipality"]
     r = pd.read_csv(REFERENCE / "wi_rights_exposure.csv", dtype=str)
     r = r[r.scenario_id == "adu_full"]
@@ -56,8 +76,8 @@ def rights_munis() -> gpd.GeoDataFrame:
     g = geo.merge(r[["area_id", "jurisdiction_name", "current_class", "class_basis", "rules_as_of"]], on="area_id", how="left")
     g["current_class"] = g.current_class.fillna("not coded (default: no ADU rights)")
     g["jurisdiction_name"] = g.jurisdiction_name.fillna("")
-    g["geometry"] = g.geometry.simplify(0.002)
-    return g[["area_id", "jurisdiction_name", "current_class", "class_basis", "rules_as_of", "geometry"]]
+    g["geometry"] = F.simplify_preserve(list(g.geometry), 0.002)
+    return g[["area_id", "jurisdiction_name", "current_class", "class_basis", "rules_as_of", "geometry", "kind"]]
 
 
 HTML = """<!doctype html><html><head><meta charset="utf-8"><title>Gate 2 review map</title>
@@ -97,7 +117,7 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     t = pilot_tracts()
     m = rights_munis()
-    html = HTML.replace("__TRACTS__", t.to_json()).replace("__MUNIS__", m.to_json())
+    html = HTML.replace("__TRACTS__", to_geojson(t)).replace("__MUNIS__", to_geojson(m))
     (out / "gate2_map.html").write_text(html)
     summary = t.groupby("city").agg(tracts=("area_id", "size"), adu_permits=("adu_permits_2014_2025", "sum"),
                                      homes=("homes_1unit_detached", "sum"))

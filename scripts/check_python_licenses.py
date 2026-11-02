@@ -36,10 +36,7 @@ CLASSIFIER_MAP = {
 TEXT_MAP = {"mit": "MIT", "apache-2.0": "Apache-2.0", "apache 2.0": "Apache-2.0", "bsd": "BSD-3-Clause",
             "bsd-3-clause": "BSD-3-Clause", "isc": "ISC", "psf": "PSF-2.0"}
 # Reviewed exceptions: name -> reason (full justification in docs/DISCLOSURES.md).
-EXCEPTIONS = {
-    "certifi": "MPL-2.0; transitive runtime dependency of pyproj and pyogrio (geo extra), used unmodified "
-               "as a CA bundle, not distributed with the submission code (docs/DISCLOSURES.md)",
-}
+EXCEPTIONS: dict[str, str] = {}   # none: the geo stack (and with it certifi, MPL-2.0) was replaced on 2026-11-02
 
 
 def licence_ids(dist: md.Distribution) -> tuple[list[str], str]:

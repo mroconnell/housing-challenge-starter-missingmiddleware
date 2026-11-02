@@ -12,10 +12,8 @@ dependencies = [
 
 [project.optional-dependencies]
 geo = [
-  "geopandas>=1.0",
-  "pyogrio>=0.10",
-  "shapely>=2.0",
-  "pyproj>=3.6",
+  # open-licence geometry (missing_middleware/geom.py): numpy (via pandas) and scipy, both BSD-3-Clause
+  "scipy>=1.11",
 ]
 ml = [
     "scikit-learn>=1.5",
