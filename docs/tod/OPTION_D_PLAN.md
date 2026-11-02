@@ -235,3 +235,57 @@ Departures and fixes after locking are logged below with dates, before each reru
   both scores (per stop 11.7, places 9.3), so that band still counts zero. Wisconsin = predicted effect × 4,874
   ¼-mile lot acres / 100 × 5 × 1.2269; tool central 9,822. Files: scripts/run_tod_optiond_stops.py,
   reference/tod_optiond_stopmodel_{summary,places,stops}.csv. No tool change.
+- **2026-11-02 18:22, stop-outlier data review, round 1 (logged before any fix).** Owner: "use these first
+  stop-based results to find possible errors in the data like the condo multi-lot counts. Look at high outliers for
+  mistakes, look at low outliers for mistakes, then look at the things in the center. Fix those mistakes and then
+  rerun the boosted model on stop traits." 18:23: "keep fixing and fitting until you get a clean run with no
+  mistakes" (clean = no confirmed data error left; at most 5 rounds). 18:24: the clean run also fits boosting with
+  all lot, block group and tract traits, and a second version adding stop-table traits.
+  Reviewed (reference/tod_optiond_stopmodel_stops.csv as written 10:09, which predates the land fix): ¼ mile top 30
+  and bottom 30 reform stop-bands, ¼–½ mile top 15 and bottom 20, and 15 random stop-bands near the median in each
+  band. For each, the lots carrying its change (window totals as the model reads them, hand-check corrections
+  applied) and, in New York and Philadelphia, the raw DOB jobs / L&I permits within 80 m (address, units, status,
+  scope text). 260 driver lots (New York 104, Philadelphia 63, Portland 53, Chicago 31, Denver 9).
+  - **Confirmed error 1, New York hotel rooms counted as homes.** DOB new-building jobs list hotel rooms in
+    "proposed dwelling units". New York and Philadelphia were never in the big-lot hand check. Check: MapPLUTO 18v1
+    (the lot tables' own vintage) building class on the job's lot, where the 18v1 building was built in or after the
+    job's year less 1. 209 hotel lots (class H or RH), e.g. a 2003 Times Square hotel job of 873 "units", 0
+    residential units in 18v1; 8 condo-hotel towers (class RC, no residential units; e.g. a 390-unit SoHo
+    condo-hotel); 10 condo towers whose job added hotel rooms to the residences (e.g. a 377-unit job = 214-room hotel
+    + 163 condos; a 346-unit job = 189-room hotel + 157 condos); 19 health, nursing, shelter or care buildings
+    (class I or N; beds or rooms). Mostly on the comparison side (Midtown and Lower Manhattan hotel boom), so they
+    inflated comparison growth.
+  - **Confirmed error 2, New York superseded jobs.** A lot with 2+ jobs where the 18v1 building matches the latest
+    job's units (±10%): the earlier jobs were replaced, not built (e.g. one Downtown Brooklyn lot with jobs of 322
+    (2007), 184 (2008) and 826 (2013) units and one 826-unit building; a far-West-Side lot with 764 (2013) and
+    1,175 (2014)). 65 lots. The builder merged same-count refilings within 2 years only.
+  - **Confirmed error 3, Philadelphia re-issued permits.** Same parcel, same unit count, permitted again 1–4 years
+    later (staged permits within 548 days were already merged): 3 lots, largest 166 units permitted 2021 and 2024.
+  - **Confirmed error 4, stale land in the stop table.** The stop rows used `acres` (stacked condo records counted per
+    unit; e.g. a Charlotte ¼-mile stop-band at 442.6 acres vs 70.0 acres of land). Fixed by the land-once helper
+    (`acres_land`, scripts/fix_tod_station_acres.py); the stop cache is rebuilt on it.
+  - **Confirmed error 5, one Philadelphia addition counted twice.** A Center City high-rise counted as 234 + 55 units
+    (an 11-storey addition permit "part of" the main permit, whose text says 248 units): 289 → 248 in one before
+    window (one hand-entered row).
+  - **Plausible, not changed:** a Chicago South Loop lot with Cook year built 2011 (398 homes) but a 2013 permit for 199 (already hand-checked
+    "plausible"); Portland condo records with 0 acres (land on the common parcel); Chicago lots of 100+ homes moved
+    into a window by the event dates and not yet hand-checked (all Cook apartment-sheet buildings of 2016–2020,
+    consistent with permits where present); dormitory-coded Philadelphia parcels whose permits say dwelling units.
+  - **Real (kept):** Philadelphia Front–Girard (an 861-unit 2019 permit), Spring Garden and Girard 4th St (the
+    December 2021 permit rush before the tax-abatement change), Chicago Loop and South Loop towers (hand-checked),
+    New York Downtown Brooklyn and Hudson Yards towers, Portland Pearl and South Waterfront towers in the before
+    window with nothing after (the low tail). Tiny land denominators (e.g. 0.78 acres in a ¼–½-mile band where
+    chained trolley stops split the land) are real geometry, not errors: such stops swing ±1,000+ per 100 acres.
+    Philadelphia and New York stops repeat across rezonings (one stop in up to 11 cases); that is the case design
+    (place totals average over rezonings), not a data error.
+  - **Center:** no systematic gap found: zero-permit stops are low-growth areas with no 20+ unit permits nearby;
+    no missing years within any window; lots with no land area are condo records (0 acres) or rights of way.
+  - **Fix (in the pipeline):** scripts/build_tod_hand_check_rules.py writes rule rows (evidence starting "rule ",
+    source MapPLUTO 18v1 / DOB job filings / L&I permits) into data/processed/tod_station_area/hand_check_big_lots.csv,
+    which model time already applies; one row per case, lot and window. Then the stop cache is rebuilt and
+    scripts/run_tod_optiond_stops.py rerun.
+- **2026-11-02 18:50, names (owner: "Great names. Use them here on out.").** Every result is labelled by evidence set,
+  training level and method. Evidence set: **D-11** (the 11 district places) or **D-B** (the 8 station-focused
+  places; Seattle Roosevelt shown separately). Training level: **lot model** (one row per lot) or **stop model** (one
+  row per station and distance band). Method: average, zero, boosted, random forest, causal forest, 4-trait. The
+  tool's central line is "D-11, average".
