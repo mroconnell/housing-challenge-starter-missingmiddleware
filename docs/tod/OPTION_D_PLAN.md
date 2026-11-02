@@ -98,3 +98,23 @@ would force. The random-placement line is the guard against that.
 Departures and fixes after locking are logged below with dates, before each rerun.
 
 ## 7. Log
+
+- **2026-11-02, round 1 (fast fit, lot traits, 5 averaged fits).** Not clean. Median error within ¼ mile on hidden
+  places: model 36.1 vs others' average 19.3 vs zero 28.1 (extra homes per 100 lot acres a year); a second set of 5
+  fits gave 47.8, and Wisconsin ¼ mile 806 vs 1,633. Causes found: (1) Austin has no land values and Philadelphia no
+  year built, so a hidden place with a gap goes down a branch learned from another place's gap (hidden Austin
+  predicted +324); (2) New York and Philadelphia carried about 95% of the training weight although the place is the
+  unit of the test.
+- **Round 2 fixes (logged before rerun):** fill whole-place gaps with the median over training lots; give each place
+  the same total weight. Nothing else changes.
+- **2026-11-02, round 2 result.** Not clean. Within ¼ mile the model now predicts close to zero for every hidden
+  place (median error 28.5 vs zero 28.1 vs others' average 19.3). Lot-level noise swamps the district signal.
+- **Round 3 fix (logged before rerun):** fit at the level the effect is measured: one row per stop and band, target =
+  change in new homes per 100 lot acres a year (after minus before), features = reform stop, coverage, band, the
+  band's lot acres and acre-weighted means of the lot traits; each place equal weight; trait gaps filled as round 2.
+- **2026-11-02, round 3 result.** Not clean. Within ¼ mile: model 34.7 and 28.6 (two sets of fits) vs others'
+  average 19.3 vs zero 28.1. The model again predicts small effects for the places with the largest measured gains
+  (Denver, Mount Baker, Salt Lake City, Philadelphia).
+- **Stage 5 (all models) run next, as the plan says, to answer whether any richer model beats the average:** lot and
+  stop level, each with place traits, tract traits and the affordability-mandate coding added. If none beats the
+  others' average on hidden places, the central line is the average rule (section 5, fixed before results).
