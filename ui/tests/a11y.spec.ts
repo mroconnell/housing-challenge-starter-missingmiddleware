@@ -124,5 +124,5 @@ test("a11y: the brief's district tables are captioned and reconcile", async ({ p
   await expect(page.getByTestId("brief-senate-table").locator("tbody tr")).toHaveCount(33);
   await expect(page.getByRole("table", { name: "Assembly districts 1–33" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "Added permits per 1,000 single-family homes per year" }).first()).toBeAttached();
-  await expect(page.getByTestId("brief-district-reconcile")).toContainText("✓");
+  await expect(page.getByTestId("brief-district-reconcile")).toContainText("Checked:");
 });

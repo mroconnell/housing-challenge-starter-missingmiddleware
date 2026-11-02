@@ -83,7 +83,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
     <table class="data"><caption class="sr-only">Data vintages</caption><tbody>${m.vintages.map((v) => `<tr><th scope="row">${esc(v.what)}</th><td>${esc(v.vintage)}</td></tr>`).join("")}</tbody></table>
     <p><strong>Run</strong> <code>${esc(m.run_id)}</code>: a hash of the ${m.inputs.length} input files listed in <code>manifest.json</code>. ${esc(m.dates.effective)}.</p>
     <h3>Validation of this run</h3>
-    <ul class="small">${m.validation.checks.map((c) => `<li>${c.passed ? "✓" : "✗"} ${esc(c.check)}: ${esc(c.detail)}</li>`).join("")}</ul>
+    <ul class="small">${m.validation.checks.map((c) => `<li>${c.passed ? "Passed:" : "Failed:"} ${esc(c.check)}: ${esc(c.detail)}</li>`).join("")}</ul>
     <form method="dialog"><button class="button" autofocus>Close</button></form>
   </dialog>`,
     bind() {

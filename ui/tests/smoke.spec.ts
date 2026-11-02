@@ -64,7 +64,7 @@ test("map table reconciles to the state for each year and geography", async ({ p
   const cen = b.state.scenarios.find((s: { id: string }) => s.id === "central");
   await page.goto("#/where");
   const rec = page.getByTestId("reconcile");
-  await expect(rec).toContainText("✓");
+  await expect(rec).toContainText("Checked:");
   await expect(rec).toContainText(fmt(cen.additional_total));
   const slider = page.locator("#year");
   await slider.focus();
@@ -72,9 +72,9 @@ test("map table reconciles to the state for each year and geography", async ({ p
   await page.keyboard.press("ArrowLeft");
   await expect(page.locator("#year-out")).toHaveText("2029");
   await expect(rec).toContainText(fmt(sum(cen.additional_by_year.slice(0, 3))));
-  await expect(rec).toContainText("✓");
+  await expect(rec).toContainText("Checked:");
   await page.getByRole("radio", { name: "Cities, villages and towns" }).check();
-  await expect(page.getByTestId("reconcile")).toContainText("✓");
+  await expect(page.getByTestId("reconcile")).toContainText("Checked:");
   await expect(page.getByTestId("reconcile")).toContainText("1,925 areas");
   // missing is a dash with a reason, never 0
   await page.locator("#q").fill("County subdivisions not defined");
@@ -237,7 +237,7 @@ test("unknown-rules switch shows each precomputed run", async ({ page }) => {
   await expect(page).toHaveURL(/u=like_benchmark/);
   await page.goto("#/where?u=like_benchmark");
   const ben = b.unknown.variants.find((v: { id: string }) => v.id === "like_benchmark");
-  await expect(page.getByTestId("reconcile")).toContainText("✓");
+  await expect(page.getByTestId("reconcile")).toContainText("Checked:");
   await expect(page.getByTestId("reconcile")).toContainText(fmt(ben.additional_by_year.central.reduce((a: number, x: number) => a + x, 0)));
   await expect(page.getByTestId("reconcile")).toContainText(fmt(ben.baseline_by_year.reduce((a: number, x: number) => a + x, 0)));
 });
@@ -254,7 +254,7 @@ test("districts reconcile to the state and disable the unknown-rules switch", as
     await expect(sw.locator('input[value="like_restricted"]')).toBeChecked();
     await expect(page.getByTestId("unknown-note")).toContainText("adopted assumption only");
     const rec = page.getByTestId("reconcile");
-    await expect(rec).toContainText("✓");
+    await expect(rec).toContainText("Checked:");
     await expect(rec).toContainText(`${n} ${name}`);
     await expect(rec).toContainText("not allocated to a district");
     await expect(rec).toContainText(fmt(cen.additional_total));
@@ -293,12 +293,12 @@ test("causal forest view: same statewide total, counties match the bundle, centr
   await expect(page.getByTestId("detail-model-central")).toHaveText(`${fmt(sum(county.add.central))} permits`);
   // the statewide total does not change, and the table still reconciles
   const rec = page.getByTestId("reconcile");
-  await expect(rec).toContainText("✓");
+  await expect(rec).toContainText("Checked:");
   await expect(rec).toContainText(fmt(cen.additional_total));
   await expect(rec).toContainText("causal forest pattern");
   for (const [name] of [["Cities, villages and towns"], ["Assembly districts"], ["Senate districts"]] as const) {
     await page.getByRole("radio", { name }).check();
-    await expect(page.getByTestId("reconcile")).toContainText("✓");
+    await expect(page.getByTestId("reconcile")).toContainText("Checked:");
     await expect(page.getByTestId("reconcile")).toContainText(fmt(cen.additional_total));
     await expect(page.getByTestId("reconcile")).toContainText("causal forest pattern");
   }

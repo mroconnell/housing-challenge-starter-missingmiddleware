@@ -40,7 +40,7 @@ export function renderBrief(ctx: Ctx, main: HTMLElement): void {
       <tbody>${top.map((c) => `<tr><th scope="row">${esc(c.name)}</th><td class="num">${int(c.homes)}</td><td class="num">${int(sum(c.base))}</td><td class="num">${int(sum(c.add.central))} <span class="muted">(${int(sum(c.add.lower))} to ${int(sum(c.add.upper))})</span></td></tr>`).join("")}
       <tr><th scope="row">Other ${rest.length} counties</th><td class="num">${int(rest.reduce((a, c) => a + c.homes, 0))}</td><td class="num">${int(rest.reduce((a, c) => a + sum(c.base), 0))}</td><td class="num">${int(rest.reduce((a, c) => a + sum(c.add.central), 0))}</td></tr></tbody>
       <tfoot><tr><th scope="row">Wisconsin</th><td class="num">${int(counties.reduce((a, c) => a + c.homes, 0))}</td><td class="num">${int(counties.reduce((a, c) => a + sum(c.base), 0))}</td><td class="num">${int(counties.reduce((a, c) => a + sum(c.add.central), 0))}</td></tr></tfoot></table></div>
-    <p class="small">✓ The 72 counties add up to the statewide figures. No area is left unallocated.</p>
+    <p class="small">Checked: the 72 counties add up to the statewide figures. No area is left unallocated.</p>
 
     <h2>How sure</h2>
     <ul>
@@ -90,7 +90,7 @@ function districtPage(ctx: Ctx): string {
     ${block(asm.rows, "Assembly", 33)}
     <h3 class="small-h">Senate districts (33)</h3>
     ${block(sen.rows, "Senate", 11)}
-    <p class="small" data-testid="brief-district-reconcile">${ok ? "✓" : "✗"} The 99 Assembly districts add up to ${int(ra.add)} added and ${int(ra.base)} baseline permits, and the 33 Senate districts to ${int(rs.add)} and ${int(rs.base)}, including a "not allocated to a district" row of ${dec(add(asm.unallocated), 1)} permits; the statewide figures are ${int(cen.additional_total)} and ${int(base)}. Each Senate district is the sum of its three Assembly districts. Rows are rounded; totals add the unrounded values.</p>
+    <p class="small" data-testid="brief-district-reconcile">${ok ? "Checked:" : "Check failed:"} The 99 Assembly districts add up to ${int(ra.add)} added and ${int(ra.base)} baseline permits, and the 33 Senate districts to ${int(rs.add)} and ${int(rs.base)}, including a "not allocated to a district" row of ${dec(add(asm.unallocated), 1)} permits; the statewide figures are ${int(cen.additional_total)} and ${int(base)}. Each Senate district is the sum of its three Assembly districts. Rows are rounded; totals add the unrounded values.</p>
     <p class="small muted">Boundaries: ${esc(D.boundaries)}. The full method is under "How district figures are made" on the tool's Where screen.</p>
   </section>`;
 }
