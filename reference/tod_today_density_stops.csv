@@ -1,0 +1,395 @@
+group,place,stop,lat,lon,homes_quarter_mile,land_acres_quarter_mile,homes_per_acre_quarter_mile,homes_half_mile,land_acres_half_mile,homes_per_acre_half_mile
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 2164,43.03841,-87.9329,1330,104.9,12.68,3887,500.9,7.76
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 2507,43.03856,-88.02714,327,89.5,3.66,911,456.4,2.0
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 2624,43.03912,-87.90272,788,123.3,6.39,4662,377.7,12.34
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 276,43.039,-87.95783,868,153.7,5.65,4248,547.2,7.76
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 2783,43.0391,-87.90134,958,108.6,8.82,4203,333.2,12.61
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 347,43.03854,-87.95763,784,121.9,6.43,3957,523.9,7.55
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 3942,43.03895,-87.94782,1867,130.3,14.32,5644,499.6,11.3
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 4051,43.03848,-87.94761,1527,115.7,13.2,5536,519.9,10.65
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 416,43.03888,-87.94036,2006,137.9,14.55,4464,512.5,8.71
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 417,43.03887,-87.94274,1819,114.7,15.86,5088,510.6,9.96
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 420,43.03886,-87.95057,2048,122.1,16.77,5309,475.6,11.16
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 421,43.03883,-87.95369,1938,120.9,16.03,5008,504.4,9.93
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 422,43.03889,-87.95731,808,126.4,6.39,4248,526.8,8.06
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 4334,43.03863,-87.95419,1680,122.7,13.7,4795,490.8,9.77
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 4336,43.03859,-87.95057,1946,118.0,16.49,5278,482.3,10.94
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 4339,43.03859,-87.94302,1741,109.3,15.93,4969,508.8,9.77
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 4340,43.03861,-87.94066,1853,124.4,14.89,4766,520.8,9.15
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 5,43.03882,-87.91101,1096,111.8,9.8,4290,473.0,9.07
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 515,43.04126,-88.02644,43,201.4,0.21,627,395.3,1.59
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 517,43.03814,-88.03168,239,74.7,3.2,1227,567.0,2.16
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 518,43.03857,-88.02747,326,79.1,4.12,911,456.4,2.0
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 566,43.03818,-88.03144,207,74.3,2.79,1227,567.0,2.16
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 569,43.0412,-88.02608,43,201.4,0.21,687,408.5,1.68
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6,43.03885,-87.9144,1201,117.5,10.22,2703,450.7,6.0
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 62,43.03868,-87.91481,1066,120.5,8.84,2523,452.7,5.57
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 63,43.03864,-87.91133,1096,118.8,9.23,3789,466.1,8.13
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6364,43.03621,-88.01615,286,111.0,2.58,1504,460.1,3.27
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6419,43.03613,-88.02779,510,110.6,4.61,1152,442.8,2.6
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6487,43.03546,-88.03027,357,100.0,3.57,1430,432.5,3.31
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6488,43.03576,-88.0276,567,119.3,4.75,1346,515.1,2.61
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6537,43.03578,-88.01603,345,122.9,2.81,1599,478.7,3.34
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 66,43.03877,-87.90484,452,127.3,3.55,5498,434.7,12.65
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6697,43.04544,-88.04049,0,44.3,0.0,189,494.5,0.38
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6699,43.04481,-88.02986,0,99.6,0.0,249,509.7,0.49
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6700,43.04491,-88.027,0,0.0,,288,545.1,0.53
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6701,43.04391,-88.02638,0,168.6,0.0,284,511.6,0.56
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6781,43.04383,-88.02617,0,168.6,0.0,369,532.0,0.69
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6782,43.04529,-88.02693,0,0.0,,245,539.1,0.45
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6783,43.0451,-88.03057,0,99.6,0.0,206,503.6,0.41
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 6913,43.0358,-87.99723,715,130.1,5.5,2669,521.6,5.12
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 8257,43.04546,-88.0434,0,85.3,0.0,213,579.2,0.37
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9105,43.04575,-88.04264,0,85.3,0.0,189,478.3,0.4
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9515,43.04498,-88.02599,0,79.4,0.0,126,487.3,0.26
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9618,43.04712,-88.0436,0,151.3,0.0,189,524.6,0.36
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9620,43.04276,-88.02637,0,168.6,0.0,407,548.5,0.74
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9621,43.04231,-88.02614,0,168.6,0.0,537,587.4,0.91
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9622,43.03539,-88.03059,357,100.0,3.57,1430,432.5,3.31
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9623,43.03597,-88.03142,327,96.2,3.4,1329,407.7,3.26
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9624,43.03575,-88.01421,348,122.6,2.84,1694,486.0,3.49
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9625,43.03615,-88.0172,373,123.8,3.01,1566,467.0,3.35
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9626,43.035,-88.00813,573,133.7,4.29,2034,505.8,4.02
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9627,43.03539,-88.00661,565,121.8,4.64,2073,498.2,4.16
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9628,43.03591,-87.99596,682,127.4,5.35,2552,509.8,5.01
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9629,43.03592,-87.99953,779,137.4,5.67,2443,487.3,5.01
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9630,43.03717,-87.98416,639,104.0,6.15,1872,523.6,3.58
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9631,43.03724,-87.9846,642,105.2,6.1,1875,511.6,3.67
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9632,43.03866,-87.98016,488,110.8,4.4,1404,487.5,2.88
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9633,43.03892,-87.97975,488,110.8,4.4,1404,499.8,2.81
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9634,43.03865,-87.96944,129,138.0,0.93,1374,502.3,2.74
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9635,43.03895,-87.96963,129,138.0,0.93,1387,504.5,2.75
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9636,43.03861,-87.95728,784,121.9,6.43,3991,525.5,7.59
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9637,43.03888,-87.95825,783,143.1,5.47,3862,523.1,7.38
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9638,43.03857,-87.94739,1736,122.0,14.23,5509,516.9,10.66
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9639,43.03881,-87.94803,1571,121.9,12.89,5633,495.9,11.36
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9640,43.03851,-87.93256,1247,125.6,9.93,3887,506.6,7.67
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9641,43.03883,-87.93275,1300,105.8,12.29,3967,515.3,7.7
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9642,43.03853,-87.92673,368,110.3,3.34,2791,497.7,5.61
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9643,43.0388,-87.92746,610,120.5,5.06,2801,475.0,5.9
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9644,43.03855,-87.92361,667,140.7,4.74,2250,502.7,4.48
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9645,43.03898,-87.9229,635,122.1,5.2,2645,513.4,5.15
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9646,43.0387,-87.91697,1485,125.7,11.82,2301,484.3,4.75
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9647,43.03887,-87.91734,1196,118.0,10.14,2382,463.3,5.14
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9648,43.03854,-87.90922,739,116.6,6.34,4139,492.4,8.41
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9649,43.03871,-87.90894,621,112.2,5.53,4415,499.6,8.84
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9650,43.03889,-87.90286,788,126.2,6.25,4508,375.7,12.0
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9651,43.03903,-87.9034,807,133.0,6.07,4525,389.1,11.63
+wisconsin,Milwaukee (BRT and streetcar),Milwaukee County 9689,43.03843,-87.93423,1403,103.0,13.63,4198,541.7,7.75
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-10,43.03725,-87.89977,7,82.2,0.09,2241,380.1,5.9
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-11,43.03643,-87.90453,360,128.6,2.8,3594,382.4,9.4
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-19,43.03761,-87.9042,488,136.5,3.57,3667,407.1,9.01
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-20,43.03725,-87.89977,7,82.2,0.09,2241,380.1,5.9
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-21,43.03643,-87.90453,360,128.6,2.8,3594,382.4,9.4
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-22,43.03835,-87.90641,624,113.6,5.49,4943,449.2,11.0
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-23,43.04154,-87.90671,1648,127.3,12.94,6484,472.2,13.73
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-24,43.04148,-87.90802,822,120.6,6.82,6205,491.4,12.63
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-25,43.03838,-87.90768,628,116.7,5.38,4848,453.2,10.7
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-3,43.03503,-87.90681,811,114.4,7.09,3665,433.8,8.45
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-51,43.03505,-87.9161,588,135.2,4.35,3264,473.1,6.9
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-52,43.03459,-87.9117,569,103.6,5.49,4065,487.4,8.34
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-53,43.03503,-87.90681,811,114.4,7.09,3665,433.8,8.45
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-54,43.03835,-87.90641,624,113.6,5.49,4943,449.2,11.0
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-55,43.04154,-87.90671,1648,127.3,12.94,6484,472.2,13.73
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-56,43.04257,-87.90502,2523,125.0,20.18,7024,453.7,15.48
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-57,43.04608,-87.9046,3737,125.6,29.76,8898,472.7,18.82
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-58,43.04809,-87.90377,3704,128.5,28.83,9964,458.6,21.73
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-59,43.04807,-87.9,3767,124.2,30.32,11941,449.3,26.58
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-60,43.04783,-87.89624,3652,124.7,29.29,9848,347.3,28.36
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-61,43.04815,-87.9,3767,124.2,30.32,12039,450.4,26.73
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-62,43.04773,-87.90474,3381,120.7,28.01,9726,470.3,20.68
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-63,43.04541,-87.90476,3555,129.4,27.47,8589,432.4,19.87
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-64,43.04276,-87.90502,2523,123.2,20.47,7371,454.0,16.23
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-65,43.04148,-87.90802,822,120.6,6.82,6205,491.4,12.63
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-66,43.03838,-87.90768,628,116.7,5.38,4848,453.2,10.7
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-67,43.03504,-87.90824,795,116.1,6.85,4255,495.9,8.58
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-68,43.03477,-87.91149,615,111.6,5.51,4075,494.4,8.24
+wisconsin,Milwaukee (BRT and streetcar),City of Milwaukee TL-9,43.03761,-87.9042,488,136.5,3.57,3667,407.1,9.01
+wisconsin,Madison (BRT),City of Madison 1574,43.07217,-89.39762,3965,123.8,32.04,10752,438.2,24.54
+wisconsin,Madison (BRT),City of Madison 17,43.07603,-89.38466,1769,124.0,14.27,10370,412.4,25.15
+wisconsin,Madison (BRT),City of Madison 1757,43.07201,-89.40374,1106,127.7,8.66,5955,509.3,11.69
+wisconsin,Madison (BRT),City of Madison 18,43.07369,-89.38322,1514,130.0,11.65,8611,397.0,21.69
+wisconsin,Madison (BRT),City of Madison 1816,43.07308,-89.39729,4135,124.8,33.12,11080,430.5,25.74
+wisconsin,Madison (BRT),City of Madison 1967,43.07364,-89.39136,6121,121.8,50.26,13083,458.4,28.54
+wisconsin,Madison (BRT),City of Madison 2020,43.07415,-89.39233,6937,129.4,53.61,12610,429.7,29.35
+wisconsin,Madison (BRT),City of Madison 2067,43.1568,-89.26699,49,94.5,0.52,232,479.8,0.48
+wisconsin,Madison (BRT),City of Madison 2100,43.1173,-89.33042,242,70.6,3.43,589,305.6,1.93
+wisconsin,Madison (BRT),City of Madison 2126,43.12128,-89.32417,245,101.7,2.41,608,440.0,1.38
+wisconsin,Madison (BRT),City of Madison 2135,43.13879,-89.28896,222,180.5,1.23,626,574.6,1.09
+wisconsin,Madison (BRT),City of Madison 2143,43.15379,-89.30134,1,61.4,0.02,12,647.9,0.02
+wisconsin,Madison (BRT),City of Madison 2149,43.11294,-89.3311,247,106.7,2.31,1086,372.4,2.92
+wisconsin,Madison (BRT),City of Madison 2154,43.10925,-89.33538,318,83.1,3.83,1394,358.9,3.88
+wisconsin,Madison (BRT),City of Madison 2172,43.11396,-89.33049,218,98.2,2.22,1026,301.1,3.41
+wisconsin,Madison (BRT),City of Madison 2173,43.07189,-89.39549,5140,126.9,40.5,12783,475.0,26.91
+wisconsin,Madison (BRT),City of Madison 2180,43.12022,-89.32895,204,117.5,1.74,435,385.3,1.13
+wisconsin,Madison (BRT),City of Madison 2184,43.14735,-89.29004,0,56.5,0.0,146,438.1,0.33
+wisconsin,Madison (BRT),City of Madison 2188,43.1518,-89.29906,0,78.2,0.0,7,618.2,0.01
+wisconsin,Madison (BRT),City of Madison 2198,43.14287,-89.28385,499,121.5,4.11,584,367.2,1.59
+wisconsin,Madison (BRT),City of Madison 2211,43.10937,-89.33593,307,85.2,3.6,1349,348.0,3.88
+wisconsin,Madison (BRT),City of Madison 2212,43.11883,-89.32191,187,71.4,2.62,978,641.5,1.52
+wisconsin,Madison (BRT),City of Madison 2218,43.11894,-89.32103,187,71.4,2.62,880,600.4,1.47
+wisconsin,Madison (BRT),City of Madison 2221,43.12374,-89.314,73,101.5,0.72,446,620.1,0.72
+wisconsin,Madison (BRT),City of Madison 2237,43.11717,-89.33072,242,70.6,3.43,589,272.5,2.16
+wisconsin,Madison (BRT),City of Madison 2239,43.15351,-89.30109,0,59.5,0.0,12,647.9,0.02
+wisconsin,Madison (BRT),City of Madison 2248,43.13198,-89.29765,0,142.9,0.0,304,399.7,0.76
+wisconsin,Madison (BRT),City of Madison 2251,43.15226,-89.29896,0,78.2,0.0,7,618.2,0.01
+wisconsin,Madison (BRT),City of Madison 2264,43.14634,-89.29149,0,126.7,0.0,0,491.2,0.0
+wisconsin,Madison (BRT),City of Madison 2282,43.14272,-89.28473,499,118.4,4.21,584,376.7,1.55
+wisconsin,Madison (BRT),City of Madison 2453,43.075,-89.38947,5674,135.0,42.03,13160,434.8,30.26
+wisconsin,Madison (BRT),City of Madison 2469,43.0732,-89.43345,883,131.1,6.73,2212,447.9,4.94
+wisconsin,Madison (BRT),City of Madison 2478,43.07497,-89.45716,1105,220.7,5.01,2917,462.9,6.3
+wisconsin,Madison (BRT),City of Madison 2487,43.07235,-89.40048,1353,128.0,10.57,8867,468.7,18.92
+wisconsin,Madison (BRT),City of Madison 2573,43.06053,-89.50322,31,66.9,0.46,800,579.1,1.38
+wisconsin,Madison (BRT),City of Madison 2646,43.14788,-89.29915,0,100.6,0.0,284,533.2,0.53
+wisconsin,Madison (BRT),City of Madison 2648,43.13892,-89.28943,222,146.2,1.52,617,482.9,1.28
+wisconsin,Madison (BRT),City of Madison 2658,43.13629,-89.29122,42,120.8,0.35,491,460.0,1.07
+wisconsin,Madison (BRT),City of Madison 2660,43.14775,-89.29053,0,118.5,0.0,146,446.7,0.33
+wisconsin,Madison (BRT),City of Madison 2673,43.14404,-89.29492,0,245.7,0.0,454,501.0,0.91
+wisconsin,Madison (BRT),City of Madison 2677,43.13633,-89.29072,74,123.4,0.6,491,460.0,1.07
+wisconsin,Madison (BRT),City of Madison 2679,43.14444,-89.2955,0,245.7,0.0,454,512.6,0.89
+wisconsin,Madison (BRT),City of Madison 2698,43.14588,-89.29196,0,278.3,0.0,0,491.5,0.0
+wisconsin,Madison (BRT),City of Madison 2702,43.14718,-89.29916,0,109.4,0.0,561,575.9,0.97
+wisconsin,Madison (BRT),City of Madison 2772,43.11988,-89.3303,182,110.0,1.65,464,341.2,1.36
+wisconsin,Madison (BRT),City of Madison 2810,43.07344,-89.40445,582,96.4,6.03,5043,413.7,12.19
+wisconsin,Madison (BRT),City of Madison 2814,43.06021,-89.51766,988,116.8,8.46,1989,422.0,4.71
+wisconsin,Madison (BRT),City of Madison 2817,43.07345,-89.40775,732,124.3,5.89,3259,427.1,7.63
+wisconsin,Madison (BRT),City of Madison 2833,43.1538,-89.31559,0,20.0,0.0,8,683.1,0.01
+wisconsin,Madison (BRT),City of Madison 2834,43.15358,-89.31606,0,0.0,,8,688.6,0.01
+wisconsin,Madison (BRT),City of Madison 2842,43.07336,-89.39941,2814,136.5,20.62,9092,399.3,22.77
+wisconsin,Madison (BRT),City of Madison 2843,43.07195,-89.39869,2876,129.1,22.27,10016,433.0,23.13
+wisconsin,Madison (BRT),City of Madison 2844,43.07335,-89.39885,3653,121.8,29.99,9707,376.3,25.79
+wisconsin,Madison (BRT),City of Madison 2845,43.07491,-89.39149,6864,129.8,52.88,12240,406.6,30.1
+wisconsin,Madison (BRT),City of Madison 2846,43.07467,-89.38958,5350,131.2,40.78,13661,454.1,30.09
+wisconsin,Madison (BRT),City of Madison 2847,43.07574,-89.38506,1670,118.9,14.04,10628,419.8,25.32
+wisconsin,Madison (BRT),City of Madison 2848,43.07355,-89.38342,1695,134.9,12.56,8925,399.5,22.34
+wisconsin,Madison (BRT),City of Madison 2849,43.07835,-89.37902,2324,125.4,18.54,5620,414.8,13.55
+wisconsin,Madison (BRT),City of Madison 2850,43.07841,-89.3788,2097,127.7,16.42,5653,416.5,13.57
+wisconsin,Madison (BRT),City of Madison 2851,43.08213,-89.37368,1780,134.0,13.28,5067,415.3,12.2
+wisconsin,Madison (BRT),City of Madison 2852,43.08219,-89.37345,1695,134.0,12.65,5084,417.1,12.19
+wisconsin,Madison (BRT),City of Madison 2853,43.08716,-89.36654,734,136.2,5.39,3386,481.8,7.03
+wisconsin,Madison (BRT),City of Madison 2854,43.08722,-89.36632,734,137.3,5.35,3467,488.7,7.09
+wisconsin,Madison (BRT),City of Madison 2855,43.09204,-89.35962,884,107.3,8.24,3600,458.2,7.86
+wisconsin,Madison (BRT),City of Madison 2856,43.09213,-89.35936,884,107.3,8.24,3426,443.3,7.73
+wisconsin,Madison (BRT),City of Madison 2857,43.0962,-89.35406,874,112.8,7.75,3225,486.3,6.63
+wisconsin,Madison (BRT),City of Madison 2858,43.09628,-89.35383,915,117.2,7.81,3195,477.9,6.69
+wisconsin,Madison (BRT),City of Madison 2859,43.10015,-89.34894,886,140.0,6.33,3232,538.6,6.0
+wisconsin,Madison (BRT),City of Madison 2860,43.1006,-89.34851,772,123.6,6.25,2953,514.7,5.74
+wisconsin,Madison (BRT),City of Madison 2861,43.10411,-89.34226,721,119.8,6.02,2472,457.6,5.4
+wisconsin,Madison (BRT),City of Madison 2862,43.10417,-89.34204,738,142.9,5.16,2399,449.2,5.34
+wisconsin,Madison (BRT),City of Madison 2863,43.07338,-89.40006,1411,130.5,10.81,8512,407.1,20.91
+wisconsin,Madison (BRT),City of Madison 2864,43.07345,-89.40718,834,133.8,6.23,3215,425.2,7.56
+wisconsin,Madison (BRT),City of Madison 2865,43.07212,-89.40704,1103,107.8,10.24,3581,445.1,8.04
+wisconsin,Madison (BRT),City of Madison 2866,43.07194,-89.39803,3638,126.2,28.84,10864,436.2,24.91
+wisconsin,Madison (BRT),City of Madison 2867,43.07347,-89.43361,838,122.0,6.87,2285,481.8,4.74
+wisconsin,Madison (BRT),City of Madison 2868,43.07336,-89.43335,824,118.7,6.94,2223,457.5,4.86
+wisconsin,Madison (BRT),City of Madison 2869,43.07526,-89.44347,430,105.3,4.08,1897,523.9,3.62
+wisconsin,Madison (BRT),City of Madison 2870,43.07524,-89.44326,430,105.3,4.08,1897,523.9,3.62
+wisconsin,Madison (BRT),City of Madison 2871,43.07536,-89.45163,946,106.1,8.91,2177,541.1,4.02
+wisconsin,Madison (BRT),City of Madison 2872,43.07527,-89.45141,524,117.3,4.47,2177,541.1,4.02
+wisconsin,Madison (BRT),City of Madison 2873,43.07467,-89.38972,5237,123.7,42.35,13552,436.2,31.07
+wisconsin,Madison (BRT),City of Madison 2874,43.07312,-89.45688,1814,156.4,11.6,3054,506.2,6.03
+wisconsin,Madison (BRT),City of Madison 2875,43.07329,-89.45672,1856,170.2,10.9,3054,513.0,5.95
+wisconsin,Madison (BRT),City of Madison 2876,43.07296,-89.46385,1444,163.5,8.83,3154,422.6,7.46
+wisconsin,Madison (BRT),City of Madison 2877,43.07298,-89.46364,1444,163.5,8.83,3198,557.0,5.74
+wisconsin,Madison (BRT),City of Madison 2878,43.06774,-89.46844,376,132.1,2.85,2387,508.0,4.7
+wisconsin,Madison (BRT),City of Madison 2879,43.0679,-89.46839,376,132.1,2.85,2389,456.6,5.23
+wisconsin,Madison (BRT),City of Madison 2880,43.06088,-89.47261,93,166.4,0.56,623,455.7,1.37
+wisconsin,Madison (BRT),City of Madison 2881,43.06087,-89.47236,93,166.4,0.56,623,455.7,1.37
+wisconsin,Madison (BRT),City of Madison 2882,43.06086,-89.47882,19,83.6,0.23,698,568.4,1.23
+wisconsin,Madison (BRT),City of Madison 2883,43.06083,-89.4786,19,126.7,0.15,698,568.4,1.23
+wisconsin,Madison (BRT),City of Madison 2884,43.06082,-89.48688,779,219.5,3.55,1256,447.5,2.81
+wisconsin,Madison (BRT),City of Madison 2885,43.06079,-89.48666,779,219.5,3.55,1256,447.5,2.81
+wisconsin,Madison (BRT),City of Madison 2886,43.06078,-89.49692,144,103.5,1.39,1062,521.9,2.04
+wisconsin,Madison (BRT),City of Madison 2887,43.06075,-89.4967,144,103.5,1.39,1048,516.7,2.03
+wisconsin,Madison (BRT),City of Madison 2888,43.06067,-89.50762,82,130.8,0.63,1510,448.6,3.37
+wisconsin,Madison (BRT),City of Madison 2889,43.06063,-89.50742,82,130.8,0.63,1510,448.6,3.37
+wisconsin,Madison (BRT),City of Madison 2890,43.06056,-89.51733,988,114.4,8.64,1921,413.3,4.65
+wisconsin,Madison (BRT),City of Madison 2891,43.06054,-89.5171,988,111.7,8.84,1921,413.3,4.65
+wisconsin,Madison (BRT),City of Madison 2892,43.05785,-89.52833,1,69.8,0.01,1004,681.4,1.47
+wisconsin,Madison (BRT),City of Madison 2893,43.05784,-89.52833,1,69.8,0.01,1004,681.4,1.47
+wisconsin,Madison (BRT),City of Madison 2894,43.07328,-89.39465,6175,124.7,49.52,12187,425.8,28.62
+wisconsin,Madison (BRT),City of Madison 2896,43.07225,-89.40777,1045,139.7,7.48,3777,460.8,8.2
+wisconsin,Madison (BRT),City of Madison 2897,43.10897,-89.33615,354,91.5,3.87,1313,324.9,4.04
+wisconsin,Madison (BRT),City of Madison 2898,43.10908,-89.33592,388,99.0,3.92,1316,319.1,4.12
+wisconsin,Madison (BRT),City of Madison 2899,43.11295,-89.33079,269,112.5,2.39,1085,371.3,2.92
+wisconsin,Madison (BRT),City of Madison 2900,43.11301,-89.33058,269,112.5,2.39,1075,369.3,2.91
+wisconsin,Madison (BRT),City of Madison 2901,43.12023,-89.32932,182,112.1,1.62,435,378.5,1.15
+wisconsin,Madison (BRT),City of Madison 2902,43.12003,-89.33007,182,110.0,1.65,427,324.5,1.32
+wisconsin,Madison (BRT),City of Madison 2903,43.11908,-89.32152,187,71.4,2.62,880,600.4,1.47
+wisconsin,Madison (BRT),City of Madison 2904,43.11891,-89.32109,187,71.4,2.62,880,600.4,1.47
+wisconsin,Madison (BRT),City of Madison 2905,43.12364,-89.31491,60,67.3,0.89,444,467.0,0.95
+wisconsin,Madison (BRT),City of Madison 2906,43.1237,-89.31406,60,96.8,0.62,446,620.1,0.72
+wisconsin,Madison (BRT),City of Madison 2907,43.128,-89.30866,236,79.1,2.98,945,441.6,2.14
+wisconsin,Madison (BRT),City of Madison 2908,43.12799,-89.30784,212,62.8,3.38,914,521.5,1.75
+wisconsin,Madison (BRT),City of Madison 2909,43.13149,-89.30362,179,88.1,2.03,1215,456.6,2.66
+wisconsin,Madison (BRT),City of Madison 2910,43.1314,-89.30291,141,96.7,1.46,1154,436.0,2.65
+wisconsin,Madison (BRT),City of Madison 2911,43.15698,-89.26715,49,94.5,0.52,232,479.8,0.48
+wisconsin,Madison (BRT),City of Madison 2981,43.13183,-89.29808,0,113.6,0.0,305,377.0,0.81
+wisconsin,Madison (BRT),City of Madison 3,43.09662,-89.35379,912,115.0,7.93,3272,486.5,6.72
+wisconsin,Madison (BRT),City of Madison 3000,43.07509,-89.44629,448,139.9,3.2,2394,480.8,4.98
+wisconsin,Madison (BRT),City of Madison 610,43.07506,-89.43905,624,110.7,5.64,2078,519.7,4.0
+wisconsin,Madison (BRT),City of Madison 644,43.07396,-89.43609,717,116.4,6.16,2207,494.5,4.46
+wisconsin,Madison (BRT),City of Madison 646,43.07291,-89.4635,1410,142.1,9.92,3198,557.0,5.74
+wisconsin,Madison (BRT),City of Madison 650,43.0731,-89.45716,1814,156.4,11.6,3054,515.1,5.93
+wisconsin,Madison (BRT),City of Madison 651,43.07511,-89.4505,524,117.3,4.47,2211,515.5,4.29
+wisconsin,Madison (BRT),City of Madison 691,43.07544,-89.44704,369,108.0,3.42,2310,487.8,4.74
+wisconsin,Madison (BRT),City of Madison 720,43.07308,-89.46373,1444,163.5,8.83,3198,540.7,5.91
+wisconsin,Madison (BRT),City of Madison 730,43.0729,-89.45695,1840,168.3,10.93,3054,506.2,6.03
+wisconsin,Madison (BRT),City of Madison 733,43.06123,-89.47196,126,131.6,0.96,704,487.2,1.45
+wisconsin,Madison (BRT),City of Madison 753,43.0739,-89.43639,717,111.3,6.44,2264,498.7,4.54
+wisconsin,Madison (BRT),City of Madison 765,43.07491,-89.3913,6385,130.2,49.06,12421,410.8,30.23
+wisconsin,Madison (BRT),City of Madison 835,43.06774,-89.46866,376,132.1,2.85,2422,516.1,4.69
+wisconsin,Madison (BRT),City of Madison 839,43.07361,-89.4335,790,113.7,6.95,2236,462.6,4.83
+wisconsin,Madison (BRT),City of Madison 864,43.07515,-89.45625,1166,242.1,4.82,2984,492.2,6.06
+wisconsin,Madison (BRT),City of Madison 871,43.07457,-89.43847,669,108.8,6.15,2107,516.9,4.08
+wisconsin,Madison (BRT),City of Madison 973,43.0719,-89.39734,4059,122.2,33.21,11237,448.1,25.08
+wisconsin,Kenosha (streetcar),City of Kenosha 8529848,42.5867,-87.82081,435,106.8,4.07,2373,483.7,4.91
+wisconsin,Kenosha (streetcar),City of Kenosha 8726874,42.58441,-87.82464,494,124.0,3.98,2993,489.7,6.11
+wisconsin,Kenosha (streetcar),City of Kenosha 8726875,42.58438,-87.82361,514,137.3,3.74,2850,447.1,6.37
+wisconsin,Kenosha (streetcar),City of Kenosha 8726951,42.58593,-87.82494,418,121.2,3.45,2909,498.4,5.84
+wisconsin,Kenosha (streetcar),City of Kenosha 8726953,42.58481,-87.82106,477,118.9,4.01,2471,432.0,5.72
+wisconsin,Kenosha (streetcar),City of Kenosha 8726954,42.58557,-87.81392,712,59.1,12.05,1338,282.5,4.74
+wisconsin,Kenosha (streetcar),City of Kenosha 8726964,42.58668,-87.82114,441,108.7,4.06,2438,471.3,5.17
+wisconsin,Kenosha (streetcar),City of Kenosha 8727000,42.58573,-87.81265,578,78.5,7.36,1189,249.4,4.77
+wisconsin,Kenosha (streetcar),City of Kenosha 8727001,42.58706,-87.80996,79,52.5,1.5,781,173.1,4.51
+wisconsin,Kenosha (streetcar),City of Kenosha 8727003,42.58762,-87.81378,355,41.1,8.64,1292,282.9,4.57
+wisconsin,Kenosha (streetcar),City of Kenosha 9184105,42.5841,-87.82469,510,122.2,4.17,3033,490.6,6.18
+wisconsin,Kenosha (streetcar),City of Kenosha 9184106,42.58425,-87.82353,504,134.6,3.75,2794,457.7,6.1
+wisconsin,Kenosha (streetcar),City of Kenosha 9270243,42.58476,-87.82235,531,139.8,3.8,2665,457.4,5.83
+wisconsin,Kenosha (streetcar),City of Kenosha 9288679,42.58468,-87.82118,449,116.6,3.85,2470,443.3,5.57
+wisconsin,Kenosha (streetcar),City of Kenosha 9288681,42.58497,-87.81873,1051,117.9,8.91,2034,397.4,5.12
+wisconsin,Kenosha (streetcar),City of Kenosha 9288682,42.58512,-87.81757,917,94.0,9.76,1784,390.5,4.57
+wisconsin,Kenosha (streetcar),City of Kenosha 9288683,42.58527,-87.81637,796,84.0,9.47,1695,345.8,4.9
+wisconsin,Kenosha (streetcar),City of Kenosha 9288684,42.58542,-87.81515,738,67.0,11.01,1471,311.6,4.72
+wisconsin,Kenosha (streetcar),City of Kenosha 9288685,42.58743,-87.81538,431,68.5,6.29,1545,334.5,4.62
+wisconsin,Kenosha (streetcar),City of Kenosha 9288686,42.58728,-87.81659,449,92.9,4.83,1738,377.6,4.6
+wisconsin,Kenosha (streetcar),City of Kenosha 9288687,42.58713,-87.81779,569,93.6,6.08,1882,421.0,4.47
+wisconsin,Kenosha (streetcar),City of Kenosha 9288688,42.58695,-87.81932,556,104.9,5.3,2102,434.9,4.83
+reform_stops,austin_2009,M L King Jr Station,30.27982,-97.70903,829,108.2,7.67,2561,509.5,5.03
+reform_stops,austin_2009,Downtown Station,30.26484,-97.73845,611,122.8,4.98,4570,477.5,9.57
+reform_stops,austin_2009,Crestview Station,30.33856,-97.71969,1896,139.5,13.59,3662,498.7,7.34
+reform_stops,austin_2009,Plaza Saltillo Station,30.26224,-97.72758,1524,119.5,12.76,3730,522.9,7.13
+reform_stops,austin_2009,Highland Station,30.3286,-97.7162,222,132.0,1.68,1622,540.4,3.0
+reform_stops,bellevue_belred_2009,Spring District,47.62378,-122.17824,666,105.5,6.31,974,526.3,1.85
+reform_stops,bellevue_belred_2009,Wilburton,47.61791,-122.18381,78,92.4,0.84,3652,433.9,8.42
+reform_stops,bellevue_belred_2009,BelRed,47.6245,-122.16636,3,154.8,0.02,417,486.0,0.86
+reform_stops,slc_2010,Temple Square Station,40.76935,-111.89532,734,115.5,6.35,4514,488.9,9.23
+reform_stops,slc_2010,Fairpark Station,40.77147,-111.92376,11,51.2,0.21,874,500.9,1.75
+reform_stops,slc_2010,Arena Station,40.76934,-111.90115,468,102.4,4.57,5089,497.9,10.22
+reform_stops,slc_2010,Salt Lake Central Station,40.76253,-111.9083,98,113.0,0.87,1962,482.5,4.07
+reform_stops,slc_2010,Library Station,40.76064,-111.88394,1223,121.3,10.08,4725,472.4,10.0
+reform_stops,slc_2010,Trolley Station,40.76067,-111.87355,1770,158.1,11.2,5569,475.7,11.71
+reform_stops,slc_2010,900 East Station,40.76066,-111.86571,1887,142.8,13.22,4897,476.9,10.27
+reform_stops,slc_2010,Old Greektown Station,40.76502,-111.90579,823,128.2,6.42,3308,466.2,7.1
+reform_stops,slc_2010,Power Station,40.77151,-111.93437,372,121.0,3.07,1411,553.5,2.55
+reform_stops,slc_2010,1940 W. North Temple Station,40.77154,-111.94574,776,175.7,4.42,1939,356.8,5.43
+reform_stops,slc_2010,North Temple Bridge/Guadalupe,40.77158,-111.90432,1523,129.5,11.76,4567,501.9,9.1
+reform_stops,slc_2010,Courthouse Station,40.75876,-111.8911,359,136.9,2.62,2602,473.9,5.49
+reform_stops,slc_2010,North Temple Station,40.77253,-111.90512,1449,127.3,11.39,4291,502.2,8.54
+reform_stops,slc_2010,Gallivan Plaza Station,40.76385,-111.89107,536,109.4,4.9,3687,513.8,7.18
+reform_stops,slc_2010,Planetarium Station,40.7661,-111.90256,1486,118.2,12.57,3418,457.6,7.47
+reform_stops,slc_2010,Jackson/Euclid Station,40.7715,-111.91536,339,119.8,2.83,2214,447.4,4.95
+reform_stops,stpaul_2011,Fairview Ave Station,44.95639,-93.17874,640,105.2,6.09,1986,476.9,4.16
+reform_stops,stpaul_2011,Lexington Pkwy Station,44.95574,-93.1475,562,133.2,4.22,2718,496.9,5.47
+reform_stops,stpaul_2011,Snelling Ave Station,44.9557,-93.16789,965,143.0,6.75,2447,508.7,4.81
+reform_stops,stpaul_2011,Victoria St Station,44.95571,-93.13558,909,130.0,6.99,2997,515.2,5.82
+reform_stops,stpaul_2011,Western Ave Station,44.95574,-93.11527,776,115.2,6.74,2898,515.7,5.62
+reform_stops,stpaul_2011,Dale St Station,44.95574,-93.12722,846,104.4,8.1,3133,523.0,5.99
+reform_stops,stpaul_2011,Westgate Station,44.96713,-93.20574,1047,107.2,9.76,2606,497.9,5.23
+reform_stops,stpaul_2011,Capitol / Rice St Station,44.95573,-93.10518,235,124.1,1.89,1801,493.5,3.65
+reform_stops,stpaul_2011,Hamline Ave Station,44.95572,-93.15773,441,120.9,3.65,2382,523.8,4.55
+reform_stops,stpaul_2011,Raymond Ave Station,44.96307,-93.19547,1012,100.2,10.1,1696,524.6,3.23
+reform_stops,seattle_othello_2012,Othello,47.5385,-122.28169,1506,105.9,14.21,4006,523.6,7.65
+reform_stops,seattle_othello_2012,Beacon Hill,47.57912,-122.31128,1169,125.0,9.35,3230,483.9,6.68
+reform_stops,seattle_mount_baker_2014,Mount Baker,47.57699,-122.29787,612,136.9,4.47,2753,485.2,5.67
+reform_stops,seattle_mount_baker_2014,Beacon Hill,47.57912,-122.31128,1169,125.0,9.35,3230,483.9,6.68
+city_all_rail,Austin,Howard Station,30.43999,-97.70173,22,151.7,0.15,1303,507.9,2.57
+city_all_rail,Austin,M L King Jr Station,30.27982,-97.70903,829,108.2,7.67,2561,509.5,5.03
+city_all_rail,Austin,Kramer Station,30.39279,-97.7164,246,82.4,2.98,1617,534.2,3.03
+city_all_rail,Austin,Lakeline Station,30.48103,-97.78654,20,2.6,7.68,2743,694.7,3.95
+city_all_rail,Austin,Downtown Station,30.26484,-97.73845,611,122.8,4.98,4570,477.5,9.57
+city_all_rail,Austin,Crestview Station,30.33856,-97.71969,1896,139.5,13.59,3662,498.7,7.34
+city_all_rail,Austin,McKalla Station,30.38797,-97.71755,275,166.8,1.65,627,392.7,1.6
+city_all_rail,Austin,Plaza Saltillo Station,30.26224,-97.72758,1524,119.5,12.76,3730,522.9,7.13
+city_all_rail,Austin,Highland Station,30.3286,-97.7162,222,132.0,1.68,1622,540.4,3.0
+city_all_rail,Bellevue,East Main,47.60771,-122.1912,555,102.8,5.4,3154,412.0,7.65
+city_all_rail,Bellevue,Bellevue Downtown,47.61529,-122.19253,3553,156.2,22.75,7604,430.8,17.65
+city_all_rail,Bellevue,Spring District,47.62378,-122.17824,666,105.5,6.31,974,526.3,1.85
+city_all_rail,Bellevue,South Bellevue,47.58693,-122.1906,81,161.3,0.5,994,669.3,1.49
+city_all_rail,Bellevue,Wilburton,47.61791,-122.18381,78,92.4,0.84,3652,433.9,8.42
+city_all_rail,Bellevue,BelRed,47.6245,-122.16636,3,154.8,0.02,417,486.0,0.86
+city_all_rail,Salt Lake City,Temple Square Station,40.76935,-111.89532,734,115.5,6.35,4514,488.9,9.23
+city_all_rail,Salt Lake City,Ballpark Station,40.74258,-111.89678,209,91.1,2.29,1533,456.5,3.36
+city_all_rail,Salt Lake City,Fort Douglas Station,40.76477,-111.83679,6,58.9,0.1,193,624.6,0.31
+city_all_rail,Salt Lake City,Fairpark Station,40.77147,-111.92376,11,51.2,0.21,874,500.9,1.75
+city_all_rail,Salt Lake City,City Center Station,40.76822,-111.89108,798,135.5,5.89,5456,500.3,10.91
+city_all_rail,Salt Lake City,Arena Station,40.76934,-111.90115,468,102.4,4.57,5089,497.9,10.22
+city_all_rail,Salt Lake City,University Medical Center,40.76987,-111.8392,0,116.8,0.0,138,538.2,0.26
+city_all_rail,Salt Lake City,Salt Lake Central Station,40.76253,-111.9083,98,113.0,0.87,1962,482.5,4.07
+city_all_rail,Salt Lake City,Library Station,40.76064,-111.88394,1223,121.3,10.08,4725,472.4,10.0
+city_all_rail,Salt Lake City,900 South Station,40.75006,-111.89682,580,135.0,4.3,1721,500.6,3.44
+city_all_rail,Salt Lake City,Fairmont Station,40.72276,-111.86168,630,95.3,6.61,2917,512.4,5.69
+city_all_rail,Salt Lake City,Trolley Station,40.76067,-111.87355,1770,158.1,11.2,5569,475.7,11.71
+city_all_rail,Salt Lake City,Stadium Station,40.76013,-111.85217,740,93.7,7.9,2777,428.1,6.49
+city_all_rail,Salt Lake City,900 East Station,40.76066,-111.86571,1887,142.8,13.22,4897,476.9,10.27
+city_all_rail,Salt Lake City,Old Greektown Station,40.76502,-111.90579,823,128.2,6.42,3308,466.2,7.1
+city_all_rail,Salt Lake City,Power Station,40.77151,-111.93437,372,121.0,3.07,1411,553.5,2.55
+city_all_rail,Salt Lake City,University South Campus Station,40.76051,-111.83915,4,77.4,0.05,14,652.2,0.02
+city_all_rail,Salt Lake City,1940 W. North Temple Station,40.77154,-111.94574,776,175.7,4.42,1939,356.8,5.43
+city_all_rail,Salt Lake City,600 South Station,40.75511,-111.8911,292,115.5,2.53,2173,479.8,4.53
+city_all_rail,Salt Lake City,Sugarmont Station,40.72282,-111.86509,602,123.9,4.86,2659,493.7,5.39
+city_all_rail,Salt Lake City,North Temple Bridge/Guadalupe,40.77158,-111.90432,1523,129.5,11.76,4567,501.9,9.1
+city_all_rail,Salt Lake City,Airport Station,40.78427,-111.98336,0,0.0,,0,229.8,0.0
+city_all_rail,Salt Lake City,Courthouse Station,40.75876,-111.8911,359,136.9,2.62,2602,473.9,5.49
+city_all_rail,Salt Lake City,North Temple Station,40.77253,-111.90512,1449,127.3,11.39,4291,502.2,8.54
+city_all_rail,Salt Lake City,Gallivan Plaza Station,40.76385,-111.89107,536,109.4,4.9,3687,513.8,7.18
+city_all_rail,Salt Lake City,Planetarium Station,40.7661,-111.90256,1486,118.2,12.57,3418,457.6,7.47
+city_all_rail,Salt Lake City,WARM SPRINGS RELIEF POINT,40.79063,-111.90769,0,311.2,0.0,682,475.5,1.43
+city_all_rail,Salt Lake City,Jackson/Euclid Station,40.7715,-111.91536,339,119.8,2.83,2214,447.4,4.95
+city_all_rail,Salt Lake City,700 East Station,40.7228,-111.87161,804,131.2,6.13,2220,438.3,5.07
+city_all_rail,Saint Paul,Fairview Ave Station,44.95639,-93.17874,640,105.2,6.09,1986,476.9,4.16
+city_all_rail,Saint Paul,Lexington Pkwy Station,44.95574,-93.1475,562,133.2,4.22,2718,496.9,5.47
+city_all_rail,Saint Paul,Snelling Ave Station,44.9557,-93.16789,965,143.0,6.75,2447,508.7,4.81
+city_all_rail,Saint Paul,Victoria St Station,44.95571,-93.13558,909,130.0,6.99,2997,515.2,5.82
+city_all_rail,Saint Paul,Western Ave Station,44.95574,-93.11527,776,115.2,6.74,2898,515.7,5.62
+city_all_rail,Saint Paul,Central Station,44.94616,-93.0923,2355,115.8,20.33,6661,398.7,16.71
+city_all_rail,Saint Paul,Dale St Station,44.95574,-93.12722,846,104.4,8.1,3133,523.0,5.99
+city_all_rail,Saint Paul,Westgate Station,44.96713,-93.20574,1047,107.2,9.76,2606,497.9,5.23
+city_all_rail,Saint Paul,10th St Station,44.95061,-93.09761,1922,140.6,13.67,5148,482.3,10.67
+city_all_rail,Saint Paul,Capitol / Rice St Station,44.95573,-93.10518,235,124.1,1.89,1801,493.5,3.65
+city_all_rail,Saint Paul,Hamline Ave Station,44.95572,-93.15773,441,120.9,3.65,2382,523.8,4.55
+city_all_rail,Saint Paul,Union Depot Station,44.94821,-93.08674,3568,140.2,25.44,5905,444.7,13.28
+city_all_rail,Saint Paul,Robert St Station,44.95405,-93.09746,304,125.6,2.42,3606,489.0,7.37
+city_all_rail,Saint Paul,Raymond Ave Station,44.96307,-93.19547,1012,100.2,10.1,1696,524.6,3.23
+city_all_rail,Seattle,12th & Jackson,47.59914,-122.31576,1043,132.3,7.88,8060,486.4,16.57
+city_all_rail,Seattle,Broadway & Terrace St,47.60464,-122.32085,4159,117.3,35.45,11995,503.7,23.82
+city_all_rail,Seattle,Univ of Washington,47.65031,-122.30374,0,31.7,0.0,177,533.7,0.33
+city_all_rail,Seattle,14th & Washington,47.60059,-122.31404,1757,117.2,14.99,7412,478.7,15.48
+city_all_rail,Seattle,U District,47.65987,-122.31419,3186,126.2,25.25,9300,514.0,18.09
+city_all_rail,Seattle,Roosevelt,47.67708,-122.31593,2498,122.5,20.4,6477,492.2,13.16
+city_all_rail,Seattle,Capitol Hill,47.61956,-122.32039,5082,131.5,38.66,20376,496.1,41.07
+city_all_rail,Seattle,Pinehurst,47.72359,-122.32392,257,90.2,2.85,2082,511.9,4.07
+city_all_rail,Seattle,5th & Jackson,47.59913,-122.32709,3313,108.4,30.57,7818,480.3,16.28
+city_all_rail,Seattle,Westlake And 7th,47.61562,-122.33781,6244,131.9,47.35,22371,511.2,43.76
+city_all_rail,Seattle,Othello,47.5385,-122.28169,1506,105.9,14.21,4006,523.6,7.65
+city_all_rail,Seattle,Columbia City,47.56028,-122.29289,1543,141.0,10.94,3705,491.3,7.54
+city_all_rail,Seattle,Mount Baker,47.57699,-122.29787,612,136.9,4.47,2753,485.2,5.67
+city_all_rail,Seattle,Judkins Park,47.59031,-122.30499,532,128.1,4.15,3802,539.3,7.05
+city_all_rail,Seattle,7th & Jackson,47.59927,-122.3233,3731,117.1,31.86,8991,500.3,17.97
+city_all_rail,Seattle,Westlake Hub,47.61312,-122.33732,5900,132.2,44.62,20359,496.2,41.03
+city_all_rail,Seattle,Terry & Mercer,47.62342,-122.33704,2413,144.5,16.7,12400,469.8,26.39
+city_all_rail,Seattle,Westlake,47.61176,-122.33579,3324,123.2,26.98,20632,496.1,41.59
+city_all_rail,Seattle,Symphony,47.60825,-122.33617,3397,125.4,27.09,12515,435.7,28.72
+city_all_rail,Seattle,King Street Station,47.59769,-122.32991,2507,124.4,20.16,5989,528.7,11.33
+city_all_rail,Seattle,Occidental Mall,47.59927,-122.33328,1684,84.8,19.86,5724,475.4,12.04
+city_all_rail,Seattle,Terry & Thomas,47.6215,-122.33705,4075,121.7,33.49,15593,496.1,31.43
+city_all_rail,Seattle,Int'l Dist/Chinatown,47.59844,-122.32782,3888,145.4,26.73,6727,486.1,13.84
+city_all_rail,Seattle,Fairview & Campus Drive,47.62767,-122.33237,496,93.8,5.29,8404,371.6,22.62
+city_all_rail,Seattle,Northgate,47.70266,-122.32832,1028,151.5,6.79,3745,481.3,7.78
+city_all_rail,Seattle,Beacon Hill,47.57912,-122.31128,1169,125.0,9.35,3230,483.9,6.68
+city_all_rail,Seattle,Lake Union Park,47.62597,-122.33653,1382,114.4,12.08,10783,416.1,25.91
+city_all_rail,Seattle,Rainier Beach,47.52295,-122.27908,371,114.0,3.26,1657,441.2,3.76
+city_all_rail,Seattle,Broadway And Denny,47.61805,-122.32095,5245,126.6,41.43,22494,502.8,44.74
+city_all_rail,Seattle,Pioneer Square,47.60214,-122.33106,2253,120.2,18.74,9601,437.9,21.93
+city_all_rail,Seattle,SODO,47.58079,-122.32747,1,108.6,0.01,109,522.9,0.21
+city_all_rail,Seattle,Stadium,47.59228,-122.32699,34,118.3,0.29,2799,488.1,5.73
