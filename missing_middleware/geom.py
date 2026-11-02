@@ -372,7 +372,8 @@ class Layer:
 
 
 def _ring_area_signed(r: np.ndarray) -> float:
-    x, y = r[:, 0], r[:, 1]
+    """Shoelace about the ring's first vertex (large projected coordinates otherwise lose precision)."""
+    x, y = r[:, 0] - r[0, 0], r[:, 1] - r[0, 1]
     return 0.5 * float(np.dot(x, np.roll(y, -1)) - np.dot(y, np.roll(x, -1)))
 
 
@@ -410,9 +411,14 @@ def _shp_polygons(data: bytes) -> tuple[str, list]:
             outers, holes = holes, []
         grouped = [[o] for o in outers]
         for h in holes:
-            hx, hy = h[0]
-            k = next((i for i, o in enumerate(outers) if _point_in_ring(np.array([hx]), np.array([hy]), o)[0]), 0)
-            grouped[k].append(h)
+            # the outer ring holding most of the hole's vertices and edge midpoints (a hole may touch its shell)
+            probe = np.r_[h, (h + np.roll(h, -1, axis=0)) / 2]
+            hits = [int(_point_in_ring(probe[:, 0], probe[:, 1], o).sum()) for o in outers]
+            k = int(np.argmax(hits)) if max(hits) > 0 else None
+            if k is None:                       # a hole inside no shell: keep it as its own part (even-odd still applies)
+                grouped.append([h])
+            else:
+                grouped[k].append(h)
         feats.append(grouped)
     if shape_type in (1, 11, 21):
         return "point", (np.array(xs), np.array(ys))
@@ -430,17 +436,19 @@ def read_shapefile(path, layer: str | None = None, columns: list[str] | None = N
             stem = next((n[:-4] for n in shps if layer is None or Path(n).stem == layer), None)
             if stem is None:
                 raise FileNotFoundError(f"no layer {layer} in {path}")
-            for ext in (".shp", ".dbf", ".prj"):
+            for ext in (".shp", ".dbf", ".prj", ".cpg"):
                 name = next((n for n in z.namelist() if n.lower() == (stem + ext).lower()), None)
                 if name:
                     files[ext] = z.read(name)
     else:
         stem = path.with_suffix("")
-        for ext in (".shp", ".dbf", ".prj"):
+        for ext in (".shp", ".dbf", ".prj", ".cpg"):
             f = Path(str(stem) + ext)
             if f.exists():
                 files[ext] = f.read_bytes()
-    attrs = read_dbf_bytes(files[".dbf"]) if ".dbf" in files else pd.DataFrame()
+    enc = files[".cpg"].decode("ascii", "ignore").strip().lower() if ".cpg" in files else "latin-1"
+    enc = {"utf-8": "utf-8", "utf8": "utf-8", "65001": "utf-8"}.get(enc, enc or "latin-1")
+    attrs = read_dbf_bytes(files[".dbf"], encoding=enc) if ".dbf" in files else pd.DataFrame()
     if columns is not None:
         attrs = attrs[[c for c in columns if c in attrs.columns]]
     kind, geo = _shp_polygons(files[".shp"])
@@ -536,21 +544,18 @@ def _point_in_ring_fast(px: np.ndarray, py: np.ndarray, ring: np.ndarray) -> np.
 
 
 def points_in_feature(px, py, feature) -> np.ndarray:
-    """True for points inside a polygon feature (any part; holes excluded)."""
+    """True for points inside a polygon feature: the even-odd rule over all of the feature's rings, as GEOS does for
+    point location (so nested shells and islands inside holes behave as in GEOS)."""
     px, py = np.asarray(px, float), np.asarray(py, float)
     res = np.zeros(len(px), bool)
     for part in feature:
-        ext = part[0]
-        bx = (px >= ext[:, 0].min()) & (px <= ext[:, 0].max()) & (py >= ext[:, 1].min()) & (py <= ext[:, 1].max())
-        if not bx.any():
-            continue
-        ix = np.flatnonzero(bx)
-        f = _point_in_ring_fast if len(ext) > 64 else _point_in_ring
-        ins = f(px[ix], py[ix], ext)
-        for hole in part[1:]:
-            if ins.any():
-                ins &= ~f(px[ix], py[ix], hole)
-        res[ix[ins]] = True
+        for ring in part:
+            bx = (px >= ring[:, 0].min()) & (px <= ring[:, 0].max()) & (py >= ring[:, 1].min()) & (py <= ring[:, 1].max())
+            if not bx.any():
+                continue
+            ix = np.flatnonzero(bx)
+            f = _point_in_ring_fast if len(ring) > 64 else _point_in_ring
+            res[ix] ^= f(px[ix], py[ix], ring)
     return res
 
 
@@ -600,16 +605,16 @@ def feature_centroid(feature) -> tuple[float, float]:
     A = cx = cy = 0.0
     for part in feature:
         for i, r in enumerate(part):
-            x, y = r[:, 0], r[:, 1]
+            ox, oy = r[0, 0], r[0, 1]                 # about the first vertex, for precision
+            x, y = r[:, 0] - ox, r[:, 1] - oy
             x1, y1 = np.roll(x, -1), np.roll(y, -1)
             cr = x * y1 - x1 * y
             a = 0.5 * cr.sum()
             sgn = 1.0 if i == 0 else -1.0
-            a_abs = abs(a) * sgn
             if a != 0:
-                cx += sgn * abs(a) * ((x + x1) * cr).sum() / (6 * a)
-                cy += sgn * abs(a) * ((y + y1) * cr).sum() / (6 * a)
-            A += a_abs
+                cx += sgn * abs(a) * (((x + x1) * cr).sum() / (6 * a) + ox)
+                cy += sgn * abs(a) * (((y + y1) * cr).sum() / (6 * a) + oy)
+            A += abs(a) * sgn
     return (cx / A, cy / A) if A else (np.nan, np.nan)
 
 

@@ -21,6 +21,11 @@ the standard library:
 | Centroids | 3 mm |
 | 50,000 random points, which place contains each | 100% agreement (0 mismatches) |
 | Distances from 3,000 points to the nearest place (up to 800 m) | 6e-9 m |
+Fixes on 2026-11-02 after parking's port (reported by the parking thread): areas and centroids now computed about each
+ring's first vertex (large EPSG:5070 coordinates had cost up to 0.94% on small parcels; US places now match GEOS to
+7e-11); point-in-polygon uses the even-odd rule over all of a feature's rings, as GEOS does (nested shells, islands in
+holes; 100,000-point checks in California, Washington and Kansas: 0 mismatches); shapefile holes go to the shell
+holding most of their vertices and edge midpoints; .dbf text decoded with the .cpg code page (TIGER is UTF-8).
 NAD27 data are refused (a datum grid shift would be needed); none of our sources use NAD27.
 
 **Proof that outputs are unchanged.** `scripts/check_geo_port.py` compares every `reference/` CSV with the last
@@ -31,3 +36,8 @@ commit before the port (f30ec96), column by column; results per chain are logged
 | --- | --- | --- | --- |
 | Geometry module and tests | missing_middleware/geom.py, tests/test_geom.py | done | n/a |
 | TOD headline chain | build_tod_stops, fetch_tod_parcels_zoning, build_tod_station_areas, run_tod_model, run_tod_madison_test, tod/transit.py, tod/net_effect.py; new missing_middleware/geom_extra_tod.py (GEOS-identical representative point, exact outline keys, point-to-line distance, polygon-polygon distance, minimum-area rectangle, intersection area) | done 2026-11-02 | Tool numbers unchanged (little 43.1, central 13,229.3, strong 17,147.6, baseline 14,654); tod_model_statewide and Madison test predictions byte-identical; no lot changed band, district, overlay, tract, eligibility or use (250,816 station-area lots); lot areas within 3.5e-7 relative (NAD83(HARN) datum shift), which flips a few last rounded digits in area columns; tod_scale_check baseline column refreshed to baseline v3 (not geometry). fetch_tod_parcels_zoning not rerun (network). |
+| Parking census and older reforms | 3 scripts (parking thread) | done | identical |
+| Parking near transit and block catalog | 3 scripts (parking thread) | done | identical |
+| Parking mechanism, transit share, surface lots | 3 scripts (parking thread) | done | identical (where_binding is stale against baseline v3 only, not geometry) |
+| Parking lot test | 1 script (parking thread) | done | identical |
+| Parking lot cities | 1 script (parking thread) | done | effects identical; predictions within width-rounding noise (9–13 homes a year); conclusions unchanged |
