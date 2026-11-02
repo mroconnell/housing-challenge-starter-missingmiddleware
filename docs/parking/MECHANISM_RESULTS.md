@@ -1,13 +1,13 @@
 # Parking: per-project (mechanism) estimate, results
 
-Written 2026-11-01 by the parking mechanism thread. Plan, committed before any result: [MECHANISM_PLAN.md](MECHANISM_PLAN.md) (4 deviations logged there; deviations 1–2 were made before results but committed with them, so their timing cannot be checked from git). Audit fixes 2026-11-01: same-places check, placebo runs explained, tool low line updated, fake-range centre noted. Script: `scripts/run_parking_mechanism.py`. Files: `reference/parking_mechanism_*.csv`. This is a candidate line for Ryan; the tool and other scenarios are unchanged.
+Written 2026-11-01 by the parking mechanism thread. Plan, committed before any result: [MECHANISM_PLAN.md](MECHANISM_PLAN.md) (4 deviations logged there; deviations 1–2 were made before results but committed with them, so their timing cannot be checked from git). Refreshed 2026-11-02 to the all-housing baseline v3 (part C rerun on the open-licence geometry module): 21 places that had no permit rows now have a baseline, which adds 962 homes in 2+ unit buildings over 2027–2031 (59,544 to 60,506). Wisconsin figures move by 2–3%; Part A's per-project results and every conclusion are unchanged. Audit fixes 2026-11-01: same-places check, placebo runs explained, tool low line updated, fake-range centre noted. Script: `scripts/run_parking_mechanism.py`. Files: `reference/parking_mechanism_*.csv`. This is a candidate line for Ryan; the tool and other scenarios are unchanged.
 
 ## Answer
 
 - **Projects get bigger after repeal.** Apartment buildings had more homes each.
 - **But fewer apartment buildings were permitted.**
 - **Total apartments: no measurable change.** This matches the tool's central of 0.
-- **Parking cost alone adds little.** About +570 homes in Wisconsin over 2027–2031.
+- **Parking cost alone adds little.** About +580 homes in Wisconsin over 2027–2031.
 
 | What changed after repeal (38–73 US repeal places) | Result | Unusual against fake repeals? |
 | --- | --- | --- |
@@ -23,11 +23,11 @@ Written 2026-11-01 by the parking mechanism thread. Plan, committed before any r
 | Line | Lower | Central | Upper | Status |
 | --- | ---: | ---: | ---: | --- |
 | Tool today (count comparison) | −15,326 | 0 | 19,937 | In use (low line decided after this work started) |
-| Route A, bigger projects only (pre-set conversion) | 16,306 | 18,590 | 20,030 | A labelled figure, not a line: passes its pre-set tests, **but its key assumption fails** (see below) |
+| Route A, bigger projects only (pre-set conversion) | 16,636 | 18,972 | 20,436 | A labelled figure, not a line: passes its pre-set tests, **but its key assumption fails** (see below) |
 | Route A, all apartment homes (bigger but fewer projects) | about −36,800 | about −13,800 | about +12,000 | No measurable change |
-| Route B, cost chain | 227 | 566 | 1,226 | Evidence only (pre-set rule) |
+| Route B, cost chain | 233 | 581 | 1,257 | Evidence only (pre-set rule) |
 
-- **Route A, bigger projects only:** +43% homes per building × 42,807 apartment homes in the baseline where minimums still bind. The range is the 5th–95th percentile when each place is left out in turn. With the whole 76-place resampling range it is 5,601 to 29,717.
+- **Route A, bigger projects only:** +43% homes per building × 43,681 apartment homes in the baseline where minimums still bind. The range is the 5th–95th percentile when each place is left out in turn. With the whole 76-place resampling range it is 5,717 to 30,322.
 - **Why that line should not be used:** it assumes the number of apartment buildings stays at baseline. The data say it fell. Bigger-but-fewer adds up to no measurable change in apartment homes.
 - **Route A, all apartment homes:** −1.03 permits per 1,000 existing homes per year × 13,424 Wisconsin homes over five years per 1.0 (the factor used in `METRO_RESULTS.md`). The range uses the resampling 5th–95th percentile.
 
@@ -81,8 +81,8 @@ Per project, at central values (a typical Wisconsin apartment home where minimum
 | Old minimum | 1.32 spaces per home | 16 Wisconsin city codes (2025 compilation); others drawn from them |
 | Share of old required spaces not built | 0.365 (median of 4 studies; range 0.21–0.54) | Buffalo, Los Angeles, Seattle, Champaign project studies |
 | Spaces not built | 0.48 spaces per home | product of the two above |
-| Cost per space | $22,700 | Structured $29,900–$52,000 in urban places; surface $1,500–$10,000 plus land elsewhere |
-| Saved per home | $9,800 | |
+| Cost per space | $22,800 | Structured $29,900–$52,000 in urban places; surface $1,500–$10,000 plus land elsewhere |
+| Saved per home | $9,900 | |
 | Total cost per home | $250,700 | Census permit value $159,203 per home (Wisconsin 5+ unit buildings, 2023–2025) ÷ 0.635 hard-cost share |
 | Saved, share of cost | 3.9% | |
 | More apartments | 1.2% (0.4% to 2.3%) | × supply response 0.30 (0.11 to 0.59; Baum-Snow and Han 2024) |
@@ -91,11 +91,11 @@ Wisconsin total, homes in 2+ unit buildings over 2027–2031 (10,000 draws):
 
 | Case | 5th | Median | 95th |
 | --- | ---: | ---: | ---: |
-| All pieces vary | 227 | 566 | 1,226 |
-| Buffalo only for the share not built (closest market to Wisconsin) | 172 | 335 | 563 |
-| Structured parking only in Madison and Milwaukee | 148 | 374 | 836 |
-| Supply response held at 0.30 | 264 | 545 | 942 |
-| Share not built held at 0.365 | 305 | 593 | 997 |
+| All pieces vary | 233 | 581 | 1,257 |
+| Buffalo only for the share not built (closest market to Wisconsin) | 177 | 343 | 577 |
+| Structured parking only in Madison and Milwaukee | 149 | 378 | 846 |
+| Supply response held at 0.30 | 271 | 559 | 965 |
+| Share not built held at 0.365 | 313 | 607 | 1,021 |
 
 The supply response and the share not built drive most of the spread.
 
@@ -111,7 +111,7 @@ The supply response and the share not built drive most of the spread.
 - **No minimums already** (9 "at" places, plus Pewaukee city and Roberts): no change.
 - **Madison:** 2,188 of 19,170 new apartment homes built 2015–2024 (11.4%) are in downtown districts; 8,473 (44.2%) are downtown or in the TOD overlay.
 - **Milwaukee:** 3,721 of 13,999 new apartment homes built 2015–2024 (26.6%) are in downtown C9 districts.
-- **Result:** of 51,086 baseline homes in 5+ unit buildings over 2027–2031, 40,646 to 44,968 are where minimums bind (42,807 at the midpoint). For all 2+ unit buildings: 48,723 to 53,085 of 59,544.
+- **Result:** of 51,960 baseline homes in 5+ unit buildings over 2027–2031, 41,520 to 45,842 are where minimums bind (43,681 at the midpoint). For all 2+ unit buildings: 49,685 to 54,047 of 60,506.
 
 ## Files
 

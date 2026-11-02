@@ -867,10 +867,10 @@ muni:5501740900,Lafayette town,017,rural,1unit,2792.0,168.97,0.0,0.0,minimums bi
 muni:5501740900,Lafayette town,017,rural,2units,2792.0,24.332,0.0,0.0,minimums bind,0.8264462809917357,municipal median
 muni:5501740900,Lafayette town,017,rural,3_4units,2792.0,0.0,0.0,0.0,minimums bind,0.8264462809917357,municipal median
 muni:5501740900,Lafayette town,017,rural,5plus,2792.0,0.0,0.0,0.0,minimums bind,0.8264462809917357,municipal median
-muni:5501741525,Lake Hallie village,017,suburban,1unit,3222.0,0.0,0.0,0.0,minimums bind,1.0101010101010102,municipal median
-muni:5501741525,Lake Hallie village,017,suburban,2units,3222.0,0.0,0.0,0.0,minimums bind,1.0101010101010102,municipal median
-muni:5501741525,Lake Hallie village,017,suburban,3_4units,3222.0,0.0,0.0,0.0,minimums bind,1.0101010101010102,municipal median
-muni:5501741525,Lake Hallie village,017,suburban,5plus,3222.0,0.0,0.0,0.0,minimums bind,1.0101010101010102,municipal median
+muni:5501741525,Lake Hallie village,017,suburban,1unit,3222.0,51.483,0.0,0.0,minimums bind,1.0101010101010102,municipal median
+muni:5501741525,Lake Hallie village,017,suburban,2units,3222.0,10.1,0.0,0.0,minimums bind,1.0101010101010102,municipal median
+muni:5501741525,Lake Hallie village,017,suburban,3_4units,3222.0,0.651,0.0,0.0,minimums bind,1.0101010101010102,municipal median
+muni:5501741525,Lake Hallie village,017,suburban,5plus,3222.0,52.364,0.0,0.0,minimums bind,1.0101010101010102,municipal median
 muni:5501741550,Lake Holcombe town,017,rural,1unit,652.0,37.783,0.0,0.0,minimums bind,0.7317493112947658,municipal median
 muni:5501741550,Lake Holcombe town,017,rural,2units,652.0,5.441,0.0,0.0,minimums bind,0.7317493112947658,municipal median
 muni:5501741550,Lake Holcombe town,017,rural,3_4units,652.0,0.0,0.0,0.0,minimums bind,0.7317493112947658,municipal median
@@ -935,10 +935,10 @@ muni:5501920025,Dewhurst town,019,rural,1unit,403.0,11.667,0.0,0.0,minimums bind
 muni:5501920025,Dewhurst town,019,rural,2units,403.0,0.0,0.0,0.0,minimums bind,0.9661003979185798,municipal median
 muni:5501920025,Dewhurst town,019,rural,3_4units,403.0,0.0,0.0,0.0,minimums bind,0.9661003979185798,municipal median
 muni:5501920025,Dewhurst town,019,rural,5plus,403.0,0.0,0.0,0.0,minimums bind,0.9661003979185798,municipal median
-muni:5501920450,Dorchester village,019,small_community,1unit,347.0,1.667,0.0,0.0,minimums bind,0.4591368227731864,municipal median
-muni:5501920450,Dorchester village,019,small_community,2units,347.0,3.333,0.0,0.0,minimums bind,0.4591368227731864,municipal median
-muni:5501920450,Dorchester village,019,small_community,3_4units,347.0,0.0,0.0,0.0,minimums bind,0.4591368227731864,municipal median
-muni:5501920450,Dorchester village,019,small_community,5plus,347.0,0.0,0.0,0.0,minimums bind,0.4591368227731864,municipal median
+muni:5501920450,Dorchester village,019,small_community,1unit,347.0,2.905,0.0,0.0,minimums bind,0.4591368227731864,municipal median
+muni:5501920450,Dorchester village,019,small_community,2units,347.0,0.815,0.0,0.0,minimums bind,0.4591368227731864,municipal median
+muni:5501920450,Dorchester village,019,small_community,3_4units,347.0,0.074,0.0,0.0,minimums bind,0.4591368227731864,municipal median
+muni:5501920450,Dorchester village,019,small_community,5plus,347.0,1.586,0.0,0.0,minimums bind,0.4591368227731864,municipal median
 muni:5501922250,Eaton town,019,rural,1unit,212.0,8.333,0.0,0.0,minimums bind,0.196113718269954,municipal median
 muni:5501922250,Eaton town,019,rural,2units,212.0,0.0,0.0,0.0,minimums bind,0.196113718269954,municipal median
 muni:5501922250,Eaton town,019,rural,3_4units,212.0,0.0,0.0,0.0,minimums bind,0.196113718269954,municipal median
@@ -1015,10 +1015,10 @@ muni:5501951125,Mentor town,019,rural,1unit,364.0,13.333,0.0,0.0,minimums bind,0
 muni:5501951125,Mentor town,019,rural,2units,364.0,0.0,0.0,0.0,minimums bind,0.2537335073220241,municipal median
 muni:5501951125,Mentor town,019,rural,3_4units,364.0,0.0,0.0,0.0,minimums bind,0.2537335073220241,municipal median
 muni:5501951125,Mentor town,019,rural,5plus,364.0,0.0,0.0,0.0,minimums bind,0.2537335073220241,municipal median
-muni:5501955800,Neillsville city,019,small_community,1unit,1113.0,5.0,0.0,0.0,minimums bind,0.831195972261803,municipal median
-muni:5501955800,Neillsville city,019,small_community,2units,1113.0,0.0,0.0,0.0,minimums bind,0.831195972261803,municipal median
-muni:5501955800,Neillsville city,019,small_community,3_4units,1113.0,0.0,0.0,0.0,minimums bind,0.831195972261803,municipal median
-muni:5501955800,Neillsville city,019,small_community,5plus,1113.0,0.0,0.0,0.0,minimums bind,0.831195972261803,municipal median
+muni:5501955800,Neillsville city,019,small_community,1unit,1113.0,10.201,0.0,0.0,minimums bind,0.831195972261803,municipal median
+muni:5501955800,Neillsville city,019,small_community,2units,1113.0,2.861,0.0,0.0,minimums bind,0.831195972261803,municipal median
+muni:5501955800,Neillsville city,019,small_community,3_4units,1113.0,0.259,0.0,0.0,minimums bind,0.831195972261803,municipal median
+muni:5501955800,Neillsville city,019,small_community,5plus,1113.0,5.569,0.0,0.0,minimums bind,0.831195972261803,municipal median
 muni:5501960825,Owen city,019,small_community,1unit,381.0,0.0,0.0,0.0,minimums bind,0.5411255411255411,municipal median
 muni:5501960825,Owen city,019,small_community,2units,381.0,0.0,0.0,0.0,minimums bind,0.5411255411255411,municipal median
 muni:5501960825,Owen city,019,small_community,3_4units,381.0,0.0,0.0,0.0,minimums bind,0.5411255411255411,municipal median
@@ -1239,10 +1239,10 @@ muni:5502309550,Bridgeport town,023,rural,1unit,481.0,25.0,0.0,0.0,minimums bind
 muni:5502309550,Bridgeport town,023,rural,2units,481.0,0.0,0.0,0.0,minimums bind,0.2728351851512505,municipal median
 muni:5502309550,Bridgeport town,023,rural,3_4units,481.0,0.0,0.0,0.0,minimums bind,0.2728351851512505,municipal median
 muni:5502309550,Bridgeport town,023,rural,5plus,481.0,0.0,0.0,0.0,minimums bind,0.2728351851512505,municipal median
-muni:5502315075,Clayton town,023,rural,1unit,509.0,0.0,0.0,0.0,minimums bind,0.2086985558059938,municipal median
-muni:5502315075,Clayton town,023,rural,2units,509.0,0.0,0.0,0.0,minimums bind,0.2086985558059938,municipal median
-muni:5502315075,Clayton town,023,rural,3_4units,509.0,0.0,0.0,0.0,minimums bind,0.2086985558059938,municipal median
-muni:5502315075,Clayton town,023,rural,5plus,509.0,0.0,0.0,0.0,minimums bind,0.2086985558059938,municipal median
+muni:5502315075,Clayton town,023,rural,1unit,509.0,19.11,0.0,0.0,minimums bind,0.2086985558059938,municipal median
+muni:5502315075,Clayton town,023,rural,2units,509.0,0.517,0.0,0.0,minimums bind,0.2086985558059938,municipal median
+muni:5502315075,Clayton town,023,rural,3_4units,509.0,0.012,0.0,0.0,minimums bind,0.2086985558059938,municipal median
+muni:5502315075,Clayton town,023,rural,5plus,509.0,0.607,0.0,0.0,minimums bind,0.2086985558059938,municipal median
 muni:5502319850,De Soto village,023,small_community,1unit,103.0,0.414,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
 muni:5502319850,De Soto village,023,small_community,2units,103.0,0.0,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
 muni:5502319850,De Soto village,023,small_community,3_4units,103.0,0.0,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
@@ -1279,10 +1279,10 @@ muni:5502349275,Marietta town,023,rural,1unit,264.0,13.333,0.0,0.0,minimums bind
 muni:5502349275,Marietta town,023,rural,2units,264.0,0.0,0.0,0.0,minimums bind,0.22463145630301054,municipal median
 muni:5502349275,Marietta town,023,rural,3_4units,264.0,0.0,0.0,0.0,minimums bind,0.22463145630301054,municipal median
 muni:5502349275,Marietta town,023,rural,5plus,264.0,0.0,0.0,0.0,minimums bind,0.22463145630301054,municipal median
-muni:5502354900,Mount Sterling village,023,small_community,1unit,76.0,0.0,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
-muni:5502354900,Mount Sterling village,023,small_community,2units,76.0,0.0,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
-muni:5502354900,Mount Sterling village,023,small_community,3_4units,76.0,0.0,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
-muni:5502354900,Mount Sterling village,023,small_community,5plus,76.0,0.0,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
+muni:5502354900,Mount Sterling village,023,small_community,1unit,76.0,0.636,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
+muni:5502354900,Mount Sterling village,023,small_community,2units,76.0,0.178,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
+muni:5502354900,Mount Sterling village,023,small_community,3_4units,76.0,0.016,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
+muni:5502354900,Mount Sterling village,023,small_community,5plus,76.0,0.347,0.0,0.0,minimums bind,0.2741586394075812,county median (no municipal match)
 muni:5502365050,Prairie du Chien city,023,small_community,1unit,2558.0,25.0,0.0,0.0,minimums bind,2.475346348864135,municipal median
 muni:5502365050,Prairie du Chien city,023,small_community,2units,2558.0,0.0,0.0,0.0,minimums bind,2.475346348864135,municipal median
 muni:5502365050,Prairie du Chien city,023,small_community,3_4units,2558.0,0.0,0.0,0.0,minimums bind,2.475346348864135,municipal median
@@ -1315,10 +1315,10 @@ muni:5502384725,Wauzeka village,023,small_community,1unit,272.0,13.333,0.0,0.0,m
 muni:5502384725,Wauzeka village,023,small_community,2units,272.0,0.0,0.0,0.0,minimums bind,0.8321854912764003,municipal median
 muni:5502384725,Wauzeka village,023,small_community,3_4units,272.0,0.0,0.0,0.0,minimums bind,0.8321854912764003,municipal median
 muni:5502384725,Wauzeka village,023,small_community,5plus,272.0,0.0,0.0,0.0,minimums bind,0.8321854912764003,municipal median
-muni:5502384750,Wauzeka town,023,rural,1unit,174.0,0.0,0.0,0.0,minimums bind,0.11213533940806668,municipal median
-muni:5502384750,Wauzeka town,023,rural,2units,174.0,0.0,0.0,0.0,minimums bind,0.11213533940806668,municipal median
-muni:5502384750,Wauzeka town,023,rural,3_4units,174.0,0.0,0.0,0.0,minimums bind,0.11213533940806668,municipal median
-muni:5502384750,Wauzeka town,023,rural,5plus,174.0,0.0,0.0,0.0,minimums bind,0.11213533940806668,municipal median
+muni:5502384750,Wauzeka town,023,rural,1unit,174.0,6.533,0.0,0.0,minimums bind,0.11213533940806668,municipal median
+muni:5502384750,Wauzeka town,023,rural,2units,174.0,0.177,0.0,0.0,minimums bind,0.11213533940806668,municipal median
+muni:5502384750,Wauzeka town,023,rural,3_4units,174.0,0.004,0.0,0.0,minimums bind,0.11213533940806668,municipal median
+muni:5502384750,Wauzeka town,023,rural,5plus,174.0,0.208,0.0,0.0,minimums bind,0.11213533940806668,municipal median
 muni:5502500875,Albion town,025,rural,1unit,839.0,24.444,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5502500875,Albion town,025,rural,2units,839.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5502500875,Albion town,025,rural,3_4units,839.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
@@ -1431,10 +1431,10 @@ muni:5502548000,Madison city,025,urban,1unit,133530.0,1386.667,0.0,0.0,minimums 
 muni:5502548000,Madison city,025,urban,2units,133530.0,13.333,0.11413667188315076,0.4419926969222744,Madison: downtown districts (low) or downtown + TOD overlay (high),,county median (no municipal match)
 muni:5502548000,Madison city,025,urban,3_4units,133530.0,110.0,0.11413667188315076,0.4419926969222744,Madison: downtown districts (low) or downtown + TOD overlay (high),,county median (no municipal match)
 muni:5502548000,Madison city,025,urban,5plus,133530.0,13181.667,0.11413667188315076,0.4419926969222744,Madison: downtown districts (low) or downtown + TOD overlay (high),,county median (no municipal match)
-muni:5502548750,Maple Bluff village,025,suburban,1unit,576.0,1.667,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5502548750,Maple Bluff village,025,suburban,2units,576.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5502548750,Maple Bluff village,025,suburban,3_4units,576.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5502548750,Maple Bluff village,025,suburban,5plus,576.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5502548750,Maple Bluff village,025,suburban,1unit,576.0,9.204,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5502548750,Maple Bluff village,025,suburban,2units,576.0,1.806,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5502548750,Maple Bluff village,025,suburban,3_4units,576.0,0.116,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5502548750,Maple Bluff village,025,suburban,5plus,576.0,9.361,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5502549575,Marshall village,025,suburban,1unit,1595.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5502549575,Marshall village,025,suburban,2units,1595.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5502549575,Marshall village,025,suburban,3_4units,1595.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
@@ -1507,10 +1507,10 @@ muni:5502573750,Shorewood Hills village,025,suburban,1unit,932.0,8.333,0.0,0.0,m
 muni:5502573750,Shorewood Hills village,025,suburban,2units,932.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5502573750,Shorewood Hills village,025,suburban,3_4units,932.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5502573750,Shorewood Hills village,025,suburban,5plus,932.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5502575850,Springdale town,025,rural,1unit,901.0,23.554,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5502575850,Springdale town,025,rural,2units,901.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5502575850,Springdale town,025,rural,3_4units,901.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5502575850,Springdale town,025,rural,5plus,901.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5502575850,Springdale town,025,rural,1unit,901.0,57.681,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5502575850,Springdale town,025,rural,2units,901.0,1.56,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5502575850,Springdale town,025,rural,3_4units,901.0,0.037,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5502575850,Springdale town,025,rural,5plus,901.0,1.833,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5502575875,Springfield town,025,rural,1unit,1166.0,19.246,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5502575875,Springfield town,025,rural,2units,1166.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5502575875,Springfield town,025,rural,3_4units,1166.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
@@ -1887,10 +1887,10 @@ muni:5503178275,Summit town,031,rural,1unit,590.0,24.292,0.0,0.0,minimums bind,0
 muni:5503178275,Summit town,031,rural,2units,590.0,0.0,0.0,0.0,minimums bind,0.9555009555009554,municipal median
 muni:5503178275,Summit town,031,rural,3_4units,590.0,0.0,0.0,0.0,minimums bind,0.9555009555009554,municipal median
 muni:5503178275,Summit town,031,rural,5plus,590.0,0.0,0.0,0.0,minimums bind,0.9555009555009554,municipal median
-muni:5503178650,Superior city,031,urban,1unit,12776.0,38.333,0.0,0.0,minimums bind,1.8365472910927456,municipal median
-muni:5503178650,Superior city,031,urban,2units,12776.0,3.333,0.0,0.0,minimums bind,1.8365472910927456,municipal median
-muni:5503178650,Superior city,031,urban,3_4units,12776.0,0.0,0.0,0.0,minimums bind,1.8365472910927456,municipal median
-muni:5503178650,Superior city,031,urban,5plus,12776.0,0.0,0.0,0.0,minimums bind,1.8365472910927456,municipal median
+muni:5503178650,Superior city,031,urban,1unit,12776.0,34.697,0.0,0.0,minimums bind,1.8365472910927456,municipal median
+muni:5503178650,Superior city,031,urban,2units,12776.0,7.216,0.0,0.0,minimums bind,1.8365472910927456,municipal median
+muni:5503178650,Superior city,031,urban,3_4units,12776.0,1.65,0.0,0.0,minimums bind,1.8365472910927456,municipal median
+muni:5503178650,Superior city,031,urban,5plus,12776.0,209.449,0.0,0.0,minimums bind,1.8365472910927456,municipal median
 muni:5503178660,Superior village,031,small_community,1unit,358.0,5.0,0.0,0.0,minimums bind,1.4539332721150904,municipal median
 muni:5503178660,Superior village,031,small_community,2units,358.0,3.333,0.0,0.0,minimums bind,1.4539332721150904,municipal median
 muni:5503178660,Superior village,031,small_community,3_4units,358.0,0.0,0.0,0.0,minimums bind,1.4539332721150904,municipal median
@@ -2051,10 +2051,10 @@ muni:5503522300,Eau Claire city,035,urban,1unit,31005.0,228.276,0.0,0.0,minimums
 muni:5503522300,Eau Claire city,035,urban,2units,31005.0,301.13,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5503522300,Eau Claire city,035,urban,3_4units,31005.0,25.904,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5503522300,Eau Claire city,035,urban,5plus,31005.0,2302.184,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5503524825,Fairchild village,035,small_community,1unit,249.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5503524825,Fairchild village,035,small_community,2units,249.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5503524825,Fairchild village,035,small_community,3_4units,249.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5503524825,Fairchild village,035,small_community,5plus,249.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5503524825,Fairchild village,035,small_community,1unit,249.0,2.085,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5503524825,Fairchild village,035,small_community,2units,249.0,0.585,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5503524825,Fairchild village,035,small_community,3_4units,249.0,0.053,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5503524825,Fairchild village,035,small_community,5plus,249.0,1.138,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5503524850,Fairchild town,035,rural,1unit,196.0,9.322,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5503524850,Fairchild town,035,rural,2units,196.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5503524850,Fairchild town,035,rural,3_4units,196.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
@@ -3919,10 +3919,10 @@ muni:5507349100,Marathon City village,073,small_community,1unit,584.0,1.667,0.0,
 muni:5507349100,Marathon City village,073,small_community,2units,584.0,0.0,0.0,0.0,minimums bind,0.2295684113865932,county median (no municipal match)
 muni:5507349100,Marathon City village,073,small_community,3_4units,584.0,0.0,0.0,0.0,minimums bind,0.2295684113865932,county median (no municipal match)
 muni:5507349100,Marathon City village,073,small_community,5plus,584.0,0.0,0.0,0.0,minimums bind,0.2295684113865932,county median (no municipal match)
-muni:5507349675,Marshfield city,073,small_community,1unit,492.0,1.296,0.0,0.0,minimums bind,1.6390116812949795,municipal median
-muni:5507349675,Marshfield city,073,small_community,2units,492.0,0.0,0.0,0.0,minimums bind,1.6390116812949795,municipal median
-muni:5507349675,Marshfield city,073,small_community,3_4units,492.0,0.108,0.0,0.0,minimums bind,1.6390116812949795,municipal median
-muni:5507349675,Marshfield city,073,small_community,5plus,492.0,0.0,0.0,0.0,minimums bind,1.6390116812949795,municipal median
+muni:5507349675,Marshfield city,073,small_community,1unit,492.0,9.0,0.0,0.0,minimums bind,1.6390116812949795,municipal median
+muni:5507349675,Marshfield city,073,small_community,2units,492.0,2.524,0.0,0.0,minimums bind,1.6390116812949795,municipal median
+muni:5507349675,Marshfield city,073,small_community,3_4units,492.0,0.228,0.0,0.0,minimums bind,1.6390116812949795,municipal median
+muni:5507349675,Marshfield city,073,small_community,5plus,492.0,4.914,0.0,0.0,minimums bind,1.6390116812949795,municipal median
 muni:5507354500,Mosinee city,073,small_community,1unit,2173.0,36.667,0.0,0.0,minimums bind,1.8867653810835627,municipal median
 muni:5507354500,Mosinee city,073,small_community,2units,2173.0,0.0,0.0,0.0,minimums bind,1.8867653810835627,municipal median
 muni:5507354500,Mosinee city,073,small_community,3_4units,2173.0,0.0,0.0,0.0,minimums bind,1.8867653810835627,municipal median
@@ -4179,10 +4179,10 @@ muni:5507775925,Springfield town,077,rural,1unit,638.0,11.667,0.0,0.0,minimums b
 muni:5507775925,Springfield town,077,rural,2units,638.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5507775925,Springfield town,077,rural,3_4units,638.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5507775925,Springfield town,077,rural,5plus,638.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5507785575,Westfield village,077,small_community,1unit,564.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5507785575,Westfield village,077,small_community,2units,564.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5507785575,Westfield village,077,small_community,3_4units,564.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
-muni:5507785575,Westfield village,077,small_community,5plus,564.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5507785575,Westfield village,077,small_community,1unit,564.0,4.722,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5507785575,Westfield village,077,small_community,2units,564.0,1.324,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5507785575,Westfield village,077,small_community,3_4units,564.0,0.12,0.0,0.0,minimums bind,,county median (no municipal match)
+muni:5507785575,Westfield village,077,small_community,5plus,564.0,2.578,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5507785600,Westfield town,077,rural,1unit,496.0,24.242,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5507785600,Westfield town,077,rural,2units,496.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
 muni:5507785600,Westfield town,077,rural,3_4units,496.0,0.0,0.0,0.0,minimums bind,,county median (no municipal match)
@@ -4255,10 +4255,10 @@ muni:5507975125,South Milwaukee city,079,suburban,1unit,8885.0,15.0,0.0,0.0,mini
 muni:5507975125,South Milwaukee city,079,suburban,2units,8885.0,0.0,0.0,0.0,minimums bind,6.616971857613568,municipal median
 muni:5507975125,South Milwaukee city,079,suburban,3_4units,8885.0,0.0,0.0,0.0,minimums bind,6.616971857613568,municipal median
 muni:5507975125,South Milwaukee city,079,suburban,5plus,8885.0,0.0,0.0,0.0,minimums bind,6.616971857613568,municipal median
-muni:5507984675,Wauwatosa city,079,urban,1unit,23528.0,8.333,0.0,0.0,minimums bind,12.187995659070038,municipal median
-muni:5507984675,Wauwatosa city,079,urban,2units,23528.0,0.0,0.0,0.0,minimums bind,12.187995659070038,municipal median
-muni:5507984675,Wauwatosa city,079,urban,3_4units,23528.0,0.0,0.0,0.0,minimums bind,12.187995659070038,municipal median
-muni:5507984675,Wauwatosa city,079,urban,5plus,23528.0,0.0,0.0,0.0,minimums bind,12.187995659070038,municipal median
+muni:5507984675,Wauwatosa city,079,urban,1unit,23528.0,63.897,0.0,0.0,minimums bind,12.187995659070038,municipal median
+muni:5507984675,Wauwatosa city,079,urban,2units,23528.0,13.288,0.0,0.0,minimums bind,12.187995659070038,municipal median
+muni:5507984675,Wauwatosa city,079,urban,3_4units,23528.0,3.038,0.0,0.0,minimums bind,12.187995659070038,municipal median
+muni:5507984675,Wauwatosa city,079,urban,5plus,23528.0,385.718,0.0,0.0,minimums bind,12.187995659070038,municipal median
 muni:5507985300,West Allis city,079,urban,1unit,30294.0,23.333,1.0,1.0,already no minimums (taxonomy),3.568745304282494,municipal median
 muni:5507985300,West Allis city,079,urban,2units,30294.0,3.333,1.0,1.0,already no minimums (taxonomy),3.568745304282494,municipal median
 muni:5507985300,West Allis city,079,urban,3_4units,30294.0,0.0,1.0,1.0,already no minimums (taxonomy),3.568745304282494,municipal median
@@ -4331,10 +4331,10 @@ muni:5508144975,Little Falls town,081,rural,1unit,637.0,25.168,0.0,0.0,minimums 
 muni:5508144975,Little Falls town,081,rural,2units,637.0,0.0,0.0,0.0,minimums bind,0.16751470754338713,municipal median
 muni:5508144975,Little Falls town,081,rural,3_4units,637.0,0.0,0.0,0.0,minimums bind,0.16751470754338713,municipal median
 muni:5508144975,Little Falls town,081,rural,5plus,637.0,0.0,0.0,0.0,minimums bind,0.16751470754338713,municipal median
-muni:5508150800,Melvina village,081,small_community,1unit,41.0,0.0,0.0,0.0,minimums bind,0.30212842712842713,municipal median
-muni:5508150800,Melvina village,081,small_community,2units,41.0,0.0,0.0,0.0,minimums bind,0.30212842712842713,municipal median
-muni:5508150800,Melvina village,081,small_community,3_4units,41.0,0.0,0.0,0.0,minimums bind,0.30212842712842713,municipal median
-muni:5508150800,Melvina village,081,small_community,5plus,41.0,0.0,0.0,0.0,minimums bind,0.30212842712842713,municipal median
+muni:5508150800,Melvina village,081,small_community,1unit,41.0,0.343,0.0,0.0,minimums bind,0.30212842712842713,municipal median
+muni:5508150800,Melvina village,081,small_community,2units,41.0,0.096,0.0,0.0,minimums bind,0.30212842712842713,municipal median
+muni:5508150800,Melvina village,081,small_community,3_4units,41.0,0.009,0.0,0.0,minimums bind,0.30212842712842713,municipal median
+muni:5508150800,Melvina village,081,small_community,5plus,41.0,0.187,0.0,0.0,minimums bind,0.30212842712842713,municipal median
 muni:5508156950,New Lyme town,081,rural,1unit,75.0,3.368,0.0,0.0,minimums bind,0.17849850872585304,municipal median
 muni:5508156950,New Lyme town,081,rural,2units,75.0,0.0,0.0,0.0,minimums bind,0.17849850872585304,municipal median
 muni:5508156950,New Lyme town,081,rural,3_4units,75.0,0.0,0.0,0.0,minimums bind,0.17849850872585304,municipal median
@@ -5295,10 +5295,10 @@ muni:5509959525,Ogema town,099,rural,1unit,590.0,8.333,0.0,0.0,minimums bind,0.1
 muni:5509959525,Ogema town,099,rural,2units,590.0,0.0,0.0,0.0,minimums bind,0.1561065197428834,municipal median
 muni:5509959525,Ogema town,099,rural,3_4units,590.0,0.0,0.0,0.0,minimums bind,0.1561065197428834,municipal median
 muni:5509959525,Ogema town,099,rural,5plus,590.0,0.0,0.0,0.0,minimums bind,0.1561065197428834,municipal median
-muni:5509961200,Park Falls city,099,small_community,1unit,1298.0,1.667,0.0,0.0,minimums bind,0.6734006734006734,municipal median
-muni:5509961200,Park Falls city,099,small_community,2units,1298.0,0.0,0.0,0.0,minimums bind,0.6734006734006734,municipal median
-muni:5509961200,Park Falls city,099,small_community,3_4units,1298.0,0.0,0.0,0.0,minimums bind,0.6734006734006734,municipal median
-muni:5509961200,Park Falls city,099,small_community,5plus,1298.0,0.0,0.0,0.0,minimums bind,0.6734006734006734,municipal median
+muni:5509961200,Park Falls city,099,small_community,1unit,1298.0,10.868,0.0,0.0,minimums bind,0.6734006734006734,municipal median
+muni:5509961200,Park Falls city,099,small_community,2units,1298.0,3.048,0.0,0.0,minimums bind,0.6734006734006734,municipal median
+muni:5509961200,Park Falls city,099,small_community,3_4units,1298.0,0.275,0.0,0.0,minimums bind,0.6734006734006734,municipal median
+muni:5509961200,Park Falls city,099,small_community,5plus,1298.0,5.934,0.0,0.0,minimums bind,0.6734006734006734,municipal median
 muni:5509962450,Phillips city,099,small_community,1unit,842.0,6.667,0.0,0.0,minimums bind,1.3532453723841285,municipal median
 muni:5509962450,Phillips city,099,small_community,2units,842.0,20.0,0.0,0.0,minimums bind,1.3532453723841285,municipal median
 muni:5509962450,Phillips city,099,small_community,3_4units,842.0,0.0,0.0,0.0,minimums bind,1.3532453723841285,municipal median
@@ -5331,10 +5331,10 @@ muni:5510111225,Burlington town,101,rural,1unit,3036.0,82.515,0.0,0.0,minimums b
 muni:5510111225,Burlington town,101,rural,2units,3036.0,0.0,0.0,0.0,minimums bind,1.7471151525105704,municipal median
 muni:5510111225,Burlington town,101,rural,3_4units,3036.0,0.0,0.0,0.0,minimums bind,1.7471151525105704,municipal median
 muni:5510111225,Burlington town,101,rural,5plus,3036.0,0.0,0.0,0.0,minimums bind,1.7471151525105704,municipal median
-muni:5510111950,Caledonia village,101,suburban,1unit,10499.0,0.0,0.0,0.0,minimums bind,2.82606630569013,municipal median
-muni:5510111950,Caledonia village,101,suburban,2units,10499.0,0.0,0.0,0.0,minimums bind,2.82606630569013,municipal median
-muni:5510111950,Caledonia village,101,suburban,3_4units,10499.0,0.0,0.0,0.0,minimums bind,2.82606630569013,municipal median
-muni:5510111950,Caledonia village,101,suburban,5plus,10499.0,0.0,0.0,0.0,minimums bind,2.82606630569013,municipal median
+muni:5510111950,Caledonia village,101,suburban,1unit,10499.0,167.759,0.0,0.0,minimums bind,2.82606630569013,municipal median
+muni:5510111950,Caledonia village,101,suburban,2units,10499.0,32.911,0.0,0.0,minimums bind,2.82606630569013,municipal median
+muni:5510111950,Caledonia village,101,suburban,3_4units,10499.0,2.12,0.0,0.0,minimums bind,2.82606630569013,municipal median
+muni:5510111950,Caledonia village,101,suburban,5plus,10499.0,170.629,0.0,0.0,minimums bind,2.82606630569013,municipal median
 muni:5510120625,Dover town,101,rural,1unit,1321.0,37.005,0.0,0.0,minimums bind,2.025603629881705,municipal median
 muni:5510120625,Dover town,101,rural,2units,1321.0,0.0,0.0,0.0,minimums bind,2.025603629881705,municipal median
 muni:5510120625,Dover town,101,rural,3_4units,1321.0,0.0,0.0,0.0,minimums bind,2.025603629881705,municipal median
@@ -5387,10 +5387,10 @@ muni:5510187700,Wind Point village,101,suburban,1unit,782.0,3.333,0.0,0.0,minimu
 muni:5510187700,Wind Point village,101,suburban,2units,782.0,0.0,0.0,0.0,minimums bind,3.023583954847813,municipal median
 muni:5510187700,Wind Point village,101,suburban,3_4units,782.0,0.0,0.0,0.0,minimums bind,3.023583954847813,municipal median
 muni:5510187700,Wind Point village,101,suburban,5plus,782.0,0.0,0.0,0.0,minimums bind,3.023583954847813,municipal median
-muni:5510189550,Yorkville village,101,small_community,1unit,1231.0,0.0,0.0,0.0,minimums bind,0.8982855820800486,municipal median
-muni:5510189550,Yorkville village,101,small_community,2units,1231.0,0.0,0.0,0.0,minimums bind,0.8982855820800486,municipal median
-muni:5510189550,Yorkville village,101,small_community,3_4units,1231.0,0.0,0.0,0.0,minimums bind,0.8982855820800486,municipal median
-muni:5510189550,Yorkville village,101,small_community,5plus,1231.0,0.0,0.0,0.0,minimums bind,0.8982855820800486,municipal median
+muni:5510189550,Yorkville village,101,small_community,1unit,1231.0,10.307,0.0,0.0,minimums bind,0.8982855820800486,municipal median
+muni:5510189550,Yorkville village,101,small_community,2units,1231.0,2.89,0.0,0.0,minimums bind,0.8982855820800486,municipal median
+muni:5510189550,Yorkville village,101,small_community,3_4units,1231.0,0.261,0.0,0.0,minimums bind,0.8982855820800486,municipal median
+muni:5510189550,Yorkville village,101,small_community,5plus,1231.0,5.627,0.0,0.0,minimums bind,0.8982855820800486,municipal median
 muni:5510300675,Akan town,103,rural,1unit,207.0,9.096,0.0,0.0,minimums bind,0.27853582601271354,municipal median
 muni:5510300675,Akan town,103,rural,2units,207.0,0.0,0.0,0.0,minimums bind,0.27853582601271354,municipal median
 muni:5510300675,Akan town,103,rural,3_4units,207.0,0.0,0.0,0.0,minimums bind,0.27853582601271354,municipal median
@@ -6615,18 +6615,18 @@ muni:5512319850,De Soto village,123,small_community,1unit,196.0,1.253,0.0,0.0,mi
 muni:5512319850,De Soto village,123,small_community,2units,196.0,0.0,0.0,0.0,minimums bind,0.32126152540825587,municipal median
 muni:5512319850,De Soto village,123,small_community,3_4units,196.0,0.0,0.0,0.0,minimums bind,0.32126152540825587,municipal median
 muni:5512319850,De Soto village,123,small_community,5plus,196.0,0.0,0.0,0.0,minimums bind,0.32126152540825587,municipal median
-muni:5512326550,Forest town,123,rural,1unit,323.0,0.0,0.0,0.0,minimums bind,0.1721763085399449,municipal median
-muni:5512326550,Forest town,123,rural,2units,323.0,0.0,0.0,0.0,minimums bind,0.1721763085399449,municipal median
-muni:5512326550,Forest town,123,rural,3_4units,323.0,0.0,0.0,0.0,minimums bind,0.1721763085399449,municipal median
-muni:5512326550,Forest town,123,rural,5plus,323.0,0.0,0.0,0.0,minimums bind,0.1721763085399449,municipal median
+muni:5512326550,Forest town,123,rural,1unit,323.0,12.127,0.0,0.0,minimums bind,0.1721763085399449,municipal median
+muni:5512326550,Forest town,123,rural,2units,323.0,0.328,0.0,0.0,minimums bind,0.1721763085399449,municipal median
+muni:5512326550,Forest town,123,rural,3_4units,323.0,0.008,0.0,0.0,minimums bind,0.1721763085399449,municipal median
+muni:5512326550,Forest town,123,rural,5plus,323.0,0.385,0.0,0.0,minimums bind,0.1721763085399449,municipal median
 muni:5512327400,Franklin town,123,rural,1unit,408.0,10.0,1.0,1.0,already no minimums (taxonomy),0.29111936226560736,municipal median
 muni:5512327400,Franklin town,123,rural,2units,408.0,0.0,1.0,1.0,already no minimums (taxonomy),0.29111936226560736,municipal median
 muni:5512327400,Franklin town,123,rural,3_4units,408.0,0.0,1.0,1.0,already no minimums (taxonomy),0.29111936226560736,municipal median
 muni:5512327400,Franklin town,123,rural,5plus,408.0,0.0,1.0,1.0,already no minimums (taxonomy),0.29111936226560736,municipal median
-muni:5512328625,Genoa village,123,small_community,1unit,130.0,0.0,0.0,0.0,minimums bind,3.043849634758726,municipal median
-muni:5512328625,Genoa village,123,small_community,2units,130.0,0.0,0.0,0.0,minimums bind,3.043849634758726,municipal median
-muni:5512328625,Genoa village,123,small_community,3_4units,130.0,0.0,0.0,0.0,minimums bind,3.043849634758726,municipal median
-muni:5512328625,Genoa village,123,small_community,5plus,130.0,0.0,0.0,0.0,minimums bind,3.043849634758726,municipal median
+muni:5512328625,Genoa village,123,small_community,1unit,130.0,1.088,0.0,0.0,minimums bind,3.043849634758726,municipal median
+muni:5512328625,Genoa village,123,small_community,2units,130.0,0.305,0.0,0.0,minimums bind,3.043849634758726,municipal median
+muni:5512328625,Genoa village,123,small_community,3_4units,130.0,0.028,0.0,0.0,minimums bind,3.043849634758726,municipal median
+muni:5512328625,Genoa village,123,small_community,5plus,130.0,0.594,0.0,0.0,minimums bind,3.043849634758726,municipal median
 muni:5512328650,Genoa town,123,rural,1unit,415.0,13.333,0.0,0.0,minimums bind,0.32795487340941887,municipal median
 muni:5512328650,Genoa town,123,rural,2units,415.0,0.0,0.0,0.0,minimums bind,0.32795487340941887,municipal median
 muni:5512328650,Genoa town,123,rural,3_4units,415.0,0.0,0.0,0.0,minimums bind,0.32795487340941887,municipal median
@@ -6715,10 +6715,10 @@ muni:5512386525,Wheatland town,123,rural,1unit,375.0,18.333,0.0,0.0,minimums bin
 muni:5512386525,Wheatland town,123,rural,2units,375.0,0.0,0.0,0.0,minimums bind,0.2611204679278786,municipal median
 muni:5512386525,Wheatland town,123,rural,3_4units,375.0,0.0,0.0,0.0,minimums bind,0.2611204679278786,municipal median
 muni:5512386525,Wheatland town,123,rural,5plus,375.0,0.0,0.0,0.0,minimums bind,0.2611204679278786,municipal median
-muni:5512386900,Whitestown town,123,rural,1unit,330.0,15.0,0.0,0.0,minimums bind,0.11289808024763211,municipal median
-muni:5512386900,Whitestown town,123,rural,2units,330.0,0.0,0.0,0.0,minimums bind,0.11289808024763211,municipal median
-muni:5512386900,Whitestown town,123,rural,3_4units,330.0,0.0,0.0,0.0,minimums bind,0.11289808024763211,municipal median
-muni:5512386900,Whitestown town,123,rural,5plus,330.0,0.0,0.0,0.0,minimums bind,0.11289808024763211,municipal median
+muni:5512386900,Whitestown town,123,rural,1unit,330.0,27.267,0.0,0.0,minimums bind,0.11289808024763211,municipal median
+muni:5512386900,Whitestown town,123,rural,2units,330.0,0.738,0.0,0.0,minimums bind,0.11289808024763211,municipal median
+muni:5512386900,Whitestown town,123,rural,3_4units,330.0,0.017,0.0,0.0,minimums bind,0.11289808024763211,municipal median
+muni:5512386900,Whitestown town,123,rural,5plus,330.0,0.866,0.0,0.0,minimums bind,0.11289808024763211,municipal median
 muni:5512502450,Arbor Vitae town,125,rural,1unit,2845.0,162.035,0.0,0.0,minimums bind,0.3913097921362384,municipal median
 muni:5512502450,Arbor Vitae town,125,rural,2units,2845.0,6.864,0.0,0.0,minimums bind,0.3913097921362384,municipal median
 muni:5512502450,Arbor Vitae town,125,rural,3_4units,2845.0,1.961,0.0,0.0,minimums bind,0.3913097921362384,municipal median
@@ -7095,10 +7095,10 @@ muni:5513310050,Brookfield town,133,suburban,1unit,3496.0,13.333,0.0,0.0,minimum
 muni:5513310050,Brookfield town,133,suburban,2units,3496.0,6.667,0.0,0.0,minimums bind,3.4688681382896256,municipal median
 muni:5513310050,Brookfield town,133,suburban,3_4units,3496.0,6.667,0.0,0.0,minimums bind,3.4688681382896256,municipal median
 muni:5513310050,Brookfield town,133,suburban,5plus,3496.0,10.0,0.0,0.0,minimums bind,3.4688681382896256,municipal median
-muni:5513311475,Butler village,133,suburban,1unit,849.0,0.0,0.0,0.0,minimums bind,4.222777618499544,municipal median
-muni:5513311475,Butler village,133,suburban,2units,849.0,0.0,0.0,0.0,minimums bind,4.222777618499544,municipal median
-muni:5513311475,Butler village,133,suburban,3_4units,849.0,0.0,0.0,0.0,minimums bind,4.222777618499544,municipal median
-muni:5513311475,Butler village,133,suburban,5plus,849.0,0.0,0.0,0.0,minimums bind,4.222777618499544,municipal median
+muni:5513311475,Butler village,133,suburban,1unit,849.0,13.566,0.0,0.0,minimums bind,4.222777618499544,municipal median
+muni:5513311475,Butler village,133,suburban,2units,849.0,2.661,0.0,0.0,minimums bind,4.222777618499544,municipal median
+muni:5513311475,Butler village,133,suburban,3_4units,849.0,0.171,0.0,0.0,minimums bind,4.222777618499544,municipal median
+muni:5513311475,Butler village,133,suburban,5plus,849.0,13.798,0.0,0.0,minimums bind,4.222777618499544,municipal median
 muni:5513314225,Chenequa village,133,small_community,1unit,284.0,18.333,0.0,0.0,minimums bind,5.091922031940776,municipal median
 muni:5513314225,Chenequa village,133,small_community,2units,284.0,0.0,0.0,0.0,minimums bind,5.091922031940776,municipal median
 muni:5513314225,Chenequa village,133,small_community,3_4units,284.0,0.0,0.0,0.0,minimums bind,5.091922031940776,municipal median
