@@ -28,6 +28,16 @@ Owner's question (2026-11-02): which of the 16 places had affordable-housing req
 | Salt Lake City | 2010 | none (not found) | No (not found) | n/a | No affordability rule found in TSA district or city code then. | [Eno Center](https://enotrans.org/article/affordable-housing-and-transit-series-salt-lake-city/) |
 | Saint Paul | 2011 | none | No | n/a | No project rule; affordable units only when city money used. | [City slides 2020](https://www.stpaul.gov/sites/default/files/Media%20Root/Planning%20%26%20Economic%20Development/AH%20planning-zoning%20legal%20and%20intro%20to%20hsg%20finance%206-26-20.pdf) |
 
+## Simple coding: mandatory rule in the window (owner, 2026-11-02)
+
+`mandate_in_window` in the CSV: "yes" when a mandatory affordability rule applied for most or all of the 5 years after
+the reform (Chicago 2015, Chicago 2022, Honolulu, San Diego, Portland 2020); "no" otherwise. Denver (citywide rule
+from July 2022, reform 2018), Seattle Mount Baker (MHA from April 2019, reform 2014) and Philadelphia (mandatory only
+in parts of two council districts from mid-2022) are coded "no": their rules arrived in the last year of the window or
+after it, and projects permitted then were mostly started earlier or exempted. Median ¼-mile effect: "yes" −11, "no"
++28 extra new homes per 100 lot acres a year (5 and 11 places). The "yes" places are mostly the broad upzonings, so
+this cannot separate the mandate from coverage.
+
 ## Against the measured ¼-mile effects
 
 Effect = extra new homes per 100 lot acres per year, 0–¼ mile (reference/tod_station_area_effects_by_city.csv). Descriptive only.
