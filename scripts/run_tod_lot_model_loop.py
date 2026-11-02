@@ -30,11 +30,10 @@ DOWNTOWN = {"Columbus placebo": (39.9612, -82.9988), "Kansas City placebo": (39.
 
 def fake_area(d: pd.DataFrame, c: str) -> np.ndarray:
     """Item 58: the placebo's fake reform area: lots within 805 m of a rail or rapid stop, or of the downtown point."""
-    import geopandas as gpd
     if c in DOWNTOWN:
         lat, lon = DOWNTOWN[c]
-        p = gpd.GeoSeries(gpd.points_from_xy([lon], [lat]), crs=4326).to_crs(5070)
-        dist = np.hypot(d["x5070"].values - p.x.iloc[0], d["y5070"].values - p.y.iloc[0])
+        px, py = L.lonlat_to_5070([lon], [lat])
+        dist = np.hypot(d["x5070"].values - px[0], d["y5070"].values - py[0])
         return dist <= 805
     return (d["dist_station_m"].fillna(1e9) <= 805).values
 

@@ -13,13 +13,15 @@ import pickle
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
-from shapely.ops import unary_union
+from scipy.spatial import cKDTree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from missing_middleware import geom_extra_foundation as GF  # noqa: E402
+from missing_middleware import geom_extra_station as S  # noqa: E402
+from missing_middleware import geom_extra_tod as X  # noqa: E402
 from missing_middleware.paths import PROCESSED, RAW, REFERENCE  # noqa: E402
 from missing_middleware.tod.control_cities import inventory_geoids, read_gazetteer  # noqa: E402
 from scripts import run_tod_census_cases as R  # noqa: E402
@@ -30,35 +32,43 @@ MILE = 1609.344
 STATES = ["34", "06", "04", "51", "48", "53", "39", "36", "17", "27", "37", "42", "49"]
 
 
-def polys(st: str, year: int) -> gpd.GeoDataFrame:
+def polys(st: str, year: int, boxes) -> pd.DataFrame:
+    """A state's census blocks with land (m2 > 0) whose bounds meet any of the boxes (R.CRS): homes, land, "geometry"
+    (polygon features in R.CRS) and bounds b0-b3. Cached per state as GeoParquet (all blocks)."""
     f = R.CACHE / f"polys_{st}_{year}.parquet"
-    if f.exists():
-        return gpd.read_parquet(f)
-    if st == "49":
-        src = RAW / "tod_slc" / ("tabblock2010_49_pophu.zip" if year == 2010 else "tl_2020_49_tabblock20.zip")
-    else:
-        src = R.D / (f"tabblock2010_{st}_pophu.zip" if year == 2010 else f"tl_2020_{st}_tabblock20.zip")
-    b = gpd.read_file(src).rename(columns={"HOUSING10": "homes", "HOUSING20": "homes"}).to_crs(R.CRS)
-    out = gpd.GeoDataFrame({"homes": b["homes"].astype(float).values, "land": b.area.values}, geometry=b.geometry.values, crs=R.CRS)
-    out = out[out["land"] > 0]
-    out.to_parquet(f)
-    return out
+    if not f.exists():
+        if st == "49":
+            src = RAW / "tod_slc" / ("tabblock2010_49_pophu.zip" if year == 2010 else "tl_2020_49_tabblock20.zip")
+        else:
+            src = R.D / (f"tabblock2010_{st}_pophu.zip" if year == 2010 else f"tl_2020_{st}_tabblock20.zip")
+        col = "HOUSING10" if year == 2010 else "HOUSING20"
+        b = S.read_vector(src, R.CRS, columns=[col])
+        g = list(b["geometry"])
+        out = pd.DataFrame({"homes": b[col].astype(float).values, "land": S.areas(g)})
+        keep = out["land"].to_numpy() > 0
+        g = [x for x, k in zip(g, keep) if k]
+        GF.write_geoparquet(out[keep], g, ["Polygon" if len(x) == 1 else "MultiPolygon" for x in g], f, R.CRS)
+    a, g, _ = GF.read_geoparquet_near(f, boxes)
+    bb = S.feature_bounds(g)
+    return a.assign(geometry=g, b0=bb[:, 0], b1=bb[:, 1], b2=bb[:, 2], b3=bb[:, 3])
 
 
-def share_sums(b: gpd.GeoDataFrame, geom) -> tuple[float, float]:
-    idx = b.sindex.query(geom, predicate="intersects")
-    if not len(idx):
+def share_sums(b: pd.DataFrame, region, box) -> tuple[float, float]:
+    """Homes and land of the blocks weighted by the share of each block's land inside the region (box: the region's
+    bounds; blocks outside it share nothing)."""
+    m = ((b["b0"] <= box[2]) & (b["b2"] >= box[0]) & (b["b1"] <= box[3]) & (b["b3"] >= box[1])).to_numpy()
+    if not m.any():
         return 0.0, 0.0
-    sub = b.iloc[idx]
-    s = np.clip(sub.geometry.intersection(geom).area.values / sub["land"].values, 0, 1)
+    sub = b[m]
+    s = np.clip(X.overlap_areas(list(sub["geometry"]), region) / sub["land"].values, 0, 1)
     return float((sub["homes"].values * s).sum()), float((sub["land"].values * s).sum())
 
 
-def area_share_diff(b10, b20, treated, comp) -> dict:
-    th10, tl10 = share_sums(b10, treated)
-    th20, tl20 = share_sums(b20, treated)
-    ch10, cl10 = share_sums(b10, comp)
-    ch20, cl20 = share_sums(b20, comp)
+def area_share_diff(b10, b20, treated, comp, tbox, cbox) -> dict:
+    th10, tl10 = share_sums(b10, treated, tbox)
+    th20, tl20 = share_sums(b20, treated, tbox)
+    ch10, cl10 = share_sums(b10, comp, cbox)
+    ch20, cl20 = share_sums(b20, comp, cbox)
     ta, ca = (tl10 + tl20) / 2 / R.ACRE, (cl10 + cl20) / 2 / R.ACRE
     t = (th20 - th10) / ta if ta else np.nan
     c = (ch20 - ch10) / ca if ca else np.nan
@@ -74,9 +84,8 @@ def nyc_members(rng) -> list[dict]:
     for m in members:
         if not 2008 <= m["effective_year"] <= 2013:
             continue
-        to = lambda g: gpd.GeoSeries([g], crs=m["crs"]).to_crs(R.CRS).iloc[0]  # noqa: E731
-        treated, upz = to(m["treated_union"]), to(m["upzoned_union"])
-        ring = upz.buffer(R.QUARTER).difference(upz)
+        treated, upz = R.union(R.member_polys(m, "treated_union")), R.member_polys(m, "upzoned_union")
+        ring = R.ring(upz, R.QUARTER, R.union(upz))
         t10, t20, c10, c20 = p10[R.within(p10, treated)], p20[R.within(p20, treated)], p10[R.within(p10, ring)], p20[R.within(p20, ring)]
         est, lo, hi = R.diff_with_interval(t10, t20, c10, c20, rng)
         acres = (t10["land"].sum() + t20["land"].sum()) / 2 / R.ACRE
@@ -89,9 +98,10 @@ def nyc_members(rng) -> list[dict]:
 
 
 def roosevelt(rng) -> dict:
-    z = gpd.read_file(RAW / "tod_cases" / "seattle" / "zoning_current.geojson").to_crs(R.CRS)
-    treated = z[z["ZONINGHISTORY"].astype(str).str.contains("ORD123816")].geometry.make_valid().union_all()
-    ring = treated.buffer(R.HALF).difference(treated)
+    z = R.layer(RAW / "tod_cases" / "seattle" / "zoning_current.geojson")
+    rv = R.valid(z[z["ZONINGHISTORY"].astype(str).str.contains("ORD123816")])
+    treated = X.Polygons(rv)
+    ring = R.ring(rv, R.HALF, treated)
     p10, p20 = R.block_points("53", 2010), R.block_points("53", 2020)
     t10, t20, c10, c20 = p10[R.within(p10, treated)], p20[R.within(p20, treated)], p10[R.within(p10, ring)], p20[R.within(p20, ring)]
     est, lo, hi = R.diff_with_interval(t10, t20, c10, c20, rng)
@@ -99,49 +109,63 @@ def roosevelt(rng) -> dict:
     return {"case": "seattle_roosevelt_2012", "label": "Seattle, Roosevelt rezone (2012)", "adopted": "2012",
             "source": "census, centre point, ½-mile ring (plan 10.1)", "difference_per_acre_decade": est, "low": lo, "high": hi,
             "treated_acres": acres, "treated_homes_2010": t10["homes"].sum(), "treated_homes_2020": t20["homes"].sum(),
-            "pre_density_homes_per_acre_2010": t10["homes"].sum() / acres if acres else np.nan}, treated
+            "pre_density_homes_per_acre_2010": t10["homes"].sum() / acres if acres else np.nan}, rv
 
 
 def reform_geoms() -> list:
+    """Every census-set reform's land: a list of polygon-feature lists in R.CRS."""
     g = [R.boundary(c)[0] for c in R.NEW_CASES] + [slc_boundary()[0]]
     for case in R.METHOD_CASES:
         for m in pickle.loads((PROCESSED / "tod_net_effect" / f"areas_{case}.pkl").read_bytes()):
-            g.append(gpd.GeoSeries([m["upzoned_union"]], crs=m["crs"]).to_crs(R.CRS).iloc[0])
+            g.append(R.member_polys(m, "upzoned_union"))
     return g
+
+
+def circle(x: float, y: float, r: float) -> list:
+    """A point's GEOS buffer (64-gon) as a polygon feature."""
+    return [[S._circle(x, y, r)]]
 
 
 def placebos(extra_geoms) -> pd.DataFrame:
     s = pd.DataFrame(json.load(open(R.D / "ntm_rail_stops.json")))
     s = s.dropna(subset=["stop_lat", "stop_lon"])
-    pts = gpd.GeoDataFrame(s, geometry=gpd.points_from_xy(s.stop_lon, s.stop_lat), crs=4326).to_crs(R.CRS)
+    px, py = S.transform(s["stop_lon"].to_numpy(float), s["stop_lat"].to_numpy(float), 4326, R.CRS)
+    pts = s.assign(gx=px, gy=py)
     # Merge same-name stops within ¼ mile (platforms of one station).
     pts["key"] = pts["stop_name"].str.lower().str.replace(r"\s*\(.*\)|\s+(platform|track|nb|sb|eb|wb)\b.*", "", regex=True).str.strip()
-    pts["cell"] = (pts.geometry.x // R.QUARTER).astype(int).astype(str) + "_" + (pts.geometry.y // R.QUARTER).astype(int).astype(str)
-    st = pts.groupby(["key", "cell"]).agg(name=("stop_name", "first"), x=("geometry", lambda g: g.x.mean()),
-                                         y=("geometry", lambda g: g.y.mean())).reset_index()
-    st = gpd.GeoDataFrame(st, geometry=gpd.points_from_xy(st.x, st.y), crs=R.CRS)
+    pts["cell"] = (pts["gx"] // R.QUARTER).astype(int).astype(str) + "_" + (pts["gy"] // R.QUARTER).astype(int).astype(str)
+    st = pts.groupby(["key", "cell"]).agg(name=("stop_name", "first"), x=("gx", lambda g: g.mean()),
+                                         y=("gy", lambda g: g.mean())).reset_index()
     # Leave out inventory cities and anything within 1 mile of a reform in the census set.
     gaz = read_gazetteer(RAW / "tod_control_cities" / "Gaz_places_national.zip")
     inv = inventory_geoids(pd.read_csv(REFERENCE / "tod_cases.csv"), gaz)
-    places = pd.concat([gpd.read_file(R.D / f"tl_2020_{x}_place.zip") for x in STATES]).to_crs(R.CRS)
-    bad = places[places["GEOID"].isin(inv)].geometry.union_all()
-    near = unary_union(extra_geoms).buffer(MILE)
-    st = st[~st.within(bad) & ~st.within(near)].reset_index(drop=True)
-    pl = gpd.sjoin(st, places[["GEOID", "NAME", "geometry"]], how="left", predicate="within")
-    pl = pl[~pl.index.duplicated()]
-    st["place"], st["state"] = pl["NAME"].values, pl["GEOID"].astype(str).str[:2].values
-    circles = st.geometry.buffer(R.HALF)
-    all_circles = circles.union_all()
+    places = pd.concat([S.read_vector(R.D / f"tl_2020_{x}_place.zip", R.CRS, columns=["GEOID", "NAME"]) for x in STATES],
+                       ignore_index=True)
+    bad = R.union(list(places.loc[places["GEOID"].isin(inv), "geometry"]))
+    near = X.Buffer([f for g in extra_geoms for f in g], MILE)
+    sx, sy = st["x"].to_numpy(float), st["y"].to_numpy(float)
+    st = st[~bad.contains(sx, sy) & ~near.contains(sx, sy)].reset_index(drop=True)
+    k = S.first_within(st["x"].to_numpy(float), st["y"].to_numpy(float), list(places["geometry"]))
+    st["place"] = np.where(k >= 0, places["NAME"].to_numpy(object)[np.maximum(k, 0)], np.nan)
+    st["state"] = np.where(k >= 0, places["GEOID"].astype(str).to_numpy(object)[np.maximum(k, 0)], "nan")
+    st["state"] = st["state"].str[:2]
+    circles = [circle(x, y, R.HALF) for x, y in zip(st["x"], st["y"])]
+    ctree = cKDTree(st[["x", "y"]].to_numpy(float))
     rows = []
     for x in STATES:
         sub = st[st["state"] == x]
         if not len(sub):
             continue
-        b10, b20 = polys(x, 2010), polys(x, 2020)
+        boxes = np.c_[sub["x"] - MILE - 1, sub["y"] - MILE - 1, sub["x"] + MILE + 1, sub["y"] + MILE + 1]
+        b10, b20 = polys(x, 2010, boxes), polys(x, 2020, boxes)
         for i, r in sub.iterrows():
-            c = circles.iloc[i]
-            ring = r.geometry.buffer(MILE).difference(all_circles)
-            d = area_share_diff(b10, b20, c, ring)
+            c = X.Polygons([circles[i]])
+            # the ring: the 1-mile circle less every station's ½-mile circle (only circles that can reach it matter)
+            others = X.Polygons([circles[j] for j in sorted(ctree.query_ball_point([r["x"], r["y"]], MILE + R.HALF + 1))])
+            ring = X.Polygons([circle(r["x"], r["y"], MILE)]) - others
+            tb = (r["x"] - R.HALF, r["y"] - R.HALF, r["x"] + R.HALF, r["y"] + R.HALF)
+            cb = (r["x"] - MILE, r["y"] - MILE, r["x"] + MILE, r["y"] + MILE)
+            d = area_share_diff(b10, b20, c, ring, tb, cb)
             rows.append({"station": r["name"], "place": r["place"], "state": x, **d})
         print(f"placebos {x}: {len(sub)}", flush=True)
     return pd.DataFrame(rows)

@@ -28,7 +28,7 @@ Every file comes from the publishing government's own service (or the Census Bur
   Cook County 2021 parcels in Chicago.
 - Census 2010 blocks with housing-unit counts (TIGER2010BLKPOPHU) for the states above.
 
-Standard library plus geopandas/shapely (for the area-of-interest tiling of parcel downloads).
+Standard library plus missing_middleware.geom and helpers (area-of-interest tiling of parcel downloads).
 """
 from __future__ import annotations
 
@@ -142,22 +142,19 @@ def save_layer(man: Manifest, name: str, layer_url: str, refresh: bool, licence:
 
 
 def tiles_for(aoi, size_m: float = 1500.0) -> list[str]:
-    """Envelopes (WGS84 'xmin,ymin,xmax,ymax') of a square grid covering a projected (metre) AOI geometry."""
-    import geopandas as gpd
-    from shapely.geometry import box
+    """Envelopes (WGS84 'xmin,ymin,xmax,ymax') of a square grid covering a projected (metre) AOI (aoi_from)."""
+    from missing_middleware.geom_extra_station import bbox_to
     xmin, ymin, xmax, ymax = aoi.bounds
     boxes = []
     x = xmin
     while x < xmax:
         y = ymin
         while y < ymax:
-            b = box(x, y, x + size_m, y + size_m)
-            if b.intersects(aoi):
-                boxes.append(b)
+            if aoi.intersects_box(x, y, x + size_m, y + size_m):
+                boxes.append((x, y, x + size_m, y + size_m))
             y += size_m
         x += size_m
-    g = gpd.GeoSeries(boxes, crs=AOI_CRS).to_crs(4326)
-    return [",".join(f"{v:.6f}" for v in b.bounds) for b in g]
+    return [",".join(f"{v:.6f}" for v in bbox_to(b, AOI_CRS, 4326)) for b in boxes]
 
 
 AOI_CRS = 5070  # NAD83 Conus Albers (metres), used only for tiling
@@ -193,12 +190,18 @@ def ntm_rail_stops(man: Manifest, name: str, ntd_ids: list[str], refresh: bool) 
 
 
 def aoi_from(paths_and_buffers: list[tuple[object, float]]):
-    """Union of buffered geometries (GeoSeries in any CRS, buffer in metres) in AOI_CRS."""
-    import geopandas as gpd
-    parts = []
+    """Union of buffered geometries in AOI_CRS (geom_extra_tod.BufferedAoi). Each item: (frame, buffer in metres), the
+    frame as read by geom_extra_station.read_vector (polygons in "geometry" or points in x, y; CRS in df.attrs)."""
+    from missing_middleware.geom_extra_station import polys_to_crs, transform
+    from missing_middleware.geom_extra_tod import BufferedAoi
+    aoi = BufferedAoi()
     for g, buf in paths_and_buffers:
-        parts.append(gpd.GeoSeries(g).to_crs(AOI_CRS).buffer(buf).union_all())
-    return gpd.GeoSeries(parts, crs=AOI_CRS).union_all()
+        src = g.attrs["crs"]
+        if "geometry" in g.columns:
+            aoi.add(polys_to_crs(list(g["geometry"]), src, AOI_CRS), buf)
+        else:
+            aoi.add(transform(g["x"].to_numpy(float), g["y"].to_numpy(float), src, AOI_CRS), buf)
+    return aoi
 
 
 # --------------------------------------------------------------------------- Census 2010 blocks
@@ -235,7 +238,7 @@ CLT_LICENCE = "Disclaimer only, no named licence (public record, D1)"
 
 
 def fetch_charlotte(refresh: bool) -> None:
-    import geopandas as gpd
+    from missing_middleware.geom_extra_station import read_vector
     man = Manifest(D / "charlotte", "tod_cases_charlotte", "Mecklenburg County (permits) and City of Charlotte (zoning, parcels)")
     download_file(man, "permits.csv", CLT_PERMITS_CSV, refresh, CLT_LICENCE,
                   note="Mecklenburg County Building Permit Locations as republished on the City of Charlotte ArcGIS Hub "
@@ -248,10 +251,11 @@ def fetch_charlotte(refresh: bool) -> None:
     ntm_rail_stops(man, "rail_stops.geojson", ["40008"], refresh)
     save_layer(man, "council_districts.geojson", f"{CLT_GIS}/PLN/CouncilDistricts/MapServer/0", refresh, CLT_LICENCE,
                out_fields="*", page=100)
-    rz = gpd.read_file(D / "charlotte" / "rezoning_history.geojson")
+    rz = read_vector(D / "charlotte" / "rezoning_history.geojson")
     treat = rz[rz["Petition"].astype(str).str.startswith("2019-102")]
-    st = gpd.read_file(D / "charlotte" / "rail_stops.geojson")
-    aoi = aoi_from([(treat.geometry, 700.0), (st.geometry, 1000.0)])
+    treat.attrs["crs"] = rz.attrs["crs"]
+    st = read_vector(D / "charlotte" / "rail_stops.geojson")
+    aoi = aoi_from([(treat, 700.0), (st, 1000.0)])
     save_tiled_layer(man, "parcels.geojson", CLT_PARCELS, aoi, refresh, CLT_LICENCE,
                      out_fields="parcelid,landusecode,landuse_description,txt_vacantorimproved", id_field="parcelid")
 
@@ -426,10 +430,11 @@ def fetch_raleigh(refresh: bool) -> None:
     save_layer(man, "tod_overlays.geojson", f"{RAL}/TOD_Zoning_Overlays_View/FeatureServer/0", refresh, RAL_LICENCE,
                out_fields="*", page=1000)
     # Wake County parcels around the City's TOD map changes (land use only; owner fields not requested)
-    import geopandas as gpd
-    rz = gpd.read_file(D / "raleigh" / "rezoning_cases.geojson")
+    from missing_middleware.geom_extra_station import read_vector
+    rz = read_vector(D / "raleigh" / "rezoning_cases.geojson")
     tod = rz[rz["ZON_REQ"].astype(str).str.contains("TOD", case=False) & rz["PrevZoning"].astype(str).str.strip().eq("Various")]
-    aoi = aoi_from([(tod.geometry, 1500.0)])
+    tod.attrs["crs"] = rz.attrs["crs"]
+    aoi = aoi_from([(tod, 1500.0)])
     save_tiled_layer(man, "parcels.geojson", WAKE_PARCELS, aoi, refresh, WAKE_LICENCE,
                      out_fields="PIN_NUM,LAND_CLASS_DECODE,TYPE_USE_DECODE,CITY_DECODE,PLANNING_JURISDICTION,BILLING_CLASS_DECODE",
                      id_field="PIN_NUM")
@@ -445,7 +450,7 @@ PHX_CLASSES = ("001", "002", "003", "004", "007")  # Census structure classes: 1
 
 
 def fetch_phoenix(refresh: bool) -> None:
-    import geopandas as gpd
+    from missing_middleware.geom_extra_station import read_vector
     man = Manifest(D / "phoenix", "tod_cases_phoenix", "City of Phoenix (issued permits, zoning) and Maricopa County Assessor (parcels)")
     for y in range(1995, 2026):
         for c in PHX_CLASSES:
@@ -462,8 +467,8 @@ def fetch_phoenix(refresh: bool) -> None:
     save_layer(man, "wu_annual_plan.geojson", "https://maps.phoenix.gov/pds/rest/services/PDD/WU_Annual_Plan/MapServer/0",
                refresh, PHX_LICENCE, out_fields="ZYEAR,ZONING,REDEFINE1,DATE_APPRO,LABEL1,TOD_NAME", page=1000)
     ntm_rail_stops(man, "rail_stops.geojson", ["90209"], refresh)
-    wu = gpd.read_file(D / "phoenix" / "wu_zoning.geojson")
-    aoi = aoi_from([(wu.geometry, 1500.0)])
+    wu = read_vector(D / "phoenix" / "wu_zoning.geojson")
+    aoi = aoi_from([(wu, 1500.0)])
     save_tiled_layer(man, "parcels.geojson", MARICOPA_PARCELS, aoi, refresh, MARICOPA_LICENCE,
                      out_fields="APN,APN_DASH,PUC,CITY_ZONING,JURISDICTION,PHYSICAL_CITY", id_field="APN", page=1000)
 

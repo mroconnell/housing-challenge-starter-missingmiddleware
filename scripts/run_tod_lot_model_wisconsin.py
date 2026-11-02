@@ -13,7 +13,6 @@ import importlib.util as ilu
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
@@ -21,6 +20,9 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from missing_middleware import geom as G  # noqa: E402
+from missing_middleware import geom_extra_station as XS  # noqa: E402
+from missing_middleware import geom_extra_tod as X  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 import run_tod_lot_model as L  # noqa: E402
 
@@ -37,30 +39,42 @@ def _load(name: str):
     return m
 
 
+# Geometry without geopandas (docs/GEOMETRY.md): lots are polygon features (missing_middleware.geom's model) in the
+# station-area build's EPSG:3071 ('poly', with GEOS interior points px, py); point sets are frames with x, y.
+
 def width(geoms) -> list[float]:
-    out = []
-    for g in geoms:
-        try:
-            r = g.minimum_rotated_rectangle
-            xs, ys = r.exterior.coords.xy
-            out.append(float(min(((xs[i + 1] - xs[i]) ** 2 + (ys[i + 1] - ys[i]) ** 2) ** 0.5 for i in range(4))))
-        except Exception:  # noqa: BLE001
-            out.append(np.nan)
-    return out
+    """Shorter side of each lot's minimum rotated rectangle (metres; NaN for degenerate lots)."""
+    return list(X.min_rect_widths(list(geoms)))
 
 
-def built_points_milwaukee(crs) -> gpd.GeoDataFrame:
+def points_to_5070(pts: pd.DataFrame, crs) -> pd.DataFrame:
+    """A point frame (x, y in crs) with x, y moved to EPSG:5070."""
+    x, y = XS.transform(pts["x"].to_numpy(float), pts["y"].to_numpy(float), crs, 5070)
+    return pts.assign(x=x, y=y)
+
+
+def join_lots(pts: pd.DataFrame, polys: list) -> pd.DataFrame:
+    """Spatial join 'within', inner: one row per (point, lot containing it), with the point's columns and index_right
+    (the lot's position)."""
+    pi, gi = XS.point_poly_pairs(pts["x"].to_numpy(float), pts["y"].to_numpy(float), polys)
+    return pts.drop(columns=["x", "y"]).iloc[pi].assign(index_right=gi)
+
+
+def built_points_milwaukee(crs) -> pd.DataFrame:
     """Homes on lots built 2019-2024 (MPROP year built and units; Milwaukee's open permits carry no unit counts)."""
     m = pd.read_csv(RAW / "milwaukee_mprop" / "mprop.csv", dtype=str, usecols=["TAXKEY", "NR_UNITS", "YR_BUILT", "LAND_USE"])
     m["units"] = pd.to_numeric(m.NR_UNITS, errors="coerce").fillna(0)
     m["year"] = pd.to_numeric(m.YR_BUILT, errors="coerce")
     m = m[m.year.isin(BEFORE) & (m.units > 0)].drop_duplicates("TAXKEY")   # item 25.10: any lot with homes
-    v = gpd.read_file(RAW / "tod_capacity" / "v12_milwaukee.geojson", columns=["PARCELID"]).to_crs(crs)
+    lay = G.read_geojson(RAW / "tod_capacity" / "v12_milwaukee.geojson", columns=["PARCELID"])
+    v = lay.attrs.reset_index(drop=True)
+    v["_g"] = np.arange(len(v))
     v = v.merge(m, left_on="PARCELID", right_on="TAXKEY")
-    return gpd.GeoDataFrame({"units": v.units.values, "year": v.year.values}, geometry=v.geometry.representative_point().values, crs=crs)
+    x, y = X.interior_points(X.polygons_to_crs([lay.polys[i] for i in v["_g"]], lay.crs, crs))
+    return pd.DataFrame({"units": v.units.values, "year": v.year.values, "x": x, "y": y})
 
 
-def built_points_madison(crs) -> gpd.GeoDataFrame:
+def built_points_madison(crs) -> pd.DataFrame:
     """Madison new-construction permits with unit counts, 2019-2024, placed on lots as in the Madison test."""
     M = _load("run_tod_madison_test")
     from missing_middleware.permits import madison
@@ -70,22 +84,22 @@ def built_points_madison(crs) -> gpd.GeoDataFrame:
     index = AddressIndex(madison.address_reference(ptab, madison.load_address_points(RAW / "madison_parcels")))
     d = M.permits_on_lots(Lm, index, M.ref_points(index.ref), ptab)
     d = d[d.placed & d.year.isin(BEFORE)]
-    pts = Lm.geometry.representative_point().reindex(d["lot"].astype(int)).values
-    return gpd.GeoDataFrame({"units": d["units"].values, "year": d["year"].values}, geometry=pts, crs=Lm.crs).to_crs(crs)
+    xy = Lm[["px", "py"]].reindex(d["lot"].astype(int))   # GEOS interior points (EPSG:3071)
+    x, y = XS.transform(xy["px"].to_numpy(float), xy["py"].to_numpy(float), M.CRS_M, crs)
+    return pd.DataFrame({"units": d["units"].values, "year": d["year"].values, "x": x, "y": y})
 
 
-def city_frame(p: gpd.GeoDataFrame, city: str, rules, stops, built: gpd.GeoDataFrame, S) -> pd.DataFrame:
+def city_frame(p: pd.DataFrame, city: str, rules, stops, built: pd.DataFrame, S) -> pd.DataFrame:
     """One Wisconsin city's lots in the lot model's columns. p: every city parcel (station-area loader)."""
     from scipy.spatial import cKDTree
     c = S.compute(p, city + " city", rules, stops)            # lots inside the law's station areas, with capacity
-    c = gpd.GeoDataFrame(c, geometry="geometry", crs=p.crs)
-    inlaw = set(map(lambda g: g.wkb, c.geometry))
+    inlaw = set(c["_key"])                                    # exact outlines (identical outlines were collapsed)
     allp = p.copy()
-    allp["in_law"] = [g.wkb in inlaw for g in allp.geometry]
-    allp["acres"] = allp.geometry.area / S.M2_PER_ACRE
+    allp["in_law"] = allp["_key"].isin(inlaw)
+    allp["acres"] = allp["area_m2"] / S.M2_PER_ACRE
     # comparison lots: outside the law area, within 1/2 mile of it
-    lt = cKDTree(np.c_[gpd.GeoSeries(c["pt"].values, crs=p.crs).x, gpd.GeoSeries(c["pt"].values, crs=p.crs).y])
-    dist = lt.query(np.c_[allp["pt"].x, allp["pt"].y])[0]
+    lt = cKDTree(np.c_[c["px"], c["py"]])
+    dist = lt.query(np.c_[allp["px"], allp["py"]])[0]
     near = (~allp["in_law"]) & (dist <= 805)
     comp = allp[near].copy()
     comp["eligible"] = [S.C.is_eligible(z, u, "x") for z, u in zip(["residential"] * len(comp), comp.use_class)]
@@ -93,19 +107,17 @@ def city_frame(p: gpd.GeoDataFrame, city: str, rules, stops, built: gpd.GeoDataF
     comp["current_allowed_homes"] = np.nan
     comp["law_allowed_homes"] = np.nan
     c["in_law"] = True
-    keep = ["geometry", "pt", "acres", "homes", "use_class", "eligible", "capacity_gain", "current_allowed_homes",
+    keep = ["poly", "px", "py", "acres", "homes", "use_class", "eligible", "capacity_gain", "current_allowed_homes",
             "law_allowed_homes", "in_law", "sqft_per_home"]
     for k in keep:
         if k not in comp:
             comp[k] = np.nan
     f = pd.concat([c[keep], comp[keep]], ignore_index=True)
-    f = gpd.GeoDataFrame(f, geometry="geometry", crs=p.crs)
     sq = float(c["sqft_per_home"].iloc[0])
     d = pd.DataFrame(index=f.index)
     d["city"], d["unit"], d["eff_year"] = city, f"wi_{city.lower()}_law", EFF
-    p5070 = gpd.GeoSeries(f["pt"].values, crs=p.crs).to_crs(5070)
-    d["x5070"], d["y5070"] = p5070.x.values, p5070.y.values
-    d["width_m"] = width(f.geometry)
+    d["x5070"], d["y5070"] = XS.transform(f["px"].to_numpy(float), f["py"].to_numpy(float), S.CRS_M, 5070)
+    d["width_m"] = width(f["poly"])
     d["acres"] = f["acres"].values
     up = f["in_law"].astype(bool) & f["eligible"].astype(bool) & (f["capacity_gain"].fillna(0) > 0)
     d["treated"] = up.astype(float).values
@@ -130,10 +142,10 @@ def city_frame(p: gpd.GeoDataFrame, city: str, rules, stops, built: gpd.GeoDataF
                                  np.where(cls.str.contains("industr"), "ind", "unknown"))))
     d["census_homes"] = f["homes"].fillna(0).values
     # building before: on the lot and within 150 m (as near_units_before in training)
-    bp = built.to_crs(5070)
+    bp = points_to_5070(built, S.CRS_M)
     pts = np.c_[d.x5070, d.y5070]
-    t = cKDTree(np.c_[bp.geometry.x, bp.geometry.y]) if len(bp) else None
-    lot_j = gpd.sjoin(bp, f[["geometry"]].to_crs(5070), predicate="within")
+    t = cKDTree(np.c_[bp["x"], bp["y"]]) if len(bp) else None
+    lot_j = join_lots(bp, XS.polys_to_crs(list(f["poly"]), S.CRS_M, 5070))
     d["units_before"] = lot_j.groupby("index_right")["units"].sum().reindex(d.index).fillna(0).values
     d["near_units_before"] = [float(bp["units"].values[n].sum()) for n in t.query_ball_point(pts, r=150)] if t else 0.0
     d["built_before"] = (d["units_before"] > 0).astype(float)
@@ -158,17 +170,16 @@ def _build() -> None:
     mke_rules, mad_rules = S.read_rules("milwaukee"), S.read_rules("madison")
     print("Milwaukee ...", flush=True)
     mke = S.load_milwaukee()
-    fm = city_frame(mke, "Milwaukee", mke_rules, stops, built_points_milwaukee(mke.crs), S)
+    fm = city_frame(mke, "Milwaukee", mke_rules, stops, built_points_milwaukee(S.CRS_M), S)
     print("Madison ...", flush=True)
     mad = S.load_madison({r["district"] for r in mad_rules})
-    fd = city_frame(mad, "Madison", mad_rules, stops, built_points_madison(mad.crs), S)
+    fd = city_frame(mad, "Madison", mad_rules, stops, built_points_madison(S.CRS_M), S)
     D = pd.concat([fm, fd], ignore_index=True)
     # qualifying stops for distance and the 1-mile count: the Wisconsin law's stops (rail, rapid, 15-minute bus)
     from scipy.spatial import cKDTree
     s = pd.read_csv(REFERENCE / "tod_stops.csv")
     s = s[s.flag_a_rapid == 1]   # item 25.7: rail and rapid only, as in training
-    sp = gpd.GeoSeries(gpd.points_from_xy(s.lon, s.lat), crs=4326).to_crs(5070)
-    st = cKDTree(np.c_[sp.x, sp.y])
+    st = cKDTree(np.c_[L.lonlat_to_5070(s.lon, s.lat)])
     xy = D[["x5070", "y5070"]].to_numpy()
     D["dist_station_m"] = st.query(xy)[0]
     D["stops_1mile"] = [len(n) for n in st.query_ball_point(xy, r=1609)]
@@ -182,10 +193,10 @@ def _build() -> None:
     D["share_upzoned_half_mile"] = share
     # item 25.9: homes on lot = 2020 census block homes shared among the table's lots in the block by lot area
     src = sorted(RAW.rglob("tl_2020_55_tabblock20.zip"))[0]
-    pts = gpd.GeoDataFrame(geometry=gpd.points_from_xy(D["x5070"], D["y5070"]), index=D.index, crs=5070)
-    b = gpd.read_file(src, bbox=tuple(pts.to_crs(4269).total_bounds), columns=["GEOID20", "HOUSING20"]).to_crs(5070)
-    j = gpd.sjoin(pts, b, predicate="within", how="left")
-    j = j[~j.index.duplicated()]
+    lon, lat = XS.transform(D["x5070"].to_numpy(float), D["y5070"].to_numpy(float), 5070, 4269)
+    b = XS.read_vector(src, None, columns=["GEOID20", "HOUSING20"], bbox=(lon.min(), lat.min(), lon.max(), lat.max()))
+    k = XS.first_within(D["x5070"].to_numpy(float), D["y5070"].to_numpy(float), L.polys_5070(b))   # sjoin 'within', first match
+    j = b.drop(columns="geometry").reset_index(drop=True).reindex(np.where(k >= 0, k, -1)).set_axis(D.index)
     grp = D["unit"].astype(str) + "|" + j["GEOID20"].astype(str)
     D["census_homes"] = (j["HOUSING20"].astype(float) * D["acres"] / D["acres"].groupby(grp).transform("sum")).values
     D = L.add_group_shares(D)

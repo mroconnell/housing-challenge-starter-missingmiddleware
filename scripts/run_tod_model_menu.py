@@ -269,15 +269,14 @@ def run_pace(methods: list[int]) -> None:
 
 def wi_pace_rows(P, series, hu) -> tuple[pd.DataFrame, np.ndarray]:
     """Wisconsin lots for 2027-2031 with the pace traits; near = main-case station area (rail/rapid 1/2 mi, 15-min bus 1/4 mi)."""
-    import geopandas as gpd
     from scipy.spatial import cKDTree
     W = pd.read_parquet(L.OUT / "wi_lots.parquet")
     W = W.assign(w=1.0, window="forecast", start=2027, end=2031, y5=np.nan)
     W["city"] = W["city"] + " placebo"   # the permit-survey place keys (Milwaukee placebo, Madison placebo) name the cities
     S = pd.read_csv(REFERENCE / "tod_stops.csv")
-    p = gpd.GeoSeries(gpd.points_from_xy(S.lon, S.lat), crs=4326).to_crs(5070)
+    px, py = L.lonlat_to_5070(S.lon, S.lat)
     xy = W[["x5070", "y5070"]].to_numpy()
-    d = lambda m: cKDTree(np.c_[p.x.values[m], p.y.values[m]]).query(xy)[0]  # noqa: E731
+    d = lambda m: cKDTree(np.c_[px[m], py[m]]).query(xy)[0]  # noqa: E731
     near = (d((S.flag_a_rapid == 1).values) <= 805) | (d((S.flag_b_15min == 1).values) <= 402)
     return W, near
 

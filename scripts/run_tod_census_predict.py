@@ -10,10 +10,8 @@ import pickle
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
-from shapely.ops import unary_union
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -22,6 +20,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from missing_middleware.paths import PROCESSED, RAW, REFERENCE  # noqa: E402
 from missing_middleware.tod import traits as T  # noqa: E402
 from missing_middleware.tod.control_cities import read_gazetteer  # noqa: E402
+from missing_middleware import geom_extra_tod as X  # noqa: E402
 from scripts import run_tod_census_cases as R  # noqa: E402
 from scripts.run_tod_census_share import slc_boundary  # noqa: E402
 
@@ -66,11 +65,10 @@ def units() -> pd.DataFrame:
                "bellevue_belred_2009": "Bellevue", "austin_tod_station_plans": "Austin", "tysons_2010": "Tysons"}
     geoms = {c: R.boundary(c) for c in R.NEW_CASES}
     geoms["salt_lake_city_tsa_2010"] = slc_boundary()
-    every = unary_union([g[1] for g in geoms.values()])
-    for case, (treated, exclude) in geoms.items():
+    every = X.Polygons([f for g in geoms.values() for f in g[1]])
+    for case, (tp, ep) in geoms.items():
         st = "49" if case == "salt_lake_city_tsa_2010" else R.NEW_CASES[case][0]
-        ring = treated.buffer(R.HALF).difference(every).difference(exclude)
-        m = measure(st, treated, ring)
+        m = measure(st, X.Polygons(tp), R.ring(tp, R.HALF, every, X.Polygons(ep)))
         if m:
             rows.append({"case": case, "city": city_of.get(case, "Salt Lake City"), **m})
     cases = {"stpaul_green_line_2011": ("27", "Saint Paul"), "seattle_nbh_othello_2012": ("53", "Seattle"),
@@ -79,23 +77,21 @@ def units() -> pd.DataFrame:
              "philadelphia_2012_remapping": ("42", "Philadelphia")}
     for case, (st, city) in cases.items():
         mem = pickle.loads((PROCESSED / "tod_net_effect" / f"areas_{case}.pkl").read_bytes())
-        to = lambda g, crs: gpd.GeoSeries([g], crs=crs).to_crs(R.CRS).iloc[0]  # noqa: E731
-        treated = unary_union([to(m["treated_union"], m["crs"]) for m in mem])
-        upz = unary_union([to(m["upzoned_union"], m["crs"]) for m in mem])
-        m = measure(st, treated, upz.buffer(R.QUARTER).difference(upz))
+        treated = R.union([f for m in mem for f in R.member_polys(m, "treated_union")])
+        upz = [f for m in mem for f in R.member_polys(m, "upzoned_union")]
+        m = measure(st, treated, R.ring(upz, R.QUARTER, R.union(upz)))
         if m:
             rows.append({"case": case, "city": city, **m})
     for mm in pickle.loads((PROCESSED / "tod_net_effect" / "areas_nyc_pooled_2003_2013.pkl").read_bytes()):
         if not 2008 <= mm["effective_year"] <= 2013:
             continue
-        to = lambda g: gpd.GeoSeries([g], crs=mm["crs"]).to_crs(R.CRS).iloc[0]  # noqa: E731
-        upz = to(mm["upzoned_union"])
-        m = measure("36", to(mm["treated_union"]), upz.buffer(R.QUARTER).difference(upz))
+        upz = R.member_polys(mm, "upzoned_union")
+        m = measure("36", R.union(R.member_polys(mm, "treated_union")), R.ring(upz, R.QUARTER, R.union(upz)))
         if m:
             rows.append({"case": f"nyc_{mm.get('id')}", "city": "New York", **m})
-    z = gpd.read_file(RAW / "tod_cases" / "seattle" / "zoning_current.geojson").to_crs(R.CRS)
-    rv = z[z["ZONINGHISTORY"].astype(str).str.contains("ORD123816")].geometry.make_valid().union_all()
-    m = measure("53", rv, rv.buffer(R.HALF).difference(rv))
+    z = R.layer(RAW / "tod_cases" / "seattle" / "zoning_current.geojson")
+    rv = R.valid(z[z["ZONINGHISTORY"].astype(str).str.contains("ORD123816")])
+    m = measure("53", X.Polygons(rv), R.ring(rv, R.HALF, X.Polygons(rv)))
     rows.append({"case": "seattle_roosevelt_2012", "city": "Seattle", **m})
     d = pd.DataFrame(rows)
     gaz = read_gazetteer(RAW / "tod_control_cities" / "Gaz_places_national.zip").set_index("geoid")["hu10"]

@@ -12,12 +12,13 @@ import json
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
+from scipy.spatial import cKDTree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from missing_middleware import geom_extra_station as S  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 D = RAW / "tod_slc"
@@ -37,39 +38,54 @@ NEW_2011_2013 = ["Decker Lake Station", "West Valley Central Station", "Redwood 
                  "Kimballs Lane Station", "Draper Town Center Station"]
 
 
-def stations() -> gpd.GeoDataFrame:
+# Geometry without geopandas (docs/GEOMETRY.md): stations and block points are frames with x, y in CRS; zoning is a
+# frame with "geometry" (polygon features).
+def stations() -> pd.DataFrame:
     s = pd.DataFrame(json.load(open(D / "uta_stops.json")))
     s = s[s["stop_type_text"].str.contains("rail", case=False, na=False)]
     s["name"] = s["stop_name"].str.strip()
     s.loc[s["name"].str.upper() == "RIVER TRAIL STATION", "name"] = "River Trail Station"
     s = s.groupby("name", as_index=False)[["stop_lat", "stop_lon"]].mean()
-    return gpd.GeoDataFrame(s, geometry=gpd.points_from_xy(s.stop_lon, s.stop_lat), crs=4326).to_crs(CRS)
+    x, y = S.transform(s["stop_lon"].to_numpy(float), s["stop_lat"].to_numpy(float), 4326, CRS)
+    return s.assign(x=x, y=y)
 
 
-def blocks(year: int) -> gpd.GeoDataFrame:
+def blocks(year: int) -> pd.DataFrame:
     if year == 2010:
-        b = gpd.read_file(D / "tabblock2010_49_pophu.zip")
+        b = S.read_vector(D / "tabblock2010_49_pophu.zip", CRS, columns=["BLOCKID10", "HOUSING10"])
         b = b.rename(columns={"BLOCKID10": "geoid", "HOUSING10": "homes"})
     else:
-        b = gpd.read_file(D / "tl_2020_49_tabblock20.zip")
+        b = S.read_vector(D / "tl_2020_49_tabblock20.zip", CRS, columns=["GEOID20", "HOUSING20"])
         b = b.rename(columns={"GEOID20": "geoid", "HOUSING20": "homes"})
-    b = b.to_crs(CRS)
-    b["land"] = b.area   # polygon area for both years (the 2010 file has no land-area field; plan section 8)
-    pts = b.copy()
-    pts["geometry"] = b.representative_point()
-    return pts[["geoid", "homes", "land", "geometry"]]
+    polys = list(b["geometry"])
+    b["land"] = S.areas(polys)   # polygon area for both years (the 2010 file has no land-area field; plan section 8)
+    b["x"], b["y"] = S.interior_points(polys)   # representative points (GEOS point on surface)
+    return b[["geoid", "homes", "land", "x", "y"]]
 
 
-def assign(pts: gpd.GeoDataFrame, st: gpd.GeoDataFrame, tsa: gpd.GeoDataFrame) -> pd.Series:
+def _inside(pts: pd.DataFrame, zones: pd.DataFrame) -> pd.Series:
+    """Point within any of the polygons (spatial join 'within')."""
+    k = S.first_within(pts["x"].to_numpy(float), pts["y"].to_numpy(float), list(zones["geometry"]))
+    return pd.Series(k >= 0, index=pts.index)
+
+
+def _min_distance(pts: pd.DataFrame, st: pd.DataFrame) -> pd.Series:
+    """Distance from each point to the nearest of the stations."""
+    if not len(st):
+        return pd.Series(np.nan, index=pts.index)
+    d, _ = cKDTree(st[["x", "y"]].to_numpy(float)).query(pts[["x", "y"]].to_numpy(float))
+    return pd.Series(d, index=pts.index)
+
+
+def assign(pts: pd.DataFrame, st: pd.DataFrame, tsa: pd.DataFrame) -> pd.Series:
     """Group of each block point: treated, comp1 (same line, not TSA), comp2 (new stations elsewhere), or none."""
     tsa_main = tsa[tsa["station"].isin(TSA_STATIONS)]
-    in_tsa_main = gpd.sjoin(pts, tsa_main[["geometry"]], predicate="within", how="left")["index_right"].notna()
-    in_tsa_main = in_tsa_main.groupby(level=0).any()
-    in_any_tsa = gpd.sjoin(pts, tsa[["geometry"]], predicate="within", how="left")["index_right"].notna().groupby(level=0).any()
+    in_tsa_main = _inside(pts, tsa_main)
+    in_any_tsa = _inside(pts, tsa)
     s1 = st[st["name"].isin(TSA_STATIONS)]
     s2 = st[st["name"].isin(NEW_2011_2013)]
-    d1 = pts.geometry.apply(lambda p: s1.distance(p).min())
-    d2 = pts.geometry.apply(lambda p: s2.distance(p).min())
+    d1 = _min_distance(pts, s1)
+    d2 = _min_distance(pts, s2)
     g = pd.Series("none", index=pts.index)
     g[(d2 <= HALF)] = "comp2"
     g[(d1 <= HALF) & ~in_any_tsa] = "comp1"
@@ -77,30 +93,35 @@ def assign(pts: gpd.GeoDataFrame, st: gpd.GeoDataFrame, tsa: gpd.GeoDataFrame) -
     return g, d1
 
 
+def tsa_zones(st: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
+    """TSA zoning polygons (frame with "geometry" in CRS) and the station nearest each one's representative point
+    (sjoin_nearest; exact ties to the first station)."""
+    z = S.read_vector(D / "slc_zoning_2020_jacobs.geojson", CRS)
+    tsa = z[z["ZONING"].str.startswith("TSA")].copy()
+    rx, ry = S.interior_points(list(tsa["geometry"]))
+    k, _ = S.nearest_lowest(rx, ry, st["x"].to_numpy(float), st["y"].to_numpy(float))
+    return tsa, pd.Series(st["name"].to_numpy()[k], index=tsa.index)
+
+
 def main() -> None:
     st = stations()
     missing = [n for n in TSA_STATIONS + NEW_2011_2013 + LATER_TSA if n not in set(st["name"])]
     print("stations not found:", missing)
-    z = gpd.read_file(D / "slc_zoning_2020_jacobs.geojson").to_crs(CRS)
-    tsa = z[z["ZONING"].str.startswith("TSA")].copy()
-    rp = tsa.copy()
-    rp["geometry"] = tsa.representative_point()
-    near = gpd.sjoin_nearest(rp, st[["name", "geometry"]], distance_col="d")
-    near = near[~near.index.duplicated()]
-    tsa["station"] = near["name"]
+    tsa, near = tsa_zones(st)
+    tsa["station"] = near
     tsa["core"] = tsa["ZONING"].str.endswith("-C")
 
     rows, area_rows = [], []
     data = {}
     for year in (2010, 2020):
         pts = blocks(year)
-        bbox = st[st["name"].isin(TSA_STATIONS + NEW_2011_2013)].total_bounds
-        pts = pts.cx[bbox[0] - 3000:bbox[2] + 3000, bbox[1] - 3000:bbox[3] + 3000].copy()
+        sb = st[st["name"].isin(TSA_STATIONS + NEW_2011_2013)]
+        bbox = (sb["x"].min(), sb["y"].min(), sb["x"].max(), sb["y"].max())
+        pts = pts[pts["x"].between(bbox[0] - 3000, bbox[2] + 3000) & pts["y"].between(bbox[1] - 3000, bbox[3] + 3000)].copy()
         grp, d1 = assign(pts, st, tsa)
-        core = gpd.sjoin(pts, tsa[tsa["core"] & tsa["station"].isin(TSA_STATIONS)][["geometry"]], predicate="within",
-                         how="left")["index_right"].notna().groupby(level=0).any()
+        core = _inside(pts, tsa[tsa["core"] & tsa["station"].isin(TSA_STATIONS)])
         pts["group"], pts["d1"], pts["core"] = grp, d1, core
-        data[year] = pts[pts["group"] != "none"].drop(columns="geometry")
+        data[year] = pts[pts["group"] != "none"].drop(columns=["x", "y"])
     b10, b20 = data[2010], data[2020]
 
     def totals(df10, df20):

@@ -14,15 +14,16 @@ import sys
 import zipfile
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
-from shapely.ops import unary_union
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from missing_middleware import geom_extra_foundation as GF  # noqa: E402
+from missing_middleware import geom_extra_station as S  # noqa: E402
+from missing_middleware import geom_extra_tod as X  # noqa: E402
 from missing_middleware.paths import PROCESSED, RAW, REFERENCE  # noqa: E402
 from scripts import run_tod_census_cases as R  # noqa: E402
 from scripts.fetch_tod_cases import Manifest, download_file  # noqa: E402
@@ -46,10 +47,12 @@ def fetch() -> None:
         man.record("old_city_overlay.geojson", data, url, licence="City of Philadelphia open data")
 
 
-def points_2000(st: str) -> gpd.GeoDataFrame:
+def points_2000(st: str) -> pd.DataFrame:
+    """2000 census blocks as points (internal points) with homes, land (m2) and x, y in R.CRS."""
     f = R.CACHE / f"blocks_{st}_2000.parquet"
     if f.exists():
-        return gpd.read_parquet(f)
+        a, x, y, _ = GF.read_geoparquet_points(f)
+        return a.assign(x=x, y=y)
     ab = STATES[st][1]
     rows = []
     with zipfile.ZipFile(D / f"{ab}geo_uf1.zip") as z:
@@ -58,9 +61,10 @@ def points_2000(st: str) -> gpd.GeoDataFrame:
             if line[8:11] == "101" and line[11:13] == "00":
                 rows.append((float(line[301:310]), float(line[172:186]), float(line[310:319]) / 1e6, float(line[319:329]) / 1e6))
     d = pd.DataFrame(rows, columns=["homes", "land", "lat", "lon"])
-    g = gpd.GeoDataFrame(d[["homes", "land"]], geometry=gpd.points_from_xy(d.lon, d.lat), crs=4269).to_crs(R.CRS)
-    g.to_parquet(f)
-    return g
+    x, y = S.transform(d["lon"].to_numpy(float), d["lat"].to_numpy(float), 4269, R.CRS)
+    g = d[["homes", "land"]]
+    GF.write_geoparquet_points(g, x, y, f, R.CRS)
+    return g.assign(x=x, y=y)
 
 
 def three(st: str, treated, comp):
@@ -94,10 +98,10 @@ def boot(g, rng) -> tuple[float, float, float, float]:
 
 
 def old_city(rng) -> dict:
-    ov = gpd.read_file(D / "old_city_overlay.geojson").to_crs(R.CRS)
-    treated = ov.geometry.make_valid().union_all()
-    comp = treated.buffer(R.HALF).difference(treated)
-    g = three("42", treated, comp)
+    ov = R.layer(D / "old_city_overlay.geojson")
+    tp = R.valid(ov)
+    treated = X.Polygons(tp)
+    g = three("42", treated, R.ring(tp, R.HALF, treated))
     d0, d1 = diffs(g)
     lo0, hi0, lo, hi = boot(g, rng)
     t = g
@@ -117,29 +121,28 @@ def census_set_areas():
     out = []
     geoms = {c: R.boundary(c) for c in R.NEW_CASES}
     geoms["salt_lake_city_tsa_2010"] = slc_boundary()
-    every = unary_union([g[1] for g in geoms.values()])
+    every = X.Polygons([f for g in geoms.values() for f in g[1]])
     adopted = {"jersey_city_journal_square_2010": 2010, "milpitas_tasp_2008": 2008, "phoenix_wu_2015_2016": 2015,
                "bellevue_belred_2009": 2009, "austin_tod_station_plans": 2007, "tysons_2010": 2010, "salt_lake_city_tsa_2010": 2010}
     for c, (t, ex) in geoms.items():
         st = "49" if c == "salt_lake_city_tsa_2010" else R.NEW_CASES[c][0]
-        out.append((c, st, adopted[c], t, t.buffer(R.HALF).difference(every).difference(ex)))
+        out.append((c, st, adopted[c], X.Polygons(t), R.ring(t, R.HALF, every, X.Polygons(ex))))
     cases = {"stpaul_green_line_2011": ("27", 2011), "seattle_nbh_othello_2012": ("53", 2012), "seattle_mount_baker_2014": ("53", 2014),
              "la_warner_center_2013": ("06", 2013), "la_cornfield_arroyo_seco_2013": ("06", 2013), "chicago_tod_2013_2015": ("17", 2013),
              "philadelphia_2012_remapping": ("42", 2012)}
     for c, (st, yr) in cases.items():
         mem = pickle.loads((PROCESSED / "tod_net_effect" / f"areas_{c}.pkl").read_bytes())
-        to = lambda g, crs: gpd.GeoSeries([g], crs=crs).to_crs(R.CRS).iloc[0]  # noqa: E731
-        t = unary_union([to(m["treated_union"], m["crs"]) for m in mem])
-        u = unary_union([to(m["upzoned_union"], m["crs"]) for m in mem])
-        out.append((c, st, yr, t, u.buffer(R.QUARTER).difference(u)))
+        t = R.union([f for m in mem for f in R.member_polys(m, "treated_union")])
+        u = [f for m in mem for f in R.member_polys(m, "upzoned_union")]
+        out.append((c, st, yr, t, R.ring(u, R.QUARTER, R.union(u))))
     for m in pickle.loads((PROCESSED / "tod_net_effect" / "areas_nyc_pooled_2003_2013.pkl").read_bytes()):
         if 2008 <= m["effective_year"] <= 2013:
-            to = lambda g: gpd.GeoSeries([g], crs=m["crs"]).to_crs(R.CRS).iloc[0]  # noqa: E731
-            u = to(m["upzoned_union"])
-            out.append((f"nyc_{m.get('id')}", "36", m["effective_year"], to(m["treated_union"]), u.buffer(R.QUARTER).difference(u)))
-    z = gpd.read_file(RAW / "tod_cases" / "seattle" / "zoning_current.geojson").to_crs(R.CRS)
-    rv = z[z["ZONINGHISTORY"].astype(str).str.contains("ORD123816")].geometry.make_valid().union_all()
-    out.append(("seattle_roosevelt_2012", "53", 2012, rv, rv.buffer(R.HALF).difference(rv)))
+            u = R.member_polys(m, "upzoned_union")
+            out.append((f"nyc_{m.get('id')}", "36", m["effective_year"], R.union(R.member_polys(m, "treated_union")),
+                        R.ring(u, R.QUARTER, R.union(u))))
+    z = R.layer(RAW / "tod_cases" / "seattle" / "zoning_current.geojson")
+    rv = R.valid(z[z["ZONINGHISTORY"].astype(str).str.contains("ORD123816")])
+    out.append(("seattle_roosevelt_2012", "53", 2012, X.Polygons(rv), R.ring(rv, R.HALF, X.Polygons(rv))))
     return out
 
 

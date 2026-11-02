@@ -5,16 +5,16 @@ r_typical_90_high,1.0204,same,same,measured
 r_little,0.2399,same,"Chicago 2015 (held out), reference/tod_case_estimates.csv",measured
 r_strong,2.5654000000000003,same,"mean of Park Slope and Downtown Brooklyn, reference/tod_case_estimates.csv",measured
 r_reference_line,0.4556,same,median of measured per-FAR cases: New York pooled set (contains Park Slope and Downtown Brooklyn) and Chicago,measured
-ramp_year1,0.48917520635925876,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
-ramp_year2,0.4639503652839577,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
-ramp_year3,1.320752872250909,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
-ramp_year4,2.3951834998378896,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
-ramp_year5,0.3309380562679851,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
-ramp_year1_year5_alt,0.48917520635925876,same,sensitivity: year 5 = mean of years 3 to 5,measured
-ramp_year2_year5_alt,0.4639503652839577,same,sensitivity: year 5 = mean of years 3 to 5,measured
-ramp_year3_year5_alt,1.320752872250909,same,sensitivity: year 5 = mean of years 3 to 5,measured
-ramp_year4_year5_alt,2.3951834998378896,same,sensitivity: year 5 = mean of years 3 to 5,measured
-ramp_year5_year5_alt,1.3489581427855946,same,sensitivity: year 5 = mean of years 3 to 5,measured
+ramp_year1,0.48917947435366527,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
+ramp_year2,0.46394519547340995,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
+ramp_year3,1.3207563534338143,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
+ramp_year4,2.3951765027579195,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
+ramp_year5,0.33094247398119075,share of r reached in year k (mean of years 1-5 = 1),"New York pooled set gap per added FAR by event year, reference/tod_case_rates_by_year.csv",measured
+ramp_year1_year5_alt,0.48917947435366527,same,sensitivity: year 5 = mean of years 3 to 5,measured
+ramp_year2_year5_alt,0.46394519547340995,same,sensitivity: year 5 = mean of years 3 to 5,measured
+ramp_year3_year5_alt,1.3207563534338143,same,sensitivity: year 5 = mean of years 3 to 5,measured
+ramp_year4_year5_alt,2.3951765027579195,same,sensitivity: year 5 = mean of years 3 to 5,measured
+ramp_year5_year5_alt,1.3489584433909747,same,sensitivity: year 5 = mean of years 3 to 5,measured
 sqft_per_home_milwaukee,1192.0,gross sq ft per home,"reference/tod_floor_area_per_home.csv (MPROP 2026, 5+ home buildings built 2018-2025)",measured
 sqft_per_home_madison,1512.0,gross sq ft per home,"reference/tod_floor_area_per_home.csv (permits citywide, 2018-2025)",measured
 sqft_per_home_pooled,1467.0,gross sq ft per home,reference/tod_floor_area_per_home.csv,measured

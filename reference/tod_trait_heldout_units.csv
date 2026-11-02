@@ -21,7 +21,7 @@ baseline (weighted mean),chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.4768
 baseline (weighted mean),chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.4768
 baseline (weighted mean),chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.4768
 baseline (weighted mean),chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.4768
-baseline (weighted mean),mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.4768
+baseline (weighted mean),mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.4768
 baseline (weighted mean),mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.4768
 baseline (weighted mean),mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.4768
 baseline (weighted mean),mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.4768
@@ -48,7 +48,7 @@ t01_home_value,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.5224
 t01_home_value,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,1.0985
 t01_home_value,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.7945
 t01_home_value,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.7454
-t01_home_value,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.7719
+t01_home_value,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.7719
 t01_home_value,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.4902
 t01_home_value,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.4049
 t01_home_value,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.7047
@@ -75,7 +75,7 @@ t02_lot_size,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.6285
 t02_lot_size,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.6479
 t02_lot_size,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.6266
 t02_lot_size,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.6217
-t02_lot_size,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.6419
+t02_lot_size,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.6419
 t02_lot_size,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.5413
 t02_lot_size,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.4896
 t02_lot_size,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.6085
@@ -102,7 +102,7 @@ t03_existing_density,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.8396
 t03_existing_density,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.9393
 t03_existing_density,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.9093
 t03_existing_density,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.5263
-t03_existing_density,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.7839
+t03_existing_density,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.7839
 t03_existing_density,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.4027
 t03_existing_density,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.5084
 t03_existing_density,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.5226
@@ -129,7 +129,7 @@ t04_income,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.4768
 t04_income,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.4456
 t04_income,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.6877
 t04_income,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.3973
-t04_income,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.7428
+t04_income,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.7428
 t04_income,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.7674
 t04_income,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.5812
 t04_income,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.9081
@@ -156,7 +156,7 @@ t05_city_land_area,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.4869
 t05_city_land_area,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.4869
 t05_city_land_area,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.4869
 t05_city_land_area,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.4869
-t05_city_land_area,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.3723
+t05_city_land_area,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.3723
 t05_city_land_area,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.3723
 t05_city_land_area,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.3723
 t05_city_land_area,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.3723
@@ -183,7 +183,7 @@ t06_rent,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.3632
 t06_rent,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.045
 t06_rent,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.5032
 t06_rent,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,-0.1128
-t06_rent,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.9283
+t06_rent,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.9283
 t06_rent,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.6295
 t06_rent,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.4168
 t06_rent,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.7014
@@ -210,7 +210,7 @@ t07_added_far,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,-1.0539
 t07_added_far,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,-1.0539
 t07_added_far,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,-1.0539
 t07_added_far,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,-1.0539
-t07_added_far,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,-0.702
+t07_added_far,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,-0.702
 t07_added_far,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.1654
 t07_added_far,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,-0.702
 t07_added_far,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,-0.702
@@ -237,7 +237,7 @@ t08_rate_before,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.4855
 t08_rate_before,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.4664
 t08_rate_before,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.4664
 t08_rate_before,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.4664
-t08_rate_before,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.5173
+t08_rate_before,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.5173
 t08_rate_before,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.4765
 t08_rate_before,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.5338
 t08_rate_before,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.5174
@@ -264,7 +264,7 @@ t09_vacant_parking_industrial_share,chi_morse,Chicago,Chicago: Morse,11.43,0.363
 t09_vacant_parking_industrial_share,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.5463
 t09_vacant_parking_industrial_share,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.9107
 t09_vacant_parking_industrial_share,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.1732
-t09_vacant_parking_industrial_share,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.2907
+t09_vacant_parking_industrial_share,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.2907
 t09_vacant_parking_industrial_share,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.405
 t09_vacant_parking_industrial_share,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,1.3976
 t09_vacant_parking_industrial_share,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.6846
@@ -291,7 +291,7 @@ t10_km_to_downtown,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.1087
 t10_km_to_downtown,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,1.1859
 t10_km_to_downtown,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.6836
 t10_km_to_downtown,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.5835
-t10_km_to_downtown,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,1.3637
+t10_km_to_downtown,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,1.3637
 t10_km_to_downtown,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.7555
 t10_km_to_downtown,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,1.0463
 t10_km_to_downtown,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,1.1326
@@ -318,7 +318,7 @@ t11_transit_jobs_access,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.4178
 t11_transit_jobs_access,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.6661
 t11_transit_jobs_access,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.5501
 t11_transit_jobs_access,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.5116
-t11_transit_jobs_access,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.1689
+t11_transit_jobs_access,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.1689
 t11_transit_jobs_access,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.1209
 t11_transit_jobs_access,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.144
 t11_transit_jobs_access,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.1359
@@ -345,7 +345,7 @@ t12_parking_cut,chi_morse,Chicago,Chicago: Morse,11.43,0.3632,0.083
 t12_parking_cut,chi_sedgwick,Chicago,Chicago: Sedgwick,5.71,0.1083,0.083
 t12_parking_cut,chi_sheridan,Chicago,Chicago: Sheridan,6.15,0.0406,0.083
 t12_parking_cut,chi_wilson,Chicago,Chicago: Wilson,5.33,-0.0239,0.083
-t12_parking_cut,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2862,0.083
+t12_parking_cut,mad_isthmus_core_within_1_mile_of_the_capitol,Madison,Madison: Isthmus core (within 1 mile of the Capitol),27.26,11.2861,0.083
 t12_parking_cut,mad_northeast_of_the_core,Madison,Madison: northeast of the core,262.09,-1.268,0.083
 t12_parking_cut,mad_south_of_the_core,Madison,Madison: south of the core,40.63,-0.6018,0.083
 t12_parking_cut,mad_southwest_of_the_core,Madison,Madison: southwest of the core,66.49,0.4705,0.083

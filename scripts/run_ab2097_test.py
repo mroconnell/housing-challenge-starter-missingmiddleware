@@ -34,53 +34,74 @@ A2_COLS = ["JURIS_NAME", "YEAR", "UNIT_CAT", "NO_BUILDING_PERMITS", "LATITUDE", 
 
 # --------------------------------------------------------------------------- geography
 
-def load_stops(kind: str = "all"):
-    import geopandas as gpd
-    s = gpd.read_file(D / "major_transit_stops.geojson")
+def load_stops(kind: str = "all") -> pd.DataFrame:
+    """Existing major transit stops as a frame with x, y in CRS."""
+    from missing_middleware.geom_extra_station import read_vector
+    s = read_vector(D / "major_transit_stops.geojson", CRS)
     s = s[s["plan_name"].fillna("").str.strip() == ""]  # existing stops only (section 8 item 6)
     if kind == "rail_brt_ferry":
         s = s[s["hqta_type"].isin(["major_stop_rail", "major_stop_brt", "major_stop_ferry"])]
-    return s.to_crs(CRS)
+    return s
 
 
-def nearest_m(points, stops) -> np.ndarray:
-    from shapely import STRtree
-    tree = STRtree(stops.geometry.values)
-    idx, dist = tree.query_nearest(points.geometry.values, return_distance=True, all_matches=False)
+def nearest_m(points: pd.DataFrame, stops: pd.DataFrame) -> np.ndarray:
+    """Distance (metres) from each point (frame with x, y) to the nearest stop; inf where a point has no coordinates."""
+    from missing_middleware.geom_extra_station import nearest_lowest
+    px, py = points["x"].to_numpy(float), points["y"].to_numpy(float)
     out = np.full(len(points), np.inf)
-    out[idx[0]] = dist
+    ok = np.isfinite(px) & np.isfinite(py)
+    _, d = nearest_lowest(px[ok], py[ok], stops["x"].to_numpy(float), stops["y"].to_numpy(float))
+    out[ok] = d
     return out
 
 
-def in_toc(points) -> np.ndarray:
-    import geopandas as gpd
-    t = gpd.read_file(D / "la_toc_tiers_2017.geojson").to_crs(CRS).explode(index_parts=False)
-    t = t[["geometry"]].reset_index(drop=True)
-    xmin, ymin, xmax, ymax = t.total_bounds
-    b = points.geometry
-    cand = points[(b.x >= xmin) & (b.x <= xmax) & (b.y >= ymin) & (b.y <= ymax)]
-    j = gpd.sjoin(cand[["geometry"]], t, how="inner", predicate="within")
+def in_toc(points: pd.DataFrame) -> np.ndarray:
+    """Points (frame with x, y) inside any part of Los Angeles's TOC tier areas (parts taken one by one, as an
+    exploded layer)."""
+    from missing_middleware.geom_extra_station import feature_bounds, first_within, read_vector
+    t = read_vector(D / "la_toc_tiers_2017.geojson", CRS)
+    parts = [[part] for f in t["geometry"] for part in (f or [])]
+    b = feature_bounds(parts)
+    xmin, ymin, xmax, ymax = np.nanmin(b[:, 0]), np.nanmin(b[:, 1]), np.nanmax(b[:, 2]), np.nanmax(b[:, 3])
+    px, py = points["x"].to_numpy(float), points["y"].to_numpy(float)
+    cand = np.flatnonzero((px >= xmin) & (px <= xmax) & (py >= ymin) & (py <= ymax))
     flag = np.zeros(len(points), dtype=bool)
-    flag[points.index.get_indexer(j.index.unique())] = True
+    flag[cand] = first_within(px[cand], py[cand], parts) >= 0
     return flag
 
 
-def block_juris(blocks) -> pd.Series:
-    import geopandas as gpd
-    pl = gpd.read_file(RAW / "census_tiger_2024_ca_place" / "tl_2024_06_place.zip").to_crs(CRS)[["PLACEFP", "geometry"]]
-    j = gpd.sjoin(blocks[["geometry"]], pl, how="left", predicate="within")
-    j = j[~j.index.duplicated()]
+def block_juris(blocks: pd.DataFrame) -> pd.Series:
+    """Jurisdiction of each block (frame with x, y and COUNTYFP20): the place containing its internal point, else
+    the county's unincorporated area."""
+    from missing_middleware.geom_extra_station import first_within, read_vector
+    pl = read_vector(RAW / "census_tiger_2024_ca_place" / "tl_2024_06_place.zip", CRS, columns=["PLACEFP"])
+    k = first_within(blocks["x"].to_numpy(float), blocks["y"].to_numpy(float), list(pl["geometry"]))
+    placefp = pd.Series(np.where(k >= 0, pl["PLACEFP"].to_numpy(object)[np.maximum(k, 0)], None), index=blocks.index)
     cw = pd.read_csv(REFERENCE / "ca_jurisdiction_crosswalk.csv", dtype=str)
     city = cw[cw.juris_type != "county_unincorporated"].dropna(subset=["placefp"]).drop_duplicates("placefp").set_index("placefp")["juris_name"]
     cnty = cw[cw.juris_type == "county_unincorporated"].set_index("county_fips")["juris_name"]
-    jur = j["PLACEFP"].map(city)
+    jur = placefp.map(city)
     jur = jur.fillna(blocks["COUNTYFP20"].map(cnty))
     return jur.reindex(blocks.index)
 
 
+def lonlat_points(df: pd.DataFrame, lon, lat) -> pd.DataFrame:
+    """df with x, y in CRS from longitude/latitude (WGS 84 / NAD83, treated as one datum)."""
+    from missing_middleware.geom_extra_station import transform
+    out = df.copy()
+    out["x"], out["y"] = transform(np.asarray(lon, float), np.asarray(lat, float), 4326, CRS)
+    return out
+
+
+def read_blocks(columns: list[str]) -> pd.DataFrame:
+    """2020 census blocks (attributes only) with x, y: each block's internal point in CRS."""
+    from missing_middleware.geom_extra_station import read_vector
+    b = read_vector(D / "tl_2020_06_tabblock20.zip", columns=columns, geometry=False)
+    b = pd.DataFrame(b)[columns]
+    return lonlat_points(b, b.INTPTLON20.astype(float), b.INTPTLAT20.astype(float))
+
+
 def build(rebuild: bool = False) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
-    import geopandas as gpd
-    import pyogrio
     OUT.mkdir(parents=True, exist_ok=True)
     if not rebuild and (OUT / "cells.parquet").exists() and (OUT / "permits.parquet").exists():
         return pd.read_parquet(OUT / "cells.parquet"), pd.read_parquet(OUT / "permits.parquet"), json.loads((OUT / "meta.json").read_text())
@@ -89,9 +110,7 @@ def build(rebuild: bool = False) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
     print(f"stops: {len(stops):,} existing major transit stops ({len(stops_rbf):,} rail, BRT or ferry)")
 
     # blocks
-    b = pyogrio.read_dataframe(D / "tl_2020_06_tabblock20.zip", read_geometry=False,
-                               columns=["GEOID20", "COUNTYFP20", "ALAND20", "HOUSING20", "INTPTLAT20", "INTPTLON20"])
-    b = gpd.GeoDataFrame(b, geometry=gpd.points_from_xy(b.INTPTLON20.astype(float), b.INTPTLAT20.astype(float)), crs=4326).to_crs(CRS)
+    b = read_blocks(["GEOID20", "COUNTYFP20", "ALAND20", "HOUSING20", "INTPTLAT20", "INTPTLON20"])
     b["juris"] = block_juris(b)
     b["dist"] = nearest_m(b, stops)
     b["dist_rbf"] = nearest_m(b, stops_rbf)
@@ -107,7 +126,7 @@ def build(rebuild: bool = False) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
     missing = sorted(set(p.juris) - set(b.juris.dropna()))
     info["permit_jurisdictions_without_blocks"] = missing
     print(f"permit jurisdictions with no matching blocks: {missing}")
-    pg = gpd.GeoDataFrame(p, geometry=gpd.points_from_xy(p.lon, p.lat), crs=4326).to_crs(CRS)
+    pg = lonlat_points(p, p.lon, p.lat)
     p["dist"] = nearest_m(pg, stops)
     p["dist_rbf"] = nearest_m(pg, stops_rbf)
     p["upz"] = in_toc(pg) & (p["juris"] == ab.LA)

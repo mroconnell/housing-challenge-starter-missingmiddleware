@@ -148,7 +148,6 @@ def toronto_unit_frame() -> dict:
     permits; flagged and kept out of the trait-test fit (plan section 7, 2026-10-27)."""
     import zipfile
 
-    import geopandas as gpd
     from missing_middleware.tod import case_toronto as K
     from missing_middleware.tod import traits as T
     rec = []
@@ -167,12 +166,15 @@ def toronto_unit_frame() -> dict:
     with zipfile.ZipFile(K.DIR / "ttc_gtfs.zip") as z:
         st = pd.read_csv(z.open("stops.txt"), dtype=str)
     st = st[st["location_type"] == "1"].reset_index(drop=True)
-    g = gpd.GeoDataFrame({"stop_name": st["stop_name"]}, geometry=gpd.points_from_xy(st["stop_lon"].astype(float), st["stop_lat"].astype(float)),
-                         crs=4326).to_crs(K.CRS_M)
+    from missing_middleware.geom_extra_station import crs, wgs84_to_csrs
+    lo, la = wgs84_to_csrs(st["stop_lon"].astype(float).to_numpy(), st["stop_lat"].astype(float).to_numpy())  # as PROJ's WGS 84 -> NAD83(CSRS) step
+    x, y = crs(K.CRS_M).forward(lo, la)
+    g = pd.DataFrame({"stop_name": st["stop_name"], "x": x, "y": y})
     stations = T.cluster_stations(g, g["stop_name"])
     tr = parcels.index[parcels["area"] == C.TREAT]
     parcels["unit_label"] = None
-    parcels.loc[tr, "unit_label"] = T.nearest_station(parcels.loc[tr].geometry.representative_point(), stations).values
+    rx, ry = C.rep_xy(parcels)
+    parcels.loc[tr, "unit_label"] = T.nearest_station(pd.DataFrame({"x": rx.loc[tr], "y": ry.loc[tr]}), stations).values
     parcels["old_level"], parcels["new_level"] = parcels["h_before"], parcels["h_after"]
     p = ci.permits.copy()
     p["pix"] = p["project"].str.split(":").str[-1].astype(int)
@@ -191,7 +193,7 @@ def unit_rows(case: str, uf: dict) -> list[dict]:
     el = parcels["eligible"].astype(bool)
     tr = parcels.index[(parcels["area"] == C.TREAT) & el]
     cp = parcels.index[(parcels["area"] == C.COMP) & el]
-    acres = parcels.geometry.area / C.SQM_PER_ACRE
+    acres = C.parcel_acres(parcels)
     labels = parcels["unit_label"].reindex(tr)
     b, a = per["before"], per["after"]
     rows = []
@@ -263,9 +265,8 @@ def permit_file_checks() -> dict:
         pp = pp[pp["typeofwork"].isin(case_philadelphia.WHOLE_BUILDING)]
         pp["units"] = pd.to_numeric(pp["numberofunits"], errors="coerce").fillna(0)
         pp = pp[pp["units"] > 0].dropna(subset=["lat", "lon"])
-        import geopandas as gpd
-        g = gpd.GeoSeries(gpd.points_from_xy(pp["lon"].astype(float), pp["lat"].astype(float)), crs=4326).to_crs(case_philadelphia.CRS_M)
-        pp["x"], pp["y"], pp["issue_date"] = g.x.values, g.y.values, pp["permitissuedate"]
+        g = C.points_from_lonlat(pp[[]], pp["lon"].astype(float), pp["lat"].astype(float), case_philadelphia.CRS_M)
+        pp["x"], pp["y"], pp["issue_date"] = g["x"].values, g["y"].values, pp["permitissuedate"]
         from missing_middleware.tod.case_chicago import dedupe_staged
         pp = dedupe_staged(pp)
         tot = pp.groupby(pd.to_numeric(pp["permitissuedate"].str[:4], errors="coerce"))["units"].sum()
@@ -277,12 +278,11 @@ def permit_file_checks() -> dict:
     try:
         from missing_middleware.paths import RAW
         from missing_middleware.tod import case_chicago
-        import geopandas as gpd
         cp = pd.read_csv(RAW / "tod_cases" / "chicago" / "permits_new_construction.csv", dtype=str).drop_duplicates("permit_")
         cp["units"] = cp["work_description"].map(case_chicago.parse_units)
         cp = cp[(cp["units"] > 0)].dropna(subset=["latitude", "longitude"])
-        g = gpd.GeoSeries(gpd.points_from_xy(cp["longitude"].astype(float), cp["latitude"].astype(float)), crs=4326).to_crs(case_chicago.CRS_M)
-        cp["x"], cp["y"] = g.x.values, g.y.values
+        g = C.points_from_lonlat(cp[[]], cp["longitude"].astype(float), cp["latitude"].astype(float), case_chicago.CRS_M)
+        cp["x"], cp["y"] = g["x"].values, g["y"].values
         cp = case_chicago.dedupe_staged(cp)
         tot = cp.groupby(cp["issue_date"].str[:4].astype(int))["units"].sum()
         bps = {}

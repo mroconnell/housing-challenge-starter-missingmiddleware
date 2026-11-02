@@ -2,6 +2,7 @@
 
     uv run --all-extras python scripts/build_tod_net_coverage.py --fetch   # downloads (network)
     uv run --all-extras python scripts/build_tod_net_coverage.py           # build from data/raw/tod_net_coverage/
+    uv run --all-extras python scripts/build_tod_net_coverage.py --start 2026-10-27   # the feeds' service days of the cache
 
 For each comparison city (New York, Philadelphia, Charlotte, Saint Paul, Los Angeles, Seattle, Chicago, Madison) the
 covered area is the union of 1/2-mile circles around rail and rapid-transit stops and 1/4-mile circles around stops of
@@ -24,8 +25,9 @@ covered area is the union of 1/2-mile circles around rail and rapid-transit stop
   point lies in the place.
 
 Outputs (git-ignored, data/processed/tod_net_effect/):
-- coverage_<slug>.gpkg: layer "patches" (one row per connected covered patch inside the city, EPSG:4326, with patch
-  acres and land acres) and layer "city" (the boundary).
+- coverage_<slug>_patches.parquet: one row per connected covered patch inside the city (GeoParquet, EPSG:4326, with
+  patch acres and land acres); coverage_<slug>_city.parquet: the boundary. (Runs before the open-licence geometry port,
+  docs/GEOMETRY.md, wrote both layers to coverage_<slug>.gpkg; covered_patches still reads those.)
 - coverage_cities.csv: one row per city, every share with its numerator and denominator.
 Use covered_patches(slug) to read a city's patches in a metre CRS.
 """
@@ -190,95 +192,153 @@ def fetch(refresh: bool = False) -> None:
 
 
 # =========================================================================== geography
+# Geometry with missing_middleware.geom and its helpers (no geopandas/shapely: permissive licences only, docs/GEOMETRY.md).
+# Points are frames with x, y; polygons are geom features (list of parts, each a list of rings).
 
 def city_boundary(slug: str):
-    """The city's place polygon (GeoDataFrame, EPSG:4326) and the vintage label."""
-    import geopandas as gpd
+    """The city's place polygon (a geom feature, EPSG:4326 longitude/latitude) and the vintage label."""
+    from missing_middleware.geom_extra_station import polys_to_crs, read_vector
     c = CITIES[slug]
     if c["st"] == "55":
-        g = gpd.read_file(RAW / "census_tiger_2024" / "tl_2024_55_place.zip")
+        g = read_vector(RAW / "census_tiger_2024" / "tl_2024_55_place.zip", columns=["GEOID"])
         g = g[g["GEOID"] == c["place"]]
         vint = "TIGER/Line 2024 place"
     else:
-        g = gpd.read_file(D / "tiger2010" / f"tl_2010_{c['st']}_place10.zip")
+        g = read_vector(D / "tiger2010" / f"tl_2010_{c['st']}_place10.zip", columns=["GEOID10"])
         g = g[g["GEOID10"] == c["place"]]
         vint = "TIGER/Line 2010 place"
     if len(g) != 1:
         raise ValueError(f"{slug}: place {c['place']} not found once")
-    return g[["geometry"]].to_crs(4326).reset_index(drop=True), vint
+    return polys_to_crs(list(g["geometry"]), g.attrs["crs"], 4326)[0], vint
+
+
+def _bounds(feature) -> tuple[float, float, float, float]:
+    from missing_middleware.geom_extra_station import feature_bounds
+    return tuple(float(v) for v in feature_bounds([feature])[0])
 
 
 def city_bbox_4326(slug: str, pad: float = 0.0) -> tuple:
-    g, _ = city_boundary(slug)
-    x0, y0, x1, y1 = g.total_bounds
+    x0, y0, x1, y1 = _bounds(city_boundary(slug)[0])
     return (x0 - pad, y0 - pad, x1 + pad, y1 + pad)
 
 
 def metre_crs(slug: str):
-    g, _ = city_boundary(slug)
-    return g.estimate_utm_crs()
+    """WGS 84 UTM zone at the centre of the city's bounds (geopandas' estimate_utm_crs)."""
+    from missing_middleware.geom_extra_tod import utm_for_lonlat
+    x0, y0, x1, y1 = city_bbox_4326(slug)
+    return utm_for_lonlat((x0 + x1) / 2, (y0 + y1) / 2)
 
 
-def covered_patches(slug: str, crs=None):
-    """A city's covered patches (GeoDataFrame: patch_id, patch_acres, patch_land_acres) in a metre CRS (the city's UTM
-    zone unless crs is given). Built by this script into data/processed/tod_net_effect/coverage_<slug>.gpkg."""
-    import geopandas as gpd
-    g = gpd.read_file(OUT / f"coverage_{slug}.gpkg", layer="patches")
-    return g.to_crs(crs or metre_crs(slug))
+def _read_gpkg_layer(path: Path, layer: str) -> pd.DataFrame:
+    """One feature table of a GeoPackage written by earlier runs (patches, city): attributes plus polygon features in
+    EPSG:4326 (the file's CRS)."""
+    import sqlite3
+    from missing_middleware.geom_extra_station import _gpkg_geom
+    con = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+    gcol, srs = con.execute("select column_name, srs_id from gpkg_geometry_columns where table_name=?", (layer,)).fetchone()
+    if srs != 4326:
+        raise ValueError(f"{path}: layer {layer} is in srs {srs}, expected 4326")
+    cols = [r[1] for r in con.execute(f'pragma table_info("{layer}")') if r[1] not in (gcol, "fid")]
+    rows = con.execute(f'select {", ".join(chr(34) + c + chr(34) for c in cols + [gcol])} from "{layer}" order by fid').fetchall()
+    con.close()
+    df = pd.DataFrame([r[:-1] for r in rows], columns=cols)
+    df["geometry"] = [_gpkg_geom(r[-1])[1] for r in rows]
+    return df
 
 
-def land_polygon(slug: str, crs):
-    """The city place less TIGER 2024 area water of its counties (shapely geometry in crs)."""
-    import geopandas as gpd
+def _patches_file(slug: str) -> Path:
+    return OUT / f"coverage_{slug}_patches.parquet"
+
+
+def covered_patches(slug: str, crs=None) -> pd.DataFrame:
+    """A city's covered patches: frame with patch_id, patch_acres, patch_land_acres and geometry (geom polygon features)
+    in a metre CRS (the city's UTM zone unless crs is given); df.attrs["crs"] is that CRS (a geom Projection). Built by
+    this script into data/processed/tod_net_effect/coverage_<slug>_patches.parquet (EPSG:4326); caches from before
+    the geometry port (coverage_<slug>.gpkg, layer "patches") are read when no parquet exists."""
+    from missing_middleware.geom_extra_foundation import read_geoparquet
+    from missing_middleware.geom_extra_station import crs as to_crs_obj, polys_to_crs
+    p = _patches_file(slug)
+    if p.exists():
+        attrs, polys, _, _ = read_geoparquet(p)
+        g = attrs.copy()
+        g["geometry"] = polys
+    else:
+        g = _read_gpkg_layer(OUT / f"coverage_{slug}.gpkg", "patches")
+    dst = to_crs_obj(crs) if crs is not None else metre_crs(slug)
+    g = g[["patch_id", "patch_acres", "patch_land_acres", "geometry"]].copy()
+    g["geometry"] = polys_to_crs(list(g["geometry"]), 4326, dst)
+    g.attrs["crs"] = dst
+    return g
+
+
+def water_polygons(slug: str, crs, city) -> list:
+    """TIGER 2024 area water of the city's counties whose bounds meet the city's (polygon features in crs)."""
+    from missing_middleware.geom_extra_station import feature_bounds, polys_to_crs, read_vector
     c = CITIES[slug]
-    city, _ = city_boundary(slug)
-    city = city.to_crs(crs).geometry.union_all()
-    w = [gpd.read_file(D / "areawater" / f"tl_2024_{c['st']}{co}_areawater.zip") for co in c["counties"]
-         if (D / "areawater" / f"tl_2024_{c['st']}{co}_areawater.zip").exists()]
-    if not w:
-        return city, False
-    water = pd.concat(w, ignore_index=True).to_crs(crs)
-    water = water[water.intersects(city)]
-    return city.difference(water.geometry.union_all()), True
+    out = []
+    cb = _bounds(city)
+    for co in c["counties"]:
+        f = D / "areawater" / f"tl_2024_{c['st']}{co}_areawater.zip"
+        if f.exists():
+            w = read_vector(f, columns=["HYDROID"])
+            out += polys_to_crs(list(w["geometry"]), w.attrs["crs"], crs)
+    if not out:
+        return []
+    b = feature_bounds(out)
+    keep = ~((b[:, 0] > cb[2]) | (b[:, 2] < cb[0]) | (b[:, 1] > cb[3]) | (b[:, 3] < cb[1]))
+    return [f for f, k in zip(out, keep) if k and f]
 
 
-def blocks(slug: str, crs):
-    """Census blocks with homes and a point (GeoDataFrame in crs: homes, geometry=point) inside the city's bbox."""
-    import geopandas as gpd
+def land_region(city, water: list):
+    """The city place less area water (a Region), and whether any water file was found."""
+    from missing_middleware.geom_extra_tod import Polygons
+    if not water:
+        return Polygons([city]), False
+    return Polygons([city]) - Polygons(water, union=True), True
+
+
+def blocks(slug: str, crs) -> tuple[pd.DataFrame, str]:
+    """Census blocks with homes and a point (frame: homes, x, y in crs) inside the city's bbox."""
+    from missing_middleware.geom_extra_station import interior_points, polys_to_crs, read_vector, transform
     c = CITIES[slug]
-    b4269 = tuple(gpd.GeoSeries.from_xy([city_bbox_4326(slug)[0], city_bbox_4326(slug)[2]],
-                                        [city_bbox_4326(slug)[1], city_bbox_4326(slug)[3]], crs=4326).to_crs(4269).total_bounds)
+    b4269 = city_bbox_4326(slug)          # NAD83 and WGS 84 are one datum here (docs/GEOMETRY.md)
     if c["st"] == "55":
-        b = gpd.read_file(RAW / "census_tiger_2020_tabblock" / "tl_2020_55_tabblock20.zip", bbox=b4269)
-        pts = gpd.points_from_xy(b["INTPTLON20"].astype(float), b["INTPTLAT20"].astype(float), crs=4269)
-        g = gpd.GeoDataFrame({"homes": pd.to_numeric(b["HOUSING20"], errors="coerce").fillna(0)}, geometry=pts, crs=4269)
-        return g.to_crs(crs), "2020 Census blocks (HOUSING20), internal points"
+        b = read_vector(RAW / "census_tiger_2020_tabblock" / "tl_2020_55_tabblock20.zip",
+                        columns=["HOUSING20", "INTPTLON20", "INTPTLAT20"], bbox=b4269)
+        x, y = transform(b["INTPTLON20"].astype(float).to_numpy(), b["INTPTLAT20"].astype(float).to_numpy(), 4269, crs)
+        g = pd.DataFrame({"homes": pd.to_numeric(b["HOUSING20"], errors="coerce").fillna(0).to_numpy(), "x": x, "y": y})
+        return g, "2020 Census blocks (HOUSING20), internal points"
     cand = [RAW / "tod_cases" / "census_2010_blocks" / f"tabblock2010_{c['st']}_pophu.zip",
             RAW / "tod_traits" / "blocks2010" / f"tabblock2010_{c['st']}_pophu.zip",
             D / "blocks2010" / f"tabblock2010_{c['st']}_pophu.zip"]
     f = next(p for p in cand if p.exists())
-    b = gpd.read_file(f, bbox=b4269).to_crs(crs)
-    g = gpd.GeoDataFrame({"homes": pd.to_numeric(b["HOUSING10"], errors="coerce").fillna(0)},
-                         geometry=b.geometry.representative_point(), crs=crs)
+    b = read_vector(f, columns=["HOUSING10"], bbox=b4269)
+    x, y = interior_points(polys_to_crs(list(b["geometry"]), b.attrs["crs"], crs))
+    g = pd.DataFrame({"homes": pd.to_numeric(b["HOUSING10"], errors="coerce").fillna(0).to_numpy(), "x": x, "y": y})
     return g, "2010 Census blocks (HOUSING10), representative points"
 
 
 # =========================================================================== stops
 
+def _points(df: pd.DataFrame, lon, lat, crs) -> pd.DataFrame:
+    from missing_middleware.geom_extra_station import transform
+    out = df.reset_index(drop=True).copy()
+    out["x"], out["y"] = transform(np.asarray(lon, float), np.asarray(lat, float), 4326, crs)
+    return out
+
+
 def ntm_rail_stops(slug: str, crs):
-    """Rail stops from the NTM extract (Amtrak excluded), GeoDataFrame in crs with agency id and name."""
-    import geopandas as gpd
+    """Rail stops from the NTM extract (Amtrak excluded), frame with agency id and name and x, y in crs."""
     d = json.loads((D / "ntm" / f"{slug}_rail_stops.json").read_text())
     s = pd.DataFrame(d["stops"])
     if s.empty:
-        return gpd.GeoDataFrame({"ntd_id": [], "stop_name": []}, geometry=[], crs=crs), {}
+        return pd.DataFrame({"ntd_id": [], "stop_name": [], "x": [], "y": []}), {}
     names = {a.get("NTD_ID") or a.get("NTAD_NTD_ID"): a.get("Agency_Name", "") for a in d["agencies"]}
     s["agency"] = s["ntd_id"].map(names).fillna("")
     s = s[~s["agency"].map(TR.is_excluded_agency)]
-    g = gpd.GeoDataFrame(s[["ntd_id", "agency", "stop_name", "stop_type"]],
-                         geometry=gpd.points_from_xy(s["stop_lon"].astype(float), s["stop_lat"].astype(float)), crs=4326)
+    g = _points(s[["ntd_id", "agency", "stop_name", "stop_type"]], s["stop_lon"].astype(float), s["stop_lat"].astype(float), crs)
     dates = sorted(set(s.get("download_date", pd.Series(dtype=str)).dropna()))
-    return g.to_crs(crs), {"agencies": sorted(set(s["agency"])), "download_dates": dates}
+    return g, {"agencies": sorted(set(s["agency"])), "download_dates": dates}
 
 
 def _table(z: zipfile.ZipFile, name: str, usecols=None) -> pd.DataFrame:
@@ -337,78 +397,89 @@ def gtfs_stops(path: Path, start: dt.date, rapid_names: set[str] = frozenset(), 
 
 def madison_stops(crs, route_a_rapid: bool = True):
     """Madison's qualifying stops from the Wisconsin layer (reference/tod_stops.csv, Madison Metro 50005):
-    rapid (flag_a_rapid; Route A) and 15-minute bus (flag_b_15min)."""
-    import geopandas as gpd
+    rapid (flag_a_rapid; Route A) and 15-minute bus (flag_b_15min). Frame with rail, frequent, src, x, y (crs)."""
     s = pd.read_csv(REFERENCE / "tod_stops.csv", dtype=str)
     s = s[s["ntd_id"] == TR.MADISON_NTD_ID]
     rapid = (s["flag_a_rapid"] == "1") & route_a_rapid
     freq = (s["flag_b_15min"] == "1") | ((s["flag_a_rapid"] == "1") & (not route_a_rapid))
-    g = gpd.GeoDataFrame({"rail": rapid.values, "frequent": (freq & ~rapid).values, "src": s["frequency_source"].values},
-                         geometry=gpd.points_from_xy(s["lon"].astype(float), s["lat"].astype(float)), crs=4326)
-    return g[g["rail"] | g["frequent"]].to_crs(crs)
+    g = _points(pd.DataFrame({"rail": rapid.values, "frequent": (freq & ~rapid).values, "src": s["frequency_source"].values}),
+                s["lon"].astype(float), s["lat"].astype(float), crs)
+    return g[g["rail"] | g["frequent"]].reset_index(drop=True)
 
 
 # =========================================================================== coverage
 
-def covered_area(rail_pts, bus_pts):
-    """Union of 1/2-mile circles around rail/rapid stops and 1/4-mile circles around frequent-bus stops."""
-    import shapely
-    parts = [shapely.buffer(np.asarray(list(rail_pts), dtype=object), HALF_M, quad_segs=16),
-             shapely.buffer(np.asarray(list(bus_pts), dtype=object), QUARTER_M, quad_segs=16)]
-    geoms = np.concatenate([p for p in parts if len(p)]) if any(len(p) for p in parts) else np.array([], dtype=object)
-    return shapely.union_all(geoms) if len(geoms) else shapely.Polygon()
+def covered_area(rail_pts: pd.DataFrame, bus_pts: pd.DataFrame):
+    """Union of 1/2-mile circles around rail/rapid stops and 1/4-mile circles around frequent-bus stops (GEOS point
+    buffers, 64-gons), as a Region (missing_middleware.geom_extra_tod.PointBuffers)."""
+    from missing_middleware.geom_extra_tod import PointBuffers
+    x = np.r_[rail_pts["x"].to_numpy(float), bus_pts["x"].to_numpy(float)]
+    y = np.r_[rail_pts["y"].to_numpy(float), bus_pts["y"].to_numpy(float)]
+    r = np.r_[np.full(len(rail_pts), HALF_M), np.full(len(bus_pts), QUARTER_M)]
+    ok = np.isfinite(x) & np.isfinite(y)
+    return PointBuffers(x[ok], y[ok], r[ok])
 
 
-def patches_of(covered, city, land, crs):
-    """Connected patches of the covered area inside the city: acres (inside the place) and land acres."""
-    import geopandas as gpd
-    import shapely
-    inside = covered.intersection(city)
-    parts = [g for g in getattr(inside, "geoms", [inside]) if not g.is_empty and g.area > 0]
-    rows = [{"patch_id": i + 1, "patch_acres": g.area / SQM_PER_ACRE,
-             "patch_land_acres": shapely.intersection(g, land).area / SQM_PER_ACRE, "geometry": g} for i, g in enumerate(
-        sorted(parts, key=lambda g: -g.area))]
-    return gpd.GeoDataFrame(rows, geometry="geometry", crs=crs) if rows else gpd.GeoDataFrame(
-        {"patch_id": [], "patch_acres": [], "patch_land_acres": []}, geometry=[], crs=crs)
+def patches_of(covered, city, water: list) -> pd.DataFrame:
+    """Connected patches of the covered area inside the city (largest first): acres (inside the place) and land acres
+    (less area water). Frame: patch_id, patch_acres, patch_land_acres, geometry (polygon features, metre CRS)."""
+    from missing_middleware.geom_extra_tod import Polygons, areas, region_area_by_tiles, region_polygons
+    parts = [p for p in region_polygons(covered & Polygons([city]))]
+    a = areas(parts) if parts else np.zeros(0)
+    keep = a > 0
+    parts, a = [p for p, k in zip(parts, keep) if k], a[keep]
+    wet = region_area_by_tiles(parts, Polygons(water, union=True)) if (water and parts) else np.zeros(len(parts))
+    return pd.DataFrame({"patch_id": np.arange(1, len(parts) + 1), "patch_acres": a / SQM_PER_ACRE,
+                         "patch_land_acres": (a - wet) / SQM_PER_ACRE, "geometry": parts})
 
 
-def build_city(slug: str) -> dict:
-    import geopandas as gpd
+def region_acres_in(feature, region) -> float:
+    from missing_middleware.geom_extra_tod import region_area_by_tiles
+    return float(region_area_by_tiles([feature], region)[0]) / SQM_PER_ACRE
+
+
+def build_city(slug: str, start: dt.date | None = None) -> dict:
+    from missing_middleware import geom as G
+    from missing_middleware.geom_extra_foundation import write_geoparquet
+    from missing_middleware.geom_extra_station import polys_to_crs
+    from missing_middleware.geom_extra_tod import Polygons, areas
+    from missing_middleware.tod import cases as CC
     from missing_middleware.tod import traits as TT
     c = CITIES[slug]
     crs = metre_crs(slug)
-    cityg, vint = city_boundary(slug)
-    city = cityg.to_crs(crs).geometry.union_all()
-    land, water_ok = land_polygon(slug, crs)
+    city4326, vint = city_boundary(slug)
+    city = polys_to_crs([city4326], 4326, crs)[0]
+    water = water_polygons(slug, crs, city)
+    land, water_ok = land_region(city, water)
     notes = []
     if slug == "madison":
         s = madison_stops(crs)
-        rail = s[s["rail"]].geometry
-        bus = s[s["frequent"]].geometry
+        rail = s[s["rail"]]
+        bus = s[s["frequent"]]
         stop_src, stop_year = "Wisconsin TOD stop layer (reference/tod_stops.csv): NTM stops, Madison route descriptions", "NTM compiled 2026-09-23"
         feed_src = "Madison route descriptions in the NTM routes layer (AQ-045; Madison Metro GTFS not used)"
         feed_date = "NTM compiled 2026-09-23"
         s2 = madison_stops(crs, route_a_rapid=False)
-        alt = covered_area(s2[s2["rail"]].geometry, s2[s2["frequent"]].geometry).intersection(land).area / SQM_PER_ACRE
+        alt = region_acres_in(city, covered_area(s2[s2["rail"]], s2[s2["frequent"]]) & land)
         notes.append(f"Route A (bus rapid transit, opened September 2024, after the 2023 reform) counted as rapid (1/2 mile) "
                      f"by the Wisconsin rule; with its stops at 1/4 mile instead, covered land is {alt:,.0f} acres")
     else:
         ntm, info = ntm_rail_stops(slug, crs)
-        rails, buses, facts = [ntm.geometry], [], []
-        start = dt.date.today()
+        rails, buses, facts = [ntm[["x", "y"]]], [], []
+        start = start or dt.date.today()
         for key in c["feeds"]:
             p = D / "gtfs" / f"{slug}_{key}.zip"
             if not p.exists():
                 notes.append(f"feed {key} missing")
                 continue
             s, f = gtfs_stops(p, start, RAPID.get(slug, set()))
-            g = gpd.GeoDataFrame(s, geometry=gpd.points_from_xy(s["lon"], s["lat"]), crs=4326).to_crs(crs)
-            rails.append(g[g["rail"]].geometry)
-            buses.append(g[g["frequent"] & ~g["rail"]].geometry)
+            g = _points(s, s["lon"], s["lat"], crs)
+            rails.append(g.loc[g["rail"], ["x", "y"]])
+            buses.append(g.loc[g["frequent"] & ~g["rail"], ["x", "y"]])
             facts.append(f"{key}: service day {f['service_day']}, valid {f['valid_from']} to {f['valid_through']}, "
                          f"{f['frequent_bus_routes']} of {f['bus_routes']} bus routes frequent")
-        rail = pd.concat(rails, ignore_index=True) if rails else gpd.GeoSeries([], crs=crs)
-        bus = pd.concat(buses, ignore_index=True) if buses else gpd.GeoSeries([], crs=crs)
+        rail = pd.concat(rails, ignore_index=True) if rails else pd.DataFrame({"x": [], "y": []})
+        bus = pd.concat(buses, ignore_index=True) if buses else pd.DataFrame({"x": [], "y": []})
         stop_src = "BTS NTM stops of rail stop types (" + "; ".join(info.get("agencies", [])) + "), plus GTFS rail-type stops"
         if slug in RAPID:
             stop_src += "; LA Metro G Line (route 901) as rapid"
@@ -420,25 +491,26 @@ def build_city(slug: str) -> dict:
             notes.append("Pace suburban buses not included (CTA only)")
         if slug == "new_york":
             notes.append("NYC Ferry, NJ Transit and Westchester Bee-Line buses not included")
-    rail_s = gpd.GeoSeries(list(rail), crs=crs)
-    cov = covered_area(rail_s, gpd.GeoSeries(list(bus), crs=crs))
-    patches = patches_of(cov, city, land, crs)
+    rail = rail[["x", "y"]].reset_index(drop=True)
+    bus = bus[["x", "y"]].reset_index(drop=True)
+    cov = covered_area(rail, bus)
+    patches = patches_of(cov, city, water)
     bl, hv = blocks(slug, crs)
-    in_city = bl.geometry.within(city)
+    in_city = G.points_in_feature(bl["x"].to_numpy(), bl["y"].to_numpy(), city)
     bc = bl[in_city]
-    cov_in = cov.intersection(city)
-    homes_cov = float(bc.loc[bc.geometry.within(cov_in), "homes"].sum()) if not cov_in.is_empty else 0.0
-    land_ac = land.area / SQM_PER_ACRE
-    cov_land = cov.intersection(land).area / SQM_PER_ACRE
-    rail_in = rail_s[rail_s.within(city.buffer(HALF_M))]
-    stations = len(TT.cluster_stations(rail_in.to_frame("geometry").set_geometry("geometry"))) if len(rail_in) else 0
-    bus_s = gpd.GeoSeries(list(bus), crs=crs)
-    n_bus = int(len(bus_s[bus_s.within(city)].drop_duplicates()))
-    out = OUT / f"coverage_{slug}.gpkg"
-    if out.exists():
-        out.unlink()
-    patches.to_crs(4326).to_file(out, layer="patches", driver="GPKG")
-    cityg.to_file(out, layer="city", driver="GPKG")
+    cov_in = cov & Polygons([city])
+    homes_cov = float(bc.loc[cov_in.contains(bc["x"].to_numpy(), bc["y"].to_numpy()), "homes"].sum()) if len(bc) else 0.0
+    land_ac = (float(areas([city])[0]) - (region_acres_in(city, Polygons(water, union=True)) * SQM_PER_ACRE if water else 0.0)) / SQM_PER_ACRE
+    cov_land = float(patches["patch_land_acres"].sum())
+    rin = CC.within_distance(rail["x"].to_numpy(), rail["y"].to_numpy(), [city], HALF_M) if len(rail) else np.zeros(0, bool)
+    stations = len(TT.cluster_stations(rail[rin])) if rin.any() else 0
+    bin_ = G.points_in_feature(bus["x"].to_numpy(), bus["y"].to_numpy(), city) if len(bus) else np.zeros(0, bool)
+    n_bus = int(len(bus[bin_].drop_duplicates()))
+    OUT.mkdir(parents=True, exist_ok=True)
+    pf = _patches_file(slug)
+    write_geoparquet(patches[["patch_id", "patch_acres", "patch_land_acres"]],
+                     polys_to_crs(list(patches["geometry"]), crs, 4326), ["polygon"] * len(patches), pf, 4326)
+    write_geoparquet(pd.DataFrame({"place": [c["place"]]}), [city4326], ["polygon"], OUT / f"coverage_{slug}_city.parquet", 4326)
     if not water_ok:
         notes.append("no area-water file: land includes water")
     return {"city": c["city"], "slug": slug, "land_acres": land_ac, "covered_land_acres": cov_land,
@@ -452,17 +524,24 @@ def build_city(slug: str) -> dict:
 
 
 def main(argv=None) -> None:
+    global OUT
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--fetch", action="store_true")
     ap.add_argument("--refresh", action="store_true")
     ap.add_argument("--city", nargs="*", default=list(CITIES))
+    ap.add_argument("--start", type=dt.date.fromisoformat, default=None,
+                    help="date from which each feed's representative weekday is chosen (default today; the cache of "
+                         "2026-10-27 used that date)")
+    ap.add_argument("--out", type=Path, default=None, help="write the outputs here instead of data/processed/tod_net_effect")
     a = ap.parse_args(argv)
+    if a.out is not None:
+        OUT = a.out
     if a.fetch:
         fetch(a.refresh)
     rows = []
     for slug in a.city:
         print("==", slug, flush=True)
-        r = build_city(slug)
+        r = build_city(slug, a.start)
         print({k: (round(v, 4) if isinstance(v, float) else v) for k, v in r.items() if k not in ("stop_layer_source", "bus_feed_source", "bus_feed_date")}, flush=True)
         rows.append(r)
     df = pd.DataFrame(rows)

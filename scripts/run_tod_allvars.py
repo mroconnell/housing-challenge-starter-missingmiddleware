@@ -323,16 +323,19 @@ def check_labels(titles: dict, ncells: dict, where: str) -> list[str]:
     return bad
 
 
-def tract_shapes(vintage: str, st: str):
-    import geopandas as gpd
+def tract_shapes(vintage: str, st: str) -> pd.DataFrame:
+    """Tract outlines (polygon features in the file's lon/lat; df.attrs['crs']) with columns tract, ALAND_SQMI."""
+    from missing_middleware.geom_extra_station import read_vector
     if vintage == "2000":
-        g = gpd.read_file(f"zip://{RAWV / 'tiger2000' / f'tl_2010_{st}_tract00.zip'}")
-        return gpd.GeoDataFrame({"tract": g["CTIDFP00"], "ALAND_SQMI": g["ALAND00"].astype(float) / A.SQM_PER_SQMI}, geometry=g.geometry, crs=g.crs)
-    if vintage == "2010":
-        g = gpd.read_file(f"zip://{RAW / 'tod_traits' / 'tiger2010' / f'tl_2010_{st}_tract10.zip'}")
-        return gpd.GeoDataFrame({"tract": g["GEOID10"], "ALAND_SQMI": g["ALAND10"].astype(float) / A.SQM_PER_SQMI}, geometry=g.geometry, crs=g.crs)
-    g = gpd.read_file(f"zip://{RAW / 'census_tiger_2024' / f'tl_2024_{st}_tract.zip'}")
-    return gpd.GeoDataFrame({"tract": g["GEOID"], "ALAND_SQMI": g["ALAND"].astype(float) / A.SQM_PER_SQMI}, geometry=g.geometry, crs=g.crs)
+        path, tid, land = RAWV / "tiger2000" / f"tl_2010_{st}_tract00.zip", "CTIDFP00", "ALAND00"
+    elif vintage == "2010":
+        path, tid, land = RAW / "tod_traits" / "tiger2010" / f"tl_2010_{st}_tract10.zip", "GEOID10", "ALAND10"
+    else:
+        path, tid, land = RAW / "census_tiger_2024" / f"tl_2024_{st}_tract.zip", "GEOID", "ALAND"
+    g = read_vector(path, columns=[tid, land])
+    out = pd.DataFrame({"tract": g[tid], "ALAND_SQMI": g[land].astype(float) / A.SQM_PER_SQMI, "geometry": g["geometry"]})
+    out.attrs["crs"] = g.attrs["crs"]
+    return out
 
 
 def built_traits(u: pd.DataFrame) -> pd.DataFrame:
@@ -346,8 +349,8 @@ def built_traits(u: pd.DataFrame) -> pd.DataFrame:
 
 
 def stage_values() -> pd.DataFrame:
-    import geopandas as gpd
     import run_tod_traits as R
+    from missing_middleware.geom_extra_station import first_within, polys_to_crs
     u = units()
     # 1. the variable map, before any value is joined to an effect
     rows = []
@@ -400,14 +403,16 @@ def stage_values() -> pd.DataFrame:
                 out.append({"unit_id": r.unit_id, "city": city, "acs_survey": "none (Canada)" if city == "Toronto" else "none", "tract_boundaries": ""})
             continue
         frames = [f for f in R.load_city(key)["frames"] if len(f) and f["unit_id"].iloc[0] in set(cu["unit_id"])]
-        F = gpd.GeoDataFrame(pd.concat([f.to_crs(frames[0].crs) for f in frames], ignore_index=True), geometry="geometry", crs=frames[0].crs)
+        F = pd.concat(frames, ignore_index=True)     # treatment lots in the city's metre CRS (run_tod_traits.CRS_OF)
+        shp_m = {}
         for r in cu.itertuples():
             y, st = int(r.end_year), r.state
             parts, shp = tract_parts[(y, st)]
+            if (y, st) not in shp_m:
+                shp_m[(y, st)] = polys_to_crs(list(shp["geometry"]), shp.attrs["crs"], R.CRS_OF[key])
             g = F[F["unit_id"] == r.unit_id]
-            pts = gpd.GeoDataFrame({"acres": g["acres"].values}, geometry=g.geometry.representative_point().values, crs=F.crs)
-            j = gpd.sjoin(pts, shp[["tract", "geometry"]].to_crs(F.crs), how="left", predicate="within")
-            j = j[~j.index.duplicated()]
+            k = first_within(g["rx"].to_numpy(), g["ry"].to_numpy(), shp_m[(y, st)])
+            j = pd.DataFrame({"tract": np.where(k >= 0, shp["tract"].to_numpy()[np.maximum(k, 0)], None), "acres": g["acres"].values})
             vals = A.unit_values(j[["tract", "acres"]], parts)
             out.append({"unit_id": r.unit_id, "city": city, "acs_survey": A.survey_label(y),
                         "tract_boundaries": A.tract_vintage(y), "tracts": int(j["tract"].nunique()), **vals.to_dict()})

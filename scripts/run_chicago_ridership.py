@@ -85,19 +85,28 @@ def capture():
 
 
 def build_stations() -> pd.DataFrame:
-    import geopandas as gpd
+    from missing_middleware import geom as G
+    from missing_middleware.geom_extra_station import (_circle, convex_hull_feature, interior_points, point_buffer_pairs,
+                                                         polys_to_crs, read_vector, transform)
     from missing_middleware.tod import case_chicago as K
     with capture() as rec:
         K.build()
     parcels = rec[0]
     stops = load_stops()
-    st = gpd.GeoDataFrame(stops, geometry=gpd.points_from_xy(stops["lon"], stops["lat"]), crs=4326).to_crs(K.CRS_M)
-    circ = gpd.GeoDataFrame(st[["station_id"]], geometry=st.geometry.buffer(C.HALF_MILE_M), crs=K.CRS_M)
+    st = stops.copy()
+    st["x"], st["y"] = transform(stops["lon"].to_numpy(float), stops["lat"].to_numpy(float), 4326, K.CRS_M)
+    sx, sy = st["x"].to_numpy(float), st["y"].to_numpy(float)
+    sid = st["station_id"].to_numpy(object)
+
+    def join(px, py) -> tuple[np.ndarray, np.ndarray]:
+        """(point, station) pairs: point within the station's 1/2-mile buffer (GEOS 64-gon)."""
+        return point_buffer_pairs(px, py, sx, sy, C.HALF_MILE_M)
 
     tr = parcels[(parcels["area"] == C.TREAT) & parcels["eligible"].astype(bool)].copy()
     tr["added_sqft"] = tr["acres"] * C.SQM_PER_ACRE / 0.09290304 * (tr["far_after"] - tr["far_before"])
-    tp = gpd.GeoDataFrame(tr[["acres", "added_sqft"]], geometry=tr.geometry.representative_point(), crs=K.CRS_M)
-    j = gpd.sjoin(tp, circ, predicate="within")
+    rx, ry = C.rep_xy(tr)
+    i, k = join(rx.to_numpy(float), ry.to_numpy(float))
+    j = pd.DataFrame({"acres": tr["acres"].to_numpy()[i], "added_sqft": tr["added_sqft"].to_numpy()[i], "station_id": sid[k]})
     a = j.groupby("station_id").agg(treated_acres=("acres", "sum"), added_floor_area_sqft=("added_sqft", "sum"))
 
     p = pd.read_csv(K.DIR / "permits_new_construction.csv", dtype=str).drop_duplicates("permit_")
@@ -106,23 +115,28 @@ def build_stations() -> pd.DataFrame:
     p["lat"] = pd.to_numeric(p["latitude"], errors="coerce")
     p["lon"] = pd.to_numeric(p["longitude"], errors="coerce")
     p = p[(p["units"] > 0) & p["year"].between(2009, 2019)].dropna(subset=["lat", "lon"])
-    pg = gpd.GeoDataFrame(p, geometry=gpd.points_from_xy(p["lon"], p["lat"]), crs=4326).to_crs(K.CRS_M)
-    pg["x"], pg["y"] = pg.geometry.x, pg.geometry.y
+    pg = p.copy()
+    pg["x"], pg["y"] = transform(p["lon"].to_numpy(float), p["lat"].to_numpy(float), 4326, K.CRS_M)
     pg = K.dedupe_staged(pg)
-    jp = gpd.sjoin(pg[["units", "year", "geometry"]], circ, predicate="within")
+    i, k = join(pg["x"].to_numpy(float), pg["y"].to_numpy(float))
+    jp = pd.DataFrame({"units": pg["units"].to_numpy()[i], "year": pg["year"].to_numpy()[i], "station_id": sid[k]})
     hp = jp[jp["year"].between(2016, 2019)].groupby("station_id")["units"].sum().rename("homes_permitted")
     hp_all = jp.groupby("station_id")["units"].sum().rename("homes_permitted_2009_2019")
 
     bz = RAW / "tod_cases" / "census_2010_blocks" / "tabblock2010_17_pophu.zip"
-    bbox = tuple(circ.to_crs(4269).total_bounds)
-    b = gpd.read_file(bz, bbox=bbox).to_crs(K.CRS_M)
-    bp = gpd.GeoDataFrame({"homes": b["HOUSING10"]}, geometry=b.geometry.representative_point(), crs=K.CRS_M)
-    jb = gpd.sjoin(bp, circ, predicate="within")
+    # the buffers' bounds in NAD83 longitude/latitude (every buffer vertex transformed, as GeoDataFrame.to_crs)
+    circ = np.concatenate([_circle(x, y, C.HALF_MILE_M) for x, y in zip(sx, sy)])
+    lon, lat = transform(circ[:, 0], circ[:, 1], K.CRS_M, 4269)
+    bbox = (lon.min(), lat.min(), lon.max(), lat.max())
+    b = read_vector(bz, None, columns=["HOUSING10"], bbox=bbox)
+    bx, by = interior_points(polys_to_crs(list(b["geometry"]), b.attrs["crs"], K.CRS_M))
+    i, k = join(bx, by)
+    jb = pd.DataFrame({"homes": b["HOUSING10"].to_numpy()[i], "station_id": sid[k]})
     eh = jb.groupby("station_id")["homes"].sum().rename("existing_homes")
 
     # in Chicago: the station lies inside the convex hull of the Chicago parcels (for an unplanned check only)
-    hull = parcels.union_all().convex_hull
-    st["in_chicago_hull"] = st.geometry.within(hull)
+    hull = convex_hull_feature(list(parcels["geometry"]))
+    st["in_chicago_hull"] = G.points_in_feature(sx, sy, hull)
     out = stops.merge(st[["station_id", "in_chicago_hull"]], on="station_id")
     for s in (a, hp, hp_all, eh):
         out = out.merge(s, left_on="station_id", right_index=True, how="left")

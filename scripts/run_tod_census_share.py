@@ -10,16 +10,16 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
-from shapely.ops import unary_union
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from missing_middleware import geom_extra_station as S  # noqa: E402
+from missing_middleware import geom_extra_tod as X  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 from scripts import run_tod_census_cases as R  # noqa: E402
-from scripts.run_tod_slc_census import TSA_STATIONS, stations  # noqa: E402
+from scripts.run_tod_slc_census import CRS as SLC_CRS, TSA_STATIONS, stations, tsa_zones  # noqa: E402
 
 SEED = 20261031
 JURIS = {  # case: (jurisdiction, 2010 homes)
@@ -31,29 +31,34 @@ JURIS = {  # case: (jurisdiction, 2010 homes)
 
 
 def slc_boundary():
-    z = gpd.read_file(RAW / "tod_slc" / "slc_zoning_2020_jacobs.geojson").to_crs(26912)
-    tsa = z[z["ZONING"].str.startswith("TSA")].copy()
-    st = stations()
-    rp = tsa.copy()
-    rp["geometry"] = tsa.representative_point()
-    near = gpd.sjoin_nearest(rp, st[["name", "geometry"]])
-    near = near[~near.index.duplicated()]
-    keep = tsa[near["name"].isin(TSA_STATIONS)]
-    return (keep.to_crs(R.CRS).geometry.make_valid().union_all(), tsa.to_crs(R.CRS).geometry.make_valid().union_all())
+    """Salt Lake City's TSA land: (zones nearest the 2010 TSA stations, every TSA zone), polygon features in R.CRS."""
+    tsa, near = tsa_zones(stations())
+    keep = tsa[near.isin(TSA_STATIONS)]
+    to = lambda g: S.make_valid_nested(S.polys_to_crs([f for f in g["geometry"] if f], SLC_CRS, R.CRS))  # noqa: E731
+    return to(keep), to(tsa)
 
 
-def block_polys(path: Path, year: int, box) -> gpd.GeoDataFrame:
-    b = gpd.read_file(path, bbox=tuple(gpd.GeoSeries([box], crs=R.CRS).to_crs(4269).total_bounds))
-    b = b.rename(columns={"HOUSING10": "homes", "HOUSING20": "homes"}).to_crs(R.CRS)
-    return gpd.GeoDataFrame({"homes": b["homes"].astype(float).values, "land": b.area.values}, geometry=b.geometry.values, crs=R.CRS)
+def block_polys(path: Path, year: int, box) -> pd.DataFrame:
+    """Blocks whose bounds meet box (R.CRS; reprojected to the file's CRS by its corners), with homes, land (m2) and
+    "geometry" in R.CRS."""
+    col = "HOUSING10" if year == 2010 else "HOUSING20"
+    b = S.read_vector(path, R.CRS, columns=[col], bbox=box).rename(columns={col: "homes"})
+    return pd.DataFrame({"homes": b["homes"].astype(float).values, "land": S.areas(list(b["geometry"])),
+                         "geometry": list(b["geometry"])})
 
 
-def shares(b: gpd.GeoDataFrame, geom) -> np.ndarray:
-    s = np.zeros(len(b))
-    idx = b.sindex.query(geom, predicate="intersects")
-    if len(idx):
-        s[idx] = b.geometry.iloc[idx].intersection(geom).area.values / b["land"].values[idx]
-    return np.clip(s, 0, 1)
+def shares(b: pd.DataFrame, region) -> np.ndarray:
+    """Share of each block's land inside the region (`intersection(geom).area / land`, clipped to 0-1)."""
+    if not len(b):
+        return np.zeros(0)
+    return np.clip(X.overlap_areas(list(b["geometry"]), region) / b["land"].values, 0, 1)
+
+
+def envelope(region) -> tuple[float, float, float, float]:
+    """Bounds of a region's boundary segments (for a buffer: its drawn outline)."""
+    e = region.edges()
+    return (float(min(e[:, 0].min(), e[:, 2].min())), float(min(e[:, 1].min(), e[:, 3].min())),
+            float(max(e[:, 0].max(), e[:, 2].max())), float(max(e[:, 1].max(), e[:, 3].max())))
 
 
 def weighted(b10, s10, b20, s20, rng, draws=R.DRAWS):
@@ -68,17 +73,18 @@ def run():
     rng = np.random.default_rng(SEED)
     geoms = {c: R.boundary(c) for c in R.NEW_CASES}
     geoms["salt_lake_city_tsa_2010"] = slc_boundary()
-    every = unary_union([g[1] for g in geoms.values()])
+    every = X.Polygons([f for g in geoms.values() for f in g[1]])
     cases = pd.read_csv(REFERENCE / "tod_census_cases.csv").set_index("case")
     rows = []
-    for case, (treated, exclude) in geoms.items():
+    for case, (tp, ep) in geoms.items():
         if case == "salt_lake_city_tsa_2010":
             f10, f20 = RAW / "tod_slc" / "tabblock2010_49_pophu.zip", RAW / "tod_slc" / "tl_2020_49_tabblock20.zip"
         else:
             st = R.NEW_CASES[case][0]
             f10, f20 = R.D / f"tabblock2010_{st}_pophu.zip", R.D / f"tl_2020_{st}_tabblock20.zip"
-        ring = treated.buffer(R.HALF).difference(every).difference(exclude)
-        box = treated.buffer(R.HALF + 500).envelope
+        treated = X.Polygons(tp)
+        ring = R.ring(tp, R.HALF, every, X.Polygons(ep))
+        box = envelope(X.Buffer(tp, R.HALF + 500))
         b10, b20 = block_polys(f10, 2010, box), block_polys(f20, 2020, box)
         st10, st20 = shares(b10, treated), shares(b20, treated)
         sc10, sc20 = shares(b10, ring), shares(b20, ring)

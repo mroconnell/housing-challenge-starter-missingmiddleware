@@ -116,15 +116,16 @@ def unit_row(city: str, unit_id: str, name: str, unit_type: str, eff: int, per: 
 
 def treat_frame(lots, idx, unit_id: str, vpi: pd.Series, homes: pd.Series | None, old: pd.Series | None,
                 new: pd.Series | None, developed: pd.Series | None):
-    """Treatment lots of a unit, with what the traits need (no identifiers)."""
-    import geopandas as gpd
-    g = gpd.GeoDataFrame({"unit_id": unit_id, "acres": lots.loc[idx].geometry.area / C.SQM_PER_ACRE,
-                          "vpi": vpi.reindex(idx).astype(float).values,
-                          "homes_before": homes.reindex(idx).astype(float).values if homes is not None else np.nan,
-                          "old_level": old.reindex(idx).astype(float).values if old is not None else np.nan,
-                          "new_level": new.reindex(idx).astype(float).values if new is not None else np.nan,
-                          "developed": developed.reindex(idx).astype(float).values if developed is not None else np.nan},
-                         geometry=lots.loc[idx].geometry.values, crs=lots.crs)
+    """Treatment lots of a unit, with what the traits need (no identifiers): a plain frame with polygon features in
+    "geometry" (the case's metre CRS, CRS_OF) and their representative points in rx, ry."""
+    rx, ry = C.rep_xy(lots)
+    g = pd.DataFrame({"unit_id": unit_id, "acres": C.parcel_acres(lots.loc[idx]).values,
+                      "vpi": vpi.reindex(idx).astype(float).values,
+                      "homes_before": homes.reindex(idx).astype(float).values if homes is not None else np.nan,
+                      "old_level": old.reindex(idx).astype(float).values if old is not None else np.nan,
+                      "new_level": new.reindex(idx).astype(float).values if new is not None else np.nan,
+                      "developed": developed.reindex(idx).astype(float).values if developed is not None else np.nan,
+                      "geometry": list(lots.loc[idx, "geometry"]), "rx": rx.reindex(idx).values, "ry": ry.reindex(idx).values})
     return g
 
 
@@ -137,9 +138,10 @@ def station_units(city: str, parcels, permits: pd.DataFrame, pix: pd.Series, sta
     tr = parcels.index[(parcels["area"] == C.TREAT) & el]
     cp = parcels.index[(parcels["area"] == C.COMP) & el]
     if labels is None:
-        labels = T.nearest_station(parcels.loc[tr].geometry.representative_point(), stations)
+        rx, ry = C.rep_xy(parcels)
+        labels = T.nearest_station(pd.DataFrame({"x": rx.loc[tr], "y": ry.loc[tr]}), stations)
     labels = labels.reindex(tr)
-    acres = parcels.geometry.area / C.SQM_PER_ACRE
+    acres = C.parcel_acres(parcels)
     p = permits.copy()
     p["pix"] = pix.reindex(p.index).values
     yrs = per["before"] + per["after"]
@@ -218,8 +220,8 @@ def build_philadelphia():
 
 
 def _stops(path, crs, keep=None):
-    import geopandas as gpd
-    s = gpd.read_file(path).to_crs(crs)
+    from missing_middleware.geom_extra_station import read_vector
+    s = read_vector(path, crs)
     if keep is not None:
         s = s[keep(s)]
     return T.cluster_stations(s, s["stop_name"].reset_index(drop=True))
@@ -240,14 +242,16 @@ def build_charlotte():
 
 
 def build_chicago():
+    from missing_middleware import geom as G
+    from missing_middleware.geom_extra_station import convex_hull_feature, read_vector
     from missing_middleware.tod import case_chicago as K
-    import geopandas as gpd
     with capture() as cap:
         ci, _ = K.build()
     parcels, pix = cap["uniform"][0], cap["locate"][-1]
     per = C.period_years(K.EFFECTIVE_YEAR, K.FIRST_YEAR, K.LAST_FULL_YEAR)
-    s = gpd.read_file(K.DIR / "rail_stops.geojson").to_crs(K.CRS_M)
-    s = s[s.geometry.within(parcels.union_all().convex_hull)].reset_index(drop=True)
+    s = read_vector(K.DIR / "rail_stops.geojson", K.CRS_M)
+    hull = convex_hull_feature(list(parcels["geometry"]))
+    s = s[G.points_in_feature(s["x"].to_numpy(), s["y"].to_numpy(), hull)].reset_index(drop=True)
     st = T.cluster_stations(s, s["stop_name"])
     cls = parcels["assessorbldgclass"].astype(str).str.strip()
     # Cook County Assessor classes: 100 vacant land, 190 minor improvement on vacant land, 241 vacant land under
@@ -281,7 +285,7 @@ MADISON_CORE_M = 1609.344                # 1 mile
 
 
 def build_madison():
-    import geopandas as gpd
+    from missing_middleware.geom_extra_station import transform
     spec = importlib.util.spec_from_file_location("run_tod_madison_test", ROOT / "scripts" / "run_tod_madison_test.py")
     M = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(M)
@@ -289,6 +293,9 @@ def build_madison():
     from missing_middleware.permits.match import AddressIndex
     from missing_middleware.tod import madison_test as MT
     L = M.lots()
+    # the lot table holds outlines in 'poly' and GEOS interior points in px, py (EPSG:3071); the case helpers read
+    # 'geometry' and cached representative points rx, ry
+    L["geometry"], L["rx"], L["ry"] = L["poly"], L["px"], L["py"]
     parcels_tbl = madison.parcel_table(madison.load_parcels(RAW / "madison_parcels"))
     ref = madison.address_reference(parcels_tbl, madison.load_address_points(RAW / "madison_parcels"))
     index = AddressIndex(ref)
@@ -311,12 +318,12 @@ def build_madison():
     permits = x[["project", "area", "year", "units"]]
     pix = x["lot"].astype(int)
     per = {"before": list(MT.BEFORE), "after": list(MT.AFTER)}
-    cx = gpd.GeoSeries(gpd.points_from_xy([CAPITOL_LONLAT[0]], [CAPITOL_LONLAT[1]]), crs=4326).to_crs(L.crs).iloc[0]
+    cxa, cya = transform([CAPITOL_LONLAT[0]], [CAPITOL_LONLAT[1]], 4326, CRS_OF["madison"])
+    cx, cy = float(cxa[0]), float(cya[0])
     tr = L.index[(L["area"] == C.TREAT) & L["eligible"].astype(bool)]
-    rp = L.loc[tr].geometry.representative_point()
     names = {"core": "Isthmus core (within 1 mile of the Capitol)"}
     lab = pd.Series([names.get(s, f"{s} of the core") for s in
-                     (T.sector_label(p.x - cx.x, p.y - cx.y, MADISON_CORE_M) for p in rp)], index=tr)
+                     (T.sector_label(x - cx, y - cy, MADISON_CORE_M) for x, y in zip(L.loc[tr, "rx"], L.loc[tr, "ry"]))], index=tr)
     vpi = L["use_class"].isin(["vacant", "parking", "industrial"])
     rows, frames = station_units("madison", L, permits, pix, None, 2023, per, vpi, L["far_base"].where(np.isfinite(L["far_base"])),
                                  L["far_base"].where(np.isfinite(L["far_base"])) + L["added_far"], "added FAR",
@@ -324,6 +331,9 @@ def build_madison():
     return rows, frames, {"segments": int(lab.nunique()), "uniform_rule": uinfo}
 
 
+# the metre CRS of each city's lots (the case adapters' CRS_M; Madison: EPSG:3071, scripts/build_tod_station_areas.py)
+CRS_OF = {"nyc": 32118, "philadelphia": 32129, "charlotte": 32119, "stpaul": 26915, "chicago": 26971, "madison": 3071,
+          "la": 26945, "seattle": 32610, "bellevue": 32148, "toronto": 2952}
 ADDED_PREFIX = {"la": "la_", "seattle": "sea_", "bellevue": "bel_", "toronto": "tor_"}
 CASE_UNITS_CSV = REFERENCE / "tod_case_units.csv"
 
@@ -352,7 +362,7 @@ def build_added(city: str):
         for r in cu[cu["case"] == case].itertuples(index=False):
             ti = labels.index[labels.astype(str) == str(r.unit_name)]
             uid = f"{ADDED_PREFIX[city]}{slug(r.unit_name)}"
-            ac = float((parcels.loc[ti].geometry.area / C.SQM_PER_ACRE).sum())
+            ac = float(C.parcel_acres(parcels.loc[ti]).sum())
             assert abs(ac - r.treatment_acres) < 0.05, (uid, ac, r.treatment_acres)
             nb = len(per["before"]) or np.nan
             na = len(per["after"]) or np.nan
@@ -542,22 +552,29 @@ def acs_tbsf_tract_values(folder: Path, year: int) -> pd.DataFrame:
 
 
 def tract_shapes(kind: str):
-    import geopandas as gpd
+    """Tract outlines (polygon features in the files' NAD83 lon/lat) with column tract; df.attrs['crs']."""
+    from missing_middleware.geom_extra_station import read_vector
     if kind == "2010":
-        gs = [gpd.read_file(f"zip://{RAWT / 'tiger2010' / f'tl_2010_{st}_tract10.zip'}")[["GEOID10", "geometry"]].rename(columns={"GEOID10": "tract"})
+        gs = [read_vector(RAWT / "tiger2010" / f"tl_2010_{st}_tract10.zip", columns=["GEOID10"]).rename(columns={"GEOID10": "tract"})
               for st in ACS10_STATES]
-        return pd.concat(gs, ignore_index=True)
-    g = gpd.read_file(f"zip://{RAW / 'census_tiger_2024' / 'tl_2024_55_tract.zip'}")[["GEOID", "geometry"]]
+        out = pd.concat(gs, ignore_index=True)
+        out.attrs["crs"] = gs[0].attrs["crs"]
+        return out
+    g = read_vector(RAW / "census_tiger_2024" / "tl_2024_55_tract.zip", columns=["GEOID"])
     return g.rename(columns={"GEOID": "tract"})
 
 
-def blocks_2010_points(state: str, bbox_4269):
-    import geopandas as gpd
+def blocks_2010_points(state: str, bbox_4269, crs):
+    """2010 block homes (HOUSING10) read within the box, as representative points (computed in the file's lon/lat, as
+    before) moved to crs: columns homes, x, y."""
+    from missing_middleware.geom_extra_station import interior_points, read_vector, transform
     bz = RAW / "tod_cases" / "census_2010_blocks" / f"tabblock2010_{state}_pophu.zip"
     if not bz.exists():
         bz = RAWT / "blocks2010" / f"tabblock2010_{state}_pophu.zip"
-    b = gpd.read_file(bz, bbox=bbox_4269)
-    return gpd.GeoDataFrame({"homes": b["HOUSING10"].astype(float)}, geometry=b.geometry.representative_point(), crs=b.crs)
+    b = read_vector(bz, None, columns=["HOUSING10"], bbox=bbox_4269)
+    x, y = interior_points(list(b["geometry"]))
+    x, y = transform(x, y, b.attrs["crs"], crs)
+    return pd.DataFrame({"homes": b["HOUSING10"].astype(float).to_numpy(), "x": x, "y": y})
 
 
 GAZ_PLACES = {"New York": ("36", "New York city"), "Philadelphia": ("42", "Philadelphia city"), "Charlotte": ("37", "Charlotte city"),
@@ -599,11 +616,10 @@ def gazetteer_land() -> dict:
 
 def area_weighted_tract(frames, tracts, values: pd.DataFrame, crs) -> pd.Series:
     """Acre-weighted mean over treatment lots of their tract's value (lot assigned by its representative point)."""
-    import geopandas as gpd
-    pts = gpd.GeoDataFrame({"acres": frames["acres"].values, "unit_id": frames["unit_id"].values},
-                           geometry=frames.geometry.representative_point().values, crs=crs)
-    j = gpd.sjoin(pts, tracts.to_crs(crs), how="left", predicate="within")
-    j = j[~j.index.duplicated()]
+    from missing_middleware.geom_extra_station import first_within, polys_to_crs
+    k = first_within(frames["rx"].to_numpy(), frames["ry"].to_numpy(), polys_to_crs(list(tracts["geometry"]), tracts.attrs.get("crs") or 4269, crs))
+    j = pd.DataFrame({"acres": frames["acres"].values, "unit_id": frames["unit_id"].values,
+                      "tract": np.where(k >= 0, tracts["tract"].to_numpy()[np.maximum(k, 0)], None)})
     j = j.merge(values, on="tract", how="left")
     res = {}
     for col in ("home_value", "income", "rent"):
@@ -613,18 +629,18 @@ def area_weighted_tract(frames, tracts, values: pd.DataFrame, crs) -> pd.Series:
 
 
 def sld_values(frames, crs, state: str) -> pd.Series:
-    import geopandas as gpd
-    s = gpd.read_file(RAWT / "sld" / f"sld_d5br_{state}.geojson").to_crs(crs)
+    from missing_middleware.geom_extra_station import first_within, read_vector
+    s = read_vector(RAWT / "sld" / f"sld_d5br_{state}.geojson", crs, columns=["D5BR"])
     s["D5BR"] = pd.to_numeric(s["D5BR"], errors="coerce").where(lambda v: v >= 0)
-    pts = gpd.GeoDataFrame({"acres": frames["acres"].values, "unit_id": frames["unit_id"].values},
-                           geometry=frames.geometry.representative_point().values, crs=crs)
-    j = gpd.sjoin(pts, s[["D5BR", "geometry"]], how="left", predicate="within")
-    j = j[~j.index.duplicated()]
+    k = first_within(frames["rx"].to_numpy(), frames["ry"].to_numpy(), list(s["geometry"]))
+    j = pd.DataFrame({"acres": frames["acres"].values, "unit_id": frames["unit_id"].values,
+                      "D5BR": np.where(k >= 0, s["D5BR"].to_numpy(float)[np.maximum(k, 0)], np.nan)})
     return j.groupby("unit_id").apply(lambda g: T.weighted_mean(g["D5BR"], g["acres"]), include_groups=False)
 
 
 def stage_traits() -> pd.DataFrame:
-    import geopandas as gpd
+    from missing_middleware.geom_extra_station import bbox_to, feature_bounds, first_within, transform, wgs84_to_csrs
+    from missing_middleware.geom_extra_station import crs as csrs_crs
     units = pd.read_csv(UNITS_CSV)
     kept = units[units["kept"]]
     tr10 = tract_shapes("2010")
@@ -645,9 +661,8 @@ def stage_traits() -> pd.DataFrame:
         frames = [f for f in data["frames"] if f["unit_id"].iloc[0] in set(kept["unit_id"])] if data["frames"] else []
         if not frames:
             continue
-        crs = frames[0].crs
-        F = pd.concat([f.to_crs(crs) for f in frames], ignore_index=True)
-        F = gpd.GeoDataFrame(F, geometry="geometry", crs=crs)
+        crs = CRS_OF[c]
+        F = pd.concat(frames, ignore_index=True)
         if c == "madison":
             acs = area_weighted_tract(F, tr20, acs22, crs)
         elif STATE_OF[city] is None:  # Toronto: no ACS, no EPA index
@@ -660,20 +675,24 @@ def stage_traits() -> pd.DataFrame:
         if STATE_OF[city] is None:
             homes = pd.Series(np.nan, index=F["unit_id"].unique())
         elif c not in HOMES_FROM_LOTS:
-            bbox = tuple(gpd.GeoSeries([F.union_all().envelope], crs=crs).to_crs(4269).total_bounds)
-            b = blocks_2010_points(STATE_OF[city], bbox).to_crs(crs)
-            j = gpd.sjoin(b, F[["unit_id", "geometry"]], how="inner", predicate="within")
-            j = j[~j.index.duplicated()]
+            fb = feature_bounds(list(F["geometry"]))
+            env = (np.nanmin(fb[:, 0]), np.nanmin(fb[:, 1]), np.nanmax(fb[:, 2]), np.nanmax(fb[:, 3]))
+            b = blocks_2010_points(STATE_OF[city], bbox_to(env, crs, 4269), crs)
+            k = first_within(b["x"].to_numpy(), b["y"].to_numpy(), list(F["geometry"]))
+            j = b[k >= 0].assign(unit_id=F["unit_id"].to_numpy()[k[k >= 0]])
             homes = j.groupby("unit_id")["homes"].sum()
         else:
             homes = F.groupby("unit_id")["homes_before"].sum()
         dx, dy, _ = DOWNTOWN[city]
-        dt = gpd.GeoSeries(gpd.points_from_xy([dx], [dy]), crs=4326).to_crs(crs).iloc[0]
+        if crs == 2952:   # Toronto, NAD83(CSRS): WGS 84 points go through PROJ's Helmert step, as the case adapter does
+            dtx, dty = csrs_crs(crs).forward(*wgs84_to_csrs(np.array([dx]), np.array([dy])))
+        else:
+            dtx, dty = transform([dx], [dy], 4326, crs)
+        dtx, dty = float(dtx[0]), float(dty[0])
         for uid, g in F.groupby("unit_id"):
             u = kept[kept["unit_id"] == uid].iloc[0]
             ac = g["acres"].sum()
-            cen = g.geometry.representative_point()
-            cx, cy = float((cen.x * g["acres"]).sum() / ac), float((cen.y * g["acres"]).sum() / ac)
+            cx, cy = float((g["rx"] * g["acres"]).sum() / ac), float((g["ry"] * g["acres"]).sum() / ac)
             # vacant/parking/industrial share: New York from the before snapshot (all lots); elsewhere land use is
             # today's, so lots with a new-housing permit in the unit's before or after years are left out of the share
             gg = g if c == "nyc" else g[g["developed"] != 1]
@@ -689,7 +708,7 @@ def stage_traits() -> pd.DataFrame:
                          "t07_added_far": dose,
                          "t08_rate_before": u["treat_rate_before"],
                          "t09_vacant_parking_industrial_share": vshare,
-                         "t10_km_to_downtown": float(np.hypot(cx - dt.x, cy - dt.y) / 1000.0),
+                         "t10_km_to_downtown": float(np.hypot(cx - dtx, cy - dty) / 1000.0),
                          "t11_transit_jobs_access": float(jobs.get(uid, np.nan)),
                          "t12_parking_cut": PARKING_CUT[city],
                          "acs_vintage": "2018-2022" if c == "madison" else ("none (Canada)" if STATE_OF[city] is None else "2006-2010"),

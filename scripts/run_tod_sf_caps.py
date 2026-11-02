@@ -14,7 +14,6 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
@@ -57,8 +56,25 @@ def fetch():
                    licence="Los Angeles County Assessor public GIS; use code and city only")
 
 
+def three(st: str, treated, comp) -> dict:
+    """C2.three with the areas given as membership tests: treated(x, y) and comp(x, y) -> bool arrays, for block
+    points (frames with x, y in R.CRS) of 2000, 2010 and 2020."""
+    out = {}
+    for y in (2000, 2010, 2020):
+        p = C2.points_2000(st) if y == 2000 else R.block_points(st, y)
+        px, py = p["x"].to_numpy(float), p["y"].to_numpy(float)
+        out[y] = (p[treated(px, py)], p[comp(px, py)])
+    return out
+
+
+def union_test(polys: list):
+    """Membership of the union of polygon features (parts may overlap)."""
+    from missing_middleware import geom as G
+    return lambda x, y: G.points_in_any(x, y, polys, union=True) if polys else np.zeros(len(x), bool)
+
+
 def measure(name, st, treated, comp, rng, note) -> dict:
-    g = C2.three(st, treated, comp)
+    g = three(st, treated, comp)
     d0, d1 = C2.diffs(g)
     lo0, hi0, lo, hi = C2.boot(g, rng)
     return {"case": name, "note": note, "treated_acres_2010": g[2010][0]["land"].sum() / R.ACRE,
@@ -72,19 +88,27 @@ def measure(name, st, treated, comp, rng, note) -> dict:
 def main():
     fetch()
     rng = np.random.default_rng(C2.SEED + 1)
-    z = gpd.read_file(D / "pasadena_zoning.geojson").to_crs(R.CRS)
-    nd = z[z["OVERLAY_CODE"].astype(str).str.strip() == "ND"].geometry.make_valid().union_all()
-    sf = z[z["GEN_CODE"].astype(str).str.contains("Single-Family")].geometry.make_valid().union_all()
-    pas = measure("pasadena_lower_hastings_ranch_2016", "06", nd, sf.intersection(nd.buffer(R.HALF)).difference(nd), rng,
+    from missing_middleware.geom_extra_station import (interior_points, make_valid_nested, read_vector,
+                                                         within_buffer_geos)
+    z = read_vector(D / "pasadena_zoning.geojson", R.CRS)
+    nd = make_valid_nested(list(z.loc[z["OVERLAY_CODE"].astype(str).str.strip() == "ND", "geometry"]))
+    sf = make_valid_nested(list(z.loc[z["GEN_CODE"].astype(str).str.contains("Single-Family"), "geometry"]))
+    in_nd, in_sf = union_test(nd), union_test(sf)
+    # comparison: single-family zones within 1/2 mile of the overlay (GEOS buffer of its union), outside the overlay
+    pas = measure("pasadena_lower_hastings_ranch_2016", "06", in_nd,
+                  lambda x, y: in_sf(x, y) & within_buffer_geos(x, y, nd, R.HALF) & ~in_nd(x, y), rng,
                   "RS-6 ND overlay vs single-family zones within 1/2 mile")
-    p = gpd.read_file(D / "la_sf_parcels_culver.geojson").to_crs(R.CRS)
+    p = read_vector(D / "la_sf_parcels_culver.geojson", R.CRS)
     city = p["TaxRateCity"].astype(str).str.upper().str.strip()
-    cc = p[city == "CULVER CITY"].geometry.make_valid().union_all()
-    ccline = gpd.read_file(R.D / "tl_2020_06_place.zip")
-    ccline = ccline[ccline["NAME"] == "Culver City"].to_crs(R.CRS).geometry.union_all()
+    cc = make_valid_nested(list(p.loc[city == "CULVER CITY", "geometry"]))
+    pl = read_vector(R.D / "tl_2020_06_place.zip", R.CRS, columns=["NAME"])
+    ccline = list(pl.loc[pl["NAME"] == "Culver City", "geometry"])
     other = p[city != "CULVER CITY"]
-    other = other[other.geometry.representative_point().within(ccline.buffer(R.HALF).difference(ccline))].geometry.make_valid().union_all()
-    cul = measure("culver_city_house_size_2015", "06", cc, other, rng,
+    ox, oy = interior_points(list(other["geometry"]))
+    in_line = union_test(ccline)
+    ring = within_buffer_geos(ox, oy, ccline, R.HALF) & ~in_line(ox, oy)
+    other = make_valid_nested(list(other.loc[ring, "geometry"]))
+    cul = measure("culver_city_house_size_2015", "06", union_test(cc), union_test(other), rng,
                   "single-family parcels in Culver City vs single-family parcels within 1/2 mile outside it")
     out = pd.DataFrame([pas, cul])
     out.round(4).to_csv(REFERENCE / "tod_sf_caps.csv", index=False)

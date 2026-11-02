@@ -62,7 +62,7 @@ def fetch(refresh: bool = False) -> None:
     import urllib.parse
     sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
     import fetch_tod_cases as F
-    import geopandas as gpd
+    from missing_middleware.geom_extra_station import read_vector
     man = F.Manifest(DIR, "tod_cases_seattle", "City of Seattle (SDCI permits, zoning, development capacity parcels)")
     name = "permits_new_units.csv"
     if not man.have(name, refresh):
@@ -77,9 +77,11 @@ def fetch(refresh: bool = False) -> None:
     F.save_layer(man, "station_area_overlay.geojson", f"{SEA}/Station_Area_Overlay_(light_rail)/FeatureServer/23", refresh,
                  SEA_LICENCE, out_fields="OVERLAY,DESCRIPTION", page=100)
     F.ntm_rail_stops(man, "rail_stops.geojson", ["00040"], refresh)
-    st = gpd.read_file(DIR / "rail_stops.geojson")
-    st = st[st["stop_lat"].between(47.48, 47.74) & st["stop_lon"].between(-122.44, -122.24)]
-    aoi = F.aoi_from([(st.geometry, 1300.0)])
+    st = read_vector(DIR / "rail_stops.geojson")
+    keep = st["stop_lat"].astype(float).between(47.48, 47.74) & st["stop_lon"].astype(float).between(-122.44, -122.24)
+    near = st[keep]
+    near.attrs["crs"] = st.attrs["crs"]
+    aoi = F.aoi_from([(near, 1300.0)])
     F.save_tiled_layer(man, "parcels_2010.geojson", f"{SEA}/Zoned_Development_Capacity_2010/FeatureServer/0", aoi, refresh,
                        SEA_LICENCE, out_fields="PIN,ZONING,ZONELUT,MAXRDENS,MAXFAR,NR_UNITS,LAND_USE_DESC,PRES_USE,PUB_OWN_TYPE,"
                        "USE_CATEGORY,LU_GEN_DESC,VILLAGE_NAME,CLASS,LAND_SQFT,JURIS_NAME", id_field="PIN")

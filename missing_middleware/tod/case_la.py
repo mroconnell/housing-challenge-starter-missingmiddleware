@@ -130,16 +130,20 @@ def _fetch_helpers():
 
 def fetch(refresh: bool = False) -> None:
     import urllib.parse
-    import geopandas as gpd
+    from missing_middleware.geom_extra_station import read_vector, transform
     F = _fetch_helpers()
     man = F.Manifest(DIR, "tod_cases_la", "City of Los Angeles (LADBS permits, City Planning) and Los Angeles County Assessor")
     F.save_layer(man, "specific_plans.geojson", f"{PLANNING}/Specific_Plan_Areas/FeatureServer/6", refresh, PLAN_LICENCE,
                  where="SPA_NM IN ('WARNER CENTER','CORNFIELD / ARROYO SECO')", out_fields="SPA_NM", page=100)
-    spa = gpd.read_file(DIR / "specific_plans.geojson")
+    spa = read_vector(DIR / "specific_plans.geojson")
     for nm, g in spa.groupby("SPA_NM"):
         tag = "wc" if "WARNER" in nm else "casp"
-        aoi = F.aoi_from([(g.geometry, 1800.0)])
-        env = gpd.GeoSeries([aoi], crs=F.AOI_CRS).to_crs(4326).total_bounds
+        g.attrs["crs"] = spa.attrs["crs"]
+        aoi = F.aoi_from([(g, 1800.0)])
+        # extent in lon/lat of the buffered plan area (its outer arcs reprojected)
+        o = aoi.outline_points()
+        lo, la = transform(o[:, 0], o[:, 1], F.AOI_CRS, 4326)
+        env = (float(lo.min()), float(la.min()), float(lo.max()), float(la.max()))
         for ds in DATASETS:
             name = f"permits_{tag}_{ds}.csv"
             if man.have(name, refresh):

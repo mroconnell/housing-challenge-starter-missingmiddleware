@@ -125,5 +125,34 @@ class TestFiles(unittest.TestCase):
             self.assertEqual(X.geojson_kinds(p), ["Polygon"])
 
 
+class TestGeoParquetCaches(unittest.TestCase):
+    """Census-script caches: GeoParquet points and a selective polygon read."""
+
+    def test_points_round_trip(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "pts.parquet"
+            x, y = np.array([1.5e6, -2.25, np.pi]), np.array([2.0e6, 7.0, -1.0])
+            X.write_geoparquet_points(pd.DataFrame({"homes": [1.0, 2.0, 3.0], "land": [4.0, 5.0, 6.0]}), x, y, p, 5070)
+            a, xx, yy, epsg = X.read_geoparquet_points(p)
+            self.assertEqual(list(a.columns), ["homes", "land"])
+            np.testing.assert_array_equal(xx, x)
+            np.testing.assert_array_equal(yy, y)
+            self.assertEqual(epsg, 5070)
+
+    def test_read_near(self):
+        feats = [SQUARE, [[ring((20, 0), (30, 0), (30, 10))]], HOLED]
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "polys.parquet"
+            X.write_geoparquet(pd.DataFrame({"homes": [1.0, 2.0, 3.0]}), feats, ["Polygon"] * 3, p, 4269)
+            a, f, epsg = X.read_geoparquet_near(p, [(25, 5, 40, 40)], batch_rows=2)
+            self.assertEqual(list(a["homes"]), [2.0])
+            self.assertEqual(X.to_wkb(f[0], "Polygon"), X.to_wkb(feats[1], "Polygon"))
+            a, f, _ = X.read_geoparquet_near(p, [(-1, -1, 0, 0), (100, 100, 101, 101)])
+            self.assertEqual(list(a["homes"]), [1.0, 3.0])        # touching boxes count; row order kept
+            self.assertEqual(epsg, 4269)
+            a, f, _ = X.read_geoparquet_near(p, [])
+            self.assertEqual((len(a), len(f)), (0, 0))
+
+
 if __name__ == "__main__":
     unittest.main()

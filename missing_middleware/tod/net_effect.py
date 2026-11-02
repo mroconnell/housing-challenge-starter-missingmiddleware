@@ -55,7 +55,7 @@ def excluded_by_uniform_rule(parcels, in_reform, rose, level_before, level_after
     """Lots the uniform rule (cases.uniform_areas) puts in no area: inside the reform but not treated, already at
     the law, or rezoned outside the reform. Mirrors cases.uniform_areas exactly."""
     in_reform, rose = in_reform.astype(bool), rose.astype(bool)
-    acres = parcels.geometry.area / C.SQM_PER_ACRE
+    acres = C.parcel_acres(parcels)
     base = in_reform & rose & eligible.astype(bool)
     med = C.weighted_median(level_after[base].replace(np.inf, np.nan).fillna(1e9), acres[base])
     at_law = uncapped_before.astype(bool) & (level_before.fillna(-1) >= med)
@@ -79,9 +79,11 @@ def far_land(parcels, area: pd.Series, excluded: pd.Series, eligible: pd.Series,
     tr = area == TREAT
     if not tr.any():
         return pd.Series(False, index=parcels.index), pd.Series(np.nan, index=parcels.index)
-    tunion = parcels.loc[tr].geometry.make_valid().union_all()
-    pts = parcels.geometry.representative_point()
-    dist = pts.distance(tunion)
+    # distance to the union of the treated lots = distance to the nearest treated lot (0 inside any of them)
+    from missing_middleware.geom_extra_station import distance_within
+    rx, ry = C.rep_xy(parcels)
+    dist = pd.Series(distance_within(rx.to_numpy(float), ry.to_numpy(float), list(parcels.loc[tr, "geometry"]), np.inf),
+                     index=parcels.index)
     city = pd.Series(True, index=parcels.index) if in_city is None else in_city.astype(bool).reindex(parcels.index).fillna(False)
     lab = area.astype(object)
     m = eligible.astype(bool) & city & ~excluded.astype(bool) & ~lab.isin([TREAT, RING]) & (dist > near_m) & (dist <= far_m)
@@ -183,9 +185,34 @@ def stack_members(members: list[dict]) -> tuple[pd.DataFrame, dict]:
 
 # --------------------------------------------------------------------------- shapes
 
-def area(feature) -> float:
-    """Planar area of a polygon feature (parts summed; holes subtracted)."""
-    return float(X.areas([feature])[0]) if feature else 0.0
+def area(feature, tile: float = 250.0) -> float:
+    """Planar area of the land a polygon feature covers: the union of its parts (holes subtracted). The features here
+    are groups of lots, and lots can overlap (stacked or overlapping parcel outlines in Saint Paul, Chicago and
+    Charlotte), so parts are not simply summed: where parts' boxes overlap, the union's area is integrated over small
+    tiles (geom_extra_tod.region_area_by_tiles)."""
+    if not feature:
+        return 0.0
+    if len(feature) == 1:
+        return float(X.areas([feature])[0])
+    from missing_middleware.geom_extra_station import feature_bounds
+    parts = [[p] for p in feature]
+    b = feature_bounds(parts)
+    o = np.lexsort((b[:, 1], b[:, 0]))
+    b = b[o]
+    # any two parts whose boxes overlap with positive area? (sweep over x)
+    overlap = False
+    run = []
+    for i in range(len(b)):
+        run = [j for j in run if b[j, 2] > b[i, 0]]
+        if any(b[j, 3] > b[i, 1] and b[i, 3] > b[j, 1] for j in run):
+            overlap = True
+            break
+        run.append(i)
+    if not overlap:
+        return float(X.areas([feature])[0])
+    x0, y0, x1, y1 = b[:, 0].min(), b[:, 1].min(), b[:, 2].max(), b[:, 3].max()
+    box = [[np.array([(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)])]]
+    return float(X.region_area_by_tiles([box], X.Polygons(parts), tile=tile)[0])
 
 
 def patches(geoms, close_m: float = PATCH_CLOSE_M) -> list:
@@ -241,7 +268,15 @@ def island_acres(unit_geom, patches_tbl, area_col: str = "patch_acres") -> float
     the unit) and area_col."""
     if not unit_geom or patches_tbl is None or not len(patches_tbl):
         return float("nan")
-    ov = np.array([X.intersection_area(unit_geom, p) for p in patches_tbl["poly"]])
+    from missing_middleware.geom_extra_station import feature_bounds
+    parts = [[p] for p in unit_geom]          # the unit's lots as their union (lots may overlap)
+    ub = feature_bounds([unit_geom])[0]
+    pb = feature_bounds(list(patches_tbl["poly"]))
+    box = [[np.array([(ub[0], ub[1]), (ub[2], ub[1]), (ub[2], ub[3]), (ub[0], ub[3]), (ub[0], ub[1])])]]
+    ov = np.zeros(len(patches_tbl))
+    for i, p in enumerate(patches_tbl["poly"]):
+        if p and pb[i, 0] <= ub[2] and pb[i, 2] >= ub[0] and pb[i, 1] <= ub[3] and pb[i, 3] >= ub[1]:
+            ov[i] = X.region_area_by_tiles([box], X.Polygons(parts) & X.Polygons([p]), tile=250.0)[0]
     if ov.max() <= 0:
         return 0.0
     return float(patches_tbl[area_col].iloc[int(np.argmax(ov))])

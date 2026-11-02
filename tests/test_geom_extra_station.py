@@ -58,6 +58,18 @@ class TestCaseModuleHelpers(unittest.TestCase):
                                     [0.0], [0.0], r)
         self.assertEqual(list(m), [True, False, True])
 
+    def test_point_buffer_pairs(self):
+        r = 100.0
+        a = np.pi / 64
+        edge = r * np.cos(a)
+        # point 0 in both buffers, point 1 just outside the first 64-gon's edge (inside the circle), point 2 in none
+        px = [50.0, edge * 1.000001 * np.cos(a), 1000.0]
+        py = [0.0, edge * 1.000001 * np.sin(a), 1000.0]
+        pi, si = XS.point_buffer_pairs(px, py, [0.0, 120.0], [0.0, 0.0], r)
+        self.assertEqual(list(zip(pi.tolist(), si.tolist())), [(0, 0), (0, 1), (1, 1)])
+        np.testing.assert_array_equal(XS.within_point_buffers(px, py, [0.0, 120.0], [0.0, 0.0], r),
+                                      np.isin(np.arange(3), pi))
+
     def test_wkb_multipolygon_z(self):
         import struct
         ring = [(0, 0, 1), (0, 1, 1), (1, 1, 1), (0, 0, 1)]

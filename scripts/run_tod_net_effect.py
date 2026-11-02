@@ -12,14 +12,17 @@ the rule's inputs and each permit's lot, as in scripts/run_tod_traits.py. Far la
 Where an adapter limits its work to a box or buffer smaller than 1 1/2 miles (New York 1,500 m, Philadelphia 2,000 m),
 that one distance is widened to FAR_WORK_M while the adapter runs (plan section 8, deviation 1).
 
-City coverage layers: scripts/build_tod_net_coverage.py (data/processed/tod_net_effect/coverage_*.gpkg, coverage_cities.csv).
+City coverage layers: scripts/build_tod_net_coverage.py (data/processed/tod_net_effect/coverage_*, coverage_cities.csv).
 
 Outputs (committed; no parcel, permit, project or person identifiers):
 - reference/tod_net_effect_by_case.csv   rates, borrowing, net homes a year, citywide net share, 90% intervals
 - reference/tod_coverage_traits.csv      city coverage shares and corridor label; unit island size, largest site,
                                          elongation, corridor share, binding ratio
 - reference/tod_net_traits_test.csv      unit traits under the trait-test rule (traits.judge_tools)
-Caches (git-ignored): data/processed/tod_net_effect/
+Caches (git-ignored): data/processed/tod_net_effect/ (areas_<case>.pkl: per member the treated and upzoned lots,
+"treated_lots" / "upzoned_lots", lists of polygon features (missing_middleware.geom's model) standing for their union,
+in the case's metre CRS, an EPSG code under "crs").
+Geometry: missing_middleware.geom and its geom_extra_* helpers (no geopandas or shapely; docs/GEOMETRY.md).
 """
 from __future__ import annotations
 
@@ -101,52 +104,87 @@ def capture(nyc=None):
 
 @contextmanager
 def widen(distances: tuple[float, ...], to: float = FAR_WORK_M):
-    """Replace the given buffer distances (exactly) by `to` in shapely and GeoPandas buffer calls while active."""
-    import geopandas.base as GB
-    import shapely.geometry.base as SB
-    os_, og = SB.BaseGeometry.buffer, GB.GeoPandasBase.buffer
+    """While active, the adapters' work distances in `distances` become `to`: cases.within_distance calls with that
+    distance (Philadelphia's 2 km around a member), and New York's lot box (the member's bounds plus 1,500 m, drawn in
+    case_nyc.build_member from geom_extra_station.feature_bounds), which grows by to - 1,500 m on every side."""
+    import sys as _sys
+    from missing_middleware import geom_extra_station as S
+    from missing_middleware.tod import case_nyc as N
+    ow, ofb = C.within_distance, S.feature_bounds
 
-    def sb(self, distance, *a, **k):
-        return os_(self, to if distance in distances else distance, *a, **k)
+    def wd(px, py, polys, d):
+        return ow(px, py, polys, to if d in distances else d)
 
-    def gb(self, distance, *a, **k):
-        d = to if (np.isscalar(distance) and distance in distances) else distance
-        return og(self, d, *a, **k)
-    SB.BaseGeometry.buffer, GB.GeoPandasBase.buffer = sb, gb
+    def fb(polys):
+        b = ofb(polys)
+        if 1500 in distances and _sys._getframe(1).f_code is N.build_member.__code__:
+            g = to - 1500
+            b = b + np.array([-g, -g, g, g])
+        return b
+    C.within_distance, S.feature_bounds = wd, fb
     try:
         yield
     finally:
-        SB.BaseGeometry.buffer, GB.GeoPandasBase.buffer = os_, og
+        C.within_distance, S.feature_bounds = ow, ofb
 
 
-def member_frame(mid, eff: int, per: dict, args: dict, area: pd.Series, lots, permits: pd.DataFrame) -> dict:
-    """Treatment, ring and far land of one case or stacked member. permits: project, year, units, pix (lot index)."""
+def distinct(polys: list) -> list:
+    """Non-empty polygon features with identical outlines kept once. A list of lots stands for their union: every
+    use below treats a point as inside when it lies in any lot (no union is drawn, so no overlay error enters)."""
+    from missing_middleware import geom_extra_tod as X
+    seen, out = set(), []
+    for f in polys:
+        if not f:
+            continue
+        k = X.feature_key(f)
+        if k not in seen:
+            seen.add(k)
+            out.append(f)
+    return out
+
+
+def region_acres(region, polys: list, pad: float) -> float:
+    """Acres of a Region lying within `pad` metres of the polygons' bounding box (its whole area when it lies there)."""
+    from missing_middleware import geom_extra_tod as X
+    from missing_middleware.geom_extra_station import feature_bounds
+    b = feature_bounds(polys)
+    x0, y0 = np.nanmin(b[:, 0]) - pad - 1, np.nanmin(b[:, 1]) - pad - 1
+    x1, y1 = np.nanmax(b[:, 2]) + pad + 1, np.nanmax(b[:, 3]) + pad + 1
+    box = [[np.array([(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)])]]
+    return float(X.region_area_by_tiles([box], region).sum()) / C.SQM_PER_ACRE
+
+
+def member_frame(mid, eff: int, per: dict, args: dict, area: pd.Series, lots, permits: pd.DataFrame, crs: int) -> dict:
+    """Treatment, ring and far land of one case or stacked member. permits: project, year, units, pix (lot index).
+    lots: parcel frame (polygon features in "geometry", metre CRS `crs`, an EPSG code)."""
+    from missing_middleware import geom_extra_tod as X
     excl = NE.excluded_by_uniform_rule(**args)
     elig = args["eligible"].astype(bool).reindex(lots.index).fillna(False)
     far, dist = NE.far_land(lots, area, excl, elig, args.get("in_city"))
     lab = NE.three_areas(area.where(~excl, None), far)
     lab = lab.where(elig, None)
-    acres = (lots.geometry.area / C.SQM_PER_ACRE).groupby(lab).sum().to_dict()
+    lot_acres = C.parcel_acres(lots)
+    acres = lot_acres.groupby(lab).sum().to_dict()
     p = permits.dropna(subset=["pix"]).copy()
     p["area"] = lab.reindex(p["pix"].astype(int)).values
     p = p[p["area"].notna()][["project", "area", "year", "units"]].copy()
     p["year"] = p["year"].astype(int)
-    tr = lots.loc[area == C.TREAT]
+    tr = list(lots.loc[area == C.TREAT, "geometry"])
     # how far out the adapter's lots reach: share of the 1/4-1 1/2 mile band (around the treated land) that has lots
-    tunion = tr.geometry.make_valid().union_all() if len(tr) else None
+    tlots = distinct(tr)
     reach = {}
-    if tunion is not None:
-        band = tunion.buffer(NE.FAR_MAX_M).difference(tunion.buffer(NE.FAR_MIN_M))
-        pts = lots.geometry.representative_point()
-        inband = pts.within(band)
-        reach = {"band_acres": round(band.area / C.SQM_PER_ACRE, 1),
-                 "lot_acres_in_band": round(float(lots.loc[inband].geometry.area.sum() / C.SQM_PER_ACRE), 1),
+    if tlots:
+        band = X.Buffer(tlots, NE.FAR_MAX_M) - X.Buffer(tlots, NE.FAR_MIN_M)
+        rx, ry = C.rep_xy(lots)
+        inband = X.points_in_region(rx.to_numpy(float), ry.to_numpy(float), band)
+        reach = {"band_acres": round(region_acres(band, tlots, NE.FAR_MAX_M), 1),
+                 "lot_acres_in_band": round(float(lot_acres[inband].sum()), 1),
                  "max_lot_distance_m": round(float(dist.max()), 0)}
-    up = args["in_reform"].astype(bool) & args["rose"].astype(bool)
-    upzoned = lots.loc[up.reindex(lots.index).fillna(False)].geometry.make_valid().union_all() if up.any() else None
-    return {"id": str(mid), "effective_year": int(eff), "upzoned_union": upzoned, "per": {"before": list(per["before"]), "after": list(per["after"])},
+    up = (args["in_reform"].astype(bool) & args["rose"].astype(bool)).reindex(lots.index).fillna(False)
+    upzoned = distinct(list(lots.loc[up, "geometry"]))
+    return {"id": str(mid), "effective_year": int(eff), "upzoned_lots": upzoned, "per": {"before": list(per["before"]), "after": list(per["after"])},
             "permits": p, "acres": {k: float(v) for k, v in acres.items()}, "reach": reach,
-            "treated_union": tunion, "crs": lots.crs, "excluded_acres": round(float(lots.loc[excl & elig].geometry.area.sum() / C.SQM_PER_ACRE), 1)}
+            "treated_lots": tlots, "crs": int(crs), "excluded_acres": round(float(lot_acres[excl & elig].sum()), 1)}
 
 
 def _permits_from_points(points, pix) -> pd.DataFrame:
@@ -164,7 +202,7 @@ def build_simple(key: str) -> list[dict]:
     lots = args["parcels"]
     pts, pix = cap["locate"][-1]
     per = C.period_years(ci.effective_year, ci.first_year, ci.last_full_year)
-    return [member_frame(ci.case, ci.effective_year, per, args, area, lots, _permits_from_points(pts, pix))]
+    return [member_frame(ci.case, ci.effective_year, per, args, area, lots, _permits_from_points(pts, pix), mod.CRS_M)]
 
 
 def build_la(case: str) -> list[dict]:
@@ -173,7 +211,7 @@ def build_la(case: str) -> list[dict]:
         parcels, qg, per, eff, rule, stations = K._areas(case)
     args, area = cap["uniform"][0]
     q = _permits_from_points(qg, qg["pix"])
-    return [member_frame(case, eff.year, per, args, area, args["parcels"], q)]
+    return [member_frame(case, eff.year, per, args, area, args["parcels"], q, K.CRS_M)]
 
 
 def build_seattle(case: str) -> list[dict]:
@@ -182,7 +220,7 @@ def build_seattle(case: str) -> list[dict]:
         f = K._frame(case)
     args, area = cap["uniform"][-1]
     pg = K._load()["permits"]
-    return [member_frame(case, f["effective_year"], f["per"], args, area, args["parcels"], _permits_from_points(pg, pg["pix"]))]
+    return [member_frame(case, f["effective_year"], f["per"], args, area, args["parcels"], _permits_from_points(pg, pg["pix"]), K.CRS_M)]
 
 
 def build_philadelphia() -> list[dict]:
@@ -198,7 +236,7 @@ def build_philadelphia() -> list[dict]:
         if not m["acres"].get(C.TREAT, 0) > 0:
             continue
         args, area = cap["uniform"][-1]
-        out.append(member_frame(b, m["effective"].year, m["per"], args, area, args["parcels"], q))
+        out.append(member_frame(b, m["effective"].year, m["per"], args, area, args["parcels"], q, P.CRS_M))
     return out
 
 
@@ -218,7 +256,7 @@ def build_nyc() -> list[dict]:
         args, area = cap["uniform"][-1]
         jg, ix = cap["jobs"][-1]
         q = _permits_from_points(jg, ix)
-        fr = member_frame(ulurp, m["effective_year"], per, args, area, args["parcels"], q)
+        fr = member_frame(ulurp, m["effective_year"], per, args, area, args["parcels"], q, N.CRS_M)
         fr["name"] = name
         out.append(fr)
     return out
@@ -233,6 +271,9 @@ def build_madison() -> list[dict]:
     from missing_middleware.permits.match import AddressIndex
     from missing_middleware.tod import madison_test as MT
     L = M.lots()
+    # the lot table holds outlines in 'poly' and GEOS interior points in px, py (EPSG:3071); the case helpers read
+    # 'geometry' and cached representative points rx, ry (as run_tod_traits.build_madison)
+    L["geometry"], L["rx"], L["ry"] = L["poly"], L["px"], L["py"]
     parcels_tbl = madison.parcel_table(madison.load_parcels(RAW / "madison_parcels"))
     ref = madison.address_reference(parcels_tbl, madison.load_address_points(RAW / "madison_parcels"))
     index = AddressIndex(ref)
@@ -248,10 +289,11 @@ def build_madison() -> list[dict]:
     x = d[d.placed].copy()
     q = pd.DataFrame({"project": x["project"].astype(str), "year": x["year"], "units": x["units"], "pix": x["lot"].astype(int)})
     per = {"before": list(MT.BEFORE), "after": list(MT.AFTER)}
-    fr = member_frame("madison_tod_overlay_2023", 2023, per, args, area, L, q)
-    import geopandas as gpd
-    cw = gpd.GeoDataFrame({"year": q["year"].values, "units": q["units"].values},
-                          geometry=L.geometry.representative_point().reindex(q["pix"]).values, crs=L.crs)
+    fr = member_frame("madison_tod_overlay_2023", 2023, per, args, area, L, q, M.CRS_M)
+    # placed permits at their lots' representative points (EPSG:3071), for the distant check
+    cw = pd.DataFrame({"year": q["year"].values, "units": q["units"].values,
+                       "x": L["rx"].reindex(q["pix"]).values, "y": L["ry"].reindex(q["pix"]).values})
+    cw.attrs["crs"] = int(M.CRS_M)
     cw.to_pickle(OUT / "madison_citywide.pkl")
     return [fr]
 
@@ -287,7 +329,15 @@ def load_case(c: str) -> list[dict]:
     return pickle.loads((OUT / f"areas_{c}.pkl").read_bytes())
 
 
-# =========================================================================== net effect
+def member_lots(m: dict, kind: str) -> list:
+    """A member's treated or upzoned land (kind "treated" / "upzoned") as a list of polygon features in its CRS
+    (m["crs"]), standing for their union. Caches written before the geometry port hold one shapely union under
+    "<kind>_union"; its polygons are read through its __geo_interface__, one feature each."""
+    from missing_middleware import geom_extra_tod as X
+    if f"{kind}_lots" in m:
+        return list(m[f"{kind}_lots"])
+    return [[part] for part in X.feature_from_geo_interface(m.get(f"{kind}_union"))]
+
 
 def case_inputs(c: str) -> tuple[pd.DataFrame, dict, list[int], list[int], list[dict]]:
     ms = load_case(c)
@@ -324,20 +374,22 @@ def treated_homes(case: str) -> tuple[float, str]:
     if f.exists():
         d = json.loads(f.read_text())
         return d["homes"], d["source"]
-    import geopandas as gpd
-    from shapely.ops import unary_union
+    from missing_middleware.geom_extra_station import bbox_to, feature_bounds, interior_points, polys_to_crs, read_vector
     ms = load_case(case)
     crs = ms[0]["crs"]
-    u = unary_union([m["treated_union"] for m in ms if m["treated_union"] is not None])
-    bbox = tuple(gpd.GeoSeries([u.envelope], crs=crs).to_crs(4269).total_bounds)
+    u = [f for m in ms for f in member_lots(m, "treated")]
+    fb = feature_bounds(u)
+    env = (np.nanmin(fb[:, 0]), np.nanmin(fb[:, 1]), np.nanmax(fb[:, 2]), np.nanmax(fb[:, 3]))
+    bbox = bbox_to(env, crs, 4269)
     if case == "madison_tod_overlay_2023":
-        b = gpd.read_file(RAW / "census_tiger_2020_tabblock" / "tl_2020_55_tabblock20.zip", bbox=bbox)
-        col, source = "HOUSING20", "2020 census block homes whose block point lies in the treated lots"
+        path, col = RAW / "census_tiger_2020_tabblock" / "tl_2020_55_tabblock20.zip", "HOUSING20"
+        source = "2020 census block homes whose block point lies in the treated lots"
     else:
-        b = gpd.read_file(RAW / "tod_cases" / "census_2010_blocks" / "tabblock2010_42_pophu.zip", bbox=bbox)
-        col, source = "HOUSING10", "2010 census block homes whose block point lies in the treated lots (members together)"
-    pts = b.to_crs(crs).geometry.representative_point()
-    homes = float(pd.to_numeric(b[col], errors="coerce").fillna(0)[pts.within(u).values].sum())
+        path, col = RAW / "tod_cases" / "census_2010_blocks" / "tabblock2010_42_pophu.zip", "HOUSING10"
+        source = "2010 census block homes whose block point lies in the treated lots (members together)"
+    b = read_vector(path, None, columns=[col], bbox=bbox)
+    px, py = interior_points(polys_to_crs(list(b["geometry"]), b.attrs["crs"], crs))
+    homes = float(pd.to_numeric(b[col], errors="coerce").fillna(0)[C.in_any(px, py, u)].sum())
     f.write_text(json.dumps({"homes": homes, "source": source}))
     return homes, source
 
@@ -468,16 +520,14 @@ def case_shapes() -> dict:
         if not (OUT / f"areas_{c}.pkl").exists():
             continue
         out[c] = {}
-        for key, tag in (("upzoned_union", ""), ("treated_union", "_treatment_lots")):
+        for key, tag in (("upzoned", ""), ("treated", "_treatment_lots")):
             geoms = []
             for m in load_case(c):
-                g = m.get(key)
-                if g is not None:
-                    geoms += list(g.geoms) if hasattr(g, "geoms") else [g]
+                geoms += member_lots(m, key)
             ps = NE.patches(geoms)
             out[c].update({f"corridor_share{tag}": NE.corridor_share(geoms), f"pieces{tag}": len(ps),
                            f"pieces_half_mile_or_longer{tag}": sum(1 for p in ps if NE.rect_sides(p)[0] >= NE.CORRIDOR_MIN_M),
-                           f"acres{tag}": sum(p.area for p in ps) / C.SQM_PER_ACRE})
+                           f"acres{tag}": sum(NE.area(p) for p in ps) / C.SQM_PER_ACRE})
     if len(out) == len(CASES):
         f.write_text(json.dumps(out, indent=1))
     return out
@@ -504,8 +554,8 @@ def sqft_per_home() -> float:
 
 
 def unit_traits() -> pd.DataFrame:
-    import geopandas as gpd
     import build_tod_net_coverage as BC
+    from missing_middleware.geom_extra_station import polys_to_crs
     import run_tod_traits as R
     units = pd.read_csv(R.UNITS_CSV)
     vals = pd.read_csv(R.VALUES_CSV).set_index("unit_id")
@@ -524,14 +574,15 @@ def unit_traits() -> pd.DataFrame:
             if not len(fr):
                 continue
             uid = fr["unit_id"].iloc[0]
-            geoms = list(fr.geometry.make_valid())
-            land = gpd.GeoSeries(geoms, crs=fr.crs).union_all()
+            geoms = [g for g in fr["geometry"] if g]
+            land = [part for f in distinct(geoms) for part in f]   # the lots as one feature (they do not overlap)
             isl = np.nan
             if city in patches:
                 pc = patches[city]
-                isl = NE.island_acres(gpd.GeoSeries([land], crs=fr.crs).to_crs(pc.crs).iloc[0], pc)
+                isl = NE.island_acres(polys_to_crs([land], R.CRS_OF[key], pc.attrs["crs"])[0] if land else land,
+                                      pc.rename(columns={"geometry": "poly"}))
             ps = NE.patches(geoms)
-            main = max(ps, key=lambda p: p.area) if ps else None
+            main = max(ps, key=NE.area) if ps else None
             dens = vals["t03_existing_density"].get(uid, np.nan) if uid in vals.index else np.nan
             bind = NE.binding_ratio(dens, fr["old_level"], fr["acres"], sq) if city in FAR_LEVEL_CITIES else np.nan
             rows.append({"unit_id": uid, "city": city, "n01_island_acres": isl,
@@ -634,8 +685,8 @@ def _car_shares(g: pd.DataFrame) -> pd.DataFrame:
 def car_traits() -> pd.DataFrame:
     """Each unit's car-dependence values: the treatment lots' tracts (by representative point), each lot's tract counts
     weighted by the lot's acres, then numerator / denominator. ACS 2006-2010 outside Madison, 2018-2022 for Madison."""
-    import geopandas as gpd
     import run_tod_traits as R
+    from missing_middleware.geom_extra_station import feature_bounds, first_within, polys_to_crs, transform
     v10, v22 = car_values_2010(), car_values_2022()
     tr10, tr20 = R.tract_shapes("2010"), R.tract_shapes("2020")
     rows = []
@@ -647,12 +698,18 @@ def car_traits() -> pd.DataFrame:
         if not frames:
             continue
         fr = pd.concat(frames, ignore_index=True)
-        fr = gpd.GeoDataFrame(fr, geometry="geometry", crs=frames[0].crs)
+        crs = R.CRS_OF[key]
         tracts, vals, vint = (tr20, v22, "2018-2022") if key == "madison" else (tr10, v10, "2006-2010")
-        pts = gpd.GeoDataFrame({"acres": fr["acres"].values, "unit_id": fr["unit_id"].values},
-                               geometry=fr.geometry.representative_point().values, crs=fr.crs)
-        j = gpd.sjoin(pts, tracts.to_crs(fr.crs), how="left", predicate="within")
-        j = j[~j.index.duplicated()].merge(vals, on="tract", how="left")
+        # tracts moved to the lots' CRS (those near the lots only); each lot's tract by its representative point,
+        # the first containing tract kept (sjoin "within", duplicates dropped)
+        tb = feature_bounds(list(tracts["geometry"]))
+        lon, lat = transform(fr["rx"].to_numpy(float), fr["ry"].to_numpy(float), crs, tracts.attrs["crs"])
+        near = (tb[:, 2] >= lon.min() - 0.1) & (tb[:, 0] <= lon.max() + 0.1) & (tb[:, 3] >= lat.min() - 0.1) & (tb[:, 1] <= lat.max() + 0.1)
+        tn = tracts[near]
+        k = first_within(fr["rx"].to_numpy(float), fr["ry"].to_numpy(float), polys_to_crs(list(tn["geometry"]), tracts.attrs["crs"], crs))
+        j = pd.DataFrame({"acres": fr["acres"].values, "unit_id": fr["unit_id"].values,
+                          "tract": np.where(k >= 0, tn["tract"].to_numpy(object)[np.maximum(k, 0)], None)})
+        j = j.merge(vals, on="tract", how="left")
         for uid, g in j.groupby("unit_id"):
             w = g["acres"]
 
@@ -754,54 +811,56 @@ def county_units(years) -> pd.DataFrame:
 
 def metro_counties(city: str) -> list[tuple[str, str]]:
     """Counties of the city's metro (2024 CBSA), from the TIGER county file."""
-    import geopandas as gpd
+    from missing_middleware.geom_extra_foundation import read_attributes
     st, cos = STATE_COUNTY[city]
-    g = gpd.read_file(RAW / "census_tiger_2024" / "tl_2024_us_county.zip", ignore_geometry=True)
+    g = read_attributes(RAW / "census_tiger_2024" / "tl_2024_us_county.zip")
     cb = g[(g["STATEFP"] == st) & (g["COUNTYFP"] == cos[0])]["CBSAFP"].iloc[0]
     m = g[g["CBSAFP"] == cb]
     return [(s, c) for s, c in zip(m["STATEFP"], m["COUNTYFP"])]
 
 
 def citywide_permits(case: str) -> pd.DataFrame | None:
-    """All of the city's permits with units, year and a point (metre CRS of the case), from the adapter's own loader."""
-    import geopandas as gpd
+    """All of the city's permits with units, year and a point (columns x, y in the case's metre CRS, attrs["crs"]),
+    from the adapter's own loader."""
     city = CASES[case][0]
+    out = None
     if city == "Chicago":
         from missing_middleware.tod import case_chicago as K
         p = pd.read_csv(K.DIR / "permits_new_construction.csv", dtype=str).drop_duplicates("permit_")
         p["units"] = p["work_description"].map(K.parse_units)
         p["year"] = pd.to_numeric(p["issue_date"].str[:4], errors="coerce")
         p = p[(p["units"] > 0) & p["year"].notna()].dropna(subset=["latitude", "longitude"])
-        g = gpd.GeoDataFrame(p, geometry=gpd.points_from_xy(p["longitude"].astype(float), p["latitude"].astype(float)), crs=4326).to_crs(K.CRS_M)
-        g["x"], g["y"] = g.geometry.x, g.geometry.y
-        return K.dedupe_staged(g)
-    if city == "Saint Paul":
+        out = K.dedupe_staged(C.points_from_lonlat(p, "longitude", "latitude", K.CRS_M))
+    elif city == "Saint Paul":
         from missing_middleware.tod import case_stpaul as K
-        h = gpd.read_file(K.DIR / "housing_production.geojson").to_crs(K.CRS_M)
+        h = C.points(K.DIR / "housing_production.geojson", K.CRS_M)
         h = h[h["TypeOfWork"] == "New"].copy()
         h["units"] = pd.to_numeric(h["NewDwellingUnits"], errors="coerce").fillna(0)
         h["year"] = pd.to_numeric(h["ProjectPermitIssueYear"], errors="coerce")
-        return h[(h["units"] > 0)]
-    if city == "Charlotte":
+        out = h[(h["units"] > 0)]
+    elif city == "Charlotte":
         from missing_middleware.tod import case_charlotte as K
         pr = K.load_permits()
-        g = gpd.GeoDataFrame(pr, geometry=gpd.points_from_xy(pr["X"], pr["Y"]), crs=2264).to_crs(K.CRS_M)
-        cityg = gpd.read_file(K.DIR / "council_districts.geojson").to_crs(K.CRS_M).union_all()
-        return g[g.geometry.within(cityg)]
-    if city == "Philadelphia":
-        from missing_middleware.tod import case_philadelphia as P
-        return P._load()["permits"]
-    if city == "Seattle":
+        g = C.points_from_lonlat(pr, "X", "Y", K.CRS_M, src=2264)
+        districts = C.polygons(K.DIR / "council_districts.geojson", K.CRS_M)
+        out = g[C.in_any(g["x"].to_numpy(float), g["y"].to_numpy(float), districts)]
+    elif city == "Philadelphia":
+        from missing_middleware.tod import case_philadelphia as K
+        out = K._load()["permits"]
+    elif city == "Seattle":
         from missing_middleware.tod import case_seattle as K
-        return K._load()["permits"]
-    if city == "New York":
-        from missing_middleware.tod import case_nyc as N
-        j = N.load_jobs(None)
+        out = K._load()["permits"]
+    elif city == "New York":
+        from missing_middleware.tod import case_nyc as K
+        j = K.load_jobs(None)
         j = j[j["lon"].between(-74.3, -73.6)]
-        return gpd.GeoDataFrame(j, geometry=gpd.points_from_xy(j["lon"], j["lat"]), crs=4326).to_crs(N.CRS_M)
-    if city == "Madison":
-        return None  # handled from the Madison permit table (placed permits) in stage_distant
-    return None   # Los Angeles: permit files cover only the plans' envelopes
+        out = C.points_from_lonlat(j, "lon", "lat", K.CRS_M)
+    if out is None:
+        return None  # Madison: handled from the Madison permit table (placed permits) in stage_distant; Los Angeles:
+        #               permit files cover only the plans' envelopes
+    out = out.copy()
+    out.attrs["crs"] = int(K.CRS_M)
+    return out
 
 
 def stage_distant() -> pd.DataFrame:
@@ -827,12 +886,17 @@ def stage_distant() -> pd.DataFrame:
         for m in ms:
             b, a = m["per"]["before"], m["per"]["after"]
             if city == "Madison":
-                q = madison_citywide()
-                pts, yrs, un = q.geometry, q["year"], q["units"]
+                g = madison_citywide()
+                yrs, un = g["year"], g["units"]
             else:
-                g = allp.to_crs(m["crs"]) if allp.crs != m["crs"] else allp
-                pts, yrs, un = g.geometry, pd.to_numeric(g["year"], errors="coerce"), pd.to_numeric(g["units"], errors="coerce")
-            beyond = pts.distance(m["treated_union"]) > NE.FAR_MAX_M
+                g = allp
+                yrs, un = pd.to_numeric(g["year"], errors="coerce"), pd.to_numeric(g["units"], errors="coerce")
+            if int(g.attrs.get("crs", m["crs"])) != int(m["crs"]):
+                raise ValueError(f"{c}: permits in EPSG:{g.attrs['crs']}, member in EPSG:{m['crs']}")
+            from missing_middleware.geom_extra_station import distance_within
+            tu = member_lots(m, "treated")
+            beyond = pd.Series(distance_within(g["x"].to_numpy(float), g["y"].to_numpy(float), tu, NE.FAR_MAX_M)
+                               > NE.FAR_MAX_M, index=g.index)
             s = pd.Series(un.values, index=yrs.values)[beyond.values].groupby(level=0).sum().to_dict()
             s = {int(y): float(s.get(y, 0.0)) for y in b + a}
             chk = NE.distant_check(s, reg, b, a)
@@ -871,7 +935,7 @@ def stage_distant() -> pd.DataFrame:
 
 
 def madison_citywide():
-    """Madison's placed permits (the Madison test's own permit table) with points, metre CRS."""
+    """Madison's placed permits (the Madison test's own permit table): year, units and points x, y (EPSG:3071)."""
     f = OUT / "madison_citywide.pkl"
     return pd.read_pickle(f)
 

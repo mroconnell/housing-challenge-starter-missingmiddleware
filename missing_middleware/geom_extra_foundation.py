@@ -1082,3 +1082,114 @@ def write_geojson_gdal(path, name: str, props: pd.DataFrame, polys: list, kinds:
     lines.append(",\n".join(feats))
     lines += ["]", "}"]
     Path(path).write_text("\n".join(lines) + "\n")
+
+
+# ------------------------------------------------------------------------------- GeoParquet caches (census scripts)
+# scripts/run_tod_census_*.py keep census blocks as GeoParquet caches written by geopandas before the port: block
+# points (WKB Point) and, for whole states, block polygons. These read them (and write new ones) without geopandas.
+
+def _geoparquet_epsg(t) -> int | None:
+    geo = json.loads((t.schema.metadata or {}).get(b"geo", b"{}") or b"{}")
+    col = geo.get("primary_column", "geometry")
+    crs = (geo.get("columns", {}).get(col, {}) or {}).get("crs") or {}
+    code = (crs.get("id") or {}).get("code") if isinstance(crs, dict) else None
+    return int(code) if code else None
+
+
+def read_geoparquet_points(path) -> tuple[pd.DataFrame, np.ndarray, np.ndarray, int | None]:
+    """(attributes, x, y, EPSG code) from a GeoParquet file of 2D WKB points (empty points as NaN)."""
+    import pyarrow.parquet as pq
+    t = pq.read_table(path)
+    geo = json.loads((t.schema.metadata or {}).get(b"geo", b"{}") or b"{}")
+    col = geo.get("primary_column", "geometry")
+    wkb = t.column(col).combine_chunks()
+    n = len(wkb)
+    x, y = np.full(n, np.nan), np.full(n, np.nan)
+    offs = np.frombuffer(wkb.buffers()[1], dtype=np.int32, count=n + 1, offset=wkb.offset * 4) if n else np.zeros(1, np.int32)
+    data = np.frombuffer(wkb.buffers()[2], dtype=np.uint8) if n else np.zeros(0, np.uint8)
+    lens = np.diff(offs)
+    valid = np.asarray(wkb.is_valid()) if wkb.null_count else np.ones(n, bool)
+    plain = valid & (lens == 21)
+    if plain.any():                                   # little-endian 2D points: 1 + 4 + 16 bytes
+        st = offs[:-1][plain]
+        rec = data[st[:, None] + np.arange(21)]
+        if (rec[:, 0] == 1).all() and (rec[:, 1:5].view("<u4").ravel() == 1).all():
+            xy = rec[:, 5:].copy().view("<f8")
+            x[plain], y[plain] = xy[:, 0], xy[:, 1]
+            plain_done = plain
+        else:
+            plain_done = np.zeros(n, bool)
+    else:
+        plain_done = np.zeros(n, bool)
+    rest = np.flatnonzero(valid & ~plain_done)
+    if len(rest):
+        from missing_middleware.geom_extra_station import wkb_feature
+        vals = wkb.to_pylist()
+        for i in rest:
+            k, v = wkb_feature(vals[i])
+            if k == "point":
+                x[i], y[i] = v
+    return t.drop([col]).to_pandas(), x, y, _geoparquet_epsg(t)
+
+
+def write_geoparquet_points(attrs: pd.DataFrame, x, y, path, epsg: int) -> None:
+    """GeoParquet of 2D points (little-endian WKB), CRS recorded by its EPSG code."""
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+    x, y = np.asarray(x, float), np.asarray(y, float)
+    rec = np.zeros(len(x), dtype=[("bo", "u1"), ("t", "<u4"), ("x", "<f8"), ("y", "<f8")])
+    rec["bo"], rec["t"], rec["x"], rec["y"] = 1, 1, x, y
+    raw = rec.tobytes()
+    wkb = [raw[21 * i: 21 * (i + 1)] for i in range(len(x))]
+    df = pd.DataFrame(attrs).reset_index(drop=True)
+    table = pa.Table.from_pandas(df, preserve_index=False).append_column("geometry", pa.array(wkb, type=pa.binary()))
+    crs = _PROJJSON.get(epsg, {"id": {"authority": "EPSG", "code": int(epsg)}})
+    bbox = [float(np.nanmin(x)), float(np.nanmin(y)), float(np.nanmax(x)), float(np.nanmax(y))] if len(x) else []
+    geo = {"primary_column": "geometry", "columns": {"geometry": {"encoding": "WKB", "crs": crs,
+           "geometry_types": ["Point"], "bbox": bbox}}, "version": "1.1.0",
+           "creator": {"library": "missing_middleware.geom_extra_foundation", "version": "1"}}
+    md = dict(table.schema.metadata or {})
+    md[b"geo"] = json.dumps(geo).encode("utf-8")
+    pq.write_table(table.replace_schema_metadata(md), path)
+
+
+def read_geoparquet_near(path, boxes, batch_rows: int = 50_000) -> tuple[pd.DataFrame, list, int | None]:
+    """(attributes, polygon features, EPSG code) of the rows of a GeoParquet polygon file whose bounds meet any of the
+    boxes (minx, miny, maxx, maxy) - a whole state's blocks without holding every polygon in memory (read in batches).
+    Row order kept."""
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+    pf = pq.ParquetFile(path)
+    geo = json.loads((pf.schema_arrow.metadata or {}).get(b"geo", b"{}") or b"{}")
+    col = geo.get("primary_column", "geometry")
+    B = np.asarray(boxes, float).reshape(-1, 4)
+    parts, feats = [], []
+    if len(B):
+        for batch in pf.iter_batches(batch_size=batch_rows):
+            keep = []
+            for i, b in enumerate(batch.column(col).to_pylist()):
+                if b is None:
+                    continue
+                f, _ = from_wkb(b)
+                rs = [r for p in f for r in p]
+                if not rs:
+                    continue
+                a = np.concatenate(rs)
+                x0, y0 = a.min(0)
+                x1, y1 = a.max(0)
+                if np.any((B[:, 0] <= x1) & (B[:, 2] >= x0) & (B[:, 1] <= y1) & (B[:, 3] >= y0)):
+                    keep.append(i)
+                    feats.append(f)
+            if keep:
+                t = pa.Table.from_batches([batch]).drop([col]).take(keep)
+                parts.append(t)
+    if parts:
+        attrs = pa.concat_tables(parts).to_pandas()
+    else:
+        attrs = pf.schema_arrow.empty_table().drop([col]).to_pandas()
+    epsg = None
+    crs = (geo.get("columns", {}).get(col, {}) or {}).get("crs") or {}
+    code = (crs.get("id") or {}).get("code") if isinstance(crs, dict) else None
+    if code:
+        epsg = int(code)
+    return attrs, feats, epsg

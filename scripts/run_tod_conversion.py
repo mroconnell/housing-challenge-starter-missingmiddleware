@@ -14,15 +14,14 @@ import pickle
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
-from shapely.ops import unary_union
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from missing_middleware import geom_extra_tod as X  # noqa: E402
 from missing_middleware.paths import PROCESSED, RAW, REFERENCE  # noqa: E402
 from missing_middleware.tod import control_cities as cc  # noqa: E402
 from scripts import run_tod_census_cases as R  # noqa: E402
@@ -49,33 +48,33 @@ def homes_share(st: str, geom, city_geom) -> float:
 
 
 def place(st: str, name: str):
-    pl = gpd.read_file(R.D / f"tl_2020_{st}_place.zip") if (R.D / f"tl_2020_{st}_place.zip").exists() else None
-    return pl[pl["NAME"] == name].to_crs(R.CRS).geometry.union_all()
+    pl = R.layer(R.D / f"tl_2020_{st}_place.zip", columns=["NAME"]) if (R.D / f"tl_2020_{st}_place.zip").exists() else None
+    return R.union(list(pl.loc[pl["NAME"] == name, "geometry"]))
 
 
 def coverage(kind: str) -> float:
     if kind == "nyc":
         mem = pickle.loads((PROCESSED / "tod_net_effect" / "areas_nyc_pooled_2003_2013.pkl").read_bytes())
-        u = unary_union([gpd.GeoSeries([m["upzoned_union"]], crs=m["crs"]).to_crs(R.CRS).iloc[0] for m in mem if m["effective_year"] <= 2009])
+        u = R.union([f for m in mem if m["effective_year"] <= 2009 for f in R.member_polys(m, "upzoned_union")])
         return homes_share("36", u, place("36", "New York"))
     if kind == "seattle":
-        z = gpd.read_file(RAW / "tod_cases" / "seattle" / "zoning_current.geojson").to_crs(R.CRS)
+        z = R.layer(RAW / "tod_cases" / "seattle" / "zoning_current.geojson")
         m = z["ZONING"].astype(str).str.contains(r"\(M\d?\)", regex=True)
-        return homes_share("53", z[m].geometry.make_valid().union_all(), place("53", "Seattle"))
+        return homes_share("53", X.Polygons(R.valid(z[m])), place("53", "Seattle"))
     if kind == "mpls":
-        z = gpd.read_file(RAW / "tod_cases" / "minneapolis" / "zoning_2017_01.geojson").to_crs(R.CRS)
+        z = R.layer(RAW / "tod_cases" / "minneapolis" / "zoning_2017_01.geojson")
         m = z["ZONE_CODE"].astype(str).str.match(r"^R\d")
-        return homes_share("27", z[m].geometry.make_valid().union_all(), place("27", "Minneapolis"))
+        return homes_share("27", X.Polygons(R.valid(z[m])), place("27", "Minneapolis"))
     if kind == "pdx":
         f = D / "portland_zoning.geojson"
         if not f.exists():
             man = Manifest(D, "tod_conversion", "Oregon GeoHUB statewide zoning (DLCD)")
             data, url = arcgis_geojson(OR_ZONING, "ownerName LIKE '%Portland%'")
             man.record("portland_zoning.geojson", data, url, licence="Oregon GeoHUB, public")
-        z = gpd.read_file(f).to_crs(R.CRS)
+        z = R.layer(f)
         # Statewide layer carries Oregon classes only; "Res." = middle-housing residential (the single-dwelling zones RIP changed)
         m = z["orZCode"].astype(str).str.strip() == "Res."
-        return homes_share("41", z[m].geometry.make_valid().union_all(), place("41", "Portland"))
+        return homes_share("41", X.Polygons(R.valid(z[m])), place("41", "Portland"))
     raise ValueError(kind)
 
 

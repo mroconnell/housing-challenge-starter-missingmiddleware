@@ -12,13 +12,14 @@ import pickle
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
-from shapely.ops import unary_union
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from missing_middleware import geom_extra_foundation as GF  # noqa: E402
+from missing_middleware import geom_extra_station as S  # noqa: E402
+from missing_middleware import geom_extra_tod as X  # noqa: E402
 from missing_middleware.paths import PROCESSED, RAW, REFERENCE  # noqa: E402
 
 D = RAW / "tod_census_cases"
@@ -43,29 +44,72 @@ METHOD_CASES = {  # net-effect areas file -> state
 
 
 # ------------------------------------------------------------------ census blocks
-def block_points(st: str, year: int) -> gpd.GeoDataFrame:
+# Geometry without geopandas (docs/GEOMETRY.md): block points are frames with homes, land, x, y (CRS metres); areas
+# are geom_extra_tod Regions (polygons, GEOS-drawn buffers, differences) built from polygon features.
+def block_points(st: str, year: int) -> pd.DataFrame:
+    """Census blocks of a state as points (GEOS representative points), with homes and polygon area (m2) as land."""
     CACHE.mkdir(parents=True, exist_ok=True)
     f = CACHE / f"blocks_{st}_{year}.parquet"
     if f.exists():
-        return gpd.read_parquet(f)
+        a, x, y, _ = GF.read_geoparquet_points(f)
+        return a.assign(x=x, y=y)
     if year == 2010:
-        b = gpd.read_file(D / f"tabblock2010_{st}_pophu.zip").rename(columns={"HOUSING10": "homes"})
+        b = S.read_vector(D / f"tabblock2010_{st}_pophu.zip", CRS, columns=["HOUSING10"]).rename(columns={"HOUSING10": "homes"})
     else:
-        b = gpd.read_file(D / f"tl_2020_{st}_tabblock20.zip").rename(columns={"HOUSING20": "homes"})
-    b = b.to_crs(CRS)
-    out = gpd.GeoDataFrame({"homes": b["homes"].astype(float).values, "land": b.area.values},
-                           geometry=b.representative_point().values, crs=CRS)
-    out.to_parquet(f)
-    return out
+        b = S.read_vector(D / f"tl_2020_{st}_tabblock20.zip", CRS, columns=["HOUSING20"]).rename(columns={"HOUSING20": "homes"})
+    polys = list(b["geometry"])
+    x, y = S.interior_points(polys)
+    out = pd.DataFrame({"homes": b["homes"].astype(float).values, "land": S.areas(polys)})
+    GF.write_geoparquet_points(out, x, y, f, CRS)
+    return out.assign(x=x, y=y)
 
 
-def within(pts: gpd.GeoDataFrame, geom) -> pd.Series:
-    if geom is None or geom.is_empty:
+def within(pts: pd.DataFrame, region) -> pd.Series:
+    """Points strictly inside a Region (None: none)."""
+    if region is None or not len(pts):
         return pd.Series(False, index=pts.index)
-    idx = pts.sindex.query(geom, predicate="contains")
-    m = pd.Series(False, index=pts.index)
-    m.iloc[idx] = True
-    return m
+    return pd.Series(region.contains(pts["x"].to_numpy(float), pts["y"].to_numpy(float)), index=pts.index)
+
+
+def layer(path, columns: list[str] | None = None) -> pd.DataFrame:
+    """A polygon layer as a frame with "geometry" (polygon features) in CRS."""
+    return S.read_vector(path, CRS, columns=columns)
+
+
+def valid(g: pd.DataFrame) -> list:
+    """Polygon features of a frame, nested rings repaired (`.geometry.make_valid()`; even-odd per feature)."""
+    return S.make_valid_nested([f for f in g["geometry"] if f])
+
+
+def member_polys(m: dict, key: str) -> list:
+    """A net-effect member's treated or upzoned land (key treated_union / upzoned_union) as polygon features in CRS,
+    standing for their union. The members were written by scripts/run_tod_net_effect.py in the member's CRS (an EPSG
+    code, Projection or CRS object): the lots themselves under treated_lots / upzoned_lots, or, in caches written
+    before the geometry port, one shapely union under the key."""
+    lots = m.get(key.replace("_union", "_lots"))
+    if lots is not None:
+        feats = [f for f in lots if f]
+    else:
+        f = X.feature_from_geo_interface(m.get(key))
+        feats = [f] if f else []
+    if not feats:
+        return []
+    c = m["crs"]
+    c = c.to_epsg() if hasattr(c, "to_epsg") else c
+    return S.polys_to_crs(feats, c, CRS)
+
+
+def union(polys: list):
+    """union_all of valid features as a Region (a point is in it when it is within any feature)."""
+    return X.Polygons(polys)
+
+
+def ring(polys: list, r: float, *minus):
+    """`union_all(polys).buffer(r).difference(...)` as a Region; minus: Regions taken away."""
+    out = X.Buffer(polys, r)
+    for m in minus:
+        out = out - m
+    return out
 
 
 def per_acre(d10: pd.DataFrame, d20: pd.DataFrame) -> float:
@@ -93,44 +137,46 @@ def diff_with_interval(t10, t20, c10, c20, rng) -> tuple[float, float, float]:
 def boundary(case: str):
     if case == "phoenix_wu_2015_2016":
         from missing_middleware.tod import case_phoenix as P
-        wu = gpd.read_file(RAW / "tod_cases" / "phoenix" / "wu_zoning.geojson")
-        plan = gpd.read_file(RAW / "tod_cases" / "phoenix" / "wu_annual_plan.geojson")
+        wu = layer(RAW / "tod_cases" / "phoenix" / "wu_zoning.geojson")
+        plan = layer(RAW / "tod_cases" / "phoenix" / "wu_annual_plan.geojson")
         dates = {str(r.REDEFINE1).strip(): pd.to_datetime(r.DATE_APPRO, errors="coerce") for r in plan.itertuples()}
         wcol = next(c for c in wu.columns if c.upper().endswith("REDEFINE1"))
         case_no = wu[wcol].astype(str).str.strip()
         eff = [dates.get(c).year if pd.notna(dates.get(c)) else P.case_year(c) for c in case_no]
         g = wu[pd.Series(eff, index=wu.index).isin([2015, 2016])]
-        return g.to_crs(CRS).geometry.make_valid().union_all(), wu.to_crs(CRS).geometry.make_valid().union_all()
+        return valid(g), valid(wu)
     if case == "bellevue_belred_2009":
         from missing_middleware.tod import case_bellevue as B
-        z = gpd.read_file(RAW / "tod_cases" / "bellevue" / "zoning.geojson")
+        z = layer(RAW / "tod_cases" / "bellevue" / "zoning.geojson")
         is_ord = z["ORDNUM"].map(B.ord_number).eq(B.BELRED_ORD) | z["ORDNUM2"].map(B.ord_number).eq(B.BELRED_ORD)
         zn = z["Zoning"].astype(str).str.strip().str.upper()
         g = z[is_ord & zn.isin(B.BR_HOUSING)]
         allbr = z[zn.str.startswith("BR-")]
-        return g.to_crs(CRS).geometry.make_valid().union_all(), allbr.to_crs(CRS).geometry.make_valid().union_all()
-    g = gpd.read_file(D / f"boundary_{case}.geojson")
+        return valid(g), valid(allbr)
+    g = layer(D / f"boundary_{case}.geojson")
     if case == "austin_tod_station_plans":
         g = g[g["TOD_SUB_DISTRICT"].astype(str).str.upper() == "APPROVED STATION AREA PLAN"]
-    geom = g.to_crs(CRS).geometry.make_valid().union_all()
+    geom = valid(g)
     if case == "tysons_2010":  # the county layer is Fairfax County with Tysons as its one hole (plan section 8, item 1)
-        from shapely.geometry import Polygon
-        geom = Polygon(geom.interiors[0])
+        holes = [r for f in geom for part in f for r in part[1:]]
+        assert len(holes) == 1, "Tysons: expected the county's one hole"
+        geom = [[[holes[0]]]]
     return geom, geom
 
 
 # ------------------------------------------------------------------ new cases
 def run_new_cases(rng) -> pd.DataFrame:
     geoms = {c: boundary(c) for c in NEW_CASES}
-    every = unary_union([g[1] for g in geoms.values()])
+    every = X.Polygons([f for g in geoms.values() for f in g[1]])
     rows = []
     for case, (st, role, label, adopted) in NEW_CASES.items():
-        treated, exclude = geoms[case]
+        tp, ep = geoms[case]
+        treated = X.Polygons(tp)
         p10, p20 = block_points(st, 2010), block_points(st, 2020)
-        ring = treated.buffer(HALF).difference(every).difference(exclude)
-        ring_q = ring.difference(treated.buffer(QUARTER))
+        cring = ring(tp, HALF, every, X.Polygons(ep))
+        ring_q = cring - X.Buffer(tp, QUARTER)
         res = {"case": case, "label": label, "adopted": adopted, "role": role, "state": st}
-        for name, cg in (("main", ring), ("comparison_quarter_to_half_mile", ring_q)):
+        for name, cg in (("main", cring), ("comparison_quarter_to_half_mile", ring_q)):
             t10, t20 = p10[within(p10, treated)], p20[within(p20, treated)]
             c10, c20 = p10[within(p10, cg)], p20[within(p20, cg)]
             est, lo, hi = diff_with_interval(t10, t20, c10, c20, rng)
@@ -197,13 +243,11 @@ def run_method_check(rng) -> pd.DataFrame:
             rows.append({"case": case, "members": 0, "note": f"dropped: none of {len(allm)} members' permit tables span 2010-2018"})
             print(f"method {case}: dropped", flush=True)
             continue
-        crs = members[0]["crs"]
-        to = lambda g: gpd.GeoSeries([g], crs=crs).to_crs(CRS).iloc[0]  # noqa: E731
-        treated = unary_union([to(m["treated_union"]) for m in members])
-        upz = unary_union([to(m["upzoned_union"]) for m in members])
-        ring = upz.buffer(QUARTER).difference(upz)
+        treated = union([f for m in members for f in member_polys(m, "treated_union")])
+        upz = [f for m in members for f in member_polys(m, "upzoned_union")]
+        uring = ring(upz, QUARTER, union(upz))
         p10, p20 = block_points(st, 2010), block_points(st, 2020)
-        t10, t20, c10, c20 = p10[within(p10, treated)], p20[within(p20, treated)], p10[within(p10, ring)], p20[within(p20, ring)]
+        t10, t20, c10, c20 = p10[within(p10, treated)], p20[within(p20, treated)], p10[within(p10, uring)], p20[within(p20, uring)]
         est, lo, hi = diff_with_interval(t10, t20, c10, c20, rng)
         acres = {k: sum(m["acres"].get(k, 0) for m in members) for k in ("treatment", "comparison")}
         perm = pd.concat([m["permits"] for m in members], ignore_index=True)

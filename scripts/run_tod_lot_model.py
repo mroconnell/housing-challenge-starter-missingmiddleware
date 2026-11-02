@@ -14,7 +14,6 @@ import json
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
@@ -22,6 +21,9 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from missing_middleware import geom as G  # noqa: E402
+from missing_middleware import geom_extra_station as XS  # noqa: E402
+from missing_middleware import geom_extra_tod as X  # noqa: E402
 from missing_middleware.paths import PROCESSED, RAW, REFERENCE  # noqa: E402
 from missing_middleware.tod import cases as C  # noqa: E402
 from scripts import run_tod_census_cases as R  # noqa: E402
@@ -50,9 +52,34 @@ STATE = {"Madison placebo": "55", "Milwaukee placebo": "55", "Columbus placebo":
          "Los Angeles": "06", "Chicago": "17", "Madison": "55", "Bellevue": "53"}
 
 
-def rail(crs):
+# Geometry (no geopandas: the contest allows permissive licences only; docs/GEOMETRY.md): the case adapters hand over
+# plain frames with polygon features in "geometry" (missing_middleware.geom's model) in the case's metre CRS (CRS_M
+# of missing_middleware/tod/case_*.py; Madison EPSG:3071); point sets are x, y arrays.
+
+def rail(crs) -> pd.DataFrame:
+    """Rail stops (x, y) in crs."""
     s = pd.DataFrame(json.load(open(RAW / "tod_census_cases" / "ntm_rail_stops.json"))).dropna(subset=["stop_lat", "stop_lon"])
-    return gpd.GeoSeries(gpd.points_from_xy(s.stop_lon, s.stop_lat), crs=4326).to_crs(crs)
+    x, y = XS.transform(s.stop_lon.to_numpy(float), s.stop_lat.to_numpy(float), 4326, crs)
+    return pd.DataFrame({"x": x, "y": y})
+
+
+def lonlat_to_5070(lon, lat) -> tuple[np.ndarray, np.ndarray]:
+    return XS.transform(np.asarray(lon, float), np.asarray(lat, float), 4326, 5070)
+
+
+def polys_5070(frame) -> list:
+    """Polygon features of a frame (column geometry; df.attrs['crs']) or geom.Layer, in EPSG:5070."""
+    if isinstance(frame, G.Layer):
+        return XS.polys_to_crs(frame.polys, frame.crs, 5070)
+    return XS.polys_to_crs(list(frame["geometry"]), frame.attrs["crs"], 5070)
+
+
+def first_value(px, py, polys: list, values) -> pd.Series:
+    """Value of the first polygon containing each point (sjoin 'within', how='left', first match kept); NaN when
+    none."""
+    k = XS.first_within(np.asarray(px, float), np.asarray(py, float), polys)
+    v = pd.Series(np.asarray(values, dtype=object))
+    return pd.Series(np.where(k >= 0, v.reindex(np.maximum(k, 0)).to_numpy(), None), dtype=object)
 
 
 def add_group_shares(D: pd.DataFrame) -> pd.DataFrame:
@@ -82,7 +109,9 @@ def lot_class(city: str, L) -> pd.Series:
     return pd.Series("unknown", index=L.index)
 
 
-def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame, per: dict, stops, eff: int) -> pd.DataFrame:
+def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame, per: dict, stops, eff: int,
+              crs) -> pd.DataFrame:
+    """crs: the parcels' metre CRS; stops: rail stops (x, y) in it."""
     L = args["parcels"]
     if REBUILT["on"]:
         # plan section 9, items 15-16: every lot inside the reform or in its comparison area is kept, with a label for
@@ -117,22 +146,15 @@ def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame
         in_reform = area == C.TREAT
         lot_group = pd.Series("upzoned", index=L.index).where(area == C.TREAT, "comparison_eligible")
         comp_eligible = area == C.COMP
+    rx, ry = C.rep_xy(L)                       # representative points (GEOS point on surface), cached on the frame
+    kb = keep.reindex(L.index).fillna(False).to_numpy(bool) if not keep.index.equals(L.index) else keep.to_numpy(bool)
+    px, py = rx.to_numpy(float)[kb], ry.to_numpy(float)[kb]
     L = L[keep]
-    pts = L.geometry.representative_point()
     d = pd.DataFrame(index=L.index)
     d["city"], d["unit"], d["eff_year"] = city, unit, int(eff)
-    p5070 = pts.to_crs(5070)
-    d["x5070"], d["y5070"] = p5070.x.values, p5070.y.values
+    d["x5070"], d["y5070"] = XS.transform(px, py, crs, 5070)
     # lot width: the narrow side of the minimum rotated rectangle (metres)
-    def _w(g):
-        try:
-            r = g.minimum_rotated_rectangle
-            xs, ys = r.exterior.coords.xy
-            sides = [((xs[i + 1] - xs[i]) ** 2 + (ys[i + 1] - ys[i]) ** 2) ** 0.5 for i in range(4)]
-            return float(min(sides))
-        except Exception:  # noqa: BLE001
-            return np.nan
-    d["width_m"] = [_w(g) for g in L.geometry]
+    d["width_m"] = X.min_rect_widths(list(L["geometry"]))
     d["treated"] = (area[keep] == C.TREAT).astype(float)
     d["in_reform"] = in_reform[keep].astype(float).values
     d["lot_group"] = lot_group[keep].astype(str).values
@@ -140,15 +162,13 @@ def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame
     d["level_flag"] = L["level_flag"].astype(str).values if "level_flag" in L else ""
     d["rezoned_later"] = (chg_later[keep].astype(float).values if REBUILT["on"] else 0.0)
     d["comparison_eligible"] = comp_eligible[keep].astype(float).values
-    d["acres"] = L.geometry.area / C.SQM_PER_ACRE
+    d["acres"] = C.parcel_acres(L)
     lb = args["level_before"].astype(float).reindex(L.index).replace(np.inf, np.nan)
     la = args["level_after"].astype(float).reindex(L.index).replace(np.inf, np.nan)
     d["far_before"] = lb
     d["far_gain"] = (la - lb).where(d["treated"] == 1, 0.0)
     d["use"] = L["zclass"].astype(str) if "zclass" in L else "unknown"
-    sidx = stops.sindex
-    near = sidx.nearest(pts.values, return_all=False)
-    d["dist_station_m"] = pts.reset_index(drop=True).distance(stops.iloc[near[1]].reset_index(drop=True)).values
+    d["dist_station_m"] = G.nearest(px, py, stops["x"].to_numpy(float), stops["y"].to_numpy(float))[1]
     for c in ("unitsRes", "NR_UNITS", "homes_before", "Units1"):
         if c in L:
             d["homes_on_lot"] = pd.to_numeric(L[c], errors="coerce")
@@ -169,12 +189,13 @@ def lot_frame(city: str, unit: str, args: dict, area: pd.Series, q: pd.DataFrame
     d["built_before"] = (d["units_before"] > 0).astype(float)
     # block-level pressure: homes permitted within 150 m in before years, per acre of lots there
     if len(p):
-        pp = pts.loc[p["pix"]].values
-        pg = gpd.GeoDataFrame({"u": p["units"].values, "yr": p["year"].values}, geometry=pp, crs=L.crs)
-        pg = pg[pg["yr"].isin(b)]
-        buf = gpd.GeoDataFrame(geometry=pts.buffer(150), crs=L.crs)
-        j = gpd.sjoin(pg, buf, predicate="within")
-        d["near_units_before"] = j.groupby("index_right")["u"].sum().reindex(d.index).fillna(0).values
+        # permits sit at their lot's representative point; each lot's 150 m GEOS point buffer (64-gon), as the
+        # spatial join 'within' did
+        pos = pd.Index(d.index).get_indexer(p["pix"])
+        bm = p["year"].isin(b).to_numpy()
+        u = pd.to_numeric(p["units"], errors="coerce").fillna(0).to_numpy(float)[bm]
+        pi, si = XS.point_buffer_pairs(px[pos][bm], py[pos][bm], px, py, 150.0)
+        d["near_units_before"] = np.bincount(si, weights=u[pi], minlength=len(d))
     else:
         d["near_units_before"] = 0.0
     return d.reset_index(drop=True)
@@ -192,10 +213,10 @@ def collect() -> None:
                 print(f"  {name}: {type(e).__name__}: {e}")
                 continue
         args, area = cap["uniform"][-1]
-        crs = str(args["parcels"].crs)
-        stops.setdefault(crs, rail(args["parcels"].crs))
+        crs = N.CRS_M
+        stops.setdefault(crs, rail(crs))
         jg, ix = cap["jobs"][-1]
-        frames.append(lot_frame("New York", f"nyc_{ulurp}", args, area, _permits_from_points(jg, ix), m["per"], stops[crs], m["effective_year"]))
+        frames.append(lot_frame("New York", f"nyc_{ulurp}", args, area, _permits_from_points(jg, ix), m["per"], stops[crs], m["effective_year"], crs))
         print(f"New York {name}", flush=True)
     from missing_middleware.tod import case_philadelphia as P
     d = P._load()
@@ -211,9 +232,9 @@ def collect() -> None:
         if not m["acres"].get(C.TREAT, 0) > 0:
             continue
         args, area = cap["uniform"][-1]
-        crs = str(args["parcels"].crs)
-        stops.setdefault(crs, rail(args["parcels"].crs))
-        frames.append(lot_frame("Philadelphia", f"phl_{bill}", args, area, q, m["per"], stops[crs], m["effective"].year))
+        crs = P.CRS_M
+        stops.setdefault(crs, rail(crs))
+        frames.append(lot_frame("Philadelphia", f"phl_{bill}", args, area, q, m["per"], stops[crs], m["effective"].year, crs))
     print("Philadelphia", flush=True)
     for key, city in (("chicago", "Chicago"), ("stpaul", "Saint Paul"), ("charlotte", "Charlotte")):
         mod = importlib.import_module(f"missing_middleware.tod.case_{key}")
@@ -222,9 +243,9 @@ def collect() -> None:
         args, area = cap["uniform"][0]
         pts, pix = cap["locate"][-1]
         per = C.period_years(ci.effective_year, ci.first_year, ci.last_full_year)
-        crs = str(args["parcels"].crs)
-        stops.setdefault(crs, rail(args["parcels"].crs))
-        frames.append(lot_frame(city, key, args, area, _permits_from_points(pts, pix), per, stops[crs], ci.effective_year))
+        crs = mod.CRS_M
+        stops.setdefault(crs, rail(crs))
+        frames.append(lot_frame(city, key, args, area, _permits_from_points(pts, pix), per, stops[crs], ci.effective_year, crs))
         print(city, flush=True)
     from missing_middleware.tod import case_seattle as K
     for case in ("seattle_nbh_othello_2012", "seattle_mount_baker_2014"):
@@ -232,18 +253,18 @@ def collect() -> None:
             f = K._frame(case)
         args, area = cap["uniform"][-1]
         pg = K._load()["permits"]
-        crs = str(args["parcels"].crs)
-        stops.setdefault(crs, rail(args["parcels"].crs))
-        frames.append(lot_frame("Seattle", case, args, area, _permits_from_points(pg, pg["pix"]), f["per"], stops[crs], f["effective_year"]))
+        crs = K.CRS_M
+        stops.setdefault(crs, rail(crs))
+        frames.append(lot_frame("Seattle", case, args, area, _permits_from_points(pg, pg["pix"]), f["per"], stops[crs], f["effective_year"], crs))
     print("Seattle", flush=True)
     from missing_middleware.tod import case_la as LA
     for case in ("la_warner_center_2013", "la_cornfield_arroyo_seco_2013"):
         with capture() as cap:
             parcels, qg, per, eff, rule, st = LA._areas(case)
         args, area = cap["uniform"][0]
-        crs = str(args["parcels"].crs)
-        stops.setdefault(crs, rail(args["parcels"].crs))
-        frames.append(lot_frame("Los Angeles", case, args, area, _permits_from_points(qg, qg["pix"]), per, stops[crs], eff.year))
+        crs = LA.CRS_M
+        stops.setdefault(crs, rail(crs))
+        frames.append(lot_frame("Los Angeles", case, args, area, _permits_from_points(qg, qg["pix"]), per, stops[crs], eff.year, crs))
     print("Los Angeles", flush=True)
     # Madison 2023 overlay (holdout), as in run_tod_net_effect.build_madison
     from importlib import util as _ilu
@@ -255,6 +276,9 @@ def collect() -> None:
     from missing_middleware.tod import madison_test as MT
     from missing_middleware.tod import net_effect as NE
     Lm = M.lots()
+    # the Madison lot table holds outlines in 'poly' and GEOS interior points in px, py (EPSG:3071); the case helpers
+    # read 'geometry' and cached representative points rx, ry
+    Lm["geometry"], Lm["rx"], Lm["ry"] = Lm["poly"], Lm["px"], Lm["py"]
     ptab = madison.parcel_table(madison.load_parcels(RAW / "madison_parcels"))
     ref = madison.address_reference(ptab, madison.load_address_points(RAW / "madison_parcels"))
     index = AddressIndex(ref)
@@ -268,10 +292,10 @@ def collect() -> None:
     dm = M.permits_on_lots(Lm, index, rpts, ptab)
     xm = dm[dm.placed].copy()
     qm = pd.DataFrame({"project": xm["project"].astype(str), "year": xm["year"], "units": xm["units"], "pix": xm["lot"].astype(int)})
-    crs = str(Lm.crs)
-    stops.setdefault(crs, rail(Lm.crs))
+    crs = M.CRS_M
+    stops.setdefault(crs, rail(crs))
     frames.append(lot_frame("Madison", "madison_tod_overlay_2023", margs, marea, qm, {"before": list(MT.BEFORE), "after": list(MT.AFTER)},
-                            stops[crs], 2023))
+                            stops[crs], 2023, crs))
     print("Madison", flush=True)
     D = add_group_shares(pd.concat(frames, ignore_index=True))
     D.to_parquet(PATHS['lots'])
@@ -291,8 +315,8 @@ def add_bellevue() -> None:
     args, area = max(cap["uniform"], key=lambda t: int((t[1] == C.TREAT).sum()))
     pg = B._prepare()["permits"]
     per = C.period_years(B.EFFECTIVE_YEAR, B.FIRST_YEAR, B.LAST_FULL_YEAR)
-    stops = rail(args["parcels"].crs)
-    f = lot_frame("Bellevue", "bellevue_belred_2009", args, area, _permits_from_points(pg, pg["pix"]), per, stops, B.EFFECTIVE_YEAR)
+    stops = rail(B.CRS_M)
+    f = lot_frame("Bellevue", "bellevue_belred_2009", args, area, _permits_from_points(pg, pg["pix"]), per, stops, B.EFFECTIVE_YEAR, B.CRS_M)
     D = pd.read_parquet(PATHS['lots'])
     D = add_group_shares(pd.concat([D[D["city"] != "Bellevue"], f], ignore_index=True))
     D.to_parquet(PATHS['lots'])
@@ -310,7 +334,6 @@ def enrich() -> None:
     D = pd.read_parquet(PATHS['lots'])
     D["end_year"] = D["eff_year"].map(A.survey_end_year)
     D["state"] = D["city"].map(STATE)
-    pts = gpd.GeoSeries(gpd.points_from_xy(D["x5070"], D["y5070"]), crs=5070)
     for k in TRACT_VARS.values():
         D[k] = np.nan
     for (y, st), ix in D.groupby(["end_year", "state"]).groups.items():
@@ -322,11 +345,9 @@ def enrich() -> None:
         except Exception as e:  # noqa: BLE001
             print(f"  {y} {st}: {type(e).__name__}: {e}")
             continue
-        g = gpd.GeoDataFrame(geometry=pts.loc[ix].values, index=ix, crs=5070)
-        j = gpd.sjoin(g, shp[["tract", "geometry"]].to_crs(5070), how="left", predicate="within")
-        j = j[~j.index.duplicated()]
+        tract = first_value(D.loc[ix, "x5070"], D.loc[ix, "y5070"], polys_5070(shp), shp["tract"])
         for vid, col in TRACT_VARS.items():
-            D.loc[ix, col] = j["tract"].map(parts[vid + "__num"]).values
+            D.loc[ix, col] = tract.map(parts[vid + "__num"]).values
         print(f"  {A.survey_label(int(y))} {st}: {len(ix):,} lots", flush=True)
     D.to_parquet(PATHS['lots'])
     print(D.groupby("city")[list(TRACT_VARS.values())].median().round(0).to_string())
@@ -345,12 +366,11 @@ def values() -> None:
     D = pd.read_parquet(PATHS['lots'])
     for c in ("land_value", "total_value", "year_built"):
         D[c] = np.nan
-    pts = gpd.GeoSeries(gpd.points_from_xy(D["x5070"], D["y5070"]), crs=5070)
     # New York
     for unit, ix in D[D["city"] == "New York"].groupby("unit").groups.items():
         ulurp = unit.replace("nyc_", "")
         name, boro = N.POOLED[ulurp]
-        bl = gpd.read_file(N.DIR / "bloomberg_rezonings.geojson")
+        bl = XS.read_vector(N.DIR / "bloomberg_rezonings.geojson")
         m = bl[bl["ULURPNO"].astype(str).str.lower() == ulurp]
         eff = pd.Timestamp(int(D.loc[ix[0], "eff_year"]), 7, 1)
         if len(m) and "Adopted" in m:
@@ -361,13 +381,11 @@ def values() -> None:
         vs = N.pick_vintages(eff, per["before"][0], per["after"][-1])
         path = N._shp(vs["before"], boro)
         cm = N._cols(path, ["AssessLand", "AssessTot", "YearBuilt"])
-        lp = pts.loc[ix].to_crs(N.CRS_M)
-        bb = tuple(gpd.GeoSeries(lp.values, crs=N.CRS_M).buffer(50).total_bounds)
-        crs = gpd.read_file(path, rows=1).crs
-        bb = tuple(gpd.GeoSeries([__import__("shapely").geometry.box(*bb)], crs=N.CRS_M).to_crs(crs).total_bounds)
-        g = gpd.read_file(path, columns=list(cm.values()), bbox=bb).to_crs(N.CRS_M).rename(columns={v: k for k, v in cm.items()})
-        j = gpd.sjoin(gpd.GeoDataFrame(geometry=lp.values, index=ix, crs=N.CRS_M), g, how="left", predicate="within")
-        j = j[~j.index.duplicated()]
+        lx, ly = XS.transform(D.loc[ix, "x5070"].to_numpy(float), D.loc[ix, "y5070"].to_numpy(float), 5070, N.CRS_M)
+        bb = (lx.min() - 50, ly.min() - 50, lx.max() + 50, ly.max() + 50)   # the points' 50 m buffers' bounds
+        g = XS.read_vector(path, N.CRS_M, columns=list(cm.values()), bbox=bb).rename(columns={v: k for k, v in cm.items()})
+        k_ = XS.first_within(lx, ly, list(g["geometry"]))
+        j = g.drop(columns="geometry").reset_index(drop=True).reindex(np.where(k_ >= 0, k_, -1)).set_axis(ix)
         col = lambda k: pd.to_numeric(j[k], errors="coerce") if k in j else pd.Series(np.nan, index=j.index)  # noqa: E731
         D.loc[ix, "land_value"] = col("AssessLand").values
         D.loc[ix, "total_value"] = col("AssessTot").values
@@ -390,11 +408,10 @@ def values() -> None:
     cook = pd.read_parquet(cook_f)
     cook["pin10"] = cook["pin"].astype(str).str[:10]
     cook = cook.groupby("pin10")[["certified_bldg", "certified_land"]].agg(lambda s: pd.to_numeric(s, errors="coerce").sum())
-    par = gpd.read_file(RAW / "tod_cases" / "chicago" / "parcels.geojson")[["pin10", "geometry"]].to_crs(5070)
+    par = XS.read_vector(RAW / "tod_cases" / "chicago" / "parcels.geojson", 5070, columns=["pin10"])
     ix = D.index[D["city"] == "Chicago"]
-    j = gpd.sjoin(gpd.GeoDataFrame(geometry=pts.loc[ix].values, index=ix, crs=5070), par, how="left", predicate="within")
-    j = j[~j.index.duplicated()]
-    v = cook.reindex(j["pin10"].astype(str).str[:10].values)
+    pin = first_value(D.loc[ix, "x5070"], D.loc[ix, "y5070"], list(par["geometry"]), par["pin10"])
+    v = cook.reindex(pin.astype(str).str[:10].values)
     D.loc[ix, "land_value"] = v["certified_land"].values
     D.loc[ix, "total_value"] = (v["certified_land"] + v["certified_bldg"]).values
     print(f"  Chicago: values for {np.isfinite(D.loc[ix, 'total_value']).mean():.0%} of lots", flush=True)
@@ -762,8 +779,7 @@ def add_saturation() -> None:
         share[D.index.get_indexer(ix)] = [ac[n][tr[n]].sum() / ac[n].sum() if len(n) else np.nan for n in nb]
     D["share_upzoned_half_mile"] = share
     s_ = pd.DataFrame(json.load(open(RAW / "tod_census_cases" / "ntm_rail_stops.json"))).dropna(subset=["stop_lat", "stop_lon"])
-    sp = gpd.GeoSeries(gpd.points_from_xy(s_.stop_lon, s_.stop_lat), crs=4326).to_crs(5070)
-    st = cKDTree(np.c_[sp.x, sp.y])
+    st = cKDTree(np.c_[lonlat_to_5070(s_.stop_lon, s_.stop_lat)])
     D["stops_1mile"] = [len(n) for n in st.query_ball_point(D[["x5070", "y5070"]].to_numpy(), r=1609)]
     D.to_parquet(PATHS['lots'])
     print(D.groupby(["city", "treated"])[["share_upzoned_half_mile", "stops_1mile"]].median().round(3).to_string())
@@ -792,8 +808,7 @@ def qualifying_stops_5070() -> np.ndarray:
     w = w[(w["flag_a_rapid"] == 1)]   # Wisconsin rail and rapid stops (Madison; Milwaukee for the item 37 placebo)
     lat += list(g.stop_lat) + list(w.lat)
     lon += list(g.stop_lon) + list(w.lon)
-    p = gpd.GeoSeries(gpd.points_from_xy(lon, lat), crs=4326).to_crs(5070)
-    return np.c_[p.x, p.y]
+    return np.c_[lonlat_to_5070(lon, lat)]
 
 
 def half_mile() -> None:
@@ -836,15 +851,15 @@ def census_homes() -> None:
     """Plan section 9, item 15: 2010 census block homes shared among each block's lots in the table by lot area."""
     D = pd.read_parquet(PATHS["lots"])
     D["census_homes"] = np.nan
-    pts = gpd.GeoDataFrame(D[["city"]].copy(), geometry=gpd.points_from_xy(D["x5070"], D["y5070"]), crs=5070)
     for city, st in STATE.items():
         ix = D.index[D["city"] == city]
         if not len(ix):
             continue
         src = sorted(RAW.rglob(f"tabblock2010_{st}_pophu.zip"))[0]
-        b = gpd.read_file(src, bbox=tuple(pts.loc[ix].to_crs(4269).total_bounds), columns=["BLOCKID10", "HOUSING10"]).to_crs(5070)
-        j = gpd.sjoin(pts.loc[ix, ["geometry"]], b[["BLOCKID10", "HOUSING10", "geometry"]], predicate="within", how="left")
-        j = j[~j.index.duplicated()]
+        lon, lat = XS.transform(D.loc[ix, "x5070"].to_numpy(float), D.loc[ix, "y5070"].to_numpy(float), 5070, 4269)
+        b = XS.read_vector(src, None, columns=["BLOCKID10", "HOUSING10"], bbox=(lon.min(), lat.min(), lon.max(), lat.max()))
+        k_ = XS.first_within(D.loc[ix, "x5070"].to_numpy(float), D.loc[ix, "y5070"].to_numpy(float), polys_5070(b))
+        j = b.drop(columns="geometry").reset_index(drop=True).reindex(np.where(k_ >= 0, k_, -1)).set_axis(ix)
         blk = j["BLOCKID10"]
         # lots repeated across overlapping cases share one copy of the block's homes per case unit
         grp = D.loc[ix, "unit"].astype(str) + "|" + blk.astype(str)
@@ -862,18 +877,19 @@ LV = RAW / "tod_land_values"
 
 def _nearest_value(D: pd.DataFrame, ix, lat, lon, val, max_m: float) -> pd.Series:
     from scipy.spatial import cKDTree
-    pts = gpd.GeoSeries(gpd.points_from_xy(lon, lat), crs=4326).to_crs(5070)
-    ok = np.isfinite(pts.x.values) & np.isfinite(pts.y.values)
-    t = cKDTree(np.c_[pts.x.values[ok], pts.y.values[ok]])
+    x, y = lonlat_to_5070(lon, lat)
+    ok = np.isfinite(x) & np.isfinite(y)
+    t = cKDTree(np.c_[x[ok], y[ok]])
     d, j = t.query(D.loc[ix, ["x5070", "y5070"]].to_numpy())
     v = np.asarray(val)[ok][np.minimum(j, ok.sum() - 1)]
     return pd.Series(np.where(d <= max_m, v, np.nan), index=ix)
 
 
 def _pin_in_polygon(D: pd.DataFrame, ix, polys, col: str) -> pd.Series:
-    pts = gpd.GeoDataFrame(geometry=gpd.points_from_xy(D.loc[ix, "x5070"], D.loc[ix, "y5070"]), index=ix, crs=5070)
-    j = gpd.sjoin(pts, polys[[col, "geometry"]].to_crs(5070), predicate="within", how="left")
-    return j[~j.index.duplicated()][col].reindex(ix)
+    """polys: a frame with column col and polygon features (geometry; df.attrs['crs']), or a geom.Layer."""
+    vals = polys.attrs[col] if isinstance(polys, G.Layer) else polys[col]
+    v = first_value(D.loc[ix, "x5070"], D.loc[ix, "y5070"], polys_5070(polys), vals)
+    return v.set_axis(ix)
 
 
 def land_values() -> None:
@@ -908,7 +924,7 @@ def land_values() -> None:
         for city, f, col in (("Seattle", RAW / "tod_cases" / "seattle" / "parcels_2010.geojson", "PIN"),
                              ("Bellevue", RAW / "tod_cases" / "bellevue" / "parcels.geojson", "ParcelAFN")):
             ix = D.index[D["city"] == city]
-            pins = _pin_in_polygon(D, ix, gpd.read_file(f), col).astype(str).str.zfill(10)
+            pins = _pin_in_polygon(D, ix, XS.read_vector(f, columns=[col]), col).astype(str).str.zfill(10)
             yrs = D.loc[ix, "eff_year"].astype(int)
             mv[ix] = [kv.get((p, y), np.nan) for p, y in zip(pins, yrs)]
             src[ix] = "king_county_appraised"
@@ -931,9 +947,7 @@ def land_values() -> None:
     # Madison: Wisconsin statewide parcels V9 (2022 roll), estimated fair market value
     if (LV / "wi_parcels_v9_2023.zip").exists():
         ix = D.index[D["city"] == "Madison"]
-        b = tuple(gpd.GeoSeries(gpd.points_from_xy(D.loc[ix, "x5070"], D.loc[ix, "y5070"]), crs=5070).to_crs(3071).total_bounds)
-        w = gpd.read_file(f"/vsizip/{LV / 'wi_parcels_v9_2023.zip'}/V9.0.1_Wisconsin_Parcels_2023_10.3_Uncompressed.gdb",
-                          layer="V901_WisconsinParcels_2023", bbox=b, columns=["ESTFMKVALUE", "TAXROLLYEAR"])
+        w = _wi_v9_parcels(D, ix)
         mv[ix] = _pin_in_polygon(D, ix, w, "ESTFMKVALUE").astype(float)
         src[ix] = "wi_v9_est_fair_market"
     # Los Angeles: scale Proposition 13 assessed values to market by tract (LAND_VALUE_PLAN.md section 8, item 3)
@@ -957,6 +971,23 @@ def land_values() -> None:
     t = D.groupby("city").agg(lots=("acres", "size"), have_value=("lot_market_value", lambda v: v.notna().mean()),
                               median_value_per_acre=("lot_market_value", lambda v: (v / D.loc[v.index, "acres"]).median()))
     print(t.round(2).to_string())
+
+
+def _wi_v9_parcels(D: pd.DataFrame, ix) -> pd.DataFrame:
+    """Wisconsin statewide parcels V9 (2022 roll) whose bounds meet the lots' box (EPSG:3071), with ESTFMKVALUE and
+    TAXROLLYEAR: a frame with polygon features in 'geometry', df.attrs['crs']. Only Dane County rows are decoded (the
+    Madison lots' box lies inside the county)."""
+    x, y = XS.transform(D.loc[ix, "x5070"].to_numpy(float), D.loc[ix, "y5070"].to_numpy(float), 5070, 3071)
+    df, blobs, decode, crs = XS.read_gdb_raw(f"{LV / 'wi_parcels_v9_2023.zip'}/V9.0.1_Wisconsin_Parcels_2023_10.3_Uncompressed.gdb",
+                                             ["ESTFMKVALUE", "TAXROLLYEAR"], where={"CONAME": "DANE"}, contains=b"DANE")
+    polys = [decode(b) for b in blobs]
+    box = XS.bbox_to((x.min(), y.min(), x.max(), y.max()), 3071, crs)
+    fb = XS.feature_bounds(polys)
+    m = ~((fb[:, 0] > box[2]) | (fb[:, 2] < box[0]) | (fb[:, 1] > box[3]) | (fb[:, 3] < box[1]))
+    out = df[m].reset_index(drop=True)
+    out["geometry"] = [f for f, k in zip(polys, m) if k]
+    out.attrs["crs"] = crs
+    return out
 
 
 def fix_density() -> None:
@@ -1005,9 +1036,9 @@ def recollect_item29() -> None:
         args, area = cap["uniform"][0]
         pts, pix = cap["locate"][-1]
         per = C.period_years(ci.effective_year, ci.first_year, ci.last_full_year)
-        crs = str(args["parcels"].crs)
-        stops.setdefault(crs, rail(args["parcels"].crs))
-        f = lot_frame(city, key, args, area, _permits_from_points(pts, pix), per, stops[crs], ci.effective_year)
+        crs = mod.CRS_M
+        stops.setdefault(crs, rail(crs))
+        f = lot_frame(city, key, args, area, _permits_from_points(pts, pix), per, stops[crs], ci.effective_year, crs)
         print(city, f.groupby("lot_group").agg(lots=("acres", "size"), acres=("acres", "sum"), after=("units_after", "sum")).round(0).to_string(), flush=True)
         frames.append(f)
     D = pd.read_parquet(PATHS["lots"])
@@ -1030,7 +1061,7 @@ def spread_assembly() -> None:
     D = pd.read_parquet(PATHS["half"])
     D["assembled_site"] = 0.0
     ny = D.index[D["city"] == "New York"]
-    pts = gpd.GeoSeries(gpd.points_from_xy(D.loc[ny, "x5070"], D.loc[ny, "y5070"]), index=ny, crs=5070)
+    pts = D.loc[ny, ["x5070", "y5070"]]
     moved = {"units_before": 0.0, "units_after": 0.0}
     for col in ("units_before", "units_after"):
         src = [i for i in ny if D.at[i, col] > 0]
@@ -1052,24 +1083,30 @@ def spread_assembly() -> None:
             z = zipfile.ZipFile(nyc_dir / f"mappluto_{v}.zip")
             shps = [n for n in z.namelist() if n.lower().endswith("mappluto.shp")]
             sp = pts.loc[idx]
+            sx, sy = XS.transform(sp["x5070"].to_numpy(float), sp["y5070"].to_numpy(float), 5070, 2263)
             polys = []
             for n in shps:
-                g = gpd.read_file(f"/vsizip/{nyc_dir / f'mappluto_{v}.zip'}/{n}", columns=[],
-                                  bbox=tuple(sp.to_crs(2263).total_bounds))
+                # tax-lot outlines whose bounds meet the points' box (given in the file's EPSG:2263, as before)
+                shp = f"zip://{nyc_dir / f'mappluto_{v}.zip'}!{n}"
+                g = XS.read_vector(shp, None, columns=XS.shapefile_fields(shp)[:1],   # outlines only (one field read)
+                                   bbox=(sx.min(), sy.min(), sx.max(), sy.max()))
                 if len(g):
-                    polys.append(g.to_crs(5070)[["geometry"]])
+                    polys += polys_5070(g)
             if not polys:
                 continue
-            P = pd.concat(polys, ignore_index=True)
-            P = gpd.GeoDataFrame(P, geometry="geometry", crs=5070)
-            js = gpd.sjoin(gpd.GeoDataFrame(geometry=sp, crs=5070), P, predicate="within", how="inner")
-            js = js[~js.index.duplicated()]
-            for site, g in js.groupby("index_right"):
-                poly = P.geometry.iloc[site]
+            k_ = XS.first_within(sp["x5070"].to_numpy(float), sp["y5070"].to_numpy(float), polys)
+            js = pd.Series(k_, index=sp.index)
+            js = js[js >= 0]
+            for site, g in js.groupby(js):
+                poly = polys[site]
                 for i in g.index:
                     u = D.at[i, "unit"]
                     sib = D.index[(D["unit"] == u) & (D["treated"] == D.at[i, "treated"])]   # item 37.5: within the group
-                    sib = sib[pts.reindex(sib).within(poly).fillna(False).values]
+                    sx_, sy_ = pts.reindex(sib)["x5070"].to_numpy(float), pts.reindex(sib)["y5070"].to_numpy(float)
+                    ok = np.isfinite(sx_)
+                    inside = np.zeros(len(sib), bool)
+                    inside[ok] = G.points_in_feature(sx_[ok], sy_[ok], poly)
+                    sib = sib[inside]
                     if len(sib) <= 1:
                         continue
                     h = D.at[i, col]
@@ -1108,18 +1145,16 @@ def add_placebo() -> None:
             rules = S.read_rules("madison")
             p = S.load_madison({r["district"] for r in rules})
             p = p[~p["in_overlay"].astype(bool)]          # outside the 2023 overlay
-            built = W.built_points_madison(p.crs)
+            built = W.built_points_madison(S.CRS_M)
         else:
             rules = S.read_rules("milwaukee")
             p = S.load_milwaukee()
-            built = W.built_points_milwaukee(p.crs)
+            built = W.built_points_milwaukee(S.CRS_M)
         c = S.compute(p, city.split()[0] + " city", rules, stops)
-        c = gpd.GeoDataFrame(c, geometry="geometry", crs=p.crs)
         d = pd.DataFrame(index=c.index)
         d["city"], d["unit"], d["eff_year"] = city, city.lower().replace(" ", "_"), yr
-        p5070 = gpd.GeoSeries(c["pt"].values, crs=p.crs).to_crs(5070)
-        d["x5070"], d["y5070"] = p5070.x.values, p5070.y.values
-        d["width_m"] = W.width(c.geometry)
+        d["x5070"], d["y5070"] = XS.transform(c["px"].to_numpy(float), c["py"].to_numpy(float), S.CRS_M, 5070)
+        d["width_m"] = W.width(c["poly"])
         d["acres"] = c["acres"].values
         el = c["eligible"].astype(bool)
         d["treated"], d["in_reform"], d["comparison_eligible"] = 0.0, 0.0, el.astype(float).values
@@ -1134,9 +1169,9 @@ def add_placebo() -> None:
         d["far_gain"] = 0.0
         d["level_source"], d["level_flag"], d["rezoned_later"] = "homes per acre", "", 0.0
         d["use"] = "unknown"
-        b = built.to_crs(5070)
+        b = W.points_to_5070(built, S.CRS_M)
         b = b[b["year"].isin(years)]
-        j = gpd.sjoin(b, c[["geometry"]].to_crs(5070), predicate="within")
+        j = W.join_lots(b, XS.polys_to_crs(list(c["poly"]), S.CRS_M, 5070))
         bb = j[j["year"] < yr].groupby("index_right")["units"].sum()
         aa = j[j["year"] > yr].groupby("index_right")["units"].sum()   # after = the 5 years after the pretend year, as in the cases
         d["units_before"] = bb.reindex(d.index).fillna(0).values
@@ -1149,7 +1184,7 @@ def add_placebo() -> None:
         d["built_before"] = (d["units_before"] > 0).astype(float)
         from scipy.spatial import cKDTree
         bb_pts = b[b["year"] < yr]
-        t = cKDTree(np.c_[bb_pts.geometry.x, bb_pts.geometry.y]) if len(bb_pts) else None
+        t = cKDTree(np.c_[bb_pts["x"], bb_pts["y"]]) if len(bb_pts) else None
         d["near_units_before"] = ([float(bb_pts["units"].values[n].sum()) for n in t.query_ball_point(np.c_[d.x5070, d.y5070], r=150)]
                                   if t is not None else 0.0)
         d["placebo"] = 1.0
@@ -1169,30 +1204,33 @@ def add_placebo_us() -> None:
     rng = np.random.default_rng(20261031)
     frames = []
     # --- Columbus
-    p = gpd.read_file(src / "columbus_parcels.geojson")
-    p = p[p.geometry.notna()].drop_duplicates("PARCELID")
+    p = XS.read_vector(src / "columbus_parcels.geojson")
+    p = p[XS.nonempty(p["geometry"])].drop_duplicates("PARCELID")
     p["acres"] = pd.to_numeric(p["ACRES"], errors="coerce")
     p["cls"] = p["CLASSCD"].astype(str).str[:1]
-    q = gpd.read_file(src / "columbus_permits.geojson")
+    q = XS.read_vector(src / "columbus_permits.geojson")
     sub, cat = q["B1_PER_SUB_TYPE"].astype(str), q["B1_PER_CATEGORY"].astype(str)
     new = ((sub == "New Construction") & cat.isin(["Structure", "Structural"])) | (cat == "New Structure")
-    q = q[new & q.geometry.notna()].copy()
+    q = q[new & np.isfinite(q["x"]) & np.isfinite(q["y"])].copy()
     q["year"] = pd.to_numeric(q["ISSUED_YEAR"], errors="coerce")
     q["units"] = pd.to_numeric(q["UNITS"], errors="coerce")
     frames.append(_placebo_frame("Columbus placebo", 2017, p, q, lambda c: np.where(c == "I", "comparison_industrial",
                   np.where(c == "E", "comparison_campus_or_park", "comparison_eligible")), rng))
     # --- Kansas City
-    k = gpd.read_file(src / "kc_parcels.geojson")
-    k = k[k.geometry.notna()].drop_duplicates("kivapin")
+    k = XS.read_vector(src / "kc_parcels.geojson")
+    k = k[XS.nonempty(k["geometry"])].drop_duplicates("kivapin")
     k["acres"] = pd.to_numeric(k["shape_area"], errors="coerce") / 43560.0
     k["cls"] = pd.to_numeric(k["landusecode"], errors="coerce").fillna(0).astype(int).astype(str).str[:1]
     r = pd.DataFrame(json.load(open(src / "kc_permits.json")))
     r["year"] = pd.to_numeric(r["year"], errors="coerce")
     r["units"] = pd.to_numeric(r["units"], errors="coerce")
     r = r[(r["units"] > 0)]
-    pts = k.set_index("kivapin").geometry.representative_point()
+    kx, ky = XS.interior_points(list(k["geometry"]))   # representative points in the file's lon/lat, as before
+    pts = pd.DataFrame({"x": kx, "y": ky}, index=k["kivapin"].values)
     r = r[r["pin"].isin(pts.index)]
-    r = gpd.GeoDataFrame(r, geometry=pts.reindex(r["pin"]).values, crs=k.crs)
+    xy = pts.reindex(r["pin"])
+    r = r.assign(x=xy["x"].values, y=xy["y"].values)
+    r.attrs["crs"] = k.attrs["crs"]
     frames.append(_placebo_frame("Kansas City placebo", 2012, k, r, lambda c: np.where(c == "4", "comparison_industrial",
                   "comparison_eligible"), rng))
     D = pd.read_parquet(PATHS["lots"])
@@ -1205,20 +1243,23 @@ def _placebo_frame(city: str, yr: int, p, q, group_of, rng) -> pd.DataFrame:
     from scipy.spatial import cKDTree
     first = 2006 if city.startswith("Kansas") else yr - 6
     last = 2015 if city.startswith("Kansas") else yr + 5
-    p = p.to_crs(5070)
-    pts = p.geometry.representative_point()
-    q = q.to_crs(5070)
+    # p: lots (polygon features in 'geometry'), q: permit points (x, y); both in df.attrs['crs'], moved to EPSG:5070
+    p = p.reset_index(drop=True)
+    p["geometry"] = XS.polys_to_crs(list(p["geometry"]), p.attrs["crs"], 5070)
+    px, py = XS.interior_points(list(p["geometry"]))
+    qx, qy = XS.transform(q["x"].to_numpy(float), q["y"].to_numpy(float), q.attrs["crs"], 5070)
+    q = q.assign(x=qx, y=qy)
     q = q[q["year"].between(first, last) & (q["units"] > 0)]
-    j = gpd.sjoin(q[["year", "units", "geometry"]], p[["geometry"]], predicate="within", how="inner")
-    j = j[~j.index.duplicated()]
+    k_ = XS.first_within(q["x"].to_numpy(float), q["y"].to_numpy(float), list(p["geometry"]))   # sjoin 'within', first match
+    j = q[["year", "units"]].assign(index_right=k_)[k_ >= 0]
     bb = j[j["year"] < yr].groupby("index_right")["units"].sum()
     aa = j[j["year"] > yr].groupby("index_right")["units"].sum()
     take = rng.random(len(p)) < 0.20                 # item 46.3: 20% random sample of all city lots, weight 5
-    p, pts = p[take], pts[take]
+    p, px, py = p[take], px[take], py[take]
     d = pd.DataFrame(index=p.index)
     d["city"], d["unit"], d["eff_year"] = city, city.lower().replace(" ", "_"), yr
-    d["x5070"], d["y5070"] = pts.x.values, pts.y.values
-    d["width_m"] = [_mrr_width(g) for g in p.geometry]
+    d["x5070"], d["y5070"] = px, py
+    d["width_m"] = X.min_rect_widths(list(p["geometry"]))
     d["acres"] = p["acres"].values
     d["treated"], d["in_reform"], d["sample_w"] = 0.0, 0.0, 5.0
     d["lot_group"] = group_of(p["cls"].values)
@@ -1234,22 +1275,13 @@ def _placebo_frame(city: str, yr: int, p, q, group_of, rng) -> pd.DataFrame:
     d["builds_after"] = (d["units_after"] > 0).astype(float)
     d["built_before"] = (d["units_before"] > 0).astype(float)
     bq = q[q["year"] < yr]
-    t = cKDTree(np.c_[bq.geometry.x, bq.geometry.y]) if len(bq) else None
+    t = cKDTree(np.c_[bq["x"], bq["y"]]) if len(bq) else None
     d["near_units_before"] = ([float(bq["units"].values[n].sum()) for n in t.query_ball_point(np.c_[d.x5070, d.y5070], r=150)]
                               if t is not None else 0.0)
     d["placebo"] = 1.0
     print(city, len(d), "sampled lots; homes before", int(d.units_before.sum()), "after", int(d.units_after.sum()),
           "(x5 for the city)", flush=True)
     return d.reset_index(drop=True)
-
-
-def _mrr_width(g) -> float:
-    try:
-        r = g.minimum_rotated_rectangle
-        xs, ys = r.exterior.coords.xy
-        return float(min(((xs[i + 1] - xs[i]) ** 2 + (ys[i + 1] - ys[i]) ** 2) ** 0.5 for i in range(4)))
-    except Exception:  # noqa: BLE001
-        return np.nan
 
 
 def sanity_flags(stage: str) -> None:
@@ -1306,7 +1338,6 @@ def enrich_all() -> None:
     D = pd.read_parquet(PATHS['lots'])
     D["end_year"] = D["eff_year"].map(A.survey_end_year)
     D["state"] = D["city"].map(STATE)
-    pts = gpd.GeoSeries(gpd.points_from_xy(D["x5070"], D["y5070"]), crs=5070)
     cols = {v["id"]: f"v_{v['id']}" for v in A.VARIABLES}
     new = pd.DataFrame(np.nan, index=D.index, columns=list(cols.values()))
     for (y, st), ix in D.groupby(["end_year", "state"]).groups.items():
@@ -1318,13 +1349,11 @@ def enrich_all() -> None:
         except Exception as e:  # noqa: BLE001
             print(f"  {y} {st}: {type(e).__name__}: {e}")
             continue
-        g = gpd.GeoDataFrame(geometry=pts.loc[ix].values, index=ix, crs=5070)
-        j = gpd.sjoin(g, shp[["tract", "geometry"]].to_crs(5070), how="left", predicate="within")
-        j = j[~j.index.duplicated()]
+        tract = first_value(D.loc[ix, "x5070"], D.loc[ix, "y5070"], polys_5070(shp), shp["tract"])
         for v in A.VARIABLES:
             n, d = parts[v["id"] + "__num"], parts[v["id"] + "__den"]
             val = (n / d.where(d > 0)) if v["kind"] == "ratio" else n
-            new.loc[ix, cols[v["id"]]] = j["tract"].map(val).values
+            new.loc[ix, cols[v["id"]]] = tract.map(val).values
         print(f"  {A.survey_label(int(y))} {st}: {len(ix):,} lots", flush=True)
     D = pd.concat([D.drop(columns=[c for c in cols.values() if c in D]), new], axis=1)
     D.to_parquet(PATHS['lots'])

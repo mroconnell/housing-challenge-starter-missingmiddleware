@@ -14,18 +14,19 @@ import math
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
+from scipy.spatial import cKDTree
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from missing_middleware import geom_extra_station as S  # noqa: E402
 from missing_middleware.paths import PROCESSED, RAW, REFERENCE  # noqa: E402
 from missing_middleware.tod import cases as C  # noqa: E402
 from missing_middleware.tod import traits as T  # noqa: E402
-from scripts.run_tod_net_effect import _permits_from_points, capture, widen  # noqa: E402
+from scripts.run_tod_net_effect import _permits_from_points, capture  # noqa: E402
 
 OUT = PROCESSED / "tod_updown"
 UNITS = REFERENCE / "tod_updown_units.csv"
@@ -37,9 +38,11 @@ INVENTORY = {"New York": "nyc_bloomberg_rezonings_2003_2013", "Philadelphia": "p
              "Saint Paul": "stpaul_green_line_2011", "Seattle": "seattle_nbh_othello_2012", "Chicago": "chicago_tod_2013_2015"}
 
 
-def rail(crs):
+def rail(crs) -> cKDTree:
+    """Every rail stop (National Transit Map) in crs, as a point index."""
     s = pd.DataFrame(json.load(open(RAW / "tod_census_cases" / "ntm_rail_stops.json"))).dropna(subset=["stop_lat", "stop_lon"])
-    return gpd.GeoDataFrame(geometry=gpd.points_from_xy(s.stop_lon, s.stop_lat), crs=4326).to_crs(crs).geometry.union_all()
+    x, y = S.transform(s["stop_lon"].to_numpy(float), s["stop_lat"].to_numpy(float), 4326, crs)
+    return cKDTree(np.c_[x, y])
 
 
 def rate(q: pd.DataFrame, lab: str, years: list[int], acres: float) -> float:
@@ -47,12 +50,13 @@ def rate(q: pd.DataFrame, lab: str, years: list[int], acres: float) -> float:
 
 
 def measure(city: str, unit_id: str, args: dict, area: pd.Series, q: pd.DataFrame, per: dict, stops) -> list[dict]:
-    """Up and down units of one case or member. q: permits with pix and calendar year."""
+    """Up and down units of one case or member. q: permits with pix and calendar year. stops: rail stops (rail())."""
     L = args["parcels"]
-    acres = L.geometry.area / C.SQM_PER_ACRE
+    acres = C.parcel_acres(L)
     elig = args["eligible"].astype(bool)
     lb, la = args["level_before"].astype(float), args["level_after"].astype(float)
-    near = L.geometry.representative_point().distance(stops) <= C.HALF_MILE_M
+    rx, ry = C.rep_xy(L)
+    near = pd.Series(stops.query(np.c_[rx.to_numpy(float), ry.to_numpy(float)])[0] <= C.HALF_MILE_M, index=L.index)
     in_reform = args["in_reform"].astype(bool)
     outside = args["changed_outside"].astype(bool)
     fell = (la < lb - 1e-9) & np.isfinite(lb) & np.isfinite(la) & elig & near
@@ -100,8 +104,8 @@ def collect() -> None:
                 continue
         args, area = cap["uniform"][-1]
         stops = stops or {}
-        crs = str(args["parcels"].crs)
-        stops.setdefault(crs, rail(args["parcels"].crs))
+        crs = N.CRS_M
+        stops.setdefault(crs, rail(crs))
         jg, ix = cap["jobs"][-1]
         rows += measure("New York", f"nyc_{ulurp}", args, area, _permits_from_points(jg, ix), m["per"], stops[crs])
         print(f"New York {name}: {len(rows)} units so far", flush=True)
@@ -119,8 +123,8 @@ def collect() -> None:
                 print(f"  {bill}: {type(e).__name__}: {e}")
                 continue
         args, area = cap["uniform"][-1]
-        crs = str(args["parcels"].crs)
-        stops.setdefault(crs, rail(args["parcels"].crs))
+        crs = P.CRS_M
+        stops.setdefault(crs, rail(crs))
         rows += measure("Philadelphia", f"phl_{bill}", args, area, q, m["per"], stops[crs])
     print(f"Philadelphia: {len(rows)} units so far", flush=True)
     # Chicago and Saint Paul
@@ -131,8 +135,8 @@ def collect() -> None:
         args, area = cap["uniform"][0]
         pts, pix = cap["locate"][-1]
         per = C.period_years(ci.effective_year, ci.first_year, ci.last_full_year)
-        crs = str(args["parcels"].crs)
-        stops.setdefault(crs, rail(args["parcels"].crs))
+        crs = mod.CRS_M
+        stops.setdefault(crs, rail(crs))
         rows += measure(city, key, args, area, _permits_from_points(pts, pix), per, stops[crs])
         print(f"{city}: {len(rows)} units so far", flush=True)
     # Seattle cases
@@ -142,8 +146,8 @@ def collect() -> None:
             f = K._frame(case)
         args, area = cap["uniform"][-1]
         pg = K._load()["permits"]
-        crs = str(args["parcels"].crs)
-        stops.setdefault(crs, rail(args["parcels"].crs))
+        crs = K.CRS_M
+        stops.setdefault(crs, rail(crs))
         rows += measure("Seattle", case, args, area, _permits_from_points(pg, pg["pix"]), f["per"], stops[crs])
     print(f"Seattle: {len(rows)} units so far", flush=True)
     U = pd.DataFrame(rows)

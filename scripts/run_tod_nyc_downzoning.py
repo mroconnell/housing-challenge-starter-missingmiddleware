@@ -12,7 +12,6 @@ import json
 import sys
 from pathlib import Path
 
-import geopandas as gpd
 import numpy as np
 import pandas as pd
 
@@ -29,13 +28,23 @@ SEED = 20261033
 BEFORE, AFTER = list(range(-6, 0)), list(range(1, 6))
 
 
-def rail_stops(crs):
+def rail_stops(crs) -> tuple[np.ndarray, np.ndarray]:
+    """Rail and subway stops (National Transit Map) as x, y arrays in crs."""
+    from missing_middleware.geom_extra_station import transform
     s = pd.DataFrame(json.load(open(RAW / "tod_census_cases" / "ntm_rail_stops.json"))).dropna(subset=["stop_lat", "stop_lon"])
-    g = gpd.GeoDataFrame(geometry=gpd.points_from_xy(s.stop_lon, s.stop_lat), crs=4326).to_crs(crs)
-    return g.geometry.union_all()
+    return transform(s.stop_lon.to_numpy(float), s.stop_lat.to_numpy(float), 4326, crs)
+
+
+def in_lots(pts: pd.DataFrame, polys: list) -> np.ndarray:
+    """Points (frame with x, y in the census CRS) inside the union of the given lots (already in that CRS)."""
+    from missing_middleware import geom as G
+    if not polys:
+        return np.zeros(len(pts), bool)
+    return G.points_in_any(pts["x"].to_numpy(float), pts["y"].to_numpy(float), polys, union=True)
 
 
 def main() -> None:
+    from missing_middleware.geom_extra_station import make_valid_nested, nearest_lowest, polys_to_crs
     from missing_middleware.tod import case_nyc as N
     rng = np.random.default_rng(SEED)
     frames, members, cen = [], [], []
@@ -50,15 +59,17 @@ def main() -> None:
         args, area = cap["uniform"][-1]
         L = args["parcels"]
         if stops is None:
-            stops = rail_stops(L.crs)
+            stops = rail_stops(N.CRS_M)
         eff = int(m["effective_year"])
         elig = args["eligible"].astype(bool)
         lb, la = args["level_before"].astype(float), args["level_after"].astype(float)
-        near = L.geometry.representative_point().distance(stops) <= C.HALF_MILE_M
+        rx, ry = C.rep_xy(L)
+        _, dstop = nearest_lowest(rx.to_numpy(float), ry.to_numpy(float), stops[0], stops[1])
+        near = pd.Series(dstop <= C.HALF_MILE_M, index=L.index)
         down = args["in_reform"].astype(bool) & (la < lb - 1e-9) & elig & near & ~args["changed_outside"].astype(bool)
         up = area == C.TREAT
         comp = area == C.COMP
-        acres = L.geometry.area / C.SQM_PER_ACRE
+        acres = C.parcel_acres(L)
         lab = pd.Series(None, index=L.index, dtype=object)
         lab[comp] = "comparison"
         lab[up] = "upzoned"
@@ -76,10 +87,10 @@ def main() -> None:
                         "upzoned_acres": float(acres[up].sum()), "comparison_acres": float(acres[comp].sum()),
                         "downzoned_far_change": dose, "upzoned_far_change": updose})
         if 2008 <= eff <= 2013 and down.any() and comp.any():
-            dg = L.loc[down].to_crs(R.CRS).geometry.make_valid().union_all()
-            cg = L.loc[comp].to_crs(R.CRS).geometry.make_valid().union_all()
+            dg = polys_to_crs(make_valid_nested(list(L.loc[down, "geometry"])), N.CRS_M, R.CRS)
+            cg = polys_to_crs(make_valid_nested(list(L.loc[comp, "geometry"])), N.CRS_M, R.CRS)
             p10, p20 = R.block_points("36", 2010), R.block_points("36", 2020)
-            t10, t20, c10, c20 = p10[R.within(p10, dg)], p20[R.within(p20, dg)], p10[R.within(p10, cg)], p20[R.within(p20, cg)]
+            t10, t20, c10, c20 = p10[in_lots(p10, dg)], p20[in_lots(p20, dg)], p10[in_lots(p10, cg)], p20[in_lots(p20, cg)]
             est, lo, hi = R.diff_with_interval(t10, t20, c10, c20, rng)
             cen.append({"rezoning": ulurp, "adopted": eff, "census_downzoned_minus_comparison_per_acre_decade": est,
                         "low": lo, "high": hi, "downzoned_homes_2010": t10["homes"].sum(), "downzoned_homes_2020": t20["homes"].sum()})

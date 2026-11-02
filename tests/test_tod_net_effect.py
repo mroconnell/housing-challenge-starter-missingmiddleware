@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from missing_middleware import geom as G
 from missing_middleware.tod import cases as C
 from missing_middleware.tod import net_effect as NE
 from missing_middleware.tod import traits as T
@@ -17,20 +18,17 @@ ROOT = Path(__file__).resolve().parents[1]
 REF = ROOT / "reference"
 
 
-def grid(n: int = 30, size: float = 100.0):
-    """n x n square lots of size metres, as a GeoDataFrame in a metre CRS."""
-    import geopandas as gpd
-    from shapely.geometry import box
-    geoms = [box(i * size, j * size, (i + 1) * size, (j + 1) * size) for j in range(n) for i in range(n)]
-    return gpd.GeoDataFrame(geometry=geoms, crs=32616)
+def grid(n: int = 30, size: float = 100.0) -> pd.DataFrame:
+    """n x n square lots of size metres, as a parcel frame (polygon features in a metre CRS, cases' model)."""
+    return pd.DataFrame({"geometry": [box(i * size, j * size, (i + 1) * size, (j + 1) * size) for j in range(n) for i in range(n)]})
 
 
 class TestAreas(unittest.TestCase):
     def setUp(self):
         self.lots = grid()
         n = len(self.lots)
-        c = self.lots.geometry.centroid
-        self.in_reform = pd.Series((c.x < 300) & (c.y < 300), index=self.lots.index)
+        cx, cy = G.centroids(list(self.lots["geometry"]))
+        self.in_reform = pd.Series((cx < 300) & (cy < 300), index=self.lots.index)
         self.rose = self.in_reform.copy()
         self.lb = pd.Series(1.0, index=self.lots.index)
         self.la = pd.Series(np.where(self.in_reform, 3.0, 1.0), index=self.lots.index)
@@ -126,6 +124,13 @@ class TestShapes(unittest.TestCase):
         across = [box(0, 0, 100, 50), box(0, 65, 100, 115)]                     # facing lots across a 15 m street
         self.assertEqual(len(NE.patches(across)), 1)
         self.assertEqual(len(NE.patches(across, close_m=NE.TOUCH_M)), 2)
+
+    def test_area_counts_overlapping_lots_once(self):
+        two = box(0, 0, 100, 100) + box(50, 0, 150, 100)                       # overlapping lots, one feature
+        self.assertAlmostEqual(NE.area(two), 15000.0, places=4)
+        self.assertAlmostEqual(NE.area(box(0, 0, 100, 100) + box(200, 0, 300, 100)), 20000.0, places=6)
+        self.assertAlmostEqual(NE.largest_contiguous_site_acres([box(0, 0, 100, 100), box(50, 0, 150, 100)]),
+                               15000.0 / C.SQM_PER_ACRE, places=8)
 
     def test_island(self):
         pc = pd.DataFrame({"patch_acres": [10.0, 99.0], "poly": [box(0, 0, 100, 100), box(500, 0, 2000, 1000)]})

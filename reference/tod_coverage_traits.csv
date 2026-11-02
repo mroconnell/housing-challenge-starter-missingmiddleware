@@ -51,7 +51,7 @@ unit,Philadelphia,Philadelphia: bill 150859 (Conshohocken Ave),,,,,,,,,,,,,,,Fal
 unit,Philadelphia,Philadelphia: bill 150863 (Bella Vista),,,,,,,,,,,,,,,True,7.43,67287.4345,1.1631,18.9701,6.278,0.0,,20.0,0.3862,0.1581,26.0335,2006-2010
 unit,Philadelphia,Philadelphia: bill 160299 (Wissahickon (WICA)),,,,,,,,,,,,,,,True,6.88,67287.4345,1.5171,15.0368,3.2668,0.0,,5.0,0.0853,0.2068,28.4498,2006-2010
 unit,Philadelphia,Philadelphia: bill 160327 (Lexington Park),,,,,,,,,,,,,,,True,6.6,67287.4345,3.8317,6.9494,4.4575,0.0,,2.0,0.1984,0.1169,30.8225,2006-2010
-unit,Philadelphia,Philadelphia: bill 160328 (East Falls Business District),,,,,,,,,,,,,,,True,22.17,67287.4345,6.4051,11.935,3.7501,0.0,,5.0,0.0973,0.2795,26.7082,2006-2010
+unit,Philadelphia,Philadelphia: bill 160328 (East Falls Business District),,,,,,,,,,,,,,,True,22.17,67287.4345,11.8473,11.935,3.7501,0.0,,5.0,0.0973,0.2795,26.7082,2006-2010
 unit,Philadelphia,Philadelphia: bill 160336 (East Kensington 1st),,,,,,,,,,,,,,,True,10.44,67287.4345,3.0033,11.2249,17.3686,0.0,,7.0,0.3395,0.308,35.1792,2006-2010
 unit,Philadelphia,Philadelphia: bill 160465 (SouthKensington- Olde Kensington northeast),,,,,,,,,,,,,,,False,2.47,67287.4345,1.0393,17.2897,8.9475,0.0,,4.0,0.4444,0.2906,34.4558,2006-2010
 unit,Philadelphia,Philadelphia: bill 160466 (South Kensington-Olde Kensington northwest),,,,,,,,,,,,,,,False,0.33,67287.4345,0.1661,124.7412,1.9681,0.0,,4.0,0.3919,0.2355,33.7743,2006-2010
@@ -226,7 +226,7 @@ unit,Chicago,Chicago: Wellington,,,,,,,,,,,,,,,False,2.09,114660.076,1.5576,6.07
 unit,Chicago,Chicago: Western Ave,,,,,,,,,,,,,,,False,0.35,114660.076,0.3477,1.1126,1.1126,0.0,,1.0,0.2667,0.2568,25.6342,2006-2010
 unit,Chicago,Chicago: Western Avenue,,,,,,,,,,,,,,,False,0.2,114660.076,0.2037,1.7702,1.7702,0.0,,1.0,0.2673,0.1982,31.1429,2006-2010
 unit,Chicago,Chicago: Western-Brown,,,,,,,,,,,,,,,False,2.3,114660.076,0.3731,7.6469,2.3646,0.0,,3.0,0.2268,0.42,35.7078,2006-2010
-unit,Chicago,Chicago: Western-Cermak,,,,,,,,,,,,,,,False,0.98,114660.076,0.9776,5.1548,5.1548,0.0,,1.0,0.2673,0.1982,31.1429,2006-2010
+unit,Chicago,Chicago: Western-Cermak,,,,,,,,,,,,,,,False,0.98,114660.076,0.9776,5.1549,5.1549,0.0,,1.0,0.2673,0.1982,31.1429,2006-2010
 unit,Chicago,Chicago: Western-Forest Park,,,,,,,,,,,,,,,False,2.02,114660.076,0.68,55.9222,3.3364,0.0,,4.0,0.1971,0.2419,30.1082,2006-2010
 unit,Chicago,Chicago: Western-O'Hare,,,,,,,,,,,,,,,False,2.02,114660.076,0.7775,24.6592,2.1722,0.0,,7.0,0.1627,0.3277,28.2865,2006-2010
 unit,Chicago,Chicago: Wilson,,,,,,,,,,,,,,,True,5.33,114660.076,0.9264,25.8266,4.3656,0.0,0.0895,7.0,0.4546,0.4943,35.0076,2006-2010
@@ -249,9 +249,9 @@ unit,Los Angeles,Los Angeles: Lincoln Heights / Cypress Park,,,,,,,,,,,,,,,True,
 unit,Seattle,Seattle: North Beacon Hill,,,,,,,,,,,,,,,True,11.84,32864.3433,3.0711,9.396,3.0416,0.0,0.6814,3.0,0.1798,0.2944,24.0888,2006-2010
 unit,Seattle,Seattle: Othello,,,,,,,,,,,,,,,True,20.54,32864.3433,6.9079,5.9146,3.9744,0.0,0.0843,3.0,0.23,0.1953,28.5655,2006-2010
 unit,Seattle,Seattle: Mount Baker,,,,,,,,,,,,,,,True,35.32,32864.3433,9.0559,7.8501,2.824,0.0,0.0,4.0,0.1518,0.192,26.0458,2006-2010
-unit,Bellevue,Bellevue: BelRed,,,,,,,,,,,,,,,True,225.36,,67.9622,4.4523,4.4523,1.0,,1.0,0.0128,0.0654,19.5915,2006-2010
+unit,Bellevue,Bellevue: BelRed,,,,,,,,,,,,,,,True,225.36,,69.9785,4.4523,4.4523,1.0,,1.0,0.0128,0.0654,19.5915,2006-2010
 unit,Bellevue,Bellevue: Overlake Village,,,,,,,,,,,,,,,True,78.17,,25.3546,5.6481,2.9879,0.779,,2.0,0.0291,0.0909,20.0638,2006-2010
-unit,Bellevue,Bellevue: Spring District,,,,,,,,,,,,,,,True,200.88,,79.1847,3.1791,3.1791,1.0,,1.0,0.0029,0.0522,19.5828,2006-2010
+unit,Bellevue,Bellevue: Spring District,,,,,,,,,,,,,,,True,200.88,,91.7791,3.1791,3.1791,1.0,,1.0,0.0029,0.0522,19.5828,2006-2010
 unit,Toronto,Toronto: Caledonia,,,,,,,,,,,,,,,True,5.66,,1.1441,41.391,7.9438,0.0,,3.0,,,,
 unit,Toronto,Toronto: Cedarvale,,,,,,,,,,,,,,,True,6.16,,1.1914,19.8052,6.6805,0.0,,4.0,,,,
 unit,Toronto,Toronto: Chaplin,,,,,,,,,,,,,,,False,0.1,,0.0952,4.0408,4.0408,0.0,,1.0,,,,

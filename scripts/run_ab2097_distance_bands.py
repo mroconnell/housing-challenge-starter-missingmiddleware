@@ -39,12 +39,8 @@ def block_homes() -> pd.DataFrame:
     cache = run.OUT / "blocks_bands.parquet"
     if cache.exists():
         return pd.read_parquet(cache)
-    import geopandas as gpd
-    import pyogrio
     stops = run.load_stops("all")
-    b = pyogrio.read_dataframe(run.D / "tl_2020_06_tabblock20.zip", read_geometry=False,
-                               columns=["GEOID20", "COUNTYFP20", "HOUSING20", "INTPTLAT20", "INTPTLON20"])
-    b = gpd.GeoDataFrame(b, geometry=gpd.points_from_xy(b.INTPTLON20.astype(float), b.INTPTLAT20.astype(float)), crs=4326).to_crs(run.CRS)
+    b = run.read_blocks(["GEOID20", "COUNTYFP20", "HOUSING20", "INTPTLAT20", "INTPTLON20"])
     b["juris"] = run.block_juris(b)
     b["dist"] = run.nearest_m(b, stops)
     b["upz"] = run.in_toc(b) & (b["juris"] == ab.LA)

@@ -35,13 +35,13 @@ charlotte_tod_2019,treatment,2021,after,231,817.5,0.28256,measured
 charlotte_tod_2019,treatment,2022,after,50,817.5,0.06116,measured
 charlotte_tod_2019,treatment,2023,after,323,817.5,0.3951,measured
 charlotte_tod_2019,treatment,2024,after,1,817.5,0.00122,measured
-stpaul_green_line_2011,comparison,2010,before,0,1450.2,0.0,context_only: 1 before years (plan needs 3)
-stpaul_green_line_2011,comparison,2011,year0,4,1450.2,0.00276,context_only: 1 before years (plan needs 3)
-stpaul_green_line_2011,comparison,2012,after,5,1450.2,0.00345,context_only: 1 before years (plan needs 3)
-stpaul_green_line_2011,comparison,2013,after,6,1450.2,0.00414,context_only: 1 before years (plan needs 3)
-stpaul_green_line_2011,comparison,2014,after,10,1450.2,0.0069,context_only: 1 before years (plan needs 3)
-stpaul_green_line_2011,comparison,2015,after,4,1450.2,0.00276,context_only: 1 before years (plan needs 3)
-stpaul_green_line_2011,comparison,2016,after,5,1450.2,0.00345,context_only: 1 before years (plan needs 3)
+stpaul_green_line_2011,comparison,2010,before,0,1450.3,0.0,context_only: 1 before years (plan needs 3)
+stpaul_green_line_2011,comparison,2011,year0,4,1450.3,0.00276,context_only: 1 before years (plan needs 3)
+stpaul_green_line_2011,comparison,2012,after,5,1450.3,0.00345,context_only: 1 before years (plan needs 3)
+stpaul_green_line_2011,comparison,2013,after,6,1450.3,0.00414,context_only: 1 before years (plan needs 3)
+stpaul_green_line_2011,comparison,2014,after,10,1450.3,0.0069,context_only: 1 before years (plan needs 3)
+stpaul_green_line_2011,comparison,2015,after,4,1450.3,0.00276,context_only: 1 before years (plan needs 3)
+stpaul_green_line_2011,comparison,2016,after,5,1450.3,0.00345,context_only: 1 before years (plan needs 3)
 stpaul_green_line_2011,treatment,2010,before,50,210.6,0.23746,context_only: 1 before years (plan needs 3)
 stpaul_green_line_2011,treatment,2011,year0,0,210.6,0.0,context_only: 1 before years (plan needs 3)
 stpaul_green_line_2011,treatment,2012,after,0,210.6,0.0,context_only: 1 before years (plan needs 3)
@@ -108,7 +108,7 @@ nyc_downtown_brooklyn_2004,second_comparison,2005,after,4265,10042.2,0.42471,mea
 nyc_downtown_brooklyn_2004,second_comparison,2006,after,4828,10042.2,0.48077,measured
 nyc_downtown_brooklyn_2004,second_comparison,2007,after,4096,10042.2,0.40788,measured
 nyc_downtown_brooklyn_2004,second_comparison,2008,after,3895,10042.2,0.38786,measured
-nyc_downtown_brooklyn_2004,second_comparison,2009,after,1260,10042.2,0.12547,measured
+nyc_downtown_brooklyn_2004,second_comparison,2009,after,1262,10042.2,0.12567,measured
 nyc_downtown_brooklyn_2004,treatment,1998,before,0,27.7,0.0,measured
 nyc_downtown_brooklyn_2004,treatment,1999,before,0,27.7,0.0,measured
 nyc_downtown_brooklyn_2004,treatment,2000,before,0,27.7,0.0,measured
@@ -121,17 +121,17 @@ nyc_downtown_brooklyn_2004,treatment,2006,after,246,27.7,8.88089,measured
 nyc_downtown_brooklyn_2004,treatment,2007,after,562,27.7,20.28887,measured
 nyc_downtown_brooklyn_2004,treatment,2008,after,1157,27.7,41.76908,measured
 nyc_downtown_brooklyn_2004,treatment,2009,after,0,27.7,0.0,measured
-nyc_pooled_2003_2013,comparison,-6,before,391,2343.5,0.16684,measured
-nyc_pooled_2003_2013,comparison,-5,before,1063,2343.5,0.45359,measured
-nyc_pooled_2003_2013,comparison,-4,before,1045,2343.5,0.44591,measured
+nyc_pooled_2003_2013,comparison,-6,before,391,2343.5,0.16685,measured
+nyc_pooled_2003_2013,comparison,-5,before,1063,2343.5,0.4536,measured
+nyc_pooled_2003_2013,comparison,-4,before,1045,2343.5,0.44592,measured
 nyc_pooled_2003_2013,comparison,-3,before,919,2343.5,0.39215,measured
 nyc_pooled_2003_2013,comparison,-2,before,460,2343.5,0.19629,measured
 nyc_pooled_2003_2013,comparison,-1,before,837,2343.5,0.35716,measured
-nyc_pooled_2003_2013,comparison,0,year0,1187,2343.5,0.5065,measured
+nyc_pooled_2003_2013,comparison,0,year0,1187,2343.5,0.50651,measured
 nyc_pooled_2003_2013,comparison,1,after,605,2343.5,0.25816,measured
-nyc_pooled_2003_2013,comparison,2,after,941,2343.5,0.40153,measured
+nyc_pooled_2003_2013,comparison,2,after,941,2343.5,0.40154,measured
 nyc_pooled_2003_2013,comparison,3,after,317,2343.5,0.13527,measured
-nyc_pooled_2003_2013,comparison,4,after,991,2343.5,0.42287,measured
+nyc_pooled_2003_2013,comparison,4,after,991,2343.5,0.42288,measured
 nyc_pooled_2003_2013,comparison,5,after,654,2343.5,0.27907,measured
 nyc_pooled_2003_2013,treatment,-6,before,10,574.1,0.01742,measured
 nyc_pooled_2003_2013,treatment,-5,before,12,574.1,0.0209,measured
@@ -145,30 +145,30 @@ nyc_pooled_2003_2013,treatment,2,after,385,574.1,0.67065,measured
 nyc_pooled_2003_2013,treatment,3,after,752,574.1,1.30994,measured
 nyc_pooled_2003_2013,treatment,4,after,1569,574.1,2.7331,measured
 nyc_pooled_2003_2013,treatment,5,after,234,574.1,0.40761,measured
-philadelphia_2012_remapping,comparison,-6,before,1104,11345.3,0.09731,measured
-philadelphia_2012_remapping,comparison,-5,before,954,11345.3,0.08409,measured
-philadelphia_2012_remapping,comparison,-4,before,1639,11345.3,0.14446,measured
-philadelphia_2012_remapping,comparison,-3,before,1441,11345.3,0.12701,measured
-philadelphia_2012_remapping,comparison,-2,before,2010,11345.3,0.17717,measured
-philadelphia_2012_remapping,comparison,-1,before,2098,11345.3,0.18492,measured
-philadelphia_2012_remapping,comparison,0,year0,2112,11345.3,0.18616,measured
-philadelphia_2012_remapping,comparison,1,after,2347,11345.3,0.20687,measured
-philadelphia_2012_remapping,comparison,2,after,2473,11345.3,0.21797,measured
-philadelphia_2012_remapping,comparison,3,after,2641,11345.3,0.23278,measured
-philadelphia_2012_remapping,comparison,4,after,2955,11345.3,0.26046,measured
-philadelphia_2012_remapping,comparison,5,after,2041,11345.3,0.1799,measured
-philadelphia_2012_remapping,second_comparison,-6,before,6863,49454.9,0.13877,measured
-philadelphia_2012_remapping,second_comparison,-5,before,7930,49454.9,0.16035,measured
-philadelphia_2012_remapping,second_comparison,-4,before,7743,49454.9,0.15657,measured
-philadelphia_2012_remapping,second_comparison,-3,before,9026,49454.9,0.18251,measured
-philadelphia_2012_remapping,second_comparison,-2,before,10957,49454.9,0.22156,measured
-philadelphia_2012_remapping,second_comparison,-1,before,11516,49454.9,0.23286,measured
-philadelphia_2012_remapping,second_comparison,0,year0,11880,49454.9,0.24022,measured
-philadelphia_2012_remapping,second_comparison,1,after,12784,49454.9,0.2585,measured
-philadelphia_2012_remapping,second_comparison,2,after,14026,49454.9,0.28361,measured
-philadelphia_2012_remapping,second_comparison,3,after,13721,49454.9,0.27744,measured
-philadelphia_2012_remapping,second_comparison,4,after,15284,49454.9,0.30905,measured
-philadelphia_2012_remapping,second_comparison,5,after,13483,49454.9,0.27263,measured
+philadelphia_2012_remapping,comparison,-6,before,1104,11346.0,0.0973,measured
+philadelphia_2012_remapping,comparison,-5,before,954,11346.0,0.08408,measured
+philadelphia_2012_remapping,comparison,-4,before,1639,11346.0,0.14446,measured
+philadelphia_2012_remapping,comparison,-3,before,1441,11346.0,0.12701,measured
+philadelphia_2012_remapping,comparison,-2,before,2010,11346.0,0.17716,measured
+philadelphia_2012_remapping,comparison,-1,before,2098,11346.0,0.18491,measured
+philadelphia_2012_remapping,comparison,0,year0,2112,11346.0,0.18615,measured
+philadelphia_2012_remapping,comparison,1,after,2347,11346.0,0.20686,measured
+philadelphia_2012_remapping,comparison,2,after,2473,11346.0,0.21796,measured
+philadelphia_2012_remapping,comparison,3,after,2641,11346.0,0.23277,measured
+philadelphia_2012_remapping,comparison,4,after,2955,11346.0,0.26045,measured
+philadelphia_2012_remapping,comparison,5,after,2041,11346.0,0.17989,measured
+philadelphia_2012_remapping,second_comparison,-6,before,6864,49469.1,0.13875,measured
+philadelphia_2012_remapping,second_comparison,-5,before,7931,49469.1,0.16032,measured
+philadelphia_2012_remapping,second_comparison,-4,before,7743,49469.1,0.15652,measured
+philadelphia_2012_remapping,second_comparison,-3,before,9027,49469.1,0.18248,measured
+philadelphia_2012_remapping,second_comparison,-2,before,10957,49469.1,0.22149,measured
+philadelphia_2012_remapping,second_comparison,-1,before,11516,49469.1,0.23279,measured
+philadelphia_2012_remapping,second_comparison,0,year0,11884,49469.1,0.24023,measured
+philadelphia_2012_remapping,second_comparison,1,after,12786,49469.1,0.25846,measured
+philadelphia_2012_remapping,second_comparison,2,after,14026,49469.1,0.28353,measured
+philadelphia_2012_remapping,second_comparison,3,after,13721,49469.1,0.27737,measured
+philadelphia_2012_remapping,second_comparison,4,after,15283,49469.1,0.30894,measured
+philadelphia_2012_remapping,second_comparison,5,after,13483,49469.1,0.27255,measured
 philadelphia_2012_remapping,treatment,-6,before,180,642.2,0.2803,measured
 philadelphia_2012_remapping,treatment,-5,before,66,642.2,0.10278,measured
 philadelphia_2012_remapping,treatment,-4,before,38,642.2,0.05917,measured
@@ -181,18 +181,18 @@ philadelphia_2012_remapping,treatment,2,after,255,642.2,0.39709,measured
 philadelphia_2012_remapping,treatment,3,after,770,642.2,1.19905,measured
 philadelphia_2012_remapping,treatment,4,after,1006,642.2,1.56656,measured
 philadelphia_2012_remapping,treatment,5,after,1465,642.2,2.28132,measured
-chicago_tod_2013_2015,comparison,2009,before,127,6601.0,0.01924,measured
-chicago_tod_2013_2015,comparison,2010,before,140,6601.0,0.02121,measured
-chicago_tod_2013_2015,comparison,2011,before,221,6601.0,0.03348,measured
-chicago_tod_2013_2015,comparison,2012,before,256,6601.0,0.03878,measured
-chicago_tod_2013_2015,comparison,2013,before,483,6601.0,0.07317,measured
-chicago_tod_2013_2015,comparison,2014,before,558,6601.0,0.08453,measured
-chicago_tod_2013_2015,comparison,2015,year0,477,6601.0,0.07226,measured
-chicago_tod_2013_2015,comparison,2016,after,604,6601.0,0.0915,measured
-chicago_tod_2013_2015,comparison,2017,after,570,6601.0,0.08635,measured
-chicago_tod_2013_2015,comparison,2018,after,700,6601.0,0.10605,measured
-chicago_tod_2013_2015,comparison,2019,after,448,6601.0,0.06787,measured
-chicago_tod_2013_2015,comparison,2020,after,628,6601.0,0.09514,measured
+chicago_tod_2013_2015,comparison,2009,before,127,6601.1,0.01924,measured
+chicago_tod_2013_2015,comparison,2010,before,140,6601.1,0.02121,measured
+chicago_tod_2013_2015,comparison,2011,before,221,6601.1,0.03348,measured
+chicago_tod_2013_2015,comparison,2012,before,256,6601.1,0.03878,measured
+chicago_tod_2013_2015,comparison,2013,before,483,6601.1,0.07317,measured
+chicago_tod_2013_2015,comparison,2014,before,558,6601.1,0.08453,measured
+chicago_tod_2013_2015,comparison,2015,year0,477,6601.1,0.07226,measured
+chicago_tod_2013_2015,comparison,2016,after,604,6601.1,0.0915,measured
+chicago_tod_2013_2015,comparison,2017,after,570,6601.1,0.08635,measured
+chicago_tod_2013_2015,comparison,2018,after,700,6601.1,0.10604,measured
+chicago_tod_2013_2015,comparison,2019,after,448,6601.1,0.06787,measured
+chicago_tod_2013_2015,comparison,2020,after,628,6601.1,0.09514,measured
 chicago_tod_2013_2015,second_comparison,2009,before,14,8570.4,0.00163,measured
 chicago_tod_2013_2015,second_comparison,2010,before,34,8570.4,0.00397,measured
 chicago_tod_2013_2015,second_comparison,2011,before,37,8570.4,0.00432,measured
@@ -217,14 +217,14 @@ chicago_tod_2013_2015,treatment,2017,after,59,258.8,0.22801,measured
 chicago_tod_2013_2015,treatment,2018,after,63,258.8,0.24346,measured
 chicago_tod_2013_2015,treatment,2019,after,91,258.8,0.35167,measured
 chicago_tod_2013_2015,treatment,2020,after,58,258.8,0.22414,measured
-raleigh_permit_count_all,comparison,2018,before,35,1410.3,0.02482,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_all,comparison,2019,before,1,1410.3,0.00071,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_all,comparison,2020,before,4,1410.3,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_all,comparison,2021,before,4,1410.3,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_all,comparison,2022,before,5,1410.3,0.00355,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_all,comparison,2023,before,52,1410.3,0.03687,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_all,comparison,2024,year0,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_all,comparison,2025,after,3,1410.3,0.00213,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2018,before,35,1410.4,0.02482,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2019,before,1,1410.4,0.00071,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2020,before,4,1410.4,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2021,before,4,1410.4,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2022,before,5,1410.4,0.00355,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2023,before,52,1410.4,0.03687,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2024,year0,0,1410.4,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_all,comparison,2025,after,3,1410.4,0.00213,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_all,treatment,2018,before,1,639.5,0.00156,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_all,treatment,2019,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_all,treatment,2020,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
@@ -233,14 +233,14 @@ raleigh_permit_count_all,treatment,2022,before,0,639.5,0.0,"not_measurable: the 
 raleigh_permit_count_all,treatment,2023,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_all,treatment,2024,year0,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_all,treatment,2025,after,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_sf,comparison,2018,before,34,1410.3,0.02411,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_sf,comparison,2019,before,1,1410.3,0.00071,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_sf,comparison,2020,before,4,1410.3,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_sf,comparison,2021,before,4,1410.3,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_sf,comparison,2022,before,5,1410.3,0.00355,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_sf,comparison,2023,before,52,1410.3,0.03687,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_sf,comparison,2024,year0,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_sf,comparison,2025,after,3,1410.3,0.00213,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2018,before,34,1410.4,0.02411,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2019,before,1,1410.4,0.00071,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2020,before,4,1410.4,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2021,before,4,1410.4,0.00284,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2022,before,5,1410.4,0.00355,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2023,before,52,1410.4,0.03687,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2024,year0,0,1410.4,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_sf,comparison,2025,after,3,1410.4,0.00213,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_sf,treatment,2018,before,1,639.5,0.00156,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_sf,treatment,2019,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_sf,treatment,2020,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
@@ -249,14 +249,14 @@ raleigh_permit_count_sf,treatment,2022,before,0,639.5,0.0,"not_measurable: the p
 raleigh_permit_count_sf,treatment,2023,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_sf,treatment,2024,year0,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_sf,treatment,2025,after,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_mf,comparison,2018,before,1,1410.3,0.00071,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_mf,comparison,2019,before,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_mf,comparison,2020,before,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_mf,comparison,2021,before,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_mf,comparison,2022,before,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_mf,comparison,2023,before,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_mf,comparison,2024,year0,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
-raleigh_permit_count_mf,comparison,2025,after,0,1410.3,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2018,before,1,1410.4,0.00071,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2019,before,0,1410.4,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2020,before,0,1410.4,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2021,before,0,1410.4,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2022,before,0,1410.4,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2023,before,0,1410.4,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2024,year0,0,1410.4,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
+raleigh_permit_count_mf,comparison,2025,after,0,1410.4,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_mf,treatment,2018,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_mf,treatment,2019,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
 raleigh_permit_count_mf,treatment,2020,before,0,639.5,0.0,"not_measurable: the permit layer records no detached single-family or multifamily permits in 2022-2025 (new homes all coded townhouse from 2019; 5+ unit buildings missing, while the Census BPS shows thousands)"
@@ -313,18 +313,18 @@ phoenix_permit_count_sf,treatment,2,after,0,10.8,0.0,context_permit_count
 phoenix_permit_count_sf,treatment,3,after,0,10.8,0.0,context_permit_count
 phoenix_permit_count_sf,treatment,4,after,0,10.8,0.0,context_permit_count
 phoenix_permit_count_sf,treatment,5,after,0,10.8,0.0,context_permit_count
-phoenix_permit_count_mf,comparison,-6,before,10,3234.1,0.00309,context_permit_count
-phoenix_permit_count_mf,comparison,-5,before,3,3234.1,0.00093,context_permit_count
-phoenix_permit_count_mf,comparison,-4,before,0,3234.1,0.0,context_permit_count
-phoenix_permit_count_mf,comparison,-3,before,4,3234.1,0.00124,context_permit_count
-phoenix_permit_count_mf,comparison,-2,before,5,3234.1,0.00155,context_permit_count
-phoenix_permit_count_mf,comparison,-1,before,1,3234.1,0.00031,context_permit_count
-phoenix_permit_count_mf,comparison,0,year0,3,3234.1,0.00093,context_permit_count
-phoenix_permit_count_mf,comparison,1,after,0,3234.1,0.0,context_permit_count
-phoenix_permit_count_mf,comparison,2,after,5,3234.1,0.00155,context_permit_count
-phoenix_permit_count_mf,comparison,3,after,9,3234.1,0.00278,context_permit_count
-phoenix_permit_count_mf,comparison,4,after,6,3234.1,0.00186,context_permit_count
-phoenix_permit_count_mf,comparison,5,after,7,3234.1,0.00216,context_permit_count
+phoenix_permit_count_mf,comparison,-6,before,10,3234.2,0.00309,context_permit_count
+phoenix_permit_count_mf,comparison,-5,before,3,3234.2,0.00093,context_permit_count
+phoenix_permit_count_mf,comparison,-4,before,0,3234.2,0.0,context_permit_count
+phoenix_permit_count_mf,comparison,-3,before,4,3234.2,0.00124,context_permit_count
+phoenix_permit_count_mf,comparison,-2,before,5,3234.2,0.00155,context_permit_count
+phoenix_permit_count_mf,comparison,-1,before,1,3234.2,0.00031,context_permit_count
+phoenix_permit_count_mf,comparison,0,year0,3,3234.2,0.00093,context_permit_count
+phoenix_permit_count_mf,comparison,1,after,0,3234.2,0.0,context_permit_count
+phoenix_permit_count_mf,comparison,2,after,5,3234.2,0.00155,context_permit_count
+phoenix_permit_count_mf,comparison,3,after,9,3234.2,0.00278,context_permit_count
+phoenix_permit_count_mf,comparison,4,after,6,3234.2,0.00186,context_permit_count
+phoenix_permit_count_mf,comparison,5,after,7,3234.2,0.00216,context_permit_count
 phoenix_permit_count_mf,treatment,-6,before,0,136.4,0.0,context_permit_count
 phoenix_permit_count_mf,treatment,-5,before,0,136.4,0.0,context_permit_count
 phoenix_permit_count_mf,treatment,-4,before,0,136.4,0.0,context_permit_count
@@ -409,30 +409,30 @@ la_cornfield_arroyo_seco_2013,treatment,2015,after,0,13.1,0.0,measured
 la_cornfield_arroyo_seco_2013,treatment,2016,after,0,13.1,0.0,measured
 la_cornfield_arroyo_seco_2013,treatment,2017,after,0,13.1,0.0,measured
 la_cornfield_arroyo_seco_2013,treatment,2018,after,0,13.1,0.0,measured
-seattle_nbh_othello_2012,comparison,2006,before,50,343.9,0.14539,measured
-seattle_nbh_othello_2012,comparison,2007,before,76,343.9,0.221,measured
-seattle_nbh_othello_2012,comparison,2008,before,44,343.9,0.12795,measured
-seattle_nbh_othello_2012,comparison,2009,before,23,343.9,0.06688,measured
-seattle_nbh_othello_2012,comparison,2010,before,5,343.9,0.01454,measured
-seattle_nbh_othello_2012,comparison,2011,before,9,343.9,0.02617,measured
-seattle_nbh_othello_2012,comparison,2012,year0,2,343.9,0.00582,measured
-seattle_nbh_othello_2012,comparison,2013,after,31,343.9,0.09014,measured
-seattle_nbh_othello_2012,comparison,2014,after,41,343.9,0.11922,measured
-seattle_nbh_othello_2012,comparison,2015,after,26,343.9,0.0756,measured
-seattle_nbh_othello_2012,comparison,2016,after,49,343.9,0.14248,measured
-seattle_nbh_othello_2012,comparison,2017,after,29,343.9,0.08433,measured
-seattle_nbh_othello_2012,second_comparison,2006,before,338,2472.8,0.13668,measured
-seattle_nbh_othello_2012,second_comparison,2007,before,1252,2472.8,0.5063,measured
-seattle_nbh_othello_2012,second_comparison,2008,before,396,2472.8,0.16014,measured
-seattle_nbh_othello_2012,second_comparison,2009,before,101,2472.8,0.04084,measured
-seattle_nbh_othello_2012,second_comparison,2010,before,196,2472.8,0.07926,measured
-seattle_nbh_othello_2012,second_comparison,2011,before,136,2472.8,0.055,measured
-seattle_nbh_othello_2012,second_comparison,2012,year0,499,2472.8,0.20179,measured
-seattle_nbh_othello_2012,second_comparison,2013,after,860,2472.8,0.34778,measured
-seattle_nbh_othello_2012,second_comparison,2014,after,575,2472.8,0.23253,measured
-seattle_nbh_othello_2012,second_comparison,2015,after,671,2472.8,0.27135,measured
-seattle_nbh_othello_2012,second_comparison,2016,after,872,2472.8,0.35263,measured
-seattle_nbh_othello_2012,second_comparison,2017,after,1055,2472.8,0.42663,measured
+seattle_nbh_othello_2012,comparison,2006,before,50,344.2,0.14528,measured
+seattle_nbh_othello_2012,comparison,2007,before,76,344.2,0.22083,measured
+seattle_nbh_othello_2012,comparison,2008,before,44,344.2,0.12785,measured
+seattle_nbh_othello_2012,comparison,2009,before,23,344.2,0.06683,measured
+seattle_nbh_othello_2012,comparison,2010,before,5,344.2,0.01453,measured
+seattle_nbh_othello_2012,comparison,2011,before,9,344.2,0.02615,measured
+seattle_nbh_othello_2012,comparison,2012,year0,2,344.2,0.00581,measured
+seattle_nbh_othello_2012,comparison,2013,after,31,344.2,0.09008,measured
+seattle_nbh_othello_2012,comparison,2014,after,41,344.2,0.11913,measured
+seattle_nbh_othello_2012,comparison,2015,after,26,344.2,0.07555,measured
+seattle_nbh_othello_2012,comparison,2016,after,49,344.2,0.14238,measured
+seattle_nbh_othello_2012,comparison,2017,after,29,344.2,0.08427,measured
+seattle_nbh_othello_2012,second_comparison,2006,before,338,2472.7,0.13669,measured
+seattle_nbh_othello_2012,second_comparison,2007,before,1252,2472.7,0.50633,measured
+seattle_nbh_othello_2012,second_comparison,2008,before,396,2472.7,0.16015,measured
+seattle_nbh_othello_2012,second_comparison,2009,before,101,2472.7,0.04085,measured
+seattle_nbh_othello_2012,second_comparison,2010,before,196,2472.7,0.07927,measured
+seattle_nbh_othello_2012,second_comparison,2011,before,136,2472.7,0.055,measured
+seattle_nbh_othello_2012,second_comparison,2012,year0,499,2472.7,0.2018,measured
+seattle_nbh_othello_2012,second_comparison,2013,after,860,2472.7,0.3478,measured
+seattle_nbh_othello_2012,second_comparison,2014,after,575,2472.7,0.23254,measured
+seattle_nbh_othello_2012,second_comparison,2015,after,671,2472.7,0.27136,measured
+seattle_nbh_othello_2012,second_comparison,2016,after,872,2472.7,0.35265,measured
+seattle_nbh_othello_2012,second_comparison,2017,after,1055,2472.7,0.42666,measured
 seattle_nbh_othello_2012,treatment,2006,before,0,32.4,0.0,measured
 seattle_nbh_othello_2012,treatment,2007,before,0,32.4,0.0,measured
 seattle_nbh_othello_2012,treatment,2008,before,2,32.4,0.06176,measured
