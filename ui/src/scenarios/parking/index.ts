@@ -10,6 +10,7 @@ interface YearRow { year: number; observed?: number; observed_published?: number
 interface Scen { id: "central" | "upper" | "lower"; label: string; info: string; additional_total: number; with_law_total: number; rate_per_1000_homes?: number }
 interface Statewide {
   years: YearRow[]; baseline_total: number; baseline_low_total: number; baseline_high_total: number; baseline_published_total: number; baseline_recent_strength_total?: number | null;
+  parking_checkup?: { wisconsin: { place: string; spaces_per_home: number | null; share_built: number | null }[]; after_repeal: { place: string; spaces_per_home: number | null; share_built: number | null }[]; wisconsin_weighted: number; without_mandate: number; typical_share_built: number } | null;
   checkup?: { wisconsin_rate: number; wisconsin_years: string; wisconsin_homes: number; places: number; p10: number; p25: number; p50: number; p75: number; p90: number; max_shown: number };
   baseline_by_type: { type: string; low: number; central: number; high: number }[]; observed_2021_2025: number;
   scenarios: Scen[]; reference_line: { label: string; value: number; per_year: number; rate_per_1000_homes: number; info: string };
@@ -70,6 +71,25 @@ const ROUTES: Route[] = [
 ];
 
 // ---- screens --------------------------------------------------------------------------------
+/** Owner, 2026-11-02: parking per new apartment — what Wisconsin cities require, what builders build without a mandate. */
+function parkingCheckupHTML(c: NonNullable<Statewide["parking_checkup"]>): string {
+  const max = Math.max(...c.wisconsin.map((w) => w.spaces_per_home ?? 0), 1);
+  const bar = (label: string, v: number, color: string, note = "") => `<div class="pk-bar-row"><span class="pk-bar-label">${esc(label)}</span>
+    <span class="pk-bar-track"><span class="pk-bar" style="width:${(v / max) * 100}%;background:${color}"></span></span><span class="pk-bar-val">${dec(v, 2)}${note}</span></div>`;
+  const built = c.after_repeal.filter((r) => r.spaces_per_home != null);
+  const shares = c.after_repeal.filter((r) => r.share_built != null).map((r) => `${esc(r.place)} ${dec((r.share_built ?? 0) * 100, 0)}%`).join(", ");
+  return `<section class="card" data-testid="parking-checkup"><h2>Check-up: parking per new apartment</h2>
+    <p>Your cities require about <strong>${dec(c.wisconsin_weighted, 2)}</strong> parking spaces for every new apartment (weighted by where apartments are expected). Where cities removed the mandate, builders still added parking, but less: about <strong>${dec(c.without_mandate, 2)}</strong> per apartment at the typical rate.</p>
+    <div class="pk-bars" role="group" aria-label="Parking spaces per new apartment">
+      <p class="small"><strong>Required today in Wisconsin cities</strong></p>
+      ${c.wisconsin.map((w) => bar(w.place, w.spaces_per_home ?? 0, C.baseline)).join("")}
+      <p class="small"><strong>Built in cities without a mandate</strong></p>
+      ${built.map((w) => bar(w.place, w.spaces_per_home ?? 0, C.central, " (median project)")).join("")}
+      ${bar("Wisconsin apartments, if built like that", c.without_mandate, C.central, " (estimate)")}
+    </div>
+    <p class="small muted">Wisconsin rules: 16 city codes as compiled by Mankato's planning staff (2025), at a typical mix of one- and two-bedroom homes. After repeal, builders still built ${shares} of the old requirement (project studies); the estimate applies the typical share (${dec(c.typical_share_built * 100, 0)}%) to Wisconsin's rules. Los Angeles: 12 projects filed 2024–2026; Seattle: projects near frequent transit, 2012–2016.</p></section>`;
+}
+
 /** Owner, 2026-11-02: a "check-up" — Wisconsin's building rate against the range seen after repeals elsewhere. */
 function checkupHTML(c: NonNullable<Statewide["checkup"]>): string {
   const top = Math.max(c.max_shown, c.wisconsin_rate * 1.2, c.p90);
@@ -110,6 +130,7 @@ function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
       <p class="tile-sub">cities and villages, plus ${bench.filter((x) => x.rating === "near").length} with conditions ${pill("observed")}</p>
       <p class="tile-note">From the Parking Reform Network's reform map. A statewide law adds nothing in these places.</p></section>
   </div>
+  ${s.parking_checkup ? parkingCheckupHTML(s.parking_checkup) : ""}
   ${s.checkup ? checkupHTML(s.checkup) : ""}
   <section class="card"><h2>New homes permitted each year: past and current law</h2><div class="chart-box" id="pk-today-chart"></div>
     ${legendHTML([{ name: "Observed", color: C.observed, width: 2 }, { name: "Current law (range shaded)", color: C.baseline, dash: "7 5" }])}

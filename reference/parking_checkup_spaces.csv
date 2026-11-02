@@ -1,0 +1,23 @@
+group,place,spaces_per_home,share_of_old_rule_built,source
+wisconsin_rule,Manitowoc,2.25,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Greenfield,2.125,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,New Berlin,2.1,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Oshkosh,2.0,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Janesville,1.75,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Stevens Point,1.562,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Eau Claire,1.5,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Wausau,1.5,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Menomonee Falls,1.5,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Beloit,1.5,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Green Bay,1.25,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Wauwatosa,1.25,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Madison,1.0,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Superior,1.0,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Oak Creek,1.0,,Mankato 2025 staff comparison of Wisconsin codes
+wisconsin_rule,Milwaukee,0.667,,Mankato 2025 staff comparison of Wisconsin codes
+after_repeal,Buffalo,,0.795,project study (docs/parking/MECHANISM_RESULTS.md)
+after_repeal,Los Angeles,0.81,0.673,12 projects filed 2024-2026 (docs/parking/LA_TOC_RESULTS.md)
+after_repeal,Seattle,0.5,0.6,"386 near-transit projects 2012-2016, city data via Seattle Times (2016-12-03)"
+after_repeal,Champaign,,0.461,project study (docs/parking/MECHANISM_RESULTS.md)
+summary,"Wisconsin, homes where minimums bind (weighted)",1.32,,parking_mechanism_part_b_per_project.csv
+summary,Same homes without a mandate (typical share built),0.84,0.636,median of the four project studies

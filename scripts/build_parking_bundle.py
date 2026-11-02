@@ -139,6 +139,7 @@ def build_statewide() -> dict:
         "observed_2021_2025": r(obs[[2021, 2022, 2023, 2024, 2025]].sum(), 0),
         "baseline_recent_strength_total": recent_strength(),
         "checkup": checkup(obs),
+        "parking_checkup": parking_checkup(),
         "scenarios": [
             {"id": "central", "label": "No measurable change",
              "info": "Like the 76 US places that removed parking minimums: in the one to three years after, their permit rates did not rise measurably compared with similar places that kept them.",
@@ -152,6 +153,22 @@ def build_statewide() -> dict:
         ],
         "reference_line": ref_line(),
     }
+
+
+def parking_checkup() -> dict | None:
+    """Parking required per new apartment in Wisconsin cities, against parking built after repeals elsewhere
+    (reference/parking_checkup_spaces.csv, scripts/build_parking_checkup.py; owner, 2026-11-02)."""
+    f = REF / "parking_checkup_spaces.csv"
+    if not f.exists():
+        return None
+    d = pd.read_csv(f)
+    clean = lambda v: None if pd.isna(v) else r(float(v), 3)  # noqa: E731
+    rows = lambda g: [{"place": x.place, "spaces_per_home": clean(x.spaces_per_home), "share_built": clean(x.share_of_old_rule_built)}  # noqa: E731
+                      for x in d[d["group"] == g].itertuples()]
+    summ = d[d["group"] == "summary"].reset_index(drop=True)
+    return {"wisconsin": rows("wisconsin_rule"), "after_repeal": rows("after_repeal"),
+            "wisconsin_weighted": clean(summ.loc[0, "spaces_per_home"]), "without_mandate": clean(summ.loc[1, "spaces_per_home"]),
+            "typical_share_built": clean(summ.loc[1, "share_of_old_rule_built"])}
 
 
 def checkup(obs: pd.Series) -> dict:

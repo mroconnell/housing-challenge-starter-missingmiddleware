@@ -322,3 +322,12 @@ details.more[open] > summary { margin-bottom: 4px; }
   .brief-districts .small-h { font-size: 9.5pt; margin: 5px 0 2px; }
 }
 .chart-mode { margin: 4px 0 8px; }
+
+/* parking check-up bars */
+.pk-bars { margin: 0.5rem 0; }
+.pk-bar-row { display: grid; grid-template-columns: minmax(7rem, 14rem) 1fr 10rem; align-items: center; gap: 0.5rem; margin: 2px 0; }
+.pk-bar-label { font-size: 0.9rem; }
+.pk-bar-track { background: var(--line); height: 0.7rem; border-radius: 3px; overflow: hidden; }
+.pk-bar { display: block; height: 100%; }
+.pk-bar-val { font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+@media (max-width: 600px) { .pk-bar-row { grid-template-columns: 6.5rem 1fr 4.5rem; } .pk-bar-val { font-size: 0.75rem; } }
