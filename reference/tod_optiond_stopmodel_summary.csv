@@ -1,0 +1,11 @@
+band,method,per_stop_median_error,place_total_median_error,place_total_median_error_vs_stop_reconstructed,wisconsin_acres,wisconsin_central,wisconsin_low,wisconsin_high
+0-1/4,others_average,35.95,19.84,25.41,4874.09,9989.6,7632.3,11967.73
+0-1/4,zero,23.91,28.12,23.85,4874.09,,,
+0-1/4,gradient_boosting,39.93,36.43,39.45,4874.09,13839.62,10667.04,19464.4
+0-1/4,linear_4,41.96,28.44,28.44,4874.09,6164.7,2515.33,8330.11
+0-1/4,linear_4_plus_coverage,42.45,28.98,28.98,4874.09,6155.06,-1637.77,8364.3
+1/4-1/2,others_average,16.49,10.66,10.66,5938.78,-1473.69,-2849.28,997.51
+1/4-1/2,zero,11.73,9.27,9.27,5938.78,,,
+1/4-1/2,gradient_boosting,22.65,11.79,11.79,5938.78,3989.81,-348.59,6299.41
+1/4-1/2,linear_4,24.54,26.53,26.53,5938.78,3008.3,1477.66,9245.95
+1/4-1/2,linear_4_plus_coverage,24.46,26.58,26.58,5938.78,3007.49,1471.59,9190.58

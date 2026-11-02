@@ -171,3 +171,67 @@ Departures and fixes after locking are logged below with dates, before each reru
   station-aimed). In: New York, Austin, Charlotte, Denver, Seattle Mount Baker, Seattle Othello, Salt Lake City, Saint
   Paul; Seattle Roosevelt 2012 to be added (fits with the "rail not open" trait). Caveat recorded: the per-place
   effects were known before this rule was written, so B is exploratory and not a pre-registered line.
+- **2026-11-02 (after 16:46), exploration: stop-based model vs place-based average (logged before running).** Owner,
+  16:46, asked whether a model built on reform stops beats the place-based average. Not a tool change. Script:
+  scripts/run_tod_optiond_stops.py (imports scripts/run_tod_optiond.py, which is unchanged); outputs
+  reference/tod_optiond_stopmodel_*.csv (no parcel ids). Same 11 places, fixes fill and equal, lots loaded once
+  (seed 1, near-all lots, lot + block group + tract traits) and the stop-band table cached to
+  data/processed/tod_station_area/optiond_stops_cache.parquet (local, not committed).
+  - **Unit:** one reform stop-band (¼ mile is the main target; ¼–½ mile also reported). Its own measured effect = its
+    change (after minus before, new homes per 100 lot acres a year, as `to_stops`) minus the acre-weighted average
+    change of the comparison stop-bands in the same case and band. Comparison stops are the counterfactual only, not
+    rows. One model per band.
+  - **Test:** hide all stops of one place at a time (a place is never split); fit on the other 10.
+  - **Benchmarks per hidden stop:** (a) the other places' average stop effect (each place's stop effects averaged
+    first, acre-weighted, then the places averaged equally); (b) zero.
+  - **Models** (traits: acre-weighted means of the lot, block group and tract traits, plus the stop-band's district
+    coverage; each place's stops weighted to the same total, acre-weighted within the place):
+    1. gradient boosting, 5 averaged fits (`Bag`, leaf ≥20 rows, as the round-3 stop model);
+    2. random forest, 5 averaged forests (`Forest`, 300 trees, leaf ≥20 rows, each tree on 50% of rows);
+    3. causal-forest-style R-learner (`CausalForest`, not honest, as the existing option D run), fitted on all
+       stop-bands of the band (reform and comparison, as it needs both), traits without coverage, read on the hidden
+       place's reform stops;
+    4. small linear model (weighted least squares), traits fixed now: share of lot acres vacant; log land value per
+       acre; log(1 + existing homes per acre); jobs reachable by transit (block group, `sld_transit_job_access`).
+       Gaps filled with the training median. Variant 4b adds district coverage as a fifth trait (needed for the 15%
+       Wisconsin district).
+  - **Scores:** (i) median absolute error per stop, each place's stops weighted so each place counts equally;
+    (ii) place totals: acre-weighted mean of the predicted stop effects over the place's reform stops (New York and
+    Philadelphia: averaged over rezonings, as measured) vs the place's measured effect; median absolute error over
+    places, compared with the existing 19.32 (average) and 28.12 (zero) within ¼ mile.
+  - **Wisconsin:** each Wisconsin ¼-mile stop-band with coverage 0.15; extra homes = predicted effect × stop lot
+    acres / 100 × 5 years × statewide scale 1.2269 (reference/tod_optiond_line.csv); central = fit on all 11, range =
+    each place left out. Compared with the tool's central 9,822.
+  - **Scope cut before any fit (owner, 16:51):** "You don't need to run the full causal models on this set yet —
+    let's just gather data and explore it for now." Models 2 (random forest) and 3 (R-learner) dropped; run only the
+    two benchmarks, the 4-trait linear model (and 4b) and the gradient boosting (cheap at stop level: a few hundred
+    rows a band). The stop-band cache is kept for a richer stop table later. No model results had been produced when
+    the cut was made (only the cache was built).
+- **2026-11-02 17:10, seed-variance test for the honest causal forest (logged before running).** Owner asked. The
+  honest causal forest at stop level with lot + place traits scored 19.0 within ¼ mile (others' average 19.3), but
+  from one fit, with a Wisconsin ¼-mile answer of −658 (each place left out: −5,742 to 16,197). Rerun on the same data
+  with 5 model seeds (20261102, 1, 2, 3, 4; `--cf-seed`, which sets the folds, the honest halves and the trees). Saved
+  for each seed: each hidden place's predicted effect (loco file) and the Wisconsin answer for every left-out fit plus
+  the full fit (new file reference/tod_optiond_wisconsin_each_<tag>.csv). Reported: median error per seed and for the
+  5-seed average prediction; Wisconsin central per seed and averaged; how much of the spread in the left-out answers
+  comes from the seed versus from which place is left out.
+- **2026-11-02, stop-based exploration result.** Not clean; the stop-based model does not beat the place-based average.
+  828 reform stop-bands within ¼ mile (Philadelphia 340, Chicago 2015 191, New York 159, Portland 75, Charlotte 23,
+  Salt Lake City 16, Saint Paul 10, Austin 5, Denver 5, Seattle Mount Baker 2, Seattle Othello 2); 770 in ¼–½ mile.
+  Stop effects are very noisy (¼ mile: median +4.2, middle half −6.3 to +50.4, extremes −1,164 to +1,234 extra homes
+  per 100 lot acres a year). The acre-weighted stop effects reproduce the measured effect exactly for the 9
+  single-rezoning places; New York (22.2 vs 28.1) and Philadelphia (59.6 vs 47.5) differ because their comparison
+  lots are the seed-1 sample. Within ¼ mile (median absolute error, extra homes per 100 lot acres a year):
+  | Method | Per stop (each place equal) | Place totals vs measured (11 places) | Wisconsin 2027–2031, extra homes (range: each place left out) |
+  | --- | --- | --- | --- |
+  | Others' average stop effect | 36.0 | 19.8 | 9,990 (7,632 to 11,968) |
+  | Zero | 23.9 | 28.1 | 0 |
+  | Gradient boosting (5 fits, 94 traits + coverage) | 39.9 | 36.4 | 13,840 (10,667 to 19,464) |
+  | Linear, 4 traits | 42.0 | 28.4 | 6,165 (2,515 to 8,330) |
+  | Linear, 4 traits + coverage | 42.5 | 29.0 | 6,155 (−1,638 to 8,364) |
+  Per stop, zero wins (most stops add little; a few add a lot). Place totals: the others' average (19.8; 19.3 with the
+  measured New York and Philadelphia) stays best; the linear models tie zero; boosting is worse than zero (it
+  predicts +133 for hidden Austin, +196 to +310 from the linear models for hidden New York). ¼–½ mile: zero best on
+  both scores (per stop 11.7, places 9.3), so that band still counts zero. Wisconsin = predicted effect × 4,874
+  ¼-mile lot acres / 100 × 5 × 1.2269; tool central 9,822. Files: scripts/run_tod_optiond_stops.py,
+  reference/tod_optiond_stopmodel_{summary,places,stops}.csv. No tool change.

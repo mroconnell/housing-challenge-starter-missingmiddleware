@@ -1,0 +1,111 @@
+band,method,city,measured,stop_reconstructed,predicted
+0-1/4,others_average,New York,28.119,22.212,34.53
+0-1/4,others_average,Philadelphia,47.529,59.608,30.79
+0-1/4,others_average,austin_2009,23.848,23.848,34.366
+0-1/4,others_average,charlotte_2019,10.308,10.308,35.72
+0-1/4,others_average,chicago_2015,8.959,8.959,35.855
+0-1/4,others_average,denver_2018,112.249,112.249,25.526
+0-1/4,others_average,portland_2020,-32.748,-32.748,40.026
+0-1/4,others_average,seattle_mount_baker_2014,75.591,75.591,29.192
+0-1/4,others_average,seattle_othello_2012,21.691,21.691,34.582
+0-1/4,others_average,slc_2010,50.414,50.414,31.709
+0-1/4,others_average,stpaul_2011,15.376,15.376,35.213
+0-1/4,zero,New York,28.119,22.212,0.0
+0-1/4,zero,Philadelphia,47.529,59.608,0.0
+0-1/4,zero,austin_2009,23.848,23.848,0.0
+0-1/4,zero,charlotte_2019,10.308,10.308,0.0
+0-1/4,zero,chicago_2015,8.959,8.959,0.0
+0-1/4,zero,denver_2018,112.249,112.249,0.0
+0-1/4,zero,portland_2020,-32.748,-32.748,0.0
+0-1/4,zero,seattle_mount_baker_2014,75.591,75.591,0.0
+0-1/4,zero,seattle_othello_2012,21.691,21.691,0.0
+0-1/4,zero,slc_2010,50.414,50.414,0.0
+0-1/4,zero,stpaul_2011,15.376,15.376,0.0
+0-1/4,gradient_boosting,New York,28.119,22.212,67.091
+0-1/4,gradient_boosting,Philadelphia,47.529,59.608,20.157
+0-1/4,gradient_boosting,austin_2009,23.848,23.848,132.607
+0-1/4,gradient_boosting,charlotte_2019,10.308,10.308,12.801
+0-1/4,gradient_boosting,chicago_2015,8.959,8.959,36.849
+0-1/4,gradient_boosting,denver_2018,112.249,112.249,41.129
+0-1/4,gradient_boosting,portland_2020,-32.748,-32.748,68.871
+0-1/4,gradient_boosting,seattle_mount_baker_2014,75.591,75.591,30.435
+0-1/4,gradient_boosting,seattle_othello_2012,21.691,21.691,25.097
+0-1/4,gradient_boosting,slc_2010,50.414,50.414,28.059
+0-1/4,gradient_boosting,stpaul_2011,15.376,15.376,51.802
+0-1/4,linear_4,New York,28.119,22.212,196.23
+0-1/4,linear_4,Philadelphia,47.529,59.608,8.083
+0-1/4,linear_4,austin_2009,23.848,23.848,42.167
+0-1/4,linear_4,charlotte_2019,10.308,10.308,38.746
+0-1/4,linear_4,chicago_2015,8.959,8.959,1.57
+0-1/4,linear_4,denver_2018,112.249,112.249,32.25
+0-1/4,linear_4,portland_2020,-32.748,-32.748,57.966
+0-1/4,linear_4,seattle_mount_baker_2014,75.591,75.591,44.415
+0-1/4,linear_4,seattle_othello_2012,21.691,21.691,45.016
+0-1/4,linear_4,slc_2010,50.414,50.414,60.013
+0-1/4,linear_4,stpaul_2011,15.376,15.376,32.132
+0-1/4,linear_4_plus_coverage,New York,28.119,22.212,309.966
+0-1/4,linear_4_plus_coverage,Philadelphia,47.529,59.608,7.635
+0-1/4,linear_4_plus_coverage,austin_2009,23.848,23.848,42.446
+0-1/4,linear_4_plus_coverage,charlotte_2019,10.308,10.308,39.286
+0-1/4,linear_4_plus_coverage,chicago_2015,8.959,8.959,1.089
+0-1/4,linear_4_plus_coverage,denver_2018,112.249,112.249,32.28
+0-1/4,linear_4_plus_coverage,portland_2020,-32.748,-32.748,57.964
+0-1/4,linear_4_plus_coverage,seattle_mount_baker_2014,75.591,75.591,44.359
+0-1/4,linear_4_plus_coverage,seattle_othello_2012,21.691,21.691,44.819
+0-1/4,linear_4_plus_coverage,slc_2010,50.414,50.414,60.409
+0-1/4,linear_4_plus_coverage,stpaul_2011,15.376,15.376,32.086
+1/4-1/2,others_average,New York,17.649,23.527,-6.802
+1/4-1/2,others_average,Philadelphia,42.343,33.713,-7.821
+1/4-1/2,others_average,austin_2009,0.035,0.035,-4.453
+1/4-1/2,others_average,charlotte_2019,5.648,5.648,-5.014
+1/4-1/2,others_average,chicago_2015,5.013,5.013,-4.951
+1/4-1/2,others_average,denver_2018,24.019,24.019,-6.852
+1/4-1/2,others_average,portland_2020,-9.266,-9.266,-3.523
+1/4-1/2,others_average,seattle_mount_baker_2014,-60.558,-60.558,1.606
+1/4-1/2,others_average,seattle_othello_2012,-71.877,-71.877,2.738
+1/4-1/2,others_average,slc_2010,4.956,4.956,-4.945
+1/4-1/2,others_average,stpaul_2011,0.293,0.293,-4.479
+1/4-1/2,zero,New York,17.649,23.527,0.0
+1/4-1/2,zero,Philadelphia,42.343,33.713,0.0
+1/4-1/2,zero,austin_2009,0.035,0.035,0.0
+1/4-1/2,zero,charlotte_2019,5.648,5.648,0.0
+1/4-1/2,zero,chicago_2015,5.013,5.013,0.0
+1/4-1/2,zero,denver_2018,24.019,24.019,0.0
+1/4-1/2,zero,portland_2020,-9.266,-9.266,0.0
+1/4-1/2,zero,seattle_mount_baker_2014,-60.558,-60.558,0.0
+1/4-1/2,zero,seattle_othello_2012,-71.877,-71.877,0.0
+1/4-1/2,zero,slc_2010,4.956,4.956,0.0
+1/4-1/2,zero,stpaul_2011,0.293,0.293,0.0
+1/4-1/2,gradient_boosting,New York,17.649,23.527,16.238
+1/4-1/2,gradient_boosting,Philadelphia,42.343,33.713,10.6
+1/4-1/2,gradient_boosting,austin_2009,0.035,0.035,50.723
+1/4-1/2,gradient_boosting,charlotte_2019,5.648,5.648,-0.84
+1/4-1/2,gradient_boosting,chicago_2015,5.013,5.013,13.628
+1/4-1/2,gradient_boosting,denver_2018,24.019,24.019,-1.03
+1/4-1/2,gradient_boosting,portland_2020,-9.266,-9.266,2.529
+1/4-1/2,gradient_boosting,seattle_mount_baker_2014,-60.558,-60.558,-46.493
+1/4-1/2,gradient_boosting,seattle_othello_2012,-71.877,-71.877,-20.218
+1/4-1/2,gradient_boosting,slc_2010,4.956,4.956,8.013
+1/4-1/2,gradient_boosting,stpaul_2011,0.293,0.293,9.122
+1/4-1/2,linear_4,New York,17.649,23.527,-84.312
+1/4-1/2,linear_4,Philadelphia,42.343,33.713,-17.295
+1/4-1/2,linear_4,austin_2009,0.035,0.035,-5.291
+1/4-1/2,linear_4,charlotte_2019,5.648,5.648,32.175
+1/4-1/2,linear_4,chicago_2015,5.013,5.013,18.234
+1/4-1/2,linear_4,denver_2018,24.019,24.019,-20.638
+1/4-1/2,linear_4,portland_2020,-9.266,-9.266,-13.719
+1/4-1/2,linear_4,seattle_mount_baker_2014,-60.558,-60.558,-5.954
+1/4-1/2,linear_4,seattle_othello_2012,-71.877,-71.877,-3.675
+1/4-1/2,linear_4,slc_2010,4.956,4.956,-17.812
+1/4-1/2,linear_4,stpaul_2011,0.293,0.293,-2.839
+1/4-1/2,linear_4_plus_coverage,New York,17.649,23.527,-83.174
+1/4-1/2,linear_4_plus_coverage,Philadelphia,42.343,33.713,-17.35
+1/4-1/2,linear_4_plus_coverage,austin_2009,0.035,0.035,-5.275
+1/4-1/2,linear_4_plus_coverage,charlotte_2019,5.648,5.648,32.227
+1/4-1/2,linear_4_plus_coverage,chicago_2015,5.013,5.013,18.173
+1/4-1/2,linear_4_plus_coverage,denver_2018,24.019,24.019,-20.627
+1/4-1/2,linear_4_plus_coverage,portland_2020,-9.266,-9.266,-13.71
+1/4-1/2,linear_4_plus_coverage,seattle_mount_baker_2014,-60.558,-60.558,-5.95
+1/4-1/2,linear_4_plus_coverage,seattle_othello_2012,-71.877,-71.877,-3.673
+1/4-1/2,linear_4_plus_coverage,slc_2010,4.956,4.956,-17.792
+1/4-1/2,linear_4_plus_coverage,stpaul_2011,0.293,0.293,-2.837
