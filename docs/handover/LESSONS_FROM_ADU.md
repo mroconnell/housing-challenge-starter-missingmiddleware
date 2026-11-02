@@ -60,7 +60,7 @@ The challenge's data rules are in [CHALLENGE_HANDBOOK.md](../CHALLENGE_HANDBOOK.
 - **Record every dataset in DATA_PROVENANCE.md and DISCLOSURES.md** when it's added, not later.
 - **Privacy.** Committed files keep ZIP, city, county and street name only; mask parcel numbers in anything committed. Sample files are masked by `scripts/fetch_samples.py`, and a test checks them.
 - **No new dataset without reason.** The owner prefers methods that use data already in the repo, with an outside dataset only as a one-time validation (the LA County assessor check).
-- **Dependencies stay permissive.** npm and Python licence checks run in the tests. certifi (MPL-2.0) is the one documented exception. Observable Plot and Vite 8 were avoided for licence reasons.
+- **Dependencies stay permissive.** npm and Python licence checks run in the tests. certifi (MPL-2.0) was the one documented exception until 2026-11-02, when the geometry stack (geopandas, shapely, pyproj, pyogrio) and certifi were removed; there are now no exceptions (docs/DISCLOSURES.md). Observable Plot and Vite 8 were avoided for licence reasons.
 
 ## 5. Pitfalls we hit
 
