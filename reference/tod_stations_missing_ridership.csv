@@ -1,0 +1,272 @@
+stop_key,city,case,stop,lat,lon,role,system,mode
+Bellevue|-1955331.0|3007617.0,Bellevue,bellevue_belred_2009,BelRed,47.62445,-122.165794,reform,00040 LR,light rail
+Bellevue|-1956281.0|3007808.0,Bellevue,bellevue_belred_2009,Spring District,47.623774,-122.17857,reform,00040 LR,light rail
+Bellevue|-1956830.0|3007309.0,Bellevue,bellevue_belred_2009,Wilburton,47.618069,-122.183747,reform,00040 LR,light rail
+Charlotte|1359820.0|1454882.0,Charlotte,charlotte_2019,Woodlawn Station,35.175789,-80.879063,reform,40008 LR,light rail
+Charlotte|1359909.0|1456602.0,Charlotte,charlotte_2019,Scaleybark Station,35.190842,-80.875075,reform,40008 LR,light rail
+Charlotte|1360181.0|1453484.0,Charlotte,charlotte_2019,Tyvola Station,35.162948,-80.87757,reform,40008 LR,light rail
+Charlotte|1360286.0|1457688.0,Charlotte,charlotte_2019,New Bern Station,35.199887,-80.869042,reform,40008 LR,light rail
+Charlotte|1360367.0|1452375.0,Charlotte,charlotte_2019,Archdale Station,35.152897,-80.877485,reform,40008 LR,light rail
+Charlotte|1360560.0|1448615.0,Charlotte,charlotte_2019,Sharon Rd West Station,35.11945,-80.881962,reform,40008 LR,light rail
+Charlotte|1360693.0|1447235.0,Charlotte,charlotte_2019,I-485 Station,35.107087,-80.882925,reform,40008 LR,light rail
+Charlotte|1360773.0|1450480.0,Charlotte,charlotte_2019,Arrowood Station,35.135606,-80.876364,reform,40008 LR,light rail
+Charlotte|1360952.0|1459181.0,Charlotte,charlotte_2019,East/ West Station,35.212117,-80.85914,reform,40008 LR,light rail
+Charlotte|1361224.0|1459640.0,Charlotte,charlotte_2019,Bland Station,35.215787,-80.855346,reform,40008 LR,light rail
+Charlotte|1361563.0|1460039.0,Charlotte,charlotte_2019,Carson Station,35.218822,-80.850947,reform,40008 LR,light rail
+Charlotte|1361864.0|1460370.0,Charlotte,charlotte_2019,Brooklyn Village Station,35.221319,-80.847066,reform,40008 LR,light rail
+Charlotte|1362164.0|1460681.0,Charlotte,charlotte_2019,3rd/ Convention Center Station,35.223631,-80.843237,reform,40008 LR,light rail
+Charlotte|1362789.0|1461464.0,Charlotte,charlotte_2019,9th Street Station,35.229656,-80.835022,reform,40008 LR,light rail
+Charlotte|1363705.0|1462435.0,Charlotte,charlotte_2019,Parkwood Station,35.236921,-80.82329,reform,40008 LR,light rail
+Charlotte|1364167.0|1463052.0,Charlotte,charlotte_2019,25th St Station,35.241703,-80.817147,reform,40008 LR,light rail
+Charlotte|1364996.0|1464022.0,Charlotte,charlotte_2019,36th St Station,35.249085,-80.806364,reform,40008 LR,light rail
+Charlotte|1366158.0|1464475.0,Charlotte,charlotte_2019,Sugar Creek Station,35.251423,-80.792853,reform,40008 LR,light rail
+Charlotte|1367793.0|1465703.0,Charlotte,charlotte_2019,Old Concord Road Station,35.259934,-80.77279,reform,40008 LR,light rail
+Charlotte|1368051.0|1467788.0,Charlotte,charlotte_2019,Tom Hunter Station,35.277951,-80.766283,reform,40008 LR,light rail
+Charlotte|1368375.0|1468842.0,Charlotte,charlotte_2019,University City Blvd Station,35.286787,-80.760864,reform,40008 LR,light rail
+Charlotte|1368830.0|1470541.0,Charlotte,charlotte_2019,McCullough Station,35.301124,-80.752875,reform,40008 LR,light rail
+Charlotte|1369342.0|1471714.0,Charlotte,charlotte_2019,JW Clay Blvd Station,35.310742,-80.745189,reform,40008 LR,light rail
+Chicago|667192.0|2138872.0,Chicago,chicago_2015,O'Hare Transfer,41.995,-87.880556,reform,50118 CR,commuter rail
+Chicago|672291.0|2140121.0,Chicago,chicago_2015,Edison Park,42.002222,-87.8175,reform,50118 CR,commuter rail
+Chicago|673918.0|2139077.0,Chicago,chicago_2015,Norwood Park,41.991667,-87.798889,reform,50118 CR,commuter rail
+Chicago|674365.0|2131256.0,Chicago,chicago_2015,Mont Clare,41.921667,-87.801667,reform,50118 CR,commuter rail
+Chicago|674982.0|2131028.0,Chicago,chicago_2015,Mars,41.919167,-87.794444,reform,50118 CR,commuter rail
+Chicago|675715.0|2130780.0,Chicago,chicago_2015,Galewood,41.916389,-87.785833,reform,50118 CR,commuter rail
+Chicago|675741.0|2137894.0,Chicago,chicago_2015,Gladstone Park,41.979722,-87.778056,reform,50118 CR,commuter rail
+Chicago|676591.0|2139995.0,Chicago,chicago_2015,Edgebrook,41.997778,-87.765556,reform,50118 CR,commuter rail
+Chicago|677029.0|2137070.0,Chicago,chicago_2015,Jefferson Park,41.971389,-87.763333,reform,50118 CR,commuter rail
+Chicago|677262.0|2130945.0,Chicago,chicago_2015,Hanson Park,41.916667,-87.766944,reform,50118 CR,commuter rail
+Chicago|677602.0|2137868.0,Chicago,chicago_2015,Forest Glen,41.978056,-87.755556,reform,50118 CR,commuter rail
+Chicago|678577.0|2135894.0,Chicago,chicago_2015,Mayfair,41.959722,-87.745833,reform,50118 CR,commuter rail
+Chicago|678993.0|2130846.0,Chicago,chicago_2015,Grand/Cicero,41.914444,-87.746111,reform,50118 CR,commuter rail
+Chicago|679137.0|2134727.0,Chicago,chicago_2015,Grayland,41.948889,-87.740278,reform,50118 CR,commuter rail
+Chicago|679968.0|2135205.0,Chicago,chicago_2015,Irving Park,41.9525,-87.729722,reform,50118 CR,commuter rail
+Chicago|680398.0|2132123.0,Chicago,chicago_2015,Healy,41.924722,-87.727778,reform,50118 CR,commuter rail
+Chicago|682462.0|2128217.0,Chicago,chicago_2015,Kedzie,41.888333,-87.706944,reform,50118 CR,commuter rail
+Chicago|683435.0|2111829.0,Chicago,chicago_2015,Ashburn,41.741667,-87.7125,reform,50118 CR,commuter rail
+Chicago|683853.0|2141939.0,Chicago,chicago_2015,Rogers Park,42.009444,-87.675556,reform,50118 CR,commuter rail
+Chicago|684004.0|2128445.0,Chicago,chicago_2015,Western Ave,41.889167,-87.688056,reform,50118 CR,commuter rail
+Chicago|684078.0|2139900.0,Chicago,chicago_2015,Peterson/Ridge,41.991111,-87.675,reform,50118 CR,commuter rail
+Chicago|684096.0|2112698.0,Chicago,chicago_2015,Wrightwood,41.748889,-87.703611,reform,50118 CR,commuter rail
+Chicago|684346.0|2137366.0,Chicago,chicago_2015,Ravenswood,41.968333,-87.674444,reform,50118 CR,commuter rail
+Chicago|684539.0|2124967.0,Chicago,chicago_2015,Western Avenue,41.857778,-87.685278,reform,50118 CR,commuter rail
+Chicago|685374.0|2131685.0,Chicago,chicago_2015,Clybourn,41.916944,-87.668056,reform,50118 CR,commuter rail
+Chicago|687293.0|2110638.0,Chicago,chicago_2015,91st St. - Beverly Hills,41.728056,-87.667222,reform,50118 CR,commuter rail
+Chicago|687349.0|2105807.0,Chicago,chicago_2015,115th St. - Morgan Park,41.685,-87.671667,reform,50118 CR,commuter rail
+Chicago|687350.0|2107367.0,Chicago,chicago_2015,107th St. - Beverly Hills,41.698889,-87.67,reform,50118 CR,commuter rail
+Chicago|687358.0|2109895.0,Chicago,chicago_2015,95th St. - Beverly Hills,41.721389,-87.667222,reform,50118 CR,commuter rail
+Chicago|687364.0|2106682.0,Chicago,chicago_2015,111th St. - Morgan Park,41.692778,-87.670556,reform,50118 CR,commuter rail
+Chicago|687371.0|2108180.0,Chicago,chicago_2015,103rd St. - Beverly Hills,41.706111,-87.668889,reform,50118 CR,commuter rail
+Chicago|687411.0|2109026.0,Chicago,chicago_2015,99th St. - Beverly Hills,41.713611,-87.6675,reform,50118 CR,commuter rail
+Chicago|687639.0|2125520.0,Chicago,chicago_2015,Halsted Street,41.860278,-87.647222,reform,50118 CR,commuter rail
+Chicago|687937.0|2111163.0,Chicago,chicago_2015,Brainerd,41.732222,-87.658889,reform,50118 CR,commuter rail
+Chicago|687971.0|2128014.0,Chicago,chicago_2015,Chicago OTC,41.882222,-87.640556,reform,50118 CR,commuter rail
+Chicago|688141.0|2127655.0,Chicago,chicago_2015,Chicago Union Station,41.878889,-87.638889,reform,50118 CR,commuter rail
+Chicago|688450.0|2108213.0,Chicago,chicago_2015,103rd St.-Washington Hts.,41.705556,-87.655833,reform,50118 CR,commuter rail
+Chicago|688713.0|2127425.0,Chicago,chicago_2015,LaSalle Street,41.876389,-87.632222,reform,50118 CR,commuter rail
+Chicago|688755.0|2109987.0,Chicago,chicago_2015,95th St.-Longwood,41.721111,-87.650278,reform,50118 CR,commuter rail
+Chicago|689062.0|2111730.0,Chicago,chicago_2015,Gresham,41.736389,-87.644722,reform,50118 CR,commuter rail
+Chicago|689079.0|2104742.0,Chicago,chicago_2015,Racine,41.674167,-87.651944,reform,50118 CR,commuter rail
+Chicago|689249.0|2122776.0,Chicago,chicago_2015,Sox-35th (33rd St entry),41.83458,-87.6307,reform,50066 HR,heavy rail
+Chicago|689388.0|2128358.0,Chicago,chicago_2015,Millennium Station,41.884167,-87.623056,reform,50118 CR,commuter rail
+Chicago|689406.0|2122432.0,Chicago,chicago_2015,35th St. - Lou Jones,41.831389,-87.629167,reform,50118 CR,commuter rail
+Chicago|689460.0|2127553.0,Chicago,chicago_2015,Van Buren St.,41.876944,-87.623056,reform,50118 CR,commuter rail
+Chicago|689678.0|2126636.0,Chicago,chicago_2015,Museum Campus/11th St.,41.868611,-87.621389,reform,50118 CR,commuter rail
+Chicago|689879.0|2104813.0,Chicago,chicago_2015,West Pullman,41.674167,-87.642222,reform,50118 CR,commuter rail
+Chicago|690053.0|2125515.0,Chicago,chicago_2015,18th St.,41.858333,-87.618056,reform,50118 CR,commuter rail
+Chicago|690259.0|2124753.0,Chicago,chicago_2015,McCormick Place,41.851389,-87.616389,reform,50118 CR,commuter rail
+Chicago|690581.0|2123971.0,Chicago,chicago_2015,27th St.,41.844167,-87.613333,reform,50118 CR,commuter rail
+Chicago|690745.0|2104920.0,Chicago,chicago_2015,Stewart Ridge,41.674444,-87.631667,reform,50118 CR,commuter rail
+Chicago|691546.0|2104991.0,Chicago,chicago_2015,State St.,41.674444,-87.621944,reform,50118 CR,commuter rail
+Chicago|692234.0|2106331.0,Chicago,chicago_2015,Kensington,41.685833,-87.612222,reform,50118 CR,commuter rail
+Chicago|692302.0|2107118.0,Chicago,chicago_2015,111th St. (Pullman),41.692778,-87.610556,reform,50118 CR,commuter rail
+Chicago|692371.0|2107904.0,Chicago,chicago_2015,107th St.,41.699722,-87.608889,reform,50118 CR,commuter rail
+Chicago|692437.0|2108721.0,Chicago,chicago_2015,103rd St. (Rosemoor),41.706944,-87.607222,reform,50118 CR,commuter rail
+Chicago|692649.0|2111267.0,Chicago,chicago_2015,91st St.,41.729444,-87.601944,reform,50118 CR,commuter rail
+Chicago|692712.0|2112115.0,Chicago,chicago_2015,87th St. (Woodruff),41.736944,-87.600278,reform,50118 CR,commuter rail
+Chicago|692724.0|2120291.0,Chicago,chicago_2015,47th St. (Kenwood),41.809722,-87.591389,reform,50118 CR,commuter rail
+Chicago|692778.0|2112932.0,Chicago,chicago_2015,83rd St. (Avalon Park),41.744167,-87.598611,reform,50118 CR,commuter rail
+Chicago|692826.0|2113686.0,Chicago,chicago_2015,79th St. (Chatham),41.750833,-87.597222,reform,50118 CR,commuter rail
+Chicago|692907.0|2114598.0,Chicago,chicago_2015,75th St. (Grand Crossing),41.758889,-87.595278,reform,50118 CR,commuter rail
+Chicago|693083.0|2117016.0,Chicago,chicago_2015,63rd St.,41.780278,-87.590556,reform,50118 CR,commuter rail
+Chicago|693166.0|2117897.0,Chicago,chicago_2015,59th St. (U. of Chicago),41.788056,-87.588611,reform,50118 CR,commuter rail
+Chicago|693185.0|2119240.0,Chicago,chicago_2015,51st/53rd St. (Hyde Park),41.8,-87.586944,reform,50118 CR,commuter rail
+Chicago|693205.0|2118493.0,Chicago,chicago_2015,55th - 56th - 57th St.,41.793333,-87.5875,reform,50118 CR,commuter rail
+Chicago|693520.0|2115463.0,Chicago,chicago_2015,Stony Island,41.766111,-87.586944,reform,50118 CR,commuter rail
+Chicago|694365.0|2115538.0,Chicago,chicago_2015,Bryn Mawr,41.766111,-87.576667,reform,50118 CR,commuter rail
+Chicago|695264.0|2115525.0,Chicago,chicago_2015,South Shore,41.765278,-87.565833,reform,50118 CR,commuter rail
+Chicago|695856.0|2114829.0,Chicago,chicago_2015,Windsor Park,41.758611,-87.559444,reform,50118 CR,commuter rail
+Chicago|696490.0|2114167.0,Chicago,chicago_2015,Cheltenham (79th St.),41.752222,-87.5525,reform,50118 CR,commuter rail
+Chicago|696630.0|2113368.0,Chicago,chicago_2015,83rd St.,41.745,-87.551667,reform,50118 CR,commuter rail
+Chicago|696976.0|2112588.0,Chicago,chicago_2015,87th St.,41.737778,-87.548333,reform,50118 CR,commuter rail
+Chicago|697132.0|2111354.0,Chicago,chicago_2015,South Chicago (93rd),41.726667,-87.547778,reform,50118 CR,commuter rail
+Denver|-760061.0|1898757.0,Denver,denver_2018,National Western Center,39.784828,-104.968232,reform,80006 CR,commuter rail
+Honolulu|-6134444.0|1900273.0,Honolulu,honolulu_2017,Waipahu Transit Center Station,21.384073,-158.003838,reform,90002 HR,heavy rail
+Honolulu|-6136424.0|1900983.0,Honolulu,honolulu_2017,West Loch Station,21.378162,-158.022686,reform,90002 HR,heavy rail
+Kenosha|666073.0|2205099.0,Kenosha,wi_other,,42.58593,-87.82494,wisconsin,50003 SR,streetcar
+Kenosha|666247.0|2204954.0,Kenosha,wi_other,,42.584504,-87.822971,wisconsin,50003 SR,streetcar
+Kenosha|666668.0|2205288.0,Kenosha,wi_other,,42.58716,-87.817479,wisconsin,50003 SR,streetcar
+Kenosha|666830.0|2205099.0,Kenosha,wi_other,,42.585351,-87.815698,wisconsin,50003 SR,streetcar
+Kenosha|667280.0|2205330.0,Kenosha,wi_other,,42.58706,-87.80996,wisconsin,50003 SR,streetcar
+Los Angeles|-2013006.0|1457811.0,Los Angeles,la_toc_2017,Cal State LA,34.062119,-118.171646,reform,90154 LR,light rail
+Los Angeles|-2019920.0|1458313.0,Los Angeles,la_toc_2017,Historic Broadway Station,34.052156,-118.246321,reform,90154 LR,light rail
+Los Angeles|-2020291.0|1458165.0,Los Angeles,la_toc_2017,Pershing Square Station - Hill & 4th NE Entrance,34.0501,-118.24989,reform,90154 HR,heavy rail
+Los Angeles|-2020318.0|1458703.0,Los Angeles,la_toc_2017,Grand Ave Arts / Bunker Hill Station,34.054724,-118.251531,reform,90154 LR,light rail
+Los Angeles|-2026806.0|1479526.0,Los Angeles,la_toc_2017,Sun Valley,34.222401,-118.373398,reform,90154 LR,light rail
+Los Angeles|-2028356.0|1461500.0,Los Angeles,la_toc_2017,Wilshire / La Brea Station - Main Entrance,34.062346,-118.343952,reform,90154 HR,heavy rail
+Los Angeles|-2028837.0|1454937.0,Los Angeles,la_toc_2017,Leimert Park Station - Dual Elevators,34.004238,-118.332384,reform,90154 LR,light rail
+Los Angeles|-2028955.0|1455612.0,Los Angeles,la_toc_2017,Martin Luther King Jr Station - Dual Elevators,34.009867,-118.335351,reform,90154 LR,light rail
+Los Angeles|-2029119.0|1453150.0,Los Angeles,la_toc_2017,Hyde Park Station,33.988099,-118.330833,reform,90154 LR,light rail
+Los Angeles|-2029838.0|1461902.0,Los Angeles,la_toc_2017,Wilshire / Fairfax Station - Main Entrance,34.062757,-118.360705,reform,90154 HR,heavy rail
+Los Angeles|-2031795.0|1488795.0,Los Angeles,la_toc_2017,Sylmar / San Fernando,34.292591,-118.450172,reform,90154 LR,light rail
+Los Angeles|-2032503.0|1475200.0,Los Angeles,la_toc_2017,Valley College Station,34.172878,-118.422917,reform,90154 RB,BRT
+Los Angeles|-2033741.0|1479946.0,Los Angeles,la_toc_2017,Van Nuys,34.211559,-118.448219,reform,90154 LR,light rail
+Los Angeles|-2034345.0|1450024.0,Los Angeles,la_toc_2017,LAX / Metro Transit Center - Main Escalators,33.950001,-118.378298,reform,90154 LR,light rail
+Los Angeles|-2034495.0|1449576.0,Los Angeles,la_toc_2017,Aviation / Century Station - Escalators,33.94579,-118.378745,reform,90154 LR,light rail
+Los Angeles|-2041853.0|1484094.0,Los Angeles,la_toc_2017,Northridge,34.230614,-118.545097,reform,90154 LR,light rail
+Los Angeles|-2043834.0|1478863.0,Los Angeles,la_toc_2017,Tampa Station,34.180964,-118.552712,reform,90154 RB,BRT
+Los Angeles|-2046070.0|1487683.0,Los Angeles,la_toc_2017,Chatsworth,34.252941,-118.599176,reform,90154 LR,light rail
+Los Angeles|-2046337.0|1485814.0,Los Angeles,la_toc_2017,Nordhoff Station,34.236129,-118.597194,reform,90154 RB,BRT
+Los Angeles|-2046746.0|1484114.0,Los Angeles,la_toc_2017,Roscoe Station,34.220493,-118.597171,reform,90154 RB,BRT
+Madison|523942.0|2247011.0,Madison,wi_madison,,43.057845,-89.52833,wisconsin,50005 RB,BRT
+Madison|524806.0|2247356.0,Madison,wi_madison,,43.0604,-89.517396,wisconsin,50005 RB,BRT
+Madison|525603.0|2247438.0,Madison,wi_madison,,43.06065,-89.50752,wisconsin,50005 RB,BRT
+Madison|525951.0|2247449.0,Madison,wi_madison,,43.06053,-89.50322,wisconsin,50005 RB,BRT
+Madison|526468.0|2247510.0,Madison,wi_madison,,43.060765,-89.49681,wisconsin,50005 RB,BRT
+Madison|527279.0|2247571.0,Madison,wi_madison,,43.060805,-89.48677,wisconsin,50005 RB,BRT
+Madison|527930.0|2247620.0,Madison,wi_madison,,43.060845,-89.47871,wisconsin,50005 RB,BRT
+Madison|528449.0|2247676.0,Madison,wi_madison,,43.061032,-89.472271,wisconsin,50005 RB,BRT
+Madison|528701.0|2248452.0,Madison,wi_madison,,43.067802,-89.468505,wisconsin,50005 RB,BRT
+Madison|529052.0|2249055.0,Madison,wi_madison,,43.072974,-89.463676,wisconsin,50005 RB,BRT
+Madison|529597.0|2249108.0,Madison,wi_madison,,43.073109,-89.45692,wisconsin,50005 RB,BRT
+Madison|529599.0|2249326.0,Madison,wi_madison,,43.07506,-89.456705,wisconsin,50005 RB,BRT
+Madison|530053.0|2249376.0,Madison,wi_madison,,43.075227,-89.451071,wisconsin,50005 RB,BRT
+Madison|530441.0|2249388.0,Madison,wi_madison,,43.07509,-89.44629,wisconsin,50005 RB,BRT
+Madison|531077.0|2249373.0,Madison,wi_madison,,43.07457,-89.43847,wisconsin,50005 RB,BRT
+Madison|531262.0|2249315.0,Madison,wi_madison,,43.07393,-89.43624,wisconsin,50005 RB,BRT
+Madison|531489.0|2249272.0,Madison,wi_madison,,43.073406,-89.433478,wisconsin,50005 RB,BRT
+Madison|533599.0|2249349.0,Madison,wi_madison,,43.072791,-89.407429,wisconsin,50005 RB,BRT
+Madison|533834.0|2249438.0,Madison,wi_madison,,43.07344,-89.40445,wisconsin,50005 RB,BRT
+Madison|533903.0|2249283.0,Madison,wi_madison,,43.07201,-89.40374,wisconsin,50005 RB,BRT
+Madison|534300.0|2249382.0,Madison,wi_madison,,43.072651,-89.398767,wisconsin,50005 RB,BRT
+Madison|534571.0|2249316.0,Madison,wi_madison,,43.07189,-89.39549,wisconsin,50005 RB,BRT
+Madison|534628.0|2249475.0,Madison,wi_madison,,43.07328,-89.39465,wisconsin,50005 RB,BRT
+Madison|534917.0|2249627.0,Madison,wi_madison,,43.074457,-89.390956,wisconsin,50005 RB,BRT
+Madison|535399.0|2249821.0,Madison,wi_madison,,43.075885,-89.38486,wisconsin,50005 RB,BRT
+Madison|535541.0|2249577.0,Madison,wi_madison,,43.07362,-89.38332,wisconsin,50005 RB,BRT
+Madison|535860.0|2250132.0,Madison,wi_madison,,43.07838,-89.37891,wisconsin,50005 RB,BRT
+Madison|536262.0|2250584.0,Madison,wi_madison,,43.08216,-89.373565,wisconsin,50005 RB,BRT
+Madison|536800.0|2251184.0,Madison,wi_madison,,43.08719,-89.36643,wisconsin,50005 RB,BRT
+Madison|537322.0|2251769.0,Madison,wi_madison,,43.092085,-89.35949,wisconsin,50005 RB,BRT
+Madison|537740.0|2252281.0,Madison,wi_madison,,43.096396,-89.353897,wisconsin,50005 RB,BRT
+Madison|538127.0|2252754.0,Madison,wi_madison,,43.100375,-89.348725,wisconsin,50005 RB,BRT
+Madison|538629.0|2253210.0,Madison,wi_madison,,43.10414,-89.34215,wisconsin,50005 RB,BRT
+Madison|539101.0|2253808.0,Madison,wi_madison,,43.109178,-89.33581,wisconsin,50005 RB,BRT
+Madison|539461.0|2254735.0,Madison,wi_madison,,43.117235,-89.33057,wisconsin,50005 RB,BRT
+Madison|539481.0|2254305.0,Madison,wi_madison,,43.11338,-89.330703,wisconsin,50005 RB,BRT
+Madison|539514.0|2255058.0,Madison,wi_madison,,43.120084,-89.329641,wisconsin,50005 RB,BRT
+Madison|539947.0|2255222.0,Madison,wi_madison,,43.12128,-89.32417,wisconsin,50005 RB,BRT
+Madison|540182.0|2254975.0,Madison,wi_madison,,43.118926,-89.321478,wisconsin,50005 RB,BRT
+Madison|540366.0|2258880.0,Madison,wi_madison,,43.15369,-89.315825,wisconsin,50005 RB,BRT
+Madison|540712.0|2255545.0,Madison,wi_madison,,43.123684,-89.314451,wisconsin,50005 RB,BRT
+Madison|541179.0|2256061.0,Madison,wi_madison,,43.127995,-89.30825,wisconsin,50005 RB,BRT
+Madison|541545.0|2258959.0,Madison,wi_madison,,43.15365,-89.301215,wisconsin,50005 RB,BRT
+Madison|541555.0|2256474.0,Madison,wi_madison,,43.131445,-89.303265,wisconsin,50005 RB,BRT
+Madison|541736.0|2258791.0,Madison,wi_madison,,43.15203,-89.29901,wisconsin,50005 RB,BRT
+Madison|541760.0|2258289.0,Madison,wi_madison,,43.14753,-89.299155,wisconsin,50005 RB,BRT
+Madison|541987.0|2256556.0,Madison,wi_madison,,43.131905,-89.297865,wisconsin,50005 RB,BRT
+Madison|542104.0|2257945.0,Madison,wi_madison,,43.14424,-89.29521,wisconsin,50005 RB,BRT
+Madison|542371.0|2258173.0,Madison,wi_madison,,43.14611,-89.291725,wisconsin,50005 RB,BRT
+Madison|542476.0|2258342.0,Madison,wi_madison,,43.14755,-89.290285,wisconsin,50005 RB,BRT
+Madison|542509.0|2257086.0,Madison,wi_madison,,43.13631,-89.29097,wisconsin,50005 RB,BRT
+Madison|542632.0|2257379.0,Madison,wi_madison,,43.138855,-89.289195,wisconsin,50005 RB,BRT
+Madison|542997.0|2257846.0,Madison,wi_madison,,43.142795,-89.28429,wisconsin,50005 RB,BRT
+Milwaukee|645056.0|2254027.0,Milwaukee,wi_milwaukee,,43.03818,-88.03144,wisconsin,50008 MB,BRT
+Milwaukee|645126.0|2253752.0,Milwaukee,wi_milwaukee,,43.035668,-88.030857,wisconsin,50008 MB,BRT
+Milwaukee|645379.0|2253804.0,Milwaukee,wi_milwaukee,,43.035945,-88.027695,wisconsin,50008 MB,BRT
+Milwaukee|645386.0|2254098.0,Milwaukee,wi_milwaukee,,43.038565,-88.027305,wisconsin,50008 MB,BRT
+Milwaukee|646323.0|2253865.0,Milwaukee,wi_milwaukee,,43.03578,-88.01603,wisconsin,50008 MB,BRT
+Milwaukee|646968.0|2253832.0,Milwaukee,wi_milwaukee,,43.035,-88.00813,wisconsin,50008 MB,BRT
+Milwaukee|648865.0|2254239.0,Milwaukee,wi_milwaukee,,43.037205,-87.98438,wisconsin,50008 MB,BRT
+Milwaukee|649208.0|2254446.0,Milwaukee,wi_milwaukee,,43.03879,-87.979955,wisconsin,50008 MB,BRT
+Milwaukee|650049.0|2254518.0,Milwaukee,wi_milwaukee,,43.0388,-87.969535,wisconsin,50008 MB,BRT
+Milwaukee|651004.0|2254598.0,Milwaukee,wi_milwaukee,,43.038788,-87.957712,wisconsin,50008 MB,BRT
+Milwaukee|651309.0|2254617.0,Milwaukee,wi_milwaukee,,43.03873,-87.95394,wisconsin,50008 MB,BRT
+Milwaukee|651581.0|2254640.0,Milwaukee,wi_milwaukee,,43.038725,-87.95057,wisconsin,50008 MB,BRT
+Milwaukee|651813.0|2254657.0,Milwaukee,wi_milwaukee,,43.038708,-87.947711,wisconsin,50008 MB,BRT
+Milwaukee|652202.0|2254693.0,Milwaukee,wi_milwaukee,,43.03873,-87.94288,wisconsin,50008 MB,BRT
+Milwaukee|652394.0|2254711.0,Milwaukee,wi_milwaukee,,43.038745,-87.94051,wisconsin,50008 MB,BRT
+Milwaukee|652976.0|2254737.0,Milwaukee,wi_milwaukee,,43.038539,-87.93332,wisconsin,50008 MB,BRT
+Milwaukee|653478.0|2254794.0,Milwaukee,wi_milwaukee,,43.038665,-87.927095,wisconsin,50008 MB,BRT
+Milwaukee|653787.0|2254832.0,Milwaukee,wi_milwaukee,,43.038765,-87.923255,wisconsin,50008 MB,BRT
+Milwaukee|654279.0|2254876.0,Milwaukee,wi_milwaukee,,43.038785,-87.917155,wisconsin,50008 MB,BRT
+Milwaukee|654400.0|2254467.0,Milwaukee,wi_milwaukee,,43.03505,-87.9161,wisconsin,55312 SR,streetcar
+Milwaukee|654485.0|2254891.0,Milwaukee,wi_milwaukee,,43.038765,-87.914605,wisconsin,50008 MB,BRT
+Milwaukee|654767.0|2254457.0,Milwaukee,wi_milwaukee,,43.03468,-87.911595,wisconsin,55312 SR,streetcar
+Milwaukee|655044.0|2255247.0,Milwaukee,wi_milwaukee,,43.04151,-87.907365,wisconsin,55312 SR,streetcar
+Milwaukee|655093.0|2254525.0,Milwaukee,wi_milwaukee,,43.035035,-87.907525,wisconsin,55312 SR,streetcar
+Milwaukee|655192.0|2254908.0,Milwaukee,wi_milwaukee,,43.038381,-87.905898,wisconsin,50008 MB,BRT
+Milwaukee|655220.0|2255737.0,Milwaukee,wi_milwaukee,,43.045745,-87.90468,wisconsin,55312 SR,streetcar
+Milwaukee|655222.0|2255391.0,Milwaukee,wi_milwaukee,,43.042665,-87.90502,wisconsin,55312 SR,streetcar
+Milwaukee|655234.0|2255980.0,Milwaukee,wi_milwaukee,,43.04791,-87.904255,wisconsin,55312 SR,streetcar
+Milwaukee|655576.0|2256032.0,Milwaukee,wi_milwaukee,,43.04811,-87.9,wisconsin,55312 SR,streetcar
+Milwaukee|655698.0|2254825.0,Milwaukee,wi_milwaukee,,43.03725,-87.89977,wisconsin,55312 SR,streetcar
+Milwaukee|655882.0|2256027.0,Milwaukee,wi_milwaukee,,43.04783,-87.89624,wisconsin,55312 SR,streetcar
+New York|1822653.0|2169468.0,New York,nyc_060471zmr,Tompkinsville,40.636451,-74.074746,reform,20099 HR,heavy rail
+New York|1822845.0|2168508.0,New York,nyc_060471zmr,Stapleton,40.627716,-74.075136,reform,20099 HR,heavy rail
+New York|1823272.0|2167940.0,New York,nyc_060471zmr,Clifton,40.621899,-74.071723,reform,20099 HR,heavy rail
+Philadelphia|1749918.0|2079306.0,Philadelphia,phl_140888,North Philadelphia Amtrak,39.99678,-75.15511,reform,30019 CR,commuter rail
+Portland|-2055341.0|2795218.0,Portland,portland_2020,NE 7th & Halsey,45.533344,-122.658622,reform,00058 SR,streetcar
+Portland|-2055411.0|2794899.0,Portland,portland_2020,NE 7th & Holladay,45.53041,-122.658355,reform,00058 SR,streetcar
+Portland|-2055436.0|2795392.0,Portland,portland_2020,NE Weidler & Grand,45.53461,-122.6604,reform,00058 SR,streetcar
+Portland|-2055533.0|2795102.0,Portland,portland_2020,NE Grand & Multnomah,45.531858,-122.66057,reform,00058 SR,streetcar
+Portland|-2055674.0|2794781.0,Portland,portland_2020,NE Oregon & Grand,45.528732,-122.66117,reform,00058 SR,streetcar
+Portland|-2055679.0|2795477.0,Portland,portland_2020,NE Broadway & 2nd,45.534736,-122.663701,reform,00058 SR,streetcar
+Portland|-2055853.0|2794181.0,Portland,portland_2020,SE Grand & Burnside,45.523095,-122.661245,reform,00058 SR,streetcar
+Portland|-2055970.0|2793783.0,Portland,portland_2020,SE Grand & Stark,45.51937,-122.661273,reform,00058 SR,streetcar
+Portland|-2056047.0|2793522.0,Portland,portland_2020,SE M L King & Morrison,45.516915,-122.661288,reform,00058 SR,streetcar
+Portland|-2056112.0|2793300.0,Portland,portland_2020,SE Grand & Taylor,45.514837,-122.661299,reform,00058 SR,streetcar
+Portland|-2056115.0|2795569.0,Portland,portland_2020,N Weidler & Ross,45.534447,-122.669386,reform,00058 SR,streetcar
+Portland|-2056181.0|2793070.0,Portland,portland_2020,SE Grand & Hawthorne,45.512677,-122.661335,reform,00058 SR,streetcar
+Portland|-2056270.0|2792766.0,Portland,portland_2020,SE M L King & Mill,45.509829,-122.661352,reform,00058 SR,streetcar
+Portland|-2057085.0|2795342.0,Portland,portland_2020,NW 9th & Lovejoy,45.530065,-122.680513,reform,00058 SR,streetcar
+Portland|-2057189.0|2795510.0,Portland,portland_2020,NW 11th & Marshall,45.531263,-122.682392,reform,00058 SR,streetcar
+Portland|-2057227.0|2795221.0,Portland,portland_2020,NW 10th & Johnson,45.528664,-122.681826,reform,00058 SR,streetcar
+Portland|-2057287.0|2794992.0,Portland,portland_2020,NW 11th & Glisan,45.526534,-122.681754,reform,00058 SR,streetcar
+Portland|-2057289.0|2792268.0,Portland,portland_2020,S Moody & Meade South,45.502981,-122.672122,reform,00058 SR,streetcar
+Portland|-2057307.0|2792752.0,Portland,portland_2020,S River & Moody,45.507118,-122.674062,reform,00058 SR,streetcar
+Portland|-2057344.0|2791844.0,Portland,portland_2020,OHSU Plaza,45.499176,-122.671296,reform,00058 SR,streetcar
+Portland|-2057368.0|2794687.0,Portland,portland_2020,NW 10th & Couch,45.523694,-122.681668,reform,00058 SR,streetcar
+Portland|-2057396.0|2795424.0,Portland,portland_2020,NW 13th & Lovejoy,45.530003,-122.684627,reform,00058 SR,streetcar
+Portland|-2057405.0|2795602.0,Portland,portland_2020,NW 14th & Northrup,45.531512,-122.685371,reform,00058 SR,streetcar
+Portland|-2057441.0|2792997.0,Portland,portland_2020,S Harrison Street,45.5089,-122.676572,reform,00058 SR,streetcar
+Portland|-2057457.0|2791497.0,Portland,portland_2020,S Bond & Lane,45.495898,-122.671452,reform,00058 SR,streetcar
+Portland|-2057514.0|2791282.0,Portland,portland_2020,S Lowell & Bond,45.4939,-122.67139,reform,00058 SR,streetcar
+Portland|-2057637.0|2793210.0,Portland,portland_2020,SW 3rd & Harrison,45.510256,-122.679736,reform,00058 SR,streetcar
+Portland|-2057712.0|2795682.0,Portland,portland_2020,NW 18th & Northrup,45.531443,-122.689431,reform,00058 SR,streetcar
+Portland|-2057736.0|2793448.0,Portland,portland_2020,PSU Urban Center,45.512065,-122.681796,reform,00058 SR,streetcar
+Portland|-2057771.0|2795525.0,Portland,portland_2020,NW 18th & Lovejoy,45.529936,-122.689602,reform,00058 SR,streetcar
+Portland|-2057819.0|2793968.0,Portland,portland_2020,Art Museum,45.516359,-122.684661,reform,00058 SR,streetcar
+Portland|-2057907.0|2793736.0,Portland,portland_2020,SW 10th & Clay,45.514132,-122.684928,reform,00058 SR,streetcar
+Portland|-2058093.0|2795782.0,Portland,portland_2020,NW 21st & Northrup,45.531352,-122.69447,reform,00058 SR,streetcar
+Portland|-2058156.0|2795625.0,Portland,portland_2020,NW 21st & Lovejoy,45.529842,-122.694688,reform,00058 SR,streetcar
+Portland|-2058244.0|2795821.0,Portland,portland_2020,NW 22nd & Northrup,45.531314,-122.696459,reform,00058 SR,streetcar
+Portland|-2058309.0|2795664.0,Portland,portland_2020,NW 22nd & Lovejoy,45.5298,-122.696712,reform,00058 SR,streetcar
+Portland|-2058433.0|2795795.0,Portland,portland_2020,NW 23rd & Marshall,45.530621,-122.698703,reform,00058 SR,streetcar
+San Diego|-1957169.0|1311854.0,San Diego,san_diego_2021,Sorrento Valley Station,32.902257,-117.224498,reform,90026 LR,light rail
+San Diego|-1957249.0|1312000.0,San Diego,san_diego_2021,Sorrento Valley Station,32.903369,-117.225677,reform,90026 LR,light rail
+Seattle|-1964693.0|3016254.0,Seattle,seattle_roosevelt_2012,Roosevelt,47.676594,-122.315985,reform,00040 LR,light rail
+Shorewood Hills|530377.0|2249423.0,Shorewood Hills,wi_other,,43.07544,-89.44704,wisconsin,50005 RB,BRT
+Shorewood Hills|530676.0|2249422.0,Shorewood Hills,wi_other,,43.07525,-89.443365,wisconsin,50005 RB,BRT
+Shorewood Hills|531026.0|2249425.0,Shorewood Hills,wi_other,,43.07506,-89.43905,wisconsin,50005 RB,BRT
+Sun Prairie|544276.0|2259515.0,Sun Prairie,wi_other,,43.15689,-89.26707,wisconsin,50005 RB,BRT
+Wauwatosa|643990.0|2254940.0,Wauwatosa,wi_other,,43.04712,-88.0436,wisconsin,50008 MB,BRT
+Wauwatosa|644051.0|2254775.0,Wauwatosa,wi_other,,43.045605,-88.04302,wisconsin,50008 MB,BRT
+Wauwatosa|644257.0|2254774.0,Wauwatosa,wi_other,,43.04544,-88.04049,wisconsin,50008 MB,BRT
+Wauwatosa|645037.0|2254021.0,Wauwatosa,wi_other,,43.03814,-88.03168,wisconsin,50008 MB,BRT
+Wauwatosa|645091.0|2254790.0,Wauwatosa,wi_other,,43.044955,-88.030215,wisconsin,50008 MB,BRT
+Wauwatosa|645417.0|2254640.0,Wauwatosa,wi_other,,43.043371,-88.02637,wisconsin,50008 MB,BRT
+Wauwatosa|646267.0|2253905.0,Wauwatosa,wi_other,,43.03618,-88.016675,wisconsin,50008 MB,BRT
+Wauwatosa|646470.0|2253874.0,Wauwatosa,wi_other,,43.03575,-88.01421,wisconsin,50008 MB,BRT
+Wauwatosa|647087.0|2253886.0,Wauwatosa,wi_other,,43.03539,-88.00661,wisconsin,50008 MB,BRT
+Wauwatosa|647654.0|2253993.0,Wauwatosa,wi_other,,43.03592,-87.99953,wisconsin,50008 MB,BRT
+Wauwatosa|647892.0|2254006.0,Wauwatosa,wi_other,,43.035855,-87.996595,wisconsin,50008 MB,BRT
