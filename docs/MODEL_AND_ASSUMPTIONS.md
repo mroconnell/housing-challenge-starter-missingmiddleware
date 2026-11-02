@@ -20,7 +20,7 @@ The challenge asks for a baseline and at least three of five benchmark reforms. 
 | --- | --- | --- |
 | **Accessory dwelling units (ADUs)** | Allows one ADU on every lot with a single-family home, detached or attached, of at least 600 square feet, with no extra parking required. | A |
 | **Parking requirement reduction** | Removes every minimum off-street parking requirement for housing, statewide. | B |
-| **Transit-oriented density (TOD)** | Raises allowed heights and density near major transit stops, using California SB 79's minimum heights and densities. | C |
+| **Transit-oriented density (TOD)** | Every city with qualifying rail or rapid-bus stops zones a by-right multifamily district (at least 15 homes per acre) on 15% of the lot acres within ¼ mile of those stops (option D, AQ-071). | C |
 
 Missing Middle and development fee reduction are not modelled.
 
@@ -31,10 +31,10 @@ All three reforms count **housing units in issued building permits**, at the dat
 | Reform | Outcome counted | Current-law baseline, 2027–2031 | Rate denominator used inside the reform |
 | --- | --- | --- | --- |
 | ADUs | **Second homes on single-family lots**: ADUs plus single-family-to-duplex conversions on a lot that already has a home (AQ-032, AQ-039) | 786 permits statewide (today's rates, rising 7.3% a year; AQ-065) | Per 1,000 single-family (one-unit detached) homes: 1,839,569 homes (ACS 2020–2024, table B25024) |
-| Parking | **All new housing units**, every building size | 122,619 permits statewide (the shared all-housing baseline, version 2) | Per 1,000 existing homes of all types (ACS 2020–2024, table B25002) |
-| TOD | **All new housing units near major transit stops** | 14,464 permits in the station areas | Share of the 313,564 homes (2020 census) in the station areas |
+| Parking | **All new housing units**, every building size | 124,000 permits statewide (the shared all-housing baseline, version 3) | Per 1,000 existing homes of all types (ACS 2020–2024, table B25002) |
+| TOD | **All new housing units near major transit stops** | 14,654 permits in the station areas | Share of the 313,564 homes (2020 census) in the station areas |
 
-The parking and TOD baselines come from one shared all-housing baseline built from the Census Building Permits Survey ([HOUSING_BASELINE.md](shared/HOUSING_BASELINE.md)). The ADU baseline comes from local permit records and coded local rules, because the Census survey does not say whether a new home was added to a lot that already had one. The [Policy Scenario Comparison](POLICY_SCENARIO_COMPARISON.md) puts all three on a common footing: additional permits over 2027–2031, as a share of the 122,619-permit all-housing baseline and per 1,000 existing Wisconsin homes.
+The parking and TOD baselines come from one shared all-housing baseline built from the Census Building Permits Survey ([HOUSING_BASELINE.md](shared/HOUSING_BASELINE.md)). The ADU baseline comes from local permit records and coded local rules, because the Census survey does not say whether a new home was added to a lot that already had one. The [Policy Scenario Comparison](POLICY_SCENARIO_COMPARISON.md) puts all three on a common footing: additional permits over 2027–2031, as a share of the 124,000-permit all-housing baseline and per 1,000 existing Wisconsin homes.
 
 ### The five-year horizon
 
@@ -42,11 +42,11 @@ The forecast years are 2027, 2028, 2029, 2030 and 2031. Totals are summed over t
 
 ### What is common across the three reforms
 
-- **Scenarios are named by what they mean, not by statistical confidence.** Each reform shows a lower, a central and an upper scenario, labelled by the real-world evidence they stand for: for ADUs, "sluggish adoption" (like the slowest statewide-law states), "typical adoption" and "strong adoption"; for parking, "no measurable change" and "high end of the evidence"; for TOD, "little", "typical" and "strong" response, each named after the study it uses. They are not confidence intervals. They show how much the real cases disagree.
-- **A line drawn from real cases.** Each reform also shows the median of what real places actually did:
+- **Scenarios are named by what they mean, not by statistical confidence.** Each reform shows a lower, a central and an upper scenario, labelled by the real-world evidence they stand for: for ADUs, "sluggish adoption" (like the slowest statewide-law states), "typical adoption" and "strong adoption"; for parking, "low end of the evidence", "no measurable change" and "high end of the evidence"; for TOD, "little response", "the average district place" and "the average district place, scaled to a 15% district" (AQ-071). They are not confidence intervals. They show how much the real cases disagree.
+- **A line drawn from real cases.** Where a reform has at least four comparable cases, it also shows the median of what real places actually did (AQ-054):
   - ADUs: the median observed path of the 8 states with a statewide ADU law (10,038 additional permits);
-  - parking: the median repeal place, whose permit rate changed by −0.50 permits per 1,000 homes per year against similar places, which counts as 0 because a repeal is not modelled as removing homes;
-  - TOD: the median of the three net-effect studies, which equals the typical scenario (2,509 additional permits).
+  - parking: the median repeal place, whose permit rate changed by −0.12 permits per 1,000 existing homes per year against similar places; its line is shown at 0, the same as the central;
+  - TOD: none, because its central is already the average of the 11 district places (AQ-071).
 - **Sensitivities are grouped by what they move.** Each sensitivity case changes one assumption and is labelled by whether it moves the statewide addition, only where the homes land, or only the current-law baseline.
 - **Observed, calculated or assumed.** Each reform has a trace that says which numbers come from Wisconsin's own records, which are calculated from them, and which are assumed or transferred from elsewhere.
 - **Everything reconciles.** Every reform's results are computed for each of Wisconsin's 1,925 municipality pieces and add up exactly to the 72 counties, the 99 Assembly districts, the 33 Senate districts and the state. Any part that cannot be placed is shown as an explicit "not allocated" row, never dropped.

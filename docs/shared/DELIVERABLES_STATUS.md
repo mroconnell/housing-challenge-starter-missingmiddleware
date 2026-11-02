@@ -11,7 +11,7 @@ Limit 25 pages. Estimate: about 7,500 words with 9 tables, **16 to 19 pages**.
 | Whole-tool introduction (question, three reforms, horizon, outcome definitions, what is common) | Draft, final numbers | ADU conductor |
 | Part A, ADUs | Final (adopted numbers AQ-067, 2026-11-01: baseline 786; lower 6,321 / central 10,492 / upper 19,784; reference line 10,038; all additional permits, 2027–2031; Madison on the statewide model; Massachusetts 2025 divided by a full year) | ADU conductor |
 | Part B, parking | Final: word-for-word copy of [parking/MODEL_AND_ASSUMPTIONS_PARKING.md](../parking/MODEL_AND_ASSUMPTIONS_PARKING.md), heading levels changed | Parking session; recopy if the master changes |
-| Part C, TOD | Final copy of [tod/MODEL_AND_ASSUMPTIONS_TOD.md](../tod/MODEL_AND_ASSUMPTIONS_TOD.md) at commit 8ea24b0, heading levels changed. **Pending:** two post-check changes await the owner (measured build-up kept unsmoothed; suburbs' placement × 0.719); neither changes the totals. TOD Gate 4 not yet accepted. | TOD session; recopy if the master changes |
+| Part C, TOD | Final copy of [tod/MODEL_AND_ASSUMPTIONS_TOD.md](../tod/MODEL_AND_ASSUMPTIONS_TOD.md) at commit 8ea24b0, heading levels changed. Current through AQ-071 (option D); the earlier pending post-check items no longer apply. | TOD session; recopy if the master changes |
 
 Open points:
 - The copied parts keep their relative links, which point from `docs/parking/` and `docs/tod/`, so some links in Parts B and C do not resolve from `docs/`. A note at the top of each part says so. Fix by rewriting the link paths when copying, if the owner agrees that this is not a content change.
@@ -26,7 +26,7 @@ Limit 4 pages. Estimate: about 2,100 words with 4 tables, **about 4 pages**, at 
 | Scenarios addressed, common basis (share of the 124,000-home all-housing baseline; per 1,000 of 2,778,572 existing homes) | Draft |
 | ADU facts | Final (AQ-065) |
 | Parking facts | Final (confirmed by the parking session 2026-10-27; AQ-046, AQ-048) |
-| TOD facts | Final (confirmed by the TOD session 2026-10-27; AQ-044 to AQ-051). **Pending:** the same two post-check changes; neither changes the totals. |
+| TOD facts | Final (confirmed by the TOD session 2026-10-27; AQ-044 to AQ-051). Current through AQ-071 (option D). |
 | Ranking, drivers, assumptions that matter, what the tool cannot say | Draft for owner review |
 
 **Re-copying Parts B and C:** run `uv run python scripts/sync_model_doc.py` whenever docs/parking/MODEL_AND_ASSUMPTIONS_PARKING.md or docs/tod/MODEL_AND_ASSUMPTIONS_TOD.md changes. It copies each master verbatim, demotes headings and rewrites links to resolve from docs/.
