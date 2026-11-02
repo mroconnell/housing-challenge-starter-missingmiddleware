@@ -489,3 +489,21 @@ Departures and fixes after locking are logged below with dates, before each reru
     ¼–½ mile: zero best on both scores. New York's stop rows reproduce 10.9 vs the measured 19.6 (comparison lots
     are the seed-1 sample). Files: reference/tod_optiond_stopmodel_{summary,places,stops}.csv (D-11) and *_db.csv
     (D-B). No tool change.
+- **2026-11-02 14:45, "remove the noise" interim result (seed 1, within ¼ mile; fixed data; reference/tod_optiond_dml_interim.csv).**
+  Extra new homes per 100 lot acres a year; interval = 95% from resampling places (nuisances held fixed); hidden-place
+  score = median absolute miss of the place's measured ¼-mile effect; Wisconsin = extra homes 2027–2031.
+  | Set | Version (treatment: in reform area) | Effect (interval) | Hidden miss: model / others' average / zero | Wisconsin (interval) |
+  | --- | --- | --- | --- | --- |
+  | D-11 | A, outcome model only | 75.4 (−2.9 to 160.6) | 30.2 / 16.0 / 28.4 | 3,383 (−129 to 7,205) |
+  | D-11 | B-PLR, adds treatment model | 32.2 (−13.7 to 132.6) | 18.9 / 16.0 / 28.4 | 1,445 (−615 to 5,947) |
+  | D-B | A | 26.9 (−126.9 to 162.3) | 23.4 / 26.2 / 26.1 | 1,208 (−5,692 to 7,278) |
+  | D-B | B-PLR | −20.8 (−128.7 to 108.7) | 47.7 / 26.2 / 26.1 | −931 (−5,774 to 4,874) |
+  Diagnostics: reform-stop treatment (A) D-11 29.3 (−1.7 to 61.6), hidden miss 36.5; D-B −65.9 (−189.0 to 36.8), miss
+  25.6. B-AIPW −389 (D-11) and −485 (D-B), unusable as expected. Within each case 93–96% of lots get a pick chance
+  outside [0.01, 0.99] (comparison-stop lots have no chance of being in the district).
+  Reading: on D-11 no version beats the others' average (16.0); B-PLR (18.9) beats zero, A does not. On D-B, A edges
+  both benchmarks (23.4 vs 26.2 and 26.1), but there the average itself does not beat zero, the interval spans
+  −127 to +162, and B-PLR turns the effect negative, so it is not a usable win. The in-area version under-predicts
+  every place with a large measured effect (Denver 115, Mount Baker 76, Philadelphia 47 → predictions 1–6), because
+  most of the measured band effect sits on lots outside the mapped district or comes from place-level differences
+  the within-case comparison removes. Remaining seeds and ¼–½ mile are still running; final summary to follow.
