@@ -12,6 +12,14 @@ Test (city is the unit): hide one city, fit on the rest, predict its effect per 
 effect (stage 0, run_tod_station_model.py). Benchmarks: zero, and the other cities' average measured effect.
 
     uv run --all-extras python scripts/run_tod_station_lotmodel.py [--trait-groups lot,place,tract]
+        [--sampling full --seed N]
+
+Sampling (owner 2026-11-02, "near-all lots"): `capped` (default; the original run) keeps at most 60,000 comparison and
+60,000 reform lots per case (New York and Philadelphia rezonings: 4,000 and 8,000) drawn at random. `full` keeps every
+lot outside New York and Philadelphia and every reform lot in them; their comparison lots (each rezoning lists the
+whole city again) are one fixed set per seed, chosen by a hash of the lot's position, so the same lots are kept in
+every rezoning (about 4,000 per rezoning, weighted up to the rezoning's count). Seeds only move that set;
+scripts/build_tod_station_area_line.py averages the seeds.
 """
 from __future__ import annotations
 
@@ -43,11 +51,23 @@ BASE = ["group", "band", "stop_id", "dist_m", "in_reform_area", "acres", "land_v
         "homes_existing", "homes_before_win", "homes_after_win", "implausible"]
 
 
-def load_case(case: str, mode: str, rng: np.random.Generator) -> pd.DataFrame | None:
+def fixed_share(x, y, seed: int) -> np.ndarray:
+    """A number in [0, 1) per lot from its position (metres, rounded) and the seed: the same lot gets the same number in
+    every case, so a threshold keeps the same lots across New York or Philadelphia rezonings."""
+    k = (np.round(np.nan_to_num(x)).astype(np.int64) * 1_000_003 + np.round(np.nan_to_num(y)).astype(np.int64)
+         + np.int64(seed) * 7_919).astype(np.uint64)
+    k ^= k >> np.uint64(33); k *= np.uint64(0xFF51AFD7ED558CCD); k ^= k >> np.uint64(33)    # splitmix-style mixing
+    k *= np.uint64(0xC4CEB9FE1A85EC53); k ^= k >> np.uint64(33)
+    return (k >> np.uint64(11)).astype(np.float64) / float(1 << 53)
+
+
+def load_case(case: str, mode: str, rng: np.random.Generator, sampling: str = "capped", seed: int = SEED,
+              tract: bool = True) -> pd.DataFrame | None:
     import pyarrow.parquet as pq
     f = OUT / f"lots_{case}.parquet"
     have = pq.ParquetFile(f).schema.names
-    D = pd.read_parquet(f, columns=[c for c in have if c in BASE or c in PLACE or c.startswith("v_") or c == "historic"])
+    D = pd.read_parquet(f, columns=[c for c in have if c in BASE or c in PLACE or (tract and c.startswith("v_"))
+                                    or c == "historic" or (sampling == "full" and c in ("x", "y"))])
     if (OUT / f"events_{case}.parquet").exists() and mode != "stored":
         D = M.event_windows(case, D, mode)
     D = D[~D.implausible.fillna(False)]
@@ -58,7 +78,15 @@ def load_case(case: str, mode: str, rng: np.random.Generator) -> pd.DataFrame | 
     cap_c, cap_r = (4_000, 8_000) if many else (MAX_COMPARISON, MAX_REFORM)
     D = D.copy()
     D["w"] = 1.0
-    for grp, cap in (("comparison", cap_c), ("reform", cap_r)):
+    if sampling == "full":
+        if many:
+            ix = D.index[D.group == "comparison"]
+            if len(ix) > cap_c:
+                keep = ix[fixed_share(D.loc[ix, "x"].values, D.loc[ix, "y"].values, seed) < cap_c / len(ix)]
+                D = D.drop(index=ix.difference(keep))
+                D.loc[keep, "w"] = len(ix) / max(len(keep), 1)
+        D = D.drop(columns=["x", "y"])
+    for grp, cap in ((("comparison", cap_c), ("reform", cap_r)) if sampling == "capped" else ()):
         ix = D.index[D.group == grp]
         if len(ix) > cap:
             keep = rng.choice(ix, cap, replace=False)
@@ -167,11 +195,17 @@ def main(argv=None) -> None:
     ap.add_argument("--dates", default="permit_est", choices=["stored", "permit_est", "completed"])
     ap.add_argument("--trait-groups", default="lot,place,tract")
     ap.add_argument("--drop", default="", help="reform features to leave out, e.g. coverage")
+    ap.add_argument("--sampling", default="capped", choices=["capped", "full"])
+    ap.add_argument("--seed", type=int, default=SEED)
+    ap.add_argument("--model-seed", type=int, default=None, help="seed for the model fit only (default: --seed)")
+    ap.add_argument("--no-early-stop", action="store_true",
+                    help="fit all 300 rounds instead of sklearn's default early stopping on a random 10%% hold-out")
     a = ap.parse_args(argv)
     DROP.update(x for x in a.drop.split(",") if x)
     groups = a.trait_groups.split(",") if a.trait_groups else []
-    rng = np.random.default_rng(SEED)
-    parts = [load_case(f.stem.removeprefix("lots_"), a.dates, rng) for f in sorted(OUT.glob("lots_*.parquet"))]
+    rng = np.random.default_rng(a.seed)
+    parts = [load_case(f.stem.removeprefix("lots_"), a.dates, rng, a.sampling, a.seed, tract=("tract" in groups) or a.sampling == "capped")
+             for f in sorted(OUT.glob("lots_*.parquet"))]
     D = pd.concat([p for p in parts if p is not None], ignore_index=True)
     cols = features(D, groups)
     print(f"rows {len(D):,}; cities {D.city.nunique()}; features {len(cols)}")
@@ -180,7 +214,8 @@ def main(argv=None) -> None:
     rows, wi = [], []
     for city in sorted(D.city.unique()):
         tr, te = D[D.city != city], D[D.city == city]
-        m = HistGradientBoostingRegressor(max_iter=300, learning_rate=0.05, min_samples_leaf=200, random_state=SEED)
+        m = HistGradientBoostingRegressor(max_iter=300, learning_rate=0.05, min_samples_leaf=200, random_state=a.seed if a.model_seed is None else a.model_seed,
+                                          **({'early_stopping': False} if a.no_early_stop else {}))
         m.fit(tr[cols].astype(float), tr.y, sample_weight=tr.w)
         if W is not None:
             wi.append(wisconsin_extra(m, W, cols).rename(f"without {city}"))
@@ -196,8 +231,13 @@ def main(argv=None) -> None:
     print("\nmedian absolute error by band (per 100 acres a year):")
     print(R.groupby("band")[["err_model", "err_avg", "err_zero"]].median().round(2).to_string())
     tag = (a.trait_groups.replace(",", "_") or "none") + (f"_no_{a.drop.replace(',', '_')}" if a.drop else "")
+    if a.sampling == "full":
+        tag += f"_full_s{a.seed}" + (f"_m{a.model_seed}" if a.model_seed is not None else "")
+    if a.no_early_stop:
+        tag += "_nes"
     if W is not None:
-        m = HistGradientBoostingRegressor(max_iter=300, learning_rate=0.05, min_samples_leaf=200, random_state=SEED)
+        m = HistGradientBoostingRegressor(max_iter=300, learning_rate=0.05, min_samples_leaf=200, random_state=a.seed if a.model_seed is None else a.model_seed,
+                                          **({'early_stopping': False} if a.no_early_stop else {}))
         m.fit(D[cols].astype(float), D.y, sample_weight=D.w)
         full = wisconsin_extra(m, W, cols)
         X = pd.concat(wi, axis=1)

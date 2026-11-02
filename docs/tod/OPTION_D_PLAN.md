@@ -118,3 +118,12 @@ Departures and fixes after locking are logged below with dates, before each reru
 - **Stage 5 (all models) run next, as the plan says, to answer whether any richer model beats the average:** lot and
   stop level, each with place traits, tract traits and the affordability-mandate coding added. If none beats the
   others' average on hidden places, the central line is the average rule (section 5, fixed before results).
+- **2026-11-02, stage 5 (all models) result.** No model beats the others' average within ¼ mile on hidden places
+  (median error, extra new homes per 100 lot acres a year; others' average 19.3, zero 28.1): lot + place 22.3; lot +
+  place + tract 24.3; lot + mandate 28.6; stop level + place 32.1; + place + tract 30.7; + mandate 43.6. In ¼–½ mile no
+  rule beats zero (zero 9.3, average 10.4), so that band counts zero.
+- **Central by the pre-set rule: the average rule.** 8,856 extra homes statewide over 2027–2031 (each place left out:
+  6,715 to 10,624), from the 11 places' mean effect of 32.9 extra homes per 100 lot acres a year × 4,874 Wisconsin lot
+  acres within ¼ mile × 5 years × 1.106 statewide scale (scripts/build_tod_optiond_line.py,
+  reference/tod_optiond_line.csv). The places' districts averaged 12% of ¼-mile lots, against the law's 15%; scaled to
+  15% by their pooled ratio: 11,057 (8,053 to 14,836). Which one the tool shows is the owner's call.

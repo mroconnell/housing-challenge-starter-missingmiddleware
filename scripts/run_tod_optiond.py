@@ -147,8 +147,10 @@ def to_stops(D: pd.DataFrame, lot_cols: list[str], fixes: set[str]) -> pd.DataFr
     D["wa"] = D.w * D.acres.fillna(0).clip(lower=0)
     D["d_homes"] = D.w * (D.y - D.rate_before)
     g = D.groupby(["city", "case", "stop_id", "band"], sort=False)
+    if "mandate" not in D:
+        D["mandate"] = 0.0
     S = g.agg(wa=("wa", "sum"), d_homes=("d_homes", "sum"), reform_stop=("reform_stop", "max"),
-              coverage=("coverage", "max")).reset_index()
+              coverage=("coverage", "max"), mandate=("mandate", "max")).reset_index()
     for c in lot_cols:
         D["_x"] = D[c].astype(float) * D.wa
         D["_n"] = D.wa.where(D[c].notna(), 0.0)
@@ -164,7 +166,7 @@ def to_stops(D: pd.DataFrame, lot_cols: list[str], fixes: set[str]) -> pd.DataFr
 
 def stop_effect(model, S: pd.DataFrame, cols: list[str]) -> pd.Series:
     R = S[S.reform_stop == 1]
-    off = R[cols].astype(float).copy(); off[["reform_stop", "coverage"]] = 0.0
+    off = R[cols].astype(float).copy(); off[[c for c in ("reform_stop", "coverage", "mandate") if c in cols]] = 0.0
     d = (model.predict(R[cols].astype(float)) - model.predict(off)) * R.wa
     return d.groupby(R.band).sum() / R.wa.groupby(R.band).sum()
 
@@ -178,17 +180,19 @@ def wisconsin_stops(W: pd.DataFrame, lot_cols: list[str]) -> pd.DataFrame:
 
 
 def wisconsin_stop_extra(model, S: pd.DataFrame, cols: list[str], share: float) -> pd.Series:
-    off = S[cols].astype(float).copy(); off[["reform_stop", "coverage"]] = 0.0
+    off = S[cols].astype(float).copy(); off[[c for c in ("reform_stop", "coverage", "mandate") if c in cols]] = 0.0
     on = S[cols].astype(float).copy(); on["reform_stop"] = 1.0
+    if "mandate" in cols:
+        on["mandate"] = 0.0   # option D: by right
     on["coverage"] = np.where(S.band == "0-1/4", share, 0.0)
     return ((model.predict(on) - model.predict(off)) * S.wa / 100).groupby(S.band).sum()
 
 
 def main_stops(a, groups, fixes) -> None:
     D, med = prepare(load(a.seed, "tract" in groups), fixes - {"equal"})
-    lot_cols = [c for c in features(D, groups) if c not in SWITCHES]
+    lot_cols = [c for c in features(D, groups) if c not in SWITCHES and c not in STOP_FEATS + ["log_dist_m"]]
     S = to_stops(D, lot_cols, fixes)
-    cols = STOP_FEATS + lot_cols
+    cols = STOP_FEATS + (["mandate"] if "mandate" in groups else []) + lot_cols
     print(f"stop-band rows {len(S):,}; places {S.city.nunique()}; features {cols}")
     measured = M.city_level(M.case_effects("permit_est")).set_index(["city", "band"])["effect_per_100_acres"]
     measured = measured[measured.index.get_level_values(0).isin(TRAIN)]
