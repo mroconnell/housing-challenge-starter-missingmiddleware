@@ -1,13 +1,13 @@
 """Download the land and zoning inputs for the TOD station-area tables (TOD Gate 2, WP4).
 
-    uv run --all-extras python scripts/fetch_tod_parcels_zoning.py [--only v12|mke_zoning|mad_zoning|mad_tod|docs] [--counties all]
+    uv run python scripts/fetch_tod_parcels_zoning.py [--only v12|mke_zoning|mad_zoning|mad_tod|docs] [--counties all]
 
 Needs network and reference/tod_stops.csv (built by scripts/build_tod_stops.py).
 
 Raw (git-ignored), all under data/raw/tod_capacity/:
 - v12_<county>.geojson: Wisconsin V12 statewide parcels (SCO / DOA REST service) for Milwaukee and Dane
   counties (default) or every county with a qualifying stop (--counties all: also Eau Claire, Kenosha,
-  Ozaukee and Waukesha), only parcels intersecting a 0.6-mile buffer of the qualifying stops in
+  Ozaukee and Waukesha), only parcels near a 0.6-mile buffer of the qualifying stops in
   reference/tod_stops.csv (every stop there, i.e. the widest major-stop definition (c), so the main case,
   the high case and the all-1/2-mile sensitivities are all covered with a margin). Owner and address
   fields are never requested.
@@ -40,8 +40,11 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+import numpy as np
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from missing_middleware import geom as G  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 D = RAW / "tod_capacity"
@@ -124,28 +127,77 @@ def _sha(path: Path) -> str:
     return h.hexdigest()
 
 
+class StopArea:
+    """The fetch area of one county: land within `radius` of a qualifying stop and within `margin` metres of the
+    county (EPSG:3071). Before the open-licence port this was the union of 0.6-mile stop buffers (64-sided
+    circles) clipped to the county buffered by 200 m; the tests below use exact circles and test a feature by its
+    vertices (any vertex in the area, or a stop inside the feature), which can differ from the polygon test by
+    a sliver at the edge of the area. Only the download filter is affected; already fetched files are unchanged."""
+
+    def __init__(self, sx, sy, radius: float, county, margin: float = 200.0):
+        self.sx, self.sy, self.radius, self.county, self.margin = np.asarray(sx), np.asarray(sy), radius, county, margin
+        cv = np.concatenate([r for part in county for r in part])
+        b = (max(self.sx.min() - radius, cv[:, 0].min() - margin), max(self.sy.min() - radius, cv[:, 1].min() - margin),
+             min(self.sx.max() + radius, cv[:, 0].max() + margin), min(self.sy.max() + radius, cv[:, 1].max() + margin))
+        self.bounds = b
+
+    def contains_points(self, x, y) -> np.ndarray:
+        from scipy.spatial import cKDTree
+        x, y = np.asarray(x, float), np.asarray(y, float)
+        d, _ = cKDTree(np.c_[self.sx, self.sy]).query(np.c_[x, y])
+        ok = d <= self.radius
+        if ok.any():
+            ix = np.flatnonzero(ok)
+            ok[ix] = np.isfinite(G.distance_to_polygons(x[ix], y[ix], [self.county], self.margin))
+        return ok
+
+    def intersects_box(self, b) -> bool:
+        x0, y0, x1, y1 = b
+        dx = np.maximum(np.maximum(x0 - self.sx, 0), self.sx - x1)
+        dy = np.maximum(np.maximum(y0 - self.sy, 0), self.sy - y1)
+        if not (np.hypot(dx, dy) <= self.radius).any():
+            return False
+        cx, cy, half = (x0 + x1) / 2, (y0 + y1) / 2, np.hypot(x1 - x0, y1 - y0) / 2
+        return bool(np.isfinite(G.distance_to_polygons([cx], [cy], [self.county], self.margin + half))[0])
+
+    def intersects_features(self, polys: list) -> np.ndarray:
+        """Per polygon feature: a vertex lies in the area, or a qualifying stop lies inside the feature."""
+        own, xy = [], []
+        for k, f in enumerate(polys):
+            for part in f:
+                for r in part:
+                    xy.append(r); own.append(np.full(len(r), k))
+        keep = np.zeros(len(polys), bool)
+        if not xy:
+            return keep
+        xy, own = np.concatenate(xy), np.concatenate(own)
+        keep[np.unique(own[self.contains_points(xy[:, 0], xy[:, 1])])] = True
+        inside = G.points_in_polygons(self.sx, self.sy, polys)
+        keep[inside[inside >= 0]] = True
+        return keep
+
+
 def stop_buffers(only: set[str] | None = None):
-    """{county key: (buffer polygon, county polygon, stops)} in EPSG:3071 for every Wisconsin county with
+    """{county key: (StopArea, county polygon, stops)} in EPSG:3071 for every Wisconsin county with
     a qualifying stop within the buffer distance. Key: lower-case county name, spaces as '_'."""
-    import geopandas as gpd
     import pandas as pd
 
     stops = pd.read_csv(REFERENCE / "tod_stops.csv", dtype={"stop_id": str, "ntd_id": str})
-    pts = gpd.GeoDataFrame(stops, geometry=gpd.points_from_xy(stops.lon, stops.lat), crs=4326).to_crs(CRS_M)
-    counties = gpd.read_file(f"zip://{COUNTY_FILE}")
-    counties = counties[counties.STATEFP == "55"].to_crs(CRS_M)
+    px, py = G.transform(stops.lon.values, stops.lat.values, 4326, CRS_M)
+    cl = G.read_shapefile(COUNTY_FILE)
+    cl = cl.subset(cl.attrs.STATEFP == "55").to_crs(CRS_M)
     out = {}
-    for _, c in counties.sort_values("NAME").iterrows():
-        key = county_key(c.NAME)
+    for k in np.argsort(cl.attrs.NAME.values, kind="stable"):
+        name = cl.attrs.NAME.iloc[k]
+        key = county_key(name)
         if only is not None and key not in only:
             continue
-        poly = c.geometry
+        poly = cl.polys[k]
         # stops inside the county or within the buffer distance of it
-        near = pts[pts.distance(poly) <= BUFFER_MILES * MILE_M]
-        if len(near) == 0:
+        near = np.isfinite(G.distance_to_polygons(px, py, [poly], BUFFER_MILES * MILE_M))
+        if not near.any():
             continue
-        buf = near.buffer(BUFFER_MILES * MILE_M, quad_segs=16).union_all().intersection(poly.buffer(200))
-        out[key] = (buf, poly, len(near))
+        out[key] = (StopArea(px[near], py[near], BUFFER_MILES * MILE_M, poly), poly, int(near.sum()))
     return out
 
 
@@ -158,9 +210,7 @@ def v12_coname(key: str) -> str:
     return {"st_croix": "ST. CROIX"}.get(key, key.replace("_", " ").upper())
 
 
-def grid_cells(area, cell: float = CELL_M) -> list[tuple[float, float, float, float]]:
-    from shapely.geometry import box
-
+def grid_cells(area: StopArea, cell: float = CELL_M) -> list[tuple[float, float, float, float]]:
     x0, y0, x1, y1 = area.bounds
     cells = []
     y = y0
@@ -168,7 +218,7 @@ def grid_cells(area, cell: float = CELL_M) -> list[tuple[float, float, float, fl
         x = x0
         while x < x1:
             b = (x, y, x + cell, y + cell)
-            if area.intersects(box(*b)):
+            if area.intersects_box(b):
                 cells.append(b)
             x += cell
         y += cell
@@ -195,9 +245,7 @@ def query_envelope(url: str, env: tuple, fields: str, where: str = "1=1", page: 
     return feats
 
 
-def fetch_layer_in_buffer(url: str, fields: str, where: str, area, label: str, workers: int = 6) -> list[dict]:
-    import geopandas as gpd
-
+def fetch_layer_in_buffer(url: str, fields: str, where: str, area: StopArea, label: str, workers: int = 6) -> list[dict]:
     cells = grid_cells(area)
     print(f"{label}: {len(cells)} cells of {CELL_M / 1000:.0f} km", flush=True)
     by_id: dict = {}
@@ -211,11 +259,11 @@ def fetch_layer_in_buffer(url: str, fields: str, where: str, area, label: str, w
     feats = [f for f in by_id.values() if f.get("geometry")]
     if not feats:
         return []
-    g = gpd.GeoDataFrame.from_features(feats, crs=4326).to_crs(CRS_M)
-    keep = g.intersects(area).to_numpy()
+    g = G.read_geojson({"type": "FeatureCollection", "features": feats}).to_crs(CRS_M)
+    keep = area.intersects_features(g.polys)
     out = [f for f, k in zip(feats, keep) if k]
     out.sort(key=lambda f: f["properties"]["OBJECTID"])
-    print(f"{label}: {len(by_id)} features in cells, {len(out)} intersect the buffer", flush=True)
+    print(f"{label}: {len(by_id)} features in cells, {len(out)} touch the stop area", flush=True)
     return out
 
 
@@ -232,7 +280,7 @@ def fetch_v12(manifest: dict, bufs: dict) -> None:
         _write_geojson(path, feats)
         manifest["files"][path.name] = {
             "url": V12_URL, "layer": "V1200_WisconsinParcels_2026", "where": f"CONAME='{coname}'",
-            "spatial_filter": f"parcels intersecting a {BUFFER_MILES}-mile buffer of {n_stops} stops in reference/tod_stops.csv (EPSG:{CRS_M})",
+            "spatial_filter": f"parcels touching a {BUFFER_MILES}-mile buffer of {n_stops} stops in reference/tod_stops.csv (EPSG:{CRS_M})",
             "fields": V12_FIELDS, "features": len(feats), "accessed_utc": acc, "bytes": path.stat().st_size,
             "sha256": _sha(path), "licence": V12_LICENCE}
 

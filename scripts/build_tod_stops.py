@@ -1,7 +1,7 @@
 """Build the TOD major-transit-stop layer and count 2020 homes near stops, by municipality.
 
-    uv run --all-extras python scripts/fetch_tod_transit.py     # once, needs network
-    uv run --all-extras python scripts/build_tod_stops.py
+    uv run python scripts/fetch_tod_transit.py     # once, needs network
+    uv run python scripts/build_tod_stops.py
 
 In:  data/raw/tod_transit/ (NTM layers, GTFS feeds, manifest.json)
      data/raw/census_tiger_2020_tabblock/tl_2020_55_tabblock20.zip (HOUSING20, POP20, internal points)
@@ -24,6 +24,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from fetch_tod_transit import DEFAULT_NO_GTFS, GTFS_FEEDS, NO_GTFS  # noqa: E402
+from missing_middleware import geom as G  # noqa: E402
+from missing_middleware import geom_extra_tod as X  # noqa: E402
+from missing_middleware.dbf import read_shapefile_attributes  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 from missing_middleware.tod import transit as T  # noqa: E402
 
@@ -47,8 +50,7 @@ DEFINITIONS = [  # key, description, rapid radius, bus radius, bus threshold (No
 
 
 def load_ntm():
-    import geopandas as gpd
-
+    """Agency names, boarding stops and route rows. routes['line'] holds each route's line feature in EPSG:3071."""
     agencies = pd.DataFrame(json.loads((D / "ntm" / "agencies.json").read_text()))
     names = {}
     for _, a in agencies.iterrows():
@@ -60,8 +62,12 @@ def load_ntm():
     # Boarding points only: location_type 0 or blank (stations, entrances and 'Null' rows dropped).
     lt = stops["location_type"].fillna("").astype(str).str.strip()
     stops = stops[lt.isin(["0", ""]) & ~stops["ntd_id"].isin(excluded)].copy()
-    routes = gpd.read_file(D / "ntm" / "routes.geojson")
-    routes = routes[~routes["ntd_id"].isin(excluded) & routes.geometry.notna()].copy()
+    rl = G.read_geojson(D / "ntm" / "routes.geojson").to_crs(CRS_M)
+    routes = rl.attrs.copy()
+    lines = np.empty(len(rl.polys), dtype=object)
+    lines[:] = rl.polys
+    routes["line"] = lines
+    routes = routes[~routes["ntd_id"].isin(excluded) & routes["line"].map(bool)].copy()
     for c in ("route_short_name", "route_long_name", "route_desc", "route_type"):
         routes[c] = routes[c].fillna("").astype(str).str.strip()
     return names, stops, routes
@@ -94,53 +100,42 @@ def route_frequencies(routes: pd.DataFrame, manifest: dict) -> tuple[np.ndarray,
     return tph, src, facts
 
 
-def assign_muni(points, cs) -> np.ndarray:
-    """Index into `cs` of the county subdivision containing each point (nearest one when the point
-    falls outside every shoreline-clipped polygon)."""
-    import shapely
-
-    tree = shapely.STRtree(cs.geometry.values)
-    out = np.full(len(points), -1)
-    pi, gi = tree.query(points, predicate="within")
-    out[pi] = gi
-    miss = np.flatnonzero(out < 0)
-    if len(miss):
-        out[miss] = tree.query_nearest(points[miss], return_distance=False, all_matches=False)[1]
-    return out
+def assign_muni(points: np.ndarray, polys: list) -> np.ndarray:
+    """Index into `polys` (county subdivision polygons) of the one containing each point ((n, 2) array); the
+    nearest one when the point falls outside every shoreline-clipped polygon."""
+    return X.nearest_polygon(points[:, 0], points[:, 1], polys)[0]
 
 
 def main() -> None:
-    import geopandas as gpd
-    import pyogrio
-
     manifest = json.loads((D / "manifest.json").read_text())
     names, stops, routes = load_ntm()
     routes["tph"], src, facts = route_frequencies(routes, manifest)
     routes["rapid"] = [T.is_rapid(n, t, s, names.get(n, "")) for n, t, s in
                        zip(routes["ntd_id"], routes["route_type"], routes["route_short_name"])]
 
-    sg = gpd.GeoDataFrame(stops, geometry=gpd.points_from_xy(stops.stop_lon.astype(float), stops.stop_lat.astype(float)),
-                          crs=4326).to_crs(CRS_M)
-    rg = routes.to_crs(CRS_M)
-    sp, sa = sg.geometry.values, sg["ntd_id"].values
+    sg = stops.reset_index(drop=True)
+    sp = np.c_[G.transform(sg.stop_lon.astype(float).values, sg.stop_lat.astype(float).values, 4326, CRS_M)]
+    sa = sg["ntd_id"].values
+    rlines = list(routes["line"])
 
     def on(mask):
-        return T.stops_near_routes(sp, sa, rg.geometry.values[mask], rg["ntd_id"].values[mask])
+        return T.stops_near_routes(sp, sa, [rlines[i] for i in np.flatnonzero(mask)], routes["ntd_id"].values[mask])
 
-    A = on(rg["rapid"].values)
-    B = on((rg["tph"] >= T.MAIN_N).values) | A
-    C = on((rg["tph"] >= T.HIGH_N).values) | A
+    A = on(routes["rapid"].values)
+    B = on((routes["tph"] >= T.MAIN_N).values) | A
+    C = on((routes["tph"] >= T.HIGH_N).values) | A
 
     # Blocks and municipalities
-    bl = pyogrio.read_dataframe(BLOCKS, read_geometry=False, columns=["GEOID20", "HOUSING20", "POP20", "INTPTLAT20", "INTPTLON20"])
-    bp = gpd.GeoSeries(gpd.points_from_xy(bl.INTPTLON20.astype(float), bl.INTPTLAT20.astype(float)), crs=4269).to_crs(CRS_M).values
+    bl = read_shapefile_attributes(BLOCKS)[["GEOID20", "HOUSING20", "POP20", "INTPTLAT20", "INTPTLON20"]]
+    bp = np.c_[G.transform(bl.INTPTLON20.astype(float).values, bl.INTPTLAT20.astype(float).values, 4269, CRS_M)]
     hu = bl.HOUSING20.astype(float).values
-    cs = pyogrio.read_dataframe(COUSUB).to_crs(CRS_M).reset_index(drop=True)
-    bmun = assign_muni(bp, cs)
+    csl = G.read_shapefile(COUSUB).to_crs(CRS_M)
+    cs = csl.attrs.reset_index(drop=True)
+    bmun = assign_muni(bp, csl.polys)
     geoid = cs["GEOID"].values[bmun]
     pop = pd.Series(bl.POP20.astype(float).values).groupby(geoid).sum()
     big = {g for g, n in zip(cs["GEOID"], cs["NAMELSAD"]) if n.endswith(" city") and pop.get(g, 0) >= BIG_CITY_POP}
-    smun = cs["GEOID"].values[assign_muni(sp, cs)]
+    smun = cs["GEOID"].values[assign_muni(sp, csl.polys)]
 
     def within(mask, r):
         return T.blocks_within(bp, sp[mask], r)

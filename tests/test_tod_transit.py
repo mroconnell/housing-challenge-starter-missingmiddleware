@@ -15,6 +15,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import numpy as np  # noqa: E402
+
+from missing_middleware import geom as G  # noqa: E402
 from missing_middleware.tod import transit as T  # noqa: E402
 
 FIX = ROOT / "tests" / "fixtures" / "tod"
@@ -117,14 +120,14 @@ class TestRouteClassification(unittest.TestCase):
 
 
 class TestGeometry(unittest.TestCase):
+    """Stops and lines as plain coordinates (missing_middleware.geom model; no shapely)."""
+
     def setUp(self):
-        import shapely
-        self.shapely = shapely
         fc = json.loads((FIX / "routes_small.geojson").read_text())
         self.routes = [f["properties"] for f in fc["features"]]
-        self.lines = [shapely.geometry.shape(f["geometry"]) for f in fc["features"]]
+        self.lines = [G.read_geojson({"type": "FeatureCollection", "features": [f]}).polys[0] for f in fc["features"]]
         self.stops = json.loads((FIX / "stops_small.json").read_text())
-        self.points = [shapely.Point(s["x"], s["y"]) for s in self.stops]
+        self.points = [(s["x"], s["y"]) for s in self.stops]
 
     def _near(self, keep):
         idx = [i for i, r in enumerate(self.routes) if keep(r)]
@@ -143,20 +146,20 @@ class TestGeometry(unittest.TestCase):
                 self.assertEqual(got, s["expect"])
 
     def test_30_metre_tolerance(self):
-        line = self.shapely.LineString([(0, 0), (100, 0)])
-        pts = [self.shapely.Point(50, 29.9), self.shapely.Point(50, 30.1), self.shapely.Point(129, 0), self.shapely.Point(50, 5)]
-        got = T.stops_near_routes(pts, ["x", "x", "x", "y"], [line], ["x"])
-        self.assertEqual(got.tolist(), [True, False, True, False])  # last one: right place, other agency
+        line = [np.array([(0.0, 0.0), (100.0, 0.0)])]
+        pts = [(50, 29.9), (50, 30.1), (129, 0), (50, 5), (130, 0)]
+        got = T.stops_near_routes(pts, ["x", "x", "x", "y", "x"], [line], ["x"])
+        self.assertEqual(got.tolist(), [True, False, True, False, True])  # 4th: right place, other agency; 5th: exactly 30 m
 
     def test_homes_within_distance(self):
         quarter = 0.25 * T.MILE_M  # 402.336 m
-        blocks = [self.shapely.Point(400, 0), self.shapely.Point(405, 0), self.shapely.Point(0, 700)]
+        blocks = [(400, 0), (405, 0), (0, 700)]
         homes = [10, 20, 40]
-        stop = [self.shapely.Point(0, 0)]
+        stop = [(0, 0)]
         self.assertEqual(T.homes_within(blocks, homes, stop, quarter), 10)
         self.assertEqual(T.homes_within(blocks, homes, stop, 0.5 * T.MILE_M), 70)
         self.assertEqual(T.homes_within(blocks, homes, [], quarter), 0)
-        m = T.blocks_within_variable(blocks, [self.shapely.Point(0, 0), self.shapely.Point(0, 1000)], [quarter, 0.5 * T.MILE_M])
+        m = T.blocks_within_variable(blocks, [(0, 0), (0, 1000)], [quarter, 0.5 * T.MILE_M])
         self.assertEqual(m.tolist(), [True, False, True])
 
 

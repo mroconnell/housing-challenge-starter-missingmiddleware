@@ -1,8 +1,8 @@
 """Build the TOD station-area land and zoning tables: the City of Milwaukee and the City of Madison with
 coded zoning, and every other municipality near a qualifying stop with the existing-density fallback.
 
-    uv run --all-extras python scripts/fetch_tod_parcels_zoning.py   # once, needs network
-    uv run --all-extras python scripts/build_tod_station_areas.py   # offline
+    uv run python scripts/fetch_tod_parcels_zoning.py   # once, needs network
+    uv run python scripts/build_tod_station_areas.py   # offline
 
 In:  reference/tod_stops.csv (qualifying stops), reference/tod_zoning_rules_{milwaukee,madison}.csv
      data/raw/tod_capacity/{v12_milwaukee.geojson, mke_zoning.geojson, mad_zoning.geojson}
@@ -19,10 +19,14 @@ Out: reference/tod_station_areas.csv  place x band x zoning district x use class
                                           outside it, rest of city. Land only: no permits are read.
 
 Method: docs/tod/STATION_AREAS.md. Formulas: missing_middleware/tod/capacity.py.
+Geometry: missing_middleware/geom.py and geom_extra_tod.py (numpy/scipy only; docs/GEOMETRY.md). Parcel tables are
+plain DataFrames: 'poly' (the outline in EPSG:3071), 'px'/'py' (the representative point, as GEOS computes it) and
+'area_m2'.
 """
 from __future__ import annotations
 
 import csv
+import json
 import sys
 from pathlib import Path
 
@@ -31,6 +35,8 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from missing_middleware import geom as G  # noqa: E402
+from missing_middleware import geom_extra_tod as X  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 from missing_middleware.tod import capacity as C  # noqa: E402
 
@@ -106,34 +112,74 @@ def mad_use_class(use) -> str:
     return "commercial" if u else "other_unknown"
 
 
+# ----------------------------------------------------------------------------- geometry helpers
+
+def _objects(values) -> np.ndarray:
+    a = np.empty(len(values), dtype=object)
+    a[:] = list(values)
+    return a
+
+
+def read_polygons(path, columns: list[str]) -> pd.DataFrame:
+    """A GeoJSON polygon layer (WGS 84) as a table: the attribute columns, 'poly' (outline in EPSG:3071) and '_key'
+    (identical outlines share a key; null geometries have none)."""
+    obj = json.loads(Path(path).read_text())
+    types = [(f.get("geometry") or {}).get("type", "") for f in obj.get("features", [])]
+    lay = G.read_geojson(obj, columns=columns)
+    polys = X.polygons_to_crs(lay.polys, lay.crs, CRS_M)
+    df = lay.attrs.reindex(columns=columns).reset_index(drop=True)
+    df["poly"] = _objects(polys)
+    df["_key"] = [X.feature_key(f, t) for f, t in zip(polys, types)]
+    return df
+
+
+def add_points(p: pd.DataFrame) -> pd.DataFrame:
+    """Representative point (GEOS interior point) and planar area of each lot outline."""
+    p["px"], p["py"] = X.interior_points(list(p["poly"]))
+    p["area_m2"] = X.areas(list(p["poly"]))
+    return p
+
+
+def join_points(px, py, polys: list, values) -> np.ndarray:
+    """Value of the first polygon containing each point (a spatial join 'within'); NaN where none."""
+    ix = G.points_in_polygons(px, py, polys)
+    v = np.asarray(values, dtype=object)
+    return np.array([v[i] if i >= 0 else np.nan for i in ix], dtype=object)
+
+
+def read_zoning(path, column: str):
+    lay = G.read_geojson(path, columns=[column])
+    return X.polygons_to_crs(lay.polys, lay.crs, CRS_M), lay.attrs[column].to_numpy()
+
+
+def read_union(path) -> list:
+    """Polygon features of a layer in EPSG:3071 (tested together: a point is inside if inside any)."""
+    lay = G.read_geojson(path)
+    return X.polygons_to_crs(lay.polys, lay.crs, CRS_M)
+
+
 # ----------------------------------------------------------------------------- stops and bands
 
 def stop_points():
-    import geopandas as gpd
-
     s = pd.read_csv(REFERENCE / "tod_stops.csv", dtype={"stop_id": str, "ntd_id": str})
-    g = gpd.GeoDataFrame(s, geometry=gpd.points_from_xy(s.lon, s.lat), crs=4326).to_crs(CRS_M)
-    return {"rapid": g[g.flag_a_rapid == 1], "bus15": g[g.flag_b_15min == 1], "bus20": g[g.flag_c_20min == 1]}
+    s["x"], s["y"] = G.transform(s.lon.values, s.lat.values, 4326, CRS_M)
+    return {"rapid": s[s.flag_a_rapid == 1], "bus15": s[s.flag_b_15min == 1], "bus20": s[s.flag_c_20min == 1]}
 
 
-def nearest_distance(points, stops) -> np.ndarray:
+def nearest_distance(px, py, stops) -> np.ndarray:
     """Distance (m) from each point to the nearest stop; inf beyond 1 mile."""
-    from shapely import STRtree
-
     if len(stops) == 0:
-        return np.full(len(points), np.inf)
-    tree = STRtree(stops.geometry.values)
-    idx, dist = tree.query_nearest(points.values, max_distance=C.MILE_M, return_distance=True, all_matches=False)
-    out = np.full(len(points), np.inf)
-    out[idx[0]] = dist
-    return out
+        return np.full(len(px), np.inf)
+    _, d = G.nearest(px, py, stops.x.values, stops.y.values, max_distance=C.MILE_M)
+    return d
 
 
-def assign_bands(points, stops) -> pd.Series:
-    dr = nearest_distance(points, stops["rapid"])
-    d15 = nearest_distance(points, stops["bus15"])
-    d20 = nearest_distance(points, stops["bus20"])
-    return pd.Series([C.assign_band(a, b, c) for a, b, c in zip(dr, d15, d20)], index=points.index)
+def assign_bands(p: pd.DataFrame, stops) -> pd.Series:
+    px, py = p["px"].to_numpy(float), p["py"].to_numpy(float)
+    dr = nearest_distance(px, py, stops["rapid"])
+    d15 = nearest_distance(px, py, stops["bus15"])
+    d20 = nearest_distance(px, py, stops["bus20"])
+    return pd.Series([C.assign_band(a, b, c) for a, b, c in zip(dr, d15, d20)], index=p.index)
 
 
 # ----------------------------------------------------------------------------- parcels
@@ -141,21 +187,23 @@ def assign_bands(points, stops) -> pd.Series:
 def group_by_outline(g, key_cols: dict) -> "pd.DataFrame":
     """Collapse parcels that share an identical outline (condominium units stacked on one lot) so land
     is counted once; homes are summed, other fields come from the record with the most homes."""
-    g = g.copy()
-    g["_wkb"] = g.geometry.apply(lambda x: x.wkb if x is not None else None)
-    g = g[g["_wkb"].notna()]
+    g = g[g["_key"].notna()].copy()
+    g["_gi"] = np.arange(len(g))
+    polys = g["poly"].to_numpy()
     g = g.sort_values("homes", ascending=False, kind="stable")
-    agg = {"homes": "sum", "geometry": "first", **{c: "first" for c in key_cols}}
-    out = g.groupby("_wkb", sort=False).agg(agg).reset_index(drop=True)
-    out["records"] = g.groupby("_wkb", sort=False).size().to_numpy()
+    agg = {"homes": "sum", "_gi": "first", **{c: "first" for c in key_cols}}
+    out = g.groupby("_key", sort=False).agg(agg)
+    keys = out.index.to_numpy()
+    out = out.reset_index(drop=True)
+    out["records"] = g.groupby("_key", sort=False).size().to_numpy()
+    out["_key"] = keys
+    out["poly"] = _objects(polys[out.pop("_gi").to_numpy()])
     return out
 
 
 def load_milwaukee():
-    import geopandas as gpd
-
-    v = gpd.read_file(D / "v12_milwaukee.geojson", columns=["PARCELID", "PLACENAME"])
-    v = v[v.PLACENAME == "CITY OF MILWAUKEE"].to_crs(CRS_M)
+    v = read_polygons(D / "v12_milwaukee.geojson", ["PARCELID", "PLACENAME"])
+    v = v[v.PLACENAME == "CITY OF MILWAUKEE"]
     m = pd.read_csv(RAW / "milwaukee_mprop" / "mprop.csv", dtype=str,
                     usecols=["TAXKEY", "NR_UNITS", "LAND_USE", "LAND_USE_GP", "ZONING"])
     m["units"] = pd.to_numeric(m.NR_UNITS, errors="coerce").fillna(0)
@@ -168,16 +216,12 @@ def load_milwaukee():
     v["matched"] = v.TAXKEY.notna()
     v["homes"] = v.homes.fillna(0.0)
     v["use_class"] = [mke_use_class(g, lu) if ok else "other_unknown" for g, lu, ok in zip(v.LAND_USE_GP, v.LAND_USE, v.matched)]
-    p = group_by_outline(v, {"ZONING": 1, "use_class": 1, "matched": 1})
-    p = gpd.GeoDataFrame(p, geometry="geometry", crs=CRS_M)
-    p["pt"] = p.geometry.representative_point()
+    p = add_points(group_by_outline(v, {"ZONING": 1, "use_class": 1, "matched": 1}))
     # Zoning missing from MPROP (or no MPROP match): take the city zoning polygon under the parcel.
-    z = gpd.read_file(D / "mke_zoning.geojson", columns=["Zoning"]).to_crs(CRS_M)
+    zp, zv = read_zoning(D / "mke_zoning.geojson", "Zoning")
     need = p.ZONING.isna() | (p.ZONING.astype(str).str.strip() == "")
     if need.any():
-        pts = gpd.GeoDataFrame({"i": p.index[need]}, geometry=p.loc[need, "pt"].values, crs=CRS_M)
-        j = gpd.sjoin(pts, z, how="left", predicate="within").drop_duplicates("i").set_index("i")
-        p.loc[need, "ZONING"] = j.Zoning.reindex(p.index[need]).values
+        p.loc[need, "ZONING"] = join_points(p.px[need], p.py[need], zp, zv)
     p["zoning_source"] = np.where(need, "zoning layer", "MPROP")
     p["district"] = p.ZONING.fillna("").astype(str).str.strip()
     p["in_overlay"] = False
@@ -195,10 +239,7 @@ def mad_base_district(zoning_all, known: set[str]) -> str:
 
 
 def load_madison(known: set[str]):
-    import geopandas as gpd
-
-    g = gpd.read_file(RAW / "madison_parcels" / "tax_parcels.geojson",
-                      columns=["PropertyUse", "TotalDwellingUnits", "ZoningAll"]).to_crs(CRS_M)
+    g = read_polygons(RAW / "madison_parcels" / "tax_parcels.geojson", ["PropertyUse", "TotalDwellingUnits", "ZoningAll"])
     g["units"] = pd.to_numeric(g.TotalDwellingUnits, errors="coerce").fillna(0)
     # Condominium notation records describe the whole condominium; their homes are already on the unit records.
     notation = g.PropertyUse.fillna("").str.lower().isin(MAD_CONDO_NOTATION)
@@ -207,20 +248,17 @@ def load_madison(known: set[str]):
     g["district"] = [mad_base_district(z, known) for z in g.ZoningAll]
     # A condominium lot carries several records: keep the residential reading when any record has homes.
     p = group_by_outline(g, {"district": 1, "use_class": 1, "PropertyUse": 1})
-    p = gpd.GeoDataFrame(p, geometry="geometry", crs=CRS_M)
     condo = p.PropertyUse.fillna("").str.lower().str.contains("condo") | (p.records > 1)
     p.loc[condo & (p.homes > 0) & ~p.use_class.isin(["multifamily", "mixed_residential_commercial"]), "use_class"] = "condominium"
-    p["pt"] = p.geometry.representative_point()
-    z = gpd.read_file(D / "mad_zoning.geojson", columns=["ZONING_CODE"]).to_crs(CRS_M)
+    p = add_points(p)
+    zp, zv = read_zoning(D / "mad_zoning.geojson", "ZONING_CODE")
     need = p.district == ""
     if need.any():
-        pts = gpd.GeoDataFrame({"i": p.index[need]}, geometry=p.loc[need, "pt"].values, crs=CRS_M)
-        j = gpd.sjoin(pts, z, how="left", predicate="within").drop_duplicates("i").set_index("i")
-        p.loc[need, "district"] = [mad_base_district(x, known) for x in j.ZONING_CODE.reindex(p.index[need])]
+        p.loc[need, "district"] = [mad_base_district(x, known) for x in join_points(p.px[need], p.py[need], zp, zv)]
     p["zoning_source"] = np.where(need, "zoning layer", "parcel ZoningAll")
-    tod = gpd.read_file(RAW / "madison_tod" / "tod_boundary.geojson").to_crs(CRS_M).geometry.union_all()
-    p["in_overlay"] = p["pt"].within(tod)
-    p["dist_overlay_m"] = p["pt"].distance(tod)
+    tod = read_union(RAW / "madison_tod" / "tod_boundary.geojson")
+    p["in_overlay"] = G.points_in_any(p.px.values, p.py.values, tod)
+    p["dist_overlay_m"] = X.distance_to_polygons_exact(p.px.values, p.py.values, tod)
     return p
 
 
@@ -239,8 +277,8 @@ def compute(p, city: str, rules_rows: list[dict] | None, stops, sqft_per_home: f
     sq = sqft_per_home or C.sqft_per_home_for(city)
     sq_s = C.SENSITIVITY_SQFT_PER_HOME
     p = p.copy()
-    p["acres"] = p.geometry.area / M2_PER_ACRE
-    p["band"] = assign_bands(p["pt"], stops)
+    p["acres"] = p["area_m2"] / M2_PER_ACRE
+    p["band"] = assign_bands(p, stops)
     p = p[p.band.notna()]
     if rules_rows is not None:
         tabs = {(o, q): C.rule_table(rules_rows, tod_overlay=o, sqft_per_home=q) for o in (False, True) for q in (sq, sq_s)}
@@ -377,6 +415,20 @@ def place_label(placename: str) -> str:
     return s.title() or "(unknown)"
 
 
+def block_layer(p: pd.DataFrame):
+    """2020 census blocks with homes, in EPSG:3071, limited to the box around the lots' points."""
+    bl = G.read_shapefile(BLOCKS, columns=["GEOID20", "HOUSING20"])
+    bl = bl.subset(bl.attrs.HOUSING20.astype(float).values > 0)
+    lon, lat = G.transform(p.px.values, p.py.values, CRS_M, 4269)
+    x0, y0, x1, y1 = lon.min(), lat.min(), lon.max(), lat.max()
+    keep = []
+    for f in bl.polys:
+        v = np.concatenate([r for part in f for r in part]) if f else np.zeros((0, 2))
+        keep.append(len(v) > 0 and v[:, 0].max() >= x0 and v[:, 0].min() <= x1 and v[:, 1].max() >= y0 and v[:, 1].min() <= y1)
+    bl = bl.subset(np.array(keep, bool))
+    return G.Layer(bl.attrs, "polygon", None, None, X.polygons_to_crs(bl.polys, bl.crs, CRS_M), G.crs(CRS_M))
+
+
 def load_fallback_places():
     """V12 parcels outside the two coded cities, with 2020 census block homes shared out to lots.
 
@@ -385,28 +437,22 @@ def load_fallback_places():
     blocks with no fetched lot are not placed (reported)."""
     import glob
 
-    import geopandas as gpd
-
     parts = []
     for f in sorted(glob.glob(str(D / "v12_*.geojson"))):
-        g = gpd.read_file(f, columns=["PLACENAME", "CONAME", "PROPCLASS", "AUXCLASS"])
+        g = read_polygons(f, ["PLACENAME", "CONAME", "PROPCLASS", "AUXCLASS"])
         parts.append(g[~g.PLACENAME.isin(CODED_PLACES)])
     v = pd.concat(parts, ignore_index=True)
-    v = gpd.GeoDataFrame(v, geometry="geometry", crs=4326).to_crs(CRS_M)
     v["use_class"] = [v12_use_class(a, b) for a, b in zip(v.PROPCLASS, v.AUXCLASS)]
     v["city"] = [place_label(x) for x in v.PLACENAME]
     v["county"] = v.CONAME.fillna("").str.title() + " County"
     v["homes"] = 0.0
-    p = group_by_outline(v, {"city": 1, "county": 1, "use_class": 1})
-    p = gpd.GeoDataFrame(p, geometry="geometry", crs=CRS_M)
-    p["pt"] = p.geometry.representative_point()
-    p["acres_m2"] = p.geometry.area
-    blocks = gpd.read_file(f"zip://{BLOCKS}", columns=["GEOID20", "HOUSING20"],
-                           bbox=tuple(gpd.GeoSeries(p["pt"], crs=CRS_M).to_crs(4269).total_bounds)).to_crs(CRS_M)
-    blocks = blocks[blocks.HOUSING20.astype(float) > 0]
-    pts = gpd.GeoDataFrame({"i": p.index}, geometry=p["pt"].values, crs=CRS_M)
-    j = gpd.sjoin(pts, blocks[["GEOID20", "HOUSING20", "geometry"]], how="inner", predicate="within").drop_duplicates("i")
-    j = pd.DataFrame(j.drop(columns="geometry"))
+    p = add_points(group_by_outline(v, {"city": 1, "county": 1, "use_class": 1}))
+    p["acres_m2"] = p["area_m2"]
+    bl = block_layer(p)
+    ix = G.points_in_polygons(p.px.values, p.py.values, bl.polys)
+    hit = ix >= 0
+    j = pd.DataFrame({"i": p.index[hit], "GEOID20": bl.attrs.GEOID20.values[ix[hit]],
+                      "HOUSING20": bl.attrs.HOUSING20.values[ix[hit]]})
     j["lot_m2"] = p.loc[j.i, "acres_m2"].values
     j["use"] = p.loc[j.i, "use_class"].values
     j["h"] = j.HOUSING20.astype(float)
@@ -450,7 +496,7 @@ def madison_test_land(p, rules_rows: list[dict]) -> pd.DataFrame:
             area = "ring_quarter_mile_outside"
         else:
             area = "rest_of_city"
-        rows.append((area, r.geometry.area / M2_PER_ACRE, r.homes, elig, r.use_class == "single_family"))
+        rows.append((area, r.area_m2 / M2_PER_ACRE, r.homes, elig, r.use_class == "single_family"))
     x = pd.DataFrame(rows, columns=["area", "acres", "homes", "elig", "sf"])
     x["prereg"] = x.elig & ~x.sf
     out = []

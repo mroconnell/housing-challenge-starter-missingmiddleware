@@ -41,7 +41,11 @@ def compare(path: str, base: str, rel_tol: float) -> tuple[bool, str]:
     lines, ok = [], True
     for c in a.columns:
         x, y = a[c], b[c]
-        if pd.api.types.is_numeric_dtype(x) and pd.api.types.is_numeric_dtype(y):
+        if pd.api.types.is_bool_dtype(x) or pd.api.types.is_bool_dtype(y):
+            if not x.equals(y):
+                ok = False
+                lines.append(f"  {c}: {int((x != y).sum())} true/false values differ  <-- check")
+        elif pd.api.types.is_numeric_dtype(x) and pd.api.types.is_numeric_dtype(y):
             d = (x - y).abs()
             r = d / x.abs().where(x.abs() > 0)
             mx, mr = float(np.nanmax(d.to_numpy())) if len(d) else 0.0, float(np.nanmax(r.to_numpy())) if r.notna().any() else 0.0

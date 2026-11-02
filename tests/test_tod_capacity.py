@@ -145,21 +145,20 @@ class TestSyntheticBuild(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        import geopandas as gpd
+        import numpy as np
         import pandas as pd
-        from shapely.geometry import box
 
         import build_tod_station_areas as B
 
         cls.B = B
-        s = pd.read_csv(FIX / "stops_small.csv")
-        g = gpd.GeoDataFrame(s, geometry=gpd.points_from_xy(s.x, s.y), crs=3071)
+        g = pd.read_csv(FIX / "stops_small.csv")   # x, y in EPSG:3071 metres
         stops = {"rapid": g[g.flag_a_rapid == 1], "bus15": g[g.flag_b_15min == 1], "bus20": g[g.flag_c_20min == 1]}
         p = pd.read_csv(FIX / "parcels_small.csv", dtype={"expect_band": str}, keep_default_na=False)
         cls.expect = dict(zip(p.lot, p.expect_band))
-        geom = [box(x - h / 2, y - h / 2, x + h / 2, y + h / 2) for x, y, h in zip(p.x, p.y, p.side_m)]
-        p = gpd.GeoDataFrame(p, geometry=geom, crs=3071)
-        p["pt"] = p.geometry.representative_point()
+        p["poly"] = B._objects([[[np.array([(x - h / 2, y - h / 2), (x + h / 2, y - h / 2), (x + h / 2, y + h / 2),
+                                             (x - h / 2, y + h / 2), (x - h / 2, y - h / 2)])]]
+                                for x, y, h in zip(p.x, p.y, p.side_m)])
+        p = B.add_points(p)
         p["in_overlay"] = p.in_overlay.astype(bool)
         p["homes"] = p.homes.astype(float)
         cls.parcels = B.compute(p, "Test city", read(FIX / "rules_small.csv"), stops, sqft_per_home=1000)

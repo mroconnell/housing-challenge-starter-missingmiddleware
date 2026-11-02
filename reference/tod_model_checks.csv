@@ -7,7 +7,7 @@ madison_share,net_effect,typical,scenario share of station-area stock (per upzon
 madison_share,net_effect,strong,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.020526,,,"Auckland: 21,808 / 530,300 = 4.11% / 0.752 coverage; Auckland 2017-2021 profile rescaled to the stated total",,,,,,,,,,,,
 madison_share,net_effect,reference_line,scenario share of station-area stock (per upzoned home) in model years 1-3,,,,313564.0,0.003638,,,median of the three studies' net-effect values,,,,,,,,,,,,
 madison_share,per_acre,little,scenario share of station-area stock in years 1-3,,,,313564.0,0.020612,,,method A per acre,,,,,,,,,,,,
-madison_share,per_acre,typical,scenario share of station-area stock in years 1-3,,,,313564.0,0.057676,,,method A per acre,,,,,,,,,,,,
+madison_share,per_acre,typical,scenario share of station-area stock in years 1-3,,,,313564.0,0.057677,,,method A per acre,,,,,,,,,,,,
 madison_share,per_acre,strong,scenario share of station-area stock in years 1-3,,,,313564.0,0.220413,,,method A per acre,,,,,,,,,,,,
 scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2027.0,2.8,0.0039,1.7961,1.8,False,False,False,25.7418,9.0553,3.4441
 scale,net_effect,little,,,,,,,,,,"Milwaukee-Waukesha, WI",2028.0,2.6,0.0037,1.7961,1.7998,False,False,False,25.7418,9.0553,3.4441

@@ -1,7 +1,7 @@
 """Run the pre-registered Madison TOD overlay test (docs/tod/MADISON_TEST_PREREG.md).
 
-    uv run --all-extras python scripts/run_tod_madison_test.py --fetch   # first run: rezonings + 2016 city boundary
-    uv run --all-extras python scripts/run_tod_madison_test.py           # offline afterwards
+    uv run python scripts/run_tod_madison_test.py --fetch   # first run: rezonings + 2016 city boundary
+    uv run python scripts/run_tod_madison_test.py           # offline afterwards
 
 In:  data/raw/madison_permits/construction_summary_*.csv (Construction Summary; owner fields dropped at load)
      data/raw/madison_parcels/{tax_parcels,address_points}.geojson (address matching, as in the ADU pipeline)
@@ -15,6 +15,8 @@ Out: reference/tod_madison_test_results.csv       estimate, interval, judgment, 
      reference/tod_madison_test_rates_by_year.csv  units, acres and rates by area and year, 2017-2026
      reference/tod_madison_test_unmatched.csv      unmatched permits with 10+ units: street name and year only
 Privacy: no permit numbers, parcel ids, house numbers or names are written.
+Geometry: missing_middleware/geom.py and geom_extra_tod.py (numpy/scipy only; docs/GEOMETRY.md). Lots are a table with
+'poly' (outline, EPSG:3071), 'px'/'py' (representative point) and 'area_m2' (scripts/build_tod_station_areas.py).
 """
 from __future__ import annotations
 
@@ -30,6 +32,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from missing_middleware import geom as G  # noqa: E402
+from missing_middleware import geom_extra_tod as X  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 from missing_middleware.permits import fetch_util as fu  # noqa: E402
 from missing_middleware.permits import madison  # noqa: E402
@@ -90,8 +94,6 @@ def fetch() -> None:
 
 def lots():
     """Madison lots (identical outlines collapsed) with eligibility, area labels and the overlay's added FAR."""
-    import geopandas as gpd
-
     rows = B.read_rules("madison")
     p = B.load_madison({r["district"] for r in rows})
     sq = C.MEASURED_SQFT_PER_HOME["Madison city"]
@@ -109,24 +111,59 @@ def lots():
             fo.append(ro.far if ro is not None and ro.far is not None else np.nan)
         uncapped.append(rb is not None and rb.rule_type in {"far", "assumed_at_or_above_law"})
     p["elig"], p["far_base"], p["far_ovl"], p["uncapped"] = elig, fb, fo, uncapped
-    p["acres"] = p.geometry.area / B.M2_PER_ACRE
+    p["acres"] = p["area_m2"] / B.M2_PER_ACRE
     p["added_far"] = np.where(p.elig & np.isfinite(p.far_base) & np.isfinite(p.far_ovl),
                               (p.far_ovl - p.far_base).clip(lower=0), 0.0)
     p["rose"] = p.in_overlay & p.elig & (p.added_far > 0)
     p["lit_area"] = np.where(p.in_overlay, "overlay", np.where(p.dist_overlay_m <= C.QUARTER_M, "ring_quarter_mile_outside", "rest_of_city"))
-    return gpd.GeoDataFrame(p, geometry="geometry", crs=CRS_M)
+    return p
 
 
-def ref_points(ref: pd.DataFrame):
-    import geopandas as gpd
+def ref_points(ref: pd.DataFrame) -> pd.DataFrame:
+    """Address reference points (lon/lat columns x, y) in EPSG:3071: columns px, py, same index."""
+    px, py = G.transform(ref.x.astype(float).values, ref.y.astype(float).values, 4326, CRS_M)
+    return pd.DataFrame({"px": px, "py": py}, index=ref.index)
 
-    return gpd.GeoDataFrame(ref, geometry=gpd.points_from_xy(ref.x, ref.y), crs=4326).to_crs(CRS_M)
+
+def locate_points(pts: pd.DataFrame, L: pd.DataFrame, max_m: float = 30.0) -> pd.Series:
+    """Index of the lot containing each point (columns px, py; EPSG:3071); points in no lot (address points on the
+    street frontage) take the nearest lot within max_m metres. NaN when none. (As cases.locate_points.)"""
+    polys = list(L["poly"])
+    pos, dist = X.nearest_polygon(pts.px.values, pts.py.values, polys)
+    ok = (pos >= 0) & (dist <= max_m)
+    out = np.full(len(pts), np.nan)
+    out[ok] = L.index.values[pos[ok]]
+    return pd.Series(out, index=pts.index)
+
+
+def uniform_areas(L: pd.DataFrame, in_reform, rose, level_before, level_after, uncapped_before, changed_outside,
+                  eligible, ring_m: float = K.QUARTER_MILE_M) -> tuple[pd.Series, dict]:
+    """cases.uniform_areas (CASE_ANALYSIS_PLAN.md section 7) for a lot table, with no stations: treatment = lots in
+    the reform whose allowed density rose and that were not already at the law; comparison = other lots whose
+    representative point lies within ring_m of the treated lots. (The buffer test of the shapely version becomes a
+    point-to-polygon distance; its 32-sided arcs could leave out points up to 2 m inside ring_m at treated corners.)"""
+    in_reform, rose = in_reform.astype(bool), rose.astype(bool)
+    acres = L["area_m2"] / K.SQM_PER_ACRE
+    base = in_reform & rose & eligible.astype(bool)
+    med = K.weighted_median(level_after[base].replace(np.inf, np.nan).fillna(1e9), acres[base])
+    at_law = uncapped_before.astype(bool) & (level_before.fillna(-1) >= med)
+    treated = in_reform & rose & ~at_law & ~changed_outside.astype(bool)
+    excluded = (in_reform & ~treated) | at_law | changed_outside.astype(bool)
+    area = pd.Series(None, index=L.index, dtype=object)
+    area[treated] = K.TREAT
+    tpolys = list(L.loc[treated, "poly"])
+    d = G.distance_to_polygons(L.px.values, L.py.values, tpolys, ring_m) if tpolys else np.full(len(L), np.inf)
+    area[pd.Series(np.isfinite(d), index=L.index) & ~treated & ~excluded] = K.COMP
+    area[excluded] = None
+    info = {"median_new_level_on_rising_land": med,
+            "acres_already_at_law": round(float(acres[at_law & eligible.astype(bool)].sum()), 1),
+            "acres_changed_outside_reform": round(float(acres[changed_outside.astype(bool) & eligible.astype(bool)].sum()), 1),
+            "acres_in_reform_not_treated": round(float(acres[in_reform & ~treated & eligible.astype(bool)].sum()), 1)}
+    return area, info
 
 
 def rezoned_lots(L, index: AddressIndex, ref_pts) -> tuple[pd.Series, dict]:
     """Lots in a zoning map amendment enacted 2017-2025, or outside the City on 1 January 2016 (zoning assigned)."""
-    import geopandas as gpd
-
     matters = json.loads((RZ / "legistar_28022_matters.json").read_text())
     w = T.window_rezonings(matters)
     ref = index.ref
@@ -161,12 +198,13 @@ def rezoned_lots(L, index: AddressIndex, ref_pts) -> tuple[pd.Series, dict]:
             n_placed += 1
         hit_rows |= found
     pts = ref_pts.loc[sorted(hit_rows)]
-    ix = K.locate_points(pts, L[["geometry"]])
+    ix = locate_points(pts, L)
     rez = pd.Series(False, index=L.index)
     rez.loc[ix.dropna().astype(int).unique()] = True
-    pl = gpd.read_file(f"zip://{RZ / 'tl_2016_55_place.zip'}")
-    city16 = pl[pl.PLACEFP == MADISON_PLACEFP].to_crs(CRS_M).geometry.union_all()
-    annexed = ~L["pt"].within(city16)
+    pl = G.read_shapefile(RZ / "tl_2016_55_place.zip", columns=["PLACEFP"])
+    pl = pl.subset(pl.attrs.PLACEFP == MADISON_PLACEFP)
+    city16 = X.polygons_to_crs(pl.polys, pl.crs, CRS_M)
+    annexed = pd.Series(~G.points_in_any(L.px.values, L.py.values, city16), index=L.index)
     info = {"rezonings_2017_2025": len(w), "rezonings_with_addresses": n_parsed, "rezonings_placed_on_lots": n_placed,
             "rezonings_without_addresses": len(unparsed), "rezoning_addresses_placed_by_nearest_number": near, "lots_rezoned": int(rez.sum()),
             "eligible_acres_rezoned": round(float(L.acres[rez & L.elig].sum()), 1),
@@ -179,8 +217,6 @@ def rezoned_lots(L, index: AddressIndex, ref_pts) -> tuple[pd.Series, dict]:
 # ----------------------------------------------------------------------------- permits
 
 def permits_on_lots(L, index: AddressIndex, ref_pts, parcels_tbl):
-    import geopandas as gpd
-
     raw = madison.load_raw_permits(RAW / "madison_permits")
     d = T.test_permits(raw)
     m = match_addresses(d, index)
@@ -195,18 +231,18 @@ def permits_on_lots(L, index: AddressIndex, ref_pts, parcels_tbl):
             x, y = r.geo_x, r.geo_y
         xs.append(x); ys.append(y)
     d["x"], d["y"] = xs, ys
-    pts = gpd.GeoDataFrame(d[["x"]], geometry=gpd.points_from_xy(d.x, d.y), crs=4326).to_crs(CRS_M)
+    pts = ref_points(d[["x", "y"]])
     has = d.x.notna()
     d["lot"] = np.nan
-    d.loc[has, "lot"] = K.locate_points(pts[has], L[["geometry"]]).values
+    d.loc[has, "lot"] = locate_points(pts[has], L).values
     # ambiguous: placed when every candidate parcel lies on the same lot
     amb = d.lot.isna() & d.candidate_parcels.notna()
     for i in d.index[amb]:
         c = [x for x in str(d.at[i, "candidate_parcels"]).split(";") if x in pxy.index]
         if not c:
             continue
-        cp = gpd.GeoDataFrame(geometry=gpd.points_from_xy(pxy.loc[c, "x"], pxy.loc[c, "y"]), crs=4326).to_crs(CRS_M)
-        lots_c = K.locate_points(cp, L[["geometry"]]).dropna().unique()
+        cp = ref_points(pxy.loc[c, ["x", "y"]].reset_index(drop=True))
+        lots_c = locate_points(cp, L).dropna().unique()
         if len(lots_c) == 1:
             d.at[i, "lot"] = lots_c[0]
             d.at[i, "match_method"] = "ambiguous_same_lot"
@@ -257,7 +293,7 @@ def main(argv=None) -> int:
     L["changed"] = changed
 
     # uniform area rule (CASE_ANALYSIS_PLAN.md section 7)
-    area, uinfo = K.uniform_areas(L, in_reform=L.in_overlay, rose=L.rose, level_before=L.far_base,
+    area, uinfo = uniform_areas(L, in_reform=L.in_overlay, rose=L.rose, level_before=L.far_base,
                                   level_after=L.far_ovl, uncapped_before=L.uncapped, changed_outside=L.changed,
                                   eligible=L.elig)
     med = uinfo["median_new_level_on_rising_land"]

@@ -14,17 +14,19 @@
   contiguous eligible site, elongation, corridor share, binding limit. Judged in scripts/run_tod_net_effect.py with
   the trait test's tools (traits.judge_tools).
 
-Pure arithmetic on pandas tables; geometry helpers take shapely/GeoPandas objects in a metre CRS.
+Pure arithmetic on pandas tables. Geometry helpers take polygon features in a metre CRS (the missing_middleware.geom
+model: a feature is a list of parts, each a list of rings, each an (n, 2) array) and use numpy/scipy only
+(missing_middleware/geom_extra_tod.py; docs/GEOMETRY.md).
 """
 from __future__ import annotations
 
 import inspect
-import math
 from typing import Mapping
 
 import numpy as np
 import pandas as pd
 
+from missing_middleware import geom_extra_tod as X
 from missing_middleware.tod import cases as C
 
 MILE_M = 1609.344
@@ -181,64 +183,68 @@ def stack_members(members: list[dict]) -> tuple[pd.DataFrame, dict]:
 
 # --------------------------------------------------------------------------- shapes
 
+def area(feature) -> float:
+    """Planar area of a polygon feature (parts summed; holes subtracted)."""
+    return float(X.areas([feature])[0]) if feature else 0.0
+
+
 def patches(geoms, close_m: float = PATCH_CLOSE_M) -> list:
     """Connected pieces of a set of lots: lots within close_m of each other are one piece (streets between facing
-    lots are bridged). Returns shapely polygons of the original land (not the closed outline)."""
-    from shapely.ops import unary_union
-    g = [x for x in geoms if x is not None and not x.is_empty]
-    if not g:
-        return []
-    land = unary_union(g)
-    grown = land.buffer(close_m / 2.0)
-    parts = list(grown.geoms) if hasattr(grown, "geoms") else [grown]
-    return [land.intersection(p) for p in parts]
+    lots are bridged). Returns one polygon feature per piece holding its lots' own outlines (the original land, not
+    the closed outline). Lots are taken not to overlap; identical outlines count once."""
+    seen, lots = set(), []
+    for f in geoms:
+        if not f:
+            continue
+        k = X.feature_key(f)
+        if k not in seen:
+            seen.add(k)
+            lots.append(f)
+    return [[part for i in grp for part in lots[i]] for grp in X.components_within(lots, close_m)]
 
 
 def rect_sides(geom) -> tuple[float, float]:
-    """(long side, short side) of the minimum rotated rectangle, metres."""
-    r = geom.minimum_rotated_rectangle
-    if r.geom_type != "Polygon":
-        L = r.length / 2.0 if r.geom_type == "LineString" else 0.0
-        return L, 0.0
-    xy = list(r.exterior.coords)
-    a = math.dist(xy[0], xy[1])
-    b = math.dist(xy[1], xy[2])
-    return max(a, b), min(a, b)
+    """(long side, short side) of the minimum rotated (minimum-area) rectangle, metres."""
+    if not geom:
+        return 0.0, 0.0
+    return X.min_area_rectangle_sides(np.concatenate([r for part in geom for r in part]))
 
 
 def elongation(geom) -> float:
     """Length / average width of the upzoned patch: length = long side of the minimum rotated rectangle; average
     width = patch area / length. A disc scores 4/pi (about 1.27); a 1 x 10 strip scores 10."""
-    if geom is None or geom.is_empty or geom.area <= 0:
+    a = area(geom)
+    if not geom or a <= 0:
         return float("nan")
     L, _ = rect_sides(geom)
-    return float(L * L / geom.area) if L > 0 else float("nan")
+    return float(L * L / a) if L > 0 else float("nan")
 
 
 def corridor_share(geoms, min_len_m: float = CORRIDOR_MIN_M, close_m: float = PATCH_CLOSE_M) -> float:
     """Share of the land's area lying in pieces at least min_len_m long (minimum-rotated-rectangle long side)."""
     ps = patches(geoms, close_m)
-    tot = sum(p.area for p in ps)
+    tot = sum(area(p) for p in ps)
     if tot <= 0:
         return float("nan")
-    return float(sum(p.area for p in ps if rect_sides(p)[0] >= min_len_m) / tot)
+    return float(sum(area(p) for p in ps if rect_sides(p)[0] >= min_len_m) / tot)
 
 
 def largest_contiguous_site_acres(geoms, touch_m: float = TOUCH_M) -> float:
     """Acres of the largest group of touching lots (lots within touch_m of each other)."""
     ps = patches(geoms, close_m=touch_m)
-    return float(max((p.area for p in ps), default=0.0) / C.SQM_PER_ACRE)
+    return float(max((area(p) for p in ps), default=0.0) / C.SQM_PER_ACRE)
 
 
-def island_acres(unit_geom, patches_gdf, area_col: str = "patch_acres") -> float:
+def island_acres(unit_geom, patches_tbl, area_col: str = "patch_acres") -> float:
     """Acres of the covered patch the unit sits in: the patch overlapping most of the unit's land; 0 when the unit's
-    land lies outside every covered patch."""
-    if unit_geom is None or unit_geom.is_empty or patches_gdf is None or not len(patches_gdf):
+    land lies outside every covered patch. patches_tbl: a table with a 'poly' column (polygon features, same CRS as
+    the unit) and area_col."""
+    if not unit_geom or patches_tbl is None or not len(patches_tbl):
         return float("nan")
-    ov = patches_gdf.geometry.intersection(unit_geom).area
+    ov = np.array([X.intersection_area(unit_geom, p) for p in patches_tbl["poly"]])
     if ov.max() <= 0:
         return 0.0
-    return float(patches_gdf.loc[ov.idxmax(), area_col])
+    return float(patches_tbl[area_col].iloc[int(np.argmax(ov))])
 
 
 def binding_ratio(homes_per_acre: float, old_far: pd.Series, acres: pd.Series, sqft_per_home: float) -> float:

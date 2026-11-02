@@ -29,5 +29,5 @@ rent_ratio_new_milwaukee,1.0661000944287062,ratio,"ACS 2020-2024 B25111: median 
 rent_ratio_new_madison,1.2852087756546355,ratio,same,measured
 land_value,,dollars,"Assessed land value: MPROP C_A_LAND (Milwaukee), V12 LNDVALUE (Madison, other places), tax roll 2025",measured
 take_up,,share of feasible capacity permitted per year,Milwaukee: 2923 homes in 34 buildings of 5+ homes built 2018-2025 (MPROP) on land zoned for 30+ homes per acre / 8 years / 0 homes of feasible capacity under current zoning,not computable
-madison_overlay_added_far,0.373827633677458,FAR (acre-weighted over eligible overlay land),"Madison overlay stories vs base district (reference/tod_zoning_rules_madison.csv) x lot coverage, 2931.7 eligible overlay acres",coded rules
-fallback_ratio,0.7188455712957237,ratio,coded capacity / fallback-rule capacity on the same Milwaukee and Madison main-case lots,measured
+madison_overlay_added_far,0.3738276336748158,FAR (acre-weighted over eligible overlay land),"Madison overlay stories vs base district (reference/tod_zoning_rules_madison.csv) x lot coverage, 2931.7 eligible overlay acres",coded rules
+fallback_ratio,0.7188455504280197,ratio,coded capacity / fallback-rule capacity on the same Milwaukee and Madison main-case lots,measured

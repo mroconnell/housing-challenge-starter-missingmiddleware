@@ -11,7 +11,8 @@ Method (docs/tod/MAJOR_TRANSIT_STOP.md, AQ-044, AQ-045, AQ-047):
   (CN1) and Madison Rapid Route A. Amtrak is excluded (AQ-047 item 10).
 - Homes are 2020 census block housing units whose block internal point lies within the distance.
 
-The geometric helpers take shapely geometries in a projected CRS measured in metres.
+The geometric helpers take coordinates in a projected CRS measured in metres: points as (n, 2) arrays (or
+sequences of (x, y)), lines as missing_middleware.geom line features (each a list of (k, 2) vertex arrays).
 """
 from __future__ import annotations
 
@@ -237,44 +238,46 @@ def qualifies(peak_trips: float, n: int) -> bool:
 
 # --------------------------------------------------------------------------- geometry
 
-def stops_near_routes(stop_points, stop_agency, route_lines, route_agency, tolerance_m: float = STOP_TOLERANCE_M):
-    """Boolean array: stop lies within `tolerance_m` of at least one route line of the same agency.
-
-    stop_points / route_lines: arrays of shapely geometries in a metric CRS.
-    stop_agency / route_agency: agency ids (same length as the geometry arrays)."""
+def _xy(points):
     import numpy as np
-    import shapely
 
-    stop_points = np.asarray(stop_points, dtype=object)
+    a = np.asarray(points, dtype=float)
+    return a.reshape(-1, 2) if a.size else np.zeros((0, 2))
+
+
+def stops_near_routes(stop_points, stop_agency, route_lines, route_agency, tolerance_m: float = STOP_TOLERANCE_M):
+    """Boolean array: stop lies within `tolerance_m` (inclusive) of at least one route line of the same agency.
+
+    stop_points: (n, 2) coordinates; route_lines: line features (lists of (k, 2) vertex arrays), metric CRS.
+    stop_agency / route_agency: agency ids (same length as the stops / lines)."""
+    import numpy as np
+
+    from missing_middleware import geom_extra_tod as X
+
+    stop_points = _xy(stop_points)
     stop_agency = np.asarray(stop_agency, dtype=object)
-    route_lines = np.asarray(route_lines, dtype=object)
     route_agency = np.asarray(route_agency, dtype=object)
     hit = np.zeros(len(stop_points), dtype=bool)
     for ag in set(route_agency.tolist()):
-        lines = route_lines[route_agency == ag]
+        lines = [route_lines[i] for i in np.flatnonzero(route_agency == ag)]
         sel = np.flatnonzero(stop_agency == ag)
         if len(lines) == 0 or len(sel) == 0:
             continue
-        tree = shapely.STRtree(lines)
-        idx = tree.query(stop_points[sel], predicate="dwithin", distance=tolerance_m)[0]
-        hit[sel[np.unique(idx)]] = True
+        hit[sel] = X.points_near_lines(stop_points[sel, 0], stop_points[sel, 1], lines, tolerance_m)
     return hit
 
 
 def blocks_within(block_points, stop_points, radius_m: float):
-    """Boolean array over blocks: the block's internal point lies within `radius_m` of any stop."""
+    """Boolean array over blocks: the block's internal point lies within `radius_m` (inclusive) of any stop."""
     import numpy as np
-    import shapely
+    from scipy.spatial import cKDTree
 
-    block_points = np.asarray(block_points, dtype=object)
+    block_points, stop_points = _xy(block_points), _xy(stop_points)
     m = np.zeros(len(block_points), dtype=bool)
-    stop_points = np.asarray(stop_points, dtype=object)
     if len(stop_points) == 0 or len(block_points) == 0:
         return m
-    tree = shapely.STRtree(block_points)
-    idx = tree.query(stop_points, predicate="dwithin", distance=radius_m)[1]
-    m[np.unique(idx)] = True
-    return m
+    d, _ = cKDTree(stop_points).query(block_points)
+    return d <= radius_m
 
 
 def blocks_within_variable(block_points, stop_points, radii_m):
@@ -282,8 +285,8 @@ def blocks_within_variable(block_points, stop_points, radii_m):
     import numpy as np
 
     radii_m = np.asarray(radii_m, dtype=float)
-    stop_points = np.asarray(stop_points, dtype=object)
-    m = np.zeros(len(block_points), dtype=bool)
+    stop_points = _xy(stop_points)
+    m = np.zeros(len(_xy(block_points)), dtype=bool)
     for r in np.unique(radii_m):
         m |= blocks_within(block_points, stop_points[radii_m == r], float(r))
     return m

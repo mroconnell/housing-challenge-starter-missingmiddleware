@@ -1,7 +1,7 @@
 """Run the TOD Gate 3 model (docs/tod/GATE3_MODEL_SPEC.md; method and results in docs/tod/MODEL.md).
 
-    uv run --all-extras python scripts/run_tod_model.py            # rebuilds the lot layer (~2 min)
-    uv run --all-extras python scripts/run_tod_model.py --cached   # reuses data/processed/tod_model/lots.parquet
+    uv run python scripts/run_tod_model.py            # rebuilds the lot layer (~2 min)
+    uv run python scripts/run_tod_model.py --cached   # reuses data/processed/tod_model/lots.parquet
 
 In:  reference/tod_station_areas.csv, tod_case_estimates.csv, tod_case_rates_by_year.csv,
      tod_near_stop_homes_by_muni.csv, housing_baseline_by_area.csv, housing_baseline_sensitivity_published.csv,
@@ -120,23 +120,24 @@ def rent_tables():
 
 def group_lots(g, first_cols: list[str], sum_cols: list[str]):
     """As B.group_by_outline, but land value and new-building homes are summed over stacked records."""
-    import geopandas as gpd
-
-    g = g.copy()
-    g["_wkb"] = g.geometry.apply(lambda x: x.wkb if x is not None else None)
-    g = g[g["_wkb"].notna()].sort_values("homes", ascending=False, kind="stable")
-    agg = {"homes": "sum", "geometry": "first", **{c: "first" for c in first_cols}, **{c: "sum" for c in sum_cols}}
-    out = g.groupby("_wkb", sort=False).agg(agg).reset_index(drop=True)
-    out["records"] = g.groupby("_wkb", sort=False).size().to_numpy()
-    return gpd.GeoDataFrame(out, geometry="geometry", crs=CRS_M)
+    g = g[g["_key"].notna()].copy()
+    g["_gi"] = np.arange(len(g))
+    polys = g["poly"].to_numpy()
+    g = g.sort_values("homes", ascending=False, kind="stable")
+    agg = {"homes": "sum", "_gi": "first", **{c: "first" for c in first_cols}, **{c: "sum" for c in sum_cols}}
+    out = g.groupby("_key", sort=False).agg(agg)
+    keys = out.index.to_numpy()
+    out = out.reset_index(drop=True)
+    out["records"] = g.groupby("_key", sort=False).size().to_numpy()
+    out["_key"] = keys
+    out["poly"] = B._objects(polys[out.pop("_gi").to_numpy()])
+    return out
 
 
 def load_milwaukee_lots():
     """B.load_milwaukee plus land value (MPROP C_A_LAND) and homes in 5+ home buildings built 2018-2025."""
-    import geopandas as gpd
-
-    v = gpd.read_file(B.D / "v12_milwaukee.geojson", columns=["PARCELID", "PLACENAME", "LNDVALUE"])
-    v = v[v.PLACENAME == "CITY OF MILWAUKEE"].to_crs(CRS_M)
+    v = B.read_polygons(B.D / "v12_milwaukee.geojson", ["PARCELID", "PLACENAME", "LNDVALUE"])
+    v = v[v.PLACENAME == "CITY OF MILWAUKEE"]
     m = pd.read_csv(RAW / "milwaukee_mprop" / "mprop.csv", dtype=str,
                     usecols=["TAXKEY", "NR_UNITS", "LAND_USE", "LAND_USE_GP", "ZONING", "C_A_LAND", "YR_BUILT"])
     m["units"] = pd.to_numeric(m.NR_UNITS, errors="coerce").fillna(0)
@@ -157,13 +158,11 @@ def load_milwaukee_lots():
     v["use_class"] = [B.mke_use_class(g, lu) if ok else "other_unknown" for g, lu, ok in zip(v.LAND_USE_GP, v.LAND_USE, v.matched)]
     p = group_lots(v, ["ZONING", "use_class", "matched"], ["land_value", "new5_homes", "land_known"])
     p["land_known"] = p.land_known > 0
-    p["pt"] = p.geometry.representative_point()
-    z = gpd.read_file(B.D / "mke_zoning.geojson", columns=["Zoning"]).to_crs(CRS_M)
+    p = B.add_points(p)
+    zp, zv = B.read_zoning(B.D / "mke_zoning.geojson", "Zoning")
     need = p.ZONING.isna() | (p.ZONING.astype(str).str.strip() == "")
     if need.any():
-        pts = gpd.GeoDataFrame({"i": p.index[need]}, geometry=p.loc[need, "pt"].values, crs=CRS_M)
-        j = gpd.sjoin(pts, z, how="left", predicate="within").drop_duplicates("i").set_index("i")
-        p.loc[need, "ZONING"] = j.Zoning.reindex(p.index[need]).values
+        p.loc[need, "ZONING"] = B.join_points(p.px[need], p.py[need], zp, zv)
     p["district"] = p.ZONING.fillna("").astype(str).str.strip()
     p["in_overlay"] = False
     p["cousub"] = "5507953000"
@@ -172,11 +171,8 @@ def load_milwaukee_lots():
 
 def load_madison_lots(known: set[str]):
     """B.load_madison plus land value (V12 LNDVALUE, joined on the parcel number)."""
-    import geopandas as gpd
-
-    g = gpd.read_file(RAW / "madison_parcels" / "tax_parcels.geojson",
-                      columns=["Parcel", "PropertyUse", "TotalDwellingUnits", "ZoningAll"]).to_crs(CRS_M)
-    vd = gpd.read_file(B.D / "v12_dane.geojson", columns=["PARCELID", "LNDVALUE"], ignore_geometry=True)
+    g = B.read_polygons(RAW / "madison_parcels" / "tax_parcels.geojson", ["Parcel", "PropertyUse", "TotalDwellingUnits", "ZoningAll"])
+    vd = B.G.read_geojson(B.D / "v12_dane.geojson", columns=["PARCELID", "LNDVALUE"]).attrs
     lv = pd.to_numeric(vd.LNDVALUE, errors="coerce").groupby(vd.PARCELID.astype(str)).sum()
     g["land_value"] = g.Parcel.astype(str).map(lv)
     g.attrs["land_match"] = float(g.land_value.notna().mean())
@@ -192,16 +188,14 @@ def load_madison_lots(known: set[str]):
     p["land_known"] = p.land_known > 0
     condo = p.PropertyUse.fillna("").str.lower().str.contains("condo") | (p.records > 1)
     p.loc[condo & (p.homes > 0) & ~p.use_class.isin(["multifamily", "mixed_residential_commercial"]), "use_class"] = "condominium"
-    p["pt"] = p.geometry.representative_point()
-    z = gpd.read_file(B.D / "mad_zoning.geojson", columns=["ZONING_CODE"]).to_crs(CRS_M)
+    p = B.add_points(p)
+    zp, zv = B.read_zoning(B.D / "mad_zoning.geojson", "ZONING_CODE")
     need = p.district == ""
     if need.any():
-        pts = gpd.GeoDataFrame({"i": p.index[need]}, geometry=p.loc[need, "pt"].values, crs=CRS_M)
-        j = gpd.sjoin(pts, z, how="left", predicate="within").drop_duplicates("i").set_index("i")
-        p.loc[need, "district"] = [B.mad_base_district(x, known) for x in j.ZONING_CODE.reindex(p.index[need])]
-    tod = gpd.read_file(RAW / "madison_tod" / "tod_boundary.geojson").to_crs(CRS_M).geometry.union_all()
-    p["in_overlay"] = p["pt"].within(tod)
-    p["dist_overlay_m"] = p["pt"].distance(tod)
+        p.loc[need, "district"] = [B.mad_base_district(x, known) for x in B.join_points(p.px[need], p.py[need], zp, zv)]
+    tod = B.read_union(RAW / "madison_tod" / "tod_boundary.geojson")
+    p["in_overlay"] = B.G.points_in_any(p.px.values, p.py.values, tod)
+    p["dist_overlay_m"] = B.X.distance_to_polygons_exact(p.px.values, p.py.values, tod)
     p["cousub"] = "5502548000"
     p.attrs["land_match"] = g.attrs["land_match"]
     return p
@@ -211,14 +205,11 @@ def load_fallback_lots(muni: pd.DataFrame):
     """B.load_fallback_places with V12 land values summed per lot."""
     import glob
 
-    import geopandas as gpd
-
     parts = []
     for f in sorted(glob.glob(str(B.D / "v12_*.geojson"))):
-        g = gpd.read_file(f, columns=["PLACENAME", "CONAME", "PROPCLASS", "AUXCLASS", "LNDVALUE"])
+        g = B.read_polygons(f, ["PLACENAME", "CONAME", "PROPCLASS", "AUXCLASS", "LNDVALUE"])
         parts.append(g[~g.PLACENAME.isin(B.CODED_PLACES)])
     v = pd.concat(parts, ignore_index=True)
-    v = gpd.GeoDataFrame(v, geometry="geometry", crs=4326).to_crs(CRS_M)
     v["use_class"] = [B.v12_use_class(a, b) for a, b in zip(v.PROPCLASS, v.AUXCLASS)]
     v["city"] = [B.place_label(x) for x in v.PLACENAME]
     v["county"] = v.CONAME.fillna("").str.title() + " County"
@@ -231,13 +222,13 @@ def load_fallback_lots(muni: pd.DataFrame):
     p["land_known"] = p.land_known > 0
     # Homes from 2020 blocks, exactly as the station-area build: reuse its function on the same lots.
     ref = B.load_fallback_places()
-    key = pd.Series(range(len(ref)), index=[g.wkb for g in ref.geometry])
-    idx = [key.get(g.wkb) for g in p.geometry]
+    key = pd.Series(range(len(ref)), index=list(ref["_key"]))
+    idx = [key.get(k) for k in p["_key"]]
     ok = pd.notna(pd.Series(idx, dtype="float"))
     p["homes"] = [float(ref.homes.iloc[int(i)]) if pd.notna(i) else 0.0 for i in idx]
     p["use_class"] = [ref.use_class.iloc[int(i)] if pd.notna(i) else u for i, u in zip(idx, p.use_class)]
     p.attrs["matched_to_station_build"] = float(ok.mean())
-    p["pt"] = p.geometry.representative_point()
+    p = B.add_points(p)
     p["district"] = "(not coded)"
     p["in_overlay"] = False
     names = muni.set_index(["name", "county"]).area_id.str.replace("muni:", "", regex=False)
@@ -246,13 +237,10 @@ def load_fallback_lots(muni: pd.DataFrame):
 
 
 def attach_tract(p):
-    import geopandas as gpd
-
-    t = gpd.read_file(f"zip://{TRACTS}", columns=["GEOID"]).to_crs(CRS_M)
-    pts = gpd.GeoDataFrame({"i": np.arange(len(p))}, geometry=p["pt"].values, crs=CRS_M)
-    j = gpd.sjoin(pts, t, how="left", predicate="within").drop_duplicates("i").set_index("i")
+    t = B.G.read_shapefile(TRACTS, columns=["GEOID"])
+    tp = B.X.polygons_to_crs(t.polys, t.crs, CRS_M)
     p = p.copy()
-    p["tract"] = j.GEOID.reindex(np.arange(len(p))).values
+    p["tract"] = B.join_points(p.px.values, p.py.values, tp, t.attrs.GEOID.values)
     return p
 
 
@@ -284,8 +272,8 @@ def build_lot_layer() -> None:
                                   zip(lots.acres, lots.band, lots.current_allowed_homes, lots.eligible)]
     pd.DataFrame(lots[keep + ["law_homes_sqft1000"]]).to_parquet(LOTS, index=False)
     for name, p in (("milwaukee", mke), ("madison", mad)):
-        q = pd.DataFrame(p.drop(columns=["geometry", "pt"], errors="ignore"))
-        q["acres"] = p.geometry.area / M2_PER_ACRE
+        q = pd.DataFrame(p.drop(columns=["poly", "_key", "px", "py"], errors="ignore"))
+        q["acres"] = p["area_m2"] / M2_PER_ACRE
         cols = [c for c in ["district", "use_class", "acres", "homes", "land_value", "land_known", "new5_homes", "tract", "cousub",
                             "in_overlay", "dist_overlay_m"] if c in q]
         q[cols].to_parquet(MKE_ALL if name == "milwaukee" else MAD_ALL, index=False)

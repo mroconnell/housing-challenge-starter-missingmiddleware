@@ -103,14 +103,19 @@ class TestNet(unittest.TestCase):
         self.assertAlmostEqual(e["net_homes_per_year"], 2 * (2.0 * 1.0 - 0.5 * 2.0))
 
 
+def box(x0, y0, x1, y1):
+    """A rectangle as a polygon feature (missing_middleware.geom model)."""
+    return [[np.array([(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)], float)]]
+
+
 class TestShapes(unittest.TestCase):
     def test_elongation(self):
-        from shapely.geometry import Point, box
-        self.assertAlmostEqual(NE.elongation(Point(0, 0).buffer(400, 64)), 4 / math.pi, places=2)
+        t = np.linspace(0, 2 * math.pi, 257)[:-1]
+        disc = [[np.c_[400 * np.cos(t), 400 * np.sin(t)]]]
+        self.assertAlmostEqual(NE.elongation(disc), 4 / math.pi, places=2)
         self.assertAlmostEqual(NE.elongation(box(0, 0, 1000, 100)), 10.0, places=6)
 
     def test_corridor_share_and_sites(self):
-        from shapely.geometry import box
         strip = [box(i * 100, 0, (i + 1) * 100, 50) for i in range(10)]          # 1,000 m long, touching lots
         node = [box(5000, 5000, 5200, 5200)]                                     # 200 m square
         share = NE.corridor_share(strip + node)
@@ -123,12 +128,11 @@ class TestShapes(unittest.TestCase):
         self.assertEqual(len(NE.patches(across, close_m=NE.TOUCH_M)), 2)
 
     def test_island(self):
-        import geopandas as gpd
-        from shapely.geometry import box
-        pc = gpd.GeoDataFrame({"patch_acres": [10.0, 99.0]}, geometry=[box(0, 0, 100, 100), box(500, 0, 2000, 1000)], crs=32616)
+        pc = pd.DataFrame({"patch_acres": [10.0, 99.0], "poly": [box(0, 0, 100, 100), box(500, 0, 2000, 1000)]})
         self.assertEqual(NE.island_acres(box(600, 10, 700, 50), pc), 99.0)
         self.assertEqual(NE.island_acres(box(5000, 5000, 5100, 5100), pc), 0.0)
-
+        self.assertEqual(NE.island_acres(box(50, 0, 600, 100), pc), 99.0)        # 5,000 m2 in the first, 10,000 m2 in the second
+        self.assertEqual(NE.island_acres(box(0, 0, 100, 100), pc), 10.0)         # the patch itself (shared edges)
     def test_binding(self):
         acres = pd.Series([1.0, 1.0, 2.0])
         far = pd.Series([1.0, 1.0, np.inf])

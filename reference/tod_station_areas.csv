@@ -93,7 +93,7 @@ Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,RMX,mix
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,RMX,mixed_use,far,verified,multifamily,1,2,2.942,2.942,115.0,115.0,474.6,474.6,0.0,0.0,0.0,0.0,2.942,2.942,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,RMX,mixed_use,far,verified,parking,1,1,0.464,0.464,0.0,0.0,74.9,74.9,0.0,0.0,0.0,0.0,0.464,0.464,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,RMX,mixed_use,far,verified,vacant,1,5,6.62,6.62,0.0,0.0,1020.4,1020.4,0.0,0.0,0.0,0.0,5.834,5.834,0.8813
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SE,commercial,density,verified,commercial,1,23,106.04,106.04,0.0,0.0,2226.8,9164.9,6938.0,8377.1,6938.0,0.0,93.702,93.702,0.8836
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SE,commercial,density,verified,commercial,1,23,106.04,106.04,0.0,0.0,2226.8,9164.9,6938.0,8377.2,6938.0,0.0,93.702,93.702,0.8836
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SE,commercial,density,verified,condominium,1,3,15.416,15.416,87.0,87.0,323.7,1332.4,954.5,1163.7,954.5,0.0,15.416,15.416,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SE,commercial,density,verified,institutional,0,11,32.435,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,21.395,0.0,0.6596
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SE,commercial,density,verified,multifamily,1,1,4.06,4.06,104.0,104.0,85.3,350.9,246.9,302.0,246.9,0.0,4.06,4.06,1.0
@@ -106,13 +106,13 @@ Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SEC,com
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SEC,commercial,existing_is_rule,source_lead,vacant,1,7,12.569,12.569,0.0,0.0,0.0,1086.3,1086.3,1256.9,1086.3,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C1,residential,density,verified,commercial,1,1,2.419,2.419,0.0,0.0,33.9,209.1,175.2,208.0,175.2,168593.0,2.419,2.419,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C1,residential,density,verified,institutional,0,4,4.097,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.097,0.0,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C1,residential,density,verified,single_family,1,598,163.248,163.248,598.0,598.0,2285.5,14109.3,11823.8,14039.3,0.0,11377701.0,161.666,161.666,0.9903
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C1,residential,density,verified,single_family,1,598,163.248,163.248,598.0,598.0,2285.5,14109.3,11823.8,14039.3,0.0,11377705.0,161.667,161.667,0.9903
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C1,residential,density,verified,two_family,1,2,0.464,0.464,4.0,4.0,6.5,40.1,33.6,39.9,33.6,32345.0,0.464,0.464,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C1,residential,density,verified,vacant,1,3,8.211,8.211,0.0,0.0,115.0,709.7,594.7,706.2,594.7,572301.0,8.211,8.211,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C2,residential,density,verified,institutional,0,2,3.909,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.909,0.0,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C2,residential,density,verified,single_family,1,106,25.614,25.614,106.0,106.0,435.4,2213.8,1778.4,2126.0,0.0,1785218.0,25.614,25.614,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C2,residential,density,verified,vacant,1,1,0.137,0.137,0.0,0.0,2.3,11.9,9.5,11.4,9.5,9580.0,0.137,0.137,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C3,residential,density,verified,condominium,1,6,5.576,5.576,42.0,42.0,94.8,481.9,387.1,462.8,387.1,388633.0,5.576,5.576,1.0
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C3,residential,density,verified,condominium,1,6,5.576,5.576,42.0,42.0,94.8,481.9,387.1,462.8,387.1,388634.0,5.576,5.576,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C3,residential,density,verified,institutional,0,1,0.27,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.27,0.0,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C3,residential,density,verified,single_family,1,24,4.78,4.78,24.0,24.0,81.3,413.1,331.9,396.8,0.0,333163.0,4.78,4.78,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-C3,residential,density,verified,two_family,1,70,18.125,18.125,140.0,140.0,308.1,1566.5,1258.4,1504.3,1258.4,1263214.0,17.844,17.844,0.9845
@@ -125,7 +125,7 @@ Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-V1,r
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-V1,residential,density,verified,vacant,1,2,5.108,5.108,0.0,0.0,148.1,441.5,293.4,362.7,293.4,200269.0,5.108,5.108,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-V2,residential,density,verified,condominium,1,6,26.772,26.772,397.0,397.0,776.4,2313.9,1537.5,1900.8,1537.5,233236.0,26.772,26.772,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-V2,residential,density,verified,institutional,0,4,6.85,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.85,0.0,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-V2,residential,density,verified,multifamily,1,39,83.944,83.944,1800.0,1800.0,2434.4,7255.1,4713.7,5852.9,4713.7,731319.0,83.944,83.944,1.0
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-V2,residential,density,verified,multifamily,1,39,83.944,83.944,1800.0,1800.0,2434.4,7255.2,4713.7,5852.9,4713.7,731319.0,83.944,83.944,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-V2,residential,density,verified,single_family,1,2,2.073,2.073,2.0,2.0,60.1,179.2,119.1,147.2,0.0,18061.0,2.073,2.073,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,SR-V2,residential,density,verified,vacant,1,1,1.811,1.811,0.0,0.0,52.5,156.5,104.0,128.6,104.0,15777.0,1.811,1.811,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TE,commercial,density,verified,commercial,1,42,27.972,27.972,0.0,0.0,587.4,2417.6,1830.2,2209.8,1830.2,0.0,27.972,27.972,1.0
@@ -137,11 +137,11 @@ Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TE,comm
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TE,commercial,density,verified,parking,1,15,5.701,5.701,0.0,0.0,119.7,492.8,373.0,450.4,373.0,0.0,5.701,5.701,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TE,commercial,density,verified,vacant,1,13,10.022,10.022,197.0,197.0,210.5,866.2,529.1,665.1,529.1,0.0,10.022,10.022,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C1,residential,density,verified,institutional,0,2,4.562,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.562,0.0,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C1,residential,density,verified,single_family,1,285,57.91,57.91,285.0,285.0,984.5,5005.1,4020.6,4806.6,0.0,4036114.0,57.143,57.143,0.9868
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C1,residential,density,verified,single_family,1,285,57.91,57.91,285.0,285.0,984.5,5005.1,4020.6,4806.6,0.0,4036115.0,57.143,57.143,0.9868
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C1,residential,density,verified,two_family,1,8,1.8,1.8,16.0,16.0,30.6,155.6,125.0,149.4,125.0,125447.0,1.8,1.8,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C1,residential,density,verified,vacant,1,4,10.144,10.144,0.0,0.0,172.4,876.7,704.3,841.9,704.3,706967.0,10.144,10.144,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C2,residential,density,verified,multifamily,1,1,0.126,0.126,5.0,5.0,2.6,10.9,5.9,7.6,5.9,8786.0,0.126,0.126,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C2,residential,density,verified,single_family,1,380,49.045,49.045,380.0,380.0,1029.9,4238.9,3208.9,3874.5,0.0,3418230.0,47.747,47.747,0.9735
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C2,residential,density,verified,single_family,1,380,49.045,49.045,380.0,380.0,1029.9,4238.9,3208.9,3874.5,0.0,3418231.0,47.747,47.747,0.9735
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C2,residential,density,verified,two_family,1,9,1.263,1.263,18.0,18.0,26.5,109.2,82.7,99.8,82.7,88050.0,1.263,1.263,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C2,residential,density,verified,vacant,1,1,0.424,0.424,0.0,0.0,8.9,36.7,27.8,33.5,27.8,29562.0,0.424,0.424,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C3,residential,density,verified,single_family,1,43,3.725,3.725,43.0,43.0,108.0,322.0,213.9,264.5,0.0,259634.0,3.725,3.725,1.0
@@ -149,10 +149,10 @@ Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C3,r
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C3,residential,density,verified,vacant,1,2,0.534,0.534,0.0,0.0,15.5,46.2,30.7,37.9,30.7,37223.0,0.534,0.534,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C4,residential,density,verified,condominium,1,1,0.172,0.172,2.0,2.0,5.5,14.9,9.4,11.7,9.4,12018.0,0.172,0.172,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C4,residential,density,verified,institutional,0,6,4.408,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.408,0.0,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C4,residential,density,verified,multifamily,1,39,6.733,6.733,178.0,178.0,215.4,581.9,348.2,439.6,348.2,469233.0,6.733,6.733,1.0
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C4,residential,density,verified,multifamily,1,39,6.733,6.733,178.0,178.0,215.4,581.9,348.2,439.6,348.2,469234.0,6.733,6.733,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C4,residential,density,verified,parking,1,3,1.792,1.792,0.0,0.0,57.3,154.9,97.5,121.8,97.5,124878.0,1.792,1.792,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C4,residential,density,verified,single_family,1,910,98.999,98.999,911.0,911.0,3168.0,8556.3,5388.3,6731.9,0.0,6899803.0,98.999,98.999,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C4,residential,density,verified,two_family,1,183,22.163,22.163,363.0,363.0,709.2,1915.5,1204.0,1504.8,1204.0,1544666.0,22.163,22.163,1.0
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C4,residential,density,verified,single_family,1,910,98.999,98.999,911.0,911.0,3168.0,8556.3,5388.4,6731.9,0.0,6899805.0,98.999,98.999,1.0
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C4,residential,density,verified,two_family,1,183,22.163,22.163,363.0,363.0,709.2,1915.5,1204.0,1504.8,1204.0,1544667.0,22.163,22.163,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-C4,residential,density,verified,vacant,1,8,6.505,6.505,0.0,0.0,208.2,562.2,354.0,442.3,354.0,453351.0,6.505,6.505,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-U1,residential,density,verified,agricultural,1,1,3.805,3.805,0.0,0.0,220.7,328.9,108.2,159.8,108.2,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-U1,residential,density,verified,condominium,1,2,2.842,2.842,5.0,5.0,164.9,245.7,80.8,119.4,80.8,0.0,2.842,2.842,1.0
@@ -174,11 +174,11 @@ Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,r
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,condominium,1,3,1.994,1.994,7.0,7.0,80.4,172.3,91.9,113.7,91.9,138980.0,1.994,1.994,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,institutional,0,15,10.998,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,10.2,0.0,0.9274
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,mixed_residential_commercial,1,2,0.227,0.227,5.0,5.0,9.2,19.7,10.5,13.0,10.5,15847.0,0.227,0.227,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,multifamily,1,129,20.63,20.63,476.0,476.0,832.1,1783.0,943.2,1169.5,943.2,1437837.0,20.441,20.441,0.9909
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,multifamily,1,129,20.63,20.63,476.0,476.0,832.1,1783.0,943.2,1169.5,943.2,1437838.0,20.441,20.441,0.9909
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,parking,1,1,0.31,0.31,0.0,0.0,12.5,26.8,14.3,17.7,14.3,21619.0,0.31,0.31,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,single_family,1,536,60.6,60.6,539.0,539.0,2444.2,5237.5,2793.3,3454.2,0.0,4223544.0,60.6,60.6,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,two_family,1,227,26.257,26.257,460.0,460.0,1059.0,2269.3,1204.8,1492.0,1204.8,1829997.0,26.257,26.257,1.0
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,vacant,1,13,5.837,5.837,0.0,0.0,235.4,504.5,269.0,332.7,269.0,406790.0,5.837,5.837,1.0
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,single_family,1,536,60.6,60.6,539.0,539.0,2444.2,5237.5,2793.4,3454.2,0.0,4223545.0,60.6,60.6,1.0
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,two_family,1,227,26.257,26.257,460.0,460.0,1059.0,2269.3,1204.8,1492.0,1204.8,1829998.0,26.257,26.257,1.0
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V1,residential,density,verified,vacant,1,13,5.837,5.837,0.0,0.0,235.4,504.5,269.0,332.7,269.0,406791.0,5.837,5.837,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V2,residential,density,verified,commercial,1,1,0.056,0.056,0.0,0.0,2.4,4.8,2.4,3.2,2.4,486.0,0.056,0.056,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V2,residential,density,verified,condominium,1,1,0.071,0.071,2.0,2.0,3.1,6.1,3.1,4.0,3.1,618.0,0.071,0.071,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V2,residential,density,verified,institutional,0,13,22.302,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.302,0.0,1.0
@@ -189,7 +189,7 @@ Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TR-V2,r
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TSS,mixed_use,density,verified,commercial,1,23,4.667,4.667,0.0,0.0,373.2,403.3,30.1,1.4,30.1,45567.0,4.506,4.506,0.9655
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TSS,mixed_use,density,verified,institutional,0,3,0.674,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.674,0.0,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TSS,mixed_use,density,verified,mixed_residential_commercial,1,19,2.342,2.342,54.0,54.0,188.3,202.4,13.8,0.3,13.8,21445.0,2.308,2.308,0.9855
-Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TSS,mixed_use,density,verified,multifamily,1,26,10.757,10.757,795.0,795.0,857.7,929.7,40.4,0.0,40.4,108903.0,10.259,10.259,0.9537
+Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TSS,mixed_use,density,verified,multifamily,1,26,10.757,10.757,795.0,795.0,857.7,929.7,40.4,0.0,40.4,108904.0,10.259,10.259,0.9537
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TSS,mixed_use,density,verified,parking,1,3,0.771,0.771,0.0,0.0,62.2,66.6,4.4,0.0,4.4,6714.0,0.771,0.771,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TSS,mixed_use,density,verified,single_family,1,10,0.928,0.928,10.0,10.0,74.8,80.2,5.3,0.0,0.0,8081.0,0.928,0.928,1.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,TSS,mixed_use,density,verified,two_family,1,10,1.372,1.372,18.0,18.0,110.7,118.6,7.9,0.0,7.9,11953.0,1.372,1.372,1.0
@@ -206,7 +206,7 @@ Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,UMX,dow
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,UOR,downtown_mixed,assumed_at_or_above_law,source_lead,commercial,1,4,0.51,0.51,0.0,0.0,44.1,44.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_quarter,1,1,1,1,100,3.0,65,1512.0,86.43,UOR,downtown_mixed,assumed_at_or_above_law,source_lead,multifamily,1,1,0.125,0.125,4.0,4.0,10.8,10.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,A,agricultural,not_eligible,verified,agricultural,0,4,67.07,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,A,agricultural,not_eligible,verified,industrial,0,1,44.944,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,A,agricultural,not_eligible,verified,industrial,0,1,44.945,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,A,agricultural,not_eligible,verified,institutional,0,3,203.365,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,A,agricultural,not_eligible,verified,vacant,0,1,3.858,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,CC,mixed_use,density,verified,commercial,1,58,136.577,136.577,0.0,0.0,7921.4,9836.8,1915.3,3004.7,1915.3,0.0,117.711,117.711,0.8619
@@ -289,9 +289,9 @@ Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SEC,commerc
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SEC,commercial,existing_is_rule,source_lead,multifamily,1,1,7.44,7.44,270.0,270.0,270.0,535.9,265.9,325.2,265.9,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SEC,commercial,existing_is_rule,source_lead,vacant,1,2,96.993,96.993,0.0,0.0,0.0,6985.8,6985.8,7759.5,6985.8,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,institutional,0,9,17.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.239,0.0,0.0134
-Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,single_family,1,1261,367.503,367.503,1261.0,1261.0,5145.0,26469.0,21323.9,24255.2,0.0,17609270.0,49.623,49.623,0.135
+Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,single_family,1,1261,367.503,367.503,1261.0,1261.0,5145.0,26469.0,21323.9,24255.2,0.0,17609276.0,49.623,49.623,0.135
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,two_family,1,1,0.205,0.205,2.0,2.0,2.9,14.8,11.9,13.5,11.9,9818.0,0.0,0.0,0.0
-Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,vacant,1,15,45.086,45.086,0.0,0.0,631.2,3247.3,2616.1,2975.7,2616.1,2160345.0,0.0,0.0,0.0
+Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,vacant,1,15,45.086,45.086,0.0,0.0,631.2,3247.3,2616.1,2975.7,2616.1,2160346.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,institutional,0,3,3.413,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.381,0.0,0.1117
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,single_family,1,124,31.436,31.436,124.0,124.0,534.4,2264.2,1729.7,1980.5,0.0,1506298.0,24.102,24.102,0.7667
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,vacant,1,1,0.408,0.408,0.0,0.0,6.9,29.4,22.4,25.7,22.4,19544.0,0.408,0.408,1.0
@@ -317,11 +317,11 @@ Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TE,commerci
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TE,commercial,density,verified,parking,1,2,0.572,0.572,0.0,0.0,12.0,41.2,29.2,33.7,29.2,0.0,0.572,0.572,1.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TE,commercial,density,verified,vacant,1,6,7.415,7.415,0.0,0.0,155.7,534.0,378.3,437.5,378.3,0.0,4.771,4.771,0.6434
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,institutional,0,5,4.452,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,single_family,1,311,67.188,67.188,311.0,311.0,1142.2,4839.1,3696.9,4232.8,0.0,3219363.0,5.354,5.354,0.0797
+Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,single_family,1,311,67.188,67.188,311.0,311.0,1142.2,4839.1,3696.9,4232.8,0.0,3219364.0,5.354,5.354,0.0797
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,commercial,1,1,0.123,0.123,0.0,0.0,2.6,8.9,6.3,7.3,6.3,5898.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,institutional,0,6,6.338,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2.244,0.0,0.3541
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,multifamily,1,10,1.683,1.683,39.0,39.0,35.3,121.2,73.5,86.9,73.5,80648.0,1.683,1.683,1.0
-Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,single_family,1,818,128.703,128.703,817.0,817.0,2702.8,9269.7,6566.9,7593.5,0.0,6166940.0,64.583,64.583,0.5018
+Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,single_family,1,818,128.703,128.703,817.0,817.0,2702.8,9269.7,6566.9,7593.5,0.0,6166942.0,64.583,64.583,0.5018
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,two_family,1,23,2.868,2.868,46.0,46.0,60.2,206.6,146.3,169.2,146.3,137427.0,2.868,2.868,1.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,vacant,1,3,0.354,0.354,0.0,0.0,7.4,25.5,18.1,20.9,18.1,16974.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,commercial,1,1,0.082,0.082,0.0,0.0,2.4,5.9,3.5,4.2,3.5,3919.0,0.082,0.082,1.0
@@ -333,13 +333,13 @@ Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,resid
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,condominium,1,5,0.615,0.615,12.0,12.0,19.7,44.3,24.6,29.5,24.6,29478.0,0.462,0.462,0.7511
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,institutional,0,6,2.644,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2.644,0.0,1.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,mixed_residential_commercial,1,1,0.09,0.09,3.0,3.0,2.9,6.5,3.5,4.2,3.5,4323.0,0.09,0.09,1.0
-Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,multifamily,1,41,5.306,5.306,143.0,143.0,169.8,382.2,198.6,241.0,198.6,254265.0,3.645,3.645,0.6868
-Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,single_family,1,1197,135.243,135.243,1196.0,1196.0,4327.8,9740.7,5412.9,6491.7,0.0,6480306.0,92.064,92.064,0.6807
+Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,multifamily,1,41,5.306,5.306,143.0,143.0,169.8,382.2,198.6,241.0,198.6,254266.0,3.645,3.645,0.6868
+Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,single_family,1,1197,135.243,135.243,1196.0,1196.0,4327.8,9740.7,5412.9,6491.7,0.0,6480308.0,92.064,92.064,0.6807
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,two_family,1,331,37.042,37.042,662.0,662.0,1185.3,2667.9,1478.1,1773.6,1478.1,1774912.0,30.265,30.265,0.817
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,vacant,1,16,17.098,17.098,0.0,0.0,547.1,1231.4,684.3,820.7,684.3,819249.0,12.174,12.174,0.712
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-P,residential,density,verified,agricultural,1,1,22.943,22.943,0.0,0.0,1651.9,1652.4,0.5,183.5,0.5,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-P,residential,density,verified,condominium,1,1,10.01,10.01,74.0,74.0,720.7,721.0,0.2,80.1,0.2,0.0,0.0,0.0,0.0
-Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-U1,residential,density,verified,agricultural,1,3,6.066,6.066,0.0,0.0,351.8,436.9,85.1,133.4,85.1,0.0,0.0,0.0,0.0
+Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-U1,residential,density,verified,agricultural,1,3,6.066,6.066,0.0,0.0,351.8,436.9,85.1,133.5,85.1,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-U1,residential,density,verified,commercial,1,2,0.6,0.6,0.0,0.0,34.8,43.2,8.4,13.2,8.4,0.0,0.6,0.6,1.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-U1,residential,density,verified,condominium,1,1,3.603,3.603,150.0,150.0,209.0,259.5,50.5,79.3,50.5,0.0,3.603,3.603,1.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-U1,residential,density,verified,institutional,0,5,4.322,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2.106,0.0,0.4872
@@ -355,8 +355,8 @@ Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,resid
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,condominium,1,12,1.993,1.993,27.0,27.0,80.4,143.6,63.2,73.7,63.2,95506.0,1.047,1.047,0.5253
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,institutional,0,16,4.485,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.742,0.0,0.8345
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,multifamily,1,199,30.197,30.197,707.0,707.0,1218.0,2174.9,942.5,1105.8,942.5,1446934.0,21.909,21.909,0.7255
-Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,single_family,1,577,63.034,63.034,577.0,577.0,2542.4,4539.9,1997.6,2332.3,0.0,3020334.0,52.882,52.882,0.8389
-Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,two_family,1,275,32.837,32.837,548.0,548.0,1324.4,2365.0,1040.0,1214.6,1040.0,1573415.0,26.237,26.237,0.799
+Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,single_family,1,577,63.034,63.034,577.0,577.0,2542.4,4539.9,1997.6,2332.3,0.0,3020335.0,52.882,52.882,0.8389
+Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,two_family,1,275,32.837,32.837,548.0,548.0,1324.4,2365.0,1040.0,1214.6,1040.0,1573416.0,26.237,26.237,0.799
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,vacant,1,12,11.142,11.142,0.0,0.0,449.4,802.5,353.1,412.2,353.1,533862.0,10.495,10.495,0.942
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V2,residential,density,verified,commercial,1,1,0.1,0.1,0.0,0.0,4.3,7.2,2.9,3.7,2.9,0.0,0.1,0.1,1.0
 Madison city,Dane County,1,rapid_half,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V2,residential,density,verified,condominium,1,10,12.38,12.38,288.0,288.0,532.4,891.7,356.4,455.1,356.4,190417.0,1.452,1.452,0.1173
@@ -470,19 +470,19 @@ Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SE,comme
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,commercial,1,5,11.462,11.462,1.0,1.0,160.5,825.6,665.1,756.5,665.1,549223.0,9.646,9.646,0.8415
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,institutional,0,17,70.76,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.135,0.0,0.0584
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,multifamily,1,4,1.288,1.288,14.0,14.0,18.0,92.7,72.8,83.1,72.8,61700.0,1.288,1.288,1.0
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,single_family,1,6186,1661.811,1661.811,6182.0,6182.0,23265.3,119689.9,96424.6,109679.5,0.0,79627318.0,380.571,380.571,0.229
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,single_family,1,6186,1661.811,1661.811,6182.0,6182.0,23265.4,119690.0,96424.6,109679.5,0.0,79627344.0,380.572,380.572,0.229
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,two_family,1,9,3.469,3.469,15.0,15.0,48.6,249.9,201.3,229.0,201.3,166236.0,2.496,2.496,0.7195
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,vacant,1,88,149.243,149.243,0.0,0.0,2089.4,10749.0,8659.6,9850.0,8659.6,7151122.0,49.439,49.439,0.3313
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,vacant,1,88,149.243,149.243,0.0,0.0,2089.4,10749.0,8659.6,9850.0,8659.6,7151124.0,49.439,49.439,0.3313
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,commercial,1,1,0.215,0.215,1.0,1.0,3.6,15.5,11.8,13.5,11.8,10284.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,institutional,0,1,0.294,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,single_family,1,1177,234.329,234.329,1174.0,1174.0,3983.6,16877.3,12893.7,14762.7,0.0,11228123.0,33.273,33.273,0.142
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,single_family,1,1177,234.329,234.329,1174.0,1174.0,3983.6,16877.3,12893.7,14762.8,0.0,11228127.0,33.273,33.273,0.142
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,two_family,1,5,0.931,0.931,10.0,10.0,15.8,67.0,51.2,58.6,51.2,44591.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,vacant,1,10,15.867,15.867,0.0,0.0,269.7,1142.8,873.0,999.6,873.0,760264.0,0.104,0.104,0.0066
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C3,residential,density,verified,condominium,1,45,21.366,21.366,144.0,144.0,363.2,1538.9,1175.7,1346.1,1175.7,1023787.0,4.635,4.635,0.2169
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C3,residential,density,verified,institutional,0,2,0.437,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.437,0.0,1.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C3,residential,density,verified,multifamily,1,1,0.221,0.221,0.0,0.0,3.8,15.9,12.2,13.9,12.2,10598.0,0.0,0.0,0.0
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C3,residential,density,verified,single_family,1,119,26.894,26.894,119.0,119.0,457.2,1937.0,1479.8,1694.3,0.0,1288639.0,7.383,7.383,0.2745
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C3,residential,density,verified,two_family,1,292,85.174,85.174,584.0,584.0,1448.0,6134.5,4686.6,5366.0,4686.6,4081190.0,7.969,7.969,0.0936
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C3,residential,density,verified,single_family,1,119,26.894,26.894,119.0,119.0,457.2,1937.0,1479.8,1694.3,0.0,1288640.0,7.383,7.383,0.2745
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C3,residential,density,verified,two_family,1,292,85.174,85.174,584.0,584.0,1448.0,6134.5,4686.6,5366.0,4686.6,4081191.0,7.97,7.97,0.0936
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-C3,residential,density,verified,vacant,1,9,1.892,1.892,0.0,0.0,32.2,136.3,104.1,119.2,104.1,90654.0,0.385,0.385,0.2036
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-V1,residential,density,verified,commercial,1,2,1.849,1.849,0.0,0.0,53.6,133.1,79.5,94.3,79.5,32211.0,1.591,1.591,0.8605
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,SR-V1,residential,density,verified,condominium,1,21,17.343,17.343,205.0,205.0,502.9,1249.1,746.2,884.5,746.2,302185.0,0.305,0.305,0.0176
@@ -508,7 +508,7 @@ Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TE,comme
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TE,commercial,density,verified,single_family,1,1,0.156,0.156,1.0,1.0,3.3,11.3,8.0,9.2,0.0,0.0,0.156,0.156,1.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TE,commercial,density,verified,vacant,1,13,12.968,12.968,0.0,0.0,272.3,934.0,661.7,765.1,661.7,0.0,12.968,12.968,1.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,institutional,0,5,10.732,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.37,0.0,0.0344
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,single_family,1,1315,287.038,287.038,1314.0,1314.0,4879.6,20673.6,15793.9,18083.4,0.0,13753703.0,52.159,52.159,0.1817
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,single_family,1,1315,287.038,287.038,1314.0,1314.0,4879.6,20673.6,15793.9,18083.4,0.0,13753708.0,52.159,52.159,0.1817
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,two_family,1,1,0.528,0.528,2.0,2.0,9.0,38.0,29.0,33.2,29.0,25288.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,vacant,1,13,26.239,26.239,1.0,1.0,446.1,1889.9,1443.8,1653.1,1443.8,1257289.0,0.435,0.435,0.0166
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,commercial,1,7,1.5,1.5,1.0,1.0,31.5,108.0,76.5,88.5,76.5,71851.0,1.5,1.5,1.0
@@ -516,22 +516,22 @@ Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,re
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,institutional,0,12,9.989,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.912,0.0,0.692
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,multifamily,1,18,3.793,3.793,73.0,73.0,79.6,273.2,171.1,201.3,171.1,181734.0,3.793,3.793,1.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,parking,1,1,0.111,0.111,0.0,0.0,2.3,8.0,5.6,6.5,5.6,5298.0,0.111,0.111,1.0
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,single_family,1,2254,328.612,328.612,2252.0,2252.0,6900.9,23667.9,16767.0,19388.1,0.0,15745783.0,289.213,289.213,0.8801
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,single_family,1,2254,328.612,328.612,2252.0,2252.0,6900.9,23667.9,16767.1,19388.1,0.0,15745788.0,289.213,289.213,0.8801
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,two_family,1,55,8.11,8.11,110.0,110.0,170.3,584.1,413.1,477.8,413.1,388597.0,7.943,7.943,0.9795
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,vacant,1,42,43.405,43.405,0.0,0.0,911.5,3126.2,2214.7,2560.9,2214.7,2079799.0,41.914,41.914,0.9657
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,commercial,1,1,0.007,0.007,0.0,0.0,0.2,0.5,0.3,0.4,0.3,341.0,0.007,0.007,1.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,condominium,1,1,0.138,0.138,5.0,5.0,4.0,9.9,4.9,6.0,4.9,6596.0,0.138,0.138,1.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,institutional,0,6,6.319,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,5.663,0.0,0.896
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,multifamily,1,35,5.202,5.202,137.0,137.0,150.9,374.7,203.4,244.5,203.4,249249.0,5.011,5.011,0.9634
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,single_family,1,854,97.913,97.913,851.0,851.0,2839.5,7052.0,4212.6,4993.5,0.0,4691579.0,60.908,60.908,0.6221
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,single_family,1,854,97.913,97.913,851.0,851.0,2839.5,7052.0,4212.6,4993.5,0.0,4691581.0,60.908,60.908,0.6221
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,two_family,1,71,8.97,8.97,141.0,141.0,260.1,646.1,384.5,456.1,384.5,429827.0,8.737,8.737,0.974
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,vacant,1,29,5.756,5.756,0.0,0.0,166.9,414.6,247.6,293.5,247.6,275797.0,3.669,3.669,0.6375
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,commercial,1,1,0.128,0.128,0.0,0.0,4.1,9.2,5.1,6.1,5.1,6128.0,0.128,0.128,1.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,condominium,1,4,0.779,0.779,10.0,10.0,24.9,56.1,31.2,37.4,31.2,37309.0,0.779,0.779,1.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,institutional,0,10,14.931,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.551,0.0,0.2379
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,multifamily,1,44,8.267,8.267,158.0,158.0,264.5,595.4,328.6,394.5,328.6,396116.0,6.613,6.613,0.8
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,single_family,1,1151,152.027,152.027,1150.0,1150.0,4864.9,10949.5,6084.7,7297.3,0.0,7284514.0,86.679,86.679,0.5702
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,two_family,1,183,26.688,26.688,363.0,363.0,854.0,1922.2,1068.2,1281.0,1068.2,1278805.0,20.025,20.025,0.7503
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,single_family,1,1151,152.027,152.027,1150.0,1150.0,4864.9,10949.6,6084.7,7297.3,0.0,7284517.0,86.679,86.679,0.5702
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,two_family,1,183,26.688,26.688,363.0,363.0,854.0,1922.2,1068.2,1281.0,1068.2,1278806.0,20.025,20.025,0.7503
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,vacant,1,16,7.451,7.451,0.0,0.0,238.4,536.6,298.2,357.6,298.2,357013.0,6.732,6.732,0.9035
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-P,residential,density,verified,condominium,1,1,2.771,2.771,23.0,23.0,199.5,199.6,0.1,22.2,0.1,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-P,residential,density,verified,multifamily,1,8,3.091,3.091,32.0,32.0,222.6,222.7,0.1,24.7,0.1,0.0,0.0,0.0,0.0
@@ -553,7 +553,7 @@ Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-U2,re
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,condominium,1,3,0.704,0.704,8.0,8.0,28.4,50.7,22.3,26.0,22.3,33710.0,0.704,0.704,1.0
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,institutional,0,7,3.121,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2.905,0.0,0.9307
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,multifamily,1,64,12.396,12.396,232.0,232.0,500.0,892.8,392.8,458.6,392.8,593962.0,9.101,9.101,0.7342
-Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,single_family,1,338,38.583,38.583,337.0,337.0,1556.2,2778.9,1222.7,1427.6,0.0,1848720.0,22.273,22.273,0.5773
+Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,single_family,1,338,38.583,38.583,337.0,337.0,1556.2,2778.9,1222.7,1427.6,0.0,1848721.0,22.273,22.273,0.5773
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,two_family,1,89,10.667,10.667,178.0,178.0,430.2,768.3,338.0,394.7,338.0,511103.0,7.452,7.452,0.6986
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V1,residential,density,verified,vacant,1,6,0.782,0.782,0.0,0.0,31.5,56.3,24.8,28.9,24.8,37460.0,0.31,0.31,0.3962
 Madison city,Dane County,1,bus15_quarter,1,1,1,1,80,2.5,55,1512.0,72.02,TR-V2,residential,density,verified,agricultural,1,6,4.232,4.232,0.0,0.0,182.0,304.8,122.8,156.6,122.8,73740.0,0.0,0.0,0.0
@@ -602,7 +602,7 @@ Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,CI,institut
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,CN,park,not_eligible,verified,commercial,0,1,0.013,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,CN,park,not_eligible,verified,institutional,0,19,281.108,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,CN,park,not_eligible,verified,single_family,0,1,7.72,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,CN,park,not_eligible,verified,vacant,0,60,545.636,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,CN,park,not_eligible,verified,vacant,0,60,545.637,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,EC,commercial,density,verified,institutional,0,5,16.643,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,IG,industrial,not_eligible,verified,commercial,0,3,2.325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,IG,industrial,not_eligible,verified,industrial,0,24,32.977,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -645,10 +645,10 @@ Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C1,resid
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,institutional,0,14,40.083,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,7.379,0.0,0.1841
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,multifamily,1,2,1.526,1.526,10.0,10.0,21.4,109.9,88.6,100.7,88.6,73129.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,parking,1,1,0.597,0.597,0.0,0.0,8.4,43.0,34.7,39.4,34.7,28623.0,0.0,0.0,0.0
-Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,single_family,1,4709,1343.536,1343.536,4705.0,4705.0,18809.5,96766.6,77957.1,88673.4,0.0,64376854.0,35.127,35.127,0.0261
+Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,single_family,1,4709,1343.536,1343.536,4705.0,4705.0,18809.5,96766.6,77957.1,88673.4,0.0,64376875.0,35.127,35.127,0.0261
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,two_family,1,1,0.372,0.372,2.0,2.0,5.2,26.8,21.6,24.6,21.6,17838.0,0.0,0.0,0.0
-Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,vacant,1,61,133.291,133.291,0.0,0.0,1866.1,9600.1,7734.1,8797.2,7734.1,6386771.0,14.172,14.172,0.1063
-Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,single_family,1,591,118.725,118.725,591.0,591.0,2018.3,8551.0,6532.7,7479.7,0.0,5688816.0,0.0,0.0,0.0
+Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C1,residential,density,verified,vacant,1,61,133.291,133.291,0.0,0.0,1866.1,9600.1,7734.1,8797.2,7734.1,6386773.0,14.172,14.172,0.1063
+Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,single_family,1,591,118.725,118.725,591.0,591.0,2018.3,8551.0,6532.7,7479.7,0.0,5688818.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C2,residential,density,verified,vacant,1,8,12.731,12.731,0.0,0.0,216.4,916.9,700.5,802.0,700.5,610004.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C3,residential,density,verified,condominium,1,16,4.448,4.448,36.0,36.0,75.6,320.4,244.7,280.2,244.7,213125.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,SR-C3,residential,density,verified,institutional,0,6,6.133,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -675,18 +675,18 @@ Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TE,commerci
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,THV,mixed_use,existing_is_rule,source_lead,institutional,0,1,1.058,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,commercial,1,1,1.216,1.216,0.0,0.0,20.7,87.6,66.9,76.6,66.9,58256.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,institutional,0,6,1.766,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,single_family,1,854,187.076,187.076,854.0,854.0,3180.3,13473.9,10293.6,11785.8,0.0,8963926.0,0.0,0.0,0.0
+Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,single_family,1,854,187.076,187.076,854.0,854.0,3180.3,13473.9,10293.6,11785.8,0.0,8963929.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,two_family,1,1,0.239,0.239,2.0,2.0,4.1,17.2,13.2,15.1,13.2,11452.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C1,residential,density,verified,vacant,1,8,13.634,13.634,0.0,0.0,231.8,981.9,750.2,858.9,750.2,653266.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,condominium,1,2,1.786,1.786,11.0,11.0,37.5,128.6,91.1,105.4,91.1,85571.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,institutional,0,5,21.051,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,multifamily,1,3,0.43,0.43,9.0,9.0,9.0,30.9,21.7,25.1,21.7,20585.0,0.0,0.0,0.0
-Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,single_family,1,1127,176.868,176.868,1126.0,1126.0,3714.2,12738.7,9024.5,10435.2,0.0,8474786.0,4.902,4.902,0.0277
+Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,single_family,1,1127,176.868,176.868,1126.0,1126.0,3714.2,12738.7,9024.5,10435.2,0.0,8474789.0,4.902,4.902,0.0277
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,two_family,1,8,1.09,1.09,16.0,16.0,22.9,78.5,55.6,64.3,55.6,52225.0,0.0,0.0,0.0
-Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,vacant,1,23,25.319,25.319,0.0,0.0,531.7,1823.5,1291.9,1493.8,1291.9,1213170.0,0.994,0.994,0.0393
+Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C2,residential,density,verified,vacant,1,23,25.319,25.319,0.0,0.0,531.7,1823.5,1291.9,1493.8,1291.9,1213171.0,0.994,0.994,0.0393
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,commercial,1,2,0.384,0.384,1.0,1.0,11.1,27.7,16.5,19.6,16.5,18411.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,multifamily,1,19,2.526,2.526,62.0,62.0,73.3,181.9,103.1,123.3,103.1,121047.0,0.0,0.0,0.0
-Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,single_family,1,443,53.772,53.772,443.0,443.0,1559.4,3872.9,2313.5,2742.4,0.0,2576531.0,0.469,0.469,0.0087
+Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,single_family,1,443,53.772,53.772,443.0,443.0,1559.4,3872.9,2313.5,2742.4,0.0,2576532.0,0.469,0.469,0.0087
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,two_family,1,55,6.401,6.401,108.0,108.0,185.6,461.0,274.4,325.5,274.4,306705.0,0.153,0.153,0.0239
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C3,residential,density,verified,vacant,1,7,2.137,2.137,0.0,0.0,62.0,153.9,91.9,109.0,91.9,102395.0,0.0,0.0,0.0
 Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-C4,residential,density,verified,institutional,0,2,1.569,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -711,8 +711,8 @@ Madison city,Dane County,1,bus15_half,0,0,1,1,80,2.5,55,1512.0,72.02,TR-V2,resid
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,(none),not_coded,not_coded,,other_unknown,0,1,3.969,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,C9A(A),downtown_mixed,far,verified,commercial,1,28,8.862,8.862,0.0,0.0,647.7,886.2,238.5,114.1,238.5,386047.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,C9A(A),downtown_mixed,far,verified,institutional,0,8,6.635,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,C9A(A),downtown_mixed,far,verified,mixed_residential_commercial,1,25,11.395,11.395,1108.0,1108.0,832.8,1139.5,152.0,79.5,152.0,496352.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,C9A(A),downtown_mixed,far,verified,multifamily,1,65,26.824,26.824,3195.0,3195.0,1960.5,2682.4,217.6,110.3,217.6,1168434.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,C9A(A),downtown_mixed,far,verified,mixed_residential_commercial,1,25,11.395,11.395,1108.0,1108.0,832.8,1139.5,152.0,79.5,152.0,496353.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,C9A(A),downtown_mixed,far,verified,multifamily,1,65,26.824,26.824,3195.0,3195.0,1960.5,2682.4,217.6,110.3,217.6,1168435.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,C9A(A),downtown_mixed,far,verified,parking,1,16,5.872,5.872,0.0,0.0,429.2,587.2,158.0,75.6,158.0,255787.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,C9A(A),downtown_mixed,far,verified,single_family,1,11,9.967,9.967,555.0,555.0,728.4,996.7,238.4,114.1,0.0,434145.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,C9A(A),downtown_mixed,far,verified,two_family,1,5,0.492,0.492,9.0,9.0,35.9,49.2,13.2,6.3,13.2,21421.0,0.0,0.0,0.0
@@ -852,7 +852,7 @@ Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RED,planned_development,existing_is_rule,source_lead,vacant,1,3,2.173,2.173,0.0,0.0,0.0,217.3,217.3,217.3,217.3,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RM1,residential,density,verified,commercial,1,1,0.074,0.074,0.0,0.0,1.3,7.4,6.0,6.0,6.0,5772.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RM1,residential,density,verified,institutional,0,1,0.947,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RM1,residential,density,verified,multifamily,1,43,21.728,21.728,385.0,385.0,394.4,2172.8,1765.5,1765.5,1765.5,1703610.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RM1,residential,density,verified,multifamily,1,43,21.728,21.728,385.0,385.0,394.4,2172.8,1765.5,1765.5,1765.5,1703611.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RM1,residential,density,verified,park_open_space,0,2,8.654,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RM1,residential,density,verified,parking,1,4,0.126,0.126,0.0,0.0,2.3,12.6,10.3,10.3,10.3,9877.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RM1,residential,density,verified,single_family,1,16,2.821,2.821,16.0,16.0,51.2,282.1,230.9,230.9,0.0,221159.0,0.0,0.0,0.0
@@ -900,11 +900,11 @@ Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RO2,residential,density,verified,vacant,1,4,1.492,1.492,0.0,0.0,162.4,162.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS3,residential,density,verified,single_family,1,1,0.1,0.1,1.0,1.0,0.5,10.0,9.0,9.0,0.0,7829.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS5,residential,density,verified,institutional,0,1,1.164,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS5,residential,density,verified,single_family,1,269,43.312,43.312,269.0,269.0,314.4,4331.2,4009.4,4009.4,0.0,3396042.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS5,residential,density,verified,single_family,1,269,43.312,43.312,269.0,269.0,314.4,4331.2,4009.4,4009.4,0.0,3396043.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS5,residential,density,verified,two_family,1,9,1.51,1.51,18.0,18.0,11.0,151.0,133.0,133.0,133.0,118401.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS5,residential,density,verified,vacant,1,4,0.329,0.329,0.0,0.0,2.4,32.9,30.5,30.5,30.5,25811.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS6,residential,density,verified,institutional,0,2,6.223,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS6,residential,density,verified,single_family,1,360,45.726,45.726,361.0,361.0,553.3,4572.6,4018.8,4018.8,0.0,1195088.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS6,residential,density,verified,single_family,1,360,45.726,45.726,361.0,361.0,553.3,4572.6,4018.8,4018.8,0.0,1195089.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS6,residential,density,verified,two_family,1,41,4.926,4.926,82.0,82.0,59.6,492.6,409.5,409.5,409.5,128751.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RS6,residential,density,verified,vacant,1,1,0.106,0.106,0.0,0.0,1.3,10.6,9.3,9.3,9.3,2765.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RT2,residential,density,verified,commercial,1,1,0.158,0.158,0.0,0.0,2.9,15.8,12.9,12.9,12.9,12365.0,0.0,0.0,0.0
@@ -921,7 +921,7 @@ Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RT3,residential,density,verified,multifamily,1,20,3.047,3.047,92.0,92.0,73.7,304.7,199.1,199.1,199.1,132745.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RT3,residential,density,verified,park_open_space,0,1,5.705,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RT3,residential,density,verified,parking,1,2,0.889,0.889,0.0,0.0,21.5,88.9,67.4,67.4,67.4,38741.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RT3,residential,density,verified,single_family,1,303,37.714,37.714,308.0,308.0,912.7,3771.4,2858.2,2858.2,0.0,1642811.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RT3,residential,density,verified,single_family,1,303,37.714,37.714,308.0,308.0,912.7,3771.4,2858.2,2858.2,0.0,1642812.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RT3,residential,density,verified,two_family,1,127,16.758,16.758,254.0,254.0,405.6,1675.8,1269.6,1269.6,1269.6,729997.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RT3,residential,density,verified,vacant,1,20,2.694,2.694,1.0,1.0,65.2,269.4,204.2,204.2,204.2,117367.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_quarter,1,1,1,1,100,3.0,65,1192.0,100.0,RT4,residential,density,verified,commercial,1,22,2.473,2.473,0.0,0.0,89.8,247.3,157.5,157.5,157.5,21544.0,0.0,0.0,0.0
@@ -957,7 +957,7 @@ Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,C9D(A
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,C9D(A),downtown_mixed,far,verified,institutional,0,6,13.322,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,C9D(A),downtown_mixed,far,verified,mixed_residential_commercial,1,1,1.663,1.663,224.0,224.0,121.5,133.0,0.0,0.0,0.0,36212.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,C9D(A),downtown_mixed,far,verified,park_open_space,0,5,22.946,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,C9D(A),downtown_mixed,far,verified,parking,1,3,4.447,4.447,0.0,0.0,325.0,355.7,30.7,0.0,30.7,96849.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,C9D(A),downtown_mixed,far,verified,parking,1,3,4.447,4.447,0.0,0.0,325.0,355.7,30.7,0.0,30.7,96850.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,C9D(A),downtown_mixed,far,verified,vacant,1,1,1.826,1.826,180.0,180.0,133.4,146.1,0.0,0.0,0.0,39766.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,C9G,downtown_mixed,far,verified,commercial,1,25,38.88,38.88,0.0,0.0,7104.2,7104.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,C9G,downtown_mixed,far,verified,industrial,1,6,5.531,5.531,0.0,0.0,1010.6,1010.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1096,7 +1096,7 @@ Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,RO2,r
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,single_family,1,7,1.171,1.171,7.0,7.0,7.1,93.7,86.1,86.1,0.0,66292.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,agricultural,1,1,1.747,1.747,0.0,0.0,12.7,139.8,127.1,127.1,127.1,98939.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,institutional,0,1,0.805,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,single_family,1,363,59.695,59.695,363.0,363.0,433.4,4775.6,4329.4,4329.4,0.0,3380395.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,single_family,1,363,59.695,59.695,363.0,363.0,433.4,4775.6,4329.4,4329.4,0.0,3380396.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,two_family,1,6,0.888,0.888,11.0,11.0,6.4,71.0,59.9,59.9,59.9,50261.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,vacant,1,6,1.698,1.698,0.0,0.0,12.3,135.9,123.5,123.5,123.5,96174.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,rapid_half,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,commercial,1,1,0.412,0.412,0.0,0.0,5.0,32.9,27.9,27.9,27.9,1792.0,0.0,0.0,0.0
@@ -1169,7 +1169,7 @@ Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,IC
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,IC,industrial,not_eligible,verified,industrial,0,2,0.874,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,IH,industrial,not_eligible,verified,agricultural,0,2,1.865,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,IH,industrial,not_eligible,verified,commercial,0,117,289.101,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,IH,industrial,not_eligible,verified,industrial,0,108,332.346,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,IH,industrial,not_eligible,verified,industrial,0,108,332.347,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,IH,industrial,not_eligible,verified,institutional,0,6,30.467,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,IH,industrial,not_eligible,verified,mixed_residential_commercial,0,7,3.32,0.0,23.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,IH,industrial,not_eligible,verified,other_unknown,0,6,47.118,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1253,7 +1253,7 @@ Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,LB
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,LB1,commercial,density,verified,utility_transport,0,7,17.632,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,LB1,commercial,density,verified,vacant,1,37,13.092,13.092,15.0,15.0,475.2,1047.3,572.1,572.1,572.1,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,agricultural,1,6,1.211,1.211,0.0,0.0,65.9,96.9,30.9,30.9,30.9,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,commercial,1,1180,419.456,419.456,0.0,0.0,22839.4,33556.4,10717.1,10717.1,10717.1,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,commercial,1,1180,419.456,419.456,0.0,0.0,22839.4,33556.5,10717.1,10717.1,10717.1,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,industrial,1,57,11.136,11.136,0.0,0.0,606.4,890.9,284.5,284.5,284.5,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,institutional,0,178,71.151,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,mixed_residential_commercial,1,1206,173.925,173.925,6382.0,6382.0,9470.2,13914.0,3979.1,3979.1,3979.1,0.0,0.0,0.0,0.0
@@ -1303,7 +1303,7 @@ Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,PD
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,commercial,0,1,0.437,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,institutional,0,1,2.309,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,other_unknown,0,7,12.819,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,park_open_space,0,207,1513.75,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,park_open_space,0,207,1513.751,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,utility_transport,0,11,46.119,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,vacant,0,2,14.483,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RB2,commercial,density,verified,commercial,1,21,60.346,60.346,0.0,0.0,3285.9,4827.7,1541.9,1541.9,1541.9,0.0,0.0,0.0,0.0
@@ -1315,21 +1315,21 @@ Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RE
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RED,planned_development,existing_is_rule,source_lead,single_family,1,6,5.324,5.324,248.0,248.0,248.0,463.1,215.1,215.1,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RED,planned_development,existing_is_rule,source_lead,vacant,1,4,4.832,4.832,0.0,0.0,0.0,386.6,386.6,386.6,386.6,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,cemetery,0,1,0.735,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,commercial,1,10,40.809,40.809,0.0,0.0,740.7,3264.7,2524.0,2524.0,2524.0,2310912.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,commercial,1,10,40.809,40.809,0.0,0.0,740.7,3264.7,2524.0,2524.0,2524.0,2310913.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,institutional,0,11,51.779,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,mixed_residential_commercial,1,6,14.967,14.967,284.0,284.0,271.6,1197.3,912.6,912.6,912.6,847529.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,multifamily,1,597,244.255,244.255,4957.0,4957.0,4433.2,19540.4,14376.9,14376.9,14376.9,13831653.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,multifamily,1,597,244.255,244.255,4957.0,4957.0,4433.2,19540.4,14376.9,14376.9,14376.9,13831658.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,park_open_space,0,7,6.638,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,single_family,1,137,41.039,41.039,464.0,464.0,744.9,3283.1,2536.9,2536.9,0.0,2323955.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,two_family,1,164,23.705,23.705,328.0,328.0,430.3,1896.4,1461.3,1461.3,1461.3,1342386.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,single_family,1,137,41.039,41.039,464.0,464.0,744.9,3283.1,2536.9,2536.9,0.0,2323956.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,two_family,1,164,23.705,23.705,328.0,328.0,430.3,1896.4,1461.3,1461.3,1461.3,1342387.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,utility_transport,0,5,14.429,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,vacant,1,22,11.268,11.268,1.0,1.0,204.5,901.5,696.9,696.9,696.9,638100.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,commercial,1,5,5.385,5.385,0.0,0.0,195.5,430.8,235.3,235.3,235.3,117291.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,institutional,0,8,7.035,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,multifamily,1,279,110.956,110.956,3252.0,3252.0,4027.7,8876.5,4791.9,4791.9,4791.9,2416619.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,multifamily,1,279,110.956,110.956,3252.0,3252.0,4027.7,8876.5,4791.9,4791.9,4791.9,2416620.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,park_open_space,0,1,7.899,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,single_family,1,51,6.305,6.305,51.0,51.0,228.9,504.4,275.5,275.5,0.0,137327.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,two_family,1,34,4.322,4.322,67.0,67.0,156.9,345.7,188.9,188.9,188.9,94128.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,two_family,1,34,4.322,4.322,67.0,67.0,156.9,345.7,188.9,188.9,188.9,94129.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,utility_transport,0,1,0.842,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,vacant,1,6,1.342,1.342,0.0,0.0,48.7,107.4,58.7,58.7,58.7,29233.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RM3,residential,density,verified,commercial,1,5,1.235,1.235,0.0,0.0,22.4,98.8,76.4,76.4,76.4,26909.0,0.0,0.0,0.0
@@ -1393,27 +1393,27 @@ Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,vacant,1,3,3.811,3.811,0.0,0.0,13.8,304.9,291.0,291.0,291.0,215795.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,commercial,1,1,0.226,0.226,0.0,0.0,1.1,18.0,17.0,17.0,17.0,12773.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,institutional,0,1,8.636,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,single_family,1,303,76.676,76.676,304.0,304.0,371.1,6134.1,5760.0,5760.0,0.0,4342027.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,single_family,1,303,76.676,76.676,304.0,304.0,371.1,6134.1,5760.0,5760.0,0.0,4342028.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,two_family,1,3,1.123,1.123,6.0,6.0,5.4,89.8,83.0,83.0,83.0,63582.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,vacant,1,3,1.069,1.069,0.0,0.0,5.2,85.5,80.3,80.3,80.3,60520.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,commercial,1,5,1.706,1.706,0.0,0.0,10.3,136.5,126.2,126.2,126.2,96609.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,institutional,0,3,8.998,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,multifamily,1,3,0.578,0.578,10.0,10.0,3.5,46.3,36.3,36.3,36.3,32758.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,park_open_space,0,10,32.579,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,single_family,1,1862,386.342,386.342,1863.0,1863.0,2337.4,30907.3,28528.2,28528.2,0.0,21877762.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,single_family,1,1862,386.342,386.342,1863.0,1863.0,2337.4,30907.4,28528.2,28528.2,0.0,21877769.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,two_family,1,34,9.383,9.383,67.0,67.0,56.8,750.7,674.5,674.5,674.5,531349.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,utility_transport,0,3,17.644,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,vacant,1,17,5.58,5.58,2.0,2.0,33.8,446.4,411.5,411.5,411.5,315977.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,vacant,1,17,5.58,5.58,2.0,2.0,33.8,446.4,411.5,411.5,411.5,315978.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,commercial,1,15,2.524,2.524,0.0,0.0,18.3,201.9,183.6,183.6,183.6,142904.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,industrial,1,1,0.577,0.577,0.0,0.0,4.2,46.2,42.0,42.0,42.0,32686.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,institutional,0,15,44.905,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,mixed_residential_commercial,1,3,0.38,0.38,10.0,10.0,2.8,30.4,20.4,20.4,20.4,21515.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,multifamily,1,28,5.843,5.843,132.0,132.0,42.4,467.4,335.4,335.4,335.4,330855.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,multifamily,1,28,5.843,5.843,132.0,132.0,42.4,467.4,335.4,335.4,335.4,330856.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,other_unknown,1,1,0.191,0.191,1.0,1.0,1.4,15.3,13.9,13.9,13.9,10813.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,park_open_space,0,6,51.553,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,parking,1,2,0.452,0.452,0.0,0.0,3.3,36.1,32.8,32.8,32.8,25570.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,single_family,1,5149,853.576,853.576,5199.0,5199.0,6197.0,68286.1,61955.6,61955.6,0.0,48336328.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,two_family,1,221,40.561,40.561,435.0,435.0,294.5,3244.8,2783.1,2783.1,2783.1,2296864.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,single_family,1,5149,853.577,853.577,5199.0,5199.0,6197.0,68286.1,61955.6,61955.6,0.0,48336344.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,two_family,1,221,40.561,40.561,435.0,435.0,294.5,3244.8,2783.1,2783.1,2783.1,2296865.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,utility_transport,0,2,13.645,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,vacant,1,59,15.462,15.462,0.0,0.0,112.3,1236.9,1124.7,1124.7,1124.7,875572.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,cemetery,0,1,3.356,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1424,17 +1424,17 @@ Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,other_unknown,1,52,4.954,4.954,2.0,2.0,59.9,396.3,336.4,336.4,336.4,21581.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,park_open_space,0,49,77.746,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,parking,1,7,1.465,1.465,0.0,0.0,17.7,117.2,99.5,99.5,99.5,6384.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,single_family,1,14677,1913.691,1913.691,14710.0,14710.0,23155.7,153095.3,129881.9,129881.9,0.0,8336039.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,single_family,1,14677,1913.692,1913.692,14710.0,14710.0,23155.7,153095.3,129882.0,129882.0,0.0,8336042.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,two_family,1,1238,171.496,171.496,2451.0,2451.0,2075.1,13719.6,11061.5,11061.5,11061.5,747035.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,utility_transport,0,12,20.546,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,vacant,1,228,45.474,45.474,23.0,23.0,550.2,3637.9,3085.7,3085.7,3085.7,198084.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,vacant,1,228,45.474,45.474,23.0,23.0,550.2,3637.9,3085.7,3085.7,3085.7,198085.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,commercial,1,4,1.034,1.034,0.0,0.0,12.5,82.7,70.2,70.2,70.2,58527.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,institutional,0,1,1.159,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,multifamily,1,14,3.12,3.12,54.0,54.0,37.8,249.6,195.6,195.6,195.6,176693.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,other_unknown,1,9,0.704,0.704,0.0,0.0,8.5,56.4,47.8,47.8,47.8,39893.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,park_open_space,0,1,4.772,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,single_family,1,59,14.606,14.606,77.0,77.0,176.7,1168.5,991.7,991.7,0.0,827099.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,two_family,1,300,52.782,52.782,599.0,599.0,638.7,4222.6,3543.1,3543.1,3543.1,2988956.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,single_family,1,59,14.606,14.606,77.0,77.0,176.7,1168.5,991.7,991.7,0.0,827100.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,two_family,1,300,52.782,52.782,599.0,599.0,638.7,4222.6,3543.1,3543.1,3543.1,2988957.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,utility_transport,0,2,6.241,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,vacant,1,3,0.419,0.419,0.0,0.0,5.1,33.5,28.4,28.4,28.4,23715.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,agricultural,1,1,0.22,0.22,0.0,0.0,4.0,17.6,13.6,13.6,13.6,12477.0,0.0,0.0,0.0
@@ -1442,27 +1442,27 @@ Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,industrial,1,1,0.12,0.12,0.0,0.0,2.2,9.6,7.4,7.4,7.4,6809.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,institutional,0,45,48.108,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,mixed_residential_commercial,1,9,1.403,1.403,28.0,28.0,25.5,112.2,79.8,79.8,79.8,79423.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,multifamily,1,218,42.475,42.475,855.0,855.0,770.9,3398.0,2496.4,2496.4,2496.4,2405266.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,multifamily,1,218,42.475,42.475,855.0,855.0,770.9,3398.0,2496.4,2496.4,2496.4,2405267.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,other_unknown,1,9,2.147,2.147,0.0,0.0,39.0,171.7,132.8,132.8,132.8,121562.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,park_open_space,0,12,12.38,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,parking,1,9,2.267,2.267,0.0,0.0,41.1,181.3,140.2,140.2,140.2,128358.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,single_family,1,5715,699.664,699.664,5821.0,5821.0,12698.9,55973.1,43269.4,43269.4,0.0,39620586.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,two_family,1,5302,657.416,657.416,10516.0,10516.0,11932.1,52593.3,40446.9,40446.9,40446.9,37228151.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,single_family,1,5715,699.664,699.664,5821.0,5821.0,12698.9,55973.2,43269.4,43269.4,0.0,39620599.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,two_family,1,5302,657.416,657.416,10516.0,10516.0,11932.1,52593.3,40446.9,40446.9,40446.9,37228163.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,utility_transport,0,3,5.735,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,vacant,1,163,20.676,20.676,19.0,19.0,375.3,1654.1,1278.2,1278.2,1278.2,1170844.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,vacant,1,163,20.676,20.676,19.0,19.0,375.3,1654.1,1278.2,1278.2,1278.2,1170845.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,commercial,1,49,10.694,10.694,0.0,0.0,258.8,855.5,596.7,596.7,596.7,232918.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,industrial,1,1,0.211,0.211,0.0,0.0,5.1,16.9,11.8,11.8,11.8,4596.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,institutional,0,52,61.419,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,institutional,0,52,61.42,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,mixed_residential_commercial,1,29,3.419,3.419,111.0,111.0,82.7,273.5,152.8,152.8,152.8,74473.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,multifamily,1,292,36.718,36.718,1118.0,1118.0,888.6,2937.5,1755.4,1755.4,1755.4,799727.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,other_unknown,1,19,1.558,1.558,1.0,1.0,37.7,124.7,87.0,87.0,87.0,33941.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,park_open_space,0,15,4.752,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,parking,1,10,2.018,2.018,0.0,0.0,48.8,161.4,112.6,112.6,112.6,43942.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,single_family,1,7573,769.752,769.752,7665.0,7665.0,18628.0,61580.2,42944.0,42944.0,0.0,16765207.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,two_family,1,5288,557.722,557.722,10458.0,10458.0,13496.9,44617.7,30961.7,30961.7,30961.7,12147180.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,single_family,1,7573,769.753,769.753,7665.0,7665.0,18628.0,61580.2,42944.0,42944.0,0.0,16765213.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,two_family,1,5288,557.722,557.722,10458.0,10458.0,13496.9,44617.8,30961.7,30961.7,30961.7,12147184.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,utility_transport,0,3,7.019,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,vacant,1,678,63.789,63.789,129.0,129.0,1543.7,5103.1,3549.0,3549.0,3549.0,1389314.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,commercial,1,111,46.335,46.335,0.0,0.0,1682.0,3706.8,2024.9,2024.9,2024.9,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,commercial,1,111,46.336,46.336,0.0,0.0,1682.0,3706.8,2024.9,2024.9,2024.9,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,industrial,1,3,0.244,0.244,0.0,0.0,8.9,19.5,10.7,10.7,10.7,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,institutional,0,203,196.109,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,mixed_residential_commercial,1,253,29.42,29.42,915.0,915.0,1067.9,2353.6,1126.2,1126.2,1126.2,0.0,0.0,0.0,0.0
@@ -1470,11 +1470,11 @@ Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,other_unknown,1,105,17.231,17.231,10.0,10.0,625.5,1378.4,753.0,753.0,753.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,park_open_space,0,40,78.104,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,parking,1,54,12.04,12.04,0.0,0.0,437.1,963.2,526.1,526.1,526.1,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,single_family,1,11519,1163.427,1163.427,12004.0,12004.0,42232.4,93074.2,50835.8,50835.8,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,two_family,1,10696,1111.01,1111.01,21949.0,21949.0,40329.6,88880.8,48384.8,48384.8,48384.8,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,single_family,1,11519,1163.428,1163.428,12004.0,12004.0,42232.4,93074.2,50835.9,50835.9,0.0,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,two_family,1,10696,1111.01,1111.01,21949.0,21949.0,40329.7,88880.8,48384.8,48384.8,48384.8,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,utility_transport,0,3,2.092,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,vacant,1,2197,233.673,233.673,318.0,318.0,8482.3,18693.9,10204.0,10204.0,10204.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,TL,institutional,not_eligible,verified,cemetery,0,12,429.948,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,TL,institutional,not_eligible,verified,cemetery,0,12,429.949,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,TL,institutional,not_eligible,verified,commercial,0,11,43.96,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,TL,institutional,not_eligible,verified,institutional,0,26,275.23,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_quarter,1,1,1,1,80,2.5,55,1192.0,80.0,TL,institutional,not_eligible,verified,multifamily,0,3,19.543,0.0,436.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1561,21 +1561,21 @@ Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,PD
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,PD,planned_development,existing_is_rule,source_lead,vacant,1,7,18.548,18.548,16.0,16.0,16.0,1483.9,1467.9,1467.9,1467.9,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,park_open_space,0,19,241.599,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RB1,commercial,density,verified,commercial,1,18,37.463,37.463,0.0,0.0,1359.9,2997.0,1637.1,1637.1,1637.1,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RB1,commercial,density,verified,industrial,1,1,13.841,13.841,0.0,0.0,502.4,1107.3,604.9,604.9,604.9,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RB1,commercial,density,verified,industrial,1,1,13.842,13.842,0.0,0.0,502.4,1107.3,604.9,604.9,604.9,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RB1,commercial,density,verified,other_unknown,1,5,40.99,40.99,0.0,0.0,1487.9,3279.2,1791.3,1791.3,1791.3,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RB1,commercial,density,verified,park_open_space,0,1,0.025,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RB1,commercial,density,verified,vacant,1,3,4.963,4.963,0.0,0.0,180.1,397.0,216.9,216.9,216.9,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,cemetery,0,1,0.334,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,commercial,1,7,9.883,9.883,0.0,0.0,179.4,790.7,611.3,611.3,611.3,559674.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,commercial,1,7,9.883,9.883,0.0,0.0,179.4,790.7,611.3,611.3,611.3,559675.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,institutional,0,9,24.849,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,mixed_residential_commercial,1,3,0.61,0.61,10.0,10.0,11.1,48.8,37.4,37.4,37.4,34518.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,multifamily,1,412,189.411,189.411,3386.0,3386.0,3437.8,15152.9,11587.4,11587.4,11587.4,10725963.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,multifamily,1,412,189.411,189.411,3386.0,3386.0,3437.8,15152.9,11587.4,11587.4,11587.4,10725966.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,other_unknown,1,1,0.885,0.885,0.0,0.0,16.1,70.8,54.7,54.7,54.7,50127.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,park_open_space,0,6,7.173,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,parking,1,2,2.781,2.781,0.0,0.0,50.5,222.5,172.0,172.0,172.0,157484.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,single_family,1,107,62.057,62.057,779.0,779.0,1126.3,4964.6,3833.0,3833.0,0.0,3514191.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,two_family,1,160,22.216,22.216,320.0,320.0,403.2,1777.3,1372.8,1372.8,1372.8,1258067.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,vacant,1,14,13.554,13.554,0.0,0.0,246.0,1084.3,838.3,838.3,838.3,767526.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,single_family,1,107,62.058,62.058,779.0,779.0,1126.3,4964.6,3833.0,3833.0,0.0,3514192.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,two_family,1,160,22.216,22.216,320.0,320.0,403.2,1777.3,1372.8,1372.8,1372.8,1258068.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,vacant,1,14,13.554,13.554,0.0,0.0,246.0,1084.3,838.3,838.3,838.3,767527.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,commercial,1,3,0.539,0.539,0.0,0.0,19.6,43.1,23.6,23.6,23.6,11746.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,mixed_residential_commercial,1,2,0.312,0.312,10.0,10.0,11.3,25.0,13.6,13.6,13.6,6801.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,multifamily,1,118,38.866,38.866,1148.0,1148.0,1410.8,3109.3,1691.9,1691.9,1691.9,846507.0,0.0,0.0,0.0
@@ -1585,25 +1585,25 @@ Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,vacant,1,1,0.011,0.011,0.0,0.0,0.4,0.9,0.5,0.5,0.5,238.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM4,residential,density,verified,multifamily,1,1,1.609,1.609,80.0,80.0,58.4,128.7,48.7,48.7,48.7,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RM5,residential,density,verified,multifamily,1,2,0.577,0.577,36.0,36.0,31.4,46.2,7.7,7.7,7.7,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RO1,residential,density,verified,commercial,1,5,2.943,2.943,0.0,0.0,53.4,235.4,182.0,182.0,182.0,166636.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RO1,residential,density,verified,commercial,1,5,2.943,2.943,0.0,0.0,53.4,235.4,182.0,182.0,182.0,166637.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RO1,residential,density,verified,mixed_residential_commercial,1,1,0.133,0.133,2.0,2.0,2.4,10.6,8.2,8.2,8.2,7517.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RO1,residential,density,verified,single_family,1,9,4.717,4.717,11.0,11.0,85.6,377.4,291.7,291.7,0.0,267107.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RO1,residential,density,verified,two_family,1,1,0.284,0.284,2.0,2.0,5.2,22.7,17.6,17.6,17.6,16086.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RO1,residential,density,verified,vacant,1,3,3.605,3.605,0.0,0.0,65.4,288.4,223.0,223.0,223.0,204167.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RO2,residential,density,verified,single_family,1,2,0.356,0.356,2.0,2.0,38.8,38.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,single_family,1,64,36.37,36.37,64.0,64.0,132.0,2909.6,2777.6,2777.6,0.0,2059542.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,single_family,1,64,36.37,36.37,64.0,64.0,132.0,2909.6,2777.6,2777.6,0.0,2059543.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,two_family,1,1,0.632,0.632,2.0,2.0,2.3,50.6,48.3,48.3,48.3,35812.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,utility_transport,0,1,1.776,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,vacant,1,1,4.243,4.243,0.0,0.0,15.4,339.4,324.0,324.0,324.0,240274.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,institutional,0,6,45.633,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,mixed_residential_commercial,1,1,3.493,3.493,3.0,3.0,16.9,279.4,262.5,262.5,262.5,197799.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,single_family,1,173,47.212,47.212,173.0,173.0,228.5,3777.0,3548.5,3548.5,0.0,2673549.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,single_family,1,173,47.213,47.213,173.0,173.0,228.5,3777.0,3548.5,3548.5,0.0,2673550.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,vacant,1,2,1.335,1.335,0.0,0.0,6.5,106.8,100.4,100.4,100.4,75615.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,commercial,1,3,0.616,0.616,0.0,0.0,3.7,49.3,45.5,45.5,45.5,34879.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,institutional,0,2,17.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,multifamily,1,2,0.384,0.384,7.0,7.0,2.3,30.7,23.7,23.7,23.7,21745.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,other_unknown,1,4,1.047,1.047,4.0,4.0,6.3,83.8,77.4,77.4,77.4,59299.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,single_family,1,1073,205.124,205.124,1074.0,1074.0,1241.0,16409.9,15162.6,15162.6,0.0,11615760.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,single_family,1,1073,205.124,205.124,1074.0,1074.0,1241.0,16409.9,15162.6,15162.6,0.0,11615763.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,two_family,1,30,5.884,5.884,59.0,59.0,35.6,470.8,410.9,410.9,410.9,333222.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,utility_transport,0,1,1.799,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,vacant,1,35,10.291,10.291,0.0,0.0,62.3,823.2,761.0,761.0,761.0,582734.0,0.0,0.0,0.0
@@ -1614,7 +1614,7 @@ Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,multifamily,1,1,0.262,0.262,4.0,4.0,1.9,20.9,16.9,16.9,16.9,14826.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,park_open_space,0,7,14.007,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,parking,1,1,0.131,0.131,0.0,0.0,1.0,10.5,9.6,9.6,9.6,7436.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,single_family,1,2574,413.935,413.935,2574.0,2574.0,3005.2,33114.8,30050.8,30050.8,0.0,23440290.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,single_family,1,2574,413.935,413.935,2574.0,2574.0,3005.2,33114.8,30050.8,30050.8,0.0,23440298.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,two_family,1,54,10.178,10.178,107.0,107.0,73.9,814.2,706.6,706.6,706.6,576359.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,utility_transport,0,1,12.711,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,vacant,1,11,1.662,1.662,0.0,0.0,12.1,132.9,120.9,120.9,120.9,94104.0,0.0,0.0,0.0
@@ -1622,7 +1622,7 @@ Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,institutional,0,4,7.504,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,multifamily,1,6,1.3,1.3,26.0,26.0,15.7,104.0,77.9,77.9,77.9,5661.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,park_open_space,0,5,5.804,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,single_family,1,3001,425.269,425.269,3002.0,3002.0,5145.8,34021.5,28875.2,28875.2,0.0,1852470.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,single_family,1,3001,425.269,425.269,3002.0,3002.0,5145.8,34021.5,28875.2,28875.2,0.0,1852471.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,two_family,1,149,23.491,23.491,296.0,296.0,284.2,1879.3,1542.8,1542.8,1542.8,102326.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,utility_transport,0,1,0.095,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,vacant,1,52,8.001,8.001,0.0,0.0,96.8,640.1,543.2,543.2,543.2,34851.0,0.0,0.0,0.0
@@ -1634,9 +1634,9 @@ Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,mixed_residential_commercial,1,1,0.164,0.164,4.0,4.0,3.0,13.1,9.1,9.1,9.1,9266.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,multifamily,1,29,6.57,6.57,124.0,124.0,119.2,525.6,393.1,393.1,393.1,372029.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,parking,1,1,0.07,0.07,0.0,0.0,1.3,5.6,4.3,4.3,4.3,3950.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,single_family,1,662,80.218,80.218,666.0,666.0,1456.0,6417.4,4961.4,4961.4,0.0,4542581.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,two_family,1,688,87.286,87.286,1370.0,1370.0,1584.2,6982.8,5376.7,5376.7,5376.7,4942808.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,vacant,1,6,0.985,0.985,8.0,8.0,17.9,78.8,56.9,56.9,56.9,55802.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,single_family,1,662,80.218,80.218,666.0,666.0,1456.0,6417.4,4961.4,4961.4,0.0,4542583.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,two_family,1,688,87.286,87.286,1370.0,1370.0,1584.2,6982.8,5376.7,5376.7,5376.7,4942809.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,vacant,1,6,0.985,0.985,8.0,8.0,17.9,78.8,56.9,56.9,56.9,55803.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,commercial,1,2,0.274,0.274,0.0,0.0,6.6,22.0,15.3,15.3,15.3,5976.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,industrial,1,2,0.228,0.228,0.0,0.0,5.5,18.2,12.7,12.7,12.7,4964.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,institutional,0,6,18.946,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1645,7 +1645,7 @@ Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,park_open_space,0,3,3.079,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,parking,1,1,0.043,0.043,0.0,0.0,1.0,3.5,2.4,2.4,2.4,943.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,single_family,1,896,101.989,101.989,905.0,905.0,2468.1,8159.1,5690.8,5690.8,0.0,2221314.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,two_family,1,491,57.702,57.702,974.0,974.0,1396.4,4616.2,3216.3,3216.3,3216.3,1256758.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,two_family,1,491,57.702,57.702,974.0,974.0,1396.4,4616.2,3216.3,3216.3,3216.3,1256759.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,vacant,1,14,1.308,1.308,0.0,0.0,31.7,104.6,73.0,73.0,73.0,28487.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,commercial,1,2,6.862,6.862,0.0,0.0,249.1,549.0,299.9,299.9,299.9,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_quarter,0,1,0,1,80,2.5,55,1192.0,80.0,TL,institutional,not_eligible,verified,cemetery,0,4,169.558,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1705,7 +1705,7 @@ Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,IO2,i
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,IO2,industrial,not_eligible,verified,parking,0,2,2.03,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,IO2,industrial,not_eligible,verified,single_family,0,3,0.258,0.0,3.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,IO2,industrial,not_eligible,verified,two_family,0,1,0.1,0.0,2.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,IO2,industrial,not_eligible,verified,utility_transport,0,5,12.992,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,IO2,industrial,not_eligible,verified,utility_transport,0,5,12.993,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,IO2,industrial,not_eligible,verified,vacant,0,5,9.281,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB1,commercial,density,verified,commercial,1,32,29.66,29.66,0.0,0.0,1076.6,2372.8,1296.1,1296.1,1296.1,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB1,commercial,density,verified,industrial,1,1,3.659,3.659,0.0,0.0,132.8,292.7,159.9,159.9,159.9,0.0,0.0,0.0,0.0
@@ -1717,14 +1717,14 @@ Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB1,c
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB1,commercial,density,verified,two_family,1,4,0.413,0.413,8.0,8.0,15.0,33.0,18.0,18.0,18.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB1,commercial,density,verified,vacant,1,7,9.275,9.275,0.0,0.0,336.7,742.0,405.3,405.3,405.3,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,agricultural,1,1,0.162,0.162,0.0,0.0,8.8,13.0,4.2,4.2,4.2,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,commercial,1,156,44.304,44.304,0.0,0.0,2412.3,3544.3,1132.0,1132.0,1132.0,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,commercial,1,156,44.304,44.304,0.0,0.0,2412.4,3544.3,1132.0,1132.0,1132.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,industrial,1,7,0.714,0.714,0.0,0.0,38.9,57.1,18.2,18.2,18.2,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,institutional,0,19,4.433,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,mixed_residential_commercial,1,197,26.826,26.826,924.0,924.0,1460.7,2146.1,609.6,609.6,609.6,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,multifamily,1,46,5.142,5.142,211.0,211.0,280.0,411.4,122.4,122.4,122.4,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,other_unknown,1,8,1.0,1.0,1.0,1.0,54.4,80.0,25.5,25.5,25.5,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,park_open_space,0,2,0.352,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,parking,1,25,4.107,4.107,0.0,0.0,223.6,328.6,104.9,104.9,104.9,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,parking,1,25,4.107,4.107,0.0,0.0,223.7,328.6,104.9,104.9,104.9,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,single_family,1,92,8.16,8.16,94.0,94.0,444.3,652.8,208.5,208.5,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,two_family,1,105,10.336,10.336,228.0,228.0,562.8,826.9,262.0,262.0,262.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,LB2,commercial,density,verified,utility_transport,0,3,0.981,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1752,12 +1752,12 @@ Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,PD,pl
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,cemetery,0,1,0.154,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,commercial,0,3,4.602,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,institutional,0,1,1.696,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,park_open_space,0,82,1209.493,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,park_open_space,0,82,1209.494,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,parking,0,1,1.223,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,PK,park,not_eligible,verified,utility_transport,0,3,8.759,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,commercial,1,1,1.98,1.98,0.0,0.0,35.9,158.4,122.5,122.5,122.5,112134.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,institutional,0,3,8.447,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,multifamily,1,294,132.266,132.266,2117.0,2117.0,2400.6,10581.3,8076.4,8076.4,8076.4,7489966.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,multifamily,1,294,132.266,132.266,2117.0,2117.0,2400.6,10581.3,8076.4,8076.4,8076.4,7489969.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,other_unknown,1,2,0.277,0.277,0.0,0.0,5.0,22.1,17.1,17.1,17.1,15668.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,parking,1,2,0.862,0.862,0.0,0.0,15.7,69.0,53.3,53.3,53.3,48836.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,single_family,1,42,20.544,20.544,268.0,268.0,372.9,1643.5,1269.7,1269.7,0.0,1163362.0,0.0,0.0,0.0
@@ -1784,13 +1784,13 @@ Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RM7,r
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RM7,residential,density,verified,single_family,1,1,1.037,1.037,147.0,147.0,225.4,225.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RO1,residential,density,verified,single_family,1,1,0.143,0.143,1.0,1.0,2.6,11.4,8.8,8.8,0.0,8102.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,park_open_space,0,1,0.086,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,single_family,1,97,46.734,46.734,97.0,97.0,169.6,3738.7,3567.9,3567.9,0.0,2646450.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,single_family,1,97,46.734,46.734,97.0,97.0,169.6,3738.7,3567.9,3567.9,0.0,2646451.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,two_family,1,1,0.412,0.412,2.0,2.0,1.5,33.0,31.0,31.0,31.0,23342.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,vacant,1,3,4.587,4.587,0.0,0.0,16.7,366.9,350.3,350.3,350.3,259744.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS2,residential,density,verified,vacant,1,3,4.587,4.587,0.0,0.0,16.7,366.9,350.3,350.3,350.3,259745.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,commercial,1,2,0.779,0.779,0.0,0.0,3.8,62.4,58.6,58.6,58.6,44140.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,institutional,0,3,16.591,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,park_open_space,0,1,0.495,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,single_family,1,474,136.446,136.446,476.0,476.0,660.4,10915.7,10253.5,10253.5,0.0,7726683.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,single_family,1,474,136.446,136.446,476.0,476.0,660.4,10915.7,10253.5,10253.5,0.0,7726686.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,two_family,1,7,3.269,3.269,14.0,14.0,15.8,261.5,244.0,244.0,244.0,185107.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,vacant,1,7,1.424,1.424,2.0,2.0,6.9,113.9,107.0,107.0,107.0,80640.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,commercial,1,2,0.402,0.402,0.0,0.0,2.4,32.2,29.8,29.8,29.8,22790.0,0.0,0.0,0.0
@@ -1798,16 +1798,16 @@ Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,r
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,multifamily,1,2,1.005,1.005,16.0,16.0,6.1,80.4,64.4,64.4,64.4,56920.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,other_unknown,1,3,0.446,0.446,0.0,0.0,2.7,35.6,33.0,33.0,33.0,25233.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,park_open_space,0,17,102.526,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,single_family,1,1853,372.432,372.432,1855.0,1855.0,2253.2,29794.6,27469.6,27469.6,0.0,21090102.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,two_family,1,22,5.624,5.624,45.0,45.0,34.0,449.9,398.8,398.8,398.8,318485.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,single_family,1,1853,372.433,372.433,1855.0,1855.0,2253.2,29794.6,27469.6,27469.6,0.0,21090109.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,two_family,1,22,5.624,5.624,45.0,45.0,34.0,449.9,398.8,398.8,398.8,318486.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,utility_transport,0,1,0.198,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,vacant,1,14,36.518,36.518,0.0,0.0,220.9,2921.5,2700.5,2700.5,2700.5,2067958.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,vacant,1,14,36.518,36.518,0.0,0.0,220.9,2921.5,2700.5,2700.5,2700.5,2067959.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,commercial,1,4,0.693,0.693,0.0,0.0,5.0,55.5,50.4,50.4,50.4,39271.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,institutional,0,6,16.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,multifamily,1,6,1.114,1.114,21.0,21.0,8.1,89.2,68.2,68.2,68.2,63108.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,other_unknown,1,2,3.794,3.794,0.0,0.0,27.5,303.5,276.0,276.0,276.0,214836.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,park_open_space,0,3,41.105,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,single_family,1,3085,531.644,531.644,3153.0,3153.0,3859.7,42531.5,38607.0,38607.0,0.0,30105922.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,single_family,1,3085,531.644,531.644,3153.0,3153.0,3859.7,42531.5,38607.0,38607.0,0.0,30105932.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,two_family,1,76,13.801,13.801,148.0,148.0,100.2,1104.1,951.7,951.7,951.7,781504.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,utility_transport,0,1,1.724,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,vacant,1,10,5.732,5.732,0.0,0.0,41.6,458.6,416.9,416.9,416.9,324591.0,0.0,0.0,0.0
@@ -1817,7 +1817,7 @@ Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS6,r
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,multifamily,1,17,2.795,2.795,52.0,52.0,33.8,223.6,171.6,171.6,171.6,12174.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,other_unknown,1,4,1.068,1.068,1.0,1.0,12.9,85.4,72.5,72.5,72.5,4650.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,park_open_space,0,9,4.31,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,single_family,1,6704,900.598,900.598,6709.0,6709.0,10897.2,72047.8,61139.0,61139.0,0.0,3923005.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,single_family,1,6704,900.598,900.598,6709.0,6709.0,10897.2,72047.9,61139.0,61139.0,0.0,3923006.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,two_family,1,471,72.387,72.387,932.0,932.0,875.9,5790.9,4738.7,4738.7,4738.7,315317.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,utility_transport,0,7,43.057,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,vacant,1,61,9.267,9.267,7.0,7.0,112.1,741.3,629.2,629.2,629.2,40365.0,0.0,0.0,0.0
@@ -1830,15 +1830,15 @@ Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT2,r
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,other_unknown,1,1,0.091,0.091,0.0,0.0,1.7,7.3,5.6,5.6,5.6,5155.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,park_open_space,0,1,2.462,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,parking,1,1,0.124,0.124,0.0,0.0,2.2,9.9,7.7,7.7,7.7,7006.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,single_family,1,1533,196.943,196.943,1545.0,1545.0,3574.5,15755.4,12179.9,12179.9,0.0,11152489.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,two_family,1,1635,205.964,205.964,3261.0,3261.0,3738.2,16477.1,12699.2,12699.2,12699.2,11663312.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,vacant,1,39,5.101,5.101,1.0,1.0,92.6,408.1,315.5,315.5,315.5,288853.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,single_family,1,1533,196.943,196.943,1545.0,1545.0,3574.5,15755.4,12179.9,12179.9,0.0,11152492.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,two_family,1,1635,205.964,205.964,3261.0,3261.0,3738.2,16477.1,12699.2,12699.2,12699.2,11663316.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,vacant,1,39,5.101,5.101,1.0,1.0,92.6,408.1,315.5,315.5,315.5,288854.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,commercial,1,1,0.137,0.137,0.0,0.0,3.3,11.0,7.6,7.6,7.6,2983.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,institutional,0,4,5.587,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,mixed_residential_commercial,1,4,0.417,0.417,12.0,12.0,10.1,33.4,21.3,21.3,21.3,9087.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,multifamily,1,17,2.43,2.43,62.0,62.0,58.8,194.4,126.5,126.5,126.5,52932.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,park_open_space,0,1,3.808,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,single_family,1,721,78.958,78.958,726.0,726.0,1910.8,6316.6,4405.5,4405.5,0.0,1719703.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,single_family,1,721,78.958,78.958,726.0,726.0,1910.8,6316.6,4405.5,4405.5,0.0,1719704.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,two_family,1,497,53.976,53.976,988.0,988.0,1306.2,4318.1,3005.2,3005.2,3005.2,1175603.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,vacant,1,42,3.348,3.348,0.0,0.0,81.0,267.8,186.8,186.8,186.8,72915.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus15_half,0,0,1,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,commercial,1,8,2.558,2.558,0.0,0.0,92.8,204.6,111.8,111.8,111.8,0.0,0.0,0.0,0.0
@@ -1867,7 +1867,7 @@ Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,CS,co
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,CS,commercial,density,verified,parking,1,1,1.914,1.914,0.0,0.0,69.5,153.1,83.6,83.6,83.6,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,CS,commercial,density,verified,single_family,1,16,2.662,2.662,18.0,18.0,96.6,212.9,116.3,116.3,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,CS,commercial,density,verified,two_family,1,3,0.76,0.76,5.0,5.0,27.6,60.8,33.2,33.2,33.2,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,CS,commercial,density,verified,vacant,1,6,20.068,20.068,0.0,0.0,728.5,1605.4,877.0,877.0,877.0,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,CS,commercial,density,verified,vacant,1,6,20.068,20.068,0.0,0.0,728.5,1605.5,877.0,877.0,877.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IL1,industrial,not_eligible,verified,agricultural,0,2,1.918,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IL1,industrial,not_eligible,verified,commercial,0,45,114.951,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IL1,industrial,not_eligible,verified,industrial,0,93,388.71,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1876,7 +1876,7 @@ Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IL1,i
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IL1,industrial,not_eligible,verified,park_open_space,0,10,2.532,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IL1,industrial,not_eligible,verified,parking,0,7,14.626,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IL1,industrial,not_eligible,verified,single_family,0,14,7.64,0.0,16.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IL1,industrial,not_eligible,verified,utility_transport,0,14,446.86,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IL1,industrial,not_eligible,verified,utility_transport,0,14,446.861,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IL1,industrial,not_eligible,verified,vacant,0,20,99.655,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IO1,industrial,not_eligible,verified,agricultural,0,1,2.755,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,IO1,industrial,not_eligible,verified,commercial,0,7,10.668,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -1925,13 +1925,13 @@ Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RB1,c
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RB1,commercial,density,verified,utility_transport,0,1,0.431,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RB1,commercial,density,verified,vacant,1,4,4.15,4.15,0.0,0.0,150.7,332.0,181.4,181.4,181.4,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,commercial,1,4,12.665,12.665,0.0,0.0,229.9,1013.2,783.3,783.3,783.3,717166.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,multifamily,1,147,71.022,71.022,1184.0,1184.0,1289.1,5681.8,4365.4,4365.4,4365.4,4021860.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,multifamily,1,147,71.022,71.022,1184.0,1184.0,1289.1,5681.8,4365.4,4365.4,4365.4,4021861.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,park_open_space,0,3,6.416,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,parking,1,2,0.534,0.534,0.0,0.0,9.7,42.7,33.0,33.0,33.0,30223.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,single_family,1,38,16.327,16.327,203.0,203.0,296.3,1306.1,1009.8,1009.8,0.0,924540.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,single_family,1,38,16.327,16.327,203.0,203.0,296.3,1306.1,1009.8,1009.8,0.0,924541.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,two_family,1,21,3.427,3.427,42.0,42.0,62.2,274.2,212.0,212.0,212.0,194062.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,utility_transport,0,2,8.037,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,vacant,1,11,20.343,20.343,0.0,0.0,369.2,1627.4,1258.2,1258.2,1258.2,1151973.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM1,residential,density,verified,vacant,1,11,20.343,20.343,0.0,0.0,369.2,1627.4,1258.2,1258.2,1258.2,1151974.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,institutional,0,1,1.853,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,multifamily,1,15,9.907,9.907,251.0,251.0,359.6,792.5,432.6,432.6,432.6,215772.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RM2,residential,density,verified,single_family,1,3,4.587,4.587,121.0,121.0,166.5,367.0,200.5,200.5,0.0,99911.0,0.0,0.0,0.0
@@ -1941,21 +1941,21 @@ Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS3,r
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,institutional,0,2,19.997,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,multifamily,1,4,1.013,1.013,16.0,16.0,4.9,81.1,65.1,65.1,65.1,57380.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,other_unknown,1,2,3.616,3.616,0.0,0.0,17.5,289.3,271.8,271.8,271.8,204778.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,single_family,1,533,163.745,163.745,533.0,533.0,792.5,13099.6,12300.7,12300.7,0.0,9272580.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,two_family,1,11,3.695,3.695,20.0,20.0,17.9,295.6,267.9,267.9,267.9,209233.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,vacant,1,41,33.011,33.011,0.0,0.0,159.8,2640.9,2481.1,2481.1,2481.1,1869349.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,single_family,1,533,163.746,163.746,533.0,533.0,792.5,13099.6,12300.7,12300.7,0.0,9272583.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,two_family,1,11,3.695,3.695,20.0,20.0,17.9,295.6,267.9,267.9,267.9,209234.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS3,residential,density,verified,vacant,1,41,33.011,33.011,0.0,0.0,159.8,2640.9,2481.1,2481.1,2481.1,1869350.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,commercial,1,2,0.413,0.413,0.0,0.0,2.5,33.1,30.6,30.6,30.6,23399.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,institutional,0,2,19.325,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,park_open_space,0,3,5.497,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,single_family,1,788,157.478,157.478,788.0,788.0,952.7,12598.2,11641.3,11641.3,0.0,8917648.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,single_family,1,788,157.478,157.478,788.0,788.0,952.7,12598.2,11641.3,11641.3,0.0,8917651.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,two_family,1,29,6.03,6.03,58.0,58.0,36.5,482.4,424.4,424.4,424.4,341442.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,utility_transport,0,1,1.36,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,vacant,1,41,48.578,48.578,0.0,0.0,293.9,3886.2,3592.3,3592.3,3592.3,2750857.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS4,residential,density,verified,vacant,1,41,48.578,48.578,0.0,0.0,293.9,3886.2,3592.3,3592.3,3592.3,2750858.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,commercial,1,2,0.333,0.333,0.0,0.0,2.4,26.6,24.2,24.2,24.2,18862.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,institutional,0,4,32.283,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,multifamily,1,1,0.183,0.183,2.0,2.0,1.3,14.6,12.6,12.6,12.6,10365.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,park_open_space,0,3,2.33,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,single_family,1,1264,210.181,210.181,1264.0,1264.0,1525.9,16814.5,15278.9,15278.9,0.0,11902120.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,single_family,1,1264,210.181,210.181,1264.0,1264.0,1525.9,16814.5,15278.9,15278.9,0.0,11902124.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,two_family,1,15,2.963,2.963,29.0,29.0,21.5,237.0,207.6,207.6,207.6,167769.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS5,residential,density,verified,vacant,1,6,0.679,0.679,0.0,0.0,4.9,54.3,49.4,49.4,49.4,38453.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS6,residential,density,verified,commercial,1,7,1.282,1.282,0.0,0.0,15.5,102.6,87.1,87.1,87.1,5586.0,0.0,0.0,0.0
@@ -1967,18 +1967,18 @@ Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RS6,r
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,commercial,1,1,0.165,0.165,0.0,0.0,2.0,13.2,11.2,11.2,11.2,9355.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,multifamily,1,2,0.461,0.461,7.0,7.0,5.6,36.9,29.9,29.9,29.9,26112.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,single_family,1,26,5.845,5.845,28.0,28.0,70.7,467.6,396.5,396.5,0.0,330978.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,two_family,1,174,32.515,32.515,348.0,348.0,393.4,2601.2,2201.0,2201.0,2201.0,1841243.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,two_family,1,174,32.515,32.515,348.0,348.0,393.4,2601.2,2201.0,2201.0,2201.0,1841244.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT1,residential,density,verified,vacant,1,3,0.265,0.265,0.0,0.0,3.2,21.2,18.0,18.0,18.0,15012.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,commercial,1,2,0.249,0.249,0.0,0.0,4.5,19.9,15.4,15.4,15.4,14088.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,mixed_residential_commercial,1,2,0.763,0.763,3.0,3.0,13.9,61.1,47.2,47.2,47.2,43231.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,multifamily,1,14,3.069,3.069,56.0,56.0,55.7,245.5,187.7,187.7,187.7,173789.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,park_open_space,0,1,1.387,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,single_family,1,139,24.264,24.264,172.0,172.0,440.4,1941.1,1500.7,1500.7,0.0,1373999.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,two_family,1,358,52.307,52.307,715.0,715.0,949.4,4184.6,3234.6,3234.6,3234.6,2962055.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,two_family,1,358,52.307,52.307,715.0,715.0,949.4,4184.6,3234.6,3234.6,3234.6,2962056.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT2,residential,density,verified,vacant,1,6,0.738,0.738,0.0,0.0,13.4,59.0,45.6,45.6,45.6,41776.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,multifamily,1,23,3.974,3.974,81.0,81.0,96.2,317.9,219.8,219.8,219.8,86552.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,single_family,1,371,40.985,40.985,374.0,374.0,991.8,3278.8,2286.9,2286.9,0.0,892652.0,0.0,0.0,0.0
-Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,two_family,1,117,12.54,12.54,232.0,232.0,303.5,1003.2,698.0,698.0,698.0,273114.0,0.0,0.0,0.0
+Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,two_family,1,117,12.54,12.54,232.0,232.0,303.5,1003.2,698.0,698.0,698.0,273115.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,utility_transport,0,1,6.048,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT3,residential,density,verified,vacant,1,6,0.514,0.514,0.0,0.0,12.4,41.1,28.7,28.7,28.7,11194.0,0.0,0.0,0.0
 Milwaukee city,Milwaukee County,1,bus20_half,0,0,0,1,80,2.5,55,1192.0,80.0,RT4,residential,density,verified,commercial,1,1,8.453,8.453,0.0,0.0,306.8,676.2,369.4,369.4,369.4,0.0,0.0,0.0,0.0
@@ -2004,7 +2004,7 @@ Blooming Grove town,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(
 Blooming Grove town,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,3,4.009,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Blooming Grove town,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,2,0.797,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Blooming Grove town,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,10,12.186,12.186,61.0,61.0,61.0,904.6,843.6,913.9,843.6,0.0,0.0,0.0,0.0
-Blooming Grove town,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,48,33.466,33.466,48.4,48.4,48.4,2484.2,2435.9,2628.9,0.0,0.0,0.0,0.0,0.0
+Blooming Grove town,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,48,33.466,33.466,48.4,48.4,48.4,2484.3,2435.9,2628.9,0.0,0.0,0.0,0.0,0.0
 Blooming Grove town,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,1,2.941,2.941,0.0,0.0,0.0,218.3,218.3,235.3,218.3,0.0,0.0,0.0,0.0
 Blooming Grove town,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,1,3.867,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Blooming Grove town,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,2,4.81,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2065,11 +2065,11 @@ Cudahy city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not
 Cudahy city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,5,2.505,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Cudahy city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,455,104.94,104.94,1225.9,1225.9,1225.9,7790.0,6564.1,7169.3,6564.1,0.0,0.0,0.0,0.0
 Cudahy city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,1177,156.297,156.297,1286.4,1286.4,1286.4,11602.4,10316.0,11217.3,0.0,0.0,0.0,0.0,0.0
-Cudahy city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,89,61.046,61.046,348.0,348.0,348.0,4531.7,4183.6,4535.7,4183.6,0.0,0.0,0.0,0.0
+Cudahy city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,89,61.046,61.046,348.0,348.0,348.0,4531.7,4183.7,4535.7,4183.7,0.0,0.0,0.0,0.0
 Cudahy city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,9,89.727,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Cudahy city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,34,134.594,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Cudahy city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,1,0.318,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Cudahy city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,440,110.758,110.758,976.5,976.5,976.5,8221.9,7245.3,7884.1,7245.3,0.0,0.0,0.0,0.0
+Cudahy city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,440,110.758,110.758,976.5,976.5,976.5,8221.9,7245.4,7884.1,7245.4,0.0,0.0,0.0,0.0
 Cudahy city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,1491,227.757,227.757,1577.4,1577.4,1577.4,16907.1,15329.7,16643.2,0.0,0.0,0.0,0.0,0.0
 Eau Claire city,Eau Claire County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,481,297.834,297.834,1911.7,1911.7,1911.7,22109.2,20197.4,21915.0,20197.4,0.0,0.0,0.0,0.0
 Eau Claire city,Eau Claire County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,165,545.613,0.0,108.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2081,9 +2081,9 @@ Eau Claire city,Eau Claire County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(n
 Eau Claire city,Eau Claire County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,95,329.925,0.0,2.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Eau Claire city,Eau Claire County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,2,0.749,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Eau Claire city,Eau Claire County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,454,145.201,145.201,989.2,989.2,989.2,10778.7,9789.5,10626.8,9789.5,0.0,0.0,0.0,0.0
-Eau Claire city,Eau Claire County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,1365,296.253,296.253,1294.3,1294.3,1294.3,21991.8,20697.5,22405.9,0.0,0.0,0.0,0.0,0.0
+Eau Claire city,Eau Claire County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,1365,296.253,296.253,1294.3,1294.3,1294.3,21991.8,20697.5,22406.0,0.0,0.0,0.0,0.0,0.0
 Fitchburg city,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,agricultural,0,2,30.653,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Fitchburg city,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,219,474.174,474.174,3446.9,3446.9,3446.9,35199.4,31752.5,34487.0,31752.5,0.0,0.0,0.0,0.0
+Fitchburg city,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,219,474.175,474.175,3446.9,3446.9,3446.9,35199.5,31752.6,34487.1,31752.6,0.0,0.0,0.0,0.0
 Fitchburg city,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,2,17.618,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Fitchburg city,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,50,109.23,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Fitchburg city,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,33,76.362,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2111,7 +2111,7 @@ Glendale city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(n
 Glendale city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,43,153.667,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Glendale city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,3,9.995,0.0,113.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Glendale city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,55,24.304,24.304,117.7,117.7,117.7,1804.1,1686.5,1826.6,1686.5,0.0,0.0,0.0,0.0
-Glendale city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,643,131.429,131.429,511.8,511.8,511.8,9756.4,9244.5,10002.5,0.0,0.0,0.0,0.0,0.0
+Glendale city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,643,131.429,131.429,511.8,511.8,511.8,9756.4,9244.6,10002.5,0.0,0.0,0.0,0.0,0.0
 Glendale city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,6,3.348,3.348,72.5,72.5,72.5,248.5,176.0,195.3,176.0,0.0,0.0,0.0,0.0
 Glendale city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,13,11.204,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Glendale city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,27,8.129,8.129,49.7,49.7,49.7,603.5,553.8,600.7,553.8,0.0,0.0,0.0,0.0
@@ -2130,7 +2130,7 @@ Greendale village,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(
 Greendale village,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,8,52.237,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Greendale village,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,2,2.262,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Greendale village,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,32,14.414,14.414,61.7,61.7,61.7,1070.0,1008.3,1091.4,1008.3,0.0,0.0,0.0,0.0
-Greendale village,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,235,86.246,86.246,228.2,228.2,228.2,6402.3,6174.2,6671.5,0.0,0.0,0.0,0.0,0.0
+Greendale village,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,235,86.247,86.247,228.2,228.2,228.2,6402.3,6174.2,6671.5,0.0,0.0,0.0,0.0,0.0
 Greenfield city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,169,331.374,331.374,975.8,975.8,975.8,24598.9,23623.1,25534.1,23623.1,0.0,0.0,0.0,0.0
 Greenfield city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,1,1.256,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Greenfield city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,43,250.255,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2154,7 +2154,7 @@ Greenfield city,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(no
 Kenosha city,Kenosha County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,248,79.129,79.129,919.9,919.9,919.9,7052.1,6132.2,6993.0,6132.2,0.0,0.0,0.0,0.0
 Kenosha city,Kenosha County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,1,0.818,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Kenosha city,Kenosha County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,147,141.194,0.0,48.4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Kenosha city,Kenosha County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,residential,1,130,31.68,31.68,674.1,674.1,674.1,2822.0,2147.9,2493.9,2147.9,0.0,0.0,0.0,0.0
+Kenosha city,Kenosha County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,residential,1,130,31.68,31.68,674.1,674.1,674.1,2822.0,2148.0,2493.9,2148.0,0.0,0.0,0.0,0.0
 Kenosha city,Kenosha County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,116,12.433,12.433,107.7,107.7,107.7,1107.5,999.8,1135.6,0.0,0.0,0.0,0.0,0.0
 Kenosha city,Kenosha County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,198,65.894,65.894,547.0,547.0,547.0,4891.5,4344.4,4724.4,4344.4,0.0,0.0,0.0,0.0
 Kenosha city,Kenosha County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,3,1.488,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2200,7 +2200,7 @@ Oak Creek city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(
 Oak Creek city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,3,12.642,12.642,29.4,29.4,29.4,938.5,909.1,982.0,909.1,0.0,0.0,0.0,0.0
 Oak Creek city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,113,30.048,30.048,72.1,72.1,72.1,2230.5,2158.5,2331.7,0.0,0.0,0.0,0.0,0.0
 Oak Creek city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,agricultural,0,1,14.368,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Oak Creek city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,62,355.107,355.107,712.6,712.6,712.6,26360.7,25648.1,27696.0,25648.1,0.0,0.0,0.0,0.0
+Oak Creek city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,62,355.107,355.107,712.6,712.6,712.6,26360.7,25648.2,27696.0,25648.2,0.0,0.0,0.0,0.0
 Oak Creek city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,5,9.242,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Oak Creek city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,18,189.446,0.0,7.1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Oak Creek city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,15,18.344,18.344,248.1,248.1,248.1,1370.7,1122.5,1220.5,1122.5,0.0,0.0,0.0,0.0
@@ -2211,12 +2211,12 @@ River Hills village,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23
 River Hills village,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,1,39.286,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 River Hills village,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,9,51.162,51.162,17.6,17.6,17.6,3797.9,3780.3,4075.4,3780.3,0.0,0.0,0.0,0.0
 River Hills village,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,25,116.395,116.395,24.5,24.5,24.5,8640.4,8615.8,9287.1,0.0,0.0,0.0,0.0,0.0
-Shorewood Hills village,Dane County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,24,28.676,28.676,320.5,320.5,320.5,2554.5,2234.0,2547.1,2234.0,0.0,0.0,0.0,0.0
+Shorewood Hills village,Dane County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,24,28.676,28.676,320.5,320.5,320.5,2554.5,2234.0,2547.2,2234.0,0.0,0.0,0.0,0.0
 Shorewood Hills village,Dane County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,39,70.842,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Shorewood Hills village,Dane County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,5,0.963,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Shorewood Hills village,Dane County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,residential,1,24,11.215,11.215,65.0,65.0,65.0,999.0,934.0,1056.5,934.0,0.0,0.0,0.0,0.0
 Shorewood Hills village,Dane County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,215,48.81,48.81,151.9,151.9,151.9,4348.0,4196.1,4729.2,0.0,0.0,0.0,0.0,0.0
-Shorewood Hills village,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,1,93.999,93.999,38.3,38.3,38.3,6977.8,6939.6,7481.6,6939.6,0.0,0.0,0.0,0.0
+Shorewood Hills village,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,1,93.999,93.999,38.3,38.3,38.3,6977.9,6939.6,7481.6,6939.6,0.0,0.0,0.0,0.0
 Shorewood Hills village,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,13,31.016,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Shorewood Hills village,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,9,1.762,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Shorewood Hills village,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,25,16.656,16.656,45.2,45.2,45.2,1236.4,1191.2,1287.2,1191.2,0.0,0.0,0.0,0.0
@@ -2230,7 +2230,7 @@ Shorewood Hills village,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,
 Shorewood village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,187,68.04,68.04,1608.3,1608.3,1608.3,5050.8,3442.5,3834.9,3442.5,0.0,0.0,0.0,0.0
 Shorewood village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,57,143.845,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Shorewood village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,1,0.127,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Shorewood village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,764,109.81,109.81,2170.6,2170.6,2170.6,8151.6,5981.0,6614.3,5981.0,0.0,0.0,0.0,0.0
+Shorewood village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,764,109.811,109.811,2170.6,2170.6,2170.6,8151.6,5981.0,6614.3,5981.0,0.0,0.0,0.0,0.0
 Shorewood village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,1103,134.937,134.937,1330.1,1330.1,1330.1,10016.8,8686.7,9464.8,0.0,0.0,0.0,0.0,0.0
 Shorewood village,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,22,4.736,4.736,65.3,65.3,65.3,351.6,286.3,313.6,286.3,0.0,0.0,0.0,0.0
 Shorewood village,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,1,0.118,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2239,7 +2239,7 @@ Shorewood village,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(
 Shorewood village,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,839,121.315,121.315,921.7,921.7,921.7,9005.6,8083.9,8783.5,0.0,0.0,0.0,0.0,0.0
 South Milwaukee city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,343,234.949,234.949,1346.8,1346.8,1346.8,17441.0,16094.2,17449.1,16094.2,0.0,0.0,0.0,0.0
 South Milwaukee city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,17,84.818,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-South Milwaukee city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,87,191.016,0.0,48.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+South Milwaukee city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,87,191.017,0.0,48.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 South Milwaukee city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,3,0.909,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 South Milwaukee city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,589,140.701,140.701,1276.3,1276.3,1276.3,10444.7,9168.3,9979.7,9168.3,0.0,0.0,0.0,0.0
 South Milwaukee city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,1979,305.233,305.233,2030.1,2030.1,2030.1,22658.4,20628.3,22388.6,0.0,0.0,0.0,0.0,0.0
@@ -2266,7 +2266,7 @@ Sun Prairie city,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not co
 Sun Prairie city,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,14,63.388,63.388,85.4,85.4,85.4,4705.5,4620.1,4985.6,4620.1,0.0,0.0,0.0,0.0
 Sun Prairie city,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,2,11.752,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Sun Prairie city,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,12,95.208,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Sun Prairie city,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,17,16.079,16.079,141.0,141.0,141.0,1193.6,1052.6,1145.4,1052.6,0.0,0.0,0.0,0.0
+Sun Prairie city,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,17,16.08,16.08,141.0,141.0,141.0,1193.6,1052.6,1145.4,1052.6,0.0,0.0,0.0,0.0
 Sun Prairie city,Dane County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,153,19.64,19.64,91.3,91.3,91.3,1458.0,1366.7,1479.9,0.0,0.0,0.0,0.0,0.0
 Verona city,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,171,692.168,692.168,437.0,437.0,437.0,51381.8,50944.8,54936.5,50944.8,0.0,0.0,0.0,0.0
 Verona city,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,6,6.765,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2281,7 +2281,7 @@ Verona city,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),
 Verona city,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,47,229.587,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Verona city,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,7,0.398,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Verona city,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,110,62.719,62.719,370.4,370.4,370.4,4655.8,4285.4,4647.1,4285.4,0.0,0.0,0.0,0.0
-Verona city,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,639,166.787,166.787,620.2,620.2,620.2,12381.2,11761.0,12722.8,0.0,0.0,0.0,0.0,0.0
+Verona city,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,639,166.788,166.788,620.2,620.2,620.2,12381.2,11761.0,12722.8,0.0,0.0,0.0,0.0,0.0
 Verona town,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,2,15.392,15.392,0.1,0.1,0.1,1142.6,1142.5,1231.3,1142.5,0.0,0.0,0.0,0.0
 Verona town,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,7,84.357,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Verona town,Dane County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,3,1.732,1.732,0.4,0.4,0.4,128.6,128.2,138.1,0.0,0.0,0.0,0.0,0.0
@@ -2299,18 +2299,18 @@ Wauwatosa city,Milwaukee County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,
 Wauwatosa city,Milwaukee County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,2,7.548,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,residential,1,170,34.944,34.944,314.7,314.7,314.7,3112.8,2798.1,3179.7,2798.1,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,rapid_quarter,1,1,1,1,100,3.0,65,1467.0,89.08,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,1011,168.971,168.971,1016.7,1016.7,1016.7,15051.9,14035.2,15880.4,0.0,0.0,0.0,0.0,0.0
-Wauwatosa city,Milwaukee County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,92,251.271,251.271,928.4,928.4,928.4,18652.7,17724.3,19173.3,17724.3,0.0,0.0,0.0,0.0
+Wauwatosa city,Milwaukee County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,92,251.272,251.272,928.4,928.4,928.4,18652.7,17724.3,19173.3,17724.3,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,1,5.212,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,53,457.57,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,1,0.275,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,192,42.125,42.125,445.3,445.3,445.3,3127.1,2681.8,2924.8,2681.8,0.0,0.0,0.0,0.0
-Wauwatosa city,Milwaukee County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,785,130.378,130.378,814.7,814.7,814.7,9678.3,8863.7,9615.5,0.0,0.0,0.0,0.0,0.0
-Wauwatosa city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,288,358.687,358.687,1076.8,1076.8,1076.8,26626.5,25549.7,27618.2,25549.7,0.0,0.0,0.0,0.0
+Wauwatosa city,Milwaukee County,0,rapid_half,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,785,130.378,130.378,814.7,814.7,814.7,9678.4,8863.7,9615.5,0.0,0.0,0.0,0.0,0.0
+Wauwatosa city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,288,358.688,358.688,1076.8,1076.8,1076.8,26626.5,25549.7,27618.2,25549.7,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,4,22.899,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,61,272.216,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,1,1.697,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Wauwatosa city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,562,122.687,122.687,1154.0,1154.0,1154.0,9107.4,7953.4,8660.9,7953.4,0.0,0.0,0.0,0.0
-Wauwatosa city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,3662,579.893,579.893,3721.8,3721.8,3721.8,43047.3,39325.5,42669.6,0.0,0.0,0.0,0.0,0.0
+Wauwatosa city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,562,122.687,122.687,1154.0,1154.0,1154.0,9107.4,7953.4,8661.0,7953.4,0.0,0.0,0.0,0.0
+Wauwatosa city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,3662,579.893,579.893,3721.8,3721.8,3721.8,43047.3,39325.5,42669.7,0.0,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,135,94.467,94.467,942.4,942.4,942.4,7012.6,6070.1,6614.9,6070.1,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,3,6.344,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,74,96.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2327,7 +2327,7 @@ Wauwatosa city,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not
 Wauwatosa city,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,4,10.311,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,75,28.483,28.483,203.1,203.1,203.1,2114.4,1911.3,2075.6,1911.3,0.0,0.0,0.0,0.0
 Wauwatosa city,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,120,23.175,23.175,106.8,106.8,106.8,1720.4,1613.6,1747.2,0.0,0.0,0.0,0.0,0.0
-West Allis city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,640,515.399,515.399,3087.6,3087.6,3087.6,38259.7,35172.1,38144.3,35172.1,0.0,0.0,0.0,0.0
+West Allis city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,640,515.399,515.399,3087.6,3087.6,3087.6,38259.7,35172.1,38144.4,35172.1,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,5,17.485,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,161,288.312,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,20,9.029,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2338,12 +2338,12 @@ West Allis city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,
 West Allis city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,54,77.134,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,7,8.852,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,940,125.02,125.02,1763.4,1763.4,1763.4,9280.7,7517.2,8238.2,7517.2,0.0,0.0,0.0,0.0
-West Allis city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,2845,311.525,311.525,3144.6,3144.6,3144.6,23125.5,19980.9,21777.5,0.0,0.0,0.0,0.0,0.0
+West Allis city,Milwaukee County,0,bus20_quarter,0,1,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,2845,311.526,311.526,3144.6,3144.6,3144.6,23125.5,19980.9,21777.5,0.0,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,236,245.475,245.475,1317.7,1317.7,1317.7,18222.4,16904.7,18320.3,16904.7,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,15,76.661,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,95,471.815,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-West Allis city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,4,138.759,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-West Allis city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,476,122.31,122.31,1227.0,1227.0,1227.0,9079.5,7852.4,8557.8,7852.4,0.0,0.0,0.0,0.0
+West Allis city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,4,138.76,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+West Allis city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,476,122.31,122.31,1227.0,1227.0,1227.0,9079.5,7852.5,8557.8,7852.5,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,2578,441.302,441.302,2558.3,2558.3,2558.3,32759.3,30200.9,32745.9,0.0,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,152,73.592,73.592,342.7,342.7,342.7,5463.0,5120.3,5544.7,5120.3,0.0,0.0,0.0,0.0
 West Allis city,Milwaukee County,0,bus20_half,0,0,0,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,industrial,0,6,13.826,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
@@ -2372,7 +2372,7 @@ Westport town,Dane County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded
 Whitefish Bay village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,88,40.837,40.837,495.9,495.9,495.9,3031.5,2535.5,2771.0,2535.5,0.0,0.0,0.0,0.0
 Whitefish Bay village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,42,83.021,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 Whitefish Bay village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,other_unknown,0,7,2.692,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Whitefish Bay village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,306,68.188,68.188,691.8,691.8,691.8,5061.8,4370.0,4763.3,4370.0,0.0,0.0,0.0,0.0
+Whitefish Bay village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,residential,1,306,68.189,68.189,691.8,691.8,691.8,5061.8,4370.0,4763.3,4370.0,0.0,0.0,0.0,0.0
 Whitefish Bay village,Milwaukee County,0,bus15_quarter,1,1,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,single_family_est,1,3409,507.486,507.486,3363.3,3363.3,3363.3,37672.3,34309.0,37235.6,0.0,0.0,0.0,0.0,0.0
 Whitefish Bay village,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,commercial,1,2,0.327,0.327,2.3,2.3,2.3,24.3,21.9,23.8,21.9,0.0,0.0,0.0,0.0
 Whitefish Bay village,Milwaukee County,0,bus15_half,0,0,1,1,80,2.5,55,1467.0,74.23,(not coded),not_coded,existing_density_fallback,fallback,institutional,0,11,31.913,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
