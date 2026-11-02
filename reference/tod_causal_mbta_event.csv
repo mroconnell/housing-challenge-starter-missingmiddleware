@@ -1,0 +1,41 @@
+row,name,value,note,variant,test,lo90,hi90,treated,controls
+feasibility,compliant or conditional towns with deadline <= 12/31/2024 (ITT cohorts incl. late),107.0,,,,,,,
+feasibility,"same, original deadline kept (not 7/14/2025)",104.0,,,,,,,
+feasibility,communities on the sheet / matched to BPS,177.0,unmatched: ,,,,,,
+feasibility,PASS (>=20),1.0,,,,,,,
+cohort,cohort 2023,12.0,compliant 12,,,,,,
+cohort,cohort 2024,130.0,compliant 95,,,,,,
+cohort,cohort 2025,35.0,compliant 9,,,,,,
+att,"cohort 2023, year 2024 vs 2020-2022",-2.288,,"main: all units per 1,000 homes",year 1,-8.633,2.355,12.0,160.0
+att,"cohort 2024, year 2025 vs 2021-2023",-2.589,,"main: all units per 1,000 homes",year 1,-5.268,-0.34,125.0,35.0
+att,pooled (cohort-size weighted),-2.562,negative,"main: all units per 1,000 homes",year 1,-5.05,-0.44,137.0,
+att,"cohort 2023, year 2023 vs 2019-2021",-3.044,,"main: all units per 1,000 homes",pre-trend placebo (one year early),-13.116,4.919,12.0,160.0
+att,"cohort 2024, year 2024 vs 2020-2022",-1.294,,"main: all units per 1,000 homes",pre-trend placebo (one year early),-3.942,1.178,125.0,35.0
+att,pooled (cohort-size weighted),-1.447,no detectable year-1 change,"main: all units per 1,000 homes",pre-trend placebo (one year early),-3.991,1.028,137.0,
+att,"cohort 2023, year 2024 vs 2020-2022",-2.869,,"5+ units per 1,000 homes",year 1,-9.292,1.634,12.0,160.0
+att,"cohort 2024, year 2025 vs 2021-2023",-1.603,,"5+ units per 1,000 homes",year 1,-3.991,0.324,125.0,35.0
+att,pooled (cohort-size weighted),-1.714,no detectable year-1 change,"5+ units per 1,000 homes",year 1,-3.959,0.13,137.0,
+att,"cohort 2023, year 2023 vs 2019-2021",-3.899,,"5+ units per 1,000 homes",pre-trend placebo (one year early),-14.341,3.659,12.0,160.0
+att,"cohort 2024, year 2024 vs 2020-2022",-2.024,,"5+ units per 1,000 homes",pre-trend placebo (one year early),-4.503,-0.088,125.0,35.0
+att,pooled (cohort-size weighted),-2.188,negative,"5+ units per 1,000 homes",pre-trend placebo (one year early),-4.58,-0.202,137.0,
+att,"cohort 2023, year 2024 vs 2020-2022",-1.938,,compliant-only treated,year 1,-8.371,2.761,12.0,126.0
+att,"cohort 2024, year 2025 vs 2021-2023",-2.84,,compliant-only treated,year 1,-5.496,-0.62,91.0,35.0
+att,pooled (cohort-size weighted),-2.734,negative,compliant-only treated,year 1,-5.061,-0.608,103.0,
+att,"cohort 2023, year 2023 vs 2019-2021",-2.609,,compliant-only treated,pre-trend placebo (one year early),-13.444,5.146,12.0,126.0
+att,"cohort 2024, year 2024 vs 2020-2022",-1.883,,compliant-only treated,pre-trend placebo (one year early),-4.782,0.65,91.0,35.0
+att,pooled (cohort-size weighted),-1.968,no detectable year-1 change,compliant-only treated,pre-trend placebo (one year early),-4.757,0.472,103.0,
+att,"cohort 2023, year 2024 vs 2020-2022",1.208,,"reported-only columns, 0-month towns dropped",year 1,-3.715,6.376,3.0,94.0
+att,"cohort 2024, year 2025 vs 2021-2023",-4.744,,"reported-only columns, 0-month towns dropped",year 1,-8.953,-0.962,76.0,18.0
+att,pooled (cohort-size weighted),-4.518,negative,"reported-only columns, 0-month towns dropped",year 1,-8.608,-0.807,79.0,
+att,"cohort 2023, year 2023 vs 2019-2021",1.872,,"reported-only columns, 0-month towns dropped",pre-trend placebo (one year early),-1.288,4.951,3.0,94.0
+att,"cohort 2024, year 2024 vs 2020-2022",-2.499,,"reported-only columns, 0-month towns dropped",pre-trend placebo (one year early),-7.079,1.302,76.0,18.0
+att,pooled (cohort-size weighted),-2.333,no detectable year-1 change,"reported-only columns, 0-month towns dropped",pre-trend placebo (one year early),-6.723,1.321,79.0,
+att,"cohort 2023, year 2024 vs 2020-2022",-2.107,,homes-weighted,year 1,-8.49,2.584,12.0,160.0
+att,"cohort 2024, year 2025 vs 2021-2023",-2.216,,homes-weighted,year 1,-4.763,-0.114,125.0,35.0
+att,pooled (cohort-size weighted),-2.207,negative,homes-weighted,year 1,-4.579,-0.195,137.0,
+att,"cohort 2023, year 2023 vs 2019-2021",-4.376,,homes-weighted,pre-trend placebo (one year early),-14.254,3.365,12.0,160.0
+att,"cohort 2024, year 2024 vs 2020-2022",-1.168,,homes-weighted,pre-trend placebo (one year early),-3.897,1.182,125.0,35.0
+att,pooled (cohort-size weighted),-1.449,no detectable year-1 change,homes-weighted,pre-trend placebo (one year early),-3.934,0.9,137.0,
+trend,"cohort 2023 mean units per 1,000 homes",,2015: 5.6; 2016: 2.54; 2017: 2.61; 2018: 2.68; 2019: 9.32; 2020: 7.18; 2021: 11.87; 2022: 5.22; 2023: 5.39; 2024: 5.27; 2025: 5.53,,,,,,
+trend,"cohort 2024 mean units per 1,000 homes",,2015: 6.23; 2016: 7.12; 2017: 6.71; 2018: 7.23; 2019: 5.88; 2020: 5.82; 2021: 6.69; 2022: 5.58; 2023: 4.94; 2024: 5.22; 2025: 4.2,,,,,,
+trend,"cohort 2025 mean units per 1,000 homes",,2015: 8.23; 2016: 9.56; 2017: 7.42; 2018: 6.47; 2019: 6.2; 2020: 6.51; 2021: 5.75; 2022: 5.68; 2023: 5.71; 2024: 6.46; 2025: 6.76,,,,,,

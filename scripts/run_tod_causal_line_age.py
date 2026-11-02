@@ -53,6 +53,11 @@ LINE_CODES = [
     ("Chicago", "Metra", {"35th St. - Lou Jones"}, 2011, "Metra Rock Island 35th St-Lou Jones station, 2011"),
     ("Chicago", "Metra", None, "old", "Metra / predecessor commuter rail stations within Chicago, 19th-20th century"),
     ("Denver", "RTD rail (East Corridor)", None, 2016, "RTD A Line (East Corridor), April 2016"),
+    # data fix 2026-11-02 (after the first T2 run; coordinator): the stop table's one "Multiple" stop is the light rail
+    # + commuter rail node; its earliest rail line counts (as Wikidata's "earliest of matched items" rule): RTD C Line
+    # to Union Station opened 2002-04-05 (https://www.rtd-denver.com/community/news/2022/rtd-marks-20th-anniversary-of-
+    # central-platte-valley-service); A/B/G commuter rail 2016 and the bus concourse 2014 came later.
+    ("Denver", "RTD rail (Multiple)", {"Denver Union Station"}, 2002, "RTD C Line light rail to Union Station, April 2002 (data fix)"),
     ("New York", "Subway", None, "old", "NYC subway stations of the IRT/BMT/IND (1904-1940s)"),
     ("Philadelphia", "Rail", None, "old", "SEPTA Regional Rail stations (19th-20th century)"),
     ("Philadelphia", "Subway/elevated", None, "old", "SEPTA Market-Frankford / Broad Street stations (1907-1956)"),

@@ -1,26 +1,26 @@
 version,row,name,value,lo90,hi90,places,place_list,stops,wisconsin,wisconsin_lo90,wisconsin_hi90,within_place_value,within_place_n,bootstrap_draws_dropped
 main: D-11 + Milwaukee,cell,new/no,12.494,-5.402,32.939,9.0,Austin 0.0; Charlotte -29.5; Chicago 2015 9.6; Denver 96.3; Milwaukee Hop placebo 4.2; New York -22.0; Saint Paul 4.1; Salt Lake City 21.2; Seattle Othello 28.5,35.0,,,,,,
-main: D-11 + Milwaukee,cell,old/no,-1.666,-12.439,9.013,9.0,Charlotte 0.0; Chicago 2015 4.0; Denver -36.5; New York -0.3; Philadelphia 10.4; Portland 2020 -3.5; Salt Lake City -27.3; Seattle Mount Baker 1.9; Seattle Othello 36.3,10333.0,,,,,,
+main: D-11 + Milwaukee,cell,old/no,-5.282,-21.049,8.429,9.0,Charlotte 0.0; Chicago 2015 4.0; Denver -69.0; New York -0.3; Philadelphia 10.4; Portland 2020 -3.5; Salt Lake City -27.3; Seattle Mount Baker 1.9; Seattle Othello 36.3,10334.0,,,,,,
 main: D-11 + Milwaukee,cell,old/up,1.837,-15.007,20.603,7.0,Charlotte 0.3; Chicago 2015 10.6; Denver -14.3; New York 13.3; Philadelphia 58.1; Portland 2020 -39.8; Salt Lake City -15.4,759.0,,,,,,
 main: D-11 + Milwaukee,cell,new/up,57.479,27.661,94.157,7.0,Austin 23.8; Charlotte 15.7; Chicago 2015 38.4; Denver 180.9; Saint Paul 19.1; Salt Lake City 71.1; Seattle Othello 53.3,38.0,,,,,,
-main: D-11 + Milwaukee,effect,transit_alone,14.16,-9.141,41.062,,,,4233.853,-2733.055,12277.534,21.315,6.0,0.0
-main: D-11 + Milwaukee,effect,upzoning_alone,3.504,-13.683,20.467,,,,1047.604,-4091.32,6119.715,9.429,7.0,0.0
-main: D-11 + Milwaukee,effect,interaction,41.482,17.889,63.198,,,,12403.143,5348.755,18896.426,41.904,4.0,0.0
+main: D-11 + Milwaukee,effect,transit_alone,17.775,-9.141,49.974,,,,5314.851,-2733.055,14942.205,26.738,6.0,0.0
+main: D-11 + Milwaukee,effect,upzoning_alone,7.119,-11.581,25.469,,,,2128.602,-3462.852,7615.218,14.077,7.0,0.0
+main: D-11 + Milwaukee,effect,interaction,37.866,15.667,57.848,,,,11322.145,4684.444,17296.69,33.769,4.0,0.0
 main: D-11 + Milwaukee,rule,interaction material,44.986,,,,law effect near new lines = upzoning alone + interaction,,13450.747,,,,,
 "sensitivity: + Honolulu, BelRed, Roosevelt",cell,new/no,14.095,-1.604,33.848,10.0,Austin 0.0; Charlotte -29.5; Chicago 2015 9.6; Denver 96.3; Milwaukee Hop placebo 4.2; New York -22.0; Saint Paul 4.1; Salt Lake City 21.2; Seattle Othello 28.5; Seattle Roosevelt 28.5,41.0,,,,,,
-"sensitivity: + Honolulu, BelRed, Roosevelt",cell,old/no,-17.652,-53.89,9.678,11.0,Bellevue BelRed -215.5; Charlotte 0.0; Chicago 2015 4.0; Denver -36.5; New York -0.3; Philadelphia 10.4; Portland 2020 -3.5; Salt Lake City -27.3; Seattle Mount Baker 1.9; Seattle Othello 36.3; Seattle Roosevelt 36.3,10338.0,,,,,,
+"sensitivity: + Honolulu, BelRed, Roosevelt",cell,old/no,-20.61,-57.775,8.376,11.0,Bellevue BelRed -215.5; Charlotte 0.0; Chicago 2015 4.0; Denver -69.0; New York -0.3; Philadelphia 10.4; Portland 2020 -3.5; Salt Lake City -27.3; Seattle Mount Baker 1.9; Seattle Othello 36.3; Seattle Roosevelt 36.3,10339.0,,,,,,
 "sensitivity: + Honolulu, BelRed, Roosevelt",cell,old/up,1.837,-15.08,20.163,7.0,Charlotte 0.3; Chicago 2015 10.6; Denver -14.3; New York 13.3; Philadelphia 58.1; Portland 2020 -39.8; Salt Lake City -15.4,759.0,,,,,,
 "sensitivity: + Honolulu, BelRed, Roosevelt",cell,new/up,57.479,27.838,96.082,7.0,Austin 23.8; Charlotte 15.7; Chicago 2015 38.4; Denver 180.9; Saint Paul 19.1; Salt Lake City 71.1; Seattle Othello 53.3,38.0,,,,,,
-"sensitivity: + Honolulu, BelRed, Roosevelt",effect,transit_alone,31.747,-2.45,74.326,,,,9492.372,-732.48,22223.457,17.159,7.0,0.0
-"sensitivity: + Honolulu, BelRed, Roosevelt",effect,upzoning_alone,19.489,-11.147,60.132,,,,5827.287,-3333.112,17979.609,9.429,7.0,0.0
-"sensitivity: + Honolulu, BelRed, Roosevelt",effect,interaction,23.895,-22.072,59.448,,,,7144.623,-6599.526,17775.174,41.904,4.0,0.0
-"sensitivity: + Honolulu, BelRed, Roosevelt",rule,interaction not material,19.489,,,,law effect near new lines = upzoning alone,,5827.287,,,,,
+"sensitivity: + Honolulu, BelRed, Roosevelt",effect,transit_alone,34.705,-2.443,79.806,,,,10376.825,-730.388,23862.072,21.807,7.0,0.0
+"sensitivity: + Honolulu, BelRed, Roosevelt",effect,upzoning_alone,22.447,-8.686,62.865,,,,6711.74,-2597.223,18796.801,14.077,7.0,0.0
+"sensitivity: + Honolulu, BelRed, Roosevelt",effect,interaction,20.937,-24.347,54.466,,,,6260.17,-7279.756,16285.385,33.769,4.0,0.0
+"sensitivity: + Honolulu, BelRed, Roosevelt",rule,interaction not material,22.447,,,,law effect near new lines = upzoning alone,,6711.74,,,,,
 sensitivity: D-11 only,cell,new/no,13.528,-6.791,36.974,8.0,Austin 0.0; Charlotte -29.5; Chicago 2015 9.6; Denver 96.3; New York -22.0; Saint Paul 4.1; Salt Lake City 21.2; Seattle Othello 28.5,35.0,,,,,,
-sensitivity: D-11 only,cell,old/no,-1.666,-13.114,8.635,9.0,Charlotte 0.0; Chicago 2015 4.0; Denver -36.5; New York -0.3; Philadelphia 10.4; Portland 2020 -3.5; Salt Lake City -27.3; Seattle Mount Baker 1.9; Seattle Othello 36.3,10333.0,,,,,,
+sensitivity: D-11 only,cell,old/no,-5.282,-21.908,8.028,9.0,Charlotte 0.0; Chicago 2015 4.0; Denver -69.0; New York -0.3; Philadelphia 10.4; Portland 2020 -3.5; Salt Lake City -27.3; Seattle Mount Baker 1.9; Seattle Othello 36.3,10334.0,,,,,,
 sensitivity: D-11 only,cell,old/up,1.837,-15.31,20.603,7.0,Charlotte 0.3; Chicago 2015 10.6; Denver -14.3; New York 13.3; Philadelphia 58.1; Portland 2020 -39.8; Salt Lake City -15.4,759.0,,,,,,
 sensitivity: D-11 only,cell,new/up,57.479,28.181,96.803,7.0,Austin 23.8; Charlotte 15.7; Chicago 2015 38.4; Denver 180.9; Saint Paul 19.1; Salt Lake City 71.1; Seattle Othello 53.3,38.0,,,,,,
-sensitivity: D-11 only,effect,transit_alone,15.194,-10.203,47.652,,,,4542.987,-3050.74,14247.913,21.315,6.0,0.0
-sensitivity: D-11 only,effect,upzoning_alone,3.504,-13.154,19.737,,,,1047.604,-3933.085,5901.533,9.429,7.0,0.0
-sensitivity: D-11 only,effect,interaction,40.448,18.811,62.329,,,,12094.009,5624.512,18636.333,41.904,4.0,0.0
+sensitivity: D-11 only,effect,transit_alone,18.809,-10.203,57.108,,,,5623.985,-3050.74,17075.349,26.738,6.0,0.0
+sensitivity: D-11 only,effect,upzoning_alone,7.119,-10.42,24.346,,,,2128.602,-3115.714,7279.55,14.077,7.0,0.0
+sensitivity: D-11 only,effect,interaction,36.833,16.159,56.517,,,,11013.011,4831.698,16898.547,33.769,4.0,0.0
 sensitivity: D-11 only,rule,interaction material,43.952,,,,law effect near new lines = upzoning alone + interaction,,13141.613,,,,,
-all,excluded_stops,"4-9 years old, opened after the after window, or unknown",177.0,,,,Bellevue BelRed/no 6; Bellevue BelRed/up 3; Charlotte/no 6; Chicago 2015/no 2; Chicago 2015/up 4; Denver/no 5; Honolulu/no 19; Honolulu/up 2; New York/no 88; New York/up 2; Portland 2020/up 22; Salt Lake City/no 5; Salt Lake City/up 4; Seattle Mount Baker/no 6; Seattle Mount Baker/up 2; Seattle Roosevelt/up 1,,,,,,,
+all,excluded_stops,"4-9 years old, opened after the after window, or unknown",176.0,,,,Bellevue BelRed/no 6; Bellevue BelRed/up 3; Charlotte/no 6; Chicago 2015/no 2; Chicago 2015/up 4; Denver/no 4; Honolulu/no 19; Honolulu/up 2; New York/no 88; New York/up 2; Portland 2020/up 22; Salt Lake City/no 5; Salt Lake City/up 4; Seattle Mount Baker/no 6; Seattle Mount Baker/up 2; Seattle Roosevelt/up 1,,,,,,,

@@ -414,3 +414,106 @@ Script: `scripts/run_tod_causal_mbta.py`. Outputs: `docs/tod/MBTA_FEASIBILITY.md
   year-1 change". Per the learning plan, a zero or negative mandated effect whose interval excludes the D-11
   chosen-district average adds a "mandated district" sensitivity; the per-town BPS measure is not in the same unit as
   the station-area effect, so this comparison is stated in words only.
+
+## Results: Test 3 (T2 line age, T2b 2×2), Test 4 (LA TOC) and Test 5 (Massachusetts), run 2026-11-02
+
+Unit unless stated: extra new homes per 100 lot acres a year within ¼ mile. Wisconsin = effect × 4,874.1 ÷ 100 × 5 ×
+1.2269 (extra homes 2027–2031). Intervals 90%.
+
+### T2: line-age matching (`reference/tod_causal_line_age.csv`)
+
+- **Data fix after the first run (coordinator, labelled as a fix, rule unchanged):** Denver Union Station had no
+  opening year (the stop table's one "RTD rail (Multiple)" stop; Wikidata did not match it). Filled with its
+  earliest rail line, the RTD C Line light rail of April 2002 (RTD news release, URL in the script); A/B/G
+  commuter rail (2016) and the bus concourse (2014) came later. No other D-11 comparison stop is unknown. Two
+  Portland reform streetcar stops (OHSU Plaza, S Moody & Meade South; 74 acres) have no source found and stay unknown
+  (compared with all comparison stops). Before the fix the locked "keep unknown" rule gave Denver 174.5 and the M3
+  pooled 36.1 (10,794): one station's missing year moved the pooled by 13 points.
+- **PASS:** 10 of 11 places keep ≥ 3 matched comparison stops with known year (Austin has 1 comparison stop):
+  **M3 is the main T2 estimate.**
+
+| Place | Measured | M3 (90% interval) | M10 | Share of reform ¼-mile acres "new transit" |
+| --- | --- | --- | --- | --- |
+| Austin | 23.8 | 23.8 (−0.2 to 51.1) | 23.8 | 100% (flagged) |
+| Charlotte | 28.4 | 15.5 (−0.9 to 51.6) | 20.1 | 40% |
+| Chicago 2015 | 6.7 | 7.0 (−0.7 to 14.1) | 8.1 | 0% |
+| Denver | 115.4 | 32.4 (−120.4 to 263.6) | 102.0 | 52% (flagged) |
+| New York | 19.6 | 19.5 (7.4 to 33.4) | 20.3 | 0% |
+| Philadelphia | 47.5 | 47.5 (40.4 to 54.2) | 49.8 | 0% |
+| Portland 2020 | −32.8 | −43.7 (−66.4 to −22.1) | −24.3 | 0% |
+| Saint Paul | 15.0 | 15.0 (−2.3 to 37.7) | 15.0 | 100% (flagged) |
+| Salt Lake City | 48.1 | 46.7 (3.5 to 88.5) | 49.6 | ~50% (flagged) |
+| Seattle Mount Baker | 75.6 | 66.4 (16.0 to 129.4) | 66.4 | 0% |
+| Seattle Othello | 21.5 | 24.8 (−12.9 to 57.0) | 24.8 | 100% (flagged) |
+
+| Pooled (equal places) | Effect (90%) | Leave-one-out | Wisconsin (90%) |
+| --- | --- | --- | --- |
+| Measured, all 11 (tool central) | 33.5 (18.3 to 50.1) | 25.3 to 40.2 | 10,028 (5,483 to 14,990) |
+| **M3, all 11 (main T2)** | **23.2 (9.1 to 47.3)** | 18.9 to 29.9 | **6,932 (2,717 to 14,147)** |
+| M3, without the 5 flagged places | 18.7 (9.4 to 32.1) | 9.2 to 31.2 | 5,595 (2,814 to 9,594) |
+| M3, flagged places only | 28.5 (−2.3 to 77.3) | | 8,536 |
+| M10, all 11 | 32.3 (17.5 to 49.4) | 25.4 to 38.0 | 9,669 |
+| Measured, without flagged | 24.2 (12.9 to 36.7) | | 7,225 |
+
+The move from 33.5 to 23.2 is almost all Denver (115.4 → 32.4: its 38th & Blake stop, A Line 2016, +444, is now
+compared with other new A/G Line stops, not with old downtown stops) and Charlotte (28.4 → 15.5). Transit-only
+checks: Milwaukee Hop placebo +18.2 (after 2020–2024) / +10.1 (2019–2023); inside the training cases, new-line
+comparison stops minus old ones +26.5 (6 places; −29.5 to +165.3, Denver largest).
+
+### T2b: 2×2 (`reference/tod_causal_line_age_2x2.csv`; main = D-11 + Milwaukee Hop placebo; DUS fix in)
+
+| Cell | Mean (90%) | Places | Stops |
+| --- | --- | --- | --- |
+| New line, no rezoning | 12.5 (−5.4 to 32.9) | 9 | 35 (+ Milwaukee lots) |
+| Old line, no rezoning | −5.3 (−21.0 to 8.4) | 9 | 10,334 (NY/PHL repeat across rezonings) |
+| Old line, rezoned | 1.8 (−15.0 to 20.6) | 7 | 759 |
+| New line, rezoned | 57.5 (27.7 to 94.2) | 7 | 38 |
+
+| Effect | Value (90%) | Wisconsin (90%) | Within-place version |
+| --- | --- | --- | --- |
+| Transit alone | 17.8 (−9.1 to 50.0) | 5,315 | 26.7 (6 places) |
+| Rezoning alone (old lines) | 7.1 (−11.6 to 25.5) | 2,129 | 14.1 (7 places) |
+| Interaction | 37.9 (15.7 to 57.8) | 11,322 | 33.8 (4 places) |
+
+- **Rule: interaction MATERIAL** (interval excludes 0; 37.9 > 25% of 7.1). Law effect near new lines = rezoning
+  alone + interaction = new/rezoned − new/no = **45.0 → Wisconsin 13,451**; transit alone (17.8) goes to the
+  baseline. D-11 without Milwaukee: 44.0 → 13,142 (material). Leave-one-place-out of the interaction (before the
+  DUS fix): 33.1 to 49.4.
+- Sensitivity adding Honolulu, BelRed, Roosevelt: not material (20.9, −24.3 to 54.5), but their rezoned stations
+  opened after the after windows, so they add only comparison stops to the old/no cell (BelRed −215.5).
+- 176 stops excluded (4–9 years old, opened after the after window, or unknown); Portland's 22 rezoned stops of
+  2012–2015 are among them.
+- Caveat: the new/rezoned cell is 38 stops in 7 places, and the cities chose to rezone around those new stations
+  (selection); old lines rezoned show almost no gain.
+
+### T4: LA TOC tier cutoffs (`reference/tod_causal_la_toc_rd.csv`)
+
+284,915 City of LA lots in the lot table (tier 0: 102,238; 1: 59,069; 2: 26,145; 3: 88,271; 4: 9,192). Jump =
+inside − outside in the change (after − before) of new homes per 100 lot acres a year; IK bandwidth main.
+
+| Cutoff (design A: map edge) | IK bandwidth | Jump (90%) | Donut 25 m | Balance: before-rate gap (90%) | Pass |
+| --- | --- | --- | --- | --- | --- |
+| Tier 4 \| 3 | 155 m | +5.3 (−62.0 to 78.1) | −50.9 | −62.2 (−123.8 to −10.4) | no |
+| Tier 3 \| 2 | 167 m | −11.8 (−34.0 to 9.8) | −34.4 | −5.4 (−21.7 to 8.1) | **yes** |
+| Tier 2 \| 1 | 93 m | −33.1 (−60.0 to −8.9) | −34.1 | +14.6 (1.0 to 35.6) | no |
+| Tier 1 \| none | 126 m | +1.5 (−6.2 to 10.2) | −11.5 | −2.7 (−5.7 to −0.2) | no |
+
+Design B (distance to rail station points): Metro Rail 750 ft +38.8 (−27.5 to 107.8; first stage only 1.5 bonus
+points, so no usable fuzzy ratio); Metro Rail 2,640 ft +9.0 (−5.4 to 24.2), balance passes, first stage 10.5 bonus
+points, fuzzy 8.6 per 10 points (−4.9 to 24.6); Metrolink cutoffs near 0 (10 stations). Brief's fixed 76 m: tier 3|2
++10.3 (−24.6 to 44.8), tier 4|3 +41.0 (−78.8 to 171.4); signs flip across bandwidths at every map edge.
+
+- **Rule:** 1 of 4 map-edge cutoffs passes balance with a same-sign donut (tier 3|2), so it is usable as dose
+  evidence — and it shows **no positive jump** (−11.8, interval spans 0). The tier 2|1 jump is negative but fails
+  balance. Reading: at the margin, one more TOC tier (+10 points of density bonus with more affordable units
+  required) did not raise building in 2018–2022. This does not support the "per unit of added capacity" view; it is
+  consistent with LA TOC's measured station-area effect near zero (−13.3, broad-places check). Lot points (not lot
+  edges) and platform points (not entrances) blur the cutoffs.
+
+### T5: Massachusetts (`docs/tod/MBTA_FEASIBILITY.md`, `reference/tod_causal_mbta_event.csv`)
+
+- **Feasibility PASS:** 104 towns compliant or conditional with original deadline ≤ 12/31/2024 (needed 20); all 177
+  matched to BPS county subdivisions; BPS annual files exist 2015–2025.
+- **Year 1 (units permitted per 1,000 homes):** pooled −2.6 (−5.1 to −0.4), "negative" by the rule; but the one-year-
+  early placebo is −1.5 (−4.0 to +1.0) and −2.2 (−4.6 to −0.2) for 5+ units, so the gap predates the deadlines
+  (comparison = rural adjacent small towns). Reading: no sign of a first-year rise. No number carried to Wisconsin.
