@@ -47,7 +47,7 @@ PLACE = ["log_dist_m", "band_q", "band_h", "sld_transit_freq", "sld_jobs_per_acr
 REFORM = ["reform_stop", "in_reform_area", "coverage"]
 
 
-BASE = ["group", "band", "stop_id", "dist_m", "in_reform_area", "acres", "land_value", "bldg_value", "year_built", "public",
+BASE = ["group", "band", "stop_id", "dist_m", "in_reform_area", "acres", "acres_land", "land_value", "bldg_value", "year_built", "public",
         "homes_existing", "homes_before_win", "homes_after_win", "implausible"]
 
 
@@ -96,7 +96,9 @@ def load_case(case: str, mode: str, rng: np.random.Generator, sampling: str = "c
     D["rate_before"] = D.homes_before_win / yb
     D["y"] = D.homes_after_win / ya
     eff = M_eff(case)
-    D["log_acres"] = np.log(D.acres.clip(lower=0.01).fillna(0.1))
+    # lot size and per-acre sums use acres_land (stacked condo records share their parcel's land;
+    # scripts/fix_tod_station_acres.py); land value per acre stays on the recorded acres
+    D["log_acres"] = np.log(D.acres_land.clip(lower=0.01).fillna(0.1))
     lva = D.land_value / D.acres.where(D.acres > 0)
     D["log_land_value_per_acre"] = np.log(lva.clip(lower=1000))
     D["land_value_rank_in_case"] = lva.rank(pct=True)
@@ -150,7 +152,7 @@ def effect_by_band(model, D: pd.DataFrame, cols: list[str]) -> pd.Series:
     off_X[[c for c in ("reform_stop", "in_reform_area", "coverage", "strings_attached") if c in cols]] = 0.0
     off = model.predict(off_X)
     extra = (on - off) * R.w
-    acres = (R.acres.fillna(0) * R.w).groupby(R.band).sum()
+    acres = (R.acres_land.fillna(0) * R.w).groupby(R.band).sum()
     return 100 * extra.groupby(R.band).sum() / acres
 
 
@@ -161,7 +163,7 @@ def wisconsin_rows() -> pd.DataFrame:
     W = pd.read_parquet(OUT / "wi_lots_station.parquet")
     W["rate_before"] = W.homes_before_win.fillna(0) / 5
     eff = 2027
-    W["log_acres"] = np.log(W.acres.clip(lower=0.01).fillna(0.1))
+    W["log_acres"] = np.log(W.acres_land.clip(lower=0.01).fillna(0.1))
     lva = W.land_value / W.acres.where(W.acres > 0)
     W["log_land_value_per_acre"] = np.log(lva.clip(lower=1000))
     W["land_value_rank_in_case"] = lva.groupby(W["case"]).rank(pct=True)

@@ -355,7 +355,9 @@ def main(argv=None) -> None:
         D, S = build(a.case)
     out.mkdir(parents=True, exist_ok=True)
     keep = [c for c in D.columns if c not in ("_yb", "_un", "x", "y", "geometry")] + ["x", "y"]
-    D[keep].to_parquet(out / f"lots_{a.case}.parquet")
+    # acres_land: stacked condo-unit records share their parcel's land (scripts/fix_tod_station_acres.py)
+    from fix_tod_station_acres import add_acres_land
+    add_acres_land(D[keep], case=a.case).to_parquet(out / f"lots_{a.case}.parquet")
     ev = EVENTS.get(a.case)
     if ev is None and a.case in ext:
         ev = getattr(ext[a.case][0], "EVENTS", {}).get(a.case)

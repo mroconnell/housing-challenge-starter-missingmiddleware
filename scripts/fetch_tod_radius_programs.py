@@ -184,6 +184,18 @@ def sd_parcels() -> None:
     print("sd parcels", n)
 
 
+def sd_parcel_area() -> None:
+    """San Diego County parcel land area (same SANDAG layer and terms as county_parcels.csv; owner OK 2026-11-02):
+    the polygon area (SHAPE__Area, square feet, state plane EPSG:2230) and the Assessor's usable land square feet, by
+    objectid and APN. No shapes. Fills the land of records whose `acreage` is blank (scripts/fix_tod_station_acres.py)."""
+    layer = "https://geo.sandag.org/server/rest/services/Hosted/Parcels/FeatureServer/0"
+    out = RAW / "san_diego" / "parcel_area.csv"
+    n = arcgis_csv(layer, out, "objectid,apn,SHAPE__Area,usable_sq_feet")
+    _manifest("san_diego", out.name, layer, n, out, "San Diego County parcels (SANDAG hosted): objectid, apn, polygon area "
+              "(sq ft, EPSG:2230) and Assessor usable land sq ft; no shapes, no owner names; local only")
+    print("sd parcel area", n)
+
+
 def la_parcels() -> None:
     """LA County parcels (Assessor via county GIS): year built and homes for up to 5 buildings, roll values and
     base years (Proposition 13: values reflect the last sale year), use, public-agency flag, centre point. No owner names."""
@@ -348,7 +360,7 @@ def twin_cities_parcels() -> None:
         print(name, n)
 
 
-STAGES = {"twin_cities_parcels": twin_cities_parcels, "portland_taxlots": portland_taxlots, "travis_parcels": travis_parcels, "mecklenburg_parcels": mecklenburg_parcels, "denver_parcels": denver_parcels, "stpaul_parcels": stpaul_parcels, "slc_parcels": slc_parcels, "cook_parcels": cook_parcels, "king_parcels": king_parcels, "king_assessor": king_assessor, "honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
+STAGES = {"twin_cities_parcels": twin_cities_parcels, "portland_taxlots": portland_taxlots, "travis_parcels": travis_parcels, "mecklenburg_parcels": mecklenburg_parcels, "denver_parcels": denver_parcels, "stpaul_parcels": stpaul_parcels, "slc_parcels": slc_parcels, "cook_parcels": cook_parcels, "king_parcels": king_parcels, "king_assessor": king_assessor, "honolulu_values": honolulu_values, "la_parcels": la_parcels, "sd_parcels": sd_parcels, "sd_parcel_area": sd_parcel_area, "program_areas": program_areas, "la_permits": la_permits, "sd_permits": sd_permits, "honolulu_permits": honolulu_permits, "honolulu_parcels": honolulu_parcels}
 
 if __name__ == "__main__":
     a = argparse.ArgumentParser(); a.add_argument("stage", choices=STAGES); STAGES[a.parse_args().stage]()

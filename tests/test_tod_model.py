@@ -244,7 +244,7 @@ class TestNetSizing(unittest.TestCase):
         self.assertTrue((od.statewide_scale.round(4) == round(scale, 4)).all())
         lf = read("tod_optiond_wisconsin_lot_place_fix_equal_fill_k5_s1.csv").drop_duplicates("band").set_index("band").loc["0-1/4"]
         self.assertAlmostEqual(od.loc["optiond_little", "extra_homes_2027_2031"], lf.central * scale / (89_528 / 80_930), delta=0.06)
-        for share, tot in ((10, 8175.9), (25, 20439.7)):
+        for share, tot in ((10, 8347.2), (25, 20868.1)):
             self.assertAlmostEqual(od.loc[f"optiond_scaled_{share}", "extra_homes_2027_2031"], tot, delta=0.05)
             d = read("tod_model_sensitivities.csv")
             d = d[(d.sizing == "net_effect") & (d.sensitivity == f"district_{share}")].addition_2027_2031.iloc[0]
@@ -253,11 +253,11 @@ class TestNetSizing(unittest.TestCase):
                                od.loc["optiond_scaled_10", "extra_homes_2027_2031"], delta=0.1)
         bc = read("tod_optiond_broad_check.csv").set_index("city")
         self.assertEqual(len(bc), 6)
-        self.assertAlmostEqual(bc.loc["median", "miss_average_rule"], 41.4, delta=0.05)
-        self.assertAlmostEqual(bc.loc["median", "miss_zero"], 10.7, delta=0.05)
-        for sid, line, tot, lo, hi in (("little", "optiond_little", 498.7, -134.1, 907.7),
-                                       ("typical", "optiond_average", 9822.2, 7448.0, 11783.6),
-                                       ("strong", "optiond_average_scaled_15", 12263.8, 8931.2, 16454.5)):
+        self.assertAlmostEqual(bc.loc["median", "miss_average_rule"], 42.94, delta=0.05)
+        self.assertAlmostEqual(bc.loc["median", "miss_zero"], 10.58, delta=0.05)
+        for sid, line, tot, lo, hi in (("little", "optiond_little", 823.8, -90.1, 1005.6),
+                                       ("typical", "optiond_average", 10028.1, 7579.8, 12010.4),
+                                       ("strong", "optiond_average_scaled_15", 12520.8, 9089.2, 16771.1)):
             self.assertAlmostEqual(od.loc[line, "extra_homes_2027_2031"], tot, delta=0.05)
             self.assertAlmostEqual(net.loc[sid, "addition"], tot, delta=0.05)
             self.assertAlmostEqual(net.loc[sid, "addition_range_low"], lo, delta=0.05)

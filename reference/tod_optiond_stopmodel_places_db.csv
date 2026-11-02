@@ -1,0 +1,97 @@
+set,band,method,city,measured,stop_reconstructed,predicted
+D-B,0-1/4,others_average,New York,19.575,10.942,46.842
+D-B,0-1/4,others_average,austin_2009,23.848,23.848,44.998
+D-B,0-1/4,others_average,charlotte_2019,28.361,28.36,44.354
+D-B,0-1/4,others_average,denver_2018,115.416,115.416,31.917
+D-B,0-1/4,others_average,seattle_mount_baker_2014,75.594,75.594,37.606
+D-B,0-1/4,others_average,seattle_othello_2012,21.537,21.537,45.328
+D-B,0-1/4,others_average,slc_2010,48.123,48.123,41.53
+D-B,0-1/4,others_average,stpaul_2011,15.015,15.015,46.26
+D-B,0-1/4,zero,New York,19.575,10.942,0.0
+D-B,0-1/4,zero,austin_2009,23.848,23.848,0.0
+D-B,0-1/4,zero,charlotte_2019,28.361,28.36,0.0
+D-B,0-1/4,zero,denver_2018,115.416,115.416,0.0
+D-B,0-1/4,zero,seattle_mount_baker_2014,75.594,75.594,0.0
+D-B,0-1/4,zero,seattle_othello_2012,21.537,21.537,0.0
+D-B,0-1/4,zero,slc_2010,48.123,48.123,0.0
+D-B,0-1/4,zero,stpaul_2011,15.015,15.015,0.0
+D-B,0-1/4,gradient_boosting,New York,19.575,10.942,39.491
+D-B,0-1/4,gradient_boosting,austin_2009,23.848,23.848,101.594
+D-B,0-1/4,gradient_boosting,charlotte_2019,28.361,28.36,84.01
+D-B,0-1/4,gradient_boosting,denver_2018,115.416,115.416,44.054
+D-B,0-1/4,gradient_boosting,seattle_mount_baker_2014,75.594,75.594,9.304
+D-B,0-1/4,gradient_boosting,seattle_othello_2012,21.537,21.537,15.899
+D-B,0-1/4,gradient_boosting,slc_2010,48.123,48.123,68.301
+D-B,0-1/4,gradient_boosting,stpaul_2011,15.015,15.015,75.574
+D-B,0-1/4,gradient_boosting_plus_stop_traits,New York,19.575,10.942,25.057
+D-B,0-1/4,gradient_boosting_plus_stop_traits,austin_2009,23.848,23.848,85.892
+D-B,0-1/4,gradient_boosting_plus_stop_traits,charlotte_2019,28.361,28.36,94.447
+D-B,0-1/4,gradient_boosting_plus_stop_traits,denver_2018,115.416,115.416,56.618
+D-B,0-1/4,gradient_boosting_plus_stop_traits,seattle_mount_baker_2014,75.594,75.594,7.407
+D-B,0-1/4,gradient_boosting_plus_stop_traits,seattle_othello_2012,21.537,21.537,34.517
+D-B,0-1/4,gradient_boosting_plus_stop_traits,slc_2010,48.123,48.123,62.443
+D-B,0-1/4,gradient_boosting_plus_stop_traits,stpaul_2011,15.015,15.015,84.374
+D-B,0-1/4,linear_4,New York,19.575,10.942,-80.109
+D-B,0-1/4,linear_4,austin_2009,23.848,23.848,34.489
+D-B,0-1/4,linear_4,charlotte_2019,28.361,28.36,37.973
+D-B,0-1/4,linear_4,denver_2018,115.416,115.416,37.836
+D-B,0-1/4,linear_4,seattle_mount_baker_2014,75.594,75.594,59.423
+D-B,0-1/4,linear_4,seattle_othello_2012,21.537,21.537,71.733
+D-B,0-1/4,linear_4,slc_2010,48.123,48.123,53.683
+D-B,0-1/4,linear_4,stpaul_2011,15.015,15.015,43.646
+D-B,0-1/4,linear_4_plus_coverage,New York,19.575,10.942,214.056
+D-B,0-1/4,linear_4_plus_coverage,austin_2009,23.848,23.848,34.942
+D-B,0-1/4,linear_4_plus_coverage,charlotte_2019,28.361,28.36,38.117
+D-B,0-1/4,linear_4_plus_coverage,denver_2018,115.416,115.416,37.79
+D-B,0-1/4,linear_4_plus_coverage,seattle_mount_baker_2014,75.594,75.594,58.914
+D-B,0-1/4,linear_4_plus_coverage,seattle_othello_2012,21.537,21.537,71.451
+D-B,0-1/4,linear_4_plus_coverage,slc_2010,48.123,48.123,53.429
+D-B,0-1/4,linear_4_plus_coverage,stpaul_2011,15.015,15.015,43.95
+D-B,1/4-1/2,others_average,New York,4.726,9.637,-12.634
+D-B,1/4-1/2,others_average,austin_2009,0.035,0.035,-11.262
+D-B,1/4-1/2,others_average,charlotte_2019,9.79,9.79,-12.656
+D-B,1/4-1/2,others_average,denver_2018,25.094,25.094,-14.842
+D-B,1/4-1/2,others_average,seattle_mount_baker_2014,-60.331,-60.331,-2.639
+D-B,1/4-1/2,others_average,seattle_othello_2012,-68.254,-68.254,-1.507
+D-B,1/4-1/2,others_average,slc_2010,4.933,4.933,-11.962
+D-B,1/4-1/2,others_average,stpaul_2011,0.294,0.294,-11.3
+D-B,1/4-1/2,zero,New York,4.726,9.637,0.0
+D-B,1/4-1/2,zero,austin_2009,0.035,0.035,0.0
+D-B,1/4-1/2,zero,charlotte_2019,9.79,9.79,0.0
+D-B,1/4-1/2,zero,denver_2018,25.094,25.094,0.0
+D-B,1/4-1/2,zero,seattle_mount_baker_2014,-60.331,-60.331,0.0
+D-B,1/4-1/2,zero,seattle_othello_2012,-68.254,-68.254,0.0
+D-B,1/4-1/2,zero,slc_2010,4.933,4.933,0.0
+D-B,1/4-1/2,zero,stpaul_2011,0.294,0.294,0.0
+D-B,1/4-1/2,gradient_boosting,New York,4.726,9.637,-26.602
+D-B,1/4-1/2,gradient_boosting,austin_2009,0.035,0.035,14.232
+D-B,1/4-1/2,gradient_boosting,charlotte_2019,9.79,9.79,9.375
+D-B,1/4-1/2,gradient_boosting,denver_2018,25.094,25.094,-4.818
+D-B,1/4-1/2,gradient_boosting,seattle_mount_baker_2014,-60.331,-60.331,-27.642
+D-B,1/4-1/2,gradient_boosting,seattle_othello_2012,-68.254,-68.254,-27.879
+D-B,1/4-1/2,gradient_boosting,slc_2010,4.933,4.933,24.481
+D-B,1/4-1/2,gradient_boosting,stpaul_2011,0.294,0.294,2.9
+D-B,1/4-1/2,gradient_boosting_plus_stop_traits,New York,4.726,9.637,-23.482
+D-B,1/4-1/2,gradient_boosting_plus_stop_traits,austin_2009,0.035,0.035,14.316
+D-B,1/4-1/2,gradient_boosting_plus_stop_traits,charlotte_2019,9.79,9.79,5.957
+D-B,1/4-1/2,gradient_boosting_plus_stop_traits,denver_2018,25.094,25.094,-3.019
+D-B,1/4-1/2,gradient_boosting_plus_stop_traits,seattle_mount_baker_2014,-60.331,-60.331,-28.478
+D-B,1/4-1/2,gradient_boosting_plus_stop_traits,seattle_othello_2012,-68.254,-68.254,-17.465
+D-B,1/4-1/2,gradient_boosting_plus_stop_traits,slc_2010,4.933,4.933,17.858
+D-B,1/4-1/2,gradient_boosting_plus_stop_traits,stpaul_2011,0.294,0.294,-2.206
+D-B,1/4-1/2,linear_4,New York,4.726,9.637,-456.841
+D-B,1/4-1/2,linear_4,austin_2009,0.035,0.035,2.148
+D-B,1/4-1/2,linear_4,charlotte_2019,9.79,9.79,-0.647
+D-B,1/4-1/2,linear_4,denver_2018,25.094,25.094,-24.545
+D-B,1/4-1/2,linear_4,seattle_mount_baker_2014,-60.331,-60.331,-19.954
+D-B,1/4-1/2,linear_4,seattle_othello_2012,-68.254,-68.254,-15.482
+D-B,1/4-1/2,linear_4,slc_2010,4.933,4.933,-21.928
+D-B,1/4-1/2,linear_4,stpaul_2011,0.294,0.294,3.438
+D-B,1/4-1/2,linear_4_plus_coverage,New York,4.726,9.637,-456.215
+D-B,1/4-1/2,linear_4_plus_coverage,austin_2009,0.035,0.035,2.161
+D-B,1/4-1/2,linear_4_plus_coverage,charlotte_2019,9.79,9.79,-0.635
+D-B,1/4-1/2,linear_4_plus_coverage,denver_2018,25.094,25.094,-24.529
+D-B,1/4-1/2,linear_4_plus_coverage,seattle_mount_baker_2014,-60.331,-60.331,-19.965
+D-B,1/4-1/2,linear_4_plus_coverage,seattle_othello_2012,-68.254,-68.254,-15.494
+D-B,1/4-1/2,linear_4_plus_coverage,slc_2010,4.933,4.933,-21.927
+D-B,1/4-1/2,linear_4_plus_coverage,stpaul_2011,0.294,0.294,3.44

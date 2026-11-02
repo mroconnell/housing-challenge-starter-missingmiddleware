@@ -782,13 +782,13 @@ def net_effects(cp: dict, reading: str = "per_upzoned_home") -> dict:
                                 f"Average of the 11 district places' measured effect within 1/4 mile: {od['optiond_average']['central']:,.1f} "
                                 f"extra homes over 2027-2031 (range {od['optiond_average']['low']:,.1f} to {od['optiond_average']['high']:,.1f}), "
                                 f"reference/tod_optiond_line.csv; New York pooled ramp"),
-                    "Central: the average district place"),
+                    "Central: the average district place, across about 12% of lots within 1/4 mile of transit"),
         "strong": (M.NetEffect(od["optiond_average_scaled_15"]["central"] / stock, ny,
                                f"Average district place scaled to a 15% district by the pooled ratio: "
                                f"{od['optiond_average_scaled_15']['central']:,.1f} extra homes over 2027-2031 (range "
                                f"{od['optiond_average_scaled_15']['low']:,.1f} to {od['optiond_average_scaled_15']['high']:,.1f}), "
                                f"reference/tod_optiond_line.csv; New York pooled ramp"),
-                   "Strong: the average district place, scaled to a 15% district"),
+                   "Upper: scaled to 15% of lots within 1/4 mile of transit"),
     }
     # Reference line: the median of the three studies' net-effect values (each study counted once).
     med = float(np.median([la, st, ak]))

@@ -1,0 +1,13 @@
+label,set,band,method,per_stop_median_error,place_total_median_error,place_total_median_error_vs_stop_reconstructed,wisconsin_acres,wisconsin_central,wisconsin_low,wisconsin_high
+"D-B, stop model, others_average",D-B,0-1/4,others_average,41.77,25.53,27.52,4874.09,12664.04,9543.26,14005.8
+"D-B, stop model, zero",D-B,0-1/4,zero,28.47,26.1,26.1,4874.09,,,
+"D-B, stop model, gradient_boosting",D-B,0-1/4,gradient_boosting,44.36,58.1,58.1,4874.09,17793.06,4494.83,20258.78
+"D-B, stop model, gradient_boosting_plus_stop_traits",D-B,0-1/4,gradient_boosting_plus_stop_traits,43.42,60.42,60.42,4874.09,18953.59,-1199.79,22074.29
+"D-B, stop model, linear_4",D-B,0-1/4,linear_4,46.63,22.4,22.4,4874.09,3635.7,-13415.37,7761.25
+"D-B, stop model, linear_4_plus_coverage",D-B,0-1/4,linear_4_plus_coverage,46.54,22.81,22.81,4874.09,3936.04,-22084.73,8097.58
+"D-B, stop model, others_average",D-B,1/4-1/2,others_average,23.65,19.9,22.36,5938.78,-3588.59,-5407.26,-548.95
+"D-B, stop model, zero",D-B,1/4-1/2,zero,14.03,7.36,9.71,5938.78,,,
+"D-B, stop model, gradient_boosting",D-B,1/4-1/2,gradient_boosting,18.75,24.73,24.73,5938.78,-2612.4,-4566.89,4265.61
+"D-B, stop model, gradient_boosting_plus_stop_traits",D-B,1/4-1/2,gradient_boosting_plus_stop_traits,19.76,21.2,21.2,5938.78,-2559.76,-3257.95,5144.71
+"D-B, stop model, linear_4",D-B,1/4-1/2,linear_4,33.61,33.62,33.62,5938.78,11895.26,8321.43,12600.05
+"D-B, stop model, linear_4_plus_coverage",D-B,1/4-1/2,linear_4_plus_coverage,33.6,33.61,33.61,5938.78,11900.06,8324.61,12597.85

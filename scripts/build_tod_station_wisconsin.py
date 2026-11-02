@@ -370,6 +370,9 @@ def main() -> None:
     print("enriching ...", flush=True)
     D = enrich(D)
     OUT.mkdir(parents=True, exist_ok=True)
+    # acres_land: stacked condo-unit records share their parcel's land (scripts/fix_tod_station_acres.py)
+    from fix_tod_station_acres import add_acres_land
+    D = add_acres_land(D)
     D.to_parquet(OUT_FILE)
     print(f"wrote {OUT_FILE.relative_to(ROOT)}: {len(D):,} rows, {D.shape[1]} columns; block group found "
           f"{D.bg_geoid.notna().mean():.3f}; tract variables {sum(c.startswith('v_') for c in D.columns)}")

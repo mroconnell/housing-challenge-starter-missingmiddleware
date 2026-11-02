@@ -289,3 +289,203 @@ Departures and fixes after locking are logged below with dates, before each reru
   places; Seattle Roosevelt shown separately). Training level: **lot model** (one row per lot) or **stop model** (one
   row per station and distance band). Method: average, zero, boosted, random forest, causal forest, 4-trait. The
   tool's central line is "D-11, average".
+
+### Lot land fixes (2026-11-02, owner OK 18:04 and 19:55; logged in docs/tod/STATION_AREA_PLAN.md)
+- `acres_land` replaces `acres` in every per-acre effect and the lot-size trait: stacked condo records share their parcel's land; San Diego's blank `acreage` filled with the SANDAG parcel area; any land still missing (mainly Chicago, 28% of ¼-mile lots) filled from census block land at the same city's lot-to-block share (`acres_land_source`; reference/tod_station_acres_census_fill.csv). `scripts/run_tod_optiond.py` changed in one line (`to_stops`: lot-acre weights use `acres_land`).
+- Option D lines, statewide extra homes 2027–2031 (range = each place left out): average 9,822 (7,448–11,784) before any fix → 10,409 after the stacking fix → **10,262 (7,837–12,268)** after the fills; 15% scaled 12,264 → 12,996 → 12,813; lot model (lower line) 499 → 716 → **620 (−26 to 1,072)**. Mean ¼-mile effect of the 11 places 32.85 → 34.81 → 34.32 extra homes per 100 lot acres a year.
+- **2026-11-02, seed-variance test redone on one data state (logged before running).** The first five seeds ran
+  across three data and code states (lot tables rebuilt by the land fixes while the runs went; `to_stops` switched to
+  `acres_land`), so they are not comparable and are discarded. Rerun: all five seeds in one process on one data load
+  (`--cf-seeds 20261102,1,2,3,4`), on the lot tables as rebuilt at 12:04 (Pacific, machine clock) with `acres_land`
+  weights. Run with one OpenMP thread per process (`OMP_NUM_THREADS=1`): the boosting nuisance models were ~35× slower
+  under thread contention with other jobs; results do not depend on the thread count.
+- **2026-11-02 21:04, stabilised honest causal forest (owner exploration; logged before running).** Learner
+  `cf_stable` in scripts/run_tod_optiond.py, stop level, D-11, lot + place traits, scikit-learn trees only:
+  (1) 2,000 trees; (2) each tree draws half of the places as whole places (cluster = place, as grf's `clusters`),
+  not stops; (3) honesty 0.3: of the drawn places, 30% grow the tree and 70% estimate the leaf effects (split by
+  place, as grf does with clusters); (4) minimum leaf 40 stop-band rows (2× the 20 used before); nuisance models
+  cross-fitted over folds of whole places. (5) Doubly robust (AIPW) average effect within ¼ mile, over all stops and
+  over reform stops, from out-of-bag effects, with a 95% interval from resampling places (2,000 draws). (6) grf-style
+  calibration test: regress y − m(x) on the mean forest prediction and the differential forest prediction (both × (t −
+  e(x))), place-clustered standard errors; heterogeneity counts as found if the differential coefficient is
+  significantly above 0 (one-sided, p < 0.05). Scored as before (hidden-place median miss vs others' average and zero)
+  on the ¼-mile band only (run time), 5 seeds on one data load; Wisconsin spread across seeds reported. NY hotel /
+  superseded-job hand-check fixes: not in this data state unless the lot tables are rebuilt before the run starts.
+- **2026-11-02 (after 21:18), "remove the noise" test: partialling out and double ML, lot model (pre-registered;
+  logged before any fit).** Owner, 21:10–21:18: "once we remove the noise from all these other variables which make it
+  better or worse to develop a lot near this stop, here is the difference reform makes"; approved as a test
+  ("validate your theory by running it"); he doubts the treatment-model step helps, so it runs with and without it.
+  Script scripts/run_tod_optiond_dml.py (imports scripts/run_tod_optiond.py and scripts/run_tod_station_lotmodel.py,
+  both unchanged); outputs reference/tod_optiond_dml_*.csv. scikit-learn only.
+  - **Evidence sets:** D-11 and D-B (the 8 station-focused places; Seattle Roosevelt has no lot table, so not in).
+  - **Rows:** lots (lot model), comparison lots sampled as sampling "full" (New York / Philadelphia: one fixed set
+    per seed). One fit per band: ¼ mile is the main band, ¼–½ mile reported. Permit-year dates and hand checks as
+    the measured effects (including any "rule " rows present in hand_check_big_lots.csv at load).
+  - **Outcome:** y = 100 × (lot's new homes a year in the after window − in the before window) ÷ the lot's land acres
+    (`acres_land`, floored at 0.001 acre so homes on records with no land stay in the sum); row weight ω = lot weight
+    × land acres, rescaled so each place has the same total weight in the band. Weighted means of y are then extra
+    new homes per 100 lot acres a year, built as the measured effects are.
+  - **Treatment D:** main = in the reform area of a reform stop (in_reform_area × reform stop). Check = reform stop
+    (stop exposure).
+  - **Traits X (no place identifiers):** lot traits (9, incl. the before-window rate), place traits without the band
+    flags (distance, transit frequency, jobs, walk-to-transit, no-car share, job growth, historic), the ~78 tract
+    variables, and stop-table traits of the lot's stop: own-system ridership before reform (log, NTD 5-year average),
+    trips per hour peak and midday at the node (all systems), number of systems at the node, transfer hub, and the
+    band's developable, vacant and underused land (acres counted once, log(1 + acres) and as shares of the band's
+    land). Whole-place gaps filled with the training median (fix "fill").
+  - **Learners:** gradient boosting as `Bag` (300 rounds, rate 0.05, leaf ≥ 200 lots, no early stopping; one fit per
+    nuisance per seed); classifier with the same settings for P(D | X). Cross-fitted over 5 folds of whole places.
+  - **Version A (outcome only, "partialling out"):** θ_A = weighted least-squares slope of y − m̂(X) on D (with an
+    intercept), weights ω.
+  - **Version B (adds the treatment model):** B-PLR = Robinson's partialling-out estimator Σω(D − ê)(y − m̂) ÷
+    Σω(D − ê)²; B-AIPW = doubly robust effect on the treated lots, Σω[D(y − μ̂0) − (1 − D) ê/(1 − ê)(y − μ̂0)] ÷ ΣωD,
+    μ̂0 = outcome model fitted on untreated lots. ê trimmed to [0.01, 0.99]; lots and land trimmed reported.
+  - **Interval:** place-cluster bootstrap (resample places with replacement, 500 draws) of the final step, with the
+    cross-fitted nuisance predictions held fixed (stated as a limitation: nuisance refits are not bootstrapped).
+  - **Hidden-place test (scoring rule, fixed now):** hide a place, estimate θ on the other 10 (D-B: 7) with folds
+    over those places only, predict the hidden place's measured band effect: D = in-area → θ × the hidden place's
+    district share (land share of its reform-stop band lots in the reform area; New York and Philadelphia averaged
+    over rezonings, as measured); D = reform stop → θ. Score = median absolute miss over hidden places, against the
+    others' average and zero recomputed on the same data (15.18 within ¼ mile after the land fixes, before any
+    hand-check rules). "Removing the noise beats the average" if a version's ¼-mile median miss is below the
+    others' average; "the treatment step helps" if B's miss is below A's for the same D.
+  - **Stability:** 5 seeds (1–5: comparison sample, fold assignment, model seeds), full-data θ per seed; spread
+    reported (the plan's steadiness bar: Wisconsin answer moves < 10%). Hidden-place test on seed 1.
+  - **Wisconsin (central rule as the average line):** D = in-area: θ × 0.15 × 4,874.1 ¼-mile lot acres ÷ 100 × 5
+    years × 1.2269; D = reform stop: θ × 4,874.1 ÷ 100 × 5 × 1.2269 (a district like the training places', about
+    12%). Range = the cluster-bootstrap interval. Caveat: the training districts were city-picked land; Wisconsin's
+    is spread at random.
+- **2026-11-02, seed-variance result: honest causal forest, stop level, lot + place traits (4 seeds; 5th stopped by
+  owner, 21:26).** One process, one data load (lot tables of 12:04 Pacific with the land fixes, `acres_land`
+  weights); seeds 20261102, 1, 2, 3 (seed 4 stopped). The earlier single-run figures (19.0 within ¼ mile; Wisconsin
+  37,744 / 5,794 / 10,118 / 221 and misses 51.6 / 14.6 / 23.8 / 33.7) mixed three data states and are superseded.
+  Benchmarks on this data: others' average 16.0, zero 28.4 within ¼ mile; 10.2 and 9.3 in ¼–½ mile (median miss,
+  extra new homes per 100 lot acres a year, 11 hidden places).
+
+  | Seed | Median miss within ¼ mile | Median miss ¼–½ mile | Wisconsin ¼ mile, full fit (extra homes 2027–2031) |
+  | --- | --- | --- | --- |
+  | 20261102 | 36.0 | 16.4 | −7,614 |
+  | 1 | 60.3 | 33.8 | −9,832 |
+  | 2 | 35.1 | 22.4 | −440 |
+  | 3 | 39.6 | 18.5 | −4,146 |
+  | Average of the 4 seeds' predictions | 28.2 | 24.0 | −5,508 |
+
+  No seed beats the others' average (16.0) or zero (28.4) within ¼ mile. Each place's prediction swings by tens of
+  homes per 100 acres between seeds (Chicago −18 to +120; Austin −50 to +48). Wisconsin, each place left out (44
+  answers): −14,151 to +13,363. Split of that spread: which place is left out 29%, seed 9%, the two together 62%;
+  typical spread across seeds for a fixed left-out place: 5,610 homes (standard deviation). The biggest swings come
+  from leaving out Austin, Portland, Charlotte and Mount Baker. Verdict: the honest causal forest is unstable and
+  does not predict hidden places; it is not used. Files: reference/tod_optiond_{loco,wisconsin,wisconsin_each}_
+  lot_place_fix_equal_fill_stops_k1_s1_cf_honest{,_cs1,_cs2,_cs3}.csv (the `_cs4` files are from the old data and
+  are void).
+- **2026-11-02, stabilised causal forest moved to LOT level (coordinator spec after 21:04; logged before running).**
+  Replaces the stop-level `cf_stable` run (not run). `--learner cf_stable --level lot` in scripts/run_tod_optiond.py:
+  D-11, ¼-mile band, lot rows from scripts/run_tod_optiond_dml.py's loader (lot + block-group/place + tract traits +
+  stop-table traits of the lot's stop: pre-reform ridership, peak and midday trips, systems at the node, transfer
+  hub, developable / vacant / underused land deduplicated by band; no post-reform ridership); comparison lots
+  sampled, one fixed NY/PHL set per seed; outcome and weights as that script (each place the same total weight).
+  Forest: 2,000 trees; each tree draws half of the places as whole places; honesty 0.3 by place; at most 5,000 lots
+  per drawn place per tree (grf's samples per cluster; run time); 30% of traits tried per split (≈ grf's default);
+  minimum leaf 400 lots (2× the lot-level boosting leaf of 200); nuisances cross-fitted over folds of whole places.
+  Two treatments: reform stop (main, comparable with the measured effect) and lot in the reform area (prediction ×
+  the place's district land share, as the DML script). Reported: hidden-place median miss vs others' average and
+  zero; AIPW average effect (all lots and treated lots) with a place-bootstrap interval; calibration test; Wisconsin
+  ¼-mile for the full fit and each left-out fit; 5 seeds. Starts after the DML smoke run has reported.
+- **2026-11-02, "remove the noise" smoke run (owner 21:24: light run first, to get kinks out; not a result).** D-11,
+  seed 1, about 10% of comparison lots (weighted ×10), all reform-stop lots, 2 folds of whole places, 100 boosting
+  rounds, no hidden-place loop. Data: lot tables with the New York / Philadelphia hand-check rule rows applied (3,929
+  rows with evidence "rule "), land fixes in. Diagnostics with lot ids stay in the scratchpad (not in reference/).
+  Effects (extra new homes per 100 lot acres a year, ¼ mile): in-area A 102.3, B-PLR 67.3, B-AIPW 43.6; reform stop
+  A 65.9, B-PLR 33.1, B-AIPW 650.3 (blown up). ¼–½ mile: in-area 50.3 / 18.7 / 19.4; reform stop 2.3 / 31.5 / 1,446.
+  Measured New York ¼-mile effect is now 19.6 (was 28.1) after the rule rows, so the benchmarks move.
+  Kinks found (no fit counted):
+  1. Place-level levels are not removed: the outcome model, trained on other places and without place identifiers,
+     leaves mean residuals of −430 (Salt Lake City comparison lots) to +49 (Portland) per 100 lot acres a year
+     within ¼ mile, ten times the effects. A then partly compares places, not lots.
+  2. No overlap for the treatment model: in-area propensities fall below 0.01 for 35% of ¼-mile lots and 93% of
+     ¼–½-mile lots; most real district lots get a pick chance under 0.02 (Portland 3,038 of 3,088; Chicago 2,138 of
+     3,190; Philadelphia 2,081 of 3,429). Reform-stop propensities near 1 on some comparison lots (Denver 165) make
+     B-AIPW explode. Folds of whole places mean each place's district is predicted from other cities' choices.
+  3. Data: no inf or constant traits; Denver lacks block-group job growth. Of the 100 largest lot residuals per band,
+     14 already have a hand-check row; the others are known real cases (Philadelphia Front–Girard 861 homes, repeated
+     across rezonings; Charlotte and Chicago towers checked "plausible" or "confirmed"), public land of 100+ acres
+     with nothing built, and 4 New York lots of 490–835 homes (one window) with no hand-check row (not hotels by the
+     rule; worth a look). No new confirmed error.
+  Run time: about 5 minutes a band for the smoke settings; the pre-registered full settings come to about 1 hour a
+  band per set and seed, so the hidden-place loop is about 11 hours for D-11 ¼ mile alone. Waiting for a decision
+  before the full run.
+- **2026-11-02, departures from the "remove the noise" pre-registration (approved by the coordinator under the
+  owner's research-design delegation; logged before the full run, with the smoke evidence above).**
+  1. *Within-case centring.* In the final step the outcome residual y − m̂(X) and the treatment are centred on their
+     case (rezoning) means, weighted, so district lots are compared with the other lots of the same case, as the
+     measured effects are. Applies to A and B. Evidence: smoke-run place-mean residuals of −430 to +49 per 100 lot
+     acres a year, ten times the effects.
+  2. *Treatment model within case.* P(in the reform area | X) is fitted inside each case (5 lot folds within the case,
+     gradient-boosting classifier, leaf ≥ 20 lots for small cases; cases with no district lots take the case share),
+     because it describes how a city picked its district. Scored versions: A and B-PLR. B-AIPW is kept only as a
+     diagnostic (propensities trimmed to [0.01, 0.99], flagged unstable). Treatment = in the reform area is the main
+     treatment; reform stop is a diagnostic (version A only). Evidence: with folds of whole places, most real district
+     lots had a pick chance under 0.02 and B-AIPW blew up (650 and 1,446).
+  3. *Run time.* 150 boosting rounds at rate 0.1 (was 300 at 0.05); 5 place-folds for the full fits, 3 in the
+     hidden-place loop; hidden-place test within ¼ mile only, seed 1 only; full-data effects for seeds 1–5, both
+     bands; D-11 and D-B in two parallel processes (3 threads each).
+  4. *Benchmarks recomputed on the fixed data* (rule rows in; New York ¼ mile 28.1 → 19.6), each evidence set's
+     others' average taken over its own places.
+  - *Hand check of the large New York lots from the smoke residuals* (MapPLUTO 18v1 on the lot, as the rules use): 12
+    lots of 490–921 homes in one window. 10 match the 18v1 residential units within 1% (e.g. 835 vs 835, 631 vs 631,
+    921 vs 921): real. One 554-home 2005 job vs 458 residential units in a 59-floor condo tower: within normal unit
+    re-counting, left. One 814-home 2009 job on a 59-floor condo lot with 940 units in all but 187 residential in
+    18v1: possibly condo-hotel units, but 18v1 condo-lot residential counts are not reliable enough to call it;
+    unverifiable, left unchanged. No confirmed error, no rows added.
+- **2026-11-02 (after the land fix), stop-outlier review: fixes applied and round 2.** Coordinator: the land fix is
+  complete (acres_land in all 122 lot tables); apply. Outputs before the fixes saved to the session scratchpad
+  (before_ny_fixes/).
+  - **Applied:** `.venv/bin/python scripts/build_tod_hand_check_rules.py` wrote 3,929 rule rows (New York 3,828 case
+    rows: hotel 209 lots, condo-hotel 8, hotel + condo 10, health / home / shelter 19, superseded jobs 65;
+    Philadelphia re-issued 3 lots, 101 case rows); hand-entered: the Philadelphia addition (289 → 248, 43 case rows) and **two
+    Seattle hand-check corrections stranded by the event dates** (found in round 1's check of hand-check rows
+    against the event windows): a 238-unit dormitory corrected in Mount Baker but now in Othello's after window
+    with no row there, and a 158-room congregate building corrected in Mount Baker's before window while its record
+    now falls in Mount Baker's after window. Rows sit in the local hand-check file (5,371 rows). Reran
+    run_tod_station_model.py (effects), run_tod_optiond.py lot,place k5 fill,equal, build_tod_optiond_line.py, and
+    the stop model (cache rebuilt) on D-11 and D-B.
+  - **Measured effects that moved** (extra homes per 100 lot acres a year): New York ¼ mile 28.1 → 19.6, ¼–½ mile
+    17.6 → 4.7, ½–1 mile 10.3 → 12.2 (hotels sat on both sides, more of them inside the rezonings' ¼-mile rings);
+    Philadelphia ¼ mile 47.5 → 47.5; Othello ¼–½ −71.6 → −68.3; Mount Baker ½–1 −8.7 → −8.1. Others unchanged.
+  - **Option D lines** (Wisconsin 2027–2031, extra homes): average rule 10,262 (7,837 to 12,268) → 10,028 (7,580
+    to 12,010); 11-place mean effect 34.3 → 33.5. Lot model (lower line) 620 (−26 to 1,072) → 824 (−90 to 1,006);
+    its ¼-mile hidden-place error 22.4 vs average 16.0 vs zero 28.4. Pre-registered versions: raw 5-year total
+    4,609 → 4,381, scaled 6,593 → 6,287.
+  - **Round 2 review** (same lists on the rerun): 27 driver lots not seen in round 1 (New York 18, Portland 8,
+    Philadelphia 1). Every New York one matches its MapPLUTO 18v1 building's units (e.g. 551, 490, 256 units);
+    Portland ones are hand-checked high-rises (plausible) or under 100 homes; the Philadelphia one is a 104-unit
+    2012 building. Center sample: nothing off (Chicago stop land now above recorded acres where the same-city
+    fill gives lots without area a size). **No new confirmed error: the run is clean.**
+  - **Stop model, clean run** (median absolute error, extra homes per 100 lot acres a year; Wisconsin = extra homes
+    2027–2031, central = fit on all places of the set, range = each place left out; before = land-fixed data
+    without these fixes):
+
+    | Label | ¼ mi per stop (before → after) | ¼ mi place totals | ¼ mi Wisconsin after (range) | ¼–½ mi per stop | ¼–½ mi place totals |
+    | --- | --- | --- | --- | --- | --- |
+    | D-11, stop model, others' average | 37.5 → 36.3 | 15.1 → 16.6 | 10,119 (7,680 to 12,111) | 16.3 → 16.9 | 14.8 → 10.8 |
+    | D-11, stop model, zero | 27.2 → 26.9 | 28.4 → 28.4 | 0 | 11.8 → 11.7 | 9.8 → 9.3 |
+    | D-11, stop model, boosted all traits | 44.1 → 39.3 | 36.7 → 36.1 | 18,690 (11,559 to 23,641) | 19.1 → 19.5 | 11.8 → 17.4 |
+    | D-11, stop model, boosted all traits + stop traits | 32.4 → 34.8 | 22.7 → 28.3 | 11,932 (7,576 to 12,127) | 27.5 → 33.3 | 10.5 → 12.8 |
+    | D-B, stop model, others' average | 43.4 → 41.8 | 24.1 → 25.5 | 12,664 (9,543 to 14,006) | 23.0 → 23.7 | 25.9 → 19.9 |
+    | D-B, stop model, zero | 28.5 → 28.5 | 28.3 → 26.1 | 0 | 14.0 → 14.0 | 13.7 → 7.4 |
+    | D-B, stop model, boosted all traits | 40.4 → 44.4 | 48.9 → 58.1 | 17,793 (4,495 to 20,259) | 17.8 → 18.8 | 28.0 → 24.7 |
+    | D-B, stop model, boosted all traits + stop traits | 44.7 → 43.4 | 46.6 → 60.4 | 18,954 (−1,200 to 22,074) | 21.1 → 19.8 | 25.5 → 21.2 |
+
+    Boosted = 5 averaged gradient-boosting fits on 94 lot / block-group / tract traits + coverage; "+ stop traits"
+    adds 27 stop-table traits (trips per hour peak and midday, EPA D4c, points merged, footprint, names merged,
+    own-system NTD ridership 5-year average before the reform, all systems' ridership, systems at the node,
+    transfer hub, node trips peak and midday, the band's land / developable / vacant / underused acres counted once,
+    homes per acre, land value per acre, jobs per acre, transit job access, share of lots vacant, mode). Left out:
+    station-level and post-reform ridership (owner), grade (20% of reform stations known) and opening year (47% in
+    the extra-traits file; both under the 80% bar). Wisconsin has no trips per hour for Madison (AQ-045) and BRT is
+    absent from the training places, so the stop-trait version reads Wisconsin through gaps. **Result:** the data
+    are clean but the stop model still does not beat the place-based average on place totals in either set
+    (D-11 ¼ mile: average 16.6, boosted 36.1, boosted + stop traits 28.3, zero 28.4); per stop, zero stays best.
+    ¼–½ mile: zero best on both scores. New York's stop rows reproduce 10.9 vs the measured 19.6 (comparison lots
+    are the seed-1 sample). Files: reference/tod_optiond_stopmodel_{summary,places,stops}.csv (D-11) and *_db.csv
+    (D-B). No tool change.

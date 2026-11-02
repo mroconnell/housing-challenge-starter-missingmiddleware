@@ -106,13 +106,13 @@ def case_effects(mode: str = "stored", src: Path = OUT, only: str | None = None)
         case = f.stem.removeprefix("lots_")
         if only and case != only:
             continue
-        D = pd.read_parquet(f, columns=["group", "band", "homes_existing", "homes_before_win", "homes_after_win", "in_reform_area", "implausible", "acres"])
+        D = pd.read_parquet(f, columns=["group", "band", "homes_existing", "homes_before_win", "homes_after_win", "in_reform_area", "implausible", "acres_land"])
         if mode != "stored" and (src / f"events_{case}.parquet").exists():
             D = event_windows(case, D, mode, src)
         D = D[~D.implausible.fillna(False)]
         yb, ya = windows(case)
         g = D.groupby(["group", "band"]).agg(e=("homes_existing", "sum"), b=("homes_before_win", "sum"), a=("homes_after_win", "sum"),
-                                             cov=("in_reform_area", "mean"), lots=("band", "size"), ac=("acres", "sum"))
+                                             cov=("in_reform_area", "mean"), lots=("band", "size"), ac=("acres_land", "sum"))
         for band in BANDS:
             try:
                 r, c = g.loc[("reform", band)], g.loc[("comparison", band)]
@@ -122,7 +122,9 @@ def case_effects(mode: str = "stored", src: Path = OUT, only: str | None = None)
                 continue
             dr = 1000 * (r.a / ya - r.b / yb) / r.e
             dc = 1000 * (c.a / ya - c.b / yb) / c.e
-            pr = 100 * (r.a / ya - r.b / yb) / r.ac if r.ac > 0 else np.nan   # per 100 lot acres
+            # per 100 lot acres, land counted once (acres_land: stacked condo records share the parcel's land;
+            # scripts/fix_tod_station_acres.py, owner OK 2026-11-02 18:04)
+            pr = 100 * (r.a / ya - r.b / yb) / r.ac if r.ac > 0 else np.nan
             pc = 100 * (c.a / ya - c.b / yb) / c.ac if c.ac > 0 else np.nan
             rows.append({"case": case, "city": city_of(case), "band": band, "reform_change": dr, "comparison_change": dc,
                          "effect_raw": dr - dc, "effect_per_100_acres": pr - pc, "coverage": r["cov"], "comparison_coverage": c["cov"],
@@ -163,8 +165,8 @@ def wisconsin_versions(C: pd.DataFrame) -> pd.DataFrame:
     """The two pre-registered Wisconsin versions by band, extra homes over 5 years on Milwaukee and Madison lots near
     rail and rapid stops: raw = pooled average effect per 100 lot acres x Wisconsin lot acres; scaled = pooled ratio x
     Wisconsin coverage (share of the band's lots the law would upzone) x acres."""
-    W = pd.read_parquet(OUT / "wi_lots_station.parquet", columns=["band", "acres", "in_reform_area"])
-    w = W.groupby("band").agg(acres=("acres", "sum"), coverage=("in_reform_area", "mean"))
+    W = pd.read_parquet(OUT / "wi_lots_station.parquet", columns=["band", "acres_land", "in_reform_area"])
+    w = W.groupby("band").agg(acres=("acres_land", "sum"), coverage=("in_reform_area", "mean"))
     raw = C.groupby("band").effect_per_100_acres.mean()
     ratio = pooled_scaled(C)
     out = pd.DataFrame({"wi_acres": w.acres, "wi_coverage": w.coverage, "pooled_effect_per_100_acres": raw,
