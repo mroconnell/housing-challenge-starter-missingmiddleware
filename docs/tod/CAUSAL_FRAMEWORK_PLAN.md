@@ -1,0 +1,370 @@
+# TOD causal framework: locked plan
+
+Owner approved the framework on 2026-11-02 at 23:29 (pitch: learning thread, "measure the cause, then carry it to
+Wisconsin"). The learning thread's implementable plan is
+[learning/tod_causal_framework_plan_v1.md](learning/tod_causal_framework_plan_v1.md). This file is the locked
+version. Each section below was written **before its first count** (date given). Anything chosen after seeing a result
+is labelled *post hoc* and shown beside the locked version. Later sections are added by other threads.
+
+Shared rules (all tests):
+
+- **Places:** the 11 D-11 places of [OPTION_D_PLAN.md](OPTION_D_PLAN.md): New York, Philadelphia, Austin 2009,
+  Charlotte 2019, Chicago 2015, Denver 2018, Portland 2020, Seattle Mount Baker 2014, Seattle Othello 2012,
+  Salt Lake City 2010, Saint Paul 2011. A place is dropped from a test only by a rule written here.
+- **Outcome data:** the station-area lot tables (`data/processed/tod_station_area/lots_*.parquet`), dates
+  "permit_est" with hand-check corrections (`run_tod_station_model.event_windows`), implausible lots left out, land
+  counted once (`acres_land`), each case's own before and after windows.
+- **Units:** lead with extra new homes per 100 lot acres a year. Beside it: per 1,000 existing city homes, and the
+  district's share of the city's new homes.
+- **Intervals:** 90% throughout. Report per place, pooled (each place equal weight) and the leave-one-place-out range.
+- **Outputs:** summaries only in `reference/` (no parcel ids, no lot rows). Nothing in the tool or its reference lines
+  changes from these tests.
+
+## Test 1 (T1): citywide check (locked 2026-11-02, before any count)
+
+Two measures. **1A** is the lot-table measure asked for first (as `scripts/run_tod_citywide_per1000.py`). **1B** is the
+learning plan's whole-city permit-survey version (added at the coordinator's request the same evening, also before
+any count). Script: `scripts/run_tod_causal_citywide.py`. Output: `reference/tod_causal_citywide_11.csv`.
+
+### 1A. Station-area extra homes, scaled to the city (lot tables)
+
+- **Estimand:** extra homes permitted a year attributable to the reform near reform stops, as the station-area model
+  measures it, expressed per 1,000 existing city homes (a year and over 5 years).
+- **Comparison:** reform stops vs comparison stops, per band:
+  extra = (reform after/yr − reform before/yr) − reform existing homes × (comparison change per existing home).
+  Two scopes: all bands to 1 mile, and ¼ mile only. Functions reused from `run_tod_citywide_per1000.py` unchanged.
+- **Places:** all 11. Seattle's two cases are two places (as D-11); New York's and Philadelphia's rezonings are
+  summed within the place, a lot claimed by k rezonings weighted 1/k (as that script).
+- **Interval:** 1,000 bootstrap draws over stops, reform and comparison stops resampled separately, seed 20261102,
+  case index in the fixed order of the place list above; a place's draws are summed draw by draw over its cases.
+- **City homes:** New York, Philadelphia, Charlotte, Saint Paul, Seattle, Chicago: the 2026-10-27 table's stock
+  (2010 Census). Portland: as `run_tod_citywide_per1000.py`. Austin, Salt Lake City: 2010 Census blocks inside the
+  2020 place boundary (the 2000 count the rule asks for is not on disk; flagged). Denver: 2020 Census blocks inside the
+  2024 place boundary (no 2010 Colorado blocks on disk; flagged, overstates the 2017 stock by the 2018–2020 growth).
+- **Units shown:** extra homes per 100 lot acres a year (÷ reform-group lot acres in the scope; also ÷ district acres,
+  i.e. in-reform-area acres in the scope), per 1,000 city homes a year and over 5 years, and
+  **district share of the city's new homes in the after window** = new homes on in-reform-area lots (all groups, after
+  window, 1/k weights) per year ÷ Census permit survey (BPS) place total per year over the same years. BPS sources:
+  New York = sum of its five boroughs; Charlotte = Mecklenburg County office (covers more than the city: the share is
+  a lower bound, flagged). The two counts come from different sources (lot tables vs BPS); flagged.
+- **Carry-through (coordinator addition, spillover downside):** per place, extra per 1,000 homes over all bands to
+  1 mile ÷ extra per 1,000 homes within ¼ mile. Below 1 means part of the ¼-mile gain is offset farther out (within
+  1 mile). This is not a whole-city net (lots beyond 1 mile are not in the tables); 1B is.
+- **Reading rule (locked):** pooled all-bands-to-1-mile extra per 1,000 homes a year (equal-weight mean, draws
+  averaged draw by draw): "consistent" if positive with a 90% interval above 0; "not contradicted" if positive with an
+  interval including 0; "contradicts" if the point is ≤ 0. 1A is a second measure; 1B feeds the downside case.
+
+### 1B. Whole-city difference-in-differences on the Census permit survey (learning plan T1)
+
+- **Estimand:** net extra homes permitted in the whole city per 1,000 existing city homes a year caused by the reform,
+  including homes that moved into the station area from elsewhere in the city (counted as a loss).
+- **Data:** BPS annual place files 2000–2025 (`data/raw/tod_control_cities/bps`), all units (main) and 5+ units
+  (second series); 2010 Census housing units by place (Gazetteer HU10). Linking, the 0-month non-report rule and
+  Charlotte as the Mecklenburg County office (per 1,000 county homes, converted to city homes) as
+  `missing_middleware/tod/control_cities.py`.
+- **Windows:** reform year = the case's effective year; before = the 5 years before it; after = the case's after
+  window (capped at 2025).
+- **Controls:** eligible places = same Census region (Northeast, Midwest, South, West); 2010 homes within ×0.5–2 of the
+  reform city's (widened ×1.5 each side, repeatedly, until at least 3 are eligible); not in the reform city's metro
+  (CBSA); not in the TOD case inventory; not a reform city; no statewide transit-area density law in force by the last
+  after year (as `control_cities.STATE_LAW_YEAR`); full permit reports in every year used. From these, the 10 closest on
+  before-years mean rate and linear trend (each ÷ its SD across eligible places), or all if fewer (minimum 3), weighted
+  equally (the control-cities plan's method A). The 10 control cities matched on 2026-10-27 are reused where the same
+  rules select them; this is not forced.
+- **Interval:** fake reforms in each eligible place, its own controls drawn the same way from the other eligible
+  places; 90% interval = estimate − the 95th and 5th percentiles of the fake effects.
+- **New York and Philadelphia are left out of 1B** (rule, not result): their rezonings span many years (New York
+  2003–2013, Philadelphia 2012–2019), so there is no single before and after for the whole city, and New York has no
+  US place within ×0.5–2 of its size. They are listed as "not estimable".
+- **Pre-trend pass rule (a):** a placebo reform 3 years early (fake year = reform year − 3; before = the 5 years before
+  the fake year; after = fake year to reform year − 1, all before the real reform), same control rule and fake-reform
+  interval. A place passes if that placebo's 90% interval includes 0. A failing place is reported but left out of the
+  pooled figure and of R's median.
+- **R (b):** per place, R = citywide net extra homes a year (1B effect × city homes ÷ 1,000) ÷ station-area total extra
+  homes a year (1A, ¼ mile only, same years; the T2 matched figure replaces it when T2 is run). Interval from 2,000
+  paired draws (one fake-reform effect, one station-area bootstrap draw). R is defined only where the station-area
+  ¼-mile extra is above 0 (else "not defined": a ratio over a non-positive gain has no reading).
+- **Feeds Wisconsin (downside case):** median R across passing places, capped at 1. If the pooled interval of that
+  median (2,000 draws, one draw per place) includes 1, the downside uses its lower end, labelled "not detectable at
+  citywide scale". Known limit, stated beside it: the 2026-10-27 control-city study could only detect changes of
+  about 4–5% of a city's homes over 5 years.
+
+## Test 2 (T3): edge test, difference in discontinuities at district boundaries (locked 2026-11-02, before any count)
+
+Script: `scripts/run_tod_causal_edge.py`. Output: `reference/tod_causal_edge_test.csv`.
+
+- **Estimand:** the direct effect of rezoning on rezoned lots: building on lots just inside the district vs lots
+  just outside, after minus before. **Interpretation lock:** this is the "floor" (direct effect only). Spillover onto
+  nearby outside lots makes it understate the direct effect; builders shifting projects across the line make it
+  overstate it (checked below). It is compared with the station-area measured effect (the main), never replaces it.
+- **Lots:** each case's lots whose nearest stop is a reform stop within 1 mile (learning plan: boundary segments within
+  1 mile of a stop). Sensitivity: within ½ mile (the first request). Implausible lots and lots without land acres left out.
+- **Signed distance to the district boundary** (+ inside, − outside; inside = the stored `in_reform_area`):
+  - *Polygon districts* (Denver, Portland, Austin, Salt Lake City; `station_cases.cluster_west.reform_area`):
+    distance from the lot point to the boundary of the **union** of the district polygons. Polygon edges come from
+    `geom._segments`; an edge is kept as boundary only if points 0.5 m either side of its midpoint differ in union
+    membership (`geom.points_in_any(..., union=True)`), so shared internal edges between adjacent district polygons
+    drop out. Kept edges are densified to points ≤ 5 m apart and the nearest is found with a k-d tree (error ≤ 2.5 m).
+  - *Lot-defined districts* (New York and Philadelphia treated lots, Chicago's zoning-and-distance rule, and the
+    treated lot points of Charlotte, Seattle and Saint Paul): no single polygon defines the district, so the boundary
+    is the line midway between lots of different status: distance = half the distance to the nearest lot point of the
+    opposite status in the same case table (any group).
+  - Sensitivity: the lot-midway distance in the polygon places too.
+- **Outcome and estimator (main):** within a bandwidth h of the line, each side's rate = 100 × Σ(after homes/after
+  years − before homes/before years) ÷ Σ land acres (ratio of sums, as the station-area model); estimate = inside
+  rate − outside rate, extra homes per 100 lot acres a year. Chosen as main over local linear because new homes are
+  very lumpy (a few lots carry most homes), so per-lot slopes are unstable. Sensitivity: local linear (each side,
+  lot rate on signed distance, weights acres × triangular kernel; difference of intercepts at 0).
+- **Bandwidths (learning plan):** main 91 m (300 ft); sensitivities 46 m (150 ft) and 183 m (600 ft).
+- **Segments:** the boundary point of each lot (nearest boundary point, or the midpoint to the opposite lot) is put in
+  a 400 m grid cell; a cell is a boundary segment. Only segments with lots on **both** sides within h are used (a side
+  with no lots is water, rail, a park, a freeway or the study edge). Segments where public land is ≥ 50% of either
+  side's acres within h are dropped (parks, rail yards, campuses).
+  - **Water:** TIGER 2024 area water (public domain) where on disk (Cook, Mecklenburg, Ramsey, King, New York's five
+    counties, Philadelphia): segments whose boundary point is within 30 m of water are tagged and left out. Denver,
+    Portland, Austin, Salt Lake City: no water layer on disk, not tagged (noted).
+  - **Arterial roads:** no open road layer is on disk, so segments are **not** tagged for arterials in this run
+    (downloading TIGER roads needs the owner's OK). Reported as a gap.
+- **Places and pooling:** a place's cases are pooled lot by lot (a lot in k of the place's edge samples weighted 1/k).
+  A place is estimable at h if it has at least 20 lots on each side. Pooled = equal-weight mean of passing places.
+  Interval: 1,000 cluster-bootstrap draws resampling segments within each place (seed 20261103); pooled draws are the
+  mean of place draws. Leave-one-place-out range reported.
+- **Balance (pass rule a, learning plan):** the inside − outside gap in the **before-window** rate (homes per 100 lot
+  acres a year) at h = 91 m; a place passes if its 90% interval includes 0; a failing place is reported but left out of
+  the pooled figure. Descriptive balance (reported, not a rule): land value per acre (log), lot size (log acres),
+  building age at the reform year, lot vacant (no building value), tract vacancy rate; standardized mean difference
+  inside − outside, flagged when |SMD| > 0.25.
+- **Shifting checks (pass rule b, coordinator addition):**
+  - *Donut:* the main estimate with lots within 25 m of the line dropped.
+  - *Bunching:* on the outside only, after-window rate at 0–100 m outside minus the rate 100–200 m outside, minus the
+    same difference in the before window (pooled, segment bootstrap). A negative value whose 90% interval excludes 0
+    suggests building shifted from just outside to just inside; then the floor uses the donut estimate (labelled).
+- **Overall PASS (locked):** the edge test is usable as the floor if (1) at least 5 places are estimable and pass
+  balance at 91 m, and (2) the 46 m and 183 m pooled estimates both lie inside the main's 90% interval. If it passes:
+- **USE:** "direct effect only" Wisconsin floor = pooled direct effect (or the donut if bunching is flagged)
+  × 15% × 4,874.1 ¼-mile lot acres ÷ 100 × 5 years × 1.2269, extra homes 2027–2031, with the pooled interval carried
+  through. Shown beside the station-area ¼-mile measured effect per place (`reference/tod_station_area_effects_by_city.csv`)
+  and the implied direct share of it: edge estimate × the district's share of the ¼-mile reform band's land acres,
+  per 100 band acres a year. If it fails, it is reported as a check only, not shown as a floor.
+
+## Test 3 (T2): line-age matching (locked 2026-11-02 15:40 machine clock, before any count)
+
+Separates the effect of the rezoning from growth caused by new transit. Script: `scripts/run_tod_causal_line_age.py`.
+Output: `reference/tod_causal_line_age.csv` (place summaries only).
+
+- **Estimand:** the station-area total effect within ¼ mile (all lots in the ¼-mile band of reform stops, rezoned or
+  not), extra new homes per 100 lot acres a year, measured against comparison stops whose station opened in the same
+  era, so that new-transit growth is not counted as the law's effect.
+- **Places:** D-11 (shared rules). ¼-mile band only (the band the Wisconsin central uses).
+- **Opening year per stop:** `opening_year_best` from `reference/tod_stop_table.csv`; where blank (most comparison
+  stops), the same Wikidata (CC0) matcher and hand-coded agency facts as `scripts/build_tod_stop_extra_traits.py`
+  (functions imported unchanged, run on comparison stations too; nothing in the stop table is rewritten). Where a
+  line-level agency fact is added for comparison stops, it is listed with its source in the script. The station's
+  opening year stands in for its line's. A stop with no year is "unknown".
+- **Match rule M3 (main; learning plan v1 T2):** comparison stop c matches reform stop r (same case) if their
+  opening years are within 3 years of each other, **or** both were open 10+ years at the case's reform year.
+  **Sensitivity M10** (coordinator's first brief): opening years within ±10 years.
+- **Unknown years:** a reform stop with unknown year is compared with all comparison stops of its case (flagged).
+  A comparison stop with unknown year is **kept** in every reform stop's matched set (main, as briefed: "keep and
+  flag"); variant "known only" drops it.
+- **Estimator:** for each stop, Δ = 100 × (Σ after homes / after years − Σ before homes / before years) ÷ Σ land acres
+  over its ¼-mile lots (the measured effect's ratio of sums; same dates, hand checks, implausible lots out). Case
+  effect = Σ_r acres_r × (Δ_r − Δ_M(r)) ÷ Σ_r acres_r over reform stops r with at least one matched comparison stop
+  that has ¼-mile lots, where Δ_M(r) pools the lots of r's matched comparison stops. (With every comparison stop
+  matched this reproduces the measured effect exactly; checked in the run.) Reform stops with no match are dropped;
+  the share of reform ¼-mile acres kept is reported. New York and Philadelphia = mean over their rezonings with an
+  estimate (as measured).
+- **Flag "rezoned with new transit":** a reform stop whose station opened after the reform or within 3 years before
+  it (reform year − opening year ≤ 3). A place is flagged if over half its reform ¼-mile acres are on such stops
+  (expected: Austin, Saint Paul, Seattle Othello; checked from data, not assumed).
+- **Intervals (90%):** per place, 1,000 bootstrap draws resampling reform stops and comparison stops separately
+  within each case (seed 20261102); pooled = equal-weight mean of places, draws averaged draw by draw; leave-one-place-
+  out range of the pooled point.
+- **PASS rule (learning plan v1):** the M3 matched version becomes the main T2 estimate if **at least 8 of 11 places
+  keep at least 3 distinct matched comparison stops with known opening year** (counted over the place's cases);
+  otherwise it is a sensitivity case.
+- **Reported:** per place: measured effect (current), M3, M3 known-only, M10; pooled with and without flagged places;
+  change in the D-11 average; implied Wisconsin central = pooled × 4,874.1 ¼-mile lot acres ÷ 100 × 5 × 1.2269
+  (tool central today: D-11 average).
+- **Transit-only check (reported beside, no rule):** (a) the existing Milwaukee Hop placebo
+  (`reference/tod_station_checks_milwaukee_placebo.csv`, new streetcar, no rezoning); (b) inside the training cases,
+  comparison stops that opened within 3 years before the reform or during the after window ("new-line, no-rezoning")
+  minus the case's other comparison stops, ¼ mile, same Δ, pooled over cases that have both.
+
+### T2b: 2×2 of line age × upzoning (owner-approved addition 23:36; locked 2026-11-02 before any count)
+
+Script: `scripts/run_tod_causal_line_age.py --twobytwo`. Output: `reference/tod_causal_line_age_2x2.csv`.
+
+- **Unit:** stops within ¼ mile. Outcome per stop: Δ = before-vs-after change in new homes per 100 lot acres a year
+  (ratio of sums over the stop's ¼-mile lots; permit_est dates, hand checks, implausible out, `acres_land`), exactly
+  as T2.
+- **Line age (per stop, opening years as T2):** **new** = opened from 3 years before the case's reform year through
+  the end of its after window; **old** = opened 10+ years before the reform year (or a line code "old"). Anything else
+  (4–9 years old, opened after the after window, unknown year) is excluded; counts reported.
+- **Upzoning:** **up** = reform stop of the case; **no** = comparison stop.
+- **Places, main:** the D-11 cases plus the Milwaukee Hop placebo (pretend reform 2019, after 2020–2024; its lots in
+  `checks_milwaukee_placebo_lots.parquet` have no stop ids, so Milwaukee enters as one place in the new/no cell: all
+  its ¼-mile lots, Hop and rapid-bus groups, since the Hop opened 2018 and CONNECT 1 2023 are both "new"; that table
+  has recorded `acres`, not `acres_land`, flagged). **Sensitivity:** add Honolulu 2017, Bellevue BelRed 2009 and
+  Seattle Roosevelt 2012 (candidate table), the new-line-and-upzoned places outside D-11; and D-11 alone.
+- **Cell mean:** per case, the acre-pooled Δ of its stops in the cell; per place, mean over its cases with stops in
+  the cell (New York, Philadelphia); per cell, mean over the places that contribute (each place equal weight).
+- **Effects:** transit alone = new/no − old/no; upzoning alone = old/up − old/no; interaction = new/up − new/no −
+  old/up + old/no (differences of pooled cell means, as briefed). Beside them (diagnostic, not the rule): the same
+  contrasts computed within place where a place has the needed cells, then averaged.
+- **Interval:** 90%, cluster bootstrap by place (resample places with replacement, 2,000 draws, seed 20261102; a draw
+  in which a cell is empty is dropped and the count reported).
+- **PASS / USE rule (learning plan "T2b", locked as written):** the interaction is **material** if its 90% interval
+  excludes zero AND it exceeds 25% of the upzoning-alone effect (in absolute size). If material and positive,
+  Wisconsin's law effect near its new lines = upzoning alone + interaction (only transit-alone growth moves to the
+  baseline). If not material, the law effect = upzoning alone. Wisconsin figures = effect × 4,874.1 ÷ 100 × 5 × 1.2269.
+  T2 and T2b are reported together; the owner picks the T2 central after T2b.
+- **Reported:** cell counts (stops, places, cases), cell means with intervals, the three effects with intervals, and
+  their Wisconsin readings.
+
+## Test 4 (T4): Los Angeles TOC tier cutoffs, difference in discontinuities (locked 2026-11-02, before any count)
+
+Script: `scripts/run_tod_causal_la_toc_rd.py`. Output: `reference/tod_causal_la_toc_rd.csv` (summaries only).
+
+**The law (verified from the official TOC Guidelines, effective 2017-09-22, revised 2018-02-26, Chart 1, printed p.5;
+https://planning.lacity.gov/ordinances/docs/TOC/TOCGuidelines.pdf).** Tier by distance from "any point on the lot"
+to the station entrance (rail) or the middle of the bus-route intersection:
+
+| Major transit stop | Tier 1 | Tier 2 | Tier 3 | Tier 4 |
+| --- | --- | --- | --- | --- |
+| Two regular buses (15-min peak) | 750–2,640 ft | < 750 ft | – | – |
+| Regular + Rapid Bus | 1,500–2,640 ft | 750–<1,500 ft | < 750 ft | – |
+| Two Rapid Buses | – | 1,500–2,640 ft | < 1,500 ft | – |
+| Metrolink station | 1,500–2,640 ft | 750–<1,500 ft | < 750 ft | – |
+| Metro Rail station | – | – | ≤ 2,640 ft | < 750 ft if the station meets another rail line or a Rapid Bus |
+
+Density bonus by tier 50 / 60 / 70 / 80% (FAR +40/45/50/55%; parking caps fall to none in Tier 4); minimum affordable
+share e.g. 8/9/10/11% extremely low income. So there are **no 750- or 1,500-ft rail cutoffs for Metro Rail except
+Tier 4 at 750 ft**, and the lot's tier is the best over all nearby stops (bus included).
+
+- **Estimand:** the jump in the change (after minus before) in new homes per 100 lot acres a year at a tier cutoff,
+  i.e. the effect of a one-tier-higher incentive (+10 points of density bonus, plus FAR and parking) for lots at the
+  margin. Dose evidence only; no Wisconsin line (LA TOC requires affordable units; Wisconsin's law would not).
+- **Lots:** `lots_la_toc_2017.parquet`, City of Los Angeles lots only (`city_name`), implausible out, land acres > 0;
+  dates permit_est with hand checks; before 2011–2016, after 2018–2022 (the case's windows). Outcome per lot:
+  y = 100 × (after homes ÷ 5 − before homes ÷ 6) ÷ land acres.
+- **Treatment map:** the City's TOC tier map of October 2017 (`toc_tiers_oct2017.geojson`, FINALTIER 1–4; already
+  used by the lot table). Lot point in polygon → its tier (0 = none).
+- **Design A (main: the map's own tier edges, sharp).** For each cutoff k|k−1 (4|3, 3|2, 2|1, 1|none): running
+  variable = signed distance (m) from the lot point to the boundary of the union of tier ≥ k polygons (+ inside); lots
+  used: tier exactly k inside, tier exactly k−1 outside. Boundary points every ≤ 5 m, shared internal edges removed
+  (as T3's `boundary_points`). This handles bus-based tiers by construction.
+- **Design B (brief: distance to the nearest rail station).** Running variable = distance from the lot point to the
+  nearest Metro Rail station point (stop table, subway and light rail, any city) at 229 m (750 ft) and 805 m (2,640 ft);
+  Metrolink stations likewise at 229 / 457 / 805 m (run only if ≥ 200 lots each side within the bandwidth). Reduced
+  form; first stage = jump in the map tier's density bonus (0/50/60/70/80%) at the cutoff; fuzzy ratio = reduced form ÷
+  first-stage jump, per 10 points of bonus. Station points are platforms, not entrances, and lot points are not the
+  nearest lot edge: both blur the cutoff (the reason A is main).
+- **Estimator (main):** local linear on each side, weights = land acres × triangular kernel, difference of
+  intercepts. Beside it: ratio of sums within the bandwidth (T3's main).
+- **Bandwidth (main, data-driven, fixed before running):** Imbens–Kalyanaraman (2012) MSE-optimal rule for a
+  triangular kernel, computed per cutoff on y with acre weights: pilot h₁ = 1.84 × SD(x) × N^(−1/5) on lots within
+  ±1,000 m; density f̂ and each side's variance σ²± within h₁; third derivative from a global cubic with a jump; second
+  derivatives from a local quadratic on each side within h₂± = 3.56 × (σ²±/(f̂ m₃²))^(1/7) × N±^(−1/7); regularisation
+  r± = 2160 σ²± / (N± h₂±⁴); h = 3.4375 × [(σ²₊ + σ²₋) / (f̂ ((m₊″ − m₋″)² + r₊ + r₋))]^(1/5) × N^(−1/5), clipped to
+  [25 m, 300 m] (fixed now). Beside it: the brief's 46 / 76 / 122 m (150 / 250 / 400 ft; brief's main 76 m).
+- **Interval:** 90%, cluster bootstrap resampling 400 m boundary segments (A) or nearest stations (B), 1,000 draws,
+  seed 20261104.
+- **Balance (same rule as T3):** the same RD on the before-window rate (homes per 100 lot acres a year); a cutoff
+  passes if its 90% interval includes 0. Descriptive (flagged if the 90% interval excludes 0): log land value per
+  acre, log lot size, existing homes per acre.
+- **Donut (same as T3):** drop lots within 25 m of the cutoff; reported beside.
+- **PASS rule:** each cutoff's jump is reported with its 90% interval; a cutoff **passes** if balance holds at the main
+  bandwidth. **USE:** dose evidence if at least one Design A cutoff passes and its donut estimate has the same sign:
+  "a positive passing jump supports the per-unit-of-capacity view". No size is carried to Wisconsin.
+
+## Results: Test 1 (T1) and Test 2 (T3 edge test), run 2026-11-02
+
+Run with the rules above, unchanged. Files: `reference/tod_causal_citywide_11.csv`, `reference/tod_causal_edge_test.csv`.
+Scripts: `scripts/run_tod_causal_citywide.py`, `scripts/run_tod_causal_edge.py`. One code bug fixed before reading
+results (R first used the 1-mile figure instead of the ¼-mile one; rerun). No rule changed.
+
+### Test 1A: station-area extra homes, scaled to the city (lot tables)
+
+Extra homes per 100 lot acres a year near reform stops (reform-band land); per 1,000 existing city homes over 5 years;
+90% intervals from resampling stops.
+
+| Place | ¼ mile: per 100 lot acres a year | ¼ mile: per 1,000 city homes, 5 years | To 1 mile: per 1,000 city homes, 5 years | 1 mile ÷ ¼ mile | District share of city's new homes (after window) |
+| --- | --- | --- | --- | --- | --- |
+| New York | 19.6 (7.8 to 31.6) | 1.7 (0.7 to 2.8) | 2.7 (0.6 to 5.1) | 1.57 | 8.9% (summed over 23 rezonings) |
+| Philadelphia | 14.0 (10.2 to 17.9) | 4.8 (3.5 to 6.1) | 22.2 (18.4 to 26.1) | 4.66 | 26.8% (summed over 83 rezonings) |
+| Austin 2009 | 23.8 (−0.2 to 49.1) | 1.5 (0.0 to 3.0) | −8.5 (−12.5 to −4.8) | −5.83 | 2.6% |
+| Charlotte 2019 | 16.2 (−0.3 to 33.5) | 5.2 (−0.1 to 10.8) | 23.5 (5.8 to 39.5) | 4.51 | 2.2% (county total; lower bound) |
+| Chicago 2015 | 2.4 (−7.5 to 11.6) | 1.5 (−4.8 to 7.4) | 3.9 (−3.8 to 10.7) | 2.52 | 4.6% |
+| Denver 2018 | 124.5 (−19.5 to 297.5) | 6.7 (−1.1 to 16.1) | 7.0 (−3.7 to 19.0) | 1.04 | 13.2% |
+| Portland 2020 | −25.3 (−50.2 to 29.4) | −14.6 (−29.0 to 16.9) | 31.1 (−37.9 to 159.4) | −2.14 | 12.9% |
+| Seattle Mount Baker 2014 | 81.2 (20.8 to 125.4) | 1.8 (0.5 to 2.8) | −1.1 (−3.7 to 1.7) | −0.63 | 0.3% |
+| Seattle Othello 2012 | 25.2 (−7.3 to 54.7) | 0.6 (−0.2 to 1.3) | −6.1 (−11.7 to −0.2) | −10.24 | 0.4% |
+| Salt Lake City 2010 | 46.6 (−2.4 to 91.6) | 34.9 (−1.8 to 68.8) | 32.4 (−6.7 to 67.8) | 0.93 | 113% (not meaningful: lot data are completions, BPS are permits) |
+| Saint Paul 2011 | 17.2 (−0.8 to 38.0) | 5.8 (−0.3 to 12.9) | −1.0 (−9.6 to 9.7) | −0.18 | 20.9% |
+| **Pooled (11, equal weight)** | **31.4** (leave one out 22.1 to 37.1) | **4.5** (0.8 to 8.8) | **9.6** (1.5 to 22.1) | | 18.7% |
+
+- Reading rule (locked): pooled to-1-mile figure is positive with an interval above 0: **"consistent"**.
+- Carry-through (1 mile ÷ ¼ mile) is below 1 in 6 of 11 places (negative in 5). The ¼-mile gain is partly offset by
+  less building ¼–1 mile out in Austin, both Seattle cases, Saint Paul and Portland; it grows farther out in New York,
+  Philadelphia, Charlotte and Chicago. No single factor fits all places.
+- Flags: Austin and Salt Lake City city homes from 2010 blocks (2000 not on disk); Denver from 2020 blocks.
+
+### Test 1B: whole-city difference-in-differences (Census permit survey)
+
+Net extra homes permitted per 1,000 existing city homes a year vs matched non-reform cities; 90% intervals from fake reforms.
+
+| Place | Per 1,000 homes a year | Placebo 3 years early | Pre-trend pass | 5+ unit series | R = citywide net ÷ station-area ¼-mile gain |
+| --- | --- | --- | --- | --- | --- |
+| Austin 2009 | 6.2 (0.3 to 20.3) | 2.2 (−4.1 to 7.1) | yes | 6.1 | 21.2 (−447 to 183) |
+| Charlotte 2019 | 1.6 (−13.5 to 9.9) | 7.9 (−2.4 to 15.4) | yes | −2.1 | 1.5 (−30 to 22) |
+| Chicago 2015 | 1.9 (−0.6 to 3.8) | −2.3 (−6.1 to 0.1) | yes | 1.5 | 6.1 (−15 to 24) |
+| Denver 2018 | −5.5 (−9.8 to −1.1) | 12.3 (5.0 to 16.1) | **no** | −1.6 | (left out) |
+| Portland 2020 | −13.7 (−16.8 to −11.9) | 3.0 (−2.8 to 7.1) | yes | −12.7 | not defined (¼-mile gain below 0) |
+| Seattle Mount Baker 2014 | 14.8 (8.0 to 19.1) | 7.6 (4.1 to 11.3) | **no** | 15.0 | (left out) |
+| Seattle Othello 2012 | 16.1 (11.0 to 19.5) | 0.1 (−8.1 to 7.5) | yes | 15.9 | 136 (−398 to 696) |
+| Salt Lake City 2010 | 2.2 (−4.4 to 10.8) | 0.6 (−4.4 to 12.3) | yes | 1.0 | 0.3 (−1.5 to 3.8) |
+| Saint Paul 2011 | 1.8 (−4.8 to 6.2) | −2.3 (−4.4 to 2.1) | yes | 1.1 | 1.5 (−13 to 14) |
+| **Pooled (7 passing)** | **2.3 (−1.0 to 5.7)**, leave one out 0.0 to 5.0 | | | | median **3.8 (−1.4 to 15.5)** |
+
+- New York and Philadelphia: not estimable (rule). Chicago's size band widened to ×0.15–×6.75 (5 Midwest controls).
+- **Downside factor, locked rule:** the median-R interval includes 1, so the rule takes its lower end: **−1.38**. That
+  value has no sensible reading (it would remove more than the whole gain). The reason is plain: station-area gains are
+  37 to 563 homes a year, while whole-city permit swings vs peers are thousands. The whole-city data **cannot detect**
+  the station-area gain, let alone the share that moved. Not used; the owner decides what the downside case should be
+  (open question, not changed here).
+
+### Test 2 (T3): edge test
+
+Extra new homes per 100 lot acres a year, inside minus outside the district line, after minus before; 91 m (300 ft)
+bandwidth; 90% intervals from resampling 400 m boundary segments.
+
+| Place | Edge effect | Lots in / out | Pre-reform gap (balance) | Balance pass | Station-area ¼-mile effect | Edge × district share of ¼-mile land |
+| --- | --- | --- | --- | --- | --- | --- |
+| New York | 146.1 (84.2 to 222.3) | 7,389 / 21,732 | −27.3 (−41.8 to −12.8) | no | 19.6 | 10.7 |
+| Philadelphia | 86.2 (42.2 to 134.6) | 5,382 / 66,109 | 0.2 (−6.3 to 7.3) | yes | 47.5 | 2.1 |
+| Austin 2009 | 35.0 (2.8 to 74.9) | 696 / 917 | 1.0 (−5.8 to 7.7) | yes | 23.8 | 15.1 |
+| Charlotte 2019 | 16.9 (−4.1 to 37.9) | 1,405 / 6,072 | −29.7 (−41.2 to −19.8) | no | 28.4 | 5.3 |
+| Chicago 2015 | 6.6 (−29.8 to 44.5) | 2,365 / 25,423 | 12.1 (−7.1 to 40.0) | yes | 6.7 | 0.3 |
+| Denver 2018 | 298.6 (130.2 to 483.1) | 652 / 1,035 | 7.9 (−80.3 to 80.4) | yes | 115.4 | 47.1 |
+| Portland 2020 | 8.1 (−0.3 to 16.9) | 12,213 / 22,314 | −12.0 (−19.3 to −5.0) | no | −32.8 | 1.2 |
+| Seattle Mount Baker 2014 | 81.5 (−226.7 to 400.8) | 41 / 342 | −30.1 (−46.1 to −6.5) | no | 75.6 | 7.0 |
+| Seattle Othello 2012 | 118.2 (−12.1 to 336.8) | 110 / 865 | −66.4 (−173.0 to −8.1) | no | 21.5 | 14.7 |
+| Salt Lake City 2010 | 68.9 (5.7 to 139.2) | 532 / 845 | −2.0 (−4.3 to −0.2) | no | 48.1 | 21.1 |
+| Saint Paul 2011 | 14.8 (−31.1 to 69.7) | 339 / 1,678 | 15.5 (0.0 to 45.6) | yes | 15.0 | 4.4 |
+| **Pooled (5 passing balance)** | **88.2 (50.8 to 129.1)**; leave one out 35.7 to 108.7 | | | | | |
+| All 11 (balance ignored; not used) | 80.1 (42.7 to 118.2) | | | | | |
+
+- Sensitivities, pooled 5 places: 46 m 93.3 (51.6 to 139.6); 183 m 82.3 (50.6 to 115.7); donut 25 m 73.4
+  (20.2 to 128.7); ½ mile only 91.8 (55.9 to 127.8). Local linear (per place) is close to the main except the small
+  Seattle cases. Lot-midway distance in the polygon places: Austin 11.0 vs 35.0 (sensitive), Denver 260 vs 299.
+- **Bunching:** pooled −5.5 (−20.1 to 9.1): no sign of building shifted from just outside to just inside. No place's
+  interval is below 0.
+- **Balance traits (|standardized difference| > 0.25):** inside lots are larger in 7 places (lot size the most common
+  imbalance); building age differs in 6, vacant lots in 6, land value per acre in Chicago and Saint Paul (1.24),
+  tract vacancy in 3. New York and Portland are balanced on traits but fail the pre-reform building gap.
+- **Locked rule: PASS** (5 places pass balance; 46 m and 183 m inside the main interval; no bunching, so the main is used).
+- **Direct-effect-only Wisconsin floor** = 88.2 × 15% × 4,874.1 ÷ 100 × 5 × 1.2269 = **3,958 extra homes, 2027–2031
+  (2,279 to 5,791; leave one place out 1,600 to 4,873)**. Denver carries much of it.
+- Gaps: no arterial-road tag (no road layer on disk); no water layer for Denver, Portland, Austin, Salt Lake City.
+  Chicago's district is a lot-by-lot zoning mosaic, so nearly all its inside lots sit within 46 m of an outside lot.
