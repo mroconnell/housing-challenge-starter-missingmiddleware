@@ -555,3 +555,19 @@ Departures and fixes after locking are logged below with dates, before each reru
   never split on the reform switch), so they score like the zero rule. The causal forests swing widely. The one
   honest-forest score of 19.0 (just under 19.3) did not hold up: on one data load, 4 seeds scored 35–60 (entry above).
   Files: reference/tod_optiond_{loco,wisconsin}_*_{rf,rf_ms0.05,cf,cf_honest}.csv.
+- **2026-11-02 15:35 (machine clock), result: no-reform lots in the outcome model (seed 1, ¼ mile).** No-reform lots
+  used: Milwaukee 3,249 (1,411 land acres), Madison 1,319 (1,128 acres). Files
+  reference/tod_optiond_dml_{full,hidden}_{D-11,D-B}_placebo.csv. Extra new homes per 100 lot acres a year; hidden
+  miss = median over hidden places (others' average / zero: D-11 16.0 / 28.4; D-B 26.2 / 26.1).
+  | Set | Version | Without no-reform lots: effect (interval), hidden miss, Wisconsin | With no-reform lots: effect (interval), hidden miss, Wisconsin |
+  | --- | --- | --- | --- |
+  | D-11 | A | 75.4 (−2.9 to 160.6), 30.2, 3,383 | 85.8 (16.7 to 152.7), 16.4, 3,850 |
+  | D-11 | B-PLR | 32.2 (−13.7 to 132.6), 18.9, 1,445 | 38.3 (−10.2 to 131.8), 26.2, 1,717 |
+  | D-B | A | 26.9 (−126.9 to 162.3), 23.4, 1,208 | 62.5 (−7.0 to 120.1), 24.3, 2,805 |
+  | D-B | B-PLR | −20.8 (−128.7 to 108.7), 47.7, −931 | −20.4 (−137.4 to 105.7), 46.7, −915 |
+  Reading: the no-reform lots narrow A's interval and move D-11 A's hidden miss from 30.2 to 16.4, level with the
+  others' average (16.0) but not below it; the change comes mostly from two places (hidden Austin −6.3 → +8.3, Salt
+  Lake City 14.4 → 18.9; the median miss sits on them), the predictions for the large measured effects (Denver 115,
+  Mount Baker 76, Philadelphia 47) stay at 2–6. B-PLR gets worse on D-11 (18.9 → 26.2) and stays negative on D-B.
+  No version beats the average rule on hidden places; Wisconsin answers stay at 1,700–3,900 against the average
+  rule's ~10,000. Not a tool change.

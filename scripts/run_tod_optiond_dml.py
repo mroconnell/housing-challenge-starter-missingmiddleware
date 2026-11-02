@@ -124,6 +124,40 @@ def xcols(D: pd.DataFrame) -> list[str]:
     return [c for c in L.LOT + PLACE_X + STOP_X if c in D] + [c for c in D.columns if c.startswith("v_")]
 
 
+PLACEBO_CITIES = {"Milwaukee placebo": ("wi_milwaukee", 2019), "Madison placebo": ("wi_madison", 2017)}
+
+
+def placebo_rows(ST: pd.DataFrame, band: str = "0-1/4") -> pd.DataFrame:
+    """No-reform lots (plan log 2026-11-02 after 22:33): the lot model's Milwaukee and Madison placebo lots
+    (lots_rebuilt_halfmile.parquet, placebo = 1, pretend years 2019 / 2017) matched to the Wisconsin station-area lot
+    table (same parcel point within 5 m), so the traits follow the station-area definitions. Outcome windows: 6 years
+    before the pretend year, 5 after. Columbus and Kansas City are left out (no stop distance, lot values or year
+    built; raw files not on this machine)."""
+    from scipy.spatial import cKDTree
+    P = pd.read_parquet(ROOT / "data" / "processed" / "tod_lot_model" / "lots_rebuilt_halfmile.parquet",
+                        columns=["city", "x5070", "y5070", "units_before", "units_after", "placebo"])
+    W = L.wisconsin_rows()
+    out = []
+    for city, (case, yr) in PLACEBO_CITIES.items():
+        p = P[(P.city == city) & (P.placebo == 1)]
+        q = W[(W["case"] == case) & (W.band == band)].copy()
+        d, i = cKDTree(np.c_[p.x5070, p.y5070]).query(np.c_[q.x, q.y])
+        q = q[d < 5.0].copy()
+        i = i[d < 5.0]
+        q["rate_before"] = p.units_before.values[i] / 6.0
+        q["y"] = p.units_after.values[i] / 5.0
+        q["building_age"] = (yr - q.year_built).clip(0, 200)
+        q["city"] = city
+        q = q.merge(ST[ST["case"] == case].drop(columns="case"), on=["stop_id", "band"], how="left")
+        out.append(q)
+        print(f"   no-reform lots {city}: {len(q):,} in {band} (land {q.acres_land.sum():,.0f} acres), new homes "
+              f"before {p.units_before.values[i].sum():,.0f} / after {p.units_after.values[i].sum():,.0f}", flush=True)
+    Q = pd.concat(out, ignore_index=True)
+    Q["w"], Q["reform_stop"], Q["in_reform_area"] = 1.0, 0.0, 0.0
+    Q = Q[~Q.implausible.fillna(False).astype(bool)] if "implausible" in Q else Q
+    return Q
+
+
 def gbr(seed):
     from sklearn.ensemble import HistGradientBoostingRegressor
     return HistGradientBoostingRegressor(max_iter=ROUNDS, learning_rate=RATE, min_samples_leaf=200, early_stopping=False,
@@ -136,7 +170,8 @@ def gbc(seed, leaf: int = 200):
                                           early_stopping=False, random_state=seed)
 
 
-def crossfit(B: pd.DataFrame, X: np.ndarray, places: list[str], seed: int, nfold: int, mu0: bool, log: str = "") -> dict:
+def crossfit(B: pd.DataFrame, X: np.ndarray, places: list[str], seed: int, nfold: int, mu0: bool, log: str = "",
+             extra: tuple | None = None) -> dict:
     """Out-of-fold outcome predictions over `nfold` folds of whole places: m(X) = E[y | X] and (if mu0) the outcome
     model on lots outside any district, mu0(X) (B-AIPW diagnostic)."""
     om, y = B.om.to_numpy(float), B.yy.to_numpy(float)
@@ -149,10 +184,16 @@ def crossfit(B: pd.DataFrame, X: np.ndarray, places: list[str], seed: int, nfold
         if not te.any():
             continue
         t0 = time.time()
-        out["m"][te] = gbr(seed).fit(X[tr], y[tr], sample_weight=om[tr]).predict(X[te])
+        Xt, yt, wt = X[tr], y[tr], om[tr]
+        if extra is not None:     # no-reform lots: outcome-model training only, every fold
+            Xt, yt, wt = np.vstack([Xt, extra[0]]), np.r_[yt, extra[1]], np.r_[wt, extra[2]]
+        out["m"][te] = gbr(seed).fit(Xt, yt, sample_weight=wt).predict(X[te])
         if mu0:
             c = tr & (t == 0)
-            out["mu0_in_area"][te] = gbr(seed).fit(X[c], y[c], sample_weight=om[c]).predict(X[te])
+            Xc, yc, wc = X[c], y[c], om[c]
+            if extra is not None:
+                Xc, yc, wc = np.vstack([Xc, extra[0]]), np.r_[yc, extra[1]], np.r_[wc, extra[2]]
+            out["mu0_in_area"][te] = gbr(seed).fit(Xc, yc, sample_weight=wc).predict(X[te])
         print(f"   {log} fold {f}: {te.sum():,} rows out, {time.time() - t0:.0f} s", flush=True)
     return out
 
@@ -247,15 +288,23 @@ def with_weights(B: pd.DataFrame) -> pd.DataFrame:
     return B
 
 
-def run_set(D, set_name, band, seed, hidden, n_boot, measured, share, rows_full, rows_hidden, interim=None):
+def run_set(D, set_name, band, seed, hidden, n_boot, measured, share, rows_full, rows_hidden, interim=None, PL=None):
     places = [p for p in SETS[set_name] if p in set(D.city)]
     B = with_weights(D[(D.band == band) & D.city.isin(places)])
     cols = xcols(B)
+    extra = None
+    if PL is not None:
+        B["no_reform"] = 0.0
+        Q = PL[PL.band == band].copy()
+        Q["no_reform"] = 1.0
+        Q["om"] = Q.om0 / Q.groupby("city").om0.transform("sum") * 1e5     # each no-reform city weighted like a place
+        cols = cols + ["no_reform"]
+        extra = (Q[cols].to_numpy(np.float32), Q.yy.to_numpy(float), Q.om.to_numpy(float))
     X = B[cols].to_numpy(np.float32)
     print(f"== {set_name} {band} seed {seed}: {len(B):,} lots, {len(places)} places, {B.case.nunique()} cases, "
           f"{len(cols)} traits", flush=True)
     e_in = case_propensity(B, X, seed)
-    nu = crossfit(B, X, places, seed, NFOLD, True, f"{set_name} {band} full")
+    nu = crossfit(B, X, places, seed, NFOLD, True, f"{set_name} {band} full", extra)
     for d in ("in_area", "stop"):
         S, trim = place_sums(B, nu["m"], e_in if d == "in_area" else None,
                              nu["mu0_in_area"] if d == "in_area" else None, d)
@@ -275,7 +324,7 @@ def run_set(D, set_name, band, seed, hidden, n_boot, measured, share, rows_full,
         rest = [p for p in places if p != h]
         keep = B.city.isin(rest).to_numpy()
         T = with_weights(B[keep])
-        m = crossfit(T, X[keep], rest, seed, NFOLD_HIDDEN, False, f"{set_name} {band} without {h}")["m"]
+        m = crossfit(T, X[keep], rest, seed, NFOLD_HIDDEN, False, f"{set_name} {band} without {h}", extra)["m"]
         meas = measured.get((h, band), np.nan)
         others = np.mean([measured[(p, band)] for p in rest if (p, band) in measured])
         for d in ("in_area", "stop"):
@@ -293,8 +342,9 @@ def run_set(D, set_name, band, seed, hidden, n_boot, measured, share, rows_full,
 
 
 def summarize() -> None:
-    F = pd.concat([pd.read_csv(f) for f in sorted(REFERENCE.glob("tod_optiond_dml_full_*.csv"))], ignore_index=True)
-    H = [pd.read_csv(f) for f in sorted(REFERENCE.glob("tod_optiond_dml_hidden_*.csv"))]
+    main_runs = lambda pat: [f for f in sorted(REFERENCE.glob(pat)) if "placebo" not in f.name]   # placebo: own files
+    F = pd.concat([pd.read_csv(f) for f in main_runs("tod_optiond_dml_full_*.csv")], ignore_index=True)
+    H = [pd.read_csv(f) for f in main_runs("tod_optiond_dml_hidden_*.csv")]
     H = pd.concat(H, ignore_index=True) if H else pd.DataFrame()
     key = ["set", "band", "treatment", "version"]
     s1 = F[F.seed == 1].set_index(key)[["effect", "effect_lo", "effect_hi", "wisconsin", "wisconsin_lo",
@@ -323,6 +373,7 @@ def main(argv=None) -> None:
     ap.add_argument("--boot", type=int, default=500)
     ap.add_argument("--tag", default=None)
     ap.add_argument("--summarize", action="store_true")
+    ap.add_argument("--placebo", action="store_true", help="add the no-reform Milwaukee/Madison lots to the outcome model")
     a = ap.parse_args(argv)
     if a.summarize:
         return summarize()
@@ -338,7 +389,10 @@ def main(argv=None) -> None:
     base = load_cases([c for c in cases if c not in many], 1, bands, ST)
     print(f"loaded other places: {len(base):,} lots, {time.time() - t0:.0f} s", flush=True)
     rows_full, rows_hidden = [], []
-    tag = a.tag or "_".join(sets)
+    tag = a.tag or ("_".join(sets) + ("_placebo" if a.placebo else ""))
+    PL = None
+    if a.placebo:
+        PL = finish_rows(placebo_rows(ST, "0-1/4"))
 
     def save():
         pd.DataFrame(rows_full).round(4).to_csv(REFERENCE / f"tod_optiond_dml_full_{tag}.csv", index=False)
@@ -352,7 +406,7 @@ def main(argv=None) -> None:
         for band in bands:
             for set_name in sets:
                 run_set(D, set_name, band, seed, a.hidden and k == 0 and band == "0-1/4", a.boot, measured, share,
-                        rows_full, rows_hidden, save)
+                        rows_full, rows_hidden, save, PL)
                 save()
         del D
     if rows_hidden:
