@@ -990,7 +990,7 @@ Held-out RMS 0.130 → 0.136; the audit agreed that is no reason to keep a count
 
 ## AQ-070 TOD: central line = the average reform city at Wisconsin's coverage
 
-**Status:** Adopted. **Added:** 2026-11-01. **Owner decision:** "Let's do it at Auckland for high for now. I also like plotting that average reform city. Sounds like that should be central." (2026-11-01 22:31). **Related:** AQ-068, AQ-069, [STATION_AREA_PLAN.md](tod/STATION_AREA_PLAN.md).
+**Status:** Adopted; confirmed 2026-11-02 after the auditor's alternative was put to the owner ("TOD central and parking sideline are good to go as you described": keep 13,229 central, Auckland upper). **Added:** 2026-11-01. **Owner decision:** "Let's do it at Auckland for high for now. I also like plotting that average reform city. Sounds like that should be central." (2026-11-01 22:31). **Related:** AQ-068, AQ-069, [STATION_AREA_PLAN.md](tod/STATION_AREA_PLAN.md).
 
 **What changed.** The TOD central line (id `typical`) is now the station-area pre-registered scaled version: one pooled ratio of sums within ¼ mile across 16 places (68.9 extra homes per 100 lot acres a year at full coverage) × Wisconsin's coverage (0.712 of lots within ¼ mile of rail and rapid stops) × 4,874 lot acres × 5 years × 1.106 (rest of state) = **13,229**, range **9,147–17,108** (each place left out in turn). File: `reference/tod_station_area_line.csv` (line `average_reform_scaled`). Label: "Central: if Wisconsin did as well as the average reform city." The former central line (lot-model drift rule, 1,196; AQ-068) is the what-if `drift_central`; Stacy et al. (2,509) and the pre-registered average change (808) stay as what-ifs. Upper line unchanged (Auckland 17,148).
 
