@@ -32,7 +32,12 @@ Only 1 of 4 moderators came out material (M4, rail). With four tested, one false
   - 2021 repeal: +0.28 (+0.03 to +0.64). Downtown went 0.90 → 0.51 on only 9 projects after 2021, so this is noisy.
   - Both reforms together: +0.10 (−0.17 to +0.49).
   - Read: parking per home fell across the whole city, downtown included. This test cannot say how much of the fall the reforms caused.
-- Row check against city records: in progress (20 random rows).
+- **Row check against city records (audit fix; 20 random rows, seed 20261103):**
+  - Homes: 20 of 20 match the city Planning Commission annual reports.
+  - Car spaces: 16 of 16 rows with a source match (within 10% or 3 spaces). The other 4 rows have no parking count anywhere.
+  - Parking sources: 7 rows from archived city staff reports; 9 from secondary sources (trade press, development trackers). One of the 9 was read from a search-engine copy of a city page that blocked direct access, so it is counted as secondary.
+  - Patterns: in mixed-use buildings the sheet sometimes counts total parking, not just homes' parking (Latitude 45). One condo tower's figure looks estimated (Gateway, 2 per home). Home counts are those at approval, and later revisions differ.
+  - Read: the sheet is accurate enough to use. The F1 label stays "suggestive, single source" because of the downtown comparison, not data quality.
 - Caveats:
   - The 2015 cut covered transit areas only, but the contrast is citywide outside downtown (no geocoding), so it is diluted.
   - Downtown, with no minimum either side, also fell (0.92 → 0.51, only 9 projects after 2021). Some of the drop may be market drift.
