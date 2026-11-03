@@ -931,3 +931,20 @@ If a placebo fails, its method cannot pass.
   owner's call); its Wisconsin figure is shown beside the central, not in place of it.
 - If neither passes, the factors explain cause but not which places build. Stage 2 keeps the plain average.
 - Either way, a pass shows usefulness, not cause; cause comes from the edge test and the 2×2.
+
+### Test P: logged change to the pass rule (owner, 2026-11-03 11:13; locked before any count)
+
+The owner replaced the single pass rule with tiers. These apply to A, A0 and B separately; the plain average's median miss is
+recomputed on the same folds (16.0 expected). Each place is counted once.
+
+| Tier | Rule | What happens |
+| --- | --- | --- |
+| 1, "switch" | median miss strictly below the plain average's AND lower error in at least 8 of 11 places | candidate Stage 2 central (the owner's OK still needed for the tool) |
+| 2, "show beside" | median miss strictly below the plain average's AND lower error in 6–7 of 11 places | a labelled sensitivity beside the central |
+| 3, "close" | median miss within 10% of the plain average's (at or below 1.10 × plain median), any place count | How sure says "a cause-based method predicts about as well as the plain average"; its figure goes in the docs; not a line |
+| none | anything else | docs only |
+
+- A method whose placebo fails cannot qualify for any tier.
+- If more than one method qualifies, the highest tier wins. Ties go to the simpler method: A0, then A, then B.
+- For each method, also report the chance that a method no better than the average reaches its place count, P(X ≥ k),
+  with X ~ Binomial(11, 0.5). For example, 6 of 11 → 50.0%; 8 of 11 → 11.3%.
