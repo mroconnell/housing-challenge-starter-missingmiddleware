@@ -35,3 +35,20 @@ Plans: `docs/parking/CAUSAL_FRAMEWORK_PLAN.md`, sections "Natural experiments N1
   - The interval includes 0 and the estimate is not supported.
   - It would replace the per-1,000 lines only with Ryan's OK.
 - **S2:** both S2 log and per-1,000-5+ versions beat zero on their 37 places. Applied to all eligible Wisconsin homes, S2-D1 would be about −13.7% of 5+ permits, about −6,412 homes over 2027–2031.
+
+## N1, Oregon's state rule (intent-to-treat)
+
+- **Treated:** 45 cities listed in the 8 covered metro areas (Portland dropped), of which 38 are usable. DLCD counts 48 covered cities; the list here was built from MPO membership and could not be checked against DLCD's PDF, which did not download. Event 2023; before 2018–2022, after 2023–2025.
+- **Comparisons:** 14 Washington and Idaho places with their own 2018–2025 parking reform are dropped.
+
+| Comparison | Effect (90%; 97.5%) | MDE | Median comparison places |
+| --- | --- | --- | --- |
+| Washington (main) | +1.28 (−0.74 to +2.89; −1.62 to +3.34) | 1.84 | 46 |
+| Idaho | +0.98 (−4.56 to +5.65) | 5.08 | 12 |
+
+Unit: permits per 1,000 existing homes a year.
+
+- **Reading:** not supported (the 97.5% interval includes 0). The point estimate is positive, as predicted.
+- **Self-selection check (pre-written rule):**
+  - 16 covered cities are also among the 76. Their N1 estimate is +3.17, against +1.64 in the 76-place comparison.
+  - The gap of 1.53 lies inside N1's 90% interval width, so the two count as close. City self-selection is not what drives the 76-place result near zero.
