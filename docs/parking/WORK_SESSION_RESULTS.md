@@ -258,6 +258,8 @@ Unit: permits per 1,000 existing homes a year. These runs use 75 places (South B
 
 - **Read.** On every usable denominator Chicago leans negative, with a range that includes 0.
 - **Pedestrian Streets: not fixable.** Treated lots along Pedestrian Streets sit in the comparison band, and no 2015 layer exists to remove them. This pushes the estimate toward zero.
+- **The home count is too wide (audit).** Every 2010 block within 100 m of a B/C/D lot is counted, so homes on nearby residential blocks are included. That gives 97,917 homes on 842 acres, about 116 per acre, which is high. The true per-home rate is likely further from 0. A cleaner version would count only blocks whose point falls inside a B/C/D polygon; it was not run.
+- **The Loop is not covered.** The DC fix adds 0 lots, so the lot table likely doesn't reach the Loop.
 - **Status:** a closed side result. Not in the 76, and no tool line or low line.
 
 ## Los Angeles Adaptive Reuse Ordinance (1999), census spot check (descriptive; Manville 2013)
@@ -288,6 +290,11 @@ Unit: permits per 1,000 existing homes a year. These runs use 75 places (South B
   - **2000 is not a clean "before" year.** The ordinance tracts had already gained 1,220 homes from 1990 to 2000, which these data don't explain.
   - **Not all 2010–2020 growth is conversions.** Some is new towers, especially in 2077.12.
   - **Contrast tracts could convert from December 2003,** under the citywide Zoning Administrator path.
+- **More caveats (audit):**
+  - **The contrast tracts are not a control.** Boyle Heights and Westlake are residential and have few old offices, so read them as "the rest of the area did not boom". A fairer contrast would be old commercial tracts that got the rule later (Hollywood or Wilshire Center), used for 1999–2003 only.
+  - **Other downtown changes can't be separated out.** 2000–2010 also brought Staples Center, the redevelopment agency's programs and the wider return to downtowns.
+  - **No proof the tracts were chosen first.** The tract list, script and results are in one commit, so git can't show the tracts were picked before any data was pulled. The order is the subagent's own account.
+  - **No page reference.** "Over 6,000 units in old tract 2073" is from Manville's UCTC working paper (the same study as JAPA 2013); the page was not recorded.
 - **Files:**
   - `scripts/fetch_parking_la_aro_tracts.py`
   - `reference/parking_la_aro_tracts.csv`
