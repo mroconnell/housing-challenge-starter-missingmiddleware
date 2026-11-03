@@ -158,7 +158,7 @@ Error unit: permits per 1,000 existing homes a year.
 - **Read.** With the right districts, Chicago's reform-ring estimate is still negative, but its interval includes 0 when the density-bonus lots are kept.
 - **Pedestrian Streets.** The 2015 ordinance's 805 m reach along Pedestrian Streets is not applied (no layer on disk). Some treated lots therefore sit in the comparison, which pushes toward zero.
 - **FU7's "does not generalise" leans on Chicago.** Chicago, on its correct scope, still points negative, so the reading stands. It now rests on a better-coded test.
-- **Tool text, for Ryan.** The tool's "Why" card says "Chicago's largest lots lost homes". That came from the mis-scoped test. A caveat or rewording needs Ryan's OK.
+- **Tool text (resolved).** Ryan: "remove the line and not consider that a relevant residential reform" (2026-11-03 14:24). The Chicago clause is removed from the Why card, and the Chicago lot tests are no longer used as evidence. The card had said "Chicago's largest lots lost homes". That came from the mis-scoped test. A caveat or rewording needs Ryan's OK.
 
 ## N3, San Diego 2019 TPA edge test
 
@@ -240,3 +240,5 @@ Unit: permits per 1,000 existing homes a year; 75 places.
 
 - **Pass rule: not met.** P1 moves the estimate further below 0, not toward it. So the lines stand, and the pre-trend issue goes into the how-it-works text.
 - **Read.** The short window doesn't support the idea that the 5-year window dragged the estimate down. Trend matching barely moves it. Allowing for trend gaps as large as those seen before repeal widens the honest range to about −5.5 to +3.6.
+- **Chicago in the 76:** not in the 76-place set (neither its 2013 nor its 2015 rule), so no "without Chicago" version is needed.
+- **Chicago and T1:** Chicago 2015 cut housing parking in B/C/D districts, so it breaks T1's locked "no housing change" rule and is not added to the placebo.

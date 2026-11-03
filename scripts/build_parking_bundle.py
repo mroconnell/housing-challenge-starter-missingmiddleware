@@ -325,7 +325,7 @@ def build_why() -> dict:
             "Projects build less parking than the old rules required, but how much of the fall the repeal itself caused is unclear: in Minneapolis parking per home fell by about the same amount inside and outside the areas a 2015 cut covered. Projects with no parking at all appeared only where the rule was lifted (Seattle's reform areas).",
             "New apartment buildings of 5 or more homes get bigger after repeal, about 37% more homes each, but fewer of them are built (about 35% fewer per 1,000 existing homes), and apartment homes in total did not change measurably.",
             "If buildings got bigger and their number held, Wisconsin would add about 18,972 homes over 2027-2031. The data contradict that: the number of buildings fell. So this figure is not a line.",
-            "In lot-level data, gains came on mid-sized and larger lots in Seattle and Buffalo, but Chicago's largest lots lost homes and San Francisco showed nothing, so lot size is not used.",
+            "In lot-level data, gains came on mid-sized and larger lots in Seattle and Buffalo, but San Francisco showed nothing, so lot size is not used.",
             "Cutting parking costs makes each home about $9,900 (3.9%) cheaper to build in Wisconsin; with an outside estimate of how supply responds to cost, that is about 581 more homes over 2027-2031 (233 to 1,257). This chain did not predict real repeals better than zero, so it is shown as a sensitivity, not a line.",
         ],
         "north_carolina": "North Carolina's HB 162, signed 6 July 2026, removes minimum parking for new projects statewide from 1 January 2027 (the 20 coastal counties are exempt). It is the closest real law to this scenario; it has no permit data yet.",
