@@ -172,3 +172,21 @@ Ryan's OK. Stage 2 (carrying results to Wisconsin) stays unlocked until Stage 1 
 - **2026-11-03, T data fix and bus rapid transit (owner asked; decided before the recount):**
   - The rail-stop file used for T (`data/raw/tod_census_cases/ntm_rail_stops.json`) covered only 41 agencies fetched for TOD's case cities. Rail cities were mislabelled "no rail" (e.g. Cambridge MA, Beaverton OR). T and M4 are rerun with the national National Transit Map stop layer, all stops served by light rail, streetcar, subway or commuter rail (`data/raw/parking_transit/ntm_rail_stops_national.json`, 12,452 stops, 72 agencies). Amtrak is not in that layer, so Amtrak-only cities count as no rail; stated.
   - "Good transit" (the locked wording: rail or bus rapid transit) adds BRT: places with a BRT line (dedicated stations and branded all-day frequent service) open before the repeal year, hand-coded from agency opening dates: Hartford CT (CTfastrak, 2015), Richmond VA (GRTC Pulse, 2018), Eugene and Springfield OR (EmX, 2007), Birmingham AL (Birmingham Xpress, 2022). Results are shown for rail only and for rail or BRT; rail or BRT is the main version, as locked.
+
+## Stage 1 follow-ups from Ryan's theory chat (owner OK 2026-11-03 02:15; all *post hoc* to the Stage 1 results; locked before each count)
+
+- **FU1, apartment-share matching.**
+  - Each repeal place's comparison pool (`cmp.controls`, unchanged) is narrowed to places whose before-window share of permitted homes in 5+ unit buildings (BPS `5plus_units ÷ units_total`, pooled over the before window) is within ±10 percentage points of the repeal place's.
+  - If fewer than 5 remain, the 5 nearest by share are used, and that is counted.
+  - Same outcome, windows and difference-in-differences as the main estimate.
+  - Results: home-weighted and equal-weight averages, each with a 90% interval from 2,000 resamples of places, beside the main −1.14 / +0.42. A one-line year-effect check is also reported: the mean before-window 5+ share of repeal places against their matched places, before and after narrowing.
+- **FU2, Austin against Sun Belt boom peers.**
+  - Comparison set, fixed before counting: the principal cities of Dallas, Houston, San Antonio, Fort Worth, Phoenix, Nashville, Atlanta, Tampa, Orlando, Jacksonville and Las Vegas, as found in the BPS place files.
+  - Any city among the repeal places or on the benchmark repeal list is dropped.
+  - Same windows (2018–2022 before; 2024–2025 after) and outcome. Austin's effect is reported against the pooled set, with each peer's own before/after rates.
+- **FU3, Seattle edge test at the urban village boundaries (counting homes).**
+  - Difference in discontinuities: lots just inside vs just outside urban village / urban center boundaries, (after − before) homes per 100 lot acres a year, around the 2012 reform (before 2007–2011, after 2013–2017; 2012 left out).
+  - Center City (Downtown, Uptown, South Lake Union) and manufacturing/industrial centers are left out.
+  - Method follows TOD T3 (`docs/tod/CAUSAL_FRAMEWORK_PLAN.md`, Test 2): ratio of sums within the band (main); 91 m (300 ft) main band, 46 m and 183 m sensitivities; 25 m donut; before-window balance check; 400 m boundary segments with lots on both sides; cluster bootstrap over segments, 1,000 draws, seed 20261103.
+  - Lots and permits come from TOD's Seattle case files (`data/raw/tod_cases/seattle`). Caveat stated: urban villages also had different zoning, but that is constant across the reform. The difference in differences removes it unless zoning changed at the boundary in the same years.
+- **FU4, double machine learning (optional).** Effect of repeal on the place-level change in permits per 1,000 homes, partialling out the before-window 5+ share, job growth, census region and before-window growth. Cross-fitted, 5 folds by place, seed 20261103, random-forest nuisance models (scikit-learn). Repeal places against all comparison-pool places, each at its own window. Run only after FU1–FU3.
