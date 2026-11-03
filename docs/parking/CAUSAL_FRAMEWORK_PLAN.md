@@ -294,3 +294,41 @@ Agreed between the parking and learning threads in two rounds (learning draft v0
 - **Philadelphia:** not clean (its remapping bills change parking and density together).
 
 **Run order:** N2, N1, then N3 and N4 feasibility.
+
+## Work session: denominators, subsets, grid, combination and backtest (locked 2026-11-03, before any count; agreed with the learning thread)
+
+Owner: "conduct a session where the parking thread tests through each idea, fits them, works on data, fits them again until they're clean, then considers if it would make sense to combine different choices" (2026-11-03 13:56). The shared rules of N1–N4 apply: 90% and 97.5% intervals, MDE, balance where defined, at least 20 per side, seed 20261104. **Running count: 27 + grid + S1 + B1 + combo + backtest = 32.** Nothing in the tool changes without Ryan's OK.
+
+- **D1, log change in apartment permits.**
+  - Each place and its pooled comparison places: log(mean yearly 5+ unit permits + 0.5), after minus before. Effect = place minus comparison.
+  - 0.5 is added for every place, so none is dropped, and the number of places with zero counts is reported.
+  - Weights as the main estimate.
+- **D2, per 1,000 existing homes in 5+ unit buildings.** Already run as FU5a; reused, not recounted.
+- **S2, longer after-windows.** The 38 places with 3 after years (event years 2016–2022).
+- **The grid.** {all 76, S2} × {per 1,000 existing homes, D1, D2}, six versions, all reported.
+  - **Common unit.** Each version's held-out prediction for a place (the mean of the other places' effects, home-weighted) is converted to permits per 1,000 existing homes a year:
+    - D1 via the place's before-window 5+ permit rate: exp(effect) − 1 times that rate;
+    - D2 via the place's existing 5+ homes ÷ all existing homes.
+  - **Error.** Home-weighted mean absolute error against the place's actual effect in that same unit.
+  - **Selection.** A new main version must have lower held-out error than both "predict zero" and the current main version, on the same places. S2 versions are compared on S2 places only.
+  - If an S2 version wins, the plan reports how its Wisconsin line would change when applied to all eligible homes. S2 chooses which evidence to use, not which Wisconsin places get the effect.
+  - N1's intent-to-treat estimate is also run through the winning version.
+- **S1, transit-area and district-only reforms.** Feasibility first.
+  - **Pool:**
+    - the 26 district-only or weaker cities from `parking_repeal_checks_v2.csv`;
+    - Seattle 2012, Minneapolis 2015 and San Diego 2019;
+    - CFEC near-transit cities not among the 76.
+    - Portland 2002 is before the permit window, so it is out.
+  - **Kept:** a place with a mapped reform area, lot or geocoded permit data, and 3+ after years.
+  - **Design:** TOD T2/T3 at the station-area or edge scale, in homes per 100 lot acres a year. Otherwise citywide, labelled "diluted".
+  - **Rule:** at least 8 places must pass balance, or S1 is descriptive only.
+- **B1, multifamily-zoned lots.**
+  - In the 4 lot-table cities (FU7 data), the denominator is lots and acres zoned for multifamily inside and outside the reform areas.
+  - **Outcome:** net new homes per 100 multifamily-zoned lot acres a year, reform minus comparison change, with intervals from 500 m cells.
+  - **Prediction:** positive.
+- **Combination with TOD.**
+  - **(a) Station-area pairing.** Parking status at the rezoning for TOD's edge-test places is coded from `tod_cases.csv` and `tod_places_for_parking_2x2.csv` before any effect is joined. The comparison is then rerun: removed vs not removed. It stays labelled post hoc, because TOD's edge results are already published.
+  - **(b) Combination band.** Built from paired TOD and parking bootstrap draws, if TOD can supply its draws. Otherwise not done.
+- **Backtest.**
+  - The round-6 boosted-trees no-reform model (`run_parking_no_reform.py`) predicts each repeal place's comparison path. Under D1, the effect is the actual log change minus the predicted log change.
+  - It is scored on held-out repeal places in the common unit, against "predict zero" and the main matched comparison.
