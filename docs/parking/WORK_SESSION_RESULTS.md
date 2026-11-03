@@ -128,6 +128,7 @@ Error unit: permits per 1,000 existing homes a year.
   - the reform was not district-only.
 - Several code sites blocked automated access, so some dates come from secondary copies (flagged in the file).
 - **S1 status: skipped.** Only 6 of 68 places are eligible, under the locked minimum of 8, and the learning thread agreed to skip it. It still counts in the running test count.
+- **Short-history places.** Cincinnati and San Diego had less than 2 years of the rule before the 2020 census. They are counted among the 6 eligible places but would have given little signal; with the skip, nothing is estimated for any place.
 
 ## Combo (a): parking removed vs not at TOD's district edge (*post hoc*)
 
@@ -140,3 +141,57 @@ Error unit: permits per 1,000 existing homes a year.
   - Chicago: +6.6.
 - **Arithmetic difference:** +262.9.
 - **Not usable as a comparison:** it rests on one place (Denver). The same caution applies as in the earlier station-area description.
+
+
+## Chicago lot tests rerun on B/C/D lots only (*post hoc*; rule written first)
+
+- **Why the rerun.** The audit confirmed from SO2015-5334 that Chicago's 2015 parking relief covered only B, C and D districts (cuts up to 50% within 1,320 ft of a station). The earlier Chicago lot tests (B1, FU7, the October test) mostly coded untreated residential lots as "reform".
+- **Rerun design.** Reform side: B/C/D lots within 402 m. Comparison: B/C/D lots at 402–805 m. Zoning classes come from the November 2012 map, so classes match on both sides.
+
+| Test | Density-bonus lots | Reform / comparison lots | Estimate (90%; 97.5%) | Unit |
+| --- | --- | --- | --- | --- |
+| FU7-style, all lots | kept (main) | 5,927 / 4,637 | −6.53 (−21.19 to +6.57; −28.06 to +11.04) | net new homes per 1,000 lots a year |
+| B1 (FAR ≥ 1.2) | kept (main) | 5,905 / 4,622 | −6.24 (−17.28 to +3.77; −21.55 to +6.95) | net new homes per 100 lot acres a year |
+| FU7-style | dropped | 4,502 / 4,637 | −14.28 (−27.47 to −2.44) | per 1,000 lots |
+| B1 | dropped | 4,480 / 4,622 | −11.18 (−21.55 to −1.83) | per 100 lot acres |
+
+- **Read.** With the right districts, Chicago's reform-ring estimate is still negative, but its interval includes 0 when the density-bonus lots are kept.
+- **Pedestrian Streets.** The 2015 extension to 805 m along Pedestrian Streets is not applied (no layer on disk). Some treated lots therefore sit in the comparison, which pushes toward zero.
+- **FU7's "does not generalise" leans on Chicago.** Chicago, on its correct scope, still points negative, so the reading stands. It now rests on a better-coded test.
+- **Tool text, for Ryan.** The tool's "Why" card says "Chicago's largest lots lost homes". That came from the mis-scoped test. A caveat or rewording needs Ryan's OK.
+
+## N3, San Diego 2019 TPA edge test
+
+- **Outcome:** new homes per 100 lot acres a year, (after − before) inside minus outside, 91 m band, application dates.
+- **Main estimate:** +1.26 (90% −1.34 to +4.63; 97.5% −1.92 to +6.34). MDE 3.10.
+- **Balance passes:** before-window gap +0.05 (−1.21 to +1.33). Bunching is not flagged.
+- **Reading:** not supported. The sign is as predicted, but the result is fragile:
+
+| Check | Estimate (90%) |
+| --- | --- |
+| 46 m band | +2.01 (−2.99 to +9.40) |
+| 183 m band | −4.41 (−14.62 to +1.84) |
+| 25 m donut | −0.03 (−1.85 to +1.94) |
+| Issue dates | −0.20 (−1.58 to +1.11) |
+
+- **Deviation: the line is not a 2019 line.** Outside the Coastal Zone, layer 6's TPA features are the SANDAG 2022 polygons, so the SANDAG sensitivity equals the main result. No 2019 TPA layer exists. Stops added after 2019 count as treated, which pulls toward 0.
+- **No density bonus:** +1.26. Only 1 flagged lot is in the sample, so this check is weak.
+- **Coastal Zone:** the Coastal Commission approved with modifications on 2019-10-16, and the City adopted O-21164, effective 2020-02-09. This most likely certified the change before 2020-11-30, but that is inferred. The Coastal Zone is dropped, so this does not affect the estimate.
+- **Projects with 2+ homes (counts only):** 6 / 5 before, 10 / 8 after.
+- **Parcels:** SANDAG and SanGIS data under the SanGIS end-user agreement.
+
+## Combo (b): TOD + parking combined band from paired draws
+
+- **Unit:** Wisconsin extra homes, 2027–2031.
+- **Parking draws:** placebo set averages centred on the real average. Positive draws are multiplied by 0.899 (TOD counts first).
+- **TOD draws:** `reference/tod_line_draws.csv`.
+
+| Line | TOD 90% | Parking 90% | Combined, index pairing (errors unrelated) | Combined, sorted pairing (errors move together) |
+| --- | --- | --- | --- | --- |
+| Lower | 2,275 to 5,795 | −44,940 to +17,275 | −40,551 to +21,171 | −42,665 to +23,070 |
+| Central | 4,866 to 15,361 | 0 | 4,866 to 15,361 | same |
+| Upper (TOD rescaled to the tool's 13,451) | 6,527 to 20,604 | −44,940 to +17,275 | −32,346 to +30,693 | −38,414 to +37,878 |
+
+- **TOD's supplied upper draws** are on the old 12,521 basis. The tool's TOD upper is 13,451 (AQ-072), so the draws are shown rescaled. On the 12,521 basis the index band is −33,039 to +29,504.
+- **Read.** Parking's uncertainty dominates the combined band. It is about ten times wider than TOD's.
+- **Evidence only;** no tool change.

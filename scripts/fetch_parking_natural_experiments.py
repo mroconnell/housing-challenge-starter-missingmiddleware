@@ -57,6 +57,19 @@ SOURCES = {
         note="Rows of the City's development approvals files whose APPROVAL_ID is in the TOD Housing Element permit "
              "layer; adds PROJECT_CREATE_DATE, PROJECT_DEEMEDCOMPLETE_DATE, APPROVAL_CREATE_DATE, GIS_APN. Full files "
              "(~0.6 GB and ~0.4 GB) not stored", filter_sd=True),
+    "san_diego/coastal_overlay_zone.geojson": dict(
+        url="https://webmaps.sandiego.gov/arcgis/rest/services/DSD/Zoning_Overlay/MapServer/2",
+        arcgis=True, licence="SanGIS end user use agreement (http://www.sangis.org/Legal_Notice.htm)",
+        note="City of San Diego Coastal Overlay Zone (Permit Jurisdictions), all features; the union is the zone"),
+    "san_diego/ccc_w10d_oct2019_lcp-6-san-19-0063-1.pdf": dict(
+        url="https://documents.coastal.ca.gov/reports/2019/10/W10d/W10d-10-2019-report.pdf",
+        licence="California Coastal Commission public record",
+        note="CCC staff report, October 2019 hearing: deny as submitted, certify with suggested modifications "
+             "(TPA parking exemption not applied in the Beach Impact Area)"),
+    "san_diego/sdmc_ch14_art2_div5.pdf": dict(
+        url="https://docs.sandiego.gov/municode/MuniCodeChapter14/Ch14Art02Division05.pdf",
+        licence="City of San Diego public record",
+        note="SDMC parking regulations; history lines: O-21057 effective 4-24-2019; O-21164 effective 2-9-2020"),
     "nyc/nyctransitzones_201601.zip": dict(
         url="https://www.nyc.gov/assets/planning/download/zip/data-maps/open-data/nyctransitzones_201601.zip",
         licence="NYC Open Data terms of use (no restrictions)",
@@ -103,7 +116,7 @@ def _filter_sd(urls: list[str], out: Path) -> int:
     keep = ["DEVELOPMENT_ID", "PROJECT_ID", "PROJECT_STATUS", "PROJECT_PROCESSING_CODE", "PROJECT_CREATE_DATE",
             "PROJECT_DEEMEDCOMPLETE_DATE", "GIS_APN", "GIS_LATITUDE", "GIS_LONGITUDE", "JOB_BC_CODE", "APPROVAL_ID",
             "APPROVAL_TYPE", "APPROVAL_STATUS", "APPROVAL_CREATE_DATE", "APPROVAL_ISSUE_DATE", "APPROVAL_CLOSE_DATE",
-            "APPROVAL_DU_NET_CHANGE", "APPROVAL_ADU_TOTAL"]
+            "APPROVAL_DU_NET_CHANGE", "APPROVAL_ADU_TOTAL", "APPROVAL_DU_BONUS", "PROJECT_SCOPE", "APPROVAL_SCOPE"]
     parts = []
     for u in urls:
         req = urllib.request.Request(u, headers=UA)
