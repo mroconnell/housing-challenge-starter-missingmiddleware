@@ -74,14 +74,18 @@ The current lower and upper lines retire as scenario lines:
   - Used: New York, Philadelphia, Austin, Charlotte, Chicago 2015, Denver, Portland 2020, Seattle Mount Baker,
     Seattle Othello, Salt Lake City.
   - Left out: Saint Paul, which has no fake-years effect because its before window is one year.
-- **Check 1, width (one check):** the pool's true average is the mean of the 10 fake effects. Each run draws 11 places
+- **Check 1, width (one check), two pools:**
+  - Main pool, which sets the widening factor: the 11 real place effects (the range is built from them); truth =
+    their mean, 33.54.
+  - Sensitivity pool: the 10 fake effects; truth = their mean.
+  - For each pool: Each run draws 11 places
   with replacement from the pool, then builds the same 2,000-draw bootstrap 90% range. Coverage = the share of runs
   whose range contains the pool's true average. 1,000 runs, seed 20261103. No injected sizes: adding a constant
   shifts the draws and the truth equally, so it cannot change coverage.
 - **Check 2, bias (reported beside):** the fake effects' mean and its 90% range. C-PT found 14.5 (−3.8 to 38.8),
-  against the real 35.4. Widening fixes width, not bias, so a non-zero fake mean is reported as a caution, not
-  corrected.
-- **Widening rule, fixed now:** if Check 1 coverage is below 90%, widen the range about the centre by the factor that
+  against the real 35.4, and 1.7 without Seattle Othello (9 places). The range includes 0, so this check neither
+  shows nor rules out bias; the text says so. Widening fixes width, not bias.
+- **Widening rule, fixed now:** if the main pool's Check 1 coverage is below 90%, widen the range about the centre by the factor that
   brings it to 90% in this simulation, and show the widened range with one line saying so. At 90% or above, show it
   as is.
 
