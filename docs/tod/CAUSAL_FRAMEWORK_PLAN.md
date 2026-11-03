@@ -798,3 +798,70 @@ year, 90% interval as in the Test 2 floor). Script: `scripts/run_tod_causal_bind
   use (owner's call) is adding the four places to the floor pool at their binding lines.
 - **Selection-bias check:** run the same procedure with the after window replaced by a second before window
   (placebo years); the pooled jump should include 0.
+
+## Results: Test 2b-L (binding lines inside broad upzonings), run 2026-11-02
+
+Run with the Test 2b-L rules above. File: `reference/tod_causal_binding_line.csv` (91 summary rows; no lot rows,
+parcel ids or stop ids). Script: `scripts/run_tod_causal_binding_line.py`; cross-fit unit test:
+`tests/test_tod_causal_binding_line.py`.
+
+Unit: extra new homes per 100 lot acres a year, high-demand side minus low-demand side of the line (both inside the
+map), after window minus before window, lots within 91 m. 90% intervals from 1,000 stop-cluster bootstrap draws.
+Wisconsin factor = 44.9 (as the Test 2 floor: 88.2 → 3,958). District pool to compare with: 88.2 (50.8 to 129.1).
+
+**Deviations (labelled; nearest thing to the locked rule):**
+- **S2 ran for Chicago 2022 only.** Only its lot table holds a pre-reform land value (Cook 2016 certified values).
+  Los Angeles, San Diego, Bellevue and Honolulu tables hold the current roll (after the reform), so S2 was not run there.
+- **S1 neighbourhood is counted on a 20 m grid.** Distances are accurate to about 15 m, so a full lot-pair count was not needed.
+- **Placebo-years S1 uses only the first half of the before window.** The full before window would contain the
+  placebo "after" years.
+- **Place balance = mean of the two halves' before-window gaps** (draw by draw). The plan did not say how to combine halves.
+  Stricter version (both halves must pass) noted below.
+- **One half only, or none:** Honolulu's half A and both Bellevue halves had too few lots (each half has 1 stop).
+- **Arterial tag not run** (it was a beside item in E1).
+- **Line distance for S1 and S2:** a score line is not a circle. Its "distance to stop" = the acre-weighted mean
+  distance of lots within 91 m of it.
+
+### Per place, main score (distance to the nearest stop)
+
+| Place | Half tested (line chosen on) | Effect, extra homes per 100 lot acres a year (90%) | Balance (before-window gap) | Line: share of map acres on high side | Line: metres from stop | Lots high / low side |
+| --- | --- | --- | --- | --- | --- | --- |
+| Los Angeles TOC 2017 | A (B) | 14.6 (1.3 to 31.1) | pass | 30% | 574 | 7,118 / 8,148 |
+| | B (A) | 13.0 (−5.2 to 40.9) | **fail** | 80% | 1,227 | 4,294 / 4,502 |
+| | place | **13.8 (1.6 to 29.5)** | pass (mean gap −8.0) | | | 11,412 / 12,650 |
+| San Diego 2021 | A (B) | 9.2 (0.8 to 21.8) | **fail** | 70% | 1,105 | 2,768 / 2,466 |
+| | B (A) | 7.1 (−39.8 to 64.4) | pass | 20% | 451 | 2,489 / 2,578 |
+| | place | **8.1 (−15.9 to 37.9)** | pass (mean gap −1.0) | | | 5,257 / 5,044 |
+| Chicago 2022 | A (B) | −5.9 (−25.8 to 10.7) | pass | 30% | 355 | 12,817 / 15,991 |
+| | B (A) | 0.5 (−2.7 to 4.0) | pass | 80% | 670 | 16,514 / 16,370 |
+| | place | **−2.7 (−12.8 to 5.6)** | pass | | | 29,331 / 32,361 |
+| Bellevue BelRed 2009 | both | not estimable (138 inside lots, 2 stops; < 20 lots a side) | | | | |
+| Honolulu 2017 (beside) | B (A) only | 0.0 (no building on either side; 1 stop) | pass | 20% | 207 | 25 / 46 |
+
+- **The two halves pick very different lines in every place.** The gap is 50 percentage points of map acres in each:
+  Los Angeles 30% vs 80%, San Diego 70% vs 20%, Chicago 30% vs 80%. The training-half jumps swing in sign from one
+  candidate to the next. So no stable demand edge shows up.
+- Donut (25 m) and bunching match the main result. Pooled donut: 8.9 (−3.5 to 23.6). Pooled bunching: −1.9
+  (−6.2 to 2.6), not flagged.
+
+### Pooled (balance-passing places, each place weighted equally)
+
+| Score | Window | Places | Pooled effect, per 100 lot acres a year (90%) | Leave one out | Wisconsin, extra homes 2027–2031 (90%) | Reading (locked rule) |
+| --- | --- | --- | --- | --- | --- | --- |
+| Distance to stop (main) | real | 3 (LA, SD, Chicago) | **6.4 (−3.5 to 18.1)** | 2.7 to 11.0 | 288 (−157 to 810) | **No binding line found** |
+| Distance to stop (main) | placebo years | 2 (LA, Chicago) | 2.6 (−10.1 to 15.6) | −0.5 to 5.7 | — | includes 0: placebo passes |
+| S1 neighbourhood rate | real | 0 (all fail balance) | — | — | — | not estimable under the rule |
+| S1, no balance filter (beside) | real | 3 | 28.6 (16.9 to 42.5) | 16.4 to 35.7 | 1,281 (756 to 1,905) | would be "jump, but smaller" |
+| S1, no balance filter (beside) | placebo years | 3 | **57.0 (31.6 to 83.5)** | 42.4 to 80.2 | — | **placebo fails** |
+| S2 land value (Chicago only) | real | 1 | 0.9 (−6.9 to 7.4) | — | 43 (−308 to 332) | No binding line found |
+| S2 land value (Chicago only) | placebo years | 1 | 8.9 (0.6 to 19.7) | — | — | placebo fails (small) |
+
+- **Reading: "No binding line found."** The main pooled interval, 6.4 (−3.5 to 18.1), includes 0. It sits wholly
+  below the district interval (50.8 to 129.1). The stricter balance rule (both halves must pass) leaves only
+  Chicago: −2.7 (−12.8 to 5.6). The reading is the same.
+- **The placebo check passes for the main score.** Placebo-years pooled: 2.6 (−10.1 to 15.6), includes 0. So the cross-fit
+  choice itself does not make a jump.
+- **S1 cannot be read.** Its lines fail balance in every place: the before-window rates on the two sides already
+  differ (gaps −17 to −54). Its placebo years show a large false jump (57.0) where no reform happened. A line drawn on
+  past building picks up building trends already under way. The S1 "jump" (28.6) is not evidence of a reform effect.
+- **Use:** none. The tool and its lines are unchanged. The four broad places are not added to the floor pool.
