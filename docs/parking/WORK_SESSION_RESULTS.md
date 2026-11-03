@@ -423,3 +423,24 @@ The rule for this check was set by the learning thread for this check (it is not
   - **Weighting decides the sign again:** equal weight gives +0.26, home weight −1.01.
   - **Width.** Converted to Wisconsin homes, the width is 36,780, above the 26,289 bar. That conversion is rough, because this outcome is a relative shift between classes, not added homes.
 - **The lines stand.**
+
+## Test 41: two-year totals with an imputation estimator
+
+- **Design.**
+  - Untreated model: place and year effects fitted on never-treated pool places plus repeal places before their event. Year 0 is left out everywhere.
+  - Effect: actual minus imputed permits, summed over years +1 and +2 after the event.
+  - Interval: 90%, from 1,000 county-cluster resamples, each refitting the fixed effects.
+- **Coverage.** 57 places (75%) with both years observed, holding 82% of the homes.
+
+| Version | Estimate, cumulative per 1,000 existing homes over 2 years (90%) |
+| --- | --- |
+| Main, home-weighted | −6.18 (−10.76 to −0.82) |
+| Equal-weight | −1.50 (−5.51 to +2.90) |
+| Leave one city / county / metro out | −7.30 to −3.66 / −7.30 to −3.66 / −7.30 to −3.82 |
+| Pre-trend (mean imputed residual, years −3 to −1) | +0.47 (−1.98 to +2.81): passes |
+| **Placebo: single-family homes** | **−4.60 (−6.68 to −2.32): fails** |
+| Placebo: T1 non-residential places | +1.23 (−1.57 to +7.50): passes |
+
+- **In Wisconsin** (yearly rate = two-year total ÷ 2, through the Stage 2 path): −41,243 homes (−71,801 to −5,485). Width 66,316, far above the 26,289 bar.
+- **Reading: not supported.** The single-family placebo fails. Single-family permits in repeal places also fell well below the imputed path, and parking rules for apartments cannot explain that. The imputation compares big repeal cities with the national pattern of all never-treated places, not with matched similar places, so it picks up a general slowdown in those cities (2022–24). Austin and Raleigh are the most influential. The matched comparison remains the better design. The lines stand.
+- **Event path beside it** (main design, years 1–4): +0.02, −1.29, −2.26, −6.50. This two-year total covers years 1–2 only.
