@@ -323,3 +323,9 @@ Unit: permits per 1,000 existing homes a year. These runs use 75 places (South B
   - Zoning across the line could not be compared, so the counts are an upper bound.
   - Records are kept only where the filing city matches the side of the line. This was added after the first run.
   - The transit stop layer is today's.
+- **Audit notes on test 35:**
+  - **Post hoc.** No plan was committed before the counts. The ADU filter and the filing-city rule were both chosen after the counts were seen. If San Jose is ever run, the ADU choice is locked first.
+  - **The ADU filter is fair on legal grounds,** because state law already capped ADU parking.
+  - **San Jose's usable border is mostly unincorporated county land** with different zoning; the "zoning not compared" caveat covers this.
+  - **Culver City's effective date** uses adoption + 30 days, the usual California rule.
+- **Place count.** Each outcome in `parking_expanded_effects.csv` has 76 keys. Across both outcomes there are 77 keys and 75 place names, because there are two Cambridges (MA and MD). Runs that need a home count use 75 (South Bend has none).
