@@ -228,8 +228,7 @@ class TestNetSizing(unittest.TestCase):
         t = net.addition
         self.assertLess(t["little"], t["typical"])
         self.assertLess(t["typical"], t["strong"])
-        self.assertLessEqual(t["little"], t["reference_line"])
-        self.assertLessEqual(t["reference_line"], t["strong"])
+        # the reference line (median of the three published studies, 2,509) is not shown; since AQ-072 it sits below the lower line
         self.assertLess(net.loc["typical", "addition_range_low"], t["typical"])
         self.assertLess(t["typical"], net.loc["typical", "addition_range_high"])
         self.assertAlmostEqual(float(net.stock_homes_station_areas.iloc[0]), 313_564, delta=0.5)
@@ -255,10 +254,22 @@ class TestNetSizing(unittest.TestCase):
         self.assertEqual(len(bc), 6)
         self.assertAlmostEqual(bc.loc["median", "miss_average_rule"], 42.94, delta=0.05)
         self.assertAlmostEqual(bc.loc["median", "miss_zero"], 10.58, delta=0.05)
-        for sid, line, tot, lo, hi in (("little", "optiond_little", 823.8, -90.1, 1005.6),
+        # AQ-072 (owner 2026-11-03 00:17): lower = edge-test floor, central = D-11 average, upper = 2x2 near new lines
+        cl = read("tod_causal_lines.csv").set_index("line")
+        self.assertAlmostEqual(cl.loc["causal_lower_edge", "extra_homes_2027_2031"], 3958.0, delta=0.5)
+        self.assertAlmostEqual(cl.loc["causal_upper_2x2", "extra_homes_2027_2031"], 13450.6, delta=0.5)
+        self.assertAlmostEqual(cl.loc["causal_upper_2x2", "effect_per_100_acres"], 44.985, delta=0.002)
+        self.assertAlmostEqual(cl.loc["causal_lower_edge", "effect_per_100_acres"] * 0.15 * 4874.1 / 100 * 5 * 1.2269,
+                               cl.loc["causal_lower_edge", "extra_homes_2027_2031"], delta=2.0)
+        se0 = read("tod_model_sensitivities.csv")
+        se0 = se0[se0.sizing == "net_effect"]
+        for sens, sc, v in (("optiond_upper", "strong", 12520.8), ("optiond_lower", "little", 823.8), ("line_age_matched", "typical", 6931.8)):
+            self.assertAlmostEqual(se0[(se0.sensitivity == sens) & (se0.scenario == sc)].addition_2027_2031.iloc[0], v, delta=0.1, msg=sens)
+        for sid, line, tot, lo, hi in (("little", "causal_lower_edge", 3958.0, 2279.5, 5791.0),
                                        ("typical", "optiond_average", 10028.1, 7579.8, 12010.4),
-                                       ("strong", "optiond_average_scaled_15", 12520.8, 9089.2, 16771.1)):
-            self.assertAlmostEqual(od.loc[line, "extra_homes_2027_2031"], tot, delta=0.05)
+                                       ("strong", "causal_upper_2x2", 13450.6, 10431.4, 15048.5)):
+            src = cl if line.startswith("causal") else od
+            self.assertAlmostEqual(src.loc[line, "extra_homes_2027_2031"], tot, delta=0.05)
             self.assertAlmostEqual(net.loc[sid, "addition"], tot, delta=0.05)
             self.assertAlmostEqual(net.loc[sid, "addition_range_low"], lo, delta=0.05)
             self.assertAlmostEqual(net.loc[sid, "addition_range_high"], hi, delta=0.05)

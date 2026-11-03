@@ -155,9 +155,11 @@ class TestTodBundle(unittest.TestCase):
         # owner 2026-11-02 22:29: central and upper labels name the district share of lots within 1/4 mile
         lab = {s["id"]: s["label"] for s in self.sw["scenarios"]}
         self.assertIn("about 12% of lots within ¼ mile of transit", lab["typical"])
-        self.assertTrue(lab["strong"].startswith("Upper: scaled to 15% of lots within ¼ mile of transit"))
+        # AQ-072 (owner 2026-11-03 00:17): lower and upper from the causal framework
+        self.assertEqual(lab["little"], "Lower: the rezoned parcels' own gain only")
+        self.assertTrue(lab["strong"].startswith("Upper: upzoning together with new transit lines"))
         tot = {s["id"]: s["additional_total"] for s in self.sw["scenarios"]}
-        for k, v in (("little", 823.8), ("typical", 10028.1), ("strong", 12520.8)):
+        for k, v in (("little", 3958.0), ("typical", 10028.1), ("strong", 13450.6)):
             self.assertAlmostEqual(tot[k], v, delta=0.05)
 
     def test_eau_claire_pilot_adds_nothing(self):

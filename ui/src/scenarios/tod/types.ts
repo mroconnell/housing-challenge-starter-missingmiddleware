@@ -6,7 +6,7 @@ export type ByScen = Record<ScenId, number>;
 export interface Scenario {
   id: ScenId; label: string; evidence: string; info: string; source: string;
   share_of_stock: number; additional_total: number; with_law_total: number; by_year: number[];
-  range_low?: number; range_high?: number;
+  range_low?: number; range_high?: number; range_note?: string;
   /** AQ-054 shared units: extra homes a year statewide; shares of the statewide all-housing baseline and of ACS homes */
   per_year: number; share_of_state_baseline: number; share_of_acs_homes: number;
 }

@@ -764,31 +764,28 @@ def net_effects(cp: dict, reading: str = "per_upzoned_home") -> dict:
     la = LA_PP_SIX_YEARS * 5 / 6 / cov(LA_COVERAGE)
     st = STACY_SHARE / cov(STACY_COVERAGE)
     ak = AUCKLAND_SHARE / cov(AUCKLAND_COVERAGE)
-    od = {k: optiond_line(k) for k in ("optiond_little", "optiond_average", "optiond_average_scaled_15")}
-    stock = od["optiond_average"]["stock"]
-    # Option D, the transit district mandate (owner 2026-11-02; AQ-071, docs/tod/OPTION_D_PLAN.md): every Wisconsin
-    # city with qualifying rail or rapid stops zones a by-right multifamily district on 15% of the lot acres within
-    # 1/4 mile of them. All three lines are statewide extra homes over 2027-2031 within 1/4 mile (beyond 1/4 mile counts
-    # zero, locked rule; no zero floors), from reference/tod_optiond_line.csv, timed by the New York pooled ramp. The
-    # former lines (station-area model 43, average reform city at 71% coverage 13,229, Auckland 17,148) are what-ifs.
-    # Same in both readings (none is a published share).
+    lo, mid, hi = causal_line("causal_lower_edge"), optiond_line("optiond_average"), causal_line("causal_upper_2x2")
+    stock = mid["stock"]
+    # Option D, the transit district mandate (AQ-071): every Wisconsin city with qualifying rail or rapid stops zones a
+    # by-right multifamily district on 15% of the lot acres within 1/4 mile of them. Lines since AQ-072 (owner 2026-11-03
+    # 00:17, "sure", to "lock in 3,958 / 10,028 / 13,451"; docs/tod/CAUSAL_FRAMEWORK_PLAN.md): lower = the edge test's
+    # direct-effect floor, central = the D-11 plain average (unchanged), upper = the 2x2 near-new-lines reading. All are
+    # statewide extra homes over 2027-2031 within 1/4 mile, timed by the New York pooled ramp; no zero floors. The option D
+    # lower (824) and upper (12,521) are what-ifs. Same in both readings (none is a published share).
     eff = {
-        "little": (M.NetEffect(od["optiond_little"]["central"] / stock, ny,
-                               f"Best lot model (lot + place traits, 5 averaged fits), Wisconsin within 1/4 mile: "
-                               f"{od['optiond_little']['central']:,.1f} extra homes over 2027-2031 (range {od['optiond_little']['low']:,.1f} "
-                               f"to {od['optiond_little']['high']:,.1f}), reference/tod_optiond_line.csv; New York pooled ramp"),
-                   "Little response: best lot model"),
-        "typical": (M.NetEffect(od["optiond_average"]["central"] / stock, ny,
-                                f"Average of the 11 district places' measured effect within 1/4 mile: {od['optiond_average']['central']:,.1f} "
-                                f"extra homes over 2027-2031 (range {od['optiond_average']['low']:,.1f} to {od['optiond_average']['high']:,.1f}), "
+        "little": (M.NetEffect(lo["central"] / stock, ny,
+                               f"Edge test (T3) direct-effect floor, 5 balance-passing places: {lo['central']:,.1f} extra homes over 2027-2031 "
+                               f"(90% {lo['low']:,.1f} to {lo['high']:,.1f}), reference/tod_causal_lines.csv; New York pooled ramp"),
+                   "Lower: the rezoned parcels' own gain only"),
+        "typical": (M.NetEffect(mid["central"] / stock, ny,
+                                f"Average of the 11 district places' measured effect within 1/4 mile: {mid['central']:,.1f} "
+                                f"extra homes over 2027-2031 (range {mid['low']:,.1f} to {mid['high']:,.1f}), "
                                 f"reference/tod_optiond_line.csv; New York pooled ramp"),
                     "Central: the average district place, across about 12% of lots within 1/4 mile of transit"),
-        "strong": (M.NetEffect(od["optiond_average_scaled_15"]["central"] / stock, ny,
-                               f"Average district place scaled to a 15% district by the pooled ratio: "
-                               f"{od['optiond_average_scaled_15']['central']:,.1f} extra homes over 2027-2031 (range "
-                               f"{od['optiond_average_scaled_15']['low']:,.1f} to {od['optiond_average_scaled_15']['high']:,.1f}), "
-                               f"reference/tod_optiond_line.csv; New York pooled ramp"),
-                   "Upper: scaled to 15% of lots within 1/4 mile of transit"),
+        "strong": (M.NetEffect(hi["central"] / stock, ny,
+                               f"2x2 (T2b) near new lines, rezoning alone + interaction: {hi['central']:,.1f} extra homes over 2027-2031 "
+                               f"(leave one place out {hi['low']:,.1f} to {hi['high']:,.1f}), reference/tod_causal_lines.csv; New York pooled ramp"),
+                   "Upper: upzoning together with new transit lines"),
     }
     # Reference line: the median of the three studies' net-effect values (each study counted once).
     med = float(np.median([la, st, ak]))
@@ -805,6 +802,13 @@ def stacy_effect(cp: dict) -> M.NetEffect:
 def optiond_line(line: str) -> dict:
     """An option D line (scripts/build_tod_optiond_line.py; AQ-071) and the main-case stock."""
     t = pd.read_csv(REFERENCE / "tod_optiond_line.csv").set_index("line").loc[line]
+    stock = float(pd.read_csv(REFERENCE / "tod_definition_summary.csv").set_index("definition").loc["main", "homes"])
+    return {"central": float(t.extra_homes_2027_2031), "low": float(t.range_low), "high": float(t.range_high), "stock": stock}
+
+
+def causal_line(line: str) -> dict:
+    """A causal-framework line (scripts/build_tod_causal_lines.py; AQ-072) and the main-case stock."""
+    t = pd.read_csv(REFERENCE / "tod_causal_lines.csv").set_index("line").loc[line]
     stock = float(pd.read_csv(REFERENCE / "tod_definition_summary.csv").set_index("definition").loc["main", "homes"])
     return {"central": float(t.extra_homes_2027_2031), "low": float(t.range_low), "high": float(t.range_high), "stock": stock}
 
@@ -914,8 +918,8 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
     sal = station_area_line()
     avg = station_area_line("average_reform_scaled")
     rng_rows = {}
-    for sid, line in (("little", "optiond_little"), ("typical", "optiond_average"), ("strong", "optiond_average_scaled_15")):
-        o = optiond_line(line)
+    for sid, o in (("little", causal_line("causal_lower_edge")), ("typical", optiond_line("optiond_average")),
+                   ("strong", causal_line("causal_upper_2x2"))):
         e = effects[sid][0]
         rng_rows[sid] = {tag: net_rows(place, stock, {sid: (M.NetEffect(o[tag] / o["stock"], e.timing, e.source), "")}, qa)
                          for tag in ("low", "high")}
@@ -967,21 +971,29 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
                          "madison_metro_2027_2031": float(g.loc[g.county.map(metro_of) == "Madison", ycols].sum().sum()),
                          **{f"add_{M.CALENDAR[k]}": float(g[f"add_y{k}"].sum()) for k in M.YEARS}})
 
-    add_s("main", "main", "Net-effect sizing (option D, AQ-071): statewide lines placed by each place's lot acres within 1/4 mile of rail and rapid stops", net)
+    add_s("main", "main", "Net-effect sizing (option D, AQ-071; lines AQ-072): statewide lines placed by each place's lot acres within 1/4 mile of rail and rapid stops", net)
     ny5 = M.timing_from_ramp(cp["ramp_year5_alt"])
     add_s("law_addition", "ramp_year5_alt", "New York ramp with year 5 = mean of years 3-5 (timing only; totals unchanged)",
           net_rows(place, stock, {k: (M.NetEffect(e.five_year_share, ny5, e.source), lab) for k, (e, lab) in effects.items()}, qa))
     add_s("law_addition", "typical_range", "Central (average of the 11 district places) at the low and high ends: each place left out in turn",
           pd.concat([rng_rows["typical"]["low"].assign(scenario="typical_low"), rng_rows["typical"]["high"].assign(scenario="typical_high")]))
-    add_s("law_addition", "strong_range", "Strong (average scaled to a 15% district) at the low and high ends: each place left out in turn",
+    add_s("law_addition", "strong_range", "Upper (2x2 near new lines) at the low and high ends: each place left out in turn",
           pd.concat([rng_rows["strong"]["low"].assign(scenario="strong_low"), rng_rows["strong"]["high"].assign(scenario="strong_high")]))
-    add_s("law_addition", "little_range", "Little (best lot model) at the low and high ends: the fits that each leave one place out",
+    add_s("law_addition", "little_range", "Lower (edge-test floor) at the low and high ends: 90% interval",
           pd.concat([rng_rows["little"]["low"].assign(scenario="little_low"), rng_rows["little"]["high"].assign(scenario="little_high")]))
     ny = M.timing_from_ramp(cp["ramp"])
     for share in (10, 25):
         o = optiond_line(f"optiond_scaled_{share}")
-        add_s("law_addition", f"district_{share}", f"District {share}% of the 1/4-mile land instead of 15% (pooled ratio x {share / 100:.2f}; strong-line method)",
+        add_s("law_addition", f"district_{share}", f"District {share}% of the 1/4-mile land instead of 15% (pooled ratio x {share / 100:.2f}; the option D upper method)",
               net_rows(place, stock, {"strong": (M.NetEffect(o["central"] / o["stock"], ny, f"district {share}%"), f"District {share}%")}, qa))
+    for sid, line, desc in (("strong", "optiond_average_scaled_15", "Option D upper before AQ-072: the average scaled to 15% of lots within 1/4 mile"),
+                            ("little", "optiond_little", "Option D lower before AQ-072: the best lot model (lot + place traits)")):
+        o = optiond_line(line)
+        add_s("law_addition", f"optiond_{'upper' if sid == 'strong' else 'lower'}", f"{desc} ({o['central']:,.0f})",
+              net_rows(place, stock, {sid: (M.NetEffect(o["central"] / o["stock"], ny, desc), desc)}, qa))
+    o = causal_line("beside_line_age_m3")
+    add_s("law_addition", "line_age_matched", f"Beside the central: line-age matched (T2 M3), {o['central']:,.0f}",
+          net_rows(place, stock, {"typical": (M.NetEffect(o["central"] / o["stock"], ny, "line-age matched"), "Line-age matched")}, qa))
     add_s("law_addition", "former_central_average_reform", f"Former central line: average reform city at Wisconsin's 71% coverage ({avg['central']:,.0f}; AQ-070)",
           net_rows(place, stock, {"typical": (M.NetEffect(avg["central"] / avg["stock"], ny, "average reform city, 71% coverage"),
                                               "Average reform city at 71% coverage (former central)")}, qa))
