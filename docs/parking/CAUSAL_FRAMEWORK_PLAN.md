@@ -138,3 +138,4 @@ Ryan's OK. Stage 2 (carrying results to Wisconsin) stays unlocked until Stage 1 
   - M3 also with an unweighted median split (39 large vs 37 small), because the home-weighted split put only 6 places in "large".
   - T also without Austin and Minneapolis (the two rail places with the largest weight × effect), and unweighted.
   - Limits stated rather than fixed: T covers rail only (no BRT in the stop data); F1 rests on one city; E2's rewrite-only group is not built.
+- **2026-11-03, audit fixes (audit/parking_causal_stage1_review_2026-11-03.md):** E1 is labelled a re-check of the AB 2097 test; issue-date dating stays main, with the bias direction stated; F1 adds downtown as a comparison group and is labelled "suggestive, single source" until 20 random rows are checked against city records; the M3 weighted split stays main; T gets a leave-one-place-out range.

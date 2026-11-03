@@ -110,6 +110,27 @@ def main() -> None:
         contrast(dt[dt["date"] < CUT_2021], dt[dt["date"] >= CUT_2021],
                  "Downtown (no minimum either side), 2021 on against before: a check on market drift", rng),
     ]
+    # Audit fix (2026-11-03): downtown, which had no minimum either side, as the comparison group.
+    # Difference = (rest-of-city after minus before) minus (downtown after minus before); resampled within each of 4 cells.
+    def dd(nb, na, db, da, label):
+        f = lambda: (ratio(na) - ratio(nb)) - (ratio(da) - ratio(db))  # noqa: E731
+        est = f()
+        bs = []
+        for _ in range(DRAWS):
+            s_ = [x.iloc[rng.integers(0, len(x), len(x))] for x in (nb, na, db, da)]
+            bs.append((ratio(s_[1]) - ratio(s_[0])) - (ratio(s_[3]) - ratio(s_[2])))
+        lo, hi = np.percentile(bs, [5, 95])
+        return dict(contrast=label, projects_before=len(nb), projects_after=len(na), homes_before=int(nb["homes"].sum()),
+                    homes_after=int(na["homes"].sum()), spaces_per_home_before=ratio(nb), spaces_per_home_after=ratio(na),
+                    downtown_projects_before=len(db), downtown_projects_after=len(da),
+                    downtown_before=ratio(db), downtown_after=ratio(da), difference=est, p05=lo, p95=hi,
+                    mde=1.645 * np.std(bs, ddof=1),
+                    reading="binding (fewer spaces per home)" if hi < 0 else ("more spaces per home" if lo > 0 else "interval includes 0"))
+    w15 = lambda d: (d[d["date"] < CUT_2015], d[(d["date"] >= CUT_2015) & (d["date"] < CUT_2021)])  # noqa: E731
+    w21 = lambda d: (d[(d["date"] >= CUT_2015) & (d["date"] < CUT_2021)], d[d["date"] >= CUT_2021])  # noqa: E731
+    wall = lambda d: (d[d["date"] < CUT_2015], d[d["date"] >= CUT_2021])  # noqa: E731
+    for wf, lab in ((w15, "2015 cut"), (w21, "2021 repeal"), (wall, "both reforms")):
+        out.append(dd(*wf(nd), *wf(dt), f"Against downtown (DiD): {lab}, rest of city minus downtown"))
     S = pd.DataFrame(out)
     S["note"] = (f"{checks['rows']} rows read; {checks['missing_homes_or_car']} lacking homes or car spaces; "
                  f"{checks['later_resubmitted']} later resubmitted and dropped; homes 5+ only")

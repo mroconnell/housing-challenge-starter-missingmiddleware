@@ -92,10 +92,15 @@ def main() -> None:
     Q = P.dropna(subset=["effect_matched"])
     a, b = Q[Q["rail"]], Q[~Q["rail"]]
     est, lo, hi, mde = diff_ci(a["effect_matched"].values, a["weight"].values, b["effect_matched"].values, b["weight"].values)
+    loo = []  # audit (2026-11-03): leave one place out
+    for j in Q.index:
+        R_ = Q.drop(j); ra, rb = R_[R_["rail"]], R_[~R_["rail"]]
+        loo.append((np.average(ra["effect_matched"], weights=ra["weight"]) - np.average(rb["effect_matched"], weights=rb["weight"]), Q.loc[j, "place"]))
+    lmin, lmax = min(loo), max(loo)
     out.append(dict(test="T rail x repeal: effect with rail minus without", unit="permits per 1,000 existing homes a year",
                     n_a=len(a), n_b=len(b), estimate=est, p05=lo, p95=hi, mde=mde,
                     mean_a=np.average(a["effect_matched"], weights=a["weight"]), mean_b=np.average(b["effect_matched"], weights=b["weight"]),
-                    note=f"{int((~P['used_same']).sum())} places used all comparison places (fewer than 5 with the same rail status); {nan_t} with no computable effect left out"))
+                    note=f"{int((~P['used_same']).sum())} places used all comparison places (fewer than 5 with the same rail status); {nan_t} with no computable effect left out; leave-one-place-out {lmin[0]:.2f} (without {lmin[1]}) to {lmax[0]:.2f} (without {lmax[1]})"))
     a, b = P[~P["rewrite"]], P[P["rewrite"]]
     est, lo, hi, mde = diff_ci(a["effect_all"].values, a["weight"].values, b["effect_all"].values, b["weight"].values)
     out.append(dict(test="E2 repeal alone minus repeal inside a rewrite (all homes)", unit="permits per 1,000 existing homes a year",
