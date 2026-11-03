@@ -142,7 +142,7 @@ def main() -> None:
         dict(case="Upper case (headline)", moves="statewide addition", value=tot(homes, upper_all),
              description=f"High end from the control-city (placebo) test: the spread of 20,000 placebo studies of cities that never repealed, centred on the real average, {upper_all:.2f} permits per 1,000 existing homes per year."),
         dict(case="Low end (headline)", moves="statewide addition", value=float(lower.values.sum()),
-             description=f"Low end: the measured average of the 76 repeal places against similar places, {lower_all:.2f} permits per 1,000 existing homes per year, applied without a floor at zero (owner, 2026-11-01). Mostly San Francisco and Minneapolis; the typical repeal place changed by about 0."),
+             description=f"Low end: the measured average of the 76 repeal places against similar places, {lower_all:.2f} permits per 1,000 existing homes per year, applied without a floor at zero (owner, 2026-11-01). Pulled down mostly by Austin, Minneapolis and San Francisco; the typical repeal place changed by about 0."),
         dict(case="Resampling the real places (earlier high end)", moves="statewide addition", value=tot(homes, upper_resample),
              description=f"The earlier high end: 95th percentile of the average from 2,000 resamples of the 76 places, {upper_resample:.2f} per 1,000 existing homes per year."),
         dict(case="Cleaned data, undated reforms kept as comparisons (placebo)", moves="statewide addition",

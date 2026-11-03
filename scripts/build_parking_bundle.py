@@ -101,7 +101,7 @@ def ref_line() -> dict:
     per_year = max(med, 0.0) * homes / 1000
     return {"label": "Median of real cases", "rate_per_1000_homes": r(med), "per_year": r(per_year, 1),
             "value": whole(per_year * len(YEARS)),
-            "info": f"Median of real cases, applied to Wisconsin: the median of the 76 repeal places changed by {med:+.2f} permits per 1,000 existing homes per year against its comparison places. Applied to Wisconsin's {homes:,.0f} homes outside places already at the benchmark, " + (f"that is about {whole(per_year):,} extra permits a year, {whole(per_year * len(YEARS)):,} over 2027–2031: between the two cases." if med > 0 else "the median is below zero, so the line sits at 0, the same as the central case (a repeal is not modelled as reducing permits).")}
+            "info": f"Median of real cases, applied to Wisconsin: the median of the 76 repeal places changed by {med:+.2f} permits per 1,000 existing homes per year against its comparison places. Applied to Wisconsin's {homes:,.0f} homes outside places that already removed minimums (fully or with conditions), " + (f"that is about {whole(per_year):,} extra permits a year, {whole(per_year * len(YEARS)):,} over 2027–2031: between the two cases." if med > 0 else "the median is slightly below zero, so the line is drawn at 0, the same as the central case.")}
 
 
 def build_statewide() -> dict:
