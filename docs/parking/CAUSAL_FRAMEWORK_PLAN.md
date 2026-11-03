@@ -481,3 +481,26 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
     - The MDE (1.645 × SE on the log scale).
     - The rate ratio converted to permits per 1,000 existing homes a year at the before-period mean.
   - **Intervals.** From stack-clustered standard errors. A 2,000-draw place bootstrap was proposed but would need 2,000 negative binomial refits with thousands of fixed effects, so it is not run (stated).
+- **2026-11-03, C1/C2 final rules (replace the C1/C2 design above; agreed by Ryan with the learning thread, 25% bar chosen 15:36:54 UTC; tests 38 and 39; written before any count):**
+  - **Setup.**
+    - Units: the 76 repeal places plus the union of their matched pools.
+    - Panel: 2012–2025 place-years.
+    - Offset: log existing homes.
+    - Fixed effects: place (concentrated out) and calendar year.
+    - Treatment: repeal place × years after its event, within its after window. A repeal place's years outside its before/after windows are dropped.
+    - Output: rate ratios.
+    - Width: a 2,000-draw place bootstrap (seed 20261104). Refits are warm-started, and the negative binomial α is held at its full-sample value (stated).
+    - Fitting: statsmodels-style negative binomial and Poisson, with a hand-written IRLS on the small year/treatment design.
+  - **Versions, listed before running:**
+    - **38a:** homes in 5+ unit buildings, negative binomial (Poisson beside).
+    - **38b:** all homes, negative binomial (Poisson beside).
+    - **39:** new 5+ unit buildings, negative binomial (2–4 unit buildings beside). Shown beside the lines, never as the lines.
+  - **Conversion (rule 1).** (rate ratio − 1) × Wisconsin current-law permits in eligible places for that outcome, 2027–2031: 46,905 for 5+ homes; all homes from the Stage 2 path. Other building types are taken as unchanged, as in the grid.
+  - **Order of checks.** All of rules 1–5 are required, so they are checked cheapest first: width (rule 5), then pre-trend and placebos (rule 4), then calibration (rule 3) only for a version still passing.
+    - **Calibration:** 200 fake-reform draws, each giving random event years from the real ones to comparison places, with the same windows. Each draw's interval uses a 199-draw place bootstrap. Pass if 85–95% of the 90% intervals cover a rate ratio of 1.
+  - **Rule 4 checks** use stack-clustered standard errors, not the bootstrap (stated):
+    - pre-trend leads −5 to −2 against −1;
+    - single-family homes;
+    - T1's non-residential places as fake reforms.
+    Each must include 1.
+  - **Replacement bar (rule 5).** The 90% Wisconsin-homes width must be 26,289 or less. All versions are reported either way. Any change to the tool needs Ryan's OK.
