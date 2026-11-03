@@ -7,7 +7,7 @@ All intervals are 90%. MDE = minimum detectable effect (1.645 × standard error)
 
 | Test | Question | Result (90% interval) | Unit | Reading |
 | --- | --- | --- | --- | --- |
-| F1 | Less parking per new home after reform? (Minneapolis, 5+ home projects outside downtown) | 0.98 before 2015 → 0.73 in 2015–21: −0.24 (−0.34 to −0.15). Against downtown (no minimum either side): −0.17 (−0.38 to +0.03). Inside the 2015 transit areas vs outside them (F1b): −0.06 (−0.20 to +0.08) | car spaces per home | **Not separated from a citywide trend.** Parking per home fell by about a quarter space both inside and outside the areas the 2015 cut covered |
+| F1 | Less parking per new home after reform? (Minneapolis, 5+ home projects outside downtown) | 0.98 before 2015 → 0.73 in 2015–21: −0.24 (−0.34 to −0.15). Against downtown (no minimum either side): −0.17 (−0.38 to +0.02). Inside the 2015 transit areas vs outside them (F1b): −0.06 (−0.20 to +0.08) | car spaces per home | **Not separated from a citywide trend.** Parking per home fell by about a quarter space both inside and outside the areas the 2015 cut covered |
 | H1 | Bigger 5+ unit buildings? | +17.0 (+4.9 to +28.4), +37% | homes per new 5+ unit building | Supported (Austin carries 30% of the weight) |
 | H2 | More buildings? | 2–4 unit: −0.03 (−0.07 to +0.02); 5+ unit: −0.06 (−0.10 to −0.02), −35% | new buildings per 1,000 existing homes a year | Fewer, bigger 5+ buildings; read with H1 |
 | F1c | Seattle, inside reform areas vs the rest of the city | 2012: −0.27 (−0.46 to −0.08), but about −0.11 (−0.32 to +0.11) from a 2009 start; zero-parking projects 0% → 13–45% inside, 0% outside | car spaces per home | Zero-parking projects appear only after reform; the size of the average drop is uncertain |
@@ -30,10 +30,10 @@ Only 1 of 4 moderators came out material (M4, rail). With four tested, one false
 - Ramp vs floor: spaces per home fell from about 1.0 (2011–2015) to 0.58–0.80 a year from 2016 on, and stayed there. The drop levelled off well above 0. That matches a floor (lenders and renters still want parking), not a long ramp.
 - Share of projects with no car spaces: 0% before 2015, 8% in 2015–21, 19% after 2021.
 - **Against downtown (audit fix):** rest-of-city change minus downtown change.
-  - 2015 cut: −0.17 (−0.40 to +0.04). Downtown went 0.96 → 0.70 (30 → 52 projects).
-  - 2021 repeal: +0.28 (+0.03 to +0.64). Downtown went 0.90 → 0.51 on only 9 projects after 2021, so this is noisy.
-  - Both reforms together: +0.10 (−0.17 to +0.49).
-  - Read: parking per home fell across the whole city, downtown included. This test cannot say how much of the fall the reforms caused.
+  - 2015 cut (split at the effective date 2015-07-18): −0.17 (−0.38 to +0.02). Downtown barely moved, 0.96 → 0.89 (32 → 50 projects).
+  - 2021 repeal: +0.28 (+0.03 to +0.63). Downtown went 0.89 → 0.51 on only 9 projects after 2021, so this is noisy.
+  - Both reforms together: +0.11 (−0.18 to +0.50).
+  - Read: the big downtown fall is after 2021, on only 9 projects. This test cannot say how much of the fall the reforms caused; F1b is the cleaner test for 2015.
 - **Row check against city records (audit fix; 20 random rows, seed 20261103):**
   - Homes: 20 of 20 match the city Planning Commission annual reports.
   - Car spaces: 16 of 16 rows with a source match (within 10% or 3 spaces). The other 4 rows have no parking count anywhere.
@@ -51,6 +51,7 @@ Only 1 of 4 moderators came out material (M4, rail). With four tested, one false
 - Zones: the city's June 2015 map of the covered areas, digitised. Addresses were geocoded with the Census geocoder; 23 of 359 projects didn't match and are left out.
 - Inside: 0.99 → 0.72 car spaces per home (28 → 109 projects). Outside: 0.90 → 0.69 (41 → 74 projects).
 - Difference: −0.06 (−0.20 to +0.08). It includes 0.
+- At the locked plan's split date (2015-05-01): −0.07 (−0.20 to +0.08). The move to the effective date was decided before F1b's first mean but committed together with the result, so both are shown.
 - Sensitivities:
   - University Area dropped: −0.03 (−0.22 to +0.19).
   - Projects near a zone edge dropped: −0.08 (−0.22 to +0.07).
@@ -107,7 +108,8 @@ Unit: permits per 1,000 existing homes a year.
 
 **M3.**
 - The split is the home-weighted median, so "large" is 6 places and "small" 70.
-- *Post hoc*, unweighted median split (39 vs 37): −2.12 (−5.87 to +1.68). Still not material. The locked weighted split stays the main result.
+- *Post hoc*, unweighted median split (39 vs 37), held-out method (split point from the other folds, home-weighted means of each group): −2.12 (−5.87 to +1.68). Still not material. The locked weighted split stays the main result.
+- A second unweighted figure, +1.05 (−1.99 to +4.14) in `parking_causal_v2_summary.csv`, uses the full sample and equal-weight means of each group. Weighting by homes versus counting each city once flips the sign; neither is material.
 
 **T sensitivity (*post hoc*).** The rail result rests on two cities.
 
@@ -138,13 +140,14 @@ Read: rail does not reliably change the effect. "Invest in both" is neither supp
   - Not removed: mean +26.8.
   - Difference: +10.2, with a 90% range of −45 to +68.
 - **One city decides the sign.** Without Denver the difference is −29; without Portland it is +45.
+- **Why this differs from TOD's trait 12:** trait 12 asked whether parking was *cut* (St. Paul and Chicago = yes). This test asks whether minimums were *removed* (St. Paul and Chicago = no). That is why the two point in opposite directions.
 - **Earlier TOD trait test** (`docs/tod/TRAITS_RESULTS.md`, trait 12): units in cities that cut parking had smaller effects. That was a weak pass, and it did not survive dropping St. Paul.
 - **Read:** at the station-area scale too, the data cannot tell whether removing parking minimums changes what a rezoning does.
 
 ## Added mid-sized and large cities (`reference/parking_repeal_checks_v2.csv`)
 
 - Checked: 35 PRN cities with 25,000+ people, rated at or near a full repeal, that had not been checked before.
-- Most of PRN's ratings did not hold up: only 8 have a citywide housing repeal.
+- Most of PRN's ratings did not hold up: only 8 of the 35 "at or near" ratings were confirmed as a citywide housing repeal.
   - 26 are weaker (district-only exemptions or cuts).
   - 1 does not cover housing.
   - Greensboro and High Point repeal under a North Carolina law that takes effect in 2027.
@@ -163,6 +166,7 @@ Unit: permits per 1,000 existing homes a year.
 - Adding the four cities does not change any reading.
 - Bakersfield and Spokane have only one year after their repeal.
 - The tool still uses the 76 places.
+- **Not rerun on the added places (deviation from the plan, logged):** H1/H2, T, M1, M2/M4 and R. The 4 added cities are 5% of the places and change the average by 0.10. Two have only one year after repeal (too few for R or a 3-year window). M1 would need old minimums coded for the new cities. Only the averages, E2 and M3 were rerun.
 
 ## What Stage 1 says for Stage 2 (not yet run)
 - Parking per home fell in Minneapolis after 2015, but by the same amount where the cut did and did not apply (F1b). In Seattle, projects with no parking appeared only in reform areas (F1c). Builders put more homes in each larger building (H1).

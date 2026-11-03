@@ -168,3 +168,4 @@ Ryan's OK. Stage 2 (carrying results to Wisconsin) stays unlocked until Stage 1 
   - Zones: the city's June 2015 map "Residential Off-Street Parking Requirements", digitised and fitted to the city boundary (`scripts/fetch_parking_mpls_zones.py`).
   - Outside = all non-downtown land not covered, including the University Area overlay, which kept its own minimum (½ space per bedroom) and was excluded from the cut by name. A sensitivity drops University Area projects.
   - Unmatched addresses (23 of 359 eligible projects) are left out and counted. The 22 projects within 33 m of a zone edge stay in the main result; a sensitivity drops them.
+- **2026-11-03, audit round 3:** F1b also shown at the locked 2015-05-01 split. For the 4 added cities, H1/H2, T, M1, M2/M4 and R are not rerun: the cities are 5% of the places, two have one after year, and M1 needs uncoded old minimums. Only the averages, E2 and M3 were rerun.

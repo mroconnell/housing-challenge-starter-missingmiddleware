@@ -49,14 +49,15 @@ def main() -> None:
     win = win[win["zone"] != "unmatched"]
     rng = np.random.default_rng(SEED)
 
-    def cells(x):
-        b, a = x[x["date"] < f1.CUT_2015], x[x["date"] >= f1.CUT_2015]
+    def cells(x, cut=f1.CUT_2015):
+        b, a = x[x["date"] < cut], x[x["date"] >= cut]
         ins = lambda y: y[y["zone"] == "covered"]  # noqa: E731
         out = lambda y: y[y["zone"].isin(["outside", "ua"])]  # noqa: E731
         return ins(b), ins(a), out(b), out(a)
 
     rows = [dict(case="main: outside includes University Area", **did(cells(win), rng)),
             dict(case="sensitivity: University Area projects dropped", **did(cells(win[win["zone"] != "ua"]), rng)),
+            dict(case="locked plan date: split at 2015-05-01", **did(cells(win, pd.Timestamp("2015-05-01")), rng)),
             dict(case="sensitivity: projects within 33 m of a zone edge dropped", **did(cells(win[~win["near_edge_33m"].fillna(False).astype(bool)]), rng))]
     S = pd.DataFrame(rows)
     S["note"] = (f"5+ home projects outside downtown, 2011-01 to 2021-05-13, split 2015-07-18; {unmatched} unmatched addresses left out; "
