@@ -451,3 +451,21 @@ The rule for this check was set by the learning thread for this check (it is not
   - **Leave-one-metro-out:** all non-metro places form one "none" group.
   - **Weighting matters again.** The equal-weight estimate is −1.50, with an interval that includes 0.
   - **Timing.** The runs started around 08:07, and the script was committed at 08:21:59. It was not edited between the run and the commit, but git can't show that.
+
+## Dose-coding pilot (15 of the 76; coding only, no outcomes read)
+
+- **File:** `reference/parking_dose_pilot.csv`, with sample draw `scripts/draw_parking_dose_pilot.py`.
+- **After the repeal:** 0 required spaces in all 15. The variation is all on the "before" side.
+- **Before, for a 20-unit building** (spaces required):
+  - 20 in 7 places: the five Oregon cities (state cap of 1 per unit from 2022-12-31), Cambridge and South Bend;
+  - St. Paul 25, Bridgeport 33, Austin 35, Bandera 45;
+  - uncodable in 4 (Saranac Lake, Kingston, Ecorse, Rogers): the old codes sit behind blocked code sites or aren't public.
+  - Spaces per home before ranged from 1.0 to 2.25.
+- **Oregon.** All five took OAR 660-012-0420(1), repealing all mandates. Their "day before" is the state cap (4 / 20 / 100 spaces). Local tables would have given more, for example 30 and 150 in Central Point and Albany; those figures are in the notes.
+- **Scope.** 13 repeals were citywide. Two were partial:
+  - Kingston: about 86–92% of apartment land, from its acreage-by-zone table.
+  - South Bend: the study unit includes unincorporated county land, which kept 1 per unit.
+- **Many places were already partly exempt before the repeal:** Oregon's transit areas, Cambridge's affordable overlay, downtown districts. This was not measured on maps.
+- **Effort.** About 1 hour of AI time (median 3 minutes per place). A person would likely need 30–90 minutes per place.
+- **Coding all 76.** It looks worthwhile at roughly 4–8 hours, plus clerk requests for about a quarter of places. A yes/no "repealed" flag hides a 2.25-fold spread in what was required before, and large existing exemptions.
+- **Sources were second-hand for some places:** Austin (2015 amending ordinance), Bridgeport (third-party table), Bandera (earlier read) and Beaverton (2016 table).
