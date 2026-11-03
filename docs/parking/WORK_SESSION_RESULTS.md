@@ -259,3 +259,36 @@ Unit: permits per 1,000 existing homes a year. These runs use 75 places (South B
 - **Read.** On every usable denominator Chicago leans negative, with a range that includes 0.
 - **Pedestrian Streets: not fixable.** Treated lots along Pedestrian Streets sit in the comparison band, and no 2015 layer exists to remove them. This pushes the estimate toward zero.
 - **Status:** a closed side result. Not in the 76, and no tool line or low line.
+
+## Los Angeles Adaptive Reuse Ordinance (1999), census spot check (descriptive; Manville 2013)
+
+- **What the ordinance did.** Ord. 172571 took effect on 1999-06-03 in the Downtown Project Area. For conversions of pre-1974 buildings it:
+  - froze required parking at the spaces already on the site;
+  - waived lot-area density limits;
+  - kept existing floor area, height and yards.
+  So this measures the whole package, not parking alone.
+- **Tracts.** Chosen before any housing numbers were pulled:
+  - **6 ordinance tracts:** Historic Core / Old Bank District (2073.04–.08) and Financial District (2077.12).
+  - **3 contrast tracts:** Boyle Heights 2042 and 2060.53, and Westlake 2088.01. All are outside the Central City plan area and outside the 2003 incentive areas.
+- **Method.** Housing units by year, from census blocks placed by internal point inside fixed 2020 tract outlines. Sources are official Census only:
+  - 1990: STF1B;
+  - 2000 and 2010: SF1;
+  - 2020: PL 94-171.
+
+| Year | Ordinance tracts: total (occupied) | Contrast tracts: total (occupied) |
+| --- | --- | --- |
+| 1990 | 2,374 (2,012) | 3,705 (3,400) |
+| 2000 | 3,594 (2,976) | 3,137 (2,909) |
+| 2010 | 7,596 (6,168) | 3,354 (3,136) |
+| 2020 | 10,084 (8,747) | 3,411 (3,209) |
+
+- **Read.** From 2000 to 2010 the ordinance tracts gained 4,002 homes (2.1 times), and the contrast tracts gained 217 (1.07 times). This fits Manville's finding that the ordinance unlocked thousands of downtown conversions. Manville counts over 6,000 ordinance units in old tract 2073.
+- **Caveats:**
+  - **Single tracts are noisy.** Large buildings shift between tiny tracts across census years, so read the group sums.
+  - **2000 is not a clean "before" year.** The ordinance tracts had already gained 1,220 homes from 1990 to 2000, which these data don't explain.
+  - **Not all 2010–2020 growth is conversions.** Some is new towers, especially in 2077.12.
+  - **Contrast tracts could convert from December 2003,** under the citywide Zoning Administrator path.
+- **Files:**
+  - `scripts/fetch_parking_la_aro_tracts.py`
+  - `reference/parking_la_aro_tracts.csv`
+  - The Census API key was read from the environment only and is in no file.
