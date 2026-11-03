@@ -145,3 +145,8 @@ Ryan's OK. Stage 2 (carrying results to Wisconsin) stays unlocked until Stage 1 
   - Zones: the 2015 ordinance's transit areas as the city mapped them (or, if no map exists, the ordinance's distance rule applied to the high-frequency network of 2015). The source is recorded before any project is placed.
   - Estimand: (inside after minus before) minus (outside after minus before) in car spaces per home, before = up to 2015-04-30, after = 2015-05-01 to 2021-05-13. 90% interval from 2,000 resamples of projects within each of the 4 cells.
   - Reading: "binding" if the interval is below 0. The F1 downtown comparison stays beside it.
+- **2026-11-03, more mid-sized and large repeal cities (owner: "grab the mid sized cities and more large cities"), locked before coding:**
+  - Candidates: Parking Reform Network places rated at or near the benchmark (`parking_reform_taxonomy.csv`: rm_min, city) with 25,000+ people, not yet checked (35 places), whose adoption year is 2015-2024 or unknown.
+  - Coding: same fields and rules as `parking_repeal_checks_expanded.csv` (in force, applies to all housing, adoption and effective dates, prior partial reforms, simultaneous zoning changes, benchmark check), from ordinances and news only, without looking at permits. Written to `reference/parking_repeal_checks_v2.csv`.
+  - Kept if the checked rating is "at" or "near" and the effective year is 2015-2024 (at least one after year in the permit data).
+  - Use: Stage 1 tests (H1/H2, E2, T, M1-M4, R) are rerun on the 76 places plus the new ones and shown beside the 76-place results. The tool's numbers keep using the 76 places unless Ryan approves a change.
