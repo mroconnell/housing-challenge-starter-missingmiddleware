@@ -1,0 +1,3 @@
+outcome,places,feasible,estimate,p05,p95,equal_weight,passes,unit,note
+effect_all,31,True,0.40424795895911797,-0.6390503455481724,2.9401899926968307,0.7512814741520614,True,"permits per 1,000 existing homes a year",51 PRN not_housing entries coded; kept: 34; housing reform within 3 years: 12; not in permit files: 5
+effect_5plus,31,True,0.10308253249265988,-0.29363962426109774,1.5120235660050398,1.5606177834216952,True,"permits per 1,000 existing homes a year",51 PRN not_housing entries coded; kept: 34; housing reform within 3 years: 12; not in permit files: 5

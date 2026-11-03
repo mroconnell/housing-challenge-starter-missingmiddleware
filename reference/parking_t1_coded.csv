@@ -1,0 +1,52 @@
+prn_key,place,state,event_year,key,excluded
+"29 Palms, California, United States",29 Palms,California,2018,,not in permit files
+"Altavista, Virginia, United States",Altavista,Virginia,2021,,not in permit files
+"Auburn, Maine, United States",Auburn,Maine,2021,23|022000,
+"Bella Vista, Arkansas, United States",Bella Vista,Arkansas,2021,05|035500,
+"Bensenville, Illinois, United States",Bensenville,Illinois,2018,17|061000,housing reform within 3 years
+"Blowing Rock, North Carolina, United States",Blowing Rock,North Carolina,2022,37|059000,
+"Brookfield, Illinois, United States",Brookfield,Illinois,2022,17|091900,housing reform within 3 years
+"Cape Canaveral, Florida, United States",Cape Canaveral,Florida,2023,12|111000,
+"Chico, California, United States",Chico,California,2013,06|071000,
+"Clarksville, Indiana, United States",Clarksville,Indiana,2023,18|119500,
+"Detroit Lakes, Minnesota, United States",Detroit Lakes,Minnesota,2019,27|187900,
+"Detroit, Michigan, United States",Detroit,Michigan,2020,26|245500,
+"Eastpointe, Michigan, United States",Eastpointe,Michigan,2023,26|261200,housing reform within 3 years
+"Elburn, Illinois, United States",Elburn,Illinois,2024,17|237100,housing reform within 3 years
+"Escanaba, Michigan, United States",Escanaba,Michigan,2022,,not in permit files
+"Eyota, Minnesota, United States",Eyota,Minnesota,2017,27|231700,
+"Falkville, Alabama, United States",Falkville,Alabama,2024,01|170000,
+"Fayetteville, Arkansas, United States",Fayetteville,Arkansas,2015,05|173000,
+"Grandview, Missouri, United States",Grandview,Missouri,2022,29|254000,
+"Grosse Pointe Park, Michigan, United States",Grosse Pointe Park,Michigan,2024,26|382000,
+"Haddon Township, New Jersey, United States",Haddon Township,New Jersey,2021,34|195000,
+"Highland Falls, New York, United States",Highland Falls,New York,2018,,not in permit files
+"Horace, North Dakota, United States",Horace,North Dakota,2024,38|388000,
+"Le Claire, Iowa, United States",Le Claire,Iowa,2013,,not in permit files
+"Madison, New Jersey, United States",Madison,New Jersey,2017,34|288000,
+"Marietta, Pennsylvania, United States",Marietta,Pennsylvania,2018,42|406300,
+"McCall, Idaho, United States",McCall,Idaho,2022,16|581000,
+"Meadville, Pennsylvania, United States",Meadville,Pennsylvania,2024,42|418300,
+"Middleton, Wisconsin, United States",Middleton,Wisconsin,2024,55|565000,
+"Morris, Illinois, United States",Morris,Illinois,2024,17|522700,housing reform within 3 years
+"Mound, Minnesota, United States",Mound,Minnesota,2014,27|517600,
+"Natick, Massachusetts, United States",Natick,Massachusetts,2020,25|415000,housing reform within 3 years
+"New Buffalo, Michigan, United States",New Buffalo,Michigan,2024,26|629000,
+"Onalaska, Wisconsin, United States",Onalaska,Wisconsin,2022,55|646000,
+"Oskaloosa, Iowa, United States",Oskaloosa,Iowa,2023,19|548200,housing reform within 3 years
+"Oswego, Illinois, United States",Oswego,Illinois,2024,17|594700,housing reform within 3 years
+"Peoria, Illinois, United States",Peoria,Illinois,2015,17|615400,
+"Perryville, Missouri, United States",Perryville,Missouri,2022,29|508000,
+"Plymouth, Minnesota, United States",Plymouth,Minnesota,2023,27|601900,housing reform within 3 years
+"Pottstown, Pennsylvania, United States",Pottstown,Pennsylvania,2020,42|553300,
+"Pryor Creek, Oklahoma, United States",Pryor Creek,Oklahoma,2018,40|521000,
+"Rushville, Indiana, United States",Rushville,Indiana,2021,18|640000,
+"Sandy, Oregon, United States",Sandy,Oregon,2020,41|449000,
+"Schwenksville, Pennsylvania, United States",Schwenksville,Pennsylvania,2022,42|596800,housing reform within 3 years
+"Sherwood, Oregon, United States",Sherwood,Oregon,2024,41|469000,
+"St. Pete Beach, Florida, United States",St. Pete Beach,Florida,2022,12|815000,
+"Superior, Wisconsin, United States",Superior,Wisconsin,2019,55|854000,
+"Veedersburg, Indiana, United States",Veedersburg,Indiana,2019,18|753000,
+"West Saint Paul, Minnesota, United States",West Saint Paul,Minnesota,2020,,housing reform within 3 years
+"Western Springs, Illinois, United States",Western Springs,Illinois,2015,17|839800,
+"Wickenburg, Arizona, United States",Wickenburg,Arizona,2021,04|381000,housing reform within 3 years

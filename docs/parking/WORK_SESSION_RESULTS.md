@@ -195,3 +195,13 @@ Error unit: permits per 1,000 existing homes a year.
 - **TOD's upper** is 12,521 (AQ-075, owner 11:52), the basis of the supplied draws. An earlier version of this table rescaled them to the old 13,451.
 - **Read.** Parking's uncertainty dominates the combined band. It is about ten times wider than TOD's.
 - **Evidence only;** no tool change.
+
+## T1, non-residential placebo
+
+- **Places.** 51 PRN entries rated "not_housing", adopted 2013–2024, were coded before any outcome was seen.
+  - 12 were dropped for a housing reform within 3 years, and 5 because they are not in the permit files. 34 were kept.
+  - 31 are estimable.
+- **Results** (permits per 1,000 existing homes a year; 90% intervals):
+  - All homes: +0.40 (−0.64 to +2.94); equal-weight +0.75.
+  - 5+ unit homes: +0.10 (−0.29 to +1.51).
+- **Reading: passes.** The 90% interval includes 0. The comparison method does not manufacture an effect where housing rules did not change, which supports the near-placebo (FU6) and the method behind the 76-place result.
