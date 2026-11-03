@@ -542,3 +542,41 @@ The rule for this check was set by the learning thread for this check (it is not
 - **Files:**
   - `scripts/run_parking_t43_madison.py`;
   - `reference/parking_t43_madison.csv`, `parking_t43_projects.csv` (id = Legistar file number; no addresses), and `parking_t43_parser_check.csv`.
+
+## Test 44: does the old single-family minimum change the single-family effect?
+
+- **Groups.** By the old single-family minimum: high = 2.0 spaces per house (29 places); low = 1.0 or less (19). The groups differ by city type, as `reference/parking_t44_groups.csv` shows: high is smaller and later on average.
+- **Unit.** 1-unit homes permitted per 1,000 existing homes a year, as high minus low.
+
+| Version | Estimate (90%; 97.5%) | MDE |
+| --- | --- | --- |
+| Main, home-weighted | −0.80 (−2.78 to +0.94; −3.33 to +1.40) | 1.81 |
+| Equal-weight | −3.39 (−6.11 to −1.02) | 2.58 |
+| Without Austin | +0.32 (−1.40 to +1.30) | 1.41 |
+| Without Raleigh | −1.49 (−3.11 to +0.35) | 1.72 |
+| High-confidence codes only | +0.00 (−2.77 to +1.40) | 2.05 |
+| Backtest (years −2, −1 vs −5 to −3) | −0.83 (−1.91 to +0.36): passes | — |
+| Same contrast, 5+ unit homes | +0.76 (−3.68 to +4.61) | — |
+
+- **Reading: not supported.** Places with a higher old single-family minimum did not gain more single-family homes after repeal. The equal-weight version points the other way, which may reflect the groups' different city types.
+- **The placebo use stands as before,** but test 44 can't rule out a single-family effect smaller than its MDE (about 1.8 per 1,000 homes a year).
+- **Context.** Detached houses usually meet 2 spaces anyway; townhouses are where the rule more likely bound. Townhouses can't be separated in the permit data.
+
+## Exempt-share pilot (15 places; coding only)
+
+- **File:** `reference/parking_dose_exempt_pilot.csv`.
+- **Share of apartment-eligible land already exempt the day before repeal.** Exempt means zero, or 50% or less of the base rate. Measured by 25 m grid sampling on current zoning, with documented reversals.
+  - **10 places measured by GIS:**
+    - Albany 0.95, Central Point 0.75, King City 0.72, Beaverton 0.65, Springfield 0.56;
+    - Austin 0.51 (0.02 without a corridor ordinance a court voided five weeks after repeal);
+    - South Bend 0.50 (city only), St. Paul 0.17, Bridgeport 0.12, Cambridge 0.05.
+  - Bandera: "none", by text.
+  - 4 unfinished (Saranac Lake, Ecorse, Kingston, Rogers): the old code is not online or is blocked.
+- **The median share is 0.53 overall but 0.17 outside Oregon.** Oregon's high shares come from the state's 2023 transit rule (OAR 660-012-0440). In Oregon the repeal's real "dose" was small, because much apartment land was already exempt.
+- **Caveats:**
+  - Central Point and King City depend on how a state-rule term is read; on the narrow reading both are near 0.
+  - Oregon bus frequencies use 2024–26 timetables.
+  - South Bend's county part is not measured.
+  - Nearly no layers state a licence.
+- **Effort.** About 1.9 AI-hours in all. Clerk requests would be needed to finish or firm up 9 places; none were sent.
+- **Read.** The dose varies widely: some repeals changed rules on most apartment land, others on little. A dose-weighted test is possible once the 76 are coded, which needs Ryan's decision and some clerk requests.
