@@ -74,3 +74,17 @@ Unit: permits per 1,000 existing homes a year.
 - **Change in net new homes** per 100 multifamily-zoned lot acres a year: reform lots +6.86, comparison lots +11.45.
 - **Effect:** −4.59 (90% −8.49 to −1.07; 97.5% −9.77 to +0.19).
 - **Reading:** one city, so this is descriptive. The sign is opposite to the prediction, as in Chicago's other lot tests (FU7: large lots −11.2). SF, Buffalo and Seattle have no usable multifamily zoning data on the lot table.
+
+## Backtest: boosted trees as the no-repeal path (D1 target)
+
+- **Training:** boosted trees on 5,478 comparison-place windows predict each repeal place's log change in 5+ permits had it not repealed. The effect is the actual change minus the prediction.
+
+| Version | Estimate (90%; 97.5%) | Held-out error | Predict zero |
+| --- | --- | --- | --- |
+| Boosted no-repeal path | +0.289 log, +34% (+0.021 to +0.606; −0.069 to +0.734) | 6.86 | 5.05 |
+| Matched comparison (D1, for reference) | −0.088, −8% (−0.350 to +0.193) | 4.95 | 5.05 |
+
+Error unit: permits per 1,000 existing homes a year.
+
+- **Read:** the boosted path does much worse than predicting zero on held-out places (6.86 against 5.05). Its large positive estimate is not credible as an effect. Its 97.5% interval includes 0 (not supported), and the model likely under-predicts the after window for places that built many apartments before.
+- **Result:** the matched comparison stays the better comparison path.
