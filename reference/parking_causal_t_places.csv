@@ -9,7 +9,7 @@ key,place,state,rail,rail_only,brt,n_controls,n_same,used_same,effect_matched,ef
 36|089500,Buffalo,New York,True,True,False,10,8,True,0.560583676835029,0.4777743175701217,410550.0,True
 09|061000,Bridgeport,Connecticut,True,True,False,5,5,True,5.948238858046718,5.948238858046718,179532.0,True
 12|271000,Gainesville,Florida,False,False,False,35,26,True,4.2267002088189205,5.207913689243323,198342.0,True
-09|285000,Hartford,Connecticut,True,False,True,11,7,True,-0.14616510605444824,-0.2539736786635465,169305.0,True
+09|285000,Hartford,Connecticut,True,False,True,11,4,False,-0.2539736786635465,-0.2539736786635465,169305.0,True
 26|026500,Ann Arbor,Michigan,False,False,False,22,22,True,4.413186163593192,4.413186163593192,163197.0,True
 25|103000,Cambridge,Massachusetts,True,True,False,18,16,True,-7.6987948989004185,-7.07834902806157,164520.0,False
 51|065000,Roanoke,Virginia,False,False,False,6,5,True,0.16347914248854334,-1.1273017139937354,147318.0,True
@@ -34,11 +34,11 @@ key,place,state,rail,rail_only,brt,n_controls,n_same,used_same,effect_matched,ef
 48|033000,Austin,Texas,True,True,False,6,3,False,-12.328930351920565,-12.328930351920565,966142.0,True
 06|374000,Sacramento,California,True,True,False,9,8,True,1.132183775264446,1.0026286871750845,212485.0,True
 37|164000,Durham,North Carolina,False,False,False,23,14,True,1.632387214667986,0.3045812771935861,273674.0,True
-51|063000,Richmond,Virginia,True,False,True,5,2,False,15.104901038918694,15.104901038918694,228586.0,True
-01|048000,Birmingham,Alabama,True,False,True,7,0,False,0.8046487020546209,0.8046487020546209,109349.0,False
+51|063000,Richmond,Virginia,True,False,True,5,3,False,15.104901038918694,15.104901038918694,228586.0,True
+01|048000,Birmingham,Alabama,True,False,True,7,7,True,0.8046487020546209,0.8046487020546209,109349.0,False
 51|049000,Newport News,Virginia,False,False,False,6,4,False,2.3420318996760163,2.3420318996760163,82052.0,False
 41|445000,Salem,Oregon,False,False,False,87,34,True,-2.1289741357478658,-1.2401235023954609,142248.0,True
-41|151000,Eugene,Oregon,True,False,True,87,53,True,1.7065881882046678,0.9278406923403226,80856.0,True
+41|151000,Eugene,Oregon,True,False,True,87,34,True,-0.6415973308317788,0.9278406923403226,80856.0,True
 06|039000,Berkeley,California,True,True,False,132,70,True,3.557821957635003,3.7865621229620814,159435.0,False
 41|041000,Bend,Oregon,False,False,False,168,88,True,3.1977193315163266,3.4128722798122624,95914.0,True
 41|039000,Beaverton,Oregon,True,True,False,176,82,True,-1.6838439060420596,-1.9635139216244486,85542.0,True
@@ -48,7 +48,7 @@ key,place,state,rail,rail_only,brt,n_controls,n_same,used_same,effect_matched,ef
 26|463500,Kalamazoo,Michigan,False,False,False,46,46,True,-0.18067690799516956,-0.18067690799516956,64758.0,True
 05|462000,Rogers,Arkansas,False,False,False,10,9,True,-8.751264959170598,-7.817879386587901,28579.0,True
 23|363000,Portland,Maine,True,True,False,79,39,True,2.441432270153923,2.6487585272181198,36559.0,True
-41|481000,Springfield,Oregon,True,False,True,8,0,False,9.854601532010314,9.854601532010314,25905.0,False
+41|481000,Springfield,Oregon,True,False,True,8,8,True,9.854601532010314,9.854601532010314,25905.0,False
 41|009000,Albany,Oregon,False,False,False,11,11,True,-4.613908773243661,-4.613908773243661,45536.0,False
 55|452000,La Crosse,Wisconsin,False,False,False,24,23,True,-1.8665137709920057,-2.02820609975079,24404.0,False
 50|085000,Burlington,Vermont,False,False,False,146,92,True,13.072783142125882,13.71858591872708,36158.0,False

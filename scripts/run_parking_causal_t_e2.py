@@ -85,7 +85,9 @@ def main() -> None:
         ctrl, _ = cmp.controls(p, r.key, int(r.event_year), excluded - {r.key}, homes, popn)
         rail_only = has_rail(r.key)
         mine = rail_only or (r.place, r.state) in BRT
-        same = [c for c in ctrl if has_rail(c) == mine]  # comparison places: rail status only (no BRT list for them)
+        # comparison places are coded by rail only (no BRT list for them), so match on the repeal place's rail status
+        # (audit fix 2026-11-03: BRT places were matched to rail comparison places)
+        same = [c for c in ctrl if has_rail(c) == rail_only]
         use = same if len(same) >= 5 else ctrl
         rows.append(dict(key=r.key, place=r.place, state=r.state, rail=mine, rail_only=rail_only, brt=(r.place, r.state) in BRT, n_controls=len(ctrl), n_same=len(same),
                          used_same=len(same) >= 5, effect_matched=did(p, r.key, use, pre, post, homes), effect_all=r.effect,
@@ -113,7 +115,8 @@ def main() -> None:
     out.append(dict(test="T rail only (no BRT): effect with rail minus without", unit="permits per 1,000 existing homes a year",
                     n_a=len(a2), n_b=len(b2), estimate=est2, p05=lo2, p95=hi2, mde=mde2,
                     mean_a=np.average(a2["effect_matched"], weights=a2["weight"]), mean_b=np.average(b2["effect_matched"], weights=b2["weight"]),
-                    note="matched effects as in the main version"))
+                    note="matched effects as in the main version; equal-weight difference "
+                         f"{a2['effect_matched'].mean() - b2['effect_matched'].mean():.2f}"))
     a, b = P[~P["rewrite"]], P[P["rewrite"]]
     est, lo, hi, mde = diff_ci(a["effect_all"].values, a["weight"].values, b["effect_all"].values, b["weight"].values)
     out.append(dict(test="E2 repeal alone minus repeal inside a rewrite (all homes)", unit="permits per 1,000 existing homes a year",

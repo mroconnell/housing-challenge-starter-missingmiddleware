@@ -7,6 +7,7 @@ All intervals are 90%. MDE = minimum detectable effect (1.645 × standard error)
 
 | Test | Question | Result (90% interval) | Unit | Reading |
 | --- | --- | --- | --- | --- |
+| Main | Average effect of repeal on permits (76 places) | −1.14 (−3.43 to +1.38) home-weighted; +0.42 (−1.20 to +1.96) equal-weight | permits per 1,000 existing homes a year | No measurable change |
 | F1 | Less parking per new home after reform? (Minneapolis, 5+ home projects outside downtown) | 0.98 before 2015 → 0.73 in 2015–21: −0.24 (−0.34 to −0.15). Against downtown (no minimum either side): −0.17 (−0.38 to +0.02). Inside the 2015 transit areas vs outside them (F1b): −0.06 (−0.20 to +0.08) | car spaces per home | **Not separated from a citywide trend.** Parking per home fell by about a quarter space both inside and outside the areas the 2015 cut covered |
 | H1 | Bigger 5+ unit buildings? | +17.0 (+4.9 to +28.4), +37% | homes per new 5+ unit building | Supported (Austin carries 30% of the weight) |
 | H2 | More buildings? | 2–4 unit: −0.03 (−0.07 to +0.02); 5+ unit: −0.06 (−0.10 to −0.02), −35% | new buildings per 1,000 existing homes a year | Fewer, bigger 5+ buildings; read with H1 |
@@ -14,11 +15,11 @@ All intervals are 90%. MDE = minimum detectable effect (1.645 × standard error)
 | E1 | AB 2097 line, 2–4 home projects (no earlier relief) | −0.023 (−0.070 to +0.018); MDE 0.044 | homes permitted per 1,000 existing homes a year | No measurable change; pre-trend balanced |
 | E2 | Repeal alone minus repeal inside a rewrite | −0.14 (−4.43 to +4.00) | permits per 1,000 existing homes a year | No difference |
 | E2 2×2 | Does repeal add to a rezoning? (repeal + rewrite) − (repeal alone) − (rewrite only) | −3.07 (−7.31 to +1.78) | same | No measurable interaction; weak (9 rewrite-only places) |
-| T | Effect with rail or bus rapid transit minus without (24 vs 51 places; corrected stop data) | −4.37 (−8.18 to −0.31); rail only −6.01 (−9.67 to −2.02) | permits per 1,000 existing homes a year | Smaller effect in transit cities when weighted by homes; not when each city counts once (+0.45) |
+| T | Effect with rail or bus rapid transit minus without (24 vs 51 places) | −4.40 (−8.21 to −0.37); rail only −5.96 (−9.63 to −1.95) | permits per 1,000 existing homes a year | Smaller effect in transit cities when weighted by homes; not when each city counts once (+0.35; rail only −1.16) |
 | M1 | Higher old minimum (held out) | −2.91 (−7.79 to +2.88) | same | Not material |
 | M3 | Larger city (held out) | −3.98 (−8.52 to +1.20) | same | Not material |
 | M2, M4 | = E2, = T | see above | | M4 material, M2 not |
-| R | Effect by year since repeal | k1 −0.84 (75 places), k2 −1.03 (57), k3 −2.01 (38), k4 −5.14 (26), k5 −4.62 (15) | same | Described only; later years are fewer, earlier repealers |
+| R | Effect by year since repeal | k1 −0.84 (75 places), k2 −1.03 (57), k3 −2.01 (38), k4 −5.14 (26), k5 −4.62 (15) | same | Described only; later years are fewer, earlier repealers. Years 4–5 lean toward the tool's low line |
 | H3 | Bunching at the old minimum | Fails feasibility: only Minneapolis has project data with a known minimum | | Not run |
 
 Only 1 of 4 moderators came out material (M4, rail or BRT, home-weighted only). With four tested, one false "material" is plausible, and M4 rests on Austin and Minneapolis (see T sensitivity). M3 and M4 overlap: rail places are mostly the large places.
@@ -118,12 +119,18 @@ Unit: permits per 1,000 existing homes a year.
 
 | Version | Transit places | Others | With minus without (90% interval) |
 | --- | --- | --- | --- |
-| Rail or BRT (main) | 24 | 51 | −4.37 (−8.18 to −0.31) |
-| Rail only | 19 | 56 | −6.01 (−9.67 to −2.02) |
-| Rail or BRT, without Austin and Minneapolis | 22 | 51 | −1.54 |
-| Rail or BRT, each city counted once | 24 | 51 | +0.45 |
+| Rail or BRT (main) | 24 | 51 | −4.40 (−8.21 to −0.37) |
+| Rail only | 19 | 56 | −5.96 (−9.63 to −1.95) |
+| Rail or BRT, without Austin and Minneapolis | 22 | 51 | −1.58 |
+| Rail or BRT, each city counted once | 24 | 51 | +0.35 |
+| Rail only, each city counted once | 19 | 56 | −1.16 |
 
-- Leave one place out: −5.47 (without Lexington) to −2.58 (without Austin).
+- Leave one place out: −5.50 (without Lexington) to −2.62 (without Austin).
+- **Audit fixes (round 4):**
+  - Comparison places are coded by rail only, so every repeal place is now matched on its own rail status. BRT cities had been matched to rail comparison places. The fix moves the main result from −4.37 to −4.40.
+  - Timing: rail uses today's stops, while BRT uses opening dates (each line opened before its city's repeal). The two rules differ, and this is stated rather than changed.
+  - Birmingham Xpress began service on 2022-09-22, before Birmingham's 2024 repeal.
+  - Rail edge cases: Portland ME and Anchorage. Counting either as "no rail" moves the estimate by 0.29 or less.
 - **Read:** the home-weighted gap comes from a few big transit cities with weak years after repeal (Austin, Minneapolis, Cambridge MA). Counting each city once, transit cities did slightly better. Rail or BRT does not reliably change the effect.
 
 **T sensitivity, first run (*post hoc*; rail file with 41 agencies, superseded).** The rail result rests on two cities.
