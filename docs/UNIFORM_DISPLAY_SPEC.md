@@ -30,7 +30,7 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
 
 | Reform | Centre | 90% range | Source of the range | Coverage |
 | --- | ---: | --- | --- | --- |
-| ADU (ADU permits: second homes on single-family lots, not all homes) | 10,492 | 8,000 to 13,700 (exact 8,055 to 13,666, rounded outward; A3, owner's OK pending); label beside it: "covers law-side error only" | A3 held-out prediction error (model fitted across states) | checked on 7 states, 7 of 7 inside; too few states to measure a factor, so factor 1 (largest miss Washington +0.19 against ±0.25) |
+| ADU (ADU permits: second homes on single-family lots, not all homes) | 10,492 | 8,000 to 13,700 (exact 8,055 to 13,666, rounded outward; A3, owner's OK pending); label beside it: "Covers law-side error only. It leaves out Wisconsin-side inputs: today's rates where they are assumed (74% of the addition is in such places; the codings tested move the central from 9,319 to 10,734), and how the with-law level is spread across places." | A3 held-out prediction error (model fitted across states) | checked on 7 states, 7 of 7 inside; too few states to measure a factor, so factor 1 (largest miss Washington +0.19 against ±0.25) |
 | TOD | 10,028 | 4,866 to 15,361 (not 7,580 to 12,010: that is the lowest and highest with one place left out, not a 90% range) | place bootstrap of the 11 district places, 2,000 draws (`reference/tod_line_draws.csv`) | test below |
 | Parking | 0 (open question 1) | −45,900 to +19,800 | around the measured average of the 76 repeal places; placebo percentiles (unwidened) | matched test 40; no widening |
 
