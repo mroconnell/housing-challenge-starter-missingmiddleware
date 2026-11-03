@@ -252,6 +252,21 @@ Each adjustment moves the home-weighted figure toward zero.
 - Apartments: no measurable change. Almost all of the total-homes estimate sits in apartments, so narrowing the outcome does not sharpen it.
 - Near-placebo: single-family permits show no change, as expected. The comparison is not picking up a general market swing in single-family building.
 
+**FU7, lot-size bands** (Jenks breaks, k = 3, on log lot acres per city; net new homes per 1,000 lots a year, reform lots' change minus comparison lots' change; 90% intervals from 500 m cells):
+
+| City | Small lots | Middle lots | Large lots |
+| --- | --- | --- | --- |
+| Seattle | under 0.07 acre: −40.5 (−62.2 to −22.0) | 0.07–0.24: **+55.3 (+18.4 to +101.6)** | 0.25+: +38.0 (−36.6 to +107.0) |
+| Buffalo | under 0.14 acre: −0.2 (−0.9 to +0.3) | 0.14+: **+20.1 (+2.4 to +38.5)** | too few lots |
+| Chicago | under 0.03 acre: −3.2 (−6.6 to −0.3) | 0.03–0.12: −0.3 (−1.9 to +1.2) | 0.12+: **−11.2 (−21.2 to −2.0)** |
+| San Francisco | under 0.10 acre: −0.4 (−1.7 to +0.9) | 0.10–0.47: −5.4 (−18.4 to +5.6) | 0.47+: −8.2 (−61.6 to +34.6) |
+
+- **Pooled, as the equal-weight mean of cities:** small −11.1, middle +17.4, large +6.2.
+- **Leave one city out:** without Seattle, middle drops to +4.8 and large to −9.7.
+- **Read:** larger lots gained in Seattle and Buffalo, and small lots lost in Seattle and Chicago. But Chicago's largest lots lost, and San Francisco shows nothing in any band. The "effect sits on bigger lots" idea holds in two of four cities and reverses in a third, so it does not generalise.
+- The bands are each city's own natural breaks, so "middle" means different sizes in different cities. The October 0.1-acre split is in `reference/parking_causal_fu7_lotbands.csv` for reference.
+- The raw city data had been removed in the cleanup and was re-downloaded from the same public sources (`scripts/fetch_parking_lot_cities.py`, `scripts/fetch_parking_older_reforms.py`).
+
 ## What Stage 1 says for Stage 2 (not yet run)
 - Parking per home fell in Minneapolis after 2015, but by the same amount where the cut did and did not apply (F1b). In Seattle, projects with no parking appeared only in reform areas (F1c). Builders put more homes in each larger building (H1).
 - No test shows more total homes, and the line test (E1) finds no measurable change at its scale.
