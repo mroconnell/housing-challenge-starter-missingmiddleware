@@ -516,6 +516,7 @@ The rule for this check was set by the learning thread for this check (it is not
 | All 30 | 3 (10%; 90%: 3–20%) | 0 | 16 (53%) | 11 (37%) | 1.24 |
 | 15 not mixed-use | 2 (13%) | 0 | 13 (87%) | 0 | 1.44 |
 
+- **Lead result, residential-only projects:** 13 of 15 above the minimum, 2 at, 0 below.
 - **Reading: no bunching at the minimum.**
   - Among residential-only projects, 13 of 15 proposed more than the minimum, a median of 1.44 spaces per home against a minimum of about 1.
   - All 11 "below" projects are mixed-use, compared with combined requirements.
@@ -528,6 +529,14 @@ The rule for this check was set by the learning thread for this check (it is not
   - 10 of 30 are from 2020.
   - The code text could not be verified (Municode refused automated access).
   - "Location only" two-family rules were excluded.
+- **Audit notes:**
+  - **The minimum is the staff table's Required cell,** because the code text could not be read (Municode refused automated access).
+  - **"Hand-read" means Claude read each PDF.** No check of that read is reported. Before the result is cited, a person should spot-check 5 of the 30 rows, drawn with seed 20261104: Legistar files 45249 (2016), 67515 (2021), 67284 (2021), 58489 (2019) and 62084 (2020).
+  - **The 11 "below" projects are mixed-use with shared parking,** so they may not be variances. The residential-only group leads for that reason.
+  - **Don't compare the medians as an effect.** The 1.97 median in no-minimum districts against 1.44 is likely a difference of location, not of rules.
+  - **Consistent with, but not a confirmation of,** the national result, given test 40's low power.
+  - **Limit.** Bunching can't see projects that never applied because the minimum made them unworkable.
+  - **The script came in the same commit as the results.**
 - **Files:**
   - `scripts/run_parking_t43_madison.py`;
   - `reference/parking_t43_madison.csv`, `parking_t43_projects.csv` (id = Legistar file number; no addresses), and `parking_t43_parser_check.csv`.
