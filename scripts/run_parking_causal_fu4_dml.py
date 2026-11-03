@@ -76,6 +76,11 @@ def main() -> None:
             rows.append(dict(group=r.key, place=c, D=0, **unit(c, pre, post, e)))
     U = pd.DataFrame(rows)
     n0 = len(U)
+    need = ["Y", "share5", "job_growth", "rate_before", "trend_before"]
+    U0 = U.replace([np.inf, -np.inf], np.nan)
+    gone = sorted(set(U0.loc[(U0["D"] == 1) & U0[need].isna().any(axis=1), "place"]))
+    names = dict(zip(real["key"], real["place"] + ", " + real["state"]))
+    dropped_repeal = "; ".join(names.get(k, k) for k in gone)
     U = U.replace([np.inf, -np.inf], np.nan).dropna(subset=["Y", "share5", "job_growth", "rate_before", "trend_before"])
     X = pd.concat([U[["share5", "job_growth", "rate_before", "trend_before", "event_year"]],
                    pd.get_dummies(U["division"], prefix="div", dtype=float)], axis=1).values
@@ -93,7 +98,7 @@ def main() -> None:
         se = np.sqrt(np.sum(g ** 2)) / np.sum(w * rD * rD)
         out.append(dict(test=f"FU4 DML effect of repeal, {lab}", estimate=theta, p05=theta - 1.645 * se, p95=theta + 1.645 * se,
                         se=se, units=len(U), repeal_places=int(D.sum()), comparison_units=int((D == 0).sum()),
-                        note=f"{n0 - len(U)} units dropped for missing X; SE clustered by place"))
+                        note=f"{n0 - len(U)} units dropped for missing X (repeal places: {dropped_repeal}); SE clustered by place"))
     S = pd.DataFrame(out)
     S["unit"] = "permits per 1,000 existing homes a year"
     S.to_csv(REFERENCE / "parking_causal_fu4_dml.csv", index=False)

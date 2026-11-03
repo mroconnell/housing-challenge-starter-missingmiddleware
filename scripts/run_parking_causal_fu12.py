@@ -21,7 +21,7 @@ from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 SEED, DRAWS = 20261103, 2000
 PEERS = [("48", "Dallas"), ("48", "Houston"), ("48", "San Antonio"), ("48", "Fort Worth"), ("04", "Phoenix"),
-         ("47", "Nashville"), ("13", "Atlanta"), ("12", "Tampa"), ("12", "Orlando"), ("12", "Jacksonville"), ("32", "Las Vegas")]
+         ("47", "Nashville-Davidson"), ("13", "Atlanta"), ("12", "Tampa"), ("12", "Orlando"), ("12", "Jacksonville"), ("32", "Las Vegas")]
 
 
 def main() -> None:

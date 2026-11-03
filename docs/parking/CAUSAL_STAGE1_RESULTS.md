@@ -192,6 +192,16 @@ Unit: permits per 1,000 existing homes a year.
 
 ## Follow-ups from Ryan's theory chat (*post hoc* to Stage 1; rules locked before each count)
 
+**Side by side** (permits per 1,000 existing homes a year):
+
+| Version | Places | Home-weighted | Equal-weight |
+| --- | --- | --- | --- |
+| Main | 76 | −1.14 (−3.43 to +1.38) | +0.42 (−1.20 to +1.96) |
+| FU1 apartment-share matched | 75 | −0.98 (−3.37 to +1.62) | +0.44 (−1.42 to +2.29) |
+| FU4 double machine learning | 70 | −0.05 (−2.91 to +2.81) | +0.87 (−0.81 to +2.55) |
+
+Each adjustment moves the home-weighted figure toward zero.
+
 **FU1, comparison cities also matched on apartment share.**
 - Repeal places built more apartments before repeal. The share of homes in 5+ unit buildings was 45% in repeal places against 37% in their comparison places. Narrowing comparisons to ±10 points brings that to 41%; 39 places needed filling to the 5 nearest.
 - Results, permits per 1,000 existing homes a year (75 places; South Bend has no computable effect):
@@ -201,13 +211,15 @@ Unit: permits per 1,000 existing homes a year.
 | Main comparison | −1.07 (−3.45 to +1.50) | +0.51 (−1.08 to +2.09) |
 | Also matched on apartment share | −0.98 (−3.37 to +1.62) | +0.44 (−1.42 to +2.29) |
 
+- The main row here is −1.07, not −1.14, because South Bend (effect −6.16) has no apartment-share match and is left out of both rows, so the two rows compare like with like.
+- The narrowing closes only about half the apartment-share gap (45% vs 37%, to 41%), and 39 of 75 places needed filling to the 5 nearest.
 - Read: matching on apartment share barely moves the result. The 2022–24 apartment slowdown is not what makes the average null.
 
 **FU2, Austin against Sun Belt boom cities.**
-- Peers: Dallas, Houston, San Antonio, Fort Worth, Phoenix, Atlanta, Tampa, Orlando, Jacksonville and Las Vegas. Nashville was not found under that name in the permit files.
-- Austin went 34.3 → 19.0 permits per 1,000 homes a year. The peers together went 17.3 → 14.5.
-- Difference: −12.5, about the same as the main −12.3.
-- Read: Austin fell much more than other Sun Belt boom cities. Before repeal it was permitting at twice their rate, so a fall back from an unusual peak is a likely part of it. Austin's repeal also came with the HOME rezoning, and this test cannot separate the two.
+- Peers: Dallas, Houston, San Antonio, Fort Worth, Phoenix, Nashville ("Nashville-Davidson" in the permit files; added after the audit found it), Atlanta, Tampa, Orlando, Jacksonville and Las Vegas.
+- Austin went 34.3 → 19.0 permits per 1,000 homes a year (−45%). The peers together went 18.6 → 14.8 (−20%). Nashville alone went 35.2 → 17.9 (−49%), a fall like Austin's without a parking repeal.
+- Difference: −11.5, against the main −12.3.
+- Read: Austin fell much more than the Sun Belt average, but Nashville, which also peaked near Austin's rate, fell just as hard with no repeal. A fall back from an unusual peak is a likely part of it. Austin's repeal also came with the HOME rezoning, and this test cannot separate the two.
 
 **FU3, Seattle edge test at the urban village boundaries.**
 - Design: lots just inside vs just outside the urban village boundaries, around the 2012 reform. Before = 2007–2011, after = 2013–2017. TOD's T3 method (`scripts/run_parking_causal_fu3_seattle_edge.py`).
@@ -219,10 +231,12 @@ Unit: permits per 1,000 existing homes a year.
   - The parcels cover only the areas near Link stations.
   - The 2012 rule covered only parts of villages near frequent transit.
   - A few large projects dominate: dropping the largest lot gives +10.6.
+- If inside lots had grown at outside's 29%, the extra would be about +7 rather than +15.8.
+- The 2007–2011 before window may include a 2010 change to urban-village parking (see F1c), which would blur the before/after split.
 - Read: lots inside the villages built more after 2012 than lots just outside. They were already on a much faster path before 2012, so this cannot be read as the parking reform's effect.
 
 **FU4, double machine learning.**
-- Setup: 70 repeal places and 5,214 comparison-place windows. Partialling out the before-window apartment share, county job growth, census division, the before-window rate and trend, and the event year. Cross-fitted random forests.
+- Setup: 70 repeal places and 5,214 comparison-place windows. Six repeal places lack a control and are left out: Bridgeport and Hartford CT (Connecticut's county job series breaks when counties are replaced by planning regions), South Bend IN, River Rouge MI, Portsmouth OH and King City OR. Partialling out the before-window apartment share, county job growth, census division, the before-window rate and trend, and the event year. Cross-fitted random forests.
 - Equal-weight: +0.87 (−0.81 to +2.55). Home-weighted: −0.05 (−2.91 to +2.81). Unit: permits per 1,000 existing homes a year.
 - Read: adjusting for apartment mix, local job growth and prior growth moves the estimate to about zero or slightly positive. The interval still includes 0.
 
