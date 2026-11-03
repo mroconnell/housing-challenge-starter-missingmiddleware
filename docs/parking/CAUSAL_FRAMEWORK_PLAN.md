@@ -383,3 +383,10 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Overlap rule (TOD counts first, as built).** Positive parking draws are multiplied by the share of parking's upper addition that falls off TOD-covered lots in the combined bundle (17,819 ÷ 19,818 = 0.899). Negative draws pass through unchanged, as rule (b) does.
   - **Two bands.** Each line reports a 90% band under (i) index pairing, which assumes TOD and parking errors are unrelated (stated beside it), and (ii) sorted pairing, low with low and high with high, the widest case if the errors move together.
   - **Evidence only;** no tool change.
+- **2026-11-03, Chicago lot rerun rule (post hoc; written before the rerun; audit confirmed the scope from SO2015-5334, Sec. 17-10-0102-B.1):**
+  - **Lots.** Each Chicago lot in the TOD lot table is tagged with its November 2012 zoning class (`data/raw/tod_cases/chicago/zoning_nov2012.zip`).
+  - **Reform side.** Lots zoned B, C or D (classes starting B, C or D; not PD) within 402 m of a station. The Pedestrian Street extension to 805 m is not applied, because no 2015 Pedestrian Streets layer is on disk; some treated B/C/D lots at 402–805 m therefore sit in the comparison, which pushes toward zero.
+  - **Comparison side.** B, C and D lots at 402–805 m, so zoning classes match.
+  - **TOD's density-bonus lots** are kept on the reform side (main), because they also got the parking relief. A sensitivity drops them.
+  - **What is rerun.** Outcomes as before: FU7's per-lot rate and B1's per-100-acre rate. B1 also keeps its FAR ≥ 1.2 filter. 90% intervals from 500 m cells.
+  - **Wording.** FU7's "does not generalise" leans on Chicago. That is stated beside the rerun.
