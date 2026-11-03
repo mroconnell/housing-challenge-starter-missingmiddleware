@@ -1,0 +1,23 @@
+version,row,name,real,real_same_cases,fake,cases,cases_in_fake,half_years,note,value,lo90,hi90,wisconsin,wisconsin_lo90,wisconsin_hi90,places,loo_low,loo_high,wisconsin_loo_low,wisconsin_loo_high
+per place,place,New York,19.5751,19.5751,-30.2981,23.0,21.0,3,,,,,,,,,,,,
+per place,place,Philadelphia,47.4921,47.4921,11.5309,83.0,64.0,3,,,,,,,,,,,,
+per place,place,Austin,23.8478,23.8478,22.636,1.0,1.0,3,,,,,,,,,,,,
+per place,place,Charlotte,28.3605,28.3605,18.4595,1.0,1.0,3,,,,,,,,,,,,
+per place,place,Chicago 2015,6.7075,6.7075,5.3308,1.0,1.0,3,,,,,,,,,,,,
+per place,place,Denver,115.4157,115.4157,-6.0289,1.0,1.0,2,,,,,,,,,,,,
+per place,place,Portland 2020,-32.758,-32.758,13.7103,1.0,1.0,3,,,,,,,,,,,,
+per place,place,Seattle Mount Baker,75.5944,75.5944,-21.7756,1.0,1.0,3,,,,,,,,,,,,
+per place,place,Seattle Othello,21.5366,21.5366,129.5697,1.0,1.0,3,,,,,,,,,,,,
+per place,place,Salt Lake City,48.1233,48.1233,1.9411,1.0,1.0,3,,,,,,,,,,,,
+per place,place,Saint Paul,15.0153,,,1.0,0.0,,left out (cannot split),,,,,,,,,,,
+"real, D-11 (11 places)",average,plain average,,,,,,,,33.5373,16.2732,51.3728,10027.7117,4865.7167,15360.5602,11.0,,,,
+"real, same places",average,plain average,,,,,,,,35.3895,15.868,55.7122,10581.523,4744.5649,16658.0509,10.0,,,,
+"fake, same places",average,plain average,,,,,,,,14.5076,-3.8361,38.8072,4337.7879,-1147.0025,11603.432,10.0,,,,
+"fake, same places",pass_rule,fake average 90% interval includes 0,,,,,,,PASS,14.5076,-3.8361,38.8072,,,,,,,,
+trend-adjusted,central,central: real - fake (same places),,,,,,,"leave-one-place-out low without Denver, high without Seattle Othello; without New York 17.66; without Philadelphia 19.21; without Austin 23.07; without Charlotte 22.10; without Chicago 2015 23.05; without Denver 9.71; without Portland 2020 28.37; without Seattle Mount Baker 12.38; without Seattle Othello 35.21; without Salt Lake City 18.07; interval: paired place bootstrap, seed 20261103; upper ratio 12,521 / 10,028 = 1.2486",20.8819,-12.7794,53.2355,6243.7351,-3821.071,15917.502,10.0,9.7083,35.2058,2902.8005,10526.6046
+trend-adjusted,upper,upper (central scaled to a 15% district): real - fake (same places),,,,,,,"leave-one-place-out low without Denver, high without Seattle Othello; without New York 17.66; without Philadelphia 19.21; without Austin 23.07; without Charlotte 22.10; without Chicago 2015 23.05; without Denver 9.71; without Portland 2020 28.37; without Seattle Mount Baker 12.38; without Seattle Othello 35.21; without Salt Lake City 18.07; interval: paired place bootstrap, seed 20261103; upper ratio 12,521 / 10,028 = 1.2486",20.8819,-12.7794,53.2355,7795.952,-4771.0042,19874.6553,10.0,9.7083,35.2058,3624.448,13143.5596
+current,central,D-11 central (11 places),,,,,,,,33.5373,,,10027.7117,,,,,,,
+current,upper,central scaled to a 15% district,,,,,,,,41.8748,,,12520.64,,,,,,,
+all,note,,,,,,,,places left out (cannot split the before window): Saint Paul,,,,,,,,,,,
+all,note,,,,,,,,"fake windows: before = first h years, after = last h years of the real before window, h = years // 2 (odd middle year dropped); before-window hand-check corrections split between halves in proportion to raw homes (duplicates 0); same lots, groups and implausible flags as the central; units: extra new homes per 100 lot acres a year within 1/4 mile; Wisconsin = x 298.97, extra homes 2027-2031",,,,,,,,,,,
+all,note,,,,,,,,"bootstrap: 2,000 place draws, seed 20261103; real-same and fake use the same draws (paired)",,,,,,,,,,,

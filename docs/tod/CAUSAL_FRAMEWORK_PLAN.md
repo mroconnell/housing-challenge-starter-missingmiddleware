@@ -1194,3 +1194,80 @@ comparison stops. Most of the fake gap comes from new-line comparison stops slow
   leave-one-place-out range and paired-bootstrap interval, shown beside the central. The tool changes only with the
   owner's OK.
 - Because the new upper is the central scaled to 15%, the same adjustment would apply to it; report that figure too.
+
+## Results: C-PT (pre-trend check on the central), run 2026-11-03
+
+Script `scripts/run_tod_causal_central_pretrend.py`; output `reference/tod_causal_central_pretrend.csv`; test
+`tests/test_tod_causal_central_pretrend.py` (fake run never reads after-window homes).
+
+- **Unit:** extra new homes per 100 lot acres a year, ¼ mile.
+- **Wisconsin:** effect × 298.97 = extra homes 2027–2031.
+- **Intervals:** 90%, place bootstrap, 2,000 draws.
+- **Sanity:** real central rerun matches exactly.
+  - Every case equals `case_effects("permit_est")`.
+  - Average 33.5373 on 11 places → 10,028.
+- **Same places:** 10 of 11 (Saint Paul out).
+
+### Per place: fake vs real
+
+| Place | Real effect | Fake effect | Rezonings used (fake / all) | Half-window, years |
+| --- | --- | --- | --- | --- |
+| New York | 19.6 | −30.3 | 21 / 23 | 3 |
+| Philadelphia | 47.5 | 11.5 | 64 / 83 | 3 |
+| Austin | 23.9 | 22.6 | 1 / 1 | 3 |
+| Charlotte | 28.4 | 18.5 | 1 / 1 | 3 |
+| Chicago 2015 | 6.7 | 5.3 | 1 / 1 | 3 |
+| Denver | 115.4 | −6.0 | 1 / 1 | 2 |
+| Portland 2020 | −32.8 | 13.7 | 1 / 1 | 3 |
+| Seattle Mount Baker | 75.6 | −21.8 | 1 / 1 | 3 |
+| Seattle Othello | 21.5 | 129.6 | 1 / 1 | 3 |
+| Salt Lake City | 48.1 | 1.9 | 1 / 1 | 3 |
+| Saint Paul | 15.0 | left out | 0 / 1 | cannot split |
+
+- Rezonings not used have no real effect either (no homes or land in a group); the real values are unchanged.
+
+### Averages (plain average of places)
+
+| Version | Places | Effect (90%) | Wisconsin homes (90%) |
+| --- | --- | --- | --- |
+| Real, central (D-11) | 11 | 33.5 (16.3 to 51.4) | 10,028 (4,866 to 15,361) |
+| Real, same places | 10 | 35.4 (15.9 to 55.7) | 10,582 (4,745 to 16,658) |
+| **Fake, same places** | 10 | **14.5 (−3.8 to 38.8)** | 4,338 (−1,147 to 11,603) |
+
+### Pass rule (locked): fake interval must include 0
+
+| Fake result | 90% interval | Includes 0? | Verdict |
+| --- | --- | --- | --- |
+| Fake average, 14.5 | −3.8 to 38.8 | Yes | **PASS** |
+
+**The check passes. The central (10,028) and the upper (12,521) stand.**
+
+- Weak pass: fake average is 41% of real (14.5 ÷ 35.4).
+- One place drives it: Seattle Othello (fake 129.6).
+- Without Othello, fake average 1.7 (9 places).
+
+### Trend-adjusted lines (reporting only; not used, the check passed)
+
+| Line | Effect per 100 acres a year | Wisconsin homes, 2027–2031 |
+| --- | --- | --- |
+| Current central (D-11) | 33.5 | 10,028 |
+| Trend-adjusted central = 35.4 − 14.5 | 20.9 | 6,244 |
+| 90% interval (paired bootstrap) | −12.8 to 53.2 | −3,821 to 15,918 |
+| Leave-one-place-out, low (without Denver) | 9.7 | 2,903 |
+| Leave-one-place-out, high (without Seattle Othello) | 35.2 | 10,527 |
+| Current upper (central × 1.2486) | 41.9 | 12,521 |
+| Trend-adjusted upper (× 1.2486) | 20.9 × 1.2486 | 7,796 |
+| 90% interval (paired bootstrap) | | −4,771 to 19,875 |
+| Leave-one-place-out range | | 3,624 to 13,144 |
+
+- Leave-one-out, every place (adjusted central): New York 17.7; Philadelphia 19.2; Austin 23.1; Charlotte 22.1;
+  Chicago 2015 23.1; Denver 9.7; Portland 2020 28.4; Mount Baker 12.4; Othello 35.2; Salt Lake City 18.1.
+
+### Deviations (nearest thing to the locked plan; also `note` rows in the CSV)
+
+- Saint Paul left out: one-year before window (2010), cannot split.
+- Fake windows as T2b-PT: first h vs last h years, h = years ÷ 2 rounded down. Denver (5 years) drops its middle year.
+- Before-window hand-check fixes split by raw homes per half (duplicates 0); after-window fixes never read.
+- Bootstrap seed 20261103 (the lock named none). Real-same and fake use the same draws (paired).
+- Upper scaled by the ratio 12,521 ÷ 10,028 = 1.2486, not rebuilt from the 15% district model.
+- Trend-adjusted lines shown although the check passed (reporting only).
