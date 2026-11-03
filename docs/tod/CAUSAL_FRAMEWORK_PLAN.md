@@ -953,3 +953,140 @@ recomputed on the same folds (16.0 expected). Each place is counted once.
   with replacement, both medians recomputed on the same draw).
 - Changed 2026-11-03 11:14 by the owner ("then let's make it 15%"), before any result was seen: Tier 3 "close" =
   median miss at or below 1.15 × the plain average's median (18.4 if that is 16.0). Replaces the 10% above.
+
+## Results: Test P (do the causal factors predict places they never saw?), run 2026-11-03
+
+Script `scripts/run_tod_causal_predict.py`; output `reference/tod_causal_predict.csv` (summaries only; no lot rows, no
+parcel ids). Test `tests/test_tod_causal_predict.py`: changing a held-out place's after-window homes leaves its A, A0
+and B predictions unchanged. No tool number changes.
+
+Unit throughout: extra new homes per 100 lot acres a year within ¼ mile. "Miss" = absolute error of a held-out
+place's prediction against its measured effect; 11 places, each counted once. Wisconsin = mean of the method's 11
+held-out predictions × 298.97 (4,874.1 ÷ 100 × 5 × 1.2269), extra homes 2027–2031; the central's 33.54 → 10,028.
+
+- **Check:** the measured effects equal the central line's (mean of the 11 = 33.54). The full-data 2×2 reproduces T2b
+  (cells 12.5 / −5.3 / 1.8 / 57.5; old-line contrast 7.1, new-line contrast 45.0).
+- **Plain average, same folds:** median miss 16.0 (as expected). Tier 3 bar: 1.15 × 16.04 = 18.4.
+
+### Methods
+
+| Method | Mean miss | Median miss (leave one place out) | Places beaten vs average (of 11) | P(X ≥ k), X ~ Bin(11, 0.5) | Median miss − average's, 90% (place bootstrap, 1,000) | Placebo pooled (90%) | Tier | Wisconsin |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A (plug-in, upzoned-share scaling) | 38.3 | 35.3 (27.7 to 41.4) | 4 | 88.7% | −6.7 to 37.9 | 10.9 (3.3 to 18.8): fail | none | 7,971 |
+| A0 (no scaling) | 33.9 | 26.4 (26.1 to 31.1) | 4 | 88.7% | −3.7 to 31.8 | 11.7 (5.8 to 17.4): fail | none | 7,500 |
+| B (two-part lot model) | 42.2 | 42.7 (32.0 to 45.1) | 4 | 88.7% | −8.6 to 41.9 | 4.2 (0.04 to 10.0): fail | none | 5,002 |
+| Plain average (current Stage 2) | 30.5 | **16.0** (15.7 to 18.2) | — | — | — | — | benchmark | 10,028 |
+| Zero | 39.5 | 28.4 (26.1 to 30.6) | 3 | 96.7% | −8.0 to 32.1 | — | benchmark | 0 |
+| B, difference-in-differences reading (beside) | 41.8 | 42.2 | 4 | 88.7% | −11.0 to 42.2 | — | not tiered | 5,350 |
+
+Stored hide-one-place results (not rerun; scored against today's measured effects; no placebo, so "tier" is by the
+rule only):
+
+| Stored method | Mean miss | Median miss | Places beaten | Rule-only tier | Wisconsin |
+| --- | --- | --- | --- | --- | --- |
+| Boosted lot model (lot + place, 5 fits; the lower line) | 34.3 | 22.4 | 5 | none | 3,450 |
+| Random forest lot model (older data state) | 38.7 | 27.8 | 3 | none | 318 |
+| Honest causal forest, stop level, 4-seed average | 39.0 | 28.2 | 5 | none | 2,737 |
+| Stop model, boosted | 46.6 | 36.1 | 4 | none | 12,779 |
+| Stop model, boosted + stop traits | 31.9 | 28.3 | 4 | none | 7,668 |
+| Stop model, 4-trait | 45.9 | 27.0 | 5 | none | 14,733 |
+| Stop model, 4-trait + coverage | 56.9 | 27.5 | 5 | none | 17,983 |
+| Double ML A (in-area) | 35.5 | 30.2 | 4 | none | 2,419 |
+| Double ML B-PLR | 34.8 | 18.9 | 3 | none | 1,507 |
+| Double ML A, with no-reform lots | 33.6 | 16.4 | 3 | 3 "close" (rule only; no placebo) | 2,919 |
+| Double ML B-PLR, with no-reform lots | 36.5 | 26.2 | 3 | none | 1,063 |
+
+**Tiers (locked rule): A, A0 and B each get "none".** All three placebos fail (the fake-reform prediction's 90%
+interval excludes 0), and none would qualify even without the placebo rule: each median miss (26.4 to 42.7) is above
+the 18.4 bar and each beats the average in only 4 of 11 places. **Reading (fixed before the run): the factors explain
+cause but do not predict which places build. Stage 2 keeps the plain average.** The placebo failures say the 2×2 cells
+also show a gap in years with no reform (new-line stops were already growing faster), which the cell differences carry
+into the prediction.
+
+### Per place (held-out prediction; miss in brackets)
+
+| Place | Measured | A | A0 | B | Plain average |
+| --- | --- | --- | --- | --- | --- |
+| Austin | 23.8 | 77.8 (53.9) | 49.6 (25.8) | 102.7 (78.9) | 34.5 (10.7) |
+| Charlotte | 28.4 | 48.5 (20.2) | 23.4 (5.0) | 9.7 (18.7) | 34.1 (5.7) |
+| Chicago 2015 | 6.7 | 3.3 (3.4) | 7.8 (1.1) | −0.0 (6.8) | 36.2 (29.5) |
+| Denver | 115.4 | 11.1 (104.3) | 19.2 (96.2) | 7.9 (107.5) | 25.3 (90.1) |
+| New York | 19.6 | 4.1 (15.4) | 6.0 (13.6) | −1.6 (21.2) | 34.9 (15.4) |
+| Philadelphia | 47.5 | −0.1 (47.6) | −0.3 (47.8) | −0.0 (47.5) | 32.1 (15.4) |
+| Portland 2020 | −32.8 | 30.6 (63.3) | 18.0 (50.7) | 24.5 (57.2) | 40.2 (72.9) |
+| Saint Paul | 15.0 | 50.3 (35.3) | 50.9 (35.8) | 7.4 (7.6) | 35.4 (20.4) |
+| Salt Lake City | 48.1 | 38.8 (9.3) | 28.0 (20.1) | 5.4 (42.7) | 32.1 (16.0) |
+| Seattle Mount Baker | 75.6 | 10.5 (65.1) | 25.4 (50.2) | 3.0 (72.6) | 29.3 (46.3) |
+| Seattle Othello | 21.5 | 18.2 (3.3) | 48.0 (26.4) | 25.1 (3.6) | 34.7 (13.2) |
+
+Places beaten vs the average: A — Chicago 2015, Portland, Salt Lake City, Othello; A0 — Charlotte, Chicago 2015, New
+York, Portland; B — Chicago 2015, Portland, Saint Paul, Othello. The cause-based methods predict near zero for the
+places with small districts on old lines (New York, Philadelphia, Chicago 2015) and cannot see Denver's, Mount Baker's
+or Philadelphia's large gains; they over-predict Austin (all new-line stops). Fold inputs (each fold): old-line
+contrast −0.3 to 14.3, new-line contrast 34.9 to 50.3, distance ratio (0–⅛ ÷ ⅛–¼ effect) 0.49 to 0.82 (the inner
+band gains less than the outer, so the gradient lowers predictions for places with more land near the stop).
+
+### Placebo (fake reform: second half of the before window; 10 places)
+
+| Place | A | A0 | B |
+| --- | --- | --- | --- |
+| Austin | 45.7 | 28.8 | −1.4 |
+| Charlotte | 16.9 | 11.9 | 0.9 |
+| Chicago 2015 | −0.9 | −1.1 | −0.2 |
+| Denver | 7.9 | 15.6 | 8.2 |
+| New York | 2.5 | 3.8 | −3.5 |
+| Philadelphia | −0.8 | −3.0 | −0.1 |
+| Portland 2020 | −9.9 | −1.5 | 1.4 |
+| Salt Lake City | 28.2 | 22.2 | 2.8 |
+| Seattle Mount Baker | 11.2 | 19.3 | 1.0 |
+| Seattle Othello | 7.8 | 21.0 | 32.6 |
+| **Pooled (90%, place bootstrap)** | **10.9 (3.3 to 18.8): fail** | **11.7 (5.8 to 17.4): fail** | **4.2 (0.04 to 10.0): fail** |
+
+### Beside (not pooled, not scored)
+
+| Check | Measured | A | A0 | B | Plain average | Zero |
+| --- | --- | --- | --- | --- | --- | --- |
+| Los Angeles TOC | −13.3 | 94.3 | 18.4 | 31.4 | 33.5 | 0 |
+| San Diego 2021 | −9.4 | 92.6 | 11.3 | −0.2 | 33.5 | 0 |
+| Chicago 2022 | −10.6 | 84.9 | 7.7 | −14.6 | 33.5 | 0 |
+| Bellevue BelRed | 29.4 | 37.7 | 25.4 | 9.7 | 33.5 | 0 |
+
+Broad maps (fit on all 11 places + the Hop): A's upzoned-share scaling multiplies the cells by up to ×11 when 90–100%
+of the land is upzoned, so it misses LA, San Diego and Chicago 2022 by 85 to 108; A0 and B miss them by less than the
+average does; all are near zero or negative in reality.
+
+| Milwaukee Hop (transit alone), predicted without the Hop | Prediction | Measured |
+| --- | --- | --- |
+| New-line, not-rezoned cell (D-11 places only) vs the Hop's own before-after change | 13.5 | 4.2 |
+| Transit alone (new/no − old/no) vs the Hop placebo effect, after 2020–2024 | 18.8 | 18.2 |
+| Same, vs the Hop placebo effect, after 2019–2023 | 18.8 | 10.1 |
+
+Madison: its station-area lot table has no after-window homes and no comparison stops, so its measured station-area
+effect cannot be built. Beside only: A predicts 71.7 per 100 ¼-mile acres (A0 44.7); divided by the overlay's 47.8%
+land share, 150.0 (A0 93.5) per 100 overlay acres a year, against the overlay test's 8.0 (−16.7 to 30.9; after
+2023–2025, a short window, different design). B not run.
+
+### Deviations (nearest thing to the locked plan; also rows `deviation` in the CSV)
+
+- Placebo: Saint Paul left out (its before window is one year, 2010, so it cannot be split): 10 places.
+- Placebo: the Milwaukee Hop is left out of the placebo 2×2 (its lot table has one before-window total, no years).
+- Placebo windows: fake before = first h years, fake after = last h years of the before window, h = years ÷ 2 rounded
+  down (Denver's 5-year window drops its middle year). Hand-check corrections of the real before window are split
+  between the halves in proportion to the raw homes in each half (duplicates 0). Stops keep their real line-age class.
+- Placebo interval: 2,000 draws resampling the held-out places' placebo predictions; the pooled value is their mean.
+- Upzoned share (A): the in-district land share of the place's reform stops' ¼-mile lots; a cell's training share is
+  the place-equal mean over the cell's stops (comparison stops have none in every D-11 place).
+- Unknown line age (A and B): every stop T2b excludes (4–9 years old, opened after the after window, unknown year)
+  takes the training mix: the place-equal mean of the training places' acre-weighted new-line share (about 0.46).
+- Distance (A): band shares from the place's reform stops' ¼-mile land within 201 m (⅛ mile); the ratio is the
+  0–⅛ ÷ ⅛–¼ effect averaged over the two training contrasts (old, new).
+- B, not stated in the lock (chosen as the stored models): each place has the same total weight in each window, lots
+  equal within a place; the Hop lots are in B's training as new-line, not-rezoned lots (as in the 2×2 main); lots on
+  excluded-age stops are left out of B's fit and take the training mix when predicted; outcome = homes in the window,
+  predictions divided by the window's years. Lots are collapsed to cells (all terms are discrete; same fit).
+- B: the locked toggle (upzoned as observed − upzoned = 0, at the after-window level) also switches off the upzoned main
+  term (the before-reform level gap); the difference-in-differences reading (after toggle − before toggle) is beside.
+- Stored models: scored against today's measured effects; the random forest file predates the land and hand-check
+  fixes. No stored model has a placebo run, so its tier is by the rule only.
+- Wisconsin translation = mean of the 11 held-out predictions × 298.97 (not a fit to Wisconsin's own stops).
+- Milwaukee Hop beside: 2×2 cell version only. Madison beside: A and A0 only, against the overlay test.
