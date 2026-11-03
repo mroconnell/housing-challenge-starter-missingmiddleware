@@ -20,7 +20,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from missing_middleware.paths import REFERENCE  # noqa: E402
 
-HOMES, YEARS, OFF_TOD = 2_668_677, 5, 17_819 / 19_818
+HOMES, YEARS, OFF_TOD = 2_668_677, 5, (30_355 - 12_521) / 19_818  # combined bundle after TOD AQ-075: 0.900
 
 
 def main() -> None:
@@ -28,10 +28,13 @@ def main() -> None:
     n = len(t)
     pk = pd.read_csv(REFERENCE / "parking_placebo_full_draws.csv")["centred_on_real"].values[:n] * HOMES * YEARS / 1000
     pk = np.where(pk > 0, pk * OFF_TOD, pk)
-    tod = {"lower": t["lower_homes"].values, "central": t["central_homes"].values, "upper": t["upper_homes"].values}
+    tod = {"lower line: TOD lower draws + parking draws": t["lower_homes"].values,
+           "central line: TOD central draws only (parking central is 0)": t["central_homes"].values,
+           "upper line: TOD upper draws + parking draws (spread, not centred on the 30,355 line)": t["upper_homes"].values,
+           "one combined band: TOD central draws + parking draws": t["central_homes"].values}
     rows = []
     for line, tv in tod.items():
-        pv = np.zeros(n) if line == "central" else pk
+        pv = np.zeros(n) if line.startswith("central") else pk
         idx = tv + pv
         srt = np.sort(tv) + np.sort(pv)
         rows.append(dict(line=line, tod_p05=np.percentile(tv, 5), tod_p95=np.percentile(tv, 95),

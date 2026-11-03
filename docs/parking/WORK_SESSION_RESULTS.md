@@ -174,7 +174,11 @@ Error unit: permits per 1,000 existing homes a year.
 | 25 m donut | −0.03 (−1.85 to +1.94) |
 | Issue dates | −0.20 (−1.58 to +1.11) |
 
-- **Deviation: the line is not a 2019 line.** Outside the Coastal Zone, layer 6's TPA features are the SANDAG 2022 polygons, so the SANDAG sensitivity equals the main result. No 2019 TPA layer exists. Stops added after 2019 count as treated, which pulls toward 0.
+- **Deviation: the line is not a 2019 line.** Outside the Coastal Zone, layer 6's TPA features are the SANDAG 2022 polygons. The "SANDAG 2022 sensitivity" is therefore the same line and adds nothing.
+- **Counts versus feasibility.** The feasibility count of lots with new homes within 183 m (159 / 105 before) used every permit point near the line. The run counts fewer (102 / 81 at 183 m) because it:
+  - keeps only permits matched to a City parcel (85%);
+  - drops the Coastal Zone and edges within 30 m of it;
+  - keeps only 400 m segments with lots on both sides. No 2019 TPA layer exists. Stops added after 2019 count as treated, which pulls toward 0.
 - **No density bonus:** +1.26. Only 1 flagged lot is in the sample, so this check is weak.
 - **Coastal Zone:** the Coastal Commission approved with modifications on 2019-10-16, and the City adopted O-21164, effective 2020-02-09. This most likely certified the change before 2020-11-30, but that is inferred. The Coastal Zone is dropped, so this does not affect the estimate.
 - **Projects with 2+ homes (counts only):** 6 / 5 before, 10 / 8 after.
@@ -183,17 +187,18 @@ Error unit: permits per 1,000 existing homes a year.
 ## Combo (b): TOD + parking combined band from paired draws
 
 - **Unit:** Wisconsin extra homes, 2027–2031.
-- **Parking draws:** placebo set averages centred on the real average. Positive draws are multiplied by 0.899 (TOD counts first).
-- **TOD draws:** `reference/tod_line_draws.csv`.
+- **Parking draws:** placebo set averages centred on the real average. Positive draws are multiplied by 0.900, the off-TOD share from the combined bundle after TOD's AQ-075: (30,355 − 12,521) ÷ 19,818.
+- **TOD draws:** `reference/tod_line_draws.csv`, with upper 12,521 (AQ-075).
 
-| Line | TOD 90% | Parking 90% | Combined, index pairing (errors unrelated) | Combined, sorted pairing (errors move together) |
-| --- | --- | --- | --- | --- |
-| Lower | 2,275 to 5,795 | −44,940 to +17,275 | −40,551 to +21,171 | −42,665 to +23,070 |
-| Central | 4,866 to 15,361 | 0 | 4,866 to 15,361 | same |
-| Upper (TOD 12,521, AQ-075) | 6,075 to 19,179 | −44,940 to +17,275 | −33,039 to +29,504 | −38,865 to +36,454 |
+| Band | Index pairing (errors unrelated) | Sorted pairing (errors move together) |
+| --- | --- | --- |
+| **One combined band: TOD central + parking draws** | **−35,057 to +26,876** | −40,074 to +32,650 |
+| Lower line: TOD lower + parking draws | −40,551 to +21,185 | −42,665 to +23,084 |
+| Central line: TOD only (parking's central is 0) | 4,866 to 15,361 | same |
+| Upper line: TOD upper + parking draws | −33,039 to +29,520 | −38,865 to +36,468 |
 
-- **TOD's upper** is 12,521 (AQ-075, owner 11:52), the basis of the supplied draws. An earlier version of this table rescaled them to the old 13,451.
-- **Read.** Parking's uncertainty dominates the combined band. It is about ten times wider than TOD's.
+- **Reading the upper row.** It shows the spread of the draws, not a band around the 30,355 line; its median is −3,616. The single combined band in the first row is the better summary.
+- **Read.** Parking's uncertainty dominates. Its spread is about ten times TOD's.
 - **Evidence only;** no tool change.
 
 ## T1, non-residential placebo
