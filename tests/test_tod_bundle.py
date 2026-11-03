@@ -185,6 +185,23 @@ class TestTodBundle(unittest.TestCase):
                 self.fail(f"{f.name}: long number {n}")
         self.assertLess(size, 5_000_000)
 
+    def test_tornado_matches_sensitivities(self):
+        hs = json.loads((self.d / "howsure.json").read_text())
+        se = pd.read_csv(REF / "tod_model_sensitivities.csv")
+        ne = se[se["sizing"] == "net_effect"]
+        central = ne[(ne["group"] == "main") & (ne["scenario"] == "typical")]["addition_2027_2031"].iloc[0]
+        self.assertAlmostEqual(hs["tornado"]["central"], central, delta=0.1)
+        rows = hs["tornado"]["rows"]
+        self.assertEqual(len(rows), 19)
+        for row in rows:
+            sens, sc = row["id"].split(":")
+            src = ne[(ne["group"] == ("main" if sens == "main" else "law_addition")) & (ne["sensitivity"] == sens) & (ne["scenario"] == sc)]
+            self.assertEqual(len(src), 1, row["id"])
+            self.assertAlmostEqual(row["extra"], src["addition_2027_2031"].iloc[0], delta=0.1)
+            self.assertAlmostEqual(row["vs_central"], row["extra"] - central, delta=0.2)
+        ids = {x["id"].split(":")[0] for x in rows}
+        self.assertNotIn("ramp_year5_alt", ids)   # timing only: the five-year total is unchanged
+
     def test_rebuild_is_byte_identical(self):
         before = {f.name: f.read_bytes() for f in self.d.iterdir()}
         subprocess.run([sys.executable, str(ROOT / "scripts" / "build_tod_bundle.py")], check=True, capture_output=True)

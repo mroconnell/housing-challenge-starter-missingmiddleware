@@ -220,3 +220,22 @@ test("TOD chart toggles between totals and extra homes only", async ({ page }) =
   await toggle.getByLabel("Extra homes only").check();
   await expect(page.locator("#tod-chart svg title")).toContainText("Extra homes permitted");
 });
+
+test("TOD How sure tornado shows every what-if that changes the law's extra homes", async ({ page }) => {
+  const b = await bundle(page);
+  const hs = await (await page.request.get(`scenarios/tod/runs/${b.run_id}/howsure.json`)).json();
+  const rows = hs.tornado.rows as { kind: string; vs_central: number; extra: number }[];
+  const central = b.statewide.scenarios.find((x: { id: string }) => x.id === "typical").additional_total;
+  expect(hs.tornado.central).toBeCloseTo(central, 1);
+  for (const r of rows) expect(r.vs_central).toBeCloseTo(r.extra - central, 0);
+  const current = rows.filter((r) => r.kind === "current").length;
+  const earlier = rows.filter((r) => r.kind === "earlier").length;
+  expect(current).toBe(11);
+  expect(earlier).toBe(8);
+  await page.goto("#/tod/how-sure?preview=1");
+  await expect(page.getByTestId("tod-tornado-current").locator(".t-row")).toHaveCount(current);
+  await expect(page.getByTestId("tod-tornado-earlier").locator(".t-row")).toHaveCount(earlier);
+  await expect(page.getByTestId("tod-tornado-current").locator(".tornado")).toHaveAttribute("aria-label", new RegExp(`compared with the central ${fmt(central)}`));
+  await expect(page.getByTestId("tod-tornado-note")).toContainText("do not change the law's extra homes");
+  await expect(page.locator("main")).toContainText("Homes that would have been built elsewhere in the city anyway");
+});

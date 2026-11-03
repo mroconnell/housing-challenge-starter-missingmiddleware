@@ -1,6 +1,6 @@
 // The seven TOD screens. Every number comes from the bundle (scripts/build_tod_bundle.py); the browser only selects,
 // sorts and formats. Plain language first: each screen opens with what the reader is looking at.
-import { bindChartMode, chartModeToggleHTML, legendHTML, xyChart } from "../../charts";
+import { bindChartMode, chartModeToggleHTML, legendHTML, tornadoHTML, xyChart } from "../../charts";
 import { dec, esc, int, pill, small } from "../../format";
 import type { ShellEnv } from "../types";
 import { mapKey, rapidMapKey, stationMap } from "./map";
@@ -353,9 +353,26 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
   };
   const sb = H.scale_benchmarks;
   const ms = H.madison_share;
+  // Tornado: each what-if's statewide extra homes minus the central line, largest first. Current what-ifs and
+  // earlier methods are drawn as two charts on one shared bar scale.
+  const T = H.tornado;
+  const tmax = Math.max(...T.rows.map((r) => Math.abs(r.vs_central)), 1);
+  const tUnit = `extra homes, 2027–2031, compared with the central ${int(T.central)}`;
+  const tRows = (kind: string) => T.rows.filter((r) => r.kind === kind).sort((a, b) => Math.abs(b.vs_central) - Math.abs(a.vs_central))
+    .map((r) => ({ label: `${r.label} (${int(r.extra)})`, value: r.vs_central }));
+  const blRows = H.groups.filter((g) => g.id !== "law_addition").flatMap((g) => g.rows.map((r) => r.baseline)).concat(H.main_baseline);
+  const tornadoCard = `<section class="card" aria-labelledby="h-tod-tornado"><h2 id="h-tod-tornado">What moves the law's extra homes</h2>
+    <p>Each bar is one what-if: its statewide extra homes over 2027–2031 minus the central line's ${int(T.central)}. Bars right of the middle mean more homes; left, fewer. The number in brackets is the what-if's own total.</p>
+    <h3>Current what-ifs</h3>
+    <div data-testid="tod-tornado-current">${tornadoHTML(tRows("current"), tUnit, tmax)}</div>
+    <h3>Earlier methods, for comparison</h3>
+    <p class="small muted">Lines the tool used before, or checked beside, its current method. They are not current estimates.</p>
+    <div data-testid="tod-tornado-earlier">${tornadoHTML(tRows("earlier"), tUnit, tmax)}</div>
+    <p class="small muted" data-testid="tod-tornado-note">Not shown: what-ifs about current law, stop rules and timing. Current law near stops ranges from ${int(Math.min(...blRows))} to ${int(Math.max(...blRows))} homes over 2027–2031 across them; they do not change the law's extra homes.</p></section>`;
   main.innerHTML = `
   <h1>How sure are we?</h1>
   <p class="lede">The three scenarios differ about ${Math.round(scen(b, "strong").additional_total / scen(b, "little").additional_total)}-fold because the evidence leaves that much room, not because the model adds noise. This page shows which choices move the numbers, whether the results are believable for Milwaukee and Madison, and which parts rest on data and which on judgment.</p>
+  ${tornadoCard}
   ${H.groups.map(groupTable).join("")}
   <section class="card"><h2>A sizing method that was tested and set aside</h2>
     <p data-testid="per-acre">For the broader law modelled before (upzoning most land near stops), the model was first sized from the extra homes per acre measured right where cities upzoned. Spread over all the land near Wisconsin's stops, that gave ${int(H.per_acre.add.little)}, ${int(H.per_acre.add.typical)} and ${int(H.per_acre.add.strong)} extra homes over 2027–2031: even the smallest would have taken Madison's apartment permitting above its own record. Upzoning one block partly moves building there from nearby blocks, so block-level gains overstate a city's net gain. Using the per-acre response measured in Madison and Chicago instead gives ${int(H.per_acre.wisconsin_uncapped)}. Capping each metro at the level comparable metros stayed under in 95% of years (${dec(H.scale_benchmarks.p95, 2)} apartment homes permitted per 1,000 existing homes a year) gives ${int(H.per_acre.wisconsin_capped)}, all in the Milwaukee metro: Madison gets none under the cap, because its current permitting is already above that level. The tool therefore moved to comparisons of reform stops with similar stops without reform.</p></section>

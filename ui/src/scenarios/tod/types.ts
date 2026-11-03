@@ -70,6 +70,7 @@ export interface HowSure {
   madison_share: { judged: { share: number; low: number; high: number; homes: number; stock: number }; main: { share: number }; scenarios: ByScen };
   trace: { part: string; status: string; text: string }[];
   cannot_tell: { title: string; text: string }[];
+  tornado: { central: number; rows: { kind: "current" | "earlier"; id: string; label: string; extra: number; vs_central: number }[] };
 }
 export interface Why {
   cases: { id: string; name: string; role: string; role_label: string; estimate: number | null; low: number | null; high: number | null;

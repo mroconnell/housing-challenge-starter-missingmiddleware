@@ -147,6 +147,31 @@ SENS_LABELS = {
     ("baseline_only", "baseline_high"): ("High current-law path", "Wisconsin's 90th-percentile five-year outcome since 1990."),
     ("baseline_only", "census_as_published"): ("Milwaukee's apartments as the Census published them", "The Census permit file misses most of Milwaukee's apartments; the main case uses the city's property file instead."),
 }
+TORNADO = {
+    "current": [
+        ("Lower line", "main", "little"),
+        ("Upper line", "main", "strong"),
+        ("Central, one place left out: lowest", "typical_range", "typical_low"),
+        ("Central, one place left out: highest", "typical_range", "typical_high"),
+        ("Lower line, low end of its 90% range", "little_range", "little_low"),
+        ("Lower line, high end of its 90% range", "little_range", "little_high"),
+        ("Upper line, one place left out: lowest", "strong_range", "strong_low"),
+        ("Upper line, one place left out: highest", "strong_range", "strong_high"),
+        ("District of 10% of land instead of 15%", "district_10", "strong"),
+        ("District of 25% of land instead of 15%", "district_25", "strong"),
+        ("Compared with stops on lines of similar age", "line_age_matched", "typical"),
+    ],
+    "earlier": [
+        ("Former upper: average scaled to 15% of lots", "optiond_upper", "strong"),
+        ("Former lower: best lot model", "optiond_lower", "little"),
+        ("Former central: average reform city, broader law", "former_central_average_reform", "typical"),
+        ("Former strong: Auckland", "former_strong_auckland", "strong"),
+        ("Former little: station-area model, broader law", "former_little_station_area", "little"),
+        ("Earlier little: Los Angeles transit program", "la_toc_little", "little"),
+        ("Earlier central: upzoned-share trend, 9 cities", "drift_central", "typical"),
+        ("Earlier typical: average loosening reform", "stacy_typical", "typical"),
+    ],
+}
 GROUPS = [("law_addition", "What-ifs that change the law's addition"),
           ("where_homes_land", "What-ifs that change where the homes land (and, for the stop rules, how many homes are near stops)"),
           ("baseline_only", "What-ifs that change current law only")]
@@ -551,12 +576,27 @@ def build_howsure(sw: dict, areas: dict) -> dict:
          "text": "These results describe districts, not citywide upzoning. For the five broad upzonings left out (Bellevue's BelRed, Honolulu, Los Angeles, San Diego, Chicago 2022), the average rule missed by a median 43 extra homes per 100 lot acres a year, the scaled rule by 240, and simply predicting zero by 11. At their boundaries, too, these broad upzonings show no jump."},
         trait_line,
         {"title": "Timing", "text": TIMING},
+        {"title": "Homes that would have been built elsewhere in the city anyway",
+         "text": ("The tool has no case in which the extra homes near stops are simply moved from elsewhere in the same city. "
+                  "Whole-city permit counts could only detect a change of about 4% to 5% of a city's homes over five years, "
+                  "so they cannot rule a small shift in or out. At district edges, the lots just outside showed no drop in "
+                  "building (the bunching check), which is where a shift would show first.")},
         {"title": "Transit-oriented density alone versus with parking reform",
          "text": "The cases cannot separate the two. The parking reform has its own scenario in this tool."},
         {"title": "Rents, displacement and transit ridership", "text": "These are not modelled."},
         {"title": "Lot-by-lot predictions", "text": "The model works by place. Nothing here says what will be built on any one lot."},
     ]
+    # Tornado: each what-if's statewide extra homes minus the central line (owner request, 3 November 2026).
+    # Timing-only (ramp_year5_alt), where-homes-land and baseline-only rows leave the statewide addition unchanged.
+    central = float(main.loc["typical", "addition_2027_2031"])
+    la = ne[ne["group"] == "law_addition"].set_index(["sensitivity", "scenario"])["addition_2027_2031"]
+    tornado = []
+    for kind, items in TORNADO.items():
+        for label, sens, sc in items:
+            v = float(main.loc[sc, "addition_2027_2031"]) if sens == "main" else float(la.loc[(sens, sc)])
+            tornado.append({"kind": kind, "id": f"{sens}:{sc}", "label": label, "extra": r(v, 1), "vs_central": r(v - central, 1)})
     return {"main_baseline": r(main.loc["typical", "baseline_near_stops_2027_2031"], 4), "groups": groups, "per_acre": per_acre,
+            "tornado": {"central": r(central, 1), "rows": tornado},
             "scale": scale, "scale_benchmarks": {"observed_max": r(obsmax.value, 2), "observed_max_metro": s(obsmax.metro),
                                                  "observed_max_year": int(obsmax.year), "p95": r(p95.value, 2)},
             "madison_share": madison, "trace": trace, "cannot_tell": cannot}

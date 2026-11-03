@@ -134,8 +134,9 @@ export function xyChart(container: HTMLElement, spec: ChartSpec): void {
 }
 
 /** Diverging horizontal bars in HTML (wraps labels on small screens). */
-export function tornadoHTML(rows: { label: string; value: number; note?: string }[], unit: string): string {
-  const max = Math.max(...rows.map((r) => Math.abs(r.value)), 1);
+export function tornadoHTML(rows: { label: string; value: number; note?: string }[], unit: string, scaleMax?: number): string {
+  // scaleMax lets two tornados on one screen share a bar scale.
+  const max = scaleMax ?? Math.max(...rows.map((r) => Math.abs(r.value)), 1);
   // Accessible names over about 900 characters are dropped by some screen readers and by the accessibility snapshot,
   // so a long chart is named by its largest cases and points to the table that lists every case.
   const all = `Change from the central scenario, ${unit}. ` + rows.map((r) => `${r.label}: ${r.value > 0 ? "+" : ""}${Math.round(r.value).toLocaleString("en-US")}`).join("; ");
