@@ -77,7 +77,7 @@ Unit: permits per 1,000 existing homes a year.
   - *Post hoc*, with those lots kept: −2.95 (90% −7.24 to +0.95; 97.5% −8.91 to +2.55).
 - **Comparison partly treated.** The 2015 ordinance itself reached ½ mile along Pedestrian Streets (corrected by the audit; an earlier version of this line said 2019). Some 402–805 m comparison lots were therefore treated for all of 2016–2020, which pushes the estimate toward zero.
 - **Resolved by the audit sweep (2026-11-03): the 2015 relief applied only to B, C and D districts.** Earlier wording, kept for the record: if the 2015 parking relief applied only in business, commercial and downtown districts, then the lot tests' "reform" side (every lot within 402 m except TOD's density-bonus lots) is mostly residential lots that got no parking change. The Chicago lot tests would then not be parking tests. To verify against the 2015 ordinance (SO2015-...) before any further use.
-- **Reading:** one city, so this is descriptive. The sign is opposite to the prediction, as in Chicago's other lot tests (FU7: large lots −11.2). SF, Buffalo and Seattle have no usable multifamily zoning data on the lot table.
+- **Reading:** one city, so this is descriptive. The sign is opposite to the prediction, as in Chicago's other lot tests, which were not parking tests as run (see the Chicago B/C/D rerun). SF, Buffalo and Seattle have no usable multifamily zoning data on the lot table.
 
 ## Backtest: boosted trees as the no-repeal path (D1 target)
 
@@ -181,7 +181,7 @@ Error unit: permits per 1,000 existing homes a year.
   - keeps only 400 m segments with lots on both sides. No 2019 TPA layer exists. Stops added after 2019 count as treated, which pulls toward 0.
 - **No density bonus:** +1.26. Only 1 flagged lot is in the sample, so this check is weak.
 - **Coastal Zone:** the Coastal Commission approved with modifications on 2019-10-16, and the City adopted O-21164, effective 2020-02-09. This most likely certified the change before 2020-11-30, but that is inferred. The Coastal Zone is dropped, so this does not affect the estimate.
-- **Projects with 2+ homes (counts only):** 6 / 5 before, 10 / 8 after.
+- **Projects with 2+ homes (counts only, 91 m band):** 6 / 5 before, 10 / 8 after.
 - **Parcels:** SANDAG and SanGIS data under the SanGIS end-user agreement.
 
 ## Combo (b): TOD + parking combined band from paired draws
@@ -223,22 +223,23 @@ Error unit: permits per 1,000 existing homes a year.
 | log(yearly permits + 0.5) | +0.19 (−0.02 to +0.41) | treated place-years |
 | same | +0.11 (−0.11 to +0.32) | homes |
 
-- **Pre-trend fails.** In the rate outcome, leads −5 and −3 are +2.58 (+0.87 to +4.30) and +2.63 (+0.90 to +4.36) against year −1. In the log outcome, lead −3 is +0.34 (+0.16 to +0.51). Repeal places were building faster 3–5 years before repeal than just before it, compared with never-treated places. Permits were falling into the repeal.
-- **Read.** The event-study post effect sits near zero to slightly positive, beside the main −1.14. With a failing pre-trend, it cannot be read as causal. A downturn before repeal would make post-repeal comparisons with year −1 look better, and comparisons with a 5-year before window look worse. That may be part of why the main −1.14 is negative. This is a cross-check, not a replacement.
+- **Pre-trend fails, against the 3,048 never-treated places.** In the rate outcome, leads −5 and −3 are +2.58 (+0.87 to +4.30) and +2.63 (+0.90 to +4.36) against year −1. In the log outcome, lead −3 is +0.34 (+0.16 to +0.51). Against never-treated places, repeal places were building faster 3–5 years before repeal than just before it. Against the matched comparison the main estimate uses, the opposite holds: repeal places were rising into repeal (home-weighted gaps against year −1 of −2.09, −1.81, −1.62 and −1.20; audit). The direction depends on the comparison group.
+- **Read.** The event-study post effect sits near zero to slightly positive, beside the main −1.14. With a failing pre-trend, it cannot be read as causal. Against the matched comparison, the 5-year before window does not drag the main estimate down (consistent with P1). The low line stays at −15,234. This is a cross-check, not a replacement.
 
 ## P1–P3, pre-trend follow-ups
 
-Unit: permits per 1,000 existing homes a year; 75 places.
+Unit: permits per 1,000 existing homes a year. These runs use 75 places (South Bend has no home count), so the main estimate here is −1.07, not the 76-place −1.14.
 
 | Version | Estimate (90%) |
 | --- | --- |
 | Main (5-year before window) | −1.07 (−3.44 to +1.54) |
 | P1, short before window (years −2, −1) | −1.81 (−4.39 to +0.98) |
 | P2, also matched on before-trend | −0.96 (−3.27 to +1.83) |
-| P2 pre-trend check (years −2, −1 vs −5 to −3) | +1.60 (−0.12 to +3.28): passes |
+| P2 pre-trend check (years −2, −1 vs −5 to −3) | +1.60 (−0.12 to +3.28): passes, but only just; read as "not clearly failing" |
 | P3 bound (M = 1; largest before-year gap 2.09) | −5.52 to +3.63 |
 
 - **Pass rule: not met.** P1 moves the estimate further below 0, not toward it. So the lines stand, and the pre-trend issue goes into the how-it-works text.
-- **Read.** The short window doesn't support the idea that the 5-year window dragged the estimate down. Trend matching barely moves it. Allowing for trend gaps as large as those seen before repeal widens the honest range to about −5.5 to +3.6.
+- **Read.** The short window doesn't support the idea that the 5-year window dragged the estimate down. Trend matching barely moves it, but that is mostly built in: P2 equals the main estimate for the 20 places with 10 or fewer comparison places, which hold 69% of the home weight. Allowing for trend gaps as large as those seen before repeal widens the honest range to about −5.5 to +3.6.
 - **Chicago in the 76:** not in the 76-place set (neither its 2013 nor its 2015 rule), so no "without Chicago" version is needed.
 - **Chicago and T1:** Chicago 2015 cut housing parking in B/C/D districts, so it breaks T1's locked "no housing change" rule and is not added to the placebo.
+- **Suggested how-it-works line (needs Ryan's OK).** "Before repeal, repeal places did not move in step with their comparison places (a gap of about 2 per 1,000 homes a year over 5 years). Allowing for that, the range is about −5.5 to +3.6, wider than −3.4 to +1.5."
