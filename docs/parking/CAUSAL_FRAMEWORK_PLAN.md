@@ -547,3 +547,16 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Leave-one-out.** Leave one city out, and leave one county out as the metro proxy (stated).
   - **Pre-trend.** The model is refitted without the repeal places' years −3 to −1, those years are imputed, and the mean imputed residual must have a 90% interval including 0.
   - **Wisconsin and the 25% rule.** Two-year cumulative ÷ 2 = a yearly rate, converted to Wisconsin homes through the Stage 2 path. The 25% rule needs a 90% width of 26,289 homes or less, plus the pre-trend pass. Calibration (rule 3) is checked only if both pass.
+- **2026-11-03, 40/41 additions (audit; before any result):**
+  - **40, linearity shortcut.** The shift is added per place inside each resample. Profile means differ by place window (e.g. the ramp is ⅓, ½ or ⅔ for 1–3 after years), and the truth is the home-weighted mean of the per-place shifts.
+  - **40, resampling.** The unit resampled is the county cluster of fake places.
+  - **40, simulation error.** With 200 sims, about ±2 points on coverage near 90% and ±3.5 points on power near 50%.
+  - **40, coverage at G = 0** is compared with the 20,000 placebo sets.
+  - **41, rule 4 placebos apply:**
+    - single-family homes as the outcome (1-unit homes);
+    - T1's non-residential places as fake reforms.
+    Both must include 0.
+  - **41, year 0.** Year 0 (the event year) is left out of both the effect and the untreated fit.
+  - **41, resampling.** Each county resample refits the place and year effects.
+  - **41, leave-one-metro-out.** Added as a labelled extra, with CBSA assigned to each of the 76 places by place interior point in the 2024 CBSA boundary file (`data/raw/census_cbsa_cb_2024`).
+  - **41, how to describe it if it passes.** "The first two years only, applied to all five", shown beside the event path (+0.02, −1.29, −2.26, −6.50). Two-year totals sit closer to 0 and are narrower partly by construction.
