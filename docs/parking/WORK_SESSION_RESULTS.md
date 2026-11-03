@@ -502,3 +502,32 @@ The rule for this check was set by the learning thread for this check (it is not
   - **The tool's lines don't need widening.** They come from placebo percentiles, which already carry the true spread.
   - **The How sure intervals are narrow.** The bootstrap intervals on How sure (−3.47 to +1.43, and the AQ-076 row) are narrow. Any change is Ryan's call.
   - **Timing.** The run started around 08:07, and the script was committed at 08:21:59. It was not edited in between, but git can't show that (same as test 41).
+
+## Test 43: do Madison's minimums bind? (project records 2015–2022)
+
+- **Projects.**
+  - 395 files (2+ homes; conditional use, planned development and site plan) became 287 projects.
+  - Coded in random order until 30 had a positive minimum and both numbers: 116 coded.
+  - The other 86 lacked a staff report, had no code minimum (planned development, Central Area, or a no-minimum district), or were not housing.
+- **Parser check: failed.** 36 of 50 were correct (72%; the bar was 45). Every project was then hand-read from its PDF.
+
+| Group (share of projects) | At the minimum (±0.05 per home) | 0.05–0.10 above | Above | Below | Median proposed spaces per home |
+| --- | --- | --- | --- | --- | --- |
+| All 30 | 3 (10%; 90%: 3–20%) | 0 | 16 (53%) | 11 (37%) | 1.24 |
+| 15 not mixed-use | 2 (13%) | 0 | 13 (87%) | 0 | 1.44 |
+
+- **Reading: no bunching at the minimum.**
+  - Among residential-only projects, 13 of 15 proposed more than the minimum, a median of 1.44 spaces per home against a minimum of about 1.
+  - All 11 "below" projects are mixed-use, compared with combined requirements.
+  - Projects with no minimum also built parking: a median of 0.76 per home in the Central Area and 1.97 in other no-minimum districts.
+  - So in these large Madison projects, the 1-per-home minimum mostly did not bind. That fits the national result of no measurable change.
+- **Caveats:**
+  - Only conditional-use and planned-development projects (large, discretionary); by-right projects are missing.
+  - The numbers are proposed, not built.
+  - n = 15 residential-only.
+  - 10 of 30 are from 2020.
+  - The code text could not be verified (Municode refused automated access).
+  - "Location only" two-family rules were excluded.
+- **Files:**
+  - `scripts/run_parking_t43_madison.py`;
+  - `reference/parking_t43_madison.csv`, `parking_t43_projects.csv` (id = Legistar file number; no addresses), and `parking_t43_parser_check.csv`.

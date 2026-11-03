@@ -1,0 +1,501 @@
+project_id,field,parsed_value,pdf_value,ok,in_draw_of_50,parse_pass
+LEG-73815,homes,60.0,48.0,False,True,first
+LEG-73815,rule,positive code minimum,positive code minimum,True,True,first
+LEG-73815,required,60.0,48.0,False,True,first
+LEG-73815,proposed,17.0,17.0,True,True,first
+LEG-67284,homes,134.0,41.0,False,True,first
+LEG-67284,rule,positive code minimum,positive code minimum,True,True,first
+LEG-67284,required,335.0,41.0,False,True,first
+LEG-67284,proposed,,62.0,False,True,first
+LEG-62085,homes,50.0,49.0,False,True,first
+LEG-62085,rule,positive code minimum,positive code minimum,True,True,first
+LEG-62085,required,4.0,49.0,False,True,first
+LEG-62085,proposed,70.0,70.0,True,True,first
+LEG-74260,homes,87.0,87.0,True,True,first
+LEG-74260,rule,no minimum (district),no minimum (district),True,True,first
+LEG-74260,required,0,0.0,True,True,first
+LEG-74260,proposed,88.0,88.0,True,True,first
+LEG-57807,homes,55.0,55.0,True,True,first
+LEG-57807,rule,no minimum (district),no minimum (district),True,True,first
+LEG-57807,required,0,0.0,True,True,first
+LEG-57807,proposed,123.0,123.0,True,True,first
+LEG-48338,homes,8.0,7.0,False,True,first
+LEG-48338,rule,positive code minimum,positive code minimum,True,True,first
+LEG-48338,required,8.0,7.0,False,True,first
+LEG-48338,proposed,9.0,9.0,True,True,first
+LEG-67515,homes,72.0,72.0,True,True,first
+LEG-67515,rule,positive code minimum,positive code minimum,True,True,first
+LEG-67515,required,72.0,72.0,True,True,first
+LEG-67515,proposed,85.0,85.0,True,True,first
+LEG-69786,homes,24.0,31.0,False,True,first
+LEG-69786,rule,positive code minimum,positive code minimum,True,True,first
+LEG-69786,required,24.0,31.0,False,True,first
+LEG-69786,proposed,26.0,26.0,True,True,first
+LEG-58231,homes,53.0,53.0,True,True,first
+LEG-58231,rule,positive code minimum,positive code minimum,True,True,first
+LEG-58231,required,53.0,53.0,True,True,first
+LEG-58231,proposed,61.0,61.0,True,True,first
+LEG-62317,homes,71.0,83.0,False,True,first
+LEG-62317,rule,positive code minimum,positive code minimum,True,True,first
+LEG-62317,required,71.0,83.0,False,True,first
+LEG-62317,proposed,32.0,195.0,False,True,first
+LEG-56548,homes,189.0,189.0,True,True,first
+LEG-56548,rule,no minimum (district),split district (excluded),False,True,first
+LEG-56548,required,0,,False,True,first
+LEG-56548,proposed,312.0,312.0,True,True,first
+LEG-65485,homes,225.0,226.0,False,True,first
+LEG-65485,rule,positive code minimum,positive code minimum,True,True,first
+LEG-65485,required,225.0,226.0,False,True,first
+LEG-65485,proposed,,142.0,False,True,first
+LEG-54038,homes,79.0,79.0,True,True,first
+LEG-54038,rule,positive code minimum,positive code minimum,True,True,first
+LEG-54038,required,79.0,79.0,True,True,first
+LEG-54038,proposed,120.0,120.0,True,True,first
+LEG-59072,homes,268.0,268.0,True,True,first
+LEG-59072,rule,no minimum (district),no minimum (district),True,True,first
+LEG-59072,required,0,0.0,True,True,first
+LEG-59072,proposed,550.0,550.0,True,True,first
+LEG-55460,homes,4.0,4.0,True,True,first
+LEG-55460,rule,positive code minimum,positive code minimum,True,True,first
+LEG-55460,required,4.0,4.0,True,True,first
+LEG-55460,proposed,7.0,7.0,True,True,first
+LEG-53863,homes,128.0,124.0,False,True,first
+LEG-53863,rule,positive code minimum,positive code minimum,True,True,first
+LEG-53863,required,128.0,124.0,False,True,first
+LEG-53863,proposed,295.0,295.0,True,True,first
+LEG-72364,homes,105.0,105.0,True,True,first
+LEG-72364,rule,positive code minimum,positive code minimum,True,True,first
+LEG-72364,required,105.0,105.0,True,True,first
+LEG-72364,proposed,121.0,121.0,True,True,first
+LEG-73191,homes,337.0,337.0,True,True,first
+LEG-73191,rule,central area: none,central area: none,True,True,first
+LEG-73191,required,0,0.0,True,True,first
+LEG-73191,proposed,345.0,345.0,True,True,first
+LEG-72211,homes,160.0,160.0,True,True,first
+LEG-72211,rule,positive code minimum,positive code minimum,True,True,first
+LEG-72211,required,160.0,160.0,True,True,first
+LEG-72211,proposed,168.0,168.0,True,True,first
+LEG-72468,homes,54.0,54.0,True,True,first
+LEG-72468,rule,planned development: no code minimum,planned development: no code minimum,True,True,first
+LEG-72468,required,,,True,True,first
+LEG-72468,proposed,,,True,True,first
+LEG-45130,homes,57.0,57.0,True,True,first
+LEG-45130,rule,no minimum (district),no minimum (district),True,True,first
+LEG-45130,required,0,0.0,True,True,first
+LEG-45130,proposed,108.0,108.0,True,True,first
+LEG-63206,homes,19.0,19.0,True,True,first
+LEG-63206,rule,positive code minimum,positive code minimum,True,True,first
+LEG-63206,required,19.0,19.0,True,True,first
+LEG-63206,proposed,17.0,17.0,True,True,first
+LEG-57810,homes,51.0,51.0,True,True,first
+LEG-57810,rule,central area: none,central area: none,True,True,first
+LEG-57810,required,0,0.0,True,True,first
+LEG-57810,proposed,82.0,82.0,True,True,first
+LEG-74053,homes,124.0,124.0,True,True,first
+LEG-74053,rule,no minimum (district),no minimum (district),True,True,first
+LEG-74053,required,0,0.0,True,True,first
+LEG-74053,proposed,167.0,167.0,True,True,first
+LEG-51953,homes,9.0,9.0,True,True,first
+LEG-51953,rule,no minimum (district),no minimum (district),True,True,first
+LEG-51953,required,0,0.0,True,True,first
+LEG-51953,proposed,4.0,4.0,True,True,first
+LEG-37586,homes,19.0,19.0,True,True,first
+LEG-37586,rule,positive code minimum,positive code minimum,True,True,first
+LEG-37586,required,19.0,19.0,True,True,first
+LEG-37586,proposed,29.0,29.0,True,True,first
+LEG-51768,homes,31.0,31.0,True,True,first
+LEG-51768,rule,central area: none,central area: none,True,True,first
+LEG-51768,required,0,0.0,True,True,first
+LEG-51768,proposed,14.0,14.0,True,True,first
+LEG-53619,homes,67.0,67.0,True,True,first
+LEG-53619,rule,no minimum (district),no minimum (district),True,True,first
+LEG-53619,required,0,0.0,True,True,first
+LEG-53619,proposed,205.0,205.0,True,True,first
+LEG-60667,homes,64.0,64.0,True,True,first
+LEG-60667,rule,no minimum (district),no minimum (district),True,True,first
+LEG-60667,required,0,0.0,True,True,first
+LEG-60667,proposed,71.0,71.0,True,True,first
+LEG-64584,homes,206.0,206.0,True,True,first
+LEG-64584,rule,central area: none,central area: none,True,True,first
+LEG-64584,required,0,0.0,True,True,first
+LEG-64584,proposed,237.0,237.0,True,True,first
+LEG-40170,homes,30.0,30.0,True,True,first
+LEG-40170,rule,positive code minimum,positive code minimum,True,True,first
+LEG-40170,required,30.0,30.0,True,True,first
+LEG-40170,proposed,35.0,35.0,True,True,first
+LEG-62082,homes,75.0,75.0,True,True,first
+LEG-62082,rule,positive code minimum,positive code minimum,True,True,first
+LEG-62082,required,75.0,75.0,True,True,first
+LEG-62082,proposed,85.0,0.0,False,True,first
+LEG-43422,homes,94.0,94.0,True,True,first
+LEG-43422,rule,positive code minimum,positive code minimum,True,True,first
+LEG-43422,required,94.0,94.0,True,True,first
+LEG-43422,proposed,139.0,139.0,True,True,first
+LEG-60486,homes,92.0,96.0,False,True,first
+LEG-60486,rule,positive code minimum,positive code minimum,True,True,first
+LEG-60486,required,92.0,96.0,False,True,first
+LEG-60486,proposed,136.0,136.0,True,True,first
+LEG-67276,homes,24.0,24.0,True,True,first
+LEG-67276,rule,positive code minimum,positive code minimum,True,True,first
+LEG-67276,required,24.0,24.0,True,True,first
+LEG-67276,proposed,14.0,14.0,True,True,first
+LEG-53277,homes,88.0,88.0,True,True,first
+LEG-53277,rule,positive code minimum,positive code minimum,True,True,first
+LEG-53277,required,88.0,88.0,True,True,first
+LEG-53277,proposed,127.0,127.0,True,True,first
+LEG-71657,homes,110.0,110.0,True,True,first
+LEG-71657,rule,no minimum (district),no minimum (district),True,True,first
+LEG-71657,required,0,0.0,True,True,first
+LEG-71657,proposed,282.0,282.0,True,True,first
+LEG-54404,homes,15.0,2.0,False,True,first
+LEG-54404,rule,positive code minimum,location only (excluded),False,True,first
+LEG-54404,required,1.0,,False,True,first
+LEG-54404,proposed,,,True,True,first
+LEG-36997,homes,179.0,179.0,True,True,first
+LEG-36997,rule,positive code minimum,central area: none,False,True,first
+LEG-36997,required,218.0,0.0,False,True,first
+LEG-36997,proposed,20.0,85.0,False,True,first
+LEG-51320,homes,3.0,,False,True,first
+LEG-51320,rule,planned development: no code minimum,planned development: no code minimum,True,True,first
+LEG-51320,required,,,True,True,first
+LEG-51320,proposed,224.0,224.0,True,True,first
+LEG-47312,homes,48.0,48.0,True,True,first
+LEG-47312,rule,no minimum (district),no minimum (district),True,True,first
+LEG-47312,required,0,0.0,True,True,first
+LEG-47312,proposed,69.0,67.0,False,True,first
+LEG-54255,homes,330.0,330.0,True,True,first
+LEG-54255,rule,planned development: no code minimum,planned development: no code minimum,True,True,first
+LEG-54255,required,,,True,True,first
+LEG-54255,proposed,392.0,392.0,True,True,first
+LEG-63476,homes,106.0,106.0,True,True,first
+LEG-63476,rule,central area: none,central area: none,True,True,first
+LEG-63476,required,0,0.0,True,True,first
+LEG-63476,proposed,16.0,16.0,True,True,first
+LEG-68202,homes,144.0,144.0,True,True,first
+LEG-68202,rule,central area: none,central area: none,True,True,first
+LEG-68202,required,0,0.0,True,True,first
+LEG-68202,proposed,110.0,110.0,True,True,first
+LEG-47311,homes,47.0,47.0,True,True,first
+LEG-47311,rule,no minimum (district),no minimum (district),True,True,first
+LEG-47311,required,0,0.0,True,True,first
+LEG-47311,proposed,99.0,99.0,True,True,first
+LEG-58489,homes,59.0,59.0,True,True,first
+LEG-58489,rule,positive code minimum,positive code minimum,True,True,first
+LEG-58489,required,59.0,59.0,True,True,first
+LEG-58489,proposed,70.0,70.0,True,True,first
+LEG-62084,homes,11.0,11.0,True,True,first
+LEG-62084,rule,positive code minimum,positive code minimum,True,True,first
+LEG-62084,required,11.0,11.0,True,True,first
+LEG-62084,proposed,25.0,25.0,True,True,first
+LEG-44993,homes,80.0,80.0,True,True,first
+LEG-44993,rule,positive code minimum,positive code minimum,True,True,first
+LEG-44993,required,80.0,80.0,True,True,first
+LEG-44993,proposed,80.0,80.0,True,True,first
+LEG-73364,homes,32.0,32.0,True,True,first
+LEG-73364,rule,central area: none,central area: none,True,True,first
+LEG-73364,required,0,0.0,True,True,first
+LEG-73364,proposed,24.0,24.0,True,True,first
+LEG-59935,homes,102.0,130.0,False,True,first
+LEG-59935,rule,positive code minimum,positive code minimum,True,True,first
+LEG-59935,required,130.0,130.0,True,True,first
+LEG-59935,proposed,129.0,129.0,True,True,first
+LEG-54131,homes,4.0,4.0,True,False,first
+LEG-54131,rule,positive code minimum,not a dwelling minimum (excluded),False,False,first
+LEG-54131,required,6.0,,False,False,first
+LEG-54131,proposed,9.0,9.0,True,False,first
+LEG-40042,homes,2.0,2.0,True,False,first
+LEG-40042,rule,no staff pdf,no staff pdf,True,False,first
+LEG-40042,required,,,True,False,first
+LEG-40042,proposed,,,True,False,first
+LEG-72299,homes,,,True,False,first
+LEG-72299,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-72299,required,,,True,False,first
+LEG-72299,proposed,,,True,False,first
+LEG-48147,homes,2.0,2.0,True,False,first
+LEG-48147,rule,no table,no table,True,False,first
+LEG-48147,required,,,True,False,first
+LEG-48147,proposed,,,True,False,first
+LEG-52912,homes,58.0,58.0,True,False,first
+LEG-52912,rule,no staff pdf,no staff pdf,True,False,first
+LEG-52912,required,,,True,False,first
+LEG-52912,proposed,,,True,False,first
+LEG-71881,homes,17.0,17.0,True,False,first
+LEG-71881,rule,no table,no table,True,False,first
+LEG-71881,required,,,True,False,first
+LEG-71881,proposed,,,True,False,first
+LEG-39566,homes,60.0,60.0,True,False,first
+LEG-39566,rule,no staff pdf,no staff pdf,True,False,first
+LEG-39566,required,,,True,False,first
+LEG-39566,proposed,,,True,False,first
+LEG-50431,homes,2.0,4.0,False,False,first
+LEG-50431,rule,unclear,location only (excluded),False,False,first
+LEG-50431,required,,,True,False,first
+LEG-50431,proposed,2.0,2.0,True,False,first
+LEG-62137,homes,,,True,False,first
+LEG-62137,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-62137,required,,,True,False,first
+LEG-62137,proposed,,844.0,False,False,first
+LEG-39299,homes,80.0,80.0,True,False,first
+LEG-39299,rule,no table,planned development: no code minimum,False,False,first
+LEG-39299,required,,,True,False,first
+LEG-39299,proposed,,121.0,False,False,first
+LEG-38463,homes,80.0,80.0,True,False,first
+LEG-38463,rule,no staff pdf,duplicate (excluded),False,False,first
+LEG-38463,required,,,True,False,first
+LEG-38463,proposed,,,True,False,first
+LEG-53953,homes,157.0,173.0,False,False,first
+LEG-53953,rule,no table,planned development: no code minimum,False,False,first
+LEG-53953,required,,,True,False,first
+LEG-53953,proposed,,159.0,False,False,first
+LEG-37589,homes,350.0,367.0,False,False,first
+LEG-37589,rule,no table,central area: none,False,False,first
+LEG-37589,required,,0.0,False,False,first
+LEG-37589,proposed,,152.0,False,False,first
+LEG-65661,homes,70.0,70.0,True,False,first
+LEG-65661,rule,no table,planned development: no code minimum,False,False,first
+LEG-65661,required,,,True,False,first
+LEG-65661,proposed,,,True,False,first
+LEG-43667,homes,4.0,4.0,True,False,first
+LEG-43667,rule,no staff pdf,no staff pdf,True,False,first
+LEG-43667,required,,,True,False,first
+LEG-43667,proposed,,,True,False,first
+LEG-54249,homes,,79.0,False,False,first
+LEG-54249,rule,not multifamily (no 2+ homes found),duplicate (excluded),False,False,first
+LEG-54249,required,,,True,False,first
+LEG-54249,proposed,,,True,False,first
+LEG-53460,homes,,,True,False,first
+LEG-53460,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-53460,required,,,True,False,first
+LEG-53460,proposed,,,True,False,first
+LEG-37378,homes,189.0,189.0,True,False,first
+LEG-37378,rule,no table,no table,True,False,first
+LEG-37378,required,,,True,False,first
+LEG-37378,proposed,,192.0,False,False,first
+LEG-37163,homes,106.0,,False,False,first
+LEG-37163,rule,no staff pdf,not multifamily (excluded),False,False,first
+LEG-37163,required,,,True,False,first
+LEG-37163,proposed,,,True,False,first
+LEG-58012,homes,,,True,False,first
+LEG-58012,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-58012,required,,,True,False,first
+LEG-58012,proposed,,,True,False,first
+LEG-60084,homes,,13.0,False,False,first
+LEG-60084,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-60084,required,,,True,False,first
+LEG-60084,proposed,,28.0,False,False,first
+LEG-45249,homes,44.0,44.0,True,False,first
+LEG-45249,rule,positive code minimum,positive code minimum,True,False,first
+LEG-45249,required,13.0,44.0,False,False,first
+LEG-45249,proposed,,43.0,False,False,first
+LEG-55382,homes,48.0,48.0,True,False,first
+LEG-55382,rule,no staff pdf,no staff pdf,True,False,first
+LEG-55382,required,,,True,False,first
+LEG-55382,proposed,,,True,False,first
+LEG-44183,homes,43.0,292.0,False,False,first
+LEG-44183,rule,unclear,positive code minimum,False,False,first
+LEG-44183,required,,292.0,False,False,first
+LEG-44183,proposed,183.0,268.0,False,False,first
+LEG-42643,homes,,,True,False,first
+LEG-42643,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-42643,required,,,True,False,first
+LEG-42643,proposed,,157.0,False,False,first
+LEG-51721,homes,75.0,75.0,True,False,first
+LEG-51721,rule,no staff pdf,no staff pdf,True,False,first
+LEG-51721,required,,,True,False,first
+LEG-51721,proposed,,,True,False,first
+LEG-55180,homes,,8.0,False,False,first
+LEG-55180,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-55180,required,,,True,False,first
+LEG-55180,proposed,,,True,False,first
+LEG-57108,homes,44.0,44.0,True,False,first
+LEG-57108,rule,unclear,positive code minimum,False,False,first
+LEG-57108,required,,44.0,False,False,first
+LEG-57108,proposed,181.0,148.0,False,False,first
+LEG-50430,homes,54.0,54.0,True,False,first
+LEG-50430,rule,no staff pdf,no staff pdf,True,False,first
+LEG-50430,required,,,True,False,first
+LEG-50430,proposed,,,True,False,first
+LEG-59635,homes,,,True,False,first
+LEG-59635,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-59635,required,,,True,False,first
+LEG-59635,proposed,,372.0,False,False,first
+LEG-56865,homes,82.0,82.0,True,False,first
+LEG-56865,rule,no table,planned development: no code minimum,False,False,first
+LEG-56865,required,,,True,False,first
+LEG-56865,proposed,,,True,False,first
+LEG-47242,homes,,,True,False,first
+LEG-47242,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-47242,required,,,True,False,first
+LEG-47242,proposed,,,True,False,first
+LEG-40269,homes,,,True,False,first
+LEG-40269,rule,not multifamily (no 2+ homes found),not multifamily (excluded),False,False,first
+LEG-40269,required,,,True,False,first
+LEG-40269,proposed,,,True,False,first
+LEG-60915,homes,,,True,False,first
+LEG-60915,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-60915,required,,,True,False,first
+LEG-60915,proposed,,,True,False,first
+LEG-48156,homes,,,True,False,first
+LEG-48156,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-48156,required,,,True,False,first
+LEG-48156,proposed,,,True,False,first
+LEG-59387,homes,,,True,False,first
+LEG-59387,rule,not multifamily (no 2+ homes found),not multifamily (excluded),False,False,first
+LEG-59387,required,,,True,False,first
+LEG-59387,proposed,,113.0,False,False,first
+LEG-59543,homes,44.0,44.0,True,False,first
+LEG-59543,rule,positive code minimum,positive code minimum,True,False,first
+LEG-59543,required,44.0,44.0,True,False,first
+LEG-59543,proposed,60.0,60.0,True,False,first
+LEG-39876,homes,26.0,26.0,True,False,first
+LEG-39876,rule,no staff pdf,no table,False,False,first
+LEG-39876,required,,,True,False,first
+LEG-39876,proposed,,,True,False,first
+LEG-60243,homes,,189.0,False,False,first
+LEG-60243,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-60243,required,,,True,False,first
+LEG-60243,proposed,,,True,False,first
+LEG-62873,homes,15.0,15.0,True,False,first
+LEG-62873,rule,no table,no table,True,False,first
+LEG-62873,required,,,True,False,first
+LEG-62873,proposed,,,True,False,first
+LEG-56465,homes,,,True,False,first
+LEG-56465,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-56465,required,,,True,False,first
+LEG-56465,proposed,,,True,False,first
+LEG-41053,homes,,46.0,False,False,first
+LEG-41053,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-41053,required,,,True,False,first
+LEG-41053,proposed,,28.0,False,False,first
+LEG-49895,homes,,,True,False,first
+LEG-49895,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-49895,required,,,True,False,first
+LEG-49895,proposed,,84.0,False,False,first
+LEG-55385,homes,,,True,False,first
+LEG-55385,rule,not multifamily (no 2+ homes found),not multifamily (excluded),False,False,first
+LEG-55385,required,,,True,False,first
+LEG-55385,proposed,,239.0,False,False,first
+LEG-39481,homes,,2.0,False,False,first
+LEG-39481,rule,not multifamily (no 2+ homes found),positive code minimum,False,False,first
+LEG-39481,required,,2.0,False,False,first
+LEG-39481,proposed,,4.0,False,False,first
+LEG-43343,homes,,,True,False,first
+LEG-43343,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-43343,required,,,True,False,first
+LEG-43343,proposed,,,True,False,first
+LEG-58781,homes,,2.0,False,False,first
+LEG-58781,rule,not multifamily (no 2+ homes found),no table,False,False,first
+LEG-58781,required,,,True,False,first
+LEG-58781,proposed,,,True,False,first
+LEG-46314,homes,,,True,False,first
+LEG-46314,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-46314,required,,,True,False,first
+LEG-46314,proposed,,212.0,False,False,first
+LEG-68642,homes,90.0,90.0,True,False,first
+LEG-68642,rule,planned development: no code minimum,planned development: no code minimum,True,False,first
+LEG-68642,required,,,True,False,first
+LEG-68642,proposed,,,True,False,first
+LEG-49894,homes,36.0,36.0,True,False,first
+LEG-49894,rule,no table,planned development: no code minimum,False,False,first
+LEG-49894,required,,,True,False,first
+LEG-49894,proposed,,,True,False,first
+LEG-40408,homes,103.0,103.0,True,False,first
+LEG-40408,rule,no staff pdf,no staff pdf,True,False,first
+LEG-40408,required,,,True,False,first
+LEG-40408,proposed,,,True,False,first
+LEG-47268,homes,,,True,False,first
+LEG-47268,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-47268,required,,,True,False,first
+LEG-47268,proposed,,,True,False,first
+LEG-61389,homes,,147.0,False,False,first
+LEG-61389,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-61389,required,,,True,False,first
+LEG-61389,proposed,,277.0,False,False,first
+LEG-40958,homes,54.0,54.0,True,False,first
+LEG-40958,rule,no table,planned development: no code minimum,False,False,first
+LEG-40958,required,,,True,False,first
+LEG-40958,proposed,,81.0,False,False,first
+LEG-41245,homes,6.0,6.0,True,False,first
+LEG-41245,rule,no staff pdf,no staff pdf,True,False,first
+LEG-41245,required,,,True,False,first
+LEG-41245,proposed,,,True,False,first
+LEG-50844,homes,,90.0,False,False,first
+LEG-50844,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-50844,required,,,True,False,first
+LEG-50844,proposed,,,True,False,first
+LEG-44126,homes,31.0,31.0,True,False,first
+LEG-44126,rule,no staff pdf,no staff pdf,True,False,first
+LEG-44126,required,,,True,False,first
+LEG-44126,proposed,,,True,False,first
+LEG-53563,homes,33.0,50.0,False,False,first
+LEG-53563,rule,no staff pdf,no staff pdf,True,False,first
+LEG-53563,required,,,True,False,first
+LEG-53563,proposed,,,True,False,first
+LEG-56462,homes,,,True,False,first
+LEG-56462,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-56462,required,,,True,False,first
+LEG-56462,proposed,,,True,False,first
+LEG-43579,homes,156.0,156.0,True,False,first
+LEG-43579,rule,no staff pdf,no staff pdf,True,False,first
+LEG-43579,required,,,True,False,first
+LEG-43579,proposed,,,True,False,first
+LEG-55573,homes,,,True,False,first
+LEG-55573,rule,not multifamily (no 2+ homes found),not multifamily (excluded),False,False,first
+LEG-55573,required,,,True,False,first
+LEG-55573,proposed,,,True,False,first
+LEG-46971,homes,189.0,189.0,True,False,first
+LEG-46971,rule,no staff pdf,no staff pdf,True,False,first
+LEG-46971,required,,,True,False,first
+LEG-46971,proposed,,,True,False,first
+LEG-42145,homes,88.0,88.0,True,False,first
+LEG-42145,rule,no staff pdf,no staff pdf,True,False,first
+LEG-42145,required,,,True,False,first
+LEG-42145,proposed,,,True,False,first
+LEG-52535,homes,,,True,False,first
+LEG-52535,rule,not multifamily (no 2+ homes found),not multifamily (excluded),False,False,first
+LEG-52535,required,,,True,False,first
+LEG-52535,proposed,,,True,False,first
+LEG-62642,homes,,,True,False,first
+LEG-62642,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-62642,required,,,True,False,first
+LEG-62642,proposed,,,True,False,first
+LEG-50364,homes,59.0,59.0,True,False,first
+LEG-50364,rule,no table,planned development: no code minimum,False,False,first
+LEG-50364,required,,,True,False,first
+LEG-50364,proposed,,,True,False,first
+LEG-59856,homes,,105.0,False,False,first
+LEG-59856,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-59856,required,,,True,False,first
+LEG-59856,proposed,,191.0,False,False,first
+LEG-49922,homes,77.0,77.0,True,False,first
+LEG-49922,rule,no staff pdf,no minimum (district),False,False,first
+LEG-49922,required,,0.0,False,False,first
+LEG-49922,proposed,,169.0,False,False,first
+LEG-47241,homes,,,True,False,first
+LEG-47241,rule,not multifamily (no 2+ homes found),no staff pdf,False,False,first
+LEG-47241,required,,,True,False,first
+LEG-47241,proposed,,,True,False,first
+LEG-62944,homes,150.0,150.0,True,False,first
+LEG-62944,rule,unclear,positive code minimum,False,False,first
+LEG-62944,required,,150.0,False,False,first
+LEG-62944,proposed,212.0,161.0,False,False,first
+LEG-57114,homes,50.0,50.0,True,False,first
+LEG-57114,rule,no staff pdf,no staff pdf,True,False,first
+LEG-57114,required,,,True,False,first
+LEG-57114,proposed,,,True,False,first
+LEG-60686,homes,300.0,300.0,True,False,first
+LEG-60686,rule,positive code minimum,positive code minimum,True,False,first
+LEG-60686,required,300.0,300.0,True,False,first
+LEG-60686,proposed,224.0,512.0,False,False,first
+LEG-64038,homes,8.0,8.0,True,False,first
+LEG-64038,rule,no staff pdf,no staff pdf,True,False,first
+LEG-64038,required,,,True,False,first
+LEG-64038,proposed,,,True,False,first
+LEG-53608,homes,,,True,False,first
+LEG-53608,rule,not multifamily (no 2+ homes found),planned development: no code minimum,False,False,first
+LEG-53608,required,,,True,False,first
+LEG-53608,proposed,,0.0,False,False,first
+LEG-62598,homes,20.0,20.0,True,False,first
+LEG-62598,rule,central area: none,central area: none,True,False,first
+LEG-62598,required,0,0.0,True,False,first
+LEG-62598,proposed,0.0,0.0,True,False,first

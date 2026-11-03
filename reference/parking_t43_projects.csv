@@ -1,0 +1,117 @@
+project_id,year,kind,district,rule,homes,required,required_total,required_compared,combined_total_unknown,proposed,maximum,max_within_025_of_min,mixed_use,reduction_or_variance_in_table,reduction_or_variance_in_text,required_per_home,proposed_per_home,gap_per_home,n_files,coding_order,qualifies
+LEG-48338,2017,conditional use,,positive code minimum,7.0,7.0,9.0,9.0,False,9.0,,False,True,False,False,1.2857142857142858,1.2857142857142858,0.0,1,1,True
+LEG-53277,2018,conditional use,,positive code minimum,88.0,88.0,,88.0,False,127.0,,False,False,False,False,1.0,1.4431818181818181,0.443182,2,2,True
+LEG-54131,2018,conditional use,,not a dwelling minimum (excluded),4.0,,,,False,9.0,,False,False,False,False,,2.25,,1,3,False
+LEG-40042,2015,conditional use,,no staff pdf,2.0,,,,False,,,False,False,False,,,,,1,4,False
+LEG-72299,2022,site plan,,no staff pdf,,,,,False,,,False,False,False,,,,,1,5,False
+LEG-48147,2017,conditional use,,no table,2.0,,,,False,,,False,False,False,False,,,,1,6,False
+LEG-51768,2018,conditional use,,central area: none,31.0,0.0,,0.0,False,14.0,,False,False,False,True,0.0,0.45161290322580644,0.451613,3,7,False
+LEG-52912,2018,conditional use,,no staff pdf,58.0,,,,False,,,False,False,False,,,,,3,8,False
+LEG-37586,2015,conditional use,,positive code minimum,19.0,19.0,,19.0,True,29.0,,False,True,False,False,1.0,1.5263157894736843,0.526316,1,9,True
+LEG-71881,2022,site plan,,no table,17.0,,,,False,,,False,False,False,False,,,,1,10,False
+LEG-39566,2015,site plan,,no staff pdf,60.0,,,,False,,,False,False,False,,,,,2,11,False
+LEG-50431,2018,conditional use,,location only (excluded),4.0,,,,False,2.0,,False,False,False,False,,0.5,,1,12,False
+LEG-60667,2020,conditional use,CC-T,no minimum (district),64.0,0.0,,0.0,False,71.0,175.0,False,False,False,False,0.0,1.109375,1.109375,2,13,False
+LEG-62137,2020,planned development,,planned development: no code minimum,,,,,True,844.0,,False,True,False,,,,,1,14,False
+LEG-73191,2022,conditional use,DC,central area: none,337.0,0.0,,0.0,False,345.0,,False,False,False,False,0.0,1.0237388724035608,1.023739,1,15,False
+LEG-64584,2021,conditional use,UMX,central area: none,206.0,0.0,,0.0,False,237.0,,False,False,False,False,0.0,1.1504854368932038,1.150485,1,16,False
+LEG-39299,2015,planned development,,planned development: no code minimum,80.0,,,,False,121.0,,False,False,False,False,,1.5125,,1,17,False
+LEG-38463,2015,site plan,,duplicate (excluded),80.0,,,,False,,,False,False,False,False,,,,1,18,False
+LEG-72468,2022,planned development,PD,planned development: no code minimum,54.0,,,,False,,,False,False,False,False,,,,1,19,False
+LEG-53953,2018,planned development,,planned development: no code minimum,173.0,,,,True,159.0,,False,True,False,True,,0.9190751445086706,,4,20,False
+LEG-67284,2021,conditional use,TR-U1,positive code minimum,41.0,41.0,,41.0,False,62.0,102.0,False,False,False,False,1.0,1.5121951219512195,0.512195,1,21,True
+LEG-37589,2015,conditional use,,central area: none,367.0,0.0,,0.0,True,152.0,,False,True,False,False,0.0,0.4141689373297003,0.414169,2,22,False
+LEG-65661,2021,planned development,PD,planned development: no code minimum,70.0,,,,False,,,False,False,False,False,,,,3,23,False
+LEG-43667,2016,site plan,,no staff pdf,4.0,,,,False,,,False,False,False,,,,,1,24,False
+LEG-58231,2019,conditional use,TR-U2,positive code minimum,53.0,53.0,,53.0,False,61.0,,False,False,False,False,1.0,1.150943396226415,0.150943,2,25,True
+LEG-54038,2018,conditional use,TSS,positive code minimum,79.0,79.0,,79.0,False,120.0,,False,False,False,False,1.0,1.518987341772152,0.518987,1,26,True
+LEG-54249,2019,planned development,,duplicate (excluded),79.0,,,,False,,,False,False,False,,,,,1,27,False
+LEG-72364,2022,conditional use,TR-U2,positive code minimum,105.0,105.0,,105.0,False,121.0,,False,False,False,False,1.0,1.1523809523809523,0.152381,2,28,True
+LEG-53619,2018,conditional use,CC-T,no minimum (district),67.0,0.0,,0.0,False,205.0,322.0,False,False,False,False,0.0,3.0597014925373136,3.059701,1,29,False
+LEG-53460,2018,site plan,,no staff pdf,,,,,False,,,False,False,False,,,,,1,30,False
+LEG-37378,2015,conditional use,,no table,189.0,,,,False,192.0,,False,False,False,False,,1.0158730158730158,,2,31,False
+LEG-69786,2022,conditional use,NMX,positive code minimum,31.0,31.0,33.0,33.0,False,26.0,,False,True,False,True,1.064516129032258,0.8387096774193549,-0.225806,1,32,True
+LEG-37163,2015,site plan,,not multifamily (excluded),,,,,False,,,False,False,False,False,,,,1,33,False
+LEG-58012,2019,planned development,,planned development: no code minimum,,,,,False,,,False,False,False,,,,,1,34,False
+LEG-60084,2020,planned development,,planned development: no code minimum,13.0,,,,False,28.0,,False,False,False,,,2.1538461538461537,,1,35,False
+LEG-45249,2016,conditional use,,positive code minimum,44.0,44.0,57.0,57.0,False,43.0,,False,True,False,True,1.2954545454545454,0.9772727272727273,-0.318182,2,36,True
+LEG-55382,2019,site plan,CC-T,no staff pdf,48.0,,,,False,,,False,False,False,,,,,2,37,False
+LEG-44183,2016,conditional use,,positive code minimum,292.0,292.0,,292.0,True,268.0,,False,True,False,False,1.0,0.9178082191780822,-0.082192,1,38,True
+LEG-42643,2016,planned development,,planned development: no code minimum,,,,,False,157.0,,False,False,False,,,,,2,39,False
+LEG-51721,2018,site plan,,no staff pdf,75.0,,,,False,,,False,False,False,,,,,1,40,False
+LEG-63206,2020,conditional use,TSS,positive code minimum,19.0,19.0,21.0,21.0,False,17.0,,False,True,False,True,1.105263157894737,0.8947368421052632,-0.210526,2,41,True
+LEG-67276,2021,conditional use,TSS,positive code minimum,24.0,24.0,27.0,27.0,False,14.0,,False,True,False,True,1.125,0.5833333333333334,-0.541667,1,42,True
+LEG-55180,2019,conditional use,SR-V2,no staff pdf,8.0,,,,False,,,False,False,False,,,,,1,43,False
+LEG-57108,2019,conditional use,TE,positive code minimum,44.0,44.0,181.0,181.0,False,148.0,,False,True,True,True,4.113636363636363,3.3636363636363638,-0.75,2,44,True
+LEG-50430,2018,conditional use,,no staff pdf,54.0,,,,False,,,False,False,False,,,,,1,45,False
+LEG-59635,2020,planned development,,planned development: no code minimum,,,,,False,372.0,,False,False,False,,,,,1,46,False
+LEG-56865,2019,planned development,,planned development: no code minimum,82.0,,,,False,,,False,False,False,False,,,,1,47,False
+LEG-62084,2020,conditional use,TSS,positive code minimum,11.0,11.0,31.0,31.0,False,25.0,,False,True,False,True,2.8181818181818183,2.272727272727273,-0.545455,2,48,True
+LEG-67515,2021,conditional use,TR-U2,positive code minimum,72.0,72.0,,72.0,False,85.0,,False,False,False,False,1.0,1.1805555555555556,0.180556,1,49,True
+LEG-74053,2022,conditional use,CC,no minimum (district),124.0,0.0,,0.0,False,167.0,,False,False,False,False,0.0,1.346774193548387,1.346774,1,50,False
+LEG-59072,2020,conditional use,CC-T,no minimum (district),268.0,0.0,,0.0,False,550.0,,False,False,False,False,0.0,2.0522388059701493,2.052239,1,51,False
+LEG-47242,2017,planned development,,no staff pdf,,,,,False,,,False,False,False,,,,,1,52,False
+LEG-51320,2018,site plan,,planned development: no code minimum,,,,,True,224.0,,False,True,False,True,,,,2,53,False
+LEG-59935,2020,conditional use,TR-U1,positive code minimum,130.0,130.0,,130.0,False,129.0,,False,False,False,True,1.0,0.9923076923076923,-0.007692,1,54,True
+LEG-40269,2015,planned development,,not multifamily (excluded),,,,,False,,,False,False,False,,,,,1,55,False
+LEG-60915,2020,planned development,,no staff pdf,,,,,False,,,False,False,False,,,,,1,56,False
+LEG-48156,2017,conditional use,,no staff pdf,,,,,False,,,False,False,False,,,,,1,57,False
+LEG-59387,2020,planned development,,not multifamily (excluded),,,,,False,113.0,,False,False,False,,,,,1,58,False
+LEG-59543,2020,conditional use,TSS,positive code minimum,44.0,44.0,50.0,50.0,False,60.0,,False,True,False,False,1.1363636363636365,1.3636363636363635,0.227273,2,59,True
+LEG-39876,2015,site plan,,no table,26.0,,,,False,,,False,False,False,False,,,,1,60,False
+LEG-60243,2020,planned development,,planned development: no code minimum,189.0,,,,True,,,False,True,False,,,,,1,61,False
+LEG-62873,2020,site plan,TR-P,no table,15.0,,,,False,,,False,False,False,False,,,,1,62,False
+LEG-56465,2019,planned development,,no staff pdf,,,,,False,,,False,False,False,,,,,1,63,False
+LEG-41053,2015,site plan,,planned development: no code minimum,46.0,,,,False,28.0,,False,False,False,False,,0.6086956521739131,,1,64,False
+LEG-56548,2019,conditional use,,split district (excluded),189.0,,,,False,312.0,,False,False,False,False,,1.6507936507936507,,1,65,False
+LEG-62082,2020,conditional use,TE,positive code minimum,75.0,75.0,89.0,89.0,False,0.0,,False,True,True,True,1.1866666666666668,0.0,-1.186667,2,66,True
+LEG-62085,2020,conditional use,NMX,positive code minimum,49.0,49.0,53.0,53.0,False,70.0,,False,True,False,False,1.0816326530612246,1.4285714285714286,0.346939,1,67,True
+LEG-57810,2019,conditional use,UMX,central area: none,51.0,0.0,,0.0,False,82.0,,False,False,False,False,0.0,1.607843137254902,1.607843,1,68,False
+LEG-49895,2017,planned development,,planned development: no code minimum,,,,,False,84.0,,False,False,False,,,,,1,69,False
+LEG-72211,2022,conditional use,TR-U1,positive code minimum,160.0,160.0,,160.0,False,168.0,,False,False,False,False,1.0,1.05,0.05,1,70,True
+LEG-57807,2019,conditional use,CC-T,no minimum (district),55.0,0.0,,0.0,False,123.0,,False,False,False,True,0.0,2.2363636363636363,2.236364,1,71,False
+LEG-55385,2019,planned development,,not multifamily (excluded),,,,,False,239.0,,False,False,False,,,,,1,72,False
+LEG-39481,2015,conditional use,,positive code minimum,2.0,2.0,,2.0,False,4.0,,False,False,False,False,1.0,2.0,1.0,1,73,True
+LEG-74260,2022,conditional use,CC-T,no minimum (district),87.0,0.0,,0.0,False,88.0,,False,False,False,False,0.0,1.0114942528735633,1.011494,1,74,False
+LEG-43343,2016,planned development,,planned development: no code minimum,,,,,False,,,False,False,False,,,,,1,75,False
+LEG-58781,2019,site plan,TR-P,no table,2.0,,,,False,,,False,False,False,False,,,,1,76,False
+LEG-47312,2017,conditional use,,no minimum (district),48.0,0.0,,0.0,True,67.0,,False,True,False,False,0.0,1.3958333333333333,1.395833,4,77,False
+LEG-46314,2017,planned development,,planned development: no code minimum,,,,,True,212.0,,False,True,False,,,,,1,78,False
+LEG-68642,2021,planned development,PD,planned development: no code minimum,90.0,,,,False,,,False,False,False,False,,,,1,79,False
+LEG-49894,2017,planned development,,planned development: no code minimum,36.0,,,,False,,,False,False,False,False,,,,1,80,False
+LEG-55460,2019,conditional use,SR-V1,positive code minimum,4.0,4.0,,4.0,False,7.0,,False,False,False,False,1.0,1.75,0.75,1,81,True
+LEG-40408,2015,conditional use,,no staff pdf,103.0,,,,False,,,False,False,False,,,,,1,82,False
+LEG-65485,2021,conditional use,TE,positive code minimum,226.0,226.0,,226.0,True,142.0,,False,True,True,True,1.0,0.6283185840707964,-0.371681,2,83,True
+LEG-43422,2016,conditional use,,positive code minimum,94.0,94.0,,94.0,False,139.0,235.0,False,False,False,False,1.0,1.4787234042553192,0.478723,2,84,True
+LEG-47311,2017,conditional use,,no minimum (district),47.0,0.0,,0.0,False,99.0,,False,False,False,False,0.0,2.106382978723404,2.106383,4,85,False
+LEG-71657,2022,conditional use,CC-T,no minimum (district),110.0,0.0,,0.0,False,282.0,,False,False,False,False,0.0,2.5636363636363635,2.563636,1,86,False
+LEG-47268,2017,site plan,,no staff pdf,,,,,False,,,False,False,False,,,,,1,87,False
+LEG-62317,2020,conditional use,SR-V2,positive code minimum,83.0,83.0,,83.0,False,195.0,,False,False,False,False,1.0,2.3493975903614457,1.349398,1,88,True
+LEG-61389,2020,planned development,,planned development: no code minimum,147.0,,,,True,277.0,,False,True,False,,,1.8843537414965987,,1,89,False
+LEG-40958,2015,planned development,,planned development: no code minimum,54.0,,,,False,81.0,,False,False,False,True,,1.5,,2,90,False
+LEG-45130,2016,conditional use,,no minimum (district),57.0,0.0,,0.0,False,108.0,,False,False,False,False,0.0,1.894736842105263,1.894737,2,91,False
+LEG-41245,2015,site plan,,no staff pdf,6.0,,,,False,,,False,False,False,,,,,1,92,False
+LEG-44993,2016,conditional use,,positive code minimum,80.0,80.0,86.0,86.0,False,80.0,,False,True,False,True,1.075,1.0,-0.075,1,93,True
+LEG-73364,2022,conditional use,DR2,central area: none,32.0,0.0,,0.0,False,24.0,,False,False,False,False,0.0,0.75,0.75,1,94,False
+LEG-50844,2018,site plan,,no staff pdf,90.0,,,,False,,,False,False,False,,,,,1,95,False
+LEG-44126,2016,conditional use,,no staff pdf,31.0,,,,False,,,False,False,False,,,,,3,96,False
+LEG-54404,2019,conditional use,SR-C3,location only (excluded),2.0,,,,False,,,False,False,False,False,,,,1,97,False
+LEG-68202,2021,conditional use,UMX,central area: none,144.0,0.0,,0.0,False,110.0,,False,False,False,False,0.0,0.7638888888888888,0.763889,1,98,False
+LEG-53563,2020,site plan,,no staff pdf,50.0,,,,False,,,False,False,False,,,,,1,99,False
+LEG-56462,2019,planned development,,planned development: no code minimum,,,,,False,,,False,False,False,,,,,1,100,False
+LEG-51953,2018,conditional use,,no minimum (district),9.0,0.0,,0.0,False,4.0,,False,False,False,False,0.0,0.4444444444444444,0.444444,1,101,False
+LEG-58489,2019,conditional use,TR-U2,positive code minimum,59.0,59.0,,59.0,False,70.0,,False,False,False,False,1.0,1.1864406779661016,0.186441,1,102,True
+LEG-43579,2016,conditional use,,no staff pdf,156.0,,,,False,,,False,False,False,,,,,2,103,False
+LEG-60486,2020,conditional use,TR-P,positive code minimum,96.0,96.0,,96.0,False,136.0,,False,False,False,False,1.0,1.4166666666666667,0.416667,1,104,True
+LEG-55573,2019,planned development,,not multifamily (excluded),,,,,False,,,False,False,False,,,,,1,105,False
+LEG-46971,2017,conditional use,,no staff pdf,189.0,,,,False,,,False,False,False,,,,,2,106,False
+LEG-42145,2016,conditional use,UMX,no staff pdf,88.0,,,,False,,,False,False,False,,,,,2,107,False
+LEG-52535,2018,planned development,,not multifamily (excluded),,,,,False,,,False,False,False,,,,,1,108,False
+LEG-62642,2020,planned development,,no staff pdf,,,,,False,,,False,False,False,,,,,2,109,False
+LEG-50364,2018,planned development,,planned development: no code minimum,59.0,,,,True,,,False,True,False,False,,,,2,110,False
+LEG-59856,2020,planned development,,planned development: no code minimum,105.0,,,,True,191.0,,False,True,False,,,1.819047619047619,,4,111,False
+LEG-49922,2017,conditional use,,no minimum (district),77.0,0.0,,0.0,True,169.0,,False,True,False,False,0.0,2.1948051948051948,2.194805,1,112,False
+LEG-47241,2017,planned development,,no staff pdf,,,,,False,,,False,False,False,,,,,1,113,False
+LEG-62944,2020,conditional use,TSS,positive code minimum,150.0,150.0,212.0,212.0,False,161.0,,False,True,True,True,1.4133333333333333,1.0733333333333333,-0.34,1,114,True
+LEG-57114,2019,site plan,,no staff pdf,50.0,,,,False,,,False,False,False,,,,,1,115,False
+LEG-60686,2020,conditional use,TR-U2,positive code minimum,300.0,300.0,,300.0,False,512.0,,False,False,False,False,1.0,1.7066666666666668,0.706667,1,116,True

@@ -1,0 +1,20 @@
+test,group,measure,count,of,value,p05,p95,unit,interval
+43,all qualifying,projects,30.0,30,30,,,projects,
+43,all qualifying,at the minimum (|gap| <= 0.05 spaces per home),3.0,30,0.1,0.03333333333333333,0.2,share of projects (count / projects with a positive code minimum and both numbers),"90% from 2,000 project resamples, seed 20261104"
+43,all qualifying,0.05 to 0.10 spaces per home above (band comparison),0.0,30,0.0,0.0,0.0,share of projects (count / projects with a positive code minimum and both numbers),"90% from 2,000 project resamples, seed 20261104"
+43,all qualifying,above the minimum (gap > 0.05),16.0,30,0.5333333333333333,0.4,0.6666666666666666,share of projects (count / projects with a positive code minimum and both numbers),"90% from 2,000 project resamples, seed 20261104"
+43,all qualifying,below the minimum (gap < -0.05; reduction or variance),11.0,30,0.36666666666666664,0.23333333333333334,0.5,share of projects (count / projects with a positive code minimum and both numbers),"90% from 2,000 project resamples, seed 20261104"
+43,all qualifying,proposed spaces per home (median),,30,1.2360774818401938,0.6035766961651917,2.3148959474260677,proposed stalls / homes; p05 and p95 are the 5th and 95th percentiles across projects,
+43,all qualifying,maximum within 0.25 spaces per home of the minimum,0.0,30,0.0,,,share of projects (count / projects with a positive code minimum and both numbers),
+43,all qualifying,reduction or variance shown in the table,4.0,30,0.13333333333333333,,,share of projects (count / projects with a positive code minimum and both numbers),
+43,"qualifying, mixed-use excluded",projects,15.0,15,15,,,projects,
+43,"qualifying, mixed-use excluded",at the minimum (|gap| <= 0.05 spaces per home),2.0,15,0.13333333333333333,0.0,0.26666666666666666,share of projects (count / projects with a positive code minimum and both numbers),"90% from 2,000 project resamples, seed 20261104"
+43,"qualifying, mixed-use excluded",0.05 to 0.10 spaces per home above (band comparison),0.0,15,0.0,0.0,0.0,share of projects (count / projects with a positive code minimum and both numbers),"90% from 2,000 project resamples, seed 20261104"
+43,"qualifying, mixed-use excluded",above the minimum (gap > 0.05),13.0,15,0.8666666666666667,0.7333333333333333,1.0,share of projects (count / projects with a positive code minimum and both numbers),"90% from 2,000 project resamples, seed 20261104"
+43,"qualifying, mixed-use excluded",below the minimum (gap < -0.05; reduction or variance),0.0,15,0.0,0.0,0.0,share of projects (count / projects with a positive code minimum and both numbers),"90% from 2,000 project resamples, seed 20261104"
+43,"qualifying, mixed-use excluded",proposed spaces per home (median),,15,1.4431818181818181,1.0326923076923078,2.1048192771084335,proposed stalls / homes; p05 and p95 are the 5th and 95th percentiles across projects,
+43,"qualifying, mixed-use excluded",maximum within 0.25 spaces per home of the minimum,0.0,15,0.0,,,share of projects (count / projects with a positive code minimum and both numbers),
+43,"qualifying, mixed-use excluded",reduction or variance shown in the table,0.0,15,0.0,,,share of projects (count / projects with a positive code minimum and both numbers),
+43,central area (no minimum),proposed spaces per home (median),,7,0.7638888888888888,0.42540212709853215,1.4706358271463922,proposed stalls / homes; p05 and p95 are the 5th and 95th percentiles across projects,
+43,other no-minimum districts,proposed spaces per home (median),,12,1.973487824037706,0.7563218390804598,2.7868656716417908,proposed stalls / homes; p05 and p95 are the 5th and 95th percentiles across projects,
+43,feasibility,at least 30 projects with a positive minimum and both numbers,30.0,116,True,,,"projects; stopped after coding 116 projects in random order (seed 20261104); parser check 36 of 50 correct, so every project was hand-checked",
