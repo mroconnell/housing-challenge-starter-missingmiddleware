@@ -157,9 +157,10 @@ class TestTodBundle(unittest.TestCase):
         self.assertIn("about 12% of lots within ¼ mile of transit", lab["typical"])
         # AQ-072 (owner 2026-11-03 00:17): lower and upper from the causal framework
         self.assertEqual(lab["little"], "Lower: the rezoned parcels' own gain only")
-        self.assertTrue(lab["strong"].startswith("Upper: upzoning together with new transit lines"))
+        # AQ-075 (owner 2026-11-03 11:52): upper = the average district place scaled to 15%; the 2x2 lines are what-ifs
+        self.assertTrue(lab["strong"].startswith("Upper: the average district place, scaled up to 15%"))
         tot = {s["id"]: s["additional_total"] for s in self.sw["scenarios"]}
-        for k, v in (("little", 3958.0), ("typical", 10028.1), ("strong", 13450.6)):
+        for k, v in (("little", 3958.0), ("typical", 10028.1), ("strong", 12520.8)):
             self.assertAlmostEqual(tot[k], v, delta=0.05)
 
     def test_eau_claire_pilot_adds_nothing(self):
@@ -192,7 +193,15 @@ class TestTodBundle(unittest.TestCase):
         central = ne[(ne["group"] == "main") & (ne["scenario"] == "typical")]["addition_2027_2031"].iloc[0]
         self.assertAlmostEqual(hs["tornado"]["central"], central, delta=0.1)
         rows = hs["tornado"]["rows"]
-        self.assertEqual(len(rows), 19)
+        self.assertEqual(len(rows), 20)
+        # AQ-075: the upper bar is the scaled average (12,521); the 2x2 readings are current what-ifs
+        byid = {x["id"]: x for x in rows}
+        self.assertAlmostEqual(byid["main:strong"]["extra"], 12520.8, delta=0.1)
+        self.assertAlmostEqual(byid["strong_range:strong_low"]["extra"], 9089.2, delta=0.1)
+        self.assertAlmostEqual(byid["strong_range:strong_high"]["extra"], 16771.1, delta=0.1)
+        for k in ("upper_2x2:strong", "upper_2x2_trend_adjusted:strong"):
+            self.assertEqual(byid[k]["kind"], "current", k)
+        self.assertNotIn("optiond_upper:strong", byid)
         for row in rows:
             sens, sc = row["id"].split(":")
             src = ne[(ne["group"] == ("main" if sens == "main" else "law_addition")) & (ne["sensitivity"] == sens) & (ne["scenario"] == sc)]

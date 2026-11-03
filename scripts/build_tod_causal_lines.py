@@ -12,6 +12,13 @@ in reference/tod_optiond_line.csv (row optiond_average).
   leave one place out, recomputed from each cell's per-place means (the cells are equal-place means); it is labelled so.
 - Beside the central (what-ifs and notes): line-age matched (T2 M3) and transit alone (T2b; belongs in the baseline).
 
+Owner decision 2026-11-03 11:52 ("good catch - yes to all three"; AQ-075): the tool's upper line becomes the D-11 average
+scaled to a 15% district (row upper_average_scaled_15, copied from reference/tod_optiond_line.csv row
+optiond_average_scaled_15, range = each place left out, the option D upper before AQ-072). The 2x2 reading
+(causal_upper_2x2) is kept as a what-if, and so is the trend-adjusted 2x2 (whatif_2x2_trend_adjusted: real law effect near
+new lines minus the fake-years effect on the same places, read from reference/tod_causal_line_age_pretrend.csv; range = the
+paired place bootstrap 90% interval, leave one place out also written).
+
     uv run --all-extras python scripts/build_tod_causal_lines.py  -> reference/tod_causal_lines.csv
 """
 from __future__ import annotations
@@ -70,6 +77,24 @@ def main() -> None:
                  "range_kind": f"leave one place out ({len(places)} places; per-place cell means from the 2x2 file)",
                  "loo_low": round(min(loo2) * k, 1), "loo_high": round(max(loo2) * k, 1),
                  "note": "T2b: new line rezoned minus new line not rezoned (rezoning alone + interaction), main D-11 + Milwaukee Hop placebo"})
+    # Upper since AQ-075: the D-11 average scaled to a 15% district (the option D upper before AQ-072)
+    o = pd.read_csv(REFERENCE / "tod_optiond_line.csv").set_index("line").loc["optiond_average_scaled_15"]
+    rows.append({"line": "upper_average_scaled_15", "effect_per_100_acres": round(float(o.extra_homes_2027_2031) / k, 3),
+                 "extra_homes_2027_2031": float(o.extra_homes_2027_2031),
+                 "range_low": float(o.range_low), "range_high": float(o.range_high), "range_kind": "leave one place out (11 places)",
+                 "loo_low": float(o.range_low), "loo_high": float(o.range_high),
+                 "note": "D-11 average scaled to a 15% district by the pooled ratio (reference/tod_optiond_line.csv optiond_average_scaled_15); upper line since AQ-075"})
+    # What-if (AQ-075): the 2x2 minus the fake-years (pre-trend) effect, from the T2b-PT check
+    pt = pd.read_csv(REFERENCE / "tod_causal_line_age_pretrend.csv")
+    ta2 = pt[(pt.version == "trend-adjusted") & (pt["row"] == "upper")].iloc[0]
+    fk = pt[(pt.version == "fake, same places") & (pt["row"] == "effect") & (pt["name"] == "law_near_new_lines")].iloc[0]
+    rows.append({"line": "whatif_2x2_trend_adjusted", "effect_per_100_acres": round(float(ta2.value), 3),
+                 "extra_homes_2027_2031": round(float(ta2.wisconsin), 1),
+                 "range_low": round(float(ta2.wisconsin_lo90), 1), "range_high": round(float(ta2.wisconsin_hi90), 1),
+                 "range_kind": "90% interval (paired place bootstrap)",
+                 "loo_low": round(float(ta2.wisconsin_loo_low), 1), "loo_high": round(float(ta2.wisconsin_loo_high), 1),
+                 "note": f"T2b-PT: 2x2 near new lines minus the fake-years effect on the same places ({float(fk.value):.1f} per 100 lot "
+                         f"acres a year, 90% {float(fk.lo90):.1f} to {float(fk.hi90):.1f}; the before-reform check failed); reference/tod_causal_line_age_pretrend.csv"})
     # Beside the central
     t = pd.read_csv(REFERENCE / "tod_causal_line_age.csv")
     m3 = t[(t["row"] == "pooled") & (t["place"] == "M3 | all 11")].iloc[0]

@@ -1,5 +1,7 @@
 line,effect_per_100_acres,extra_homes_2027_2031,range_low,range_high,range_kind,loo_low,loo_high,note
 causal_lower_edge,88.249,3958.0,2279.5,5791.0,90% interval (boundary segments resampled),1599.7,4873.1,"edge test (T3), pooled 5 balance-passing places, 91 m; x 15% x 4,874.1 acres / 100 x 5 x 1.2269"
 causal_upper_2x2,44.985,13450.6,10431.4,15048.5,leave one place out (9 places; per-place cell means from the 2x2 file),10431.4,15048.5,"T2b: new line rezoned minus new line not rezoned (rezoning alone + interaction), main D-11 + Milwaukee Hop placebo"
+upper_average_scaled_15,41.875,12520.8,9089.2,16771.1,leave one place out (11 places),9089.2,16771.1,D-11 average scaled to a 15% district by the pooled ratio (reference/tod_optiond_line.csv optiond_average_scaled_15); upper line since AQ-075
+whatif_2x2_trend_adjusted,18.808,5623.5,-2775.5,13666.2,90% interval (paired place bootstrap),2340.0,9684.0,"T2b-PT: 2x2 near new lines minus the fake-years effect on the same places (30.2 per 100 lot acres a year, 90% 12.0 to 50.7; the before-reform check failed); reference/tod_causal_line_age_pretrend.csv"
 beside_line_age_m3,23.183,6931.8,2717.2,14146.8,90% interval,5638.7,8931.1,"T2 line-age matched (M3, all 11): each reform stop compared with stops of a similar line age"
 beside_transit_alone,17.775,5314.8,-2733.2,14942.3,90% interval,,,"T2b transit alone (new line, no rezoning, minus old line, no rezoning): belongs in the baseline, not the law"

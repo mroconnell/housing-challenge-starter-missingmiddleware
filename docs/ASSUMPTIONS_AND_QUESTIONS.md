@@ -988,9 +988,38 @@ The tool's "benchmark group" label for places with Madison-type rules is to be r
 
 Held-out RMS 0.130 → 0.136; the audit agreed that is no reason to keep a counting error. Washington's partial law year was also tested in the same round and left unchanged (round 4 results).
 
+## AQ-075 TOD: upper line back to the average scaled to a 15% district; the 2×2 readings become what-ifs
+
+**Status:** Adopted. **Added:** 2026-11-03. **Owner decision:** "good catch - yes to all three" (2026-11-03 11:52), after the pre-trend check on the 2×2 (T2b-PT) failed. Recorded in [CAUSAL_FRAMEWORK_PLAN.md](tod/CAUSAL_FRAMEWORK_PLAN.md) ("Owner decision, 2026-11-03 11:52") before the rebuild. **Related:** AQ-072 (upper replaced; lower and central unchanged), AQ-071 (the law, option D, unchanged). (AQ-073 and AQ-074 are parking entries.)
+
+**Lines** (statewide extra homes permitted 2027–2031; New York pooled ramp; no zero floors):
+
+| Tool line (label) | Evidence | Extra homes | Range |
+| --- | --- | ---: | --- |
+| Lower: the rezoned parcels' own gain only | Edge test (T3), unchanged | **3,958** | 2,280 to 5,791 (90%) |
+| Central: the average district place, across about 12% of lots within ¼ mile of transit | D-11 plain average, unchanged | **10,028** | 7,580 to 12,010 (each place left out) |
+| Upper: the average district place, scaled up to 15% of lots within ¼ mile of transit | D-11 average scaled to a 15% district by the pooled ratio (`reference/tod_optiond_line.csv` row `optiond_average_scaled_15`, the option D upper before AQ-072); 41.9 extra homes per 100 lot acres a year | **12,521** (12,520.8) | 9,089 to 16,771, **leave one place out** (11 places) |
+
+**Why.** The 2×2 upper (13,451) failed its locked before-reform check (T2b-PT): in the before years alone, rezoned stops on new lines were already gaining 30.2 extra homes per 100 lot acres a year more than new-line stops not rezoned (90% 12.0 to 50.7; 10 places). So part of the 2×2 gap was growth already under way, not the reform.
+
+**Now what-ifs (How sure, current what-ifs and tornado):**
+
+| What-if | Extra homes 2027–2031 | Range |
+| --- | ---: | --- |
+| Upzoning with new transit lines (the 2×2, the upper line under AQ-072) | 13,451 | 10,431 to 15,049 (leave one place out) |
+| Upzoning with new transit lines, minus the growth already under way before the reforms (fake-years check): 18.8 per 100 lot acres a year | 5,624 (5,623.5) | paired place bootstrap 90% −2,776 to 13,666; leave one place out 2,340 to 9,684 |
+
+The trend-adjusted figures are read from `reference/tod_causal_line_age_pretrend.csv` (row "trend-adjusted", upper) by `scripts/build_tod_causal_lines.py`, not typed in. The former what-if "optiond_upper" is gone: it is the upper line itself now.
+
+**Files:** `scripts/build_tod_causal_lines.py` → `reference/tod_causal_lines.csv` (new rows `upper_average_scaled_15`, `whatif_2x2_trend_adjusted`; `causal_upper_2x2` kept); `scripts/run_tod_model.py` (strong = `upper_average_scaled_15`; sensitivities `upper_2x2`, `upper_2x2_trend_adjusted`); `scripts/build_tod_bundle.py` (upper card text, How sure labels, tornado); `ui/src/scenarios/tod/screens.ts` (wording).
+
+**Central check (C-PT, run after the decision).** The same fake-years check on the central passed: fake average 14.5 extra homes per 100 lot acres a year (90% −3.8 to 38.8; 10 places, Saint Paul left out). So the central 10,028 and this upper 12,521, which is the central scaled to 15%, stand (`reference/tod_causal_central_pretrend.csv`).
+
+**Result.** Extra homes near stops, Wisconsin, 2027–2031: lower **3,958** and central **10,028** (unchanged); upper 13,451 → **12,521** (range 10,431–15,049 → 9,089–16,771). Upper by metro: Madison 8,309 → 7,735; Milwaukee 4,584 → 4,266. Record years (upper): Madison metro 2029 and 2030, Milwaukee metro 2030 (was 2029 and 2030). Combined TOD and parking view: lower **−11,276**, central **10,028**, upper 31,270 → **30,355** (simple sum 33,268 → 32,338).
+
 ## AQ-072 TOD: lower and upper lines from the causal framework
 
-**Status:** Adopted. **Added:** 2026-11-03. **Owner decision:** "sure", to "lock in 3,958 / 10,028 / 13,451" (2026-11-03 00:17); central kept: "you can keep d-11". Recorded in [CAUSAL_FRAMEWORK_PLAN.md](tod/CAUSAL_FRAMEWORK_PLAN.md) ("Owner decision") before the rebuild. **Related:** AQ-071 (the law, option D, unchanged), [OPTION_D_PLAN.md](tod/OPTION_D_PLAN.md).
+**Status:** Adopted; upper line replaced by AQ-075 (2026-11-03 11:52). **Added:** 2026-11-03. **Owner decision:** "sure", to "lock in 3,958 / 10,028 / 13,451" (2026-11-03 00:17); central kept: "you can keep d-11". Recorded in [CAUSAL_FRAMEWORK_PLAN.md](tod/CAUSAL_FRAMEWORK_PLAN.md) ("Owner decision") before the rebuild. **Related:** AQ-071 (the law, option D, unchanged), [OPTION_D_PLAN.md](tod/OPTION_D_PLAN.md).
 
 **Lines** (statewide extra homes permitted 2027–2031, Wisconsin factor = 4,874.1 lot acres ÷ 100 × 5 × 1.2269; New York pooled ramp; no zero floors):
 
@@ -1256,3 +1285,4 @@ All entries below were added on 2026-10-23 and remain **Open**.
 | 2026-11-03 | AQ-072 | TOD: lower = edge-test floor 3,958 (2,280–5,791), central D-11 average 10,028 unchanged, upper = 2×2 near new lines 13,451 (10,431–15,049, leave one place out); owner "sure" (00:17). Option D upper 12,521 and lower 824 kept as what-ifs. Combined: −11,368 / 10,028 / 31,389. |
 | 2026-11-03 | AQ-073 | Parking Stage 2 (locked plan, docs/parking/CAUSAL_FRAMEWORK_PLAN.md): places that removed minimums with conditions ("near", 9 places) also get 0; lower −15,326 → −15,234, central 0, upper 19,937 → 19,818; owner "okay" (02:50). Wording: low end "the data can't rule out a drop this size"; high-end note on the improvement rounds (about 27,700–49,700); new "How a repeal changes what gets built" section. Trait test (excess-parking cost share) failed held out, not shown. Combined: −11,276 / 10,028 / 31,270. |
 | 2026-11-03 | AQ-074 | Parking: the "Median of real cases" reference line is shown without a floor at zero (owner "sure", 03:09): −0.12 per 1,000 existing homes a year, −1,557 permits over 2027–2031. Lines unchanged. |
+| 2026-11-03 | AQ-075 | TOD: upper back to the D-11 average scaled to a 15% district, 13,451 → 12,521 (9,089–16,771, leave one place out); owner "yes to all three" (11:52) after the 2×2 pre-trend check failed (fake effect 30.2, 90% 12.0 to 50.7). Lower 3,958 and central 10,028 unchanged. What-ifs: the 2×2, 13,451 (10,431–15,049); the trend-adjusted 2×2, 5,624 (90% −2,776 to 13,666; leave one place out 2,340 to 9,684). Combined: −11,276 / 10,028 / 30,355. |

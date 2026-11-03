@@ -230,8 +230,9 @@ test("TOD How sure tornado shows every what-if that changes the law's extra home
   for (const r of rows) expect(r.vs_central).toBeCloseTo(r.extra - central, 0);
   const current = rows.filter((r) => r.kind === "current").length;
   const earlier = rows.filter((r) => r.kind === "earlier").length;
-  expect(current).toBe(11);
-  expect(earlier).toBe(8);
+  // AQ-075: the two 2x2 readings join the current what-ifs; the option D upper is now the upper line itself
+  expect(current).toBe(13);
+  expect(earlier).toBe(7);
   await page.goto("#/tod/how-sure?preview=1");
   await expect(page.getByTestId("tod-tornado-current").locator(".t-row")).toHaveCount(current);
   await expect(page.getByTestId("tod-tornado-earlier").locator(".t-row")).toHaveCount(earlier);

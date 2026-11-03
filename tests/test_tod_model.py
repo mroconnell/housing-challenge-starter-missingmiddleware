@@ -254,7 +254,8 @@ class TestNetSizing(unittest.TestCase):
         self.assertEqual(len(bc), 6)
         self.assertAlmostEqual(bc.loc["median", "miss_average_rule"], 42.94, delta=0.05)
         self.assertAlmostEqual(bc.loc["median", "miss_zero"], 10.58, delta=0.05)
-        # AQ-072 (owner 2026-11-03 00:17): lower = edge-test floor, central = D-11 average, upper = 2x2 near new lines
+        # AQ-072 (owner 2026-11-03 00:17): lower = edge-test floor, central = D-11 average; the 2x2 near new lines was the
+        # upper until AQ-075 and is kept in the file as a what-if
         cl = read("tod_causal_lines.csv").set_index("line")
         self.assertAlmostEqual(cl.loc["causal_lower_edge", "extra_homes_2027_2031"], 3958.0, delta=0.5)
         self.assertAlmostEqual(cl.loc["causal_upper_2x2", "extra_homes_2027_2031"], 13450.6, delta=0.5)
@@ -263,12 +264,27 @@ class TestNetSizing(unittest.TestCase):
                                cl.loc["causal_lower_edge", "extra_homes_2027_2031"], delta=2.0)
         se0 = read("tod_model_sensitivities.csv")
         se0 = se0[se0.sizing == "net_effect"]
-        for sens, sc, v in (("optiond_upper", "strong", 12520.8), ("optiond_lower", "little", 823.8), ("line_age_matched", "typical", 6931.8)):
+        # AQ-075 (owner 2026-11-03 11:52): upper = the D-11 average scaled to 15% (the option D upper before AQ-072);
+        # the 2x2 (13,451) and the trend-adjusted 2x2 (from the T2b-PT file) are what-ifs
+        up = cl.loc["upper_average_scaled_15"]
+        for c in ("extra_homes_2027_2031", "range_low", "range_high"):
+            self.assertEqual(up[c], od.loc["optiond_average_scaled_15", c], c)
+        self.assertAlmostEqual(up.extra_homes_2027_2031, 12520.8, delta=0.05)
+        pt = read("tod_causal_line_age_pretrend.csv")
+        ta = pt[(pt.version == "trend-adjusted") & (pt["row"] == "upper")].iloc[0]
+        tw = cl.loc["whatif_2x2_trend_adjusted"]
+        for c, v in (("extra_homes_2027_2031", ta.wisconsin), ("range_low", ta.wisconsin_lo90), ("range_high", ta.wisconsin_hi90),
+                     ("loo_low", ta.wisconsin_loo_low), ("loo_high", ta.wisconsin_loo_high)):
+            self.assertAlmostEqual(tw[c], v, delta=0.05, msg=c)
+        self.assertAlmostEqual(tw.extra_homes_2027_2031, 5623.5, delta=0.5)
+        self.assertNotIn("optiond_upper", set(se0.sensitivity), "the option D upper is the upper line now, not a what-if")
+        for sens, sc, v in (("upper_2x2", "strong", 13450.6), ("upper_2x2_trend_adjusted", "strong", 5623.5),
+                            ("optiond_lower", "little", 823.8), ("line_age_matched", "typical", 6931.8)):
             self.assertAlmostEqual(se0[(se0.sensitivity == sens) & (se0.scenario == sc)].addition_2027_2031.iloc[0], v, delta=0.1, msg=sens)
         for sid, line, tot, lo, hi in (("little", "causal_lower_edge", 3958.0, 2279.5, 5791.0),
                                        ("typical", "optiond_average", 10028.1, 7579.8, 12010.4),
-                                       ("strong", "causal_upper_2x2", 13450.6, 10431.4, 15048.5)):
-            src = cl if line.startswith("causal") else od
+                                       ("strong", "upper_average_scaled_15", 12520.8, 9089.2, 16771.1)):
+            src = cl if line in cl.index else od
             self.assertAlmostEqual(src.loc[line, "extra_homes_2027_2031"], tot, delta=0.05)
             self.assertAlmostEqual(net.loc[sid, "addition"], tot, delta=0.05)
             self.assertAlmostEqual(net.loc[sid, "addition_range_low"], lo, delta=0.05)
