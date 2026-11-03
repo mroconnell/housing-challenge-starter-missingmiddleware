@@ -569,13 +569,15 @@ The rule for this check was set by the learning thread for this check (it is not
 - **Share of apartment-eligible land already exempt the day before repeal.** Exempt means zero, or 50% or less of the base rate. Measured by 25 m grid sampling on current zoning, with documented reversals.
   - **10 places measured by GIS:**
     - Albany 0.95, Central Point 0.75, King City 0.72, Beaverton 0.65, Springfield 0.56;
-    - Austin 0.51 (0.02 without a corridor ordinance a court voided five weeks after repeal);
+    - Austin 0.02 (main; 0.51 upper-bound sensitivity, which counts a corridor ordinance a court voided five weeks after repeal);
     - South Bend 0.50 (city only), St. Paul 0.17, Bridgeport 0.12, Cambridge 0.05.
   - Bandera: "none", by text.
   - 4 unfinished (Saranac Lake, Ecorse, Kingston, Rogers): the old code is not online or is blocked.
-- **The median share is 0.53 overall but 0.17 outside Oregon.** Oregon's high shares come from the state's 2023 transit rule (OAR 660-012-0440). In Oregon the repeal's real "dose" was small, because much apartment land was already exempt.
+- **The median share "on the day before repeal" is 0.53 overall but 0.12 outside Oregon.** Oregon's high shares come from the state transit rule (OAR 660-012-0440), which started 2022-12-31. Most of Oregon's before window ran without it.
+  - **Before-window, local exemptions only:** Albany 0.04, Central Point 0, King City 0. Springfield and Beaverton have no public map of their local districts (Beaverton's Regional Center zones over-count at 0.13).
+  - **Central Point and King City, two readings of the state rule:** broad 0.75 and 0.72; narrow 0 for both.
+  - The grid script is `scripts/run_parking_dose_exempt_grid.py`, and the fetch script is `scripts/fetch_parking_dose_exempt.py`. Layers stay out of git; their sources and terms are listed in `docs/DATA_PROVENANCE.md`. Shipping any layer needs Ryan's OK.
 - **Caveats:**
-  - Central Point and King City depend on how a state-rule term is read; on the narrow reading both are near 0.
   - Oregon bus frequencies use 2024–26 timetables.
   - South Bend's county part is not measured.
   - Nearly no layers state a licence.
