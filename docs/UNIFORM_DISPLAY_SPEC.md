@@ -9,7 +9,9 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
 ## Shared rules
 
 1. **One method for the range.** The range is a place bootstrap of the reform effect only: places resampled with
-   replacement, and the effect recomputed on each draw. It is 90%, the 5th to 95th percentile.
+   replacement, and the effect recomputed on each draw. Where the effect comes from a model fitted across states, it
+   is that model's held-out prediction error instead (ADU's A3). Either way it is 90%, the 5th to 95th percentile.
+   A state bootstrap for ADU would need the owner's OK.
 2. **The centre is that same method's point estimate.** Otherwise the range and the centre answer different
    questions (see open question 1, for parking).
 3. **The current-law range stays separate.** It is shown as its own grey band. The two are combined only if a total
@@ -27,7 +29,7 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
 
 | Reform | Centre | 90% range | Source of the range | Coverage |
 | --- | ---: | --- | --- | --- |
-| ADU | 10,492 (current central) | 8,100 to 13,700 (A3, owner's OK pending) | ADU thread, A3 | ADU to say |
+| ADU (ADU permits: second homes on single-family lots, not all homes) | 10,492 | 8,100 to 13,700 (exact 8,055 to 13,666; A3, owner's OK pending) | A3 held-out prediction error (model fitted across states) | checked on 7 states, 7 of 7 inside; too few states to measure a factor, so factor 1 (largest miss Washington +0.19 against ±0.25) |
 | TOD | 10,028 | 4,866 to 15,361 | place bootstrap of the 11 district places, 2,000 draws (`reference/tod_line_draws.csv`) | not yet checked |
 | Parking | see open question 1 | −45,900 to +19,800 | bootstrap around the measured average of the 76 repeal places (audit: unwidened) | test 40: 84%; see open question 2 |
 
@@ -37,16 +39,16 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
 | --- | --- |
 | TOD | Edge test, rezoned lots' own gain (5 places): 3,958. Average scaled to a 15% district (11 places): 12,521. Rezoning near new transit lines, 2×2 (9 places): 13,451. Same minus the growth already under way before the reforms: 5,624. |
 | Parking | Measured average, 76 repeal places: −15,234. Median repeal place: −1,557. Oregon state mandate: about +16,800. Count model (negative binomial), all homes: +204. High ends from the improvement rounds: about 27,700 to 49,700. Not shown: San Diego, Chicago, and the count models that fail the pre-trend check. |
-| ADU | The single-state cases (for example California, Oregon, Rhode Island) and the 8-state median, 10,038. ADU thread to confirm the list. |
+| ADU | Like Rhode Island and Oregon, the 2 slowest statewide-law states: 6,321 ADU permits. Median path of the 8 statewide-law states: 10,038. High end, near California (only California is higher): 19,784. The what-ifs 791 and 2,255 stay on How sure, off the chart. |
 
 The current lower and upper lines retire as scenario lines:
 - TOD's 3,958 and 12,521 become side lines.
 - Parking's −15,234 and +19,818 are replaced by the range and side lines.
-- ADU's 6,321 and 19,784 become side lines, or retire, as the ADU thread decides.
+- ADU's 6,321 and 19,784 become side lines (labels above).
 
 ## Screens affected (all three reforms)
 
-- **Statewide comparison:** one headline card (centre, 90% range, unit, shares) instead of three cards. Below it,
+- **Statewide comparison:** one headline card (centre, 90% range, unit, shares) instead of three cards. The ADU card says its figures are ADU permits (second homes on single-family lots), not all homes. Below it,
   a short list of side lines with one sentence each.
 - **The yearly chart:** the centre line, a shaded 90% band (draws spread along the same yearly ramp), the grey
   current-law band, and dashed side lines (5-year totals in the legend). The "extra homes only" view gets the same.
