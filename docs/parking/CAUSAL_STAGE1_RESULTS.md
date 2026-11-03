@@ -190,6 +190,25 @@ Unit: permits per 1,000 existing homes a year.
 - The tool still uses the 76 places.
 - **Not rerun on the added places (deviation from the plan, logged):** H1/H2, T, M1, M2/M4 and R. The 4 added cities are 5% of the places and change the average by 0.10. Two have only one year after repeal (too few for R or a 3-year window). M1 would need old minimums coded for the new cities. Only the averages, E2 and M3 were rerun.
 
+## Follow-ups from Ryan's theory chat (*post hoc* to Stage 1; rules locked before each count)
+
+**FU1, comparison cities also matched on apartment share.**
+- Repeal places built more apartments before repeal. The share of homes in 5+ unit buildings was 45% in repeal places against 37% in their comparison places. Narrowing comparisons to ±10 points brings that to 41%; 39 places needed filling to the 5 nearest.
+- Results, permits per 1,000 existing homes a year (75 places; South Bend has no computable effect):
+
+| Version | Home-weighted | Equal-weight |
+| --- | --- | --- |
+| Main comparison | −1.07 (−3.45 to +1.50) | +0.51 (−1.08 to +2.09) |
+| Also matched on apartment share | −0.98 (−3.37 to +1.62) | +0.44 (−1.42 to +2.29) |
+
+- Read: matching on apartment share barely moves the result. The 2022–24 apartment slowdown is not what makes the average null.
+
+**FU2, Austin against Sun Belt boom cities.**
+- Peers: Dallas, Houston, San Antonio, Fort Worth, Phoenix, Atlanta, Tampa, Orlando, Jacksonville and Las Vegas. Nashville was not found under that name in the permit files.
+- Austin went 34.3 → 19.0 permits per 1,000 homes a year. The peers together went 17.3 → 14.5.
+- Difference: −12.5, about the same as the main −12.3.
+- Read: Austin fell much more than other Sun Belt boom cities. Before repeal it was permitting at twice their rate, so a fall back from an unusual peak is a likely part of it. Austin's repeal also came with the HOME rezoning, and this test cannot separate the two.
+
 ## What Stage 1 says for Stage 2 (not yet run)
 - Parking per home fell in Minneapolis after 2015, but by the same amount where the cut did and did not apply (F1b). In Seattle, projects with no parking appeared only in reform areas (F1c). Builders put more homes in each larger building (H1).
 - No test shows more total homes, and the line test (E1) finds no measurable change at its scale.

@@ -1,0 +1,7 @@
+test,places,estimate,p05,p95,note,unit
+"main (for reference), home-weighted",75,-1.0669916130044483,-3.451505101504502,1.4981903347360532,,"permits per 1,000 existing homes a year"
+"main (for reference), equal-weight",75,0.5096106460375542,-1.0782899326432935,2.0896481063118126,,"permits per 1,000 existing homes a year"
+"FU1 apartment-share matched, home-weighted",75,-0.9775014279093527,-3.372586896859128,1.6217470528146902,,"permits per 1,000 existing homes a year"
+"FU1 apartment-share matched, equal-weight",75,0.4366600839426809,-1.4156103011266266,2.285967798876623,,"permits per 1,000 existing homes a year"
+"FU1 check: mean before-window 5+ share, repeal places / all comparison / matched comparison",75,,,,0.452 / 0.372 / 0.412; 39 places filled to the 5 nearest,"permits per 1,000 existing homes a year"
+FU2 Austin vs Sun Belt peers (DiD),10,-12.54191091802294,,,Austin 34.3->19.0; peers pooled 17.3->14.5; main effect -12.33; Dallas 13.6->11.0; Houston 14.7->11.4; San Antonio 16.2->9.4; Fort Worth 28.8->30.2; Phoenix 16.8->14.8; Atlanta 19.3->25.8; Tampa 18.8->14.7; Orlando 23.6->16.7; Jacksonville-Duval County 20.5->14.3; Las Vegas 11.8->11.1,"permits per 1,000 existing homes a year"
