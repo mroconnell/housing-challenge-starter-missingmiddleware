@@ -82,28 +82,33 @@ Results (first run 2026-11-03 on Ryan's Mac; `reference/nlcd_pilot_buffalo_roche
 
 What we learned:
 
-1. **The line is not smooth enough at city scale.** New non-road hard surface jumps up and down by about
-   14 acres a year. Parking for Buffalo's new homes is much smaller: about 250 homes a year with one surface space
-   each (about 330 square feet per space) is about 2 acres a year. That is about one seventh of the normal swing.
-2. **The swings are shared by both cities.** Year-to-year change in total hard surface moves together in the two
-   cities (correlation 0.86, 1986–2022). Before 2005 both cities zigzag in the same years. From 2016 to 2022 both
-   lose road surface, which real cities rarely do. These look like features of how the maps were made, not of
-   building. A comparison city cancels much of this, but what is left is still larger than the parking signal.
+1. **The line is not smooth enough at city scale.** The test that matters is the comparison: Buffalo minus
+   Rochester, with Rochester scaled to Buffalo's land area. That difference in new non-road hard surface swings by
+   about 9.3 acres a year (standard deviation, 1986–2022). A comparison of 5 years before (2012–2016) with 6 years
+   after (2017–2022) therefore has a standard error of about 5.6 acres a year. The parking signal is smaller: Buffalo
+   permitted 172 homes a year on average in 2007–2022 (208 in 2012–2022). With one surface space each (about
+   330 square feet per space), that is about 1.3 to 1.6 acres a year. So the noise is about 3 to 4 times the signal.
+2. **The swings are shared by both cities.** Year-to-year change moves together in the two cities, 1986–2022:
+   correlation 0.86 for total hard surface and 0.81 for non-road hard surface. Before 2005 both cities zigzag in the
+   same years. From 2016 to 2022 both lose road surface, which real cities rarely do. These look like features of how
+   the maps were made, not of building. The comparison cancels much of this, but what is left (point 1) is still
+   larger than the parking signal.
 3. **The newest years behave differently.** In 2023 and 2024 gross change drops to almost nothing in both cities
    (Buffalo gross loss 50.2 acres in 2022, 3.0 acres in 2023). Later releases may revise these years. Do not lean on
    the last two years.
 4. **Per-home numbers are not usable.** They swing from about −33,000 to +19,000 square feet per home, because a
    noisy acre change is divided by a few hundred homes.
 5. **Buffalo vs Rochester after 2017.** Buffalo's non-road change stayed at −0.58 acres per 1,000 land acres per
-   year; Rochester's fell from −0.09 to −0.42. Taken at face value, that is a relative rise in Buffalo, the
-   opposite of "less parking". Given points 1 to 3, we read it as noise, not a finding.
+   year; Rochester's fell from −0.09 to −0.42. In Buffalo's acres, that is a relative rise of about +9 acres a year
+   in Buffalo, the opposite of "less parking". It is about 1.6 standard errors from 0, so we read it as noise, not a
+   finding.
 
 Data notes: the Census permit files for 2005 and 2006 did not match either city (older file layout; not fixed).
 Buffalo reports 0 months for 2018–2024, so its permit counts in those years are Census estimates. Two squares in
 Buffalo have no data. One network timeout on the first run; a plain re-run finished (the reader now retries).
 
-**Bottom line.** City-wide totals of this data cannot show a parking change in a slow-growing city. The swings
-from map production are several times larger than the parking we would expect. If we use it at all, it should be
+**Bottom line.** City-wide totals of this data cannot show a parking change in a slow-growing city. The noise
+in the comparison is about 3 to 4 times the parking we would expect. If we use it at all, it should be
 at the scale of individual building sites, where a new surface lot fills most of a few squares.
 
 ## 6. Ryan's three ideas, and what each would need
@@ -115,3 +120,13 @@ at the scale of individual building sites, where a new surface lot fills most of
    surface per new home. This would give a parking measure for every place, not just the 5 with project records.
 
 Each of these will get a locked plan (estimand, data, comparison, pass rule) before we count.
+
+## 7. If we try building sites next (not started; needs Ryan's go-ahead)
+
+Lock these before counting (from the audit review, audit/parking_nlcd_pilot_review_2026-11-03.md):
+- how sites are picked: from permit records only, before looking at the NLCD data;
+- the outcome per site, with its unit;
+- the comparison sites;
+- how map artifacts are handled, including leaving out 2023 and 2024.
+
+Caveat: roofs and parking lots are both "other hard surface". A drop could mean smaller buildings, not less parking.
