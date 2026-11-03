@@ -508,6 +508,7 @@ The rule for this check was set by the learning thread for this check (it is not
 **Status: spot-check 1 of 5 done.** Ryan checked file 45249 (2016-11-03): 44 required for homes + 13 for commercial = 57 combined, 43 proposed. That matches the hand-read. 4 rows are pending.
 
 - ***Post hoc*, prompted by that check: mixed-use projects against the homes-only minimum.** The 15 mixed-use projects come out 7 above, 2 at and 6 below. All 30 together come out 20 above, 4 at and 6 below. For example, file 45249 has 43 stalls for 44 homes, which is at the homes minimum, but below the combined figure. Either way, the reading holds: most projects sit above the minimum, with little bunching at it.
+- **Where the rule did bind.** 6 of the 30 projects, all mixed-use, went below even the homes-only minimum through reductions or shared parking: for example, 0 stalls for 75 homes, and 14 for 24. For those projects the rule was binding enough to seek relief. So the reading is "mostly didn't bind, but bound for some mixed-use projects", not simply "didn't bind".
 
 - **Projects.**
   - 395 files (2+ homes; conditional use, planned development and site plan) became 287 projects.
