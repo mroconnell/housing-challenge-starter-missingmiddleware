@@ -68,7 +68,7 @@ def main() -> None:
     rows.append(dict(moderator="M3 city size, POST HOC unweighted median split", contrast="large minus small cities",
                      unit="permits per 1,000 existing homes a year", **r))
     te = pd.read_csv(REFERENCE / "parking_causal_t_e2_summary.csv")
-    for m, key in (("M2 repeal alone vs inside a rewrite (= E2)", "E2 repeal alone"), ("M4 rail transit (= T)", "T rail")):
+    for m, key in (("M2 repeal alone vs inside a rewrite (= E2)", "E2 repeal alone"), ("M4 good transit, rail or BRT (= T)", "T good transit")):
         t = te[te["test"].str.startswith(key)].iloc[0]
         rows.append(dict(moderator=m, contrast=t["test"], unit=t["unit"], places=int(t["n_a"] + t["n_b"]), estimate=t["estimate"],
                          p05=t["p05"], p95=t["p95"], mde=t["mde"],

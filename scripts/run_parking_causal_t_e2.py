@@ -22,11 +22,16 @@ from missing_middleware.parking import comparison as cmp  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 SEED, DRAWS = 20261103, 2000
+# Bus rapid transit open before the repeal year (agency opening dates; plan log 2026-11-03)
+BRT = {("Hartford", "Connecticut"): "CTfastrak, opened 2015-03", ("Richmond", "Virginia"): "GRTC Pulse, opened 2018-06",
+       ("Eugene", "Oregon"): "EmX, opened 2007-01", ("Springfield", "Oregon"): "EmX, opened 2007-01",
+       ("Birmingham", "Alabama"): "Birmingham Xpress, opened 2022"}
 
 
 def rail_geoids() -> set:
     """ACS geography ids ('160|SSPPPPP' places, '060|SSCCCMMMMM' county subdivisions) holding at least one rail stop."""
-    stops = json.loads((RAW / "tod_census_cases" / "ntm_rail_stops.json").read_text())
+    # national NTM rail stops (fix 2026-11-03: the earlier file covered only 41 agencies)
+    stops = json.loads((RAW / "parking_transit" / "ntm_rail_stops_national.json").read_text())["stops"]
     lon = np.array([float(s["stop_lon"]) for s in stops])
     lat = np.array([float(s["stop_lat"]) for s in stops])
     out = set()
@@ -78,10 +83,11 @@ def main() -> None:
         pre, post = cmp.windows(int(r.event_year))
         post = post[: int(r.n_post)]
         ctrl, _ = cmp.controls(p, r.key, int(r.event_year), excluded - {r.key}, homes, popn)
-        mine = has_rail(r.key)
-        same = [c for c in ctrl if has_rail(c) == mine]
+        rail_only = has_rail(r.key)
+        mine = rail_only or (r.place, r.state) in BRT
+        same = [c for c in ctrl if has_rail(c) == mine]  # comparison places: rail status only (no BRT list for them)
         use = same if len(same) >= 5 else ctrl
-        rows.append(dict(key=r.key, place=r.place, state=r.state, rail=mine, n_controls=len(ctrl), n_same=len(same),
+        rows.append(dict(key=r.key, place=r.place, state=r.state, rail=mine, rail_only=rail_only, brt=(r.place, r.state) in BRT, n_controls=len(ctrl), n_same=len(same),
                          used_same=len(same) >= 5, effect_matched=did(p, r.key, use, pre, post, homes), effect_all=r.effect,
                          weight=r.weight, rewrite=bool(r.simultaneous_rewrite)))
     P = pd.DataFrame(rows)
@@ -97,10 +103,17 @@ def main() -> None:
         R_ = Q.drop(j); ra, rb = R_[R_["rail"]], R_[~R_["rail"]]
         loo.append((np.average(ra["effect_matched"], weights=ra["weight"]) - np.average(rb["effect_matched"], weights=rb["weight"]), Q.loc[j, "place"]))
     lmin, lmax = min(loo), max(loo)
-    out.append(dict(test="T rail x repeal: effect with rail minus without", unit="permits per 1,000 existing homes a year",
+    out.append(dict(test="T good transit (rail or BRT) x repeal: effect with it minus without", unit="permits per 1,000 existing homes a year",
                     n_a=len(a), n_b=len(b), estimate=est, p05=lo, p95=hi, mde=mde,
                     mean_a=np.average(a["effect_matched"], weights=a["weight"]), mean_b=np.average(b["effect_matched"], weights=b["weight"]),
                     note=f"{int((~P['used_same']).sum())} places used all comparison places (fewer than 5 with the same rail status); {nan_t} with no computable effect left out; leave-one-place-out {lmin[0]:.2f} (without {lmin[1]}) to {lmax[0]:.2f} (without {lmax[1]})"))
+    Q2 = Q.copy()
+    a2, b2 = Q2[Q2["rail_only"]], Q2[~Q2["rail_only"]]
+    est2, lo2, hi2, mde2 = diff_ci(a2["effect_matched"].values, a2["weight"].values, b2["effect_matched"].values, b2["weight"].values)
+    out.append(dict(test="T rail only (no BRT): effect with rail minus without", unit="permits per 1,000 existing homes a year",
+                    n_a=len(a2), n_b=len(b2), estimate=est2, p05=lo2, p95=hi2, mde=mde2,
+                    mean_a=np.average(a2["effect_matched"], weights=a2["weight"]), mean_b=np.average(b2["effect_matched"], weights=b2["weight"]),
+                    note="matched effects as in the main version"))
     a, b = P[~P["rewrite"]], P[P["rewrite"]]
     est, lo, hi, mde = diff_ci(a["effect_all"].values, a["weight"].values, b["effect_all"].values, b["weight"].values)
     out.append(dict(test="E2 repeal alone minus repeal inside a rewrite (all homes)", unit="permits per 1,000 existing homes a year",

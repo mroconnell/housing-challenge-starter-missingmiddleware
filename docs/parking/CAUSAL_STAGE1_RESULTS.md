@@ -14,14 +14,14 @@ All intervals are 90%. MDE = minimum detectable effect (1.645 × standard error)
 | E1 | AB 2097 line, 2–4 home projects (no earlier relief) | −0.023 (−0.070 to +0.018); MDE 0.044 | homes permitted per 1,000 existing homes a year | No measurable change; pre-trend balanced |
 | E2 | Repeal alone minus repeal inside a rewrite | −0.14 (−4.43 to +4.00) | permits per 1,000 existing homes a year | No difference |
 | E2 2×2 | Does repeal add to a rezoning? (repeal + rewrite) − (repeal alone) − (rewrite only) | −3.07 (−7.31 to +1.78) | same | No measurable interaction; weak (9 rewrite-only places) |
-| T | Effect with rail minus without (11 vs 64 places) | −4.67 (−8.51 to −0.42) | permits per 1,000 existing homes a year | Smaller effect in rail cities |
+| T | Effect with rail or bus rapid transit minus without (24 vs 51 places; corrected stop data) | −4.37 (−8.18 to −0.31); rail only −6.01 (−9.67 to −2.02) | permits per 1,000 existing homes a year | Smaller effect in transit cities when weighted by homes; not when each city counts once (+0.45) |
 | M1 | Higher old minimum (held out) | −2.91 (−7.79 to +2.88) | same | Not material |
 | M3 | Larger city (held out) | −3.98 (−8.52 to +1.20) | same | Not material |
 | M2, M4 | = E2, = T | see above | | M4 material, M2 not |
 | R | Effect by year since repeal | k1 −0.84 (75 places), k2 −1.03 (57), k3 −2.01 (38), k4 −5.14 (26), k5 −4.62 (15) | same | Described only; later years are fewer, earlier repealers |
 | H3 | Bunching at the old minimum | Fails feasibility: only Minneapolis has project data with a known minimum | | Not run |
 
-Only 1 of 4 moderators came out material (M4, rail). With four tested, one false "material" is plausible, and M4 rests on Austin and Minneapolis (see T sensitivity). M3 and M4 overlap: rail places are mostly the large places.
+Only 1 of 4 moderators came out material (M4, rail or BRT, home-weighted only). With four tested, one false "material" is plausible, and M4 rests on Austin and Minneapolis (see T sensitivity). M3 and M4 overlap: rail places are mostly the large places.
 
 ## Notes by test
 
@@ -111,7 +111,22 @@ Unit: permits per 1,000 existing homes a year.
 - *Post hoc*, unweighted median split (39 vs 37), held-out method (split point from the other folds, home-weighted means of each group): −2.12 (−5.87 to +1.68). Still not material. The locked weighted split stays the main result.
 - A second unweighted figure, +1.05 (−1.99 to +4.14) in `parking_causal_v2_summary.csv`, uses the full sample and equal-weight means of each group. Weighting by homes versus counting each city once flips the sign; neither is material.
 
-**T sensitivity (*post hoc*).** The rail result rests on two cities.
+**T rerun with corrected stop data and bus rapid transit (2026-11-03).**
+- **Data fix:** the first T run used a rail-stop file covering only the 41 agencies TOD needed. Rail cities such as Cambridge MA and Beaverton OR were counted as "no rail". The rerun uses the national National Transit Map layer (72 rail agencies).
+- **Bus rapid transit added**, as the locked plan said: Hartford, Richmond, Eugene, Springfield OR and Birmingham, each with a line open before its repeal. Amtrak-only cities count as no rail.
+- **Results** (permits per 1,000 existing homes a year):
+
+| Version | Transit places | Others | With minus without (90% interval) |
+| --- | --- | --- | --- |
+| Rail or BRT (main) | 24 | 51 | −4.37 (−8.18 to −0.31) |
+| Rail only | 19 | 56 | −6.01 (−9.67 to −2.02) |
+| Rail or BRT, without Austin and Minneapolis | 22 | 51 | −1.54 |
+| Rail or BRT, each city counted once | 24 | 51 | +0.45 |
+
+- Leave one place out: −5.47 (without Lexington) to −2.58 (without Austin).
+- **Read:** the home-weighted gap comes from a few big transit cities with weak years after repeal (Austin, Minneapolis, Cambridge MA). Counting each city once, transit cities did slightly better. Rail or BRT does not reliably change the effect.
+
+**T sensitivity, first run (*post hoc*; rail file with 41 agencies, superseded).** The rail result rests on two cities.
 
 | Version | Rail minus no rail |
 | --- | --- |
