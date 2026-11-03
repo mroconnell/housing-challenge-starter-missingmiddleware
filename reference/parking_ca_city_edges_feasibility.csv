@@ -1,0 +1,274 @@
+city,section,band_m,side,window,measure,value,unit,note
+Culver City,border,,,,dropped: no neighbour (ocean / no land),0.0,km of city limit,of 35.821 km total; share 0.000
+Culver City,border,,,,dropped: neighbour repealed for housing citywide,0.0,km of city limit,of 35.821 km total; share 0.000
+Culver City,border,,,,"dropped: along freeway, rail or water (within 50 m)",6.003,km of city limit,of 35.821 km total; share 0.168
+Culver City,border,92,,,dropped: neighbour's AB 2097 1/2-mile zone reaches into the band,22.213,km of city limit,share 0.620
+Culver City,border,92,,,usable border,7.604,km of city limit,share of 35.821 km = 0.212
+Culver City,border,183,,,dropped: neighbour's AB 2097 1/2-mile zone reaches into the band,22.313,km of city limit,share 0.623
+Culver City,border,183,,,usable border,7.504,km of city limit,share of 35.821 km = 0.209
+Culver City,border,366,,,dropped: neighbour's AB 2097 1/2-mile zone reaches into the band,23.213,km of city limit,share 0.648
+Culver City,border,366,,,usable border,6.604,km of city limit,share of 35.821 km = 0.184
+Culver City,border by neighbour,183,,,neighbour: Los Angeles,3.202,km usable at 183 m,of 27.216 km shared
+Culver City,border by neighbour,183,,,neighbour: unincorporated Los Angeles,4.302,km usable at 183 m,of 8.605 km shared
+San Jose,border,,,,dropped: no neighbour (ocean / no land),0.0,km of city limit,of 430.201 km total; share 0.000
+San Jose,border,,,,dropped: neighbour repealed for housing citywide,0.0,km of city limit,of 430.201 km total; share 0.000
+San Jose,border,,,,"dropped: along freeway, rail or water (within 50 m)",100.247,km of city limit,of 430.201 km total; share 0.233
+San Jose,border,92,,,dropped: neighbour's AB 2097 1/2-mile zone reaches into the band,45.168,km of city limit,share 0.105
+San Jose,border,92,,,usable border,284.786,km of city limit,share of 430.201 km = 0.662
+San Jose,border,183,,,dropped: neighbour's AB 2097 1/2-mile zone reaches into the band,46.561,km of city limit,share 0.108
+San Jose,border,183,,,usable border,283.393,km of city limit,share of 430.201 km = 0.659
+San Jose,border,366,,,dropped: neighbour's AB 2097 1/2-mile zone reaches into the band,49.255,km of city limit,share 0.114
+San Jose,border,366,,,usable border,280.699,km of city limit,share of 430.201 km = 0.652
+San Jose,border by neighbour,183,,,neighbour: unincorporated Santa Clara,214.995,km usable at 183 m,of 304.605 km shared
+San Jose,border by neighbour,183,,,neighbour: Campbell,16.799,km usable at 183 m,of 28.299 km shared
+San Jose,border by neighbour,183,,,neighbour: Santa Clara,9.0,km usable at 183 m,of 25.699 km shared
+San Jose,border by neighbour,183,,,neighbour: Milpitas,5.5,km usable at 183 m,of 17.099 km shared
+San Jose,border by neighbour,183,,,neighbour: Fremont,3.6,km usable at 183 m,of 14.100 km shared
+San Jose,border by neighbour,183,,,neighbour: Los Gatos,10.8,km usable at 183 m,of 12.700 km shared
+San Jose,border by neighbour,183,,,neighbour: Sunnyvale,6.7,km usable at 183 m,of 8.500 km shared
+San Jose,border by neighbour,183,,,neighbour: Saratoga,7.2,km usable at 183 m,of 8.300 km shared
+San Jose,border by neighbour,183,,,neighbour: Cupertino,6.5,km usable at 183 m,of 8.300 km shared
+San Jose,border by neighbour,183,,,neighbour: Morgan Hill,2.3,km usable at 183 m,of 2.600 km shared
+Culver City,counts,92,inside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),7.0,records,
+Culver City,counts,92,outside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),0.0,records,
+Culver City,counts by neighbour type,92,inside,before,"lots with new homes, segments facing neighbouring city",2.0,lots,
+Culver City,counts by neighbour type,92,inside,after,"lots with new homes, segments facing neighbouring city",1.0,lots,
+Culver City,counts by neighbour type,92,inside,before,"lots with new homes, segments facing unincorporated county",1.0,lots,
+Culver City,counts by neighbour type,92,inside,after,"lots with new homes, segments facing unincorporated county",0.0,lots,
+Culver City,counts,92,inside,before,lots with new homes (A2 APN; location if no APN),3.0,lots,0 records without usable APN
+Culver City,counts,92,inside,before,"lots with new homes, non-ADU records only (A2 APN)",1.0,lots,ADU records = 2 of 4
+Culver City,counts,92,inside,before,permit locations with new homes (proxy),4.0,locations,lat/long rounded to 1e-5
+Culver City,counts,92,inside,before,LA County 2022-roll parcels with new homes,4.0,parcels,0 records in no parcel
+Culver City,counts,92,inside,before,permit records,4.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,92,inside,before,homes permitted,4.0,homes,
+Culver City,counts,92,inside,after,lots with new homes (A2 APN; location if no APN),1.0,lots,0 records without usable APN
+Culver City,counts,92,inside,after,"lots with new homes, non-ADU records only (A2 APN)",0.0,lots,ADU records = 1 of 1
+Culver City,counts,92,inside,after,permit locations with new homes (proxy),1.0,locations,lat/long rounded to 1e-5
+Culver City,counts,92,inside,after,LA County 2022-roll parcels with new homes,1.0,parcels,0 records in no parcel
+Culver City,counts,92,inside,after,permit records,1.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,92,inside,after,homes permitted,1.0,homes,
+Culver City,counts by neighbour type,92,outside,before,"lots with new homes, segments facing neighbouring city",14.0,lots,
+Culver City,counts by neighbour type,92,outside,after,"lots with new homes, segments facing neighbouring city",10.0,lots,
+Culver City,counts by neighbour type,92,outside,before,"lots with new homes, segments facing unincorporated county",0.0,lots,
+Culver City,counts by neighbour type,92,outside,after,"lots with new homes, segments facing unincorporated county",0.0,lots,
+Culver City,counts,92,outside,before,lots with new homes (A2 APN; location if no APN),14.0,lots,0 records without usable APN
+Culver City,counts,92,outside,before,"lots with new homes, non-ADU records only (A2 APN)",3.0,lots,ADU records = 11 of 17
+Culver City,counts,92,outside,before,permit locations with new homes (proxy),15.0,locations,lat/long rounded to 1e-5
+Culver City,counts,92,outside,before,LA County 2022-roll parcels with new homes,15.0,parcels,0 records in no parcel
+Culver City,counts,92,outside,before,permit records,17.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,92,outside,before,homes permitted,20.0,homes,
+Culver City,counts,92,outside,after,lots with new homes (A2 APN; location if no APN),10.0,lots,0 records without usable APN
+Culver City,counts,92,outside,after,"lots with new homes, non-ADU records only (A2 APN)",1.0,lots,ADU records = 9 of 10
+Culver City,counts,92,outside,after,permit locations with new homes (proxy),10.0,locations,lat/long rounded to 1e-5
+Culver City,counts,92,outside,after,LA County 2022-roll parcels with new homes,10.0,parcels,0 records in no parcel
+Culver City,counts,92,outside,after,permit records,10.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,92,outside,after,homes permitted,10.0,homes,
+Culver City,counts,92,outside,all,records dropped: inside neighbour's AB 2097 zone (lot level),0.0,records,
+Culver City,counts,183,inside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),7.0,records,
+Culver City,counts,183,outside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),0.0,records,
+Culver City,counts by neighbour type,183,inside,before,"lots with new homes, segments facing neighbouring city",7.0,lots,
+Culver City,counts by neighbour type,183,inside,after,"lots with new homes, segments facing neighbouring city",2.0,lots,
+Culver City,counts by neighbour type,183,inside,before,"lots with new homes, segments facing unincorporated county",5.0,lots,
+Culver City,counts by neighbour type,183,inside,after,"lots with new homes, segments facing unincorporated county",0.0,lots,
+Culver City,counts,183,inside,before,lots with new homes (A2 APN; location if no APN),12.0,lots,0 records without usable APN
+Culver City,counts,183,inside,before,"lots with new homes, non-ADU records only (A2 APN)",1.0,lots,ADU records = 12 of 14
+Culver City,counts,183,inside,before,permit locations with new homes (proxy),13.0,locations,lat/long rounded to 1e-5
+Culver City,counts,183,inside,before,LA County 2022-roll parcels with new homes,13.0,parcels,0 records in no parcel
+Culver City,counts,183,inside,before,permit records,14.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,183,inside,before,homes permitted,14.0,homes,
+Culver City,counts,183,inside,after,lots with new homes (A2 APN; location if no APN),2.0,lots,0 records without usable APN
+Culver City,counts,183,inside,after,"lots with new homes, non-ADU records only (A2 APN)",0.0,lots,ADU records = 2 of 2
+Culver City,counts,183,inside,after,permit locations with new homes (proxy),2.0,locations,lat/long rounded to 1e-5
+Culver City,counts,183,inside,after,LA County 2022-roll parcels with new homes,2.0,parcels,0 records in no parcel
+Culver City,counts,183,inside,after,permit records,2.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,183,inside,after,homes permitted,2.0,homes,
+Culver City,counts by neighbour type,183,outside,before,"lots with new homes, segments facing neighbouring city",29.0,lots,
+Culver City,counts by neighbour type,183,outside,after,"lots with new homes, segments facing neighbouring city",15.0,lots,
+Culver City,counts by neighbour type,183,outside,before,"lots with new homes, segments facing unincorporated county",0.0,lots,
+Culver City,counts by neighbour type,183,outside,after,"lots with new homes, segments facing unincorporated county",1.0,lots,
+Culver City,counts,183,outside,before,lots with new homes (A2 APN; location if no APN),29.0,lots,0 records without usable APN
+Culver City,counts,183,outside,before,"lots with new homes, non-ADU records only (A2 APN)",7.0,lots,ADU records = 24 of 35
+Culver City,counts,183,outside,before,permit locations with new homes (proxy),31.0,locations,lat/long rounded to 1e-5
+Culver City,counts,183,outside,before,LA County 2022-roll parcels with new homes,31.0,parcels,0 records in no parcel
+Culver City,counts,183,outside,before,permit records,35.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,183,outside,before,homes permitted,47.0,homes,
+Culver City,counts,183,outside,after,lots with new homes (A2 APN; location if no APN),16.0,lots,0 records without usable APN
+Culver City,counts,183,outside,after,"lots with new homes, non-ADU records only (A2 APN)",1.0,lots,ADU records = 15 of 16
+Culver City,counts,183,outside,after,permit locations with new homes (proxy),16.0,locations,lat/long rounded to 1e-5
+Culver City,counts,183,outside,after,LA County 2022-roll parcels with new homes,16.0,parcels,0 records in no parcel
+Culver City,counts,183,outside,after,permit records,16.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,183,outside,after,homes permitted,16.0,homes,
+Culver City,counts,183,outside,all,records dropped: inside neighbour's AB 2097 zone (lot level),1.0,records,
+Culver City,counts,366,inside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),8.0,records,
+Culver City,counts,366,outside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),0.0,records,
+Culver City,counts by neighbour type,366,inside,before,"lots with new homes, segments facing neighbouring city",12.0,lots,
+Culver City,counts by neighbour type,366,inside,after,"lots with new homes, segments facing neighbouring city",6.0,lots,
+Culver City,counts by neighbour type,366,inside,before,"lots with new homes, segments facing unincorporated county",12.0,lots,
+Culver City,counts by neighbour type,366,inside,after,"lots with new homes, segments facing unincorporated county",2.0,lots,
+Culver City,counts,366,inside,before,lots with new homes (A2 APN; location if no APN),24.0,lots,0 records without usable APN
+Culver City,counts,366,inside,before,"lots with new homes, non-ADU records only (A2 APN)",0.0,lots,ADU records = 25 of 25
+Culver City,counts,366,inside,before,permit locations with new homes (proxy),24.0,locations,lat/long rounded to 1e-5
+Culver City,counts,366,inside,before,LA County 2022-roll parcels with new homes,24.0,parcels,0 records in no parcel
+Culver City,counts,366,inside,before,permit records,25.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,366,inside,before,homes permitted,25.0,homes,
+Culver City,counts,366,inside,after,lots with new homes (A2 APN; location if no APN),8.0,lots,0 records without usable APN
+Culver City,counts,366,inside,after,"lots with new homes, non-ADU records only (A2 APN)",0.0,lots,ADU records = 8 of 8
+Culver City,counts,366,inside,after,permit locations with new homes (proxy),8.0,locations,lat/long rounded to 1e-5
+Culver City,counts,366,inside,after,LA County 2022-roll parcels with new homes,8.0,parcels,0 records in no parcel
+Culver City,counts,366,inside,after,permit records,8.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,366,inside,after,homes permitted,9.0,homes,
+Culver City,counts by neighbour type,366,outside,before,"lots with new homes, segments facing neighbouring city",56.0,lots,
+Culver City,counts by neighbour type,366,outside,after,"lots with new homes, segments facing neighbouring city",28.0,lots,
+Culver City,counts by neighbour type,366,outside,before,"lots with new homes, segments facing unincorporated county",0.0,lots,
+Culver City,counts by neighbour type,366,outside,after,"lots with new homes, segments facing unincorporated county",2.0,lots,
+Culver City,counts,366,outside,before,lots with new homes (A2 APN; location if no APN),56.0,lots,0 records without usable APN
+Culver City,counts,366,outside,before,"lots with new homes, non-ADU records only (A2 APN)",11.0,lots,ADU records = 53 of 69
+Culver City,counts,366,outside,before,permit locations with new homes (proxy),57.0,locations,lat/long rounded to 1e-5
+Culver City,counts,366,outside,before,LA County 2022-roll parcels with new homes,55.0,parcels,0 records in no parcel
+Culver City,counts,366,outside,before,permit records,69.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,366,outside,before,homes permitted,72.0,homes,
+Culver City,counts,366,outside,after,lots with new homes (A2 APN; location if no APN),30.0,lots,0 records without usable APN
+Culver City,counts,366,outside,after,"lots with new homes, non-ADU records only (A2 APN)",3.0,lots,ADU records = 27 of 30
+Culver City,counts,366,outside,after,permit locations with new homes (proxy),28.0,locations,lat/long rounded to 1e-5
+Culver City,counts,366,outside,after,LA County 2022-roll parcels with new homes,28.0,parcels,0 records in no parcel
+Culver City,counts,366,outside,after,permit records,30.0,records,0 filed by another jurisdiction than the side's
+Culver City,counts,366,outside,after,homes permitted,32.0,homes,
+Culver City,counts,366,outside,all,records dropped: inside neighbour's AB 2097 zone (lot level),10.0,records,
+San Jose,counts,92,inside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),0.0,records,
+San Jose,counts,92,outside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),0.0,records,
+San Jose,counts by neighbour type,92,inside,before,"lots with new homes, segments facing neighbouring city",23.0,lots,
+San Jose,counts by neighbour type,92,inside,after,"lots with new homes, segments facing neighbouring city",10.0,lots,
+San Jose,counts by neighbour type,92,inside,before,"lots with new homes, segments facing unincorporated county",25.0,lots,
+San Jose,counts by neighbour type,92,inside,after,"lots with new homes, segments facing unincorporated county",14.0,lots,
+San Jose,counts,92,inside,before,lots with new homes (A2 APN; location if no APN),48.0,lots,2 records without usable APN
+San Jose,counts,92,inside,before,"lots with new homes, non-ADU records only (A2 APN)",11.0,lots,ADU records = 40 of 51
+San Jose,counts,92,inside,before,permit locations with new homes (proxy),48.0,locations,lat/long rounded to 1e-5
+San Jose,counts,92,inside,before,permit records,51.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,92,inside,before,homes permitted,52.0,homes,
+San Jose,counts,92,inside,after,lots with new homes (A2 APN; location if no APN),24.0,lots,6 records without usable APN
+San Jose,counts,92,inside,after,"lots with new homes, non-ADU records only (A2 APN)",2.0,lots,ADU records = 24 of 26
+San Jose,counts,92,inside,after,permit locations with new homes (proxy),24.0,locations,lat/long rounded to 1e-5
+San Jose,counts,92,inside,after,permit records,26.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,92,inside,after,homes permitted,27.0,homes,
+San Jose,counts,92,inside,gap,lots with new homes (A2 APN; location if no APN),2.0,lots,2 records without usable APN
+San Jose,counts,92,inside,gap,"lots with new homes, non-ADU records only (A2 APN)",0.0,lots,ADU records = 2 of 2
+San Jose,counts,92,inside,gap,permit locations with new homes (proxy),2.0,locations,lat/long rounded to 1e-5
+San Jose,counts,92,inside,gap,permit records,2.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,92,inside,gap,homes permitted,2.0,homes,
+San Jose,counts by neighbour type,92,outside,before,"lots with new homes, segments facing neighbouring city",30.0,lots,
+San Jose,counts by neighbour type,92,outside,after,"lots with new homes, segments facing neighbouring city",32.0,lots,
+San Jose,counts by neighbour type,92,outside,before,"lots with new homes, segments facing unincorporated county",17.0,lots,
+San Jose,counts by neighbour type,92,outside,after,"lots with new homes, segments facing unincorporated county",27.0,lots,
+San Jose,counts,92,outside,before,lots with new homes (A2 APN; location if no APN),47.0,lots,0 records without usable APN
+San Jose,counts,92,outside,before,"lots with new homes, non-ADU records only (A2 APN)",16.0,lots,ADU records = 38 of 54
+San Jose,counts,92,outside,before,permit locations with new homes (proxy),48.0,locations,lat/long rounded to 1e-5
+San Jose,counts,92,outside,before,permit records,54.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,92,outside,before,homes permitted,56.0,homes,
+San Jose,counts,92,outside,after,lots with new homes (A2 APN; location if no APN),59.0,lots,1 records without usable APN
+San Jose,counts,92,outside,after,"lots with new homes, non-ADU records only (A2 APN)",18.0,lots,ADU records = 50 of 77
+San Jose,counts,92,outside,after,permit locations with new homes (proxy),66.0,locations,lat/long rounded to 1e-5
+San Jose,counts,92,outside,after,permit records,77.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,92,outside,after,homes permitted,78.0,homes,
+San Jose,counts,92,outside,gap,lots with new homes (A2 APN; location if no APN),7.0,lots,0 records without usable APN
+San Jose,counts,92,outside,gap,"lots with new homes, non-ADU records only (A2 APN)",1.0,lots,ADU records = 7 of 8
+San Jose,counts,92,outside,gap,permit locations with new homes (proxy),7.0,locations,lat/long rounded to 1e-5
+San Jose,counts,92,outside,gap,permit records,8.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,92,outside,gap,homes permitted,8.0,homes,
+San Jose,counts,92,outside,all,records dropped: inside neighbour's AB 2097 zone (lot level),0.0,records,
+San Jose,counts,183,inside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),0.0,records,
+San Jose,counts,183,outside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),0.0,records,
+San Jose,counts by neighbour type,183,inside,before,"lots with new homes, segments facing neighbouring city",43.0,lots,
+San Jose,counts by neighbour type,183,inside,after,"lots with new homes, segments facing neighbouring city",32.0,lots,
+San Jose,counts by neighbour type,183,inside,before,"lots with new homes, segments facing unincorporated county",39.0,lots,
+San Jose,counts by neighbour type,183,inside,after,"lots with new homes, segments facing unincorporated county",37.0,lots,
+San Jose,counts,183,inside,before,lots with new homes (A2 APN; location if no APN),82.0,lots,4 records without usable APN
+San Jose,counts,183,inside,before,"lots with new homes, non-ADU records only (A2 APN)",14.0,lots,ADU records = 72 of 86
+San Jose,counts,183,inside,before,permit locations with new homes (proxy),82.0,locations,lat/long rounded to 1e-5
+San Jose,counts,183,inside,before,permit records,86.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,183,inside,before,homes permitted,91.0,homes,
+San Jose,counts,183,inside,after,lots with new homes (A2 APN; location if no APN),69.0,lots,22 records without usable APN
+San Jose,counts,183,inside,after,"lots with new homes, non-ADU records only (A2 APN)",13.0,lots,ADU records = 61 of 74
+San Jose,counts,183,inside,after,permit locations with new homes (proxy),63.0,locations,lat/long rounded to 1e-5
+San Jose,counts,183,inside,after,permit records,74.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,183,inside,after,homes permitted,75.0,homes,
+San Jose,counts,183,inside,gap,lots with new homes (A2 APN; location if no APN),7.0,lots,5 records without usable APN
+San Jose,counts,183,inside,gap,"lots with new homes, non-ADU records only (A2 APN)",2.0,lots,ADU records = 5 of 7
+San Jose,counts,183,inside,gap,permit locations with new homes (proxy),6.0,locations,lat/long rounded to 1e-5
+San Jose,counts,183,inside,gap,permit records,7.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,183,inside,gap,homes permitted,7.0,homes,
+San Jose,counts by neighbour type,183,outside,before,"lots with new homes, segments facing neighbouring city",74.0,lots,
+San Jose,counts by neighbour type,183,outside,after,"lots with new homes, segments facing neighbouring city",82.0,lots,
+San Jose,counts by neighbour type,183,outside,before,"lots with new homes, segments facing unincorporated county",27.0,lots,
+San Jose,counts by neighbour type,183,outside,after,"lots with new homes, segments facing unincorporated county",43.0,lots,
+San Jose,counts,183,outside,before,lots with new homes (A2 APN; location if no APN),101.0,lots,1 records without usable APN
+San Jose,counts,183,outside,before,"lots with new homes, non-ADU records only (A2 APN)",27.0,lots,ADU records = 86 of 127
+San Jose,counts,183,outside,before,permit locations with new homes (proxy),116.0,locations,lat/long rounded to 1e-5
+San Jose,counts,183,outside,before,permit records,127.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,183,outside,before,homes permitted,133.0,homes,
+San Jose,counts,183,outside,after,lots with new homes (A2 APN; location if no APN),125.0,lots,1 records without usable APN
+San Jose,counts,183,outside,after,"lots with new homes, non-ADU records only (A2 APN)",48.0,lots,ADU records = 107 of 173
+San Jose,counts,183,outside,after,permit locations with new homes (proxy),137.0,locations,lat/long rounded to 1e-5
+San Jose,counts,183,outside,after,permit records,173.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,183,outside,after,homes permitted,178.0,homes,
+San Jose,counts,183,outside,gap,lots with new homes (A2 APN; location if no APN),11.0,lots,0 records without usable APN
+San Jose,counts,183,outside,gap,"lots with new homes, non-ADU records only (A2 APN)",4.0,lots,ADU records = 8 of 12
+San Jose,counts,183,outside,gap,permit locations with new homes (proxy),11.0,locations,lat/long rounded to 1e-5
+San Jose,counts,183,outside,gap,permit records,12.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,183,outside,gap,homes permitted,13.0,homes,
+San Jose,counts,183,outside,all,records dropped: inside neighbour's AB 2097 zone (lot level),0.0,records,
+San Jose,counts,366,inside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),6.0,records,
+San Jose,counts,366,outside,all (2018-2025),records dropped: filed by another jurisdiction than the side's (boundary or geocode mismatch),0.0,records,
+San Jose,counts by neighbour type,366,inside,before,"lots with new homes, segments facing neighbouring city",86.0,lots,
+San Jose,counts by neighbour type,366,inside,after,"lots with new homes, segments facing neighbouring city",51.0,lots,
+San Jose,counts by neighbour type,366,inside,before,"lots with new homes, segments facing unincorporated county",103.0,lots,
+San Jose,counts by neighbour type,366,inside,after,"lots with new homes, segments facing unincorporated county",92.0,lots,
+San Jose,counts,366,inside,before,lots with new homes (A2 APN; location if no APN),189.0,lots,19 records without usable APN
+San Jose,counts,366,inside,before,"lots with new homes, non-ADU records only (A2 APN)",49.0,lots,ADU records = 151 of 200
+San Jose,counts,366,inside,before,permit locations with new homes (proxy),189.0,locations,lat/long rounded to 1e-5
+San Jose,counts,366,inside,before,permit records,200.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,366,inside,before,homes permitted,220.0,homes,
+San Jose,counts,366,inside,after,lots with new homes (A2 APN; location if no APN),143.0,lots,42 records without usable APN
+San Jose,counts,366,inside,after,"lots with new homes, non-ADU records only (A2 APN)",32.0,lots,ADU records = 119 of 151
+San Jose,counts,366,inside,after,permit locations with new homes (proxy),131.0,locations,lat/long rounded to 1e-5
+San Jose,counts,366,inside,after,permit records,151.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,366,inside,after,homes permitted,152.0,homes,
+San Jose,counts,366,inside,gap,lots with new homes (A2 APN; location if no APN),27.0,lots,21 records without usable APN
+San Jose,counts,366,inside,gap,"lots with new homes, non-ADU records only (A2 APN)",4.0,lots,ADU records = 23 of 27
+San Jose,counts,366,inside,gap,permit locations with new homes (proxy),26.0,locations,lat/long rounded to 1e-5
+San Jose,counts,366,inside,gap,permit records,27.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,366,inside,gap,homes permitted,27.0,homes,
+San Jose,counts by neighbour type,366,outside,before,"lots with new homes, segments facing neighbouring city",168.0,lots,
+San Jose,counts by neighbour type,366,outside,after,"lots with new homes, segments facing neighbouring city",155.0,lots,
+San Jose,counts by neighbour type,366,outside,before,"lots with new homes, segments facing unincorporated county",42.0,lots,
+San Jose,counts by neighbour type,366,outside,after,"lots with new homes, segments facing unincorporated county",49.0,lots,
+San Jose,counts,366,outside,before,lots with new homes (A2 APN; location if no APN),210.0,lots,2 records without usable APN
+San Jose,counts,366,outside,before,"lots with new homes, non-ADU records only (A2 APN)",62.0,lots,ADU records = 171 of 261
+San Jose,counts,366,outside,before,permit locations with new homes (proxy),235.0,locations,lat/long rounded to 1e-5
+San Jose,counts,366,outside,before,permit records,261.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,366,outside,before,homes permitted,278.0,homes,
+San Jose,counts,366,outside,after,lots with new homes (A2 APN; location if no APN),204.0,lots,1 records without usable APN
+San Jose,counts,366,outside,after,"lots with new homes, non-ADU records only (A2 APN)",86.0,lots,ADU records = 175 of 287
+San Jose,counts,366,outside,after,permit locations with new homes (proxy),220.0,locations,lat/long rounded to 1e-5
+San Jose,counts,366,outside,after,permit records,287.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,366,outside,after,homes permitted,299.0,homes,
+San Jose,counts,366,outside,gap,lots with new homes (A2 APN; location if no APN),20.0,lots,0 records without usable APN
+San Jose,counts,366,outside,gap,"lots with new homes, non-ADU records only (A2 APN)",8.0,lots,ADU records = 14 of 22
+San Jose,counts,366,outside,gap,permit locations with new homes (proxy),21.0,locations,lat/long rounded to 1e-5
+San Jose,counts,366,outside,gap,permit records,22.0,records,0 filed by another jurisdiction than the side's
+San Jose,counts,366,outside,gap,homes permitted,24.0,homes,
+San Jose,counts,366,outside,all,records dropped: inside neighbour's AB 2097 zone (lot level),0.0,records,
+Culver City,verdict,92,,,smallest cell (lots with new homes),1,lots,NOT feasible (rule: 20+ per cell); inside/before=4; inside/after=1; outside/before=17; outside/after=11
+San Jose,verdict,92,,,smallest cell (lots with new homes),26,lots,feasible (rule: 20+ per cell); inside/before=59; inside/after=26; outside/before=63; outside/after=77
+pooled (both cities),verdict,92,,,smallest cell (lots with new homes),27,lots,feasible (rule: 20+ per cell); inside/before=63; inside/after=27; outside/before=80; outside/after=88
+Culver City,verdict,183,,,smallest cell (lots with new homes),2,lots,NOT feasible (rule: 20+ per cell); inside/before=13; inside/after=2; outside/before=36; outside/after=17
+San Jose,verdict,183,,,smallest cell (lots with new homes),82,lots,feasible (rule: 20+ per cell); inside/before=96; inside/after=82; outside/before=128; outside/after=173
+pooled (both cities),verdict,183,,,smallest cell (lots with new homes),84,lots,feasible (rule: 20+ per cell); inside/before=109; inside/after=84; outside/before=164; outside/after=190
+Culver City,verdict,366,,,smallest cell (lots with new homes),8,lots,NOT feasible (rule: 20+ per cell); inside/before=24; inside/after=8; outside/before=67; outside/after=33
+San Jose,verdict,366,,,smallest cell (lots with new homes),175,lots,feasible (rule: 20+ per cell); inside/before=238; inside/after=175; outside/before=272; outside/after=290
+pooled (both cities),verdict,366,,,smallest cell (lots with new homes),183,lots,feasible (rule: 20+ per cell); inside/before=262; inside/after=183; outside/before=339; outside/after=323
+Culver City,ordinance,,,,effective date,2022-11-23,date,not stated in any source found; adoption 2022-10-24 + 30 days (CA default)
+Culver City,ordinance,,,,scope,,,"citywide, all uses (Ord. 2022-008; only exception: a Comprehensive Plan may set parking)"
+Culver City,ordinance,,,,bundled zoning or density change,,,"none in the ordinance; Housing Element adopted 2022, its rezoning came with General Plan 2045 (approved 2024-08-26)"
+San Jose,ordinance,,,,effective date,2023-04-10,date,"Ord. 30857 text as quoted: effective 10 April 2023 (vote 2022-12-06, adopted 2023-01-10)"
+San Jose,ordinance,,,,scope,,,citywide for housing; office minimum kept within 1/2 mile of SAP Center / Diridon-Google DA area
+San Jose,ordinance,,,,bundled zoning or density change,,,none found in Ord. 30857 (parking and TDM rewrite only)

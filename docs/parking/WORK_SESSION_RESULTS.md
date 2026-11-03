@@ -299,3 +299,27 @@ Unit: permits per 1,000 existing homes a year. These runs use 75 places (South B
   - `scripts/fetch_parking_la_aro_tracts.py`
   - `reference/parking_la_aro_tracts.csv`
   - The Census API key was read from the environment only and is in no file.
+
+## Test 35: city-limit edges after AB 2097, feasibility (counts only)
+
+- **Ordinances:**
+  - Culver City: Ord. 2022-008, citywide, all uses, adopted 2022-10-24. Effective date not found; 2022-11-23 is assumed.
+  - San Jose: Ord. 30857, citywide for housing, effective 2023-04-10. An office minimum stays near SAP Center and Diridon.
+  - Neither came with a zoning change.
+- **Sacramento and Mountain View:** too new; recheck when 2027 permits exist.
+  - Sacramento: the 2040 General Plan was adopted 2024-02-27 and took effect 2024-03-28; it bundles fourplex upzoning.
+  - Mountain View: vote 2024-11-12, precise-plan areas only.
+- **Usable border at 183 m** (neighbour still has minimums; no freeway, rail or water):
+  - Culver City: 21% of 35.8 km. Most of the LA border lies inside LA's own AB 2097 zones.
+  - San Jose: 66% of 430 km, mostly unincorporated county land.
+- **Lots with new homes, 25 m donut to 183 m** (inside before / inside after / outside before / outside after):
+  - Culver City: 12 / **2** / 29 / 16. Fails.
+  - San Jose: 82 / 69 / 101 / 125. Passes the 20-lot rule.
+- **But most of those lots are ADUs.** Accessory dwelling units make up 13 of 16 to 72 of 86 records per San Jose cell. State ADU law already limits ADU parking, so these lots barely test the parking repeal.
+  - Counting non-ADU lots only, San Jose has 14 inside before and 13 inside after. Both cities fail.
+- **Verdict: not feasible as a parking test.** San Jose passes the count rule only through ADUs.
+- **Already in the evidence:** both cities are among the 76, so this would have been a second look in any case.
+- **Caveats:**
+  - Zoning across the line could not be compared, so the counts are an upper bound.
+  - Records are kept only where the filing city matches the side of the line. This was added after the first run.
+  - The transit stop layer is today's.
