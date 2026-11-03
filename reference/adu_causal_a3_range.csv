@@ -1,0 +1,4 @@
+version,rms,multiplier,low,central,high,mean_log_error
+t 6 df x RMS,0.136,1.9432,8055.1441,10491.9958,13666.0468,0.0475
+1.645 x bootstrap 95th pct RMS,0.1575,1.645,8097.592,10491.9958,13594.4088,0.0475
+each state's own miss (min-max),,,8705.3904,10491.9958,11936.2825,0.0475

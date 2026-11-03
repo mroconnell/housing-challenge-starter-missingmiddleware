@@ -1,0 +1,6 @@
+measure,check,n_places,slope,p05,p95,note
+adu_comp1819,main: change 2017-19 -> 2023-25 on 2017-19 rate,426,-0.0502,-0.2969,0.2765,"extra permits per 1,000 homes per year, per 1 unit of before rate"
+adu_comp1819,regression to the mean: 2019 - g x 2018 on 2017 rate,426,-0.7677,-1.3715,-0.2348,statewide growth g = 1.6364
+adu_comp1819,RTM groups (2017 only): restrictive,211,1.2532,,,group 2019/2018 ratio divided by statewide; 1 = no regression to the mean
+adu_comp1819,RTM groups (2017 only): middle,113,1.145,,,group 2019/2018 ratio divided by statewide; 1 = no regression to the mean
+adu_comp1819,RTM groups (2017 only): permissive,102,0.9581,,,group 2019/2018 ratio divided by statewide; 1 = no regression to the mean

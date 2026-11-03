@@ -1,0 +1,5 @@
+measure,group,n_places,rate_before,rate_after,difference,ratio,ratio_p05,ratio_p95,ratio_loo_min,ratio_loo_max,cutoff
+adu_comp1819,restrictive,106,0.0,1.6599,1.6599,inf,,,inf,inf,0.922
+adu_comp1819,middle,243,0.3076,2.2358,1.9282,7.269,6.4507,8.2808,7.1386,7.4492,0.922
+adu_comp1819,permissive,122,3.1919,7.1249,3.933,2.2322,1.8102,3.5527,2.0454,3.0015,0.922
+adu_comp1819,all,471,1.1736,3.6976,2.524,3.1506,2.3908,5.0018,3.0218,4.5012,0.922

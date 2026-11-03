@@ -118,4 +118,13 @@ Locked 2026-11-03 by the ADU conductor. It comes from the learning thread's draf
 
 ## Changes after locking
 
-None yet.
+Details fixed while coding, before each count was seen (2026-11-03):
+- **A3.** The bootstrap version is 1.645 × the 95th percentile of the error, from 10,000 draws over states. Each state's own miss applied to the central is shown as well.
+- **A2.**
+  - Only places observed in all 6 window years are kept.
+  - The regression-to-the-mean check also gets a group view: groups set on 2017 alone, with each group's 2019/2018 growth relative to the state.
+  - The BuildinganADU 2018–2019 check reruns the whole of A2 on that measure.
+- **A4.** SB 6617 is checked against the enacted text: parking only. The 1993 rule (RCW 43.63A.215) is found. Under both, Washington cities are not no-law comparisons for 2017–2022.
+- **Post hoc, labelled in the results:** the no-control sliding-scale slope.
+
+Results: [CAUSAL_FRAMEWORK_RESULTS.md](CAUSAL_FRAMEWORK_RESULTS.md).
