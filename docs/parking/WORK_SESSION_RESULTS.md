@@ -505,6 +505,8 @@ The rule for this check was set by the learning thread for this check (it is not
 
 ## Test 43: do Madison's minimums bind? (project records 2015–2022)
 
+**Status: not yet spot-checked.** Ryan's check of 5 seeded rows is pending.
+
 - **Projects.**
   - 395 files (2+ homes; conditional use, planned development and site plan) became 287 projects.
   - Coded in random order until 30 had a positive minimum and both numbers: 116 coded.
