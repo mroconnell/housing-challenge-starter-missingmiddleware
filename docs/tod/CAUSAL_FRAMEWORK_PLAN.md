@@ -1108,3 +1108,70 @@ Owner OK 2026-11-03 11:32 ("sure"). Prompted by the Test P placebo (fake-year pr
   same places), with its Wisconsin figure, and the leave-one-place-out range. It is shown beside the current upper
   (13,451); the tool changes only with the owner's OK.
 - **If it passes:** the upper stands; say so in the plan and the Test P results.
+
+## Results: T2b-PT (pre-trend check on the 2×2 behind the upper line), run 2026-11-03
+
+Script `scripts/run_tod_causal_line_age_pretrend.py`; output `reference/tod_causal_line_age_pretrend.csv`.
+
+- **Unit:** extra new homes per 100 lot acres a year, ¼ mile.
+- **Wisconsin:** effect × 298.97 = extra homes 2027–2031.
+- **Intervals:** 90%, place bootstrap, 2,000 draws.
+- **Sanity:** real T2b main rerun matches exactly.
+  - Cells 12.5 / −5.3 / 1.8 / 57.5.
+  - Law effect near new lines 45.0 → 13,451.
+- **Same places:** 10 of 12 (Saint Paul, Hop out).
+
+### Cells: fake vs real, same 10 places
+
+| Cell | Real (90%) | Fake (90%) | Places (real / fake) |
+| --- | --- | --- | --- |
+| New line, no rezoning | 14.9 (−8.7 to 40.4) | −11.3 (−20.7 to −2.5) | 7 / 7 |
+| Old line, no rezoning | −5.3 (−21.7 to 8.7) | 10.6 (−24.5 to 44.3) | 9 / 9 |
+| Old line, rezoned | 1.8 (−16.0 to 20.7) | 9.4 (−2.7 to 20.9) | 7 / 7 |
+| New line, rezoned | 63.9 (31.0 to 105.6) | 18.8 (2.5 to 39.7) | 6 / 6 |
+
+### Effects: fake vs real, same 10 places
+
+| Effect | Real (90%) | Fake (90%) | Real, Wisconsin homes | Fake, Wisconsin homes |
+| --- | --- | --- | --- | --- |
+| Transit alone | 20.2 (−11.2 to 59.0) | −22.0 (−57.6 to 17.2) | 6,028 | −6,566 |
+| Rezoning alone (old lines) | 7.1 (−12.9 to 25.3) | −1.2 (−35.1 to 34.3) | 2,129 | −355 |
+| Interaction | 41.9 (22.0 to 63.7) | 31.4 (0.2 to 64.8) | 12,522 | 9,383 |
+| **Law effect near new lines** | **49.0 (32.4 to 72.8)** | **30.2 (12.0 to 50.7)** | **14,651** | **9,027** |
+
+For reference, the T2b main (12 places, with Saint Paul and the Hop): law effect 45.0 (28.7 to 66.7) → 13,451.
+
+### Pass rule (locked): fake interval must include 0
+
+| Fake result | 90% interval | Includes 0? | Verdict |
+| --- | --- | --- | --- |
+| Law effect near new lines, 30.2 | 12.0 to 50.7 | No | **FAIL** |
+| Interaction, 31.4 | 0.2 to 64.8 | No (just) | **FAIL** |
+
+**The check fails.** In the years before any reform, new-line rezoned stops already grew faster than new-line
+comparison stops. Most of the fake gap comes from new-line comparison stops slowing (−11.3).
+
+### Trend-adjusted upper (real − fake law effect, same 10 places)
+
+| Line | Effect per 100 acres a year | Wisconsin homes, 2027–2031 |
+| --- | --- | --- |
+| Current upper (T2b main, owner pick) | 45.0 | 13,451 |
+| **Trend-adjusted upper** = 49.0 − 30.2 | **18.8** | **5,624** |
+| 90% interval (paired bootstrap; reporting only) | −9.3 to 45.7 | −2,776 to 13,666 |
+| Leave-one-place-out, low (without Denver) | 7.8 | 2,340 |
+| Leave-one-place-out, high (without Seattle Othello) | 32.4 | 9,684 |
+
+- Leave-one-out, every place: Austin 23.2; Charlotte 22.1; Chicago 2015 15.4; Denver 7.8; New York 17.3;
+  Seattle Othello 32.4; Salt Lake City 13.4. Philadelphia, Portland 2020, Mount Baker: 18.8 (no new-line stops).
+- Below the D-11 central (10,028). Shown beside 13,451; the tool changes only with the owner's OK.
+
+### Deviations (nearest thing to the locked plan; also `note` rows in the CSV)
+
+- Saint Paul left out: one-year before window (2010), cannot split.
+- Milwaukee Hop left out: one before-window total, no years.
+- Fake windows as Test P: first h years vs last h years, h = years ÷ 2 rounded down. Denver's 5-year window drops
+  its middle year. Before-window hand-check fixes split by raw homes per half (duplicates 0).
+- Stops keep their real line-age class (new/old set by the real reform year).
+- Law effect intervals were not in the T2b output; computed from the same bootstrap (new/rezoned − new/no).
+- The trend-adjusted interval (paired draws, seed 20261103) is extra, reporting only; the lock asked for the
+  leave-one-place-out range.
