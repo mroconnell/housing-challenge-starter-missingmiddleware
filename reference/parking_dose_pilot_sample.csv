@@ -1,0 +1,16 @@
+place,state,event_year,homes,simultaneous_rewrite
+Central Point,Oregon,2023.0,7978.0,False
+Saranac Lake,New York,2016.0,2819.0,False
+Ecorse,Michigan,2020.0,4121.0,True
+King City,Oregon,2024.0,2782.0,True
+Bandera,Texas,2021.0,367.0,True
+Springfield,Oregon,2024.0,25905.0,False
+Albany,Oregon,2023.0,22768.0,False
+Beaverton,Oregon,2023.0,42771.0,True
+Kingston,New York,2023.0,11221.0,True
+Rogers,Arkansas,2024.0,28579.0,True
+Cambridge,Massachusetts,2022.0,54840.0,False
+St. Paul,Minnesota,2021.0,133051.0,False
+Bridgeport,Connecticut,2021.0,59844.0,True
+Austin,Texas,2023.0,483071.0,True
+South Bend (with unincorporated St. Joseph County),Indiana,2021.0,47775.0,True
