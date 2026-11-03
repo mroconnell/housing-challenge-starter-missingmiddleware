@@ -1175,3 +1175,22 @@ comparison stops. Most of the fake gap comes from new-line comparison stops slow
 - Law effect intervals were not in the T2b output; computed from the same bootstrap (new/rezoned − new/no).
 - The trend-adjusted interval (paired draws, seed 20261103) is extra, reporting only; the lock asked for the
   leave-one-place-out range.
+
+## Owner decision, 2026-11-03 11:52 ("good catch - yes to all three")
+
+1. Upper line becomes the D-11 average scaled to a 15% district (12,521; the option D upper before AQ-072).
+2. The 2×2 upper (13,451) and the trend-adjusted 2×2 (5,624) move to What-ifs.
+3. Run the same fake-years check on the central (below).
+
+## Test C-PT: pre-trend check on the central (locked 2026-11-03, before any count)
+
+- Each D-11 place's ¼-mile effect is recomputed exactly as for the central (option D, same stops, comparison stops,
+  weights, hand-check rules), with the before window split in half as in T2b-PT (h = years ÷ 2 rounded down; first
+  half "before", second half "after"; real after window never read). Places that cannot be split are listed and left
+  out; the real central is recomputed on the same places for comparison.
+- Reported: each place's fake effect, the plain average (90% place bootstrap), and the Wisconsin figure (×298.97).
+- **Pass rule:** the fake average's 90% interval includes 0.
+- **If it fails:** a trend-adjusted central = real average − fake average (same places), with its Wisconsin figure,
+  leave-one-place-out range and paired-bootstrap interval, shown beside the central. The tool changes only with the
+  owner's OK.
+- Because the new upper is the central scaled to 15%, the same adjustment would apply to it; report that figure too.
