@@ -573,7 +573,7 @@ The rule for this check was set by the learning thread for this check (it is not
     - South Bend 0.50 (city only), St. Paul 0.17, Bridgeport 0.12, Cambridge 0.05.
   - Bandera: "none", by text.
   - 4 unfinished (Saranac Lake, Ecorse, Kingston, Rogers): the old code is not online or is blocked.
-- **The median share "on the day before repeal" is 0.53 overall but 0.12 outside Oregon.** Oregon's high shares come from the state transit rule (OAR 660-012-0440), which started 2022-12-31. Most of Oregon's before window ran without it.
+- **The median share "on the day before repeal" is 0.53 overall but 0.12 outside Oregon** (the 5 places measured by GIS; counting Bandera's text "none" as 0 gives about 0.09). Oregon's high shares come from the state transit rule (OAR 660-012-0440), which started 2022-12-31. Most of Oregon's before window ran without it.
   - **Before-window, local exemptions only:** Albany 0.04, Central Point 0, King City 0. Springfield and Beaverton have no public map of their local districts (Beaverton's Regional Center zones over-count at 0.13).
   - **Central Point and King City, two readings of the state rule:** broad 0.75 and 0.72; narrow 0 for both.
   - The grid script is `scripts/run_parking_dose_exempt_grid.py`, and the fetch script is `scripts/fetch_parking_dose_exempt.py`. Layers stay out of git; their sources and terms are listed in `docs/DATA_PROVENANCE.md`. Shipping any layer needs Ryan's OK.
