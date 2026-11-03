@@ -517,3 +517,131 @@ points, fuzzy 8.6 per 10 points (−4.9 to 24.6); Metrolink cutoffs near 0 (10 s
 - **Year 1 (units permitted per 1,000 homes):** pooled −2.6 (−5.1 to −0.4), "negative" by the rule; but the one-year-
   early placebo is −1.5 (−4.0 to +1.0) and −2.2 (−4.6 to −0.2) for 5+ units, so the gap predates the deadlines
   (comparison = rural adjacent small towns). Reading: no sign of a first-year rise. No number carried to Wisconsin.
+
+## Test 2 expansion: more upzoning maps, census-block version, placebos (locked 2026-11-02, machine clock 16:05, before any count)
+
+Owner requests (owner clock 2026-11-02 23:55: "run the edge test on a larger number of upzone maps"; 23:59: add
+stops without rezonings as a placebo). Script: `scripts/run_tod_causal_edge_expand.py`. Output:
+`reference/tod_causal_edge_expand.csv` (summaries only; no lot rows, block ids or parcel ids). Everything in Test 2
+above holds unless changed here: 91 m main bandwidth, 46 m and 183 m sensitivities; 400 m boundary segments with lots
+on both sides; public ≥ 50% and water (30 m) segments dropped; arterial tag reported beside; 25 m donut; bunching;
+balance = before-window inside − outside gap, pass if its 90% interval includes 0; 20 lots a side to be estimable;
+1,000 segment-bootstrap draws; pooled = equal-weight mean of balance-passing units, pooled draws = mean of unit
+draws; leave-one-unit-out range. The original 11-place run (`reference/tod_causal_edge_test.csv`) is re-computed
+inside the script with the same seeds as a check and not changed.
+
+**E1. Six more places (lot tables, rules exactly as Test 2):**
+- Broad upzonings: Bellevue BelRed 2009, Honolulu 2017, Los Angeles TOC 2017, San Diego 2021, Chicago 2022.
+  District: Seattle Roosevelt 2012 (`candidates/lots_seattle_roosevelt_2012.parquet`).
+- Signed distance follows each builder's reform-area geometry:
+  - Polygon union boundary (as Denver etc.): Honolulu (Waipahu TC and West Loch zone-change polygons), LA TOC (the
+    four Oct 2017 tier polygons), San Diego (SANDAG 2022 transit priority areas).
+  - Chicago 2022 (inside = reform-group lot within 805 m of its Chicago CTA/Metra station): signed distance =
+    805 m − distance to the nearest station (exact distance to the union of the ½-mile circles); boundary point on
+    the circle in the station-to-lot direction (stations re-read with `station_cases.chicago.stations()`).
+  - Lot midway (as the lot-defined districts): Bellevue BelRed and Seattle Roosevelt (their stored inside flag is
+    "within 30 m of a treated parcel point"). Roosevelt sensitivity: distance to the union of the ordinance's upzoned
+    polygons (`cluster_north.roosevelt_polys`).
+  - Lot-midway sensitivity also run in the polygon places, as before.
+- Water and arterial layers only where already on disk (no new downloads): water for LA (06037), King (53033) and
+  Cook (17031); arterials for King and Cook. Honolulu and San Diego: no water layer; LA, Honolulu, San Diego: no
+  road file. Noted as gaps.
+
+**E2. New York and Philadelphia per rezoning:** every rezoning lot table on disk is its own unit (on disk: 23 New
+York, 83 Philadelphia; the 22 and 64 in the owner's message are the older station-area-plan counts; rezonings with
+no inside lots or under 20 lots a side are reported as not estimable). Each uses its own table, inside flag and own
+before/after windows (a lot shared by several rezonings appears once per rezoning, weight 1 in each). Lot-midway
+distance as before. Reported: count of estimable units and count passing balance per city. **City pool (main):**
+equal-weight mean of a city's balance-passing rezonings (draws = mean of their draws); the city then enters the
+overall pool once. **Version B:** each passing rezoning a separate unit.
+
+**E3. Census-block version (the 21 census-set reforms of CENSUS_CASES_RESULTS section 6, areas exactly as
+`run_tod_census2000.census_set_areas`):**
+- Blocks as points (internal points; 2000 SF1 headers, 2010 and 2020 TIGER, cached in
+  `data/processed/tod_census_cases`), homes and block land area. Each vintage's blocks are placed by their own point.
+- **Inside** = block point inside the reform's upzoned land. Polygon reforms (Jersey City, Milpitas, Phoenix,
+  Bellevue, Austin, Tysons, Salt Lake City, Seattle Roosevelt): the polygons, signed distance = distance from the
+  block point to the union boundary (as Test 2's polygon places). Lot-defined reforms (Saint Paul, Seattle Othello,
+  Seattle Mount Baker, LA Warner Center, LA Cornfield Arroyo Seco, Chicago 2013–2015, Philadelphia 2012, the New
+  York rezonings 2008–2013): the **upzoned** lots' union (the upzoning boundary; the census set's "treated" lots are a
+  subset), signed distance = half the distance to the nearest block point of the other status in the same vintage
+  (the block-midway rule, mirroring lot midway). Outside blocks inside the reform's excluded area (the census set's
+  `ex`, e.g. BelRed's other BR zones) or another boundary reform's area are dropped.
+- **Outcome:** within bandwidth h, each side's rate = (homes 2020 − homes 2010) ÷ mean block acres (2010 and 2020
+  vintages), net homes per acre per decade; estimate = inside − outside. Reported also as net homes per 100 block
+  acres a year (× 10). **Bandwidth main 150 m; sensitivities 100 m and 300 m.** No donut (block points too coarse).
+- **Segments:** 400 m cells of each block's boundary point; a segment is used if it has blocks on both sides in both
+  vintages of the decade measured. No public or water rule (no block-level flags; census land excludes water).
+  Estimable: at least 10 blocks a side in each vintage used. 1,000 segment-bootstrap draws (seed 20261106).
+- **Balance:** the same estimator on 2000 → 2010; pass if its 90% interval includes 0. Flag (not a rule) where the
+  2000–2010 decade is partly after adoption (adopted before 2010). Change-in-change (2010–20 gap − 2000–10 gap)
+  reported beside. Bunching: outside blocks 0–150 m vs 150–300 m, 2010–20 rate gap minus 2000–10 rate gap.
+- **Pooling:** each reform one unit (census-set convention), equal weight, balance-passing only; version with New
+  York's rezonings pooled to one city unit first. "Usable boundary" = estimable at 150 m.
+
+**Groups and Wisconsin floors.** District-type = the 11 D-11 places (New York and Philadelphia by the E2 city pool)
++ Seattle Roosevelt; broad = the five E1 broad places; census-block = E3. Each group: per unit, pooled, leave one out,
+count passing balance; group pass rule as Test 2 (≥ 5 passing units; both sensitivity bandwidths' pooled estimates
+inside the main's 90% interval). Floor = pooled × 15% × 4,874.1 ÷ 100 × 5 × 1.2269 (donut if pooled bunching is
+flagged), with interval and leave-one-out carried through:
+- (a) the original 5 places (re-computed; should be 88.2 → 3,958);
+- (b) all passing district-type units (E2 city pools), and version B (rezonings separate);
+- (c) everything passing: (b) + passing broad places + passing census-block reforms (New York census rezonings pooled
+  to one unit). Census rates are per 100 **block** acres (gross land with streets) and net of losses; converted to
+  per 100 lot acres by ÷ 0.75 (the station-area plan's streets factor), labelled. (c) also shown lot-based only.
+
+**P1. Placebo: fake districts moved onto comparison stops (D-11 places).**
+- Each case's stop locations are recovered from its lot table (least squares on each stop's lots' x, y and distance).
+- Each comparison stop c gets one reform stop r's real map (random draw among the case's reform stops that have
+  inside lots, seed 20261107 + place index; r's used in turn before repeating). r's reform-group lots, with their
+  real inside/outside status, are translated by (c − r) (same size and orientation). Each comparison-group lot whose
+  nearest stop is c takes the status of the nearest translated lot within 100 m (else left out).
+- Avoiding real reform areas: comparison lots within 200 m of any real inside lot of the case, or flagged inside,
+  are left out.
+- Then the identical test on the comparison lots (lot-midway distance on the fake status; same windows, bandwidths,
+  segments, water, balance, bunching; places pooled lot by lot with 1/k weights as Test 2).
+- **Pass:** pooled (balance-passing places, as Test 2) 90% interval includes 0; all-estimable pool beside.
+
+**P2. Placebo: zoning lines that did not change, near comparison stops.**
+- Places with zoning for both ends of the window on disk: Saint Paul (Nov 2010 and Nov 2017 layers; same zone at
+  both), Seattle Othello and Mount Baker (current layer; no ordinance dated inside the case's before-start..after-end
+  in ZONINGHISTORY), Charlotte (pre-UDO layer; last rezone date before the before window, no approved petition in
+  the window; the June 2023 UDO translation falls in the after window, flagged), Portland (May 2018 and Mar 2020
+  layers; same zone; **reported, not pooled**: the 2021 Residential Infill Project changed every single-dwelling lot
+  during the after window). New York, Philadelphia (2012 code change), Denver, Austin, Salt Lake City, Chicago
+  (comparison stops are suburbs without a zoning layer): not possible, said so.
+- Lots: comparison-group lots, zone unchanged; "inside" = higher tier (multifamily, commercial, mixed use: Saint
+  Paul RT2, RM, TN, B, BC, OS; Seattle Lowrise, Midrise/High-Density Multi-Family, Neighborhood Commercial,
+  Commercial, Seattle Mixed, Downtown; Charlotte R-xMF, UR, MUDD, UMUD, B, O, NS, CC, TOD, MX; Portland R1–R3, RH,
+  RX, C*, EX), "outside" = single-family / two-family tier (Saint Paul R1–R4, RL, RT1; Seattle Neighborhood
+  Residential; Charlotte R-3 to R-8, RE; Portland R2.5–R20, RF); industrial, institutional, open space, PD/PUD and
+  others left out. Lot-midway distance between the tiers; the identical test.
+- **Pass:** pooled over all estimable pooled places 90% interval includes 0 (a zoning line differs in level by
+  construction, so the before-gap balance is reported, not used to drop places); balance-passing pool beside.
+- **Net reading:** if a placebo pool's interval excludes 0, the real pooled edge effect is also reported as "edge
+  effect minus placebo" (draw by draw), and its Wisconsin floor beside the main.
+
+**Addition (coordinator, same session, still before any count): two pre-period checks per unit; the primary filter
+is pending the owner.**
+- **(a) Level balance (the locked Test 2 rule):** before-window inside − outside gap; pass if its 90% interval
+  includes 0.
+- **(b) Pre-trend:** the before window split into two equal halves (first ⌊n/2⌋ years and last ⌊n/2⌋ years; the
+  middle year dropped when n is odd), new homes per 100 lot acres a year in the second half minus the first, inside
+  minus outside; same segments and bootstrap; pass if its 90% interval includes 0. Halves come from the per-building
+  event files with the same date rule (`permit_est`); a hand-check-corrected lot's halves are scaled by its corrected
+  ÷ uncorrected before-window total (duplicates 0). Units with a one-year before window (Saint Paul 2011: 2010 only)
+  cannot be tested and are left out under (b). Census blocks have only 2000/2010/2020 counts, so (b) cannot be run
+  for E3; census units enter the (b) pools not at all (they appear under (a) and no filter).
+- **Every pool, city pool, group rule and Wisconsin floor is reported three ways:** filtered by (a), by (b), and with
+  no filter (all estimable units). Placebo pools likewise.
+
+## Owner decision, 2026-11-03 00:17 (Ryan: "sure", to "lock in 3,958 / 10,028 / 13,451")
+- Lower = T3 edge-test direct-effect floor (3,958 on the 5 balance-passing places; to be refreshed by the Test 2 expansion
+  before the tool is rebuilt).
+- Central = D-11 plain average (10,028), kept by the owner ("you can keep d-11").
+- Upper = T2b near-new-lines reading: rezoning alone + interaction, 45.0 extra homes per 100 lot acres a year, 13,451.
+  This departs from the locked T2/T2b rule (which made 13,451 the central); the owner chose it as the upper because the
+  2×2's new-line rezoned cell comes from cities that chose to rezone around new stations, while Wisconsin's law sets
+  districts by rule.
+- Transit-alone growth (≈ +17.8, ≈ 5,300 homes) belongs in the baseline, not the law; to check that the Wisconsin
+  near-stop baseline covers growth near the new BRT and Hop stops.
