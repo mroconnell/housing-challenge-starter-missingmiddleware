@@ -462,3 +462,22 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Report.** Rate ratio (exp of the coefficient) with 90% and 97.5% intervals.
   - **Prediction:** above 1. "Supported" only if the 97.5% interval excludes 1.
 - **C2, building counts in the main design.** The main matched difference-in-differences (76 places, same comparison, windows and weights), with the outcome changed to new buildings of all sizes per 1,000 existing homes a year (BPS 1-unit + 2-unit + 3–4 unit + 5+ unit buildings). 90% interval from 2,000 place resamples, seed 20261104. Prediction: above 0.
+- **C1/C2 additions from the learning thread (before any count; my lock kept, its checks added):**
+  - **C1 series.** Run on three outcomes:
+    - new 5+ unit buildings (main);
+    - homes in 5+ unit buildings;
+    - all homes.
+    Each in negative binomial, with Poisson beside it. 2–4 unit buildings are shown beside the main.
+  - **Checks:**
+    - **(a) Pre-trend:** the same stacked model with "before" = years −5 to −3 and "after" = years −2 to −1. Its 90% interval should include 1.
+    - **(b) Single-family placebo:** new 1-unit buildings as the outcome. Its 90% interval should include 1.
+    - **(c) Fake reforms:** T1's 31 non-residential places, with their own comparison pools, as fake reforms. Their 90% interval should include 1.
+  - **Pass rule.** "Supported" only if all three hold:
+    - the main 97.5% interval excludes 1 (stricter than the tutor's 90%, matching N1–N4);
+    - placebos (b) and (c) include 1;
+    - pre-trend (a) includes 1.
+  - **Reporting.**
+    - Places dropped for all-zero counts.
+    - The MDE (1.645 × SE on the log scale).
+    - The rate ratio converted to permits per 1,000 existing homes a year at the before-period mean.
+  - **Intervals.** From stack-clustered standard errors. A 2,000-draw place bootstrap was proposed but would need 2,000 negative binomial refits with thousands of fixed effects, so it is not run (stated).
