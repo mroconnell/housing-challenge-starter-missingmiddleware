@@ -948,3 +948,6 @@ recomputed on the same folds (16.0 expected). Each place is counted once.
 - If more than one method qualifies, the highest tier wins. Ties go to the simpler method: A0, then A, then B.
 - For each method, also report the chance that a method no better than the average reaches its place count, P(X ≥ k),
   with X ~ Binomial(11, 0.5). For example, 6 of 11 → 50.0%; 8 of 11 → 11.3%.
+- Added 2026-11-03 11:15, before any count (tutor thread; reporting only, changes no tier): for each method, the 90%
+  interval of (method median miss − plain average median miss) from a place bootstrap (1,000 draws, places resampled
+  with replacement, both medians recomputed on the same draw).
