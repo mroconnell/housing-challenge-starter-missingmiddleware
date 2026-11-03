@@ -66,3 +66,11 @@ Unit: permits per 1,000 existing homes a year.
   - 16 covered cities are also among the 76. In N1 they average +3.17; in the 76-place comparison they average +1.64.
   - The 76-place figure (+1.64) sits inside N1's 90% interval (−0.66 to +2.87), so there is no sign that self-selection biased the 76. But this check could only detect a large gap (MDE 1.75).
   - Part of the gap may come from the 76-place comparison places in Oregon, which CFEC also covered.
+
+## B1, multifamily-zoned lots (Chicago only)
+
+- **Design:** Chicago lots zoned for multifamily (allowed FAR 1.2 or more before the reform). Reform lots are within 402 m of a station, under the 2015 rule. Comparison lots are 402–805 m away.
+- **Lots:** 20,344 reform, 18,854 comparison.
+- **Change in net new homes** per 100 multifamily-zoned lot acres a year: reform lots +6.86, comparison lots +11.45.
+- **Effect:** −4.59 (90% −8.49 to −1.07; 97.5% −9.77 to +0.19).
+- **Reading:** one city, so this is descriptive. The sign is opposite to the prediction, as in Chicago's other lot tests (FU7: large lots −11.2). SF, Buffalo and Seattle have no usable multifamily zoning data on the lot table.

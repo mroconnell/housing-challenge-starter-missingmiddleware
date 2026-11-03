@@ -1,0 +1,2 @@
+city,reform_lots,comparison_lots,reform_change,comparison_change,estimate,p05,p95,p0125,p9875,unit,note
+Chicago,20344,18854,6.859909347300253,11.448245695521662,-4.588336348221409,-8.485897986456928,-1.0730144790756688,-9.770623341923626,0.1874562611942616,net new homes per 100 multifamily-zoned lot acres a year (after minus before),"one city: descriptive, not 'supported'; FAR >= 1.2 before; reform = within 402 m of a station"
