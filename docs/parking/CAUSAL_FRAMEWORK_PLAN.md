@@ -443,3 +443,22 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - San Jose's lots are mostly ADUs, whose parking state law already caps; it has 14 / 13 non-ADU lots inside before / after.
   - No descriptive San Jose run.
   - Recheck Sacramento and Mountain View when 2027 permits exist.
+
+## C1 count model and C2 building counts (locked 2026-11-03, before any count; owner: "No harm in running the negative binomial version of the Poisson and also trying a small version with building counts instead of homes")
+
+**Running count: 39** (37 + C1 + C2; test 35 counted, and closed as not feasible). Evidence only; the tool lines don't change.
+
+- **C1, count model of new 5+ unit buildings.**
+  - **Stacked design.** One stack per repeal place: that place plus its `cmp.controls` comparison places, each with two periods (the place's before and after windows, as in the main estimate).
+  - **Outcome.** Count of new 5+ unit buildings (BPS `5plus_bldgs`) summed over each period.
+  - **Offset.** log(existing homes × years in the period).
+  - **Model.** Negative binomial GLM with unit-by-stack fixed effects and stack-by-period fixed effects. The treatment term is repeal place × after.
+  - **Overdispersion.** α is chosen by maximum likelihood on a grid (0.05–5).
+  - **Reference.** A Poisson version with the same terms is reported beside it.
+  - **Weights.**
+    - Main: none.
+    - Second version, weighted by series steadiness: 1 ÷ (1 + coefficient of variation of the unit's yearly before-window 5+ building counts), so steadier places count more.
+  - **Inference.** Standard errors clustered by repeal stack.
+  - **Report.** Rate ratio (exp of the coefficient) with 90% and 97.5% intervals.
+  - **Prediction:** above 1. "Supported" only if the 97.5% interval excludes 1.
+- **C2, building counts in the main design.** The main matched difference-in-differences (76 places, same comparison, windows and weights), with the outcome changed to new buildings of all sizes per 1,000 existing homes a year (BPS 1-unit + 2-unit + 3–4 unit + 5+ unit buildings). 90% interval from 2,000 place resamples, seed 20261104. Prediction: above 0.
