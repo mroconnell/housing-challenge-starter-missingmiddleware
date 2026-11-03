@@ -64,18 +64,26 @@ The current lower and upper lines retire as scenario lines:
   the ranking table gets "Centre" and "90% range" columns instead of Lower / Central / Upper.
 - **The combined view** stays shelved. If it comes back, its range is a paired simulation of the reforms' draws.
 
-## TOD coverage test (proposed, locked before it runs)
+## TOD coverage test (proposed, locked before it runs; revised after the audit, 19:06)
 
-- **Question:** how often does TOD's place-bootstrap 90% range contain a known true effect?
-- **Fake data:** the 11 places' fake-district placebo effects (P1, comparison stops; `reference/tod_causal_edge_expand.csv`
-  where estimable, otherwise the C-PT fake-years effects), each shifted by a known injected effect.
-- **Injected effect sizes, fixed now:** 0, 17 and 34 extra homes per 100 lot acres a year (0, about half, and about
-  the measured mean, 33.5).
-- **Runs:** 1,000 per size. Each run resamples 11 places with replacement, adds the injected size, and builds the same
-  2,000-draw bootstrap 90% range. Coverage = the share of runs whose range contains the injected size. Seed 20261103.
-- **Widening rule, fixed now:** if pooled coverage over the three sizes is below 90%, widen the range about the centre
-  by the factor that brings it to 90% in this simulation, and show the widened range with one line saying so. At 90%
-  or above, show it as is.
+- **Question:** how often does TOD's place-bootstrap 90% range contain the true average effect, given 11 places?
+- **Fake effects:** the C-PT fake-years effects (`reference/tod_causal_central_pretrend.csv`), for all 10 places that
+  have one. These are the same outcome and unit as the central (extra homes per 100 lot acres a year within
+  ¼ mile). The edge-test P1 fake districts are not used, because they measure a different unit (the direct effect at
+  district boundaries).
+  - Used: New York, Philadelphia, Austin, Charlotte, Chicago 2015, Denver, Portland 2020, Seattle Mount Baker,
+    Seattle Othello, Salt Lake City.
+  - Left out: Saint Paul, which has no fake-years effect because its before window is one year.
+- **Check 1, width (one check):** the pool's true average is the mean of the 10 fake effects. Each run draws 11 places
+  with replacement from the pool, then builds the same 2,000-draw bootstrap 90% range. Coverage = the share of runs
+  whose range contains the pool's true average. 1,000 runs, seed 20261103. No injected sizes: adding a constant
+  shifts the draws and the truth equally, so it cannot change coverage.
+- **Check 2, bias (reported beside):** the fake effects' mean and its 90% range. C-PT found 14.5 (−3.8 to 38.8),
+  against the real 35.4. Widening fixes width, not bias, so a non-zero fake mean is reported as a caution, not
+  corrected.
+- **Widening rule, fixed now:** if Check 1 coverage is below 90%, widen the range about the centre by the factor that
+  brings it to 90% in this simulation, and show the widened range with one line saying so. At 90% or above, show it
+  as is.
 
 ## Open questions for the owner
 
