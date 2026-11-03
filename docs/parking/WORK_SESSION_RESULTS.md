@@ -113,3 +113,17 @@ Error unit: permits per 1,000 existing homes a year.
   - Outside: 4 before (2014–2015) and 14 after (2017–2019).
   - Inside: 18 before.
 - Both sides fall below 20.
+
+## S1 eligibility (census-block edge design; count only)
+
+- **Candidates:** 68 places. The eligibility list is `reference/parking_ws_s1_eligibility.csv`.
+- **Eligible: 6**, short of the 8 the locked rule needs, so S1 can only be descriptive.
+  - Aledo IL (2015), Champaign IL (2015), Minneapolis (2015), Sacramento (2012), Cincinnati (about 2018) and San Diego (2019).
+  - Only the first 4 had 2 or more years in force before the April 2020 census.
+- **Main reasons the other 62 failed:**
+  - the date could not be confirmed (about 17, including Seattle, whose housing part probably dates from 2010);
+  - the rule is older than 2011;
+  - zoning changed along the same line;
+  - the district is too small for 10 blocks a side;
+  - the reform was not district-only.
+- Several code sites blocked automated access, so some dates come from secondary copies (flagged in the file).
