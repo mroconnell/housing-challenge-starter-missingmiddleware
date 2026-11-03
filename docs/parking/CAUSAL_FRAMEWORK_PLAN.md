@@ -411,3 +411,18 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Estimation.** Two-way fixed effects (place, year), with cohort × relative-year dummies for leads −5 to −2 and lags 0 to 3. Relative year −1 is the reference; leads beyond −5 are binned into the earliest lead. Estimated by OLS after a two-way within transformation; standard errors clustered by place.
   - **Aggregation.** Each cohort's lags 1–3 are averaged with weights equal to each cohort's share of treated place-years, giving one post effect, beside the main −1.14. The leads are reported as a pre-trend check. Home-weighted and unweighted versions are both shown.
   - **Role:** a cross-check, not a replacement.
+
+## Pre-trend follow-ups P1–P3 (locked 2026-11-03, before any count; from the learning thread after T2)
+
+**Running count: 37.** Evidence only. Ryan's lines don't change without his OK.
+
+- **P1, short before window.** The main matched difference-in-differences (76 places, the same `cmp.controls` comparison, after years and weights), with the before window cut to years −2 and −1 only. The interval comes from 2,000 place resamples, seed 20261104.
+- **P2, matching on before-trend as well as level.**
+  - **Slope.** Each place's before-window slope is the OLS slope of its yearly permits per 1,000 homes on year, over years −5 to −1 (as available).
+  - **Controls.** From each repeal place's `cmp.controls` pool, keep the 10 places with the nearest slope (all of them if fewer than 10). Effect and interval as in the main estimate.
+  - **Pre-trend check.** The same matched comparison with "after" = years −2 to −1 and "before" = years −5 to −3. It passes if the home-weighted mean's 90% interval includes 0.
+- **P3, bound in the spirit of honest DiD** (hand-written; no GPL packages; relative-magnitude form, M = 1).
+  - **Before-window gaps.** From the main matched comparison, the home-weighted place-minus-comparison gap in each before year, relative to year −1.
+  - **G** = the largest absolute gap.
+  - **Bound.** [main p05 − G, main p95 + G], reported beside the main estimate.
+- **Pass rule.** If P1 and P2 both move the central estimate toward 0 or above, and P2's pre-trend check passes, the result goes to Ryan as a candidate low-line update. Otherwise the lines stand, and the pre-trend issue is noted in the how-it-works text.
