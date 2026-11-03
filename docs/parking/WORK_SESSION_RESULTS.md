@@ -75,8 +75,8 @@ Unit: permits per 1,000 existing homes a year.
 - **Effect:** −4.59 (90% −8.49 to −1.07; 97.5% −9.77 to +0.19).
 - **What "dropped TOD lots" means.** TOD's `treated` lots for Chicago are lots eligible for the 2015 ordinance's density bonus, coded from the November 2012 zoning map within the station distance. They are not after-window rezonings. Dropping them removes eligible reform-ring lots from one side only.
   - *Post hoc*, with those lots kept: −2.95 (90% −7.24 to +0.95; 97.5% −8.91 to +2.55).
-- **Comparison partly treated.** In 2019 Chicago extended the rule to ½ mile along Pedestrian Streets. Some 402–805 m comparison lots were therefore treated in 2019–2020, which pushes the estimate toward zero.
-- **Open question for all Chicago lot results (B1, FU7 −11.2, October −2.6).** If the 2015 parking relief applied only in business, commercial and downtown districts, then the lot tests' "reform" side (every lot within 402 m except TOD's density-bonus lots) is mostly residential lots that got no parking change. The Chicago lot tests would then not be parking tests. To verify against the 2015 ordinance (SO2015-...) before any further use.
+- **Comparison partly treated.** The 2015 ordinance itself reached ½ mile along Pedestrian Streets (corrected by the audit; an earlier version of this line said 2019). Some 402–805 m comparison lots were therefore treated for all of 2016–2020, which pushes the estimate toward zero.
+- **Resolved by the audit sweep (2026-11-03): the 2015 relief applied only to B, C and D districts.** Earlier wording, kept for the record: if the 2015 parking relief applied only in business, commercial and downtown districts, then the lot tests' "reform" side (every lot within 402 m except TOD's density-bonus lots) is mostly residential lots that got no parking change. The Chicago lot tests would then not be parking tests. To verify against the 2015 ordinance (SO2015-...) before any further use.
 - **Reading:** one city, so this is descriptive. The sign is opposite to the prediction, as in Chicago's other lot tests (FU7: large lots −11.2). SF, Buffalo and Seattle have no usable multifamily zoning data on the lot table.
 
 ## Backtest: boosted trees as the no-repeal path (D1 target)
@@ -156,7 +156,7 @@ Error unit: permits per 1,000 existing homes a year.
 | B1 | dropped | 4,480 / 4,622 | −11.18 (−21.55 to −1.83) | per 100 lot acres |
 
 - **Read.** With the right districts, Chicago's reform-ring estimate is still negative, but its interval includes 0 when the density-bonus lots are kept.
-- **Pedestrian Streets.** The 2015 extension to 805 m along Pedestrian Streets is not applied (no layer on disk). Some treated lots therefore sit in the comparison, which pushes toward zero.
+- **Pedestrian Streets.** The 2015 ordinance's 805 m reach along Pedestrian Streets is not applied (no layer on disk). Some treated lots therefore sit in the comparison, which pushes toward zero.
 - **FU7's "does not generalise" leans on Chicago.** Chicago, on its correct scope, still points negative, so the reading stands. It now rests on a better-coded test.
 - **Tool text, for Ryan.** The tool's "Why" card says "Chicago's largest lots lost homes". That came from the mis-scoped test. A caveat or rewording needs Ryan's OK.
 
@@ -220,3 +220,18 @@ Error unit: permits per 1,000 existing homes a year.
 
 - **Pre-trend fails.** In the rate outcome, leads −5 and −3 are +2.58 (+0.87 to +4.30) and +2.63 (+0.90 to +4.36) against year −1. In the log outcome, lead −3 is +0.34 (+0.16 to +0.51). Repeal places were building faster 3–5 years before repeal than just before it, compared with never-treated places. Permits were falling into the repeal.
 - **Read.** The event-study post effect sits near zero to slightly positive, beside the main −1.14. With a failing pre-trend, it cannot be read as causal. A downturn before repeal would make post-repeal comparisons with year −1 look better, and comparisons with a 5-year before window look worse. That may be part of why the main −1.14 is negative. This is a cross-check, not a replacement.
+
+## P1–P3, pre-trend follow-ups
+
+Unit: permits per 1,000 existing homes a year; 75 places.
+
+| Version | Estimate (90%) |
+| --- | --- |
+| Main (5-year before window) | −1.07 (−3.44 to +1.54) |
+| P1, short before window (years −2, −1) | −1.81 (−4.39 to +0.98) |
+| P2, also matched on before-trend | −0.96 (−3.27 to +1.83) |
+| P2 pre-trend check (years −2, −1 vs −5 to −3) | +1.60 (−0.12 to +3.28): passes |
+| P3 bound (M = 1; largest before-year gap 2.09) | −5.52 to +3.63 |
+
+- **Pass rule: not met.** P1 moves the estimate further below 0, not toward it. So the lines stand, and the pre-trend issue goes into the how-it-works text.
+- **Read.** The short window doesn't support the idea that the 5-year window dragged the estimate down. Trend matching barely moves it. Allowing for trend gaps as large as those seen before repeal widens the honest range to about −5.5 to +3.6.

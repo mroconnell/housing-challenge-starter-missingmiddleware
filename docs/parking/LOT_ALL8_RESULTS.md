@@ -2,6 +2,9 @@
 
 Written 2026-10-28 by the parking conductor. Plan: [LOT_ALL8_PLAN.md](LOT_ALL8_PLAN.md), committed before counting. Script: `scripts/run_parking_lot_all8.py`. Outputs: `reference/parking_lot_all8_by_city.csv`, `reference/parking_lot_all8_results.csv`.
 
+
+> **Chicago scope (audit sweep, 2026-11-03).** Chicago's 2015 parking relief (SO2015-5334, Sec. 17-10-0102-B.1) covered B, C and D districts only, within 1,320 ft of a station or 2,640 ft along a Pedestrian Street. The Pedestrian Street reach was in the 2015 ordinance itself. This test coded every lot within 402 m (except TOD's density-bonus lots) as reform, so its Chicago result mostly measures residential lots that got no parking change, and some 402–805 m comparison lots on Pedestrian Streets were treated for all of 2016–2020. Rerun on B/C/D lots: `docs/parking/WORK_SESSION_RESULTS.md` (main −6.53 per 1,000 lots a year, 90% −21.19 to +6.57).
+
 ## Answer
 
 **Six of the 8 methods pass the rule, but only by predicting about zero.** The rule compares them with a plain baseline that copies the other reform city's rate, and that baseline is far off. Predicting zero would do just as well. So the test supports the scenario's central estimate of no measurable change. It gives no positive number to use for Wisconsin.

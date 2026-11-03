@@ -1,0 +1,6 @@
+test,places,estimate,p05,p95,note,unit,pass_rule
+main (5-year before window),75,-1.0669916130044483,-3.4380572417954776,1.5428352998315173,,"permits per 1,000 existing homes a year",P1 and P2 move toward 0 or above: False; P2 pre-trend passes: True; candidate for Ryan: False
+"P1 short before window (years -2, -1)",75,-1.8121305991113636,-4.390814056759342,0.9789071245075068,,"permits per 1,000 existing homes a year",
+P2 matched on before-trend and level,75,-0.963806081781342,-3.2724627866846374,1.8246212305369718,,"permits per 1,000 existing homes a year",
+"P2 pre-trend check (years -2,-1 vs -5..-3)",75,1.60060380063004,-0.1177611751449093,3.279101755753457,,"permits per 1,000 existing homes a year",
+"P3 bound, M = 1 (main 90% interval widened by the largest before-window gap)",75,-1.0669916130044483,-5.523591411253099,3.6283694692891384,largest home-weighted before-year gap G = 2.086,"permits per 1,000 existing homes a year",

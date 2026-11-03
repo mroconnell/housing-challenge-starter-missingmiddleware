@@ -426,3 +426,4 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **G** = the largest absolute gap.
   - **Bound.** [main p05 − G, main p95 + G], reported beside the main estimate.
 - **Pass rule.** If P1 and P2 both move the central estimate toward 0 or above, and P2's pre-trend check passes, the result goes to Ryan as a candidate low-line update. Otherwise the lines stand, and the pre-trend issue is noted in the how-it-works text.
+- **2026-11-03, Chicago scope (audit sweep):** the locked Stage 2 text "Lot-size gains in Seattle and Buffalo, reversed in Chicago and absent in San Francisco" rests on a mis-scoped Chicago lot test. The 2015 relief covered B/C/D districts only, and its Pedestrian Street reach was in the 2015 ordinance itself. On B/C/D lots Chicago is still negative, but its range includes 0. The locked text is left as written; the tool's wording waits for Ryan.
