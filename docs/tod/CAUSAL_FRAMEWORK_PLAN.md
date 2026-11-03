@@ -762,3 +762,39 @@ flagged, so every floor uses the main estimate. Rule = ≥ 5 units and 46 m / 18
   placebo" for every floor: (a) original 3,812 (minus P1) and 3,921 (minus P2) vs 3,958.
 - The P1 interval half-width (≈ 27) is a third of the original pooled effect (88), so the test could see a gap of
   that size, but not a small one.
+
+## Test 2b-L: binding lines inside broad upzonings (locked 2026-11-02, machine clock 16:52, before any count)
+
+Owner request (owner clock 2026-11-03 00:49; "sounds good" 00:50): broad maps may be bigger than demand, so their
+edge sits on land nobody wanted to build on and shows ≈ 0. Find the line inside each broad map where demand runs
+out, and test whether an edge drawn there shows a jump like the district places (pooled 88.2 per 100 lot acres a
+year, 90% interval as in the Test 2 floor). Script: `scripts/run_tod_causal_binding_line.py`; output
+`reference/tod_causal_binding_line.csv` (summaries only). Everything in Test 2 / E1 holds unless changed here.
+
+- **Places:** Los Angeles TOC 2017, San Diego 2021, Chicago 2022, Bellevue BelRed 2009 (main pool). Honolulu 2017
+  reported beside, not pooled. Lot samples exactly as E1.
+- **Demand score (pre-reform traits only; never anything from the after window):**
+  - Main: distance to the nearest stop (a line a law could actually draw).
+  - Sensitivity S1: before-window new homes per 100 lot acres a year in the lot's 400 m neighbourhood (inside-map
+    lots, the lot itself left out).
+  - Sensitivity S2: land value per lot acre before the reform, where the lot table has it; else not run.
+- **Candidate lines:** the score's cut points that put 10%, 20%, ..., 90% of the map's inside lot acres on the
+  high-demand side (9 candidates per place).
+- **Split (cross-fit):** stops are split into two halves at random (seed 20261103; lots go with their nearest
+  stop). In half A, for each candidate, compute the line jump = (after − before rate, high-demand side) minus
+  (after − before rate, low-demand side), lots within 91 m of the candidate line, both sides inside the map. The
+  binding line for half B is the candidate with the largest half-A jump. Then the reverse. No line is chosen with
+  the half it is tested on.
+- **Test at the chosen line:** the Test 2 edge estimate (91 m; balance (a); 25 m donut; bunching; 1,000
+  stop-cluster bootstrap draws), run in the held-out half; the place estimate = mean of the two halves.
+- **Pooled:** equal-weight mean of balance-passing places; leave-one-place-out range.
+- **Reading (fixed now):**
+  - "Supports the idea" if the pooled 90% interval excludes 0 and overlaps the district pool's 90% interval.
+  - "Jump, but smaller" if it excludes 0 and sits wholly below the district interval.
+  - "No binding line found" if it includes 0.
+  - Also reported: the chosen line's share of map acres and its distance to the stop, per place and half (if the
+    two halves pick very different lines, say so).
+- **Use:** evidence only. Nothing in the tool changes without the owner's OK. If it supports the idea, the possible
+  use (owner's call) is adding the four places to the floor pool at their binding lines.
+- **Selection-bias check:** run the same procedure with the after window replaced by a second before window
+  (placebo years); the pooled jump should include 0.
