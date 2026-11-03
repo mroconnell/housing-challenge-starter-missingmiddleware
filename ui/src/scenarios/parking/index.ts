@@ -39,7 +39,7 @@ interface Why {
   average: Record<"all" | "2plus", { effect: number; p05: number; p95: number }>;
   studies: { case: string; finding: string; status: string; source: string; url: string }[];
   california: { all_units: { effect: number; p05: number; p95: number }; units_2plus: { effect: number; p05: number; p95: number }; jurisdictions: number; text: string; caveats: string };
-  north_carolina: string; developer_parking: string; docs: { label: string; url: string }[];
+  north_carolina: string; developer_parking: string; how_it_works?: string[]; docs: { label: string; url: string }[];
 }
 interface Pilot { slug: string; id: string; name: string; homes: number; at_benchmark: boolean; baseline: number; add_upper: number; history: { year: number; units_1: number | null; units_2: number | null; units_3_4: number | null; units_5: number | null; adjusted: boolean; split: boolean }[]; rules: { rating: string; date: string | null; summary: string | null }[] }
 interface Manifest { run_id: string; title: string; outcome: { short: string; long: string; rate_units: string }; dates: { last_observed_year: number; forecast_years: number[]; effective: string }; vintages: { what: string; vintage: string }[]; validation: { passed: number; failed: number; checks: { check: string; passed: boolean; detail: string }[] }; repo_url: string; inputs: unknown[] }
@@ -362,6 +362,7 @@ function why(b: ParkingBundle, main: HTMLElement): void {
     <p data-testid="developer-parking"><strong>${esc(W.developer_parking.split(":")[0])}:</strong>${esc(W.developer_parking.slice(W.developer_parking.indexOf(":") + 1))}</p>
     <ul class="plain">${W.studies.map((s) => `<li>${s.status === "observed" ? pill("observed") : `<span class="pill pill-assumed">Not yet checked</span>`} <strong>${esc(s.case)}.</strong> ${esc(s.finding)} <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.source)}<span class="sr-only"> (opens in a new tab)</span> ↗</a></li>`).join("")}</ul>
     <p class="small muted">"Not yet checked" means read from a summary, not the full paper.</p></section>
+  ${W.how_it_works ? `<section class="card" data-testid="how-it-works"><h2>How a repeal changes what gets built</h2><ul class="plain">${W.how_it_works.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></section>` : ""}
   <section class="card"><h2>The closest real law</h2><p>${esc(W.north_carolina)}</p></section>
   <p class="small">${W.docs.map((d) => `<a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label)} ↗</a>`).join(" · ")}</p>`;
 }

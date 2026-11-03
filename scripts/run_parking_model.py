@@ -83,7 +83,8 @@ def main() -> None:
     m4 = est[(est["outcome"] == "all") & est["model"].str.startswith("M4")].set_index("term")["estimate"]
     beta = (m4["intercept"], m4["log_pop"], m4["metro"])
 
-    homes = pm.eligible_homes(munis, at)
+    # Stage 2 (locked plan 2026-11-03, owner OK 02:50): places that removed minimums with conditions ('near') also get 0
+    homes = pm.eligible_homes(munis, at | near)
     upper = pm.additions(homes, upper_all)
     # owner 2026-11-01: no logical floor at 0; the low line is the measured average of the 76 repeal places against
     # similar places (the same comparison as the high end), applied unfloored
@@ -152,7 +153,7 @@ def main() -> None:
              description="High end after round-1 data fixes, with every comparison city that has any recorded parking reform left out, from resampling the 73 repeal places. Shown as a sensitivity: switching to this method after seeing results is not allowed."),
         dict(case="Cleaned data, strict comparison cleaning (placebo)", moves="statewide addition",
              value=tot(homes, float(pd.read_csv(REFERENCE / "parking_placebo_full_v6_summary.csv")["range_from_placebo_high"].iloc[0])),
-             description="As above, from the placebo test. Big repeal cities are left with 3 to 18 look-alikes, so this figure is noisy. All the cleaned-data high ends are above the headline 19,937, so the headline high end is the lowest and may be understated; the high end is uncertain by about 2x."),
+             description="As above, from the placebo test. Big repeal cities are left with 3 to 18 look-alikes, so this figure is noisy. All the cleaned-data high ends are above the headline 19,818, so the headline high end is the lowest and may be understated; the high end is uncertain by about 2x."),
         dict(case="Cleaned data, only apartment-scale reforms disqualify comparisons (placebo)", moves="statewide addition",
              value=tot(homes, float(pd.read_csv(REFERENCE / "parking_placebo_full_v7_summary.csv")["range_from_placebo_high"].iloc[0])),
              description="Round 2: a comparison city is left out only if it removed parking minimums for apartments or all housing (reference/parking_reform_material.csv). San Jose and Austin fell 1 to 2 short of 20 look-alikes, so by the rule set in advance it does not replace the headline."),
@@ -172,9 +173,9 @@ def main() -> None:
              description="Each place gets its own rate from a model using city size and whether it is in a metro area (never below zero). It favours small places in metro areas. It predicted slightly better than one average for all places, but not reliably so."),
         dict(case="Towns at zero", moves="statewide addition and where it lands", value=tot(pm.eligible_homes(munis, at, ("town",)), upper_all),
              description="The high end, with towns left out, in case most towns have few or no parking minimums today."),
-        dict(case="Near-benchmark places at zero", moves="statewide addition and where it lands",
-             value=tot(pm.eligible_homes(munis, at | near), upper_all),
-             description="The high end, with the 9 places that removed minimums with conditions also getting nothing."),
+        dict(case="Near-benchmark places at the full rate", moves="statewide addition and where it lands",
+             value=tot(pm.eligible_homes(munis, at), upper_all),
+             description="The high end if the 9 places that removed minimums with conditions got the full rate (before Stage 2 they did)."),
     ]
     pub = REFERENCE / "housing_baseline_sensitivity_published.csv"
     if pub.exists():

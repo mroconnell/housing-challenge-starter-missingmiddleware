@@ -11,7 +11,7 @@ county_id,county_name,eligible_homes,land_acres,baseline_five_year_central,addit
 55019,Clark County,14961.0,774206.5,506.3,111.1
 55021,Columbia County,26880.0,489983.8,948.7,199.6
 55023,Crawford County,8765.0,365315.0,252.1,65.1
-55025,Dane County,241547.0,765757.9,28536.3,1793.7
+55025,Dane County,236709.0,765757.9,28536.3,1757.8
 55027,Dodge County,38524.0,560447.3,1413.3,286.1
 55029,Door County,24436.0,308439.3,1643.3,181.5
 55031,Douglas County,23154.0,834734.0,686.3,171.9
@@ -20,10 +20,10 @@ county_id,county_name,eligible_homes,land_acres,baseline_five_year_central,addit
 55037,Florence County,4638.0,312335.4,175.0,34.4
 55039,Fond du Lac County,46094.0,460522.2,896.2,342.3
 55041,Forest County,8715.0,649130.1,258.3,64.7
-55043,Grant County,22332.0,734466.7,581.9,165.8
+55043,Grant County,21034.0,734466.7,581.9,156.2
 55045,Green County,15003.0,373788.2,425.5,111.4
 55047,Green Lake County,10772.0,223706.1,377.0,80.0
-55049,Iowa County,11108.0,488126.9,396.4,82.5
+55049,Iowa County,9528.0,488126.9,396.4,70.8
 55051,Iron County,5566.0,485256.6,330.0,41.3
 55053,Jackson County,9750.0,632265.5,308.3,72.4
 55055,Jefferson County,36890.0,356155.2,1088.8,273.9
@@ -51,10 +51,10 @@ county_id,county_name,eligible_homes,land_acres,baseline_five_year_central,addit
 55097,Portage County,31746.0,512559.1,1150.0,235.7
 55099,Price County,10819.0,802596.5,258.5,80.3
 55101,Racine County,85658.0,212870.9,2839.2,636.1
-55103,Richland County,8532.0,375135.7,264.3,63.4
+55103,Richland County,8151.0,375135.7,264.3,60.5
 55105,Rock County,71092.0,459627.5,2210.8,527.9
 55107,Rusk County,8663.0,584646.8,405.0,64.3
-55109,St. Croix County,38953.0,462181.0,2385.9,289.3
+55109,St. Croix County,38175.0,462181.0,2385.9,283.5
 55111,Sauk County,31496.0,532215.6,1850.7,233.9
 55113,Sawyer County,16250.0,804864.3,1051.7,120.7
 55115,Shawano County,20670.0,571663.9,475.2,153.5
@@ -66,7 +66,7 @@ county_id,county_name,eligible_homes,land_acres,baseline_five_year_central,addit
 55127,Walworth County,54124.0,355477.4,2725.7,401.9
 55129,Washburn County,12853.0,510153.0,686.7,95.4
 55131,Washington County,59380.0,275612.0,1879.6,441.0
-55133,Waukesha County,175591.0,351823.9,6993.9,1303.9
+55133,Waukesha County,168350.0,351823.9,6993.9,1250.2
 55135,Waupaca County,25791.0,478529.0,1003.6,191.5
 55137,Waushara County,14875.0,400743.1,541.4,110.5
 55139,Winnebago County,75572.0,278206.3,2924.4,561.2

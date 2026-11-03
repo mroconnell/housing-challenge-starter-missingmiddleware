@@ -2,7 +2,7 @@
 
 An interactive tool for Wisconsin legislators and legislative aides that estimates how three statewide housing reforms could change housing permitted over 2027–2031, compared with current law: an accessory dwelling unit (ADU) law, parking requirement reduction and transit-oriented density (TOD). Pick a reform in the header. Each reform has its own outcome and evidence ([Model & Assumptions Overview](docs/MODEL_AND_ASSUMPTIONS.md); [Policy Scenario Comparison](docs/POLICY_SCENARIO_COMPARISON.md)); the ADU section below describes the ADU reform. Headlines, 2027–2031:
 - **ADU:** 10,492 additional second-home permits (6,321 to 19,784), on a 786-permit current-law baseline (revised 2026-11-01, AQ-067).
-- **Parking reduction:** 0 additional permitted homes in the central case, −15,326 at the low end and 19,937 at the high end of the evidence, on a 124,000-home all-housing baseline.
+- **Parking reduction:** 0 additional permitted homes in the central case, −15,234 at the low end and 19,818 at the high end of the evidence, on a 124,000-home all-housing baseline.
 - **TOD:** 10,028 extra homes near stops, 2027–2031 (3,958 to 13,451), on a 14,654-home near-stop baseline. The modelled law is option D (AQ-071; lines AQ-072): each city with rail or rapid-bus stops zones a by-right apartment district on 15% of the land within ¼ mile of them.
 
 The three results are not added together: they overlap (TOD homes are part of the all-housing count, and the ADU law already removes parking requirements for ADUs).
