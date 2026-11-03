@@ -1,0 +1,11 @@
+item,value,p05,p95,loo_min,loo_max,unit,label
+"removed (1) minus not removed (4), balance-passing places",262.90267500000004,232.23730000000003,285.83245000000005,253.2254666666667,279.7574666666667,"extra homes per 100 lot acres a year at the district edge (TOD T3 main, 91 m)",POST HOC (TOD edge results already published)
+place: New York (not; balance FAIL),146.0811,,,,,"extra homes per 100 lot acres a year at the district edge (TOD T3 main, 91 m)",POST HOC (TOD edge results already published)
+place: Philadelphia (not; balance pass),86.2327,,,,,"extra homes per 100 lot acres a year at the district edge (TOD T3 main, 91 m)",POST HOC (TOD edge results already published)
+place: Austin 2009 (not; balance pass),35.0314,,,,,"extra homes per 100 lot acres a year at the district edge (TOD T3 main, 91 m)",POST HOC (TOD edge results already published)
+place: Charlotte 2019 (removed; balance FAIL),16.9005,,,,,"extra homes per 100 lot acres a year at the district edge (TOD T3 main, 91 m)",POST HOC (TOD edge results already published)
+place: Chicago 2015 (not; balance pass),6.6367,,,,,"extra homes per 100 lot acres a year at the district edge (TOD T3 main, 91 m)",POST HOC (TOD edge results already published)
+place: Denver 2018 (removed; balance pass),298.571,,,,,"extra homes per 100 lot acres a year at the district edge (TOD T3 main, 91 m)",POST HOC (TOD edge results already published)
+place: Portland 2020 (removed; balance FAIL),9.0075,,,,,"extra homes per 100 lot acres a year at the district edge (TOD T3 main, 91 m)",POST HOC (TOD edge results already published)
+place: Salt Lake City 2010 (not; balance FAIL),68.8749,,,,,"extra homes per 100 lot acres a year at the district edge (TOD T3 main, 91 m)",POST HOC (TOD edge results already published)
+place: Saint Paul 2011 (not; balance pass),14.7725,,,,,"extra homes per 100 lot acres a year at the district edge (TOD T3 main, 91 m)",POST HOC (TOD edge results already published)

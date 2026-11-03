@@ -367,3 +367,19 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Checks.** Balance (before-window gap), 25 m donut, 46 / 91 / 183 m bands and bunching, as TOD T3. If balance fails, the result is reported as "fails balance" and not pooled. The MDE is reported beside the result.
   - **After window.** About 19 months (2019-04-24 to 2020-11-30), including early COVID.
   - **Prediction:** positive.
+- **2026-11-03, combo (a) detail (before joining effects; post hoc as locked, because TOD's edge results are published):**
+  - **Places.** TOD's "original 11" edge-test places, using the main 91 m rows of `reference/tod_causal_edge_expand.csv`.
+  - **Parking coding.** Taken from `tod_places_for_parking_2x2.csv`:
+    - "removed" = Charlotte, Denver and Portland;
+    - "not removed" = New York, Philadelphia, Austin, Chicago, Saint Paul and Salt Lake City;
+    - Seattle's two cases are "unknown" and dropped.
+  - **Exclusions.** Places failing TOD's balance rule are reported but left out of the comparison.
+  - **Statistic.** Equal-weight mean of "removed" minus "not removed", with a place bootstrap and a leave-one-place-out range.
+- **2026-11-03, S1 skipped:** only 6 of 68 places are eligible, under the locked 8. The learning thread agreed. S1 stays in the running count.
+- **2026-11-03, Chicago lot scope (pending the audit's ordinance check):** no Chicago lot result is used until checked. If the 2015 relief covered only B, C and D districts, B1, FU7 and the October lot test are rerun on B/C/D lots only. That rule will be written here before the rerun.
+- **2026-11-03, combo (b) lock (before counting):**
+  - **Pairing.** TOD's line draws (`reference/tod_line_draws.csv`) are paired with parking's draws for the same line, by index.
+  - **Parking draws.** Lower and upper: the 20,000 placebo set averages, centred on the real average (−1.14) and scaled to Wisconsin eligible homes. Central is 0 in every draw.
+  - **Overlap rule (TOD counts first, as built).** Positive parking draws are multiplied by the share of parking's upper addition that falls off TOD-covered lots in the combined bundle (17,819 ÷ 19,818 = 0.899). Negative draws pass through unchanged, as rule (b) does.
+  - **Two bands.** Each line reports a 90% band under (i) index pairing, which assumes TOD and parking errors are unrelated (stated beside it), and (ii) sorted pairing, low with low and high with high, the widest case if the errors move together.
+  - **Evidence only;** no tool change.

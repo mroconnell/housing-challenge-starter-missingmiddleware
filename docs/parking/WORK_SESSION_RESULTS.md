@@ -127,3 +127,16 @@ Error unit: permits per 1,000 existing homes a year.
   - the district is too small for 10 blocks a side;
   - the reform was not district-only.
 - Several code sites blocked automated access, so some dates come from secondary copies (flagged in the file).
+- **S1 status: skipped.** Only 6 of 68 places are eligible, under the locked minimum of 8, and the learning thread agreed to skip it. It still counts in the running test count.
+
+## Combo (a): parking removed vs not at TOD's district edge (*post hoc*)
+
+- **Data:** TOD's "original 11" edge-test places at the main 91 m band, coded by whether parking minimums were removed with the rezoning. Places that fail TOD's balance rule are left out.
+- **What's left:** only one "removed" place passes balance, Denver (+298.6 extra homes per 100 lot acres a year). Charlotte (+16.9) and Portland (+9.0) fail balance.
+- **"Not removed" places passing balance:**
+  - Philadelphia: +86.2;
+  - Austin: +35.0;
+  - Saint Paul: +14.8;
+  - Chicago: +6.6.
+- **Arithmetic difference:** +262.9.
+- **Not usable as a comparison:** it rests on one place (Denver). The same caution applies as in the earlier station-area description.
