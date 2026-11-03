@@ -970,6 +970,7 @@ The tool's "benchmark group" label for places with Madison-type rules is to be r
 **Revisit list.**
 - **Madison, December 2026:** recheck its current-law rate when its 2026 permits are final (Gate 4 note).
 - **Milwaukee, when its 2026 permits are published (2027):** Milwaukee has allowed ADUs since 2025-08-02, so its first full year under its own rules is the first direct test of the with-law rate: our model assumes about 0.9 ADU permits per 1,000 single-family homes a year, the causal-forest view about 4.0.
+- **De Pere permits, at the next refresh:** the 2022–2025 files were fetched with a browser User-Agent string, now replaced by an honest one (2bbc4fa). Check that the site serves `missing-middleware-research/1.0`. If it refuses, cite the source by URL and do not change headers. No numbers change.
 
 ## AQ-067 ADU: Massachusetts 2025 counted as a full year
 
