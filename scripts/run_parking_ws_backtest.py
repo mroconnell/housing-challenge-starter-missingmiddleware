@@ -83,7 +83,7 @@ def main() -> None:
                         p05=np.percentile(bs, 5), p95=np.percentile(bs, 95), p0125=np.percentile(bs, 1.25), p9875=np.percentile(bs, 98.75),
                         heldout_error=np.average(np.abs(act - pr), weights=w), error_zero=np.average(np.abs(act), weights=w)))
     S = pd.DataFrame(out)
-    S["training_units"] = int(tr.sum())
+    S["training_units"] = [int(tr.sum()), np.nan]
     S["unit"] = "estimate: log change in 5+ permits; errors: permits per 1,000 existing homes a year"
     S.to_csv(REFERENCE / "parking_ws_backtest.csv", index=False)
     pd.set_option("display.width", 250)

@@ -29,9 +29,9 @@ def per_acre(g):
     return f(t) - f(c), f(t), f(c)
 
 
-def main() -> None:
+def run(keep_treated: bool) -> dict:
     d = LT.lots()
-    d = d[(d["treated"] == 0) & (d["city"] == "Chicago") & (d["far_before"] >= 1.2) & (d["acres"] > 0)].copy()
+    d = d[((d["treated"] == 0) | keep_treated) & (d["city"] == "Chicago") & (d["far_before"] >= 1.2) & (d["acres"] > 0)].copy()
     d = d[(d["dist_station_m"] <= 805)]
     d["pinched"] = d["parking"]
     d["permits_main"] = d["permits"]
@@ -46,11 +46,15 @@ def main() -> None:
         s = pd.concat([grp[c] for c in rng.choice(cells, len(cells))])
         if (s["pinched"] == 1).any() and (s["pinched"] == 0).any():
             bs.append(per_acre(s)[0])
-    out = pd.DataFrame([dict(city="Chicago", reform_lots=int((L["pinched"] == 1).sum()), comparison_lots=int((L["pinched"] == 0).sum()),
+    return dict(case="POST HOC: TOD density-bonus lots kept" if keep_treated else "main (TOD density-bonus lots dropped)", city="Chicago", reform_lots=int((L["pinched"] == 1).sum()), comparison_lots=int((L["pinched"] == 0).sum()),
                              reform_change=it, comparison_change=ic, estimate=est, p05=np.percentile(bs, 5), p95=np.percentile(bs, 95),
                              p0125=np.percentile(bs, 1.25), p9875=np.percentile(bs, 98.75),
                              unit="net new homes per 100 multifamily-zoned lot acres a year (after minus before)",
-                             note="one city: descriptive, not 'supported'; FAR >= 1.2 before; reform = within 402 m of a station")])
+                             note="one city: descriptive, not 'supported'; FAR >= 1.2 before; reform = within 402 m of a station")
+
+
+def main() -> None:
+    out = pd.DataFrame([run(False), run(True)])
     out.to_csv(REFERENCE / "parking_ws_b1.csv", index=False)
     print(out.drop(columns=["unit", "note"]).round(3).T.to_string())
 

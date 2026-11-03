@@ -73,6 +73,10 @@ Unit: permits per 1,000 existing homes a year.
 - **Lots:** 20,344 reform, 18,854 comparison.
 - **Change in net new homes** per 100 multifamily-zoned lot acres a year: reform lots +6.86, comparison lots +11.45.
 - **Effect:** −4.59 (90% −8.49 to −1.07; 97.5% −9.77 to +0.19).
+- **What "dropped TOD lots" means.** TOD's `treated` lots for Chicago are lots eligible for the 2015 ordinance's density bonus, coded from the November 2012 zoning map within the station distance. They are not after-window rezonings. Dropping them removes eligible reform-ring lots from one side only.
+  - *Post hoc*, with those lots kept: −2.95 (90% −7.24 to +0.95; 97.5% −8.91 to +2.55).
+- **Comparison partly treated.** In 2019 Chicago extended the rule to ½ mile along Pedestrian Streets. Some 402–805 m comparison lots were therefore treated in 2019–2020, which pushes the estimate toward zero.
+- **Open question for all Chicago lot results (B1, FU7 −11.2, October −2.6).** If the 2015 parking relief applied only in business, commercial and downtown districts, then the lot tests' "reform" side (every lot within 402 m except TOD's density-bonus lots) is mostly residential lots that got no parking change. The Chicago lot tests would then not be parking tests. To verify against the 2015 ordinance (SO2015-...) before any further use.
 - **Reading:** one city, so this is descriptive. The sign is opposite to the prediction, as in Chicago's other lot tests (FU7: large lots −11.2). SF, Buffalo and Seattle have no usable multifamily zoning data on the lot table.
 
 ## Backtest: boosted trees as the no-repeal path (D1 target)
@@ -88,6 +92,8 @@ Error unit: permits per 1,000 existing homes a year.
 
 - **Read:** the boosted path does much worse than predicting zero on held-out places (6.86 against 5.05). Its large positive estimate is not credible as an effect. Its 97.5% interval includes 0 (not supported), and the model likely under-predicts the after window for places that built many apartments before.
 - **Result:** the matched comparison stays the better comparison path.
+- **The no-repeal path decides the sign.** Matched gives −8%, boosted +34%. The boosted model expects big apartment cities to fall anyway; Minneapolis, for example, is predicted at −0.44 log.
+- **The interval understates uncertainty.** It resamples places but does not refit the model.
 
 ## N3 and N4 feasibility (counts only; `scripts/fetch_parking_natural_experiments.py`)
 
