@@ -1,6 +1,11 @@
-cell,places,mean_effect,p05,p95,mde,unit
-repeal alone,25.0,-1.2303088518032603,-2.777967555964735,1.358767679188566,,"permits per 1,000 existing homes a year, against matched places that did neither"
-repeal + rewrite,51.0,-1.0868931180219712,-4.480937784906412,2.8759229490431335,,"permits per 1,000 existing homes a year, against matched places that did neither"
-rewrite only,9.0,3.20953783737133,0.8782125782724111,4.17276712325186,,"permits per 1,000 existing homes a year, against matched places that did neither"
-upzoning + station-area parking removal,5.0,-4.627189687194304,-5.925134086816862,-2.647506602624914,,"permits per 1,000 existing homes a year, against matched places that did neither"
-interaction: (repeal + rewrite) - (repeal alone) - (rewrite only),,-3.066122103590041,-7.312659013801081,1.778091322987585,4.482312878504704,"permits per 1,000 existing homes a year, against matched places that did neither"
+cell,places,mean_effect,p05,p95,mde,median,unit
+repeal alone,25.0,-1.2303088518032603,-2.777967555964735,1.358767679188566,,,"permits per 1,000 existing homes a year, against matched places that did neither"
+repeal + rewrite,51.0,-1.0868931180219712,-4.480937784906412,2.8759229490431335,,,"permits per 1,000 existing homes a year, against matched places that did neither"
+rewrite only,9.0,3.20953783737133,0.8782125782724111,4.17276712325186,,,"permits per 1,000 existing homes a year, against matched places that did neither"
+upzoning + station-area parking removal,5.0,-4.627189687194304,-5.925134086816862,-2.647506602624914,,,"permits per 1,000 existing homes a year, against matched places that did neither"
+interaction: (repeal + rewrite) - (repeal alone) - (rewrite only),,-3.066122103590041,-7.312659013801081,1.778091322987585,4.482312878504704,,"permits per 1,000 existing homes a year, against matched places that did neither"
+POST HOC equal-weight: repeal alone,25.0,1.1911677050750549,-0.6539300977411253,3.1253048570121855,,-0.28906356836870195,"permits per 1,000 existing homes a year, against matched places that did neither"
+POST HOC equal-weight: repeal + rewrite,51.0,0.04474129070470999,-2.0587365065682754,2.0724700274468364,,-0.05265759167356254,"permits per 1,000 existing homes a year, against matched places that did neither"
+POST HOC equal-weight: rewrite only,9.0,1.7824573235188264,-0.3373495739264932,3.833529816159937,,1.4537546008212034,"permits per 1,000 existing homes a year, against matched places that did neither"
+POST HOC equal-weight: upzoning + station-area parking removal,5.0,-3.5447402621111466,-5.946560145447351,-0.05959891257250405,,-4.782490483070723,"permits per 1,000 existing homes a year, against matched places that did neither"
+POST HOC equal-weight interaction,,-2.928883737889171,-6.374192700994414,0.5900620917065662,3.4878807092066606,,"permits per 1,000 existing homes a year, against matched places that did neither"

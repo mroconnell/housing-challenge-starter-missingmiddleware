@@ -79,6 +79,15 @@ def main() -> None:
     ib = draws["repeal + rewrite"] - draws["repeal alone"] - draws["rewrite only"]
     out.append(dict(cell="interaction: (repeal + rewrite) - (repeal alone) - (rewrite only)", places=np.nan, mean_effect=inter,
                     p05=np.percentile(ib, 5), p95=np.percentile(ib, 95), mde=1.645 * ib.std(ddof=1)))
+    # POST HOC (audit round 2): equal-weight cell means; Chicago and Phoenix carry 69% of the rewrite-only weight
+    g = lambda d: d["effect"].mean()  # noqa: E731
+    eq = {c: np.array([g(d.iloc[rng.integers(0, len(d), len(d))]) for _ in range(DRAWS)]) for c, d in cells.items()}
+    for c, d in cells.items():
+        out.append(dict(cell=f"POST HOC equal-weight: {c}", places=len(d), mean_effect=g(d), median=d["effect"].median(),
+                        p05=np.percentile(eq[c], 5), p95=np.percentile(eq[c], 95)))
+    ie = eq["repeal + rewrite"] - eq["repeal alone"] - eq["rewrite only"]
+    out.append(dict(cell="POST HOC equal-weight interaction", mean_effect=g(cells["repeal + rewrite"]) - g(cells["repeal alone"]) - g(cells["rewrite only"]),
+                    p05=np.percentile(ie, 5), p95=np.percentile(ie, 95), mde=1.645 * ie.std(ddof=1)))
     S = pd.DataFrame(out)
     S["unit"] = "permits per 1,000 existing homes a year, against matched places that did neither"
     S.to_csv(REFERENCE / "parking_causal_e2x2_summary.csv", index=False)

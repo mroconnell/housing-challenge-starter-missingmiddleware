@@ -118,6 +118,18 @@ def main() -> None:
                          n_outside_before=len(ob), n_outside_after=len(oa), difference=est, p05=p05, p95=p95,
                          mde=1.645 * np.std(bs, ddof=1),
                          reading="binding (fewer spaces per home)" if p95 < 0 else ("more spaces per home" if p05 > 0 else "interval includes 0")))
+    # POST HOC (audit round 2): before window 2009-01-01 to 2012-05-31 (after an earlier step down in 2009)
+    ib, ia, ob, oa = cells(pd.Timestamp("2009-01-01"), CUT_2012, CUT_2018)
+    est = (ratio(ia) - ratio(ib)) - (ratio(oa) - ratio(ob))
+    bs = []
+    for _ in range(DRAWS):
+        s_ = [x.iloc[rng.integers(0, len(x), len(x))] for x in (ib, ia, ob, oa)]
+        bs.append((ratio(s_[1]) - ratio(s_[0])) - (ratio(s_[3]) - ratio(s_[2])))
+    p05, p95 = np.percentile(bs, [5, 95])
+    rows.append(dict(contrast="POST HOC 2012 reform, before window from 2009", inside_before=ratio(ib), inside_after=ratio(ia),
+                     outside_before=ratio(ob), outside_after=ratio(oa), n_inside_before=len(ib), n_inside_after=len(ia),
+                     n_outside_before=len(ob), n_outside_after=len(oa), difference=est, p05=p05, p95=p95, mde=1.645 * np.std(bs, ddof=1),
+                     reading="binding (fewer spaces per home)" if p95 < 0 else ("more spaces per home" if p05 > 0 else "interval includes 0")))
     S = pd.DataFrame(rows)
     S["note"] = f"{n0} land-use rows after dropping canceled/withdrawn; {len(d)} projects of 5+ homes with homes, car spaces, date and location (one per address)"
     S.to_csv(REFERENCE / "parking_causal_f1c_summary.csv", index=False)
@@ -127,6 +139,8 @@ def main() -> None:
     pd.set_option("display.width", 250)
     print(S.round(3).to_string(index=False))
     print(Y.pivot(index="year", columns="zone", values="spaces_per_home").round(2).to_string())
+    print(Y.pivot(index="year", columns="zone", values="share_zero").round(2).to_string())
+    print(Y.pivot(index="year", columns="zone", values="projects").to_string())
 
 
 if __name__ == "__main__":

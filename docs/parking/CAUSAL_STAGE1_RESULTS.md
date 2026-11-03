@@ -10,7 +10,7 @@ All intervals are 90%. MDE = minimum detectable effect (1.645 × standard error)
 | F1 | Less parking per new home after reform? (Minneapolis, 5+ home projects outside downtown) | 0.98 before 2015 → 0.74 in 2015–21: −0.24 (−0.34 to −0.14). Against downtown (no minimum either side): −0.17 (−0.40 to +0.04) | car spaces per home | **Suggestive, single source.** The drop is clear, but downtown fell too, so the reform's share is not separated from market drift |
 | H1 | Bigger 5+ unit buildings? | +17.0 (+4.9 to +28.4), +37% | homes per new 5+ unit building | Supported (Austin carries 30% of the weight) |
 | H2 | More buildings? | 2–4 unit: −0.03 (−0.07 to +0.02); 5+ unit: −0.06 (−0.10 to −0.02), −35% | new buildings per 1,000 existing homes a year | Fewer, bigger 5+ buildings; read with H1 |
-| F1c | Seattle, inside reform areas vs the rest of the city | 2012: −0.27 (−0.46 to −0.08); 2018: +0.05 (−0.12 to +0.21) | car spaces per home | Binding in 2012; no extra drop in 2018 |
+| F1c | Seattle, inside reform areas vs the rest of the city | 2012: −0.27 (−0.46 to −0.08), but about −0.11 (−0.32 to +0.11) from a 2009 start; zero-parking projects 0% → 13–45% inside, 0% outside | car spaces per home | Zero-parking projects appear only after reform; the size of the average drop is uncertain |
 | E1 | AB 2097 line, 2–4 home projects (no earlier relief) | −0.023 (−0.070 to +0.018); MDE 0.044 | homes permitted per 1,000 existing homes a year | No measurable change; pre-trend balanced |
 | E2 | Repeal alone minus repeal inside a rewrite | −0.14 (−4.43 to +4.00) | permits per 1,000 existing homes a year | No difference |
 | E2 2×2 | Does repeal add to a rezoning? (repeal + rewrite) − (repeal alone) − (rewrite only) | −3.07 (−7.31 to +1.78) | same | No measurable interaction; weak (9 rewrite-only places) |
@@ -54,6 +54,11 @@ Only 1 of 4 moderators came out material (M4, rail). With four tested, one false
   - Descriptions give the whole project's parking, including shops and hotels.
   - Inside spaces per home were already 0.6–0.7 in 2009–2011, so part of the drop may come before the 2012 reform. The before window starts in 2006.
   - Dates are approximate council dates.
+- **Pre-trend (audit round 2, *post hoc*):** spaces per home inside the reform areas stepped down from about 1.2 to about 0.7 in 2009, three years before the 2012 reform. With the before window starting in 2009 instead of 2006, the 2012 effect is −0.11 (−0.32 to +0.11), which includes 0. The −0.27 main result leans on the 2006–2008 boom years. A San Diego planning deck dates a Seattle expansion of no-minimum areas to urban villages to 2010. That would explain the step, but it is not confirmed; other sources date the urban-village change to 2012.
+- **Cleaner evidence, projects with no car parking (*post hoc*):**
+  - Inside the reform areas: 0% every year through 2010, 3% in 2011, 9% in 2012, then 13–45% a year from 2013 to 2024.
+  - Outside: 0% every year through 2018, and at most 6% after that.
+  - Projects with no parking could not be built before minimums were removed, so this is a direct sign the reform let projects build less parking.
 - Read with Minneapolis: two cold-climate cities both show fewer spaces per home after a reform, by about a quarter of a space per home, and neither falls toward zero.
 
 **E2 2×2 (TOD's upzoned places as "rewrite only").**
@@ -67,6 +72,8 @@ Only 1 of 4 moderators came out material (M4, rail). With four tested, one false
 
 Unit: permits per 1,000 existing homes a year.
 - Interaction: −3.07 (−7.31 to +1.78). It includes 0, so there is no measurable sign that repeal changes what a rezoning does.
+- **Below the pre-set rule.** The plan required 10+ rewrite-only places; 11 were coded but only 9 are usable. Read this cell as below the rule.
+- *Post hoc*, equal-weight (audit round 2): Chicago (46% of the weight; 1 comparison place, 1 year before) and Phoenix (23%) carry 69% of the rewrite-only cell. Equal-weight rewrite only: +1.78 (−0.34 to +3.83), median +1.45. Equal-weight interaction: −2.93 (−6.37 to +0.59). Home-weighted stays the main result.
 - Weak:
   - 11 rewrite-only places were coded and 9 could be used. Los Angeles had no comparison place of its size, and Indianapolis's balance area has no matching home count.
   - Chicago, Phoenix and San Diego have only 1–2 comparison places each.
