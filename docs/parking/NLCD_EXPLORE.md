@@ -66,7 +66,45 @@ its URL, bytes read and SHA-256 (`data/raw/annual_nlcd_windows/_downloads.json`)
 - **Run.** `uv run --all-extras python scripts/run_nlcd_paved_pilot.py --fetch`, then
   `uv run --all-extras --with matplotlib python scripts/plot_nlcd_pilot.py`.
 
-Results: pending the first run.
+Results (first run 2026-11-03 on Ryan's Mac; `reference/nlcd_pilot_buffalo_rochester.csv`, chart
+[nlcd_pilot_buffalo_rochester.png](nlcd_pilot_buffalo_rochester.png)):
+
+| Measure | Buffalo | Rochester |
+| --- | --- | --- |
+| Squares inside the city (30 m) | 120,679 | 105,878 |
+| Hard surface, 1985 (acres) | 16,052 | 11,866 |
+| Hard surface, 2024 (acres) | 16,121 | 12,112 |
+| Years with a net fall in hard surface (of 39) | 16 | 15 |
+| Year-to-year spread of new non-road hard surface, 1986–2022 (standard deviation, acres per year) | 14.6 | 13.4 |
+| Homes permitted, 2007–2022 average (homes per year) | 172 | 223 |
+| New non-road hard surface, 2012–2016 average (acres per year per 1,000 land acres) | −0.58 | −0.09 |
+| New non-road hard surface, 2017–2022 average (acres per year per 1,000 land acres) | −0.58 | −0.42 |
+
+What we learned:
+
+1. **The line is not smooth enough at city scale.** New non-road hard surface jumps up and down by about
+   14 acres a year. Parking for Buffalo's new homes is much smaller: about 250 homes a year with one surface space
+   each (about 330 square feet per space) is about 2 acres a year. That is about one seventh of the normal swing.
+2. **The swings are shared by both cities.** Year-to-year change in total hard surface moves together in the two
+   cities (correlation 0.86, 1986–2022). Before 2005 both cities zigzag in the same years. From 2016 to 2022 both
+   lose road surface, which real cities rarely do. These look like features of how the maps were made, not of
+   building. A comparison city cancels much of this, but what is left is still larger than the parking signal.
+3. **The newest years behave differently.** In 2023 and 2024 gross change drops to almost nothing in both cities
+   (Buffalo gross loss 50.2 acres in 2022, 3.0 acres in 2023). Later releases may revise these years. Do not lean on
+   the last two years.
+4. **Per-home numbers are not usable.** They swing from about −33,000 to +19,000 square feet per home, because a
+   noisy acre change is divided by a few hundred homes.
+5. **Buffalo vs Rochester after 2017.** Buffalo's non-road change stayed at −0.58 acres per 1,000 land acres per
+   year; Rochester's fell from −0.09 to −0.42. Taken at face value, that is a relative rise in Buffalo, the
+   opposite of "less parking". Given points 1 to 3, we read it as noise, not a finding.
+
+Data notes: the Census permit files for 2005 and 2006 did not match either city (older file layout; not fixed).
+Buffalo reports 0 months for 2018–2024, so its permit counts in those years are Census estimates. Two squares in
+Buffalo have no data. One network timeout on the first run; a plain re-run finished (the reader now retries).
+
+**Bottom line.** City-wide totals of this data cannot show a parking change in a slow-growing city. The swings
+from map production are several times larger than the parking we would expect. If we use it at all, it should be
+at the scale of individual building sites, where a new surface lot fills most of a few squares.
 
 ## 6. Ryan's three ideas, and what each would need
 

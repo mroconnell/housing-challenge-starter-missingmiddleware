@@ -17,6 +17,8 @@ Only the tiles that touch the window are fetched, and only the slice of the tile
 from __future__ import annotations
 
 import struct
+import time
+import urllib.error
 import urllib.request
 import zlib
 from dataclasses import dataclass
@@ -44,10 +46,17 @@ class _Source:
             return b""
         if self.remote:
             req = urllib.request.Request(self.src, headers={**UA, "Range": f"bytes={offset}-{offset + length - 1}"})
-            with urllib.request.urlopen(req, timeout=self.timeout) as r:
-                data = r.read()
-                if r.status == 200 and len(data) != length:  # server ignored Range: refuse rather than read a 1 GB file
-                    raise RuntimeError(f"{self.src}: server does not honour HTTP Range requests")
+            for attempt in range(4):  # network timeouts happen on long runs; wait 2, 4, 8 s between tries
+                try:
+                    with urllib.request.urlopen(req, timeout=self.timeout) as r:
+                        data = r.read()
+                        if r.status == 200 and len(data) != length:  # Range ignored: refuse to read a 1 GB file
+                            raise RuntimeError(f"{self.src}: server does not honour HTTP Range requests")
+                    break
+                except (urllib.error.URLError, TimeoutError, ConnectionError):
+                    if attempt == 3:
+                        raise
+                    time.sleep(2 ** (attempt + 1))
         else:
             self._fh.seek(offset)
             data = self._fh.read(length)
