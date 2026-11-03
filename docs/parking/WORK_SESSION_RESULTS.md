@@ -383,3 +383,25 @@ The rule for this check was set by the learning thread for this check (it is not
 - **The comparison bar.** The current range (−15,234 to +19,818, width 35,052) runs from the real average to the placebo 95th percentile. It is not a 90% interval.
 - **Homes width vs log width.** Homes width shrinks as the rate ratio falls, so "narrowest" tilts toward a more negative centre. The log width is shown beside it for that reason.
 - **The pre-trend rule is strict.** It needs all four leads to include 1, so even a clean version would fail by chance about 1 time in 4. That is the rule as locked.
+
+## Milwaukee and Madison project parking records (feasibility; records discovery only)
+
+- **Madison: feasible, mostly for 2015–2022.**
+  - **Source.** Legistar "Conditional Use" files carry staff comments with a standard Zoning table ("Required | Proposed", with a parking stalls row). 224 files from 2015–2025 have 5+ homes in the title.
+  - **Sample of 26 files:**
+    - 2023–2025: all 16 state the rule. Only 2 faced a positive minimum; the rest sit in the Central Area (no minimum since the 2013 code), the TOD overlay (passed 2023-01-17) or a planned development.
+    - 2015 to mid-2022: 5 of 10 had a positive minimum with both numbers stated.
+  - **Estimate.** About 150 files from 2015–2022, roughly half under a positive minimum, so 30+ projects looks reachable.
+  - **Effort.** About 10–14 hours: 4 of code, plus checking each project by hand.
+- **Milwaukee: not feasible from public automated sources.**
+  - **Legistar.** City Plan Commission files sampled from 2023–2025 state proposed parking in 6 of 11, but a code-required number in none. Planned developments set their own parking.
+  - **Blocked.** The Board of Zoning Appeals pages are behind a Cloudflare challenge; cited, not worked around.
+  - **MPROP.** PARKING_SPACES is empty in every row.
+  - **Path forward.** A public-records request.
+- **Biases for a later bunching test:**
+  - Only conditional-use and planned-development projects appear, so large projects are over-represented.
+  - The numbers are proposed parking, not built.
+  - One project can have several files.
+  - Projects asking for reductions are over-represented.
+  - Mixed-use buildings may combine commercial and residential requirements.
+- **Files.** `scripts/fetch_parking_wi_project_parking.py`. Samples are in `data/raw/` (git-ignored; titles contain addresses).
