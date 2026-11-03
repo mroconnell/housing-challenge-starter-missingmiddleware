@@ -329,3 +329,20 @@ Unit: permits per 1,000 existing homes a year. These runs use 75 places (South B
   - **San Jose's usable border is mostly unincorporated county land** with different zoning; the "zoning not compared" caveat covers this.
   - **Culver City's effective date** uses adoption + 30 days, the usual California rule.
 - **Place count.** Each outcome in `parking_expanded_effects.csv` has 76 keys. Across both outcomes there are 77 keys and 75 place names, because there are two Cambridges (MA and MD). Runs that need a home count use 75 (South Bend has none).
+
+## LA AB 2097 map change, feasibility: not feasible
+
+The locked rule needs a dated change, both maps, and 2+ after years.
+
+- **A dated change: partly.** City Planning's 2024-04-16 memo adopted SCAG's stop method "effective immediately". It followed HCD letters of 2023-11-17, 2024-03-08 and 2024-03-28. No document dates a rebuild of the ZIMAS AB 2097 layer.
+- **Both maps: no.** ZIMAS's public layer group is empty. No archived 2023 or 2024 version was found, and the only City map is a 2026 polygon. SCAG's stop lists are only proxies, and its 2022 and 2050 lists have been re-issued under the 20-minute rule (AB 2553, 2025).
+- **2+ after years: no.** Permits run to 2025-12-31, about 1.7 years after the memo.
+- **Bias even with maps:**
+  - The same memo also changed TOC and Density Bonus eligibility.
+  - Connect SoCal 2024 was adopted 12 days earlier, and AB 2553 and CHIP followed in 2025.
+  - Planned stops were already eligible under state law, so the edge is soft.
+  - Permit years lag applications.
+- **What would change the verdict:** a dated copy of the ZIMAS layer from before and after the memo (e.g. through a Public Records Act request to City Planning), plus 2026 permit data.
+- **Files:**
+  - `scripts/fetch_parking_la_ab2097_map.py`
+  - `reference/parking_la_ab2097_map_counts.csv` (proxy area counts only)
