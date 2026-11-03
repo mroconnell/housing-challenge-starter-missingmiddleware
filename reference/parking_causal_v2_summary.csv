@@ -1,0 +1,9 @@
+test,set,places,estimate,p05,p95,unit,note
+Average effect (home-weighted),76 places,76,-1.1417452838615438,-3.4330683291359447,1.376036534637743,"permits per 1,000 existing homes a year",added places left out: Bowling Green (not in Census permit files)
+Average effect (equal-weight),76 places,76,0.4218552428002179,-1.1993946836409,1.9612942904972586,"permits per 1,000 existing homes a year",added places left out: Bowling Green (not in Census permit files)
+E2 repeal alone minus repeal + rewrite,76 places,76,-0.14341573378128913,-4.338834037934385,3.9259392697755437,"permits per 1,000 existing homes a year",added places left out: Bowling Green (not in Census permit files)
+"M3 city size, unweighted median split, large minus small (full sample)",76 places,76,1.0534854289923758,-1.991622326076604,4.138268853510799,"permits per 1,000 existing homes a year",added places left out: Bowling Green (not in Census permit files)
+Average effect (home-weighted),76 + added,80,-1.043689542318846,-3.2739298097803684,1.4828338449397953,"permits per 1,000 existing homes a year",added places left out: Bowling Green (not in Census permit files)
+Average effect (equal-weight),76 + added,80,0.4555607986332732,-1.0589971389526691,1.940998904892226,"permits per 1,000 existing homes a year",added places left out: Bowling Green (not in Census permit files)
+E2 repeal alone minus repeal + rewrite,76 + added,80,-0.3533529865521722,-4.497273560740324,3.5739914060264777,"permits per 1,000 existing homes a year",added places left out: Bowling Green (not in Census permit files)
+"M3 city size, unweighted median split, large minus small (full sample)",76 + added,80,1.1632624237247495,-1.6998634916501458,4.130938392168424,"permits per 1,000 existing homes a year",added places left out: Bowling Green (not in Census permit files)

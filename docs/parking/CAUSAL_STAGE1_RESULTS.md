@@ -111,6 +111,29 @@ Dropping one place at a time keeps the estimate between −5.62 (without San Jos
 
 Read: rail does not reliably change the effect. "Invest in both" is neither supported nor ruled out.
 
+## Added mid-sized and large cities (`reference/parking_repeal_checks_v2.csv`)
+
+- Checked: 35 PRN cities with 25,000+ people, rated at or near a full repeal, that had not been checked before.
+- Most of PRN's ratings did not hold up: only 8 have a citywide housing repeal.
+  - 26 are weaker (district-only exemptions or cuts).
+  - 1 does not cover housing.
+  - Greensboro and High Point repeal under a North Carolina law that takes effect in 2027.
+- Five fall in 2015–2024: Dover NH (2015, low confidence), Jackson TN (2021), Bowling Green OH (2023), Bakersfield CA (2024) and Spokane WA (2024).
+  - Bowling Green has no Census permit file of its own, so 4 were added.
+  - Hillsboro OR (2025) is too recent.
+
+| Measure | 76 places | 76 + 4 added |
+| --- | --- | --- |
+| Average effect, home-weighted | −1.14 (−3.43 to +1.38) | −1.04 (−3.27 to +1.48) |
+| Average effect, equal-weight | +0.42 (−1.20 to +1.96) | +0.46 (−1.06 to +1.94) |
+| E2 repeal alone minus repeal + rewrite | −0.14 (−4.34 to +3.93) | −0.35 (−4.50 to +3.57) |
+
+Unit: permits per 1,000 existing homes a year.
+
+- Adding the four cities does not change any reading.
+- Bakersfield and Spokane have only one year after their repeal.
+- The tool still uses the 76 places.
+
 ## What Stage 1 says for Stage 2 (not yet run)
 - Parking per home fell in Minneapolis after the reforms (F1, suggestive, single source; downtown fell too), and builders put more homes in each larger building (H1).
 - No test shows more total homes, and the line test (E1) finds no measurable change at its scale.
