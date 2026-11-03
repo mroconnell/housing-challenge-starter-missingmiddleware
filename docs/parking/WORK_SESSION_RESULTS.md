@@ -444,3 +444,10 @@ The rule for this check was set by the learning thread for this check (it is not
 - **In Wisconsin** (yearly rate = two-year total ÷ 2, through the Stage 2 path): −41,243 homes (−71,801 to −5,485). Width 66,316, far above the 26,289 bar.
 - **Reading: not supported.** The single-family placebo fails. Single-family permits in repeal places also fell well below the imputed path, and parking rules for apartments cannot explain that. The imputation compares big repeal cities with the national pattern of all never-treated places, not with matched similar places, so it picks up a general slowdown in those cities (2022–24). Austin and Raleigh are the most influential. The matched comparison remains the better design. The lines stand.
 - **Event path beside it** (main design, years 1–4): +0.02, −1.29, −2.26, −6.50. This two-year total covers years 1–2 only.
+- **Audit notes:**
+  - **The slowdown is likely, not shown.** The 2022–24 slowdown in big repeal cities is the likely explanation; it was not tested by calendar year.
+  - **Not a shift from houses to apartments.** All homes and single-family homes both fell, so a shock to the repeal cities as a whole fits best. The matched design passed its single-family placebo in 38/39, so the matching is doing real work.
+  - **The comparison group decides the pre-trend again.** Against national places the pre-trend passes here; against matched places it failed (P3).
+  - **Leave-one-metro-out:** all non-metro places form one "none" group.
+  - **Weighting matters again.** The equal-weight estimate is −1.50, with an interval that includes 0.
+  - **Timing.** The runs started around 08:07, and the script was committed at 08:21:59. It was not edited between the run and the commit, but git can't show that.
