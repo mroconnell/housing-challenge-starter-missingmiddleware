@@ -865,3 +865,69 @@ Wisconsin factor = 44.9 (as the Test 2 floor: 88.2 → 3,958). District pool to 
   differ (gaps −17 to −54). Its placebo years show a large false jump (57.0) where no reform happened. A line drawn on
   past building picks up building trends already under way. The S1 "jump" (28.6) is not evidence of a reform effect.
 - **Use:** none. The tool and its lines are unchanged. The four broad places are not added to the floor pool.
+
+## Test P: do the causal factors predict places they never saw? (locked 2026-11-03, before any count)
+
+Owner request (owner clock 2026-11-03 11:01–11:03, tutor thread; "yes please"). Draft by the learning thread
+(`learning/tod_predictive_check_plan_v0.md`), amended by the TOD thread and agreed by both. Evidence only: no tool
+number changes without the owner's OK. Script: `scripts/run_tod_causal_predict.py`; output
+`reference/tod_causal_predict.csv` (summaries only).
+
+**Question.** Stage 1 found three causes: being inside the upzone (edge test), new vs old line (T2b 2×2), and
+distance to the stop. Stage 2 predicts Wisconsin with a plain average. Do the causes predict a held-out place better?
+
+**Outcome and unit.** Each place's measured ¼-mile effect exactly as in the central line (option D, D-11, extra
+homes per 100 lot acres within ¼ mile a year; New York and Philadelphia each once, as city pools).
+
+**Folds.** Leave one place out, over the 11 D-11 places. Every Stage 1 number below is rebuilt without the held-out
+place p.
+
+**Test A (main): plug-in prediction, no new fitting.**
+- For p's stops on old lines: the [old rezoned − old not rezoned] 2×2 cell. For p's stops on new lines: the
+  [new rezoned − new not rezoned] cell. Transit-alone growth stays out, as in the tool. The two are weighted by p's
+  own ¼-mile lot acres on old vs new-line stops (T2b line-age rules; stops with unknown age take the acre-weighted
+  mix of the training places).
+- Each cell is scaled by p's upzoned share of ¼-mile lot acres ÷ that cell's mean upzoned share in training.
+  **Assumption: the effect is proportional to the upzoned share.** A0 checks it.
+- Distance: one gradient, the 0–⅛ vs ⅛–¼ mile effect ratio, pooled over all training places and cells (not per
+  cell: the new/rezoned cell has 38 stops in 7 places). p's prediction = Σ bands (p's band share of ¼-mile acres ×
+  the band effect) with the pooled ratio, normalised so the training places' ¼-mile mean is unchanged.
+- **A0 (beside):** the same with no upzoned-share scaling.
+
+**Test B (beside): two-part lot model, difference-in-differences form.**
+- Part 1: chance a lot gets new homes in a window (logit). Part 2: log homes if it does (linear, smearing factor).
+- Terms: place intercepts; after; upzoned; new line; band (0–⅛, ⅛–¼); after × upzoned; after × new line;
+  after × upzoned × new line; after × band.
+- Fitted on the training places. For held-out p, its intercept is set from p's own before-window lots only (not the
+  outcome; no leak). The common after shift and every after × term are carried from training.
+- Predicted extra = Σ over p's ¼-mile lots, after window, of (prediction with upzoned as observed − prediction with
+  upzoned = 0), taken at p's after-window level; per 100 lot acres a year.
+
+**Comparisons in the same table:**
+- the plain average: the other 10 places' mean (the current Stage 2 method);
+- zero;
+- the stored hide-one-place results of the lot models already run on these exact folds (boosted, random forest,
+  causal forest, 4-trait, stop model, double-ML). These are not rerun.
+
+**Score and pass rule.**
+- Absolute error per place, with each place counted once. Report the mean and the median for every method.
+- **A (or B) passes if** its median absolute error is strictly below the plain average's (16.0 on this data) **and**
+  it has lower error than the plain average in at least 6 of 11 places.
+- Report each place, the median, the mean, and the leave-one-place-out range of the median.
+
+**Placebo.** Replace the after window with the second half of the before window (fake reform years), and rerun A
+and B on the same folds. A placebo pass = the pooled predicted effect's 90% interval (place bootstrap) includes 0.
+If a placebo fails, its method cannot pass.
+
+**Beside, not pooled or scored:**
+- broad maps (Los Angeles TOC, San Diego 2021, Chicago 2022, Bellevue BelRed);
+- "predict the Milwaukee Hop's transit-alone gain without the Hop" (the new, not-rezoned cell; the Hop stays in
+  training for that cell otherwise);
+- "predict Madison without Madison" if its lot table supports it, flagged as a short window (overlay 2023, after
+  years 2023–2025 only).
+
+**Reading (fixed now).**
+- If A or B passes, the factors predict, not just explain. That method becomes a candidate Stage 2 method (the
+  owner's call); its Wisconsin figure is shown beside the central, not in place of it.
+- If neither passes, the factors explain cause but not which places build. Stage 2 keeps the plain average.
+- Either way, a pass shows usefulness, not cause; cause comes from the edge test and the 2×2.
