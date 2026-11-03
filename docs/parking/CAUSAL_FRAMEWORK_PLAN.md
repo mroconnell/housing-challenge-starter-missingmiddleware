@@ -207,3 +207,37 @@ Ryan's OK. Stage 2 (carrying results to Wisconsin) stays unlocked until Stage 1 
   - Each band's effect has a 90% interval from 2,000 resamples of 500 m grid cells, the existing test's clustering.
   - Pooled bands: band k = the equal-weight mean across cities of each city's band k, with leave-one-city-out results.
   - The October 0.1-acre split is shown beside it for reference.
+
+## Stage 2 plan: carrying Stage 1 to Wisconsin (locked 2026-11-03, before any Stage 2 count)
+
+Agreed between the parking and learning threads in two rounds (learning draft v0, `learning/parking_stage2_plan_v0.md`). Owner: "go back and forth with the learning session and, when you've agreed, move on to stage 2" (2026-11-03 02:47). No tool change without Ryan's OK.
+
+1. **Law.** No minimum off-street parking may be required for any housing, statewide. This is the tool's law (`MODEL_AND_ASSUMPTIONS_PARKING.md`), covering every Wisconsin permit office (cities, villages and towns).
+   - **Logged change:** P-c (near transit plus citywide for 2+ homes) is retired. The 76 evidence places were coded "at benchmark" on this same all-housing rule, so the data-first rule is met.
+   - Near-transit only (P-b) is a described sensitivity, not a line. ADUs are excluded.
+2. **Places already reformed.**
+   - "At" places get 0, as now. "Near" places also get 0 in the main lines (new).
+   - The full-rate version for "near" places is shown as one sensitivity figure in the doc.
+   - Madison and Milwaukee keep the full rate, with a "may overstate" note: their reformed districts are a small share of homes, and no partial fraction is invented.
+3. **Lines.** Central 0, low and high as computed now (−15,326 / +19,937 before item 2), recomputed only for item 2. Two-sided, no floor.
+   - Low-end wording: "the data can't rule out a drop this size."
+   - Note beside the high end: "about 27,700–49,700 in the improvement rounds (IMPROVE_R1, IMPROVE_R2)".
+4. **One pre-chosen trait (sensitivity only).**
+   - **Trait.** Excess-parking cost as a share of home value = max(0, old minimum − 0.6) × cost per space ÷ ACS 2024 median home value.
+   - **Old minimum:** spaces per apartment, from `reference/parking_old_minimums.csv` for evidence places; places without a coded value are left out, as in M1. For Wisconsin, the Mankato 16-city comparison (`run_parking_mechanism.MINIMUMS`); other Wisconsin places get the median of the 16, flagged.
+   - **Market floor:** 0.6 spaces per home, one constant: the after-repeal level in Minneapolis (0.63) and Seattle reform areas (0.59).
+   - **Excess:** where the old minimum was below 0.6, the rule did not bind, so excess = 0.
+   - **Cost per space:** reuses the cost chain's central values: structured $40,950 (midpoint of $29,900–$52,000) if the place's ACS median home value is at or above the US median, else surface $5,750 (midpoint of $1,500–$10,000).
+   - **Test.** 5 folds by place, seed 20261103. Main estimate (permits per 1,000 existing homes a year) regressed on the trait with home weights, against the plain home-weighted average. Error = home-weighted mean absolute error on held-out places.
+   - **Kept only if** the trait's held-out error is strictly below the plain average's on the same places; otherwise not shown. It is expected to fail, because M1 (old minimum alone) was not material. The test is reported either way.
+5. **Beside the lines (labelled, not lines).**
+   - Cost chain on the tornado chart: +581 homes (233 to 1,257), "if each home is about $9,900 (3.9%) cheaper".
+   - "Bigger projects only" (18,972) moves into the how-it-works text only, with the contradiction stated: it assumes the number of buildings holds, but that number fell 35%.
+   - How repeal works:
+     - Projects build less parking than the old rule required, but how much of the fall the reform caused is unclear. Zero-parking projects appear only where the rule was lifted (Seattle).
+     - Bigger 5+ unit buildings: +37% (H1, 42 places) and +43% (mechanism, 38 places), with fewer of them.
+     - Lot-size gains in Seattle and Buffalo, reversed in Chicago and absent in San Francisco.
+6. **Combination with TOD.** Additive, with no interaction bonus; TOD counts first where both apply (as built).
+7. **After launch.** West Allis (2022) and La Crosse (2024) are already in the evidence. Later Wisconsin repeals are added when two full years of permits exist, and the average is recomputed.
+
+**Run order:** (0) this lock; (1) trait test; (2) item 2 recount and side figures; (3) wording; (4) Ryan reviews before any tool change.
