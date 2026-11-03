@@ -1,0 +1,13 @@
+check,scope,records,homes,records_in_scope,homes_in_scope
+missing coordinates,"statewide records with permits, report years 2018-2025",222,224.0,628841,1214141.0
+coordinates outside California box,"statewide records with permits, report years 2018-2025",103,1884.0,628841,1214141.0
+"more than 1,000 homes on one record","statewide records with permits, report years 2018-2025",3,3460.0,628841,1214141.0
+not geocoded to a street address (TOD rule; includes missing coordinates),"statewide records with permits, report years 2018-2025",54133,88546.0,628841,1214141.0
+BP_ISSUE_DT1 missing or unreadable (report year used),"statewide records with permits, report years 2018-2025",24,46.0,628841,1214141.0
+permit year differs from report year,"statewide records with permits, report years 2018-2025",90758,213842.0,628841,1214141.0
+exact duplicate (TOD rule),geocoded records,10643,30547.0,574708,1125595.0
+same permit re-reported in a later report year (D5),geocoded records,59055,112093.0,574708,1125595.0
+permit year outside 2018-2025 (dropped),geocoded records,4794,30352.0,574708,1125595.0
+"more than 1,000 homes on one record","E1 sample: 185 jurisdictions, inside or ring, 2-4 and 5+ records",0,0.0,9000,153001.0
+exact duplicate (TOD rule),"E1 sample: 185 jurisdictions, inside or ring, 2-4 and 5+ records",593,3255.0,9000,153001.0
+same permit re-reported in a later report year (D5),"E1 sample: 185 jurisdictions, inside or ring, 2-4 and 5+ records",952,18420.0,9000,153001.0

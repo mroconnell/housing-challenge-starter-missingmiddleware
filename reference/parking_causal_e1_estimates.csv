@@ -1,0 +1,61 @@
+case,estimand,weighting,estimate,interval90_low,interval90_high,se,mde_1645se,interval_includes_0,n_jurisdictions,loo_min,loo_max,loo_most_influential,loo_estimate_without_it,near_rate_before,near_rate_after,near_homes_before,near_homes_after,near_existing_homes,ring_rate_before,ring_rate_after,ring_homes_before,ring_homes_after,ring_existing_homes,n_juris_near_permits_both_periods
+main,DiD 2-4,homes-weighted (main),-0.0232,-0.0704,0.0176,0.0267,0.0439,True,185,-0.0295,-0.0075,IRVINE,-0.0075,0.3066,0.2397,1957.0,918.0,1276507.0,0.2418,0.1981,3259.0,1602.0,2695619.0,55.0
+main,DiD 2-4,equal-weight,-0.0069,-0.0918,0.076,0.0508,0.0836,True,185,,,,,,,,,,,,,,,
+main,DiD 5+,homes-weighted (main),-0.578,-2.0261,0.7654,0.8528,1.4029,True,185,-0.8523,-0.2494,MILPITAS,-0.2494,6.9519,5.5793,44371.0,21366.0,1276507.0,2.7316,1.937,36817.0,15664.0,2695619.0,67.0
+main,DiD 5+,equal-weight,0.4058,-1.6542,2.4966,1.245,2.048,True,185,,,,,,,,,,,,,,,
+main,DiD 5+ no density bonus,homes-weighted (main),-1.4103,-2.7688,-0.2439,0.7662,1.2604,False,185,-1.6442,-1.119,MILPITAS,-1.119,6.1996,3.7287,39569.0,14279.0,1276507.0,2.3858,1.3252,32156.0,10717.0,2695619.0,55.0
+main,DiD 5+ no density bonus,equal-weight,-0.7924,-2.6855,1.0567,1.1309,1.8604,True,185,,,,,,,,,,,,,,,
+main,Triple difference (2-4 minus 5+),homes-weighted (main),0.5548,-0.7844,2.0009,0.8557,1.4076,True,185,0.2258,0.83,MILPITAS,0.2258,,,,,,,,,,,
+main,Triple difference (2-4 minus 5+),equal-weight,-0.4127,-2.5272,1.6505,1.2474,2.0519,True,185,,,,,,,,,,,,,,,
+main,Triple difference (2-4 minus 5+ no density bonus),homes-weighted (main),1.3871,0.2155,2.7557,0.7694,1.2657,False,185,1.0954,1.6154,MILPITAS,1.0954,,,,,,,,,,,
+main,Triple difference (2-4 minus 5+ no density bonus),equal-weight,0.7856,-1.0603,2.6752,1.133,1.8638,True,185,,,,,,,,,,,,,,,
+pre-trend 2018-2020 vs 2021-2022,DiD 2-4,homes-weighted (main),0.0083,-0.0709,0.0944,0.0506,0.0832,True,185,-0.0227,0.0212,CHULA VISTA,-0.0227,0.3233,0.2816,1238.0,719.0,1276507.0,0.2618,0.2118,2117.0,1142.0,2695619.0,36.0
+pre-trend 2018-2020 vs 2021-2022,DiD 2-4,equal-weight,0.0286,-0.1013,0.1635,0.0804,0.1322,True,185,,,,,,,,,,,,,,,
+pre-trend 2018-2020 vs 2021-2022,DiD 5+,homes-weighted (main),-0.5345,-2.7782,1.7985,1.3962,2.2968,True,185,-1.263,0.1966,MOUNTAIN VIEW,0.1966,6.91,7.0148,26462.0,17909.0,1276507.0,2.4759,3.1152,20022.0,16795.0,2695619.0,63.0
+pre-trend 2018-2020 vs 2021-2022,DiD 5+,equal-weight,-0.8785,-3.4519,1.7461,1.5746,2.5902,True,185,,,,,,,,,,,,,,,
+pre-trend 2018-2020 vs 2021-2022,DiD 5+ no density bonus,homes-weighted (main),-1.3696,-3.5082,0.6994,1.2768,2.1003,True,185,-1.8614,-0.655,MOUNTAIN VIEW,-0.655,6.8178,5.2722,26109.0,13460.0,1276507.0,2.4562,2.2802,19863.0,12293.0,2695619.0,59.0
+pre-trend 2018-2020 vs 2021-2022,DiD 5+ no density bonus,equal-weight,-1.3888,-3.8327,1.0691,1.4974,2.4632,True,185,,,,,,,,,,,,,,,
+pre-trend 2018-2020 vs 2021-2022,Triple difference (2-4 minus 5+),homes-weighted (main),0.5428,-1.7692,2.7976,1.4011,2.3047,True,185,-0.1878,1.2739,GLENDALE,1.2739,,,,,,,,,,,
+pre-trend 2018-2020 vs 2021-2022,Triple difference (2-4 minus 5+),equal-weight,0.9071,-1.6749,3.4713,1.5747,2.5904,True,185,,,,,,,,,,,,,,,
+pre-trend 2018-2020 vs 2021-2022,Triple difference (2-4 minus 5+ no density bonus),homes-weighted (main),1.3779,-0.7105,3.5136,1.2811,2.1074,True,185,0.6639,1.8687,MOUNTAIN VIEW,0.6639,,,,,,,,,,,
+pre-trend 2018-2020 vs 2021-2022,Triple difference (2-4 minus 5+ no density bonus),equal-weight,1.4174,-1.0396,3.8278,1.4971,2.4627,True,185,,,,,,,,,,,,,,,
+sensitivity: TOD duplicate rule only,DiD 2-4,homes-weighted (main),-0.028,-0.0766,0.0174,0.0289,0.0476,True,185,-0.0343,-0.0123,IRVINE,-0.0123,0.3535,0.269,2256.0,1030.0,1276507.0,0.2725,0.216,3673.0,1747.0,2695619.0,55.0
+sensitivity: TOD duplicate rule only,DiD 2-4,equal-weight,0.0339,-0.0668,0.132,0.0611,0.1005,True,185,,,,,,,,,,,,,,,
+sensitivity: TOD duplicate rule only,DiD 5+,homes-weighted (main),-1.0864,-2.839,0.5375,1.0374,1.7065,True,185,-1.336,-0.4575,GLENDALE,-0.4575,7.9942,5.9208,51023.0,22674.0,1276507.0,3.2395,2.2525,43662.0,18216.0,2695619.0,67.0
+sensitivity: TOD duplicate rule only,DiD 5+,equal-weight,0.8723,-1.4759,3.2117,1.3928,2.2911,True,185,,,,,,,,,,,,,,,
+sensitivity: TOD duplicate rule only,DiD 5+ no density bonus,homes-weighted (main),-1.7088,-3.1416,-0.4108,0.821,1.3505,False,185,-1.9005,-1.4205,MILPITAS,-1.4205,6.8968,3.9527,44019.0,15137.0,1276507.0,2.8419,1.6067,38304.0,12993.0,2695619.0,55.0
+sensitivity: TOD duplicate rule only,DiD 5+ no density bonus,equal-weight,-0.3236,-2.4971,1.71,1.2789,2.1038,True,185,,,,,,,,,,,,,,,
+sensitivity: TOD duplicate rule only,Triple difference (2-4 minus 5+),homes-weighted (main),1.0584,-0.5596,2.7928,1.0367,1.7053,True,185,0.435,1.3086,GLENDALE,0.435,,,,,,,,,,,
+sensitivity: TOD duplicate rule only,Triple difference (2-4 minus 5+),equal-weight,-0.8383,-3.178,1.5187,1.3905,2.2874,True,185,,,,,,,,,,,,,,,
+sensitivity: TOD duplicate rule only,Triple difference (2-4 minus 5+ no density bonus),homes-weighted (main),1.6808,0.3828,3.1067,0.8233,1.3544,False,185,1.392,1.8882,MILPITAS,1.392,,,,,,,,,,,
+sensitivity: TOD duplicate rule only,Triple difference (2-4 minus 5+ no density bonus),equal-weight,0.3576,-1.6888,2.505,1.2765,2.0998,True,185,,,,,,,,,,,,,,,
+"POST HOC sensitivity: report-year dating, TOD duplicate rule",DiD 2-4,homes-weighted (main),-0.0454,-0.1025,0.0187,0.0366,0.0602,True,185,-0.0565,-0.0218,LOS ANGELES,-0.0218,0.3422,0.3295,2184.0,1262.0,1276507.0,0.2462,0.279,3318.0,2256.0,2695619.0,57.0
+"POST HOC sensitivity: report-year dating, TOD duplicate rule",DiD 2-4,equal-weight,0.0538,-0.0508,0.165,0.0656,0.108,True,185,,,,,,,,,,,,,,,
+"POST HOC sensitivity: report-year dating, TOD duplicate rule",DiD 5+,homes-weighted (main),0.4368,-1.3443,2.0036,1.0246,1.6855,True,185,-0.0095,0.7771,LOS ANGELES,-0.0095,7.338,7.843,46835.0,30035.0,1276507.0,2.9355,3.0038,39565.0,24291.0,2695619.0,71.0
+"POST HOC sensitivity: report-year dating, TOD duplicate rule",DiD 5+,equal-weight,0.9498,-1.5128,3.4132,1.4768,2.4294,True,185,,,,,,,,,,,,,,,
+"POST HOC sensitivity: report-year dating, TOD duplicate rule",DiD 5+ no density bonus,homes-weighted (main),-1.1476,-2.7923,0.2559,0.9246,1.521,True,185,-1.7198,-0.851,LOS ANGELES,-1.7198,6.651,5.191,42450.0,19879.0,1276507.0,2.5825,2.2701,34807.0,18358.0,2695619.0,59.0
+"POST HOC sensitivity: report-year dating, TOD duplicate rule",DiD 5+ no density bonus,equal-weight,-0.4307,-2.7244,1.7813,1.3863,2.2805,True,185,,,,,,,,,,,,,,,
+"POST HOC sensitivity: report-year dating, TOD duplicate rule",Triple difference (2-4 minus 5+),homes-weighted (main),-0.4822,-2.0728,1.3008,1.0385,1.7083,True,185,-0.8228,-0.0123,LOS ANGELES,-0.0123,,,,,,,,,,,
+"POST HOC sensitivity: report-year dating, TOD duplicate rule",Triple difference (2-4 minus 5+),equal-weight,-0.896,-3.3623,1.5663,1.4813,2.4367,True,185,,,,,,,,,,,,,,,
+"POST HOC sensitivity: report-year dating, TOD duplicate rule",Triple difference (2-4 minus 5+ no density bonus),homes-weighted (main),1.1022,-0.3285,2.7771,0.9408,1.5477,True,185,0.8053,1.698,LOS ANGELES,1.698,,,,,,,,,,,
+"POST HOC sensitivity: report-year dating, TOD duplicate rule",Triple difference (2-4 minus 5+ no density bonus),equal-weight,0.4845,-1.7373,2.7942,1.3905,2.2874,True,185,,,,,,,,,,,,,,,
+"POST HOC pre-trend, report-year dating",DiD 2-4,homes-weighted (main),0.0048,-0.0717,0.0876,0.0493,0.081,True,185,-0.0263,0.0175,CHULA VISTA,-0.0263,0.3504,0.3298,1342.0,842.0,1276507.0,0.2563,0.2309,2073.0,1245.0,2695619.0,41.0
+"POST HOC pre-trend, report-year dating",DiD 2-4,equal-weight,0.0137,-0.1075,0.1385,0.0748,0.1231,True,185,,,,,,,,,,,,,,,
+"POST HOC pre-trend, report-year dating",DiD 5+,homes-weighted (main),-0.8424,-3.1283,1.2544,1.3391,2.2028,True,185,-1.2285,-0.1331,ANAHEIM,-0.1331,7.3615,7.3027,28191.0,18644.0,1276507.0,2.622,3.4057,21204.0,18361.0,2695619.0,65.0
+"POST HOC pre-trend, report-year dating",DiD 5+,equal-weight,-0.7259,-3.6129,2.1516,1.7706,2.9127,True,185,,,,,,,,,,,,,,,
+"POST HOC pre-trend, report-year dating",DiD 5+ no density bonus,homes-weighted (main),-1.5255,-3.782,0.5069,1.3216,2.1741,True,185,-2.0196,-0.8376,ANAHEIM,-0.8376,7.2926,5.6886,27927.0,14523.0,1276507.0,2.6139,2.5354,21138.0,13669.0,2695619.0,61.0
+"POST HOC pre-trend, report-year dating",DiD 5+ no density bonus,equal-weight,-1.0985,-3.7783,1.5169,1.5887,2.6135,True,185,,,,,,,,,,,,,,,
+"POST HOC pre-trend, report-year dating",Triple difference (2-4 minus 5+),homes-weighted (main),0.8472,-1.2635,3.1127,1.3422,2.2079,True,185,0.1386,1.234,ANAHEIM,0.1386,,,,,,,,,,,
+"POST HOC pre-trend, report-year dating",Triple difference (2-4 minus 5+),equal-weight,0.7396,-2.1565,3.6427,1.7737,2.9177,True,185,,,,,,,,,,,,,,,
+"POST HOC pre-trend, report-year dating",Triple difference (2-4 minus 5+ no density bonus),homes-weighted (main),1.5303,-0.4943,3.7999,1.325,2.1796,True,185,0.8431,2.0235,ANAHEIM,0.8431,,,,,,,,,,,
+"POST HOC pre-trend, report-year dating",Triple difference (2-4 minus 5+ no density bonus),equal-weight,1.1122,-1.5293,3.7961,1.5909,2.617,True,185,,,,,,,,,,,,,,,
+"sensitivity: records over 1,000 homes dropped",DiD 2-4,homes-weighted (main),-0.0232,-0.0704,0.0176,0.0267,0.0439,True,185,-0.0295,-0.0075,IRVINE,-0.0075,0.3066,0.2397,1957.0,918.0,1276507.0,0.2418,0.1981,3259.0,1602.0,2695619.0,55.0
+"sensitivity: records over 1,000 homes dropped",DiD 2-4,equal-weight,-0.0069,-0.0918,0.076,0.0508,0.0836,True,185,,,,,,,,,,,,,,,
+"sensitivity: records over 1,000 homes dropped",DiD 5+,homes-weighted (main),-0.578,-2.0261,0.7654,0.8528,1.4029,True,185,-0.8523,-0.2494,MILPITAS,-0.2494,6.9519,5.5793,44371.0,21366.0,1276507.0,2.7316,1.937,36817.0,15664.0,2695619.0,67.0
+"sensitivity: records over 1,000 homes dropped",DiD 5+,equal-weight,0.4058,-1.6542,2.4966,1.245,2.048,True,185,,,,,,,,,,,,,,,
+"sensitivity: records over 1,000 homes dropped",DiD 5+ no density bonus,homes-weighted (main),-1.4103,-2.7688,-0.2439,0.7662,1.2604,False,185,-1.6442,-1.119,MILPITAS,-1.119,6.1996,3.7287,39569.0,14279.0,1276507.0,2.3858,1.3252,32156.0,10717.0,2695619.0,55.0
+"sensitivity: records over 1,000 homes dropped",DiD 5+ no density bonus,equal-weight,-0.7924,-2.6855,1.0567,1.1309,1.8604,True,185,,,,,,,,,,,,,,,
+"sensitivity: records over 1,000 homes dropped",Triple difference (2-4 minus 5+),homes-weighted (main),0.5548,-0.7844,2.0009,0.8557,1.4076,True,185,0.2258,0.83,MILPITAS,0.2258,,,,,,,,,,,
+"sensitivity: records over 1,000 homes dropped",Triple difference (2-4 minus 5+),equal-weight,-0.4127,-2.5272,1.6505,1.2474,2.0519,True,185,,,,,,,,,,,,,,,
+"sensitivity: records over 1,000 homes dropped",Triple difference (2-4 minus 5+ no density bonus),homes-weighted (main),1.3871,0.2155,2.7557,0.7694,1.2657,False,185,1.0954,1.6154,MILPITAS,1.0954,,,,,,,,,,,
+"sensitivity: records over 1,000 homes dropped",Triple difference (2-4 minus 5+ no density bonus),equal-weight,0.7856,-1.0603,2.6752,1.133,1.8638,True,185,,,,,,,,,,,,,,,
