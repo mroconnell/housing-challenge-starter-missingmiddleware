@@ -951,3 +951,5 @@ recomputed on the same folds (16.0 expected). Each place is counted once.
 - Added 2026-11-03 11:15, before any count (tutor thread; reporting only, changes no tier): for each method, the 90%
   interval of (method median miss − plain average median miss) from a place bootstrap (1,000 draws, places resampled
   with replacement, both medians recomputed on the same draw).
+- Changed 2026-11-03 11:14 by the owner ("then let's make it 15%"), before any result was seen: Tier 3 "close" =
+  median miss at or below 1.15 × the plain average's median (18.4 if that is 16.0). Replaces the 10% above.
