@@ -46,7 +46,7 @@ from missing_middleware import geom as G  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 OUT = RAW / "parking_la_ab2097_map"
-UA = "Mozilla/5.0 (research; housing study; public data)"
+UA = "missing-middleware-research/1.0 (public data)"
 HALF_MILE = 804.672
 CRS = 3310
 CELL = 25.0  # metres, grid for areas

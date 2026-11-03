@@ -28,7 +28,7 @@ HOMES = re.compile(r"dwelling unit|residential unit|apartment|\bunits\b", re.I)
 
 
 def desc(i: str) -> str:
-    req = urllib.request.Request(f"https://ceqanet.lci.ca.gov/{i}", headers={"User-Agent": "Mozilla/5.0"})
+    req = urllib.request.Request(f"https://ceqanet.lci.ca.gov/{i}", headers={"User-Agent": "missing-middleware-research/1.0 (public data)"})
     h = urllib.request.urlopen(req, timeout=120).read().decode("utf-8", "ignore")
     t = html.unescape(re.sub(r"\s+", " ", re.sub("<[^>]+>", " ", h)))
     a = t.find("Document Description")

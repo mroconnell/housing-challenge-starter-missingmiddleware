@@ -332,7 +332,7 @@ Unit: permits per 1,000 existing homes a year. These runs use 75 places (South B
 
 ## LA AB 2097 map change, feasibility: not feasible
 
-The locked rule needs a dated change, both maps, and 2+ after years.
+The rule for this check was set by the learning thread for this check (it is not in the framework plan): a dated change, both maps, and 2+ after years.
 
 - **A dated change: partly.** City Planning's 2024-04-16 memo adopted SCAG's stop method "effective immediately". It followed HCD letters of 2023-11-17, 2024-03-08 and 2024-03-28. No document dates a rebuild of the ZIMAS AB 2097 layer.
 - **Both maps: no.** ZIMAS's public layer group is empty. No archived 2023 or 2024 version was found, and the only City map is a 2026 polygon. SCAG's stop lists are only proxies, and its 2022 and 2050 lists have been re-issued under the 20-minute rule (AB 2553, 2025).
@@ -343,6 +343,7 @@ The locked rule needs a dated change, both maps, and 2+ after years.
   - Planned stops were already eligible under state law, so the edge is soft.
   - Permit years lag applications.
 - **What would change the verdict:** a dated copy of the ZIMAS layer from before and after the memo (e.g. through a Public Records Act request to City Planning), plus 2026 permit data.
+- **Fetch headers (audit fix).** The script first sent a browser-style user agent. It now sends an honest one (`missing-middleware-research/1.0 (public data)`). With it, the City Planning documents downloaded normally. The same fix was made in `scripts/fetch_parking_la_toc.py`.
 - **Files:**
   - `scripts/fetch_parking_la_ab2097_map.py`
   - `reference/parking_la_ab2097_map_counts.csv` (proxy area counts only)
