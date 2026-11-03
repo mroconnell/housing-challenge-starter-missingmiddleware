@@ -519,6 +519,12 @@ All match the hand-read values.
 
 - ***Post hoc*, prompted by that check: mixed-use projects against the homes-only minimum.** The 15 mixed-use projects come out 7 above, 2 at and 6 below. All 30 together come out 20 above, 4 at and 6 below. For example, file 45249 has 43 stalls for 44 homes, which is at the homes minimum, but below the combined figure. Either way, the reading holds: most projects sit above the minimum, with little bunching at it.
 - **Where the rule did bind.** 6 of the 30 projects, all mixed-use, went below even the homes-only minimum through reductions or shared parking: for example, 0 stalls for 75 homes, and 14 for 24. For those projects the rule was binding enough to seek relief. So the reading is "mostly didn't bind, but bound for some mixed-use projects", not simply "didn't bind".
+- **Residential-only vs mixed-use read differently** (Ryan, 2026-11-03).
+  - **Residential-only (15):** 13 above, 2 at, 0 below. The rule did not bind.
+  - **Mixed-use (15):** 11 below the combined requirement. Against the homes-only rule, 7 above, 2 at, 6 below.
+  - **Reading.** Minimums bite in mixed-use buildings, where one garage serves homes and shops and the combined requirement pushes the total up.
+  - **For the model.** The modelled Wisconsin law removes minimums for housing only, so commercial stalls in mixed-use buildings would still be required. If mixed-use is where minimums bind, a housing-only repeal may unlock less than a full repeal.
+  - **Limits.** One city, and only discretionary projects.
 
 - **Projects.**
   - 395 files (2+ homes; conditional use, planned development and site plan) became 287 projects.
