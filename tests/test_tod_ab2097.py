@@ -42,6 +42,18 @@ class TestPermits(unittest.TestCase):
                          "Sacramento Ca", "1 Main St, Los Angeles, California, 90001", None])
         self.assertEqual(ab.is_geocoded(lat, lon, std).tolist(), [True, True, False, False, False])
 
+    def test_clean_drops_permit_reported_again_in_later_year(self):
+        a = _a2([
+            ["X CITY", 2020, "5+", 50, 34.0, -118.0, "1 Main St, X, California, 90001", "1 MAIN ST"],
+            ["X CITY", 2021, "5+", 50, 34.0, -118.0, "1 Main St, X, California, 90001", "1 MAIN ST"],  # re-reported
+            ["X CITY", 2021, "5+", 50, 34.0, -118.0, "1 Main St, X, California, 90001", "1 MAIN ST"],  # second phase
+        ])
+        a["BP_ISSUE_DT1"] = ["2020-06-01", "2020-06-01", "2021-03-01"]
+        p, info = ab.clean_permits(a)
+        self.assertEqual(sorted(p["year"].tolist()), [2020, 2021])
+        self.assertEqual(p["all_units"].sum(), 100)
+        self.assertEqual(info["duplicate_records_dropped"], 1)
+
     def test_clean_dedup_and_outcomes(self):
         a = _a2([
             ["X CITY", 2020, "5+", 50, 34.0, -118.0, "1 Main St, X, California, 90001", "1 MAIN ST"],

@@ -81,6 +81,15 @@ def clean_permits(a2: pd.DataFrame, years: list[int] = YEARS) -> tuple[pd.DataFr
     Returns (records, counts) where counts reports what each step removed."""
     d = a2.copy()
     d["units"] = pd.to_numeric(d["NO_BUILDING_PERMITS"], errors="coerce").fillna(0.0)
+    d["report_year"] = d["YEAR"]
+    if "BP_ISSUE_DT1" in d:
+        # Correction 2026-11-03: about 14% of A2 rows are permits re-reported in a later report year. Date each row by
+        # its permit issue date (report year only where that is blank) and drop the same permit across report years.
+        bp = pd.to_datetime(d["BP_ISSUE_DT1"], errors="coerce")
+        d["bp_date"] = bp.dt.strftime("%Y-%m-%d").fillna("")
+        d["YEAR"] = bp.dt.year.fillna(d["YEAR"]).astype(int)
+    else:
+        d["bp_date"] = ""
     d = d[(d["units"] > 0) & d["YEAR"].isin(years)]
     info = {"records_with_permits": int(len(d)), "units_with_permits": float(d["units"].sum())}
     geo = is_geocoded(pd.to_numeric(d["LATITUDE"], errors="coerce"), pd.to_numeric(d["LONGITUDE"], errors="coerce"),
@@ -88,9 +97,9 @@ def clean_permits(a2: pd.DataFrame, years: list[int] = YEARS) -> tuple[pd.DataFr
     info["units_not_geocoded"] = float(d.loc[~geo, "units"].sum())
     d = d[geo].copy()
     d["addr"] = _norm(d["STREET_ADDRESS"]).where(_norm(d["STREET_ADDRESS"]) != "", _norm(d["STD_ADDRESS"]))
-    key = ["JURIS_NAME", "addr", "YEAR", "UNIT_CAT", "units"]
+    key = ["JURIS_NAME", "addr", "YEAR", "UNIT_CAT", "units", "bp_date"]
     n0, u0 = len(d), d["units"].sum()
-    d = d.drop_duplicates(key)
+    d = d.sort_values("report_year", kind="stable").drop_duplicates(key)
     info["duplicate_records_dropped"] = int(n0 - len(d))
     info["duplicate_units_dropped"] = float(u0 - d["units"].sum())
     out = pd.DataFrame({

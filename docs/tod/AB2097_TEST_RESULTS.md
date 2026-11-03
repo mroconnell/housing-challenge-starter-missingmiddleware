@@ -176,3 +176,29 @@ The ring gained against land farther out, mostly in all units, not in 2+ unit bu
 - Code: `missing_middleware/tod/ab2097.py`, `scripts/fetch_ab2097_inputs.py`, `scripts/run_ab2097_test.py`; tests `tests/test_tod_ab2097.py` (synthetic fixtures).
 - Outputs: `reference/tod_ab2097_results.csv` (every estimate: case, group, outcome, measure, rates, units, denominators, interval and method, jurisdiction counts) and `reference/tod_ab2097_rates_by_year.csv`.
 - No addresses, APNs or tracking ids are committed. Project ids are one-way hashes kept in git-ignored files under `data/processed/ab2097/`.
+
+## Correction, 2026-11-03: permits re-reported in a later year
+
+The parking thread found that HCD Table A2 repeats some permits in a later report year. The cleaning step used to date
+each row by its report year and drop duplicates only within one year, so a re-reported permit counted twice.
+
+**Fix** (`missing_middleware/tod/ab2097.clean_permits`):
+- Each row is dated by its permit issue date (`BP_ISSUE_DT1`). The report year is used only where that date is blank.
+- The same permit is dropped across report years. The key is jurisdiction, address, unit category, homes and issue
+  date, and the earliest report is kept.
+
+Duplicate homes dropped: 137,006 after the fix, against 30,547 before. This is a data fix, not a change to the
+locked comparison.
+
+| Main result, extra homes per 1,000 homes a year, 2023–2025 (90% interval) | Before fix | After fix |
+| --- | --- | --- |
+| Parking repeal only (P), all homes | 0.13 (−1.84 to 1.73) | −0.75 (−2.27 to 0.66) |
+| Parking repeal only (P), 2+ unit homes | 0.39 (−1.37 to 1.89) | −0.65 (−2.01 to 0.71) |
+| LA TOC plus parking (T+P), all homes | −2.49 (−5.50 to 0.52) | −4.35 (−6.99 to −1.63) |
+| T+P minus P, all homes | −2.62 (−6.07 to 0.98) | −3.60 (−6.52 to −0.49) |
+
+**Reading:**
+- The parking-only answer is unchanged: no measurable change, because the interval still includes 0.
+- The Los Angeles row now falls below 0. It rests on one jurisdiction, and its comparison ring rose against land
+  farther away (caveat above), so read it as weak.
+- The parking tool's California figures change only with the owner's OK. The parking thread owns that.

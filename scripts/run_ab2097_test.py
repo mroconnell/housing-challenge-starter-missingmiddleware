@@ -29,7 +29,7 @@ from missing_middleware.tod import ab2097 as ab  # noqa: E402
 D = RAW / "ab2097"
 OUT = PROCESSED / "ab2097"
 CRS = 3310  # California Albers, metres
-A2_COLS = ["JURIS_NAME", "YEAR", "UNIT_CAT", "NO_BUILDING_PERMITS", "LATITUDE", "LONGITUDE", "STD_ADDRESS", "STREET_ADDRESS"]
+A2_COLS = ["JURIS_NAME", "YEAR", "UNIT_CAT", "NO_BUILDING_PERMITS", "LATITUDE", "LONGITUDE", "STD_ADDRESS", "STREET_ADDRESS", "BP_ISSUE_DT1"]
 
 
 # --------------------------------------------------------------------------- geography
