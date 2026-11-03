@@ -209,6 +209,23 @@ Unit: permits per 1,000 existing homes a year.
 - Difference: −12.5, about the same as the main −12.3.
 - Read: Austin fell much more than other Sun Belt boom cities. Before repeal it was permitting at twice their rate, so a fall back from an unusual peak is a likely part of it. Austin's repeal also came with the HOME rezoning, and this test cannot separate the two.
 
+**FU3, Seattle edge test at the urban village boundaries.**
+- Design: lots just inside vs just outside the urban village boundaries, around the 2012 reform. Before = 2007–2011, after = 2013–2017. TOD's T3 method (`scripts/run_parking_causal_fu3_seattle_edge.py`).
+- Unit: extra new homes per 100 lot acres a year, (after − before) inside minus outside.
+- Main, 91 m band: +15.8 (−6.2 to +37.8). Other bands: 46 m +21.3 (−0.9 to +47.4); 183 m +22.5 (+4.8 to +40.4). 25 m donut: +14.3.
+- **Balance fails.** Before the reform, inside lots already built 36.8 homes per 100 lot acres a year against 6.0 outside. The gap's interval is +17.6 to +46.0. Under T3's rule, a place that fails balance is reported but not used. Inside rose 48% and outside 29%.
+- Caveats:
+  - Village boundaries are today's; 18% of inside lots were outside a village in 2010. Keeping only lots whose status matches gives +20.4 (−5.3 to +46.5), and balance still fails.
+  - The parcels cover only the areas near Link stations.
+  - The 2012 rule covered only parts of villages near frequent transit.
+  - A few large projects dominate: dropping the largest lot gives +10.6.
+- Read: lots inside the villages built more after 2012 than lots just outside. They were already on a much faster path before 2012, so this cannot be read as the parking reform's effect.
+
+**FU4, double machine learning.**
+- Setup: 70 repeal places and 5,214 comparison-place windows. Partialling out the before-window apartment share, county job growth, census division, the before-window rate and trend, and the event year. Cross-fitted random forests.
+- Equal-weight: +0.87 (−0.81 to +2.55). Home-weighted: −0.05 (−2.91 to +2.81). Unit: permits per 1,000 existing homes a year.
+- Read: adjusting for apartment mix, local job growth and prior growth moves the estimate to about zero or slightly positive. The interval still includes 0.
+
 ## What Stage 1 says for Stage 2 (not yet run)
 - Parking per home fell in Minneapolis after 2015, but by the same amount where the cut did and did not apply (F1b). In Seattle, projects with no parking appeared only in reform areas (F1c). Builders put more homes in each larger building (H1).
 - No test shows more total homes, and the line test (E1) finds no measurable change at its scale.
