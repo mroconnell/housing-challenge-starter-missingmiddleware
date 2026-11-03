@@ -243,3 +243,12 @@ Unit: permits per 1,000 existing homes a year. These runs use 75 places (South B
 - **Chicago in the 76:** not in the 76-place set (neither its 2013 nor its 2015 rule), so no "without Chicago" version is needed.
 - **Chicago and T1:** Chicago 2015 cut housing parking in B/C/D districts, so it breaks T1's locked "no housing change" rule and is not added to the placebo.
 - **Suggested how-it-works line (needs Ryan's OK).** "Before repeal, repeal places did not move in step with their comparison places (a gap of about 2 per 1,000 homes a year over 5 years). Allowing for that, the range is about −5.5 to +3.6, wider than −3.4 to +1.5."
+
+## Chicago B/C/D with home and acre denominators (*post hoc*; owner's ask)
+
+- **Sample:** the same B/C/D lots, 5,927 reform and 4,637 comparison, from the November 2012 zoning map.
+- **Denominators:**
+  - Per lot acre (842 reform acres, 598 comparison): −6.19 net new homes per 100 lot acres a year (90% −17.02 to +3.72).
+  - Per existing home: +107 per 1,000 existing homes a year (90% −364 to +649). Not usable: only 201 and 290 homes stood on these lots before. Business-district lots were mostly non-residential, so a home denominator explodes.
+- **Pedestrian Streets: not fixable for now.** B/C/D lots on Pedestrian Streets 402–805 m from a station were treated in 2015 but sit in the comparison band, and no 2015 layer is on disk. That pushes every Chicago estimate toward zero.
+- **Read:** on the right lots and the acre denominator, Chicago is about −6 per 100 lot acres a year, with a range that includes 0. It stays a side result; it is not in the 76 and does not feed a tool line.

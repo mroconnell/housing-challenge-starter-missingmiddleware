@@ -1,0 +1,3 @@
+denominator,estimate,p05,p95,p0125,p9875,reform_lots,comparison_lots,reform_homes_before,comparison_homes_before,reform_acres,comparison_acres,unit,label
+per existing home,107.26539715217018,-363.7887858556737,648.5760874046588,-588.7161094909386,992.2522122863114,5927,4637,201.0,290.0,842.0976925920503,597.716141525044,"net new homes per 1,000 existing homes on the lots a year","POST HOC: Chicago 2015, B/C/D lots only (reform <= 402 m, comparison 402-805 m)"
+per lot acre,-6.194348340668936,-17.022695925127426,3.717852705244589,-21.240873780782543,6.85461383092463,5927,4637,201.0,290.0,842.0976925920503,597.716141525044,net new homes per 100 lot acres a year,"POST HOC: Chicago 2015, B/C/D lots only (reform <= 402 m, comparison 402-805 m)"

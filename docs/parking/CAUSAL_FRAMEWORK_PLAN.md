@@ -428,3 +428,13 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **Pass rule.** If P1 and P2 both move the central estimate toward 0 or above, and P2's pre-trend check passes, the result goes to Ryan as a candidate low-line update. Otherwise the lines stand, and the pre-trend issue is noted in the how-it-works text.
 - **2026-11-03, Chicago scope (audit sweep):** the locked Stage 2 text "Lot-size gains in Seattle and Buffalo, reversed in Chicago and absent in San Francisco" rests on a mis-scoped Chicago lot test. The 2015 relief covered B/C/D districts only, and its Pedestrian Street reach was in the 2015 ordinance itself. On B/C/D lots Chicago is still negative, but its range includes 0. The locked text is left as written; the tool's wording waits for Ryan.
 - **2026-11-03, T1 run log (audit):** the coded list (`reference/parking_t1_coded.csv`) was produced by the same script run, and in the same commit, as the result. Its coding rules come only from taxonomy columns; no outcome is read before the list is fixed.
+- **2026-11-03, Chicago B/C/D with home and acre denominators** (owner: "we can still use Chicago, we just need to make sure that we have the right denominator based on how many homes or residential acres existed in the business districts"; post hoc; written before the run):
+  - **Sample.** Same B/C/D lots as the B/C/D rerun (reform within 402 m, comparison 402–805 m, Nov 2012 zoning, density-bonus lots kept).
+  - **Outcomes,** both as (after − before) reform minus comparison:
+    - net new homes per 1,000 existing homes on those lots a year (`units_before`);
+    - net new homes per 100 lot acres a year, over all B/C/D lot acres.
+  - **Interval:** 90% and 97.5%, from 2,000 resamples of 500 m cells.
+  - **Counts as a rerun,** not a new test.
+  - **Timing (stated plainly):** this rule was written into the plan file before the run but committed together with the result. It is post hoc in any case, because the B/C/D result (−6.24) had been seen.
+  - **Pedestrian Streets (learning thread):** B/C/D lots on Pedestrian Streets 402–805 m from a station were treated in 2015 and sit in the comparison band. No 2015 Pedestrian Streets layer is on disk, so this is "not fixable" for now. Every Chicago B/C/D result carries that contamination, which pushes toward zero.
+  - **Use:** Chicago stays a lot-level side result. It is not in the 76 and does not feed a tool line without Ryan's OK.
