@@ -154,6 +154,9 @@ def main() -> None:
                 range_from_placebo_low=real_avg + (np.percentile(avgs, 5) - np.percentile(avgs, 50)),
                 range_from_placebo_high=real_avg + (np.percentile(avgs, 95) - np.percentile(avgs, 50)))
     pd.DataFrame([summ]).round(4).to_csv(REFERENCE / f"parking_placebo{tag}_summary.csv", index=False)
+    if "--save-draws" in sys.argv:  # combo (b), work session 2026-11-03: the set averages, centred on the real average
+        pd.DataFrame({"set": np.arange(n_sets), "placebo_average": avgs,
+                      "centred_on_real": real_avg + (avgs - np.percentile(avgs, 50))}).to_csv(REFERENCE / f"parking_placebo{tag}_draws.csv", index=False)
     for k, v in summ.items():
         print(k, round(v, 3) if isinstance(v, float) else v)
 
