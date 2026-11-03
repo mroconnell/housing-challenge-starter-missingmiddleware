@@ -53,11 +53,9 @@ def main() -> None:
     rows.append(main_row)
     pb, pa = d[d["date"] < pd.Timestamp("2014-01-01")], d[(d["date"] >= pd.Timestamp("2014-01-01")) & (d["date"] < f1.CUT_2015)]
     pcells = (out_(pb), out_(pa), in_(pb), in_(pa))
-    if min(len(c) for c in pcells) >= 5:
-        rows.append(dict(case="balance: same contrast 2011-2013 vs 2014-2015-07 (coarse)", feasible=min(len(c) for c in pcells) >= MIN_SIDE,
-                         **did(pcells, rng, None)))
-    else:
-        rows.append(dict(case="balance", feasible=False, n_cells=str([len(c) for c in pcells])))
+    # audit fix: below the 20-per-side rule the balance check is not estimated (cells reported only)
+    rows.append(dict(case="balance: same contrast 2011-2013 vs 2014-2015-07 (not used)", feasible=min(len(c) for c in pcells) >= MIN_SIDE,
+                     n_cells=str([len(c) for c in pcells])))
     S = pd.DataFrame(rows)
     S["unit"] = "car spaces per home (5+ home projects, downtown dropped)"
     S["prediction"] = "negative"

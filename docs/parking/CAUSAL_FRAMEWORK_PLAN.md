@@ -332,3 +332,5 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **Backtest.**
   - The round-6 boosted-trees no-reform model (`run_parking_no_reform.py`) predicts each repeal place's comparison path. Under D1, the effect is the actual log change minus the predicted log change.
   - It is scored on held-out repeal places in the common unit, against "predict zero" and the main matched comparison.
+- **Grid implementation detail (fixed before the first count):** the actual value each version is scored against is the place's measured main effect, in all homes per 1,000 existing homes a year, because that is what the tool predicts. D1 and D2 predict 5+ unit permits only, and other building types are taken as unchanged (FU5 found the total and the apartment change nearly equal). Held-out means leave one place out.
+- **2026-11-03, run log (audit):** `run_parking_ne_n2.py` was written after the N1–N4 lock commit (52a6e15) and run once; the reported result is that first run. `run_parking_ws_grid.py` was written after the work-session lock (ffe40cf) and the grid detail line, and run once.
