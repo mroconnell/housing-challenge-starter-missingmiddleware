@@ -188,7 +188,7 @@ def _to_text(data: bytes, ctype: str, url: str) -> str:
     return html.unescape(re.sub(r"<[^>]+>", " ", t))
 
 
-UA = "Mozilla/5.0 (research; missing-middleware ADU scan)"
+UA = "missing-middleware-research/1.0 (public data)"  # honest agent; if a site refuses, cite it by URL
 
 
 def _curl(url: str, timeout: int) -> bytes | None:

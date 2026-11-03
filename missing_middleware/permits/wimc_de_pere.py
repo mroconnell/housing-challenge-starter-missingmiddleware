@@ -44,8 +44,7 @@ META = {
 BASE = "https://www.deperewi.gov"
 TOPIC_URL = META["source_url"]
 ITEM_URL = BASE + "/egov/apps/document/center.egov?view=item&id={id}"
-UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) "
-      "Chrome/124.0 Safari/537.36")
+UA = "missing-middleware-research/1.0 (public data)"  # honest agent; if a site refuses, cite it by URL
 YEARS = (2022, 2023, 2024, 2025)
 HISTORY_YEARS = (2020, 2021)  # downloaded only as prior-dwelling evidence for address checks
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
