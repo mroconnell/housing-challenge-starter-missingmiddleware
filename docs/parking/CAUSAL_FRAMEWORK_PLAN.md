@@ -560,3 +560,25 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **41, resampling.** Each county resample refits the place and year effects.
   - **41, leave-one-metro-out.** Added as a labelled extra, with CBSA assigned to each of the 76 places by place interior point in the 2024 CBSA boundary file (`data/raw/census_cbsa_cb_2024`).
   - **41, how to describe it if it passes.** "The first two years only, applied to all five", shown beside the event path (+0.02, −1.29, −2.26, −6.50). Two-year totals sit closer to 0 and are narrower partly by construction.
+
+## Test 42 (triple difference by Census size class) and the dose-coding pilot (locked 2026-11-03, before any count; owner OK)
+
+**Running count: 42.** Evidence only.
+
+- **Test 42.**
+  - **Outcome.** (5+ unit homes permitted − 1-unit homes permitted) per 1,000 existing homes a year.
+  - **Design.** The main matched difference-in-differences on that outcome: the same 76 places, `cmp.controls` pools, windows and home weights. The 1-unit class is the comparison class, consistent with FU6's near-placebo of 0.0. The 2–4 unit class is shown beside it, not used as the comparison.
+  - **Interval.** 90%, from 2,000 place resamples, seed 20261104. A metro-clustered version (CBSA by place interior point, as in test 41) is shown beside it.
+  - **Backtest.** The same contrast with "after" = years −2 to −1 and "before" = years −5 to −3 must include 0.
+  - **Reading.** If land moves between size classes, this measures a relative shift between classes, not added homes.
+  - **The 25% rule applies before it could replace any line.**
+- **Dose-coding pilot (coding only, not a test; no outcomes read).**
+  - **Sample.** 15 of the 76, drawn with seed 20261104, stratified by size tercile (homes) × `simultaneous_rewrite`. That is 6 strata of 2–3 places, allocated in proportion and rounded so the total is 15.
+  - **Per place, from the ordinance and the pre-reform code:**
+    - required spaces the day before and the day after, for a fourplex, a 20-unit and a 100-unit building on a typical apartment-zoned lot;
+    - existing exemptions, waivers and reductions;
+    - scope: citywide, areas or project types, plus the share of apartment-eligible land covered where a pre-reform zoning map exists;
+    - whether single-family rules changed, and whether they were likely binding;
+    - same-time changes to height, density or approvals;
+    - hours spent.
+  - **Output.** `reference/parking_dose_pilot.csv`.
