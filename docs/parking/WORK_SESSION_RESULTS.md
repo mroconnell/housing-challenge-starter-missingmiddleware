@@ -88,3 +88,22 @@ Error unit: permits per 1,000 existing homes a year.
 
 - **Read:** the boosted path does much worse than predicting zero on held-out places (6.86 against 5.05). Its large positive estimate is not credible as an effect. Its 97.5% interval includes 0 (not supported), and the model likely under-predicts the after window for places that built many apartments before.
 - **Result:** the matched comparison stays the better comparison path.
+
+## N3 and N4 feasibility (counts only; `scripts/fetch_parking_natural_experiments.py`)
+
+**N3, San Diego 2019 TPA: feasible under the locked rule.**
+- **Ordinance:** O-21057, passed 2019-03-19. In effect 2019-04-24 outside the Coastal Overlay Zone; inside it, pending Coastal Commission certification for at least a year.
+- **Application dates:** the permit layer has issue dates only. Application dates come from joining the City's development-approvals files (the earlier of the project and approval create dates). Every record issued in 2016–2020 matched.
+- **Line:** no 2019-dated layer exists. The nearest is the City's ParkingAmenityTPA layer 6 (based on the 2015 regional plan; edited 2022–23). TOD's San Diego case uses SANDAG 2022, which adds about 8 sq mi that were not TPA in 2019.
+- **Lots with new homes within 183 m** (inside / outside):
+  - before: 159 / 105;
+  - after: 177 / 116.
+  - Smallest cell: 61 on any line.
+- **Lots with 2+ new homes:** 24 / 18 before, 29 / 16 after. The rule covers multifamily only, and the outside side falls below 20.
+
+**N4, New York 2016 Transit Zone: not feasible.**
+- **Rule:** confirmed in ZR 25-251 and 25-252.
+- **Data:** HPD new-construction buildings within 183 m of the line.
+  - Outside: 4 before (2014–2015) and 14 after (2017–2019).
+  - Inside: 18 before.
+- Both sides fall below 20.
