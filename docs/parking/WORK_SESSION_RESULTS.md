@@ -469,3 +469,12 @@ The rule for this check was set by the learning thread for this check (it is not
 - **Effort.** About 1 hour of AI time (median 3 minutes per place). A person would likely need 30–90 minutes per place.
 - **Coding all 76.** It looks worthwhile at roughly 4–8 hours, plus clerk requests for about a quarter of places. A yes/no "repealed" flag hides a 2.25-fold spread in what was required before, and large existing exemptions.
 - **Sources were second-hand for some places:** Austin (2015 amending ordinance), Bridgeport (third-party table), Bandera (earlier read) and Beaverton (2016 table).
+- **Audit fixes to the pilot file:**
+  - **Oregon rows.** Each now has three fields:
+    - the local table during the before window (20 units: Central Point and Albany 30, Beaverton 28; 100 units: 150, 150 and 138);
+    - the day-before state cap (20);
+    - the share of apartment land already at 0 under OAR 660-012-0440, not measured on maps (Albany staff say "most" of the city).
+    Coding the "before" as the state cap is the rule for all Oregon rows, which is why Beaverton was switched to it.
+  - **Bedroom rule.** Bedroom-based schedules assume half 1-bedroom and half 2-bedroom units. This choice matters: it moves Austin's 20-unit figure between 30 and 40.
+  - **New field.** A "share where the requirement changed" field sits beside "share covered", naming the exempt areas (downtown, transit, Austin's CBD/DMU and urban core). It is not measured on maps.
+- **Waiting on Ryan:** whether to code all 76 places, and any clerk requests.
