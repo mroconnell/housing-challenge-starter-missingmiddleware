@@ -478,3 +478,21 @@ The rule for this check was set by the learning thread for this check (it is not
   - **Bedroom rule.** Bedroom-based schedules assume half 1-bedroom and half 2-bedroom units. This choice matters: it moves Austin's 20-unit figure between 30 and 40.
   - **New field.** A "share where the requirement changed" field sits beside "share covered", naming the exempt areas (downtown, transit, Austin's CBD/DMU and urban core). It is not measured on maps.
 - **Waiting on Ryan:** whether to code all 76 places, and any clerk requests.
+
+## Test 40: power and coverage simulation
+
+- **Design.** 200 simulations. Each gives 75 never-repealed places fake repeal years, matches them to comparison pools as in the main estimate, and injects extra permits sized to Wisconsin gains.
+  - The interval is 90%, from 1,000 county-cluster resamples.
+  - The shift is added per place inside every resample, so the shortcut is exact.
+  - Simulation error is about ±2 points on coverage and ±3.5 on power near 50%.
+
+| Injected Wisconsin gain, 2027–31 | Constant | Ramp | Early then fade |
+| --- | --- | --- | --- |
+| 0 (false-positive rate; nominal 10%) | 16% | 16% | 16% |
+| 5,000 homes (power) | 11% | 9% | 11% |
+| 10,000 homes | 16% | 11% | 14% |
+| 20,000 homes | 36% | 20% | 30% |
+
+- **Coverage of the true effect:** 84% (nominal 90%) in every cell.
+- **Mean 90% width:** 4.9 permits per 1,000 existing homes a year. This matches the spread of the 20,000 placebo sets (−2.28 to +2.64, width 4.9).
+- **Reading.** The main comparison cannot reliably detect even a gain the size of the current high line. A true gain of about 20,000 homes would show up as "measurable" only about a third of the time. Its intervals are also somewhat too narrow (84% coverage, 16% false positives). So "no measurable change" across the parking tests means the data cannot tell, not that the effect is zero. This supports keeping a wide two-sided range centred on 0.

@@ -1,0 +1,13 @@
+profile,wi_gain,sims,mean_truth,mean_estimate,coverage,power_right_sign,false_positive,mean_width,places,unit
+constant,0,200.0,0.0,0.054505995584376805,0.84,,0.16,4.900795546954076,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+constant,5000,200.0,0.3747175098372715,0.4292235054216482,0.84,0.105,,4.900795546954076,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+constant,10000,200.0,0.749435019674543,0.8039410152589198,0.84,0.16,,4.900795546954076,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+constant,20000,200.0,1.498870039349086,1.5533760349334629,0.84,0.355,,4.900795546954075,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+early then fade,0,200.0,0.0,0.054505995584376805,0.84,,0.16,4.900795546954076,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+early then fade,5000,200.0,0.3330693890618042,0.387575384646181,0.84,0.105,,4.900400684244399,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+early then fade,10000,200.0,0.6661387781236084,0.7206447737079853,0.845,0.14,,4.899673590739531,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+early then fade,20000,200.0,1.3322775562472169,1.386783551831594,0.84,0.3,,4.8983131637119826,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+ramp,0,200.0,0.0,0.054505995584376805,0.84,,0.16,4.900795546954076,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+ramp,5000,200.0,0.2223107161969967,0.2768167117813735,0.84,0.085,,4.900598502341032,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+ramp,10000,200.0,0.4446214323939934,0.4991274279783701,0.835,0.105,,4.900684311754335,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
+ramp,20000,200.0,0.8892428647879868,0.9437488603723636,0.835,0.195,,4.900186590837418,74.83,"permits per 1,000 existing homes a year; wi_gain = injected Wisconsin homes 2027-2031"
