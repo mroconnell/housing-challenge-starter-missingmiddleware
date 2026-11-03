@@ -1090,3 +1090,21 @@ land share, 150.0 (A0 93.5) per 100 overlay acres a year, against the overlay te
   fixes. No stored model has a placebo run, so its tier is by the rule only.
 - Wisconsin translation = mean of the 11 held-out predictions × 298.97 (not a fit to Wisconsin's own stops).
 - Milwaukee Hop beside: 2×2 cell version only. Madison beside: A and A0 only, against the overlay test.
+
+## Test T2b-PT: pre-trend check on the 2×2 behind the upper line (locked 2026-11-03, before any count)
+
+Owner OK 2026-11-03 11:32 ("sure"). Prompted by the Test P placebo (fake-year predictions 4 to 12, all above 0). Script:
+`scripts/run_tod_causal_line_age_pretrend.py`; output `reference/tod_causal_line_age_pretrend.csv`.
+
+- **Same data, stops, cells, weights and bootstrap as the T2b main run** (D-11 + Milwaukee Hop placebo, DUS fix in).
+- **Fake reform:** the before window is split in half (h = years ÷ 2 rounded down, as in Test P). The first half is
+  "before", the second half is "after". The real after window is not used. Places with a one-year before window
+  (Saint Paul) and the Hop (no yearly split) are left out; this is reported, as is the main 2×2 rerun on the same
+  places for a like-for-like comparison.
+- **Reported:** the four cells, rezoning alone, transit alone, the interaction, and the law effect near new lines
+  (rezoning alone + interaction), each with a 90% interval, per year so they compare with the real effects.
+- **Pass rule:** the fake law effect near new lines has a 90% interval that includes 0. Same rule for the interaction.
+- **If it fails:** report a trend-adjusted upper = real law effect near new lines − fake law effect (both per year,
+  same places), with its Wisconsin figure, and the leave-one-place-out range. It is shown beside the current upper
+  (13,451); the tool changes only with the owner's OK.
+- **If it passes:** the upper stands; say so in the plan and the Test P results.
