@@ -645,3 +645,120 @@ is pending the owner.**
   districts by rule.
 - Transit-alone growth (≈ +17.8, ≈ 5,300 homes) belongs in the baseline, not the law; to check that the Wisconsin
   near-stop baseline covers growth near the new BRT and Hop stops.
+
+## Results: Test 2 expansion (E1–E3, P1–P2), run 2026-11-02
+
+Run with the expansion rules above, unchanged. File: `reference/tod_causal_edge_expand.csv` (1,173 summary rows; no
+lot, block or parcel ids). Script: `scripts/run_tod_causal_edge_expand.py`. Fixes before reading results: the P2
+Seattle history parser crashed on empty history cells (fixed, rerun); census pools no longer print a "donut" row (no
+donut for blocks). No rule changed.
+
+Unit: extra new homes per 100 lot acres a year, inside minus outside the line, after minus before (census: net homes
+per 100 block acres a year, 2010→2020). 90% intervals. Wisconsin factor = 15% × 4,874.1 ÷ 100 × 5 × 1.2269 = 44.9.
+
+**Check: the original run reproduces exactly** — 11 places, 5 pass balance, pooled 88.2 (50.8 to 129.1), floor
+3,958 (2,279 to 5,791; leave one out 1,600 to 4,873).
+
+### E1: six more places
+
+| Place | Group | Edge effect (91 m) | Lots in / out | Segments | Balance (a) | Pre-trend (b) |
+| --- | --- | --- | --- | --- | --- | --- |
+| Bellevue BelRed 2009 | broad | 0.1 (0.0 to 0.2) | 119 / 115 | 12 | pass | pass |
+| Honolulu 2017 | broad | 0.4 (−0.6 to 1.3) | 296 / 703 | 23 | **fail** | pass |
+| Los Angeles TOC 2017 | broad | 2.4 (−9.5 to 12.1) | 15,784 / 14,721 | 547 | pass | pass |
+| San Diego 2021 | broad | −4.7 (−14.1 to 1.5) | 5,283 / 3,791 | 207 | pass | pass |
+| Chicago 2022 | broad | −0.2 (−1.7 to 1.3) | 31,635 / 29,958 | 702 | pass | pass |
+| Seattle Roosevelt 2012 | district | **2,073 (1,805 to 3,077)** | 72 / 317 | **4** | pass | pass |
+
+- **Broad upzonings show no edge jump:** pooled (4 passing) −0.6 (−4.1 to 2.5), leave one out −1.6 to 0.8; 46 m and
+  183 m agree. Fewer than 5 units, so the group rule fails on count.
+- **Roosevelt is extreme and fragile:** a few large projects on 8.9 inside acres; only 4 boundary segments; 46 m
+  gives 399 (0 to 2,710), polygon distance 1,355. It dominates any pool it enters.
+- Gaps: no water layer for Honolulu or San Diego; no road file for LA, Honolulu, San Diego (no downloads made).
+
+### E2: New York and Philadelphia per rezoning
+
+| City | Rezoning tables on disk | Estimable (≥ 20 lots a side) | Pass (a) | Pass (b) | Pass both | City pool (a) | City pool (b) | City pool, no filter |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| New York | 23 | 19 | 10 | 16 | 10 | 263.4 (160.0 to 382.1) | 214.4 (130.2 to 305.1) | 250.0 (147.7 to 340.8) |
+| Philadelphia | 83 (64 with inside lots) | 42 | 30 | 28 | 24 | 144.9 (24.4 to 214.9) | 148.0 (49.0 to 221.6) | 151.7 (58.5 to 192.3) |
+
+- New York at place level failed balance (inside building already higher before); per rezoning, 10 of 19 pass and
+  their pool is larger than the place-level 146. Per-rezoning estimates vary widely (New York −44 to 1,052;
+  Philadelphia −415 to 1,622; medians 147 and 9).
+- The pre-trend test (b) passes more units than (a). Many small rezonings have no before-window building on either
+  side, so their (b) interval is 0 to 0 and passes trivially: (b) is weak here.
+
+### E3: census-block version (150 m)
+
+Usable boundaries (≥ 10 blocks a side in usable segments): **14 of the 21 reforms** (plus New York 2013, no blocks).
+Not usable: Milpitas, Phoenix (14 acres), Bellevue BelRed, Seattle Mount Baker, New York 090365ZMX, 090272ZMK,
+090104ZMQ (too few blocks on one side).
+
+| Reform | Edge, net homes per 100 block acres a year | Blocks in / out | Balance 2000→10 gap | Pass (a) |
+| --- | --- | --- | --- | --- |
+| Jersey City 2010 | 2.5 (−41.0 to 40.6) | 40 / 52 | 8.0 (−142.5 to 170.3) | yes |
+| Austin station plans | 55.3 (12.3 to 98.6) | 57 / 54 | 0.5 (−6.1 to 6.8) | yes |
+| Tysons 2010 | 9.5 (−55.2 to 54.6) | 20 / 22 | 27.3 (−1.2 to 56.1) | yes |
+| Salt Lake City 2010 | 3.7 (−34.6 to 52.3) | 28 / 29 | −5.0 (−34.3 to 14.6) | yes |
+| Saint Paul 2011 | −4.7 (−23.9 to 11.8) | 41 / 132 | 10.3 (−4.6 to 29.3) | yes |
+| Seattle Othello 2012 | 126.5 (−18.7 to 253.3) | 13 / 65 | −39.6 (−118.2 to 31.5) | yes |
+| LA Warner Center 2013 | −37.5 (−68.9 to −6.5) | 31 / 51 | −7.6 (−71.5 to 55.6) | yes |
+| LA Cornfield Arroyo Seco 2013 | −4.3 (−32.4 to 33.9) | 43 / 109 | 17.8 (−7.1 to 50.6) | yes |
+| Chicago 2013–2015 | 8.9 (−11.4 to 31.6) | 222 / 1,618 | 11.2 (−39.1 to 58.9) | yes |
+| Philadelphia 2012 | 18.7 (10.5 to 27.4) | 482 / 3,049 | 22.0 (3.8 to 39.6) | **no** |
+| New York 080099AZMM | 5.0 (−85.5 to 128.1) | 14 / 76 | −17.2 (−108.6 to 63.0) | yes |
+| New York 090303ZMX | 50.7 (−8.9 to 114.9) | 22 / 70 | −9.5 (−112.2 to 87.5) | yes |
+| New York 100407ZMX | 104.4 (40.2 to 186.0) | 35 / 158 | 10.7 (−59.7 to 90.5) | yes |
+| Seattle Roosevelt 2012 | 275.7 (138.9 to 538.2) | 19 / 45 | −12.0 (−62.5 to 19.9) | yes |
+
+- **Pooled (13 passing, each reform one unit): 45.8 (24.5 to 70.9)**, leave one out 26.6 to 52.7; 100 m 34.0,
+  300 m 45.8 (both inside): group rule **PASS**. New York pooled first: 44.4 (21.9 to 69.5). No filter: 43.9.
+- In lot-acre terms (÷ 0.75) about 61 — below the lot-based district pools, and net of demolitions.
+- Few segments in several reforms (4–9), so single-reform intervals are rough. Pre-trend (b) cannot be run on census
+  counts.
+
+### Pooled groups and Wisconsin floors
+
+Floor = extra homes 2027–2031, direct effect only (90% interval; leave one unit out). No pool's bunching check is
+flagged, so every floor uses the main estimate. Rule = ≥ 5 units and 46 m / 183 m pooled inside the main interval.
+
+| Pool | Filter (a) level balance | Filter (b) pre-trend | No filter |
+| --- | --- | --- | --- |
+| (a) original places | 88.2 → **3,958** (2,279 to 5,791; LOO 1,600 to 4,873); 5 places; rule PASS | 86.7 → 3,889 (1,989 to 5,753; LOO 2,833 to 4,288); 10; PASS | 80.2 → 3,595 (1,909 to 5,302; LOO 2,616 to 3,925); 11; PASS |
+| (b) district-type, NY/PHL city pools | 405.2 → 18,174 (15,611 to 24,841; LOO 5,706 to 21,154); 7; **FAIL** | 279.1 → 12,519 (10,320 to 17,081; LOO 4,472 to 13,741); 11; FAIL | 260.4 → 11,678 (9,561 to 15,820; LOO 4,286 to 12,712); 12; FAIL |
+| (b2) district-type, rezonings separate | 209.1 → 9,378 (5,780 to 11,927; LOO 7,478 to 10,014); 45; PASS | 194.0 → 8,701 (6,053 to 11,034; LOO 7,080 to 9,226); 53; PASS | 195.0 → 8,746 (6,005 to 10,432; LOO 7,542 to 9,136); 71; PASS |
+| (c) everything passing (census ÷ 0.75) | 158.4 → 7,107 (6,088 to 9,491; LOO 3,017 to 7,552); 22; FAIL | 191.8 → 8,601 (7,092 to 11,742; LOO 2,976 to 9,188); 16 (no census); FAIL | 131.0 → 5,876 (4,862 to 7,714; LOO 2,765 to 6,166); 29; FAIL |
+| (c2) everything passing, lot-based only | 257.7 → 11,556 (9,927 to 15,798; LOO 3,413 to 12,732); 11; FAIL | same as (c) | 183.7 → 8,238 (6,720 to 11,168; LOO 2,941 to 8,766); 17; FAIL |
+
+- **Every pool containing Seattle Roosevelt fails the bandwidth rule**, and its leave-one-out low is the pool without
+  Roosevelt (e.g. (b) under (a): 127.2 per 100 acres → 5,706). Roosevelt rests on 4 segments; the pooled interval
+  (mean of unit draws) is skewed by its draws and can sit off-centre. Read the (b) and (c) figures as unstable.
+- (b2) passes because 40+ rezonings dilute Roosevelt; it weights New York and Philadelphia by their number of
+  rezonings, not once each.
+- Broad upzonings pull (c) down; the census set (~61 in lot terms) sits between broad (≈ 0) and district (100–250).
+
+### Placebos
+
+| Place | P1: fake district on comparison stops | P2: unchanged zoning line |
+| --- | --- | --- |
+| New York | −1.0 (−3.9 to 2.1) | not possible (no zoning layer) |
+| Philadelphia | 2.3 (−4.5 to 10.2) | not possible (2012 code change) |
+| Austin 2009 | too few lots | not possible |
+| Charlotte 2019 | 3.8 (−14.9 to 20.4) | −16.5 (−35.4 to −0.4); fails balance (a) and (b) |
+| Chicago 2015 | 6.9 (−13.4 to 36.8) | not possible (suburban comparison stops) |
+| Denver 2018 | −61.6 (−138.7 to 11.1) | not possible |
+| Portland 2020 | 0.0 (34 / 107 lots; degenerate) | no usable line (the two tiers sit > 1 km apart in comparison lots); not pooled anyway |
+| Seattle Mount Baker 2014 | 92.4 (−21.5 to 203.5); fails (b) | too few lots (most lines changed in 2008–2019) |
+| Seattle Othello 2012 | −13.5 (−212.0 to 192.8) | 4.4 (−13.2 to 27.4) |
+| Salt Lake City 2010 | 14.2 (−16.6 to 59.5); fails (a) | not possible |
+| Saint Paul 2011 | 0.0 (4 segments; degenerate) | −2.8 (−9.1 to 7.4) |
+
+- **P1 pooled: 3.3 (−23.8 to 31.1) under (a), 9 places; −6.1 (−32.5 to 21.9) under (b); 4.3 (−19.7 to 29.6) with
+  no filter. PASS** (includes 0) under all three.
+- **P2 pooled (Portland left out): 0.8 (−8.8 to 14.3) under (a), 2 places; 4.4 under (b), 1 place; −4.9 (−13.5 to
+  6.0) with no filter, 3 places. PASS**, but only 1–3 places.
+- No placebo shows a sizeable gap, so no net-of-placebo correction is needed. The CSV still lists "edge effect minus
+  placebo" for every floor: (a) original 3,812 (minus P1) and 3,921 (minus P2) vs 3,958.
+- The P1 interval half-width (≈ 27) is a third of the original pooled effect (88), so the test could see a gap of
+  that size, but not a small one.
