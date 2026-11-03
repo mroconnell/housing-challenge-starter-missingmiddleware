@@ -1,0 +1,2 @@
+places,left_out,us_median_home_value,trait_median,trait_p10,trait_p90,share_zero_excess,heldout_error_plain,heldout_error_trait,passes,full_sample_intercept,full_sample_slope,unit
+52,24,332700.0,0.04244933378963322,0.015616918957148045,0.10356607043601794,0.0,5.812941021169721,6.214284592044905,False,-0.5220735282342843,-14.215822945093153,"error in permits per 1,000 existing homes a year; trait is a share of home value"
