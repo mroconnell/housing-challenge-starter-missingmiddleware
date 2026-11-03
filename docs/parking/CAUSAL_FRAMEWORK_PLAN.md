@@ -438,3 +438,8 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Timing (stated plainly):** this rule was written into the plan file before the run but committed together with the result. It is post hoc in any case, because the B/C/D result (−6.24) had been seen.
   - **Pedestrian Streets (learning thread):** B/C/D lots on Pedestrian Streets 402–805 m from a station were treated in 2015 and sit in the comparison band. No 2015 Pedestrian Streets layer is on disk, so this is "not fixable" for now. Every Chicago B/C/D result carries that contamination, which pushes toward zero.
   - **Use:** Chicago stays a lot-level side result. It is not in the 76 and does not feed a tool line without Ryan's OK.
+- **2026-11-03, test 35 closed: not feasible as a parking test** (agreed with the learning thread).
+  - Culver City's border lies mostly inside LA's AB 2097 zones (21% usable) and has 2 lots with new homes inside the line after the repeal.
+  - San Jose's lots are mostly ADUs, whose parking state law already caps; it has 14 / 13 non-ADU lots inside before / after.
+  - No descriptive San Jose run.
+  - Recheck Sacramento and Mountain View when 2027 permits exist.
