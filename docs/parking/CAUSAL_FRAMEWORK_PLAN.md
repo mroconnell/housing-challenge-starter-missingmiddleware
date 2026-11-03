@@ -192,3 +192,18 @@ Ryan's OK. Stage 2 (carrying results to Wisconsin) stays unlocked until Stage 1 
 - **FU4, double machine learning (optional).** Effect of repeal on the place-level change in permits per 1,000 homes, partialling out the before-window 5+ share, job growth, census region and before-window growth. Cross-fitted, 5 folds by place, seed 20261103, random-forest nuisance models (scikit-learn). Repeal places against all comparison-pool places, each at its own window. Run only after FU1–FU3.
 - **2026-11-03, FU4 timing:** FU4 has no dependency on FU3, so it runs while FU3 runs (owner: "run concurrently when you can"); its rules are unchanged.
 - **2026-11-03, FU audit fixes:** FU2 adds Nashville (in the permit files as "Nashville-Davidson"; it was on the locked list but missed by the name match). FU4 inputs differ from the locked wording, logged here: census division is used for "region" (finer), and the before-window trend and event year were added to "prior growth"; 6 repeal places lack a control and are left out (named in the results).
+- **FU5, apartment-only outcome (owner OK 2026-11-03 02:29; post hoc; locked before counting).**
+  - The main city difference-in-differences (same 76 places, comparison places and windows) with the outcome narrowed to homes permitted in 5+ unit buildings (BPS `5plus_units`).
+  - Two denominators:
+    - (a) existing homes in 5+ unit buildings (ACS 2024 5-year B25024, units in structure 5–9, 10–19, 20–49, 50+);
+    - (b) all existing homes, the main denominator.
+  - Home-weighted and equal-weight averages, each with a 90% interval from 2,000 resamples of places. Shown beside the total-homes headline, which stays the headline because narrowing can hide substitution between building types.
+- **FU6, single-family near-placebo.**
+  - The same comparison with homes permitted in 1-unit buildings (BPS `1unit_units`) per 1,000 existing homes as the outcome.
+  - Called a near-placebo, because single-family homes can have minimums too.
+  - A clearly non-zero result (90% interval excluding 0) is read as a sign that the method picks up market swings.
+- **FU7, lot-size bands on the lot table** (San Francisco, Buffalo, Chicago, Seattle; `scripts/run_parking_lot_cities.py` data and outcome, net new homes per 1,000 lots a year, pinched minus comparison change).
+  - Per city, Jenks natural breaks with k = 3 on log lot acres over all of the city's lots in the test, giving small, middle and large bands. The breaks are computed by an exact Fisher–Jenks fit on 1,000 quantile points (standard library and numpy only).
+  - Each band's effect has a 90% interval from 2,000 resamples of 500 m grid cells, the existing test's clustering.
+  - Pooled bands: band k = the equal-weight mean across cities of each city's band k, with leave-one-city-out results.
+  - The October 0.1-acre split is shown beside it for reference.
