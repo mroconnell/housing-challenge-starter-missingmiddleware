@@ -242,3 +242,55 @@ Agreed between the parking and learning threads in two rounds (learning draft v0
 
 **Run order:** (0) this lock; (1) trait test; (2) item 2 recount and side figures; (3) wording; (4) Ryan reviews before any tool change.
 - **2026-11-03, Stage 2 run log (audit):** the lock was committed at 02:48:10 UTC. `run_parking_stage2_trait.py` and `run_parking_stage2_near.py` were written after that commit and run once each, in the minutes that followed; the outputs reported are those first runs. No evidence place had an old minimum below 0.6, so the 0.6 floor never set excess to 0. Owner OK for the tool change: "okay" (02:50), covering the new lines −15,234 / 0 / +19,818 and the wording.
+
+## Natural experiments N1–N4 (locked 2026-11-03, before any count; agreed with the learning thread, owner: "run the three two steps")
+
+**Running count of parking tests.** 23 in this framework since 2026-11-03: H1, H2, E1, F1, F1b, F1c, E2, the E2 2×2, T, M1–M4, R, FU1–FU7, the Stage 2 trait test, and the station-area description. Adding N1–N4 makes 27. Earlier rounds (the comparison, placebo and lot tests) came before these and are not in the count.
+
+**Shared rules**
+- Each test reports its 90% interval and the minimum detectable effect (MDE).
+- "Supported" requires all three:
+  - the 97.5% interval excludes 0 (Bonferroni: 10% across these four tests);
+  - balance passes (the before-window gap's 90% interval includes 0);
+  - the sign matches the prediction written here.
+- Seed 20261104; 2,000 resamples unless stated.
+- Feasibility: at least 20 projects, lots or places on each side of each comparison. Below that the result is "not feasible" and no estimate is reported.
+- Nothing in the tool changes without Ryan's OK.
+
+**N1. Oregon's state rule (CFEC, OAR 660-012), intent-to-treat**
+- **Treated:** every city in the 8 covered metro areas (Portland metro, Salem-Keizer, Eugene-Springfield, Albany, Bend, Corvallis, Grants Pass, Medford-Ashland), whatever it chose. The list is verified against OAR 660-012 before counting. Portland is dropped, because it repealed in 2021–22 before CFEC.
+- **Event:** 2023 (parking rules effective 2023-01-01).
+- **Outcome:** permits per 1,000 existing homes a year, the main difference-in-differences. Before window 2018–2022, after 2023–2025.
+- **Main comparison:** Washington places matched at ½–2× population (`cmp.controls` logic restricted to Washington). Any Washington place with its own parking repeal or cut in the windows (taxonomy rm_min or reduce_min with a 2018–2025 date, e.g. Spokane 2024) is dropped.
+- **Second comparison:** Idaho, same rule. Uncovered Oregon cities are a descriptive third comparison.
+- **Prediction:** more homes (effect > 0).
+- **Reading rule:**
+  - N1 re-uses the covered cities that are also among the 76, so it is not a second vote.
+  - For those cities, N1's estimate is set beside their 76-place estimate. If the two are close (difference inside N1's 90% interval), city self-selection is not driving the 76-place result. If N1 is clearly higher, self-selection was biasing the 76 toward zero.
+
+**N2. Minneapolis step 2, first stage only**
+- **Data:** the approvals sheet and the 2015-zone tags (F1b).
+- **Groups:** newly treated in 2021 = outside the 2015 covered areas (University Area included); already treated = inside.
+- **Estimand:** (outside 2021-05-14 to 2025 minus outside 2016-01-01 to 2021-05-13) minus (the same for inside), in car spaces per home, 5+ home projects, downtown dropped.
+- **Prediction:** negative (fewer spaces where minimums newly lifted).
+- **Interval:** 2,000 resamples of projects within the 4 cells.
+- **Balance:** the same contrast for 2011–2013 vs 2014–2015, before either reform. This is coarse.
+- **Homes outcome:** not tested. Shown only as descriptive, labelled "confounded by the 2040 plan" (built form districts effective 2021-01-01).
+
+**N3. San Diego 2019 transit priority areas (TPA), feasibility first**
+- **Line:** the same TPA line as AB 2097 and TOD's San Diego case, at an earlier date.
+- **Dates:** application date if the permit layer has one; otherwise issue date, flagged.
+- **Windows:** before 2016-01-01 to the 2019 effective date; after, from the effective date to 2020-11-30 (before Complete Communities).
+- **Method:** TOD T3 edge test at the TPA line: 91 m band (46 and 183 m), 25 m donut, balance, bunching. Outcome is homes per 100 lot acres a year.
+- **Prediction:** positive.
+- **Feasibility:** 20+ lots with new homes on each side within 183 m.
+
+**N4. New York 2016 Transit Zone (ZQA), feasibility first**
+- **Rule:** to verify in ZR 25-25 and Appendix I. No parking for new income-restricted affordable and affordable senior homes inside the Transit Zone, effective 2016-03-22.
+- **Outcome:** HPD "Affordable Housing Production by Building" homes by start date, inside vs outside the Transit Zone line, within 183 m.
+- **Windows:** before 2014–2015 (short; stated), after 2017–2019.
+- **Prediction:** positive.
+- **Downtown Brooklyn's 2013 text amendment** is noted but not a separate test.
+- **Philadelphia:** not clean (its remapping bills change parking and density together).
+
+**Run order:** N2, N1, then N3 and N4 feasibility.
