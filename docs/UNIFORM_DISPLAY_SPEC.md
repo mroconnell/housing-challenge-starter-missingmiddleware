@@ -10,7 +10,7 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
 
 1. **One method for the range.** The range is a place bootstrap of the reform effect only: places resampled with
    replacement, and the effect recomputed on each draw. Where the effect comes from a model fitted across states, it
-   is that model's held-out prediction error instead (ADU's A3). Either way it is 90%, the 5th to 95th percentile.
+   is that model's held-out prediction error instead (ADU's A3). Where fake-reform estimates were run, it may instead be their spread around the measured effect (parking). Each is 90%, the 5th to 95th percentile.
    A state bootstrap for ADU would need the owner's OK.
 2. **The centre is that same method's point estimate.** Otherwise the range and the centre answer different
    questions (see open question 1, for parking).
@@ -18,7 +18,8 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
    ("current law plus the reform") is shown, and then once, by simulation: a paired draw of each, never a sum of ends.
 4. **Two-sided, with no zero floors.** A range may cross 0, and the low end is shown as measured.
 5. **Coverage check.** Where a scenario's own test shows its 90% range covers the truth less than 90% of the time,
-   the range is widened by the measured factor; otherwise it is shown as is. Parking: its band comes from placebo
+   the range is widened by the measured factor; otherwise it is shown as is. A range taken from fake-reform estimates
+   already carries the true spread and is not widened. Parking: its band comes from placebo
    percentiles, which already matched test 40, so no widening and no coverage note (audit). ADU: 7 of 7 states inside,
    factor 1. TOD: test below, locked before it runs.
    One method line per reform, under its range. Reforms are not compared by range width, because the methods differ.
@@ -32,14 +33,14 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
 | --- | ---: | --- | --- | --- |
 | ADU (ADU permits: second homes on single-family lots, not all homes) | 10,492 | 8,000 to 13,700 (exact 8,055 to 13,666, rounded outward; A3, owner's OK pending); label beside it: "Covers law-side error only. It leaves out Wisconsin-side inputs: today's rates where they are assumed (74% of the addition is in such places; the codings tested move the central from 9,319 to 10,734), and how the with-law level is spread across places." | A3 held-out prediction error (model fitted across states) | checked on 7 states, 7 of 7 inside; too few states to measure a factor, so factor 1 (largest miss Washington +0.19 against ±0.25) |
 | TOD | 10,028 | 4,866 to 15,361 (not 7,580 to 12,010: that is the lowest and highest with one place left out, not a 90% range) | place bootstrap of the 11 district places, 2,000 draws (`reference/tod_line_draws.csv`) | test below |
-| Parking | 0 (open question 1) | −45,900 to +19,800 | around the measured average of the 76 repeal places; placebo percentiles (unwidened) | matched test 40; no widening |
+| Parking | 0 (open question 1) | −45,900 to +19,800 | placebo spread around the measured average of the 76 repeal places, unwidened | matched test 40; no widening |
 
 ## Reasons-to-believe side lines
 
 | Reform | Side lines (label: number) |
 | --- | --- |
 | TOD | Edge test, rezoned lots' own gain (5 places): 3,958. Average scaled to a 15% district (11 places): 12,521. Rezoning near new transit lines, 2×2 (9 places): 13,451. Same minus the growth already under way before the reforms: 5,624. |
-| Parking | Inside the band, not a dashed line: a marker "measured average, 76 repeal places: −15,234", with the note "0 is used because the data cannot tell the effect from no change." Side lines: median repeal place: −1,557. Oregon state mandate: about +16,800. Count model (negative binomial), all homes: +204. High ends from the improvement rounds: about 27,700 to 49,700. Not shown: San Diego, Chicago, and the count models that fail the pre-trend check. |
+| Parking | Inside the band, not a dashed line: a marker "measured average, 76 repeal places: −15,234", with the note "0 is used because the data cannot tell the effect from no change." Side lines: median repeal place: −1,557. Oregon state mandate: about +16,800. Not shown: San Diego, Chicago, and the count models that fail the pre-trend check (including the negative binomial, all homes, +204; tests 38–39). On How sure only: the high ends from the improvement rounds, about 27,700 to 49,700. |
 | ADU | Like Rhode Island and Oregon, the 2 slowest statewide-law states: 6,321 ADU permits. Median path of the 8 statewide-law states: 10,038. High end, near California (only California is higher): 19,784. The what-ifs 791 and 2,255 stay on How sure, off the chart. Sensitivity line (one): bias-corrected range 7,516 to 13,317. |
 
 The current lower and upper lines retire as scenario lines:
