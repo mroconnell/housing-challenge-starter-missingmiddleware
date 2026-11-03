@@ -273,7 +273,8 @@ def reveal():
                          p05=np.exp(h["lo"]), p95=np.exp(h["hi"]), p0125=np.exp(h["p0125"]), p9875=np.exp(h["p9875"]),
                          wi_center=(np.exp(h["b"]) - 1) * base if np.isfinite(base) else np.nan,
                          wi_p05=(np.exp(h["lo"]) - 1) * base if np.isfinite(base) else np.nan,
-                         wi_p95=(np.exp(h["hi"]) - 1) * base if np.isfinite(base) else np.nan, wi_width_90=r.wi_width_90))
+                         wi_p95=(np.exp(h["hi"]) - 1) * base if np.isfinite(base) else np.nan, wi_width_90=r.wi_width_90,
+                         log_width_90=h["hi"] - h["lo"]))
     R = pd.DataFrame(rows)
     R.to_csv(REFERENCE / "parking_t3839_results.csv", index=False)
     pd.set_option("display.width", 250)

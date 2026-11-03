@@ -347,3 +347,36 @@ The rule for this check was set by the learning thread for this check (it is not
 - **Files:**
   - `scripts/fetch_parking_la_ab2097_map.py`
   - `reference/parking_la_ab2097_map_counts.csv` (proxy area counts only)
+
+## Tests 38/39: count models (negative binomial / Poisson), blind selection
+
+- **Design.**
+  - Panel: place-years, 2012–2025.
+  - Units: the 76 repeal places within their before/after windows, plus the union of their matched pools.
+  - Fixed effects: place (concentrated out) and year.
+  - Offset: log existing homes. This is one ACS value per place, so the place effects absorb it.
+- **Intervals.** 90% intervals from a 2,000-draw place bootstrap, with treated and pool places resampled separately. Checks use place-clustered SEs, because there are no stacks.
+- **Places with all-zero counts dropped:**
+  - 5+ series: 1,355 places;
+  - all homes: 38;
+  - 2–4 buildings: 1,205.
+- **Usable repeal places:** 58 for the 5+ series, 74 for all homes.
+- **Wisconsin conversion bases.** 46,905 (5+ homes) and 116,600 (all homes) are the sums of `five_year_central` in `reference/housing_baseline_by_area.csv`, by structure type, over areas with `eligible_homes > 0` in `reference/parking_model_by_area.csv`. They are computed in the shell, as in the grid. The 5+ candidates convert on 46,905 and hold other homes fixed, so they are narrower partly by assumption. The all-homes candidate is the like-for-like one.
+- **Blind phase (choice committed before any centre was printed): no candidate passes.** Every candidate fails the pre-trend rule (all four leads must include 1). The Poisson 5+ candidate passes the width bar but also fails the T1 placebo. Calibration was not reached. **The lines stand.**
+
+| Version | Rate ratio (90%) | Wisconsin homes 2027–31 (90%) | Width, homes | Width, log | Role |
+| --- | --- | --- | --- | --- | --- |
+| NB, 5+ homes | 0.90 (0.59 to 1.45) | −4,866 (−19,451 to +20,963) | 40,415 | 0.91 | candidate |
+| Poisson, 5+ homes | 0.86 (0.69 to 1.17) | −6,661 (−14,724 to +8,090) | 22,814 | 0.54 | candidate |
+| NB, all homes | 1.00 (0.82 to 1.23) | +204 (−20,800 to +27,166) | 47,967 | 0.41 | candidate |
+| Poisson, all homes | 0.86 (0.71 to 1.12) | −16,584 (−34,014 to +13,588) | 47,602 | 0.46 | beside |
+| NB, new 5+ unit buildings | 0.82 (0.62 to 1.08) | — | — | 0.55 | beside, never the lines |
+| NB, new 2–4 unit buildings | 1.43 (0.98 to 2.03) | — | — | 0.73 | beside, never the lines |
+
+- **Reading:**
+  - None of the count models moves past the current lines.
+  - The like-for-like all-homes negative binomial is centred near zero (+204), wider than the current range.
+  - Buildings: 5+ buildings lean down and 2–4 unit buildings lean up (rate ratio 1.43, 90% interval just including 1), consistent with fewer, bigger apartment buildings and possibly more small multifamily.
+- **The comparison bar.** The current range (−15,234 to +19,818, width 35,052) runs from the real average to the placebo 95th percentile. It is not a 90% interval.
+- **Homes width vs log width.** Homes width shrinks as the rate ratio falls, so "narrowest" tilts toward a more negative centre. The log width is shown beside it for that reason.
+- **The pre-trend rule is strict.** It needs all four leads to include 1, so even a clean version would fail by chance about 1 time in 4. That is the rule as locked.
