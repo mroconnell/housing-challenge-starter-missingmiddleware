@@ -10,6 +10,7 @@ All intervals are 90%. MDE = minimum detectable effect (1.645 × standard error)
 | F1 | Less parking per new home after reform? (Minneapolis, 5+ home projects outside downtown) | 0.98 before 2015 → 0.74 in 2015–21: −0.24 (−0.34 to −0.14). Against downtown (no minimum either side): −0.17 (−0.40 to +0.04) | car spaces per home | **Suggestive, single source.** The drop is clear, but downtown fell too, so the reform's share is not separated from market drift |
 | H1 | Bigger 5+ unit buildings? | +17.0 (+4.9 to +28.4), +37% | homes per new 5+ unit building | Supported (Austin carries 30% of the weight) |
 | H2 | More buildings? | 2–4 unit: −0.03 (−0.07 to +0.02); 5+ unit: −0.06 (−0.10 to −0.02), −35% | new buildings per 1,000 existing homes a year | Fewer, bigger 5+ buildings; read with H1 |
+| F1c | Seattle, inside reform areas vs the rest of the city | 2012: −0.27 (−0.46 to −0.08); 2018: +0.05 (−0.12 to +0.21) | car spaces per home | Binding in 2012; no extra drop in 2018 |
 | E1 | AB 2097 line, 2–4 home projects (no earlier relief) | −0.023 (−0.070 to +0.018); MDE 0.044 | homes permitted per 1,000 existing homes a year | No measurable change; pre-trend balanced |
 | E2 | Repeal alone minus repeal inside a rewrite | −0.14 (−4.43 to +4.00) | permits per 1,000 existing homes a year | No difference; 2×2 incomplete |
 | T | Effect with rail minus without (11 vs 64 places) | −4.67 (−8.51 to −0.42) | permits per 1,000 existing homes a year | Smaller effect in rail cities |
@@ -43,6 +44,16 @@ Only 1 of 4 moderators came out material (M4, rail). With four tested, one false
   - Downtown, with no minimum either side, also fell (0.92 → 0.51, only 9 projects after 2021). Some of the drop may be market drift.
   - The sheet is one person's "ballpark" compilation of approvals, not permits.
 - Bunching (descriptive, not H3): 12% of projects sat at exactly 1.0 per home before 2015; 7–10% after.
+
+**F1c Seattle (second city; SDCI land-use permits, 1,736 projects of 5+ homes).**
+- Parser hand-check: 46 of 50 random rows right, which passes the 45 rule. The 4 misses: a light-rail station whose demolished homes were read as new homes; one project with garage plus surface parking where only the garage was read; one project where only one of two home types was read; and one 5-home project whose 4 garage spaces were read without its 1 surface stall.
+- 2012 reform, inside urban centers and villages minus the rest of the city: −0.27 car spaces per home (−0.46 to −0.08). **Binding.** Inside went 0.98 → 0.59 spaces per home; outside went 0.94 → 0.82.
+- 2018 reform: +0.05 (−0.12 to +0.21). No extra drop beyond 2012.
+- Caveats:
+  - Descriptions give the whole project's parking, including shops and hotels.
+  - Inside spaces per home were already 0.6–0.7 in 2009–2011, so part of the drop may come before the 2012 reform. The before window starts in 2006.
+  - Dates are approximate council dates.
+- Read with Minneapolis: two cold-climate cities both show fewer spaces per home after a reform, by about a quarter of a space per home, and neither falls toward zero.
 
 **E1.**
 - E1 uses the same jurisdictions and zones as the earlier AB 2097 test (`docs/tod/AB2097_TEST_RESULTS.md`), so it is a re-check of that test by size class, not a second vote.
