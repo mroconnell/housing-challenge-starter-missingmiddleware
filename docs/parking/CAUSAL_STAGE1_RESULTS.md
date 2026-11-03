@@ -111,6 +111,23 @@ Dropping one place at a time keeps the estimate between −5.62 (without San Jos
 
 Read: rail does not reliably change the effect. "Invest in both" is neither supported nor ruled out.
 
+## Parking × rezoning at the station-area scale (*post hoc*, descriptive)
+
+- **Question:** whether rezoned station areas grew more where parking minimums were removed at the same time.
+- **Data and unit:** TOD's station-area effects within ¼ mile, in extra homes per 100 lot acres a year (`reference/tod_causal_line_age.csv`).
+- **Parking coding:** TOD's place list.
+  - "Removed": Charlotte, Denver, Portland.
+  - "Not removed" (kept or only cut): New York, Philadelphia, Chicago, Austin, St. Paul, Salt Lake City.
+  - Seattle's coding is unknown, so it is left out.
+- **This is post hoc:** the station-area effects were seen before the grouping was made.
+- **Result:**
+  - Removed: mean +37.0.
+  - Not removed: mean +26.8.
+  - Difference: +10.2, with a 90% range of −45 to +68.
+- **One city decides the sign.** Without Denver the difference is −29; without Portland it is +45.
+- **Earlier TOD trait test** (`docs/tod/TRAITS_RESULTS.md`, trait 12): units in cities that cut parking had smaller effects. That was a weak pass, and it did not survive dropping St. Paul.
+- **Read:** at the station-area scale too, the data cannot tell whether removing parking minimums changes what a rezoning does.
+
 ## Added mid-sized and large cities (`reference/parking_repeal_checks_v2.csv`)
 
 - Checked: 35 PRN cities with 25,000+ people, rated at or near a full repeal, that had not been checked before.

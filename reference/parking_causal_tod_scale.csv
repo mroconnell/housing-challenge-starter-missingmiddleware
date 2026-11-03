@@ -1,0 +1,20 @@
+item,value,p05,p95,places_removed,places_not,unit
+removed minus not removed (equal-weight),10.212549999999997,-45.30688,67.60456083333331,3.0,6.0,extra homes per 100 lot acres a year within 1/4 mile
+without Austin,9.623406666666664,,,,,extra homes per 100 lot acres a year within 1/4 mile
+without Charlotte,14.535333333333337,,,,,extra homes per 100 lot acres a year within 1/4 mile
+without Chicago 2015,6.195346666666666,,,,,extra homes per 100 lot acres a year within 1/4 mile
+without Denver,-28.992266666666666,,,,,extra homes per 100 lot acres a year within 1/4 mile
+without New York,8.768866666666668,,,,,extra homes per 100 lot acres a year within 1/4 mile
+without Philadelphia,14.352266666666665,,,,,extra homes per 100 lot acres a year within 1/4 mile
+without Portland 2020,45.09458333333333,,,,,extra homes per 100 lot acres a year within 1/4 mile
+without Saint Paul,7.85690666666666,,,,,extra homes per 100 lot acres a year within 1/4 mile
+without Salt Lake City,14.47850666666666,,,,,extra homes per 100 lot acres a year within 1/4 mile
+place: Austin (partial),23.8478,,,,,extra homes per 100 lot acres a year within 1/4 mile
+place: Charlotte (yes),28.3605,,,,,extra homes per 100 lot acres a year within 1/4 mile
+place: Chicago 2015 (partial),6.7075,,,,,extra homes per 100 lot acres a year within 1/4 mile
+place: Denver (yes),115.4157,,,,,extra homes per 100 lot acres a year within 1/4 mile
+place: New York (no),19.5751,,,,,extra homes per 100 lot acres a year within 1/4 mile
+place: Philadelphia (partial),47.4921,,,,,extra homes per 100 lot acres a year within 1/4 mile
+place: Portland 2020 (yes),-32.758,,,,,extra homes per 100 lot acres a year within 1/4 mile
+place: Saint Paul (partial),15.0153,,,,,extra homes per 100 lot acres a year within 1/4 mile
+place: Salt Lake City (partial),48.1233,,,,,extra homes per 100 lot acres a year within 1/4 mile
