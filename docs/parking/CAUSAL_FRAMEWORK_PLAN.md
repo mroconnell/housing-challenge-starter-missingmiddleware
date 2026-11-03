@@ -356,3 +356,14 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Fit settings:** seeds 20261104 to 20261108, averaged; the repeal places are never in training.
   - **Each repeal place's D1 effect** = its actual target minus its prediction.
   - **Scoring:** leave one place out in the common unit, against "predict zero" and against the matched D1 version, on the same places.
+- **2026-11-03, N3 lock additions (agreed with the learning thread and the audit, before the N3 count):**
+  - **Already seen.** Feasibility counts by line were seen before these choices. Counts of lots with new homes rose about 11% inside and 10% outside, a rough first look at the outcome. Stated plainly.
+  - **Line.** The main line is the City's ParkingAmenityTPA layer 6 (based on the 2015 regional plan, in force in 2019; edited in 2022–23). TOD's SANDAG 2022 line is a labelled sensitivity.
+  - **Coastal Zone.** The Coastal Overlay Zone and boundary segments along it are dropped, because the rule there awaited Coastal Commission certification. The certification date is logged with the result. If it fell before 2020-11-30, coastal lots were treated for part of the window, and the doc says so.
+  - **Outcome.** Homes per 100 lot acres a year, all homes, as locked. Projects with 2+ homes are below 20 on the outside (18 before, 16 after), so for them counts only are shown, with no estimate.
+  - **Dates.** Application date (the earlier of the project and approval create dates, joined from the City's approvals files) is a change from the locked fallback, logged here. Issue date is a sensitivity.
+  - **Density bonus.** Since 2016 the state density bonus (AB 744) has cut parking near major transit for bonus projects on a line close to the TPA edge, weakening the 2019 contrast. If the approvals files flag density bonus use, a "no density bonus" sensitivity is run.
+  - **Parcels.** Lot acres come from the public San Diego parcel files already on disk (`data/raw/tod_radius_programs/san_diego/`); their licence is logged. No OpenStreetMap, no shapely or GEOS beyond `missing_middleware/geom.py`.
+  - **Checks.** Balance (before-window gap), 25 m donut, 46 / 91 / 183 m bands and bunching, as TOD T3. If balance fails, the result is reported as "fails balance" and not pooled. The MDE is reported beside the result.
+  - **After window.** About 19 months (2019-04-24 to 2020-11-30), including early COVID.
+  - **Prediction:** positive.
