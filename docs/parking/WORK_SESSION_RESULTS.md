@@ -376,7 +376,10 @@ The rule for this check was set by the learning thread for this check (it is not
 - **Reading:**
   - None of the count models moves past the current lines.
   - The like-for-like all-homes negative binomial is centred near zero (+204), wider than the current range.
-  - Buildings: 5+ buildings lean down and 2–4 unit buildings lean up (rate ratio 1.43, 90% interval just including 1), consistent with fewer, bigger apartment buildings and possibly more small multifamily.
+  - Buildings: 5+ buildings lean down and 2–4 unit buildings lean up. Both intervals include 1, and neither was checked for pre-trends, so this is a lean, not a finding.
+  - **Model choice moves the all-homes centre a lot:** negative binomial gives +204, Poisson −16,584. Poisson gives big places more pull, like the home-weighted main estimate, so the sign depends on how much weight big cities get.
+  - **The 5+ negative binomial's α landed at the top of the grid** (3.0; the grid ran 0.05–3.0, though the first lock said 0.05–5). The best α may be higher, so that width is uncertain. It fails the pre-trend check anyway.
+  - **Coverage of the 5+ series:** 18 of the 76 repeal places drop for all-zero counts, so those results cover 58 places.
 - **The comparison bar.** The current range (−15,234 to +19,818, width 35,052) runs from the real average to the placebo 95th percentile. It is not a 90% interval.
 - **Homes width vs log width.** Homes width shrinks as the rate ratio falls, so "narrowest" tilts toward a more negative centre. The log width is shown beside it for that reason.
 - **The pre-trend rule is strict.** It needs all four leads to include 1, so even a clean version would fail by chance about 1 time in 4. That is the rule as locked.
