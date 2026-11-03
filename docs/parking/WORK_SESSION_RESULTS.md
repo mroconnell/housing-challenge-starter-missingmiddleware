@@ -190,8 +190,8 @@ Error unit: permits per 1,000 existing homes a year.
 | --- | --- | --- | --- | --- |
 | Lower | 2,275 to 5,795 | −44,940 to +17,275 | −40,551 to +21,171 | −42,665 to +23,070 |
 | Central | 4,866 to 15,361 | 0 | 4,866 to 15,361 | same |
-| Upper (TOD rescaled to the tool's 13,451) | 6,527 to 20,604 | −44,940 to +17,275 | −32,346 to +30,693 | −38,414 to +37,878 |
+| Upper (TOD 12,521, AQ-075) | 6,075 to 19,179 | −44,940 to +17,275 | −33,039 to +29,504 | −38,865 to +36,454 |
 
-- **TOD's supplied upper draws** are on the old 12,521 basis. The tool's TOD upper is 13,451 (AQ-072), so the draws are shown rescaled. On the 12,521 basis the index band is −33,039 to +29,504.
+- **TOD's upper** is 12,521 (AQ-075, owner 11:52), the basis of the supplied draws. An earlier version of this table rescaled them to the old 13,451.
 - **Read.** Parking's uncertainty dominates the combined band. It is about ten times wider than TOD's.
 - **Evidence only;** no tool change.

@@ -21,7 +21,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from missing_middleware.paths import REFERENCE  # noqa: E402
 
 HOMES, YEARS, OFF_TOD = 2_668_677, 5, 17_819 / 19_818
-TOD_UPPER_TOOL = 13_451
 
 
 def main() -> None:
@@ -29,8 +28,7 @@ def main() -> None:
     n = len(t)
     pk = pd.read_csv(REFERENCE / "parking_placebo_full_draws.csv")["centred_on_real"].values[:n] * HOMES * YEARS / 1000
     pk = np.where(pk > 0, pk * OFF_TOD, pk)
-    tod = {"lower": t["lower_homes"].values, "central": t["central_homes"].values, "upper (draws as supplied, 12,521 basis)": t["upper_homes"].values,
-           "upper (rescaled to the tool's 13,451)": t["central_homes"].values * TOD_UPPER_TOOL / 10_028}
+    tod = {"lower": t["lower_homes"].values, "central": t["central_homes"].values, "upper": t["upper_homes"].values}
     rows = []
     for line, tv in tod.items():
         pv = np.zeros(n) if line == "central" else pk
@@ -43,7 +41,7 @@ def main() -> None:
     out = pd.DataFrame(rows)
     out["unit"] = "Wisconsin extra homes permitted 2027-2031"
     out["note"] = ("index pairing assumes TOD and parking errors are unrelated; sorted pairing (low with low) is the widest case if they move "
-                   "together. TOD's supplied upper draws are on the 12,521 basis; the tool's TOD upper is 13,451 (AQ-072), shown rescaled.")
+                   "together. TOD's upper is 12,521 (AQ-075), the supplied draws' basis.")
     out.to_csv(REFERENCE / "parking_ws_combo_b.csv", index=False)
     pd.set_option("display.width", 250)
     print(out.drop(columns=["unit", "note"]).round(0).to_string(index=False))
