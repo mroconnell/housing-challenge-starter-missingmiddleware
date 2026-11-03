@@ -558,7 +558,8 @@ The rule for this check was set by the learning thread for this check (it is not
 | Backtest (years −2, −1 vs −5 to −3) | −0.83 (−1.91 to +0.36): passes | — |
 | Same contrast, 5+ unit homes | +0.76 (−3.68 to +4.61) | — |
 
-- **Reading: not supported.** Places with a higher old single-family minimum did not gain more single-family homes after repeal. The equal-weight version points the other way, which may reflect the groups' different city types.
+- **Reading: not supported.** Places with a higher old single-family minimum did not gain more single-family homes after repeal.
+- **The equal-weight result points the wrong way.** At −3.39 it excludes 0 even at 97.5% (−7.43 to −0.39). It likely reflects city type: the high group is smaller and later, with short Oregon after-windows. The home-weighted sign also flips without Austin (+0.32).
 - **The placebo use stands as before,** but test 44 can't rule out a single-family effect smaller than its MDE (about 1.8 per 1,000 homes a year).
 - **Context.** Detached houses usually meet 2 spaces anyway; townhouses are where the rule more likely bound. Townhouses can't be separated in the permit data.
 
