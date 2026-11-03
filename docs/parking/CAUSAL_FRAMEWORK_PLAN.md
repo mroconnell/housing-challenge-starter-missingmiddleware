@@ -163,3 +163,8 @@ Ryan's OK. Stage 2 (carrying results to Wisconsin) stays unlocked until Stage 1 
   - Interaction = (repeal + rewrite) − (repeal alone) − (rewrite only), home-weighted cell means, 90% interval from 2,000 resamples of places within each cell.
   - Caveat stated: TOD upzonings are mostly station-area rezonings, while the "rewrite" in repeal places is often citywide. The cells measure different kinds of rezoning.
 - **2026-11-03, audit round 2 (post hoc additions, main results unchanged):** E2 2×2 marked below the 10-place rule, with an equal-weight sensitivity; F1c gets a 2009 start for the before window and the yearly share of projects with no car parking.
+- **2026-11-03, F1b decisions after building inputs, before any F1b parking mean:**
+  - Split date: the 2015 ordinance (2015-Or-061) took effect 2015-07-18 (adopted 2015-07-10). F1's rule says splits are the ordinances' effective dates; 2015-05-01 was an approximation. F1b uses 2015-07-18. F1's 2015 contrasts are rerun with it, and the earlier figures are kept beside them as a correction.
+  - Zones: the city's June 2015 map "Residential Off-Street Parking Requirements", digitised and fitted to the city boundary (`scripts/fetch_parking_mpls_zones.py`).
+  - Outside = all non-downtown land not covered, including the University Area overlay, which kept its own minimum (½ space per bedroom) and was excluded from the cut by name. A sensitivity drops University Area projects.
+  - Unmatched addresses (23 of 359 eligible projects) are left out and counted. The 22 projects within 33 m of a zone edge stay in the main result; a sensitivity drops them.

@@ -9,7 +9,7 @@ Rules (fixed before counting):
 - projects with 5+ homes; a row with an entry in "Later Action" (later resubmitted) is dropped so only the latest
   submission counts;
 - downtown rows (no minimum before either repeal) are reported apart and left out of the main contrasts;
-- splits: 2015 transit-area cut 2015-05-01; 2021 citywide repeal 2021-05-14 (adoption dates, approximate);
+- splits: 2015 transit-area cut 2015-07-18 (effective date of 2015-Or-061; first run used 2015-05-01); 2021 citywide repeal 2021-05-14;
 - spaces per home = total car spaces / total homes (homes-weighted), with the project median beside it;
 - 90% interval of after minus before from 2,000 resamples of projects within each side (seed 20261103);
 - "binding" if the interval of the difference is below 0;
@@ -36,7 +36,7 @@ from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 SEED, DRAWS = 20261103, 2000
 XLSX = RAW / "parking_first_stage" / "mpls_planning_commission_schieferdecker.xlsx"
 M = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
-CUT_2015, CUT_2021 = pd.Timestamp("2015-05-01"), pd.Timestamp("2021-05-14")
+CUT_2015, CUT_2021 = pd.Timestamp("2015-07-18"), pd.Timestamp("2021-05-14")  # 2015: effective date of 2015-Or-061 (was 2015-05-01, corrected 2026-11-03)
 COLS = {"A": "date", "B": "name", "D": "neighborhood", "F": "downtown", "G": "homes", "H": "car", "J": "later_action"}
 
 
@@ -51,7 +51,7 @@ def read_xlsx_year_sheets(path: Path) -> pd.DataFrame:
         for r in ET.fromstring(z.read(f"xl/worksheets/sheet{rid}.xml")).iter(M + "row"):
             if int(r.get("r")) == 1:
                 continue
-            d = {"sheet": int(name)}
+            d = {"sheet": int(name), "row": int(r.get("r"))}
             for c in r.findall(M + "c"):
                 col = re.match(r"[A-Z]+", c.get("r")).group()
                 if col not in COLS:
