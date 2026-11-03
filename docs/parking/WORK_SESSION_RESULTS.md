@@ -405,3 +405,19 @@ The rule for this check was set by the learning thread for this check (it is not
   - Projects asking for reductions are over-represented.
   - Mixed-use buildings may combine commercial and residential requirements.
 - **Files.** `scripts/fetch_parking_wi_project_parking.py`. Samples are in `data/raw/` (git-ignored; titles contain addresses).
+
+## Test 42: triple difference by Census size class
+
+- **Outcome:** (5+ unit homes − 1-unit homes) per 1,000 existing homes a year, in the main matched comparison (75 places).
+
+| Version | Estimate (90%) |
+| --- | --- |
+| Main, place bootstrap | −1.01 (−2.29 to +0.47); equal-weight +0.26 |
+| Main, metro-clustered bootstrap | −1.01 (−2.27 to +0.79) |
+| Beside: 2–4 unit homes | −0.06 (−0.15 to +0.03) |
+| Backtest, years −2 and −1 vs −5 to −3 | **+2.66 (+0.77 to +4.26): fails** |
+
+- **Reading: not supported.**
+  - **The backtest fails.** The apartment-minus-single-family gap was already rising before repeal, against the comparison places.
+  - **Width.** Converted to Wisconsin homes, the width is 36,780, above the 26,289 bar. That conversion is rough, because this outcome is a relative shift between classes, not added homes.
+- **The lines stand.**

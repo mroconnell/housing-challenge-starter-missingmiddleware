@@ -1,0 +1,5 @@
+test,places,estimate,p05,p95,equal_weight,wi_p05,wi_p95,wi_width,note
+"42 main: (5+ minus 1-unit) homes per 1,000 existing homes a year, place bootstrap",75,-1.0124798401574944,-2.287169271308328,0.4692493995784595,0.25651008754977495,-30518.580147236473,6261.375399594223,36779.9555468307,"relative shift between size classes if land moves between them; 25% rule bar 26,289 homes"
+"42 main, metro-clustered bootstrap",75,-1.0124798401574944,-2.266616699020741,0.7852678314262873,0.25651008754977495,-30244.33926246287,10478.131002836051,40722.470265298914,"relative shift between size classes if land moves between them; 25% rule bar 26,289 homes"
+"42 beside: 2-4 unit homes per 1,000 existing homes a year",75,-0.0640564282651602,-0.1446298643252507,0.029592994003617062,0.11264084024119043,,,,"relative shift between size classes if land moves between them; 25% rule bar 26,289 homes"
+"42 backtest: years -2,-1 vs -5..-3 (must include 0)",75,2.6556629338712794,0.7724742668304473,4.262875400706556,0.037065373200625105,,,,"relative shift between size classes if land moves between them; 25% rule bar 26,289 homes"
