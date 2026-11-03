@@ -611,3 +611,10 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - the numbers are proposed, not built;
   - projects asking for reductions are over-represented;
   - mixed-use requirements may combine commercial and residential parking.
+- **2026-11-03, test 43 additions (learning thread; before any count):**
+  - **Files.** All multifamily (2+ homes) conditional-use and site-plan files, 2015–2022, widened from 5+.
+  - **Order.** Files are coded in random order (seed 20261104) until there are 30+ projects with a positive minimum and both numbers, or all files are done.
+  - **Variance.** Any variance or reduction granted is recorded.
+  - **Central Area split.** Central Area projects are reported apart. They have no minimum, so they show spaces per home only.
+  - **Repeat files.** Only the last version of each project is kept.
+  - **Milwaukee.** No records request.
