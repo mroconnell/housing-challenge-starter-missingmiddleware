@@ -504,3 +504,16 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
     - T1's non-residential places as fake reforms.
     Each must include 1.
   - **Replacement bar (rule 5).** The 90% Wisconsin-homes width must be 26,289 or less. All versions are reported either way. Any change to the tool needs Ryan's OK.
+- **2026-11-03, C1/C2 lock additions (learning thread; before any count):**
+  - **(a) Candidates, fixed now:**
+    - C1 negative binomial on 5+ unit homes;
+    - C1 Poisson on 5+ unit homes;
+    - C1 negative binomial on all homes.
+    C2 (buildings) is reported beside the lines and can't become them.
+  - **(b) Blind run.** Phase 1 prints, for each candidate, only:
+    - its bootstrap width in Wisconsin homes;
+    - its calibration coverage;
+    - pass/fail on the pre-trend and placebo checks.
+    No centres. The narrowest candidate passing all rules is chosen and that choice is committed. Only then does phase 2 print the centres of every version.
+  - **(c) Places.** The same 76 places, pools and windows; no trimming.
+  - **(d) Disclosure.** An earlier C1/C2 run (stacked design, before these rules) was started and stopped within about a minute, at the hold. It printed nothing and wrote no file, so no result was seen.
