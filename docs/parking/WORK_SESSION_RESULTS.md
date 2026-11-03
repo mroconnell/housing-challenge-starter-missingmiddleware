@@ -505,7 +505,17 @@ The rule for this check was set by the learning thread for this check (it is not
 
 ## Test 43: do Madison's minimums bind? (project records 2015–2022)
 
-**Status: spot-check 1 of 5 done.** Ryan checked file 45249 (2016-11-03): 44 required for homes + 13 for commercial = 57 combined, 43 proposed. That matches the hand-read. 4 rows are pending.
+**Status: spot-checked, 5 of 5 correct.** Ryan checked all 5 seeded rows against the staff reports on 2026-11-03:
+
+| File | Required | Proposed |
+| --- | --- | --- |
+| 45249 | 44 homes + 13 commercial = 57 | 43 |
+| 67515 | 72 | 85 |
+| 67284 | 41 | 62 |
+| 58489 | 59 | 70 |
+| 62084 | 11 homes + 20 commercial = 31 | 25 |
+
+All match the hand-read values.
 
 - ***Post hoc*, prompted by that check: mixed-use projects against the homes-only minimum.** The 15 mixed-use projects come out 7 above, 2 at and 6 below. All 30 together come out 20 above, 4 at and 6 below. For example, file 45249 has 43 stalls for 44 homes, which is at the homes minimum, but below the combined figure. Either way, the reading holds: most projects sit above the minimum, with little bunching at it.
 - **Where the rule did bind.** 6 of the 30 projects, all mixed-use, went below even the homes-only minimum through reductions or shared parking: for example, 0 stalls for 75 homes, and 14 for 24. For those projects the rule was binding enough to seek relief. So the reading is "mostly didn't bind, but bound for some mixed-use projects", not simply "didn't bind".
