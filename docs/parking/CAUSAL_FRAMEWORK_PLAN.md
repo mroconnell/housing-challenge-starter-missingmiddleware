@@ -618,3 +618,9 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Central Area split.** Central Area projects are reported apart. They have no minimum, so they show spaces per home only.
   - **Repeat files.** Only the last version of each project is kept.
   - **Milwaukee.** No records request.
+- **2026-11-03, test 43 audit additions (before any result):**
+  1. **Band comparison.** The share within 0.05 spaces per home of the minimum is compared with the share 0.05–0.10 above it. If minimums bind, the first band holds clearly more. This is a comparison, not a pass bar.
+  2. **Reduced Required cells.** The code minimum is coded from district and use, and any reduction shown in the Required cell is recorded separately. The test uses the code minimum.
+  3. **Parking maximums.** Coded where shown. Projects whose maximum is within 0.25 spaces per home of the minimum are flagged.
+  4. **Hand-check.** The 50 checked projects are drawn with seed 20261104. "Correct" means both required and proposed are right.
+  5. **Mixed-use projects** (combined requirement) are flagged, and every share is shown with and without them.
