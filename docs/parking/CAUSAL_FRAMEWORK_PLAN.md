@@ -390,3 +390,24 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **TOD's density-bonus lots** are kept on the reform side (main), because they also got the parking relief. A sensitivity drops them.
   - **What is rerun.** Outcomes as before: FU7's per-lot rate and B1's per-100-acre rate. B1 also keeps its FAR ≥ 1.2 filter. 90% intervals from 500 m cells.
   - **Wording.** FU7's "does not generalise" leans on Chicago. That is stated beside the rerun.
+
+## T1 non-residential placebo and T2 staggered event-study cross-check (locked 2026-11-03, before any count; owner liked the placebo)
+
+**Running count: 34** (32 + T1 + T2; the Chicago B/C/D rerun is a rerun, not a new test).
+
+- **T1, non-residential placebo.**
+  - **Places.** PRN taxonomy entries rated "not_housing" (minimums cut or removed for non-residential uses only), place type city, adoption year 2013–2024. That is the window the permit files allow (5 before years from 2012, at least 1 after). The adoption year is the event year.
+  - **Exclusions.**
+    - Places that also have a housing-covering PRN entry (rated at, near or weaker) dated within 3 years of the event.
+    - Places already among the 76 or on the benchmark repeal list.
+    - The list is coded from the taxonomy before any outcome is seen.
+  - **Outcome.** The main difference-in-differences (permits per 1,000 existing homes a year, all homes; 5+ unit homes as a second series), with the same `cmp.controls` comparison and windows, and at least 1 after year.
+  - **Expected:** about 0.
+  - **Pass:** the 90% interval includes 0 (2,000 place resamples, seed 20261104).
+  - **Feasibility:** 8+ places with Census permit files, else "not feasible".
+- **T2, staggered event-study cross-check (Sun and Abraham 2021, interaction-weighted).**
+  - **Units.** Cohorts are the 76 places grouped by event year. The never-treated units are the union of all their `cmp.controls` comparison places, which excludes every repeal place.
+  - **Panel.** 2012–2025 place-years. Outcomes: permits per 1,000 existing homes a year, and log(yearly permits + 0.5).
+  - **Estimation.** Two-way fixed effects (place, year), with cohort × relative-year dummies for leads −5 to −2 and lags 0 to 3. Relative year −1 is the reference; leads beyond −5 are binned into the earliest lead. Estimated by OLS after a two-way within transformation; standard errors clustered by place.
+  - **Aggregation.** Each cohort's lags 1–3 are averaged with weights equal to each cohort's share of treated place-years, giving one post effect, beside the main −1.14. The leads are reported as a pre-trend check. Home-weighted and unweighted versions are both shown.
+  - **Role:** a cross-check, not a replacement.
