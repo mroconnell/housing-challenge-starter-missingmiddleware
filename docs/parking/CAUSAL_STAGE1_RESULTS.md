@@ -12,7 +12,8 @@ All intervals are 90%. MDE = minimum detectable effect (1.645 × standard error)
 | H2 | More buildings? | 2–4 unit: −0.03 (−0.07 to +0.02); 5+ unit: −0.06 (−0.10 to −0.02), −35% | new buildings per 1,000 existing homes a year | Fewer, bigger 5+ buildings; read with H1 |
 | F1c | Seattle, inside reform areas vs the rest of the city | 2012: −0.27 (−0.46 to −0.08); 2018: +0.05 (−0.12 to +0.21) | car spaces per home | Binding in 2012; no extra drop in 2018 |
 | E1 | AB 2097 line, 2–4 home projects (no earlier relief) | −0.023 (−0.070 to +0.018); MDE 0.044 | homes permitted per 1,000 existing homes a year | No measurable change; pre-trend balanced |
-| E2 | Repeal alone minus repeal inside a rewrite | −0.14 (−4.43 to +4.00) | permits per 1,000 existing homes a year | No difference; 2×2 incomplete |
+| E2 | Repeal alone minus repeal inside a rewrite | −0.14 (−4.43 to +4.00) | permits per 1,000 existing homes a year | No difference |
+| E2 2×2 | Does repeal add to a rezoning? (repeal + rewrite) − (repeal alone) − (rewrite only) | −3.07 (−7.31 to +1.78) | same | No measurable interaction; weak (9 rewrite-only places) |
 | T | Effect with rail minus without (11 vs 64 places) | −4.67 (−8.51 to −0.42) | permits per 1,000 existing homes a year | Smaller effect in rail cities |
 | M1 | Higher old minimum (held out) | −2.91 (−7.79 to +2.88) | same | Not material |
 | M3 | Larger city (held out) | −3.98 (−8.52 to +1.20) | same | Not material |
@@ -54,6 +55,23 @@ Only 1 of 4 moderators came out material (M4, rail). With four tested, one false
   - Inside spaces per home were already 0.6–0.7 in 2009–2011, so part of the drop may come before the 2012 reform. The before window starts in 2006.
   - Dates are approximate council dates.
 - Read with Minneapolis: two cold-climate cities both show fewer spaces per home after a reform, by about a quarter of a space per home, and neither falls toward zero.
+
+**E2 2×2 (TOD's upzoned places as "rewrite only").**
+
+| Cell | Places | Effect against matched places that did neither (90% interval) |
+| --- | --- | --- |
+| Repeal alone | 25 | −1.23 (−2.78 to +1.36) |
+| Repeal + rewrite | 51 | −1.09 (−4.48 to +2.88) |
+| Rewrite only (TOD upzoning, no parking removal) | 9 | +3.21 (+0.88 to +4.17) |
+| TOD upzoning with station-area parking removal (apart) | 5 | −4.63 (−5.93 to −2.65) |
+
+Unit: permits per 1,000 existing homes a year.
+- Interaction: −3.07 (−7.31 to +1.78). It includes 0, so there is no measurable sign that repeal changes what a rezoning does.
+- Weak:
+  - 11 rewrite-only places were coded and 9 could be used. Los Angeles had no comparison place of its size, and Indianapolis's balance area has no matching home count.
+  - Chicago, Phoenix and San Diego have only 1–2 comparison places each.
+- Different kinds of rezoning: TOD's are mostly station-area rezonings measured citywide, while repeal-place rewrites are often citywide.
+- The 5 "upzoning + parking removal" places (Denver, Portland, Somerville, San Diego, Madison) are too few to read on their own. Charlotte is missing because Mecklenburg County issues its permits.
 
 **E1.**
 - E1 uses the same jurisdictions and zones as the earlier AB 2097 test (`docs/tod/AB2097_TEST_RESULTS.md`), so it is a re-check of that test by size class, not a second vote.

@@ -1,0 +1,18 @@
+place,state,cell,event_year,key,n_pre,n_post,n_controls,pool,homes,effect,weight,note
+Phoenix city,Arizona,rewrite only,2015,04|257000,3.0,3.0,2.0,division 0.33-3.00 (fewer than 5),653065.0,3.3519473276903753,1959195.0,
+Los Angeles city,California,rewrite only,2013,06|244000,,,0.0,,,,,no comparison places
+Oakland city,California,rewrite only,2014,06|304000,2.0,3.0,11.0,state 0.50-2.00,191713.0,6.981313944367159,575139.0,
+San Diego city,California,upzoning + station-area parking removal,2020,06|385000,5.0,3.0,1.0,division 0.33-3.00 (fewer than 5),568668.0,-4.405834983663065,1706004.0,
+Denver city,Colorado,upzoning + station-area parking removal,2018,08|173000,5.0,3.0,5.0,division 0.50-2.00,359581.0,-4.782490483070723,1078743.0,
+Chicago city,Illinois,rewrite only,2013,17|147700,1.0,3.0,1.0,division 0.33-3.00 (fewer than 5),1277054.0,4.407712343500147,3831162.0,
+Indianapolis city (balance),Indiana,rewrite only,2021,,,,,,,,,not matched to permit data
+Somerville city,Massachusetts,upzoning + station-area parking removal,2019,25|571000,5.0,3.0,30.0,state 0.50-2.00,37756.0,-5.358978598786368,113268.0,
+Bloomington city,Minnesota,rewrite only,2015,27|077800,3.0,3.0,19.0,state 0.50-2.00,39261.0,-3.9915147908024156,117783.0,
+Kansas City city,Missouri,rewrite only,2018,29|334000,5.0,3.0,7.0,division 0.33-3.00,245346.0,-1.6422787495924354,736038.0,
+New Rochelle city,New York,rewrite only,2015,36|496000,3.0,3.0,32.0,state 0.50-2.00,32792.0,-1.9923357498833987,98376.0,
+Charlotte city,North Carolina,upzoning + station-area parking removal,2019,,,,,,,,,not matched to permit data
+Cincinnati city,Ohio,rewrite only,2013,39|115000,1.0,3.0,18.0,division 0.33-3.00,160409.0,-0.08346814352309018,481227.0,
+Portland city,Oregon,upzoning + station-area parking removal,2018,41|411000,5.0,3.0,14.0,division 0.33-3.00,307719.0,-7.295087885515286,923157.0,
+Pittsburgh city,Pennsylvania,rewrite only,2019,42|538000,5.0,3.0,11.0,division 0.50-2.00,161908.0,1.4537546008212034,485724.0,
+Shoreline city,Washington,rewrite only,2015,53|484000,3.0,3.0,25.0,state 0.50-2.00,25289.0,7.556985129091892,75867.0,
+Madison city,Wisconsin,upzoning + station-area parking removal,2023,55|516500,5.0,2.0,5.0,division 0.50-2.00,133530.0,4.118690640479711,267060.0,

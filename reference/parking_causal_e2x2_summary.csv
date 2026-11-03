@@ -1,0 +1,6 @@
+cell,places,mean_effect,p05,p95,mde,unit
+repeal alone,25.0,-1.2303088518032603,-2.777967555964735,1.358767679188566,,"permits per 1,000 existing homes a year, against matched places that did neither"
+repeal + rewrite,51.0,-1.0868931180219712,-4.480937784906412,2.8759229490431335,,"permits per 1,000 existing homes a year, against matched places that did neither"
+rewrite only,9.0,3.20953783737133,0.8782125782724111,4.17276712325186,,"permits per 1,000 existing homes a year, against matched places that did neither"
+upzoning + station-area parking removal,5.0,-4.627189687194304,-5.925134086816862,-2.647506602624914,,"permits per 1,000 existing homes a year, against matched places that did neither"
+interaction: (repeal + rewrite) - (repeal alone) - (rewrite only),,-3.066122103590041,-7.312659013801081,1.778091322987585,4.482312878504704,"permits per 1,000 existing homes a year, against matched places that did neither"
