@@ -496,3 +496,9 @@ The rule for this check was set by the learning thread for this check (it is not
 - **Coverage of the true effect:** 84% (nominal 90%) in every cell.
 - **Mean 90% width:** 4.9 permits per 1,000 existing homes a year. This matches the spread of the 20,000 placebo sets (−2.28 to +2.64, width 4.9).
 - **Reading.** The main comparison cannot reliably detect even a gain the size of the current high line. A true gain of about 20,000 homes would show up as "measurable" only about a third of the time. Its intervals are also somewhat too narrow (84% coverage, 16% false positives). So "no measurable change" across the parking tests means the data cannot tell, not that the effect is zero. This supports keeping a wide two-sided range centred on 0.
+- **Audit notes:**
+  - **One coverage check, not twelve.** The shift moves each resample and the truth together, so the 84% is a single check.
+  - **The intervals are too narrow.** The main bootstrap intervals are about 17% too narrow (roughly 10–25% given simulation error).
+  - **The tool's lines don't need widening.** They come from placebo percentiles, which already carry the true spread.
+  - **The How sure intervals are narrow.** The bootstrap intervals on How sure (−3.47 to +1.43, and the AQ-076 row) are narrow. Any change is Ryan's call.
+  - **Timing.** The run started around 08:07, and the script was committed at 08:21:59. It was not edited in between, but git can't show that (same as test 41).
