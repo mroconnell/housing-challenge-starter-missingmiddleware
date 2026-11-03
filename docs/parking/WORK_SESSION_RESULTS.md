@@ -205,3 +205,18 @@ Error unit: permits per 1,000 existing homes a year.
   - All homes: +0.40 (−0.64 to +2.94); equal-weight +0.75.
   - 5+ unit homes: +0.10 (−0.29 to +1.51).
 - **Reading: passes.** The 90% interval includes 0. The comparison method does not manufacture an effect where housing rules did not change, which supports the near-placebo (FU6) and the method behind the 76-place result.
+
+## T2, staggered event study (Sun and Abraham), cross-check
+
+- **Sample:** 75 repeal places, with 3,048 never-treated places (the union of their comparison places), 2012–2025.
+- **Specification:** cohort × relative-year cells; place and year fixed effects; SEs clustered by place.
+
+| Outcome | Post effect, years 1–3 (90%) | Weighting |
+| --- | --- | --- |
+| Permits per 1,000 existing homes a year | +0.44 (−0.62 to +1.50) | treated place-years |
+| same | +0.02 (−1.19 to +1.22) | homes |
+| log(yearly permits + 0.5) | +0.19 (−0.02 to +0.41) | treated place-years |
+| same | +0.11 (−0.11 to +0.32) | homes |
+
+- **Pre-trend fails.** In the rate outcome, leads −5 and −3 are +2.58 (+0.87 to +4.30) and +2.63 (+0.90 to +4.36) against year −1. In the log outcome, lead −3 is +0.34 (+0.16 to +0.51). Repeal places were building faster 3–5 years before repeal than just before it, compared with never-treated places. Permits were falling into the repeal.
+- **Read.** The event-study post effect sits near zero to slightly positive, beside the main −1.14. With a failing pre-trend, it cannot be read as causal. A downturn before repeal would make post-repeal comparisons with year −1 look better, and comparisons with a 5-year before window look worse. That may be part of why the main −1.14 is negative. This is a cross-check, not a replacement.
