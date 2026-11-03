@@ -134,3 +134,7 @@ Ryan's OK. Stage 2 (carrying results to Wisconsin) stays unlocked until Stage 1 
   - **M1 and M3 (continuous):** for each of 5 folds of the 76 places (seed 20261103), the split point is the home-weighted median of the moderator in the other 4 folds; each held-out place is labelled "high" or "low" by it. The moderator's held-out contrast is the home-weighted mean effect of "high" minus "low" over all held-out places, with a 90% interval from 2,000 resamples of places stratified by label. "Material" if that interval excludes 0. The full-sample weighted slope is shown beside it, described only.
   - **M2 and M4 (binary):** the label does not depend on training folds, so the held-out contrast equals E2 and T; they are reported from those tests.
   - **R:** for each place and each year k = 1-5 after repeal with BPS data, the one-year rate minus the before-window rate, minus the same for its matched comparison places (all comparison places, as in the main estimate). Home-weighted mean by k, with the number of places at each k. Described only.
+- **2026-11-03, owner allows plan changes ("feel free to push back and change the plan"), POST HOC additions after Stage 1:**
+  - M3 also with an unweighted median split (39 large vs 37 small), because the home-weighted split put only 6 places in "large".
+  - T also without Austin and Minneapolis (the two rail places with the largest weight × effect), and unweighted.
+  - Limits stated rather than fixed: T covers rail only (no BRT in the stop data); F1 rests on one city; E2's rewrite-only group is not built.

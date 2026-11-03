@@ -28,14 +28,14 @@ def wmedian(v, w):
     return v[o][np.searchsorted(c, c[-1] / 2)]
 
 
-def heldout_contrast(d: pd.DataFrame, col: str) -> dict:
+def heldout_contrast(d: pd.DataFrame, col: str, weighted_split: bool = True) -> dict:
     d = d.dropna(subset=[col]).reset_index(drop=True)
     rng = np.random.default_rng(SEED)
     fold = rng.permutation(np.arange(len(d)) % FOLDS)
     hi = np.zeros(len(d), bool)
     for f in range(FOLDS):
         tr = fold != f
-        cut = wmedian(d.loc[tr, col].values, d.loc[tr, "weight"].values)
+        cut = wmedian(d.loc[tr, col].values, d.loc[tr, "weight"].values if weighted_split else np.ones(int(tr.sum())))
         hi[fold == f] = d.loc[fold == f, col].values > cut
     v, w = d["effect"].values, d["weight"].values
     f = lambda m: np.sum(v[m] * w[m]) / np.sum(w[m])  # noqa: E731
@@ -62,6 +62,11 @@ def main() -> None:
                          ("M3 city size (log existing homes)", "log_homes", "large minus small cities")):
         r = heldout_contrast(real, col)
         rows.append(dict(moderator=m, contrast=unit, unit="permits per 1,000 existing homes a year", **r))
+    # POST HOC (2026-11-03, after the first count; owner allowed plan changes): the home-weighted split put 6 places
+    # in "large"; an unweighted median split is shown beside it.
+    r = heldout_contrast(real, "log_homes", weighted_split=False)
+    rows.append(dict(moderator="M3 city size, POST HOC unweighted median split", contrast="large minus small cities",
+                     unit="permits per 1,000 existing homes a year", **r))
     te = pd.read_csv(REFERENCE / "parking_causal_t_e2_summary.csv")
     for m, key in (("M2 repeal alone vs inside a rewrite (= E2)", "E2 repeal alone"), ("M4 rail transit (= T)", "T rail")):
         t = te[te["test"].str.startswith(key)].iloc[0]

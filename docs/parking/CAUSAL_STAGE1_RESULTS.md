@@ -19,7 +19,7 @@ All intervals are 90%. MDE = minimum detectable effect (1.645 × standard error)
 | R | Effect by year since repeal | k1 −0.84 (75 places), k2 −1.03 (57), k3 −2.01 (38), k4 −5.14 (26), k5 −4.62 (15) | same | Described only; later years are fewer, earlier repealers |
 | H3 | Bunching at the old minimum | Fails feasibility: only Minneapolis has project data with a known minimum | | Not run |
 
-Four moderators were tested, so one false "material" in four is plausible. M4 (rail) is the only one.
+Four moderators were tested, so one false "material" in four is plausible. M4 (rail) is the only one, and it rests on Austin and Minneapolis (see T sensitivity).
 
 ## Notes by test
 
@@ -45,6 +45,20 @@ Four moderators were tested, so one false "material" in four is plausible. M4 (r
 
 **M3.**
 - The split is the home-weighted median, so "large" is 6 places and "small" 70.
+- *Post hoc*, unweighted median split (39 vs 37): −2.12 (−5.87 to +1.68). Still not material.
+
+**T sensitivity (*post hoc*).** The rail result rests on two cities.
+
+| Version | Rail minus no rail |
+| --- | --- |
+| Main (home-weighted) | −4.67 |
+| Without Austin | −2.55 |
+| Without Minneapolis | −3.95 |
+| Without both | −1.24 |
+| Unweighted, all places | −1.63 |
+| Unweighted, without both | +0.48 |
+
+Read: rail does not reliably change the effect. "Invest in both" is neither supported nor ruled out.
 
 ## What Stage 1 says for Stage 2 (not yet run)
 - The reform moves parking (F1), and builders put more homes in each larger building (H1).
