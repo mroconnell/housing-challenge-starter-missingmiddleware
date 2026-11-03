@@ -624,3 +624,24 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   3. **Parking maximums.** Coded where shown. Projects whose maximum is within 0.25 spaces per home of the minimum are flagged.
   4. **Hand-check.** The 50 checked projects are drawn with seed 20261104. "Correct" means both required and proposed are right.
   5. **Mixed-use projects** (combined requirement) are flagged, and every share is shown with and without them.
+
+## Test 44 (plan only, not run): are single-family homes affected by parking repeal? (written 2026-11-03; owner's question; goes to audit before any run)
+
+**Running count if run: 44.**
+
+- **Step 1, contrast check (done, no outcomes read).** All 76 repeals are citywide. On PRN, 70 cover "all uses" and the other 5 also include residential. The benchmark rule requires all housing, so there are no multifamily-only repeals in the 76 and no scope contrast to test.
+- **Alternative, locked: dose of the old single-family minimum.** `parking_old_minimums.csv` codes the old single-family minimum for 50 of the 76:
+  - "high" = 2.0 spaces per house (29 places);
+  - "low" = 1.0 or less (19 places, including one at 0);
+  - the 2 places at 1.5 are left out;
+  - places with no coded value are left out.
+  - The split is fixed now, by the rule's value, not by results.
+- **Outcome.** 1-unit homes permitted per 1,000 existing homes a year, in the main matched difference-in-differences: same pools, windows and home weights.
+- **Estimand.** The high-group mean effect minus the low-group mean effect, with a 90% interval from 2,000 place resamples stratified by group (seed 20261104). The overall 1-unit effect is shown beside it. FU6 already reported +0.00 (−0.83 to +0.76).
+- **Prediction.** If single-family minimums bound, the high group gains more single-family homes than the low group (difference > 0).
+- **Pass rule.** "Supported" only if the 97.5% interval excludes 0 with a positive sign, and a backtest (years −2 and −1 vs −5 to −3, same contrast) includes 0. Otherwise "not supported".
+- **What it means for earlier placebos.**
+  - If test 44 is supported, single-family homes are not a clean placebo. The single-family checks in 38/39 (passed) and 41 (failed) and FU6 would be partly treatment, not placebo, and test 42's triple difference (5+ minus 1-unit) would subtract part of the effect. Those readings would be relabelled.
+  - If it is not supported, the placebo use stands, with this test cited.
+- **ADU double counting.** The parking scenario excludes ADUs (Stage 2 item 1), and the ADU scenario models ADU law separately. But the Census permit survey can record a detached ADU as a new 1-unit building in some places. So a 1-unit effect here could partly be ADUs, and adding it to a parking line would overlap the ADU scenario.
+  - **Rule:** any single-family effect found stays evidence only. It is not added to the parking lines without Ryan's OK and a check with the ADU thread on how ADUs are counted in BPS for the places involved.
