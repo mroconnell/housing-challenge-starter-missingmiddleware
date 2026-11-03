@@ -523,3 +523,27 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **C1 negative binomial, all homes:** fails width (47,967) and pre-trend.
   - **Calibration:** not run, because no candidate reached it.
   - **Next:** phase 2 now prints the centres of every version for the record.
+
+## Tests 40 (power simulation) and 41 (two-year imputation estimator) (locked 2026-11-03, before any count; owner: "yeah okay, let's do those")
+
+**Running count: 41.** Evidence only. The lines change only if a result meets the locked 25% rule (rules 1–6 of 38/39).
+
+- **40, power check.**
+  - **Fake reforms.** In each of 200 simulations (seed 20261104), draw 75 never-repealed places from the union of the real pools without replacement. Give each a fake event year drawn from the real event years, with the same windows (5 before, up to 3 after, as available).
+  - **Comparisons.** Each fake place's comparison pool is `cmp.controls`, excluding the real 76, the benchmark list and the other fakes.
+  - **Injection.** Extra permits are added to each fake place's after years, at δ permits per 1,000 existing homes a year. δ is sized from Wisconsin gains of G = 0, 5,000, 10,000 and 20,000 homes over 2027–2031 through the Stage 2 path: δ = G ÷ (2,668,677 × 5 ÷ 1,000), so 0, 0.375, 0.749 and 1.499.
+  - **Timing profiles,** by year after the event:
+    - constant (1, 1, 1);
+    - ramp (⅓, ⅔, 1);
+    - early-then-fade (1, 1, ½).
+  - **Linearity shortcut.** The injection raises only the treated place's after rate, and the matched difference-in-differences is linear in it. So each place's injected effect = its base effect + δ × (mean profile over its after years). Comparison pools are drawn once per simulation, and the full main estimator is computed exactly (stated).
+  - **Interval.** The main estimator's 90% interval, from 1,000 cluster resamples. Clusters are counties, because no metro code exists for every pool place (stated).
+  - **Report.** Coverage of the true injected effect at each size and profile (the share of 90% intervals containing it), and power (the share of intervals that exclude 0 with the right sign).
+- **41, two-year totals, imputation estimator** (Borusyak–Jaravel–Spiess; hand-written, no pyfixest).
+  - **Untreated model.** y_it (permits per 1,000 existing homes) = place effect + year effect, fitted on untreated place-years: never-treated pool places in all years, plus repeal places before their event year.
+  - **Imputation.** For each repeal place with event + 2 ≤ 2025, the effect is the sum over event years +1 and +2 of (actual − imputed): cumulative permits per 1,000 existing homes over two years.
+  - **Aggregation.** Home-weighted and equal-weight means. The share of the 76 places and of their homes covered is reported.
+  - **Interval.** 90%, from 1,000 county-cluster resamples.
+  - **Leave-one-out.** Leave one city out, and leave one county out as the metro proxy (stated).
+  - **Pre-trend.** The model is refitted without the repeal places' years −3 to −1, those years are imputed, and the mean imputed residual must have a 90% interval including 0.
+  - **Wisconsin and the 25% rule.** Two-year cumulative ÷ 2 = a yearly rate, converted to Wisconsin homes through the Stage 2 path. The 25% rule needs a 90% width of 26,289 homes or less, plus the pre-trend pass. Calibration (rule 3) is checked only if both pass.
