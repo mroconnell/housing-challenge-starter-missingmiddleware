@@ -1,0 +1,9 @@
+test,weighting,places,estimate,p05,p95,unit,reading
+"Total homes (headline, recomputed)",home-weighted,75,-1.0676571127355603,-3.4526951113176976,1.496633900077355,"permits per 1,000 existing homes a year",interval includes 0
+"Total homes (headline, recomputed)",equal-weight,75,0.4948780667059618,-1.0942784933298488,2.0792256151543445,"permits per 1,000 existing homes a year",interval includes 0
+"FU5a homes in 5+ unit buildings per 1,000 existing 5+ unit homes",home-weighted,75,-1.586425072808123,-6.100205168905953,3.36220785812842,"per 1,000 existing homes in 5+ unit buildings a year",interval includes 0
+"FU5a homes in 5+ unit buildings per 1,000 existing 5+ unit homes",equal-weight,75,0.7455069200079856,-4.469060220862784,5.753147551353221,"per 1,000 existing homes in 5+ unit buildings a year",interval includes 0
+"FU5b homes in 5+ unit buildings per 1,000 existing homes",home-weighted,75,-1.0080402623139473,-2.6594763627246305,1.0094988744196594,"permits per 1,000 existing homes a year",interval includes 0
+"FU5b homes in 5+ unit buildings per 1,000 existing homes",equal-weight,75,0.3193736570072733,-0.6103426834680968,1.2675846272057218,"permits per 1,000 existing homes a year",interval includes 0
+"FU6 near-placebo: single-family homes per 1,000 existing homes",home-weighted,75,0.004439577843547256,-0.8341127731708168,0.7585988202446541,"permits per 1,000 existing homes a year",interval includes 0
+"FU6 near-placebo: single-family homes per 1,000 existing homes",equal-weight,75,0.06286356945749838,-1.291750832803184,1.3054240117171323,"permits per 1,000 existing homes a year",interval includes 0

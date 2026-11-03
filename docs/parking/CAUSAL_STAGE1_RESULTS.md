@@ -240,6 +240,18 @@ Each adjustment moves the home-weighted figure toward zero.
 - Equal-weight: +0.87 (−0.81 to +2.55). Home-weighted: −0.05 (−2.91 to +2.81). Unit: permits per 1,000 existing homes a year.
 - Read: adjusting for apartment mix, local job growth and prior growth moves the estimate to about zero or slightly positive. The interval still includes 0.
 
+**FU5, apartment-only outcome, and FU6, single-family near-placebo** (75 places; 90% intervals):
+
+| Outcome | Home-weighted | Equal-weight | Unit |
+| --- | --- | --- | --- |
+| Total homes (headline) | −1.07 (−3.45 to +1.50) | +0.50 (−1.09 to +2.08) | permits per 1,000 existing homes a year |
+| Homes in 5+ unit buildings, per existing 5+ unit homes | −1.59 (−6.10 to +3.36) | +0.75 (−4.47 to +5.75) | per 1,000 existing homes in 5+ unit buildings a year |
+| Homes in 5+ unit buildings, per all existing homes | −1.01 (−2.66 to +1.01) | +0.32 (−0.61 to +1.27) | permits per 1,000 existing homes a year |
+| Single-family homes (near-placebo) | +0.00 (−0.83 to +0.76) | +0.06 (−1.29 to +1.31) | permits per 1,000 existing homes a year |
+
+- Apartments: no measurable change. Almost all of the total-homes estimate sits in apartments, so narrowing the outcome does not sharpen it.
+- Near-placebo: single-family permits show no change, as expected. The comparison is not picking up a general market swing in single-family building.
+
 ## What Stage 1 says for Stage 2 (not yet run)
 - Parking per home fell in Minneapolis after 2015, but by the same amount where the cut did and did not apply (F1b). In Seattle, projects with no parking appeared only in reform areas (F1c). Builders put more homes in each larger building (H1).
 - No test shows more total homes, and the line test (E1) finds no measurable change at its scale.
