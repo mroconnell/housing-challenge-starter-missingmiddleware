@@ -251,6 +251,8 @@ Each adjustment moves the home-weighted figure toward zero.
 
 - Apartments: no measurable change. Almost all of the total-homes estimate sits in apartments, so narrowing the outcome does not sharpen it.
 - Near-placebo: single-family permits show no change, as expected. The comparison is not picking up a general market swing in single-family building.
+- It rules out single-family market swings only, not a slowdown confined to apartments; FU1 (apartment-share matching) covers that.
+- The parts add up: total −1.07, apartments −1.01, leaving about −0.06 for 2–4 unit buildings, with single-family at 0.00.
 
 **FU7, lot-size bands** (Jenks breaks, k = 3, on log lot acres per city; net new homes per 1,000 lots a year, reform lots' change minus comparison lots' change; 90% intervals from 500 m cells):
 
@@ -264,9 +266,13 @@ Each adjustment moves the home-weighted figure toward zero.
 - **Pooled, as the equal-weight mean of cities:** small −11.1, middle +17.4, large +6.2.
 - **Leave one city out:** without Seattle, middle drops to +4.8 and large to −9.7.
 - **Read:** larger lots gained in Seattle and Buffalo, and small lots lost in Seattle and Chicago. But Chicago's largest lots lost, and San Francisco shows nothing in any band. The "effect sits on bigger lots" idea holds in two of four cities and reverses in a third, so it does not generalise.
+- **Buffalo is in effect split in two.** Its top Jenks band has about 73 reform lots and 1 comparison lot, so it is not estimable. Its "middle" (0.14 acre and up) is in effect its large band. With Buffalo counted in the large band instead, the pooled middle is +16.5 and the pooled large is +9.7.
+- **Thin comparison groups:** Seattle's small and large bands have only 67 and 48 comparison lots. San Francisco's large band has 8,282 reform lots against 190 comparison lots.
+- **Buffalo lot counts:** 654 reform lots and 460 comparison lots have no lot area and are left out of the bands. The re-downloaded Buffalo data match October exactly (36,326 / 37,971 lots; effect 2.66).
 - The bands are each city's own natural breaks, so "middle" means different sizes in different cities. The October 0.1-acre split is in `reference/parking_causal_fu7_lotbands.csv` for reference.
 - The raw city data had been removed in the cleanup and was re-downloaded from the same public sources (`scripts/fetch_parking_lot_cities.py`, `scripts/fetch_parking_older_reforms.py`).
 
 ## What Stage 1 says for Stage 2 (not yet run)
+- Why "bigger projects only" fails as a Wisconsin line: homes per new 5+ unit building rise (+37%, H1), but the number of those buildings falls (−35%, H2), and apartment homes in total don't change measurably (FU5).
 - Parking per home fell in Minneapolis after 2015, but by the same amount where the cut did and did not apply (F1b). In Seattle, projects with no parking appeared only in reform areas (F1c). Builders put more homes in each larger building (H1).
 - No test shows more total homes, and the line test (E1) finds no measurable change at its scale.
