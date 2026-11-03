@@ -391,7 +391,8 @@ The rule for this check was set by the learning thread for this check (it is not
   - **Sample of 26 files:**
     - 2023–2025: all 16 state the rule. Only 2 faced a positive minimum; the rest sit in the Central Area (no minimum since the 2013 code), the TOD overlay (passed 2023-01-17) or a planned development.
     - 2015 to mid-2022: 5 of 10 had a positive minimum with both numbers stated.
-  - **Estimate.** About 150 files from 2015–2022, roughly half under a positive minimum, so 30+ projects looks reachable.
+  - **Estimate.** About 150 files from 2015–2022. "5 of 10" is a small sample, so the true share facing a minimum could be about 20–80%, roughly 30–120 projects. 30+ looks reachable but is not certain.
+  - **If Madison goes ahead,** code the rule in force for each file's date and location: Central Area none since 2013, TOD overlay since 2023-01-17.
   - **Effort.** About 10–14 hours: 4 of code, plus checking each project by hand.
 - **Milwaukee: not feasible from public automated sources.**
   - **Legistar.** City Plan Commission files sampled from 2023–2025 state proposed parking in 6 of 11, but a code-required number in none. Planned developments set their own parking.
@@ -399,7 +400,7 @@ The rule for this check was set by the learning thread for this check (it is not
   - **MPROP.** PARKING_SPACES is empty in every row.
   - **Path forward.** A public-records request.
 - **Biases for a later bunching test:**
-  - Only conditional-use and planned-development projects appear, so large projects are over-represented.
+  - Only conditional-use and planned-development projects appear, so large projects are over-represented and by-right projects never appear.
   - The numbers are proposed parking, not built.
   - One project can have several files.
   - Projects asking for reductions are over-represented.
@@ -418,6 +419,7 @@ The rule for this check was set by the learning thread for this check (it is not
 | Backtest, years −2 and −1 vs −5 to −3 | **+2.66 (+0.77 to +4.26): fails** |
 
 - **Reading: not supported.**
-  - **The backtest fails.** The apartment-minus-single-family gap was already rising before repeal, against the comparison places.
+  - **The backtest fails.** The apartment-minus-single-family gap was already rising before repeal, against the comparison places. This agrees with P3: repeal places' 5+ permits were rising into repeal, and the triple difference does not remove that pre-trend.
+  - **Weighting decides the sign again:** equal weight gives +0.26, home weight −1.01.
   - **Width.** Converted to Wisconsin homes, the width is 36,780, above the 26,289 bar. That conversion is rough, because this outcome is a relative shift between classes, not added homes.
 - **The lines stand.**
