@@ -49,7 +49,7 @@ def main() -> None:
     hit = geom.points_in_polygons(x, y, lay.polys)
     zc = np.where(hit >= 0, lay.attrs["ZONE_CLASS"].astype(str).values[np.clip(hit, 0, None)], "")
     d["zone"] = zc
-    d = d[pd.Series(zc, index=d.index).str.match(r"^[BCD]\d|^D[XRS]")].copy()
+    d = d[pd.Series(zc, index=d.index).str.match(r"^[BC]\d|^D[CXRS]")].copy()
     d["pinched"] = (d["dist_station_m"] <= 402.336).astype(float)
     d["permits_main"] = d["permits"]
     d["cell"] = "Chicago:" + (d["x5070"] // LC.CELL).astype(int).astype(str) + "_" + (d["y5070"] // LC.CELL).astype(int).astype(str)

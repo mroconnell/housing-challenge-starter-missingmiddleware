@@ -244,11 +244,18 @@ Unit: permits per 1,000 existing homes a year. These runs use 75 places (South B
 - **Chicago and T1:** Chicago 2015 cut housing parking in B/C/D districts, so it breaks T1's locked "no housing change" rule and is not added to the placebo.
 - **Suggested how-it-works line (needs Ryan's OK).** "Before repeal, repeal places did not move in step with their comparison places (a gap of about 2 per 1,000 homes a year over 5 years). Allowing for that, the range is about −5.5 to +3.6, wider than −3.4 to +1.5."
 
-## Chicago B/C/D with home and acre denominators (*post hoc*; owner's ask)
+## Chicago B/C/D with home and acre denominators (*post hoc*; owner's ask; corrected after audit)
 
-- **Sample:** the same B/C/D lots, 5,927 reform and 4,637 comparison, from the November 2012 zoning map.
-- **Denominators:**
-  - Per lot acre (842 reform acres, 598 comparison): −6.19 net new homes per 100 lot acres a year (90% −17.02 to +3.72).
-  - Per existing home: +107 per 1,000 existing homes a year (90% −364 to +649). Not usable: only 201 and 290 homes stood on these lots before. Business-district lots were mostly non-residential, so a home denominator explodes.
-- **Pedestrian Streets: not fixable for now.** B/C/D lots on Pedestrian Streets 402–805 m from a station were treated in 2015 but sit in the comparison band, and no 2015 layer is on disk. That pushes every Chicago estimate toward zero.
-- **Read:** on the right lots and the acre denominator, Chicago is about −6 per 100 lot acres a year, with a range that includes 0. It stays a side result; it is not in the 76 and does not feed a tool line.
+- **Sample:** B/C/D lots, 5,927 reform and 4,637 comparison, using November 2012 zoning.
+- **Zone match fixed.** The zone match now includes DC (Downtown Core), using `^[BC]\d|^D[CXRS]` in both Chicago scripts. It adds 0 lots within 805 m of a station in the lot table, so the B/C/D rerun is unchanged.
+- **Correction.** An earlier version used `units_before`, which counts homes permitted in the 6 years before, not homes that existed. It also said "only 201 and 290 homes stood on these lots", which is withdrawn. The lot table's existing-homes column is empty for Chicago, so existing homes now come from 2010 census blocks. Each block's housing units go to the nearest kept lot within 100 m.
+
+| Denominator | Estimate (90%) | Unit |
+| --- | --- | --- |
+| Per lot acre (842 / 598 acres) | −6.19 (−17.02 to +3.72) | net new homes per 100 lot acres a year |
+| Per existing home (2010 census; 97,917 / 66,295 homes) | −0.60 (−1.64 to +0.28) | net new homes per 1,000 existing homes a year |
+| Per residential lot acre (lots in residential or mixed use: 33 / 32 acres) | −37 (−1,290 to +239) | per 100 residential lot acres; not usable, because the denominator is tiny |
+
+- **Read.** On every usable denominator Chicago leans negative, with a range that includes 0.
+- **Pedestrian Streets: not fixable.** Treated lots along Pedestrian Streets sit in the comparison band, and no 2015 layer exists to remove them. This pushes the estimate toward zero.
+- **Status:** a closed side result. Not in the 76, and no tool line or low line.
