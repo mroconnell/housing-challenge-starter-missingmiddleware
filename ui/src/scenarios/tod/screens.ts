@@ -18,6 +18,7 @@ export function sharePct(v: number): string {
   return `${p < 0 ? "−" : ""}${Number(a.toPrecision(a >= 1 ? 3 : 2)).toLocaleString("en-US", { maximumFractionDigits: 3 })}%`;
 }
 const more = (summary: string, html: string) => `<details class="more"><summary>${esc(summary)}</summary>${html}</details>`;
+const lcFirst = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 const scen = (b: TodBundle, id: ScenId) => b.statewide.scenarios.find((s) => s.id === id)!;
 const signed = (v: number, d = 3) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${dec(Math.abs(v), d)}`;
 const placeName = (n: string) => n.replace(/ (city|village|town)$/, " ($1)");
@@ -204,14 +205,14 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
       <p class="tile-sub">${sharePct(x.share_of_stock)} of the ${int(s.stock_homes)} homes near stops (2020 census); about ${int(x.per_year)} a year</p>
       <p class="tile-note">${esc(x.info)}</p></section>`; }).join("")}
   </div>
-  ${s.record_years.length ? `<div class="note-box" role="note" data-testid="record-years"><p><strong>Above the metros' own records.</strong> In its busiest years, apartment permitting (current law plus the law) would pass the metro's own record year: ${SCEN_IDS.filter((id) => s.record_years.some((r) => r.scenario === id)).map((id) => `${esc(scen(b, id).label.toLowerCase())}: ${s.record_years.filter((r) => r.scenario === id).map((r) => `${esc(r.metro)} ${r.years.join(" and ")}`).join("; ")}`).join(". ")}. No line passes the busiest year any comparable US metro has recorded. Details on <a href="${env.link("/how-sure")}">How sure</a>.</p></div>` : ""}
+  ${s.record_years.length ? `<div class="note-box" role="note" data-testid="record-years"><p><strong>Above the metros' own records.</strong> In its busiest years, apartment permitting (current law plus the law) would pass the metro's own record year: ${SCEN_IDS.filter((id) => s.record_years.some((r) => r.scenario === id)).map((id) => `${esc(lcFirst(scen(b, id).label))}: ${s.record_years.filter((r) => r.scenario === id).map((r) => `${esc(r.metro)} ${r.years.join(" and ")}`).join("; ")}`).join(". ")}. No line passes the busiest year any comparable US metro has recorded. Details on <a href="${env.link("/how-sure")}">How sure</a>.</p></div>` : ""}
   <section class="card"><h2>Homes permitted near stops each year</h2>
     <p class="muted">Current law alone (grey, with its range shaded), and current law plus each scenario's extra homes.</p>
     ${chartModeToggleHTML("tod-chart-mode")}
     <div class="chart-box" id="tod-chart"></div>
-    ${legendHTML([{ name: "Current law (range shaded)", color: C.baseline, dash: DASH.baseline }, ...SCEN_IDS.map((id) => ({ name: `With the law: ${scen(b, id).label.toLowerCase()}`, color: C[id], dash: DASH[id] }))])}
+    ${legendHTML([{ name: "Current law (range shaded)", color: C.baseline, dash: DASH.baseline }, ...SCEN_IDS.map((id) => ({ name: `With the law: ${lcFirst(scen(b, id).label)}`, color: C[id], dash: DASH[id] }))])}
     <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Homes permitted near major transit stops: current law and the extra homes the law adds</caption>
-      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(scen(b, id).label.toLowerCase())}</th>`).join("")}</tr></thead>
+      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(lcFirst(scen(b, id).label))}</th>`).join("")}</tr></thead>
       <tbody>${base.years.map((y, i) => `<tr><th scope="row">${y.year}</th><td class="num">${int(y.central)}</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).by_year[i])}</td>`).join("")}</tr>`).join("")}
       <tr><th scope="row">2027–2031</th><td class="num">${int(base.total)}</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).additional_total)}</td>`).join("")}</tr>
       <tr><th scope="row">With the law, 2027–2031</th><td class="num">—</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).with_law_total)}</td>`).join("")}</tr></tbody></table></div>
@@ -227,7 +228,7 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
   const yrs = base.years;
   bindChartMode("tod-chart-mode", (mode) => xyChart(document.getElementById("tod-chart")!, mode === "totals" ? {
     title: "Homes permitted near major transit stops each year, 2027–2031",
-    desc: `Current law ${int(base.total)} over 2027–2031. With the law: ${SCEN_IDS.map((id) => `${scen(b, id).label.toLowerCase()} ${int(scen(b, id).with_law_total)}`).join(", ")}. The table below has the same values.`,
+    desc: `Current law ${int(base.total)} over 2027–2031. With the law: ${SCEN_IDS.map((id) => `${lcFirst(scen(b, id).label)} ${int(scen(b, id).with_law_total)}`).join(", ")}. The table below has the same values.`,
     yLabel: "Homes permitted per year", xTicks: YEARS,
     series: [
       { name: "Current law", values: yrs.map((y) => ({ x: y.year, y: y.central })), color: C.baseline, dash: DASH.baseline },
@@ -236,7 +237,7 @@ export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     band: { name: "Current-law range", lo: yrs.map((y) => ({ x: y.year, y: y.low })), hi: yrs.map((y) => ({ x: y.year, y: y.high })), color: C.baseline },
   } : {
     title: "Extra homes permitted near major transit stops each year, 2027–2031",
-    desc: `Extra homes above current law over 2027–2031: ${SCEN_IDS.map((id) => `${scen(b, id).label.toLowerCase()} ${int(scen(b, id).additional_total)}`).join(", ")}. Current law is the zero line. The table below has the same values.`,
+    desc: `Extra homes above current law over 2027–2031: ${SCEN_IDS.map((id) => `${lcFirst(scen(b, id).label)} ${int(scen(b, id).additional_total)}`).join(", ")}. Current law is the zero line. The table below has the same values.`,
     yLabel: "Extra homes per year", xTicks: YEARS,
     series: [
       { name: "Current law", values: yrs.map((y) => ({ x: y.year, y: 0 })), color: C.baseline, dash: DASH.baseline },
@@ -276,7 +277,7 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
   rows.sort((a, z) => { const x = val(a), y = val(z); const c = typeof x === "string" ? x.localeCompare(y as string) : (x as number) - (y as number); return dir === "asc" ? c : -c; });
   const cols: [string, string, boolean][] = [["name", level === "place" ? "Place" : level === "county" ? "County" : "District", false]];
   if (level === "place") cols.push(["homes", "Homes near stops", true]);
-  cols.push(["baseline", "Permitted near stops, current law", true], ["add", `Extra homes (${sc.label.toLowerCase().replace(" response", "")})`, true]);
+  cols.push(["baseline", "Permitted near stops, current law", true], ["add", `Extra homes (${lcFirst(sc.label).replace(" response", "")})`, true]);
   const head = cols.map(([k, label, num]) => {
     const on = sortKey === k;
     return `<th scope="col" class="${num ? "num" : ""}"${on ? ` aria-sort="${dir === "asc" ? "ascending" : "descending"}"` : ""}><button type="button" class="tod-sort-btn" id="sort-${k}" data-sort="${k}">${esc(label)}<span class="tod-sort-ind" aria-hidden="true">${on ? (dir === "asc" ? "▲" : "▼") : "↕"}</span></button></th>`;
@@ -294,7 +295,7 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
   <form class="card" id="tod-where-scen">${scenRadios(b, "tod-scen", sid)}</form>
   <section class="card"><h2>Two metro areas and the rest of the state</h2>
     <div class="table-wrap"><table class="data" data-testid="metro-table"><caption>Homes near stops, current-law permits and extra homes by area, 2027–2031</caption>
-      <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes near stops (2020 census)</th><th scope="col" class="num">Permitted near stops, current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">${id === sid ? "<strong>" : ""}Extra: ${esc(scen(b, id).label.toLowerCase())}${id === sid ? "</strong>" : ""}</th>`).join("")}</tr></thead>
+      <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes near stops (2020 census)</th><th scope="col" class="num">Permitted near stops, current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">${id === sid ? "<strong>" : ""}Extra: ${esc(lcFirst(scen(b, id).label))}${id === sid ? "</strong>" : ""}</th>`).join("")}</tr></thead>
       <tbody>${A.metros.map((m) => `<tr><th scope="row">${esc(m.name)}<br><span class="small muted">${esc(m.counties.join(", "))}; ${m.places} ${m.places === 1 ? "place" : "places"} with qualifying stops</span></th><td class="num">${int(m.homes_near)}</td><td class="num">${small(m.baseline)}</td>${SCEN_IDS.map((id) => `<td class="num">${small(m.add[id])}</td>`).join("")}</tr>`).join("")}
       <tr><th scope="row">Wisconsin</th><td class="num">${int(A.metros.reduce((a, m) => a + m.homes_near, 0))}</td><td class="num">${int(b.statewide.baseline.total)}</td>${SCEN_IDS.map((id) => `<td class="num">${int(scen(b, id).additional_total)}</td>`).join("")}</tr></tbody></table></div>
     <p class="small muted">Metro areas as the federal government defines them (Milwaukee, Waukesha, Ozaukee and Washington counties; Dane, Columbia, Green and Iowa counties).</p></section>
@@ -305,7 +306,7 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
     <p class="small muted">Stops from the federal National Transit Map. Place outlines are simplified. The map shows where the law would apply, not where homes will be built.</p></section>
   <section class="card"><h2>By place and district</h2>
     <form id="tod-where-level"><fieldset class="seg"><legend>Show by</legend>${LEVELS.map(([l, t]) => `<label><input type="radio" name="tod-level" value="${l}" ${level === l ? "checked" : ""}> ${t}</label>`).join("")}</fieldset></form>
-    <div class="table-wrap"><table class="data" data-testid="where-table"><caption>Extra homes, ${esc(sc.label.toLowerCase())}, by ${esc(LEVELS.find(([l]) => l === level)![1].toLowerCase())}, 2027–2031 (statewide total ${int(sc.additional_total)}). Select a column heading to sort.</caption>
+    <div class="table-wrap"><table class="data" data-testid="where-table"><caption>Extra homes, ${esc(lcFirst(sc.label))}, by ${esc(LEVELS.find(([l]) => l === level)![1].toLowerCase())}, 2027–2031 (statewide total ${int(sc.additional_total)}). Select a column heading to sort.</caption>
       <thead><tr>${head.join("")}</tr></thead>
       <tbody>${rows.map((r) => `<tr><th scope="row">${esc(r.name)}</th>${level === "place" ? `<td>${esc(r.county ?? "")}<br><span class="small muted">${esc(r.metro ?? "")}</span></td><td class="num">${int(r.qacres ?? 0)}</td><td class="num">${int(r.homes)}</td>` : ""}<td class="num">${small(r.baseline)}</td><td class="num">${small(r.add)}</td>${sharedCell(r)}</tr>`).join("")}</tbody></table></div>
     ${A.few_homes_places.length ? `<p class="small" data-testid="few-homes-note">Some places get extra homes though few or no homes are near their stops today (${esc(A.few_homes_places.map((n) => n.replace(/ (city|village|town)$/, " ($1)")).join(", "))}). Extra homes are placed in proportion to land within ¼ mile of rail and rapid stops, which includes vacant and commercial land, not in proportion to existing homes.</p>` : ""}
@@ -341,7 +342,7 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     const mm = b.areas.metros;
     return `<section class="card"><h2>${esc(g.label)}</h2>
     <div class="table-wrap"><table class="data" data-testid="sens-${esc(g.id)}"><caption>${esc(g.label)}: homes permitted near stops, 2027–2031</caption>
-      <thead><tr><th scope="col">What if</th><th scope="col">What it means</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(scen(b, id).label.toLowerCase())}</th>`).join("")}${where_ ? `<th scope="col" class="num">Milwaukee metro (central)</th><th scope="col" class="num">Madison metro (central)</th>` : ""}</tr></thead>
+      <thead><tr><th scope="col">What if</th><th scope="col">What it means</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(lcFirst(scen(b, id).label))}</th>`).join("")}${where_ ? `<th scope="col" class="num">Milwaukee metro (central)</th><th scope="col" class="num">Madison metro (central)</th>` : ""}</tr></thead>
       <tbody>${where_ ? mainRow.replace("</tr>", `<td class="num">${int(mm[0].add.typical)}</td><td class="num">${int(mm[1].add.typical)}</td></tr>`) : mainRow}${g.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td>${esc(r.text)}${r.id === "ramp_year5_alt" && r.year_2031 ? ` Central line in 2031: ${int(r.year_2031.typical)} instead of ${int(scen(b, "typical").by_year[4])}.` : ""}</td><td class="num">${int(r.baseline)}</td>${r.id === "typical_range"
         ? `<td class="num">—</td><td class="num">${int(r.add.typical_low)} to ${int(r.add.typical_high)}</td><td class="num">—</td>`
         : r.id === "little_range"
@@ -363,9 +364,9 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     <div class="table-wrap"><table class="data" data-testid="scale-table"><caption>Apartment homes permitted per 1,000 existing homes per year, busiest year of 2027–2031</caption>
       <thead><tr><th scope="col">Metro</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">${esc(scen(b, id).label)}</th>`).join("")}<th scope="col" class="num">The metro's own record</th></tr></thead>
       <tbody>${H.scale.map((m) => `<tr><th scope="row">${esc(m.name)}</th><td class="num">${dec(m.baseline_per_1000, 2)}</td>${SCEN_IDS.map((id) => `<td class="num">${dec(m.peak[id].total_per_1000, 2)} <span class="small muted">(${m.peak[id].year})</span>${m.peak[id].exceeds_own_max ? " <strong>above record</strong>" : ""}</td>`).join("")}<td class="num">${dec(m.own_max, 2)} <span class="small muted">(${m.own_max_year})</span></td></tr>`).join("")}</tbody></table></div>
-    <p class="small muted">The highest year any of 79 comparable US metros (500,000 to 2.5 million people, 2000–2025) has recorded is ${esc(sb.observed_max_metro)} in ${sb.observed_max_year}: ${dec(sb.observed_max, 1)} per 1,000. No scenario reaches it. ${(() => { const over = SCEN_IDS.filter((id) => H.scale.some((m) => m.peak[id].exceeds_own_max)); return over.length ? `Above a metro's own record in its busiest year: ${over.map((id) => scen(b, id).label.toLowerCase()).join("; ")}.` : "No scenario beats the two metros' own records."; })()} Census Building Permits Survey and housing-unit estimates.</p></section>
+    <p class="small muted">The highest year any of 79 comparable US metros (500,000 to 2.5 million people, 2000–2025) has recorded is ${esc(sb.observed_max_metro)} in ${sb.observed_max_year}: ${dec(sb.observed_max, 1)} per 1,000. No scenario reaches it. ${(() => { const over = SCEN_IDS.filter((id) => H.scale.some((m) => m.peak[id].exceeds_own_max)); return over.length ? `Above a metro's own record in its busiest year: ${over.map((id) => lcFirst(scen(b, id).label)).join("; ")}.` : "No scenario beats the two metros' own records."; })()} Census Building Permits Survey and housing-unit estimates.</p></section>
   <section class="card"><h2>A check against Madison's own overlay (not set in advance)</h2>
-    <p data-testid="madison-share">In 2023 Madison raised allowed density along its transit corridors. Over 2023–2025, the extra homes permitted on the overlay's lots were about ${sharePct(ms.judged.share)} of the ${int(ms.judged.stock)} homes on those lots (likely range ${sharePct(ms.judged.low)} to ${sharePct(ms.judged.high)}; ${sharePct(ms.main.share)} on the narrower main estimate). Over their first three years, the scenarios give ${SCEN_IDS.map((id) => `${sharePct(ms.scenarios[id])} (${scen(b, id).label.toLowerCase()})`).join(", ")} of the homes near stops. Madison's range includes zero and all three, so it cannot pick between them.</p>
+    <p data-testid="madison-share">In 2023 Madison raised allowed density along its transit corridors. Over 2023–2025, the extra homes permitted on the overlay's lots were about ${sharePct(ms.judged.share)} of the ${int(ms.judged.stock)} homes on those lots (likely range ${sharePct(ms.judged.low)} to ${sharePct(ms.judged.high)}; ${sharePct(ms.main.share)} on the narrower main estimate). Over their first three years, the scenarios give ${SCEN_IDS.map((id) => `${sharePct(ms.scenarios[id])} (${lcFirst(scen(b, id).label)})`).join(", ")} of the homes near stops. Madison's range includes zero and all three, so it cannot pick between them.</p>
     <p class="small muted">This comparison was added after the results were known and has no pass rule; the Madison test, whose pass rule was written before counting, is on <a href="${env.link("/why")}">Why</a>.</p></section>
   <section class="card"><h2>What rests on data and what on judgment</h2>
     <ul class="plain" data-testid="trace">${H.trace.map((t) => `<li>${pill(t.status)} <strong>${esc(t.part)}.</strong> ${esc(t.text)}</li>`).join("")}</ul></section>
@@ -440,7 +441,7 @@ export function pilot(b: TodBundle, env: ShellEnv, slug: string, main: HTMLEleme
   const nav = `<nav aria-label="Pilot examples"><p>${b.pilots.map((x) => x.slug === p.slug ? `<strong aria-current="page">${esc(x.title)}</strong>` : `<a href="${env.link(`/pilot/${x.slug}`)}">${esc(x.title)}</a>`).join(" · ")}</p></nav>`;
   const banner = `<p class="banner banner-pilot"><strong>Pilot example, not a statewide result.</strong> Pilot pages show how the statewide model plays out in one place. Their figures are already inside the Wisconsin totals and are never added to them.</p>`;
   const stops = Object.entries(p.stops).map(([k, v]) => `${int(v)} ${esc(k)}`).join(", ");
-  const rng = (o: Record<ScenId, number>) => `${scen(b, "little").label.toLowerCase()} ${int(o.little)}, strong ${int(o.strong)}`;
+  const rng = (o: Record<ScenId, number>) => `${lcFirst(scen(b, "little").label)} ${int(o.little)}, strong ${int(o.strong)}`;
   if (p.corridor) {
     const c = p.corridor;
     const labels = c.places.map((x) => x.name);
