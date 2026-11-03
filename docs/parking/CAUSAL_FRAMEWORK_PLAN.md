@@ -582,3 +582,32 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
     - same-time changes to height, density or approvals;
     - hours spent.
   - **Output.** `reference/parking_dose_pilot.csv`.
+
+## Test 43: do Madison's minimums bind? Bunching in project records, 2015–2022 (locked 2026-11-03, before any count; owner: "go")
+
+**Running count: 43.** Evidence only; Milwaukee is held until Madison shows whether minimums bind.
+
+- **Records.** Madison Legistar "Conditional Use" and planned-development files with 5+ homes in the title, 2015-01-01 to 2022-12-31.
+  - The source is each file's Staff Comments PDF, Zoning table: "Required | Proposed", from the auto parking / number of parking stalls row.
+  - One record per project: repeat files for the same project (same address, alterations, phases) keep the latest approved one.
+- **The rule in force,** coded for each file's date and location before its proposed number is read:
+  - Central Area: no minimum since the 2013 code;
+  - TOD overlay: from 2023-01-17, so outside this window;
+  - planned developments: "per approved plan", recorded as no code minimum;
+  - otherwise the district's minimum as stated in the Required cell.
+  Only projects with a positive code minimum enter the test.
+- **Variables per project:** homes, required stalls, proposed stalls, district, rule, year. No addresses go in any committed file.
+- **Shares.** Proposed ÷ required, with three groups:
+  - "at the minimum": within 0.05 spaces per home of required;
+  - above;
+  - below (variance or reduction).
+  Also spaces per home.
+- **Parser check, before any share is read.** 50 random coded projects (or all, if fewer) are hand-checked against their PDFs. The parser passes at 45 of 50 correct (90%). Below that, every project is hand-checked.
+- **Feasibility.** At least 30 projects with a positive minimum and both numbers. The plausible range is 30–120 (audit); if fewer than 30, the result is "not feasible".
+- **Prediction (the reading).** If minimums bind, many projects sit at the minimum (bunching). If not, most sit above. The share at the minimum gets a 90% interval from 2,000 project resamples.
+- **Stated biases:**
+  - by-right projects never appear;
+  - projects are mostly large (conditional use is triggered by size or location);
+  - the numbers are proposed, not built;
+  - projects asking for reductions are over-represented;
+  - mixed-use requirements may combine commercial and residential parking.
