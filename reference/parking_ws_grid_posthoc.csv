@@ -1,0 +1,4 @@
+version,places,d1_estimate,pct,heldout_error,error_zero,diff,diff_p05,diff_p95,share_draws_d1_better,unit,label
+add 0.5 (locked),75,-0.08831022905815424,-8.452317484815087,4.946161624455259,5.051561055338496,-0.10539943088323689,-0.47970150873838935,0.2822392961316457,0.6435,"errors in permits per 1,000 existing homes a year; diff = D1 minus predict-zero (negative = D1 better)",POST HOC
+add 1,75,-0.07477979906536426,-7.205220119458177,4.994879380969598,5.051561055338496,-0.056681674368897816,-0.36925519878772023,0.25093641697313906,0.588,"errors in permits per 1,000 existing homes a year; diff = D1 minus predict-zero (negative = D1 better)",POST HOC
+drop places with a zero window,42,0.0066079083465530606,0.6629788740907694,5.497939690465132,5.1942520012406135,0.3036876892245184,0.1415202704685327,0.4388425208636257,0.0,"errors in permits per 1,000 existing homes a year; diff = D1 minus predict-zero (negative = D1 better)",POST HOC

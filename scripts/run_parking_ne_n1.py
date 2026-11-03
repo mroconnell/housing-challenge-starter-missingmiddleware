@@ -2,9 +2,8 @@
 covered metro areas (Portland dropped), against Washington (main) and Idaho (second) places at 1/2-2x population.
 docs/parking/CAUSAL_FRAMEWORK_PLAN.md ("Natural experiments N1-N4", locked 2026-11-03).
 
-Covered-city list: cities in the 8 metropolitan planning areas named in DLCD's "Where Parking Reforms Apply"
-(Portland Metro, Salem-Keizer, Eugene-Springfield, Albany, Bend, Corvallis, Grants Pass, Medford-Ashland / Rogue Valley),
-as members of each area's MPO. DLCD counts 48 cities; the list below has 45 (Portland dropped), flagged.
+Covered-city list: DLCD's "Where Parking Reforms Apply" (48 cities; Portland dropped, so 47). An earlier run used a
+45-city list built from MPO membership; it was replaced after the DLCD list was obtained (rule: verify and rerun).
 
     uv run python scripts/run_parking_ne_n1.py
 Outputs: reference/parking_ne_n1_places.csv, reference/parking_ne_n1.csv
@@ -24,13 +23,17 @@ from missing_middleware.parking import comparison as cmp  # noqa: E402
 from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 
 SEED, DRAWS, EVENT = 20261104, 2000, 2023
+# DLCD "Where Parking Reforms Apply" (table as of 2023-07-24; saved at
+# data/raw/parking_natural_experiments/dlcd_where_parking_reforms_apply_2023-07-24.pdf): 48 cities, grouped as DLCD lists
+# them (larger cities; smaller cities without exemptions; smaller cities with partial exemptions). Portland is dropped.
 METROS = {
-    "Portland Metro": ["Beaverton", "Cornelius", "Durham", "Fairview", "Forest Grove", "Gladstone", "Gresham", "Happy Valley",
-                       "Hillsboro", "Johnson City", "King City", "Lake Oswego", "Maywood Park", "Milwaukie", "Oregon City",
-                       "Rivergrove", "Sherwood", "Tigard", "Troutdale", "Tualatin", "West Linn", "Wilsonville", "Wood Village"],
-    "Salem-Keizer": ["Salem", "Keizer", "Turner"], "Eugene-Springfield": ["Eugene", "Springfield", "Coburg"],
-    "Albany": ["Albany", "Millersburg", "Tangent", "Jefferson"], "Bend": ["Bend"], "Corvallis": ["Corvallis", "Philomath", "Adair Village"],
-    "Grants Pass": ["Grants Pass"], "Rogue Valley": ["Medford", "Ashland", "Central Point", "Phoenix", "Talent", "Jacksonville", "Eagle Point"],
+    "larger (10,000+)": ["Albany", "Ashland", "Beaverton", "Bend", "Central Point", "Cornelius", "Corvallis", "Eugene", "Fairview",
+                         "Forest Grove", "Gladstone", "Grants Pass", "Gresham", "Happy Valley", "Hillsboro", "Keizer", "Lake Oswego",
+                         "Medford", "Milwaukie", "Oregon City", "Salem", "Sherwood", "Springfield", "Tigard", "Troutdale",
+                         "Tualatin", "West Linn", "Wilsonville"],
+    "smaller, no exemption": ["Adair Village", "Coburg", "Eagle Point", "Gold Hill", "Jefferson", "Millersburg", "Philomath",
+                              "Phoenix", "Talent", "Tangent", "Wood Village"],
+    "smaller, partly exempt": ["Durham", "Jacksonville", "Johnson City", "King City", "Maywood Park", "Rivergrove", "Rogue River", "Turner"],
 }
 ST = {"Oregon": "41", "Washington": "53", "Idaho": "16"}
 

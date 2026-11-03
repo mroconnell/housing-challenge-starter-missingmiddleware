@@ -30,6 +30,16 @@ Plans: `docs/parking/CAUSAL_FRAMEWORK_PLAN.md`, sections "Natural experiments N1
 | S2 | D2 | −3.48 (−8.63 to +2.18) | per 1,000 existing 5+ homes | 4.33 | 4.40 | yes | yes |
 
 - **Selection:** by the locked rule, the winner is D1 on all 76 places. It beats both "predict zero" and the main version on the same places.
+- **The win comes from Austin.** Austin accounts for +0.21 of the 0.105 margin. Without Austin, predicting zero does better than D1 (audit).
+- ***Post hoc*** (`reference/parking_ws_grid_posthoc.csv`). Error difference D1 minus predict-zero; negative means D1 is better.
+
+| D1 version | Places | Estimate | Error difference (90%) | Share of resamples where D1 wins |
+| --- | --- | --- | --- | --- |
+| add 0.5 (locked) | 75 | −8.5% | −0.11 (−0.48 to +0.28) | 64% |
+| add 1 | 75 | −7.2% | −0.06 (−0.37 to +0.25) | 59% |
+| drop places with a zero window | 42 | +0.7% | +0.30 (+0.14 to +0.44) | 0% |
+
+- **Read:** D1's edge over "predict zero" is within noise and depends on how zeros are handled. When the places with zero counts are dropped, zero wins clearly.
 - **The margin is small:** 4.95 against 5.05, a 2% lower error.
 - **D1 in Wisconsin** (5+ unit current-law permits in eligible places, 46,905 over 2027–2031): exp(−0.088) − 1 = −8.4%, about −3,965 apartment homes (90%: −13,863 to +9,999).
   - The interval includes 0 and the estimate is not supported.
@@ -38,17 +48,21 @@ Plans: `docs/parking/CAUSAL_FRAMEWORK_PLAN.md`, sections "Natural experiments N1
 
 ## N1, Oregon's state rule (intent-to-treat)
 
-- **Treated:** 45 cities listed in the 8 covered metro areas (Portland dropped), of which 38 are usable. DLCD counts 48 covered cities; the list here was built from MPO membership and could not be checked against DLCD's PDF, which did not download. Event 2023; before 2018–2022, after 2023–2025.
-- **Comparisons:** 14 Washington and Idaho places with their own 2018–2025 parking reform are dropped.
+- **Treated:** DLCD's 48 covered cities (table as of 2023-07-24), with Portland dropped, leaving 47. Of those, 39 are usable.
+  - An earlier run used a 45-city list built from MPO membership (38 usable). It gave +1.28 against Washington, almost the same.
+- **Windows:** event 2023; before 2018–2022, after 2023–2025.
+- **Comparison places dropped:** 14 Washington and Idaho places that had their own 2018–2025 parking reform.
 
 | Comparison | Effect (90%; 97.5%) | MDE | Median comparison places |
 | --- | --- | --- | --- |
-| Washington (main) | +1.28 (−0.74 to +2.89; −1.62 to +3.34) | 1.84 | 46 |
-| Idaho | +0.98 (−4.56 to +5.65) | 5.08 | 12 |
+| Washington (main) | +1.26 (−0.66 to +2.87; −1.36 to +3.36) | 1.75 | 46 |
+| Idaho | +0.97 (−4.71 to +5.46) | 5.18 | 12 |
 
 Unit: permits per 1,000 existing homes a year.
 
 - **Reading:** not supported (the 97.5% interval includes 0). The point estimate is positive, as predicted.
-- **Self-selection check (pre-written rule):**
-  - 16 covered cities are also among the 76. Their N1 estimate is +3.17, against +1.64 in the 76-place comparison.
-  - The gap of 1.53 lies inside N1's 90% interval width, so the two count as close. City self-selection is not what drives the 76-place result near zero.
+- **Washington is partly treated after 2024.** Washington's 2024 and 2025 state laws cut parking for middle housing near transit. That pushes N1 toward zero.
+- **Self-selection check:**
+  - 16 covered cities are also among the 76. In N1 they average +3.17; in the 76-place comparison they average +1.64.
+  - The 76-place figure (+1.64) sits inside N1's 90% interval (−0.66 to +2.87), so there is no sign that self-selection biased the 76. But this check could only detect a large gap (MDE 1.75).
+  - Part of the gap may come from the 76-place comparison places in Oregon, which CFEC also covered.

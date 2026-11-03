@@ -1,77 +1,79 @@
 metro,city,key,comparison,n_controls,homes,effect,in_76,effect_76
-Portland Metro,Beaverton,41|039000,Washington,20,42771.0,0.20431082506481246,True,-1.9635139216244486
-Portland Metro,Beaverton,41|039000,Idaho,7,42771.0,0.7211053783129984,True,-1.9635139216244486
-Portland Metro,Cornelius,41|097000,Washington,67,4949.0,-19.939847337800202,False,
-Portland Metro,Cornelius,41|097000,Idaho,17,4949.0,-38.14166335298036,False,
-Portland Metro,Durham,41|137000,Washington,69,946.0,17.18278473934134,False,
-Portland Metro,Durham,41|137000,Idaho,47,946.0,17.53557580286671,False,
-Portland Metro,Fairview,41|153000,Washington,68,4769.0,-20.36920308536113,False,
-Portland Metro,Fairview,41|153000,Idaho,18,4769.0,-35.357654023762926,False,
-Portland Metro,Forest Grove,41|159000,Washington,46,9094.0,-3.0563006010317277,False,
-Portland Metro,Forest Grove,41|159000,Idaho,11,9094.0,-13.122958080727045,False,
-Portland Metro,Gresham,41|195000,Washington,18,44005.0,-0.8552074676819794,False,
-Portland Metro,Gresham,41|195000,Idaho,6,44005.0,-0.8592515496138757,False,
-Portland Metro,Happy Valley,41|205000,Washington,45,9450.0,-22.01739628096221,False,
-Portland Metro,Happy Valley,41|205000,Idaho,11,9450.0,-32.1080974190663,False,
-Portland Metro,Hillsboro,41|217000,Washington,19,43576.0,-4.086438811541578,False,
-Portland Metro,Hillsboro,41|217000,Idaho,7,43576.0,-3.737815493064394,False,
-Portland Metro,King City,41|265000,Washington,63,2782.0,15.138879362732604,True,15.560762891864082
-Portland Metro,King City,41|265000,Idaho,28,2782.0,7.570358335619192,True,15.560762891864082
-Portland Metro,Lake Oswego,41|277000,Washington,38,18140.0,-0.25149525691492336,False,
-Portland Metro,Lake Oswego,41|277000,Idaho,11,18140.0,-7.802082802277283,False,
-Portland Metro,Milwaukie,41|339000,Washington,59,9859.0,8.053833718831607,True,-0.28906356836870195
-Portland Metro,Milwaukie,41|339000,Idaho,15,9859.0,-7.279492859434004,True,-0.28906356836870195
-Portland Metro,Oregon City,41|393000,Washington,38,14651.0,0.9896246420260475,False,
-Portland Metro,Oregon City,41|393000,Idaho,12,14651.0,-6.610756280206614,False,
-Portland Metro,Sherwood,41|469000,Washington,59,7055.0,6.739487755340567,False,
-Portland Metro,Sherwood,41|469000,Idaho,16,7055.0,-9.735823480803722,False,
-Portland Metro,Tigard,41|505000,Washington,30,23877.0,-0.5065085569993855,True,-2.566797346438932
-Portland Metro,Tigard,41|505000,Idaho,10,23877.0,-4.498421826088563,True,-2.566797346438932
-Portland Metro,Troutdale,41|513000,Washington,63,6244.0,-3.4238732816009154,False,
-Portland Metro,Troutdale,41|513000,Idaho,17,6244.0,-21.341625840306243,False,
-Portland Metro,Tualatin,41|517000,Washington,42,11303.0,8.295367265061621,True,13.889016623720913
-Portland Metro,Tualatin,41|517000,Idaho,12,11303.0,0.8727498515090035,True,13.889016623720913
-Portland Metro,West Linn,41|555000,Washington,43,10395.0,3.3017244813491455,True,9.453207463502302
-Portland Metro,West Linn,41|555000,Idaho,11,10395.0,-6.38515369612257,True,9.453207463502302
-Portland Metro,Wilsonville,41|569000,Washington,43,11075.0,-1.4647535853546545,False,
-Portland Metro,Wilsonville,41|569000,Idaho,11,11075.0,-11.15163176282637,False,
-Portland Metro,Wood Village,41|575000,Washington,65,1605.0,-27.300612838408927,False,
-Portland Metro,Wood Village,41|575000,Idaho,27,1605.0,-35.638486490603036,False,
-Salem-Keizer,Salem,41|445000,Washington,9,71124.0,3.026219540454342,True,-1.2401235023954609
-Salem-Keizer,Salem,41|445000,Idaho,2,71124.0,16.384847148815147,True,-1.2401235023954609
-Salem-Keizer,Keizer,41|263000,Washington,39,15171.0,1.1680168539345361,False,
-Salem-Keizer,Keizer,41|263000,Idaho,11,15171.0,-7.023648609553205,False,
-Eugene-Springfield,Eugene,41|151000,Washington,9,80856.0,5.594685161447892,True,0.9278406923403226
-Eugene-Springfield,Eugene,41|151000,Idaho,2,80856.0,18.953312769808697,True,0.9278406923403226
-Eugene-Springfield,Springfield,41|481000,Washington,29,25905.0,9.69052357089266,True,9.854601532010314
-Eugene-Springfield,Springfield,41|481000,Idaho,10,25905.0,5.895298121435394,True,9.854601532010314
-Eugene-Springfield,Coburg,41|083000,Washington,67,545.0,1.4538710246595397,False,
-Eugene-Springfield,Coburg,41|083000,Idaho,52,545.0,2.255285568825652,False,
-Albany,Albany,41|009000,Washington,29,22768.0,-5.98529042350793,True,-4.613908773243661
-Albany,Albany,41|009000,Idaho,10,22768.0,-9.780515872965196,True,-4.613908773243661
-Albany,Millersburg,41|335000,Washington,67,1187.0,-46.001391651148126,True,-33.660737424164864
-Albany,Millersburg,41|335000,Idaho,33,1187.0,-52.092368597676625,True,-33.660737424164864
-Albany,Tangent,41|503000,Washington,61,464.0,-4.022135737287621,False,
-Albany,Tangent,41|503000,Idaho,46,464.0,0.8015574482003812,False,
-Bend,Bend,41|041000,Washington,19,47957.0,5.739887681319495,True,3.4128722798122624
-Bend,Bend,41|041000,Idaho,7,47957.0,6.088510999796679,True,3.4128722798122624
-Corvallis,Corvallis,41|099000,Washington,29,25628.0,3.296701936833191,True,3.2514322255125157
-Corvallis,Corvallis,41|099000,Idaho,10,25628.0,-0.49852351262407524,True,3.2514322255125157
-Corvallis,Philomath,41|399000,Washington,63,2660.0,-29.15497815040737,False,
-Corvallis,Philomath,41|399000,Idaho,26,2660.0,-38.59099150239331,False,
-Grants Pass,Grants Pass,41|191000,Washington,39,17297.0,2.0545609231456154,True,10.316696968127436
-Grants Pass,Grants Pass,41|191000,Idaho,11,17297.0,-6.137104540342126,True,10.316696968127436
-Rogue Valley,Medford,41|325000,Washington,19,36630.0,6.039862626018053,False,
-Rogue Valley,Medford,41|325000,Idaho,8,36630.0,9.301484066200008,False,
-Rogue Valley,Ashland,41|017000,Washington,57,11494.0,0.3950422468434929,True,3.598921012230185
-Rogue Valley,Ashland,41|017000,Idaho,16,11494.0,-16.202966168998852,True,3.598921012230185
-Rogue Valley,Central Point,41|071000,Washington,59,7978.0,-8.083197007036173,True,-4.6562389829379445
-Rogue Valley,Central Point,41|071000,Idaho,17,7978.0,-23.169099769060995,True,-4.6562389829379445
-Rogue Valley,Phoenix,41|401000,Washington,64,2008.0,35.229958873329664,False,
-Rogue Valley,Phoenix,41|401000,Idaho,28,2008.0,27.090696228964745,False,
-Rogue Valley,Talent,41|501000,Washington,60,3270.0,-15.719859889714332,False,
-Rogue Valley,Talent,41|501000,Idaho,20,3270.0,-25.69557694246862,False,
-Rogue Valley,Jacksonville,41|245000,Washington,67,1698.0,9.161669149760796,False,
-Rogue Valley,Jacksonville,41|245000,Idaho,35,1698.0,5.503335004986219,False,
-Rogue Valley,Eagle Point,41|139000,Washington,64,3949.0,-3.6730615445611026,False,
-Rogue Valley,Eagle Point,41|139000,Idaho,20,3949.0,-18.025560135083737,False,
+"larger (10,000+)",Albany,41|009000,Washington,29,22768.0,-5.98529042350793,True,-4.613908773243661
+"larger (10,000+)",Albany,41|009000,Idaho,10,22768.0,-9.780515872965196,True,-4.613908773243661
+"larger (10,000+)",Ashland,41|017000,Washington,57,11494.0,0.3950422468434929,True,3.598921012230185
+"larger (10,000+)",Ashland,41|017000,Idaho,16,11494.0,-16.202966168998852,True,3.598921012230185
+"larger (10,000+)",Beaverton,41|039000,Washington,20,42771.0,0.20431082506481246,True,-1.9635139216244486
+"larger (10,000+)",Beaverton,41|039000,Idaho,7,42771.0,0.7211053783129984,True,-1.9635139216244486
+"larger (10,000+)",Bend,41|041000,Washington,19,47957.0,5.739887681319495,True,3.4128722798122624
+"larger (10,000+)",Bend,41|041000,Idaho,7,47957.0,6.088510999796679,True,3.4128722798122624
+"larger (10,000+)",Central Point,41|071000,Washington,59,7978.0,-8.083197007036173,True,-4.6562389829379445
+"larger (10,000+)",Central Point,41|071000,Idaho,17,7978.0,-23.169099769060995,True,-4.6562389829379445
+"larger (10,000+)",Cornelius,41|097000,Washington,67,4949.0,-19.939847337800202,False,
+"larger (10,000+)",Cornelius,41|097000,Idaho,17,4949.0,-38.14166335298036,False,
+"larger (10,000+)",Corvallis,41|099000,Washington,29,25628.0,3.296701936833191,True,3.2514322255125157
+"larger (10,000+)",Corvallis,41|099000,Idaho,10,25628.0,-0.49852351262407524,True,3.2514322255125157
+"larger (10,000+)",Eugene,41|151000,Washington,9,80856.0,5.594685161447892,True,0.9278406923403226
+"larger (10,000+)",Eugene,41|151000,Idaho,2,80856.0,18.953312769808697,True,0.9278406923403226
+"larger (10,000+)",Fairview,41|153000,Washington,68,4769.0,-20.36920308536113,False,
+"larger (10,000+)",Fairview,41|153000,Idaho,18,4769.0,-35.357654023762926,False,
+"larger (10,000+)",Forest Grove,41|159000,Washington,46,9094.0,-3.0563006010317277,False,
+"larger (10,000+)",Forest Grove,41|159000,Idaho,11,9094.0,-13.122958080727045,False,
+"larger (10,000+)",Grants Pass,41|191000,Washington,39,17297.0,2.0545609231456154,True,10.316696968127436
+"larger (10,000+)",Grants Pass,41|191000,Idaho,11,17297.0,-6.137104540342126,True,10.316696968127436
+"larger (10,000+)",Gresham,41|195000,Washington,18,44005.0,-0.8552074676819794,False,
+"larger (10,000+)",Gresham,41|195000,Idaho,6,44005.0,-0.8592515496138757,False,
+"larger (10,000+)",Happy Valley,41|205000,Washington,45,9450.0,-22.01739628096221,False,
+"larger (10,000+)",Happy Valley,41|205000,Idaho,11,9450.0,-32.1080974190663,False,
+"larger (10,000+)",Hillsboro,41|217000,Washington,19,43576.0,-4.086438811541578,False,
+"larger (10,000+)",Hillsboro,41|217000,Idaho,7,43576.0,-3.737815493064394,False,
+"larger (10,000+)",Keizer,41|263000,Washington,39,15171.0,1.1680168539345361,False,
+"larger (10,000+)",Keizer,41|263000,Idaho,11,15171.0,-7.023648609553205,False,
+"larger (10,000+)",Lake Oswego,41|277000,Washington,38,18140.0,-0.25149525691492336,False,
+"larger (10,000+)",Lake Oswego,41|277000,Idaho,11,18140.0,-7.802082802277283,False,
+"larger (10,000+)",Medford,41|325000,Washington,19,36630.0,6.039862626018053,False,
+"larger (10,000+)",Medford,41|325000,Idaho,8,36630.0,9.301484066200008,False,
+"larger (10,000+)",Milwaukie,41|339000,Washington,59,9859.0,8.053833718831607,True,-0.28906356836870195
+"larger (10,000+)",Milwaukie,41|339000,Idaho,15,9859.0,-7.279492859434004,True,-0.28906356836870195
+"larger (10,000+)",Oregon City,41|393000,Washington,38,14651.0,0.9896246420260475,False,
+"larger (10,000+)",Oregon City,41|393000,Idaho,12,14651.0,-6.610756280206614,False,
+"larger (10,000+)",Salem,41|445000,Washington,9,71124.0,3.026219540454342,True,-1.2401235023954609
+"larger (10,000+)",Salem,41|445000,Idaho,2,71124.0,16.384847148815147,True,-1.2401235023954609
+"larger (10,000+)",Sherwood,41|469000,Washington,59,7055.0,6.739487755340567,False,
+"larger (10,000+)",Sherwood,41|469000,Idaho,16,7055.0,-9.735823480803722,False,
+"larger (10,000+)",Springfield,41|481000,Washington,29,25905.0,9.69052357089266,True,9.854601532010314
+"larger (10,000+)",Springfield,41|481000,Idaho,10,25905.0,5.895298121435394,True,9.854601532010314
+"larger (10,000+)",Tigard,41|505000,Washington,30,23877.0,-0.5065085569993855,True,-2.566797346438932
+"larger (10,000+)",Tigard,41|505000,Idaho,10,23877.0,-4.498421826088563,True,-2.566797346438932
+"larger (10,000+)",Troutdale,41|513000,Washington,63,6244.0,-3.4238732816009154,False,
+"larger (10,000+)",Troutdale,41|513000,Idaho,17,6244.0,-21.341625840306243,False,
+"larger (10,000+)",Tualatin,41|517000,Washington,42,11303.0,8.295367265061621,True,13.889016623720913
+"larger (10,000+)",Tualatin,41|517000,Idaho,12,11303.0,0.8727498515090035,True,13.889016623720913
+"larger (10,000+)",West Linn,41|555000,Washington,43,10395.0,3.3017244813491455,True,9.453207463502302
+"larger (10,000+)",West Linn,41|555000,Idaho,11,10395.0,-6.38515369612257,True,9.453207463502302
+"larger (10,000+)",Wilsonville,41|569000,Washington,43,11075.0,-1.4647535853546545,False,
+"larger (10,000+)",Wilsonville,41|569000,Idaho,11,11075.0,-11.15163176282637,False,
+"smaller, no exemption",Coburg,41|083000,Washington,67,545.0,1.4538710246595397,False,
+"smaller, no exemption",Coburg,41|083000,Idaho,52,545.0,2.255285568825652,False,
+"smaller, no exemption",Eagle Point,41|139000,Washington,64,3949.0,-3.6730615445611026,False,
+"smaller, no exemption",Eagle Point,41|139000,Idaho,20,3949.0,-18.025560135083737,False,
+"smaller, no exemption",Millersburg,41|335000,Washington,67,1187.0,-46.001391651148126,True,-33.660737424164864
+"smaller, no exemption",Millersburg,41|335000,Idaho,33,1187.0,-52.092368597676625,True,-33.660737424164864
+"smaller, no exemption",Philomath,41|399000,Washington,63,2660.0,-29.15497815040737,False,
+"smaller, no exemption",Philomath,41|399000,Idaho,26,2660.0,-38.59099150239331,False,
+"smaller, no exemption",Phoenix,41|401000,Washington,64,2008.0,35.229958873329664,False,
+"smaller, no exemption",Phoenix,41|401000,Idaho,28,2008.0,27.090696228964745,False,
+"smaller, no exemption",Talent,41|501000,Washington,60,3270.0,-15.719859889714332,False,
+"smaller, no exemption",Talent,41|501000,Idaho,20,3270.0,-25.69557694246862,False,
+"smaller, no exemption",Tangent,41|503000,Washington,61,464.0,-4.022135737287621,False,
+"smaller, no exemption",Tangent,41|503000,Idaho,46,464.0,0.8015574482003812,False,
+"smaller, no exemption",Wood Village,41|575000,Washington,65,1605.0,-27.300612838408927,False,
+"smaller, no exemption",Wood Village,41|575000,Idaho,27,1605.0,-35.638486490603036,False,
+"smaller, partly exempt",Durham,41|137000,Washington,69,946.0,17.18278473934134,False,
+"smaller, partly exempt",Durham,41|137000,Idaho,47,946.0,17.53557580286671,False,
+"smaller, partly exempt",Jacksonville,41|245000,Washington,67,1698.0,9.161669149760796,False,
+"smaller, partly exempt",Jacksonville,41|245000,Idaho,35,1698.0,5.503335004986219,False,
+"smaller, partly exempt",King City,41|265000,Washington,63,2782.0,15.138879362732604,True,15.560762891864082
+"smaller, partly exempt",King City,41|265000,Idaho,28,2782.0,7.570358335619192,True,15.560762891864082
+"smaller, partly exempt",Rogue River,41|439000,Washington,66,1288.0,-4.793528600858104,False,
+"smaller, partly exempt",Rogue River,41|439000,Idaho,42,1288.0,-4.650390824398332,False,
