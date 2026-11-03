@@ -645,3 +645,13 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - If it is not supported, the placebo use stands, with this test cited.
 - **ADU double counting.** The parking scenario excludes ADUs (Stage 2 item 1), and the ADU scenario models ADU law separately. But the Census permit survey can record a detached ADU as a new 1-unit building in some places. So a 1-unit effect here could partly be ADUs, and adding it to a parking line would overlap the ADU scenario.
   - **Rule:** any single-family effect found stays evidence only. It is not added to the parking lines without Ryan's OK and a check with the ADU thread on how ADUs are counted in BPS for the places involved.
+- **2026-11-03, test 44 additions (audit; before running):**
+  - **(A) The groups differ by city type.** High includes Austin, San Jose, Raleigh, Durham and Oregon; low includes SF, Minneapolis, Lexington and Buffalo. Added:
+    - an equal-weight version;
+    - leave out Austin, then Raleigh;
+    - a table of both groups by region, size and event year;
+    - the same contrast on 5+ unit homes (optional, shown).
+  - **(B) MDE.** The MDE is reported. If not supported, the reading is: "the placebo use stands as before, but test 44 can't rule out a single-family effect smaller than the MDE."
+  - **Smaller additions:**
+    - a version with high-confidence old-minimum codes only;
+    - a context line: detached houses usually meet 2 spaces anyway, and townhouses are where the rule more likely bound.
