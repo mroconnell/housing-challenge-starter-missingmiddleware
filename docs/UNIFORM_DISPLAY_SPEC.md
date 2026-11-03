@@ -17,10 +17,11 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
 3. **The current-law range stays separate.** It is shown as its own grey band. The two are combined only if a total
    ("current law plus the reform") is shown, and then once, by simulation: a paired draw of each, never a sum of ends.
 4. **Two-sided, with no zero floors.** A range may cross 0, and the low end is shown as measured.
-5. **Coverage check.** Where a scenario has a test of how often its 90% range covers the truth, the range is widened to
-   the measured factor. Parking's test 40 found 84% coverage, so its bootstrap range is widened ×1.17. A scenario
-   with no coverage test says "coverage not yet checked" under its range. TOD has none yet; I can run one (hide each
-   place, check whether the other 10 places' range covers it).
+5. **Coverage check.** Where a scenario's own test shows its 90% range covers the truth less than 90% of the time,
+   the range is widened by the measured factor; otherwise it is shown as is. Parking: its band comes from placebo
+   percentiles, which already matched test 40, so no widening and no coverage note (audit). ADU: 7 of 7 states inside,
+   factor 1. TOD: test below, locked before it runs.
+   One method line per reform, under its range. Reforms are not compared by range width, because the methods differ.
 6. **Side lines are context, not scenarios.** Each is a thin dashed line across the range. It is labelled with what it
    is (the method and the places), plus its number and unit. A side line never changes the centre or the range.
 7. **Every number states its unit.** Shares of the 124,000-home all-housing baseline are given beside, as now.
@@ -29,17 +30,17 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
 
 | Reform | Centre | 90% range | Source of the range | Coverage |
 | --- | ---: | --- | --- | --- |
-| ADU (ADU permits: second homes on single-family lots, not all homes) | 10,492 | 8,100 to 13,700 (exact 8,055 to 13,666; A3, owner's OK pending) | A3 held-out prediction error (model fitted across states) | checked on 7 states, 7 of 7 inside; too few states to measure a factor, so factor 1 (largest miss Washington +0.19 against ±0.25) |
-| TOD | 10,028 | 4,866 to 15,361 | place bootstrap of the 11 district places, 2,000 draws (`reference/tod_line_draws.csv`) | not yet checked |
-| Parking | see open question 1 | −45,900 to +19,800 | bootstrap around the measured average of the 76 repeal places (audit: unwidened) | test 40: 84%; see open question 2 |
+| ADU (ADU permits: second homes on single-family lots, not all homes) | 10,492 | 8,000 to 13,700 (exact 8,055 to 13,666, rounded outward; A3, owner's OK pending); label beside it: "covers law-side error only" | A3 held-out prediction error (model fitted across states) | checked on 7 states, 7 of 7 inside; too few states to measure a factor, so factor 1 (largest miss Washington +0.19 against ±0.25) |
+| TOD | 10,028 | 4,866 to 15,361 (not 7,580 to 12,010: that is the lowest and highest with one place left out, not a 90% range) | place bootstrap of the 11 district places, 2,000 draws (`reference/tod_line_draws.csv`) | test below |
+| Parking | 0 (open question 1) | −45,900 to +19,800 | around the measured average of the 76 repeal places; placebo percentiles (unwidened) | matched test 40; no widening |
 
 ## Reasons-to-believe side lines
 
 | Reform | Side lines (label: number) |
 | --- | --- |
 | TOD | Edge test, rezoned lots' own gain (5 places): 3,958. Average scaled to a 15% district (11 places): 12,521. Rezoning near new transit lines, 2×2 (9 places): 13,451. Same minus the growth already under way before the reforms: 5,624. |
-| Parking | Measured average, 76 repeal places: −15,234. Median repeal place: −1,557. Oregon state mandate: about +16,800. Count model (negative binomial), all homes: +204. High ends from the improvement rounds: about 27,700 to 49,700. Not shown: San Diego, Chicago, and the count models that fail the pre-trend check. |
-| ADU | Like Rhode Island and Oregon, the 2 slowest statewide-law states: 6,321 ADU permits. Median path of the 8 statewide-law states: 10,038. High end, near California (only California is higher): 19,784. The what-ifs 791 and 2,255 stay on How sure, off the chart. |
+| Parking | Inside the band, not a dashed line: a marker "measured average, 76 repeal places: −15,234", with the note "0 is used because the data cannot tell the effect from no change." Side lines: median repeal place: −1,557. Oregon state mandate: about +16,800. Count model (negative binomial), all homes: +204. High ends from the improvement rounds: about 27,700 to 49,700. Not shown: San Diego, Chicago, and the count models that fail the pre-trend check. |
+| ADU | Like Rhode Island and Oregon, the 2 slowest statewide-law states: 6,321 ADU permits. Median path of the 8 statewide-law states: 10,038. High end, near California (only California is higher): 19,784. The what-ifs 791 and 2,255 stay on How sure, off the chart. Sensitivity line (one): bias-corrected range 7,516 to 13,317. |
 
 The current lower and upper lines retire as scenario lines:
 - TOD's 3,958 and 12,521 become side lines.
@@ -62,15 +63,24 @@ The current lower and upper lines retire as scenario lines:
   the ranking table gets "Centre" and "90% range" columns instead of Lower / Central / Upper.
 - **The combined view** stays shelved. If it comes back, its range is a paired simulation of the reforms' draws.
 
+## TOD coverage test (proposed, locked before it runs)
+
+- **Question:** how often does TOD's place-bootstrap 90% range contain a known true effect?
+- **Fake data:** the 11 places' fake-district placebo effects (P1, comparison stops; `reference/tod_causal_edge_expand.csv`
+  where estimable, otherwise the C-PT fake-years effects), each shifted by a known injected effect.
+- **Injected effect sizes, fixed now:** 0, 17 and 34 extra homes per 100 lot acres a year (0, about half, and about
+  the measured mean, 33.5).
+- **Runs:** 1,000 per size. Each run resamples 11 places with replacement, adds the injected size, and builds the same
+  2,000-draw bootstrap 90% range. Coverage = the share of runs whose range contains the injected size. Seed 20261103.
+- **Widening rule, fixed now:** if pooled coverage over the three sizes is below 90%, widen the range about the centre
+  by the factor that brings it to 90% in this simulation, and show the widened range with one line saying so. At 90%
+  or above, show it as is.
+
 ## Open questions for the owner
 
-1. **Parking's centre.** The range comes from the measured average (−15,234), but the current central is 0 ("no
-   measurable change"). Rule 2 would make the centre −15,234. The alternative is to keep 0 as the centre and show
-   −15,234 as a side line, with a note that 0 sits inside the range. Recommendation: keep 0, labelled "no measurable
-   change", because the 90% range includes 0 and that is the owner's current reading of the evidence (2026-11-01).
-   This breaks rule 2 for parking only, and the note says so. The owner's call.
-2. **Widening.** The audit says the parking band is unwidened, although its test found 84% coverage. Recommendation:
-   show it unwidened, with the coverage note "this range covered the truth in about 84 of 100 tests". Use the
-   widened version (about −51,100 to +25,800) only if the owner prefers a strict 90%.
-3. **TOD coverage.** Run the hide-one-place coverage test before shipping? Recommendation: yes. It takes about
-   20 minutes.
+1. **Parking's centre.** Keep 0 as the centre, with −15,234 marked inside the band as the measured average and the note
+   "0 is used because the data cannot tell the effect from no change"? Or use −15,234 as the centre (rule 2)?
+   Recommendation (and the audit's): keep 0. This breaks rule 2 for parking only, and the note says so.
+2. **ADU range.** Adopt A3, 8,000 to 13,700, labelled "covers law-side error only", with the bias-corrected range
+   7,516 to 13,317 as one sensitivity line?
+3. **TOD coverage test.** Run it as locked above before shipping? Recommendation: yes. It takes about 20 minutes.
