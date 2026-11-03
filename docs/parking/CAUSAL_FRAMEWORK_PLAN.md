@@ -341,3 +341,18 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Chicago:** B1 runs in Chicago only, which is one city and so is described, not "supported". Multifamily-zoned = allowed FAR of 1.2 or more before the reform (RT-4 and denser; Chicago's FAR schedule), from the TOD lot table's `far_before`.
 - **2026-11-03, N1 deviation (audit):** the covered list was not checked against OAR 660-012 before the first count. The first run used 45 cities built from MPO membership. DLCD's 48-city table (as of 2023-07-24, saved in `data/raw/parking_natural_experiments/`) was obtained afterwards. N1 was rerun on it (47 after dropping Portland; 39 usable), as the "verify and rerun" step, and both runs are reported.
 - **2026-11-03, N1 comparison contamination (audit):** Washington's 2024 and 2025 state laws on parking for middle housing near transit (taxonomy: reduce_min 2024-03-27; rm_min and reduce_min 2025-07-27) partly treat the Washington comparison in the 2023–2025 after window. That pushes N1 toward zero. An after = 2023-only run was optional and is not done.
+- **2026-11-03, backtest implementation (before counting):**
+  - **Why not reuse the round-6 model as is:** it predicts 5-year totals two years after an origin year, which doesn't match the repeal windows. So the backtest refits the same model family (scikit-learn HistGradientBoostingRegressor) at each repeal place's own windows.
+  - **Training units:** every comparison-pool place of every repeal place, at that repeal place's windows, as in FU4.
+  - **Target:** log(mean after-window 5+ permits + 0.5) − log(mean before-window 5+ permits + 0.5).
+  - **Features:**
+    - log(mean before-window 5+ permits + 0.5);
+    - log(mean before-window total permits + 0.5);
+    - the before-window trend (last 2 years minus first 3, total permits per 1,000 homes);
+    - log existing homes;
+    - before-window 5+ share;
+    - census division;
+    - event year.
+  - **Fit settings:** seeds 20261104 to 20261108, averaged; the repeal places are never in training.
+  - **Each repeal place's D1 effect** = its actual target minus its prediction.
+  - **Scoring:** leave one place out in the common unit, against "predict zero" and against the matched D1 version, on the same places.
