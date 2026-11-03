@@ -1,0 +1,7 @@
+version,outcome,model,role,alpha,places,units,units_dropped_all_zero,wi_width_90,width_passes_bar,pretrend_leads_include_1,placebo_single_family_includes_1,placebo_t1_includes_1,calibration_coverage,passes_all
+C1-NB-5plus,5plus_units,nb,candidate,3.0,58,1768,1355,40414.90148175221,False,False,True,True,,False
+C1-P-5plus,5plus_units,poisson,candidate,0.0,58,1768,1355,22813.673561787426,True,False,True,False,,False
+C1-NB-all,units_total,nb,candidate,0.75,74,3085,38,47966.67780252193,False,False,True,True,,False
+C1-P-all,units_total,poisson,beside,0.0,74,3085,38,47601.86896629462,False,,,,,
+C2-NB-5plus-bldgs,5plus_bldgs,nb,beside (never the lines),2.0,58,1768,1355,,,,,,,
+C2-NB-2to4-bldgs,b24,nb,beside (never the lines),2.0,61,1918,1205,,,,,,,

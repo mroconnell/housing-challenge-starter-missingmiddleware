@@ -517,3 +517,9 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
     No centres. The narrowest candidate passing all rules is chosen and that choice is committed. Only then does phase 2 print the centres of every version.
   - **(c) Places.** The same 76 places, pools and windows; no trimming.
   - **(d) Disclosure.** An earlier C1/C2 run (stacked design, before these rules) was started and stopped within about a minute, at the hold. It printed nothing and wrote no file, so no result was seen.
+- **2026-11-03, 38/39 choice (committed after the blind phase, before any centre was printed):** no candidate passes all rules, so none is chosen and the lines stand.
+  - **C1 negative binomial, 5+ homes:** fails width (40,415) and pre-trend.
+  - **C1 Poisson, 5+ homes:** passes width (22,814) but fails pre-trend and the T1 placebo.
+  - **C1 negative binomial, all homes:** fails width (47,967) and pre-trend.
+  - **Calibration:** not run, because no candidate reached it.
+  - **Next:** phase 2 now prints the centres of every version for the record.
