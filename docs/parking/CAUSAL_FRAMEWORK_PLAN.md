@@ -139,3 +139,9 @@ Ryan's OK. Stage 2 (carrying results to Wisconsin) stays unlocked until Stage 1 
   - T also without Austin and Minneapolis (the two rail places with the largest weight × effect), and unweighted.
   - Limits stated rather than fixed: T covers rail only (no BRT in the stop data); F1 rests on one city; E2's rewrite-only group is not built.
 - **2026-11-03, audit fixes (audit/parking_causal_stage1_review_2026-11-03.md):** E1 is labelled a re-check of the AB 2097 test; issue-date dating stays main, with the bias direction stated; F1 adds downtown as a comparison group and is labelled "suggestive, single source" until 20 random rows are checked against city records; the M3 weighted split stays main; T gets a leave-one-place-out range.
+- **2026-11-03, F1b (added with owner's OK to change the plan; locked before counting):** Minneapolis 2015 cut, inside vs outside the areas it covered.
+  - Projects: same rows and rules as F1 (5+ homes, latest submission, downtown left out).
+  - Locations: each address geocoded with the US Census Geocoder (public, no key); unmatched addresses are counted and left out.
+  - Zones: the 2015 ordinance's transit areas as the city mapped them (or, if no map exists, the ordinance's distance rule applied to the high-frequency network of 2015). The source is recorded before any project is placed.
+  - Estimand: (inside after minus before) minus (outside after minus before) in car spaces per home, before = up to 2015-04-30, after = 2015-05-01 to 2021-05-13. 90% interval from 2,000 resamples of projects within each of the 4 cells.
+  - Reading: "binding" if the interval is below 0. The F1 downtown comparison stays beside it.
