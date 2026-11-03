@@ -522,8 +522,9 @@ All match the hand-read values.
 - **Residential-only vs mixed-use read differently** (Ryan, 2026-11-03).
   - **Residential-only (15):** 13 above, 2 at, 0 below. The rule did not bind.
   - **Mixed-use (15):** 11 below the combined requirement. Against the homes-only rule, 7 above, 2 at, 6 below.
-  - **Reading.** Minimums bite in mixed-use buildings, where one garage serves homes and shops and the combined requirement pushes the total up.
-  - **For the model.** The modelled Wisconsin law removes minimums for housing only, so commercial stalls in mixed-use buildings would still be required. If mixed-use is where minimums bind, a housing-only repeal may unlock less than a full repeal.
+  - **Reading (*post hoc*, Madison only, 30 projects).** Residential-only projects mostly sat above the minimum. Six of the 15 mixed-use projects went below even the homes-only rule.
+  - **The commercial requirement rarely bound** (corrected after the audit). 12 of the 15 mixed-use projects have a known commercial requirement, and in 11 of them the proposed stalls covered the commercial part alone; the exception is file 62082, with 0 stalls. So the part that bound looks like the homes part, which a housing-only repeal removes.
+  - **For the model.** Most evidence repeals covered all uses, while the Wisconsin law covers housing only. In these records the remaining commercial requirement rarely bound, so the difference likely matters little.
   - **Limits.** One city, and only discretionary projects.
   - **Competing explanation (Ryan).** These projects needed a public hearing, so residential builders may add parking to answer neighbours' objections. Commercial and mixed-use projects face less organised opposition. If so, parking above the minimum is partly the price of approval, not market demand. A state repeal would remove the legal floor but not that pressure, and would matter more where projects are approved by right. A possible check: code whether staff reports or public comments raised parking for the 30 projects. By-right projects aren't in these records.
 
