@@ -525,6 +525,7 @@ All match the hand-read values.
   - **Reading.** Minimums bite in mixed-use buildings, where one garage serves homes and shops and the combined requirement pushes the total up.
   - **For the model.** The modelled Wisconsin law removes minimums for housing only, so commercial stalls in mixed-use buildings would still be required. If mixed-use is where minimums bind, a housing-only repeal may unlock less than a full repeal.
   - **Limits.** One city, and only discretionary projects.
+  - **Competing explanation (Ryan).** These projects needed a public hearing, so residential builders may add parking to answer neighbours' objections. Commercial and mixed-use projects face less organised opposition. If so, parking above the minimum is partly the price of approval, not market demand. A state repeal would remove the legal floor but not that pressure, and would matter more where projects are approved by right. A possible check: code whether staff reports or public comments raised parking for the 30 projects. By-right projects aren't in these records.
 
 - **Projects.**
   - 395 files (2+ homes; conditional use, planned development and site plan) became 287 projects.
