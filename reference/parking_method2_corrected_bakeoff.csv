@@ -1,0 +1,21 @@
+candidate,weights,mae,coverage,coverage_se,sets
+A,random effects,0.9002,0.88,0.023,200
+A,target-state mix,1.0304,0.905,0.0207,200
+A,square root,0.5211,0.83,0.0266,200
+A,homes,0.2737,0.805,0.028,200
+A,equal,0.808,0.91,0.0202,200
+B,random effects,0.8728,0.855,0.0249,200
+B,target-state mix,1.0215,0.86,0.0245,200
+B,square root,0.5207,0.825,0.0269,200
+B,homes,0.2739,0.795,0.0285,200
+B,equal,0.7757,0.87,0.0238,200
+C,random effects,0.9212,0.865,0.0242,200
+C,target-state mix,1.1196,0.87,0.0238,200
+C,square root,0.8878,0.86,0.0245,200
+C,homes,1.2521,0.83,0.0266,200
+C,equal,0.8217,0.885,0.0226,200
+D,random effects,0.9168,0.86,0.0245,200
+D,target-state mix,1.1086,0.855,0.0249,200
+D,square root,0.5021,0.83,0.0266,200
+D,homes,0.27,0.81,0.0277,200
+D,equal,0.8076,0.89,0.0221,200
