@@ -1,0 +1,8 @@
+check,value,p05,p95,wi_homes,wi_p05,wi_p95,eligible_homes,effective_places,note
+"D, target-state mix, BPS-unit cells (as run)",-0.5255,-2.3616,0.8877,-7012.4119,-31512.0313,11844.7526,2220883.0,30.9338,"cell shares {(0.0, 0): 0.176, (0.0, 1): 0.055, (1.0, 0): 0.198, (1.0, 1): 0.269, (1.0, 2): 0.125, (1.0, 3): 0.177}"
+"D, target-state mix, tool-area cells (2,668,677)",-0.7892,-2.8033,0.4019,-10530.4223,-37405.3916,5363.2405,2668677.0,19.5999,"cell shares {(0.0, 0): 0.268, (0.0, 1): 0.043, (1.0, 0): 0.215, (1.0, 1): 0.226, (1.0, 2): 0.102, (1.0, 3): 0.147}"
+"size band 0 mean (winsorised, equal weight)",-1.0654,-3.8521,1.917,,,,,,11 places
+"size band 1 mean (winsorised, equal weight)",-0.2036,-2.2988,2.1356,,,,,,24 places
+"size band 2 mean (winsorised, equal weight)",2.5209,1.1054,4.0914,,,,,,30 places
+"size band 3 mean (winsorised, equal weight)",-0.6591,-2.701,1.3936,,,,,,11 places
+San Francisco step-5 pool: share missing by trait,,,,,,,,,"{'crowd': 1.0, 'density': 1.0, 'age': 0.0, 'log_pop': 0.0}; target missing: {'crowd': False, 'density': False, 'age': False, 'log_pop': False}"
