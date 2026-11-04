@@ -33,7 +33,7 @@ def fetch(commit: str) -> None:
     log = {}
     for f in FILES:
         url = f"https://raw.githubusercontent.com/{REPO}/{commit}/data/{f}"
-        data = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "missing-middleware research"}),
+        data = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "missing-middleware-research/1.0 (public data)"}),
                                       timeout=120).read()
         (D / f).write_bytes(data)
         log[f] = {"accessed": dt.date.today().isoformat(), "bytes": len(data),

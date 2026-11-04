@@ -61,7 +61,7 @@ def fetch_bps(force: bool = False) -> None:
             if f.exists() and f.stat().st_size and not force:
                 continue
             url = f"https://www2.census.gov/econ/bps/Place/{folder}/{f.name}"
-            data = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "missing-middleware research"}),
+            data = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "missing-middleware-research/1.0 (public data)"}),
                                           timeout=120).read()
             f.write_bytes(data)
             log[f.name] = {"accessed": dt.date.today().isoformat(), "bytes": len(data),

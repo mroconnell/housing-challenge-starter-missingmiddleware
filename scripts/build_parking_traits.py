@@ -38,7 +38,7 @@ def fetch() -> None:
     log = {}
     for f in GAZ_FILES.values():
         url = GAZ_URL.format(f=f)
-        data = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "missing-middleware research"}), timeout=120).read()
+        data = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "missing-middleware-research/1.0 (public data)"}), timeout=120).read()
         (GAZ / f).write_bytes(data)
         log[f] = {"accessed": dt.date.today().isoformat(), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(), "url": url}
     (GAZ / "_downloads.json").write_text(json.dumps(log, indent=2) + "\n")

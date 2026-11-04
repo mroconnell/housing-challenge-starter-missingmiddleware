@@ -36,7 +36,7 @@ VARS = ["B25044_001E", "B25044_003E", "B25044_010E", "B25044_004E", "B25044_005E
 
 
 def get(url: str) -> bytes:
-    return urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "missing-middleware research"}), timeout=180).read()
+    return urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "missing-middleware-research/1.0 (public data)"}), timeout=180).read()
 
 
 def main() -> None:

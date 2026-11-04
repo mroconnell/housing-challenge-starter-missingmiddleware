@@ -33,7 +33,7 @@ STATES = ["01", "02", "04", "05", "06", "08", "09", "10", "11", "12", "13", "15"
 
 
 def get(url: str) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": "missing-middleware research"})
+    req = urllib.request.Request(url, headers={"User-Agent": "missing-middleware-research/1.0 (public data)"})
     return urllib.request.urlopen(req, timeout=120).read()
 
 
