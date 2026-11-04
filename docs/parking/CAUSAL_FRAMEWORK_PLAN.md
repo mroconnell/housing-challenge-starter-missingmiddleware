@@ -759,7 +759,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **Not in this run:** a placebo-based range for method 2, and a synthetic control for the top-weighted cities. These are offered as follow-ups.
 
 **Where the fixed numbers come from.**
-- **10 matched places:** about the median main pool size (9).
+- **10 matched places:** a judgement: enough to average out single-place noise, few enough to stay close matches. (The main pools have a median of 28 places; the 5-place minimum is the main rule.)
 - **At least 5:** the main rule's minimum (`cmp.MIN_CONTROLS`).
 - **10% home loss:** large enough to exceed normal survey error in places of 1,000+ homes, and small enough to catch disasters and mass clearance.
 - **25% land change:** a judgement for "large annexation", set before any list is seen.
