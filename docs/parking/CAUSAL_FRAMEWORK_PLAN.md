@@ -672,3 +672,19 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Leave one out:** drop the comparison place from every pool it is in, without re-matching (the pool shrinks), recompute every effect and the weighted average, and list the 10 that move the average most.
   - **Regression (reading only):** outlier flag, and separately |effect|, on log pool size, a widened-window flag, the largest comparison place's share of pool homes, and the absolute comparison change. OLS with robust (HC1) errors, 90% intervals, statsmodels (BSD).
   - **Also shown:** the correlation of each effect with the place's own change and with its comparison change.
+
+## Test 47: do big cities match each other better than same-state cities? (locked 2026-11-04, before any count; Ryan 17:51 UTC)
+
+**Running count: 47.** Evidence only. Ryan's idea: big cities track each other across state lines better than they track same-state cities half to twice their size.
+
+- **Targets.** US places with 250,000+ people (ACS 2020–2024), complete permit years 2012–2025, and not on the main exclusion list (the benchmark repeal list). These are never-repealed cities, so the true effect of a fake repeal is 0. Counted before any outcome: 93 big places, 20 on the list, 72 targets.
+- **Two comparison rules for each target.**
+  - **Current:** `cmp.controls` as in the main (same state at 0.5–2×, then 1/3–3×, then the division, until 5).
+  - **Big-city:** places anywhere in the US at 0.5–2× the target's population, widened to 1/3–3× if fewer than 5, with the same exclusions and complete-years rule.
+  - Both rules use the main exclusion list. Ryan's message said "no parking-reform record"; that would leave too few big cities (4,591 cities have a record), so the exclusion matches the main to isolate geography.
+- **Score 1, fit over 2012–2025.** RMSE of the yearly gap between the target's permit rate and the pool's pooled rate, after removing the target's mean gap (permits per 1,000 existing homes).
+- **Score 2, fake repeals.** Fake repeal years 2017–2021, using the main windows (5 before, 3 after), and the main effect formula.
+  - Per target and year: |effect| under each rule.
+- **Comparison.** For each target, average its paired differences over the fake years (big-city minus current). Equal weight per target, and home-weighted beside it. 90% range from 2,000 resamples of targets, seed 20261104.
+- **Pass rule.** The big-city rule is better if both mean paired differences (RMSE and |fake effect|) are below 0, with 90% ranges that exclude 0. Worse if both are above 0 with ranges excluding 0. Otherwise no clear difference.
+- **Follow-up if it is better (locked now).** Rerun the 76 with big-city pools for repeal places with 250,000+ people, keeping everything else as in the main. Report the average and its 90% place bootstrap beside the main. Sensitivity only.
