@@ -426,6 +426,11 @@ def _fake_effects(chunk):
     return out
 
 
+def _variant(arg):
+    cand, opt = arg
+    return [case_effect(_G["D"], c, cand, opt) for c in _G["cases"]]
+
+
 def _score(job):
     cand, kind = job
     D, eff, sets, v, cells = _G["D"], _G["eff"], _G["sets"], _G["v"], _G["cells"]
@@ -541,18 +546,20 @@ def stage2(D: Data) -> None:
         f"switch back 5 (no winsorising), {pick}": (pick, {**OPT_MAIN, "wins": False}),
         f"switch back 6 (fixed ACS homes), {pick}": (pick, {**OPT_MAIN, "homes_fixed": True}),
     })
+    global _G
+    _G = dict(D=D, cases=cases)
     effects = {}
-    for name, (cand, opt) in variants.items():
+    with cf.ProcessPoolExecutor(WORKERS, mp_context=mp.get_context("fork")) as ex:
+        results = dict(zip(variants, ex.map(_variant, variants.values())))
+    for name, res in results.items():
         ys = []
-        for c in cases:
-            r = case_effect(D, c, cand, opt)
+        for c, r in zip(cases, res):
             ys.append(r["effect"])
             detail.append(dict(variant=name, place=c["place"], state=c["state"], effect=r["effect"], step=r["step"],
                                n_pool=r["n_pool"], missing_share=r["missing_share"]))
             if name == f"method 2, {pick}" and r["cov"] is not None:
                 covs.append(dict(place=c["place"], step=r["step"], cov=";".join(f"{x:.4f}" for x in np.asarray(r["cov"]).ravel())))
         effects[name] = np.array(ys)
-        print(name, flush=True)
     shock_real = np.array([c["key"] in D.shock for c in cases])
     for name, y in list(effects.items()) + [(f"shock rule also drops flagged repeal places, {pick}", np.where(shock_real, np.nan, effects[f"method 2, {pick}"]))]:
         ok = np.isfinite(y)
