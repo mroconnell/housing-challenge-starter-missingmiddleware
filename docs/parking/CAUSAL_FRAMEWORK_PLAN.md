@@ -656,3 +656,19 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Smaller additions:**
     - a version with high-confidence old-minimum codes only;
     - a context line: detached houses usually meet 2 spaces anyway, and townhouses are where the rule more likely bound.
+
+## Tests 45–46: who the comparison places are (locked 2026-11-04, before any count; Ryan's questions 17:20 UTC, relayed by the coordinator)
+
+**Running count: 46.** Evidence and sensitivity only. Neither replaces a line unless it meets the 25% replacement rule; as pool checks they are not candidates.
+
+- **Common set-up.** The 76 repeal places in `reference/parking_expanded_effects.csv` (all homes), each rebuilt with its own script's windows, homes and exclusions (`run_parking_expanded.py`, `run_parking_salvage.py`, `run_parking_partial.py`). The rebuild must match each stored effect to 1e-4 before any new number is read.
+- **Test 45, strict pool.** Pools also leave out every city with any record in `reference/parking_reform_taxonomy.csv`: removal or reduction of minimums, any rating (including weaker, not_housing and plan_only), any status. County and state entries are not applied to places. Matching rules otherwise unchanged (state 0.5–2×, then 1/3–3×, then the Census division at 0.5–2× and 1/3–3×, until 5).
+  - **Report:** per repeal place, main vs strict pool size; how many repeal places move to a wider window, and which; the home-weighted average (weight homes × after-years) with a 90% place bootstrap (2,000 draws, seed 20261104), beside the main on the same bootstrap. Places left with no pool are listed and left out, and the main is also shown on the same set.
+  - **Reading:** "consistent with the main" if the strict average lies inside the main's 90% bootstrap range.
+- **Test 46, comparison-place influence.**
+  - **Pools saved:** `reference/parking_t46_pools.csv`.
+  - **Outliers:** the top and bottom 10% of the 76 effects by rank, 8 each, unweighted.
+  - **Per comparison place:** how many repeal places use it, how many of those are outliers, and its mean share of pool homes.
+  - **Leave one out:** drop the comparison place from every pool it is in, without re-matching (the pool shrinks), recompute every effect and the weighted average, and list the 10 that move the average most.
+  - **Regression (reading only):** outlier flag, and separately |effect|, on log pool size, a widened-window flag, the largest comparison place's share of pool homes, and the absolute comparison change. OLS with robust (HC1) errors, 90% intervals, statsmodels (BSD).
+  - **Also shown:** the correlation of each effect with the place's own change and with its comparison change.
