@@ -65,7 +65,7 @@ class Feat:
         X["metro"] = D.metro.reindex(keys).values
         X["division"] = D.division.reindex(keys).map(self.div_code).values
         X["event_year"] = ey
-        return X.astype(float)
+        return X.astype(float).replace([np.inf, -np.inf], np.nan)  # e.g. log of 0 population or density
 
 
 def target(D, keys, ey, post) -> np.ndarray:
