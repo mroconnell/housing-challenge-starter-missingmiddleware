@@ -1,0 +1,16 @@
+variant,weights,places,average,p05,p95,wi_homes,wi_p05,wi_p95
+method 3 picked (today),random effects,76,0.8633,-0.3002,1.9518,11519.2097,-4005.9457,26043.4062
+method 3 picked (today),target-state mix,76,-0.7661,-2.7764,0.4317,-10222.8073,-37046.1551,5760.354
+method 3 picked (today),square root,76,0.7134,-0.5863,2.3015,9518.8176,-7822.6803,30710.177
+method 3 picked (today),homes,76,0.1042,-1.5425,2.3717,1390.1854,-20582.3472,31646.7538
+method 3 picked (today),equal,76,0.6859,-1.4895,2.0774,9152.5776,-19875.6271,27719.4046
+prognostic matching (P),random effects,76,1.1541,0.0734,2.2501,15399.8458,979.8485,30024.099
+prognostic matching (P),target-state mix,76,0.0276,-1.3303,1.3145,368.6882,-17750.7844,17540.1287
+prognostic matching (P),square root,76,0.8207,-0.6717,2.577,10950.4075,-8962.8138,34385.8005
+prognostic matching (P),homes,76,-0.3141,-2.4026,2.429,-4190.848,-32059.2776,32410.9271
+prognostic matching (P),equal,76,1.3496,0.2419,2.5589,18008.727,3227.3785,34144.1668
+today's matching (D),random effects,76,0.8633,-0.3002,1.9518,11519.2097,-4005.9457,26043.4062
+today's matching (D),target-state mix,76,-0.7661,-2.7764,0.4317,-10222.8073,-37046.1551,5760.354
+today's matching (D),square root,76,0.7134,-0.5863,2.3015,9518.8176,-7822.6803,30710.177
+today's matching (D),homes,76,0.1042,-1.5425,2.3717,1390.1854,-20582.3472,31646.7538
+today's matching (D),equal,76,0.6859,-1.4895,2.0774,9152.5776,-19875.6271,27719.4046

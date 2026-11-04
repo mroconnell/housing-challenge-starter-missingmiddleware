@@ -1,0 +1,12 @@
+,(i) 4 bands,(ii) 3 bands at terciles,(iii) smooth line on log population,(iv) crowding terciles
+Oregon,2.1199,0.5705,1.1314,0.4859
+California,1.9088,3.0719,1.6421,0.5786
+New York,2.8249,1.5192,0.818,1.7912
+Michigan,0.3716,1.9652,0.2111,3.1166
+North Carolina,8.4033,6.6187,6.909,4.1743
+Minnesota,2.1813,3.4321,3.1969,1.2111
+Texas,3.0059,4.1952,2.8278,1.8986
+Virginia,4.9142,7.9343,6.7532,4.0032
+Georgia,0.4399,1.9974,0.5588,2.0583
+Maine,4.4846,6.5113,2.3026,1.9692
+mean absolute error,3.0654,3.7816,2.6351,2.1287

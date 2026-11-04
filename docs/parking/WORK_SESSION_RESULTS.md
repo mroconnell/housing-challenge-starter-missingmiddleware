@@ -807,3 +807,38 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 - **Crowding came close:** 30.6% lower error, but its range (−1.811 to +0.055) includes 0.
 - **Smooth line:** 14.0% lower error; its range also includes 0.
 - **Spread:** the Wisconsin figure under these versions runs from −31,354 to +33,909. How the evidence is mapped onto Wisconsin is itself a large source of uncertainty, and it is not in the 90% range.
+
+## Method 3: prognostic-score matching (2026-11-04; lock "Method 3", cleared by the audit 21:10/21:45/21:50 UTC; provisional go by the learning thread under Ryan's 21:01 UTC delegation; post hoc in origin)
+
+**Score.**
+- **Data:** 82 features, all measured before each event year: TOD's ACS traits (built-year traits limited to pre-2000 bands), the parking traits, permit history, size, 2010 density and town age. Method 2's town age covers 1990–2009, so "pre-2000 only" applies to the TOD traits; all are within the lock's pre-2010 rule.
+- **Halves:** never-repealed places split 50/50. Half A has 6,339 places and 55,633 place-years; half B has 6,340 and 55,568.
+- **Models chosen:** A chose gradient boosting (grouped CV error 10.10 vs lasso 10.13). B chose lasso (5.88 vs 6.31). A seems to hold more extreme small places.
+- **Check on B:** the A model's error is 8.43 vs 9.46 for a plain average, 11.0% better, so it passes.
+- **Mirror (B on A, reported only):** 22.0% better.
+
+**Bake-off in B** (5,828 fake cases, pools from B only, random-effects scoring):
+
+| Matching | MAE | Coverage |
+| --- | --- | --- |
+| Prognostic (P) | 0.877 | 0.92 |
+| Today's (D) | 0.886 | 0.90 |
+
+- P is 1.1% better, under the 5% margin, so today's matching stands.
+
+**Real run.** The picked method (D) reproduces corrected method 2 exactly: mix −0.7661, Wisconsin −10,223 (−37,046 to +5,760), with the same weight-test errors (mix wins at 3.065) and the same size test (4 bands stay).
+
+**Prognostic matching, evidence only:**
+
+| Weighting | Rate (90%) | Wisconsin homes (90%) |
+| --- | --- | --- |
+| Target-state mix | +0.03 (−1.33 to +1.31) | +369 (−17,751 to +17,540) |
+| Random effects | +1.15 (+0.07 to +2.25) | +15,400 (+980 to +30,024) |
+| Square root | +0.82 (−0.67 to +2.58) | +10,950 |
+| Homes | −0.31 (−2.40 to +2.43) | −4,191 |
+| Equal | +1.35 (+0.24 to +2.56) | +18,009 (+3,227 to +34,144) |
+
+**Reading.**
+- The prognostic score does predict building without repeal (11% better than an average). But matching on it did not beat today's matching on fake repeals, so the main result is unchanged.
+- **Comparison choice moves Wisconsin's mix result:** −10,223 under today's matching vs +369 under prognostic matching. That is one more sign that mapping and comparison choices move Wisconsin's number by more than the 90% range shows.
+- Under random-effects and equal weights, prognostic matching's range excludes 0 on the positive side. This is evidence only and was not picked.
