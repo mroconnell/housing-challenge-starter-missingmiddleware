@@ -735,6 +735,25 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **What this does:** hot markets are compared with hot markets, and young exurbs with young exurbs.
 - **Caveat stated:** matching on the before-window rate can bias a difference-in-differences when the two groups come from different populations (regression to the mean). Here it is intended: it makes the comparison places revert the same way.
 
+**3b. Market-heat bake-off (Ryan "okay, do that", 18:19 UTC; picks the heat fix before any real result).** Item 3 is candidate B; the bake-off decides which candidate the real run uses.
+- **Candidates:**
+  - **A:** size match only. Every candidate at the first ladder step with 10 or more places (item 2), or 10 nearest on log population at step 5.
+  - **B:** item 3 (A's step, nearest 10 on before-window rate, trend and town age).
+  - **C (hybrid, stated now):** synthetic control for targets with 250,000+ people, B for the rest. Donors are the 50 nearest by population among the strict, shock-screened places nationwide. Non-negative weights summing to 1 are fitted to the target's yearly before-window rates, using up to 10 years before the event, back to 2012.
+  - **D:** longer baseline. "Before" = up to 10 years before the event (back to 2012, the first panel year), on both sides, with A's pool. Repeals from 2016–2021 get fewer than 10 years; this is stated.
+- **Fake cases:**
+  - Never-repealed places under the strict exclusion, shock-screened, with complete permit years.
+  - Each gets a pretend repeal year. Cases are drawn to match the 76's mix of event years × size bands (item 1b's bands). They also get the 76's after-year counts.
+- **Sets:** 200 fake sets of 76 cases each, drawn with replacement within event-year × size-band strata. Seed 20261104.
+- **Scores per candidate:**
+  - **MAE:** mean absolute set average (true effect 0).
+  - **Coverage:** the share of sets whose 90% place bootstrap (500 draws per set) includes 0.
+  - **Weighting:** square-root-of-homes × after-years (the middle option). Home and equal weights are reported beside.
+  - Items 2, 4, 5 and 6 apply to every candidate.
+- **Pick:** the lowest MAE among candidates with coverage 85–95%. If none qualifies, the candidate whose coverage is closest to 90%, ties going to the lower MAE.
+  - The pick and every candidate's scores are committed before any real-repeal method-2 output is computed. The run script has two stages; stage 2 refuses to start until the pick file is committed.
+- **Then:** one real run with the picked candidate, inside the rest of method 2. The other candidates' real results are shown beside it, labelled "not picked".
+
 **4. Shock rule (objective, outside facts only; applied to comparison places).** A candidate is left out if either:
 - **(a)** its housing units fell 10% or more between the 2010 census (Gazetteer HU10) and ACS 2020–2024 (B25002), and it had 1,000+ homes in 2010. The size guard keeps survey noise in tiny places from triggering the rule. This catches places destroyed or largely cleared, such as Paradise, CA (wildfire, 2018).
 - **(b)** its land area changed 25% or more between the 2010 and 2024 Gazetteers (large annexations or boundary changes).
