@@ -838,3 +838,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **Script:** `scripts/run_parking_method2.py`, committed before stage 1.
   - **Weight test truth:** homes × after-years, with an equal-weight truth beside it (sensitivity only).
   - **Wisconsin cells:** built from BPS permit-issuing units (2,220,883 eligible homes in the panel, vs 2,668,677 in the tool's areas). Only the shares are used.
+- **Heat method, final choice rule (Ryan 20:00–20:01 UTC, written before the B+D scores were seen):** "It's either D or combo B+D", and "D wins in the case of a tie".
+  - B+D (candidate E) replaces D only if, on the same fake cases under random-effects scoring, its MAE is more than 5% lower than D's and its coverage is between 85% and 95%. Otherwise D stands.
+  - 5% is the bake-off's own spread: all four candidates sat within about 0.02 MAE, roughly 2%, in every version.
+  - C is out (Ryan).
