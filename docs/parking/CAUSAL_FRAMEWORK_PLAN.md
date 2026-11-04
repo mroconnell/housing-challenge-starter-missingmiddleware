@@ -764,7 +764,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **crowding:** share of occupied homes with more than 1 person per room, ACS 5-year B25014, for places and county subdivisions.
     - Place-specific vintage: each repeal (or fake-repeal) case uses the latest 5-year file that ends before its event year. A 2016 repeal uses 2011–2015; a 2024 repeal uses 2019–2023.
     - Its comparison candidates are measured on the same vintage.
-    - Vintages 2011–2015 through 2019–2023 are fetched from the Census API (public domain) into `data/raw/parking_acs_crowding/`, with the key kept out of every file.
+    - Backtest cases (pseudo-event at year −2) use the vintage ending before their pseudo-event, so a 2016 case uses 2009–2013. Vintages 2009–2013 through 2019–2023 are fetched from the Census API (public domain) into `data/raw/parking_acs_crowding/`, with the key kept out of every file.
   - **density:** log of housing units per square mile of land, 2010 census (Gazetteer HU10 ÷ ALAND_SQMI).
     - No repeal in the 76 is before 2016 (earliest 2016), so the 2010 census is before every repeal.
     - One fixed census count is used for all, rather than a per-case ACS count, because it has no sampling error in small places.
@@ -774,12 +774,20 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **Shared match, held fixed across candidates.** Crowding, density and town age are used in every candidate. Only the heat handling differs, so the bake-off isolates it:
   - **A:** the item 2 ladder; among the candidates at the chosen step, the nearest 10 on crowding, density and town age.
   - **B:** as A, plus before-window rate and trend in the distance.
-  - **C:** synthetic control for targets with 250,000+ people, using B's distance for the 50 donors; B for the rest.
+  - **C:** synthetic control for targets with 250,000+ people; B for the rest.
+    - Donors come from inside the population window first: nationwide at 0.5–2×, widening to 1/3–3× if needed.
+    - Within that window, the 50 nearest on B's distance are taken (all of them, if fewer than 50).
   - **D:** A's pool, with the 10-year before baseline.
   - This replaces the A and D definitions in item 3b. The scoring and pick rule are unchanged.
 - **Distance:** Mahalanobis on standardised traits. The covariance comes from all eligible candidates nationwide for the same window. It is computed inside the population window at each ladder step, with the item 2 widening (state → division → nation). Step 5 adds log population.
-- **Ties and missing values:** ties as in item 3. A candidate missing a trait takes the national median for it, and the count is reported.
+- **Ties:** as in item 3.
+- **Missing traits:** for a candidate missing a trait, the distance is computed over the traits it has, using the matching block of the covariance. The squared distance is scaled by (traits in total ÷ traits it has), so it is not favoured for having fewer.
+- **Reported:** the share of chosen comparison places with any missing trait, and the covariance matrix used at each ladder step.
 - **Use:** these are matching traits only. No trait is used to size Wisconsin.
+- **Fake cases (item 3b):**
+  - fake event years are drawn from 2016–2024 only;
+  - all candidates use the same fake cases and the same 200 sets;
+  - a fake target is never in its own pool.
 
 **4. Shock rule (objective, outside facts only; applied to comparison places).** A candidate is left out if either:
 - **(a)** its housing units fell 10% or more between the 2010 census (Gazetteer HU10) and ACS 2020–2024 (B25002), and it had 1,000+ homes in 2010. The size guard keeps survey noise in tiny places from triggering the rule. This catches places destroyed or largely cleared, such as Paradise, CA (wildfire, 2018).
