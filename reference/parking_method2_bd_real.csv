@@ -1,0 +1,6 @@
+variant,weights,places,average,p05,p95,wi_homes,wi_p05,wi_p95
+side line: B + D (post hoc),random effects,76,0.7262,-0.4514,1.8081,9690.0295,-6023.1531,24125.5223
+side line: B + D (post hoc),target-state mix,76,-0.3886,-1.9735,1.0731,-5184.7309,-26332.788,14319.0013
+side line: B + D (post hoc),square root,76,0.6515,-0.9253,2.2932,8693.7295,-12346.2583,30599.5462
+side line: B + D (post hoc),homes,76,-0.1998,-2.3206,2.3246,-2666.0256,-30964.8333,31017.6468
+side line: B + D (post hoc),equal,76,0.6515,-0.6889,1.975,8693.7768,-9192.3307,26352.7259
