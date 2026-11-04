@@ -66,5 +66,7 @@ Script `scripts/check_parking_allvars_importance.py`, committed before its run. 
 **Reading.**
 - **Rent burden leads under home weights, with or without SF.** The models lean on it. But without SF they barely beat one average (forest +2.7%) or lose to it (boosting −1.6%), so leaning on it does not buy accurate predictions.
 - **Under equal weights every model loses to one average,** with or without SF. The top traits there (small homes, vacancy, commute timing) describe what the models fitted to, not a pattern that predicts new places.
-- **Many ranks jump between runs** (for example the before-repeal permit rate, 6th → 54th, and small homes, 49th → 2nd). That instability is itself a sign of fitting noise.
+- **Ranks move a lot** (for example the before-repeal permit rate, 6th → 54th, and small homes, 49th → 2nd), partly because related traits share credit and each fold leaves out only about 7 places. The gains, not the ranks, show the models do not predict new places.
+- **Why these gains differ from the earlier checks table** (forest +0.4% and boosting +3.7% without SF; −4.4% and −10.1% under equal weights): that check used seed 1, 10 repeats and three tools. This run uses the registered seed 20261027, 20 repeats and all six tools, so the folds and model seeds differ. Gains move by up to about 5 points with the split. Both runs agree on the direction.
+- **Registered rule:** it was met in the registered run. The scenario keeps one average because the pass depends on San Francisco (post hoc checks).
 - **Conclusion unchanged:** no trait reliably tells places apart, so the scenario keeps one average. Importances say what a model used, not what drives parking effects.
