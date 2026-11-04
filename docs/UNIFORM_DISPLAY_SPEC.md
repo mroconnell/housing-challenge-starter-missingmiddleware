@@ -101,6 +101,50 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
   point estimate (used only for this, not shown) by the factor that brings coverage to 90% in this simulation. Show
   the widened range with one line saying so. At 90% or above, show it as is.
 
+### Results (run 2026-11-04, owner approved 16:51)
+
+Run as locked: `scripts/run_tod_coverage_test.py`, output `reference/tod_coverage_test.csv`. 1,000 runs per pool, 11
+places drawn per run, 2,000-draw bootstrap per run, seed 20261103. Effects are extra homes per 100 lot acres a year
+within ¼ mile.
+
+**Check 1, coverage** (share of 1,000 runs whose 90% range holds the pool's true mean):
+
+| Pool | Places in pool | True mean (homes per 100 lot acres a year) | Runs covered (of 1,000) | Coverage (%) |
+|---|---|---|---|---|
+| Real effects (main) | 11 | 33.54 | 845 | 84.5 |
+| C-PT fake effects (sensitivity) | 10 | 14.51 | 686 | 68.6 |
+
+- Both pools fall below 90%.
+- The main pool sets the widening.
+
+**Check 2, bias** (homes per 100 lot acres a year):
+
+| Measure | Places | Mean | 90% range |
+|---|---|---|---|
+| Fake effects | 10 | 14.51 | −3.84 to 38.81 |
+| Fake effects without Seattle Othello | 9 | 1.72 | not computed |
+| Real effects, for comparison | 11 | 33.54 | 16.27 to 51.37 |
+
+- The fake range includes 0.
+- So bias is neither shown nor ruled out.
+- Widening fixes width, not bias.
+
+**Widening** (main pool coverage 84.5% is below 90%):
+
+| Item | Value |
+|---|---|
+| Widening factor f (ratio, both ends) | 1.1827 |
+| Coverage with f applied (%) | 90.0 |
+| Published 90% range (Wisconsin homes, 2027-2031) | 4,866 to 15,361 |
+| Point used for widening only (homes; 33.5373 × 298.97) | 10,028 |
+| Widened 90% range (Wisconsin homes, 2027-2031) | 3,922 to 16,335 |
+
+- Show 3,922 to 16,335 as TOD's range.
+- One line says it was widened.
+- Simulation noise: f moves with place order.
+  - Reversed and sorted pool orders gave f = 1.169 and 1.255 (coverage 85.6% and 81.4%). Not part of the lock; the
+    locked run (sorted place names, as the export script) stands.
+
 ## Open questions for the owner
 
 1. **TOD coverage test.** Run it as locked above before shipping? Recommendation: yes. It takes about 20 minutes.

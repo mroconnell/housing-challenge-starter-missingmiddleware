@@ -1,0 +1,8 @@
+check,pool,measure,value,lo90,hi90,unit,note
+coverage,"real (main, 11 places)","share of 1,000 runs whose 90% range contains the pool mean",0.8450,,,share of runs,"truth = pool mean 33.5373; runs 1000, draws 2000, places per run 11, seed 20261103; runs covered 845; mean range width 33.23"
+coverage,"fake C-PT (sensitivity, 10 places)","share of 1,000 runs whose 90% range contains the pool mean",0.6860,,,share of runs,"truth = pool mean 14.5076; runs 1000, draws 2000, places per run 11, seed 20261103; runs covered 686; mean range width 35.58"
+bias,fake C-PT (10 places),"fake mean, place bootstrap 90% range",14.5076,-3.8361,38.8072,homes per 100 lot acres a year,"2,000 place draws, seed 20261103; range includes 0: True"
+bias,fake C-PT without Seattle Othello (9 places),fake mean,1.7229,,,homes per 100 lot acres a year,plain average
+bias,real (11 places),real mean (for comparison),33.5373,,,homes per 100 lot acres a year,
+widening,"real (main, 11 places)",widening factor f,1.1827,,,factor,coverage at f = 0.900; both ends widened away from each run's sample mean
+widening,"real (main, 11 places)",widened Wisconsin 90% range,10027.7117,3922.3985,16335.1006,homes 2027-2031,"published 4,866 to 15,361 widened about point 10,028 by f"
