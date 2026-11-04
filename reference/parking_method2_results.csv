@@ -1,0 +1,56 @@
+variant,weights,places,average,p05,p95,wi_homes,wi_p05,wi_p95
+"method 2, A",random effects,76,0.6637,-0.4908,1.7208,8856.6157,-6548.4206,22960.9816
+"method 2, A",target-state mix,76,-1.0822,-2.7564,0.7108,-14440.3682,-36779.3224,9484.3435
+"method 2, A",square root,76,-0.0461,-1.6767,1.7088,-615.5111,-22373.0079,22800.8857
+"method 2, A",homes,76,-1.0817,-3.554,1.8688,-14433.6453,-47422.7206,24936.6234
+"method 2, A",equal,76,0.1948,-1.6329,1.6294,2599.3127,-21788.8763,21741.4497
+"method 2, B",random effects,76,0.7038,-0.4904,1.7172,9390.494,-6543.5745,22912.7942
+"method 2, B",target-state mix,76,-0.6719,-2.2213,0.8954,-8965.0508,-29640.1277,11947.557
+"method 2, B",square root,76,0.2039,-1.453,1.8047,2720.1647,-19387.9248,24080.4575
+"method 2, B",homes,76,-0.7325,-3.358,1.7689,-9774.223,-44807.5245,23602.5715
+"method 2, B",equal,76,0.4056,-0.95,1.7367,5411.9817,-12675.933,23173.9832
+"method 2, C",random effects,76,0.8638,-0.2495,1.8269,11525.5422,-3328.7811,24377.0589
+"method 2, C",target-state mix,76,-0.5129,-2.0135,1.0156,-6843.4646,-26866.5993,13551.8667
+"method 2, C",square root,76,0.4052,-1.1957,1.9573,5406.6572,-15954.7814,26117.3815
+"method 2, C",homes,76,-0.2093,-2.4731,2.2712,-2792.7243,-32998.9594,30305.842
+"method 2, C",equal,76,0.5579,-0.8153,1.8162,7443.943,-10879.2038,24234.1354
+"method 2, D",random effects,76,0.862,-0.3057,1.9479,11501.3442,-4079.5313,25991.934
+"method 2, D",target-state mix,76,-0.5255,-2.3616,0.8877,-7012.2639,-31511.8946,11844.9348
+"method 2, D",square root,76,0.6569,-0.7077,2.2536,8765.3418,-9443.6401,30071.0904
+"method 2, D",homes,76,-0.0311,-1.8085,2.3687,-415.5385,-24131.2541,31605.862
+"method 2, D",equal,76,0.6812,-1.4756,2.0629,9089.3896,-19689.7244,27526.5994
+"switch back 2 (main exclusion list), D",random effects,76,0.5189,-0.6914,1.5849,6923.4944,-9226.0777,21147.6744
+"switch back 2 (main exclusion list), D",target-state mix,76,-0.7889,-2.7343,0.421,-10527.0964,-36484.9553,5617.6534
+"switch back 2 (main exclusion list), D",square root,76,0.1303,-1.4446,1.6417,1738.0111,-19275.6383,21906.2365
+"switch back 2 (main exclusion list), D",homes,76,-0.7237,-2.9133,1.7801,-9656.2639,-38872.6754,23752.4198
+"switch back 2 (main exclusion list), D",equal,76,0.1401,-1.5485,1.4478,1869.0622,-20662.155,19319.0969
+"switch back 3 (no matching), D",random effects,76,0.7808,-0.3858,1.8722,10418.472,-5147.9157,24981.104
+"switch back 3 (no matching), D",target-state mix,76,-0.3157,-1.8519,1.0822,-4212.4231,-24710.969,14439.8889
+"switch back 3 (no matching), D",square root,76,0.5411,-0.8689,2.097,7220.5074,-11593.6614,27980.9793
+"switch back 3 (no matching), D",homes,76,-0.2065,-1.9933,2.0943,-2755.3492,-26598.0001,27944.7172
+"switch back 3 (no matching), D",equal,76,0.5355,-0.7297,1.8177,7145.1143,-9736.6069,24253.7175
+"switch back 4 (no shock rule), D",random effects,76,0.7763,-0.3971,1.864,10359.0831,-5299.267,24872.0807
+"switch back 4 (no shock rule), D",target-state mix,76,-0.8077,-2.9088,0.6323,-10777.6595,-38812.892,8436.6657
+"switch back 4 (no shock rule), D",square root,76,0.5047,-0.8678,2.0139,6735.051,-11579.4892,26872.1556
+"switch back 4 (no shock rule), D",homes,76,-0.1057,-1.8803,2.164,-1410.5883,-25090.1055,28874.7659
+"switch back 4 (no shock rule), D",equal,76,0.3559,-1.9241,1.8104,4748.3028,-25673.8837,24156.858
+"switch back 5 (no winsorising), D",random effects,76,0.7482,-0.4691,1.8337,9983.9667,-6259.06,24468.0598
+"switch back 5 (no winsorising), D",target-state mix,76,-1.3571,-4.5639,0.7724,-18108.895,-60898.0817,10306.7413
+"switch back 5 (no winsorising), D",square root,76,0.7451,-0.8632,2.4152,9941.8487,-11517.4174,32227.1166
+"switch back 5 (no winsorising), D",homes,76,0.1008,-1.8545,2.4718,1345.3317,-24745.776,32982.4983
+"switch back 5 (no winsorising), D",equal,76,-0.4851,-3.3921,1.9844,-6472.6922,-45262.379,26479.1771
+"switch back 6 (fixed ACS homes), D",random effects,76,0.8039,-0.3106,1.867,10726.9711,-4144.0934,24912.0089
+"switch back 6 (fixed ACS homes), D",target-state mix,76,-0.5055,-2.0387,0.834,-6745.5053,-27203.6077,11128.6425
+"switch back 6 (fixed ACS homes), D",square root,76,0.5933,-0.697,2.0843,7916.8394,-9300.2738,27812.2102
+"switch back 6 (fixed ACS homes), D",homes,76,-0.0734,-1.7601,2.1721,-979.9618,-23486.2848,28983.8044
+"switch back 6 (fixed ACS homes), D",equal,76,0.6585,-1.02,1.9663,8786.8456,-13610.8346,26237.5516
+"shock rule also drops flagged repeal places, D",random effects,74,0.903,-0.3065,2.029,12048.5652,-4089.387,27073.5435
+"shock rule also drops flagged repeal places, D",target-state mix,74,-0.4582,-2.4109,0.9673,-6114.0451,-32169.2528,12906.9263
+"shock rule also drops flagged repeal places, D",square root,74,0.7346,-0.6679,2.4026,9801.8975,-8912.179,32059.1627
+"shock rule also drops flagged repeal places, D",homes,74,0.0006,-1.8067,2.4017,8.2756,-24107.4459,32047.0742
+"shock rule also drops flagged repeal places, D",equal,74,0.8492,-1.5676,2.2541,11330.6631,-20917.6695,30077.8989
+"backtest, D",random effects,76,0.0977,-0.791,1.0516,,,
+"backtest, D",target-state mix,76,-0.5698,-2.6749,0.3276,,,
+"backtest, D",square root,76,1.562,0.3204,2.8559,,,
+"backtest, D",homes,76,2.5274,0.9358,4.5111,,,
+"backtest, D",equal,76,0.0516,-1.7501,1.2262,,,

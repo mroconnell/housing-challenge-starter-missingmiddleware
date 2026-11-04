@@ -1,0 +1,685 @@
+variant,place,state,effect,step,n_pool,missing_share
+"method 2, A",San Jose,California,4.2884,5,10,0.2
+"method 2, A",San Francisco,California,-7.2048,5,10,1.0
+"method 2, A",Raleigh,North Carolina,9.4872,4,10,0.1
+"method 2, A",Minneapolis,Minnesota,-7.6036,4,10,0.0
+"method 2, A",Lexington,Kentucky,-1.4296,3,10,0.1
+"method 2, A",St. Paul,Minnesota,-1.5395,3,10,0.1
+"method 2, A",Anchorage,Alaska,-5.0798,3,10,0.1
+"method 2, A",Buffalo,New York,1.0101,3,10,0.1
+"method 2, A",Bridgeport,Connecticut,5.5293,3,10,0.0
+"method 2, A",Gainesville,Florida,9.097,1,10,0.0
+"method 2, A",Hartford,Connecticut,-0.0032,3,10,0.0
+"method 2, A",Ann Arbor,Michigan,3.8426,2,10,0.0
+"method 2, A",Cambridge,Massachusetts,-4.8828,3,10,0.1
+"method 2, A",Roanoke,Virginia,-1.3313,2,10,0.1
+"method 2, A",Alameda,California,-3.6347,1,10,0.0
+"method 2, A",West Allis,Wisconsin,5.4541,2,10,0.0
+"method 2, A",Corvallis,Oregon,3.6508,2,10,0.0
+"method 2, A",Tigard,Oregon,-2.7384,2,10,0.0
+"method 2, A",Dunwoody,Georgia,5.2996,2,10,0.0
+"method 2, A",Culver City,California,-2.8237,1,10,0.0
+"method 2, A",Mount Pleasant,Michigan,-1.773,1,10,0.0
+"method 2, A",Windham,Maine,9.0057,2,10,0.5
+"method 2, A",Cambridge,Maryland,-4.4524,2,10,0.0
+"method 2, A",Emeryville,California,0.5912,1,10,0.0
+"method 2, A",Branson,Missouri,-2.2886,1,10,0.0
+"method 2, A",Canandaigua,New York,2.947,1,10,0.0
+"method 2, A",Ecorse,Michigan,-13.4031,1,10,0.0
+"method 2, A",Bastrop,Texas,53.0259,1,10,0.0
+"method 2, A",Seabrook,New Hampshire,1.6164,1,10,0.0
+"method 2, A",River Rouge,Michigan,0.0404,1,10,0.0
+"method 2, A",Hudson,New York,-2.1732,1,10,0.0
+"method 2, A",Bandera,Texas,11.1548,1,10,0.0
+"method 2, A",Austin,Texas,-12.451,5,10,0.1
+"method 2, A",Sacramento,California,0.1824,4,10,0.1
+"method 2, A",Durham,North Carolina,-0.0246,3,10,0.1
+"method 2, A",Richmond,Virginia,12.2729,3,10,0.1
+"method 2, A",Birmingham,Alabama,0.6828,3,10,0.0
+"method 2, A",Newport News,Virginia,1.8131,2,10,0.1
+"method 2, A",Salem,Oregon,-0.0045,2,10,0.0
+"method 2, A",Eugene,Oregon,3.1726,2,10,0.0
+"method 2, A",Berkeley,California,3.224,1,10,0.0
+"method 2, A",Bend,Oregon,6.9225,2,10,0.0
+"method 2, A",Beaverton,Oregon,-1.425,2,10,0.0
+"method 2, A",Longmont,Colorado,11.5518,3,10,0.0
+"method 2, A",Trenton,New Jersey,0.0796,1,10,0.0
+"method 2, A",Duluth,Minnesota,2.26,3,10,0.0
+"method 2, A",Kalamazoo,Michigan,-0.0652,1,10,0.0
+"method 2, A",Rogers,Arkansas,-1.9315,2,10,0.0
+"method 2, A",Portland,Maine,3.3632,2,10,0.4
+"method 2, A",Springfield,Oregon,8.3039,2,10,0.0
+"method 2, A",Albany,Oregon,-9.2805,2,10,0.0
+"method 2, A",La Crosse,Wisconsin,-2.1767,2,10,0.0
+"method 2, A",Burlington,Vermont,15.0396,2,10,0.3
+"method 2, A",Grants Pass,Oregon,3.6565,2,10,0.0
+"method 2, A",Plainfield,Indiana,-6.6711,2,10,0.0
+"method 2, A",Tualatin,Oregon,10.1838,2,10,0.0
+"method 2, A",West Linn,Oregon,2.6584,2,10,0.0
+"method 2, A",Kingston,New York,9.7036,1,10,0.0
+"method 2, A",Ashland,Oregon,-3.4668,2,10,0.0
+"method 2, A",Carrboro,North Carolina,-3.1996,2,10,0.1
+"method 2, A",Milwaukie,Oregon,-8.0083,2,10,0.0
+"method 2, A",Northfield,Minnesota,-3.926,1,10,0.0
+"method 2, A",Central Point,Oregon,-10.633,2,10,0.0
+"method 2, A",Portsmouth,Ohio,0.4578,1,10,0.0
+"method 2, A",Taylor,Texas,-13.7733,1,10,0.0
+"method 2, A",Hanover,New Hampshire,-4.8992,1,10,0.0
+"method 2, A",Lansing,Kansas,0.5008,2,10,0.0
+"method 2, A",Hampden,Maine,-2.7781,1,10,0.0
+"method 2, A",King City,Oregon,14.3712,2,10,0.0
+"method 2, A",Social Circle,Georgia,-61.1503,1,10,0.0
+"method 2, A",Millersburg,Oregon,-35.9041,2,10,0.0
+"method 2, A",South Bend (with unincorporated St. Joseph County),Indiana,2.721,3,10,0.1
+"method 2, A",Gastonia,North Carolina,-3.69,2,10,0.1
+"method 2, A",Avondale Estates,Georgia,0.3713,1,10,0.0
+"method 2, A",Maumee,Ohio,-0.2065,1,10,0.0
+"method 2, A",Saranac Lake,New York,-2.3948,1,10,0.0
+"method 2, B",San Jose,California,2.011,5,10,0.3
+"method 2, B",San Francisco,California,-4.8171,5,10,0.6
+"method 2, B",Raleigh,North Carolina,9.1682,4,10,0.2
+"method 2, B",Minneapolis,Minnesota,-7.5262,4,10,0.1
+"method 2, B",Lexington,Kentucky,-1.4296,3,10,0.1
+"method 2, B",St. Paul,Minnesota,-1.8083,3,10,0.2
+"method 2, B",Anchorage,Alaska,-5.3742,3,10,0.2
+"method 2, B",Buffalo,New York,1.2281,3,10,0.2
+"method 2, B",Bridgeport,Connecticut,4.8827,3,10,0.1
+"method 2, B",Gainesville,Florida,9.097,1,10,0.0
+"method 2, B",Hartford,Connecticut,0.5266,3,10,0.1
+"method 2, B",Ann Arbor,Michigan,3.4228,2,10,0.1
+"method 2, B",Cambridge,Massachusetts,-5.5304,3,10,0.2
+"method 2, B",Roanoke,Virginia,-1.7171,2,10,0.1
+"method 2, B",Alameda,California,-2.8445,1,10,0.0
+"method 2, B",West Allis,Wisconsin,5.6351,2,10,0.0
+"method 2, B",Corvallis,Oregon,3.7858,2,10,0.0
+"method 2, B",Tigard,Oregon,-2.3952,2,10,0.0
+"method 2, B",Dunwoody,Georgia,6.7869,2,10,0.0
+"method 2, B",Culver City,California,-2.089,1,10,0.0
+"method 2, B",Mount Pleasant,Michigan,-1.773,1,10,0.0
+"method 2, B",Windham,Maine,9.614,2,10,0.2
+"method 2, B",Cambridge,Maryland,-5.9897,2,10,0.0
+"method 2, B",Emeryville,California,1.5245,1,10,0.0
+"method 2, B",Branson,Missouri,-2.2886,1,10,0.0
+"method 2, B",Canandaigua,New York,2.947,1,10,0.0
+"method 2, B",Ecorse,Michigan,-13.4109,1,10,0.0
+"method 2, B",Bastrop,Texas,53.9357,1,10,0.0
+"method 2, B",Seabrook,New Hampshire,0.9041,1,10,0.0
+"method 2, B",River Rouge,Michigan,0.0404,1,10,0.0
+"method 2, B",Hudson,New York,-2.8021,1,10,0.0
+"method 2, B",Bandera,Texas,3.7905,1,10,0.0
+"method 2, B",Austin,Texas,-14.35,5,10,0.0
+"method 2, B",Sacramento,California,0.1824,4,10,0.1
+"method 2, B",Durham,North Carolina,-0.1816,3,10,0.2
+"method 2, B",Richmond,Virginia,12.0567,3,10,0.2
+"method 2, B",Birmingham,Alabama,0.4541,3,10,0.1
+"method 2, B",Newport News,Virginia,1.8131,2,10,0.1
+"method 2, B",Salem,Oregon,-0.0045,2,10,0.0
+"method 2, B",Eugene,Oregon,3.1726,2,10,0.0
+"method 2, B",Berkeley,California,3.9023,1,10,0.0
+"method 2, B",Bend,Oregon,6.2763,2,10,0.0
+"method 2, B",Beaverton,Oregon,-2.5284,2,10,0.0
+"method 2, B",Longmont,Colorado,11.6175,3,10,0.0
+"method 2, B",Trenton,New Jersey,0.0796,1,10,0.0
+"method 2, B",Duluth,Minnesota,2.26,3,10,0.0
+"method 2, B",Kalamazoo,Michigan,-0.0652,1,10,0.0
+"method 2, B",Rogers,Arkansas,-1.9315,2,10,0.0
+"method 2, B",Portland,Maine,3.3632,2,10,0.4
+"method 2, B",Springfield,Oregon,8.3039,2,10,0.0
+"method 2, B",Albany,Oregon,-8.672,2,10,0.0
+"method 2, B",La Crosse,Wisconsin,-2.1767,2,10,0.0
+"method 2, B",Burlington,Vermont,14.4708,2,10,0.3
+"method 2, B",Grants Pass,Oregon,3.6565,2,10,0.0
+"method 2, B",Plainfield,Indiana,-3.7947,2,10,0.0
+"method 2, B",Tualatin,Oregon,7.507,2,10,0.0
+"method 2, B",West Linn,Oregon,2.6584,2,10,0.0
+"method 2, B",Kingston,New York,9.7036,1,10,0.0
+"method 2, B",Ashland,Oregon,-2.6318,2,10,0.0
+"method 2, B",Carrboro,North Carolina,-0.0476,2,10,0.1
+"method 2, B",Milwaukie,Oregon,-8.4542,2,10,0.0
+"method 2, B",Northfield,Minnesota,-3.222,1,10,0.0
+"method 2, B",Central Point,Oregon,-9.8528,2,10,0.0
+"method 2, B",Portsmouth,Ohio,0.4578,1,10,0.0
+"method 2, B",Taylor,Texas,-12.6161,1,10,0.0
+"method 2, B",Hanover,New Hampshire,-4.3213,1,10,0.0
+"method 2, B",Lansing,Kansas,-1.0219,2,10,0.0
+"method 2, B",Hampden,Maine,-2.6861,1,10,0.0
+"method 2, B",King City,Oregon,14.3712,2,10,0.0
+"method 2, B",Social Circle,Georgia,-3.9346,1,10,0.0
+"method 2, B",Millersburg,Oregon,-36.8336,2,10,0.0
+"method 2, B",South Bend (with unincorporated St. Joseph County),Indiana,4.2912,3,10,0.1
+"method 2, B",Gastonia,North Carolina,-3.3899,2,10,0.1
+"method 2, B",Avondale Estates,Georgia,0.3713,1,10,0.0
+"method 2, B",Maumee,Ohio,-0.2226,1,10,0.0
+"method 2, B",Saranac Lake,New York,-1.8208,1,10,0.0
+"method 2, C",San Jose,California,4.1471,donors,5,0.0
+"method 2, C",San Francisco,California,-8.3886,donors,6,0.0
+"method 2, C",Raleigh,North Carolina,7.4685,donors,14,0.1429
+"method 2, C",Minneapolis,Minnesota,-11.6701,donors,16,0.125
+"method 2, C",Lexington,Kentucky,-2.3233,donors,46,0.0435
+"method 2, C",St. Paul,Minnesota,-2.0017,donors,50,0.0364
+"method 2, C",Anchorage,Alaska,-3.6704,donors,50,0.0455
+"method 2, C",Buffalo,New York,0.6928,donors,50,0.0312
+"method 2, C",Bridgeport,Connecticut,4.8827,3,10,0.1
+"method 2, C",Gainesville,Florida,9.097,1,10,0.0
+"method 2, C",Hartford,Connecticut,0.5266,3,10,0.1
+"method 2, C",Ann Arbor,Michigan,3.4228,2,10,0.1
+"method 2, C",Cambridge,Massachusetts,-5.5304,3,10,0.2
+"method 2, C",Roanoke,Virginia,-1.7171,2,10,0.1
+"method 2, C",Alameda,California,-2.8445,1,10,0.0
+"method 2, C",West Allis,Wisconsin,5.6351,2,10,0.0
+"method 2, C",Corvallis,Oregon,3.7858,2,10,0.0
+"method 2, C",Tigard,Oregon,-2.3952,2,10,0.0
+"method 2, C",Dunwoody,Georgia,6.7869,2,10,0.0
+"method 2, C",Culver City,California,-2.089,1,10,0.0
+"method 2, C",Mount Pleasant,Michigan,-1.773,1,10,0.0
+"method 2, C",Windham,Maine,9.614,2,10,0.2
+"method 2, C",Cambridge,Maryland,-5.9897,2,10,0.0
+"method 2, C",Emeryville,California,1.5245,1,10,0.0
+"method 2, C",Branson,Missouri,-2.2886,1,10,0.0
+"method 2, C",Canandaigua,New York,2.947,1,10,0.0
+"method 2, C",Ecorse,Michigan,-13.4109,1,10,0.0
+"method 2, C",Bastrop,Texas,53.9357,1,10,0.0
+"method 2, C",Seabrook,New Hampshire,0.9041,1,10,0.0
+"method 2, C",River Rouge,Michigan,0.0404,1,10,0.0
+"method 2, C",Hudson,New York,-2.8021,1,10,0.0
+"method 2, C",Bandera,Texas,3.7905,1,10,0.0
+"method 2, C",Austin,Texas,-0.5434,donors,5,0.0
+"method 2, C",Sacramento,California,4.2222,donors,10,0.1
+"method 2, C",Durham,North Carolina,2.4771,donors,50,0.039
+"method 2, C",Richmond,Virginia,12.0567,3,10,0.2
+"method 2, C",Birmingham,Alabama,0.4541,3,10,0.1
+"method 2, C",Newport News,Virginia,1.8131,2,10,0.1
+"method 2, C",Salem,Oregon,-0.0045,2,10,0.0
+"method 2, C",Eugene,Oregon,3.1726,2,10,0.0
+"method 2, C",Berkeley,California,3.9023,1,10,0.0
+"method 2, C",Bend,Oregon,6.2763,2,10,0.0
+"method 2, C",Beaverton,Oregon,-2.5284,2,10,0.0
+"method 2, C",Longmont,Colorado,11.6175,3,10,0.0
+"method 2, C",Trenton,New Jersey,0.0796,1,10,0.0
+"method 2, C",Duluth,Minnesota,2.26,3,10,0.0
+"method 2, C",Kalamazoo,Michigan,-0.0652,1,10,0.0
+"method 2, C",Rogers,Arkansas,-1.9315,2,10,0.0
+"method 2, C",Portland,Maine,3.3632,2,10,0.4
+"method 2, C",Springfield,Oregon,8.3039,2,10,0.0
+"method 2, C",Albany,Oregon,-8.672,2,10,0.0
+"method 2, C",La Crosse,Wisconsin,-2.1767,2,10,0.0
+"method 2, C",Burlington,Vermont,14.4708,2,10,0.3
+"method 2, C",Grants Pass,Oregon,3.6565,2,10,0.0
+"method 2, C",Plainfield,Indiana,-3.7947,2,10,0.0
+"method 2, C",Tualatin,Oregon,7.507,2,10,0.0
+"method 2, C",West Linn,Oregon,2.6584,2,10,0.0
+"method 2, C",Kingston,New York,9.7036,1,10,0.0
+"method 2, C",Ashland,Oregon,-2.6318,2,10,0.0
+"method 2, C",Carrboro,North Carolina,-0.0476,2,10,0.1
+"method 2, C",Milwaukie,Oregon,-8.4542,2,10,0.0
+"method 2, C",Northfield,Minnesota,-3.222,1,10,0.0
+"method 2, C",Central Point,Oregon,-9.8528,2,10,0.0
+"method 2, C",Portsmouth,Ohio,0.4578,1,10,0.0
+"method 2, C",Taylor,Texas,-12.6161,1,10,0.0
+"method 2, C",Hanover,New Hampshire,-4.3213,1,10,0.0
+"method 2, C",Lansing,Kansas,-1.0219,2,10,0.0
+"method 2, C",Hampden,Maine,-2.6861,1,10,0.0
+"method 2, C",King City,Oregon,14.3712,2,10,0.0
+"method 2, C",Social Circle,Georgia,-3.9346,1,10,0.0
+"method 2, C",Millersburg,Oregon,-36.8336,2,10,0.0
+"method 2, C",South Bend (with unincorporated St. Joseph County),Indiana,4.2912,3,10,0.1
+"method 2, C",Gastonia,North Carolina,-3.3899,2,10,0.1
+"method 2, C",Avondale Estates,Georgia,0.3713,1,10,0.0
+"method 2, C",Maumee,Ohio,-0.2226,1,10,0.0
+"method 2, C",Saranac Lake,New York,-1.8208,1,10,0.0
+"method 2, D",San Jose,California,0.7163,5,10,0.2
+"method 2, D",San Francisco,California,-6.277,5,10,1.0
+"method 2, D",Raleigh,North Carolina,7.659,4,10,0.1
+"method 2, D",Minneapolis,Minnesota,-5.7542,4,10,0.0
+"method 2, D",Lexington,Kentucky,-1.4295,3,10,0.1
+"method 2, D",St. Paul,Minnesota,0.4489,3,10,0.1
+"method 2, D",Anchorage,Alaska,-4.7474,3,10,0.1
+"method 2, D",Buffalo,New York,1.0101,3,10,0.1
+"method 2, D",Bridgeport,Connecticut,4.6054,3,10,0.0
+"method 2, D",Gainesville,Florida,16.0581,1,10,0.0
+"method 2, D",Hartford,Connecticut,-0.0032,3,10,0.0
+"method 2, D",Ann Arbor,Michigan,4.6709,2,10,0.0
+"method 2, D",Cambridge,Massachusetts,-4.3729,3,10,0.1
+"method 2, D",Roanoke,Virginia,-0.2992,2,10,0.1
+"method 2, D",Alameda,California,-1.5551,1,10,0.0
+"method 2, D",West Allis,Wisconsin,6.3101,2,10,0.0
+"method 2, D",Corvallis,Oregon,2.8388,2,10,0.0
+"method 2, D",Tigard,Oregon,2.5619,2,10,0.0
+"method 2, D",Dunwoody,Georgia,7.1251,2,10,0.0
+"method 2, D",Culver City,California,0.2509,1,10,0.0
+"method 2, D",Mount Pleasant,Michigan,-1.834,1,10,0.0
+"method 2, D",Windham,Maine,9.0636,2,10,0.5
+"method 2, D",Cambridge,Maryland,-6.2164,2,10,0.0
+"method 2, D",Emeryville,California,-7.8086,1,10,0.0
+"method 2, D",Branson,Missouri,-1.0545,1,10,0.0
+"method 2, D",Canandaigua,New York,2.7856,1,10,0.0
+"method 2, D",Ecorse,Michigan,-9.0188,1,10,0.0
+"method 2, D",Bastrop,Texas,54.0983,1,10,0.0
+"method 2, D",Seabrook,New Hampshire,0.5139,1,10,0.0
+"method 2, D",River Rouge,Michigan,-0.0555,1,10,0.0
+"method 2, D",Hudson,New York,-1.8206,1,10,0.0
+"method 2, D",Bandera,Texas,11.1402,1,10,0.0
+"method 2, D",Austin,Texas,-4.5698,5,10,0.0
+"method 2, D",Sacramento,California,2.1284,4,10,0.1
+"method 2, D",Durham,North Carolina,3.5647,3,10,0.1
+"method 2, D",Richmond,Virginia,14.9929,3,10,0.1
+"method 2, D",Birmingham,Alabama,1.0507,3,10,0.0
+"method 2, D",Newport News,Virginia,0.8296,2,10,0.1
+"method 2, D",Salem,Oregon,1.2545,2,10,0.0
+"method 2, D",Eugene,Oregon,3.2186,2,10,0.0
+"method 2, D",Berkeley,California,3.6329,1,10,0.0
+"method 2, D",Bend,Oregon,5.8125,2,10,0.0
+"method 2, D",Beaverton,Oregon,-1.2593,2,10,0.0
+"method 2, D",Longmont,Colorado,11.1863,3,10,0.0
+"method 2, D",Trenton,New Jersey,-1.0106,1,10,0.0
+"method 2, D",Duluth,Minnesota,3.3024,3,10,0.0
+"method 2, D",Kalamazoo,Michigan,-1.1573,1,10,0.0
+"method 2, D",Rogers,Arkansas,-1.8054,2,10,0.0
+"method 2, D",Portland,Maine,6.8818,2,10,0.4
+"method 2, D",Springfield,Oregon,10.4695,2,10,0.0
+"method 2, D",Albany,Oregon,-7.9895,2,10,0.0
+"method 2, D",La Crosse,Wisconsin,-2.7663,2,10,0.0
+"method 2, D",Burlington,Vermont,17.5893,2,10,0.3
+"method 2, D",Grants Pass,Oregon,5.0532,2,10,0.0
+"method 2, D",Plainfield,Indiana,-5.9252,2,10,0.0
+"method 2, D",Tualatin,Oregon,10.6595,2,10,0.0
+"method 2, D",West Linn,Oregon,1.9334,2,10,0.0
+"method 2, D",Kingston,New York,9.7002,1,10,0.0
+"method 2, D",Ashland,Oregon,-2.1812,2,10,0.0
+"method 2, D",Carrboro,North Carolina,-3.9862,2,10,0.0
+"method 2, D",Milwaukie,Oregon,-1.6687,2,10,0.0
+"method 2, D",Northfield,Minnesota,-6.6293,1,10,0.0
+"method 2, D",Central Point,Oregon,-7.3658,2,10,0.0
+"method 2, D",Portsmouth,Ohio,-7.6413,1,10,0.0
+"method 2, D",Taylor,Texas,-11.1955,1,10,0.0
+"method 2, D",Hanover,New Hampshire,-5.6173,1,10,0.0
+"method 2, D",Lansing,Kansas,-2.2418,2,10,0.0
+"method 2, D",Hampden,Maine,-2.6673,1,10,0.0
+"method 2, D",King City,Oregon,7.9341,2,10,0.0
+"method 2, D",Social Circle,Georgia,-72.6005,1,10,0.0
+"method 2, D",Millersburg,Oregon,-49.8057,2,10,0.0
+"method 2, D",South Bend (with unincorporated St. Joseph County),Indiana,1.5077,3,10,0.1
+"method 2, D",Gastonia,North Carolina,-3.69,2,10,0.1
+"method 2, D",Avondale Estates,Georgia,0.3713,1,10,0.0
+"method 2, D",Maumee,Ohio,-0.1913,1,10,0.0
+"method 2, D",Saranac Lake,New York,-2.3948,1,10,0.0
+"switch back 2 (main exclusion list), D",San Jose,California,1.7021,3,10,0.0
+"switch back 2 (main exclusion list), D",San Francisco,California,-6.2943,3,10,0.0
+"switch back 2 (main exclusion list), D",Raleigh,North Carolina,6.4207,2,10,0.0
+"switch back 2 (main exclusion list), D",Minneapolis,Minnesota,-4.6628,3,10,0.0
+"switch back 2 (main exclusion list), D",Lexington,Kentucky,-2.5132,3,10,0.0
+"switch back 2 (main exclusion list), D",St. Paul,Minnesota,0.7717,3,10,0.0
+"switch back 2 (main exclusion list), D",Anchorage,Alaska,-3.611,2,10,0.0
+"switch back 2 (main exclusion list), D",Buffalo,New York,0.4782,1,10,0.0
+"switch back 2 (main exclusion list), D",Bridgeport,Connecticut,4.0269,2,10,0.0
+"switch back 2 (main exclusion list), D",Gainesville,Florida,14.1912,1,10,0.0
+"switch back 2 (main exclusion list), D",Hartford,Connecticut,-0.0616,1,10,0.3
+"switch back 2 (main exclusion list), D",Ann Arbor,Michigan,3.8292,1,10,0.0
+"switch back 2 (main exclusion list), D",Cambridge,Massachusetts,-6.697,1,10,0.0
+"switch back 2 (main exclusion list), D",Roanoke,Virginia,-4.0592,2,10,0.0
+"switch back 2 (main exclusion list), D",Alameda,California,-0.6634,1,10,0.0
+"switch back 2 (main exclusion list), D",West Allis,Wisconsin,5.6009,1,10,0.0
+"switch back 2 (main exclusion list), D",Corvallis,Oregon,2.3873,2,10,0.0
+"switch back 2 (main exclusion list), D",Tigard,Oregon,2.4471,2,10,0.0
+"switch back 2 (main exclusion list), D",Dunwoody,Georgia,2.4063,1,10,0.0
+"switch back 2 (main exclusion list), D",Culver City,California,1.4273,1,10,0.0
+"switch back 2 (main exclusion list), D",Mount Pleasant,Michigan,0.1848,1,10,0.0
+"switch back 2 (main exclusion list), D",Windham,Maine,8.8061,1,10,0.0
+"switch back 2 (main exclusion list), D",Cambridge,Maryland,-2.5425,2,10,0.0
+"switch back 2 (main exclusion list), D",Emeryville,California,-7.8086,1,10,0.0
+"switch back 2 (main exclusion list), D",Branson,Missouri,-6.046,1,10,0.0
+"switch back 2 (main exclusion list), D",Canandaigua,New York,1.8628,1,10,0.0
+"switch back 2 (main exclusion list), D",Ecorse,Michigan,-8.9213,1,10,0.0
+"switch back 2 (main exclusion list), D",Bastrop,Texas,56.517,1,10,0.0
+"switch back 2 (main exclusion list), D",Seabrook,New Hampshire,0.5621,1,10,0.0
+"switch back 2 (main exclusion list), D",River Rouge,Michigan,-1.1655,1,10,0.0
+"switch back 2 (main exclusion list), D",Hudson,New York,-1.9193,1,10,0.0
+"switch back 2 (main exclusion list), D",Bandera,Texas,11.1402,1,10,0.0
+"switch back 2 (main exclusion list), D",Austin,Texas,-10.8378,3,10,0.0
+"switch back 2 (main exclusion list), D",Sacramento,California,6.66,2,10,0.0
+"switch back 2 (main exclusion list), D",Durham,North Carolina,2.8272,2,10,0.0
+"switch back 2 (main exclusion list), D",Richmond,Virginia,14.4723,2,10,0.1
+"switch back 2 (main exclusion list), D",Birmingham,Alabama,-1.0483,3,10,0.0
+"switch back 2 (main exclusion list), D",Newport News,Virginia,-2.3615,2,10,0.1
+"switch back 2 (main exclusion list), D",Salem,Oregon,-0.4244,2,10,0.0
+"switch back 2 (main exclusion list), D",Eugene,Oregon,3.7571,2,10,0.0
+"switch back 2 (main exclusion list), D",Berkeley,California,5.0038,1,10,0.0
+"switch back 2 (main exclusion list), D",Bend,Oregon,-1.3583,2,10,0.0
+"switch back 2 (main exclusion list), D",Beaverton,Oregon,-1.8721,2,10,0.0
+"switch back 2 (main exclusion list), D",Longmont,Colorado,14.5934,1,10,0.0
+"switch back 2 (main exclusion list), D",Trenton,New Jersey,3.1102,1,10,0.0
+"switch back 2 (main exclusion list), D",Duluth,Minnesota,4.226,1,10,0.0
+"switch back 2 (main exclusion list), D",Kalamazoo,Michigan,-1.3142,1,10,0.0
+"switch back 2 (main exclusion list), D",Rogers,Arkansas,-5.4519,1,10,0.0
+"switch back 2 (main exclusion list), D",Portland,Maine,3.5387,2,10,0.4
+"switch back 2 (main exclusion list), D",Springfield,Oregon,7.9153,2,10,0.0
+"switch back 2 (main exclusion list), D",Albany,Oregon,-8.0075,2,10,0.0
+"switch back 2 (main exclusion list), D",La Crosse,Wisconsin,-2.5205,1,10,0.0
+"switch back 2 (main exclusion list), D",Burlington,Vermont,13.5043,2,10,0.4
+"switch back 2 (main exclusion list), D",Grants Pass,Oregon,3.6322,2,10,0.0
+"switch back 2 (main exclusion list), D",Plainfield,Indiana,-6.9441,1,10,0.0
+"switch back 2 (main exclusion list), D",Tualatin,Oregon,9.8179,1,10,0.0
+"switch back 2 (main exclusion list), D",West Linn,Oregon,3.532,1,10,0.0
+"switch back 2 (main exclusion list), D",Kingston,New York,9.8784,1,10,0.0
+"switch back 2 (main exclusion list), D",Ashland,Oregon,1.1445,1,10,0.0
+"switch back 2 (main exclusion list), D",Carrboro,North Carolina,-18.5156,1,10,0.0
+"switch back 2 (main exclusion list), D",Milwaukie,Oregon,1.0216,1,10,0.0
+"switch back 2 (main exclusion list), D",Northfield,Minnesota,-8.6791,1,10,0.0
+"switch back 2 (main exclusion list), D",Central Point,Oregon,-5.1658,1,10,0.0
+"switch back 2 (main exclusion list), D",Portsmouth,Ohio,-7.8606,1,10,0.0
+"switch back 2 (main exclusion list), D",Taylor,Texas,-10.0406,1,10,0.0
+"switch back 2 (main exclusion list), D",Hanover,New Hampshire,-5.6173,1,10,0.0
+"switch back 2 (main exclusion list), D",Lansing,Kansas,-10.2976,1,10,0.0
+"switch back 2 (main exclusion list), D",Hampden,Maine,-2.8263,1,10,0.0
+"switch back 2 (main exclusion list), D",King City,Oregon,2.5826,1,10,0.0
+"switch back 2 (main exclusion list), D",Social Circle,Georgia,-22.2337,1,10,0.0
+"switch back 2 (main exclusion list), D",Millersburg,Oregon,-57.8449,1,10,0.0
+"switch back 2 (main exclusion list), D",South Bend (with unincorporated St. Joseph County),Indiana,-0.2641,2,10,0.0
+"switch back 2 (main exclusion list), D",Gastonia,North Carolina,0.4233,2,10,0.1
+"switch back 2 (main exclusion list), D",Avondale Estates,Georgia,0.5712,1,10,0.0
+"switch back 2 (main exclusion list), D",Maumee,Ohio,0.4943,1,10,0.0
+"switch back 2 (main exclusion list), D",Saranac Lake,New York,-1.0026,1,10,0.0
+"switch back 3 (no matching), D",San Jose,California,0.7163,5,10,0.2
+"switch back 3 (no matching), D",San Francisco,California,-6.277,5,10,1.0
+"switch back 3 (no matching), D",Raleigh,North Carolina,7.4266,4,14,0.1429
+"switch back 3 (no matching), D",Minneapolis,Minnesota,-6.6913,4,16,0.125
+"switch back 3 (no matching), D",Lexington,Kentucky,-1.4295,3,10,0.1
+"switch back 3 (no matching), D",St. Paul,Minnesota,0.4436,3,12,0.1667
+"switch back 3 (no matching), D",Anchorage,Alaska,-4.6182,3,13,0.1538
+"switch back 3 (no matching), D",Buffalo,New York,0.3197,3,15,0.1333
+"switch back 3 (no matching), D",Bridgeport,Connecticut,4.4448,3,129,0.0155
+"switch back 3 (no matching), D",Gainesville,Florida,14.6027,1,19,0.0
+"switch back 3 (no matching), D",Hartford,Connecticut,-1.1798,3,176,0.0114
+"switch back 3 (no matching), D",Ann Arbor,Michigan,4.8462,2,14,0.0714
+"switch back 3 (no matching), D",Cambridge,Massachusetts,-5.1612,3,206,0.0146
+"switch back 3 (no matching), D",Roanoke,Virginia,-1.3664,2,42,0.0238
+"switch back 3 (no matching), D",Alameda,California,-1.1892,1,139,0.0
+"switch back 3 (no matching), D",West Allis,Wisconsin,6.3713,2,60,0.0
+"switch back 3 (no matching), D",Corvallis,Oregon,2.6483,2,174,0.0
+"switch back 3 (no matching), D",Tigard,Oregon,2.2588,2,173,0.0
+"switch back 3 (no matching), D",Dunwoody,Georgia,4.2546,2,69,0.0145
+"switch back 3 (no matching), D",Culver City,California,1.693,1,171,0.0
+"switch back 3 (no matching), D",Mount Pleasant,Michigan,-2.1044,1,71,0.0
+"switch back 3 (no matching), D",Windham,Maine,11.6526,2,131,0.229
+"switch back 3 (no matching), D",Cambridge,Maryland,-6.3662,2,132,0.0
+"switch back 3 (no matching), D",Emeryville,California,-6.3269,1,110,0.0
+"switch back 3 (no matching), D",Branson,Missouri,5.7625,1,32,0.0
+"switch back 3 (no matching), D",Canandaigua,New York,2.7953,1,243,0.0
+"switch back 3 (no matching), D",Ecorse,Michigan,-8.7274,1,147,0.0
+"switch back 3 (no matching), D",Bastrop,Texas,60.6871,1,177,0.0056
+"switch back 3 (no matching), D",Seabrook,New Hampshire,-2.6269,1,68,0.0
+"switch back 3 (no matching), D",River Rouge,Michigan,-0.0713,1,186,0.0
+"switch back 3 (no matching), D",Hudson,New York,-1.3084,1,339,0.0
+"switch back 3 (no matching), D",Bandera,Texas,2.1032,1,171,0.0117
+"switch back 3 (no matching), D",Austin,Texas,-4.5698,5,10,0.0
+"switch back 3 (no matching), D",Sacramento,California,2.1284,4,10,0.1
+"switch back 3 (no matching), D",Durham,North Carolina,3.2871,3,14,0.1429
+"switch back 3 (no matching), D",Richmond,Virginia,14.7916,3,34,0.0588
+"switch back 3 (no matching), D",Birmingham,Alabama,0.6097,3,60,0.05
+"switch back 3 (no matching), D",Newport News,Virginia,0.168,2,14,0.0714
+"switch back 3 (no matching), D",Salem,Oregon,0.2257,2,37,0.027
+"switch back 3 (no matching), D",Eugene,Oregon,0.7002,2,36,0.0278
+"switch back 3 (no matching), D",Berkeley,California,4.7196,1,88,0.0
+"switch back 3 (no matching), D",Bend,Oregon,1.579,2,119,0.0084
+"switch back 3 (no matching), D",Beaverton,Oregon,-3.0106,2,121,0.0083
+"switch back 3 (no matching), D",Longmont,Colorado,9.9961,3,278,0.0108
+"switch back 3 (no matching), D",Trenton,New Jersey,-0.4472,1,16,0.0
+"switch back 3 (no matching), D",Duluth,Minnesota,2.8771,3,334,0.015
+"switch back 3 (no matching), D",Kalamazoo,Michigan,-0.4709,1,17,0.0
+"switch back 3 (no matching), D",Rogers,Arkansas,3.0944,2,51,0.0
+"switch back 3 (no matching), D",Portland,Maine,6.8818,2,10,0.4
+"switch back 3 (no matching), D",Springfield,Oregon,7.3566,2,175,0.0057
+"switch back 3 (no matching), D",Albany,Oregon,-7.9672,2,178,0.0056
+"switch back 3 (no matching), D",La Crosse,Wisconsin,-2.563,2,74,0.0
+"switch back 3 (no matching), D",Burlington,Vermont,16.245,2,35,0.2857
+"switch back 3 (no matching), D",Grants Pass,Oregon,3.1763,2,173,0.0
+"switch back 3 (no matching), D",Plainfield,Indiana,-4.8373,2,118,0.0
+"switch back 3 (no matching), D",Tualatin,Oregon,6.1548,2,155,0.0
+"switch back 3 (no matching), D",West Linn,Oregon,-0.3326,2,153,0.0
+"switch back 3 (no matching), D",Kingston,New York,10.4861,1,123,0.0
+"switch back 3 (no matching), D",Ashland,Oregon,-2.5796,2,149,0.0
+"switch back 3 (no matching), D",Carrboro,North Carolina,-6.2487,2,113,0.0
+"switch back 3 (no matching), D",Milwaukie,Oregon,-2.4156,2,149,0.0
+"switch back 3 (no matching), D",Northfield,Minnesota,-6.828,1,14,0.0
+"switch back 3 (no matching), D",Central Point,Oregon,-7.1836,2,149,0.0
+"switch back 3 (no matching), D",Portsmouth,Ohio,-7.4497,1,52,0.0
+"switch back 3 (no matching), D",Taylor,Texas,-3.3615,1,128,0.0078
+"switch back 3 (no matching), D",Hanover,New Hampshire,-2.6077,1,47,0.0
+"switch back 3 (no matching), D",Lansing,Kansas,-5.1583,2,81,0.0
+"switch back 3 (no matching), D",Hampden,Maine,-1.5361,1,30,0.0
+"switch back 3 (no matching), D",King City,Oregon,8.0308,2,86,0.0
+"switch back 3 (no matching), D",Social Circle,Georgia,-10.7436,1,48,0.0208
+"switch back 3 (no matching), D",Millersburg,Oregon,-51.4058,2,70,0.0
+"switch back 3 (no matching), D",South Bend (with unincorporated St. Joseph County),Indiana,3.1495,3,33,0.0303
+"switch back 3 (no matching), D",Gastonia,North Carolina,0.1393,2,53,0.0377
+"switch back 3 (no matching), D",Avondale Estates,Georgia,-2.2071,1,58,0.0172
+"switch back 3 (no matching), D",Maumee,Ohio,-0.2706,1,58,0.0
+"switch back 3 (no matching), D",Saranac Lake,New York,-0.2498,1,369,0.0
+"switch back 4 (no shock rule), D",San Jose,California,0.7163,5,10,0.2
+"switch back 4 (no shock rule), D",San Francisco,California,-6.277,5,10,1.0
+"switch back 4 (no shock rule), D",Raleigh,North Carolina,7.659,4,10,0.1
+"switch back 4 (no shock rule), D",Minneapolis,Minnesota,-5.7542,4,10,0.0
+"switch back 4 (no shock rule), D",Lexington,Kentucky,-1.4295,3,10,0.1
+"switch back 4 (no shock rule), D",St. Paul,Minnesota,0.4489,3,10,0.1
+"switch back 4 (no shock rule), D",Anchorage,Alaska,-4.7474,3,10,0.1
+"switch back 4 (no shock rule), D",Buffalo,New York,1.0101,3,10,0.1
+"switch back 4 (no shock rule), D",Bridgeport,Connecticut,4.6054,3,10,0.0
+"switch back 4 (no shock rule), D",Gainesville,Florida,13.2742,1,10,0.0
+"switch back 4 (no shock rule), D",Hartford,Connecticut,-0.0032,3,10,0.0
+"switch back 4 (no shock rule), D",Ann Arbor,Michigan,4.6709,2,10,0.0
+"switch back 4 (no shock rule), D",Cambridge,Massachusetts,-4.3729,3,10,0.1
+"switch back 4 (no shock rule), D",Roanoke,Virginia,-0.2992,2,10,0.1
+"switch back 4 (no shock rule), D",Alameda,California,-1.5551,1,10,0.0
+"switch back 4 (no shock rule), D",West Allis,Wisconsin,6.3101,2,10,0.0
+"switch back 4 (no shock rule), D",Corvallis,Oregon,2.8388,2,10,0.0
+"switch back 4 (no shock rule), D",Tigard,Oregon,2.5619,2,10,0.0
+"switch back 4 (no shock rule), D",Dunwoody,Georgia,7.1251,2,10,0.0
+"switch back 4 (no shock rule), D",Culver City,California,0.2509,1,10,0.0
+"switch back 4 (no shock rule), D",Mount Pleasant,Michigan,-1.834,1,10,0.0
+"switch back 4 (no shock rule), D",Windham,Maine,9.0636,2,10,0.5
+"switch back 4 (no shock rule), D",Cambridge,Maryland,-14.0507,2,10,0.0
+"switch back 4 (no shock rule), D",Emeryville,California,-10.3453,1,10,0.0
+"switch back 4 (no shock rule), D",Branson,Missouri,-1.0545,1,10,0.0
+"switch back 4 (no shock rule), D",Canandaigua,New York,2.7856,1,10,0.0
+"switch back 4 (no shock rule), D",Ecorse,Michigan,-9.0188,1,10,0.0
+"switch back 4 (no shock rule), D",Bastrop,Texas,29.9364,1,10,0.0
+"switch back 4 (no shock rule), D",Seabrook,New Hampshire,0.5139,1,10,0.0
+"switch back 4 (no shock rule), D",River Rouge,Michigan,-0.0555,1,10,0.0
+"switch back 4 (no shock rule), D",Hudson,New York,-1.8206,1,10,0.0
+"switch back 4 (no shock rule), D",Bandera,Texas,11.1402,1,10,0.0
+"switch back 4 (no shock rule), D",Austin,Texas,-4.5698,5,10,0.0
+"switch back 4 (no shock rule), D",Sacramento,California,2.1284,4,10,0.1
+"switch back 4 (no shock rule), D",Durham,North Carolina,3.5647,3,10,0.1
+"switch back 4 (no shock rule), D",Richmond,Virginia,14.9929,3,10,0.1
+"switch back 4 (no shock rule), D",Birmingham,Alabama,1.0507,3,10,0.0
+"switch back 4 (no shock rule), D",Newport News,Virginia,-1.2766,2,10,0.1
+"switch back 4 (no shock rule), D",Salem,Oregon,1.2545,2,10,0.0
+"switch back 4 (no shock rule), D",Eugene,Oregon,3.2186,2,10,0.0
+"switch back 4 (no shock rule), D",Berkeley,California,3.6329,1,10,0.0
+"switch back 4 (no shock rule), D",Bend,Oregon,4.4252,2,10,0.0
+"switch back 4 (no shock rule), D",Beaverton,Oregon,-1.2593,2,10,0.0
+"switch back 4 (no shock rule), D",Longmont,Colorado,11.1863,3,10,0.0
+"switch back 4 (no shock rule), D",Trenton,New Jersey,-1.0106,1,10,0.0
+"switch back 4 (no shock rule), D",Duluth,Minnesota,3.3024,3,10,0.0
+"switch back 4 (no shock rule), D",Kalamazoo,Michigan,-1.1573,1,10,0.0
+"switch back 4 (no shock rule), D",Rogers,Arkansas,-0.735,2,10,0.0
+"switch back 4 (no shock rule), D",Portland,Maine,6.8818,2,10,0.4
+"switch back 4 (no shock rule), D",Springfield,Oregon,10.4695,2,10,0.0
+"switch back 4 (no shock rule), D",Albany,Oregon,-7.9895,2,10,0.0
+"switch back 4 (no shock rule), D",La Crosse,Wisconsin,-2.7663,2,10,0.0
+"switch back 4 (no shock rule), D",Burlington,Vermont,17.5893,2,10,0.3
+"switch back 4 (no shock rule), D",Grants Pass,Oregon,5.0532,2,10,0.0
+"switch back 4 (no shock rule), D",Plainfield,Indiana,-6.7163,2,10,0.0
+"switch back 4 (no shock rule), D",Tualatin,Oregon,9.4679,2,10,0.0
+"switch back 4 (no shock rule), D",West Linn,Oregon,1.9334,2,10,0.0
+"switch back 4 (no shock rule), D",Kingston,New York,9.7002,1,10,0.0
+"switch back 4 (no shock rule), D",Ashland,Oregon,-1.5096,2,10,0.0
+"switch back 4 (no shock rule), D",Carrboro,North Carolina,-3.9862,2,10,0.0
+"switch back 4 (no shock rule), D",Milwaukie,Oregon,-1.6687,2,10,0.0
+"switch back 4 (no shock rule), D",Northfield,Minnesota,-6.6293,1,10,0.0
+"switch back 4 (no shock rule), D",Central Point,Oregon,-7.3658,2,10,0.0
+"switch back 4 (no shock rule), D",Portsmouth,Ohio,-7.6413,1,10,0.0
+"switch back 4 (no shock rule), D",Taylor,Texas,-11.1955,1,10,0.0
+"switch back 4 (no shock rule), D",Hanover,New Hampshire,-5.6173,1,10,0.0
+"switch back 4 (no shock rule), D",Lansing,Kansas,-2.2418,2,10,0.0
+"switch back 4 (no shock rule), D",Hampden,Maine,-2.6673,1,10,0.0
+"switch back 4 (no shock rule), D",King City,Oregon,3.3173,2,10,0.0
+"switch back 4 (no shock rule), D",Social Circle,Georgia,-77.1321,1,10,0.0
+"switch back 4 (no shock rule), D",Millersburg,Oregon,-51.2192,2,10,0.0
+"switch back 4 (no shock rule), D",South Bend (with unincorporated St. Joseph County),Indiana,1.5077,3,10,0.1
+"switch back 4 (no shock rule), D",Gastonia,North Carolina,-3.69,2,10,0.1
+"switch back 4 (no shock rule), D",Avondale Estates,Georgia,0.2987,1,10,0.0
+"switch back 4 (no shock rule), D",Maumee,Ohio,-0.1913,1,10,0.0
+"switch back 4 (no shock rule), D",Saranac Lake,New York,-2.3948,1,10,0.0
+"switch back 5 (no winsorising), D",San Jose,California,0.8017,5,10,0.2
+"switch back 5 (no winsorising), D",San Francisco,California,-7.0205,5,10,1.0
+"switch back 5 (no winsorising), D",Raleigh,North Carolina,7.7192,4,10,0.1
+"switch back 5 (no winsorising), D",Minneapolis,Minnesota,-5.6333,4,10,0.0
+"switch back 5 (no winsorising), D",Lexington,Kentucky,-1.218,3,10,0.1
+"switch back 5 (no winsorising), D",St. Paul,Minnesota,0.5668,3,10,0.1
+"switch back 5 (no winsorising), D",Anchorage,Alaska,-4.6959,3,10,0.1
+"switch back 5 (no winsorising), D",Buffalo,New York,1.2962,3,10,0.1
+"switch back 5 (no winsorising), D",Bridgeport,Connecticut,4.6817,3,10,0.0
+"switch back 5 (no winsorising), D",Gainesville,Florida,16.0899,1,10,0.0
+"switch back 5 (no winsorising), D",Hartford,Connecticut,0.0162,3,10,0.0
+"switch back 5 (no winsorising), D",Ann Arbor,Michigan,4.6134,2,10,0.0
+"switch back 5 (no winsorising), D",Cambridge,Massachusetts,-4.2726,3,10,0.1
+"switch back 5 (no winsorising), D",Roanoke,Virginia,-1.5993,2,10,0.1
+"switch back 5 (no winsorising), D",Alameda,California,-1.7172,1,10,0.0
+"switch back 5 (no winsorising), D",West Allis,Wisconsin,6.2746,2,10,0.0
+"switch back 5 (no winsorising), D",Corvallis,Oregon,2.7573,2,10,0.0
+"switch back 5 (no winsorising), D",Tigard,Oregon,2.5458,2,10,0.0
+"switch back 5 (no winsorising), D",Dunwoody,Georgia,6.6193,2,10,0.0
+"switch back 5 (no winsorising), D",Culver City,California,0.0026,1,10,0.0
+"switch back 5 (no winsorising), D",Mount Pleasant,Michigan,-1.9667,1,10,0.0
+"switch back 5 (no winsorising), D",Windham,Maine,8.9197,2,10,0.5
+"switch back 5 (no winsorising), D",Cambridge,Maryland,-8.9628,2,10,0.0
+"switch back 5 (no winsorising), D",Emeryville,California,-8.0248,1,10,0.0
+"switch back 5 (no winsorising), D",Branson,Missouri,-1.0101,1,10,0.0
+"switch back 5 (no winsorising), D",Canandaigua,New York,2.6649,1,10,0.0
+"switch back 5 (no winsorising), D",Ecorse,Michigan,-8.9968,1,10,0.0
+"switch back 5 (no winsorising), D",Bastrop,Texas,51.9666,1,10,0.0
+"switch back 5 (no winsorising), D",Seabrook,New Hampshire,0.4952,1,10,0.0
+"switch back 5 (no winsorising), D",River Rouge,Michigan,-0.0981,1,10,0.0
+"switch back 5 (no winsorising), D",Hudson,New York,-2.2294,1,10,0.0
+"switch back 5 (no winsorising), D",Bandera,Texas,11.1161,1,10,0.0
+"switch back 5 (no winsorising), D",Austin,Texas,-4.5189,5,10,0.0
+"switch back 5 (no winsorising), D",Sacramento,California,3.5318,4,10,0.1
+"switch back 5 (no winsorising), D",Durham,North Carolina,3.6544,3,10,0.1
+"switch back 5 (no winsorising), D",Richmond,Virginia,14.981,3,10,0.1
+"switch back 5 (no winsorising), D",Birmingham,Alabama,1.065,3,10,0.0
+"switch back 5 (no winsorising), D",Newport News,Virginia,0.6202,2,10,0.1
+"switch back 5 (no winsorising), D",Salem,Oregon,1.3229,2,10,0.0
+"switch back 5 (no winsorising), D",Eugene,Oregon,3.1063,2,10,0.0
+"switch back 5 (no winsorising), D",Berkeley,California,3.6824,1,10,0.0
+"switch back 5 (no winsorising), D",Bend,Oregon,5.42,2,10,0.0
+"switch back 5 (no winsorising), D",Beaverton,Oregon,-1.8759,2,10,0.0
+"switch back 5 (no winsorising), D",Longmont,Colorado,11.2523,3,10,0.0
+"switch back 5 (no winsorising), D",Trenton,New Jersey,-0.361,1,10,0.0
+"switch back 5 (no winsorising), D",Duluth,Minnesota,3.3647,3,10,0.0
+"switch back 5 (no winsorising), D",Kalamazoo,Michigan,-1.2393,1,10,0.0
+"switch back 5 (no winsorising), D",Rogers,Arkansas,-1.4342,2,10,0.0
+"switch back 5 (no winsorising), D",Portland,Maine,7.1037,2,10,0.4
+"switch back 5 (no winsorising), D",Springfield,Oregon,10.7755,2,10,0.0
+"switch back 5 (no winsorising), D",Albany,Oregon,-7.7004,2,10,0.0
+"switch back 5 (no winsorising), D",La Crosse,Wisconsin,-3.2132,2,10,0.0
+"switch back 5 (no winsorising), D",Burlington,Vermont,17.817,2,10,0.3
+"switch back 5 (no winsorising), D",Grants Pass,Oregon,5.1327,2,10,0.0
+"switch back 5 (no winsorising), D",Plainfield,Indiana,-6.4256,2,10,0.0
+"switch back 5 (no winsorising), D",Tualatin,Oregon,11.0104,2,10,0.0
+"switch back 5 (no winsorising), D",West Linn,Oregon,2.0387,2,10,0.0
+"switch back 5 (no winsorising), D",Kingston,New York,9.8226,1,10,0.0
+"switch back 5 (no winsorising), D",Ashland,Oregon,-2.4163,2,10,0.0
+"switch back 5 (no winsorising), D",Carrboro,North Carolina,-5.1842,2,10,0.0
+"switch back 5 (no winsorising), D",Milwaukie,Oregon,-1.7831,2,10,0.0
+"switch back 5 (no winsorising), D",Northfield,Minnesota,-6.7298,1,10,0.0
+"switch back 5 (no winsorising), D",Central Point,Oregon,-7.6647,2,10,0.0
+"switch back 5 (no winsorising), D",Portsmouth,Ohio,-7.5117,1,10,0.0
+"switch back 5 (no winsorising), D",Taylor,Texas,-12.9177,1,10,0.0
+"switch back 5 (no winsorising), D",Hanover,New Hampshire,-6.1701,1,10,0.0
+"switch back 5 (no winsorising), D",Lansing,Kansas,-3.4236,2,10,0.0
+"switch back 5 (no winsorising), D",Hampden,Maine,-2.3217,1,10,0.0
+"switch back 5 (no winsorising), D",King City,Oregon,6.4584,2,10,0.0
+"switch back 5 (no winsorising), D",Social Circle,Georgia,-88.135,1,10,0.0
+"switch back 5 (no winsorising), D",Millersburg,Oregon,-51.1059,2,10,0.0
+"switch back 5 (no winsorising), D",South Bend (with unincorporated St. Joseph County),Indiana,1.427,3,10,0.1
+"switch back 5 (no winsorising), D",Gastonia,North Carolina,-3.916,2,10,0.1
+"switch back 5 (no winsorising), D",Avondale Estates,Georgia,-2.2986,1,10,0.0
+"switch back 5 (no winsorising), D",Maumee,Ohio,-0.8495,1,10,0.0
+"switch back 5 (no winsorising), D",Saranac Lake,New York,-2.9589,1,10,0.0
+"switch back 6 (fixed ACS homes), D",San Jose,California,0.7092,5,10,0.2
+"switch back 6 (fixed ACS homes), D",San Francisco,California,-6.1162,5,10,1.0
+"switch back 6 (fixed ACS homes), D",Raleigh,North Carolina,7.1081,4,10,0.0
+"switch back 6 (fixed ACS homes), D",Minneapolis,Minnesota,-5.6226,4,10,0.1
+"switch back 6 (fixed ACS homes), D",Lexington,Kentucky,-1.6757,4,10,0.1
+"switch back 6 (fixed ACS homes), D",St. Paul,Minnesota,0.4347,3,10,0.2
+"switch back 6 (fixed ACS homes), D",Anchorage,Alaska,-4.7235,3,10,0.1
+"switch back 6 (fixed ACS homes), D",Buffalo,New York,1.0335,3,10,0.1
+"switch back 6 (fixed ACS homes), D",Bridgeport,Connecticut,4.5282,3,10,0.0
+"switch back 6 (fixed ACS homes), D",Gainesville,Florida,13.8901,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Hartford,Connecticut,0.1407,3,10,0.0
+"switch back 6 (fixed ACS homes), D",Ann Arbor,Michigan,4.6135,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Cambridge,Massachusetts,-4.1013,3,10,0.1
+"switch back 6 (fixed ACS homes), D",Roanoke,Virginia,-0.3563,2,10,0.1
+"switch back 6 (fixed ACS homes), D",Alameda,California,-1.5205,1,10,0.0
+"switch back 6 (fixed ACS homes), D",West Allis,Wisconsin,5.7622,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Corvallis,Oregon,2.7647,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Tigard,Oregon,2.417,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Dunwoody,Georgia,4.3636,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Culver City,California,0.2317,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Mount Pleasant,Michigan,-1.7887,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Windham,Maine,7.0549,2,10,0.5
+"switch back 6 (fixed ACS homes), D",Cambridge,Maryland,-1.9884,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Emeryville,California,-6.9143,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Branson,Missouri,-0.657,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Canandaigua,New York,2.7298,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Ecorse,Michigan,-9.0155,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Bastrop,Texas,37.4116,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Seabrook,New Hampshire,0.4931,1,10,0.0
+"switch back 6 (fixed ACS homes), D",River Rouge,Michigan,-0.0564,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Hudson,New York,-1.8099,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Bandera,Texas,10.7802,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Austin,Texas,-4.1814,5,10,0.0
+"switch back 6 (fixed ACS homes), D",Sacramento,California,2.1153,4,10,0.1
+"switch back 6 (fixed ACS homes), D",Durham,North Carolina,2.9822,3,10,0.1
+"switch back 6 (fixed ACS homes), D",Richmond,Virginia,14.8968,3,10,0.1
+"switch back 6 (fixed ACS homes), D",Birmingham,Alabama,1.048,3,10,0.0
+"switch back 6 (fixed ACS homes), D",Newport News,Virginia,0.8178,2,10,0.1
+"switch back 6 (fixed ACS homes), D",Salem,Oregon,1.2373,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Eugene,Oregon,3.1708,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Berkeley,California,3.4834,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Bend,Oregon,4.9918,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Beaverton,Oregon,-1.2961,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Longmont,Colorado,10.9902,3,10,0.0
+"switch back 6 (fixed ACS homes), D",Trenton,New Jersey,-1.0131,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Duluth,Minnesota,3.2569,3,10,0.0
+"switch back 6 (fixed ACS homes), D",Kalamazoo,Michigan,-1.1579,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Rogers,Arkansas,-1.7305,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Portland,Maine,6.8602,2,10,0.4
+"switch back 6 (fixed ACS homes), D",Springfield,Oregon,10.3455,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Albany,Oregon,-7.298,2,10,0.0
+"switch back 6 (fixed ACS homes), D",La Crosse,Wisconsin,-2.7646,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Burlington,Vermont,17.2547,2,10,0.2
+"switch back 6 (fixed ACS homes), D",Grants Pass,Oregon,5.0181,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Plainfield,Indiana,-5.6226,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Tualatin,Oregon,10.5652,2,10,0.0
+"switch back 6 (fixed ACS homes), D",West Linn,Oregon,1.9283,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Kingston,New York,9.5278,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Ashland,Oregon,-2.1564,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Carrboro,North Carolina,-4.0379,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Milwaukie,Oregon,-1.598,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Northfield,Minnesota,-6.5516,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Central Point,Oregon,-7.2258,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Portsmouth,Ohio,-7.6285,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Taylor,Texas,-9.4643,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Hanover,New Hampshire,-5.543,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Lansing,Kansas,-2.2278,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Hampden,Maine,-2.5989,1,10,0.0
+"switch back 6 (fixed ACS homes), D",King City,Oregon,7.843,2,10,0.0
+"switch back 6 (fixed ACS homes), D",Social Circle,Georgia,-34.9946,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Millersburg,Oregon,-48.9014,2,10,0.0
+"switch back 6 (fixed ACS homes), D",South Bend (with unincorporated St. Joseph County),Indiana,1.5142,3,10,0.1
+"switch back 6 (fixed ACS homes), D",Gastonia,North Carolina,-3.6412,2,10,0.1
+"switch back 6 (fixed ACS homes), D",Avondale Estates,Georgia,0.382,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Maumee,Ohio,-0.194,1,10,0.0
+"switch back 6 (fixed ACS homes), D",Saranac Lake,New York,-2.3571,1,10,0.0

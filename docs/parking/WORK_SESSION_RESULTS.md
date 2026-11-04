@@ -673,3 +673,60 @@ Script `scripts/run_parking_t45_t46.py`, committed before its first run (20cef90
 - **Pool rule vs Ryan's ask:** Ryan asked for no-record pools; the lock used the main list, because a no-record big-city pool would be too small. Test 45 covers the no-record question.
 - **Post hoc reading (after the result, not locked):** only 33 of 71 targets had same-state current pools; 38 already used the Census division. For same-state targets the big-city rule did better (|fake effect| −0.44, RMSE −0.25); for division targets, |fake effect| +0.14 and RMSE −0.08. Pool sizes differ (median 7 current vs 68 big-city), so part of the lower RMSE may come from pool size. This does not change the verdict; a new locked test with a pool-size control would be Ryan's call.
 - **Reading:** Ryan's idea gets weak support on fit, but not enough to change how the main estimate is built. Big cities' permits swing a lot either way, about ±5 per 1,000 homes on a fake repeal, so no comparison rule removes much of that noise.
+
+## Method 2 results (2026-11-04; lock in CAUSAL_FRAMEWORK_PLAN.md, "Method 2")
+
+Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031 = rate × 13,343. 90% ranges are place bootstraps (2,000 draws, seed 20261104); test 40 found such ranges cover about 84% of the time.
+
+**Order of steps.**
+1. Stage 1 bake-off (pick committed, d65040cb).
+2. Audit rescore on common cases, then a fair rescore with C falling back to B (both post hoc).
+3. B+D side check under Ryan's tie rule (written 9fbad5d7, before B+D was seen).
+4. Stage 2 was run after the stage 1 pick was committed, and read only after the B+D decision.
+
+**Heat method: D (10-year before window).**
+
+| Version (random-effects scoring) | A | B | C | D | B+D |
+| --- | --- | --- | --- | --- | --- |
+| Stage 1 as locked (MAE / coverage) | 0.857 / 0.88 | 0.850 / 0.86 | 0.906 / 0.875 | **0.849 / 0.915** | — |
+| Common cases (30 dropped) | 0.927 / 0.90 | 0.918 / 0.87 | 0.906 / 0.875 | 0.915 / 0.91 | 0.910 / 0.90 |
+| C falls back to B (all cases) | 0.857 / 0.88 | 0.850 / 0.86 | 0.835 / 0.87 | 0.849 / 0.915 | — |
+
+- **All candidates are within about 2% of each other** in every version, which is inside the noise.
+- **Ryan's calls:** C out; "either D or combo B+D"; D wins ties.
+- **B+D vs D:** B+D's MAE is 0.6% lower than D's. That is below the 5% bar, so D stands.
+
+**Main weight: target-state mix (weight test).** Leave one state out over 10 states; mean absolute error of the held-out state's mean:
+
+| Weighting | Error (equal per state) |
+| --- | --- |
+| Target-state mix | **3.14** |
+| Random effects | 3.42 |
+| Equal | 3.47 |
+| Square root | 3.61 |
+| Homes | 4.01 |
+
+- Target-state mix had the lowest error outright; the tie rule was not needed.
+- Effective number of places: Wisconsin 30.9, Tennessee 50.9. No empty cells.
+
+**Method 2 result (D, target-state mix aimed at Wisconsin):**
+- **Rate:** −0.53 (−2.36 to +0.89).
+- **Wisconsin:** −7,012 homes over 2027–2031, 90% range −31,512 to +11,845.
+
+| D under each weighting | Rate (90%) | Wisconsin homes (90%) |
+| --- | --- | --- |
+| Target-state mix (main) | −0.53 (−2.36 to +0.89) | −7,012 (−31,512 to +11,845) |
+| Random effects | +0.86 (−0.31 to +1.95) | +11,501 (−4,080 to +25,992) |
+| Square root | +0.66 (−0.71 to +2.25) | +8,765 (−9,444 to +30,071) |
+| Homes | −0.03 (−1.81 to +2.37) | −416 (−24,131 to +31,606) |
+| Equal | +0.68 (−1.48 to +2.06) | +9,089 (−19,690 to +27,527) |
+
+- **Switch-backs (D, target-state mix):** each item 2–6 switched back alone gives −0.32 to −1.36. Turning off winsorising has the biggest pull (−1.36). Dropping the 2 shock-flagged repeal places gives −0.46.
+- **Backtest (D, target-state mix):** −0.57 (−2.67 to +0.33). The range includes 0, so it passes. Under home and square-root weights the backtest fails (ranges above 0).
+- **Side line, B+D (post hoc), random effects:** +0.73 (−0.45 to +1.81), Wisconsin +9,690.
+- **Big cities and C:** 11 real repeal places used synthetic control under C, and none failed.
+
+**Reading.**
+- Method 2 again finds no measurable effect: every main range includes 0.
+- The sign depends on the weighting. Weighting toward Wisconsin's mix of places leans negative; random-effects and equal weights lean positive.
+- The method-2 range (−31,512 to +11,845, width 43,357) is narrower than the current lines (−45,853 to +19,818, width 65,671). It is still wider than the 25% replacement bar (26,289), so it does not replace a line. It is evidence beside the current lines. Any tool change needs Ryan's OK.
