@@ -42,3 +42,29 @@ The models "pass" because they learned San Francisco, not because they found a p
 ## Side by side with TOD
 
 TOD's island-size result, labelled "TOD: frequent-service coverage, per rezoned unit": it failed, beating the plain average in 1 of 6 fitted cities and losing on both held-out cities (`docs/tod/NET_EFFECT_RESULTS.md`). TOD's all-variables test used 91 variables: 78 from the Census survey across 46 tables, plus 13 TOD traits. Every model failed. Mean error over 6 fitted cities, against 0.856 for the plain average (extra homes per eligible acre per year): lasso 1.134, elastic net 1.075, random forest 1.136, gradient boosting 1.046, causal forest 0.884 (`docs/tod/`; variable map in `reference/tod_allvars_variable_map.csv`). Both scenarios reach the same conclusion: the data do not support different effects for different kinds of place.
+
+## Trait ranking with and without San Francisco (2026-11-04; check after the result, not a new test)
+
+Script `scripts/check_parking_allvars_importance.py`, committed before its run. Registered set-up: 71 places, 55 variables, 10-fold cross-validation × 20 repeats, seed 20261027, all six tools in the loop. The with-SF, home-weighted gains reproduce the registered run (forest +6.8%, boosting +8.4%). Importance: rise in held-out mean absolute error when one trait is shuffled within the left-out places (permits per 1,000 existing homes a year). Outputs: `reference/parking_allvars_importance.csv`, `reference/parking_allvars_importance_gains.csv`.
+
+**Gain against one average** (share lower error; repeats beating the average, of 20)
+
+| Model | With SF, home weights | Without SF, home weights | With SF, equal weights | Without SF, equal weights |
+| --- | --- | --- | --- | --- |
+| Random forest | +6.8% (19) | +2.7% (14) | −4.0% (0) | −4.4% (0) |
+| Gradient boosting | +8.4% (17) | −1.6% (9) | −6.2% (3) | −7.9% (0) |
+
+**Top 5 traits** (rank with SF → without SF)
+
+| Model, weights | Top 5 with SF | Moves without SF |
+| --- | --- | --- |
+| Forest, homes | rent burden 30%+, unemployment, median age, renters in post-2000 homes, leave for work 7–9 am | rent burden stays 1st; leave 7–9 am 5→23; permit rate before 6→54; small homes (1–3 rooms) 49→2 |
+| Boosting, homes | rent burden 30%+, crowding, labour-force participation, household size, median age | rent burden and crowding stay 1st–2nd; labour force 3→46; household size 4→34; near-transit share 7→52 |
+| Forest, equal | small homes (1–3 rooms), vacancy, leave after 9 am, rent burden 30%+, unemployment | vacancy 2→53; the rest stay in the top 10 |
+| Boosting, equal | small homes, vacancy, leave after 9 am, household size, permit volatility | mostly stable; rent burden 9→31; permit rate before 11→3 |
+
+**Reading.**
+- **Rent burden leads under home weights, with or without SF.** The models lean on it. But without SF they barely beat one average (forest +2.7%) or lose to it (boosting −1.6%), so leaning on it does not buy accurate predictions.
+- **Under equal weights every model loses to one average,** with or without SF. The top traits there (small homes, vacancy, commute timing) describe what the models fitted to, not a pattern that predicts new places.
+- **Many ranks jump between runs** (for example the before-repeal permit rate, 6th → 54th, and small homes, 49th → 2nd). That instability is itself a sign of fitting noise.
+- **Conclusion unchanged:** no trait reliably tells places apart, so the scenario keeps one average. Importances say what a model used, not what drives parking effects.

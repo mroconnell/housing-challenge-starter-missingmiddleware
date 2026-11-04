@@ -1,0 +1,25 @@
+model,error,gain,repeats_beating_average,run,weights,places
+one average,5.3729,0.0,0,with SF,home weights,71
+lasso,5.4589,-0.016,8,with SF,home weights,71
+elastic net,5.4285,-0.0103,5,with SF,home weights,71
+random forest,5.0071,0.0681,19,with SF,home weights,71
+gradient boosting,4.9204,0.0842,17,with SF,home weights,71
+causal forest (honest),5.0302,0.0638,17,with SF,home weights,71
+one average,5.8767,0.0,0,with SF,equal weights,71
+lasso,6.0451,-0.0287,2,with SF,equal weights,71
+elastic net,5.9693,-0.0158,4,with SF,equal weights,71
+random forest,6.1101,-0.0397,0,with SF,equal weights,71
+gradient boosting,6.2397,-0.0618,3,with SF,equal weights,71
+causal forest (honest),6.037,-0.0273,4,with SF,equal weights,71
+one average,5.7353,0.0,0,without SF,home weights,70
+lasso,5.6894,0.008,13,without SF,home weights,70
+elastic net,5.6947,0.0071,15,without SF,home weights,70
+random forest,5.5797,0.0271,14,without SF,home weights,70
+gradient boosting,5.8289,-0.0163,9,without SF,home weights,70
+causal forest (honest),5.6326,0.0179,12,without SF,home weights,70
+one average,5.9201,0.0,0,without SF,equal weights,70
+lasso,6.0808,-0.0272,2,without SF,equal weights,70
+elastic net,6.0215,-0.0171,2,without SF,equal weights,70
+random forest,6.178,-0.0436,0,without SF,equal weights,70
+gradient boosting,6.3882,-0.0791,0,without SF,equal weights,70
+causal forest (honest),6.0879,-0.0284,1,without SF,equal weights,70
