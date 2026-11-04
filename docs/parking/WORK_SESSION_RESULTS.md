@@ -676,7 +676,7 @@ Script `scripts/run_parking_t45_t46.py`, committed before its first run (20cef90
 
 ## Method 2 results (2026-11-04; lock in CAUSAL_FRAMEWORK_PLAN.md, "Method 2")
 
-Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031 = rate × 13,343. 90% ranges are place bootstraps (2,000 draws, seed 20261104); test 40 found such ranges cover about 84% of the time.
+Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031 = rate × 13,343. 90% ranges are place bootstraps (2,000 draws, seed 20261104). Method 2's own coverage check: D under the target-state mix covered 0 in 90.0% of fake sets (87.5% on the common cases).
 
 **Order of steps.**
 1. Stage 1 bake-off (pick committed, d65040cb).
@@ -694,7 +694,8 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 
 - **All candidates are within about 2% of each other** in every version, which is inside the noise.
 - **Ryan's calls:** C out; "either D or combo B+D"; D wins ties.
-- **B+D vs D:** B+D's MAE is 0.6% lower than D's. That is below the 5% bar, so D stands.
+- **B+D vs D:** B+D's MAE is 0.6% lower than D's. That is below the 5% bar, so D stands. The margin was committed at 20:01:22 UTC (9fbad5d7); the B+D scores were written at 20:06 UTC. The margin did not decide anything here.
+- **C:** under the fair rescore, C scored best (within about 2%). Ryan chose D: "I dont think C looks that much better after the rescore. It's either D or combo B+D".
 
 **Main weight: target-state mix (weight test).** Leave one state out over 10 states; mean absolute error of the held-out state's mean:
 
@@ -707,11 +708,13 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 | Homes | 4.01 |
 
 - Target-state mix had the lowest error outright; the tie rule was not needed.
+- The errors (3.1 to 4.0 per state) are several times the size of any estimate, so the weightings differ by less than the noise.
 - Effective number of places: Wisconsin 30.9, Tennessee 50.9. No empty cells.
 
 **Method 2 result (D, target-state mix aimed at Wisconsin):**
 - **Rate:** −0.53 (−2.36 to +0.89).
 - **Wisconsin:** −7,012 homes over 2027–2031, 90% range −31,512 to +11,845.
+- **The sign depends on the weighting:** −7,012 under the mix, but +8,800 to +11,500 under random effects, square root or equal weights.
 
 | D under each weighting | Rate (90%) | Wisconsin homes (90%) |
 | --- | --- | --- |
@@ -729,4 +732,7 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 **Reading.**
 - Method 2 again finds no measurable effect: every main range includes 0.
 - The sign depends on the weighting. Weighting toward Wisconsin's mix of places leans negative; random-effects and equal weights lean positive.
-- The method-2 range (−31,512 to +11,845, width 43,357) is narrower than the current lines (−45,853 to +19,818, width 65,671). It is still wider than the 25% replacement bar (26,289), so it does not replace a line. It is evidence beside the current lines. Any tool change needs Ryan's OK.
+- **The replacement bar, two readings (Ryan's choice).** The method-2 range (−31,512 to +11,845) is 43,357 wide. The current 90% range (−45,853 to +19,818) is 65,671 wide.
+  - **As locked, method 2 fails.** The bar is 26,289, which is 75% of 35,052. But 35,052 was the old span from the measured average up to the placebo 95th percentile, not a 90% width.
+  - **Like for like, method 2 passes.** 25% narrower than today's 90% width is 49,253 or less.
+  - Changing the bar now would be post hoc, so the choice is Ryan's. Until he decides, method 2 is evidence beside the current lines, and any tool change needs his OK.
