@@ -736,3 +736,15 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
   - **As locked, method 2 fails.** The bar is 26,289, which is 75% of 35,052. But 35,052 was the old span from the measured average up to the placebo 95th percentile, not a 90% width.
   - **Like for like, method 2 passes.** 25% narrower than today's 90% width is 49,253 or less.
   - Changing the bar now would be post hoc, so the choice is Ryan's. Until he decides, method 2 is evidence beside the current lines, and any tool change needs his OK.
+- **Ryan's choice of bar (20:44 UTC):** "The like for like bar makes more sense." Method 2's 90% width, 43,357, is below 49,253 (25% narrower than today's 65,671), so it passes the bar as Ryan chose it. This bar was chosen after the result was seen (post hoc). Any tool change still needs Ryan's OK.
+- **Why the sign depends on the weighting (method 2, D; effects winsorised; equal weight within band).**
+
+| Size band | Places | Mean effect |
+| --- | --- | --- |
+| Under 10,000 people | 11 | −1.07 |
+| 10,000–50,000 | 24 | −0.20 |
+| 50,000–250,000 | 30 | +2.52 |
+| 250,000+ | 11 | −0.66 (home-weighted −1.61) |
+
+  - Wisconsin's eligible homes are about 37% in places under 10,000, 18% in places of 250,000+, and 12.5% in the 50,000–250,000 band. So the target-state mix leans on the bands that fall.
+  - Random-effects, equal and square-root weights lean on the 30 mid-size places, which rise.
