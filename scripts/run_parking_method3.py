@@ -237,8 +237,15 @@ def training_rows(D, F, keys):
         groups += [k for k, o in zip(ks, okr) if o]
         idx += [(k, ey, tuple(pre)) for k, o in zip(ks, okr) if o]
     global DIV_IDX
-    DIV_IDX = list(X.columns).index("division")
-    return np.vstack(rows_X), np.concatenate(rows_y), np.array(groups), idx, list(X.columns)
+    XX = np.vstack(rows_X)
+    cols = list(X.columns)
+    empty = [c for j, c in enumerate(cols) if np.isnan(XX[:, j]).all()]
+    if empty:  # entirely empty in this half: the median is undefined; replace with 0 and report (audit, 21:50 UTC)
+        print("empty trait columns in this half (set to 0, listed in the report):", empty, flush=True)
+        for c in empty:
+            XX[:, cols.index(c)] = 0.0
+    DIV_IDX = cols.index("division")
+    return XX, np.concatenate(rows_y), np.array(groups), idx, cols
 
 
 def stage1():
