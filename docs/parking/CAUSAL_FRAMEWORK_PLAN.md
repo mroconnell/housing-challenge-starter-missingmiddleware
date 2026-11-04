@@ -919,6 +919,15 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 5. **Pick.** P replaces today's matching only if its MAE is more than 5% lower and its coverage is 85–95%. A tie keeps today's matching. The pick is committed before any real-repeal output, with the same code gate as stage 1.
 6. **Real run.** Apply the winner to all 76 real places, San Francisco included, with pools from all eligible never-repealed places and the half-A model. Report the result under each weighting, then the corrected weight test and the Wisconsin figure, both as locked.
 
-**Write-up:** keeps the double-dip note. The size-band test stays an option, as planned.
+7. **Weight test, rerun (Ryan "yes", 21:00 UTC; planning only).** After the new matching, the same leave-one-state-out weight test is rerun: same candidates, same tie rule (the target-state mix wins ties).
+8. **Size-band check, in the same rerun.** Four versions, scored as in the correction lock:
+   - 4 bands;
+   - 3 bands cut at terciles;
+   - a log-population line held at the edge;
+   - a crowding mix.
+
+   Rule: keep the 4 bands unless another version's error is more than 10% lower and its paired bootstrap excludes 0.
+
+**Write-up:** keeps the double-dip note.
 
 **Reported:** the traits used, the model chosen, B-half accuracy, both candidates' fake-repeal scores, and the real result beside the method-2 corrected result and the current lines.
