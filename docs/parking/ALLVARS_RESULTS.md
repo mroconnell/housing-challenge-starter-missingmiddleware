@@ -70,3 +70,17 @@ Script `scripts/check_parking_allvars_importance.py`, committed before its run. 
 - **Why these gains differ from the earlier checks table** (forest +0.4% and boosting +3.7% without SF; −4.4% and −10.1% under equal weights): that check used seed 1, 10 repeats and three tools. This run uses the registered seed 20261027, 20 repeats and all six tools, so the folds and model seeds differ. Gains move by up to about 5 points with the split. Both runs agree on the direction.
 - **Registered rule:** it was met in the registered run. The scenario keeps one average because the pass depends on San Francisco (post hoc checks).
 - **Conclusion unchanged:** no trait reliably tells places apart, so the scenario keeps one average. Importances say what a model used, not what drives parking effects.
+
+**Direction of the top traits (descriptive, added for Ryan 2026-11-04).** Average effect in the half of places above vs below each trait's median, permits per 1,000 existing homes a year. Weighted by homes × after-years, with equal weights beside; with SF (without SF is within about 0.4 unless noted).
+
+| Trait | Above median (homes) | Below median (homes) | Above / below (equal weights) |
+| --- | --- | --- | --- |
+| Permit rate before repeal | −2.41 | +1.47 | −0.32 / +1.21 |
+| Rent burden 30%+ | +1.93 | −2.24 | +0.47 / +0.44 |
+| Crowded homes | −3.31 | +3.37 | −0.77 / +1.65 |
+| Labour-force participation | −1.85 | +1.17 | +0.68 / +0.24 |
+| Small homes (1–3 rooms) | −1.20 | −0.78 | +1.93 / −0.98 |
+| Vacancy | +0.02 | −2.59 | +0.41 / +0.50 |
+
+- **Reading:** only the before-repeal permit rate points the same way under both weightings: hotter markets show lower effects. The rest are driven by a few big places, or flip with the weighting.
+- **Caveat:** these are associations, not causes.
