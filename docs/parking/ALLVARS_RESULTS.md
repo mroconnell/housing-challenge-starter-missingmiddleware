@@ -90,6 +90,6 @@ Script `scripts/check_parking_allvars_importance.py`, committed before its run. 
 - **Reading:**
   - Two traits keep their sign under both weightings: the before-repeal permit rate and crowding. Hotter or more crowded places show lower effects.
   - Under equal weights, no gap is larger than the noise.
-  - Under home weights, rent burden and crowding gaps exclude 0, so a few big places drive them.
+  - Rent burden and crowding gaps exclude 0 only under home weights, so they rest on a few big places.
 - **The permit-rate pattern may be regression to the mean,** not a weaker response to repeal. The market-heat bake-off in method 2 tests that. Test P3 found places rising into repeal, which points the same way.
-- **Selection caveat:** these 6 traits were picked because they ranked high out of 55, so some patterns will appear by chance. These are associations, not causes.
+- **Selection caveat:** these 6 traits were picked because they ranked high out of 55, so some patterns will appear by chance. The CSV has 24 ranges; at 90%, about 2 or 3 would exclude 0 by chance alone. With SF, 2 of 12 exclude 0 and the permit rate only touches 0, which is about what chance gives. These are associations, not causes.
