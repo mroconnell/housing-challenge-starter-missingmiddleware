@@ -759,6 +759,16 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - The pick and every candidate's scores are committed before any real-repeal method-2 output is computed. The run script has two stages; stage 2 refuses to start until the pick file is committed.
 - **Then:** one real run with the picked candidate, inside the rest of method 2. The other candidates' real results are shown beside it, labelled "not picked".
 
+**3c. Amendment, density and crowding (Ryan 19:17 UTC: "include density as a matching trait"; written before any method-2 run).**
+- **Two measures are added to the item 3 distance,** both measured before every repeal (all repeals are 2016 or later):
+  - **density:** log of housing units per square mile of land, 2010 census (Gazetteer HU10 ÷ ALAND_SQMI);
+  - **crowding:** share of occupied homes with more than 1 person per room, ACS 2011–2015 5-year B25014, for places and county subdivisions. It is fetched from the Census API (public domain) into `data/raw/parking_acs_2015_crowding/`, with the key kept out of every file.
+- **Pre-repeal permitting** is already in the distance (before-window rate and trend), as Ryan asked.
+- **One combined similarity score, not bins.** The distance for B is Euclidean on z-scores of 5 measures, each counted equally: before-window rate, before-window trend, town age, log density and crowding. Step 5 adds log population as a sixth.
+- **C's donors** are the 50 nearest on the same 5-measure score, replacing nearest by population. The synthetic control weights are still fitted to the before-window yearly rates only.
+- **Missing values:** a candidate missing density or crowding takes the national median for that measure, and the count of such candidates is reported.
+- **A and D** do not use the distance and are unchanged.
+
 **4. Shock rule (objective, outside facts only; applied to comparison places).** A candidate is left out if either:
 - **(a)** its housing units fell 10% or more between the 2010 census (Gazetteer HU10) and ACS 2020–2024 (B25002), and it had 1,000+ homes in 2010. The size guard keeps survey noise in tiny places from triggering the rule. This catches places destroyed or largely cleared, such as Paradise, CA (wildfire, 2018).
 - **(b)** its land area changed 25% or more between the 2010 and 2024 Gazetteers (large annexations or boundary changes).
