@@ -1,0 +1,4 @@
+id,label,rate_per_1000_homes_year,homes_2027_2031,share_of_baseline_v3
+range_low,Low end of 90% range,-3.4364,-45853,-0.3698
+range_high,High end of 90% range,1.4852,19818,0.1598
+side_measured_average,"Measured average, 76 repeal places",-1.1417,-15234,-0.1229
