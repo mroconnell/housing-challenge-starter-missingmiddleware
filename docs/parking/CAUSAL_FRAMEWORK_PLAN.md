@@ -863,8 +863,16 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - **(i) 4 bands:** under 10,000; 10,000–50,000; 50,000–250,000; 250,000+. This is the main, as locked.
   - **(ii) 3 bands:** cuts at the population terciles of the 76 repeal places.
   - **(iii) Smooth line (an MRP-style version):** each place's effect is fitted with a weighted least-squares line on log population and metro, weighted by homes × after-years. Each target-state place gets a predicted effect, and those predictions are summed using the target state's eligible homes.
-  - **(iv) Crowding groups:** three groups at the terciles of the 76 places' pre-repeal crowding, crossed with metro.
+  - **(iv) Crowding groups:** three groups at the terciles of the 76 places' pre-repeal crowding, crossed with metro. Crowding is post hoc in origin too: the direction table flagged it.
 - **Score:** the leave-one-state-out test, as locked: 10 states, mean absolute error, each state counted equally.
 - **Rule:** keep (i) unless another version's error is more than 10% lower and its paired bootstrap range over states (2,000 draws, seed 20261104) excludes 0.
 - **Expected:** a tie, given 10 noisy states. The spread across the four is reported either way.
 - **Note on the bands:** the mix's negative lean comes from bands that each cannot be told apart from 0.
+- **Order:**
+  1. This lock, including the size test, is committed.
+  2. The missing-data table is published and checked.
+  3. The corrected rerun (stages 1 and 2) runs.
+  4. The size test runs.
+
+  No corrected result is seen before steps 1 and 2 are done.
+- **Run gate:** the corrected run script refuses to start unless this section records "Ryan's go for the corrected run" with its time.

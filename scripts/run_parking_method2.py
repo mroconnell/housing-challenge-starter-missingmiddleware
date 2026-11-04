@@ -41,12 +41,34 @@ SETS, SET_BOOT, BOOT = 200, 500, 2000
 FIRST, LAST = 2012, 2025
 BANDS = [0, 10_000, 50_000, 250_000, np.inf]
 WI_K = 2_668_677 * 5 / 1000
-PICK = REFERENCE / "parking_method2_pick.csv"
+SUF = ""  # "_corrected" with --corrected (data fixes, CAUSAL_FRAMEWORK_PLAN.md "Method 2 correction")
+CORRECTED = False
+
+
+def pick_path() -> Path:
+    return REFERENCE / f"parking_method2{SUF}_pick.csv"
 LOCK = ROOT / "docs" / "parking" / "CAUSAL_FRAMEWORK_PLAN.md"
 CANDIDATES = ("A", "B", "C", "D")
 
 
 # ---------------------------------------------------------------- data ----------------------------------------------
+def ct_norm(g):
+    """Connecticut county subdivisions: keep state + cousub code, drop the county / planning-region part."""
+    g = str(g)
+    return "060|09" + g[-5:] if g.startswith("060|09") and len(g) == 14 else g
+
+
+def tool_cells_wi() -> pd.Series:
+    """Wisconsin cells on the tool's 1,925 areas (2,668,677 eligible homes): population band x metro (county's CBSA LSAD M1)."""
+    a = pd.read_csv(REFERENCE / "parking_model_by_area.csv", dtype={"county_id": str})
+    bps = rpc.read_bps_us()
+    w = bps[bps["state_fips"].astype(str).str.strip() == "55"].copy()
+    w["county"] = "55" + w["county_fips"].astype(str).str.strip().str.zfill(3)
+    cb = w.groupby("county")["cbsa"].agg(lambda s: s.astype(str).str.strip().mode().iloc[0])
+    lsad = read_shapefile_attributes(RAW / "census_cbsa_cb_2024" / "cb_2024_us_cbsa_20m.zip").set_index("CBSAFP")["LSAD"]
+    a["metro"] = a["county_id"].map(cb).map(lsad).eq("M1").astype(float)
+    a["band"] = band_of(pd.to_numeric(a["population"]).fillna(0))
+    return a.groupby(["metro", "band"])["eligible_homes"].sum()
 def gaz(path: Path, name: str, lev: str) -> pd.DataFrame:
     with zipfile.ZipFile(path) as z:
         g = pd.read_csv(z.open(name), sep="\t", dtype={"GEOID": str}, encoding="latin-1")
@@ -90,10 +112,14 @@ class Data:
                            if (k := cmp.match_place(p, rpc.STATE_FIPS.get(r.state, "??"), r.place, r.population))} | self.main_exc
         # traits keyed by acs_geoid, mapped to BPS keys
         ag = geo["acs_geoid"]
+        if CORRECTED:  # Connecticut: join on state + county-subdivision code (unchanged by the 2022 planning regions)
+            ag = ag.map(ct_norm)
         g10 = pd.concat([gaz(RAW / "parking_older_reforms" / "Gaz_places_national.zip", "Gaz_places_national.txt", "160"),
                          gaz(RAW / "census_gazetteer_2010" / "Gaz_cousubs_national.zip", "Gaz_cousubs_national.txt", "060")])
         g24 = pd.concat([gaz(RAW / "census_gazetteer_2024" / "2024_Gaz_place_national.zip", "2024_Gaz_place_national.txt", "160"),
                          gaz(RAW / "census_gazetteer_2024" / "2024_Gaz_cousubs_national.zip", "2024_Gaz_cousubs_national.txt", "060")])
+        if CORRECTED:
+            g10.index, g24.index = g10.index.map(ct_norm), g24.index.map(ct_norm)
         hu10 = ag.map(g10["HU10"].astype(float))
         al10 = ag.map(g10["ALAND"].astype(float))
         al24 = ag.map(g24["ALAND"].astype(float))
@@ -104,9 +130,14 @@ class Data:
         self.shock = set(hu10.index[loss.fillna(False)]) | set(al10.index[land.fillna(False)])
         b = parsers.read_acs_sf(acs / "acsdt5y2024-b25034.dat", state_fips="", sumlevels=("060", "160"))
         b.index = b["sumlevel"] + "|" + b["geoid"]
+        if CORRECTED:
+            b.index = b.index.map(ct_norm)
         pre2010 = b["B25034_E001"] - b["B25034_E002"] - b["B25034_E003"]
         self.age = ag.map(((b["B25034_E004"] + b["B25034_E005"]) / pre2010).where(pre2010 > 0))
         cr = pd.read_csv(REFERENCE / "parking_acs_crowding.csv", dtype={"acs_geoid": str})
+        if CORRECTED:
+            cr["acs_geoid"] = cr["acs_geoid"].map(ct_norm)
+            cr = cr.drop_duplicates(["acs_geoid", "year"])
         self.crowd = {y: ag.map(g.set_index("acs_geoid")["crowded_share"]) for y, g in cr.groupby("year")}
         cbsa = read_shapefile_attributes(RAW / "census_cbsa_cb_2024" / "cb_2024_us_cbsa_20m.zip").set_index("CBSAFP")["LSAD"]
         bcb = bps.assign(key=lambda d: d["state_fips"].astype(str).str.strip() + "|" + d["bps_id"].astype(str).str.strip()) \
@@ -307,6 +338,8 @@ def band_of(pop) -> np.ndarray:
 
 
 def target_cells(D: Data, state_fips: str) -> pd.Series:
+    if CORRECTED and state_fips == "55":
+        return tool_cells_wi()
     keys = [k for k in D.homes.index if D.state.get(k) == state_fips and k not in D.main_exc]
     h = D.homes.reindex(keys)
     cells = pd.DataFrame({"band": band_of(D.popn.reindex(keys).fillna(0)), "metro": D.metro.reindex(keys).fillna(0).values, "h": h.values})
@@ -505,8 +538,8 @@ def stage1(D: Data) -> None:
     for r in rows:
         print(r, flush=True)
     B = pd.DataFrame(rows)
-    B.round(4).to_csv(REFERENCE / "parking_method2_bakeoff.csv", index=False)
-    pd.DataFrame(strata_rows).to_csv(REFERENCE / "parking_method2_bakeoff_strata.csv", index=False)
+    B.round(4).to_csv(REFERENCE / f"parking_method2{SUF}_bakeoff.csv", index=False)
+    pd.DataFrame(strata_rows).to_csv(REFERENCE / f"parking_method2{SUF}_bakeoff_strata.csv", index=False)
     re = B[B["weights"] == "random effects"]
     ok = re[(re["coverage"] >= 0.85) & (re["coverage"] <= 0.95)]
     if len(ok):
@@ -516,7 +549,7 @@ def stage1(D: Data) -> None:
         re = re.assign(gap=(re["coverage"] - 0.90).abs())
         pick = re.sort_values(["gap", "mae"]).iloc[0]
         rule = "no candidate in 85-95%; coverage closest to 90%, then MAE"
-    pd.DataFrame([dict(candidate=pick["candidate"], rule=rule, mae=pick["mae"], coverage=pick["coverage"])]).to_csv(PICK, index=False)
+    pd.DataFrame([dict(candidate=pick["candidate"], rule=rule, mae=pick["mae"], coverage=pick["coverage"])]).to_csv(pick_path(), index=False)
     print("PICK", pick["candidate"], rule)
 
 
@@ -525,11 +558,11 @@ def require_pick() -> str:
     lock = LOCK.read_text()
     if "Ryan's main-weight choice (19:22 UTC)" not in lock:
         raise SystemExit("lock does not name Ryan's main-weight rule")
-    r = subprocess.run(["git", "ls-files", "--error-unmatch", str(PICK)], cwd=ROOT, capture_output=True)
-    d = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", str(PICK)], cwd=ROOT)
+    r = subprocess.run(["git", "ls-files", "--error-unmatch", str(pick_path())], cwd=ROOT, capture_output=True)
+    d = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", str(pick_path())], cwd=ROOT)
     if r.returncode or d.returncode:
         raise SystemExit("the bake-off pick is not committed (or changed since): commit reference/parking_method2_pick.csv first")
-    return str(pd.read_csv(PICK)["candidate"].iloc[0])
+    return str(pd.read_csv(pick_path())["candidate"].iloc[0])
 
 
 def stage2(D: Data) -> None:
@@ -627,17 +660,17 @@ def stage2(D: Data) -> None:
     tie = (mae["target-state mix"] <= 1.10 * mae[best]) or (lo <= 0 <= hi)
     winner = "target-state mix" if tie else best
     E.loc["mean absolute error"] = mae
-    E.round(4).to_csv(REFERENCE / "parking_method2_weight_test.csv")
+    E.round(4).to_csv(REFERENCE / f"parking_method2{SUF}_weight_test.csv")
     Eq = pd.DataFrame(errs_eq, index=states)
     Eq.loc["mean absolute error"] = Eq.mean()
-    Eq.round(4).to_csv(REFERENCE / "parking_method2_weight_test_equal_truth.csv")
+    Eq.round(4).to_csv(REFERENCE / f"parking_method2{SUF}_weight_test_equal_truth.csv")
     pd.DataFrame([dict(winner=winner, lowest=best, tie_rule_applied=bool(tie and best != "target-state mix"),
-                       mix_minus_best_p05=lo, mix_minus_best_p95=hi)]).to_csv(REFERENCE / "parking_method2_weight_pick.csv", index=False)
-    pd.DataFrame(out).round(4).to_csv(REFERENCE / "parking_method2_results.csv", index=False)
-    pd.DataFrame(detail).round(4).to_csv(REFERENCE / "parking_method2_places.csv", index=False)
-    pd.DataFrame(diag).round(4).to_csv(REFERENCE / "parking_method2_state_mix.csv", index=False)
-    pd.DataFrame(covs).to_csv(REFERENCE / "parking_method2_covariances.csv", index=False)
-    pd.DataFrame({"shock_flagged_places": sorted(D.shock)}).to_csv(REFERENCE / "parking_method2_shock_list.csv", index=False)
+                       mix_minus_best_p05=lo, mix_minus_best_p95=hi)]).to_csv(REFERENCE / f"parking_method2{SUF}_weight_pick.csv", index=False)
+    pd.DataFrame(out).round(4).to_csv(REFERENCE / f"parking_method2{SUF}_results.csv", index=False)
+    pd.DataFrame(detail).round(4).to_csv(REFERENCE / f"parking_method2{SUF}_places.csv", index=False)
+    pd.DataFrame(diag).round(4).to_csv(REFERENCE / f"parking_method2{SUF}_state_mix.csv", index=False)
+    pd.DataFrame(covs).to_csv(REFERENCE / f"parking_method2{SUF}_covariances.csv", index=False)
+    pd.DataFrame({"shock_flagged_places": sorted(D.shock)}).to_csv(REFERENCE / f"parking_method2{SUF}_shock_list.csv", index=False)
     print(pd.DataFrame(out).round(2).to_string())
     print(E.round(3).to_string())
     print("WEIGHT WINNER", winner, "lowest", best, lo, hi)
@@ -647,8 +680,19 @@ def stage2(D: Data) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", type=int, required=True, choices=(1, 2))
+    ap.add_argument("--corrected", action="store_true", help="data fixes (Method 2 correction lock)")
     a = ap.parse_args()
+    global SUF, CORRECTED
+    if a.corrected:
+        if "Ryan's go for the corrected run" not in LOCK.read_text():
+            raise SystemExit("the correction lock does not record Ryan's go")
+        SUF, CORRECTED = "_corrected", True
     D = Data()
+    if CORRECTED and a.stage == 1:
+        keys = [k for k in D.homes.index if k not in D.strict_exc]
+        t = pd.DataFrame({"crowding_2018": D.crowd_for(2019).reindex(keys).isna(), "density": D.density.reindex(keys).isna(),
+                          "age": D.age.reindex(keys).isna(), "population": D.popn.reindex(keys).isna(), "state": D.state.reindex(keys)})
+        t.groupby("state").mean().round(4).assign(units=t.groupby("state").size()).to_csv(REFERENCE / "parking_method2_missing_by_state.csv")
     print("strict exclusions", len(D.strict_exc), "| shock-flagged", len(D.shock), flush=True)
     stage1(D) if a.stage == 1 else stage2(D)
 
