@@ -84,7 +84,8 @@ def rebuild(real: pd.DataFrame, calls: list[dict]) -> pd.DataFrame:
             continue
         scale = 1.0
         if k == rps.SJ_KEY:
-            scale = float(r.effect_combined_area) / float(r.effect)
+            # combined-area effect / city effect = South Bend's share of the combined area's homes (salvage script)
+            scale = float((r.rate_after - r.rate_before) - (r.ctrl_after - r.ctrl_before)) / float(r.effect)
         own = float(r.rate_after - r.rate_before)
         cc = ctrl_change(c["p"], c["pool"], c["pre"], c["post"], c["homes"]) if c["pool"] else np.nan
         out.append(dict(i=r.Index, found=True, call=c, scale=scale, own=own, ctrl=cc, effect=(own - cc) / scale,
@@ -111,7 +112,8 @@ def main() -> None:
     w = (real["homes"] * real["n_post"]).values
     calls = collect()
     m = rebuild(real, calls)
-    bad = (~m["found"]) | ((m["effect"] - real["effect"]).abs() > 1e-4)
+    bad = (~m["found"]) | ((m["effect"] - real["effect"]).abs() > 1e-4) \
+        | ((m["ctrl"] - (real["ctrl_after"] - real["ctrl_before"])).abs() > 1e-4)
     print("rebuilt", int(m["found"].sum()), "of", len(real), "| mismatches:", int(bad.sum()))
     if bad.any():
         print(real.loc[bad.values, ["place", "source", "effect"]].assign(rebuilt=m.loc[bad.values, "effect"].values).to_string())
