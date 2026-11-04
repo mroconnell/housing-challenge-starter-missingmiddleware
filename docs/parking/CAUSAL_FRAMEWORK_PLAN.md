@@ -691,7 +691,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 
 ## Method 2: a second way to build the parking estimate (DRAFT LOCK 2026-11-04, before any count; Ryan 18:06–18:15 UTC)
 
-**Status: draft, revised after audit review 1 (18:18 UTC).** Required before the first run: (i) the audit re-checks this lock; (ii) Ryan's choice of the main weighting is written into this section with its time and committed. The run script refuses to start unless that line exists. **Running count: 48** (one locked run, everything reported). Evidence beside the current lines. Any tool change needs Ryan's OK, and replacing a line also needs the 25% replacement rule.
+**Status: draft, revised after audit review 1 (18:18 UTC).** Required before the first run: (i) the audit re-checks this lock; (ii) Ryan's choice of the main weighting is written into this section with its time and committed. The run script refuses to start unless that line exists. (iii) Ryan has seen the all-variables trait ranking (with and without SF) and weighed in (Ryan, 18:21 UTC: "don't run method 2 until we get the trait ranking and I weigh in on that"). **Running count: 48** (one locked run, everything reported). Evidence beside the current lines. Any tool change needs Ryan's OK, and replacing a line also needs the 25% replacement rule.
 
 **Why.** Ryan wants to keep the big repeal cities (Austin, Minneapolis, San Francisco) in, compare them fairly, keep reform cities out of the comparison groups, compare like with like (hot with hot, young with young), and weight places more sensibly. These choices are made now, before any method-2 number is seen. The main results (−1.14, test 45) are already known; this is stated plainly.
 
