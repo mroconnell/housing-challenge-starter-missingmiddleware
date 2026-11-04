@@ -1,0 +1,2 @@
+strict_cities_matched,main_average,main_p05,main_p95,strict_average,strict_p05,strict_p95,places_with_strict_effect,places_widened,mean_dropped_per_pool,share_of_main_pool_dropped,main_on_same_set,consistent_with_main,r_effect_own_change,r_effect_comparison_change,loo_base
+4591,-1.1417,-3.3882,1.3795,2.434,0.7319,4.0332,70,37,25.1184,0.348,1.3815,False,0.8878,-0.1594,-1.1417

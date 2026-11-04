@@ -606,3 +606,54 @@ All match the hand-read values.
 - **Effort.** About 1.9 AI-hours in all. Clerk requests would be needed to finish or firm up 9 places; none were sent.
 - **Closed 2026-11-04.** Ryan chose "Stop at the pilot" (17:12 UTC). The 15-place pilot stays as evidence only; it feeds no line and no test. No more map coding and no clerk requests. The last 4 places were tried once more from public sources only.
 - **Read.** The dose varies widely: some repeals changed rules on most apartment land, others on little. A dose-weighted test is possible once the 76 are coded, which needs Ryan's decision and some clerk requests.
+
+## Tests 45–46: who the comparison places are (2026-11-04; lock in CAUSAL_FRAMEWORK_PLAN.md, commit 20fea8f6)
+
+Script `scripts/run_parking_t45_t46.py`, committed before its first run (20cef909). The first run stopped at the rebuild step on a column-name bug, before any new number was computed; the fix (South Bend's scale) also added a check of each comparison change. The rebuild matched all 76 stored effects and comparison changes to 1e-4. Units: permits per 1,000 existing homes a year; averages weighted by homes × after-years; 90% ranges from 2,000 place resamples (seed 20261104).
+
+**Answers to Ryan's two direct questions.**
+- **TOD-upzoned places are not dropped from the main comparison pools.** The main pools leave out only the benchmark repeal list (303 matched cities). The 38 TOD upzoned places were left out of pools only in test E2 (the 2×2), so that its "neither" group was places that did neither reform.
+- **The 9 places that widened the size window** (same state, 1/3–3× population): San Jose, San Francisco, Corvallis, Tigard, Austin, Birmingham, Springfield (OR), Albany (OR) and South Bend. Another 12 left the state for the Census division (0.5–2×): Raleigh, Minneapolis, Lexington, St. Paul, Anchorage, Durham, Salem, Eugene, Bend, Beaverton, Portland (ME) and Burlington.
+
+### Test 45: strict pools (no parking-reform record at all)
+
+- **Leaving out every city with any record** (removal or reduction, any rating) matches 4,591 cities. That removes 35% of comparison-pool places (25 a pool on average). 37 of the 76 move to a wider window, and 6 have no strict pool at all: Austin, Minneapolis, San Francisco, San Jose, Sacramento and Birmingham. These 6 hold 39% of the weight.
+
+| Version | Places | Average | 90% range |
+| --- | --- | --- | --- |
+| Main | 76 | −1.14 | −3.39 to +1.38 |
+| Main, same 70 places | 70 | +1.38 | −0.39 to +3.31 |
+| Strict | 70 | +2.43 | +0.73 to +4.03 |
+| Main, 67 places with a strict pool of 5+ (beside, not locked) | 67 | +1.50 | — |
+| Strict, pool of 5+ (beside, not locked) | 67 | +1.07 | −0.21 to +2.37 |
+
+- **Locked reading: not consistent with the main.** The strict average (+2.43) lies outside the main's 90% range.
+- **Why:** almost all of the move comes from losing the 6 big cities, not from changing who is compared. On the same 70 places the main is +1.38 and the strict +2.43, inside the main's same-set range. With pools of 5+, the strict version is lower than the main (+1.07 vs +1.50).
+- **Caveats:**
+  - 3 strict pools have 1 or 2 places (Raleigh 2, Lexington 1, St. Paul 1); their effects flip sign.
+  - Oregon's pools move out of state (the state rule touches every Oregon city), so Oregon places are compared with other Pacific states.
+  - Most of the 4,591 records are "weaker" reforms (small cuts or commercial-only), so the strict pool also drops places whose housing rules did not change.
+
+### Test 46: comparison-place influence
+
+- **Pools saved:** `reference/parking_t46_pools.csv` (one row per repeal place and comparison place, with its share of pool homes).
+- **Reuse:** the most-used comparison places are Oregon cities (Forest Grove, Woodburn, Happy Valley, Redmond, McMinnville, Newberg, Oregon City: 10 repeal places each, 2 of them outliers each), because the Oregon repeal places share one state pool.
+- **Leave one out** (drop a comparison place from every pool it is in, no re-matching): no single place moves the average by more than 0.25. Top 10 by size of change (`reference/parking_t46_loo_top10.csv`):
+
+| Comparison place | Used by | Outliers among them | Average without it | Change |
+| --- | --- | --- | --- | --- |
+| San Diego | 2 | 0 | −0.89 | +0.25 |
+| Washington, DC | 1 | 0 | −1.33 | −0.19 |
+| Oakland | 4 | 0 | −1.32 | −0.18 |
+| Atlanta | 2 | 0 | −0.97 | +0.18 |
+| Irvine | 5 | 0 | −1.28 | −0.13 |
+| San Antonio | 1 | 1 | −1.24 | −0.10 |
+| Miami | 2 | 0 | −1.05 | +0.09 |
+| Omaha | 2 | 1 | −1.05 | +0.09 |
+| Kansas City, MO | 2 | 1 | −1.22 | −0.08 |
+| Fort Worth | 1 | 1 | −1.08 | +0.06 |
+
+- **Regression (reading only, 76 places, robust errors, 90% intervals):** pool size, a widened window and the largest comparison place's share of pool homes do not predict being an outlier or the size of the effect. All their intervals include 0.
+  - The size of the comparison change does predict both: +0.05 outlier probability per permit (+0.02 to +0.08), and +1.06 in |effect| (+0.47 to +1.65). This is partly mechanical, because the comparison change is part of each effect.
+- **Correlations:** each effect tracks the place's own change (r 0.89) far more than its comparison change (r −0.16).
+- **Reading:** no comparison place, or kind of pool, drives the outliers. Outliers come mostly from the repeal places' own swings.

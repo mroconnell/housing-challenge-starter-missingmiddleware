@@ -1,0 +1,77 @@
+place,state,source,main_pool,main_window,main_effect,strict_pool,strict_window,strict_effect,dropped_from_main_pool,window_widened
+San Jose,California,first 46,5,state 0.33-3.00,2.4828,0,division 0.33-3.00 (fewer than 5),,5,True
+San Francisco,California,first 46,9,state 0.33-3.00,-3.2802,0,division 0.33-3.00 (fewer than 5),,9,True
+Raleigh,North Carolina,first 46,9,division 0.50-2.00,7.0376,2,division 0.33-3.00 (fewer than 5),9.3441,8,True
+Minneapolis,Minnesota,first 46,5,division 0.50-2.00,-8.5188,0,division 0.33-3.00 (fewer than 5),,5,True
+Lexington,Kentucky,first 46,6,division 0.50-2.00,-5.0767,1,division 0.33-3.00 (fewer than 5),5.0878,6,True
+St. Paul,Minnesota,first 46,9,division 0.50-2.00,-2.2157,1,division 0.33-3.00 (fewer than 5),2.8384,9,True
+Anchorage,Alaska,first 46,34,division 0.50-2.00,-3.1595,26,division 0.33-3.00,-3.5444,34,True
+Buffalo,New York,first 46,10,state 0.50-2.00,0.4778,7,state 0.50-2.00,1.1202,3,False
+Bridgeport,Connecticut,first 46,5,state 0.50-2.00,5.9482,5,division 0.33-3.00,4.4082,5,True
+Gainesville,Florida,first 46,35,state 0.50-2.00,5.2079,22,state 0.50-2.00,3.8326,13,False
+Hartford,Connecticut,first 46,11,state 0.50-2.00,-0.254,8,division 0.33-3.00,-0.2397,11,True
+Ann Arbor,Michigan,first 46,22,state 0.50-2.00,4.4132,8,state 0.50-2.00,4.3961,14,False
+Cambridge,Massachusetts,first 46,18,state 0.50-2.00,-7.0783,8,division 0.33-3.00,-5.3071,18,True
+Roanoke,Virginia,first 46,6,state 0.50-2.00,-1.1273,45,division 0.50-2.00,-3.7637,5,True
+Alameda,California,first 46,166,state 0.50-2.00,-3.1284,142,state 0.50-2.00,-2.8638,24,False
+West Allis,Wisconsin,first 46,21,state 0.50-2.00,4.3383,9,state 0.33-3.00,3.8727,18,True
+Corvallis,Oregon,first 46,9,state 0.33-3.00,3.2514,178,division 0.50-2.00,3.8815,9,True
+Tigard,Oregon,first 46,11,state 0.33-3.00,-2.5668,179,division 0.50-2.00,-2.3015,11,True
+Dunwoody,Georgia,first 46,28,state 0.50-2.00,2.068,7,state 0.50-2.00,0.0801,21,False
+Culver City,California,first 46,183,state 0.50-2.00,-0.7408,177,state 0.50-2.00,-0.7946,6,False
+Mount Pleasant,Michigan,first 46,122,state 0.50-2.00,-1.4108,71,state 0.50-2.00,-2.2513,51,False
+Windham,Maine,first 46,22,state 0.50-2.00,8.3904,10,state 0.33-3.00,10.5174,18,True
+Cambridge,Maryland,first 46,9,state 0.50-2.00,-6.6796,5,state 0.33-3.00,-14.1795,6,True
+Emeryville,California,first 46,138,state 0.50-2.00,-0.0527,132,state 0.50-2.00,-0.0283,6,False
+Branson,Missouri,first 46,81,state 0.50-2.00,3.1586,32,state 0.50-2.00,4.0295,49,False
+Canandaigua,New York,first 46,302,state 0.50-2.00,2.7644,249,state 0.50-2.00,2.7688,53,False
+Ecorse,Michigan,first 46,220,state 0.50-2.00,-13.0485,156,state 0.50-2.00,-12.8814,64,False
+Bastrop,Texas,first 46,207,state 0.50-2.00,30.6516,201,state 0.50-2.00,30.7405,6,False
+Seabrook,New Hampshire,first 46,74,state 0.50-2.00,-1.9208,72,state 0.50-2.00,-2.0403,2,False
+River Rouge,Michigan,first 46,263,state 0.50-2.00,0.3311,196,state 0.50-2.00,0.512,67,False
+Hudson,New York,first 46,434,state 0.50-2.00,-1.5415,368,state 0.50-2.00,-1.6159,66,False
+Bandera,Texas,first 46,180,state 0.50-2.00,3.4077,180,state 0.50-2.00,3.4077,0,False
+Austin,Texas,expanded,6,state 0.33-3.00,-12.3289,0,division 0.33-3.00 (fewer than 5),,6,True
+Sacramento,California,expanded,9,state 0.50-2.00,1.0026,0,division 0.33-3.00 (fewer than 5),,9,True
+Durham,North Carolina,expanded,23,division 0.50-2.00,0.3046,15,division 0.33-3.00,-0.6714,20,True
+Richmond,Virginia,expanded,5,state 0.50-2.00,15.1049,7,division 0.50-2.00,10.2997,4,True
+Birmingham,Alabama,expanded,7,state 0.33-3.00,0.8046,0,division 0.33-3.00 (fewer than 5),,7,True
+Newport News,Virginia,expanded,6,state 0.50-2.00,2.342,16,division 0.50-2.00,0.5197,5,True
+Salem,Oregon,expanded,87,division 0.50-2.00,-1.2401,36,division 0.50-2.00,-1.4549,51,False
+Eugene,Oregon,expanded,87,division 0.50-2.00,0.9278,36,division 0.50-2.00,-0.0119,51,False
+Berkeley,California,expanded,132,state 0.50-2.00,3.7866,91,state 0.50-2.00,4.6354,41,False
+Bend,Oregon,expanded,168,division 0.50-2.00,3.4129,114,division 0.50-2.00,3.2555,54,False
+Beaverton,Oregon,expanded,176,division 0.50-2.00,-1.9635,122,division 0.50-2.00,-2.1929,54,False
+Longmont,Colorado,expanded,11,state 0.50-2.00,13.7589,10,division 0.50-2.00,17.8175,9,True
+Trenton,New Jersey,expanded,46,state 0.50-2.00,0.7801,17,state 0.50-2.00,1.7716,29,False
+Duluth,Minnesota,expanded,20,state 0.50-2.00,5.723,5,division 0.50-2.00,3.2361,18,True
+Kalamazoo,Michigan,expanded,46,state 0.50-2.00,-0.1807,17,state 0.50-2.00,0.3871,29,False
+Rogers,Arkansas,expanded,10,state 0.50-2.00,-7.8179,58,division 0.50-2.00,3.7534,10,True
+Portland,Maine,expanded,79,division 0.50-2.00,2.6488,10,division 0.50-2.00,3.6846,69,False
+Springfield,Oregon,expanded,8,state 0.33-3.00,9.8546,174,division 0.50-2.00,6.0167,8,True
+Albany,Oregon,expanded,11,state 0.33-3.00,-4.6139,179,division 0.50-2.00,-7.8688,11,True
+La Crosse,Wisconsin,expanded,24,state 0.50-2.00,-2.0282,11,state 0.33-3.00,-9.2192,20,True
+Burlington,Vermont,expanded,146,division 0.50-2.00,13.7186,34,division 0.50-2.00,13.228,112,False
+Grants Pass,Oregon,expanded,8,state 0.50-2.00,10.3167,180,division 0.50-2.00,3.0698,8,True
+Plainfield,Indiana,expanded,35,state 0.50-2.00,-10.2824,8,state 0.50-2.00,-15.7845,27,False
+Tualatin,Oregon,expanded,14,state 0.50-2.00,13.889,163,division 0.50-2.00,4.9976,14,True
+West Linn,Oregon,expanded,14,state 0.50-2.00,9.4532,163,division 0.50-2.00,0.6541,14,True
+Kingston,New York,expanded,159,state 0.50-2.00,10.121,125,state 0.50-2.00,10.1494,34,False
+Ashland,Oregon,expanded,18,state 0.50-2.00,3.5989,159,division 0.50-2.00,-3.434,18,True
+Carrboro,North Carolina,expanded,34,state 0.50-2.00,-13.1014,6,state 0.50-2.00,-7.5218,28,False
+Milwaukie,Oregon,expanded,18,state 0.50-2.00,-0.2891,158,division 0.50-2.00,-8.1199,18,True
+Northfield,Minnesota,expanded,73,state 0.50-2.00,-1.6221,14,state 0.50-2.00,-3.1741,59,False
+Central Point,Oregon,expanded,26,state 0.50-2.00,-4.6562,162,division 0.50-2.00,-10.9233,26,True
+Portsmouth,Ohio,expanded,128,state 0.50-2.00,0.4577,56,state 0.50-2.00,0.6064,72,False
+Taylor,Texas,expanded,161,state 0.50-2.00,-9.5515,156,state 0.50-2.00,-9.3265,5,False
+Hanover,New Hampshire,expanded,50,state 0.50-2.00,-4.2281,48,state 0.50-2.00,-4.5837,2,False
+Lansing,Kansas,expanded,38,state 0.50-2.00,-7.3807,6,state 0.50-2.00,-20.4592,32,False
+Hampden,Maine,expanded,69,state 0.50-2.00,-2.4007,30,state 0.50-2.00,-1.6566,39,False
+King City,Oregon,expanded,30,state 0.50-2.00,15.5608,8,state 0.33-3.00,6.1277,26,True
+Social Circle,Georgia,expanded,90,state 0.50-2.00,-10.0641,56,state 0.50-2.00,-12.1215,34,False
+Millersburg,Oregon,expanded,28,state 0.50-2.00,-33.6607,6,state 0.50-2.00,-34.201,22,False
+South Bend (with unincorporated St. Joseph County),Indiana,rescued,5,state 0.33-3.00,-6.1598,10,division 0.33-3.00,3.9461,4,True
+Gastonia,North Carolina,rescued,6,state 0.50-2.00,7.9959,57,division 0.50-2.00,-1.1304,6,True
+Avondale Estates,Georgia,rescued,97,state 0.50-2.00,-0.7344,67,state 0.50-2.00,-2.3548,30,False
+Maumee,Ohio,partial-reforms search,147,state 0.50-2.00,-1.0116,65,state 0.50-2.00,-0.8006,82,False
+Saranac Lake,New York,partial-reforms search,476,state 0.50-2.00,-0.315,406,state 0.50-2.00,-0.379,70,False
