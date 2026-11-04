@@ -1,0 +1,2 @@
+candidate,rule,mae,coverage
+D,lowest MAE with coverage 85-95%,0.8492640657232629,0.915
