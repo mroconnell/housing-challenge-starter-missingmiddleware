@@ -698,7 +698,19 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 **Places.** The 76 repeal places in `reference/parking_expanded_effects.csv`, each with its own windows (5 before, up to 3 after) and its own script's special handling (South Bend combined area, trimmed years, 2010 homes for pre-2015 repeals).
 
 **1. Weights (Ryan names the main one before the run).**
-- **Ryan's main-weight choice:** OPEN (to be filled with his pick and its time, then audited, before any run). Hold lifted by Ryan 19:21 UTC ("let's go!").
+- **Ryan's main-weight choice (19:22 UTC):** "the weighting that will best predict the effect of a statewide policy adoption in WI and any other state we load in". It is picked by the weight test below. Ryan confirmed the test and its tie rule at 19:23 UTC ("in the case of a tie, we go with state mix?" … "lock it in"). Hold lifted by Ryan at 19:21 UTC ("let's go!").
+- **Weight test (leave one state out; picks the main weight; runs after the bake-off, on the picked heat method's real place effects):**
+  - **States:** every evidence state with at least 3 of the 76: Oregon 16, California 7, New York 5, Michigan 5, North Carolina 4, Minnesota 4, Texas 4, Virginia 3, Georgia 3, Maine 3. That is 10 states.
+  - **For each held-out state:** build each weighting from the other 66+ places. The target-state mix is aimed at the held-out state's eligible homes. τ² for random effects is re-estimated without the state.
+  - **Prediction:** the weighted mean effect of the other places, after the item 5 winsorising.
+  - **Truth:** the held-out state's home-weighted mean effect.
+  - **Score:** mean absolute error across the 10 states, each state counted equally.
+  - **Candidates:** (a) random effects, (b) target-state mix, (c) square root of homes, (d) homes, (e) equal.
+  - **Winner:** the lowest error, unless the tie rule applies.
+  - **Tie rule:** the target-state mix wins if its error is within 10% of the lowest, or if the 90% range of its paired error difference from the lowest includes 0. That range comes from a bootstrap over the 10 states, 2,000 draws, seed 20261104.
+  - **Caveat stated now:** 10 states is few, and each state's "truth" is itself noisy, so the tie rule is likely to apply.
+  - **Recorded:** the winner and every candidate's errors are committed before the method-2 estimate is reported.
+- **Bake-off scoring weight (fixed, because the weight test runs after the bake-off):** random effects, the proposed main. For fake cases, vᵢ is the placebo variance of the real case each fake case is paired with in its stratum. The other weights are reported beside it.
 - **(a) Random effects (proposed main).** Weight = 1 / (vᵢ + τ²).
   - vᵢ: the variance of the fake-repeal effects among place i's stand-ins in the full placebo run (`reference/parking_placebo_full_places.csv`), i.e. how noisy a place like i is.
   - τ²: the DerSimonian–Laird between-place spread.
@@ -751,7 +763,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **Scores per candidate:**
   - **MAE:** mean absolute set average (true effect 0).
   - **Coverage:** the share of sets whose 90% place bootstrap (500 draws per set) includes 0.
-  - **Weighting:** Ryan's chosen main weight (item 1). The other weights are reported beside it.
+  - **Weighting:** random effects (fixed; see item 1). The other weights are reported beside it.
   - **Coverage error:** each candidate's coverage is reported with its simulation standard error, √(c(1−c)/200), about 2 points.
   - Items 2, 4, 5 and 6 apply to every candidate.
 - **Backtest for C:** the synthetic control is refitted on years −5 to −3 only.
