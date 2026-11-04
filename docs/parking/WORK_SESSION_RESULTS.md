@@ -658,3 +658,16 @@ Script `scripts/run_parking_t45_t46.py`, committed before its first run (20cef90
   - The size of the comparison change does predict both: +0.05 outlier probability per permit (+0.02 to +0.08), and +1.06 in |effect| (+0.47 to +1.65). This is partly mechanical, because the comparison change is part of each effect.
 - **Correlations:** each effect tracks the place's own change (r 0.89) far more than its comparison change (r −0.16).
 - **Reading:** no comparison place, or kind of pool, drives the outliers. Outliers come mostly from the repeal places' own swings.
+
+## Test 47: big-city vs same-state comparison places (2026-11-04; lock 4446b84a, script committed before its run)
+
+- **Targets:** 71 never-repealed US places with 250,000+ people (72 eligible; 1 had an empty pool), 5 fake repeal years each (2017–2021), 355 target-years. True effect 0. Units: permits per 1,000 existing homes a year.
+
+| Score (big-city minus current; below 0 favours big-city) | Equal weight | Home-weighted |
+| --- | --- | --- |
+| Size of fake-repeal effect: current 3.81 / 2.18, big-city 3.68 / 2.11 | −0.13 (−0.48 to +0.19) | −0.07 (−0.29 to +0.14) |
+| Year-by-year fit (RMSE of the gap): current 3.97 / 2.42, big-city 3.81 / 2.26 | −0.16 (−0.34 to +0.01) | −0.16 (−0.31 to −0.06) |
+
+- **Locked verdict: no clear difference**, under both weightings. Big-city pools track slightly better (fit errors about 4–7% lower, clear only with home weights), but fake-repeal estimates are no closer to 0. The spread of fake effects is about the same (SD 5.23 current, 5.16 big-city).
+- **Follow-up not run:** the locked rerun of the 76 with big-city pools needed a "better" verdict.
+- **Reading:** Ryan's idea gets weak support on fit, but not enough to change how the main estimate is built. Big cities' permits swing a lot either way, about ±5 per 1,000 homes on a fake repeal, so no comparison rule removes much of that noise.
