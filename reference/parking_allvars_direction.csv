@@ -1,0 +1,25 @@
+run,weights,trait,places,above,below,gap,gap_p05,gap_p95
+with SF,homes,Permit rate before repeal,71,-2.411,1.473,-3.884,-7.468,-0.005
+with SF,homes,Rent burden 30%+,71,1.933,-2.235,4.169,1.207,9.493
+with SF,homes,Crowded homes,71,-3.306,3.367,-6.673,-10.147,-1.037
+with SF,homes,Labour-force participation,71,-1.851,1.172,-3.023,-6.313,0.768
+with SF,homes,Small homes (1-3 rooms),71,-1.205,-0.781,-0.423,-4.648,3.339
+with SF,homes,Vacancy,71,0.021,-2.588,2.609,-2.858,7.224
+with SF,equal,Permit rate before repeal,71,-0.319,1.207,-1.527,-6.0,1.226
+with SF,equal,Rent burden 30%+,71,0.472,0.438,0.035,-2.763,4.478
+with SF,equal,Crowded homes,71,-0.775,1.65,-2.425,-5.301,2.102
+with SF,equal,Labour-force participation,71,0.68,0.236,0.444,-3.417,3.784
+with SF,equal,Small homes (1-3 rooms),71,1.928,-0.978,2.906,-1.583,5.615
+with SF,equal,Vacancy,71,0.411,0.498,-0.087,-3.756,2.902
+without SF,homes,Permit rate before repeal,70,-2.216,1.616,-3.832,-7.615,0.714
+without SF,homes,Rent burden 30%+,70,1.933,-2.008,3.941,0.58,10.186
+without SF,homes,Crowded homes,70,-3.254,3.318,-6.572,-10.418,0.123
+without SF,homes,Labour-force participation,70,-1.459,0.977,-2.437,-6.247,1.688
+without SF,homes,Small homes (1-3 rooms),70,-0.755,-0.829,0.074,-4.463,4.149
+without SF,homes,Vacancy,70,0.905,-2.575,3.481,-2.294,8.539
+without SF,equal,Permit rate before repeal,70,-0.315,1.331,-1.646,-5.909,1.49
+without SF,equal,Rent burden 30%+,70,0.472,0.544,-0.071,-2.916,4.593
+without SF,equal,Crowded homes,70,-0.392,1.408,-1.8,-5.145,2.363
+without SF,equal,Labour-force participation,70,1.166,-0.15,1.315,-3.044,4.244
+without SF,equal,Small homes (1-3 rooms),70,2.044,-1.028,3.072,-1.242,6.047
+without SF,equal,Vacancy,70,0.415,0.601,-0.186,-3.803,2.96

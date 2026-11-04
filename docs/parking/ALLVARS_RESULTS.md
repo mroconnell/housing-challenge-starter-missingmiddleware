@@ -71,16 +71,25 @@ Script `scripts/check_parking_allvars_importance.py`, committed before its run. 
 - **Registered rule:** it was met in the registered run. The scenario keeps one average because the pass depends on San Francisco (post hoc checks).
 - **Conclusion unchanged:** no trait reliably tells places apart, so the scenario keeps one average. Importances say what a model used, not what drives parking effects.
 
-**Direction of the top traits (descriptive, added for Ryan 2026-11-04).** Average effect in the half of places above vs below each trait's median, permits per 1,000 existing homes a year. Weighted by homes × after-years, with equal weights beside; with SF (without SF is within about 0.4 unless noted).
+**Direction of the top traits (descriptive, added for Ryan 2026-11-04).** Average effect in the half of places above vs below each trait's median, in permits per 1,000 existing homes a year. The gap is above minus below, with a 90% place-bootstrap range (2,000 draws, seed 20261104, median split redone in each draw). Built by `scripts/check_parking_allvars_direction.py` → `reference/parking_allvars_direction.csv`. Shown with SF.
 
-| Trait | Above median (homes) | Below median (homes) | Above / below (equal weights) |
-| --- | --- | --- | --- |
-| Permit rate before repeal | −2.41 | +1.47 | −0.32 / +1.21 |
-| Rent burden 30%+ | +1.93 | −2.24 | +0.47 / +0.44 |
-| Crowded homes | −3.31 | +3.37 | −0.77 / +1.65 |
-| Labour-force participation | −1.85 | +1.17 | +0.68 / +0.24 |
-| Small homes (1–3 rooms) | −1.20 | −0.78 | +1.93 / −0.98 |
-| Vacancy | +0.02 | −2.59 | +0.41 / +0.50 |
+| Trait | Homes-weighted: above / below | Gap (90% range) | Equal weights: above / below | Gap (90% range) |
+| --- | --- | --- | --- | --- |
+| Permit rate before repeal | −2.41 / +1.47 | −3.88 (−7.47 to −0.00) | −0.32 / +1.21 | −1.53 (−6.00 to +1.23) |
+| Rent burden 30%+ | +1.93 / −2.24 | +4.17 (+1.21 to +9.49) | +0.47 / +0.44 | +0.03 (−2.76 to +4.48) |
+| Crowded homes | −3.31 / +3.37 | −6.67 (−10.15 to −1.04) | −0.77 / +1.65 | −2.43 (−5.30 to +2.10) |
+| Labour-force participation | −1.85 / +1.17 | −3.02 (−6.31 to +0.77) | +0.68 / +0.24 | +0.44 (−3.42 to +3.78) |
+| Small homes (1–3 rooms) | −1.20 / −0.78 | −0.42 (−4.65 to +3.34) | +1.93 / −0.98 | +2.91 (−1.58 to +5.62) |
+| Vacancy | +0.02 / −2.59 | +2.61 (−2.86 to +7.22) | +0.41 / +0.50 | −0.09 (−3.76 to +2.90) |
 
-- **Reading:** only the before-repeal permit rate points the same way under both weightings: hotter markets show lower effects. The rest are driven by a few big places, or flip with the weighting.
-- **Caveat:** these are associations, not causes.
+- **Without SF,** most cells move by less than about 0.9. Three things change:
+  - vacancy above the median goes from +0.02 to +0.91;
+  - small homes flip order (−0.76 vs −0.83);
+  - labour force under equal weights goes from +0.68 / +0.24 to +1.17 / −0.15.
+  - Rent burden's homes-weighted gap stays clear of 0 (+0.58 to +10.19). Crowding's and the permit rate's ranges then touch 0.
+- **Reading:**
+  - Two traits keep their sign under both weightings: the before-repeal permit rate and crowding. Hotter or more crowded places show lower effects.
+  - Under equal weights, no gap is larger than the noise.
+  - Under home weights, rent burden and crowding gaps exclude 0, so a few big places drive them.
+- **The permit-rate pattern may be regression to the mean,** not a weaker response to repeal. The market-heat bake-off in method 2 tests that. Test P3 found places rising into repeal, which points the same way.
+- **Selection caveat:** these 6 traits were picked because they ranked high out of 55, so some patterns will appear by chance. These are associations, not causes.
