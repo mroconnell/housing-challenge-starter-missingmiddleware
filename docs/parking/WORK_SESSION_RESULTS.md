@@ -749,3 +749,60 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
   - Wisconsin's eligible homes are about 37% in places under 10,000, 18% in places of 250,000+, and 12.5% in the 50,000–250,000 band. So the target-state mix leans on the bands that fall.
   - Random-effects, equal and square-root weights lean on the 30 mid-size places, which rise.
 - **Double-dip, named.** Crowding, density, town age and the pre-repeal permit rate were added to the method-2 matching partly because the effect-size trait ranking flagged them. That ranking used the same 76 effects, so this is a mild double-dip. In principle, matching should use traits that predict building without repeal, ranked on comparison places only. The target-state mix should use traits that change the size of the effect. This was not done here and is noted as context.
+
+## Method 2, corrected run (2026-11-04; correction lock in CAUSAL_FRAMEWORK_PLAN.md; provisional go by the learning thread, 21:02 UTC, under Ryan's 21:01 UTC delegation)
+
+**Data fixes.**
+- **Connecticut:** joined on state + county-subdivision code. "Not defined" placeholders (code 00000) were dropped; no real unit was dropped.
+- **Wisconsin cells:** built on the tool's 2,668,677 eligible homes.
+- **Missing-data table:** committed before stage 1. Connecticut is now at 0% missing, and the worst state is 2.1%.
+
+**Heat method.**
+- **Stage 1:** the corrected stage 1 scored A 0.900 / 0.88, B 0.873 / 0.855, C 0.921 / 0.865, D 0.917 / 0.86 (random-effects MAE / coverage).
+- **Pick:** under the correction lock's rule (D or B+D; D wins ties at 5%; C out), B+D scored 0.895 / 0.885. That is 2.4% below D, so **D stands**.
+- **Code gap:** stage 1's code had picked B by lowest MAE across A–D, which is not the lock's rule. This was fixed with `scripts/pick_parking_method2_corrected.py`. D reproduced exactly.
+
+**Weight test (corrected).**
+
+| Weighting | Error |
+| --- | --- |
+| Target-state mix | **3.065** |
+| Random effects | 3.346 |
+| Equal | 3.394 |
+| Square root | 3.499 |
+| Homes | 3.864 |
+
+- Errors are permits per 1,000 existing homes a year, per state.
+- The mix wins outright. Wisconsin's effective number of places is 19.6.
+
+**Corrected result (D, target-state mix, Wisconsin):**
+- **Rate:** −0.77 (−2.78 to +0.43).
+- **Wisconsin:** −10,223 homes over 2027–2031 (−37,046 to +5,760).
+- **Range width:** 42,806. That is under Ryan's like-for-like bar (49,253, post hoc) and over the locked bar (26,289).
+
+| D under each weighting | Wisconsin homes (90%) |
+| --- | --- |
+| Target-state mix (main) | −10,223 (−37,046 to +5,760) |
+| Random effects | +11,519 (−4,006 to +26,043) |
+| Square root | +9,519 (−7,823 to +30,710) |
+| Homes | +1,390 (−20,582 to +31,647) |
+| Equal | +9,153 (−19,876 to +27,719) |
+
+- **Switch-backs (mix):** −0.47 to −1.81. Turning off winsorising pulls most (−1.81).
+- **Dropping the 2 shock-flagged repeal places:** −0.72.
+- **Locked sensitivity, missing-trait candidates ineligible (mix):** −0.72, Wisconsin −9,546 (−36,361 to +6,240).
+- **Backtest (mix):** −0.82 (−3.39 to +0.0004). The range just includes 0, a borderline pass. The backtest fails under square-root and home weights.
+- **San Francisco:** now matched to 10 dense places such as Weehawken, Mount Vernon and North Bergen, at step 5; 3 still lack density or crowding. It is no longer matched to rural Connecticut towns.
+
+**City-size weighting test (post hoc, corrected data).** Leave-one-state-out error:
+
+| Version | Error | Gap vs 4 bands (90%) | Wisconsin homes |
+| --- | --- | --- | --- |
+| (i) 4 bands (main) | 3.065 | — | −10,223 |
+| (ii) 3 bands at terciles | 3.782 | +0.72 (−0.12 to +1.52) | −16,040 |
+| (iii) smooth line on log population, edge-held | 2.635 | −0.43 (−1.05 to +0.22) | +33,909 |
+| (iv) crowding terciles | 2.129 | −0.94 (−1.81 to +0.06) | −31,354 |
+
+- **Verdict:** none beats the 4 bands by the rule (more than 10% lower and the range excludes 0), so the 4 bands stay.
+- **Crowding:** 31% lower error, but its range just includes 0.
+- **Spread:** the Wisconsin figure under these versions runs from −31,354 to +33,909. How the evidence is mapped onto Wisconsin is itself a large source of uncertainty, and it is not in the 90% range.

@@ -1,0 +1,5 @@
+version,mae,minus_4bands_p05,minus_4bands_p95,beats_4_bands,winner
+(i) 4 bands,3.0654,0.0,0.0,False,(i) 4 bands
+(ii) 3 bands at terciles,3.7816,-0.121,1.5237,False,(i) 4 bands
+(iii) smooth line on log population,2.6351,-1.0545,0.2165,False,(i) 4 bands
+(iv) crowding terciles,2.1287,-1.8109,0.0554,False,(i) 4 bands
