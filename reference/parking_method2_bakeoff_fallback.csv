@@ -1,0 +1,21 @@
+candidate,weights,mae,coverage,coverage_se,sets,c_filled_with_b,label
+A,random effects,0.8565,0.88,0.023,200,30,post hoc: C falls back to B where synthetic control fails
+A,target-state mix,0.8518,0.89,0.0221,200,30,post hoc: C falls back to B where synthetic control fails
+A,square root,0.5149,0.855,0.0249,200,30,post hoc: C falls back to B where synthetic control fails
+A,homes,0.2727,0.8,0.0283,200,30,post hoc: C falls back to B where synthetic control fails
+A,equal,0.7582,0.92,0.0192,200,30,post hoc: C falls back to B where synthetic control fails
+B,random effects,0.8501,0.86,0.0245,200,30,post hoc: C falls back to B where synthetic control fails
+B,target-state mix,0.8437,0.86,0.0245,200,30,post hoc: C falls back to B where synthetic control fails
+B,square root,0.5062,0.825,0.0269,200,30,post hoc: C falls back to B where synthetic control fails
+B,homes,0.2706,0.785,0.029,200,30,post hoc: C falls back to B where synthetic control fails
+B,equal,0.7315,0.89,0.0221,200,30,post hoc: C falls back to B where synthetic control fails
+C,random effects,0.8349,0.87,0.0238,200,30,post hoc: C falls back to B where synthetic control fails
+C,target-state mix,0.8273,0.865,0.0242,200,30,post hoc: C falls back to B where synthetic control fails
+C,square root,0.4397,0.875,0.0234,200,30,post hoc: C falls back to B where synthetic control fails
+C,homes,0.2279,0.835,0.0262,200,30,post hoc: C falls back to B where synthetic control fails
+C,equal,0.7095,0.885,0.0226,200,30,post hoc: C falls back to B where synthetic control fails
+D,random effects,0.8493,0.915,0.0197,200,30,post hoc: C falls back to B where synthetic control fails
+D,target-state mix,0.8585,0.9,0.0212,200,30,post hoc: C falls back to B where synthetic control fails
+D,square root,0.4811,0.84,0.0259,200,30,post hoc: C falls back to B where synthetic control fails
+D,homes,0.2562,0.83,0.0266,200,30,post hoc: C falls back to B where synthetic control fails
+D,equal,0.7458,0.925,0.0186,200,30,post hoc: C falls back to B where synthetic control fails
