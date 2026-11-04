@@ -701,9 +701,9 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **Ryan's main-weight choice (19:22 UTC):** "the weighting that will best predict the effect of a statewide policy adoption in WI and any other state we load in". It is picked by the weight test below. Ryan confirmed the test and its tie rule at 19:23 UTC ("in the case of a tie, we go with state mix?" … "lock it in"). Hold lifted by Ryan at 19:21 UTC ("let's go!").
 - **Weight test (leave one state out; picks the main weight; runs after the bake-off, on the picked heat method's real place effects):**
   - **States:** every evidence state with at least 3 of the 76: Oregon 16, California 7, New York 5, Michigan 5, North Carolina 4, Minnesota 4, Texas 4, Virginia 3, Georgia 3, Maine 3. That is 10 states.
-  - **For each held-out state:** build each weighting from the other 66+ places. The target-state mix is aimed at the held-out state's eligible homes. τ² for random effects is re-estimated without the state.
+  - **For each held-out state:** build each weighting from the other 66+ places. In this test only, the target-state mix is aimed at the held-out state's repeal places' own homes × after-years in each size band × metro cell, weighted as in the truth (audit). The final Wisconsin estimate still aims at Wisconsin's eligible homes. τ² for random effects is re-estimated without the state.
   - **Prediction:** the weighted mean effect of the other places, after the item 5 winsorising.
-  - **Truth:** the held-out state's home-weighted mean effect.
+  - **Truth:** the held-out state's mean effect weighted by homes × after-years. An equal-weight truth is shown beside it as a sensitivity only.
   - **Score:** mean absolute error across the 10 states, each state counted equally.
   - **Candidates:** (a) random effects, (b) target-state mix, (c) square root of homes, (d) homes, (e) equal.
   - **Winner:** the lowest error, unless the tie rule applies.
@@ -833,3 +833,8 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **5th/95th percentiles:** Ryan's choice (winsorize, 5%).
 - **2 places a cell:** the fewest that give a within-cell average.
 - **Half floor on homes:** improvement round 1's rule.
+- **Method 2 run log.**
+  - **Inputs:** `reference/parking_acs_crowding.csv`, 727,432 rows, SHA-256 5bdf5fba86fef4b9f2137d97407b23bf0509781574615105a0508c6f04e53484.
+  - **Script:** `scripts/run_parking_method2.py`, committed before stage 1.
+  - **Weight test truth:** homes × after-years, with an equal-weight truth beside it (sensitivity only).
+  - **Wisconsin cells:** built from BPS permit-issuing units (2,220,883 eligible homes in the panel, vs 2,668,677 in the tool's areas). Only the shares are used.
