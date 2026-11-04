@@ -582,6 +582,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
     - same-time changes to height, density or approvals;
     - hours spent.
   - **Output.** `reference/parking_dose_pilot.csv`.
+  - **Closed 2026-11-04 (owner chose "Stop at the pilot", 17:12 UTC).** The dose and exempt-share pilots (15 places) stay as evidence only. Coding all 76 is not pursued, with no more map coding and no clerk requests. Kingston was finished from public text (no exempt area found). Saranac Lake, Ecorse and Rogers stay not found. See WORK_SESSION_RESULTS.md, "Exempt-share pilot".
 
 ## Test 43: do Madison's minimums bind? Bunching in project records, 2015–2022 (locked 2026-11-03, before any count; owner: "go")
 
