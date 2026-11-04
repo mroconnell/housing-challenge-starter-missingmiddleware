@@ -628,16 +628,17 @@ Script `scripts/run_parking_t45_t46.py`, committed before its first run (20cef90
 | Strict, pool of 5+ (beside, not locked) | 67 | +1.07 | −0.21 to +2.37 |
 
 - **Locked reading: not consistent with the main.** The strict average (+2.43) lies outside the main's 90% range.
-- **Why:** almost all of the move comes from losing the 6 big cities, not from changing who is compared. On the same 70 places the main is +1.38 and the strict +2.43, inside the main's same-set range. With pools of 5+, the strict version is lower than the main (+1.07 vs +1.50).
+- **Why (a reading made after the result, not the locked rule):** about 70% of the gap comes from the set change. Dropping the 6 big cities moves the main from −1.14 to +1.38. The pool rule adds the rest, +1.38 to +2.43, which is inside the main's same-set range. With pools of 5+, strict is below the main (+1.07 vs +1.50), so the pool rule has no consistent direction.
 - **Caveats:**
-  - 3 strict pools have 1 or 2 places (Raleigh 2, Lexington 1, St. Paul 1); their effects flip sign.
-  - Oregon's pools move out of state (the state rule touches every Oregon city), so Oregon places are compared with other Pacific states.
+  - 3 strict pools have 1 or 2 places: Raleigh (2 places, +7.04 to +9.34), and the 1-place pools of Lexington (−5.08 to +5.09) and St. Paul (−2.22 to +2.84).
+  - **Oregon.** In the main, Oregon comparison cities were under the same state rules from 2022-12-31, so the main Oregon effects measure the local repeal beyond the state rule. Strict moves 14 of 16 Oregon places to other Pacific states. Their mean falls from +1.33 to −2.66 (median +2.09 to −0.73; e.g. West Linn +9.5 to +0.7, Milwaukie −0.3 to −8.1). So strict asks a different question for Oregon: the state rule plus local repeal, against places with neither.
   - Most of the 4,591 records are "weaker" reforms (small cuts or commercial-only), so the strict pool also drops places whose housing rules did not change.
 
 ### Test 46: comparison-place influence
 
 - **Pools saved:** `reference/parking_t46_pools.csv` (one row per repeal place and comparison place, with its share of pool homes).
 - **Reuse:** the most-used comparison places are Oregon cities (Forest Grove, Woodburn, Happy Valley, Redmond, McMinnville, Newberg, Oregon City: 10 repeal places each, 2 of them outliers each), because the Oregon repeal places share one state pool.
+- **Not independent:** 7 Oregon comparison cities are each shared by 10 repeal places, so those Oregon effects move together. The statewide effect of that is small (each moves the average by 0.04 or less).
 - **Leave one out** (drop a comparison place from every pool it is in, no re-matching): no single place moves the average by more than 0.25. Top 10 by size of change (`reference/parking_t46_loo_top10.csv`):
 
 | Comparison place | Used by | Outliers among them | Average without it | Change |
