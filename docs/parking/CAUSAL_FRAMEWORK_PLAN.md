@@ -882,3 +882,39 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   No corrected result is seen before steps 1 and 2 are done.
 - **Run gate:** the corrected run script refuses to start unless this section has a bullet that starts with Ryan's go, the time in UTC and his words. The format is checked by the script; this sentence does not match it.
 - **Pause after the missing-data table:** `--corrected --missing-only` writes the table and stops. The corrected stage 1 refuses to run until that table is committed and unchanged.
+
+## Method 3: prognostic-score matching (DRAFT LOCK 2026-11-04, before any count; Ryan 20:59 UTC: "yeah, okay, ask the parking thread to do that. and consider adding more traits like the TOD thread found")
+
+**Status: draft.** This lock is for the plan, not a run. A run needs the audit's review and Ryan's go. Its own method, scored by the same fake-repeal rules as the method-2 bake-off.
+- **Origin:** post hoc in origin, after method 2's results. It also answers the double-dip note, because traits are chosen and the score is fitted on never-repealed places only.
+- **All places:** every place is included; there are no with/without-San Francisco runs (Ryan 20:59 UTC: "We don't need to run with and without SF. Just include all the places.").
+
+**Order.**
+1. The method-2 correction (Connecticut join, missing-data table) runs first, so density and crowding are clean.
+2. Then this plan runs, steps 1–6 below.
+
+**Traits allowed** (each measured before the case's event year, so no post-event information):
+- **Permit history,** 2012 onward: before-window rate, before-window trend, permit volatility, and the share of permits in 5+ unit buildings in the before window.
+- **Size and form:** log population (pre-event homes rule), 2010 census density, metro, and Census division.
+- **Census traits from the TOD list** (`reference/tod_allvars_variable_map.csv`, groups housing stock, housing costs, people and households, commuting).
+  - Each comes from the ACS 5-year release ending the year before the case's event year, at place or county-subdivision level.
+  - Built-year traits are limited to pre-2010 categories.
+  - Left out: traits needing tract geometry or TOD-only inputs (t-, n- and l03 variables).
+  - These are fetched from the Census API (public domain; key kept out of every file) for releases 2013–2023, with the same Connecticut join.
+- **Missing traits:** the model's own handling (gradient boosting handles missing values). No median filling.
+
+**Steps.**
+1. **Split.** Never-repealed places under the strict exclusion, shock-screened and with complete permit years, are split 50/50 at random by place (seed 20261104) into halves A and B. Each place gets pretend event years drawn from 2016–2024, with the same stratified draw as the bake-off.
+2. **Fit on A.** The target is each place's change in permit rate (after-window mean minus before-window mean, per 1,000 pre-event homes) with no repeal.
+   - Models: gradient boosting (HistGradientBoosting, sklearn, BSD; depth 2, learning rate 0.05, up to 300 iterations with early stopping, at least 5 per leaf) and lasso.
+   - The model is chosen by 5-fold cross-validation inside A (seed 20261104), on mean absolute error.
+3. **Check on B.** The score's mean absolute error on B is compared with a plain average from A. If the score is not at least 5% better, prognostic matching is dropped. That result is reported, and steps 4–6 are not run.
+4. **Fake repeals in B.**
+   - **Prognostic matching (P):** the method-2 ladder (corrected), then the 10 nearest on the prognostic score (absolute difference), adding log population at step 5. The heat handling is the corrected method-2 pick.
+   - **Today's matching:** the corrected method-2 pick, with the same steps.
+   - **Pools for both:** drawn from B only.
+   - **Scoring:** as the bake-off (200 sets of 76, random-effects scoring, MAE and 90% coverage with its SE).
+5. **Pick.** P replaces today's matching only if its MAE is more than 5% lower and its coverage is 85–95%. A tie keeps today's matching. The pick is committed before any real-repeal output, with the same code gate as stage 1.
+6. **Real run.** Apply the winner to the 76 real places, with pools from all eligible never-repealed places and the half-A model. Then the corrected weight test, and the Wisconsin figure, both as locked.
+
+**Reported:** the traits used, the model chosen, B-half accuracy, both candidates' fake-repeal scores, and the real result beside the method-2 corrected result and the current lines.
