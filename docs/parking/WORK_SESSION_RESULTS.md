@@ -748,3 +748,4 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 
   - Wisconsin's eligible homes are about 37% in places under 10,000, 18% in places of 250,000+, and 12.5% in the 50,000–250,000 band. So the target-state mix leans on the bands that fall.
   - Random-effects, equal and square-root weights lean on the 30 mid-size places, which rise.
+- **Double-dip, named.** Crowding, density, town age and the pre-repeal permit rate were added to the method-2 matching partly because the effect-size trait ranking flagged them. That ranking used the same 76 effects, so this is a mild double-dip. In principle, matching should use traits that predict building without repeal, ranked on comparison places only. The target-state mix should use traits that change the size of the effect. This was not done here and is noted as context.
