@@ -761,8 +761,14 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 
 **3c. Amendment: density, crowding and the shared match (Ryan 19:17 UTC: "include density as a matching trait"; the tutor's spec; written before any method-2 run).**
 - **Matching traits, all measured before every repeal** (all repeals are 2016 or later):
-  - **crowding:** share of occupied homes with more than 1 person per room, ACS 2011–2015 5-year B25014, for places and county subdivisions. It is fetched from the Census API (public domain) into `data/raw/parking_acs_2015_crowding/`, with the key kept out of every file.
-  - **density:** log of housing units per square mile of land, 2010 census (Gazetteer HU10 ÷ ALAND_SQMI);
+  - **crowding:** share of occupied homes with more than 1 person per room, ACS 5-year B25014, for places and county subdivisions.
+    - Place-specific vintage: each repeal (or fake-repeal) case uses the latest 5-year file that ends before its event year. A 2016 repeal uses 2011–2015; a 2024 repeal uses 2019–2023.
+    - Its comparison candidates are measured on the same vintage.
+    - Vintages 2011–2015 through 2019–2023 are fetched from the Census API (public domain) into `data/raw/parking_acs_crowding/`, with the key kept out of every file.
+  - **density:** log of housing units per square mile of land, 2010 census (Gazetteer HU10 ÷ ALAND_SQMI).
+    - No repeal in the 76 is before 2016 (earliest 2016), so the 2010 census is before every repeal.
+    - One fixed census count is used for all, rather than a per-case ACS count, because it has no sampling error in small places.
+    - Density changes slowly, so a 2010 count ranks places much as a later one would.
   - **town age:** item 3's share of homes built 1990–2009 among homes built before 2010. This is kept instead of "built since 2000", because the latter includes homes built after some repeals (audit review 1).
   - **pre-repeal permitting:** before-window rate and trend.
 - **Shared match, held fixed across candidates.** Crowding, density and town age are used in every candidate. Only the heat handling differs, so the bake-off isolates it:
