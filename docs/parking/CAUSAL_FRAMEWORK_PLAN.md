@@ -918,7 +918,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
    - **Today's matching:** the corrected method-2 pick, with the same steps.
    - **Pools for both:** drawn from B only.
    - **Scoring:** as the bake-off (200 sets of 76, random-effects scoring, MAE and 90% coverage with its SE).
-5. **Pick.** P replaces today's matching only if its MAE is more than 5% lower and its coverage is 85–95%. A tie keeps today's matching. The pick is committed before any real-repeal output, with the same code gate as stage 1.
+5. **Pick (audit clearance 21:10 UTC).** The pick uses the bake-off in B with the A model, as locked. The mirror check (B model on A) is reported only. If the two halves choose different model types, both are reported. P replaces today's matching only if its MAE is more than 5% lower and its coverage is 85–95%. A tie keeps today's matching. The pick is committed before any real-repeal output, with the same code gate as stage 1.
 - **Cross-fitting (audit, required):** a second model is fitted on B, chosen and checked the same way with A as its check half. A places are scored with the B model, B places with the A model, and real repeal places with the average of the two models. Every place's score therefore comes from a model that never saw its outcome.
 6. **Real run.** Apply the winner to all 76 real places, San Francisco included, with pools from all eligible never-repealed places, scored as above. Report the result under each weighting.
 
