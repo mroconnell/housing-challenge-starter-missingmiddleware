@@ -842,3 +842,29 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - B+D (candidate E) replaces D only if, on the same fake cases under random-effects scoring, its MAE is more than 5% lower than D's and its coverage is between 85% and 95%. Otherwise D stands.
   - 5% is the bake-off's own spread: all four candidates sat within about 0.02 MAE, roughly 2%, in every version.
   - C is out (Ryan).
+
+## Method 2 correction and city-size weighting test (DRAFT LOCK 2026-11-04, before any corrected run; awaits Ryan's go and the audit)
+
+**Origin.** Both pieces are post hoc. They follow the method-2 results and the audit's checks (Connecticut matching; Wisconsin cells on 2,668,677). Nothing runs until Ryan says go.
+
+**1. Corrected main (data fixes only).**
+- **Connecticut:** units are joined on state + county-subdivision code across all inputs (2010 Gazetteer, ACS 2013–2023 crowding, ACS 2020–2024). That code did not change when Connecticut moved from counties to planning regions in 2022; only the county part did.
+- **Before the rerun,** a missing-share table by trait and state is committed (`reference/parking_method2_missing_by_state.csv`). It is there to catch splits like Connecticut's, or Alaska's 2019 borough change.
+- **Step 5 reading:** step 5 is "nearest on the measures plus log population", so candidates with no population are excluded there.
+- **Unchanged:** the missing-trait rule stays as locked.
+- **Wisconsin cells:** built from the tool's 1,925 areas (2,668,677 eligible homes). Metro means the county's CBSA is a metropolitan statistical area (LSAD M1).
+- **Same rules otherwise:** stages 1 and 2 are rerun with the same seed. The choice is D or B+D, D wins ties (5% margin), C stays out. The weight test and its tie rule are as locked.
+- **Reported:** original and corrected results side by side. The Wisconsin-cells correction alone gives −10,541 homes (−0.79, range −2.80 to +0.40), beside the original −7,012. Effective N is 19.6 vs 30.9.
+
+**2. Sensitivity (labelled, not the main).** Candidates missing any trait the target has are ineligible.
+
+**3. City-size weighting test.** Run on corrected data only, after the corrected weight test. Its results are not seen before this lock is committed.
+- **Versions of the target-state mix:**
+  - **(i) 4 bands:** under 10,000; 10,000–50,000; 50,000–250,000; 250,000+. This is the main, as locked.
+  - **(ii) 3 bands:** cuts at the population terciles of the 76 repeal places.
+  - **(iii) Smooth line (an MRP-style version):** each place's effect is fitted with a weighted least-squares line on log population and metro, weighted by homes × after-years. Each target-state place gets a predicted effect, and those predictions are summed using the target state's eligible homes.
+  - **(iv) Crowding groups:** three groups at the terciles of the 76 places' pre-repeal crowding, crossed with metro.
+- **Score:** the leave-one-state-out test, as locked: 10 states, mean absolute error, each state counted equally.
+- **Rule:** keep (i) unless another version's error is more than 10% lower and its paired bootstrap range over states (2,000 draws, seed 20261104) excludes 0.
+- **Expected:** a tie, given 10 noisy states. The spread across the four is reported either way.
+- **Note on the bands:** the mix's negative lean comes from bands that each cannot be told apart from 0.
