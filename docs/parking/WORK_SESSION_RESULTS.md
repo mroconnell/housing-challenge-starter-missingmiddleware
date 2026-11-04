@@ -661,7 +661,7 @@ Script `scripts/run_parking_t45_t46.py`, committed before its first run (20cef90
 
 ## Test 47: big-city vs same-state comparison places (2026-11-04; lock 4446b84a, script committed before its run)
 
-- **Targets:** 71 never-repealed US places with 250,000+ people (72 eligible; 1 had an empty pool), 5 fake repeal years each (2017–2021), 355 target-years. True effect 0. Units: permits per 1,000 existing homes a year.
+- **Targets:** 71 never-repealed US places with 250,000+ people (72 locked; Nashville-Davidson dropped because the current rule found no pool even at the division and 1/3–3×), 5 fake repeal years each (2017–2021), 355 target-years. True effect 0. Units: permits per 1,000 existing homes a year.
 
 | Score (big-city minus current; below 0 favours big-city) | Equal weight | Home-weighted |
 | --- | --- | --- |
@@ -670,4 +670,6 @@ Script `scripts/run_parking_t45_t46.py`, committed before its first run (20cef90
 
 - **Locked verdict: no clear difference**, under both weightings. Big-city pools track slightly better (fit errors about 4–7% lower, clear only with home weights), but fake-repeal estimates are no closer to 0. The spread of fake effects is about the same (SD 5.23 current, 5.16 big-city).
 - **Follow-up not run:** the locked rerun of the 76 with big-city pools needed a "better" verdict.
+- **Pool rule vs Ryan's ask:** Ryan asked for no-record pools; the lock used the main list, because a no-record big-city pool would be too small. Test 45 covers the no-record question.
+- **Post hoc reading (after the result, not locked):** only 33 of 71 targets had same-state current pools; 38 already used the Census division. For same-state targets the big-city rule did better (|fake effect| −0.44, RMSE −0.25); for division targets, |fake effect| +0.14 and RMSE −0.08. Pool sizes differ (median 7 current vs 68 big-city), so part of the lower RMSE may come from pool size. This does not change the verdict; a new locked test with a pool-size control would be Ryan's call.
 - **Reading:** Ryan's idea gets weak support on fit, but not enough to change how the main estimate is built. Big cities' permits swing a lot either way, about ±5 per 1,000 homes on a fake repeal, so no comparison rule removes much of that noise.
