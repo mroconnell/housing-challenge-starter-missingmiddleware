@@ -909,7 +909,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 
 **Steps.**
 1. **Split.** Never-repealed places under the strict exclusion, shock-screened and with complete permit years, are split 50/50 at random by place (seed 20261104) into halves A and B. Each place gets pretend event years drawn from 2016–2024, with the same stratified draw as the bake-off.
-2. **Fit on A.** The target is each place's permit rate in the after window with no repeal: permits per 1,000 pre-event existing homes a year. This makes the score a prognostic score, the predicted outcome without treatment.
+2. **Fit on A (audit fix, 21:45 UTC):** all event years per place, rather than one stratified draw; CV grouped by place; the B check averaged over rows. Lasso one-hots division, and its inner CV is grouped by place. Built-year traits are stricter than this lock: pre-2000 bands only. The target is each place's permit rate in the after window with no repeal: permits per 1,000 pre-event existing homes a year. This makes the score a prognostic score, the predicted outcome without treatment.
    - Models: gradient boosting (HistGradientBoosting, sklearn, BSD; depth 2, learning rate 0.05, up to 300 iterations with early stopping, at least 5 per leaf) and lasso.
    - The model is chosen by 5-fold cross-validation inside A (seed 20261104), on mean absolute error.
 3. **Check on B.** The score's mean absolute error on B is compared with a plain average from A. If the score is not at least 5% better, prognostic matching is dropped. That result is reported, and steps 4–6 are not run.

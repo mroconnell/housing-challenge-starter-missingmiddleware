@@ -74,7 +74,22 @@ def target(D, keys, ey, post) -> np.ndarray:
 
 
 # ---------------------------------------------------------------- models --------------------------------------------
-def fit(kind, X, y, seed):
+DIV_IDX: int | None = None  # column index of "division" (set from the feature columns)
+
+
+def _lasso_X(X, med):
+    """Missing indicator + training median; division one-hot (it is a category, not a line)."""
+    Z = np.where(np.isnan(X), med, X)
+    parts = [Z, np.isnan(X).astype(float)]
+    if DIV_IDX is not None:
+        d = X[:, DIV_IDX]
+        parts[0] = np.delete(Z, DIV_IDX, axis=1)
+        parts[1] = np.delete(parts[1], DIV_IDX, axis=1)
+        parts.append(np.column_stack([(d == c).astype(float) for c in range(9)]))
+    return np.column_stack(parts)
+
+
+def fit(kind, X, y, seed, groups=None):
     from sklearn.ensemble import HistGradientBoostingRegressor
     from sklearn.linear_model import LassoCV
     from sklearn.pipeline import make_pipeline
@@ -83,16 +98,18 @@ def fit(kind, X, y, seed):
         mdl = HistGradientBoostingRegressor(max_depth=2, learning_rate=0.05, max_iter=300, early_stopping=True,
                                             validation_fraction=0.2, n_iter_no_change=20, min_samples_leaf=5, random_state=seed)
         return mdl.fit(X, y)
+    from sklearn.model_selection import GroupKFold
     med = np.nanmedian(X, axis=0)
-    Xi = np.column_stack([np.where(np.isnan(X), med, X), np.isnan(X).astype(float)])
-    mdl = make_pipeline(StandardScaler(), LassoCV(cv=5, random_state=seed, max_iter=20000)).fit(Xi, y)
+    Xi = _lasso_X(X, med)
+    cv = list(GroupKFold(n_splits=5).split(Xi, y, groups)) if groups is not None else 5
+    mdl = make_pipeline(StandardScaler(), LassoCV(cv=cv, random_state=seed, max_iter=20000)).fit(Xi, y)
     return ("lasso", mdl, med)
 
 
 def predict(model, X):
     if isinstance(model, tuple):
         _, mdl, med = model
-        return mdl.predict(np.column_stack([np.where(np.isnan(X), med, X), np.isnan(X).astype(float)]))
+        return mdl.predict(_lasso_X(X, med))
     return model.predict(X)
 
 
@@ -102,7 +119,7 @@ def choose(X, y, groups, seed) -> tuple[str, dict]:
     for kind in ("gradient boosting", "lasso"):
         e = []
         for tr, te in GroupKFold(n_splits=5).split(X, y, groups):
-            mdl = fit(kind, X[tr], y[tr], seed)
+            mdl = fit(kind, X[tr], y[tr], seed, groups[tr])
             e.append(np.mean(np.abs(predict(mdl, X[te]) - y[te])))
         err[kind] = float(np.mean(e))
     return min(err, key=err.get), err
@@ -219,6 +236,8 @@ def training_rows(D, F, keys):
         rows_y.append(y[okr])
         groups += [k for k, o in zip(ks, okr) if o]
         idx += [(k, ey, tuple(pre)) for k, o in zip(ks, okr) if o]
+    global DIV_IDX
+    DIV_IDX = list(X.columns).index("division")
     return np.vstack(rows_X), np.concatenate(rows_y), np.array(groups), idx, list(X.columns)
 
 
@@ -228,7 +247,7 @@ def stage1():
     XB, yB, gB, iB, _ = training_rows(D, F, B)
     kindA, errA = choose(XA, yA, gA, SEED)
     kindB, errB = choose(XB, yB, gB, SEED)
-    mA, mB = fit(kindA, XA, yA, SEED), fit(kindB, XB, yB, SEED)
+    mA, mB = fit(kindA, XA, yA, SEED, gA), fit(kindB, XB, yB, SEED, gB)
     check = dict(model_A=kindA, model_B=kindB, cv_A=errA, cv_B=errB,
                  mae_A_on_B=float(np.mean(np.abs(predict(mA, XB) - yB))), mae_mean_A_on_B=float(np.mean(np.abs(yA.mean() - yB))),
                  mae_B_on_A=float(np.mean(np.abs(predict(mB, XA) - yA))), mae_mean_B_on_A=float(np.mean(np.abs(yB.mean() - yA))),
@@ -307,7 +326,7 @@ def stage2():
     XA, yA, gA, _, _ = training_rows(D, F, A)
     XB, yB, gB, _, _ = training_rows(D, F, B)
     ck = pd.read_csv(REFERENCE / "parking_method3_score_check.csv").iloc[0]
-    mA, mB = fit(ck["model_A"], XA, yA, SEED), fit(ck["model_B"], XB, yB, SEED)
+    mA, mB = fit(ck["model_A"], XA, yA, SEED, gA), fit(ck["model_B"], XB, yB, SEED, gB)
     G.update(D=D, today=today, B=B, all_allowed=A | B)
     # cross-fitted scores: A places by the B model, B places by the A model, real places by the average
     scores = {}
@@ -346,13 +365,17 @@ def stage2():
     states = list(states[states >= 3].index)
     okr = np.isfinite(y)
     errs = {k: [] for k in m.WEIGHTS}
+    errs_eq = {k: [] for k in m.WEIGHTS}
     for s in states:
         hold = (real["state"] == s).values & okr
         tr = (~(real["state"] == s).values) & okr
         truth = float(np.average(y[hold], weights=ev["base"].values[hold]))
+        truth_eq = float(np.mean(y[hold]))
         hc = ev[hold].groupby(["metro", "band"])["base"].sum()
         for kind in m.WEIGHTS:
-            errs[kind].append(abs(m.weighted_avg(kind, y[tr], ev[tr].reset_index(drop=True), hc) - truth))
+            pred = m.weighted_avg(kind, y[tr], ev[tr].reset_index(drop=True), hc)
+            errs[kind].append(abs(pred - truth))
+            errs_eq[kind].append(abs(pred - truth_eq))
     E = pd.DataFrame(errs, index=states)
     mae = E.mean()
     best = mae.idxmin()
@@ -362,6 +385,9 @@ def stage2():
     winner = "target-state mix" if (mae["target-state mix"] <= 1.10 * mae[best] or lo <= 0 <= hi) else best
     E.loc["mean absolute error"] = mae
     E.round(4).to_csv(REFERENCE / "parking_method3_weight_test.csv")
+    Eq = pd.DataFrame(errs_eq, index=states)
+    Eq.loc["mean absolute error"] = Eq.mean()
+    Eq.round(4).to_csv(REFERENCE / "parking_method3_weight_test_equal_truth.csv")
     pd.DataFrame([dict(winner=winner, lowest=best, p05=lo, p95=hi)]).to_csv(REFERENCE / "parking_method3_weight_pick.csv", index=False)
     # size-band check on the picked effects (reuses the correction lock's size test)
     st.run(y, "parking_method3_size_test")
