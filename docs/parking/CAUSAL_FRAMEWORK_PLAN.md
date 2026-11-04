@@ -745,11 +745,16 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - Never-repealed places under the strict exclusion, shock-screened, with complete permit years.
   - Each gets a pretend repeal year. Cases are drawn to match the 76's mix of event years × size bands (item 1b's bands). They also get the 76's after-year counts.
 - **Sets:** 200 fake sets of 76 cases each, drawn with replacement within event-year × size-band strata. Seed 20261104.
+  - The number of distinct places in each stratum is reported.
+  - If a stratum has fewer than 5 distinct strict-pool places (likely 250,000+), that stratum alone draws from the main exclusion list instead. This is reported.
 - **Scores per candidate:**
   - **MAE:** mean absolute set average (true effect 0).
   - **Coverage:** the share of sets whose 90% place bootstrap (500 draws per set) includes 0.
-  - **Weighting:** square-root-of-homes × after-years (the middle option). Home and equal weights are reported beside.
+  - **Weighting:** Ryan's chosen main weight (item 1). The other weights are reported beside it.
+  - **Coverage error:** each candidate's coverage is reported with its simulation standard error, √(c(1−c)/200), about 2 points.
   - Items 2, 4, 5 and 6 apply to every candidate.
+- **Backtest for C:** the synthetic control is refitted on years −5 to −3 only.
+- **Limit, stated now:** fake cases have a true effect of 0 and did not choose to repeal, so the bake-off cannot detect bias from cities that repeal just before a boom.
 - **Pick:** the lowest MAE among candidates with coverage 85–95%. If none qualifies, the candidate whose coverage is closest to 90%, ties going to the lower MAE.
   - The pick and every candidate's scores are committed before any real-repeal method-2 output is computed. The run script has two stages; stage 2 refuses to start until the pick file is committed.
 - **Then:** one real run with the picked candidate, inside the rest of method 2. The other candidates' real results are shown beside it, labelled "not picked".
