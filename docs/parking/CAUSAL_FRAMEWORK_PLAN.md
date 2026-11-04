@@ -867,6 +867,11 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **Score:** the leave-one-state-out test, as locked: 10 states, mean absolute error, each state counted equally.
 - **Rule:** keep (i) unless another version's error is more than 10% lower and its paired bootstrap range over states (2,000 draws, seed 20261104) excludes 0.
 - **Expected:** a tie, given 10 noisy states. The spread across the four is reported either way.
+- **If the corrected weight test does not pick the mix,** the size test still runs, as evidence only, and reports its spread. The main weight stays whatever the corrected weight test picks.
+- **Smooth line (iii):** predictions are held at the edge of the 76 places' observed log-population range. Many Wisconsin areas are smaller than the smallest repeal place, so they get the prediction at the smallest observed size rather than an extrapolation.
+- **Crowding (iv):** Wisconsin's areas use ACS 2019–2023 (the latest release ending before the 2027 forecast start). The repeal places use their own pre-repeal vintage (item 3c).
+- **Cell merging:** the merge rule (fewer than 2 places in a cell) applies to the 3-band and crowding versions as well.
+- **Terciles:** cut points use all 76 places, including the held-out state's. That shares cut points, not outcomes, so it is acceptable.
 - **Note on the bands:** the mix's negative lean comes from bands that each cannot be told apart from 0.
 - **Order:**
   1. This lock, including the size test, is committed.
