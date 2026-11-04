@@ -284,7 +284,11 @@ def case_effect(D, case, cand, opt) -> dict:
         e = synth(D, key, pl, post, s["pool"], s["h"], opt["wins"], scale)
         return dict(effect=e, step=s["step"], n_pool=len(s["pool"]), missing_share=s["missing_share"], cov=s["cov"])
     c2 = "B" if cand == "C" else cand
-    if c2 == "D":
+    if c2 == "E":  # post hoc side check (Ryan 19:46 UTC): B's pace matching with D's 10-year before window
+        pl = long_pre(ey, pre, case.get("trimmed", False))
+        s = select_pool(D, key, ey, pl, post, "B", opt)
+        e = did(D, key, pl, post, s["pool"], s["h"], opt["wins"], scale) if len(s["pool"]) >= MIN_POOL else np.nan
+    elif c2 == "D":
         pl = long_pre(ey, pre, case.get("trimmed", False))
         s = select_pool(D, key, ey, pl, post, "A", opt)
         e = did(D, key, pl, post, s["pool"], s["h"], opt["wins"], scale) if len(s["pool"]) >= MIN_POOL else np.nan
