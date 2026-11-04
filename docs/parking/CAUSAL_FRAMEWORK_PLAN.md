@@ -698,6 +698,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 **Places.** The 76 repeal places in `reference/parking_expanded_effects.csv`, each with its own windows (5 before, up to 3 after) and its own script's special handling (South Bend combined area, trimmed years, 2010 homes for pre-2015 repeals).
 
 **1. Weights (Ryan names the main one before the run).**
+- **Ryan's main-weight choice:** OPEN (to be filled with his pick and its time, then audited, before any run). Hold lifted by Ryan 19:21 UTC ("let's go!").
 - **(a) Random effects (proposed main).** Weight = 1 / (vᵢ + τ²).
   - vᵢ: the variance of the fake-repeal effects among place i's stand-ins in the full placebo run (`reference/parking_placebo_full_places.csv`), i.e. how noisy a place like i is.
   - τ²: the DerSimonian–Laird between-place spread.
