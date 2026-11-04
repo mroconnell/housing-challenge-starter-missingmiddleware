@@ -42,6 +42,12 @@ def main() -> None:
     pick = str(pd.read_csv(REFERENCE / "parking_method2_corrected_pick.csv")["candidate"].iloc[0])
     P = pd.read_csv(REFERENCE / "parking_method2_corrected_places.csv")
     P = P[P["variant"] == f"method 2, {pick}"].reset_index(drop=True)
+    run(P["effect"].values, "parking_method2_size_test")
+
+
+def run(y, out: str) -> None:
+    """Size test on the 76 effects y (corrected data); writes reference/{out}.csv, {out}_by_state.csv, {out}_wi.csv."""
+    m.SUF, m.CORRECTED = "_corrected", True
     real = pd.read_csv(REFERENCE / "parking_expanded_effects.csv")
     real = real[(real["status"] == "included") & (real["outcome"] == "all")].dropna(subset=["effect"]).reset_index(drop=True)
     D = m.Data()
@@ -55,7 +61,6 @@ def main() -> None:
     t_cr = np.nanquantile(crowd, [1 / 3, 2 / 3])
     bins = {"(i) 4 bands": m.band_of(pop), "(ii) 3 bands at terciles": np.digitize(pop, t_pop),
             "(iv) crowding terciles": np.digitize(np.nan_to_num(crowd, nan=np.nanmedian(crowd)), t_cr)}
-    y = P["effect"].values
     ok = np.isfinite(y)
     states = real["state"].value_counts()
     states = list(states[states >= 3].index)
@@ -89,8 +94,8 @@ def main() -> None:
             winner = v
     R = pd.DataFrame(rows).assign(winner=winner)
     E.loc["mean absolute error"] = mae
-    E.round(4).to_csv(REFERENCE / "parking_method2_size_test_by_state.csv")
-    R.round(4).to_csv(REFERENCE / "parking_method2_size_test.csv", index=False)
+    E.round(4).to_csv(REFERENCE / f"{out}_by_state.csv")
+    R.round(4).to_csv(REFERENCE / f"{out}.csv", index=False)
     # Wisconsin figure under each version (tool areas, 2,668,677 eligible homes)
     a = pd.read_csv(REFERENCE / "parking_model_by_area.csv", dtype={"county_id": str})
     cells4 = m.tool_cells_wi()
@@ -122,7 +127,7 @@ def main() -> None:
             cells = pd.DataFrame({"metro": a_metro, "band": ab, "h": a_h}).groupby(["metro", "band"])["h"].sum()
             val = cells_mean(yw, evo, bins[v][ok], cells)
         wi.append(dict(version=v, rate=val, wi_homes=val * m.WI_K))
-    pd.DataFrame(wi).round(4).to_csv(REFERENCE / "parking_method2_size_test_wi.csv", index=False)
+    pd.DataFrame(wi).round(4).to_csv(REFERENCE / f"{out}_wi.csv", index=False)
     pd.set_option("display.width", 200)
     print(E.round(3).to_string())
     print(R.round(3).to_string(index=False))
