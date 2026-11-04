@@ -68,7 +68,9 @@ def tool_cells_wi() -> pd.Series:
     lsad = read_shapefile_attributes(RAW / "census_cbsa_cb_2024" / "cb_2024_us_cbsa_20m.zip").set_index("CBSAFP")["LSAD"]
     a["metro"] = a["county_id"].map(cb).map(lsad).eq("M1").astype(float)
     a["band"] = band_of(pd.to_numeric(a["population"]).fillna(0))
-    return a.groupby(["metro", "band"])["eligible_homes"].sum()
+    cells = a.groupby(["metro", "band"])["eligible_homes"].sum()
+    assert abs(cells.sum() - 2_668_677) < 1, cells.sum()
+    return cells
 def gaz(path: Path, name: str, lev: str) -> pd.DataFrame:
     with zipfile.ZipFile(path) as z:
         g = pd.read_csv(z.open(name), sep="\t", dtype={"GEOID": str}, encoding="latin-1")
@@ -679,20 +681,33 @@ def stage2(D: Data) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--stage", type=int, required=True, choices=(1, 2))
+    ap.add_argument("--stage", type=int, choices=(1, 2))
     ap.add_argument("--corrected", action="store_true", help="data fixes (Method 2 correction lock)")
+    ap.add_argument("--missing-only", action="store_true", help="with --corrected: write the missing-data table and stop")
     a = ap.parse_args()
     global SUF, CORRECTED
     if a.corrected:
-        if "Ryan's go for the corrected run" not in LOCK.read_text():
-            raise SystemExit("the correction lock does not record Ryan's go")
+        import re
+        if not re.search(r"^- \*\*Ryan's go for the corrected run \(\d{2}:\d{2} UTC\):\*\* \S", LOCK.read_text(), re.M):
+            raise SystemExit("the correction lock does not record Ryan's go (a line '- **Ryan's go for the corrected run (HH:MM UTC):** <his words>')")
         SUF, CORRECTED = "_corrected", True
+    if a.stage is None and not a.missing_only:
+        raise SystemExit("give --stage 1 or 2 (or --corrected --missing-only)")
     D = Data()
-    if CORRECTED and a.stage == 1:
+    missing = REFERENCE / "parking_method2_missing_by_state.csv"
+    if CORRECTED and a.missing_only:
         keys = [k for k in D.homes.index if k not in D.strict_exc]
-        t = pd.DataFrame({"crowding_2018": D.crowd_for(2019).reindex(keys).isna(), "density": D.density.reindex(keys).isna(),
-                          "age": D.age.reindex(keys).isna(), "population": D.popn.reindex(keys).isna(), "state": D.state.reindex(keys)})
-        t.groupby("state").mean().round(4).assign(units=t.groupby("state").size()).to_csv(REFERENCE / "parking_method2_missing_by_state.csv")
+        cols = {f"crowding_{y - 4}_{y}": D.crowd.get(y, pd.Series(dtype=float)).reindex(keys).isna() for y in sorted(D.crowd)}
+        t = pd.DataFrame({**cols, "density": D.density.reindex(keys).isna(), "age": D.age.reindex(keys).isna(),
+                          "population": D.popn.reindex(keys).isna(), "state": D.state.reindex(keys)})
+        t.groupby("state").mean().round(4).assign(units=t.groupby("state").size()).to_csv(missing)
+        print("wrote", missing, "- commit and check it before stage 1")
+        return
+    if CORRECTED:
+        r = subprocess.run(["git", "ls-files", "--error-unmatch", str(missing)], cwd=ROOT, capture_output=True)
+        dq = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", str(missing)], cwd=ROOT)
+        if r.returncode or dq.returncode:
+            raise SystemExit("commit reference/parking_method2_missing_by_state.csv (run --missing-only) before the corrected run")
     print("strict exclusions", len(D.strict_exc), "| shock-flagged", len(D.shock), flush=True)
     stage1(D) if a.stage == 1 else stage2(D)
 
