@@ -759,15 +759,21 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - The pick and every candidate's scores are committed before any real-repeal method-2 output is computed. The run script has two stages; stage 2 refuses to start until the pick file is committed.
 - **Then:** one real run with the picked candidate, inside the rest of method 2. The other candidates' real results are shown beside it, labelled "not picked".
 
-**3c. Amendment, density and crowding (Ryan 19:17 UTC: "include density as a matching trait"; written before any method-2 run).**
-- **Two measures are added to the item 3 distance,** both measured before every repeal (all repeals are 2016 or later):
-  - **density:** log of housing units per square mile of land, 2010 census (Gazetteer HU10 ÷ ALAND_SQMI);
+**3c. Amendment: density, crowding and the shared match (Ryan 19:17 UTC: "include density as a matching trait"; the tutor's spec; written before any method-2 run).**
+- **Matching traits, all measured before every repeal** (all repeals are 2016 or later):
   - **crowding:** share of occupied homes with more than 1 person per room, ACS 2011–2015 5-year B25014, for places and county subdivisions. It is fetched from the Census API (public domain) into `data/raw/parking_acs_2015_crowding/`, with the key kept out of every file.
-- **Pre-repeal permitting** is already in the distance (before-window rate and trend), as Ryan asked.
-- **One combined similarity score, not bins.** The distance for B is Euclidean on z-scores of 5 measures, each counted equally: before-window rate, before-window trend, town age, log density and crowding. Step 5 adds log population as a sixth.
-- **C's donors** are the 50 nearest on the same 5-measure score, replacing nearest by population. The synthetic control weights are still fitted to the before-window yearly rates only.
-- **Missing values:** a candidate missing density or crowding takes the national median for that measure, and the count of such candidates is reported.
-- **A and D** do not use the distance and are unchanged.
+  - **density:** log of housing units per square mile of land, 2010 census (Gazetteer HU10 ÷ ALAND_SQMI);
+  - **town age:** item 3's share of homes built 1990–2009 among homes built before 2010. This is kept instead of "built since 2000", because the latter includes homes built after some repeals (audit review 1).
+  - **pre-repeal permitting:** before-window rate and trend.
+- **Shared match, held fixed across candidates.** Crowding, density and town age are used in every candidate. Only the heat handling differs, so the bake-off isolates it:
+  - **A:** the item 2 ladder; among the candidates at the chosen step, the nearest 10 on crowding, density and town age.
+  - **B:** as A, plus before-window rate and trend in the distance.
+  - **C:** synthetic control for targets with 250,000+ people, using B's distance for the 50 donors; B for the rest.
+  - **D:** A's pool, with the 10-year before baseline.
+  - This replaces the A and D definitions in item 3b. The scoring and pick rule are unchanged.
+- **Distance:** Mahalanobis on standardised traits. The covariance comes from all eligible candidates nationwide for the same window. It is computed inside the population window at each ladder step, with the item 2 widening (state → division → nation). Step 5 adds log population.
+- **Ties and missing values:** ties as in item 3. A candidate missing a trait takes the national median for it, and the count is reported.
+- **Use:** these are matching traits only. No trait is used to size Wisconsin.
 
 **4. Shock rule (objective, outside facts only; applied to comparison places).** A candidate is left out if either:
 - **(a)** its housing units fell 10% or more between the 2010 census (Gazetteer HU10) and ACS 2020–2024 (B25002), and it had 1,000+ homes in 2010. The size guard keeps survey noise in tiny places from triggering the rule. This catches places destroyed or largely cleared, such as Paradise, CA (wildfire, 2018).
