@@ -691,7 +691,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 
 ## Method 2: a second way to build the parking estimate (DRAFT LOCK 2026-11-04, before any count; Ryan 18:06–18:15 UTC)
 
-**Status: draft.** It runs only after the audit reviews this lock and Ryan names the main weighting (item 1). **Running count: 48** (one locked run, everything reported). Evidence beside the current lines. Any tool change needs Ryan's OK, and replacing a line also needs the 25% replacement rule.
+**Status: draft, revised after audit review 1 (18:18 UTC).** Required before the first run: (i) the audit re-checks this lock; (ii) Ryan's choice of the main weighting is written into this section with its time and committed. The run script refuses to start unless that line exists. **Running count: 48** (one locked run, everything reported). Evidence beside the current lines. Any tool change needs Ryan's OK, and replacing a line also needs the 25% replacement rule.
 
 **Why.** Ryan wants to keep the big repeal cities (Austin, Minneapolis, San Francisco) in, compare them fairly, keep reform cities out of the comparison groups, compare like with like (hot with hot, young with young), and weight places more sensibly. These choices are made now, before any method-2 number is seen. The main results (−1.14, test 45) are already known; this is stated plainly.
 
@@ -702,10 +702,14 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   - vᵢ: the variance of the fake-repeal effects among place i's stand-ins in the full placebo run (`reference/parking_placebo_full_places.csv`), i.e. how noisy a place like i is.
   - τ²: the DerSimonian–Laird between-place spread.
   - Big, steady places count more than small, noisy ones, but no place dominates.
+  - τ² is re-estimated in each bootstrap draw.
+  - Meaning: random-effects weights estimate "the typical place", not "the average home". A place-level average differs from a home-level one when big and small places respond differently.
 - **(b) Target-state mix.** The target state is an input (default Wisconsin; any state FIPS code works, e.g. Tennessee).
-  - The target state's homes are split into cells: place size band (under 10,000; 10,000–50,000; 50,000–250,000; 250,000+ people) × metro or not. Sources are the BPS place panel and ACS 2020–2024 homes.
+  - The target state's eligible homes are split into cells: size band (under 10,000; 10,000–50,000; 50,000–250,000; 250,000+ people) × metro or not. Every permit-issuing unit in the BPS panel is banded by its own ACS 2020–2024 population. This includes Wisconsin's towns, which issue their own permits as minor civil divisions.
+    - Metro = the unit's CBSA is a metropolitan statistical area (LSAD M1 in the 2024 Census CBSA file), as in the main traits.
+    - Eligible homes = homes outside places that already removed minimums. For Wisconsin that is the 2,668,677 used for the lines; other states use the same rule from the benchmark list.
   - Within each cell, evidence places are weighted by homes. Each cell's total is set to the target state's share of homes in that cell.
-  - A cell with fewer than 2 evidence places merges with the next size band down in the same metro status. Cells with no evidence are reported, and their share is spread over the rest.
+  - A cell with fewer than 2 evidence places merges with the adjacent band toward the middle, in the same metro status: the smallest band merges up and the largest merges down. Cells still empty are reported with their share of the target state's eligible homes, and that share is spread over the rest.
   - The effective number of places, (Σw)²/Σw², is reported for each target state. Wisconsin is run, plus Tennessee as a demonstration.
 - **(c) Square root of homes × after-years.**
 - **Reference only:** (d) homes × after-years (current); (e) equal weights.
@@ -716,23 +720,26 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
   1. same state at 0.5–2× population;
   2. same Census division at 0.5–2×;
   3. nationwide at 0.5–2×;
-  4. nationwide at 1/3–3×.
-- **Big cities:** this lets them find big-city stand-ins out of state, so none drop for lack of a pool.
+  4. nationwide at 1/3–3×;
+  5. nationwide at any size, nearest 10 on the matching measures plus log population.
+- **Big cities:** this lets them find big-city stand-ins out of state, so none drop for lack of a pool. The places that reach step 5 are listed.
 - **Every candidate:** must report every year in the window, and must have homes.
 
 **3. Matching on pace and age.**
 - **Distance measure** among the candidates at the chosen step, standardised across all US places:
   - before-window permit rate;
   - before-window trend (slope of yearly rates);
-  - share of homes built 2000 or later (ACS 2020–2024 B25034).
-- **Selection:** keep the 10 nearest (all, if 5–9). A place with fewer than 5 even at step 4 is listed and left out.
+  - town age: share of homes built 1990–2009 among homes built before 2010 (ACS 2020–2024 B25034). Every repeal is 2016 or later, so this uses no homes built after any repeal.
+- **Distance:** Euclidean distance on z-scores. The z-scores are standardised over all eligible candidates nationwide for the same window.
+- **Selection:** keep the 10 nearest (all, if 5–9). Ties are broken by closeness in population, then by key. Step 5 always yields 10, so no place drops for lack of a pool.
 - **What this does:** hot markets are compared with hot markets, and young exurbs with young exurbs.
 - **Caveat stated:** matching on the before-window rate can bias a difference-in-differences when the two groups come from different populations (regression to the mean). Here it is intended: it makes the comparison places revert the same way.
 
 **4. Shock rule (objective, outside facts only; applied to comparison places).** A candidate is left out if either:
-- **(a)** its housing units fell 10% or more between the 2010 census (Gazetteer HU10) and ACS 2020–2024 (B25002). This catches places destroyed or largely cleared, such as Paradise, CA (wildfire, 2018).
+- **(a)** its housing units fell 10% or more between the 2010 census (Gazetteer HU10) and ACS 2020–2024 (B25002), and it had 1,000+ homes in 2010. The size guard keeps survey noise in tiny places from triggering the rule. This catches places destroyed or largely cleared, such as Paradise, CA (wildfire, 2018).
 - **(b)** its land area changed 25% or more between the 2010 and 2024 Gazetteers (large annexations or boundary changes).
-- **Places flagged:** the list is reported. Repeal places that meet either test are flagged, not dropped.
+- **Places flagged:** the list is reported. In the main version, repeal places that meet either test are flagged, not dropped. A second version also drops flagged repeal places.
+- **Timing caveat:** both tests span 2010 to 2020–2024, so they also cover after-years. They use housing-unit counts and boundaries, not permits.
 - **Not used:** FEMA disaster declarations, because a declaration alone covers whole counties and most places in them were not hit.
 
 **5. Winsorising.**
@@ -745,7 +752,17 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 **Report.**
 - Each weighting (a)–(e): the average, a 90% place bootstrap (2,000 draws, seed 20261104), and the Wisconsin five-year figure (× 13,343).
 - Beside it: the current main, and method 2 with each of items 2–6 switched back one at a time.
-- **Backtest:** the same pools with "after" = years −2 to −1 and "before" = −5 to −3; its 90% range should include 0.
+- **Backtest:** "before" = years −5 to −3, "after" = years −2 to −1. Pools are re-matched on years −5 to −3 only, so the backtest window plays the role of the full window. Its 90% range should include 0.
 - **Also reported:** places left out, cells merged, the shock list, and pool sizes.
+- **Percentiles:** numpy's default (linear interpolation), for winsorising and bootstrap ranges alike.
 - **Interval caveat:** test 40 found bootstrap 90% ranges cover about 84% of the time.
 - **Not in this run:** a placebo-based range for method 2, and a synthetic control for the top-weighted cities. These are offered as follow-ups.
+
+**Where the fixed numbers come from.**
+- **10 matched places:** about the median main pool size (9).
+- **At least 5:** the main rule's minimum (`cmp.MIN_CONTROLS`).
+- **10% home loss:** large enough to exceed normal survey error in places of 1,000+ homes, and small enough to catch disasters and mass clearance.
+- **25% land change:** a judgement for "large annexation", set before any list is seen.
+- **5th/95th percentiles:** Ryan's choice (winsorize, 5%).
+- **2 places a cell:** the fewest that give a within-cell average.
+- **Half floor on homes:** improvement round 1's rule.
