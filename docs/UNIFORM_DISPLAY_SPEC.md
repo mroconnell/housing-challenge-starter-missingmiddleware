@@ -63,6 +63,13 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
 - **Statewide comparison:** one headline card per reform: the 90% range, low and high ends labelled, unit, and shares
   of the baseline for each end. Below it, the side lines, one sentence each. The ADU card says its figures are ADU
   permits (second homes on single-family lots), not all homes.
+- **Where the bands come from:** the chart and Where bands are drawn from each reform's draws, so the draws must match
+  the card.
+  - TOD: its draws (`reference/tod_line_draws.csv`) are widened ×1.1827 about 10,028, so the band shows 3,922 to
+    16,335, not 4,866 to 15,361.
+  - Parking: its draws are the placebo-set averages shifted by (the real average minus the placebo median).
+  - ADU: it has no draws, so its band uses the two ends. A total across reforms (paired simulation) needs ADU draws
+    first.
 - **The yearly chart:** a shaded 90% band (the draws spread along the same yearly ramp), the grey current-law band,
   and the labelled side lines (5-year totals in the legend). No centre line. The "extra homes only" view gets the
   same.
@@ -102,6 +109,12 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
   the widened range with one line saying so. At 90% or above, show it as is.
 
 ### Results (run 2026-11-04, owner approved 16:51)
+
+- **Timing:** the lock was committed 2026-11-03 (e1994c8b), before any run. The script and the results came in one later
+  commit (e276824b, 2026-11-04).
+- **Factor:** about 1.18 (1.17 to 1.26 depending on the order places are drawn in; 1.1827 with the fixed order).
+- **Caution:** a check on the fake effects covered less (69%), so the widened range may still be narrow.
+
 
 Run as locked: `scripts/run_tod_coverage_test.py`, output `reference/tod_coverage_test.csv`. 1,000 runs per pool, 11
 places drawn per run, 2,000-draw bootstrap per run, seed 20261103. Effects are extra homes per 100 lot acres a year
@@ -147,6 +160,5 @@ within ¼ mile.
 
 ## Open questions for the owner
 
-1. **TOD coverage test.** Run it as locked above before shipping? Recommendation: yes. It takes about 20 minutes.
-2. **Approve the spec** for building? The build touches every scenario's screens; I would do the shared parts and
+1. **Approve the spec** for building? The build touches every scenario's screens; I would do the shared parts and
    TOD, and the ADU and parking threads their own numbers and side-line labels.
