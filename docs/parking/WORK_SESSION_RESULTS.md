@@ -595,7 +595,7 @@ All match the hand-read values.
   - Bandera: "none", by text.
   - Kingston: "none found", by text. The 2005 Mixed Use Overlay text (read in full from the Pace Land Use Law Center copy) gives no parking relief. The old ratio table is still unread.
   - 3 not found (Saranac Lake, Ecorse, Rogers): the old code is not online or is blocked. Leads are noted in the file: Saranac Lake's waterfront plan recommended a village-wide minimum; Rogers' downtown exemptions covered non-residential uses only, per the Parking Reform Network.
-- **The median share "on the day before repeal" is 0.53 overall but 0.12 outside Oregon** (the 5 places measured by GIS; counting Bandera's and Kingston's text "none" as 0 gives 0.05, the median of 7). Oregon's high shares come from the state transit rule (OAR 660-012-0440), which started 2022-12-31. Most of Oregon's before window ran without it.
+- **The median share "on the day before repeal" is 0.53 overall but 0.12 outside Oregon** (the 5 places measured by GIS; counting Bandera's and Kingston's text "none found" as 0 gives 0.05, the median of 7; "none found" is not a measured 0, since Kingston's ratio table is unread). Oregon's high shares come from the state transit rule (OAR 660-012-0440), which started 2022-12-31. Most of Oregon's before window ran without it.
   - **Before-window, local exemptions only:** Albany 0.04, Central Point 0, King City 0. Springfield and Beaverton have no public map of their local districts (Beaverton's Regional Center zones over-count at 0.13).
   - **Central Point and King City, two readings of the state rule:** broad 0.75 and 0.72; narrow 0 for both.
   - The grid script is `scripts/run_parking_dose_exempt_grid.py`, and the fetch script is `scripts/fetch_parking_dose_exempt.py`. Layers stay out of git; their sources and terms are listed in `docs/DATA_PROVENANCE.md`. Shipping any layer needs Ryan's OK.
@@ -604,5 +604,5 @@ All match the hand-read values.
   - South Bend's county part is not measured.
   - Nearly no layers state a licence.
 - **Effort.** About 1.9 AI-hours in all. Clerk requests would be needed to finish or firm up 9 places; none were sent.
-- **Closed 2026-11-04.** Ryan chose "Stop at the pilot" (17:12 UTC). The 15-place pilot stays as evidence only; it does not feed the lines. No more map coding and no clerk requests. The last 4 places were tried once more from public sources only.
+- **Closed 2026-11-04.** Ryan chose "Stop at the pilot" (17:12 UTC). The 15-place pilot stays as evidence only; it feeds no line and no test. No more map coding and no clerk requests. The last 4 places were tried once more from public sources only.
 - **Read.** The dose varies widely: some repeals changed rules on most apartment land, others on little. A dose-weighted test is possible once the 76 are coded, which needs Ryan's decision and some clerk requests.
