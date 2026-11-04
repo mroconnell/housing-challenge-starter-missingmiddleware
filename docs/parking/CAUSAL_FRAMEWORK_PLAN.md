@@ -856,6 +856,8 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **Same rules otherwise:** stages 1 and 2 are rerun with the same seed. The choice is D or B+D, D wins ties (5% margin), C stays out. The weight test and its tie rule are as locked.
 - **Reported:** original and corrected results side by side. The Wisconsin-cells correction alone gives −10,541 homes (−0.79, range −2.80 to +0.40), beside the original −7,012. Effective N is 19.6 vs 30.9.
 
+- **Ryan's go for the corrected run (21:02 UTC):** PROVISIONAL, by the learning thread under Ryan's 21:01 UTC delegation ("if it runs into any blockers, please have the learning thread make a provisional call so that the work can continue without me"); reason given: the audit cleared it, and it fixes a known data error.
+
 **2. Sensitivity (labelled, not the main).** Candidates missing any trait the target has are ineligible.
 
 **3. City-size weighting test.** Run on corrected data only, after the corrected weight test. Its results are not seen before this lock is committed.
