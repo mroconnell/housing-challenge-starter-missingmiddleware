@@ -695,7 +695,7 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 - **All candidates are within about 2% of each other** in every version, which is inside the noise.
 - **Ryan's calls:** C out; "either D or combo B+D"; D wins ties.
 - **B+D vs D:** B+D's MAE is 0.6% lower than D's. That is below the 5% bar, so D stands. The margin was committed at 20:01:22 UTC (9fbad5d7); the B+D scores were written at 20:06 UTC. The margin did not decide anything here.
-- **C:** under the fair rescore, C scored best (within about 2%). Ryan chose D: "I dont think C looks that much better after the rescore. It's either D or combo B+D".
+- **C:** under the fair rescore, C scored best (within about 2%). Ryan chose D: "I dont think C looks that much better after the rescore. It's either D or combo B+D" (about 20:00 UTC). That quote refers to the common-case rescore (C 0.906 vs D 0.915); the fair rescore was written at 20:06 UTC.
 
 **Main weight: target-state mix (weight test).** Leave one state out over 10 states; mean absolute error of the held-out state's mean:
 
@@ -708,7 +708,7 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 | Homes | 4.01 |
 
 - Target-state mix had the lowest error outright; the tie rule was not needed.
-- The errors (3.1 to 4.0 per state) are several times the size of any estimate, so the weightings differ by less than the noise.
+- The errors (3.1 to 4.0 permits per 1,000 existing homes a year, per state) are several times the size of any estimate, so the weightings differ by less than the noise.
 - Effective number of places: Wisconsin 30.9, Tennessee 50.9. No empty cells.
 
 **Method 2 result (D, target-state mix aimed at Wisconsin):**
