@@ -120,8 +120,11 @@ class Data:
                          gaz(RAW / "census_gazetteer_2010" / "Gaz_cousubs_national.zip", "Gaz_cousubs_national.txt", "060")])
         g24 = pd.concat([gaz(RAW / "census_gazetteer_2024" / "2024_Gaz_place_national.zip", "2024_Gaz_place_national.txt", "160"),
                          gaz(RAW / "census_gazetteer_2024" / "2024_Gaz_cousubs_national.zip", "2024_Gaz_cousubs_national.txt", "060")])
-        if CORRECTED:
+        if CORRECTED:  # drop "county subdivisions not defined" placeholders (code 00000) before the Connecticut join
+            g10 = g10[~g10.index.str.endswith("00000")]
+            g24 = g24[~g24.index.str.endswith("00000")]
             g10.index, g24.index = g10.index.map(ct_norm), g24.index.map(ct_norm)
+            g10, g24 = g10[~g10.index.duplicated()], g24[~g24.index.duplicated()]
         hu10 = ag.map(g10["HU10"].astype(float))
         al10 = ag.map(g10["ALAND"].astype(float))
         al24 = ag.map(g24["ALAND"].astype(float))
@@ -134,6 +137,7 @@ class Data:
         b.index = b["sumlevel"] + "|" + b["geoid"]
         if CORRECTED:
             b.index = b.index.map(ct_norm)
+            b = b[~b.index.duplicated()]
         pre2010 = b["B25034_E001"] - b["B25034_E002"] - b["B25034_E003"]
         self.age = ag.map(((b["B25034_E004"] + b["B25034_E005"]) / pre2010).where(pre2010 > 0))
         cr = pd.read_csv(REFERENCE / "parking_acs_crowding.csv", dtype={"acs_geoid": str})
