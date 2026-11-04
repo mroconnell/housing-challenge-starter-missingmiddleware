@@ -688,3 +688,64 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 - **Comparison.** For each target, average its paired differences over the fake years (big-city minus current). Equal weight per target, and home-weighted beside it. 90% range from 2,000 resamples of targets, seed 20261104.
 - **Pass rule.** The big-city rule is better if both mean paired differences (RMSE and |fake effect|) are below 0, with 90% ranges that exclude 0. Worse if both are above 0 with ranges excluding 0. Otherwise no clear difference.
 - **Follow-up if it is better (locked now).** Rerun the 76 with big-city pools for repeal places with 250,000+ people, keeping everything else as in the main. Report the average and its 90% place bootstrap beside the main. Sensitivity only.
+
+## Method 2: a second way to build the parking estimate (DRAFT LOCK 2026-11-04, before any count; Ryan 18:06–18:15 UTC)
+
+**Status: draft.** It runs only after the audit reviews this lock and Ryan names the main weighting (item 1). **Running count: 48** (one locked run, everything reported). Evidence beside the current lines. Any tool change needs Ryan's OK, and replacing a line also needs the 25% replacement rule.
+
+**Why.** Ryan wants to keep the big repeal cities (Austin, Minneapolis, San Francisco) in, compare them fairly, keep reform cities out of the comparison groups, compare like with like (hot with hot, young with young), and weight places more sensibly. These choices are made now, before any method-2 number is seen. The main results (−1.14, test 45) are already known; this is stated plainly.
+
+**Places.** The 76 repeal places in `reference/parking_expanded_effects.csv`, each with its own windows (5 before, up to 3 after) and its own script's special handling (South Bend combined area, trimmed years, 2010 homes for pre-2015 repeals).
+
+**1. Weights (Ryan names the main one before the run).**
+- **(a) Random effects (proposed main).** Weight = 1 / (vᵢ + τ²).
+  - vᵢ: the variance of the fake-repeal effects among place i's stand-ins in the full placebo run (`reference/parking_placebo_full_places.csv`), i.e. how noisy a place like i is.
+  - τ²: the DerSimonian–Laird between-place spread.
+  - Big, steady places count more than small, noisy ones, but no place dominates.
+- **(b) Target-state mix.** The target state is an input (default Wisconsin; any state FIPS code works, e.g. Tennessee).
+  - The target state's homes are split into cells: place size band (under 10,000; 10,000–50,000; 50,000–250,000; 250,000+ people) × metro or not. Sources are the BPS place panel and ACS 2020–2024 homes.
+  - Within each cell, evidence places are weighted by homes. Each cell's total is set to the target state's share of homes in that cell.
+  - A cell with fewer than 2 evidence places merges with the next size band down in the same metro status. Cells with no evidence are reported, and their share is spread over the rest.
+  - The effective number of places, (Σw)²/Σw², is reported for each target state. Wisconsin is run, plus Tennessee as a demonstration.
+- **(c) Square root of homes × after-years.**
+- **Reference only:** (d) homes × after-years (current); (e) equal weights.
+
+**2. Strict comparison pools.**
+- **Left out:** every city with any record in `reference/parking_reform_taxonomy.csv`, any policy, rating or status (4,591 matched cities), plus the main exclusions.
+- **Widening, one rule for all,** stopping at the first step with at least 10 candidates (see item 3):
+  1. same state at 0.5–2× population;
+  2. same Census division at 0.5–2×;
+  3. nationwide at 0.5–2×;
+  4. nationwide at 1/3–3×.
+- **Big cities:** this lets them find big-city stand-ins out of state, so none drop for lack of a pool.
+- **Every candidate:** must report every year in the window, and must have homes.
+
+**3. Matching on pace and age.**
+- **Distance measure** among the candidates at the chosen step, standardised across all US places:
+  - before-window permit rate;
+  - before-window trend (slope of yearly rates);
+  - share of homes built 2000 or later (ACS 2020–2024 B25034).
+- **Selection:** keep the 10 nearest (all, if 5–9). A place with fewer than 5 even at step 4 is listed and left out.
+- **What this does:** hot markets are compared with hot markets, and young exurbs with young exurbs.
+- **Caveat stated:** matching on the before-window rate can bias a difference-in-differences when the two groups come from different populations (regression to the mean). Here it is intended: it makes the comparison places revert the same way.
+
+**4. Shock rule (objective, outside facts only; applied to comparison places).** A candidate is left out if either:
+- **(a)** its housing units fell 10% or more between the 2010 census (Gazetteer HU10) and ACS 2020–2024 (B25002). This catches places destroyed or largely cleared, such as Paradise, CA (wildfire, 2018).
+- **(b)** its land area changed 25% or more between the 2010 and 2024 Gazetteers (large annexations or boundary changes).
+- **Places flagged:** the list is reported. Repeal places that meet either test are flagged, not dropped.
+- **Not used:** FEMA disaster declarations, because a declaration alone covers whole counties and most places in them were not hit.
+
+**5. Winsorising.**
+- **Comparison places:** each one's yearly permit rate is capped at the 5th and 95th percentiles among that pool's places in that year, in both periods. The pool rate is then the home-weighted mean of the capped rates.
+- **Repeal places:** their yearly rates are not capped.
+- **Averaging:** the 76 effects are capped at their 5th and 95th percentiles before averaging.
+
+**6. Home counts.** Homes the year before each repeal = ACS 2020–2024 homes minus permits issued from the repeal year to 2024, floored at half (as in improvement round 1). This applies to repeal and comparison places alike, so fast-growing places are not measured against homes built later.
+
+**Report.**
+- Each weighting (a)–(e): the average, a 90% place bootstrap (2,000 draws, seed 20261104), and the Wisconsin five-year figure (× 13,343).
+- Beside it: the current main, and method 2 with each of items 2–6 switched back one at a time.
+- **Backtest:** the same pools with "after" = years −2 to −1 and "before" = −5 to −3; its 90% range should include 0.
+- **Also reported:** places left out, cells merged, the shock list, and pool sizes.
+- **Interval caveat:** test 40 found bootstrap 90% ranges cover about 84% of the time.
+- **Not in this run:** a placebo-based range for method 2, and a synthetic control for the top-weighted cities. These are offered as follow-ups.
