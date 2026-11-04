@@ -1,0 +1,2 @@
+candidate,p_mae,p_coverage,today_mae,today_coverage,today_method,rule
+today,0.8764973704540142,0.92,0.8861469960407056,0.9,D,today's matching (tie or P not better)
