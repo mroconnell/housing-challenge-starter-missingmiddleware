@@ -218,7 +218,7 @@ def select_pool(D: Data, target, ey, pre, post, cand, opt) -> dict:
     """Pool for one case. cand: A/B/D (C uses select_donors). opt: exc, shock, match, homes_fixed."""
     h = D.homes_pre(ey, opt["homes_fixed"])
     pool_pre = pre
-    E = eligible(D, target, list(pool_pre) + list(post), opt["exc"], opt["shock"], h)
+    E = opt["_E"] if "_E" in opt else eligible(D, target, list(pool_pre) + list(post), opt["exc"], opt["shock"], h)
     pop = D.popn.reindex(E) * (h.reindex(E) / D.homes.reindex(E))
     tpop = D.popn.get(target, np.nan) * h.get(target, np.nan) / D.homes.get(target, np.nan)
     st, dv = D.state.get(target), D.division.get(target, "")
@@ -235,6 +235,14 @@ def select_pool(D: Data, target, ey, pre, post, cand, opt) -> dict:
             chosen, step = list(inwin), i
             break
     T = traits(D, E + [target], pre, ey, h, pace, chosen is None)
+    if opt.get("complete"):  # correction-lock sensitivity: candidates missing a trait the target has are ineligible
+        have = T.columns[T.loc[target].notna()]
+        full = set(T.index[T[have].notna().all(axis=1)])
+        E = [k for k in E if k in full]
+        if chosen is not None:
+            chosen = [k for k in chosen if k in full]
+            if len(chosen) < N_MATCH:  # re-run the ladder on the complete candidates
+                return select_pool(D, target, ey, pre, post, cand, {**opt, "_E": E})
     if chosen is None:  # step 5: nationwide any size, nearest 10 incl. log population
         dist, cov = mahal(T, target, E)
         step = 5
