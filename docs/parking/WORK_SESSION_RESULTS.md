@@ -791,7 +791,7 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 - **Switch-backs (mix):** −0.47 to −1.81. Turning off winsorising pulls most (−1.81).
 - **Dropping the 2 shock-flagged repeal places:** −0.72.
 - **Locked sensitivity, missing-trait candidates ineligible (mix):** −0.72, Wisconsin −9,546 (−36,361 to +6,240).
-- **Backtest (mix):** −0.82 (−3.39 to +0.0004). The range just includes 0, a borderline pass. The backtest fails under square-root and home weights.
+- **Backtest (mix):** −0.8154 (−3.387 to +0.0004), against the main −0.7661. The backtest has the same sign and about the same size as the main result, and it fails under square-root and home weights. So the mix's negative lean cannot be told apart from what the mix shows in years with no repeal.
 - **San Francisco:** now matched to 10 dense places such as Weehawken, Mount Vernon and North Bergen, at step 5; 3 still lack density or crowding. It is no longer matched to rural Connecticut towns.
 
 **City-size weighting test (post hoc, corrected data).** Leave-one-state-out error:
@@ -804,5 +804,6 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 | (iv) crowding terciles | 2.129 | −0.94 (−1.81 to +0.06) | −31,354 |
 
 - **Verdict:** none beats the 4 bands by the rule (more than 10% lower and the range excludes 0), so the 4 bands stay.
-- **Crowding:** 31% lower error, but its range just includes 0.
+- **Crowding came close:** 30.6% lower error, but its range (−1.811 to +0.055) includes 0.
+- **Smooth line:** 14.0% lower error; its range also includes 0.
 - **Spread:** the Wisconsin figure under these versions runs from −31,354 to +33,909. How the evidence is mapped onto Wisconsin is itself a large source of uncertainty, and it is not in the 90% range.

@@ -241,7 +241,7 @@ def select_pool(D: Data, target, ey, pre, post, cand, opt) -> dict:
         E = [k for k in E if k in full]
         if chosen is not None:
             chosen = [k for k in chosen if k in full]
-            if len(chosen) < N_MATCH:  # re-run the ladder on the complete candidates
+            if len(chosen) < N_MATCH and "_E" not in opt:  # re-run the ladder once on the complete candidates
                 return select_pool(D, target, ey, pre, post, cand, {**opt, "_E": E})
     if chosen is None:  # step 5: nationwide any size, nearest 10 incl. log population
         dist, cov = mahal(T, target, E)
