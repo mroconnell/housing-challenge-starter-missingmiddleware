@@ -1,0 +1,47 @@
+window,section,approved,record_status,records
+after,151,False,Cancelled,1
+after,151,False,Closed,40
+after,151,False,Closed - Cancelled,10
+after,151,False,Closed - Withdrawn,10
+after,151,False,On Hold,6
+after,151,False,Submitted,1
+after,151,False,Under Review,12
+after,151,True,Closed,13
+after,151,True,Closed - Approval Ltr Issued,4
+after,151.1,False,Closed,24
+after,151.1,False,Closed - Approved,1
+after,151.1,False,Closed - Cancelled,7
+after,151.1,False,Closed - Disapproved,1
+after,151.1,False,Closed - Withdrawn,8
+after,151.1,False,On Hold,5
+after,151.1,False,Under Review,8
+after,151.1,True,Closed,18
+after,151.1,True,Closed - Approval Ltr Issued,4
+after,151.1,True,Pending Review,1
+after,unknown,False,Closed,11
+after,unknown,False,Closed - Cancelled,1
+after,unknown,False,Closed - Withdrawn,3
+after,unknown,False,On Hold,2
+after,unknown,False,Under Review,1
+after,unknown,True,Closed,2
+before,151,False,Closed,55
+before,151,False,Closed - Approved,1
+before,151,False,Closed - Cancelled,1
+before,151,False,Closed - Complete,1
+before,151,False,Closed - Withdrawn,14
+before,151,False,On Hold,1
+before,151,False,Open,1
+before,151,False,Under Review,2
+before,151,True,Closed,7
+before,151,True,Closed - Approval Ltr Issued,2
+before,151,True,Closed - Cancelled,1
+before,151.1,False,Accepted,1
+before,151.1,False,Closed,69
+before,151.1,False,Closed - Withdrawn,16
+before,151.1,False,On Hold,4
+before,151.1,False,Open,1
+before,151.1,False,Under Review,1
+before,151.1,True,Accepted,1
+before,151.1,True,Closed,22
+before,151.1,True,Closed - Approval Ltr Issued,1
+before,unknown,False,Closed,2
