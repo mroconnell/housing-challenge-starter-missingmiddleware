@@ -61,7 +61,7 @@ Columns may not add exactly because of rounding. All figures are housing units a
 
 ## Where the baseline sits
 
-Multifamily permits are concentrated. Ten municipalities hold 29,125 of the 51,086 units projected in 5+ unit buildings over 2027–2031 (57%). Madison alone is projected at 13,182 units in 5+ unit buildings over five years, and Milwaukee at 4,528. The other eight are Eau Claire (2,302), DeForest (1,632), Fitchburg (1,603), Glendale (1,415), Middleton (1,248), West Allis (1,108), Green Bay (1,075) and Grand Chute town (1,032). Source: `reference/housing_baseline_by_area.csv`.
+Multifamily permits are concentrated. Ten municipalities hold 29,125 of the 51,960 units projected in 5+ unit buildings over 2027–2031 (56%). Madison alone is projected at 13,182 units in 5+ unit buildings over five years, and Milwaukee at 4,528. The other eight are Eau Claire (2,302), DeForest (1,632), Fitchburg (1,603), Glendale (1,415), Middleton (1,248), West Allis (1,108), Green Bay (1,075) and Grand Chute town (1,032). Source: `reference/housing_baseline_by_area.csv`.
 
 ## Files
 
@@ -99,15 +99,15 @@ Not owned here: `scripts/run_parking_baseline_models.py` and `reference/parking_
 ## Limitations
 
 - **Milwaukee's apartments come from a completion-side measure.** Year built in MPROP, shifted one year, stands in for permits. It misses condominiums, and the latest year built (2025, giving permit year 2024) may be incomplete if the property file lags. Other cities could have BPS gaps that have not been checked.
-- **Flat, not cyclical.** The central assumes 2023–2025 conditions continue. The low case is milder than 2007–2011: it is 0.53 times the central (64,491 of 122,619 units), while 2007–2011 permitted 0.40 times the 3-year average before it.
-- **Other places may under-report to Census** (Wauwatosa is now adjusted, step 5a; the others below are flagged only). A screen compares homes built in 2020 or later (ACS 2020–2024) with permits for 2019–2023 (`reference/housing_baseline_acs_screen.csv`). ACS counts finished homes and lags permits, so it should normally show fewer. Three places show more by more than the survey's margin of error:
+- **Flat, not cyclical.** The central assumes 2023–2025 conditions continue. The low case is milder than 2007–2011: it is 0.53 times the central (65,250 of 124,000 units), while 2007–2011 permitted 0.40 times the 3-year average before it.
+- **Other places may under-report to Census.** Since version 3, places this screen flags are raised by the step 5a rule; places it does not flag are not checked further. A screen compares homes built in 2020 or later (ACS 2020–2024) with permits for 2019–2023 (`reference/housing_baseline_acs_screen.csv`). ACS counts finished homes and lags permits, so it should normally show fewer. Three places show more by more than the survey's margin of error:
   - Wauwatosa: 310 ± 173 homes built, against 60 permitted;
   - Superior: 126 ± 56, against 47;
   - Springdale town: 105 ± 50, against 30.
 
-  Wauwatosa reported 12 months every year, but shows no units in 5+ unit buildings in 2021–2025, after 336 in 2015. It is likely under-counted like Milwaukee, but there is no open property file to correct it from, so it is flagged, not adjusted. South Milwaukee, Greenfield and Cudahy are not flagged: their ACS counts are as low as their permits.
+  Wauwatosa reported 12 months every year, but shows no units in 5+ unit buildings in 2021–2025, after 336 in 2015. It is likely under-counted like Milwaukee. There is no open property file to correct it from, so in version 3 it, Superior and Springdale take the step 5a rule rather than a Milwaukee-style correction. South Milwaukee, Greenfield and Cudahy are not flagged: their ACS counts are as low as their permits.
 - **Assumed splits.** Units in county rows (towns without their own BPS row) and in municipalities that cross county lines are split by one-unit detached homes. That is an assumption, and it matters most for apartments in towns.
-- **24 municipality pieces have no BPS row in 2023–2025** and are projected at 0, flagged `no_data_in_window`.
+- **24 municipality pieces have no BPS row in 2023–2025** (flagged `no_data_in_window`). Since version 3, the 11 with homes take their class rate (step 5a). The other 13 have no ACS homes (12 "county subdivisions not defined" pieces and the Eau Claire County piece of Lake Hallie village) and stay at 0.
 - **Conversions and ADUs inside existing buildings are not in BPS**, so this is a baseline of new buildings.
 
 ## Decisions
