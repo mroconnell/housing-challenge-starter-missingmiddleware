@@ -943,28 +943,33 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 
 **1. Target.** The predicted change with no repeal: the after-window mean minus the before-window mean, with D's 10-year before window (back to 2012). Units: permits per 1,000 pre-event existing homes a year. Fitted on never-repealed places only.
 
-**2. Score.** The average of the boosting and lasso predictions, each tuned by grouped CV (by place) inside the fitting half. Settings as method 3: boosting depth 2, learning rate 0.05, up to 300 iterations with early stopping, at least 5 per leaf; lasso with missing indicators plus the training-half median, one-hot division, and grouped inner CV.
+**2. Score.** The average of the boosting and lasso predictions, each fitted inside the fitting half. Settings as method 3:
+- **Boosting:** depth 2, learning rate 0.05, at least 5 per leaf. The iteration count (up to 300) is chosen by 5-fold grouped CV by place, then the model is refitted with it fixed. Its own random 20% early stopping is not used.
+- **Lasso:** missing indicators plus the training-half median, one-hot division, and the penalty chosen by grouped inner CV by place.
 - **Split:** the same A/B split (seed 20261104). The score used in the bake-off is fitted on A only.
 - **Stop rule:** the score's error on B must be at least 5% below a plain average of A's change. Otherwise stop and report; D stays.
 
 **3. Matching (3b).**
 - **Ladder:** the corrected method-2 ladder.
-- **Within the chosen step:** the 10 nearest on a standardized-sum distance, √(z_score² + z_trend²). The z-differences are the score and the before-window trend between candidate and target, each standardized over the eligible candidates. Proposed over Mahalanobis because there are only two dimensions; their correlation is reported.
+- **Within the chosen step:** the 10 nearest on a standardized-sum distance, √(z_score² + z_trend²). The z-differences are the score and the before-window trend between candidate and target. The trend is the slope of yearly rates over the standard 5-year before window, the same window as the score's features. Both are standardized over the candidates in the chosen ladder step (all eligible candidates at step 5). Proposed over Mahalanobis because there are only two dimensions; their correlation is reported.
 - **Step 5:** adds z-scored log population as a third term.
 - **Ties:** broken as in method 2.
 - **Effect:** D's 10-year before window, as in the corrected method 2.
 
 **4. Fresh fake repeals in B.**
-- **New draws:** seed 20261105, with new fake event years drawn from 2016–2024 by the same stratified draw (each real case's size band and after-year count). Each case's year is drawn uniformly among years where its window is complete.
+- **New draws:** seed 20261105, with the same stratified draw (each real case's event year, size band and after-year count).
+- **Event years:** kept equal to each real case's own event year (audit recommendation). D's window length depends on the year, so drawing other years would change the mix of window lengths. Freshness comes from the new seed, and so new places and sets.
 - **Pools:** from B only.
 - **No reuse:** method 3's 5,828 cases are not reused, and the overlap is reported.
 - **Scoring:** 200 sets of 76, random-effects scoring; MAE and coverage with its SE, with the other weightings beside.
 
 **5. Pick rule.** 3b replaces D only if all three hold:
 - **(a)** the 90% paired-bootstrap range of MAE(3b) − MAE(D) lies entirely below 0. That is 2,000 resamples of the 200 fake sets (seed 20261105), recomputing both MAEs on each resample.
-- **(b)** the point gap is at least 2% of D's MAE. This is the learning thread's provisional call (2026-11-05, about 03:09 UTC, under Ryan's 21:01 UTC delegation). Its reason: the paired bootstrap already guards against noise, so a smaller practical margin than the earlier 5% is enough.
+- **(b)** the point gap is at least 2% of D's MAE. This is the learning thread's provisional call, relayed by the coordinator at 2026-11-05 03:09:16 UTC under Ryan's 21:01 UTC delegation. Its reason: the paired bootstrap already guards against noise, so a smaller practical margin than the earlier 5% is enough.
 - **(c)** coverage is between 85% and 95%.
 
 Otherwise D stays and 3b is evidence only. The pick is committed before any real-repeal 3b output, with the same code gate.
+
+**Write-up note:** sets share some fake cases, so the paired-bootstrap range is a little too narrow.
 
 **6. Real run.** As method 3: all 76 places with San Francisco and cross-fitted scores. Report every weighting, then the weight test (state mix wins ties), the size check and the Wisconsin figure. If D stays, method 2's corrected results stand and 3b's real results are evidence only. The write-up labels the origin as post hoc.
