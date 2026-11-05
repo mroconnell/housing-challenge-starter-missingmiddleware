@@ -41,6 +41,8 @@ The final baseline is level × shares. This matters because parking's earlier te
 
 **Data.** Census state permit files, 1990–2025, for all 50 states and DC (Wisconsin's are on disk; the others are fetched from the same Census URL). Decennial census housing units by state, 1990, 2000, 2010 and 2020 (Census API; 1990 from the Census 1990 summary file if the API lacks it).
 
+**Region tags (Ryan, 2026-11-05 16:49 UTC).** Every state row keeps its Census region (4) and division (9), taken from the codes in the state permit files themselves. Wisconsin is Midwest, East North Central. The tags go into every Part 1 output file, so later matching can group by region. In this round they are used only to report scores by region and division, and not to pick.
+
 **Start years.** 2000 to 2020: 21 start years. The periods overlap, so they hold about four independent five-year periods per state.
 
 **Building sizes (audit 3).** Every candidate predicts each building size's state total on its own. The five-year all-sizes total is their sum.
@@ -59,6 +61,7 @@ The final baseline is level × shares. This matters because parking's earlier te
 - bias (mean log ratio);
 - the crash start years (2005–2009) on their own;
 - each building size on its own;
+- each Census region and division;
 - Wisconsin on its own.
 
 **Pick rule (D1, D2).** A candidate replaces L0 only if all three hold:
@@ -167,3 +170,4 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
   9. Part 2 rule reworded as two-part.
   10. Joint check, reported only.
   11. Parking row marked "for scale only".
+- 2026-11-05 16:49 UTC, Ryan: track each state's region so matching can group by it later. Census region and division are tagged on every state row and output, and used for reporting only.
