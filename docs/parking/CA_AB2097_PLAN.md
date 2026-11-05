@@ -489,6 +489,17 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05, post-lock, **pre-count** (no permits read), after the first try of step 1b part 1 (stopped on a code
+  error before any output) and the audit's note on Muni surface stops:
+  - **Which rail stops count as a "rail station":** main = every stop the National Transit Map codes as light rail,
+    streetcar, subway or rail, including street-level light-rail stops. This matches Caltrans' own reading: its major
+    transit stop layer lists 763 existing rail major stops for the City and County of San Francisco (2,428 statewide),
+    which includes Muni surface stops. Check: without rail stops also coded as bus stops (street level).
+  - **Distances are measured to stop points**, not merged station centres, so a chain of close stops cannot move the
+    ½-mile line. Stations (stops of a mode within 150 m) are used only for counts, dates and flags.
+  - **Dates join within a group:** subway-running light rail is coded as either light rail or subway, so the two
+    urban rail modes join as one group; commuter rail, intercity rail and ferry join only to themselves. Openings
+    rows with no stop of their group within 300 m are listed for the step 1 review.
 - 2026-11-05 17:05 UTC, post-lock, **pre-count**, Ryan: "okay, let's go with web archive for now. Can we add a
   lihtc test the same way we added a density bonus test?"
   - **Bus schedules (choice 3):** web-archive copies of each agency's schedule file; the Mobility Database is the

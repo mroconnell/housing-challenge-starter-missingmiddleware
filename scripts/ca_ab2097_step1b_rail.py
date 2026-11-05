@@ -24,7 +24,8 @@ Rules (from the plan)
 - Blocks are counted whole, by their internal point, as in the earlier AB 2097 test.
 
 Outputs (no addresses)
-- reference/ca_ab2097_rail_stations.csv: one row per station (mode, name, system id, opened status, flags, lon/lat).
+- reference/ca_ab2097_rail_stations.csv: one row per stop, with its station id (mode, name, system id, opened status,
+  flags, lon/lat).
 - reference/ca_ab2097_rail_coverage.csv: homes (2020) and land acres within ½ mile, and in the ⅓–½ and ½–⅔ mile
   bands, by station set (all existing rail; without Amtrak-only; without streetcar systems; without 2018–2022
   openings; ferry), statewide and for Palo Alto.
@@ -91,11 +92,12 @@ def fetch_amtrak() -> pd.DataFrame:
 def ntm_rail() -> pd.DataFrame:
     s = pd.DataFrame(json.loads(NTM_RAIL.read_text())["stops"])
     s = s[s.stop_lon.between(CA_BOX[0], CA_BOX[2]) & s.stop_lat.between(CA_BOX[1], CA_BOX[3])]
-    first = s.stop_type.astype(str).str.split(";").str[0]
-    s["mode"] = first.map({"0": "light_rail_or_streetcar", "1": "heavy_rail", "2": "commuter_rail"})
+    types = s.stop_type.astype(str).str.split(";")
+    s["mode"] = types.str[0].map({"0": "light_rail_or_streetcar", "1": "heavy_rail", "2": "commuter_rail"})
+    s["shared_with_bus"] = types.apply(lambda t: "3" in t)  # rail stop also coded as a bus stop: street level
     s = s.dropna(subset=["mode"])
     return s.rename(columns={"stop_name": "name", "ntd_id": "system_id", "stop_lon": "lon", "stop_lat": "lat"})[
-        ["mode", "name", "system_id", "lon", "lat"]]
+        ["mode", "name", "system_id", "lon", "lat", "shared_with_bus"]]
 
 
 def ferry() -> pd.DataFrame:
@@ -107,21 +109,31 @@ def ferry() -> pd.DataFrame:
 
 
 def to_stations(stops: pd.DataFrame) -> pd.DataFrame:
-    """Merge stops of the same mode within MERGE_M into one station, named after its nearest stop."""
-    from missing_middleware.geom_extra_station import merge_stops
+    """Stop points in metres, each with a station id: stops of the same mode within MERGE_M of each other (buffers of
+    radius MERGE_M/2 that touch) share a station. Distances are measured to stop points, not to station centres, so
+    a chain of close stops never moves the ½-mile line."""
+    from missing_middleware.geom_extra_station import merge_within
     out = []
     for mode, g in stops.groupby("mode"):
         g = run.lonlat_points(g.reset_index(drop=True), g.lon, g.lat)
-        cx, cy, named = merge_stops(g.x.to_numpy(float), g.y.to_numpy(float), r=MERGE_M)
-        for k in range(len(cx)):
-            first = g.iloc[int(named[k])]
-            out.append({"mode": mode, "name": first["name"], "system_id": first["system_id"], "x": cx[k], "y": cy[k]})
-    return pd.DataFrame(out)
+        _, _, members = merge_within(g.x.to_numpy(float), g.y.to_numpy(float), r=MERGE_M / 2)
+        sid = np.empty(len(g), dtype=object)
+        for k, m in enumerate(members):
+            sid[m] = f"{mode}:{k}"
+        g["station_id"] = sid
+        out.append(g)
+    st = pd.concat(out, ignore_index=True)
+    st["shared_with_bus"] = st["shared_with_bus"].fillna(False).astype(bool)
+    return st
 
 
 # Openings-table modes mapped to this script's station modes.
 TABLE_MODE = {"heavy_rail": "heavy_rail", "light_rail": "light_rail_or_streetcar", "streetcar": "light_rail_or_streetcar",
               "commuter_rail": "commuter_rail", "intercity_rail": "intercity_rail", "ferry": "ferry"}
+# Join groups for dates: subway-running light rail is coded as either mode in the stop data, so the two urban rail
+# modes form one group; other modes join only to themselves.
+JOIN_GROUP = {"heavy_rail": "urban_rail", "light_rail_or_streetcar": "urban_rail", "commuter_rail": "commuter_rail",
+              "intercity_rail": "intercity_rail", "ferry": "ferry"}
 
 
 def read_openings() -> pd.DataFrame:
@@ -154,38 +166,48 @@ def attach_dates(st: pd.DataFrame) -> pd.DataFrame:
     if not OPENINGS.exists():
         raise SystemExit(f"{OPENINGS} is missing; it must exist before this script runs (audit)")
     o = read_openings()
-    op = o[o.event == "opened"]
-    for mode, g in op.groupby("smode"):  # join only within the same mode
-        sel = np.flatnonzero((st["mode"] == mode).to_numpy())
+    op = o[o.event == "opened"].copy()
+    op["group"] = op.smode.map(JOIN_GROUP)
+    grp = st["mode"].map(JOIN_GROUP).to_numpy(object)
+    unmatched = []
+    for _, r in op.iterrows():  # join within the same group: the nearest stop's whole station takes the date
+        sel = np.flatnonzero(grp == r.group)
         if not len(sel):
+            unmatched.append(r.station_name)
             continue
-        idx, d = nearest_lowest(g.x.to_numpy(float), g.y.to_numpy(float),
-                                st.x.to_numpy(float)[sel], st.y.to_numpy(float)[sel])
-        for r, (i, dist) in enumerate(zip(idx, d)):
-            if dist <= 300.0:
-                k = st.index[sel[i]]
-                date = g.date.iloc[r]
-                st.loc[k, "opened_date"] = date
-                st.loc[k, "opened"] = "2018-2022" if date <= EXISTING_BY else "after 2022"
-            else:
-                print(f"openings table row not matched to a {mode} station within 300 m: {g.station_name.iloc[r]}")
+        dx, dy = st.x.to_numpy(float)[sel] - r.x, st.y.to_numpy(float)[sel] - r.y
+        dist = np.hypot(dx, dy)
+        i = int(np.argmin(dist))
+        if dist[i] > 300.0:
+            unmatched.append(f"{r.station_name} ({r.smode}, nearest {dist[i]:.0f} m)")
+            continue
+        k = st.station_id.iloc[sel[i]]
+        st.loc[st.station_id == k, "opened_date"] = r.date
+        st.loc[st.station_id == k, "opened"] = "2018-2022" if r.date <= EXISTING_BY else "after 2022"
+    if unmatched:
+        # an opened station missing from today's stop data either opened after the stop data were compiled
+        # (2026-09-23) or has coordinates off by more than 300 m; both are listed for the step 1 review
+        print("openings rows with no stop of the same group within 300 m:", "; ".join(unmatched))
     gone = o[(o.event == "closed") & (o.date > EXISTING_BY)]
     if len(gone):
         add = pd.DataFrame({"mode": gone.smode, "name": gone.station_name, "system_id": gone.system,
                             "x": gone.x, "y": gone.y, "opened": "closed or moved after 2022 (added back)",
-                            "opened_date": gone.date})
+                            "opened_date": gone.date, "shared_with_bus": False,
+                            "station_id": [f"added:{i}" for i in range(len(gone))]})
         st = pd.concat([st, add], ignore_index=True)
     return st
 
 
 def coverage(st: pd.DataFrame, blocks: pd.DataFrame) -> pd.DataFrame:
     sets = {
-        "existing rail (all modes)": st[(st.mode != "ferry") & (st.opened != "after 2022")],
-        "existing rail without Amtrak-only": st[(st.mode != "ferry") & (st.opened != "after 2022") & ~st.amtrak_only],
-        "existing rail without streetcar systems": st[(st.mode != "ferry") & (st.opened != "after 2022")
+        "existing rail (all modes)": st[(st["mode"] != "ferry") & (st.opened != "after 2022")],
+        "existing rail without Amtrak-only": st[(st["mode"] != "ferry") & (st.opened != "after 2022") & ~st.amtrak_only],
+        "existing rail without streetcar systems": st[(st["mode"] != "ferry") & (st.opened != "after 2022")
                                                       & ~st.system_id.isin(STREETCAR_NTD)],
-        "existing rail without 2018-2022 openings": st[(st.mode != "ferry") & (st.opened == "before 2018 (assumed: not in openings table)")],
-        "existing ferry": st[st.mode == "ferry"],
+        "existing rail without street-level stops shared with bus": st[(st["mode"] != "ferry") & (st.opened != "after 2022")
+                                                                       & ~st.shared_with_bus],
+        "existing rail without 2018-2022 openings": st[(st["mode"] != "ferry") & (st.opened == "before 2018 (assumed: not in openings table)")],
+        "existing ferry": st[st["mode"] == "ferry"],
     }
     rows = []
     for name, s in sets.items():
@@ -195,7 +217,8 @@ def coverage(st: pd.DataFrame, blocks: pd.DataFrame) -> pd.DataFrame:
         for area, sel in (("California", np.ones(len(blocks), bool)), ("Palo Alto", (blocks.juris == "PALO ALTO").to_numpy())):
             for band, (lo, hi) in BANDS.items():
                 m = sel & (d >= lo * MILE) & (d < hi * MILE)
-                rows.append({"station_set": name, "stations": len(s), "area": area, "band_miles": band,
+                rows.append({"station_set": name, "stations": s.station_id.nunique(), "stops": len(s), "area": area,
+                             "band_miles": band,
                              "homes_2020": float(blocks.homes[m].sum()), "acres": float(blocks.acres[m].sum()),
                              "blocks": int(m.sum())})
     return pd.DataFrame(rows)
@@ -206,13 +229,13 @@ def main() -> None:
     st = to_stations(stops)
     st = attach_dates(st)
     # Amtrak-only: an intercity station with no other rail station within MERGE_M (after closed stations are added back)
-    other = st[(st.mode != "intercity_rail") & (st.mode != "ferry")]
+    other = st[(st["mode"] != "intercity_rail") & (st["mode"] != "ferry")]
     from missing_middleware.geom_extra_station import nearest_lowest
     _, d = nearest_lowest(st.x.to_numpy(float), st.y.to_numpy(float), other.x.to_numpy(float), other.y.to_numpy(float))
-    st["amtrak_only"] = (st.mode == "intercity_rail") & (d > MERGE_M)
+    st["amtrak_only"] = (st["mode"] == "intercity_rail") & (d > MERGE_M)  # no other rail stop within 150 m
     # check (audit): which non-Amtrak systems sit within 150 m of Amtrak stations, so an Amtrak feed inside the
     # National Transit Map rows would show here
-    near = st[(st.mode == "intercity_rail") & ~st.amtrak_only]
+    near = st[(st["mode"] == "intercity_rail") & ~st.amtrak_only]
     if len(near):
         j, _ = nearest_lowest(near.x.to_numpy(float), near.y.to_numpy(float), other.x.to_numpy(float), other.y.to_numpy(float))
         print("systems sharing a station with Amtrak (NTD id: count):",
@@ -233,10 +256,12 @@ def main() -> None:
     from missing_middleware.geom_extra_station import transform
     st["lon"], st["lat"] = transform(st.x.to_numpy(float), st.y.to_numpy(float), run.CRS, 4326)
     st.drop(columns=["x", "y"]).round({"lon": 6, "lat": 6}).to_csv(REFERENCE / "ca_ab2097_rail_stations.csv", index=False)
+    print(f"stops: {len(st):,}; stations: {st.station_id.nunique():,}; street-level stops shared with bus: "
+          f"{int(st.shared_with_bus.sum()):,}")
     cov = coverage(st, blocks)
     cov.to_csv(REFERENCE / "ca_ab2097_rail_coverage.csv", index=False)
-    print(st.groupby(["mode", "opened"]).size().to_string())
-    print(f"Amtrak-only stations: {int(st.amtrak_only.sum())}")
+    print(st.groupby(["mode", "opened"]).station_id.nunique().to_string())
+    print(f"Amtrak-only stations: {st.loc[st.amtrak_only, 'station_id'].nunique()}")
     print(cov[cov.band_miles == "0-1/2"].to_string(index=False))
 
 
