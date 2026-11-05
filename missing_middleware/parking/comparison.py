@@ -52,6 +52,8 @@ def panel(bps: pd.DataFrame) -> pd.DataFrame:
 ALIASES = {("21", "lexington"): "lexington-fayette", ("02", "anchorage"): "municipality of anchorage",
            # the 2020 repeal is the Town of Canandaigua's (Local Law 3-2020), not the City's (reform-type coding, 2026-11-05)
            ("36", "canandaigua"): "canandaigua town"}
+# places kept out of each other's comparison pools because of spillover (the Town of Canandaigua surrounds the City)
+SPILLOVER = {"36|103500": {"36|103000"}}
 
 
 def match_place(p: pd.DataFrame, state_fips: str, name: str, population: float | None) -> str | None:
@@ -107,6 +109,7 @@ def controls(p: pd.DataFrame, key: str, event_year: int, excluded: set, homes: p
     are at least MIN_CONTROLS. `population` (by key) replaces the BPS Pop field when given:
     BPS Pop is stale or wrong for some places in some years (deviation 4)."""
     pre, post = windows(event_year)
+    excluded = set(excluded) | SPILLOVER.get(key, set())
     last = p[(p["year"] == event_year - 1)].set_index("key")
     base, div = last["pop"], last["division"] if "division" in last else pd.Series(dtype=str)
     if population is not None:

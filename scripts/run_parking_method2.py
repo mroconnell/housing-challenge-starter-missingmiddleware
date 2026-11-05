@@ -11,6 +11,7 @@ Stage 2 refuses to start unless the pick file is committed and unchanged, and th
 from __future__ import annotations
 
 import argparse
+import os
 import concurrent.futures as cf
 import multiprocessing as mp
 import subprocess
@@ -207,8 +208,12 @@ def mahal(T: pd.DataFrame, target: str, cands: list) -> tuple[pd.Series, np.ndar
     return pd.Series(out), cov
 
 
+def m_cmp_spill(target) -> set:
+    return cmp.SPILLOVER.get(target, set())
+
+
 def eligible(D: Data, target, years, mode_exc, shock_on, h) -> list:
-    exc = D.strict_exc if mode_exc == "strict" else D.main_exc
+    exc = (D.strict_exc if mode_exc == "strict" else D.main_exc) | m_cmp_spill(target)
     ok = D.complete(tuple(years))
     return [k for k in ok if k != target and k not in exc and (not shock_on or k not in D.shock)
             and k in h.index and np.isfinite(D.popn.get(k, np.nan))]
@@ -572,6 +577,15 @@ def require_pick() -> str:
     lock = LOCK.read_text()
     if "Ryan's main-weight choice (19:22 UTC)" not in lock:
         raise SystemExit("lock does not name Ryan's main-weight rule")
+    committed = os.environ.get("MM_BATCH_COMMITTED_DIR")  # batch: the pick must equal a committed copy there
+    if committed:
+        c = ROOT / committed / pick_path().name
+        r = subprocess.run(["git", "ls-files", "--error-unmatch", str(c)], cwd=ROOT, capture_output=True)
+        d = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", str(c)], cwd=ROOT)
+        same = c.exists() and c.read_bytes() == pick_path().read_bytes()
+        if r.returncode or d.returncode or not same:
+            raise SystemExit("batch: commit the pick into " + committed + " first")
+        return str(pd.read_csv(pick_path())["candidate"].iloc[0])
     r = subprocess.run(["git", "ls-files", "--error-unmatch", str(pick_path())], cwd=ROOT, capture_output=True)
     d = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", str(pick_path())], cwd=ROOT)
     if r.returncode or d.returncode:
@@ -700,7 +714,8 @@ def main() -> None:
     global SUF, CORRECTED
     if a.corrected:
         import re
-        if not re.search(r"^- \*\*Ryan's go for the corrected run \(\d{2}:\d{2} UTC\):\*\* \S", LOCK.read_text(), re.M):
+        gate = os.environ.get("MM_GATE_TIME", r"\d{2}:\d{2}")
+        if not re.search(r"^- \*\*Ryan's go for the corrected run \(" + gate + r" UTC\):\*\* \S", LOCK.read_text(), re.M):
             raise SystemExit("the correction lock does not record Ryan's go (a line '- **Ryan's go for the corrected run (HH:MM UTC):** <his words>')")
         SUF, CORRECTED = "_corrected", True
     if a.stage is None and not a.missing_only:
