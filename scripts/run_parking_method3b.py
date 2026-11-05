@@ -224,6 +224,9 @@ def stage1():
             okr = np.isfinite(y)
             a.append(abs(m.weighted_avg("random effects", y[okr], ev[okr].reset_index(drop=True), None)))
         per[cand] = np.array(a)
+    for cand in ("3b", "D"):  # the bootstrap must judge the same numbers as the MAE table (audit pre-fit check)
+        mae_R = float(R[(R.candidate == cand) & (R.weights == "random effects")]["mae"].iloc[0])
+        assert abs(per[cand].mean() - mae_R) < 1e-9, (cand, per[cand].mean(), mae_R)
     rng = np.random.default_rng(SEED)
     diffs = []
     for _ in range(m.BOOT):
@@ -281,7 +284,34 @@ def stage2():
                             wi_homes=a * m.WI_K, wi_p05=lo * m.WI_K, wi_p95=hi * m.WI_K))
     pd.DataFrame(out).round(4).to_csv(REFERENCE / "parking_method3b_results.csv", index=False)
     pd.DataFrame({"place": real["place"], "state": real["state"], "3b": y3, "D": yD}).round(4).to_csv(REFERENCE / "parking_method3b_places.csv", index=False)
-    if pick == "3b":
+    if pick == "3b":  # weight test (state mix wins ties, equal-truth table beside), then the size check
+        states = real["state"].value_counts()
+        states = list(states[states >= 3].index)
+        okr = np.isfinite(y3)
+        errs, errs_eq = {k: [] for k in m.WEIGHTS}, {k: [] for k in m.WEIGHTS}
+        for s_ in states:
+            hold = (real["state"] == s_).values & okr
+            tr = (~(real["state"] == s_).values) & okr
+            truth = float(np.average(y3[hold], weights=ev["base"].values[hold]))
+            hc = ev[hold].groupby(["metro", "band"])["base"].sum()
+            for kind in m.WEIGHTS:
+                pred = m.weighted_avg(kind, y3[tr], ev[tr].reset_index(drop=True), hc)
+                errs[kind].append(abs(pred - truth))
+                errs_eq[kind].append(abs(pred - float(np.mean(y3[hold]))))
+        E = pd.DataFrame(errs, index=states)
+        mae = E.mean()
+        best = mae.idxmin()
+        r2 = np.random.default_rng(SEED)
+        dd = [E["target-state mix"].values[i].mean() - E[best].values[i].mean() for i in (r2.integers(0, len(E), len(E)) for _ in range(m.BOOT))]
+        lo_, hi_ = np.percentile(dd, 5), np.percentile(dd, 95)
+        winner = "target-state mix" if (mae["target-state mix"] <= 1.10 * mae[best] or lo_ <= 0 <= hi_) else best
+        E.loc["mean absolute error"] = mae
+        E.round(4).to_csv(REFERENCE / "parking_method3b_weight_test.csv")
+        Eq = pd.DataFrame(errs_eq, index=states)
+        Eq.loc["mean absolute error"] = Eq.mean()
+        Eq.round(4).to_csv(REFERENCE / "parking_method3b_weight_test_equal_truth.csv")
+        pd.DataFrame([dict(winner=winner, lowest=best, p05=lo_, p95=hi_)]).to_csv(REFERENCE / "parking_method3b_weight_pick.csv", index=False)
+        print("WEIGHT WINNER", winner)
         st.run(y3, "parking_method3b_size_test")
     print(pd.DataFrame(out).round(2).to_string(index=False))
 
