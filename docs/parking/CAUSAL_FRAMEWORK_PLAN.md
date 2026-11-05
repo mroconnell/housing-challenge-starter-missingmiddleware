@@ -1219,7 +1219,10 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
   - Allocation years 2014–2020 average about 1,200 a year.
   - 2021 is at 79% of that and 2022 at 49%.
 - **Places with an after-year:** if allocations are complete through 2020, permit years run through 2021 and 13 of the 74 places (repeals 2016–2020) have at least one after-year. Counting 2021 as complete adds 12 more (25).
-- **Not yet decided:** where to put the last complete year. Ryan's call is pending.
+- **Cut-off (Ryan 17:14 UTC, "sure", to the recommendation):**
+  - **Main:** allocations through 2020 are complete, so permit years end in 2021, and only repeals in 2020 or earlier with after-years by 2021 count. That is 13 places.
+  - **Labelled sensitivity:** allocations through 2021, with permit years through 2022 (25 places).
+  - **The full window to 2025:** reported only as a variant, with the undercount stated.
 - **Audit advice (17:12 UTC, for Ryan's call):**
   - Main: allocations through 2020 (13 places).
   - Sensitivity, labelled: allocations through 2021 (25 places). 2021 is 79% complete and the missing projects are recent, so treating it as complete undercounts only the late repeals' after-years, which pushes the result toward a fall.
