@@ -3,7 +3,7 @@
 Plan: [CA_AB2097_PLAN.md](CA_AB2097_PLAN.md) (locked 2026-11-05 16:48 UTC; changes after lock in section 9, all made
 before any count unless marked post hoc). Code: `scripts/ca_ab2097_estimate.py` (run at d6d96c2d), post hoc checks
 `scripts/ca_ab2097_posthoc.py`. Outputs: `reference/ca_ab2097_results*.csv`, `reference/ca_ab2097_posthoc_*.csv`.
-Status: **draft for the audit's review**, then Ryan.
+Status: **audit reviewed 2026-11-05**.
 
 Unless a row says otherwise, every number is **homes in issued building permits per 1,000 existing homes (2020 census)
 per year**, 2023–2025 compared with 2018–2022, near transit (within ½ mile) compared with the ring (½ to 1½ miles) in
@@ -57,7 +57,9 @@ symmetric rules, read beside all the checks, it is not a finding on its own.
 
 ## 3. Early-reform test cities (placebo group)
 
-12 places that already had no parking minimums near transit (or repealed citywide) and have homes near transit.
+12 places that already had no parking minimums near transit (or repealed citywide) and have homes near transit:
+Alameda, Berkeley, Culver City, Emeryville, Fremont, Hayward, Oakland, Sacramento, San Diego, San Francisco, San Jose
+and Stockton. (Pomona and Eureka are not full reporters.)
 
 | Measure | Estimate | 90% range |
 | --- | --- | --- |
