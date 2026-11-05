@@ -200,6 +200,9 @@ def run_checks() -> None:
                      "caltrans_agency": ag or "no match (no bus major stops today or not in hand list)",
                      "major_stops_2022": len(m), "major_stops_today": len(today), "in_both_within_150m": both,
                      "homes_2020_within_half_mile_2022": homes_near(m), "homes_2020_within_half_mile_today": homes_near(today)})
+        # NOTE (audit): an agency is replaced once per qualifying feed, so LA Metro appears twice (bus and rail feeds).
+        # Harmless here only because the LA Metro bus feed also qualified; if a rail-only feed matched an agency, that
+        # agency's today's bus stops would be dropped with no 2022 bus stops added.
         if ag:
             replaced.append(ag)
             new_stops.append(m[["x", "y"]])

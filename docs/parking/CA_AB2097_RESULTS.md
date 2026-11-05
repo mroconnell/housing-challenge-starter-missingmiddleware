@@ -225,7 +225,10 @@ the spec):
 | San Diego MTS (Nov 2022) | 323 | 826 | 208 | 177,413 | 213,315 |
 | LADOT (Mar 2022) | 159 | 972 | 110 | 151,152 | 601,637 |
 
-- Under the 2023 rule these agencies' bus major stops covered fewer homes than today's layer does (most for LADOT).
+- These agencies' 2022 bus major stops cover fewer homes than today's layer. The gap mixes three causes that
+  cannot be split here: the rule itself (15 vs 20 minutes), service changes since 2022, and this check's within-one-feed
+  limit (for example LADOT DASH routes meeting LA Metro routes are not counted, likely a large part of LADOT's gap:
+  151,152 vs 601,637 homes).
 - **Headline with these 2022 stops:** −1.271 (−2.683 to +0.067), 196 jurisdictions; main headline −0.905
   (−2.292 to +0.350). Same reading.
 - San Diego MTS's only qualifying copy uses calendar_dates only; no other MTS copy ran on 2022-12-14, so the copy
