@@ -1,0 +1,19 @@
+estimator,weights,places,estimate,p05,p95,seed,wi_homes,wi_p05,wi_p95
+"main, batch file",homes x after-years,74,-1.1526,,,,-15379.8097,,
+"main, recorded pools (houses path)",homes x after-years,74,-1.1526,,,,-15379.7916,,
+"main, re-chosen pools (timing path, shift 0)",homes x after-years,72,-1.1862,,,,-15828.1944,,
+"method 2, D (shift 0, all units)",random effects,74,0.658,-0.5685,1.8225,20261104.0,8780.4389,-7585.9742,24318.2732
+"method 2, D (shift 0, all units)",random effects,74,0.658,-0.5102,1.884,20261105.0,8780.4389,-6808.1257,25138.3665
+"method 2, D (shift 0, all units)",target-state mix,74,-0.9647,-3.3403,0.3638,20261104.0,-12872.957,-44571.0282,4854.4685
+"method 2, D (shift 0, all units)",target-state mix,74,-0.9647,-3.2843,0.4707,20261105.0,-12872.957,-43824.3426,6280.4433
+"method 2, D (shift 0, all units)",square root,74,0.6941,-0.6835,2.3327,20261104.0,9261.1707,-9119.8198,31125.6395
+"method 2, D (shift 0, all units)",square root,74,0.6941,-0.6476,2.3746,20261105.0,9261.1707,-8641.5245,31684.8747
+"method 2, D (shift 0, all units)",homes,74,0.1108,-1.5563,2.4094,20261104.0,1478.9599,-20766.7578,32149.2929
+"method 2, D (shift 0, all units)",homes,74,0.1108,-1.5196,2.4258,20261105.0,1478.9599,-20276.5044,32368.7988
+"method 2, D (shift 0, all units)",equal,74,0.6198,-1.8074,2.0357,20261104.0,8270.1827,-24116.8419,27162.4624
+"method 2, D (shift 0, all units)",equal,74,0.6198,-1.8192,2.1854,20261105.0,8270.1827,-24274.9165,29160.4248
+"method 2, D (shift 0 via timing path)",random effects,74,0.686,-0.4845,1.9037,20261105.0,9154.1867,-6464.5116,25402.0924
+"method 2, D (shift 0 via timing path)",target-state mix,74,-0.9838,-3.2819,0.4294,20261105.0,-13127.0313,-43791.3992,5729.6315
+"method 2, D (shift 0 via timing path)",square root,74,0.7074,-0.6357,2.3721,20261105.0,9439.0529,-8482.0091,31651.9933
+"method 2, D (shift 0 via timing path)",homes,74,0.1207,-1.5072,2.4356,20261105.0,1610.7798,-20111.5207,32499.5086
+"method 2, D (shift 0 via timing path)",equal,74,0.6472,-1.8182,2.1952,20261105.0,8635.4566,-24261.1966,29291.6662

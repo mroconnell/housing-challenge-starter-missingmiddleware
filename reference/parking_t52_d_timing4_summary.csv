@@ -1,0 +1,7 @@
+estimator,weights,places,places_matched,standin_places,estimate,p05,p95,placebo_p05,placebo_p50,placebo_p95,share_placebo_at_or_below,seed,wi_homes,wi_p05,wi_p95
+"main (real average, placebo spread)",homes x after-years,67,67.0,7744.0,1.7569,-0.5947,4.2695,-2.1571,0.1945,2.7072,0.8489,,23442.6219,-7935.6534,56969.4072
+"method 2, D (repeals moved 4 years early)",random effects,67,,,0.5371,-1.0375,2.4523,,,,,20261105.0,7166.194,-13844.3871,32722.292
+"method 2, D (repeals moved 4 years early)",target-state mix,67,,,-2.1795,-5.9011,1.6836,,,,,20261105.0,-29081.5326,-78740.0204,22465.5209
+"method 2, D (repeals moved 4 years early)",square root,67,,,1.9651,0.1848,3.9372,,,,,20261105.0,26220.7444,2465.2322,52534.9718
+"method 2, D (repeals moved 4 years early)",homes,67,,,2.6332,-0.1484,6.2897,,,,,20261105.0,35136.2464,-1979.9955,83926.2481
+"method 2, D (repeals moved 4 years early)",equal,67,,,0.5705,-2.0211,2.5889,,,,,20261105.0,7612.1972,-26968.5931,34544.3639

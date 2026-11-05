@@ -1,0 +1,13 @@
+estimator,weights,places,places_matched,standin_places,estimate,p05,p95,placebo_p05,placebo_p50,placebo_p95,share_placebo_at_or_below,seed,wi_homes,wi_p05,wi_p95
+"main (real average, placebo spread)",homes x after-years,52,52.0,5624.0,-0.1112,-0.9836,1.0075,-0.8897,-0.0173,1.1013,0.4328,,-1483.7098,-13124.0393,13442.9147
+"context: main, all units, same places",homes x after-years,52,,,-1.3237,,,,,,,,-17663.1701,,
+"context: method 2, D, all units, same places",random effects,52,,,1.3098,-0.0973,2.611,,,,,20261105.0,17476.6681,-1298.6549,34839.3142
+"context: method 2, D, all units, same places",target-state mix,52,,,-0.7099,-2.7468,1.8638,,,,,20261105.0,-9472.8593,-36651.0877,24869.0902
+"context: method 2, D, all units, same places",square root,52,,,0.6532,-1.0426,2.5737,,,,,20261105.0,8715.8263,-13912.1536,34341.6714
+"context: method 2, D, all units, same places",homes,52,,,-0.018,-1.9779,2.5133,,,,,20261105.0,-240.8352,-26391.704,33536.3779
+"context: method 2, D, all units, same places",equal,52,,,0.9158,-1.1069,2.5533,,,,,20261105.0,12220.4163,-14770.3477,34069.463
+"method 2, D, 1-unit permits",random effects,52,,,0.151,-0.4741,0.6558,,,,,20261105.0,2014.2288,-6325.9687,8750.6596
+"method 2, D, 1-unit permits",target-state mix,52,,,-1.798,-3.1247,0.9905,,,,,20261105.0,-23991.0061,-41694.0393,13216.3337
+"method 2, D, 1-unit permits",square root,52,,,0.0097,-0.5346,0.5177,,,,,20261105.0,129.4884,-7133.7251,6907.6076
+"method 2, D, 1-unit permits",homes,52,,,0.0287,-0.5433,0.5765,,,,,20261105.0,383.1294,-7249.2565,7691.8207
+"method 2, D, 1-unit permits",equal,52,,,-0.0084,-1.3391,0.8394,,,,,20261105.0,-111.871,-17868.5783,11200.1047
