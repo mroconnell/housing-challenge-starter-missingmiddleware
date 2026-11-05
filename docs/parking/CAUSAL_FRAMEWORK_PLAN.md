@@ -1136,6 +1136,13 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 - No street addresses in committed files: projects are identified by case number and a short name. Stalls and homes are stored exactly; ratios are rounded only for display.
 - Ryan spot-checks 5 rows drawn at random (seed 20261105) before the result is cited, as in test 43.
 
+**Reading change (audit, 2026-11-05 about 16:24 UTC, after the San Francisco coding, before the write-up).** In San Francisco, filing date does not split the rules, because most projects filed before the repeal were approved after it. The reading uses three groups:
+- filed and approved before the repeal;
+- filed before and approved after (the "switchers"; their proposal-to-approval change is the closest to a same-project before and after);
+- filed after.
+
+Frame-versus-case-report section mismatches are all reported. The case report wins, so named NCDs with their own Table 151.1 rows count as 151.1. 2018-016535PRJ (a unit-count documentation record) is dropped, and the next before-151 project in draw order is added. 2016-012545PRJ stays in the before window by its open date; its SB 35 filing came after the repeal, so it is a switcher.
+
 **Reading (descriptive).**
 - **Ratios:** stalls per home, proposed and approved, against the required minimum, before and after repeal.
 - **Bunching:** the shares of projects above, at and below the minimum, as in test 43. After repeal, the comparison is against the old minimum.
