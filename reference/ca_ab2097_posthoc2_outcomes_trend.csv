@@ -1,0 +1,13 @@
+case,group,outcome,estimate,low,high,n,unit,label
+headline,main,homes_non_tc,-1.0823919288827022,-2.412867732504645,0.18502206559670742,198,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+lead check: 2021-2022 vs 2018-2020,main,homes_non_tc,0.03680340483889122,-1.9149851287059567,2.1278966719807886,198,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+trend-adjusted (line through 2018-2022),main,homes_non_tc,-1.5276108982996686,-5.0503876171254385,2.0694730232186744,198,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+headline,main,homes_non_adu,-0.9053397951355853,-2.2919077458823764,0.349867230144403,198,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+lead check: 2021-2022 vs 2018-2020,main,homes_non_adu,0.05857443651261596,-1.9013225127118432,2.134864406340923,198,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+trend-adjusted (line through 2018-2022),main,homes_non_adu,-1.3049294077126055,-4.973213297255975,2.381835428339589,198,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+headline,placebo,homes_non_tc,-2.7952576894510557,-4.637170238091101,-0.8007681759469674,12,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+lead check: 2021-2022 vs 2018-2020,placebo,homes_non_tc,-3.4899840209029396,-7.813726348965575,-0.8975782475644961,12,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+trend-adjusted (line through 2018-2022),placebo,homes_non_tc,3.0690313018600572,-1.1283802613334688,8.804353096140968,12,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+headline,placebo,homes_non_adu,-2.2906898842727124,-3.9258844486692124,-0.2840240945248345,12,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+lead check: 2021-2022 vs 2018-2020,placebo,homes_non_adu,-4.102810778638066,-8.630158890224324,-1.444524748001637,12,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC
+trend-adjusted (line through 2018-2022),placebo,homes_non_adu,4.110544171503659,-0.6517391478971123,10.2684530347169,12,"homes in issued permits per 1,000 existing homes (2020) per year, 2023-2025 vs 2018-2022",POST HOC

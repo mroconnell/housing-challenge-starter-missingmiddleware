@@ -1,0 +1,17 @@
+grouping,area_class,check,n,estimate,low,high,note,thin_group_note,label
+area_class,core,city-level share slope (homes-weighted),73,-2.379221673667321,-4.843951042056669,1.7504850193939059,,,POST HOC
+area_class,exurb,city-level share slope (homes-weighted),25,-49.93556391093958,-78.40671475393624,-25.348184821167994,,,POST HOC
+area_class,non-metro,city-level share slope (homes-weighted),37,16.86518808484176,-29.097435402194836,64.49577901034127,,,POST HOC
+area_class,rural part of metro,city-level share slope (homes-weighted),56,-34.85214786378767,-90.8754085097085,43.337638761153706,,,POST HOC
+area_class,suburb,city-level share slope (homes-weighted),259,1.098275038053126,-1.6192349657874126,3.8945390255019707,,,POST HOC
+area_class,core,near vs ring headline (homes other than ADUs),58,-2.225785363828014,-4.987530071663723,-0.2827155336436873,,,POST HOC
+area_class,exurb,near vs ring headline (homes other than ADUs),5,-15.817130935547889,-30.83195257919878,11.992307962198304,,fewer than 10: read as thin,POST HOC
+area_class,non-metro,near vs ring headline (homes other than ADUs),1,,,,fewer than 5 jurisdictions,fewer than 10: read as thin,POST HOC
+area_class,rural part of metro,near vs ring headline (homes other than ADUs),2,,,,fewer than 5 jurisdictions,fewer than 10: read as thin,POST HOC
+area_class,suburb,near vs ring headline (homes other than ADUs),110,0.9060890600255522,-0.9849720245338711,2.741555060904355,,,POST HOC
+test53_group,core,city-level share slope (homes-weighted),73,-2.379221673667321,-4.843951042056669,1.7504850193939059,,,POST HOC
+test53_group,non-core metro,city-level share slope (homes-weighted),340,1.1324510756132782,-1.5050185720850804,3.9123078781147687,,,POST HOC
+test53_group,outside metro,city-level share slope (homes-weighted),37,16.86518808484176,-29.097435402194836,64.49577901034127,,,POST HOC
+test53_group,core,near vs ring headline (homes other than ADUs),58,-2.225785363828014,-4.987530071663723,-0.2827155336436873,,,POST HOC
+test53_group,non-core metro,near vs ring headline (homes other than ADUs),117,0.5611467029470678,-1.3964291844988683,2.449112489065888,,,POST HOC
+test53_group,outside metro,near vs ring headline (homes other than ADUs),1,,,,fewer than 5 jurisdictions,fewer than 10: read as thin,POST HOC

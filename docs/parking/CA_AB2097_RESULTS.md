@@ -258,3 +258,61 @@ comparison is not yet run.
   and priority areas, not major stops, so the spec's comparison cannot be run as written. Not run.
 - **Santa Cruz:** its map is a PDF of circles around many bus stops; rebuilding it means matching each circle to a
   stop by hand. Not done (Ryan's call whether it is worth it).
+
+## 11. POST HOC follow-ups (Ryan 2026-11-05 21:35; written after all results above were seen)
+
+Script `scripts/ca_ab2097_posthoc2.py`, committed and cleared by the audit before it ran; outputs
+`reference/ca_ab2097_posthoc2_*.csv`. **Reading rule, set before the run:** none of these is evidence of cause on its
+own; a row whose range excludes 0 is "a pattern worth a planned test", never a finding, whichever its sign. **Chance
+line:** of the 37 rows with a range, about 4 would exclude 0 by chance even with no real differences; 5 do.
+
+**Non-tax-credit homes and trend adjustment** (homes per 1,000 existing homes a year, 2023–2025 vs 2018–2022):
+
+| Group | Outcome | Headline | Lead check | Trend-adjusted |
+| --- | --- | --- | --- | --- |
+| Main (198) | Homes other than ADUs | −0.905 (−2.292 to +0.350) | +0.059 (−1.901 to +2.135) | −1.305 (−4.973 to +2.382) |
+| Main (198) | Non-tax-credit homes | −1.082 (−2.413 to +0.185) | +0.037 (−1.915 to +2.128) | −1.528 (−5.050 to +2.069) |
+| Placebo (12) | Homes other than ADUs | −2.291 (−3.926 to −0.284) | −4.103 (−8.630 to −1.445) | +4.111 (−0.652 to +10.268) |
+| Placebo (12) | Non-tax-credit homes | −2.795 (−4.637 to −0.801) | −3.490 (−7.814 to −0.898) | +3.069 (−1.128 to +8.804) |
+
+- Non-tax-credit homes = homes other than ADUs minus LIHTC-flagged homes, so they carry the financing field's uneven
+  fill. They give the same reading as the headline.
+- Trend adjustment: a straight line through 2018–2022, extrapolated to 2023–2025. The line includes 2022, the
+  reference year and a high year, which pulls it upward. Adjusting removes the test cities' negative result (it turns
+  positive, range including 0), so their failed placebo check came from their earlier trend. For the main group the
+  adjusted ranges are wide and include 0.
+
+**City size as a continuous variable** (city-level check; 450 places; slope unit: change in BPS permits per 1,000
+existing homes a year per 1.0 share of homes within ½ mile; evaluation sizes are conventions):
+
+| | Homes-weighted | Equal weight |
+| --- | --- | --- |
+| Change in the slope per tenfold more existing homes (two-sided) | −2.846 (−9.058 to −0.649) | −50.053 (−97.868 to +1.901) |
+| Slope at 5,000 homes | +2.617 (−0.514 to +7.712) | +30.337 (−1.072 to +58.237) |
+| Slope at 20,000 homes | +0.904 (−1.637 to +3.604) | +0.202 (−9.135 to +7.945) |
+| Slope at 100,000 homes | −1.086 (−5.497 to +1.325) | −34.784 (−73.339 to +2.900) |
+| Slope at 500,000 homes | −3.075 (−11.555 to −0.004) | −69.770 (−140.294 to +4.077) |
+| Lead placebo: change per tenfold more homes | +1.591 (−1.207 to +9.108) | +1.753 (−1.223 to +5.401) |
+
+- Pattern: small cities with more land near transit lean positive, large ones lean negative. The homes-weighted
+  interaction excludes 0; its lead placebo does not. This matches Ryan's reading that equal and homes weighting differ
+  because small and large cities differ. A pattern worth a planned test, not a finding.
+
+**City types** (parking thread's classes, file at bf1b9acc, Feb 2013 principal-city list; all 450 places matched, so
+no "unmatched" rows; 22 of the 198 main-group jurisdictions are county unincorporated areas with no class and are left
+out of the near-vs-ring split):
+
+| Class | City-level share slope (homes-weighted) | n places | Near vs ring headline | n jurisdictions |
+| --- | --- | --- | --- | --- |
+| Core (principal cities) | −2.379 (−4.844 to +1.750) | 73 | −2.226 (−4.988 to −0.283) | 58 |
+| Suburb | +1.098 (−1.619 to +3.895) | 259 | +0.906 (−0.985 to +2.742) | 110 |
+| Exurb | −49.936 (−78.407 to −25.348) | 25 | −15.817 (−30.832 to +11.992) | 5 (thin) |
+| Rural part of metro | −34.852 (−90.875 to +43.338) | 56 | not run (2) | 2 |
+| Non-metro | +16.865 (−29.097 to +64.496) | 37 | not run (1) | 1 |
+| Test 53 non-core metro (suburb + exurb + rural part) | +1.132 (−1.505 to +3.912) | 340 | +0.561 (−1.396 to +2.449) | 117 |
+
+- Core cities: near transit fell relative to the ring (−2.226, range excludes 0); suburbs lean the other way (range
+  includes 0). This is the same split as the size pattern above.
+- Exurbs' city-level slope is large and excludes 0, but rests on 25 places where few homes are near transit, so a
+  small share difference produces a large slope; read as thin.
+- If the parking thread changes its principal-city classes (Ryan, 21:36), this split will be re-run to match.
