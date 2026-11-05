@@ -489,6 +489,18 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05 18:14–18:15 UTC, post-lock, pre-count, Ryan, verbatim: 18:14:00 "use current caltrans data like the
+  challenge literature suggests"; 18:14:19 "sure on MTC" (to adding MTC's 2017 layers as a Bay Area check);
+  18:15:15 "yeah, I think just getting hard data on rail stops will already be huge". Reading sent to Ryan for
+  confirmation (not yet applied): rail/ferry/Amtrak dated end-2022 map stays main; today's Caltrans bus major stops
+  become the main bus map (labelled as a later map using the post-2024 20-minute rule, which covers more land than the
+  2023 rule); dated-schedule bus maps become a check; every result also shown rail-only. MTC 2017 layers: an earlier
+  map (before 2023), used as a check after their data licence is checked (code is Apache-2.0).
+- **Rule for California providers in the OpenMobilityData listing, fixed before reading it:** a provider counts as
+  California if its name or feed id matches a California GTFS feed in the Mobility Database catalog (feeds_v2.csv,
+  `location.subdivision_name` = California) by provider name (case-insensitive, ignoring punctuation) or by the
+  legacy TransitFeeds id the catalog records; plus this hand list of slugs, written now: ac-transit, la-metro,
+  sfmta, octa, sacrt, vta, long-beach-transit, foothill-transit, big-blue-bus, san-diego-mts.
 - 2026-11-05 18:13 UTC, post-lock, pre-count, Ryan: "yeah, do both" (to: check the OpenMobilityData archive for
   2022 schedules, and add a National Transit Database check for gap agencies).
   - **OpenMobilityData archive** (former TransitFeeds, stored publicly by the Mobility Database): a metadata-only
