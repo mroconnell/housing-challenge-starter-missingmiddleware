@@ -50,7 +50,7 @@ INPUTS = [
     "reference/parking_expanded_effects.csv", "reference/parking_expanded_estimates.csv", "reference/parking_expanded_tools.csv",
     "reference/parking_repeal_checks_expanded.csv", "reference/parking_placebo_summary.csv", "reference/parking_placebo_full_summary.csv", "reference/parking_partial_checks.csv",
 ]
-BASELINE_VERSION = "all-housing baseline v3"
+BASELINE_VERSION = "all-housing baseline v4"
 
 
 def sha256(p: Path) -> str:
