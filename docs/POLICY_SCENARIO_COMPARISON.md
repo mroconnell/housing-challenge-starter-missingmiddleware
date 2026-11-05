@@ -31,7 +31,7 @@ Extra homes permitted over 2027–2031, compared with current law. ADUs and TOD 
 
 | Reform | 90% range, extra homes, 2027–2031 | Low and high as a share of the 124,000-home all-housing baseline | Low and high per 1,000 existing homes (five-year total) | How the range is built | Coverage |
 | --- | --- | ---: | ---: | --- | --- |
-| **ADUs** (ADU permits: second homes on single-family lots) | 8,055 to 13,666 | 6.5% to 11.0% | 2.9 to 4.9 | Held-out prediction error: how far the model missed each of 7 statewide-law states it had not seen (root mean square log error 0.136 × t at 6 degrees of freedom, 1.943) | Checked on 7 states: 7 of 7 inside; too few to measure a factor, so not widened |
+| **ADUs** (ADU permits: second homes on single-family lots) | 8,055 to 13,666 | 6.5% to 11.0% of the 124,000 all-housing baseline (not of the 786 ADU baseline) | 2.9 to 4.9 | Held-out prediction error: how far the model missed each of 7 statewide-law states it had not seen (root mean square log error 0.136 × t at 6 degrees of freedom, 1.943) | Checked on 7 states: 7 of 7 inside; too few to measure a factor, so not widened |
 | **TOD** | 3,922 to 16,335 | 3.2% to 13.2% | 1.4 to 5.9 | Bootstrap of the 11 district places (4,866 to 15,361), widened ×1.1827 | 84.5% before widening |
 | **Parking** | Not yet on the range display (owner still working on parking). Current lines: low end −15,234, central 0, high end 19,818 | −12.3%, 0%, 16.0% | −5.5, 0, 7.1 | Low end: measured average of 76 repeal places; high end: placebo spread | Not checked against real outcomes |
 
