@@ -23,10 +23,12 @@ Outputs (no addresses, no project ids)
   2+ unit buildings, homes in projects of 5+ homes). The same for Palo Alto alone.
 - Printed: the cleaning counts and the full-reporter count.
 
-    uv run python scripts/ca_ab2097_step1b_permits.py
+    uv run python scripts/ca_ab2097_step1b_permits.py            # field checks and samples only
+    uv run python scripts/ca_ab2097_step1b_permits.py --counts   # later, after the audit clears the counts
 """
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -82,8 +84,16 @@ def field_checks(a2: pd.DataFrame) -> None:
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--counts", action="store_true",
+                    help="also write the permit counts by zone (held by the audit until the bus-map choice is in the "
+                         "plan and the estimation script is committed)")
+    a = ap.parse_args()
     a2 = pd.read_csv(A2, usecols=COLS, low_memory=False)
     field_checks(a2)
+    if not a.counts:
+        print("counts not written (run with --counts once the audit clears them)")
+        return
     p, info = ab.clean_permits(a2.drop(columns=["DENSITY_BONUS_TOTAL", "FIN_ASSIST_NAME"]))
     print("cleaning:", info)
     rep = ab.full_reporters(p)
