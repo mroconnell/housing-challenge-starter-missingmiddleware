@@ -252,3 +252,22 @@ Changes to this plan:
      The same confounds are listed beside either sign: other laws near transit (item 7 table), interest rates and
      costs, Los Angeles programs, late reporting, and homes moving between near and ring land.
    - Any result with trending leads or a placebo-date "effect": not evidence of cause (item 5 of the first audit block).
+
+**2026-11-05 15:37 UTC, Ryan's answers to the 5 choices (section 5), before any count:**
+1. **Main map = the "theoretical map"** (map A, the law as written in 2022). City maps and the wide and narrow maps
+   are checks.
+2. **Planned stops are in the theoretical map.** Every stop row carries a **launch date**: the date service began
+   (existing stops), or the planned opening year from the regional plan (planned stops; may be in the future).
+   Uses, fixed now:
+   - Main: all stops with a launch date up to the plan horizon count as covered from 1 January 2023, as the law says.
+   - Check: existing stops only (launch date on or before 31 December 2022).
+   - Check: land whose nearest stop launched during 2018–2025 shown apart, since a new station can raise permits by
+     itself.
+   - Launch dates come from the agency or regional plan; where none is found the row is marked "date unknown" and
+     counted in the main map.
+3. **Old schedules:** free public archives first, unless TOD names a better source (for example a national agency
+   database). Waiting on TOD's answer, relayed by the coordinator. **The plan is not locked until then.**
+4. **Permits:** HCD Annual Progress Report Table A2, dated by building-permit issue date. Report-year dating stays
+   beside it as a fixed check.
+5. **Edge check:** run on the theoretical map **and** on a few actual city maps (from the local-map sample in the
+   first block of this section). Reported beside the main result, never in place of it.
