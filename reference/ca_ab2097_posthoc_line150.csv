@@ -1,2 +1,2 @@
-case,map,group,outcome,estimate,low,high,unit
-POST HOC: headline without land within 150 m of the 1/2-mile line,main,main,homes_non_adu,-1.5223476483733287,-3.298427040972814,0.06781481063438358,"homes in issued permits per 1,000 existing homes (2020) per year"
+case,map,group,outcome,estimate,low,high,n_jurisdictions,unit
+POST HOC: headline without land within 150 m of the 1/2-mile line,main,main,homes_non_adu,-1.5223476483733287,-3.298427040972814,0.06781481063438358,194,"homes in issued permits per 1,000 existing homes (2020) per year"

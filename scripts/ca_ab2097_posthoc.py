@@ -50,6 +50,7 @@ def main() -> None:
     lo, hi = E.interval(d)
     out = pd.DataFrame([{"case": "POST HOC: headline without land within 150 m of the 1/2-mile line", "map": "main",
                          "group": "main", "outcome": "homes_non_adu", "estimate": e, "low": lo, "high": hi,
+                         "n_jurisdictions": len(g.juris),
                          "unit": "homes in issued permits per 1,000 existing homes (2020) per year"}])
     out.to_csv(REFERENCE / "ca_ab2097_posthoc_line150.csv", index=False)
     print(out.round(3).to_string(index=False))

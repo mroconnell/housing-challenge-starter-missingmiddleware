@@ -15,13 +15,17 @@ test could detect (1.645 × the spread of the resampled estimates).
 - **No measurable change.** Near transit, homes permitted (other than ADUs) changed by −0.905 per 1,000 existing
   homes a year relative to the ring, range −2.292 to +0.350. The range includes 0. The test could detect a change of
   about 1.330 either way.
-- **The before years are balanced** for the main group, so the comparison itself looks sound.
-- **The early-reform test cities did not stay flat.** They fell near transit relative to the ring, and they were
-  already falling before 2023. By the plan's rule, a non-zero main result could not have counted as evidence anyway.
-- **City-level check: no measurable change either.** Cities with more homes near transit did not gain more permits
-  overall after 2023.
-- **Affordable homes (descriptive only): no measurable change** in tax-credit apartments or in deed-restricted
-  low-income homes near transit.
+- **The placebo check failed.** The locked rule (plan section 8, audit block item 3) needs the early-reform test
+  cities' 90% range to include 0. It does not: −2.291 (−3.926 to −0.284), and those cities were already falling near
+  transit before 2023. So near-vs-ring can drift for reasons other than AB 2097, and this design cannot support a
+  causal reading in either direction: it cannot show an effect, and it cannot confirm "no effect" either.
+- **Before years.** The main group's lead checks include 0, but every before year sits 1.22 to 3.32 below 2022, which
+  was a high year near transit.
+- **City-level check: no measurable change.** Homes-weighted slope −1.734 (−3.135 to +1.719); equal weight per city
+  +12.602 (−0.132 to +33.057). Both include 0, so there is no statewide "extra homes" claim.
+- **Affordable homes (descriptive only).** Tax-credit apartments near transit: +0.165 (−0.205 to +0.510), no
+  measurable change. Deed-restricted low-income homes and density-bonus homes were already rising near transit before
+  2023 (lead checks exclude 0), so they cannot be read.
 
 ## 2. Main result and its checks on the before years
 
@@ -39,9 +43,14 @@ Main group: 198 full-reporting jurisdictions with homes near transit, less the 1
 | Placebo date: 2020–2022 vs 2018–2019 | −0.240 | −2.326 to +1.591 | |
 | Anticipation: 2023–2025 vs 2018–2021 | −0.481 | −1.906 to +0.816 | |
 
-Year by year, relative to 2022 (homes other than ADUs): 2018 −1.22, 2019 −1.89, 2020 −2.05, 2021 −3.32, 2022 0,
-2023 −3.21, 2024 −3.63 (range −7.53 to −0.35), 2025 −0.96. 2022 was a high year near transit; every other year sits
-below it, before and after the law alike.
+Year by year, relative to 2022 (homes other than ADUs; 90% ranges):
+
+| Year | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Estimate | −1.22 | −1.89 | −2.05 | −3.32 | 0 | −3.21 | −3.63 | −0.96 |
+| Range | −5.13 to +3.17 | −5.67 to +1.55 | −5.71 to +0.98 | −7.05 to +0.45 | (reference) | −6.80 to +0.51 | −7.53 to −0.35 | −4.68 to +2.51 |
+
+2022 was a high year near transit; every other year sits below it, before and after the law alike.
 
 The per-acre row is the only main-group headline row whose range excludes 0, and only just (−0.001). Under the plan's
 symmetric rules, read beside all the checks, it is not a finding on its own.
@@ -56,11 +65,11 @@ symmetric rules, read beside all the checks, it is not a finding on its own.
 | Lead slope, per year, 2018–2021 vs 2022 | −3.133 | −5.664 to −1.390 |
 | Lead check: 2021–2022 vs 2018–2020 | −4.103 | −8.630 to −1.445 |
 
-These places' near-transit building was already falling relative to their rings before 2023 (lead check −4.103,
+Under the locked rule this check fails (see section 1). These places' near-transit building was already falling relative to their rings before 2023 (lead check −4.103,
 range −8.630 to −1.445), so their headline is not a clean placebo. Their range excludes 0, so the plan's placebo
 condition fails. This says the near-vs-ring comparison can drift for reasons other than AB 2097
-in dense, early-reform cities (San Francisco, San Diego, Oakland and others). It does not change the main reading,
-which is no measurable change.
+in dense, early-reform cities (San Francisco, San Diego, Oakland and others). The main result stays "no measurable change", but with the placebo
+check failed, it cannot be read as evidence of no effect.
 
 ## 4. City-level check (Census BPS place totals)
 
@@ -96,7 +105,7 @@ All homes other than ADUs; main group unless stated.
 | Stable-geocode jurisdictions only | −1.006 | −2.608 to +0.500 | 117 |
 | Drop the largest project in each area and period | −0.876 | −2.201 to +0.329 | 198 |
 | Equal weight per jurisdiction | +0.241 | −4.086 to +5.193 | 198 |
-| **POST HOC:** without land within 150 m of the ½-mile line | −1.522 | −3.298 to +0.068 | |
+| **POST HOC:** without land within 150 m of the ½-mile line | −1.522 | −3.298 to +0.068 | 194 |
 
 One of 11 planned checks excludes 0 (entitlement-date dating, by 0.028), in the same direction as the headline. Read
 under the plan's symmetric rules, beside the other checks, it is not a finding on its own. The street-level-only
@@ -139,7 +148,8 @@ years (plan section 9). Same contrast and units as the headline.
 - Share A rose, but the density-bonus field's reporting changed over the same years (share of 5+ rows with a bonus
   above 0: 0.9% in 2018 to 17.2% in 2025), so it is not read as real use.
 
-Plain counts (main group, jurisdictions with land near transit only; homes in LIHTC-flagged projects of 5+ homes; raw totals, 5 before years vs 3 after years;
+Plain counts (main group, jurisdictions with land near transit only; the first version of this table also counted
+ring land in places with no land near transit and showed ring 3,778 / 66 before and 2,762 / 45 after; homes in LIHTC-flagged projects of 5+ homes; raw totals, 5 before years vs 3 after years;
 near and ring hold different numbers of homes, so compare zones only with the rate above):
 
 | Area | 2018–2022 | 2023–2025 |
@@ -150,8 +160,8 @@ near and ring hold different numbers of homes, so compare zones only with the ra
 ## 8. Data and caveats
 
 - **Permit locations.** Rows without a precise HCD location rose from 2.4%–4.8% (2018–2022) to 8.7%, 17.4% and
-  20.7% (2023–2025). The Census re-geocode recovered 10,552 rows (46% of those sent for 2023, 30% for 2024, 7% for
-  2025). The street-level-only check gives the same reading.
+  20.7% (2023–2025). The Census re-geocode accepted 11,197 rows; 10,552 of them remain after
+  cleaning (the other 645 are duplicates across report years or fall outside 2018–2025 by issue date) and were used (accepted: 46% of rows sent for 2023, 30% for 2024, 7% for 2025). The street-level-only check gives the same reading.
 - **POST HOC: where the unlocated homes are.** In 2025, 13.2% of homes in cities with land near transit were
   unlocated, against 26.7% in cities without (2024: 11.9% vs 13.6%). The main group only includes cities with land
   near transit.
@@ -164,7 +174,8 @@ near and ring hold different numbers of homes, so compare zones only with the ra
   fix (d6d96c2d) gives the results above. First-run headline, labelled "first run, group bug": −0.855
   (−2.283 to +0.498), 360 jurisdictions. Same reading.
 - **Earlier AB 2097 test** (October, corrected November 3): −0.75 (−2.27 to +0.66), all homes, 185 jurisdictions.
-  This study's −0.942 (−2.330 to +0.319) for all homes agrees.
+  This study's −0.942 (−2.330 to +0.319) for all homes is similar; the groups differ (198 vs 185 jurisdictions)
+  and so do the maps and points.
 - Tests for the estimate helpers (`tests/test_ca_ab2097.py`) were run with python directly; pytest is not installed.
 
 ## 9. Not yet run (side checks; spec fixed before this run)
