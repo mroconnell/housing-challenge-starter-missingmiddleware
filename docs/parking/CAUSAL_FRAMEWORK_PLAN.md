@@ -1563,6 +1563,12 @@ These override the three groups above.
 - **Class-matched pools (D):** pools are limited to the same six-class group, with the batch ladder unchanged.
 - **Reading:** unchanged, including that D and main must agree in sign. There are now about 10 comparisons (2 differences × 2 weightings, 2 gap differences and 4 slopes), so 1 or 2 ranges excluding 0 by chance is plausible, and the write-up says so.
 - **Ryan's go:** his 21:40 message asks for this run. The audit must clear the revision before it runs.
+- **Held-out prediction (Ryan 21:41 UTC: "the categories and population might end up being really strong predictors"):**
+  - Group averages that differ don't make a predictor, so the run also uses the round-3 tool test (`run_parking_expanded.cv_score`: 10 folds × 20 repeats, the same tools and seed) on the 74 main effects.
+  - Features: log10 population and the six-class indicators.
+  - Weights: homes × after-years, and equal.
+  - A tool passes if its held-out error beats "one average" by 5% or more, as locked for the expanded tools.
+  - A pass is evidence only; using it in Wisconsin needs Ryan's OK and the 25% rule.
 
 **Run order:**
 1. Code committed before any run.

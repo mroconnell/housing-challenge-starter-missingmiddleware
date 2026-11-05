@@ -133,6 +133,27 @@ def main() -> None:
                          places=int(np.isfinite(y).sum()), rate=a, p05=lo, p95=hi, excludes_0=bool(lo > 0 or hi < 0)))
     R = pd.DataFrame(rows)
     R.round(4).to_csv(OUT / "parking_t53_groups.csv", index=False)
+    # held-out prediction (Ryan 21:41 UTC: "the categories and population might end up being really strong predictors"):
+    # the round-3 tool test (run_parking_expanded.cv_score, 10 folds x 20 repeats, seed as there) on the main effects,
+    # features = log10 population + six-class indicators; passes if a tool beats "one average" by 5%+ (rule as locked
+    # for the expanded tools), under homes x after-years weights and under equal weights
+    import run_parking_expanded as rpe
+    cls = pd.Series([T["area_class6"].get(k, "unknown") for k in keys])
+    dd = pd.DataFrame({"effect": yM, "weight": wM, "equal": 1.0, "log_pop": lp})
+    for gname in GROUPS[1:]:
+        dd[f"is_{gname}"] = (cls == gname).astype(float).values
+    dd = dd[np.isfinite(dd["effect"])].reset_index(drop=True)
+    feats = ["log_pop"] + [f"is_{g}" for g in GROUPS[1:]]
+    pred_rows = []
+    for wcol in ("weight", "equal"):
+        sc = rpe.cv_score(dd, feats, wcol=wcol)
+        base = sc["one average"]
+        for t, e in sc.items():
+            pred_rows.append(dict(weights="homes x after-years" if wcol == "weight" else "equal", tool=t, held_out_error=e,
+                                  gain_vs_one_average=1 - e / base, passes=bool(t != "one average" and 1 - e / base >= 0.05)))
+    PR = pd.DataFrame(pred_rows)
+    PR.round(4).to_csv(OUT / "parking_t53_prediction.csv", index=False)
+    print(PR.round(3).to_string(index=False))
     pd.set_option("display.width", 250)
     print(R.drop(columns=["places_list"]).round(3).to_string(index=False))
     # exurbs as a list of cases
