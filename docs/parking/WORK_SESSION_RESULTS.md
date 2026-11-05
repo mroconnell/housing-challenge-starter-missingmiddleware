@@ -1108,11 +1108,11 @@ Five helpers coded three places each from public sources, following a written br
 - **Reproduction:** every part first reproduced these exactly.
 
 **Bottom line.**
-- No adjustment for a back door we could measure moves either estimate by more than its paired range. The tested back doors are market demand, other reforms, pre-repeal trends, pool rules, spillover and the 2010 homes denominator.
-- The one paired range that excludes 0 is 52h.1, and it is small: −3,409 homes.
+- For the back doors we could measure, no shift's paired range excludes 0, except h1: −3,409 homes (−6,682 to −219). The tested back doors are market demand, other reforms, pre-repeal trends, pool rules, spillover and the 2010 homes denominator.
 - No placebo shows an effect after repeal that is absent before it.
 - **Influence (52e):** the main estimate's negative lean comes from a few big cities. Dropping San Francisco, Austin and San Jose moves it by +21,353 homes, to +5,973. D's lean does not depend on them. Main is also out of balance on crowding (−0.35) and density (0.31), which it does not match on. Both points support reading D over main.
-- **Alternatives:** synthetic DiD loses to D. The weighting bake-off finds no clear winner, and stacking fails its coverage test, so the target-state mix stays.
+- **Alternatives:** synthetic DiD loses to D.
+- **The sign depends on the weighting:** the mix gives −12,873 WI homes; the other four give +1,479 to +9,261. The mix stays because stacking failed, not because it clearly won.
 
 **52a. Market demand (D read; main exploratory).**
 - **Traits:** ACS rent growth (window ending the year before repeal against the window ending 6 years before) and QCEW county job growth.
@@ -1183,7 +1183,7 @@ Five helpers coded three places each from public sources, following a written br
 - **Leave-one-out:**
   - Main ranges from −23,518 (without Raleigh) to +1,054 (without Austin).
   - D ranges from −20,011 (without Hudson) to −6,781 (without Ecorse).
-  - One D range out of 74 excludes 0 (without Burlington), which is about what chance gives.
+  - One D range out of 74 excludes 0 (without Burlington). There is no count reading, because leave-one-out ranges are not independent.
 - **Bastrop:** its own effect is the highest of the 74. Dropping it moves main by −669 and D by −2,244.
   - Verified: the 2011 fire and the 2015 flood happened in the county.
   - Not verified: that their rebuilding fell inside the city, in its windows.
@@ -1238,5 +1238,5 @@ Five helpers coded three places each from public sources, following a written br
   | homes | +1,479 |
   | equal | +8,270 |
 
-- **Why coverage is so low:** the blend's range measures how sure we are of the training-state average. A held-out state's own average carries its own noise, which that range does not include, so low coverage is expected here.
+- **Why coverage is so low (post hoc explanation):** held-out state results run from −3.745 to +7.536 per 1,000 homes, so states differ from each other, not just by noise. The blend's range is the range of an average effect, and one state's own result can fall well outside it; 7 of 10 held-out states did. The Wisconsin range is likewise the range of an average effect.
 - **Tie rule:** this replaces "ties go to the state mix" for this test only (Ryan's go, 17:58 UTC).
