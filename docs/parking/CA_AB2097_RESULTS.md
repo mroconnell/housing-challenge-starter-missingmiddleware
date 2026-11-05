@@ -327,7 +327,7 @@ out of the near-vs-ring split):
 Script `scripts/ca_ab2097_posthoc3.py`, cleared by the audit before it ran; outputs
 `reference/ca_ab2097_posthoc3_city_types6.csv` and `_size_pop.csv`. Classes and population reused unchanged from the
 parking thread's Test 53 (`area_class6`; 2010 Gazetteer POP10). Same reading rule as section 11: none of these is
-evidence of cause; a range excluding 0 is a pattern worth a planned test. **Chance line:** of the 29 rows with a range,
+evidence of cause; a range excluding 0 is a pattern worth a planned test. **Chance line:** of the 30 rows with a range,
 about 3 would exclude 0 by chance; 5 do. These repeat section 11's large-vs-small pattern with a different size
 measure and different classes, so they are **not independent of it**.
 
