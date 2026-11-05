@@ -1,0 +1,75 @@
+prn_key,place,state,key,event_year,source,house_min,house_min_source,reform_type_value,old_minimums_value,sources_differ,in_list,reason
+"San Jose, California, United States",San Jose,California,06|394000,2023,first 46,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"San Francisco, California, United States",San Francisco,California,06|389000,2019,first 46,1.0,parking_reform_type_15.csv req_before_house,1 (1 per unit in RH districts),1.0,False,True,house minimum 1 <= 2
+"Raleigh, North Carolina, United States",Raleigh,North Carolina,37|466000,2022,first 46,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Minneapolis, Minnesota, United States",Minneapolis,Minnesota,27|497800,2021,first 46,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Lexington, Kentucky, United States",Lexington,Kentucky,21|301000,2022,first 46,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"St. Paul, Minnesota, United States",St. Paul,Minnesota,27|712600,2021,first 46,1.5,parking_old_minimums.csv old_min_single_family,,1.5,False,True,house minimum 1.5 <= 2
+"Anchorage, Alaska, United States",Anchorage,Alaska,02|041000,2023,first 46,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Buffalo, New York, United States",Buffalo,New York,36|089500,2017,first 46,1.0,parking_reform_type_15.csv req_before_house,1,1.0,False,True,house minimum 1 <= 2
+"Bridgeport, Connecticut, United States",Bridgeport,Connecticut,09|061000,2021,first 46,1.5,parking_old_minimums.csv old_min_single_family,,1.5,False,True,house minimum 1.5 <= 2
+"Gainesville, Florida, United States",Gainesville,Florida,12|271000,2022,first 46,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Hartford, Connecticut, United States",Hartford,Connecticut,09|285000,2017,first 46,1.0,parking_reform_type_15.csv req_before_house,"1 per lot (min 1, max 4)",1.0,False,True,house minimum 1 <= 2
+"Ann Arbor, Michigan, United States",Ann Arbor,Michigan,26|026500,2022,first 46,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Cambridge, Massachusetts, United States",Cambridge,Massachusetts,25|103000,2022,first 46,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Roanoke, Virginia, United States",Roanoke,Virginia,51|065000,2021,first 46,0.0,parking_old_minimums.csv old_min_single_family,,0.0,False,True,house minimum 0 <= 2
+"Alameda, California, United States",Alameda,California,06|003000,2021,first 46,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"West Allis, Wisconsin, United States",West Allis,Wisconsin,55|932000,2022,first 46,,,,,False,False,no coded house minimum
+"Corvallis, Oregon, United States",Corvallis,Oregon,41|099000,2022,first 46,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Tigard, Oregon, United States",Tigard,Oregon,41|505000,2022,first 46,,,,,False,False,no coded house minimum
+"Dunwoody, Georgia, United States",Dunwoody,Georgia,13|233500,2019,first 46,2.0,parking_reform_type_15.csv req_before_house,2 per unit -> 2,2.0,False,True,house minimum 2 <= 2
+"Culver City, California, United States",Culver City,California,06|101000,2022,first 46,,,,,False,False,no coded house minimum
+"Mount Pleasant, Michigan, United States",Mount Pleasant,Michigan,26|617500,2018,first 46,,,not found,,False,False,no coded house minimum
+"Windham, Maine, United States",Windham,Maine,23|493000,2018,first 46,2.0,parking_reform_type_15.csv req_before_house,"2/unit listed in Table 2, but houses exempt from site plan review; VC district 1/unit",,False,True,house minimum 2 <= 2
+"Cambridge, Maryland, United States",Cambridge,Maryland,24|093000,2021,first 46,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Emeryville, California, United States",Emeryville,California,06|129000,2020,first 46,0.67,parking_reform_type_15.csv req_before_house,0.67 (67% of 1/unit estimated demand; rounding rule not found),0.67,False,True,house minimum 0.67 <= 2
+"Branson, Missouri, United States",Branson,Missouri,29|068500,2018,first 46,2.0,parking_reform_type_15.csv req_before_house,2 per unit -> 2,2.0,False,True,house minimum 2 <= 2
+"Canandaigua, New York, United States",Canandaigua,New York,36|103500,2020,first 46,,,not found,,False,False,no coded house minimum
+"Ecorse, Michigan, United States",Ecorse,Michigan,26|266500,2020,first 46,,,not found,,False,False,no coded house minimum
+"Bastrop, Texas, United States",Bastrop,Texas,48|045500,2019,first 46,,,"not found (manufactured homes in SF districts: 2 spaces, 1 covered)",,False,False,no coded house minimum
+"River Rouge, Michigan, United States",River Rouge,Michigan,26|748000,2021,first 46,,,,,False,False,no coded house minimum
+"Hudson, New York, United States",Hudson,New York,36|348000,2019,first 46,1.0,parking_reform_type_15.csv req_before_house,1,1,False,True,house minimum 1 <= 2
+"Bandera, Texas, United States",Bandera,Texas,48|041000,2021,first 46,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Austin, Texas, United States",Austin,Texas,48|033000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Sacramento, California, United States",Sacramento,California,06|374000,2024,expanded,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Durham, North Carolina, United States",Durham,North Carolina,37|164000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Richmond, Virginia, United States",Richmond,Virginia,51|063000,2023,expanded,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Birmingham, Alabama, United States",Birmingham,Alabama,01|048000,2024,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Newport News, Virginia, United States",Newport News,Virginia,51|049000,2024,expanded,,,,,False,False,no coded house minimum
+"Salem, Oregon, United States",Salem,Oregon,41|445000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Eugene, Oregon, United States",Eugene,Oregon,41|151000,2024,expanded,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Berkeley, California, United States",Berkeley,California,06|039000,2021,expanded,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Bend, Oregon, United States",Bend,Oregon,41|041000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Beaverton, Oregon, United States",Beaverton,Oregon,41|039000,2023,expanded,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Longmont, Colorado, United States",Longmont,Colorado,08|401000,2024,expanded,,,,,False,False,no coded house minimum
+"Trenton, New Jersey, United States",Trenton,New Jersey,34|516000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Duluth, Minnesota, United States",Duluth,Minnesota,27|196900,2023,expanded,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Kalamazoo, Michigan, United States",Kalamazoo,Michigan,26|463500,2023,expanded,,,,,False,False,no coded house minimum
+"Rogers, Arkansas, United States",Rogers,Arkansas,05|462000,2024,expanded,,,,,False,False,no coded house minimum
+"Portland, Maine, United States",Portland,Maine,23|363000,2024,expanded,,,,,False,False,no coded house minimum
+"Springfield, Oregon, United States",Springfield,Oregon,41|481000,2024,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Albany, Oregon, United States",Albany,Oregon,41|009000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"La Crosse, Wisconsin, United States",La Crosse,Wisconsin,55|452000,2024,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Burlington, Vermont, United States",Burlington,Vermont,50|085000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Grants Pass, Oregon, United States",Grants Pass,Oregon,41|191000,2024,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Plainfield , Indiana, United States",Plainfield,Indiana,18|584500,2022,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Tualatin, Oregon, United States",Tualatin,Oregon,41|517000,2024,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"West Linn, Oregon, United States",West Linn,Oregon,41|555000,2024,expanded,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Kingston, New York, United States",Kingston,New York,36|375000,2023,expanded,,,,,False,False,no coded house minimum
+"Ashland, Oregon, United States",Ashland,Oregon,41|017000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Carrboro, North Carolina, United States",Carrboro,North Carolina,37|092000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Milwaukie, Oregon, United States",Milwaukie,Oregon,41|339000,2024,expanded,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Northfield, Minnesota, United States",Northfield,Minnesota,27|551800,2024,expanded,,,,,False,False,no coded house minimum
+"Central Point, Oregon, United States",Central Point,Oregon,41|071000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Portsmouth, Ohio, United States",Portsmouth,Ohio,39|522700,2022,expanded,,,,,False,False,no coded house minimum
+"Taylor, Texas, United States",Taylor,Texas,48|688000,2023,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Hanover, New Hampshire, United States",Hanover,New Hampshire,33|397000,2024,expanded,,,,,False,False,no coded house minimum
+"Lansing, Kansas, United States",Lansing,Kansas,20|296200,2024,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"Hampden, Maine, United States",Hampden,Maine,23|190000,2022,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"King City, Oregon, United States",King City,Oregon,41|265000,2024,expanded,1.0,parking_old_minimums.csv old_min_single_family,,1.0,False,True,house minimum 1 <= 2
+"Social Circle, Georgia, United States",Social Circle,Georgia,13|616000,2023,expanded,,,,,False,False,no coded house minimum
+"Millersburg, Oregon, United States",Millersburg,Oregon,41|335000,2024,expanded,2.0,parking_old_minimums.csv old_min_single_family,,2.0,False,True,house minimum 2 <= 2
+"South Bend, Indiana, United States",South Bend (with unincorporated St. Joseph County),Indiana,18|687500,2021,rescued,,,,,False,False,no coded house minimum (place not in either file)
+"Gastonia, North Carolina, United States",Gastonia,North Carolina,37|218000,2021,rescued,,,,,False,False,no coded house minimum (place not in either file)
+"Avondale Estates, Georgia, United States",Avondale Estates,Georgia,13|047000,2021,rescued,,,,,False,False,no coded house minimum (place not in either file)
+"Saranac Lake, New York, United States",Saranac Lake,New York,36|648000,2016,partial-reforms search,,,not found,,False,False,no coded house minimum
