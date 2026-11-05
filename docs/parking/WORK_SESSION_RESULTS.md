@@ -987,7 +987,7 @@ Five helpers coded three places each from public sources, following a written br
 **Frame caveats (San Francisco).**
 - **Approved before-151 pool:** only 10 records, so it was fully drawn and is effectively a census. With the dropped record, 9 remain.
 - **Blank decisions:** 55 before-151 records are "Closed" with no decision. Their outcome isn't known, so approval rates are not computed.
-- **Section mismatches:** the frame's section (from current parcel zoning) matches the case report for 26 of 30. It differs for 2, is unclear for 2, and is not found for none of the kept rows. The case report wins.
+- **Section mismatches:** the frame's section (from current parcel zoning) matches the case report for 26 of 30. It differs for 2 and is unclear for 2. The case report wins.
 
 **San Francisco, three groups (residential stalls; homes as approved):**
 
@@ -998,7 +998,7 @@ Five helpers coded three places each from public sources, following a written br
 | Filed after | 16 | 0.19 | 0.16 | 0.05 | 8 of 16 |
 
 - **Filed after:** 1,780 homes proposed and 1,900 approved, with 346 stalls proposed and 310 approved. Four of the 8 zero-stall projects are 100% affordable.
-- **Before/before (2017-007542PRJ):** the one project had a 17-stall minimum, met under Sec. 150(e) by swapping in bike parking.
+- **Before/before (2017-007542PRJ):** one project only, so it can't be compared with the other groups. It had a 17-stall minimum, met under Sec. 150(e) by swapping in bike parking.
 - **Switchers, Sec. 151 (minimums at filing), required minimum against approved stalls:**
   - 2018-009081PRJ: 49 required, 0 approved. It first sought a PUD exception; none was needed by approval.
   - 2016-013012PRJ: 9 required, 9 proposed, 0 approved.
@@ -1034,9 +1034,11 @@ Five helpers coded three places each from public sources, following a written br
   - Five were not approved: withdrawn, abandoned or still in process.
 
 **Reading.**
-- **After the repeal:** most San Francisco projects proposed and got far fewer stalls than the old minimums. Half of the filed-after projects (8 of 16) had none.
+- **After the repeal:** most San Francisco projects proposed and got far fewer stalls than the old minimums. Half of the filed-after projects (8 of 16) had none. Four of those 8 are 100% affordable; whether they would have had a reduced or zero minimum before the repeal anyway (for example, under affordable-housing reductions) is not known, because the old minimum was not coded for this group.
 - **Switchers:** under Sec. 151, half went below the old minimum (3 of 6 with a known minimum) and several dropped stalls between proposal and approval (9 to 0, 32 to 0, 152 to 86).
 - **Large market-rate projects:** some still chose more parking than the minimum.
-- **What this does not show:** whether more homes were built. It shows only that the requirement was binding for some projects.
+- **What this does not show:** whether more homes were built. It is consistent with the old minimum binding for some switchers (3 of 6 with a known minimum went below it). This is a description, not a test.
+
+**Audit.** Accepted (coordinator's audit, 2026-11-05 about 16:57 UTC); all figures recomputed from the CSV and match. Wording fixes applied.
 
 **Spot-check rows for Ryan (seed 20261105, drawn from the 30 kept SF rows):** 2017-002951PRJ, 2022-012441PRJ, 2020-006679PRJ, 2021-000947PRJ, 2018-014727PRJ.
