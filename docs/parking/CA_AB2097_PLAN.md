@@ -1,0 +1,127 @@
+# CA AB 2097: statewide effect on permits — options and plan (DRAFT, not locked)
+
+Written 2026-11-05 by the CA AB 2097 thread, before any new permit count. Status: **draft for Ryan and the audit**.
+Nothing runs until Ryan picks the options in section 5 and the audit clears the lock.
+
+## 1. The question
+
+Did AB 2097 (no parking minimums within ½ mile of a major transit stop, in force 1 January 2023) change how many
+homes California permitted? Answer in:
+
+- extra homes permitted per 1,000 existing homes a year (same unit as the parking tool);
+- extra homes permitted per acre a year (TOD's unit);
+- total extra homes permitted in covered land, 2023–2025 (a count).
+
+Every result is a two-sided 90% range. No sign is assumed.
+
+## 2. What we already know
+
+| Earlier work | What it did | Result (90% range) | Unit |
+| --- | --- | --- | --- |
+| AB 2097 test (TOD, Oct 27; corrected Nov 3) | 185 cities; ½ mile vs ½–1½ mile ring; 2018–22 vs 2023–25 | −0.75 (−2.27 to +0.66), all homes | homes per 1,000 existing homes a year |
+| Same, homes in 2+ unit buildings | | −0.65 (−2.01 to +0.71) | same |
+| E1 (parking, Nov 3) | Same line, 2–4 home projects only | −0.023 (−0.070 to +0.018) | same |
+| Distance bands (parking round 3) | ¼-mile bands to ¾ mile | no slope: +1.16 (−5.39 to +7.75) | same, per mile |
+| LA map change (Nov 3) | Did LA's 2024 map widening give a test? | Not feasible | |
+| Test 49 / method 2 (76 US repeal places) | Repeal effects nationally | Unclear; repeal places ran low before repeal too | |
+
+Weak spots in the earlier AB 2097 test that a new study could fix:
+
+- **Wrong map.** It used today's Caltrans stop layer. That uses the 20-minute bus rule from 2025 (AB 2553). The law in 2023 used 15 minutes. So some "covered" land was not covered.
+- **Planned stops left out.** The law also covers stops planned in the regional transportation plan. The test put that land in the comparison ring.
+- **Only two periods.** One before/after average. No year-by-year view of the lead-up.
+- **No edge test.** Nothing compares land just inside vs just outside the line.
+
+## 3. Options
+
+| Option | What it does | New? | Cost | Main risk |
+| --- | --- | --- | --- | --- |
+| **A. Rebuild the 2022 map** | Build major transit stops from late-2022 transit schedules (GTFS), 15-minute rule, plus 2022 planned stops | Fixes the map | Medium | Old schedules may be hard to get or licensed badly |
+| **B. Local published maps** | Compare A's map to city maps (LA, San Diego, San Jose, Oakland, Sacramento, others with public maps) | Checks A | Low–medium | City maps are dated 2024–2026 and mix later rules |
+| **C. Year-by-year comparison** | Each year 2018–2025 vs 2022, near vs ring | Shows lead-up and ramp | Low once A exists | Few after years (3) |
+| **D. Map edges** | Land just inside (⅓–½ mile) vs just outside (½–⅔ mile), same city | Closest-alike land | Low | Very low power; edge is soft (stops change) |
+| **E. Take-up check** | Count LA's AB 2097 case filings by year and kind (290 rows on disk, 2023–2026) | Did anyone use it? | Low | One city; many filings are shops, not homes |
+| **F. California vs other states** | Whole-state permits vs other states | Big picture | Low | One state, many laws at once; can't separate AB 2097 |
+
+Not recommended: **F**. California passed SB 9, AB 2011, density-bonus and ADU changes in the same years, so a whole-state
+comparison cannot isolate AB 2097.
+
+## 4. Recommendation
+
+Run **A + C as the main study**, with **B, D and E as checks**.
+
+- **Main estimate:** year-by-year near-vs-ring comparison on the rebuilt 2022 map. The headline is the 2023–2025 average
+  against 2018–2022, as before, so it lines up with the earlier test.
+- **B** says how far our map is from city maps (share of land that agrees).
+- **D** is reported beside the main result, never instead of it.
+- **E** shows whether the law was used at all.
+
+What to expect, stated now:
+- The earlier range was about ±1.5 homes per 1,000 existing homes a year. Across 1,276,507 near-transit homes that is about
+  ±1,900 homes a year.
+- A better map should reduce dilution toward zero. It will not make the range much narrower.
+- **Most likely outcome: the "no measurable change" answer stands.** The study is worth running if the map fix matters, or if
+  the year-by-year view shows a lead-up gap like Test 49 found nationally.
+
+## 5. Choices for Ryan
+
+| # | Choice | My pick | Why |
+| --- | --- | --- | --- |
+| 1 | Which map is main | A (rebuilt 2022 map); today's layer as a check | Matches the law as written in 2023 |
+| 2 | Count planned stops as covered | Yes; leaving them out as a check | The law covers them |
+| 3 | Where old schedules come from | Free public archives first (Cal-ITP, agency sites, Wayback copies). Mobility Database or Transitland need an account and key: your call | I can't create accounts |
+| 4 | Permit dating | Issue date main, report year beside it | Your 2026-11-03 rule |
+| 5 | Run D (edges) at all | Yes, as a check | Cheap once A exists |
+
+## 6. Plan details (to lock after section 5 is answered)
+
+**Data**
+- Permits: HCD Annual Progress Report Table A2, 2018–2025 (on disk), same cleaning as the corrected AB 2097 test:
+  issue-date dating, cross-year re-report duplicates dropped, geocoded street addresses only, full reporters only.
+- Homes and land: 2020 census blocks (on disk).
+- Places dropped as "already no minimums": the same 12-place list as the earlier test. San Jose and Sacramento as a check.
+- LA's 2017 transit-oriented upzoning areas left out of group P, as before.
+
+**Map A (fixed before any permit is placed)**
+- Schedules: each agency's GTFS feed in force on a weekday in October–December 2022. If missing, the nearest earlier
+  2022 feed; if none, the agency is listed as missing and its stops come from today's layer (flagged).
+- Rail stations and ferry terminals: always count.
+- Bus: a stop counts if two or more routes meet there (stops within 150 m of each other), each running every 15 minutes or
+  better in both the 7–9 a.m. and 4–6 p.m. weekday peaks.
+- Planned stops: from each region's 2022-era transportation plan where published (SCAG 2020 layer on disk; others found
+  in step 1).
+- Covered land: within ½ mile (804.672 m, straight line) of a stop. Geometry with `missing_middleware.geom` only.
+
+**Step 1 — feasibility, counts only (no permits by area).** Report: agencies found / missing, stops by type, covered
+acres and homes, and agreement with today's layer and with the city maps (B). If schedules for agencies covering
+under 80% of today's major stops can be found, stop and report.
+
+**Comparison**
+- Near: covered land. Ring: ½–1½ miles, same city. Same groups as before (P = parking only).
+- Outcome: homes in issued permits per 1,000 existing homes a year; per acre; all homes and 2+ unit buildings.
+- Year-by-year: each year's near-minus-ring gap minus the 2022 gap, 2018–2025.
+- Headline: 2023–2025 average vs 2018–2022 average.
+- Lead-up check: 2018–2020 vs 2021–2022, same contrast. "Balanced" if its range includes 0; else flagged, not adjusted.
+- Edges (D): ⅓–½ mile vs ½–⅔ mile, same city, same years.
+- Total count: headline × covered existing homes ÷ 1,000 × 3 years, with its range from the same draws.
+
+**Ranges:** 90%, 2,000 resamples of whole cities, fixed seed. Minimum detectable effect reported.
+
+**Checks fixed now:** today's map; no planned stops; rail, BRT and ferry only; report-year dating; drop 2023;
+drop the largest project in each cell; San Jose and Sacramento kept.
+
+**Known threats:** other 2023 laws (AB 2011, SB 9, density bonus) apply near and away from transit alike, but not fully;
+late reporting lowers recent years (issue-date dating); high interest rates in 2022–2023; three after years only;
+many projects permitted in 2023 were designed before the law.
+
+## 7. Rules followed
+
+- Model runs on the Mac. GIS layers and schedules stay out of git. No addresses committed.
+- Downloads send `missing-middleware-research/1.0 (public data)`, no email. No records requests or emails.
+- Each schedule feed's licence is recorded; feeds without open terms are listed and left out.
+- No new Python dependency without Ryan's OK. No OpenStreetMap. No shapely/GEOS.
+- No tool change from this study without Ryan's OK.
+
+## 8. Changes after writing
+
+(none yet)
