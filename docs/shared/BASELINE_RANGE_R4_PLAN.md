@@ -54,3 +54,8 @@ Each method's range, with training on start years up to 2020 and traits at 2025,
 ## Plan log
 
 - 2026-11-05: draft.
+- 2026-11-05, script written before any run (`scripts/run_baseline_range_r4.py`; smoke-tested on synthetic data only). Implementation notes:
+  - **E is reused.** Its results are read back from round 3, the same code and seed, and not recomputed.
+  - **A family quantiles.** A, AT, AR, AL3 and ARL3 use one weighted-quantile function, with equal weights where unweighted. So A's numbers can differ slightly from round 3's `np.quantile` version.
+  - **L3 ratios.** These exist from start year 1997, the first year whose b can be fitted without look-ahead, so AL3 and ARL3 train on start years 1997 to t − 5.
+
