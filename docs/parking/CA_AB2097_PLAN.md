@@ -254,6 +254,15 @@ Changes to this plan:
    - Any result with trending leads or a placebo-date "effect": not evidence of cause (item 5 of the first audit block).
 
 **2026-11-05 15:37 UTC, Ryan's answers to the 5 choices (section 5), before any count:**
+Ryan's message, word for word:
+
+> So #1 is our "theoretical map" -- that sounds good
+> #2 yes, in our theoretical map. There should be a trait for each row (whether that's by lot or stop) that says when the stop launched and unlaunched stops can have a future date
+> #3 yes, unless TOD has a better answer for this like a national agency database
+> #4 HCD APR Data, issue date
+> #5 yes, but run this on both our "theoretical map" (which you called main map) and a few actual maps we find for cities
+
+The plan's reading of it:
 1. **Main map = the "theoretical map"** (map A, the law as written in 2022). City maps and the wide and narrow maps
    are checks.
 2. **Planned stops are in the theoretical map.** Every stop row carries a **launch date**: the date service began
@@ -281,3 +290,15 @@ Changes to this plan:
   planned stop is left out of both sides, so "outside" is land no reading of the law covers.
 - Same outcome, years, dating, groups and ranges as the main edge check. Reported beside it.
 - Expected: few permits near the line, so a wide range. Counts of permits on each side are reported first.
+
+**2026-11-05, audit pre-check of ff6c84aa (draft, plan not locked):**
+1. Ryan's 15:37 message is quoted word for word above the numbered reading.
+2. **"Up to the plan horizon"** means a planned stop counts if it is in the region's transportation plan in force on
+   1 January 2023, at any opening year up to that plan's horizon. Expected plans, confirmed in step 1: SCAG Connect
+   SoCal 2020 (to 2045; layer on disk), MTC/ABAG Plan Bay Area 2050 (to 2050), SANDAG 2021 Regional Plan (to 2050),
+   SACOG 2020 MTP/SCS (to 2040), and each other MPO's plan in force on that date. Step 1 lists every plan, its
+   adoption date and horizon year, and reports the number and share of stop rows marked "date unknown".
+3. **Lead test with and without new stations.** Land near stops that opened in 2018–2022 can change before 2023
+   because of the station itself, which could make the leads trend for reasons unrelated to AB 2097. The lead test
+   (and the dose check's lead placebo) runs with and without that land. If the leads trend only with that land in,
+   the write-up says so and reads the main result from the version without it.
