@@ -192,4 +192,21 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
   - **Ratio direction.** The range multipliers are actual ÷ predicted, as in the current baseline's `long_run_ratios.csv` (an outcome = central × multiplier). The earlier "predicted ÷ actual" wording in the Range section was a slip.
   - **Wisconsin 2027–2031 reporting.** Each candidate is run at start year 2025 on the published state files. It is reported as its ratio to L0 at 2025, times the v3 central of 124,000, so v3's Milwaukee and fill corrections are kept. The raw published-file figures are shown beside it.
   - **Range start years.** For each candidate, these are every Wisconsin start year from 1992 (or the first year its window allows) to 2020.
+- 2026-11-05, Part 2 linking, done before any Part 2 score (`scripts/build_baseline_bakeoff_links.py`; `reference/baseline_bakeoff_links.csv`, `_link_coverage.csv`):
+  - **Rule 1 changed (pre-score).** The 6-digit permit IDs are not stable across eras (Abbotsford is 000200 in 1990 and 001000 from 1999), so IDs are not used to link. Every row instead goes through the foundation crosswalk (`foundation/crosswalk.py`), in order: FIPS MCD code (2007–2025 files carry it); place code; name in county (full name, then base name for a changed type); documented aliases. This is the lock's rules 2–4, with codes where they exist.
+  - **County "Part Unincorporated Area" rows** (present in every year) are split each year among the county's towns with no own row that year, by today's one-unit detached homes. This is the foundation method, and it carries the same look-ahead as rule 3.
+  - **Name cleaning.** Footnote marks (@n, (N), #) are dropped. The 1990–2006 files list cities with no type word, so a name without a lower-case type word is read as a city.
+  - **Eight renames,** checked by hand against TIGER 2024 because the base-name rule would pick a wrong successor:
+    - Menasha town → Fox Crossing village;
+    - De Pere town → Ledgeview town;
+    - Salem town → Salem Lakes village;
+    - Pewaukee town → Pewaukee city;
+    - Waukesha town → Waukesha village;
+    - Brokaw village → Maine village;
+    - De Forest → DeForest;
+    - Buffalo city (1990–91) → Buffalo City city.
+  - **Result.**
+    - 14 towns link to the villages they became (for example Greenville, Lisbon, Richfield).
+    - One identity is unmatched: Brokaw village 2007–2020, 21 units, which goes to the unallocated row.
+    - **Coverage passes in every year, 1990–2025.** Linked units are 99.9% to 100.7% of the state file, except 1991–1993, where the place files themselves sum to about 5% more than the state file (105.0%, 105.1%, 104.9%). Part 2 scales shares to the state total, so this does not enter the share score.
 
