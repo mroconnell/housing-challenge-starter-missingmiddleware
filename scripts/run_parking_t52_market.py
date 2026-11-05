@@ -420,8 +420,6 @@ def summarise() -> None:
                 row.update(estimate=ps["real_average"], p05=ps["range_from_placebo_low"], p95=ps["range_from_placebo_high"],
                            placebo_places=int(ps["placebo_places"]), real_places_matched=int(ps["real_places_matched"]))
             out.append(row)
-    if "pools trimmed" not in str(out):
-        pass
     # method D
     dr = pd.read_csv(T52 / "d_results_all_weights.csv")
     ds = pd.read_csv(T52 / "d_shifts.csv").set_index("run")
