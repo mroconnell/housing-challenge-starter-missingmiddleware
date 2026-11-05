@@ -122,6 +122,22 @@ def main() -> None:
     r, s = summarise("38-place set", i1, [0, 1, 2, 3], {**eff1}, ev, cells, SEED)
     rows += r
     slopes += s
+    r, s = summarise("38-place set leads", i1, [-3, -2, -1], eff1, ev, cells, SEED)
+    rows += r
+    slopes += s
+    # years 1-3 average per place vs corrected method 2's effect for the same places (target-state mix)
+    y13 = np.array([np.nanmean([eff1[i]["effects"][k] for k in (1, 2, 3)]) for i in i1])
+    m2 = pd.read_csv(REFERENCE / "parking_method2_corrected_places.csv")
+    m2 = m2[m2["variant"] == "method 2, D"].reset_index(drop=True)["effect"].values[i1]
+    E1 = ev.iloc[i1].reset_index(drop=True)
+    cmp_rows = []
+    for lab, yy in (("years 1-3 average, fixed long pool", y13), ("corrected method 2 (D), same places", m2)):
+        ok = np.isfinite(yy)
+        a = m.weighted_avg("target-state mix", yy[ok], E1[ok].reset_index(drop=True), cells)
+        lo, hi = m.boot_range("target-state mix", yy[ok], E1[ok].reset_index(drop=True), cells, m.BOOT, SEED)
+        cmp_rows.append(dict(version=lab, places=int(ok.sum()), estimate=a, p05=lo, p95=hi))
+    pd.DataFrame(cmp_rows).round(4).to_csv(REFERENCE / "parking_t49_vs_method2.csv", index=False)
+    print(pd.DataFrame(cmp_rows).round(3).to_string(index=False))
     i2 = sorted(eff2)
     kmax = max(n_after[i] for i in i2)
     r, s = summarise("long set", i2, [0] + list(range(1, kmax + 1)), eff2, ev, cells, SEED)

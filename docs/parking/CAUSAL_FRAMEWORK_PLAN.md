@@ -987,6 +987,14 @@ Otherwise D stays and 3b is evidence only. The pick is committed before any real
 - **One pool per case:** chosen once and held fixed across years. Pool members must report in every year of D's before window and of the case's whole after window used in the check. The strict "no reform ever" exclusion applies.
 - **Effect in after-year k:** (city rate in year ey+k − city's before-window mean) − (winsorised pool rate in year ey+k − pool's before-window mean). Permits per 1,000 pre-event existing homes a year.
 
+**Audit fixes (lock cleared 2026-11-05 14:58 UTC; Ryan's ask is the go):**
+- **k:** after-year 1 is the calendar year ey+1, matching method 2's after window, which starts the year after the repeal year. Year 0, the repeal year itself, is shown as context only.
+- **Too-small pools:** a case whose pool has fewer than 5 members under the longer window is dropped from that check and listed.
+- **Main reading:** the target-state mix, which won the weight test, with random effects and equal weights beside. With 6 slopes at 90%, one could exclude 0 by chance.
+- **Same draws:** per-year estimates and slopes come from the same paired place draws. The mix's cell-merge rule applies; with 15 places most cells merge.
+- **Comparison with method 2:** for the 38, the years 1–3 average is shown beside corrected method 2's result for the same places. A large gap would flag a pool effect.
+- **Pre-trend:** the check also runs on check 1. It is thin for early repeals: a 2016 repeal has only 2012 as an earlier before-year.
+
 **Check 1 (balanced 3-year set).** The 38 places with all 3 after-years. Effects in after-years 1, 2 and 3 on the same places.
 
 **Check 2 (long set).** Places with 5 or more after-years through 2025: event year 2020 or earlier, 15 places (2016: 1, 2017: 2, 2018: 3, 2019: 5, 2020: 4).
