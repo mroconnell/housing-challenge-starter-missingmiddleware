@@ -1591,3 +1591,44 @@ These override the three groups above.
 2. Group averages and differences.
 3. Class-matched pools.
 4. Write-up to the audit and Ryan.
+
+## Test 54: nested trait screen, then an honest causal forest (DRAFT LOCK 2026-11-05, before any count; Ryan 22:32 UTC: "if we combined all of it ... see which ones are the most effective by themselves or paired with one other variable ... put a few top candidates through an honest causal forest"; 22:32:56 UTC: "yeah try it out")
+
+**Running count: 54.** Evidence only. No tool change without Ryan's own OK.
+- **Origin:** post hoc. It was prompted by the repeated 3–7% gains seen across earlier tests.
+- **Expectation:** none. The plan does not expect any trait to predict.
+
+**Outcomes.** Per-place effects on the fixed 74-place sample (batch 2026-11-05):
+- (1) main effects, with homes × after-years weights;
+- (2) D effects (winsorised 5/95 as in every D average), with target-state mix weights;
+- (3) D effects, equal weights.
+
+**Traits** (about 110, all measured before repeal):
+- **The 29 non-ACS items of the all-variables test** (`reference/parking_allvars_values.csv`: T1–T6, the V items, log_pop, metro, rate_before, rel_rent). Its 26 "A_" items are dropped, because they come from ACS 2020–2024, after most repeals.
+- **The 73 ACS traits of method 3** (`data/raw/parking_acs_tod_traits/traits_by_release.csv.gz`), from the 5-year release ending the year before each repeal.
+- **Market demand (52a):** rent growth and job growth.
+- **City type and size (53):** the five class indicators and log10 2010 population.
+- **Missing values:** filled with the training-fold median (as in the round-3 tool test). Places missing from the all-variables file (it holds 71 rows) are filled the same way.
+
+**Nested procedure** (seed 20261105 + repeat):
+1. **Outer split:** 10 folds of places, repeated 20 times.
+2. **Screen, on training places only:**
+   - Score every single trait and every pair with a weighted linear regression, by 5-fold inner cross-validated weighted MAE.
+   - Rank the singles and pairs together. Walk down the ranking, collecting traits until 5 distinct traits are chosen.
+3. **Fit and predict:** on the training places, fit (a) the honest causal forest (`run_parking_expanded.predict`, "causal forest (honest)"; the primary tool) and (b) a weighted linear regression, both on the 5 chosen traits. Predict the held-out fold.
+4. **Score:** held-out weighted MAE against "one average" fit on the same training places.
+
+**Reported:**
+- The gain over one average for each tool, outcome and weighting, with min and max across repeats. The repeats share the same places, so they are not independent.
+- How often each trait is chosen across all 200 outer folds (selection stability).
+- The pairs most often ranked first.
+
+**Pass rule.** The full nested process passes if its held-out gain over one average is 5% or more (the locked convention), for the causal forest, under outcome (1) or (2).
+- A pass makes the most-often-chosen traits candidates, as evidence only.
+- Using them in Wisconsin needs Ryan's OK and the 25% rule.
+- **If nothing passes:** the write-up recommends ending the trait search.
+
+**Rules.**
+- No new dependencies.
+- Code is committed before the run.
+- All inputs are already on disk; no outcome-dependent trait choice is made outside the training folds.
