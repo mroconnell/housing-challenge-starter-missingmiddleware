@@ -264,8 +264,11 @@ comparison is not yet run.
 Script `scripts/ca_ab2097_posthoc2.py`, committed and cleared by the audit before it ran; outputs
 `reference/ca_ab2097_posthoc2_*.csv`. **Reading rule, set before the run:** none of these is evidence of cause on its
 own; a row whose range excludes 0 is "a pattern worth a planned test", never a finding, whichever its sign. **Chance
-line:** of the 45 rows with a range, about 4 or 5 would exclude 0 by chance even with no real differences; 9 do,
-and 4 of those are the placebo group's headline and lead rows already reported in section 3, leaving 5 new ones.
+line:** of the 45 rows with a range, about 4 or 5 would exclude 0 by chance even with no real differences; 9 do. Of
+those, 2 are the placebo group's rows already reported in section 3; 2 are new placebo rows (non-tax-credit homes)
+showing the same pattern; and 5 are other new rows. Those 5 make up two patterns, not five: one large-vs-small-city
+pattern (the size interaction, the slope at 500,000 homes, and the core-city row, which appears in both groupings), and
+one exurb row.
 
 **Non-tax-credit homes and trend adjustment** (homes per 1,000 existing homes a year, 2023–2025 vs 2018–2022):
 
@@ -280,8 +283,9 @@ and 4 of those are the placebo group's headline and lead rows already reported i
   fill. They give the same reading as the headline.
 - Trend adjustment: a straight line through 2018–2022, extrapolated to 2023–2025. The line includes 2022, the
   reference year and a high year, which pulls it upward. Adjusting removes the test cities' negative result (it turns
-  positive, range including 0), so their failed placebo check came from their earlier trend. For the main group the
-  adjusted ranges are wide and include 0.
+  positive, range including 0). That is consistent with their earlier trend, but the line is extrapolated, 2022 pulls
+  on it, and the ranges are wide; under the locked rule the placebo check still failed. Applied the same way to the
+  main group, the adjustment widens its range to −4.973 to +2.382, so the adjusted main test says even less.
 
 **City size as a continuous variable** (city-level check; 450 places; slope unit: change in BPS permits per 1,000
 existing homes a year per 1.0 share of homes within ½ mile; evaluation sizes are conventions):
@@ -296,8 +300,8 @@ existing homes a year per 1.0 share of homes within ½ mile; evaluation sizes ar
 | Lead placebo: change per tenfold more homes | +1.591 (−1.207 to +9.108) | +1.753 (−1.223 to +5.401) |
 
 - Pattern: small cities with more land near transit lean positive, large ones lean negative. The homes-weighted
-  interaction excludes 0; its lead placebo does not. This matches Ryan's reading that equal and homes weighting differ
-  because small and large cities differ. A pattern worth a planned test, not a finding.
+  interaction excludes 0; its lead placebo does not. This is in line with the question Ryan raised (why equal and homes
+  weighting differ); a pattern worth a planned test, not a finding.
 
 **City types** (parking thread's classes, file at bf1b9acc, Feb 2013 principal-city list; all 450 places matched, so
 no "unmatched" rows; 22 of the 198 main-group jurisdictions are county unincorporated areas with no class and are left
