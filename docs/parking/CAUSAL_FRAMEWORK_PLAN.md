@@ -1327,6 +1327,8 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
   1. Drop pool place-years within 3 years of a coded reform, then rerun.
   2. Drop repeal places with a separate reform within 3 years of repeal, then rerun.
   3. State laws: a pool place and its repeal place are already in the same state for most strata. Where the ladder moves to division or nation, drop pool places whose state passed a coded law within the window.
+4. **Indicator version (learning thread):** keep every repeal place, and add an indicator for repeal places with a separate reform within 3 years. Report the effect for places without one.
+- All of these are run on method D (corrected method 2) as well as the main estimate.
 - **Reading:** if the result moves by less than its own range, other reforms don't drive it.
 
 **52c. Recent permit trend (bound and adjust).**
@@ -1342,12 +1344,25 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 
 **52e. Shocks.** Leave-one-out over the 74, and the share of the result from the largest 3 places. Bastrop is named in advance (2011 wildfire and 2015 flood rebuilding in the county before its 2019 repeal; to be checked against sources).
 
+**52f. Synthetic difference-in-differences (learning thread, item B).**
+- **What it does:** weights pool places to track each repeal place's before-repeal path, and weights before-years too.
+- **Implementation:** written in numpy, with no new package; any package considered gets its licence checked and Ryan's OK first.
+- **Scoring:** on the same fake repeals as method 3b, with 3b's pick rule:
+  - a paired bootstrap;
+  - it must beat D by at least 2% on error;
+  - its 90% range must cover the truth on 85–95% of fake repeals.
+- **If it wins:** it is shown beside D. It changes no line without Ryan's OK.
+
+**52g. Spillover (learning thread, item D).** Rerun D using only pool places outside the repeal place's metro. A repeal can pull building from its neighbours, which would make the effect look bigger than it is. Places with no metro keep their pool.
+
+**Learning-thread map:** https://claude.ai/artifact/GdKChVqZArPpuKNYpZ1FKT. Its status (blocked / partly blocked / mostly open) matches the table above. Items A and C are 52b and 52c here.
+
 **Run order (concurrent where independent):**
 1. 52b coding, committed before any join.
 2. 52a data fetch.
 3. 52c and 52e need no new data and run first.
 4. 52a and 52b reruns.
-5. 52d.
+5. 52d, 52f and 52g (52f and 52g need no new data and can run with step 3).
 
 **Rules.**
 - Public sources only; blocked sites cited.
