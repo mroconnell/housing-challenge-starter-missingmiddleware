@@ -175,7 +175,8 @@ def major_stops(z: zipfile.ZipFile) -> pd.DataFrame:
 def run_checks() -> None:
     from missing_middleware.geom_extra_station import nearest_lowest, read_vector
     lg = pd.read_csv(REFERENCE / "ca_ab2097_side_bus2022_copies.csv", dtype={"timestamp": str, "calendar_start": str})
-    ok = lg[lg.qualifies & (lg.calendar_start.fillna("99999999") <= DAY)]
+    # calendar_start is blank for feeds that use calendar_dates.txt only (e.g. San Diego MTS); they qualify on that day
+    ok = lg[lg.qualifies & (lg.calendar_start.fillna("00000000") <= DAY)]
     ok = ok.sort_values("calendar_start").groupby("mdb_id").tail(1)
     ct = read_vector(RAW / "ab2097" / "major_transit_stops.geojson", run.CRS)
     ct = ct[ct.hqta_type.isin(["major_stop_bus", "major_stop_brt"]) & (ct.plan_name.fillna("").str.strip() == "")]

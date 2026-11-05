@@ -1,0 +1,57 @@
+provider,mdb_id,timestamp,status,services_on_2022_12_14,calendar_start,qualifies
+"San Diego International Airport, Metropolitan Transit System (MTS)",mdb-13,20220302193634,ok,0.0,,False
+"San Diego International Airport, Metropolitan Transit System (MTS)",mdb-13,20221129043252,ok,13.0,,True
+Humboldt Transit Authority,mdb-19,20220917064255,ok,2.0,20181219,True
+Humboldt Transit Authority,mdb-19,20230528055729,ok,1.0,20181219,True
+Redwood Coast Transit (RCT),mdb-20,20220917064241,ok,3.0,20220906,True
+Los Angeles County Metropolitan Transportation Authority (LA Metro),mdb-29,20230201030923,ok,45.0,20221212,True
+Los Angeles County Metropolitan Transportation Authority (LA Metro),mdb-30,20230201031023,ok,1.0,20221212,True
+San Luis Obispo Regional Transit Authority (SLORTA),mdb-43,20230528045633,ok,0.0,,False
+Kern Transit,mdb-47,20221211072547,ok,4.0,20211226,True
+San Mateo County Transit District (samTrans),mdb-49,20220208235631,ok,0.0,,False
+San Mateo County Transit District (samTrans),mdb-49,20220403073041,ok,0.0,,False
+San Mateo County Transit District (samTrans),mdb-49,20230528055745,ok,0.0,,False
+San Francisco Municipal Transportation Agency (SFMTA - Muni),mdb-50,20220403073227,ok,1.0,20221001,True
+San Francisco Municipal Transportation Agency (SFMTA - Muni),mdb-50,20221226083451,ok,1.0,20221001,True
+San Francisco Municipal Transportation Agency (SFMTA - Muni),mdb-50,20230528055809,not a zip (404),,,False
+Bay Area Rapid Transit (BART),mdb-53,20230528055809,ok,0.0,,False
+Caltrain,mdb-54,20230528055722,ok,0.0,,False
+Monterey-Salinas Transit (MST),mdb-56,20220711141345,ok,0.0,,False
+Santa Clara Valley Transportation Authority (VTA),mdb-57,20230528055734,ok,0.0,,False
+Golden Gate Transit,mdb-67,20220208235759,ok,0.0,,False
+Golden Gate Transit,mdb-67,20220403073100,ok,0.0,,False
+Lake Transit Authority (LTA),mdb-68,20230528023134,ok,2.0,20200408,True
+Mendocino Transit Authority,mdb-69,20220917064202,ok,2.0,20220801,True
+Mendocino Transit Authority,mdb-69,20221211224645,ok,2.0,20220801,True
+Sonoma County Transit (SCT),mdb-70,20221211224744,ok,2.0,20220815,True
+Petaluma Transit,mdb-72,20220917031433,ok,2.0,20220816,True
+Santa Rosa CityBus,mdb-73,20221209064254,ok,0.0,,False
+Capitol Corridor Joint Powers Authority (Capitol Corridor),mdb-74,20220531102911,ok,1.0,20220520,True
+Placer County Transit,mdb-77,20220910163258,ok,0.0,,False
+Unitrans,mdb-82,20220927130711,ok,1.0,20221212,True
+Unitrans,mdb-82,20230621125236,ok,0.0,,False
+GrapeLine,mdb-83,20221202100831,not a zip (404),,,False
+GrapeLine,mdb-83,20230418063127,not a zip (404),,,False
+City of Madera,mdb-91,20220917064016,ok,2.0,20210809,True
+"Tahoe Area Regional Transit (TART), North Lake Tahoe Express",mdb-94,20220917064144,ok,1.0,20220906,True
+Madera County Transit,mdb-572,20220917064058,ok,2.0,20200511,True
+Morongo Basin Transit Authority,mdb-579,20220917064247,ok,0.0,,False
+Turlock Transit,mdb-619,20220917063856,ok,1.0,20220906,True
+Tahoe Transportation District,mdb-897,20220917064302,ok,1.0,20220904,True
+Commerce Municipal Bus Lines,mdb-994,20230528045410,ok,0.0,,False
+Los Angeles Department of Transportation (LADOT - DASH - Commuter Express),mdb-1210,20220122143635,unreadable (File is not a zip file),,,False
+Los Angeles Department of Transportation (LADOT - DASH - Commuter Express),mdb-1210,20220311010723,ok,5.0,20200418,True
+Santa Cruz Metro (SCMTD),mdb-1211,20220317053901,ok,0.0,,False
+VINE Transit,mdb-1288,20220917064311,ok,1.0,20220814,True
+UCSC Transportation and Parking Services,mdb-1842,20230528050258,ok,0.0,,False
+Palo Verde Valley Transit Agency,mdb-2190,20220917064207,ok,0.0,,False
+Palo Verde Valley Transit Agency,mdb-2190,20220929063856,ok,0.0,,False
+Kings Area Rural Transit,mdb-2204,20220118034926,ok,1.0,20210701,True
+GTrans,mdb-2270,20220302231711,ok,0.0,,False
+GTrans,mdb-2270,20220627011730,ok,0.0,,False
+Stanislaus Regional Transit (StaRT),mdb-2273,20230324121635,unreadable (File is not a zip file),,,False
+County Connection (CCCTA),mdb-2421,20220208235719,ok,0.0,,False
+County Connection (CCCTA),mdb-2421,20220403151700,ok,0.0,,False
+SunLine Transit Agency,tld-461,20230321021519,ok,0.0,,False
+LAX Flyaway,tld-4327,20221005055533,ok,7.0,20110801,True
+LAX Flyaway,tld-4327,20230304115151,ok,7.0,20110801,True
