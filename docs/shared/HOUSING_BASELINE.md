@@ -1,5 +1,7 @@
 # All-housing baseline (shared by the parking and TOD scenarios)
 
+**Ownership (from 2026-11-05, owner's request):** the baseline thread owns all edits to this doc and to the baseline's code, tests and data (listed under "Owned files" below). The parking thread built versions 1–3 and handed them over; other threads propose baseline changes through the coordinator. Any change is flagged for its effect on the ADU, TOD and parking scenarios before it lands.
+
 Written 2026-10-26 by the parking conductor. Status: version 3 (2026-11-01). Version 3 fills places whose permits are not reported, or are under-reported by a general ACS screen, with their context class's median rate (owner-approved; audit-revised to a screen, see step 5a). It adds 1,381 homes to the central. Version 2 (2026-10-26): Milwaukee city's apartment permits are now estimated from the city's property file, and the range uses Wisconsin's long-run history. Both are owner decisions P8 and P9 (AQ-048). Version 1 had a central of 118,822 units, which is now the "Census as published" sensitivity.
 
 ## What it answers
@@ -76,6 +78,21 @@ Multifamily permits are concentrated. Ten municipalities hold 29,125 of the 51,0
 | `reference/housing_baseline_milwaukee_check.csv` | Milwaukee's BPS units against the city's property file, by year built (not shifted) |
 
 Columns use `area_id` (`muni:<10-digit county-subdivision GEOID>`, or `unallocated`), `structure_type` (`1unit`, `2units`, `3_4units`, `5plus`) and `year`. Rebuild with `uv run python scripts/build_housing_baseline.py` after the foundation build. Tests: `tests/test_housing_baseline.py`.
+
+### Owned files (baseline thread, from 2026-11-05)
+
+| Kind | Files |
+| --- | --- |
+| Doc | `docs/shared/HOUSING_BASELINE.md` |
+| Code | `missing_middleware/housing_baseline.py` (allocation, held-out test, projection, fill, range); `scripts/build_housing_baseline.py` (inputs, Milwaukee MPROP fix, ACS screen, outputs) |
+| Held-out-year test | `holdout_scores` and `choose` in the code; results in `reference/housing_baseline_holdout.csv` and `_window_choice.csv` |
+| Tests | `tests/test_housing_baseline.py` (12 tests; run with `uv run python -m unittest tests.test_housing_baseline`) |
+| Committed data | the 13 `reference/housing_baseline_*.csv` files: the 12 in the table above plus `_acs_screen.csv` |
+| Local inputs (git-ignored, on the owner's Mac) | `data/processed/foundation/` (BPS place files, crosswalk, county allocation, areas), `data/raw/census_bps_state/`, `data/raw/milwaukee_mprop/mprop.csv` |
+
+Not owned here: `scripts/run_parking_baseline_models.py` and `reference/parking_baseline_models_*.csv` (parking's no-reform model comparison), and the ADU baseline (`scripts/build_wi_baseline.py`, `reference/wi_baseline_*.csv`), which is a separate ADU-only rate.
+
+**Who reads it.** Parking: `scripts/run_parking_model.py`, `run_parking_mechanism.py`, `build_parking_bundle.py`. TOD: `scripts/run_tod_model.py`, `run_tod_model_menu.py`, `build_tod_bundle.py`, `build_combined_bundle.py` and their tests. ADU and the shared docs use the 124,000 statewide total as the common denominator (`docs/POLICY_SCENARIO_COMPARISON.md`, `docs/MODEL_AND_ASSUMPTIONS.md`, `docs/UNIFORM_DISPLAY_SPEC.md`, `docs/shared/DELIVERABLES_STATUS.md`). Both bundle scripts carry `BASELINE_VERSION = "all-housing baseline v3"`.
 
 **For the TOD scenario:** station-area baselines can be taken as a share of a municipality's row here; the allocation rule within a municipality is TOD's to choose and test.
 

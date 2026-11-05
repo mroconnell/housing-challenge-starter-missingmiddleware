@@ -87,6 +87,8 @@ You build the **all-housing baseline** for both new scenarios (LESSONS §6):
 
 Build it early, since the TOD session needs it too. Missing permit reports are not zero.
 
+**Update 2026-11-05 (owner's request):** ownership of the baseline (doc, code, tests, data) moved to the baseline thread. Parking now proposes baseline changes through the coordinator; see the Ownership line in `docs/shared/HOUSING_BASELINE.md`.
+
 ## 8. Working arrangements
 
 - **Repo:** `/Users/mroconnell/Documents/housing-challenge-starter-missingmiddleware` (public). Routine commits and pushes to `main` are authorized; commit per logical work package.
