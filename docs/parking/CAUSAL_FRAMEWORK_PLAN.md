@@ -1486,3 +1486,40 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 - Every rerun is read beside the batch result.
 - No line changes without Ryan's OK.
 - Reported to the audit and Ryan.
+
+## Test 53: core city vs suburb vs outside metro (DRAFT LOCK 2026-11-05, before any count; Ryan 21:09 UTC: "Yes" to "code all 74 places and their comparison cities with RUCA, then run a pre-registered split: core city, suburb or exurb")
+
+**Running count: 53.** Evidence only. No tool change without Ryan's own OK.
+
+**Traits, built before this lock with no outcome read** (19523fef; `reference/parking_place_ruca_traits.csv`):
+- **RUCA:** USDA RUCA 2010 tract codes (main, before every repeal), population-weighted onto BPS places. 2020 codes are a check.
+- **Principal city:** Census principal-city status (CBSA list 2, July 2023).
+
+**Groups (fixed now, from `area_class`):**
+
+| Group | Repeal places | Definition |
+| --- | --- | --- |
+| Core | 41 | Principal city of a metropolitan statistical area |
+| Non-core metro | 25 | Suburb (20) + exurb (4) + rural part of a metro (1) |
+| Outside metro | 8 | Micropolitan, small town or rural |
+
+- Exurbs alone (4 places) are shown only as a list of cases, because 4 is too few to read.
+- The group sizes were seen when the traits were built; nothing else was.
+
+**Estimates.** Method D (target-state mix, the batch effects) and the main (tool) method, on the fixed 74-place sample.
+1. **Group averages:** each group's weighted average with its own 90% range (place bootstrap, 2,000 draws, seed 20261105; D's mix weights aimed at Wisconsin cells; main uses homes × after-years). WI homes = rate × 13,343.385.
+2. **Differences:** core minus non-core metro, and core minus outside metro, each with a 90% range from resampling places within each group (same seed).
+3. **Class-matched pools (D only):** D rerun with each repeal place's pool limited to places of the same `area_class` group, on a working copy of the batch reference with the same ladder. Its shift against the batch uses the paired reading of Test 52b.
+
+**Reading rules.**
+- A group difference counts only if its 90% range excludes 0, read the same for either sign, and only if D and main agree in sign.
+- With two differences tested, one excluding 0 by chance is plausible, and the write-up says so.
+- The 2026-11-05 size bands (10k–100k) were post hoc; this test does not confirm or refute them.
+- Group averages are average effects. A single city, Wisconsin's included, can fall well outside them (as in 52i).
+- **Wisconsin use:** this is only described, never applied. A Wisconsin split by class would need Ryan's own OK and the 25% replacement rule.
+
+**Run order:**
+1. Code committed before any run.
+2. Group averages and differences.
+3. Class-matched pools.
+4. Write-up to the audit and Ryan.
