@@ -18,6 +18,17 @@ these changes the main result or the plan's reading rules.
    headline within each area_class (jurisdictions joined by BPS id from reference/ca_jurisdiction_crosswalk.csv;
    unincorporated county areas have no class and are left out of this split).
 
+Labels: non-tax-credit homes = homes other than ADUs minus LIHTC-flagged homes, so they carry the financing field's
+uneven fill (filled on 0.9%-2.5% of rows). Trend form: linear, fitted on 2018-2022 (2022 = 0 by construction) and
+extrapolated to 2023-2025. City types: parking thread's file at commit bf1b9acc (Feb 2013 principal-city list), joined
+by BPS key; also grouped as Test 53 does (core; non-core metro = suburb + exurb + rural part of metro; outside metro =
+non-metro). The size interaction's unit: change in the share slope per tenfold increase in existing homes, read
+two-sided.
+
+Reading rule, set before the run (same for both signs): none of these is evidence of cause on its own. A row whose
+90% range excludes 0 is reported as "a pattern worth a planned test", never as a finding. Chance line: these are about
+40 rows of 90% ranges; even with no real differences, about 4 of them (1 in 10) would exclude 0 by chance.
+
 Outputs: reference/ca_ab2097_posthoc2_*.csv.
 """
 from __future__ import annotations
@@ -62,6 +73,9 @@ def place_table(b: pd.DataFrame) -> pd.DataFrame:
     t["bps"] = t.bps_ids.fillna("").str.split(";").str[0].str.strip()
     t = t.merge(rt[["bps", "area_class", "area_class_pc2023"]], on="bps", how="left")
     t["area_class"] = t.area_class.fillna("unmatched")
+    t["test53_group"] = t.area_class.map({"core": "core", "suburb": "non-core metro", "exurb": "non-core metro",
+                                          "rural part of metro": "non-core metro", "non-metro": "outside metro"}
+                                         ).fillna("unknown or unmatched")
     return t
 
 
@@ -91,13 +105,15 @@ def size_interaction(t: pd.DataFrame) -> pd.DataFrame:
                              "estimate": v, "low": lo, "high": hi})
     out = pd.DataFrame(rows)
     out["n_places"] = len(t)
-    out["unit"] = "change in BPS permits per 1,000 existing homes a year per 1.0 share of homes within 1/2 mile"
+    out["unit"] = np.where(out.term.str.startswith("share x"),
+                           "change in the share slope per tenfold increase in existing homes (two-sided)",
+                           "change in BPS permits per 1,000 existing homes a year per 1.0 share of homes within 1/2 mile")
     return out
 
 
-def by_class(t: pd.DataFrame, b, p, main_j) -> pd.DataFrame:
+def by_class(t: pd.DataFrame, b, p, main_j, col: str = "area_class") -> pd.DataFrame:
     rows = []
-    for cls, g in t.groupby("area_class"):
+    for cls, g in t.groupby(col):
         x, y, w = g.share.to_numpy(float), g.change.to_numpy(float), g.homes.to_numpy(float)
         if len(g) < 5 or np.ptp(x) == 0:
             rows.append({"area_class": cls, "check": "city-level share slope (homes-weighted)", "n": len(g),
@@ -110,7 +126,7 @@ def by_class(t: pd.DataFrame, b, p, main_j) -> pd.DataFrame:
         lo, hi = E.interval(dr)
         rows.append({"area_class": cls, "check": "city-level share slope (homes-weighted)", "n": len(g),
                      "estimate": beta[1], "low": lo, "high": hi})
-    jc = dict(zip(t.juris_name, t.area_class))
+    jc = dict(zip(t.juris_name, t[col]))
     c = E.cells_for(b, "main")
     for cls in sorted(set(jc.values())):
         js = E.with_treated_land(c, [j for j in main_j if jc.get(j) == cls])
@@ -123,7 +139,10 @@ def by_class(t: pd.DataFrame, b, p, main_j) -> pd.DataFrame:
         lo, hi = E.interval(d)
         rows.append({"area_class": cls, "check": "near vs ring headline (homes other than ADUs)", "n": len(js),
                      "estimate": e, "low": lo, "high": hi})
-    return pd.DataFrame(rows)
+    out = pd.DataFrame(rows)
+    out.insert(0, "grouping", col)
+    out["thin_group_note"] = np.where(out.n < 10, "fewer than 10: read as thin", "")
+    return out
 
 
 def trend_adjusted(est: np.ndarray, dr: np.ndarray) -> tuple[float, np.ndarray]:
@@ -170,7 +189,8 @@ def main() -> None:
     si = size_interaction(t).assign(label="POST HOC")
     si.to_csv(REFERENCE / "ca_ab2097_posthoc2_size.csv", index=False)
     print(si.round(3).to_string(index=False))
-    bc = by_class(t, b, q, main_j).assign(label="POST HOC")
+    bc = pd.concat([by_class(t, b, q, main_j, "area_class"), by_class(t, b, q, main_j, "test53_group")]
+                   ).assign(label="POST HOC")
     bc.to_csv(REFERENCE / "ca_ab2097_posthoc2_city_types.csv", index=False)
     print(bc.round(3).to_string(index=False))
     print(t.area_class.value_counts().to_string())
