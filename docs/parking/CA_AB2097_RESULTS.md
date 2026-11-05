@@ -59,7 +59,7 @@ symmetric rules, read beside all the checks, it is not a finding on its own.
 
 12 places that already had no parking minimums near transit (or repealed citywide) and have homes near transit:
 Alameda, Berkeley, Culver City, Emeryville, Fremont, Hayward, Oakland, Sacramento, San Diego, San Francisco, San Jose
-and Stockton. (Pomona and Eureka are not full reporters.)
+and Stockton. (Pomona and Eureka, also on the list, are not in the group: not full reporters or no homes near transit.)
 
 | Measure | Estimate | 90% range |
 | --- | --- | --- |
