@@ -1,0 +1,2 @@
+boost_iterations,rows_A,rows_B,mae_score_on_B,mae_mean_on_B,gain
+1,54167,53973,6.621016316384151,6.586305520367265,-0.00527014665650527

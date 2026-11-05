@@ -844,3 +844,12 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 - Under random-effects and equal weights, prognostic matching's range excludes 0 on the positive side. This is evidence only and was not picked.
 - **Beside the current tool lines.** The tool shows −15,234 / 0 / +19,818, and its 90% range under the uniform display spec is −45,853 to +19,818. Method 2/3 (D, mix) gives −10,223 (−37,046 to +5,760); prognostic matching gives +369 (−17,751 to +17,540). Any change to the tool lines needs Ryan's own OK, not a provisional one.
 - **Double-dip and origin.** The choice to try method 3 is post hoc in origin, because method 2's real results had been seen. Method 2's matching traits were partly chosen from the effect-size ranking (the double-dip noted above). Method 3's score was fitted on never-repealed places only, which avoids that for the score itself.
+
+## Method 3b (2026-11-05; lock "Method 3b", cleared by the audit 03:16 UTC; provisional go by the learning thread 03:14 UTC under Ryan's 21:01 UTC delegation; post hoc in origin)
+
+**Stopped at the score check, as locked.**
+- The score predicts each never-repealed place's change in permit rate (after mean minus D's 10-year before mean).
+- Fitted on half A (54,167 place-years) and checked on half B (53,973). Its mean absolute error on B is 6.62, against 6.59 for a plain average of A's change. That is 0.5% worse, short of the required 5% better.
+- Boosting's grouped-CV choice was a single iteration, so it found almost nothing to learn.
+
+**Reading.** Building levels are predictable (method 3's score beat an average by 11%), but the change in building after a given year is not. That change is what the effect measures. No fake-repeal bake-off was run, and D (corrected method 2) stands.
