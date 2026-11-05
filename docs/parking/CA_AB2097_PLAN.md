@@ -489,6 +489,17 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05 18:17 UTC, post-lock, **pre-count** (no permit placed by area yet), Ryan confirmed the reading above:
+  "yes, and you can use more specific bus details like archive.org results to sanity check the caltrans data (or
+  other similar side checks)". **Change to the main map (labelled post-lock, pre-count):**
+  - Rail, ferry and Amtrak: the dated end-2022 map (step 1b part 1) — main.
+  - Bus: today's Caltrans major-stop layer (existing bus major stops) — main bus map, labelled "later map, 20-minute
+    rule (post-2024)"; it covers more land than the 2023 15-minute rule did.
+  - Dated 2022 bus schedules (web archive: Muni, San Diego MTS and others; OpenMobilityData if found), the National
+    Transit Database service check and MTC's 2017 layers (an earlier map; data licence checked first): side checks
+    of the bus map, reported in step 1.
+  - Every result is also shown on the rail-only map.
+  - The section-6 / gap-rule wording that made dated schedules the main bus source is replaced by this entry.
 - 2026-11-05 18:14–18:15 UTC, post-lock, pre-count, Ryan, verbatim: 18:14:00 "use current caltrans data like the
   challenge literature suggests"; 18:14:19 "sure on MTC" (to adding MTC's 2017 layers as a Bay Area check);
   18:15:15 "yeah, I think just getting hard data on rail stops will already be huge". Reading sent to Ryan for
