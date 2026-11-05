@@ -40,7 +40,7 @@ Traits are standardised on the training states at each t.
 | B | The target's own past only (round 2's R0). Its quantile level is the narrowest one that gives 90% coverage when every training state gets a range from its own history (audit 1) | Nothing; benchmark |
 | C | k nearest training states on the traits; k is tuned | Who is similar, and how many |
 | D | Kernel-weighted: every training state counts, weighted by closeness on the traits; the bandwidth is tuned | How fast similarity fades |
-| E | LASSO miss-size model: a LASSO predicts log |log r| from the traits; the range is pred × exp(± c × predicted miss size), with c calibrated. Settings (audit 6): `LassoCV(n_alphas=100, cv=GroupKFold(5) by state, max_iter=10000, random_state=20261105)`, default alpha grid | Which traits predict big misses |
+| E | LASSO miss-size model: a LASSO predicts log |log r| from the traits; the range is pred × exp(± c × predicted miss size), with c calibrated. Settings (audit 6): `LassoCV(alphas=100, cv=GroupKFold(5) by state, max_iter=10000, random_state=20261105)` (100 alphas on the default path; `alphas=100` is this scikit-learn version's name for n_alphas) | Which traits predict big misses |
 
 - **Calibration, the same for every method.** On the training states only, by an inner leave-one-state-out, each method is set to the narrowest setting that reaches 90% coverage:
   - the quantile level for A to D;
