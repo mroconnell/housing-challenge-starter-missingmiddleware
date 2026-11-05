@@ -271,3 +271,13 @@ Changes to this plan:
    beside it as a fixed check.
 5. **Edge check:** run on the theoretical map **and** on a few actual city maps (from the local-map sample in the
    first block of this section). Reported beside the main result, never in place of it.
+
+**2026-11-05 15:38 UTC, Ryan: add a rail-only edge check (draft, plan not locked):**
+- Why: rail stations are the least disputed part of the law (the paper calls an existing rail station "the most
+  unambiguous" case), so the ½-mile line around them is the most predictable edge.
+- Stops: existing rail stations (heavy, light, commuter rail, and Amtrak stations; launch date on or before 31 December
+  2022). Station = the stop point in the schedule data; "station as a whole parcel" is not built.
+- Edge: ⅓–½ mile vs ½–⅔ mile from the nearest rail station, same city. Land within ½ mile of any bus, BRT, ferry or
+  planned stop is left out of both sides, so "outside" is land no reading of the law covers.
+- Same outcome, years, dating, groups and ranges as the main edge check. Reported beside it.
+- Expected: few permits near the line, so a wide range. Counts of permits on each side are reported first.
