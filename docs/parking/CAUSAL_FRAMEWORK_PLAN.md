@@ -1385,12 +1385,27 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
     - Regularisation is fixed now: zeta = (number of repeal places × number of after-years)^(1/4) × the standard deviation of the pool places' year-to-year changes in the before-years (Arkhangelsky et al. 2021).
     - Seed 20261105.
 
+**52h. Pool rules that may filter on after-repeal outcomes (possible colliders; learning thread 17:41 UTC, after Ryan asked "are there any colliders that we accidentally controlled for and reopened?").** None is confirmed. Each rule is rerun on method D and read beside the batch result, with the 52b paired-range reading.
+1. **Date-aware "never reformed" rule:**
+   - The current rule drops any place that ever reformed parking, even after the window, and a place may reform because its building slumped.
+   - The rerun drops a pool place only if its PRN reform took effect before the end of the matched repeal's after-window.
+   - This differs from 52b's fix 1 (other housing reforms by place-year). Here the reform is a parking one and the rule is pool exclusion, so the two run separately.
+2. **Shock rule without after-years:**
+   - Test (b) (land area changed 25% or more, 2010 to 2024) spans the after-years, and towns often annex because they grow.
+   - Only the 2010 and 2024 Gazetteers are on disk, so there is no exact pre-repeal version. The rerun drops test (b) entirely and keeps test (a).
+   - Test (a) also spans after-years. It is a destruction screen (10% or more of homes lost), so it stays, and this is stated.
+3. **Reporting rule relaxed:**
+   - The current rule requires every window year present.
+   - The rerun lets a pool place miss at most one window year. That year is filled with the place's own mean on the same side (before or after).
+   - The share of pools that gain places is reported.
+- **Not collider-type and kept:** matching on before-repeal traits only, and the same-state ladder.
+
 **Run order (concurrent where independent):**
 1. 52b coding, committed before any join.
 2. 52a data fetch.
 3. 52c and 52e need no new data and run first.
 4. 52a and 52b reruns.
-5. 52d, 52f and 52g (52f and 52g need no new data and can run with step 3).
+5. 52d, 52f, 52g and 52h (52f, 52g and 52h need no new data and can run with step 3).
 
 **Rules.**
 - Public sources only; blocked sites cited.
