@@ -7,8 +7,10 @@ Status: **audit reviewed 2026-11-05**.
 
 Unless a row says otherwise, every number is **homes in issued building permits per 1,000 existing homes (2020 census)
 per year**, 2023–2025 compared with 2018–2022, near transit (within ½ mile) compared with the ring (½ to 1½ miles) in
-the same jurisdictions. Ranges are 90%, from 2,000 resamples of whole jurisdictions. "MDE" is the smallest change the
-test could detect (1.645 × the spread of the resampled estimates).
+the same jurisdictions. Ranges are 90%, from 2,000 resamples of whole jurisdictions. "MDE" here is 1.645 × the spread of
+the resampled estimates: the size a change must reach to be told apart from zero at 90%. A change of exactly that size
+would be caught only about half the time; the usual MDE at 80% power is about 2.5 × the spread (about 1.5 times the
+numbers shown).
 
 ## 1. Answer in brief
 
