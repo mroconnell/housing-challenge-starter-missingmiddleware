@@ -7,7 +7,8 @@
   releases ending 2010-2023 (Census Data API). Repeal years 2016-2024 need the release ending ey-1 (2015-2023) and the
   non-overlapping release ending ey-6 (2010-2018).
 - BLS QCEW county annual average employment, all industries, all ownerships (total covered; own_code 0, industry 10,
-  agglvl_code 70), 2010-2023, from the BLS open-data CSV slices (public domain).
+  agglvl_code 70), 2010-2023, from the BLS open-data CSV slices (2014 on) and the annual single files (2010-2013, which
+  the open-data slices do not serve); public domain.
 
 Raw files: data/raw/parking_t52_market/ with _downloads.json (URL without the key, date, bytes, sha256).
 Tidy tables: data/processed/t52/acs_b25064.csv (acs_geoid, year = last year of the release, rent, rent_moe) and
@@ -24,6 +25,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+import zipfile
 from pathlib import Path
 
 import pandas as pd
@@ -39,6 +41,7 @@ STATES = ["01", "02", "04", "05", "06", "08", "09", "10", "11", "12", "13", "15"
           "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41",
           "42", "44", "45", "46", "47", "48", "49", "50", "51", "53", "54", "55", "56"]
 ACS_LICENCE = "Public domain (17 U.S.C. 105); Census API terms of service"
+QCEW_API_FIRST = 2014
 BLS_LICENCE = "Public domain (17 U.S.C. 105); BLS QCEW open data"
 
 
@@ -69,8 +72,11 @@ def main() -> None:
             if inn:
                 q["in"] = inn
             jobs.append((f"acs5_{y}_{level}.json", f"{api}?{urllib.parse.urlencode(q, safe=':*,')}", True))
-    for y in YEARS:
-        jobs.append((f"qcew_{y}_a_industry10.csv", f"https://data.bls.gov/cew/data/api/{y}/a/industry/10.csv", False))
+    for y in YEARS:  # the open-data API slices start in 2014 (2010-2013 return 404); earlier years use the annual single file
+        if y >= QCEW_API_FIRST:
+            jobs.append((f"qcew_{y}_a_industry10.csv", f"https://data.bls.gov/cew/data/api/{y}/a/industry/10.csv", False))
+        else:
+            jobs.append((f"qcew_{y}_annual_singlefile.zip", f"https://data.bls.gov/cew/data/files/{y}/csv/{y}_annual_singlefile.zip", False))
 
     def run(job):
         name, url, needs_key = job
@@ -109,7 +115,16 @@ def main() -> None:
 
     q = []
     for y in YEARS:
-        d = pd.read_csv(OUT / f"qcew_{y}_a_industry10.csv", dtype={"area_fips": str, "own_code": str, "agglvl_code": str})
+        dt_ = {"area_fips": str, "own_code": str, "agglvl_code": str, "industry_code": str, "disclosure_code": str}
+        if y >= QCEW_API_FIRST:
+            d = pd.read_csv(OUT / f"qcew_{y}_a_industry10.csv", dtype=dt_)
+        else:
+            cols = ["area_fips", "own_code", "industry_code", "agglvl_code", "disclosure_code", "annual_avg_emplvl"]
+            with zipfile.ZipFile(OUT / f"qcew_{y}_annual_singlefile.zip") as z:
+                member = [n for n in z.namelist() if n.endswith(".csv")][0]
+                parts = [c[(c["own_code"] == "0") & (c["agglvl_code"] == "70") & (c["industry_code"] == "10")]
+                         for c in pd.read_csv(z.open(member), dtype=dt_, usecols=cols, chunksize=500_000)]
+            d = pd.concat(parts, ignore_index=True)
         d = d[(d["own_code"] == "0") & (d["agglvl_code"] == "70")]
         q.append(pd.DataFrame({"county": d["area_fips"].str.zfill(5), "year": y,
                                "employment": pd.to_numeric(d["annual_avg_emplvl"], errors="coerce"),
