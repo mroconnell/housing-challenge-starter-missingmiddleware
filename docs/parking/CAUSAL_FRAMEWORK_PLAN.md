@@ -1274,6 +1274,9 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 
 **Running count: 52.** Evidence only. Lines and the tool stay unchanged without Ryan's own OK. This plan goes to the audit and to Ryan before any count.
 
+- **Audit:** cleared (17:48 UTC, including 52i).
+- **Ryan's go (17:58 UTC):** "Go". This answers the 17:47 message, which asked "Can I start it?" and stated that the go replaces "ties go to the state mix" with the bake-off-then-stacking rule, for this test only.
+
 **Estimand.** The total effect of a city's residential parking-minimum repeal, as adopted, on homes permitted per 1,000 existing homes a year, in the years after repeal. Anything the same ordinance changed is part of the treatment; E2 and the reform-type coding describe those bundles. A reform adopted in a separate act is a possible confounder.
 
 **The diagram.** Arrows mean "can cause".
