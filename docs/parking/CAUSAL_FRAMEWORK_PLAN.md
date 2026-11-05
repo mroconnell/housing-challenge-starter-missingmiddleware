@@ -1110,8 +1110,11 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 - **Uneven windows:** about 3 years before against about 4 after, so counts are compared as shares, not totals.
 
 **Sampling frame, fixed before any record is read.**
-- **San Francisco:** the city's public development pipeline data (DataSF "SF Development Pipeline"; the file name and download date are recorded), all projects with 5+ net new homes and a planning application filed in each window. Withdrawn projects may be missing from the current file; archived quarterly snapshots are used where they exist, and the gap is reported.
-- **San Francisco districts:** each project's zoning district is recorded, along with whether Sec. 151 (which had minimums) or Sec. 151.1 (no minimums before 2019) applied. Rows are split by it. If more than 15 in a window, draw 15 at random (seed 20261105, after sorting by case number), stratified by parking section (audit recommendation, applied before any record is read): up to 10 from Sec. 151 districts (which had minimums), the rest from Sec. 151.1 districts. The section is assigned from the pipeline's zoning district field, using Sec. 151.1's district list as of 2018 (source cited). Replacements come in draw order when a project has no readable records.
+- **San Francisco frame (revised before any project record is read):** the quarterly pipeline file is a current snapshot only. Projects completed since 2016 have left it, and earlier snapshots were retired. So the frame is DataSF "Planning Department Records - Projects" (qvu5-m3a2; download date recorded), which holds every project record, including withdrawn ones.
+  - **Included:** records with 5+ net new homes (`number_of_units_net`), an `open_date` in each window, and a planning decision of approved (entitled). The counts of withdrawn, cancelled and disapproved records in each window are reported beside the sample.
+  - **Draw:** if more than 15 in a window, 15 are drawn at random (seed 20261105, after sorting by record id), stratified by parking section: up to 10 from Sec. 151 districts, the rest from Sec. 151.1 districts.
+  - **Zoning district:** taken from DataSF "Parcels - Active and Retired" (acdm-wktn) by block and lot. This is current zoning, a proxy for zoning at filing; where the case report names a different district, the case report wins, and the change is reported.
+  - **Section:** assigned using Sec. 151.1's district list as of 2018 (source cited).
 - **Emeryville:** every 5+ home project before the Planning Commission in each window, from its agendas and staff reports. All are coded.
 
 **Fields per project:**
