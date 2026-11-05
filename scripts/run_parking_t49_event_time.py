@@ -87,7 +87,7 @@ def summarise(label, idx, ks, eff, ev, cells, rng_seed):
             rows.append(dict(check=label, weights=kind, year=k, places=int(np.isfinite(Y[:, j]).sum()), estimate=point[j],
                              p05=float(np.percentile(bj, 5)), p95=float(np.percentile(bj, 95)),
                              wi_homes=point[j] * m.WI_K))
-        bal = [j for j, k in enumerate(ks) if k >= 1 and np.isfinite(Y[:, j]).all()] if label != "long set leads" else list(range(len(ks)))
+        bal = [j for j, k in enumerate(ks) if k >= 1 and np.isfinite(Y[:, j]).all()] if "leads" not in label else list(range(len(ks)))
         if len(bal) >= 2:
             x = np.array([ks[j] for j in bal], float)
             sl = lambda v: float(np.polyfit(x, np.asarray(v)[bal], 1)[0])  # noqa: E731
