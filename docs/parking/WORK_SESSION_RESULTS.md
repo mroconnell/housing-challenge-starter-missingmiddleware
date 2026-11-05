@@ -1328,4 +1328,6 @@ Five helpers coded three places each from public sources, following a written br
 **Reading.**
 - Nothing passes. Once the trait choice itself is tested on held-out cities, no combination of the roughly 90 pre-repeal traits predicts a city's parking effect better than one average. Most versions do worse.
 - The 3–7% gains seen before did not survive this guard.
+- With 74 places and a very noisy screen, the fail means traits can't be shown to predict held-out cities here. It does not show that no trait matters.
+- Main's best repeat reached +11.7%, but the mean is +0.9%. That one repeat is noise, not a partial pass.
 - As locked, the write-up recommends ending the trait search. The parking estimate stays one average for all places.
