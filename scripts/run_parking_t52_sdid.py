@@ -91,6 +91,9 @@ def sdid(D, key, pre, post, pool, h, wins, scale, n_tr) -> dict:
     y = m.rates(D, [key], yrs, h).iloc[0].values.astype(float)
     Y = m.winsor_cols(m.rates(D, pool, yrs, h), wins).values.astype(float)  # donors x years
     T0 = len(pre)
+    keep = np.r_[np.isfinite(y[:T0]), np.ones(len(post), bool)]  # D's target mean skips unreported before-years; so does SDID
+    if keep[:T0].sum() >= 2 and not keep.all():
+        y, Y, T0 = y[keep], Y[:, keep], int(keep[:T0].sum())
     if not (np.isfinite(y).all() and np.isfinite(Y).all()):  # non-finite rates: no SDID fit (counted in the report)
         return dict(effect=np.nan, nonfinite=True)
     Ypre, Ypost = Y[:, :T0], Y[:, T0:]
@@ -107,7 +110,7 @@ def sdid(D, key, pre, post, pool, h, wins, scale, n_tr) -> dict:
     lam = simplex_ridge(A2, b2, (1e-6 * sigma) ** 2 * Y.shape[0])
     tau = (y[T0:].mean() - lam @ y[:T0]) - (w @ Ypost.mean(axis=1) - w @ Ypre @ lam)
     gap = y[:T0] - w @ Ypre
-    hw = h.reindex(pool).values / h.reindex(pool).values.sum()
+    hw = h.reindex(pool).values / h.reindex(pool).values.sum()  # (diagnostic only)
     gap_d = y[:T0] - hw @ Ypre
     return dict(effect=float(tau / scale), nonfinite=False, sigma=sigma, zeta=zeta, eff_donors=float(1 / np.sum(w ** 2)), max_w=float(w.max()),
                 eff_years=float(1 / np.sum(lam ** 2)), max_lambda=float(lam.max()), last_year_lambda=float(lam[-1]),
