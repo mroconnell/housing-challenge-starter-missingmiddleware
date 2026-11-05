@@ -497,7 +497,7 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
     (bonus homes only). A project "used the density bonus" when it is above 0.
   - Outcome A: among permitted projects with 5 or more homes **whose density-bonus field is filled**, the share
     that used the density bonus; near transit vs the ring, 2023–2025 vs 2018–2022. Check: blank counted as 0.
-  - Outcome B: all permitted homes in projects that used the density bonus, per 1,000 existing homes a year, same
+  - Outcome B (homes in density-bonus projects, not bonus homes): all permitted homes in projects that used the density bonus, per 1,000 existing homes a year, same
     contrast. Check: bonus homes only (the field's own count).
   - Before any estimate, step 1 reports how often the density-bonus fields are filled, by report year, since the
     form changed over the years. If fill rates differ sharply between before and after years, the outcome is shown
