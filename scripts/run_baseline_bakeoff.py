@@ -352,7 +352,7 @@ def main() -> None:
     RG.round(4).to_csv(REFERENCE / "baseline_bakeoff_part1_range.csv", index=False)
     CV.round({"low": 1, "high": 1, "actual": 1}).to_csv(REFERENCE / "baseline_bakeoff_part1_coverage.csv", index=False)
     covs.round(4).to_csv(REFERENCE / "baseline_bakeoff_part1_coverage_summary.csv", index=False)
-    W.round(1).to_csv(REFERENCE / "baseline_bakeoff_part1_wisconsin.csv", index=False)
+    W.round({c: 1 for c in W.columns if c.startswith(("published", "v3_"))}).to_csv(REFERENCE / "baseline_bakeoff_part1_wisconsin.csv", index=False)
     final_ranges(u, homes, division, W).round({"published_central": 1, "published_low": 1, "published_high": 1, "v3_central": 1, "v3_low": 1, "v3_high": 1}).to_csv(REFERENCE / "baseline_bakeoff_part1_final_ranges.csv", index=False)
     print(S.round(4).to_string(index=False))
     print("winner:", winner)

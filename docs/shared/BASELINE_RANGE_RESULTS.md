@@ -42,12 +42,13 @@ The main method uses multipliers on the all-sizes total. "Other 50" is the share
 | L3 | All states | min–max | 80.0% | 12 of 16 | 29,810 to 1,449,156 |
 
 - **Per-size sums** (the alternative, reported only) cover a few points more and are wider. Pooled 2.5th–97.5th around L0, for example, covers 75.2% and gives 45,889 to 316,158.
-- **Volatility groups** (pooled 5th–95th, L0): calm states 70.9%, middle 68.2%, volatile 55.3%. Pooling does not over-cover Wisconsin. Its tercile changes between check years, so no single group is named.
+- **Volatility groups** (pooled 5th–95th, L0): calm states 70.9%, middle 68.2%, volatile 55.3%. Wisconsin was in the volatile tercile in 10 of 16 check years (calm 4, middle 2), where pooled coverage is lowest, so pooling does not over-cover Wisconsin.
 - Source: `_coverage_summary.csv`.
 
 ## Reading
 
 - **The plan's rule picked a range that cannot be used.** The 6.5 million top comes from one extreme state ratio. That is a literal outcome of the rule, reported as such, and it is not a recommendation.
+- **Plain wording (audit).** Option B is the same range as the locked run's "L0, all states, 2.5th–97.5th" row; only the window of past checks differs. It held the outcome in 70.5% of past checks over 2005–2020 (Wisconsin 12 of 16), and in 92.5% over 2009–2020 (Wisconsin 12 of 12). The second window was chosen after seeing that the misses sit in 2005–08, so it is post hoc. The range covers only shocks like those already in the data; a new kind of shock would be missed, as 2005–08 was. Its "95%" is the percentile width, not a tested hit rate.
 - **The useful finding is post hoc.** Pooled middle-percentile ranges held well in every check year after a crash was in the record, and every range built now has one. On that subset, the pooled 2.5th–97.5th around the current central held 92.5% in the other 50 states and 12 of 12 in Wisconsin: 48,709 to 244,147 homes for 2027–2031. Adopting it would rest on a subset chosen after seeing the results, so it is Ryan's call and should be labelled that way.
 - **A correction to the bake-off write-up.** L3's pull strength for 2027–2031 is b = 0.35, not 0.40. The earlier "0.40" was a rounding artefact in a printout; the figure 132,458 was always computed with 0.35. So the audit's point that 0.40 was never tested falls away: 0.35 was used in scored start years 2018–2020.
 

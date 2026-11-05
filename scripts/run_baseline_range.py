@@ -116,7 +116,7 @@ def main() -> None:
                    boot_lo=np.quantile(boot, 0.05), boot_hi=np.quantile(boot, 0.95),
                    wi_hits=int(w["hit"].sum()), wi_checks=len(w),
                    persize_coverage_other50=o["persize_hit"].mean(), wi_persize_hits=int(w["persize_hit"].sum()),
-                   wi_tercile=",".join(sorted(set(map(str, w["tercile"])))))
+                   wi_tercile="; ".join(f"{k} {v}" for k, v in w["tercile"].astype(str).value_counts().sort_index().items()) + " (check years)")
         for tc, gg in o.groupby("tercile", observed=True):
             rec[f"coverage_{tc}"] = gg["hit"].mean()
         rows.append(rec)
