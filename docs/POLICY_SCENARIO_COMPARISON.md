@@ -16,7 +16,7 @@ Missing Middle and development fee reduction are not modelled.
 
 **Comparing the three fairly.** The three reforms count different things against different baselines:
 - the ADU baseline is 786 second homes on single-family lots statewide over 2027–2031;
-- the parking baseline is 124,000 new homes of all kinds statewide over 2027–2031 (shared baseline v3 final, 2026-11-01; was 122,619);
+- the parking baseline is 124,000 new homes of all kinds statewide over 2027–2031 (90% range 56,500 to 218,865 (shared baseline v4, owner 2026-11-05: all-states range). It held Wisconsin's actual five-year total in 12 of 12 checks for forecasts made 2009–2020, and 88% across other states; like every method tested, it missed the 2005–08 run-up to the crash; central unchanged from v3, was 122,619 before v3);
 - the TOD baseline is 14,654 new homes of all kinds near major transit stops over 2027–2031.
 
 So this comparison puts every reform on two common footings:
