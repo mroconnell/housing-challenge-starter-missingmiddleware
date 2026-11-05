@@ -66,10 +66,51 @@ def get(url: str, key: str | None = None) -> bytes:
     full = f"{url}&key={key}" if key else url
     req = urllib.request.Request(full, headers={"User-Agent": UA})
     try:
-        return urllib.request.urlopen(req, timeout=300).read()
+        with urllib.request.urlopen(req, timeout=300) as r:
+            data = r.read()
+            expected = r.headers.get("Content-Length")
     except Exception as e:  # never let the key reach a log or traceback
         msg = str(e).replace(key, "<key>") if key else str(e)
         raise SystemExit(f"download failed: {url} ({msg})") from None
+    if expected is not None and int(expected) != len(data):
+        raise SystemExit(f"short download: {url} ({len(data):,} of {int(expected):,} bytes)")
+    return data
+
+
+def dbf_fields(path: Path) -> list[str]:
+    """Field names from a dBase III header (32-byte header, then 32-byte field descriptors ending at 0x0D)."""
+    raw = path.read_bytes()[:65536]
+    names, i = [], 32
+    while i < len(raw) and raw[i] != 0x0D:
+        names.append(raw[i:i + 11].split(b"\x00")[0].decode("ascii", "replace").strip())
+        i += 32
+    return names
+
+
+def dbf_records(path: Path) -> list[str]:
+    """Each record of a small dBase III file as one decoded string."""
+    raw = path.read_bytes()
+    n, hlen, rlen = int.from_bytes(raw[4:8], "little"), int.from_bytes(raw[8:10], "little"), int.from_bytes(raw[10:12], "little")
+    return [raw[hlen + i * rlen: hlen + (i + 1) * rlen].decode("latin-1") for i in range(n)]
+
+
+def check_pl94(out: Path) -> None:
+    """Stop loudly if the 1990 P.L. 94-171 file has no housing-unit field (audit). A housing-unit field is a field
+    of pl9417wi.dbf named in a record of the layout file pl94stru.dbf that also says "HOUSING UNIT"."""
+    fields = dbf_fields(out / "hu_1990" / "pl9417wi.dbf")
+    recs = [r.upper() for r in dbf_records(out / "hu_1990" / "pl94stru.dbf") if "HOUSING UNIT" in r.upper()]
+    hu = [f for f in fields if f and any(f.upper() in r.split() or f" {f.upper()} " in f" {r} " for r in recs)]
+    if not hu:
+        raise SystemExit(f"1990 PL94 file has no housing-unit field; fields: {fields[:40]}; "
+                         f"layout records mentioning housing units: {len(recs)}")
+    print(f"1990 PL94 housing-unit field(s): {hu[:5]}")
+
+
+def write_log(log_path: Path, log: dict, key: str) -> None:
+    text = json.dumps(dict(sorted(log.items())), indent=2) + "\n"
+    if key in text:
+        raise SystemExit("key found in the download log; not written")
+    log_path.write_text(text)
 
 
 def main() -> None:
@@ -91,10 +132,12 @@ def main() -> None:
         p.write_bytes(data)
         log[name] = {"url": url, "accessed": dt.date.today().isoformat(), "bytes": len(data),
                      "sha256": hashlib.sha256(data).hexdigest(), "license": LICENSE}
+        write_log(log_path, log, key)   # after each file (audit), so a failed run leaves an accurate log
         print(f"{name}: {len(data):,} bytes")
-    log_path.write_text(json.dumps(dict(sorted(log.items())), indent=2) + "\n")
-    text = log_path.read_text()
-    assert key not in text, "key found in the download log"
+    missing = [n for n, _ in plain_jobs() + api_jobs() if n not in log]
+    if missing:
+        raise SystemExit(f"files on disk but not in the log (re-run with --force): {missing}")
+    check_pl94(OUT)
     print(f"done: {len(log)} files logged in {log_path}")
 
 
