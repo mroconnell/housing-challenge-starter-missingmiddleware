@@ -7,16 +7,17 @@ Status: **audit reviewed 2026-11-05**.
 
 Unless a row says otherwise, every number is **homes in issued building permits per 1,000 existing homes (2020 census)
 per year**, 2023–2025 compared with 2018–2022, near transit (within ½ mile) compared with the ring (½ to 1½ miles) in
-the same jurisdictions. Ranges are 90%, from 2,000 resamples of whole jurisdictions. "MDE" here is 1.645 × the spread of
-the resampled estimates: the size a change must reach to be told apart from zero at 90%. A change of exactly that size
-would be caught only about half the time; the usual MDE at 80% power is about 2.5 × the spread (about 1.5 times the
-numbers shown).
+the same jurisdictions. Ranges are 90%, from 2,000 resamples of whole jurisdictions. The "MDE" column is the half-width
+of the 90% range (1.645 × the spread of the resampled estimates), which gives only about 50% power: a true change of
+that size would be detected about half the time. The usual MDE at 80% power is (1.645 + 0.842) × the spread at the
+plan's two-sided 10% level; for the headline that is 2.01 homes per 1,000 existing homes a year (spread 0.808), or
+2.26 at a two-sided 5% level.
 
 ## 1. Answer in brief
 
 - **No measurable change.** Near transit, homes permitted (other than ADUs) changed by −0.905 per 1,000 existing
-  homes a year relative to the ring, range −2.292 to +0.350. The range includes 0. The test could detect a change of
-  about 1.330 either way.
+  homes a year relative to the ring, range −2.292 to +0.350. The range includes 0. The 90% range's half-width is 1.330
+  (about 50% power); at 80% power the test could reliably detect a change of about 2.01 either way.
 - **The placebo check failed.** The locked rule (plan section 8, audit block item 3) needs the early-reform test
   cities' 90% range to include 0. It does not: −2.291 (−3.926 to −0.284), and those cities were already falling near
   transit before 2023. So near-vs-ring can drift for reasons other than AB 2097, and this design cannot support a
@@ -32,8 +33,10 @@ numbers shown).
 ## 2. Main result and its checks on the before years
 
 Main group: 198 full-reporting jurisdictions with homes near transit, less the 14 early-reform places and Mountain View.
+They hold 1,363,531 existing homes (2020) within ½ mile on the main map, outside LA's 2017 TOC areas; so 1 home per
+1,000 existing homes a year near transit is about 1,364 homes a year.
 
-| Measure | Estimate | 90% range | MDE |
+| Measure | Estimate | 90% range | Half-width of 90% range (about 50% power) |
 | --- | --- | --- | --- |
 | **Headline: homes other than ADUs** | **−0.905** | −2.292 to +0.350 | 1.330 |
 | All homes | −0.942 | −2.330 to +0.319 | 1.339 |
