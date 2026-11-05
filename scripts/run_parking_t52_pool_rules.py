@@ -143,13 +143,20 @@ def build_aux(D) -> dict:
     g10, g24 = g10[~g10.index.duplicated()], g24[~g24.index.duplicated()]
     hu10 = ag.map(g10["HU10"].astype(float))
     al10, al24 = ag.map(g10["ALAND"].astype(float)), ag.map(g24["ALAND"].astype(float))
-    # Data's homes before the >0 filter: only places with homes <= 0 differ, and they are never eligible
-    loss = (hu10 >= 1000) & (D.homes.reindex(hu10.index).fillna(0) <= 0.9 * hu10)
+    # Data's homes before the >0 filter (rebuilt exactly as in Data.__init__, South Bend's combined area included)
+    acs = RAW / "census_acs5_2024_tbsf"
+    homes = D.geo["acs_geoid"].map(rpc.acs_table(acs / "acsdt5y2024-b25002.dat", "B25002_E001"))
+    h2 = m.rps.acs(acs / "acsdt5y2024-b25002.dat", "B25002_E001")
+    others = [k for k in D.geo.index if k.startswith("18|") and D.geo.loc[k, "county_fips"] == "141"
+              and D.geo.loc[k, "name"].replace(" town", "") in m.rps.SJ_OTHER_PLACES]
+    homes[m.rps.SJ_KEY] = h2[m.rps.SJ_COUNTY] - homes.reindex(others).sum()
+    loss = (hu10 >= 1000) & (homes.reindex(hu10.index) <= 0.9 * hu10)
     land = ((al24 / al10) - 1).abs() >= 0.25
     sl = set(hu10.index[loss.fillna(False)])
     sland = set(al10.index[land.fillna(False)])
     aux["shock_loss"], aux["shock_land_only"] = sl, sland - sl
     aux["shock_check"] = (sl | sland) == D.shock
+    print("shock rebuild: extra", len((sl | sland) - D.shock), "missing", len(D.shock - (sl | sland)), flush=True)
     return aux
 
 
