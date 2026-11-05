@@ -489,6 +489,16 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05 17:20 UTC, post-lock, pre-count, Ryan: "I dropped some LIHTC data in raw data in local (parking reform
+  thread is using it too)". The file is HUD's national LIHTC database (`data/raw/hud_lihtc/lihtcpub.zip`, release
+  2026-04-30, hand-downloaded by Ryan; provenance in that folder). HUD lists a project only once placed in service,
+  so recent allocation years are incomplete (parking thread: 2021 at 79% and 2022 at 49% of a normal year). It
+  therefore cannot measure 2023–2025 and is used **only as a check of the Table A2 LIHTC flag**:
+  - For California projects HUD lists with allocation years 2018–2020, the share that match a Table A2 project
+    flagged LIHTC (same jurisdiction, within 150 m, permit year within 3 years of allocation), and the share of
+    A2-flagged 2018–2020 projects that match a HUD project. Reported in step 1, before any estimate.
+  - Matching reuses the parking thread's place assignment (`scripts/assign_parking_lihtc_places.py`, 3a26cd2b) where it
+    fits; the file is read only, never committed.
 - 2026-11-05, post-lock, pre-count, audit notes:
   - `FIN_ASSIST_NAME` and `DENSITY_BONUS_TOTAL` are confirmed as column names in the Table A2 file on disk
     (`data/raw/hcd_apr_a2/tablea2.csv`).
