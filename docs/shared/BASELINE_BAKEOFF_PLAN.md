@@ -154,8 +154,8 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
 | D2 | What a challenger must clear to replace the current rule | A (first draft): 10% better, and better in at least 80% of bootstrap draws. B (as in method 3b): at least 2% better, and the 90% bootstrap range of the difference entirely below 0 | B. A's 80% is weaker than earlier locks (method 3: 5% margin; method 3b: 2% plus a 90% range below 0) |
 | D3 | Split level and shares, or pick one method for both | Split, or one method | Split, with the joint check reported |
 | D4 | The tutor's method 3 shrink | Leave it for a second round, or include it now | Second round |
-| D6 | Test region now? | Add a named region candidate before the lock (for example, each state's level pooled with its Census division), or leave it to round 2. Adding it after results would be post hoc | Round 2: tags are kept, and this round stays smaller |
 | D5 | Other fixed numbers | 5% Wisconsin check; 95% linking coverage; 2-times cap (3 as sensitivity); 1,000-home split for reporting; 80% range target | As written. Reasons: 5% and 2-times are the smallest round steps we would act on; 95% keeps the linking error under the Milwaukee fix's size; 1,000 homes matches parking's place rule; 80% matches the current 10th–90th range |
+| D6 | Test region now? | Add a named region candidate before the lock (for example, each state's level pooled with its Census division), or leave it to round 2. Adding it after results would be post hoc | Round 2: tags are kept, and this round stays smaller |
 
 ## Plan log
 
