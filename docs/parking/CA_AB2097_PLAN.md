@@ -341,3 +341,23 @@ they are rules fixed before counting, not forecasts.
 6. **Station source:** rail stations need no schedules. Step 1 tests a static public station list with opening dates
    (for example the BTS NTAD rail stations layer), records its licence, and uses it for this check if it covers the
    California rail systems. Agency opening dates fill gaps.
+
+**2026-11-05 15:45 UTC, Ryan: "check github too because I think people have made maps for AB 2097 and SB 79 that
+might speak to this - check the licensing on those gh projects and their data sets"** (draft, plan not locked).
+GitHub search of repositories and code ("AB 2097", "AB2097", "SB 79", "SB79", "21064.3", "major_transit_stop",
+"high quality transit"), checked 2026-11-05:
+
+| Project | What it has | Licence | Use here |
+| --- | --- | --- | --- |
+| SACOG/major-transit-stops | Scripts that flag *planned* (model-year) major stops for AB 2097 and SB 79 from SACOG's travel-model network; README says to use GTFS for existing stops. No data files beyond a small extra-stops CSV | MIT | Method reference for Sacramento-region planned stops; the model network itself is not in the repo |
+| cal-itp/data-analyses (`high_quality_transit_areas`) | The code behind Caltrans' monthly HQTA / major-stop layers. Documents the method: AM peak 6:00–8:59, PM 3:00–6:59, stops within 500 ft of two corridors' crossing, 50 m stop-to-corridor join. Since 2024 uses the 20-minute rule for bus major stops | **AGPL-3.0** (GPL family) | **Code not used or copied.** Its published method is cited as one reading of the law. Its data outputs are Caltrans public layers (already used); dated past outputs are not in the repo |
+| cal-itp/data-infra | The pipeline that archives California GTFS feeds | AGPL-3.0 | Code not used. Whether its archived feeds (about 2021 on) are publicly downloadable is a step-1 lead |
+| Vikram-T/sb79-analysis | SB 79 parcel tiers, Berkeley only, today's stops | Apache-2.0 | Not useful (one city, current stops) |
+| ajbeattie/sb79-sf | SB 79 capacity, San Francisco only | MIT | Not useful (SF is dropped as already reformed) |
+| sdamerdji/sb79 and other SB 79 class projects | SB 79 parcel maps | No licence stated | Not used (no licence means no right to reuse) |
+| consbio CEQA site-check repos | Statewide CEQA exemption scripts using major stops (ArcGIS arcpy) | No licence stated | Not used |
+
+No GitHub project found holds a dated 2022 statewide major-stop map or 2022 timetables. Step 1 therefore also
+checks: (a) the Cal-ITP archive's public access and licence; (b) dated copies of the Caltrans HQTA layers (for example
+in web archives) from before the 2024 rule change, which would give a 15-minute statewide map built by Caltrans.
+The Cal-ITP method choices (peak hours, 500 ft, 50 m) are listed beside ours in the map write-up.
