@@ -1304,7 +1304,7 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 | Other housing reforms | R ← P → Z → Y | E2 split only (same-time rewrite, treated places only) | separate reforms in treated **and** pool places not coded | **52b**, code dated events, adjust and drop |
 | Politics | R ← P → (approvals) → Y | none | not measurable directly | **52d**, unseen back-door tests |
 | Transit | R ← Q → Y | none in the 74 | small | 52b codes new rail/BRT openings as a dated event |
-| Shocks | R ← X → Y (by timing) | placebo spread | Bastrop wildfire, single large projects | **52e**, leave-one-out and winsorising (already in method 2) |
+| Shocks | R ← X → Y (by timing) | placebo spread | disaster rebuilding (Bastrop to check), single large projects | **52e**, leave-one-out and winsorising (already in method 2) |
 
 **Things we must not adjust for (would block the effect or open a new path):**
 - **Mediators:** parking built per home (M1), project size and building type (M2), approval-path changes made by the repeal ordinance, land prices after repeal. Adjusting for them would remove part of the effect being measured.
@@ -1340,7 +1340,7 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 3. **Placebo treatment:** places that adopted a different reform (ADU-only) with no parking change, run through the same pipeline. An "effect" there points to a reform-wave back door.
 4. **Sensitivity to an unseen confounder:** how strong an unseen back door would need to be to explain away the result. Reported as the share of the pre-trend gap it would need to reproduce (from 52c) and as an E-value style ratio on the permit rate.
 
-**52e. Shocks.** Leave-one-out over the 74, and the share of the result from the largest 3 places. Bastrop (2015 wildfire rebuilding before its 2019 repeal) is named in advance.
+**52e. Shocks.** Leave-one-out over the 74, and the share of the result from the largest 3 places. Bastrop is named in advance (2011 wildfire and 2015 flood rebuilding in the county before its 2019 repeal; to be checked against sources).
 
 **Run order (concurrent where independent):**
 1. 52b coding, committed before any join.
