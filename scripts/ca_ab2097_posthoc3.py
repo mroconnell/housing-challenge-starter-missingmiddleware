@@ -46,7 +46,7 @@ from missing_middleware.tod import ab2097 as ab  # noqa: E402
 
 def pop10() -> pd.Series:
     z = zipfile.ZipFile(RAW / "parking_older_reforms" / "Gaz_places_national.zip")
-    g = pd.read_csv(io.BytesIO(z.read(z.namelist()[0])), sep="\t", dtype=str)
+    g = pd.read_csv(io.BytesIO(z.read(z.namelist()[0])), sep="\t", dtype=str, encoding="latin-1")
     g.columns = g.columns.str.strip()
     return pd.to_numeric(g.set_index("GEOID")["POP10"], errors="coerce")
 
