@@ -67,9 +67,17 @@ def field_checks(a2: pd.DataFrame) -> None:
     geo = ab.is_geocoded(pd.to_numeric(d.LATITUDE, errors="coerce"), pd.to_numeric(d.LONGITUDE, errors="coerce"),
                          d.STD_ADDRESS)
     d["lihtc_dropped_not_street"] = d.lihtc & ~geo
+    d["not_street"] = ~geo
+    d["is_5plus"] = d.UNIT_CAT.astype(str).str.strip() == "5+"
+    d["db_above_0_5plus"] = d.is_5plus & (pd.to_numeric(d.DENSITY_BONUS_TOTAL, errors="coerce").fillna(0) > 0)
     g = d.groupby("YEAR").agg(rows_with_permits=("db_filled", "size"), db_filled=("db_filled", "mean"),
                               fin_filled=("fin_filled", "mean"), lihtc_rows=("lihtc", "sum"),
-                              lihtc_dropped_not_street=("lihtc_dropped_not_street", "sum")).reset_index()
+                              lihtc_dropped_not_street=("lihtc_dropped_not_street", "sum"),
+                              all_rows_dropped_not_street=("not_street", "sum"),
+                              rows_5plus=("is_5plus", "sum"), rows_5plus_db_above_0=("db_above_0_5plus", "sum")
+                              ).reset_index()
+    g["share_all_rows_dropped_not_street"] = g.all_rows_dropped_not_street / g.rows_with_permits
+    g["share_5plus_rows_db_above_0"] = g.rows_5plus_db_above_0 / g.rows_5plus
     g = g.rename(columns={"YEAR": "report_year", "db_filled": "share_density_bonus_filled",
                           "fin_filled": "share_financing_filled"})
     g.round(4).to_csv(REFERENCE / "ca_ab2097_step1_field_checks.csv", index=False)

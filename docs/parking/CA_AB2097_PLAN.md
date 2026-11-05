@@ -489,6 +489,18 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05, post-lock, pre-count, after the step 1 field checks (`reference/ca_ab2097_step1_field_checks.csv`) and
+  the audit's notes:
+  - **Density-bonus field** is zero-filled (non-blank in 100% of rows), so "no bonus" and "not reported" look the
+    same. Among "5+" rows with permits, the share with a bonus above 0 by report year: 2018 0.9%, 2019 0.6%,
+    2020 2.1%, 2021 4.5%, 2022 11.2%, 2023 8.8%, 2024 9.7%, 2025 17.2%. A jump between years may come from reporting,
+    not real use. Outcomes A and B are therefore **descriptive only**, shown with this table.
+  - **Financing field** is filled in 0.9%–2.5% of rows with permits. Outcomes C and D are **descriptive only**; the
+    HUD check shows whether the flag tracks real LIHTC.
+  - **Street-level geocodes fall off in recent report years, for all rows.** Rows with permits dropped for lacking a
+    street-level point: 2018 4.3%, 2019 2.8%, 2020 2.4%, 2021 2.5%, 2022 4.8%, 2023 8.7%, 2024 17.4%, 2025 20.7%. This
+    straddles the before/after line and affects the main outcome. Before any count, step 1 reports the same rates by
+    jurisdiction and unit category, and the question of how to handle it goes to Ryan (no fix chosen yet).
 - 2026-11-05 18:17 UTC, post-lock, **pre-count** (no permit placed by area yet), Ryan confirmed the reading above:
   "yes, and you can use more specific bus details like archive.org results to sanity check the caltrans data (or
   other similar side checks)". **Change to the main map (labelled post-lock, pre-count):**
