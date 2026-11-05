@@ -3,6 +3,11 @@
 Written 2026-11-05 by the CA AB 2097 thread, before any new permit count. Status: **draft for Ryan and the audit**.
 Nothing runs until Ryan picks the options in section 5 and the audit clears the lock.
 
+**Post hoc relative to the Oct 27 test.** This plan is written after the earlier AB 2097 test found no measurable
+change (section 2). It is a second look at the same law with the same permit data, not an independent vote. What is
+new: the 2022 covered map, planned stops, local maps, year-by-year leads, a city-level dose check, and edges.
+Section 8 (audit early review, 2026-11-05) overrides section 6 where they differ.
+
 ## 1. The question
 
 Did AB 2097 (no parking minimums within ½ mile of a major transit stop, in force 1 January 2023) change how many
@@ -134,3 +139,53 @@ Consequences for the draft:
   edge test (land added or dropped by the map change), as Ryan suggested. The LA case (2024 widening) was not feasible
   on 2026-11-03; other cities are checked in step 1.
 - Choice 1 in section 5 now has a third option: local maps main where they exist, map A elsewhere.
+
+**2026-11-05, before any count, audit early review** (`audit/parking_ca_ab2097_plan_early_review_2026-11-05.md`,
+reviewed from a summary). Each item is now part of the plan:
+
+1. **Which permit data.** The near-vs-ring test needs geocoded project permits. Census BPS is city-level only. Source:
+   HCD Table A2 (latitude, longitude and HCD standardized address). Step 1 recounts, by year 2018–2025, the
+   jurisdictions with geocoded permits every year and their share of statewide permitted homes. The Oct 27 test kept
+   360 of 531 filing jurisdictions and 1,005,786 of 1,214,141 permitted homes (82.8%), before the Nov 3 duplicate fix.
+2. **Net vs moved.** A near-vs-ring gain can be homes moving from the ring, with no net gain. Added: a **city-level
+   dose check**. For every California place in Census BPS: permits per 1,000 existing homes a year, 2023–2025 against
+   2018–2022, regressed on the share of the place's 2020 homes inside the 2022 covered area. A real net effect shows as a
+   slope; a move inside cities does not. 90% range from 2,000 resamples of places. The ring-vs-beyond check from the
+   Oct 27 test is kept too.
+3. **Places that already reformed** (the 12-place list, plus San Jose and Sacramento): left out of the main estimate
+   under the strict rule, and used as a **placebo group** (expected: no change at their line in 2023).
+4. **ADUs.** State law already limited ADU parking near transit. Main outcome = homes in issued permits **excluding
+   ADUs** (Table A2 unit categories other than ADU). ADUs are reported on their own. All homes and 2+ unit buildings are
+   shown beside.
+5. **Event study, locked now (Test 49 lesson).**
+   - Leads: 2018, 2019, 2020 and 2021, each against 2022. Lags: 2023, 2024, 2025, each against 2022.
+   - Placebo date: pretend the law began in 2020 (2018–2019 vs 2020–2022), same contrast.
+   - Distance bands (D): 0–⅓, ⅓–½, ½–⅔ mile, each against the 1–1½ mile ring.
+   - **Stated now:** if the leads trend (their slope's 90% range excludes 0) or the placebo date "finds" an effect,
+     the headline is reported as **not evidence of cause**, whatever its sign.
+   - **Main weighting:** pooled rates (homes-weighted), as in the Oct 27 test. Equal weight per city beside it.
+6. **Which date.** AB 2097 applies to projects by application, which Table A2 does not record. Main: building-permit
+   issue date (Ryan's 2026-11-03 rule). Check: entitlement approval date (`ENT_APPROVE_DT1`) where filled. 2023 is
+   treated as a partial year; "drop 2023" is a fixed check.
+7. **Other laws near transit, and how each is handled:**
+
+   | Law or program | Overlaps the ½-mile area? | Handling |
+   | --- | --- | --- |
+   | AB 2011 (2023, commercial corridors) | Partly | Not flagged in Table A2; stated as a threat |
+   | SB 9 (2022, lot splits/duplexes) | No, citywide | Ring absorbs; 1–4 home projects shown apart |
+   | SB 35 streamlining (2018) | No, citywide | `APPROVE_SB35` projects dropped as a check |
+   | State density bonus (parking relief near transit since 2016) | Yes | `DENSITY_BONUS_TOTAL` > 0 projects shown apart; E1's 2–4 home split repeated |
+   | LA TOC (2017) | Yes, LA only | Left out of group P, as before |
+   | LA ED 1 (Dec 2022, 100% affordable) | Partly, LA only | LA dropped as a check |
+   | Builder's remedy (2022–2024, non-compliant cities) | No | Stated only |
+   | Local reforms in the 12-place list | Yes | Item 3 |
+
+   (AB 2011 is not flagged in Table A2, so its overlap cannot be removed; it is stated as a threat.)
+8. **Licences.** Each GTFS feed's licence is recorded in the fetch log; feeds without open terms are listed and left out.
+   No OpenStreetMap-derived layer.
+9. **Geometry, no GEOS.** Distances to stops by KD-tree on projected points (EPSG:3310); point-in-polygon for city
+   maps by `matplotlib.path` or ray casting. No shapely or GEOS.
+10. **Post hoc label.** Added at the top of this file.
+11. **Ryan's calls.** Using LA's case-filings export (E, already on disk) and any records request are Ryan's call.
+    F (California vs other states) is rejected because SB 9, AB 2011, density-bonus and ADU changes hit California in
+    the same years, so a whole-state comparison cannot isolate AB 2097.
