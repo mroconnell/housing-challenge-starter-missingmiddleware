@@ -1269,3 +1269,90 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
   4. **Place first:** a project inside a village counts for the village only, never also for its town. Each project carries exactly one key, and the script asserts this.
 
 **Also (descriptive):** the San Francisco and Emeryville project tables get a "100% affordable" flag. For San Francisco it comes from the planning-records fields (affordable units = units, or the 100%-affordable program flag). For Emeryville it comes from HCD Table A2 income splits.
+
+## Test 52: causal diagram, back-door adjustment and tests for unseen back doors (DRAFT PLAN 2026-11-05, before any count; Ryan 17:35–17:37 UTC in the learning thread: "can you do that? Draw the diagram, and block the back doors, make sure you don't block the wrong things, and then test for the back doors we can't see?")
+
+**Running count: 52.** Evidence only. Lines and the tool stay unchanged without Ryan's own OK. This plan goes to the audit and to Ryan before any count.
+
+**Estimand.** The total effect of a city's residential parking-minimum repeal, as adopted, on homes permitted per 1,000 existing homes a year, in the years after repeal. Anything the same ordinance changed is part of the treatment; E2 and the reform-type coding describe those bundles. A reform adopted in a separate act is a possible confounder.
+
+**The diagram.** Arrows mean "can cause".
+
+```
+                 Politics / pro-housing council (P) ──────────────┐
+                    │                    │                        │
+                    ▼                    ▼                        ▼
+ Market demand ──► Repeal (R) ─────► Parking built per home (M1) ─► Homes permitted (Y)
+ (D: rents, jobs,   │  ▲              Project size / building type (M2) ─►  ▲
+  prices)  ─────────┼──┼──────────────────────────────────────────────────►│
+                    │  │                                                    │
+ Other housing reforms (Z: upzoning, ADU law, state laws, rewrites) ──────►│
+   ▲ (from P, D)    │  │                                                    │
+ Recent permit trend (T) ─┘ (a slump or boom can prompt repeal) ──────────►│
+ Place traits (S: size, density, age, crowding, metro, state/region) ──►R, ►Y
+ One-off shocks (X: disasters, a big project, a closure) ─────────────────►│
+ Transit investment (Q) ──► R (TOD-linked repeals) and ──────────────────►│
+```
+
+**Back doors (non-causal paths from R to Y) and how each is blocked:**
+
+| Back door | Path | Already blocked by | Gap | This plan |
+| --- | --- | --- | --- | --- |
+| Place traits | R ← S → Y | Pools matched on state/division, size; method 2 on crowding, density, age | none known | keep |
+| Recent permit trend | R ← T → Y | Before window (5 yrs main, 10 yrs method 2); P2 slope matching | Test 49: places were already falling before repeal under RE/equal | **52c**, bound and trend-matched rerun |
+| Market demand | R ← D → Y | Partly, via traits and same-state pools | no direct measure of demand change | **52a**, add pre-repeal rent and job growth |
+| Other housing reforms | R ← P → Z → Y | E2 split only (same-time rewrite, treated places only) | separate reforms in treated **and** pool places not coded | **52b**, code dated events, adjust and drop |
+| Politics | R ← P → (approvals) → Y | none | not measurable directly | **52d**, unseen back-door tests |
+| Transit | R ← Q → Y | none in the 74 | small | 52b codes new rail/BRT openings as a dated event |
+| Shocks | R ← X → Y (by timing) | placebo spread | Bastrop wildfire, single large projects | **52e**, leave-one-out and winsorising (already in method 2) |
+
+**Things we must not adjust for (would block the effect or open a new path):**
+- **Mediators:** parking built per home (M1), project size and building type (M2), approval-path changes made by the repeal ordinance, land prices after repeal. Adjusting for them would remove part of the effect being measured.
+- **Colliders and post-repeal selection:** pools must not be chosen on after-repeal growth, and samples must not be limited to approved or completed projects. Test 50's approved-only sample is descriptive for this reason.
+- **Post-repeal traits:** every matching trait must be measured before repeal. The check: the ACS 2020–2024 homes denominator comes after some repeals. 52a reruns the main with a pre-repeal homes count (ACS window ending before the repeal year, or Census 2010) to show this is not a bad control.
+
+**52a. Market demand (adjust).**
+- **Measures, each in the 5 years before repeal, for each repeal place and every pool place:**
+  - median rent growth (ACS 5-year B25064, earliest window against the window ending the year before repeal);
+  - county job growth (BLS QCEW, public domain).
+- **Use:** added to method 2's matching traits (crowding, density, age), and as a covariate check that repeal and pool places are balanced. Balance is reported as standardised differences; a difference above 0.25 is flagged.
+- **Rerun:** the main and method 2 (D, target-state mix) with the extra traits, read beside the batch result.
+
+**52b. Other housing reforms as dated events (adjust and drop).**
+- **Coding, before any outcome is joined:**
+  - **State laws:** statewide ADU, middle-housing, parking and by-right laws, by state and effective year (the TOD and ADU threads' lists plus `data/raw/statewide_states`).
+  - **Place reforms:** for the 74 repeal places, any upzoning, ADU ordinance, comprehensive rewrite or new rail/BRT line within 3 years either side of the repeal, extending the 15-place coding brief.
+  - **Pool places:** ADU ordinances from the Mercatus ADU taxonomy, and parking reforms from the PRN map (`data/raw/prn_reform_map`). Wider pool coding isn't feasible; that gap is stated.
+- **Use:**
+  1. Drop pool place-years within 3 years of a coded reform, then rerun.
+  2. Drop repeal places with a separate reform within 3 years of repeal, then rerun.
+  3. State laws: a pool place and its repeal place are already in the same state for most strata. Where the ladder moves to division or nation, drop pool places whose state passed a coded law within the window.
+- **Reading:** if the result moves by less than its own range, other reforms don't drive it.
+
+**52c. Recent permit trend (bound and adjust).**
+- **Honest-DiD style bound** (relative magnitudes, hand-written as in P3): the post-repeal path may differ from the pool by up to M times the largest pre-repeal gap. Report the result at M = 0, 0.5 and 1, and the M at which the range first includes 0 (the "breakdown" M).
+- **Trend-matched rerun:** P2's slope matching on the 74-place sample.
+- **Reading:** a small breakdown M means the result rests on trends continuing.
+
+**52d. Tests for back doors we can't see.**
+1. **Placebo timing:** the backtest repeated with repeals moved 2 and 4 years early. A real repeal effect should not appear before the repeal.
+2. **Placebo outcome:** single-family homes in places whose house minimum was already met by standard garages. This is a weak test, because Test 44 found houses may respond.
+3. **Placebo treatment:** places that adopted a different reform (ADU-only) with no parking change, run through the same pipeline. An "effect" there points to a reform-wave back door.
+4. **Sensitivity to an unseen confounder:** how strong an unseen back door would need to be to explain away the result. Reported as the share of the pre-trend gap it would need to reproduce (from 52c) and as an E-value style ratio on the permit rate.
+
+**52e. Shocks.** Leave-one-out over the 74, and the share of the result from the largest 3 places. Bastrop (2015 wildfire rebuilding before its 2019 repeal) is named in advance.
+
+**Run order (concurrent where independent):**
+1. 52b coding, committed before any join.
+2. 52a data fetch.
+3. 52c and 52e need no new data and run first.
+4. 52a and 52b reruns.
+5. 52d.
+
+**Rules.**
+- Public sources only; blocked sites cited.
+- No addresses.
+- Same seeds (20261105) and the same 90% ranges.
+- Every rerun is read beside the batch result.
+- No line changes without Ryan's OK.
+- Reported to the audit and Ryan.
