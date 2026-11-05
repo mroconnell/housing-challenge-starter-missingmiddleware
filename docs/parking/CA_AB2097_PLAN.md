@@ -489,6 +489,16 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05, post-lock, pre-count, after the web-archive check (21 of 293 California feeds with a Sep–Dec 2022
+  copy) and the audit's request for a rule for feeds without one. **Rule for each bus feed, fixed now, whatever
+  archive is used:**
+  1. A saved copy counts as the late-2022 schedule only if its service calendar (`calendar.txt` /
+     `calendar_dates.txt`) covers Wednesday 2022-12-14 (a normal weekday in the target window). The copy's capture date
+     alone does not count. Among qualifying copies, the one whose calendar start is latest on or before 2022-12-14 is used.
+  2. No qualifying copy: the agency is listed as a gap, and its bus major stops come from today's Caltrans layer,
+     flagged "later map" (section 6's existing fallback). Every result is also shown without those stops.
+  3. The share of today's Caltrans bus major stops that fall in gap agencies is reported in step 1, before any
+     estimate.
 - 2026-11-05 17:20 UTC, post-lock, pre-count, Ryan: "I dropped some LIHTC data in raw data in local (parking reform
   thread is using it too)". The file is HUD's national LIHTC database (`data/raw/hud_lihtc/lihtcpub.zip`, release
   2026-04-30, hand-downloaded by Ryan; provenance in that folder). HUD lists a project only once placed in service,
