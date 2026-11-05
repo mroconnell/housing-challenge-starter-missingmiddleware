@@ -1220,5 +1220,24 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
   - 2021 is at 79% of that and 2022 at 49%.
 - **Places with an after-year:** if allocations are complete through 2020, permit years run through 2021 and 13 of the 74 places (repeals 2016–2020) have at least one after-year. Counting 2021 as complete adds 12 more (25).
 - **Not yet decided:** where to put the last complete year. Ryan's call is pending.
+- **Audit advice (17:12 UTC, for Ryan's call):**
+  - Main: allocations through 2020 (13 places).
+  - Sensitivity, labelled: allocations through 2021 (25 places). 2021 is 79% complete and the missing projects are recent, so treating it as complete undercounts only the late repeals' after-years, which pushes the result toward a fall.
+- **Reading line added:** a result that can't be told from zero on 13 places says little.
+- **Rows with no allocation year (2,709):**
+  - 1,511 have a placed-in-service year and get permit year = that year − 1, as locked. 551 of them were placed in service in 2015–2025.
+  - 1,198 have neither year, so they can't be placed in any year and are left out. Whether they fall in the window isn't known.
+- **Fix 1 assignment (scripts/assign_parking_lihtc_places.py):**
+
+  | Assigned to | Projects |
+  | --- | --- |
+  | BPS place | 41,609 |
+  | BPS county subdivision | 2,607 |
+  | Unmatched (mostly unincorporated land) | 8,873 |
+  | No location | 2,256 |
+  | **Total** | **55,345** |
+
+  - The database's place field agrees for 34,248 of the 34,428 place-assigned projects that have one.
+  - By state: `reference/parking_lihtc_match.csv`.
 
 **Also (descriptive):** the San Francisco and Emeryville project tables get a "100% affordable" flag. For San Francisco it comes from the planning-records fields (affordable units = units, or the 100%-affordable program flag). For Emeryville it comes from HCD Table A2 income splits.
