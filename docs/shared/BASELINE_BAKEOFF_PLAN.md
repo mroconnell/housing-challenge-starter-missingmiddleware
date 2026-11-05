@@ -35,7 +35,7 @@ The final baseline is level × shares. This matters because parking's earlier te
   - Each draw resamples start years for all states (or all Wisconsin pieces) jointly, because the housing cycle is national.
   - The same draw scores L0 and the candidate, so the difference is paired.
   - 2,000 draws, seed 20261105.
-- **Homes at a start year (audit 4).** Revised housing-unit estimates use later censuses, which a forecaster at the start year did not have. So homes at start year t are the most recent decennial census count at or before t (1990, 2000, 2010 or 2020), plus permits issued since that census. Demolitions are not subtracted (a stated bias: homes are slightly over-counted late in each decade). No intercensal estimates are used.
+- **Homes at a start year (audit 4).** Revised housing-unit estimates use later censuses, which a forecaster at the start year did not have. So homes at start year t are the most recent decennial census count at or before t (1990, 2000, 2010 or 2020), plus permits issued since that census. A census counts only from the year after its census year, when its counts were published (audit note b). So start year 2000 uses 1990 plus permits for 1991–2000, and likewise for 2010 and 2020. Demolitions are not subtracted (a stated bias: homes are slightly over-counted late in each decade). No intercensal estimates are used.
 
 ## Part 1: the level
 
@@ -74,7 +74,7 @@ If more than one passes, the lowest all-states score wins. A tie, meaning scores
 **Range (audit 3).**
 - **Method.** The range is redone with the winning level method's own out-of-sample errors. For each building size, it is the 10th to 90th percentile of predicted ÷ actual over Wisconsin's start years. It targets 80% coverage: in about 8 of 10 five-year periods, the outcome should land inside it.
 - **Coverage check, as TOD did.** For each Wisconsin start year t from 2005 to 2020, the range is rebuilt from start years s ≤ t − 5 only. The check records whether t's actual total landed inside.
-- **If coverage falls short.** If out-of-sample coverage is below 80%, the percentiles are widened in steps of 5 points (5th–95th, then 2.5th–97.5th) until it reaches 80%, and the widening is reported.
+- **If coverage falls short.** If out-of-sample coverage is below 80%, the percentiles are widened in steps of 5 points (5th–95th, then 2.5th–97.5th) until it reaches 80%, and the widening is reported. Stop rule (audit note a): if 2.5th–97.5th still covers under 80%, it is used and the shortfall is reported. With 16 checks, coverage moves in steps of 6.25 points.
 - **Sensitivity.** An all-states version of the range is shown alongside.
 
 ## Part 2: the shares
@@ -91,7 +91,7 @@ If more than one passes, the lowest all-states score wins. A tie, meaning scores
 1. **Same ID.** The 6-digit Census permit ID appears in 2015–2025 files: the row goes to that ID's piece or pieces, split across counties as now.
 2. **Same name.** The same county with the same name and type (city, village, town): the row goes to that piece.
 3. **Changed type.** The same county and the same base name, with a different type (a town that became a village, for example Fox Crossing village, formed from the town of Menasha in 2016): the row goes to the successor.
-   - If the old town still exists beside the new village, the old row is split between them by their shares of current one-unit detached homes. This is an assumption, and it is listed.
+   - If the old town still exists beside the new village, the old row is split between them by their shares of current one-unit detached homes. This is an assumption, and it is listed. Using today's homes is a small look-ahead (audit note c).
 4. **Unlinked.** The row's units go to its county's unallocated row.
 
 Every rule-2, rule-3 and rule-4 case is listed in a link table before any score.
@@ -136,6 +136,7 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
 ## Rules
 
 - Scripts are committed before any run, and the lock time is recorded here.
+- The fetch script gets its own audit check before it runs (audit note e). It must send a plain user agent, read any Census key from the environment only, and write nothing that contains the key.
 - Runs stay on Ryan's Mac. Long runs are detached with checkpoints.
 - The audit reviews this lock and the results.
 - A change to the tool needs Ryan's own OK.
@@ -153,6 +154,7 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
 | D2 | What a challenger must clear to replace the current rule | A (first draft): 10% better, and better in at least 80% of bootstrap draws. B (as in method 3b): at least 2% better, and the 90% bootstrap range of the difference entirely below 0 | B. A's 80% is weaker than earlier locks (method 3: 5% margin; method 3b: 2% plus a 90% range below 0) |
 | D3 | Split level and shares, or pick one method for both | Split, or one method | Split, with the joint check reported |
 | D4 | The tutor's method 3 shrink | Leave it for a second round, or include it now | Second round |
+| D6 | Test region now? | Add a named region candidate before the lock (for example, each state's level pooled with its Census division), or leave it to round 2. Adding it after results would be post hoc | Round 2: tags are kept, and this round stays smaller |
 | D5 | Other fixed numbers | 5% Wisconsin check; 95% linking coverage; 2-times cap (3 as sensitivity); 1,000-home split for reporting; 80% range target | As written. Reasons: 5% and 2-times are the smallest round steps we would act on; 95% keeps the linking error under the Milwaukee fix's size; 1,000 homes matches parking's place rule; 80% matches the current 10th–90th range |
 
 ## Plan log
@@ -171,3 +173,4 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
   10. Joint check, reported only.
   11. Parking row marked "for scale only".
 - 2026-11-05 16:49 UTC, Ryan: track each state's region so matching can group by it later. Census region and division are tagged on every state row and output, and used for reporting only.
+- 2026-11-05 16:51 UTC, audit: revision 2 cleared to lock once Ryan picks D1–D6. Notes a–e written in: widening stop rule; census used from the year after its census year; look-ahead noted in rule 3; D6 for region; fetch script audit check.
