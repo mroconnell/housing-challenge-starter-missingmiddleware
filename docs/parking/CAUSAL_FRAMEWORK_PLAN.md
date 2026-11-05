@@ -1400,7 +1400,7 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 
    - **Not added:** `reference/ca_ordinances_2019.csv`, because its `rules_as_of` field is a snapshot date, not an adoption date.
    - **Audit additions (17:45 UTC):**
-     1. **PRN parking reforms in pool places:** these are left out of 52b's events table. A pool place with a parking reform was itself treated, which is 52h.1's job, so the two checks don't overlap. PRN reforms enter 52b only for repeal places, as other reforms before the repeal (for example an earlier partial parking cut).
+     1. **PRN parking reforms in pool places:** these are left out of 52b's events table. A pool place with a parking reform was itself treated, which is 52h.1's job, so the two checks don't overlap. PRN reforms enter 52b only for repeal places. Those rows are marked `prior parking dose` in the events table: an earlier parking treatment, such as a partial cut, not an unrelated reform (audit 17:46 UTC).
      2. **Uneven coverage:** the lists are dense for CA, MA, WI and the TOD cases and thin elsewhere. Drops are reported by state, and so is the pre-period gap before and after each drop.
      3. **"Before the repeal" for a pool place** means before its matched repeal place's event year.
      4. **Ambiguous names:** any same-name, same-state row that matches more than one BPS place is reported and left out.
@@ -1436,12 +1436,36 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
   - Its f3 uses Census-imputed values. The BPS annual place file's imputed estimates are in the same columns already used, so f3 and 52h.3 differ only in places with no record at all in a year, which 52h.3 fills from the place's own mean.
 - **Not collider-type and kept:** matching on before-repeal traits only, and the same-state ladder.
 
+**52i. Weighting: bake-off, then stacking** (Ryan 17:46 UTC in the learning thread: "with test 52, you can do the bake off and in the case of no clear winner, stacking?"; drafted by the learning thread).
+- **When:** after the other 52 reruns, on the final estimator. That is method D, plus any 52 change Ryan accepts.
+- **Candidates:** the same five weightings (target-state mix, random effects, square root, homes, equal).
+- **Bake-off:** the same leave-one-state-out test. Each candidate predicts the held-out state's mean; the score is mean absolute error, with equal weight per state.
+- **Clear winner:** the lowest-error weighting wins only if, against every other candidate, both hold:
+  - (a) the 90% paired-bootstrap range of the error difference (over states, 2,000 draws, seed 20261105) is below 0;
+  - (b) the gap is at least 2% of the runner-up's error.
+- **No clear winner, then stacking:**
+  - Blend shares are non-negative and sum to 1, chosen to minimise the held-out MAE of the blended prediction.
+  - The fit is nested: for each held-out state, the shares are fit on the other states, the held-out state is predicted and that prediction is scored.
+  - The final shares are fit on all states and reported.
+- **Range for the blend:** bootstrap draws that mix the weightings' draws in proportion to the shares.
+- **Pass test:** the nested held-out coverage of the blend's 90% ranges must be 85–95%.
+  - If it passes, the blend replaces the single pick as the evidence result.
+  - If it fails, the target-state mix stays, and the spread across weightings is shown beside it.
+- **Tie rule:** for this test, this replaces Ryan's earlier tie rule ("ties go to state mix"), and the write-up says so.
+- **Report:**
+  - the shares;
+  - the effective number of places;
+  - the nested MAE and coverage;
+  - Wisconsin homes 2027–2031, with its 90% range.
+- **No expected result is stated. No tool change without Ryan's own OK.**
+
 **Run order (concurrent where independent):**
 1. 52b coding, committed before any join.
 2. 52a data fetch.
 3. 52c and 52e need no new data and run first.
 4. 52a and 52b reruns.
 5. 52d, 52f, 52g and 52h (52f, 52g and 52h need no new data and can run with step 3).
+6. 52i last, on the final estimator.
 
 **Rules.**
 - Public sources only; blocked sites cited.
