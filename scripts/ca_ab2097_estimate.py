@@ -491,6 +491,12 @@ def estimate() -> None:
         e, d = share_did(g, q, flag, base)
         add(lab + " (descriptive only)", "main", "main", "share of projects", e, d)
 
+    # D2 plain counts (descriptive): LIHTC homes and projects in 5+ home projects, near vs ring, by period
+    q = permits_for(p_main, "main")
+    q = q[q.juris.isin(main_j) & ~q.upz & q.zone.isin(["near", "ring"]) & (q.lihtc_apartments > 0)]
+    q["period"] = np.where(q.year.isin(AFTER), "2023-2025", "2018-2022")
+    q.groupby(["zone", "period"]).agg(lihtc_homes=("lihtc_apartments", "sum"), lihtc_projects=("project", "nunique")
+                                      ).reset_index().to_csv(REFERENCE / "ca_ab2097_results_lihtc_counts.csv", index=False)
     res = pd.DataFrame(rows)
     res["unit"] = np.where(res.outcome.str.contains("per acre"), "permits per acre per year",
                            np.where(res.outcome == "share of projects", "share of projects (0-1)",
