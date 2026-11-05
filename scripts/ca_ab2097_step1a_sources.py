@@ -24,6 +24,7 @@ import csv
 import datetime as dt
 import io
 import json
+import re
 import sys
 import time
 import urllib.error
@@ -91,6 +92,35 @@ def get(url: str, timeout: int = 60) -> tuple[int, bytes]:
         return 0, b""
 
 
+EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
+
+
+def scrub(text: str, n: int) -> str:
+    """Drop email addresses and line breaks, then cut to n characters."""
+    return EMAIL.sub("[email removed]", " ".join((text or "").split()))[:n]
+
+
+def item_licence(layer_url: str) -> str:
+    """Licence text of the ArcGIS item behind a hosted layer, if the service root names one."""
+    root = layer_url.rsplit("/", 1)[0]
+    status, body = get(root + "?f=pjson")
+    if status != 200 or not body:
+        return ""
+    try:
+        item_id = json.loads(body).get("serviceItemId")
+    except json.JSONDecodeError:
+        return ""
+    if not item_id:
+        return ""
+    status, body = get(f"https://www.arcgis.com/sharing/rest/content/items/{item_id}?f=json")
+    if status != 200 or not body:
+        return ""
+    try:
+        return scrub(json.loads(body).get("licenseInfo") or "", 300)
+    except json.JSONDecodeError:
+        return ""
+
+
 def ms_to_date(ms) -> str:
     if not ms:
         return ""
@@ -127,8 +157,12 @@ def layer_metadata(group: str, name: str, url: str) -> dict:
         row.update(status=f"{status} ({j['error'].get('code', '')})", notes=str(j["error"].get("message", ""))[:200])
         return row
     edit = (j.get("editingInfo") or {}).get("lastEditDate")
-    row.update(last_date=ms_to_date(edit), licence_or_terms=(j.get("copyrightText") or "").strip()[:300],
-               notes=f"name={j.get('name', '')}; description={(j.get('description') or '').strip()[:200]}")
+    terms = scrub(j.get("copyrightText") or "", 300)
+    lic = item_licence(url)
+    row.update(last_date=ms_to_date(edit),
+               licence_or_terms="; ".join(x for x in (f"copyright: {terms}" if terms else "",
+                                                      f"item licence: {lic}" if lic else "") if x) or "not stated",
+               notes=f"name={j.get('name', '')}; description={scrub(j.get('description') or '', 200)}")
     return row
 
 
@@ -140,6 +174,10 @@ def mdb_california() -> dict:
         row["notes"] = "refused or unavailable"
         return row
     rd = csv.DictReader(io.StringIO(body.decode("utf-8", "replace")))
+    need = {"location.country_code", "location.subdivision_name", "data_type"}
+    if not need <= set(rd.fieldnames or []):
+        row["notes"] = "expected columns not found; header: " + ",".join(rd.fieldnames or [])[:400]
+        return row
     ca = [r for r in rd if (r.get("location.country_code") == "US"
                             and (r.get("location.subdivision_name") or "").strip() == "California"
                             and r.get("data_type") == "gtfs")]
