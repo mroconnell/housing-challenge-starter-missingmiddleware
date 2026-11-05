@@ -1,0 +1,57 @@
+groups,row,estimator,places,rate,p05,p95,wi_homes,wi_p05,wi_p95,thin,places_list,excludes_0
+"six classes, 2013 principal cities (main)",main city,D,31.0,7.6718,2.0559,10.8024,102367.1783,27432.5736,144140.7839,False,,
+"six classes, 2013 principal cities (main)",main city,main,31.0,-1.3169,-4.1608,1.8665,-17571.946,-55519.4713,24904.8115,False,,
+"six classes, 2013 principal cities (main)",main city,"D, equal weight",31.0,2.546,0.6845,4.4571,33972.4304,9133.6762,59473.2253,False,,
+"six classes, 2013 principal cities (main)",main city,"main, equal weight",31.0,1.5193,-0.3983,3.3499,20272.2116,-5314.7643,44699.1576,False,,
+"six classes, 2013 principal cities (main)",main city,"D, weighted minus equal",31.0,5.1257,0.699,7.5493,68394.7479,9326.4013,100733.7928,False,,
+"six classes, 2013 principal cities (main)",main city,"main, weighted minus equal",31.0,-2.8362,-4.7732,-0.6189,-37844.1575,-63690.4632,-8258.5614,False,,
+"six classes, 2013 principal cities (main)",secondary principal city,D,8.0,0.3102,-2.1028,2.5,4139.0428,-28058.2326,33359.0403,False,St. Paul; Cambridge; West Allis; Newport News; Berkeley; Beaverton; Rogers; Gastonia,
+"six classes, 2013 principal cities (main)",secondary principal city,main,8.0,-0.9255,-3.1617,2.1938,-12349.1778,-42188.1482,29273.0239,False,St. Paul; Cambridge; West Allis; Newport News; Berkeley; Beaverton; Rogers; Gastonia,
+"six classes, 2013 principal cities (main)",secondary principal city,"D, equal weight",8.0,-0.0912,-2.0005,2.0712,-1216.9501,-26693.2211,27636.5121,False,St. Paul; Cambridge; West Allis; Newport News; Berkeley; Beaverton; Rogers; Gastonia,
+"six classes, 2013 principal cities (main)",secondary principal city,"main, equal weight",8.0,-0.2042,-3.3742,3.0888,-2725.1783,-45023.243,41215.4671,False,St. Paul; Cambridge; West Allis; Newport News; Berkeley; Beaverton; Rogers; Gastonia,
+"six classes, 2013 principal cities (main)",secondary principal city,"D, weighted minus equal",8.0,0.4014,-0.6175,1.3592,5355.9928,-8240.1246,18135.7527,False,St. Paul; Cambridge; West Allis; Newport News; Berkeley; Beaverton; Rogers; Gastonia,
+"six classes, 2013 principal cities (main)",secondary principal city,"main, weighted minus equal",8.0,-0.7213,-2.5828,1.3655,-9623.9994,-34463.0363,18220.462,False,St. Paul; Cambridge; West Allis; Newport News; Berkeley; Beaverton; Rogers; Gastonia,
+"six classes, 2013 principal cities (main)",suburb,D,22.0,0.0468,-2.446,2.4569,624.7105,-32638.2909,32783.7712,False,,
+"six classes, 2013 principal cities (main)",suburb,main,22.0,0.0332,-2.4798,3.0211,442.5862,-33089.1542,40311.6187,False,,
+"six classes, 2013 principal cities (main)",suburb,"D, equal weight",22.0,0.2302,-6.2834,2.6381,3072.0839,-83841.8353,35201.8278,False,,
+"six classes, 2013 principal cities (main)",suburb,"main, equal weight",22.0,0.3159,-4.4247,3.5992,4215.5297,-59040.19,48024.8749,False,,
+"six classes, 2013 principal cities (main)",suburb,"D, weighted minus equal",22.0,-0.1834,-1.61,5.061,-2447.3734,-21483.2407,67530.5653,False,,
+"six classes, 2013 principal cities (main)",suburb,"main, weighted minus equal",22.0,-0.2828,-2.3036,3.8145,-3772.9435,-30738.4167,50898.2768,False,,
+"six classes, 2013 principal cities (main)",exurb,D,4.0,-0.883,-43.0782,41.1714,-11782.5898,-574808.7401,549365.6094,True,Bastrop; Bandera; Taylor; Social Circle,
+"six classes, 2013 principal cities (main)",exurb,main,4.0,8.8918,-9.5918,27.6965,118647.1514,-127986.7355,369565.6445,True,Bastrop; Bandera; Taylor; Social Circle,
+"six classes, 2013 principal cities (main)",exurb,"D, equal weight",4.0,-3.9476,-41.898,32.6192,-52674.5635,-559061.1447,435251.2112,True,Bastrop; Bandera; Taylor; Social Circle,
+"six classes, 2013 principal cities (main)",exurb,"main, equal weight",4.0,2.6085,-9.6604,21.9995,34806.412,-128902.4882,293547.7984,True,Bastrop; Bandera; Taylor; Social Circle,
+"six classes, 2013 principal cities (main)",exurb,"D, weighted minus equal",4.0,3.0646,-11.1965,30.9218,40891.9737,-149399.7133,412601.7713,True,Bastrop; Bandera; Taylor; Social Circle,
+"six classes, 2013 principal cities (main)",exurb,"main, weighted minus equal",4.0,6.2833,-5.0242,14.54,83840.7394,-67039.9969,194013.2164,True,Bastrop; Bandera; Taylor; Social Circle,
+"six classes, 2013 principal cities (main)",outside metro,D,7.0,-4.0101,-6.2413,-1.9216,-53508.7128,-83279.4527,-25640.9851,True,Mount Pleasant; Cambridge; Branson; Hudson; Northfield; Portsmouth; Hanover,
+"six classes, 2013 principal cities (main)",outside metro,main,7.0,-0.9846,-3.555,1.0448,-13138.2658,-47435.3406,13940.7449,True,Mount Pleasant; Cambridge; Branson; Hudson; Northfield; Portsmouth; Hanover,
+"six classes, 2013 principal cities (main)",outside metro,"D, equal weight",7.0,-4.3914,-6.114,-2.7896,-58595.8168,-81581.9134,-37222.6429,True,Mount Pleasant; Cambridge; Branson; Hudson; Northfield; Portsmouth; Hanover,
+"six classes, 2013 principal cities (main)",outside metro,"main, equal weight",7.0,-1.7137,-3.6145,0.1433,-22866.5749,-48230.2767,1911.6575,True,Mount Pleasant; Cambridge; Branson; Hudson; Northfield; Portsmouth; Hanover,
+"six classes, 2013 principal cities (main)",outside metro,"D, weighted minus equal",7.0,0.3812,-0.2289,2.2689,5087.1041,-3054.3629,30274.8785,True,Mount Pleasant; Cambridge; Branson; Hudson; Northfield; Portsmouth; Hanover,
+"six classes, 2013 principal cities (main)",outside metro,"main, weighted minus equal",7.0,0.7291,-0.1632,1.5029,9728.309,-2177.507,20053.8098,True,Mount Pleasant; Cambridge; Branson; Hudson; Northfield; Portsmouth; Hanover,
+"six classes, 2013 principal cities (main)",rural,D,2.0,-2.2923,-2.3948,-2.2418,-30586.6429,-31954.7384,-29913.2005,True,Lansing; Saranac Lake,
+"six classes, 2013 principal cities (main)",rural,main,2.0,-2.4747,-7.3807,-0.3149,-33020.5052,-98483.7121,-4201.8319,True,Lansing; Saranac Lake,
+"six classes, 2013 principal cities (main)",rural,"D, equal weight",2.0,-2.3183,-2.3948,-2.2418,-30933.9694,-31954.7384,-29913.2005,True,Lansing; Saranac Lake,
+"six classes, 2013 principal cities (main)",rural,"main, equal weight",2.0,-3.8478,-7.3807,-0.3149,-51342.772,-98483.7121,-4201.8319,True,Lansing; Saranac Lake,
+"six classes, 2013 principal cities (main)",rural,"D, weighted minus equal",2.0,0.026,0.0,0.026,347.3266,0.0,347.3266,True,Lansing; Saranac Lake,
+"six classes, 2013 principal cities (main)",rural,"main, weighted minus equal",2.0,1.3731,0.0,1.3731,18322.2669,0.0,18322.2669,True,Lansing; Saranac Lake,
+"six classes, 2013 principal cities (main)",main city minus secondary principal city,D,,7.3616,1.3121,11.2164,98228.1355,17507.3326,149664.2768,,,True
+"six classes, 2013 principal cities (main)",main city minus secondary principal city,main,,-0.3914,-4.5418,3.5889,-5222.7682,-60602.589,47888.3665,,,False
+"six classes, 2013 principal cities (main)",main city minus suburb,D,,7.6249,1.638,11.5102,101742.4678,21855.8862,153585.3323,,,True
+"six classes, 2013 principal cities (main)",main city minus suburb,main,,-1.3501,-5.4117,2.5753,-18014.5322,-72210.9866,34363.0048,,,False
+"six classes, 2013 principal cities (main)",main city minus secondary principal city,"D, equal weight",,2.6372,-0.2426,5.3127,35189.3805,-3237.7406,70890.0048,,,False
+"six classes, 2013 principal cities (main)",main city minus secondary principal city,"main, equal weight",,1.7235,-2.148,5.2957,22997.3899,-28661.5196,70662.3893,,,False
+"six classes, 2013 principal cities (main)",main city minus secondary principal city,"D, weighted minus equal",,4.7243,0.2883,7.377,63038.7551,3847.3463,98434.4792,,,True
+"six classes, 2013 principal cities (main)",main city minus secondary principal city,"main, weighted minus equal",,-2.1149,-4.9217,0.8067,-28220.1581,-65671.7818,10764.3443,,,False
+"six classes, 2013 principal cities (main)",main city minus suburb,"D, equal weight",,2.3158,-0.7296,8.9069,30900.3465,-9735.1441,118848.8558,,,False
+"six classes, 2013 principal cities (main)",main city minus suburb,"main, equal weight",,1.2033,-2.6125,6.2707,16056.6819,-34859.3613,83672.1029,,,False
+"six classes, 2013 principal cities (main)",main city minus suburb,"D, weighted minus equal",,5.3092,-2.1319,7.9094,70842.1213,-28447.0762,105537.8493,,,False
+"six classes, 2013 principal cities (main)",main city minus suburb,"main, weighted minus equal",,-2.5534,-7.0421,0.5428,-34071.214,-93965.2542,7242.3362,,,False
+"population, continuous",slope per 10x population (log10),D (mix weights),74.0,1.1051,-0.4432,4.6959,,,,,,False
+"population, continuous",slope per 10x population (log10),"D, equal weight",74.0,1.1766,-0.9145,7.1858,,,,,,False
+"population, continuous",slope per 10x population (log10),main (homes x after-years),74.0,-4.1904,-8.2831,0.6568,,,,,,False
+"population, continuous",slope per 10x population (log10),"main, equal weight",74.0,0.5028,-1.7082,2.7769,,,,,,False
+population slope within main city,slope per 10x population (log10),D (mix weights),31.0,-9.2517,-13.593,-4.654,,,,,,True
+population slope within main city,slope per 10x population (log10),main (homes x after-years),31.0,-7.337,-14.3319,-0.9524,,,,,,True
+population slope within suburb,slope per 10x population (log10),D (mix weights),22.0,1.3517,-3.2539,18.5905,,,,,,False
+population slope within suburb,slope per 10x population (log10),main (homes x after-years),22.0,5.4206,-1.5742,14.2581,,,,,,False

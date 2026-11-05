@@ -1240,3 +1240,60 @@ Five helpers coded three places each from public sources, following a written br
 
 - **Why coverage is so low (post hoc explanation):** held-out state results run from −3.745 to +7.536 per 1,000 homes, so states differ from each other, not just by noise. The blend's range is the range of an average effect, and one state's own result can fall well outside it; 7 of 10 held-out states did. The Wisconsin range is likewise the range of an average effect.
 - **Tie rule:** this replaces "ties go to the state mix" for this test only (Ryan's go, 17:58 UTC).
+
+## Test 53: six city classes, population and held-out prediction (2026-11-05; lock "Test 53" with its revision and audit fixes; Ryan's go 21:53 UTC)
+
+**Evidence only. No tool change.**
+- **Origin:** prompted by results already seen (52e; the CA post hoc large-vs-small pattern).
+- **Code:** 970037ea; run started 21:53:33 UTC, after Ryan's go was recorded (d6b69d07).
+- **Outputs:** `reference/parking_t53_groups.csv`, `_prediction.csv`, `_class_matched.csv` and `_class_matched_places.csv`.
+- **Units:** rates are homes permitted per 1,000 existing homes a year; ranges are 90% place-bootstrap ranges.
+- **Population:** 2010 census population was found for 73 of 74 places (1 ACS fallback).
+
+**Group averages (rate, with n):**
+
+| Class | n | D, mix | Main, homes-weighted | D, equal weight | Main, equal weight |
+| --- | --- | --- | --- | --- | --- |
+| Main city | 31 | +7.67 (+2.06 to +10.80) | −1.32 (−4.16 to +1.87) | +2.55 (+0.68 to +4.46) | +1.52 (−0.40 to +3.35) |
+| Secondary principal city | 8 | +0.31 (−2.10 to +2.50) | −0.93 (−3.16 to +2.19) | −0.09 | −0.20 |
+| Suburb | 22 | +0.05 (−2.45 to +2.46) | +0.03 (−2.48 to +3.02) | +0.23 | +0.32 |
+| Exurb (thin) | 4 | −0.88 (−43.1 to +41.2) | +8.89 (−9.59 to +27.70) | −3.95 | +2.61 |
+| Outside metro (thin) | 7 | −4.01 (−6.24 to −1.92) | −0.98 (−3.56 to +1.04) | −4.39 | −1.71 |
+| Rural (thin) | 2 | −2.29 | −2.47 | −2.32 | −3.85 |
+
+- **D's mix within a group:** the mix re-aims each group's places at Wisconsin's size and metro cells. Within main cities it puts weight on cells that main's homes weighting does not, which is why D and main differ in sign there.
+
+**Differences (main city minus …):**
+
+| Difference | D | Main | Counts? |
+| --- | --- | --- | --- |
+| Minus secondary, weighted | +7.36 (+1.31 to +11.22) | −0.39 (−4.54 to +3.59) | no: methods disagree in sign |
+| Minus suburb, weighted | +7.62 (+1.64 to +11.51) | −1.35 (−5.41 to +2.58) | no: methods disagree in sign |
+| Minus secondary, equal | +2.64 (−0.24 to +5.31) | +1.72 (−2.15 to +5.30) | no: ranges include 0 |
+| Minus suburb, equal | +2.32 (−0.73 to +8.91) | +1.20 (−2.61 to +6.27) | no: ranges include 0 |
+| Gap differences (weighted minus equal) | D vs secondary +4.72 (+0.29 to +7.38); other D/main pairs include 0 | | no: methods disagree in sign |
+
+**Population, continuous (slope per 10× population, 2010 count):**
+
+| Population slope | D, mix | D, equal | Main, homes-weighted | Main, equal |
+| --- | --- | --- | --- | --- |
+| All 74 | +1.11 (−0.44 to +4.70) | +1.18 (−0.91 to +7.19) | −4.19 (−8.28 to +0.66) | +0.50 (−1.71 to +2.78) |
+| Within main cities (31) | **−9.25 (−13.59 to −4.65)** | — | **−7.34 (−14.33 to −0.95)** | — |
+| Within suburbs (22) | +1.35 (−3.25 to +18.59) | — | +5.42 (−1.57 to +14.26) | — |
+
+- **Within main cities:** this is the only result that meets the reading rule. Both ranges exclude 0, and both methods agree: among main cities, larger ones did worse after repeal.
+  - About 14 comparisons were made, so 1–2 such results by chance are plausible.
+  - The test was prompted by SF, Austin and San Jose, which are the largest main cities.
+  - So it is a hint, not a finding, and class and size cannot be separated outside these two classes.
+
+**Held-out prediction (log10 2010 population + six-class indicators; 20 repeats of 10-fold; the 5% bar is the locked convention):**
+- **No tool passes,** under either estimator or weighting.
+- **Best gains over "one average":** random forest +3.7% (D, equal; repeats +0.9% to +6.6%) and +3.2% (D, mix). Main's best is +2.2%. Most tools do worse than one average. The repeats are not independent.
+- **Reading:** city type and size do not predict held-out cities' effects better than one average, the same as the 55 earlier traits.
+
+**Class-matched pools (D):** −12,443 WI homes (−45,347 to +11,783). Shift +430 (−24,343 to +28,543); no change. 51 of 74 pools left ladder step 1. The median number of eligible same-class places is 88. Rural and exurb pools used the ladder fallback.
+
+**Bottom line.**
+- City type does not reliably sort parking effects. The group differences depend on the method, and the type-plus-size model does not predict held-out cities.
+- The one consistent pattern, larger main cities doing worse, is post hoc and may be chance.
+- It also matches the 2022–23 boom-end timing seen in the winners-vs-losers comparison.

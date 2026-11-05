@@ -1,0 +1,75 @@
+place,state,group,effect,step,n_pool,n_eligible_in_class,batch_effect
+San Jose,California,main city,0.6568,5,10,52,0.7163
+San Francisco,California,main city,-10.4102,5,10,51,-5.1776
+Raleigh,North Carolina,main city,4.2245,5,10,51,7.659
+Minneapolis,Minnesota,main city,-8.777,5,10,51,-5.7542
+Lexington,Kentucky,main city,-1.5891,5,10,51,-1.4295
+St. Paul,Minnesota,secondary principal city,0.7555,4,10,87,0.4489
+Anchorage,Alaska,main city,-3.5201,5,10,52,-4.7474
+Buffalo,New York,main city,-0.5132,5,10,51,1.0101
+Bridgeport,Connecticut,main city,-0.2528,4,10,51,4.6054
+Gainesville,Florida,main city,11.8832,4,10,51,16.0581
+Hartford,Connecticut,main city,-5.3202,3,10,51,-0.0032
+Ann Arbor,Michigan,main city,3.0703,3,10,51,4.6709
+Cambridge,Massachusetts,secondary principal city,-3.9409,3,10,87,-4.566
+Roanoke,Virginia,main city,-3.7297,3,10,51,-0.2992
+Alameda,California,suburb,1.9702,1,10,2978,-1.5551
+West Allis,Wisconsin,secondary principal city,6.4211,3,10,87,6.3101
+Corvallis,Oregon,main city,1.1754,3,10,51,2.8388
+Tigard,Oregon,suburb,2.0043,2,10,2975,2.5619
+Dunwoody,Georgia,suburb,7.1103,2,10,2986,7.1251
+Culver City,California,suburb,1.3682,1,10,2975,0.2509
+Mount Pleasant,Michigan,outside metro,-0.2653,2,10,1940,-1.834
+Windham,Maine,suburb,8.596,2,10,2993,8.5172
+Cambridge,Maryland,outside metro,-4.701,2,10,1904,-6.2164
+Emeryville,California,suburb,-3.6779,1,10,2982,-7.8086
+Branson,Missouri,outside metro,10.4332,2,10,1940,-1.0545
+Canandaigua,New York,suburb,-3.5919,1,10,2981,-4.2681
+Ecorse,Michigan,suburb,-8.849,1,10,2982,-9.0188
+Bastrop,Texas,exurb,50.0671,1,10,1807,54.0983
+River Rouge,Michigan,suburb,0.3608,1,10,2978,-0.0555
+Hudson,New York,outside metro,-0.2788,1,10,1932,-1.8206
+Bandera,Texas,exurb,6.312,1,10,1794,11.1402
+Austin,Texas,main city,-9.3918,5,10,52,-4.5698
+Sacramento,California,main city,0.569,5,10,52,2.1284
+Durham,North Carolina,main city,3.6683,5,10,52,3.5647
+Richmond,Virginia,main city,14.67,4,10,52,14.9929
+Birmingham,Alabama,main city,1.6188,4,10,52,1.0507
+Newport News,Virginia,secondary principal city,0.5395,3,10,88,0.8296
+Salem,Oregon,main city,1.0864,4,10,52,1.2545
+Eugene,Oregon,main city,2.306,4,10,52,3.2186
+Berkeley,California,secondary principal city,5.7801,1,10,87,3.6329
+Bend,Oregon,main city,-2.2926,3,10,52,5.8125
+Beaverton,Oregon,secondary principal city,-3.3592,2,10,88,-1.2593
+Longmont,Colorado,suburb,10.8874,3,10,3021,11.1863
+Trenton,New Jersey,main city,-3.3061,3,10,52,-1.0106
+Duluth,Minnesota,main city,1.6181,3,10,52,3.3024
+Kalamazoo,Michigan,main city,-2.0682,3,10,52,-1.1573
+Rogers,Arkansas,secondary principal city,2.4071,2,10,88,-1.8054
+Portland,Maine,main city,6.9873,3,10,52,6.8818
+Springfield,Oregon,suburb,11.4184,2,10,3021,10.4695
+Albany,Oregon,main city,-10.5647,3,10,52,-7.9895
+La Crosse,Wisconsin,main city,-1.0496,3,10,52,-2.7663
+Burlington,Vermont,main city,14.7257,3,10,52,17.9905
+Grants Pass,Oregon,main city,1.161,3,10,52,5.0532
+Plainfield,Indiana,suburb,-7.2838,2,10,2975,-5.9252
+Tualatin,Oregon,suburb,8.753,2,10,3021,10.6595
+West Linn,Oregon,suburb,1.4888,2,10,3021,1.9334
+Kingston,New York,main city,9.4663,3,10,52,9.7002
+Ashland,Oregon,suburb,-2.5299,2,10,3020,-2.1812
+Carrboro,North Carolina,suburb,-1.6301,2,10,3020,-3.9862
+Milwaukie,Oregon,suburb,-1.5057,2,10,3021,-1.6687
+Northfield,Minnesota,outside metro,-4.8019,3,10,2022,-6.6293
+Central Point,Oregon,suburb,-8.3929,2,10,3020,-7.3658
+Portsmouth,Ohio,outside metro,-9.3867,2,10,1897,-7.6413
+Taylor,Texas,exurb,-6.7769,1,10,1840,-11.1955
+Hanover,New Hampshire,outside metro,-2.1151,1,10,2022,-5.6173
+Lansing,Kansas,rural,-11.2958,2,10,3580,-2.2418
+Hampden,Maine,suburb,2.096,2,10,2975,-2.6673
+King City,Oregon,suburb,8.7558,2,10,3021,7.9341
+Social Circle,Georgia,exurb,-3.497,2,10,1840,-72.6005
+Millersburg,Oregon,suburb,-50.6026,2,10,3021,-49.8057
+South Bend (with unincorporated St. Joseph County),Indiana,main city,1.3675,5,10,50,1.5077
+Gastonia,North Carolina,secondary principal city,-5.455,2,10,88,-3.69
+Avondale Estates,Georgia,suburb,-45.375,1,10,3034,0.3713
+Saranac Lake,New York,rural,-0.7514,1,10,3454,-2.3948
