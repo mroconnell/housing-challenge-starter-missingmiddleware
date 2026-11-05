@@ -1569,6 +1569,14 @@ These override the three groups above.
   - Weights: homes × after-years, and equal.
   - A tool passes if its held-out error beats "one average" by 5% or more, as locked for the expanded tools.
   - A pass is evidence only; using it in Wisconsin needs Ryan's OK and the 25% rule.
+- **Audit fixes to the revision (21:44 UTC, before any count):**
+  1. **Go:** a fresh one-word go from Ryan on this revised plan is needed in this thread.
+  2. **Population:** log10(population) uses the 2010 census count (2010 place and county-subdivision Gazetteers; Connecticut on state + MCD), from before every repeal. The ACS count is used only where 2010 is missing, and the number of such places is reported.
+  3. **Origin:** the test is prompted by results already seen (52e, and the large-vs-small pattern in the CA AB 2097 post hoc work). The plan does not expect class or size to predict effects; "might be strong predictors" is Ryan's question, not this plan's expectation.
+  4. **Class and size overlap:** main cities are the large ones, so the test cannot fully separate class from size. The population slope is also reported within main cities (31) and within suburbs (22). The smaller classes are too small for a slope, so there class and size cannot be separated.
+  5. **Conventions:** the "first-named city" rule, the "under 8 places" thin cut, and the RUCA 1–6 vs 7–10 split.
+  6. **Pools:** six-class pool sizes are reported. Rural (2) and exurb (4) will rely on the ladder fallback.
+  7. **Order:** the script is committed before the run.
 
 **Run order:**
 1. Code committed before any run.

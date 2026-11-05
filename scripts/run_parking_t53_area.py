@@ -104,7 +104,37 @@ def main() -> None:
                 rows.append(dict(groups=label, row=f"main city minus {other}", estimator=est_name, rate=a, p05=lo, p95=hi,
                                  wi_homes=a * m.WI_K, wi_p05=lo * m.WI_K, wi_p95=hi * m.WI_K, excludes_0=bool(lo > 0 or hi < 0)))
     # population as a continuous variable: weighted least-squares slope of the place effect on log10(population)
-    lp = np.log10(real["population"].astype(float).values)
+    # 2010 census population (before every repeal; audit 21:44 UTC), places from the 2010 place Gazetteer, county
+    # subdivisions from the 2010 county-subdivision Gazetteer (Connecticut on state + MCD); ACS population as fallback
+    import io as _io
+    import zipfile as _zf
+    from missing_middleware.paths import RAW as _RAW
+
+    def _gz(path):
+        with _zf.ZipFile(path) as z:
+            g = pd.read_csv(_io.BytesIO(z.read(z.namelist()[0])), sep="\t", dtype={"GEOID": str}, encoding="latin-1")
+        g.columns = [c.strip() for c in g.columns]
+        return g
+    gp = _gz(_RAW / "parking_older_reforms" / "Gaz_places_national.zip").set_index("GEOID")["POP10"]
+    gc = _gz(_RAW / "census_gazetteer_2010" / "Gaz_cousubs_national.zip")
+    gc_ct = gc[gc["GEOID"].str.startswith("09")].assign(k=lambda d: d["GEOID"].str[:2] + d["GEOID"].str[5:]).set_index("k")["POP10"]
+    gc = gc.set_index("GEOID")["POP10"]
+    pop10 = []
+    for c in cases:
+        g = str(D.geo.loc[c["key"], "acs_geoid"]) if c["key"] in D.geo.index else ""
+        v = np.nan
+        if g.startswith("160|"):
+            v = gp.get(g[4:], np.nan)
+        elif g.startswith("060|"):
+            v = gc.get(g[4:], np.nan)
+            if not np.isfinite(v) and g[4:6] == "09":
+                v = gc_ct.get(g[4:6] + g[9:], np.nan)
+        pop10.append(v)
+    pop10 = np.array(pop10, float)
+    n_fallback = int((~np.isfinite(pop10)).sum())
+    pop10 = np.where(np.isfinite(pop10), pop10, real["population"].astype(float).values)
+    lp = np.log10(pop10)
+    print("2010 population missing (ACS fallback):", n_fallback)
     wD_mix, _ = m.mix_weights(ev, wi)
 
     def slope(y, x, w):
@@ -131,6 +161,33 @@ def main() -> None:
         lo, hi = np.nanpercentile(b, [5, 95])
         rows.append(dict(groups="population, continuous", row="slope per 10x population (log10)", estimator=est_name,
                          places=int(np.isfinite(y).sum()), rate=a, p05=lo, p95=hi, excludes_0=bool(lo > 0 or hi < 0)))
+    # population slope within the two larger classes (class and size overlap; audit 21:44 UTC)
+    cls_now = pd.Series([T["area_class6"].get(k, "unknown") for k in keys])
+    for within in ("main city", "suburb"):
+        sel = (cls_now == within).values
+        for est_name, y, w in (("D (mix weights)", yD, wD_mix), ("main (homes x after-years)", yM, wM)):
+            ys, xs, ws = y[sel], lp[sel], w[sel]
+            wins = est_name.startswith("D")
+            yy = ys.copy()
+            if wins:
+                f = np.isfinite(yy)
+                yy[f] = m.winsor(yy[f])
+            a = slope(yy, xs, ws)
+            rng = np.random.default_rng(SEED)
+            b = []
+            for _ in range(DRAWS):
+                i = rng.integers(0, len(ys), len(ys))
+                yi = ys[i].copy()
+                if wins:
+                    f = np.isfinite(yi)
+                    yi[f] = m.winsor(yi[f])
+                try:
+                    b.append(slope(yi, xs[i], ws[i]))
+                except ZeroDivisionError:
+                    pass
+            lo, hi = np.nanpercentile(b, [5, 95])
+            rows.append(dict(groups=f"population slope within {within}", row="slope per 10x population (log10)", estimator=est_name,
+                             places=int(np.isfinite(ys).sum()), rate=a, p05=lo, p95=hi, excludes_0=bool(lo > 0 or hi < 0)))
     R = pd.DataFrame(rows)
     R.round(4).to_csv(OUT / "parking_t53_groups.csv", index=False)
     # held-out prediction (Ryan 21:41 UTC: "the categories and population might end up being really strong predictors"):
