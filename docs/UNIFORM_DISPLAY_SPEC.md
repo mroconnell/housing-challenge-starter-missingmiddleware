@@ -15,7 +15,7 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
    replacement, and the effect recomputed on each draw. Where the effect comes from a model fitted across states, it
    is that model's held-out prediction error instead (ADU's A3). Where fake-reform estimates were run, it may instead
    be their spread around the measured effect (parking). Each is 90%, the 5th to 95th percentile.
-3. **The current-law range stays separate.** It is shown as its own grey band: for all housing, 56,500 to 218,865 homes over 2027–2031 (56,500 to 218,865 (aims at 90%; shared baseline v4). It held 12 of 12 Wisconsin checks and 88.3% of other-state checks for 2009–2020, a window chosen after the results. It missed the 2005–08 run-up to the crash, like every method tested. Only the statewide total was tested). The two are combined only if a total
+3. **The current-law range stays separate.** It is shown as its own grey band: for all housing, 56,500 to 218,865 homes over 2027–2031 (aims at 90%; shared baseline v4). It held 12 of 12 Wisconsin checks and 88.3% of other-state checks for 2009–2020, a window chosen after the results. It missed the 2005–08 run-up to the crash, like every method tested. Only the statewide total was tested. The two are combined only if a total
    ("current law plus the reform") is shown, and then once, by simulation: a paired draw of each, never a sum of ends.
 4. **Two-sided, with no zero floors.** A range may cross 0, and the low end is shown as measured.
 5. **Coverage check.** Where a scenario's own test shows its 90% range covers the truth less than 90% of the time,
