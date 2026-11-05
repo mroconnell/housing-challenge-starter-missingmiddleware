@@ -195,19 +195,35 @@ def main() -> None:
     # features = log10 population + six-class indicators; passes if a tool beats "one average" by 5%+ (rule as locked
     # for the expanded tools), under homes x after-years weights and under equal weights
     import run_parking_expanded as rpe
+    # held-out prediction on main and on D effects (audit 21:44 UTC). A class absent from a training fold gives a
+    # constant indicator; StandardScaler keeps it at 0, so it carries no information (equivalent to dropping it).
+    # Each of 20 repeats is one 10-fold split with its own seed; the gain's spread across repeats is reported (the
+    # repeats share the same 74 places, so they are not independent). The 5% bar is the locked convention.
     cls = pd.Series([T["area_class6"].get(k, "unknown") for k in keys])
-    dd = pd.DataFrame({"effect": yM, "weight": wM, "equal": 1.0, "log_pop": lp})
-    for gname in GROUPS[1:]:
-        dd[f"is_{gname}"] = (cls == gname).astype(float).values
-    dd = dd[np.isfinite(dd["effect"])].reset_index(drop=True)
     feats = ["log_pop"] + [f"is_{g}" for g in GROUPS[1:]]
     pred_rows = []
-    for wcol in ("weight", "equal"):
-        sc = rpe.cv_score(dd, feats, wcol=wcol)
-        base = sc["one average"]
-        for t, e in sc.items():
-            pred_rows.append(dict(weights="homes x after-years" if wcol == "weight" else "equal", tool=t, held_out_error=e,
-                                  gain_vs_one_average=1 - e / base, passes=bool(t != "one average" and 1 - e / base >= 0.05)))
+    for est_name, y, w in (("main", yM, wM), ("D", yD, wD_mix)):
+        dd = pd.DataFrame({"effect": y, "weight": w, "equal": 1.0, "log_pop": lp})
+        for gname in GROUPS[1:]:
+            dd[f"is_{gname}"] = (cls == gname).astype(float).values
+        dd = dd[np.isfinite(dd["effect"])].reset_index(drop=True)
+        if est_name == "D":
+            f = np.isfinite(dd["effect"].values)
+            dd["effect"] = m.winsor(dd["effect"].values)  # D's effects are winsorised in every D average
+        for wcol in ("weight", "equal"):
+            per = []
+            for r in range(20):
+                rpe.SEED = 20261105 + r
+                per.append(rpe.cv_score(dd, feats, wcol=wcol, repeats=1))
+            P_ = pd.DataFrame(per)
+            gains = 1 - P_.div(P_["one average"], axis=0)
+            for t in P_.columns:
+                g_ = gains[t]
+                pred_rows.append(dict(effects=est_name, weights=("homes x after-years" if est_name == "main" else "target-state mix")
+                                      if wcol == "weight" else "equal", tool=t, held_out_error=float(P_[t].mean()),
+                                      gain_vs_one_average=float(1 - P_[t].mean() / P_["one average"].mean()),
+                                      gain_min_over_repeats=float(g_.min()), gain_max_over_repeats=float(g_.max()),
+                                      passes=bool(t != "one average" and 1 - P_[t].mean() / P_["one average"].mean() >= 0.05)))
     PR = pd.DataFrame(pred_rows)
     PR.round(4).to_csv(OUT / "parking_t53_prediction.csv", index=False)
     print(PR.round(3).to_string(index=False))

@@ -1577,6 +1577,12 @@ These override the three groups above.
   5. **Conventions:** the "first-named city" rule, the "under 8 places" thin cut, and the RUCA 1–6 vs 7–10 split.
   6. **Pools:** six-class pool sizes are reported. Rural (2) and exurb (4) will rely on the ladder fallback.
   7. **Order:** the script is committed before the run.
+- **Audit fixes to the prediction check (21:44 UTC):**
+  - (a) **Effects:** it runs on both main and D per-place effects. D's effects are winsorised as in every D average, and weighted by the target-state mix or equally.
+  - (b) **Missing class:** a class absent from a training fold gives a constant indicator, which the scaler keeps at 0, so it carries no information. This is the same as dropping it for that fold.
+  - (c) **Repeats:** 20 repeats, each one 10-fold split with its own seed (20261105 + r). The gain is reported with its min and max across repeats. The repeats share the same 74 places, so they are not independent.
+  - (d) **The 5% bar** is the locked convention.
+  - (e) **Population:** 2010.
 
 **Run order:**
 1. Code committed before any run.
