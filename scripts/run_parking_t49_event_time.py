@@ -46,7 +46,9 @@ def case_years(c, last_k: int):
         b2 = t[early].mean() - cp[early].mean()
         for y in late:
             out[y - ey] = float(((t[y] - cp[y]) - b2) / scale)
-    return dict(effects=out, n_pool=len(pool), step=s["step"])
+    detail = dict(own={int(y): float(t[y]) for y in yrs_all}, comp={int(y): float(cp[y]) for y in yrs_all},
+                  own_before=float(t[pl].mean()), comp_before=float(cp[pl].mean()), scale=scale)
+    return dict(effects=out, n_pool=len(pool), step=s["step"], detail=detail)
 
 
 def _run(args):
