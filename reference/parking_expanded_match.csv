@@ -26,14 +26,14 @@ prn_key,place,state,source,rating,key,event_year,simultaneous_rewrite,use,note
 "Central Falls, Rhode Island, United States",Central Falls,Rhode Island,first 46,at,44|013000,2022.0,True,False,minimums restored in 2025
 "Mount Pleasant, Michigan, United States",Mount Pleasant,Michigan,first 46,at,26|617500,2018.0,True,True,
 "Windham, Maine, United States",Windham,Maine,first 46,near,23|493000,2018.0,True,True,
-"Maumee, Ohio, United States",Maumee,Ohio,first 46,weaker,39|382600,2020.0,True,False,ordinance check: weaker
+"Maumee, Ohio, United States",Maumee,Ohio,first 46,weaker,39|382600,2020.0,True,False,ordinance check: weaker; not a repeal: a parking reform with discretionary reductions (minimums renamed maximums but still required unless waived) (reform-type coding 2026-11-05)
 "Cambridge, Maryland, United States",Cambridge,Maryland,first 46,near,24|093000,2021.0,False,True,
 "Emeryville, California, United States",Emeryville,California,first 46,at,06|129000,2020.0,True,True,
 "Branson, Missouri, United States",Branson,Missouri,first 46,near,29|068500,2018.0,True,True,
-"Canandaigua, New York, United States",Canandaigua,New York,first 46,near,36|103000,2020.0,False,True,
+"Canandaigua, New York, United States",Canandaigua,New York,first 46,near,36|103500,2020.0,False,True,
 "Ecorse, Michigan, United States",Ecorse,Michigan,first 46,at,26|266500,2020.0,True,True,
 "Bastrop, Texas, United States",Bastrop,Texas,first 46,at,48|045500,2019.0,True,True,
-"Seabrook, New Hampshire, United States",Seabrook,New Hampshire,first 46,near,33|797000,2019.0,False,True,
+"Seabrook, New Hampshire, United States",Seabrook,New Hampshire,first 46,near,33|797000,2019.0,False,False,not a residential repeal: the 2019 change cut only non-residential minimums (reform-type coding 2026-11-05)
 "River Rouge, Michigan, United States",River Rouge,Michigan,first 46,at,26|748000,2021.0,True,True,
 "Hudson, New York, United States",Hudson,New York,first 46,at,36|348000,2019.0,False,True,
 "Camden, Maine, United States",Camden,Maine,first 46,weaker,23|073000,2021.0,True,False,ordinance check: weaker
