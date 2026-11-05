@@ -1285,7 +1285,7 @@ Five helpers coded three places each from public sources, following a written br
   - About 14 comparisons were made, so 1–2 such results by chance are plausible.
   - The test was prompted by SF, Austin and San Jose, which are the largest main cities.
   - So it is a hint, not a finding, and class and size cannot be separated outside these two classes.
-  - **Leaving out SF, Austin and San Jose** (post hoc, reported only; 28 main cities): D −8.33 (−15.28 to −1.06); main −5.73 (−15.07 to +2.79). D's slope survives without them, but main's range then includes 0.
+  - **Leaving out SF, Austin and San Jose** (post hoc, reported only; 28 main cities): D −8.33 (−15.28 to −1.06); main −5.73 (−15.07 to +2.79). D's slope survives without them, but main's range then includes 0. Without SF, Austin and San Jose, the within-main-city slope no longer meets the reading rule, because main's range includes 0 and the rule needs both methods.
 
 **Held-out prediction (log10 2010 population + six-class indicators; 20 repeats of 10-fold; the 5% bar is the locked convention):**
 - **No tool passes,** under either estimator or weighting.
