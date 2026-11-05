@@ -264,7 +264,8 @@ comparison is not yet run.
 Script `scripts/ca_ab2097_posthoc2.py`, committed and cleared by the audit before it ran; outputs
 `reference/ca_ab2097_posthoc2_*.csv`. **Reading rule, set before the run:** none of these is evidence of cause on its
 own; a row whose range excludes 0 is "a pattern worth a planned test", never a finding, whichever its sign. **Chance
-line:** of the 37 rows with a range, about 4 would exclude 0 by chance even with no real differences; 5 do.
+line:** of the 45 rows with a range, about 4 or 5 would exclude 0 by chance even with no real differences; 9 do,
+and 4 of those are the placebo group's headline and lead rows already reported in section 3, leaving 5 new ones.
 
 **Non-tax-credit homes and trend adjustment** (homes per 1,000 existing homes a year, 2023–2025 vs 2018–2022):
 
