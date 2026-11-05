@@ -1077,7 +1077,7 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 - **Seabrook, NH:** removed from the repeal places, because its 2019 change cut only non-residential minimums. Implemented as `reference/parking_sample_corrections.csv`, read by `run_parking_expanded.py`. Seabrook stays out of comparison pools, as before.
 - **Maumee, OH:** removed from the repeal places. Ryan, 15:54 UTC: "code maumee as a parking reform but not a repeal, and discretionary". Recorded in the coding CSV and in `parking_sample_corrections.csv`; the removal is applied to partial-search and rescued places too. The repeal places become 74.
 - **Sensitivity only, not a fix:** Branson removed, where the wording leaves the minimum partly in force.
-- **Side run, Maumee kept in (75 places):** covers a label-only reading of Ryan's answer. It is post-processing on the batch outputs: Maumee's effect is added back, from the partial-search effects for the main estimate and from a method-2 case computation for method D.
+- **Approximate side run, Maumee kept in (75 places):** it does not redraw stage 1's fake sets or the placebo spread for 75 places. covers a label-only reading of Ryan's answer. It is post-processing on the batch outputs: Maumee's effect is added back, from the partial-search effects for the main estimate and from a method-2 case computation for method D.
 
 **What is rerun, in one batch, old and new side by side:**
 1. The main sample effects (salvage, partial and expanded scripts). The repeal places become 74 (Seabrook and Maumee removed).
@@ -1111,7 +1111,7 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 
 **Sampling frame, fixed before any record is read.**
 - **San Francisco:** the city's public development pipeline data (DataSF "SF Development Pipeline"; the file name and download date are recorded), all projects with 5+ net new homes and a planning application filed in each window. Withdrawn projects may be missing from the current file; archived quarterly snapshots are used where they exist, and the gap is reported.
-- **San Francisco districts:** each project's zoning district is recorded, along with whether Sec. 151 (which had minimums) or Sec. 151.1 (no minimums before 2019) applied. Rows are split by it. If more than 15 in a window, draw 15 at random (seed 20261105, after sorting by case number). Replacements come in draw order when a project has no readable records.
+- **San Francisco districts:** each project's zoning district is recorded, along with whether Sec. 151 (which had minimums) or Sec. 151.1 (no minimums before 2019) applied. Rows are split by it. If more than 15 in a window, draw 15 at random (seed 20261105, after sorting by case number), stratified by parking section (audit recommendation, applied before any record is read): up to 10 from Sec. 151 districts (which had minimums), the rest from Sec. 151.1 districts. The section is assigned from the pipeline's zoning district field, using Sec. 151.1's district list as of 2018 (source cited). Replacements come in draw order when a project has no readable records.
 - **Emeryville:** every 5+ home project before the Planning Commission in each window, from its agendas and staff reports. All are coded.
 
 **Fields per project:**
