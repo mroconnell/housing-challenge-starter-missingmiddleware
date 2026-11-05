@@ -489,6 +489,15 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05 18:13 UTC, post-lock, pre-count, Ryan: "yeah, do both" (to: check the OpenMobilityData archive for
+  2022 schedules, and add a National Transit Database check for gap agencies).
+  - **OpenMobilityData archive** (former TransitFeeds, stored publicly by the Mobility Database): a metadata-only
+    listing (`scripts/ca_ab2097_step1a_omd_archive.py`) first, cleared by the audit. Qualifying copies follow the
+    calendar rule above (service covers 2022-12-14). The bucket's terms are logged; each feed keeps its agency licence.
+  - **Service check for gap agencies** (National Transit Database, a challenge-suggested source, public domain):
+    for each gap agency, annual bus vehicle revenue hours (bus, rapid bus and commuter bus modes) in report year
+    2022 and in the latest year, and their ratio. Shown beside the gap agencies' share of today's bus major stops.
+    It is described only: it tells the reader how much an agency's service changed since 2022, not which stops did.
 - 2026-11-05, post-lock, pre-count, after the web-archive check (21 of 293 California feeds with a Sep–Dec 2022
   copy) and the audit's request for a rule for feeds without one. **Rule for each bus feed, fixed now, whatever
   archive is used:**
