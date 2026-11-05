@@ -1148,3 +1148,37 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 - **Bunching:** the shares of projects above, at and below the minimum, as in test 43. After repeal, the comparison is against the old minimum.
 - **Mixed use:** the commercial share of required spaces is shown separately.
 - **No test of difference.** Samples are small, so no difference is a finding.
+
+## Test 51: does subsidized building drive the result? LIHTC check (DRAFT LOCK 2026-11-05, before any count; Ryan 16:27 UTC: "oh yeah, perfect LIHTC")
+
+**Running count: 51.** Sensitivity and evidence only. Tool changes need Ryan's own OK.
+
+**Question.** Several zero-parking projects in the San Francisco records are 100% affordable. Is the main estimate driven by subsidized (tax-credit) building rather than market-rate building?
+
+**Data.**
+- **Source:** HUD's public LIHTC database (huduser.gov, public domain). One row per tax-credit project, with place, year allocated, year placed in service, total units and low-income units. The file name, download date and SHA-256 are recorded.
+- **Matching:** projects are matched to BPS permit places by state and place FIPS code (the database's place field). Unmatched projects are counted and reported. No addresses are committed.
+- **"100% affordable":** low-income units ≥ 95% of total units, which allows for manager units.
+
+**Timing.**
+- **Permit year:** the allocation year + 1. This proxies the building-permit year; tax credits are allocated before construction.
+- **If allocation year is missing:** the placed-in-service year − 1.
+- **Sensitivity:** the permit year is the allocation year itself.
+- **Coverage:** the database lags. Projects allocated after its last complete year are missing, so the after-years 2023–2025 are under-counted. This is reported, and a variant ends the windows at the database's last complete year.
+
+**Estimate.**
+- **Main sample:** the 74-place main sample after the batch fixes (`reference/batch_2026-11-05/`).
+- **Rerun:** the main matched difference-in-differences, with each place's yearly permits reduced by its 100% affordable LIHTC units (floored at 0), for repeal places and comparison places alike. Same pools, windows, homes and weights.
+- **Reported:**
+  - the home-weighted average with a 90% place bootstrap (2,000 draws, seed 20261105);
+  - the Wisconsin figure (× 13,343);
+  - the same beside the unadjusted batch result;
+  - the share of permits removed in the repeal places and the pools, before and after.
+- **Method 2:** the same adjustment run on corrected method 2 (D, target-state mix) as a second line.
+
+**Reading.**
+- If the adjusted average moves by less than its range, subsidized building does not drive the result.
+- A large move in either direction is reported as evidence of subsidy timing, not as a parking effect.
+- No line changes without Ryan's OK.
+
+**Also (descriptive):** the San Francisco and Emeryville project tables get a "100% affordable" flag. For San Francisco it comes from the planning-records fields (affordable units = units, or the 100%-affordable program flag). For Emeryville it comes from HCD Table A2 income splits.
