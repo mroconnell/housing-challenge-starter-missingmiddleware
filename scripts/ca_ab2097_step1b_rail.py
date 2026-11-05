@@ -21,6 +21,7 @@ Rules (from the plan)
 - "Existing" = open on or before 2022-12-31. Stations opened 2018-2022 are flagged for the with/without check.
 - Amtrak-only stations (no other rail mode within 150 m) are flagged for the "without Amtrak-only" check.
 - Distances are straight-line, from the station point (Albers, EPSG:3310), with the project's own geometry code.
+- Blocks are counted whole, by their internal point, as in the earlier AB 2097 test.
 
 Outputs (no addresses)
 - reference/ca_ab2097_rail_stations.csv: one row per station (mode, name, system id, opened status, flags, lon/lat).
@@ -75,7 +76,10 @@ def fetch_amtrak() -> pd.DataFrame:
     if not f.exists():
         j = get_json(AMTRAK, {"where": "State='CA' AND StnType='RAIL'", "outFields": "Code,StationName,StnType,lon,lat",
                               "returnGeometry": "false", "f": "json"})
+        if j.get("exceededTransferLimit"):
+            raise SystemExit("Amtrak query hit the transfer limit; page it before use")
         rows = [x["attributes"] for x in j.get("features", [])]
+        print(f"Amtrak stations fetched (CA, RAIL): {len(rows)}")
         f.write_text(json.dumps({"source": AMTRAK, "licence": "public domain (17 U.S.C. 101; NTAD item text)",
                                  "where": "State='CA' AND StnType='RAIL'", "rows": rows}))
     rows = json.loads(f.read_text())["rows"]
@@ -115,21 +119,59 @@ def to_stations(stops: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+# Openings-table modes mapped to this script's station modes.
+TABLE_MODE = {"heavy_rail": "heavy_rail", "light_rail": "light_rail_or_streetcar", "streetcar": "light_rail_or_streetcar",
+              "commuter_rail": "commuter_rail", "intercity_rail": "intercity_rail", "ferry": "ferry"}
+
+
+def read_openings() -> pd.DataFrame:
+    """The openings table, checked: full YYYY-MM-DD dates (compared as text), known modes and events, coordinates.
+    A relocation is two rows: 'closed' at the old site and 'opened' at the new one."""
+    o = pd.read_csv(OPENINGS, dtype=str)
+    bad_date = ~o.date.fillna("").str.fullmatch(r"\d{4}-\d{2}-\d{2}")
+    bad_mode = ~o["mode"].isin(TABLE_MODE)
+    bad_event = ~o.event.isin(["opened", "closed"])
+    no_xy = o.lat.isna() | o.lon.isna()
+    for name, m in (("date not YYYY-MM-DD", bad_date), ("unknown mode", bad_mode), ("event not opened/closed", bad_event),
+                    ("no coordinates", no_xy)):
+        if m.any():
+            print(f"openings table: {int(m.sum())} rows with {name}; left out and listed:")
+            print(o.loc[m, ["system", "station_name", "mode", "event", "date"]].to_string(index=False))
+    o = o[~(bad_date | bad_mode | bad_event | no_xy)].copy()
+    o["smode"] = o["mode"].map(TABLE_MODE)
+    return run.lonlat_points(o.reset_index(drop=True), o.lon.astype(float), o.lat.astype(float))
+
+
 def attach_dates(st: pd.DataFrame) -> pd.DataFrame:
+    """Opening status of today's stations, plus stations that existed at the end of 2022 but have since closed or
+    moved away (added back from the table's 'closed' rows dated after 2022)."""
+    from missing_middleware.geom_extra_station import nearest_lowest
     st["opened"] = "before 2018 (assumed: not in openings table)"
     st["opened_date"] = ""
     if not OPENINGS.exists():
-        st["opened"] = "openings table missing"
-        return st
-    o = pd.read_csv(OPENINGS, dtype=str)
-    o = o[o.event.isin(["opened", "relocated"]) & o.lat.notna() & o.lon.notna()]
-    if len(o):
-        og = run.lonlat_points(o.reset_index(drop=True), o.lon.astype(float), o.lat.astype(float))
-        from missing_middleware.geom_extra_station import nearest_lowest
-        idx, d = nearest_lowest(st.x.to_numpy(float), st.y.to_numpy(float), og.x.to_numpy(float), og.y.to_numpy(float))
-        hit = d <= 300.0
-        st.loc[hit, "opened_date"] = og.date.to_numpy(object)[idx[hit]]
-        st.loc[hit, "opened"] = np.where(og.date.to_numpy(object)[idx[hit]] <= EXISTING_BY, "2018-2022", "after 2022")
+        raise SystemExit(f"{OPENINGS} is missing; it must exist before this script runs (audit)")
+    o = read_openings()
+    op = o[o.event == "opened"]
+    for mode, g in op.groupby("smode"):  # join only within the same mode
+        sel = np.flatnonzero((st["mode"] == mode).to_numpy())
+        if not len(sel):
+            continue
+        idx, d = nearest_lowest(g.x.to_numpy(float), g.y.to_numpy(float),
+                                st.x.to_numpy(float)[sel], st.y.to_numpy(float)[sel])
+        for r, (i, dist) in enumerate(zip(idx, d)):
+            if dist <= 300.0:
+                k = st.index[sel[i]]
+                date = g.date.iloc[r]
+                st.loc[k, "opened_date"] = date
+                st.loc[k, "opened"] = "2018-2022" if date <= EXISTING_BY else "after 2022"
+            else:
+                print(f"openings table row not matched to a {mode} station within 300 m: {g.station_name.iloc[r]}")
+    gone = o[(o.event == "closed") & (o.date > EXISTING_BY)]
+    if len(gone):
+        add = pd.DataFrame({"mode": gone.smode, "name": gone.station_name, "system_id": gone.system,
+                            "x": gone.x, "y": gone.y, "opened": "closed or moved after 2022 (added back)",
+                            "opened_date": gone.date})
+        st = pd.concat([st, add], ignore_index=True)
     return st
 
 
@@ -164,15 +206,26 @@ def main() -> None:
     from missing_middleware.geom_extra_station import nearest_lowest
     _, d = nearest_lowest(st.x.to_numpy(float), st.y.to_numpy(float), other.x.to_numpy(float), other.y.to_numpy(float))
     st["amtrak_only"] = (st.mode == "intercity_rail") & (d > MERGE_M)
+    # check (audit): which non-Amtrak systems sit within 150 m of Amtrak stations, so an Amtrak feed inside the
+    # National Transit Map rows would show here
+    near = st[(st.mode == "intercity_rail") & ~st.amtrak_only]
+    if len(near):
+        j, _ = nearest_lowest(near.x.to_numpy(float), near.y.to_numpy(float), other.x.to_numpy(float), other.y.to_numpy(float))
+        print("systems sharing a station with Amtrak (NTD id: count):",
+              other.system_id.to_numpy(object)[j].tolist() and pd.Series(other.system_id.to_numpy(object)[j]).value_counts().to_dict())
     st = attach_dates(st)
 
     blocks = run.read_blocks(["GEOID20", "COUNTYFP20", "ALAND20", "HOUSING20", "INTPTLAT20", "INTPTLON20"])
     blocks["juris"] = run.block_juris(blocks)
     blocks["homes"] = blocks.HOUSING20.astype(float)
     blocks["acres"] = blocks.ALAND20.astype(float) / 4046.8564224
-    # keep stations inside California (nearest block within 2 km)
-    _, dblk = nearest_lowest(st.x.to_numpy(float), st.y.to_numpy(float), blocks.x.to_numpy(float), blocks.y.to_numpy(float))
-    st = st[dblk <= 2000].copy()
+    # keep stations inside California: point in any California county (Census 2024 cartographic counties)
+    from missing_middleware.geom_extra_station import first_within, read_vector
+    cty = read_vector(RAW / "census_cb_2024" / "cb_2024_us_county_500k.zip", run.CRS, columns=["STATEFP"])
+    cty = cty[cty.STATEFP == "06"]
+    inside = first_within(st.x.to_numpy(float), st.y.to_numpy(float), list(cty["geometry"])) >= 0
+    print(f"stations outside California dropped: {int((~inside).sum())}")
+    st = st[inside].copy()
 
     from missing_middleware.geom_extra_station import transform
     st["lon"], st["lat"] = transform(st.x.to_numpy(float), st.y.to_numpy(float), run.CRS, 4326)
