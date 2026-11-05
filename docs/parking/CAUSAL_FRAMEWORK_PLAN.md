@@ -1141,7 +1141,7 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 - filed before and approved after (the "switchers"; their proposal-to-approval change is the closest to a same-project before and after);
 - filed after.
 
-Frame-versus-case-report section mismatches are all reported. The case report wins, so named NCDs with their own Table 151.1 rows count as 151.1. 2018-016535PRJ (a unit-count documentation record) is dropped, and the next before-151 project in draw order is added. 2016-012545PRJ stays in the before window by its open date; its SB 35 filing came after the repeal, so it is a switcher.
+Frame-versus-case-report section mismatches are all reported. The case report wins, so named NCDs with their own Table 151.1 rows count as 151.1. 2018-016535PRJ (a unit-count documentation record) is dropped. No before-151 replacement exists, because the approved before-151 pool (10) was fully drawn, so that stratum has 9 projects. 2016-012545PRJ stays in the before window by its open date; its SB 35 filing came after the repeal, so it is a switcher.
 
 **Reading (descriptive).**
 - **Ratios:** stalls per home, proposed and approved, against the required minimum, before and after repeal.
