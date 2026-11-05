@@ -1,0 +1,7 @@
+group,rows,rent_from_place,rent_from_county_moe_over_20pct,rent_missing_no_place_estimate,rent_missing_county_unavailable,rent_growth_available,job_growth_available
+repeal places,74,68,6,0,0,74,74
+"pool members, main (batch) (place x repeal year)",5249,4265,913,71,0,5178,5249
+"pool members, main (market trim) (place x repeal year)",682,605,60,17,0,665,682
+"pool members, D (batch) (place x repeal year)",740,676,49,15,0,725,740
+"pool members, D (market traits) (place x repeal year)",740,665,57,18,0,722,740
+"all BPS places, all repeal years 2016-2024",174618,82343,72358,19781,136,154701,174489

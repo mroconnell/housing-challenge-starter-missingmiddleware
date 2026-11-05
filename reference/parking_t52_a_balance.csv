@@ -1,0 +1,21 @@
+pools,trait,repeal_places,repeal_mean,pool_members,pool_cases,pool_mean,standardised_difference,flag_over_0_25
+main (batch),rent_growth,74,0.2259,5178,74,0.2132,0.1223,False
+main (batch),job_growth,74,0.0349,5249,74,0.0283,0.1011,False
+main (batch),crowding,73,0.0274,5242,74,0.0383,-0.3501,True
+main (batch),density,73,6.9858,5226,74,6.6727,0.3059,True
+main (batch),age,73,0.2667,5249,74,0.3033,-0.2085,False
+main (market trim),rent_growth,74,0.2259,665,74,0.2247,0.0116,False
+main (market trim),job_growth,74,0.0349,682,74,0.0323,0.0409,False
+main (market trim),crowding,73,0.0274,680,74,0.0376,-0.3372,True
+main (market trim),density,73,6.9858,676,74,6.6973,0.2811,True
+main (market trim),age,73,0.2667,682,74,0.3044,-0.2151,False
+D (batch),rent_growth,74,0.2259,725,74,0.2148,0.1111,False
+D (batch),job_growth,74,0.0349,740,74,0.027,0.1233,False
+D (batch),crowding,73,0.0274,733,74,0.0271,0.0181,False
+D (batch),density,73,6.9858,721,74,6.8683,0.1229,False
+D (batch),age,73,0.2667,738,74,0.2542,0.0781,False
+D (market traits),rent_growth,74,0.2259,722,74,0.2158,0.1052,False
+D (market traits),job_growth,74,0.0349,740,74,0.0275,0.1156,False
+D (market traits),crowding,73,0.0274,727,74,0.0267,0.0353,False
+D (market traits),density,73,6.9858,715,74,6.8219,0.1691,False
+D (market traits),age,73,0.2667,730,74,0.2514,0.0967,False

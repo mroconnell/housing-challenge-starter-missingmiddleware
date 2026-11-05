@@ -1,0 +1,8 @@
+method,run,places,estimate,p05,p95,places_paired,shift,shift_p05,shift_p95,shift_weights,placebo_places,real_places_matched,wi_estimate,wi_p05,wi_p95,wi_shift,wi_shift_p05,wi_shift_p95,reading
+main,batch 2026-11-05,74,-1.1526,-3.4675,1.4726,,,,,,,,-15379.5856,-46268.1875,19649.4688,,,,
+main,52a: rent and job growth added,74,-0.9981,-3.3351,1.6266,74.0,0.1545,-0.0552,0.4482,own weights,9185.0,73.0,-13318.0326,-44501.5233,21704.35,2061.8708,-736.6054,5980.512,does not count: paired range includes 0
+main,fix 8: Census 2010 homes (HU10) denominator,74,-1.3643,-3.9659,1.5984,74.0,-0.2117,-0.6681,0.1682,own weights,9146.0,73.0,-18204.3802,-52918.5306,21328.0666,-2824.3961,-8914.7721,2243.9369,does not count: paired range includes 0
+main,fix 8: Census 2010 homes (HU10) denominator,74,,,,74.0,-0.4042,-1.2274,0.3639,batch weights,,,,,,-5393.1193,-16377.3504,4856.0586,does not count: paired range includes 0
+D (target-state mix),batch 2026-11-05,74,-0.9647,-3.3403,0.3638,,,,,,,,-12872.957,-44571.0282,4854.4685,,,,
+D (target-state mix),52a: rent and job growth added,74,-0.6057,-3.694,0.6869,74.0,0.359,-0.7572,0.7274,target-state mix,,,-8082.406,-49290.1983,9165.9014,4790.551,-10103.8477,9706.4004,does not count: paired range includes 0
+D (target-state mix),fix 8: Census 2010 homes (HU10) denominator,74,-0.8494,-4.237,0.5404,74.0,0.1153,-1.1551,0.3087,target-state mix,,,-11333.9817,-56536.1954,7211.1284,1538.9754,-15412.9084,4119.5836,does not count: paired range includes 0
