@@ -489,6 +489,13 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05 19:02–19:04 UTC, post-lock, pre-count, Ryan: "the hcd apr data should have a specific street address /
+  APN", then "yeah" to re-geocoding. Non-street rows with a house-numbered street address are re-geocoded with the
+  U.S. Census Bureau geocoder (`scripts/ca_ab2097_regeocode.py`; public domain, no account; addresses kept out of git).
+  Accepted matches (Match, Exact or Non_Exact) join the main permit set; the match rate by year and jurisdiction and
+  the HCD-vs-Census distance on a comparison sample are reported in step 1, before any count. The street-level-only
+  set (no re-geocoding) becomes a check. Runs after the audit clears the script. The headline question (city-level
+  check) is still open with Ryan.
 - 2026-11-05, post-lock, pre-count (no permit placed by area), geocode fall-off, after the audit's notes:
   - **Dropped rows sit on repeated city or county points:** in every report year, 80%–98% of rows without a
     street-level point share a point with 10 or more other rows (2025: 97.6%); unique points are 0.4%–4.2%. Their
