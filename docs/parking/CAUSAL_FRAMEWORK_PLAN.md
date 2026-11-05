@@ -1017,3 +1017,40 @@ The number of places is shown for each year.
 **Reading rule (neutral):** "changes with time" only if the slope's 90% range excludes 0, in either direction. Otherwise "no clear change over time". The write-up says plainly that 15 places is thin.
 
 **Runs:** on the Mac. No tool changes without Ryan's OK.
+
+## Reform-type coding for the 15 long-set places (DRAFT PLAN 2026-11-05, before any coding; Ryan 15:19 UTC: "I think we probably need to code all 15")
+
+**Purpose.** Describe what each of the 15 places in Test 49's long set actually changed, so the by-year results can be read by reform type. Coding only: this plan reads no new outcomes and runs no test. Any use of the codes in an estimate needs its own lock.
+
+**Places (event year ≤ 2020):**
+- San Francisco 2019, Buffalo 2017, Hartford 2017, Dunwoody 2019, Mount Pleasant MI 2018;
+- Windham ME 2018, Emeryville 2020, Branson 2018, Canandaigua 2020, Ecorse 2020;
+- Bastrop 2019, Seabrook NH 2019, Hudson NY 2019, Maumee 2020, Saranac Lake 2016.
+
+Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
+
+**Fields, one row per place** (`reference/parking_reform_type_15.csv`):
+1. **Repeal type:** full removal of residential minimums / reduction (minimums cut but not removed) / removal for some housing types only (e.g. multifamily only, or 1–2 family only).
+2. **Scope:** citywide / within areas (downtown, transit, districts), with the share of apartment-eligible land where known from the dose pilot or the ordinance.
+3. **Approval path for a typical 20-unit apartment building, the day after the reform:**
+   - **by right:** staff or administrative review only, no public hearing;
+   - **discretionary:** a hearing such as a conditional use, special permit, planned development or variance is required;
+   - **mixed:** by right in some zones, a hearing in others; the share is given where known.
+   - This is about whether the project needs a hearing at all, not whether a parking waiver exists.
+4. **Same-time changes:** other zoning changes adopted within 1 year (height, density, form-based code).
+5. **Housing scope:** all residential uses / multifamily only / 1–2 family only / other.
+6. **Event date check:** the adoption and effective dates against the event year used. Any mismatch is reported, not changed.
+7. **Sources:** the ordinance or code text (adopted version and the version the day before), the zoning use tables for the approval path, and PRN as a secondary source. Every field cites its source URL.
+8. **Confidence:** high / medium / low, with a note.
+
+**Rules.**
+- **Public sources only:** municipal code sites, council agendas and minutes, the Parking Reform Network.
+- **Blocked sites:** cited, not worked around.
+- **No records requests:** no clerk or records request without Ryan's OK.
+- **No addresses.**
+- **Saranac Lake first:** check whether its 2016 code removed minimums for all housing or only 1–2 family homes, as the PRN summary hints. If only some housing types, its repeal type is coded "some housing types only" and it is flagged for the by-year reading.
+- **Time:** about 15–30 minutes a place. A place that cannot be coded from public text is marked "not found" for that field.
+
+**Output.**
+- The CSV and a short table in WORK_SESSION_RESULTS.md.
+- The Test 49 long-set results are shown grouped by repeal type and approval path as a description only, with no new test. A test by type would need its own lock; with 15 places, any group would be very small.
