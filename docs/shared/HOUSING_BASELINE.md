@@ -2,21 +2,21 @@
 
 **Ownership (from 2026-11-05, owner's request):** the baseline thread owns all edits to this doc and to the baseline's code, tests and data (listed under "Owned files" below). The parking thread built versions 1–3 and handed them over; other threads propose baseline changes through the coordinator. Any change is flagged for its effect on the ADU, TOD and parking scenarios before it lands.
 
-Written 2026-10-26 by the parking conductor. Status: version 3 (2026-11-01). Version 3 fills places whose permits are not reported, or are under-reported by a general ACS screen, with their context class's median rate (owner-approved; audit-revised to a screen, see step 5a). It adds 1,381 homes to the central. Version 2 (2026-10-26): Milwaukee city's apartment permits are now estimated from the city's property file, and the range uses Wisconsin's long-run history. Both are owner decisions P8 and P9 (AQ-048). Version 1 had a central of 118,822 units, which is now the "Census as published" sensitivity.
+Written 2026-10-26 by the parking conductor. Status: **version 4 (2026-11-05)**. Version 4 changes only the range: it is now a 90% range built from all states' history (owner, 2026-11-05 21:24 UTC; [BASELINE_RANGE_R4_RESULTS.md](BASELINE_RANGE_R4_RESULTS.md)), and the central is unchanged. Version 3 (2026-11-01) fills places whose permits are not reported, or are under-reported by a general ACS screen, with their context class's median rate (owner-approved; audit-revised to a screen, see step 5a). It adds 1,381 homes to the central. Version 2 (2026-10-26): Milwaukee city's apartment permits are now estimated from the city's property file, and the range uses Wisconsin's long-run history. Both are owner decisions P8 and P9 (AQ-048). Version 1 had a central of 118,822 units, which is now the "Census as published" sensitivity.
 
 ## What it answers
 
 How many housing units Wisconsin would permit each year in 2027–2031 under current law, by municipality and by building size, with a range. Every reform scenario's addition is measured against it.
 
-**Answer.** Under current law, Wisconsin would permit about 124,000 housing units over 2027–2031 (124,000 exactly), or about 24,800 units per year. The range is 65,250 to 177,672 units over the five years. (Version 2: 122,619, range 64,491 to 175,628.) For comparison, Wisconsin permitted 120,723 units over 2021–2025. That is the published Census state total of 117,405, plus 3,318 Milwaukee apartment units in 2021–2024 that Census did not count. 2025 is not adjusted, so this is a floor.
+**Answer.** Under current law, Wisconsin would permit about 124,000 housing units over 2027–2031 (124,000 exactly), or about 24,800 units per year. The 90% range is 56,500 to 218,865 units over the five years. (Version 3's 80% range from Wisconsin's own history: 65,250 to 177,672. Version 2: 122,619, range 64,491 to 175,628.) For comparison, Wisconsin permitted 120,723 units over 2021–2025. That is the published Census state total of 117,405, plus 3,318 Milwaukee apartment units in 2021–2024 that Census did not count. 2025 is not adjusted, so this is a floor.
 
 | Building size | 2027–2031 low | 2027–2031 central | 2027–2031 high | 2021–2025 permitted (adjusted) |
 | --- | ---: | ---: | ---: | ---: |
-| 1 unit | 31,132 | 63,494 | 82,164 | 62,600 |
-| 2 units | 3,054 | 7,866 | 15,000 | 7,768 |
-| 3–4 units | 207 | 680 | 815 | 698 |
-| 5+ units | 30,856 | 51,960 | 79,692 | 49,657 |
-| All | 65,250 | 124,000 | 177,672 | 120,723 |
+| 1 unit | 28,931 | 63,494 | 112,070 | 62,600 |
+| 2 units | 3,584 | 7,866 | 13,884 | 7,768 |
+| 3–4 units | 310 | 680 | 1,202 | 698 |
+| 5+ units | 23,676 | 51,960 | 91,710 | 49,657 |
+| All | 56,500 | 124,000 | 218,865 | 120,723 |
 
 Columns may not add exactly because of rounding. All figures are housing units authorized by building permits (at permit issuance), the same milestone as the ADU scenario. Source: `reference/housing_baseline_statewide_by_year.csv`.
 
@@ -55,7 +55,8 @@ Columns may not add exactly because of rounding. All figures are housing units a
      - Shorewood (29 ± 35 against 83), Cudahy (0 ± 16 against 7), Greendale (14 ± 26 against 6) and South Milwaukee (72 ± 74 against 10) are not flagged.
    - **Effect:** the central rises from 122,619 to 124,000 (+1,381).
    - **"Census as published":** applies the not-reported fill only, giving 119,379. The Milwaukee fix and the screen are both corrections, while filling places that sent no report is not. On the unadjusted series, the screen would also catch Milwaukee.
-6. **Range from Wisconsin's own history.** For every year from 1992 to 2020, the 3-year state average was compared with what Wisconsin actually permitted in the next five years (29 five-year periods per building size). The low and high cases use the 10th and 90th percentile of those outcomes, by building size: 0.49 and 1.29 times the central for 1-unit buildings, 0.39 and 1.91 for 2 units, 0.30 and 1.20 for 3–4 units, and 0.59 and 1.53 for 5+ units. The worst five-year period on record was 2007–2011, when Wisconsin permitted 0.40 times as many units as the 3-year average before it. Source: `reference/housing_baseline_band.csv`, `reference/housing_baseline_long_run_ratios.csv`.
+6. **Range: 90%, from all states' history (version 4).** The same flat 3-year rule was replayed for every state and every start year 1992–2020, comparing each five-year forecast with what was actually permitted. The low and high multipliers, 0.4556 and 1.7650 times the central, are the quantile pair that held 90% of held-out states' outcomes when each state was left out in turn (method A, round 4). One pair is applied to every building size and every place, so sizes and places move together. **Track record:** the range held Wisconsin's actual five-year total in 12 of 12 checks for forecasts made in 2009–2020, and 88.3% of checks in the other 50 states (a window chosen after the results). It missed all four forecasts made in 2005–2008, during the run-up to the crash, as every method tested did. Source: `reference/housing_baseline_band.csv`; the testing is in `docs/shared/BASELINE_BAKEOFF_RESULTS.md` and `BASELINE_RANGE_*_RESULTS.md`.
+   - **Version 3's range, kept as a sensitivity** (`reference/housing_baseline_band_wisconsin_v3.csv`). For every year from 1992 to 2020, the 3-year state average was compared with what Wisconsin actually permitted in the next five years (29 five-year periods per building size). The low and high cases use the 10th and 90th percentile of those outcomes, by building size: 0.49 and 1.29 times the central for 1-unit buildings, 0.39 and 1.91 for 2 units, 0.30 and 1.20 for 3–4 units, and 0.59 and 1.53 for 5+ units. The worst five-year period on record was 2007–2011, when Wisconsin permitted 0.40 times as many units as the 3-year average before it. Source: `reference/housing_baseline_band.csv`, `reference/housing_baseline_long_run_ratios.csv`. It was an 80% range, and it held only 6 of 12 Wisconsin checks for 2009–2020 out of sample.
    - The low and high cases apply the same multiplier to every municipality, so building sizes and places move together; the statewide low and high are their sums and are not independent.
    - A narrower range from the recent held-out test alone is kept as a sensitivity (`reference/housing_baseline_band_recent.csv`). In all four recent tests the flat average under-predicted every building size except 3–4 units, because permits rose over 2015–2025, so that range runs almost only upward (1.00 to 1.46 times central for 5+ units).
 
@@ -74,7 +75,7 @@ Multifamily permits are concentrated. Ten municipalities hold 29,125 of the 51,9
 | `reference/housing_baseline_reconciliation.csv` | Year × building size: published state, allocated, unallocated, check, Milwaukee adjustment, adjusted state |
 | `reference/housing_baseline_sensitivity_published.csv` | Five-year totals with Census as published for Milwaukee |
 | `reference/housing_baseline_holdout.csv`, `_window_choice.csv` | The held-out test and its summary |
-| `reference/housing_baseline_band.csv`, `_band_recent.csv`, `_long_run_ratios.csv` | The range and its evidence |
+| `reference/housing_baseline_band.csv`, `_band_wisconsin_v3.csv`, `_band_recent.csv`, `_long_run_ratios.csv` | The range (v4, all states) and the earlier Wisconsin-only ranges, kept as sensitivities |
 | `reference/housing_baseline_milwaukee_check.csv` | Milwaukee's BPS units against the city's property file, by year built (not shifted) |
 
 Columns use `area_id` (`muni:<10-digit county-subdivision GEOID>`, or `unallocated`), `structure_type` (`1unit`, `2units`, `3_4units`, `5plus`) and `year`. Rebuild with `uv run python scripts/build_housing_baseline.py` after the foundation build. Tests: `tests/test_housing_baseline.py`.
@@ -87,7 +88,7 @@ Columns use `area_id` (`muni:<10-digit county-subdivision GEOID>`, or `unallocat
 | Code | `missing_middleware/housing_baseline.py` (allocation, held-out test, projection, fill, range); `scripts/build_housing_baseline.py` (inputs, Milwaukee MPROP fix, ACS screen, outputs) |
 | Held-out-year test | `holdout_scores` and `choose` in the code; results in `reference/housing_baseline_holdout.csv` and `_window_choice.csv` |
 | Tests | `tests/test_housing_baseline.py` (12 tests; run with `uv run python -m unittest tests.test_housing_baseline`) |
-| Committed data | the 13 `reference/housing_baseline_*.csv` files: the 12 in the table above plus `_acs_screen.csv` |
+| Committed data | the 14 `reference/housing_baseline_*.csv` files: the 13 in the table above plus `_acs_screen.csv` |
 | Local inputs (git-ignored, on the owner's Mac) | `data/processed/foundation/` (BPS place files, crosswalk, county allocation, areas), `data/raw/census_bps_state/`, `data/raw/milwaukee_mprop/mprop.csv` |
 
 Not owned here: `scripts/run_parking_baseline_models.py` and `reference/parking_baseline_models_*.csv` (parking's no-reform model comparison), and the ADU baseline (`scripts/build_wi_baseline.py`, `reference/wi_baseline_*.csv`), which is a separate ADU-only rate.
@@ -99,7 +100,7 @@ Not owned here: `scripts/run_parking_baseline_models.py` and `reference/parking_
 ## Limitations
 
 - **Milwaukee's apartments come from a completion-side measure.** Year built in MPROP, shifted one year, stands in for permits. It misses condominiums, and the latest year built (2025, giving permit year 2024) may be incomplete if the property file lags. Other cities could have BPS gaps that have not been checked.
-- **Flat, not cyclical.** The central assumes 2023–2025 conditions continue. The low case is milder than 2007–2011: it is 0.53 times the central (65,250 of 124,000 units), while 2007–2011 permitted 0.40 times the 3-year average before it.
+- **Flat, not cyclical.** The central assumes 2023–2025 conditions continue. The low end is 0.46 times the central (56,500 of 124,000 units). In 2007–2011, Wisconsin permitted 0.40 times the 3-year average before it, so a repeat of the worst crash on record would land below the range.
 - **Other places may under-report to Census.** Since version 3, places this screen flags are raised by the step 5a rule; places it does not flag are not checked further. A screen compares homes built in 2020 or later (ACS 2020–2024) with permits for 2019–2023 (`reference/housing_baseline_acs_screen.csv`). ACS counts finished homes and lags permits, so it should normally show fewer. Three places show more by more than the survey's margin of error:
   - Wauwatosa: 310 ± 173 homes built, against 60 permitted;
   - Superior: 126 ± 56, against 47;
@@ -113,3 +114,5 @@ Not owned here: `scripts/run_parking_baseline_models.py` and `reference/parking_
 ## Decisions
 
 Both open issues from version 1 were decided on 2026-10-26 (AQ-048): the Milwaukee adjustment (step 3a) and the long-run range (step 6).
+
+Version 4 (2026-11-05, owner): the range is the all-states 90% range (step 6). The negative unallocated reconciliation row now scales with the scenario, so the statewide low and high equal the central × the multipliers.

@@ -158,6 +158,20 @@ def acs_screen(hist: pd.DataFrame) -> pd.DataFrame | None:
     return x.sort_values("gap", ascending=False)
 
 
+ALL_STATES_BASIS = ("v4: all 50 other states pooled, five-year all-sizes actual/predicted ratios for start years "
+                    "1992-2020, quantile pair calibrated to 90% by leave-one-state-out (method A, "
+                    "docs/shared/BASELINE_RANGE_R4_RESULTS.md); one multiplier pair for every size and area")
+
+
+def all_states_band() -> pd.DataFrame:
+    """v4 range (owner 2026-11-05): the all-states 90% range for Wisconsin 2027-2031, as low/high multipliers on the
+    central. Read from reference/baseline_range_r4_wisconsin.csv (method A), applied to every building size, so the
+    statewide low and high are the central x the same pair."""
+    w = pd.read_csv(REFERENCE / "baseline_range_r4_wisconsin.csv").set_index("method").loc["A"]
+    lo, hi = float(w["v3_low"] / w["v3_central"]), float(w["v3_high"] / w["v3_central"])
+    return pd.DataFrame({"structure_type": list(hb.TYPES) + ["all"], "low": lo, "high": hi})
+
+
 def main() -> None:
     import argparse
     ap = argparse.ArgumentParser()
@@ -222,7 +236,8 @@ def main() -> None:
     if trend_best is not None:
         raise SystemExit(f"{best} is a trend candidate; the long-run band is defined for flat means only")
     lr = hb.state_long_run_ratios(read_state_long_run(), k_best)
-    bands = hb.long_run_band(lr)
+    long_bands = hb.long_run_band(lr)   # v3's Wisconsin-only 10th-90th band: kept as a sensitivity (v4)
+    bands = all_states_band()           # v4 (owner 2026-11-05 21:24 UTC): all-states 90% range, one multiplier pair
     proj = hb.project(hist, best, bands[bands["structure_type"] != "all"])
     imp_meta = munis.rename(columns={"context_group": "context"})[["area_id", "context", "housing_units_acs"]]
     scr0 = acs_screen(hist)  # audit 2026-11-01: under-reporting is a screen on every place, not a hand-written list
@@ -289,8 +304,9 @@ def main() -> None:
     rec.round(3).to_csv(REFERENCE / "housing_baseline_reconciliation.csv", index=False)
     scores.round(4).to_csv(REFERENCE / "housing_baseline_holdout.csv", index=False)
     summ.round(4).to_csv(REFERENCE / "housing_baseline_window_choice.csv", index=False)
-    bands.assign(candidate=best, basis="long-run 1990-2025 state totals, 10th-90th percentile of five-year outcomes").round(4).to_csv(
-        REFERENCE / "housing_baseline_band.csv", index=False)
+    bands.assign(candidate=best, basis=ALL_STATES_BASIS).round(6).to_csv(REFERENCE / "housing_baseline_band.csv", index=False)
+    long_bands.assign(candidate=best, basis="v3: Wisconsin long-run 1990-2025 state totals, 10th-90th percentile of five-year "
+                      "outcomes (sensitivity)").round(4).to_csv(REFERENCE / "housing_baseline_band_wisconsin_v3.csv", index=False)
     recent_band.assign(candidate=best, basis="held-out years 2019-2022 origins, min-max (sensitivity)").round(4).to_csv(
         REFERENCE / "housing_baseline_band_recent.csv", index=False)
     scr = acs_screen(hist)

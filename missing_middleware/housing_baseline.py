@@ -252,8 +252,12 @@ def project(hist: pd.DataFrame, candidate: str, bands: pd.DataFrame) -> pd.DataF
     out["central"] = out["pred"].fillna(0.0)
     out = out.merge(bands[["structure_type", "low", "high"]], on="structure_type", how="left")
     lo, hi = out["central"] * out["low"], out["central"] * out["high"]
-    # the unallocated row can be negative (place rows exceed the state file); keep low <= high
-    out["low"], out["high"] = np.minimum(lo, hi), np.maximum(lo, hi)
+    # v4: the unallocated row can be negative (place rows exceed the state file). It is a reconciliation to the state
+    # total, so it scales with the scenario (low = central x low multiplier) and the statewide low and high equal the
+    # state central x the multipliers exactly. Every municipality piece keeps low <= central <= high.
+    neg_recon = (out["area_id"] == UNALLOCATED) & (out["central"] < 0)
+    out["low"] = np.where(neg_recon, lo, np.minimum(lo, hi))
+    out["high"] = np.where(neg_recon, hi, np.maximum(lo, hi))
     out["in_five_year_total"] = out["year"].isin(FORECAST_YEARS)
     out["method"] = candidate
     out["window_years"] = f"{last - k + 1}-{last}"

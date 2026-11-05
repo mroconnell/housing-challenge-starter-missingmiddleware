@@ -161,8 +161,12 @@ class TestCommittedOutputs(unittest.TestCase):
         s = pd.read_csv(REF / "housing_baseline_statewide_by_year.csv")
         five = s[s["year"].isin(hb.FORECAST_YEARS) & (s["structure_type"] == "all")]["central"].sum()
         self.assertAlmostEqual(a["five_year_central"].sum(), five, delta=1.0)
-        self.assertTrue((a["five_year_low"] <= a["five_year_central"] + 1e-6).all())
-        self.assertTrue((a["five_year_central"] <= a["five_year_high"] + 1e-6).all())
+        m = a[a["area_id"] != hb.UNALLOCATED]   # the negative reconciliation row scales with the scenario (v4)
+        self.assertTrue((m["five_year_low"] <= m["five_year_central"] + 1e-6).all())
+        self.assertTrue((m["five_year_central"] <= m["five_year_high"] + 1e-6).all())
+        band = pd.read_csv(REF / "housing_baseline_band.csv").set_index("structure_type")
+        lo5 = s[s["year"].isin(hb.FORECAST_YEARS) & (s["structure_type"] == "all")]["low"].sum()
+        self.assertAlmostEqual(lo5, five * band.loc["all", "low"], delta=1.0)
 
     def test_chosen_candidate_recorded(self):
         w = pd.read_csv(REF / "housing_baseline_window_choice.csv")
