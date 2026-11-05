@@ -976,3 +976,34 @@ Otherwise D stays and 3b is evidence only. The pick is committed before any real
 **Write-up note:** sets share some fake cases, so the paired-bootstrap range is a little too narrow.
 
 **6. Real run.** As method 3: all 76 places with San Francisco and cross-fitted scores. Report every weighting, then the weight test (state mix wins ties), the size check and the Wisconsin figure. If D stays, method 2's corrected results stand and 3b's real results are evidence only. The write-up labels the origin as post hoc.
+
+## Test 49: does the effect build, hold or fade? Event-time checks (DRAFT LOCK 2026-11-05, before any count; Ryan 14:55 UTC)
+
+**Running count: 49.** Evidence only. Ryan: "You are making an assumption (that the effect is positive) when you say the effect doesn't build up over time." Both questions are direction-neutral: does the effect grow, hold or fade, whichever its sign?
+
+**Estimator.** The main matched difference-in-differences, rebuilt per city as in tests 45–46 (`run_parking_t45_t46.py` collect/rebuild; each city's own pool, windows and homes; South Bend's scale).
+- **Effect in year k after repeal:** (city rate in year ey+k − city mean over the before window) − (pool rate in year ey+k − pool mean over the before window). Rates are permits per 1,000 existing homes (ACS 2020–2024, as the main).
+- **Pools:** each city's main pool, restricted to members that report in every year used. A city whose restricted pool falls below 5 is dropped from that check and listed.
+- **Year 0** (the repeal year) is reported for context but is not part of either check; the main counts years 1–3.
+
+**Check 1 (balanced).** The 38 cities with all 3 after-years in the main (event years up to 2022): effects in years 1, 2 and 3 on the same cities.
+
+**Check 2 (longer run).** Every city with 5 or more after-years in the Census files (event year 2020 or earlier; 15 cities).
+- **Balanced:** years 1–5 on the same 15 cities.
+- **Years 6–9:** reported unbalanced, with the number of cities in each year (fewer each year; 2025 is the last permit year, so no city has 10 after-years).
+
+**Weights and ranges.**
+- **Main:** home-weighted, as the tool.
+- **Beside:** equal weights.
+- **Ranges:** 90% place bootstrap (2,000 draws, seed 20261105), resampling cities with all their years together.
+
+**Shape test, per check (balanced years only).**
+- **Slope:** the slope of the yearly weighted average effect on k, with its bootstrap 90% range.
+- **Size:** reported against the overall average effect.
+- **Reading, direction-neutral:**
+  - "Builds": the slope range excludes 0 with the same sign as the average.
+  - "Fades": the slope range excludes 0 with the opposite sign.
+  - "Holds or can't tell": otherwise.
+- **Change from year 1 to the last balanced year:** reported with its range.
+
+**Not in this test:** method-2 matching, and pre-repeal leads. Those are described by T2 (Sun–Abraham) and P1.
