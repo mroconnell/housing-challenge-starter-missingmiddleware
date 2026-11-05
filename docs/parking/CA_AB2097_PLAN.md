@@ -489,6 +489,12 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05 19:16 UTC, post-lock, pre-count, Ryan: "the HCD APR data should have affordability level". Table A2
+  reports building-permit homes by income level, deed-restricted (DR) and not. Deed-restricted homes are now also
+  split into two outcomes: **low income and below** (acutely low, extremely low, very low and low, DR) and
+  **moderate income** (DR). Same contrasts as the main result; secondary and described beside the LIHTC outcomes.
+  Low-income-and-below deed-restricted homes are the closest Table A2 measure to tax-credit homes, and are filled far
+  more often than the financing field.
 - 2026-11-05 19:14 UTC, post-lock, pre-count, Ryan: "I like the station level analysis with a city level check.
   Can we also track the difference in LIHTC credit affordable apartments before and after?"
   - **Headline stays the station-level (near vs ring) result**, with the city-level dose check beside it. The
