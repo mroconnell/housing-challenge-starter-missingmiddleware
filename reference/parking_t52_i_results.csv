@@ -1,0 +1,7 @@
+result,rate,p05,p95,mixture_p05,mixture_p95,nested_mae,single_pick_mae,coverage,states,effective_places,passes,share_random effects,share_target-state mix,share_square root,share_homes,share_equal,share_random effects_fold_min,share_target-state mix_fold_min,share_square root_fold_min,share_homes_fold_min,share_equal_fold_min,share_random effects_fold_max,share_target-state mix_fold_max,share_square root_fold_max,share_homes_fold_max,share_equal_fold_max,wi_homes,wi_p05,wi_p95,wi_mixture_p05,wi_mixture_p95
+stacked blend (coverage test failed: target-state mix stays),-0.5626,-2.4111,0.7198,-2.9901,1.4113,3.4603,3.0603,0.3,10.0,27.0144,False,0.2478,0.7522,0.0,0.0,0.0,0.0,0.3421,0.0,0.0,0.0,0.6579,1.0,0.0,0.0,0.6578,-7507.0965,-32172.7724,9604.058,-39897.6676,18831.739
+single: random effects,0.658,-0.5102,1.884,,,,,,,,,,,,,,,,,,,,,,,,8780.4495,-6808.1046,25138.435,,
+single: target-state mix,-0.9648,-3.2844,0.4707,,,,,,,,,,,,,,,,,,,,,,,,-12873.1134,-43824.5755,6280.1789,,
+single: square root,0.6941,-0.6476,2.3746,,,,,,,,,,,,,,,,,,,,,,,,9261.2077,-8641.414,31684.9557,,
+single: homes,0.1108,-1.5196,2.4258,,,,,,,,,,,,,,,,,,,,,,,,1479.0799,-20276.2026,32368.8421,,
+single: equal,0.6198,-1.8193,2.1854,,,,,,,,,,,,,,,,,,,,,,,,8270.1074,-24274.9584,29160.3139,,

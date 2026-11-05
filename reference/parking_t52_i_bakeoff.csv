@@ -1,0 +1,5 @@
+best,other,mae_best,mae_other,diff,diff_p05,diff_p95,below_zero,gap_vs_runner_up_pct,clear_winner
+target-state mix,random effects,3.0603,3.3893,-0.329,-1.0126,0.7295,False,9.7081,False
+target-state mix,square root,3.0603,3.4822,-0.4219,-1.1523,0.7075,False,9.7081,False
+target-state mix,homes,3.0603,3.8385,-0.7782,-1.5627,0.5472,False,9.7081,False
+target-state mix,equal,3.0603,3.3907,-0.3304,-1.1073,0.6456,False,9.7081,False
