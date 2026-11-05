@@ -1181,7 +1181,7 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 - A large move in either direction is reported as evidence of subsidy timing, not as a parking effect.
 - No line changes without Ryan's OK.
 
-**Audit fixes (lock cleared once these are in; 16:28 UTC).**
+**Audit fixes (lock cleared once these are in; 16:28 UTC).** These override the matching, range and reading bullets above where they differ.
 1. **Geography:** projects are assigned by latitude and longitude to the BPS place or county subdivision (Census boundary files, `geom.py` point-in-polygon), because many of the 74 are towns or townships. The database's place field is used only as a check. Unmatched projects are reported by state. No coordinates are committed.
 2. **Range:** the adjusted Wisconsin range uses the same method as the main: the real average with the placebo spread, from a placebo run on adjusted permits.
 3. **Reading:** the paired difference, adjusted minus unadjusted on the same places, with a paired place bootstrap (2,000 draws, seed 20261105). "Subsidy does not drive the result" only if that 90% range includes 0. The earlier "a large move" reading is dropped.
