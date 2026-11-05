@@ -409,3 +409,10 @@ Uses:
   for "AB 2097 map" with the city's name. If no map turns up, record "no map found" with what was checked, and move on.
   No records requests, no emails.
 - Cities with no map found stay out of the local-map check; they are not replaced.
+
+**2026-11-05, audit notes on aeb2dfe3, bc13311a and 46d4bc86 (draft, plan not locked):**
+1. Emeryville's own citywide repeal (effective 2020-05-21) falls inside the lead years. Both its near and ring land
+   are covered by it, so it should cancel out in near vs ring; this is stated beside Emeryville's lead results.
+2. The five opposed cities are a **second source** for the city-map sample (the committee analysis), separate from the
+   paper's 15-city frame, and are labelled so. Where one has no public map: "no map found", no replacement.
+3. Each stance group shows covered homes (2020) and covered acres beside its city and permit counts.
