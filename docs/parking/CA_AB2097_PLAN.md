@@ -403,3 +403,9 @@ Uses:
    an-official, and neither. Each group's number of cities and permits is shown first. It follows the paper's idea that
    local stance shaped how the law was applied. It is one more split among several, so a single group differing is
    not read as a finding on its own.
+
+**2026-11-05 16:07 UTC, Ryan: "these are just leads that we can check to see if the city did anything that we can use - don't get bogged down by a lead if it's not turning up a real map"** (draft, plan not locked).
+- **Time box per city lead:** check the city's planning web page, its open-data or ArcGIS site, and one web search
+  for "AB 2097 map" with the city's name. If no map turns up, record "no map found" with what was checked, and move on.
+  No records requests, no emails.
+- Cities with no map found stay out of the local-map check; they are not replaced.
