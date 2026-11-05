@@ -1398,6 +1398,10 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
    - The current rule requires every window year present.
    - The rerun lets a pool place miss at most one window year. That year is filled with the place's own mean on the same side (before or after).
    - The share of pools that gain places is reported.
+   - The number of filled years before and after repeal is also reported (audit 17:43 UTC).
+- **Learning thread's f1–f3, not adopted (52h as accepted stands):**
+  - Its f2 runs the homes-fall test on a pre-repeal count. There is no pre-repeal place housing count between 2010 and the ACS windows that is comparable to HU10, so this is noted, not run.
+  - Its f3 uses Census-imputed values. The BPS annual place file's imputed estimates are in the same columns already used, so f3 and 52h.3 differ only in places with no record at all in a year, which 52h.3 fills from the place's own mean.
 - **Not collider-type and kept:** matching on before-repeal traits only, and the same-state ladder.
 
 **Run order (concurrent where independent):**
