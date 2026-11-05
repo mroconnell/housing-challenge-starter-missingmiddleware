@@ -49,7 +49,9 @@ def panel(bps: pd.DataFrame) -> pd.DataFrame:
 
 
 # BPS names that differ from the common place name (state FIPS, lower-case name) -> BPS name
-ALIASES = {("21", "lexington"): "lexington-fayette", ("02", "anchorage"): "municipality of anchorage"}
+ALIASES = {("21", "lexington"): "lexington-fayette", ("02", "anchorage"): "municipality of anchorage",
+           # the 2020 repeal is the Town of Canandaigua's (Local Law 3-2020), not the City's (reform-type coding, 2026-11-05)
+           ("36", "canandaigua"): "canandaigua town"}
 
 
 def match_place(p: pd.DataFrame, state_fips: str, name: str, population: float | None) -> str | None:

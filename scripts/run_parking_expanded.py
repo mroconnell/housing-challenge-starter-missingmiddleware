@@ -76,6 +76,8 @@ def us_effects() -> tuple[pd.DataFrame, pd.DataFrame]:
             excluded.add(k)
     checks = all_checks()
     cases = pd.read_csv(REFERENCE / "parking_reform_cases.csv").drop_duplicates("prn_key").set_index("prn_key")
+    cf = REFERENCE / "parking_sample_corrections.csv"
+    corrections = dict(zip(*pd.read_csv(cf)[["prn_key", "reason"]].values.T)) if cf.exists() else {}
     rows = []
     for c in checks.itertuples():
         pc = cases.loc[c.prn_key] if c.prn_key in cases.index else None
@@ -94,6 +96,8 @@ def us_effects() -> tuple[pd.DataFrame, pd.DataFrame]:
             reason.append("no minimums before either")
         if pd.notna(c.repealed_year) and pd.notna(c.event_year) and int(c.repealed_year) <= int(c.event_year) + 3:
             reason.append(f"minimums restored in {int(c.repealed_year)}")
+        if c.prn_key in corrections:  # sample corrections (reference/parking_sample_corrections.csv)
+            reason.append(corrections[c.prn_key])
         rows.append(dict(prn_key=c.prn_key, place=c.place, state=c.state, source=c.source, rating=rating, key=k,
                          event_year=c.event_year, simultaneous_rewrite=bool(c.simultaneous_rewrite),
                          use=not reason, note="; ".join(reason)))
