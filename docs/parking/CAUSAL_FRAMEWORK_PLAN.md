@@ -1353,9 +1353,37 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
   - its 90% range must cover the truth on 85–95% of fake repeals.
 - **If it wins:** it is shown beside D. It changes no line without Ryan's OK.
 
-**52g. Spillover (learning thread, item D).** Rerun D using only pool places outside the repeal place's metro. A repeal can pull building from its neighbours, which would make the effect look bigger than it is. Places with no metro keep their pool.
+**52g. Spillover (learning thread, item D).** Rerun D using only pool places outside the repeal place's metro. A repeal can pull building from its neighbours or push demand onto them, so spillover can bias the estimate either way. Places with no metro keep their pool. The lost pool size and the match quality of the out-of-metro pools (mean Mahalanobis distance against the original) are reported.
 
 **Learning-thread map:** https://claude.ai/artifact/GdKChVqZArPpuKNYpZ1FKT. Its status (blocked / partly blocked / mostly open) matches the table above. Items A and C are 52b and 52c here.
+
+**Audit fixes (17:40 UTC review, through 947165c5). These override the text above where they differ.**
+1. **Timing of other reforms:**
+   - Only reforms adopted **before** the repeal year count as confounders, for the drops and the indicator (52b items 1, 2 and 4). For pool places, only place-years before the matched repeal's year count.
+   - Reforms adopted at or after the repeal may be caused by it (momentum), so they are post-treatment. They form a labelled sensitivity only.
+2. **52b reading:** each shift (rerun minus batch, same places) is reported with its paired 90% range (paired place bootstrap, 2,000 draws, seed 20261105). A shift counts only if its paired range excludes 0, read the same way for either sign.
+3. **52c:** the main range already includes 0, so the breakdown M is 0 by definition, and this is stated. The bounds at M = 0, 0.5 and 1 are reported as ranges, without a breakdown value.
+4. **Placebo lists, each committed before any join:**
+   - **52d.2 (houses):** repeal places whose old minimum for a house was 2 spaces or fewer, taken from `reference/parking_old_minimums.csv` and the reform-type coding. Places with no coded house minimum are left out.
+   - **52d.3 (ADU-only reform places):**
+     - Places in the Mercatus ADU taxonomy with an ADU ordinance effective 2015–2022.
+     - Excluded: any place in the PRN map (any parking reform), any of the 74, and any place in a repeal place's pool.
+     - Event year: the ADU ordinance year.
+     - The same pipeline and pools are used.
+5. **52d.4:** the E-value is dropped, because it is defined for risk ratios. Only the share-of-pre-trend version is kept: the post-repeal gap a hidden factor would need to produce, as a multiple of the largest pre-repeal gap.
+6. **52a details:**
+   - **Rent growth:** ACS 5-year B25064, the window ending the year before repeal against the non-overlapping window ending 6 years before repeal. Every repeal year in the sample (2016–2024) has both windows (the first place-level window ends in 2009), so no 2012–14 fallback is needed.
+   - **Large margins of error:** where a place's rent margin of error is above 20% of its estimate, the county value is used instead, and the count of such places is reported.
+   - **QCEW:** county-level only, so every place in a county gets the same job growth.
+7. **Transit (52b):** coded for repeal places only, because pool places are too many to code. This is stated as a limit.
+8. **Denominator check (one, chosen now):** Census 2010 housing units (HU10, gazetteer), which come before every repeal in the sample.
+9. **Reading line for all of Test 52:** one test moving alone is not evidence. The same bar applies to both signs, and only a pattern across tests is described.
+10. **52d.1:** −2 years repeats the batch backtest, so it is cited, not rerun. Only −4 years is new.
+11. **Balance flag:** 0.25 is a convention, used only to flag imbalance, not to accept or reject.
+12. **52f:**
+    - Unit and time weights are fit on before-years only.
+    - Regularisation is fixed now: zeta = (number of repeal places × number of after-years)^(1/4) × the standard deviation of the pool places' year-to-year changes in the before-years (Arkhangelsky et al. 2021).
+    - Seed 20261105.
 
 **Run order (concurrent where independent):**
 1. 52b coding, committed before any join.
