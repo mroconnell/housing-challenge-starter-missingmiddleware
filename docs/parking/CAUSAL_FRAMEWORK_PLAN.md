@@ -1458,6 +1458,15 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
   - the nested MAE and coverage;
   - Wisconsin homes 2027–2031, with its 90% range.
 - **No expected result is stated. No tool change without Ryan's own OK.**
+- **Audit fixes to 52i (17:48 UTC, before any count):**
+  1. **Fold stability:** there are 10 states (11 rows in the batch weight-test file, including the header), so each nested fold fits its shares on 9 states. The shares for every fold are reported, with the range of each share across folds.
+  2. **Coverage:** the share of held-out states whose own estimate falls inside the blend's 90% range. With 10 states it moves in 10-point steps, so 85–95% means exactly 9 of 10. This is a knife edge, and the write-up says so.
+  3. **Blend range:**
+     - The main range is the paired sum: share × draw, using the same bootstrap draw for every weighting. This is the uncertainty of the blended estimate itself.
+     - The mixture of the weightings' draws is shown beside it, as a measure of spread across models.
+     - Why: the paired sum answers "how sure are we of the blend", which is the question the range is for.
+  4. **Bootstrap:** the paired bootstrap resamples places within states (stratified by state), not only whole states, so each held-out state's estimate carries its own noise.
+- **Ryan's go must cover the tie-rule replacement:** for this test only, the go replaces "ties go to state mix" with the bake-off-then-stacking rule.
 
 **Run order (concurrent where independent):**
 1. 52b coding, committed before any join.
