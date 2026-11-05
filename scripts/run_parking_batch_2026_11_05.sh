@@ -52,6 +52,7 @@ for f in work.rglob("*"):
 print("copied", n, "changed or new files to", out)
 PY
 git diff --quiet -- reference ":(exclude)reference/batch_2026-11-05" ":(exclude)reference/tod_*" ":(exclude)reference/parking_lot_cities_checks_near_transit.csv" || { echo "ORIGINALS CHANGED"; exit 1; }
+[ -z "$(git status --porcelain reference | grep -v -E "reference/(batch_2026-11-05/|tod_|parking_lot_cities_checks_near_transit)")" ] || { echo "NEW OR CHANGED FILES UNDER reference/"; git status --porcelain reference; exit 1; }
 [ "$TOD_BEFORE" = "$(shasum reference/tod_* reference/parking_lot_cities_checks_near_transit.csv | shasum)" ] || { echo "TOD FILES CHANGED"; exit 1; }
 git add "$OUT"
 git commit -q -m "Batch rerun outputs (changed or new files, with subpaths) in $OUT; originals untouched

@@ -1077,6 +1077,7 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 - **Seabrook, NH:** removed from the repeal places, because its 2019 change cut only non-residential minimums. Implemented as `reference/parking_sample_corrections.csv`, read by `run_parking_expanded.py`. Seabrook stays out of comparison pools, as before.
 - **Maumee, OH:** removed from the repeal places. Ryan, 15:54 UTC: "code maumee as a parking reform but not a repeal, and discretionary". Recorded in the coding CSV and in `parking_sample_corrections.csv`; the removal is applied to partial-search and rescued places too. The repeal places become 74.
 - **Sensitivity only, not a fix:** Branson removed, where the wording leaves the minimum partly in force.
+- **Side run, Maumee kept in (75 places):** covers a label-only reading of Ryan's answer. It is post-processing on the batch outputs: Maumee's effect is added back, from the partial-search effects for the main estimate and from a method-2 case computation for method D.
 
 **What is rerun, in one batch, old and new side by side:**
 1. The main sample effects (salvage, partial and expanded scripts). The repeal places become 74 (Seabrook and Maumee removed).
@@ -1104,12 +1105,14 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 **Running count: 50.** Descriptive evidence, like test 43 (Madison). Nothing changes in the tool. Ryan asked: "How much parking were these projects required to add by law? How much parking did the initial proposal include? What was the eventual number of parking spots required in the approved entitlement?", with units every time stalls are captured, and residential and commercial requirements kept separate for mixed use.
 
 **Projects and windows.** New residential or mixed-use projects of 5+ homes:
-- **San Francisco** (repeal effective 2019-01-21): applications filed 2016–2018 (before) and 2019–2022 (after).
-- **Emeryville** (repeal effective 2020-05-21): applications filed 2017–2019 (before) and 2020–2023 (after).
+- **San Francisco** (repeal effective 2019-01-21): applications filed 2016-01-01 to 2019-01-20 (before) and 2019-01-21 to 2022-12-31 (after).
+- **Emeryville** (repeal effective 2020-05-21): applications filed 2017-01-01 to 2020-05-20 (before) and 2020-05-21 to 2023-12-31 (after).
+- **Uneven windows:** about 3 years before against about 4 after, so counts are compared as shares, not totals.
 
 **Sampling frame, fixed before any record is read.**
-- **San Francisco:** the city's public development pipeline data (DataSF), all projects with 5+ net new homes and a planning application filed in each window. If more than 15 in a window, draw 15 at random (seed 20261105, after sorting by case number). Replacements come in draw order when a project has no readable records.
-- **Emeryville:** every 5+ home project before the Planning Commission in each window, from its agendas and staff reports. Few are expected, so all are coded.
+- **San Francisco:** the city's public development pipeline data (DataSF "SF Development Pipeline"; the file name and download date are recorded), all projects with 5+ net new homes and a planning application filed in each window. Withdrawn projects may be missing from the current file; archived quarterly snapshots are used where they exist, and the gap is reported.
+- **San Francisco districts:** each project's zoning district is recorded, along with whether Sec. 151 (which had minimums) or Sec. 151.1 (no minimums before 2019) applied. Rows are split by it. If more than 15 in a window, draw 15 at random (seed 20261105, after sorting by case number). Replacements come in draw order when a project has no readable records.
+- **Emeryville:** every 5+ home project before the Planning Commission in each window, from its agendas and staff reports. All are coded.
 
 **Fields per project:**
 - case number; application and approval dates;
@@ -1123,7 +1126,7 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 **Rules.**
 - Public sources only: planning case reports and motions, agendas, staff reports, the pipeline data.
 - Blocked sites are cited, not worked around. No records requests without Ryan.
-- No street addresses in committed files: projects are identified by case number and a short name. Each row is recorded with one decimal place for ratios.
+- No street addresses in committed files: projects are identified by case number and a short name. Stalls and homes are stored exactly; ratios are rounded only for display.
 - Ryan spot-checks 5 rows drawn at random (seed 20261105) before the result is cited, as in test 43.
 
 **Reading (descriptive).**
