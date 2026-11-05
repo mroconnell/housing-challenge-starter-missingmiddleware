@@ -489,4 +489,4 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
-(none yet)
+- 2026-11-05, pre-count: step 1a script cleared by the audit (review of 659b82c7, fixes applied in 0e566643). Step 1a runs as `scripts/ca_ab2097_step1a_sources.py` at commit 0e566643. Step 1b gets its own audit check before it runs.
