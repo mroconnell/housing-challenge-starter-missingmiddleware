@@ -1,0 +1,10 @@
+candidate,score,bias,crash_score,wi_score,wi_bias,diff_vs_l0,boot_lo,boot_hi,pass_margin,pass_boot,pass_wi,winner
+L0,0.3361,0.0067,0.6109,0.3455,0.083,0.0,0.0,0.0,False,False,True,False
+L1a,0.3661,0.0252,0.6875,0.3984,0.1209,0.03,0.0001,0.0607,False,False,False,False
+L1b,0.3825,0.043,0.6921,0.4307,0.1602,0.0465,-0.0128,0.0962,False,False,False,False
+L1c,0.3901,0.0652,0.6742,0.4506,0.224,0.054,-0.0337,0.1043,False,False,False,False
+L2,0.401,0.2299,0.6955,0.5522,0.5367,0.0649,0.0036,0.1271,False,False,False,False
+L3,0.3236,0.0274,0.6109,0.3091,0.1256,-0.0124,-0.0224,-0.0033,True,True,True,True
+L4a,3.0813,-2.6555,0.8005,6.5071,-6.0749,2.7453,0.3562,6.7482,False,False,False,False
+L4b,0.3982,0.1655,0.8154,0.4996,0.1545,0.0622,-0.019,0.1349,False,False,False,False
+L5,0.3322,0.0327,0.6364,0.3521,0.0673,-0.0038,-0.011,0.0139,False,False,True,False

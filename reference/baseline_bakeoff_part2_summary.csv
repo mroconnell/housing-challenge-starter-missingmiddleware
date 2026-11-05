@@ -1,0 +1,9 @@
+candidate,score,score_large,score_small,diff_vs_s0,boot_lo,boot_hi,pass_margin,pass_boot,winner
+S0,0.52967,0.54882,0.44482,0.0,0.0,0.0,False,False,True
+S1a,0.52292,0.5398,0.44498,-0.00675,-0.01365,-0.00425,False,True,False
+S1b,0.52733,0.54317,0.45468,-0.00234,-0.02155,0.00529,False,False,False
+S2a,0.52695,0.54452,0.44973,-0.00272,-0.01896,0.00612,False,False,False
+S2b,0.52975,0.54558,0.45698,8e-05,-0.02033,0.00774,False,False,False
+S3,0.52939,0.54824,0.44189,-0.00027,-0.00128,0.00055,False,False,False
+S4,0.5354,0.55354,0.46398,0.00574,-0.01221,0.01759,False,False,False
+S4_cap3,0.53205,0.55066,0.45927,0.00238,-0.01156,0.01019,False,False,False
