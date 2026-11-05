@@ -16,12 +16,13 @@ Written 2026-11-05 by the baseline thread.
    | 1.1–1.3 | 545 | 81.8% | all 2009 |
    | 1.3–1.5 | 92 | 67.4% | 73 from 2009, 19 from 2010 |
 
-   - **They are one forecast.** In 2009 the training data held only start years up to 2004, all before the crash, so the LASSO saw calm history and gave tighter ranges. They are effectively one forecast made once, not hundreds of separate tests. The block bootstrap over years cannot show year-to-year variation with only one year, so its ranges understate the uncertainty.
+   - **They are one forecast.** In 2009 the training data held only start years up to 2004, all before the crash. A guess: the LASSO saw calm history and so gave tighter ranges. They are effectively one forecast made once, not hundreds of separate tests. The block bootstrap over years cannot show year-to-year variation with only one year, so its ranges understate the uncertainty.
    - **Reading (not a rule outcome).** When the LASSO's history looked calm, its tighter ranges were over-confident. That is one episode.
 3. **Overall, at the county level** (2009–2020, 739 counties in 51 states, 6,620 checks):
    - **The LASSO (E2):** held 95.6% (bootstrap 92.7–99.2%), with a median log width of 2.14. Wisconsin's counties held 134 of 140 (95.7%).
    - **All counties pooled (A):** held 84.5% (bootstrap 70.9–91.8%), with a median width of 1.98. Wisconsin's counties held 126 of 140 (90.0%).
-4. **The question stays open.** The county test can neither confirm nor rule out that the LASSO's tight Wisconsin range (log width 1.03) holds 90% of the time. Its only nearby evidence comes from the 2009 forecasts, and that evidence points to over-confidence.
+   - **Reading both ways:** E2's range, 92.7–99.2%, sits entirely above 90%, so at the county level its ranges are too wide overall. A's range includes 90%.
+4. **The question stays open.** The county test can neither confirm nor rule out that the LASSO's tight Wisconsin range (log width 1.03) holds 90% of the time. Its only nearby evidence comes from the 2009 forecasts, and that evidence points to over-confidence, but from one start year, so it is a weak signal.
 
 ## Why counties rarely got tight ranges
 
