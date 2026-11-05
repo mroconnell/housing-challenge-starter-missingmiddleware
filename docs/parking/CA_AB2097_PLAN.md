@@ -206,3 +206,30 @@ reviewed from a summary). Each item is now part of the plan:
 7. Main map: the audit leans to map A main, local maps as a check. Ryan's call (section 5, choice 1).
 8. Amy Lee's source is read and cited before the city sample is chosen.
 9. "Drop Los Angeles" check added; it also tests the homes weighting.
+
+**2026-11-05, before any count, after reading Amy Lee's source** (Lee, Millard-Ball and Manville, "State Preemption
+in Theory and Practice: The Case of Parking Requirements", *Urban Affairs Review* 62(4): 1165–1195, 2026, online
+2025, DOI 10.1177/10780874251385240, CC BY 4.0; supplied by Ryan). What it says, in short:
+- Six anonymous case cities, 25 interviews, summer 2024. Qualitative; no permit counts.
+- Cities drew covered areas very differently (its Table 4): bus stops "meet" within 50 m (Caltrans) or 500 ft (SCAG),
+  or by cross streets (SACOG); stations as a point or a whole parcel; distance from parcel edge or centroid; peak
+  defined as best hour or average; planned stops counted, ignored, or counted only if funded.
+- Cities used the law as a springboard (went further), a shield (followed it, deflected blame), or an obstacle
+  (narrow reading, slow reviews).
+- Developers mostly kept some parking (lenders, renters) and took the cautious reading to avoid delays.
+
+Changes to this plan:
+1. **Map A is the "law as written" map**, not each city's real map. Two bracket maps are added as fixed checks, built
+   from Table 4's columns: **wide** (bus stops meet within 500 ft, any peak hour, planned stops in, distance from
+   parcel edge approximated by +100 m) and **narrow** (within 50 m, average of peak hours, existing stops only,
+   stations as points). If the main estimate's sign or size changes much between them, that is reported.
+2. **City sample for local maps (option B):** drawn from the paper's 15-city sampling frame (its Table 1: Beverly
+   Hills, Fresno, Irvine, Los Angeles, Merced, Oakland, Palo Alto, Rancho Cordova, Roseville, Sacramento, San Jose,
+   San Clemente, Santa Cruz, South Lake Tahoe, Truckee), keeping those with a public AB 2097 map. Chosen before any
+   permit is placed. Sacramento and San Jose stay in the placebo group.
+3. **Springboard places.** Culver City, Mountain View, Sacramento and San Jose (named in the paper as going beyond the
+   ½ mile) are already on the dropped or placebo list, except Mountain View (2024, precise-plan areas only), which is
+   now added to the placebo group.
+4. **Expectation stated now.** The paper expects a modest, uneven effect: uneven local reading, the "findings" escape
+   hatch, and developers who keep parking. A null near-vs-ring result fits this and does not show the law did nothing
+   for any project.
