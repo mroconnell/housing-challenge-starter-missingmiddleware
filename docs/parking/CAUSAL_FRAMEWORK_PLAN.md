@@ -1376,6 +1376,20 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
    - **Large margins of error (20% is a convention):** where a place's rent margin of error is above 20% of its estimate, the county value is used instead, and the count of such places is reported.
    - **QCEW:** county-level only, so every place in a county gets the same job growth.
 7. **Transit (52b):** coded for repeal places only, because pool places are too many to code. This is stated as a limit.
+13. **More dated reform lists from the project's other threads (Ryan 17:43 UTC: "we have a pretty good list of reform cities and dates by consulting our other sessions"):**
+   - **Sources:** these join 52b as dated events for repeal and pool places alike, committed as one events table before any join. Only events before the matched repeal year count, as in fix 1.
+
+     | File | Rows | What it holds |
+     | --- | --- | --- |
+     | `reference/statewide_states_laws.csv` | 18 | State ADU laws with adoption, effective and compliance dates |
+     | `reference/tod_cases.csv` | 58 | TOD upzonings with adoption and effective dates |
+     | `reference/tod_reform_density.csv` | 38 | TOD reforms with reform year (deduplicated against `tod_cases`) |
+     | `reference/other_cities_reforms.csv` | 21 | ADU and zoning ordinances with dates |
+     | `reference/parking_reform_taxonomy.csv` | 6,318 | Every PRN-coded parking reform, including reductions and partial reforms, with dates |
+     | `reference/ca_ab2097_rail_openings.csv` | 61 | California rail station openings with dates |
+
+   - **Transit for California pool places:** the rail openings are assigned to places by station location, so in California, transit (item 7) is coded for pool places too.
+   - **Dates and places:** each list's date field is used as written (effective date if present, else adoption date). Places are matched to BPS keys by name and state with `cmp.match_place`; rows that don't match are reported.
 8. **Denominator check (one, chosen now):** Census 2010 housing units (HU10, gazetteer), which come before every repeal in the sample.
 9. **Reading line for all of Test 52:** one test moving alone is not evidence. The same bar applies to both signs, and only a pattern across tests is described.
 10. **52d.1:** −2 years repeats the batch backtest, so it is cited, not rerun. Only −4 years is new.
