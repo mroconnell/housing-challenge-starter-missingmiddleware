@@ -1018,7 +1018,7 @@ The number of places is shown for each year.
 
 **Runs:** on the Mac. No tool changes without Ryan's OK.
 
-## Reform-type coding for the 15 long-set places (DRAFT PLAN 2026-11-05, before any coding; Ryan 15:19 UTC: "I think we probably need to code all 15")
+## Reform-type coding for the 15 long-set places (PLAN 2026-11-05, before any coding; Ryan 15:16 UTC: "Did we code any of these 15 places' reform? ie complete repeal of minimums, reduction, reduction within an area, by right v discretionary"; 15:19:11 UTC: "I think we probably need to code all 15"; 15:19:49 UTC: "don't limit to apartment buildings - all residential")
 
 **Purpose.** Describe what each of the 15 places in Test 49's long set actually changed, so the by-year results can be read by reform type. Coding only: this plan reads no new outcomes and runs no test. Any use of the codes in an estimate needs its own lock.
 
@@ -1044,11 +1044,17 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
    - **discretionary:** a hearing such as a conditional use, special permit, planned development or variance is required;
    - **mixed:** by right in some zones, a hearing in others; the share is given where known.
    - This is about whether the project needs a hearing at all, not whether a parking waiver exists.
-4. **Same-time changes:** other zoning changes adopted within 1 year. For the 9 places flagged as simultaneous rewrites, whether density, height or permitted uses also changed.
+4. **Same-time changes:** other zoning changes adopted within 1 year (a chosen window). For the 9 places flagged as simultaneous rewrites, whether density, height or permitted uses also changed.
 5. **Housing scope:** all residential uses / multifamily only / 1–2 family only / other.
 6. **Event date check:** the adoption and effective dates against the event year used. Any mismatch is reported, not changed.
 7. **Sources:** the ordinance or code text (adopted version and the version the day before), the zoning use tables for the approval path, and PRN as a secondary source. Every field cites its source URL.
 8. **Confidence:** high / medium / low, with a note.
+
+**Audit items (15:40 UTC).**
+- **Code before looking:** the coding CSV is committed before it is joined to any Test 49 effect, and the grouped table is built only from that committed file.
+- **Small groups:** groups will hold only 1–5 places, so no group difference is a finding. A test by type needs its own lock.
+- **The version the day before:** the Wayback Machine is a public source; the capture date is cited. "Not found" is marked where there is no earlier version.
+- **By right vs discretionary:** coded now as description, because Ryan's 15:16 UTC message asks for it.
 
 **Rules.**
 - **Public sources only:** municipal code sites, council agendas and minutes, the Parking Reform Network.
