@@ -1031,6 +1031,7 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 
 **Revised to the learning thread's spec and Ryan's 15:19:49 UTC note ("don't limit to apartment buildings - all residential"):**
 - **Template:** the dose-pilot template (`reference/parking_dose_pilot.csv` columns: required spaces before and after for a fourplex, 20 units and 100 units; prior exemptions; scope; share of apartment land covered; single-family rules; same-time changes; sources; confidence), plus the fields below.
+- **Old minimums:** also cover a house and 2–4 unit buildings (a 2-unit and a 3–4 unit example), not only the fourplex, 20-unit and 100-unit examples. Both before and after repeal.
 - **Saranac Lake and Ecorse:** missing fields only.
 - **Inferences** are marked as inferences, with confidence.
 - **First report:** whether approval path and dose vary across the 15.
@@ -1038,7 +1039,7 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 **Fields, one row per place** (`reference/parking_reform_type_15.csv`):
 1. **Repeal type:** full removal of residential minimums / reduction (minimums cut but not removed) / removal for some housing types only (e.g. multifamily only, or 1–2 family only).
 2. **Scope:** citywide / within areas (downtown, transit, districts), with the share of apartment-eligible land where known from the dose pilot or the ordinance.
-3. **Approval path for every residential type: single-family home, ADU, 2–4 units, 5+ units.** For each type, coded before and after repeal, with any size threshold (for example, a hearing above N units), and whether the repeal changed it. Categories:
+3. **Approval path for every residential type: house, ADU, 2 units, 3–4 units, 5+ units.** For each type, coded before and after repeal, with any size threshold (for example, a hearing above N units), and whether the repeal changed it. Categories:
    - **by right:** staff or administrative review only, no public hearing;
    - **discretionary:** a hearing such as a conditional use, special permit, planned development or variance is required;
    - **mixed:** by right in some zones, a hearing in others; the share is given where known.
