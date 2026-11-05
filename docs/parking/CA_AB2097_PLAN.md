@@ -372,3 +372,12 @@ The Cal-ITP method choices (peak hours, 500 ft, 50 m) are listed beside ours in 
    3:00–6:59 p.m. Both are listed in the map write-up.
 5. GTFS feeds from any archive keep their own agency licences; an archive's terms do not replace them. Each feed's
    agency licence is recorded.
+
+**2026-11-05 16:03 UTC, Ryan: "San Francisco and Emeryville may be interesting too"** (draft, plan not locked).
+- Both had no parking minimums citywide before AB 2097 (San Francisco from 2018–2019, Emeryville from 2019), so the
+  law changed nothing at their ½-mile line. They are added to the city sample as **placebo cities**: the main
+  comparison and the edge test are run at the theoretical map's line in each, and the reading rule needs each range to
+  include 0.
+- They have no reason to publish an AB 2097 map; the theoretical map's line is used. If one exists it is recorded.
+- Emeryville did not file geocoded permits every year 2018–2025 in the earlier test. Step 1 counts its years with
+  permits; if it is short, it is shown with that caveat or listed as too thin, not replaced.
