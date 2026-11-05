@@ -1583,6 +1583,8 @@ These override the three groups above.
   - (c) **Repeats:** 20 repeats, each one 10-fold split with its own seed (20261105 + r). The gain is reported with its min and max across repeats. The repeats share the same 74 places, so they are not independent.
   - (d) **The 5% bar** is the locked convention.
   - (e) **Population:** 2010.
+- **Audit:** cleared at 21:46 UTC (970037ea).
+- **Ryan's go:** 21:53:23 UTC, "go", in reply to "Just say go and I'll run it".
 
 **Run order:**
 1. Code committed before any run.
