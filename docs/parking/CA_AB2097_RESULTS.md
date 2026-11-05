@@ -70,7 +70,7 @@ and Stockton. (Pomona and Eureka, also on the list, are not in the group: not fu
 Under the locked rule this check fails (see section 1). These places' near-transit building was already falling relative to their rings before 2023 (lead check −4.103,
 range −8.630 to −1.445), so their headline is not a clean placebo. Their range excludes 0, so the plan's placebo
 condition fails. This says the near-vs-ring comparison can drift for reasons other than AB 2097
-in dense, early-reform cities (San Francisco, San Diego, Oakland and others). The main result stays "no measurable change", but with the placebo
+in early-reform cities (San Francisco, San Diego, Oakland and others). The main result stays "no measurable change", but with the placebo
 check failed, it cannot be read as evidence of no effect.
 
 ## 4. City-level check (Census BPS place totals)
