@@ -381,3 +381,25 @@ The Cal-ITP method choices (peak hours, 500 ft, 50 m) are listed beside ours in 
 - They have no reason to publish an AB 2097 map; the theoretical map's line is used. If one exists it is recorded.
 - Emeryville did not file geocoded permits every year 2018–2025 in the earlier test. Step 1 counts its years with
   permits; if it is short, it is shown with that caveat or listed as too thin, not replaced.
+
+**2026-11-05 16:06 UTC, Ryan: support and opposition lists from the AB 2097 (Friedman) committee analysis**
+(pasted by Ryan; the exact analysis title and date are found and cited in step 1). Draft, plan not locked.
+
+Coding, fixed now from the lists as given:
+- **Opposed (city as a body):** Beverly Hills, Rancho Palos Verdes, San Marcos, Santa Clarita, Torrance.
+  Group letters (California Contract Cities Association, Marin County Council of Mayors and Council Members) are not
+  coded to single cities, since the lists do not say which members signed.
+- **Supported by a local official (not the city as a body):** San Mateo, Menlo Park, Culver City, Petaluma, Santa
+  Monica, Emeryville, West Hollywood, Seaside, Berkeley, Gilroy, La Mesa, Sunnyvale, Mountain View. One official's
+  support is a weaker signal than a city's letter; this is stated beside every result.
+- Already dropped or placebo, so not in this split: Culver City, Emeryville, Berkeley (earlier reform list) and
+  Mountain View (dropped).
+- **Neither:** all other kept cities.
+
+Uses:
+1. **City-map sample:** the five opposing cities are added to the local-map sample (Beverly Hills is already in it).
+   Same rules: listed before counting, map date and source recorded, no replacements.
+2. **Stance split (described only):** the main near-vs-nearby comparison shown separately for opposed, supported-by-
+   an-official, and neither. Each group's number of cities and permits is shown first. It follows the paper's idea that
+   local stance shaped how the law was applied. It is one more split among several, so a single group differing is
+   not read as a finding on its own.
