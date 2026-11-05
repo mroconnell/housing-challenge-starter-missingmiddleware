@@ -246,9 +246,10 @@ comparison is not yet run.
 
 - **Streetcar check:** the National Transit Database lists one California agency with streetcar service (mode SR):
   San Francisco (NTD 90015), which also runs light rail on the same system. No California system is streetcar-only,
-  so dropping streetcar-only systems leaves the main map unchanged; the check equals the main result.
+  so the check is empty: there is no streetcar-only system to drop. (San Francisco is outside the main group anyway.)
 - **MTC 2017 major transit stops:** the 2017 major-stop item linked from MTC's GitHub no longer exists or is not
-  public (ArcGIS: "Item does not exist or is inaccessible", checked 2026-11-05). MTC's other 2017 layers are corridors
+  public: https://www.arcgis.com/sharing/rest/content/items/561dc5b42fa9451b95faf615a3054260 returned
+  "Item does not exist or is inaccessible." (accessed 2026-11-05). MTC's other 2017 layers are corridors
   and priority areas, not major stops, so the spec's comparison cannot be run as written. Not run.
 - **Santa Cruz:** its map is a PDF of circles around many bus stops; rebuilding it means matching each circle to a
   stop by hand. Not done (Ryan's call whether it is worth it).
