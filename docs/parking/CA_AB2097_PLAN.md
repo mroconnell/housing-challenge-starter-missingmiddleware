@@ -437,3 +437,17 @@ on AB 2097 (2022–2025); its date and body; and what came of it (code amendment
 escape hatch used, information only, or none found). A dated adoption of a map or code change is a candidate date for
 the map-date edge test (section 8, Ryan's opening note). Hearings are read from public agendas, minutes and videos'
 written summaries only.
+
+**2026-11-05, after the city-lead search (docs/parking/CA_AB2097_CITY_LEADS.md) and the audit's review of it
+(draft, plan not locked):**
+1. **The local-map check rests on very few cities.** Of 21 cities searched, the only dated 2023 city layer for a city
+   kept in the main estimate is Oakland's (Spring 2023, 15-minute rule). Sacramento's layer (created 2023-02-03) is in
+   the placebo group. Los Angeles's layers are from 2024 and 2026. This is stated beside every local-map result.
+2. **Candidates for the map-date and rail edge ideas** (counts expected to be small; counts reported first):
+   Palo Alto (radius map adopted by council 2024-11-12, 7-0, around 3 Caltrain stations; PDF map) and Truckee
+   (½-mile layer around one rail depot, last edited 2024-01-09).
+3. **Licences: Ryan's call.** No city layer found states a licence; SCAG's layer says "for general planning and
+   informational purposes only". Using layers with no stated licence as inputs kept out of git (never committed or
+   redistributed) needs Ryan's OK. Until then they are not downloaded. The third-party "AB 2097 Eligibility Areas"
+   layer (modified 2023-12-15, an individual's account) falls under the no-licence, no-reuse rule unless Ryan says
+   otherwise.

@@ -39,6 +39,13 @@ which SACOG calls illustrative. MTC publishes major-stop layers; no sampled city
 Santa Cruz). No map found: 15. Usable dated 2023 layers: Oakland Spring 2023 and Sacramento (created 2023-02-03,
 drawing date unclear). Licences: not stated on any city layer found; to be recorded before any download.
 
+**Status of facts in this file (audit 2026-11-05):** the summary table rests on primary pages read (city layers,
+agendas, staff reports, Coastal Commission exhibits). Items in the notes that came only from search-result snippets
+or news summaries (marked as such there, for example Palo Alto vote counts from local news and Santa Clarita's code
+section from a third-party summary) are **leads only**, not facts, until a primary source is read.
+
+Personal staff usernames and emails were removed from the notes (audit); item IDs and URLs are kept.
+
 ## Full notes by group
 
 ---
@@ -60,7 +67,7 @@ Wayback note: the availability API worked for a first batch of URLs. Later the C
 (Already known items were not redone: the 2026 "AB2097_clip" polygon, the 2022-12-29 and 2023-10-23 memos, the 2024-04-16 transit methodology memo, the HCD letters, and the empty ZIMAS group.)
 - Classification: **GIS layer found (usable)**. The usable layer is the 2026 LADCP layer already known. I found no earlier citywide city layer. The only earlier layer is a LADOT Council District 1 clip from 2024 (below).
 - Map, new leads only:
-  1. **LADOT "CD1_AlFresco_AB2097_3_WFL1"**, a Feature Service. https://services1.arcgis.com/tp9wqSVX1AitKgjd/arcgis/rest/services/CD1_AlFresco_AB2097_3_WFL1/FeatureServer . Item f58430c356bb43c3981fd91075a26d2f, owner norma.villacres_ladot. Item created and modified 2024-02-21.
+  1. **LADOT "CD1_AlFresco_AB2097_3_WFL1"**, a Feature Service. https://services1.arcgis.com/tp9wqSVX1AitKgjd/arcgis/rest/services/CD1_AlFresco_AB2097_3_WFL1/FeatureServer . Item f58430c356bb43c3981fd91075a26d2f, owner: a staff account (name removed). Item created and modified 2024-02-21.
      - Layer 6 is `Area_within_Half_Mile_MajorTransitStop_CD1Clip`. Its editingInfo.lastEditDate is 2024-02-21 14:17. Fields are OBJECTID, Id, and shape only, with no source attribute.
      - Layer 1 is `LACounty_Parcels_AB2097_CD1_Clip`, the parcels flagged as AB 2097-qualifying.
      - The item snippet says "half-mile buffer from nearest major transit stop, parcels that qualified for AB 2097".
@@ -68,7 +75,7 @@ Wayback note: the availability API worked for a first batch of URLs. Later the C
      - Related items: web map 9af772f04d804ff0ac334c5516969077 (modified 2024-07-10) and StoryMap "Al Fresco Interactive Tool" https://storymaps.arcgis.com/stories/f49ae1247c914dc1a7b7b1f522613aa8 (modified 2024-06-12).
      - Licence/terms: not stated.
      - The source of the buffer is not stated. It may be a clip of the citywide area then in ZIMAS, but this is not confirmed.
-  2. **LADCP items, all from 2026 and all owned by cindy.bardem_ladcp** (org tzwalEyxl2rpamKs). An org search for "2097" returned only these 4 items, so no 2023 version is on ArcGIS Online.
+  2. **LADCP items, all from 2026 and all owned by one staff account (name removed)** (org tzwalEyxl2rpamKs). An org search for "2097" returned only these 4 items, so no 2023 version is on ArcGIS Online.
      - "AB2097": https://services1.arcgis.com/tzwalEyxl2rpamKs/arcgis/rest/services/AB2097/FeatureServer . Created 2026-03-02. Layer 1 is `AB2097_VanNuysCBDCDO`, last edit 2026-03-12. This is a **Van Nuys CBD CDO clip only**. Access information: "Southern California Association of Governments (SCAG)". Licence not stated.
      - "AB2097 Exempts parking minimums within a half mile of major transit": https://services1.arcgis.com/tzwalEyxl2rpamKs/arcgis/rest/services/AB2097_Exempts_parking_minimums_within_a_half_mile_of_major_transit/FeatureServer . Created and modified 2026-03-18. Access information: SCAG.
      - Item 2ef629e3a13e41dfaf148d5d040ab539, created 2026-04-30. This is most likely the known "AB2097_clip".
@@ -275,7 +282,7 @@ Research date: 2026-11-05. Web research only. No GIS features or permit data dow
   - Map source/author not stated (it appears to be city-supplied for the LCP submittal; not confirmed).
 - Checked:
   1. City code. codepublishing Ch. 24.12 returned 403. Code text was taken from the Coastal Commission exhibit. City doc https://cityofsantacruz.prod.govaccess.org/home/showpublisheddocument/98267/638418114758370000 (a search snippet describes it as the parking ordinance proposal reflecting AB 2097) refused the connection. The same document on santacruzca.gov returned 403.
-  2. GIS. City ArcGIS org `services5.arcgis.com/RjgxPpXv8MHiv19f` (owner richwestfall/cruzgis, 156 services). Only Downtown_Parking_District, ResParkingView, CoSCZoning and Zoning_Overlays; no AB 2097/transit/TPA layer. Hub https://data1-cruzgis.opendata.arcgis.com. Guessed city ArcGIS Server hosts (gis.cityofsantacruz.com etc.) gave no response. ArcGIS Online "Santa Cruz AB 2097" returned only **SJSU student** layers (owner 005286386_SJSUGIS, e.g. https://services8.arcgis.com/A76GjgcBUTTcwFGS/arcgis/rest/services/Major_Stops___1_2_Mile_Radius_WFL1/FeatureServer, modified 2024-04-25). These are not city maps.
+  2. GIS. City ArcGIS org `services5.arcgis.com/RjgxPpXv8MHiv19f` (owner: cruzgis and a staff account (name removed), 156 services). Only Downtown_Parking_District, ResParkingView, CoSCZoning and Zoning_Overlays; no AB 2097/transit/TPA layer. Hub https://data1-cruzgis.opendata.arcgis.com. Guessed city ArcGIS Server hosts (gis.cityofsantacruz.com etc.) gave no response. ArcGIS Online "Santa Cruz AB 2097" returned only **SJSU student** layers (owner: a university student account (removed), e.g. https://services8.arcgis.com/A76GjgcBUTTcwFGS/arcgis/rest/services/Major_Stops___1_2_Mile_Radius_WFL1/FeatureServer, modified 2024-04-25). These are not city maps.
   3. Agendas. The city is not on the Legistar API (clients tried: santacruz, cityofsantacruz, santacruzca). Used news (Lookout 2025-08-27; citizenportal 2026-05-14 and 2026-09-25, the latter 403) and Coastal Commission records.
   4. Regional map: none cited.
   5. Wayback: the govaccess doc 98267 (three URL variants) and the CCC exhibit PDF had no snapshots.
@@ -338,7 +345,7 @@ Sites that refused our research user agent (HTTP 403): paloalto.gov / cityofpalo
   - (a) Current city layer: https://services.arcgis.com/9tC74aDHuml0x5Yz/arcgis/rest/services/NoParkingMinimumAB2097_Fall26/FeatureServer/0 (layer "NoPkgMinAB2097_2026Fall"). Date: `editingInfo.lastEditDate` = 2026-09-30. The description says "Last update: Sept. 28, 2026 using Fall 2026 AC Transit shapefiles". ArcGIS item d397e2e354fc42e89d4c9d88552de203 was created and modified 2026-09-30. Form: GIS layer (polygon). Licence/terms: none stated. Credit text: "AC Transit GIS Portal … with input from Owen Goetze Oakland Planner at AC Transit. Oakland Planning & Building Department".
   - (b) Public web map "DRAFT AB2097 No Parking Minimums": item 16a2b4cd144b4d938405ec047ace7fd3, created 2023-05-01, modified 2026-09-30. It now points to layer (a). The app is item e29ce512e2084cc58add5cc9946440f3, created and modified 2023-05-01: https://oakgis.maps.arcgis.com/apps/instant/basic/index.html?appid=e29ce512e2084cc58add5cc9946440f3
   - (c) Same layer in the city's own server: https://gismaps.oaklandca.gov/server/rest/services/Planning_and_Zoning_Controls/MapServer/24 "Parking Reduction Near Major Transit (AB2097)". Its description matches (a) (20-minute threshold). No edit date is shown. Licence: not stated.
-  - (d) **Older 2023 version** (still online): https://gisapps1.mapoakland.com/oakgis/rest/services/Prod/CEDA_App_PRODGIS/MapServer/22 and http://gisapps1.mapoakland.com/oakgis/rest/services/Prod/CEDA_report_PRODGIS_June2024/MapServer/18. The description says "based on major transit stops as of Spring 2023", with a 15-minute threshold. Credit text names Michael Eshlemann of AC Transit. No edit date in the JSON. Licence: not stated.
+  - (d) **Older 2023 version** (still online): https://gisapps1.mapoakland.com/oakgis/rest/services/Prod/CEDA_App_PRODGIS/MapServer/22 and http://gisapps1.mapoakland.com/oakgis/rest/services/Prod/CEDA_report_PRODGIS_June2024/MapServer/18. The description says "based on major transit stops as of Spring 2023", with a 15-minute threshold. Credit text names an AC Transit staff member (name removed). No edit date in the JSON. Licence: not stated.
   - Related city layers that may help a comparison (not AB 2097): BARTandHighFrequencyStops2025 (modified 2025-08-12), BARTandHighFrequencyStops2026 (2026-09-30), TransitAccessibleAreas_2025 / _2026, and "No Parking for ADUs". All are in the same org (services.arcgis.com/9tC74aDHuml0x5Yz).
 - Regional map relied on: not stated. The city layer is built from AC Transit stop data, not from an MTC map. The MTC regional layers exist (see Palo Alto) but Oakland does not cite them.
 - Public hearing(s) on AB 2097: none found that was specific to AB 2097.
@@ -353,7 +360,7 @@ Sites that refused our research user agent (HTTP 403): paloalto.gov / cityofpalo
   - The map keeps the word "DRAFT" in its title.
 - Checked:
   1. Planning Code Title 17 PDF (oaklandca.gov and cao-94612 S3 copy effective 2024-01-16); Phase 1 GPU code amendments page.
-  2. ArcGIS Online search "Oakland AB 2097", "Oakland major transit stop", owner:mpronio_oakgis, orgid 9tC74aDHuml0x5Yz "parking"; layer JSON for (a), (c), (d).
+  2. ArcGIS Online search "Oakland AB 2097", "Oakland major transit stop", owner: a staff account (name removed), orgid 9tC74aDHuml0x5Yz "parking"; layer JSON for (a), (c), (d).
   3. Search for PC/Council staff reports (PC 2024-04-03 ADU/clean-up report; Phase 1 GPU 2023); Legistar 22-0606 (affordable housing parking, not AB 2097).
   4. MTC layers (none cited by the city).
   5. Wayback availability (timestamps 2023, 2024, 2025) for the gisapps1 layer 22, the oakgis app, and the gismaps layer 24: no snapshots. The Phase 1 page has a snapshot dated 2025-06-26.
@@ -438,7 +445,7 @@ Sites that refused our research user agent (HTTP 403): paloalto.gov / cityofpalo
   - Fresno has the "Q" BRT line, but no city statement was found on whether its stations count as BRT stations under PRC 21060.2.
 - Checked:
   1. fresno.gov planning/parking page; planning documents index; Municode Article 24.
-  2. gis4u.fresno.gov/arcgis/rest/services (DARM, Parking, FAX folders: no services listed publicly); gis.fresno.gov (301 redirect); ArcGIS Online "Fresno AB 2097", "Fresno major transit stop", "Fresno HQTA", "Fresno transit priority area", owner:joshi_FresnoCOG.
+  2. gis4u.fresno.gov/arcgis/rest/services (DARM, Parking, FAX folders: no services listed publicly); gis.fresno.gov (301 redirect); ArcGIS Online "Fresno AB 2097", "Fresno major transit stop", "Fresno HQTA", "Fresno transit priority area", owner: a staff account (name removed).
   3. Web/Exa search of agendas.fresno.gov and fresno.legistar.com for AB 2097: no hits. The documents.fresno.gov WebLink needs cookies (not used).
   4. Fresno COG layers (above).
   5. Wayback: fresno.gov/planning/parking has a snapshot dated 2023-11-30 (no AB 2097 content seen in search snippet).
@@ -455,7 +462,7 @@ Sites that refused our research user agent (HTTP 403): paloalto.gov / cityofpalo
   - The City Housing Element says parking reductions "will be tackled by new laws", without naming AB 2097.
 - Checked:
   1. cityofmerced.gov zoning ordinance and planning pages; City Housing Element and constraints chapter (mercedmjhe.com).
-  2. ArcGIS Online "Merced AB 2097", "Merced transit stop", "Merced TPA", "Merced high quality transit", owner EberL@cityofmerced.gov_merced (112 items; none on parking or transit), MCAGonline. A city ArcGIS REST host was not found (gis.cityofmerced.org did not respond).
+  2. ArcGIS Online "Merced AB 2097", "Merced transit stop", "Merced TPA", "Merced high quality transit", owner: a staff account (email removed) (112 items; none on parking or transit), MCAGonline. A city ArcGIS REST host was not found (gis.cityofmerced.org did not respond).
   3. Web/Exa search of cityofmerced.legistar.com and granicus for AB 2097: only file 23-536.
   4. MCAG: nothing found.
   5. Wayback: zoning ordinance page has a snapshot dated 2025-08-06. imaginemerced.com refused our user agent (403).
@@ -466,7 +473,7 @@ Sites that refused our research user agent (HTTP 403): paloalto.gov / cityofpalo
 - **Palo Alto**: PDF radius maps (June 2023, with a Wayback copy dated 2023-12-19) cover the 3 Caltrain stations. Council voted 7-0 on 2024-11-12 to apply AB 2097 within the Attachment B radius. PTC hearings were held 2024-05-29 and 2024-07-10.
 - **San Jose**: no AB 2097 map. Parking minimums were repealed citywide (PC 2022-11-16; Council 2022-12-06; adopted 2023-01-10; effective 2023-04-10). The only close layer is an AB 2011/SB 6 rail-station buffer.
 - **Fresno and Merced**: no AB 2097 map, hearing or code reference found. Only local transit parking reductions exist, and no regional major-transit-stop map is cited.
-- Third-party layer to note (not city-made): "AB 2097 Eligibility Areas for ABAG SACOG SANDAG SCAG" (owner nolangraycay, item f490bb51cb684aaf8a2b21edd6499fb9, modified 2023-12-15). It may cover the 3 Bay Area cities. The item record could not be read (no title returned).
+- Third-party layer to note (not city-made): "AB 2097 Eligibility Areas for ABAG SACOG SANDAG SCAG" (owner: an individual account (name removed), item f490bb51cb684aaf8a2b21edd6499fb9, modified 2023-12-15). It may cover the 3 Bay Area cities. The item record could not be read (no title returned).
 
 ---
 
@@ -501,7 +508,7 @@ Disclosure: one Sacramento attribute-only query (`returnDistinctValues`, `return
   - None of these layers' JSON has `editingInfo`. Item modified dates run from 2026-05 to 2026-07.
 - **SACOG housing legislation page:** https://www.sacog.ca.gov/planning/land-use/housing/housing-legislation . It returned HTTP 403 to WebFetch. A Wayback copy exists: http://web.archive.org/web/20231201161618/https://www.sacog.org/planning/land-use/housing/housing-legislation .
 - **SACOG/major-transit-stops on GitHub:** MIT licence, created 2025-04-11, last push 2026-02-18. The README is one line ("Scripts related to identifying and creating layers of major transit stops…").
-- **Third-party layer (not a city map):** "AB 2097 Eligibility Areas for ABAG SACOG SANDAG SCAG" by owner nolangraycay, modified 2023-12-15. URL: https://services5.arcgis.com/kXdJ0DN2OncA9tPy/arcgis/rest/services/AB_2097_Eligibility_Areas_for_ABAG_SACOG_SANDAG_SCAG/FeatureServer
+- **Third-party layer (not a city map):** "AB 2097 Eligibility Areas for ABAG SACOG SANDAG SCAG" by an individual account (name removed), modified 2023-12-15. URL: https://services5.arcgis.com/kXdJ0DN2OncA9tPy/arcgis/rest/services/AB_2097_Eligibility_Areas_for_ABAG_SACOG_SANDAG_SCAG/FeatureServer
 - **Outside SACOG:**
   - South Lake Tahoe is in the Tahoe Basin. Its MPO is TRPA/TMPO, not SACOG.
   - Truckee is in Nevada County. Nevada County is not in the SACOG region.
@@ -583,7 +590,7 @@ Disclosure: one Sacramento attribute-only query (`returnDistinctValues`, `return
 - Classification: **No map found**
 - Map: none found for AB 2097. Licence/terms: n/a.
 - Regional map relied on: not stated. The city is outside SACOG; its regional body is TRPA/TMPO.
-  - TRPA has a "1/2 Mile from Transit" web map (item 8e1785a95e5c464a8d955db7332276b7, owner abettinger, modified 2021-09-30).
+  - TRPA has a "1/2 Mile from Transit" web map (item 8e1785a95e5c464a8d955db7332276b7, owner: a staff account (name removed), modified 2021-09-30).
   - Per its description, that map is for TRPA Residential Bonus Unit eligibility, not AB 2097.
   - TRPA also has a "Transit Hubs" layer (b7b3f01d2401497bba58adddd847501a, modified 2026-01-13).
 - Public hearing(s) on AB 2097: none found.
@@ -593,7 +600,7 @@ Disclosure: one Sacramento attribute-only query (`returnDistinctValues`, `return
   - AB 2097 excludes hotel/motel projects, which may matter in a lodging-heavy city. Not addressed in any city document found.
 - Checked:
   1. City code (gocodebook Title 6 / parking summary; codepublishing ordinance table).
-  2. ArcGIS Online: searches "South Lake Tahoe transit stop/parking/zoning/city"; owner rmalhoski@cityofslt.gov_CSLT, 284 items scanned for transit/2097/parking (only "Parking Restrictions" and plan-area layers); TRPA items.
+  2. ArcGIS Online: searches "South Lake Tahoe transit stop/parking/zoning/city"; owner: a staff account (email removed), 284 items scanned for transit/2097/parking (only "Parking Restrictions" and plan-area layers); TRPA items.
   3. Web search slt.granicus.com / cityofslt.us "AB 2097": none.
   4. Regional reliance: not stated.
   5. Wayback: https://www.cityofslt.us/169/Planning gave no snapshot (the URL may not exist).
@@ -605,7 +612,7 @@ Disclosure: one Sacramento attribute-only query (`returnDistinctValues`, `return
   - Layer: "Train Depot 1/2mile buffer (AB2097)", https://services5.arcgis.com/i75zh9vlhYUpqwjr/arcgis/rest/services/TraiinDepot_AB2097/FeatureServer/0 (item fb52ef258c134d729cc2ec422907e846, public). One polygon layer, `editingInfo.lastEditDate` 2024-01-09 16:13 UTC, item created and modified 2024-01-09.
   - Shown in web map "Transit AB 2097 Map" (ea24c2a0a9a7412c825427f5a1fb351f; created 2024-01-09, modified 2024-03-20).
   - Also shown in StoryMap "Truckee AB 2097", https://storymaps.arcgis.com/stories/b2f3afe1613e4c3daa942268e6133b5d (created 2024-01-09, modified 2024-03-20).
-  - Owner: djack_townoftruckee.
+  - Owner: a staff account (name removed).
   - Licence/terms: not stated. The StoryMap says it is "for informational purposes only" and that project proponents must show their location within ½ mile of the Train Depot.
 - Regional map relied on: none; the Town drew its own. Truckee is not in SACOG.
 - Public hearing(s) on AB 2097:
@@ -621,7 +628,7 @@ Disclosure: one Sacramento attribute-only query (`returnDistinctValues`, `return
   - The web map also overlays active planning applications, which the StoryMap says are updated every six months or less.
 - Checked:
   1. Town planning pages; Development Code search (no AB 2097 or major transit stop text found).
-  2. ArcGIS Online search "Truckee transit" and owner djack_townoftruckee; layer and item JSON read.
+  2. ArcGIS Online search "Truckee transit" and owner: a staff account (name removed); layer and item JSON read.
   3. Town meeting documents (mccmeetingspublic blob) via web search; PC minutes 2024-09-17 read.
   4. Regional reliance: none (own map).
   5. Wayback: no snapshot of the StoryMap; https://www.townoftruckee.gov/1082/Planning gave none.
