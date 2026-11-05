@@ -239,6 +239,13 @@ the spec):
 could not be read). They fall under Ryan's 16:42 OK for unlicensed regional layers as research inputs; the Bay Area
 comparison is not yet run.
 
-## 10. Not yet run
+## 10. Side checks that could not run, and what is left
 
-MTC 2017 comparison; Santa Cruz; streetcar check.
+- **Streetcar check:** the National Transit Database lists one California agency with streetcar service (mode SR):
+  San Francisco (NTD 90015), which also runs light rail on the same system. No California system is streetcar-only,
+  so dropping streetcar-only systems leaves the main map unchanged; the check equals the main result.
+- **MTC 2017 major transit stops:** the 2017 major-stop item linked from MTC's GitHub no longer exists or is not
+  public (ArcGIS: "Item does not exist or is inaccessible", checked 2026-11-05). MTC's other 2017 layers are corridors
+  and priority areas, not major stops, so the spec's comparison cannot be run as written. Not run.
+- **Santa Cruz:** its map is a PDF of circles around many bus stops; rebuilding it means matching each circle to a
+  stop by hand. Not done (Ryan's call whether it is worth it).
