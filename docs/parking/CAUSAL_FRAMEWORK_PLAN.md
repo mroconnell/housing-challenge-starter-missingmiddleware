@@ -935,35 +935,36 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 
 **Reported:** the traits used, the model chosen, B-half accuracy, both candidates' fake-repeal scores, and the real result beside the method-2 corrected result and the current lines.
 
-## Method 3b: prognostic matching, second version (DRAFT LOCK 2026-11-05, before any count; Ryan 03:08 UTC: "Yeah I think you can proceed like that with method 3b and the paired bootstrap")
+## Method 3b: prognostic matching, second version (LOCK DRAFT 2026-11-05, before any count; Ryan 03:08 UTC: "Yeah I think you can proceed like that with method 3b and the paired bootstrap"; the learning thread's full spec)
 
-**Status: draft.** Runs after the audit clears this lock. Post hoc in origin: method 2's and method 3's real results have been seen. Any tool change needs Ryan's own OK.
+**Status: draft, for the audit.** The learning thread gives the provisional go after the audit clears it. Post hoc in origin: method 2's and method 3's real results have been seen. Any tool change needs Ryan's own OK. Runs stay on the Mac.
+- **One candidate, no menu.** It combines the three changes below. Everything else follows the Method 3 lock: traits (as amended), corrected data, all places with San Francisco, every weighting, and cross-fitting for the real run.
 - **Rule on narrow ranges:** a narrow real range is not a reason to pick 3b.
 
-**What changes from method 3** (everything else as in the Method 3 lock: traits, the 50/50 split of never-repealed places with seed 20261104, cross-fitting, corrected data, all places, every weighting):
-1. **Target:** the change in permit rate, after-window mean minus before-window mean (5-year before window), per 1,000 pre-event homes, with no repeal. Not the level.
-2. **Score:** the average of the boosting and lasso predictions, each fitted on the same half (settings as method 3, lasso with grouped inner CV and one-hot division). The B check (at least 5% better than a plain average) applies to the averaged score.
-3. **Match (P3b):**
-   - **Ladder:** the corrected method-2 ladder, with D's 10-year before window for the effect.
-   - **Within a ladder step:** the 10 nearest on Euclidean distance of z-scored predicted change and z-scored before-window trend, with z-scores over the eligible candidates.
-   - **Step 5:** adds z-scored log population.
-   - **Ties:** broken as in method 2.
+**1. Target.** The predicted change with no repeal: the after-window mean minus the before-window mean, with D's 10-year before window (back to 2012). Units: permits per 1,000 pre-event existing homes a year. Fitted on never-repealed places only.
 
-**Fresh fake repeals.**
-- **New draws:** seed 20261105, not the 5,828 cases of method 3.
-- **Targets and pools:** fake targets come from half B, and pools from half B only.
-- **Strata:** each real case's size band and after-year count, as before.
-- **Event years:** each fake case's event year is drawn uniformly from 2016–2024 among years where its window is complete. It is not copied from the real case.
-- **Reported:** the overlap with method 3's fake cases.
-- **Scoring:** 200 sets of 76, random effects, MAE and coverage with its SE, under each weighting beside.
+**2. Score.** The average of the boosting and lasso predictions, each tuned by grouped CV (by place) inside the fitting half. Settings as method 3: boosting depth 2, learning rate 0.05, up to 300 iterations with early stopping, at least 5 per leaf; lasso with missing indicators plus the training-half median, one-hot division, and grouped inner CV.
+- **Split:** the same A/B split (seed 20261104). The score used in the bake-off is fitted on A only.
+- **Stop rule:** the score's error on B must be at least 5% below a plain average of A's change. Otherwise stop and report; D stays.
 
-**Win rule (all three must hold, else D stands):**
-- **(a) Paired bootstrap:** per set, |P3b average| − |D average|. 2,000 resamples of the 200 sets (seed 20261105); the 90% range of the mean difference must lie entirely below 0.
-- **(b) Margin:** P3b's MAE is more than 5% below D's.
-- **(c) Coverage:** P3b's coverage is between 85% and 95%.
+**3. Matching (3b).**
+- **Ladder:** the corrected method-2 ladder.
+- **Within the chosen step:** the 10 nearest on a standardized-sum distance, √(z_score² + z_trend²). The z-differences are the score and the before-window trend between candidate and target, each standardized over the eligible candidates. Proposed over Mahalanobis because there are only two dimensions; their correlation is reported.
+- **Step 5:** adds z-scored log population as a third term.
+- **Ties:** broken as in method 2.
+- **Effect:** D's 10-year before window, as in the corrected method 2.
 
-**Gate and order:**
-- The pick file is committed before any real-repeal 3b output.
-- **Real run:** the picked matching on all 76, with P3b beside D under every weighting.
-- **If P3b is picked:** the weight test (state mix wins ties) and the size check are rerun on its effects.
-- **If D stands:** the corrected method-2 results stand unchanged, and 3b's real results are shown as evidence only.
+**4. Fresh fake repeals in B.**
+- **New draws:** seed 20261105, with new fake event years drawn from 2016–2024 by the same stratified draw (each real case's size band and after-year count). Each case's year is drawn uniformly among years where its window is complete.
+- **Pools:** from B only.
+- **No reuse:** method 3's 5,828 cases are not reused, and the overlap is reported.
+- **Scoring:** 200 sets of 76, random-effects scoring; MAE and coverage with its SE, with the other weightings beside.
+
+**5. Pick rule.** 3b replaces D only if all three hold:
+- **(a)** the 90% paired-bootstrap range of MAE(3b) − MAE(D) lies entirely below 0. That is 2,000 resamples of the 200 fake sets (seed 20261105), recomputing both MAEs on each resample.
+- **(b)** the point gap is at least 2% of D's MAE. This is the learning thread's provisional call (2026-11-05, about 03:09 UTC, under Ryan's 21:01 UTC delegation). Its reason: the paired bootstrap already guards against noise, so a smaller practical margin than the earlier 5% is enough.
+- **(c)** coverage is between 85% and 95%.
+
+Otherwise D stays and 3b is evidence only. The pick is committed before any real-repeal 3b output, with the same code gate.
+
+**6. Real run.** As method 3: all 76 places with San Francisco and cross-fitted scores. Report every weighting, then the weight test (state mix wins ties), the size check and the Wisconsin figure. If D stays, method 2's corrected results stand and 3b's real results are evidence only. The write-up labels the origin as post hoc.
