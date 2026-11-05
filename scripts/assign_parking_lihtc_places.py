@@ -3,7 +3,8 @@
 Each project's latitude/longitude is placed in a Census 2024 place or county subdivision (cartographic boundary files,
 geom point-in-polygon). A point inside a place that BPS reports goes to that place; otherwise to the county subdivision
 if BPS reports it (towns and townships); otherwise it is unmatched (for example unincorporated county land). The
-database's own place2020 field is used only as a check. Place first: a project in a
+database's own place2020 field is used only as a check. Only new-construction projects (TYPE 1) are
+subtracted; acquisition/rehab, existing, mixed and blank-type projects need no new building permit or can't be split. Place first: a project in a
 village counts for the village only, never also for the town around it.
 
     uv run python scripts/assign_parking_lihtc_places.py
@@ -33,7 +34,7 @@ from missing_middleware.paths import RAW, REFERENCE  # noqa: E402
 import run_parking_method2 as m  # noqa: E402
 
 NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
-FIELDS = ["hud_id", "latitude", "longitude", "st2020", "place2020", "n_units", "li_units", "yr_pis", "yr_alloc"]
+FIELDS = ["hud_id", "latitude", "longitude", "st2020", "place2020", "n_units", "li_units", "yr_pis", "yr_alloc", "type"]
 
 
 def read_lihtc() -> pd.DataFrame:
@@ -104,7 +105,12 @@ def main() -> None:
     d["units_100"] = np.where(d["full_affordable"], d["n_units"], 0)
     match = d.groupby(["st", "how"]).size().unstack(fill_value=0)
     match.to_csv(REFERENCE / "parking_lihtc_match.csv")
-    keep = d[d["key"].notna()]
+    # construction type (2024 data dictionary, TYPE): 1 = new construction, 2 = acquisition and rehab, 3 = both (no split
+    # given), 4 = existing, blank = not stated. Only new construction needs a building permit, so only TYPE 1 is
+    # subtracted (fix 2026-11-05 18:05 UTC, audit: rehab and existing projects were wrongly subtracted before).
+    d["new_construction"] = d["type"].astype(str).str.replace(r"\.0$", "", regex=True).eq("1")
+    print("construction type:", d["type"].fillna("blank").value_counts().to_dict())
+    keep = d[d["key"].notna() & d["new_construction"]]
     out = []
     for col, label in (("permit_year", "allocation + 1"), ("permit_year_alt", "allocation year")):
         g = keep.dropna(subset=[col]).groupby(["key", col]).agg(
