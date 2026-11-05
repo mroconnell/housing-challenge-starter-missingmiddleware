@@ -1,2 +1,3 @@
 prn_key,action,reason,approved_by
-"Seabrook, New Hampshire, United States",remove,"not a residential repeal: the 2019 change cut only non-residential minimums (reform-type coding 2026-11-05)","Ryan 2026-11-05 15:50 UTC: remove seabrook"
+"Seabrook, New Hampshire, United States",remove,not a residential repeal: the 2019 change cut only non-residential minimums (reform-type coding 2026-11-05),Ryan 2026-11-05 15:50 UTC: remove seabrook
+"Maumee, Ohio, United States",remove,not a repeal: a parking reform with discretionary reductions (minimums renamed maximums but still required unless waived) (reform-type coding 2026-11-05),"Ryan 2026-11-05 15:54 UTC: code maumee as a parking reform but not a repeal, and discretionary"

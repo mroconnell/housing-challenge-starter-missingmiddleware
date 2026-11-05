@@ -1075,14 +1075,15 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 **Fixes.**
 - **Canandaigua, NY:** matched to the Town of Canandaigua's permit series (BPS 36|103500, "Canandaigua town"), which adopted the 2020 repeal. It was matched to the City's (36|103000). Implemented as a name alias in `missing_middleware/parking/comparison.py` (`ALIASES`). This also applies wherever the taxonomy names Canandaigua, NY, which is the town's reform.
 - **Seabrook, NH:** removed from the repeal places, because its 2019 change cut only non-residential minimums. Implemented as `reference/parking_sample_corrections.csv`, read by `run_parking_expanded.py`. Seabrook stays out of comparison pools, as before.
-- **Sensitivity only, not a fix:** Branson and Maumee removed, where wording leaves the minimum partly in force. Maumee stays in the main sample pending Ryan's answer.
+- **Maumee, OH:** removed from the repeal places. Ryan, 15:54 UTC: "code maumee as a parking reform but not a repeal, and discretionary". Recorded in the coding CSV and in `parking_sample_corrections.csv`; the removal is applied to partial-search and rescued places too. The repeal places become 74.
+- **Sensitivity only, not a fix:** Branson removed, where the wording leaves the minimum partly in force.
 
 **What is rerun, in one batch, old and new side by side:**
-1. The main sample effects (salvage, partial and expanded scripts). The repeal places become 75.
+1. The main sample effects (salvage, partial and expanded scripts). The repeal places become 74 (Seabrook and Maumee removed).
 2. The full placebo run, which gives the main 90% range in Wisconsin homes (real average with placebo spread).
 3. Corrected method 2, both stages, under the same rules. Stage 1's pick uses the correction lock's rule (D or B+D; D wins ties at 5%), the weight test, and the Wisconsin figure.
 4. Test 49's event-time summaries.
-5. The Branson and Maumee sensitivity on items 1 and 3.
+5. The Branson sensitivity on items 1 and 3.
 
 **Audit fixes (16:52 and 16:58 UTC).**
 - **Outputs never touch the originals.** The batch reads and writes a working copy of `reference/` in `data/processed/batch_2026-11-05_ref/`, which is not in git, through `MM_REFERENCE_DIR`. Changed or new files are then copied, keeping subpaths, into `reference/batch_2026-11-05/`.
@@ -1091,7 +1092,7 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
   - After the run, `git diff --quiet` must pass for `reference/` outside the batch folder. TOD's files must hash the same before and after.
 - **Spillover:** the City of Canandaigua (36|103000) is kept out of the Town's comparison pools (`SPILLOVER` in `comparison.py`; also applied in method 2's eligibility).
 - **The Town's data (checked before the run):** it has homes (5,427), population (11,270), 2010 density, town age, crowding for every release 2013–2023, and complete permit years 2012–2025. It is not shock-flagged. Its crowding is 0 in the 2018–2022 and 2019–2023 releases; that is a reported value, not missing.
-- **Noted for the report:** with 75 places, stage 1's fake sets change even with the same seed; the pick rule is unchanged. The width is reported against both bars (like-for-like 49,253, post hoc; locked 26,289). Test 49's long set becomes 14 places, with old and new rows side by side. Maumee stays in until Ryan answers, and his answer will be recorded with its time.
+- **Noted for the report:** with 74 places, stage 1's fake sets change even with the same seed; the pick rule is unchanged. The width is reported against both bars (like-for-like 49,253, post hoc; locked 26,289). Test 49's long set becomes 14 places, with old and new rows side by side. Ryan's Maumee answer is recorded above with its time (15:54 UTC).
 
 **Tool guard.**
 - New outputs are written beside the old ones in `reference/batch_2026-11-05/`, and the committed originals that feed the tool are restored after the run.

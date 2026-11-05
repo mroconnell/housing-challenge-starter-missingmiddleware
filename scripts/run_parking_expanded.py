@@ -210,6 +210,10 @@ def main() -> None:
         s = s[(s["status"] == "included") & (s["group"] == "citywide benchmark")].assign(source="partial-reforms search", rating="at",
                                                                                           simultaneous_rewrite=False)
         eff = pd.concat([eff, s[[c for c in s.columns if c in eff.columns]]], ignore_index=True)
+    cf = REFERENCE / "parking_sample_corrections.csv"  # sample corrections also apply to rescued and partial-search places
+    if cf.exists():
+        drop = set(pd.read_csv(cf).query("action == 'remove'")["prn_key"])
+        eff = eff[~eff["prn_key"].isin(drop)].reset_index(drop=True)
     match.to_csv(REFERENCE / "parking_expanded_match.csv", index=False)
     eff.to_csv(REFERENCE / "parking_expanded_effects.csv", index=False)
     inc = eff[(eff["status"] == "included") & (eff["outcome"] == "all")].dropna(subset=["effect"]).reset_index(drop=True)
