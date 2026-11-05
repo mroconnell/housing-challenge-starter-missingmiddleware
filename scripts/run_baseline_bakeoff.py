@@ -1,6 +1,12 @@
-"""Baseline bake-off (docs/shared/BASELINE_BAKEOFF_PLAN.md, locked 2026-11-05). Part 1: the level.
+"""Baseline bake-off (docs/shared/BASELINE_BAKEOFF_PLAN.md, locked 2026-11-05). Part 1: the level; Part 2: shares.
 
     uv run python scripts/run_baseline_bakeoff.py --part 1
+    uv run python scripts/build_baseline_bakeoff_links.py && uv run python scripts/run_baseline_bakeoff.py --part 2
+
+Part 2 inputs: data/interim/baseline_bakeoff/{bps_place_1990_2025,xw,alloc}.parquet (link script),
+data/raw/baseline_bakeoff/hu_1990/pl9417wi.dbf, hu_api/dec_{2000,2010,2020}_cousub55.json,
+data/raw/milwaukee_mprop/mprop.csv, data/processed/foundation/areas.parquet, Part 1's rows file.
+Part 2 outputs: reference/baseline_bakeoff_part2_{rows,summary,params,joint,shares_2025}.csv
 
 Inputs: data/raw/census_bps_state/st{1990..2025}a.txt (all states), data/raw/baseline_bakeoff/ (fetch script:
 hu_1990/st-98-51.txt, hu_api/dec_{2000,2010,2020}_state.json).
@@ -89,9 +95,177 @@ def final_ranges(u, homes, division, W) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+# ---------------------------------------------------------------- Part 2
+MKE_BPS_ID, MKE_TYPES = "572000", ("3_4units", "5plus")
+
+
+def pl94_1990_cousub() -> dict:
+    """1990 P.L. 94-171 Wisconsin county subdivisions (SUMLEV 060): geoid -> housing units (HU100)."""
+    raw = (BB / "hu_1990" / "pl9417wi.dbf").read_bytes()
+    n, hl, rl = (int.from_bytes(raw[a:b], "little") for a, b in ((4, 8), (8, 10), (10, 12)))
+    flds, i, off = {}, 32, 1
+    while raw[i] != 0x0D:
+        flds[raw[i:i + 11].split(b"\x00")[0].decode()] = (off, raw[i + 16])
+        off += raw[i + 16]
+        i += 32
+    g = lambda rec, k: rec[flds[k][0]:flds[k][0] + flds[k][1]].decode("latin-1").strip()  # noqa: E731
+    out = {}
+    for j in range(n):
+        rec = raw[hl + j * rl: hl + (j + 1) * rl]
+        if g(rec, "SUMLEV") == "060" and g(rec, "GEOCOMP") == "00":
+            out["55" + g(rec, "CNTY") + g(rec, "COUSUBFP")] = float(g(rec, "HU100"))
+    if abs(sum(out.values()) - 2_055_774) > 1:
+        raise SystemExit(f"1990 county subdivisions do not add to the state's 2,055,774 homes: {sum(out.values()):,.0f}")
+    return out
+
+
+def api_cousub(y: int) -> dict:
+    d = json.loads((BB / "hu_api" / f"dec_{y}_cousub55.json").read_text())
+    h = d[0]
+    return {r[h.index("state")] + r[h.index("county")] + r[h.index("county subdivision")]: float(r[1]) for r in d[1:]}
+
+
+def mprop_estimate(years) -> pd.Series:
+    """Milwaukee city 3-4 and 5+ units by permit year: MPROP units by year built, shifted one year earlier (as v3)."""
+    m = pd.read_csv(RAW / "milwaukee_mprop" / "mprop.csv", usecols=["YR_BUILT", "NR_UNITS"], low_memory=False)
+    m = m.apply(pd.to_numeric, errors="coerce").dropna()
+    m = m[m["NR_UNITS"] >= 3]
+    m["structure_type"] = pd.cut(m["NR_UNITS"], [2, 4, 1e9], labels=list(MKE_TYPES)).astype(str)
+    m["year"] = m["YR_BUILT"].astype(int) - 1
+    s = m[m["year"].isin(years)].groupby(["year", "structure_type"])["NR_UNITS"].sum()
+    idx = pd.MultiIndex.from_product([list(years), MKE_TYPES], names=["year", "structure_type"])
+    return s.reindex(idx).astype(float).fillna(0.0)
+
+
+def part2() -> None:
+    from missing_middleware import baseline_bakeoff_shares as sh
+    from missing_middleware import housing_baseline as hb
+    from missing_middleware.paths import PROCESSED, ROOT
+    I = ROOT / "data" / "interim" / "baseline_bakeoff"
+    b = pd.read_parquet(I / "bps_place_1990_2025.parquet")
+    xw, alloc = pd.read_parquet(I / "xw.parquet"), pd.read_parquet(I / "alloc.parquet")
+    gaps = {(MKE_BPS_ID, y): True for y in (2020, 2023, 2025)}
+    hist = hb.allocate(hb.long_bps(b, gaps), xw, alloc)
+    hist = hb.area_year_type(hist)
+    # Milwaukee property-file fix, permit years 2000-2024 (plan: carried back to 2000; 2025 stays null)
+    est = mprop_estimate(range(2000, 2025))
+    pieces = xw[(xw["bps_id"] == MKE_BPS_ID) & xw["area_id"].notna()][["area_id", "alloc_share"]].drop_duplicates()
+    if pieces.empty:
+        raise SystemExit("Milwaukee city pieces not found in the crosswalk")
+    for r in pieces.itertuples():
+        for (y, t), v in est.items():
+            m = (hist["area_id"] == r.area_id) & (hist["year"] == y) & (hist["structure_type"] == t)
+            if m.any():
+                hist.loc[m, "units"] = v * r.alloc_share
+            else:
+                hist = pd.concat([hist, pd.DataFrame([dict(area_id=r.area_id, year=y, structure_type=t,
+                                                           units=v * r.alloc_share, allocation="mprop")])])
+    hist = hist[hist["area_id"] != hb.UNALLOCATED]
+
+    areas = pd.read_parquet(PROCESSED / "foundation" / "areas.parquet")
+    mun = areas[areas["level"] == "municipality"].sort_values("area_id").reset_index(drop=True)
+    ids, county = mun["area_id"].to_numpy(), mun["parent_county_id"].astype(str).to_numpy()
+    acs = mun["housing_units_acs"].fillna(0).to_numpy(dtype=float)
+    pos = {a: i for i, a in enumerate(ids)}
+    arrays = {}
+    for z in sh.SIZES:
+        a = np.full((len(ids), len(sh.YEARS)), np.nan)
+        d = hist[hist["structure_type"] == z]
+        for area, y, v in zip(d["area_id"], d["year"], d["units"]):
+            if area in pos and 1990 <= y <= 2025:
+                a[pos[area], y - 1990] = v
+        arrays[z] = a
+    permits_all = np.nansum(np.stack([arrays[z] for z in sh.SIZES]), axis=0)
+    geo = mun["geoid"].astype(str).to_numpy()
+    cen = {1990: pl94_1990_cousub(), 2000: api_cousub(2000), 2010: api_cousub(2010), 2020: api_cousub(2020)}
+    census = {y: np.array([c.get(g, np.nan) for g in geo]) for y, c in cen.items()}
+    homes = {t: sh.homes_at(census, permits_all, t, acs) for t in range(1990, 2026)}
+    large = acs >= 1000
+
+    def preds_at(c, t, k=None, cap=2.0):
+        return {z: sh.predict(c, arrays[z], county, t, homes[t], k, cap) for z in sh.SIZES}
+
+    def fit_k(t):
+        fs = range(sh.FIRST_FIT_START, t - sh.HORIZON + 1)
+        best, bv = None, np.inf
+        for k in sh.K_GRID:
+            v = np.mean([sh.score_start(preds_at("S3", s, k), arrays, s) for s in fs])
+            if v < bv - 1e-12:
+                best, bv = k, v
+        return best
+
+    ks = {t: fit_k(t) for t in sh.SCORE_STARTS}
+    rows = []
+    for c in sh.CANDIDATES + ("S4_cap3",):
+        for t in sh.SCORE_STARTS:
+            cc, cap = ("S4", 3.0) if c == "S4_cap3" else (c, 2.0)
+            p = preds_at(cc, t, ks[t] if cc == "S3" else None, cap)
+            rows.append(dict(candidate=c, start=t, k=ks[t] if cc == "S3" else np.nan,
+                             score=sh.score_start(p, arrays, t), score_large=sh.score_start(p, arrays, t, large),
+                             score_small=sh.score_start(p, arrays, t, ~large)))
+    R = pd.DataFrame(rows)
+    draws = sh.block_bootstrap_starts(sh.SCORE_STARTS)
+    base = R[R.candidate == "S0"].set_index("start")["score"]
+    summ = []
+    for c in R["candidate"].unique():
+        r = R[R.candidate == c].set_index("start")
+        d = r["score"] - base
+        boot = np.array([d.loc[dr].mean() for dr in draws])
+        summ.append(dict(candidate=c, score=r["score"].mean(), score_large=r["score_large"].mean(),
+                         score_small=r["score_small"].mean(), diff_vs_s0=d.mean(),
+                         boot_lo=np.quantile(boot, 0.05), boot_hi=np.quantile(boot, 0.95)))
+    S = pd.DataFrame(summ)
+    s0 = S.set_index("candidate").loc["S0", "score"]
+    S["pass_margin"] = S["score"] <= 0.98 * s0
+    S["pass_boot"] = S["boot_hi"] < 0
+    winner = sh.pick(S[S.candidate.isin(sh.CANDIDATES)])
+    S["winner"] = S["candidate"] == winner
+
+    # joint check (reported only): Part 1 level x Part 2 shares on Wisconsin pieces, not scaled to the actual total
+    p1 = pd.read_csv(REFERENCE / "baseline_bakeoff_part1_rows.csv", dtype={"state": str})
+    p1s = pd.read_csv(REFERENCE / "baseline_bakeoff_part1_summary.csv")
+    lw = p1s.loc[p1s["winner"], "candidate"].iloc[0]
+    J = []
+    for lev, shr in (("L0", "S0"), (lw, winner)):
+        lv = p1[(p1.candidate == lev) & (p1.state == WI)].set_index("start")
+        for t in sh.SCORE_STARTS:
+            p = preds_at(shr, t, ks[t] if shr == "S3" else None)
+            num = den = 0.0
+            for z in sh.SIZES:
+                act, ok = sh.actual(arrays[z], t)
+                tot = p[z][ok].sum()
+                pp = p[z][ok] / tot * lv.loc[t, f"pred_{z}"] if tot > 0 else p[z][ok] * 0
+                num += np.abs(pp - act[ok]).sum()
+                den += act[ok].sum()
+            J.append(dict(level=lev, shares=shr, start=t, score_unscaled=num / den))
+    J = pd.DataFrame(J)
+
+    # 2025 shares, S0 and the winner, by piece and size
+    k25 = fit_k(2025) if winner == "S3" else None
+    out = []
+    for c in ("S0", winner):
+        p = preds_at(c, 2025, k25 if c == "S3" else None)
+        for z in sh.SIZES:
+            tot = p[z].sum()
+            out.append(pd.DataFrame(dict(candidate=c, area_id=ids, name=mun["name"], size=z,
+                                         share=p[z] / tot if tot else 0.0)))
+    SH = pd.concat(out, ignore_index=True)
+    R.round(5).to_csv(REFERENCE / "baseline_bakeoff_part2_rows.csv", index=False)
+    S.round(5).to_csv(REFERENCE / "baseline_bakeoff_part2_summary.csv", index=False)
+    pd.DataFrame(dict(start=list(ks), k=list(ks.values()))).to_csv(REFERENCE / "baseline_bakeoff_part2_params.csv", index=False)
+    J.round(5).to_csv(REFERENCE / "baseline_bakeoff_part2_joint.csv", index=False)
+    SH.round(7).to_csv(REFERENCE / "baseline_bakeoff_part2_shares_2025.csv", index=False)
+    print(S.round(4).to_string(index=False))
+    print("winner:", winner, "| k fitted:", {t: round(v) for t, v in ks.items()})
+    print(J.groupby(["level", "shares"])["score_unscaled"].mean().round(4))
+
+
 def main() -> None:
-    if "--part" not in sys.argv or sys.argv[sys.argv.index("--part") + 1] != "1":
-        raise SystemExit("usage: --part 1 (Part 2 is written after the linking table)")
+    part = sys.argv[sys.argv.index("--part") + 1] if "--part" in sys.argv else None
+    if part == "2":
+        return part2()
+    if part != "1":
+        raise SystemExit("usage: --part 1 | --part 2")
     u, geo = read_state_permits()
     census = read_census()
     allu = u.groupby(["state", "year"], as_index=False)["units"].sum()

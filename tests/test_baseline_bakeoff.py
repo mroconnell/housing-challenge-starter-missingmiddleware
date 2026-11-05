@@ -99,3 +99,44 @@ class TestBakeoff(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestShares(unittest.TestCase):
+    def setUp(self):
+        from missing_middleware import baseline_bakeoff_shares as sh
+        self.sh = sh
+        rng = np.random.default_rng(1)
+        self.a = rng.integers(0, 20, size=(6, len(sh.YEARS))).astype(float)
+        self.county = np.array(["A", "A", "A", "B", "B", "B"])
+        self.h = np.full(6, 1000.0)
+
+    def test_lumpy_cap(self):
+        a = np.zeros((1, len(self.sh.YEARS)))
+        a[0, self.sh.YEARS == 2010] = 100.0
+        a[0, (self.sh.YEARS >= 2006) & (self.sh.YEARS <= 2009)] = 10.0
+        # the 100 counts at most 2 x 10 = 20; mean of (10, 10, 10, 10, 20) = 12
+        self.assertAlmostEqual(self.sh.lumpy_cap(a, 2010)[0], 12.0)
+
+    def test_county_pace_keeps_county_totals(self):
+        p = self.sh.county_pace(self.a, self.county, 2010, 3, 10, self.h)
+        own = self.sh.nanmean_win(self.a, 2010, 3)
+        for c in ("A", "B"):
+            self.assertAlmostEqual(p[self.county == c].sum(), own[self.county == c].sum())
+
+    def test_shrink_endpoints(self):
+        own = self.sh.nanmean_win(self.a, 2010, 3)
+        np.testing.assert_allclose(self.sh.shrink(self.a, self.county, 2010, self.h, 1e-9), own, rtol=1e-6)
+        big = self.sh.shrink(self.a, self.county, 2010, self.h, 1e12)
+        self.assertAlmostEqual(big[:3].std(), 0.0, places=6)    # all pieces at the county rate
+
+    def test_score_is_scale_free(self):
+        arrays = {z: self.a for z in self.sh.SIZES}
+        p = {z: self.sh.nanmean_win(self.a, 2010, 3) for z in self.sh.SIZES}
+        p2 = {z: 7 * v for z, v in p.items()}
+        self.assertAlmostEqual(self.sh.score_start(p, arrays, 2010), self.sh.score_start(p2, arrays, 2010))
+
+    def test_homes_backcast(self):
+        census = {1990: np.array([np.nan]), 2000: np.array([1000.0])}
+        perm = np.zeros((1, len(self.sh.YEARS)))
+        perm[0, (self.sh.YEARS > 1995) & (self.sh.YEARS <= 2000)] = 10.0
+        self.assertAlmostEqual(self.sh.homes_at(census, perm, 1995, np.array([5.0]))[0], 950.0)

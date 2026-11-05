@@ -209,4 +209,10 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
     - 14 towns link to the villages they became (for example Greenville, Lisbon, Richfield).
     - One identity is unmatched: Brokaw village 2007–2020, 21 units, which goes to the unallocated row.
     - **Coverage passes in every year, 1990–2025.** Linked units are 99.9% to 100.7% of the state file, except 1991–1993, where the place files themselves sum to about 5% more than the state file (105.0%, 105.1%, 104.9%). Part 2 scales shares to the state total, so this does not enter the share score.
+- 2026-11-05, Part 2 written before any Part 2 score. Clarifications:
+  - **Rows with 0 months reported.** They keep Census's imputed estimate, as v3 does. "Missing" applies to a piece with no row that year, and to Milwaukee's flagged years.
+  - **Pieces with no outcome year.** A piece with no row in any outcome year is left out of that start year's score, and scaling uses the pieces scored.
+  - **1,000-home split.** It uses today's ACS homes.
+  - **S2's split.** It falls back to homes when a county had no permits in 10 years.
+  - **The joint check.** It uses Part 1's published-file level, without the Milwaukee fix, against piece outcomes that include the fix. This is a small mismatch in a reported-only check.
 
