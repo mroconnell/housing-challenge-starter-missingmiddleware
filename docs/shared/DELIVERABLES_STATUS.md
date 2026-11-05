@@ -23,7 +23,7 @@ Limit 4 pages. Estimate: about 2,100 words with 4 tables, **about 4 pages**, at 
 
 | Part | Status |
 | --- | --- |
-| Scenarios addressed, common basis (share of the 124,000-home all-housing baseline, range 56,500 to 218,865 aiming at 90%, shared baseline v4, AQ-078; statewide total only; per 1,000 of 2,778,572 existing homes) | Draft |
+| Scenarios addressed, common basis (share of the 124,000-home all-housing baseline, 56,500 to 218,865, aims at 90%, shared baseline v4; only the statewide total was tested; per 1,000 of 2,778,572 existing homes) | Draft |
 | ADU facts | Final (AQ-065) |
 | Parking facts | Final (confirmed by the parking session 2026-10-27; AQ-046, AQ-048) |
 | TOD facts | Final (confirmed by the TOD session 2026-10-27; AQ-044 to AQ-051). Current through AQ-071 (option D). |
