@@ -489,4 +489,17 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05 16:56 UTC, post-lock, **pre-count**, Ryan: "sure, add it" (to adding a density-bonus test from
+  Manville and Smith's 2022 letter, "AB 2097 Will Not Undermine the State Density Bonus or the Los Angeles Transit
+  Oriented Communities Program", UCLA/USC, 2022-08-29, supplied by Ryan). Added as a **secondary outcome**, read by
+  the same rules as the main result (same groups, years, dating, resampling, leads and placebo checks):
+  - Outcome A: share of permitted projects with 5 or more homes that used the state density bonus
+    (Table A2 `DENSITY_BONUS_TOTAL` > 0), near transit vs the ring, 2023–2025 vs 2018–2022.
+  - Outcome B: density-bonus homes permitted per 1,000 existing homes a year, same contrast.
+  - Before any estimate, step 1 reports how often the density-bonus fields are filled, by report year, since the
+    form changed over the years. If fill rates differ sharply between before and after years, the outcome is shown
+    with that caveat.
+  - The letter predicts no fall in density-bonus use; its critics predicted a fall. Neither is assumed: a rise, a
+    fall or no change are all reported as found.
+  - Los Angeles's TOC areas stay out of group P, as in the main estimate.
 - 2026-11-05, pre-count: step 1a script cleared by the audit (review of 659b82c7, fixes applied in 0e566643). Step 1a runs as `scripts/ca_ab2097_step1a_sources.py` at commit 0e566643. Step 1b gets its own audit check before it runs.
