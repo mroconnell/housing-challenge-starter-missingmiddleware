@@ -891,3 +891,34 @@ Method D on corrected method-2 data, with one pool per case held fixed across ye
 - **Chance:** 2 of 12 slopes exclude 0, not far from chance at 90% (about 1 in 10, and the slopes are not independent).
 - **Thin data:** 15 places is thin, and years 6+ rest on 11, 6, 3 and 1 places.
 - **Consistency check:** the 38 places' years 1–3 average (−1.003) equals corrected method 2's result for the same places exactly, so the fixed long pools match method 2's.
+
+## Reform-type coding for the 15 long-set places (2026-11-05; plan in CAUSAL_FRAMEWORK_PLAN.md; coding committed cf4388cc before any join)
+
+Five helpers coded three places each from public sources, following a written brief: `reference/parking_reform_type_15.csv`, 40 fields, with source URLs and Wayback capture dates. Blocked sites (parkingreform.org, Municode, eCode360, amlegal, Planetizen) are cited, not worked around. This is descriptive only.
+
+**Do approval path and dose vary? Yes, both.**
+- **Repeal type:**
+  - 12 places are full repeals of residential minimums, citywide.
+  - Windham: full removal for uses under site plan review (3+ units); its village district keeps 1 per unit for houses and duplexes.
+  - Branson: "near". The table was retitled a maximum, but the text still says spaces "shall be provided".
+  - Maumee: unclear. The required number is also the maximum, and providing fewer needs administrator discretion.
+  - Seabrook: not a residential repeal. Only non-residential minimums were cut; housing never had a number (see the flag below).
+- **Old minimum for a 20-unit building:** 16 (Emeryville) to 42.5 (Dunwoody) where found; 20 in San Francisco (Sec. 151 districts), Buffalo, Hudson and Hartford. Not found for 6 places.
+- **Approval path for 5+ units after repeal:**
+  - by right: Branson, Ecorse, Hartford;
+  - mixed by zone or size: San Francisco, Buffalo, Dunwoody, Maumee, Mount Pleasant, Bastrop, Canandaigua;
+  - board review with a hearing at the board's discretion: Hudson, Windham, Saranac Lake;
+  - design-review hearing: Emeryville;
+  - not allowed: Seabrook.
+- **Did the repeal change the approval path?**
+  - yes: Buffalo (the hearing threshold moved from about $50,000 of project value to 5,000 sq ft);
+  - partly: San Francisco, Emeryville, Bastrop, Windham, Mount Pleasant, Saranac Lake, mostly through whole-code rewrites;
+  - no: Hudson, Canandaigua, Hartford, Seabrook, Dunwoody, Branson, Maumee;
+  - unknown: Ecorse.
+- **Small groups:** each group holds 1–7 places, so no group difference is a finding. A test by type needs its own lock.
+
+**Sample flags found by the coding (data issues, not yet acted on):**
+1. **Canandaigua:** the repeal is the Town of Canandaigua's (Local Law 3-2020), but the permit series in the 76 is the City's (BPS key 36|103000, place 12144). The town has its own series (36|103500).
+2. **Seabrook:** its 2019 change cut only non-residential minimums, so it is not a residential repeal.
+3. **Maumee:** coded "unclear".
+4. **Other files to update:** `reference/parking_old_minimums.csv` has Hudson as not found (the old rate is 1 per unit, from a Wayback copy) and Emeryville as 1.75 per unit (the 2017 code says 1 per unit plus guest parking, at 67% of demand).
