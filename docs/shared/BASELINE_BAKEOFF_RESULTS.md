@@ -7,7 +7,7 @@ Written 2026-11-05 by the baseline thread. Plan: [BASELINE_BAKEOFF_PLAN.md](BASE
 
 Outputs: `reference/baseline_bakeoff_part1_*.csv`, `reference/baseline_bakeoff_part2_*.csv`, `reference/baseline_bakeoff_link*.csv`.
 
-**Status: results for review by the audit and Ryan. The tool is not changed.** The shared baseline stays v3 (124,000) until Ryan says otherwise.
+**Status: the audit cleared the results (2026-11-05 17:37 UTC). Adopting L3 is Ryan's call. The tool is not changed.** The shared baseline stays v3 (124,000) until Ryan says otherwise.
 
 ## Answer
 
@@ -48,7 +48,7 @@ Score: mean |log(predicted ÷ actual)| of the five-year total, over 51 states (5
 - So L3's evidence is essentially one episode, the recovery after 2008. The block bootstrap allows for some of that, but not for "this cycle was unusual".
 
 **Other results.**
-- **L4a broke.** A 10-year trend line fitted through the crash went negative, so its log error is very large. The plan counted negative fitted years as fitted, not 0. It was never a contender.
+- **L4a broke.** A 10-year trend line fitted through the crash went negative, so its log error is very large. The plan counted negative fitted years as fitted, not 0. A negative five-year total is clipped to 1e-9 before the log; the plan does not specify this clip, and it cannot change the pick. It was never a contender.
 - **Building sizes.** L3 is better than L0 for 1-unit, 2-unit and 3–4 unit buildings, and slightly worse for 5+ units (0.410 against 0.405).
 - **Census divisions.** L3 is better than L0 in 8 of 9 divisions; the exception is division 9, Pacific (0.360 against 0.358). For Wisconsin's division, East North Central, it is 0.353 against 0.369 (`_by_group.csv`).
 
@@ -60,6 +60,8 @@ Score: mean |log(predicted ÷ actual)| of the five-year total, over 51 states (5
 | **L3** | **126,207** | **132,458** |
 | L5 (region) | 115,371 | 121,086 |
 | L1c (10-year) | 107,022 | 112,322 |
+
+**Scaling check (audit):** applying the ratio to L0 by building size, not one ratio for the total, gives 131,876 (1 unit 73,756; 2 units 8,037; 3–4 units 1,281; 5+ units 48,801). That is 582 below the one-ratio figure, because v3's Milwaukee and fill corrections fall mostly on 5+ units, where L3 is lower.
 
 L3's rise is mostly in 1-unit buildings (73,084 against 62,915 published) and 3–4 units. Its 5+ units fall (43,966 against 46,812), because Wisconsin's long-run rate per home is above its recent rate for houses and below it for apartments.
 
@@ -76,7 +78,7 @@ None reaches the 80% target. The reason is plain from the history:
 - ranges built from the 1990s and early 2000s did not expect the crash;
 - ranges built after the crash did not expect the recovery.
 
-By the stop rule, the 2.5th–97.5th range is used, with a shortfall of 36 points. **Even this range should be read as missing the outcome about half the time in a regime change.**
+By the stop rule, the 2.5th–97.5th range is used, with a shortfall of 36 points. **Past ranges built this way held the outcome 7 of 16 times.** With 24–29 values per building size, the 2.5th and 97.5th percentiles sit close to the smallest and largest past values.
 
 | Wisconsin 2027–2031, homes permitted (scaled to v3) | Low | Central | High |
 | --- | ---: | ---: | ---: |
@@ -86,7 +88,7 @@ By the stop rule, the 2.5th–97.5th range is used, with a shortfall of 36 point
 | L3, 10th–90th | 65,246 | 132,458 | 185,592 |
 | L3, 2.5th–97.5th, all-states multipliers (sensitivity) | 46,987 | 132,458 | 286,716 |
 
-The low and high are scaled by the same ratio as the central (×124,000 ÷ 118,148). Source: `reference/baseline_bakeoff_part1_final_ranges.csv`, `_coverage_summary.csv`.
+The low and high are scaled by the same ratio as the central (×124,000 ÷ 118,148). This final-range table is a reporting addition, written after Part 1 ran (d039d77); it does not touch scores or the pick. Source: `reference/baseline_bakeoff_part1_final_ranges.csv`, `_coverage_summary.csv`.
 
 ## Part 2: the split among towns
 
@@ -119,6 +121,13 @@ Score: the sum over pieces and sizes of |predicted − actual| ÷ actual units, 
 | TOD | Station-area baselines are shares of town rows, so they rise by about 6.8%, with the same split. TOD effects measured per existing home do not change, but "share of baseline" lines do. TOD and combined bundles need rebuilding. |
 | Parking | The same: per-1,000-existing-home effects do not change; "share of baseline" lines and the baseline line itself rise by about 6.8%. Parking and combined bundles need rebuilding. |
 | Range | Wider on both sides under the plan's stop rule (56,592 to 206,406), and it should carry a sentence that past ranges held the outcome only about 7 times in 16. |
+
+## Points for Ryan (audit)
+
+1. **The pull strength b.** The 2027–2031 figure uses b = 0.40, fitted on start years up to 2020. The scored start years used b from 0 to 0.35, so 0.40 itself was never tested out of sample.
+2. **L3 leans high in Wisconsin.** Its average log ratio is +0.126 (over-predicting by about 13%), against +0.083 for L0. It is closer on average, but it over-predicts more.
+3. **One episode.** All of the gain comes from start years 2011–2020.
+4. **The range.** Past ranges held the outcome 7 of 16 times at best.
 
 ## Limits
 
