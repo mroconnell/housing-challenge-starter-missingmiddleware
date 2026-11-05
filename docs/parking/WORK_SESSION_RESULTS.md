@@ -1049,6 +1049,8 @@ Five helpers coded three places each from public sources, following a written br
 
 **Evidence and sensitivity only. Nothing in the tool changes.**
 
+> **WITHDRAWN 2026-11-05 18:06 UTC (audit).** The numbers below subtracted every LIHTC project, including acquisition/rehab and existing-building projects, which need no new building permit. They are being rerun with new construction only (TYPE 1; fix fa8f82fd), and this section will be replaced. Do not cite.
+
 **What was done.**
 - **Data:** HUD's LIHTC database (lihtcpub.zip, hand-downloaded by Ryan; SHA-256 e07acee7…). Projects are assigned to BPS places by location (fix 1).
 - **Adjustment:** each place-year's tax-credit units are subtracted from total and 5+ unit permits, for repeal and comparison places alike. Permit year = allocation year + 1. The result is floored at 0.
