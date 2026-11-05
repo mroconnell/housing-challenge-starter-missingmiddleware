@@ -198,10 +198,12 @@ either). Edge = homes other than ADUs per 1,000 existing homes a year, 2023–20
 | Palo Alto (3 Caltrain stations, rebuilt from our station list, not the PDF) | main | 5,526 | 11,772 | 46.9% | −6.008 (−22.833 to +4.557); too few permits to read |
 | Santa Cruz | main | pending: PDF stops need matching by hand | | | |
 
-- Oakland's own 2023 map and ours overlap on 83% of the homes either one covers. Ours is a little wider, as expected
-  from today's 20-minute bus rule.
+- Oakland's own 2023 map and ours overlap on 83% of the homes either one covers. Ours is a little wider, consistent
+  with today's 20-minute bus rule.
 - Sacramento's own layer covers far more homes than ours (104,311 vs 58,396); the city drew a wider area.
 - In Palo Alto our map covers twice the city's rail circles because it adds today's bus major stops.
+- Placebo cities: the plan's rule needs each placebo city's range to include 0. Oakland's (−15.749 to +14.639) and
+  Sacramento's (−6.214 to +7.537) do, but the ranges are so wide that passing says little.
 - No city-line edge shows a measurable change. Truckee and Palo Alto have only a few dozen permitted homes near their
   lines, so their ranges are very wide.
 
