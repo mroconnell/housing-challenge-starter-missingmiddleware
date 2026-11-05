@@ -494,12 +494,14 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
     street-level point share a point with 10 or more other rows (2025: 97.6%); unique points are 0.4%–4.2%. Their
     location says nothing about distance to a stop, so dropping them is right; no "distinct points" check is possible.
   - **Stable-geocode check, cut fixed now:** jurisdictions whose share of rows without a street-level point changed by
-    5 percentage points or less between report years 2018–2022 and 2023–2025. The list is committed before any count:
+    5 percentage points or less (a chosen fixed number, not from evidence) between report years 2018–2022 and
+    2023–2025. The kept set likely leans away from fast-growing outer places, so this check answers a narrower
+    question. The list is committed before any count:
     `reference/ca_ab2097_geocode_stability.csv` (532 jurisdictions; 324 kept). The main estimate and the checks are
     re-run on the kept jurisdictions.
   - **Caveat carried by every point-based result:** the drops rise only after 2022 and cluster in fast-growing outer
     places and in houses (2024–2025: townhouses 43%, houses 32%, 5+ unit rows 21%, ADUs 3%).
-  - **Weight in the write-up:** the city-level dose check uses Census BPS city totals, not points, so it is not
+  - **Weight in the write-up (proposed; needs Ryan's OK, since it changes the headline after the lock):** the city-level dose check uses Census BPS city totals, not points, so it is not
     touched by this; the write-up leads with it for the statewide "extra homes" answer, with the point-based near/ring
     results beside it.
   - How Ryan wants this handled is still open; this entry fixes the checks so the choice cannot follow the counts.
