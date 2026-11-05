@@ -1,0 +1,61 @@
+check,weights,year,places,estimate,p05,p95,wi_homes
+38-place set,target-state mix,0,36,0.4126,-1.2628,4.6244,5505.8559
+38-place set,target-state mix,1,36,-0.4241,-2.2065,2.6124,-5658.812
+38-place set,target-state mix,2,36,-1.5547,-3.9921,2.7318,-20745.2081
+38-place set,target-state mix,3,36,-1.3196,-3.7725,0.6896,-17608.009
+38-place set,random effects,0,36,-0.09,-1.6882,3.0275,-1201.1381
+38-place set,random effects,1,36,0.4975,-1.586,2.4,6637.8754
+38-place set,random effects,2,36,0.2444,-1.228,1.7405,3261.1656
+38-place set,random effects,3,36,-0.3219,-2.3799,1.9847,-4295.8657
+38-place set,equal,0,36,1.5466,-0.1687,5.4878,20636.3585
+38-place set,equal,1,36,1.4799,-0.2302,4.8812,19746.6457
+38-place set,equal,2,36,0.9387,-1.7888,7.4743,12525.9469
+38-place set,equal,3,36,-0.3267,-2.4551,2.6653,-4359.3135
+38-place set leads,target-state mix,-3,32,0.6672,-1.8288,6.8934,8902.3595
+38-place set leads,target-state mix,-2,32,-1.8176,-3.614,0.2594,-24252.4772
+38-place set leads,target-state mix,-1,32,-1.401,-4.0966,1.3124,-18693.7838
+38-place set leads,random effects,-3,32,0.4434,-1.5407,5.6815,5915.9115
+38-place set leads,random effects,-2,32,-0.1881,-2.6293,2.2713,-2510.1228
+38-place set leads,random effects,-1,32,-0.1488,-2.4397,2.1926,-1985.8726
+38-place set leads,equal,-3,32,1.363,-0.7319,5.4774,18187.1976
+38-place set leads,equal,-2,32,0.5651,-1.8802,2.9546,7540.8725
+38-place set leads,equal,-1,32,-0.1324,-2.4273,1.9812,-1766.7795
+long set,target-state mix,0,13,1.6631,-3.2302,12.7196,22190.9291
+long set,target-state mix,1,13,1.0064,-3.7578,9.4047,13429.3084
+long set,target-state mix,2,13,2.3067,-4.8716,18.1597,30779.7338
+long set,target-state mix,3,13,-0.7394,-5.0842,3.8611,-9865.76
+long set,target-state mix,4,13,-0.0796,-8.0841,16.8789,-1062.3112
+long set,target-state mix,5,13,-1.5582,-7.9963,14.8006,-20792.1648
+long set,target-state mix,6,10,8.4219,-5.6864,38.1103,112376.744
+long set,target-state mix,7,6,-0.8804,-2.1837,7.4536,-11748.0505
+long set,target-state mix,8,3,0.5424,0.4258,0.8966,7237.4138
+long set,target-state mix,9,1,-0.971,-0.971,-0.971,-12956.3742
+long set,random effects,0,13,-2.8265,-5.4406,4.8754,-37715.3708
+long set,random effects,1,13,-2.5033,-5.5825,0.4448,-33402.5335
+long set,random effects,2,13,0.4206,-2.3793,4.4157,5612.2699
+long set,random effects,3,13,-2.2136,-4.7945,0.319,-29537.3156
+long set,random effects,4,13,-1.7687,-4.3967,0.1232,-23600.2764
+long set,random effects,5,13,-2.9216,-4.9487,-1.2162,-38984.0216
+long set,random effects,6,10,-0.0571,-3.0631,2.1613,-761.3121
+long set,random effects,7,6,0.9674,-1.5847,5.6216,12908.2501
+long set,random effects,8,3,0.7187,0.4258,0.8966,9589.2797
+long set,random effects,9,1,-0.971,-0.971,-0.971,-12956.3742
+long set,equal,0,13,0.8291,-2.9674,9.9275,11062.4736
+long set,equal,1,13,0.6664,-3.2097,10.3732,8892.1679
+long set,equal,2,13,4.374,-3.376,20.4042,58363.3115
+long set,equal,3,13,-1.0777,-4.3068,3.3757,-14379.911
+long set,equal,4,13,0.0066,-6.8214,19.1367,88.0458
+long set,equal,5,13,-1.5012,-6.8075,17.4172,-20030.5746
+long set,equal,6,10,3.955,-3.2452,25.2392,52773.0559
+long set,equal,7,6,0.3578,-3.7185,6.1802,4774.5455
+long set,equal,8,3,0.5903,0.4258,0.8966,7876.5867
+long set,equal,9,1,-0.971,-0.971,-0.971,-12956.3742
+long set leads,target-state mix,-3,10,-1.7362,-2.6571,13.5996,-23166.5214
+long set leads,target-state mix,-2,10,-1.1543,-5.6994,2.0367,-15401.9717
+long set leads,target-state mix,-1,10,-0.0437,-7.2433,2.977,-583.0191
+long set leads,random effects,-3,10,5.8299,0.1213,16.6704,77790.8333
+long set leads,random effects,-2,10,-3.6289,-8.2527,0.4409,-48421.4375
+long set leads,random effects,-1,10,-2.7954,-8.0114,3.9697,-37299.8908
+long set leads,equal,-3,10,6.0691,-0.353,15.8333,80982.1767
+long set leads,equal,-2,10,-1.7125,-6.2714,3.4183,-22850.0242
+long set leads,equal,-1,10,-2.6052,-7.2329,2.9265,-34761.6874
