@@ -110,12 +110,23 @@ def main() -> None:
     # subtracted (fix 2026-11-05 18:05 UTC, audit: rehab and existing projects were wrongly subtracted before).
     d["new_construction"] = d["type"].astype(str).str.replace(r"\.0$", "", regex=True).eq("1")
     print("construction type:", d["type"].fillna("blank").value_counts().to_dict())
-    keep = d[d["key"].notna() & d["new_construction"]]
+    tcode = d["type"].fillna("blank").astype(str).str.replace(r"\.0$", "", regex=True)
+    d["wide"] = tcode.isin(["1", "3", "blank"])  # upper-bound sensitivity (audit 18:07 UTC): TYPE 1 + 3 + blank
+    d["units_100_wide"] = np.where(d["wide"], d["units_100"], 0)
+    d["units_100"] = np.where(d["new_construction"], d["units_100"], 0)
+    # blank and TYPE 3 shares of matched projects' units by permit-year proxy (blanks may cluster in some years)
+    mt = d[d["key"].notna()].assign(tcode=tcode).dropna(subset=["permit_year"])
+    sh = mt.pivot_table(index="permit_year", columns="tcode", values="n_units", aggfunc="sum", fill_value=0)
+    sh = sh.div(sh.sum(axis=1), axis=0).round(4)
+    sh.to_csv(REFERENCE / "parking_lihtc_type_share_by_year.csv")
+    keep = d[d["key"].notna() & d["wide"]]
     out = []
     for col, label in (("permit_year", "allocation + 1"), ("permit_year_alt", "allocation year")):
         g = keep.dropna(subset=[col]).groupby(["key", col]).agg(
-            projects=("hud_id", "size"), units=("n_units", "sum"), li_units=("li_units", "sum"),
-            units_100pct=("units_100", "sum"), fallback_projects=("fallback", "sum")).reset_index().rename(columns={col: "year"})
+            projects=("new_construction", "sum"), units_100pct=("units_100", "sum"),
+            units_100pct_wide=("units_100_wide", "sum"), fallback_projects=("fallback", "sum")).reset_index().rename(columns={col: "year"})
+        li = keep[keep["new_construction"]].dropna(subset=[col]).groupby(["key", col])["li_units"].sum().rename("li_units")
+        g = g.merge(li.reset_index().rename(columns={col: "year"}), on=["key", "year"], how="left").fillna({"li_units": 0})
         out.append(g.assign(timing=label))
     o = pd.concat(out, ignore_index=True)
     o["year"] = o["year"].astype(int)
