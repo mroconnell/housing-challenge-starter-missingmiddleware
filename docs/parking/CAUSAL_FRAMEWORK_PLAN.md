@@ -1242,5 +1242,30 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 
   - The database's place field agrees for 34,248 of the 34,428 place-assigned projects that have one.
   - By state: `reference/parking_lihtc_match.csv`.
+- **Fix 1 audit fixes (17:22 UTC review, applied before any count; script commit 3f30a70d then this one):**
+  1. **Connecticut:** county subdivisions are now matched on state + MCD code. Unmatched in CT was already 0 of 456: the BPS keys in recent years already carry the planning-region codes. The change is a safeguard and moves no project.
+  2. **Unmatched share in the town and township states:**
+
+     | State | Unmatched |
+     | --- | --- |
+     | CT, NJ, RI | 0% |
+     | MA, NH | 0.7% |
+     | NY | 0.8% |
+     | PA, WI | 2.8% |
+     | ME | 3.2% |
+     | VT | 4.5% |
+     | MN | 8.9% |
+     | MI | 14.7% |
+
+     The Michigan and Minnesota cases checked (Gaylord, Escanaba, Petoskey, Marquette, Ionia, Minnesota unorganized territories) have no BPS place series at all, so these are not code mismatches. The places can't be in any pool, and leaving them out changes nothing in the estimate.
+  3. **Fallback rows:** matched projects whose permit year comes from placed-in-service − 1, by permit year:
+
+     | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 |
+     | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+     | 51 | 64 | 64 | 44 | 41 | 72 | 55 | 41 | 23 | 36 | 6 |
+
+     - The full list is in `reference/parking_lihtc_fallback_by_year.csv`.
+     - The cut-off applies to the permit-year proxy whatever its source, because permit years after the cut-off are dropped from the panel.
+  4. **Place first:** a project inside a village counts for the village only, never also for its town. Each project carries exactly one key, and the script asserts this.
 
 **Also (descriptive):** the San Francisco and Emeryville project tables get a "100% affordable" flag. For San Francisco it comes from the planning-records fields (affordable units = units, or the 100%-affordable program flag). For Emeryville it comes from HCD Table A2 income splits.

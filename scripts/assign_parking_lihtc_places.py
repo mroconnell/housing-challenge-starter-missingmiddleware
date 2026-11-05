@@ -3,7 +3,8 @@
 Each project's latitude/longitude is placed in a Census 2024 place or county subdivision (cartographic boundary files,
 geom point-in-polygon). A point inside a place that BPS reports goes to that place; otherwise to the county subdivision
 if BPS reports it (towns and townships); otherwise it is unmatched (for example unincorporated county land). The
-database's own place2020 field is used only as a check.
+database's own place2020 field is used only as a check. Place first: a project in a
+village counts for the village only, never also for the town around it.
 
     uv run python scripts/assign_parking_lihtc_places.py
 Input: data/raw/hud_lihtc/lihtcpub.zip (hand-downloaded by Ryan; SHA-256 in data/raw/hud_lihtc/PROVENANCE.json).
@@ -11,6 +12,7 @@ Outputs (no coordinates, no addresses):
   reference/parking_lihtc_place_years.csv  BPS key x permit-proxy year: projects, all units, low-income units, units in
                                            100%-affordable projects (low-income >= 95% of units)
   reference/parking_lihtc_match.csv        match counts by state (place, county subdivision, unmatched, no location)
+  reference/parking_lihtc_fallback_by_year.csv  matched projects whose permit year comes from placed-in-service - 1
 """
 from __future__ import annotations
 
@@ -79,9 +81,14 @@ def main() -> None:
     isplace = geo["fips_place"].str.strip("0") != ""
     by_place = {g[4:]: k for k, g in geo.loc[isplace, "acs_geoid"].items()}
     by_cousub = {g[4:]: k for k, g in geo.loc[~isplace, "acs_geoid"].items()}
+    # Connecticut: the 2024 boundary file uses the 2022 planning-region county codes, BPS the old county codes, so
+    # Connecticut county subdivisions are matched on state + MCD code (unique within the state)
+    ct = {g[4:6] + g[9:]: k for g, k in ((g, k) for k, g in geo.loc[~isplace, "acs_geoid"].items()) if g[4:6] == "09"}
     d["key"] = d["place_geoid"].map(by_place)
     d["how"] = np.where(d["key"].notna(), "place", None)
     cs_key = d["cousub_geoid"].map(by_cousub)
+    isct = d["cousub_geoid"].fillna("").str.startswith("09")
+    cs_key[isct] = (d.loc[isct, "cousub_geoid"].str[:2] + d.loc[isct, "cousub_geoid"].str[5:]).map(ct)
     fill = d["key"].isna() & cs_key.notna()
     d.loc[fill, "key"], d.loc[fill, "how"] = cs_key[fill], "county subdivision"
     d.loc[d["key"].isna() & ok, "how"] = "unmatched"
@@ -92,6 +99,7 @@ def main() -> None:
     d["place_field_agrees"] = np.where(both, pf == d["place_geoid"], np.nan)
     d["full_affordable"] = d["li_units"] >= 0.95 * d["n_units"]
     d["permit_year"] = np.where(d["yr_alloc"].notna(), d["yr_alloc"] + 1, d["yr_pis"] - 1)  # lock: allocation + 1
+    d["fallback"] = d["yr_alloc"].isna() & d["yr_pis"].notna()  # permit year from placed-in-service - 1
     d["permit_year_alt"] = np.where(d["yr_alloc"].notna(), d["yr_alloc"], d["yr_pis"] - 2)  # sensitivity: allocation year
     d["units_100"] = np.where(d["full_affordable"], d["n_units"], 0)
     match = d.groupby(["st", "how"]).size().unstack(fill_value=0)
@@ -101,11 +109,21 @@ def main() -> None:
     for col, label in (("permit_year", "allocation + 1"), ("permit_year_alt", "allocation year")):
         g = keep.dropna(subset=[col]).groupby(["key", col]).agg(
             projects=("hud_id", "size"), units=("n_units", "sum"), li_units=("li_units", "sum"),
-            units_100pct=("units_100", "sum")).reset_index().rename(columns={col: "year"})
+            units_100pct=("units_100", "sum"), fallback_projects=("fallback", "sum")).reset_index().rename(columns={col: "year"})
         out.append(g.assign(timing=label))
     o = pd.concat(out, ignore_index=True)
     o["year"] = o["year"].astype(int)
     o.to_csv(REFERENCE / "parking_lihtc_place_years.csv", index=False)
+    # each project carries one key (place first, then county subdivision), so no project counts in both a village and
+    # the town around it
+    assert d["hud_id"].is_unique
+    fb = d[d["fallback"] & d["key"].notna()].groupby("permit_year").size()
+    fb.rename("fallback_projects").to_csv(REFERENCE / "parking_lihtc_fallback_by_year.csv")
+    pd.set_option("display.width", 200)
+    mt = match.assign(total=match.sum(axis=1))
+    mt["unmatched_share"] = (mt.get("unmatched", 0) / mt["total"]).round(3)
+    print(mt.to_string())
+    print("fallback (placed-in-service - 1) projects by permit year, matched:", fb[fb.index >= 2010].astype(int).to_dict())
     print("projects", len(d), d["how"].value_counts().to_dict())
     print("place field agrees:", int((d["place_field_agrees"] == 1).sum()), "of", int(d["place_field_agrees"].notna().sum()))
     print("100% affordable share of projects:", round(d["full_affordable"].mean(), 3),
