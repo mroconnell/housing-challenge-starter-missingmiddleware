@@ -361,3 +361,14 @@ No GitHub project found holds a dated 2022 statewide major-stop map or 2022 time
 checks: (a) the Cal-ITP archive's public access and licence; (b) dated copies of the Caltrans HQTA layers (for example
 in web archives) from before the 2024 rule change, which would give a 15-minute statewide map built by Caltrans.
 The Cal-ITP method choices (peak hours, 500 ft, 50 m) are listed beside ours in the map write-up.
+
+**2026-11-05, audit notes on the GitHub check (82a1b72b), draft, plan not locked:**
+1. The Cal-ITP (AGPL) README is read and cited for its method only. Our map code is written from the law text, not
+   ported from Cal-ITP code.
+2. The Caltrans HQTA layers' licence or terms are recorded in the fetch log, as for the GTFS feeds.
+3. A dated pre-2024 Caltrans HQTA layer, if found, is **Caltrans' reading** of the law. It is a check beside the wide
+   and narrow maps, not map A.
+4. **Peak hours differ:** map A uses 7:00–9:00 a.m. and 4:00–6:00 p.m. on weekdays; Cal-ITP uses 6:00–8:59 a.m. and
+   3:00–6:59 p.m. Both are listed in the map write-up.
+5. GTFS feeds from any archive keep their own agency licences; an archive's terms do not replace them. Each feed's
+   agency licence is recorded.
