@@ -1,0 +1,16 @@
+candidate,weights,mae,coverage,coverage_se,sets,fresh_cases,nan_share
+SDID,random effects,1.28909,0.82,0.02717,200,5519,0.0
+SDID,target-state mix,1.2165,0.84,0.02592,200,5519,0.0
+SDID,square root,0.97419,0.66,0.0335,200,5519,0.0
+SDID,homes,0.6616,0.5,0.03536,200,5519,0.0
+SDID,equal,1.13799,0.865,0.02416,200,5519,0.0
+"SDID, N_tr = 74",random effects,1.2678,0.815,0.02746,200,5519,0.0
+"SDID, N_tr = 74",target-state mix,1.21166,0.84,0.02592,200,5519,0.0
+"SDID, N_tr = 74",square root,0.95035,0.675,0.03312,200,5519,0.0
+"SDID, N_tr = 74",homes,0.64079,0.47,0.03529,200,5519,0.0
+"SDID, N_tr = 74",equal,1.11957,0.86,0.02454,200,5519,0.0
+D,random effects,0.85232,0.935,0.01743,200,5519,0.0
+D,target-state mix,1.1186,0.91,0.02024,200,5519,0.0
+D,square root,0.5504,0.875,0.02339,200,5519,0.0
+D,homes,0.26126,0.84,0.02592,200,5519,0.0
+D,equal,0.81885,0.945,0.01612,200,5519,0.0

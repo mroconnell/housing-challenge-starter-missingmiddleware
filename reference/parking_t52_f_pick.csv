@@ -1,0 +1,11 @@
+candidate,weights,verdict_basis,mae_sdid,cov_sdid,cov_sdid_se,mae_D,cov_D,diff,diff_p05,diff_p95,gap_pct_of_D,rule_a,rule_b,rule_c,wins,pick_main
+SDID,random effects,True,1.28909,0.82,0.02717,0.85232,0.935,0.43677,0.33196,0.5369,-51.24418,False,False,False,False,D
+SDID,target-state mix,False,1.2165,0.84,0.02592,1.1186,0.91,0.0979,-0.01434,0.21063,-8.75222,False,False,False,False,D
+SDID,square root,False,0.97419,0.66,0.0335,0.5504,0.875,0.42379,0.34685,0.4974,-76.99764,False,False,False,False,D
+SDID,homes,False,0.6616,0.5,0.03536,0.26126,0.84,0.40033,0.3541,0.4451,-153.23019,False,False,False,False,D
+SDID,equal,False,1.13799,0.865,0.02416,0.81885,0.945,0.31915,0.22362,0.41403,-38.97503,False,False,True,False,D
+"SDID, N_tr = 74",random effects,True,1.2678,0.815,0.02746,0.85232,0.935,0.41547,0.31507,0.51363,-48.74623,False,False,False,False,D
+"SDID, N_tr = 74",target-state mix,False,1.21166,0.84,0.02592,1.1186,0.91,0.09306,-0.01414,0.20075,-8.31925,False,False,False,False,D
+"SDID, N_tr = 74",square root,False,0.95035,0.675,0.03312,0.5504,0.875,0.39995,0.32119,0.47284,-72.66532,False,False,False,False,D
+"SDID, N_tr = 74",homes,False,0.64079,0.47,0.03529,0.26126,0.84,0.37952,0.33562,0.42335,-145.26474,False,False,False,False,D
+"SDID, N_tr = 74",equal,False,1.11957,0.86,0.02454,0.81885,0.945,0.30072,0.20581,0.39169,-36.72524,False,False,True,False,D
