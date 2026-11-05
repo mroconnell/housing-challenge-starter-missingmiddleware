@@ -709,7 +709,7 @@ light_rail_or_streetcar,Cropley Station,90013,-121.881069,37.402644,False,light_
 light_rail_or_streetcar,Mckee Station,90013,-121.845477,37.372648,False,light_rail_or_streetcar:199,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Fruitdale Station,90013,-121.918017,37.310482,False,light_rail_or_streetcar:182,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Great Mall Station Elevator #3 (Platform East),90013,-121.90119,37.41381,False,light_rail_or_streetcar:230,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Milpitas Station Elevator #1 (Platform),90013,-121.8917,37.40909,False,light_rail_or_streetcar:221,2018-2022,2020-06-13,False
+light_rail_or_streetcar,Milpitas Station Elevator #1 (Platform),90013,-121.8917,37.40909,False,light_rail_or_streetcar:221,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Branham Escalator A,90013,-121.85914,37.26624,False,light_rail_or_streetcar:175,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Civic Center Station,90013,-121.901957,37.35138,False,light_rail_or_streetcar:194,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Karina Station,90013,-121.919867,37.375423,False,light_rail_or_streetcar:200,before 2018 (assumed: not in openings table),,False
@@ -761,7 +761,7 @@ light_rail_or_streetcar,Del Amo Station,90154,-118.211017,33.848222,False,light_
 light_rail_or_streetcar,Artesia Station - Bus Plaza Side Entrance,90154,-118.22307,33.8766,False,light_rail_or_streetcar:86,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Firestone Station,90154,-118.243205,33.959611,False,light_rail_or_streetcar:105,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,7th Street / Metro Center Station - Elevator at the Bloc,90154,-118.258228,34.048113,False,light_rail_or_streetcar:143,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Expo / Crenshaw E-Line Station - Westbound Platform Entrance,90154,-118.33492,34.02256,False,light_rail_or_streetcar:121,2018-2022,2022-10-07,False
+light_rail_or_streetcar,Expo / Crenshaw E-Line Station - Westbound Platform Entrance,90154,-118.33492,34.02256,False,light_rail_or_streetcar:121,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,La Cienega / Jefferson Station,90154,-118.37212,34.026355,False,light_rail_or_streetcar:125,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,La Cienega / Jefferson Station - East Entrance,90154,-118.37165,34.02641,False,light_rail_or_streetcar:125,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Westwood / Rancho Park Station - East Ramp,90154,-118.42551,34.03667,False,light_rail_or_streetcar:134,before 2018 (assumed: not in openings table),,False
@@ -792,7 +792,7 @@ light_rail_or_streetcar,Moffett Park Station,90013,-122.03346,37.402367,False,li
 light_rail_or_streetcar,Hostetter Station,90013,-121.87029,37.395649,False,light_rail_or_streetcar:206,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Great Mall Station,90013,-121.902123,37.41439,False,light_rail_or_streetcar:230,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Patrick Henry Pocket Track (NOT A PUBLIC STOP),90013,-121.984251,37.403489,False,light_rail_or_streetcar:216,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Milpitas Station Escalator #3 (Platform),90013,-121.89145,37.409,False,light_rail_or_streetcar:221,2018-2022,2020-06-13,False
+light_rail_or_streetcar,Milpitas Station Escalator #3 (Platform),90013,-121.89145,37.409,False,light_rail_or_streetcar:221,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Branham Station,90013,-121.85926,37.266765,False,light_rail_or_streetcar:175,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Virginia Station,90013,-121.890104,37.319828,False,light_rail_or_streetcar:185,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Winchester Station,90013,-121.947981,37.279614,False,light_rail_or_streetcar:177,before 2018 (assumed: not in openings table),,False
@@ -866,7 +866,7 @@ light_rail_or_streetcar,Azusa Downtown Station - Azusa Avenue Entrance - North,9
 light_rail_or_streetcar,Westchester / Veterans Station - SB Ramp to Hindry,90154,-118.37372,33.96238,False,light_rail_or_streetcar:106,2018-2022,2022-10-07,False
 light_rail_or_streetcar,Hyde Park Station - South Portal Ramp,90154,-118.33085,33.98729,False,light_rail_or_streetcar:110,2018-2022,2022-10-07,False
 light_rail_or_streetcar,Martin Luther King Jr Station,90154,-118.335359,34.009563,False,light_rail_or_streetcar:114,2018-2022,2022-10-07,False
-light_rail_or_streetcar,Expo / Crenshaw K-Line Station,90154,-118.334851,34.022156,False,light_rail_or_streetcar:121,2018-2022,2022-10-07,False
+light_rail_or_streetcar,Expo / Crenshaw K-Line Station,90154,-118.334851,34.022156,False,light_rail_or_streetcar:121,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Santa Clara Station,90013,-121.890354,37.335924,False,light_rail_or_streetcar:191,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Japantown/Ayer Station,90013,-121.897559,37.345557,False,light_rail_or_streetcar:193,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Middlefield Station,90013,-122.051959,37.39607,False,light_rail_or_streetcar:209,before 2018 (assumed: not in openings table),,False
@@ -877,7 +877,7 @@ light_rail_or_streetcar,Penitencia Creek Station,90013,-121.8554,37.382025,False
 light_rail_or_streetcar,Winchester Station,90013,-121.948307,37.279178,False,light_rail_or_streetcar:177,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,San Fernando Station,90013,-121.898116,37.330367,False,light_rail_or_streetcar:189,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Snell Station Elevator B (Platform),90013,-121.83039,37.24754,False,light_rail_or_streetcar:172,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Milpitas Station Escalator #4 (Platform),90013,-121.89147,37.40897,False,light_rail_or_streetcar:221,2018-2022,2020-06-13,False
+light_rail_or_streetcar,Milpitas Station Escalator #4 (Platform),90013,-121.89147,37.40897,False,light_rail_or_streetcar:221,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Borregas Station,90013,-122.018027,37.411664,False,light_rail_or_streetcar:228,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Convention Center Station,90013,-121.88975,37.330168,False,light_rail_or_streetcar:188,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Crossman Station,90013,-122.01118,37.408841,False,light_rail_or_streetcar:224,before 2018 (assumed: not in openings table),,False
@@ -946,10 +946,10 @@ light_rail_or_streetcar,Civic Center Station,90013,-121.902434,37.352016,False,l
 light_rail_or_streetcar,River Oaks Station,90013,-121.938972,37.401188,False,light_rail_or_streetcar:210,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Alder Station,90013,-121.9177,37.413129,False,light_rail_or_streetcar:229,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Old Ironsides Station,90013,-121.979862,37.403309,False,light_rail_or_streetcar:213,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Milpitas Station,90013,-121.891365,37.408945,False,light_rail_or_streetcar:221,2018-2022,2020-06-13,False
+light_rail_or_streetcar,Milpitas Station,90013,-121.891365,37.408945,False,light_rail_or_streetcar:221,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Race Station,90013,-121.910314,37.317567,False,light_rail_or_streetcar:184,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Hamilton Station Elevator,90013,-121.93591,37.29407,False,light_rail_or_streetcar:180,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Milpitas Station Elevator #2 (Transit Center),90013,-121.89113,37.40987,False,light_rail_or_streetcar:221,2018-2022,2020-06-13,False
+light_rail_or_streetcar,Milpitas Station Elevator #2 (Transit Center),90013,-121.89113,37.40987,False,light_rail_or_streetcar:221,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Champion Station,90013,-121.951936,37.408898,False,light_rail_or_streetcar:223,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Ohlone-Chynoweth Station,90013,-121.860292,37.257731,False,light_rail_or_streetcar:174,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Tamien Station,90013,-121.884585,37.311617,False,light_rail_or_streetcar:183,before 2018 (assumed: not in openings table),,False
@@ -1053,7 +1053,7 @@ light_rail_or_streetcar,Glendora Station,90154,-117.8663,34.1319,False,light_rai
 light_rail_or_streetcar,Artesia Station,90154,-118.222503,33.876082,False,light_rail_or_streetcar:86,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Grand / LATTC Station,90154,-118.269333,34.033155,False,light_rail_or_streetcar:133,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Expo / Vermont Station,90154,-118.29154,34.018245,False,light_rail_or_streetcar:117,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Expo / Crenshaw E-Line Station,90154,-118.335078,34.022526,False,light_rail_or_streetcar:121,2018-2022,2022-10-07,False
+light_rail_or_streetcar,Expo / Crenshaw E-Line Station,90154,-118.335078,34.022526,False,light_rail_or_streetcar:121,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Palms Station,90154,-118.404255,34.029323,False,light_rail_or_streetcar:129,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Westwood / Rancho Park Station,90154,-118.424576,34.036816,False,light_rail_or_streetcar:134,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,17th Street / SMC Station - West Ramp,90154,-118.48103,34.02264,False,light_rail_or_streetcar:119,before 2018 (assumed: not in openings table),,False
@@ -1129,7 +1129,7 @@ light_rail_or_streetcar,Soto Station,90154,-118.210061,34.043747,False,light_rai
 light_rail_or_streetcar,Mariachi Plaza / Boyle Heights Station,90154,-118.219648,34.047215,False,light_rail_or_streetcar:141,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Del Mar Station - Central Park Entrance,90154,-118.14829,34.14143,False,light_rail_or_streetcar:164,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,LAX / Metro Transit Center - Main Stairs,90154,-118.37816,33.95004,False,light_rail_or_streetcar:104,after 2022,2025-06-06,False
-light_rail_or_streetcar,Expo / Crenshaw K-Line Station - Escalator,90154,-118.33493,34.02198,False,light_rail_or_streetcar:121,2018-2022,2022-10-07,False
+light_rail_or_streetcar,Expo / Crenshaw K-Line Station - Escalator,90154,-118.33493,34.02198,False,light_rail_or_streetcar:121,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Snell Station,90013,-121.831339,37.248055,False,light_rail_or_streetcar:172,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Convention Center Station,90013,-121.889754,37.330168,False,light_rail_or_streetcar:188,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Tamien Station,90013,-121.8843,37.311257,False,light_rail_or_streetcar:183,before 2018 (assumed: not in openings table),,False
@@ -1221,7 +1221,7 @@ light_rail_or_streetcar,Bascom Station,90013,-121.930304,37.299467,False,light_r
 light_rail_or_streetcar,Great Mall Station Elevator #2 (Transit Center),90013,-121.90095,37.41406,False,light_rail_or_streetcar:230,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Great Mall Station Elevator #4 (Platform West),90013,-121.90237,37.4145,False,light_rail_or_streetcar:230,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Capitol Escalator A (North),90013,-121.86308,37.27438,False,light_rail_or_streetcar:176,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Milpitas Station Escalator #1 (Pedestrian Bridge - Transit Center),90013,-121.89116,37.40981,False,light_rail_or_streetcar:221,2018-2022,2020-06-13,False
+light_rail_or_streetcar,Milpitas Station Escalator #1 (Pedestrian Bridge - Transit Center),90013,-121.89116,37.40981,False,light_rail_or_streetcar:221,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Snell Escalator C (Park and Ride - Hwy 85 South),90013,-121.83032,37.24694,False,light_rail_or_streetcar:172,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Alum Rock Station,90013,-121.832325,37.358429,False,light_rail_or_streetcar:196,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Campbell Station,90013,-121.94303,37.2859,False,light_rail_or_streetcar:178,before 2018 (assumed: not in openings table),,False
@@ -1484,7 +1484,7 @@ light_rail_or_streetcar,Grand / LATTC Station - Washington & Grand Entrance,9015
 light_rail_or_streetcar,Pico Station,90154,-118.266118,34.040735,False,light_rail_or_streetcar:139,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,7th Street / Metro Center Station - Entrance to the Bloc,90154,-118.25831,34.048127,False,light_rail_or_streetcar:143,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,LATTC / Ortho Institute Station,90154,-118.273603,34.029112,False,light_rail_or_streetcar:131,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Expo / Crenshaw E-Line Station,90154,-118.335078,34.022526,False,light_rail_or_streetcar:121,2018-2022,2022-10-07,False
+light_rail_or_streetcar,Expo / Crenshaw E-Line Station,90154,-118.335078,34.022526,False,light_rail_or_streetcar:121,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Palms Station - National Blvd - East Ramp,90154,-118.40409,34.02925,False,light_rail_or_streetcar:129,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Expo / Sepulveda Station,90154,-118.434234,34.035408,False,light_rail_or_streetcar:132,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Expo / Bundy Station - West Elevator - Elevator 2,90154,-118.45345,34.03161,False,light_rail_or_streetcar:130,before 2018 (assumed: not in openings table),,False
@@ -1592,7 +1592,7 @@ light_rail_or_streetcar,Japantown/Ayer Station,90013,-121.897116,37.344964,False
 light_rail_or_streetcar,Great America Station,90013,-121.974908,37.403468,False,light_rail_or_streetcar:215,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Whisman Station,90013,-122.059,37.391773,False,light_rail_or_streetcar:205,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Berryessa Station,90013,-121.863113,37.389085,False,light_rail_or_streetcar:203,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Milpitas Station Escalator #2 (Pedestrian Bridge - Transit Center),90013,-121.89113,37.40982,False,light_rail_or_streetcar:221,2018-2022,2020-06-13,False
+light_rail_or_streetcar,Milpitas Station Escalator #2 (Pedestrian Bridge - Transit Center),90013,-121.89113,37.40982,False,light_rail_or_streetcar:221,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Berryessa Station,90013,-121.86231,37.388238,False,light_rail_or_streetcar:203,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Capitol Station,90013,-121.863137,37.274581,False,light_rail_or_streetcar:176,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Great America Station,90013,-121.974908,37.403468,False,light_rail_or_streetcar:215,before 2018 (assumed: not in openings table),,False
@@ -1641,7 +1641,7 @@ light_rail_or_streetcar,Firestone Station - North Entrance,90154,-118.24318,33.9
 light_rail_or_streetcar,Pico Station - Flower & Pico Entrance,90154,-118.26637,34.04033,False,light_rail_or_streetcar:139,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Jefferson / USC Station - Northbound Entrance,90154,-118.27849,34.02142,False,light_rail_or_streetcar:122,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Expo / Western Station - Westbound Platform Entrance,90154,-118.30905,34.01838,False,light_rail_or_streetcar:116,before 2018 (assumed: not in openings table),,False
-light_rail_or_streetcar,Expo / Crenshaw E-Line Station - Eastbound Platform Entrance,90154,-118.33528,34.02252,False,light_rail_or_streetcar:121,2018-2022,2022-10-07,False
+light_rail_or_streetcar,Expo / Crenshaw E-Line Station - Eastbound Platform Entrance,90154,-118.33528,34.02252,False,light_rail_or_streetcar:121,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,La Cienega / Jefferson Station - West Entrance,90154,-118.37257,34.02634,False,light_rail_or_streetcar:125,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Redondo Beach Station,90154,-118.369196,33.89464,False,light_rail_or_streetcar:87,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,East La Civic Center Station - Civic Center Way Entrance,90154,-118.16026,34.03339,False,light_rail_or_streetcar:136,before 2018 (assumed: not in openings table),,False
@@ -1857,8 +1857,8 @@ light_rail_or_streetcar,Allen Station,90154,-118.114348,34.152417,False,light_ra
 light_rail_or_streetcar,Aviation / Century Station,90154,-118.378683,33.945572,False,light_rail_or_streetcar:103,after 2022,2024-11-03,False
 light_rail_or_streetcar,LAX / Metro Transit Center - Bus Plaza Elevators,90154,-118.37813,33.95062,False,light_rail_or_streetcar:104,after 2022,2025-06-06,False
 light_rail_or_streetcar,Hyde Park Station,90154,-118.330816,33.988187,False,light_rail_or_streetcar:110,2018-2022,2022-10-07,False
-light_rail_or_streetcar,Expo / Crenshaw K-Line Station - Dual Elevators,90154,-118.33491,34.02173,False,light_rail_or_streetcar:121,2018-2022,2022-10-07,False
-light_rail_or_streetcar,Expo / Crenshaw K-Line Station,90154,-118.334851,34.022156,False,light_rail_or_streetcar:121,2018-2022,2022-10-07,False
+light_rail_or_streetcar,Expo / Crenshaw K-Line Station - Dual Elevators,90154,-118.33491,34.02173,False,light_rail_or_streetcar:121,before 2018 (assumed: not in openings table),,False
+light_rail_or_streetcar,Expo / Crenshaw K-Line Station,90154,-118.334851,34.022156,False,light_rail_or_streetcar:121,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Little Tokyo / Arts District Station,90154,-118.238757,34.048845,False,light_rail_or_streetcar:144,after 2022,2023-06-16,False
 light_rail_or_streetcar,Snell Escalator B (Platform),90013,-121.83021,37.24747,False,light_rail_or_streetcar:172,before 2018 (assumed: not in openings table),,False
 light_rail_or_streetcar,Tamien Escalator B (South by Elevator),90013,-121.88423,37.31117,False,light_rail_or_streetcar:183,before 2018 (assumed: not in openings table),,False

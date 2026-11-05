@@ -1,37 +1,32 @@
-station_set,stations,stops,area,band_miles,homes_2020,acres,blocks
-existing rail (all modes),688,1832,California,0-1/2,1344426.0,226105.83956851772,32337
-existing rail (all modes),688,1832,California,1/3-1/2,584458.0,113862.20337580712,14288
-existing rail (all modes),688,1832,California,1/2-2/3,604720.0,132650.16668954113,15264
-existing rail (all modes),688,1832,Palo Alto,0-1/2,6325.0,1252.2883124661262,292
-existing rail (all modes),688,1832,Palo Alto,1/3-1/2,3112.0,589.9893030017669,121
-existing rail (all modes),688,1832,Palo Alto,1/2-2/3,3973.0,714.6767016470467,117
-existing rail without Amtrak-only,636,1780,California,0-1/2,1284187.0,204274.9664713185,28834
-existing rail without Amtrak-only,636,1780,California,1/3-1/2,552996.0,101139.49576626324,12581
-existing rail without Amtrak-only,636,1780,California,1/2-2/3,566422.0,116889.27419853104,13429
-existing rail without Amtrak-only,636,1780,Palo Alto,0-1/2,6325.0,1252.2883124661262,292
-existing rail without Amtrak-only,636,1780,Palo Alto,1/3-1/2,3112.0,589.9893030017669,121
-existing rail without Amtrak-only,636,1780,Palo Alto,1/2-2/3,3973.0,714.6767016470467,117
-existing rail without streetcar systems,688,1832,California,0-1/2,1344426.0,226105.83956851772,32337
-existing rail without streetcar systems,688,1832,California,1/3-1/2,584458.0,113862.20337580712,14288
-existing rail without streetcar systems,688,1832,California,1/2-2/3,604720.0,132650.16668954113,15264
-existing rail without streetcar systems,688,1832,Palo Alto,0-1/2,6325.0,1252.2883124661262,292
-existing rail without streetcar systems,688,1832,Palo Alto,1/3-1/2,3112.0,589.9893030017669,121
-existing rail without streetcar systems,688,1832,Palo Alto,1/2-2/3,3973.0,714.6767016470467,117
-existing rail without street-level stops shared with bus,634,1674,California,0-1/2,1307569.0,222946.01829855124,31701
-existing rail without street-level stops shared with bus,634,1674,California,1/3-1/2,584683.0,113682.97660710206,14280
-existing rail without street-level stops shared with bus,634,1674,California,1/2-2/3,607945.0,132596.12894340573,15316
-existing rail without street-level stops shared with bus,634,1674,Palo Alto,0-1/2,6325.0,1252.2883124661262,292
-existing rail without street-level stops shared with bus,634,1674,Palo Alto,1/3-1/2,3112.0,589.9893030017669,121
-existing rail without street-level stops shared with bus,634,1674,Palo Alto,1/2-2/3,3973.0,714.6767016470467,117
-existing rail without 2018-2022 openings,653,1732,California,0-1/2,1284649.0,215158.2418838621,30903
-existing rail without 2018-2022 openings,653,1732,California,1/3-1/2,567205.0,108848.94447002953,13691
-existing rail without 2018-2022 openings,653,1732,California,1/2-2/3,582786.0,125879.19160667676,14683
-existing rail without 2018-2022 openings,653,1732,Palo Alto,0-1/2,5526.0,1015.022667288983,244
-existing rail without 2018-2022 openings,653,1732,Palo Alto,1/3-1/2,2791.0,535.106950672528,112
-existing rail without 2018-2022 openings,653,1732,Palo Alto,1/2-2/3,4099.0,725.0029884331782,125
-existing ferry,17,21,California,0-1/2,21052.0,4432.815036556509,690
-existing ferry,17,21,California,1/3-1/2,13556.0,2077.896056172175,410
-existing ferry,17,21,California,1/2-2/3,15798.0,2085.5627477375756,404
-existing ferry,17,21,Palo Alto,0-1/2,0.0,0.0,0
-existing ferry,17,21,Palo Alto,1/3-1/2,0.0,0.0,0
-existing ferry,17,21,Palo Alto,1/2-2/3,0.0,0.0,0
+station_set,area,band_miles,stations,stops,homes_2020,acres,blocks
+existing rail without streetcar systems,California,not run yet (streetcar systems not yet listed),,,,,
+existing rail (all modes),California,0-1/2,688.0,1832.0,1344426.0,226105.83956851772,32337.0
+existing rail (all modes),California,1/3-1/2,688.0,1832.0,584458.0,113862.20337580712,14288.0
+existing rail (all modes),California,1/2-2/3,688.0,1832.0,604720.0,132650.16668954113,15264.0
+existing rail (all modes),Palo Alto,0-1/2,688.0,1832.0,6325.0,1252.2883124661262,292.0
+existing rail (all modes),Palo Alto,1/3-1/2,688.0,1832.0,3112.0,589.9893030017669,121.0
+existing rail (all modes),Palo Alto,1/2-2/3,688.0,1832.0,3973.0,714.6767016470467,117.0
+existing rail without Amtrak-only,California,0-1/2,636.0,1780.0,1284187.0,204274.9664713185,28834.0
+existing rail without Amtrak-only,California,1/3-1/2,636.0,1780.0,552996.0,101139.49576626324,12581.0
+existing rail without Amtrak-only,California,1/2-2/3,636.0,1780.0,566422.0,116889.27419853104,13429.0
+existing rail without Amtrak-only,Palo Alto,0-1/2,636.0,1780.0,6325.0,1252.2883124661262,292.0
+existing rail without Amtrak-only,Palo Alto,1/3-1/2,636.0,1780.0,3112.0,589.9893030017669,121.0
+existing rail without Amtrak-only,Palo Alto,1/2-2/3,636.0,1780.0,3973.0,714.6767016470467,117.0
+existing rail without street-level stops shared with bus,California,0-1/2,634.0,1674.0,1307569.0,222946.01829855124,31701.0
+existing rail without street-level stops shared with bus,California,1/3-1/2,634.0,1674.0,584683.0,113682.97660710206,14280.0
+existing rail without street-level stops shared with bus,California,1/2-2/3,634.0,1674.0,607945.0,132596.12894340573,15316.0
+existing rail without street-level stops shared with bus,Palo Alto,0-1/2,634.0,1674.0,6325.0,1252.2883124661262,292.0
+existing rail without street-level stops shared with bus,Palo Alto,1/3-1/2,634.0,1674.0,3112.0,589.9893030017669,121.0
+existing rail without street-level stops shared with bus,Palo Alto,1/2-2/3,634.0,1674.0,3973.0,714.6767016470467,117.0
+existing rail without 2018-2022 openings,California,0-1/2,654.0,1747.0,1286933.0,215544.06234226967,30982.0
+existing rail without 2018-2022 openings,California,1/3-1/2,654.0,1747.0,567527.0,108968.58721231215,13718.0
+existing rail without 2018-2022 openings,California,1/2-2/3,654.0,1747.0,584625.0,126177.66698458098,14712.0
+existing rail without 2018-2022 openings,Palo Alto,0-1/2,654.0,1747.0,5526.0,1015.022667288983,244.0
+existing rail without 2018-2022 openings,Palo Alto,1/3-1/2,654.0,1747.0,2791.0,535.106950672528,112.0
+existing rail without 2018-2022 openings,Palo Alto,1/2-2/3,654.0,1747.0,4099.0,725.0029884331782,125.0
+existing ferry,California,0-1/2,17.0,21.0,21052.0,4432.815036556509,690.0
+existing ferry,California,1/3-1/2,17.0,21.0,13556.0,2077.896056172175,410.0
+existing ferry,California,1/2-2/3,17.0,21.0,15798.0,2085.5627477375756,404.0
+existing ferry,Palo Alto,0-1/2,17.0,21.0,0.0,0.0,0.0
+existing ferry,Palo Alto,1/3-1/2,17.0,21.0,0.0,0.0,0.0
+existing ferry,Palo Alto,1/2-2/3,17.0,21.0,0.0,0.0,0.0

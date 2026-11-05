@@ -136,6 +136,20 @@ def to_stations(stops: pd.DataFrame) -> pd.DataFrame:
 # Openings-table modes mapped to this script's station modes.
 TABLE_MODE = {"heavy_rail": "heavy_rail", "light_rail": "light_rail_or_streetcar", "streetcar": "light_rail_or_streetcar",
               "commuter_rail": "commuter_rail", "intercity_rail": "intercity_rail", "ferry": "ferry"}
+# Openings-table system names -> National Transit Database ids in the stop data (rail systems only). A table row
+# dates only stops of its own system, so a new station never re-dates an older line's stop next to it (audit).
+SYSTEM_NTD = [("Muni", "90015"), ("BART", "90003"), ("LA Metro", "90154"), ("San Diego MTS", "90026"),
+              ("VTA", "90013"), ("SacRT", "90019"), ("Caltrain", "90134"), ("Metrolink", "90151"),
+              ("SMART", "90299"), ("NCTD", "90030"), ("ACE", "90182")]
+
+
+def ntd_of(system: str) -> str | None:
+    for key, ntd in SYSTEM_NTD:
+        if key.lower() in str(system).lower():
+            return ntd
+    return None
+
+
 # Join groups for dates: subway-running light rail is coded as either mode in the stop data, so the two urban rail
 # modes form one group; other modes join only to themselves.
 JOIN_GROUP = {"heavy_rail": "urban_rail", "light_rail_or_streetcar": "urban_rail", "commuter_rail": "commuter_rail",
@@ -177,7 +191,12 @@ def attach_dates(st: pd.DataFrame) -> pd.DataFrame:
     grp = st["mode"].map(JOIN_GROUP).to_numpy(object)
     unmatched, missing_existing = [], []
     for _, r in op.iterrows():  # join within the same group: the nearest stop's whole station takes the date
-        sel = np.flatnonzero(grp == r.group)
+        if str(r.get("prior_same_system_service", "")).strip().lower() == "yes":
+            print(f"not dated (same system served the site before 2018): {r.station_name}")
+            continue
+        ntd = ntd_of(r.system)
+        same_sys = np.ones(len(st), bool) if ntd is None else (st.system_id.astype(str).str.split(";").apply(lambda t: ntd in t)).to_numpy()
+        sel = np.flatnonzero((grp == r.group) & same_sys)
         if not len(sel):
             unmatched.append(r.station_name)
             continue
@@ -221,14 +240,18 @@ def coverage(st: pd.DataFrame, blocks: pd.DataFrame) -> pd.DataFrame:
     sets = {
         "existing rail (all modes)": st[(st["mode"] != "ferry") & (st.opened != "after 2022")],
         "existing rail without Amtrak-only": st[(st["mode"] != "ferry") & (st.opened != "after 2022") & ~st.amtrak_only],
-        "existing rail without streetcar systems": st[(st["mode"] != "ferry") & (st.opened != "after 2022")
-                                                      & ~st.system_id.isin(STREETCAR_NTD)],
         "existing rail without street-level stops shared with bus": st[(st["mode"] != "ferry") & (st.opened != "after 2022")
                                                                        & ~st.shared_with_bus],
         "existing rail without 2018-2022 openings": st[(st["mode"] != "ferry") & (st.opened == "before 2018 (assumed: not in openings table)")],
         "existing ferry": st[st["mode"] == "ferry"],
     }
     rows = []
+    if not STREETCAR_NTD:
+        rows.append({"station_set": "existing rail without streetcar systems", "area": "California",
+                     "band_miles": "not run yet (streetcar systems not yet listed)"})
+    else:
+        sets["existing rail without streetcar systems"] = st[(st["mode"] != "ferry") & (st.opened != "after 2022")
+                                                             & ~st.system_id.isin(STREETCAR_NTD)]
     for name, s in sets.items():
         if s.empty:
             continue
