@@ -937,7 +937,10 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 
 ## Method 3b: prognostic matching, second version (LOCK DRAFT 2026-11-05, before any count; Ryan 03:08 UTC: "Yeah I think you can proceed like that with method 3b and the paired bootstrap"; the learning thread's full spec)
 
-**Status: draft, for the audit.** The learning thread gives the provisional go after the audit clears it. Post hoc in origin: method 2's and method 3's real results have been seen. Any tool change needs Ryan's own OK. Runs stay on the Mac.
+**Status: cleared by the audit (03:16 UTC, including grouped-CV boosting iterations).** Time records:
+- Ryan approved at 03:08:50 UTC.
+- The learning thread's spec was relayed at 03:09:16 UTC.
+- The learning thread's PROVISIONAL GO was made at 03:14 UTC, under Ryan's 21:01 UTC delegation. Post hoc in origin: method 2's and method 3's real results have been seen. Any tool change needs Ryan's own OK. Runs stay on the Mac.
 - **One candidate, no menu.** It combines the three changes below. Everything else follows the Method 3 lock: traits (as amended), corrected data, all places with San Francisco, every weighting, and cross-fitting for the real run.
 - **Rule on narrow ranges:** a narrow real range is not a reason to pick 3b.
 
@@ -958,7 +961,7 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 
 **4. Fresh fake repeals in B.**
 - **New draws:** seed 20261105, with the same stratified draw (each real case's event year, size band and after-year count).
-- **Event years:** kept equal to each real case's own event year (audit recommendation). D's window length depends on the year, so drawing other years would change the mix of window lengths. Freshness comes from the new seed, and so new places and sets.
+- **Event years:** kept equal to each real case's own event year (audit recommendation). This replaces the spec's "new fake event years" wording. D's window length depends on the year, so drawing other years would change the mix of window lengths. Freshness comes from the new seed, and so new places and sets.
 - **Pools:** from B only.
 - **No reuse:** method 3's 5,828 cases are not reused, and the overlap is reported.
 - **Scoring:** 200 sets of 76, random-effects scoring; MAE and coverage with its SE, with the other weightings beside.
