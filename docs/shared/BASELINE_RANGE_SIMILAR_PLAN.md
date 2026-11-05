@@ -1,4 +1,4 @@
-# Baseline range, round 3: learned "similar states" (DRAFT, not locked, nothing run)
+# Baseline range, round 3: learned "similar states" (LOCKED 2026-11-05)
 
 Written 2026-11-05 by the baseline thread. Status: **draft. Waiting on the audit's review and Ryan's OK.**
 
@@ -80,4 +80,5 @@ The winning method, with training on all 50 other states and start years up to 2
 
 - 2026-11-05: draft.
 - 2026-11-05 19:22 UTC, audit: cleared once items 1–6 are in, Ryan says go, and the script is committed first. Items 1–6 are written in; the challenge-states check was added on Ryan's request (19:21).
+- 2026-11-05 19:24 UTC, Ryan: "yeah" (go). Script 07f3f92c committed at 19:24:49 UTC, before the run. LOCKED.
 
