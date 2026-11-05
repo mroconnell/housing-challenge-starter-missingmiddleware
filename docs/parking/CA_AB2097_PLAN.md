@@ -489,6 +489,25 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05 17:05 UTC, post-lock, **pre-count**, Ryan: "okay, let's go with web archive for now. Can we add a
+  lihtc test the same way we added a density bonus test?"
+  - **Bus schedules (choice 3):** web-archive copies of each agency's schedule file; the Mobility Database is the
+    backup for gaps only if Ryan later agrees to its account.
+  - **LIHTC test, a secondary outcome** read by the same rules as the main result (same groups, years, dating,
+    resampling, leads and placebo checks; a rise, a fall or no change all reported as found):
+    - Source, main: HCD Table A2 itself. A project is "LIHTC" when its financing-assistance field
+      (`FIN_ASSIST_NAME`) names low-income housing tax credits (text match, case-insensitive: "tax credit",
+      "LIHTC", "TCAC", "CTCAC", "CDLAC"). The match list is fixed now; step 1 reports fill rates by report year
+      and 20 random matched and 20 random unmatched non-blank values, before any estimate.
+    - Outcome C: share of permitted projects with 5 or more homes that are LIHTC (among those with the field
+      filled), near vs ring, 2023–2025 vs 2018–2022.
+    - Outcome D: homes in LIHTC projects per 1,000 existing homes a year, same contrast.
+    - 9% and 4% credit deals are shown apart only if a source separates them (Table A2 does not); then from the
+      California Tax Credit Allocation Committee award lists, after their licence or terms are checked.
+    - Also reported, same contrast: deed-restricted affordable homes (Table A2 building-permit columns ending in
+      `_DR`) per 1,000 existing homes a year.
+    - HUD's national LIHTC file is not used for the after years: the parking thread found it complete only to about
+      2019 allocations.
 - 2026-11-05 16:56 UTC, post-lock, **pre-count**, Ryan: "sure, add it" (to adding a density-bonus test from
   Manville and Smith's 2022 letter, "AB 2097 Will Not Undermine the State Density Bonus or the Los Angeles Transit
   Oriented Communities Program", UCLA/USC, 2022-08-29, supplied by Ryan). Added as a **secondary outcome**, read by
