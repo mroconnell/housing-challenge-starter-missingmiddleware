@@ -1,4 +1,6 @@
-"""CA AB 2097 study: side checks from the spec fixed in the plan before the first estimate run (plan section 9, entry
+"""WRITTEN AFTER THE MAIN RESULTS WERE SEEN (2026-11-05); it follows the spec fixed before the first run.
+
+CA AB 2097 study: side checks from the spec fixed in the plan before the first estimate run (plan section 9, entry
 "exact spec of the bus side checks"). Parts 2, 3 and 5 of that spec; part 1 (dated 2022 bus map from archived
 schedules) is a separate script. Written after the main results were seen; it follows the pre-written spec, and any
 choice not in that spec is marked "not in the spec".
@@ -14,7 +16,8 @@ Part 5, city maps (Ryan 2026-11-05 16:42: unlicensed city layers may be used as 
   stops): NOT done here; it needs the PDF's stops matched by hand, listed as pending.
 - Per city: 2020 homes inside the city map, inside our main map's 1/2-mile area, in both, in either; agreement =
   both / either (blocks by internal point, as elsewhere).
-- Edge on each city's own line: blocks and permits 25-150 m inside the line vs 25-150 m outside it, homes other than
+- Edge on each city's own line: blocks and permits 25-150 m inside the line vs 25-150 m outside it (= the spec's
+  "0-150 m with a 25 m donut"), homes other than
   ADUs per 1,000 existing homes a year, 2023-2025 vs 2018-2022, 90% range from 2,000 resamples of projects (one city).
   The city's own jurisdiction only.
 
@@ -110,7 +113,8 @@ def city_polys(city: str, rail: pd.DataFrame):
         s = rail[rail["name"].str.contains("|".join(PALO_ALTO_STATIONS), case=False, na=False)
                  & (rail["mode"] == "commuter_rail")]
         s = run.lonlat_points(s.reset_index(drop=True), s.lon, s.lat)
-        return [[[_circle(x, y, E.MILE / 2)]] for x, y in zip(s.x, s.y)], len(s)
+        stations = s["name"].str.extract("(" + "|".join(PALO_ALTO_STATIONS) + ")", expand=False).nunique()
+        return [[[_circle(x, y, E.MILE / 2)]] for x, y in zip(s.x, s.y)], stations
     f = MAPS / f"{city.lower()}.geojson"
     L = G.read_geojson(str(f)).to_crs(G.crs(run.CRS))
     return L.polys, len(L.polys)
@@ -144,7 +148,9 @@ def city_maps() -> pd.DataFrame:
         r = ab.estimate(g, cells, pc, "homes_non_adu", "per_1000_homes", E.BEFORE, E.AFTER, draws=10)
         lo, hi, _ = ab.project_interval(g, cells, pc, "homes_non_adu", "per_1000_homes", E.BEFORE, E.AFTER)
         rows.append({"city": city, "role": "placebo city" if city in E.PLACEBO else "main",
-                     "map_parts": n, "homes_2020_city": float(h.sum()), "homes_in_city_map": float(h[bin_].sum()),
+                     "map_parts": n, "map_note": ("3 Caltrain stations, rebuilt from our station list, not the PDF; "
+                                                  "agreement tests only bus-stop differences") if city == "PALO ALTO"
+                     else "city's own layer", "homes_2020_city": float(h.sum()), "homes_in_city_map": float(h[bin_].sum()),
                      "homes_in_our_main_map": float(h[ours].sum()), "homes_in_both": float(both),
                      "homes_in_either": float(either), "agreement_both_over_either": both / either if either else np.nan,
                      "edge_estimate": r["estimate"], "edge_low": lo, "edge_high": hi,
@@ -152,7 +158,8 @@ def city_maps() -> pd.DataFrame:
                      "edge_inside_units_before": r["treat_units_before"], "edge_inside_units_after": r["treat_units_after"],
                      "edge_outside_units_before": r["comp_units_before"], "edge_outside_units_after": r["comp_units_after"],
                      "edge_unit": "homes other than ADUs per 1,000 existing homes a year, 2023-2025 vs 2018-2022; "
-                                  "25-150 m inside vs outside the city's line; projects resampled"})
+                                  "25-150 m inside vs outside the city's line; projects resampled",
+                     "edge_interval": f"projects, {ab.N_DRAWS} resamples, seed {ab.SEED}"})
     rows.append({"city": "SANTA CRUZ", "role": "main", "edge_unit": "pending: PDF map needs stops matched by hand"})
     return pd.DataFrame(rows)
 
