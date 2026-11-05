@@ -58,6 +58,13 @@ The final baseline is level × shares. This matters because parking's earlier te
 | L4a, L4b | Straight-line trend over the last 10 years, and over all years from 1990 (least squares, extended five years; a negative fitted year counts as its fitted value, not 0) | 1 |
 | L5 | Division pool (D6): the state's 3-year permits per existing home, blended with its Census division's 3-year permits per existing home (all states in the division, Wisconsin included) by weight w in [0, 1], fitted per the no-look-ahead rule by least mean \|log ratio\| on a grid of 0.05, × the state's homes at the start year | 6 |
 
+**L5 details (audit, 17:08 UTC; written in before any fetch, not a re-lock).**
+- **Division rate:** pooled. That is the division's permits over the 3 years ÷ the division's homes at the start year, per year.
+- **w:** one value for all states, weighted toward the state's own rate. Its rate is w × own + (1 − w) × division.
+- **Building sizes:** the blend is done for each size. One w is shared across sizes and fitted on the all-sizes score.
+- **Units:** the five-year total = yearly rate per existing home × homes at the start year × 5.
+- **At w = 1:** L5 is the state's own 3-year rate × homes. This differs a little from L0 because homes grow between the 3-year window and the start year, so L5 at w = 1 is not L0.
+
 **Score.** For each state and start year, |log(predicted ÷ actual)| for the five-year all-sizes total. The score is the mean over states and start years. Lower is better: 0.10 means about 10% off. Also reported:
 - bias (mean log ratio);
 - the crash start years (2005–2009) on their own;
@@ -71,6 +78,8 @@ The final baseline is level × shares. This matters because parking's earlier te
 3. it is not worse than L0 on Wisconsin alone by more than 5% of L0's Wisconsin score.
 
 If more than one passes, the lowest all-states score wins. A tie, meaning scores within 0.001, goes to the simpler candidate in table order. If none passes, L0 stays.
+
+**Reading line (audit).** There are 8 challengers (L1a, L1b, L1c, L2, L3, L4a, L4b, L5), so the chance that one passes by luck is higher than with a single challenger. The 90% range rule applies to each candidate separately. The rule is not changed.
 
 **Range (audit 3).**
 - **Method.** The range is redone with the winning level method's own out-of-sample errors. For each building size, it is the 10th to 90th percentile of predicted ÷ actual over Wisconsin's start years. It targets 80% coverage: in about 8 of 10 five-year periods, the outcome should land inside it.
@@ -177,3 +186,4 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
 - 2026-11-05 16:51 UTC, audit: revision 2 cleared to lock once Ryan picks D1–D6. Notes a–e written in: widening stop rule; census used from the year after its census year; look-ahead noted in rule 3; D6 for region; fetch script audit check.
 - 2026-11-05 17:07 UTC, Ryan: "okay, including D6". Read as OK to D1–D5 as recommended (all states; option B; split; method 3 shrink in round 2; fixed numbers as written), with region tested now. L5 added; pick rules written out for option B.
 - **LOCKED 2026-11-05, commit time of this revision.** Before any fetch or count.
+- 2026-11-05 17:08 UTC, audit accepted the lock (c4045967). Written in, not a re-lock: L5's five details (pooled division rate, one w, per size with a shared w, units, the w = 1 note) and the 8-challenger reading line.
