@@ -16,6 +16,10 @@ Fetch
 - A copy qualifies if its service calendar (calendar.txt and calendar_dates.txt) runs on Wednesday 2022-12-14. Among
   qualifying copies of a feed, the one whose calendar start is latest on or before 2022-12-14 is used.
 
+Labels (audit): major stops are found within one feed, so two agencies' routes meeting (for example AC Transit and Muni)
+do not count; both peaks must be met in the same direction; the agency hand list is not in the spec; agencies with no
+qualifying archive copy keep today's stops and are listed in reference/ca_ab2097_side_bus2022_kept_today.csv.
+
 Run (qualifying feeds only)
 - Service on 2022-12-14: trips whose service_id runs that day. Bus routes only (route_type 3 and 700-799).
 - A route "qualifies" at a stop if, in one direction, it has 8+ departures 7:00-8:59 and 8+ departures 16:00-17:59
@@ -203,6 +207,8 @@ def run_checks() -> None:
     # headline with today's bus stops of the matched agencies replaced by their 2022 stops
     st = E.stop_sets()
     keep_bus = ct[~ct.agency_primary.isin(replaced)][["x", "y"]]
+    kept = ct[~ct.agency_primary.isin(replaced)].groupby("agency_primary").size().rename("bus_major_stops_today")
+    kept.reset_index().to_csv(REFERENCE / "ca_ab2097_side_bus2022_kept_today.csv", index=False)
     rail = st["rail_only"]
     other = st["_other_than_rail"]  # ferry + today's bus + planned; rebuild without today's bus of replaced agencies
     stops = pd.concat([rail, keep_bus] + new_stops, ignore_index=True)
