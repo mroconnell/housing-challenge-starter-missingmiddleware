@@ -13,7 +13,7 @@ Written 2026-11-05 by the baseline thread.
 1. **The LASSO could not be tuned down to 90%.** The recalibrated version (E2) still held 98.8% of checks (bootstrap 98.0–100%).
    - Capping its extreme widths did tame it: the mean width fell from 5.76 to 1.92.
    - But its typical (median) width, 1.56, is still wider than the all-states range's 1.44.
-   - The likely reason is a guess. After the 2007–2011 crash, every state's swing trait is high, so the LASSO expects big misses everywhere. The post-2009 misses were smaller than that.
+   - A guess: after the 2007–2011 crash, every state's swing trait is high, so the LASSO expects big misses everywhere. The post-2009 misses were smaller than that.
 2. **None of the three ways to narrow the all-states range kept it at 90%.** Each was narrower, and each held less:
 
    | Variant | Held, other 50 states |
@@ -25,7 +25,7 @@ Written 2026-11-05 by the baseline thread.
    | Both | 81.8% |
 
    For 2027–2031, the recent-years tuning chose "no decay", so it gives the same Wisconsin range as all states.
-3. **By the locked rule, E2 wins.** It is the narrower of the two methods that reach 90%. Its Wisconsin 2027–2031 range is **74,119 to 207,450 homes**. Like E, that is narrower than any range it gave Wisconsin in 2009–2020: a log width of 1.03, against a mean Wisconsin check width of 1.97.
+3. **By the locked rule, E2 wins.** It is the narrower of the two methods that reach 90%. Its Wisconsin 2027–2031 range is **74,119 to 207,450 homes**. Like E, its log width (1.03) is below every Wisconsin check width it gave in 2009–2020: the smallest was 1.346 and the mean 1.974.
 
 ## Scores, check years 2009–2020
 
@@ -63,8 +63,9 @@ These are scaled to v3 (×124,000 ÷ 118,148, or ÷ 118,148 × the L3 central). 
 
 ## What this means
 
-There are two honest options. Neither is a clean 90% that is also tight:
+There are three options. None is a clean 90% that is also tight:
 - **All states:** 56,500 to 218,865. It held 88.3% in past checks, within noise of 90%, and Wisconsin 12 of 12. Its width has been steady.
+- **Round 2's all-states 2.5th–97.5th:** 48,709 to 244,147. It held 92.5% in other states and Wisconsin 12 of 12 over 2009–2020, a window chosen after the results (post hoc); over 2005–2020, 70.5% and 12 of 16.
 - **The LASSO (E2):** 74,119 to 207,450. It held about 99% in past checks, which is too wide on average, and Wisconsin 12 of 12. It is narrower for Wisconsin today than it ever was in the checks.
 
 Picking a range for the tool is Ryan's call. A central other than 124,000 also needs his own OK.
