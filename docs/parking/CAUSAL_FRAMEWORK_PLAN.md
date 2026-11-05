@@ -1539,6 +1539,31 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
    - **Chance line, updated:** with 2 group differences × 2 weightings, plus the gap differences, there are about 6 comparisons. One or two 90% ranges excluding 0 by chance is plausible, and the write-up says so.
    - This change needs the audit and Ryan's go before the run.
 
+**Revision (Ryan 21:36–21:40 UTC, before any count): six classes and population as a continuous variable.**
+- Ryan: "principal is broad so there should probably be different classifications ...".
+- Ryan: "running population as a continuous variable in one column, and the main city, secondary principal city, suburb, exurb, outside metro, rural".
+
+These override the three groups above.
+- **Classes** (`area_class6` in `reference/parking_place_ruca_traits.csv`; built with no outcome read):
+
+  | Class | Repeal places | Rule |
+  | --- | --- | --- |
+  | Main city | 31 | The first-named city in its metro's title, on the Feb 2013 list |
+  | Secondary principal city | 8 | Other principal cities on the 2013 list |
+  | Suburb | 22 | Metro place, dominant RUCA 1 |
+  | Exurb | 4 | Metro place, dominant RUCA 2–3 |
+  | Outside metro | 7 | Non-metro place, dominant RUCA 1–6 |
+  | Rural | 2 | Dominant RUCA 7–10 anywhere, or a metro place with dominant RUCA 4–10 |
+
+  - The South Bend hand fix is "main city".
+- **Group averages:** all six classes, for D, main, and both with equal weights, with n beside every range.
+  - Classes with fewer than 8 places (exurb 4, outside metro 7, rural 2) are flagged thin, and no difference is read for them.
+- **Differences:** main city minus secondary principal city, and main city minus suburb, under both weightings, plus the weighted-minus-equal gap differences.
+- **Population, continuous:** the weighted least-squares slope of each place's effect on log10(population). It is reported four ways: D (mix weights), D (equal), main (homes × after-years), main (equal; winsorised 5/95 like D). Ranges come from a place bootstrap (2,000 draws, seed 20261105). The unit is the change in effect per 10× population.
+- **Class-matched pools (D):** pools are limited to the same six-class group, with the batch ladder unchanged.
+- **Reading:** unchanged, including that D and main must agree in sign. There are now about 10 comparisons (2 differences × 2 weightings, 2 gap differences and 4 slopes), so 1 or 2 ranges excluding 0 by chance is plausible, and the write-up says so.
+- **Ryan's go:** his 21:40 message asks for this run. The audit must clear the revision before it runs.
+
 **Run order:**
 1. Code committed before any run.
 2. Group averages and differences.

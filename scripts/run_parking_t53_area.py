@@ -1,4 +1,4 @@
-"""Test 53 (CAUSAL_FRAMEWORK_PLAN.md, "Test 53" and its audit fixes): core city vs non-core metro vs outside metro.
+"""Test 53 (CAUSAL_FRAMEWORK_PLAN.md, "Test 53", revised 21:40 UTC): six city classes and population as a continuous variable.
 
 Groups from reference/parking_place_ruca_traits.csv (`area_class`, Feb 2013 principal cities; `area_class_pc2023` as the
 check). Main = the batch's per-place main effects (homes x after-years weights); D = the batch's per-place method-2 D
@@ -27,8 +27,9 @@ OUT = ROOT / "reference"
 BATCH = OUT / "batch_2026-11-05"
 SEED, DRAWS = 20261105, 2000
 MIX = "target-state mix"
-GROUP = {"core": "core", "suburb": "non-core metro", "exurb": "non-core metro", "rural part of metro": "non-core metro",
-         "non-metro": "outside metro"}
+GROUPS = ("main city", "secondary principal city", "suburb", "exurb", "outside metro", "rural")
+DIFF_VS = ("secondary principal city", "suburb")  # groups with 8+ places; differences against main city
+GROUP = {g: g for g in GROUPS}
 
 
 def boot(y, w_fn, draws=DRAWS, seed=SEED):
@@ -57,10 +58,10 @@ def main() -> None:
     yM = me["effect"].reindex(keys).values.astype(float)
     wM = me["weight"].reindex(keys).values.astype(float)
     rows = []
-    for col, label in (("area_class", "2013 principal cities (main)"), ("area_class_pc2023", "2023 principal cities (check)")):
+    for col, label in (("area_class6", "six classes, 2013 principal cities (main)"),):
         g = pd.Series([GROUP.get(T[col].get(k), "unknown") for k in keys])
         est, est_eq = {}, {}
-        for grp in ("core", "non-core metro", "outside metro"):
+        for grp in GROUPS:
             idx = np.flatnonzero((g == grp).values)
             okD = idx[np.isfinite(yD[idx])]
             okM = idx[np.isfinite(yM[idx])]
@@ -83,35 +84,63 @@ def main() -> None:
                 lo, hi = np.nanpercentile(b, [5, 95])
                 rows.append(dict(groups=label, row=grp, estimator=est_name, places=n, rate=a, p05=lo, p95=hi,
                                  wi_homes=a * m.WI_K, wi_p05=lo * m.WI_K, wi_p95=hi * m.WI_K,
-                                 places_list="; ".join(real["place"].iloc[idx]) if grp == "outside metro" or (g == grp).sum() <= 8 else ""))
+                                 thin=bool(n < 8), places_list="; ".join(real["place"].iloc[idx]) if (g == grp).sum() <= 8 else ""))
         # differences: independent within-group resamples (draw d of each group's bootstrap)
-        for other in ("non-core metro", "outside metro"):
+        for other in DIFF_VS:
             for k, est_name in ((0, "D"), (1, "main")):
-                d = est["core"][k] - est[other][k]
-                a = next(r["rate"] for r in rows if r["groups"] == label and r["row"] == "core" and r["estimator"] == est_name) - \
+                d = est["main city"][k] - est[other][k]
+                a = next(r["rate"] for r in rows if r["groups"] == label and r["row"] == "main city" and r["estimator"] == est_name) - \
                     next(r["rate"] for r in rows if r["groups"] == label and r["row"] == other and r["estimator"] == est_name)
                 lo, hi = np.nanpercentile(d, [5, 95])
-                rows.append(dict(groups=label, row=f"core minus {other}", estimator=est_name, rate=a, p05=lo, p95=hi,
+                rows.append(dict(groups=label, row=f"main city minus {other}", estimator=est_name, rate=a, p05=lo, p95=hi,
                                  wi_homes=a * m.WI_K, wi_p05=lo * m.WI_K, wi_p95=hi * m.WI_K, excludes_0=bool(lo > 0 or hi < 0)))
-        for other in ("non-core metro", "outside metro"):
+        for other in DIFF_VS:
             for k, est_name in ((0, "D, equal weight"), (1, "main, equal weight"), (2, "D, weighted minus equal"),
                                 (3, "main, weighted minus equal")):
-                d = est_eq["core"][k] - est_eq[other][k]
-                a = next(r["rate"] for r in rows if r["groups"] == label and r["row"] == "core" and r["estimator"] == est_name) - \
+                d = est_eq["main city"][k] - est_eq[other][k]
+                a = next(r["rate"] for r in rows if r["groups"] == label and r["row"] == "main city" and r["estimator"] == est_name) - \
                     next(r["rate"] for r in rows if r["groups"] == label and r["row"] == other and r["estimator"] == est_name)
                 lo, hi = np.nanpercentile(d, [5, 95])
-                rows.append(dict(groups=label, row=f"core minus {other}", estimator=est_name, rate=a, p05=lo, p95=hi,
+                rows.append(dict(groups=label, row=f"main city minus {other}", estimator=est_name, rate=a, p05=lo, p95=hi,
                                  wi_homes=a * m.WI_K, wi_p05=lo * m.WI_K, wi_p95=hi * m.WI_K, excludes_0=bool(lo > 0 or hi < 0)))
+    # population as a continuous variable: weighted least-squares slope of the place effect on log10(population)
+    lp = np.log10(real["population"].astype(float).values)
+    wD_mix, _ = m.mix_weights(ev, wi)
+
+    def slope(y, x, w):
+        ok = np.isfinite(y) & np.isfinite(x) & (w > 0)
+        y, x, w = y[ok], x[ok], w[ok]
+        xm = np.average(x, weights=w)
+        return float(np.sum(w * (x - xm) * (y - np.average(y, weights=w))) / np.sum(w * (x - xm) ** 2))
+    for est_name, y, w, wins in (("D (mix weights)", yD, wD_mix, True), ("D, equal weight", yD, np.ones(len(yD)), True),
+                                 ("main (homes x after-years)", yM, wM, False), ("main, equal weight", yM, np.ones(len(yM)), True)):
+        yy = m.winsor(y[np.isfinite(y)]) if wins else None
+        yuse = y.copy()
+        if wins:
+            yuse[np.isfinite(y)] = yy
+        a = slope(yuse, lp, w)
+        rng = np.random.default_rng(SEED)
+        b = []
+        for _ in range(DRAWS):
+            i = rng.integers(0, len(y), len(y))
+            yi = y[i].copy()
+            if wins:
+                f = np.isfinite(yi)
+                yi[f] = m.winsor(yi[f])
+            b.append(slope(yi, lp[i], w[i]))
+        lo, hi = np.nanpercentile(b, [5, 95])
+        rows.append(dict(groups="population, continuous", row="slope per 10x population (log10)", estimator=est_name,
+                         places=int(np.isfinite(y).sum()), rate=a, p05=lo, p95=hi, excludes_0=bool(lo > 0 or hi < 0)))
     R = pd.DataFrame(rows)
     R.round(4).to_csv(OUT / "parking_t53_groups.csv", index=False)
     pd.set_option("display.width", 250)
     print(R.drop(columns=["places_list"]).round(3).to_string(index=False))
     # exurbs as a list of cases
-    ex = [c["place"] for c in cases if T["area_class"].get(c["key"]) == "exurb"]
+    ex = [c["place"] for c in cases if T["area_class6"].get(c["key"]) == "exurb"]
     print("exurbs:", ex)
 
     # class-matched pools (D)
-    grp_of = {k: GROUP.get(v, "unknown") for k, v in T["area_class"].items()}
+    grp_of = {k: GROUP.get(v, "unknown") for k, v in T["area_class6"].items()}
     orig = m.eligible
     cur = {}
 
@@ -122,7 +151,7 @@ def main() -> None:
     m.eligible = elig
     out = []
     try:
-        for c, gname in zip(cases, [GROUP.get(T["area_class"].get(k), "unknown") for k in keys]):
+        for c, gname in zip(cases, [GROUP.get(T["area_class6"].get(k), "unknown") for k in keys]):
             cur["g"] = gname if gname != "unknown" else None
             pl = m.long_pre(c["event_year"], list(c["pre"]), c.get("trimmed", False))
             h = D.homes_pre(c["event_year"], False)
