@@ -489,6 +489,20 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05, post-lock, pre-count (no permit placed by area), geocode fall-off, after the audit's notes:
+  - **Dropped rows sit on repeated city or county points:** in every report year, 80%–98% of rows without a
+    street-level point share a point with 10 or more other rows (2025: 97.6%); unique points are 0.4%–4.2%. Their
+    location says nothing about distance to a stop, so dropping them is right; no "distinct points" check is possible.
+  - **Stable-geocode check, cut fixed now:** jurisdictions whose share of rows without a street-level point changed by
+    5 percentage points or less between report years 2018–2022 and 2023–2025. The list is committed before any count:
+    `reference/ca_ab2097_geocode_stability.csv` (532 jurisdictions; 324 kept). The main estimate and the checks are
+    re-run on the kept jurisdictions.
+  - **Caveat carried by every point-based result:** the drops rise only after 2022 and cluster in fast-growing outer
+    places and in houses (2024–2025: townhouses 43%, houses 32%, 5+ unit rows 21%, ADUs 3%).
+  - **Weight in the write-up:** the city-level dose check uses Census BPS city totals, not points, so it is not
+    touched by this; the write-up leads with it for the statewide "extra homes" answer, with the point-based near/ring
+    results beside it.
+  - How Ryan wants this handled is still open; this entry fixes the checks so the choice cannot follow the counts.
 - 2026-11-05, post-lock, pre-count, after the step 1 field checks (`reference/ca_ab2097_step1_field_checks.csv`) and
   the audit's notes:
   - **Density-bonus field** is zero-filled (non-blank in 100% of rows), so "no bonus" and "not reported" look the
