@@ -1388,6 +1388,18 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
      | `reference/parking_reform_taxonomy.csv` | 6,318 | Every PRN-coded parking reform, including reductions and partial reforms, with dates |
      | `reference/ca_ab2097_rail_openings.csv` | 61 | California rail station openings with dates |
 
+   - **Added after the learning thread's list (17:44 UTC), also used as written:**
+
+     | File | Rows | What it holds |
+     | --- | --- | --- |
+     | `data/raw/tod_mbta/compliance_status_2025-09-18.csv` | 177 | MBTA Communities compliance; event = the compliance deadline year for towns marked compliant or conditional |
+     | `reference/tod_optiond_stopmodel_places.csv` | — | TOD Option D evidence sets D-11 and D-B; place names, with dates taken from `tod_cases.csv` |
+     | `reference/tod_causal_edge_test.csv` | — | Edge-test places; dates from `tod_cases.csv` |
+     | `reference/wi_adu_rules.csv` | 299 | Wisconsin city ADU rules (`effective_from`); only the earliest ADU-allowing date per place is used |
+     | `data/raw/statewide_states` | — | State-law folders; dates come from `statewide_states_laws.csv` |
+
+   - **Not added:** `reference/ca_ordinances_2019.csv`, because its `rules_as_of` field is a snapshot date, not an adoption date.
+   - **Write-up:** it names every list used and says that coverage outside them is still partial.
    - **Transit for California pool places:** the rail openings are assigned to places by station location, so in California, transit (item 7) is coded for pool places too.
    - **Dates and places:** each list's date field is used as written (effective date if present, else adoption date). Places are matched to BPS keys by name and state with `cmp.match_place`; rows that don't match are reported.
 8. **Denominator check (one, chosen now):** Census 2010 housing units (HU10, gazetteer), which come before every repeal in the sample.
