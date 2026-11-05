@@ -73,8 +73,8 @@ def main() -> None:
             # equal weight per city (lock fix 7): D's "equal" weighting (winsorised as in method 2); main plain mean
             aDe = m.weighted_avg("equal", yD[okD], eD, wi)
             bDe = boot(yD[okD], lambda i: m.weighted_avg("equal", yD[okD][i], eD.iloc[i].reset_index(drop=True), wi))
-            aMe = float(np.mean(yM[okM]))
-            bMe = boot(yM[okM], lambda i: float(np.mean(yM[okM][i])))
+            aMe = float(np.mean(m.winsor(yM[okM])))  # winsorised 5/95 like D's equal weight (audit 21:32 UTC)
+            bMe = boot(yM[okM], lambda i: float(np.mean(m.winsor(yM[okM][i]))))
             est_eq[grp] = (bDe, bMe, bD - bDe, bM - bMe)
             for est_name, a, b, n in (("D", aD, bD, len(okD)), ("main", aM, bM, len(okM)),
                                       ("D, equal weight", aDe, bDe, len(okD)), ("main, equal weight", aMe, bMe, len(okM)),

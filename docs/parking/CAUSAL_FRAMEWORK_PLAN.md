@@ -1535,6 +1535,8 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
    - Every group average and difference is also reported with equal weight per city, for D (the method-2 "equal" weighting, winsorised as in method 2) and main (plain mean).
    - The reading rule is unchanged.
    - An extra check: whether the gap between equal and home-weighted results is larger in one group than another (the difference of differences, with the same within-group resampling). It is read the same way.
+   - **Winsorising:** main's equal-weight mean is winsorised at 5/95 within each group, the same way as D's, so a single place such as Bastrop can't move it alone. Main's home-weighted average stays unwinsorised, as in the tool. (Audit, 21:32 UTC.)
+   - **Chance line, updated:** with 2 group differences × 2 weightings, plus the gap differences, there are about 6 comparisons. One or two 90% ranges excluding 0 by chance is plausible, and the write-up says so.
    - This change needs the audit and Ryan's go before the run.
 
 **Run order:**
