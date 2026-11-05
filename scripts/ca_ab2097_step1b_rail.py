@@ -188,6 +188,10 @@ def attach_dates(st: pd.DataFrame) -> pd.DataFrame:
     o = read_openings()
     op = o[o.event == "opened"].copy()
     op["group"] = op.smode.map(JOIN_GROUP)
+    nomap = op[op.system.map(ntd_of).isna() & ~op.group.isin(["ferry", "intercity_rail"])]
+    if len(nomap):  # a rail row whose system is not in SYSTEM_NTD must not fall back to the mode group (audit)
+        raise SystemExit("openings rows with a rail system not in SYSTEM_NTD:\n"
+                         + nomap[["system", "station_name"]].to_string(index=False))
     grp = st["mode"].map(JOIN_GROUP).to_numpy(object)
     unmatched, missing_existing = [], []
     for _, r in op.iterrows():  # join within the same group: the nearest stop's whole station takes the date
