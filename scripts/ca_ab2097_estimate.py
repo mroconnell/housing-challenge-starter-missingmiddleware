@@ -512,7 +512,7 @@ def estimate() -> None:
 
     # D2 plain counts (descriptive): LIHTC homes and projects in 5+ home projects, near vs ring, by period
     q = permits_for(p_main, "main")
-    q = q[q.juris.isin(main_j) & ~q.upz & q.zone.isin(["near", "ring"]) & (q.lihtc_apartments > 0)]
+    q = q[q.juris.isin(with_treated_land(cells_for(b, "main"), main_j)) & ~q.upz & q.zone.isin(["near", "ring"]) & (q.lihtc_apartments > 0)]
     q["period"] = np.where(q.year.isin(AFTER), "2023-2025", "2018-2022")
     q.groupby(["zone", "period"]).agg(lihtc_homes=("lihtc_apartments", "sum"), lihtc_projects=("project", "nunique")
                                       ).reset_index().assign(
