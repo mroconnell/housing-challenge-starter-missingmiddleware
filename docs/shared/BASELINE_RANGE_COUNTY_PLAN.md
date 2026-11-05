@@ -1,4 +1,4 @@
-# Baseline range, county test of the LASSO's tight ranges (DRAFT, not locked, nothing run)
+# Baseline range, county test of the LASSO's tight ranges (LOCKED 2026-11-05)
 
 Written 2026-11-05 by the baseline thread. Ryan: "yeah! Run it on counties" (20:56 UTC). Status: **draft, for the audit's review.** Ryan's go is given, so it runs once the audit clears it and the script is committed.
 
@@ -17,7 +17,7 @@ This test asks: **when E2 gives a tight range, does it hold about 90% of the tim
   - `data/raw/census_bps_cbsa/co2000–2014a.txt`;
   - `data/raw/census_bps_county/co2015–2025a.txt`.
 - **No new download.** Counties are keyed by state and county FIPS.
-- **Counties included at a start year:** those with at least 900 permitted units over the 3 years to that start year, about 300 a year. This keeps out counties whose ratios are dominated by single projects. The cut-off is a convention, not from evidence.
+- **Counties included at a start year:** those with at least 900 permitted units over the 3 years to that start year. This keeps out counties whose ratios are dominated by single projects. The cut-off is a convention, not from evidence. The number of counties is reported after the run.
 
 ## Design (as round 4's E2, with counties as units)
 
@@ -44,7 +44,7 @@ This test asks: **when E2 gives a tight range, does it hold about 90% of the tim
 
 ## What is reported
 
-1. **E2's coverage by width bin:** the log width of the range in four bins, ≤ 1.1, 1.1–1.3, 1.3–1.5 and > 1.5. Each bin shows:
+1. **E2's coverage by width bin:** the log width of the range in four bins, ≤ 1.1, 1.1–1.3, 1.3–1.5 and > 1.5. The bin edges are conventions; the 1.1 edge was chosen after seeing Wisconsin's 1.03 (audit 2). Each bin shows:
    - the number of checks;
    - the number of distinct counties;
    - the number of distinct states;
@@ -55,9 +55,12 @@ This test asks: **when E2 gives a tight range, does it hold about 90% of the tim
 ## Reading rule (fixed before the run)
 
 For E2's tightest bin (log width ≤ 1.1, where Wisconsin's 2027–2031 width of 1.03 falls):
-- **Holds:** the 90% bootstrap range includes or is above 90%. Then E2's tight ranges are as good as claimed, and the state-level 3 of 7 was likely bad luck.
-- **Falls short:** the range is entirely below 90%. Then E2's tight ranges are over-confident.
+- **Consistent with 90%:** the 90% bootstrap range includes 90%. If that range is wide (more than 20 points, for example 70% to 100%), the test is weak even though it is consistent.
+- **Below 90%:** the range is entirely below 90%. Then E2's tight ranges are over-confident for counties. That says nothing on its own about A for Wisconsin.
+- **Above 90%:** the range is entirely above 90%. Then E2 is too wide even when it is tight.
 - **Too few:** the bin has fewer than 100 checks, or covers fewer than 10 states. Then the test cannot say.
+
+The 100-check minimum, the 10-state minimum and the 20-point "weak" mark are conventions (audit 2).
 
 Counties are not states: they swing more and share state-level shocks. So this result informs the state-level choice, but it does not settle it.
 
@@ -69,3 +72,5 @@ Counties are not states: they swing more and share state-level shocks. So this r
 ## Plan log
 
 - 2026-11-05: draft.
+- 2026-11-05 20:58 UTC, audit: cleared once items 1–6 are in. Items 1–5 are written in, and the script is committed with this lock (item 6). LOCKED.
+
