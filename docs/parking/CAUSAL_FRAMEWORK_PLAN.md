@@ -1373,7 +1373,7 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 5. **52d.4:** the E-value is dropped, because it is defined for risk ratios. Only the share-of-pre-trend version is kept: the post-repeal gap a hidden factor would need to produce, as a multiple of the largest pre-repeal gap.
 6. **52a details:**
    - **Rent growth:** ACS 5-year B25064, the window ending the year before repeal against the non-overlapping window ending 6 years before repeal. Every repeal year in the sample (2016–2024) has both windows (the first place-level window ends in 2009), so no 2012–14 fallback is needed.
-   - **Large margins of error:** where a place's rent margin of error is above 20% of its estimate, the county value is used instead, and the count of such places is reported.
+   - **Large margins of error (20% is a convention):** where a place's rent margin of error is above 20% of its estimate, the county value is used instead, and the count of such places is reported.
    - **QCEW:** county-level only, so every place in a county gets the same job growth.
 7. **Transit (52b):** coded for repeal places only, because pool places are too many to code. This is stated as a limit.
 8. **Denominator check (one, chosen now):** Census 2010 housing units (HU10, gazetteer), which come before every repeal in the sample.
@@ -1385,7 +1385,7 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
     - Regularisation is fixed now: zeta = (number of repeal places × number of after-years)^(1/4) × the standard deviation of the pool places' year-to-year changes in the before-years (Arkhangelsky et al. 2021).
     - Seed 20261105.
 
-**52h. Pool rules that may filter on after-repeal outcomes (possible colliders; learning thread 17:41 UTC, after Ryan asked "are there any colliders that we accidentally controlled for and reopened?").** None is confirmed. Each rule is rerun on method D and read beside the batch result, with the 52b paired-range reading.
+**52h (labelled sensitivity; audit 17:42 UTC: "right in principle"). Pool rules that may filter on after-repeal outcomes (possible colliders; learning thread 17:41 UTC, after Ryan asked "are there any colliders that we accidentally controlled for and reopened?").** None is confirmed. Each rule is rerun on method D and read beside the batch result, with the 52b paired-range reading.
 1. **Date-aware "never reformed" rule:**
    - The current rule drops any place that ever reformed parking, even after the window, and a place may reform because its building slumped.
    - The rerun drops a pool place only if its PRN reform took effect before the end of the matched repeal's after-window.
