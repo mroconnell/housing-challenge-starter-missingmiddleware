@@ -1095,3 +1095,148 @@ Five helpers coded three places each from public sources, following a written br
 - **The 0 floor binds** in 1,072 of 3,424 place-years with LIHTC units (31%; the withdrawn version had 46%). 80,317 of 380,147 units (21%) could not be removed (the withdrawn version had 30%). The share fell, as expected once rehab projects were removed.
 - **Timing check:** 69.1% of LIHTC units fall in a permit year with at least that many BPS permits (58.1% before the fix).
 - **What these mean:** the adjustment is rough. Even with new construction only, in 31% of LIHTC place-years (1,072 of 3,424) the projects hold more units than the permits Census shows that year. Those place-years account for 21% of LIHTC units (80,317 of 380,147), so the adjustment is understated wherever the floor binds. The allocation + 1 proxy also often puts a project's units in a different year from its permits.
+
+## Test 52: causal diagram, back doors and unseen back doors (2026-11-05; lock "Test 52" with all audit fixes; Ryan's go 17:58 UTC)
+
+**Evidence only. Nothing in the tool changes. D is unchanged because Ryan has accepted no Test 52 change.**
+
+**How to read this section.**
+- **Units:** rates are homes permitted per 1,000 existing homes a year. WI homes = rate × 13,343.385, over 2027–2031.
+- **Shift:** a rerun minus the batch on the same places, with a paired place-bootstrap 90% range (2,000 draws, seed 20261105).
+- **Reading line (fix 9):** one test moving alone is not evidence, with the same bar for both signs.
+- **Batch reference:** main −1.1526 (WI −15,380; −46,268 to +19,649); D −0.9647 (WI −12,873; −44,571 to +4,854).
+- **Reproduction:** every part first reproduced these exactly.
+
+**Bottom line.**
+- No adjustment for a back door we could measure moves either estimate by more than its paired range. The tested back doors are market demand, other reforms, pre-repeal trends, pool rules, spillover and the 2010 homes denominator.
+- The one paired range that excludes 0 is 52h.1, and it is small: −3,409 homes.
+- No placebo shows an effect after repeal that is absent before it.
+- **Influence (52e):** the main estimate's negative lean comes from a few big cities. Dropping San Francisco, Austin and San Jose moves it by +21,353 homes, to +5,973. D's lean does not depend on them. Main is also out of balance on crowding (−0.35) and density (0.31), which it does not match on. Both points support reading D over main.
+- **Alternatives:** synthetic DiD loses to D. The weighting bake-off finds no clear winner, and stacking fails its coverage test, so the target-state mix stays.
+
+**52a. Market demand (D read; main exploratory).**
+- **Traits:** ACS rent growth (window ending the year before repeal against the window ending 6 years before) and QCEW county job growth.
+- **Coverage:** the margin-of-error fallback (20% is a convention) uses county rent for 6 of 74 repeal places. 136 Connecticut place-years have no county fallback and go missing.
+- **Balance:** rent and job growth were already balanced (standardised difference 0.10–0.12).
+- **D + market traits:** −8,082 (−49,290 to +9,166). Shift +4,791 (−10,101 to +9,701).
+- **Main + market (exploratory):** the "10 nearest on market traits" rule is not in the plan. It also cut pools from a median of 27 places to 10, so the shift mixes two changes. Shift +2,062 (−734 to +5,978).
+- **2010 homes denominator (fix 8):**
+  - D: shift +1,539 (−15,412 to +4,123).
+  - Main: shift −2,824 (−8,913 to +2,242); with batch weights held, −5,393 (−16,372 to +4,857).
+- Code: e07ff5df, 0973c006, 6aa23b42. Results: cc86b0ca.
+
+**52b. Other housing reforms as dated events.**
+- **Events table:** 5,292 rows, committed in c1eedd17 (18:16:27) before the first join (18:18:30).
+  - 4,772 state ADU-law rows; 520 place rows, 500 of them matched.
+  - Lists used: statewide_states_laws, other_cities_reforms, tod_cases, tod_reform_density, CA rail openings, MBTA Communities, Option D sets, edge-test places, WI ADU rules, PRN (repeal places only, as `prior parking dose`), and the repeal places' own ordinance checks.
+  - Coverage outside these lists is partial. State parking laws are not in the list; rail openings are CA only; some reforms are undated.
+- **Order:** the rerun script was committed with the results (e896e48), not before the run. One edit at 18:19:12, 41 seconds after the first join, changed only the summary section. No output had been read. This is the helper's account and can only be checked against file times.
+- **Deviations:**
+  - D was recomputed with method 2's functions; the base reproduces.
+  - MM_BPS_LAST_YEAR = 2025 was set.
+  - The pool-drop rule was also applied to the placebo pools. This was not in the plan, but it is the same rule on both sides.
+  - Timing is at year precision.
+
+| Variant | Main shift (WI homes) | D shift (WI homes) |
+| --- | --- | --- |
+| Drop pool place-years with a reform 1–3 years before | +5,337 (−614 to +15,050) | +80 |
+| Drop repeal places with a separate earlier reform (58 places) | −4,017 (−28,555 to +25,353) | +1,668 |
+| Drop division/nation pools in states with a law | +53 | −987 |
+| Indicator, everyone kept (fallback on main, where the repeal drop worsens balance) | −4,017 | −974 (−10,808 to +5,070) |
+| After-repeal reforms, pool drop (post-treatment sensitivity) | +27 | +387 |
+| After-repeal reforms, repeal drop (post-treatment sensitivity) | +22,004 (−12,409 to +52,973) | +1,561 |
+
+- No shift excludes 0. The main pool drop is the closest call, and it is not a finding.
+
+**52c. Pre-repeal trends (bounds).**
+- The main range includes 0, so the breakdown M is 0 by definition.
+
+| Estimator | Largest pre-gap G | M = 0.5 range (WI homes) | M = 1 range (WI homes) |
+| --- | --- | --- | --- |
+| Main | 1.9451 (year −5) | −59,246 to +32,627 | −72,223 to +45,605 |
+| D (G at year −9, available for 59 of 74) | 5.0763 | −78,438 to +38,722 | −112,306 to +72,589 |
+| D (G from years −5 to −2) | 3.0425 | — | M = 1 rate range −6.38 to +3.41 |
+
+- **P2 trend-matched rerun (main):** −13,969 (−44,316 to +21,678). Shift +1,410 (−1,334 to +4,744). Its range is a place bootstrap, so its width is not comparable with the placebo range.
+- **52d.4:** a hidden factor would need to produce a post-repeal gap of 0.59 times the largest pre-gap (main) or 0.19 times (D).
+
+**52d. Placebos.** Lists were committed in fdb9c5f0 before any join.
+
+| Placebo | Estimator | Places | WI homes (90% range) |
+| --- | --- | --- | --- |
+| Repeals moved 4 years early | Main | 67 | +23,443 (−7,936 to +56,969) |
+| Repeals moved 4 years early | D | 67 | −29,082 (−78,740 to +22,466) |
+| 2 years early (batch backtest, cited) | D | 74 | −15,904 (−52,339 to −1,925) |
+| Houses (1-unit permits), house minimum ≤ 2 | Main | 52 | −1,484 (−13,124 to +13,443) |
+| Houses (1-unit permits), house minimum ≤ 2 | D | 52 | −23,991 (−41,694 to +13,216) |
+
+- **ADU-only reform places:** not run. The Mercatus copy on disk is a Cloudflare block page; it is cited, not worked around.
+- **D seed:** D here uses seed 20261105, against the batch's 20261104. D's upper end moves from +0.364 to +0.471 in rate.
+- **Pools at −4 years:** the −4-year path re-chose pools with untrimmed windows, because a moved repeal year needs fresh pools. Gastonia and Avondale Estates drop out.
+- **Reading:** the −4-year estimates lean in opposite directions, and both include 0. D's −2-year dip excludes 0, so D's negative lean also appears before the repeal. Neither is evidence of cause.
+
+**52e. Influence (sizes only).**
+- **Design change:** the leave-one-out paired design was changed after the first run's results had been seen (post hoc; the first run's log is kept). Under the new design even trivial shifts would "count", so no count wording is used here.
+- **Main, dropping the 3 largest by weight** (San Francisco, Austin, San Jose; 127% of the result): +5,973 (−20,438 to +35,123), a move of +21,353.
+- **Main, dropping the 3 largest by contribution** (Austin, Minneapolis, Raleigh): a move of +17,683.
+- **D, dropping the 3 largest by weight** (Hudson, Saranac Lake, Ecorse): a move of −1,429. By contribution (Ecorse, Saranac Lake, Burlington): a move of −5,094.
+- **Leave-one-out:**
+  - Main ranges from −23,518 (without Raleigh) to +1,054 (without Austin).
+  - D ranges from −20,011 (without Hudson) to −6,781 (without Ecorse).
+  - One D range out of 74 excludes 0 (without Burlington), which is about what chance gives.
+- **Bastrop:** its own effect is the highest of the 74. Dropping it moves main by −669 and D by −2,244.
+  - Verified: the 2011 fire and the 2015 flood happened in the county.
+  - Not verified: that their rebuilding fell inside the city, in its windows.
+
+**52f. Synthetic DiD.**
+- **Result:** loses to D on 3b's fake repeals.
+  - Random effects: MAE 1.289 against 0.852, paired difference +0.437 (+0.332 to +0.537). Coverage 82.0% against 93.5%.
+  - It also loses under every other weighting.
+- **Real 74, evidence only:** SDID (mix) −18,874 (−49,394 to −4,081).
+- **Fit versus prediction:** SDID fits the before-years better for 72 of 74 places, but predicts the fake repeals worse. A closer before-fit did not give a better after-prediction.
+- **Zeta:** a treated count of 1 per fit (the interpretation) is the main reading; the literal 74 reading is a sensitivity, and it fails too.
+- **Fix after a look:** dfdb16dd (skipping unreported before-years) came after one stage-1 look whose verdict was D. The verdict did not change.
+
+**52g. Spillover, out-of-metro pools (D).** −12,402 (−39,417 to +6,329). Shift +471 (−3,048 to +8,997). 11 pools changed; on those pools, the mean Mahalanobis distance rose from 0.63 to 0.76.
+
+**52h. Pool rules that may filter on after-repeal outcomes (D).**
+- **h1, date-aware "never reformed":** shift −3,409 (−6,682 to −219).
+  - The paired design is a full resample, unchanged from the code commit.
+  - Only 11% of PRN rows carry a date, so it changed 9 pools.
+  - With undated reforms admitted as well: −3,071 (−14,974 to +9,935).
+- **h2, shock rule without the land test:** shift −2,772 (−11,666 to +2,459).
+- **h3, one missing year filled:** shift −984 (−4,627 to +526). 0 filled years before repeal, 1 after.
+- **Reading:** removing the possible collider rules moves D slightly more negative. Only h1's range excludes 0, and h1 is small.
+
+**52i. Weighting bake-off, then stacking** (1569cd60, committed 19:47:54; run 19:47:56).
+- **Bake-off:** leave one state out, over 10 states. Held-out MAE:
+
+  | Weighting | MAE |
+  | --- | --- |
+  | target-state mix | 3.0603 |
+  | random effects | 3.3893 |
+  | equal | 3.3907 |
+  | square root | 3.4822 |
+  | homes | 3.8385 |
+
+  - The mix is 9.7% better than the runner-up, and the 2% gap is a convention fixed in the plan.
+  - Against every other weighting, the paired error difference (places resampled within states) has a 90% range that includes 0. So there is **no clear winner**.
+- **Stacking:**
+  - Final shares: mix 0.752, random effects 0.248, others 0.
+  - Fold shares vary: mix 0.34–1.00, random effects 0–0.66, equal 0–0.66.
+  - Nested held-out MAE is 3.460, worse than the single mix (3.060).
+  - Held-out coverage is 30% (3 of 10 states). The pass band 85–95% means exactly 9 of 10, a knife edge.
+  - **Stacking fails, so the target-state mix stays.**
+- **Blend, shown for the record:** −7,507 (paired-sum range −32,173 to +9,604; mixture range −39,898 to +18,832); effective places 27.0.
+- **Spread across weightings (WI homes):**
+
+  | Weighting | WI homes |
+  | --- | --- |
+  | mix | −12,873 |
+  | random effects | +8,780 |
+  | square root | +9,261 |
+  | homes | +1,479 |
+  | equal | +8,270 |
+
+- **Why coverage is so low:** the blend's range measures how sure we are of the training-state average. A held-out state's own average carries its own noise, which that range does not include, so low coverage is expected here.
+- **Tie rule:** this replaces "ties go to the state mix" for this test only (Ryan's go, 17:58 UTC).
