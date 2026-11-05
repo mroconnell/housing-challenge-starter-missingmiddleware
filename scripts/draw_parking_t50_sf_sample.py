@@ -30,7 +30,7 @@ SEED = 20261105
 WINDOWS = {"before": ("2016-01-01", "2019-01-20"), "after": ("2019-01-21", "2022-12-31")}
 # Sec. 151.1 districts (no residential minimums before 2019), as of 2018, matched by zoning-code prefix
 S1511_PREFIX = ("C-3", "DTR", "RC-", "RCD", "NCT", "RTO", "UMU", "MUG", "MUO", "MUR", "SPD", "WMUG", "WMUO", "WMUR",
-                "RED", "SALI", "SLI", "SLR", "CCB", "CRNC", "CVR", "RSD", "MB-", "TB ", "C-3-")
+                "RED", "SALI", "SLI", "SLR", "CCB", "CRNC", "CVR", "RSD", "MB-", "TB ", "C-3-", "CMUO")  # CMUO added 2026-11-05 (audit)
 OUT = RAW / "parking_t50"
 
 
