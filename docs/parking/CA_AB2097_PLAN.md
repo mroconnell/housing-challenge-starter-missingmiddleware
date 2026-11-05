@@ -302,3 +302,11 @@ The plan's reading of it:
    because of the station itself, which could make the leads trend for reasons unrelated to AB 2097. The lead test
    (and the dose check's lead placebo) runs with and without that land. If the leads trend only with that land in,
    the write-up says so and reads the main result from the version without it.
+
+**2026-11-05 15:38 UTC, Ryan on rail (draft, plan not locked):** "bus lines can change and we have to look them all
+up, but rail, light rail, street car, etc are all more static and predictable"
+- The rail-only edge check counts heavy rail, light rail, streetcar, commuter rail and Amtrak stations. Streetcar is
+  included as rail; whether the law counts a streetcar stop as a "rail station" is not settled, so a check drops it.
+- Rail stations need no timetables (the law counts any existing rail station), so the rail-only checks do not depend
+  on the old bus schedules (choice 3). Station locations and opening dates can come from the stop data already on disk
+  plus agency opening dates.
