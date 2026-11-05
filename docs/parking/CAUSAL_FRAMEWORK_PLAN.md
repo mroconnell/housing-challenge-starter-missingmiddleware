@@ -1399,6 +1399,12 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
      | `data/raw/statewide_states` | — | State-law folders; dates come from `statewide_states_laws.csv` |
 
    - **Not added:** `reference/ca_ordinances_2019.csv`, because its `rules_as_of` field is a snapshot date, not an adoption date.
+   - **Audit additions (17:45 UTC):**
+     1. **PRN parking reforms in pool places:** these are left out of 52b's events table. A pool place with a parking reform was itself treated, which is 52h.1's job, so the two checks don't overlap. PRN reforms enter 52b only for repeal places, as other reforms before the repeal (for example an earlier partial parking cut).
+     2. **Uneven coverage:** the lists are dense for CA, MA, WI and the TOD cases and thin elsewhere. Drops are reported by state, and so is the pre-period gap before and after each drop.
+     3. **"Before the repeal" for a pool place** means before its matched repeal place's event year.
+     4. **Ambiguous names:** any same-name, same-state row that matches more than one BPS place is reported and left out.
+   - **Selection after the drop:** dropping reformers may tilt pools toward low-politics, low-demand places. The 52a balance table and the pre-period gap before and after the drop show whether that happened. The indicator version (52b item 4) keeps everyone and conditions on nothing, so it is the fallback reading if the drop tilts the pools.
    - **Write-up:** it names every list used and says that coverage outside them is still partial.
    - **Transit for California pool places:** the rail openings are assigned to places by station location, so in California, transit (item 7) is coded for pool places too.
    - **Dates and places:** each list's date field is used as written (effective date if present, else adoption date). Places are matched to BPS keys by name and state with `cmp.match_place`; rows that don't match are reported.
