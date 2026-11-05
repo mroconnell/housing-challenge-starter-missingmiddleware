@@ -1,7 +1,7 @@
 # CA AB 2097: statewide effect on permits — plan (LOCKED 2026-11-05 16:48 UTC)
 
-Written 2026-11-05 by the CA AB 2097 thread, before any new permit count. Status: **draft for Ryan and the audit**.
-Nothing runs until Ryan picks the options in section 5 and the audit clears the lock.
+Written 2026-11-05 by the CA AB 2097 thread, before any new permit count. Status: **locked 2026-11-05 16:48 UTC (section 9)**.
+Section 9 records the lock and any change after it.
 
 **Post hoc relative to the Oct 27 test.** This plan is written after the earlier AB 2097 test found no measurable
 change (section 2). It is a second look at the same law with the same permit data, not an independent vote. What is
