@@ -8,7 +8,7 @@ export VECLIB_MAXIMUM_THREADS=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 WORK="$PWD/data/processed/batch_2026-11-05_ref"
 OUT=reference/batch_2026-11-05
 LOGDIR="$PWD/data/processed/batch_2026-11-05_logs"
-if [ "${RESUME_FROM_METHOD2:-0}" != "1" ]; then
+if [ "${RESUME_FROM_METHOD2:-0}" != "1" ] && [ "${RESUME_FROM_STAGE2:-0}" != "1" ]; then
   rm -rf "$WORK" "$LOGDIR"; mkdir -p "$WORK" "$LOGDIR" "$OUT"
   rsync -a --exclude "batch_2026-11-05/" reference/ "$WORK/"
 fi
@@ -20,17 +20,19 @@ run() {
   if ! uv run --all-extras python "$@" > "$log" 2>&1; then tail -30 "$log"; echo "FAILED: $*"; exit 1; fi
   { grep -v -E "Warn|warn|ufunc|sqr =" "$log" || true; } | tail -25
 }
-if [ "${RESUME_FROM_METHOD2:-0}" != "1" ]; then
+if [ "${RESUME_FROM_METHOD2:-0}" != "1" ] && [ "${RESUME_FROM_STAGE2:-0}" != "1" ]; then
   run scripts/run_parking_salvage.py
   run scripts/run_parking_partial.py
   run scripts/run_parking_expanded.py
   run scripts/run_parking_placebo.py --full --save-draws
 fi
+if [ "${RESUME_FROM_STAGE2:-0}" != "1" ]; then
 run scripts/run_parking_method2.py --corrected --stage 1
 run scripts/pick_parking_method2_corrected.py
+fi
 cp "$WORK/parking_method2_corrected_pick.csv" "$OUT/parking_method2_corrected_pick.csv"
-git add "$OUT/parking_method2_corrected_pick.csv"
-git commit -q -m "Batch rerun: corrected method-2 pick on the fixed sample, committed in the batch folder for the stage-2 gate
+git add -f "$OUT/parking_method2_corrected_pick.csv"
+git diff --cached --quiet || git commit -q -m "Batch rerun: corrected method-2 pick on the fixed sample, committed in the batch folder for the stage-2 gate
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 run scripts/run_parking_method2.py --corrected --stage 2
@@ -58,7 +60,7 @@ PY
 git diff --quiet -- reference ":(exclude)reference/batch_2026-11-05" ":(exclude)reference/tod_*" ":(exclude)reference/parking_lot_cities_checks_near_transit.csv" || { echo "ORIGINALS CHANGED"; exit 1; }
 [ -z "$(git status --porcelain reference | grep -v -E "reference/(batch_2026-11-05/|tod_|parking_lot_cities_checks_near_transit)")" ] || { echo "NEW OR CHANGED FILES UNDER reference/"; git status --porcelain reference; exit 1; }
 [ "$TOD_BEFORE" = "$(shasum reference/tod_* reference/parking_lot_cities_checks_near_transit.csv | shasum)" ] || { echo "TOD FILES CHANGED"; exit 1; }
-git add "$OUT"
+git add -f "$OUT"
 git commit -q -m "Batch rerun outputs (changed or new files, with subpaths) in $OUT; originals untouched
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
