@@ -55,6 +55,8 @@ def _run(args):
 
 
 def wavg(kind, y, ev, cells):
+    if len(y) == 0:  # a bootstrap draw with no place observed in that year (years 6+ have few places)
+        return np.nan
     return m.weighted_avg(kind, y, ev, cells)
 
 
