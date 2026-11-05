@@ -1044,3 +1044,51 @@ Five helpers coded three places each from public sources, following a written br
 **Spot-check rows for Ryan (seed 20261105, drawn from the 30 kept SF rows):** 2017-002951PRJ, 2022-012441PRJ, 2020-006679PRJ, 2021-000947PRJ, 2018-014727PRJ.
 
 **Spot-check passed (Ryan, 17:19 UTC):** "these SF projects look correctly coded". The Test 50 result can now be cited, as a description.
+
+## Test 51: does subsidized building drive the result? LIHTC check (2026-11-05; lock "Test 51" with audit fixes and the cut-off, Ryan 17:14 UTC)
+
+**Evidence and sensitivity only. Nothing in the tool changes.**
+
+**What was done.**
+- **Data:** HUD's LIHTC database (lihtcpub.zip, hand-downloaded by Ryan; SHA-256 e07acee7…). Projects are assigned to BPS places by location (fix 1).
+- **Adjustment:** each place-year's tax-credit units are subtracted from total and 5+ unit permits, for repeal and comparison places alike. Permit year = allocation year + 1. The result is floored at 0.
+- **Runs:** every configuration reran the whole pipeline on the fixed 74-place sample: salvage, partial, expanded, placebo (20,000 sets) and method 2 stage 2. Code was committed in 3236b35f at 17:29:01 UTC; the runs started at 17:29:17.
+- **Results file:** `reference/parking_t51_results.csv`.
+- **"All units" only:** the 2+ unit outcome is not reported.
+- **Projects outside the test:** those in places with no BPS series (some Michigan and Minnesota cities, unorganized territories).
+- **5+ count:** all LIHTC units come out of the 5+ count, so tax-credit homes in 2–4 unit buildings are taken from the 5+ count, not the 2–4 count.
+
+**Main reading: paired difference, adjusted minus unadjusted, same places** (2,000-draw paired place bootstrap, seed 20261105). Wisconsin homes over 2027–2031:
+
+| Version | Places | Unadjusted (90% range) | Adjusted (90% range) | Paired difference (90% range) | Reading |
+| --- | --- | --- | --- | --- | --- |
+| **Main: 2020 cut-off, 100% affordable projects** | 13 | −13,497 (−101,833 to +91,560) | −16,518 (−101,025 to +83,422) | −3,020 (−4,184 to +775) | range includes 0 |
+| All LIHTC low-income units (fix 5) | 13 | same | −15,376 (−100,687 to +82,502) | −1,879 (−3,742 to +264) | range includes 0 |
+| Permit year = allocation year (timing) | 13 | same | −7,237 (−96,018 to +95,176) | +6,259 (−321 to +9,524) | range includes 0 |
+| 2021 cut-off (sensitivity) | 25 paired (26 each) | −13,866 (−77,516 to +62,709) | −11,792 (−73,183 to +58,891) | +2,074 (−3,337 to +5,077) | range includes 0 |
+| Full window to 2025 (descriptive only; recent years undercounted) | 74 | −15,380 (−46,268 to +19,649) | −9,158 (−39,615 to +25,051) | +6,222 (+2,709 to +9,601) | not read |
+
+In rates (permits per 1,000 existing homes a year), the main paired difference is −0.23 (−0.31 to +0.06). The unadjusted and adjusted columns use the tool's method: the real average with the placebo spread.
+
+**Reading (as locked).**
+- At the main cut-off, taking subsidized homes out does not move the result by more than its paired range, so subsidized building does not drive it. The same holds under all three sensitivities.
+- A result on 13 places says little. The ranges at this cut-off are about 190,000 homes wide.
+- **Full window:** the only version whose paired range excludes 0 is the full window. It is not read, because the database misses most projects funded after 2021. Its removed share falls from 12.4% before repeal to 6.1% after in repeal places (7.6% to 3.5% in pools). Removing more before than after pushes the adjusted effect up artificially.
+
+**Method 2 (D, target-state mix) as a second line, Wisconsin homes:**
+- 2020 cut-off: unadjusted +39,994 (−39,511 to +178,164), adjusted +44,195 (−41,080 to +181,861).
+- 2021 cut-off: −4,537 → −2,281.
+- Full window: −12,873 → −8,795.
+- With 13 places, method 2 is unstable (its sign flips from the 74-place result), so these lines are shown and not read.
+
+**Checks (fixes 6 and 7), main configuration:**
+- **Share of permits removed (home-weighted):**
+
+  | Places | Before repeal | After repeal |
+  | --- | --- | --- |
+  | Repeal places | 24.9% | 38.6% |
+  | Comparison pools | 11.9% | 14.8% |
+
+- **The 0 floor binds** in 2,758 of the 6,046 place-years with LIHTC units (46%). 234,964 of 795,540 LIHTC units (30%) could not be removed because the year's permits were smaller.
+- **Timing check:** 58.1% of LIHTC units fall in a permit year with at least that many BPS permits in the place.
+- **What these mean:** the allocation + 1 proxy often puts a project's units in a different year from its permits. Many tax-credit projects are also large against a small place's yearly permits. The adjustment is rough, which is one more reason the main reading is "not driven by subsidy" rather than any size of subsidy effect.
