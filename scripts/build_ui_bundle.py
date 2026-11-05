@@ -47,7 +47,7 @@ YEARS = [2027, 2028, 2029, 2030, 2031]
 PATHS = ["lower", "central", "upper"]
 
 INPUTS = [
-    "scripts/build_ui_bundle.py", "reference/adu_model_params.json", "reference/adu_model_statewide.csv", "reference/adu_model_statewide_by_year.csv",
+    "scripts/build_ui_bundle.py", "reference/adu_model_params.json", "reference/adu_model_statewide.csv", "reference/adu_model_statewide_by_year.csv", "reference/adu_causal_a3_range.csv", "reference/adu_causal_a3_by_state.csv",
     "reference/adu_model_by_county.csv", "reference/adu_model_by_context.csv", "reference/adu_model_by_rights_basis.csv",
     "reference/adu_model_sensitivities.csv", "reference/adu_model_reference_lines.csv",
     "reference/pooled_revision_adoption_line.csv", "reference/pooled_revision_stage2_levels.csv",
@@ -450,6 +450,49 @@ def build_state(p: dict) -> dict:
                 "additional_total": r(al.additional.sum(), 1),
                 "with_law_by_year": [r(v, 2) for v in al.with_law_total],
                 "source": f"{REFERENCE_FILE} ({REFERENCE_LINE}), reference/adu_model_reference_lines.csv"}
+    # Uniform display (owner 2026-11-05: ADUs and TOD as 90% ranges): A3 held-out range and side lines
+    a3 = pd.read_csv(REF / "adu_causal_a3_range.csv").set_index("version").loc["t 6 df x RMS"]
+    a3_lo, a3_hi = float(a3.low), float(a3.high)
+    cen_tot = float(st_tot.loc["central", "additional_units"])
+    sens = pd.read_csv(REF / "adu_model_sensitivities.csv")
+    def _sens(prefix):
+        return float(sens[sens.change.str.startswith(prefix)].iloc[0].central_additional_5yr)
+    a3e = pd.read_csv(REF / "adu_causal_a3_by_state.csv").log_error
+    bias, sd = float(a3e.mean()), float(a3e.std(ddof=1)) * math.sqrt(1 + 1 / len(a3e))   # prediction interval for a new state, bias removed
+    range90 = {
+        "low": r(a3_lo, 0), "high": r(a3_hi, 0), "unit": "ADU permits, Wisconsin, 2027–2031",
+        "method": ("Held-out prediction error: each of the 7 non-California statewide-law states was hidden in turn and "
+                   f"predicted from the others; root mean square log miss {float(a3.rms):.3f} × t at 6 degrees of "
+                   "freedom (1.943), around typical adoption."),
+        "coverage": "Checked on 7 states: 7 of 7 inside ranges built from the other 6; too few to measure a factor, so not widened.",
+        "caveat": ("Covers law-side error only. It leaves out Wisconsin-side inputs: today's rates where they are assumed "
+                   "(74% of the addition is in such places; the codings tested move the result from 9,319 to 10,734), "
+                   "and how the with-law level is spread across places."),
+        "years": [{"year": y, "low": r(a * a3_lo / cen_tot, 2), "high": r(a * a3_hi / cen_tot, 2)}
+                  for y, a in zip(YEARS, cen.additional_units)],
+        "source": "reference/adu_causal_a3_range.csv (scripts/run_adu_causal_a3.py); docs/adu/CAUSAL_FRAMEWORK_RESULTS.md"}
+    side_lines = [
+        {"id": "typical", "label": "Typical adoption (the former central)", "value": r(cen_tot, 0), "where": "chart",
+         "note": "Each place rises to the level similar places reached in a typical statewide-law state."},
+        {"id": "median8", "label": "Median path of the 8 statewide-law states", "value": r(al.additional.sum(), 0),
+         "where": "chart", "note": "The median rate the 8 statewide-law states actually reached each year, applied to Wisconsin's single-family homes."},
+        {"id": "slow2", "label": "Like Rhode Island and Oregon, the 2 slowest statewide-law states",
+         "value": r(float(st_tot.loc["lower", "additional_units"]), 0), "where": "chart",
+         "note": "Wisconsin adopts as slowly as the average of the two slowest statewide-law states."},
+        {"id": "ca_high", "label": "High end, near California (only California is higher)",
+         "value": r(float(st_tot.loc["upper", "additional_units"]), 0), "where": "chart",
+         "note": "The high end of what statewide-law states have reached; it sits above the range."},
+        {"id": "whatif_791", "label": "If the law only multiplies today's rates",
+         "value": r(_sens("multiplicative"), 0), "where": "howsure",
+         "note": "Places that permit almost nothing today stay near zero; before-and-after counts in other states contradict this."},
+        {"id": "whatif_2255", "label": "A model fitted on California cities alone",
+         "value": r(_sens("California-only market regression"), 0), "where": "howsure",
+         "note": "California cities like Madison responded weakly; a downside case."},
+        {"id": "bias_corrected", "label": "Range corrected for the model's average miss",
+         "low": r(cen_tot * math.exp(-bias - 1.943180 * sd), 0), "high": r(cen_tot * math.exp(-bias + 1.943180 * sd), 0),
+         "where": "howsure",
+         "note": f"The model predicted hidden states about {math.expm1(bias) * 100:.0f}% too high on average; this range takes that out."},
+    ]
     ctx = pd.read_csv(REF / "adu_model_by_context.csv")
     contrast = pd.read_csv(REF / "gate5_context_contrast.csv").set_index("context")
     homes_ctx = pd.read_csv(REF / "wi_baseline_by_municipality.csv").groupby("context_group").homes.sum()
@@ -491,7 +534,7 @@ def build_state(p: dict) -> dict:
             "acs_period": "ACS 2020–2024 5-year estimates: an average over the five years 2020–2024, not a 2024 count",
             "pep_note": "Census Population Estimates for 1 July each year; no published margin of error", "acs_total_units": one("total_housing_units_acs"),
             "occupied": one("occupied_units"), "vacant": one("vacant_units"), "vacancy_rate": one("vacancy_rate"),
-            "mix": mix, "bps": bps, "baseline": baseline, "scenarios": scen, "reference_line": ref_line, "contexts": contexts,
+            "mix": mix, "bps": bps, "baseline": baseline, "scenarios": scen, "range90": range90, "side_lines": side_lines, "reference_line": ref_line, "contexts": contexts,
             "context_why": context_why,
             "labels": {"baseline": LABELS["baseline"], "band": LABELS["band"], "reference": ref_line["label"],
                        "added": LABELS["added"]},
