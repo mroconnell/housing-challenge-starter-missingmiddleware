@@ -59,7 +59,7 @@ def main() -> None:
     rows = []
     for col, label in (("area_class", "2013 principal cities (main)"), ("area_class_pc2023", "2023 principal cities (check)")):
         g = pd.Series([GROUP.get(T[col].get(k), "unknown") for k in keys])
-        est = {}
+        est, est_eq = {}, {}
         for grp in ("core", "non-core metro", "outside metro"):
             idx = np.flatnonzero((g == grp).values)
             okD = idx[np.isfinite(yD[idx])]
@@ -70,7 +70,16 @@ def main() -> None:
             aM = float(np.average(yM[okM], weights=wM[okM]))
             bM = boot(yM[okM], lambda i: float(np.average(yM[okM][i], weights=wM[okM][i])))
             est[grp] = (bD, bM)
-            for est_name, a, b, n in (("D", aD, bD, len(okD)), ("main", aM, bM, len(okM))):
+            # equal weight per city (lock fix 7): D's "equal" weighting (winsorised as in method 2); main plain mean
+            aDe = m.weighted_avg("equal", yD[okD], eD, wi)
+            bDe = boot(yD[okD], lambda i: m.weighted_avg("equal", yD[okD][i], eD.iloc[i].reset_index(drop=True), wi))
+            aMe = float(np.mean(yM[okM]))
+            bMe = boot(yM[okM], lambda i: float(np.mean(yM[okM][i])))
+            est_eq[grp] = (bDe, bMe, bD - bDe, bM - bMe)
+            for est_name, a, b, n in (("D", aD, bD, len(okD)), ("main", aM, bM, len(okM)),
+                                      ("D, equal weight", aDe, bDe, len(okD)), ("main, equal weight", aMe, bMe, len(okM)),
+                                      ("D, weighted minus equal", aD - aDe, bD - bDe, len(okD)),
+                                      ("main, weighted minus equal", aM - aMe, bM - bMe, len(okM))):
                 lo, hi = np.nanpercentile(b, [5, 95])
                 rows.append(dict(groups=label, row=grp, estimator=est_name, places=n, rate=a, p05=lo, p95=hi,
                                  wi_homes=a * m.WI_K, wi_p05=lo * m.WI_K, wi_p95=hi * m.WI_K,
@@ -79,6 +88,15 @@ def main() -> None:
         for other in ("non-core metro", "outside metro"):
             for k, est_name in ((0, "D"), (1, "main")):
                 d = est["core"][k] - est[other][k]
+                a = next(r["rate"] for r in rows if r["groups"] == label and r["row"] == "core" and r["estimator"] == est_name) - \
+                    next(r["rate"] for r in rows if r["groups"] == label and r["row"] == other and r["estimator"] == est_name)
+                lo, hi = np.nanpercentile(d, [5, 95])
+                rows.append(dict(groups=label, row=f"core minus {other}", estimator=est_name, rate=a, p05=lo, p95=hi,
+                                 wi_homes=a * m.WI_K, wi_p05=lo * m.WI_K, wi_p95=hi * m.WI_K, excludes_0=bool(lo > 0 or hi < 0)))
+        for other in ("non-core metro", "outside metro"):
+            for k, est_name in ((0, "D, equal weight"), (1, "main, equal weight"), (2, "D, weighted minus equal"),
+                                (3, "main, weighted minus equal")):
+                d = est_eq["core"][k] - est_eq[other][k]
                 a = next(r["rate"] for r in rows if r["groups"] == label and r["row"] == "core" and r["estimator"] == est_name) - \
                     next(r["rate"] for r in rows if r["groups"] == label and r["row"] == other and r["estimator"] == est_name)
                 lo, hi = np.nanpercentile(d, [5, 95])

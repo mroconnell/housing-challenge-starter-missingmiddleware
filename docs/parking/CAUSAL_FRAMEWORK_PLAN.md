@@ -1531,6 +1531,11 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 4. **Thin groups:** outside metro has 8 places, so any difference resting on it is thin, and the reading says so. Each group's n is shown beside every range.
 5. **Class-matched pools:** pool sizes are reported. Where a class leaves too few pool places, the batch ladder applies unchanged (state, then division, then nation, then step 5).
 6. **Nearest-tract fallback:** 5 of the 74 use it (Bandera, Lansing, Social Circle, Millersburg, Saranac Lake).
+7. **Equal-city weighting (added 21:31 UTC, before any count; Ryan in the CA AB 2097 thread, 21:30 UTC: equal weight per city "is a very different result than homes weighted ... might be related to our exurb observations ... worth testing"):**
+   - Every group average and difference is also reported with equal weight per city, for D (the method-2 "equal" weighting, winsorised as in method 2) and main (plain mean).
+   - The reading rule is unchanged.
+   - An extra check: whether the gap between equal and home-weighted results is larger in one group than another (the difference of differences, with the same within-group resampling). It is read the same way.
+   - This change needs the audit and Ryan's go before the run.
 
 **Run order:**
 1. Code committed before any run.
