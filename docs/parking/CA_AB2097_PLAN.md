@@ -493,13 +493,15 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
   Manville and Smith's 2022 letter, "AB 2097 Will Not Undermine the State Density Bonus or the Los Angeles Transit
   Oriented Communities Program", UCLA/USC, 2022-08-29, supplied by Ryan). Added as a **secondary outcome**, read by
   the same rules as the main result (same groups, years, dating, resampling, leads and placebo checks):
-  - Outcome A: share of permitted projects with 5 or more homes that used the state density bonus
-    (Table A2 `DENSITY_BONUS_TOTAL` > 0), near transit vs the ring, 2023–2025 vs 2018–2022.
-  - Outcome B: density-bonus homes permitted per 1,000 existing homes a year, same contrast.
+  - `DENSITY_BONUS_TOTAL` is read as HCD's field for the number of extra homes granted by the density bonus
+    (bonus homes only). A project "used the density bonus" when it is above 0.
+  - Outcome A: among permitted projects with 5 or more homes **whose density-bonus field is filled**, the share
+    that used the density bonus; near transit vs the ring, 2023–2025 vs 2018–2022. Check: blank counted as 0.
+  - Outcome B: all permitted homes in projects that used the density bonus, per 1,000 existing homes a year, same
+    contrast. Check: bonus homes only (the field's own count).
   - Before any estimate, step 1 reports how often the density-bonus fields are filled, by report year, since the
     form changed over the years. If fill rates differ sharply between before and after years, the outcome is shown
     with that caveat.
-  - The letter predicts no fall in density-bonus use; its critics predicted a fall. Neither is assumed: a rise, a
-    fall or no change are all reported as found.
+  - The letter is cited only as the reason for the test. A rise, a fall or no change are all reported as found.
   - Los Angeles's TOC areas stay out of group P, as in the main estimate.
 - 2026-11-05, pre-count: step 1a script cleared by the audit (review of 659b82c7, fixes applied in 0e566643). Step 1a runs as `scripts/ca_ab2097_step1a_sources.py` at commit 0e566643. Step 1b gets its own audit check before it runs.

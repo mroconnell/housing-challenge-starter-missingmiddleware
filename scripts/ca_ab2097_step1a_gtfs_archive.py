@@ -7,10 +7,13 @@ copies of each agency's schedule file, the Mobility Database as backup for gaps)
 Steps
 1. Read the Mobility Database public catalog (feeds_v2.csv; read only, not stored in git) and keep California GTFS
    schedule feeds: provider, feed id, and the agency's own download URL (urls.direct_download).
-2. For each agency URL, ask the web archive's capture index (CDX) for saved copies with HTTP 200 between
+2. For each agency URL, ask the web archive's capture index (CDX) for saved copies with HTTP 200 or 3xx between
    2022-09-01 and 2022-12-31 (the window for the late-2022 map), and, separately, 2022-01-01 to 2023-06-30.
 3. Write reference/ca_ab2097_gtfs_archive_coverage.csv: provider, feed id, URL, number of captures in each window,
-   the capture nearest to 2022-11-15, and status. A summary line counts agencies with at least one late-2022 copy.
+   the capture nearest to 2022-11-15, and status. A summary line counts agencies with at least one late-2022 copy. Key or token values in URLs are removed before
+   writing. Agencies whose URL changed since 2022 show 0 captures and are listed as gaps for the Mobility Database
+   backup. (Later download step: a capture date is not a service period; calendar.txt / calendar_dates.txt must
+   cover 2022-12-31.)
 
 Every request sends "missing-middleware-research/1.0 (public data)". Two seconds between archive requests. A refused
 or rate-limited request is recorded and not retried with other headers.
@@ -20,6 +23,8 @@ or rate-limited request is recorded and not retried with other headers.
 from __future__ import annotations
 
 import csv
+import datetime as dt
+import re
 import io
 import json
 import sys
@@ -52,9 +57,23 @@ def get(url: str, timeout: int = 90) -> tuple[int, bytes]:
         return 0, b""
 
 
+SECRET = re.compile(r"(?i)(api[_-]?key|apikey|token|key|secret|auth|access[_-]?token)=([^&]+)")
+
+
+def clean_url(url: str) -> str:
+    """URL with any key or token values in its query string replaced, for the committed CSV."""
+    return SECRET.sub(lambda m: f"{m.group(1)}=[removed]", url)
+
+
+def days_from_target(stamp: str) -> int:
+    d = dt.date(int(stamp[:4]), int(stamp[4:6]), int(stamp[6:8]))
+    return abs((d - dt.date(int(TARGET[:4]), int(TARGET[4:6]), int(TARGET[6:8]))).days)
+
+
 def captures(url: str, start: str, end: str) -> tuple[int, list[str]]:
+    """Saved copies with status 200 or a redirect (3xx)."""
     q = urllib.parse.urlencode({"url": url, "from": start, "to": end, "output": "json",
-                                "fl": "timestamp", "filter": "statuscode:200"})
+                                "fl": "timestamp", "filter": "statuscode:[23]..",})
     status, body = get(f"https://web.archive.org/cdx/search/cdx?{q}")
     if status != 200:
         return status, []
@@ -85,8 +104,8 @@ def main() -> None:
         time.sleep(2)
         s2, wide = captures(u, *WIDE)
         time.sleep(2)
-        nearest = min(wide, key=lambda t: abs(int(t[:8]) - int(TARGET))) if wide else ""
-        rows.append({"provider": r["provider"], "mdb_id": r["id"], "url": u,
+        nearest = min(wide, key=days_from_target) if wide else ""
+        rows.append({"provider": r["provider"], "mdb_id": r["id"], "url": clean_url(u),
                      "captures_2022_09_to_12": len(late), "captures_2022_01_to_2023_06": len(wide),
                      "nearest_to_2022_11_15": nearest[:8], "status": f"{s1}/{s2}"})
     with OUT.open("w", newline="") as f:
