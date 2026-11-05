@@ -133,7 +133,9 @@ def main() -> None:
     # years 1-3 average per place vs corrected method 2's effect for the same places (target-state mix)
     y13 = np.array([np.nanmean([eff1[i]["effects"][k] for k in (1, 2, 3)]) for i in i1])
     m2 = pd.read_csv(REFERENCE / "parking_method2_corrected_places.csv")
-    m2 = m2[m2["variant"] == "method 2, D"].reset_index(drop=True)["effect"].values[i1]
+    m2 = m2[m2["variant"] == "method 2, D"].reset_index(drop=True)
+    assert (m2["place"].values == np.array([c["place"] for c in cases])).all(), "method-2 rows out of order"
+    m2 = m2["effect"].values[i1]
     E1 = ev.iloc[i1].reset_index(drop=True)
     cmp_rows = []
     for lab, yy in (("years 1-3 average, fixed long pool", y13), ("corrected method 2 (D), same places", m2)):
