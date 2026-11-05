@@ -451,3 +451,12 @@ written summaries only.
    redistributed) needs Ryan's OK. Until then they are not downloaded. The third-party "AB 2097 Eligibility Areas"
    layer (modified 2023-12-15, an individual's account) falls under the no-licence, no-reuse rule unless Ryan says
    otherwise.
+
+**2026-11-05 16:42 UTC, Ryan on the licence question: "for this research phase, let's say yes"** (draft, not locked).
+- City and regional AB 2097 layers with no stated licence (and SCAG's "general planning and informational purposes"
+  layer) may be used as research inputs in this phase: kept out of git, never redistributed, cited by URL and access
+  date, with any terms text recorded in the fetch log.
+- "This research phase" only: any use in the tool, or any published derived layer, needs Ryan's OK again.
+- The third-party individual's "AB 2097 Eligibility Areas" layer (2023-12-15) stays out; Ryan's answer covered the
+  city and regional layers asked about.
+- Downloads still wait for the lock and the audit's check of the step-1 script.
