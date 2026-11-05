@@ -853,3 +853,5 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 - Boosting's grouped-CV choice was a single iteration, so it found almost nothing to learn.
 
 **Reading.** Building levels are predictable (method 3's score beat an average by 11%), but the change in building after a given year is not. That change is what the effect measures. No fake-repeal bake-off was run, and D (corrected method 2) stands.
+- **Loss note.** The models fit squared error but are judged on mean absolute error, and the change has heavy tails. A retry with another loss would need a new lock and Ryan's call; none is proposed here.
+- **Across methods.** None of the methods tested on fake repeals beat D: the method-2 candidates, method 3's prognostic matching, and 3b, which stopped before its bake-off. The gap between D (−10,223) and prognostic matching (+369) under the Wisconsin mix is the best sign of how much the comparison choice moves Wisconsin's number.
