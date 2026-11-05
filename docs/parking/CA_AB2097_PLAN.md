@@ -489,6 +489,28 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05, post-lock, pre-count, **exact spec of the bus side checks, written before the first estimate run**
+  (audit item 5). They run in a separate script after the main run but follow only this spec; anything added later
+  is labelled "written after seeing results".
+  1. **Dated 2022 bus map (web archive).** Agencies with a qualifying copy (calendar covers 2022-12-14) from
+     `reference/ca_ab2097_gtfs_archive_coverage.csv`. Bus major stop = two or more routes, each with 4+ trips an hour
+     in both 7:00–9:00 a.m. and 4:00–6:00 p.m. on 2022-12-14 (one direction), stops within 150 m of each other.
+     Report, per agency: stops in both maps, only in the 2022 map, only in today's Caltrans map; 2020 homes within
+     ½ mile of each. Re-run the headline (homes other than ADUs, main group) with today's bus stops replaced by the
+     2022 stops for those agencies' counties.
+  2. **MTC 2017 (Bay Area, earlier map, after its data licence is checked).** For main-group jurisdictions in the nine
+     Bay Area counties: 2020 homes within ½ mile of MTC's 2017 major transit stops, of our main map, of both, and of
+     either; agreement = both ÷ either. Re-run the headline for those jurisdictions with MTC 2017 stops in place of
+     today's bus stops.
+  3. **National Transit Database service.** For agencies without a qualifying 2022 copy: annual bus vehicle revenue
+     hours (modes MB, RB, CB) in report year 2022 and in the latest year, and the ratio; described only, beside each
+     agency's share of today's bus major stops.
+  4. **Streetcar check:** streetcar-only systems listed by National Transit Database mode SR (streetcar) before the
+     run; the check drops their stops.
+  5. **City maps (Oakland Spring 2023 layer, Truckee, Palo Alto and Santa Cruz rebuilt from PDFs; Sacramento as a
+     placebo city):** per city, share of 2020 homes inside each map that the other map also covers; edge test on each
+     city map (1/3–1/2 vs 1/2–2/3 mile equivalent: 0–150 m inside vs 0–150 m outside the city's line, 25 m donut),
+     project resampling.
 - 2026-11-05 19:02–19:04 UTC, post-lock, pre-count, Ryan: "the hcd apr data should have a specific street address /
   APN", then "yeah" to re-geocoding. Non-street rows with a house-numbered street address are re-geocoded with the
   U.S. Census Bureau geocoder (`scripts/ca_ab2097_regeocode.py`; public domain, no account; addresses kept out of git).

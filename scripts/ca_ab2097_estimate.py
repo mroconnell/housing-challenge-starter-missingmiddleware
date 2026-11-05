@@ -37,6 +37,11 @@ City-level (dose) check: Census BPS place permits (all units) per 1,000 existing
   2018-2022, regressed on the share of the place's 2020 homes within 1/2 mile on the main map, weighted by 2020
   homes (equal weight beside it), placebo places left out; lead placebo 2021-2022 minus 2018-2020; 90% range from
   2,000 resamples of places.
+Labels carried with every result (audit): (1) the dose check uses BPS all units, which counts ADUs differently from
+  Table A2, while the main point-based outcome excludes ADUs; (2) planned stops are mapped only for SCAG: elsewhere
+  land near 2022-era planned stops counts as ring (land the law covers moved into the comparison), and the no_planned
+  check shows only the SCAG part; (3) bus areas use today's Caltrans layer (20-minute rule, later map); (4) the
+  synthetic tests (tests/test_ca_ab2097.py) were run with python directly because pytest is not installed in the venv.
 Reading rules (plan): evidence only if leads are balanced, the placebo group's range includes 0 and the placebo date
   shows nothing; a statewide claim only if the city-level check agrees. Secondary outcomes are descriptive only.
 """
@@ -107,6 +112,7 @@ def clean_permits_full(a2: pd.DataFrame) -> pd.DataFrame:
     """The earlier test's cleaning (ab2097.clean_permits) with the extra fields this study needs kept. Geocoding is
     applied later (HCD street-level points or accepted Census points), so rows are not dropped for it here."""
     d = a2.copy()
+    d["geo_key"] = raw_keys(d)  # same row hash as scripts/ca_ab2097_regeocode.py, made before any row is dropped
     d["units"] = pd.to_numeric(d.NO_BUILDING_PERMITS, errors="coerce").fillna(0.0)
     d["report_year"] = d.YEAR
     bp = pd.to_datetime(d.BP_ISSUE_DT1, errors="coerce")
@@ -138,24 +144,33 @@ def clean_permits_full(a2: pd.DataFrame) -> pd.DataFrame:
     return d
 
 
-def add_census_points(p: pd.DataFrame) -> pd.DataFrame:
-    """Accepted Census re-geocodes for rows without an HCD street-level point (scripts/ca_ab2097_regeocode.py)."""
+def raw_keys(a2: pd.DataFrame) -> pd.Series:
+    """Row hash identical to scripts/ca_ab2097_regeocode.row_key, on the raw Table A2 frame."""
+    import ca_ab2097_regeocode as rg
+    return rg.row_key(a2)
+
+
+def add_census_points(p: pd.DataFrame, raw_key_set: set) -> pd.DataFrame:
+    """Accepted Census re-geocodes for rows without an HCD street-level point (scripts/ca_ab2097_regeocode.py).
+    Stops the run if the points file is missing or the join does not line up (audit)."""
     f = RAW.parent / "interim" / "ca_ab2097_geocode" / "points.parquet"
-    p["census_point"] = False
     if not f.exists():
-        print("no Census re-geocodes found; main = HCD street-level points only")
-        return p
-    import hashlib
-    parts = [p[c].astype(object).where(p[c].notna(), "").map(str) for c in ("JURIS_NAME", "report_year", "STREET_ADDRESS")]
-    idx = pd.Series([str(i) for i in p.index], index=p.index)
-    key = (parts[0] + "|" + parts[1] + "|" + parts[2] + "|" + idx).map(lambda s: hashlib.sha1(s.encode()).hexdigest()[:16])
+        raise SystemExit(f"{f} is missing: run the re-geocode first (audit: main must not silently become HCD-only)")
     g = pd.read_parquet(f)
     g = g[g.kind == "failed_hcd"].set_index("key")
+    missing = set(g.index) - raw_key_set
+    if missing:
+        raise SystemExit(f"{len(missing)} accepted Census keys do not exist in Table A2: the row hash does not line up")
+    expected = int(p.geo_key.isin(g.index).sum())  # accepted rows that survive cleaning (duplicates removed)
+    p["census_point"] = False
+    key = p.geo_key
     hit = key.isin(g.index) & ~p.hcd_street
     p.loc[hit, "lat"] = key[hit].map(g.lat).to_numpy()
     p.loc[hit, "lon"] = key[hit].map(g.lon).to_numpy()
     p.loc[hit, "census_point"] = True
-    print(f"Census re-geocodes joined: {int(hit.sum()):,} rows")
+    print(f"accepted Census rows: {len(g):,}; of them in the cleaned permit set: {expected:,}; joined: {int(hit.sum()):,}")
+    if int(hit.sum()) != expected:
+        raise SystemExit("joined Census rows differ from accepted rows in the cleaned set")
     return p
 
 
@@ -175,7 +190,13 @@ def build() -> None:
     b["upz"] = run.in_toc(b) & (b.juris == ab.LA)
     b["homes"], b["acres"] = b.HOUSING20.astype(float), b.ALAND20.astype(float) / 4046.8564224
     a2 = pd.read_csv(RAW / "hcd_apr_a2" / "tablea2.csv", usecols=A2_COLS, low_memory=False)
-    p = add_census_points(clean_permits_full(a2))
+    a2 = a2.reindex(columns=list(dict.fromkeys(A2_COLS)))
+    fb = RAW.parent / "interim" / "ca_ab2097_geocode" / "failed_batches.txt"
+    if not fb.exists():
+        raise SystemExit("re-geocode has not finished (failed_batches.txt missing)")
+    if fb.read_text().strip():
+        print(f"re-geocode failed batches (their rows count as not geocoded): {fb.read_text().strip()}")
+    p = add_census_points(clean_permits_full(a2), set(raw_keys(a2)))
     p = p[p.lat.notna() & p.lon.notna()].copy()
     pts = run.lonlat_points(p, p.lon, p.lat)
     p["upz"] = run.in_toc(pts) & (p.juris == ab.LA)
@@ -473,6 +494,8 @@ def estimate() -> None:
     res["unit"] = np.where(res.outcome.str.contains("per acre"), "permits per acre per year",
                            np.where(res.outcome == "share of projects", "share of projects (0-1)",
                                     "homes in issued permits per 1,000 existing homes (2020) per year"))
+    res["labels"] = ("bus areas: today's Caltrans layer (20-minute rule, later map); planned stops mapped for SCAG only "
+                     "(elsewhere planned-stop land counts as ring); points: HCD street-level + Census re-geocodes")
     res.to_csv(REFERENCE / "ca_ab2097_results.csv", index=False)
     pd.DataFrame(years_rows).to_csv(REFERENCE / "ca_ab2097_results_by_year.csv", index=False)
     pd.DataFrame(dose_check(b)).to_csv(REFERENCE / "ca_ab2097_results_dose.csv", index=False)
