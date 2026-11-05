@@ -132,12 +132,15 @@ def read_openings() -> pd.DataFrame:
     bad_mode = ~o["mode"].isin(TABLE_MODE)
     bad_event = ~o.event.isin(["opened", "closed"])
     no_xy = o.lat.isna() | o.lon.isna()
+    problems = []
     for name, m in (("date not YYYY-MM-DD", bad_date), ("unknown mode", bad_mode), ("event not opened/closed", bad_event),
                     ("no coordinates", no_xy)):
         if m.any():
-            print(f"openings table: {int(m.sum())} rows with {name}; left out and listed:")
-            print(o.loc[m, ["system", "station_name", "mode", "event", "date"]].to_string(index=False))
-    o = o[~(bad_date | bad_mode | bad_event | no_xy)].copy()
+            problems.append(f"{int(m.sum())} rows with {name}:\n"
+                            + o.loc[m, ["system", "station_name", "mode", "event", "date"]].to_string(index=False))
+    if problems:  # a dropped "opened" row would wrongly count its station as open before 2018 (audit)
+        raise SystemExit("openings table has bad rows; fix them before running:\n" + "\n".join(problems))
+    o = o.copy()
     o["smode"] = o["mode"].map(TABLE_MODE)
     return run.lonlat_points(o.reset_index(drop=True), o.lon.astype(float), o.lat.astype(float))
 
@@ -201,7 +204,8 @@ def coverage(st: pd.DataFrame, blocks: pd.DataFrame) -> pd.DataFrame:
 def main() -> None:
     stops = pd.concat([ntm_rail(), fetch_amtrak(), ferry()], ignore_index=True)
     st = to_stations(stops)
-    # Amtrak-only: an intercity station with no other rail station within MERGE_M
+    st = attach_dates(st)
+    # Amtrak-only: an intercity station with no other rail station within MERGE_M (after closed stations are added back)
     other = st[(st.mode != "intercity_rail") & (st.mode != "ferry")]
     from missing_middleware.geom_extra_station import nearest_lowest
     _, d = nearest_lowest(st.x.to_numpy(float), st.y.to_numpy(float), other.x.to_numpy(float), other.y.to_numpy(float))
@@ -213,7 +217,6 @@ def main() -> None:
         j, _ = nearest_lowest(near.x.to_numpy(float), near.y.to_numpy(float), other.x.to_numpy(float), other.y.to_numpy(float))
         print("systems sharing a station with Amtrak (NTD id: count):",
               other.system_id.to_numpy(object)[j].tolist() and pd.Series(other.system_id.to_numpy(object)[j]).value_counts().to_dict())
-    st = attach_dates(st)
 
     blocks = run.read_blocks(["GEOID20", "COUNTYFP20", "ALAND20", "HOUSING20", "INTPTLAT20", "INTPTLON20"])
     blocks["juris"] = run.block_juris(blocks)
