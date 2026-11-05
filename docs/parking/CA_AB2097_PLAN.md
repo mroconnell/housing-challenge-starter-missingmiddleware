@@ -416,3 +416,17 @@ Uses:
 2. The five opposed cities are a **second source** for the city-map sample (the committee analysis), separate from the
    paper's 15-city frame, and are labelled so. Where one has no public map: "no map found", no replacement.
 3. Each stance group shows covered homes (2020) and covered acres beside its city and permit counts.
+
+**2026-11-05 16:16 UTC, Ryan: "well a bit deeper than that :D"** (on the time box). Replaces the three-step time
+box above. For each city lead, check all of these, then stop:
+1. The city's planning or AB 2097 web page, and its zoning code for an AB 2097 section.
+2. The city's map viewers and open-data / ArcGIS sites, including the list of map layers (REST service directory)
+   for any AB 2097, "reduced parking", "major transit stop" or "transit priority area" layer.
+3. City council and planning commission agendas and staff reports from 2022 to 2025 mentioning AB 2097 (maps are
+   often attached as figures).
+4. Which regional map the city says it relies on (SCAG, SANDAG, SACOG or MTC), and whether that map is public.
+5. Web-archive copies of the pages in 1–2, for dated older versions.
+6. Two web searches: the city's name with "AB 2097 map", and with "parking" "major transit stop".
+Results are recorded per city as one of: GIS layer found (usable), PDF map only (recorded, digitized only if the city
+is in the sample and the map is legible), relies on a regional map (named), or no map found (with what was checked).
+No records requests, no emails, no logins.
