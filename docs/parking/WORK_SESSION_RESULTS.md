@@ -855,3 +855,37 @@ Units: permits per 1,000 existing homes a year; Wisconsin homes over 2027–2031
 **Reading.** Building levels are predictable (method 3's score beat an average by 11%), but the change in building after a given year is not. That change is what the effect measures. No fake-repeal bake-off was run, and D (corrected method 2) stands.
 - **Loss note.** The models fit squared error but are judged on mean absolute error, and the change has heavy tails. A retry with another loss would need a new lock and Ryan's call; none is proposed here.
 - **Across methods.** None of the methods tested on fake repeals beat D: the method-2 candidates, method 3's prognostic matching, and 3b, which stopped before its bake-off. The gap between D (−10,223) and prognostic matching (+369) under the Wisconsin mix is the best sign of how much the comparison choice moves Wisconsin's number.
+
+## Test 49: does the effect build, hold or fade? (2026-11-05; lock "Test 49", cleared by the audit; Ryan's ask is the go)
+
+Method D on corrected method-2 data, with one pool per case held fixed across years. Units: permits per 1,000 pre-event existing homes a year, Wisconsin homes = rate × 13,343. The first run stopped in the long set on an empty bootstrap year; a guard was added, then everything was rerun. No case was dropped for a small pool. Outputs: `reference/parking_t49_*.csv`; per-place, per-year export `reference/parking_byyear_place_effects.csv`.
+
+**Main reading: target-state mix (90% ranges).**
+
+| After-year | 38-place set | Long set (15 places; fewer after year 5) |
+| --- | --- | --- |
+| 0 (repeal year, context) | +0.88 (−0.53 to +4.58) | +0.60 (−1.60 to +10.10) |
+| 1 | +0.02 (−1.42 to +2.72) | +0.20 (−2.07 to +7.11) |
+| 2 | −1.52 (−3.69 to +2.33) | −0.24 (−4.07 to +12.56) |
+| 3 | −0.98 (−3.16 to +0.86) | −1.36 (−4.01 to +2.40) |
+| 4 | — | −1.47 (−6.55 to +11.05) |
+| 5 | — | −2.68 (−7.03 to +9.79) |
+| 6 (11 places) | — | +5.87 (−4.50 to +28.73) |
+| 7 (6 places) | — | −0.88 (−2.18 to +7.41) |
+| 8 (3 places) | — | +0.54 |
+| 9 (1 place) | — | −0.97 |
+
+**Slopes over the balanced years.**
+
+| Check, years | Mix | Random effects | Equal |
+| --- | --- | --- | --- |
+| 38 places, 1–3 | −0.50 (−2.13 to +0.24) | −0.54 (−1.30 to +0.23) | −1.01 (−2.40 to +0.18) |
+| 15 places, 1–5 | −0.70 (−1.81 to +0.52) | **−0.60 (−1.09 to −0.20)** | −1.06 (−1.77 to +1.02) |
+| Leads, last 3 before-years (12 places) | −0.61 (−5.93 to +1.08) | **−2.11 (−5.43 to −0.15)** | −2.50 (−6.49 to +0.01) |
+
+**Reading (neutral rule).**
+- **Main reading:** under the mix, "no clear change over time" in either set.
+- **Random effects, long set:** "changes with time", with the effect drifting downward. But the same places' last three before-years also slope downward under random effects (−2.11, range excludes 0). The drift was already under way before repeal, so it is not a sign of the repeal's effect building in either direction.
+- **Chance:** 2 of 9 slopes exclude 0, about what chance gives at 90%.
+- **Thin data:** 15 places is thin, and years 6+ rest on 11, 6, 3 and 1 places.
+- **Consistency check:** the 38 places' years 1–3 average (−1.003) equals corrected method 2's result for the same places exactly, so the fixed long pools match method 2's.
