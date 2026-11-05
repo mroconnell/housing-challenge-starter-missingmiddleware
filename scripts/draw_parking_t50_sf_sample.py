@@ -47,8 +47,11 @@ def main() -> None:
     (OUT / "qvu5-m3a2_frame.json").write_text(json.dumps({"downloaded": dt.date.today().isoformat(), "query": q, "rows": rows}))
     F = pd.DataFrame(rows)
     F["open_date"] = pd.to_datetime(F["open_date"])
-    F["blklot"] = F["block"].astype(str).str.strip() + F["lot"].astype(str).str.strip()
-    bl = sorted(set(F["blklot"]))
+    for c in ("block", "lot"):
+        if c not in F:
+            F[c] = None
+    F["blklot"] = F["block"].fillna("").astype(str).str.strip() + F["lot"].fillna("").astype(str).str.strip()
+    bl = sorted(b for b in set(F["blklot"]) if len(b) >= 5)
     zz = []
     for i in range(0, len(bl), 200):
         ids = ",".join(f"'{b}'" for b in bl[i:i + 200])
