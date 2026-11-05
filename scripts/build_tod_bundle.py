@@ -40,7 +40,7 @@ YEARS = [2027, 2028, 2029, 2030, 2031]
 SCEN = ["little", "typical", "strong"]
 # Combined views (docs/shared/SCENARIO_CONTRACT.md section 9): the shared baseline this bundle is built on, and
 # how its paths map to the roles that are paired with other reforms' paths.
-BASELINE_VERSION = "all-housing baseline v3"
+BASELINE_VERSION = "all-housing baseline v4"
 ROLES = {"lower": "little", "central": "typical", "upper": "strong"}
 ADU_RUN = json.loads((ROOT / "ui" / "public" / "runs" / "latest.json").read_text())["run_id"]
 GEO_MUNIS = f"ui/public/runs/{ADU_RUN}/geo_munis.json"
@@ -174,8 +174,8 @@ SENS_LABELS = {
     ("where_homes_land", "rapid_only"): ("Only rail and rapid transit stations count as near stops", "Changes which homes count as near stops, so current law near stops changes. The law's extra homes stay the same: the district is within ¼ mile of rail and rapid stops either way."),
     ("where_homes_land", "high"): ("Buses every 20 minutes count as near stops too", "Adds 20-minute bus routes within ¼ mile, including Eau Claire's, to the area counted as near stops. The law's extra homes stay the same."),
     ("where_homes_land", "b_half"): ("All 15-minute stops count within ½ mile", "Bus stops get the same ½ mile as stations in the area counted as near stops. The law's extra homes stay the same."),
-    ("baseline_only", "baseline_low"): ("Low current-law path", "Wisconsin's 10th-percentile five-year outcome since 1990."),
-    ("baseline_only", "baseline_high"): ("High current-law path", "Wisconsin's 90th-percentile five-year outcome since 1990."),
+    ("baseline_only", "baseline_low"): ("Low current-law path", "The low end of a range that aims at 90%, built from all states' past five-year outcomes and set around Wisconsin's central (0.46 times the central)."),
+    ("baseline_only", "baseline_high"): ("High current-law path", "The high end of a range that aims at 90%, built from all states' past five-year outcomes and set around Wisconsin's central (1.77 times the central)."),
     ("baseline_only", "census_as_published"): ("Milwaukee's apartments as the Census published them", "The Census permit file misses most of Milwaukee's apartments; the main case uses the city's property file instead."),
 }
 TORNADO = {

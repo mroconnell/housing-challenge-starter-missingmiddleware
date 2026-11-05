@@ -615,8 +615,8 @@ def main() -> None:
     add_sens("law_addition", "fallback_scaled", f"As above, with uncoded places' capacity and dose x {fr:.4f} (coded / fallback-rule capacity in Milwaukee and Madison)",
              run_areas(x, muni, "share_near_main", cp, take["take_up"], ramp, baseline))
     # Baseline only
-    add_sens("baseline_only", "baseline_low", "Low baseline (Wisconsin's 10th-percentile five-year outcome)", by_area, "baseline_near_low_2027_2031")
-    add_sens("baseline_only", "baseline_high", "High baseline (90th percentile)", by_area, "baseline_near_high_2027_2031")
+    add_sens("baseline_only", "baseline_low", "Low baseline (low end of the 90% range from all states' past five-year outcomes, 0.4556 x central)", by_area, "baseline_near_low_2027_2031")
+    add_sens("baseline_only", "baseline_high", "High baseline (high end of the 90% range from all states' past five-year outcomes, 1.7650 x central)", by_area, "baseline_near_high_2027_2031")
     pub = pd.read_csv(REFERENCE / "housing_baseline_sensitivity_published.csv")
     sw = baseline.groupby("structure_type")[["five_year_low", "five_year_central", "five_year_high"]].sum()
     mke = muni.set_index("area_id").loc["muni:5507953000"]
@@ -1046,7 +1046,7 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
     for tag, col in (("baseline_low", "baseline_near_low_2027_2031"), ("baseline_high", "baseline_near_high_2027_2031")):
         g = net.drop_duplicates("area_id")
         for r0 in [r for r in sens if r["sensitivity"] == "main"]:
-            sens.append({**r0, "group": "baseline_only", "sensitivity": tag, "description": f"{tag.replace('_', ' ')} (all-housing baseline v3)",
+            sens.append({**r0, "group": "baseline_only", "sensitivity": tag, "description": f"{tag.replace('_', ' ')} (all-housing baseline v4)",
                          "baseline_near_stops_2027_2031": float(g[col].sum())})
     pa_census = per_acre_sens[per_acre_sens.sensitivity == "census_as_published"].baseline_near_stops_2027_2031.iloc[0]
     for r0 in [r for r in sens if r["sensitivity"] == "main"]:

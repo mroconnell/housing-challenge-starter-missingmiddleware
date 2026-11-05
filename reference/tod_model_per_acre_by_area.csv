@@ -1,146 +1,146 @@
 area_id,name,county,eligible_acres,added_far_acres,capacity_gain,feasible_capacity_gain,share_near_stops,baseline_near_low_2027_2031,baseline_near_central_2027_2031,baseline_near_high_2027_2031,method,scenario,scenario_label,parameter,add_2027,add_2028,add_2029,add_2030,add_2031,add_2027_2031
-muni:5502508350,Blooming Grove town,Dane County,95.9375,0.0,6726.718,0.0,0.5247,3.8786,7.8915,10.2028,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502508350,Blooming Grove town,Dane County,95.9375,0.0,6726.718,0.0,0.5247,3.8786,7.8915,10.2028,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502508350,Blooming Grove town,Dane County,95.9375,0.0,6726.718,0.0,0.5247,3.8786,7.8915,10.2028,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502508350,Blooming Grove town,Dane County,95.9375,0.0,6726.718,0.0,0.5247,3.8786,7.8915,10.2028,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502508350,Blooming Grove town,Dane County,95.9375,0.0,6726.718,0.0,0.5247,3.8786,7.8915,10.2028,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502511150,Burke town,Dane County,59.638,0.0,4451.4758,0.0,0.0251,0.385,0.7833,1.0127,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502511150,Burke town,Dane County,59.638,0.0,4451.4758,0.0,0.0251,0.385,0.7833,1.0127,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502511150,Burke town,Dane County,59.638,0.0,4451.4758,0.0,0.0251,0.385,0.7833,1.0127,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502511150,Burke town,Dane County,59.638,0.0,4451.4758,0.0,0.0251,0.385,0.7833,1.0127,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502511150,Burke town,Dane County,59.638,0.0,4451.4758,0.0,0.0251,0.385,0.7833,1.0127,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502525950,Fitchburg city,Dane County,579.6069,0.0,38888.8093,0.0,0.2764,348.4213,628.81,955.3586,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502525950,Fitchburg city,Dane County,579.6069,0.0,38888.8093,0.0,0.2764,348.4213,628.81,955.3586,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502525950,Fitchburg city,Dane County,579.6069,0.0,38888.8093,0.0,0.2764,348.4213,628.81,955.3586,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502525950,Fitchburg city,Dane County,579.6069,0.0,38888.8093,0.0,0.2764,348.4213,628.81,955.3586,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502525950,Fitchburg city,Dane County,579.6069,0.0,38888.8093,0.0,0.2764,348.4213,628.81,955.3586,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502548000,Madison city,Dane County,10179.7014,5840.1838,464239.4246,0.0,0.6276,5364.8014,9220.4902,13912.028,A,little,Little response,0.2399,685.3698,650.0151,1850.459,3355.7862,463.6703,7005.3005
-muni:5502548000,Madison city,Dane County,10179.7014,5840.1838,464239.4246,0.0,0.6276,5364.8014,9220.4902,13912.028,A,typical,Typical response,0.6713,1917.8357,1818.9043,5178.0456,9390.3264,1297.4651,19602.577
-muni:5502548000,Madison city,Dane County,10179.7014,5840.1838,464239.4246,0.0,0.6276,5364.8014,9220.4902,13912.028,A,strong,Strong response,2.5654,7329.0863,6951.016,19788.11,35885.5107,4958.315,74912.038
-muni:5502548000,Madison city,Dane County,10179.7014,5840.1838,464239.4246,0.0,0.6276,5364.8014,9220.4902,13912.028,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,1301.6028,1234.4597,3514.2523,6373.0563,880.5677,13303.9388
-muni:5502548000,Madison city,Dane County,10179.7014,5840.1838,464239.4246,0.0,0.6276,5364.8014,9220.4902,13912.028,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502548750,Maple Bluff village,Dane County,84.9001,0.0,6003.7172,0.0,0.445,4.814,9.1167,13.2779,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502548750,Maple Bluff village,Dane County,84.9001,0.0,6003.7172,0.0,0.445,4.814,9.1167,13.2779,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502548750,Maple Bluff village,Dane County,84.9001,0.0,6003.7172,0.0,0.445,4.814,9.1167,13.2779,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502548750,Maple Bluff village,Dane County,84.9001,0.0,6003.7172,0.0,0.445,4.814,9.1167,13.2779,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502548750,Maple Bluff village,Dane County,84.9001,0.0,6003.7172,0.0,0.445,4.814,9.1167,13.2779,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3304,0.0,0.0004,0.0141,0.0287,0.0371,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3304,0.0,0.0004,0.0141,0.0287,0.0371,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3304,0.0,0.0004,0.0141,0.0287,0.0371,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3304,0.0,0.0004,0.0141,0.0287,0.0371,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3304,0.0,0.0004,0.0141,0.0287,0.0371,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502553675,Monona city,Dane County,16.9886,0.0,932.4842,0.0,0.0615,21.7412,37.105,56.2178,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502553675,Monona city,Dane County,16.9886,0.0,932.4842,0.0,0.0615,21.7412,37.105,56.2178,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502553675,Monona city,Dane County,16.9886,0.0,932.4842,0.0,0.0615,21.7412,37.105,56.2178,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502553675,Monona city,Dane County,16.9886,0.0,932.4842,0.0,0.0615,21.7412,37.105,56.2178,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502553675,Monona city,Dane County,16.9886,0.0,932.4842,0.0,0.0615,21.7412,37.105,56.2178,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502573750,Shorewood Hills village,Dane County,291.6125,0.0,22067.8712,0.0,0.9382,3.8429,7.818,10.1082,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502573750,Shorewood Hills village,Dane County,291.6125,0.0,22067.8712,0.0,0.9382,3.8429,7.818,10.1082,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502573750,Shorewood Hills village,Dane County,291.6125,0.0,22067.8712,0.0,0.9382,3.8429,7.818,10.1082,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502573750,Shorewood Hills village,Dane County,291.6125,0.0,22067.8712,0.0,0.9382,3.8429,7.818,10.1082,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502573750,Shorewood Hills village,Dane County,291.6125,0.0,22067.8712,0.0,0.9382,3.8429,7.818,10.1082,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502578600,Sun Prairie city,Dane County,153.9598,0.0,11857.4698,0.0,0.0154,11.0406,20.8413,30.0055,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502578600,Sun Prairie city,Dane County,153.9598,0.0,11857.4698,0.0,0.0154,11.0406,20.8413,30.0055,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502578600,Sun Prairie city,Dane County,153.9598,0.0,11857.4698,0.0,0.0154,11.0406,20.8413,30.0055,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502578600,Sun Prairie city,Dane County,153.9598,0.0,11857.4698,0.0,0.0154,11.0406,20.8413,30.0055,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502578600,Sun Prairie city,Dane County,153.9598,0.0,11857.4698,0.0,0.0154,11.0406,20.8413,30.0055,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502582600,Verona city,Dane County,858.7253,0.0,62625.2074,0.0,0.2026,139.3795,251.5617,372.003,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502582600,Verona city,Dane County,858.7253,0.0,62625.2074,0.0,0.2026,139.3795,251.5617,372.003,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502582600,Verona city,Dane County,858.7253,0.0,62625.2074,0.0,0.2026,139.3795,251.5617,372.003,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502582600,Verona city,Dane County,858.7253,0.0,62625.2074,0.0,0.2026,139.3795,251.5617,372.003,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502582600,Verona city,Dane County,858.7253,0.0,62625.2074,0.0,0.2026,139.3795,251.5617,372.003,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5502582625,Verona town,Dane County,17.1245,0.0,1270.6797,0.0,0.0013,0.0168,0.0342,0.0442,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502582625,Verona town,Dane County,17.1245,0.0,1270.6797,0.0,0.0013,0.0168,0.0342,0.0442,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502582625,Verona town,Dane County,17.1245,0.0,1270.6797,0.0,0.0013,0.0168,0.0342,0.0442,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502582625,Verona town,Dane County,17.1245,0.0,1270.6797,0.0,0.0013,0.0168,0.0342,0.0442,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5502582625,Verona town,Dane County,17.1245,0.0,1270.6797,0.0,0.0013,0.0168,0.0342,0.0442,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5505939225,Kenosha city,Kenosha County,318.3478,0.0,21720.2053,0.0,0.0906,34.7943,63.722,92.3754,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5505939225,Kenosha city,Kenosha County,318.3478,0.0,21720.2053,0.0,0.0906,34.7943,63.722,92.3754,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5505939225,Kenosha city,Kenosha County,318.3478,0.0,21720.2053,0.0,0.0906,34.7943,63.722,92.3754,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5505939225,Kenosha city,Kenosha County,318.3478,0.0,21720.2053,0.0,0.0906,34.7943,63.722,92.3754,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5505939225,Kenosha city,Kenosha County,318.3478,0.0,21720.2053,0.0,0.0906,34.7943,63.722,92.3754,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507910375,Brown Deer village,Milwaukee County,376.161,0.0,26562.8394,0.0,0.1644,25.5183,43.0181,65.9119,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507910375,Brown Deer village,Milwaukee County,376.161,0.0,26562.8394,0.0,0.1644,25.5183,43.0181,65.9119,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507910375,Brown Deer village,Milwaukee County,376.161,0.0,26562.8394,0.0,0.1644,25.5183,43.0181,65.9119,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507910375,Brown Deer village,Milwaukee County,376.161,0.0,26562.8394,0.0,0.1644,25.5183,43.0181,65.9119,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507910375,Brown Deer village,Milwaukee County,376.161,0.0,26562.8394,0.0,0.1644,25.5183,43.0181,65.9119,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507917975,Cudahy city,Milwaukee County,428.2849,0.0,28170.8821,0.0,0.4149,2.2363,4.8402,7.1077,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507917975,Cudahy city,Milwaukee County,428.2849,0.0,28170.8821,0.0,0.4149,2.2363,4.8402,7.1077,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507917975,Cudahy city,Milwaukee County,428.2849,0.0,28170.8821,0.0,0.4149,2.2363,4.8402,7.1077,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507917975,Cudahy city,Milwaukee County,428.2849,0.0,28170.8821,0.0,0.4149,2.2363,4.8402,7.1077,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507917975,Cudahy city,Milwaukee County,428.2849,0.0,28170.8821,0.0,0.4149,2.2363,4.8402,7.1077,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507927300,Franklin city,Milwaukee County,91.0095,0.0,6503.4743,0.0,0.0362,14.134,25.9433,37.003,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507927300,Franklin city,Milwaukee County,91.0095,0.0,6503.4743,0.0,0.0362,14.134,25.9433,37.003,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507927300,Franklin city,Milwaukee County,91.0095,0.0,6503.4743,0.0,0.0362,14.134,25.9433,37.003,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507927300,Franklin city,Milwaukee County,91.0095,0.0,6503.4743,0.0,0.0362,14.134,25.9433,37.003,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507927300,Franklin city,Milwaukee County,91.0095,0.0,6503.4743,0.0,0.0362,14.134,25.9433,37.003,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507929400,Glendale city,Milwaukee County,489.8557,0.0,34984.6062,0.0,0.2045,172.68,291.0716,446.0143,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507929400,Glendale city,Milwaukee County,489.8557,0.0,34984.6062,0.0,0.2045,172.68,291.0716,446.0143,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507929400,Glendale city,Milwaukee County,489.8557,0.0,34984.6062,0.0,0.2045,172.68,291.0716,446.0143,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507929400,Glendale city,Milwaukee County,489.8557,0.0,34984.6062,0.0,0.2045,172.68,291.0716,446.0143,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507929400,Glendale city,Milwaukee County,489.8557,0.0,34984.6062,0.0,0.2045,172.68,291.0716,446.0143,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507931175,Greenfield city,Milwaukee County,648.9524,0.0,45710.6972,1685.9319,0.154,3.0349,6.93,11.1665,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507931175,Greenfield city,Milwaukee County,648.9524,0.0,45710.6972,1685.9319,0.154,3.0349,6.93,11.1665,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507931175,Greenfield city,Milwaukee County,648.9524,0.0,45710.6972,1685.9319,0.154,3.0349,6.93,11.1665,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507931175,Greenfield city,Milwaukee County,648.9524,0.0,45710.6972,1685.9319,0.154,3.0349,6.93,11.1665,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507931175,Greenfield city,Milwaukee County,648.9524,0.0,45710.6972,1685.9319,0.154,3.0349,6.93,11.1665,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507953000,Milwaukee city,Milwaukee County,14197.6057,6007.714,736177.0153,0.0,0.6818,1973.5226,3393.6595,5168.1838,A,little,Little response,0.2399,705.0302,668.6613,1903.5409,3452.0496,476.971,7206.253
-muni:5507953000,Milwaukee city,Milwaukee County,14197.6057,6007.714,736177.0153,0.0,0.6818,1973.5226,3393.6595,5168.1838,A,typical,Typical response,0.6713,1972.8503,1871.081,5326.5819,9659.6952,1334.6839,20164.8922
-muni:5507953000,Milwaukee city,Milwaukee County,14197.6057,6007.714,736177.0153,0.0,0.6818,1973.5226,3393.6595,5168.1838,A,strong,Strong response,2.5654,7539.3268,7150.4113,20355.7473,36914.9143,5100.5481,77060.9479
-muni:5507953000,Milwaukee city,Milwaukee County,14197.6057,6007.714,736177.0153,0.0,0.6818,1973.5226,3393.6595,5168.1838,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,1338.9402,1269.8711,3615.0614,6555.8724,905.8274,13685.5726
-muni:5507953000,Milwaukee city,Milwaukee County,14197.6057,6007.714,736177.0153,0.0,0.6818,1973.5226,3393.6595,5168.1838,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507958800,Oak Creek city,Milwaukee County,259.3453,0.0,18985.8779,0.0,0.0213,9.9172,17.324,25.9063,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507958800,Oak Creek city,Milwaukee County,259.3453,0.0,18985.8779,0.0,0.0213,9.9172,17.324,25.9063,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507958800,Oak Creek city,Milwaukee County,259.3453,0.0,18985.8779,0.0,0.0213,9.9172,17.324,25.9063,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507958800,Oak Creek city,Milwaukee County,259.3453,0.0,18985.8779,0.0,0.0213,9.9172,17.324,25.9063,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507958800,Oak Creek city,Milwaukee County,259.3453,0.0,18985.8779,0.0,0.0213,9.9172,17.324,25.9063,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502508350,Blooming Grove town,Dane County,95.9375,0.0,6726.718,0.0,0.5247,3.5958,7.8915,13.9292,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502508350,Blooming Grove town,Dane County,95.9375,0.0,6726.718,0.0,0.5247,3.5958,7.8915,13.9292,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502508350,Blooming Grove town,Dane County,95.9375,0.0,6726.718,0.0,0.5247,3.5958,7.8915,13.9292,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502508350,Blooming Grove town,Dane County,95.9375,0.0,6726.718,0.0,0.5247,3.5958,7.8915,13.9292,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502508350,Blooming Grove town,Dane County,95.9375,0.0,6726.718,0.0,0.5247,3.5958,7.8915,13.9292,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502511150,Burke town,Dane County,59.638,0.0,4451.4758,0.0,0.0251,0.3569,0.7833,1.3826,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502511150,Burke town,Dane County,59.638,0.0,4451.4758,0.0,0.0251,0.3569,0.7833,1.3826,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502511150,Burke town,Dane County,59.638,0.0,4451.4758,0.0,0.0251,0.3569,0.7833,1.3826,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502511150,Burke town,Dane County,59.638,0.0,4451.4758,0.0,0.0251,0.3569,0.7833,1.3826,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502511150,Burke town,Dane County,59.638,0.0,4451.4758,0.0,0.0251,0.3569,0.7833,1.3826,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502525950,Fitchburg city,Dane County,579.6069,0.0,38888.8093,0.0,0.2764,286.5162,628.81,1109.8762,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502525950,Fitchburg city,Dane County,579.6069,0.0,38888.8093,0.0,0.2764,286.5162,628.81,1109.8762,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502525950,Fitchburg city,Dane County,579.6069,0.0,38888.8093,0.0,0.2764,286.5162,628.81,1109.8762,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502525950,Fitchburg city,Dane County,579.6069,0.0,38888.8093,0.0,0.2764,286.5162,628.81,1109.8762,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502525950,Fitchburg city,Dane County,579.6069,0.0,38888.8093,0.0,0.2764,286.5162,628.81,1109.8762,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502548000,Madison city,Dane County,10179.7014,5840.1838,464239.4246,0.0,0.6276,4201.3006,9220.4902,16274.5517,A,little,Little response,0.2399,685.3698,650.0151,1850.459,3355.7862,463.6703,7005.3005
+muni:5502548000,Madison city,Dane County,10179.7014,5840.1838,464239.4246,0.0,0.6276,4201.3006,9220.4902,16274.5517,A,typical,Typical response,0.6713,1917.8357,1818.9043,5178.0456,9390.3264,1297.4651,19602.577
+muni:5502548000,Madison city,Dane County,10179.7014,5840.1838,464239.4246,0.0,0.6276,4201.3006,9220.4902,16274.5517,A,strong,Strong response,2.5654,7329.0863,6951.016,19788.11,35885.5107,4958.315,74912.038
+muni:5502548000,Madison city,Dane County,10179.7014,5840.1838,464239.4246,0.0,0.6276,4201.3006,9220.4902,16274.5517,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,1301.6028,1234.4597,3514.2523,6373.0563,880.5677,13303.9388
+muni:5502548000,Madison city,Dane County,10179.7014,5840.1838,464239.4246,0.0,0.6276,4201.3006,9220.4902,16274.5517,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502548750,Maple Bluff village,Dane County,84.9001,0.0,6003.7172,0.0,0.445,4.1541,9.1167,16.0912,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502548750,Maple Bluff village,Dane County,84.9001,0.0,6003.7172,0.0,0.445,4.1541,9.1167,16.0912,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502548750,Maple Bluff village,Dane County,84.9001,0.0,6003.7172,0.0,0.445,4.1541,9.1167,16.0912,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502548750,Maple Bluff village,Dane County,84.9001,0.0,6003.7172,0.0,0.445,4.1541,9.1167,16.0912,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502548750,Maple Bluff village,Dane County,84.9001,0.0,6003.7172,0.0,0.445,4.1541,9.1167,16.0912,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3304,0.0,0.0004,0.0131,0.0287,0.0507,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3304,0.0,0.0004,0.0131,0.0287,0.0507,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3304,0.0,0.0004,0.0131,0.0287,0.0507,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3304,0.0,0.0004,0.0131,0.0287,0.0507,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502551600,Middleton town,Dane County,24.7643,0.0,1837.3304,0.0,0.0004,0.0131,0.0287,0.0507,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502553675,Monona city,Dane County,16.9886,0.0,932.4842,0.0,0.0615,16.9068,37.105,65.4919,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502553675,Monona city,Dane County,16.9886,0.0,932.4842,0.0,0.0615,16.9068,37.105,65.4919,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502553675,Monona city,Dane County,16.9886,0.0,932.4842,0.0,0.0615,16.9068,37.105,65.4919,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502553675,Monona city,Dane County,16.9886,0.0,932.4842,0.0,0.0615,16.9068,37.105,65.4919,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502553675,Monona city,Dane County,16.9886,0.0,932.4842,0.0,0.0615,16.9068,37.105,65.4919,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502573750,Shorewood Hills village,Dane County,291.6125,0.0,22067.8712,0.0,0.9382,3.5623,7.818,13.8,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502573750,Shorewood Hills village,Dane County,291.6125,0.0,22067.8712,0.0,0.9382,3.5623,7.818,13.8,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502573750,Shorewood Hills village,Dane County,291.6125,0.0,22067.8712,0.0,0.9382,3.5623,7.818,13.8,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502573750,Shorewood Hills village,Dane County,291.6125,0.0,22067.8712,0.0,0.9382,3.5623,7.818,13.8,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502573750,Shorewood Hills village,Dane County,291.6125,0.0,22067.8712,0.0,0.9382,3.5623,7.818,13.8,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502578600,Sun Prairie city,Dane County,153.9598,0.0,11857.4698,0.0,0.0154,9.4963,20.8413,36.7858,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502578600,Sun Prairie city,Dane County,153.9598,0.0,11857.4698,0.0,0.0154,9.4963,20.8413,36.7858,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502578600,Sun Prairie city,Dane County,153.9598,0.0,11857.4698,0.0,0.0154,9.4963,20.8413,36.7858,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502578600,Sun Prairie city,Dane County,153.9598,0.0,11857.4698,0.0,0.0154,9.4963,20.8413,36.7858,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502578600,Sun Prairie city,Dane County,153.9598,0.0,11857.4698,0.0,0.0154,9.4963,20.8413,36.7858,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502582600,Verona city,Dane County,858.7253,0.0,62625.2074,0.0,0.2026,114.6238,251.5617,444.0171,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502582600,Verona city,Dane County,858.7253,0.0,62625.2074,0.0,0.2026,114.6238,251.5617,444.0171,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502582600,Verona city,Dane County,858.7253,0.0,62625.2074,0.0,0.2026,114.6238,251.5617,444.0171,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502582600,Verona city,Dane County,858.7253,0.0,62625.2074,0.0,0.2026,114.6238,251.5617,444.0171,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502582600,Verona city,Dane County,858.7253,0.0,62625.2074,0.0,0.2026,114.6238,251.5617,444.0171,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5502582625,Verona town,Dane County,17.1245,0.0,1270.6797,0.0,0.0013,0.0156,0.0342,0.0603,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502582625,Verona town,Dane County,17.1245,0.0,1270.6797,0.0,0.0013,0.0156,0.0342,0.0603,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502582625,Verona town,Dane County,17.1245,0.0,1270.6797,0.0,0.0013,0.0156,0.0342,0.0603,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502582625,Verona town,Dane County,17.1245,0.0,1270.6797,0.0,0.0013,0.0156,0.0342,0.0603,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5502582625,Verona town,Dane County,17.1245,0.0,1270.6797,0.0,0.0013,0.0156,0.0342,0.0603,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5505939225,Kenosha city,Kenosha County,318.3478,0.0,21720.2053,0.0,0.0906,29.0349,63.722,112.4719,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505939225,Kenosha city,Kenosha County,318.3478,0.0,21720.2053,0.0,0.0906,29.0349,63.722,112.4719,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505939225,Kenosha city,Kenosha County,318.3478,0.0,21720.2053,0.0,0.0906,29.0349,63.722,112.4719,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505939225,Kenosha city,Kenosha County,318.3478,0.0,21720.2053,0.0,0.0906,29.0349,63.722,112.4719,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5505939225,Kenosha city,Kenosha County,318.3478,0.0,21720.2053,0.0,0.0906,29.0349,63.722,112.4719,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507910375,Brown Deer village,Milwaukee County,376.161,0.0,26562.8394,0.0,0.1644,19.6011,43.0181,75.9286,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507910375,Brown Deer village,Milwaukee County,376.161,0.0,26562.8394,0.0,0.1644,19.6011,43.0181,75.9286,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507910375,Brown Deer village,Milwaukee County,376.161,0.0,26562.8394,0.0,0.1644,19.6011,43.0181,75.9286,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507910375,Brown Deer village,Milwaukee County,376.161,0.0,26562.8394,0.0,0.1644,19.6011,43.0181,75.9286,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507910375,Brown Deer village,Milwaukee County,376.161,0.0,26562.8394,0.0,0.1644,19.6011,43.0181,75.9286,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507917975,Cudahy city,Milwaukee County,428.2849,0.0,28170.8821,0.0,0.4149,2.2056,4.8402,8.5436,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507917975,Cudahy city,Milwaukee County,428.2849,0.0,28170.8821,0.0,0.4149,2.2056,4.8402,8.5436,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507917975,Cudahy city,Milwaukee County,428.2849,0.0,28170.8821,0.0,0.4149,2.2056,4.8402,8.5436,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507917975,Cudahy city,Milwaukee County,428.2849,0.0,28170.8821,0.0,0.4149,2.2056,4.8402,8.5436,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507917975,Cudahy city,Milwaukee County,428.2849,0.0,28170.8821,0.0,0.4149,2.2056,4.8402,8.5436,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507927300,Franklin city,Milwaukee County,91.0095,0.0,6503.4743,0.0,0.0362,11.821,25.9433,45.7911,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507927300,Franklin city,Milwaukee County,91.0095,0.0,6503.4743,0.0,0.0362,11.821,25.9433,45.7911,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507927300,Franklin city,Milwaukee County,91.0095,0.0,6503.4743,0.0,0.0362,11.821,25.9433,45.7911,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507927300,Franklin city,Milwaukee County,91.0095,0.0,6503.4743,0.0,0.0362,11.821,25.9433,45.7911,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507927300,Franklin city,Milwaukee County,91.0095,0.0,6503.4743,0.0,0.0362,11.821,25.9433,45.7911,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507929400,Glendale city,Milwaukee County,489.8557,0.0,34984.6062,0.0,0.2045,132.6262,291.0716,513.7537,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507929400,Glendale city,Milwaukee County,489.8557,0.0,34984.6062,0.0,0.2045,132.6262,291.0716,513.7537,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507929400,Glendale city,Milwaukee County,489.8557,0.0,34984.6062,0.0,0.2045,132.6262,291.0716,513.7537,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507929400,Glendale city,Milwaukee County,489.8557,0.0,34984.6062,0.0,0.2045,132.6262,291.0716,513.7537,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507929400,Glendale city,Milwaukee County,489.8557,0.0,34984.6062,0.0,0.2045,132.6262,291.0716,513.7537,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507931175,Greenfield city,Milwaukee County,648.9524,0.0,45710.6972,1685.9319,0.154,3.1576,6.93,12.2318,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507931175,Greenfield city,Milwaukee County,648.9524,0.0,45710.6972,1685.9319,0.154,3.1576,6.93,12.2318,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507931175,Greenfield city,Milwaukee County,648.9524,0.0,45710.6972,1685.9319,0.154,3.1576,6.93,12.2318,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507931175,Greenfield city,Milwaukee County,648.9524,0.0,45710.6972,1685.9319,0.154,3.1576,6.93,12.2318,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507931175,Greenfield city,Milwaukee County,648.9524,0.0,45710.6972,1685.9319,0.154,3.1576,6.93,12.2318,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507953000,Milwaukee city,Milwaukee County,14197.6057,6007.714,736177.0153,0.0,0.6818,1546.3149,3393.6595,5989.9505,A,little,Little response,0.2399,705.0302,668.6613,1903.5409,3452.0496,476.971,7206.253
+muni:5507953000,Milwaukee city,Milwaukee County,14197.6057,6007.714,736177.0153,0.0,0.6818,1546.3149,3393.6595,5989.9505,A,typical,Typical response,0.6713,1972.8503,1871.081,5326.5819,9659.6952,1334.6839,20164.8922
+muni:5507953000,Milwaukee city,Milwaukee County,14197.6057,6007.714,736177.0153,0.0,0.6818,1546.3149,3393.6595,5989.9505,A,strong,Strong response,2.5654,7539.3268,7150.4113,20355.7473,36914.9143,5100.5481,77060.9479
+muni:5507953000,Milwaukee city,Milwaukee County,14197.6057,6007.714,736177.0153,0.0,0.6818,1546.3149,3393.6595,5989.9505,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,1338.9402,1269.8711,3615.0614,6555.8724,905.8274,13685.5726
+muni:5507953000,Milwaukee city,Milwaukee County,14197.6057,6007.714,736177.0153,0.0,0.6818,1546.3149,3393.6595,5989.9505,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507958800,Oak Creek city,Milwaukee County,259.3453,0.0,18985.8779,0.0,0.0213,7.8937,17.324,30.5776,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507958800,Oak Creek city,Milwaukee County,259.3453,0.0,18985.8779,0.0,0.0213,7.8937,17.324,30.5776,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507958800,Oak Creek city,Milwaukee County,259.3453,0.0,18985.8779,0.0,0.0213,7.8937,17.324,30.5776,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507958800,Oak Creek city,Milwaukee County,259.3453,0.0,18985.8779,0.0,0.0213,7.8937,17.324,30.5776,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507958800,Oak Creek city,Milwaukee County,259.3453,0.0,18985.8779,0.0,0.0213,7.8937,17.324,30.5776,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
 muni:5507968325,River Hills village,Milwaukee County,37.3232,0.0,2762.6134,0.0,0.0,0.0,0.0,0.0,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507968325,River Hills village,Milwaukee County,37.3232,0.0,2762.6134,0.0,0.0,0.0,0.0,0.0,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507968325,River Hills village,Milwaukee County,37.3232,0.0,2762.6134,0.0,0.0,0.0,0.0,0.0,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507968325,River Hills village,Milwaukee County,37.3232,0.0,2762.6134,0.0,0.0,0.0,0.0,0.0,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507968325,River Hills village,Milwaukee County,37.3232,0.0,2762.6134,0.0,0.0,0.0,0.0,0.0,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507970650,St. Francis city,Milwaukee County,161.3257,0.0,10748.1892,0.0,0.2705,4.0718,10.3693,19.4974,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507970650,St. Francis city,Milwaukee County,161.3257,0.0,10748.1892,0.0,0.2705,4.0718,10.3693,19.4974,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507970650,St. Francis city,Milwaukee County,161.3257,0.0,10748.1892,0.0,0.2705,4.0718,10.3693,19.4974,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507970650,St. Francis city,Milwaukee County,161.3257,0.0,10748.1892,0.0,0.2705,4.0718,10.3693,19.4974,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507970650,St. Francis city,Milwaukee County,161.3257,0.0,10748.1892,0.0,0.2705,4.0718,10.3693,19.4974,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507973725,Shorewood village,Milwaukee County,312.7875,0.0,18110.2118,0.0,0.7449,1.2201,2.4828,3.2105,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507973725,Shorewood village,Milwaukee County,312.7875,0.0,18110.2118,0.0,0.7449,1.2201,2.4828,3.2105,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507973725,Shorewood village,Milwaukee County,312.7875,0.0,18110.2118,0.0,0.7449,1.2201,2.4828,3.2105,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507973725,Shorewood village,Milwaukee County,312.7875,0.0,18110.2118,0.0,0.7449,1.2201,2.4828,3.2105,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507973725,Shorewood village,Milwaukee County,312.7875,0.0,18110.2118,0.0,0.7449,1.2201,2.4828,3.2105,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507975125,South Milwaukee city,Milwaukee County,680.8835,0.0,45890.8564,0.0,0.4997,3.6838,7.4955,9.6907,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507975125,South Milwaukee city,Milwaukee County,680.8835,0.0,45890.8564,0.0,0.4997,3.6838,7.4955,9.6907,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507975125,South Milwaukee city,Milwaukee County,680.8835,0.0,45890.8564,0.0,0.4997,3.6838,7.4955,9.6907,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507975125,South Milwaukee city,Milwaukee County,680.8835,0.0,45890.8564,0.0,0.4997,3.6838,7.4955,9.6907,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507975125,South Milwaukee city,Milwaukee County,680.8835,0.0,45890.8564,0.0,0.4997,3.6838,7.4955,9.6907,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507984675,Wauwatosa city,Milwaukee County,1941.0356,0.0,141202.6447,0.0,0.3976,105.9787,185.2581,279.5832,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,Milwaukee County,1941.0356,0.0,141202.6447,0.0,0.3976,105.9787,185.2581,279.5832,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,Milwaukee County,1941.0356,0.0,141202.6447,0.0,0.3976,105.9787,185.2581,279.5832,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,Milwaukee County,1941.0356,0.0,141202.6447,0.0,0.3976,105.9787,185.2581,279.5832,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507984675,Wauwatosa city,Milwaukee County,1941.0356,0.0,141202.6447,0.0,0.3976,105.9787,185.2581,279.5832,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507985300,West Allis city,Milwaukee County,1423.67,0.0,95402.734,0.0,0.331,222.0848,375.6847,574.7504,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507985300,West Allis city,Milwaukee County,1423.67,0.0,95402.734,0.0,0.331,222.0848,375.6847,574.7504,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507985300,West Allis city,Milwaukee County,1423.67,0.0,95402.734,0.0,0.331,222.0848,375.6847,574.7504,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507985300,West Allis city,Milwaukee County,1423.67,0.0,95402.734,0.0,0.331,222.0848,375.6847,574.7504,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507985300,West Allis city,Milwaukee County,1423.67,0.0,95402.734,0.0,0.331,222.0848,375.6847,574.7504,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507970650,St. Francis city,Milwaukee County,161.3257,0.0,10748.1892,0.0,0.2705,4.7246,10.3693,18.302,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507970650,St. Francis city,Milwaukee County,161.3257,0.0,10748.1892,0.0,0.2705,4.7246,10.3693,18.302,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507970650,St. Francis city,Milwaukee County,161.3257,0.0,10748.1892,0.0,0.2705,4.7246,10.3693,18.302,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507970650,St. Francis city,Milwaukee County,161.3257,0.0,10748.1892,0.0,0.2705,4.7246,10.3693,18.302,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507970650,St. Francis city,Milwaukee County,161.3257,0.0,10748.1892,0.0,0.2705,4.7246,10.3693,18.302,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507973725,Shorewood village,Milwaukee County,312.7875,0.0,18110.2118,0.0,0.7449,1.1315,2.4828,4.3822,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507973725,Shorewood village,Milwaukee County,312.7875,0.0,18110.2118,0.0,0.7449,1.1315,2.4828,4.3822,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507973725,Shorewood village,Milwaukee County,312.7875,0.0,18110.2118,0.0,0.7449,1.1315,2.4828,4.3822,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507973725,Shorewood village,Milwaukee County,312.7875,0.0,18110.2118,0.0,0.7449,1.1315,2.4828,4.3822,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507973725,Shorewood village,Milwaukee County,312.7875,0.0,18110.2118,0.0,0.7449,1.1315,2.4828,4.3822,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507975125,South Milwaukee city,Milwaukee County,680.8835,0.0,45890.8564,0.0,0.4997,3.4154,7.4955,13.2301,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507975125,South Milwaukee city,Milwaukee County,680.8835,0.0,45890.8564,0.0,0.4997,3.4154,7.4955,13.2301,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507975125,South Milwaukee city,Milwaukee County,680.8835,0.0,45890.8564,0.0,0.4997,3.4154,7.4955,13.2301,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507975125,South Milwaukee city,Milwaukee County,680.8835,0.0,45890.8564,0.0,0.4997,3.4154,7.4955,13.2301,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507975125,South Milwaukee city,Milwaukee County,680.8835,0.0,45890.8564,0.0,0.4997,3.4154,7.4955,13.2301,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507984675,Wauwatosa city,Milwaukee County,1941.0356,0.0,141202.6447,0.0,0.3976,84.4129,185.2581,326.9882,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507984675,Wauwatosa city,Milwaukee County,1941.0356,0.0,141202.6447,0.0,0.3976,84.4129,185.2581,326.9882,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507984675,Wauwatosa city,Milwaukee County,1941.0356,0.0,141202.6447,0.0,0.3976,84.4129,185.2581,326.9882,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507984675,Wauwatosa city,Milwaukee County,1941.0356,0.0,141202.6447,0.0,0.3976,84.4129,185.2581,326.9882,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507984675,Wauwatosa city,Milwaukee County,1941.0356,0.0,141202.6447,0.0,0.3976,84.4129,185.2581,326.9882,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507985300,West Allis city,Milwaukee County,1423.67,0.0,95402.734,0.0,0.331,171.1803,375.6847,663.0996,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507985300,West Allis city,Milwaukee County,1423.67,0.0,95402.734,0.0,0.331,171.1803,375.6847,663.0996,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507985300,West Allis city,Milwaukee County,1423.67,0.0,95402.734,0.0,0.331,171.1803,375.6847,663.0996,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507985300,West Allis city,Milwaukee County,1423.67,0.0,95402.734,0.0,0.331,171.1803,375.6847,663.0996,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507985300,West Allis city,Milwaukee County,1423.67,0.0,95402.734,0.0,0.331,171.1803,375.6847,663.0996,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
 muni:5507985875,West Milwaukee village,Milwaukee County,154.4443,0.0,10016.1277,0.0,0.7255,0.0,0.0,0.0,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507985875,West Milwaukee village,Milwaukee County,154.4443,0.0,10016.1277,0.0,0.7255,0.0,0.0,0.0,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507985875,West Milwaukee village,Milwaukee County,154.4443,0.0,10016.1277,0.0,0.7255,0.0,0.0,0.0,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507985875,West Milwaukee village,Milwaukee County,154.4443,0.0,10016.1277,0.0,0.7255,0.0,0.0,0.0,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
 muni:5507985875,West Milwaukee village,Milwaukee County,154.4443,0.0,10016.1277,0.0,0.7255,0.0,0.0,0.0,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5507986700,Whitefish Bay village,Milwaukee County,616.5118,0.0,41214.5898,0.0,0.8384,20.2876,36.3304,52.6926,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507986700,Whitefish Bay village,Milwaukee County,616.5118,0.0,41214.5898,0.0,0.8384,20.2876,36.3304,52.6926,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507986700,Whitefish Bay village,Milwaukee County,616.5118,0.0,41214.5898,0.0,0.8384,20.2876,36.3304,52.6926,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507986700,Whitefish Bay village,Milwaukee County,616.5118,0.0,41214.5898,0.0,0.8384,20.2876,36.3304,52.6926,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5507986700,Whitefish Bay village,Milwaukee County,616.5118,0.0,41214.5898,0.0,0.8384,20.2876,36.3304,52.6926,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5513310025,Brookfield city,Waukesha County,131.2192,0.0,9552.2432,0.0,0.0091,2.462,4.368,6.3888,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5513310025,Brookfield city,Waukesha County,131.2192,0.0,9552.2432,0.0,0.0091,2.462,4.368,6.3888,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5513310025,Brookfield city,Waukesha County,131.2192,0.0,9552.2432,0.0,0.0091,2.462,4.368,6.3888,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5513310025,Brookfield city,Waukesha County,131.2192,0.0,9552.2432,0.0,0.0091,2.462,4.368,6.3888,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5513310025,Brookfield city,Waukesha County,131.2192,0.0,9552.2432,0.0,0.0091,2.462,4.368,6.3888,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
-muni:5513356375,New Berlin city,Waukesha County,50.7137,0.0,3568.9672,0.0,0.0079,0.55,1.1192,1.447,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5513356375,New Berlin city,Waukesha County,50.7137,0.0,3568.9672,0.0,0.0079,0.55,1.1192,1.447,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5513356375,New Berlin city,Waukesha County,50.7137,0.0,3568.9672,0.0,0.0079,0.55,1.1192,1.447,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5513356375,New Berlin city,Waukesha County,50.7137,0.0,3568.9672,0.0,0.0079,0.55,1.1192,1.447,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
-muni:5513356375,New Berlin city,Waukesha County,50.7137,0.0,3568.9672,0.0,0.0079,0.55,1.1192,1.447,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5507986700,Whitefish Bay village,Milwaukee County,616.5118,0.0,41214.5898,0.0,0.8384,16.5542,36.3304,64.1259,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507986700,Whitefish Bay village,Milwaukee County,616.5118,0.0,41214.5898,0.0,0.8384,16.5542,36.3304,64.1259,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507986700,Whitefish Bay village,Milwaukee County,616.5118,0.0,41214.5898,0.0,0.8384,16.5542,36.3304,64.1259,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507986700,Whitefish Bay village,Milwaukee County,616.5118,0.0,41214.5898,0.0,0.8384,16.5542,36.3304,64.1259,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5507986700,Whitefish Bay village,Milwaukee County,616.5118,0.0,41214.5898,0.0,0.8384,16.5542,36.3304,64.1259,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5513310025,Brookfield city,Waukesha County,131.2192,0.0,9552.2432,0.0,0.0091,1.9903,4.368,7.7097,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513310025,Brookfield city,Waukesha County,131.2192,0.0,9552.2432,0.0,0.0091,1.9903,4.368,7.7097,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513310025,Brookfield city,Waukesha County,131.2192,0.0,9552.2432,0.0,0.0091,1.9903,4.368,7.7097,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513310025,Brookfield city,Waukesha County,131.2192,0.0,9552.2432,0.0,0.0091,1.9903,4.368,7.7097,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513310025,Brookfield city,Waukesha County,131.2192,0.0,9552.2432,0.0,0.0091,1.9903,4.368,7.7097,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,
+muni:5513356375,New Berlin city,Waukesha County,50.7137,0.0,3568.9672,0.0,0.0079,0.5099,1.1192,1.9754,A,little,Little response,0.2399,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513356375,New Berlin city,Waukesha County,50.7137,0.0,3568.9672,0.0,0.0079,0.5099,1.1192,1.9754,A,typical,Typical response,0.6713,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513356375,New Berlin city,Waukesha County,50.7137,0.0,3568.9672,0.0,0.0079,0.5099,1.1192,1.9754,A,strong,Strong response,2.5654,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513356375,New Berlin city,Waukesha County,50.7137,0.0,3568.9672,0.0,0.0079,0.5099,1.1192,1.9754,A,reference_line,Reference line (median of measured per-FAR cases),0.4556,0.0,0.0,0.0,0.0,0.0,0.0
+muni:5513356375,New Berlin city,Waukesha County,50.7137,0.0,3568.9672,0.0,0.0079,0.5099,1.1192,1.9754,B,milwaukee_take_up,Milwaukee take-up (only measured take-up),,,,,,,

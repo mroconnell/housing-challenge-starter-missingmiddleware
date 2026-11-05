@@ -128,7 +128,7 @@ All data are fetched by script, with the source, date, size and checksum recorde
   - Placed by the broader law's added floor area (AQ-051): Milwaukee metro 6,542 and Madison metro 3,305 (main: 3,417 and 6,195).
   - Only Milwaukee and Madison cities get homes: Milwaukee metro 3,010 and Madison metro 7,018.
   - Stop definitions change only current law near stops: rail and rapid only 6,206; 20-minute buses 15,984; all 15-minute stops within ½ mile 18,676 (main 14,654). The law's addition is the same.
-- **Baseline only:** 8,495 to 22,161, or 11,503 with Milwaukee's apartments as the Census published them. The addition is unchanged.
+- **Baseline only:** 6,677 to 25,865 (the low and high ends of the shared baseline's v4 range, which aims at 90% and is built from all states' past five-year outcomes), or 11,503 with Milwaukee's apartments as the Census published them. The addition is unchanged.
 
 ## 7. Intended users and appropriate use cases
 
