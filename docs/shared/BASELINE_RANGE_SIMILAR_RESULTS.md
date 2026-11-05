@@ -12,16 +12,17 @@ Written 2026-11-05 by the baseline thread.
 
 ## Answer
 
-1. **By the locked rule, E wins.** E is the LASSO miss-size range. It was the only method to reach 90% on the held-out states: 99.0% over 2009–2020 (bootstrap 98.3–100%).
-   - It held Wisconsin 12 of 12 times.
-   - It held the 10 other challenge states 100% of the time.
-   - Its Wisconsin 2027–2031 range is **75,099 to 204,743 homes**, the narrowest of all.
+1. **By the locked rule, E wins, but on average it is by far the widest method (audit).** E is the LASSO miss-size range.
+   - **Coverage:** it was the only method to reach 90% on the held-out states, at 99.0% over 2009–2020 (bootstrap 98.3–100%). That overshoots the target, just as A falls short of it.
+   - **Width:** its mean width over the other 50 states is 5.76 log units, against 1.29 to 1.39 for A to D. Its mean Wisconsin check width is 2.07, against A's 1.39.
+   - **Checks:** it held Wisconsin 12 of 12 times, and 100% of 120 challenge-state checks.
+   - **Wisconsin 2027–2031:** only here is it the narrowest, at **75,099 to 204,743 homes** (log width 1.00). That is **outside E's own record**: every range E gave Wisconsin in 2009–2020 was wider (1.32 to 3.99).
 2. **A caveat on E: that narrow range is out of line with E's own record on Wisconsin.**
    - In the past checks, E's Wisconsin ranges had log widths from 1.32 to 3.99 (2009–2020).
    - For 2027–2031, it gives a log width of 1.00, narrower than any it gave Wisconsin before.
    - This happens because Wisconsin's traits now look calm to the LASSO. Recent permits sit above the 10-year pace (tilt +0.10), which the model links to smaller misses.
    - E also over-covers (99% against a 90% target), because it gives some states extremely wide ranges. Its 99th-percentile width is 64.7 log units. So it reaches the target by being wide where it is unsure, and narrow where it thinks a state is calm.
-3. **The pooled all-states range (A, now calibrated) just missed:** 88.7% (bootstrap 77.5–98.3%), Wisconsin 12 of 12, challenge states 87.5%. Its Wisconsin 2027–2031 range is 53,853 to 227,980. The miss is within noise: the 12 overlapping years hold only 2–3 independent periods.
+3. **The pooled all-states range (A, now calibrated) just missed:** 88.7% (bootstrap 77.5–98.3%), Wisconsin 12 of 12, 87.5% of 120 challenge-state checks. Its Wisconsin 2027–2031 range is 53,853 to 227,980. The miss is within noise: the 12 overlapping years hold only 2–3 independent periods.
 4. **Hand-free similarity (C and D) did not help.**
    - **C, nearest states:** 82.7% held, Wisconsin 8 of 12.
    - **D, weighted states:** 83.2% held, Wisconsin 9 of 12.
@@ -77,12 +78,12 @@ Two of these look odd:
 - **Own past miss is negative.** A state that missed more before is predicted to miss less.
 - **Tilt is negative.** A state with recent permits above its 10-year pace is predicted to miss less.
 
-The first is likely the LASSO trading off traits that move together (own past miss and swing). Neither should be read as a cause.
+A guess for the first: the LASSO may be trading off two traits that move together. Swing and own past miss are correlated at 0.88 in the training rows. Neither coefficient should be read as a cause.
 
 ## Choices for Ryan
 
 | Option | Range, 2027–2031 | Case for | Case against |
 | --- | --- | --- | --- |
-| E (the locked rule's pick) | 75,099 to 204,743 | Passed the rule; held Wisconsin 12 of 12 and the challenge states 10 of 10 | Narrower for Wisconsin than any range it gave Wisconsin before; rests on Wisconsin "looking calm" now |
-| A (all states, calibrated) | 53,853 to 227,980 | Simple; consistent width; Wisconsin 12 of 12 | 88.7% against the 90% target (within noise) |
+| E (the locked rule's pick) | 75,099 to 204,743 | Passed the rule; held Wisconsin 12 of 12 and 100% of 120 challenge-state checks | Narrower for Wisconsin than any range it gave Wisconsin before; rests on Wisconsin "looking calm" now |
+| A (all states, calibrated) | 53,853 to 227,980 | Simple; consistent width; Wisconsin 12 of 12 | 88.7% against the 90% target (within noise, as E's 99.0% overshoot is) |
 | Round 2 B | 48,709 to 244,147 | 92.5% since 2009 (post hoc window) | Widest |
