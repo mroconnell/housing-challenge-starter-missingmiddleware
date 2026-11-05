@@ -1499,8 +1499,8 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 
 | Group | Repeal places | Definition |
 | --- | --- | --- |
-| Core | 41 | Principal city of a metropolitan statistical area |
-| Non-core metro | 25 | Suburb (20) + exurb (4) + rural part of a metro (1) |
+| Core | 39 | Principal city of a metropolitan statistical area (Feb 2013 list) |
+| Non-core metro | 27 | Suburb (22) + exurb (4) + rural part of a metro (1) |
 | Outside metro | 8 | Micropolitan, small town or rural |
 
 - Exurbs alone (4 places) are shown only as a list of cases, because 4 is too few to read.
@@ -1517,6 +1517,20 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 - The 2026-11-05 size bands (10k–100k) were post hoc; this test does not confirm or refute them.
 - Group averages are average effects. A single city, Wisconsin's included, can fall well outside them (as in 52i).
 - **Wisconsin use:** this is only described, never applied. A Wisconsin split by class would need Ryan's own OK and the 25% replacement rule.
+
+**Audit fixes (21:21 UTC; before any count). These override the text above.**
+1. **Prompted by results:** Test 53 was prompted by results already seen. Test 52e showed main's lean comes from SF, Austin and San Jose, all core cities, and Ryan's winners/losers question followed it. It is labelled post hoc in origin.
+2. **Principal-city list:** the Feb 2013 Census list (based on 2010 data, before every repeal in the sample) is the main source; July 2023 is a check.
+   - The groups above use 2013.
+   - 4 of the 74 change group between the lists: West Allis is core in 2013 and a suburb in 2023; Tigard, Dunwoody and Springfield (OR) are suburbs in 2013 and core in 2023.
+   - The check version reruns the group averages with the 2023 groups.
+3. **Labels:**
+   - The "dominant RUCA class" cut (the class holding the most population) is a convention.
+   - South Bend's combined-area row is a hand fix (core on both lists).
+   - The metro flag is the current one from BPS and 2024 boundaries, and this is stated.
+4. **Thin groups:** outside metro has 8 places, so any difference resting on it is thin, and the reading says so. Each group's n is shown beside every range.
+5. **Class-matched pools:** pool sizes are reported. Where a class leaves too few pool places, the batch ladder applies unchanged (state, then division, then nation, then step 5).
+6. **Nearest-tract fallback:** 5 of the 74 use it (Bandera, Lansing, Social Circle, Millersburg, Saranac Lake).
 
 **Run order:**
 1. Code committed before any run.

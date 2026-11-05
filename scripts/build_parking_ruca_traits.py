@@ -6,7 +6,7 @@ place's traits are population-weighted shares of its tracts' primary RUCA codes,
 in the sample; main) and 2020 (check). A place with no tract point inside takes the nearest tract (flagged).
 
 Classes (2010 codes; main):
-  core      principal city of a metropolitan statistical area (Census list 2, July 2023)
+  core      principal city of a metropolitan statistical area (Census list 2, Feb 2013; July 2023 as a check)
   suburb    other place in a metro area (RUCA 1-3 dominant) whose dominant code is 1 (metro core)
   exurb     metro-area place whose dominant code is 2 or 3 (30%+ of workers commute to the metro core)
   non-metro dominant code 4-10 (micropolitan, small town, rural)
@@ -140,27 +140,40 @@ def main() -> None:
         out.append(s)
     T = out[0].join(out[1], how="outer")
     T.index.name = "key"
-    # principal cities of metropolitan statistical areas (list 2, July 2023)
+    # principal cities of metropolitan statistical areas: Census list 2, Feb 2013 (main; based on 2010 data, before every
+    # repeal in the sample; audit 21:21 UTC) and July 2023 (check). The .xls 2013 list was converted once to CSV
+    # (data/raw/parking_ruca/cbsa_list2_2013.csv) with xlrd 2.0.1 (BSD) in a throwaway uv environment; no project dependency.
     rows = list(xlsx_rows(R / "cbsa_list2_2023.xlsx"))
     hi = next(i for i, r in enumerate(rows) if r.get("A") == "CBSA Code")
-    P = pd.DataFrame(rows[hi + 1:]).rename(columns={"A": "cbsa", "B": "title", "C": "type", "D": "name", "E": "st", "F": "place"})
-    P = P[P["type"] == "Metropolitan Statistical Area"].dropna(subset=["st", "place"])
-    pg = set((P["st"].str.zfill(2) + P["place"].str.zfill(5)).values)
-    pn = set(zip(P["st"].str.zfill(2), P["name"].str.lower()))
+    P23 = pd.DataFrame(rows[hi + 1:]).rename(columns={"A": "cbsa", "B": "title", "C": "type", "D": "name", "E": "st", "F": "place"})
+    raw13 = pd.read_csv(R / "cbsa_list2_2013.csv", header=None, dtype=str)
+    h13 = raw13.index[raw13[0] == "CBSA Code"][0]
+    P13 = raw13.iloc[h13 + 1:, :6].set_axis(["cbsa", "title", "type", "name", "st", "place"], axis=1)
     isplace = geo["fips_place"].str.strip("0") != ""
     by_geoid = geo["acs_geoid"].str[4:]
     base_name = geo["name"].str.lower().str.replace(r"\s+(town|city|village|township|charter township|borough|plantation)$", "", regex=True)
     T = T.reindex(geo.index)
-    T["principal_city"] = np.where(isplace, by_geoid.str[:7].isin(pg),
-                                   [(s, n) in pn for s, n in zip(geo["state_fips"], base_name)])
+
+    def principal(P):
+        P = P[P["type"] == "Metropolitan Statistical Area"].dropna(subset=["st", "place"])
+        pg = set((P["st"].str.zfill(2) + P["place"].str.zfill(5)).values)
+        pn = set(zip(P["st"].str.zfill(2), P["name"].str.lower()))
+        return np.where(isplace, by_geoid.str[:7].isin(pg), [(s_, n) in pn for s_, n in zip(geo["state_fips"], base_name)])
+    T["principal_city"] = principal(P13)
+    T["principal_city_2023"] = principal(P23)
     T["metro"] = [D.metro.get(k, 0.0) for k in geo.index]
     dom = T["ruca2010_dominant"]
-    T["area_class"] = np.select(
-        [(T["metro"] == 1) & T["principal_city"], (T["metro"] == 1) & (dom == "core"), (T["metro"] == 1) & (dom == "commute")],
-        ["core", "suburb", "exurb"], np.where(dom.isna(), "unknown", np.where(T["metro"] == 1, "rural part of metro", "non-metro")))
-    import run_parking_salvage as rps  # South Bend's combined-area row (St. Joseph County remainder): South Bend is a principal city
-    if rps.SJ_KEY in T.index:
-        T.loc[rps.SJ_KEY, ["principal_city", "area_class"]] = [True, "core"]
+
+    def classify(pc):
+        # "dominant" = the RUCA class holding the most population (a convention): 1 = core, 2-3 = commuting
+        return np.select([(T["metro"] == 1) & pc, (T["metro"] == 1) & (dom == "core"), (T["metro"] == 1) & (dom == "commute")],
+                         ["core", "suburb", "exurb"],
+                         np.where(dom.isna(), "unknown", np.where(T["metro"] == 1, "rural part of metro", "non-metro")))
+    T["area_class"] = classify(T["principal_city"].astype(bool))
+    T["area_class_pc2023"] = classify(T["principal_city_2023"].astype(bool))
+    import run_parking_salvage as rps  # HAND FIX: South Bend's combined-area row (St. Joseph County remainder) has no own
+    if rps.SJ_KEY in T.index:          # geography; South Bend is a principal city on both lists
+        T.loc[rps.SJ_KEY, ["principal_city", "principal_city_2023", "area_class", "area_class_pc2023"]] = [True, True, "core", "core"]
     T.insert(0, "name", geo["name"])
     T.insert(1, "state_fips", geo["state_fips"])
     T.round(4).to_csv(Path(__file__).resolve().parent.parent / "reference" / "parking_place_ruca_traits.csv")
