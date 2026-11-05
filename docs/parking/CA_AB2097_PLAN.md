@@ -150,7 +150,7 @@ reviewed from a summary). Each item is now part of the plan:
    slope; a move inside cities does not. 90% range from 2,000 resamples of places. The ring-vs-beyond check from the
    Oct 27 test is kept too.
 3. **Places that already reformed** (the 12-place list, plus San Jose and Sacramento): left out of the main estimate
-   under the strict rule, and used as a **placebo group** (expected: no change at their line in 2023).
+   under the strict rule, and used as a **placebo group** (placebo test: the reading rule needs its 90% range to include 0).
 4. **ADUs.** State law already limited ADU parking near transit. Main outcome = homes in issued permits **excluding
    ADUs** (Table A2 unit categories other than ADU). ADUs are reported on their own. All homes and 2+ unit buildings are
    shown beside.
