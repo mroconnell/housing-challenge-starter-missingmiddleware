@@ -44,7 +44,7 @@ def main() -> None:
     rep = ab.full_reporters(p)
     main_j = [j for j in rep if j not in E.PLACEBO | E.DROPPED]
     b2, p2 = b[~b.line150_main], p[~p.line150_main]
-    g = E.group("main", main_j)
+    g = E.group("main", E.with_treated_land(E.cells_for(b2, "main"), main_j))
     est, dr = E.event_study(g, E.cells_for(b2, "main"), E.permits_for(p2, "main"), "homes_non_adu")
     e, d = E.period_contrast(est, dr, E.BEFORE, E.AFTER)
     lo, hi = E.interval(d)

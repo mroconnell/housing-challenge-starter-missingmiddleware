@@ -250,6 +250,13 @@ def permits_for(p: pd.DataFrame, spec: str, zone_kind: str = "zone") -> pd.DataF
     return q
 
 
+def with_treated_land(c: pd.DataFrame, juris: list[str], treat=("near", False)) -> list[str]:
+    """Plan: the comparison is land in the same jurisdictions, so only jurisdictions with treated land (homes > 0 in
+    the treated zone) enter a group (as ab2097.define_groups does). Fix found after the first run (2026-11-05)."""
+    has = set(c[(c.zone == treat[0]) & (c.upz == treat[1]) & (c.homes > 0)].juris)
+    return [j for j in juris if j in has]
+
+
 def group(name: str, juris: list[str], treat=("near", False), comp=("ring", False)) -> ab.Group:
     return ab.Group(name, sorted(juris), treat, comp)
 
@@ -411,6 +418,7 @@ def estimate() -> None:
     def block(case, spec, p, juris, gname, outcomes=OUTCOMES, before=BEFORE, after=AFTER, ref=(2022,),
               zone_kind="zone", treat=("near", False), comp=("ring", False), per_acre=False, keep_years=False):
         c, q = cells_for(b, spec, zone_kind), permits_for(p, spec, zone_kind)
+        juris = with_treated_land(c, juris, treat)
         g = group(gname, juris, treat, comp)
         for oc in outcomes:
             est, dr = event_study(g, c, q, oc, ref, denom="acres" if per_acre else "homes",
@@ -427,9 +435,9 @@ def estimate() -> None:
                 for lab, bb, aa in (("lead check: 2021-2022 vs 2018-2020", [2018, 2019, 2020], [2021, 2022]),
                                     ("placebo date: 2020-2022 vs 2018-2019", [2018, 2019], [2020, 2021, 2022])):
                     e2, d2 = period_contrast(est, dr, bb, aa)
-                    add(lab, spec, gname, oc, e2, d2)
+                    add(lab, spec, gname, oc, e2, d2, n_jurisdictions=len(juris))
                 s, sd = lead_slope(est, dr)
-                add("lead slope (per year, 2018-2021 vs 2022)", spec, gname, oc, s, sd)
+                add("lead slope (per year, 2018-2021 vs 2022)", spec, gname, oc, s, sd, n_jurisdictions=len(juris))
 
     p_main = p_all
     p_street = p_all[p_all.hcd_street]
@@ -446,14 +454,18 @@ def estimate() -> None:
     nn = p_main[~p_main.new_station_land]
     b_nn = b[~b.new_station_land]
     c_nn = cells_for(b_nn, "no_new_stations")
-    g = group("main", main_j)
+    g = group("main", with_treated_land(c_nn, main_j))
     est, dr = event_study(g, c_nn, permits_for(nn, "no_new_stations"), "homes_non_adu")
     e, d = period_contrast(est, dr, BEFORE, AFTER)
-    add("check: without land near 2018-2022 rail openings", "no_new_stations", "main", "homes_non_adu", e, d)
+    add("check: without land near 2018-2022 rail openings", "no_new_stations", "main", "homes_non_adu", e, d,
+        n_jurisdictions=len(g.juris))
     s, sd = lead_slope(est, dr)
-    add("check: lead slope without land near 2018-2022 rail openings", "no_new_stations", "main", "homes_non_adu", s, sd)
+    add("check: lead slope without land near 2018-2022 rail openings", "no_new_stations", "main", "homes_non_adu", s, sd,
+        n_jurisdictions=len(g.juris))
     # checks: points, dating, years, jurisdictions
-    block("check: HCD street-level points only", "main", p_street, main_j, "main", outcomes=["homes_non_adu"])
+    rep_street = ab.full_reporters(p_street)  # the check's own full-reporter list (audit)
+    block("check: HCD street-level points only", "main", p_street,
+          [j for j in rep_street if j not in PLACEBO | DROPPED], "main", outcomes=["homes_non_adu"])
     for lab, ycol in (("check: report-year dating", "report_year"), ("check: entitlement-date dating", "ent_year")):
         q = p_main.copy()
         q["year"] = q[ycol]
@@ -463,14 +475,15 @@ def estimate() -> None:
     block("check: drop Los Angeles", "main", p_main, [j for j in main_j if j != ab.LA], "main", outcomes=["homes_non_adu"])
     block("check: stable-geocode jurisdictions", "main", p_main, [j for j in main_j if j in stable], "main",
           outcomes=["homes_non_adu"])
-    g = group("main", main_j)
     c, q = cells_for(b, "main"), permits_for(p_main, "main")
+    g = group("main", with_treated_land(c, main_j))
     q2 = ab.drop_largest(g, q.assign(units=q.homes_non_adu), "homes_non_adu")
     est, dr = event_study(g, c, q2, "homes_non_adu")
     e, d = period_contrast(est, dr, BEFORE, AFTER)
-    add("check: drop the largest project in each area and period", "main", "main", "homes_non_adu", e, d)
+    add("check: drop the largest project in each area and period", "main", "main", "homes_non_adu", e, d,
+        n_jurisdictions=len(g.juris))
     e, d = equal_weight(g, c, q, "homes_non_adu")
-    add("check: equal weight per jurisdiction", "main", "main", "homes_non_adu", e, d)
+    add("check: equal weight per jurisdiction", "main", "main", "homes_non_adu", e, d, n_jurisdictions=len(g.juris))
     # bands and edges
     for band in ("b0_1_3", "b1_3_1_2", "b1_2_2_3"):
         block(f"band {band} vs 1-1 1/2 mile", "main", p_main, main_j, "main", outcomes=["homes_non_adu"],
@@ -490,12 +503,12 @@ def estimate() -> None:
                  "n_jurisdictions": 1})
     # secondary shares (descriptive only)
     c, q = cells_for(b, "main"), permits_for(p_main, "main")
-    g = group("main", main_j)
+    g = group("main", with_treated_land(c, main_j))
     for lab, flag, base in (("A: density-bonus share of 5+ projects", "db_flag", q.is_5plus_project),
                             ("C: LIHTC share of 5+ projects with financing filled", "lihtc_flag",
                              q.is_5plus_project & q.fin_filled)):
         e, d = share_did(g, q, flag, base)
-        add(lab + " (descriptive only)", "main", "main", "share of projects", e, d)
+        add(lab + " (descriptive only)", "main", "main", "share of projects", e, d, n_jurisdictions=len(g.juris))
 
     # D2 plain counts (descriptive): LIHTC homes and projects in 5+ home projects, near vs ring, by period
     q = permits_for(p_main, "main")
