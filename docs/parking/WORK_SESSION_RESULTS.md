@@ -924,3 +924,49 @@ Five helpers coded three places each from public sources, following a written br
 2. **Seabrook:** its 2019 change cut only non-residential minimums, so it is not a residential repeal.
 3. **Maumee:** coded "unclear".
 4. **Other files to update:** `reference/parking_old_minimums.csv` has Hudson as not found (the old rate is 1 per unit, from a Wayback copy) and Emeryville as 1.75 per unit (the 2017 code says 1 per unit plus guest parking, at 67% of demand).
+
+## Batch rerun after the sample fixes (2026-11-05; lock "Batch rerun after the sample fixes"; Ryan 15:50/15:54 UTC)
+
+**Fixes.**
+- Canandaigua is now on the Town's permit series (the City is kept out of the Town's pools).
+- Seabrook is removed (not a residential repeal).
+- Maumee is removed (a reform, not a repeal; Ryan 15:54 UTC).
+- That leaves 74 repeal places.
+
+**How the run was done.** Outputs are in `reference/batch_2026-11-05/`: 22 changed or new files, all under 1 MB, with no lot, address or GIS files. The committed originals feeding the tool are untouched, and the TOD files' SHA-256 hashes match. The run stopped twice, at the method-2 gate and at the interim commit. Each time it was fixed and resumed from that step, without redoing earlier steps.
+
+**Main estimate (the tool's method: real average with the placebo spread), extra homes in Wisconsin 2027–2031:**
+
+| Version | Low | Measured average | High | Width |
+| --- | --- | --- | --- | --- |
+| Old (76 places) | −45,853 | −15,234 | +19,818 | 65,671 |
+| New (74 places) | −46,268 | −15,380 | +19,649 | 65,918 |
+| New, Branson also out (sensitivity) | −46,429 | −15,540 | +19,489 | 65,918 |
+| New, Maumee kept in (approximate side run, 75) | −46,265 | −15,376 | +19,653 | 65,918 |
+
+Gastonia is again the one place without placebo stand-ins; its trimmed windows never match its stand-ins' after-year count.
+
+**Corrected method 2 on 74 places:**
+- **Stage 1:** D 0.859 / 0.91, E (B+D) 0.857 / 0.91, so D wins the tie. The fake sets changed with 74 places, as noted in the lock.
+- **Weight test:** the target-state mix wins again (3.06 against random effects 3.39).
+
+| D, target-state mix | Rate (90%) | Wisconsin homes (90%) | Width |
+| --- | --- | --- | --- |
+| Old (76) | −0.77 (−2.78 to +0.43) | −10,223 (−37,046 to +5,760) | 42,806 |
+| New (74) | −0.96 (−3.34 to +0.36) | −12,873 (−44,571 to +4,854) | 49,426 |
+| New, Branson out | −1.01 | −13,415 (−44,174 to +3,872) | 48,047 |
+| New, Maumee in (approximate) | −0.98 | −13,127 (−41,802 to +3,688) | 45,489 |
+
+- **Other weightings (new):** random effects +8,780, square root +9,261, homes +1,479, equal +8,270.
+- **Like-for-like bar (49,253, post hoc):** the new main width is 49,426, which misses the bar by 173 homes. It passes with Branson out (48,047) or with Maumee kept in (45,489). The locked bar (26,289) is missed in every version.
+- **Backtest (D, mix):** −1.19 (−3.92 to −0.14). The range now excludes 0, so the backtest fails. Under the mix, the method shows a dip of this size in years before any repeal, so its negative lean cannot be read as a repeal effect.
+
+**Test 49 (event time, new sample):**
+- **38-place set:** now 36 places with complete data. Mix slope −0.45 (−2.24 to +0.51), "no clear change over time" under every weighting.
+- **Long set:** 13 places. Mix slope −0.75 (−2.05 to +1.08), and random effects −0.30 (−0.92 to +0.06), both "no clear change". Random effects no longer shows a change.
+- **Long-set leads:** random effects and equal weights slope downward before repeal (ranges exclude 0).
+
+**Reading.**
+- The sample fixes barely move the main estimate.
+- They widen method 2's range, so it now just misses the like-for-like bar.
+- Its mix backtest now fails, which strengthens the earlier caveat. The lines are unchanged, and any tool change needs Ryan's own OK.
