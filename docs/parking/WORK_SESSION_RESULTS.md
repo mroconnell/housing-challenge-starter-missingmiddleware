@@ -898,7 +898,7 @@ Five helpers coded three places each from public sources, following a written br
 
 **Do approval path and dose vary? Yes, both.**
 - **Repeal type:**
-  - 12 places are full repeals of residential minimums, citywide.
+  - 11 places are plain full repeals of residential minimums, citywide.
   - Windham: full removal for uses under site plan review (3+ units); its village district keeps 1 per unit for houses and duplexes.
   - Branson: "near". The table was retitled a maximum, but the text still says spaces "shall be provided".
   - Maumee: unclear. The required number is also the maximum, and providing fewer needs administrator discretion.
@@ -917,7 +917,9 @@ Five helpers coded three places each from public sources, following a written br
   - unknown: Ecorse.
 - **Small groups:** each group holds 1–7 places, so no group difference is a finding. A test by type needs its own lock.
 
-**Sample flags found by the coding (data issues, not yet acted on):**
+**Audit corrections (16:30 UTC):** San Francisco's Prop E entry was removed (it came from memory, not a source), and SF's approval-path confidence is now low. The search-summary items for Hudson and Canandaigua are marked as low-confidence inferences. `reference/parking_old_minimums.csv` is updated for Hudson (1 per unit, Wayback) and Emeryville (about 0.80 per unit for 5+ units, 2017 code).
+
+**Sample flags found by the coding:** Canandaigua is a data fix and can be self-approved. Seabrook waits on Ryan. Branson and Maumee are a sensitivity, not a fix. All of them go into one batched rerun, with old and new side by side.
 1. **Canandaigua:** the repeal is the Town of Canandaigua's (Local Law 3-2020), but the permit series in the 76 is the City's (BPS key 36|103000, place 12144). The town has its own series (36|103500).
 2. **Seabrook:** its 2019 change cut only non-residential minimums, so it is not a residential repeal.
 3. **Maumee:** coded "unclear".
