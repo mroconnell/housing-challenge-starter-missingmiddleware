@@ -972,3 +972,69 @@ Five helpers coded three places each from public sources, following a written br
 - The sample fixes barely move the main estimate.
 - They widen method 2's range, so it now just misses the like-for-like bar.
 - Its mix backtest now fails, which strengthens the earlier caveat. The lines are unchanged, and any tool change needs Ryan's own OK.
+
+## Test 50: San Francisco and Emeryville project parking (2026-11-05; lock "Test 50", with the reading change)
+
+**Descriptive only. Nothing changes in the tool. Not to be cited until Ryan spot-checks 5 rows.**
+
+**Files.**
+- `reference/parking_t50_sf_projects.csv` has 31 rows. 2018-016535PRJ stays in the file but is excluded here: it documents units, not a new project. That leaves 30.
+- `reference/parking_t50_emeryville_projects.csv` has 15 rows.
+- `reference/parking_t50_sf_frame_counts.csv` and `reference/parking_t50_sf_sample.csv` hold the frame and the draw.
+
+**Frame caveats (San Francisco).**
+- **Approved before-151 pool:** only 10 records, so it was fully drawn and is effectively a census. With the dropped record, 9 remain.
+- **Blank decisions:** 55 before-151 records are "Closed" with no decision. Their outcome isn't known, so approval rates are not computed.
+- **Section mismatches:** the frame's section (from current parcel zoning) matches the case report for 26 of 30. It differs for 2, is unclear for 2, and is not found for none of the kept rows. The case report wins.
+
+**San Francisco, three groups (residential stalls; homes as approved):**
+
+| Group | Projects | Stalls per home, proposed | Stalls per home, approved | Median project, approved | Projects approved with 0 stalls |
+| --- | --- | --- | --- | --- | --- |
+| Filed and approved before repeal | 1 | 0.00 | 0.00 | 0.00 | 1 of 1 |
+| Filed before, approved after ("switchers") | 13 | 0.54 (11 with counts) | 0.46 | 0.25 | 4 of 13 |
+| Filed after | 16 | 0.19 | 0.16 | 0.05 | 8 of 16 |
+
+- **Filed after:** 1,780 homes proposed and 1,900 approved, with 346 stalls proposed and 310 approved. Four of the 8 zero-stall projects are 100% affordable.
+- **Before/before (2017-007542PRJ):** the one project had a 17-stall minimum, met under Sec. 150(e) by swapping in bike parking.
+- **Switchers, Sec. 151 (minimums at filing), required minimum against approved stalls:**
+  - 2018-009081PRJ: 49 required, 0 approved. It first sought a PUD exception; none was needed by approval.
+  - 2016-013012PRJ: 9 required, 9 proposed, 0 approved.
+  - 2018-000468PRJ: 20 required, 7 approved.
+  - 2016-002874PRJ: 6 required, 6 approved.
+  - 2018-007380PRJ: 25 required, 25 approved.
+  - 2017-003559PRJ: 240 required, 416 approved.
+  - 2018-007883PRJ: P district, no minimum, 550 approved.
+  - 2016-012545PRJ: minimum not found, 24 proposed, 39 approved.
+  - Bunching against the old minimum: 3 below, 2 at, 1 above, 2 unknown or no minimum.
+- **Switchers, Sec. 151.1 (no minimums), proposed to approved:**
+  - 2016-014802PRJ: 152 to 86.
+  - 2017-000275PRJ: 13 to 3.
+  - 2017-002951PRJ: 32 to 0.
+  - 2018-014727PRJ: 0 to 0.
+  - 2017-008051PRJ: not found to 83.
+- **Big projects:** the switcher ratios are pulled up by two of them (2018-007883PRJ with 1,100 homes and 550 stalls, and 2017-003559PRJ with 273 homes and 416 stalls). The median is the better summary.
+- **Commercial:** 19 of 30 projects are mixed use. Commercial minimums found are 0 in every row with a value. 558 commercial stalls were approved, all among the switchers.
+- **Old minimum for filed-after projects:** not coded, so bunching against it is not computed for that group.
+
+**Emeryville (repeal 2020-05-21), shown as a list of cases:**
+- **Filed before:**
+  - FDP17-001: 500 homes, 335 stalls approved, equal to the 335 minimum (2018).
+  - UPDR17-009: 33 homes, 23 required, 15 proposed, approved count not found.
+  - UPDR18-002: 6 homes, 5 required, 7 proposed and 7 approved (approved 2020-10-06, after repeal; high confidence).
+  - UPDR17-002: 6 homes, counts not found.
+  - Two were withdrawn: UPDR17-011 (259 homes, 98 required, 195 proposed) and the Onni Christie project (638 homes, 256 required).
+- **Filed after:**
+  - ZC20-002: 90 homes, 42 to 30 stalls.
+  - ZC22-001: 68 homes, 22 to 21.
+  - FDP21-001: 22 stalls proposed, 0 approved, with 0 homes approved.
+  - ZC23-008: 364 to 362 homes, 263 stalls proposed, approved count not found.
+  - Five were not approved: withdrawn, abandoned or still in process.
+
+**Reading.**
+- **After the repeal:** most San Francisco projects proposed and got far fewer stalls than the old minimums. Half of the filed-after projects (8 of 16) had none.
+- **Switchers:** under Sec. 151, half went below the old minimum (3 of 6 with a known minimum) and several dropped stalls between proposal and approval (9 to 0, 32 to 0, 152 to 86).
+- **Large market-rate projects:** some still chose more parking than the minimum.
+- **What this does not show:** whether more homes were built. It shows only that the requirement was binding for some projects.
+
+**Spot-check rows for Ryan (seed 20261105, drawn from the 30 kept SF rows):** 2017-002951PRJ, 2022-012441PRJ, 2020-006679PRJ, 2021-000947PRJ, 2018-014727PRJ.
