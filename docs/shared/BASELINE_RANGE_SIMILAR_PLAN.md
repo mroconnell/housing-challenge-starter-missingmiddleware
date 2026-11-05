@@ -36,11 +36,11 @@ Traits are standardised on the training states at each t.
 
 | Id | Method | What it learns |
 | --- | --- | --- |
-| A | All training states pooled (round 2's method) | Nothing; benchmark |
-| B | The target's own past only (round 2's R0) | Nothing; benchmark |
+| A | All training states pooled. Its quantile level is now calibrated by the inner loop, so it is not round 2's fixed 2.5th–97.5th range, which is shown beside it (audit 2) | Nothing; benchmark |
+| B | The target's own past only (round 2's R0). Its quantile level is the narrowest one that gives 90% coverage when every training state gets a range from its own history (audit 1) | Nothing; benchmark |
 | C | k nearest training states on the traits; k is tuned | Who is similar, and how many |
 | D | Kernel-weighted: every training state counts, weighted by closeness on the traits; the bandwidth is tuned | How fast similarity fades |
-| E | LASSO miss-size model: a LASSO (`sklearn LassoCV`, 5-fold grouped by state) predicts log of the miss size from the traits; the range is pred × exp(± c × predicted miss size), with c calibrated | Which traits predict big misses |
+| E | LASSO miss-size model: a LASSO predicts log |log r| from the traits; the range is pred × exp(± c × predicted miss size), with c calibrated. Settings (audit 6): `LassoCV(n_alphas=100, cv=GroupKFold(5) by state, max_iter=10000, random_state=20261105)`, default alpha grid | Which traits predict big misses |
 
 - **Calibration, the same for every method.** On the training states only, by an inner leave-one-state-out, each method is set to the narrowest setting that reaches 90% coverage:
   - the quantile level for A to D;
@@ -54,6 +54,8 @@ For each method:
 - **Coverage:** the share of held-out target checks inside the range, over the 50 states other than Wisconsin. The block-bootstrap 90% range is over check years (5-year blocks, 2,000 draws, seed 20261105).
 - **Width:** the mean of log(high ÷ low) over those checks. Lower is narrower.
 - **Wisconsin:** reported as a check, not used to pick: hits out of 12 (main) and out of 16, plus its width.
+- **Each method's bootstrap range** is shown beside its point coverage (audit 4). The 12 overlapping check years hold only about 2–3 independent periods, so a method calibrated to exactly 90% inside the loop can miss the bar outside it from noise alone.
+- **The challenge states (Ryan, 19:21 UTC; reported only).** These are the 10 states other than Wisconsin in the challenge's data-source list (`data/DATA_SOURCES.md`): Arizona, Connecticut, Hawaii, New Hampshire, Oregon, Pennsylvania, Rhode Island, Tennessee, Utah and Virginia. For each method, coverage and width are reported over these 10 targets, each checked as a held-out target as usual.
 - **Monthly start points (reported only).** Not in this round. They would need the monthly state files, and overlapping windows add little; noted for later.
 
 ## Pick rule
@@ -61,6 +63,8 @@ For each method:
 - **Who qualifies:** methods whose point coverage on the 50 other states is at least 90%.
 - **The winner:** the qualifier with the smallest width. A width within 0.01 counts as a tie and goes to the simpler method, in the order A, B, C, D, E.
 - **If no method qualifies,** A stays, and the shortfall is reported.
+- **Picked on the main window** (audit 5). The report also says whether the winner reaches 90% over 2005–2020.
+- **Optimism (audit 3).** The pick uses the same 50 states × 12 years that are then reported, after choosing among 5 methods and their tuned settings, so the winner's coverage is a little optimistic. Wisconsin, and the challenge states' results, are the cleaner checks.
 
 ## Wisconsin 2027–2031
 
@@ -75,3 +79,5 @@ The winning method, with training on all 50 other states and start years up to 2
 ## Plan log
 
 - 2026-11-05: draft.
+- 2026-11-05 19:22 UTC, audit: cleared once items 1–6 are in, Ryan says go, and the script is committed first. Items 1–6 are written in; the challenge-states check was added on Ryan's request (19:21).
+
