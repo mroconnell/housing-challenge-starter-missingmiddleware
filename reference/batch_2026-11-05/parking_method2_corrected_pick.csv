@@ -1,0 +1,2 @@
+candidate,rule,mae,coverage,d_mae,d_coverage,e_mae,e_coverage,stage1_lowest_mae_any
+D,D (B+D not >5% better with coverage 85-95%; D wins ties),0.8585334372979356,0.91,0.8585334372979356,0.91,0.8566750712352149,0.91,"A (0.8287, 0.910); not the corrected rule"
