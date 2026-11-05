@@ -966,6 +966,8 @@ Five helpers coded three places each from public sources, following a written br
 - **Long set:** 13 places. Mix slope −0.75 (−2.05 to +1.08), and random effects −0.30 (−0.92 to +0.06), both "no clear change". Random effects no longer shows a change.
 - **Long-set leads:** random effects (−4.31) and equal weights (−4.34) slope downward before repeal (ranges exclude 0), so these places were already falling. Under the mix the lead slope is +0.85 (−8.23 to +1.30), near the top of its range and unstable with 10 places.
 
+**Missing-data table (record only).** `--corrected --missing-only`, rerun against a temporary copy of the batch inputs, gives a byte-identical copy of the committed `reference/parking_method2_missing_by_state.csv`. The sample fixes do not change it.
+
 **Audit.** Reviewed by the coordinator's audit (parking_batch_rerun_2026-11-05_review.md): numbers match the CSVs; results stand.
 
 **Reading.**
