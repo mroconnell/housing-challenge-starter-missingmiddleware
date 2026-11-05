@@ -1,6 +1,6 @@
 # Baseline bake-off: locked plan (DRAFT, not locked, nothing run)
 
-Written 2026-11-05 by the baseline thread. Owner: "yes" (16:45 UTC) to writing this plan. Status: **draft for Ryan's choices (D1–D4) and the audit's review.** Nothing is fetched or run until Ryan's go after the audit. Anything chosen after seeing a result is labelled *post hoc*.
+Written 2026-11-05 by the baseline thread. Owner: "yes" (16:45 UTC) to writing this plan. Status: **draft, revision 2 (audit review 16:50 UTC, items 1–11 addressed; see Plan log).** Waiting on Ryan's choices (D1–D5) and the audit's re-review. Nothing is fetched or run until Ryan's go after the audit clears it. Anything chosen after seeing a result is labelled *post hoc*.
 
 ## The question
 
@@ -19,64 +19,112 @@ That rule was chosen by replaying only four start years (2019–2022), all in a 
 
 The baseline is split into two parts, each tested on its own:
 
-- **Level:** how many homes Wisconsin permits in total over the five years.
-- **Shares:** how that total splits among the 1,925 municipality pieces, by building size.
+- **Level:** how many homes Wisconsin permits over the five years, for each building size (1 unit, 2 units, 3–4 units, 5+ units).
+- **Shares:** how each size's state total splits among the 1,925 municipality pieces.
 
 The final baseline is level × shares. This matters because parking's earlier test found one method can be better at state totals while another is better town by town.
 
+## Shared rules for fitting and scoring
+
+- **Start year.** A start year t uses permit data for years up to and including t. Its outcome is the five years t+1 to t+5.
+- **No look-ahead in fitted numbers (audit 1).** L3's b and S3's k are fitted separately for each scored start year t. They use only start years s ≤ t − 5, whose five outcome years end by t.
+- **Fit start years.** These begin in 1992 (the first year with 3 prior years of state data) for Part 1, and in 1992 for Part 2 if 1990–1991 place data pass the coverage check (otherwise the first year after 2 covered years).
+- **Same start years for every candidate.** Part 1 scores every candidate on start years 2000–2020. Part 2 scores every candidate on start years 2004–2020. Every scored start year has at least 4 fit start years.
+- **Paired block bootstrap (audit 2).**
+  - Start years are resampled in moving blocks of 5 consecutive start years, with replacement, until the series is filled; the last block is cut to length (21 start years for Part 1, 17 for Part 2).
+  - Each draw resamples start years for all states (or all Wisconsin pieces) jointly, because the housing cycle is national.
+  - The same draw scores L0 and the candidate, so the difference is paired.
+  - 2,000 draws, seed 20261105.
+- **Homes at a start year (audit 4).** Revised housing-unit estimates use later censuses, which a forecaster at the start year did not have. So homes at start year t are the most recent decennial census count at or before t (1990, 2000, 2010 or 2020), plus permits issued since that census. Demolitions are not subtracted (a stated bias: homes are slightly over-counted late in each decade). No intercensal estimates are used.
+
 ## Part 1: the level
 
-**Data.** Census state permit files, 1990–2025, for all 50 states and DC; Wisconsin's are already on disk. Census state housing-unit estimates, 1990–2025, are needed for the per-home candidates (to fetch).
+**Data.** Census state permit files, 1990–2025, for all 50 states and DC (Wisconsin's are on disk; the others are fetched from the same Census URL). Decennial census housing units by state, 1990, 2000, 2010 and 2020 (Census API; 1990 from the Census 1990 summary file if the API lacks it).
 
-**Start years.** 2000 to 2020: 21 start years, each scored on the next five years. This lets every candidate, including 10-year windows, use the same start years. The 21 periods overlap, so they hold about four independent five-year periods per state.
+**Start years.** 2000 to 2020: 21 start years. The periods overlap, so they hold about four independent five-year periods per state.
 
-**Candidates.** Each predicts the next five years' total from data up to the start year only.
+**Building sizes (audit 3).** Every candidate predicts each building size's state total on its own. The five-year all-sizes total is their sum.
+
+**Candidates.** Each uses data up to the start year only.
 
 | Id | Candidate | Idea |
 | --- | --- | --- |
 | L0 | Flat 3-year average (current) | — |
-| L1 | Flat 5-, 7- and 10-year averages | 1 |
-| L2 | Long-run permits per existing home (all years since 1990) × homes at the start year | 1, 4 |
-| L3 | Partial pull back: 3-year level × (long-run level ÷ 3-year level)^b, with b fitted only on earlier start years | 4 |
-| L4 | Straight-line trend over 10 years and over all years | 1 |
+| L1a, L1b, L1c | Flat 5-, 7- and 10-year averages | 1 |
+| L2 | Long-run permits per existing home (all years from 1990 to the start year) × homes at the start year | 1, 4 |
+| L3 | Partial pull back: 3-year level × (L2 level ÷ 3-year level)^b, with b in [0, 1] fitted per the no-look-ahead rule by least mean \|log ratio\| on a grid of 0.05 | 4 |
+| L4a, L4b | Straight-line trend over the last 10 years, and over all years from 1990 (least squares, extended five years; a negative fitted year counts as its fitted value, not 0) | 1 |
 
-**Score.** The mean, over start years, of |log(predicted ÷ actual)| for the five-year total. Lower is better: 0.10 means about 10% off. Bias (mean log ratio) and the crash start years (2005–2009) are reported separately.
+**Score.** For each state and start year, |log(predicted ÷ actual)| for the five-year all-sizes total. The score is the mean over states and start years. Lower is better: 0.10 means about 10% off. Also reported:
+- bias (mean log ratio);
+- the crash start years (2005–2009) on their own;
+- each building size on its own;
+- Wisconsin on its own.
 
 **Pick rule (D1, D2).** A candidate replaces L0 only if all three hold:
-- it beats L0 by at least 10% on the all-states score;
-- a block bootstrap over start years (5-year blocks, 2,000 draws, seed 20261105) shows it better in at least 80% of draws;
-- it is not worse than L0 on Wisconsin alone by more than 5%.
+1. it beats L0 on the all-states score by the D2 margin;
+2. it passes the D2 bootstrap test;
+3. it is not worse than L0 on Wisconsin alone by more than 5% of L0's Wisconsin score.
 
-If more than one candidate passes, the lowest all-states score wins. If none passes, L0 stays.
+If more than one passes, the lowest all-states score wins. A tie, meaning scores within 0.001, goes to the simpler candidate in table order. If none passes, L0 stays.
 
-**Range.** It is redone with the winning level method's own out-of-sample errors: the 10th to 90th percentile of its predicted ÷ actual ratios for Wisconsin, by building size. The all-states version is a sensitivity.
+**Range (audit 3).**
+- **Method.** The range is redone with the winning level method's own out-of-sample errors. For each building size, it is the 10th to 90th percentile of predicted ÷ actual over Wisconsin's start years. It targets 80% coverage: in about 8 of 10 five-year periods, the outcome should land inside it.
+- **Coverage check, as TOD did.** For each Wisconsin start year t from 2005 to 2020, the range is rebuilt from start years s ≤ t − 5 only. The check records whether t's actual total landed inside.
+- **If coverage falls short.** If out-of-sample coverage is below 80%, the percentiles are widened in steps of 5 points (5th–95th, then 2.5th–97.5th) until it reaches 80%, and the widening is reported.
+- **Sensitivity.** An all-states version of the range is shown alongside.
 
 ## Part 2: the shares
 
-**Data (to fetch).** Census place permit files for Wisconsin, 1990–2014 (the Midwest region files exist back to 1980). The older files have no FIPS codes, so rows are linked to 2015+ rows by Census's 6-digit permit ID, then to municipality pieces with the current crosswalk. County files are needed for 1990–1999 (2000–2025 are on disk). The Milwaukee property-file fix is carried back to 2000.
+**Data (to fetch).**
+- Census place permit files for Wisconsin, 1990–2014 (Midwest region files; they exist back to 1980).
+- Census county permit files, 1990–1999 (2000–2025 are on disk).
+- Piece-level homes for S3: decennial census housing units by county subdivision for 1990, 2000, 2010 and 2020 (Census API; 1990 from the 1990 summary file). Homes at a start year follow the shared rule above.
+- The Milwaukee property-file fix is carried back to 2000. Before 2000, Milwaukee's apartment years stay as Census published, and this is labelled.
 
-**Coverage check (before any score).** A year is used only if the linked rows hold at least 95% of that year's Wisconsin state units. Years that fail are dropped and listed.
+**Units counted.** The estimate columns (reported values plus Census imputation for unreported months), as in the current baseline. A row with 0 months reported in a year is missing, not zero.
+
+**Linking 1990–2014 rows to today's pieces (audit 5).** Rules, applied in order:
+1. **Same ID.** The 6-digit Census permit ID appears in 2015–2025 files: the row goes to that ID's piece or pieces, split across counties as now.
+2. **Same name.** The same county with the same name and type (city, village, town): the row goes to that piece.
+3. **Changed type.** The same county and the same base name, with a different type (a town that became a village, for example Fox Crossing village, formed from the town of Menasha in 2016): the row goes to the successor.
+   - If the old town still exists beside the new village, the old row is split between them by their shares of current one-unit detached homes. This is an assumption, and it is listed.
+4. **Unlinked.** The row's units go to its county's unallocated row.
+
+Every rule-2, rule-3 and rule-4 case is listed in a link table before any score.
+
+**Annexation.** Permits stay with the place that issued them that year. Old boundaries are not rebuilt. So a city that annexed land shows its later growth, and the town that lost land shows its decline. This is a stated limitation, and it favours candidates that use recent years.
+
+**Pieces with no history** (incorporated later, or with no rows): years before they exist are missing, not zero. A candidate needing more years uses the years available. A piece with none takes its county's rate per 1,000 homes, as in the v3 fill.
+
+**Coverage check (before any score).** A year is used only if the units linked to pieces (rules 1–3) are at least 95% of Wisconsin's state-file units that year (estimate columns, as published, before the Milwaukee fix). Years that fail are dropped and listed. Start years then follow from the years left.
 
 **Start years.** 2004 to 2020, or fewer if the coverage check drops years.
 
-**Candidates.** Each gives every piece a share of the state total, by building size.
+**Candidates.** Each gives every piece a share of each building size's state total.
 
 | Id | Candidate | Idea |
 | --- | --- | --- |
 | S0 | Own 3-year share (current) | — |
-| S1 | Own 5- and 10-year shares | 3, 5 |
-| S2 | County pace, split within the county by each piece's own 10-year share | 2 |
-| S3 | Shrink: each piece's rate per 1,000 homes blended with its county's rate, by weight n ÷ (n + k), where n is the piece's homes and k is fitted only on earlier start years | 4, 5 |
-| S4 | Lumpy-year cap: in a 5-year window, a year counts at most 2 times the piece's average of its other years (3 times as a sensitivity) | 5 |
+| S1a, S1b | Own 5- and 10-year shares | 3, 5 |
+| S2a, S2b | County pace over the last 3 years (S2a) or the last 10 years (S2b), split within the county by each piece's own 10-year share (audit 6) | 2 |
+| S3 | Shrink: each piece's 3-year rate per 1,000 homes, blended with its county's 3-year rate by weight n ÷ (n + k), where n is the piece's homes at the start year and k is fitted per the no-look-ahead rule on a log grid from 10 to 100,000 homes | 4, 5 |
+| S4 | Lumpy-year cap: in a 5-year window, each year counts at most 2 times the piece's average of its other 4 years (3 times as a sensitivity) | 5 |
 
-**Score.** Each candidate's shares are scaled to the actual state total, so only the split is tested. The score is the sum over pieces and sizes of |predicted − actual|, divided by actual units: the error in homes per home permitted. Big-city and small-town results are also reported separately (pieces with at least, or fewer than, 1,000 homes).
+**Score.** Each candidate's shares are scaled to the actual state total, so only the split is tested. The score is the sum over pieces and building sizes of |predicted − actual|, divided by actual units: the error in homes per home permitted. Results are also reported separately for pieces with at least 1,000 homes and for those with fewer.
 
-**Pick rule.** The same three-part rule as the level, with Wisconsin pieces in place of states (no 5% check, since this part is Wisconsin only).
+**Pick rule (audit 9).** Two parts: a candidate replaces S0 only if it beats S0 by the D2 margin and passes the D2 bootstrap test. There is no third check, because this part is Wisconsin only. Ties and "none passes" are handled as in Part 1.
+
+**Reading rule (audit 8).** Part 2's 17 overlapping start years hold about 3 independent five-year periods. A "none passes" result there is likely to be uninformative: it means the test could not tell the candidates apart, not that S0 is best.
+
+## Joint check (audit 10, reported only)
+
+The winning level × winning shares is scored on Wisconsin pieces for start years 2004–2020, against L0 × S0. It uses the Part 2 score, without scaling to the actual total. This is reported and is not used to pick.
 
 ## Other states (idea 6)
 
 - Part 1 uses every state, so Wisconsin's level is chosen on all states' history.
-- Parking's no-reform model results (`docs/parking/NO_REFORM_MODEL_RESULTS.md`) are shown as a reference row and not rerun: boosted trees on 9,109 US places, about 114,000 for Wisconsin.
+- Parking's no-reform model (`docs/parking/NO_REFORM_MODEL_RESULTS.md`): boosted trees on 9,109 US places, about 114,000 for Wisconsin over 2027–2031. **For scale only (audit 11).** It is not rerun and not a candidate.
 
 ## Not in this round (D4)
 
@@ -85,10 +133,10 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
 ## Rules
 
 - Scripts are committed before any run, and the lock time is recorded here.
-- Every fitted number (b, k) uses only start years before the one being scored.
 - Runs stay on Ryan's Mac. Long runs are detached with checkpoints.
 - The audit reviews this lock and the results.
 - A change to the tool needs Ryan's own OK.
+- Sources: Census permit files, Census decennial counts and the City of Milwaukee property file are all already used in the baseline. The Census files are public domain.
 - Any change is reported with its effect on each scenario:
   - **ADU:** the 124,000 denominator in the shared comparison.
   - **TOD:** station-area baselines and the combined view.
@@ -96,13 +144,26 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
 
 ## Choices for Ryan
 
-| Id | Choice | Recommended |
-| --- | --- | --- |
-| D1 | Choose the level on all states (Wisconsin checked) or on Wisconsin only (21 start years) | All states: Wisconsin alone has about 4 independent periods |
-| D2 | Margin to replace the current rule | 10% better, in 80% of bootstrap draws |
-| D3 | Split level and shares, or pick one method for both | Split |
-| D4 | Leave the method 3 score shrink for a second round | Yes |
+| Id | Choice | Options | Recommended |
+| --- | --- | --- | --- |
+| D1 | Which history chooses the level | All states with a Wisconsin check, or Wisconsin only (21 start years) | All states: Wisconsin alone holds about 4 independent periods |
+| D2 | What a challenger must clear to replace the current rule | A (first draft): 10% better, and better in at least 80% of bootstrap draws. B (as in method 3b): at least 2% better, and the 90% bootstrap range of the difference entirely below 0 | B. A's 80% is weaker than earlier locks (method 3: 5% margin; method 3b: 2% plus a 90% range below 0) |
+| D3 | Split level and shares, or pick one method for both | Split, or one method | Split, with the joint check reported |
+| D4 | The tutor's method 3 shrink | Leave it for a second round, or include it now | Second round |
+| D5 | Other fixed numbers | 5% Wisconsin check; 95% linking coverage; 2-times cap (3 as sensitivity); 1,000-home split for reporting; 80% range target | As written. Reasons: 5% and 2-times are the smallest round steps we would act on; 95% keeps the linking error under the Milwaukee fix's size; 1,000 homes matches parking's place rule; 80% matches the current 10th–90th range |
 
 ## Plan log
 
-- 2026-11-05: draft written. Not locked.
+- 2026-11-05: draft written (b1fd4255). Not locked.
+- 2026-11-05 16:50 UTC, audit review: not cleared, 11 items. Revision 2 addresses them:
+  1. Fitted numbers use start years s ≤ t − 5; fit years from 1992; same scored start years for all candidates.
+  2. Moving 5-year blocks, joint across states, paired.
+  3. Level by building size; 80% target; out-of-sample coverage check with a widening rule.
+  4. Decennial count plus permits; no revised estimates; 1990–2020 county-subdivision source named.
+  5. Linking rules 1–4, annexation, no-history pieces, estimate columns, and the 95% denominator named.
+  6. S2 split into 3- and 10-year versions.
+  7. D2 options added; D5 lists the other fixed numbers.
+  8. Part 2 reading rule.
+  9. Part 2 rule reworded as two-part.
+  10. Joint check, reported only.
+  11. Parking row marked "for scale only".
