@@ -8,8 +8,10 @@ export VECLIB_MAXIMUM_THREADS=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 WORK="$PWD/data/processed/batch_2026-11-05_ref"
 OUT=reference/batch_2026-11-05
 LOGDIR="$PWD/data/processed/batch_2026-11-05_logs"
-rm -rf "$WORK" "$LOGDIR"; mkdir -p "$WORK" "$LOGDIR" "$OUT"
-rsync -a --exclude "batch_2026-11-05/" reference/ "$WORK/"
+if [ "${RESUME_FROM_METHOD2:-0}" != "1" ]; then
+  rm -rf "$WORK" "$LOGDIR"; mkdir -p "$WORK" "$LOGDIR" "$OUT"
+  rsync -a --exclude "batch_2026-11-05/" reference/ "$WORK/"
+fi
 TOD_BEFORE=$(shasum reference/tod_* reference/parking_lot_cities_checks_near_transit.csv | shasum)
 export MM_REFERENCE_DIR="$WORK" MM_GATE_TIME="15:50" MM_BATCH_COMMITTED_DIR="$OUT"
 run() {
@@ -18,10 +20,12 @@ run() {
   if ! uv run --all-extras python "$@" > "$log" 2>&1; then tail -30 "$log"; echo "FAILED: $*"; exit 1; fi
   { grep -v -E "Warn|warn|ufunc|sqr =" "$log" || true; } | tail -25
 }
-run scripts/run_parking_salvage.py
-run scripts/run_parking_partial.py
-run scripts/run_parking_expanded.py
-run scripts/run_parking_placebo.py --full --save-draws
+if [ "${RESUME_FROM_METHOD2:-0}" != "1" ]; then
+  run scripts/run_parking_salvage.py
+  run scripts/run_parking_partial.py
+  run scripts/run_parking_expanded.py
+  run scripts/run_parking_placebo.py --full --save-draws
+fi
 run scripts/run_parking_method2.py --corrected --stage 1
 run scripts/pick_parking_method2_corrected.py
 cp "$WORK/parking_method2_corrected_pick.csv" "$OUT/parking_method2_corrected_pick.csv"

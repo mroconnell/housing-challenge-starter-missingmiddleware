@@ -730,7 +730,12 @@ def main() -> None:
         t.groupby("state").mean().round(4).assign(units=t.groupby("state").size()).to_csv(missing)
         print("wrote", missing, "- commit and check it before stage 1")
         return
-    if CORRECTED:
+    if CORRECTED and os.environ.get("MM_BATCH_COMMITTED_DIR"):  # batch: the working copy must equal the committed table
+        orig = ROOT / "reference" / missing.name
+        d0 = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", str(orig)], cwd=ROOT)
+        if d0.returncode or not orig.exists() or orig.read_bytes() != missing.read_bytes():
+            raise SystemExit("batch: the missing-data table differs from the committed one")
+    elif CORRECTED:
         r = subprocess.run(["git", "ls-files", "--error-unmatch", str(missing)], cwd=ROOT, capture_output=True)
         dq = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", str(missing)], cwd=ROOT)
         if r.returncode or dq.returncode:
