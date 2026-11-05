@@ -1120,6 +1120,12 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
   - **Rezonings:** Central SoMa (2018) and other rezonings moved parcels between Sec. 151 and 151.1. The case report wins, and the number of cases that differ is reported.
   - **Parking fields:** `parking_spaces_prop` is not read for any project until the draw is committed.
 - **Emeryville:** every 5+ home project before the Planning Commission in each window, from its agendas and staff reports. All are coded.
+- **Emeryville frame change (2026-11-05, after coding began; audit OK):**
+  - **Why:** Commission agendas and staff reports from before 2025-05-01 are no longer posted, and getting them means asking the Commission Secretary, which would be a records request.
+  - **Replacement sources:** the Planning Director's monthly reports to City Council on Commission actions (Council Legistar, Oct 2016 to Feb 2024), the city's Status of Major Development Projects reports (Jan 2024, Jan 2025, Sep 2026), and HCD APR Tables A and A2.
+  - **Missing months:** some Director's-report months are missing, mostly Julys. The helper did not list each one, so the exact months are not known.
+  - **Wayback copies:** three facts come from them and are labelled in their rows.
+  - **Presentation:** with 5 usable rows (1 high confidence), Emeryville is shown as a list of cases, not shares.
 
 **Fields per project:**
 - case number; application and approval dates;
@@ -1189,5 +1195,11 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 5. **Scope:** only 100%-affordable projects are removed in the main version. A variant removes all LIHTC low-income units.
 6. **Floor:** how often the 0 floor binds is reported (place-years and units).
 7. **Timing check:** the share of LIHTC units whose proxy permit year has at least that many BPS permits in the place is reported.
+
+**Feasibility finding (2026-11-05, before any estimate).**
+- **Source:** HUD's ArcGIS LIHTC service (item 810ccb34dd464ec4ad4697d35fff21a5, last edit 2025-05-14, credit "U.S. Department of Housing and Urban Development, U.S. Census Bureau"; public domain). The huduser.gov download sits behind a bot challenge and is cited, not worked around.
+- **Coverage:** allocations by year are 2018: 781, 2019: 437, 2020: 278, 2021: 30. The service looks complete only through about 2019 allocations.
+- **Consequence:** under fix 4, only repeals in 2019 or earlier would have after-years, one or two places at most. On current HUD data the test is not feasible.
+- **Path, Ryan's call:** a newer national file hand-downloaded by Ryan from huduser.gov (name, date and SHA-256 recorded). If it reaches the 2021–2022 allocations, the test becomes useful.
 
 **Also (descriptive):** the San Francisco and Emeryville project tables get a "100% affordable" flag. For San Francisco it comes from the planning-records fields (affordable units = units, or the 100%-affordable program flag). For Emeryville it comes from HCD Table A2 income splits.
