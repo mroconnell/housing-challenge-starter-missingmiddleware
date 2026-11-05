@@ -214,16 +214,19 @@ def build() -> None:
             b[f"{k}_{spec}"] = v
         for k, v in zones_of(dp).items():
             p[f"{k}_{spec}"] = v
+        if spec == "main":  # post hoc (audit, after the first run): within 150 m of the 1/2-mile line
+            b["line150_main"] = np.abs(db - MILE / 2) < 150
+            p["line150_main"] = np.abs(dp - MILE / 2) < 150
     # rail-only edge: land within 1/2 mile of any other (non-rail) stop removed from both sides (plan)
     for frame, dist in ((b, other_b), (p, other_p)):
         frame["edge_rail_only"] = np.where(dist < MILE / 2, "other", frame["edge_rail_only"])
     # no_new_stations: blocks and permits whose nearest rail stop opened 2018-2022 are left out of near/ring
     for frame, dist in ((b, newr_b), (p, newr_p)):
         frame["new_station_land"] = dist < 1.5 * MILE
-    keep_cols = ["juris", "upz", "homes", "acres", "new_station_land"] + [c for c in b.columns if c.split("_")[0] in ("zone", "band", "edge")]
+    keep_cols = ["juris", "upz", "homes", "acres", "new_station_land", "line150_main"] + [c for c in b.columns if c.split("_")[0] in ("zone", "band", "edge")]
     b[keep_cols + ["GEOID20"]].to_parquet(CACHE / "blocks.parquet")
     pcols = (["juris", "project", "year", "report_year", "ent_year", "upz", "hcd_street", "census_point",
-              "is_5plus_project", "db_flag", "lihtc_flag", "fin_filled", "new_station_land"] + OUTCOMES + SECONDARY
+              "is_5plus_project", "db_flag", "lihtc_flag", "fin_filled", "new_station_land", "line150_main"] + OUTCOMES + SECONDARY
              + [c for c in p.columns if c.split("_")[0] in ("zone", "band", "edge")])
     p[pcols].to_parquet(CACHE / "permits.parquet")  # hashed project ids; no addresses or coordinates
     meta = {"stops": {k: int(len(v)) for k, v in stops.items()},

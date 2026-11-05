@@ -1,0 +1,5 @@
+zone,period,lihtc_homes,lihtc_projects,note
+near,2018-2022,3063.0,55,"raw counts; near and ring hold different numbers of existing homes, so compare zones only with D2's per-1,000-homes rate"
+near,2023-2025,2770.0,36,"raw counts; near and ring hold different numbers of existing homes, so compare zones only with D2's per-1,000-homes rate"
+ring,2018-2022,3778.0,66,"raw counts; near and ring hold different numbers of existing homes, so compare zones only with D2's per-1,000-homes rate"
+ring,2023-2025,2762.0,45,"raw counts; near and ring hold different numbers of existing homes, so compare zones only with D2's per-1,000-homes rate"
