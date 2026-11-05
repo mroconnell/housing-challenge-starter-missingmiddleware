@@ -137,20 +137,28 @@ def main() -> None:
     a = ap.parse_args()
     a2 = pd.read_csv(RAW / "hcd_apr_a2" / "tablea2.csv", usecols=COLS, low_memory=False)
     req = build_requests(a2)
-    print(req.groupby(["kind", "YEAR"]).size().to_string())
+    print(req.groupby(["kind", "YEAR"]).agg(rows=("key", "size"), blank_city=("city", lambda s: int((s == "").sum())),
+                                            blank_zip=("zip", lambda s: int((s == "").sum()))).to_string())
     if not a.send:
         print("nothing sent (run with --send after Ryan's OK and the audit's check)")
         return
     CACHE.mkdir(parents=True, exist_ok=True)
-    replies = []
+    replies, failed = [], []
     for i in range(0, len(req), BATCH):
         part = req.iloc[i:i + BATCH]
         f = CACHE / f"reply_{i // BATCH:04d}.csv"
         if not f.exists():
-            f.write_text(send_batch(part))
+            reply = send_batch(part)
             time.sleep(PAUSE)
+            if not reply.strip():  # never cache a failed batch (audit); its rows are reported as "batch failed"
+                failed.append(i // BATCH)
+                continue
+            f.write_text(reply)
         replies.append(parse(f.read_text()))
-    res = req.merge(pd.concat(replies, ignore_index=True), on="key", how="left")
+    (CACHE / "failed_batches.txt").write_text("\n".join(str(b) for b in failed))
+    got = pd.concat(replies, ignore_index=True) if replies else pd.DataFrame(columns=["key", "status", "match_type", "lat", "lon"])
+    res = req.merge(got, on="key", how="left")
+    res["status"] = res.status.fillna("batch failed")
     res["accepted"] = (res.status == "Match") & res.match_type.isin(ACCEPT)
     res.loc[res.accepted, ["key", "kind", "YEAR", "lat", "lon", "match_type"]].to_parquet(CACHE / "points.parquet")
     f = res[res.kind == "failed_hcd"]
@@ -158,14 +166,19 @@ def main() -> None:
         rows_sent=("key", "size"), exact=("match_type", lambda s: int((s == "Exact").sum())),
         non_exact=("match_type", lambda s: int((s == "Non_Exact").sum())),
         tie=("status", lambda s: int((s == "Tie").sum())),
-        no_match=("status", lambda s: int((s != "Match").sum() - (s == "Tie").sum()))).reset_index()
+        no_match=("status", lambda s: int(s.isin(["No_Match", ""]).sum())),
+        batch_failed=("status", lambda s: int((s == "batch failed").sum())),
+        blank_city=("city", lambda s: int((s.fillna("") == "").sum())),
+        blank_zip=("zip", lambda s: int((s.fillna("") == "").sum()))).reset_index()
     rates.to_csv(REFERENCE / "ca_ab2097_regeocode_rates.csv", index=False)
     s = res[(res.kind == "comparison_sample") & res.accepted].copy()
     s["m"] = metres(pd.to_numeric(s.LATITUDE), pd.to_numeric(s.LONGITUDE), s.lat, s.lon)
     cmp_ = s.groupby("YEAR").m.agg(n="size", median_m="median", p90_m=lambda x: x.quantile(0.9),
                                    share_over_150m=lambda x: (x > 150).mean()).reset_index()
     cmp_.round(2).to_csv(REFERENCE / "ca_ab2097_regeocode_vs_hcd.csv", index=False)
-    print(rates.groupby("YEAR")[["rows_sent", "exact", "non_exact", "tie", "no_match"]].sum().to_string())
+    print(rates.groupby("YEAR")[["rows_sent", "exact", "non_exact", "tie", "no_match", "batch_failed", "blank_city",
+                                 "blank_zip"]].sum().to_string())
+    print(f"failed batches: {failed}")
     print(cmp_.round(2).to_string(index=False))
 
 
