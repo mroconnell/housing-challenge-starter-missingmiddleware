@@ -1042,3 +1042,5 @@ Five helpers coded three places each from public sources, following a written br
 **Audit.** Accepted (coordinator's audit, 2026-11-05 about 16:57 UTC); all figures recomputed from the CSV and match. Wording fixes applied.
 
 **Spot-check rows for Ryan (seed 20261105, drawn from the 30 kept SF rows):** 2017-002951PRJ, 2022-012441PRJ, 2020-006679PRJ, 2021-000947PRJ, 2018-014727PRJ.
+
+**Spot-check passed (Ryan, 17:19 UTC):** "these SF projects look correctly coded". The Test 50 result can now be cited, as a description.
