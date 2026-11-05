@@ -1,4 +1,4 @@
-# CA AB 2097: statewide effect on permits — options and plan (DRAFT, not locked)
+# CA AB 2097: statewide effect on permits — plan (LOCKED 2026-11-05 16:48 UTC)
 
 Written 2026-11-05 by the CA AB 2097 thread, before any new permit count. Status: **draft for Ryan and the audit**.
 Nothing runs until Ryan picks the options in section 5 and the audit clears the lock.
@@ -479,3 +479,14 @@ Yes, for the two PDF-only cities, by rebuilding rather than tracing:
   a second split for the land that changed.
 - The 2024-11-12 vote counts come from news summaries; they are leads until confirmed in official minutes.
 - Permit and land counts on each side of Palo Alto's line are reported before any estimate.
+
+## 9. Lock
+
+**Locked 2026-11-05 16:48 UTC by Ryan.** Asked "Is that a go to lock the plan?", Ryan answered in this thread at
+16:48:30 UTC: "it is". The plan is this file as of this commit: sections 1–7 as amended by every dated block in
+section 8 (later blocks replace earlier ones where they say so). No permit has been read or placed by area for this
+study. Any later change goes below with a date and a reason, labelled pre- or post-count.
+
+### Changes after lock
+
+(none yet)
