@@ -120,6 +120,9 @@ def main() -> None:
                 x["acs_geoid"] = SOUTH_BEND
             rows.append(x)
     out = pd.DataFrame(rows)
+    for c in ("outcome", "effect", "homes", "n_post"):  # no rescued place may be included (Test 51 cut-offs)
+        if c not in out:
+            out[c] = np.nan
     out["weight"] = out["homes"] * out["n_post"]
     out.round(4).to_csv(REFERENCE / "parking_salvage_effects.csv", index=False)
     print(out[["place", "outcome", "status", "note", "n_post", "homes", "effect"] + [c for c in ("effect_combined_area",) if c in out]].round(2).to_string())

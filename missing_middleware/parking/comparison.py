@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import itertools
 import math
+import os as _os
 
 import numpy as np
 import pandas as pd
@@ -24,7 +25,7 @@ POST_YEARS = (1, 2, 3)
 POP_WINDOW = (0.5, 2.0)
 POP_WINDOW_WIDE = (1 / 3, 3.0)
 MIN_CONTROLS = 5
-FIRST_YEAR, LAST_YEAR = 2012, 2025
+FIRST_YEAR, LAST_YEAR = 2012, int(_os.environ.get("MM_BPS_LAST_YEAR", 2025))  # env: Test 51 cut-off runs only
 BOOT_DRAWS, BOOT_SEED = 2000, 20261026
 CUTOFFS = (10_000, 20_000, 50_000, 100_000)
 

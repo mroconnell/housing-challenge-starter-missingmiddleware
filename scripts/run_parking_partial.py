@@ -35,7 +35,7 @@ def bps_all() -> pd.DataFrame:
         if 2007 <= y <= 2011:
             d = parsers.read_bps(f, "place", state_fips=None)
             d["year"] = y
-            frames.append(d)
+            frames.append(rpc.lihtc_adjust(d))  # Test 51 hook; does nothing by default
     return pd.concat(frames, ignore_index=True)
 
 

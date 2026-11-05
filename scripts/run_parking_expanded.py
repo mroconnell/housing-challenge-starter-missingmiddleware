@@ -9,6 +9,7 @@ Outputs: reference/parking_expanded_{effects,estimates,tools}.csv
 """
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -248,6 +249,8 @@ def main() -> None:
     pd.DataFrame(est).round(4).to_csv(REFERENCE / "parking_expanded_estimates.csv", index=False)
     print(pd.DataFrame(est).round(2).to_string(index=False))
 
+    if os.environ.get("MM_BPS_LAST_YEAR"):  # Test 51 cut-off runs: estimates only, no prediction tools
+        return
     # prediction tools: US places
     us_scores = cv_score(inc, FEATURES_US)
     # California cross-test: train on US + other California cities, score left-out California cities

@@ -75,7 +75,37 @@ def read_bps_us() -> pd.DataFrame:
         d = parsers.read_bps(f, "place", state_fips=None)
         d["year"] = int(f.name[2:6])
         frames.append(d)
-    return pd.concat(frames, ignore_index=True)
+    return lihtc_adjust(pd.concat(frames, ignore_index=True))
+
+
+def lihtc_adjust(d: pd.DataFrame) -> pd.DataFrame:
+    """Test 51 only (CAUSAL_FRAMEWORK_PLAN.md); does nothing unless the environment asks for it.
+    MM_BPS_LAST_YEAR=N drops permit years after N. MM_LIHTC_ADJUST=<units_100pct|li_units> with
+    MM_LIHTC_TIMING=<allocation + 1|allocation year> subtracts each place-year's LIHTC units
+    (reference/parking_lihtc_place_years.csv) from total and 5+ unit permits, floored at 0; the floor log is written to
+    MM_REFERENCE_DIR/parking_t51_floor_log_<first>-<last year>.csv."""
+    import os
+    last = os.environ.get("MM_BPS_LAST_YEAR")
+    if last:
+        d = d[d["year"] <= int(last)].copy()
+    col = os.environ.get("MM_LIHTC_ADJUST")
+    if not col:
+        return d
+    timing = os.environ.get("MM_LIHTC_TIMING", "allocation + 1")
+    lt = pd.read_csv(REFERENCE / "parking_lihtc_place_years.csv", dtype={"key": str})
+    lt = lt[(lt["timing"] == timing) & (lt[col] > 0)].set_index(["key", "year"])[col]
+    d = d.copy()
+    key = d["state_fips"].astype(str).str.strip() + "|" + d["bps_id"].astype(str).str.strip()
+    rem = pd.Series(list(zip(key, d["year"])), index=d.index).map(lt).fillna(0.0)
+    log = pd.DataFrame({"key": key, "year": d["year"], "lihtc": rem, "permits": d["units_total"].astype(float),
+                        "five_plus": d["5plus_units"].astype(float)})
+    log = log[log["lihtc"] > 0]
+    log["floor_total"] = log["lihtc"] > log["permits"]
+    log["floor_5plus"] = log["lihtc"] > log["five_plus"]
+    log.to_csv(REFERENCE / f"parking_t51_floor_log_{int(d['year'].min())}-{int(d['year'].max())}.csv", index=False)
+    d["units_total"] = (d["units_total"] - rem).clip(lower=0)
+    d["5plus_units"] = (d["5plus_units"] - rem).clip(lower=0)
+    return d
 
 
 def acs_table(path: Path, col: str) -> pd.Series:
