@@ -499,6 +499,8 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
      flagged "later map" (section 6's existing fallback). Every result is also shown without those stops.
   3. The share of today's Caltrans bus major stops that fall in gap agencies is reported in step 1, before any
      estimate.
+  4. Today's Caltrans layer uses the 20-minute bus rule adopted after 2024 (AB 2553), so gap stops will tend to
+     cover more land than the 2023 15-minute rule did. The results without gap stops are the check on that.
 - 2026-11-05 17:20 UTC, post-lock, pre-count, Ryan: "I dropped some LIHTC data in raw data in local (parking reform
   thread is using it too)". The file is HUD's national LIHTC database (`data/raw/hud_lihtc/lihtcpub.zip`, release
   2026-04-30, hand-downloaded by Ryan; provenance in that folder). HUD lists a project only once placed in service,
