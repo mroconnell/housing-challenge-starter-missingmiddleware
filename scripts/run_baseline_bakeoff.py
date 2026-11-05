@@ -62,6 +62,33 @@ def read_census() -> pd.DataFrame:
     return c
 
 
+def final_ranges(u, homes, division, W) -> pd.DataFrame:
+    """Wisconsin 2027-2031 low/central/high for L0 and every candidate: multipliers (actual / predicted) from
+    Wisconsin's start years (plan) and, as the sensitivity, from all states; at 10th-90th and at the widening stop
+    (2.5th-97.5th). Published-file figures, and scaled to v3 by the ratio to L0 (plan log)."""
+    w0 = W.set_index("candidate").loc["L0", "published_five_year"]
+    out = []
+    for c in bb.CANDIDATES:
+        first = {"L1c": 1999, "L1b": 1996, "L1a": 1994, "L4a": 1999}.get(c, 1997 if c in bb.FITTED else 1992)
+        ss = list(range(first, 2021))
+        par = {t: bb.fit_param(c, u, homes, t, division) for t in ss} if c in bb.FITTED else None
+        rr = bb.score_rows(c, u, homes, ss, division, par)
+        p25 = bb.fit_param(c, u, homes, 2025, division) if c in bb.FITTED else None
+        pr = bb.predict(c, u, homes, 2025, division, p25) * bb.HORIZON
+        for scope, d in (("wisconsin", rr[rr.state == WI]), ("all_states", rr)):
+            long = pd.concat([pd.DataFrame(dict(size=z, ratio=d[f"actual_{z}"] / d[f"pred_{z}"])) for z in bb.SIZES])
+            long = long[np.isfinite(long["ratio"]) & (long["ratio"] > 0)]
+            for lo, hi in ((0.10, 0.90), (0.025, 0.975)):
+                q = long.groupby("size")["ratio"].quantile([lo, hi]).unstack()
+                cen = float(pr.loc[WI].sum())
+                low = float(sum(pr.loc[(WI, z)] * q.loc[z, lo] for z in bb.SIZES))
+                high = float(sum(pr.loc[(WI, z)] * q.loc[z, hi] for z in bb.SIZES))
+                f = V3_CENTRAL / w0
+                out.append(dict(candidate=c, scope=scope, lo=lo, hi=hi, published_central=cen, published_low=low,
+                                published_high=high, v3_central=cen * f, v3_low=low * f, v3_high=high * f))
+    return pd.DataFrame(out)
+
+
 def main() -> None:
     if "--part" not in sys.argv or sys.argv[sys.argv.index("--part") + 1] != "1":
         raise SystemExit("usage: --part 1 (Part 2 is written after the linking table)")
@@ -149,9 +176,10 @@ def main() -> None:
     P.to_csv(REFERENCE / "baseline_bakeoff_part1_params.csv", index=False)
     G.round(4).to_csv(REFERENCE / "baseline_bakeoff_part1_by_group.csv", index=False)
     RG.round(4).to_csv(REFERENCE / "baseline_bakeoff_part1_range.csv", index=False)
-    CV.round(1).to_csv(REFERENCE / "baseline_bakeoff_part1_coverage.csv", index=False)
+    CV.round({"low": 1, "high": 1, "actual": 1}).to_csv(REFERENCE / "baseline_bakeoff_part1_coverage.csv", index=False)
     covs.round(4).to_csv(REFERENCE / "baseline_bakeoff_part1_coverage_summary.csv", index=False)
     W.round(1).to_csv(REFERENCE / "baseline_bakeoff_part1_wisconsin.csv", index=False)
+    final_ranges(u, homes, division, W).round(1).to_csv(REFERENCE / "baseline_bakeoff_part1_final_ranges.csv", index=False)
     print(S.round(4).to_string(index=False))
     print("winner:", winner)
     print(W.round(1).to_string(index=False))
