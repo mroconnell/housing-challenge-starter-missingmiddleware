@@ -1261,7 +1261,7 @@ Five helpers coded three places each from public sources, following a written br
 | Outside metro (thin) | 7 | −4.01 (−6.24 to −1.92) | −0.98 (−3.56 to +1.04) | −4.39 | −1.71 |
 | Rural (thin) | 2 | −2.29 | −2.47 | −2.32 | −3.85 |
 
-- **D's mix within a group:** the mix re-aims each group's places at Wisconsin's size and metro cells. Within main cities it puts weight on cells that main's homes weighting does not, which is why D and main differ in sign there.
+- **D's mix within a group:** the mix re-aims each group's places at Wisconsin's size and metro cells. A likely reason (a guess; the cell weights were not examined) why D and main differ in sign for main cities is that the mix puts weight on cells that main's homes weighting does not.
 
 **Differences (main city minus …):**
 
@@ -1281,19 +1281,22 @@ Five helpers coded three places each from public sources, following a written br
 | Within main cities (31) | **−9.25 (−13.59 to −4.65)** | — | **−7.34 (−14.33 to −0.95)** | — |
 | Within suburbs (22) | +1.35 (−3.25 to +18.59) | — | +5.42 (−1.57 to +14.26) | — |
 
-- **Within main cities:** this is the only result that meets the reading rule. Both ranges exclude 0, and both methods agree: among main cities, larger ones did worse after repeal.
+- **Within main cities:** this is the only result that meets the reading rule. Both ranges exclude 0, and both methods agree: among main cities, larger ones had lower estimated effects.
   - About 14 comparisons were made, so 1–2 such results by chance are plausible.
   - The test was prompted by SF, Austin and San Jose, which are the largest main cities.
   - So it is a hint, not a finding, and class and size cannot be separated outside these two classes.
+  - **Leaving out SF, Austin and San Jose** (post hoc, reported only; 28 main cities): D −8.33 (−15.28 to −1.06); main −5.73 (−15.07 to +2.79). D's slope survives without them, but main's range then includes 0.
 
 **Held-out prediction (log10 2010 population + six-class indicators; 20 repeats of 10-fold; the 5% bar is the locked convention):**
 - **No tool passes,** under either estimator or weighting.
 - **Best gains over "one average":** random forest +3.7% (D, equal; repeats +0.9% to +6.6%) and +3.2% (D, mix). Main's best is +2.2%. Most tools do worse than one average. The repeats are not independent.
 - **Reading:** city type and size do not predict held-out cities' effects better than one average, the same as the 55 earlier traits.
 
+**Thin groups, read both ways:** outside metro's D mix, −4.01 (−6.24 to −1.92), also excludes 0, but main's range includes 0. With n = 7 and no difference read, it is not a finding. Rural (n = 2) and exurb (n = 4) are too thin to read.
+
 **Class-matched pools (D):** −12,443 WI homes (−45,347 to +11,783). Shift +430 (−24,343 to +28,543); no change. 51 of 74 pools left ladder step 1. The median number of eligible same-class places is 88. Rural and exurb pools used the ladder fallback.
 
 **Bottom line.**
 - City type does not reliably sort parking effects. The group differences depend on the method, and the type-plus-size model does not predict held-out cities.
-- The one consistent pattern, larger main cities doing worse, is post hoc and may be chance.
-- It also matches the 2022–23 boom-end timing seen in the winners-vs-losers comparison.
+- The one consistent pattern, larger main cities having lower estimated effects, is post hoc and may be chance. Without SF, Austin and San Jose it holds under D but not main.
+- A guess, not tested: it may reflect the 2022–23 boom-end timing seen in the winners-vs-losers comparison.
