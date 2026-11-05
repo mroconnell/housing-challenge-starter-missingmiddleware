@@ -175,7 +175,7 @@ def attach_dates(st: pd.DataFrame) -> pd.DataFrame:
     op = o[o.event == "opened"].copy()
     op["group"] = op.smode.map(JOIN_GROUP)
     grp = st["mode"].map(JOIN_GROUP).to_numpy(object)
-    unmatched = []
+    unmatched, missing_existing = [], []
     for _, r in op.iterrows():  # join within the same group: the nearest stop's whole station takes the date
         sel = np.flatnonzero(grp == r.group)
         if not len(sel):
@@ -186,6 +186,8 @@ def attach_dates(st: pd.DataFrame) -> pd.DataFrame:
         hit = sel[dist <= MERGE_M]  # only stops within 150 m of the table's point take its date (audit)
         if not len(hit):
             unmatched.append(f"{r.station_name} ({r.smode}, nearest {dist.min():.0f} m)")
+            if r.date <= EXISTING_BY:
+                missing_existing.append(r)  # existed at the end of 2022 but is not in today's stop data near here
             continue
         idx = st.index[hit]
         st.loc[idx, "opened_date"] = r.date
@@ -196,6 +198,15 @@ def attach_dates(st: pd.DataFrame) -> pd.DataFrame:
         # an opened station missing from today's stop data either opened after the stop data were compiled
         # (2026-09-23) or has coordinates off by more than 300 m; both are listed for the step 1 review
         print("openings rows with no stop of the same group within 300 m:", "; ".join(unmatched))
+    if missing_existing:  # add the table's point as a stop, so a 2018-2022 opening is never left out of the map
+        m = pd.DataFrame(missing_existing)
+        print("added from the openings table (opened by 2022, no stop of its group within 150 m):",
+              "; ".join(m.station_name))
+        st = pd.concat([st, pd.DataFrame({"mode": m.smode.to_numpy(), "name": m.station_name.to_numpy(),
+                                          "system_id": m.system.to_numpy(), "x": m.x.to_numpy(), "y": m.y.to_numpy(),
+                                          "opened": "2018-2022", "opened_date": m.date.to_numpy(),
+                                          "shared_with_bus": False,
+                                          "station_id": [f"table:{i}" for i in range(len(m))]})], ignore_index=True)
     gone = o[(o.event == "closed") & (o.date > EXISTING_BY)]
     if len(gone):
         add = pd.DataFrame({"mode": gone.smode, "name": gone.station_name, "system_id": gone.system,
