@@ -185,6 +185,16 @@ def stage1():
         for k, s in zip(ks, sA.predict(F.rows(ks, ey, pre).values)):
             scores[(k, ey)] = float(s)
     G.update(D=D, B=B, scores=scores)
+    corr = []
+    for ey in range(2016, 2025):
+        pre, _ = m.cmp.windows(ey)
+        ks = [k for k in sorted(B) if k in D.complete(tuple(pre))]
+        tr = trend(D, ks, pre, D.homes_pre(ey))
+        sc = pd.Series({k: scores[(k, ey)] for k in ks})
+        corr.append(float(sc.corr(tr)))
+    check["corr_score_trend_by_year"] = ";".join(f"{c:.3f}" for c in corr)
+    pd.DataFrame([check]).to_csv(REFERENCE / "parking_method3b_score_check.csv", index=False)
+    print("score-trend correlation by event year 2016-2024:", check["corr_score_trend_by_year"], flush=True)
     m3.G.update(D=D, today=today, B=B)
     real, cases = m.real_cases()
     v = m.placebo_v(len(real))
