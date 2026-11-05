@@ -934,3 +934,36 @@ Owner: "conduct a session where the parking thread tests through each idea, fits
 **Write-up:** keeps the double-dip note.
 
 **Reported:** the traits used, the model chosen, B-half accuracy, both candidates' fake-repeal scores, and the real result beside the method-2 corrected result and the current lines.
+
+## Method 3b: prognostic matching, second version (DRAFT LOCK 2026-11-05, before any count; Ryan 03:08 UTC: "Yeah I think you can proceed like that with method 3b and the paired bootstrap")
+
+**Status: draft.** Runs after the audit clears this lock. Post hoc in origin: method 2's and method 3's real results have been seen. Any tool change needs Ryan's own OK.
+- **Rule on narrow ranges:** a narrow real range is not a reason to pick 3b.
+
+**What changes from method 3** (everything else as in the Method 3 lock: traits, the 50/50 split of never-repealed places with seed 20261104, cross-fitting, corrected data, all places, every weighting):
+1. **Target:** the change in permit rate, after-window mean minus before-window mean (5-year before window), per 1,000 pre-event homes, with no repeal. Not the level.
+2. **Score:** the average of the boosting and lasso predictions, each fitted on the same half (settings as method 3, lasso with grouped inner CV and one-hot division). The B check (at least 5% better than a plain average) applies to the averaged score.
+3. **Match (P3b):**
+   - **Ladder:** the corrected method-2 ladder, with D's 10-year before window for the effect.
+   - **Within a ladder step:** the 10 nearest on Euclidean distance of z-scored predicted change and z-scored before-window trend, with z-scores over the eligible candidates.
+   - **Step 5:** adds z-scored log population.
+   - **Ties:** broken as in method 2.
+
+**Fresh fake repeals.**
+- **New draws:** seed 20261105, not the 5,828 cases of method 3.
+- **Targets and pools:** fake targets come from half B, and pools from half B only.
+- **Strata:** each real case's size band and after-year count, as before.
+- **Event years:** each fake case's event year is drawn uniformly from 2016–2024 among years where its window is complete. It is not copied from the real case.
+- **Reported:** the overlap with method 3's fake cases.
+- **Scoring:** 200 sets of 76, random effects, MAE and coverage with its SE, under each weighting beside.
+
+**Win rule (all three must hold, else D stands):**
+- **(a) Paired bootstrap:** per set, |P3b average| − |D average|. 2,000 resamples of the 200 sets (seed 20261105); the 90% range of the mean difference must lie entirely below 0.
+- **(b) Margin:** P3b's MAE is more than 5% below D's.
+- **(c) Coverage:** P3b's coverage is between 85% and 95%.
+
+**Gate and order:**
+- The pick file is committed before any real-repeal 3b output.
+- **Real run:** the picked matching on all 76, with P3b beside D under every weighting.
+- **If P3b is picked:** the weight test (state mix wins ties) and the size check are rerun on its effects.
+- **If D stands:** the corrected method-2 results stand unchanged, and 3b's real results are shown as evidence only.
