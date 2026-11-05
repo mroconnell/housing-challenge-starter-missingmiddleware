@@ -84,7 +84,7 @@ What to expect, stated now:
 - Permits: HCD Annual Progress Report Table A2, 2018–2025 (on disk), same cleaning as the corrected AB 2097 test:
   issue-date dating, cross-year re-report duplicates dropped, geocoded street addresses only, full reporters only.
 - Homes and land: 2020 census blocks (on disk).
-- Places dropped as "already no minimums": the same 12-place list as the earlier test. San Jose and Sacramento as a check.
+- Places dropped as "already no minimums": the same 12-place list as the earlier test, plus San Jose and Sacramento (left out of the main estimate; used as the placebo group, section 8 item 3).
 - LA's 2017 transit-oriented upzoning areas left out of group P, as before.
 
 **Map A (fixed before any permit is placed)**
@@ -98,8 +98,9 @@ What to expect, stated now:
 - Covered land: within ½ mile (804.672 m, straight line) of a stop. Geometry with `missing_middleware.geom` only.
 
 **Step 1 — feasibility, counts only (no permits by area).** Report: agencies found / missing, stops by type, covered
-acres and homes, and agreement with today's layer and with the city maps (B). If schedules for agencies covering
-under 80% of today's major stops can be found, stop and report.
+acres and homes, and agreement with today's layer and with the city maps (B). If schedules can be found only for agencies
+covering under 80% of today's major stops, stop and report the coverage to Ryan. The 80% cut-off is a chosen rule,
+not from evidence.
 
 **Comparison**
 - Near: covered land. Ring: ½–1½ miles, same city. Same groups as before (P = parking only).
@@ -113,7 +114,7 @@ under 80% of today's major stops can be found, stop and report.
 **Ranges:** 90%, 2,000 resamples of whole cities, fixed seed. Minimum detectable effect reported.
 
 **Checks fixed now:** today's map; no planned stops; rail, BRT and ferry only; report-year dating; drop 2023;
-drop the largest project in each cell; San Jose and Sacramento kept.
+drop the largest project in each cell; drop Los Angeles (this also tests the homes weighting, since LA is the largest weight).
 
 **Known threats:** other 2023 laws (AB 2011, SB 9, density bonus) apply near and away from transit alike, but not fully;
 late reporting lowers recent years (issue-date dating); high interest rates in 2022–2023; three after years only;
@@ -183,9 +184,25 @@ reviewed from a summary). Each item is now part of the plan:
    (AB 2011 is not flagged in Table A2, so its overlap cannot be removed; it is stated as a threat.)
 8. **Licences.** Each GTFS feed's licence is recorded in the fetch log; feeds without open terms are listed and left out.
    No OpenStreetMap-derived layer.
-9. **Geometry, no GEOS.** Distances to stops by KD-tree on projected points (EPSG:3310); point-in-polygon for city
-   maps by `matplotlib.path` or ray casting. No shapely or GEOS.
+9. **Geometry, no GEOS.** All geometry with `missing_middleware/geom.py`: Albers projection (EPSG:3310), KD-tree
+   nearest-stop distances, `points_in_polygons` for city maps. No shapely, GEOS or matplotlib.path.
 10. **Post hoc label.** Added at the top of this file.
 11. **Ryan's calls.** Using LA's case-filings export (E, already on disk) and any records request are Ryan's call.
     F (California vs other states) is rejected because SB 9, AB 2011, density-bonus and ADU changes hit California in
     the same years, so a whole-state comparison cannot isolate AB 2097.
+
+**2026-11-05, before any count, audit review of a9052ceb:**
+1. Geometry uses `missing_middleware/geom.py` only (item 9 edited).
+2. **Dose check lead placebo.** The 2018–2020 vs 2021–2022 change in each place's permits per 1,000 existing homes a
+   year, regressed on the same covered share. If its 90% range excludes 0, the dose result is "not evidence of cause".
+   Dose check details: homes-weighted (2020 homes) main, equal weight beside; the 14 already-reformed places are left
+   out; the covered share comes from map A (2022 rebuild).
+3. Section 6 now leaves San Jose and Sacramento out of the main estimate, matching section 8 item 3.
+4. **Relative vs net.** The near-vs-ring estimate is labelled a **relative effect** (near transit compared with
+   nearby land). It can include homes moved from the ring. The **net statewide answer comes from the dose check.**
+5. **Anticipation check.** The law was signed in September 2022, so 2022 may already show it. Check: the same event
+   study with 2018–2021 as the reference period.
+6. The 80% stop-coverage cut-off is labelled a chosen rule; coverage goes to Ryan (section 6, step 1).
+7. Main map: the audit leans to map A main, local maps as a check. Ryan's call (section 5, choice 1).
+8. Amy Lee's source is read and cited before the city sample is chosen.
+9. "Drop Los Angeles" check added; it also tests the homes weighting.
