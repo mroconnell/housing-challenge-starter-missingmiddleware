@@ -213,11 +213,32 @@ Almost every large California agency ran more bus service in 2025 than in 2022: 
 ×1.37; Muni ×1.04, San Diego MTS ×1.04, SacRT ×1.03. More service since 2022 adds to the 20-minute rule in making
 today's bus layer cover more land than the 2023 rule did, which blurs near and ring.
 
+**Dated 2022 bus map** (`scripts/ca_ab2097_bus2022.py`; web-archive schedule copies that run on 2022-12-14; 2023
+15-minute rule; routes meeting within one agency's feed only; both peaks in the same direction). Four large agencies
+had a qualifying copy; their today's bus major stops were replaced by their 2022 ones (by agency, not county: not in
+the spec):
+
+| Agency | Bus major stops, 2022 | Today | Both (within 150 m) | 2020 homes within ½ mile, 2022 | Today |
+| --- | --- | --- | --- | --- | --- |
+| LA Metro (copy of Feb 2023, schedule from 2022-12-12) | 1,682 | 3,867 | 1,516 | 919,782 | 1,263,141 |
+| Muni (Dec 2022) | 759 | 2,419 | 661 | 378,764 | 395,251 |
+| San Diego MTS (Nov 2022) | 323 | 826 | 208 | 177,413 | 213,315 |
+| LADOT (Mar 2022) | 159 | 972 | 110 | 151,152 | 601,637 |
+
+- Under the 2023 rule these agencies' bus major stops covered fewer homes than today's layer does (most for LADOT).
+- **Headline with these 2022 stops:** −1.271 (−2.683 to +0.067), 196 jurisdictions; main headline −0.905
+  (−2.292 to +0.350). Same reading.
+- San Diego MTS's only qualifying copy uses calendar_dates only; no other MTS copy ran on 2022-12-14, so the copy
+  choice does not matter.
+- **Kept today's stops (no qualifying copy):** 43 agencies with 6,140 of today's bus major stops, the largest being AC
+  Transit (1,503), VTA (747), Long Beach Transit (677), Foothill Transit (359), Santa Monica (291), OCTA (263), SamTrans
+  (236), SacRT (164), Golden Gate (129) and Santa Cruz Metro (129); full list in
+  `reference/ca_ab2097_side_bus2022_kept_today.csv`. Small rural feeds that qualified had no bus major stops.
+
 **MTC 2017.** MTC's 2017 layers carry a planning-use disclaimer, not a licence (the 2017 major-stop item's metadata
 could not be read). They fall under Ryan's 16:42 OK for unlicensed regional layers as research inputs; the Bay Area
 comparison is not yet run.
 
 ## 10. Not yet run
 
-Dated 2022 bus map from web-archive schedules (Muni, San Diego MTS and about 19 small agencies); MTC 2017 comparison;
-Santa Cruz; streetcar check.
+MTC 2017 comparison; Santa Cruz; streetcar check.

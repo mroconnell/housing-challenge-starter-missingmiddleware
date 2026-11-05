@@ -1,0 +1,23 @@
+provider,copy_timestamp,calendar_start,caltrans_agency,major_stops_2022,major_stops_today,in_both_within_150m,homes_2020_within_half_mile_2022,homes_2020_within_half_mile_today
+LAX Flyaway,20230304115151,20110801,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Humboldt Transit Authority,20230528055729,20181219,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Lake Transit Authority (LTA),20230528023134,20200408,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Los Angeles Department of Transportation (LADOT - DASH - Commuter Express),20220311010723,20200418,City of Los Angeles,159,972,110,151152.0,601637.0
+Madera County Transit,20220917064058,20200511,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Kings Area Rural Transit,20220118034926,20210701,no match (no bus major stops today or not in hand list),1,0,0,736.0,0.0
+City of Madera,20220917064016,20210809,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Kern Transit,20221211072547,20211226,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Capitol Corridor Joint Powers Authority (Capitol Corridor),20220531102911,20220520,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Mendocino Transit Authority,20221211224645,20220801,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+VINE Transit,20220917064311,20220814,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Sonoma County Transit (SCT),20221211224744,20220815,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Petaluma Transit,20220917031433,20220816,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Tahoe Transportation District,20220917064302,20220904,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Redwood Coast Transit (RCT),20220917064241,20220906,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+"Tahoe Area Regional Transit (TART), North Lake Tahoe Express",20220917064144,20220906,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+Turlock Transit,20220917063856,20220906,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+San Francisco Municipal Transportation Agency (SFMTA - Muni),20221226083451,20221001,City and County of San Francisco,759,2419,661,378764.0,395251.0
+Los Angeles County Metropolitan Transportation Authority (LA Metro),20230201030923,20221212,Los Angeles County Metropolitan Transportation Authority,1682,3867,1516,919782.0,1263141.0
+Los Angeles County Metropolitan Transportation Authority (LA Metro),20230201031023,20221212,Los Angeles County Metropolitan Transportation Authority,0,3867,0,0.0,1263141.0
+Unitrans,20220927130711,20221212,no match (no bus major stops today or not in hand list),0,0,0,0.0,0.0
+"San Diego International Airport, Metropolitan Transit System (MTS)",20221129043252,,"San Diego Metropolitan Transit System, Airport, Flagship Cruises",323,826,208,177413.0,213315.0
