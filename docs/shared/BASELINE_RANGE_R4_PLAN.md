@@ -21,10 +21,10 @@ Round 3's plan ([BASELINE_RANGE_SIMILAR_PLAN.md](BASELINE_RANGE_SIMILAR_PLAN.md)
 | A | All states pooled, around L0 | None (benchmark) |
 | AT | A with freak-outlier states removed from training | At each t, training states whose swing is above Q3 + 3 × IQR of the training states' swing are dropped from training only; a high-swing state is still checked as a target (audit 3). Q3 + 3 × IQR is a convention, not from evidence. |
 | AR | A with recent start years weighted more | Weight on a ratio from start year s is 0.5^((t − 5 − s) ÷ h), with the half-life h in {3, 5, 10, no decay} tuned by the inner loop. The half-life grid is a convention. |
-| AL3 | A around L3 (pulled toward the long-run rate) | Ratios are actual ÷ L3's prediction, with b for start year s fitted on start years up to s − 5 across all 51 states (audit 4). So b uses the held-out state's own past, never its future; it does not leave the held-out state out, which is a small shared-parameter leak. The central becomes L3's (132,458 for Wisconsin 2027–2031). |
+| AL3 | A around L3 (pulled toward the long-run rate) | Ratios are actual ÷ L3's prediction, with b for start year s fitted on all states, using data before the window only (start years up to s − 5; audit 4, revised). The central becomes L3's (132,458 for Wisconsin 2027–2031). |
 | ARL3 | AR around L3 | Both changes |
 | E | LASSO miss size | None (benchmark) |
-| E2 | E recalibrated | Three changes: (i) the target is log(max(\|log r\|, 0.02)), so near-zero misses do not dominate; (ii) predicted miss sizes are capped to the 1st–99th percentile of the training out-of-fold predictions; (iii) c is the narrowest value on a grid of 0.05 whose out-of-fold coverage on the training states is at least 90% (GroupKFold(10) by state). LassoCV settings are as in round 3. The 0.02 floor, the 1st–99th cap, the 0.05 grid and the 10 folds are conventions, not from evidence (audit 2). |
+| E2 | E recalibrated | Three changes: (i) the target is log(max(\|log r\|, 0.02)), so near-zero misses do not dominate; (ii) predicted miss sizes are capped to the 1st–99th percentile of the training out-of-fold predictions; (iii) c is the narrowest value on a grid of 0.05 whose out-of-fold coverage on the training states is at least 90% (GroupKFold(10) by state). LassoCV settings are as in round 3. The 0.02 floor, the 1st–99th cap, the 0.05 grid, the 10 outer folds and the inner GroupKFold(5) are conventions, not from evidence (audit 2). |
 
 ## Scores and pick
 
@@ -61,4 +61,5 @@ Each method's range, with training on start years up to 2020 and traits at 2025,
   - **A family quantiles.** A, AT, AR, AL3 and ARL3 use one weighted-quantile function, with equal weights where unweighted. So A's numbers can differ slightly from round 3's `np.quantile` version.
   - **L3 ratios.** These exist from start year 1997, the first year whose b can be fitted without look-ahead, so AL3 and ARL3 train on start years 1997 to t − 5.
 - 2026-11-05 20:46 UTC, audit: cleared once items 1–7 are in. Items 1–6 are written in. Item 7: the script was committed at cb94f102 before any run. LOCKED at this commit.
+- 2026-11-05, after the run started (20:47:02 UTC): wording only, per the audit. Item 4 is revised to "all states, data before the window only", and the inner GroupKFold(5) is labelled a convention. Neither changes the code or the run. A will be reported from both round 3 and round 4.
 
