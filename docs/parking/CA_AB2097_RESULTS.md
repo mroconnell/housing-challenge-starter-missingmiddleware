@@ -311,7 +311,7 @@ out of the near-vs-ring split):
 | --- | --- | --- | --- | --- |
 | Core (principal cities) | −2.379 (−4.844 to +1.750) | 73 | −2.226 (−4.988 to −0.283) | 58 |
 | Suburb | +1.098 (−1.619 to +3.895) | 259 | +0.906 (−0.985 to +2.742) | 110 |
-| Exurb | −49.936 (−78.407 to −25.348) | 25 | −15.817 (−30.832 to +11.992) | 5 (thin) |
+| Exurb | −49.936 (−78.407 to −25.348); only 6 of 25 places have homes near transit | 25 | −15.817 (−30.832 to +11.992) | 5 (thin) |
 | Rural part of metro | −34.852 (−90.875 to +43.338) | 56 | not run (2) | 2 |
 | Non-metro | +16.865 (−29.097 to +64.496) | 37 | not run (1) | 1 |
 | Test 53 non-core metro (suburb + exurb + rural part) | +1.132 (−1.505 to +3.912) | 340 | +0.561 (−1.396 to +2.449) | 117 |
@@ -327,9 +327,9 @@ out of the near-vs-ring split):
 Script `scripts/ca_ab2097_posthoc3.py`, cleared by the audit before it ran; outputs
 `reference/ca_ab2097_posthoc3_city_types6.csv` and `_size_pop.csv`. Classes and population reused unchanged from the
 parking thread's Test 53 (`area_class6`; 2010 Gazetteer POP10). Same reading rule as section 11: none of these is
-evidence of cause; a range excluding 0 is a pattern worth a planned test. **Chance line:** of the 30 rows with a range,
-about 3 would exclude 0 by chance; 5 do. These repeat section 11's large-vs-small pattern with a different size
-measure and different classes, so they are **not independent of it**.
+evidence of cause; a range excluding 0 is a pattern worth a planned test. **Chance line:** of the 29 estimable rows with a range,
+about 3 would exclude 0 by chance; 4 do (the outside-metro row is not estimable, below). The size rows repeat section
+11 with population in place of homes on the same 450 places, so they are **not new evidence**.
 
 **By class** (450 places in the city-level check; all matched, so no unknown or unmatched rows here; the 4 California
 places marked "unknown" in the parking file are not among them. California has only 26 main cities statewide, 21 in
@@ -341,8 +341,8 @@ run" and "under 10 thin" are conventions):
 | Main city | −0.669 (−15.540 to +22.308) | 21 | −0.020 (−1.870 to +4.224) | 16 |
 | Secondary principal city | −3.277 (−9.448 to +1.346) | 52 | −3.454 (−6.873 to −0.702) | 42 |
 | Suburb | +1.098 (−1.619 to +3.895) | 259 | +0.906 (−0.985 to +2.742) | 110 |
-| Exurb | −49.936 (−78.407 to −25.348) | 25 | −15.817 (−30.832 to +11.992) | 5 (thin) |
-| Outside metro | −282.524 (−405.083 to 0.000) | 18 | not run | 1 |
+| Exurb | −49.936 (−78.407 to −25.348); only 6 of 25 places have homes near transit | 25 | −15.817 (−30.832 to +11.992) | 5 (thin) |
+| Outside metro | not estimable: only 1 of 18 places has homes near transit (714 of 2,000 resamples had no spread in share) | 18 | not run | 1 |
 | Rural | +0.829 (−41.886 to +42.662) | 75 | not run | 2 |
 
 **City size by 2010 population** (city-level check; 449 places with a population; evaluation sizes are conventions):
@@ -357,9 +357,10 @@ run" and "under 10 thin" are conventions):
 | Lead placebo: change per tenfold more people | +1.177 (−1.332 to +8.436) | +0.246 (−2.645 to +3.477) |
 
 - The large-vs-small pattern from section 11 holds with population as the size measure, and its lead placebo
-  includes 0.
-- With six classes, the negative near-vs-ring result sits with **secondary** principal cities (−3.454), not the
-  largest "main" cities (−0.020, range −1.870 to +4.224). That differs from the parking thread, where bigger main cities
-  did worse; California has only 16 main cities in this split.
-- The exurb and outside-metro slopes are huge because few homes there are near transit, so a small difference in
-  share gives a large slope; read as thin.
+  includes 0. It is the same 450 places with a different size measure, so it is not new evidence.
+- Read both ways, the class pattern does not repeat across the two studies: in California the negative near-vs-ring
+  result sits with **secondary** principal cities (−3.454, n = 42), while main cities include 0 (−0.020, range −1.870
+  to +4.224, n = 16); in the parking thread, bigger main cities did worse. The size pattern repeats, but its logic
+  overlaps with section 11. Neither is a finding.
+- The exurb slope is large because only 6 of 25 places have homes near transit, so a small difference in share gives a
+  large slope; read as thin.
