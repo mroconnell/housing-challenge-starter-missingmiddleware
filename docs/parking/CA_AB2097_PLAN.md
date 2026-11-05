@@ -460,3 +460,13 @@ written summaries only.
 - The third-party individual's "AB 2097 Eligibility Areas" layer (2023-12-15) stays out; Ryan's answer covered the
   city and regional layers asked about.
 - Downloads still wait for the lock and the audit's check of the step-1 script.
+
+**2026-11-05 16:43 UTC, Ryan: "and you can convert those PDFs to maps too right?"** (draft, not locked).
+Yes, for the two PDF-only cities, by rebuilding rather than tracing:
+- Both PDFs show ½-mile circles around named stops (Palo Alto: 3 Caltrain stations; Santa Cruz: individual stops,
+  including on the UCSC campus). Each circle's centre is matched to a stop in public stop data (or the station
+  location), and the circle is redrawn at ½ mile with `missing_middleware/geom.py`.
+- Check: the rebuilt map is laid over the PDF page by eye (pages viewed as images, no new software), and every
+  circle is listed as matched, unsure, or not matched. Unsure or unmatched circles are reported, not guessed.
+- No new dependency. PDF tools under GPL-family or AGPL licences (for example PyMuPDF, poppler) are not used.
+- Labelled "rebuilt from a PDF" wherever used; the city's exact edge may differ by tens of metres.
