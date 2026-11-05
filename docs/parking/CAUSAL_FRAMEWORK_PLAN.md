@@ -1202,4 +1202,23 @@ Frame-versus-case-report section mismatches are all reported. The case report wi
 - **Consequence:** under fix 4, only repeals in 2019 or earlier would have after-years, one or two places at most. On current HUD data the test is not feasible.
 - **Path, Ryan's call:** a newer national file hand-downloaded by Ryan from huduser.gov (name, date and SHA-256 recorded). If it reaches the 2021–2022 allocations, the test becomes useful.
 
+**Hand-downloaded file (2026-11-05 17:10 UTC, before any estimate).**
+- **File:** `lihtcpub.zip` from huduser.gov, hand-downloaded by Ryan on 2026-11-05.
+  - SHA-256 e07acee706174b276f89596d614ac5699efa9848659e5834fdfb5198fa0a7288; 29,421,665 bytes.
+  - LIHTCPUB.xlsx dated 2026-04-30 (55,345 projects) and the 2024 data dictionary.
+  - Kept in `data/raw/hud_lihtc/` (not committed).
+- **Projects by allocation year:**
+
+  | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+  | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+  | 1,224 | 1,288 | 1,145 | 1,232 | 1,200 | 1,189 | 1,154 | 935 | 589 | 264 | 176 | 38 |
+
+  - 2,709 rows have code 9999 or 8888 (year missing).
+- **Projects by year placed in service:** about 1,100 to 1,200 a year through 2020, then 1,079 in 2021, 1,020 in 2022, 929 in 2023 and 787 in 2024.
+- **Reading of coverage:** the database lists projects once they are placed in service, so recent allocations are missing.
+  - Allocation years 2014–2020 average about 1,200 a year.
+  - 2021 is at 79% of that and 2022 at 49%.
+- **Places with an after-year:** if allocations are complete through 2020, permit years run through 2021 and 13 of the 74 places (repeals 2016–2020) have at least one after-year. Counting 2021 as complete adds 12 more (25).
+- **Not yet decided:** where to put the last complete year. Ryan's call is pending.
+
 **Also (descriptive):** the San Francisco and Emeryville project tables get a "100% affordable" flag. For San Francisco it comes from the planning-records fields (affordable units = units, or the 100%-affordable program flag). For Emeryville it comes from HCD Table A2 income splits.
