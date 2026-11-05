@@ -1,0 +1,2 @@
+place,event_year,pre_years,post_years,homes,main_effect,main_weight_share,main_contribution,main_share_of_result,d_effect,d_effect_winsorised,d_weight_share,d_contribution,d_share_of_result,main_effect_rank_high,d_effect_rank_high
+"Bastrop, Texas",2019,2014-2018,2020-2022,5100.0,30.6516,0.0016,0.0482,-0.0418,54.0983,12.5186,0.0095,0.1186,-0.123,1,1
