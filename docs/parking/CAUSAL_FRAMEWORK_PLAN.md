@@ -977,33 +977,33 @@ Otherwise D stays and 3b is evidence only. The pick is committed before any real
 
 **6. Real run.** As method 3: all 76 places with San Francisco and cross-fitted scores. Report every weighting, then the weight test (state mix wins ties), the size check and the Wisconsin figure. If D stays, method 2's corrected results stand and 3b's real results are evidence only. The write-up labels the origin as post hoc.
 
-## Test 49: does the effect build, hold or fade? Event-time checks (DRAFT LOCK 2026-11-05, before any count; Ryan 14:55 UTC)
+## Test 49: does the effect build, hold or fade? Event-time checks (DRAFT LOCK 2026-11-05, before any count; Ryan 14:55 UTC; the learning thread's spec)
 
-**Running count: 49.** Evidence only. Ryan: "You are making an assumption (that the effect is positive) when you say the effect doesn't build up over time." Both questions are direction-neutral: does the effect grow, hold or fade, whichever its sign?
+**Running count: 49.** Evidence only; the lines are unchanged. Ryan: "You are making an assumption (that the effect is positive) when you say the effect doesn't build up over time." Nothing here assumes a sign.
 
-**Estimator.** The main matched difference-in-differences, rebuilt per city as in tests 45–46 (`run_parking_t45_t46.py` collect/rebuild; each city's own pool, windows and homes; South Bend's scale).
-- **Effect in year k after repeal:** (city rate in year ey+k − city mean over the before window) − (pool rate in year ey+k − pool mean over the before window). Rates are permits per 1,000 existing homes (ACS 2020–2024, as the main).
-- **Pools:** each city's main pool, restricted to members that report in every year used. A city whose restricted pool falls below 5 is dropped from that check and listed.
-- **Year 0** (the repeal year) is reported for context but is not part of either check; the main counts years 1–3.
+**Estimator: method D on corrected method-2 data.**
+- Strict pools, shock rule, matching, winsorising and pre-repeal homes, all as the corrected method 2.
+- **D's before window:** up to 10 years, back to 2012.
+- **One pool per case:** chosen once and held fixed across years. Pool members must report in every year of D's before window and of the case's whole after window used in the check. The strict "no reform ever" exclusion applies.
+- **Effect in after-year k:** (city rate in year ey+k − city's before-window mean) − (winsorised pool rate in year ey+k − pool's before-window mean). Permits per 1,000 pre-event existing homes a year.
 
-**Check 1 (balanced).** The 38 cities with all 3 after-years in the main (event years up to 2022): effects in years 1, 2 and 3 on the same cities.
+**Check 1 (balanced 3-year set).** The 38 places with all 3 after-years. Effects in after-years 1, 2 and 3 on the same places.
 
-**Check 2 (longer run).** Every city with 5 or more after-years in the Census files (event year 2020 or earlier; 15 cities).
-- **Balanced:** years 1–5 on the same 15 cities.
-- **Years 6–9:** reported unbalanced, with the number of cities in each year (fewer each year; 2025 is the last permit year, so no city has 10 after-years).
+**Check 2 (long set).** Places with 5 or more after-years through 2025: event year 2020 or earlier, 15 places (2016: 1, 2017: 2, 2018: 3, 2019: 5, 2020: 4).
+- **After window:** extended as far as the data allow. That is up to 9 years, because 2025 is the last permit year and the earliest repeal is 2016, so no place has 10.
+- **Balanced:** years 1–5 on all 15.
+- **Years 6+:** reported with the number of places in each year.
+- **Pre-trend check (long set):** the same pool and effect formula for the last 3 before-years (ey−3 to ey−1), against the mean of the earlier before-years. Reported with ranges and a slope.
 
-**Weights and ranges.**
-- **Main:** home-weighted, as the tool.
-- **Beside:** equal weights.
-- **Ranges:** 90% place bootstrap (2,000 draws, seed 20261105), resampling cities with all their years together.
+**Per year:** the estimate with a 90% place-bootstrap range (2,000 draws, seed 20261105; places resampled with all their years), under:
+- the target-state mix (Wisconsin, tool cells);
+- random effects;
+- equal weights.
 
-**Shape test, per check (balanced years only).**
-- **Slope:** the slope of the yearly weighted average effect on k, with its bootstrap 90% range.
-- **Size:** reported against the overall average effect.
-- **Reading, direction-neutral:**
-  - "Builds": the slope range excludes 0 with the same sign as the average.
-  - "Fades": the slope range excludes 0 with the opposite sign.
-  - "Holds or can't tell": otherwise.
-- **Change from year 1 to the last balanced year:** reported with its range.
+The number of places is shown for each year.
 
-**Not in this test:** method-2 matching, and pre-repeal leads. Those are described by T2 (Sun–Abraham) and P1.
+**Slope.** For each check, the slope of the yearly weighted average on k over the balanced years, with its bootstrap 90% range, under each weighting.
+
+**Reading rule (neutral):** "changes with time" only if the slope's 90% range excludes 0, in either direction. Otherwise "no clear change over time". The write-up says plainly that 15 places is thin.
+
+**Runs:** on the Mac. No tool changes without Ryan's OK.
