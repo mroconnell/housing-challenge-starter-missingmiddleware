@@ -91,6 +91,8 @@ def sdid(D, key, pre, post, pool, h, wins, scale, n_tr) -> dict:
     y = m.rates(D, [key], yrs, h).iloc[0].values.astype(float)
     Y = m.winsor_cols(m.rates(D, pool, yrs, h), wins).values.astype(float)  # donors x years
     T0 = len(pre)
+    if not (np.isfinite(y).all() and np.isfinite(Y).all()):  # non-finite rates: no SDID fit (counted in the report)
+        return dict(effect=np.nan, nonfinite=True)
     Ypre, Ypost = Y[:, :T0], Y[:, T0:]
     d = np.diff(Ypre, axis=1).ravel()
     sigma = float(d.std(ddof=1)) if d.size > 1 else 0.0
@@ -107,7 +109,7 @@ def sdid(D, key, pre, post, pool, h, wins, scale, n_tr) -> dict:
     gap = y[:T0] - w @ Ypre
     hw = h.reindex(pool).values / h.reindex(pool).values.sum()
     gap_d = y[:T0] - hw @ Ypre
-    return dict(effect=float(tau / scale), sigma=sigma, zeta=zeta, eff_donors=float(1 / np.sum(w ** 2)), max_w=float(w.max()),
+    return dict(effect=float(tau / scale), nonfinite=False, sigma=sigma, zeta=zeta, eff_donors=float(1 / np.sum(w ** 2)), max_w=float(w.max()),
                 eff_years=float(1 / np.sum(lam ** 2)), max_lambda=float(lam.max()), last_year_lambda=float(lam[-1]),
                 prefit_rmse=float(np.sqrt(np.mean((gap - gap.mean()) ** 2))),
                 prefit_rmse_D=float(np.sqrt(np.mean((gap_d - gap_d.mean()) ** 2))))
@@ -126,7 +128,7 @@ def both(D, case, n_cases) -> dict:
     alt = sdid(D, key, pl, post, s["pool"], s["h"], m.OPT_MAIN["wins"], scale, n_cases)
     out["SDID"], out["SDID, N_tr = 74"] = main.pop("effect"), alt["effect"]
     out.update(main)
-    out["zeta_ntr74"] = alt["zeta"]
+    out["zeta_ntr74"] = alt.get("zeta", np.nan)
     return out
 
 
@@ -222,6 +224,7 @@ def stage1():
     main = P[(P.candidate == "SDID") & P.verdict_basis].iloc[0]
     P["pick_main"] = "SDID" if main["wins"] else "D"
     nan_share = {c: float(np.mean([np.isnan(eff[(*u, c)]) for u in uniq])) for c in CANDS}
+    print("fake cases with D finite but SDID missing:", sum(np.isfinite(eff[(*u, "D")]) and np.isnan(eff[(*u, "SDID")]) for u in uniq), flush=True)
     R = R.assign(fresh_cases=len(uniq), nan_share=R.candidate.map(nan_share))
     R.round(5).to_csv(SCORING, index=False)
     P.round(5).to_csv(PICK, index=False)
