@@ -1,4 +1,4 @@
-# Baseline range, round 2: plan (DRAFT, not locked, nothing run)
+# Baseline range, round 2: plan (LOCKED 2026-11-05)
 
 Written 2026-11-05 by the baseline thread. Status: **draft. Waiting on Ryan's go and the audit's review. Nothing runs before both.**
 
@@ -60,3 +60,5 @@ This round tests whether a range built from all states' history does better.
 
 - 2026-11-05: draft written after the audit's notes (18:03 UTC: 90% target, nested check, coverage on Wisconsin and all states, a shortfall rule, the post hoc label).
 - 2026-11-05 18:05 UTC, audit: cleared once items 1–4 are written in and Ryan says go. Written in: pick on the 50 states other than Wisconsin (1); the Wisconsin bar left to Ryan as D-R1 (2); the 90% bar on the point rate (3); the main method is all-sizes total multipliers, with the per-size sum as the alternative (4); R1 coverage by volatility tercile (5).
+- 2026-11-05 18:08 UTC, Ryan: go ("use all 50 states and then get the baseline to be somewhere closer to 90% CI"). He did not answer D-R1, so Wisconsin is reported only, as recommended. Volatility terciles are computed at each check year. LOCKED at the commit of the run script.
+
