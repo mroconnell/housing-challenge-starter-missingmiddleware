@@ -4,6 +4,8 @@ the 2020 and 2010 Census Gazetteer tract files (tract internal points, to place 
 
     uv run python scripts/fetch_parking_ruca.py
 Raw files and a download log go to data/raw/parking_ruca/.
+The 2013 list is an old .xls; convert it once to CSV (no project dependency):
+    uv run --no-project --with xlrd==2.0.1 python -c "import xlrd,csv; s=xlrd.open_workbook('data/raw/parking_ruca/cbsa_list2_2013.xls').sheet_by_index(0); w=csv.writer(open('data/raw/parking_ruca/cbsa_list2_2013.csv','w',newline='')); [w.writerow([str(v) for v in s.row_values(r)]) for r in range(s.nrows)]"
 """
 from __future__ import annotations
 
@@ -22,6 +24,7 @@ URLS = {
     "ruca2020_tracts.csv": "https://www.ers.usda.gov/media/5443/2020-rural-urban-commuting-area-codes-census-tracts.csv?v=15806",
     "ruca2010_tracts.xlsx": "https://www.ers.usda.gov/media/5438/2010-rural-urban-commuting-area-codes-revised-732019.xlsx?v=32965",
     "cbsa_list2_2023.xlsx": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2023/delineation-files/list2_2023.xlsx",
+    "cbsa_list2_2013.xls": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2013/delineation-files/list2.xls",
     "gaz_tracts_2020.zip": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2020_Gazetteer/2020_Gaz_tracts_national.zip",
     "gaz_tracts_2010.zip": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/Gaz_tracts_national.zip",
 }
