@@ -499,6 +499,8 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
     A2-flagged 2018–2020 projects that match a HUD project. Reported in step 1, before any estimate.
   - Matching reuses the parking thread's place assignment (`scripts/assign_parking_lihtc_places.py`, 3a26cd2b) where it
     fits; the file is read only, never committed.
+  - Table A2 points are HCD's own geocode (street-level only, `ab2097.is_geocoded`); no new geocoding. Step 1
+    also reports, by permit year, how many A2 LIHTC-flagged projects are dropped for lacking a street-level point.
 - 2026-11-05, post-lock, pre-count, audit notes:
   - `FIN_ASSIST_NAME` and `DENSITY_BONUS_TOTAL` are confirmed as column names in the Table A2 file on disk
     (`data/raw/hcd_apr_a2/tablea2.csv`).
