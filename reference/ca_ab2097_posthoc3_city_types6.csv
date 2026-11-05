@@ -1,0 +1,13 @@
+grouping,area_class,check,n,estimate,low,high,note,thin_group_note,label
+area_class6,exurb,city-level share slope (homes-weighted),25,-49.93556391093958,-78.40671475393624,-25.348184821167994,,,POST HOC
+area_class6,main city,city-level share slope (homes-weighted),21,-0.6694018263876634,-15.539756561584515,22.307870653786324,,,POST HOC
+area_class6,outside metro,city-level share slope (homes-weighted),18,-282.523683764979,-405.0830645751733,0.0,,,POST HOC
+area_class6,rural,city-level share slope (homes-weighted),75,0.8288564361011822,-41.886367743126456,42.66233036842203,,,POST HOC
+area_class6,secondary principal city,city-level share slope (homes-weighted),52,-3.2772479779014607,-9.44830679395555,1.3458847650525698,,,POST HOC
+area_class6,suburb,city-level share slope (homes-weighted),259,1.098275038053126,-1.6192349657874126,3.8945390255019707,,,POST HOC
+area_class6,exurb,near vs ring headline (homes other than ADUs),5,-15.817130935547889,-30.83195257919878,11.992307962198304,,fewer than 10: read as thin,POST HOC
+area_class6,main city,near vs ring headline (homes other than ADUs),16,-0.01970593804828291,-1.869794750412339,4.224372349462218,,,POST HOC
+area_class6,outside metro,near vs ring headline (homes other than ADUs),1,,,,fewer than 5 jurisdictions,fewer than 10: read as thin,POST HOC
+area_class6,rural,near vs ring headline (homes other than ADUs),2,,,,fewer than 5 jurisdictions,fewer than 10: read as thin,POST HOC
+area_class6,secondary principal city,near vs ring headline (homes other than ADUs),42,-3.4536617817152493,-6.8734942151404645,-0.7022156108666533,,,POST HOC
+area_class6,suburb,near vs ring headline (homes other than ADUs),110,0.9060890600255522,-0.9849720245338711,2.741555060904355,,,POST HOC

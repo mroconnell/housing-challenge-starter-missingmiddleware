@@ -321,3 +321,45 @@ out of the near-vs-ring split):
 - Exurbs' city-level slope is large and excludes 0, but rests on 25 places where few homes are near transit, so a
   small share difference produces a large slope; read as thin.
 - If the parking thread changes its principal-city classes (Ryan, 21:36), this split will be re-run to match.
+
+## 12. POST HOC: parking's six city classes and 2010 population (Ryan 2026-11-05 22:33, "go")
+
+Script `scripts/ca_ab2097_posthoc3.py`, cleared by the audit before it ran; outputs
+`reference/ca_ab2097_posthoc3_city_types6.csv` and `_size_pop.csv`. Classes and population reused unchanged from the
+parking thread's Test 53 (`area_class6`; 2010 Gazetteer POP10). Same reading rule as section 11: none of these is
+evidence of cause; a range excluding 0 is a pattern worth a planned test. **Chance line:** of the 29 rows with a range,
+about 3 would exclude 0 by chance; 5 do. These repeat section 11's large-vs-small pattern with a different size
+measure and different classes, so they are **not independent of it**.
+
+**By class** (450 places in the city-level check; all matched, so no unknown or unmatched rows here; the 4 California
+places marked "unknown" in the parking file are not among them. California has only 26 main cities statewide, 21 in
+this check after the early-reform places are left out, so the class split rests on a few large places. "Under 5 not
+run" and "under 10 thin" are conventions):
+
+| Class | City-level share slope (homes-weighted) | n places | Near vs ring headline | n jurisdictions |
+| --- | --- | --- | --- | --- |
+| Main city | −0.669 (−15.540 to +22.308) | 21 | −0.020 (−1.870 to +4.224) | 16 |
+| Secondary principal city | −3.277 (−9.448 to +1.346) | 52 | −3.454 (−6.873 to −0.702) | 42 |
+| Suburb | +1.098 (−1.619 to +3.895) | 259 | +0.906 (−0.985 to +2.742) | 110 |
+| Exurb | −49.936 (−78.407 to −25.348) | 25 | −15.817 (−30.832 to +11.992) | 5 (thin) |
+| Outside metro | −282.524 (−405.083 to 0.000) | 18 | not run | 1 |
+| Rural | +0.829 (−41.886 to +42.662) | 75 | not run | 2 |
+
+**City size by 2010 population** (city-level check; 449 places with a population; evaluation sizes are conventions):
+
+| | Homes-weighted | Equal weight |
+| --- | --- | --- |
+| Change in the slope per tenfold more people (two-sided) | −3.595 (−9.612 to −1.542) | −53.526 (−96.439 to +1.483) |
+| Slope at 10,000 people | +3.435 (+0.106 to +9.368) | +38.284 (−1.351 to +67.983) |
+| Slope at 50,000 people | +0.922 (−1.643 to +3.869) | +0.871 (−7.836 to +9.542) |
+| Slope at 250,000 people | −1.591 (−5.851 to +0.715) | −36.542 (−69.902 to +2.184) |
+| Slope at 1,000,000 people | −3.756 (−11.364 to −0.884) | −68.768 (−126.359 to +2.837) |
+| Lead placebo: change per tenfold more people | +1.177 (−1.332 to +8.436) | +0.246 (−2.645 to +3.477) |
+
+- The large-vs-small pattern from section 11 holds with population as the size measure, and its lead placebo
+  includes 0.
+- With six classes, the negative near-vs-ring result sits with **secondary** principal cities (−3.454), not the
+  largest "main" cities (−0.020, range −1.870 to +4.224). That differs from the parking thread, where bigger main cities
+  did worse; California has only 16 main cities in this split.
+- The exurb and outside-metro slopes are huge because few homes there are near transit, so a small difference in
+  share gives a large slope; read as thin.
