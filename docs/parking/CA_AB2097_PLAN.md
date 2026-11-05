@@ -430,3 +430,10 @@ box above. For each city lead, check all of these, then stop:
 Results are recorded per city as one of: GIS layer found (usable), PDF map only (recorded, digitized only if the city
 is in the sample and the map is legible), relies on a regional map (named), or no map found (with what was checked).
 No records requests, no emails, no logins.
+
+**2026-11-05 16:16 UTC, Ryan: "probably want to see if they had a public hearing about ab 2097"** (draft, not locked).
+Check 3 above also records, per city: whether the council or planning commission held a public hearing or agenda item
+on AB 2097 (2022–2025); its date and body; and what came of it (code amendment adopted, map adopted, "findings"
+escape hatch used, information only, or none found). A dated adoption of a map or code change is a candidate date for
+the map-date edge test (section 8, Ryan's opening note). Hearings are read from public agendas, minutes and videos'
+written summaries only.
