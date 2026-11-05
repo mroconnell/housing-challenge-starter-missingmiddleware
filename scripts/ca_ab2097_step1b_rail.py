@@ -7,7 +7,7 @@ Inputs
 - Rail stops: the federal National Transit Map stops extract already on disk
   (data/raw/parking_transit/ntm_rail_stops_national.json; BTS NTAD, CC BY 3.0, compiled 2026-09-23; the project's
   common stop source under AQ-045). Stop types 0 (light rail, streetcar), 1 (subway, metro), 2 (rail).
-- Amtrak stations: BTS NTAD Amtrak Stations (public domain), California rows with StnType = 'RAIL' (thruway bus
+- Amtrak stations: BTS NTAD Amtrak Stations (public domain), California rows with StnType = 'TRAIN' (thruway bus
   stops left out). Fetched here (attributes and points only) into data/raw/ca_ab2097/ (git-ignored).
 - Ferry terminals: Caltrans' current major transit stop layer already on disk (data/raw/ab2097/
   major_transit_stops.geojson), existing stops with hqta_type 'major_stop_ferry'.
@@ -74,14 +74,14 @@ def fetch_amtrak() -> pd.DataFrame:
     RAWD.mkdir(parents=True, exist_ok=True)
     f = RAWD / "ntad_amtrak_stations_ca.json"
     if not f.exists():
-        j = get_json(AMTRAK, {"where": "State='CA' AND StnType='RAIL'", "outFields": "Code,StationName,StnType,lon,lat",
+        j = get_json(AMTRAK, {"where": "State='CA' AND StnType='TRAIN'", "outFields": "Code,StationName,StnType,lon,lat",
                               "returnGeometry": "false", "f": "json"})
         if j.get("exceededTransferLimit"):
             raise SystemExit("Amtrak query hit the transfer limit; page it before use")
         rows = [x["attributes"] for x in j.get("features", [])]
         print(f"Amtrak stations fetched (CA, RAIL): {len(rows)}")
         f.write_text(json.dumps({"source": AMTRAK, "licence": "public domain (17 U.S.C. 101; NTAD item text)",
-                                 "where": "State='CA' AND StnType='RAIL'", "rows": rows}))
+                                 "where": "State='CA' AND StnType='TRAIN'", "rows": rows}))
     rows = json.loads(f.read_text())["rows"]
     d = pd.DataFrame(rows).rename(columns={"StationName": "name", "Code": "system_id"})
     d["mode"] = "intercity_rail"
