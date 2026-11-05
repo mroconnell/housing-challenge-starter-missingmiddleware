@@ -188,3 +188,8 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
 - **LOCKED 2026-11-05, commit time of this revision.** Before any fetch or count.
 - 2026-11-05 17:08 UTC, audit accepted the lock (c4045967). Written in, not a re-lock: L5's five details (pooled division rate, one w, per size with a shared w, units, the w = 1 note) and the 8-challenger reading line.
 - 2026-11-05, fetch script written (`scripts/fetch_baseline_bakeoff.py`, not run). Sources named for the 1990 counts, since the Census API has no 1990 decennial data: state housing units from ST-98-51 (the April 1, 1990 census count as revised and published in 1999, a small labelled leak), and Wisconsin county subdivisions from the 1990 P.L. 94-171 file. Waiting on the audit's check of the script.
+- 2026-11-05, fetch done (44 files logged; the 1990 PL94 housing-unit field is HU100). Before any Part 1 count, three clarifications:
+  - **Ratio direction.** The range multipliers are actual ÷ predicted, as in the current baseline's `long_run_ratios.csv` (an outcome = central × multiplier). The earlier "predicted ÷ actual" wording in the Range section was a slip.
+  - **Wisconsin 2027–2031 reporting.** Each candidate is run at start year 2025 on the published state files. It is reported as its ratio to L0 at 2025, times the v3 central of 124,000, so v3's Milwaukee and fill corrections are kept. The raw published-file figures are shown beside it.
+  - **Range start years.** For each candidate, these are every Wisconsin start year from 1992 (or the first year its window allows) to 2020.
+
