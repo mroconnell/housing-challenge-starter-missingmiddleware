@@ -133,7 +133,7 @@ Each scenario's answer is "with the reform minus without it". This table lines u
 | Scenario | What the baseline counts | In the tool | Tested alternative | Status |
 | --- | --- | ---: | ---: | --- |
 | Parking | All permitted homes, statewide | 124,000 | 119,750 (boosted trees; owner-approved side case) | Same pace kept as the main rule. It ran 22% low in Wisconsin's 2021–2025; the trees expect some of the recent pace to fade ([NO_REFORM_MODEL_RESULTS.md](parking/NO_REFORM_MODEL_RESULTS.md)) |
-| TOD | Homes permitted in station areas | 14,654 (range 8,495–22,161) | 18,558 (re-based; not adopted) | On shared baseline v3 |
+| TOD | Homes permitted in station areas | 14,654 (range 6,677–25,865) | 18,558 (re-based; not adopted) | On shared baseline v4 |
 | ADUs | ADU permits on single-family lots | 786 | 786 (same pace plus the trend of no-law places; was 530 at today's pace) | Adopted 2026-10-31 (AQ-065). The trend model scored better; it lowers the law's addition by about 233 ([NO_REFORM_R1_RESULTS.md](adu/NO_REFORM_R1_RESULTS.md)) |
 
 - **Nesting checks.** TOD's station-area baseline (14,654) is below the statewide total (124,000): about 12% of it. ADU's 786 is under 1% of the statewide total (0.6%).
