@@ -881,11 +881,13 @@ Method D on corrected method-2 data, with one pool per case held fixed across ye
 | --- | --- | --- | --- |
 | 38 places, 1–3 | −0.50 (−2.13 to +0.24) | −0.54 (−1.30 to +0.23) | −1.01 (−2.40 to +0.18) |
 | 15 places, 1–5 | −0.70 (−1.81 to +0.52) | **−0.60 (−1.09 to −0.20)** | −1.06 (−1.77 to +1.02) |
-| Leads, last 3 before-years (12 places) | −0.61 (−5.93 to +1.08) | **−2.11 (−5.43 to −0.15)** | −2.50 (−6.49 to +0.01) |
+| Long-set leads, last 3 before-years (12 places) | −0.61 (−5.93 to +1.08) | **−2.11 (−5.43 to −0.15)** | −2.50 (−6.49 to +0.01) |
+| 38-place leads, last 3 before-years (34 places) | −0.48 (−2.85 to +0.57) | +0.12 (−1.89 to +1.12) | −0.37 (−2.23 to +0.71) |
 
 **Reading (neutral rule).**
 - **Main reading:** under the mix, "no clear change over time" in either set.
-- **Random effects, long set:** "changes with time", with the effect drifting downward. But the same places' last three before-years also slope downward under random effects (−2.11, range excludes 0). The drift was already under way before repeal, so it is not a sign of the repeal's effect building in either direction.
-- **Chance:** 2 of 9 slopes exclude 0, about what chance gives at 90%.
+- **The 38 places already ran below their pools before repeal.** Under the mix, their last three before-years were −0.18 (ey−3), −1.83 (ey−2) and −1.14 (ey−1). That is about as negative as after-years 2–3 (−1.52, −0.98), and consistent with the method-2 mix backtest caveat (−0.82). A negative after-effect already present before repeal is not good evidence that repeal caused it.
+- **Random effects, long set:** "changes with time", with the effect drifting downward. But the same places' last three before-years slope downward even more steeply under random effects (−2.11 against −0.60 after). The drift was already under way before repeal. A downward pre-trend also means the before-window mean overstates what would have happened without repeal, which pushes the effect level down too.
+- **Chance:** 2 of 12 slopes exclude 0, not far from chance at 90% (about 1 in 10, and the slopes are not independent).
 - **Thin data:** 15 places is thin, and years 6+ rest on 11, 6, 3 and 1 places.
 - **Consistency check:** the 38 places' years 1–3 average (−1.003) equals corrected method 2's result for the same places exactly, so the fixed long pools match method 2's.
