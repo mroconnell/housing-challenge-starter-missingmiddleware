@@ -181,7 +181,41 @@ near and ring hold different numbers of homes, so compare zones only with the ra
   and so do the maps and points.
 - Tests for the estimate helpers (`tests/test_ca_ab2097.py`) were run with python directly; pytest is not installed.
 
-## 9. Not yet run (side checks; spec fixed before this run)
+## 9. Side checks (written after the main results were seen; they follow the spec fixed before the run)
 
-City maps (Oakland Spring 2023, Truckee, Palo Alto and Santa Cruz rebuilt from PDFs), MTC 2017 maps, the dated 2022
-bus map from web-archive schedules, National Transit Database service hours, and the streetcar check.
+Script `scripts/ca_ab2097_side_checks.py`; outputs `reference/ca_ab2097_side_city_maps.csv`,
+`reference/ca_ab2097_side_ntd_bus_hours.csv`, `reference/ca_ab2097_side_mtc_licence.json`.
+
+**City maps against our main map** (2020 homes; blocks by internal point; agreement = homes in both maps ÷ homes in
+either). Edge = homes other than ADUs per 1,000 existing homes a year, 2023–2025 vs 2018–2022, 25–150 m inside vs
+25–150 m outside the city's own line, 90% range from 2,000 resamples of projects.
+
+| City | Role | Homes in city map | Homes in our map | Agreement | Edge on the city's line |
+| --- | --- | --- | --- | --- | --- |
+| Oakland (Spring 2023 layer, 15-minute rule) | placebo city | 126,788 | 148,602 | 82.9% | −1.548 (−15.749 to +14.639) |
+| Sacramento (city layer) | placebo city | 104,311 | 58,396 | 53.7% | +0.482 (−6.214 to +7.537) |
+| Truckee (Train Depot ½ mile) | main | 351 | 354 | 99.2% | −73.675 (−151.487 to +0.291); too few permits to read |
+| Palo Alto (3 Caltrain stations, rebuilt from our station list, not the PDF) | main | 5,526 | 11,772 | 46.9% | −6.008 (−22.833 to +4.557); too few permits to read |
+| Santa Cruz | main | pending: PDF stops need matching by hand | | | |
+
+- Oakland's own 2023 map and ours overlap on 83% of the homes either one covers. Ours is a little wider, as expected
+  from today's 20-minute bus rule.
+- Sacramento's own layer covers far more homes than ours (104,311 vs 58,396); the city drew a wider area.
+- In Palo Alto our map covers twice the city's rail circles because it adds today's bus major stops.
+- No city-line edge shows a measurable change. Truckee and Palo Alto have only a few dozen permitted homes near their
+  lines, so their ranges are very wide.
+
+**Bus service, 2022 vs 2025** (National Transit Database; annual bus vehicle revenue hours, modes MB, RB and CB).
+Almost every large California agency ran more bus service in 2025 than in 2022: for example LA Metro 6,114,098 →
+6,931,450 hours (×1.13), AC Transit ×1.08, OCTA ×1.08, VTA ×1.08, SamTrans ×1.34, Omnitrans ×1.32, Santa Cruz Metro
+×1.37; Muni ×1.04, San Diego MTS ×1.04, SacRT ×1.03. More service since 2022 adds to the 20-minute rule in making
+today's bus layer cover more land than the 2023 rule did, which blurs near and ring.
+
+**MTC 2017.** MTC's 2017 layers carry a planning-use disclaimer, not a licence (the 2017 major-stop item's metadata
+could not be read). They fall under Ryan's 16:42 OK for unlicensed regional layers as research inputs; the Bay Area
+comparison is not yet run.
+
+## 10. Not yet run
+
+Dated 2022 bus map from web-archive schedules (Muni, San Diego MTS and about 19 small agencies); MTC 2017 comparison;
+Santa Cruz; streetcar check.

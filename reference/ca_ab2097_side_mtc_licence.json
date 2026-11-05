@@ -1,0 +1,20 @@
+{
+ "High Quality Transit Corridors - 1/2 Mile (2017)": {
+  "item": "3ed055a3cff0415384bf4ce744b6f52b",
+  "licenseInfo": "This data is intended for planning purposes only. The Metropolitan Transportation Commission (MTC) provides spatial and attribute data (also referred to as \"information\") \"as-is,\" and shall incur no responsibility or liability as to the completeness, currentness, or accuracy of this information. The MTC, and other agencies/cities/counties from which the data were sourced, assume no responsibility arising from use of this information by individuals, businesses, or other public entities. The data is provided with no warranty of any kind, expressed or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose. Do not make any decisions based on this data before validating your decision with the appropriate city, county, or government entity.",
+  "accessInformation": "Metropolitan Transportation Commission, 2017",
+  "modified": 1708561754000
+ },
+ "Major Transit Stops 2017 (item linked from MTC's GitHub)": {
+  "item": "561dc5b42fa9451b95faf615a3054260",
+  "licenseInfo": null,
+  "accessInformation": null,
+  "modified": null
+ },
+ "Transit Priority Project Eligible Areas (2017)": {
+  "item": "165d990e3d1341c4942b79e526eafe0f",
+  "licenseInfo": "This data is intended for planning purposes only. The Metropolitan Transportation Commission (MTC) provides spatial and attribute data (also referred to as &quot;information&quot;) &quot;as-is,&quot; and shall incur no responsibility or liability as to the completeness, currentness, or accuracy of this information. The MTC, and other agencies/cities/counties from which the data were sourced, assume no responsibility arising from use of this information by individuals, businesses, or other public entities. The data is provided with no warranty of any kind, expressed or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose. Do not make any decisions based on this data before validating your decision with the appropriate city, county, or government entity.",
+  "accessInformation": "Metropolitan Transportation Commission, 2017",
+  "modified": 1664497524000
+ }
+}
