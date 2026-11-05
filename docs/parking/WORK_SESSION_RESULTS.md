@@ -1094,4 +1094,4 @@ Five helpers coded three places each from public sources, following a written br
 **Checks, main configuration:**
 - **The 0 floor binds** in 1,072 of 3,424 place-years with LIHTC units (31%; the withdrawn version had 46%). 80,317 of 380,147 units (21%) could not be removed (the withdrawn version had 30%). The share fell, as expected once rehab projects were removed.
 - **Timing check:** 69.1% of LIHTC units fall in a permit year with at least that many BPS permits (58.1% before the fix).
-- **What these mean:** the allocation + 1 proxy still often puts a project's units in a different year from its permits, so the adjustment is rough.
+- **What these mean:** the adjustment is rough. Even with new construction only, in 31% of LIHTC place-years (1,072 of 3,424) the projects hold more units than the permits Census shows that year. Those place-years account for 21% of LIHTC units (80,317 of 380,147), so the adjustment is understated wherever the floor binds. The allocation + 1 proxy also often puts a project's units in a different year from its permits.
