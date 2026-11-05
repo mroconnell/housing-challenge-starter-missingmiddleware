@@ -374,7 +374,7 @@ The Cal-ITP method choices (peak hours, 500 ft, 50 m) are listed beside ours in 
    agency licence is recorded.
 
 **2026-11-05 16:03 UTC, Ryan: "San Francisco and Emeryville may be interesting too"** (draft, plan not locked).
-- Both had no parking minimums citywide before AB 2097 (San Francisco from 2018–2019, Emeryville from 2019), so the
+- Both had no parking minimums citywide before AB 2097 (San Francisco effective 2019-01-21, Ord. 311-18; Emeryville effective 2020-05-21, Ord. 20-005; dates as coded by the parking thread), so the
   law changed nothing at their ½-mile line. They are added to the city sample as **placebo cities**: the main
   comparison and the edge test are run at the theoretical map's line in each, and the reading rule needs each range to
   include 0.
