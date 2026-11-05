@@ -110,7 +110,7 @@ def city_polys(city: str, rail: pd.DataFrame):
         s = rail[rail["name"].str.contains("|".join(PALO_ALTO_STATIONS), case=False, na=False)
                  & (rail["mode"] == "commuter_rail")]
         s = run.lonlat_points(s.reset_index(drop=True), s.lon, s.lat)
-        return [[_circle(x, y, E.MILE / 2)] for x, y in zip(s.x, s.y)], len(s)
+        return [[[_circle(x, y, E.MILE / 2)]] for x, y in zip(s.x, s.y)], len(s)
     f = MAPS / f"{city.lower()}.geojson"
     L = G.read_geojson(str(f)).to_crs(G.crs(run.CRS))
     return L.polys, len(L.polys)
