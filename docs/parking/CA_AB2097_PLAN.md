@@ -325,3 +325,19 @@ they are rules fixed before counting, not forecasts.
   cross-year de-duplication keeping the earliest report). The report-year check uses the same de-duplication.
 - **Edges, fixed now:** a 25 m donut on each side of the line (as TOD used); a bunching check of permits by distance
   in 50 m steps across the line; non-geocoded Table A2 rows dropped (`ab2097.is_geocoded`).
+
+**2026-11-05, audit check of 7589b145 (rail-only edge), draft, plan not locked:**
+1. Ryan's messages, word for word:
+   - 15:38:27 UTC: "Can we also perhaps run an edge map on more predictable rail stops?"
+   - 15:38:52 UTC: "bus lines can change and we have to look them all up, but rail, light rail, street car, etc are all more static and predictable"
+   - 15:39:36 UTC (edited 15:40:00): "Caveat re permits near line: 1) what is that caveat based on? 2) why are you prejudging the data and biasing me :D"
+2. **Station list:** heavy rail, light rail, **streetcar**, commuter rail and Amtrak stations.
+3. **Amtrak-only stations** (no other rail service) stay in, since the law counts any rail station. Check: without them.
+4. **New stations:** the rail-only edge runs with and without stations opened in 2018–2022, the same rule as the main
+   lead test.
+5. **Who is left:** leaving out land near any bus, BRT, ferry or planned stop drops much of the dense urban land, so
+   the remaining stations may lean suburban. Step 1 reports the stations and land kept (by county and by 2020 homes
+   per acre) so the reader can see which places this check speaks for.
+6. **Station source:** rail stations need no schedules. Step 1 tests a static public station list with opening dates
+   (for example the BTS NTAD rail stations layer), records its licence, and uses it for this check if it covers the
+   California rail systems. Agency opening dates fill gaps.
