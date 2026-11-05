@@ -1,0 +1,294 @@
+provider,mdb_id,url,captures_2022_09_to_12,captures_2022_01_to_2023_06,nearest_to_2022_11_15,status
+Amtrak,mdb-11,https://content.amtrak.com/content/gtfs/GTFS.zip,0,3,20220802,200/200
+Avalon Transit,mdb-12,http://data.trilliumtransit.com/gtfs/avalon-ca-us/avalon-ca-us.zip,0,0,,200/200
+"San Diego International Airport, Metropolitan Transit System (MTS)",mdb-13,https://www.sdmts.com/google_transit_files/google_transit.zip,1,2,20221129,200/200
+North County Transit District (NCTD),mdb-14,http://www.gonctd.com/google_transit.zip,0,0,,200/200
+Orange County Transportation Authority (OCTA),mdb-15,https://www.octa.net/current/google_transit.zip,0,0,,200/200
+Laguna Beach Transit (LBT),mdb-16,http://data.trilliumtransit.com/gtfs/lagunabeach-ca-us/lagunabeach-ca-us.zip,0,0,,200/200
+Palo Verde Valley Transit Agency,mdb-18,http://data.trilliumtransit.com/gtfs/paloverde_valley-ca-us/paloverde_valley-ca-us.zip,0,0,,200/200
+Humboldt Transit Authority,mdb-19,http://data.trilliumtransit.com/gtfs/humboldtcounty-ca-us/humboldtcounty-ca-us.zip,1,2,20220917,200/200
+Redwood Coast Transit (RCT),mdb-20,http://data.trilliumtransit.com/gtfs/delnorte-ca-us/delnorte-ca-us.zip,1,1,20220917,200/200
+Eastern Sierra Transit,mdb-25,http://data.trilliumtransit.com/gtfs/easternsierra-ca-us/easternsierra-ca-us.zip,0,0,,200/200
+Santa Maria Area Transit,mdb-26,http://data.trilliumtransit.com/gtfs/smat-ca-us/smat-ca-us.zip,0,0,,200/200
+Airport Valet Express,mdb-27,http://data.trilliumtransit.com/gtfs/airportvaletexpress-ca-us/airportvaletexpress-ca-us.zip,0,0,,200/200
+Los Angeles County Department of Public Works (the LINK and shuttles),mdb-28,http://data.trilliumtransit.com/gtfs/dpwlacounty-ca-us/dpwlacounty-ca-us.zip,0,0,,200/200
+Los Angeles County Metropolitan Transportation Authority (LA Metro),mdb-29,https://gitlab.com/LACMTA/gtfs_bus/raw/master/gtfs_bus.zip,0,1,20230201,200/200
+Los Angeles County Metropolitan Transportation Authority (LA Metro),mdb-30,https://gitlab.com/LACMTA/gtfs_rail/raw/master/gtfs_rail.zip,0,1,20230201,200/200
+Ventura County Transportation Commission,mdb-31,http://data.trilliumtransit.com/gtfs/vctc-ca-us/vctc-ca-us.zip,0,0,,200/200
+"Gold Coast Transit, South Coast Area Transit",mdb-32,http://www.goldcoasttransit.org/images/GTFS/GTFS.zip,0,0,,200/200
+Thousand Oaks Transit,mdb-33,http://data.trilliumtransit.com/gtfs/thousandoaks-ca-us/thousandoaks-ca-us.zip,0,0,,200/200
+Torrance Transit,mdb-34,https://transit.torranceca.gov/home/showdocument?id=16673,0,0,,200/200
+Palos Verdes Peninsula Transit Authority (PVPTA),mdb-35,http://data.trilliumtransit.com/gtfs/pvpta-ca-us/pvpta-ca-us.zip,0,0,,200/200
+Lawndale Beat,mdb-36,http://data.trilliumtransit.com/gtfs/cityoflawndale-ca-us/cityoflawndale-ca-us.zip,0,0,,200/200
+Big Blue Bus,mdb-37,http://gtfs.bigbluebus.com/current.zip,0,0,,200/200
+Culver City Bus,mdb-38,https://www.culvercity.org/files/assets/public/documents/information-technology/maps/gtfsexport.zip,0,0,,200/200
+Spirit Bus,mdb-39,http://data.trilliumtransit.com/gtfs/montereypark-ca-us/montereypark-ca-us.zip,0,0,,200/200
+Simi Valley Transit,mdb-40,http://data.trilliumtransit.com/gtfs/simivalley-ca-us/simivalley-ca-us.zip,0,0,,200/200
+Pasadena Transit,mdb-41,http://rt.pasadenatransit.net/rtt/public/utility/gtfs.aspx,0,0,,200/200
+Kings Area Rural Transit,mdb-42,http://data.trilliumtransit.com/gtfs/kcapta-ca-us/kcapta-ca-us.zip,0,0,,200/200
+San Luis Obispo Regional Transit Authority (SLORTA),mdb-43,http://slo.connexionz.net/rtt/public/resource/gtfs.zip,0,1,20230528,200/200
+City of San Luis Obispo Transit,mdb-44,https://app.mecatran.com/urb/ws/feed/c2l0ZT1zbG90cmFuc2l0O2NsaWVudD1zZWxmO2V4cGlyZT07dHlwZT1ndGZzO2tleT0zZTMwMzM1OTRiMTE2NzA0N2IxNjQwNjA0ZjQwMGMzMzdiM2E1MTQ0,0,0,,200/200
+Morro Bay Transit,mdb-45,http://mjcaction.com/MJC_GTFS_Public/morrobay_google_transit.zip,0,0,,200/200
+Golden Empire Transit District (GET),mdb-46,http://eta.getbus.org/rtt/public/utility/gtfs.aspx,0,0,,200/200
+Kern Transit,mdb-47,http://data.trilliumtransit.com/gtfs/kerncounty-ca-us/kerncounty-ca-us.zip,1,1,20221211,200/200
+Porterville Transit,mdb-48,http://data.trilliumtransit.com/gtfs/porterville-ca-us/porterville-ca-us.zip,0,0,,200/200
+San Mateo County Transit District (samTrans),mdb-49,http://www.samtrans.com/Assets/GTFS/samtrans/ST-GTFS.zip,0,3,20230528,200/200
+San Francisco Municipal Transportation Agency (SFMTA - Muni),mdb-50,https://gtfs.sfmta.com/transitdata/google_transit.zip,1,3,20221226,200/200
+Mission Bay Transportation Management Association (TMA),mdb-51,http://data.trilliumtransit.com/gtfs/missionbaytma-ca-us/missionbaytma-ca-us.zip,0,0,,200/200
+Tideline Water Taxi,mdb-52,http://trilliumtransit.com/transit_feeds/tidelinewatertaxi-ca-us/tidelinewatertaxi-ca-us.zip,0,0,,200/200
+Bay Area Rapid Transit (BART),mdb-53,http://www.bart.gov/dev/schedules/google_transit.zip,0,1,20230528,200/200
+Caltrain,mdb-54,http://data.trilliumtransit.com/gtfs/caltrain-ca-us/caltrain-ca-us.zip,0,1,20230528,200/200
+Modesto Area Express,mdb-55,https://www.modestoareaexpress.com/preview-gtfs.zip,0,0,,200/200
+Monterey-Salinas Transit (MST),mdb-56,https://www.mst.org/google/google_transit.zip,0,1,20220711,200/200
+Santa Clara Valley Transportation Authority (VTA),mdb-57,https://gtfs.vta.org/gtfs_vta.zip,0,1,20230528,200/200
+San Benito County Express (SBCE),mdb-58,http://data.trilliumtransit.com/gtfs/sanbenitocounty-ca-us/sanbenitocounty-ca-us.zip,0,0,,200/200
+Stanford Marguerite Shuttle (SMS),mdb-59,https://transportation-forms.stanford.edu/google/google_transit.zip,0,0,,200/200
+Mountain View Transportation Management Association (MVgo),mdb-60,http://data.trilliumtransit.com/gtfs/mountainview-ca-us/mountainview-ca-us.zip,0,0,,200/200
+Commute.org San Mateo County Shuttles,mdb-61,http://data.trilliumtransit.com/gtfs/commute-ca-us/commute-ca-us.zip,0,0,,200/200
+San Francisco Bay Area Water Emergency Transportation Authority (WETA),mdb-62,http://data.trilliumtransit.com/gtfs/sfbayferry-ca-us/sfbayferry-ca-us.zip,0,0,,200/200
+Emery Go-Round,mdb-63,http://data.trilliumtransit.com/gtfs/emerygoround-ca-us/emerygoround-ca-us.zip,0,0,,200/200
+Livermore Amador Valley Transit Authority,mdb-64,http://webwatch.lavta.org/TMGTFSRealTimeWebService/GTFS-Static/google_transit.zip,0,0,,200/200
+eTrans,mdb-65,http://data.trilliumtransit.com/gtfs/escalon-ca-us/escalon-ca-us.zip,0,0,,200/200
+Sonoma County Airport Express,mdb-66,http://data.trilliumtransit.com/gtfs/airportexpressinc-ca-us/airportexpressinc-ca-us.zip,0,0,,200/200
+Golden Gate Transit,mdb-67,https://realtime.goldengate.org/gtfsstatic/GTFSTransitData.zip,0,2,20220403,200/200
+Lake Transit Authority (LTA),mdb-68,http://data.trilliumtransit.com/gtfs/laketransit-ca-us/laketransit-ca-us.zip,0,1,20230528,200/200
+Mendocino Transit Authority,mdb-69,http://data.trilliumtransit.com/gtfs/mendocino-ca-us/mendocino-ca-us.zip,2,2,20221211,200/200
+Sonoma County Transit (SCT),mdb-70,http://data.trilliumtransit.com/gtfs/sonomacounty-ca-us/sonomacounty-ca-us.zip,1,1,20221211,200/200
+Marin Transit,mdb-71,http://www.marintransit.org/data/google_transit.zip,0,0,,200/200
+Petaluma Transit,mdb-72,http://data.trilliumtransit.com/gtfs/petalumatransit-petaluma-ca-us/petalumatransit-petaluma-ca-us.zip,1,1,20220917,200/200
+Santa Rosa CityBus,mdb-73,https://srcity.org/DocumentCenter/View/21635/google_transit,1,1,20221209,200/200
+Capitol Corridor Joint Powers Authority (Capitol Corridor),mdb-74,https://www.capitolcorridor.org/googletransit/GTFS.zip,0,1,20220531,200/200
+El Dorado Transit,mdb-75,http://data.trilliumtransit.com/gtfs/eldoradotransit-ca-us/eldoradotransit-ca-us.zip,0,0,,200/200
+Fairfield and Suisun Transit (FAST Transit),mdb-76,http://data.trilliumtransit.com/gtfs/fairfield-ca-us/fairfield-ca-us.zip,0,0,,200/200
+Placer County Transit,mdb-77,http://data.trilliumtransit.com/gtfs/placercounty-ca-us/placercounty-ca-us.zip,1,1,20220910,200/200
+WestCAT,mdb-78,http://data.trilliumtransit.com/gtfs/westcat-ca-us/westcat-ca-us.zip,0,0,,200/200
+Yuba-Sutter Transit,mdb-79,http://data.trilliumtransit.com/gtfs/yubasutter-ca-us/yubasutter-ca-us.zip,0,0,,200/200
+SolTrans,mdb-80,https://soltrans.connexionz.net/rtt/public/resource/gtfs.zip,0,0,,200/200
+Rio Vista Delta Breeze,mdb-81,http://data.trilliumtransit.com/gtfs/riovista-ca-us/riovista-ca-us.zip,0,0,,200/200
+Unitrans,mdb-82,https://unitrans.ucdavis.edu/media/gtfs/Unitrans_GTFS.zip,1,2,20220927,200/200
+GrapeLine,mdb-83,https://www.lodi.gov/DocumentCenter/View/2453/lodi_gtfs-ZIP,1,2,20221202,200/200
+Nevada County Connects (Gold Country Stage),mdb-84,http://data.trilliumtransit.com/gtfs/goldcountrystage-ca-us/goldcountrystage-ca-us.zip,0,0,,200/200
+Fresno County Rural Transit Agency (FCRTA),mdb-85,https://rapid.nationalrtap.org/GTFSFileManagement/UserUploadFiles/7869/google_transit.zip,0,0,,200/200
+Merced County Transit (The Bus),mdb-86,http://data.trilliumtransit.com/gtfs/mercedthebus-ca-us/mercedthebus-ca-us.zip,0,0,,200/200
+Stanislaus Regional Transit (StaRT),mdb-87,http://data.trilliumtransit.com/gtfs/stanislaus-ca-us/stanislaus-ca-us.zip,0,0,,200/200
+Yosemite Area Regional Transportation System (YARTS),mdb-88,http://data.trilliumtransit.com/gtfs/yosemite-ca-us/yosemite-ca-us.zip,0,0,,200/200
+Clovis Transit,mdb-89,http://data.trilliumtransit.com/gtfs/clovistransit-ca-us/clovistransit-ca-us.zip,0,0,,200/200
+Fresno Area Express (FAX),mdb-90,https://gis4u.fresno.gov/downloads/fax_gtfs.zip,0,0,,200/200
+City of Madera,mdb-91,http://data.trilliumtransit.com/gtfs/cityofmadera-ca-us/cityofmadera-ca-us.zip,1,1,20220917,200/200
+Amador Transit,mdb-92,http://data.trilliumtransit.com/gtfs/amador-ca-us/amador-ca-us.zip,0,0,,200/200
+Calaveras Transit,mdb-93,http://data.trilliumtransit.com/gtfs/calaveras-ca-us/calaveras-ca-us.zip,0,0,,200/200
+"Tahoe Area Regional Transit (TART), North Lake Tahoe Express",mdb-94,http://data.trilliumtransit.com/gtfs/laketahoe-ca-us/laketahoe-ca-us.zip,1,1,20220917,200/200
+Metrolink,mdb-96,https://metrolinktrains.com/globalassets/about/gtfs/gtfs.zip,0,0,,200/200
+OmniTrans,mdb-97,http://www.omnitrans.org/google/google_transit.zip,0,0,,200/200
+Riverside Transit Agency,mdb-98,http://www.riversidetransit.com/google_transit.zip,0,0,,200/200
+Victor Valley Transit Authority (VVTA),mdb-99,http://data.trilliumtransit.com/gtfs/victorville-ca-us/victorville-ca-us.zip,0,0,,200/200
+Anaheim Resort Transportation (ART),mdb-100,https://art.tripshot.com/v1/gtfs.zip?regionId=CA558DDC-D7F2-4B48-9CAC-DEEA1134F820,0,0,,200/200
+Foothill Transit,mdb-101,https://foothilltransit.rideralerts.com/myStop/GTFS-Zip.ashx,0,0,,200/200
+Norwalk Transit System (NTS),mdb-102,http://data.trilliumtransit.com/gtfs/nts-ca-us/nts-ca-us.zip,0,0,,200/200
+El Monte Transit,mdb-103,http://data.trilliumtransit.com/gtfs/elmonte-ca-us/elmonte-ca-us.zip,0,0,,200/200
+Corona Cruiser,mdb-104,http://data.trilliumtransit.com/gtfs/corona-ca-us/corona-ca-us.zip,0,0,,200/200
+Duarte Transit,mdb-105,http://data.trilliumtransit.com/gtfs/duartetransit-ca-us/duartetransit-ca-us.zip,0,0,,200/200
+Beaumont Transit,mdb-106,http://data.trilliumtransit.com/gtfs/beaumont-ca-us/beaumont-ca-us.zip,0,0,,200/200
+Mountain Transit,mdb-107,http://data.trilliumtransit.com/gtfs/bigbear-ca-us/bigbear-ca-us.zip,0,0,,200/200
+SunLine Transit Agency,mdb-108,http://www.sunline.org/transit/google_transit.zip,0,0,,200/200
+Redding Area Bus Authority (RABA),mdb-114,http://data.trilliumtransit.com/gtfs/redding-ca-us/redding-ca-us.zip,0,0,,200/200
+Trinity Transit,mdb-115,http://data.trilliumtransit.com/gtfs/weaverville-ca-us/weaverville-ca-us.zip,0,0,,200/200
+"Tehama Rural Area Express (TRAX), Susanville Indian Rancheria Public Transportation Program",mdb-116,http://data.trilliumtransit.com/gtfs/tehama-ca-us/tehama-ca-us.zip,0,0,,200/200
+Siskiyou County,mdb-117,http://data.trilliumtransit.com/gtfs/siskiyou-ca-us/siskiyou-ca-us.zip,0,0,,200/200
+Lassen Rural Bus (LRB),mdb-118,http://data.trilliumtransit.com/gtfs/lassen-ca-us/lassen-ca-us.zip,0,0,,200/200
+Plumas Transit,mdb-119,http://data.trilliumtransit.com/gtfs/plumas-ca-us/plumas-ca-us.zip,0,0,,200/200
+Alhambra Community Transit,mdb-211,http://data.trilliumtransit.com/gtfs/alhambra-ca-us/alhambra-ca-us.zip,0,0,,200/200
+Antelope Valley Transit Authority (AVTA),mdb-214,https://www.avta.com/userfiles/files/google_transit.zip,0,0,,200/200
+Arcadia Transit,mdb-215,http://data.trilliumtransit.com/gtfs/arcadia-ca-us/arcadia-ca-us.zip,0,0,,200/200
+Arvin Transit,mdb-216,http://data.trilliumtransit.com/gtfs/arvin-ca-us/arvin-ca-us.zip,0,0,,200/200
+Auburn Transit,mdb-217,http://data.trilliumtransit.com/gtfs/auburntransit-ca-us/auburntransit-ca-us.zip,0,0,,200/200
+Baldwin Park Transit,mdb-219,http://data.trilliumtransit.com/gtfs/baldwinpark-ca-us/baldwinpark-ca-us.zip,0,0,,200/200
+City of Banning Transit,mdb-220,http://data.trilliumtransit.com/gtfs/banning-ca-us/banning-ca-us.zip,0,0,,200/200
+University of California Berkeley Shuttle (Bear Transit),mdb-226,http://data.trilliumtransit.com/gtfs/beartransit-ca-us/beartransit-ca-us.zip,0,0,,200/200
+Bellflower Bus,mdb-227,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/bellflower-ca-us/bellflower-ca-us.zip,0,0,,200/200
+Bell Gardens Trolley,mdb-228,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/bellgardens-ca-us/bellgardens-ca-us.zip,0,0,,200/200
+Blossom Express,mdb-236,http://data.trilliumtransit.com/gtfs/blossomexpress-ca-us/blossomexpress-ca-us.zip,0,0,,200/200
+Calabasas Transit System,mdb-296,http://data.trilliumtransit.com/gtfs/calabasas-ca-us/calabasas-ca-us.zip,0,0,,200/200
+Camarillo Area Transit,mdb-297,http://data.trilliumtransit.com/gtfs/camarillo-ca-us/camarillo-ca-us.zip,0,0,,0/200
+Carson Circuit,mdb-298,http://data.trilliumtransit.com/gtfs/carson-ca-us/carson-ca-us.zip,0,0,,200/200
+Catalina Express,mdb-299,https://gitlab.com/LACMTA/gtfs_lax/-/archive/master/gtfs_lax-master.zip?path=catalina_express,0,0,,200/200
+Catalina Flyer,mdb-300,http://data.trilliumtransit.com/gtfs/catalinaflyer-ca-us/catalinaflyer-ca-us.zip,0,0,,200/200
+Ridgerunner,mdb-311,http://data.trilliumtransit.com/gtfs/cityofridgecrest-ca-us/cityofridgecrest-ca-us.zip,0,0,,200/200
+Compton Renaissance,mdb-314,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/compton-ca-us/compton-ca-us.zip,0,0,,200/200
+Cudahy Area Rapid Transit,mdb-318,http://data.trilliumtransit.com/gtfs/cudahy-ca-us/cudahy-ca-us.zip,0,0,,200/200
+Delano Area Rapid Transit,mdb-320,https://data.trilliumtransit.com/gtfs/delano-ca-us/delano-ca-us.zip,0,0,,200/200
+DowneyLINK,mdb-383,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/downey-ca-us/downey-ca-us.zip,0,0,,200/200
+El Segundo Transportation,mdb-458,http://data.trilliumtransit.com/gtfs/elsegundo-ca-us/elsegundo-ca-us.zip,0,0,,200/200
+Huntington Park Express,mdb-558,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/huntingtonpark-ca-us/huntingtonpark-ca-us.zip,0,0,,200/200
+City of Bell (La Campana),mdb-562,http://data.trilliumtransit.com/gtfs/lacampana-ca-us/lacampana-ca-us.zip,0,0,,200/200
+La Puente LINK,mdb-563,http://data.trilliumtransit.com/gtfs/lapuente-ca-us/lapuente-ca-us.zip,0,0,,200/200
+Lynwood Trolley / Breeze,mdb-570,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/lynwood-ca-us/lynwood-ca-us.zip,0,0,,200/200
+Madera County Transit,mdb-572,http://data.trilliumtransit.com/gtfs/maderactc-ca-us/maderactc-ca-us.zip,1,1,20220917,200/200
+Montebello Bus Lines,mdb-577,http://data.trilliumtransit.com/gtfs/montebello-ca-us/montebello-ca-us.zip,0,0,,200/200
+Moorpark City Transit,mdb-578,http://data.trilliumtransit.com/gtfs/moorparkcitytransit-ca-us/moorparkcitytransit-ca-us.zip,0,0,,200/200
+Morongo Basin Transit Authority,mdb-579,http://data.trilliumtransit.com/gtfs/morongobasin-ca-us/morongobasin-ca-us.zip,1,1,20220917,200/200
+Needles Area Transit,mdb-583,http://data.trilliumtransit.com/gtfs/needles-ca-us/needles-ca-us.zip,0,0,,200/200
+Flixbus,mdb-593,http://data.ndovloket.nl/flixbus/flixbus-us.zip,0,0,,200/200
+"Alcatraz Cruises - Hornblower, Angel Island Tiburon Ferry, Blue & Gold Fleet",mdb-595,http://data.trilliumtransit.com/gtfs/bayareaferries-ca-us/bayareaferries-ca-us.zip,0,0,,200/200
+San Juan Capistrano Free Weekend Trolley,mdb-596,http://data.trilliumtransit.com/gtfs/sanjuancapistrano-ca-us/sanjuancapistrano-ca-us.zip,0,0,,200/200
+City Coach,mdb-599,http://data.trilliumtransit.com/gtfs/vacavillecitycoach-ca-us/vacavillecitycoach-ca-us.zip,0,0,,200/200
+Get Around Town Express,mdb-606,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/getaroundtownexpress-ca-us/getaroundtownexpress-ca-us.zip,0,0,,200/200
+Glendora Transportation Division,mdb-609,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/glendora-ca-us/glendora-ca-us.zip,0,0,,200/200
+GTrans,mdb-616,http://data.trilliumtransit.com/gtfs/gtrans-ca-us/gtrans-ca-us.zip,0,0,,200/200
+Guadalupe Flyer,mdb-617,http://data.trilliumtransit.com/gtfs/guadalupeflyer-ca-us/guadalupeflyer-ca-us.zip,0,0,,200/200
+Turlock Transit,mdb-619,http://data.trilliumtransit.com/gtfs/turlock-ca-us/turlock-ca-us.zip,1,1,20220917,200/200
+West Berkeley Shuttle,mdb-622,http://data.trilliumtransit.com/gtfs/westberkeleyshuttle-ca-us/westberkeleyshuttle-ca-us.zip,0,0,,200/200
+Go West Shuttle,mdb-623,http://data.trilliumtransit.com/gtfs/westcovina-ca-us/westcovina-ca-us.zip,0,0,,200/200
+Union City Transit,mdb-628,https://data.trilliumtransit.com/gtfs/unioncity-ca-us/unioncity-ca-us.zip,0,0,,200/200
+Tulare County Area Transit (TCAT),mdb-646,https://data.trilliumtransit.com/gtfs/tcrta-ca-us/tcrta-ca-us.zip,0,0,,200/200
+Playa Vista Shuttle,mdb-799,http://data.trilliumtransit.com/gtfs/playavistashuttle-ca-us/playavistashuttle-ca-us.zip,0,0,,200/200
+Beach Cities Transit,mdb-803,https://www.redondo.org/civicax/filebank/blobdload.aspx?BlobID=33555,0,0,,200/200
+Rosemead Explorer,mdb-806,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/rosemead-ca-us/rosemead-ca-us.zip,0,0,,200/200
+San Leandro Links,mdb-810,http://data.trilliumtransit.com/gtfs/sanleandro-ca-us/sanleandro-ca-us.zip,0,0,,200/200
+Santa Clarita Transit,mdb-812,https://gitlab.com/LACMTA/gtfs_lax/-/archive/master/gtfs_lax-master.zip?path=santa_clarita,0,0,,200/200
+Santa Ynez Valley Transit,mdb-813,http://mjcaction.com/MJC_GTFS_Public/syvt_google_transit.zip,0,0,,200/200
+Sonoma-Marin Area Rail Transit (SMART),mdb-815,http://data.trilliumtransit.com/gtfs/smart-ca-us/smart-ca-us.zip,0,0,,200/200
+South County Transit Link,mdb-817,http://data.trilliumtransit.com/gtfs/southcountytransitlink-ca-us/southcountytransitlink-ca-us.zip,0,0,,200/200
+Taft Area Transit,mdb-821,http://data.trilliumtransit.com/gtfs/taft-ca-us/taft-ca-us.zip,0,0,,200/200
+Sierra Madre Gateway Coach,mdb-829,http://data.trilliumtransit.com/gtfs/sierramadre-ca-us/sierramadre-ca-us.zip,0,0,,200/200
+Glenn Transit Service,mdb-835,http://data.trilliumtransit.com/gtfs/glenn-ca-us/glenn-ca-us.zip,0,0,,200/200
+City of Tracy (TRACER),mdb-877,http://data.trilliumtransit.com/gtfs/tracy-ca-us/tracy-ca-us.zip,0,0,,200/200
+San Joaquin Regional Transit District (RTD),mdb-886,http://sjrtd.com/RTD-GTFS/RTD-GTFS.zip,0,0,,200/200
+Tahoe Transportation District,mdb-897,http://data.trilliumtransit.com/gtfs/tahoe-ca-us/tahoe-ca-us.zip,1,1,20220917,200/200
+City of Lompoc Transit (COLT),mdb-919,https://www.cityoflompoc.com/home/showdocument?id=29896,0,0,,200/200
+Commerce Municipal Bus Lines,mdb-994,https://citycommbus.com/gtfs,0,1,20230528,200/200
+Roseville Transit,mdb-1067,https://iportal.sacrt.com/gtfs/Roseville/google_transit.zip,0,0,,200/200
+Altamont Corridor Express,mdb-1133,https://openmobilitydata-data.s3.us-west-1.amazonaws.com/public/feeds/altamont-corridor-express/823/20231227/gtfs.zip,0,0,,200/200
+Blue & Gold Fleet,mdb-1178,https://openmobilitydata-data.s3.us-west-1.amazonaws.com/public/feeds/blue-gold-fleet/824/20240104/gtfs.zip,0,0,,200/200
+Long Beach Transit (LBT),mdb-1198,https://drive.google.com/uc?export=download&id=1869EVa1z6m_iD6QmvRXyTHtYiaSUBROl,0,0,,200/200
+Los Angeles Department of Transportation (LADOT - DASH - Commuter Express),mdb-1210,https://ladotbus.com/gtfs,0,2,20220311,200/200
+Santa Cruz Metro (SCMTD),mdb-1211,http://scmtd.com/google_transit/google_transit.zip,0,1,20220317,200/200
+County Connection (CCCTA),mdb-1243,https://openmobilitydata-data.s3.us-west-1.amazonaws.com/public/feeds/county-connection/222/20231222/gtfs.zip,0,0,,200/200
+Alameda-Contra Costa Transit District (AC Transit),mdb-1244,https://openmobilitydata-data.s3.us-west-1.amazonaws.com/public/feeds/ac-transit/1269/20231206/gtfs.zip,0,0,,200/200
+City of Glendale,mdb-1245,https://transitfeeds.com/p/city-of-glendale/628/latest/download,0,0,,200/200
+Santa Barbara Metropolitan Transit District (MTD),mdb-1246,http://sbmtd.gov/google_transit/feed.zip,0,0,,200/200
+Glendale Beeline,mdb-1280,https://openmobilitydata-data.s3.us-west-1.amazonaws.com/public/feeds/glendale-beeline/917/20210901/gtfs.zip,0,0,,200/200
+VINE Transit,mdb-1288,https://data.trilliumtransit.com/gtfs/vinetransit-ca-us/vinetransit-ca-us.zip,1,1,20220917,200/200
+Yolo County Transportation District (Yolobus),mdb-1295,http://www.yolobus.com/GTFS/google_transit.zip,0,0,,200/200
+Sacramento Regional Transit (SacRT),mdb-1296,http://iportal.sacrt.com/GTFS/SRTD/google_transit.zip,0,0,,200/200
+Tri Delta Transit,mdb-1323,https://openmobilitydata-data.s3.us-west-1.amazonaws.com/public/feeds/tri-delta-transit/1148/20200206/gtfs.zip,0,0,,200/200
+Stanislaus Regional Transit Authority (StanRTA),mdb-1332,https://www.stanrta.org/DocumentCenter/View/609/preview-gtfs.zip,0,0,,200/200
+City of Wasco,mdb-1788,https://gtfs.calitp.org/production/WascoDialaRideFlex.zip,0,0,,200/200
+GoMonrovia,mdb-1817,https://gtfs.calitp.org/test/TestFlex1.zip,0,0,,200/200
+City of Dixon,mdb-1818,https://gtfs.calitp.org/test/TestFlex2.zip,0,0,,200/200
+Anaheim Regional Transportation,mdb-1819,https://gtfs.calitp.org/test/TestFlex3.zip,0,0,,200/200
+UCSC Transportation and Parking Services,mdb-1842,https://pinpointavl.com/TAPS-GTFS.zip,0,1,20230528,200/200
+Clean Air Express,mdb-1872,https://gtfs.calitp.org/production/CleanAirExpressFaresv2.zip,0,0,,200/200
+Redding Area Bus Authority (RABA),mdb-1972,https://hosted-gtfs-feeds.s3.amazonaws.com/RABA/gtfs.zip,0,0,,200/200
+Tri Delta Transit,mdb-1974,http://api.511.org/transit/datafeeds?operator_id=3D,0,0,,200/200
+Santa Rosa CityBus,mdb-1986,https://www.srcity.org/DocumentCenter/View/38683/Santa_Rosa_GTFS,0,0,,200/200
+Beach Cities Transit,mdb-1999,https://redondobeachbct.com/gtfs,0,0,,200/200
+Mountain View Transportation Management Association (MVgo),mdb-2025,https://mvgo.org/data/gtfs.zip,0,0,,200/200
+reLAXsan,mdb-2030,https://relaxsan.s3.amazonaws.com/gtfs.zip,0,0,,200/200
+Morro Bay Transit,mdb-2059,https://www.morrobayca.gov/DocumentCenter/View/19231/Morro-Bay-GTFS-Data-Updated-20240510,0,0,,200/200
+El Dorado Transit Agency,mdb-2135,https://data.trilliumtransit.com/gtfs/eldoradotransit-ca-us/eldoradotransit-ca-us.zip,0,0,,200/200
+Elk Grove Transit,mdb-2136,https://elkgrovetransit.com/gtfs,0,0,,200/200
+Sacramento Regional Transit (SacRT),mdb-2137,https://www.sacrt.com/wp-content/uploads/google_transit.zip,0,0,,200/200
+BurbankBus,mdb-2149,https://rideburbankbus.com/gtfs,0,0,,200/200
+Manteca Transit,mdb-2172,https://data.trilliumtransit.com/gtfs/manteca-ca-us/manteca-ca-us--flex-v2.zip,0,0,,200/200
+MOVE Stanislaus,mdb-2174,https://data.trilliumtransit.com/gtfs/movestanislaus-ca-us/movestanislaus-ca-us--flex-v2.zip,0,0,,200/200
+San Joaquin Regional Transit District,mdb-2180,https://data.trilliumtransit.com/gtfs/sanjoaquin-ca-us/sanjoaquin-ca-us--flex-v2.zip,0,0,,200/200
+Stanislaus Regional Transit Authority,mdb-2186,https://data.trilliumtransit.com/gtfs/stanrta-ca-us/stanrta-ca-us--flex-v2.zip,0,0,,200/200
+City of Tracy,mdb-2187,https://data.trilliumtransit.com/gtfs/tracy-ca-us/tracy-ca-us--flex-v2.zip,0,0,,200/200
+Palo Verde Valley Transit Agency,mdb-2190,https://data.trilliumtransit.com/gtfs/paloverde-valley-ca-us/paloverde-valley-ca-us.zip,2,2,20220929,200/200
+Montebello Bus Lines,mdb-2201,https://mbl.rideralerts.com/infopoint/gtfs-zip.ashx,0,0,,200/200
+Spirit Bus,mdb-2202,https://passio3.com/montereyp/passioTransit/gtfs/google_transit.zip,0,0,,200/200
+South County Transit Link,mdb-2203,http://iportal.sacrt.com/gtfs/SCTLink/southcountytransitlink-ca-us.zip,0,0,,200/200
+Kings Area Rural Transit,mdb-2204,http://kart.connexionz.net/rtt/public/utility/gtfs.aspx,0,1,20220118,200/200
+Glenn Transit Service,mdb-2207,https://cdn.hibuwebsites.com/af26dd3d53e046cf8ce6ac6dc92e7b14/files/uploaded/glenn-transit-service-google-transit-2024-01-19.zip,0,0,,200/200
+El Segundo Transportation,mdb-2210,https://github.com/LACMTA/los-angeles-regional-gtfs/raw/main/elsegundo-ca-us/elsegundo-ca-us.zip,0,0,,200/200
+Emery Go-Round,mdb-2224,https://emerygoround.com/data/emerygoround-ca-us.zip,0,0,,200/200
+Arvin Transit,mdb-2233,https://gtfs.calitp.org/production/ArvinGTFS.zip,0,0,,200/200
+Camarillo Area Transit,mdb-2234,https://gtfs.calitp.org/production/CamarilloGTFS.zip,0,0,,200/200
+San Juan Capistrano Free Weekend Trolley,mdb-2235,https://gtfs.calitp.org/production/SanJuanCapistranoGTFS.zip,0,0,,200/200
+Taft Area Transit,mdb-2236,https://gtfs.calitp.org/production/TaftGTFS.zip,0,0,,200/200
+Thousand Oaks Transit,mdb-2237,https://gtfs.calitp.org/production/ThousandOaksDialARideParatransitandConnectFlex.zip,0,0,,200/200
+West Berkeley Shuttle,mdb-2238,https://gtfs.calitp.org/production/WestBerkeleyShuttleGTFS.zip,0,0,,200/200
+Arcadia Transit,mdb-2243,https://passio3.com/ArcadiaCity/passioTransit/gtfs/google_transit.zip,0,0,,200/200
+Baldwin Park Transit,mdb-2247,https://baldwinpark.tectransit.com/api/public/fixedRoute/gtfs,0,0,,200/200
+Cudahy Area Rapid Transit,mdb-2248,https://www.cityofcudahy.com/DocumentCenter/View/2041,0,0,,200/200
+City of Bell (La Campana),mdb-2249,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/lacampana-ca-us/lacampana-ca-us.zip,0,0,,200/200
+La Puente LINK,mdb-2250,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/lapuente-ca-us/lapuente-ca-us.zip,0,0,,200/200
+Sierra Madre Gateway Coach,mdb-2251,https://raw.githubusercontent.com/LACMTA/los-angeles-regional-gtfs/main/sierramadre-ca-us/sierramadre-ca-us.zip,0,0,,200/200
+GTrans,mdb-2270,https://ridegtrans.com/gtfs.zip,0,2,20220627,200/200
+Santa Maria Area Transit,mdb-2272,https://smrt.tripshot.com/v1/gtfs.zip?regionId=CA558DDC-D7F2-4B48-9CAC-DEEA1134F820,0,0,,200/200
+Stanislaus Regional Transit (StaRT),mdb-2273,https://stanrta.rideralerts.com/InfoPoint/gtfs-zip.ashx,0,1,20230324,200/200
+Auburn Transit,mdb-2275,https://www.auburn.ca.gov/DocumentCenter/View/3431,0,0,,200/200
+Ridgecrest Transit,mdb-2279,https://www.ridgecrest-ca.gov/DocumentCenter/View/7499/Ridgecrest_gtfszip,0,0,,200/200
+Amtrak San Joaquins,mdb-2295,https://data.trilliumtransit.com/gtfs/sanjoaquins-ca-us/sanjoaquins-ca-us.zip,0,0,,200/200
+Thousand Oaks Transit - Kanan Shuttle,mdb-2315,https://data.trilliumtransit.com/gtfs/kananshuttle-ca-us/kananshuttle-ca-us.zip,0,0,,200/200
+North Lake Tahoe Express,mdb-2328,https://data.trilliumtransit.com/gtfs/nlte-nv-us/nlte-nv-us.zip,0,0,,0/0
+Dana Point Trolley,mdb-2361,https://dptrolley.com/Secure/Admin/Reports/GTFSDownload.aspx,0,0,,200/200
+San Clemente Trolley,mdb-2362,https://sctrolley.com/Secure/Admin/Reports/GTFSDownload.aspx,0,0,,200/200
+Yosemite Area Regional Transportation System (YARTS),mdb-2394,https://www.planeteria.com/gtfs/yosemite-ca-us/yosemite-ca-us-gtfs.zip,0,0,,200/200
+County Connection (CCCTA),mdb-2421,https://countyconnection.com/GTFS/google_transit.zip,0,2,20220403,200/200
+Santa Cruz Metro (SCMTD),mdb-2425,https://developer.scmetro.org/gtfs.zip,0,0,,200/200
+Alameda-Contra Costa Transit District (AC Transit),mdb-2455,https://api.actransit.org/transit/gtfs/download,0,0,,200/200
+Huntington Park Express,mdb-2648,https://www.hpca.gov/DocumentCenter/View/11702,0,0,,200/200
+The Santa Cruzer,mdb-2667,https://www.pinpointavl.com/santacruzer.zip,0,0,,200/200
+Altamont Corridor Express,mdb-2684,http://api.511.org/transit/datafeeds?operator_id=CE,0,0,,200/200
+SamTrans,mdb-2708,http://api.511.org/transit/datafeeds?operator_id=SM,0,0,,200/200
+Trinity Transit,mdb-2709,https://gtfs.remix.com/trinity_county_ca.zip,0,0,,200/200
+Redding Area Bus Authority,mdb-2852,https://rabagtfs.z5.web.core.windows.net/rabagtfs.zip,0,0,,200/200
+Redding Area Bus Authority,mdb-2853,https://rabagtfs.z5.web.core.windows.net/rabagtfs_flex.zip,0,0,,200/200
+Mountain View Transportation Management Association (MVgo),mdb-2880,https://gtfs.mvgo.org/gtfs.zip,0,0,,200/200
+Mountain View Community Shuttle,mdb-2883,https://gtfs.mvcommunityshuttle.com/gtfs.zip,0,0,,200/200
+San Francisco Municipal Transportation Agency (SFMTA - Muni),mdb-2886,https://muni-gtfs.apps.sfmta.com/data/muni_gtfs-current.zip,0,0,,200/200
+Clovis Transit,mdb-2894,https://passio3.com/clovis/passioTransit/gtfs/google_transit.zip,0,0,,200/200
+Marin Transit,mdb-2937,https://marintransit.gov/data/google_transit.zip,0,0,,200/200
+Petaluma Transit,mdb-2947,http://api.511.org/transit/datafeeds?operator_id=PE,0,0,,200/200
+Santa Rosa CityBus,mdb-2948,http://api.511.org/transit/datafeeds?operator_id=SR,0,0,,200/200
+Redding Area Bus Authority,mdb-3031,https://gtfs.remix.com/redding_area_bus_authority.zip,0,0,,200/200
+Humboldt Transit Authority,mdb-3032,https://hta.optibus.co/public_api/v1/feeds/gtfs,0,0,,200/200
+North County Transit District (NCTD),mdb-3093,https://lfportal.nctd.org/staticGTFS/google_transit.zip,0,0,,200/200
+Glenn Transit Service,mdb-3094,https://cdn.hibuwebsites.com/af26dd3d53e046cf8ce6ac6dc92e7b14/files/uploaded/glenn-county-transit-service-google-transit-2026-01.zip,0,0,,200/200
+Bellflower Bus,mdb-3095,https://gtfs.remix.com/CalITP.zip,0,0,,200/200
+Ventura County Transportation Commission,mdb-3096,https://www.goventura.org/wp-content/uploads/2026/02/20260213-GMV_Schedule.zip,0,0,,200/200
+Glendora Transportation Division,mdb-3097,https://www.cityofglendora.gov/files/assets/city/v/3/recreation-amp-human-services/transportation/documents/gtfs-6-2025.zip,0,0,,200/200
+Rosemead Explorer,mdb-3098,https://passio3.com/rosemead/passioTransit/gtfs/google_transit.zip,0,0,,200/200
+City of Tracy (TRACER),mdb-3099,https://s3.amazonaws.com/etatransit.gtfs/tracer.etaspot.net/gtfs.zip,0,0,,200/200
+Thousand Oaks Transit,mdb-3100,https://data.trilliumtransit.com/gtfs/thousandoaks-ca-us/thousandoaks-ca-us.zip,0,0,,200/200
+Merced County Transit (The Bus),mdb-3117,https://thebuslive.com/gtfs,0,0,,200/200
+San Francisco Bay Ferry,mdb-3143,https://gtfs.sanfranciscobayferry.com/gtfs.zip,0,0,,200/200
+Glendale Beeline,mdb-3177,https://www.glendaleca.gov/home/showdocument?id=29549,0,0,,200/200
+Devils Postpile National Monument,mdb-3206,https://www.nps.gov/external-resources/gtfs/depo/reds-meadow-shuttle.zip,0,0,,200/200
+Golden Gate National Recreation Area (Alcatraz Island),mdb-3208,https://www.nps.gov/external-resources/gtfs/alca/alcatraz-cruises-ferry.zip,0,0,,200/200
+Sonoma Marin Area Rail Transit (SMART),mdb-3222,http://api.511.org/transit/datafeeds?operator_id=SA,0,0,,200/200
+City of San Luis Obispo Transit,mdb-3533,https://slocity.connexionz.net/rtt/public/resource/gtfs.zip,0,0,,200/200
+Visalia Transit,ntd-90091,https://tularecog.org/tcag/data-gis-modeling/gtfs-data/visalia-transit-gtfs/,0,0,,200/200
+Tri Delta Transit,ntd-90162,http://rta.trideltatransit.com/rtt/public/resource/gtfs.zip,0,0,,200/200
+City of Camarillo,ntd-90163,https://govcbus.com/gtfs,0,0,,200/200
+Butte Regional Transit (B-Line),ntd-90208,https://planmyride.blinetransit.com/gtfsrealtime/google_transit.zip,0,0,,200/200
+City of Manteca,ntd-90217,https://data.trilliumtransit.com/gtfs/manteca-ca-us/manteca-ca-us.zip,0,0,,200/200
+Alhambra Community Transit,ntd-90247,https://www.cityofalhambra.org/DocumentCenter/View/4979/alhambra-ca-us,0,0,,200/200
+Carson Transportation Services,ntd-90258,https://rapid.nationalrtap.org/GTFSFileManagement/UserUploadFiles/11488/CTSGTSFFeedFiles(1.3.24).zip,0,0,,200/200
+Torrance Transit,tld-438,https://transit.torranceca.gov/home/showpublisheddocument/16673/638564236831470000,0,0,,200/200
+SunLine Transit Agency,tld-461,http://infopoint.sunline.org/InfoPoint/gtfs-zip.ashx,0,1,20230321,200/200
+Norwalk Transit System,tld-881,https://nts.rideralerts.com/InfoPoint/gtfs-zip.ashx,0,0,,200/200
+Tulare InterModal Express ,tld-1238,https://tularetransit.com/gtfs,0,0,,200/200
+Los Angeles County Shuttles,tld-1253,https://gitlab.com/LACMTA/gtfs_lax/-/archive/master/gtfs_lax-master.zip?path=la_county,0,0,,200/200
+City of Santa Clarita Transit,tld-1256,http://apps.santaclaritatransit.com/rtt/public/utility/gtfs.aspx,0,0,,200/200
+Santa Ynez Valley Transit,tld-1301,https://app.mecatran.com/urb/ws/feed/c2l0ZT1zeXZ0O2NsaWVudD1zZWxmO2V4cGlyZT07dHlwZT1ndGZzO2tleT00MjcwNzQ0ZTY4NTAzOTMyMDIxMDdjNzI0MDRkMzYyNTM4MzI0YzI0,0,0,,200/200
+City of Lompoc Transit (COLT),tld-1654,https://www.cityoflompoc.com/home/showpublisheddocument/29896/638460016396870000,0,0,,200/200
+Tulare County Regional Transit Agency,tld-4260,https://tularecog.org/tcag/data-gis-modeling/gtfs-data/tulare-county-regional-transit-agency-tcrta-gtfs/,0,0,,200/200
+LAX Flyaway,tld-4327,https://www.flylax.com/-/media/flylax/flyaway/gtfs/google_transit.ashx,1,2,20221005,200/200
+City of West Hollywood,tld-4386,https://www.weho.org/home/showdocument?id=53383&t=637901042129473913,0,0,,200/200
+Chapman University,tld-4454,https://passio3.com/chapman/passioTransit/gtfs/google_transit.zip,0,0,,200/200
+Fresno State University,tld-4461,https://passio3.com/fresno/passioTransit/gtfs/google_transit.zip,0,0,,200/200
+Cerritos On Wheels,tld-4667,https://passio3.com/cerritos/passioTransit/gtfs/google_transit.zip,0,0,,200/200
+Artesia Transit,tld-4763,https://github.com/LACMTA/los-angeles-regional-gtfs/raw/main/artesia-ca-us/artesia-ca-us.zip,0,0,,200/200
+I-Line Shuttle,tld-4781,https://www.cityofinglewood.org/gtfs,0,0,,200/200
+Maywood Express Shuttle,tld-4782,https://gtfs.calitp.org/production/MaywoodGTFS.zip,0,0,,200/200
+"Eureka Transit Service, Blue Lake Rancheria Transit System, Samoa Transit System, Redwood Transit System, Arcata & Mad River Transit System",tld-4798,https://gtfs.calitp.org/production/HumboldtTransitAuthorityDialARideFlex.zip,0,0,,200/200
+Imperial Valley Transit,tld-5547,http://schedule.ivtransit.com/public/gtfs/data.zip,0,0,,200/200
+Valley Express,tld-5762,https://data.trilliumtransit.com/gtfs/valleyexpress-ca-us/valleyexpress-ca-us.zip,0,0,,200/200
+Yosemite National Park,tld-6679,https://www.nps.gov/external-resources/gtfs/yose/mariposa-grove-shuttle-service.zip,0,0,,200/200
+Yosemite National Park,tld-6681,https://www.nps.gov/external-resources/gtfs/yose/yosemite-valley-shuttle.zip,0,0,,200/200
+City of Irvine,tld-6724,https://passio3.com/irvine/passioTransit/gtfs/google_transit.zip,0,0,,200/200
+Sequoia & Kings Canyon National Parks,tld-6907,https://www.nps.gov/external-resources/gtfs/seki/giant-forest-shuttle.zip,0,0,,200/200
+Mission Viejo,tld-7930,https://mvshuttle.ridesystems.net/Secure/Admin/Reports/GTFSDownload.aspx,0,0,,200/200
