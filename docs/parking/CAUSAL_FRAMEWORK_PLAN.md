@@ -1097,3 +1097,36 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 - New outputs are written beside the old ones in `reference/batch_2026-11-05/`, and the committed originals that feed the tool are restored after the run.
 - The tool's lines and bundle are not regenerated. Changing them needs Ryan's own OK.
 - Scripts that read `parking_old_minimums.csv` (round 3, causal MR, the Stage 2 trait test, T44) are not rerun here; their next run will pick up the Hudson and Emeryville updates.
+
+## Test 50: San Francisco and Emeryville project parking, before and after repeal (DRAFT LOCK 2026-11-05, before any record is read; Ryan 15:53 UTC)
+
+**Running count: 50.** Descriptive evidence, like test 43 (Madison). Nothing changes in the tool. Ryan asked: "How much parking were these projects required to add by law? How much parking did the initial proposal include? What was the eventual number of parking spots required in the approved entitlement?", with units every time stalls are captured, and residential and commercial requirements kept separate for mixed use.
+
+**Projects and windows.** New residential or mixed-use projects of 5+ homes:
+- **San Francisco** (repeal effective 2019-01-21): applications filed 2016–2018 (before) and 2019–2022 (after).
+- **Emeryville** (repeal effective 2020-05-21): applications filed 2017–2019 (before) and 2020–2023 (after).
+
+**Sampling frame, fixed before any record is read.**
+- **San Francisco:** the city's public development pipeline data (DataSF), all projects with 5+ net new homes and a planning application filed in each window. If more than 15 in a window, draw 15 at random (seed 20261105, after sorting by case number). Replacements come in draw order when a project has no readable records.
+- **Emeryville:** every 5+ home project before the Planning Commission in each window, from its agendas and staff reports. Few are expected, so all are coded.
+
+**Fields per project:**
+- case number; application and approval dates;
+- approval path (hearing or not);
+- units proposed and approved;
+- for residential and, separately, commercial: required spaces under the code in force at application (minimum, and any maximum), stalls in the initial proposal, and stalls approved in the entitlement;
+- variances or exceptions to parking;
+- sources with URLs;
+- confidence.
+
+**Rules.**
+- Public sources only: planning case reports and motions, agendas, staff reports, the pipeline data.
+- Blocked sites are cited, not worked around. No records requests without Ryan.
+- No street addresses in committed files: projects are identified by case number and a short name. Each row is recorded with one decimal place for ratios.
+- Ryan spot-checks 5 rows drawn at random (seed 20261105) before the result is cited, as in test 43.
+
+**Reading (descriptive).**
+- **Ratios:** stalls per home, proposed and approved, against the required minimum, before and after repeal.
+- **Bunching:** the shares of projects above, at and below the minimum, as in test 43. After repeal, the comparison is against the old minimum.
+- **Mixed use:** the commercial share of required spaces is shown separately.
+- **No test of difference.** Samples are small, so no difference is a finding.
