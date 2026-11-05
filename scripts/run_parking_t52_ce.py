@@ -51,6 +51,17 @@ def boot_idx():
     return [rng.integers(0, 74, 74) for _ in range(PDRAWS)]
 
 
+def drop_draws(dropped):
+    """Paired draws for a drop (LOO, largest 3): resample the kept places, then add the dropped places to the 'with'
+    sample in every draw. Resampling all 74 would leave the dropped place out of about 37% of draws (shift exactly 0),
+    so a range could never exclude 0; this conditions on the dropped places being present, as in the batch sample."""
+    keep = np.setdiff1d(np.arange(74), np.atleast_1d(dropped))
+    rng = np.random.default_rng(PSEED)
+    for _ in range(PDRAWS):
+        i = keep[rng.integers(0, len(keep), len(keep))]
+        yield i, np.concatenate([i, np.atleast_1d(dropped)])
+
+
 def wi(d: dict) -> dict:
     return {f"{k}_wi": v * WI_K for k, v in d.items() if isinstance(v, float) and k in ("estimate", "p05", "p95", "shift", "shift_p05", "shift_p95")}
 
@@ -209,17 +220,15 @@ def main() -> None:
     # ---------------- 52e ----------------
     real = M["real"]
     gpos = {g: j for j, g in enumerate(M["groups"])}
-    full_main = np.array([wavg(y[i], w[i]) for i in idx])
-    full_d = np.array([mix(yd[i], ev.iloc[i], cells) for i in idx])
     loo = []
     for j in range(74):
         keep = np.arange(74) != j
         am = wavg(y[keep], w[keep])
         lo, hi = pl_range(am, M["E"], M["W"], gpos.get(j))
-        dm = np.array([wavg(y[i[i != j]], w[i[i != j]]) for i in idx]) - full_main
+        dm = np.array([wavg(y[a], w[a]) - wavg(y[b], w[b]) for a, b in drop_draws(j)])
         ad = mix(yd[keep], ev[keep], cells)
         dlo, dhi = m.boot_range(MIX, yd[keep], ev[keep].reset_index(drop=True), cells, m.BOOT, m.SEED)
-        dd = np.array([mix(yd[i[i != j]], ev.iloc[i[i != j]], cells) for i in idx]) - full_d
+        dd = np.array([mix(yd[a], ev.iloc[a], cells) - mix(yd[b], ev.iloc[b], cells) for a, b in drop_draws(j)])
         loo.append(dict(place=real.loc[j, "place"], state=real.loc[j, "state"], event_year=int(real.loc[j, "event_year"]),
                         main_effect=y[j], main_weight_share=w[j] / w.sum(), main_loo=am, main_loo_p05=lo, main_loo_p95=hi,
                         main_shift=am - M["base"], main_shift_p05=float(np.percentile(dm, 5)), main_shift_p95=float(np.percentile(dm, 95)),
@@ -240,7 +249,6 @@ def main() -> None:
     contrib = {"main": (w / w.sum()) * y, "method D": wd * ydw}
     wts = {"main": w / w.sum(), "method D": wd}
     tot = {"main": M["base"], "method D": d_est}
-    full_draw = {"main": full_main, "method D": full_d}
     sh_rows = []
     for est in ("main", "method D"):
         for how, order in (("largest weight", np.argsort(-wts[est], kind="mergesort")),
@@ -250,11 +258,11 @@ def main() -> None:
             if est == "main":
                 a = wavg(y[keep], w[keep])
                 lo, hi = pl_range(a, M["E"], M["W"], [gpos[t] for t in top if t in gpos])
-                dd = np.array([wavg(y[i[np.isin(i, np.flatnonzero(keep))]], w[i[np.isin(i, np.flatnonzero(keep))]]) for i in idx]) - full_draw[est]
+                dd = np.array([wavg(y[a], w[a]) - wavg(y[b], w[b]) for a, b in drop_draws(top)])
             else:
                 a = mix(yd[keep], ev[keep], cells)
                 lo, hi = m.boot_range(MIX, yd[keep], ev[keep].reset_index(drop=True), cells, m.BOOT, m.SEED)
-                dd = np.array([mix(yd[i[np.isin(i, np.flatnonzero(keep))]], ev.iloc[i[np.isin(i, np.flatnonzero(keep))]], cells) for i in idx]) - full_draw[est]
+                dd = np.array([mix(yd[a], ev.iloc[a], cells) - mix(yd[b], ev.iloc[b], cells) for a, b in drop_draws(top)])
             r = dict(part="52e largest 3", estimator=est, rule=how, places_dropped="; ".join(f"{real.loc[t, 'place']}, {real.loc[t, 'state']}" for t in top),
                      weight_share_of_3=float(wts[est][top].sum()), contribution_of_3=float(contrib[est][top].sum()),
                      share_of_result_from_3=float(contrib[est][top].sum() / tot[est]), full_estimate=tot[est], places=71,
