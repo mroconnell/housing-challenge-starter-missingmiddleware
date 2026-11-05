@@ -161,7 +161,8 @@ near and ring hold different numbers of homes, so compare zones only with the ra
 
 - **Permit locations.** Rows without a precise HCD location rose from 2.4%–4.8% (2018–2022) to 8.7%, 17.4% and
   20.7% (2023–2025). The Census re-geocode accepted 11,197 rows; 10,552 of them remain after
-  cleaning (the other 645 are duplicates across report years or fall outside 2018–2025 by issue date) and were used (accepted: 46% of rows sent for 2023, 30% for 2024, 7% for 2025). The street-level-only check gives the same reading.
+  cleaning (of the other 645, 2 have a permit issue date outside 2018–2025 and 643 are removed as the same permit
+  reported again in a later report year) and were used (accepted: 46% of rows sent for 2023, 30% for 2024, 7% for 2025). The street-level-only check gives the same reading.
 - **POST HOC: where the unlocated homes are.** In 2025, 13.2% of homes in cities with land near transit were
   unlocated, against 26.7% in cities without (2024: 11.9% vs 13.6%). The main group only includes cities with land
   near transit.
