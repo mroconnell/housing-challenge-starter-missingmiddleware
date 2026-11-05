@@ -493,8 +493,11 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
   reports building-permit homes by income level, deed-restricted (DR) and not. Deed-restricted homes are now also
   split into two outcomes: **low income and below** (acutely low, extremely low, very low and low, DR) and
   **moderate income** (DR). Same contrasts as the main result; secondary and described beside the LIHTC outcomes.
-  Low-income-and-below deed-restricted homes are the closest Table A2 measure to tax-credit homes, and are filled far
-  more often than the financing field.
+  Low-income-and-below deed-restricted homes are the closest Table A2 measure to tax-credit homes. Field check (report
+  years 2018–2025): the income columns are never blank (zero-filled), 1.2%–2.1% of rows with permits report any
+  deed-restricted homes, and low-income-and-below deed-restricted homes total 8,857 / 8,640 / 15,751 / 14,657 /
+  22,948 / 22,097 / 20,029 / 25,388 by report year (statewide, before cleaning). Unlike the financing field, the
+  income columns are part of every row, so a zero is read as "none reported".
 - 2026-11-05 19:14 UTC, post-lock, pre-count, Ryan: "I like the station level analysis with a city level check.
   Can we also track the difference in LIHTC credit affordable apartments before and after?"
   - **Headline stays the station-level (near vs ring) result**, with the city-level dose check beside it. The
