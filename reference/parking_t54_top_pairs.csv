@@ -1,0 +1,137 @@
+outcome,top_pair,folds_ranked_first
+D (equal),acs_p03_share_under18+class_outside_metro,75
+D (equal),acs_h04_share_5to19_units+class_outside_metro,23
+D (equal),acs_c10_share_with_mortgage+acs_c09_median_rent_pct_income,12
+D (equal),acs_m17_leave_9am_or_later+class_outside_metro,11
+D (equal),acs_c10_share_with_mortgage+acs_c08_rent_burden_50,10
+D (equal),acs_h19_share_crowded+log10_pop2010,8
+D (equal),acs_h21_share_moved_last_year+class_outside_metro,7
+D (equal),acs_m18_work_in_home_place+class_outside_metro,7
+D (equal),V10_permit_volatility+acs_c12_owner_costs_pct_income,5
+D (equal),acs_c08_rent_burden_50+class_outside_metro,4
+D (equal),acs_c10_share_with_mortgage+acs_c07_rent_burden_30,4
+D (equal),acs_c12_owner_costs_pct_income+class_outside_metro,4
+D (equal),acs_p03_share_under18+acs_m12_share_commute_15to29,4
+D (equal),acs_c07_rent_burden_30+class_outside_metro,3
+D (equal),acs_m14_share_commute_45plus+acs_c12_owner_costs_pct_income,3
+D (equal),class_exurb+class_outside_metro,3
+D (equal),V10_permit_volatility+acs_p03_share_under18,2
+D (equal),acs_c09_median_rent_pct_income+class_outside_metro,2
+D (equal),acs_m06_commute_transit+class_outside_metro,2
+D (equal),acs_p21_unemployment_rate+acs_c07_rent_burden_30,2
+D (equal),V10_permit_volatility+acs_c07_rent_burden_30,1
+D (equal),V10_permit_volatility+class_outside_metro,1
+D (equal),V13_rewrite_same_time+acs_p03_share_under18,1
+D (equal),acs_c02_rent_lower_quartile+acs_p11_median_income,1
+D (equal),acs_m09_work_from_home+acs_p11_median_income,1
+D (equal),acs_m10_mean_commute_minutes+class_outside_metro,1
+D (equal),acs_m14_share_commute_45plus+class_outside_metro,1
+D (equal),class_outside_metro+class_rural,1
+D (equal),rate_before+rent_growth,1
+D (target-state mix),V10_permit_volatility+rate_before,48
+D (target-state mix),acs_c10_share_with_mortgage+acs_c09_median_rent_pct_income,33
+D (target-state mix),rate_before+acs_m01_share_no_vehicle,12
+D (target-state mix),V10_permit_volatility+class_rural,6
+D (target-state mix),acs_c10_share_with_mortgage+acs_c08_rent_burden_50,6
+D (target-state mix),rate_before+acs_m09_work_from_home,6
+D (target-state mix),acs_p21_unemployment_rate+acs_c07_rent_burden_30,5
+D (target-state mix),rate_before+acs_m07_commute_walk,5
+D (target-state mix),V10_permit_volatility+acs_h02_share_1unit_attached,4
+D (target-state mix),V10_permit_volatility+acs_p03_share_under18,4
+D (target-state mix),acs_p05_share_35to64+acs_h11_share_built_1940_59,4
+D (target-state mix),rate_before+acs_h09_share_built_1980_99,4
+D (target-state mix),rate_before+acs_m02_share_2plus_vehicles,4
+D (target-state mix),rate_before+rent_growth,4
+D (target-state mix),V10_permit_volatility+acs_h07_share_mobile_other,3
+D (target-state mix),acs_h18_share_0to1_bedrooms+acs_c08_rent_burden_50,3
+D (target-state mix),rate_before+acs_h12_share_built_pre1940,3
+D (target-state mix),rate_before+acs_m13_share_commute_30to44,3
+D (target-state mix),rate_before+log10_pop2010,3
+D (target-state mix),V10_permit_volatility+acs_h10_share_built_1960_79,2
+D (target-state mix),V10_permit_volatility+acs_p02_median_age,2
+D (target-state mix),acs_c03_rent_upper_quartile+acs_c04_median_value,2
+D (target-state mix),acs_c03_rent_upper_quartile+acs_c06_value_upper_quartile,2
+D (target-state mix),acs_c10_share_with_mortgage+acs_c07_rent_burden_30,2
+D (target-state mix),acs_c11_owner_costs_mortgaged+acs_c13_median_housing_costs,2
+D (target-state mix),acs_h18_share_0to1_bedrooms+acs_c10_share_with_mortgage,2
+D (target-state mix),acs_m01_share_no_vehicle+acs_c08_rent_burden_50,2
+D (target-state mix),V10_permit_volatility+acs_h04_share_5to19_units,1
+D (target-state mix),V10_permit_volatility+acs_m17_leave_9am_or_later,1
+D (target-state mix),V10_permit_volatility+class_suburb,1
+D (target-state mix),V11_repeal_year+acs_h04_share_5to19_units,1
+D (target-state mix),V11_repeal_year+acs_p02_median_age,1
+D (target-state mix),V11_repeal_year+rate_before,1
+D (target-state mix),acs_c02_rent_lower_quartile+job_growth,1
+D (target-state mix),acs_c10_share_with_mortgage+acs_p03_share_under18,1
+D (target-state mix),acs_c10_share_with_mortgage+acs_p07_share_hh_children,1
+D (target-state mix),acs_c10_share_with_mortgage+class_rural,1
+D (target-state mix),acs_h06_share_50plus_units+acs_c10_share_with_mortgage,1
+D (target-state mix),acs_h18_share_0to1_bedrooms+acs_c09_median_rent_pct_income,1
+D (target-state mix),acs_h19_share_crowded+acs_c01_median_rent,1
+D (target-state mix),acs_h19_share_crowded+log10_pop2010,1
+D (target-state mix),acs_m06_commute_transit+log10_pop2010,1
+D (target-state mix),acs_p07_share_hh_children+acs_c12_owner_costs_pct_income,1
+D (target-state mix),acs_p09_share_bachelors_plus+acs_c08_rent_burden_50,1
+D (target-state mix),acs_p09_share_bachelors_plus+acs_c09_median_rent_pct_income,1
+D (target-state mix),acs_p10_share_no_hs_diploma+acs_c08_rent_burden_50,1
+D (target-state mix),acs_p20_labour_force_participation+acs_h12_share_built_pre1940,1
+D (target-state mix),job_growth+class_exurb,1
+D (target-state mix),rate_before+acs_h03_share_2to4_units,1
+D (target-state mix),rate_before+acs_p14_share_income_25to50k,1
+D (target-state mix),rent_growth+class_rural,1
+main (homes x after-years),acs_c10_share_with_mortgage+acs_p20_labour_force_participation,46
+main (homes x after-years),acs_p13_share_income_under25k+acs_p20_labour_force_participation,33
+main (homes x after-years),acs_h02_share_1unit_attached+acs_c07_rent_burden_30,17
+main (homes x after-years),acs_h02_share_1unit_attached+acs_c09_median_rent_pct_income,11
+main (homes x after-years),acs_c09_median_rent_pct_income+acs_h20_years_since_moved_in,10
+main (homes x after-years),acs_p18_poverty_rate+acs_p20_labour_force_participation,7
+main (homes x after-years),rate_before+acs_h05_share_20to49_units,6
+main (homes x after-years),acs_c07_rent_burden_30+acs_h20_years_since_moved_in,5
+main (homes x after-years),acs_h02_share_1unit_attached+acs_p20_labour_force_participation,4
+main (homes x after-years),V12_prior_partial_reform+acs_c07_rent_burden_30,3
+main (homes x after-years),V14_state_large_city_share_repealed+acs_h18_share_0to1_bedrooms,3
+main (homes x after-years),acs_p06_share_65plus+acs_c07_rent_burden_30,3
+main (homes x after-years),acs_p06_share_65plus+acs_c09_median_rent_pct_income,3
+main (homes x after-years),V12_prior_partial_reform+acs_h14_vacancy_rate,2
+main (homes x after-years),acs_c09_median_rent_pct_income+acs_c07_rent_burden_30,2
+main (homes x after-years),acs_p19_share_snap+acs_c07_rent_burden_30,2
+main (homes x after-years),acs_p20_labour_force_participation+acs_c13_median_housing_costs,2
+main (homes x after-years),rate_before+acs_h09_share_built_1980_99,2
+main (homes x after-years),rate_before+acs_m01_share_no_vehicle,2
+main (homes x after-years),V10_permit_volatility+acs_h05_share_20to49_units,1
+main (homes x after-years),V10_permit_volatility+acs_p20_labour_force_participation,1
+main (homes x after-years),V12_prior_partial_reform+acs_h19_share_crowded,1
+main (homes x after-years),V12_prior_partial_reform+acs_p01_household_size,1
+main (homes x after-years),V12_prior_partial_reform+acs_p20_labour_force_participation,1
+main (homes x after-years),V9_value_per_unit_rel+acs_h18_share_0to1_bedrooms,1
+main (homes x after-years),acs_c02_rent_lower_quartile+acs_c07_rent_burden_30,1
+main (homes x after-years),acs_c03_rent_upper_quartile+acs_p12_per_capita_income,1
+main (homes x after-years),acs_c06_value_upper_quartile+acs_c07_rent_burden_30,1
+main (homes x after-years),acs_c07_rent_burden_30+log10_pop2010,1
+main (homes x after-years),acs_c08_rent_burden_50+acs_h12_share_built_pre1940,1
+main (homes x after-years),acs_c08_rent_burden_50+acs_h20_years_since_moved_in,1
+main (homes x after-years),acs_c10_share_with_mortgage+acs_c07_rent_burden_30,1
+main (homes x after-years),acs_h01_share_1unit_detached+acs_h05_share_20to49_units,1
+main (homes x after-years),acs_h05_share_20to49_units+acs_m14_share_commute_45plus,1
+main (homes x after-years),acs_h18_share_0to1_bedrooms+acs_c07_rent_burden_30,1
+main (homes x after-years),acs_h18_share_0to1_bedrooms+acs_m14_share_commute_45plus,1
+main (homes x after-years),acs_m03_vehicles_per_household+acs_c08_rent_burden_50,1
+main (homes x after-years),acs_m09_work_from_home+acs_c07_rent_burden_30,1
+main (homes x after-years),acs_m11_share_commute_under15+acs_h11_share_built_1940_59,1
+main (homes x after-years),acs_m16_leave_7_to_9am+acs_c07_rent_burden_30,1
+main (homes x after-years),acs_m16_leave_7_to_9am+acs_c09_median_rent_pct_income,1
+main (homes x after-years),acs_p01_household_size+acs_c08_rent_burden_50,1
+main (homes x after-years),acs_p06_share_65plus+acs_c08_rent_burden_50,1
+main (homes x after-years),acs_p08_share_living_alone+acs_p20_labour_force_participation,1
+main (homes x after-years),acs_p12_per_capita_income+acs_c07_rent_burden_30,1
+main (homes x after-years),acs_p14_share_income_25to50k+acs_c01_median_rent,1
+main (homes x after-years),acs_p14_share_income_25to50k+acs_c13_median_housing_costs,1
+main (homes x after-years),acs_p18_poverty_rate+acs_c07_rent_burden_30,1
+main (homes x after-years),acs_p18_poverty_rate+acs_c09_median_rent_pct_income,1
+main (homes x after-years),acs_p20_labour_force_participation+acs_c01_median_rent,1
+main (homes x after-years),acs_p20_labour_force_participation+acs_c02_rent_lower_quartile,1
+main (homes x after-years),acs_p20_labour_force_participation+acs_p01_household_size,1
+main (homes x after-years),acs_p22_median_earnings+acs_c07_rent_burden_30,1
+main (homes x after-years),rate_before+acs_h18_share_0to1_bedrooms,1
+main (homes x after-years),rate_before+acs_m03_vehicles_per_household,1
+main (homes x after-years),rate_before+acs_m09_work_from_home,1

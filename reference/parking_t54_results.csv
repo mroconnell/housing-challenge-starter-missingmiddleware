@@ -1,0 +1,7 @@
+outcome,tool,mae_one_average,mae_tool,gain,gain_min_over_repeats,gain_max_over_repeats,passes
+D (equal),honest causal forest (primary),4.8541,4.9742,-0.0247,-0.0774,0.0449,False
+D (equal),weighted regression,4.8541,5.4904,-0.1311,-0.2258,-0.0183,False
+D (target-state mix),honest causal forest (primary),3.9328,4.1541,-0.0563,-0.1309,0.0316,False
+D (target-state mix),weighted regression,3.9328,4.8355,-0.2295,-0.3412,-0.0333,False
+main (homes x after-years),honest causal forest (primary),5.2887,5.2416,0.0089,-0.1025,0.1172,False
+main (homes x after-years),weighted regression,5.2887,5.9541,-0.1258,-0.3189,0.0438,False

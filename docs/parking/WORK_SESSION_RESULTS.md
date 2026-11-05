@@ -1300,3 +1300,32 @@ Five helpers coded three places each from public sources, following a written br
 - City type does not reliably sort parking effects. The group differences depend on the method, and the type-plus-size model does not predict held-out cities.
 - The one consistent pattern, larger main cities having lower estimated effects, is post hoc and may be chance. Without SF, Austin and San Jose it holds under D but not main.
 - A guess, not tested: it may reflect the 2022–23 boom-end timing seen in the winners-vs-losers comparison.
+
+## Test 54: nested single/pair trait screen, then an honest regression forest (2026-11-05; lock "Test 54" with audit fixes; Ryan 22:32 UTC "yeah try it out")
+
+**Evidence only.**
+- **Origin:** prompted by earlier results; several traits are here because earlier looks at these 74 places showed 3–7% gains, so a pass would have been optimistic.
+- **Code:** be43a217; run started 22:36:49 UTC.
+- **Outputs:** `reference/parking_t54_results.csv`, `_selection.csv` and `_top_pairs.csv`.
+- **Traits:** about 90, all measured before repeal: 10 pre-repeal non-ACS items, 73 ACS traits from the release before repeal, 2 market traits, 5 class indicators and 2010 population.
+- **Procedure:** each of 200 outer folds (10 × 20) screened about 4,000 singles and pairs on its own training places, kept the top 5 traits, and fit the honest regression forest (primary) and a weighted regression on them.
+
+**Held-out gain over "one average"** (the 5% bar is the convention; two chances to pass, main or D-mix):
+
+| Outcome | Forest gain (range over repeats) | Regression gain (range over repeats) | Passes? |
+| --- | --- | --- | --- |
+| Main (homes × after-years) | +0.9% (−10.2% to +11.7%) | −12.6% (−31.9% to +4.4%) | no |
+| D (target-state mix) | −5.6% (−13.1% to +3.2%) | −23.0% (−34.1% to −3.3%) | no |
+| D (equal) | −2.5% (−7.7% to +4.5%) | −13.1% (−22.6% to −1.8%) | no |
+
+- The repeats are not independent.
+
+**Selection stability.** The traits chosen differ by outcome, and none is chosen in most folds for all three. Most often chosen:
+- **Main:** labour-force participation (71% of folds), share with a mortgage (44%), rent burden 30%+ (42%).
+- **D (mix):** rate before repeal (73%), permit volatility (57%), share with a mortgage (44%).
+- **D (equal):** outside-metro class (89%), share under 18 (65%).
+
+**Reading.**
+- Nothing passes. Once the trait choice itself is tested on held-out cities, no combination of the roughly 90 pre-repeal traits predicts a city's parking effect better than one average. Most versions do worse.
+- The 3–7% gains seen before did not survive this guard.
+- As locked, the write-up recommends ending the trait search. The parking estimate stays one average for all places.
