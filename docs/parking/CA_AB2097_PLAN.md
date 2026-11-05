@@ -61,12 +61,8 @@ Run **A + C as the main study**, with **B, D and E as checks**.
 - **D** is reported beside the main result, never instead of it.
 - **E** shows whether the law was used at all.
 
-What to expect, stated now:
-- The earlier range was about ±1.5 homes per 1,000 existing homes a year. Across 1,276,507 near-transit homes that is about
-  ±1,900 homes a year.
-- A better map should reduce dilution toward zero. It will not make the range much narrower.
-- **Most likely outcome: the "no measurable change" answer stands.** The study is worth running if the map fix matters, or if
-  the year-by-year view shows a lead-up gap like Test 49 found nationally.
+For scale only (a fact about the earlier test, not a forecast): its 90% range was about ±1.5 homes per 1,000 existing
+homes a year, which across 1,276,507 near-transit homes is about ±1,900 homes a year.
 
 ## 5. Choices for Ryan
 
@@ -230,9 +226,7 @@ Changes to this plan:
 3. **Springboard places.** Culver City, Mountain View, Sacramento and San Jose (named in the paper as going beyond the
    ½ mile) are already on the dropped or placebo list, except Mountain View (2024, precise-plan areas only), which is
    now added to the placebo group.
-4. **Expectation stated now.** The paper expects a modest, uneven effect: uneven local reading, the "findings" escape
-   hatch, and developers who keep parking. A null near-vs-ring result fits this and does not show the law did nothing
-   for any project.
+4. *(Withdrawn 2026-11-05 15:39 UTC at Ryan's request: no forecast of the result. See the last block.)*
 
 **2026-11-05, before any count, audit review of bb5ac099:**
 1. **Mountain View** is dropped from both the main estimate and the placebo group. Its own 2024 reform means its
@@ -289,7 +283,7 @@ The plan's reading of it:
 - Edge: ⅓–½ mile vs ½–⅔ mile from the nearest rail station, same city. Land within ½ mile of any bus, BRT, ferry or
   planned stop is left out of both sides, so "outside" is land no reading of the law covers.
 - Same outcome, years, dating, groups and ranges as the main edge check. Reported beside it.
-- Expected: few permits near the line, so a wide range. Counts of permits on each side are reported first.
+- Counts of permits on each side are reported first.
 
 **2026-11-05, audit pre-check of ff6c84aa (draft, plan not locked):**
 1. Ryan's 15:37 message is quoted word for word above the numbered reading.
@@ -306,7 +300,28 @@ The plan's reading of it:
 **2026-11-05 15:38 UTC, Ryan on rail (draft, plan not locked):** "bus lines can change and we have to look them all
 up, but rail, light rail, street car, etc are all more static and predictable"
 - The rail-only edge check counts heavy rail, light rail, streetcar, commuter rail and Amtrak stations. Streetcar is
-  included as rail; whether the law counts a streetcar stop as a "rail station" is not settled, so a check drops it.
+  included as rail. The law says "rail ... station" without defining it; no source read so far says streetcars are in
+  or out, so a check without streetcars is run only to show whether they matter.
 - Rail stations need no timetables (the law counts any existing rail station), so the rail-only checks do not depend
   on the old bus schedules (choice 3). Station locations and opening dates can come from the stop data already on disk
   plus agency opening dates.
+
+**2026-11-05 15:39 UTC, Ryan: no prejudging.** Ryan asked what the caveats were based on and why the plan prejudged
+the data. Forecasts of the result were removed: the "most likely outcome" line (section 4), the paper-based
+expectation (item 4 of the paper block), and "expect few permits near the line" (rail edge). They were guesses from
+earlier California and edge tests, not from this study's data. The streetcar note now says only that the law does
+not define "rail station". The reading rules (what a null, positive or negative result would mean) stay, because
+they are rules fixed before counting, not forecasts.
+
+**2026-11-05, TOD's answers (relayed by the coordinator):**
+- **Schedules:** no federal source keeps old timetables. The BTS National Transit Map serves only its current
+  compile and has no timetables; the National Transit Database has none. Leads to test in step 1 (none federal):
+  Cal-ITP (Caltrans) GTFS archive (said to start about 2021; access and licence to check), Mobility Database dated
+  versions, Transitland archive (account and key; Ryan's call). Ryan's choice 3 therefore means free public archives
+  first.
+- **Planned stops:** only stops in transportation plans in force in 2022 (not today's plans). If a region's plan
+  cannot be mapped, its planned stops are left out and listed.
+- **Permit cleaning:** reuse `missing_middleware/tod/ab2097.clean_permits` (issue date, report year only if blank,
+  cross-year de-duplication keeping the earliest report). The report-year check uses the same de-duplication.
+- **Edges, fixed now:** a 25 m donut on each side of the line (as TOD used); a bunching check of permits by distance
+  in 50 m steps across the line; non-geocoded Table A2 rows dropped (`ab2097.is_geocoded`).
