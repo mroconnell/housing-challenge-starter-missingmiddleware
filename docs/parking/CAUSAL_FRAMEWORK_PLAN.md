@@ -1092,7 +1092,7 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
   - After the run, `git diff --quiet` must pass for `reference/` outside the batch folder. TOD's files must hash the same before and after.
 - **Spillover:** the City of Canandaigua (36|103000) is kept out of the Town's comparison pools (`SPILLOVER` in `comparison.py`; also applied in method 2's eligibility).
 - **The Town's data (checked before the run):** it has homes (5,427), population (11,270), 2010 density, town age, crowding for every release 2013–2023, and complete permit years 2012–2025. It is not shock-flagged. Its crowding is 0 in the 2018–2022 and 2019–2023 releases; that is a reported value, not missing.
-- **Noted for the report:** with 74 places, stage 1's fake sets change even with the same seed; the pick rule is unchanged. The width is reported against both bars (like-for-like 49,253, post hoc; locked 26,289). Test 49's long set becomes 14 places, with old and new rows side by side. Ryan's Maumee answer is recorded above with its time (15:54 UTC).
+- **Noted for the report:** with 74 places, stage 1's fake sets change even with the same seed; the pick rule is unchanged. The width is reported against both bars (like-for-like 49,253, post hoc; locked 26,289). Test 49's long set becomes 13 places (Seabrook and Maumee out, Canandaigua on the Town's series), with old and new rows side by side. Ryan's Maumee answer is recorded above with its time (15:54 UTC).
 
 **Tool guard.**
 - New outputs are written beside the old ones in `reference/batch_2026-11-05/`, and the committed originals that feed the tool are restored after the run.
