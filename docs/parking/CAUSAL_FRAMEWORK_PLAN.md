@@ -991,7 +991,9 @@ Otherwise D stays and 3b is evidence only. The pick is committed before any real
 - **k:** after-year 1 is the calendar year ey+1, matching method 2's after window, which starts the year after the repeal year. Year 0, the repeal year itself, is shown as context only.
 - **Too-small pools:** a case whose pool has fewer than 5 members under the longer window is dropped from that check and listed.
 - **Main reading:** the target-state mix, which won the weight test, with random effects and equal weights beside. With 6 slopes at 90%, one could exclude 0 by chance.
-- **Same draws:** per-year estimates and slopes come from the same paired place draws. The mix's cell-merge rule applies; with 15 places most cells merge.
+- **Same draws:** the bootstrap is paired across every year and every weighting (the same place draws), and the slope is fitted inside each draw.
+- **Random effects caveat:** RE uses the placebo variance of a 3-year average effect, and single years are noisier. That is one more reason the mix is the main reading.
+- **Leads:** only places with 6 or more before-years have leads, so the leads rows report their own place counts. The mix's cell-merge rule applies; with 15 places most cells merge.
 - **Comparison with method 2:** for the 38, the years 1–3 average is shown beside corrected method 2's result for the same places. A large gap would flag a pool effect.
 - **Pre-trend:** the check also runs on check 1. It is thin for early repeals: a 2016 repeal has only 2012 as an earlier before-year.
 

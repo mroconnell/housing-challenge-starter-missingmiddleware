@@ -32,11 +32,11 @@ def case_years(c, last_k: int):
     post = [ey + k for k in range(1, last_k + 1)]
     yrs_all = sorted(set(pl) | set(post) | {ey})
     if not set(yrs_all) <= set(D.P.columns):
-        return None
+        return dict(effects=None, n_pool=0, step=None)
     s = m.select_pool(D, key, ey, pl, post + [ey], "A", m.OPT_MAIN)  # D's pool rule, complete over the whole window
     pool, h = s["pool"], s["h"]
     if len(pool) < m.MIN_POOL:
-        return None
+        return dict(effects=None, n_pool=len(pool), step=s["step"])
     t = m.rates(D, [key], yrs_all, h).iloc[0]
     cp = m.pool_rate(D, pool, yrs_all, h, True)
     base = t[pl].mean() - cp[pl].mean()
@@ -91,7 +91,8 @@ def summarise(label, idx, ks, eff, ev, cells, rng_seed):
             lo, hi = np.percentile(sb, 5), np.percentile(sb, 95)
             first, last = bal[0], bal[-1]
             dd = boots[:, last] - boots[:, first]
-            slopes.append(dict(check=label, weights=kind, years=f"{ks[first]}-{ks[last]}", places=len(idx), slope=sl(point),
+            n_with = int(np.isfinite(Y[:, bal]).all(axis=1).sum())
+            slopes.append(dict(check=label, weights=kind, years=f"{ks[first]}-{ks[last]}", places=n_with, slope=sl(point),
                                slope_p05=lo, slope_p95=hi, change_first_to_last=point[last] - point[first],
                                change_p05=float(np.nanpercentile(dd, 5)), change_p95=float(np.nanpercentile(dd, 95)),
                                reading="changes with time" if (lo > 0 or hi < 0) else "no clear change over time"))
@@ -110,9 +111,13 @@ def main() -> None:
     jobs = [(i, 3) for i in set1] + [(i, n_after[i]) for i in set2]
     with cf.ProcessPoolExecutor(m.WORKERS, mp_context=mp.get_context("fork")) as ex:
         res = list(ex.map(_run, jobs))
-    eff1 = {i: r for (i, r), (_, k) in zip(res, jobs) if k == 3 and i in set1 and r is not None}
-    eff2 = {i: r for (i, r), (_, k) in zip(res, jobs) if i in set2 and k == n_after[i] and r is not None}
-    dropped = [cases[i]["place"] for i in set1 if i not in eff1] + [cases[i]["place"] for i in set2 if i not in eff2]
+    eff1 = {i: r for (i, r), (_, k) in zip(res, jobs) if k == 3 and i in set1 and r["effects"] is not None}
+    eff2 = {i: r for (i, r), (_, k) in zip(res, jobs) if i in set2 and k == n_after[i] and r["effects"] is not None}
+    drop_rows = [dict(check="38-place set" if k == 3 and i in set1 else "long set", place=cases[i]["place"],
+                      event_year=cases[i]["event_year"], pool_size=r["n_pool"])
+                 for (i, r), (_, k) in zip(res, jobs) if r["effects"] is None]
+    pd.DataFrame(drop_rows, columns=["check", "place", "event_year", "pool_size"]).to_csv(REFERENCE / "parking_t49_dropped.csv", index=False)
+    dropped = [d["place"] for d in drop_rows]
     ev = pd.DataFrame({"v": m.placebo_v(len(real)), "homes": real["homes"].values, "n_post": 1,
                        "band": m.band_of(real["population"].fillna(0)), "metro": [D.metro.get(c["key"], 0.0) for c in cases]})
     ev["base"] = ev["homes"]
