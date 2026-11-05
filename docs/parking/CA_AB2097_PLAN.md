@@ -470,3 +470,12 @@ Yes, for the two PDF-only cities, by rebuilding rather than tracing:
   circle is listed as matched, unsure, or not matched. Unsure or unmatched circles are reported, not guessed.
 - No new dependency. PDF tools under GPL-family or AGPL licences (for example PyMuPDF, poppler) are not used.
 - Labelled "rebuilt from a PDF" wherever used; the city's exact edge may differ by tens of metres.
+
+**2026-11-05 16:43 UTC, Ryan: "I'd say the Palo Alto finding is perfect"** (draft, not locked).
+- Palo Alto becomes a **named case** for the rail edge test: the city's own ½-mile circles around 3 Caltrain stations
+  (Downtown, California Ave, San Antonio), shown by June 2023; staff found no 15-minute bus intersection.
+- The line is taken to start on 1 January 2023 (the law), since the June 2023 map already showed the circles. Step 1
+  compares the 2023 map with the 2024 council map (Attachment B); if they differ, the 2024-11-12 vote date is added as
+  a second split for the land that changed.
+- The 2024-11-12 vote counts come from news summaries; they are leads until confirmed in official minutes.
+- Permit and land counts on each side of Palo Alto's line are reported before any estimate.
