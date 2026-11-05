@@ -52,7 +52,7 @@ Score: mean |log(predicted ÷ actual)| of the five-year total, over 51 states (5
 - **Building sizes.** L3 is better than L0 for 1-unit, 2-unit and 3–4 unit buildings, and slightly worse for 5+ units (0.410 against 0.405).
 - **Census divisions.** L3 is better than L0 in 8 of 9 divisions; the exception is division 9, Pacific (0.360 against 0.358). For Wisconsin's division, East North Central, it is 0.353 against 0.369 (`_by_group.csv`).
 
-**Wisconsin 2027–2031** (start year 2025; b fitted on start years up to 2020 = 0.40). Each figure is homes permitted over the five years. The published Census files are scaled by the ratio to L0 (×124,000 ÷ 118,148), as the plan log says, so v3's Milwaukee and fill corrections are kept.
+**Wisconsin 2027–2031** (start year 2025; b fitted on start years up to 2020 = 0.35; an earlier version said 0.40, a rounding artefact in a printout). Each figure is homes permitted over the five years. The published Census files are scaled by the ratio to L0 (×124,000 ÷ 118,148), as the plan log says, so v3's Milwaukee and fill corrections are kept.
 
 | | Published Census files | Scaled to v3 |
 | --- | ---: | ---: |
@@ -124,7 +124,7 @@ Score: the sum over pieces and sizes of |predicted − actual| ÷ actual units, 
 
 ## Points for Ryan (audit)
 
-1. **The pull strength b.** The 2027–2031 figure uses b = 0.40, fitted on start years up to 2020. The scored start years used b from 0 to 0.35, so 0.40 itself was never tested out of sample.
+1. **The pull strength b.** The 2027–2031 figure uses b = 0.35 (corrected from 0.40, which was a rounding artefact). That value was used in scored start years 2018–2020, so this point falls away.
 2. **L3 leans high in Wisconsin.** Its average log ratio is +0.126 (over-predicting by about 13%), against +0.083 for L0. It is closer on average, but it over-predicts more.
 3. **One episode.** All of the gain comes from start years 2011–2020.
 4. **The range.** Past ranges held the outcome 7 of 16 times at best.
