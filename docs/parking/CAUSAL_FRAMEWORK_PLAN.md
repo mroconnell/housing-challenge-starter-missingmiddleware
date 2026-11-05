@@ -1067,3 +1067,22 @@ Ecorse and Saranac Lake already have pilot coding, which is re-checked here.
 **Output.**
 - The CSV and a short table in WORK_SESSION_RESULTS.md.
 - The Test 49 long-set results are shown grouped by repeal type and approval path as a description only, with no new test. A test by type would need its own lock; with 15 places, any group would be very small.
+
+## Batch rerun after the sample fixes (DRAFT LOCK 2026-11-05, before any run; Ryan 15:50 UTC: "fix canandaigua / remove seabrook / what do you mean about maumee?")
+
+**Fixes.**
+- **Canandaigua, NY:** matched to the Town of Canandaigua's permit series (BPS 36|103500, "Canandaigua town"), which adopted the 2020 repeal. It was matched to the City's (36|103000). Implemented as a name alias in `missing_middleware/parking/comparison.py` (`ALIASES`). This also applies wherever the taxonomy names Canandaigua, NY, which is the town's reform.
+- **Seabrook, NH:** removed from the repeal places, because its 2019 change cut only non-residential minimums. Implemented as `reference/parking_sample_corrections.csv`, read by `run_parking_expanded.py`. Seabrook stays out of comparison pools, as before.
+- **Sensitivity only, not a fix:** Branson and Maumee removed, where wording leaves the minimum partly in force. Maumee stays in the main sample pending Ryan's answer.
+
+**What is rerun, in one batch, old and new side by side:**
+1. The main sample effects (salvage, partial and expanded scripts). The repeal places become 75.
+2. The full placebo run, which gives the main 90% range in Wisconsin homes (real average with placebo spread).
+3. Corrected method 2, both stages, under the same rules. Stage 1's pick uses the correction lock's rule (D or B+D; D wins ties at 5%), the weight test, and the Wisconsin figure.
+4. Test 49's event-time summaries.
+5. The Branson and Maumee sensitivity on items 1 and 3.
+
+**Tool guard.**
+- New outputs are written beside the old ones in `reference/batch_2026-11-05/`, and the committed originals that feed the tool are restored after the run.
+- The tool's lines and bundle are not regenerated. Changing them needs Ryan's own OK.
+- Scripts that read `parking_old_minimums.csv` (round 3, causal MR, the Stage 2 trait test, T44) are not rerun here; their next run will pick up the Hudson and Emeryville updates.
