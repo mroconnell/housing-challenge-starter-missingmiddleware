@@ -77,6 +77,9 @@ def fetch_amtrak() -> pd.DataFrame:
     if not f.exists():
         j = get_json(AMTRAK, {"where": "State='CA' AND StnType='TRAIN'", "outFields": "Code,StationName,StnType,lon,lat",
                               "returnGeometry": "false", "f": "json"})
+        tv = get_json(AMTRAK, {"where": "State='CA'", "outFields": "StnType", "returnDistinctValues": "true",
+                               "returnGeometry": "false", "f": "json"})
+        print("NTAD Amtrak StnType values (CA):", sorted({x["attributes"]["StnType"] for x in tv.get("features", [])}))
         if j.get("exceededTransferLimit"):
             raise SystemExit("Amtrak query hit the transfer limit; page it before use")
         rows = [x["attributes"] for x in j.get("features", [])]
@@ -84,6 +87,9 @@ def fetch_amtrak() -> pd.DataFrame:
         f.write_text(json.dumps({"source": AMTRAK, "licence": "public domain (17 U.S.C. 101; NTAD item text)",
                                  "where": "State='CA' AND StnType='TRAIN'", "rows": rows}))
     rows = json.loads(f.read_text())["rows"]
+    if not rows:
+        f.unlink()
+        raise SystemExit("0 Amtrak stations came back; check the StnType value before running (audit)")
     d = pd.DataFrame(rows).rename(columns={"StationName": "name", "Code": "system_id"})
     d["mode"] = "intercity_rail"
     return d[["mode", "name", "system_id", "lon", "lat"]]
@@ -158,7 +164,7 @@ def read_openings() -> pd.DataFrame:
 
 
 def attach_dates(st: pd.DataFrame) -> pd.DataFrame:
-    """Opening status of today's stations, plus stations that existed at the end of 2022 but have since closed or
+    """Opening status of today's stops (a table row dates the stops of its group within 150 m of its point), plus stations that existed at the end of 2022 but have since closed or
     moved away (added back from the table's 'closed' rows dated after 2022)."""
     from missing_middleware.geom_extra_station import nearest_lowest
     st["opened"] = "before 2018 (assumed: not in openings table)"
@@ -177,13 +183,15 @@ def attach_dates(st: pd.DataFrame) -> pd.DataFrame:
             continue
         dx, dy = st.x.to_numpy(float)[sel] - r.x, st.y.to_numpy(float)[sel] - r.y
         dist = np.hypot(dx, dy)
-        i = int(np.argmin(dist))
-        if dist[i] > 300.0:
-            unmatched.append(f"{r.station_name} ({r.smode}, nearest {dist[i]:.0f} m)")
+        hit = sel[dist <= MERGE_M]  # only stops within 150 m of the table's point take its date (audit)
+        if not len(hit):
+            unmatched.append(f"{r.station_name} ({r.smode}, nearest {dist.min():.0f} m)")
             continue
-        k = st.station_id.iloc[sel[i]]
-        st.loc[st.station_id == k, "opened_date"] = r.date
-        st.loc[st.station_id == k, "opened"] = "2018-2022" if r.date <= EXISTING_BY else "after 2022"
+        idx = st.index[hit]
+        st.loc[idx, "opened_date"] = r.date
+        st.loc[idx, "opened"] = "2018-2022" if r.date <= EXISTING_BY else "after 2022"
+        span = float(np.hypot(np.ptp(st.x.to_numpy(float)[hit]), np.ptp(st.y.to_numpy(float)[hit])))
+        print(f"dated {r.station_name} {r.date}: {len(hit)} stops, span {span:.0f} m")
     if unmatched:
         # an opened station missing from today's stop data either opened after the stop data were compiled
         # (2026-09-23) or has coordinates off by more than 300 m; both are listed for the step 1 review

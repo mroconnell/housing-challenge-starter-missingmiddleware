@@ -489,6 +489,16 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05, post-lock, pre-count, audit notes:
+  - `FIN_ASSIST_NAME` and `DENSITY_BONUS_TOTAL` are confirmed as column names in the Table A2 file on disk
+    (`data/raw/hcd_apr_a2/tablea2.csv`).
+  - The LIHTC 20+20 sample review happens before any estimate; any change to the match list after it is logged here
+    with its time and reason.
+  - **Reading rule for the five secondary outcomes** (density bonus A and B, LIHTC C and D, deed-restricted homes):
+    on their own they are not evidence of cause, whichever sign they show. They are read only beside the main
+    result and under the same leads, placebo-group and placebo-date checks.
+  - Step 1b part 1: an openings row dates only stops of its group within 150 m of the row's point (not a whole
+    chained station); each dated set's stop count and span are printed. The run stops if 0 Amtrak stations return.
 - 2026-11-05, post-lock, **pre-count** (no permits read), after the first try of step 1b part 1 (stopped on a code
   error before any output) and the audit's note on Muni surface stops:
   - **Which rail stops count as a "rail station":** main = every stop the National Transit Map codes as light rail,
