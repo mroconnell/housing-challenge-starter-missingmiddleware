@@ -124,4 +124,13 @@ many projects permitted in 2023 were designed before the law.
 
 ## 8. Changes after writing
 
-(none yet)
+**2026-11-05, before any count, from Ryan's opening message:** Ryan notes that, per Amy Lee's research, each
+jurisdiction interpreted AB 2097's covered area differently. The source has not been read yet; step 1 finds and cites it.
+Consequences for the draft:
+- Option B can be more than a check. For a sample of cities with published local maps, the local map can be the
+  covered area for that city, with map A beside it. Sample: chosen before any permits are placed, spread across regions
+  and city sizes, listed with each map's date and source.
+- Map dates matter. Where a city published or changed its map on a known date, that date is a second split for an
+  edge test (land added or dropped by the map change), as Ryan suggested. The LA case (2024 widening) was not feasible
+  on 2026-11-03; other cities are checked in step 1.
+- Choice 1 in section 5 now has a third option: local maps main where they exist, map A elsewhere.
