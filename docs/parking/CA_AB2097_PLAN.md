@@ -489,6 +489,15 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
 
 ### Changes after lock
 
+- 2026-11-05 19:14 UTC, post-lock, pre-count, Ryan: "I like the station level analysis with a city level check.
+  Can we also track the difference in LIHTC credit affordable apartments before and after?"
+  - **Headline stays the station-level (near vs ring) result**, with the city-level dose check beside it. The
+    proposal to lead with the dose check is withdrawn. The reading rule stands: a statewide "extra homes" claim needs
+    the dose check to agree.
+  - **Added outcome D2:** homes in LIHTC-flagged projects of 5 or more homes (Table A2 financing field), per 1,000
+    existing homes a year, near vs ring, 2023–2025 vs 2018–2022, plus the plain counts of such homes and projects
+    near and in the ring in each period. Descriptive only, like C and D (the financing field is filled on 0.9%–2.5%
+    of rows), with the HUD check beside it.
 - 2026-11-05, post-lock, pre-count, **exact spec of the bus side checks, written before the first estimate run**
   (audit item 5). They run in a separate script after the main run but follow only this spec; anything added later
   is labelled "written after seeing results".

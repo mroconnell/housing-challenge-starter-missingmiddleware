@@ -76,7 +76,7 @@ DR_COLS = ["BP_ACUTELY_LOW_INCOME_DR", "BP_EXTREMELY_LOW_INCOME_DR", "BP_VLOW_IN
 A2_COLS = ["JURIS_NAME", "YEAR", "UNIT_CAT", "NO_BUILDING_PERMITS", "LATITUDE", "LONGITUDE", "STD_ADDRESS",
            "STREET_ADDRESS", "BP_ISSUE_DT1", "ENT_APPROVE_DT1", "DENSITY_BONUS_TOTAL", "FIN_ASSIST_NAME"] + DR_COLS
 OUTCOMES = ["homes_non_adu", "all_units", "units_2plus", "adu_units"]
-SECONDARY = ["db_homes", "lihtc_homes", "dr_homes"]
+SECONDARY = ["db_homes", "lihtc_homes", "lihtc_apartments", "dr_homes"]
 SPECS = ["main", "rail_only", "no_planned", "no_new_stations"]
 EXISTING = {"before 2018 (assumed: not in openings table)", "2018-2022", "closed or moved after 2022 (added back)"}
 
@@ -138,6 +138,7 @@ def clean_permits_full(a2: pd.DataFrame) -> pd.DataFrame:
     d["dr_homes"] = d[DR_COLS].apply(pd.to_numeric, errors="coerce").fillna(0).sum(axis=1)
     d["project_homes"] = d.groupby(["project", "year"]).units.transform("sum")
     d["is_5plus_project"] = d.project_homes >= 5
+    d["lihtc_apartments"] = np.where(d.lihtc_flag & d.is_5plus_project, d.units, 0.0)
     lat, lon = pd.to_numeric(d.LATITUDE, errors="coerce"), pd.to_numeric(d.LONGITUDE, errors="coerce")
     d["hcd_street"] = ab.is_geocoded(lat, lon, d.STD_ADDRESS)
     d["lat"], d["lon"] = lat.where(d.hcd_street), lon.where(d.hcd_street)
