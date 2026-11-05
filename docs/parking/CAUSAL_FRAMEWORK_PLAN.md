@@ -1632,3 +1632,21 @@ These override the three groups above.
 - No new dependencies.
 - Code is committed before the run.
 - All inputs are already on disk; no outcome-dependent trait choice is made outside the training folds.
+
+**Audit fixes (22:35 UTC, before any count). These override the text above.**
+1. **Tool name:** an honest regression forest fit on the estimated per-place effects (`run_parking_expanded.predict`), not a grf-style causal forest.
+2. **Origin:** prompted by earlier results. Several traits are here because earlier tests on these same 74 places showed 3–7% gains. The nested screen does not guard against those earlier looks, so a pass would be optimistic.
+3. **Two chances to pass:** "main OR D-mix" gives two chances. Both outcomes' gains are reported, with min and max across repeats; the repeats are not independent.
+4. **Noise:** the screen is very noisy. About 6,000 fits run on about 59 inner-training places, then a forest on 5 traits, with about 33 places per honest half and leaves of 5. How often each trait is chosen across the 200 outer fits is reported.
+5. **Timing of the non-ACS items:** only items measured before repeal are kept:
+   - Kept: old minimums (V1, V2); 5+ share, value per unit and volatility of permits before repeal (V8–V10); repeal year (V11); prior partial reform (V12); same-time rewrite (V13); state share of large cities already repealed by the repeal year (V14); rate_before.
+   - Caveat: V10 and rate_before use the ACS 2020–24 homes count as their denominator. V10 is a ratio unaffected by it; for rate_before, the denominator caveat is stated.
+   - Dropped: the A_ items, V4–V7, V20–V22, T1–T6, log_pop and rel_rent (ACS 2020–2024 or 2024 land area); metro (current CBSA); V16 and V19 (current stops and blocks); V15 region (text).
+   - Their pre-repeal ACS counterparts enter through the method-3 release ending the year before repeal.
+   - The class indicators use the current metro flag, as accepted in Test 53.
+   - About 90 traits remain.
+6. **Conventions:** the 5% bar, the top 5, the 5 inner folds, and the median fill. Zero variance is judged per training fold.
+7. **Reading both ways:**
+   - A pass gives candidates that would need a new test on unused data. No such data exists now, and the write-up says so.
+   - A fail recommends ending the trait search.
+8. **Order:** the code is committed before the run.

@@ -60,7 +60,13 @@ def build():
     # traits
     X = pd.DataFrame(index=range(len(keys)))
     av = pd.read_csv(OUT / "parking_allvars_values.csv")
-    av = av.drop(columns=[c for c in av.columns if c.startswith("A_")] + ["place", "state"]).set_index("prn_key")
+    # non-ACS items measured before repeal only (audit 22:35 UTC). Dropped as post-repeal or current: the A_ items and
+    # V4-V7, V20-V22, T1-T6, log_pop, rel_rent (ACS 2020-2024 / 2024 land area), metro (current CBSA), V16/V19 (current
+    # stops and blocks); V15_region is text and dropped (the class and state traits cover geography).
+    KEEP = ["V1_old_min_apartment", "V2_old_min_single_family", "V8_share_permits_5plus_before", "V9_value_per_unit_rel",
+            "V10_permit_volatility", "V11_repeal_year", "V12_prior_partial_reform", "V13_rewrite_same_time",
+            "V14_state_large_city_share_repealed", "rate_before"]
+    av = av.set_index("prn_key")[[c for c in KEEP if c in av.columns]]
     X = X.join(av.reindex(real["prn_key"].values).reset_index(drop=True))
     tr = pd.read_csv(RAW / "parking_acs_tod_traits" / "traits_by_release.csv.gz")
     tr = tr.set_index(["acs_geoid", "release_end"])
@@ -91,7 +97,8 @@ def build():
     p10 = np.where(np.isfinite(p10), p10, real["population"].astype(float).values)
     X["log10_pop2010"] = np.log10(p10)
     X = X.apply(pd.to_numeric, errors="coerce")
-    X = X.loc[:, X.std(skipna=True) > 0]          # constant traits carry no information
+    # traits constant within a training fold are left in: standardised on that fold's rows they become 0 and carry no
+    # information (audit 22:35 UTC: zero variance judged per fold, not on all 74)
     outcomes = {"main (homes x after-years)": (yM, wM), "D (target-state mix)": (m.winsor(yD), wmix),
                 "D (equal)": (m.winsor(yD), np.ones(len(yD)))}
     return X, outcomes, real["place"].values
