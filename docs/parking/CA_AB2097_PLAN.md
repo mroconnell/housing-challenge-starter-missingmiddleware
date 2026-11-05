@@ -500,6 +500,9 @@ study. Any later change goes below with a date and a reason, labelled pre- or po
     of the bus map, reported in step 1.
   - Every result is also shown on the rail-only map.
   - The section-6 / gap-rule wording that made dated schedules the main bus source is replaced by this entry.
+  - Write-up note (audit): today's bus layer marks land as covered where service was added after 2023 and leaves out
+    land where service was cut since then. Both blur the line between near and ring; the dated side checks show by
+    how much.
 - 2026-11-05 18:14–18:15 UTC, post-lock, pre-count, Ryan, verbatim: 18:14:00 "use current caltrans data like the
   challenge literature suggests"; 18:14:19 "sure on MTC" (to adding MTC's 2017 layers as a Bay Area check);
   18:15:15 "yeah, I think just getting hard data on rail stops will already be huge". Reading sent to Ryan for
