@@ -1,6 +1,6 @@
-# Baseline bake-off: locked plan (DRAFT, not locked, nothing run)
+# Baseline bake-off: locked plan (LOCKED 2026-11-05, nothing run)
 
-Written 2026-11-05 by the baseline thread. Owner: "yes" (16:45 UTC) to writing this plan. Status: **draft, revision 2 (audit review 16:50 UTC, items 1–11 addressed; see Plan log).** Waiting on Ryan's choices (D1–D5) and the audit's re-review. Nothing is fetched or run until Ryan's go after the audit clears it. Anything chosen after seeing a result is labelled *post hoc*.
+Written 2026-11-05 by the baseline thread. Owner: "yes" (16:45 UTC) to writing this plan. Status: **LOCKED 2026-11-05 (lock time recorded in the Plan log).** The audit cleared revision 2 at 16:51 UTC. Ryan picked D1–D6 at 17:07 UTC ("okay, including D6"). The only change made after the audit's clearance is the D6 region candidate L5, added before any fetch or count. Nothing is fetched or run yet. The fetch script gets its own audit check first. Anything chosen after seeing a result is labelled *post hoc*.
 
 ## The question
 
@@ -56,6 +56,7 @@ The final baseline is level × shares. This matters because parking's earlier te
 | L2 | Long-run permits per existing home (all years from 1990 to the start year) × homes at the start year | 1, 4 |
 | L3 | Partial pull back: 3-year level × (L2 level ÷ 3-year level)^b, with b in [0, 1] fitted per the no-look-ahead rule by least mean \|log ratio\| on a grid of 0.05 | 4 |
 | L4a, L4b | Straight-line trend over the last 10 years, and over all years from 1990 (least squares, extended five years; a negative fitted year counts as its fitted value, not 0) | 1 |
+| L5 | Division pool (D6): the state's 3-year permits per existing home, blended with its Census division's 3-year permits per existing home (all states in the division, Wisconsin included) by weight w in [0, 1], fitted per the no-look-ahead rule by least mean \|log ratio\| on a grid of 0.05, × the state's homes at the start year | 6 |
 
 **Score.** For each state and start year, |log(predicted ÷ actual)| for the five-year all-sizes total. The score is the mean over states and start years. Lower is better: 0.10 means about 10% off. Also reported:
 - bias (mean log ratio);
@@ -64,9 +65,9 @@ The final baseline is level × shares. This matters because parking's earlier te
 - each Census region and division;
 - Wisconsin on its own.
 
-**Pick rule (D1, D2).** A candidate replaces L0 only if all three hold:
-1. it beats L0 on the all-states score by the D2 margin;
-2. it passes the D2 bootstrap test;
+**Pick rule (D1, D2: option B).** A candidate replaces L0 only if all three hold:
+1. its all-states score is at least 2% below L0's;
+2. the 90% paired-bootstrap range of (candidate score − L0 score) lies entirely below 0;
 3. it is not worse than L0 on Wisconsin alone by more than 5% of L0's Wisconsin score.
 
 If more than one passes, the lowest all-states score wins. A tie, meaning scores within 0.001, goes to the simpler candidate in table order. If none passes, L0 stays.
@@ -116,7 +117,7 @@ Every rule-2, rule-3 and rule-4 case is listed in a link table before any score.
 
 **Score.** Each candidate's shares are scaled to the actual state total, so only the split is tested. The score is the sum over pieces and building sizes of |predicted − actual|, divided by actual units: the error in homes per home permitted. Results are also reported separately for pieces with at least 1,000 homes and for those with fewer.
 
-**Pick rule (audit 9).** Two parts: a candidate replaces S0 only if it beats S0 by the D2 margin and passes the D2 bootstrap test. There is no third check, because this part is Wisconsin only. Ties and "none passes" are handled as in Part 1.
+**Pick rule (audit 9).** Two parts: a candidate replaces S0 only if its score is at least 2% below S0's and the 90% paired-bootstrap range of the difference lies entirely below 0. There is no third check, because this part is Wisconsin only. Ties and "none passes" are handled as in Part 1.
 
 **Reading rule (audit 8).** Part 2's 17 overlapping start years hold about 3 independent five-year periods. A "none passes" result there is likely to be uninformative: it means the test could not tell the candidates apart, not that S0 is best.
 
@@ -146,7 +147,7 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
   - **TOD:** station-area baselines and the combined view.
   - **Parking:** shares, and its bundle and combined bundle rebuilds.
 
-## Choices for Ryan
+## Ryan's choices (17:07 UTC: all as recommended, with D6 tested now)
 
 | Id | Choice | Options | Recommended |
 | --- | --- | --- | --- |
@@ -155,7 +156,7 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
 | D3 | Split level and shares, or pick one method for both | Split, or one method | Split, with the joint check reported |
 | D4 | The tutor's method 3 shrink | Leave it for a second round, or include it now | Second round |
 | D5 | Other fixed numbers | 5% Wisconsin check; 95% linking coverage; 2-times cap (3 as sensitivity); 1,000-home split for reporting; 80% range target | As written. Reasons: 5% and 2-times are the smallest round steps we would act on; 95% keeps the linking error under the Milwaukee fix's size; 1,000 homes matches parking's place rule; 80% matches the current 10th–90th range |
-| D6 | Test region now? | Add a named region candidate before the lock (for example, each state's level pooled with its Census division), or leave it to round 2. Adding it after results would be post hoc | Round 2: tags are kept, and this round stays smaller |
+| D6 | Test region now? | Add a named region candidate before the lock (for example, each state's level pooled with its Census division), or leave it to round 2. Adding it after results would be post hoc | Recommended round 2; **Ryan chose to test now: candidate L5** |
 
 ## Plan log
 
@@ -174,3 +175,5 @@ The tutor's version of idea 4 used parking's method 3 level score as the shrink 
   11. Parking row marked "for scale only".
 - 2026-11-05 16:49 UTC, Ryan: track each state's region so matching can group by it later. Census region and division are tagged on every state row and output, and used for reporting only.
 - 2026-11-05 16:51 UTC, audit: revision 2 cleared to lock once Ryan picks D1–D6. Notes a–e written in: widening stop rule; census used from the year after its census year; look-ahead noted in rule 3; D6 for region; fetch script audit check.
+- 2026-11-05 17:07 UTC, Ryan: "okay, including D6". Read as OK to D1–D5 as recommended (all states; option B; split; method 3 shrink in round 2; fixed numbers as written), with region tested now. L5 added; pick rules written out for option B.
+- **LOCKED 2026-11-05, commit time of this revision.** Before any fetch or count.
