@@ -233,3 +233,21 @@ Changes to this plan:
 4. **Expectation stated now.** The paper expects a modest, uneven effect: uneven local reading, the "findings" escape
    hatch, and developers who keep parking. A null near-vs-ring result fits this and does not show the law did nothing
    for any project.
+
+**2026-11-05, before any count, audit review of bb5ac099:**
+1. **Mountain View** is dropped from both the main estimate and the placebo group. Its own 2024 reform means its
+   2024–2025 years are not "no change expected", and keeping 2023 alone would leave one thin after year. This replaces
+   item 3 of the block above.
+2. **Bracket maps, no cut-off.** The main, wide and narrow results are reported side by side, and the write-up says
+   plainly whether the sign differs. No "changes much" threshold. This replaces the last sentence of item 1 above.
+3. **Labels.** "+100 m for distance from the parcel edge" is a chosen stand-in, not from evidence. Map A's 150 m
+   bus-meeting rule is about SCAG's 500 ft (152 m), so on that point the wide map equals map A; the wide map differs
+   only in peak hour, planned stops and parcel edge.
+4. **What each result would mean (stated now):**
+   - **Null** (90% range includes 0): fits the paper's uneven take-up; says no average effect large enough to see.
+   - **Clear positive** (range above 0, leads balanced): evidence the law raised permits near transit on average,
+     despite uneven local reading. Net statewide gain only if the dose check agrees.
+   - **Clear negative** (range below 0, leads balanced): does not fit the paper's account; read first as a sign of a
+     confound (other laws, rates, LA programs) or of homes moving away, not as the law cutting homes, unless the
+     dose check and the placebo group both support it.
+   - Any result with trending leads or a placebo-date "effect": not evidence of cause (item 5 of the first audit block).
