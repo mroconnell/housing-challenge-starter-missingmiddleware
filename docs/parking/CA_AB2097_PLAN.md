@@ -245,9 +245,10 @@ Changes to this plan:
    only in peak hour, planned stops and parcel edge.
 4. **What each result would mean (stated now):**
    - **Null** (90% range includes 0): fits the paper's uneven take-up; says no average effect large enough to see.
-   - **Clear positive** (range above 0, leads balanced): evidence the law raised permits near transit on average,
-     despite uneven local reading. Net statewide gain only if the dose check agrees.
-   - **Clear negative** (range below 0, leads balanced): does not fit the paper's account; read first as a sign of a
-     confound (other laws, rates, LA programs) or of homes moving away, not as the law cutting homes, unless the
-     dose check and the placebo group both support it.
+   - **Clear positive or clear negative** (90% range above 0, or below 0): read the same way for both signs. It counts
+     as evidence that the law changed permits near transit, in that direction, only if all of these hold: the leads
+     are balanced; the placebo group is near 0 (its 90% range includes 0); there is no placebo-date effect. A net
+     statewide claim, either sign, is made only if the dose check agrees in sign with its own range excluding 0.
+     The same confounds are listed beside either sign: other laws near transit (item 7 table), interest rates and
+     costs, Los Angeles programs, late reporting, and homes moving between near and ring land.
    - Any result with trending leads or a placebo-date "effect": not evidence of cause (item 5 of the first audit block).
