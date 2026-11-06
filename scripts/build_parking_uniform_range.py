@@ -16,7 +16,8 @@ from missing_middleware.paths import REFERENCE  # noqa: E402
 
 ELIGIBLE_HOMES = 2_668_677  # ACS 2020-2024, outside the 18 places that already removed minimums
 YEARS = 5
-BASELINE_V3 = 124_000  # statewide current-law baseline, 2027-2031
+BASELINE_CENTRAL = 124_000  # statewide current-law baseline central, 2027-2031 (unchanged from v3 to v4)
+BASELINE_VERSION = "v4"
 
 
 def main() -> None:
@@ -27,10 +28,10 @@ def main() -> None:
     rows = [
         ("range_low", "Low end of 90% range", float(s["range_from_placebo_low"])),
         ("range_high", "High end of 90% range", float(s["range_from_placebo_high"])),
-        ("side_measured_average", "Measured average, 76 repeal places", float(s["real_average"])),
+        ("side_measured_average", f"Measured average, {int(s['real_places'])} repeal places", float(s["real_average"])),
     ]
     out = pd.DataFrame([{"id": i, "label": lab, "rate_per_1000_homes_year": rate, "homes_2027_2031": round(rate * k),
-                         "share_of_baseline_v3": round(rate * k / BASELINE_V3, 4)} for i, lab, rate in rows])
+                         f"share_of_baseline_{BASELINE_VERSION}": round(rate * k / BASELINE_CENTRAL, 4)} for i, lab, rate in rows])
     hi = int(out.loc[out["id"] == "range_high", "homes_2027_2031"].iloc[0])
     assert abs(hi - upper_model) < 1, (hi, upper_model)  # must match the tool's current upper line
     out.to_csv(REFERENCE / "parking_uniform_range.csv", index=False)
