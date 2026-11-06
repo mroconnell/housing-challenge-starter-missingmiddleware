@@ -74,3 +74,23 @@
 - **Zoning match:** in 14 cities the parking district matches a zoning district in today's GIS. Today's boundaries may differ from the boundaries in the reform year (Reno and Davenport redrew them).
 
 **Reading:** the fresh 52 cannot support an honest edge-test check with free public data. A hybrid would pair a GIS zone with county assessor year built instead of permits. It might work for 2–3 cities (Reno via Washoe Assessor, Mooresville via NC OneMap, San Marcos via Texas parcels plus permits), which is too few to test a hypothesis.
+
+## Addendum 2 (2026-11-06 ~19:18 UTC): what mapped-edge evidence already exists
+
+**Status:** these results were all seen earlier, so this section records them; it is not a new test.
+
+**California** (the CA AB 2097 thread; edge 25–150 m with a 25 m donut, projects resampled; homes per 1,000 existing homes a year, 90% range):
+
+| City | Edge result | Note |
+| --- | --- | --- |
+| Oakland | −1.548 (−15.749 to +14.639) | City map narrower than the state line |
+| Sacramento | +0.482 (−6.214 to +7.537) | City map wider; citywide repeal in 2024 |
+| Palo Alto | −6.008 (−22.833 to +4.557) | Few permits |
+| Santa Cruz | +2.833 (−4.008 to +11.196) | Only 16 homes outside |
+| Truckee | Unreadable | About 80 homes |
+| Los Angeles TOC tiers 2017 | −4.35 (−6.99 to −1.63) | Parking cut bundled with a density bonus |
+
+- **No boundary file held:** San Diego, Fremont, Hayward, Stockton and Pomona.
+- **Elsewhere:** Chicago's B/C/D lots (negative, range includes 0) and Seattle's edge test.
+
+**Reading:** almost every mapped-edge range includes 0, and the signs differ across cities. The one range that excludes 0 (LA) bundles parking with a density bonus. This agrees with the city-comparison and trait results: at the boundary, removing parking minimums alone shows no consistent measurable effect. It is supporting evidence for the "no measurable change" line, and no tool change follows. The edge-test search stops here (Ryan, 19:19 UTC). The only open option is the TOD comparison of upzoning with vs without parking removal, which is exploratory because those results have been seen.
