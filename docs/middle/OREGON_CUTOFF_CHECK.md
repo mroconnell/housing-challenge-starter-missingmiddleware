@@ -33,3 +33,22 @@ Sources: PSU [2020 certified estimates](https://www.pdx.edu/population-research/
 - **Very few cities.** Three left-out cities with Census counts over 10,000, against four covered cities near the line. Molalla has no usable Census permit rows. Baker City's before-years are mostly Census fill-ins.
 - **Rules already in place not yet checked.** Some left-out cities may already have allowed duplexes. Each city's code would need checking.
 - **So this is a case comparison, not a statistical test.** It could sit beside Test 2 as a labelled side check.
+
+## Smallest gap the cutoff could detect
+
+Computed 2026-11-06 with [`scripts/middle_or_cutoff_mde.py`](../../scripts/middle_or_cutoff_mde.py). It reads only pre-law years (2012–2019), and it takes the spread only from cities outside 9,000–10,999. No post-law year and no result was seen.
+
+- **Unit:** homes in 2- and 3–4-unit buildings (Census permits, including Census fill-ins) per 1,000 single-family homes (ACS 2020–2024, detached plus attached) per year.
+- **Spread:** standard deviation of each city's no-law change, 2017–2019 mean minus 2012–2016 mean: 1.33 per 1,000 per year (26 non-Metro cities of 5,000–24,999 by the state estimate).
+- **Rule:** smallest detectable gap = (1.645 + 0.842) × spread × √(1/covered + 1/left out). That gives an 80% chance of detection, at the 90% intervals used elsewhere.
+
+| Band (state estimate) | Covered | Left out | Smallest detectable gap (per 1,000 single-family homes per year) | In homes per city per year |
+| --- | ---: | ---: | ---: | ---: |
+| 9,500–10,499 | 4 | 4 | 2.33 | 7.4 |
+| 9,000–10,999 | 5 | 6 | 2.00 | 6.3 |
+| 7,500–12,499 | 7 | 11 | 1.60 | 5.0 |
+| 5,000–14,999 | 9 | 20 | 1.32 | 3.8 |
+
+- **For scale:** Oregon statewide permitted 0.59 such homes per 1,000 one-unit detached homes per year in 2019–2021 ([STATE_ADOPTION_INVENTORY.md](../scenarios/STATE_ADOPTION_INVENTORY.md)).
+- **Small-sample bar:** with groups this small, a t-based bar is about 10% higher.
+- **Fully reported years only:** 18 cities qualify, which leaves 1 covered and 3 left-out cities in 9,000–10,999. That is too few to test.
