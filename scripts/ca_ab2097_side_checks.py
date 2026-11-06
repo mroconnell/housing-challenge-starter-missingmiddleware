@@ -64,6 +64,14 @@ MTC_ITEMS = {"High Quality Transit Corridors - 1/2 Mile (2017)": "3ed055a3cff041
              "Major Transit Stops 2017 (item linked from MTC's GitHub)": "561dc5b42fa9451b95faf615a3054260",
              "Transit Priority Project Eligible Areas (2017)": "165d990e3d1341c4942b79e526eafe0f"}
 PALO_ALTO_STATIONS = ("Palo Alto", "California Ave", "San Antonio")
+# Santa Cruz (Ryan 2026-11-06 "you can rebuild that map"): the city's PDF (Coastal Commission exhibit 2, LCP-3-STC-23-0047-2
+# Part C, hearing 2024-03-15) shows 1/2-mile circles around about 45 bus stops in five clusters. Rebuilt by matching the
+# PDF's stop icons by eye to named Santa Cruz Metro stops (National Transit Map, NTD 90006, CC BY 3.0); approximate.
+SANTA_CRUZ_RULES = [r"UCSC", r"^Bay Dr & (Meder|Iowa|Nobel|High)", r"^(High & Bay|Bay & High)", r"^Western Dr",
+                    r"^High & Western", r"^Bay & (Escalona|King|Mission)",
+                    r"^Mission & (Laurel|Trescony|Olive|Palm|Miramar|King|Swift)",
+                    r"^(Laurel & (Center|Chestnut)|Front & Laurel)", r"^Water & (N Branciforte|Seabright|Poplar)"]
+SANTA_CRUZ_STOPS = MAPS / "santa_cruz_metro_ntm_stops.json"
 NTD = RAW / "tod_stop_table" / "ntd" / "ntd_complete_monthly_ridership_8bui-9xvu.csv"
 
 
@@ -108,6 +116,13 @@ def seg_distance(px, py, polys: list) -> np.ndarray:
 
 def city_polys(city: str, rail: pd.DataFrame):
     """City map as polygons in EPSG:3310, or None. Palo Alto is circles (64-gons) around its Caltrain stations."""
+    if city == "SANTA CRUZ":
+        import re
+        from missing_middleware.geom_extra_station import _circle
+        r = pd.DataFrame([x["attributes"] for x in json.loads(SANTA_CRUZ_STOPS.read_text())["features"]])
+        s = r[r.stop_name.apply(lambda n: any(re.search(p_, n) for p_ in SANTA_CRUZ_RULES)) & (r.stop_lat < 37.002)]
+        s = run.lonlat_points(s.reset_index(drop=True), s.stop_lon, s.stop_lat)
+        return [[[_circle(x, y, E.MILE / 2)]] for x, y in zip(s.x, s.y)], len(s)
     if city == "PALO ALTO":
         from missing_middleware.geom_extra_station import _circle
         s = rail[rail["name"].str.contains("|".join(PALO_ALTO_STATIONS), case=False, na=False)
@@ -130,7 +145,7 @@ def city_maps() -> pd.DataFrame:
     p = run.lonlat_points(p, p.lon, p.lat)
     rail = pd.read_csv(REFERENCE / "ca_ab2097_rail_stations.csv")
     rows = []
-    for city in ("OAKLAND", "TRUCKEE", "SACRAMENTO", "PALO ALTO"):
+    for city in ("OAKLAND", "TRUCKEE", "SACRAMENTO", "PALO ALTO", "SANTA CRUZ"):
         polys, n = city_polys(city, rail)
         bc, pc = b[b.juris == city].copy(), p[p.juris == city].copy()
         bin_ = G.points_in_any(bc.x.to_numpy(), bc.y.to_numpy(), polys)
@@ -150,7 +165,8 @@ def city_maps() -> pd.DataFrame:
         rows.append({"city": city, "role": "placebo city" if city in E.PLACEBO else "main",
                      "map_parts": n, "map_note": ("3 Caltrain stations, rebuilt from our station list, not the PDF; "
                                                   "agreement tests only bus-stop differences") if city == "PALO ALTO"
-                     else "city's own layer", "homes_2020_city": float(h.sum()), "homes_in_city_map": float(h[bin_].sum()),
+                     else ("rebuilt from the city's PDF by matching stop icons by eye to named stops; approximate"
+                           if city == "SANTA CRUZ" else "city's own layer"), "homes_2020_city": float(h.sum()), "homes_in_city_map": float(h[bin_].sum()),
                      "homes_in_our_main_map": float(h[ours].sum()), "homes_in_both": float(both),
                      "homes_in_either": float(either), "agreement_both_over_either": both / either if either else np.nan,
                      "edge_estimate": r["estimate"], "edge_low": lo, "edge_high": hi,
@@ -160,7 +176,6 @@ def city_maps() -> pd.DataFrame:
                      "edge_unit": "homes other than ADUs per 1,000 existing homes a year, 2023-2025 vs 2018-2022; "
                                   "25-150 m inside vs outside the city's line; projects resampled",
                      "edge_interval": f"projects, {ab.N_DRAWS} resamples, seed {ab.SEED}"})
-    rows.append({"city": "SANTA CRUZ", "role": "main", "edge_unit": "pending: PDF map needs stops matched by hand"})
     return pd.DataFrame(rows)
 
 
