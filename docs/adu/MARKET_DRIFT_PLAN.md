@@ -73,6 +73,49 @@ Written 2026-11-06 by the ADU thread, from Ryan's point about regression to the 
 - Data: `reference/adu_market_drift_*.csv`.
 - Results: `docs/adu/MARKET_DRIFT_RESULTS.md`.
 
-## Changes after writing
+## Changes after writing (audit review, 2026-11-06, before any count)
 
-None yet.
+The audit accepted the plan with 6 fixes (`/mnt/project-files/audit/adu_market_drift_plan_review_2026-11-06.md`). These replace the matching parts above.
+
+1. **Pass rule.**
+   - Heat sits on both sides of the drift fit, so noise alone pushes b below 0. The decision is therefore made on the outcome, not on b.
+   - The whole chain is bootstrapped together: the drift fit (non-law states resampled), the law states' predicted drifts, the pooled refit and the Wisconsin engine.
+   - The decision measure is the change in Wisconsin's 2027–2031 addition, in ADU permits: drift-adjusted minus adopted, at typical adoption, with a 90% interval. 90% is a convention, not a tested level.
+   - If the interval includes 0, the result is reported as "no measurable drift effect".
+   - The full chain takes minutes per draw, so it runs 200 draws (seed 20261106). The count is fixed now.
+2. **Horizon.**
+   - Drift is fitted separately for each horizon h = 1 to 6 years after the heat window: drift_h = a_h + b_h × heat, with heat over Y−2..Y and the outcome in year Y+h alone.
+   - A law state's post-law year k (law year = Y+1) gets drift_k.
+   - Years past 6 do not occur in the fit: the longest post-law series, California and Oregon, run to k = 6.
+3. **How strongly ADUs follow the market.**
+   - The main D1 line divides by exp(drift), which assumes ADUs move 1-for-1 with all housing.
+   - D2 also fits the log–log slope of Washington's yearly ADU permits on its all-units permits (OFM, 2011–2025), with a 90% interval from a bootstrap over years.
+   - A second, labelled D1 line uses that slope in place of 1.
+4. **Small samples in D2.**
+   - Rhode Island has 2 year-on-year steps. It is reported with no interval and flagged.
+   - Pre-law growth for California and Washington is the year slope of a Poisson fit on counts, with single-family homes as exposure. This handles California's early zeros.
+   - Intervals come from a bootstrap over years.
+5. **The law states and years** (AQ-065 coding, adopted fit):
+
+| Cluster | First law year | Post-law years in the fit | Heat window (3 years before the law) |
+| --- | --- | --- | --- |
+| California | 2020 | 2020–2025 (k 1–6) | 2017–2019 |
+| Oregon (32-city panel and Portland) | 2020 | 2020–2025 (k 1–6) | 2017–2019 |
+| Vermont | 2021 (permit-year basis) | 2021–2023 (k 1–3) | 2018–2020 |
+| Utah | 2022 | 2023–2025 (k 2–4) | 2019–2021 |
+| Maine | 2025 | 2025 (k 1) | 2022–2024 |
+| Massachusetts | 2025 | 2025 (k 1) | 2022–2024 |
+| Rhode Island | 2025 | 2025 (k 1) | 2022–2024 |
+| Washington | 2026 | 2026 (k 1) | 2023–2025 |
+| Colorado (Denver's city series) | 2025 | 2025 (k 1) | 2022–2024 |
+
+   - No heat window falls before 2010.
+   - Denver's one law-year row is in the adopted fit. It gets Colorado's drift.
+   - Washington's 2026 and the 2025 rows need the national rate in 2026 for some horizons. Where the BPS files end (2025), the outcome year is not observed, and those rows are fitted only on horizons with data. The drift for a law state's year k still comes from the fit at h = k.
+6. **Data match.**
+   - The Census Building Permits Survey state annual files (`data/raw/census_bps_state/`) are the source.
+   - The Baseline thread's panel (`reference/baseline_bakeoff_part1_rows.csv`) is a cross-check only. Before counting, state-year totals are compared. The script lists every difference, and the BPS files win.
+
+**Added limit.** The heat denominator is a fixed home count (ACS 2020–2024), the same in every year. So early years read a little high relative to later years in fast-growing states. This affects all states alike in the national ratio, but not exactly.
+
+**Not done.** California's A2 finding is not applied as a fixed adjustment (audit agrees). It measured places within California drifting toward California's average, not states drifting toward the national average.
