@@ -138,13 +138,15 @@ def main() -> None:
 
     # sensitivities (five-year totals, 2027-2031)
     tot = lambda h, r: float(pm.additions(h, r).values.sum())  # noqa: E731
+    n_real = int(pd.read_csv(REFERENCE / "parking_placebo_full_summary.csv")["real_places"].iloc[0])
+    upper_total_text = f"{round(tot(homes, upper_all)):,}"
     sens = [
         dict(case="Upper case (headline)", moves="statewide addition", value=tot(homes, upper_all),
              description=f"High end from the control-city (placebo) test: the spread of 20,000 placebo studies of cities that never repealed, centred on the real average, {upper_all:.2f} permits per 1,000 existing homes per year."),
         dict(case="Low end (headline)", moves="statewide addition", value=float(lower.values.sum()),
-             description=f"Low end: the measured average of the 76 repeal places against similar places, {lower_all:.2f} permits per 1,000 existing homes per year, applied without a floor at zero (owner, 2026-11-01). Pulled down mostly by Austin, Minneapolis and San Francisco; the typical repeal place changed by about 0."),
+             description=f"Low end: the measured average of the {n_real} repeal places against similar places, {lower_all:.2f} permits per 1,000 existing homes per year, applied without a floor at zero (owner, 2026-11-01). Pulled down mostly by Austin, Minneapolis and San Francisco; the typical repeal place changed by about 0."),
         dict(case="Resampling the real places (earlier high end)", moves="statewide addition", value=tot(homes, upper_resample),
-             description=f"The earlier high end: 95th percentile of the average from 2,000 resamples of the 76 places, {upper_resample:.2f} per 1,000 existing homes per year."),
+             description=f"The earlier high end: 95th percentile of the average from 2,000 resamples of the {n_real} places, {upper_resample:.2f} per 1,000 existing homes per year."),
         dict(case="Cleaned data, undated reforms kept as comparisons (placebo)", moves="statewide addition",
              value=tot(homes, float(pd.read_csv(REFERENCE / "parking_placebo_full_v6u_summary.csv")["range_from_placebo_high"].iloc[0])),
              description="High end after round-1 data fixes (estimated permit months scaled, comparison places with dated parking reforms left out, pre-repeal homes), from the placebo test. One big city fell 1 short of 20 look-alikes, so by the rule set in advance it does not replace the headline."),
@@ -153,7 +155,7 @@ def main() -> None:
              description="High end after round-1 data fixes, with every comparison city that has any recorded parking reform left out, from resampling the 73 repeal places. Shown as a sensitivity: switching to this method after seeing results is not allowed."),
         dict(case="Cleaned data, strict comparison cleaning (placebo)", moves="statewide addition",
              value=tot(homes, float(pd.read_csv(REFERENCE / "parking_placebo_full_v6_summary.csv")["range_from_placebo_high"].iloc[0])),
-             description="As above, from the placebo test. Big repeal cities are left with 3 to 18 look-alikes, so this figure is noisy. All the cleaned-data high ends are above the headline 19,818, so the headline high end is the lowest and may be understated; the high end is uncertain by about 2x."),
+             description=f"As above, from the placebo test. Big repeal cities are left with 3 to 18 look-alikes, so this figure is noisy. All the cleaned-data high ends are above the headline {upper_total_text}, so the headline high end is the lowest and may be understated; the high end is uncertain by about 2x."),
         dict(case="Cleaned data, only apartment-scale reforms disqualify comparisons (placebo)", moves="statewide addition",
              value=tot(homes, float(pd.read_csv(REFERENCE / "parking_placebo_full_v7_summary.csv")["range_from_placebo_high"].iloc[0])),
              description="Round 2: a comparison city is left out only if it removed parking minimums for apartments or all housing (reference/parking_reform_material.csv). San Jose and Austin fell 1 to 2 short of 20 look-alikes, so by the rule set in advance it does not replace the headline."),
@@ -165,7 +167,7 @@ def main() -> None:
         dict(case="Without San Francisco", moves="statewide addition", value=tot(homes, upper_no_sf),
              description=f"Resampling high end when San Francisco is left out, {upper_no_sf:.2f} per 1,000 existing homes per year."),
         dict(case="Combined with California's transit-area law", moves="statewide addition", value=tot(homes, upper_ca),
-             description=f"High end when the 76 US places are combined with 185 California cities under AB 2097, {upper_ca:.2f} per 1,000 existing homes per year."),
+             description=f"High end when the {n_real} US places are combined with 185 California cities under AB 2097, {upper_ca:.2f} per 1,000 existing homes per year."),
         dict(case="First 24 places only (earlier estimate)", moves="statewide addition", value=tot(homes, upper_first24),
              description=f"The high end from the first, smaller comparison of 24 places, {upper_first24:.2f} per 1,000 existing homes per year."),
         dict(case="Size and metro model (central)", moves="statewide addition and where it lands",
