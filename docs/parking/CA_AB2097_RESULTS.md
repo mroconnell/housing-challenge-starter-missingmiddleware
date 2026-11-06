@@ -216,6 +216,10 @@ either). Edge = homes other than ADUs per 1,000 existing homes a year, 2023–20
   included. Stop locations are today's (National Transit Map), not those of the 2023 exhibit. The city's map covers
   15,392 of the city's 24,014 homes; ours covers 2,708, all inside the city's area. Santa Cruz drew a far wider area
   than our reading of the law. The other cities' rows reproduce exactly when re-run.
+- **Across the five cities:** our map is narrower than the city's own in Sacramento (58,396 vs 104,311 homes) and Santa
+  Cruz (2,708 vs 15,392), wider in Oakland (148,602 vs 126,788) and Palo Alto (11,772 vs 5,526), and about the same in
+  Truckee. Where ours is narrower, land the city treats as covered sits in our ring, which pulls the main estimate toward
+  0 whichever its sign. The Santa Cruz edge rests on only 14 and 2 permitted homes outside the line, too few to read.
 - No city-line edge shows a measurable change. Truckee and Palo Alto have only a few dozen permitted homes near their
   lines, so their ranges are very wide.
 
