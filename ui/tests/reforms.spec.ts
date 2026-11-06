@@ -14,11 +14,11 @@ test("the picker lists every registered reform and marks the current one", async
   await expect(nav.locator('a[aria-current="page"]')).toHaveAttribute("data-reform", registry.default);
 });
 
-test("ADU links without a prefix still open the ADU screens with the same numbers", async ({ page }) => {
+test("ADU links without a prefix still open the ADU screens with the same numbers (the bare root is the Introduction)", async ({ page }) => {
   const { run_id } = await (await page.request.get("runs/latest.json")).json();
   const state = await (await page.request.get(`runs/${run_id}/state.json`)).json();
   const central = state.scenarios.find((s: { id: string }) => s.id === "central");
-  for (const url of ["#/today", "#/adu/today", "#"]) {
+  for (const url of ["#/today", "#/adu/today", "#/adu/"]) {
     await page.goto(url);
     await expect(page.getByTestId("run-id")).toHaveText(run_id);
     await expect(page.getByTestId("today-central")).toHaveText("+" + fmt(central.additional_total));

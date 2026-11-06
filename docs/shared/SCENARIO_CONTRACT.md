@@ -7,7 +7,7 @@ The tool shows one policy reform at a time (ADUs, transit-oriented density, park
 ## 1. What the shell does
 
 - Draws the header (brand, subtitle, reform picker), the status strip, the screens navigation, `<main>`, the live region for announcements, and the footer.
-- Routes URLs. The default reform (ADUs) has no prefix, so every existing link keeps working: `#/today`, `#/compare?s=upper`. Other reforms are prefixed with their id: `#/tod/about`. `#/adu/today` also works. The query part belongs to the reform.
+- Routes URLs. The default reform (ADUs) has no prefix, so every existing link keeps working: `#/today`, `#/compare?s=upper`. Other reforms are prefixed with their id: `#/tod/about`. `#/adu/today` also works. The query part belongs to the reform. The bare root (`#/`, or no hash) is the Introduction, the landing page above every reform (`ui/src/screens/intro.ts`); `#/adu/` opens the ADU reform's first screen.
 - Loads a reform's data the first time it is opened and keeps it for the session.
 - Keeps focus and scroll on re-render, moves focus to `<main>` on a new screen, sets the browser tab title, and marks the current tab and the current reform.
 - Shows a holding page (benchmark text, link to the plan, no numbers) for any reform whose status is `in_development`.

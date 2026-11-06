@@ -357,3 +357,22 @@ ul.side-lines svg { vertical-align: middle; }
   .vs-row { grid-template-columns: minmax(0, 1fr) 7em; }
   .vs-row .vs-track { grid-column: 1 / -1; grid-row: 2; }
 }
+
+/* Introduction (landing page, src/screens/intro.ts) */
+.intro { max-width: 80ch; }
+.intro-lede { max-width: none; }
+.intro-range-list, .intro-see { padding-left: 1.2em; margin: 0; }
+.intro-range-list li, .intro-see li { margin: 10px 0; }
+.intro-num { font-weight: 700; color: var(--accent-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.intro-ranges { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
+.intro-steps { padding-left: 1.4em; margin: 0; }
+.intro-steps > li { margin: 10px 0; }
+.intro-substeps { list-style: lower-alpha; padding-left: 1.4em; margin: 6px 0 0; }
+.intro-substeps li { margin: 4px 0; }
+.intro-state { font-weight: 600; }   /* plain text, not a control: no state picker yet */
+.intro-reform-links { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 8px 0 0; }
+.intro-reform-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--accent); border-radius: 8px; background: var(--surface); font-weight: 600; text-decoration: none; }
+.intro-reform-links a:hover { background: var(--accent-soft); }
+@media (max-width: 640px) {
+  .intro-num { white-space: normal; }
+}

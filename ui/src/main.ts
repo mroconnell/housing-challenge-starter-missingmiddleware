@@ -2,13 +2,15 @@
 // router. Each reform (ADU, transit-oriented density, parking) fills the strip, tabs, footer and screens through
 // the contract in ui/src/scenarios/types.ts (docs/shared/SCENARIO_CONTRACT.md).
 //
-// URLs: the default reform has no prefix ("#/today"), so existing ADU links keep working; other reforms are
-// prefixed with their id ("#/tod/about"). The query part ("?s=upper") belongs to the reform.
+// URLs: the bare root ("#/", or no hash) is the Introduction, the landing page above every reform. The default
+// reform has no prefix ("#/today"), so existing ADU links keep working ("#/adu/" opens its first screen); other
+// reforms are prefixed with their id ("#/tod/about"). The query part ("?s=upper") belongs to the reform.
 import "./style.css";
 import "./scenarios/shell.css";
 import { labelScrollers } from "./app";
 import { esc } from "./format";
 import { aduReform } from "./scenarios/adu";
+import { introLoading, loadIntro, renderIntro } from "./screens/intro";
 import { combinedReform } from "./scenarios/combined/index";
 import { parkingReform } from "./scenarios/parking/index";
 import { placeholderReform } from "./scenarios/placeholder";
@@ -44,6 +46,12 @@ function moduleFor(e: ReformEntry): ReformModule {
 const prefixOf = (id: string) => (id === REGISTRY.default ? "" : `/${id}`);
 
 /** Split the hash into the reform id, the reform-relative path and the query. */
+/** True for the Introduction: no reform prefix and no screen path ("", "#", "#/", "#/?x=1"). */
+function isHome(): boolean {
+  const full = (location.hash.replace(/^#/, "") || "/").split("?")[0];
+  return full === "/" || full === "";
+}
+
 function parse(): { reform: string; path: string; params: URLSearchParams } {
   const raw = location.hash.replace(/^#/, "") || "/";
   const [full, q] = raw.split("?");
@@ -78,7 +86,7 @@ function shell(e: ReformEntry, m: MountedReform): void {
   <a class="skip" href="#main">Skip to main content</a>
   <header class="site-head no-print">
     <div class="wrap head-row">
-      <a class="brand" href="#${pre}${m.defaultPath}"><span class="brand-mark" aria-hidden="true">⌂</span> Missing Middleware</a>
+      <a class="brand" href="#/"><span class="brand-mark" aria-hidden="true">⌂</span> Missing Middleware</a>
       <p class="head-sub">${esc(e.subtitle)}</p>
     </div>
     <div class="wrap">${picker(e)}</div>
@@ -124,7 +132,46 @@ async function activate(id: string): Promise<Active> {
   return { entry, m, mod };
 }
 
+/** The Introduction's page: header with the reform picker (no reform current), no status strip or screen tabs. */
+function homeShell(): void {
+  document.body.innerHTML = `
+  <a class="skip" href="#main">Skip to main content</a>
+  <header class="site-head no-print">
+    <div class="wrap head-row">
+      <a class="brand" href="#/" aria-current="page"><span class="brand-mark" aria-hidden="true">⌂</span> Missing Middleware</a>
+      <p class="head-sub">Wisconsin housing reform · statewide estimates</p>
+    </div>
+    <div class="wrap"><nav class="reform-nav" aria-label="Policy reform" data-testid="reform-picker"><span class="reform-nav-label" aria-hidden="true">Policy reform:</span><ul>${REGISTRY.reforms.map((r) => `
+      <li><a href="#/${esc(r.id)}/" data-reform="${esc(r.id)}">${esc(r.label)}${r.status === "ready" ? "" : ' <span class="reform-dev">(in development)</span>'}</a></li>`).join("")}</ul></nav></div>
+  </header>
+  <main id="main" class="wrap" tabindex="-1"></main>
+  <div id="announce" class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-testid="announce"></div>
+  <footer class="site-foot">
+    <div class="wrap"><p class="muted"><a href="${esc(REGISTRY.repo_url)}" target="_blank" rel="noopener">Source code and documentation<span class="sr-only"> (opens GitHub in a new tab)</span> ↗</a> · Apache-2.0</p></div>
+  </footer>`;
+  document.querySelector<HTMLAnchorElement>(".skip")!.addEventListener("click", (ev) => {
+    ev.preventDefault();
+    document.getElementById("main")!.focus();
+  });
+}
+
+async function home(): Promise<void> {
+  active?.m.leave?.();
+  active = null;
+  homeShell();
+  document.title = "Introduction · Missing Middleware";
+  const main = document.getElementById("main")!;
+  introLoading(main);
+  const n = await loadIntro();
+  if (!isHome()) return;   // the reader moved on while the bundles loaded
+  renderIntro(main, n);
+  window.scrollTo(0, 0);
+  if (lastKey) main.focus({ preventScroll: true });
+  lastKey = "home";
+}
+
 async function route(keepFocus = false): Promise<void> {
+  if (isHome()) return home();
   const { reform, path: rawPath, params } = parse();
   let switched = false;
   if (!active || active.entry.id !== reform || moduleFor(active.entry) !== active.mod) {
