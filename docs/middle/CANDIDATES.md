@@ -58,7 +58,7 @@ From [CAUSAL_FRAMEWORK_PLAN.md](../adu/CAUSAL_FRAMEWORK_PLAN.md) and the pooled 
 | **Minneapolis 2040 plan** | 2020-01-01 (2020) | BPS 2012–2019; city permits from 2016-12 | 6, but a court injunction ran June 2022 to May 2024 | Yes: other Twin Cities places (BPS) | City permits (units field), from 2016-12 | **Usable, with the injunction years flagged** |
 | **Austin HOME** | Phase 1 2024-02-05; Phase 2 2024-08-16 (2025) | City 1921+ | 1 | Yes: other Texas places | Yes: classes 101–105 with units, public domain | **Not yet** for the method; data excellent |
 | **Houston lot size** | 1998 inside Loop 610; 2013-05-24 citywide, phased in 2014–2015 | BPS 1980+ | Many | Yes: other Texas places | No open permit records | **Not usable here:** its homes are small-lot single-family, which BPS counts as 1-unit |
-| **Durham EHC** | 2019-10-01 (2020) | BPS 2012–2018, but Census filled in 2016–2018 (8, 3 and 0 of 12 months reported) | 6 (2023–25 partly filled in) | Yes: other NC places | City table 2007-10 to 2024-02, ODbL 1.0 licence | **Borderline:** gaps in reported years; licence question |
+| **Durham EHC** | 2019-10-01 (2020) | BPS 2012–2018, but Census filled in 2016–2018 (8, 3 and 0 of 12 months reported) | 6 (2023–25 partly filled in) | Yes: other NC places | City table 2007-10 to 2024-02, but ODbL 1.0, so out under the project licence rule | **Borderline:** Census data only, with filled-in years |
 | **Raleigh missing middle** | TC-5-20 adopted 2021-07-06; TC-20-21 in force 2022-08-08 (2022) | BPS 2012–2020; city 2000+ | 4 | Yes: other NC places | Yes: units, building type and a "missing middle" flag | **Usable** |
 | **Walla Walla** | Ord. 2018-53, 2019-01-02 (2019) | OFM 1990–2018 | 7 | Yes: other Washington cities (OFM) | No | **Usable, but small:** 0–64 duplex units a year |
 | **Spokane** | Interim Ord. C36232, about August 2022 (2023); permanent C36459, 2024-01-01 | OFM 1990–2022 | 3 (OFM adds 2026) | Yes: other Washington cities | No | **Usable.** Use OFM: Census filled in Spokane's 2018, 2020 and 2021 |
@@ -150,7 +150,7 @@ No study found releases its data under a clear open licence. Mercatus work found
 
 ## Open questions for Ryan
 
-- **Licences.** Durham's permit table is ODbL 1.0, the same licence as OpenStreetMap, which the project avoids. Raleigh, Mecklenburg, Sacramento and the California progress reports state no clear licence. Should these be used, and if so how?
+- **Licences.** Durham's permit table is ODbL 1.0, the same licence as OpenStreetMap, so it is out under the standing rule (Apache, MIT, BSD or CC0 only; no OpenStreetMap). Raleigh, Mecklenburg and Sacramento state no clear licence. Should they be used?
 - **Townhouse gap.** Should the measure be BPS 2–4 units only, or BPS plus a townhouse count where one exists?
 - **5–6 unit buildings.** BPS cannot separate them from larger buildings. Leave them out, or estimate them from city records?
 - **Washington.** Wait for OFM's 2027–2028 files, or use only its earlier city reforms (Spokane, Walla Walla) for now?
