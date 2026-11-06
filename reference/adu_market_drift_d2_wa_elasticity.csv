@@ -1,0 +1,2 @@
+estimate,p05,p95,n_years,years,note
+1.32302,0.06439,2.04357,15,2011-2025,OFM estimate years (April-March) against BPS calendar years; log-log OLS; bootstrap over years

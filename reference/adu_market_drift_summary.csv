@@ -1,0 +1,6 @@
+line,lower,central,upper,ref_line,change_central,a3_low,a3_high
+adopted,6320.5,10492.0,19784.5,10038.2,0.0,8055.1,13666.0
+"drift-adjusted, ADUs 1-for-1 with all housing (main)",6833.7,11318.0,21335.5,10751.9,826.0,8689.3,14742.0
+"drift-adjusted, Washington elasticity 1.323",6996.5,11578.9,21831.4,10994.1,1087.0,8889.6,15081.8
+post hoc diagnostic: heat term only (intercepts set to 0),6261.2,10440.8,19722.4,10124.6,-51.2,8015.8,13599.3
+post hoc diagnostic: equal-weighted national rate,6461.8,10746.1,20283.9,10291.0,254.1,8250.2,13997.0
