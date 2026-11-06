@@ -67,10 +67,8 @@ for (const [path, view, act] of SCREENS) {
 
 test("a11y: switch and slider names are short and describe the choice", async ({ page }) => {
   await page.goto("#/compare");
-  for (const n of ["Lower", "Central", "Strong adoption"]) await expect(page.getByRole("radio", { name: n, exact: true })).toHaveCount(1);
-  await expect(page.getByRole("radio", { name: "Central", exact: true })).toHaveAccessibleDescription(/additional permits over 2027–2031/);
-  await expect(page.getByRole("group", { name: "Scenario" })).toBeVisible();
   await expect(page.getByRole("group", { name: "Units" })).toBeVisible();
+  await expect(page.getByRole("group", { name: "Chart shows" })).toBeVisible();
   await page.goto("#/where");
   for (const g of ["Areas", "Show", "Measure", "Scenario"]) await expect(page.getByRole("group", { name: g, exact: true })).toBeVisible();
   await expect(page.getByRole("group", { name: /Places whose local ADU rules we have not coded/ })).toBeVisible();
@@ -99,10 +97,10 @@ test("a11y: switches announce the new numbers in a polite live region", async ({
   const unk = await (await page.request.get(`runs/${run_id}/unknown_rules.json`)).json();
   const up = state.scenarios.find((s: { id: string }) => s.id === "upper");
   const live = page.getByTestId("announce");
-  await page.goto("#/compare");
+  await page.goto("#/where");
   await page.getByRole("radio", { name: "Strong adoption", exact: true }).check();
   await expect(live).toContainText(`Strong adoption scenario: ${fmt(up.additional_total)} permits added`);
-  await expect(page.getByRole("radio", { name: "Strong adoption", exact: true })).toBeFocused();
+  await page.goto("#/compare");
   await page.getByRole("radio", { name: "Per 1,000 single-family homes" }).check();
   await expect(live).toContainText("per 1,000 single-family homes per year");
   await page.goto("#/how-sure");

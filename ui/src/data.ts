@@ -1,5 +1,6 @@
 // Types for the static bundle written by scripts/build_ui_bundle.py, and the loader.
 // The browser never computes a forecast: it only selects, sums and formats bundle values.
+import type { Range90, SideLine } from "./range";
 
 export type PathId = "lower" | "central" | "upper";
 export const PATHS: PathId[] = ["lower", "central", "upper"];
@@ -54,6 +55,9 @@ export interface StateData {
     bridge_2026: { low: number; central: number; high: number }; rate_per_1000_per_year: number; source: string;
   };
   scenarios: Scenario[];
+  /** The uniform range display (docs/UNIFORM_DISPLAY_SPEC.md): the 90% range and the side lines across it. */
+  range90: Range90;
+  side_lines: SideLine[];
   reference_line: { label: string; n_series: number; carried_forward_years: number[]; info: string; detail: string; why_central_differs: string; rate_by_year: number[]; additional_by_year: number[]; additional_total: number; with_law_by_year: number[]; source: string };
   contexts: ContextRow[];
   /** Why types of place differ (reference/gate5_context_contrast.csv, gate5_model_drivers.csv, gate5_context_examples.csv). */

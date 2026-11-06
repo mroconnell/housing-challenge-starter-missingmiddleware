@@ -53,19 +53,21 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
   await expect(page.getByTestId("law-district")).toContainText("15%");
   await expect(page.getByTestId("law-district")).toContainText(sw.district.text);
   await page.goto("#/tod/compare");
-  for (const id of ["little", "typical", "strong"]) {
-    await expect(page.getByTestId(`add-${id}`)).toHaveText(fmt(sc(id).additional_total));
-    expect(sc(id).range_low).toBeLessThan(sc(id).additional_total);
-  }
-  await expect(page.getByTestId("compare-table")).toContainText(fmt(sc("strong").with_law_total));
-  // auditor 2026-11-02: record-year exceedance stated beside the lines
-  for (const r of sw.record_years) await expect(page.getByTestId("record-years")).toContainText(`${r.metro} ${r.years.join(" and ")}`);
+  // the uniform range display: one 90% range, ends labelled, side lines below
+  const R = sw.range90;
+  await expect(page.getByTestId("range-card").getByTestId("range-low")).toHaveText(fmt(R.low));
+  await expect(page.getByTestId("range-card").getByTestId("range-high")).toHaveText(fmt(R.high));
+  await expect(page.getByTestId("table-range-low")).toHaveText(fmt(R.low));
+  for (const s of sw.side_lines) await expect(page.getByTestId("side-lines")).toContainText(`${s.label}: ${fmt(s.value)}`);
+  // auditor 2026-11-02, spec: the record-year warning, checked at the range's high end
+  for (const r of R.record_check_high.filter((x: { years_above_own_record: number[] }) => x.years_above_own_record.length))
+    await expect(page.getByTestId("record-years")).toContainText(`${r.metro} ${r.years_above_own_record.join(" and ")}`);
   await expect(page.getByTestId("timing-caveat")).toContainText(sw.timing_caveat);
   // AQ-054: shared unit against the statewide all-housing baseline and the ACS home count; no median line for 3 studies
-  const shared = page.getByTestId("shared-unit");
-  for (const id of ["little", "typical", "strong"]) await expect(shared).toContainText(`about ${fmt(sc(id).per_year)}`);
-  await expect(shared).toContainText(fmt(sw.state_baseline_per_year));
-  await expect(shared).toContainText(fmt(sw.acs_homes));
+  const size = page.getByTestId("compare-size");
+  await expect(size).toContainText(`about ${fmt(R.low / 5)} to ${fmt(R.high / 5)}`);
+  await expect(size).toContainText(fmt(sw.state_baseline_per_year));
+  await expect(size).toContainText(fmt(sw.acs_homes));
   await expect(page.getByTestId("median-note")).toHaveText(sw.median_line.note);
   expect(sw.reference_line).toBeUndefined();
   await expect(page.locator("main")).not.toContainText("Median of the three studies");
@@ -96,7 +98,10 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
       await expect(page.getByTestId("pilot-reason")).toContainText(p.reason);
     }
   }
+  await page.goto("#/tod/where");
+  await expect(page.getByTestId("where-range-note")).toContainText(`${fmt(sw.range90.low)} to ${fmt(sw.range90.high)}`);
   await page.goto("#/tod/brief");
+  await expect(page.getByTestId("brief-headline")).toContainText(`${fmt(sw.range90.low)} to ${fmt(sw.range90.high)}`);
   await expect(page.getByTestId("brief")).toContainText(fmt(sc("typical").additional_total));
   await expect(page.getByTestId("brief")).toContainText(b.run_id);
   await expect(page.getByTestId("brief-shared")).toContainText(`about ${fmt(sc("typical").per_year)}`);
@@ -221,22 +226,62 @@ test("TOD chart toggles between totals and extra homes only", async ({ page }) =
   await expect(page.locator("#tod-chart svg title")).toContainText("Extra homes permitted");
 });
 
-test("TOD How sure tornado shows every what-if that changes the law's extra homes", async ({ page }) => {
+test("TOD How sure draws every what-if's own total against the 90% range", async ({ page }) => {
   const b = await bundle(page);
   const hs = await (await page.request.get(`scenarios/tod/runs/${b.run_id}/howsure.json`)).json();
-  const rows = hs.tornado.rows as { kind: string; vs_central: number; extra: number }[];
-  const central = b.statewide.scenarios.find((x: { id: string }) => x.id === "typical").additional_total;
-  expect(hs.tornado.central).toBeCloseTo(central, 1);
-  for (const r of rows) expect(r.vs_central).toBeCloseTo(r.extra - central, 0);
-  const current = rows.filter((r) => r.kind === "current").length;
-  const earlier = rows.filter((r) => r.kind === "earlier").length;
+  const R = b.statewide.range90;
+  const rows = hs.tornado.rows as { kind: string; extra: number; label: string }[];
+  const current = rows.filter((r) => r.kind === "current");
+  const earlier = rows.filter((r) => r.kind === "earlier");
   // AQ-075: the two 2x2 readings join the current what-ifs; the option D upper is now the upper line itself
-  expect(current).toBe(13);
-  expect(earlier).toBe(7);
+  expect(current.length).toBe(13);
+  expect(earlier.length).toBe(7);
   await page.goto("#/tod/how-sure?preview=1");
-  await expect(page.getByTestId("tod-tornado-current").locator(".t-row")).toHaveCount(current);
-  await expect(page.getByTestId("tod-tornado-earlier").locator(".t-row")).toHaveCount(earlier);
-  await expect(page.getByTestId("tod-tornado-current").locator(".tornado")).toHaveAttribute("aria-label", new RegExp(`compared with the central ${fmt(central)}`));
+  await expect(page.getByTestId("howsure-range").getByTestId("range-low")).toHaveText(fmt(R.low));
+  await expect(page.getByTestId("howsure-range").getByTestId("range-high")).toHaveText(fmt(R.high));
+  await expect(page.getByTestId("howsure-range").getByTestId("range-coverage")).toContainText("84.5%");
+  const cur = page.getByTestId("tod-tornado-current");
+  await expect(cur.locator(".vs-row")).toHaveCount(current.length);
+  await expect(page.getByTestId("tod-tornado-earlier").locator(".vs-row")).toHaveCount(earlier.length);
+  await expect(cur).toHaveAttribute("aria-label", new RegExp(`The 90% range, ${fmt(R.low)} to ${fmt(R.high)}, is shaded`));
+  // each row is the what-if's own total, not a difference from a centre
+  for (const r of current) await expect(cur).toHaveAttribute("aria-label", new RegExp(`${r.label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}: ${fmt(r.extra).replace("-", "−")}`));
+  const outside = current.filter((r) => r.extra < R.low || r.extra > R.high).length;
+  await expect(cur.locator(".vs-dot.out")).toHaveCount(outside);
+  await expect(page.locator("main")).not.toContainText("compared with the central");
   await expect(page.getByTestId("tod-tornado-note")).toContainText("do not change the law's extra homes");
   await expect(page.locator("main")).toContainText("Homes that would have been built elsewhere in the city anyway");
 });
+
+for (const [name, url, root] of [["ADU", "#/compare", "runs/"], ["TOD", "#/tod/compare", "scenarios/tod/runs/"]] as const) {
+  test(`${name} range card shows the 90% ends and the chart draws no centre line`, async ({ page }) => {
+    const { run_id } = await (await page.request.get(`${root}latest.json`)).json();
+    const st = await (await page.request.get(`${root}${run_id}/${name === "ADU" ? "state" : "statewide"}.json`)).json();
+    const R = st.range90;
+    await page.goto(url);
+    const card = page.getByTestId("range-card");
+    await expect(card.getByTestId("range-low")).toHaveText(fmt(R.low));
+    await expect(card.getByTestId("range-high")).toHaveText(fmt(R.high));
+    await expect(card).toContainText("Low end");
+    await expect(card).toContainText("High end");
+    await expect(card.getByTestId("range-unit")).toContainText(R.unit);
+    await expect(card.getByTestId("range-method")).toContainText(R.method);
+    await expect(card.getByTestId("range-coverage")).toContainText(R.coverage);
+    await expect(card.getByTestId("range-shares")).toContainText(`${(R.low / 124000 * 100).toFixed(1)}% of the 124,000`);
+    await expect(card.getByTestId("range-shares")).toContainText(`${(R.high / 124000 * 100).toFixed(1)}% of the 124,000`);
+    if (R.caveat) await expect(card.getByTestId("range-caveat")).toContainText(R.caveat);
+    const chartLines = st.side_lines.filter((s: { where: string }) => s.where === "chart");
+    await expect(page.getByTestId("side-lines").locator("li")).toHaveCount(chartLines.length);
+    for (const mode of ["Totals", "Extra homes only"]) {
+      await page.getByRole("radio", { name: mode, exact: true }).check();
+      const svg = page.locator(".chart-box svg").first();
+      await expect(svg.locator('path[data-band="range90"]')).toHaveCount(1);
+      await expect(svg.locator('path[data-series^="side-"]')).toHaveCount(chartLines.filter((s: { value?: number }) => s.value !== undefined).length);
+      // no centre line: only current law and the side lines are drawn as lines
+      const ids = await svg.locator("path[data-series]").evaluateAll((ps) => ps.map((p) => p.getAttribute("data-series")));
+      expect(ids.filter((i) => i !== "current-law" && !i!.startsWith("side-"))).toEqual([]);
+      await expect(svg.locator("path:not([data-series]):not([data-band])[fill='none']")).toHaveCount(0);
+      await expect(svg.locator('path[data-band="current-law"]')).toHaveCount(mode === "Totals" ? 1 : 0);
+    }
+  });
+}

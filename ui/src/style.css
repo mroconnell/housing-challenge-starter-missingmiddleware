@@ -331,3 +331,29 @@ details.more[open] > summary { margin-bottom: 4px; }
 .pk-bar { display: block; height: 100%; }
 .pk-bar-val { font-size: 0.85rem; font-variant-numeric: tabular-nums; }
 @media (max-width: 600px) { .pk-bar-row { grid-template-columns: 6.5rem 1fr 4.5rem; } .pk-bar-val { font-size: 0.75rem; } }
+
+/* the uniform range display (docs/UNIFORM_DISPLAY_SPEC.md): one 90% range, ends labelled, side lines below */
+.range-card { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
+.range-ends { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 14px; margin: 6px 0 2px; }
+.range-end { display: inline-flex; flex-direction: column; }
+.range-end-label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+.range-end-num { font-size: 2rem; font-weight: 700; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.range-to { font-size: 1.2rem; color: var(--muted); padding-bottom: 4px; }
+.range-unit { margin: 0 0 6px; font-weight: 600; }
+.range-shares { margin: 4px 0 8px; }
+ul.side-lines li { margin: 6px 0; }
+ul.side-lines svg { vertical-align: middle; }
+.vs-band { display: grid; gap: 6px; margin: 10px 0; }
+.vs-row { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 3fr) 7.5em; gap: 8px; align-items: center; font-size: 0.92rem; }
+.vs-track { position: relative; height: 18px; background: #f3f3f1; border-radius: 4px; }
+.vs-band-fill { position: absolute; top: 0; bottom: 0; background: #17644f; opacity: 0.22; }
+.vs-zero { position: absolute; top: 0; bottom: 0; width: 1px; background: #4b5450; }
+.vs-bar { position: absolute; top: 7px; height: 4px; background: #9aa29e; }
+.vs-dot { position: absolute; top: 3px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: #17644f; }
+.vs-dot.out { background: #fff; border: 2px solid #b0501a; }
+.vs-val { text-align: right; font-variant-numeric: tabular-nums; }
+.vs-out { font-size: 0.8rem; color: #8a3a12; }
+@media (max-width: 640px) {
+  .vs-row { grid-template-columns: minmax(0, 1fr) 7em; }
+  .vs-row .vs-track { grid-column: 1 / -1; grid-row: 2; }
+}

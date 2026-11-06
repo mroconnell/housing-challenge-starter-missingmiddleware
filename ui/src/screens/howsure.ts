@@ -1,6 +1,8 @@
 import { bindUnknownPicker, details, unknownPicker, unknownVariant, type Ctx } from "../app";
 import { stackHTML, tornadoHTML } from "../charts";
 import { dec, esc, int, missing, pct, pill } from "../format";
+import { sideLinesHTML } from "../range";
+import { aduRangeCard } from "./compare";
 
 export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
   const u = ctx.b.uncertainty;
@@ -32,6 +34,12 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
   main.innerHTML = `
   <h1>How sure are we?</h1>
   <p class="lede">How much of the estimate rests on observed facts, and how much it moves when one assumption changes. Three terms: the <strong>scenarios</strong> (lower, central, strong adoption) show how states differ; a <strong>sensitivity case</strong> changes one assumption and reruns the model; a <strong>robustness check</strong> tests a method by predicting states the model did not see.</p>
+
+  ${aduRangeCard(ctx, 2, "howsure-range")}
+  <section class="card" aria-labelledby="h-hs-lines">
+    <h2 id="h-hs-lines">More lines and what-ifs, against the range</h2>
+    ${sideLinesHTML(ctx.b.state.side_lines.filter((x) => x.where === "howsure"), "ADU permits over 2027–2031", "howsure-side-lines", "These are shown here only, not on the chart. None changes the 90% range.")}
+  </section>
 
   <section class="card" aria-labelledby="h-trace">
     <h2 id="h-trace">What the law's addition rests on</h2>

@@ -1,4 +1,5 @@
 // Bundle types for the transit-oriented density (TOD) reform. Written by scripts/build_tod_bundle.py.
+import type { Range90, SideLine } from "../../range";
 export type ScenId = "little" | "typical" | "strong";
 export const SCEN_IDS: ScenId[] = ["little", "typical", "strong"];
 export type ByScen = Record<ScenId, number>;
@@ -26,6 +27,10 @@ export interface Statewide {
   /** Wisconsin's total housing units, ACS 2020–2024 (B25002): the home count for cross-reform figures (AQ-054) */
   acs_homes: number;
   scenarios: Scenario[];
+  /** The uniform range display (docs/UNIFORM_DISPLAY_SPEC.md): the widened place-bootstrap 90% range and the side lines. */
+  range90: Range90 & { record_check_high?: { metro: string; years_above_own_record: number[]; peak_year: number; peak_total_per_1000: number;
+    own_max: number; above_observed_max: boolean; observed_max: number }[] };
+  side_lines: SideLine[];
   /** AQ-054: no median line with fewer than min_cases comparable cases */
   median_line: { shown: boolean; min_cases: number; n_studies: number; note: string };
   timing_caveat: string;

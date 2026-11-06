@@ -39,21 +39,26 @@ test("headline numbers match the bundle", async ({ page }) => {
   expect(sc.central.additional_total).toBeLessThan(sc.upper.additional_total);
 
   await page.goto("#/compare");
-  for (const p of ["lower", "central", "upper"]) await expect(page.getByTestId(`total-${p}`)).toHaveText(fmt(sc[p].additional_total));
-  await expect(page.getByTestId("baseline-total")).toHaveText(fmt(b.state.baseline.total));
-  await expect(page.getByTestId("additional-total")).toHaveText("+" + fmt(sc.central.additional_total));
+  const R = b.state.range90;
+  await expect(page.getByTestId("range-card").getByTestId("range-low")).toHaveText(fmt(R.low));
+  await expect(page.getByTestId("range-card").getByTestId("range-high")).toHaveText(fmt(R.high));
+  await expect(page.getByTestId("table-range-low")).toHaveText(fmt(R.low));
+  await expect(page.getByTestId("table-range-high")).toHaveText(fmt(R.high));
   const rows = page.getByTestId("compare-table").locator("tbody tr");
   await expect(rows).toHaveCount(5);
-  for (let i = 0; i < 5; i++) await expect(rows.nth(i).locator("td").nth(2)).toHaveText(fmt(sc.central.additional_by_year[i]));
+  for (let i = 0; i < 5; i++) {
+    await expect(rows.nth(i).locator("td").nth(0)).toHaveText(fmt(b.state.baseline.by_year[i]));
+    await expect(rows.nth(i).locator("td").nth(3)).toHaveText(fmt(R.years[i].low));
+    await expect(rows.nth(i).locator("td").nth(4)).toHaveText(fmt(R.years[i].high));
+  }
 });
 
 test("scenario switch updates every headline", async ({ page }) => {
   const b = await bundle(page);
   const up = b.state.scenarios.find((s: { id: string }) => s.id === "upper");
-  await page.goto("#/compare");
-  await page.getByLabel(/Strong adoption/).first().check();
-  await expect(page.getByTestId("additional-total")).toHaveText("+" + fmt(up.additional_total));
-  await expect(page.getByTestId("withlaw-total")).toHaveText(fmt(up.with_law_total));
+  await page.goto("#/where");
+  await page.locator('input[name="scen-where"][value="upper"]').check();
+  await expect(page.getByTestId("reconcile")).toContainText(fmt(up.additional_total));
   await page.goto("#/pilot/pleasant-prairie");
   const pp = b.pilots.find((p: { slug: string }) => p.slug === "pleasant-prairie");
   await expect(page.getByTestId("pilot-additional")).toHaveText("+" + fmt(sum(pp.add.upper)));
@@ -116,11 +121,11 @@ test("keyboard: skip link, tab navigation and scenario radios", async ({ page, i
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/#\/compare/);
   await expect(page.locator('nav.tabs a[aria-current="page"]')).toHaveText(/Statewide comparison/);
-  const central = page.locator('input[name="scen-compare"][value="central"]');
-  await central.focus();
-  await page.keyboard.press("ArrowRight");
-  await expect(page.locator('input[name="scen-compare"][value="upper"]')).toBeChecked();
-  await expect(page.locator('input[name="scen-compare"][value="upper"]')).toBeFocused();
+  const totals = page.getByTestId("adu-chart-mode").getByLabel("Totals");
+  await totals.check();
+  await totals.press("ArrowRight");
+  await expect(page.getByTestId("adu-chart-mode").getByLabel("Extra homes only")).toBeChecked();
+  await expect(page.getByTestId("adu-chart-mode").getByLabel("Extra homes only")).toBeFocused();
   // sortable table headers are buttons
   await page.goto("#/where");
   const sortBtn = page.locator('button.sort[data-k="homes"]');
@@ -141,6 +146,8 @@ test("no horizontal scrolling on any screen", async ({ page }) => {
 test("brief carries the headline numbers", async ({ page }) => {
   const b = await bundle(page);
   await page.goto("#/brief");
+  await expect(page.getByTestId("brief-headline")).toContainText(`${fmt(b.state.range90.low)} to ${fmt(b.state.range90.high)}`);
+  await expect(page.getByTestId("brief-headline")).toContainText("90% range");
   const t = page.getByTestId("brief-table");
   for (const s of b.state.scenarios) await expect(t).toContainText(fmt(s.additional_total));
   await expect(page.locator(".brief")).toContainText(b.run_id);
@@ -172,15 +179,11 @@ test("chart key, tables and brief use the bundle's labels", async ({ page }) => 
   const b = await bundle(page);
   const L = b.state.labels;
   await page.goto("#/compare");
-  await expect(page.getByTestId("compare-intro")).toContainText("not confidence intervals");
+  await expect(page.getByTestId("compare-intro")).toContainText("one 90% range");
   const legend = page.locator("#h-path").locator("xpath=ancestor::section").locator(".legend");
-  await expect(legend).toContainText(L.baseline);
-  await expect(legend).toContainText(L.band);
-  await expect(legend).toContainText(L.reference);
-  for (const s of b.state.scenarios) {
-    await expect(legend).toContainText(s.chart_label);
-    await expect(page.getByTestId("compare-table")).toContainText(s.chart_label);
-  }
+  await expect(legend).toContainText("90% range");
+  for (const s of b.state.side_lines.filter((x: { where: string }) => x.where === "chart")) await expect(legend).toContainText(s.label);
+  await expect(page.getByTestId("compare-table")).toContainText(L.baseline);
   await page.goto("#/brief");
   for (const s of b.state.scenarios) await expect(page.getByTestId("brief-table")).toContainText(s.chart_label);
   await expect(page.getByTestId("brief-table")).toContainText(L.reference);
@@ -211,8 +214,8 @@ test("sensitivity cases are grouped by the number they move", async ({ page }) =
 });
 
 test("scenario choice is kept in the URL and the current tab is in view", async ({ page }) => {
-  await page.goto("#/compare");
-  await page.getByLabel(/Strong adoption/).first().check();
+  await page.goto("#/where");
+  await page.locator('input[name="scen-where"][value="upper"]').check();
   await expect(page).toHaveURL(/s=upper/);
   await page.goto("#/brief");
   const tab = page.locator('nav.tabs a[aria-current="page"]');
@@ -374,31 +377,46 @@ test("statewide comparison explains why types of place differ, with the numbers 
 
 test("ADU charts toggle between totals and extra homes only", async ({ page }) => {
   const b = await bundle(page);
-  const cen = b.state.scenarios.find((s: { id: string }) => s.id === "central");
+  const R = b.state.range90;
   await page.goto("#/compare");
   const toggle = page.getByTestId("adu-chart-mode");
   await expect(toggle.getByLabel("Totals")).toBeChecked();
   const title = page.locator("#path-chart svg title"), desc = page.locator("#path-chart svg desc");
   const legend = page.locator("#path-legend");
   await expect(title).toContainText("Statewide second-home permits per year");
-  await expect(legend).toContainText(b.state.labels.band);
-  await expect(page.locator('#path-chart svg path[opacity="0.16"]')).toHaveCount(1);
+  await expect(legend).toContainText("range shaded grey");
+  await expect(page.locator('#path-chart svg path[data-band="range90"]')).toHaveCount(1);
+  await expect(page.locator('#path-chart svg path[data-band="current-law"]')).toHaveCount(1);
   await toggle.getByLabel("Extra homes only").check();
   await expect(page.getByTestId("announce")).toContainText("only the extra permits");
   await expect(title).toContainText("Extra second-home permits from the law");
-  // 2031 value in the chart summary is the bundle's central addition for 2031, and the reference line's addition
-  await expect(desc).toContainText(`${cen.name} ${fmt(cen.additional_by_year[4])}`);
-  await expect(desc).toContainText(fmt(b.state.reference_line.additional_by_year[4]));
-  await expect(legend).not.toContainText(b.state.labels.band);
-  await expect(page.locator('#path-chart svg path[opacity="0.16"]')).toHaveCount(0);
+  await expect(desc).toContainText(`${fmt(R.low)} to ${fmt(R.high)}`);
+  await expect(legend).toContainText("the zero line");
+  await expect(page.locator('#path-chart svg path[data-band="range90"]')).toHaveCount(1);
+  await expect(page.locator('#path-chart svg path[data-band="current-law"]')).toHaveCount(0);
   // keyboard: arrow key moves back to Totals
   await toggle.getByLabel("Extra homes only").press("ArrowLeft");
   await expect(toggle.getByLabel("Totals")).toBeChecked();
   await expect(title).toContainText("Statewide second-home permits per year");
-  await expect(legend).toContainText(b.state.labels.band);
   // pilot chart has the same toggle
   await page.goto("#/pilot/madison");
   const pt = page.getByTestId("adu-pilot-chart-mode");
   await pt.getByLabel("Extra homes only").check();
   await expect(page.locator("#pilot-chart svg title")).toContainText("extra second-home permits from the law");
+});
+
+test("ADU How sure and Where carry the 90% range, its coverage note and the How-sure-only lines", async ({ page }) => {
+  const b = await bundle(page);
+  const R = b.state.range90;
+  await page.goto("#/how-sure");
+  const card = page.getByTestId("howsure-range");
+  await expect(card.getByTestId("range-low")).toHaveText(fmt(R.low));
+  await expect(card.getByTestId("range-high")).toHaveText(fmt(R.high));
+  await expect(card.getByTestId("range-coverage")).toContainText(R.coverage);
+  const hs = b.state.side_lines.filter((s: { where: string }) => s.where === "howsure");
+  await expect(page.getByTestId("howsure-side-lines").locator("li")).toHaveCount(hs.length);
+  for (const s of hs) await expect(page.getByTestId("howsure-side-lines")).toContainText(s.label);
+  await expect(page.getByTestId("howsure-side-lines")).toContainText("7,517 to 13,318");
+  await page.goto("#/where");
+  await expect(page.getByTestId("where-range-note")).toContainText(`${fmt(R.low)} to ${fmt(R.high)}`);
 });

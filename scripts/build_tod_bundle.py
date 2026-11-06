@@ -44,6 +44,14 @@ BASELINE_VERSION = "all-housing baseline v4"
 ROLES = {"lower": "little", "central": "typical", "upper": "strong"}
 ADU_RUN = json.loads((ROOT / "ui" / "public" / "runs" / "latest.json").read_text())["run_id"]
 GEO_MUNIS = f"ui/public/runs/{ADU_RUN}/geo_munis.json"
+# The manifest names the ADU outline file through ADU's latest pointer, not its run id, so an ADU rebuild that leaves
+# the outlines unchanged does not make this bundle stale (CI, 2026-11-06). The hash is still of the real file.
+GEO_MUNIS_LISTED = "ui/public/runs/<latest>/geo_munis.json"
+
+
+def resolve_input(path: str) -> Path:
+    """An input path as listed in the manifest, on disk (<latest> = ADU's ui/public/runs/latest.json run id)."""
+    return ROOT / path.replace("<latest>", ADU_RUN)
 
 INPUTS = [
     "scripts/build_tod_bundle.py",
@@ -62,6 +70,7 @@ INPUTS = [
     "reference/housing_baseline_history.csv",
     "reference/gate5_housing_health.csv", "reference/adu_model_district_crosswalk.csv",
     "reference/tod_today_density.csv",
+    "reference/tod_line_draws.csv", "reference/tod_coverage_test.csv",
     GEO_MUNIS,
 ]
 
@@ -347,6 +356,78 @@ def build_statewide() -> dict:
                                 f"Here the central line is already the average of the {district['places']} district places, so no separate median line is shown."},
         "timing_caveat": TIMING,
     }
+
+
+# ---- the uniform range display (docs/UNIFORM_DISPLAY_SPEC.md) -------------------------------------
+RANGE_UNIT = "extra homes permitted near major transit stops, Wisconsin, 2027–2031"
+# Side lines across the range (spec, "Side lines"): label, the reference file and line, and one plain sentence.
+TOD_SIDE_LINES = [
+    ("average", "Average district place, 11 places (the former central)", "tod_optiond_line.csv", "optiond_average",
+     "The average measured effect of the 11 places that zoned a district near their stops, applied to Wisconsin's land within ¼ mile."),
+    ("edge", "Edge test, rezoned lots' own gain (5 places)", "tod_causal_lines.csv", "causal_lower_edge",
+     "Only the gain on the rezoned lots themselves, just inside against just outside district boundaries."),
+    ("scaled15", "Average scaled to a 15% district (11 places)", "tod_causal_lines.csv", "upper_average_scaled_15",
+     "The same average, scaled up from the places' 12% of land to the law's 15%; bigger districts gained less per acre."),
+    ("new_lines_2x2", "Rezoning near new transit lines, 2×2 (9 places)", "tod_causal_lines.csv", "causal_upper_2x2",
+     "Rezoned stops on lines that were new at the time, against new-line stops that were not rezoned."),
+    ("new_lines_trend", "Same minus the growth already under way before the reforms", "tod_causal_lines.csv", "whatif_2x2_trend_adjusted",
+     "The 2×2 reading after taking out the faster growth those stops already had before any reform (its before-reform check failed)."),
+]
+
+
+def build_range90(sw: dict) -> tuple[dict, list]:
+    """TOD's 90% range: the place bootstrap of the 11 district places (reference/tod_line_draws.csv, central_homes),
+    widened about the bootstrap point by the coverage test's factor (reference/tod_coverage_test.csv). The yearly band
+    applies each widened draw to the central line's yearly profile and takes each year's 5th to 95th percentiles."""
+    cov = pd.read_csv(REF / "tod_coverage_test.csv")
+    wid = cov[cov["check"] == "widening"].set_index("measure")
+    f_csv = float(wid.loc["widening factor f", "value"])
+    wr = wid.loc["widened Wisconsin 90% range"]
+    point, w_lo, w_hi = float(wr["value"]), float(wr["lo90"]), float(wr["hi90"])
+    cv = cov[(cov["check"] == "coverage") & cov["pool"].str.startswith("real")].iloc[0]
+    fake = cov[(cov["check"] == "coverage") & cov["pool"].str.startswith("fake")].iloc[0]
+    draws = pd.read_csv(REF / "tod_line_draws.csv")["central_homes"].astype(float)
+    p5, p95 = float(draws.quantile(0.05)), float(draws.quantile(0.95))
+    # The CSV prints f to 4 decimals; the factor that reproduces its widened ends exactly is read back from them.
+    f = (point - w_lo) / (point - p5)
+    assert abs(f - f_csv) < 5e-5 and abs((w_hi - point) / (p95 - point) - f) < 5e-5, (f, f_csv)
+    widened = point + f * (draws - point)
+    typ = next(x for x in sw["scenarios"] if x["id"] == "typical")
+    shares = [v / sum(typ["by_year"]) for v in typ["by_year"]]
+    years = [{"year": y, "low": r(float((widened * sh).quantile(0.05)), 2), "high": r(float((widened * sh).quantile(0.95)), 2)}
+             for y, sh in zip(YEARS, shares)]
+    k = lambda v: f"{whole(v):,}"  # noqa: E731
+    range90 = {
+        "low": r(float(widened.quantile(0.05)), 1), "high": r(float(widened.quantile(0.95)), 1), "unit": RANGE_UNIT,
+        "method": (f"Place bootstrap of the 11 district places ({len(draws):,} draws), widened ×{f_csv:.4f} about {k(point)} "
+                   f"after a coverage test: the unwidened range was {k(p5)} to {k(p95)}."),
+        "coverage": (f"The unwidened range held the true average in {cv['value'] * 100:.1f}% of test runs, below 90%, so it was widened. "
+                     f"A check on fake effects held only {round(fake['value'] * 100):.0f}%, so the range may still be narrow."),
+        "years_method": "Each widened draw is spread over the years like the average district place's yearly profile; each year's band is its 5th to 95th percentiles.",
+        "source": "reference/tod_line_draws.csv (central_homes), widened by reference/tod_coverage_test.csv; docs/UNIFORM_DISPLAY_SPEC.md",
+        "years": years,
+    }
+    # The record-year warning, checked at the range's high end (spec): the tool spreads homes by fixed shares, so each
+    # metro-year's extra apartment homes per 1,000 scale with the statewide total from the average district place's.
+    ck = pd.read_csv(REF / "tod_model_checks.csv")
+    ck = ck[(ck["check"] == "scale") & (ck["sizing"] == "net_effect") & (ck["scenario"] == "typical")]
+    scale_hi = range90["high"] / typ["additional_total"]
+    record = []
+    for metro, g in ck.groupby("metro", sort=True):
+        tot = g["baseline_per_1000"] + g["extra_per_1000"] * scale_hi
+        over = sorted(int(y) for y, v in zip(g["year"], tot) if v > g["own_max"].iloc[0])
+        k_ = tot.idxmax()
+        record.append({"metro": METROS[SCALE_METRO[metro]][0], "years_above_own_record": over,
+                       "peak_year": int(g.loc[k_, "year"]), "peak_total_per_1000": r(float(tot[k_]), 2),
+                       "own_max": r(float(g["own_max"].iloc[0]), 2), "above_observed_max": bool((tot > g["observed_max"]).any()),
+                       "observed_max": r(float(g["observed_max"].iloc[0]), 2)})
+    range90["record_check_high"] = record
+    side = []
+    for sid, label, fname, line, note in TOD_SIDE_LINES:
+        v = float(pd.read_csv(REF / fname).set_index("line").loc[line, "extra_homes_2027_2031"])
+        side.append({"id": sid, "label": label, "value": r(v, 1), "where": "chart", "note": note,
+                     "source": f"reference/{fname} ({line})"})
+    return range90, side
 
 
 # ---- areas ------------------------------------------------------------------------------------
@@ -1055,11 +1136,21 @@ def validate(sw: dict, areas: dict, pilots: list, today: dict) -> dict:
         check(f"{p['slug']}: district acres = 15% of the corridor's ¼-mile acres", abs(c["district_acres"] - 0.15 * c["acres"]) <= len(c["places"]), f"{c['district_acres']:,.0f} of {c['acres']:,.0f}")
     check("Eau Claire has no homes near main-case stops", pilots[2]["city_homes_near"] == 0, "no 15-minute routes")
     validate_today(today, check)
+    rg = sw["range90"]
+    wr = pd.read_csv(REF / "tod_coverage_test.csv").set_index("measure").loc["widened Wisconsin 90% range"]
+    check("90% range ends equal the coverage test's widened range (spec)", abs(rg["low"] - wr["lo90"]) < 0.5 and abs(rg["high"] - wr["hi90"]) < 0.5,
+          f"{rg['low']:,.1f} to {rg['high']:,.1f}")
+    check("90% range: yearly bands add up to the ends (shares are fixed)", abs(sum(y["low"] for y in rg["years"]) - rg["low"]) < 1
+          and abs(sum(y["high"] for y in rg["years"]) - rg["high"]) < 1, "2027–2031")
+    byid = {x["id"]: x["additional_total"] for x in sw["scenarios"]}
+    sl = {x["id"]: x["value"] for x in sw["side_lines"]}
+    check("side lines equal the former scenario totals", abs(sl["average"] - byid["typical"]) < 0.1 and abs(sl["edge"] - byid["little"]) < 0.1
+          and abs(sl["scaled15"] - byid["strong"]) < 0.1, "10,028 / 3,958 / 12,521")
     return {"passed": sum(c["passed"] for c in checks), "failed": sum(not c["passed"] for c in checks), "checks": checks}
 
 
 def main():
-    hashes = [{"path": p, "sha256": sha256(ROOT / p)} for p in INPUTS]
+    hashes = [{"path": GEO_MUNIS_LISTED if p == GEO_MUNIS else p, "sha256": sha256(ROOT / p)} for p in INPUTS]
     run_id = "tod-" + hashlib.sha256("".join(h["sha256"] for h in hashes).encode()).hexdigest()[:10]
     out = OUT_ROOT / run_id
     if OUT_ROOT.exists():
@@ -1068,6 +1159,7 @@ def main():
                 shutil.rmtree(old)
     out.mkdir(parents=True, exist_ok=True)
     sw = build_statewide()
+    sw["range90"], sw["side_lines"] = build_range90(sw)
     areas = build_areas()
     pilots = build_pilots(areas, sw)
     today = build_today()

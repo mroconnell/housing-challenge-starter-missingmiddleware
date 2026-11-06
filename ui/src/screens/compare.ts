@@ -1,7 +1,7 @@
-import { COLORS, DASH, LAW_TEXT, bindScenarioPicker, details, labelScrollers, scenarioPicker, scenKey, scenPhrase, scenShort, type Ctx } from "../app";
-import { bindChartMode, chartModeToggleHTML, legendHTML, xyChart, type ChartMode } from "../charts";
-import { PATHS } from "../data";
-import { dec, esc, int, pct, pill, YEARS } from "../format";
+import { LAW_TEXT, details, labelScrollers, type Ctx } from "../app";
+import { bindChartMode, chartModeToggleHTML, type ChartMode } from "../charts";
+import { dec, esc, int, pct, YEARS } from "../format";
+import { ALL_HOUSING_BASELINE_2027_2031, drawRangeChart, num, rangeCardHTML, sideLinesHTML } from "../range";
 
 /** "Why places differ": one plain paragraph, the rural note, and the numbers one click away (docs/gate5/MODEL_CHECKS.md, 3b). */
 function whyDiffer(ctx: Ctx, totalCtx: number, homesCtx: number): string {
@@ -30,30 +30,32 @@ function whyDiffer(ctx: Ctx, totalCtx: number, homesCtx: number): string {
   </div>`;
 }
 
+/** The ADU range card and its chart side lines (shared with the brief and How sure). */
+export const ADU_SCOPE = "These are ADU permits: second homes on single-family lots, not all homes.";
+export function aduRangeCard(ctx: Ctx, headingLevel: 2 | 3 = 2, testid = "range-card"): string {
+  return rangeCardHTML({ title: "Extra ADU permits from the law: the 90% range", range: ctx.b.state.range90, baselineTotal: ALL_HOUSING_BASELINE_2027_2031, scopeNote: ADU_SCOPE, testid, headingLevel });
+}
+
 export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "rate" = "permits"): void {
   const s = ctx.b.state;
-  const sel = ctx.scen();
+  const R = s.range90;
   const homesK = (s.homes.value ?? 0) / 1000;
   const base = s.baseline;
-  const ref = s.reference_line;
-  const lo = ctx.scen("lower"), cen = ctx.scen("central"), up = ctx.scen("upper");
+  const chartLines = s.side_lines.filter((x) => x.where === "chart");
   const totalCtx = s.contexts.reduce((a, c) => a + c.additional_central, 0);
   const homesCtx = s.contexts.reduce((a, c) => a + c.homes, 0);
-
   const L = s.labels;
-  // TODO(lower scenario): the lower scenario's definition is being revised (docs/gate4/SCENARIO_OPTIONS.md). Its name,
-  // title, text and method all come from the bundle (scripts/build_ui_bundle.py, DISPLAY block), so only that changes.
-  // Chart key: the shaded range only appears in the totals view; in the extra-homes view current law is the zero line.
-  const legend = (mode: ChartMode) => legendHTML([
-    { name: mode === "extra" ? `${L.baseline}: the zero line` : L.baseline, color: COLORS.baseline, dash: DASH.baseline },
-    ...PATHS.map((p) => ({ name: scenKey(ctx, p), color: COLORS[p], dash: DASH[p], width: p === ctx.ui.scenario ? 4 : 2 })),
-    ...(mode === "totals" ? [{ name: L.band, color: COLORS.central, kind: "band" as const }] : []),
-    { name: L.reference, color: COLORS.ref },
-    ...(ref.carried_forward_years?.length ? [{ name: `${ref.carried_forward_years.join(", ")}: carried forward`, color: COLORS.ref, dash: "4 4" }] : []),
-  ]);
   main.innerHTML = `
   <h1>A statewide ADU law: what it adds</h1>
-  <p class="lede" data-testid="compare-intro">${esc(s.page_intro.compare)}</p>
+  <p class="lede" data-testid="compare-intro">How many more second-home (ADU) permits Wisconsin would issue over 2027–2031 with a statewide ADU law than under current law. The answer is one 90% range. The thin lines across it are other ways of reaching the number, shown as reasons to believe; none of them is "the" estimate.</p>
+
+  ${aduRangeCard(ctx)}
+
+  <section class="card" aria-labelledby="h-side">
+    <h2 id="h-side">Lines across the range</h2>
+    ${sideLinesHTML(chartLines, "ADU permits over 2027–2031", "side-lines", "Each line is drawn on the chart below. Lines can sit outside the range; they do not change it.")}
+    <p class="small"><a href="${ctx.link("/how-sure")}">More lines and what-ifs are on How sure →</a></p>
+  </section>
 
   <section class="card" aria-labelledby="h-path">
     <div class="card-head">
@@ -65,68 +67,46 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
     </div>
     ${chartModeToggleHTML("adu-chart-mode")}
     <div class="chart-box" id="path-chart"></div>
-    <div id="path-legend">${legend("totals")}</div>
-    <p class="summary" data-testid="compare-summary">Over 2027–2031, ${esc(scenPhrase(ctx))} adds about <strong>${int(sel.additional_total)}</strong> permits on top of <strong>${int(base.total)}</strong> without statewide reform. The three scenarios run from ${int(lo.additional_total)} to ${int(up.additional_total)} added permits. The ${esc(L.reference.charAt(0).toLowerCase() + L.reference.slice(1))} gives ${int(ref.additional_total)}.</p>
-    <p class="muted small">${esc(ref.info)} 2026 is a bridge year without reform (${int(base.bridge_2026.central)} permits, ${int(base.bridge_2026.low)}–${int(base.bridge_2026.high)}). The 1 January 2027 start date is stylized.</p>
+    <div id="path-legend"></div>
+    <p class="summary" data-testid="compare-summary">Over 2027–2031, the law adds <strong>${num(R.low)} to ${num(R.high)}</strong> ADU permits (90% range) on top of <strong>${int(base.total)}</strong> without statewide reform (range ${int(base.low_total)} to ${int(base.high_total)}).</p>
+    <p class="muted small">The band and the side lines are spread over the years by one fixed yearly profile, so each year's share of the five-year total is the same for all of them. 2026 is a bridge year without reform (${int(base.bridge_2026.central)} permits, ${int(base.bridge_2026.low)}–${int(base.bridge_2026.high)}). The 1 January 2027 start date is stylized.</p>
   </section>
 
   <p class="law"><strong>The law.</strong> ${LAW_TEXT}</p>
 
-  ${scenarioPicker(ctx, "scen-compare")}
-
-  <div class="tiles tiles-3">
-    <section class="tile">
-      <h2 class="tile-label">${esc(L.baseline)}</h2>
-      <p class="tile-num" data-testid="baseline-total">${int(base.total)}</p>
-      <p class="tile-sub">permits over 2027–2031 ${pill("calculated")}</p>
-      <p class="tile-note">Range ${int(base.low_total)}–${int(base.high_total)}. The same in every scenario.</p>
-    </section>
-    <section class="tile tile-accent">
-      <h2 class="tile-label">Added by statewide ADU reform (${esc(scenShort(ctx))})</h2>
-      <p class="tile-num" data-testid="additional-total">+${int(sel.additional_total)}</p>
-      <p class="tile-sub">additional permits over 2027–2031 ${pill("calculated")}</p>
-      <p class="tile-note">About ${int(sel.additional_total / 5)} a year. Lower / central / strong adoption: ${int(lo.additional_total)} / ${int(cen.additional_total)} / ${int(up.additional_total)}.</p>
-    </section>
-    <section class="tile">
-      <h2 class="tile-label">Total with statewide ADU reform</h2>
-      <p class="tile-num" data-testid="withlaw-total">${int(sel.with_law_total)}</p>
-      <p class="tile-sub">permits over 2027–2031 (baseline plus added) ${pill("calculated")}</p>
-      <p class="tile-note">In 2031: ${dec(sel.with_law_rate_by_year[4])} permits per 1,000 single-family homes per year, against ${dec(base.by_year[4] / homesK)} without reform.</p>
-    </section>
-  </div>
-
   <section class="card" aria-labelledby="h-tbl">
     <h2 id="h-tbl">Permits by year</h2>
     <div class="table-wrap">
-    <table class="data" data-testid="compare-table"><caption>Second-home permits by year. Added permits are on top of the baseline.</caption>
-      <thead><tr><th scope="col">Year</th><th scope="col" class="num">${esc(L.baseline)}</th>${PATHS.map((p) => `<th scope="col" class="num ${p === ctx.ui.scenario ? "hl" : ""}">${esc(scenKey(ctx, p))}: ${esc(L.added)}</th>`).join("")}<th scope="col" class="num">${esc(L.reference)}: ${esc(L.added)}</th><th scope="col" class="num">Total with ${esc(scenKey(ctx))}</th></tr></thead>
-      <tbody>${YEARS.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${int(base.by_year[i])}</td>${PATHS.map((p) => `<td class="num ${p === ctx.ui.scenario ? "hl" : ""}">${int(ctx.scen(p).additional_by_year[i])}</td>`).join("")}<td class="num">${int(ref.additional_by_year[i])}</td><td class="num">${int(base.by_year[i] + sel.additional_by_year[i])}</td></tr>`).join("")}</tbody>
-      <tfoot><tr><th scope="row">2027–2031</th><td class="num">${int(base.total)}</td>${PATHS.map((p) => `<td class="num ${p === ctx.ui.scenario ? "hl" : ""}" data-testid="total-${p}">${int(ctx.scen(p).additional_total)}</td>`).join("")}<td class="num">${int(ref.additional_total)}</td><td class="num">${int(sel.with_law_total)}</td></tr></tfoot>
+    <table class="data" data-testid="compare-table"><caption>Second-home (ADU) permits by year: current law, and the law's extra permits as a 90% range</caption>
+      <thead><tr><th scope="col">Year</th><th scope="col" class="num">${esc(L.baseline)}</th><th scope="col" class="num">Current law: low</th><th scope="col" class="num">Current law: high</th><th scope="col" class="num">Extra with the law: low end</th><th scope="col" class="num">Extra with the law: high end</th></tr></thead>
+      <tbody>${YEARS.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${int(base.by_year[i])}</td><td class="num">${int(base.low_by_year[i])}</td><td class="num">${int(base.high_by_year[i])}</td><td class="num">${int(R.years[i].low)}</td><td class="num">${int(R.years[i].high)}</td></tr>`).join("")}</tbody>
+      <tfoot><tr><th scope="row">2027–2031</th><td class="num">${int(base.total)}</td><td class="num">${int(base.low_total)}</td><td class="num">${int(base.high_total)}</td><td class="num" data-testid="table-range-low">${num(R.low)}</td><td class="num" data-testid="table-range-high">${num(R.high)}</td></tr></tfoot>
     </table></div>
+    <p class="small muted">Yearly ends are the five-year ends times each year's fixed share; they are not added to current law's own range. Rows may not add exactly because of rounding.</p>
     ${details("Statewide rates (permits per 1,000 single-family homes per year)", `
-      <div class="table-wrap"><table class="data"><caption>(baseline + added permits in the year) ÷ ${dec(homesK, 3)} thousand single-family homes</caption>
-      <thead><tr><th scope="col">Year</th><th scope="col" class="num">${esc(L.baseline)}</th>${PATHS.map((p) => `<th scope="col" class="num">${esc(scenKey(ctx, p))}</th>`).join("")}<th scope="col" class="num">${esc(L.reference)}</th></tr></thead>
-      <tbody>${YEARS.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${dec(base.by_year[i] / homesK)}</td>${PATHS.map((p) => `<td class="num">${dec(ctx.scen(p).with_law_rate_by_year[i])}</td>`).join("")}<td class="num">${dec(ref.rate_by_year[i])}</td></tr>`).join("")}</tbody></table></div>`)}
-    ${details("How each scenario is calculated", `<ul class="plain small" data-testid="scenario-method">${PATHS.map((p) => { const sc = ctx.scen(p); return `<li><strong>${esc(sc.chart_label)}.</strong> ${esc(sc.info)}${sc.todo ? ` <em>Note: ${esc(sc.todo)}.</em>` : ""}</li>`; }).join("")}
-      <li><strong>${esc(L.reference)}.</strong> ${esc(ref.detail)} ${esc(ref.why_central_differs)}</li>
+      <div class="table-wrap"><table class="data"><caption>Permits in the year ÷ ${dec(homesK, 3)} thousand single-family homes</caption>
+      <thead><tr><th scope="col">Year</th><th scope="col" class="num">${esc(L.baseline)}</th><th scope="col" class="num">Extra with the law: low end</th><th scope="col" class="num">Extra with the law: high end</th></tr></thead>
+      <tbody>${YEARS.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${dec(base.by_year[i] / homesK)}</td><td class="num">${dec(R.years[i].low / homesK)}</td><td class="num">${dec(R.years[i].high / homesK)}</td></tr>`).join("")}</tbody></table></div>`)}
+    ${details("How the range and the lines are made", `<ul class="plain small" data-testid="scenario-method">
+      <li><strong>The 90% range.</strong> ${esc(R.method)} ${esc(R.coverage)}</li>
+      ${chartLines.map((x) => `<li><strong>${esc(x.label)}.</strong> ${esc(x.note)}</li>`).join("")}
       <li><strong>The law never subtracts.</strong> ${esc(ctx.b.manifest.terms.never_subtracts ?? "")}</li>
       <li><strong>Madison.</strong> ${esc(ctx.b.areas.munis.find((a) => a.note)?.note ?? "")} See <a href="${ctx.link("/pilot/madison")}">the Madison pilot</a>.</li></ul>
-      <p class="muted small">Scenarios, not confidence intervals: ${esc(ctx.b.manifest.terms.scenarios)}</p>`)}
-    <p><a href="${ctx.link("/how-sure")}">What drives the range? See the sensitivity analysis →</a></p>
+      <p class="muted small">Source of the range: ${esc(R.source)}.</p>`)}
+    <p><a href="${ctx.link("/how-sure")}">What drives the range? See How sure →</a></p>
   </section>
 
   <section class="card" aria-labelledby="h-ctx">
     <h2 id="h-ctx">By type of place</h2>
-    <p class="muted">Added permits over 2027–2031 in ${esc(scenPhrase(ctx))}; the range in brackets runs from the lower to the strong adoption scenario.</p>
-    <div class="table-wrap"><table class="data"><caption class="sr-only">Added permits by type of place</caption>
-      <thead><tr><th scope="col">Type of place</th><th scope="col" class="num">Single-family homes</th><th scope="col" class="num">Share of homes</th><th scope="col" class="num">${esc(L.baseline)}</th><th scope="col" class="num">Added (lower to strong adoption)</th><th scope="col" class="num">Share of added</th></tr></thead>
-      <tbody>${s.contexts.map((c) => { const v = (c as unknown as Record<string, number>)[`additional_${ctx.ui.scenario}`]; const tot = s.contexts.reduce((a, x) => a + (x as unknown as Record<string, number>)[`additional_${ctx.ui.scenario}`], 0); return `<tr><th scope="row">${esc(c.label)}</th><td class="num">${int(c.homes)}</td><td class="num">${pct(c.homes / homesCtx)}</td><td class="num">${int(c.baseline)}</td><td class="num">${int(v)} <span class="muted">(${int(c.additional_lower)} to ${int(c.additional_upper)})</span></td><td class="num">${pct(v / tot)}</td></tr>`; }).join("")}</tbody>
-      <tfoot><tr><th scope="row">Wisconsin</th><td class="num">${int(homesCtx)}</td><td class="num">100%</td><td class="num">${int(base.total)}</td><td class="num">${int(sel.additional_total)}</td><td class="num">100%</td></tr></tfoot>
+    <p class="muted">Extra ADU permits over 2027–2031 by type of place. Each type's range is the statewide 90% range times its fixed share of the statewide addition.</p>
+    <div class="table-wrap"><table class="data" data-testid="context-table"><caption class="sr-only">Extra permits by type of place</caption>
+      <thead><tr><th scope="col">Type of place</th><th scope="col" class="num">Single-family homes</th><th scope="col" class="num">Share of homes</th><th scope="col" class="num">${esc(L.baseline)}</th><th scope="col" class="num">Share of the extra permits</th><th scope="col" class="num">Extra permits, 90% range</th></tr></thead>
+      <tbody>${s.contexts.map((c) => { const sh = c.additional_central / totalCtx; return `<tr><th scope="row">${esc(c.label)}</th><td class="num">${int(c.homes)}</td><td class="num">${pct(c.homes / homesCtx)}</td><td class="num">${int(c.baseline)}</td><td class="num">${pct(sh)}</td><td class="num">${int(sh * R.low)} to ${int(sh * R.high)}</td></tr>`; }).join("")}</tbody>
+      <tfoot><tr><th scope="row">Wisconsin</th><td class="num">${int(homesCtx)}</td><td class="num">100%</td><td class="num">${int(base.total)}</td><td class="num">100%</td><td class="num">${num(R.low)} to ${num(R.high)}</td></tr></tfoot>
     </table></div>
     ${whyDiffer(ctx, totalCtx, homesCtx)}
   </section>`;
 
-  bindScenarioPicker(ctx, main, "scen-compare");
   main.querySelectorAll<HTMLInputElement>('input[name="units"]').forEach((i) =>
     i.addEventListener("change", () => {
       renderCompare(ctx, main, i.value as "permits" | "rate");
@@ -135,52 +115,20 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
       ctx.announce(i.value === "rate" ? "Chart shows permits per 1,000 single-family homes per year." : "Chart shows permits per year.");
     }));
 
-  const f = units === "rate" ? (v: number) => v / homesK : (v: number) => v;
-  const pts = (arr: number[]) => YEARS.map((y, i) => ({ x: y, y: f(arr[i]) }));
-  const withLaw = (p: string) => YEARS.map((_, i) => base.by_year[i] + ctx.scen(p as never).additional_by_year[i]);
-  const prior = [{ x: 2026, y: f(base.bridge_2026.central) }];
-  const cf = ref.carried_forward_years ?? [];
-  const rateTitle = (t: string) => units === "rate" ? `${t} per 1,000 single-family homes per year, 2026 to 2031` : `${t} per year, 2026 to 2031`;
+  const rate = units === "rate";
+  const f = rate ? (v: number) => v / homesK : (v: number) => v;
   const draw = (mode: ChartMode) => {
-    main.querySelector("#path-legend")!.innerHTML = legend(mode);
-    const refVals = mode === "extra" ? ref.additional_by_year : ref.with_law_by_year;
-    const refLines = [
-      // reference line: solid through the last drawn year, then dashed where values are carried forward
-      { name: "Reference", color: COLORS.ref, width: 2, values: YEARS.map((y, i) => ({ x: y, y: cf.includes(y) ? null : f(refVals[i]) })) },
-      ...(cf.length ? [{ name: "Reference, carried forward", color: COLORS.ref, dash: "4 4", width: 2, values: YEARS.map((y, i) => ({ x: y, y: cf.includes(y) || cf.includes(y + 1) ? f(refVals[i]) : null })) }] : []),
-    ];
-    const common = {
-      yFormat: units === "rate" ? (y: number) => y.toFixed(1) : undefined,
-      xTicks: [2026, ...YEARS], xPad: 0.4,
-      vline: { x: 2026.5, label: "law takes effect (stylized)" },
-    };
-    if (mode === "extra") {
-      const fmt = (v: number) => units === "rate" ? dec(f(v)) : int(v);
-      xyChart(main.querySelector("#path-chart")!, {
-        ...common,
-        title: rateTitle("Extra second-home permits from the law"),
-        desc: `Extra permits above ${L.baseline.toLowerCase()}, which is the zero line. In 2031: ${PATHS.map((p) => `${ctx.scen(p).name} ${fmt(ctx.scen(p).additional_by_year[4])}`).join(", ")}${units === "rate" ? " per 1,000 single-family homes" : " permits"}. ${L.reference}: ${fmt(ref.additional_by_year[4])}. Over 2027–2031: ${PATHS.map((p) => `${ctx.scen(p).name} ${int(ctx.scen(p).additional_total)}`).join(", ")} permits.`,
-        yLabel: units === "rate" ? "Extra permits per 1,000 single-family homes per year" : "Extra permits per year",
-        series: [
-          { name: "Baseline", color: COLORS.baseline, dash: DASH.baseline, values: [2026, ...YEARS].map((y) => ({ x: y, y: 0 })), width: 2.5 },
-          ...PATHS.map((p) => ({ name: p, color: COLORS[p], dash: DASH[p], width: p === ctx.ui.scenario ? 4 : 2, values: [{ x: 2026, y: 0 }, ...pts(ctx.scen(p).additional_by_year)], marker: p === ctx.ui.scenario ? ("circle" as const) : undefined })),
-          ...refLines,
-        ],
-      });
-      return;
-    }
-    xyChart(main.querySelector("#path-chart")!, {
-      ...common,
-      title: units === "rate" ? "Statewide second-home permit rate per 1,000 single-family homes per year, 2026 to 2031" : "Statewide second-home permits per year, 2026 to 2031",
-      desc: `${L.baseline}: about ${int(base.by_year[0])} to ${int(base.by_year[4])} permits a year. With the law in 2031: ${PATHS.map((p) => `${ctx.scen(p).name} ${int(withLaw(p)[4])}`).join(", ")} permits. ${L.reference}: ${int(ref.with_law_by_year[4])}.`,
-      yLabel: units === "rate" ? "Permits per 1,000 single-family homes per year" : "Permits per year",
-      band: { name: "range", lo: pts(withLaw("lower")), hi: pts(withLaw("upper")), color: COLORS.central },
-      series: [
-        { name: "Baseline", color: COLORS.baseline, dash: DASH.baseline, values: [...prior, ...pts(base.by_year)], width: 2.5 },
-        ...PATHS.map((p) => ({ name: p, color: COLORS[p], dash: DASH[p], width: p === ctx.ui.scenario ? 4 : 2, values: [...prior, ...pts(withLaw(p))], marker: p === ctx.ui.scenario ? ("circle" as const) : undefined })),
-        ...refLines,
-      ],
+    const legend = drawRangeChart(main.querySelector("#path-chart")!, {
+      mode, range: R, sideLines: chartLines, f, noun: "ADU permits",
+      base: { years: YEARS, central: base.by_year, low: base.low_by_year, high: base.high_by_year, prior: { year: 2026, value: base.bridge_2026.central } },
+      title: mode === "extra"
+        ? (rate ? "Extra second-home permits from the law per 1,000 single-family homes per year, 2026 to 2031" : "Extra second-home permits from the law per year, 2026 to 2031")
+        : (rate ? "Statewide second-home permit rate per 1,000 single-family homes per year, 2026 to 2031" : "Statewide second-home permits per year, 2026 to 2031"),
+      yLabel: mode === "extra" ? (rate ? "Extra permits per 1,000 single-family homes per year" : "Extra permits per year") : (rate ? "Permits per 1,000 single-family homes per year" : "Permits per year"),
+      yFormat: rate ? (y: number) => y.toFixed(1) : undefined,
+      xTicks: [2026, ...YEARS], vline: { x: 2026.5, label: "law takes effect (stylized)" },
     });
+    main.querySelector("#path-legend")!.innerHTML = legend;
   };
   bindChartMode("adu-chart-mode", draw);
   main.querySelector("#adu-chart-mode")?.addEventListener("change", (e) =>

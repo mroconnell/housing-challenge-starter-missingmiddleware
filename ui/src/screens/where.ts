@@ -1,3 +1,4 @@
+import { num } from "../range";
 import { bindScenarioPicker, bindUnknownPicker, details, labelScrollers, noteBox, scenarioPicker, scenPhrase, scenShort, unknownPicker, unknownVariant, type Ctx, type Spread } from "../app";
 import type { Area, County, District, PathId } from "../data";
 
@@ -141,6 +142,7 @@ export function renderWhere(ctx: Ctx, main: HTMLElement): void {
   main.innerHTML = `
   <h1>Where: counties, municipalities and legislative districts</h1>
   <p class="lede">The statewide result split across Wisconsin's 72 counties, 1,925 cities, villages and towns (census county subdivisions), 99 Assembly districts and 33 Senate districts. The map fills whole areas; it never marks a lot or a building. Smaller areas are rough shares of the statewide result, rounded, with the lower and strong adoption scenarios as a range.</p>
+  <p class="small" data-testid="where-range-note">Each area's 90% range is the statewide 90% range (${num(ctx.b.state.range90.low)} to ${num(ctx.b.state.range90.high)} ADU permits, 2027–2031) times the area's share, because the model spreads permits across places by fixed shares.</p>
   <div class="controls card" role="group" aria-label="Map and table settings">
     <fieldset class="seg"><legend>Areas</legend>
       <label><input type="radio" name="geo" value="counties" ${ws.geo === "counties" ? "checked" : ""}> Counties</label>

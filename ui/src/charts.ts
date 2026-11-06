@@ -6,11 +6,15 @@ export interface Pt { x: number; y: number | null }
 export interface Series {
   name: string; values: Pt[]; color: string; dash?: string; width?: number; opacity?: number; marker?: "circle" | "square";
   legend?: boolean;
+  /** Written as data-series on the line, so tests can find a line by its role. */
+  id?: string;
 }
 export interface BarSeries { name: string; values: (Pt & { hatch?: boolean })[]; color: string }
 export interface ChartSpec {
   title: string; desc: string; yLabel: string; xTicks: number[]; xFormat?: (x: number) => string;
   series: Series[]; band?: { name: string; lo: Pt[]; hi: Pt[]; color: string }; bars?: BarSeries;
+  /** Extra shaded bands, drawn in order after `band`; each is written with data-band="<name>". */
+  bands?: { name: string; lo: Pt[]; hi: Pt[]; color: string; opacity?: number }[];
   vline?: { x: number; label: string }; height?: number;
   /** Short text labels placed at data points (e.g. "provisional, partial year"). */
   notes?: { x: number; y: number; text: string; anchor?: "start" | "middle" | "end"; dy?: number }[]; yMax?: number; yFormat?: (y: number) => string; xPad?: number;
@@ -50,10 +54,12 @@ export function xyChart(container: HTMLElement, spec: ChartSpec): void {
     let ymin = 0;
     for (const s of spec.series) for (const p of s.values) if (p.y !== null) ymin = Math.min(ymin, p.y);
     if (spec.band) for (const p of spec.band.lo) if (p.y !== null) ymin = Math.min(ymin, p.y);
+    for (const b of spec.bands ?? []) for (const p of b.lo) if (p.y !== null) ymin = Math.min(ymin, p.y);
     if (spec.bars) for (const p of spec.bars.values) if (p.y !== null) ymin = Math.min(ymin, p.y);
     if (!spec.yMax) {
       for (const s of spec.series) for (const p of s.values) if (p.y !== null) ymax = Math.max(ymax, p.y);
       if (spec.band) for (const p of spec.band.hi) if (p.y !== null) ymax = Math.max(ymax, p.y);
+      for (const b of spec.bands ?? []) for (const p of b.hi) if (p.y !== null) ymax = Math.max(ymax, p.y);
       if (spec.bars) for (const p of spec.bars.values) if (p.y !== null) ymax = Math.max(ymax, p.y);
       ymax = ymax > 0 ? niceMax(ymax * (spec.notes?.length ? 1.2 : 1.05)) : 0;
     }
@@ -102,6 +108,11 @@ export function xyChart(container: HTMLElement, spec: ChartSpec): void {
       const d = hi.map((p, i) => `${i ? "L" : "M"}${X(p.x)},${Y(p.y!)}`).join("") + lo.slice().reverse().map((p) => `L${X(p.x)},${Y(p.y!)}`).join("") + "Z";
       parts.push(`<path d="${d}" fill="${spec.band.color}" opacity="0.16"/>`);
     }
+    for (const b of spec.bands ?? []) {
+      const lo = b.lo.filter((p) => p.y !== null), hi = b.hi.filter((p) => p.y !== null);
+      const d = hi.map((p, i) => `${i ? "L" : "M"}${X(p.x)},${Y(p.y!)}`).join("") + lo.slice().reverse().map((p) => `L${X(p.x)},${Y(p.y!)}`).join("") + "Z";
+      parts.push(`<path d="${d}" fill="${b.color}" opacity="${b.opacity ?? 0.2}" data-band="${esc(b.name)}"/>`);
+    }
     for (const s of spec.series) {
       const segs: string[] = [];
       let pen = false;
@@ -110,7 +121,7 @@ export function xyChart(container: HTMLElement, spec: ChartSpec): void {
         segs.push(`${pen ? "L" : "M"}${X(p.x).toFixed(1)},${Y(p.y).toFixed(1)}`);
         pen = true;
       }
-      parts.push(`<path d="${segs.join("")}" fill="none" stroke="${s.color}" stroke-width="${s.width ?? 2.5}" ${s.dash ? `stroke-dasharray="${s.dash}"` : ""} opacity="${s.opacity ?? 1}" stroke-linejoin="round" stroke-linecap="round"/>`);
+      parts.push(`<path d="${segs.join("")}"${s.id ? ` data-series="${esc(s.id)}"` : ""} fill="none" stroke="${s.color}" stroke-width="${s.width ?? 2.5}" ${s.dash ? `stroke-dasharray="${s.dash}"` : ""} opacity="${s.opacity ?? 1}" stroke-linejoin="round" stroke-linecap="round"/>`);
       if (s.marker) for (const p of s.values) if (p.y !== null)
         parts.push(s.marker === "square"
           ? `<rect x="${X(p.x) - 3.5}" y="${Y(p.y) - 3.5}" width="7" height="7" fill="${s.color}" opacity="${s.opacity ?? 1}"/>`

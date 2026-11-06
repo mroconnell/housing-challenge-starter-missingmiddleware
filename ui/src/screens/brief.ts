@@ -1,10 +1,11 @@
 import { LAW_TEXT, type Ctx } from "../app";
 import { PATHS, sum, type District } from "../data";
 import { dec, esc, int, pct } from "../format";
+import { num, sideValue } from "../range";
 
 export function renderBrief(ctx: Ctx, main: HTMLElement): void {
   const m = ctx.b.manifest, s = ctx.b.state, u = ctx.b.uncertainty;
-  const cen = ctx.scen("central"), lo = ctx.scen("lower"), up = ctx.scen("upper");
+  const cen = ctx.scen("central");
   const L = s.labels;
   const counties = [...ctx.b.areas.counties].sort((a, b) => sum(b.add.central) - sum(a.add.central));
   const top = counties.slice(0, 10);
@@ -19,8 +20,8 @@ export function renderBrief(ctx: Ctx, main: HTMLElement): void {
   <article class="brief" aria-labelledby="brief-h">
     <header class="brief-head">
       <p class="eyebrow">Policy brief · Wisconsin · accessory dwelling units</p>
-      <h1 id="brief-h">A statewide ADU law could add about ${int(cen.additional_total)} second-home permits over 2027–2031</h1>
-      <p class="brief-sub">On top of about ${int(s.baseline.total)} without statewide reform. Scenarios: ${int(lo.additional_total)} (lower) to ${int(up.additional_total)} (strong adoption) added permits.</p>
+      <h1 id="brief-h" data-testid="brief-headline">A statewide ADU law could add ${num(s.range90.low)} to ${num(s.range90.high)} second-home (ADU) permits over 2027–2031 (90% range)</h1>
+      <p class="brief-sub">On top of about ${int(s.baseline.total)} without statewide reform. Lines across the range: ${s.side_lines.filter((x) => x.where === "chart").map((x) => `${esc(x.label.charAt(0).toLowerCase() + x.label.slice(1))}, ${sideValue(x)}`).join("; ")}. ${esc(s.range90.caveat ?? "")}</p>
     </header>
 
     <h2>What the law changes</h2>

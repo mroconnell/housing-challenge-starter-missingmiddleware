@@ -38,8 +38,11 @@ class TestTodBundle(unittest.TestCase):
 
     def test_run_id_is_hash_of_inputs(self):
         hs = []
+        adu = json.loads((ROOT / "ui" / "public" / "runs" / "latest.json").read_text())["run_id"]
         for i in self.m["inputs"]:
-            p = ROOT / i["path"]
+            # the ADU outline file is listed through ADU's latest pointer, not a run id
+            self.assertNotRegex(i["path"], r"runs/adu-[0-9a-f]+/", i["path"])
+            p = ROOT / i["path"].replace("<latest>", adu)
             self.assertTrue(p.exists(), i["path"])
             self.assertEqual(hashlib.sha256(p.read_bytes()).hexdigest(), i["sha256"], i["path"])
             hs.append(i["sha256"])

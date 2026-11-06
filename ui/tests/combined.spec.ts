@@ -126,7 +126,9 @@ test("the combined view leaves TOD, parking and ADU numbers unchanged", async ({
   await expect(page.locator("main h1").first()).toBeVisible();   // let the combined screen finish loading first
   await page.goto("#/tod/compare");
   await expect(page).toHaveURL(/#\/tod\/compare/);
-  await expect(page.getByTestId("add-strong")).toHaveText(fmt(strong.additional_total));
+  // TOD shows its 90% range; the former upper line is a side line across it
+  await expect(page.getByTestId("range-card").getByTestId("range-high")).toHaveText(fmt(tod.statewide.range90.high));
+  await expect(page.getByTestId("side-lines")).toContainText(fmt(strong.additional_total));
   await page.goto("#/parking/compare");
   await expect(page.getByTestId("add-upper")).toHaveText(fmt(pUp.additional_total));
   // the combined stylesheet must not restyle ADU's sort headers
