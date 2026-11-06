@@ -42,13 +42,17 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       writeUrl();
       env.refresh();
       const v = b.unknown.variants.find((x) => x.id === u)!;
-      ctx.announce(`Places with uncoded rules treated ${v.label.toLowerCase()}. Over 2027 to 2031, central scenario: baseline ${int(v.baseline_total)}, added by the law ${int(v.additional_total.central)}, total with the law ${int(v.with_law_total.central)} permits.`);
+      // Uniform display: the addition as a 90% range (typical adoption, the former central, times the statewide
+      // range's low and high multipliers), as on the How sure tiles.
+      const R = b.state.range90, typ = ctx.scen("central").additional_total, lo = R.low / typ, hi = R.high / typ;
+      const add = v.additional_total.central;
+      ctx.announce(`Places with uncoded rules treated ${v.label.toLowerCase()}. Over 2027 to 2031: ${int(v.baseline_total)} permits without the law; the law adds ${int(add * lo)} to ${int(add * hi)} permits (90% range); ${int(v.baseline_total + add * lo)} to ${int(v.baseline_total + add * hi)} permits in total with the law.`);
     },
     setSpread(s: Spread) {
       ui.spread = s;
       writeUrl();
       env.refresh();
-      ctx.announce(s === "forest" ? `Central addition spread by the causal forest pattern. ${b.forest.note}` : "Central addition spread by our model.");
+      ctx.announce(s === "forest" ? `The law's addition spread by the causal forest pattern. ${b.forest.note}` : "The law's addition spread by our model.");
     },
     scen(p?: PathId) { return b.state.scenarios.find((s) => s.id === (p ?? ui.scenario))!; },
     link: (path: string) => env.link(path),
