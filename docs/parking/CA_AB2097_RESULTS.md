@@ -201,7 +201,7 @@ either). Edge = homes other than ADUs per 1,000 existing homes a year, 2023–20
 | Sacramento (city layer) | placebo city | 104,311 | 58,396 | 53.7% | +0.482 (−6.214 to +7.537) |
 | Truckee (Train Depot ½ mile) | main | 351 | 354 | 99.2% | −73.675 (−151.487 to +0.291); too few permits to read |
 | Palo Alto (3 Caltrain stations, rebuilt from our station list, not the PDF) | main | 5,526 | 11,772 | 46.9% | −6.008 (−22.833 to +4.557); too few permits to read |
-| Santa Cruz | main | pending: PDF stops need matching by hand | | | |
+| Santa Cruz (rebuilt from its PDF; approximate, rebuilt by hand) | main | 15,392 | 2,708 | 17.6% | +2.833 (−4.008 to +11.196); 2 permitted homes outside the line after 2023 |
 
 - Oakland's own 2023 map and ours overlap on 83% of the homes either one covers. Ours is a little wider, consistent
   with today's 20-minute bus rule.
@@ -209,6 +209,13 @@ either). Edge = homes other than ADUs per 1,000 existing homes a year, 2023–20
 - In Palo Alto our map covers twice the city's rail circles because it adds today's bus major stops.
 - Placebo cities: the plan's rule needs each placebo city's range to include 0. Oakland's (−15.749 to +14.639) and
   Sacramento's (−6.214 to +7.537) do, but the ranges are so wide that passing says little.
+- **Santa Cruz** (Ryan 2026-11-06): rebuilt from the Coastal Commission exhibit (2024 hearing) by matching its about
+  45 stop icons by eye to named Santa Cruz Metro stops, after the main results were seen (the Santa Cruz edge result
+  was not read before the match). 65 stops matched, with 46 distinct names: most icons stand for a stop on both sides
+  of the street. The exhibit shows stops across the whole UCSC campus loop, so every UCSC stop (26 stops, 16 names) is
+  included. Stop locations are today's (National Transit Map), not those of the 2023 exhibit. The city's map covers
+  15,392 of the city's 24,014 homes; ours covers 2,708, all inside the city's area. Santa Cruz drew a far wider area
+  than our reading of the law. The other cities' rows reproduce exactly when re-run.
 - No city-line edge shows a measurable change. Truckee and Palo Alto have only a few dozen permitted homes near their
   lines, so their ranges are very wide.
 
@@ -256,8 +263,7 @@ comparison is not yet run.
   public: https://www.arcgis.com/sharing/rest/content/items/561dc5b42fa9451b95faf615a3054260 returned
   "Item does not exist or is inaccessible." (accessed 2026-11-05). MTC's other 2017 layers are corridors
   and priority areas, not major stops, so the spec's comparison cannot be run as written. Not run.
-- **Santa Cruz:** its map is a PDF of circles around many bus stops; rebuilding it means matching each circle to a
-  stop by hand. Not done (Ryan's call whether it is worth it).
+- **Santa Cruz:** rebuilt on 2026-11-06 at Ryan's request; see section 9.
 
 ## 11. POST HOC follow-ups (Ryan 2026-11-05 21:35; written after all results above were seen)
 
