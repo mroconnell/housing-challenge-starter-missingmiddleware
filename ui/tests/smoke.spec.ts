@@ -53,13 +53,12 @@ test("headline numbers match the bundle", async ({ page }) => {
   }
 });
 
-test("scenario switch updates every headline", async ({ page }) => {
+test("Where shows the 90% range, not the three scenarios; pilots keep their scenario switch", async ({ page }) => {
   const b = await bundle(page);
-  const up = b.state.scenarios.find((s: { id: string }) => s.id === "upper");
   await page.goto("#/where");
-  await page.locator('input[name="scen-where"][value="upper"]').check();
-  await expect(page.getByTestId("reconcile")).toContainText(fmt(up.additional_total));
-  await page.goto("#/pilot/pleasant-prairie");
+  await expect(page.locator('input[name="scen-where"]')).toHaveCount(0);
+  await expect(page.getByTestId("reconcile")).toContainText(`${fmt(b.state.range90.low)} to ${fmt(b.state.range90.high)}`);
+  await page.goto("#/pilot/pleasant-prairie?s=upper");
   const pp = b.pilots.find((p: { slug: string }) => p.slug === "pleasant-prairie");
   await expect(page.getByTestId("pilot-additional")).toHaveText("+" + fmt(sum(pp.add.upper)));
 });
@@ -70,13 +69,14 @@ test("map table reconciles to the state for each year and geography", async ({ p
   await page.goto("#/where");
   const rec = page.getByTestId("reconcile");
   await expect(rec).toContainText("Checked:");
-  await expect(rec).toContainText(fmt(cen.additional_total));
+  const lo = b.state.range90.low / cen.additional_total, hi = b.state.range90.high / cen.additional_total;
+  await expect(rec).toContainText(`${fmt(b.state.range90.low)} to ${fmt(b.state.range90.high)}`);
   const slider = page.locator("#year");
   await slider.focus();
   await page.keyboard.press("ArrowLeft");
   await page.keyboard.press("ArrowLeft");
   await expect(page.locator("#year-out")).toHaveText("2029");
-  await expect(rec).toContainText(fmt(sum(cen.additional_by_year.slice(0, 3))));
+  await expect(rec).toContainText(`${fmt(sum(cen.additional_by_year.slice(0, 3)) * lo)} to ${fmt(sum(cen.additional_by_year.slice(0, 3)) * hi)}`);
   await expect(rec).toContainText("Checked:");
   await page.getByRole("radio", { name: "Cities, villages and towns" }).check();
   await expect(page.getByTestId("reconcile")).toContainText("Checked:");
@@ -194,7 +194,6 @@ test("map defaults and county labels", async ({ page }) => {
   await expect(page.locator('input[name="geo"][value="counties"]')).toBeChecked();
   await expect(page.locator('input[name="measure"][value="count"]')).toBeChecked();
   await expect(page.locator('input[name="layer"][value="additional"]')).toBeChecked();
-  await expect(page.locator('input[name="scen-where"][value="central"]')).toBeChecked();
   await expect(page.locator("#year-out")).toHaveText("2031");
   await expect(page.locator("#map-title")).toContainText("2027–2031");
   await expect(page.locator("#lbl")).toBeChecked();
@@ -213,10 +212,10 @@ test("sensitivity cases are grouped by the number they move", async ({ page }) =
   await expect(page.getByTestId("baseline-only-table")).toContainText("+310");
 });
 
-test("scenario choice is kept in the URL and the current tab is in view", async ({ page }) => {
+test("Where choice is kept in the URL and the current tab is in view", async ({ page }) => {
   await page.goto("#/where");
-  await page.locator('input[name="scen-where"][value="upper"]').check();
-  await expect(page).toHaveURL(/s=upper/);
+  await page.getByTestId("spread-switch").getByLabel("Causal forest pattern").check();
+  await expect(page).toHaveURL(/w=forest/);
   await page.goto("#/brief");
   const tab = page.locator('nav.tabs a[aria-current="page"]');
   await expect(tab).toBeInViewport();
@@ -233,15 +232,18 @@ test("unknown-rules switch shows each precomputed run", async ({ page }) => {
   for (const v of b.unknown.variants) {
     await page.locator(`input[name="unk-howsure"][value="${v.id}"]`).check();
     await expect(page.getByTestId("unk-baseline")).toHaveText(fmt(v.baseline_total));
-    await expect(page.getByTestId("unk-additional")).toHaveText("+" + fmt(v.additional_total.central));
-    await expect(page.getByTestId("unk-total")).toHaveText(fmt(v.with_law_total.central));
+    const lo = b.state.range90.low / b.unknown.variants.find((x: { adopted: boolean }) => x.adopted).additional_total.central;
+    const hi = b.state.range90.high / b.unknown.variants.find((x: { adopted: boolean }) => x.adopted).additional_total.central;
+    await expect(page.getByTestId("unk-additional")).toHaveText(`${fmt(v.additional_total.central * lo)} to ${fmt(v.additional_total.central * hi)}`);
+    await expect(page.getByTestId("unk-total")).toHaveText(`${fmt(v.baseline_total + v.additional_total.central * lo)} to ${fmt(v.baseline_total + v.additional_total.central * hi)}`);
   }
   // the choice carries to the Where map, where counties reconcile to that run's statewide figures
   await expect(page).toHaveURL(/u=like_benchmark/);
   await page.goto("#/where?u=like_benchmark");
   const ben = b.unknown.variants.find((v: { id: string }) => v.id === "like_benchmark");
   await expect(page.getByTestId("reconcile")).toContainText("Checked:");
-  await expect(page.getByTestId("reconcile")).toContainText(fmt(ben.additional_by_year.central.reduce((a: number, x: number) => a + x, 0)));
+  const cen0 = b.state.scenarios.find((s: { id: string }) => s.id === "central");
+  await expect(page.getByTestId("reconcile")).toContainText(fmt(ben.additional_by_year.central.reduce((a: number, x: number) => a + x, 0) * b.state.range90.low / cen0.additional_total));
   await expect(page.getByTestId("reconcile")).toContainText(fmt(ben.baseline_by_year.reduce((a: number, x: number) => a + x, 0)));
 });
 
@@ -260,7 +262,7 @@ test("districts reconcile to the state and disable the unknown-rules switch", as
     await expect(rec).toContainText("Checked:");
     await expect(rec).toContainText(`${n} ${name}`);
     await expect(rec).toContainText("not allocated to a district");
-    await expect(rec).toContainText(fmt(cen.additional_total));
+    await expect(rec).toContainText(`${fmt(b.state.range90.low)} to ${fmt(b.state.range90.high)}`);
     await expect(page.getByTestId("unallocated-row")).toContainText("Not allocated to a district");
     await expect(page.getByTestId("where-table").locator("tbody tr")).toHaveCount(n);
     await expect(page.getByTestId("district-caveat")).toContainText("2020 census blocks");
@@ -273,7 +275,7 @@ test("districts reconcile to the state and disable the unknown-rules switch", as
   await expect(page.locator('input[name="unk-where"][value="like_prohibited"]')).toBeChecked();
 });
 
-test("causal forest view: same statewide total, counties match the bundle, central only", async ({ page }) => {
+test("causal forest view: same statewide range, counties match the bundle", async ({ page }) => {
   const b = await bundle(page);
   const forest = await (await page.request.get(`runs/${b.run_id}/where_forest.json`)).json();
   const cen = b.state.scenarios.find((s: { id: string }) => s.id === "central");
@@ -289,32 +291,26 @@ test("causal forest view: same statewide total, counties match the bundle, centr
     .map((c: { id: string; name: string; add: Record<string, number[]> }) => ({ ...c, d: forest.counties[c.id].total - sum(c.add.central) }))
     .sort((x: { d: number }, y: { d: number }) => Math.abs(y.d) - Math.abs(x.d))[0];
   const ft = forest.counties[county.id].total;
+  const lo = b.state.range90.low / cen.additional_total, hi = b.state.range90.high / cen.additional_total;
   const row = page.getByTestId("where-table").locator("tbody tr").filter({ has: page.locator(`button[data-sel="${county.id}"]`) });
-  await expect(row.locator("td").nth(2)).toHaveText(fmt(ft));
+  await expect(row.locator("td").nth(2)).toHaveText(`${fmt(ft * lo)} to ${fmt(ft * hi)}`);
   await page.locator(`button[data-sel="${county.id}"]`).click();
-  await expect(page.getByTestId("detail-forest-central")).toHaveText(`${fmt(ft)} permits`);
-  await expect(page.getByTestId("detail-model-central")).toHaveText(`${fmt(sum(county.add.central))} permits`);
-  // the statewide total does not change, and the table still reconciles
+  await expect(page.getByTestId("detail-forest-range")).toHaveText(`${fmt(ft * lo)} to ${fmt(ft * hi)} permits`);
+  await expect(page.getByTestId("detail-model-range")).toHaveText(`${fmt(sum(county.add.central) * lo)} to ${fmt(sum(county.add.central) * hi)} permits`);
+  // the statewide range does not change, and the table still reconciles
   const rec = page.getByTestId("reconcile");
   await expect(rec).toContainText("Checked:");
-  await expect(rec).toContainText(fmt(cen.additional_total));
+  await expect(rec).toContainText(`${fmt(b.state.range90.low)} to ${fmt(b.state.range90.high)}`);
   await expect(rec).toContainText("causal forest pattern");
   for (const [name] of [["Cities, villages and towns"], ["Assembly districts"], ["Senate districts"]] as const) {
     await page.getByRole("radio", { name }).check();
     await expect(page.getByTestId("reconcile")).toContainText("Checked:");
-    await expect(page.getByTestId("reconcile")).toContainText(fmt(cen.additional_total));
+    await expect(page.getByTestId("reconcile")).toContainText(`${fmt(b.state.range90.low)} to ${fmt(b.state.range90.high)}`);
     await expect(page.getByTestId("reconcile")).toContainText("causal forest pattern");
   }
-  // other scenarios: the toggle is disabled and says the view is central only
-  await page.getByRole("radio", { name: "Counties", exact: true }).check();
-  await page.locator('input[name="scen-where"][value="upper"]').check();
-  for (const i of await sw.locator("input").all()) await expect(i).toBeDisabled();
-  await expect(page.getByTestId("forest-note")).toContainText("central scenario only");
-  await expect(page.getByTestId("reconcile")).not.toContainText("causal forest");
-  // a non-adopted unknown-rules assumption also turns it off
+  // a non-adopted unknown-rules assumption turns it off
   await page.goto("#/where?w=forest&u=like_prohibited");
-  await expect(page.locator('input[name="scen-where"][value="upper"]')).toBeChecked();
-  await page.locator('input[name="scen-where"][value="central"]').check();
+  await page.getByRole("radio", { name: "Counties", exact: true }).check();
   for (const i of await sw.locator("input").all()) await expect(i).toBeDisabled();
   await expect(page.getByTestId("forest-note")).toContainText("adopted assumption");
 });

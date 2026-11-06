@@ -70,7 +70,7 @@ test("a11y: switch and slider names are short and describe the choice", async ({
   await expect(page.getByRole("group", { name: "Units" })).toBeVisible();
   await expect(page.getByRole("group", { name: "Chart shows" })).toBeVisible();
   await page.goto("#/where");
-  for (const g of ["Areas", "Show", "Measure", "Scenario"]) await expect(page.getByRole("group", { name: g, exact: true })).toBeVisible();
+  for (const g of ["Areas", "Show", "Measure", "Spread the law's addition by"]) await expect(page.getByRole("group", { name: g, exact: true })).toBeVisible();
   await expect(page.getByRole("group", { name: /Places whose local ADU rules we have not coded/ })).toBeVisible();
   await expect(page.getByRole("slider", { name: /Through year/ })).toHaveAttribute("aria-valuetext", "through 2031");
   await expect(page.locator("#map canvas")).toHaveAttribute("aria-label", /Map of counties.*table below/);
@@ -95,11 +95,11 @@ test("a11y: switches announce the new numbers in a polite live region", async ({
   const { run_id } = await (await page.request.get("runs/latest.json")).json();
   const state = await (await page.request.get(`runs/${run_id}/state.json`)).json();
   const unk = await (await page.request.get(`runs/${run_id}/unknown_rules.json`)).json();
-  const up = state.scenarios.find((s: { id: string }) => s.id === "upper");
   const live = page.getByTestId("announce");
   await page.goto("#/where");
-  await page.getByRole("radio", { name: "Strong adoption", exact: true }).check();
-  await expect(live).toContainText(`Strong adoption scenario: ${fmt(up.additional_total)} permits added`);
+  await page.getByRole("radio", { name: "Per 1,000 homes per year" }).check();
+  await expect(live).toContainText("low end of the 90% range");
+  await expect(live).toContainText("per 1,000 single-family homes per year");
   await page.goto("#/compare");
   await page.getByRole("radio", { name: "Per 1,000 single-family homes" }).check();
   await expect(live).toContainText("per 1,000 single-family homes per year");
