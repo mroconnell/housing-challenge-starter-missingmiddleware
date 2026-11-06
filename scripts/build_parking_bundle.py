@@ -93,6 +93,10 @@ def median_effect() -> float:
     return float(expanded_included()["effect"].median())
 
 
+def n_places() -> int:
+    return int(pd.read_csv(REF / "parking_placebo_full_summary.csv")["real_places"].iloc[0])
+
+
 def ref_line() -> dict:
     """Median of real cases, applied to Wisconsin (AQ-054): the median repeal place's effect (floored at
     zero, since a repeal is not modelled as subtracting) times Wisconsin's eligible homes."""
@@ -101,7 +105,7 @@ def ref_line() -> dict:
     per_year = med * homes / 1000  # no floor at zero (owner 2026-11-03 03:09)
     return {"label": "Median of real cases", "rate_per_1000_homes": r(med), "per_year": r(per_year, 1),
             "value": whole(per_year * len(YEARS)),
-            "info": f"Median of real cases, applied to Wisconsin: the median of the 76 repeal places changed by {med:+.2f} permits per 1,000 existing homes per year against its comparison places. Applied to Wisconsin's {homes:,.0f} homes outside places that already removed minimums (fully or with conditions), " + (f"that is about {whole(per_year):,} extra permits a year, {whole(per_year * len(YEARS)):,} over 2027–2031: between the two cases." if med > 0 else f"that is about {whole(per_year):,} permits a year, {whole(per_year * len(YEARS)):,} over 2027–2031, slightly below the central case; shown without a floor at zero.")}
+            "info": f"Median of real cases, applied to Wisconsin: the median of the {n_places()} repeal places changed by {med:+.2f} permits per 1,000 existing homes per year against its comparison places. Applied to Wisconsin's {homes:,.0f} homes outside places that already removed minimums (fully or with conditions), " + (f"that is about {whole(per_year):,} extra permits a year, {whole(per_year * len(YEARS)):,} over 2027–2031: between the two cases." if med > 0 else f"that is about {whole(per_year):,} permits a year, {whole(per_year * len(YEARS)):,} over 2027–2031, slightly below the central case; shown without a floor at zero.")}
 
 
 def build_statewide() -> dict:
@@ -131,8 +135,9 @@ def build_statewide() -> dict:
     pubsens = pd.read_csv(REF / "housing_baseline_sensitivity_published.csv").set_index("structure_type")
     return {
         "years": years,
-        "baseline_total": base5, "baseline_low_total": r(proj.loc[YEARS, "low"].sum(), 0),
-        "baseline_high_total": r(proj.loc[YEARS, "high"].sum(), 0),
+        # five-year totals as the sum of the rounded yearly values (matches the shared baseline: 56,500 and 218,865)
+        "baseline_total": base5, "baseline_low_total": float(sum(r(v, 0) for v in proj.loc[YEARS, "low"])),
+        "baseline_high_total": float(sum(r(v, 0) for v in proj.loc[YEARS, "high"])),
         "baseline_published_total": r(pubsens.loc["all", "central"], 0),
         "baseline_by_type": [{"type": t, "low": r(v["low"], 0), "central": r(v["central"], 0), "high": r(v["high"], 0)}
                              for t, v in by_type.iterrows()],
@@ -142,17 +147,58 @@ def build_statewide() -> dict:
         "parking_checkup": parking_checkup(),
         "scenarios": [
             {"id": "central", "label": "No measurable change",
-             "info": "Like the 76 US places that removed parking minimums: in the one to three years after, their permit rates did not rise measurably compared with similar places that kept them.",
+             "info": f"Like the {n_places()} US places that removed parking minimums: in the one to three years after, their permit rates did not rise measurably compared with similar places that kept them.",
              "additional_total": 0.0, "with_law_total": r(base5, 0)},
             {"id": "upper", "label": "High end of the evidence",
              "info": f"If the true average effect is at the top of what the evidence allows (95 times in 100, the real average would be lower): {rate:.2f} more permits per 1,000 existing homes per year, everywhere except places that already have no parking minimums for housing (or removed them with conditions). Other versions of the high end from the improvement rounds ran about 27,700 to 49,700 homes, so this end is uncertain by about 2 times.",
              "additional_total": up5, "with_law_total": base5 + up5, "rate_per_1000_homes": rate},
             {"id": "lower", "label": "Low end of the evidence",
-             "info": f"The measured average of the 76 repeal places against similar places: {lrate:.2f} permits per 1,000 existing homes per year. It is pulled down mostly by Austin, Minneapolis and San Francisco, whose permits fell after repeal more than similar places'; the typical repeal place changed by about 0. The data can't rule out a drop this size; it is shown without a floor at zero.",
+             "info": f"The measured average of the {n_places()} repeal places against similar places: {lrate:.2f} permits per 1,000 existing homes per year. It is pulled down mostly by Austin, Minneapolis and San Francisco, whose permits fell after repeal more than similar places'; the typical repeal place changed by about 0. The data can't rule out a drop this size; it is shown without a floor at zero.",
              "additional_total": lo5, "with_law_total": base5 + lo5, "rate_per_1000_homes": lrate},
         ],
         "reference_line": ref_line(),
+        "range90": range90(),
+        "side_lines": side_lines(lo5),
     }
+
+
+def range90() -> dict:
+    """The 90% range for the uniform display (docs/UNIFORM_DISPLAY_SPEC.md): the measured average plus the placebo
+    spread (reference/parking_placebo_full_summary.csv), x Wisconsin's eligible homes x 5 / 1,000."""
+    s = pd.read_csv(REF / "parking_placebo_full_summary.csv").iloc[0]
+    homes = float(pd.read_csv(REF / "parking_model_by_area.csv")["eligible_homes"].sum())
+    k = homes * len(YEARS) / 1000
+    lo, hi = float(s["range_from_placebo_low"]) * k, float(s["range_from_placebo_high"]) * k
+    return {"low": r(lo, 0), "high": r(hi, 0), "unit": "extra homes permitted, Wisconsin, 2027–2031",
+            "rate_low": r(float(s["range_from_placebo_low"]), 4), "rate_high": r(float(s["range_from_placebo_high"]), 4),
+            "method": (f"The measured average of {int(s['real_places'])} US repeal places against similar places "
+                       f"({float(s['real_average']):+.2f} permits per 1,000 existing homes a year), plus the spread of "
+                       f"{int(s['sets']):,} placebo sets ({int(s['placebo_places']):,} cities that never repealed, given the "
+                       "real places' repeal years); times Wisconsin's eligible homes."),
+            "coverage": "Not widened: the range comes from fake-reform estimates whose spread matched the fake-repeal simulation (test 40), so it is already a 90% range.",
+            "caveat": "An average effect: a single city, Wisconsin included, can fall well outside it.",
+            "years": [{"year": y, "low": r(lo / len(YEARS), 0), "high": r(hi / len(YEARS), 0)} for y in YEARS],
+            "source": "reference/parking_placebo_full_summary.csv (scripts/run_parking_placebo.py --full); reference/parking_uniform_range.csv"}
+
+
+def side_lines(measured_total: float) -> list:
+    """Reasons to believe (docs/UNIFORM_DISPLAY_SPEC.md, side lines table)."""
+    n1 = pd.read_csv(REF / "parking_ne_n1.csv").set_index("test").loc["N1 ITT vs Washington"]
+    homes = float(pd.read_csv(REF / "parking_model_by_area.csv")["eligible_homes"].sum())
+    k = homes * len(YEARS) / 1000
+    rl = ref_line()
+    return [
+        {"id": "measured_average", "label": f"Measured average, {n_places()} repeal places", "value": r(measured_total, 0),
+         "where": "chart", "note": "Pulled down mostly by Austin, Minneapolis and San Francisco; without a floor at zero."},
+        {"id": "median_place", "label": "Median repeal place", "value": rl["value"], "where": "chart",
+         "note": "The typical repeal place changed by about 0 against similar places."},
+        {"id": "oregon_n1", "label": "Oregon state mandate, covered Oregon cities vs Washington cities",
+         "value": r(float(n1["estimate"]) * k, 0), "where": "chart",
+         "note": (f"{int(n1['treated_places'])} Oregon cities on DLCD's covered list (Portland dropped), against Washington cities at "
+                  "0.5–2× their population; Washington's 2024–25 middle-housing parking laws may pull this toward zero.")},
+        {"id": "improvement_rounds_high", "label": "High ends from the improvement rounds", "low": 27700, "high": 49700,
+         "where": "howsure", "note": "Other versions of the high end after data fixes; this end is uncertain by about 2 times."},
+    ]
 
 
 def parking_checkup() -> dict | None:
