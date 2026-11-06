@@ -14,12 +14,12 @@ Run 2026-11-06 under [MARKET_DRIFT_PLAN.md](MARKET_DRIFT_PLAN.md), which was wri
   - Main line: +826 ADU permits (10,492 → 11,318).
   - 90% interval, by convention, from the chain bootstrap: +384 to +1,261.
 - **The regression to the mean Ryan described contributes about nothing.**
-  - The heat term alone gives −51.
+  - The heat term alone gives −51. This post hoc line has no interval, so "about nothing" is a point reading, not a tested zero.
   - Hot law states (Utah, Oregon, Colorado) were due to cool, and cold ones (Rhode Island, Massachusetts, Vermont) to warm. Each slope is small (b = −0.01 to −0.06), and the two groups roughly cancel.
 - **The +826 comes from the intercepts, and most of that is a construction effect, not drift.**
   - Non-law states lose ground against a national rate weighted by homes, because growth sits in a few large states.
-  - Weighting the national rate equally across states (post hoc) cuts the change to +254.
-- **My reading: don't move the ADU lines.** Keep the drift-adjusted figures as a "How sure" sensitivity, for Ryan to decide. The measured effect is real by the rule, but it is mostly an artefact of how the drift was defined.
+  - Weighting the national rate equally across states (post hoc, no interval) cuts the change to +254.
+- **My reading: don't move the ADU lines.** Keep the drift-adjusted figures as a "How sure" sensitivity, for Ryan to decide. The rule's test is met, but the change is mostly an artefact of how the drift was defined.
 
 ## D1. Drift from states with no ADU law
 
@@ -91,4 +91,5 @@ Actual drift is shown for reference only. It is not used: it would mix the law's
 - Drift rests on 8 law states' heat, and only 3 states have pre-law ADU counts.
 - Heat is measured on all housing. ADUs may follow a different cycle.
 - The denominator is a fixed home count (ACS 2020–2024).
+- Drift is measured against the national rate, but the adjustment divides absolute ADU rates by that relative drift. It leaves out how the national rate itself changed. So the intercept part is not a clean drift measure under either weighting.
 - The intercepts depend on how the national rate is weighted. The planned definition (home-weighted) and the post hoc one (equal-weighted) differ by 572 ADU permits at typical adoption.
