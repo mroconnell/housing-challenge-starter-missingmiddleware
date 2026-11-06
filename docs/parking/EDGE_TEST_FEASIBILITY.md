@@ -58,3 +58,19 @@
   - New York and Connecticut have no units field.
   - Texas year built is free text.
 - **Next step, if Ryan wants it:** a locked edge-test plan on this list (chosen now, before any outcome), reported as cases.
+
+## Addendum (2026-11-06 ~19:20 UTC): district maps and permit lists for the 52 mapped-district cities
+
+**What was checked:** whether each city has the two inputs TOD's edge tests used. The check used public pages and layer metadata only, with nothing downloaded.
+- **Map:** the district boundary as a GIS layer.
+- **Permits:** a bulk building-permit list with locations and unit counts, covering 3 years before and after.
+
+**Result: no city has both.**
+- **San Marcos TX** is closest. It has a "Central Business Area" polygon and permits from Oct 2011 with locations, but no unit count.
+- **Hayward CA** has a zoning match and state housing-report permits with units, but only from 2018, two years before its reform.
+- **Norfolk VA** has an overlay map and permits from 2016, with no unit count, and its district is about 10 acres.
+- **Permits are the main gap:** almost every city offers only a search portal.
+- **Not actual reforms:** Elmwood Park, Momence, Waterloo, Aurora, Ladue and probably Marshfield only had plan recommendations or case-by-case exceptions. The PRN rows overstate them.
+- **Zoning match:** in 14 cities the parking district matches a zoning district in today's GIS. Today's boundaries may differ from the boundaries in the reform year (Reno and Davenport redrew them).
+
+**Reading:** the fresh 52 cannot support an honest edge-test check with free public data. A hybrid would pair a GIS zone with county assessor year built instead of permits. It might work for 2–3 cities (Reno via Washoe Assessor, Mooresville via NC OneMap, San Marcos via Texas parcels plus permits), which is too few to test a hypothesis.
