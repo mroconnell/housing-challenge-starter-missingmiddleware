@@ -31,13 +31,15 @@ class TestIntroSources(unittest.TestCase):
 
     def test_parking_range(self):
         base = latest(PUB / "scenarios" / "parking" / "runs")
+        r = json.loads((base / "statewide.json").read_text())["range90"]
+        self.assertEqual((round(r["low"]), round(r["high"])), (-46268, 19649))
+        # the bundle's range is the placebo summary's rates times the eligible homes over five years
         homes = sum(m["eligible_homes"] or 0 for m in json.loads((base / "areas.json").read_text())["munis"])
-        self.assertEqual(homes, 2_668_677)
         s = pd.read_csv(REF / "parking_placebo_full_summary.csv").iloc[0]
         k = homes * 5 / 1000
-        self.assertEqual((round(s["range_from_placebo_low"] * k), round(s["range_from_placebo_high"] * k)), (-46268, 19649))
+        self.assertEqual((round(s["range_from_placebo_low"] * k), round(s["range_from_placebo_high"] * k)), (round(r["low"]), round(r["high"])))
         up = next(x for x in json.loads((base / "statewide.json").read_text())["scenarios"] if x["id"] == "upper")
-        self.assertEqual(up["additional_total"], 19649)
+        self.assertEqual(up["additional_total"], round(r["high"]))
 
     def test_baseline(self):
         y = pd.read_csv(REF / "housing_baseline_statewide_by_year.csv")
@@ -51,9 +53,11 @@ class TestIntroSources(unittest.TestCase):
 
     def test_intro_reads_these_sources(self):
         src = INTRO.read_text()
-        for f in ("housing_baseline_band.csv", "housing_baseline_statewide_by_year.csv", "parking_placebo_full_summary.csv"):
+        for f in ("housing_baseline_band.csv", "housing_baseline_statewide_by_year.csv"):
             self.assertIn(f"reference/{f}?raw", src)
-        self.assertNotRegex(src, r"import .*parking_uniform_range")   # stale: 76 places
+        # parking's range is read from the bundle's range90, not recomputed from a CSV
+        self.assertNotRegex(src, r"import .*parking_(uniform_range|placebo_full_summary)")
+        self.assertIn("${pkBase}statewide.json", src)
         for n in ("8,055", "13,666", "3,922", "16,335", "46,268", "19,649", "124,000", "56,500", "218,865"):
             self.assertFalse(n in src, f"{n} is typed into intro.ts")   # numbers are never typed into the page
         self.assertIsNone(re.search(r"\b(8055|13666|3922|16335|46268|19649|124000|56500|218865)\b", src))

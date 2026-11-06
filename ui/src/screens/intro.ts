@@ -4,15 +4,12 @@
 // Every number comes from a source, never typed here:
 //   - ADU range: the ADU bundle's state.json range90 (low, high).
 //   - TOD range: the TOD bundle's statewide.json range90 (low, high).
-//   - Parking range: reference/parking_placebo_full_summary.csv (range_from_placebo_low/high, permits per 1,000
-//     homes a year) × the parking bundle's eligible homes (areas.json, sum over municipalities) × 5 years / 1,000.
-//     reference/parking_uniform_range.csv is stale (76 places) and is not read.
+//   - Parking range: the parking bundle's statewide.json range90 (low, high).
 //   - Baseline: reference/housing_baseline_statewide_by_year.csv ("all" rows, 2027–2031, central) and the v4
 //     multipliers in reference/housing_baseline_band.csv.
-// The two CSVs are bundled at build time; tests/test_intro_sources.py and ui/tests/intro.spec.ts check the numbers.
+// The two baseline CSVs are bundled at build time; tests/test_intro_sources.py and ui/tests/intro.spec.ts check the numbers.
 import bandCsv from "../../../reference/housing_baseline_band.csv?raw";
 import baselineCsv from "../../../reference/housing_baseline_statewide_by_year.csv?raw";
-import placeboCsv from "../../../reference/parking_placebo_full_summary.csv?raw";
 import { esc, int } from "../format";
 import { num } from "../range";
 
@@ -32,12 +29,6 @@ export function baselineFromCsv(): { central: number; low: number; high: number 
     .reduce((a, r) => a + Number(r.central), 0);
   const band = rows(bandCsv).find((r) => r.structure_type === "1unit")!;
   return { central, low: central * Number(band.low), high: central * Number(band.high) };
-}
-
-/** Parking's 90% range ends as rates (permits per 1,000 homes a year). */
-export function parkingRates(): { low: number; high: number } {
-  const r = rows(placeboCsv)[0];
-  return { low: Number(r.range_from_placebo_low), high: Number(r.range_from_placebo_high) };
 }
 
 export interface IntroNumbers {
@@ -63,18 +54,15 @@ let cached: Promise<IntroNumbers> | null = null;
 export function loadIntro(): Promise<IntroNumbers> {
   cached ??= (async () => {
     const [aduBase, todBase, pkBase] = await Promise.all([runBase("runs/"), runBase("scenarios/tod/runs/"), runBase("scenarios/parking/runs/")]);
-    const [state, tod, areas] = await Promise.all([
+    const [state, tod, parking] = await Promise.all([
       getJSON<{ range90: { low: number; high: number } }>(`${aduBase}state.json`),
       getJSON<{ range90: { low: number; high: number } }>(`${todBase}statewide.json`),
-      getJSON<{ munis: { eligible_homes: number | null }[] }>(`${pkBase}areas.json`),
+      getJSON<{ range90: { low: number; high: number } }>(`${pkBase}statewide.json`),
     ]);
-    const homes = areas.munis.reduce((a, m) => a + (m.eligible_homes ?? 0), 0);
-    const k = (homes * YEARS.length) / 1000;
-    const r = parkingRates();
     return {
       adu: { low: state.range90.low, high: state.range90.high },
       tod: { low: tod.range90.low, high: tod.range90.high },
-      parking: { low: r.low * k, high: r.high * k },
+      parking: { low: parking.range90.low, high: parking.range90.high },
       baseline: baselineFromCsv(),
     };
   })();

@@ -130,7 +130,7 @@ test("the combined view leaves TOD, parking and ADU numbers unchanged", async ({
   await expect(page.getByTestId("range-card").getByTestId("range-high")).toHaveText(fmt(tod.statewide.range90.high));
   await expect(page.getByTestId("side-lines")).toContainText(fmt(strong.additional_total));
   await page.goto("#/parking/compare");
-  await expect(page.getByTestId("add-upper")).toHaveText(fmt(pUp.additional_total));
+  await expect(page.getByTestId("range-card").getByTestId("range-high")).toHaveText(fmt(park.statewide.range90.high));
   // the combined stylesheet must not restyle ADU's sort headers
   await page.goto("#/where");
   const btn = page.locator("th[aria-sort] button.sort").first();

@@ -67,18 +67,14 @@ test("the three ranges and the baseline equal their sources", async ({ page }) =
   await page.goto("#/");
   const state = await bundle(page, "runs/", "state.json");
   const tod = await bundle(page, "scenarios/tod/runs/", "statewide.json");
-  const areas = await bundle(page, "scenarios/parking/runs/", "areas.json");
   const pkState = await bundle(page, "scenarios/parking/runs/", "statewide.json");
   await expect(page.getByTestId("intro-adu-range")).toHaveText(`${fmt(state.range90.low)} to ${fmt(state.range90.high)} ADU permits`);
   await expect(page.getByTestId("intro-tod-range")).toHaveText(`${fmt(tod.range90.low)} to ${fmt(tod.range90.high)} extra homes near transit`);
-  const homes = areas.munis.reduce((a: number, m: { eligible_homes: number | null }) => a + (m.eligible_homes ?? 0), 0);
-  const p = csv("parking_placebo_full_summary.csv")[0];
-  const k = (homes * 5) / 1000;
-  const lo = Number(p.range_from_placebo_low) * k, hi = Number(p.range_from_placebo_high) * k;
+  const lo = pkState.range90.low, hi = pkState.range90.high;
   await expect(page.getByTestId("intro-parking-range")).toHaveText(`${signed(lo)} to ${signed(hi)} homes`);
   // the copy's numbers, and the parking bundle's high end of the evidence
   expect([Math.round(lo), Math.round(hi)]).toEqual([-46268, 19649]);
-  expect(pkState.scenarios.find((s: { id: string }) => s.id === "upper").additional_total).toBe(19649);
+  expect(pkState.scenarios.find((s: { id: string }) => s.id === "upper").additional_total).toBe(Math.round(hi));
   const central = csv("housing_baseline_statewide_by_year.csv")
     .filter((r) => r.structure_type === "all" && r.kind === "projected" && Number(r.year) >= 2027 && Number(r.year) <= 2031)
     .reduce((a, r) => a + Number(r.central), 0);

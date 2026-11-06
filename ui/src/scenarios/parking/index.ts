@@ -1,6 +1,7 @@
 // The parking requirement reduction reform: seven screens over the bundle written by
 // scripts/build_parking_bundle.py. The browser only selects, sums and formats bundle values.
 import { bindChartMode, chartModeToggleHTML, legendHTML, xyChart } from "../../charts";
+import { againstBandHTML, drawRangeChart, num, rangeCardHTML, sideLinesHTML, sideValue, type Range90, type SideLine } from "../../range";
 import { createMap, RAMP, WATER, type GeoKind, type MapHandle } from "../../map";
 import { dec, esc, int, pill, YEARS } from "../../format";
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
@@ -15,6 +16,8 @@ interface Statewide {
   checkup?: { wisconsin_rate: number; wisconsin_years: string; wisconsin_homes: number; places: number; p10: number; p25: number; p50: number; p75: number; p90: number; max_shown: number };
   baseline_by_type: { type: string; low: number; central: number; high: number }[]; observed_2021_2025: number;
   scenarios: Scen[]; reference_line: { label: string; value: number; per_year: number; rate_per_1000_homes: number; info: string };
+  // the uniform range display (docs/UNIFORM_DISPLAY_SPEC.md): one 90% range, no centre line, side lines across it
+  range90: Range90 & { rate_low: number; rate_high: number }; side_lines: SideLine[];
 }
 interface Muni { id: string; name: string; county: string; type: string; homes: number; eligible_homes: number; at_benchmark: boolean; near_benchmark: boolean; baseline: number; add_upper: number; acres: number }
 interface Areas {
@@ -163,58 +166,51 @@ function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
   });
 }
 
-function compare(b: ParkingBundle, main: HTMLElement): void {
+const PK_UNIT = "extra homes permitted over 2027–2031";
+function pkRangeCard(b: ParkingBundle, testid = "range-card"): string {
+  return rangeCardHTML({ title: "Extra homes from the law: the 90% range", range: b.statewide.range90, baselineTotal: b.statewide.baseline_total, testid });
+}
+/** Each area's share of the statewide range: the law spreads one rate per eligible home, so every area holds the
+ *  same share of the low end and of the high end. The bundle's per-area figure is the high end's share. */
+function pkShare(b: ParkingBundle, addUpper: number): number {
+  const up = b.statewide.scenarios.find((x) => x.id === "upper")!.additional_total;
+  return up ? addUpper / up : 0;
+}
+
+function compare(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
   const s = b.statewide;
-  const cen = s.scenarios.find((x) => x.id === "central")!;
-  const up = s.scenarios.find((x) => x.id === "upper")!;
-  const lo = s.scenarios.find((x) => x.id === "lower");
+  const R = s.range90;
+  const lines = s.side_lines.filter((x) => x.where === "chart");
+  const fy = s.years.filter((y) => YEARS.includes(y.year));
+  const prior = s.years.find((y) => y.year === 2026);
   main.innerHTML = `
   <h1>A statewide parking law: what it adds</h1>
-  <p class="lede">If Wisconsin removed minimum parking requirements for all housing from 1 January 2027 (an illustrative start date), how many more homes would be permitted over 2027–2031 than under current law?</p>
-  <div class="tiles ${lo ? "tiles-4" : "tiles-3"}">
-    ${lo ? `<section class="tile"><h2 class="tile-label">${esc(lo.label)}</h2><p class="tile-num" data-testid="add-lower">${int(lo.additional_total)}</p>
-      <p class="tile-sub">permits, 2027–2031, against current law ${pill("calculated")}</p><p class="tile-note">${esc(lo.info)}</p></section>` : ""}
-    <section class="tile tile-accent"><h2 class="tile-label">${esc(cen.label)}</h2><p class="tile-num" data-testid="add-central">${int(cen.additional_total)}</p>
-      <p class="tile-sub">additional permits, 2027–2031 ${pill("calculated")}</p><p class="tile-note">${esc(cen.info)}</p></section>
-    <section class="tile"><h2 class="tile-label">${esc(up.label)}</h2><p class="tile-num" data-testid="add-upper">${int(up.additional_total)}</p>
-      <p class="tile-sub">additional permits, 2027–2031 ${pill("calculated")}</p><p class="tile-note">${esc(up.info)} That is about ${int(up.additional_total / 5)} extra homes permitted a year.</p></section>
-    <section class="tile"><h2 class="tile-label">Current law</h2><p class="tile-num">${int(s.baseline_total)}</p>
-      <p class="tile-sub">permits, 2027–2031</p><p class="tile-note">"${esc(up.label)}" would add ${dec((up.additional_total / s.baseline_total) * 100, 0)}% to it.</p></section>
-  </div>
-  <section class="card"><h2>New homes permitted each year</h2>${chartModeToggleHTML("pk-chart-mode")}<div class="chart-box" id="pk-chart"></div>
-    ${legendHTML([{ name: "Observed", color: C.observed, width: 2 }, { name: "Current law (range shaded)", color: C.baseline, dash: "7 5" }, { name: up.label, color: C.upper, dash: "9 3 2 3" }, ...(lo ? [{ name: lo.label, color: C.lower, dash: "3 3" }] : []), { name: s.reference_line.label, color: "#b0501a", dash: "12 4 3 4" }])}
-    <p class="small muted">"${esc(cen.label)}" is identical to current law, so it is not drawn separately.</p>
-    <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Permits per year: current law and with the law</caption>
-      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th>${lo ? `<th scope="col" class="num">${esc(lo.label)}</th>` : ""}<th scope="col" class="num">${esc(cen.label)}</th><th scope="col" class="num">${esc(up.label)}</th><th scope="col" class="num">${esc(s.reference_line.label)}</th></tr></thead>
-      <tbody>${s.years.filter((y) => YEARS.includes(y.year)).map((y) => `<tr><th scope="row">${y.year}</th><td class="num">${int(y.baseline)}</td>${lo ? `<td class="num">${int((y.baseline ?? 0) + (y.add_lower ?? 0))}</td>` : ""}<td class="num">${int((y.baseline ?? 0) + (y.add_central ?? 0))}</td><td class="num">${int((y.baseline ?? 0) + (y.add_upper ?? 0))}</td><td class="num">${int((y.baseline ?? 0) + s.reference_line.per_year)}</td></tr>`).join("")}
-      <tr><th scope="row">2027–2031</th><td class="num">${int(s.baseline_total)}</td>${lo ? `<td class="num">${int(lo.with_law_total)}</td>` : ""}<td class="num">${int(cen.with_law_total)}</td><td class="num">${int(up.with_law_total)}</td><td class="num">${int(s.baseline_total + s.reference_line.value)}</td></tr></tbody></table></div>
-    <p class="small muted">${esc(s.reference_line.info)} Yearly rows may not add exactly to the totals because of rounding.</p></section>`;
-  const ys = s.years;
-  const fy = ys.filter((y) => YEARS.includes(y.year));
-  bindChartMode("pk-chart-mode", (mode) => xyChart(document.getElementById("pk-chart")!, mode === "totals" ? {
-    title: "New homes permitted each year in Wisconsin", desc: `Observed 2015–2025; current law ${int(s.baseline_total)} over 2027–2031; with the law ${int(cen.with_law_total)} (no measurable change) or ${int(up.with_law_total)} (high end of the evidence).`,
-    yLabel: "Permits per year", xTicks: ys.map((y) => y.year),
-    xFormat: (x: number) => (window.innerWidth < 600 && (x - 2015) % 4 !== 0 ? "" : String(x)),
-    series: [
-      { name: "Observed", values: ys.map((y) => ({ x: y.year, y: y.observed ?? null })), color: C.observed, width: 2, marker: "circle" },
-      { name: "Current law", values: ys.map((y) => ({ x: y.year, y: y.baseline ?? null })), color: C.baseline, dash: "7 5" },
-      { name: up.label, values: ys.map((y) => ({ x: y.year, y: y.add_upper !== undefined ? (y.baseline ?? 0) + y.add_upper : null })), color: C.upper, dash: "9 3 2 3" },
-      ...(lo ? [{ name: lo.label, values: ys.map((y) => ({ x: y.year, y: y.add_lower !== undefined ? (y.baseline ?? 0) + y.add_lower : null })), color: C.lower, dash: "3 3" }] : []),
-      { name: s.reference_line.label, values: ys.map((y) => ({ x: y.year, y: y.add_upper !== undefined ? (y.baseline ?? 0) + s.reference_line.per_year : null })), color: "#b0501a", dash: "12 4 3 4" },
-    ],
-    band: { name: "Current-law range", lo: ys.map((y) => ({ x: y.year, y: y.baseline_low ?? null })), hi: ys.map((y) => ({ x: y.year, y: y.baseline_high ?? null })), color: C.baseline },
-    vline: { x: 2026.5, label: "Law in effect" },
-  } : {
-    title: "Extra homes permitted each year in Wisconsin, 2027–2031",
-    desc: `Extra homes against current law over 2027–2031: ${esc(up.label.toLowerCase())} ${int(up.additional_total)}${lo ? `, ${esc(lo.label.toLowerCase())} ${int(lo.additional_total)}` : ""}, ${esc(cen.label.toLowerCase())} ${int(cen.additional_total)}. Current law is the zero line. The table below has the same values.`,
-    yLabel: "Extra homes per year", xTicks: YEARS,
-    series: [
-      { name: "Current law", values: fy.map((y) => ({ x: y.year, y: 0 })), color: C.baseline, dash: "7 5" },
-      { name: up.label, values: fy.map((y) => ({ x: y.year, y: y.add_upper ?? null })), color: C.upper, dash: "9 3 2 3", marker: "circle" as const },
-      ...(lo ? [{ name: lo.label, values: fy.map((y) => ({ x: y.year, y: y.add_lower ?? null })), color: C.lower, dash: "3 3", marker: "circle" as const }] : []),
-      { name: s.reference_line.label, values: fy.map((y) => ({ x: y.year, y: s.reference_line.per_year })), color: "#b0501a", dash: "12 4 3 4" },
-    ],
-  }));
+  <p class="lede" data-testid="compare-intro">If Wisconsin removed minimum parking requirements for all housing from 1 January 2027 (an illustrative start date), how many more homes would be permitted over 2027–2031 than under current law? The answer is one 90% range. It includes zero: the data can't tell whether removing parking minimums alone adds or removes homes. The thin lines across it are other ways of reaching the number, shown as reasons to believe; none of them is "the" estimate.</p>
+  ${pkRangeCard(b)}
+  <section class="card" aria-labelledby="h-pk-side"><h2 id="h-pk-side">Lines across the range</h2>
+    ${sideLinesHTML(lines, PK_UNIT, "side-lines", "Each line is drawn on the chart below. Lines can sit outside the range; they do not change it.")}
+    <p class="small"><a href="${env.link("/how-sure")}">Every what-if against the range is on How sure →</a></p></section>
+  <section class="card"><h2>New homes permitted each year</h2>
+    <p class="muted">Current law alone (grey, with its range shaded), and the law's 90% range (green) with the lines across it.</p>
+    ${chartModeToggleHTML("pk-chart-mode")}<div class="chart-box" id="pk-chart"></div>
+    <div id="pk-legend"></div>
+    <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Homes permitted in Wisconsin: current law, and the law's extra homes as a 90% range</caption>
+      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th><th scope="col" class="num">Current law: low</th><th scope="col" class="num">Current law: high</th><th scope="col" class="num">Extra with the law: low end</th><th scope="col" class="num">Extra with the law: high end</th></tr></thead>
+      <tbody>${fy.map((y) => { const r = R.years.find((x) => x.year === y.year)!; return `<tr><th scope="row">${y.year}</th><td class="num">${int(y.baseline)}</td><td class="num">${int(y.baseline_low)}</td><td class="num">${int(y.baseline_high)}</td><td class="num">${num(r.low)}</td><td class="num">${num(r.high)}</td></tr>`; }).join("")}
+      <tr><th scope="row">2027–2031</th><td class="num">${int(s.baseline_total)}</td><td class="num">${int(s.baseline_low_total)}</td><td class="num">${int(s.baseline_high_total)}</td><td class="num" data-testid="table-range-low">${num(R.low)}</td><td class="num" data-testid="table-range-high">${num(R.high)}</td></tr></tbody></table></div>
+    <p class="small muted">Homes in issued building permits, all building sizes. Current law holds each place at its 2023–2025 average; its range (${int(s.baseline_low_total)} to ${int(s.baseline_high_total)} homes over five years) comes from Wisconsin's own five-year swings and is not added to the law's range. The law's range is the same each year, one fifth of the five-year range. Observed years are on <a href="${env.link("/today")}">Wisconsin today</a>. Yearly rows may not add exactly to the totals because of rounding.</p></section>
+  <section class="card"><h2>How big is that?</h2>
+    <p data-testid="compare-size">About ${num(R.years[0].low)} to ${num(R.years[0].high)} extra homes permitted a year, against about ${int(fy[0].baseline)} homes a year Wisconsin is expected to permit under current law (all homes, all places). These are homes in issued building permits, not completed homes.</p></section>
+  <p><a class="button" href="${env.link("/where")}">Next: where the homes would be →</a></p>`;
+  bindChartMode("pk-chart-mode", (mode) => {
+    document.getElementById("pk-legend")!.innerHTML = drawRangeChart(document.getElementById("pk-chart")!, {
+      mode, range: R, sideLines: lines, noun: "homes",
+      base: { years: YEARS, central: fy.map((y) => y.baseline ?? 0), low: fy.map((y) => y.baseline_low ?? 0), high: fy.map((y) => y.baseline_high ?? 0), prior: prior?.baseline !== undefined ? { year: 2026, value: prior.baseline } : undefined },
+      title: mode === "totals" ? "New homes permitted each year in Wisconsin, 2026 to 2031" : "Extra homes permitted each year in Wisconsin, 2027–2031",
+      yLabel: mode === "totals" ? "Homes permitted per year" : "Extra homes per year",
+      xTicks: mode === "totals" && prior ? [2026, ...YEARS] : YEARS, vline: mode === "totals" && prior ? { x: 2026.5, label: "Law in effect" } : undefined,
+    });
+  });
 }
 
 // ---- map (shared geography from the ADU bundle: county, municipality and district outlines) ----
@@ -246,40 +242,45 @@ function where(b: ParkingBundle, env: ShellEnv, params: URLSearchParams, main: H
   const level = params.get("level") ?? "county";
   const q = (params.get("q") ?? "").toLowerCase();
   const A = b.areas;
-  const tot = b.statewide.scenarios[1].additional_total;
+  const R = b.statewide.range90;
   let rows: { name: string; homes: number; baseline: number; add: number; acres?: number; note?: string }[];
   if (level === "municipality") rows = A.munis.filter((m) => !q || m.name.toLowerCase().includes(q)).map((m) => ({ name: `${m.name}, ${m.county}`, homes: m.eligible_homes, baseline: m.baseline, add: m.add_upper, acres: m.acres, note: m.at_benchmark ? "already has no parking minimums for housing" : m.near_benchmark ? "removed minimums with conditions" : "" }));
   else if (level === "assembly" || level === "senate") rows = A.districts[level].map((d) => ({ name: `${level === "assembly" ? "Assembly" : "Senate"} District ${d.id}`, homes: d.homes, baseline: d.baseline, add: d.add_upper }));
   else rows = A.counties.map((c) => ({ name: c.name, homes: c.homes, baseline: c.baseline, add: c.add_upper, acres: c.acres }));
-  rows.sort((a, z) => (z.add || 0) - (a.add || 0));
+  rows.sort((a, z) => (z.add || 0) - (a.add || 0));   // by share of the range: the low end ascending, the high end descending
+  const lowOf = (add: number) => pkShare(b, add) * R.low, highOf = (add: number) => pkShare(b, add) * R.high;
+  const perAcres = level === "county" || level === "municipality";
   const shown = level === "municipality" && !q ? rows.slice(0, 50) : rows;
   main.innerHTML = `
   <h1>Where the added homes would be</h1>
-  <p class="lede">"${esc(b.statewide.scenarios[0].label)}" adds nothing anywhere. "${esc(b.statewide.scenarios[1].label)}" adds the same rate per existing home everywhere except places that already have no parking minimums for housing, so it is largest where most people live. Totals are 2027–2031.</p>
+  <p class="lede">The law's range is spread over places by one rate per existing home, everywhere except places that already have no parking minimums for housing. So it is largest where most people live, and every area holds the same share of the low end as of the high end. Totals are 2027–2031.</p>
+  <p class="small" data-testid="where-range-note">Each area's 90% range is the statewide 90% range (${num(R.low)} to ${num(R.high)} extra homes permitted, 2027–2031) times the area's share of eligible homes, because the law is applied as one rate per eligible home.</p>
   <form class="card" id="where-form"><fieldset class="seg"><legend>Show by</legend>
     ${[["county", "County"], ["municipality", "City, village or town"], ["assembly", "Assembly district"], ["senate", "Senate district"]].map(([v, l]) => `<label><input type="radio" name="level" value="${v}" ${level === v ? "checked" : ""}> ${l}</label>`).join("")}</fieldset>
     ${level === "municipality" ? `<p><label>Find a place <input type="search" name="q" value="${esc(q)}" data-testid="where-search"></label></p>` : ""}</form>
-  <section class="card" aria-labelledby="h-pkmap"><h2 id="h-pkmap">Map: added homes in "${esc(b.statewide.scenarios[1].label)}", 2027–2031</h2>
+  <section class="card" aria-labelledby="h-pkmap"><h2 id="h-pkmap">Map: the high end of each area's 90% range, extra homes permitted, 2027–2031</h2>
     <div class="map" id="pk-map" data-testid="parking-map"><div class="map-tip" hidden></div></div>
     <div id="pk-legend"></div>
-    <p class="small muted">The map shows the same values as the table below. Boundaries: U.S. Census Bureau cartographic boundary files and Wisconsin Legislative Technology Services Bureau districts.</p></section>
-  <div class="table-wrap"><table class="data" data-testid="where-table"><caption>${level === "municipality" && !q ? "The 50 places with the most added homes" : "Added homes"} in "${esc(b.statewide.scenarios[1].label)}", 2027–2031 (statewide total ${int(tot)})</caption>
-    <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes it applies to</th><th scope="col" class="num">Current-law permits</th><th scope="col" class="num">Added (high end)</th>${level === "county" || level === "municipality" ? `<th scope="col" class="num">Added per 1,000 acres of land</th>` : ""}</tr></thead>
-    <tbody>${shown.map((r) => `<tr><th scope="row">${esc(r.name)}${r.note ? ` <span class="small muted">(${esc(r.note)})</span>` : ""}</th><td class="num">${int(r.homes)}</td><td class="num">${int(r.baseline)}</td><td class="num">${int(r.add)}</td>${level === "county" || level === "municipality" ? `<td class="num">${r.acres ? dec((r.add / r.acres) * 1000, 1) : "—"}</td>` : ""}</tr>`).join("")}</tbody></table></div>
-  <p class="small muted">"Homes it applies to" is 0 where a place already has no parking minimums for housing. "Per 1,000 acres" divides the five-year addition by each area's land area (Census), for comparison with density measures; it is low where land is mostly farms or forest. District figures are estimated from where each place's homes sit, an approximation. Towns are included; a case on "How sure" leaves them out. Rows may not add exactly because of rounding.</p>`;
+    <p class="small muted">The low end has the same pattern, below zero: each area's low end is the same share of the statewide low end (${num(R.low)}). The table below has both ends. Boundaries: U.S. Census Bureau cartographic boundary files and Wisconsin Legislative Technology Services Bureau districts.</p></section>
+  <div class="table-wrap"><table class="data" data-testid="where-table"><caption>${level === "municipality" && !q ? "The 50 places with the largest share of the range" : "Extra homes permitted"}, 2027–2031, as a 90% range (statewide ${num(R.low)} to ${num(R.high)}); sorted by share of the range, largest first</caption>
+    <thead><tr><th scope="col">Area</th><th scope="col" class="num">Homes it applies to</th><th scope="col" class="num">Current-law permits</th><th scope="col" class="num">Extra homes: low end</th><th scope="col" class="num">Extra homes: high end</th>${perAcres ? `<th scope="col" class="num">Extra homes per 1,000 acres of land, 90% range</th>` : ""}</tr></thead>
+    <tbody>${shown.map((r) => `<tr><th scope="row">${esc(r.name)}${r.note ? ` <span class="small muted">(${esc(r.note)})</span>` : ""}</th><td class="num">${int(r.homes)}</td><td class="num">${int(r.baseline)}</td><td class="num">${num(lowOf(r.add))}</td><td class="num">${num(highOf(r.add))}</td>${perAcres ? `<td class="num">${r.acres ? `${dec((lowOf(r.add) / r.acres) * 1000, 1).replace(/^-/, "−")} to ${dec((highOf(r.add) / r.acres) * 1000, 1)}` : "—"}</td>` : ""}</tr>`).join("")}</tbody></table></div>
+  <p class="small muted">"Homes it applies to" is 0 where a place already has no parking minimums for housing, so its range is 0 to 0. "Per 1,000 acres" divides the five-year range by each area's land area (Census), for comparison with density measures; it is low where land is mostly farms or forest. District figures are estimated from where each place's homes sit, an approximation. Towns are included; a case on "How sure" leaves them out. Rows may not add exactly because of rounding.</p>`;
   // map values by geography (ids as in the shared outline files)
   const geoKind: GeoKind = level === "municipality" ? "munis" : level === "assembly" ? "assembly" : level === "senate" ? "senate" : "counties";
   const vals = new Map<string, number | null>();
   const names = new Map<string, string>();
-  if (geoKind === "munis") for (const m of A.munis) { vals.set(m.id, m.add_upper); names.set(m.id, `${m.name}, ${m.county}`); }
-  else if (geoKind === "counties") for (const c of A.counties) { vals.set(c.id, c.add_upper); names.set(c.id, c.name); }
+  // the high end of each area's range (the bundle's per-area figure scaled to the range's high end)
+  const hi = (v: number) => pkShare(b, v) * R.high;
+  if (geoKind === "munis") for (const m of A.munis) { vals.set(m.id, hi(m.add_upper)); names.set(m.id, `${m.name}, ${m.county}`); }
+  else if (geoKind === "counties") for (const c of A.counties) { vals.set(c.id, hi(c.add_upper)); names.set(c.id, c.name); }
   else for (const d of A.districts[geoKind as "assembly" | "senate"]) {
     const id = `${geoKind === "assembly" ? "asm" : "sen"}:${d.id}`;
-    vals.set(id, d.add_upper); names.set(id, `${geoKind === "assembly" ? "Assembly" : "Senate"} District ${d.id}`);
+    vals.set(id, hi(d.add_upper)); names.set(id, `${geoKind === "assembly" ? "Assembly" : "Senate"} District ${d.id}`);
   }
   const br = quintiles([...vals.values()].filter((v): v is number => v !== null && v > 0));
   const lab = (i: number) => i === 0 ? `under ${int(br[0])}` : i === 4 ? `${int(br[3])} or more` : `${int(br[i - 1])} to ${int(br[i] - 1)}`;
-  main.querySelector("#pk-legend")!.innerHTML = `<ul class="legend map-legend" aria-label="Map legend: added homes, five classes with about equal numbers of areas">${RAMP.map((c, i) => `<li><span class="lg-sw" style="background:${c}"></span>${esc(lab(i))}</li>`).join("")}<li><span class="lg-sw" style="background:${WATER}"></span>lakes and outside Wisconsin</li></ul>`;
+  main.querySelector("#pk-legend")!.innerHTML = `<ul class="legend map-legend" aria-label="Map legend: high end of the 90% range, extra homes permitted, five classes with about equal numbers of areas">${RAMP.map((c, i) => `<li><span class="lg-sw" style="background:${c}"></span>${esc(lab(i))}</li>`).join("")}<li><span class="lg-sw" style="background:${WATER}"></span>lakes and outside Wisconsin</li></ul>`;
   const mapEl = main.querySelector<HTMLElement>("#pk-map")!;
   const tip = mapEl.querySelector<HTMLElement>(".map-tip")!;
   leaveMap();
@@ -290,11 +291,12 @@ function where(b: ParkingBundle, env: ShellEnv, params: URLSearchParams, main: H
       tip.hidden = false;
       tip.style.left = `${Math.min(x + 12, mapEl.clientWidth - 200)}px`;
       tip.style.top = `${y + 12}px`;
-      tip.textContent = `${names.get(id) ?? id}: ${int(vals.get(id) ?? null)} added homes`;
+      const v = vals.get(id);
+      tip.textContent = v == null ? `${names.get(id) ?? id}: no data` : `${names.get(id) ?? id}: ${num((v / R.high) * R.low)} to ${num(v)} extra homes permitted (90% range)`;
     });
     mapH.setGeography(geoKind);
     mapH.setData(vals, br);
-    mapEl.querySelector("canvas")?.setAttribute("aria-label", `Map of added homes by ${level === "municipality" ? "city, village and town" : level}; the same values are in the table below.`);
+    mapEl.querySelector("canvas")?.setAttribute("aria-label", `Map of the high end of each area's 90% range of extra homes permitted by ${level === "municipality" ? "city, village and town" : level}; the same values are in the table below.`);
   }).catch(() => { mapEl.innerHTML = `<p class="small muted">The map could not load; the table below has the same values.</p>`; });
   const f = document.getElementById("where-form") as HTMLFormElement;
   f.addEventListener("change", () => {
@@ -308,15 +310,27 @@ function where(b: ParkingBundle, env: ShellEnv, params: URLSearchParams, main: H
   });
 }
 
-function howSure(b: ParkingBundle, main: HTMLElement): void {
+function howSure(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
   const H = b.howsure;
-  const groups = [...new Set(H.sensitivities.map((x) => x.moves))];
+  const R = b.statewide.range90;
+  // The two former headline rows are not repeated: the high end is the range's own high end, and the former low line
+  // (the measured average) is now a side line.
+  const cases = H.sensitivities.filter((x) => !/\(headline\)/.test(x.case));
+  const groups = [...new Set(cases.map((x) => x.moves))];
+  const lawCases = cases.filter((x) => x.moves !== "current law only").sort((a, z) => z.value - a.value);
   main.innerHTML = `
   <h1>How sure are we?</h1>
-  <p class="lede">The comparison behind this scenario found no measurable effect, so the uncertainty is mostly about how large a small effect could be. Here is what moves the numbers, how stable the finding is, and what rests on data versus judgment.</p>
+  <p class="lede">The law's extra homes are one 90% range, and it includes zero: the evidence found no measurable effect. This page puts every what-if against that range, shows how stable the finding is, and which parts rest on data and which on judgment.</p>
+  ${pkRangeCard(b, "howsure-range")}
+  <section class="card" aria-labelledby="h-pk-hs-lines"><h2 id="h-pk-hs-lines">Lines across the range</h2>
+    ${sideLinesHTML(b.statewide.side_lines, PK_UNIT, "howsure-side-lines", "The first lines are also drawn on the chart on Statewide comparison; the last is shown here only. None changes the 90% range.")}</section>
+  <section class="card" aria-labelledby="h-pk-tornado"><h2 id="h-pk-tornado">What-ifs against the range</h2>
+    <p>Each row is one what-if: a dot at its own statewide extra homes over 2027–2031, with a bar from zero. The shaded band is the 90% range, ${num(R.low)} to ${num(R.high)}. A hollow dot sits outside the range. No what-if changes the range.</p>
+    ${againstBandHTML(lawCases.map((x) => ({ label: x.case, value: x.value })), R, "Each what-if's own extra homes permitted in Wisconsin, 2027–2031", "pk-tornado")}
+    <p class="small muted" data-testid="pk-tornado-note">Not repeated here: the former high line (the range's high end, ${num(R.high)}) and the former low line (now the side line "${esc(b.statewide.side_lines.find((x) => x.id === "measured_average")?.label ?? "Measured average")}"). What-ifs about current law alone are in the last table below; they do not change the law's extra homes. <a href="${env.link("/compare")}">The range and its side lines on the chart →</a></p></section>
   ${groups.map((g) => `<section class="card"><h2>Cases that change ${esc(g)}</h2><div class="table-wrap"><table class="data"><caption class="sr-only">${esc(g)}</caption>
-    <thead><tr><th scope="col">Case</th><th scope="col" class="num">Permits, 2027–2031</th><th scope="col">What it means</th></tr></thead>
-    <tbody>${H.sensitivities.filter((x) => x.moves === g).map((x) => `<tr><th scope="row">${esc(x.case)}</th><td class="num">${int(x.value)}</td><td>${esc(x.description)}</td></tr>`).join("")}</tbody></table></div></section>`).join("")}
+    <thead><tr><th scope="col">Case</th><th scope="col" class="num">${g === "current law only" ? "Current-law permits, 2027–2031" : "Extra homes permitted, 2027–2031"}</th><th scope="col">What it means</th></tr></thead>
+    <tbody>${cases.filter((x) => x.moves === g).map((x) => `<tr><th scope="row">${esc(x.case)}</th><td class="num">${num(x.value)}</td><td>${esc(x.description)}</td></tr>`).join("")}</tbody></table></div></section>`).join("")}
   <section class="card"><h2>Is the finding stable?</h2>
     <p>The average effect stays near zero however it is cut. Across all ${int(H.average_views.places)} places, weighting each by its homes gives ${signed(H.average_views.weighted)}, counting each place equally gives ${signed(H.average_views.equal)}, and the middle place is ${signed(H.average_views.median)} permits per 1,000 existing homes per year. A few big cities, whose repeals met market slumps, pull the weighted figure down. In the first 24 places, leaving out one state at a time gave ${signed(H.leave_one_state.min)} (without ${esc(H.leave_one_state.min_state)}) to ${signed(H.leave_one_state.max)} (without ${esc(H.leave_one_state.max_state)}) permits per 1,000 existing homes per year.</p>
     <div class="table-wrap"><table class="data"><caption>Average effect, permits per 1,000 existing homes per year</caption>
@@ -324,7 +338,7 @@ function howSure(b: ParkingBundle, main: HTMLElement): void {
       <tbody>${H.robustness.map((x) => `<tr><th scope="row">${esc(x.check)}</th><td class="num">${x.places}</td><td class="num">${signed(x.effect)}</td><td class="num">${x.p05 === null ? "—" : `${signed(x.p05)} to ${signed(x.p95!)}`}</td></tr>`).join("")}</tbody></table></div>
     <p class="small muted"><strong>Do different kinds of places respond differently?</strong> In the first 24 places, we tested this by predicting each repeal place from all the others. One average for all places missed by ${dec(H.models.one_average, 2)} permits per 1,000 homes per year on average. Using ${esc(H.models.best)} missed by ${dec(H.models.best_error, 2)}, and splitting places by size missed by ${dec(H.models.best_band, 2)}. The gain was too small to rely on, so one average is used. "Likely range" means 90 times in 100 the true average would fall inside it.</p></section>
   <section class="card"><h2>A check with cities that never repealed</h2>
-    <p>We gave ${int(H.placebo.placebo_places)} cities that kept their parking minimums the same "repeal" years as the real places and ran the same calculation, 20,000 times. Each real place had at least 20 look-alikes to draw from. ${dec(H.placebo.share_placebo_at_or_below_real * 100, 0)}% of those placebo studies came out as low as the real places (${signed(H.placebo.real_average)} permits per 1,000 existing homes per year; placebo middle ${signed(H.placebo.placebo_p50)}). So the real result is ordinary for cities that never repealed: no sign that a repeal raised or lowered permits. The spread of these placebo studies, centred on the real average, sets the high end used here: ${signed(H.placebo.range_from_placebo_high)} permits per 1,000 existing homes per year. Resampling the real places alone gave a wider high end, shown above as a sensitivity.</p></section>
+    <p>We gave ${int(H.placebo.placebo_places)} cities that kept their parking minimums the same "repeal" years as the real places and ran the same calculation, 20,000 times. Each real place had at least 20 look-alikes to draw from. ${dec(H.placebo.share_placebo_at_or_below_real * 100, 0)}% of those placebo studies came out as low as the real places (${signed(H.placebo.real_average)} permits per 1,000 existing homes per year; placebo middle ${signed(H.placebo.placebo_p50)}). So the real result is ordinary for cities that never repealed: no sign that a repeal raised or lowered permits. The spread of these placebo studies, centred on the real average, sets the 90% range used here: ${signed(R.rate_low)} to ${signed(R.rate_high)} permits per 1,000 existing homes per year, or ${num(R.low)} to ${num(R.high)} extra homes permitted in Wisconsin over 2027–2031. Resampling the real places alone gave a similar high end, shown above as a what-if.</p></section>
   <section class="card"><h2>Do prediction tools do better than one average?</h2>
     <p>With 74 places, we tried tools that look at ten traits at once. Each was scored on places left out of the fit, in the US places and in California's cities. None beat one average, so every place gets the same average.</p>
     <div class="table-wrap"><table class="data"><caption>Change in prediction error compared with one average (negative = worse)</caption>
@@ -339,7 +353,7 @@ function howSure(b: ParkingBundle, main: HTMLElement): void {
     <div class="table-wrap"><table class="data"><caption>Effect by year since repeal, permits per 1,000 existing homes per year</caption>
       <thead><tr><th scope="col">Year since repeal</th><th scope="col" class="num">Places</th><th scope="col" class="num">Average</th><th scope="col" class="num">Median place</th></tr></thead>
       <tbody>${H.event_path.map((x) => `<tr><th scope="row">${x.year_since}</th><td class="num">${x.places}</td><td class="num">${signed(x.effect)}</td><td class="num">${signed(x.median)}</td></tr>`).join("")}</tbody></table></div>
-    <p class="small muted">No: it drifts lower, though few places reach years 4 and 5. Holding "High end of the evidence" flat to 2031 is generous. This path was computed after the plan was registered and changes no number.</p></section>
+    <p class="small muted">No: it drifts lower, though few places reach years 4 and 5. Holding the range's high end flat to 2031 is generous. This path was computed after the plan was registered and changes no number.</p></section>
   <section class="card"><h2>What rests on data and what on judgment</h2>
     <ul class="plain">${H.trace.map((t) => `<li>${pill(t.status)} <strong>${esc(t.part)}.</strong> ${esc(t.text)}</li>`).join("")}</ul></section>`;
 }
@@ -375,7 +389,7 @@ function pilot(b: ParkingBundle, env: ShellEnv, slug: string, main: HTMLElement)
   <div class="tiles tiles-3">
     <section class="tile"><h2 class="tile-label">Homes</h2><p class="tile-num">${int(p.homes)}</p><p class="tile-sub">ACS 2020–2024 ${pill("observed")}</p></section>
     <section class="tile"><h2 class="tile-label">Current-law permits, 2027–2031</h2><p class="tile-num" data-testid="pilot-baseline">${int(p.baseline)}</p><p class="tile-sub">${pill("calculated")}</p></section>
-    <section class="tile"><h2 class="tile-label">Added at the high end of the evidence</h2><p class="tile-num" data-testid="pilot-upper">${int(p.add_upper)}</p><p class="tile-sub">${p.at_benchmark ? "already has no parking minimums for housing, so the law adds nothing" : "\"No measurable change\" adds 0"}</p></section>
+    <section class="tile"><h2 class="tile-label">Extra homes from the law, 2027–2031</h2><p class="tile-num"><span data-testid="pilot-low">${num(pkShare(b, p.add_upper) * b.statewide.range90.low)}</span> to <span data-testid="pilot-upper">${int(p.add_upper)}</span></p><p class="tile-sub">${p.at_benchmark ? "already has no parking minimums for housing, so the law adds nothing" : "permits, 90% range: the place's share of the statewide range"} ${pill("calculated")}</p></section>
   </div>
   <section class="card"><h2>Permits by building size, 2015–2025</h2><div class="table-wrap"><table class="data"><caption class="sr-only">Permits by year and building size</caption>
     <thead><tr><th scope="col">Year</th><th scope="col" class="num">1 unit</th><th scope="col" class="num">2 units</th><th scope="col" class="num">3–4 units</th><th scope="col" class="num">5+ units</th></tr></thead>
@@ -386,14 +400,16 @@ function pilot(b: ParkingBundle, env: ShellEnv, slug: string, main: HTMLElement)
 }
 
 function brief(b: ParkingBundle, main: HTMLElement): void {
-  const s = b.statewide, [cen, up] = s.scenarios, W = b.why.average.all, lo = s.scenarios.find((x) => x.id === "lower");
+  const s = b.statewide, R = s.range90, W = b.why.average.all;
   main.innerHTML = `
   <h1>Brief: a statewide parking law for Wisconsin</h1>
   <section class="card" data-testid="brief">
     <p><strong>The question.</strong> If Wisconsin removed minimum parking requirements for all housing from 1 January 2027, how many more homes would be permitted over 2027–2031?</p>
-    <p><strong>The answer.</strong> About zero that we can measure. Current law is expected to permit ${int(s.baseline_total)} homes over 2027–2031. US places that removed their minimums did not permit measurably more homes in the three years after than similar places that kept them (${signed(W.effect)} permits per 1,000 existing homes per year; likely range ${signed(W.p05)} to ${signed(W.p95)}). So "${esc(cen.label)}" adds ${int(cen.additional_total)}. At the high end of the evidence, the law would add ${int(up.additional_total)} permits (${dec((up.additional_total / s.baseline_total) * 100, 0)}% more than current law).${lo ? ` At the low end it would mean ${int(Math.abs(lo.additional_total))} fewer (${dec((Math.abs(lo.additional_total) / s.baseline_total) * 100, 0)}% less), the measured average of the repeal places, pulled down mostly by San Francisco and Minneapolis.` : ""}</p>
+    <p data-testid="brief-headline"><strong>The answer.</strong> ${num(R.low)} to ${num(R.high)} extra homes permitted in Wisconsin over 2027–2031 (90% range), on top of the ${int(s.baseline_total)} homes expected under current law. The range includes zero: the data can't tell whether removing parking minimums alone adds or removes homes. US places that removed their minimums did not permit measurably more homes in the three years after than similar places that kept them (${signed(W.effect)} permits per 1,000 existing homes per year; likely range ${signed(W.p05)} to ${signed(W.p95)}).</p>
+    <p><strong>Lines across the range.</strong> ${s.side_lines.map((x) => `${esc(x.label)}: ${sideValue(x)} ${PK_UNIT}.`).join(" ")} None of them is "the" estimate.</p>
+    <p class="small"><strong>How the range is built.</strong> ${esc(R.method)} ${esc(R.coverage)} By year, 2027–2031: ${R.years.map((y) => `${num(y.low)} to ${num(y.high)}`).join("; ")} extra homes permitted.${R.caveat ? ` ${esc(R.caveat)}` : ""}</p>
     <p><strong>Why so small.</strong> Developers keep building parking that renters, buyers and lenders want. In Buffalo, major projects built 79% of the old minimum after it was repealed. In Los Angeles projects that could cut parking, the typical one still built 0.81 spaces per home. Family-size buildings kept nearly all their parking, while studio and one-bedroom buildings dropped about half.</p>
-    <p><strong>What it cannot tell you.</strong> Effects beyond three years, effects in places where minimums bind hard, and what a repeal does to rents or parking supply.</p>
+    <p><strong>What it cannot tell you.</strong> Effects beyond three years, effects in places where minimums bind hard, and what a repeal does to rents or parking supply. These are homes in issued building permits, not completed homes.</p>
     <p class="small muted">Run ${esc(b.manifest.run_id)}.</p>
   </section>`;
 }
@@ -415,9 +431,9 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
     leave: () => leaveMap(),
     render(path: string, params: URLSearchParams, main: HTMLElement) {
       if (!path.startsWith("/where")) leaveMap();
-      if (path.startsWith("/compare")) compare(b, main);
+      if (path.startsWith("/compare")) compare(b, env, main);
       else if (path.startsWith("/where")) where(b, env, params, main);
-      else if (path.startsWith("/how-sure")) howSure(b, main);
+      else if (path.startsWith("/how-sure")) howSure(b, env, main);
       else if (path.startsWith("/why")) why(b, main);
       else if (path.startsWith("/pilot")) pilot(b, env, path.split("/")[2] ?? "milwaukee", main);
       else if (path.startsWith("/brief")) brief(b, main);
