@@ -119,3 +119,13 @@ The audit accepted the plan with 6 fixes (`/mnt/project-files/audit/adu_market_d
 **Added limit.** The heat denominator is a fixed home count (ACS 2020–2024), the same in every year. So early years read a little high relative to later years in fast-growing states. This affects all states alike in the national ratio, but not exactly.
 
 **Not done.** California's A2 finding is not applied as a fixed adjustment (audit agrees). It measured places within California drifting toward California's average, not states drifting toward the national average.
+
+## Changes after the smoke test (post hoc, 2026-11-06 about 19:30–19:45 UTC, before the counted run)
+
+A 2-draw smoke test ran first, and its result was seen: typical adoption up about 826 ADU permits, almost all from the intercepts a_h. The main line and the decision rule were locked before it and are unchanged. These changes followed it:
+- **(a) Panel check years (about 19:31 UTC).** The Baseline panel's `start` is the origin year, so its window is start+1 to start+5. Fixed; 612 of 612 state-window totals then match BPS exactly. No ADU number depends on this check.
+- **(b) Post hoc diagnostic, heat term only (about 19:32 UTC).** It sets the intercepts to 0. It shows how much of the Wisconsin change is regression to the mean (heat) and how much is the intercepts. It cannot replace the main line or the decision.
+- **(c) Post hoc diagnostic, equal-weighted national rate (audit, about 19:45 UTC).** The intercepts partly reflect a construction mismatch: states are weighted equally against a national rate weighted by homes. This line refits the drift against the equal-weighted mean of state rates. It is labelled post hoc and cannot replace the main line or the decision.
+- **Draws.** With 200 draws, the 5th and 95th percentiles carry about 1–2 points of coverage error.
+- **Run.** The counted run restarts after these changes are pushed. A first counted attempt was stopped before any result was read.
+
