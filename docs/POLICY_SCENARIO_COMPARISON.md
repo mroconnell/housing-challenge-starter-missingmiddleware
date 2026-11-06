@@ -33,7 +33,7 @@ Extra homes permitted over 2027–2031, compared with current law. ADUs and TOD 
 | --- | --- | ---: | ---: | --- | --- |
 | **ADUs** (ADU permits: second homes on single-family lots) | 8,055 to 13,666 | 6.5% to 11.0% of the 124,000 all-housing baseline (not of the 786 ADU baseline) | 2.9 to 4.9 | Held-out prediction error: how far the model missed each of 7 statewide-law states it had not seen (root mean square log error 0.136 × t at 6 degrees of freedom, 1.943) | Checked on 7 states: 7 of 7 inside; too few to measure a factor, so not widened |
 | **TOD** | 3,922 to 16,335 | 3.2% to 13.2% | 1.4 to 5.9 | Bootstrap of the 11 district places (4,866 to 15,361), widened ×1.1827 | 84.5% before widening |
-| **Parking** | Not yet on the range display (owner still working on parking). Current lines: low end −15,234, central 0, high end 19,818 | −12.3%, 0%, 16.0% | −5.5, 0, 7.1 | Low end: measured average of 76 repeal places; high end: placebo spread | Not checked against real outcomes |
+| **Parking** | Not yet on the range display (owner still working on parking). Current lines: low end −15,380, central 0, high end 19,649 | −12.4%, 0%, 15.8% | −5.5, 0, 7.1 | Low end: measured average of 74 repeal places; high end: placebo spread | Not checked against real outcomes |
 
 - **ADUs: law-side error only.** The range leaves out Wisconsin-side inputs:
   - today's rates where they are assumed. 74% of the addition is in such places; the codings tested move the result from 9,319 to 10,734.
@@ -70,7 +70,7 @@ What the side lines mean:
 **Against each reform's own baseline:**
 - ADUs: 8,055 to 13,666 second homes on a baseline of 786. That is 10.2 to 17.4 times what current law would produce.
 - TOD: 3,922 to 16,335 homes on a baseline of 14,654 near stops. That is 26.8% to 111.5% more.
-- Parking (current lines): −15,234 to 19,818 homes on a baseline of 124,000, central 0. That is −12.3% to +16.0%.
+- Parking (current lines): −15,380 to 19,649 homes on a baseline of 124,000, central 0. That is −12.4% to +15.8%.
 
 **How confident we are.**
 
@@ -78,7 +78,7 @@ What the side lines mean:
 | --- | --- | --- |
 | ADUs | Medium | Eight states have passed similar laws. When each is left out, the model predicts five of the seven non-California states within about 15%; it is about 21% too high for Washington and 19% too high for Vermont. No Midwest state has data yet. |
 | TOD | Low | The central averages 11 US places that chose their own district land, often land builders wanted; none is in Wisconsin, and a state mandate may do less. No model beat that average on places it had not seen. |
-| Parking | Medium that the effect is small within five years; low on the high end | 76 real repeals show no measurable rise on average within three years. |
+| Parking | Medium that the effect is small within five years; low on the high end | 74 real repeals show no measurable rise on average within three years. |
 
 The reforms are not ranked (rule 8 of the display spec). The ADU and TOD 90% ranges overlap: ADUs 8,055 to 13,666, TOD 3,922 to 16,335.
 
@@ -102,13 +102,13 @@ The reforms are not ranked (rule 8 of the display spec). The ADU and TOD 90% ran
 - Caveat: the training cities chose their land, often land builders already wanted; a mandate may do less.
 - The former central for the broader law (13,229 as shown; 13,686 on the corrected data; AQ-070) and the earlier ones (Stacy et al. 2,509; drift rule 1,196) are kept as what-ifs.
 
-**Parking's central is zero because the 76 US places that removed their parking minimums did not permit measurably more homes in the next three years than similar places that kept them.**
+**Parking's central is zero because the 74 US places that removed their parking minimums did not permit measurably more homes in the next three years than similar places that kept them.**
 - The places removed minimums between 2017 and 2022. They were drawn from 46 places that adopted repeals in 2015–2022, each checked against its ordinance.
 - Each place's permits per 1,000 existing homes in up to five years before the repeal (from 2012) were compared with years 1–3 after it, against similar places in the same state that kept their minimums (a difference-in-differences).
-- Weighted by each place's number of homes, the average change was −1.14 permits per year per 1,000 existing homes (all housing units, ACS 2020–2024 table B25002). The 90% range was −3.47 to +1.43, which includes zero.
+- Weighted by each place's number of homes, the average change was −1.15 permits per year per 1,000 existing homes (all housing units, ACS 2020–2024 table B25002). The 90% range was −3.63 to +1.45, which includes zero. The sample was corrected on 2026-11-05 (Canandaigua's town series, Seabrook and Maumee removed; owner OK), from 76 places.
 - In plain words, developers in those places kept building about as much parking as buyers, renters and lenders wanted. In Buffalo, the developers of 36 major projects still built 79% of the spaces the old minimums had required. So where a minimum did not force more parking than the market wanted, removing it changed little.
-- The central is zero ("no measurable change"). There is no floor at zero: the low end applies the measured average, −1.14, and gives −15,234 homes.
-- The upper case uses a ceiling from a control-city (placebo) test: 9,420 cities that never repealed, at least 20 stand-ins for each real place, were given the real places' repeal years and run through the same calculation 20,000 times. Their spread, centred on the real average, tops out at +1.49 permits per year per 1,000 existing homes, which agrees with resampling the 76 places (+1.43). Applied to the 2,668,677 Wisconsin homes outside the 18 places left out (9 that already have no minimums and 9 near-benchmark places), that gives 19,818 homes over five years.
+- The central is zero ("no measurable change"). There is no floor at zero: the low end applies the measured average, −1.15, and gives −15,380 homes.
+- The upper case uses a ceiling from a control-city (placebo) test: 9,185 cities that never repealed, at least 20 stand-ins for each real place, were given the real places' repeal years and run through the same calculation 20,000 times. Their spread, centred on the real average, tops out at +1.47 permits per year per 1,000 existing homes, which agrees with resampling the 74 places (+1.45). Applied to the 2,668,677 Wisconsin homes outside the 18 places left out (9 that already have no minimums and 9 near-benchmark places), that gives 19,649 homes over five years.
 
 **Why the ranges differ in width.**
 - **TOD:** 11 places is a small sample, and the range is widened to pass its coverage test.
@@ -120,10 +120,10 @@ Figures in this section are the former centrals and lines under each change. The
 
 | Reform | Assumption | What changing it does (additional homes, 2027–2031) |
 | --- | --- | --- |
-| Parking | **The ends of the range** | The upper case is the top of the placebo-based range (+1.49). The lower case is the measured average (−1.14), unfloored: −15,234. |
-| Parking | **Which places are in the evidence** | Using only the first 24 places studied, the high end is 29,662; combining the 76 places with 185 California cities under AB 2097 gives 15,138; leaving out San Francisco gives 24,520. |
-| Parking | **How the range is built** | An earlier placebo version with too few stand-ins for big cities gave +0.95 (12,695); resampling the 76 places gives +1.43 (19,186), close to the adopted 19,818. |
-| Parking | **How the comparison cities are cleaned** (improvement loop round 1) | The headline high end (19,818) is the lowest of four versions and may be understated; it is uncertain by about 2×. The other versions: undated reform entries kept as comparisons 29,843; strict cleaning, resampling 38,230; strict cleaning, placebo 49,712. The central stays about zero in every version. Round 2 kept the headline high end (then 19,937; 19,818 after Stage 2) (owner); its better-cleaned versions are sensitivities: apartment-scale reforms only 29,307; with California, Oregon and Washington state laws excluded too 27,671. |
+| Parking | **The ends of the range** | The upper case is the top of the placebo-based range (+1.47). The lower case is the measured average (−1.15), unfloored: −15,380. |
+| Parking | **Which places are in the evidence** | Using only the first 24 places studied, the high end is 29,662; combining the 76 places (before the 74-place correction) with 185 California cities under AB 2097 gives 15,138; leaving out San Francisco gives 24,520. |
+| Parking | **How the range is built** | An earlier placebo version with too few stand-ins for big cities gave +0.95 (12,695); resampling the 74 places gives +1.45 (19,328), close to the adopted 19,649. |
+| Parking | **How the comparison cities are cleaned** (improvement loop round 1) | The headline high end (19,818 then; 19,649 on the 74-place sample) is the lowest of four versions and may be understated; it is uncertain by about 2×. The other versions: undated reform entries kept as comparisons 29,843; strict cleaning, resampling 38,230; strict cleaning, placebo 49,712. The central stays about zero in every version. Round 2 kept the headline high end (then 19,937; 19,818 after Stage 2) (owner); its better-cleaned versions are sensitivities: apartment-scale reforms only 29,307; with California, Oregon and Washington state laws excluded too 27,671. |
 | Parking | Counting only buildings of 2 or more units | The high end falls to 10,373. |
 | TOD | **Which law, and which line** (AQ-071, AQ-072) | Option D: lower 3,958 (90% range 2,280 to 5,791), central 10,028 (7,580 to 12,010, each place left out), upper 12,521 (9,089 to 16,771, each place left out), AQ-075. What-ifs: the 2×2 near new lines 13,451 (10,431 to 15,049); the 2×2 minus its before-reform growth 5,624 (2,340 to 9,684); former option D lower 824 (−90 to 1,006). The former lines for the broader law, recomputed on the corrected data: little −70 (shown as 43), central 13,686 (shown as 13,229), strong (Auckland) 17,148; earlier: Los Angeles 171, drift rule 1,196, Stacy et al. 2,509. |
 | TOD | District size | 10,028 unscaled (central; the places averaged 12%) or 12,521 scaled to 15% (the upper, AQ-075). Scaled to 10%: 8,347; to 25%: 20,868. A straight line through the places at 15%: 8,143. |
@@ -160,7 +160,7 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
 | --- | --- | --- | --- |
 | ADUs (ADU permits) | 8,055 to 13,666 | 6,321; 10,492; 19,784 | [NET_STATEWIDE_R1.md](adu/NET_STATEWIDE_R1.md); [CAUSAL_FRAMEWORK_RESULTS.md](adu/CAUSAL_FRAMEWORK_RESULTS.md) |
 | TOD (all homes) | 3,922 to 16,335 | 3,958; 10,028; 12,521 | [OPTION_D_PLAN.md](tod/OPTION_D_PLAN.md); [CAUSAL_FRAMEWORK_PLAN.md](tod/CAUSAL_FRAMEWORK_PLAN.md); AQ-071, AQ-072, AQ-075 |
-| Parking, route A (the tool) | not yet (owner still working on parking) | −15,234; 0; 19,818 | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
+| Parking, route A (the tool) | not yet (owner still working on parking) | −15,380; 0; 19,649 | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 | Parking, route B (trees) | not computed | −4,171; 0; 0 | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 
 - **TOD lines now match the tool** (AQ-072, option D): lower = edge test, the rezoned lots' own gain; central = the 11 district places' average within ¼ mile; upper = the central scaled to a 15% district (AQ-075). The 2×2 near new lines (13,451) and its trend-adjusted version (5,624) are what-ifs, as are the former option D lower (824; AQ-071) and the earlier lines (43, 13,229, Auckland 17,148 as shown; AQ-069, AQ-070) are what-ifs.
@@ -176,7 +176,7 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
   - the ADU law already removes parking requirements for ADUs;
   - the TOD cases cannot separate TOD from parking reform.
   
-  The tool shows each reform on its own. The combined TOD and parking view stays as it is until parking moves to the range display. Then it will show a range from a paired simulation of the reforms' draws, never a sum of range ends. Its current lines: Where TOD and parking overlap near transit stops, it takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −11,276 homes (TOD 3,958 plus parking −15,234), its central 10,028, and its high case 30,355 (AQ-075; 31,270 before). The simple sum, 32,338, is only an upper bound (before AQ-071: −15,283, 13,229 and 34,921; sum 37,085).
+  The tool shows each reform on its own. The combined TOD and parking view stays as it is until parking moves to the range display. Then it will show a range from a paired simulation of the reforms' draws, never a sum of range ends. Its lines, from before the 74-place parking update: where TOD and parking overlap near transit stops, it takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −11,276 homes (TOD 3,958 plus parking −15,234), its central 10,028, and its high case 30,355 (AQ-075; 31,270 before). The simple sum, 32,338, is only an upper bound (before AQ-071: −15,283, 13,229 and 34,921; sum 37,085).
 - **Rents, prices, displacement, parking supply, traffic or transit ridership.** None is modelled.
 - **Finished homes.** Permits are not completions, and the figures are not net of demolitions.
 - **Local forecasts.** Municipal, county and district figures are shares of a statewide estimate. They reconcile exactly to the state, but they are not forecasts for any place, lot or project.
