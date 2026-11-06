@@ -47,7 +47,7 @@ YEARS = [2027, 2028, 2029, 2030, 2031]
 PATHS = ["lower", "central", "upper"]
 
 INPUTS = [
-    "scripts/build_ui_bundle.py", "reference/adu_model_params.json", "reference/adu_model_statewide.csv", "reference/adu_model_statewide_by_year.csv", "reference/adu_causal_a3_range.csv", "reference/adu_causal_a3_by_state.csv",
+    "scripts/build_ui_bundle.py", "reference/adu_model_params.json", "reference/adu_model_statewide.csv", "reference/adu_model_statewide_by_year.csv", "reference/adu_causal_a3_range.csv", "reference/adu_causal_a3_by_state.csv", "reference/adu_market_drift_summary.csv", "reference/adu_market_drift_decision.csv",
     "reference/adu_model_by_county.csv", "reference/adu_model_by_context.csv", "reference/adu_model_by_rights_basis.csv",
     "reference/adu_model_sensitivities.csv", "reference/adu_model_reference_lines.csv",
     "reference/pooled_revision_adoption_line.csv", "reference/pooled_revision_stage2_levels.csv",
@@ -492,6 +492,24 @@ def build_state(p: dict) -> dict:
          "low": r(cen_tot * math.exp(-bias - 1.943180 * sd), 0), "high": r(cen_tot * math.exp(-bias + 1.943180 * sd), 0),
          "where": "howsure",
          "note": f"The model predicted hidden states about {math.expm1(bias) * 100:.0f}% too high on average; this range takes that out."},
+    ]
+    # market drift (owner 2026-11-06: keep the range; show these on How sure only)
+    md = pd.read_csv(REF / "adu_market_drift_summary.csv").set_index("line")
+    mdd = pd.read_csv(REF / "adu_market_drift_decision.csv").iloc[0]
+    def _md(prefix):
+        return md[md.index.str.startswith(prefix)].iloc[0]
+    side_lines += [
+        {"id": "drift_main", "label": "Adjusted for market heat before each state's law",
+         "value": r(float(_md("drift-adjusted, ADUs 1-for-1").central), 0), "where": "howsure",
+         "note": (f"Change {float(_md('drift-adjusted, ADUs 1-for-1').change_central):+,.0f} (90% "
+                  f"{float(mdd.change_p05):+,.0f} to {float(mdd.change_p95):+,.0f}). Mostly from how the national "
+                  "average is weighted, not from markets cooling; see the two lines below.")},
+        {"id": "drift_heat_only", "label": "Market heat: hot-cools / cold-warms part only (post hoc)",
+         "value": r(float(_md("post hoc diagnostic: heat term only").central), 0), "where": "howsure",
+         "note": "Hot and cold law states roughly cancel; no interval, a point reading."},
+        {"id": "drift_equal_weight", "label": "Market heat, each state weighted equally (post hoc)",
+         "value": r(float(_md("post hoc diagnostic: equal-weighted").central), 0), "where": "howsure",
+         "note": "Removes the mismatch between equal-weighted states and a home-weighted national rate; no interval."},
     ]
     ctx = pd.read_csv(REF / "adu_model_by_context.csv")
     contrast = pd.read_csv(REF / "gate5_context_contrast.csv").set_index("context")
