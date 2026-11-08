@@ -57,3 +57,12 @@ The full tables, query strings and sources are in the helpers' reports, summaris
 3. **A different comparison, which would need a new locked plan.** Match each California activity group to no-law cities with similar 2017–2019 rates. Austin, Fort Worth and Charlotte sit near California's "in between" group (0.33).
    - That is a new test, not A1.
    - Its windows and cities would be chosen after this scan, so it would be labelled as designed after seeing which data exist (no effect seen).
+
+## Audit notes (2026-11-08; verdict unchanged)
+
+The audit accepted the scan and agrees A1 stays closed. It recomputed the rates for Asheville, Austin, Fort Worth and Charlotte, and they match.
+- **Stricter screen.** Dropping any city with a local ADU change at any time in 2017–2023 is stricter than the lock's "no reform between the windows". No rate was computed for the 25 cities dropped on rule changes.
+- **Option 3.** Any looser matched test would be labelled as designed after seeing which cities have 2017–2023 counts, including their 2021–2023 counts.
+- **Records requests.** These are Ryan's call. A1 would reach 5 cities only if all 3 of Fort Collins, Tampa and Houston passed the rate rule. The pre-trend check would also need 4 cities with 2014–2016 counts.
+- **Asheville.** It stays "tentatively clean", because its counts come from a text match and its amendment notes were not read.
+
