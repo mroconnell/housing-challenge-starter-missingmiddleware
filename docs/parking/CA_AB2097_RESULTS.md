@@ -374,3 +374,30 @@ run" and "under 10 thin" are conventions):
   overlaps with section 11. Neither is a finding.
 - The exurb slope is large because only 6 of 25 places have homes near transit, so a small difference in share gives a
   large slope; read as thin.
+
+## 13. POST HOC: does a city's own reading of the law matter? (Ryan 2026-11-08)
+
+Script `scripts/ca_ab2097_posthoc4.py`, cleared by the audit before it ran; output
+`reference/ca_ab2097_posthoc4_local_reading.csv`. Within each city, land is split by the city's own map and our main
+½-mile area. "Neither" is city land outside both maps, including land near transit just outside them, so it is not a
+far-away comparison. Homes other than ADUs per 1,000 existing homes (2020) a year, after vs 2018–2022,
+difference-in-differences; 90% ranges from 2,000 resamples of projects (one city each). Reading rule set before the
+run: supporting examples only, same for both signs; 3 separate readings, each with about a 1 in 10 chance of excluding
+0 by chance.
+
+| Contrast | City | Existing homes (treated / neither) | Permitted homes, treated: before → after | Neither: before → after | Estimate (90% range) |
+| --- | --- | --- | --- | --- | --- |
+| Land only the city's map covers vs neither | Santa Cruz (2023–2025) | 12,684 / 8,622 | 528 → 790 | 60 → 172 | +7.178 (−9.272 to +24.441) |
+| Same | Sacramento (2023 only) | 47,438 / 96,399 | 2,796 → 611 | 6,804 → 733 | +7.604 (−0.146 to +16.477) |
+| Same, affected by the 2024 citywide repeal | Sacramento (2023–2025) | 47,438 / 96,399 | 2,796 → 1,128 | 6,804 → 2,247 | +2.485 (−2.944 to +7.827) |
+| Land only our map covers vs neither (reverse case) | Oakland (2023–2025) | 23,806 / 27,875 | 514 → 129 | 963 → 136 | +2.771 (−3.267 to +9.593) |
+
+Permitted homes are totals over 5 before years and 1 or 3 after years.
+
+- All three readings point the same way (more building on the land only the city covered), but every range includes 0.
+  Sacramento's 2023-only reading comes closest (lower end −0.146).
+- The Oakland row compares two areas Oakland treats as not covered, so a gap there points to being near transit, or to
+  our map, not to the law. It also leans positive with a range including 0, which makes the Santa Cruz and Sacramento
+  leans harder to credit to the cities' own maps.
+- Santa Cruz's map is an approximate hand rebuild; Sacramento's layer was created 2023-02-03 and republished since;
+  Oakland's is "as of Spring 2023" and Oakland is an early-reform city.
