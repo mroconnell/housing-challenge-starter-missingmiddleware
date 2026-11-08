@@ -22,7 +22,22 @@ Started 2026-11-08 (UTC) on Ryan's go-ahead. The question is how each source rec
 
 **If a step breaks a rule by accident:** log it here with what was seen, and tell Ryan and the audit thread.
 
+## Seen before these rules were written (disclosure)
+
+On 2026-11-06, during step 1 ([CANDIDATES.md](CANDIDATES.md)) and before any rule existed, the lead researcher saw some post-reform numbers in tested places. They are listed here so the audit can judge any bias:
+- Census permit units by building size, 2012–2025, for Minneapolis, Austin, Houston, Durham, Raleigh, Mecklenburg County, Walla Walla, Spokane, Sacramento, Arlington and Portland (yearly table, read on screen).
+- Washington state agency (OFM) yearly permits by structure for Spokane and Walla Walla, 2012–2026.
+- Portland city permits, new units by permit type per year, 2012–2026.
+- California progress reports: statewide SB 9-flagged permitted units by unit category, 2022–2025.
+- Published post-reform counts quoted in CANDIDATES.md (Raleigh, Austin, Durham, Arlington, Spokane, Portland and others), from city reports and studies.
+- No before/after comparison or rate was computed from any of these.
+
+The Oregon cutoff power check (2026-11-06) used only 2012–2019, which is before the Oregon law.
+
 ## Log
 
 | When (UTC) | Who | Source | What was read | Rule used | Notes |
 | --- | --- | --- | --- | --- | --- |
+| 2026-11-08T00:28Z | lead | ORS 92.031 (oregonlegislature.gov/bills_laws/ors/ors092.html) | Middle housing land division: one unit per new lot; the plat may carry a notation; history 2021 c.103 (SB 458), 2024 c.102, 2025 c.476 | 1 | Lot-split middle housing is filed as one home per lot, so permits may show 1-unit homes |
+| 2026-11-08T00:29Z | lead | ORS 197A.110 (ors197A.html) | Cities of 10,000+ report units permitted and produced each year, split into single-unit, ADU, middle housing and other multiunit (2023 c.13 §37) | 1 | State middle-housing count exists for cities of 10,000+ only, so no below-cutoff comparison |
+| 2026-11-08T00:30Z | lead | OHCS dashboard methods page (oregon.gov/ohcs) | DLCD Housing Production Survey has data from 2018; to be replaced by a PSU survey (AHUPS) | 1 | Survey files and categories by year not yet found |
