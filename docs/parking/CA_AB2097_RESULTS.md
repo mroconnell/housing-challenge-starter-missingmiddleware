@@ -399,7 +399,7 @@ Permitted homes are totals over 5 before years and 1 or 3 after years.
 - In Sacramento and Oakland the positive sign comes mostly from the "neither" land falling more, not from the treated
   land rising (homes other than ADUs per 1,000 existing homes a year): Sacramento's city-only land went 11.788 → 12.880
   while its neither land fell 14.116 → 7.604; Oakland's ours-only land fell 4.318 → 1.806 and its neither land fell
-  6.909 → 1.626. In Santa Cruz both rose (city-only 8.326 → 20.761; neither 1.392 → 6.650). So the leans fit "land
+  6.909 → 1.626. In Santa Cruz both rose (city-only 8.325 → 20.761; neither 1.392 → 6.650). So the leans fit "land
   near transit fell less" at least as well as "the city's map mattered".
 - The Oakland row compares two areas Oakland treats as not covered, so a gap there points to being near transit, or to
   our map, not to the law. It also leans positive with a range including 0, which makes the Santa Cruz and Sacramento
