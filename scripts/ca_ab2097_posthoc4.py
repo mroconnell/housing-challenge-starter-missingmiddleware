@@ -6,21 +6,23 @@ own reading of AB 2097 change what gets built? Reported only; it does not change
 Within each city, land (2020 census blocks by internal point; permits by point) is split by two maps: the city's own
 map (scripts/ca_ab2097_side_checks.city_polys) and our main map's 1/2-mile area (zone_main == "near"):
   city_only = inside the city's map, outside ours;  both;  ours_only = inside ours, outside the city's;
-  neither = inside the city, outside both.
+  neither = inside the city, outside both. "Neither" includes land near transit just outside both maps, so it is not
+  a far-away comparison.
 Contrasts (homes other than ADUs per 1,000 existing homes (2020) a year; after vs 2018-2022; difference-in-
 differences; 90% range from 2,000 resamples of projects, since each is one city):
   A. "Local reading": city_only vs neither, in Santa Cruz (after = 2023-2025) and Sacramento (after = 2023 only,
      because Sacramento repealed minimums citywide from 2024-03-28; 2023-2025 shown beside it, labelled affected by
      the repeal).
   B. "Our reading only" (reverse case): ours_only vs neither, in Oakland (after = 2023-2025). Oakland is an early-reform
-     city (no minimums in its downtown zones before 2023).
+     city (no minimums in its downtown zones before 2023). Both areas are ones Oakland treats as not covered, so a gap
+     there points to being near transit, or to our map, not to the law.
 Counts of existing homes and of permitted homes in each area and period are reported first.
 Labels: Santa Cruz's map is approximate (rebuilt by hand from its 2024 PDF); Sacramento's layer was created 2023-02-03
 and republished since; Oakland's is "as of Spring 2023". Los Angeles's TOC land is not involved (no city here).
 
 Reading rule, set before the run (same for both signs): these are supporting examples, not evidence of cause; a range
-excluding 0 is "a pattern worth noting". Chance line: of the 4 contrast rows, each has about a 1 in 10 chance of
-excluding 0 with no real difference. Few permits may fall in some areas; areas with fewer than 20 permitted homes in
+excluding 0 is "a pattern worth noting". Chance line: there are 3 separate readings (the Sacramento 2023-2025 row
+overlaps its 2023 row and is labelled affected); each has about a 1 in 10 chance of excluding 0 with no real difference. Few permits may fall in some areas; areas with fewer than 20 permitted homes in
 either period are labelled too thin to read (a convention).
 
 Output: reference/ca_ab2097_posthoc4_local_reading.csv (counts and contrasts; no addresses).
