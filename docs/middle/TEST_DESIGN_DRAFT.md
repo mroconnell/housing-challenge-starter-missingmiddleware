@@ -23,6 +23,14 @@ If a state allows 2–6 homes on lots now limited to one house, how many extra h
 
 - **Why stop at 4:** the power check found that leaving out 5+ buildings roughly halves the noise in every test. Census cannot cap at 10, 30 or 100 units; 5+ is its only size cut.
 - **Cost:** 5–6 unit buildings fall outside M1 (handbook range goes to 6). Stated under "what this design cannot tell us".
+- **5–6 unit sensitivity:** M1 plus 3.0% of Census 5+ homes, the share of 5+ homes in projects of 5 or 6 homes in California's 2018–2021 progress reports ([MEASUREMENT_CHECK_RESULTS.md](MEASUREMENT_CHECK_RESULTS.md)). Reported beside M1 as a rough estimate.
+
+## Reporting rule (fixed before any result; Ryan, 2026-11-09)
+
+- **M1 (homes in 1–4 unit buildings) leads** every result, chart and tool line.
+- **M3 (all homes) is always published right beside it**, at the same size, labelled as the net effect on housing.
+- **If M1 and M3 point in different directions** (one reads as a rise, the other as a fall, under the symmetric rule), the headline says so in plain words.
+- No measure is promoted or dropped after results are seen. Any later change is labelled post hoc.
 
 ## Test 1. State laws against similar places elsewhere (main test)
 
