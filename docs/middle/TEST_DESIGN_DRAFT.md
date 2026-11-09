@@ -176,7 +176,7 @@ This shows how far each law falls short of the handbook scenario (2–6 homes, 3
 | Backdoor | How the design blocks it | Status |
 | --- | --- | --- |
 | City size, land, existing homes | Before/after within each place, so fixed traits cancel | Blocked |
-| Interest rates, costs, COVID | Comparison places of similar size in the same division share the years | Blocked |
+| Interest rates, costs, COVID | Comparison places of similar size in the same region share the years | Blocked |
 | Pro-housing politics | The fixed part cancels; Test 2 compares cities under the same state politics | Mostly blocked |
 | Low building before the law (bounce-back) | Test 4; matching on size and region | Blocked only if Test 4 passes |
 | Housing shortage changing over time | Test 4 catches trends already under way | **Partly open:** a shock starting the same year as the law is not caught |
@@ -187,7 +187,7 @@ This shows how far each law falls short of the handbook scenario (2–6 homes, 3
 
 ## Data rules
 
-- **Census permits:** use the "reported" columns, and keep only places reporting all 12 months in every window year. Census's filled-in columns are a sensitivity case (and Spokane's main case).
+- **Census permits:** use the "reported" columns, and keep only places reporting all 12 months in every window year. Census's filled-in columns are a sensitivity case, with two exceptions where filled-in columns are the main case and reported-only is the sensitivity: Spokane (Test 3) and the Oregon line (Test 2).
 - **Licences (Ryan, 2026-11-09):**
   - Out: Durham (ODbL), Raleigh, Mecklenburg County and Sacramento (no open licence). Census still covers those cities.
   - In: Austin (public domain) and Minneapolis (copyright waived).
