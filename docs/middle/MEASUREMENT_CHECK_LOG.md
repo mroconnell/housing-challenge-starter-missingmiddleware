@@ -54,6 +54,8 @@ The Oregon cutoff power check (2026-11-06) used only 2012–2019, which is befor
 | 2026-11-09 | helper: comparison screen | Statutes, agency pages, news and reform trackers for 15 comparison states plus South/Midwest; repo inventory law columns; Parking Reform Network file | 1 | Saw but did not record some post-2018 counts in sources (an Albuquerque casita count, a Colorado Springs ADU count, a New Haven claim). Full list: [measurement/COMPARISON_STATE_REFORMS.md](measurement/COMPARISON_STATE_REFORMS.md) |
 | 2026-11-09 | lead | Census place permits 2012–2018 | Bake-off and power rerun on the screened pool | 3, 4 | Same limits |
 | 2026-11-09 | lead | Test 2 code written before any run (`scripts/middle_test2_oregon_line.py`); PSU list name fix "Freewate" → "Milton-Freewater" (PDF parse error) | — | Not run until the step 0 zoning check is done |
+| 2026-11-09T19:33–19:58Z | helper: Oregon zoning | Zoning codes and ordinances of 25 left-out Oregon cities ([measurement/OREGON_LEFTOUT_ZONING.md](measurement/OREGON_LEFTOUT_ZONING.md)) | 1 | Step 0 of the locked plan; zoning rules and dates only |
+| 2026-11-09 | lead | Step 0 drops and two post hoc sensitivities declared before Test 2 runs ([TEST2_RESULTS.md](TEST2_RESULTS.md)) | — | Committed before the run |
 
 ## Edge cases reported by helpers
 
