@@ -1,0 +1,16 @@
+{
+  "county_adjacency.txt": {
+    "accessed": "2026-11-09",
+    "bytes": 726724,
+    "sha256": "b6df774db9ad5b94c47036379e207dd4622e46ef22c01ca2b7603453a4901014",
+    "url": "https://www2.census.gov/geo/docs/reference/county_adjacency.txt",
+    "licence": "Public domain (U.S. Census Bureau)"
+  },
+  "county_adjacency2023.txt": {
+    "accessed": "2026-11-09",
+    "bytes": 1116106,
+    "sha256": "df62fedd7d27528af7fd870c7ec92232fb2d6bea3ec6cbc9928946b78e128f64",
+    "url": "https://www2.census.gov/geo/docs/reference/county_adjacency/county_adjacency2023.txt",
+    "licence": "Public domain (U.S. Census Bureau)"
+  }
+}
