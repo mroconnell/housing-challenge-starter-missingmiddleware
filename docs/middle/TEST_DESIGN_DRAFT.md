@@ -273,7 +273,7 @@ Test 1 is less exposed than Test 3, but not unexposed. Seen before M1 was chosen
 | Change | Why |
 | --- | --- |
 | Primary measure M2 (homes in 2–4 unit buildings), not M1 | Narrowest range in every design (bake-off, 2012–2018 data only); M1 never got under a useful width |
-| Four states in the primary test | Narrows the range from about ±0.47 to about ±0.28; Oregon and California alone become a sensitivity |
+| Four states in the primary test | Narrows the range from about ±0.50 to about ±0.28; Oregon and California alone become a sensitivity |
 | Goal: a range that excludes 0, or an honest "we do not know" | Ryan: a noisy test that can only say "no detectable change" is useless |
 | Every result reports the range the data allow | So "we do not know" still says how big an effect is ruled out |
 | No decision threshold | Ryan declined the 1-per-1,000 threshold |
