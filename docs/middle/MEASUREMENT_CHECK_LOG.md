@@ -45,6 +45,8 @@ The Oregon cutoff power check (2026-11-06) used only 2012–2019, which is befor
 | 2026-11-08T00:27–00:31Z | helper: California | APR Table A2 and Table A dictionaries; APR instructions (Jan 2026); distinct values of six A2 fields (no counts); about 17 example rows from 2018–2021 (Sacramento County, not the city); SB 9, SB 684, SB 1123, AB 803 texts; Census BPS definitions | 1, 2, 3, 5 | Full list: [measurement/CALIFORNIA.md](measurement/CALIFORNIA.md). It avoided `api/table_a2_year_unitcat.json`, which holds counts for all years |
 | 2026-11-08T00:27–00:35Z | helper: cities | Metadata, distinct values and pre-reform example records for Raleigh, Mecklenburg, Minneapolis, Sacramento, Austin, Portland, Durham; Houston field list only; licence and terms pages | 1, 2, 5 | Every records query had a date filter ending before the reform. Full list: [measurement/CITIES.md](measurement/CITIES.md) |
 
+| 2026-11-09 | lead | Census place permits 2012–2018 (all US), ACS B25024, PSU 2020 city list | Power check ([POWER_CHECK.md](POWER_CHECK.md)); the script never reads permit files after 2018; candidate cities were never read as stand-ins | 3, 4 | Only population and homes were read for the five Test 3 cities, never their permits |
+
 ## Edge cases reported by helpers
 
 - **Washington stock file:** a header command saved about 50 data rows (Adams to Clark counties) to a local tool file. Only place names and 1980-era totals were viewed. No row from 2019 on, and no Spokane or Walla Walla row, was shown.
