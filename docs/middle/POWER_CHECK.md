@@ -65,3 +65,7 @@ Values are the smallest detectable gap per 1,000 single-family homes per year. R
   - The no-reform windows (2012–2018) fall in the recovery after the housing crash, so they may overstate normal noise.
   - The Test 1 spread treats Oregon and California like typical states.
   - The Test 3 formula is an approximation.
+
+## Rerun on the screened pool (design v5, 2026-11-09)
+
+After the comparison-state screen (9 states and 13 places dropped; see TEST_DESIGN_DRAFT.md), the CSVs were regenerated. The tables above are the v3 rerun; the current CSVs hold the screened run. Screened Test 3 bars, homes in 2–4 unit buildings: 0.6 to 2.3 per 1,000 single-family homes per year; homes in 1–4 unit buildings: 10.4 to 13.8. Screened Test 1 bars are in [DESIGN_BAKEOFF.md](DESIGN_BAKEOFF.md) and the design.

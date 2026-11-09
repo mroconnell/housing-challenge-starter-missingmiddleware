@@ -242,7 +242,7 @@ This shows how far each law falls short of the handbook scenario (2–6 homes, 3
 | 1. Four states (primary), screened pool | about 0.41 (range about ±0.27) | about 3.1 |
 | 1. Oregon and California only, screened pool | about 0.69 | about 4.9 |
 | 2. Oregon line, 9,000–10,999 | about 1.8 | about 8.4 |
-| 3. One city | 1.3 to 2.4 | 8.9 to 16.4 |
+| 3. One city (screened stand-ins) | 0.6 to 2.3 | 10.4 to 13.8 |
 
 All per 1,000 single-family homes per year; smallest change caught with 80% power. The Test 1 rows were rerun on the screened pool (34 fake states). Sources: [DESIGN_BAKEOFF.md](DESIGN_BAKEOFF.md), [POWER_CHECK.md](POWER_CHECK.md).
 
