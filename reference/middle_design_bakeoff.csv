@@ -1,0 +1,31 @@
+data,measure,design,states,fake_states,bar_per_1000,bar_note,mean_fake
+with Census fill-ins,1to4,A: law states vs region,2,43,4.11091350012199,+61% of 6.72,
+with Census fill-ins,1to4,A: law states vs region,4,43,2.668184092039298,+40% of 6.72,
+with Census fill-ins,1to4,"B: within state, 10,000+ vs 2,500-9,999",1,40,7.931272482969349,,-1.3107901050365203
+with Census fill-ins,1to4,"B: within state, 10,000+ vs 2,500-9,999",2,40,5.528345053718792,,-1.3107901050365203
+with Census fill-ins,1to4,"B: within state, 10,000+ vs 2,500-9,999",4,40,3.6554618408807418,,-1.3107901050365203
+with Census fill-ins,2to4,A: law states vs region,2,43,0.7450971989383264,+174% of 0.43,
+with Census fill-ins,2to4,A: law states vs region,4,43,0.43289989017611386,+101% of 0.43,
+with Census fill-ins,2to4,"B: within state, 10,000+ vs 2,500-9,999",1,40,1.2498141325475745,,-0.07806249277017366
+with Census fill-ins,2to4,"B: within state, 10,000+ vs 2,500-9,999",2,40,0.8584025083524102,,-0.07806249277017366
+with Census fill-ins,2to4,"B: within state, 10,000+ vs 2,500-9,999",4,40,0.596571616214493,,-0.07806249277017366
+with Census fill-ins,all,A: law states vs region,2,43,8.607664247679665,+81% of 10.57,
+with Census fill-ins,all,A: law states vs region,4,43,5.415825570524564,+51% of 10.57,
+with Census fill-ins,all,"B: within state, 10,000+ vs 2,500-9,999",1,40,21.979345103702546,,-1.6257651784569618
+with Census fill-ins,all,"B: within state, 10,000+ vs 2,500-9,999",2,40,14.513751146669504,,-1.6257651784569618
+with Census fill-ins,all,"B: within state, 10,000+ vs 2,500-9,999",4,40,10.14024690049562,,-1.6257651784569618
+"reported only, 12 months",1to4,A: law states vs region,2,43,4.436403339899019,+58% of 7.64,
+"reported only, 12 months",1to4,A: law states vs region,4,43,2.895686388855874,+38% of 7.64,
+"reported only, 12 months",1to4,"B: within state, 10,000+ vs 2,500-9,999",1,36,6.793630641635883,,-1.1537188961497247
+"reported only, 12 months",1to4,"B: within state, 10,000+ vs 2,500-9,999",2,36,4.635027102067456,,-1.1537188961497247
+"reported only, 12 months",1to4,"B: within state, 10,000+ vs 2,500-9,999",4,36,3.173174915143276,,-1.1537188961497247
+"reported only, 12 months",2to4,A: law states vs region,2,43,0.742787056106928,+178% of 0.42,
+"reported only, 12 months",2to4,A: law states vs region,4,43,0.4301143287305643,+103% of 0.42,
+"reported only, 12 months",2to4,"B: within state, 10,000+ vs 2,500-9,999",1,36,1.1512401890350756,,-0.08593204400964806
+"reported only, 12 months",2to4,"B: within state, 10,000+ vs 2,500-9,999",2,36,0.7905043805626119,,-0.08593204400964806
+"reported only, 12 months",2to4,"B: within state, 10,000+ vs 2,500-9,999",4,36,0.5279549198095408,,-0.08593204400964806
+"reported only, 12 months",all,A: law states vs region,2,43,9.035239321881697,+78% of 11.54,
+"reported only, 12 months",all,A: law states vs region,4,43,5.708852624035317,+49% of 11.54,
+"reported only, 12 months",all,"B: within state, 10,000+ vs 2,500-9,999",1,36,17.6408404466106,,-1.6398460335035052
+"reported only, 12 months",all,"B: within state, 10,000+ vs 2,500-9,999",2,36,12.194775860958279,,-1.6398460335035052
+"reported only, 12 months",all,"B: within state, 10,000+ vs 2,500-9,999",4,36,8.383099504240764,,-1.6398460335035052

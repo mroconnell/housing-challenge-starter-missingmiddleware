@@ -50,6 +50,7 @@ The Oregon cutoff power check (2026-11-06) used only 2012–2019, which is befor
 | 2026-11-09 | lead | Census place permits 2012–2018 (all US), ACS B25024, PSU 2020 city list | Power check ([POWER_CHECK.md](POWER_CHECK.md)); the script never reads permit files after 2018; candidate cities were never read as stand-ins | 3, 4 | Only population and homes were read for the five Test 3 cities, never their permits |
 | 2026-11-09 | lead | HCD Table A2, report years 2018–2021 only | Size mix of "5+" rows (5–6 unit share) | 3 | Before SB 9; no 2022+ rows read |
 | 2026-11-09 | lead | Census place permits 2012–2018 | Power check rerun with the v3 pool (same Census region, ½–2× per place) and stand-in rule (no law states) | 3, 4 | Same no-peeking limits as the first run |
+| 2026-11-09 | lead | Census place permits 2012–2018 | Design bake-off ([DESIGN_BAKEOFF.md](DESIGN_BAKEOFF.md)) | 3, 4 | Same no-peeking limits as the power check |
 
 ## Edge cases reported by helpers
 
