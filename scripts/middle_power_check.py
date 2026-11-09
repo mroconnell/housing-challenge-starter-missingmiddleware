@@ -36,9 +36,19 @@ K = 1.645 + 0.8416
 SEED = 20261108
 # States with a candidate state law (never fake-treated, never in comparison pools)
 TESTED_STATES = {"06", "41", "53", "23", "50", "30", "04"}
+# Comparison screen (design v5; docs/middle/measurement/COMPARISON_STATE_REFORMS.md). States where a statewide
+# middle-housing, TOD/station-area, by-right multifamily or multifamily parking law first binds 2015-2025.
+# They are never comparison places and never fake law states.
+SCREENED_STATES = {"25": "MA", "08": "CO", "44": "RI", "09": "CT", "49": "UT", "33": "NH", "48": "TX", "12": "FL",
+                   "24": "MD"}
+NON_FAKE_STATES = TESTED_STATES | set(SCREENED_STATES)
 # States whose middle-housing law binds by 2025 (never Test 3 stand-ins; audit fix 3)
 LAW_STATES_2025 = {"06", "41", "53", "23", "50", "30"}
 # Candidate cities: (state FIPS, BPS name). Never stand-ins, never fake-treated.
+# Places with their own local reform of the same kinds first binding 2015-2025 (never comparisons or stand-ins)
+SCREENED_PLACES = {("02", "Municipality of Anchorage"), ("16", "Boise City"), ("36", "Bronx"), ("36", "Brooklyn"), ("36", "Manhattan"), ("36", "Queens"), ("36", "Staten Island"), ("42", "Philadelphia"),
+                   ("42", "Pittsburgh"), ("34", "Trenton"), ("36", "Buffalo"), ("32", "Reno"), ("27", "St. Paul"),
+                   ("27", "Saint Paul"), ("17", "Chicago"), ("51", "Alexandria")}
 CANDIDATE_CITIES = {("27", "Minneapolis"), ("48", "Austin"), ("48", "Houston"), ("37", "Durham"), ("37", "Raleigh"),
                     ("37", "Mecklenburg County"), ("53", "Walla Walla"), ("53", "Spokane"), ("06", "Sacramento"),
                     ("51", "Arlington County"), ("41", "Portland")}
@@ -95,7 +105,10 @@ def place_table(d: pd.DataFrame, homes: pd.Series, reported_only: bool) -> pd.Da
         info[m + "_a"] = w[w["year"].isin(AFTER)].groupby("key")[m].sum()
     info = info[(info["homes"] >= 100) & info["pop"].notna() & (info["pop"] > 0)]
     cand = {s + "|" + n for s, n in CANDIDATE_CITIES}
-    info["candidate"] = (info["state_fips"] + "|" + info["name"]).isin(cand)
+    nm = info["name"].str.replace(r" (city|town|village|borough|township|municipality)$", "", regex=True)
+    scr = {st + "|" + n for st, n in SCREENED_PLACES}
+    info["candidate"] = (info["state_fips"] + "|" + info["name"]).isin(cand) | (info["state_fips"] + "|" + nm).isin(scr) \
+        | info["state_fips"].isin(SCREENED_STATES)
     return info
 
 
@@ -109,7 +122,7 @@ def test1_state_stats(t: pd.DataFrame, m: str) -> pd.DataFrame:
     matched to pool places at 1/2-2x its population; its comparison rate is that set's pooled rate, and the
     comparison side is the fake state's places weighted by their homes. Statistic: log rate ratio,
     after over before, fake state minus comparison."""
-    pool = t[~t["state_fips"].isin(TESTED_STATES) & ~t["candidate"]].copy()
+    pool = t[~t["state_fips"].isin(NON_FAKE_STATES) & ~t["candidate"]].copy()
     pops = pool["pop"].to_numpy()
     rows = []
     for st, tr in pool.groupby("state_fips"):

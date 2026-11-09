@@ -34,7 +34,7 @@ def pooled_change(df: pd.DataFrame, m: str) -> float:
 
 
 def design_b_stats(t: pd.DataFrame, m: str) -> pd.Series:
-    pool = t[~t["state_fips"].isin(pc.TESTED_STATES) & ~t["candidate"]]
+    pool = t[~t["state_fips"].isin(pc.NON_FAKE_STATES) & ~t["candidate"]]
     out = {}
     for st, g in pool.groupby("state_fips"):
         cov, non = g[g["pop"] >= 10000], g[g["pop"].between(2500, 9999)]

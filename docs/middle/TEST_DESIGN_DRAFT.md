@@ -1,4 +1,4 @@
-# Middle housing: proposed test design (draft v4, for audit)
+# Middle housing: proposed test design (draft v5, for audit)
 
 Drafted 2026-11-06. v1 on 2026-11-09 followed the [measurement check](MEASUREMENT_CHECK_RESULTS.md) and the [power check](POWER_CHECK.md). **v2 on 2026-11-09 adds the weak-spot and backdoor fixes Ryan accepted** (see "Changes in v2"). **v3 on 2026-11-09 answers the audit of v2** ([review](../audit/MIDDLE_HOUSING_DESIGN_V2_REVIEW_2026-11-09.md); see "Changes in v3"). **v4 on 2026-11-09 changes the primary test** so that its result is useful either way (Ryan: "a narrowish range that excludes 0, or a range that includes 0 and indicates we don't know"); see "Changes in v4" and the disclosure there.
 
@@ -51,6 +51,11 @@ When a state makes 2–4 homes legal on lots that allowed one house, does the nu
 - **M2 leads** every result, chart and tool line. **M1 and M3 are always published right beside it**, at the same size, labelled as too noisy to decide on their own (v4; replaces the v1–v3 rule that M1 leads).
 - **If M2 and M1 or M3 point in different directions** under the reading rule, the headline says so in plain words.
 - **Every result states the range of effects the data still allow**, not only whether the range excludes 0.
+- **Test 1 headline requirements (audit of v4, must 1):**
+  - (a) It says that the measure (M2) and the four states were chosen after raw state trends in M2 had been seen for them (see the v4 disclosure).
+  - (b) The Oregon + California result is shown beside the four-state result, at the same size. If the two read differently, the headline says so.
+  - (c) The comparison places' own before/after change in M2 is reported beside each result, in the same units.
+  - (d) The open backdoors (see the table) are listed beside the headline.
 - **"No detectable change" never means zero.** Every result is shown with its test's smallest detectable effect from the power check, in the same units.
 - No measure or test is promoted or dropped after results are seen. Any later change is labelled post hoc.
 
@@ -74,6 +79,25 @@ When a state makes 2–4 homes legal on lots that allowed one house, does the nu
   - Leave out every candidate city.
   - Leave out any place found with its own 2–6 unit reform. Before lock, comparison places are screened against reform lists only, never outcomes: NYU Furman Land Use Reform Tracker, Pew, the Mercatus and Terner lists, and [CANDIDATES.md](CANDIDATES.md).
   - **Leave out places in counties that border Oregon or California** (Census county adjacency file), to avoid spillover.
+- **Comparison-state screen (fixed now from statutes only; audit of v4, must 2):**
+  - **Rule:** a state is never a comparison state or a fake law state if a statewide middle-housing, transit-area or station-area density, by-right multifamily, or multifamily parking-minimum law **first binds between 2015 and 2025**. Laws binding before 2015 are constant across every window and are allowed.
+  - **Dropped under the rule:**
+    - Massachusetts (MBTA Communities, 2023–2024);
+    - Colorado (HB24-1313, HB24-1304, 2024–2025);
+    - Rhode Island (2023–2024 package);
+    - Connecticut (PA 21-29, 2021–2023);
+    - Utah (HB 462 station-area plans, 2022–2025);
+    - New Hampshire (SB 284 parking cap, 2025-09-13);
+    - Texas (SB 840, SB 15, 2025-09-01);
+    - Florida (Live Local Act, 2023-07-01);
+    - Maryland (HB 538, 2024).
+  - **Places dropped for their own reform of the same kinds (2015–2025):** Anchorage, Boise, the five New York City boroughs, Philadelphia, Pittsburgh, Trenton, Buffalo, Reno, St. Paul, Chicago, Alexandria, plus every candidate city.
+  - **Remaining comparison states:**
+    - West: Alaska, Idaho, Nevada, New Mexico, Wyoming. Hawaii's permits are issued by counties, which the place files do not use.
+    - Northeast: New York, New Jersey, Pennsylvania.
+  - **Sources:** each state's call, law, dates and source are in [measurement/COMPARISON_STATE_REFORMS.md](measurement/COMPARISON_STATE_REFORMS.md). ADU-only laws are not in the rule (they mainly add 1-unit buildings), but they are listed there.
+  - **Fake law states** follow the same rule. That leaves 34 states.
+- **Unmatched places (fixed now):** a treated place with no comparison place at ½–2× its population is left out of Test 1. The share of the treated state's single-family homes left out this way is reported beside the result. This applies to the largest California cities, because the screened West pool is small.
 - **Matching, fixed now:**
   - Each treated place is matched to pool places at ½–2× its population. Its comparison rate is the pooled rate of that set.
   - The comparison side for a state is its places' comparison rates, weighted by each place's single-family homes.
@@ -85,9 +109,9 @@ When a state makes 2–4 homes legal on lots that allowed one house, does the nu
   - 10,000 sets, seed 20261103.
   - **The set statistic is the unweighted mean of the four states' log rate ratios**, for fake sets and for the real set alike. It is also reported in homes per 1,000 single-family homes per year.
   - The real set is placed in that spread.
-- **Second inference:** 90% bootstrap over places, clustered by state, plus a leave-one-state-out range. With only 2 treated states, this can look too precise, so it is not the main reading.
+- **Second inference:** 90% bootstrap over places, clustered by state, plus a leave-one-state-out range. With only 4 treated states, this can look too precise, so it is not the main reading.
 - **Reading rule (symmetric; the 5th and 95th percentile cut-offs are a convention):**
-  - Above the fake sets' 95th percentile: a rise (the 90% range excludes 0).
+  - Above the fake sets' 95th percentile: a rise relative to comparison places (the 90% range excludes 0).
   - Below their 5th percentile: a fall.
   - Otherwise: we do not know (the range includes 0). The range is always reported.
 - **Sensitivities, fixed now:**
@@ -187,6 +211,8 @@ This shows how far each law falls short of the handbook scenario (2–6 homes, 3
 | Low building before the law (bounce-back) | Test 4; matching on size and region | Blocked only if Test 4 passes |
 | Housing shortage changing over time | Test 4 catches trends already under way | **Partly open:** a shock starting the same year as the law is not caught |
 | Other housing reforms | Reform-list screening; candidate cities left out; California labelled as a package | **Partly open:** California's package; Oregon's housing-plan rule at the same line |
+| Comparison states' own reforms | Statute screen drops states and places with qualifying laws binding 2015–2025 | Blocked for statewide laws found; **open** for local reforms not on any list |
+| Large state housing funding programs (for example Colorado's Prop 123, New Jersey's fair-share law) | Not screened: funding is not zoning | **Open** |
 | State ADU laws (detached ADUs are 1-unit in Census, inside M1) | California sensitivity without ADUs (a bound); M2 read beside M1 | **Open:** Oregon has no ADU series; comparison states' ADU trends unknown |
 | Spillover to nearby places | Counties bordering Oregon or California left out of comparisons | Blocked for neighbours; wider spillover open |
 | Census filing rules | M1 includes townhouses and split-lot homes; Test 6 measures the remaining gap | Measured, not removed |
@@ -213,12 +239,12 @@ This shows how far each law falls short of the handbook scenario (2–6 homes, 3
 
 | Test | M2: homes in 2–4 unit buildings | M1: homes in 1–4 unit buildings |
 | --- | --- | --- |
-| 1. Four states (primary) | about 0.43 (range about ±0.28) | about 2.7 |
-| 1. Oregon and California only | about 0.75 | about 4.1 |
+| 1. Four states (primary), screened pool | about 0.41 (range about ±0.27) | about 3.1 |
+| 1. Oregon and California only, screened pool | about 0.69 | about 4.9 |
 | 2. Oregon line, 9,000–10,999 | about 1.8 | about 8.4 |
 | 3. One city | 1.3 to 2.4 | 8.9 to 16.4 |
 
-All per 1,000 single-family homes per year; smallest change caught with 80% power. Sources: [DESIGN_BAKEOFF.md](DESIGN_BAKEOFF.md), [POWER_CHECK.md](POWER_CHECK.md).
+All per 1,000 single-family homes per year; smallest change caught with 80% power. The Test 1 rows were rerun on the screened pool (34 fake states). Sources: [DESIGN_BAKEOFF.md](DESIGN_BAKEOFF.md), [POWER_CHECK.md](POWER_CHECK.md).
 
 Full tables: [POWER_CHECK.md](POWER_CHECK.md), rerun after the audit with the v3 pool and stand-in rules.
 
@@ -279,3 +305,13 @@ Test 1 is less exposed than Test 3, but not unexposed. Seen before M1 was chosen
 | No decision threshold | Ryan declined the 1-per-1,000 threshold |
 
 **Disclosure (important for the audit):** in step 1 (2026-11-06) the lead researcher read the October inventory's raw before/after state rates of homes in 2–4 unit buildings for exactly these four states (Oregon 0.59 → 0.59; California 0.50 → 0.52; Maine 0.56 → 0.70; Vermont 0.62 → 0.69; per 1,000 one-unit detached homes per year, different windows, no comparison places), and quoted Oregon's to Ryan. The audit of v2 accepted this exposure because it was on M2 while M1 led. v4 makes M2 primary. The reason for the switch is the bake-off, run on 2012–2018 data only, in which M2 had the narrowest range in every design. The audit should judge whether this exposure is acceptable.
+
+## Changes in v5 (audit of v4, 2026-11-09)
+
+| Audit item | Change |
+| --- | --- |
+| Must 1: the disclosure touches the primary result | Headline requirements (a)–(d): disclosure in every Test 1 headline; Oregon + California shown beside the four-state result; comparison places' own change shown; open backdoors listed |
+| Must 2: Ryan's screen of comparison states | Statute-only rule fixed; 9 states and 13 places dropped, with sources; same rule for fake states; investment programs marked as an open backdoor; bake-off and power rerun on the screened pool |
+| Small: "2 treated states" | Now "4 treated states" |
+| Small: headline wording | "A rise relative to comparison places" |
+| Added | Unmatched-place rule (largest California cities) |

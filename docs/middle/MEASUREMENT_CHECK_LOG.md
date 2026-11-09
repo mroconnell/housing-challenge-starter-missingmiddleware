@@ -51,6 +51,8 @@ The Oregon cutoff power check (2026-11-06) used only 2012–2019, which is befor
 | 2026-11-09 | lead | HCD Table A2, report years 2018–2021 only | Size mix of "5+" rows (5–6 unit share) | 3 | Before SB 9; no 2022+ rows read |
 | 2026-11-09 | lead | Census place permits 2012–2018 | Power check rerun with the v3 pool (same Census region, ½–2× per place) and stand-in rule (no law states) | 3, 4 | Same no-peeking limits as the first run |
 | 2026-11-09 | lead | Census place permits 2012–2018 | Design bake-off ([DESIGN_BAKEOFF.md](DESIGN_BAKEOFF.md)) | 3, 4 | Same no-peeking limits as the power check |
+| 2026-11-09 | helper: comparison screen | Statutes, agency pages, news and reform trackers for 15 comparison states plus South/Midwest; repo inventory law columns; Parking Reform Network file | 1 | Saw but did not record some post-2018 counts in sources (an Albuquerque casita count, a Colorado Springs ADU count, a New Haven claim). Full list: [measurement/COMPARISON_STATE_REFORMS.md](measurement/COMPARISON_STATE_REFORMS.md) |
+| 2026-11-09 | lead | Census place permits 2012–2018 | Bake-off and power rerun on the screened pool | 3, 4 | Same limits |
 
 ## Edge cases reported by helpers
 
