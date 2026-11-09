@@ -97,7 +97,7 @@ def place_windows(d: pd.DataFrame, homes_acs: pd.Series, windows: tuple, cols: l
     w = d if keys is None else d[d["key"].isin(keys)]
     span = range(min(yrs), max(max(yrs), 2022) + 1)
     w = w[w["year"].isin(span)]
-    g = w.pivot_table(index="key", columns="year", values=[c + suf for c in cols] + ["1unit" + suf, "months_reported"],
+    g = w.pivot_table(index="key", columns="year", values=list(dict.fromkeys([c + suf for c in cols] + ["1unit" + suf, "months_reported"])),
                       aggfunc="first")
     out = pd.DataFrame(index=g.index)
     have = g["months_reported"].reindex(columns=yrs).notna().all(axis=1)
