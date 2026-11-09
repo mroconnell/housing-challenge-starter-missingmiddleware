@@ -1,0 +1,108 @@
+city,psu,years,sfh,dropped_zoning
+Adair Village,1325,1,362,False
+Albany,54935,9,15424,False
+Amity,1705,4,478,False
+Ashland,21105,9,8231,False
+Astoria,9675,9,3354,True
+Aumsville,4215,3,1153,False
+Aurora,985,9,430,False
+Baker City,10010,9,3500,False
+Bend,92840,9,36470,False
+Boardman,4580,9,771,False
+Brookings,6670,9,2433,False
+Brownsville,1730,9,692,False
+Canby,17210,2,5226,False
+Cannon Beach,1740,9,1493,False
+Central Point,18755,9,6175,False
+Clatskanie,1795,9,661,False
+Coburg,1375,9,460,False
+Columbia City,1980,9,755,False
+Coos Bay,16810,9,4495,False
+Corvallis,59730,9,13605,False
+Cottage Grove,10155,9,3221,False
+Creswell,5585,9,1707,True
+Culver,1570,6,556,False
+Dallas,16555,9,4869,False
+Dayton,2745,9,659,False
+Depoe Bay,1450,9,1123,False
+Detroit,205,3,162,False
+Donald,995,3,256,False
+Dundee,3285,9,1078,False
+Dunes City,1365,9,796,False
+Eagle Point,9375,9,3051,False
+Estacada,4035,9,1534,False
+Eugene,173620,9,46595,False
+Florence,8925,9,3363,False
+Gates,540,3,102,False
+Gearhart,1545,9,1187,False
+Gervais,2620,3,635,False
+Grants Pass,37725,9,12894,False
+Halsey,945,9,398,False
+Harrisburg,3695,9,930,False
+Hermiston,18775,9,4117,False
+Hood River,8565,9,2780,True
+Hubbard,3315,3,882,False
+Idanha,155,3,60,False
+Independence,9675,9,1920,False
+Irrigon,2040,9,392,False
+Jacksonville,3040,9,1288,False
+Jefferson,3280,3,851,False
+Junction City,6200,9,1991,False
+Keizer,38585,9,10428,False
+La Grande,13460,9,3806,False
+Lafayette,4155,9,1197,False
+Lakeside,1750,9,799,False
+Lebanon,17335,9,5177,False
+Lincoln City,8865,9,5334,True
+Lowell,1090,9,382,False
+Lyons,1200,9,432,False
+Manzanita,645,9,1239,False
+McMinnville,34615,9,9036,False
+Medford,83115,9,25027,False
+Mill City,1915,9,679,False
+Millersburg,2850,9,1058,False
+Molalla,9910,2,2538,True
+Monmouth,9940,9,2412,True
+Mount Angel,3520,9,635,False
+Newberg,24120,9,6768,False
+Newport,10400,9,3449,False
+North Bend,9975,9,3648,False
+Oakridge,3310,9,1259,False
+Ontario,11515,9,2876,False
+Paisley,300,6,63,False
+Pendleton,17025,9,4613,False
+Philomath,5370,9,1794,False
+Phoenix,4660,9,1269,False
+Prineville,10355,6,3814,False
+Rainier,1940,5,592,False
+Redmond,32215,9,11116,False
+Reedsport,4230,9,1358,False
+Rogue River,2250,9,737,False
+Salem,168970,9,44393,False
+Sandy,11650,9,3746,False
+Scappoose,7360,9,2652,False
+Scio,940,9,262,False
+Scotts Mills,385,3,91,False
+Seaside,6565,9,3172,False
+Sheridan,6100,4,1065,False
+Siletz,1235,9,263,False
+Silverton,10520,9,2968,False
+Sisters,3220,8,1231,False
+Springfield,61535,9,16881,False
+St. Helens,13915,9,4456,False
+St. Paul,440,3,154,False
+Stayton,7880,9,2593,False
+Sublimity,3050,3,1019,False
+Sweet Home,9415,9,3124,True
+Talent,6530,9,2134,True
+Tangent,1265,9,274,False
+Toledo,3520,9,984,False
+Turner,2410,3,974,False
+Umatilla,7605,9,1224,False
+Veneta,4845,9,1624,False
+Vernonia,2110,9,910,False
+Waldport,2125,9,937,False
+Warrenton,5350,9,2043,True
+Woodburn,25185,9,6606,False
+Yachats,780,9,715,False
+Yamhill,1110,1,402,False
