@@ -4,7 +4,7 @@ Drafted 2026-11-06. v1 on 2026-11-09 followed the [measurement check](MEASUREMEN
 
 **Not locked.** No count in this design has been run, and it states no expected results. The audit thread reviews it before any lock. Ryan decides any tool change. Candidates and data: [CANDIDATES.md](CANDIDATES.md). No-peeking rules and log: [MEASUREMENT_CHECK_LOG.md](MEASUREMENT_CHECK_LOG.md).
 
-**Lock record.** Locked 2026-11-09 on Ryan's go ("yes and yes", message cmsg_01C3Z6G8h32D4UwCcjcGMM7qTLvWJ1Ge1EZPRt6izReSic). Audit verdict on v5: lock OK ([review](../audit/MIDDLE_HOUSING_DESIGN_V2_REVIEW_2026-11-09.md); the full file is in the project library). Content = draft v5 plus the two audit lock items. The only lock-time changes are the run order and moving the "before lock" no-outcome steps to step 0. Any change after this commit is labelled **post hoc** in the results.
+**Lock record.** Locked 2026-11-09 on Ryan's go ("yes and yes", message cmsg_01C3Z6G8h32D4UwCcjcGMM7qTLvWJ1Ge1EZPRt6izReSic). Audit verdict on v5: lock OK ([review, all rounds](../audit/MIDDLE_HOUSING_DESIGN_V2_REVIEW_2026-11-09.md)). Content = draft v5 plus the two audit lock items. The only lock-time changes are the run order and moving the "before lock" no-outcome steps to step 0. Any change after this commit is labelled **post hoc** in the results.
 
 ## The question
 

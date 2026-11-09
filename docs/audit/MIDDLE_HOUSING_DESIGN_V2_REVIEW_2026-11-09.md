@@ -22,3 +22,46 @@ Verdict: NOT READY TO LOCK. 3 must-fixes, 5 should-fixes. The structure (one pri
 - Q5: M2 share is a fair guard against house-building swings, but ADUs (fix 2) lower the share too. One-unit homes in Test 7 cover the rest.
 - Q6: rules are symmetric. No expected result found apart from the wording in 8.
 - Q7: 2012-2018 is the post-crash recovery; it likely overstates noise, so the detection bars are on the cautious side. The 2023-2025 after years include the rate shock, which may add noise too. Keep as is, with that caveat.
+
+## v3 review (52ec2c34, 19:12:03 UTC), no test run
+All 8 items answered. Checked:
+- Must 1: pool is the Census region minus law states, candidates and border counties; fake states use own region, other untested states; code (test1_state_stats) now matches each place at 1/2-2x and weights by homes. Matches the design.
+- Must 2: ADU backdoor marked open; California without-ADU sensitivity removes all APR ADUs (over-removes), read as a bound. Fair.
+- Must 3: LAW_STATES_2025 = CA, OR, WA, ME, VT, MT excluded from stand-ins in code; Portland labelled.
+- Shoulds 4-8: in. Extra disclosure (state-level 2-4 unit rates for OR, CA, ME, VT from STATE_ADOPTION_INVENTORY, 2026-10-26) is stated; it touches M2, which is second; M1 was chosen on the power check. Acceptable as disclosed.
+Verdict: LOCK OK, with 2 wording fixes that can go in the lock commit:
+a. Backdoor table, "Interest rates, costs, COVID": says "same division"; now "same region".
+b. Data rules: add the Test 2 exception (filled-in columns main, reported-only sensitivity), as Spokane's is.
+
+## v4 review (788525f + 8f5d03c, 19:19 UTC), no test run
+Ryan's asks: 19:18:46 UTC (goal: range excludes 0 or "we do not know"), 19:19:44 UTC (screen comparison states for other upzoning, TOD, investment; named MA, NY, PA, UT, CO).
+Bake-off (040ecf0) read 2012-2018 only. Goal and reading rule are symmetric; no threshold; range always reported. OK.
+
+Verdict: NOT READY TO LOCK. 2 must-fixes, 2 small fixes.
+
+### Must 1. Disclosure now touches the primary result
+- The raw state M2 rates seen on 2026-11-06 are for exactly the 4 primary states. v4 both promotes M2 and adds Maine and Vermont, the two states whose seen raw rates rose (ME 0.56 -> 0.70, VT 0.62 -> 0.69; OR 0.59 -> 0.59, CA 0.50 -> 0.52).
+- The bake-off reason (narrowest range, pre-law data only) is sound, and the seen numbers have no comparison side, which decides the test. So the exposure is limited, but it cannot be undone.
+- Required: (a) every Test 1 headline says the measure and state set were chosen after raw treated-state M2 trends were seen; (b) the Oregon + California result (the v3 primary set) is shown at the same size beside the 4-state result, and if they differ under the reading rule the headline says so; (c) report the comparison side's own before/after change beside each result, so readers see how much comes from it.
+
+### Must 2. Comparison states are screened only at place level
+- v4 screens places against local reform lists. It does not screen state laws in comparison states. Several bind inside the after windows (2023-2025 West; 2024-2025 Northeast):
+  - Massachusetts: MBTA Communities law (2021; zoning deadlines 2023-2025) requires multifamily zoning by right near transit.
+  - Colorado: HB24-1313 transit-oriented communities (2024).
+  - Utah: HB 462 station-area plans (2022).
+  - Rhode Island: 2023-2024 housing package; Connecticut: 2021 PA 21-29. New Hampshire: check 2024-2025 laws.
+  - New York City: City of Yes (Dec 2024) is local; NYC is unlikely to match Maine or Vermont places at 1/2-2x, but say so.
+  - Pennsylvania: no statewide law found; keep, subject to the place screen.
+- Required: a fixed rule, set now from statutes only: a comparison state is left out if a statewide law that legalises or mandates zoning for 2+ unit homes (middle housing, TOD, multifamily by right) takes effect before the end of its after window. Apply the same rule to fake states, so the spread stays like for like. List each state's call and source before lock. Large state investment programs: list as an open backdoor (not screenable cleanly).
+- Rerun the bake-off width with the screened pool (pre-law data only) and report the new range width; Northeast may get thin.
+
+### Small fixes
+- "With only 2 treated states" in the second-inference line: now 4.
+- Headline wording: "a rise relative to comparison places", with the open backdoors (California package, ADU laws for M1, same-year shocks) stated beside it, since "causal" holds only if they are closed.
+
+## v5 review (2e64722 + bf1df9e, 19:30 UTC), no test run
+- Must 1: headline items (a)-(d) in (design lines 54-58). OK.
+- Must 2: statute-only rule fixed, applied to fake states (34 remain), sources in measurement/COMPARISON_STATE_REFORMS.md, investment marked open. Spot-checked NY, NJ, PA, NV, ID, AK, WY, NM rows: calls follow the rule. NJ's 2024 fair-share law is noted as mostly 2026+; fine as noted. Bake-off rerun on screened pool: M2 four-state bar 0.41 (range about +/-0.27). OK.
+Verdict: LOCK OK, with 2 items in the lock commit:
+1. Unmatched-place rule (new in v5) drops the largest California cities, which changes what California's result describes. Pre-set one sensitivity now: unmatched treated places get comparison places from the screened national pool at 1/2-2x (same ladder as Test 3: region, then nation). Report it beside the main result with the unmatched share.
+2. Buffalo: the relay lists it as dropped, but COMPARISON_STATE_REFORMS line 85 says its 2017 Green Code is constant through both windows (so kept). Make the design and the sources file say the same thing.
