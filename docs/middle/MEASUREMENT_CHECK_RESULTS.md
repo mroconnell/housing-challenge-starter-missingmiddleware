@@ -66,3 +66,27 @@ Run 2026-11-08 (UTC) under the no-peeking rules in [MEASUREMENT_CHECK_LOG.md](ME
 3. **Licences:** drop Raleigh, Mecklenburg and Sacramento city records (Census counts still cover those cities)?
 4. **Washington:** use its own counts only within Washington, never pooled with Census?
 5. **Power first:** compute the smallest detectable effect for each test, from pre-reform years only, before lock?
+
+## How many 5–6 unit homes stopping at 4 leaves out (California, 2018–2021)
+
+Run 2026-11-09 at Ryan's request. Source: HCD progress reports, Table A2, report years 2018–2021 (before SB 9, so allowed under the no-peeking rules). Rows with building permits only (`NO_BUILDING_PERMITS` > 0). A row is a project or permit, not always one building.
+
+| Row size, in the "5+" category | Rows | Homes permitted | Share of all 5+ homes |
+| --- | ---: | ---: | ---: |
+| 1–4 (one permit per unit in a bigger building) | 3,024 | 3,499 | 1.4% |
+| 5 | 506 | 2,530 | 1.0% |
+| 6 | 798 | 4,788 | 1.9% |
+| 7–9 | 1,107 | 8,738 | 3.6% |
+| 10–19 | 1,206 | 16,254 | 6.6% |
+| 20–49 | 1,102 | 34,417 | 14.0% |
+| 50+ | 1,212 | 175,703 | 71.4% |
+| **All 5+** | 8,755 | 245,929 | 100% |
+
+- **Result:** rows of 5 or 6 homes held 7,318 of 245,929 homes in 5+ buildings (3.0%).
+- **Against the main measure:** California permitted 233,636 homes in 1–4 unit buildings over the same years (SFD 195,736, SFA 17,731 and "2 to 4" 20,169). So adding 5–6 unit homes would add about 3.1% to it.
+- **Extrapolation rule for Census data:** homes in 5–6 unit buildings ≈ 3.0% of Census 5+ homes. In any place this would be applied to, that is about 3 of every 100 homes in 5+ buildings.
+- **Limits:**
+  - A row of 6 may be part of a bigger building, or two 3-unit buildings.
+  - A 12-home project of two 6-unit buildings counts as one 12-home row.
+  - California's building mix may differ from other states'.
+  - So 3.0% is an estimate, not a bound.

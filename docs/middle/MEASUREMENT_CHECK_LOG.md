@@ -46,6 +46,7 @@ The Oregon cutoff power check (2026-11-06) used only 2012–2019, which is befor
 | 2026-11-08T00:27–00:35Z | helper: cities | Metadata, distinct values and pre-reform example records for Raleigh, Mecklenburg, Minneapolis, Sacramento, Austin, Portland, Durham; Houston field list only; licence and terms pages | 1, 2, 5 | Every records query had a date filter ending before the reform. Full list: [measurement/CITIES.md](measurement/CITIES.md) |
 
 | 2026-11-09 | lead | Census place permits 2012–2018 (all US), ACS B25024, PSU 2020 city list | Power check ([POWER_CHECK.md](POWER_CHECK.md)); the script never reads permit files after 2018; candidate cities were never read as stand-ins | 3, 4 | Only population and homes were read for the five Test 3 cities, never their permits |
+| 2026-11-09 | lead | HCD Table A2, report years 2018–2021 only | Size mix of "5+" rows (5–6 unit share) | 3 | Before SB 9; no 2022+ rows read |
 
 ## Edge cases reported by helpers
 
