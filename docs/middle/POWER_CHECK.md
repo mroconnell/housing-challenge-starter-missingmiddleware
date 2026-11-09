@@ -2,6 +2,8 @@
 
 Run 2026-11-09 on Ryan's go-ahead ("power first, yes", 2026-11-08). Research only. Nothing is locked.
 
+**Rerun 2026-11-09 after the audit** (fixes 1 and 3). Test 1 now matches each fake-state place to places at ½–2× its population within the same Census region (it was population bands within the same division). Test 3 stand-ins now exclude every state whose law binds by 2025. The tables below are the rerun. The first run's Test 1 bar for homes in 1–4 unit buildings was +66%.
+
 - **Code:** [`scripts/middle_power_check.py`](../../scripts/middle_power_check.py).
 - **Outputs:** `reference/middle_power_test1.csv`, `_test2.csv`, `_test3.csv`.
 - **Data:** Census place permits for **2012–2018 only**. The script skips later files when it reads them, so no year from a reform period is touched.
@@ -22,13 +24,13 @@ Run 2026-11-09 on Ryan's go-ahead ("power first, yes", 2026-11-08). Research onl
 
 ### Test 1. Two law states (Oregon and California) against similar places elsewhere
 
-Spread from 42 fake law states: each untested state in turn against same-division places in other states, matched by population band.
+Spread from 43 fake law states. Each untested state in turn is compared with places in the same Census region in other untested states, each place matched at ½–2× its population.
 
 | Measure | Smallest detectable rise (relative to comparison places) | Typical before rate (median fake state) | Rise in rate terms |
 | --- | ---: | ---: | ---: |
-| All homes | +89% | 10.7 | about +9.5 |
-| Homes in 1–4 unit buildings | +66% | 6.7 | about +4.4 |
-| Homes in 2–4 unit buildings | +170% | 0.42 | about +0.7 |
+| All homes | +81% | 10.6 | about +8.6 |
+| Homes in 1–4 unit buildings | +64% | 6.7 | about +4.3 |
+| Homes in 2–4 unit buildings | +177% | 0.43 | about +0.8 |
 
 ### Test 2. Oregon cities near the 10,000 line (the law's own count)
 
@@ -47,11 +49,11 @@ Values are the smallest detectable gap per 1,000 single-family homes per year. I
 
 | City | All homes | Homes in 1–4 unit buildings | Homes in 2–4 unit buildings | 1–4 bar in homes per year |
 | --- | ---: | ---: | ---: | ---: |
-| Minneapolis | 23.9 | 10.8 | 1.8 | about 990 |
-| Raleigh | 25.2 | 10.7 | 2.1 | about 1,390 |
-| Spokane | 15.8 | 8.2 | 1.2 | about 570 |
-| Walla Walla | 29.6 | 15.0 | 2.2 | about 150 |
-| Portland | 25.1 | 7.5 | 1.3 | about 1,320 |
+| Minneapolis | 23.7 | 11.2 | 1.6 | about 1,030 |
+| Raleigh | 23.3 | 11.4 | 1.7 | about 1,490 |
+| Spokane | 25.5 | 12.5 | 1.7 | about 870 |
+| Walla Walla | 36.3 | 16.4 | 2.4 | about 160 |
+| Portland | 24.2 | 8.9 | 1.3 | about 1,570 |
 
 Values are the smallest detectable gap per 1,000 single-family homes per year. Rule: (stand-ins' 95th percentile − median) + 0.842 × their standard deviation.
 

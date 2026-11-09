@@ -1,12 +1,12 @@
-# Middle housing: proposed test design (draft v2, for audit)
+# Middle housing: proposed test design (draft v3, for audit)
 
-Drafted 2026-11-06. v1 on 2026-11-09 followed the [measurement check](MEASUREMENT_CHECK_RESULTS.md) and the [power check](POWER_CHECK.md). **v2 on 2026-11-09 adds the weak-spot and backdoor fixes Ryan accepted** (see "Changes in v2").
+Drafted 2026-11-06. v1 on 2026-11-09 followed the [measurement check](MEASUREMENT_CHECK_RESULTS.md) and the [power check](POWER_CHECK.md). **v2 on 2026-11-09 adds the weak-spot and backdoor fixes Ryan accepted** (see "Changes in v2"). **v3 on 2026-11-09 answers the audit of v2** ([review](../audit/MIDDLE_HOUSING_DESIGN_V2_REVIEW_2026-11-09.md); see "Changes in v3").
 
 **Not locked.** No count in this design has been run, and it states no expected results. The audit thread reviews it before any lock. Ryan decides any tool change. Candidates and data: [CANDIDATES.md](CANDIDATES.md). No-peeking rules and log: [MEASUREMENT_CHECK_LOG.md](MEASUREMENT_CHECK_LOG.md).
 
 ## The question
 
-When a state makes 2–4 homes legal on lots that allowed one house, how many more homes get permitted each year in 1–4 unit buildings? The answer is per 1,000 single-family homes, compared with the same places without the law. (The handbook scenario allows 2–6 homes. See "What we count" for why we measure to 4.)
+When a state makes 2–4 homes legal on lots that allowed one house, how does the number of homes permitted each year in 1–4 unit buildings change? The answer is per 1,000 single-family homes, compared with the same places without the law. (The handbook scenario allows 2–6 homes. See "What we count" for why we measure to 4.)
 
 **Causal diagram:**
 - **The path we want:** law → 2–4 homes legal on house lots → projects built → homes permitted.
@@ -17,6 +17,7 @@ When a state makes 2–4 homes legal on lots that allowed one house, how many mo
   - low building before the law;
   - a housing shortage that changes over time;
   - other housing reforms;
+  - state ADU laws (a new detached ADU is a 1-unit building in Census, so it sits inside M1);
   - spillover to nearby places;
   - Census filing rules.
 
@@ -61,23 +62,33 @@ When a state makes 2–4 homes legal on lots that allowed one house, how many mo
 | Maine | 2019–2023 | 2024–2025 | — |
 | Vermont | 2019–2022 | 2024–2025 | 2023 |
 
-- **Comparison places:**
-  - Census permit-issuing places in states with no statewide middle-housing law through 2025. Washington, Maine, Vermont, Montana and Arizona places are left out.
+- **Comparison pool (fixed now; audit fix 1):**
+  - Census permit-issuing places in the **same Census region** as the treated state, in states with no statewide middle-housing law through 2025.
+  - For Oregon and California (West region), that means places in Alaska, Hawaii, Idaho, Nevada, Utah, Wyoming, Colorado and New Mexico.
+  - Washington, Maine, Vermont, Montana and Arizona places are left out everywhere.
   - Leave out every candidate city.
   - Leave out any place found with its own 2–6 unit reform. Before lock, comparison places are screened against reform lists only, never outcomes: NYU Furman Land Use Reform Tracker, Pew, the Mercatus and Terner lists, and [CANDIDATES.md](CANDIDATES.md).
   - **Leave out places in counties that border Oregon or California** (Census county adjacency file), to avoid spillover.
-- **Matching, fixed now:** for each treated place, comparison places from the same Census division, at ½–2× its population. Matching does not use outcomes.
+- **Matching, fixed now:**
+  - Each treated place is matched to pool places at ½–2× its population. Its comparison rate is the pooled rate of that set.
+  - The comparison side for a state is its places' comparison rates, weighted by each place's single-family homes.
+  - Matching does not use outcomes. The power-check code uses the same rule (`scripts/middle_power_check.py`, `test1_state_stats`).
 - **Statistic:** pooled log rate ratio, weighted by homes. In treated places it is permits after ÷ (homes × years after), over the same before. That is divided by the same ratio in comparison places. The difference in homes per 1,000 single-family homes per year is reported second.
 - **Main inference: rank against fake law states.**
-  - Each untested state with comparison places in its division is treated as a fake law state and run through the same statistic. That gave 42 states in the power check.
+  - Each untested state is treated as a fake law state and run through the same statistic. Its pool is places in its own Census region in other untested states, with the same matching rule. That gave 43 states in the rerun power check.
   - Draws are made in pairs: one fake state takes Oregon's windows and one takes California's.
   - 10,000 pairs, seed 20261103.
-  - The real Oregon–California average is placed in that spread.
+  - **The pair statistic is the unweighted mean of the two states' log rate ratios**, for the fake pairs and for the real Oregon–California pair alike.
+  - The real pair is placed in that spread.
 - **Second inference:** 90% bootstrap over places, clustered by state, plus a leave-one-state-out range. With only 2 treated states, this can look too precise, so it is not the main reading.
-- **Reading rule (symmetric):**
+- **Reading rule (symmetric; the 5th and 95th percentile cut-offs are a convention):**
   - Above the fake pairs' 95th percentile: a rise.
   - Below their 5th percentile: a fall.
   - Otherwise: no detectable change.
+- **Sensitivities, fixed now:**
+  - **Oregon before window 2015–2018** (audit fix 6). The law passed on 2019-08-08, and waiting for it could have changed 2019 permits.
+  - **California without ADUs** (audit fix 2). M1 minus the ADU permits in California's progress reports (Table A2 "ADU" category), by jurisdiction and year, for California places only. The progress reports do not split detached from attached ADUs, and Census leaves out attached and converted ADUs. So this removes too much, and it is read as a bound, not a correction.
+  - **Oregon has no comparable ADU series.** Its M1 result is read with that stated.
 
 ## Test 2. Cities just above and below Oregon's 10,000 line (side check)
 
@@ -86,11 +97,14 @@ When a state makes 2–4 homes legal on lots that allowed one house, how many mo
 - **Bands:** main 9,000–10,999 (5 covered, 6 left out); wider 5,000–14,999 reported second.
 - **Windows:** before 2016–2018; after 2022–2024. HB 3395 (2023) extended duplexes to cities of 2,500+ from 2025-06-30, so 2025 is out.
 - **Statistic:** covered cities' mean change in rate minus left-out cities' mean change. 90% bootstrap over cities, seed 20261103. Same symmetric reading rule.
+- **Data columns (audit fix 5):** Census filled-in columns, because reported-only data leave 1 covered and 3 left-out cities in the band. Reported-only is a sensitivity.
 - **Before lock:** check each left-out city's zoning code (documents only) for duplexes allowed before 2021.
 - **Known limit:** housing production strategies (ORS 197A.100) use the same line. Their effect cannot be separated.
 - **Later:** the same design for Montana (cutoff 5,000; in force 2024-09-03) and Washington (cutoff 25,000), when their data allow.
 
-## Test 3. City reforms against stand-in cities
+## Test 3. City reforms against stand-in cities (supporting only)
+
+**Disclosure (audit fix 4):** Census permit counts by building size for 2012–2025 were seen for all five cities on 2026-11-06, before M1 was chosen. Test 3 is therefore read as supporting only. It can never lead.
 
 - **Cities and reform years:**
   - Minneapolis 2020, with 2022–2024 flagged as injunction years;
@@ -103,6 +117,8 @@ When a state makes 2–4 homes legal on lots that allowed one house, how many mo
   - After: every full year from the first full reform year to 2025.
 - **Stand-ins:** at least 20 cities per real city that never had such a reform, each given the real city's reform year.
   - Drawn from its own state, then its Census division, then the nation, at ½–2× its population (the parking rule).
+  - **Never from a state whose middle-housing law binds during that city's after window** (audit fix 3): Oregon, California, Washington, Maine, Vermont and Montana.
+  - **Portland is labelled as overlapping Oregon's HB 2001.** Its result mixes the city's own reform with the state law.
   - Stand-ins are screened against the same reform lists as Test 1.
 - **Data:** Census permits for all five cities. Census filled in Spokane's 2018, 2020 and 2021 rows entirely, so Spokane uses the filled-in columns, is flagged, and is checked against Washington's own (OFM) total permits. OFM counts are never pooled with Census counts.
 - **Result:** each real city's percentile among its stand-ins, plus their middle-90% spread.
@@ -113,9 +129,18 @@ When a state makes 2–4 homes legal on lots that allowed one house, how many mo
 
 ## Test 4. Fake reform years (pre-trend check)
 
-- **What:** rerun Tests 1 and 3 with the reform moved 3 years earlier, using only years before the real reform.
+- **What:** rerun Tests 1, 2 and 3 with fake reform years, using only years before every real reform was passed.
+- **Exact fake windows (fixed now; audit fix 7):**
+
+| Place | Fake before | Fake after | Why it is clean |
+| --- | --- | --- | --- |
+| Test 1: Oregon, California, Maine, Vermont (and their fake-state spread) | 2012–2014 | 2016–2018 | Laws passed 2019-08-08 (Oregon), 2021-09-16 (California), 2022 (Maine), 2023 (Vermont) |
+| Test 2: Oregon cities | 2012–2014 | 2016–2018 | Before HB 2001 passed |
+| Test 3: Minneapolis, Raleigh, Spokane, Portland | 2012–2014 | 2016–2018 | Adopted 2019-11, 2021-07, 2022-07 and 2020-08 (Oregon's law 2019-08) |
+| Test 3: Walla Walla | 2012–2014 | 2015–2017 | Adopted 2018-12-19 |
+
 - **Reading rule:** the fake-year result should read "no detectable change" under each test's own rule. If it does not, the main result is read as partly a trend that was already under way.
-- **Limit:** Census place files on disk start in 2012, and earlier years are free online. Oregon's fake windows need 2012–2016.
+- **Note:** these windows match the power check's. The power check used only fake states and stand-ins, never these places.
 
 ## Test 5. Hide each case in turn (held-out test)
 
@@ -156,6 +181,7 @@ This shows how far each law falls short of the handbook scenario (2–6 homes, 3
 | Low building before the law (bounce-back) | Test 4; matching on size and region | Blocked only if Test 4 passes |
 | Housing shortage changing over time | Test 4 catches trends already under way | **Partly open:** a shock starting the same year as the law is not caught |
 | Other housing reforms | Reform-list screening; candidate cities left out; California labelled as a package | **Partly open:** California's package; Oregon's housing-plan rule at the same line |
+| State ADU laws (detached ADUs are 1-unit in Census, inside M1) | California sensitivity without ADUs (a bound); M2 read beside M1 | **Open:** Oregon has no ADU series; comparison states' ADU trends unknown |
 | Spillover to nearby places | Counties bordering Oregon or California left out of comparisons | Blocked for neighbours; wider spillover open |
 | Census filing rules | M1 includes townhouses and split-lot homes; Test 6 measures the remaining gap | Measured, not removed |
 
@@ -181,11 +207,11 @@ This shows how far each law falls short of the handbook scenario (2–6 homes, 3
 
 | Test | M1: homes in 1–4 unit buildings |
 | --- | --- |
-| 1. Oregon and California together | about +66% against comparison places (about +4.4 per 1,000 single-family homes per year) |
+| 1. Oregon and California together | about +64% against comparison places (about +4.3 per 1,000 single-family homes per year) |
 | 2. Oregon line, 9,000–10,999 | about 8.4 per 1,000 per year (about 26 homes per city per year) |
-| 3. One city | 7.5 to 15 per 1,000 per year, depending on the city |
+| 3. One city | 8.9 to 16.4 per 1,000 per year, depending on the city |
 
-Full tables: [POWER_CHECK.md](POWER_CHECK.md). Test 1's main inference is now the fake-state ranking. The power check used the same fake-state spread.
+Full tables: [POWER_CHECK.md](POWER_CHECK.md), rerun after the audit with the v3 pool and stand-in rules.
 
 ## What this design cannot tell us
 
@@ -194,6 +220,7 @@ Full tables: [POWER_CHECK.md](POWER_CHECK.md). Test 1's main inference is now th
 - Small effects: each test can only detect effects at least as large as the power check shows.
 - SB 9's effect apart from California's other 2022–2025 housing laws.
 - A demand shock that starts in the same year as a law.
+- How much of any change in M1 comes from ADUs rather than middle housing, outside California.
 - Effects in states whose laws are newer than the data (Washington, Montana, Arizona). Washington's state law is added as a test when OFM's 2027–2028 data arrive.
 - Whether a state's result transfers to Wisconsin. That is a separate plan, started in parallel, using no results from these tests.
 
@@ -211,3 +238,23 @@ Full tables: [POWER_CHECK.md](POWER_CHECK.md). Test 1's main inference is now th
 | 8 | No bridge to Wisconsin | Wisconsin plan started in parallel, using no results |
 | 9 | Spokane fill-ins; few fake years; rough held-out range | Spokane checked against OFM totals; limits stated |
 | — | Open decisions from v1 | Licences settled (see Data rules); Test 2 is a side check; Washington state law added when its data arrive |
+
+## Disclosure for Test 1 (audit fix 4)
+
+Test 1 is less exposed than Test 3, but not unexposed. Seen before M1 was chosen:
+- Portland and Sacramento Census counts by building size, 2012–2025 (two places among many).
+- California's statewide SB 9-flagged totals, 2022–2025.
+- State-level rates of homes in 2–4 unit buildings, before and after, for Oregon, California, Maine and Vermont, published in [STATE_ADOPTION_INVENTORY.md](../scenarios/STATE_ADOPTION_INVENTORY.md) on 2026-10-26, before this workstream. These were read during step 1, and the Oregon 2019–2021 figure is quoted in the power check. That exposure is on M2 at state level, not on M1.
+
+## Changes in v3 (answers to the audit of v2, 2026-11-09)
+
+| Audit item | Change |
+| --- | --- |
+| Must 1: Oregon and California's pool was Alaska and Hawaii only | Pool is the same Census region, minus law states and border counties; fake states use the same rule; design and code both match at ½–2× per place; power check rerun |
+| Must 2: ADUs inside M1 | State ADU laws added as an open backdoor; California without-ADU sensitivity fixed (read as a bound); Oregon's lack of a series stated |
+| Must 3: stand-ins from law states | Stand-ins never from Oregon, California, Washington, Maine, Vermont or Montana; Portland labelled as overlapping HB 2001; power check rerun |
+| Should 4: disclosure | Test 3 labelled supporting only; Test 1 exposure stated, including the state-level 2–4 unit rates from October |
+| Should 5: Test 2 columns | Census filled-in columns; reported-only as sensitivity |
+| Should 6: Oregon 2019 | Sensitivity with before window 2015–2018 |
+| Should 7: fake years | Exact fake windows set for every place |
+| Should 8: wording | Question reworded; pair statistic defined as the unweighted mean; 5th/95th labelled a convention |

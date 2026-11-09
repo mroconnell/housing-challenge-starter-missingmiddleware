@@ -34,6 +34,8 @@ On 2026-11-06, during step 1 ([CANDIDATES.md](CANDIDATES.md)) and before any rul
 
 The Oregon cutoff power check (2026-11-06) used only 2012–2019, which is before the Oregon law.
 
+**Added 2026-11-09 (audit of design v2):** the state-level rates of homes in 2–4 unit buildings before and after the laws in Oregon, California, Maine and Vermont, published in docs/scenarios/STATE_ADOPTION_INVENTORY.md (2026-10-26), were also read during step 1. They were quoted in CANDIDATES.md context and in the power check (Oregon 2019–2021 only). This is state-level exposure on homes in 2–4 unit buildings.
+
 ## Log
 
 | When (UTC) | Who | Source | What was read | Rule used | Notes |
@@ -47,6 +49,7 @@ The Oregon cutoff power check (2026-11-06) used only 2012–2019, which is befor
 
 | 2026-11-09 | lead | Census place permits 2012–2018 (all US), ACS B25024, PSU 2020 city list | Power check ([POWER_CHECK.md](POWER_CHECK.md)); the script never reads permit files after 2018; candidate cities were never read as stand-ins | 3, 4 | Only population and homes were read for the five Test 3 cities, never their permits |
 | 2026-11-09 | lead | HCD Table A2, report years 2018–2021 only | Size mix of "5+" rows (5–6 unit share) | 3 | Before SB 9; no 2022+ rows read |
+| 2026-11-09 | lead | Census place permits 2012–2018 | Power check rerun with the v3 pool (same Census region, ½–2× per place) and stand-in rule (no law states) | 3, 4 | Same no-peeking limits as the first run |
 
 ## Edge cases reported by helpers
 

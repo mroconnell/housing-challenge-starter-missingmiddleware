@@ -36,6 +36,8 @@ K = 1.645 + 0.8416
 SEED = 20261108
 # States with a candidate state law (never fake-treated, never in comparison pools)
 TESTED_STATES = {"06", "41", "53", "23", "50", "30", "04"}
+# States whose middle-housing law binds by 2025 (never Test 3 stand-ins; audit fix 3)
+LAW_STATES_2025 = {"06", "41", "53", "23", "50", "30"}
 # Candidate cities: (state FIPS, BPS name). Never stand-ins, never fake-treated.
 CANDIDATE_CITIES = {("27", "Minneapolis"), ("48", "Austin"), ("48", "Houston"), ("37", "Durham"), ("37", "Raleigh"),
                     ("37", "Mecklenburg County"), ("53", "Walla Walla"), ("53", "Spokane"), ("06", "Sacramento"),
@@ -57,7 +59,7 @@ def load_bps(reported_only: bool) -> pd.DataFrame:
         frames.append(d)
     d = pd.concat(frames, ignore_index=True)
     assert d["year"].max() <= LAST_YEAR
-    for c in ("state_fips", "bps_id", "county_fips", "fips_place", "fips_mcd", "name", "division"):
+    for c in ("state_fips", "bps_id", "county_fips", "fips_place", "fips_mcd", "name", "region", "division"):
         d[c] = d[c].astype(str).str.strip()
     d = d[(d["fips_place"] != "99990") & ~d["name"].str.contains("County|Balance", case=True) |
           d["name"].isin(["Mecklenburg County", "Arlington County"])]
@@ -86,7 +88,7 @@ def place_table(d: pd.DataFrame, homes: pd.Series, reported_only: bool) -> pd.Da
         w = w[w["key"].isin(full[full == len(yrs)].index)]
     n = w.groupby("key")["year"].nunique()
     w = w[w["key"].isin(n[n == len(yrs)].index)]
-    info = w.sort_values("year").groupby("key").last()[["state_fips", "division", "name", "pop", "acs_geoid"]]
+    info = w.sort_values("year").groupby("key").last()[["state_fips", "region", "division", "name", "pop", "acs_geoid"]]
     info["homes"] = info["acs_geoid"].map(homes)
     for m in MEASURES:
         info[m + "_b"] = w[w["year"].isin(BEFORE)].groupby("key")[m].sum()
@@ -101,47 +103,45 @@ def rate(df: pd.DataFrame, m: str, part: str) -> float:
     return 1000 * df[f"{m}_{part}"].sum() / (df["homes"].sum() * 3)
 
 
-def band(pop: pd.Series) -> pd.Series:
-    return np.floor(np.log2(pop.clip(lower=1))).astype(int)  # doubling bands (about the 1/2-2x rule)
-
-
 def test1_state_stats(t: pd.DataFrame, m: str) -> pd.DataFrame:
-    """Each untested state in turn as a fake law state against same-division places elsewhere,
-    weighted to the fake state's population bands. Statistic: log rate ratio, after over before,
-    fake state minus comparison."""
+    """Each untested state in turn as a fake law state (design v3, audit fix 1).
+    Comparison pool: places in the same Census region, other untested states. Each fake-state place is
+    matched to pool places at 1/2-2x its population; its comparison rate is that set's pooled rate, and the
+    comparison side is the fake state's places weighted by their homes. Statistic: log rate ratio,
+    after over before, fake state minus comparison."""
     pool = t[~t["state_fips"].isin(TESTED_STATES) & ~t["candidate"]].copy()
-    pool["band"] = band(pool["pop"])
+    pops = pool["pop"].to_numpy()
     rows = []
     for st, tr in pool.groupby("state_fips"):
-        div = tr["division"].iloc[0]
-        cmp_ = pool[(pool["division"] == div) & (pool["state_fips"] != st)]
+        reg = tr["region"].iloc[0]
+        cmp_ = pool[(pool["region"] == reg) & (pool["state_fips"] != st)]
         if cmp_.empty or rate(tr, m, "b") == 0:
             continue
-        # comparison rate per band, weighted by the fake state's homes in that band
+        cp, ch_ = cmp_["pop"].to_numpy(), cmp_["homes"].to_numpy()
+        cb, ca = cmp_[m + "_b"].to_numpy(), cmp_[m + "_a"].to_numpy()
         wsum = num_a = num_b = 0.0
-        for b, g in tr.groupby("band"):
-            c = cmp_[cmp_["band"].between(b - 1, b + 1)]
-            if c.empty or c["homes"].sum() == 0:
+        for pop_i, h_i in zip(tr["pop"].to_numpy(), tr["homes"].to_numpy()):
+            k = (cp >= pop_i / 2) & (cp <= pop_i * 2)
+            if not k.any() or ch_[k].sum() == 0:
                 continue
-            wt = g["homes"].sum()
-            num_b += wt * rate(c, m, "b")
-            num_a += wt * rate(c, m, "a")
-            wsum += wt
-        if wsum == 0 or num_b == 0:
+            num_b += h_i * cb[k].sum() / ch_[k].sum()
+            num_a += h_i * ca[k].sum() / ch_[k].sum()
+            wsum += h_i
+        if wsum == 0 or num_b == 0 or num_a == 0 or rate(tr, m, "a") == 0:
             continue
         stat = np.log(rate(tr, m, "a") / rate(tr, m, "b")) - np.log(num_a / num_b)
-        rows.append(dict(state=st, division=div, places=len(tr), homes=tr["homes"].sum(),
+        rows.append(dict(state=st, region=reg, places=len(tr), homes=tr["homes"].sum(),
                          rate_before=rate(tr, m, "b"), stat=stat))
     return pd.DataFrame(rows)
 
 
 def test3_city(t: pd.DataFrame, all_d: pd.DataFrame, homes: pd.Series, st: str, name: str, m: str) -> dict:
-    """Stand-ins: untested, non-candidate places at 1/2-2x the city's population, from its state,
+    """Stand-ins: non-candidate places outside states whose law binds by 2025, at 1/2-2x the city's population, from its state,
     then its division, then the nation, until at least 20. Statistic: change in rate (after minus before)."""
     c = all_d[(all_d["state_fips"] == st) & (all_d["name"] == name)].sort_values("year").iloc[-1]
     pop, div = float(c["pop"]), c["division"]
     h = homes.get(c["acs_geoid"], np.nan)
-    pool = t[~t["candidate"] & t["pop"].between(pop / 2, pop * 2)]
+    pool = t[~t["candidate"] & ~t["state_fips"].isin(LAW_STATES_2025) & t["pop"].between(pop / 2, pop * 2)]  # audit fix 3
     for scope in ("state", "division", "nation"):
         s = {"state": pool[pool["state_fips"] == st], "division": pool[pool["division"] == div],
              "nation": pool}[scope]
