@@ -1,12 +1,12 @@
-# Middle housing: proposed test design (draft v3, for audit)
+# Middle housing: proposed test design (draft v4, for audit)
 
-Drafted 2026-11-06. v1 on 2026-11-09 followed the [measurement check](MEASUREMENT_CHECK_RESULTS.md) and the [power check](POWER_CHECK.md). **v2 on 2026-11-09 adds the weak-spot and backdoor fixes Ryan accepted** (see "Changes in v2"). **v3 on 2026-11-09 answers the audit of v2** ([review](../audit/MIDDLE_HOUSING_DESIGN_V2_REVIEW_2026-11-09.md); see "Changes in v3").
+Drafted 2026-11-06. v1 on 2026-11-09 followed the [measurement check](MEASUREMENT_CHECK_RESULTS.md) and the [power check](POWER_CHECK.md). **v2 on 2026-11-09 adds the weak-spot and backdoor fixes Ryan accepted** (see "Changes in v2"). **v3 on 2026-11-09 answers the audit of v2** ([review](../audit/MIDDLE_HOUSING_DESIGN_V2_REVIEW_2026-11-09.md); see "Changes in v3"). **v4 on 2026-11-09 changes the primary test** so that its result is useful either way (Ryan: "a narrowish range that excludes 0, or a range that includes 0 and indicates we don't know"); see "Changes in v4" and the disclosure there.
 
 **Not locked.** No count in this design has been run, and it states no expected results. The audit thread reviews it before any lock. Ryan decides any tool change. Candidates and data: [CANDIDATES.md](CANDIDATES.md). No-peeking rules and log: [MEASUREMENT_CHECK_LOG.md](MEASUREMENT_CHECK_LOG.md).
 
 ## The question
 
-When a state makes 2–4 homes legal on lots that allowed one house, how does the number of homes permitted each year in 1–4 unit buildings change? The answer is per 1,000 single-family homes, compared with the same places without the law. (The handbook scenario allows 2–6 homes. See "What we count" for why we measure to 4.)
+When a state makes 2–4 homes legal on lots that allowed one house, does the number of homes permitted each year in 2–4 unit buildings change, and by how much? The answer is per 1,000 single-family homes, compared with the same places without the law. (The handbook scenario allows 2–6 homes. See "What we count" for why we measure to 4.)
 
 **Causal diagram:**
 - **The path we want:** law → 2–4 homes legal on house lots → projects built → homes permitted.
@@ -23,7 +23,10 @@ When a state makes 2–4 homes legal on lots that allowed one house, how does th
 
 ## Primary result (fixed now)
 
-**Test 1, measure M1.** Every other test and measure supports it. No other result may be promoted to the headline after results are seen.
+**Test 1 with four states (Oregon, California, Maine, Vermont), measure M2 (homes in 2–4 unit buildings).** Every other test and measure supports it. No other result may be promoted to the headline after results are seen.
+
+- **Why M2:** the [design bake-off](DESIGN_BAKEOFF.md) (2012–2018 data only) found M2 gives the narrowest range in every design: about ±0.28 per 1,000 single-family homes per year with four states, against about ±1.8 for M1.
+- **Goal (Ryan, 2026-11-09):** a range that excludes 0 shows a causal effect (rise or fall). A range that includes 0 means we do not know; it is never read as "no effect", and its width is always reported.
 
 ## What we count
 
@@ -33,10 +36,10 @@ When a state makes 2–4 homes legal on lots that allowed one house, how does th
 
 | Measure | What it counts | Role |
 | --- | --- | --- |
-| **M1: homes in 1–4 unit buildings** | Census 1-unit, 2-unit and 3–4 unit homes. Census files townhouses, side-by-side duplexes, split-lot and small-lot homes as 1-unit, so they are all inside | **Main** (Ryan, 2026-11-09: stop at 4) |
-| M2: homes in 2–4 unit buildings | Census 2-unit and 3–4 unit homes | Second |
+| M1: homes in 1–4 unit buildings | Census 1-unit, 2-unit and 3–4 unit homes. Census files townhouses, side-by-side duplexes, split-lot and small-lot homes as 1-unit, so they are all inside | Second: always published beside M2; includes townhouses and split-lot homes but is too noisy to decide alone |
+| **M2: homes in 2–4 unit buildings** | Census 2-unit and 3–4 unit homes. Leaves out townhouses and split-lot homes (Census files them as 1-unit) and mostly leaves out ADUs | **Main** (v4) |
 | M2 share: M2 ÷ M1 | Share of 1–4 unit homes that sit in 2–4 unit buildings | Second. Guards against ordinary house-building swings: in California, 2018–2021, detached houses were 195,736 of 233,636 homes in 1–4 unit buildings (84%) |
-| M3: all homes | Every building size | Always published beside M1 |
+| M3: all homes | Every building size | Always published beside M2, labelled as the net effect on housing |
 | M4: homes in 5+ unit buildings | Census 5+ | Check (substitution) |
 | M5: townhouse-inclusive counts | City records (Austin, Minneapolis; Portland if its licence passes) and California progress reports (SFA category) | Measurement check only (Test 6) |
 
@@ -45,14 +48,16 @@ When a state makes 2–4 homes legal on lots that allowed one house, how does th
 
 ## Reporting rules (fixed before any result)
 
-- **M1 leads** every result, chart and tool line. **M3 is always published right beside it**, at the same size, labelled as the net effect on housing (Ryan, 2026-11-09).
-- **If M1 and M3 point in different directions** under the reading rule, the headline says so in plain words.
+- **M2 leads** every result, chart and tool line. **M1 and M3 are always published right beside it**, at the same size, labelled as too noisy to decide on their own (v4; replaces the v1–v3 rule that M1 leads).
+- **If M2 and M1 or M3 point in different directions** under the reading rule, the headline says so in plain words.
+- **Every result states the range of effects the data still allow**, not only whether the range excludes 0.
 - **"No detectable change" never means zero.** Every result is shown with its test's smallest detectable effect from the power check, in the same units.
 - No measure or test is promoted or dropped after results are seen. Any later change is labelled post hoc.
 
 ## Test 1. State laws against similar places elsewhere (primary)
 
-- **Treated states:** Oregon and California. Maine and Vermont are run as a sensitivity, because they have only 2 years after their laws.
+- **Treated states:** Oregon, California, Maine and Vermont: every state whose law gives at least 2 full years of data after it by 2025. Oregon and California alone are a sensitivity.
+- **Comparison regions:** West for Oregon and California; Northeast for Maine and Vermont (New Hampshire, Massachusetts, Connecticut, Rhode Island, New York, New Jersey, Pennsylvania).
 - **California is labelled "California's 2022 package".** SB 9 arrived alongside other state housing laws, which this design cannot separate: ADU laws, AB 2011 (2023), SB 684 (operative 2024-07-01) and SB 1123 (2025-07-01).
 
 | State | Before | After | Left out |
@@ -76,16 +81,17 @@ When a state makes 2–4 homes legal on lots that allowed one house, how does th
 - **Statistic:** pooled log rate ratio, weighted by homes. In treated places it is permits after ÷ (homes × years after), over the same before. That is divided by the same ratio in comparison places. The difference in homes per 1,000 single-family homes per year is reported second.
 - **Main inference: rank against fake law states.**
   - Each untested state is treated as a fake law state and run through the same statistic. Its pool is places in its own Census region in other untested states, with the same matching rule. That gave 43 states in the rerun power check.
-  - Draws are made in pairs: one fake state takes Oregon's windows and one takes California's.
-  - 10,000 pairs, seed 20261103.
-  - **The pair statistic is the unweighted mean of the two states' log rate ratios**, for the fake pairs and for the real Oregon–California pair alike.
-  - The real pair is placed in that spread.
+  - Draws are made in sets of four, one fake state per real state's windows.
+  - 10,000 sets, seed 20261103.
+  - **The set statistic is the unweighted mean of the four states' log rate ratios**, for fake sets and for the real set alike. It is also reported in homes per 1,000 single-family homes per year.
+  - The real set is placed in that spread.
 - **Second inference:** 90% bootstrap over places, clustered by state, plus a leave-one-state-out range. With only 2 treated states, this can look too precise, so it is not the main reading.
 - **Reading rule (symmetric; the 5th and 95th percentile cut-offs are a convention):**
-  - Above the fake pairs' 95th percentile: a rise.
+  - Above the fake sets' 95th percentile: a rise (the 90% range excludes 0).
   - Below their 5th percentile: a fall.
-  - Otherwise: no detectable change.
+  - Otherwise: we do not know (the range includes 0). The range is always reported.
 - **Sensitivities, fixed now:**
+  - **Oregon and California only** (pairs of fake states).
   - **Oregon before window 2015–2018** (audit fix 6). The law passed on 2019-08-08, and waiting for it could have changed 2019 permits.
   - **California without ADUs** (audit fix 2). M1 minus the ADU permits in California's progress reports (Table A2 "ADU" category), by jurisdiction and year, for California places only. The progress reports do not split detached from attached ADUs, and Census leaves out attached and converted ADUs. So this removes too much, and it is read as a bound, not a correction.
   - **Oregon has no comparable ADU series.** Its M1 result is read with that stated.
@@ -205,11 +211,14 @@ This shows how far each law falls short of the handbook scenario (2–6 homes, 3
 
 ## Smallest detectable effects (power check, 2012–2018 permits only)
 
-| Test | M1: homes in 1–4 unit buildings |
-| --- | --- |
-| 1. Oregon and California together | about +64% against comparison places (about +4.3 per 1,000 single-family homes per year) |
-| 2. Oregon line, 9,000–10,999 | about 8.4 per 1,000 per year (about 26 homes per city per year) |
-| 3. One city | 8.9 to 16.4 per 1,000 per year, depending on the city |
+| Test | M2: homes in 2–4 unit buildings | M1: homes in 1–4 unit buildings |
+| --- | --- | --- |
+| 1. Four states (primary) | about 0.43 (range about ±0.28) | about 2.7 |
+| 1. Oregon and California only | about 0.75 | about 4.1 |
+| 2. Oregon line, 9,000–10,999 | about 1.8 | about 8.4 |
+| 3. One city | 1.3 to 2.4 | 8.9 to 16.4 |
+
+All per 1,000 single-family homes per year; smallest change caught with 80% power. Sources: [DESIGN_BAKEOFF.md](DESIGN_BAKEOFF.md), [POWER_CHECK.md](POWER_CHECK.md).
 
 Full tables: [POWER_CHECK.md](POWER_CHECK.md), rerun after the audit with the v3 pool and stand-in rules.
 
@@ -258,3 +267,15 @@ Test 1 is less exposed than Test 3, but not unexposed. Seen before M1 was chosen
 | Should 6: Oregon 2019 | Sensitivity with before window 2015–2018 |
 | Should 7: fake years | Exact fake windows set for every place |
 | Should 8: wording | Question reworded; pair statistic defined as the unweighted mean; 5th/95th labelled a convention |
+
+## Changes in v4 (Ryan, 2026-11-09)
+
+| Change | Why |
+| --- | --- |
+| Primary measure M2 (homes in 2–4 unit buildings), not M1 | Narrowest range in every design (bake-off, 2012–2018 data only); M1 never got under a useful width |
+| Four states in the primary test | Narrows the range from about ±0.47 to about ±0.28; Oregon and California alone become a sensitivity |
+| Goal: a range that excludes 0, or an honest "we do not know" | Ryan: a noisy test that can only say "no detectable change" is useless |
+| Every result reports the range the data allow | So "we do not know" still says how big an effect is ruled out |
+| No decision threshold | Ryan declined the 1-per-1,000 threshold |
+
+**Disclosure (important for the audit):** in step 1 (2026-11-06) the lead researcher read the October inventory's raw before/after state rates of homes in 2–4 unit buildings for exactly these four states (Oregon 0.59 → 0.59; California 0.50 → 0.52; Maine 0.56 → 0.70; Vermont 0.62 → 0.69; per 1,000 one-unit detached homes per year, different windows, no comparison places), and quoted Oregon's to Ryan. The audit of v2 accepted this exposure because it was on M2 while M1 led. v4 makes M2 primary. The reason for the switch is the bake-off, run on 2012–2018 data only, in which M2 had the narrowest range in every design. The audit should judge whether this exposure is acceptable.
