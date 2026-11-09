@@ -1,4 +1,4 @@
-# Middle housing: proposed test design (draft v5, for audit)
+# Middle housing: proposed test design (draft v5, audit OK to lock; awaiting Ryan)
 
 Drafted 2026-11-06. v1 on 2026-11-09 followed the [measurement check](MEASUREMENT_CHECK_RESULTS.md) and the [power check](POWER_CHECK.md). **v2 on 2026-11-09 adds the weak-spot and backdoor fixes Ryan accepted** (see "Changes in v2"). **v3 on 2026-11-09 answers the audit of v2** ([review](../audit/MIDDLE_HOUSING_DESIGN_V2_REVIEW_2026-11-09.md); see "Changes in v3"). **v4 on 2026-11-09 changes the primary test** so that its result is useful either way (Ryan: "a narrowish range that excludes 0, or a range that includes 0 and indicates we don't know"); see "Changes in v4" and the disclosure there.
 
@@ -98,6 +98,8 @@ When a state makes 2–4 homes legal on lots that allowed one house, does the nu
   - **Sources:** each state's call, law, dates and source are in [measurement/COMPARISON_STATE_REFORMS.md](measurement/COMPARISON_STATE_REFORMS.md). ADU-only laws are not in the rule (they mainly add 1-unit buildings), but they are listed there.
   - **Fake law states** follow the same rule. That leaves 34 states.
 - **Unmatched places (fixed now):** a treated place with no comparison place at ½–2× its population is left out of Test 1. The share of the treated state's single-family homes left out this way is reported beside the result. This applies to the largest California cities, because the screened West pool is small.
+- **Unmatched-place sensitivity (audit of v5, item 1; fixed now):** unmatched places get comparison places at ½–2× their population from the screened pool, region first, then the nation, using the same ladder as Test 3. This version is reported beside the main result, together with the unmatched share.
+- **Buffalo:** dropped under the fixed rule, because its Green Code first bound in 2017. The sources file now says the same.
 - **Matching, fixed now:**
   - Each treated place is matched to pool places at ½–2× its population. Its comparison rate is the pooled rate of that set.
   - The comparison side for a state is its places' comparison rates, weighted by each place's single-family homes.

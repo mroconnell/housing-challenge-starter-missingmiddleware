@@ -82,7 +82,7 @@ Key:
 | Massachusetts | **Contaminated statewide from 2024** (MBTA Communities as-of-right multifamily districts binding 2023-12-31 / 2024-12-31; ADU by right 2025-02-02). Strongest contamination in the pool. |
 | Connecticut | **Contaminated statewide from 2022–2023 (moderate)** (PA 21-29 as-of-right accessory apartments unless opt-out by 2023-01-01; parking caps). PA 25-1 middle housing is after the window. |
 | Rhode Island | **Contaminated statewide from 2023–2024 (moderate)** (2023 package, 2024 ADU by right, density bonus). |
-| New York | **Clean statewide; exclude New York City** (City of Yes adopted 2024-12-05). Buffalo Green Code (2017) was in force through both windows, so it is constant. |
+| New York | **Clean statewide; exclude New York City** (City of Yes adopted 2024-12-05). Buffalo Green Code (2017) is in force through the Maine and Vermont windows, but it first bound in 2017, inside 2015–2025, so **Buffalo is dropped under the design's fixed rule** (lead's note, 2026-11-09, after the audit of v5 flagged the mismatch). |
 | New Jersey | **Clean statewide for zoning**; note 4th-round fair-share rezonings from mid-2025 (mostly 2026). |
 | Pennsylvania | **Clean statewide; Philadelphia sensitivity** (HOME zoning bills 2025-06: new RTA-2 duplex district, multifamily parking minimums removed in CMX-4/5). |
 
