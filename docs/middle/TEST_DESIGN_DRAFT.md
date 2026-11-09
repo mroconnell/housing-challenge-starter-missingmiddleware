@@ -1,3 +1,5 @@
+> **Superseded:** the locked plan is [TEST_PLAN_LOCKED.md](TEST_PLAN_LOCKED.md) (2026-11-09). This draft is kept for history.
+
 # Middle housing: proposed test design (draft v5, audit OK to lock; awaiting Ryan)
 
 Drafted 2026-11-06. v1 on 2026-11-09 followed the [measurement check](MEASUREMENT_CHECK_RESULTS.md) and the [power check](POWER_CHECK.md). **v2 on 2026-11-09 adds the weak-spot and backdoor fixes Ryan accepted** (see "Changes in v2"). **v3 on 2026-11-09 answers the audit of v2** ([review](../audit/MIDDLE_HOUSING_DESIGN_V2_REVIEW_2026-11-09.md); see "Changes in v3"). **v4 on 2026-11-09 changes the primary test** so that its result is useful either way (Ryan: "a narrowish range that excludes 0, or a range that includes 0 and indicates we don't know"); see "Changes in v4" and the disclosure there.
