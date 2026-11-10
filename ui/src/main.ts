@@ -76,9 +76,20 @@ function announce(msg: string): void {
   window.setTimeout(() => { el.textContent = msg; }, 60);
 }
 
+/** The reforms shown in the header picker, in registry order (a reform with in_nav: false keeps its routes only). */
+const NAV_REFORMS = REGISTRY.reforms.filter((r) => r.in_nav !== false);
+
+/** One pill per reform on one row. A phone shows the short name; the full label is always the accessible name. */
+function pickerList(href: (r: ReformEntry) => string, current?: ReformEntry): string {
+  return `<nav class="reform-nav" aria-label="Policy reform" data-testid="reform-picker"><ul>${NAV_REFORMS.map((r) => {
+    const name = `${r.label}${r.status === "ready" ? "" : " (in development)"}`;
+    return `
+    <li><a href="${href(r)}" data-reform="${esc(r.id)}" aria-label="${esc(name)}" ${current && r.id === current.id ? 'aria-current="page"' : ""}><span class="rn-full">${esc(r.label)}${r.status === "ready" ? "" : ' <span class="reform-dev">(in development)</span>'}</span><span class="rn-short" aria-hidden="true">${esc(r.short_label ?? r.label)}</span></a></li>`;
+  }).join("")}</ul></nav>`;
+}
+
 function picker(current: ReformEntry): string {
-  return `<nav class="reform-nav" aria-label="Policy reform" data-testid="reform-picker"><span class="reform-nav-label" aria-hidden="true">Policy reform:</span><ul>${REGISTRY.reforms.map((r) => `
-    <li><a href="#${prefixOf(r.id)}/" data-reform="${esc(r.id)}" ${r.id === current.id ? 'aria-current="page"' : ""}>${esc(r.label)}${r.status === "ready" ? "" : ' <span class="reform-dev">(in development)</span>'}</a></li>`).join("")}</ul></nav>`;
+  return pickerList((r) => `#${prefixOf(r.id)}/`, current);
 }
 
 function shell(e: ReformEntry, m: MountedReform): void {
@@ -91,11 +102,11 @@ function shell(e: ReformEntry, m: MountedReform): void {
       <p class="head-sub">${esc(e.subtitle)}</p>
     </div>
     <div class="wrap">${picker(e)}</div>
-    <div class="status-strip" role="note" aria-label="Model run status">
-      <div class="wrap">${isPreview(e) ? '<span class="preview-flag" data-testid="preview-flag"><strong>Preview</strong>: not yet reviewed; numbers may change</span>' : ""}${m.statusStrip}</div>
-    </div>
     <nav class="tabs" aria-label="Screens"><div class="wrap"><ol>${m.routes.map((r) => `<li><a href="#${pre}${r.path}" data-route="${r.match ?? r.path}"><span class="tab-n" aria-hidden="true">${r.n}</span> ${esc(r.label)}</a></li>`).join("")}</ol></div></nav>
   </header>
+  <div class="status-strip no-print" role="note" aria-label="Model run status">
+    <div class="wrap">${isPreview(e) ? '<span class="preview-flag" data-testid="preview-flag"><strong>Preview</strong>: not yet reviewed; numbers may change</span>' : ""}${m.statusStrip}</div>
+  </div>
   <main id="main" class="wrap" tabindex="-1"></main>
   <div id="announce" class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-testid="announce"></div>
   <footer class="site-foot">
@@ -142,8 +153,7 @@ function homeShell(): void {
       <a class="brand" href="#/" aria-current="page"><span class="brand-mark" aria-hidden="true">⌂</span> Missing Middleware</a>
       <p class="head-sub">Wisconsin housing reform · statewide estimates</p>
     </div>
-    <div class="wrap"><nav class="reform-nav" aria-label="Policy reform" data-testid="reform-picker"><span class="reform-nav-label" aria-hidden="true">Policy reform:</span><ul>${REGISTRY.reforms.map((r) => `
-      <li><a href="#/${esc(r.id)}/" data-reform="${esc(r.id)}">${esc(r.label)}${r.status === "ready" ? "" : ' <span class="reform-dev">(in development)</span>'}</a></li>`).join("")}</ul></nav></div>
+    <div class="wrap">${pickerList((r) => `#/${esc(r.id)}/`)}</div>
   </header>
   <main id="main" class="wrap" tabindex="-1"></main>
   <div id="announce" class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-testid="announce"></div>

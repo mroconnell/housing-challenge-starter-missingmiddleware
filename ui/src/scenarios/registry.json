@@ -6,6 +6,7 @@
     {
       "id": "adu",
       "label": "Accessory dwelling units",
+      "short_label": "ADUs",
       "subtitle": "Wisconsin ADU law · statewide estimates",
       "status": "ready",
       "bundle_root": "runs/",
@@ -14,8 +15,23 @@
       "plan_doc": null
     },
     {
+      "id": "middle",
+      "label": "Missing middle housing",
+      "short_label": "Middle housing",
+      "subtitle": "Wisconsin 2–6 homes per lot · statewide estimates",
+      "status": "ready",
+      "bundle_root": "scenarios/middle/runs/",
+      "owner": "Middle housing conductor",
+      "benchmark": "Allow 2–6 dwelling units on parcels currently restricted to single-family use, heights up to 3 stories. You may assume setback and lot-coverage requirements do not constrain 2–6 units.",
+      "plan_doc": {
+        "label": "Middle housing: Wisconsin plan (locked)",
+        "path": "docs/middle/WISCONSIN_PLAN_LOCKED.md"
+      }
+    },
+    {
       "id": "tod",
       "label": "Transit-oriented density",
+      "short_label": "TOD",
       "subtitle": "Wisconsin transit-oriented density law · statewide estimates",
       "status": "ready",
       "bundle_root": "scenarios/tod/runs/",
@@ -29,6 +45,7 @@
     {
       "id": "parking",
       "label": "Parking requirement reduction",
+      "short_label": "Parking",
       "subtitle": "Wisconsin parking requirement reduction · statewide estimates",
       "status": "ready",
       "bundle_root": "scenarios/parking/runs/",
@@ -37,19 +54,6 @@
       "plan_doc": {
         "label": "Parking requirement reduction: Gate 3 packet",
         "path": "docs/parking/GATE3_PACKET.md"
-      }
-    },
-    {
-      "id": "middle",
-      "label": "Missing middle housing",
-      "subtitle": "Wisconsin 2–6 homes per lot · in development",
-      "status": "in_development",
-      "bundle_root": "scenarios/middle/runs/",
-      "owner": "Middle housing conductor",
-      "benchmark": "Allow 2–6 dwelling units on parcels currently restricted to single-family use, heights up to 3 stories. You may assume setback and lot-coverage requirements do not constrain 2–6 units.",
-      "plan_doc": {
-        "label": "Middle housing: Wisconsin plan (locked)",
-        "path": "docs/middle/WISCONSIN_PLAN_LOCKED.md"
       }
     },
     {
@@ -64,7 +68,8 @@
       "plan_doc": {
         "label": "Scenario contract, section 9: combined reforms",
         "path": "docs/shared/SCENARIO_CONTRACT.md"
-      }
+      },
+      "in_nav": false
     }
   ]
 }

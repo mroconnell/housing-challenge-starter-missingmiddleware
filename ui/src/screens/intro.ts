@@ -5,6 +5,8 @@
 //   - ADU range: the ADU bundle's state.json range90 (low, high).
 //   - TOD range: the TOD bundle's statewide.json range90 (low, high).
 //   - Parking range: the parking bundle's statewide.json range90 (low, high).
+//   - Missing Middle range: the middle housing bundle's statewide.json core (lower, upper), the
+//     90% range for homes in 2–4 unit buildings; its unit comes from core.label. Only the core range is shown.
 //   - Baseline: reference/housing_baseline_statewide_by_year.csv ("all" rows, 2027–2031, central) and the v4
 //     multipliers in reference/housing_baseline_band.csv.
 // The two baseline CSVs are bundled at build time; tests/test_intro_sources.py and ui/tests/intro.spec.ts check the numbers.
@@ -35,6 +37,8 @@ export interface IntroNumbers {
   adu: { low: number; high: number };
   tod: { low: number; high: number };
   parking: { low: number; high: number };
+  /** null when the middle housing bundle cannot be read: the row then says "not yet available". */
+  middle: { low: number; high: number; unit: string } | null;
   baseline: { central: number; low: number; high: number };
 }
 
@@ -49,20 +53,35 @@ async function runBase(root: string): Promise<string> {
   return `${root}${run_id}/`;
 }
 
+/** Middle housing's 90% range (core.lower, core.upper) and its unit, from core.label without "(predicted range)".
+ *  A missing middle housing bundle leaves the row "not yet available" instead of failing the page. */
+async function loadMiddle(): Promise<IntroNumbers["middle"]> {
+  try {
+    const midBase = await runBase("scenarios/middle/runs/");
+    const { core } = await getJSON<{ core: { label: string; lower: number; upper: number } }>(`${midBase}statewide.json`);
+    if (!Number.isFinite(core?.lower) || !Number.isFinite(core?.upper)) return null;
+    return { low: core.lower, high: core.upper, unit: core.label.replace(/\s*\(.*?\)\s*$/, "") };
+  } catch {
+    return null;
+  }
+}
+
 let cached: Promise<IntroNumbers> | null = null;
 
 export function loadIntro(): Promise<IntroNumbers> {
   cached ??= (async () => {
     const [aduBase, todBase, pkBase] = await Promise.all([runBase("runs/"), runBase("scenarios/tod/runs/"), runBase("scenarios/parking/runs/")]);
-    const [state, tod, parking] = await Promise.all([
+    const [state, tod, parking, middle] = await Promise.all([
       getJSON<{ range90: { low: number; high: number } }>(`${aduBase}state.json`),
       getJSON<{ range90: { low: number; high: number } }>(`${todBase}statewide.json`),
       getJSON<{ range90: { low: number; high: number } }>(`${pkBase}statewide.json`),
+      loadMiddle(),
     ]);
     return {
       adu: { low: state.range90.low, high: state.range90.high },
       tod: { low: tod.range90.low, high: tod.range90.high },
       parking: { low: parking.range90.low, high: parking.range90.high },
+      middle,
       baseline: baselineFromCsv(),
     };
   })();
@@ -77,9 +96,18 @@ const signed = (v: number) => (Math.round(v) > 0 ? `+${int(v)}` : num(v));
 export const INTRO_LINKS = {
   today: "#/today",
   adu: "#/compare",
+  middle: "#/middle/compare",
   tod: "#/tod/today",
   parking: "#/parking/compare",
 };
+
+/** One row of the ranges table. A range that dips below zero shows a sign on both ends (minus and plus). */
+function rangeRow(id: string, name: string, r: { low: number; high: number } | null, how: string): string {
+  const f = r && r.low < 0 ? signed : int;
+  const cell = (v: number | undefined, end: string) =>
+    `<td class="num intro-num" data-label="${end}" data-testid="intro-${id}-${end === "Low end" ? "low" : "high"}">${r && v !== undefined ? f(v) : "not yet available"}</td>`;
+  return `<tr data-testid="intro-${id}"><th scope="row">${esc(name)}</th>${cell(r?.low, "Low end")}${cell(r?.high, "High end")}<td class="intro-how" data-label="How we count">${esc(how)}</td></tr>`;
+}
 
 export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
   const L = INTRO_LINKS;
@@ -89,13 +117,19 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
   <h1 id="intro-h">How would housing reform change the number of new homes?</h1>
   <p class="lede intro-lede">Missing Middleware studies how real reforms worked in places that adopted them. It compares them with places or years without the reform. Then it carries what it learned to one state, and gives a range of extra home permits for the five years after a law, 2027 to 2031.</p>
 
-  <section class="card intro-ranges" aria-labelledby="intro-ranges-h">
-    <h2 id="intro-ranges-h">Wisconsin, extra permits 2027–2031, 90% range</h2>
-    <ul class="intro-range-list">
-      <li data-testid="intro-adu"><strong>Statewide ADU reform:</strong> <span class="intro-num" data-testid="intro-adu-range">${int(n.adu.low)} to ${int(n.adu.high)} ADU permits</span>. This range covers only how far off the model was in other states. It leaves out uncertainty in Wisconsin's own current ADU rates.</li>
-      <li data-testid="intro-tod"><strong>Statewide TOD reform:</strong> <span class="intro-num" data-testid="intro-tod-range">${int(n.tod.low)} to ${int(n.tod.high)} extra homes near transit</span></li>
-      <li data-testid="intro-parking"><strong>Statewide parking reform:</strong> <span class="intro-num" data-testid="intro-parking-range">${signed(n.parking.low)} to ${signed(n.parking.high)} homes</span>. A range that includes zero means the data can't tell whether repealing parking minimums alone adds or removes homes. The evidence comes from city repeals, since no state has repealed them statewide. This range is the spread of fake-repeal results, placed around the measured average.</li>
-    </ul>
+  <section class="card intro-ranges" aria-labelledby="intro-ranges-cap">
+    <div class="table-wrap">
+    <table class="data intro-range-table" data-testid="intro-range-table">
+      <caption id="intro-ranges-cap">Wisconsin, extra permits 2027–2031, 90% range</caption>
+      <thead><tr><th scope="col">Reform</th><th scope="col" class="num">Low end</th><th scope="col" class="num">High end</th><th scope="col">How we count</th></tr></thead>
+      <tbody>
+        ${rangeRow("adu", "ADUs by right", n.adu, "ADU permits. This range covers only how far off the model was in other states. It leaves out uncertainty in Wisconsin's own current ADU rates.")}
+        ${rangeRow("middle", "Missing Middle", n.middle, n.middle ? `${n.middle.unit}.${n.middle.low < 0 && n.middle.high > 0 ? " The range includes zero, so the evidence can't tell yet whether the law adds homes." : ""}` : "Not yet available.")}
+        ${rangeRow("tod", "TOD Upzoning", n.tod, "Extra homes near transit.")}
+        ${rangeRow("parking", "Parking Minimum Repeal", n.parking, "Homes. A range that includes zero means the data can't tell whether repealing parking minimums alone adds or removes homes. The evidence comes from city repeals, since no state has repealed them statewide. This range is the spread of fake-repeal results, placed around the measured average.")}
+      </tbody>
+    </table>
+    </div>
   </section>
 
   <section class="card" aria-labelledby="intro-how-h">
@@ -106,6 +140,7 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
       <li data-testid="intro-step-3"><strong>Define each reform.</strong>
         <ul class="intro-reform-links" aria-label="The modelled law for each reform">
           <li><a href="${L.adu}" data-testid="intro-link-adu">ADU reform<span class="sr-only">: the modelled law and what it adds</span></a></li>
+          <li><a href="${L.middle}" data-testid="intro-link-middle">Middle housing reform<span class="sr-only">: what the modelled law adds</span></a></li>
           <li><a href="${L.tod}" data-testid="intro-link-tod">TOD reform<span class="sr-only">: the modelled law and the homes near transit today</span></a></li>
           <li><a href="${L.parking}" data-testid="intro-link-parking">Parking reform<span class="sr-only">: the modelled law and what it adds</span></a></li>
         </ul></li>
@@ -116,7 +151,7 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
           <li>We run placebo tests in places that never reformed by pretending they reformed in a given year. The method should find no effect there.</li>
           <li>A 90% range should hold the true answer about 9 times in 10. Where a test showed it held less often, we widened the range or say so on the page.</li>
         </ol></li>
-      <li><strong>Carry the effect to the state.</strong> We apply each measured effect to the state's own places and homes. ADU's rate adjusts for home values and incomes. TOD and parking use one average rate, because no local trait predicted the effect better than a plain average.</li>
+      <li data-testid="intro-step-6"><strong>Carry the effect to Wisconsin.</strong> We apply each measured effect to Wisconsin's own places and homes. ADU's rate adjusts for home values and incomes. Middle housing applies the same rate to every single-family home, measured in the 4 states that passed laws against similar places without them. The first year starts weak: in the 3 states with a separate first year, it averaged slightly below zero, too noisy to tell its sign. TOD and parking use one average rate, because no local trait predicted the effect better than a plain average. TOD's extra homes land only within ¼ mile of rail and rapid-bus stops.</li>
     </ol>
   </section>
 

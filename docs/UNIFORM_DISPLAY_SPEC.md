@@ -34,8 +34,8 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
    ends.
 8. **Where a doc or table would quote one number, quote the range instead:** "X to Y extra homes, 2027–2031 (90%
    range)".
-   - Tables list the reforms in a fixed order (ADUs, TOD, parking), with no ranking. A range midpoint is not used as a
-     stand-in for a centre.
+   - Tables list the reforms in a fixed order (ADUs, Middle housing, TOD, parking), with no ranking. A range midpoint is
+     not used as a stand-in for a centre.
    - A total across reforms is a range from a paired simulation of the reforms' draws, never a sum of ends.
    - Side lines may be quoted by name ("the 8-state median path, 10,038"), never as the reform's result.
 

@@ -43,8 +43,11 @@ h3 { font-size: 1.05rem; margin: 18px 0 6px; }
 .brand { font-weight: 700; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
 .brand-mark { color: var(--accent); }
 .head-sub { margin: 0; color: var(--muted); font-size: 0.95rem; }
-.status-strip { background: var(--accent-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 0.85rem; }
-.status-strip .wrap { display: flex; flex-wrap: wrap; gap: 4px 16px; padding-top: 5px; padding-bottom: 5px; align-items: center; }
+/* run status: below the sticky header, so it scrolls away with the page; small and low-key */
+.status-strip { font-size: 0.78rem; color: var(--muted); }
+.status-strip .wrap { display: flex; flex-wrap: wrap; gap: 2px 14px; padding-top: 4px; padding-bottom: 2px; align-items: center; }
+.status-strip strong { font-weight: 600; }
+.status-strip code { color: inherit; }
 .tabs ol { position: relative; list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: thin; }
 .tabs a { display: flex; align-items: center; gap: 6px; padding: 10px 12px; min-height: 44px; text-decoration: none; color: var(--muted); border-bottom: 3px solid transparent; white-space: nowrap; font-weight: 500; }
 .tabs a:hover { color: var(--ink); }
@@ -238,7 +241,7 @@ dialog::backdrop { background: #0006; }
   .brief { padding: 16px; }
   .tbl-tools input, .tbl-tools select { min-width: 0; width: 100%; }
   .tbl-tools label { width: 100%; }
-  .status-strip { font-size: 0.8rem; }
+  .status-strip { font-size: 0.75rem; }
   .site-head { position: static; }
 }
 @media print {
@@ -361,8 +364,12 @@ ul.side-lines svg { vertical-align: middle; }
 /* Introduction (landing page, src/screens/intro.ts) */
 .intro { max-width: 80ch; }
 .intro-lede { max-width: none; }
-.intro-range-list, .intro-see { padding-left: 1.2em; margin: 0; }
-.intro-range-list li, .intro-see li { margin: 10px 0; }
+.intro-see { padding-left: 1.2em; margin: 0; }
+.intro-see li { margin: 10px 0; }
+.intro-ranges .table-wrap { margin: 0; }
+table.data.intro-range-table caption { font-size: 1.1rem; font-weight: 700; color: var(--ink); padding-bottom: 8px; }
+table.data.intro-range-table tbody th { font-weight: 650; }
+table.data.intro-range-table tbody tr:last-child > * { border-bottom: 0; }
 .intro-num { font-weight: 700; color: var(--accent-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .intro-ranges { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
 .intro-steps { padding-left: 1.4em; margin: 0; }
@@ -375,4 +382,13 @@ ul.side-lines svg { vertical-align: middle; }
 .intro-reform-links a:hover { background: var(--accent-soft); }
 @media (max-width: 640px) {
   .intro-num { white-space: normal; }
+  /* the ranges table stacks: one block per reform, ends side by side, each cell labelled */
+  table.data.intro-range-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  table.data.intro-range-table, table.data.intro-range-table tbody, table.data.intro-range-table caption { display: block; }
+  table.data.intro-range-table tbody tr { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); padding: 6px 0; }
+  table.data.intro-range-table tbody tr:last-child { border-bottom: 0; }
+  table.data.intro-range-table tbody th, table.data.intro-range-table td { border-bottom: 0; padding: 4px 0; }
+  table.data.intro-range-table tbody th, table.data.intro-range-table td.intro-how { grid-column: 1 / -1; }
+  table.data.intro-range-table td.num { text-align: left !important; }
+  table.data.intro-range-table td[data-label]::before { content: attr(data-label) ": "; display: block; font-size: 0.84rem; font-weight: 650; color: var(--muted); }
 }

@@ -6,7 +6,7 @@ The tool shows one policy reform at a time (ADUs, transit-oriented density, park
 
 ## 1. What the shell does
 
-- Draws the header (brand, subtitle, reform picker), the status strip, the screens navigation, `<main>`, the live region for announcements, and the footer.
+- Draws the header (brand, subtitle, reform picker), the status strip (below the sticky header, so it scrolls away), the screens navigation, `<main>`, the live region for announcements, and the footer.
 - Routes URLs. The default reform (ADUs) has no prefix, so every existing link keeps working: `#/today`, `#/compare?s=upper`. Other reforms are prefixed with their id: `#/tod/about`. `#/adu/today` also works. The query part belongs to the reform. The bare root (`#/`, or no hash) is the Introduction, the landing page above every reform (`ui/src/screens/intro.ts`); `#/adu/` opens the ADU reform's first screen.
 - Loads a reform's data the first time it is opened and keeps it for the session.
 - Keeps focus and scroll on re-render, moves focus to `<main>` on a new screen, sets the browser tab title, and marks the current tab and the current reform.
@@ -35,12 +35,14 @@ The browser never computes a forecast. It only selects, sums and formats bundle 
 | --- | --- |
 | `id` | Lower-case URL prefix, for example `tod`. Must not equal an ADU screen segment (`today`, `compare`, `where`, `how-sure`, `why`, `pilot`, `brief`); a test checks this. |
 | `label` | The reform's name in the picker and on its pages, for example "Transit-oriented density". |
+| `short_label` | Optional. The picker pill's name on a phone, for example "TOD"; `label` stays its accessible name. |
 | `subtitle` | The line under the brand. |
 | `status` | `in_development` (holding page, no numbers) or `ready` (its own screens). A reform becomes `ready` only after the owner accepts its Gate 4 pilot. |
 | `bundle_root` | Folder under `ui/public/` with `latest.json` and `<run_id>/`. ADUs: `runs/`. New reforms: `scenarios/<id>/runs/`. |
 | `owner` | Which conductor owns the reform's files. |
 | `benchmark` | The challenge benchmark text, verbatim. A test checks it against `docs/CHALLENGE_SPEC.md`. |
 | `plan_doc` | Optional link shown on the holding page: `{label, path}`. |
+| `in_nav` | Optional. `false` keeps the reform out of the picker; its routes still work. |
 
 ## 4. Bundle (what a reform's builder writes)
 

@@ -1,13 +1,18 @@
-/* Reform picker in the header (multi-reform shell). Uses the colour tokens from style.css. */
-.reform-nav { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 0 0 8px; font-size: 0.9rem; }
-.reform-nav-label { color: var(--muted); }
-.reform-nav ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.reform-nav a { display: inline-block; padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); text-decoration: none; background: var(--surface); }
+/* Reform picker in the header (multi-reform shell). Uses the colour tokens from style.css.
+   The pills share one row evenly, about 99% of the header's width. A phone (≤640 px) shows them as a 2×2 grid with
+   short names; the full name is always each pill's accessible name. */
+.reform-nav { padding: 0 0 8px; font-size: 0.9rem; }
+.reform-nav ul { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 6px; width: 99%; margin: 0; padding: 0; list-style: none; }
+.reform-nav a { display: flex; align-items: center; justify-content: center; min-height: 32px; padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); text-decoration: none; background: var(--surface); text-align: center; line-height: 1.2; }
 .reform-nav a:hover { border-color: var(--accent); }
 .reform-nav a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.reform-nav .rn-short { display: none; }
 .reform-dev { font-size: 0.8em; opacity: 0.85; }
 @media (max-width: 640px) {
-  .reform-nav { font-size: 0.8rem; gap: 2px 8px; }
-  .reform-nav a { padding: 2px 8px; }
+  .reform-nav { font-size: 0.85rem; }
+  .reform-nav ul { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reform-nav a { min-height: 36px; padding: 2px 8px; }
+  .reform-nav .rn-full { display: none; }
+  .reform-nav .rn-short { display: inline; }
 }
-.preview-flag { background: var(--warn-bg); border: 1px solid var(--line); border-radius: 4px; padding: 1px 8px; }
+.preview-flag { font-weight: 400; }

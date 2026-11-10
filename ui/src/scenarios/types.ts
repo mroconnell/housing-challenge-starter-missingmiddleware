@@ -8,6 +8,8 @@ export type ReformStatus = "ready" | "in_development";
 export interface ReformEntry {
   id: string;
   label: string;
+  /** Shorter name for the header pill on a phone ("ADUs"); the full label stays the pill's accessible name. */
+  short_label?: string;
   /** Line under the brand in the header: "Wisconsin ADU law · statewide estimates". */
   subtitle: string;
   status: ReformStatus;
@@ -20,6 +22,8 @@ export interface ReformEntry {
   /** Shown under the benchmark on the holding page instead of "Benchmark text from the challenge specification." */
   benchmark_note?: string;
   plan_doc: { label: string; path: string } | null;
+  /** false keeps the reform out of the header picker; its routes still work (old links do not break). */
+  in_nav?: boolean;
 }
 
 export interface Registry { schema_version: number; default: string; repo_url: string; reforms: ReformEntry[] }

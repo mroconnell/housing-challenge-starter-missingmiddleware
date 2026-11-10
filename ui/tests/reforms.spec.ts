@@ -9,8 +9,11 @@ test("the picker lists every registered reform and marks the current one", async
   await page.goto("#/today");
   const nav = page.getByRole("navigation", { name: "Policy reform" });
   const links = nav.getByRole("link");
-  await expect(links).toHaveCount(registry.reforms.length);
-  for (const r of registry.reforms) await expect(nav.locator(`a[data-reform="${r.id}"]`)).toContainText(r.label);
+  const inNav = registry.reforms.filter((r) => (r as { in_nav?: boolean }).in_nav !== false);
+  await expect(links).toHaveCount(inNav.length);
+  for (const r of inNav) await expect(nav.locator(`a[data-reform="${r.id}"]`)).toHaveAccessibleName(r.label + (r.status === "ready" ? "" : " (in development)"));
+  // the combined view is out of the picker (owner, 2026-11-10); its routes still work
+  await expect(nav.locator('a[data-reform="combined"]')).toHaveCount(0);
   await expect(nav.locator('a[aria-current="page"]')).toHaveAttribute("data-reform", registry.default);
 });
 
@@ -30,8 +33,11 @@ for (const r of registry.reforms.filter((x) => x.status === "in_development")) {
   test(`${r.id}: holding page shows the benchmark and no numbers, and the picker returns to ADUs`, async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(String(e)));
-    await page.goto("#/compare?s=upper");
-    await page.getByRole("navigation", { name: "Policy reform" }).locator(`a[data-reform="${r.id}"]`).click();
+    if ((r as { in_nav?: boolean }).in_nav === false) await page.goto(`#/${r.id}/`);   // not in the picker: open by its address
+    else {
+      await page.goto("#/compare?s=upper");
+      await page.getByRole("navigation", { name: "Policy reform" }).locator(`a[data-reform="${r.id}"]`).click();
+    }
     await expect(page).toHaveURL(new RegExp(`#/${r.id}/`));
     await expect(page.getByTestId("reform-title")).toHaveText(r.label);
     await expect(page.getByTestId("in-development")).toBeVisible();

@@ -41,6 +41,22 @@ class TestIntroSources(unittest.TestCase):
         up = next(x for x in json.loads((base / "statewide.json").read_text())["scenarios"] if x["id"] == "upper")
         self.assertEqual(up["additional_total"], round(r["high"]))
 
+    def test_middle_range(self):
+        core = json.loads((latest(PUB / "scenarios" / "middle" / "runs") / "statewide.json").read_text())["core"]
+        self.assertEqual((round(core["lower"]), round(core["upper"])), (-482, 4515))
+        self.assertEqual(core["label"], "Homes in 2–4 unit buildings (predicted range)")
+
+    def test_table_rows(self):
+        src = INTRO.read_text()
+        names = re.findall(r'rangeRow\("(\w+)", "([^"]+)"', src)
+        self.assertEqual(names, [("adu", "ADUs by right"), ("middle", "Missing Middle"), ("tod", "TOD Upzoning"),
+                                 ("parking", "Parking Minimum Repeal")])
+        self.assertIn('<caption id="intro-ranges-cap">Wisconsin, extra permits 2027–2031, 90% range</caption>', src)
+        for h in ("Reform", "Low end", "High end", "How we count"):
+            self.assertIn(f">{h}</th>", src)
+        self.assertNotIn("(in development)", src)
+        self.assertNotIn("stronger", src.lower())
+
     def test_baseline(self):
         y = pd.read_csv(REF / "housing_baseline_statewide_by_year.csv")
         y = y[(y.structure_type == "all") & (y.kind == "projected") & y.year.between(2027, 2031)]
@@ -58,9 +74,10 @@ class TestIntroSources(unittest.TestCase):
         # parking's range is read from the bundle's range90, not recomputed from a CSV
         self.assertNotRegex(src, r"import .*parking_(uniform_range|placebo_full_summary)")
         self.assertIn("${pkBase}statewide.json", src)
-        for n in ("8,055", "13,666", "3,922", "16,335", "46,268", "19,649", "124,000", "56,500", "218,865"):
+        self.assertIn("${midBase}statewide.json", src)
+        for n in ("8,055", "13,666", "3,922", "16,335", "46,268", "19,649", "124,000", "56,500", "218,865", "4,515"):
             self.assertFalse(n in src, f"{n} is typed into intro.ts")   # numbers are never typed into the page
-        self.assertIsNone(re.search(r"\b(8055|13666|3922|16335|46268|19649|124000|56500|218865)\b", src))
+        self.assertIsNone(re.search(r"\b(8055|13666|3922|16335|46268|19649|124000|56500|218865|482|4515)\b", src))
 
 
 if __name__ == "__main__":

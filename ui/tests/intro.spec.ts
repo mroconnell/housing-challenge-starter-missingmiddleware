@@ -1,4 +1,4 @@
-// The Introduction (landing page at the root route): the approved copy is on the page, the three 90% ranges and the
+// The Introduction (landing page at the root route): the approved copy is on the page, the four 90% ranges (a table) and the
 // baseline equal their sources (bundles and shared reference CSVs), the links open the right screens, and the old
 // "Wisconsin today" screen is still reachable at its old address.
 import { readFileSync } from "node:fs";
@@ -23,9 +23,10 @@ const COPY = [
   "How would housing reform change the number of new homes?",
   "Missing Middleware studies how real reforms worked in places that adopted them. It compares them with places or years without the reform. Then it carries what it learned to one state, and gives a range of extra home permits for the five years after a law, 2027 to 2031.",
   "Wisconsin, extra permits 2027–2031, 90% range",
-  "Statewide ADU reform: 8,055 to 13,666 ADU permits. This range covers only how far off the model was in other states. It leaves out uncertainty in Wisconsin's own current ADU rates.",
-  "Statewide TOD reform: 3,922 to 16,335 extra homes near transit",
-  "Statewide parking reform: −46,268 to +19,649 homes. A range that includes zero means the data can't tell whether repealing parking minimums alone adds or removes homes. The evidence comes from city repeals, since no state has repealed them statewide. This range is the spread of fake-repeal results, placed around the measured average.",
+  "ADU permits. This range covers only how far off the model was in other states. It leaves out uncertainty in Wisconsin's own current ADU rates.",
+  "Homes in 2–4 unit buildings. The range includes zero, so the evidence can't tell yet whether the law adds homes.",
+  "Extra homes near transit.",
+  "Homes. A range that includes zero means the data can't tell whether repealing parking minimums alone adds or removes homes. The evidence comes from city repeals, since no state has repealed them statewide. This range is the spread of fake-repeal results, placed around the measured average.",
   "How we got there",
   "Pick a state. Wisconsin",
   "Set a baseline. We estimate what the state would permit under current law. For Wisconsin that is about 124,000 homes over 2027–2031 (90% range 56,500 to 218,865). Wisconsin Today",
@@ -35,7 +36,7 @@ const COPY = [
   "We hide data from some places and try to predict them, then check how close we got.",
   "We run placebo tests in places that never reformed by pretending they reformed in a given year. The method should find no effect there.",
   "A 90% range should hold the true answer about 9 times in 10. Where a test showed it held less often, we widened the range or say so on the page.",
-  "Carry the effect to the state. We apply each measured effect to the state's own places and homes. ADU's rate adjusts for home values and incomes. TOD and parking use one average rate, because no local trait predicted the effect better than a plain average.",
+  "Carry the effect to Wisconsin. We apply each measured effect to Wisconsin's own places and homes. ADU's rate adjusts for home values and incomes. Middle housing applies the same rate to every single-family home, measured in the 4 states that passed laws against similar places without them. The first year starts weak: in the 3 states with a separate first year, it averaged slightly below zero, too noisy to tell its sign. TOD and parking use one average rate, because no local trait predicted the effect better than a plain average. TOD's extra homes land only within ¼ mile of rail and rapid-bus stops.",
   "What you'll see",
   "A range for each reform, with its low and high ends. We show no single best guess, because the evidence supports a range, not a point.",
   "Side lines across each range. They give a plain reason to believe the range. Some are real cases, like the median of 8 states that passed ADU laws. Others are our earlier scenario estimates.",
@@ -63,17 +64,40 @@ test("the root address opens the Introduction with the approved copy", async ({ 
   await expect(page.getByTestId("intro-state")).toHaveText("Wisconsin");
 });
 
-test("the three ranges and the baseline equal their sources", async ({ page }) => {
+test("the ranges table: caption, headers, row order and names", async ({ page }) => {
+  await page.goto("#/");
+  const t = page.getByTestId("intro-range-table");
+  await expect(t.locator("caption")).toHaveText("Wisconsin, extra permits 2027–2031, 90% range");
+  await expect(t.locator("thead th")).toHaveText(["Reform", "Low end", "High end", "How we count"]);
+  await expect(t.locator("thead th[scope=col]")).toHaveCount(4);
+  await expect(t.locator("tbody th[scope=row]")).toHaveText(["ADUs by right", "Missing Middle", "TOD Upzoning", "Parking Minimum Repeal"]);
+  await expect(t.locator("tbody tr")).toHaveCount(4);
+  // number columns right-aligned on a wide screen (a phone stacks the rows instead)
+  if ((page.viewportSize()?.width ?? 1280) > 640) for (const c of await t.locator("tbody td.num").all()) expect(await c.evaluate((el) => getComputedStyle(el).textAlign)).toBe("right");
+  // no stronger-reform line
+  await expect(t).not.toContainText(/stronger/i);
+});
+
+test("the four ranges and the baseline equal their sources", async ({ page }) => {
   await page.goto("#/");
   const state = await bundle(page, "runs/", "state.json");
   const tod = await bundle(page, "scenarios/tod/runs/", "statewide.json");
   const pkState = await bundle(page, "scenarios/parking/runs/", "statewide.json");
-  await expect(page.getByTestId("intro-adu-range")).toHaveText(`${fmt(state.range90.low)} to ${fmt(state.range90.high)} ADU permits`);
-  await expect(page.getByTestId("intro-tod-range")).toHaveText(`${fmt(tod.range90.low)} to ${fmt(tod.range90.high)} extra homes near transit`);
+  const mid = await bundle(page, "scenarios/middle/runs/", "statewide.json");
+  const ends = async (id: string) => [await page.getByTestId(`intro-${id}-low`).textContent(), await page.getByTestId(`intro-${id}-high`).textContent()];
+  expect(await ends("adu")).toEqual([fmt(state.range90.low), fmt(state.range90.high)]);
+  expect(await ends("tod")).toEqual([fmt(tod.range90.low), fmt(tod.range90.high)]);
   const lo = pkState.range90.low, hi = pkState.range90.high;
-  await expect(page.getByTestId("intro-parking-range")).toHaveText(`${signed(lo)} to ${signed(hi)} homes`);
-  // the copy's numbers, and the parking bundle's high end of the evidence
+  expect(await ends("parking")).toEqual([signed(lo), signed(hi)]);
+  expect(await ends("middle")).toEqual([signed(mid.core.lower), signed(mid.core.upper)]);
+  // the copy's numbers
+  expect([Math.round(state.range90.low), Math.round(state.range90.high)]).toEqual([8055, 13666]);
+  expect([Math.round(tod.range90.low), Math.round(tod.range90.high)]).toEqual([3922, 16335]);
   expect([Math.round(lo), Math.round(hi)]).toEqual([-46268, 19649]);
+  expect([Math.round(mid.core.lower), Math.round(mid.core.upper)]).toEqual([-482, 4515]);
+  expect(mid.core.label).toBe("Homes in 2–4 unit buildings (predicted range)");
+  await expect(page.getByTestId("intro-middle")).toContainText("Homes in 2–4 unit buildings.");
+  // the parking bundle's high end of the evidence
   expect(pkState.scenarios.find((s: { id: string }) => s.id === "upper").additional_total).toBe(Math.round(hi));
   const central = csv("housing_baseline_statewide_by_year.csv")
     .filter((r) => r.structure_type === "all" && r.kind === "projected" && Number(r.year) >= 2027 && Number(r.year) <= 2031)
@@ -100,6 +124,7 @@ test("the Wisconsin Today link opens the old Wisconsin today screen", async ({ p
 test("the reform links open each reform's page that describes the law", async ({ page }) => {
   const cases: [string, RegExp, string, string][] = [
     ["intro-link-adu", /#\/compare$/, "A statewide ADU law: what it adds", "The law."],
+    ["intro-link-middle", /#\/middle\/compare$/, "Middle housing: extra homes over five years", "Homes in 2–4 unit buildings"],
     ["intro-link-tod", /#\/tod\/today$/, "Homes near major transit stops in Wisconsin today", "What the modelled law does"],
     ["intro-link-parking", /#\/parking\/compare$/, "A statewide parking law: what it adds", "removed minimum parking requirements"],
   ];
@@ -112,12 +137,27 @@ test("the reform links open each reform's page that describes the law", async ({
   }
 });
 
+test("reforms appear in the fixed order: ADUs, Middle housing, TOD, parking (combined is out of the picker)", async ({ page }) => {
+  await page.goto("#/");
+  await expect(page.getByTestId("reform-picker").locator("a[data-reform]")).toHaveCount(4);
+  expect(await page.getByTestId("reform-picker").locator("a[data-reform]").evaluateAll((as) => as.map((a) => a.getAttribute("data-reform"))))
+    .toEqual(["adu", "middle", "tod", "parking"]);
+  expect(await page.locator(".intro-reform-links a").evaluateAll((as) => as.map((a) => a.getAttribute("data-testid"))))
+    .toEqual(["intro-link-adu", "intro-link-middle", "intro-link-tod", "intro-link-parking"]);
+  await expect(page.getByTestId("intro-link-middle")).toHaveText(/^Middle housing reform/);
+  await expect(page.getByTestId("intro")).not.toContainText("in development");
+  // the combined view's routes still work for old links
+  await page.goto("#/combined/compare");
+  await expect(page.locator("main h1")).toBeVisible();
+});
+
 test("the Introduction is accessible and fits a phone", async ({ page }) => {
   await page.goto("#/");
   await expect(page.getByTestId("intro")).toBeVisible();
   const dom = await page.evaluate(() => ({
     hs: [...document.querySelectorAll("h1,h2,h3,h4,h5,h6")].map((h) => Number(h.tagName[1])),
     lists: [document.querySelectorAll("[data-testid=intro] ol").length, document.querySelectorAll("[data-testid=intro] ul").length],
+    tables: document.querySelectorAll("[data-testid=intro] table caption").length,
     links: [...document.querySelectorAll("main a")].map((a) => (a.textContent ?? "").trim()),
     overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
     emoji: /\p{Extended_Pictographic}/u.test(document.querySelector("main")!.textContent ?? ""),
@@ -126,8 +166,60 @@ test("the Introduction is accessible and fits a phone", async ({ page }) => {
   expect(dom.hs.filter((l) => l === 1)).toHaveLength(1);
   dom.hs.forEach((l, i) => { if (i) expect(l).toBeLessThanOrEqual(dom.hs[i - 1] + 1); });
   expect(dom.lists[0]).toBeGreaterThanOrEqual(2);   // the steps and the sub-steps of step 5
-  expect(dom.lists[1]).toBeGreaterThanOrEqual(3);   // ranges, reform links, what you'll see
+  expect(dom.lists[1]).toBeGreaterThanOrEqual(2);   // reform links, what you'll see
+  expect(dom.tables).toBe(1);                       // the ranges table, with its caption
   for (const t of dom.links) expect(t.length).toBeGreaterThan(3);
   expect(dom.overflow).toBeLessThanOrEqual(0);
   expect(dom.emoji).toBe(false);
+});
+
+test("the ranges table fits a 375 px phone with no sideways page scroll", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("#/");
+  await expect(page.getByTestId("intro-range-table")).toBeVisible();
+  const m = await page.evaluate(() => {
+    const t = document.querySelector("[data-testid=intro-range-table]")!;
+    const card = t.closest(".card")!;
+    return {
+      page: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      table: t.getBoundingClientRect().right - card.getBoundingClientRect().right,
+      wrap: (t.parentElement!.scrollWidth - t.parentElement!.clientWidth),
+    };
+  });
+  expect(m.page).toBeLessThanOrEqual(0);
+  expect(m.table).toBeLessThanOrEqual(0);
+  expect(m.wrap).toBeLessThanOrEqual(0);
+  // each stacked cell keeps its column name
+  await expect(page.getByTestId("intro-parking-low")).toHaveAttribute("data-label", "Low end");
+});
+
+test("header pills: one even row on a wide screen, a 2×2 grid on a phone, full names as accessible names", async ({ page }) => {
+  await page.goto("#/");
+  const nav = page.getByTestId("reform-picker");
+  const geo = () => nav.evaluate((n) => {
+    const ul = n.querySelector("ul")!, wrap = n.parentElement!;
+    const cs = getComputedStyle(wrap), inner = wrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    return { share: ul.getBoundingClientRect().width / inner, boxes: [...ul.querySelectorAll("a")].map((a) => { const r = a.getBoundingClientRect(); return [Math.round(r.top), Math.round(r.width)]; }),
+      overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+  });
+  await expect(nav.getByRole("link", { name: "Accessory dwelling units" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Missing middle housing" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Transit-oriented density" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Parking requirement reduction" })).toBeVisible();
+  const g = await geo();
+  expect(g.overflow).toBeLessThanOrEqual(0);
+  expect(g.share).toBeGreaterThan(0.97);
+  expect(g.share).toBeLessThanOrEqual(1);
+  const tops = new Set(g.boxes.map((b) => b[0])), widths = g.boxes.map((b) => b[1]);
+  expect(Math.max(...widths) - Math.min(...widths)).toBeLessThanOrEqual(1);   // even shares
+  expect(tops.size).toBe((page.viewportSize()?.width ?? 1280) > 640 ? 1 : 2);  // one row, or a 2×2 grid on a phone
+});
+
+test("the run status strip sits below the sticky header and scrolls away", async ({ page }) => {
+  await page.goto("#/middle/compare");
+  const strip = page.locator(".status-strip");
+  await expect(strip).toBeVisible();
+  expect(await strip.evaluate((el) => !el.closest("header") && getComputedStyle(el).position === "static")).toBe(true);
+  await expect(strip).not.toContainText(/in development|preview/i);
+  await expect(page.getByTestId("preview-flag")).toHaveCount(0);
 });
