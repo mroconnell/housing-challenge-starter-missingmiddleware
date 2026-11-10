@@ -107,13 +107,18 @@ These replace the proposals in steps 2–6 wherever they differ.
 | M1: 1–4 unit homes | +7% (−18% to +29%) vs comparison places | +5,200 (−12,900 to +21,100), on 72,040 baseline 1–4 unit homes | we do not know |
 | M3: all homes | +8% (−14% to +32%) | +10,400 (−17,400 to +39,400), on 124,000 baseline homes | we do not know |
 
+**Why the core uses the rate difference while M1 and M3 use the ratio (audit, lock note 1):**
+- The core lines carry Test 1's measured change in homes per 1,000 single-family homes per year straight to Wisconsin's single-family homes. That avoids leaning on Wisconsin's own small, lumpy 2–4 unit baseline (8,546 homes over five years).
+- M1 and M3 have large baselines, where the locked ratio reading is the governing one.
+- **"How sure" bar:** M2 converted by the ratio method, +32.7% (−21.4% to +91.9%) on the 8,546 baseline 2–4 unit homes, about +2,790 homes (−1,830 to +7,860).
+
 M1 and M3 are converted by the locked ratio reading. The percentage range is applied to the shared baseline's 2027–2031 central for that size. Their rate-difference ranges are not used.
 
 **Extra lines and "How sure" bars only, never in the core range:**
 - **5–6 unit buildings:** +390 homes (90% range −150 to +1,400), from a share assumption ([FIVE_SIX_UNIT_ESTIMATE.md](FIVE_SIX_UNIT_ESTIMATE.md)).
 - **Townhouses and split-lot homes:** Census files them as one-unit; ×1.5 to ×3 (Test 6). Shown as a bar, plus an optional higher line with its explanation.
 - **A stronger reform:** the handbook allows 2–6 homes by right on every lot. A bar labelled as a possibility, with no evidence-based multiplier.
-- **A ramp (post hoc, Ryan 2026-11-10):** a bar where years 4–5 climb at the after-law slopes of the market-normalized ratio (Oregon +0.42 and California +0.33 per year, on 4 years each). It is labelled as resting on 4 noisy years, and as possibly part of a trend already under way: the pre-law slopes were Oregon +0.13, California +0.25 and Maine +0.10 per year. Recheck when 2026–2027 data arrive.
+- **A ramp (post hoc, Ryan 2026-11-10):** a bar where years 4–5 climb at the after-law slopes of the market-normalized ratio (Oregon +0.42 and California +0.33 per year; the unit is the change per year in the ratio of the state's 2–4 unit rate index to its comparison places' index, both indexed to 2015–2019 = 1.0; on 4 years each). It is labelled as resting on 4 noisy years, and as possibly part of a trend already under way: the pre-law slopes in the same unit were Oregon +0.13, California +0.25 and Maine +0.10 per year. Recheck when 2026–2027 data arrive.
 - **Unzoned towns (Ryan OK, 2026-11-10):** the 239 towns hold about 76,600 of 1,839,569 single-family homes (about 4%). A bar shows the core lines without them: about −610 / +2,030 / +5,730 homes. They stay counted in the core lines.
 - **Measured side views:** one-unit homes +3,400 (−13,600 to +17,900); 5+ unit homes +4,400 (−13,600 to +38,600). Both come from Test 1's four-state log-ratio result (one-unit +5%, −21% to +28%; 5+ +8%, −26% to +74%), measured over each state's locked after window (2023–2025, or 2024–2025 for Maine and Vermont). Each is applied to the baseline's 2027–2031 central for that size (63,494 and 51,960). Both read "we do not know", and both are dominated by ordinary houses or large buildings.
 - **Weakest point, stated beside the result:** the West comparison group is thin (85 places reporting every year) and lumpy.
