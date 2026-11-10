@@ -13,8 +13,8 @@ Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns t
 
 **Defaults taken at lock, where Ryan had not yet answered.** These are the recommended options, and Ryan may change any of them, labelled post hoc:
 1. **Extra line "with add-ons":** core + townhouses and split-lot homes (×2.25, the middle of Test 6's 1.5–3) + 5–6 unit buildings. Central about +3,900 homes over 2027–2031; the range is computed in the build by the same rules.
-2. **Extra line "stronger reform":** the core scaled by homes allowed per lot (handbook up to 6, against each tested law's by-right maximum, from the law-strength coding, statutes only). Labelled as a possibility. Not computed until the coding is done.
-3. **Beside the core:** 1–6 unit homes (measured 1–4 plus the 5–6 estimate, labelled partly estimated). All homes stays beside the core at the same size, as the locked test plan requires, labelled "too noisy to decide".
+2. **Extra line "stronger reform":** the core scaled by homes allowed per lot. **Scaling rule, fixed now, before any law-strength coding is read (audit):** boost = (6 − 1) ÷ (tested by-right maximum − 1), averaged across the four states weighted by their single-family homes in covered places. That is extra homes allowed per lot under the handbook over extra homes allowed under the tested laws. **It assumes homes rise in proportion to homes allowed per lot, which is untested.** Original wording: scaled by homes allowed per lot (handbook up to 6, against each tested law's by-right maximum, from the law-strength coding, statutes only). Labelled as a possibility. Not computed until the coding is done.
+3. **Beside the core:** M1, 1–4 unit homes (measured), as the locked test plan requires, **plus** 1–6 unit homes (M1 plus the 5–6 estimate, labelled partly estimated). All homes stays beside the core at the same size, as the locked test plan requires, labelled "too noisy to decide".
 
 ## What the tool would show
 
@@ -52,7 +52,7 @@ Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns t
 - **Why the central adds nothing:**
   - The central line is the measured estimate, in the same Census terms as the baseline.
   - Every adjustment rests on a ratio from other places, so each is shown, not folded in.
-- **The upper line:** Test 1's top (+0.65) × A × B, using the middle of each range (×2.25 and ×1.22).
+- **[Replaced by the decisions table: the upper line is Test 1's top only; A and B are extra lines and bars.]** ~~The upper line: Test 1's top (+0.65) × A × B, using the middle of each range (×2.25 and ×1.22).~~
   - The highest and lowest combinations are shown in "How sure".
   - **Alternative:** the upper line uses Test 1's top alone, with A and B shown only in "How sure". Ryan decides.
 
@@ -63,7 +63,7 @@ Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns t
 | Lower (−0.07) | about −130 | about −640 |
 | Central (+0.23) | about +420 | about +2,100 |
 | Upper, Test 1 top only (+0.65) | about +1,200 | about +6,000 |
-| Upper with A and B mid (+0.65 × 2.25 × 1.22 = 1.78) | about +3,300 | about +16,400 |
+| ~~Upper with A and B mid (+0.65 × 2.25 × 1.22 = 1.78)~~ [replaced by the decisions table] | ~~about +3,300~~ | ~~about +16,400~~ |
 
 Against the 124,000-home baseline, the central is about +1.7%.
 
@@ -104,7 +104,7 @@ These replace the proposals in steps 2–6 wherever they differ.
 
 | Item | Decision |
 | --- | --- |
-| Places | All 1,839,569 single-family homes. The "unzoned towns" coding was a mistake and is dropped; duplex-allowing R-1 counts as restricted |
+| Places | All 1,839,569 single-family homes. Ryan's decision (2026-11-10) to count every single-family home, including the 239 towns with no general zoning. The Barron check found Arland about 93% unzoned by land area, with county shoreland zoning on the rest (verdict: partly right). Duplex-allowing R-1 counts as restricted |
 | Core lines | Driven only by Test 1's comparison model on Census homes in 2–4 unit buildings, the type of reform tested (up to 4 homes per lot): lower −0.07, central +0.23, upper +0.65 per 1,000 single-family homes per year |
 | In Wisconsin, 2027–2031 | With the measured slow start: lower about −490; central about +1,600; upper about +4,530 homes (split by today's mix: 92% 2-unit, 8% 3–4 unit) |
 | Timing | **Measured slow start** (Ryan, 2026-11-10; cross-scenario rule: every scenario uses its own measured timing). 2027 = −21% of full size: the first year each law bound averaged −0.05 against +0.26 per 1,000 single-family homes per year in the main after-years (Oregon 2022 −0.20, California 2022 −0.30, Vermont 2023 +0.33; Maine's first year is inside its window). Full size from 2028. **Post hoc**; rests on 3 states and 1 year each. Lines: about −490 / +1,600 / +4,530 homes over 2027–2031. Flat timing is a **toggle** in the tool, not a line (Ryan): −640 / +2,100 / +6,000 with the toggle off. **Labels (audit, 2026-11-10):** (1) the share rests on 3 single years, whose noise (about ±0.27 per 1,000 per state, Test 5) is larger than the share itself, so the sign of the 2027 share is not measured; (2) because the share is negative, the lower line's 2027 value sits slightly above 0, which is not an error; (3) this rule binds all scenarios, and ADU, TOD and parking each state a measured basis. |
@@ -132,7 +132,7 @@ M1 and M3 are converted by the locked ratio reading. The percentage range is app
 - **A stronger reform:** the handbook allows 2–6 homes by right on every lot. A bar labelled as a possibility, with no evidence-based multiplier.
 - **A ramp (post hoc, Ryan 2026-11-10):** a bar where years 4–5 climb at the after-law slopes of the market-normalized ratio (Oregon +0.42 and California +0.33 per year; the unit is the change per year in the ratio of the state's 2–4 unit rate index to its comparison places' index, both indexed to 2015–2019 = 1.0; on 4 years each). It is labelled as resting on 4 noisy years, and as possibly part of a trend already under way: the pre-law slopes in the same unit were Oregon +0.13, California +0.25 and Maine +0.10 per year. Recheck when 2026–2027 data arrive.
 - **Trend-adjusted view (post hoc, 2026-11-10):** after projecting each state's pre-law trend in the market-normalized ratio forward, the after-law years average below it. Oregon −0.52, California −1.35, Maine −0.19, Vermont −0.14, in the ratio's units. Read this way, the reform years show a small fall, not a rise. It is shown as a "How sure" note: the pre-law trends rest on 7–9 noisy points (California's on a 2021 spike), and the locked fake-reform-year check for M2 passed.
-- **Unzoned towns: dropped (Ryan, 2026-11-10).** Their "no zoning" coding was wrong (the Barron County check); every single-family home counts, and they get no bar or map.
+- **Unzoned towns (Ryan, 2026-11-10):** counted as restricted by Ryan's decision to count every single-family home. There is no separate bar or map. The Barron check (partly right: about 93% of Arland's land unzoned, shoreland county-zoned) is in measurement/ARLAND_UNZONED_CHECK.md.
 - **Measured side views:** one-unit homes +3,400 (−13,600 to +17,900); 5+ unit homes +4,400 (−13,600 to +38,600). Both come from Test 1's four-state log-ratio result (one-unit +5%, −21% to +28%; 5+ +8%, −26% to +74%), measured over each state's locked after window (2023–2025, or 2024–2025 for Maine and Vermont). Each is applied to the baseline's 2027–2031 central for that size (63,494 and 51,960). Both read "we do not know", and both are dominated by ordinary houses or large buildings.
 - **Weakest point, stated beside the result:** the West comparison group is thin (85 places reporting every year) and lumpy.
 
