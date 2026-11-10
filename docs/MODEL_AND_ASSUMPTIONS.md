@@ -14,15 +14,16 @@ The tool is built for Wisconsin legislators, their staff and local officials. It
 
 ### The three benchmark reforms
 
-The challenge asks for a baseline and at least three of five benchmark reforms. The tool models three:
+The challenge asks for a baseline and at least three of five benchmark reforms. The tool models three, and a fourth, middle housing, is in development. Reforms are listed in the owner's order (2026-11-10):
 
 | Reform | What the modelled state law does | Part |
 | --- | --- | --- |
 | **Accessory dwelling units (ADUs)** | Allows one ADU on every lot with a single-family home, detached or attached, of at least 600 square feet, with no extra parking required. | A |
-| **Parking requirement reduction** | Removes every minimum off-street parking requirement for housing, statewide. | B |
+| **Middle housing** (in development) | Allows 2–6 homes on every parcel now limited to one house, up to 3 stories, statewide. | In development ([WISCONSIN_PLAN_LOCKED.md](middle/WISCONSIN_PLAN_LOCKED.md)) |
 | **Transit-oriented density (TOD)** | Every city with qualifying rail or rapid-bus stops zones a by-right multifamily district (at least 15 homes per acre) on 15% of the lot acres within ¼ mile of those stops (option D, AQ-071). | C |
+| **Parking requirement reduction** | Removes every minimum off-street parking requirement for housing, statewide. | B |
 
-Missing Middle and development fee reduction are not modelled.
+Development fee reduction is not modelled. The parts below keep their original letters (A ADUs, B parking, C TOD).
 
 ### What each reform counts
 
@@ -31,8 +32,9 @@ All three reforms count **housing units in issued building permits**, at the dat
 | Reform | Outcome counted | Current-law baseline, 2027–2031 | Rate denominator used inside the reform |
 | --- | --- | --- | --- |
 | ADUs | **Second homes on single-family lots**: ADUs plus single-family-to-duplex conversions on a lot that already has a home (AQ-032, AQ-039) | 786 permits statewide (today's rates, rising 7.3% a year; AQ-065) | Per 1,000 single-family (one-unit detached) homes: 1,839,569 homes (ACS 2020–2024, table B25024) |
-| Parking | **All new housing units**, every building size | 124,000 permits statewide, range 56,500 to 218,865 (aims at 90%; shared all-housing baseline v4). It held 12 of 12 Wisconsin checks and 88.3% of other-state checks for 2009–2020, a window chosen after the results. It missed the 2005–08 run-up to the crash, like every method tested. Only the statewide total was tested. | Per 1,000 existing homes of all types (ACS 2020–2024, table B25002) |
+| Middle housing (in development) | **All new housing units**, every building size | 124,000 permits statewide (the shared all-housing baseline) | Per 1,000 single-family homes (1,839,569) |
 | TOD | **All new housing units near major transit stops** | 14,654 permits in the station areas | Share of the 313,564 homes (2020 census) in the station areas |
+| Parking | **All new housing units**, every building size | 124,000 permits statewide, range 56,500 to 218,865 (aims at 90%; shared all-housing baseline v4). It held 12 of 12 Wisconsin checks and 88.3% of other-state checks for 2009–2020, a window chosen after the results. It missed the 2005–08 run-up to the crash, like every method tested. Only the statewide total was tested. | Per 1,000 existing homes of all types (ACS 2020–2024, table B25002) |
 
 The parking and TOD baselines come from one shared all-housing baseline built from the Census Building Permits Survey ([HOUSING_BASELINE.md](shared/HOUSING_BASELINE.md)). The ADU baseline comes from local permit records and coded local rules, because the Census survey does not say whether a new home was added to a lot that already had one. The [Policy Scenario Comparison](POLICY_SCENARIO_COMPARISON.md) puts all three on a common footing: additional permits over 2027–2031, as a share of the 124,000-permit all-housing baseline and per 1,000 existing Wisconsin homes.
 
