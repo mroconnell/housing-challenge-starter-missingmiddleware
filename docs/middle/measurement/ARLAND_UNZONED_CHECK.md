@@ -145,3 +145,31 @@ Limits of this check:
 - I did not read the official county zoning map. The district assignment comes from the county GIS archived at UW (2023).
 - County Board adoption of Ch. 16 after 2026-10-19 was not checked.
 - Table 361.30-1 and NR 500 were not read.
+
+## Barron County Chapter 17, every district (lead's read, 2026-11-10, at Ryan's request)
+
+Source: https://www.co.barron.wi.us/misc%20docs/land%20use%20ordinance.pdf (V).
+
+- **Definitions (§17.08):**
+  - Single-family dwelling: "a structure which is meant to house a single family".
+  - Two-family: a duplex for 2 families.
+  - Multiple family: 3 or more families.
+- **§17.15(1):** one principal structure per lot, except farm dwellings and planned residential developments.
+
+| District | By right | Special exception | Single-family only? |
+| --- | --- | --- | --- |
+| A-1 exclusive agricultural (§17.28) | Farm residence (the only home on the farm); density 1 dwelling per 25 acres | Nonfarm residence; temporary farm-related housing | Yes |
+| AG-2 agricultural (§17.37) | Single-family dwellings, not more than 2 per 40 acres (4 with conservation design) | — | Yes |
+| R-1 low-density residential (§17.32) | Single-family and two-family dwellings | Planned residential development (§17.40) | No: up to 2 |
+| R-2 high-density residential (§17.33) | R-1 uses | Multiple-family; 1 acre for 3–8 units, plus 4,000 sq ft per unit from 9 | No: up to 2 by right |
+| R-3 mobile home park and subdivision (§17.34) | R-1 uses | R-1 special exceptions | No: up to 2 |
+| RR recreational-residential (§17.36) | R-1 uses | Resorts (2+ seasonal single-family dwellings); R-1 special exceptions | No: up to 2 |
+| UV unincorporated village (§17.35) | R-1 uses | Any use in other districts | No: up to 2 |
+| B business (§17.38) | One structure per lot; no dwellings | A residence only if the business requires it | No homes |
+| I industrial (§17.39) | No dwellings | Owner's or caretaker's dwelling | No homes |
+| C-1, C-2 conservancy; MR mineral (§17.29–17.31) | No dwellings | — | No homes |
+
+**What the benchmark would lift here:**
+- **Farm districts:** from 1 home to 2–6.
+- **R-1, R-3, RR and UV:** from 2 homes to up to 6.
+- **R-2:** 3–6 unit buildings become by right instead of special exception.
