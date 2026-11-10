@@ -1,4 +1,4 @@
-# Middle housing: Wisconsin plan (draft v2, for audit; not locked)
+# Middle housing: Wisconsin plan (draft v3, for audit; not locked)
 
 Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns the locked tests' results into proposed tool lines for Wisconsin. The audit reviews it before lock, and Ryan decides any tool change. The choices below were made after Test 1 and some Wisconsin side figures were already computed (the 5–6 unit estimate, the side views, and the yearly table). Each is labelled with what it rests on.
 
@@ -94,8 +94,8 @@ These replace the proposals in steps 2–6 wherever they differ.
 | --- | --- |
 | Places | All 1,839,569 single-family homes. "Unzoned" towns and duplex-allowing R-1 count as restricted |
 | Core lines | Driven only by Test 1's comparison model on Census homes in 2–4 unit buildings, the type of reform tested (up to 4 homes per lot): lower −0.07, central +0.23, upper +0.65 per 1,000 single-family homes per year |
-| In Wisconsin, 2027–2031 | Lower about −640; central about +2,100; upper about +6,000 homes (split by today's mix: 92% 2-unit, 8% 3–4 unit) |
-| Timing | Flat across 2027–2031 (**post hoc**: rests on yearly data read after the results). Year-by-year data show no climb in the law states' own rates; the Oregon and California gap trend comes from comparison places falling (`reference/middle_m2_yearly_by_state.csv`) |
+| In Wisconsin, 2027–2031 | With the measured slow start: lower about −490; central about +1,600; upper about +4,530 homes (split by today's mix: 92% 2-unit, 8% 3–4 unit) |
+| Timing | **Measured slow start** (Ryan, 2026-11-10; cross-scenario rule: every scenario uses its own measured timing). 2027 = −21% of full size: the first year each law bound averaged −0.05 against +0.26 per 1,000 single-family homes per year in the main after-years (Oregon 2022 −0.20, California 2022 −0.30, Vermont 2023 +0.33; Maine's first year is inside its window). Full size from 2028. **Post hoc**; rests on 3 states and 1 year each. Lines: about −490 / +1,600 / +4,530 homes over 2027–2031. Flat timing is shown in "How sure" (−640 / +2,100 / +6,000). |
 | Law strength | Unscaled |
 | Headline | Audit's accurate wording, accepted by Ryan (2026-11-10): "The evidence can't tell yet. We'll know more when we have a full five years in the other states. Most of the range for 2–4 unit homes is above zero, but it includes a small fall, and there is enough noise that we're not sure it's caused by this reform." |
 
