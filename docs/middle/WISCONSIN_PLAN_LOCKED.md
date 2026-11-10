@@ -153,5 +153,5 @@ M1 and M3 are converted by the locked ratio reading. The percentage range is app
 ## Changes after lock (labelled post hoc)
 
 - **2026-11-10, Ryan:** no "beat 85 of 100" line in the tool; Ryan will voice it in the presentation.
-- **2026-11-10, Ryan:** the side measures (1–4, 1–6 and all homes) carry the label "Too noisy to include in predicted range".
-- **2026-11-10, Ryan:** the ×1.7 stronger-reform boost is too strong, because fewer lots can fit 6 homes than 4. A replacement rule is under review (literature check running), with options including a boost sized by the observed 5–6 unit share (×1.08–1.36). It goes to the audit before use.
+- **2026-11-10, Ryan:** each side measure (1–4, 1–6 and all homes) is labelled with its best estimate first, then what it counts, then its range, ending with "Too noisy to include in predicted range". Example: "About +5,200 more homes in 1–4 unit buildings over 2027–2031, including houses, townhouses and duplexes to fourplexes (range −12,900 to +21,100). Too noisy to include in predicted range."
+- **2026-11-10, Ryan:** the ×1.7 stronger-reform boost is too strong, because fewer lots can fit 6 homes than 4. Ryan prefers the market-share approach: a boost sized by the observed share of 5–6 unit buildings (×1.08–1.36). A literature check is running before this is finalized. It goes to the audit before use.
