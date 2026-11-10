@@ -1,3 +1,5 @@
+> **Superseded:** the locked version is [WISCONSIN_PLAN_LOCKED.md](WISCONSIN_PLAN_LOCKED.md) (2026-11-10).
+
 # Middle housing: Wisconsin plan (draft v3, for audit; not locked)
 
 Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns the locked tests' results into proposed tool lines for Wisconsin. The audit reviews it before lock, and Ryan decides any tool change. The choices below were made after Test 1 and some Wisconsin side figures were already computed (the 5–6 unit estimate, the side views, and the yearly table). Each is labelled with what it rests on.
