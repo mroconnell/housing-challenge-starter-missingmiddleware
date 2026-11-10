@@ -115,7 +115,7 @@ These replace the proposals in steps 2–6 wherever they differ.
 M1 and M3 are converted by the locked ratio reading. The percentage range is applied to the shared baseline's 2027–2031 central for that size. Their rate-difference ranges are not used.
 
 **Extra lines and "How sure" bars only, never in the core range:**
-- **5–6 unit buildings:** +390 homes (90% range −150 to +1,400), from a share assumption ([FIVE_SIX_UNIT_ESTIMATE.md](FIVE_SIX_UNIT_ESTIMATE.md)).
+- **5–6 unit buildings:** +390 homes (90% range −150 to +1,400), from a share assumption ([FIVE_SIX_UNIT_ESTIMATE.md](FIVE_SIX_UNIT_ESTIMATE.md)). Kept from the 2–4 route (Ryan, 2026-11-10). Cross-check from the measured 5+ effect × California's 3.0% share of 5+ homes in 5–6 unit projects: about +130 (−410 to +1,160).
 - **Townhouses and split-lot homes:** Census files them as one-unit; ×1.5 to ×3 (Test 6). Shown as a bar, plus an optional higher line with its explanation.
 - **A stronger reform:** the handbook allows 2–6 homes by right on every lot. A bar labelled as a possibility, with no evidence-based multiplier.
 - **A ramp (post hoc, Ryan 2026-11-10):** a bar where years 4–5 climb at the after-law slopes of the market-normalized ratio (Oregon +0.42 and California +0.33 per year; the unit is the change per year in the ratio of the state's 2–4 unit rate index to its comparison places' index, both indexed to 2015–2019 = 1.0; on 4 years each). It is labelled as resting on 4 noisy years, and as possibly part of a trend already under way: the pre-law slopes in the same unit were Oregon +0.13, California +0.25 and Maine +0.10 per year. Recheck when 2026–2027 data arrive.
