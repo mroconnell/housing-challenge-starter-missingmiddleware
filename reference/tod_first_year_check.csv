@@ -1,0 +1,28 @@
+section,name,first_year,later_years_mean,ratio,full_window,year1,year2,year3,year4,year5,rezonings,note,lo90,hi90,value,share_of_five_years,ramp_share,places
+per place,New York,5.6653,23.0526,0.2458,19.5751,5.6653,21.0922,50.4754,35.7216,-15.0788,21.0,after years from 2004 to 2016 across rezonings,,,,,,
+per place,Philadelphia,30.2021,51.8146,0.5829,47.4921,30.2021,36.3867,61.7327,50.9275,58.2117,64.0,after years from 2014 to 2024 across rezonings,,,,,,
+per place,Austin,20.0066,24.8082,0.8065,23.8478,20.0066,-12.2326,42.8712,-3.3154,71.9094,1.0,after years 2010-2014,,,,,,
+per place,Charlotte,25.7438,29.0147,0.8873,28.3605,25.7438,8.0206,14.4233,57.9628,35.6519,1.0,after years 2020-2024,,,,,,
+per place,Chicago 2015,3.6303,7.4768,0.4855,6.7075,3.6303,16.4458,-0.6228,13.3936,0.6907,1.0,after years 2016-2020,,,,,,
+per place,Denver,146.5843,107.6236,1.362,115.4157,146.5843,17.1321,185.3229,228.672,-0.6326,1.0,after years 2019-2023,,,,,,
+per place,Portland 2020,-16.4287,-36.8403,,-32.758,-16.4287,-3.0521,-38.9623,-47.0258,-58.3212,1.0,after years 2021-2025; later-years mean below 3.35: left out of the ratio,,,,,,
+per place,Seattle Mount Baker,25.0934,88.2197,0.2844,75.5944,25.0934,-34.6697,287.6163,89.5134,10.4187,1.0,after years 2015-2019,,,,,,
+per place,Seattle Othello,22.8198,21.2158,1.0756,21.5366,22.8198,-118.925,297.527,-82.2043,-11.5346,1.0,after years 2013-2017,,,,,,
+per place,Salt Lake City,8.5145,58.0255,0.1467,48.1233,8.5145,8.1977,17.7094,90.4712,115.7236,1.0,after years 2011-2015,,,,,,
+per place,Saint Paul,9.5246,16.388,0.5812,15.0153,9.5246,4.1517,26.9864,31.6266,2.7872,1.0,after years 2012-2016,,,,,,
+pooled,mean of first-year effects / mean of later-years effects (11 places),25.5778,35.5272,0.72,,,,,,,,90% interval: place bootstrap of the ratio of means,0.3608,1.0991,,,,
+pooled,median of place ratios (10 places),,,0.582,,,,,,,,90% interval: place bootstrap of the median; left out: Portland 2020,0.3616,0.8873,,,,
+by year (place-equal weight),year 1 after reform,,,,,,,,,,,,9.4922,46.756,25.5778,0.1525,0.0978,11.0
+by year (place-equal weight),year 2 after reform,,,,,,,,,,,,-26.643,12.1977,-5.223,-0.0311,0.0928,11.0
+by year (place-equal weight),year 3 after reform,,,,,,,,,,,,35.0968,144.5742,85.9163,0.5124,0.2642,11.0
+by year (place-equal weight),year 4 after reform,,,,,,,,,,,,5.8535,80.4272,42.3403,0.2525,0.479,11.0
+by year (place-equal weight),year 5 after reform,,,,,,,,,,,,-2.516,43.2235,19.0751,0.1138,0.0662,11.0
+ramp,current ramp: year 1 share / mean of years 2-5 shares,,,0.4338,,,,,,,,"New York pooled set, run_tod_model.case_params -> missing_middleware/tod/model.py ramp_from_gaps / timing_from_ramp; shares 9.8% / 9.3% / 26.4% / 47.9% / 6.6% for 2027-2031",,,,,,
+supplementary,mean of years 1-2 effects / mean of years 3-5 effects (11 places),10.1774,49.1106,0.2072,,,,,,,,"current ramp, same split: 0.353",-0.0986,0.5033,,,,
+note,,,,,,,,,,,,"exploratory, after the results; not locked; changes no line",,,,,,
+note,,,,,,,,,,,,"units: extra new homes per 100 lot acres a year within 1/4 mile, reform stops minus comparison stops, each against its before-window level (the central's effect); year k = after window cut to that one year",,,,,,
+note,,,,,,,,,,,,"year 1 = reform year + 1 (reform year is in neither window, as in the central and the ramp's event year 1)",,,,,,
+note,,,,,,,,,,,,after-window hand-check corrections spread over the after years by each lot's raw homes per year,,,,,,
+note,,,,,,,,,,,,near zero: later-years mean below 10% of the central (3.35),,,,,,
+note,,,,,,,,,,,,"bootstrap: 2,000 place draws, seed 20261103",,,,,,
+note,,,,,,,,,,,,sanity: mean of the 5 yearly effects = each place's central effect; plain average over 11 places = 33.5373,,,,,,

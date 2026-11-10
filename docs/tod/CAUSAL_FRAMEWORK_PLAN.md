@@ -1271,3 +1271,83 @@ Script `scripts/run_tod_causal_central_pretrend.py`; output `reference/tod_causa
 - Bootstrap seed 20261103 (the lock named none). Real-same and fake use the same draws (paired).
 - Upper scaled by the ratio 12,521 ÷ 10,028 = 1.2486, not rebuilt from the 15% district model.
 - Trend-adjusted lines shown although the check passed (reporting only).
+
+## Exploratory: first-year check (after results)
+
+Done 2026-11-10, after the results. Not locked. Changes no line.
+
+**Question:** do the 11 D-11 places start slowly in law year 1?
+
+- Script: `scripts/run_tod_first_year_check.py`.
+- Output: `reference/tod_first_year_check.csv`.
+- Effect: the central's ¼-mile effect, one after year at a time.
+- Unit: extra new homes per 100 lot acres a year.
+- Before window: unchanged (full real window).
+- Year 1 = reform year + 1.
+- Later years = years 2–5 (all places have 5).
+- Sanity: 5-year mean = central per place (average 33.54).
+
+### Per place (extra new homes per 100 lot acres a year)
+
+| Place | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 | Later years (2–5) mean | Ratio, year 1 ÷ later |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| New York (21 rezonings) | 5.7 | 21.1 | 50.5 | 35.7 | −15.1 | 23.1 | 0.25 |
+| Philadelphia (64 rezonings) | 30.2 | 36.4 | 61.7 | 50.9 | 58.2 | 51.8 | 0.58 |
+| Austin | 20.0 | −12.2 | 42.9 | −3.3 | 71.9 | 24.8 | 0.81 |
+| Charlotte | 25.7 | 8.0 | 14.4 | 58.0 | 35.7 | 29.0 | 0.89 |
+| Chicago 2015 | 3.6 | 16.4 | −0.6 | 13.4 | 0.7 | 7.5 | 0.49 |
+| Denver | 146.6 | 17.1 | 185.3 | 228.7 | −0.6 | 107.6 | 1.36 |
+| Portland 2020 | −16.4 | −3.1 | −39.0 | −47.0 | −58.3 | −36.8 | left out |
+| Seattle Mount Baker | 25.1 | −34.7 | 287.6 | 89.5 | 10.4 | 88.2 | 0.28 |
+| Seattle Othello | 22.8 | −118.9 | 297.5 | −82.2 | −11.5 | 21.2 | 1.08 |
+| Salt Lake City | 8.5 | 8.2 | 17.7 | 90.5 | 115.7 | 58.0 | 0.15 |
+| Saint Paul | 9.5 | 4.2 | 27.0 | 31.6 | 2.8 | 16.4 | 0.58 |
+
+- Portland 2020: later years negative; out of ratio.
+- Rule: out if later mean below 3.35.
+- 3.35 = 10% of the central (33.54).
+
+### Pooled first-year ratio (year 1 ÷ later years)
+
+| Measure | Places | Ratio | 90% interval (place bootstrap) |
+| --- | ---: | ---: | --- |
+| Mean year 1 (25.6) ÷ mean later (35.5) | 11 | **0.72** | 0.36 to 1.10 |
+| Median of place ratios | 10 | **0.58** | 0.36 to 0.89 |
+| Current ramp: 9.8% ÷ mean(9.3, 26.4, 47.9, 6.6)% | — | **0.43** | — |
+
+### By year since reform (place-equal weight, 11 places)
+
+| Year after reform | Effect (per 100 lot acres a year) | 90% interval | Share of 5-year total | Current ramp share |
+| --- | ---: | --- | ---: | ---: |
+| 1 | 25.6 | 9.5 to 46.8 | 15.3% | 9.8% |
+| 2 | −5.2 | −26.6 to 12.2 | −3.1% | 9.3% |
+| 3 | 85.9 | 35.1 to 144.6 | 51.2% | 26.4% |
+| 4 | 42.3 | 5.9 to 80.4 | 25.2% | 47.9% |
+| 5 | 19.1 | −2.5 to 43.2 | 11.4% | 6.6% |
+
+- Supplementary: years 1–2 ÷ years 3–5.
+- Data 0.21 (−0.10 to 0.50); ramp 0.35.
+
+### Against the current ramp
+
+- Ramp source: `scripts/run_tod_model.py` `case_params()`.
+- Built by `ramp_from_gaps` / `timing_from_ramp`.
+- In `missing_middleware/tod/model.py`.
+- `docs/tod/MODEL.md`: "shares of 9.8%, 9.3%, 26.4%, 47.9% and 6.6%".
+- Ramp year-1 ratio 0.43.
+- Inside both pooled intervals.
+- **Consistent: a slow start, as the ramp has.**
+- Point estimates slightly less slow (0.58, 0.72).
+- Year 2 dips below zero; ramp does not.
+- Years 1–2 together: slower than ramp.
+- No change to the ramp suggested.
+
+### Caveats
+
+- Exploratory, after results; no pass rule.
+- Single years are noisy (one big building).
+- Othello, Mount Baker swing ±100+ yearly.
+- Late years may be incomplete (to 2025).
+- Portland, Charlotte, Philadelphia reach 2024–2025.
+- Hand-check fixes spread by raw yearly homes.
+- Years are estimated permit years.
