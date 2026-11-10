@@ -1,0 +1,35 @@
+{
+ "bars": [
+  {
+   "id": "flat_timing",
+   "label": "Same effect every year (timing toggle off)",
+   "central": 2073
+  },
+  {
+   "id": "townhouses",
+   "label": "Add townhouses and split-lot homes (×1.5–3)",
+   "central": 3854
+  },
+  {
+   "id": "five_six",
+   "label": "Add 5–6 unit buildings (7–27% share)",
+   "central": 1892
+  },
+  {
+   "id": "stronger",
+   "label": "Stronger reform, share 7.2%–26.6%",
+   "low": 1692,
+   "high": 2139
+  },
+  {
+   "id": "m2_ratio",
+   "label": "Core converted by ratio instead of rate",
+   "central": 2790,
+   "note": "+32.7% (−21.4% to +91.9%) on 8,546 baseline 2–4 unit homes (audit, 2026-11-10)."
+  }
+ ],
+ "notes": [
+  "Trend-adjusted view (post hoc): projecting each state's pre-law trend forward, the after-law years fall below it.",
+  "Weakest point: the West comparison group is thin (85 places reporting every year) and lumpy."
+ ]
+}

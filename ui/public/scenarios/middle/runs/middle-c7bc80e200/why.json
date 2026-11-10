@@ -1,0 +1,37 @@
+{
+ "evidence": [
+  {
+   "label": "Locked test plan",
+   "url": "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/middle/TEST_PLAN_LOCKED.md"
+  },
+  {
+   "label": "Test 1: four law states vs similar places",
+   "url": "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/middle/TEST1_RESULTS.md"
+  },
+  {
+   "label": "Test 6: what Census misses",
+   "url": "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/middle/TEST6_RESULTS.md"
+  },
+  {
+   "label": "Test 4: fake reform years",
+   "url": "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/middle/TEST4_RESULTS.md"
+  },
+  {
+   "label": "Wisconsin plan (locked)",
+   "url": "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/middle/WISCONSIN_PLAN_LOCKED.md"
+  },
+  {
+   "label": "How studies scale bigger upzonings",
+   "url": "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/middle/SCALING_LITERATURE.md"
+  },
+  {
+   "label": "Law-strength coding",
+   "url": "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/middle/LAW_STRENGTH_CODING.md"
+  }
+ ],
+ "cannot_tell": [
+  "Homes built, as opposed to permitted.",
+  "Effects of a law broader than any tested (2–6 homes by right on every lot).",
+  "A demand shock that starts in the same year as a law."
+ ]
+}
