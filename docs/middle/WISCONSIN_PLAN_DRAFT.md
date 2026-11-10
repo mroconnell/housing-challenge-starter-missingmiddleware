@@ -1,6 +1,6 @@
 # Middle housing: Wisconsin plan (draft v1, for audit; not locked)
 
-Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns the locked tests' results into proposed tool lines for Wisconsin. The audit reviews it before lock, and Ryan decides any tool change. Every choice below is set before any Wisconsin middle-housing number is computed for the tool.
+Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns the locked tests' results into proposed tool lines for Wisconsin. The audit reviews it before lock, and Ryan decides any tool change. The choices below were made after Test 1 and some Wisconsin side figures were already computed (the 5–6 unit estimate, the side views, and the yearly table). Each is labelled with what it rests on.
 
 **Honest limit:** unlike the test plan, this plan is written after the test results are known (Test 1: "we do not know", +0.23 per 1,000 single-family homes per year, 90% range −0.07 to +0.65). Its choices are therefore listed with their reasons, and every alternative is shown in "How sure". No choice may be swapped later for one that moves the lines, without a post hoc label.
 
@@ -95,16 +95,26 @@ These replace the proposals in steps 2–6 wherever they differ.
 | Places | All 1,839,569 single-family homes. "Unzoned" towns and duplex-allowing R-1 count as restricted |
 | Core lines | Driven only by Test 1's comparison model on Census homes in 2–4 unit buildings, the type of reform tested (up to 4 homes per lot): lower −0.07, central +0.23, upper +0.65 per 1,000 single-family homes per year |
 | In Wisconsin, 2027–2031 | Lower about −640; central about +2,100; upper about +6,000 homes (split by today's mix: 92% 2-unit, 8% 3–4 unit) |
-| Timing | Flat across 2027–2031. Year-by-year data show no climb in the law states' own rates; the Oregon and California gap trend comes from comparison places falling (`reference/middle_m2_yearly_by_state.csv`) |
+| Timing | Flat across 2027–2031 (**post hoc**: rests on yearly data read after the results). Year-by-year data show no climb in the law states' own rates; the Oregon and California gap trend comes from comparison places falling (`reference/middle_m2_yearly_by_state.csv`) |
 | Law strength | Unscaled |
-| Headline | "The evidence can't tell yet. We'll know more when we have a full five years in the other states. The range is generally positive for 2–6 units, but there is enough noise that we're not sure it's caused purely by this reform." |
+| Headline | Ryan's wording, with the audit's accuracy note pending his call: "The evidence can't tell yet. We'll know more when we have a full five years in the other states. Most of the range for 2–4 unit homes is above zero, but it includes a small fall, and there is enough noise that we're not sure it's caused by this reform." |
+
+**Shown right beside the core lines, at the same size (locked reporting rule; audit of v1):**
+
+| Measure | Test 1, four states (log-ratio reading) | Applied to the Wisconsin baseline, 2027–2031 | Reading |
+| --- | --- | --- | --- |
+| M2, core: 2–4 unit homes | +0.23 per 1,000 per year (−0.07 to +0.65) | about +2,100 (−640 to +6,000) | we do not know |
+| M1: 1–4 unit homes | +7% (−18% to +29%) vs comparison places | +5,200 (−12,900 to +21,100), on 72,040 baseline 1–4 unit homes | we do not know |
+| M3: all homes | +8% (−14% to +32%) | +10,400 (−17,400 to +39,400), on 124,000 baseline homes | we do not know |
+
+M1 and M3 are converted by the locked ratio reading. The percentage range is applied to the shared baseline's 2027–2031 central for that size. Their rate-difference ranges are not used.
 
 **Extra lines and "How sure" bars only, never in the core range:**
 - **5–6 unit buildings:** +390 homes (90% range −150 to +1,400), from a share assumption ([FIVE_SIX_UNIT_ESTIMATE.md](FIVE_SIX_UNIT_ESTIMATE.md)).
 - **Townhouses and split-lot homes:** Census files them as one-unit; ×1.5 to ×3 (Test 6). Shown as a bar, plus an optional higher line with its explanation.
 - **A stronger reform:** the handbook allows 2–6 homes by right on every lot. A bar labelled as a possibility, with no evidence-based multiplier.
 - **A ramp:** years 4–5 climbing as in California's 2022–2025 gap. A bar.
-- **Measured side views:** one-unit homes +3,400 (−13,600 to +17,900); 5+ unit homes +4,400 (−13,600 to +38,600). Both read "we do not know", and both are dominated by ordinary houses or large buildings.
+- **Measured side views:** one-unit homes +3,400 (−13,600 to +17,900); 5+ unit homes +4,400 (−13,600 to +38,600). Both come from Test 1's four-state log-ratio result (one-unit +5%, −21% to +28%; 5+ +8%, −26% to +74%), measured over each state's locked after window (2023–2025, or 2024–2025 for Maine and Vermont). Each is applied to the baseline's 2027–2031 central for that size (63,494 and 51,960). Both read "we do not know", and both are dominated by ordinary houses or large buildings.
 - **Weakest point, stated beside the result:** the West comparison group is thin (85 places reporting every year) and lumpy.
 
 ## Decisions for Ryan before lock
