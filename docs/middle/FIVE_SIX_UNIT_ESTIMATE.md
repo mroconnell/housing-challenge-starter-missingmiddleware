@@ -38,3 +38,14 @@ Run 2026-11-09 at Ryan's request, after Test 1. This is not part of the locked p
 - New middle housing would split between 2–4 and 5–6 unit buildings the way past building did.
 - Test 1's 2–4 unit estimate is the base. Test 1 itself reads "we do not know".
 - Census 2–4 counts miss townhouses (Test 6), which this arithmetic does not add back.
+
+## 90% range (added 2026-11-10 at Ryan's request; post hoc)
+
+Code: [`scripts/middle_five_six_range.py`](../../scripts/middle_five_six_range.py). It uses 20,000 draws of Test 1's effect (four states, M2), taken as the real result minus fake-set noise. Each draw is combined with a share of 5–6 unit homes drawn evenly between 7.2% and 26.6%.
+
+| Share range | Extra 5–6 unit homes in Wisconsin, 2027–2031: 5th percentile | Median | 95th percentile |
+| --- | ---: | ---: | ---: |
+| Law states, 7.2%–26.6% | about −150 | about +390 | about +1,400 |
+| Including Wisconsin's own 1.5% | about −100 | about +280 | about +1,300 |
+
+**Correction:** the earlier upper figure (+2,960) wrongly scaled 5–6 unit homes by the townhouse factor. Townhouses are one-unit buildings and do not change the 5–6 share.
