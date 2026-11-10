@@ -19,6 +19,7 @@ Change in homes per 1,000 single-family homes per year, before → after. Readin
 | Portland | filled-in (sensitivity) | −0.70 | 21 (nation) | +0.23 | 0 | fall | pass (79th) |
 
 - **Spokane check against Washington's own permits (OFM):** duplex plus 3–4 unit homes rose from about 46 a year (2019–2021) to about 87 a year (2023–2025). That is about +0.6 per 1,000 single-family homes per year, the same direction as Census. OFM counts townhouses as multi-unit.
+- **Chance check (audit, 2026-11-10):** 5 cities × 3 measures give 15 readings. One rise (Spokane, on filled-in data) is about what chance alone would give at these cut-offs, so it is not evidence on its own.
 - **Rule deviations:** Minneapolis has 19 stand-ins and Portland's sensitivity has 21; the rule asks for at least 20, and the screened national pool is what remains. Portland's middle housing is mostly townhouses (Test 6, measurement check), which Census M2 does not see.
 - **M1 and M3:**
   - Raleigh reads a rise in M1 (100th percentile) and M3 (96th). Its fake-year check failed for both, with a fall before any reform, so these are read as partly a trend.

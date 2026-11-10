@@ -34,8 +34,8 @@ Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns t
 | # | Adjustment | Proposed for the central line | Range used | Evidence |
 | --- | --- | --- | --- | --- |
 | A | Townhouses and split-lot homes Census files as one-unit | **Not applied** (central stays in Census terms, like the baseline) | ×1.5 to ×3 in the upper line | Test 6: records with townhouses are 1.5–3.2 × Census 2–4 counts |
-| B | 5–6 unit buildings | **Not applied** in the central line | ×1.08 to ×1.36 in the upper line | [FIVE_SIX_UNIT_ESTIMATE.md](FIVE_SIX_UNIT_ESTIMATE.md): 7% to 27% of 2–6 unit homes |
-| C | Law strength: the handbook scenario is broader than the four states' laws | **Not applied** (no evidence on how effects scale with strength) | None; stated under "what the model cannot tell" | Law-strength coding (step 0, still to do) records the gap |
+| B | 5–6 unit buildings | **Not applied** in the central line | ×1.08 to ×1.36 in the upper line (law states); Wisconsin's own lower bound ×1.015 shown in "How sure" | [FIVE_SIX_UNIT_ESTIMATE.md](FIVE_SIX_UNIT_ESTIMATE.md): 7% to 27% of 2–6 unit homes |
+| C | Law strength: the handbook scenario is broader than the four states' laws | **Not applied** (no evidence on how effects scale with strength) | None; stated under "what the model cannot tell" | Law-strength coding records the gap. **It is done after the results were seen**, although the test plan meant it before lock (audit, 2026-11-10). Its rule is fixed below before any coding |
 | D | Substitution: middle housing replacing houses or big buildings | **Not applied** (Test 7 shows no clear fall in other building) | All-homes reading from Test 1 shown beside the lines | Test 7: 5+ and one-unit homes, "we do not know" |
 | E | Timing: laws take time to bind and build | **Flat** over 2027–2031 (the Test 1 after windows are years 1–3 after binding) | Ramp starting at half in 2027 as a sensitivity | None direct; stated |
 
@@ -75,6 +75,17 @@ Against the 124,000-home baseline, the central is about +1.7%.
   - effects of a law broader than any tested;
   - homes built, as opposed to permitted;
   - a demand shock in the same year as a law.
+
+## Law-strength coding rule (fixed before any coding; statutes and rules only)
+
+For Oregon HB 2001, California SB 9, Maine LD 2003 and Vermont Act 47, as in force during each state's Test 1 after window, record from the statute or rule text only:
+1. the most homes allowed by right on a lot zoned for one house (by city size or area where it differs);
+2. where it applies: city-size thresholds, zones, growth areas, water and sewer conditions;
+3. the share of the state's single-family homes in covered places (Census ACS, by the statute's own thresholds);
+4. carve-outs: owner occupancy, lot-size minimums, parking, design review, historic districts;
+5. whether approval is ministerial.
+
+For each item, compare with the handbook scenario (2–6 homes, 3 stories, every single-family parcel). The coding feeds only the "what the model cannot tell" text and the Wisconsin plan's statement of the gap. It does not change any line unless a new plan, locked first, says how.
 
 ## Decisions for Ryan before lock
 

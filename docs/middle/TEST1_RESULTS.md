@@ -35,7 +35,7 @@ Required beside the headline (locked plan, audit fixes):
 | M1: 1–4 unit homes | +7% | −18% to +29% | +2.5 (+1.0 to +5.1) | 85 | We do not know |
 | M3: all homes | +8% | −14% to +32% | +3.6 (+1.1 to +7.6) | 80 | We do not know |
 
-- **The locked reading uses the log ratio.** For M1 and M3, the rate-difference range excludes 0, but the locked ratio reading does not.
+- **The locked reading uses the log ratio.** For M1 and M3, the rate-difference range excludes 0, but the locked ratio reading does not. **Under the plan, M1 and M3 read "we do not know".** Their rate-difference ranges are not a finding and must not be quoted as one (audit, 2026-11-10).
 - **Why the two units disagree there:** comparison places in the West build at about twice the law states' rate. Their 1–4 unit rate fell from 28 to 22 per 1,000 per year, so a difference in rates looks large even where the ratio is ordinary.
 - **Per the plan, the ratio governs.** Both are shown.
 
@@ -59,7 +59,7 @@ Required beside the headline (locked plan, audit fixes):
 | Oregon before 2015–2018 | +32% | −23% to +89% | 83.7 |
 | Census filled-in columns | −6% | −46% to +25% | 39 |
 | M1, California without progress-report ADUs (a bound) | +1% | −23% to +22% | 69.7 |
-| Second inference (bootstrap over places, M2) | rate difference −0.13 to +0.45 | log −0.13 to +0.54 | — |
+| Second inference (bootstrap over places, M2; 1,000 draws, although the code's constant says 2,000, which the plan did not fix) | rate difference −0.13 to +0.45 | log −0.13 to +0.54 | — |
 
 - **The filled-in version failed Test 4** (it showed a rise in fake years). It is read as partly a trend.
 - **Test 7 (substitution):** 5+ unit homes and one-unit homes also read "we do not know" (61st and 81st percentiles). The 5+ check failed Test 4, so it is partly trend.

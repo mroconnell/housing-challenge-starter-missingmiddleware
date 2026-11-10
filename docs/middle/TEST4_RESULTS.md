@@ -30,6 +30,7 @@ Oregon + California only, all measures, both data versions: we do not know (pass
 - **The filled-in version of M2 fails.** With Census filled-in counts, the four states were already rising against comparison places before any law. Any filled-in M2 result in Test 1 is read as partly a trend.
 - **5+ unit homes fail in both versions.** The Test 7 substitution result for 5+ homes is read as partly a trend.
 - **Unmatched share (reported only):** Oregon 29% and California 35% of single-family homes had no comparison place at ½–2× their size in the screened West pool.
+- **Different places (audit, 2026-11-10):** the real Test 1 run left out 0% (Oregon) and 18% (California). So the fake-year pass covers a somewhat different set of places than the real result. It was not rerun on the real run's matched places.
 
 ## Test 2 (Oregon line) with fake years (Census filled-in, main)
 

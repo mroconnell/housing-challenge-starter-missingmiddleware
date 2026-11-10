@@ -29,6 +29,7 @@ Run 2026-11-09 at Ryan's request, after Test 1. This is not part of the locked p
 | | Per year | Over 5 years |
 | --- | --- | --- |
 | Extra 5–6 unit homes at the central estimate | about 30 to 150 | about 160 to 760 |
+| Same, using Wisconsin's own lower-bound share (1.5%, factor 0.015) | about 6 | about 30 |
 | As buildings (about 5.5 homes each) | about 6 to 28 | about 30 to 140 |
 | At the top of Test 1's range (+1,200 a year) | up to about 430 homes (about 80 buildings) | up to about 2,200 homes |
 | At the bottom of Test 1's range | about −10 to −45 homes | |
