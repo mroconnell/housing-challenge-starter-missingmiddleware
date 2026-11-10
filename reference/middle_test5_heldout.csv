@@ -1,0 +1,10 @@
+test,measure,unit,cases,misses,rms_miss
+Test 1 states,M2,log_ratio,4,"Oregon: +0.34, California: -0.36, Maine: -0.05, Vermont: +0.08",0.2512409677422875
+Test 1 states,M2,diff,4,"Oregon: +0.45, California: -0.24, Maine: -0.13, Vermont: -0.08",0.2654951566594089
+Test 1 states,M1,log_ratio,4,"Oregon: -0.09, California: +0.28, Maine: -0.15, Vermont: -0.04",0.16476072751552065
+Test 1 states,M1,diff,4,"Oregon: +0.97, California: +5.84, Maine: -3.89, Vermont: -2.93",3.8305010145645526
+Test 1 states,M3,log_ratio,4,"Oregon: +0.09, California: +0.19, Maine: -0.19, Vermont: -0.08",0.14669851168965684
+Test 1 states,M3,diff,4,"Oregon: +3.32, California: +6.65, Maine: -5.95, Vermont: -4.01",5.165577125261073
+Test 3 cities,M2,"change vs stand-in median, per 1,000",5,"Minneapolis: -0.29, Portland: -1.64, Raleigh: -0.20, Spokane: +0.81, Walla Walla: +1.32",1.022858156614051
+Test 3 cities,M1,"change vs stand-in median, per 1,000",5,"Minneapolis: -2.55, Portland: -2.96, Raleigh: +5.57, Spokane: -0.89, Walla Walla: +0.81",3.0899480253646727
+Test 3 cities,M3,"change vs stand-in median, per 1,000",5,"Minneapolis: -12.68, Portland: -29.09, Raleigh: +28.67, Spokane: +10.32, Walla Walla: +2.79",19.713708987697725

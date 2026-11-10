@@ -84,6 +84,11 @@ The reforms are not ranked (rule 8 of the display spec). The ADU and TOD 90% ran
 
 # What Drives the Differences
 
+**Timing.** Each reform uses its own measured timing (owner, 2026-11-10):
+- **ADUs:** the effect ramps up, at about 68%, 85% and 100% of full size in 2027, 2028 and 2029.
+- **Parking:** measured flat. Year 1 after a repeal can't be told apart from years 2–3, so no ramp.
+- **TOD:** follows the build-up measured after the New York rezonings.
+
 **ADUs add the most in the central scenario because the law creates a right on almost 1.84 million lots where today very few owners build one.**
 - At today's pace Wisconsin would permit 530 second homes on single-family lots over five years. That is 0.06 permits per 1,000 single-family homes per year.
 - The tool's baseline also rises 7.3% a year, as ADU permits did in places with no statewide law. That gives 786 over 2027–2031, or 0.09 permits per 1,000 single-family homes per year (AQ-065).
@@ -176,7 +181,7 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
   - the ADU law already removes parking requirements for ADUs;
   - the TOD cases cannot separate TOD from parking reform.
   
-  The tool shows each reform on its own. The combined TOD and parking view stays as it is until parking moves to the range display. Then it will show a range from a paired simulation of the reforms' draws, never a sum of range ends. Its current lines (rebuilt on the 74-place parking sample, combined-88d523c931): where TOD and parking overlap near transit stops, it takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −11,422 homes (TOD 3,958 plus parking −15,380), its central 10,028, and its high case 30,202. The simple sum, 32,170, is only an upper bound (on the 76-place sample: −11,276, 10,028 and 30,355; sum 32,338) (before AQ-071: −15,283, 13,229 and 34,921; sum 37,085).
+  The tool shows each reform on its own. The combined TOD and parking view stays as it is until parking moves to the range display. Then it will show a range from a paired simulation of the reforms' draws, never a sum of range ends. Its current lines (rebuilt on the 74-place parking sample, combined-56ea544b03): where TOD and parking overlap near transit stops, it takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −11,422 homes (TOD 3,958 plus parking −15,380), its central 10,028, and its high case 30,202. The simple sum, 32,170, is only an upper bound (on the 76-place sample: −11,276, 10,028 and 30,355; sum 32,338) (before AQ-071: −15,283, 13,229 and 34,921; sum 37,085).
 - **Rents, prices, displacement, parking supply, traffic or transit ridership.** None is modelled.
 - **Finished homes.** Permits are not completions, and the figures are not net of demolitions.
 - **Local forecasts.** Municipal, county and district figures are shares of a statewide estimate. They reconcile exactly to the state, but they are not forecasts for any place, lot or project.

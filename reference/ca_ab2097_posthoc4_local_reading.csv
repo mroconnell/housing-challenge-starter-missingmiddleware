@@ -1,0 +1,16 @@
+contrast,city,treated_area,comparison_area,after_years,note,existing_homes_treated,existing_homes_neither,permitted_homes_treated_before,permitted_homes_treated_after,permitted_homes_neither_before,permitted_homes_neither_after,estimate,low,high,read,interval,unit,label
+A: local reading,SANTA CRUZ,city_only,neither,2023-2025,,12684.0,8622.0,528.0,790.0,60.0,172.0,7.177746951558286,-9.272031584658608,24.440615124262067,,"projects, 2000 resamples, seed 20261027","homes other than ADUs per 1,000 existing homes (2020) a year; difference-in-differences",POST HOC
+area size,SANTA CRUZ,both,,,,2708.0,,,,,,,,,,,existing homes (2020),POST HOC
+area size,SANTA CRUZ,city_only,,,,12684.0,,,,,,,,,,,existing homes (2020),POST HOC
+area size,SANTA CRUZ,neither,,,,8622.0,,,,,,,,,,,existing homes (2020),POST HOC
+A: local reading,SACRAMENTO,city_only,neither,2023-2023,after = 2023 only (citywide repeal from 2024-03-28),47438.0,96399.0,2796.0,611.0,6804.0,733.0,7.6044672899799215,-0.1460307083954327,16.47655545785069,,"projects, 2000 resamples, seed 20261027","homes other than ADUs per 1,000 existing homes (2020) a year; difference-in-differences",POST HOC
+area size,SACRAMENTO,both,,,,56873.0,,,,,,,,,,,existing homes (2020),POST HOC
+area size,SACRAMENTO,city_only,,,,47438.0,,,,,,,,,,,existing homes (2020),POST HOC
+area size,SACRAMENTO,neither,,,,96399.0,,,,,,,,,,,existing homes (2020),POST HOC
+area size,SACRAMENTO,ours_only,,,,1523.0,,,,,,,,,,,existing homes (2020),POST HOC
+A: local reading,SACRAMENTO,city_only,neither,2023-2025,affected by the 2024 citywide repeal,47438.0,96399.0,2796.0,1128.0,6804.0,2247.0,2.4846559858062065,-2.943784307481022,7.826657073222712,,"projects, 2000 resamples, seed 20261027","homes other than ADUs per 1,000 existing homes (2020) a year; difference-in-differences",POST HOC
+B: our reading only,OAKLAND,ours_only,neither,2023-2025,Oakland: early-reform city,23806.0,27875.0,514.0,129.0,963.0,136.0,2.7711373462644673,-3.2673871492622166,9.593308039186208,,"projects, 2000 resamples, seed 20261027","homes other than ADUs per 1,000 existing homes (2020) a year; difference-in-differences",POST HOC
+area size,OAKLAND,both,,,,124796.0,,,,,,,,,,,existing homes (2020),POST HOC
+area size,OAKLAND,city_only,,,,1992.0,,,,,,,,,,,existing homes (2020),POST HOC
+area size,OAKLAND,neither,,,,27875.0,,,,,,,,,,,existing homes (2020),POST HOC
+area size,OAKLAND,ours_only,,,,23806.0,,,,,,,,,,,existing homes (2020),POST HOC

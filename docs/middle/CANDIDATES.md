@@ -54,6 +54,7 @@ From [CAUSAL_FRAMEWORK_PLAN.md](../adu/CAUSAL_FRAMEWORK_PLAN.md) and the pooled 
 | **Maine LD 2003** | 2024-01-01 council towns; 2024-07-01 town-meeting towns (2024 / 2025) | 2012–2023 | 2 (council towns); 1 (others) | Out of state only (all towns treated) | No | **Borderline:** just meets 2 years |
 | **Montana SB 323** | Enjoined 2023-12-29; in force 2024-09-03 (2025) | 2012–2023 | 1 | Yes: cities under 5,000 | No | **Not yet.** 2026 data due spring 2027 |
 | Vermont Act 47 (not on Ryan's list) | 2023-07-01 (2024) | 2012–2022 | 2 | Partial: towns without water and sewer | No | Borderline |
+| California Starter Home act, SB 684 and SB 1123 (added 2026-11-08) | SB 684 2024-07-01 (multifamily-zoned lots); SB 1123 2025-07-01 (vacant single-family lots) (2025 / 2026) | BPS 2012–2023 | 1 / 0 | Out of state only | No flag in progress reports | Not yet |
 | Arizona HB 2721 (not on list) | 2026-01-01 | — | 0 | — | — | Not yet |
 | **Minneapolis 2040 plan** | 2020-01-01 (2020) | BPS 2012–2019; city permits from 2016-12 | 6, but a court injunction ran June 2022 to May 2024 | Yes: other Twin Cities places (BPS) | City permits (units field), from 2016-12 | **Usable, with the injunction years flagged** |
 | **Austin HOME** | Phase 1 2024-02-05; Phase 2 2024-08-16 (2025) | City 1921+ | 1 | Yes: other Texas places | Yes: classes 101–105 with units, public domain | **Not yet** for the method; data excellent |

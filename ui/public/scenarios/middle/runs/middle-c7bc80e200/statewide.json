@@ -1,0 +1,227 @@
+{
+ "headline": "The evidence can't tell yet. We'll know more when we have a full five years in the other states. Most of the range for 2–4 unit homes is above zero, but it includes a small fall, and there is enough noise that we're not sure it's caused by this reform.",
+ "core": {
+  "label": "Homes in 2–4 unit buildings (predicted range)",
+  "lower": -482,
+  "central": 1570,
+  "upper": 4515,
+  "by_year": [
+   {
+    "year": 2027,
+    "lower": 27.2,
+    "central": -88.6,
+    "upper": -254.8
+   },
+   {
+    "year": 2028,
+    "lower": -127.4,
+    "central": 414.6,
+    "upper": 1192.5
+   },
+   {
+    "year": 2029,
+    "lower": -127.4,
+    "central": 414.6,
+    "upper": 1192.5
+   },
+   {
+    "year": 2030,
+    "lower": -127.4,
+    "central": 414.6,
+    "upper": 1192.5
+   },
+   {
+    "year": 2031,
+    "lower": -127.4,
+    "central": 414.6,
+    "upper": 1192.5
+   }
+  ],
+  "split": {
+   "2_unit": {
+    "lower": -444,
+    "central": 1445,
+    "upper": 4156
+   },
+   "3_4_unit": {
+    "lower": -38,
+    "central": 125,
+    "upper": 360
+   }
+  },
+  "rate_per_1000_sf_homes": {
+   "lower": -0.069,
+   "central": 0.225,
+   "upper": 0.648
+  }
+ },
+ "timing": {
+  "label": "Measured slow start",
+  "toggle_off_label": "Same effect every year",
+  "flat": {
+   "lower": -637,
+   "central": 2073,
+   "upper": 5962
+  },
+  "note": "2027 at the measured first-law-year share (about −21% of full size, from Oregon 2022, California 2022 and Vermont 2023), full size from 2028. Three single years: the sign of the 2027 share is not measured. With a negative share, the lower line's 2027 value sits slightly above zero."
+ },
+ "side_measures": [
+  {
+   "id": "1_4",
+   "lower": -9750,
+   "central": 3905,
+   "upper": 15955,
+   "by_year": [
+    {
+     "year": 2027,
+     "lower": 550.1,
+     "central": -220.3,
+     "upper": -900.2
+    },
+    {
+     "year": 2028,
+     "lower": -2574.9,
+     "central": 1031.3,
+     "upper": 4213.8
+    },
+    {
+     "year": 2029,
+     "lower": -2574.9,
+     "central": 1031.3,
+     "upper": 4213.8
+    },
+    {
+     "year": 2030,
+     "lower": -2574.9,
+     "central": 1031.3,
+     "upper": 4213.8
+    },
+    {
+     "year": 2031,
+     "lower": -2574.9,
+     "central": 1031.3,
+     "upper": 4213.8
+    }
+   ],
+   "label": "About +3,905 more homes over 5 years when we count all 1–4 unit buildings, including 1-unit homes on split lots and other single-unit types.",
+   "caveat": "Too noisy to include in predicted range because Census mixes these single units with conventional single-family homes."
+  },
+  {
+   "id": "1_6",
+   "lower": -9848,
+   "central": 4226,
+   "upper": 16880,
+   "by_year": [
+    {
+     "year": 2027,
+     "lower": 555.7,
+     "central": -238.5,
+     "upper": -952.4
+    },
+    {
+     "year": 2028,
+     "lower": -2601.0,
+     "central": 1116.2,
+     "upper": 4458.0
+    },
+    {
+     "year": 2029,
+     "lower": -2601.0,
+     "central": 1116.2,
+     "upper": 4458.0
+    },
+    {
+     "year": 2030,
+     "lower": -2601.0,
+     "central": 1116.2,
+     "upper": 4458.0
+    },
+    {
+     "year": 2031,
+     "lower": -2601.0,
+     "central": 1116.2,
+     "upper": 4458.0
+    }
+   ],
+   "label": "About +4,226 more homes over 5 years when we add our estimate for 5 and 6 unit buildings.",
+   "caveat": "Too noisy to include in predicted range because Census mixes 5 and 6 unit projects with all 5+ unit projects."
+  },
+  {
+   "id": "all",
+   "lower": -13189,
+   "central": 7888,
+   "upper": 29818,
+   "by_year": [
+    {
+     "year": 2027,
+     "lower": 744.2,
+     "central": -445.1,
+     "upper": -1682.5
+    },
+    {
+     "year": 2028,
+     "lower": -3483.4,
+     "central": 2083.2,
+     "upper": 7875.2
+    },
+    {
+     "year": 2029,
+     "lower": -3483.4,
+     "central": 2083.2,
+     "upper": 7875.2
+    },
+    {
+     "year": 2030,
+     "lower": -3483.4,
+     "central": 2083.2,
+     "upper": 7875.2
+    },
+    {
+     "year": 2031,
+     "lower": -3483.4,
+     "central": 2083.2,
+     "upper": 7875.2
+    }
+   ],
+   "label": "About +7,888 more homes over 5 years. Counts every building size, so swings in house and apartment building swamp any change from this reform.",
+   "caveat": "Too noisy to include in predicted range."
+  }
+ ],
+ "extra_lines": [
+  {
+   "id": "with_addons",
+   "lower": -1184,
+   "central": 3854,
+   "upper": 11084,
+   "label": "With add-ons",
+   "info": "The core plus estimated townhouses and split-lot homes (Census files them as 1-unit; records that include them show 1.5–3× the Census 2–4 count, middle 2.25×) and 5–6 unit buildings. Estimated, not measured."
+  },
+  {
+   "id": "stronger_reform",
+   "lower": -581,
+   "central": 1891,
+   "upper": 5440,
+   "label": "Stronger reform (up to 6 homes per lot)",
+   "info": "Possibility, not measured. Assumes that if 5–6 homes were allowed, new small buildings would split between 2–4 and 5–6 units the way past building did in OR, CA, ME and VT. None of the tested laws allowed 5–6 homes by right.",
+   "share_band_central": {
+    "low": 1692,
+    "high": 2139,
+    "portland_check": 1618
+   },
+   "never_add_to": "1_6"
+  }
+ ],
+ "baseline": {
+  "version": "all-housing baseline v4",
+  "total": 124000,
+  "low_total": 56501,
+  "high_total": 218866
+ },
+ "years": [
+  2027,
+  2028,
+  2029,
+  2030,
+  2031
+ ]
+}

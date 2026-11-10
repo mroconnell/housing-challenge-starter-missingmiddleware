@@ -1,0 +1,72 @@
+{
+ "run_id": "middle-c7bc80e200",
+ "scenario_id": "middle",
+ "title": "Middle housing (2–6 homes per lot)",
+ "outcome": {
+  "short": "Extra homes permitted (Census permits), 2027–2031",
+  "long": "Extra homes permitted on top of the shared all-housing baseline; core counts homes in 2–4 unit buildings.",
+  "rate_units": "homes per 1,000 single-family homes per year",
+  "count_units": "homes permitted"
+ },
+ "dates": {
+  "last_observed_year": 2025,
+  "forecast_years": [
+   2027,
+   2028,
+   2029,
+   2030,
+   2031
+  ],
+  "effective": "Stylized statewide law in effect 1 January 2027"
+ },
+ "vintages": {
+  "census_permits": "2012–2025",
+  "acs": "2020–2024",
+  "baseline": "all-housing baseline v4"
+ },
+ "validation": {
+  "core_five_year_central": 1570
+ },
+ "repo_url": "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware",
+ "inputs": [
+  {
+   "path": "scripts/build_middle_bundle.py",
+   "sha256": "6f305cb332215dcc669c35e4189f3c48fc965dae4ef070a90719683c52d1789a"
+  },
+  {
+   "path": "scripts/run_middle_wisconsin.py",
+   "sha256": "fd4280e0a079846792dd0e9210b06b1567b71cd4a44260744bd027d8e0142a3e"
+  },
+  {
+   "path": "reference/middle_model_statewide_by_year.csv",
+   "sha256": "b8711d8145237348c2182ceaa6d86454dc01aba69c4f0ed7d01f834a5dcfd730"
+  },
+  {
+   "path": "reference/middle_model_lines_2027_2031.csv",
+   "sha256": "251e363a8d7447cc007bb7252f1092e5a4cda6f09372c2bdc866f592a7353682"
+  },
+  {
+   "path": "reference/middle_model_stronger_band.csv",
+   "sha256": "04c269305b75e9ffd01b0d2ec84f67eea987d473dafe9e437147ade5b99f20b2"
+  },
+  {
+   "path": "reference/middle_model_by_area.csv",
+   "sha256": "fbb8de3027dd425e776247ab1c5834e6ece3fea13351eeb8993f8fa644e1803d"
+  },
+  {
+   "path": "reference/middle_test1_summary.csv",
+   "sha256": "1355cf9512d42018b0bd1bec817188822b64a25028b76719a1567c5e16f71145"
+  },
+  {
+   "path": "reference/housing_baseline_statewide_by_year.csv",
+   "sha256": "2380a8db49f7f7270d8a45252b571d812aaafe8700096236f7402606cfd2ba8c"
+  }
+ ],
+ "baseline_version": "all-housing baseline v4",
+ "files": [
+  "statewide.json",
+  "areas.json",
+  "howsure.json",
+  "why.json"
+ ]
+}
