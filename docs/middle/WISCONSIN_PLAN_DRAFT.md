@@ -23,11 +23,9 @@ Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns t
 
 ## Step 2. Which Wisconsin homes it applies to
 
-**Proposed:** single-family homes in places with general zoning, meaning cities, villages, and towns under county or own zoning.
-- Unzoned towns are left out: 239 towns holding 76,633 one-unit detached homes ([WI_UNZONED_TOWNS.md](../gate3/WI_UNZONED_TOWNS.md)). Duplexes are not limited there now, so the reform changes nothing.
-- The 14 towns that could not be classified are kept, and stated.
-
-**Alternative (sensitivity):** all 1,839,569 single-family homes.
+**All 1,839,569 single-family homes** (ACS 2020–2024, detached plus attached). Ryan, 2026-11-10.
+- **The 239 towns with no general zoning are not left out.** Their shoreland is under county zoning, with single-family or two-family limits and farm-district single-family rules (Barron County check: [measurement/ARLAND_UNZONED_CHECK.md](measurement/ARLAND_UNZONED_CHECK.md)).
+- **Places whose R-1 already allows a duplex also count as restricted.** Lot-size rules usually keep most lots at one home, and the reform allows at least 2 on every lot. The second unit counts.
 
 ## Step 3. Adjustments (each one shown on its own in "How sure")
 
@@ -46,7 +44,7 @@ Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns t
   - The highest and lowest combinations are shown in "How sure".
   - **Alternative:** the upper line uses Test 1's top alone, with A and B shown only in "How sure". Ryan decides.
 
-## Step 4. Arithmetic (illustration only, all 1,839,569 single-family homes, before step 2)
+## Step 4. Arithmetic (all 1,839,569 single-family homes)
 
 | Line | Per year | 2027–2031 |
 | --- | ---: | ---: |
@@ -59,7 +57,7 @@ Against the 124,000-home baseline, the central is about +1.7%.
 
 ## Step 5. Where (map)
 
-- Split the statewide line by each place's single-family homes in zoned places (step 2), at the same rate everywhere.
+- Split the statewide line by each place's single-family homes (step 2), at the same rate everywhere.
 - **Alternative:** weight by each place's current 2–4 unit share (the "health" baseline idea, ASSUMPTIONS AQ). That needs its own evidence test, so it is not proposed now.
 
 ## Step 6. What the tool must say
@@ -89,7 +87,7 @@ For each item, compare with the handbook scenario (2–6 homes, 3 stories, every
 
 ## Decisions for Ryan before lock
 
-1. **Places:** zoned places only (proposed), or all single-family homes?
+1. **Places:** all single-family homes (decided, Ryan 2026-11-10).
 2. **Upper line:** Test 1 top with adjustments A and B (proposed), or Test 1 top alone?
 3. **Timing:** flat (proposed), or a ramp?
 4. **Law strength:** leave it unscaled and stated (proposed)? Any scaling would need new evidence and a new plan.
@@ -98,5 +96,4 @@ For each item, compare with the handbook scenario (2–6 homes, 3 stories, every
 ## Still to do before lock (no outcomes)
 
 - Law-strength coding for the four states (documents only).
-- Count of single-family homes in zoned places (from the town zoning file and the foundation tables).
 - Bundle and screens per the scenario contract (status stays `in_development` until Ryan accepts a pilot).
