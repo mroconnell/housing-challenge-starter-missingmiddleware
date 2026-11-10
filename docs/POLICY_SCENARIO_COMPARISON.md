@@ -84,6 +84,11 @@ The reforms are not ranked (rule 8 of the display spec). The ADU and TOD 90% ran
 
 # What Drives the Differences
 
+**Timing.** Each reform uses its own measured timing (owner, 2026-11-10):
+- **ADUs:** the effect ramps up, at about 68%, 85% and 100% of full size in 2027, 2028 and 2029.
+- **Parking:** measured flat. Year 1 after a repeal can't be told apart from years 2–3, so no ramp.
+- **TOD:** follows the build-up measured after the New York rezonings.
+
 **ADUs add the most in the central scenario because the law creates a right on almost 1.84 million lots where today very few owners build one.**
 - At today's pace Wisconsin would permit 530 second homes on single-family lots over five years. That is 0.06 permits per 1,000 single-family homes per year.
 - The tool's baseline also rises 7.3% a year, as ADU permits did in places with no statewide law. That gives 786 over 2027–2031, or 0.09 permits per 1,000 single-family homes per year (AQ-065).

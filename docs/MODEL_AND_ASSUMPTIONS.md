@@ -367,7 +367,7 @@ Written 2026-10-27 by the parking conductor. Status: the parking section for the
    - **Why it is not used:** Seattle holds 78% of the reform-area homes and had light rail, upzoning and a jobs boom in the same years. Without adjusting for earlier growth, the gap is only +3.9. No model predicted held-out regions.
    - **Effect on the tool:** none. The scenario keeps its range, and this is reported as the strongest evidence that removing parking minimums near rail can add homes.
    - Details: [NEAR_TRANSIT_PLACEBO_RESULTS.md](parking/NEAR_TRANSIT_PLACEBO_RESULTS.md), [NEAR_TRANSIT_PREDICT_RESULTS.md](parking/NEAR_TRANSIT_PREDICT_RESULTS.md), [BLOCK_CATALOG_RESULTS.md](parking/BLOCK_CATALOG_RESULTS.md).
-5. **Timing.** The effect was measured over years 1–3, and it does not build up over time. The upper case is held flat through 2031. That is an assumption, and the measured path suggests it is generous.
+5. **Timing (measured flat).** Each scenario uses its own measured timing (owner, 2026-11-10). For parking the measured timing is flat. Year 1 after repeal can't be told apart from years 2–3: with method 2's mix weights, −0.42 against a −1.44 average over 36 places, and every year's range includes 0 (exploratory check, 2026-11-10). The by-year test found no build-up or fade over up to 9 years (Test 49). So the same yearly rate applies in every year 2027–2031. Holding it flat in years 4–5 is still an assumption.
 6. **Where the upper case lands.** It is spread in proportion to existing homes, because the comparison could not tell which kinds of places respond more (owner decision AQ-046; no size split beat one average).
 
 #### Data sources and cleaning steps
