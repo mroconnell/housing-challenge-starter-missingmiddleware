@@ -1,4 +1,4 @@
-# Middle housing: Wisconsin plan (draft v0, not locked)
+# Middle housing: Wisconsin plan (draft v1, for audit; not locked)
 
 Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns the locked tests' results into proposed tool lines for Wisconsin. The audit reviews it before lock, and Ryan decides any tool change. Every choice below is set before any Wisconsin middle-housing number is computed for the tool.
 
@@ -84,6 +84,28 @@ For Oregon HB 2001, California SB 9, Maine LD 2003 and Vermont Act 47, as in for
 5. whether approval is ministerial.
 
 For each item, compare with the handbook scenario (2–6 homes, 3 stories, every single-family parcel). The coding feeds only the "what the model cannot tell" text and the Wisconsin plan's statement of the gap. It does not change any line unless a new plan, locked first, says how.
+
+
+## Decisions (Ryan, 2026-11-10)
+
+These replace the proposals in steps 2–6 wherever they differ.
+
+| Item | Decision |
+| --- | --- |
+| Places | All 1,839,569 single-family homes. "Unzoned" towns and duplex-allowing R-1 count as restricted |
+| Core lines | Driven only by Test 1's comparison model on Census homes in 2–4 unit buildings, the type of reform tested (up to 4 homes per lot): lower −0.07, central +0.23, upper +0.65 per 1,000 single-family homes per year |
+| In Wisconsin, 2027–2031 | Lower about −640; central about +2,100; upper about +6,000 homes (split by today's mix: 92% 2-unit, 8% 3–4 unit) |
+| Timing | Flat across 2027–2031. Year-by-year data show no climb in the law states' own rates; the Oregon and California gap trend comes from comparison places falling (`reference/middle_m2_yearly_by_state.csv`) |
+| Law strength | Unscaled |
+| Headline | "The evidence can't tell yet. We'll know more when we have a full five years in the other states. The range is generally positive for 2–6 units, but there is enough noise that we're not sure it's caused purely by this reform." |
+
+**Extra lines and "How sure" bars only, never in the core range:**
+- **5–6 unit buildings:** +390 homes (90% range −150 to +1,400), from a share assumption ([FIVE_SIX_UNIT_ESTIMATE.md](FIVE_SIX_UNIT_ESTIMATE.md)).
+- **Townhouses and split-lot homes:** Census files them as one-unit; ×1.5 to ×3 (Test 6). Shown as a bar, plus an optional higher line with its explanation.
+- **A stronger reform:** the handbook allows 2–6 homes by right on every lot. A bar labelled as a possibility, with no evidence-based multiplier.
+- **A ramp:** years 4–5 climbing as in California's 2022–2025 gap. A bar.
+- **Measured side views:** one-unit homes +3,400 (−13,600 to +17,900); 5+ unit homes +4,400 (−13,600 to +38,600). Both read "we do not know", and both are dominated by ordinary houses or large buildings.
+- **Weakest point, stated beside the result:** the West comparison group is thin (85 places reporting every year) and lumpy.
 
 ## Decisions for Ryan before lock
 
