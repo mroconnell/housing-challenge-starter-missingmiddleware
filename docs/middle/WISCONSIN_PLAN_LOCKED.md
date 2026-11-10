@@ -148,3 +148,10 @@ M1 and M3 are converted by the locked ratio reading. The percentage range is app
 
 - Law-strength coding for the four states (documents only).
 - Bundle and screens per the scenario contract (status stays `in_development` until Ryan accepts a pilot).
+
+
+## Changes after lock (labelled post hoc)
+
+- **2026-11-10, Ryan:** no "beat 85 of 100" line in the tool; Ryan will voice it in the presentation.
+- **2026-11-10, Ryan:** the side measures (1–4, 1–6 and all homes) carry the label "Too noisy to include in predicted range".
+- **2026-11-10, Ryan:** the ×1.7 stronger-reform boost is too strong, because fewer lots can fit 6 homes than 4. A replacement rule is under review (literature check running), with options including a boost sized by the observed 5–6 unit share (×1.08–1.36). It goes to the audit before use.
