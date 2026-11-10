@@ -58,6 +58,7 @@ function compare(b: MiddleBundle, env: ShellEnv, params: URLSearchParams, main: 
   main.innerHTML = `
   <h1>Middle housing: extra homes over five years</h1>
   <p class="lede">${esc(s.headline)}</p>
+  <p><strong>The law.</strong> From 1 January 2027 (illustrative), any lot now limited to one home could have 2–6 homes, up to 3 stories, without special approval. Setbacks and lot coverage are assumed not to block them.</p>
   <div class="tiles tiles-3">
     <section class="tile tile-accent"><h2 class="tile-label">${esc(s.core.label)}, 2027–2031</h2>
       <p class="tile-num" data-testid="core-central">${signed(core.central)}</p>
