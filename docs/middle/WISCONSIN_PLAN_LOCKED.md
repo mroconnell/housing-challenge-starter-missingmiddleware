@@ -155,3 +155,13 @@ M1 and M3 are converted by the locked ratio reading. The percentage range is app
 - **2026-11-10, Ryan:** no "beat 85 of 100" line in the tool; Ryan will voice it in the presentation.
 - **2026-11-10, Ryan:** each side measure (1–4, 1–6 and all homes) is labelled with its best estimate first, then what it counts, then its range, ending with "Too noisy to include in predicted range". Example: "About +5,200 more homes in 1–4 unit buildings over 2027–2031, including houses, townhouses and duplexes to fourplexes (range −12,900 to +21,100). Too noisy to include in predicted range."
 - **2026-11-10, Ryan:** the ×1.7 stronger-reform boost is too strong, because fewer lots can fit 6 homes than 4. Ryan prefers the market-share approach: a boost sized by the observed share of 5–6 unit buildings (×1.08–1.36). A literature check is running before this is finalized. It goes to the audit before use.
+
+- **2026-11-10, audit + Ryan: stronger-reform rule replaced.** Stronger reform = core × 1/(1−s), where s is the share of 2–6 unit homes in 5–6 unit buildings. The midpoint s = 17% is used as a convention: ×1.205 gives −590 / +1,930 / +5,460 over 2027–2031. A "How sure" band carries the share's uncertainty (s = 7.2% to 26.6%: central +1,720 to +2,180), with Portland's ×1.03 as a low check (central about +1,650). Label: "Possibility, not measured. Assumes that if 5–6 homes were allowed, new small buildings would split between 2–4 and 5–6 units the way past building did in OR, CA, ME and VT. None of the tested laws allowed 5–6 homes by right." The 1–6 view and this line add 5–6 unit homes by the same share. They are never added together. Literature basis: SCALING_LITERATURE.md.
+- **2026-11-10, audit: side measures use the core's slow-start timing** (2027 at −21%, then full size; factor 0.758 on five-year totals):
+  - 1–4 unit homes: +3,900 (−9,750 to +15,960).
+  - All homes: +7,890 (−13,200 to +29,830).
+  - 1–6 unit homes: about +4,200 (1–4 plus 5–6 at +295).
+- **Side-measure labels (Ryan's wording, audit-checked):**
+  - 1–4: "About +3,900 more homes over 5 years when we count all 1–4 unit buildings, including 1-unit homes on split lots and other single-unit types. (Too noisy to include in predicted range because Census mixes these single units with conventional single-family homes.)"
+  - 1–6: "About +4,200 more homes over 5 years when we add our estimate for 5 and 6 unit buildings. (Too noisy to include in predicted range because Census mixes 5 and 6 unit projects with all 5+ unit projects.)"
+  - All homes: "About +7,900 more homes over 5 years (−13,200 to +29,800). Counts every building size, so swings in house and apartment building swamp any change from this reform. (Too noisy to include in predicted range.)"
