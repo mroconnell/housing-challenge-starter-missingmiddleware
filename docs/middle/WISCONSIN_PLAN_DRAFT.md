@@ -1,4 +1,4 @@
-# Middle housing: Wisconsin plan (draft v1, for audit; not locked)
+# Middle housing: Wisconsin plan (draft v2, for audit; not locked)
 
 Drafted 2026-11-10 at Ryan's request. **Not locked; no tool change.** It turns the locked tests' results into proposed tool lines for Wisconsin. The audit reviews it before lock, and Ryan decides any tool change. The choices below were made after Test 1 and some Wisconsin side figures were already computed (the 5–6 unit estimate, the side views, and the yearly table). Each is labelled with what it rests on.
 
@@ -97,7 +97,7 @@ These replace the proposals in steps 2–6 wherever they differ.
 | In Wisconsin, 2027–2031 | Lower about −640; central about +2,100; upper about +6,000 homes (split by today's mix: 92% 2-unit, 8% 3–4 unit) |
 | Timing | Flat across 2027–2031 (**post hoc**: rests on yearly data read after the results). Year-by-year data show no climb in the law states' own rates; the Oregon and California gap trend comes from comparison places falling (`reference/middle_m2_yearly_by_state.csv`) |
 | Law strength | Unscaled |
-| Headline | Ryan's wording, with the audit's accuracy note pending his call: "The evidence can't tell yet. We'll know more when we have a full five years in the other states. Most of the range for 2–4 unit homes is above zero, but it includes a small fall, and there is enough noise that we're not sure it's caused by this reform." |
+| Headline | Audit's accurate wording, accepted by Ryan (2026-11-10): "The evidence can't tell yet. We'll know more when we have a full five years in the other states. Most of the range for 2–4 unit homes is above zero, but it includes a small fall, and there is enough noise that we're not sure it's caused by this reform." |
 
 **Shown right beside the core lines, at the same size (locked reporting rule; audit of v1):**
 
@@ -113,7 +113,8 @@ M1 and M3 are converted by the locked ratio reading. The percentage range is app
 - **5–6 unit buildings:** +390 homes (90% range −150 to +1,400), from a share assumption ([FIVE_SIX_UNIT_ESTIMATE.md](FIVE_SIX_UNIT_ESTIMATE.md)).
 - **Townhouses and split-lot homes:** Census files them as one-unit; ×1.5 to ×3 (Test 6). Shown as a bar, plus an optional higher line with its explanation.
 - **A stronger reform:** the handbook allows 2–6 homes by right on every lot. A bar labelled as a possibility, with no evidence-based multiplier.
-- **A ramp:** years 4–5 climbing as in California's 2022–2025 gap. A bar.
+- **A ramp (post hoc, Ryan 2026-11-10):** a bar where years 4–5 climb at the after-law slopes of the market-normalized ratio (Oregon +0.42 and California +0.33 per year, on 4 years each). It is labelled as resting on 4 noisy years, and as possibly part of a trend already under way: the pre-law slopes were Oregon +0.13, California +0.25 and Maine +0.10 per year. Recheck when 2026–2027 data arrive.
+- **Unzoned towns (Ryan OK, 2026-11-10):** the 239 towns hold about 76,600 of 1,839,569 single-family homes (about 4%). A bar shows the core lines without them: about −610 / +2,030 / +5,730 homes. They stay counted in the core lines.
 - **Measured side views:** one-unit homes +3,400 (−13,600 to +17,900); 5+ unit homes +4,400 (−13,600 to +38,600). Both come from Test 1's four-state log-ratio result (one-unit +5%, −21% to +28%; 5+ +8%, −26% to +74%), measured over each state's locked after window (2023–2025, or 2024–2025 for Maine and Vermont). Each is applied to the baseline's 2027–2031 central for that size (63,494 and 51,960). Both read "we do not know", and both are dominated by ordinary houses or large buildings.
 - **Weakest point, stated beside the result:** the West comparison group is thin (85 places reporting every year) and lumpy.
 
