@@ -117,19 +117,14 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
   <h1 id="intro-h">How would housing reform change the number of new homes?</h1>
   <p class="lede intro-lede">Missing Middleware studies how real reforms worked in places that adopted them. It compares them with places or years without the reform. Then it carries what it learned to one state, and gives a range of extra home permits for the five years after a law, 2027 to 2031.</p>
 
-  <section class="card intro-ranges" aria-labelledby="intro-ranges-cap">
-    <div class="table-wrap">
-    <table class="data intro-range-table" data-testid="intro-range-table">
-      <caption id="intro-ranges-cap">Wisconsin, extra permits 2027–2031, 90% range</caption>
-      <thead><tr><th scope="col">Reform</th><th scope="col" class="num">Low end</th><th scope="col" class="num">High end</th><th scope="col">How we count</th></tr></thead>
-      <tbody>
-        ${rangeRow("adu", "ADUs by right", n.adu, "ADU permits. We learned the ADU rate once a statewide law is in force from 8 states (plus 5 cities), adjusting for home values and incomes. We hid 7 of the states one at a time and predicted each from the rest: predictions ran from 12% too low to 21% too high. The range is set from the size of those misses.")}
-        ${rangeRow("middle", "Missing Middle", n.middle, n.middle ? "Homes in 2–4 unit buildings. We measured how these homes changed in the 4 states with statewide middle housing laws, each against similar places in its own region, and did the same for 10,000 groups of 4 states without a law. The reform states beat 85 of every 100 groups, short of the 95 needed to call it clear. So Wisconsin's range still includes zero: the evidence can't tell yet whether the law changes the number of these homes." : "Not yet available.")}
-        ${rangeRow("tod", "TOD Upzoning", n.tod, "Extra homes near transit. We compared building near rail and rapid-bus stops in 11 places that zoned an apartment district with similar stops that weren't rezoned, before and after. Pooled over 5 of them where both sides were alike before, lots just inside the district edge built more than lots just outside. The whole range is above zero, so the evidence points to added homes. How many is less certain.")}
-        ${rangeRow("parking", "Parking Minimum Repeal", n.parking, "Homes. We studied 74 places that repealed parking minimums for housing, each compared with similar cities that kept them, and ran fake repeals in 9,185 cities that never repealed. A range that includes zero means the data can't tell whether repealing parking minimums alone adds or removes homes.")}
-      </tbody>
-    </table>
-    </div>
+  <section class="card" aria-labelledby="intro-see-h">
+    <h2 id="intro-see-h">What you'll see</h2>
+    <ul class="intro-see">
+      <li><strong>A range for each reform, with its low and high ends.</strong> We show no single best guess, because the evidence supports a range, not a point.</li>
+      <li><strong>Side lines across each range.</strong> They give a plain reason to believe the range. Some are real cases, like the median of 8 states that passed ADU laws. Others are our earlier scenario estimates.</li>
+      <li><strong>A map of where homes might land.</strong> It shows how ADU reform spreads homes differently from TOD reform. It is an illustration, not a prediction of which lots will build.</li>
+      <li><strong>Sensitivities.</strong> Other choices that could push a range up or down. Some did not pass tests set in advance. Others are reasonable alternative assumptions. Neither changes the range.</li>
+    </ul>
   </section>
 
   <section class="card" aria-labelledby="intro-how-h">
@@ -155,14 +150,19 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
     </ol>
   </section>
 
-  <section class="card" aria-labelledby="intro-see-h">
-    <h2 id="intro-see-h">What you'll see</h2>
-    <ul class="intro-see">
-      <li><strong>A range for each reform, with its low and high ends.</strong> We show no single best guess, because the evidence supports a range, not a point.</li>
-      <li><strong>Side lines across each range.</strong> They give a plain reason to believe the range. Some are real cases, like the median of 8 states that passed ADU laws. Others are our earlier scenario estimates.</li>
-      <li><strong>A map of where homes might land.</strong> It shows how ADU reform spreads homes differently from TOD reform. It is an illustration, not a prediction of which lots will build.</li>
-      <li><strong>Sensitivities.</strong> Other choices that could push a range up or down. Some did not pass tests set in advance. Others are reasonable alternative assumptions. Neither changes the range.</li>
-    </ul>
+  <section class="card intro-ranges" aria-labelledby="intro-ranges-cap">
+    <div class="table-wrap">
+    <table class="data intro-range-table" data-testid="intro-range-table">
+      <caption id="intro-ranges-cap">Wisconsin, extra permits 2027–2031, 90% range</caption>
+      <thead><tr><th scope="col">Reform</th><th scope="col" class="num">Low end</th><th scope="col" class="num">High end</th><th scope="col">How we count</th></tr></thead>
+      <tbody>
+        ${rangeRow("adu", "ADUs by right", n.adu, "ADU permits. We learned the ADU rate once a statewide law is in force from 8 states (plus 5 cities), adjusting for home values and incomes. We hid 7 of the states one at a time and predicted each from the rest: predictions ran from 12% too low to 21% too high. The range is set from the size of those misses.")}
+        ${rangeRow("middle", "Missing Middle", n.middle, n.middle ? "Homes in 2–4 unit buildings. We measured how these homes changed in the 4 states with statewide middle housing laws, each against similar places in its own region, and did the same for 10,000 groups of 4 states without a law. The reform states beat 85 of every 100 groups, short of the 95 needed to call it clear. So Wisconsin's range still includes zero: the evidence can't tell yet whether the law changes the number of these homes." : "Not yet available.")}
+        ${rangeRow("tod", "TOD Upzoning", n.tod, "Extra homes near transit. We compared building near rail and rapid-bus stops in 11 places that zoned an apartment district with similar stops that weren't rezoned, before and after. Pooled over 5 of them where both sides were alike before, lots just inside the district edge built more than lots just outside. The whole range is above zero, so the evidence points to added homes. How many is less certain.")}
+        ${rangeRow("parking", "Parking Minimum Repeal", n.parking, "Homes. We studied 74 places that repealed parking minimums for housing, each compared with similar cities that kept them, and ran fake repeals in 9,185 cities that never repealed. A range that includes zero means the data can't tell whether repealing parking minimums alone adds or removes homes.")}
+      </tbody>
+    </table>
+    </div>
   </section>
   </article>`;
 }
