@@ -14,13 +14,14 @@ async function bundle(page: import("@playwright/test").Page) {
 test("parking screens show the bundle's numbers", async ({ page }) => {
   const b = await bundle(page);
   const up = b.statewide.scenarios.find((x: { id: string }) => x.id === "upper");
-  await page.goto("#/parking/today?preview=1");
+  await page.goto("#/parking/summary?preview=1");
   await expect(page.getByTestId("run-id")).toHaveText(b.run_id);
-  await expect(page.getByTestId("baseline-total")).toHaveText(fmt(b.statewide.baseline_total));
+  await page.goto("#/wisconsin-today");
+  await expect(page.getByTestId("wt-section-parking").getByTestId("baseline-total")).toHaveText(fmt(b.statewide.baseline_total));
   // the uniform range display: one 90% range, no centre line, side lines across it
   const R = b.statewide.range90;
   const sig = (v: number) => (v < 0 ? `−${fmt(-v)}` : fmt(v));
-  await page.goto("#/parking/compare");
+  await page.goto("#/parking/how-sure");
   const card = page.getByTestId("range-card");
   await expect(card.getByTestId("range-low")).toHaveText(sig(R.low));
   await expect(card.getByTestId("range-high")).toHaveText(sig(R.high));
@@ -42,7 +43,7 @@ test("parking screens show the bundle's numbers", async ({ page }) => {
     await expect(page.getByTestId("pilot-upper")).toHaveText(fmt(p.add_upper));
   }
   await page.goto("#/parking/how-sure");
-  await expect(page.getByTestId("howsure-range").getByTestId("range-low")).toHaveText(sig(R.low));
+  await expect(page.getByTestId("details")).toBeVisible();
   const hs = b.statewide.side_lines.find((x: { where: string }) => x.where === "howsure");
   await expect(page.getByTestId("howsure-side-lines")).toContainText(`${hs.label}: ${sig(hs.low)} to ${sig(hs.high)}`);
   await expect(page.getByTestId("pk-tornado")).toBeVisible();
@@ -53,20 +54,23 @@ test("parking screens show the bundle's numbers", async ({ page }) => {
   await expect(page.getByTestId("brief")).toContainText(fmt(up.additional_total));
 });
 
-test("parking chart toggles between totals and extra homes only", async ({ page }) => {
-  await page.goto("#/parking/compare");
-  const toggle = page.getByTestId("pk-chart-mode");
-  await expect(toggle.getByLabel("Totals")).toBeChecked();
-  await expect(page.locator("#pk-chart svg title")).toContainText("New homes permitted each year");
-  await expect(page.locator("#pk-legend")).toContainText("90% range");
+test("parking Summary: the chart toggles, and the timing toggle is off (no measured ramp)", async ({ page }) => {
+  await page.goto("#/parking/summary");
+  const toggle = page.getByTestId("toggle-show");
+  await expect(toggle.getByLabel("Totals with current law")).toBeChecked();
+  await expect(page.locator("#sum-chart svg title")).toContainText("Homes each year");
+  await expect(page.getByTestId("summary-legend")).toContainText("90% range");
   await toggle.getByLabel("Extra homes only").check();
-  await expect(page.locator("#pk-chart svg title")).toContainText("Extra homes permitted");
-  await expect(page.locator("#pk-legend")).toContainText("Current law: the zero line");
+  await expect(page.locator("#sum-chart svg title")).toContainText("Extra homes from the law");
+  await expect(page.getByTestId("summary-legend")).toContainText("Current law: the zero line");
+  for (const r of await page.getByTestId("toggle-timing").getByRole("radio").all()) await expect(r).toBeDisabled();
+  await expect(page.getByTestId("no-ramp")).toHaveText("This reform has no measured ramp.");
 });
 
-test("parking today screen shows the check-up against places after repeal", async ({ page }) => {
-  await page.goto("#/parking/today");
-  await expect(page.getByTestId("checkup")).toContainText("per 1,000 existing homes");
-  await expect(page.getByTestId("parking-checkup")).toContainText("parking spaces for every new apartment");
+test("parking's part of Wisconsin today shows the check-up against places after repeal", async ({ page }) => {
+  await page.goto("#/wisconsin-today");
+  const sec = page.getByTestId("wt-section-parking");
+  await expect(sec.getByTestId("checkup")).toContainText("per 1,000 existing homes");
+  await expect(sec.getByTestId("parking-checkup")).toContainText("parking spaces for every new apartment");
   await expect(page.locator("#pk-today-chart svg")).toBeVisible();
 });

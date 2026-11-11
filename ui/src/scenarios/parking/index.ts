@@ -1,7 +1,8 @@
-// The parking requirement reduction reform: seven screens over the bundle written by
+// The parking requirement reduction reform: six screens over the bundle written by
 // scripts/build_parking_bundle.py. The browser only selects, sums and formats bundle values.
-import { bindChartMode, chartModeToggleHTML, legendHTML, xyChart } from "../../charts";
-import { againstBandHTML, drawRangeChart, num, rangeCardHTML, sideLinesHTML, sideValue, type Range90, type SideLine } from "../../range";
+import { legendHTML, xyChart } from "../../charts";
+import { againstBandHTML, num, rangeCardHTML, sideLinesHTML, sideValue, type Range90, type SideLine } from "../../range";
+import { loadWiHomes, renderSummary, type SummaryInput, type WiHomes } from "../../summary";
 import { createMap, RAMP, WATER, type GeoKind, type MapHandle } from "../../map";
 import { dec, esc, int, pill, YEARS } from "../../format";
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
@@ -46,16 +47,16 @@ interface Why {
 }
 interface Pilot { slug: string; id: string; name: string; homes: number; at_benchmark: boolean; baseline: number; add_upper: number; history: { year: number; units_1: number | null; units_2: number | null; units_3_4: number | null; units_5: number | null; adjusted: boolean; split: boolean }[]; rules: { rating: string; date: string | null; summary: string | null }[] }
 interface Manifest { run_id: string; title: string; outcome: { short: string; long: string; rate_units: string }; dates: { last_observed_year: number; forecast_years: number[]; effective: string }; vintages: { what: string; vintage: string }[]; validation: { passed: number; failed: number; checks: { check: string; passed: boolean; detail: string }[] }; repo_url: string; inputs: unknown[] }
-export interface ParkingBundle { manifest: Manifest; statewide: Statewide; areas: Areas; howsure: HowSure; why: Why; pilots: Pilot[] }
+export interface ParkingBundle { manifest: Manifest; statewide: Statewide; areas: Areas; howsure: HowSure; why: Why; pilots: Pilot[]; homes: WiHomes }
 
 async function load(entry: ReformEntry): Promise<ParkingBundle> {
   const root = `${import.meta.env.BASE_URL}${entry.bundle_root}`;
   const get = async (p: string) => { const r = await fetch(p); if (!r.ok) throw new Error(`${p}: ${r.status}`); return r.json(); };
   const { run_id } = await get(`${root}latest.json`);
   const dir = `${root}${run_id}/`;
-  const [manifest, statewide, areas, howsure, why, pilots] = await Promise.all(
-    ["manifest", "statewide", "areas", "howsure", "why", "pilots"].map((f) => get(`${dir}${f}.json`)));
-  return { manifest, statewide, areas, howsure, why, pilots };
+  const [[manifest, statewide, areas, howsure, why, pilots], homes] = await Promise.all([Promise.all(
+    ["manifest", "statewide", "areas", "howsure", "why", "pilots"].map((f) => get(`${dir}${f}.json`))), loadWiHomes()]);
+  return { manifest, statewide, areas, howsure, why, pilots, homes };
 }
 
 // ---- helpers ----------------------------------------------------------------------------------
@@ -64,14 +65,15 @@ const TYPE_LABEL: Record<string, string> = { "1unit": "1 unit", "2units": "2 uni
 const signed = (v: number, d = 2) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${dec(Math.abs(v), d)}`;
 const more = (summary: string, html: string) => `<details class="more"><summary>${esc(summary)}</summary>${html}</details>`;
 
+// The same tabs, in the same order, for every reform (owner, 2026-11-11). The former "Wisconsin today" content is on
+// the shared Wisconsin today page; the former Statewide comparison is Summary plus How sure's Details.
 const ROUTES: Route[] = [
-  { path: "/today", label: "Wisconsin today", n: 1 },
-  { path: "/compare", label: "Statewide comparison", n: 2 },
-  { path: "/where", label: "Where", n: 3 },
-  { path: "/how-sure", label: "How sure", n: 4 },
-  { path: "/why", label: "Why", n: 5 },
-  { path: "/pilot/milwaukee", label: "Pilot examples", n: 6, match: "/pilot" },
-  { path: "/brief", label: "Brief", n: 7 },
+  { path: "/summary", label: "Summary", n: 1 },
+  { path: "/where", label: "Where", n: 2 },
+  { path: "/how-sure", label: "How sure", n: 3 },
+  { path: "/why", label: "Why", n: 4 },
+  { path: "/pilot/milwaukee", label: "Pilots", n: 5, match: "/pilot" },
+  { path: "/brief", label: "Brief", n: 6 },
 ];
 
 // ---- screens --------------------------------------------------------------------------------
@@ -105,7 +107,7 @@ function checkupHTML(c: NonNullable<Statewide["checkup"]>): string {
   return `<section class="card" data-testid="checkup"><h2>Check-up: how fast Wisconsin builds, against places that removed parking minimums</h2>
     <p>Wisconsin permitted <strong>${dec(c.wisconsin_rate, 1)}</strong> new homes per 1,000 existing homes a year in ${esc(c.wisconsin_years.replace("-", "–"))}. In the ${c.places} US places that removed parking minimums, the middle half permitted ${dec(c.p25, 1)} to ${dec(c.p75, 1)} in the years after (typical ${dec(c.p50, 1)}). So Wisconsin is ${where}.</p>
     <div class="checkup-bar" role="img" aria-label="Wisconsin ${dec(c.wisconsin_rate, 1)} per 1,000 homes a year; places after repeal: low below ${dec(c.p25, 1)}, usual ${dec(c.p25, 1)} to ${dec(c.p75, 1)}, high above ${dec(c.p75, 1)}">
-      <svg viewBox="0 0 100 14" preserveAspectRatio="none" width="100%" height="40">
+      <svg viewBox="0 0 100 14" preserveAspectRatio="none" width="100%" height="40" aria-hidden="true" focusable="false">
         <rect x="0" y="4" width="${x(c.p25)}" height="6" fill="var(--line)"></rect>
         <rect x="${x(c.p25)}" y="4" width="${x(c.p75) - x(c.p25)}" height="6" fill="${C.central}" opacity="0.55"></rect>
         <rect x="${x(c.p75)}" y="4" width="${100 - x(c.p75)}" height="6" fill="${C.upper}" opacity="0.35"></rect>
@@ -116,7 +118,7 @@ function checkupHTML(c: NonNullable<Statewide["checkup"]>): string {
     <p class="small muted">The black line is Wisconsin. Ranges are the 25th and 75th percentiles of the repeal places' permit rates in the one to three years after repeal (permits per 1,000 existing homes per year). A place's rate depends mostly on its market; this is context, not a forecast.</p></section>`;
 }
 
-function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
+export function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
   const s = b.statewide;
   const last = s.years.find((y) => y.year === 2025)!;
   const bench = b.areas.benchmark_places;
@@ -151,7 +153,7 @@ function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
     <p>${bench.filter((x) => x.rating === "at").map((x) => `${esc(x.name)}${x.adopted ? ` (${esc(x.adopted.slice(0, 4))})` : ""}`).join(", ")}.</p>
     ${more("Places that removed minimums with conditions", `<p>${bench.filter((x) => x.rating === "near").map((x) => esc(x.name)).join(", ")}. Madison and Milwaukee have partial reforms (downtown and some districts; Madison's 2023 transit overlay) and still require parking elsewhere.</p>`)}
   </section>
-  <p><a class="button" href="${env.link("/compare")}">Next: what a statewide law would add →</a></p>`;
+  <p><a class="button" href="${env.link("/summary")}">What a statewide parking law would add →</a></p>`;
   const ys = s.years;
   xyChart(document.getElementById("pk-today-chart")!, {
     title: "New homes permitted each year in Wisconsin: observed and current law",
@@ -167,9 +169,6 @@ function today(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
 }
 
 const PK_UNIT = "extra homes permitted over 2027–2031";
-function pkRangeCard(b: ParkingBundle, testid = "range-card"): string {
-  return rangeCardHTML({ title: "Extra homes from the law: the 90% range", range: b.statewide.range90, baselineTotal: b.statewide.baseline_total, testid });
-}
 /** Each area's share of the statewide range: the law spreads one rate per eligible home, so every area holds the
  *  same share of the low end and of the high end. The bundle's per-area figure is the high end's share. */
 function pkShare(b: ParkingBundle, addUpper: number): number {
@@ -177,40 +176,39 @@ function pkShare(b: ParkingBundle, addUpper: number): number {
   return up ? addUpper / up : 0;
 }
 
-function compare(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
+/** The parking Summary: the shared component. Parking's measured effect is the same every year (no ramp), so the
+ *  timing toggle is disabled. */
+function summaryInput(b: ParkingBundle): SummaryInput {
+  const s = b.statewide, fy = s.years.filter((y) => YEARS.includes(y.year));
+  return {
+    id: "parking", title: "Parking requirement reduction", law: "removes minimum parking requirements for all housing", unit: "homes",
+    range: s.range90, rangeFlat: "none", sideLines: s.side_lines.filter((x) => x.where === "chart"),
+    base: { central: fy.map((y) => y.baseline ?? 0), low: fy.map((y) => y.baseline_low ?? 0), high: fy.map((y) => y.baseline_high ?? 0) },
+    baseName: "homes of all kinds permitted under current law", homes: b.homes,
+  };
+}
+
+/** The former Statewide comparison, now How sure's Details: the range card, every side line, the yearly table and
+ *  "How big is that?". The chart is on Summary. */
+function details(b: ParkingBundle, env: ShellEnv): string {
   const s = b.statewide;
   const R = s.range90;
-  const lines = s.side_lines.filter((x) => x.where === "chart");
   const fy = s.years.filter((y) => YEARS.includes(y.year));
-  const prior = s.years.find((y) => y.year === 2026);
-  main.innerHTML = `
-  <h1>A statewide parking law: what it adds</h1>
-  <p class="lede" data-testid="compare-intro">If Wisconsin removed minimum parking requirements for all housing from 1 January 2027 (an illustrative start date), how many more homes would be permitted over 2027–2031 than under current law? The answer is one 90% range. It includes zero: the data can't tell whether removing parking minimums alone adds or removes homes. The thin lines across it are other ways of reaching the number, shown as reasons to believe; none of them is "the" estimate.</p>
-  ${pkRangeCard(b)}
-  <section class="card" aria-labelledby="h-pk-side"><h2 id="h-pk-side">Lines across the range</h2>
-    ${sideLinesHTML(lines, PK_UNIT, "side-lines", "Each line is drawn on the chart below. Lines can sit outside the range; they do not change it.")}
-    <p class="small"><a href="${env.link("/how-sure")}">Every what-if against the range is on How sure →</a></p></section>
-  <section class="card"><h2>New homes permitted each year</h2>
-    <p class="muted">Current law alone (grey, with its range shaded), and the law's 90% range (green) with the lines across it.</p>
-    ${chartModeToggleHTML("pk-chart-mode")}<div class="chart-box" id="pk-chart"></div>
-    <div id="pk-legend"></div>
+  return `
+  <h2 class="section-h" id="h-details" data-testid="details">Details</h2>
+  ${rangeCardHTML({ title: "Extra homes from the law: the 90% range", range: R, baselineTotal: s.baseline_total, testid: "range-card", headingLevel: 3 })}
+  <section class="card" aria-labelledby="h-pk-side"><h3 id="h-pk-side">Side lines</h3>
+    ${sideLinesHTML(s.side_lines.filter((x) => x.where === "chart"), PK_UNIT, "side-lines", "Drawn on the Summary chart. Lines can sit outside the range; they do not change it.")}
+    ${sideLinesHTML(s.side_lines.filter((x) => x.where !== "chart"), PK_UNIT, "howsure-side-lines", "Shown here only. None changes the 90% range.")}</section>
+  <section class="card" aria-labelledby="h-pk-years"><h3 id="h-pk-years">New homes permitted each year</h3>
     <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Homes permitted in Wisconsin: current law, and the law's extra homes as a 90% range</caption>
       <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th><th scope="col" class="num">Current law: low</th><th scope="col" class="num">Current law: high</th><th scope="col" class="num">Extra with the law: low end</th><th scope="col" class="num">Extra with the law: high end</th></tr></thead>
       <tbody>${fy.map((y) => { const r = R.years.find((x) => x.year === y.year)!; return `<tr><th scope="row">${y.year}</th><td class="num">${int(y.baseline)}</td><td class="num">${int(y.baseline_low)}</td><td class="num">${int(y.baseline_high)}</td><td class="num">${num(r.low)}</td><td class="num">${num(r.high)}</td></tr>`; }).join("")}
       <tr><th scope="row">2027–2031</th><td class="num">${int(s.baseline_total)}</td><td class="num">${int(s.baseline_low_total)}</td><td class="num">${int(s.baseline_high_total)}</td><td class="num" data-testid="table-range-low">${num(R.low)}</td><td class="num" data-testid="table-range-high">${num(R.high)}</td></tr></tbody></table></div>
-    <p class="small muted">Homes in issued building permits, all building sizes. Current law holds each place at its 2023–2025 average; its range (${int(s.baseline_low_total)} to ${int(s.baseline_high_total)} homes over five years) comes from Wisconsin's own five-year swings and is not added to the law's range. The law's range is the same each year, one fifth of the five-year range. Observed years are on <a href="${env.link("/today")}">Wisconsin today</a>. Yearly rows may not add exactly to the totals because of rounding.</p></section>
-  <section class="card"><h2>How big is that?</h2>
+    <p class="small muted">Homes in issued building permits, all building sizes. Current law holds each place at its 2023–2025 average; its range (${int(s.baseline_low_total)} to ${int(s.baseline_high_total)} homes over five years) comes from Wisconsin's own five-year swings and is not added to the law's range. The law's range is the same each year, one fifth of the five-year range. Observed years are on <a href="#/wisconsin-today?section=parking">Wisconsin today</a>. Yearly rows may not add exactly to the totals because of rounding.</p></section>
+  <section class="card" aria-labelledby="h-pk-big"><h3 id="h-pk-big">How big is that?</h3>
     <p data-testid="compare-size">About ${num(R.years[0].low)} to ${num(R.years[0].high)} extra homes permitted a year, against about ${int(fy[0].baseline)} homes a year Wisconsin is expected to permit under current law (all homes, all places). These are homes in issued building permits, not completed homes.</p></section>
-  <p><a class="button" href="${env.link("/where")}">Next: where the homes would be →</a></p>`;
-  bindChartMode("pk-chart-mode", (mode) => {
-    document.getElementById("pk-legend")!.innerHTML = drawRangeChart(document.getElementById("pk-chart")!, {
-      mode, range: R, sideLines: lines, noun: "homes",
-      base: { years: YEARS, central: fy.map((y) => y.baseline ?? 0), low: fy.map((y) => y.baseline_low ?? 0), high: fy.map((y) => y.baseline_high ?? 0), prior: prior?.baseline !== undefined ? { year: 2026, value: prior.baseline } : undefined },
-      title: mode === "totals" ? "New homes permitted each year in Wisconsin, 2026 to 2031" : "Extra homes permitted each year in Wisconsin, 2027–2031",
-      yLabel: mode === "totals" ? "Homes permitted per year" : "Extra homes per year",
-      xTicks: mode === "totals" && prior ? [2026, ...YEARS] : YEARS, vline: mode === "totals" && prior ? { x: 2026.5, label: "Law in effect" } : undefined,
-    });
-  });
+  <p class="small"><a href="${env.link("/summary")}">The range and its side lines on the chart →</a></p>`;
 }
 
 // ---- map (shared geography from the ADU bundle: county, municipality and district outlines) ----
@@ -320,14 +318,11 @@ function howSure(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
   const lawCases = cases.filter((x) => x.moves !== "current law only").sort((a, z) => z.value - a.value);
   main.innerHTML = `
   <h1>How sure are we?</h1>
-  <p class="lede">The law's extra homes are one 90% range, and it includes zero: the evidence found no measurable effect. This page puts every what-if against that range, shows how stable the finding is, and which parts rest on data and which on judgment.</p>
-  ${pkRangeCard(b, "howsure-range")}
-  <section class="card" aria-labelledby="h-pk-hs-lines"><h2 id="h-pk-hs-lines">Lines across the range</h2>
-    ${sideLinesHTML(b.statewide.side_lines, PK_UNIT, "howsure-side-lines", "The first lines are also drawn on the chart on Statewide comparison; the last is shown here only. None changes the 90% range.")}</section>
+  <p class="lede">The law's extra homes are one 90% range, ${num(R.low)} to ${num(R.high)} over 2027–2031, and it includes zero: the evidence found no measurable effect. This page puts every what-if against that range, shows how stable the finding is, and which parts rest on data and which on judgment. The range card, the side lines and the yearly table are under Details at the end.</p>
   <section class="card" aria-labelledby="h-pk-tornado"><h2 id="h-pk-tornado">What-ifs against the range</h2>
     <p>Each row is one what-if: a dot at its own statewide extra homes over 2027–2031, with a bar from zero. The shaded band is the 90% range, ${num(R.low)} to ${num(R.high)}. A hollow dot sits outside the range. No what-if changes the range.</p>
     ${againstBandHTML(lawCases.map((x) => ({ label: x.case, value: x.value })), R, "Each what-if's own extra homes permitted in Wisconsin, 2027–2031", "pk-tornado")}
-    <p class="small muted" data-testid="pk-tornado-note">Not repeated here: the former high line (the range's high end, ${num(R.high)}) and the former low line (now the side line "${esc(b.statewide.side_lines.find((x) => x.id === "measured_average")?.label ?? "Measured average")}"). What-ifs about current law alone are in the last table below; they do not change the law's extra homes. <a href="${env.link("/compare")}">The range and its side lines on the chart →</a></p></section>
+    <p class="small muted" data-testid="pk-tornado-note">Not repeated here: the former high line (the range's high end, ${num(R.high)}) and the former low line (now the side line "${esc(b.statewide.side_lines.find((x) => x.id === "measured_average")?.label ?? "Measured average")}"). What-ifs about current law alone are in a table below; they do not change the law's extra homes. <a href="${env.link("/summary")}">The range and its side lines on the chart →</a></p></section>
   ${groups.map((g) => `<section class="card"><h2>Cases that change ${esc(g)}</h2><div class="table-wrap"><table class="data"><caption class="sr-only">${esc(g)}</caption>
     <thead><tr><th scope="col">Case</th><th scope="col" class="num">${g === "current law only" ? "Current-law permits, 2027–2031" : "Extra homes permitted, 2027–2031"}</th><th scope="col">What it means</th></tr></thead>
     <tbody>${cases.filter((x) => x.moves === g).map((x) => `<tr><th scope="row">${esc(x.case)}</th><td class="num">${num(x.value)}</td><td>${esc(x.description)}</td></tr>`).join("")}</tbody></table></div></section>`).join("")}
@@ -355,7 +350,8 @@ function howSure(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
       <tbody>${H.event_path.map((x) => `<tr><th scope="row">${x.year_since}</th><td class="num">${x.places}</td><td class="num">${signed(x.effect)}</td><td class="num">${signed(x.median)}</td></tr>`).join("")}</tbody></table></div>
     <p class="small muted">No: it drifts lower, though few places reach years 4 and 5. Holding the range's high end flat to 2031 is generous. This path was computed after the plan was registered and changes no number.</p></section>
   <section class="card"><h2>What rests on data and what on judgment</h2>
-    <ul class="plain">${H.trace.map((t) => `<li>${pill(t.status)} <strong>${esc(t.part)}.</strong> ${esc(t.text)}</li>`).join("")}</ul></section>`;
+    <ul class="plain">${H.trace.map((t) => `<li>${pill(t.status)} <strong>${esc(t.part)}.</strong> ${esc(t.text)}</li>`).join("")}</ul></section>
+  ${details(b, env)}`;
 }
 
 function why(b: ParkingBundle, main: HTMLElement): void {
@@ -420,7 +416,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
   const m = b.manifest;
   return {
     routes: ROUTES,
-    defaultPath: "/today",
+    defaultPath: "/summary",
     titleSuffix: "Wisconsin parking law",
     statusStrip: `<span><strong>Accepted model</strong> (27 October 2026)</span><span>Run <code data-testid="run-id">${esc(m.run_id)}</code></span><span>Last observed year ${m.dates.last_observed_year}</span><span>Forecast 2027–2031</span><span>Law in effect 1 Jan 2027 (illustrative)</span>`,
     footer: `<p><strong>Outcome:</strong> ${esc(m.outcome.short)}</p>
@@ -431,13 +427,12 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
     leave: () => leaveMap(),
     render(path: string, params: URLSearchParams, main: HTMLElement) {
       if (!path.startsWith("/where")) leaveMap();
-      if (path.startsWith("/compare")) compare(b, env, main);
-      else if (path.startsWith("/where")) where(b, env, params, main);
+      if (path.startsWith("/where")) where(b, env, params, main);
       else if (path.startsWith("/how-sure")) howSure(b, env, main);
       else if (path.startsWith("/why")) why(b, main);
       else if (path.startsWith("/pilot")) pilot(b, env, path.split("/")[2] ?? "milwaukee", main);
       else if (path.startsWith("/brief")) brief(b, main);
-      else today(b, env, main);
+      else renderSummary(main, summaryInput(b), env, params);
     },
   };
 }

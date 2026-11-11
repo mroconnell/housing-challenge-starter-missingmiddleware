@@ -1,7 +1,7 @@
 // The uniform range display (docs/UNIFORM_DISPLAY_SPEC.md): one 90% range per reform with its low and high ends
 // labelled, no centre line, and side lines drawn across it as reasons to believe. Shared by the ADU and TOD screens.
 // Every number comes from a reform's bundle; the browser only scales, formats and draws.
-import { legendHTML, xyChart, type ChartMode, type Pt, type Series } from "./charts";
+import { legendHTML, xyChart, type ChartMode, type ChartSpec, type Pt, type Series } from "./charts";
 import { esc, int } from "./format";
 
 export interface RangeYear { year: number; low: number; high: number }
@@ -86,7 +86,7 @@ export function drawRangeChart(container: HTMLElement, o: {
   mode: ChartMode; range: Range90; sideLines: SideLine[];
   base: { years: number[]; central: number[]; low: number[]; high: number[]; prior?: { year: number; value: number } };
   title: string; yLabel: string; noun: string; f?: (v: number) => number; yFormat?: (y: number) => string;
-  vline?: { x: number; label: string }; xTicks?: number[]; height?: number;
+  vline?: { x: number; label: string }; xTicks?: number[]; height?: number; onDraw?: ChartSpec["onDraw"];
 }): string {
   const f = o.f ?? ((v: number) => v);
   const R = o.range, sh = yearShares(R), yrs = R.years.map((y) => y.year);
@@ -113,7 +113,7 @@ export function drawRangeChart(container: HTMLElement, o: {
     desc: `${extra ? `Current law is the zero line. ` : `Current law: ${int(sum(o.base.central))} ${o.noun} over 2027–2031 (range ${int(sum(o.base.low))} to ${int(sum(o.base.high))}), shaded grey. `}`
       + `The law's 90% range, shaded green: ${num(R.low)} to ${num(R.high)} extra ${o.noun} over 2027–2031${extra ? "" : ", on top of current law"}. `
       + `Side lines over 2027–2031: ${o.sideLines.filter((s) => s.value !== undefined).map((s) => `${s.label} ${num(s.value!)}`).join("; ")}. No centre line is drawn. The table below has the yearly values.`,
-    yLabel: o.yLabel, xTicks: o.xTicks ?? yrs, xPad: 0.4, yFormat: o.yFormat, vline: o.vline, height: o.height,
+    yLabel: o.yLabel, xTicks: o.xTicks ?? yrs, xPad: 0.4, yFormat: o.yFormat, vline: o.vline, height: o.height, onDraw: o.onDraw,
     bands, series,
   });
   return legendHTML([

@@ -1,6 +1,6 @@
 // The Introduction (landing page at the root route): the approved copy is on the page, the four 90% ranges (a table) and the
-// baseline equal their sources (bundles and shared reference CSVs), the links open the right screens, and the old
-// "Wisconsin today" screen is still reachable at its old address.
+// baseline equal their sources (bundles and shared reference CSVs), the links open the right screens (the shared
+// Wisconsin today page and each reform's Summary), and the Summary's "How we count" line is the intro's own.
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "@playwright/test";
 
@@ -110,13 +110,13 @@ test("the four ranges and the baseline equal their sources", async ({ page }) =>
   expect(Math.round(central)).toBe(Math.round(pkState.baseline_total));
 });
 
-test("the Wisconsin Today link opens the old Wisconsin today screen", async ({ page }) => {
+test("the Wisconsin Today link opens the shared Wisconsin today page", async ({ page }) => {
   await page.goto("#/");
-  await page.getByRole("link", { name: "Wisconsin Today" }).click();
-  await expect(page).toHaveURL(/#\/today$/);
-  await expect(page.locator("h1")).toHaveText("Wisconsin housing today");
-  await expect(page.getByTestId("today-central")).toBeVisible();
-  await expect(page).toHaveTitle("Wisconsin today · Wisconsin ADU law · Missing Middleware");
+  await page.getByRole("link", { name: "Wisconsin Today", exact: true }).click();
+  await expect(page).toHaveURL(/#\/wisconsin-today$/);
+  await expect(page.locator("h1")).toHaveText("Wisconsin today");
+  await expect(page.getByTestId("wt-baseline-total")).toBeVisible();
+  await expect(page).toHaveTitle("Wisconsin today · Missing Middleware");
   // and the brand link brings the reader back to the Introduction
   await page.locator("a.brand").click();
   await expect(page.getByTestId("intro")).toBeVisible();
@@ -124,10 +124,10 @@ test("the Wisconsin Today link opens the old Wisconsin today screen", async ({ p
 
 test("the reform links open each reform's page that describes the law", async ({ page }) => {
   const cases: [string, RegExp, string, string][] = [
-    ["intro-link-adu", /#\/compare$/, "A statewide ADU law: what it adds", "The law."],
-    ["intro-link-middle", /#\/middle\/compare$/, "Middle housing: extra homes over five years", "Homes in 2–4 unit buildings"],
-    ["intro-link-tod", /#\/tod\/today$/, "Homes near major transit stops in Wisconsin today", "What the modelled law does"],
-    ["intro-link-parking", /#\/parking\/compare$/, "A statewide parking law: what it adds", "removed minimum parking requirements"],
+    ["intro-link-adu", /#\/summary$/, "Accessory dwelling units", "allows one ADU on every lot with a single-family home"],
+    ["intro-link-middle", /#\/middle\/summary$/, "Missing middle housing", "allows 2–6 homes on every lot now limited to one home"],
+    ["intro-link-tod", /#\/tod\/summary$/, "Transit-oriented density", "zones apartments by right"],
+    ["intro-link-parking", /#\/parking\/summary$/, "Parking requirement reduction", "removes minimum parking requirements"],
   ];
   for (const [id, url, h1, lawText] of cases) {
     await page.goto("#/");
@@ -217,10 +217,20 @@ test("header pills: one even row on a wide screen, a 2×2 grid on a phone, full 
 });
 
 test("the run status strip sits below the sticky header and scrolls away", async ({ page }) => {
-  await page.goto("#/middle/compare");
+  await page.goto("#/middle/summary");
   const strip = page.locator(".status-strip");
   await expect(strip).toBeVisible();
   expect(await strip.evaluate((el) => !el.closest("header") && getComputedStyle(el).position === "static")).toBe(true);
   await expect(strip).not.toContainText(/in development|preview/i);
   await expect(page.getByTestId("preview-flag")).toHaveCount(0);
+});
+
+test("each reform's Summary shows the same How we count line as the Introduction's table", async ({ page }) => {
+  await page.goto("#/");
+  const lines: Record<string, string> = {};
+  for (const id of ["adu", "middle", "tod", "parking"]) lines[id] = ((await page.getByTestId(`intro-${id}`).locator("td.intro-how").textContent()) ?? "").trim();
+  for (const [id, pre] of [["adu", ""], ["middle", "/middle"], ["tod", "/tod"], ["parking", "/parking"]]) {
+    await page.goto(`#${pre}/summary`);
+    await expect(page.getByTestId("summary-how")).toHaveText(`How we count. ${lines[id]}`);
+  }
 });

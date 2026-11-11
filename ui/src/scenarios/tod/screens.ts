@@ -1,8 +1,9 @@
 // The seven TOD screens. Every number comes from the bundle (scripts/build_tod_bundle.py); the browser only selects,
 // sorts and formats. Plain language first: each screen opens with what the reader is looking at.
-import { bindChartMode, chartModeToggleHTML, legendHTML, xyChart } from "../../charts";
+import { legendHTML, xyChart } from "../../charts";
 import { dec, esc, int, pill, small } from "../../format";
-import { againstBandHTML, againstBandScale, drawRangeChart, num, rangeCardHTML, sideLinesHTML, sideValue } from "../../range";
+import { againstBandHTML, againstBandScale, num, rangeCardHTML, sideLinesHTML, sideValue } from "../../range";
+import { flatRange, type SummaryInput, type WiHomes } from "../../summary";
 import type { ShellEnv } from "../types";
 import { mapKey, rapidMapKey, stationMap } from "./map";
 import { SCEN_IDS, type AggRow, type DensityBands, type Muni, type Pilot, type ScenId, type TodBundle } from "./types";
@@ -182,7 +183,7 @@ export function today(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
       <thead><tr><th scope="col">Transit system and lines</th><th scope="col" class="num">Rail or rapid stops</th><th scope="col" class="num">15-minute bus stops</th><th scope="col" class="num">20-minute bus stops (wider case only)</th></tr></thead>
       <tbody>${s.agencies.map((a) => `<tr><th scope="row"><strong>${esc(a.agency)}</strong><br><span class="small">${esc(a.lines)}</span></th><td class="num">${int(a.rapid)}</td><td class="num">${int(a.bus15)}</td><td class="num">${int(a.bus20_only)}</td></tr>`).join("")}</tbody></table></div>
     <p class="small muted">Green Bay has no current schedule file, so none of its routes could be tested and none counts. A map of the station areas is on <a href="${env.link("/where")}">Where</a>.</p></section>
-  <p><a class="button" href="${env.link("/compare")}">Next: what the law would add →</a></p>`;
+  <p><a class="button" href="${env.link("/summary")}">What a statewide TOD law would add →</a></p>`;
   main.querySelectorAll<HTMLInputElement>('input[name="tod-today-view"]').forEach((i) => i.addEventListener("change", () => {
     const q = new URLSearchParams(params);
     q.set("view", i.value);
@@ -198,52 +199,50 @@ export function todRangeCard(b: TodBundle, headingLevel: 2 | 3 = 2, testid = "ra
 /** The record-year warning, checked at the range's high end. */
 const andList = (xs: string[]): string => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`);
 
-function recordNote(b: TodBundle, env: ShellEnv): string {
+function recordNote(b: TodBundle): string {
   const R = b.statewide.range90, rc = R.record_check_high ?? [];
   const over = rc.filter((x) => x.years_above_own_record.length);
   if (!over.length) return "";
   const top = rc.filter((x) => x.above_observed_max);
-  return `<div class="note-box" role="note" data-testid="record-years"><p><strong>Above the metros' own records at the high end.</strong> At the range's high end (${num(R.high)} extra homes), apartment permitting (current law plus the law) would pass the metro's own record year in ${over.map((x) => `${esc(x.metro)} ${andList(x.years_above_own_record.map(String))}`).join("; ")}. ${top.length ? `In ${top.map((x) => `${esc(x.metro)} (${dec(x.peak_total_per_1000, 1)} apartment homes per 1,000 existing homes in ${x.peak_year})`).join(" and ")} it would also pass the busiest year any of 79 comparable US metros has recorded (${dec(top[0].observed_max, 1)} per 1,000).` : "No metro would pass the busiest year any comparable US metro has recorded."} Details on <a href="${env.link("/how-sure")}">How sure</a>.</p></div>`;
+  return `<div class="note-box" role="note" data-testid="record-years"><p><strong>Above the metros' own records at the high end.</strong> At the range's high end (${num(R.high)} extra homes), apartment permitting (current law plus the law) would pass the metro's own record year in ${over.map((x) => `${esc(x.metro)} ${andList(x.years_above_own_record.map(String))}`).join("; ")}. ${top.length ? `In ${top.map((x) => `${esc(x.metro)} (${dec(x.peak_total_per_1000, 1)} apartment homes per 1,000 existing homes in ${x.peak_year})`).join(" and ")} it would also pass the busiest year any of 79 comparable US metros has recorded (${dec(top[0].observed_max, 1)} per 1,000).` : "No metro would pass the busiest year any comparable US metro has recorded."} The scale check above has the details.</p></div>`;
 }
 
-export function compare(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
+/** The TOD Summary: the shared component fed from the TOD bundle. */
+export function todSummaryInput(b: TodBundle, homes: WiHomes): SummaryInput {
+  const s = b.statewide, y = s.baseline.years;
+  return {
+    id: "tod", title: "Transit-oriented density", law: `zones apartments by right on ${sharePct(s.district.share)} of the land within ${s.district.radius} of rail and rapid-bus stops`,
+    unit: "homes near major transit stops", range: s.range90, rangeFlat: flatRange(s.range90),
+    sideLines: s.side_lines.filter((x) => x.where === "chart"),
+    base: { central: y.map((r) => r.central), low: y.map((r) => r.low), high: y.map((r) => r.high) },
+    baseName: "homes permitted near stops under current law", homes,
+  };
+}
+
+/** The former Statewide comparison, now How sure's Details: timing, the range card, every side line, the record-year
+ *  note, the yearly table and "How big is that?". The chart is on Summary. */
+function todDetails(b: TodBundle): string {
   const s = b.statewide;
   const base = s.baseline;
   const R = s.range90;
-  const lines = s.side_lines.filter((x) => x.where === "chart");
-  main.innerHTML = `
-  <h1>A statewide transit-oriented density law: what it adds</h1>
-  <p class="lede" data-testid="compare-intro">If every Wisconsin city with rail or rapid transit stops zoned an apartment district, by right, on 15% of the land within ¼ mile of them from 1 January 2027 (an illustrative start date), how many more homes would be permitted near major transit stops over 2027–2031 than under current law? The answer is one 90% range. The thin lines across it are other ways of reaching the number, shown as reasons to believe; none of them is "the" estimate.</p>
+  return `
+  <h2 class="section-h" id="h-details" data-testid="details">Details</h2>
   <div class="note-box" role="note" data-testid="timing-caveat"><p><strong>About timing.</strong> ${esc(s.timing_caveat)}</p></div>
-  ${todRangeCard(b)}
-  <section class="card" aria-labelledby="h-tod-side"><h2 id="h-tod-side">Lines across the range</h2>
-    ${sideLinesHTML(lines, TOD_SCOPE_UNIT, "side-lines", "Each line is drawn on the chart below. Lines can sit outside the range; they do not change it.")}
-    <p class="small"><a href="${env.link("/how-sure")}">Every what-if against the range is on How sure →</a></p></section>
-  ${recordNote(b, env)}
-  <section class="card"><h2>Homes permitted near stops each year</h2>
-    <p class="muted">Current law alone (grey, with its range shaded), and the law's 90% range (green) with the lines across it.</p>
-    ${chartModeToggleHTML("tod-chart-mode")}
-    <div class="chart-box" id="tod-chart"></div>
-    <div id="tod-legend"></div>
+  ${todRangeCard(b, 3)}
+  <section class="card" aria-labelledby="h-tod-side"><h3 id="h-tod-side">Side lines</h3>
+    ${sideLinesHTML(s.side_lines.filter((x) => x.where === "chart"), TOD_SCOPE_UNIT, "side-lines", "Drawn on the Summary chart. Lines can sit outside the range; they do not change it.")}
+    ${s.side_lines.some((x) => x.where !== "chart") ? sideLinesHTML(s.side_lines.filter((x) => x.where !== "chart"), TOD_SCOPE_UNIT, "howsure-side-lines", "Shown here only. None changes the 90% range.") : ""}</section>
+  ${recordNote(b)}
+  <section class="card" aria-labelledby="h-tod-years"><h3 id="h-tod-years">Homes permitted near stops each year</h3>
     <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Homes permitted near major transit stops: current law, and the law's extra homes as a 90% range</caption>
       <thead><tr><th scope="col">Year</th><th scope="col" class="num">Current law</th><th scope="col" class="num">Current law: low</th><th scope="col" class="num">Current law: high</th><th scope="col" class="num">Extra with the law: low end</th><th scope="col" class="num">Extra with the law: high end</th></tr></thead>
       <tbody>${base.years.map((y, i) => `<tr><th scope="row">${y.year}</th><td class="num">${int(y.central)}</td><td class="num">${int(y.low)}</td><td class="num">${int(y.high)}</td><td class="num">${int(R.years[i].low)}</td><td class="num">${int(R.years[i].high)}</td></tr>`).join("")}
       <tr><th scope="row">2027–2031</th><td class="num">${int(base.total)}</td><td class="num">${int(base.low_total)}</td><td class="num">${int(base.high_total)}</td><td class="num" data-testid="table-range-low">${num(R.low)}</td><td class="num" data-testid="table-range-high">${num(R.high)}</td></tr></tbody></table></div>
     <p class="small" data-testid="median-note">${esc(s.median_line.note)}</p>
-    <p class="small muted">Current law near stops is held at each place's 2023–2025 average, so it is flat; its range (${int(base.low_total)}–${int(base.high_total)} over five years) comes from Wisconsin's own five-year swings. ${esc(R.years_method ?? "")} The yearly ends are not added to current law's own range. The yearly split follows the build-up measured across the 11 places, so 2028, the second year, dips slightly below zero. The former New York timing is on <a href="${env.link("/how-sure")}">How sure</a>. Yearly rows may not add exactly to the totals because of rounding.</p></section>
-  <section class="card"><h2>How big is that?</h2>
+    <p class="small muted">Current law near stops is held at each place's 2023–2025 average, so it is flat; its range (${int(base.low_total)}–${int(base.high_total)} over five years) comes from Wisconsin's own five-year swings. ${esc(R.years_method ?? "")} The yearly ends are not added to current law's own range. The yearly split follows the build-up measured across the 11 places, so 2028, the second year, dips slightly below zero. The former New York timing is in the tables above. Yearly rows may not add exactly to the totals because of rounding.</p></section>
+  <section class="card" aria-labelledby="h-tod-big"><h3 id="h-tod-big">How big is that?</h3>
     <p data-testid="compare-size">The law adds ${num(R.low)} to ${num(R.high)} homes (90% range) to the ${int(base.total)} expected near stops under current law over 2027–2031: ${sharePct(R.low / base.total)} to ${sharePct(R.high / base.total)} more. Against all new homes in Wisconsin, that is about ${int(R.low / 5)} to ${int(R.high / 5)} extra homes a year, ${sharePct(R.low / s.state_baseline_total)} to ${sharePct(R.high / s.state_baseline_total)} of the ${int(s.state_baseline_per_year)} homes a year Wisconsin is expected to permit under current law (all homes, all places), or ${sharePct(R.low / s.acs_homes)} to ${sharePct(R.high / s.acs_homes)} of Wisconsin's ${int(s.acs_homes)} homes (ACS 2020–2024).</p>
-    <p class="small muted" data-testid="shared-unit">These are homes in issued building permits, not completed homes, compared with current law in the same places. The homes near stops are part of Wisconsin's all-homes count, and the reforms overlap (homes near stops can gain from parking reform too), so the extra homes of different reforms are never added together. Station-area shares use the 2020 census, because the station areas are built from census blocks.</p></section>
-  <p><a class="button" href="${env.link("/where")}">Next: where the homes would be →</a></p>`;
-  const yrs = base.years;
-  bindChartMode("tod-chart-mode", (mode) => {
-    document.getElementById("tod-legend")!.innerHTML = drawRangeChart(document.getElementById("tod-chart")!, {
-      mode, range: R, sideLines: lines, noun: "homes",
-      base: { years: YEARS, central: yrs.map((y) => y.central), low: yrs.map((y) => y.low), high: yrs.map((y) => y.high) },
-      title: mode === "totals" ? "Homes permitted near major transit stops each year, 2027–2031" : "Extra homes permitted near major transit stops each year, 2027–2031",
-      yLabel: mode === "totals" ? "Homes permitted per year" : "Extra homes per year",
-    });
-  });
+    <p class="small muted" data-testid="shared-unit">These are homes in issued building permits, not completed homes, compared with current law in the same places. The homes near stops are part of Wisconsin's all-homes count, and the reforms overlap (homes near stops can gain from parking reform too), so the extra homes of different reforms are never added together. Station-area shares use the 2020 census, because the station areas are built from census blocks.</p></section>`;
 }
 
 // ---- 3. Where ------------------------------------------------------------------------------------
@@ -374,10 +373,7 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     <p class="small muted" data-testid="tod-tornado-note">Not shown: what-ifs about current law, stop rules and timing. Current law near stops ranges from ${int(Math.min(...blRows))} to ${int(Math.max(...blRows))} homes over 2027–2031 across them; they do not change the law's extra homes.</p></section>`;
   main.innerHTML = `
   <h1>How sure are we?</h1>
-  <p class="lede">The law's extra homes are one 90% range. This page puts every what-if against that range, shows whether the results are believable for Milwaukee and Madison, and which parts rest on data and which on judgment. The tables further down still list the three former lines (lower, central, upper), which are now side lines.</p>
-  ${todRangeCard(b, 2, "howsure-range")}
-  <section class="card" aria-labelledby="h-tod-hs-lines"><h2 id="h-tod-hs-lines">Lines across the range</h2>
-    ${sideLinesHTML(s.side_lines, TOD_SCOPE_UNIT, "howsure-side-lines")}</section>
+  <p class="lede">The law's extra homes are one 90% range, ${num(s.range90.low)} to ${num(s.range90.high)} over 2027–2031. This page puts every what-if against that range, shows whether the results are believable for Milwaukee and Madison, and which parts rest on data and which on judgment. The tables further down still list the three former lines (lower, central, upper), which are now side lines. The range card, the side lines and the yearly table are under Details at the end.</p>
   ${tornadoCard}
   ${H.groups.map(groupTable).join("")}
   <section class="card"><h2>A sizing method that was tested and set aside</h2>
@@ -395,7 +391,8 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     <ul class="plain" data-testid="trace">${H.trace.map((t) => `<li>${pill(t.status)} <strong>${esc(t.part)}.</strong> ${esc(t.text)}</li>`).join("")}</ul></section>
   <section class="card"><h2>What the model cannot tell you</h2>
     <ul class="plain">${H.cannot_tell.map((c) => `<li><strong>${esc(c.title)}.</strong> ${esc(c.text)}</li>`).join("")}</ul>
-    <p class="small muted">Current law near stops is ${int(s.baseline.total)} homes over 2027–2031 in the main case; the "Current law" column above shows how each what-if changes it.</p></section>`;
+    <p class="small muted">Current law near stops is ${int(s.baseline.total)} homes over 2027–2031 in the main case; the "Current law" column above shows how each what-if changes it.</p></section>
+  ${todDetails(b)}`;
 }
 
 // ---- 5. Why --------------------------------------------------------------------------------------

@@ -11,7 +11,7 @@ async function bundle(page: Page) {
   return { run_id, state: await get("state.json"), pilots: await get("pilots.json"), areas: await get("areas.json"),
     unknown: await get("unknown_rules.json"), districts: await get("districts.json") };
 }
-const SCREENS = ["today", "compare", "where", "how-sure", "why", "pilot/madison", "pilot/pleasant-prairie", "pilot/sun-prairie", "brief"];
+const SCREENS = ["summary", "where", "how-sure", "why", "pilot/madison", "pilot/pleasant-prairie", "pilot/sun-prairie", "brief"];
 
 test("every screen loads without errors and shows the run id", async ({ page }) => {
   const errors: string[] = [];
@@ -30,15 +30,15 @@ test("every screen loads without errors and shows the run id", async ({ page }) 
 test("headline numbers match the bundle", async ({ page }) => {
   const b = await bundle(page);
   const sc = Object.fromEntries(b.state.scenarios.map((s: { id: string }) => [s.id, s]));
-  await page.goto("#/today");
+  await page.goto("#/wisconsin-today");
   await expect(page.getByTestId("today-baseline")).toHaveText(fmt(b.state.baseline.total));
-  await expect(page.getByTestId("today-central")).toHaveText("+" + fmt(sc.central.additional_total));
+  await expect(page.getByTestId("today-central")).toHaveCount(0);   // no centre line: the Summary has the range
   await expect(page.getByTestId("sf-homes")).toHaveText(fmt(b.state.homes.value));
   // ordering of the adopted values (the values themselves are checked against reference/adu_model_*.csv in tests/test_ui_bundle.py)
   expect(sc.lower.additional_total).toBeLessThan(sc.central.additional_total);
   expect(sc.central.additional_total).toBeLessThan(sc.upper.additional_total);
 
-  await page.goto("#/compare");
+  await page.goto("#/how-sure");
   const R = b.state.range90;
   await expect(page.getByTestId("range-card").getByTestId("range-low")).toHaveText(fmt(R.low));
   await expect(page.getByTestId("range-card").getByTestId("range-high")).toHaveText(fmt(R.high));
@@ -106,26 +106,29 @@ test("pilot pages show baselines and additions from the bundle", async ({ page }
 
 test("keyboard: skip link, tab navigation and scenario radios", async ({ page, isMobile }) => {
   test.skip(isMobile, "keyboard test runs on desktop");
-  await page.goto("#/today");
+  await page.goto("#/summary");
   await expect(page.locator("h1")).toBeVisible();
   await page.keyboard.press("Tab");
   await expect(page.locator(".skip")).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator("main")).toBeFocused();
-  await expect(page).toHaveURL(/#\/today/);
-  // tab to the "Statewide comparison" nav link and open it with Enter
-  await page.goto("#/today");
-  const link = page.locator('nav.tabs a[href="#/compare"]');
+  await expect(page).toHaveURL(/#\/summary/);
+  // tab to the "Summary" nav link from another screen and open it with Enter
+  await page.goto("#/why");
+  await page.reload();   // focus starts at the top of the page
+  await expect(page.locator("h1")).toBeVisible();
+  const link = page.locator('nav.tabs a[href="#/summary"]');
   for (let i = 0; i < 20 && !(await link.evaluate((el) => el === document.activeElement)); i++) await page.keyboard.press("Tab");
   await expect(link).toBeFocused();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/#\/compare/);
-  await expect(page.locator('nav.tabs a[aria-current="page"]')).toHaveText(/Statewide comparison/);
-  const totals = page.getByTestId("adu-chart-mode").getByLabel("Totals");
-  await totals.check();
+  await expect(page).toHaveURL(/#\/summary/);
+  await expect(page.locator('nav.tabs a[aria-current="page"]')).toHaveText(/Summary/);
+  const totals = page.getByTestId("toggle-show").getByLabel("Totals with current law");
+  await totals.focus();
   await totals.press("ArrowRight");
-  await expect(page.getByTestId("adu-chart-mode").getByLabel("Extra homes only")).toBeChecked();
-  await expect(page.getByTestId("adu-chart-mode").getByLabel("Extra homes only")).toBeFocused();
+  await expect(page.getByTestId("toggle-show").getByLabel("Extra homes only")).toBeChecked();
+  await expect(page.getByTestId("toggle-show").getByLabel("Extra homes only")).toBeFocused();
+  await expect(page).toHaveURL(/show=extra/);
   // sortable table headers are buttons
   await page.goto("#/where");
   const sortBtn = page.locator('button.sort[data-k="homes"]');
@@ -178,11 +181,11 @@ test("Madison's different treatment is explained on its pilot page and only when
 test("chart key, tables and brief use the bundle's labels", async ({ page }) => {
   const b = await bundle(page);
   const L = b.state.labels;
-  await page.goto("#/compare");
-  await expect(page.getByTestId("compare-intro")).toContainText("one 90% range");
-  const legend = page.locator("#h-path").locator("xpath=ancestor::section").locator(".legend");
+  await page.goto("#/summary");
+  const legend = page.getByTestId("summary-legend");
   await expect(legend).toContainText("90% range");
   for (const s of b.state.side_lines.filter((x: { where: string }) => x.where === "chart")) await expect(legend).toContainText(s.label);
+  await page.goto("#/how-sure");
   await expect(page.getByTestId("compare-table")).toContainText(L.baseline);
   await page.goto("#/brief");
   for (const s of b.state.scenarios) await expect(page.getByTestId("brief-table")).toContainText(s.chart_label);
@@ -339,25 +342,25 @@ test("keyboard: unknown-rules switch and district view", async ({ page, isMobile
   await expect(page.locator("#detail-h")).toHaveText("Assembly District 79");
 });
 
-test("landing screen labels general production apart from ADU forecasts", async ({ page }) => {
+test("Wisconsin today labels general production apart from ADU permits", async ({ page }) => {
   const b = await bundle(page);
-  await page.goto("#/today");
+  await page.goto("#/wisconsin-today");
   await expect(page.getByTestId("production-rate")).toContainText("9.0");
   await expect(page.getByTestId("production-rate")).toContainText("per 1,000 housing units");
   await expect(page.locator("#t-vac")).toContainText("including seasonal");
   await expect(page.locator("main")).toContainText("five-year average");
-  await expect(page.locator("#adu-sum")).toContainText("ADU forecasts");
-  await page.getByText("Show the data").nth(1).click();
+  await expect(page.getByTestId("wt-section-adu")).toContainText("ADU permits expected under current law");
+  await page.getByTestId("wt-section-all").getByText("Show the data").nth(1).click();
   await expect(page.getByTestId("bps-table")).toContainText("census_bps_state");
   expect(b.state.production_rate.numerator).toBe(25569);
 });
 
-test("statewide comparison explains why types of place differ, with the numbers one click away", async ({ page }) => {
+test("How sure's Details explain why types of place differ, with the numbers one click away", async ({ page }) => {
   const { run_id } = await (await page.request.get("runs/latest.json")).json();
   const state = await (await page.request.get(`runs/${run_id}/state.json`)).json();
   const c = Object.fromEntries(state.contexts.map((x: { id: string }) => [x.id, x]));
   const d = Object.fromEntries(state.context_why.drivers.map((x: { term: string }) => [x.term, x]));
-  await page.goto("#/compare");
+  await page.goto("#/how-sure");
   const box = page.getByTestId("why-differ");
   await expect(box).toContainText("Why places differ.");
   // places differ by home value only (the allocation fit); income and size set only the statewide rate (AQ-061)
@@ -371,30 +374,30 @@ test("statewide comparison explains why types of place differ, with the numbers 
   await expect(tbl.locator("tbody tr")).toHaveCount(5);
 });
 
-test("ADU charts toggle between totals and extra homes only", async ({ page }) => {
+test("ADU Summary chart toggles between totals and extra homes only", async ({ page }) => {
   const b = await bundle(page);
   const R = b.state.range90;
-  await page.goto("#/compare");
-  const toggle = page.getByTestId("adu-chart-mode");
-  await expect(toggle.getByLabel("Totals")).toBeChecked();
-  const title = page.locator("#path-chart svg title"), desc = page.locator("#path-chart svg desc");
-  const legend = page.locator("#path-legend");
-  await expect(title).toContainText("Statewide second-home permits per year");
+  await page.goto("#/summary");
+  const toggle = page.getByTestId("toggle-show");
+  await expect(toggle.getByLabel("Totals with current law")).toBeChecked();
+  const title = page.locator("#sum-chart svg title"), desc = page.locator("#sum-chart svg desc");
+  const legend = page.getByTestId("summary-legend");
+  await expect(title).toContainText("ADU permits each year");
   await expect(legend).toContainText("range shaded grey");
-  await expect(page.locator('#path-chart svg path[data-band="range90"]')).toHaveCount(1);
-  await expect(page.locator('#path-chart svg path[data-band="current-law"]')).toHaveCount(1);
+  await expect(page.locator('#sum-chart svg path[data-band="range90"]')).toHaveCount(1);
+  await expect(page.locator('#sum-chart svg path[data-band="current-law"]')).toHaveCount(1);
   await toggle.getByLabel("Extra homes only").check();
-  await expect(page.getByTestId("announce")).toContainText("only the extra permits");
-  await expect(title).toContainText("Extra second-home permits from the law");
+  await expect(page.getByTestId("announce")).toContainText("only the extra homes");
+  await expect(title).toContainText("Extra ADU permits from the law");
   await expect(desc).toContainText(`${fmt(R.low)} to ${fmt(R.high)}`);
   await expect(legend).toContainText("the zero line");
-  await expect(page.locator('#path-chart svg path[data-band="range90"]')).toHaveCount(1);
-  await expect(page.locator('#path-chart svg path[data-band="current-law"]')).toHaveCount(0);
+  await expect(page.locator('#sum-chart svg path[data-band="range90"]')).toHaveCount(1);
+  await expect(page.locator('#sum-chart svg path[data-band="current-law"]')).toHaveCount(0);
   // keyboard: arrow key moves back to Totals
-  await toggle.getByLabel("Extra homes only").press("ArrowLeft");
-  await expect(toggle.getByLabel("Totals")).toBeChecked();
-  await expect(title).toContainText("Statewide second-home permits per year");
-  // pilot chart has the same toggle
+  await page.getByTestId("toggle-show").getByLabel("Extra homes only").press("ArrowLeft");
+  await expect(page.getByTestId("toggle-show").getByLabel("Totals with current law")).toBeChecked();
+  await expect(title).toContainText("ADU permits each year");
+  // pilot chart has its own toggle
   await page.goto("#/pilot/madison");
   const pt = page.getByTestId("adu-pilot-chart-mode");
   await pt.getByLabel("Extra homes only").check();
@@ -405,7 +408,7 @@ test("ADU How sure and Where carry the 90% range, its coverage note and the How-
   const b = await bundle(page);
   const R = b.state.range90;
   await page.goto("#/how-sure");
-  const card = page.getByTestId("howsure-range");
+  const card = page.getByTestId("range-card");
   await expect(card.getByTestId("range-low")).toHaveText(fmt(R.low));
   await expect(card.getByTestId("range-high")).toHaveText(fmt(R.high));
   await expect(card.getByTestId("range-coverage")).toContainText(R.coverage);

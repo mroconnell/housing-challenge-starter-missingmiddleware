@@ -4,28 +4,30 @@ import { type Ctx, type Spread, type UIState } from "../../app";
 import { loadBundle, type Bundle, type PathId, type UnknownId } from "../../data";
 import { esc, int } from "../../format";
 import { renderBrief } from "../../screens/brief";
-import { renderCompare } from "../../screens/compare";
+import { aduSummaryInput } from "../../screens/compare";
 import { renderHowSure } from "../../screens/howsure";
 import { renderPilot } from "../../screens/pilot";
-import { renderToday } from "../../screens/today";
 import { leaveWhere, renderWhere } from "../../screens/where";
 import { renderWhy } from "../../screens/why";
+import { loadWiHomes, renderSummary, type WiHomes } from "../../summary";
 import type { MountedReform, ReformModule, Route, ShellEnv } from "../types";
 
+// The same tabs, in the same order, for every reform (owner, 2026-11-11): Summary · Where · How sure · Why · Pilots · Brief.
 const ROUTES: Route[] = [
-  { path: "/today", label: "Wisconsin today", n: 1 },
-  { path: "/compare", label: "Statewide comparison", n: 2 },
-  { path: "/where", label: "Where", n: 3 },
-  { path: "/how-sure", label: "How sure", n: 4 },
-  { path: "/why", label: "Why", n: 5 },
-  { path: "/pilot/madison", label: "Pilot examples", n: 6, match: "/pilot" },
-  { path: "/brief", label: "Brief", n: 7 },
+  { path: "/summary", label: "Summary", n: 1 },
+  { path: "/where", label: "Where", n: 2 },
+  { path: "/how-sure", label: "How sure", n: 3 },
+  { path: "/why", label: "Why", n: 4 },
+  { path: "/pilot/madison", label: "Pilots", n: 5, match: "/pilot" },
+  { path: "/brief", label: "Brief", n: 6 },
 ];
 
 const UNKNOWN_IDS: UnknownId[] = ["like_restricted", "like_prohibited", "like_benchmark"];
 
+interface AduData { b: Bundle; homes: WiHomes }
+
 function mount(env: ShellEnv, data: unknown): MountedReform {
-  const b = data as Bundle;
+  const { b, homes } = data as AduData;
   const m = b.manifest;
   const ui: UIState = { scenario: "central", year: 2031, unknown: "like_restricted", spread: "model" };
   const ctx: Ctx = {
@@ -68,7 +70,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
   }
   return {
     routes: ROUTES,
-    defaultPath: "/today",
+    defaultPath: "/summary",
     titleSuffix: "Wisconsin ADU law",
     statusStrip: `
         <span><strong>Adopted model</strong> (25 October 2026)</span>
@@ -103,16 +105,20 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       const w = params.get("w");
       if (w === "forest" || w === "model") ui.spread = w;
       if (!path.startsWith("/where")) leaveWhere();
-      if (path.startsWith("/compare")) renderCompare(ctx, main);
-      else if (path.startsWith("/where")) renderWhere(ctx, main);
+      if (path.startsWith("/where")) renderWhere(ctx, main);
       else if (path.startsWith("/how-sure")) renderHowSure(ctx, main);
       else if (path.startsWith("/why")) renderWhy(ctx, main);
       else if (path.startsWith("/pilot")) renderPilot(ctx, main, path.split("/")[2] ?? "madison");
       else if (path.startsWith("/brief")) renderBrief(ctx, main);
-      else renderToday(ctx, main);
+      else renderSummary(main, aduSummaryInput(ctx, homes), env, params);
     },
     leave: () => leaveWhere(),
   };
 }
 
-export const aduReform: ReformModule = { load: () => loadBundle(), mount };
+async function load(): Promise<AduData> {
+  const [b, homes] = await Promise.all([loadBundle(), loadWiHomes()]);
+  return { b, homes };
+}
+
+export const aduReform: ReformModule = { load, mount };

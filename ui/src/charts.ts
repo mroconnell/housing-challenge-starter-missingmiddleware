@@ -18,7 +18,10 @@ export interface ChartSpec {
   vline?: { x: number; label: string }; height?: number;
   /** Short text labels placed at data points (e.g. "provisional, partial year"). */
   notes?: { x: number; y: number; text: string; anchor?: "start" | "middle" | "end"; dy?: number }[]; yMax?: number; yFormat?: (y: number) => string; xPad?: number;
+  /** Called after every draw (and redraw on resize) with the scales, so a caller can add hover layers. */
+  onDraw?: (g: ChartGeom) => void;
 }
+export interface ChartGeom { svg: SVGSVGElement; X: (x: number) => number; Y: (y: number) => number; W: number; H: number; m: { t: number; r: number; b: number; l: number } }
 
 let uid = 0;
 
@@ -135,6 +138,7 @@ export function xyChart(container: HTMLElement, spec: ChartSpec): void {
     }
     parts.push(`<text x="${12}" y="${(H - m.b + m.t) / 2}" transform="rotate(-90 12 ${(H - m.b + m.t) / 2})" text-anchor="middle" class="ylabel">${esc(spec.yLabel)}</text>`);
     container.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="${id}-t ${id}-d" class="chart"><title id="${id}-t">${esc(spec.title)}</title><desc id="${id}-d">${esc(spec.desc)}</desc>${parts.join("")}</svg>`;
+    spec.onDraw?.({ svg: container.querySelector("svg")!, X, Y, W, H, m });
   };
   draw();
   let last = container.clientWidth;

@@ -5,7 +5,8 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const SCREENS: [string, string?, ((p: Page) => Promise<void>)?][] = [
-  ["today"], ["compare"], ["where"],
+  ["summary"], ["summary", "per 1,000 homes, extra only", async (p) => { await p.getByRole("radio", { name: "Per 1,000 Wisconsin homes" }).check(); await p.getByRole("radio", { name: "Extra homes only" }).check(); await p.getByTestId("summary-table-toggle").click(); }],
+  ["middle/summary"], ["tod/summary"], ["parking/summary"], ["middle/how-sure"], ["parking/how-sure"], ["where"],
   ["where", "municipalities", async (p) => { await p.getByRole("radio", { name: "Cities, villages and towns" }).check(); }],
   ["where", "Assembly districts", async (p) => { await p.getByRole("radio", { name: "Assembly districts" }).check(); }],
   ["how-sure"], ["why"], ["pilot/madison"], ["pilot/pleasant-prairie"], ["pilot/sun-prairie"], ["brief"],
@@ -66,9 +67,10 @@ for (const [path, view, act] of SCREENS) {
 }
 
 test("a11y: switch and slider names are short and describe the choice", async ({ page }) => {
-  await page.goto("#/compare");
-  await expect(page.getByRole("group", { name: "Units" })).toBeVisible();
-  await expect(page.getByRole("group", { name: "Chart shows" })).toBeVisible();
+  await page.goto("#/summary");
+  for (const g of ["Numbers", "Chart shows", "Timing", "Details for one year"]) await expect(page.getByRole("group", { name: g, exact: true })).toBeVisible();
+  await page.goto("#/parking/summary");
+  for (const r of await page.getByRole("group", { name: "Timing", exact: true }).getByRole("radio").all()) await expect(r).toBeDisabled();
   await page.goto("#/where");
   for (const g of ["Areas", "Show", "Measure", "Spread the law's addition by"]) await expect(page.getByRole("group", { name: g, exact: true })).toBeVisible();
   await expect(page.getByRole("group", { name: /Places whose local ADU rules we have not coded/ })).toBeVisible();
@@ -78,7 +80,7 @@ test("a11y: switch and slider names are short and describe the choice", async ({
 });
 
 test("a11y: charts and the map have text equivalents", async ({ page }) => {
-  for (const s of ["today", "compare", "how-sure", "why", "pilot/madison"]) {
+  for (const s of ["summary", "how-sure", "why", "pilot/madison"]) {
     await page.goto(`#/${s}`);
     const imgs = page.getByRole("img");
     await expect(imgs.first()).toBeVisible();
@@ -100,9 +102,9 @@ test("a11y: switches announce the new numbers in a polite live region", async ({
   await page.getByRole("radio", { name: "Per 1,000 homes per year" }).check();
   await expect(live).toContainText("low end of the 90% range");
   await expect(live).toContainText("per 1,000 single-family homes per year");
-  await page.goto("#/compare");
-  await page.getByRole("radio", { name: "Per 1,000 single-family homes" }).check();
-  await expect(live).toContainText("per 1,000 single-family homes per year");
+  await page.goto("#/summary");
+  await page.getByRole("radio", { name: "Per 1,000 Wisconsin homes" }).check();
+  await expect(live).toContainText("per 1,000 Wisconsin homes");
   await page.goto("#/how-sure");
   const pr = unk.variants.find((v: { id: string }) => v.id === "like_prohibited");
   await page.getByRole("radio", { name: "Like places that prohibit ADUs" }).check();
@@ -126,4 +128,36 @@ test("a11y: the brief's district tables are captioned and reconcile", async ({ p
   await expect(page.getByRole("table", { name: "Assembly districts 1–33" })).toBeVisible();
   await expect(page.getByRole("columnheader", { name: "Added permits per 1,000 single-family homes per year" }).first()).toBeAttached();
   await expect(page.getByTestId("brief-district-reconcile")).toContainText("Checked:");
+});
+
+test("a11y structure: Wisconsin today", async ({ page }) => {
+  await page.goto("#/wisconsin-today");
+  await expect(page.getByTestId("wt-section-parking")).toBeVisible();
+  await page.evaluate(() => document.querySelectorAll("details").forEach((d) => { d.open = true; }));
+  const dom = await page.evaluate(() => {
+    const hs = [...document.querySelectorAll("h1,h2,h3,h4,h5,h6")].map((h) => Number(h.tagName[1]));
+    const skips: string[] = [];
+    hs.forEach((l, i) => { if (i && l > hs[i - 1] + 1) skips.push(`h${hs[i - 1]} -> h${l}`); });
+    const ids: Record<string, number> = {};
+    document.querySelectorAll("[id]").forEach((e) => { ids[e.id] = (ids[e.id] ?? 0) + 1; });
+    return {
+      h1: hs.filter((l) => l === 1).length, firstHeading: hs[0], skips,
+      landmarks: [document.querySelectorAll("header.site-head").length, document.querySelectorAll("main").length, document.querySelectorAll("footer.site-foot").length],
+      tablesNoCaption: [...document.querySelectorAll("table")].filter((t) => !t.querySelector("caption")?.textContent?.trim()).length,
+      thNoScope: [...document.querySelectorAll("table th")].filter((th) => !th.getAttribute("scope")).length,
+      dupIds: Object.entries(ids).filter(([, n]) => n > 1).map(([k]) => k),
+      fieldsetNoLegend: [...document.querySelectorAll("fieldset")].filter((f) => !f.querySelector("legend")?.textContent?.trim()).length,
+    };
+  });
+  expect(dom.h1, "exactly one h1").toBe(1);
+  expect(dom.firstHeading).toBe(1);
+  expect(dom.skips, "no skipped heading levels").toEqual([]);
+  expect(dom.landmarks).toEqual([1, 1, 1]);
+  expect(dom.tablesNoCaption).toBe(0);
+  expect(dom.thNoScope).toBe(0);
+  expect(dom.dupIds, "ids are unique").toEqual([]);
+  expect(dom.fieldsetNoLegend).toBe(0);
+  const snap = await page.locator("body").ariaSnapshot();
+  const unnamed = snap.split("\n").filter((l) => new RegExp(`^\\s*- (${NAMED_ROLES.join("|")})(:|$| \\[)`).test(l));
+  expect(unnamed, "every control, chart, table and region has an accessible name").toEqual([]);
 });

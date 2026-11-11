@@ -428,3 +428,41 @@ table.data.intro-range-table tbody tr:last-child > * { border-bottom: 0; }
   .ic-link { grid-template-columns: minmax(0, 1fr); grid-template-rows: 140px auto; gap: 6px; align-items: start; }
   .ic-thumb { height: 140px; }
 }
+
+/* Header link to the shared Wisconsin today page */
+.head-today { margin-left: auto; font-size: 0.92rem; font-weight: 600; color: var(--accent-ink); text-decoration: none; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+.head-today:hover { border-color: var(--accent); }
+.head-today[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* The shared Summary tab (ui/src/summary.ts) */
+.summary-page { max-width: 80ch; }
+.summary-sentence { max-width: none; color: var(--ink); }
+.summary-how { margin: 8px 0 0; color: var(--ink); }
+.summary-toggles { display: flex; flex-wrap: wrap; gap: 12px 22px; margin: 4px 0 12px; }
+.summary-toggles .seg { flex: 0 1 auto; }
+.summary-toggles .seg[disabled] label { cursor: not-allowed; }
+.sum-noramp { width: 100%; margin: 2px 0 0; }
+.sum-chart-wrap { position: relative; }
+.sum-pop { position: absolute; z-index: 5; max-width: min(320px, 92%); background: var(--surface); border: 1px solid var(--ink); border-radius: 8px; padding: 8px 10px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18); font-size: 0.86rem; pointer-events: none; }
+.sum-pop p { margin: 0 0 4px; }
+.sum-pop ul { margin: 0 0 4px; padding: 0; list-style: none; }
+.sum-pop li { margin: 2px 0; }
+.sum-pop .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.sum-pop .sw-band { background: #17644f; opacity: 0.45; }
+.sum-pop .sw-law { background: #4b5450; }
+.sum-cross { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 3; pointer-events: none; }
+.sum-hit-year, .sum-hit-side { cursor: crosshair; }
+.sum-hit-side { pointer-events: all; }
+path.sum-hit-side { pointer-events: stroke; }
+.sum-legend button.sum-side { display: inline-flex; align-items: center; gap: 6px; font: inherit; color: var(--ink); background: none; border: 1px dashed transparent; border-radius: 6px; padding: 2px 4px; min-height: 32px; cursor: help; text-align: left; }
+.sum-legend button.sum-side:hover, .sum-legend button.sum-side:focus-visible { border-color: var(--accent); }
+.sum-years { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0; }
+.sum-years button { font: inherit; font-size: 0.88rem; min-height: 32px; padding: 2px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); cursor: pointer; }
+.sum-years button:hover, .sum-years button:focus-visible { border-color: var(--accent); }
+.summary-links { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 18px 0 8px; font-weight: 600; }
+
+/* The shared Wisconsin today page (ui/src/screens/wisconsin_today.ts) */
+.wt-section { margin-top: 28px; }
+.wt-section > .section-h { border-top: 2px solid var(--accent); padding-top: 14px; font-size: 1.4rem; }
+.wt-body h3:not(.tile-label) { font-size: 1.15rem; }
+.wt-body h4:not(.tile-label), .wt-body h5:not(.tile-label) { font-size: 1rem; }

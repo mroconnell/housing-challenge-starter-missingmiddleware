@@ -82,3 +82,37 @@ class TestIntroSources(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestSharedSummarySources(unittest.TestCase):
+    """The Summary tab (ui/src/summary.ts) and the Introduction read the "How we count" lines from one module, and the
+    per-1,000 base is the ACS home count the tool already stores (ADU state.json acs_total_units)."""
+
+    def test_how_we_count_has_one_source(self):
+        hwc = (ROOT / "ui" / "src" / "howwecount.ts").read_text()
+        for k in ("adu", "middle", "tod", "parking"):
+            self.assertRegex(hwc, rf"\n  {k}: \"")
+        self.assertIn('REFORM_ORDER: ReformKey[] = ["adu", "middle", "tod", "parking"]', hwc)
+        intro, summary = INTRO.read_text(), (ROOT / "ui" / "src" / "summary.ts").read_text()
+        self.assertIn('from "../howwecount"', intro)
+        self.assertIn('from "./howwecount"', summary)
+        self.assertIn("HOW_WE_COUNT[o.id]", summary)
+        self.assertNotIn("We hid 7 of the states", intro)   # the copy lives in howwecount.ts only
+
+    @unittest.skipUnless((PUB / "runs" / "latest.json").exists(), "bundles not built")
+    def test_per_1000_base(self):
+        st = json.loads((latest(PUB / "runs") / "state.json").read_text())
+        self.assertEqual(st["acs_total_units"]["value"], 2778572)
+        self.assertTrue(st["acs_total_units"]["vintage"].startswith("ACS 2020-2024"))
+        tod = json.loads((latest(PUB / "scenarios" / "tod" / "runs") / "statewide.json").read_text())
+        self.assertEqual(tod["acs_homes"], st["acs_total_units"]["value"])
+        summary = (ROOT / "ui" / "src" / "summary.ts").read_text()
+        self.assertIn("acs_total_units", summary)
+        self.assertNotRegex(summary, r"2,?778,?572")   # read from the bundle, never typed
+
+    @unittest.skipUnless((PUB / "scenarios" / "middle" / "runs" / "latest.json").exists(), "bundles not built")
+    def test_middle_flat_timing_is_the_bundles(self):
+        sw = json.loads((latest(PUB / "scenarios" / "middle" / "runs") / "statewide.json").read_text())
+        self.assertIn("range90_flat", sw)
+        self.assertEqual(len(sw["range90_flat"]["years"]), 5)
+        self.assertIn("rangeFlat: s.range90_flat", (ROOT / "ui" / "src" / "scenarios" / "middle" / "index.ts").read_text())

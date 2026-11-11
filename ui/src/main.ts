@@ -2,15 +2,21 @@
 // router. Each reform (ADU, transit-oriented density, parking) fills the strip, tabs, footer and screens through
 // the contract in ui/src/scenarios/types.ts (docs/shared/SCENARIO_CONTRACT.md).
 //
-// URLs: the bare root ("#/", or no hash) is the Introduction, the landing page above every reform. The default
-// reform has no prefix ("#/today"), so existing ADU links keep working ("#/adu/" opens its first screen); other
-// reforms are prefixed with their id ("#/tod/about"). The query part ("?s=upper") belongs to the reform.
+// URLs: the bare root ("#/", or no hash) is the Introduction, the landing page above every reform; "#/wisconsin-today"
+// is the shared Wisconsin today page. The default reform has no prefix ("#/summary"), so existing ADU links keep
+// working ("#/adu/" opens its first screen); other reforms are prefixed with their id ("#/tod/summary"). The query
+// part ("?per=1000") belongs to the reform.
+//
+// Every reform has the same tabs in the same order (Summary · Where · How sure · Why · Pilots · Brief; a reform
+// without one omits it). Old addresses keep working: a reform's "/compare" (the former Statewide comparison) opens
+// its Summary, and its "/today" opens that reform's section of the shared Wisconsin today page.
 import "./style.css";
 import "./scenarios/shell.css";
 import { labelScrollers } from "./app";
 import { esc } from "./format";
 import { aduReform } from "./scenarios/adu";
 import { introLoading, loadIntro, renderIntro } from "./screens/intro";
+import { renderWisconsinToday, type TodayData } from "./screens/wisconsin_today";
 import { combinedReform } from "./scenarios/combined/index";
 import { middleReform } from "./scenarios/middle";
 import { parkingReform } from "./scenarios/parking/index";
@@ -88,6 +94,11 @@ function pickerList(href: (r: ReformEntry) => string, current?: ReformEntry): st
   }).join("")}</ul></nav>`;
 }
 
+/** The small "Wisconsin today" link in the header (the shared page), marked current on that page. */
+function todayLink(current = false): string {
+  return `<a class="head-today" href="#/wisconsin-today" data-testid="head-today"${current ? ' aria-current="page"' : ""}>Wisconsin today</a>`;
+}
+
 function picker(current: ReformEntry): string {
   return pickerList((r) => `#${prefixOf(r.id)}/`, current);
 }
@@ -100,6 +111,7 @@ function shell(e: ReformEntry, m: MountedReform): void {
     <div class="wrap head-row">
       <a class="brand" href="#/"><span class="brand-mark" aria-hidden="true">⌂</span> Missing Middleware</a>
       <p class="head-sub">${esc(e.subtitle)}</p>
+      ${todayLink()}
     </div>
     <div class="wrap">${picker(e)}</div>
     <nav class="tabs" aria-label="Screens"><div class="wrap"><ol>${m.routes.map((r) => `<li><a href="#${pre}${r.path}" data-route="${r.match ?? r.path}"><span class="tab-n" aria-hidden="true">${r.n}</span> ${esc(r.label)}</a></li>`).join("")}</ol></div></nav>
@@ -121,13 +133,16 @@ function shell(e: ReformEntry, m: MountedReform): void {
   m.bind();
 }
 
-async function activate(id: string): Promise<Active> {
-  const entry = reformEntry(id)!;
-  const mod = moduleFor(entry);
-  const key = `${id}:${mod === placeholderReform ? "holding" : "screens"}`;
+/** A reform's loaded data, shared by its screens and the Wisconsin today page (loaded once). */
+async function dataFor(entry: ReformEntry, mod: ReformModule): Promise<unknown> {
+  const key = `${entry.id}:${mod === placeholderReform ? "holding" : "screens"}`;
   if (!cache.has(key)) cache.set(key, await mod.load(entry));
-  const pre = prefixOf(id);
-  const env: ShellEnv = {
+  return cache.get(key);
+}
+
+function envFor(entry: ReformEntry): ShellEnv {
+  const pre = prefixOf(entry.id);
+  return {
     entry,
     link: (path) => `#${pre}${path}`,
     replaceQuery(q) {
@@ -138,20 +153,29 @@ async function activate(id: string): Promise<Active> {
     refresh: () => route(true),
     announce,
   };
+}
+
+async function activate(id: string): Promise<Active> {
+  const entry = reformEntry(id)!;
+  const mod = moduleFor(entry);
+  const data = await dataFor(entry, mod);
+  const env = envFor(entry);
   active?.m.leave?.();
-  const m = mod.mount(env, cache.get(key));
+  const m = mod.mount(env, data);
   shell(entry, m);
   return { entry, m, mod };
 }
 
-/** The Introduction's page: header with the reform picker (no reform current), no status strip or screen tabs. */
-function homeShell(): void {
+/** The Introduction's page (and the shared Wisconsin today page): header with the reform picker (no reform current),
+ *  no status strip or screen tabs. */
+function homeShell(page: "home" | "today" = "home"): void {
   document.body.innerHTML = `
   <a class="skip" href="#main">Skip to main content</a>
   <header class="site-head no-print">
     <div class="wrap head-row">
-      <a class="brand" href="#/" aria-current="page"><span class="brand-mark" aria-hidden="true">⌂</span> Missing Middleware</a>
+      <a class="brand" href="#/"${page === "home" ? ' aria-current="page"' : ""}><span class="brand-mark" aria-hidden="true">⌂</span> Missing Middleware</a>
       <p class="head-sub">Wisconsin housing reform · statewide estimates</p>
+      ${todayLink(page === "today")}
     </div>
     <div class="wrap">${pickerList((r) => `#/${esc(r.id)}/`)}</div>
   </header>
@@ -181,8 +205,58 @@ async function home(): Promise<void> {
   lastKey = "home";
 }
 
+/** True for the shared Wisconsin today page. */
+function isWiToday(): boolean {
+  return (location.hash.replace(/^#/, "") || "/").split("?")[0].replace(/\/$/, "") === "/wisconsin-today";
+}
+
+/** The shared Wisconsin today page: the baseline, all housing, then one section per reform (each from its own bundle). */
+async function wisconsinToday(keepFocus: boolean): Promise<void> {
+  const params = new URLSearchParams(location.hash.split("?")[1] ?? "");
+  const y = window.scrollY;
+  const focused = document.activeElement as HTMLElement | null;
+  const wasHere = lastKey === "wisconsin-today" && !!document.querySelector('[data-testid="wisconsin-today"]');
+  const sel = keepFocus && wasHere && focused && document.getElementById("main")?.contains(focused) ? selectorFor(focused) : null;
+  if (!wasHere) {
+    active?.m.leave?.();
+    active = null;
+    homeShell("today");
+    document.getElementById("main")!.innerHTML = `<h1>Wisconsin today</h1><p class="muted" data-testid="wt-loading">Loading…</p>`;
+  }
+  document.title = "Wisconsin today · Missing Middleware";
+  const load = async (id: string): Promise<unknown> => {
+    const e = reformEntry(id);
+    if (!e || e.status !== "ready" || !MODULES[id]) return null;
+    try { return await dataFor(e, MODULES[id]); } catch { return null; }
+  };
+  const [adu, tod, parking] = await Promise.all([load("adu"), load("tod"), load("parking")]);
+  if (!isWiToday()) return;   // the reader moved on while the bundles loaded
+  const d: TodayData = {
+    adu: adu ? (adu as { b: TodayData["adu"] }).b : null,
+    tod: tod as TodayData["tod"], parking: parking as TodayData["parking"],
+  };
+  const main = document.getElementById("main")!;
+  const pageEnv = (id: string): ShellEnv => {
+    const base = envFor(reformEntry(id)!);
+    return { ...base, replaceQuery(q) { const qs = q.toString(); history.replaceState(null, "", `#/wisconsin-today${qs ? `?${qs}` : ""}`); }, refresh: () => route(true) };
+  };
+  renderWisconsinToday(main, d, pageEnv, params);
+  labelScrollers(main);
+  if (keepFocus && wasHere) {
+    window.scrollTo(0, y);
+    if (sel) (main.querySelector(sel) as HTMLElement | null)?.focus();
+  } else {
+    const sec = params.get("section");
+    const target = sec ? document.getElementById(`wt-${sec}`) : null;
+    if (target) target.scrollIntoView(); else window.scrollTo(0, 0);
+    if (lastKey) main.focus({ preventScroll: true });
+  }
+  lastKey = "wisconsin-today";
+}
+
 async function route(keepFocus = false): Promise<void> {
   if (isHome()) return home();
+  if (isWiToday()) return wisconsinToday(keepFocus);
   const { reform, path: rawPath, params } = parse();
   let switched = false;
   if (!active || active.entry.id !== reform || moduleFor(active.entry) !== active.mod) {
@@ -190,6 +264,21 @@ async function route(keepFocus = false): Promise<void> {
     switched = true;
   }
   const { entry, m } = active;
+  // old addresses: "/today" opens this reform's section of Wisconsin today; "/compare" opens the Summary
+  const has = (p: string) => m.routes.some((r) => (r.match ?? r.path) === p || r.path === p);
+  if (rawPath.startsWith("/today") && !has("/today") && active.mod !== placeholderReform) {
+    const q = new URLSearchParams();
+    q.set("section", entry.id);
+    const v = params.get("view");
+    if (v) q.set("view", v);
+    history.replaceState(null, "", `#/wisconsin-today?${q.toString()}`);
+    return route();
+  }
+  if (rawPath.startsWith("/compare") && !has("/compare") && has("/summary")) {
+    const qs = params.toString();
+    history.replaceState(null, "", `#${prefixOf(entry.id)}/summary${qs ? `?${qs}` : ""}`);
+    return route();
+  }
   const known = m.routes.some((r) => rawPath.startsWith(r.match ?? r.path));
   const path = known ? rawPath : m.defaultPath;
   const main = document.getElementById("main")!;

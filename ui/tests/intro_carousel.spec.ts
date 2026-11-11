@@ -30,7 +30,7 @@ test("three slides render from the bundle, each one link to its screen", async (
   for (const id of ["range", "map", "sens"]) await expect(page.locator(`[data-thumb="${id}"]`)).toHaveAttribute("data-ready", "1", { timeout: 20_000 });
   const state = await bundle(page, "state.json");
   const unc = await bundle(page, "uncertainty.json");
-  // 1: the Statewide comparison's band chart: the 90% band and one line per chart side line
+  // 1: the Summary tab's band chart: the 90% band and one line per chart side line
   await expect(page.locator('[data-thumb="range"] svg path[data-band="range90"]')).toHaveCount(1);
   const chartLines = state.side_lines.filter((s: { where: string; value?: number }) => s.where === "chart" && s.value !== undefined);
   await expect(page.locator('[data-thumb="range"] svg path[data-series^="side-"]')).toHaveCount(chartLines.length);
@@ -41,7 +41,7 @@ test("three slides render from the bundle, each one link to its screen", async (
   await expect(page.locator('[data-thumb="sens"] .vs-row')).toHaveCount(cases.length);
   // links and their names
   const links: [string, string, string][] = [
-    ["range", "#/compare", "The ADU 90% range, with its side lines — open Statewide comparison"],
+    ["range", "#/summary", "The ADU 90% range, with its side lines — open Summary"],
     ["map", "#/where", "Where ADUs might go: an illustration — open Where"],
     ["sens", "#/how-sure", "What-ifs against the ADU range — open How sure"],
   ];
@@ -57,8 +57,8 @@ test("three slides render from the bundle, each one link to its screen", async (
   }
   // clicking the visible slide opens its screen
   await page.getByRole("link", { name: links[0][2] }).click();
-  await expect(page).toHaveURL(/#\/compare$/);
-  await expect(page.locator("h1")).toHaveText("A statewide ADU law: what it adds");
+  await expect(page).toHaveURL(/#\/summary$/);
+  await expect(page.locator("h1")).toHaveText("Accessory dwelling units");
 });
 
 test("autoplay advances every 6 seconds, stops on hover and focus, and Pause stops it", async ({ page }) => {
@@ -144,9 +144,9 @@ test("the buttons have names and work from the keyboard; the live region speaks 
   await expect(current(page)).toHaveAttribute("aria-label", "1 of 3");
   await expect(page.getByRole("button", { name: /^Preview 1 of 3/ })).toHaveAttribute("aria-current", "true");
   // Tab from the page start reaches the slide link before the controls, and Enter opens the screen
-  await page.getByRole("link", { name: /open Statewide comparison/ }).focus();
+  await page.getByRole("link", { name: /open Summary/ }).focus();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/#\/compare$/);
+  await expect(page).toHaveURL(/#\/summary$/);
 });
 
 test("the carousel passes the accessibility checks, keeps a fixed height and fits a 375 px phone", async ({ page }) => {
@@ -182,7 +182,7 @@ test("the carousel passes the accessibility checks, keeps a fixed height and fit
   const unnamed = snap.split("\n").filter((l) => /^\s*- (button|link|img|region|group)(:|$| \[)/.test(l));
   expect(unnamed).toEqual([]);
   // only the current slide is exposed, and its thumbnail is not
-  expect(snap).toContain("open Statewide comparison");
+  expect(snap).toContain("open Summary");
   expect(snap).not.toContain("open Where");
   expect(snap).not.toMatch(/- img/);
   // fixed height: the page does not move between slides

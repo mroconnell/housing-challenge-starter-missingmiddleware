@@ -10,8 +10,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "ui" / "src" / "scenarios" / "registry.json"
 PUBLIC = ROOT / "ui" / "public"
-# first path segments the ADU screens use; a reform id must never equal one of them (URL prefixes would collide)
-ADU_SEGMENTS = {"today", "compare", "where", "how-sure", "why", "pilot", "brief"}
+# first path segments the ADU screens and the shell use (including the old "today" and "compare" addresses, which
+# still redirect, and the shared Wisconsin today page); a reform id must never equal one of them
+ADU_SEGMENTS = {"summary", "today", "compare", "where", "how-sure", "why", "pilot", "brief", "wisconsin-today"}
 # Reforms that are not a challenge benchmark, so their `benchmark` is a short plain description, not spec text.
 # `combined` is TOD and parking together (docs/shared/SCENARIO_CONTRACT.md section 9, AQ-047); it must say so in
 # `benchmark_note`, which the holding page shows in place of "Benchmark text from the challenge specification."

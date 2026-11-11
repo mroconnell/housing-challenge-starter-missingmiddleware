@@ -1,7 +1,8 @@
 // The middle housing reform (2–6 homes per lot): screens over the bundle written by scripts/build_middle_bundle.py.
 // The browser only selects, sums and formats bundle values.
-import { ALL_HOUSING_BASELINE_2027_2031, againstBandHTML, drawRangeChart, num, rangeCardHTML, sideLinesHTML, type Range90, type SideLine } from "../../range";
-import { esc, int, YEARS } from "../../format";
+import { ALL_HOUSING_BASELINE_2027_2031, againstBandHTML, num, rangeCardHTML, sideLinesHTML, type Range90, type SideLine } from "../../range";
+import { esc, int } from "../../format";
+import { loadWiHomes, renderSummary, type SummaryInput, type WiHomes } from "../../summary";
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
 
 // ---- bundle types --------------------------------------------------------------------------
@@ -21,59 +22,60 @@ interface Area extends Range { area_id: string; name: string; sf_homes: number }
 interface HowSure { bars: { id: string; label: string; central?: number; low?: number; high?: number; note?: string }[]; notes: string[] }
 interface Why { evidence: { label: string; url: string }[]; cannot_tell: string[] }
 interface Manifest { run_id: string; outcome: { short: string; rate_units: string }; dates: { last_observed_year: number }; repo_url: string }
-export interface MiddleBundle { manifest: Manifest; statewide: Statewide; areas: Area[]; howsure: HowSure; why: Why }
+export interface MiddleBundle { manifest: Manifest; statewide: Statewide; areas: Area[]; howsure: HowSure; why: Why; homes: WiHomes }
 
 async function load(entry: ReformEntry): Promise<MiddleBundle> {
   const root = `${import.meta.env.BASE_URL}${entry.bundle_root}`;
   const get = async (p: string) => { const r = await fetch(p); if (!r.ok) throw new Error(`${p}: ${r.status}`); return r.json(); };
   const { run_id } = await get(`${root}latest.json`);
   const dir = `${root}${run_id}/`;
-  const [manifest, statewide, areas, howsure, why] = await Promise.all(
-    ["manifest", "statewide", "areas", "howsure", "why"].map((f) => get(`${dir}${f}.json`)));
-  return { manifest, statewide, areas, howsure, why };
+  const [[manifest, statewide, areas, howsure, why], homes] = await Promise.all([Promise.all(
+    ["manifest", "statewide", "areas", "howsure", "why"].map((f) => get(`${dir}${f}.json`))), loadWiHomes()]);
+  return { manifest, statewide, areas, howsure, why, homes };
 }
 
 // ---- helpers ----------------------------------------------------------------------------------
 
+// The same tabs, in the same order, for every reform (owner, 2026-11-11); middle housing has no pilots or brief yet.
 const ROUTES: Route[] = [
-  { path: "/compare", label: "Statewide comparison", n: 1 },
+  { path: "/summary", label: "Summary", n: 1 },
   { path: "/where", label: "Where", n: 2 },
   { path: "/how-sure", label: "How sure", n: 3 },
   { path: "/why", label: "Why", n: 4 },
 ];
 
 // ---- screens --------------------------------------------------------------------------------
-function compare(b: MiddleBundle, env: ShellEnv, params: URLSearchParams, main: HTMLElement): void {
-  const s = b.statewide, flat = params.get("timing") === "flat";
-  const R = flat ? s.range90_flat : s.range90;
+/** The Summary: the shared component. The all-building-sizes line is far above this scale, so it is listed, not drawn. */
+function summaryInput(b: MiddleBundle): SummaryInput {
+  const s = b.statewide;
+  const all = s.side_lines.find((l) => l.id === "all" && l.where === "chart");
+  return {
+    id: "middle", title: "Missing middle housing", law: "allows 2–6 homes on every lot now limited to one home", unit: "homes in 2–4 unit buildings",
+    range: s.range90, rangeFlat: s.range90_flat, sideLines: s.side_lines.filter((l) => l.where === "chart" && l.id !== "all"),
+    notDrawn: all ? `Not drawn: "${all.label}" (${num(all.value ?? 0)} over 2027–2031), far above this scale; it is on How sure.` : undefined,
+    base: s.baseline_by_year, baseName: "homes of all kinds permitted under current law", homes: b.homes,
+  };
+}
+
+/** The former Statewide comparison, now How sure's Details: the range card, both timings, the yearly table and the side lines. */
+function details(b: MiddleBundle): string {
+  const s = b.statewide, R = s.range90, F = s.range90_flat;
   const chartLines = s.side_lines.filter((l) => l.where === "chart");
-  main.innerHTML = `
-  <h1>Middle housing: extra homes over five years</h1>
-  <p class="lede">${esc(s.headline)}</p>
-  <p><strong>The law.</strong> From 1 January 2027 (illustrative), any lot now limited to one home could have 2–6 homes, up to 3 stories, without special approval. Setbacks and lot coverage are assumed not to block them.</p>
-  ${rangeCardHTML({ title: "Homes in 2–4 unit buildings, 2027–2031", range: R, baselineTotal: ALL_HOUSING_BASELINE_2027_2031, testid: "mid-range" })}
-  <section class="card"><h2>Timing</h2>
-    <p><label><input type="checkbox" id="mid-flat" ${flat ? "" : "checked"}> ${esc(s.timing.label)}</label>
-    <span class="small muted">(off: ${esc(s.timing.toggle_off_label)}, ${num(s.range90_flat.low)} to ${num(s.range90_flat.high)})</span></p>
+  const row = (y: { year: number; low: number; high: number }) => `<td class="num">${num(Math.min(y.low, y.high))}</td><td class="num">${num(Math.max(y.low, y.high))}</td>`;
+  return `
+  <h2 class="section-h" id="h-details" data-testid="details">Details</h2>
+  <p data-testid="mid-headline">${esc(s.headline)}</p>
+  ${rangeCardHTML({ title: "Homes in 2–4 unit buildings, 2027–2031", range: R, baselineTotal: ALL_HOUSING_BASELINE_2027_2031, testid: "range-card", headingLevel: 3 })}
+  <section class="card" aria-labelledby="h-mid-timing"><h3 id="h-mid-timing">Timing</h3>
+    <p>${esc(s.timing.label)}: ${num(R.low)} to ${num(R.high)}. ${esc(s.timing.toggle_off_label)}: <span data-testid="flat-range">${num(F.low)} to ${num(F.high)}</span> extra homes in 2–4 unit buildings over 2027–2031 (90% range).</p>
     <p class="small muted">${esc(s.timing.note)}</p></section>
-  <section class="card"><h2>Extra 2–4 unit homes each year</h2><div class="chart-box" id="mid-chart"></div><div id="mid-legend"></div>
-    <div class="table-wrap"><table class="data"><caption class="sr-only">Extra homes by year, 90% range</caption>
-      <thead><tr><th scope="col">Year</th><th scope="col" class="num">Low end</th><th scope="col" class="num">High end</th></tr></thead>
-      <tbody>${R.years.map((y) => `<tr><th scope="row">${y.year}</th><td class="num">${num(Math.min(y.low, y.high))}</td><td class="num">${num(Math.max(y.low, y.high))}</td></tr>`).join("")}</tbody></table></div>
-    <p class="small muted">${esc(R.years_method ?? "")} The all-building-sizes line is listed below but not drawn: it is far above this scale.</p></section>
-  <section class="card"><h2>Reasons to believe</h2>${sideLinesHTML(chartLines, "extra homes, 2027–2031", "side-lines")}</section>`;
-  const base = s.baseline_by_year;
-  const legend = drawRangeChart(main.querySelector<HTMLElement>("#mid-chart")!, {
-    mode: "extra", range: R, sideLines: chartLines.filter((l) => l.id !== "all"), noun: "homes",
-    base: { years: YEARS, central: base.central, low: base.low, high: base.high },
-    title: "Extra homes from the law per year, 2027 to 2031", yLabel: "Extra homes per year",
-  });
-  main.querySelector("#mid-legend")!.innerHTML = legend;
-  main.querySelector<HTMLInputElement>("#mid-flat")!.addEventListener("change", (ev) => {
-    const q = new URLSearchParams(params);
-    if ((ev.target as HTMLInputElement).checked) q.delete("timing"); else q.set("timing", "flat");
-    env.replaceQuery(q); env.refresh();
-  });
+  <section class="card" aria-labelledby="h-mid-years"><h3 id="h-mid-years">Extra 2–4 unit homes each year</h3>
+    <div class="table-wrap"><table class="data" data-testid="compare-table"><caption>Extra homes in 2–4 unit buildings by year, 90% range, with each timing</caption>
+      <thead><tr><th scope="col">Year</th><th scope="col" class="num">${esc(s.timing.label)}: low end</th><th scope="col" class="num">${esc(s.timing.label)}: high end</th><th scope="col" class="num">${esc(s.timing.toggle_off_label)}: low end</th><th scope="col" class="num">${esc(s.timing.toggle_off_label)}: high end</th></tr></thead>
+      <tbody>${R.years.map((y, i) => `<tr><th scope="row">${y.year}</th>${row(y)}${row(F.years[i])}</tr>`).join("")}
+      <tr><th scope="row">2027–2031</th><td class="num" data-testid="table-range-low">${num(R.low)}</td><td class="num" data-testid="table-range-high">${num(R.high)}</td><td class="num">${num(F.low)}</td><td class="num">${num(F.high)}</td></tr></tbody></table></div>
+    <p class="small muted">${esc(R.years_method ?? "")} Yearly rows may not add exactly to the totals because of rounding.</p></section>
+  <section class="card" aria-labelledby="h-mid-side"><h3 id="h-mid-side">Side lines</h3>${sideLinesHTML(chartLines, "extra homes, 2027–2031", "side-lines", "All but the last are drawn on the Summary chart; the all-building-sizes line is far above its scale. None changes the 90% range.")}</section>`;
 }
 
 function where(b: MiddleBundle, main: HTMLElement): void {
@@ -101,12 +103,14 @@ function howSure(b: MiddleBundle, main: HTMLElement): void {
     <thead><tr><th scope="col">What-if</th><th scope="col" class="num">Extra homes, 2027–2031</th></tr></thead>
     <tbody>${b.howsure.bars.map((x) => `<tr><th scope="row">${esc(x.label)}${x.note ? `<br><span class="small muted">${esc(x.note)}</span>` : ""}</th><td class="num">${x.central !== undefined ? num(x.central) : `${num(x.low!)} to ${num(x.high!)}`}</td></tr>`).join("")}</tbody></table></div></section>
   <section class="card"><h2>Possibilities beyond what was measured</h2>${sideLinesHTML(hs, "extra homes, 2027–2031", "howsure-lines")}</section>
-  <section class="card"><h2>Notes</h2><ul class="plain">${b.howsure.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>`;
+  <section class="card"><h2>Notes</h2><ul class="plain">${b.howsure.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>
+  ${details(b)}`;
 }
 
 function why(b: MiddleBundle, main: HTMLElement): void {
   main.innerHTML = `
   <h1>Why these numbers</h1>
+  <p class="law" data-testid="law-text"><strong>The law.</strong> From 1 January 2027 (illustrative), any lot now limited to one home could have 2–6 homes, up to 3 stories, without special approval. Setbacks and lot coverage are assumed not to block them.</p>
   <section class="card"><h2>How it works</h2><p>Four states (Oregon, California, Maine and Vermont) passed laws allowing 2–4 homes on single-family lots. We compared their permits for 2–4 unit buildings, per 1,000 single-family homes, with similar places in the same regions, before and after each law. That gap is applied to Wisconsin.</p></section>
   <section class="card"><h2>What it cannot tell you</h2><ul class="plain">${b.why.cannot_tell.map((c) => `<li>${esc(c)}</li>`).join("")}</ul></section>
   <section class="card"><h2>Evidence</h2><ul class="plain">${b.why.evidence.map((d) => `<li><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label)}<span class="sr-only"> (opens GitHub in a new tab)</span> ↗</a></li>`).join("")}</ul></section>`;
@@ -118,7 +122,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
   const m = b.manifest;
   return {
     routes: ROUTES,
-    defaultPath: "/compare",
+    defaultPath: "/summary",
     titleSuffix: "Wisconsin middle housing law",
     statusStrip: `<span>Run <code data-testid="run-id">${esc(m.run_id)}</code></span><span>Last observed year ${m.dates.last_observed_year}</span><span>Forecast 2027–2031</span><span>Law in effect 1 Jan 2027 (illustrative)</span>`,
     footer: `<p><strong>Outcome:</strong> ${esc(m.outcome.short)}</p>
@@ -130,7 +134,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       if (path.startsWith("/where")) where(b, main);
       else if (path.startsWith("/how-sure")) howSure(b, main);
       else if (path.startsWith("/why")) why(b, main);
-      else compare(b, env, params, main);
+      else renderSummary(main, summaryInput(b), env, params);
     },
   };
 }

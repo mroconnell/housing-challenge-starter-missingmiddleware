@@ -7,7 +7,8 @@ The tool shows one policy reform at a time (ADUs, transit-oriented density, park
 ## 1. What the shell does
 
 - Draws the header (brand, subtitle, reform picker), the status strip (below the sticky header, so it scrolls away), the screens navigation, `<main>`, the live region for announcements, and the footer.
-- Routes URLs. The default reform (ADUs) has no prefix, so every existing link keeps working: `#/today`, `#/compare?s=upper`. Other reforms are prefixed with their id: `#/tod/about`. `#/adu/today` also works. The query part belongs to the reform. The bare root (`#/`, or no hash) is the Introduction, the landing page above every reform (`ui/src/screens/intro.ts`); `#/adu/` opens the ADU reform's first screen.
+- Routes URLs. The default reform (ADUs) has no prefix: `#/summary`, `#/where`. Other reforms are prefixed with their id: `#/tod/summary`. `#/adu/summary` also works. The query part belongs to the reform. The bare root (`#/`, or no hash) is the Introduction, the landing page above every reform (`ui/src/screens/intro.ts`); `#/adu/` opens the ADU reform's first screen (Summary). `#/wisconsin-today` is the shared Wisconsin today page (`ui/src/screens/wisconsin_today.ts`), linked from the header and the Introduction.
+- Old addresses keep working (owner, 2026-11-11): a reform's `/compare` (the former Statewide comparison) opens its Summary with the same query; its `/today` opens that reform's section of Wisconsin today (`#/wisconsin-today?section=<id>`).
 - Loads a reform's data the first time it is opened and keeps it for the session.
 - Keeps focus and scroll on re-render, moves focus to `<main>` on a new screen, sets the browser tab title, and marks the current tab and the current reform.
 - Shows a holding page (benchmark text, link to the plan, no numbers) for any reform whose status is `in_development`.
@@ -69,14 +70,15 @@ Then register the module in the `MODULES` map in `ui/src/main.ts` (ask the shell
 
 ## 6. What every reform should be able to show
 
-So that all reforms read as one report, each reform aims to fill the same questions the ADU screens answer, in its own way:
+Every reform has the same tabs in the same order (owner, 2026-11-11): **Summary · Where · How sure · Why · Pilots · Brief**. A reform without one of them omits that tab (middle housing has no Pilots or Brief yet).
 
-1. **Today:** the current-law baseline for the reform's outcome, with its source year and status.
-2. **Statewide comparison:** baseline and three scenarios by year, 2027–2031, labelled by meaning, with a reference line of real cases where there are enough.
-3. **Where:** how the addition splits across Wisconsin. The form may differ: TOD may be a list of station areas rather than a map of 1,925 places.
-4. **How sure:** sensitivities grouped by what they move, and the trace of what rests on observed, estimated and assumed values.
-5. **Why:** the evidence, with "observed" and "source lead" marked.
-6. **Pilot examples** and a **brief**.
+1. **Summary** (the landing tab): the shared component in `ui/src/summary.ts`, the same layout for every reform. One plain sentence, the 90% range with both ends labelled and its unit, the "How we count" line from `ui/src/howwecount.ts` (the same source as the Introduction's table), and the range chart with side-line and year popups, keyboard-reachable details and a "Show as a table" toggle. Three toggles are written to the URL: `per=1000` (per 1,000 Wisconsin homes, one base for every reform: the ACS 2020–2024 count in the ADU bundle's `state.json` `acs_total_units`), `show=extra` (extra homes only) and `timing=flat` (the five-year total spread evenly; middle housing uses its own `range90_flat`; a reform with no measured ramp shows the toggle disabled). A reform supplies a `SummaryInput`.
+2. **Where:** how the addition splits across Wisconsin. The form may differ: TOD may be a list of station areas rather than a map of 1,925 places.
+3. **How sure:** sensitivities grouped by what they move, and the trace of what rests on observed, estimated and assumed values. At the end, under **Details**: the range card, every side line, the yearly tables and notes (the former Statewide comparison).
+4. **Why:** the evidence, with "observed" and "source lead" marked.
+5. **Pilots** and a **Brief**.
+
+Each reform's current-law "today" content is a section of the shared **Wisconsin today** page, after the shared all-housing baseline, in the fixed order ADUs, Middle housing, TOD, Parking.
 
 The outcome may differ by reform but must be stated in the footer (`manifest.outcome.short`). ADUs count second-home permits at issuance; TOD and parking are expected to count all housing units in permits at issuance.
 
@@ -90,7 +92,7 @@ The outcome may differ by reform but must be stated in the footer (`manifest.out
 
 - Whether to add a cross-reform overview screen once two or more reforms are ready (the policy scenario comparison deliverable could be its print version).
 - Whether reforms in development should be hidden from the public build before submission.
-- Whether "Wisconsin today" should become shared across reforms, using the all-housing baseline from the parking session.
+- ~~Whether "Wisconsin today" should become shared across reforms.~~ Done 2026-11-11: `#/wisconsin-today`.
 
 ## 9. Combined reforms (adopted 2026-10-27, AQ-048 and AQ-050)
 

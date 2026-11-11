@@ -1,4 +1,4 @@
-import { COLORS, DASH, docLink, type Ctx } from "../app";
+import { COLORS, DASH, LAW_TEXT, docLink, type Ctx } from "../app";
 import { legendHTML, xyChart, type Series } from "../charts";
 import type { Line } from "../data";
 import { dec, esc, pill } from "../format";
@@ -50,6 +50,7 @@ export function renderWhy(ctx: Ctx, main: HTMLElement): void {
   main.innerHTML = `
   <h1>Why these numbers</h1>
   <p class="lede">The evidence behind the model, and the assumptions it makes where Wisconsin has no data. The two charts show what other states and cities actually permitted before and after a statewide ADU law, with Wisconsin's scenarios on the same scale. Each card says what kind of evidence it is and links to the full write-up and data on GitHub. Assumption cards carry a question you could put to the model.</p>
+  <p class="law" data-testid="law-text"><strong>The law.</strong> ${LAW_TEXT}</p>
 
 
   <section class="card" aria-labelledby="h-sp1">

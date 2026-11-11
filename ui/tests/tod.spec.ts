@@ -4,7 +4,7 @@ import { expect, test, type Page } from "@playwright/test";
 import registry from "../src/scenarios/registry.json" with { type: "json" };
 
 const fmt = (v: number) => Math.round(v).toLocaleString("en-US");
-const SCREENS = ["today", "compare", "where", "where?level=assembly&s=strong", "where?level=county&view=madison", "how-sure", "why",
+const SCREENS = ["summary", "where", "where?level=assembly&s=strong", "where?level=county&view=madison", "how-sure", "why",
   "pilot/milwaukee-connect-1", "pilot/madison-route-a", "pilot/eau-claire", "brief"];
 const NAMED_ROLES = ["button", "link", "radio", "checkbox", "slider", "textbox", "searchbox", "combobox", "spinbutton", "img", "table", "region", "radiogroup", "dialog", "navigation"];
 
@@ -18,7 +18,7 @@ async function bundle(page: Page) {
 test("TOD holding page is still shown without preview mode", async ({ page }) => {
   const entry = registry.reforms.find((r) => r.id === "tod")!;
   test.skip(entry.status !== "in_development", "TOD is ready");
-  await page.goto("#/tod/today?preview=0");
+  await page.goto("#/tod/summary?preview=0");
   await expect(page.getByTestId("in-development")).toBeVisible();
   await expect(page.getByTestId("preview-flag")).toHaveCount(0);
   await expect(page.locator("main")).not.toContainText(/\d{2,}/);
@@ -29,7 +29,7 @@ test("each TOD screen loads in preview with no console errors", async ({ page })
   page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
   page.on("pageerror", (e) => errors.push(String(e)));
   const entry = registry.reforms.find((r) => r.id === "tod")!;
-  await page.goto(`#/tod/today${entry.status === "ready" ? "" : "?preview=1"}`);
+  await page.goto(`#/tod/summary${entry.status === "ready" ? "" : "?preview=1"}`);
   if (entry.status === "ready") await expect(page.getByTestId("preview-flag")).toHaveCount(0);
   else await expect(page.getByTestId("preview-flag")).toBeVisible();
   for (const s of SCREENS) {
@@ -43,16 +43,20 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
   const b = await bundle(page);
   const sw = b.statewide;
   const sc = (id: string) => sw.scenarios.find((x: { id: string }) => x.id === id);
-  await page.goto("#/tod/today?preview=1");
+  await page.goto("#/tod/summary?preview=1");
   await expect(page.getByTestId("run-id")).toHaveText(b.run_id);
   await expect(page.getByTestId("outcome")).toHaveText(b.manifest.outcome.short);
-  await expect(page.getByTestId("stock-homes")).toHaveText(fmt(sw.stock_homes));
-  await expect(page.getByTestId("baseline-total")).toHaveText(fmt(sw.baseline.total));
-  await expect(page.getByTestId("acs-homes")).toHaveText(fmt(sw.acs_homes));
+  // the former TOD "Wisconsin today" screen is TOD's part of the shared Wisconsin today page
+  await page.goto("#/wisconsin-today");
+  const tod = page.getByTestId("wt-section-tod");
+  await expect(tod.getByTestId("stock-homes")).toHaveText(fmt(sw.stock_homes));
+  await expect(tod.getByTestId("baseline-total")).toHaveText(fmt(sw.baseline.total));
+  await expect(tod.getByTestId("acs-homes")).toHaveText(fmt(sw.acs_homes));
   // option D (AQ-071): the law is a by-right district on 15% of the land within ¼ mile of rail and rapid stops
   await expect(page.getByTestId("law-district")).toContainText("15%");
   await expect(page.getByTestId("law-district")).toContainText(sw.district.text);
-  await page.goto("#/tod/compare");
+  // the former Statewide comparison: the range card, side lines and yearly table are How sure's Details
+  await page.goto("#/tod/how-sure");
   // the uniform range display: one 90% range, ends labelled, side lines below
   const R = sw.range90;
   await expect(page.getByTestId("range-card").getByTestId("range-low")).toHaveText(fmt(R.low));
@@ -217,13 +221,13 @@ for (const s of SCREENS) {
   });
 }
 
-test("TOD chart toggles between totals and extra homes only", async ({ page }) => {
-  await page.goto("#/tod/compare");
-  const toggle = page.getByTestId("tod-chart-mode");
-  await expect(toggle.getByLabel("Totals")).toBeChecked();
-  await expect(page.locator("#tod-chart svg title")).toContainText("Homes permitted near major transit stops");
+test("TOD Summary chart toggles between totals and extra homes only", async ({ page }) => {
+  await page.goto("#/tod/summary");
+  const toggle = page.getByTestId("toggle-show");
+  await expect(toggle.getByLabel("Totals with current law")).toBeChecked();
+  await expect(page.locator("#sum-chart svg title")).toContainText("Homes near major transit stops each year");
   await toggle.getByLabel("Extra homes only").check();
-  await expect(page.locator("#tod-chart svg title")).toContainText("Extra homes permitted");
+  await expect(page.locator("#sum-chart svg title")).toContainText("Extra homes near major transit stops");
 });
 
 test("TOD How sure draws every what-if's own total against the 90% range", async ({ page }) => {
@@ -237,9 +241,9 @@ test("TOD How sure draws every what-if's own total against the 90% range", async
   expect(current.length).toBe(13);
   expect(earlier.length).toBe(7);
   await page.goto("#/tod/how-sure?preview=1");
-  await expect(page.getByTestId("howsure-range").getByTestId("range-low")).toHaveText(fmt(R.low));
-  await expect(page.getByTestId("howsure-range").getByTestId("range-high")).toHaveText(fmt(R.high));
-  await expect(page.getByTestId("howsure-range").getByTestId("range-coverage")).toContainText("84.5%");
+  await expect(page.getByTestId("range-card").getByTestId("range-low")).toHaveText(fmt(R.low));
+  await expect(page.getByTestId("range-card").getByTestId("range-high")).toHaveText(fmt(R.high));
+  await expect(page.getByTestId("range-card").getByTestId("range-coverage")).toContainText("84.5%");
   const cur = page.getByTestId("tod-tornado-current");
   await expect(cur.locator(".vs-row")).toHaveCount(current.length);
   await expect(page.getByTestId("tod-tornado-earlier").locator(".vs-row")).toHaveCount(earlier.length);
@@ -253,8 +257,8 @@ test("TOD How sure draws every what-if's own total against the 90% range", async
   await expect(page.locator("main")).toContainText("Homes that would have been built elsewhere in the city anyway");
 });
 
-for (const [name, url, root] of [["ADU", "#/compare", "runs/"], ["TOD", "#/tod/compare", "scenarios/tod/runs/"]] as const) {
-  test(`${name} range card shows the 90% ends and the chart draws no centre line`, async ({ page }) => {
+for (const [name, url, root] of [["ADU", "#/how-sure", "runs/"], ["TOD", "#/tod/how-sure", "scenarios/tod/runs/"]] as const) {
+  test(`${name} range card shows the 90% ends and the Summary chart draws no centre line`, async ({ page }) => {
     const { run_id } = await (await page.request.get(`${root}latest.json`)).json();
     const st = await (await page.request.get(`${root}${run_id}/${name === "ADU" ? "state" : "statewide"}.json`)).json();
     const R = st.range90;
@@ -276,16 +280,18 @@ for (const [name, url, root] of [["ADU", "#/compare", "runs/"], ["TOD", "#/tod/c
     }
     const chartLines = st.side_lines.filter((s: { where: string }) => s.where === "chart");
     await expect(page.getByTestId("side-lines").locator("li")).toHaveCount(chartLines.length);
-    for (const mode of ["Totals", "Extra homes only"]) {
+    await page.goto(url.replace("how-sure", "summary"));
+    for (const mode of ["Totals with current law", "Extra homes only"]) {
       await page.getByRole("radio", { name: mode, exact: true }).check();
-      const svg = page.locator(".chart-box svg").first();
+      const svg = page.locator("#sum-chart svg");
       await expect(svg.locator('path[data-band="range90"]')).toHaveCount(1);
       await expect(svg.locator('path[data-series^="side-"]')).toHaveCount(chartLines.filter((s: { value?: number }) => s.value !== undefined).length);
       // no centre line: only current law and the side lines are drawn as lines
       const ids = await svg.locator("path[data-series]").evaluateAll((ps) => ps.map((p) => p.getAttribute("data-series")));
       expect(ids.filter((i) => i !== "current-law" && !i!.startsWith("side-"))).toEqual([]);
-      await expect(svg.locator("path:not([data-series]):not([data-band])[fill='none']")).toHaveCount(0);
-      await expect(svg.locator('path[data-band="current-law"]')).toHaveCount(mode === "Totals" ? 1 : 0);
+      await expect(svg.locator("path:not([data-series]):not([data-band]):not(.sum-hit-side)[fill='none']")).toHaveCount(0);
+      await expect(svg.locator("path.sum-hit-side").first()).toHaveAttribute("stroke", "transparent");
+      await expect(svg.locator('path[data-band="current-law"]')).toHaveCount(mode === "Totals with current law" ? 1 : 0);
     }
   });
 }

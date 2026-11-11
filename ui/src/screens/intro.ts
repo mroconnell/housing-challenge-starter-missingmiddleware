@@ -13,6 +13,7 @@
 import bandCsv from "../../../reference/housing_baseline_band.csv?raw";
 import baselineCsv from "../../../reference/housing_baseline_statewide_by_year.csv?raw";
 import { esc, int } from "../format";
+import { HOW_WE_COUNT } from "../howwecount";
 import { num } from "../range";
 import { introCarouselHTML, mountIntroCarousel } from "./intro_carousel";
 
@@ -32,6 +33,18 @@ export function baselineFromCsv(): { central: number; low: number; high: number 
     .reduce((a, r) => a + Number(r.central), 0);
   const band = rows(bandCsv).find((r) => r.structure_type === "1unit")!;
   return { central, low: central * Number(band.low), high: central * Number(band.high) };
+}
+
+/** The baseline year by year, for the Wisconsin today chart: observed homes permitted (all sizes, with Milwaukee's
+ *  apartments estimated) and the current-law projection (2026 bridge year, then 2027–2031) with its yearly range. */
+export function baselineYearsFromCsv(): { observed: { year: number; value: number }[]; projected: { year: number; central: number; low: number; high: number; bridge: boolean }[] } {
+  const all = rows(baselineCsv).filter((r) => r.structure_type === "all");
+  return {
+    observed: all.filter((r) => r.kind === "observed_adjusted_for_milwaukee").map((r) => ({ year: Number(r.year), value: Number(r.central) })),
+    projected: all.filter((r) => r.kind === "projected" || r.kind === "projected_bridge_year")
+      .map((r) => ({ year: Number(r.year), central: Number(r.central), low: Number(r.low), high: Number(r.high), bridge: r.kind === "projected_bridge_year" }))
+      .sort((a, b) => a.year - b.year),
+  };
 }
 
 export interface IntroNumbers {
@@ -93,13 +106,13 @@ export function loadIntro(): Promise<IntroNumbers> {
 /** A signed whole number with a true minus sign: "−1,234", "+5,678". */
 const signed = (v: number) => (Math.round(v) > 0 ? `+${int(v)}` : num(v));
 
-/** Links: ADU screens have no prefix; the Wisconsin Today screen keeps its old route. */
+/** Links: the shared Wisconsin today page, and each reform's Summary tab (ADU screens have no prefix). */
 export const INTRO_LINKS = {
-  today: "#/today",
-  adu: "#/compare",
-  middle: "#/middle/compare",
-  tod: "#/tod/today",
-  parking: "#/parking/compare",
+  today: "#/wisconsin-today",
+  adu: "#/summary",
+  middle: "#/middle/summary",
+  tod: "#/tod/summary",
+  parking: "#/parking/summary",
 };
 
 /** One row of the ranges table. A range that dips below zero shows a sign on both ends (minus and plus). */
@@ -159,10 +172,10 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
       <caption id="intro-ranges-cap">Wisconsin, extra permits 2027–2031, 90% range</caption>
       <thead><tr><th scope="col">Reform</th><th scope="col" class="num">Low end</th><th scope="col" class="num">High end</th><th scope="col">How we count</th></tr></thead>
       <tbody>
-        ${rangeRow("adu", "ADUs by right", n.adu, "ADU permits. We learned the ADU rate once a statewide law is in force from 8 states (plus 5 cities), adjusting for home values and incomes. We hid 7 of the states one at a time and predicted each from the rest: predictions ran from 12% too low to 21% too high. The range is set from the size of those misses.")}
-        ${rangeRow("middle", "Missing Middle", n.middle, n.middle ? "Homes in 2–4 unit buildings. We measured how these homes changed in the 4 states with statewide middle housing laws, each against similar places in its own region, and did the same for 10,000 groups of 4 states without a law. The reform states beat 85 of every 100 groups, short of the 95 needed to call it clear. So Wisconsin's range still includes zero: the evidence can't tell yet whether the law changes the number of these homes." : "Not yet available.")}
-        ${rangeRow("tod", "TOD Upzoning", n.tod, "Extra homes near transit. We compared building near rail and rapid-bus stops in 11 places that zoned an apartment district with similar stops that weren't rezoned, before and after. Pooled over 5 of them where both sides were alike before, lots just inside the district edge built more than lots just outside. The whole range is above zero, so the evidence points to added homes. How many is less certain.")}
-        ${rangeRow("parking", "Parking Minimum Repeal", n.parking, "Homes. We studied 74 places that repealed parking minimums for housing, each compared with similar cities that kept them, and ran fake repeals in 9,185 cities that never repealed. A range that includes zero means the data can't tell whether repealing parking minimums alone adds or removes homes.")}
+        ${rangeRow("adu", "ADUs by right", n.adu, HOW_WE_COUNT.adu)}
+        ${rangeRow("middle", "Missing Middle", n.middle, n.middle ? HOW_WE_COUNT.middle : "Not yet available.")}
+        ${rangeRow("tod", "TOD Upzoning", n.tod, HOW_WE_COUNT.tod)}
+        ${rangeRow("parking", "Parking Minimum Repeal", n.parking, HOW_WE_COUNT.parking)}
       </tbody>
     </table>
     </div>

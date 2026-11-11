@@ -1,8 +1,8 @@
 import { bindUnknownPicker, details, unknownPicker, unknownVariant, type Ctx } from "../app";
 import { stackHTML } from "../charts";
 import { dec, esc, int, pct, pill } from "../format";
-import { againstBandHTML, num, rangeCaveatHTML, sideLinesHTML } from "../range";
-import { aduRangeCard } from "./compare";
+import { againstBandHTML, num } from "../range";
+import { aduDetailsHTML } from "./compare";
 
 export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
   const u = ctx.b.uncertainty;
@@ -39,12 +39,6 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
   <h1>How sure are we?</h1>
   <p class="lede">How much of the estimate rests on observed facts, and how much it moves when one assumption changes. Three terms: the <strong>90% range</strong> is how far the model missed states it had not seen; a <strong>sensitivity case</strong> changes one assumption and reruns the model; a <strong>robustness check</strong> tests a method by predicting states the model did not see. Every addition below is a 90% range: the figure at typical adoption (the former central) times the statewide range's ends.</p>
 
-  ${aduRangeCard(ctx, 2, "howsure-range")}
-  <section class="card" aria-labelledby="h-hs-lines">
-    <h2 id="h-hs-lines">More lines and what-ifs, against the range</h2>
-    ${sideLinesHTML(ctx.b.state.side_lines.filter((x) => x.where === "howsure"), "ADU permits over 2027–2031", "howsure-side-lines", "These are shown here only, not on the chart. None changes the 90% range.")}
-    ${rangeCaveatHTML(ctx.b.state.range90)}
-  </section>
 
   <section class="card" aria-labelledby="h-trace">
     <h2 id="h-trace">What the law's addition rests on</h2>
@@ -136,6 +130,7 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
     <h2 id="h-ch">The strongest challenges to these numbers</h2>
     <ol class="plain-ol">${u.challenges.map((c) => `<li><strong>${esc(c.title)}.</strong> ${esc(c.text)}</li>`).join("")}</ol>
     <p><a href="${ctx.link("/why")}">See the evidence and the assumptions you can challenge →</a></p>
-  </section>`;
+  </section>
+  ${aduDetailsHTML(ctx)}`;
   bindUnknownPicker(ctx, main, "unk-howsure");
 }

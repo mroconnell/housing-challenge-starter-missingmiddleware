@@ -3,7 +3,7 @@
 // really readable"), so each thumbnail is aria-hidden and inert, and the link's name says where it goes.
 //
 // Every thumbnail is drawn by the screen's own function from the same ADU bundle: no images, no typed numbers.
-//   1. drawRangeChart: the Statewide comparison's band chart (90% range and its chart side lines).
+//   1. drawRangeChart: the Summary tab's band chart (90% range and its chart side lines).
 //   2. createMap + defaultCountyView: the Where map's opening view (counties, low end of each county's range).
 //   3. againstBandHTML: How sure's "what-ifs against the range" chart (the sensitivity cases).
 // The bundle files and the map geometry load only once the carousel scrolls into view. A slide whose data or map
@@ -24,7 +24,7 @@ const ADVANCE_MS = 6000;
 
 interface Slide { id: string; caption: string; screen: string; href: string }
 const SLIDES: Slide[] = [
-  { id: "range", caption: "The ADU 90% range, with its side lines", screen: "Statewide comparison", href: "#/compare" },
+  { id: "range", caption: "The ADU 90% range, with its side lines", screen: "Summary", href: "#/summary" },
   { id: "map", caption: "Where ADUs might go: an illustration", screen: "Where", href: "#/where" },
   { id: "sens", caption: "What-ifs against the ADU range", screen: "How sure", href: "#/how-sure" },
 ];
