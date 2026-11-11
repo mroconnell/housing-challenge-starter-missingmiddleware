@@ -47,8 +47,8 @@ Extra homes permitted over 2027–2031, compared with current law. Each reform s
 | --- | --- | ---: |
 | ADUs | Typical adoption (the former central) | 10,492 |
 | ADUs | Median path of the 8 statewide-law states | 10,038 |
-| ADUs | Like Rhode Island and Oregon, the 2 slowest statewide-law states | 6,321 |
-| ADUs | High end, near California (only California is higher; outside the range) | 19,784 |
+| ADUs | Like OR & RI (lowest statewide adoption) | 6,321 |
+| ADUs | Like CA (highest statewide adoption; outside the range) | 19,790 |
 | Middle housing | Four-state measured result | 1,570 |
 | Middle housing | All 1–4 unit buildings | 3,905 |
 | Middle housing | Adding 5 and 6 unit buildings | 4,226 |
@@ -66,7 +66,8 @@ What the side lines mean:
 - **ADUs.**
   - Typical adoption is the model's level for a typical statewide-law state.
   - The 8-state median follows the path the eight statewide-law states actually took.
-  - Rhode Island and Oregon are the two slowest.
+  - Like OR & RI: every place at the average of Rhode Island's and Oregon's levels, the lowest statewide adoption.
+  - Like CA: every place at California's own level, the highest statewide adoption, built the same way (owner 2026-11-11). It replaces the earlier high end of the spread between states (19,784), which moves to How sure.
   - California alone has gone above the high end.
 - **TOD** (option D since AQ-071; lines AQ-072, AQ-075). The law zones a district on 15% of the land within ¼ mile of rail and rapid stops.
   - The average district place: 11 US places zoned a district near some of their rail or rapid stops, on average on 12% of the land within ¼ mile. Their mean effect within ¼ mile was 33.54 extra homes per 100 lot acres a year. Applied to Wisconsin's ¼-mile land, that gives 10,028.
