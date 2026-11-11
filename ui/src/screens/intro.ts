@@ -14,6 +14,7 @@ import bandCsv from "../../../reference/housing_baseline_band.csv?raw";
 import baselineCsv from "../../../reference/housing_baseline_statewide_by_year.csv?raw";
 import { esc, int } from "../format";
 import { num } from "../range";
+import { introCarouselHTML, mountIntroCarousel } from "./intro_carousel";
 
 const YEARS = [2027, 2028, 2029, 2030, 2031];
 
@@ -120,6 +121,7 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
 
   <section class="card" aria-labelledby="intro-see-h">
     <h2 id="intro-see-h">What you'll see</h2>
+    ${introCarouselHTML()}
     <ul class="intro-see">
       <li><strong>A range for each reform, with its low and high ends.</strong> We show no single best guess, because the evidence supports a range, not a point.</li>
       <li><strong>Side lines across each range.</strong> They give a plain reason to believe the range. Some are real cases, like the median of 8 states that passed ADU laws. Others are our earlier scenario estimates.</li>
@@ -166,6 +168,7 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
     </div>
   </section>
   </article>`;
+  mountIntroCarousel(main);
 }
 
 /** Shown while the bundles load. */

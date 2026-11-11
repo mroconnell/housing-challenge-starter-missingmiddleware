@@ -1,6 +1,6 @@
 import { num } from "../range";
 import { bindUnknownPicker, details, labelScrollers, noteBox, unknownPicker, unknownVariant, type Ctx, type Spread } from "../app";
-import type { Area, County, District } from "../data";
+import type { Area, County, District, StateData } from "../data";
 
 import { dec, esc, int, missing, permitsText, pill, small, YEARS } from "../format";
 import { createMap, RAMP, WATER, type GeoKind, type MapHandle } from "../map";
@@ -101,7 +101,7 @@ function value(ctx: Ctx, r: Row): number | null {
   return r.homes > 0 ? (v / r.homes / nYears()) * 1000 : null;
 }
 
-function breaks(vals: number[]): number[] {
+export function breaks(vals: number[]): number[] {
   const v = vals.filter((x) => x !== null && Number.isFinite(x)).sort((a, b) => a - b);
   if (!v.length) return [1, 2, 3, 4];
   const q = (f: number) => v[Math.min(v.length - 1, Math.floor(f * v.length))];
@@ -114,6 +114,15 @@ function breaks(vals: number[]): number[] {
   const out = raw.map(nice);
   for (let i = 1; i < 4; i++) if (out[i] <= out[i - 1]) out[i] = out[i - 1] + (out[i - 1] || 0.01) * 0.01;
   return out;
+}
+
+/** The Where map's opening view (counties; permits added by the law, 2027–2031; low end of each county's 90% range;
+ *  adopted assumption, our model's spread), for the Introduction's preview. Same values and classes as renderWhere's. */
+export function defaultCountyView(state: StateData, counties: County[]): { values: Map<string, number | null>; breaks: number[] } {
+  const typ = state.scenarios.find((s) => s.id === "central")!.additional_total, lo = state.range90.low / typ;
+  const values = new Map<string, number | null>();
+  for (const c of counties) values.set(c.id, c.homes === 0 ? null : c.add.central.reduce((a, b) => a + b, 0) * lo);
+  return { values, breaks: breaks([...values.values()].filter((v): v is number => v !== null)) };
 }
 
 function fmtVal(v: number | null): string {

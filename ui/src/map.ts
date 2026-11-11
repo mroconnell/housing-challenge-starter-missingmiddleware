@@ -10,7 +10,8 @@ maplibregl.setWorkerUrl(workerUrl);
 export const RAMP = ["#fde725", "#7ad151", "#22a884", "#2a788e", "#414487"]; // viridis, colour-blind safe
 export const WI_BOUNDS: [number, number, number, number] = [-92.9, 42.45, -86.75, 47.15];
 export const WATER = "#dce8ef"; // background: lakes and outside Wisconsin (the outlines are shoreline-clipped)
-const PAD = { top: 12, right: 44, bottom: 12, left: 12 }; // right: room for the zoom buttons
+const MAP_PAD = { top: 12, right: 44, bottom: 12, left: 12 }; // right: room for the zoom buttons
+const PREVIEW_PAD = { top: 6, right: 6, bottom: 6, left: 6 };
 
 /** An optional layer drawn above the area fills: text labels now, and later e.g. buffers around transit stops.
  *  Each overlay has its own GeoJSON source; `kind` picks the drawing. Add new kinds in `overlayLayers`. */
@@ -67,8 +68,11 @@ function hatchImage(): ImageData {
   return g.getImageData(0, 0, s, s);
 }
 
+/** `preview`: a small still thumbnail (the Introduction's carousel): no zoom buttons, no panning or zooming, a
+ *  tighter fit. */
 export function createMap(el: HTMLElement, geo: Record<GeoKind, unknown>, onPick: (id: string) => void,
-  onHover: (id: string | null, x: number, y: number) => void): MapHandle {
+  onHover: (id: string | null, x: number, y: number) => void, opts: { preview?: boolean } = {}): MapHandle {
+  const PAD = opts.preview ? PREVIEW_PAD : MAP_PAD;
   const map = new maplibregl.Map({
     container: el,
     style: { version: 8, glyphs: glyphsUrl(), sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": WATER } }] },
@@ -78,9 +82,11 @@ export function createMap(el: HTMLElement, geo: Record<GeoKind, unknown>, onPick
     dragRotate: false,
     pitchWithRotate: false,
     touchPitch: false,
-    maxBounds: [-95.5, 41.2, -84.2, 48.4],
+    // a wide, short preview needs more room east and west than the pan limit allows; it cannot pan anyway
+    ...(opts.preview ? {} : { maxBounds: [-95.5, 41.2, -84.2, 48.4] as [number, number, number, number] }),
+    interactive: !opts.preview,
   });
-  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+  if (!opts.preview) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   // No tiles, so no attribution is required on the canvas; the boundary source is credited under the map instead,
   // which keeps the south-east corner (Kenosha) clear.
   map.touchZoomRotate.disableRotation();
