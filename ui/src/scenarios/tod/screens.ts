@@ -210,11 +210,19 @@ function recordNote(b: TodBundle): string {
 }
 
 /** The TOD Summary: the shared component fed from the TOD bundle. */
+/** "The policy" on the TOD Summary: the owner's text (2026-11-11 20:23), with the share, radius and density read from
+ *  the bundle's district fields. */
+export function todPolicyText(d: TodBundle["statewide"]["district"]): string {
+  return `Requiring every Wisconsin city with rail or rapid-bus stops to zone ${sharePct(d.share)} of the land within ${d.radius} of those stops for apartments by right, at least ${int(d.min_homes_per_acre)} homes per acre.`;
+}
+
 export function todSummaryInput(b: TodBundle, homes: WiHomes): SummaryInput {
   const s = b.statewide, y = s.baseline.years;
   return {
     id: "tod", title: "Transit-oriented density", law: `zones apartments by right on ${sharePct(s.district.share)} of the land within ${s.district.radius} of rail and rapid-bus stops`,
     modeled: [s.district.text, `A major transit stop here is a rail or rapid-bus stop, and the proximity threshold is ${s.district.radius}: land beyond it counts zero. ${RAPID_LINES}`],
+    // owner, 2026-11-11 20:23: the ADU Summary pattern (policy beside the estimate; modeled + benchmark under the chart)
+    policy: todPolicyText(s.district), sentence: false, policyBeside: true,
     unit: "homes near major transit stops", chartName: "Homes permitted near major transit stops", range: s.range90, rangeFlat: flatRange(s.range90),
     sideLines: s.side_lines.filter((x) => x.where === "chart"),
     base: { central: y.map((r) => r.central), low: y.map((r) => r.low), high: y.map((r) => r.high) },

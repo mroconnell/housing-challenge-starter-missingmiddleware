@@ -303,9 +303,20 @@ async function route(keepFocus = false): Promise<void> {
   if (keepFocus) {
     window.scrollTo(0, y);
     if (activeSel) (main.querySelector(activeSel) as HTMLElement | null)?.focus();
-  } else if (key !== lastKey) {
-    window.scrollTo(0, 0);
-    if (lastKey) main.focus({ preventScroll: true });
+  } else {
+    // "?section=<id>" opens the screen at that part of it (e.g. the ADU Why tab's in/out list)
+    const sec = params.get("section");
+    const target = sec ? main.querySelector<HTMLElement>(`#${CSS.escape(sec)}`) : null;
+    if (target) {
+      if (target instanceof HTMLDetailsElement) target.open = true;   // a folded list opens when linked to
+      const head = document.querySelector<HTMLElement>(".site-head");
+      if (head) document.documentElement.style.setProperty("--head-h", `${head.offsetHeight}px`);
+      target.scrollIntoView();
+      if (lastKey) main.focus({ preventScroll: true });
+    } else if (key !== lastKey) {
+      window.scrollTo(0, 0);
+      if (lastKey) main.focus({ preventScroll: true });
+    }
   }
   lastKey = key;
 }

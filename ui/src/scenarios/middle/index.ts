@@ -6,6 +6,8 @@ import { loadWiHomes, renderSummary, type SummaryInput, type WiHomes } from "../
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
 
 /** The modeled law, shown on Why and in the Summary's policy box. */
+/** "The policy" on the middle housing Summary: the owner's text, word for word (2026-11-11 20:23). */
+export const MIDDLE_POLICY_TEXT = "Allowing 2–6 homes, up to three stories, on parcels now limited to one single-family home. Setbacks and lot coverage are assumed not to block them.";
 export const MIDDLE_LAW_TEXT = "From 1 January 2027 (illustrative), any lot now limited to one home could have 2–6 homes, up to 3 stories, without special approval. Setbacks and lot coverage are assumed not to block them.";
 
 // ---- bundle types --------------------------------------------------------------------------
@@ -53,7 +55,9 @@ function summaryInput(b: MiddleBundle): SummaryInput {
   const s = b.statewide;
   const all = s.side_lines.find((l) => l.id === "all" && l.where === "chart");
   return {
-    id: "middle", title: "Missing middle housing", law: "allows 2–6 homes on every lot now limited to one home", modeled: [MIDDLE_LAW_TEXT], unit: "homes in 2–4 unit buildings", chartName: "Homes in 2–4 unit buildings",
+    id: "middle", title: "Missing middle housing", law: "allows 2–6 homes on every lot now limited to one home", modeled: [MIDDLE_LAW_TEXT],
+    // owner, 2026-11-11 20:23: the ADU Summary pattern (policy beside the estimate; modeled + benchmark under the chart)
+    policy: MIDDLE_POLICY_TEXT, sentence: false, policyBeside: true, unit: "homes in 2–4 unit buildings", chartName: "Homes in 2–4 unit buildings",
     range: s.range90, rangeFlat: s.range90_flat, sideLines: s.side_lines.filter((l) => l.where === "chart" && l.id !== "all"),
     notDrawn: all ? `Not drawn: "${all.label}" (${num(all.value ?? 0)} over 2027–2031), far above this scale; it is on How sure.` : undefined,
     base: s.baseline_by_year, baseName: "homes of all kinds permitted under current law", homes: b.homes,

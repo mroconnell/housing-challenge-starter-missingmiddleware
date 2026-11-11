@@ -59,10 +59,9 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
     await page.goto(`#${r.pre}/summary`);
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.getByTestId("summary")).toHaveAttribute("data-reform", id);
-    // one plain sentence, the range with both ends labelled and its unit
-    // ADU drops the sentence (owner, 2026-11-11 20:05: it repeated the policy); the others keep it
-    if (id === "adu") await expect(page.getByTestId("summary-sentence")).toHaveCount(0);
-    else await expect(page.getByTestId("summary-sentence")).toContainText("from 1 January 2027");
+    // no opening sentence; the range with both ends labelled and its unit
+    // every reform drops it since 2026-11-11 20:23 (the policy box says the law)
+    await expect(page.getByTestId("summary-sentence")).toHaveCount(0);
     const card = page.getByTestId("summary-range");
     await expect(card.getByTestId("range-low")).toHaveText(num(r.R.low));
     await expect(card.getByTestId("range-high")).toHaveText(num(r.R.high));

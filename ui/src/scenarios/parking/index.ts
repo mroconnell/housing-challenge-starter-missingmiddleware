@@ -63,7 +63,7 @@ async function load(entry: ReformEntry): Promise<ParkingBundle> {
 const C = { baseline: "#4b5450", central: "#17644f", upper: "#7b3fb0", lower: "#a8452c", observed: "#4b5450" };
 const TYPE_LABEL: Record<string, string> = { "1unit": "1 unit", "2units": "2 units", "3_4units": "3–4 units", "5plus": "5+ units" };
 const signed = (v: number, d = 2) => `${v > 0 ? "+" : v < 0 ? "−" : ""}${dec(Math.abs(v), d)}`;
-const more = (summary: string, html: string) => `<details class="more"><summary>${esc(summary)}</summary>${html}</details>`;
+const more = (summary: string, html: string, id?: string) => `<details class="more"${id ? ` id="${id}"` : ""}><summary>${esc(summary)}</summary>${html}</details>`;
 
 // The same tabs, in the same order, for every reform (owner, 2026-11-11). The former "Wisconsin today" content is on
 // the shared Wisconsin today page; the former Statewide comparison is Summary plus How sure's Details.
@@ -177,6 +177,10 @@ function pkShare(b: ParkingBundle, addUpper: number): number {
 }
 
 const PARKING_LAW = "removes minimum parking requirements for all housing";
+/** "The policy" on the parking Summary: the owner's text, word for word (2026-11-11 20:23). */
+export const PARKING_POLICY_TEXT = "Removing minimum parking requirements for all new housing, statewide. Developers still build the parking renters, buyers and lenders want.";
+/** The anchor of Why's list of the places that repealed parking minimums; the Summary's modeled card links here. */
+export const PARKING_PLACES_ID = "parking-places";
 /** The bundle's developer-parking assumption, for the Summary's policy box: its first sentence (the assumption) and its
  *  last (the scenario sets no parking ratio itself). The studies in between are on Why. */
 function developerAssumption(t: string): string[] {
@@ -186,11 +190,14 @@ function developerAssumption(t: string): string[] {
 
 /** The parking Summary: the shared component. Parking's measured effect is the same every year (no ramp), so the
  *  timing toggle is disabled. */
-function summaryInput(b: ParkingBundle): SummaryInput {
+function summaryInput(b: ParkingBundle, env: ShellEnv): SummaryInput {
   const s = b.statewide, fy = s.years.filter((y) => YEARS.includes(y.year));
   return {
     id: "parking", title: "Parking requirement reduction", law: PARKING_LAW, unit: "homes", chartName: "Homes permitted",
     modeled: [`${b.manifest.dates.effective}: it ${PARKING_LAW}.`, ...developerAssumption(b.why.developer_parking)],
+    // owner, 2026-11-11 20:23: the ADU Summary pattern (policy beside the estimate; modeled + benchmark under the chart)
+    policy: PARKING_POLICY_TEXT, sentence: false, policyBeside: true,
+    scopeLink: { href: env.link(`/why?section=${PARKING_PLACES_ID}`), label: `Why → All ${b.why.places.length} places`, text: `For the full list of the ${b.why.places.length} places that removed parking minimums and were studied, see` },
     range: s.range90, rangeFlat: "none", sideLines: s.side_lines.filter((x) => x.where === "chart"),
     base: { central: fy.map((y) => y.baseline ?? 0), low: fy.map((y) => y.baseline_low ?? 0), high: fy.map((y) => y.baseline_high ?? 0) },
     baseName: "homes of all kinds permitted under current law", homes: b.homes,
@@ -373,7 +380,7 @@ function why(b: ParkingBundle, main: HTMLElement): void {
     <p data-testid="why-average">In the three years after a repeal, the repeal places' permit rate changed by ${signed(a.effect)} per 1,000 existing homes per year compared with similar places (likely range ${signed(a.p05)} to ${signed(a.p95)}). For buildings of 2 or more units: ${signed(m.effect)} (${signed(m.p05)} to ${signed(m.p95)}). Neither is a measurable change.</p>
     ${more(`All ${W.places.length} places`, `<div class="table-wrap"><table class="data" data-testid="why-places"><caption>Permits per 1,000 existing homes per year, before and after repeal</caption>
       <thead><tr><th scope="col">Place</th><th scope="col">Repeal year</th><th scope="col" class="num">Before</th><th scope="col" class="num">After</th><th scope="col" class="num">Comparison places before → after</th><th scope="col" class="num">Effect</th><th scope="col">Notes</th></tr></thead>
-      <tbody>${W.places.map((p) => `<tr><th scope="row">${esc(p.place)}, ${esc(p.state)}</th><td>${p.year}</td><td class="num">${dec(p.before)}</td><td class="num">${dec(p.after)}</td><td class="num">${dec(p.cmp_before)} → ${dec(p.cmp_after)} (${p.comparisons})</td><td class="num">${signed(p.effect)}</td><td class="small">${p.after_years} after-year${p.after_years === 1 ? "" : "s"}. ${p.group === "main" ? "" : "Removed with conditions. "}${p.rewrite ? "Zoning rewrite at the same time." : ""}</td></tr>`).join("")}</tbody></table></div>`)}</section>
+      <tbody>${W.places.map((p) => `<tr><th scope="row">${esc(p.place)}, ${esc(p.state)}</th><td>${p.year}</td><td class="num">${dec(p.before)}</td><td class="num">${dec(p.after)}</td><td class="num">${dec(p.cmp_before)} → ${dec(p.cmp_after)} (${p.comparisons})</td><td class="num">${signed(p.effect)}</td><td class="small">${p.after_years} after-year${p.after_years === 1 ? "" : "s"}. ${p.group === "main" ? "" : "Removed with conditions. "}${p.rewrite ? "Zoning rewrite at the same time." : ""}</td></tr>`).join("")}</tbody></table></div>`, PARKING_PLACES_ID)}</section>
   <section class="card"><h2>A second check: California's transit-area law</h2>
     <p data-testid="why-california">${esc(W.california.text)} Across ${W.california.jurisdictions} California jurisdictions, the change near transit was ${signed(W.california.all_units.effect)} permits per 1,000 existing homes per year (90% range ${signed(W.california.all_units.p05)} to ${signed(W.california.all_units.p95)}); for buildings of 2 or more units, ${signed(W.california.units_2plus.effect)} (${signed(W.california.units_2plus.p05)} to ${signed(W.california.units_2plus.p95)}).</p>
     <p class="small muted">${esc(W.california.caveats)}</p></section>
@@ -441,7 +448,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       else if (path.startsWith("/why")) why(b, main);
       else if (path.startsWith("/pilot")) pilot(b, env, path.split("/")[2] ?? "milwaukee", main);
       else if (path.startsWith("/brief")) brief(b, main);
-      else renderSummary(main, summaryInput(b), env, params);
+      else renderSummary(main, summaryInput(b, env), env, params);
     },
   };
 }

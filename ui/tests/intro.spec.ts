@@ -125,9 +125,9 @@ test("the Wisconsin Today link opens the shared Wisconsin today page", async ({ 
 test("the reform links open each reform's page that describes the law", async ({ page }) => {
   const cases: [string, RegExp, string, string][] = [
     ["intro-link-adu", /#\/summary$/, "Accessory dwelling units", "Allowing one 600+ sq. ft. ADU (detached or semi-detached) on parcels with existing single-family buildings."],
-    ["intro-link-middle", /#\/middle\/summary$/, "Missing middle housing", "allows 2–6 homes on every lot now limited to one home"],
-    ["intro-link-tod", /#\/tod\/summary$/, "Transit-oriented density", "zones apartments by right"],
-    ["intro-link-parking", /#\/parking\/summary$/, "Parking requirement reduction", "removes minimum parking requirements"],
+    ["intro-link-middle", /#\/middle\/summary$/, "Missing middle housing", "Allowing 2–6 homes, up to three stories, on parcels now limited to one single-family home."],
+    ["intro-link-tod", /#\/tod\/summary$/, "Transit-oriented density", "for apartments by right"],
+    ["intro-link-parking", /#\/parking\/summary$/, "Parking requirement reduction", "Removing minimum parking requirements for all new housing, statewide."],
   ];
   for (const [id, url, h1, lawText] of cases) {
     await page.goto("#/");

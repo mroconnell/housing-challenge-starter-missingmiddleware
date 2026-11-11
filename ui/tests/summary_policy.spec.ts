@@ -39,70 +39,131 @@ async function modeled(page: Page, id: string): Promise<string[]> {
   return [`${m.dates.effective}: it removes minimum parking requirements for all housing.`, ss[0], ss[ss.length - 1]];
 }
 
-for (const id of ["middle", "tod", "parking"]) {
-  test(`${id} Summary: "The policy" shows the handbook's benchmark and what we modeled`, async ({ page }) => {
+// Owner 2026-11-11 20:05 (ADU) and 20:23 (all four): "The policy" holds only the owner's text; no opening sentence;
+// what we modeled and the handbook's benchmark sit in one card under the chart, before the row of links. On wide
+// screens "The policy" and the range card share one row (20:21).
+const ADU_POLICY = "Allowing one 600+ sq. ft. ADU (detached or semi-detached) on parcels with existing single-family buildings. No additional parking is required. No owner-occupant requirement.";
+
+/** The owner's policy text for each reform; TOD's numbers are read from its bundle's district fields. */
+async function policyText(page: Page, id: string): Promise<string> {
+  if (id === "adu") return ADU_POLICY;
+  if (id === "middle") return constString("scenarios/middle/index.ts", "MIDDLE_POLICY_TEXT");
+  if (id === "parking") return constString("scenarios/parking/index.ts", "PARKING_POLICY_TEXT");
+  const d = (await json(page, "scenarios/tod/runs/", "statewide.json")).district;
+  return `Requiring every Wisconsin city with rail or rapid-bus stops to zone ${Math.round(d.share * 100)}% of the land within ${d.radius} of those stops for apartments by right, at least ${d.min_homes_per_acre} homes per acre.`;
+}
+
+for (const id of ["adu", "middle", "tod", "parking"]) {
+  test(`${id} Summary: the owner's policy text, then range, chart, what we modeled with the benchmark, links`, async ({ page }) => {
     await page.goto(`#${PRE[id]}/summary`);
+    const policy = await policyText(page, id);
     const box = page.getByTestId("summary-policy");
-    await expect(box.getByRole("heading", { name: "The policy" })).toBeVisible();
-    const bench = box.getByTestId("policy-benchmark");
+    await expect(box.getByRole("heading")).toHaveText(["The policy"]);
+    await expect(box.getByTestId("policy-text")).toHaveText(policy);
+    // nothing else in the box
+    expect((await box.innerText()).replace(/\s+/g, " ").trim()).toBe(`The policy ${policy}`);
+    await expect(box.getByTestId("policy-benchmark")).toHaveCount(0);
+    await expect(box.getByTestId("policy-modeled")).toHaveCount(0);
+    await expect(page.getByTestId("summary-sentence")).toHaveCount(0);
+    await expect(page.locator("main")).not.toContainText("If Wisconsin ");
+    // the card under the chart: what we modeled, then the handbook's benchmark
+    const card = page.getByTestId("summary-modeled");
+    const mod = card.getByTestId("policy-modeled");
+    await expect(mod.getByRole("heading", { name: "What we modeled" })).toBeVisible();
+    for (const t of await modeled(page, id)) await expect(mod).toContainText(t);
+    if (id === "tod") await expect(mod).toContainText("The Hop");
+    const bench = card.getByTestId("policy-benchmark");
     await expect(bench.getByRole("heading", { name: "The challenge's benchmark" })).toBeVisible();
     await expect(bench.getByTestId("policy-quote")).toHaveText(`“${HANDBOOK[id]}”`);
     await expect(bench.getByTestId("policy-source")).toContainText("Participant Handbook");
     await expect(bench.getByTestId("policy-source")).toContainText("Benchmark Policy Scenarios");
-    const mod = box.getByTestId("policy-modeled");
-    await expect(mod.getByRole("heading", { name: "What we modeled" })).toBeVisible();
-    for (const t of await modeled(page, id)) await expect(mod).toContainText(t);
-    if (id === "tod") await expect(mod).toContainText("The Hop");
-    // near the top: before the 90% range card
-    const order = await page.locator("[data-testid=summary-policy], [data-testid=summary-range]").evaluateAll((els) => els.map((e) => e.getAttribute("data-testid")));
-    expect(order).toEqual(["summary-policy", "summary-range"]);
+    const parts = await card.locator("[data-testid^=policy-]").evaluateAll((els) => els.filter((e) => e.classList.contains("policy-part")).map((e) => e.getAttribute("data-testid")));
+    expect(parts).toEqual(["policy-modeled", "policy-benchmark"]);
+    // order: heading, the policy + estimate row (policy first), chart, what we modeled, links
+    const top = page.getByTestId("summary-top");
+    expect(await top.locator(":scope > section").evaluateAll((els) => els.map((e) => e.getAttribute("data-testid")))).toEqual(["summary-policy", "summary-range"]);
+    const order = await page.locator("article.summary-page > :is(h1, [data-testid=summary-top], .summary-chart-card, [data-testid=summary-modeled], [data-testid=summary-links])")
+      .evaluateAll((els) => els.map((e) => e.getAttribute("data-testid") ?? (e.classList.contains("summary-chart-card") ? "chart" : e.tagName.toLowerCase())));
+    expect(order).toEqual(["h1", "summary-top", "chart", "summary-modeled", "summary-links"]);
+    // nothing else visible below the chart but this card and the links (the dialog is closed)
+    const after = await page.locator("article.summary-page > .summary-chart-card ~ *").evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).map((e) => e.getAttribute("data-testid")));
+    expect(after).toEqual(["summary-modeled", "summary-links"]);
+    // the link to the list of places: ADU and parking have one on Why; middle housing and TOD do not (yet)
+    const scope = card.getByTestId("summary-scope-link");
+    if (id === "adu") {
+      await expect(scope).toHaveText("For the full list of states and cities included in or excluded from the model, see Why → In and out of the model →");
+      await expect(scope.locator("a")).toHaveAttribute("href", "#/why?section=adu-in-out");
+    } else if (id === "parking") {
+      await expect(scope).toHaveText("For the full list of the 74 places that removed parking minimums and were studied, see Why → All 74 places →");
+      await expect(scope.locator("a")).toHaveAttribute("href", "#/parking/why?section=parking-places");
+    } else await expect(scope).toHaveCount(0);
   });
 
+  test(`${id} Summary: policy and estimate side by side at 1280 px, stacked at 375 px with no sideways scroll`, async ({ page }) => {
+    const boxes = async () => page.evaluate(() => {
+      const r = (t: string) => document.querySelector(`[data-testid=${t}]`)!.getBoundingClientRect();
+      const p = r("summary-policy"), e = r("summary-range");
+      return { p: { x: p.left, y: p.top, w: p.width, h: p.height, b: p.bottom }, e: { x: e.left, y: e.top, w: e.width, h: e.height }, overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+    });
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(`#${PRE[id]}/summary`);
+    await expect(page.getByTestId("summary-range")).toBeVisible();
+    const wide = await boxes();
+    expect(Math.abs(wide.p.y - wide.e.y), "same row").toBeLessThanOrEqual(1);
+    expect(wide.e.x, "estimate to the right of the policy").toBeGreaterThan(wide.p.x + wide.p.w);
+    expect(wide.p.w, "policy narrower than the estimate").toBeLessThan(wide.e.w);
+    expect(Math.abs(wide.p.h - wide.e.h), "equal heights").toBeLessThanOrEqual(1);
+    expect(wide.overflow).toBeLessThanOrEqual(0);
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.reload();
+    await expect(page.getByTestId("summary-range")).toBeVisible();
+    const narrow = await boxes();
+    expect(narrow.e.y, "estimate below the policy").toBeGreaterThanOrEqual(narrow.p.b);
+    expect(Math.abs(narrow.p.x - narrow.e.x)).toBeLessThanOrEqual(1);
+    expect(Math.abs(narrow.p.w - narrow.e.w), "both full width").toBeLessThanOrEqual(1);
+    expect(narrow.overflow, "no sideways page scroll at 375 px").toBeLessThanOrEqual(0);
+  });
 }
 
-// ADU, owner 2026-11-11 20:05: "The policy" holds only the owner's text; no opening sentence; what we modeled and the
-// handbook's benchmark sit in one card under the chart, before the row of links.
-const ADU_POLICY = "Allowing one 600+ sq. ft. ADU (detached or semi-detached) on parcels with existing single-family buildings. No additional parking is required. No owner-occupant requirement.";
-
-test("adu Summary: the owner's policy text, then range, chart, what we modeled with the benchmark, links", async ({ page }) => {
-  await page.goto("#/summary");
-  const box = page.getByTestId("summary-policy");
-  await expect(box.getByRole("heading")).toHaveText(["The policy"]);
-  await expect(box.getByTestId("policy-text")).toHaveText(ADU_POLICY);
-  // nothing else in the box
-  expect((await box.innerText()).replace(/\s+/g, " ").trim()).toBe(`The policy ${ADU_POLICY}`);
-  await expect(box.getByTestId("policy-benchmark")).toHaveCount(0);
-  await expect(box.getByTestId("policy-modeled")).toHaveCount(0);
-  await expect(page.getByTestId("summary-sentence")).toHaveCount(0);
-  await expect(page.locator("main")).not.toContainText("If Wisconsin allows one ADU");
-  // the card under the chart: what we modeled (LAW_TEXT), then the handbook's benchmark
-  const card = page.getByTestId("summary-modeled");
-  const mod = card.getByTestId("policy-modeled");
-  await expect(mod.getByRole("heading", { name: "What we modeled" })).toBeVisible();
-  await expect(mod).toContainText(constString("app.ts", "LAW_TEXT"));
-  const bench = card.getByTestId("policy-benchmark");
-  await expect(bench.getByRole("heading", { name: "The challenge's benchmark" })).toBeVisible();
-  await expect(bench.getByTestId("policy-quote")).toHaveText(`“${HANDBOOK.adu}”`);
-  await expect(bench.getByTestId("policy-source")).toContainText("Benchmark Policy Scenarios");
-  const parts = await card.locator("[data-testid^=policy-]").evaluateAll((els) => els.filter((e) => e.classList.contains("policy-part")).map((e) => e.getAttribute("data-testid")));
-  expect(parts).toEqual(["policy-modeled", "policy-benchmark"]);
-  // order: heading, policy, range, chart, what we modeled, links
-  const order = await page.locator("article.summary-page > :is(h1, [data-testid=summary-policy], [data-testid=summary-range], .summary-chart-card, [data-testid=summary-modeled], [data-testid=summary-links])")
-    .evaluateAll((els) => els.map((e) => e.getAttribute("data-testid") ?? (e.classList.contains("summary-chart-card") ? "chart" : e.tagName.toLowerCase())));
-  expect(order).toEqual(["h1", "summary-policy", "summary-range", "chart", "summary-modeled", "summary-links"]);
-  // nothing else visible below the chart but this card and the links (the dialog is closed)
-  const after = await page.locator("article.summary-page > .summary-chart-card ~ *").evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).map((e) => e.getAttribute("data-testid")));
-  expect(after).toEqual(["summary-modeled", "summary-links"]);
+// ADU Why: the in/out list (owner, 2026-11-11 20:21). States in: the bundle's 8 (the evidence card's table); cities in:
+// the 5 in the pooled model (docs/gate3/README.md step 1); left out: the 10 other Mercatus states, the local proxies
+// and the 11 Madison-like cities (docs/gate3/STATEWIDE_STATES.md, POOLED_MODEL.md decision 13).
+test("ADU Why: In and out of the model lists 8 states and 5 cities in, 12 entries out", async ({ page }) => {
+  await page.goto("#/why");
+  const box = page.locator("#adu-in-out");
+  await expect(box).toBeVisible();
+  await expect(box.getByRole("heading", { level: 2 })).toHaveText("In and out of the model");
+  const ev = await json(page, "runs/", "evidence.json");
+  const states = (ev.cards as { kind: string; table?: { state: string }[] }[]).find((c) => c.kind === "evidence" && c.table?.length)!.table!.map((r) => r.state);
+  expect(states).toHaveLength(8);
+  await expect(box.getByTestId("in-states").locator("li")).toHaveCount(8);
+  for (const s of states) await expect(box.getByTestId("in-states")).toContainText(s);
+  expect([...states].sort()).toEqual(["California", "Maine", "Massachusetts", "Oregon", "Rhode Island", "Utah", "Vermont", "Washington"]);
+  await expect(box.getByTestId("in-cities").locator("li")).toHaveCount(5);
+  for (const c of ["Seattle", "Portland", "Austin", "Denver", "Minneapolis"]) await expect(box.getByTestId("in-cities")).toContainText(c);
+  const out = box.getByTestId("out-places");
+  await expect(out.locator("li")).toHaveCount(12);
+  for (const s of ["Montana", "Arizona", "Colorado", "Arkansas", "Iowa", "New Hampshire", "Connecticut", "Hawaii", "Maryland", "Nevada", "11 cities like Madison"]) await expect(out).toContainText(s);
+  // each left-out entry has a one-line reason
+  for (const t of await out.locator("li").allInnerTexts()) expect(t).toMatch(/^.+: .+$/);
 });
 
-for (const id of ["middle", "tod", "parking"]) {
-  test(`${id} Summary: unchanged layout, sentence on top and no card under the chart`, async ({ page }) => {
-    await page.goto(`#${PRE[id]}/summary`);
-    await expect(page.getByTestId("summary-sentence")).toBeVisible();
-    await expect(page.getByTestId("policy-text")).toHaveCount(0);
-    await expect(page.getByTestId("summary-modeled")).toHaveCount(0);
-  });
-}
+test("ADU Summary link opens Why at the in/out list", async ({ page }) => {
+  await page.goto("#/summary");
+  await page.getByTestId("summary-scope-link").locator("a").click();
+  await expect(page).toHaveURL(/#\/why\?section=adu-in-out$/);
+  await expect(page.locator("#adu-in-out")).toBeInViewport();
+});
+
+test("parking Summary link opens Why with the list of 74 places open", async ({ page }) => {
+  await page.goto("#/parking/summary");
+  await page.getByTestId("summary-scope-link").locator("a").click();
+  await expect(page).toHaveURL(/#\/parking\/why\?section=parking-places$/);
+  const list = page.locator("details#parking-places");
+  await expect(list).toHaveAttribute("open", "");
+  await expect(list.getByTestId("why-places").locator("tbody tr")).toHaveCount(74);
+  await expect(list).toBeInViewport();
+});
 
 for (const id of ["adu", "middle", "tod", "parking"]) {
   test(`${id} Summary: the chart spans the main container, prose stays at a reading measure`, async ({ page, isMobile }) => {

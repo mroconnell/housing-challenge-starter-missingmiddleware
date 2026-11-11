@@ -1,3 +1,4 @@
+import { ADU_IN_OUT_ID } from "./why";
 import { LAW_TEXT, details, type Ctx } from "../app";
 import { dec, esc, int, pct, YEARS } from "../format";
 import { ALL_HOUSING_BASELINE_2027_2031, num, rangeCardHTML, rangeCaveatHTML, sideLinesHTML } from "../range";
@@ -113,6 +114,9 @@ export function aduSummaryInput(ctx: Ctx, homes: WiHomes): SummaryInput {
     id: "adu", title: "Accessory dwelling units", law: "allows one ADU on every lot with a single-family home", modeled: [LAW_TEXT],
     // owner's words, 2026-11-11 20:05; the opening sentence repeated the policy, so it goes
     policy: ADU_POLICY_TEXT, sentence: false, unit: "ADU permits",
+    // owner, 2026-11-11 20:21: policy beside the estimate on wide screens; the modeled card links to Why's in/out list
+    policyBeside: true,
+    scopeLink: { href: ctx.link(`/why?section=${ADU_IN_OUT_ID}`), label: "Why → In and out of the model" },
     range: s.range90, rangeFlat: flatRange(s.range90), sideLines: s.side_lines.filter((x) => x.where === "chart" && !ADU_SUMMARY_HIDDEN.has(x.id)).map((x) => ({ ...x, label: ADU_SUMMARY_LABELS[x.id] ?? x.label })),
     base: { central: base.by_year, low: base.low_by_year, high: base.high_by_year }, baseName: "ADU permits without statewide reform",
     chartName: "ADU permits", currentLawLabel: "Current law (ADU permits without statewide reform)", homes,

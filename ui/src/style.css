@@ -438,7 +438,16 @@ table.data.intro-range-table tbody tr:last-child > * { border-bottom: 0; }
 
 /* The shared Summary tab (ui/src/summary.ts) */
 /* Prose keeps a readable measure; the chart card spans the main container (about 1,150 px on desktop). */
-.summary-page > :not(.summary-chart-card):not(.sum-dialog) { max-width: 80ch; }
+.summary-page > :not(.summary-chart-card):not(.sum-dialog):not(.summary-top-beside) { max-width: 80ch; }
+/* "The policy" beside the range card (SummaryInput.policyBeside): one row on wide screens, policy narrower and the
+   estimate wider, equal heights; stacked (policy first) below 860px so neither gets cramped. */
+.summary-top-beside { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 16px; margin: 16px 0; }
+.summary-top-beside > .card { margin: 0 0 16px; min-width: 0; }
+.summary-top-beside > .card:last-child { margin-bottom: 0; }
+@media (min-width: 860px) {
+  .summary-top-beside { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: stretch; }
+  .summary-top-beside > .card { margin: 0; }
+}
 .summary-chart-card > p, .summary-chart-card > .summary-toggles { max-width: 80ch; }
 .summary-chart-card .sum-legend { max-width: none; }
 .summary-policy h3, .summary-modeled h3 { font-size: 1rem; margin: 12px 0 4px; }
@@ -488,3 +497,9 @@ path.sum-hit-side { pointer-events: stroke; }
 .wt-section > .section-h { border-top: 2px solid var(--accent); padding-top: 14px; font-size: 1.4rem; }
 .wt-body h3:not(.tile-label) { font-size: 1.15rem; }
 .wt-body h4:not(.tile-label), .wt-body h5:not(.tile-label) { font-size: 1rem; }
+/* ADU Why: "In and out of the model" (two columns on wide screens, stacked on narrow ones) */
+.in-out-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 0 24px; }
+.in-out h3 { font-size: 1rem; margin: 12px 0 4px; }
+.in-out-list li { margin: 0 0 4px; }
+/* sections opened by "?section=<id>" land below the sticky header (its height is set on the page by main.ts) */
+.in-out, details#parking-places { scroll-margin-top: calc(var(--head-h, 140px) + 12px); }

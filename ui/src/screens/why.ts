@@ -36,6 +36,71 @@ function dataTable(lines: Line[], caption: string): string {
   <tbody>${lines.map((l) => { const m = new Map(l.points.map((p) => [p.k, p.rate])); return `<tr><th scope="row">${esc(l.name)}</th>${ks.map((k) => `<td class="num">${m.has(k) ? dec(m.get(k)!) : ""}</td>`).join("")}</tr>`; }).join("")}</tbody></table></div>`;
 }
 
+
+/** The anchor of the in/out list; the ADU Summary's "What we modeled" card links here (?section=adu-in-out). */
+export const ADU_IN_OUT_ID = "adu-in-out";
+
+// The in/out list (owner, 2026-11-11 20:21). The 8 states and their levels come from the bundle (the "What statewide
+// ADU laws did elsewhere" card's table); the rest is not in the bundle, so it is kept here, with its sources:
+// - Measured area of each state and the five cities: docs/gate3/README.md, "How the central is built" step 1, and
+//   docs/gate3/POOLED_MODEL.md (data table, and decisions 5 and 13).
+// - Left out: docs/gate3/STATEWIDE_STATES.md, summary table and section 1 "The state list" (the 18 Mercatus states),
+//   and POOLED_MODEL.md decision 13 (places not used); the Madison-like cities: evidence card "Cities like Madison
+//   after a statewide law" (a sensitivity since AQ-066).
+const IN_STATE_AREA: Record<string, string> = {
+  California: "457 cities and counties",
+  Washington: "its cities, excluding Seattle",
+  Maine: "statewide",
+  Utah: "reporting cities",
+  Massachusetts: "statewide (293 of 351 towns reporting)",
+  Vermont: "Chittenden County",
+  "Rhode Island": "statewide",
+  Oregon: "32 cities, excluding Portland",
+};
+const IN_CITIES: { name: string; why: string }[] = [
+  { name: "Seattle, WA", why: "city ADU rules, then the state law" },
+  { name: "Portland, OR", why: "city ADU rules alongside the state law" },
+  { name: "Austin, TX", why: "city ADU rules; no state law" },
+  { name: "Denver, CO", why: "city ADU rules, then the 2024 state law" },
+  { name: "Minneapolis, MN", why: "city ADU rules; no state law" },
+];
+const OUT_PLACES: { name: string; why: string }[] = [
+  { name: "Montana", why: "no state count; one city (Bozeman), one year" },
+  { name: "Arizona", why: "no state count; city figures only, one year" },
+  { name: "Colorado", why: "no state count; no year after the law yet" },
+  { name: "Arkansas", why: "law from 2025; no data yet" },
+  { name: "Iowa", why: "law from 2025; no data yet" },
+  { name: "New Hampshire", why: "ADUs not counted apart from other homes until 2025" },
+  { name: "Connecticut", why: "no ADU count; most towns opted out" },
+  { name: "Hawaii", why: "cities need not comply until end of 2026" },
+  { name: "Maryland", why: "cities need not comply until October 2026" },
+  { name: "Nevada", why: "law from July 2026; no data yet" },
+  { name: "Tucson, Spokane, Honolulu, Bozeman, Montgomery County (MD)", why: "city or county proxies, local rules or unverified figures" },
+  { name: "11 cities like Madison (WA, OR, RI)", why: "shown on the chart above as a check; not used for the rate" },
+];
+
+/** The "In and out of the model" card: the states and cities the ADU rate is learned from, and those left out. */
+function inOutHTML(states: string[]): string {
+  return `<section class="card in-out" id="${ADU_IN_OUT_ID}" tabindex="-1" aria-labelledby="h-in-out" data-testid="adu-in-out">
+    <h2 id="h-in-out">In and out of the model</h2>
+    <p class="muted">Where the ADU rate with a statewide law is learned from, and the places we looked at but left out.</p>
+    <div class="in-out-cols">
+      <div>
+        <h3>In the model: ${states.length} states</h3>
+        <ul class="plain in-out-list" data-testid="in-states">${states.map((n) => `<li><strong>${esc(n)}</strong>${IN_STATE_AREA[n] ? `: ${esc(IN_STATE_AREA[n])}` : ""}</li>`).join("")}</ul>
+        <h3>In the model: ${IN_CITIES.length} cities</h3>
+        <ul class="plain in-out-list" data-testid="in-cities">${IN_CITIES.map((c) => `<li><strong>${esc(c.name)}</strong>: ${esc(c.why)}</li>`).join("")}</ul>
+        <p class="small muted">The cities help measure what city rules and state laws add; only the ${states.length} states set the statewide level.</p>
+      </div>
+      <div>
+        <h3>Left out: ${OUT_PLACES.length} entries</h3>
+        <ul class="plain in-out-list" data-testid="out-places">${OUT_PLACES.map((c) => `<li><strong>${esc(c.name)}</strong>: ${esc(c.why)}</li>`).join("")}</ul>
+      </div>
+    </div>
+    <p class="links">${docLink({ label: "Statewide-law states", path: "docs/gate3/STATEWIDE_STATES.md", url: "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/gate3/STATEWIDE_STATES.md" })} · ${docLink({ label: "Pooled model", path: "docs/gate3/POOLED_MODEL.md", url: "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/gate3/POOLED_MODEL.md" })}</p>
+  </section>`;
+}
+
 export function renderWhy(ctx: Ctx, main: HTMLElement): void {
   const ev = ctx.b.evidence;
   const wiName = (kind: string) => ev.spaghetti_states.lines.find((l) => l.kind === kind)?.name ?? kind;
@@ -47,6 +112,8 @@ export function renderWhy(ctx: Ctx, main: HTMLElement): void {
     ${c.challenge ? `<p class="challenge"><strong>Challenge this:</strong> ${esc(c.challenge)}</p>` : ""}
     <p class="links">${c.links.map(docLink).join(" · ")}</p></article>`;
 
+  // the 8 states, in the bundle's order (highest level first)
+  const inStates = ev.cards.find((c) => c.kind === "evidence" && c.table?.length)?.table?.map((r) => r.state) ?? [];
   main.innerHTML = `
   <h1>Why these numbers</h1>
   <p class="lede">The evidence behind the model, and the assumptions it makes where Wisconsin has no data. The two charts show what other states and cities actually permitted before and after a statewide ADU law, with Wisconsin's scenarios on the same scale. Each card says what kind of evidence it is and links to the full write-up and data on GitHub. Assumption cards carry a question you could put to the model.</p>
@@ -72,6 +139,8 @@ export function renderWhy(ctx: Ctx, main: HTMLElement): void {
     <details><summary>Show the data</summary>${dataTable(ev.spaghetti_cities.lines, "Rates by year since the statewide law, permits per 1,000 single-family homes per year")}</details>
     <p class="links">${docLink(ev.spaghetti_cities.png)}</p>
   </section>
+
+  ${inOutHTML(inStates)}
 
   <section aria-labelledby="h-ev"><h2 id="h-ev">Evidence</h2><div class="cards">${ev.cards.filter((c) => c.kind === "evidence").map(card).join("")}</div></section>
   <section aria-labelledby="h-as"><h2 id="h-as">Assumptions you can challenge</h2><div class="cards">${ev.cards.filter((c) => c.kind === "assumption").map(card).join("")}</div></section>

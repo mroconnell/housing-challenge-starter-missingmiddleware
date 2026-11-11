@@ -4,11 +4,13 @@
 //
 // Layout: one plain sentence; "The policy" (the challenge's benchmark, quoted from the handbook, and what we modeled,
 // from the reform's own law text; or, when the reform gives the owner's policy text, only that text, with what we
-// modeled and the benchmark in a card under the chart, and no opening sentence: ADU since 2026-11-11 20:05); the 90% range; the "How we count" line (the same source as the Introduction's table,
+// modeled and the benchmark in a card under the chart, and no opening sentence: ADU since 2026-11-11 20:05, all four
+// reforms since 20:23); the 90% range; the "How we count" line (the same source as the Introduction's table,
 // ui/src/howwecount.ts); the range chart with hover/tap popups, keyboard-reachable year and side-line details and a
 // "Show as a table" toggle; three toggles written to the URL; one row of links. The chart card spans the main
 // container; prose keeps a readable measure. "Enlarge chart" redraws the same chart, with the same toggles and popups,
-// in a full-window native <dialog>.
+// in a full-window native <dialog>. With "policyBeside", "The policy" and the range card share one row on wide screens
+// and stack on narrow ones (ui/src/style.css, .summary-top-beside).
 //
 // URL parameters: per=1000 (per 1,000 Wisconsin homes), show=extra (extra homes only), timing=flat (the five-year
 // total spread evenly; middle housing uses its own flat version), lines=off (side lines hidden; the band, current law
@@ -65,7 +67,11 @@ export interface SummaryInput {
   sentence?: boolean;
   /** Ends the "What we modeled" card under the chart with a link to the list of places in and out of the model.
    *  Only used with "policy"; left out when no screen holds such a list. */
-  scopeLink?: { href: string; label: string };
+  scopeLink?: { href: string; label: string; text?: string };
+  /** true puts "The policy" and the range card on one row on wide screens (policy narrower, estimate wider, equal
+   *  heights); they stack, policy first, when the screen is narrow. Default false (owner, 2026-11-11 20:21: ADU first,
+   *  the other reforms can switch it on later). */
+  policyBeside?: boolean;
   /** What is counted, plural: "ADU permits", "homes near major transit stops". */
   unit: string;
   /** The measured-timing 90% range. */
@@ -165,7 +171,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
     <h2 id="sum-modeled-h" class="sr-only">What we modeled, and the challenge's benchmark</h2>
     ${modeledPart("h3")}
     ${benchmarkPart("h3")}
-    ${o.scopeLink ? `<p class="summary-scope-link" data-testid="summary-scope-link">For the full list of states and cities included in or excluded from the model, see <a href="${esc(o.scopeLink.href)}">${esc(o.scopeLink.label)} →</a></p>` : ""}
+    ${o.scopeLink ? `<p class="summary-scope-link" data-testid="summary-scope-link">${esc(o.scopeLink.text ?? "For the full list of states and cities included in or excluded from the model, see")} <a href="${esc(o.scopeLink.href)}">${esc(o.scopeLink.label)} →</a></p>` : ""}
   </section>
 `;
 
@@ -174,6 +180,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
   <h1>${esc(o.title)}</h1>
   ${o.sentence === false ? "" : `<p class="lede summary-sentence" data-testid="summary-sentence">If Wisconsin ${esc(o.law)} from 1 January 2027, the range below is our estimate of the extra ${esc(o.unit)} it would permit over the first five years; ${esc(signTxt)}.</p>`}
 
+  ${o.policyBeside ? `<div class="summary-top summary-top-beside" data-testid="summary-top">` : ""}
   <section class="card summary-policy" aria-labelledby="sum-policy-h" data-testid="summary-policy">
     <h2 id="sum-policy-h">The policy</h2>
     ${o.policy !== undefined ? `<p data-testid="policy-text">${esc(o.policy)}</p>` : `${benchmarkPart("h3")}
@@ -189,6 +196,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
     ${per ? `<p class="small muted" data-testid="per-base">Per 1,000 Wisconsin homes: each number ÷ ${dec(k, 3)} thousand homes (all ${esc(homesTxt)}). The same base for every reform.</p>` : ""}
     <p class="small summary-how" data-testid="summary-how"><strong>How we count.</strong> ${esc(HOW_WE_COUNT[o.id])}</p>
   </section>
+  ${o.policyBeside ? "</div>" : ""}
 
   <section class="card summary-chart-card" aria-labelledby="sum-chart-h">
     <div class="sum-chart-head"><h2 id="sum-chart-h">${esc(chartHeading)}</h2>
