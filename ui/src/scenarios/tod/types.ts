@@ -63,7 +63,7 @@ export interface MapData {
 }
 export interface SensRow {
   id: string; label: string; text: string; baseline: number; add: Partial<Record<string, number>>;
-  milwaukee_metro: number | null; madison_metro?: number; metro_scenario?: string; year_2031?: Partial<ByScen>;
+  milwaukee_metro: number | null; madison_metro?: number; metro_scenario?: string; year_2031?: Partial<ByScen>; typical_by_year?: number[];
 }
 export interface HowSure {
   main_baseline: number;

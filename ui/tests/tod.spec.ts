@@ -61,7 +61,7 @@ test("TOD headline numbers equal the bundle", async ({ page }) => {
   for (const s of sw.side_lines) await expect(page.getByTestId("side-lines")).toContainText(`${s.label}: ${fmt(s.value)}`);
   // auditor 2026-11-02, spec: the record-year warning, checked at the range's high end
   for (const r of R.record_check_high.filter((x: { years_above_own_record: number[] }) => x.years_above_own_record.length))
-    await expect(page.getByTestId("record-years")).toContainText(`${r.metro} ${r.years_above_own_record.join(" and ")}`);
+    await expect(page.getByTestId("record-years")).toContainText(`${r.metro} ${r.years_above_own_record.length < 2 ? r.years_above_own_record.join("") : `${r.years_above_own_record.slice(0, -1).join(", ")} and ${r.years_above_own_record[r.years_above_own_record.length - 1]}`}`);
   await expect(page.getByTestId("timing-caveat")).toContainText(sw.timing_caveat);
   // AQ-054: shared unit against the statewide all-housing baseline and the ACS home count; no median line for 3 studies
   const size = page.getByTestId("compare-size");

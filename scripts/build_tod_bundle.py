@@ -177,7 +177,8 @@ SENS_LABELS = {
     ("law_addition", "la_toc_little"): ("Earlier little line: Los Angeles's transit program", "Los Angeles's Transit Oriented Communities program (2017) added 0.04 percentage points to the city's housing growth over six years (per upzoned home). It required affordable homes, which the modelled law does not."),
     ("law_addition", "drift_central"): ("Earlier central line: upzoned-share trend in 9 cities", "From our lot data on 9 US cities: upzoned lots' share of new homes rose after each reform, more where it started low (a rule found after seeing the results). About 1,200."),
     ("law_addition", "stacy_typical"): ("Earlier typical line: the average loosening reform", "Stacy and others (2023): about +0.8% more addresses after a loosening reform in 1,136 US cities. Most of those reforms were about accessory dwellings and lot sizes, not transit."),
-    ("law_addition", "ramp_year5_alt"): ("Smoother final year", "Year 2031 set to the average of 2029–2031 instead of the measured New York drop. Changes timing only; the five-year totals stay the same."),
+    ("law_addition", "ramp_new_york"): ("Timing: New York rezonings' build-up (the former ramp)", "Each line spread over the years like the build-up measured after the New York rezonings, the timing used before 11 November 2026: most homes in 2030, few in 2031. Changes timing only; the five-year totals stay the same."),
+    ("law_addition", "ramp_year5_alt"): ("Smoother final year (New York build-up)", "The former New York build-up with 2031 set to the average of 2029–2031 instead of its measured drop. Changes timing only; the five-year totals stay the same."),
     ("where_homes_land", "old_law_placement"): ("Homes placed as under the broader law", "Each place gets homes in proportion to the extra floor area the broader law would have allowed, not its land within ¼ mile of rail and rapid stops. Statewide totals are the same."),
     ("where_homes_land", "no_suburbs"): ("Only Milwaukee and Madison get homes", "Suburbs with rail or rapid stops (Wauwatosa, Kenosha, Shorewood Hills, Sun Prairie and others) get none of the extra homes. Statewide totals are the same."),
     ("where_homes_land", "rapid_only"): ("Only rail and rapid transit stations count as near stops", "Changes which homes count as near stops, so current law near stops changes. The law's extra homes stay the same: the district is within ¼ mile of rail and rapid stops either way."),
@@ -213,6 +214,7 @@ TORNADO = {
         ("Earlier typical: average loosening reform", "stacy_typical", "typical"),
     ],
 }
+TIMING_ONLY = ("ramp_new_york", "ramp_year5_alt")   # what-ifs that change the yearly split only
 GROUPS = [("law_addition", "What-ifs that change the law's addition"),
           ("where_homes_land", "What-ifs that change where the homes land (and, for the stop rules, how many homes are near stops)"),
           ("baseline_only", "What-ifs that change current law only")]
@@ -394,8 +396,10 @@ def build_range90(sw: dict) -> tuple[dict, list]:
     widened = point + f * (draws - point)
     typ = next(x for x in sw["scenarios"] if x["id"] == "typical")
     shares = [v / sum(typ["by_year"]) for v in typ["by_year"]]
-    years = [{"year": y, "low": r(float((widened * sh).quantile(0.05)), 2), "high": r(float((widened * sh).quantile(0.95)), 2)}
-             for y, sh in zip(YEARS, shares)]
+    lo_tot, hi_tot = float(widened.quantile(0.05)), float(widened.quantile(0.95))
+    # Each end of the range follows the yearly shares (the 11 places' build-up, owner 2026-11-11), so each year's low and
+    # high add up to the five-year ends. Year 2's share is negative as measured, so there its low end is above its high end.
+    years = [{"year": y, "low": r(lo_tot * sh, 2), "high": r(hi_tot * sh, 2)} for y, sh in zip(YEARS, shares)]
     k = lambda v: f"{whole(v):,}"  # noqa: E731
     range90 = {
         "low": r(float(widened.quantile(0.05)), 1), "high": r(float(widened.quantile(0.95)), 1), "unit": RANGE_UNIT,
@@ -403,7 +407,7 @@ def build_range90(sw: dict) -> tuple[dict, list]:
                    f"after a coverage test: the unwidened range was {k(p5)} to {k(p95)}."),
         "coverage": (f"The unwidened range held the true average in {cv['value'] * 100:.1f}% of test runs, below 90%, so it was widened. "
                      f"A check on fake effects held only {round(fake['value'] * 100):.0f}%, so the range may still be narrow."),
-        "years_method": "Each widened draw is spread over the years like the average district place's yearly profile; each year's band is its 5th to 95th percentiles.",
+        "years_method": "Each end of the range is spread over the years by the same yearly shares as the lines, so each year's ends add up to the five-year ends.",
         "source": "reference/tod_line_draws.csv (central_homes), widened by reference/tod_coverage_test.csv; docs/UNIFORM_DISPLAY_SPEC.md",
         "years": years,
     }
@@ -610,6 +614,8 @@ def build_howsure(sw: dict, areas: dict) -> dict:
                 row["madison_metro"] = r(sg.loc[tsc, "madison_metro_2027_2031"], 4)
                 row["metro_scenario"] = tsc
                 row["year_2031"] = {sc: r(sg.loc[sc, "add_2031"], 4) for sc in SCEN if sc in sg.index}
+                if sens in TIMING_ONLY:
+                    row["typical_by_year"] = [r(sg.loc["typical", f"add_{y}"], 4) for y in YEARS]
             rows.append(row)
         groups.append({"id": gid, "label": glabel, "rows": rows})
     pa = se[se["sizing"] == "per_acre"]
@@ -661,7 +667,7 @@ def build_howsure(sw: dict, areas: dict) -> dict:
         {"part": "That those results carry over to Wisconsin", "status": "assumed",
          "text": "No Wisconsin outcome has tested the sizing. The training cities chose their district land, often land builders already wanted; Wisconsin's district is modelled as spread at random over the ¼-mile land, and a mandate may do less than a city's own choice. A check near Milwaukee's streetcar, with no rezoning, found building rose about as much as in a typical reform place, so quarter-mile gains of that size can happen without zoning changes."},
         {"part": "Timing over 2027–2031", "status": "calculated",
-         "text": "All three lines follow the build-up measured after the New York rezonings."},
+         "text": "Every line follows the yearly build-up measured across the same 11 places behind the range (their average effect in each of the first five years after reform). The second year dips slightly below zero, as measured."},
         {"part": "Where homes land", "status": "assumed",
          "text": f"The district is spread at random over the land within ¼ mile of rail and rapid stops, so each place gets the statewide homes in proportion to its lot acres there. Milwaukee and Madison get {round(coded_typ / tot_typ * 100)}% of the central line's homes; suburbs with rail or rapid stops (Wauwatosa, Kenosha, Shorewood Hills, Sun Prairie and others) get the rest."},
         {"part": "Split into legislative districts", "status": "assumed",
@@ -708,7 +714,7 @@ def build_howsure(sw: dict, areas: dict) -> dict:
         {"title": "Lot-by-lot predictions", "text": "The model works by place. Nothing here says what will be built on any one lot."},
     ]
     # Tornado: each what-if's statewide extra homes minus the central line (owner request, 3 November 2026).
-    # Timing-only (ramp_year5_alt), where-homes-land and baseline-only rows leave the statewide addition unchanged.
+    # Timing-only (ramp_new_york, ramp_year5_alt), where-homes-land and baseline-only rows leave the statewide addition unchanged.
     central = float(main.loc["typical", "addition_2027_2031"])
     la = ne[ne["group"] == "law_addition"].set_index(["sensitivity", "scenario"])["addition_2027_2031"]
     tornado = []

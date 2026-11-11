@@ -31,8 +31,10 @@ class TestArithmetic(unittest.TestCase):
         z = S.scenario_check(0, 300_000, 5.0, 20.0, 9.0, 12.0)
         self.assertEqual(z["total_per_1000"], 5.0)
         self.assertFalse(z["exceeds_p95"])
+        n = S.scenario_check(-300, 300_000, 5.0, 20.0, 9.0, 12.0)   # a measured negative year lowers the total
+        self.assertAlmostEqual(n["total_per_1000"], 4.0)
         with self.assertRaises(ValueError):
-            S.scenario_check(-1, 300_000, 5.0, 20.0, 9.0, 12.0)
+            S.scenario_check(float("nan"), 300_000, 5.0, 20.0, 9.0, 12.0)
 
     def test_benchmarks_and_own_history(self):
         p = pd.DataFrame({"cbsa_name": ["A"] * 5 + ["B"] * 5, "year": list(range(2021, 2026)) * 2,

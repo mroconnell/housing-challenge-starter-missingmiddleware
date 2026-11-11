@@ -68,9 +68,10 @@ def scenario_check(addition: float, housing_units: float, baseline_per_1000: flo
                    observed_max: float, p95: float, own_max: float) -> dict:
     """Convert one year's statewide-model addition in a metro (homes, treated as 5+ unit
     apartment permits) into extra permits per 1,000 existing homes, add it to the metro's
-    baseline rate and flag the total against the benchmarks."""
-    if addition < 0:
-        raise ValueError("addition must not be negative")
+    baseline rate and flag the total against the benchmarks. A measured negative year (the 11-place build-up's
+    year 2, owner 2026-11-11) lowers the total; no zero floor (owner rule 2026-11-01)."""
+    if not np.isfinite(addition):
+        raise ValueError("addition must be a finite number")
     extra = per_1000(addition, housing_units)
     total = baseline_per_1000 + extra
     return {

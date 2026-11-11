@@ -46,10 +46,15 @@ The station-area shares (1.3%, 3.2% and 4.0% of the 313,564 homes near stops) st
   - **Data fixes behind these lines (2026-11-02).** Lot land counted once; missing lot sizes filled from each city's own Census land share; New York hotel, condo-hotel, care-home and superseded-job rule rows and Philadelphia double counts removed (3,929 rule rows plus 45 hand rows); Seattle corrections. Before the fixes the lines were 499 / 9,822 / 12,264.
 - **Where homes land (AQ-071).** Each place's share of the statewide total = its share of the lot acres within ¼ mile of rail and rapid stops (central: Madison 5,721, Milwaukee 2,453, Wauwatosa 964, Kenosha 416, Shorewood Hills 252, Sun Prairie 145, Burke 73, Blooming Grove 4). The former placement by the old law's added floor area (AQ-051) is a what-if.
 - **No floor at zero.** Places already at or above the law get no addition, but a measured line may be below zero where the evidence says so (owner rule against evidence-free floors).
-- **Timing.**
-  - All three lines follow the yearly build-up measured after 17 New York City rezonings in 2003–2013.
+- **Timing (AQ-080, owner 2026-11-11 00:07).**
+  - Every line, and the range's two ends, follow the yearly build-up measured across the same 11 district places behind the range: their average effect in each of the first five years after reform, each place weighted equally (`reference/tod_first_year_check.csv`, rows "by year (place-equal weight)", from `scripts/run_tod_first_year_check.py`).
+  - Measured effects, extra homes per 100 lot acres a year within ¼ mile: 25.6, −5.2, 85.9, 42.3 and 19.1 in years 1 to 5. As shares of their five-year sum: 15.3%, −3.1%, 51.2%, 25.2% and 11.4% for 2027–2031.
+  - Year 2 (2028) is slightly negative and is used as measured (no zero floor). The script reads the shares from the CSV (`eleven_place_build_up()` in `scripts/run_tod_model.py`).
+  - Only the yearly split changed. The five-year totals are unchanged: range 3,922 to 16,335; side lines 10,028 / 3,958 / 12,521 / 13,451 / 5,624.
+  - Central line (10,028) by year, 2027–2031: 1,530, −312, 5,138, 2,532, 1,141. Range low end: 598, −122, 2,010, 990, 446. Range high end: 2,492, −509, 8,369, 4,125, 1,858.
+  - Before AQ-080 the lines followed the build-up after 17 New York City rezonings in 2003–2013 (shares 9.8%, 9.3%, 26.4%, 47.9%, 6.6%). It is kept as the What-if "Timing: New York rezonings' build-up (the former ramp)", beside the existing smoothed-2031 what-if.
   - The former strong line (Auckland) keeps Auckland's own yearly pattern in its what-if.
-  - The build-up was fixed before the results were seen, and is not smoothed.
+  - The per-acre method A (a sensitivity) still uses the New York ramp, because its *r* is New York's per-FAR rate.
 
 ## 3. Data sources and cleaning steps
 

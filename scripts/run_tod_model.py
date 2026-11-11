@@ -316,6 +316,18 @@ def feasible_flags(df: pd.DataFrame, homes_col: str, rents, ratio: dict, use_rat
 
 # ----------------------------------------------------------------------------- case parameters
 
+def eleven_place_build_up() -> tuple[list[float], tuple[float, ...]]:
+    """The 11 district places' yearly effects by year since reform, place-equal weight (reference/tod_first_year_check.csv,
+    scripts/run_tod_first_year_check.py; extra homes per 100 lot acres a year), and their shares of the five-year sum.
+    The net-effect lines' timing since owner 2026-11-11 00:07 (AQ log): used as measured, year 2's small negative included."""
+    t = pd.read_csv(REFERENCE / "tod_first_year_check.csv")
+    t = t[t.section == "by year (place-equal weight)"].set_index("name")
+    vals = [float(t.loc[f"year {k} after reform", "value"]) for k in M.YEARS]
+    if set(t.places.astype(int)) != {11}:
+        raise ValueError("the yearly build-up must come from the same 11 places as the range")
+    return vals, M.timing_from_yearly_effects(vals)
+
+
 def case_params() -> dict:
     est = pd.read_csv(REFERENCE / "tod_case_estimates.csv").set_index("case")
     pooled = est.loc["nyc_pooled_2003_2013"]
@@ -336,6 +348,7 @@ def case_params() -> dict:
         "r_reference_line": M.case_reference_line({"nyc_pooled": float(pooled.effect_per_dose), "chicago": chi}),
         "gaps_per_far": gaps, "gap_year0_per_far": float(per_far[0]),
         "ramp": M.ramp_from_gaps(gaps), "ramp_year5_alt": M.ramp_year5_alternative(gaps),
+        "build_up_11": eleven_place_build_up()[0], "timing_11": eleven_place_build_up()[1],
     }
 
 
@@ -673,6 +686,12 @@ def param_table(cp: dict, take: dict, minfo: dict, fr: float) -> pd.DataFrame:
           for k, v in zip(M.YEARS, cp["ramp"])],
         *[(f"ramp_year{k}_year5_alt", v, "same", "sensitivity: year 5 = mean of years 3 to 5", "measured")
           for k, v in zip(M.YEARS, cp["ramp_year5_alt"])],
+        *[(f"build_up_11_year{k}", v, "extra homes per 100 lot acres a year within 1/4 mile, year k after reform",
+           "11 district places, place-equal weight, reference/tod_first_year_check.csv (by year)", "measured")
+          for k, v in zip(M.YEARS, cp["build_up_11"])],
+        *[(f"timing_year{k}", v, "share of the five-year total in year k (net-effect lines; sums to 1)",
+           "11-place build-up / its five-year sum (owner 2026-11-11); year 2 negative as measured", "measured")
+          for k, v in zip(M.YEARS, cp["timing_11"])],
         ("sqft_per_home_milwaukee", C.MEASURED_SQFT_PER_HOME["Milwaukee city"], "gross sq ft per home", "reference/tod_floor_area_per_home.csv (MPROP 2026, 5+ home buildings built 2018-2025)", "measured"),
         ("sqft_per_home_madison", C.MEASURED_SQFT_PER_HOME["Madison city"], "gross sq ft per home", "reference/tod_floor_area_per_home.csv (permits citywide, 2018-2025)", "measured"),
         ("sqft_per_home_pooled", C.MEASURED_SQFT_PER_HOME["pooled"], "gross sq ft per home", "reference/tod_floor_area_per_home.csv", "measured"),
@@ -759,7 +778,7 @@ def auckland_profile_rescaled() -> dict:
 
 def net_effects(cp: dict, reading: str = "per_upzoned_home") -> dict:
     """{scenario: (NetEffect, label)}. reading: per_upzoned_home (main, AQ-050) or as_published."""
-    ny = M.timing_from_ramp(cp["ramp"])
+    t11 = cp["timing_11"]
     cov = (lambda c: c) if reading == "per_upzoned_home" else (lambda c: 1.0)
     la = LA_PP_SIX_YEARS * 5 / 6 / cov(LA_COVERAGE)
     st = STACY_SHARE / cov(STACY_COVERAGE)
@@ -772,34 +791,35 @@ def net_effects(cp: dict, reading: str = "per_upzoned_home") -> dict:
     # direct-effect floor, central = the D-11 plain average (unchanged). Upper since AQ-075 (owner 2026-11-03 11:52, "yes
     # to all three"): the D-11 average scaled to a 15% district (12,521, the option D upper before AQ-072); the 2x2
     # near-new-lines reading (13,451) and the trend-adjusted 2x2 (5,624; its before-reform check failed) are what-ifs. All
-    # are statewide extra homes over 2027-2031 within 1/4 mile, timed by the New York pooled ramp; no zero floors. The
+    # are statewide extra homes over 2027-2031 within 1/4 mile, timed by the 11 places' measured build-up (owner
+    # 2026-11-11; the New York pooled ramp before); no zero floors. The
     # option D lower (824) is a what-if. Same in both readings (none is a published share).
     eff = {
-        "little": (M.NetEffect(lo["central"] / stock, ny,
+        "little": (M.NetEffect(lo["central"] / stock, t11,
                                f"Edge test (T3) direct-effect floor, 5 balance-passing places: {lo['central']:,.1f} extra homes over 2027-2031 "
-                               f"(90% {lo['low']:,.1f} to {lo['high']:,.1f}), reference/tod_causal_lines.csv; New York pooled ramp"),
+                               f"(90% {lo['low']:,.1f} to {lo['high']:,.1f}), reference/tod_causal_lines.csv; 11-place build-up"),
                    "Lower: the rezoned parcels' own gain only"),
-        "typical": (M.NetEffect(mid["central"] / stock, ny,
+        "typical": (M.NetEffect(mid["central"] / stock, t11,
                                 f"Average of the 11 district places' measured effect within 1/4 mile: {mid['central']:,.1f} "
                                 f"extra homes over 2027-2031 (range {mid['low']:,.1f} to {mid['high']:,.1f}), "
-                                f"reference/tod_optiond_line.csv; New York pooled ramp"),
+                                f"reference/tod_optiond_line.csv; 11-place build-up"),
                     "Central: the average district place, across about 12% of lots within 1/4 mile of transit"),
-        "strong": (M.NetEffect(hi["central"] / stock, ny,
+        "strong": (M.NetEffect(hi["central"] / stock, t11,
                                f"Average district place scaled to a 15% district by the pooled ratio: {hi['central']:,.1f} extra homes over "
                                f"2027-2031 (leave one place out {hi['low']:,.1f} to {hi['high']:,.1f}), reference/tod_causal_lines.csv "
-                               f"(from reference/tod_optiond_line.csv); New York pooled ramp"),
+                               f"(from reference/tod_optiond_line.csv); 11-place build-up"),
                    "Upper: the average district place, scaled to 15% of lots within 1/4 mile of transit"),
     }
     # Reference line: the median of the three studies' net-effect values (each study counted once).
     med = float(np.median([la, st, ak]))
-    eff["reference_line"] = (M.NetEffect(med, ny, "median of the three studies' net-effect values"), "Reference line (median of the three studies)")
+    eff["reference_line"] = (M.NetEffect(med, t11, "median of the three studies' net-effect values"), "Reference line (median of the three studies)")
     return eff
 
 
 def stacy_effect(cp: dict) -> M.NetEffect:
     """Stacy et al. 2023 as the former typical line (AQ-055), kept as a labelled comparison."""
-    return M.NetEffect(STACY_SHARE / STACY_COVERAGE, M.timing_from_ramp(cp["ramp"]),
-                       "Stacy et al. 2023: 0.008 per loosening reform, years 3+ after; New York pooled ramp")
+    return M.NetEffect(STACY_SHARE / STACY_COVERAGE, cp["timing_11"],
+                       "Stacy et al. 2023: 0.008 per loosening reform, years 3+ after; 11-place build-up")
 
 
 def optiond_line(line: str) -> dict:
@@ -856,8 +876,8 @@ def station_area_line(line: str = "station_area") -> dict:
 
 def la_toc_effect(cp: dict) -> M.NetEffect:
     """Los Angeles TOC (the little line before 2026-11-01), kept as a labelled what-if."""
-    return M.NetEffect(LA_PP_SIX_YEARS * 5 / 6 / LA_COVERAGE, M.timing_from_ramp(cp["ramp"]),
-                       "Los Angeles TOC: 0.04 pp over 6 years x 5/6 / 0.61 coverage; New York pooled ramp")
+    return M.NetEffect(LA_PP_SIX_YEARS * 5 / 6 / LA_COVERAGE, cp["timing_11"],
+                       "Los Angeles TOC: 0.04 pp over 6 years x 5/6 / 0.61 coverage; 11-place build-up")
 
 
 def lot_model_line() -> dict:
@@ -986,6 +1006,9 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
                          **{f"add_{M.CALENDAR[k]}": float(g[f"add_y{k}"].sum()) for k in M.YEARS}})
 
     add_s("main", "main", "Net-effect sizing (option D, AQ-071; lines AQ-072, upper AQ-075): statewide lines placed by each place's lot acres within 1/4 mile of rail and rapid stops", net)
+    nyr = M.timing_from_ramp(cp["ramp"])
+    add_s("law_addition", "ramp_new_york", "Timing: New York rezonings' build-up (the former ramp; timing only, totals unchanged)",
+          net_rows(place, stock, {k: (M.NetEffect(e.five_year_share, nyr, e.source), lab) for k, (e, lab) in effects.items()}, qa))
     ny5 = M.timing_from_ramp(cp["ramp_year5_alt"])
     add_s("law_addition", "ramp_year5_alt", "New York ramp with year 5 = mean of years 3-5 (timing only; totals unchanged)",
           net_rows(place, stock, {k: (M.NetEffect(e.five_year_share, ny5, e.source), lab) for k, (e, lab) in effects.items()}, qa))
@@ -995,7 +1018,7 @@ def run_net_sizing(by_area: pd.DataFrame, L: pd.DataFrame, muni: pd.DataFrame, c
           pd.concat([rng_rows["strong"]["low"].assign(scenario="strong_low"), rng_rows["strong"]["high"].assign(scenario="strong_high")]))
     add_s("law_addition", "little_range", "Lower (edge-test floor) at the low and high ends: 90% interval",
           pd.concat([rng_rows["little"]["low"].assign(scenario="little_low"), rng_rows["little"]["high"].assign(scenario="little_high")]))
-    ny = M.timing_from_ramp(cp["ramp"])
+    ny = cp["timing_11"]  # what-if lines share the main lines' timing (the 11-place build-up)
     for share in (10, 25):
         o = optiond_line(f"optiond_scaled_{share}")
         add_s("law_addition", f"district_{share}", f"District {share}% of the 1/4-mile land instead of 15% (pooled ratio x {share / 100:.2f}; the option D upper method)",

@@ -181,6 +181,17 @@ class TestNetSizing(unittest.TestCase):
         self.assertTrue((tot >= 0).all())
         with self.assertRaises(ValueError):
             M.timing_from_profile([-2.63, 2.34, 6.79, 8.95, 12.09])  # a negative year would subtract
+        # measured yearly effects keep a negative year (AQ-080, no zero floor); shares still sum to 1
+        t = M.timing_from_yearly_effects([25.5778, -5.223, 85.9163, 42.3403, 19.0751])
+        self.assertAlmostEqual(sum(t), 1.0)
+        self.assertAlmostEqual(t[1], -0.0311, places=4)
+        tot = M.net_effect_total(100_000, M.NetEffect(0.01, t))
+        self.assertAlmostEqual(tot.sum(), 1000.0)
+        self.assertLess(tot[1], 0)
+        with self.assertRaises(ValueError):
+            M.timing_from_yearly_effects([1.0, -2.0, 0.5, 0.2, 0.1])  # sum not positive
+        with self.assertRaises(ValueError):
+            M.NetEffect(0.01, (0.3, 0.3, 0.3, 0.3, 0.3))  # does not sum to 1
 
     def test_switch(self):
         df = pd.DataFrame({"area_id": ["a", "b", "c"], **{f"add_y{k}": [3.0 * k, 1.0 * k, 0.0] for k in M.YEARS}})
@@ -205,13 +216,17 @@ class TestNetSizing(unittest.TestCase):
         st = read("tod_model_statewide.csv")
         area = read("tod_model_by_area.csv")
         self.assertEqual(set(st.sizing), {"net_effect"})
-        self.assertTrue(M.check_no_negative(st.addition))
+        five = st.year == "2027-2031"
+        self.assertTrue(M.check_no_negative(st[five].addition))
+        # AQ-080: the 11 places' build-up dips below zero in year 2 (2028), as measured; no zero floor
+        self.assertTrue((st[st.year.astype(str) == "2028"].addition < 0).all())
+        self.assertTrue(M.check_no_negative(st[~five & (st.year.astype(str) != "2028")].addition))
         # the little line's range may go below zero (best lot model; owner rule: no evidence-free floors)
-        self.assertTrue(M.check_no_negative(st[st.scenario != "little"].addition_range_low.dropna()))
+        self.assertTrue(M.check_no_negative(st[five & (st.scenario != "little")].addition_range_low.dropna()))
         lit = st[(st.scenario == "little") & (st.year == "2027-2031")].iloc[0]
         self.assertLess(lit.addition_range_low, lit.addition)
         self.assertGreater(lit.addition_range_high, lit.addition)
-        add_cols = [f"add_{y}" for y in range(2027, 2032)] + ["add_2027_2031"]
+        add_cols = [f"add_{y}" for y in (2027, 2029, 2030, 2031)] + ["add_2027_2031"]   # 2028 dips as measured (AQ-080)
         self.assertTrue(M.check_no_negative(area[add_cols].to_numpy().ravel()))
         net = st[st.year == "2027-2031"].set_index("scenario")
         # totals reconcile: state = share x stock; areas, counties and districts add to the state
@@ -350,10 +365,20 @@ class TestNetSizing(unittest.TestCase):
         sens = read("tod_model_sensitivities.csv")
         net = sens[sens.sizing == "net_effect"]
         main = net[net.sensitivity == "main"].set_index("scenario").addition_2027_2031
-        for sid in ("no_suburbs", "old_law_placement", "ramp_year5_alt", "rapid_only", "high", "b_half"):
+        for sid in ("no_suburbs", "old_law_placement", "ramp_new_york", "ramp_year5_alt", "rapid_only", "high", "b_half"):
             alt = net[net.sensitivity == sid].set_index("scenario").addition_2027_2031
             for k in ("little", "typical", "strong"):
                 self.assertAlmostEqual(alt[k], main[k], delta=0.01, msg=sid)
+        # AQ-080: the lines are timed by the 11 places' build-up (read from reference/tod_first_year_check.csv, year 2
+        # negative as measured); the New York ramp is a timing-only what-if
+        fy = pd.read_csv(REF / "tod_first_year_check.csv")
+        v = fy[fy.section == "by year (place-equal weight)"].value.to_numpy()
+        m = net[(net.sensitivity == "main") & (net.scenario == "typical")].iloc[0]
+        got = np.array([m[f"add_{y}"] for y in range(2027, 2032)]) / m.addition_2027_2031
+        np.testing.assert_allclose(got, v / v.sum(), atol=1e-6)
+        self.assertLess(m.add_2028, 0)
+        nyr = net[(net.sensitivity == "ramp_new_york") & (net.scenario == "typical")].iloc[0]
+        self.assertAlmostEqual(nyr.add_2030 / nyr.addition_2027_2031, 0.479, delta=0.001)
         y5 = net[(net.sensitivity == "ramp_year5_alt") & (net.scenario == "typical")].iloc[0]
         m5 = net[(net.sensitivity == "main") & (net.scenario == "typical")].iloc[0]
         self.assertGreater(y5.add_2031, m5.add_2031)

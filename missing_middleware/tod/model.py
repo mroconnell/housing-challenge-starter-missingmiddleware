@@ -226,7 +226,8 @@ SIZING_MODES = ("per_acre", "net_effect")
 @dataclass(frozen=True)
 class NetEffect:
     """A citywide net effect: share of the housing stock added over the five forecast years, and the
-    yearly timing (shares of the five-year total, summing to 1)."""
+    yearly timing (shares of the five-year total, summing to 1). A measured yearly share may be negative
+    (owner 2026-11-11: the 11-place build-up's year 2 is used as measured, no zero floor)."""
     five_year_share: float
     timing: tuple[float, ...]
     source: str = ""
@@ -234,8 +235,8 @@ class NetEffect:
     def __post_init__(self):
         if len(self.timing) != len(YEARS):
             raise ValueError("timing needs one share per year 1..5")
-        if any(t < 0 for t in self.timing) or abs(sum(self.timing) - 1.0) > 1e-9:
-            raise ValueError("timing shares must be non-negative and sum to 1")
+        if not all(np.isfinite(self.timing)) or abs(sum(self.timing) - 1.0) > 1e-9:
+            raise ValueError("timing shares must be finite and sum to 1")
         # No floor at zero (owner rule, 2026-11-01: no evidence-free floors): a measured net effect can be negative,
         # e.g. the low end of the station-area line.
 
@@ -246,6 +247,15 @@ def timing_from_profile(values: Sequence[float]) -> tuple[float, ...]:
     v = np.asarray(values, dtype=float)
     if len(v) != len(YEARS) or (v < 0).any() or v.sum() <= 0:
         raise ValueError("profile needs five non-negative values with a positive sum")
+    return tuple(float(x) for x in v / v.sum())
+
+
+def timing_from_yearly_effects(values: Sequence[float]) -> tuple[float, ...]:
+    """Yearly shares from measured yearly effects (years 1..5), each divided by their sum. Used as measured:
+    a negative year stays negative (no evidence-free zero floor; owner rule 2026-11-01). The sum must be positive."""
+    v = np.asarray(values, dtype=float)
+    if len(v) != len(YEARS) or not np.isfinite(v).all() or v.sum() <= 0:
+        raise ValueError("need five finite yearly effects with a positive sum")
     return tuple(float(x) for x in v / v.sum())
 
 

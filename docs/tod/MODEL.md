@@ -65,6 +65,7 @@ bash scripts/test.sh                                           # includes tests/
 | *r*, strong | 2.565 | same | mean of Park Slope (2.934) and Downtown Brooklyn (2.197) | measured |
 | *r*, reference line | 0.456 | same | median of the measured per-FAR cases: the New York pooled set (which contains Park Slope and Downtown Brooklyn) and Chicago | measured |
 | Ramp, years 1–5 | 0.489, 0.464, 1.321, 2.395, 0.331 | share of *r* in each year (mean 1) | New York pooled set's gap per added FAR by year since the change (0.33, 0.31, 0.89, 1.61, 0.22), from `reference/tod_case_rates_by_year.csv`, ÷ its mean | measured |
+| Timing of the net-effect lines, years 1–5 (since AQ-080, 2026-11-11) | 15.3%, −3.1%, 51.2%, 25.2%, 11.4% | share of the five-year total | the 11 district places' yearly effects by year since reform, place-equal weight (25.6, −5.2, 85.9, 42.3, 19.1 extra homes per 100 lot acres a year), `reference/tod_first_year_check.csv`; year 2 negative as measured. The New York ramp above now times only method A and the What-if "Timing: New York rezonings' build-up (the former ramp)" | measured |
 | Floor area per home | 1,192 (Milwaukee), 1,512 (Madison), 1,467 (elsewhere) | gross sq ft per home | `reference/tod_floor_area_per_home.csv` | measured |
 | Building cost | $229.70 (Milwaukee), $227.75 (Madison), $233.28 (Kenosha), $226.77 (Eau Claire) | 2024 dollars of hard construction cost per sq ft | HUD 2024 Unit TDC Limits, Wisconsin, elevator building, 2-bedroom (900 sq ft) housing construction cost. Per sq ft it is the same for every bedroom count. Waukesha and Ozaukee use Milwaukee | published |
 | Capitalisation rate | 5.75% | net operating income ÷ value | CBRE U.S. Cap Rate Survey H1 2024: Milwaukee, multifamily infill, Class A stabilised, 5.5%–6%, midpoint. Madison is not in the survey | published |
@@ -288,6 +289,8 @@ The extra rate is the extra homes ÷ 2025 existing homes × 1,000, a yearly rate
 **Files:** `scripts/run_tod_scale_check.py` (fetches the raw Census files into `data/raw/census_bps_cbsa/` with `_downloads.json` the first time, then runs offline); `missing_middleware/tod/scale_check.py` (the pure functions); `reference/tod_scale_check.csv` (benchmark, metro-history and scenario rows, told apart by the `kind` column); `reference/tod_scale_check_metro_years.csv` (the 2,054 peer metro-years); `tests/test_tod_scale_check.py`.
 
 ## 11. Main sizing: citywide net effect (AQ-050)
+
+> **Timing since AQ-080 (owner 2026-11-11 00:07).** The net-effect lines no longer use the New York pooled ramp quoted below. Their yearly split follows the 11 district places' measured build-up: 15.3%, −3.1%, 51.2%, 25.2% and 11.4% of the five-year total in 2027–2031 (`reference/tod_first_year_check.csv`; `timing_year1`–`timing_year5` in `tod_model_params.csv`). Five-year totals are unchanged. The New York ramp is the What-if `ramp_new_york`; the smoothed-2031 What-if `ramp_year5_alt` is still on the New York ramp. The rest of this section is the October 2026 record.
 
 The owner adopted this sizing on 2026-10-27 (AQ-050). The values are corrected as in [GATE3_MODEL_SPEC.md](GATE3_MODEL_SPEC.md) section 9 and [research/NET_EFFECT_SOURCES.md](research/NET_EFFECT_SOURCES.md).
 

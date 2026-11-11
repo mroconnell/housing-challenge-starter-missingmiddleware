@@ -50,6 +50,9 @@ class TestTodRange(unittest.TestCase):
         for y, v in zip(self.R["years"], typ["by_year"]):
             self.assertAlmostEqual(y["low"], self.R["low"] * v / tot, delta=0.05)
             self.assertAlmostEqual(y["high"], self.R["high"] * v / tot, delta=0.05)
+        # each end's yearly values add up to the five-year end (AQ-080: year 2's share is negative as measured)
+        self.assertAlmostEqual(sum(y["low"] for y in self.R["years"]), self.R["low"], delta=0.1)
+        self.assertAlmostEqual(sum(y["high"] for y in self.R["years"]), self.R["high"], delta=0.1)
 
     def test_side_lines_match_reference(self):
         want = {"average": ("tod_optiond_line.csv", "optiond_average", 10028), "edge": ("tod_causal_lines.csv", "causal_lower_edge", 3958),

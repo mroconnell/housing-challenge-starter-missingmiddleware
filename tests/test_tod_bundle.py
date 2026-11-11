@@ -213,6 +213,7 @@ class TestTodBundle(unittest.TestCase):
             self.assertAlmostEqual(row["vs_central"], row["extra"] - central, delta=0.2)
         ids = {x["id"].split(":")[0] for x in rows}
         self.assertNotIn("ramp_year5_alt", ids)   # timing only: the five-year total is unchanged
+        self.assertNotIn("ramp_new_york", ids)
 
     def test_rebuild_is_byte_identical(self):
         before = {f.name: f.read_bytes() for f in self.d.iterdir()}

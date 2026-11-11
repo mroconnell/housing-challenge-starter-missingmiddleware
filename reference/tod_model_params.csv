@@ -15,6 +15,16 @@ ramp_year2_year5_alt,0.46394519547340995,same,sensitivity: year 5 = mean of year
 ramp_year3_year5_alt,1.3207563534338143,same,sensitivity: year 5 = mean of years 3 to 5,measured
 ramp_year4_year5_alt,2.3951765027579195,same,sensitivity: year 5 = mean of years 3 to 5,measured
 ramp_year5_year5_alt,1.3489584433909747,same,sensitivity: year 5 = mean of years 3 to 5,measured
+build_up_11_year1,25.5778,"extra homes per 100 lot acres a year within 1/4 mile, year k after reform","11 district places, place-equal weight, reference/tod_first_year_check.csv (by year)",measured
+build_up_11_year2,-5.223,"extra homes per 100 lot acres a year within 1/4 mile, year k after reform","11 district places, place-equal weight, reference/tod_first_year_check.csv (by year)",measured
+build_up_11_year3,85.9163,"extra homes per 100 lot acres a year within 1/4 mile, year k after reform","11 district places, place-equal weight, reference/tod_first_year_check.csv (by year)",measured
+build_up_11_year4,42.3403,"extra homes per 100 lot acres a year within 1/4 mile, year k after reform","11 district places, place-equal weight, reference/tod_first_year_check.csv (by year)",measured
+build_up_11_year5,19.0751,"extra homes per 100 lot acres a year within 1/4 mile, year k after reform","11 district places, place-equal weight, reference/tod_first_year_check.csv (by year)",measured
+timing_year1,0.15253344783271164,share of the five-year total in year k (net-effect lines; sums to 1),11-place build-up / its five-year sum (owner 2026-11-11); year 2 negative as measured,measured
+timing_year2,-0.031147409004302674,share of the five-year total in year k (net-effect lines; sums to 1),11-place build-up / its five-year sum (owner 2026-11-11); year 2 negative as measured,measured
+timing_year3,0.5123626529267413,share of the five-year total in year k (net-effect lines; sums to 1),11-place build-up / its five-year sum (owner 2026-11-11); year 2 negative as measured,measured
+timing_year4,0.2524967722505986,share of the five-year total in year k (net-effect lines; sums to 1),11-place build-up / its five-year sum (owner 2026-11-11); year 2 negative as measured,measured
+timing_year5,0.11375453599425117,share of the five-year total in year k (net-effect lines; sums to 1),11-place build-up / its five-year sum (owner 2026-11-11); year 2 negative as measured,measured
 sqft_per_home_milwaukee,1192.0,gross sq ft per home,"reference/tod_floor_area_per_home.csv (MPROP 2026, 5+ home buildings built 2018-2025)",measured
 sqft_per_home_madison,1512.0,gross sq ft per home,"reference/tod_floor_area_per_home.csv (permits citywide, 2018-2025)",measured
 sqft_per_home_pooled,1467.0,gross sq ft per home,reference/tod_floor_area_per_home.csv,measured
