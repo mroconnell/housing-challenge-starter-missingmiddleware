@@ -1702,3 +1702,7 @@ These override the three groups above.
    - Toronto's event year is fixed from the by-law check (adoption vs in force) before the lock.
    - The Statistics Canada Open Licence (attribution) is logged under the licence rule, as for NTM (AQ-045). If the licence rule needs Ryan's OK, it is asked before any use.
    - The Wisconsin-homes conversion is for display only.
+7. **Lock notes (audit re-check 01:07 UTC):**
+   - **Stand-ins:** a placebo range built from fewer than 20 stand-ins is labelled "too few stand-ins; read with care". US big cities with 1–4 stand-ins once leaned falsely toward growth. Fewer than 5 stand-ins means "not testable".
+   - **2023 is only partly clean:** the first Housing Accelerator Fund agreements were signed in late 2023.
+   - **Lock:** final once the eligible-place counts and HAF commitment counts are committed, before any permit value is read.
