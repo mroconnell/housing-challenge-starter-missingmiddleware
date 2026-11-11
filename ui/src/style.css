@@ -486,6 +486,12 @@ dialog.sum-dialog { max-width: none; width: calc(100vw - 32px); height: calc(100
 .sum-hit-side { pointer-events: all; }
 path.sum-hit-side { pointer-events: stroke; }
 .sum-legend button.sum-side { display: inline-flex; align-items: center; gap: 6px; font: inherit; color: var(--ink); background: none; border: 1px dashed transparent; border-radius: 6px; padding: 2px 4px; min-height: 32px; cursor: help; text-align: left; }
+/* Summary chart key (owner, 2026-11-11 20:37): one item per row at every width; every swatch 36 px wide, so all labels
+   start at the same x. Plain items are inset by the side-line buttons' border and padding (1 + 4 px). */
+ul.sum-legend { display: flex; flex-direction: column; flex-wrap: nowrap; align-items: flex-start; gap: 2px; }
+ul.sum-legend li { display: flex; align-items: center; gap: 6px; }
+ul.sum-legend li > svg.key-sw { flex: 0 0 36px; margin-left: 5px; }
+.sum-legend button.sum-side svg.key-sw { flex: 0 0 36px; }
 .sum-legend button.sum-side:hover, .sum-legend button.sum-side:focus-visible { border-color: var(--accent); }
 .sum-years { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 6px 0; }
 .sum-years button { font: inherit; font-size: 0.88rem; min-height: 32px; padding: 2px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); cursor: pointer; }

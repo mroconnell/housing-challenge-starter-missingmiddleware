@@ -374,3 +374,38 @@ test("ADU Summary legend: the owner's labels, numbers from the bundle, no Typica
   await expect(page.getByTestId("summary-hidden-lines")).toContainText(`${typ.label}: ${n(v("typical"))}`);
   await expect(page.getByTestId("summary-hidden-lines")).toContainText("The 90% range is built around typical adoption.");
 });
+
+// Summary chart key (owner, 2026-11-11 20:37): one item per row at every width, every swatch the same width, so every
+// label starts at the same x; on the page and in the enlarged chart, at 1280 and 375 px.
+for (const id of ["adu", "middle", "tod", "parking"]) {
+  test(`${id} Summary: chart key has one item per row and its labels line up, page and enlarged, 1280 and 375 px`, async ({ page }) => {
+    const measure = (tid: string) => page.evaluate((t) => {
+      const items = [...document.querySelectorAll(`[data-testid=${t}] > li`)];
+      return items.map((li) => {
+        const sw = li.querySelector("svg")!;
+        const txt = sw.nextSibling!;
+        const r = document.createRange(); r.selectNodeContents(txt);
+        const box = li.getBoundingClientRect();
+        return { label: r.getClientRects()[0].left, sw: sw.getBoundingClientRect().width, top: box.top, bottom: box.bottom };
+      });
+    }, tid);
+    const check = (rows: { label: number; sw: number; top: number; bottom: number }[]) => {
+      expect(rows.length).toBeGreaterThanOrEqual(2);
+      for (const r of rows) {
+        expect(Math.abs(r.label - rows[0].label), "label left edges equal").toBeLessThanOrEqual(0.5);
+        expect(r.sw, "swatch 36 px").toBeCloseTo(36, 0);
+      }
+      for (let i = 1; i < rows.length; i++) expect(rows[i].top, "one item per row").toBeGreaterThanOrEqual(rows[i - 1].bottom - 0.5);
+    };
+    for (const width of [1280, 375]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(`#${PRE[id]}/summary`);
+      await expect(page.getByTestId("summary-legend")).toBeVisible();
+      check(await measure("summary-legend"));
+      await page.getByTestId("summary-enlarge").click();
+      await expect(page.getByTestId("summary-legend-big")).toBeVisible();
+      check(await measure("summary-legend-big"));
+      await page.keyboard.press("Escape");
+    }
+  });
+}

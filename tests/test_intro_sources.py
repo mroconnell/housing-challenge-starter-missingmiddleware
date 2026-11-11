@@ -98,8 +98,8 @@ class TestSharedSummarySources(unittest.TestCase):
         self.assertIn('from "./howwecount"', summary)
         self.assertIn("HOW_WE_COUNT[o.id]", summary)
         self.assertNotIn("We hid 7 of the states", intro)   # the copy lives in howwecount.ts only
-        # TOD's line is the owner's text of 2026-11-11 20:33, word for word
-        self.assertIn("tod: \"Extra homes permitted near transit. We compared permits within ¼ mile of rail and rapid-bus stops in 11 places that adopted upzoning near transit. In each place, we found some stops with an upzoned apartment district nearby, and other similar stops that weren't rezoned, mostly in the same city. We looked at permits before and after the reforms, across both kinds of stops. The whole range is above zero, so the evidence points to extra homes permitted.\"", hwc)
+        # TOD's line is the owner's text of 2026-11-11 20:33 as changed at 20:37, word for word
+        self.assertIn("tod: \"Extra homes permitted near transit. We compared permits within ¼ mile of rail and rapid-bus stops in 11 places that adopted upzoning near transit. In each place, we found some stops with an upzoned apartment district nearby, and other similar stops in the same transit network that weren't rezoned. We looked at permits before and after the reforms, across both kinds of stops. The whole range is above zero, so the evidence points to extra homes permitted.\"", hwc)
 
     @unittest.skipUnless((PUB / "runs" / "latest.json").exists(), "bundles not built")
     def test_per_1000_base(self):
