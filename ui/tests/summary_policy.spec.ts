@@ -212,8 +212,8 @@ test("ADU Summary legend: the owner's labels, numbers from the bundle, no Typica
     "Current law (ADU permits without statewide reform)",
     `With the law: 90% range, ${n(st.range90.low)} to ${n(st.range90.high)} extra ADU permits (on top of current law)`,
     `Median path of the 8 statewide-law states: ${n(v("median8"))}`,
-    `Two slowest statewide-law states (Rhode Island and Oregon, averaged): ${n(v("slow2"))}`,
-    `Like California (the fastest statewide-law state): ${n(v("like_california"))}`,
+    `Like OR & RI (lowest statewide adoption): ${n(v("slow2"))}`,
+    `Like CA (highest statewide adoption): ${n(v("like_california"))}`,
   ]);
   expect([n(st.range90.low), n(st.range90.high), n(v("median8")), n(v("slow2")), n(v("like_california"))]).toEqual(["8,055", "13,666", "10,038", "6,321", "19,790"]);
   await expect(page.locator('#sum-chart svg path[data-series="side-typical"]')).toHaveCount(0);

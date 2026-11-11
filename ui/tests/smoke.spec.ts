@@ -185,7 +185,7 @@ test("chart key, tables and brief use the bundle's labels", async ({ page }) => 
   const legend = page.getByTestId("summary-legend");
   await expect(legend).toContainText("90% range");
   // the Summary chart's own ADU labels (display only, owner 2026-11-11); "typical" is left off the chart
-  const own: Record<string, string> = { median8: "Median path of the 8 statewide-law states", slow2: "Two slowest statewide-law states (Rhode Island and Oregon, averaged)", like_california: "Like California (the fastest statewide-law state)" };
+  const own: Record<string, string> = { median8: "Median path of the 8 statewide-law states", slow2: "Like OR & RI (lowest statewide adoption)", like_california: "Like CA (highest statewide adoption)" };
   for (const s of b.state.side_lines.filter((x: { where: string; id: string }) => x.where === "chart" && x.id !== "typical")) await expect(legend).toContainText(own[s.id] ?? s.label);
   await expect(legend).not.toContainText("Typical adoption");
   await page.goto("#/how-sure");

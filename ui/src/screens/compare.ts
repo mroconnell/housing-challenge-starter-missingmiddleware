@@ -98,8 +98,8 @@ export function aduDetailsHTML(ctx: Ctx): string {
  *  bundle and its builder keep their labels, and the popups keep the bundle's notes. */
 const ADU_SUMMARY_LABELS: Record<string, string> = {
   median8: "Median path of the 8 statewide-law states",
-  slow2: "Two slowest statewide-law states (Rhode Island and Oregon, averaged)",
-  like_california: "Like California (the fastest statewide-law state)",
+  slow2: "Like OR & RI (lowest statewide adoption)",
+  like_california: "Like CA (highest statewide adoption)",
 };
 /** Side lines left off the Summary chart (owner, 2026-11-11); still listed on How sure → Details. */
 const ADU_SUMMARY_HIDDEN = new Set(["typical"]);
