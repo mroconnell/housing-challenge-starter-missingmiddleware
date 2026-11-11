@@ -179,6 +179,21 @@ def main() -> None:
              value=tot(pm.eligible_homes(munis, at), upper_all),
              description="The high end if the 9 places that removed minimums with conditions got the full rate (before Stage 2 they did)."),
     ]
+    # measured average (not the high end) for the rows where it is defined (TOD/Ryan 2026-11-11: the How sure chart swings
+    # around the measured average). Same 74-place average for coverage and coding inputs; each cleaned-data round uses
+    # its own real average (those rounds ran on the earlier 76-place sample, 73 matched).
+    totf = lambda h, r: float(pm.additions(h, r, floor=False).values.sum())  # noqa: E731
+    real = lambda v: float(pd.read_csv(REFERENCE / f"parking_placebo_full_{v}_summary.csv")["real_average"].iloc[0])  # noqa: E731
+    mavg = {"Low end (headline)": totf(homes, lower_all),
+            "Towns at zero": totf(pm.eligible_homes(munis, at, ("town",)), lower_all),
+            "Near-benchmark places at the full rate": totf(pm.eligible_homes(munis, at), lower_all),
+            "Cleaned data, undated reforms kept as comparisons (placebo)": totf(homes, real("v6u")),
+            "Cleaned data, strict comparison cleaning (placebo)": totf(homes, real("v6")),
+            "Cleaned data, strict comparison cleaning (resampling)": totf(homes, real("v6")),
+            "Cleaned data, only apartment-scale reforms disqualify comparisons (placebo)": totf(homes, real("v7")),
+            "As above, plus state laws in California, Oregon and Washington (placebo)": totf(homes, real("v7s"))}
+    for d in sens:
+        d["measured_average_value"] = mavg.get(d["case"])
     pub = REFERENCE / "housing_baseline_sensitivity_published.csv"
     if pub.exists():
         p = pd.read_csv(pub).set_index("structure_type")
