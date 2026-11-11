@@ -223,5 +223,145 @@
   2029,
   2030,
   2031
- ]
+ ],
+ "range90": {
+  "low": -482,
+  "high": 4515,
+  "unit": "extra homes in 2–4 unit buildings permitted, 2027–2031",
+  "method": "The real four-state result (Oregon, California, Maine and Vermont against similar places in the same regions) placed against 10,000 sets of 4 fake law states drawn from 34 comparison states: the 5th to 95th percentile of their spread around the real result, in extra 2–4 unit homes per 1,000 single-family homes a year, times Wisconsin's 1,839,569 single-family homes.",
+  "coverage": "Built from fake-law estimates, so it already carries their spread and is not widened (shared rule 5). Most of the range is above zero, but it includes a small fall.",
+  "source": "reference/middle_test1_summary.csv (Test 1, M2, four states)",
+  "years": [
+   {
+    "year": 2027,
+    "low": 27.2,
+    "high": -254.8
+   },
+   {
+    "year": 2028,
+    "low": -127.4,
+    "high": 1192.5
+   },
+   {
+    "year": 2029,
+    "low": -127.4,
+    "high": 1192.5
+   },
+   {
+    "year": 2030,
+    "low": -127.4,
+    "high": 1192.5
+   },
+   {
+    "year": 2031,
+    "low": -127.4,
+    "high": 1192.5
+   }
+  ],
+  "years_method": "Measured slow start: 2027 at about −21% of full size, full size from 2028."
+ },
+ "range90_flat": {
+  "low": -637,
+  "high": 5962,
+  "unit": "extra homes in 2–4 unit buildings permitted, 2027–2031",
+  "method": "The real four-state result (Oregon, California, Maine and Vermont against similar places in the same regions) placed against 10,000 sets of 4 fake law states drawn from 34 comparison states: the 5th to 95th percentile of their spread around the real result, in extra 2–4 unit homes per 1,000 single-family homes a year, times Wisconsin's 1,839,569 single-family homes.",
+  "coverage": "Built from fake-law estimates, so it already carries their spread and is not widened (shared rule 5). Most of the range is above zero, but it includes a small fall.",
+  "source": "reference/middle_test1_summary.csv (Test 1, M2, four states)",
+  "years": [
+   {
+    "year": 2027,
+    "low": -127.4,
+    "high": 1192.4
+   },
+   {
+    "year": 2028,
+    "low": -127.4,
+    "high": 1192.4
+   },
+   {
+    "year": 2029,
+    "low": -127.4,
+    "high": 1192.4
+   },
+   {
+    "year": 2030,
+    "low": -127.4,
+    "high": 1192.4
+   },
+   {
+    "year": 2031,
+    "low": -127.4,
+    "high": 1192.4
+   }
+  ],
+  "years_method": "Same effect every year."
+ },
+ "side_lines": [
+  {
+   "id": "four_state",
+   "label": "Four-state measured result",
+   "value": 1570,
+   "where": "chart",
+   "note": "The real result in Oregon, California, Maine and Vermont against similar places, applied to Wisconsin."
+  },
+  {
+   "id": "1_4",
+   "label": "All 1–4 unit buildings",
+   "value": 3905,
+   "where": "chart",
+   "note": "Includes 1-unit homes on split lots and other single-unit types. Too noisy to include in predicted range because Census mixes these single units with conventional single-family homes."
+  },
+  {
+   "id": "1_6",
+   "label": "Adding 5 and 6 unit buildings",
+   "value": 4226,
+   "where": "chart",
+   "note": "Our estimate for 5 and 6 unit buildings added to all 1–4 unit buildings. Too noisy to include in predicted range because Census mixes 5 and 6 unit projects with all 5+ unit projects."
+  },
+  {
+   "id": "all",
+   "label": "All building sizes",
+   "value": 7888,
+   "where": "chart",
+   "note": "Its own range is -13,189 to 29,818. Counts every building size, so swings in house and apartment building swamp any change from this reform. Too noisy to include in predicted range."
+  },
+  {
+   "id": "with_addons",
+   "label": "With townhouses, split-lot homes and 5–6 unit buildings",
+   "value": 3854,
+   "where": "howsure",
+   "note": "Estimated, not measured: Census files townhouses as 1-unit."
+  },
+  {
+   "id": "stronger",
+   "label": "Stronger reform (up to 6 homes per lot)",
+   "low": 1692,
+   "high": 2139,
+   "where": "howsure",
+   "note": "Possibility, not measured. Assumes new small buildings would split between 2–4 and 5–6 units the way past building did in OR, CA, ME and VT."
+  }
+ ],
+ "baseline_by_year": {
+  "central": [
+   24800.0,
+   24800.0,
+   24800.0,
+   24800.0,
+   24800.0
+  ],
+  "low": [
+   11300.1,
+   11300.1,
+   11300.1,
+   11300.1,
+   11300.1
+  ],
+  "high": [
+   43773.1,
+   43773.1,
+   43773.1,
+   43773.1,
+   43773.1
+  ]
+ }
 }

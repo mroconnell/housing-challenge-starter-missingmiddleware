@@ -64,6 +64,37 @@ def build() -> Path:
         return [{"year": int(y), **{k: round(float(d.loc[y, k]), 1) for k in ("lower", "central", "upper")}} for y in YEARS]
 
     core, s14, s16, sall = L("core_2_4"), L("side_1_4"), L("side_1_6"), L("side_all")
+    flat = L("core_flat_timing")
+    years_m = [{"year": y["year"], "low": y["lower"], "high": y["upper"]} for y in by_year("core_2_4")]
+    years_f = [{"year": y, "low": round(flat["lower"] / 5, 1), "high": round(flat["upper"] / 5, 1)} for y in YEARS]
+    method = ("The real four-state result (Oregon, California, Maine and Vermont against similar places in the same "
+              "regions) placed against 10,000 sets of 4 fake law states drawn from 34 comparison states: the 5th to 95th "
+              "percentile of their spread around the real result, in extra 2–4 unit homes per 1,000 single-family homes a "
+              "year, times Wisconsin's 1,839,569 single-family homes.")
+    coverage = ("Built from fake-law estimates, so it already carries their spread and is not widened (shared rule 5). "
+                "Most of the range is above zero, but it includes a small fall.")
+    side_lines = [
+        {"id": "four_state", "label": "Four-state measured result", "value": core["central"], "where": "chart",
+         "note": "The real result in Oregon, California, Maine and Vermont against similar places, applied to Wisconsin."},
+        {"id": "1_4", "label": "All 1–4 unit buildings", "value": s14["central"], "where": "chart",
+         "note": "Includes 1-unit homes on split lots and other single-unit types. Too noisy to include in predicted range "
+                 "because Census mixes these single units with conventional single-family homes."},
+        {"id": "1_6", "label": "Adding 5 and 6 unit buildings", "value": s16["central"], "where": "chart",
+         "note": "Our estimate for 5 and 6 unit buildings added to all 1–4 unit buildings. Too noisy to include in predicted "
+                 "range because Census mixes 5 and 6 unit projects with all 5+ unit projects."},
+        {"id": "all", "label": "All building sizes", "value": sall["central"], "where": "chart",
+         "note": f"Its own range is {sall['lower']:,} to {sall['upper']:,}. Counts every building size, so swings in house and "
+                 "apartment building swamp any change from this reform. Too noisy to include in predicted range."},
+        {"id": "with_addons", "label": "With townhouses, split-lot homes and 5–6 unit buildings", "value": L("with_addons")["central"],
+         "where": "howsure", "note": "Estimated, not measured: Census files townhouses as 1-unit."},
+        {"id": "stronger", "label": "Stronger reform (up to 6 homes per lot)", "low": whole(band["stronger_reform_central_share_low"]),
+         "high": whole(band["stronger_reform_central_share_high"]), "where": "howsure",
+         "note": "Possibility, not measured. Assumes new small buildings would split between 2–4 and 5–6 units the way past "
+                 "building did in OR, CA, ME and VT."},
+    ]
+    base_years = {"central": [round(float(proj.loc[y, "central"]), 1) for y in YEARS],
+                  "low": [round(float(proj.loc[y, "low"]), 1) for y in YEARS],
+                  "high": [round(float(proj.loc[y, "high"]), 1) for y in YEARS]}
     statewide = {
         "headline": ("The evidence can't tell yet. We'll know more when we have a full five years in the other states. "
                      "Most of the range for 2–4 unit homes is above zero, but it includes a small fall, and there is "
@@ -110,6 +141,14 @@ def build() -> Path:
         "baseline": {"version": BASELINE_VERSION, "total": whole(proj.loc[YEARS, "central"].sum()),
                      "low_total": whole(proj.loc[YEARS, "low"].sum()), "high_total": whole(proj.loc[YEARS, "high"].sum())},
         "years": YEARS,
+        "range90": {"low": core["lower"], "high": core["upper"], "unit": "extra homes in 2–4 unit buildings permitted, 2027–2031",
+                    "method": method, "coverage": coverage, "source": "reference/middle_test1_summary.csv (Test 1, M2, four states)",
+                    "years": years_m, "years_method": "Measured slow start: 2027 at about −21% of full size, full size from 2028."},
+        "range90_flat": {"low": flat["lower"], "high": flat["upper"], "unit": "extra homes in 2–4 unit buildings permitted, 2027–2031",
+                         "method": method, "coverage": coverage, "source": "reference/middle_test1_summary.csv (Test 1, M2, four states)",
+                         "years": years_f, "years_method": "Same effect every year."},
+        "side_lines": side_lines,
+        "baseline_by_year": base_years,
     }
     area_rows = [{"area_id": a.area_id, "name": a.name, "sf_homes": int(a.homes),
                   "lower": round(a.add_lower_five_year, 2), "central": round(a.add_central_five_year, 2),
