@@ -47,7 +47,7 @@ YEARS = [2027, 2028, 2029, 2030, 2031]
 PATHS = ["lower", "central", "upper"]
 
 INPUTS = [
-    "scripts/build_ui_bundle.py", "reference/adu_model_params.json", "reference/adu_model_statewide.csv", "reference/adu_model_statewide_by_year.csv", "reference/adu_causal_a3_range.csv", "reference/adu_causal_a3_by_state.csv", "reference/adu_market_drift_summary.csv", "reference/adu_market_drift_decision.csv",
+    "scripts/build_ui_bundle.py", "reference/adu_model_params.json", "reference/adu_model_statewide.csv", "reference/adu_model_statewide_by_year.csv", "reference/adu_causal_a3_range.csv", "reference/adu_causal_a3_by_state.csv", "reference/adu_model_like_california.csv", "reference/adu_model_unknown_rules_by_assembly_district.csv", "reference/adu_model_unknown_rules_by_senate_district.csv", "reference/adu_market_drift_summary.csv", "reference/adu_market_drift_decision.csv",
     "reference/adu_model_by_county.csv", "reference/adu_model_by_context.csv", "reference/adu_model_by_rights_basis.csv",
     "reference/adu_model_sensitivities.csv", "reference/adu_model_reference_lines.csv",
     "reference/pooled_revision_adoption_line.csv", "reference/pooled_revision_stage2_levels.csv",
@@ -452,6 +452,7 @@ def build_state(p: dict) -> dict:
                 "source": f"{REFERENCE_FILE} ({REFERENCE_LINE}), reference/adu_model_reference_lines.csv"}
     # Uniform display (owner 2026-11-05: ADUs and TOD as 90% ranges): A3 held-out range and side lines
     a3 = pd.read_csv(REF / "adu_causal_a3_range.csv").set_index("version").loc["t 6 df x RMS"]
+    lca = pd.read_csv(REF / "adu_model_like_california.csv", dtype={"year": str})
     a3_lo, a3_hi = float(a3.low), float(a3.high)
     cen_tot = float(st_tot.loc["central", "additional_units"])
     sens = pd.read_csv(REF / "adu_model_sensitivities.csv")
@@ -479,9 +480,16 @@ def build_state(p: dict) -> dict:
         {"id": "slow2", "label": "Like Rhode Island and Oregon, the 2 slowest statewide-law states",
          "value": r(float(st_tot.loc["lower", "additional_units"]), 0), "where": "chart",
          "note": "Wisconsin adopts as slowly as the average of the two slowest statewide-law states."},
-        {"id": "ca_high", "label": "High end, near California (only California is higher)",
-         "value": r(float(st_tot.loc["upper", "additional_units"]), 0), "where": "chart",
-         "note": "The high end of what statewide-law states have reached; it sits above the range."},
+        {"id": "like_california", "label": "Like California (the fastest statewide-law state)",
+         "value": r(float(lca[lca.year.eq("2027-2031")].additional_units.iloc[0]), 0), "where": "chart",
+         "years": [r(float(v), 1) for v in lca[lca.year.ne("2027-2031")].sort_values("year").additional_units],
+         "note": ("Every place at California's own measured level with the law (typical place, law in force 4+ years), "
+                  f"{float(lca.factor.iloc[0]):.2f} times the common level, with the ramp recomputed for it; built the "
+                  "way the Rhode Island and Oregon line is."),
+         "source": "reference/adu_model_like_california.csv (scripts/run_adu_like_california.py)"},
+        {"id": "ca_high", "label": "High end of the spread between the 8 statewide-law states (a 90th-percentile state)",
+         "value": r(float(st_tot.loc["upper", "additional_units"]), 0), "where": "howsure",
+         "note": "The upper end of an 80% prediction interval for a new state's level, from the spread of all 8 states (California included); only California has gone higher."},
         {"id": "whatif_791", "label": "If the law only multiplies today's rates",
          "value": r(_sens("multiplicative"), 0), "where": "howsure",
          "note": "Places that permit almost nothing today stay near zero; before-and-after counts in other states contradict this."},
@@ -737,6 +745,27 @@ def build_districts(out: Path) -> dict:
             rows_.append(row)
         assert unalloc is not None, f"{f}: the unallocated row must stay in the table"
         levels[level] = {"rows": rows_, "unallocated": unalloc}
+        # uniform display: each district's 90% range = its typical-adoption five-year addition x the statewide ends
+        st_r = pd.read_csv(REF / "adu_causal_a3_range.csv").set_index("version").loc["t 6 df x RMS"]
+        lo_f, hi_f = float(st_r.low) / float(st_r.central), float(st_r.high) / float(st_r.central)
+        for row in rows_ + [unalloc]:
+            t = sum(row["add"]["central"])
+            row["range90"] = {"low": r(t * lo_f, 2), "high": r(t * hi_f, 2)}
+        # the three unknown-rules assumptions (owner request 2026-11-11): rows keyed by district id
+        uv = pd.read_csv(REF / f"adu_model_unknown_rules_by_{level}_district.csv", dtype={"district": str})
+        prefix_ = "asm:" if level == "assembly" else "sen:"
+        var_out = {}
+        for vid, g in uv.groupby("unknown_treatment"):
+            vrows = {}
+            for dist, h in g.groupby("district"):
+                yr2 = lambda p, col: [r(v, 6) for v in h[h.path.eq(p) & h.forecast_year.ne("2027-2031")].sort_values("forecast_year")[col]]
+                add = {p: yr2(p, "additional_units") for p in PATHS}
+                t = sum(add["central"])
+                vrows["unallocated" if dist == "unallocated" else f"{prefix_}{dist}"] = {
+                    "base": yr2("central", "baseline_units"), "add": add,
+                    "range90": {"low": r(t * lo_f, 2), "high": r(t * hi_f, 2)}}
+            var_out[vid] = vrows
+        levels[level]["by_unknown"] = var_out
 
         path = PROC / f"districts/geo_{level}.geojson"
         lay = G.read_geojson(path)
