@@ -26,6 +26,39 @@
    "label": "Core converted by ratio instead of rate",
    "central": 2790,
    "note": "+32.7% (−21.4% to +91.9%) on 8,546 baseline 2–4 unit homes (audit, 2026-11-10)."
+  },
+  {
+   "id": "match_nationally",
+   "chart": "Inputs",
+   "label": "Match unmatched places nationally (comparison group)",
+   "central": 1560
+  },
+  {
+   "id": "oregon_before",
+   "chart": "Inputs",
+   "label": "Oregon's before years 2015–2018 instead of 2015–2019",
+   "central": 1454
+  },
+  {
+   "id": "census_filled",
+   "chart": "Inputs",
+   "label": "Census filled-in permit counts instead of reported only",
+   "central": -382,
+   "note": "This version failed the fake-years check (it showed a rise before any law), so it is read as partly a trend."
+  },
+  {
+   "id": "leave_one_state",
+   "chart": "Inputs",
+   "label": "Leave one law state out (Oregon out to California out)",
+   "low": 788,
+   "high": 1984
+  },
+  {
+   "id": "first_year_share",
+   "chart": "Inputs",
+   "label": "2027 share: Oregon's alone (-35%) to none (0%)",
+   "low": 1515,
+   "high": 1658
   }
  ],
  "notes": [
