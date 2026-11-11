@@ -40,7 +40,7 @@ const COPY = [
   "Carry the effect to Wisconsin. We apply each measured effect to Wisconsin's own places and homes. ADU's rate adjusts for home values and incomes. Middle housing applies the same rate to every single-family home, measured in the 4 states that passed laws against similar places without them. The first year starts weak: in the 3 states with a separate first year, it averaged slightly below zero, too noisy to tell its sign. TOD and parking use one average rate, because no local trait predicted the effect better than a plain average. TOD's extra homes land only within ¼ mile of rail and rapid-bus stops.",
   "What you'll see",
   "A range for each reform, with its low and high ends. We show no single best guess, because the evidence supports a range, not a point.",
-  "Side lines across each range. They give a plain reason to believe the range. Some are real cases, like the median of 8 states that passed ADU laws. Others are our earlier scenario estimates.",
+  "Side lines across each range. They give a plain reason to believe the range. Some are real cases, like the median of 8 states that passed ADU laws. Others are alternative estimates from different methods or assumptions.",
   "A map of where homes might land. It shows how ADU reform spreads homes differently from TOD reform. It is an illustration, not a prediction of which lots will build.",
   "Sensitivities. Other choices that could push a range up or down. Some are reasonable alternative assumptions. Others show other ways to look at the reform that failed to pass our rigorous test design standards.",
 ];
