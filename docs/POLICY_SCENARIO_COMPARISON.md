@@ -91,7 +91,7 @@ The reforms are not ranked (rule 8 of the display spec). The ADU and TOD 90% ran
 - **ADUs:** the effect ramps up, at about 68%, 85% and 100% of full size in 2027, 2028 and 2029.
 - **Parking:** measured flat. Year 1 after a repeal can't be told apart from years 2–3, so no ramp.
 - **Middle housing** (in development): its own measured timing, per its locked plan.
-- **TOD:** follows the build-up measured across the 11 district places (AQ-080). The New York ramp is now a what-if.
+- **TOD:** follows the build-up measured after the New York rezonings.
 
 **ADUs add the most in the central scenario because the law creates a right on almost 1.84 million lots where today very few owners build one.**
 - At today's pace Wisconsin would permit 530 second homes on single-family lots over five years. That is 0.06 permits per 1,000 single-family homes per year.
