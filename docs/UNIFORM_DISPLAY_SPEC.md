@@ -51,12 +51,12 @@ All figures are extra homes permitted in Wisconsin, 2027–2031, compared with c
 
 | Reform | Side lines (label: number) |
 | --- | --- |
-| ADUs | Typical adoption (the former central): 10,492. Median path of the 8 statewide-law states: 10,038. Like Rhode Island and Oregon, the 2 slowest statewide-law states: 6,321. High end, near California (only California is higher): 19,784. On How sure only: what-ifs 791 and 2,255; bias-corrected range 7,517 to 13,318. ADU thread to confirm the first label. |
+| ADUs | On the chart: Median path of the 8 statewide-law states: 10,038. Like OR & RI (lowest statewide adoption): 6,321. Like CA (highest statewide adoption): 19,790 (owner, 2026-11-11). On How sure only: typical adoption (the former central), 10,492, around which the range is built; the high end of the spread between the 8 statewide-law states (a 90th-percentile state), 19,784; what-ifs 791 and 2,255; bias-corrected range 7,517 to 13,318. ADU thread to confirm the first label. |
 | TOD | Average district place, 11 places (the former central): 10,028. Edge test, rezoned lots' own gain (5 places): 3,958. Average scaled to a 15% district (11 places): 12,521. Rezoning near new transit lines, 2×2 (9 places): 13,451. Same minus the growth already under way before the reforms: 5,624. |
 | Parking | Measured average, 76 repeal places: −15,234. Median repeal place: −1,557. Oregon state mandate, covered Oregon cities vs Washington cities: about +16,800 (Oregon cities on DLCD's 48-city list in covered metros, against Washington cities at 0.5–2× their population, Portland dropped; Washington's 2024–25 middle-housing parking laws may pull this line toward zero). Not shown: San Diego, Chicago, and the count models that fail the pre-trend check (including the negative binomial, all homes, +204; tests 38–39). On How sure only: the high ends from the improvement rounds, about 27,700 to 49,700. |
 
 - The parking "centre 0" question goes away, and so does its note.
-- A side line can sit outside its range (ADU 19,784). It is drawn there and labelled; the range doesn't change.
+- A side line can sit outside its range (ADU 19,790). It is drawn there and labelled; the range doesn't change.
 
 ## Screens affected (all three reforms)
 
