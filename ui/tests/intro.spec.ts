@@ -20,8 +20,9 @@ async function bundle(page: Page, root: string, file: string) {
 
 // The approved copy, sentence by sentence (owner-approved rev 180 with the approved parking-line change).
 const COPY = [
-  "How would housing reform change the number of new homes?",
-  "Missing Middleware studies how real reforms worked in places that adopted them. It compares them with places or years without the reform. Then it carries what it learned to one state, and gives a range of extra home permits for the five years after a law, 2027 to 2031.",
+  "Let's build some housing!",
+  "If Wisconsin adopts new housing bills, how many more homes would it permit?",
+  "Missing Middleware estimates how many extra homes different housing reforms could add. We study real places that already adopted each reform and compare them with places that didn’t. We test how well that comparison holds up. Then we carry what we learned to Wisconsin, and give a range of extra home permits for the first five years, assuming a law takes effect on 1 January 2027.",
   "Wisconsin, extra permits 2027–2031, 90% range",
   "ADU permits. We learned the ADU rate once a statewide law is in force from 8 states (plus 5 cities), adjusting for home values and incomes. We hid 7 of the states one at a time and predicted each from the rest: predictions ran from 12% too low to 21% too high. The range is set from the size of those misses.",
   "Homes in 2–4 unit buildings. We measured how these homes changed in the 4 states with statewide middle housing laws, each against similar places in its own region, and did the same for 10,000 groups of 4 states without a law. The reform states beat 85 of every 100 groups, short of the 95 needed to call it clear. So Wisconsin's range still includes zero: the evidence can't tell yet whether the law changes the number of these homes.",

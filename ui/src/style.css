@@ -392,3 +392,5 @@ table.data.intro-range-table tbody tr:last-child > * { border-bottom: 0; }
   table.data.intro-range-table td.num { text-align: left !important; }
   table.data.intro-range-table td[data-label]::before { content: attr(data-label) ": "; display: block; font-size: 0.84rem; font-weight: 650; color: var(--muted); }
 }
+
+.intro-sub { font-size: 1.15rem; font-weight: 600; margin: 0.2rem 0 0.6rem; }
