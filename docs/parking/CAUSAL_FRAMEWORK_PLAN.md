@@ -1706,3 +1706,10 @@ These override the three groups above.
    - **Stand-ins:** a placebo range built from fewer than 20 stand-ins is labelled "too few stand-ins; read with care". US big cities with 1–4 stand-ins once leaned falsely toward growth. Fewer than 5 stand-ins means "not testable".
    - **2023 is only partly clean:** the first Housing Accelerator Fund agreements were signed in late 2023.
    - **Lock:** final once the eligible-place counts and HAF commitment counts are committed, before any permit value is read.
+8. **Fetch result (6e1d3341, before any permit value was read). Both cities are "not testable" under the locked rules, and the test stops.**
+   - **Permits:** the only open Statistics Canada table with dwelling units by census subdivision is 46-10-0087-01 (2018–2023, archived 2025-03-11). Nothing open at that level goes back before 2018.
+   - **Edmonton:** before-window 2018–2019 only. Its ¼–4× pool after exclusions has 4 places nationwide (Laval, Longueuil, Markham, Windsor), below the 5-place minimum, and 3 if the "check" places are also removed.
+   - **Toronto:** 0 eligible places, and its main after-window would be 2023 only.
+   - **Housing Accelerator Fund:** most large cities have parking or zoning commitments (coded in `reference/parking_t55_excluded_places.csv`).
+   - **Repeal dates** (`reference/parking_t55_repeal_dates.csv`): Toronto by-law 89-2022, enacted 2022-02-03; Edmonton Charter Bylaw 19275, in effect 2020-07-02.
+   - Canada has cut parking widely since 2020, which leaves almost no comparable non-reforming large cities.
