@@ -299,7 +299,9 @@ def build_howsure() -> dict:
     models = pd.read_csv(REF / "parking_comparison_models.csv")
     mm = models[(models["outcome"] == "all") & (models["sample"] == "main")]
     return {
-        "sensitivities": [{"case": CASE_LABELS.get(x.case, x.case), "moves": MOVES_LABELS.get(x.moves, x.moves), "value": r(x.value, 0), "description": x.description} for x in sens.itertuples()],
+        "sensitivities": [{"case": CASE_LABELS.get(x.case, x.case), "moves": MOVES_LABELS.get(x.moves, x.moves), "value": r(x.value, 0),
+                           "measured_average": (None if pd.isna(getattr(x, "measured_average_value", float("nan"))) else r(x.measured_average_value, 0)),
+                           "description": x.description} for x in sens.itertuples()],
         "robustness": [{"check": x.case.replace("Expanded, ", "").replace(" (headline candidate)", " (main result)"), "places": int(x.places), "effect": r(x.effect), "p05": r(x.p05), "p95": r(x.p95)}
                        for x in pd.read_csv(REF / "parking_expanded_estimates.csv").itertuples()],
         "placebo": {k: r(v, 3) for k, v in pd.read_csv(REF / "parking_placebo_full_summary.csv").iloc[0].items()},
