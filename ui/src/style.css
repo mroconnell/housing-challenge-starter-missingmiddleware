@@ -441,12 +441,15 @@ table.data.intro-range-table tbody tr:last-child > * { border-bottom: 0; }
 .summary-page > :not(.summary-chart-card):not(.sum-dialog) { max-width: 80ch; }
 .summary-chart-card > p, .summary-chart-card > .summary-toggles { max-width: 80ch; }
 .summary-chart-card .sum-legend { max-width: none; }
-.summary-policy h3 { font-size: 1rem; margin: 12px 0 4px; }
-.summary-policy .policy-part + .policy-part { border-top: 1px solid var(--line); margin-top: 12px; }
-.summary-policy .policy-quote { margin: 0; padding: 6px 12px; border-left: 4px solid var(--line); font-style: italic; }
-.summary-policy .policy-quote p { margin: 0; }
-.summary-policy .policy-source { margin: 6px 0 0; }
-.summary-policy .policy-part p { margin: 0 0 6px; }
+.summary-policy h3, .summary-modeled h3 { font-size: 1rem; margin: 12px 0 4px; }
+.summary-policy .policy-part + .policy-part, .summary-modeled .policy-part + .policy-part { border-top: 1px solid var(--line); margin-top: 12px; }
+.summary-policy .policy-quote, .summary-modeled .policy-quote { margin: 0; padding: 6px 12px; border-left: 4px solid var(--line); font-style: italic; }
+.summary-policy .policy-quote p, .summary-modeled .policy-quote p { margin: 0; }
+.summary-policy .policy-source, .summary-modeled .policy-source { margin: 6px 0 0; }
+.summary-policy .policy-part p, .summary-modeled .policy-part p { margin: 0 0 6px; }
+.summary-policy > p { margin: 8px 0 0; }
+.summary-modeled > .policy-part:first-of-type h3 { margin-top: 0; }
+.summary-scope-link { border-top: 1px solid var(--line); margin: 12px 0 0; padding-top: 10px; }
 .sum-chart-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
 .sum-enlarge, .sum-dialog-close { font: inherit; font-weight: 600; min-height: 40px; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 8px; background: var(--surface); color: var(--accent-ink); cursor: pointer; }
 .sum-enlarge:hover, .sum-dialog-close:hover { background: var(--accent-soft); }

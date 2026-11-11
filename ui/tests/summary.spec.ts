@@ -60,7 +60,9 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.getByTestId("summary")).toHaveAttribute("data-reform", id);
     // one plain sentence, the range with both ends labelled and its unit
-    await expect(page.getByTestId("summary-sentence")).toContainText("from 1 January 2027");
+    // ADU drops the sentence (owner, 2026-11-11 20:05: it repeated the policy); the others keep it
+    if (id === "adu") await expect(page.getByTestId("summary-sentence")).toHaveCount(0);
+    else await expect(page.getByTestId("summary-sentence")).toContainText("from 1 January 2027");
     const card = page.getByTestId("summary-range");
     await expect(card.getByTestId("range-low")).toHaveText(num(r.R.low));
     await expect(card.getByTestId("range-high")).toHaveText(num(r.R.high));

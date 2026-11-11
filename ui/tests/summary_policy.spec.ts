@@ -39,7 +39,7 @@ async function modeled(page: Page, id: string): Promise<string[]> {
   return [`${m.dates.effective}: it removes minimum parking requirements for all housing.`, ss[0], ss[ss.length - 1]];
 }
 
-for (const id of ["adu", "middle", "tod", "parking"]) {
+for (const id of ["middle", "tod", "parking"]) {
   test(`${id} Summary: "The policy" shows the handbook's benchmark and what we modeled`, async ({ page }) => {
     await page.goto(`#${PRE[id]}/summary`);
     const box = page.getByTestId("summary-policy");
@@ -58,6 +58,53 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
     expect(order).toEqual(["summary-policy", "summary-range"]);
   });
 
+}
+
+// ADU, owner 2026-11-11 20:05: "The policy" holds only the owner's text; no opening sentence; what we modeled and the
+// handbook's benchmark sit in one card under the chart, before the row of links.
+const ADU_POLICY = "Allowing one 600+ sq. ft. ADU (detached or semi-detached) on parcels with existing single-family buildings. No additional parking is required. No owner-occupant requirement.";
+
+test("adu Summary: the owner's policy text, then range, chart, what we modeled with the benchmark, links", async ({ page }) => {
+  await page.goto("#/summary");
+  const box = page.getByTestId("summary-policy");
+  await expect(box.getByRole("heading")).toHaveText(["The policy"]);
+  await expect(box.getByTestId("policy-text")).toHaveText(ADU_POLICY);
+  // nothing else in the box
+  expect((await box.innerText()).replace(/\s+/g, " ").trim()).toBe(`The policy ${ADU_POLICY}`);
+  await expect(box.getByTestId("policy-benchmark")).toHaveCount(0);
+  await expect(box.getByTestId("policy-modeled")).toHaveCount(0);
+  await expect(page.getByTestId("summary-sentence")).toHaveCount(0);
+  await expect(page.locator("main")).not.toContainText("If Wisconsin allows one ADU");
+  // the card under the chart: what we modeled (LAW_TEXT), then the handbook's benchmark
+  const card = page.getByTestId("summary-modeled");
+  const mod = card.getByTestId("policy-modeled");
+  await expect(mod.getByRole("heading", { name: "What we modeled" })).toBeVisible();
+  await expect(mod).toContainText(constString("app.ts", "LAW_TEXT"));
+  const bench = card.getByTestId("policy-benchmark");
+  await expect(bench.getByRole("heading", { name: "The challenge's benchmark" })).toBeVisible();
+  await expect(bench.getByTestId("policy-quote")).toHaveText(`“${HANDBOOK.adu}”`);
+  await expect(bench.getByTestId("policy-source")).toContainText("Benchmark Policy Scenarios");
+  const parts = await card.locator("[data-testid^=policy-]").evaluateAll((els) => els.filter((e) => e.classList.contains("policy-part")).map((e) => e.getAttribute("data-testid")));
+  expect(parts).toEqual(["policy-modeled", "policy-benchmark"]);
+  // order: heading, policy, range, chart, what we modeled, links
+  const order = await page.locator("article.summary-page > :is(h1, [data-testid=summary-policy], [data-testid=summary-range], .summary-chart-card, [data-testid=summary-modeled], [data-testid=summary-links])")
+    .evaluateAll((els) => els.map((e) => e.getAttribute("data-testid") ?? (e.classList.contains("summary-chart-card") ? "chart" : e.tagName.toLowerCase())));
+  expect(order).toEqual(["h1", "summary-policy", "summary-range", "chart", "summary-modeled", "summary-links"]);
+  // nothing else visible below the chart but this card and the links (the dialog is closed)
+  const after = await page.locator("article.summary-page > .summary-chart-card ~ *").evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).map((e) => e.getAttribute("data-testid")));
+  expect(after).toEqual(["summary-modeled", "summary-links"]);
+});
+
+for (const id of ["middle", "tod", "parking"]) {
+  test(`${id} Summary: unchanged layout, sentence on top and no card under the chart`, async ({ page }) => {
+    await page.goto(`#${PRE[id]}/summary`);
+    await expect(page.getByTestId("summary-sentence")).toBeVisible();
+    await expect(page.getByTestId("policy-text")).toHaveCount(0);
+    await expect(page.getByTestId("summary-modeled")).toHaveCount(0);
+  });
+}
+
+for (const id of ["adu", "middle", "tod", "parking"]) {
   test(`${id} Summary: the chart spans the main container, prose stays at a reading measure`, async ({ page, isMobile }) => {
     await page.goto(`#${PRE[id]}/summary`);
     await expect(page.locator("#sum-chart svg")).toBeVisible();

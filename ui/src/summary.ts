@@ -3,7 +3,8 @@
 // lines, a unit on every number. Every number comes from the reform's bundle; the browser only scales and formats.
 //
 // Layout: one plain sentence; "The policy" (the challenge's benchmark, quoted from the handbook, and what we modeled,
-// from the reform's own law text); the 90% range; the "How we count" line (the same source as the Introduction's table,
+// from the reform's own law text; or, when the reform gives the owner's policy text, only that text, with what we
+// modeled and the benchmark in a card under the chart, and no opening sentence: ADU since 2026-11-11 20:05); the 90% range; the "How we count" line (the same source as the Introduction's table,
 // ui/src/howwecount.ts); the range chart with hover/tap popups, keyboard-reachable year and side-line details and a
 // "Show as a table" toggle; three toggles written to the URL; one row of links. The chart card spans the main
 // container; prose keeps a readable measure. "Enlarge chart" redraws the same chart, with the same toggles and popups,
@@ -56,6 +57,15 @@ export interface SummaryInput {
   /** "What we modeled" in the policy box: the reform's own law text, reused from where the tool already states it
    *  (one plain-text paragraph each). */
   modeled: string[];
+  /** The owner's own policy text. When set, "The policy" box shows only this paragraph, and the challenge's benchmark
+   *  and "What we modeled" move to a card under the chart (owner, 2026-11-11 20:05: ADU first, the other reforms
+   *  later). When absent, the box keeps the benchmark and "What we modeled" as before. */
+  policy?: string;
+  /** false drops the opening sentence (it repeats the policy once "policy" is set). Default true. */
+  sentence?: boolean;
+  /** Ends the "What we modeled" card under the chart with a link to the list of places in and out of the model.
+   *  Only used with "policy"; left out when no screen holds such a list. */
+  scopeLink?: { href: string; label: string };
   /** What is counted, plural: "ADU permits", "homes near major transit stops". */
   unit: string;
   /** The measured-timing 90% range. */
@@ -140,22 +150,34 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
     <div class="sum-years" role="group" aria-label="Details for one year" data-testid="summary-years${sfx}"><span class="small muted" aria-hidden="true">Year details:</span>${YEARS.map((y) => `<button type="button" class="sum-year" data-year="${y}" aria-describedby="${popId}">${y}</button>`).join("")}</div>`;
   };
 
+  const benchmarkPart = (h = "h3") => `<div class="policy-part" data-testid="policy-benchmark">
+      <${h}>The challenge's benchmark</${h}>
+      <blockquote class="policy-quote"><p data-testid="policy-quote">“${esc(HANDBOOK_BENCHMARK[o.id])}”</p></blockquote>
+      <p class="small muted policy-source" data-testid="policy-source">Source: ${esc(HANDBOOK_SOURCE)}</p>
+    </div>`;
+  const modeledPart = (h = "h3") => `<div class="policy-part" data-testid="policy-modeled">
+      <${h}>What we modeled</${h}>
+      ${o.modeled.map((t) => `<p>${esc(t)}</p>`).join("")}
+    </div>`;
+  // With the owner's policy text on top, what we modeled and the benchmark sit in one card under the chart.
+  const modeledCard = o.policy === undefined ? "" : `
+  <section class="card summary-modeled" aria-labelledby="sum-modeled-h" data-testid="summary-modeled">
+    <h2 id="sum-modeled-h" class="sr-only">What we modeled, and the challenge's benchmark</h2>
+    ${modeledPart("h3")}
+    ${benchmarkPart("h3")}
+    ${o.scopeLink ? `<p class="summary-scope-link" data-testid="summary-scope-link">For the full list of states and cities included in or excluded from the model, see <a href="${esc(o.scopeLink.href)}">${esc(o.scopeLink.label)} →</a></p>` : ""}
+  </section>
+`;
+
   main.innerHTML = `
   <article class="summary-page" data-testid="summary" data-reform="${esc(o.id)}">
   <h1>${esc(o.title)}</h1>
-  <p class="lede summary-sentence" data-testid="summary-sentence">If Wisconsin ${esc(o.law)} from 1 January 2027, the range below is our estimate of the extra ${esc(o.unit)} it would permit over the first five years; ${esc(signTxt)}.</p>
+  ${o.sentence === false ? "" : `<p class="lede summary-sentence" data-testid="summary-sentence">If Wisconsin ${esc(o.law)} from 1 January 2027, the range below is our estimate of the extra ${esc(o.unit)} it would permit over the first five years; ${esc(signTxt)}.</p>`}
 
   <section class="card summary-policy" aria-labelledby="sum-policy-h" data-testid="summary-policy">
     <h2 id="sum-policy-h">The policy</h2>
-    <div class="policy-part" data-testid="policy-benchmark">
-      <h3>The challenge's benchmark</h3>
-      <blockquote class="policy-quote"><p data-testid="policy-quote">“${esc(HANDBOOK_BENCHMARK[o.id])}”</p></blockquote>
-      <p class="small muted policy-source" data-testid="policy-source">Source: ${esc(HANDBOOK_SOURCE)}</p>
-    </div>
-    <div class="policy-part" data-testid="policy-modeled">
-      <h3>What we modeled</h3>
-      ${o.modeled.map((t) => `<p>${esc(t)}</p>`).join("")}
-    </div>
+    ${o.policy !== undefined ? `<p data-testid="policy-text">${esc(o.policy)}</p>` : `${benchmarkPart("h3")}
+    ${modeledPart("h3")}`}
   </section>
 
   <section class="card range-card summary-range" aria-labelledby="sum-range-h" data-testid="summary-range">
@@ -197,6 +219,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
     <div class="sum-dialog-body" id="sum-dialog-body"></div>
   </dialog>
 
+  ${modeledCard}
   <p class="summary-links" data-testid="summary-links"><a href="${env.link("/where")}">Where homes would go →</a><a href="${env.link("/how-sure")}">How sure we are →</a><a href="${env.link("/why")}">Why →</a></p>
   </article>`;
 

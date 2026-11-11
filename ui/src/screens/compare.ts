@@ -102,13 +102,17 @@ const ADU_SUMMARY_LABELS: Record<string, string> = {
   like_california: "Like CA (highest statewide adoption)",
 };
 /** Side lines left off the Summary chart (owner, 2026-11-11); still listed on How sure → Details. */
+/** "The policy" on the ADU Summary: the owner's text, word for word (2026-11-11 20:05). */
+export const ADU_POLICY_TEXT = "Allowing one 600+ sq. ft. ADU (detached or semi-detached) on parcels with existing single-family buildings. No additional parking is required. No owner-occupant requirement.";
 const ADU_SUMMARY_HIDDEN = new Set(["typical"]);
 
 /** The ADU Summary: the shared Summary component fed from the ADU bundle. */
 export function aduSummaryInput(ctx: Ctx, homes: WiHomes): SummaryInput {
   const s = ctx.b.state, base = s.baseline;
   return {
-    id: "adu", title: "Accessory dwelling units", law: "allows one ADU on every lot with a single-family home", modeled: [LAW_TEXT], unit: "ADU permits",
+    id: "adu", title: "Accessory dwelling units", law: "allows one ADU on every lot with a single-family home", modeled: [LAW_TEXT],
+    // owner's words, 2026-11-11 20:05; the opening sentence repeated the policy, so it goes
+    policy: ADU_POLICY_TEXT, sentence: false, unit: "ADU permits",
     range: s.range90, rangeFlat: flatRange(s.range90), sideLines: s.side_lines.filter((x) => x.where === "chart" && !ADU_SUMMARY_HIDDEN.has(x.id)).map((x) => ({ ...x, label: ADU_SUMMARY_LABELS[x.id] ?? x.label })),
     base: { central: base.by_year, low: base.low_by_year, high: base.high_by_year }, baseName: "ADU permits without statewide reform",
     chartName: "ADU permits", currentLawLabel: "Current law (ADU permits without statewide reform)", homes,
