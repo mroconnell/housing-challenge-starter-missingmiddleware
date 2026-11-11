@@ -1,0 +1,7 @@
+line,year,factor,baseline_units,additional_units
+like_california,1,2.0674,135.0738,3031.8546
+like_california,2,2.0674,145.4681,3716.4737
+like_california,3,2.0674,156.5347,4359.1989
+like_california,4,2.0674,168.2473,4347.4862
+like_california,5,2.0674,180.5969,4335.1367
+like_california,2027-2031,2.0674,785.9208,19790.15
