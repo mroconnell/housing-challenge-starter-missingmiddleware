@@ -363,5 +363,96 @@
    43773.1,
    43773.1
   ]
+ },
+ "evidence_scope": {
+  "in": [
+   {
+    "name": "Oregon",
+    "kind": "state",
+    "area": "66 of 132 Census places",
+    "role": "law state: sets the measured effect",
+    "note": "HB 2001 (2019): duplexes in cities 10,000–25,000 from 2021-06-30; 2–4 homes in cities 25,000+ and Metro from 2022-06-30. Before 2015–2019, after 2023–2025. Every reporting place in the state counts, Portland included."
+   },
+   {
+    "name": "California",
+    "kind": "state",
+    "area": "224 of 465 Census places",
+    "role": "law state: sets the measured effect",
+    "note": "SB 9 (2021): 2 homes per lot and lot splits in single-family zones from 2022-01-01. Before 2018–2021, after 2023–2025. Every reporting place counts, Sacramento included. Read as California's 2022 package (other housing laws at the same time)."
+   },
+   {
+    "name": "Maine",
+    "kind": "state",
+    "area": "85 of 388 Census places",
+    "role": "law state: sets the measured effect",
+    "note": "LD 2003 (2022): 2 homes per lot, up to 4 in growth areas, from 2024 (council towns 2024-01-01, others 2024-07-01). Before 2019–2023, after 2024–2025."
+   },
+   {
+    "name": "Vermont",
+    "kind": "state",
+    "area": "75 of 204 Census places",
+    "role": "law state: sets the measured effect",
+    "note": "Act 47 (2023): duplexes wherever homes are allowed, up to 4 homes where water and sewer serve, from 2023-07-01. Before 2019–2022, after 2024–2025."
+   },
+   {
+    "name": "West: Idaho, Wyoming, Alaska, Nevada, New Mexico",
+    "kind": "comparison places",
+    "area": "101 places (Oregon windows); 118 (California windows)",
+    "role": "comparison: similar places without a law",
+    "note": "Same Census region as Oregon and California, no state law of the screened kinds 2015–2025. Each law place is compared with places ½ to 2 times its population. West pool is thin."
+   },
+   {
+    "name": "Northeast: Pennsylvania, New York, New Jersey",
+    "kind": "comparison places",
+    "area": "1,907 places (Maine windows); 1,949 (Vermont windows)",
+    "role": "comparison: similar places without a law",
+    "note": "Same Census region as Maine and Vermont, no state law of the screened kinds 2015–2025."
+   },
+   {
+    "name": "34 states that pass the screen",
+    "kind": "states",
+    "area": "10,000 sets of 4",
+    "role": "test only",
+    "note": "Used only to test the result: 10,000 sets of 4 fake law states, each compared the same way."
+   }
+  ],
+  "out": [
+   {
+    "name": "Places in the four states that did not report every month",
+    "kind": "places",
+    "reason": "739 of 1,189 (all four states): Left out: a place counts only if it reported all 12 months in every before and after year and has at least 100 single-family homes."
+   },
+   {
+    "name": "California matches",
+    "kind": "comparison places",
+    "reason": "18% of California's single-family homes: Places with no comparison place at ½ to 2 times their population are left unmatched (not compared nationally in the main result)."
+   },
+   {
+    "name": "Washington, Montana, Arizona",
+    "kind": "state",
+    "reason": "whole states: Own state middle-housing laws, binding 2024 or later. Too new to test; never comparisons."
+   },
+   {
+    "name": "Massachusetts, Colorado, Rhode Island, Connecticut, Utah, New Hampshire",
+    "kind": "state",
+    "reason": "whole states: Own state housing laws of the screened kinds (ADUs, upzoning near transit, parking) binding 2015–2025, so not a clean comparison."
+   },
+   {
+    "name": "Texas, Florida, Maryland",
+    "kind": "state",
+    "reason": "whole states: Own state housing laws: Texas SB 840 and SB 15 (2025-09-01), Florida Live Local Act (2023-07-01), Maryland HB 538 (2024)."
+   },
+   {
+    "name": "24 cities and boroughs outside the law states",
+    "kind": "places",
+    "reason": "24 places: Their own local reform of the same kinds 2015–2025, or a city studied separately: Anchorage, Boise, Chicago, Minneapolis, St. Paul, Reno, Trenton, New York's 5 boroughs, Buffalo, Durham, Raleigh, Mecklenburg County, Philadelphia, Pittsburgh, Austin, Houston, Alexandria, Arlington County, Spokane, Walla Walla. Never comparisons."
+   },
+   {
+    "name": "Places in counties bordering Oregon or California",
+    "kind": "places",
+    "reason": "38 places: Next door to a law state, so builders may cross the line. Never comparisons."
+   }
+  ],
+  "source": "reference/middle_in_out.csv; docs/middle/TEST_PLAN_LOCKED.md; docs/middle/TEST1_RESULTS.md"
  }
 }
