@@ -1,4 +1,4 @@
-# ADUs with and without parking requirements: plan (draft for the audit, not locked)
+# ADUs with and without parking requirements: plan (locked 2026-11-11 after the audit's review)
 
 Written 2026-11-11 at Ryan's request (parking thread, 01:03 UTC): "do ADUs with or without parking and … read the Sightline research too". No count has been run.
 - **No expected direction.** Removing parking rules could raise ADU building, or change little where owners build parking anyway.
@@ -36,25 +36,21 @@ Read 2026-11-11. The sources and figures are in the helper's notes, summarised h
 - **Seattle's 2019 change: report only.** Parking and owner occupancy were removed together, so the two can't be separated.
 - **State level: descriptive only.** 2 states without a parking rule against 6 with a cap.
 
-## Tests
+## Tests (as locked after the audit)
 
-**P1. State level, descriptive.**
-- Compare the A3 held-out misses (log of predicted ÷ actual, already computed) for the 2 no-parking states against the 6 capped states.
-- Report each state's miss and the two groups' means.
-- No interval and no pass rule: 2 against 6 cannot test anything.
-- Label it "too few states to tell".
+**P1. State level: not run (its numbers were already published in A3).**
+- One line, labelled as already seen: "The two no-parking states sit inside the capped states' spread of misses; 2 against 6 cannot tell."
+- Oregon's miss is +0.119 and Maine's −0.129, against the capped states' −0.088 to +0.187.
 
 **P2. Bundled before/after, report only.**
-- List the dated local changes that removed ADU parking, with each one's other simultaneous changes and its permits before and after:
-  - Seattle 2019 (our series);
-  - Austin 2015, no parking near corridors (our series);
-  - Tacoma, Tigard and Portland (Sightline's figures).
-- Each is labelled "package effect; parking not separable".
+- Dated local changes that removed ADU parking, each with its other simultaneous rule changes and its permits before and after.
+- Each is labelled "package; parking not separable".
+- Austin 2015 lists all of its ADU rule changes.
 
-**P3. A bounded what-if for Wisconsin, on How sure only.**
-- **Share of projects a 1-space cap blocks.** The Kent feasibility figure (95%) bounds how many lots can't fit a space. The share of ADUs that keep cars off-street with no mandate (25–45%) bounds how many would build a space anyway. The lower bound is 0, and the upper bound comes from those two figures. All of it is fixed now, before the run.
-- **The what-if.** The extra ADUs if Wisconsin's no-parking law adds that share on top of typical adoption, applied only to the capped states' part of the pooled level. It is shown as a labelled what-if line, never as the range.
-- **Not a measured effect.** It is built from feasibility and behaviour figures, not from a measured parking effect. It says so beside the line.
+**P3. Words only, no line (audit).**
+- The figures do not give a share of projects that a cap blocks. Any formula linking them would be a free choice.
+- The pooled model already includes Oregon and Maine and finds one common level.
+- Proposed How-sure text, pending Ryan's OK: "Wisconsin's modelled law needs no extra parking. Six of the eight evidence states allowed up to one space. No study separates parking from the rest of each package. Oregon and Maine, which need no extra space, sit within the other states' range. So the effect of dropping the last space is unknown: it could raise ADU building, or change little where owners add parking anyway."
 
 ## Outputs
 
@@ -62,7 +58,6 @@ Read 2026-11-11. The sources and figures are in the helper's notes, summarised h
 - `reference/adu_parking_*.csv`.
 - No tool change without Ryan's OK.
 
-## Open for the audit
+## Audit
 
-- Whether P3 is defensible at all, or should be words only. My default is a what-if line on How sure, with its bounds stated.
-- Whether P1 should be dropped as uninformative.
+Reviewed 2026-11-11 (`/mnt/project-files/audit/adu_parking_plan_review_2026-11-11.md`). Accepted with the changes above.
