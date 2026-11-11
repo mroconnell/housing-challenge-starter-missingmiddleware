@@ -30,6 +30,7 @@ INPUTS = [
     "reference/middle_model_statewide_by_year.csv", "reference/middle_model_lines_2027_2031.csv",
     "reference/middle_model_stronger_band.csv", "reference/middle_model_by_area.csv",
     "reference/middle_test1_summary.csv", "reference/housing_baseline_statewide_by_year.csv",
+    "reference/middle_in_out.csv",
 ]
 
 
@@ -95,6 +96,17 @@ def build() -> Path:
     base_years = {"central": [round(float(proj.loc[y, "central"]), 1) for y in YEARS],
                   "low": [round(float(proj.loc[y, "low"]), 1) for y in YEARS],
                   "high": [round(float(proj.loc[y, "high"]), 1) for y in YEARS]}
+    KIND = {"Law states": "state", "Law-state places": "places", "Comparison places": "comparison places",
+            "States left out": "state", "Places left out": "places", "Fake law states": "states"}
+    ROLE = {"Law states": "law state: sets the measured effect", "Comparison places": "comparison: similar places without a law"}
+    scope = {"in": [], "out": [], "source": "reference/middle_in_out.csv; docs/middle/TEST_PLAN_LOCKED.md; docs/middle/TEST1_RESULTS.md"}
+    for r in pd.read_csv(REF / "middle_in_out.csv").itertuples():
+        kind = KIND.get(r.group, "places")
+        if r.status.startswith("in"):
+            role = "test only" if "test only" in r.status else ROLE.get(r.group, r.group)
+            scope["in"].append({"name": r.name, "kind": kind, "area": r.places, "role": role, "note": r.reason})
+        else:
+            scope["out"].append({"name": r.name, "kind": kind, "reason": f"{r.places}: {r.reason}"})
     statewide = {
         "headline": ("The evidence can't tell yet. We'll know more when we have a full five years in the other states. "
                      "Most of the range for 2–4 unit homes is above zero, but it includes a small fall, and there is "
@@ -149,6 +161,7 @@ def build() -> Path:
                          "years": years_f, "years_method": "Same effect every year."},
         "side_lines": side_lines,
         "baseline_by_year": base_years,
+        "evidence_scope": scope,
     }
     area_rows = [{"area_id": a.area_id, "name": a.name, "sf_homes": int(a.homes),
                   "lower": round(a.add_lower_five_year, 2), "central": round(a.add_central_five_year, 2),
