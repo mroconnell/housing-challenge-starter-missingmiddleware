@@ -1650,3 +1650,37 @@ These override the three groups above.
    - A pass gives candidates that would need a new test on unused data. No such data exists now, and the write-up says so.
    - A fail recommends ending the trait search.
 8. **Order:** the code is committed before the run.
+
+## Test 55: Canadian sense check, Edmonton (2020) and Toronto (2021) (DRAFT LOCK 2026-11-11, before any count; Ryan 01:03 UTC: "Talk to the TOD thread about Canadian data and maybe use it to do a quick check of the parking reform")
+
+**Running count: 55.** Sense check only. It is never a tool line, and nothing changes without Ryan's own OK. This plan states no expected direction.
+
+**Places and repeal years:**
+- Edmonton removed minimums citywide in June 2020, so 2020 is its event year.
+- Toronto removed most residential minimums in 2021, in force about 2022, so 2022 is its event year (TOD's dating; to be confirmed against the by-law before any count).
+
+**Data** (open licences only; a fetch script with a download log, and a licence entry before use):
+- **Permits:** Statistics Canada building permits by municipality (census subdivision), residential dwelling units created, by year. The table number and its unit field are confirmed in the fetch step. If no census-subdivision table with dwelling units exists, the test stops and the gap is reported.
+- **Existing homes:** the 2016 Census private dwellings by census subdivision. These come before both repeals.
+
+**Design** (the same as the US main method where it can be):
+- **Outcome:** dwelling units permitted per 1,000 existing homes a year.
+- **Windows:** up to 5 years before (from 2015) and the years after through the last complete year, at least 2.
+- **Comparison places:** Canadian census subdivisions at ½–2× the repeal city's 2016 dwellings, first in the same province, then nationwide, with at least 5 places.
+  - Left out: places known to have removed or cut residential minimums in the window. Vancouver, Calgary, Ottawa, Montreal boroughs, Halifax, Saskatoon, Regina and Kitchener–Waterloo get a check; the list is fixed in the fetch step from public sources, before any outcome is read.
+- **Effect:** each city's change against its pool; also shown in Wisconsin homes (× 13,343.385).
+- **Range:** a placebo spread built like the US one. For each repeal city, at least 20 stand-in census subdivisions get its event year, run the same way; 5,000 sets.
+
+**Reading.**
+- Two cities give little power, so every result is read as a sense check.
+- A city's result "counts" only if it falls outside the middle 90% of its own placebo spread, read the same for either sign.
+- **Known overlaps:**
+  - Edmonton: the 2020 start falls in the Covid year.
+  - Toronto: the 2023 multiplex permissions and other 2022–23 changes.
+- The result is set beside the US average as "consistent" or "not consistent". The US range doesn't change.
+
+**Run order:**
+1. Fetch, licence and the excluded-places list, committed.
+2. Audit.
+3. Count.
+4. Write-up to the audit and Ryan.
