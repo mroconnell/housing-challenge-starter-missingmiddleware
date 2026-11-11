@@ -56,7 +56,9 @@ const ROUTES: Route[] = [
 
 // ---- screens --------------------------------------------------------------------------------
 /** The anchor of the in/out card on Why; the Summary's "What we modeled" card links here (?section=middle-in-out). */
-export const MIDDLE_IN_OUT_ID = "middle-in-out";
+export // owner 2026-11-11 23:33: shown on How sure (Census counting), not under the Summary chart key
+const BUILDING_COUNT_NOTE = "Counts homes by building, as the Census does. A duplex plus a 4-plex on one lot counts as 6 homes here. A single 5- or 6-unit building falls in the Census's 5+ group, so it shows only in the 'Adding 5 and 6 unit buildings' line.";
+const MIDDLE_IN_OUT_ID = "middle-in-out";
 
 /** Words after each side line's value in the Summary's chart key (owner, 2026-11-11 20:41). */
 const SIDE_NOTES: Record<string, string> = {
@@ -73,8 +75,6 @@ function summaryInput(b: MiddleBundle, env: ShellEnv): SummaryInput {
     // owner, 2026-11-11 20:23: the ADU Summary pattern (policy beside the estimate; modeled + benchmark under the chart)
     policy: MIDDLE_POLICY_TEXT, sentence: false, policyBeside: true, unit: "homes in 2–4 unit buildings", chartName: "Homes in 2–4 unit buildings",
     range: s.range90, rangeFlat: s.range90_flat, sideLines: s.side_lines.filter((l) => l.where === "chart" && l.id !== "all"), sideNotes: SIDE_NOTES,
-    // owner, 2026-11-11 20:47: word for word, under the chart key
-    legendNote: "Counts homes by building, as the Census does. A duplex plus a 4-plex on one lot counts as 6 homes here. A single 5- or 6-unit building falls in the Census's 5+ group, so it shows only in the 'Adding 5 and 6 unit buildings' line.",
     scopeLink: { href: env.link(`/why?section=${MIDDLE_IN_OUT_ID}`), label: "Why → In and out of the model", text: "For the full list of states and places included in or excluded from the model, see" },
     base: s.baseline_2_4_by_year, baseName: "homes in 2–4 unit buildings without the reform", homes: b.homes,
   };
@@ -143,7 +143,7 @@ function howSure(b: MiddleBundle, main: HTMLElement): void {
     <thead><tr><th scope="col">What-if</th><th scope="col" class="num">Extra homes, 2027–2031</th></tr></thead>
     <tbody>${b.howsure.bars.map((x) => `<tr><th scope="row">${esc(x.label)}${x.note ? `<br><span class="small muted">${esc(x.note)}</span>` : ""}</th><td class="num">${x.central !== undefined ? num(x.central) : `${num(x.low!)} to ${num(x.high!)}`}</td></tr>`).join("")}</tbody></table></div></section>
   <section class="card"><h2>Possibilities beyond what was measured</h2>${sideLinesHTML(hs, "extra homes, 2027–2031", "howsure-lines")}</section>
-  <section class="card"><h2>Notes</h2><ul class="plain">${b.howsure.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>
+  <section class="card"><h2>Notes</h2><ul class="plain"><li data-testid="building-count-note">${esc(BUILDING_COUNT_NOTE)}</li>${b.howsure.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>
   ${details(b)}`;
 }
 

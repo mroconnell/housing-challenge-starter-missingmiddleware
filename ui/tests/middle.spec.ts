@@ -90,11 +90,11 @@ test("middle Summary: current law is homes in 2–4 unit buildings, with the own
   await expect(page.getByTestId("summary-legend").locator("li").first()).toHaveText("Current law: the zero line");
   await expect(page.locator('[data-testid="summary-legend"] [data-side="all"]')).toHaveCount(0);
   await expect(page.locator('[data-testid="summary-legend"] [data-side="1_4"]')).toContainText("Too noisy to include in predicted range");
-  // the owner's note on counting by building, right under the chart key (2026-11-11 20:47), in both views
-  await expect(page.getByTestId("summary-legend-note")).toHaveText(MIDDLE_LEGEND_NOTE);
+  // the building-count note lives on How sure, not under the chart key (owner 2026-11-11 23:33)
+  await expect(page.getByTestId("summary-legend-note")).toHaveCount(0);
+  await page.goto("#/middle/how-sure");
+  await expect(page.getByTestId("building-count-note")).toHaveText(MIDDLE_LEGEND_NOTE);
   await page.goto("#/middle/summary?show=totals");
-  await expect(page.getByTestId("summary-legend-note")).toHaveText(MIDDLE_LEGEND_NOTE);
-  expect(await page.getByTestId("summary-legend-note").evaluate((el) => el.previousElementSibling?.getAttribute("data-testid"))).toBe("summary-legend");
   // How sure still lists the all-building-sizes line
   await page.goto("#/middle/how-sure");
   await expect(page.locator('[data-testid="side-lines"] [data-side="all"]')).toContainText(num(side("all")));
