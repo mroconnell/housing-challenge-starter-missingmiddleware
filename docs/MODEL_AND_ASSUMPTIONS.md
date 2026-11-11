@@ -14,12 +14,12 @@ The tool is built for Wisconsin legislators, their staff and local officials. It
 
 ### The three benchmark reforms
 
-The challenge asks for a baseline and at least three of five benchmark reforms. The tool models three, and a fourth, middle housing, is in development. Reforms are listed in the owner's order (2026-11-10):
+The challenge asks for a baseline and at least three of five benchmark reforms. The tool models four. Reforms are listed in the owner's order (2026-11-10):
 
 | Reform | What the modelled state law does | Part |
 | --- | --- | --- |
 | **Accessory dwelling units (ADUs)** | Allows one ADU on every lot with a single-family home, detached or attached, of at least 600 square feet, with no extra parking required. | A |
-| **Middle housing** (in development) | Allows 2–6 homes on every parcel now limited to one house, up to 3 stories, statewide. | In development ([WISCONSIN_PLAN_LOCKED.md](middle/WISCONSIN_PLAN_LOCKED.md)) |
+| **Middle housing** | Allows 2–6 homes on every parcel now limited to one house, up to 3 stories, statewide. | Its locked plan ([WISCONSIN_PLAN_LOCKED.md](middle/WISCONSIN_PLAN_LOCKED.md)) |
 | **Transit-oriented density (TOD)** | Every city with qualifying rail or rapid-bus stops zones a by-right multifamily district (at least 15 homes per acre) on 15% of the lot acres within ¼ mile of those stops (option D, AQ-071). | C |
 | **Parking requirement reduction** | Removes every minimum off-street parking requirement for housing, statewide. | B |
 
@@ -32,7 +32,7 @@ All three reforms count **housing units in issued building permits**, at the dat
 | Reform | Outcome counted | Current-law baseline, 2027–2031 | Rate denominator used inside the reform |
 | --- | --- | --- | --- |
 | ADUs | **Second homes on single-family lots**: ADUs plus single-family-to-duplex conversions on a lot that already has a home (AQ-032, AQ-039) | 786 permits statewide (today's rates, rising 7.3% a year; AQ-065) | Per 1,000 single-family (one-unit detached) homes: 1,839,569 homes (ACS 2020–2024, table B25024) |
-| Middle housing (in development) | **All new housing units**, every building size | 124,000 permits statewide (the shared all-housing baseline) | Per 1,000 single-family homes (1,839,569) |
+| Middle housing | **Extra homes in 2–4 unit buildings** (the range); other building sizes as side lines | 124,000 permits statewide (the shared all-housing baseline) | Per 1,000 single-family homes (1,839,569) |
 | TOD | **All new housing units near major transit stops** | 14,654 permits in the station areas | Share of the 313,564 homes (2020 census) in the station areas |
 | Parking | **All new housing units**, every building size | 124,000 permits statewide, range 56,500 to 218,865 (aims at 90%; shared all-housing baseline v4). It held 12 of 12 Wisconsin checks and 88.3% of other-state checks for 2009–2020, a window chosen after the results. It missed the 2005–08 run-up to the crash, like every method tested. Only the statewide total was tested. | Per 1,000 existing homes of all types (ACS 2020–2024, table B25002) |
 
@@ -42,13 +42,15 @@ The parking and TOD baselines come from one shared all-housing baseline built fr
 
 The forecast years are 2027, 2028, 2029, 2030 and 2031. Totals are summed over those five years unless a year is named. 2026 is shown in some tables as a bridge year but is not in any total. Each reform models a law in force from 1 January 2027. No reform models effects after 2031.
 
-### What is common across the three reforms
+### What is common across the reforms
 
-- **ADUs and TOD show a 90% range, not a central line** (uniform display, owner 2026-11-05; [UNIFORM_DISPLAY_SPEC.md](UNIFORM_DISPLAY_SPEC.md)).
+- **Every reform shows a 90% range, not a central line** (uniform display, owner 2026-11-05; [UNIFORM_DISPLAY_SPEC.md](UNIFORM_DISPLAY_SPEC.md)).
   - ADUs: 8,055 to 13,666 extra ADU permits over 2027–2031. It comes from the model's held-out prediction error on 7 statewide-law states, and covers law-side error only.
+  - Middle housing: −482 to 4,515 extra homes in 2–4 unit buildings. It comes from the four-state result placed against 10,000 sets of fake law states.
   - TOD: 3,922 to 16,335 extra homes near stops. It comes from a bootstrap of 11 district places, widened ×1.1827 after a coverage test.
+  - Parking: −46,268 to +19,649 extra homes. It comes from the measured average of 74 repeal places plus the placebo spread; it spans both a loss and a gain.
   - No single number stands for a reform's result. Labelled side lines give context: the former lower, central and upper scenarios, and the median of real cases. For ADUs these are typical adoption (the former central) 10,492; the 8-state median path 10,038; like Rhode Island and Oregon 6,321; high end, near California 19,784. TOD's are listed in Part C.
-- **Parking keeps its three scenario lines for now** (the owner is still working on parking). They are named by what they mean, not by statistical confidence: "low end of the evidence" −15,380, "no measurable change" 0, "high end of the evidence" 19,649 (74 repeal places; owner 2026-11-05). Its median-of-real-cases line is −1,557 homes over 2027–2031 (−311 a year): the median repeal place changed by −0.12 permits per 1,000 existing homes per year against similar places. There is no floor at zero (AQ-074).
+- **Parking's side lines** are the former lines, named by what they mean: the measured average of 74 repeal places −15,380; the median repeal place −1,557 (−311 a year; no floor at zero, AQ-074); Oregon's state mandate about +16,848.
 - **Sensitivities are grouped by what they move.** Each sensitivity case changes one assumption and is labelled by whether it moves the statewide addition, only where the homes land, or only the current-law baseline.
 - **Observed, calculated or assumed.** Each reform has a trace that says which numbers come from Wisconsin's own records, which are calculated from them, and which are assumed or transferred from elsewhere.
 - **Everything reconciles.** Every reform's results are computed for each of Wisconsin's 1,925 municipality pieces and add up exactly to the 72 counties, the 99 Assembly districts, the 33 Senate districts and the state. Any part that cannot be placed is shown as an explicit "not allocated" row, never dropped.
@@ -496,10 +498,15 @@ The station-area shares (1.3%, 3.2% and 4.0% of the 313,564 homes near stops) st
   - **Data fixes behind these lines (2026-11-02).** Lot land counted once; missing lot sizes filled from each city's own Census land share; New York hotel, condo-hotel, care-home and superseded-job rule rows and Philadelphia double counts removed (3,929 rule rows plus 45 hand rows); Seattle corrections. Before the fixes the lines were 499 / 9,822 / 12,264.
 - **Where homes land (AQ-071).** Each place's share of the statewide total = its share of the lot acres within ¼ mile of rail and rapid stops (central: Madison 5,721, Milwaukee 2,453, Wauwatosa 964, Kenosha 416, Shorewood Hills 252, Sun Prairie 145, Burke 73, Blooming Grove 4). The former placement by the old law's added floor area (AQ-051) is a what-if.
 - **No floor at zero.** Places already at or above the law get no addition, but a measured line may be below zero where the evidence says so (owner rule against evidence-free floors).
-- **Timing.**
-  - All three lines follow the yearly build-up measured after 17 New York City rezonings in 2003–2013.
+- **Timing (AQ-080, owner 2026-11-11 00:07).**
+  - Every line, and the range's two ends, follow the yearly build-up measured across the same 11 district places behind the range: their average effect in each of the first five years after reform, each place weighted equally (`reference/tod_first_year_check.csv`, rows "by year (place-equal weight)", from `scripts/run_tod_first_year_check.py`).
+  - Measured effects, extra homes per 100 lot acres a year within ¼ mile: 25.6, −5.2, 85.9, 42.3 and 19.1 in years 1 to 5. As shares of their five-year sum: 15.3%, −3.1%, 51.2%, 25.2% and 11.4% for 2027–2031.
+  - Year 2 (2028) is slightly negative and is used as measured (no zero floor). The script reads the shares from the CSV (`eleven_place_build_up()` in `scripts/run_tod_model.py`).
+  - Only the yearly split changed. The five-year totals are unchanged: range 3,922 to 16,335; side lines 10,028 / 3,958 / 12,521 / 13,451 / 5,624.
+  - Central line (10,028) by year, 2027–2031: 1,530, −312, 5,138, 2,532, 1,141. Range low end: 598, −122, 2,010, 990, 446. Range high end: 2,492, −509, 8,369, 4,125, 1,858.
+  - Before AQ-080 the lines followed the build-up after 17 New York City rezonings in 2003–2013 (shares 9.8%, 9.3%, 26.4%, 47.9%, 6.6%). It is kept as the What-if "Timing: New York rezonings' build-up (the former ramp)", beside the existing smoothed-2031 what-if.
   - The former strong line (Auckland) keeps Auckland's own yearly pattern in its what-if.
-  - The build-up was fixed before the results were seen, and is not smoothed.
+  - The per-acre method A (a sensitivity) still uses the New York ramp, because its *r* is New York's per-FAR rate.
 
 #### 3. Data sources and cleaning steps
 

@@ -9,11 +9,11 @@ The tool compares Wisconsin's current law (the baseline) with three of the five 
 | Reform | The modelled state law | Where it applies | What it counts |
 | --- | --- | --- | --- |
 | **Accessory dwelling units (ADUs)** | One ADU allowed on every lot with a single-family home, detached or attached, at least 600 square feet, with no extra parking | Every single-family lot in the state (1,839,569 single-family homes) | Second homes added on lots that already have a single-family home |
-| **Middle housing** (in development) | 2–6 homes allowed on every parcel now limited to one house, up to 3 stories, statewide (the challenge's benchmark) | Parcels of all 1,839,569 single-family homes | All new homes, every building size |
+| **Middle housing** | 2–6 homes allowed on every parcel now limited to one house, up to 3 stories, statewide (the challenge's benchmark) | Parcels of all 1,839,569 single-family homes | All new homes, every building size |
 | **Transit-oriented density (TOD)** | Option D, the transit district mandate (AQ-071, 2026-11-02): every city with rail or rapid-bus stops zones a by-right multifamily district (15+ homes per acre) on 15% of the lot acres within ¼ mile of those stops; parking rules unchanged. Replaces the earlier benchmark law (SB 79-style heights on about 71% of the land within ¼ mile) | The district: land within ¼ mile of streetcar and rapid-bus stops (6,394 lot acres; Milwaukee and Dane counties, plus Kenosha). Counted in the station areas: within ½ mile of those stops and ¼ mile of 15-minute bus stops, 313,564 homes (2020 census) | All new homes near those stops |
 | **Parking requirement reduction** | No minimum off-street parking may be required for any housing | Every municipality, except the 9 Wisconsin places that have already removed their minimums | All new homes, every building size |
 
-Development fee reduction is not modelled. Middle housing is in development: its plan is locked ([WISCONSIN_PLAN_LOCKED.md](middle/WISCONSIN_PLAN_LOCKED.md)), and its numbers are not in this comparison yet. Reforms are listed in the owner's order: ADUs, middle housing, TOD, parking (2026-11-10).
+Development fee reduction is not modelled. Middle housing follows its locked plan ([WISCONSIN_PLAN_LOCKED.md](middle/WISCONSIN_PLAN_LOCKED.md)). Reforms are listed in the owner's order: ADUs, middle housing, TOD, parking (2026-11-10).
 
 **Comparing them fairly.** The three finished reforms count different things against different baselines:
 - the ADU baseline is 786 second homes on single-family lots statewide over 2027–2031;
@@ -28,14 +28,14 @@ The ADU share is an approximate size comparison, not a strict share: the Census 
 
 # Results: 90% Ranges
 
-Extra homes permitted over 2027–2031, compared with current law. ADUs and TOD show only their 90% range (uniform display, owner 2026-11-05, ADUs and TOD: "both"; parking follows when the owner finishes it; [UNIFORM_DISPLAY_SPEC.md](UNIFORM_DISPLAY_SPEC.md)). The reforms are listed in a fixed order, not ranked. No single number stands for a reform's result. The side lines below the table give context.
+Extra homes permitted over 2027–2031, compared with current law. Each reform shows only its 90% range (uniform display, owner 2026-11-05; all four reforms on main since 2026-11-11; [UNIFORM_DISPLAY_SPEC.md](UNIFORM_DISPLAY_SPEC.md)). The reforms are listed in a fixed order, not ranked. No single number stands for a reform's result. The side lines below the table give context.
 
 | Reform | 90% range, extra homes, 2027–2031 | Low and high as a share of the 124,000-home all-housing baseline | Low and high per 1,000 existing homes (five-year total) | How the range is built | Coverage |
 | --- | --- | ---: | ---: | --- | --- |
 | **ADUs** (ADU permits: second homes on single-family lots) | 8,055 to 13,666 | 6.5% to 11.0% of the 124,000 all-housing baseline (not of the 786 ADU baseline) | 2.9 to 4.9 | Held-out prediction error: how far the model missed each of 7 statewide-law states it had not seen (root mean square log error 0.136 × t at 6 degrees of freedom, 1.943) | Checked on 7 states: 7 of 7 inside; too few to measure a factor, so not widened |
-| **Middle housing** | In development | — | — | — | — |
+| **Middle housing** (extra homes in 2–4 unit buildings) | −482 to 4,515 | −0.4% to 3.6% | −0.2 to 1.6 | The real four-state result (Oregon, California, Maine, Vermont against similar places) placed against 10,000 sets of 4 fake law states from 34 comparison states, times Wisconsin's 1,839,569 single-family homes | Built from fake-law estimates; not widened |
 | **TOD** | 3,922 to 16,335 | 3.2% to 13.2% | 1.4 to 5.9 | Bootstrap of the 11 district places (4,866 to 15,361), widened ×1.1827 | 84.5% before widening |
-| **Parking** | Not yet on the range display (owner still working on parking). Current lines: low end −15,380, central 0, high end 19,649 | −12.4%, 0%, 15.8% | −5.5, 0, 7.1 | Low end: measured average of 74 repeal places; high end: placebo spread | Not checked against real outcomes |
+| **Parking** | −46,268 to +19,649 | −37.3% to +15.8% | −16.7 to +7.1 | Measured average of 74 repeal places (−1.15 per 1,000 existing homes a year) plus the spread of 20,000 placebo sets, times Wisconsin's eligible homes | Not checked against real outcomes |
 
 - **ADUs: law-side error only.** The range leaves out Wisconsin-side inputs:
   - today's rates where they are assumed. 74% of the addition is in such places; the codings tested move the result from 9,319 to 10,734.
@@ -49,11 +49,18 @@ Extra homes permitted over 2027–2031, compared with current law. ADUs and TOD 
 | ADUs | Median path of the 8 statewide-law states | 10,038 |
 | ADUs | Like Rhode Island and Oregon, the 2 slowest statewide-law states | 6,321 |
 | ADUs | High end, near California (only California is higher; outside the range) | 19,784 |
+| Middle housing | Four-state measured result | 1,570 |
+| Middle housing | All 1–4 unit buildings | 3,905 |
+| Middle housing | Adding 5 and 6 unit buildings | 4,226 |
+| Middle housing | All building sizes | 7,888 |
 | TOD | Average district place, 11 places (the former central) | 10,028 |
 | TOD | Edge test, the rezoned lots' own gain (5 places) | 3,958 |
 | TOD | Average scaled to a 15% district (11 places) | 12,521 |
 | TOD | Rezoning near new transit lines, 2×2 (9 places) | 13,451 |
 | TOD | The same, minus the growth already under way before the reforms | 5,624 |
+| Parking | Measured average, 74 repeal places | −15,380 |
+| Parking | Median repeal place | −1,557 |
+| Parking | Oregon state mandate, covered Oregon cities against Washington cities | about +16,848 |
 
 What the side lines mean:
 - **ADUs.**
@@ -67,19 +74,21 @@ What the side lines mean:
   - Scaled to 15%, the average gives 12,521.
   - The 2×2 failed the fake-years check, so it is also shown with its before-reform growth taken out.
   - Statewide scale (owner, 2026-11-02): all lot acres within ¼ mile of rail and rapid stops ÷ those in Milwaukee and Madison cities, 6,394 ÷ 5,212 = 1.227.
-- **Parking** side lines follow when parking moves to the range display.
+- **Middle housing.** The four-state result applied to Wisconsin, then wider building-size counts. Two more what-ifs are on How sure only: with townhouses, split-lot homes and 5–6 unit buildings, 3,854; a stronger reform (up to 6 homes per lot), 1,692 to 2,139.
+- **Parking.** The measured average of 74 repeal places against similar places; the median repeal place; and Oregon's state mandate (covered Oregon cities against Washington cities).
 
 **Against each reform's own baseline:**
 - ADUs: 8,055 to 13,666 second homes on a baseline of 786. That is 10.2 to 17.4 times what current law would produce.
 - TOD: 3,922 to 16,335 homes on a baseline of 14,654 near stops. That is 26.8% to 111.5% more.
-- Parking (current lines): −15,380 to 19,649 homes on a baseline of 124,000, central 0. That is −12.4% to +15.8%.
+- Middle housing: −482 to 4,515 homes on the 124,000-home all-housing baseline. That is −0.4% to +3.6%.
+- Parking: −46,268 to +19,649 homes on a baseline of 124,000. That is −37.3% to +15.8%.
 
 **How confident we are.**
 
 | Reform | Confidence | Why |
 | --- | --- | --- |
 | ADUs | Medium | Eight states have passed similar laws. When each is left out, the model predicts five of the seven non-California states within about 15%; it is about 21% too high for Washington and 19% too high for Vermont. No Midwest state has data yet. |
-| Middle housing | In development | Locked plan: Test 1 reads "we do not know" so far. |
+| Middle housing | Low | The evidence can't tell yet: Test 1 (four states) is +0.23 extra homes in 2–4 unit buildings per 1,000 single-family homes a year, 90% range −0.07 to +0.65. |
 | TOD | Low | The central averages 11 US places that chose their own district land, often land builders wanted; none is in Wisconsin, and a state mandate may do less. No model beat that average on places it had not seen. |
 | Parking | Medium that the effect is small within five years; low on the high end | 74 real repeals show no measurable rise on average within three years. |
 
@@ -90,8 +99,8 @@ The reforms are not ranked (rule 8 of the display spec). The ADU and TOD 90% ran
 **Timing.** Each reform uses its own measured timing (owner, 2026-11-10):
 - **ADUs:** the effect ramps up, at about 68%, 85% and 100% of full size in 2027, 2028 and 2029.
 - **Parking:** measured flat. Year 1 after a repeal can't be told apart from years 2–3, so no ramp.
-- **Middle housing** (in development): its own measured timing, per its locked plan.
-- **TOD:** follows the build-up measured after the New York rezonings.
+- **Middle housing:** a measured slow start. 2027 is at about −21% of full size, and full size comes from 2028.
+- **TOD:** follows the build-up measured across the 11 district places (AQ-080). The New York ramp is now a what-if.
 
 **ADUs add the most in the central scenario because the law creates a right on almost 1.84 million lots where today very few owners build one.**
 - At today's pace Wisconsin would permit 530 second homes on single-family lots over five years. That is 0.06 permits per 1,000 single-family homes per year.
@@ -168,9 +177,9 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
 | Scenario | 90% range | Former lines (lower, central, upper) | Source |
 | --- | --- | --- | --- |
 | ADUs (ADU permits) | 8,055 to 13,666 | 6,321; 10,492; 19,784 | [NET_STATEWIDE_R1.md](adu/NET_STATEWIDE_R1.md); [CAUSAL_FRAMEWORK_RESULTS.md](adu/CAUSAL_FRAMEWORK_RESULTS.md) |
-| Middle housing (all homes) | In development | — | [WISCONSIN_PLAN_LOCKED.md](middle/WISCONSIN_PLAN_LOCKED.md) |
+| Middle housing (2–4 unit buildings) | −482 to 4,515 | — | [WISCONSIN_PLAN_LOCKED.md](middle/WISCONSIN_PLAN_LOCKED.md) |
 | TOD (all homes) | 3,922 to 16,335 | 3,958; 10,028; 12,521 | [OPTION_D_PLAN.md](tod/OPTION_D_PLAN.md); [CAUSAL_FRAMEWORK_PLAN.md](tod/CAUSAL_FRAMEWORK_PLAN.md); AQ-071, AQ-072, AQ-075 |
-| Parking, route A (the tool) | not yet (owner still working on parking) | −15,380; 0; 19,649 | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
+| Parking, route A (the tool) | −46,268 to +19,649 | −15,380; 0; 19,649 | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 | Parking, route B (trees) | not computed | −4,171; 0; 0 | [NET_WI_RESULTS.md](parking/NET_WI_RESULTS.md) |
 
 - **TOD lines now match the tool** (AQ-072, option D): lower = edge test, the rezoned lots' own gain; central = the 11 district places' average within ¼ mile; upper = the central scaled to a 15% district (AQ-075). The 2×2 near new lines (13,451) and its trend-adjusted version (5,624) are what-ifs, as are the former option D lower (824; AQ-071) and the earlier lines (43, 13,229, Auckland 17,148 as shown; AQ-069, AQ-070) are what-ifs.
@@ -186,7 +195,7 @@ Owner ask (2026-10-31): permits after each reform minus permits with no reform, 
   - the ADU law already removes parking requirements for ADUs;
   - the TOD cases cannot separate TOD from parking reform.
   
-  The tool shows each reform on its own. The combined TOD and parking view stays as it is until parking moves to the range display. Then it will show a range from a paired simulation of the reforms' draws, never a sum of range ends. Its current lines (rebuilt on the 74-place parking sample, combined-56ea544b03): where TOD and parking overlap near transit stops, it takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −11,422 homes (TOD 3,958 plus parking −15,380), its central 10,028, and its high case 30,202. The simple sum, 32,170, is only an upper bound (on the 76-place sample: −11,276, 10,028 and 30,355; sum 32,338) (before AQ-071: −15,283, 13,229 and 34,921; sum 37,085).
+  The tool shows each reform on its own. The combined TOD and parking view is not yet on the range display. When it is, it will show a range from a paired simulation of the reforms' draws, never a sum of range ends. Its current lines (rebuilt on the 74-place parking sample, combined-56ea544b03): where TOD and parking overlap near transit stops, it takes the larger of the two effects near stops rather than their sum. Over 2027–2031 its low case is −11,422 homes (TOD 3,958 plus parking −15,380), its central 10,028, and its high case 30,202. The simple sum, 32,170, is only an upper bound (on the 76-place sample: −11,276, 10,028 and 30,355; sum 32,338) (before AQ-071: −15,283, 13,229 and 34,921; sum 37,085).
 - **Rents, prices, displacement, parking supply, traffic or transit ridership.** None is modelled.
 - **Finished homes.** Permits are not completions, and the figures are not net of demolitions.
 - **Local forecasts.** Municipal, county and district figures are shares of a statewide estimate. They reconcile exactly to the state, but they are not forecasts for any place, lot or project.
