@@ -121,13 +121,13 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
 
   <section class="card" aria-labelledby="intro-see-h">
     <h2 id="intro-see-h">What you'll see</h2>
-    ${introCarouselHTML()}
     <ul class="intro-see">
       <li><strong>A range for each reform, with its low and high ends.</strong> We show no single best guess, because the evidence supports a range, not a point.</li>
       <li><strong>Side lines across each range.</strong> They give a plain reason to believe the range. Some are real cases, like the median of 8 states that passed ADU laws. Others are our earlier scenario estimates.</li>
       <li><strong>A map of where homes might land.</strong> It shows how ADU reform spreads homes differently from TOD reform. It is an illustration, not a prediction of which lots will build.</li>
       <li><strong>Sensitivities.</strong> Other choices that could push a range up or down. Some did not pass tests set in advance. Others are reasonable alternative assumptions. Neither changes the range.</li>
     </ul>
+    ${introCarouselHTML()}
   </section>
 
   <section class="card" aria-labelledby="intro-how-h">

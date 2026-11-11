@@ -17,6 +17,7 @@ async function leave(page: Page) {
 
 test("three slides render from the bundle, each one link to its screen", async ({ page }) => {
   await page.goto("#/");
+  await page.getByTestId("intro-carousel").scrollIntoViewIfNeeded();   // it sits under the list now
   const car = page.getByTestId("intro-carousel");
   await expect(car).toHaveAttribute("aria-roledescription", "carousel");
   const slides = page.getByTestId("intro-slide");
@@ -63,6 +64,7 @@ test("three slides render from the bundle, each one link to its screen", async (
 test("autoplay advances every 6 seconds, stops on hover and focus, and Pause stops it", async ({ page }) => {
   await page.clock.install();
   await page.goto("#/");
+  await page.getByTestId("intro-carousel").scrollIntoViewIfNeeded();   // it sits under the list now
   const car = page.getByTestId("intro-carousel");
   await expect(car).toHaveAttribute("data-running", "1");
   await expect(current(page)).toHaveAttribute("aria-label", "1 of 3");
@@ -105,6 +107,7 @@ test("with reduced motion the carousel never plays on its own", async ({ page })
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.clock.install();
   await page.goto("#/");
+  await page.getByTestId("intro-carousel").scrollIntoViewIfNeeded();   // it sits under the list now
   const car = page.getByTestId("intro-carousel");
   await expect(car).toHaveAttribute("data-state", "paused");
   await expect(car).toHaveAttribute("data-running", "0");
@@ -119,6 +122,7 @@ test("with reduced motion the carousel never plays on its own", async ({ page })
 test("the buttons have names and work from the keyboard; the live region speaks only when the reader moves", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("#/");
+  await page.getByTestId("intro-carousel").scrollIntoViewIfNeeded();   // it sits under the list now
   await expect(page.getByRole("button", { name: "Play the previews" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Previous preview" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Next preview" })).toBeVisible();
@@ -149,6 +153,7 @@ test("the carousel passes the accessibility checks, keeps a fixed height and fit
   await page.setViewportSize({ width: 375, height: 812 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("#/");
+  await page.getByTestId("intro-carousel").scrollIntoViewIfNeeded();   // it sits under the list now
   await expect(page.locator('[data-thumb="map"]')).toHaveAttribute("data-ready", /1|note/, { timeout: 20_000 });
   const dom = await page.evaluate(() => {
     const ids: Record<string, number> = {};
@@ -189,14 +194,15 @@ test("the carousel passes the accessibility checks, keeps a fixed height and fit
     expect(await h()).toBe(h0);
     expect(await listTop()).toBe(t0);
   }
-  // on a phone the carousel sits above the list
-  expect(await page.getByTestId("intro-carousel").evaluate((e) => e.getBoundingClientRect().bottom)).toBeLessThanOrEqual(
-    await page.locator(".intro-see").evaluate((e) => e.getBoundingClientRect().top));
+  // the carousel sits under the list, full width (owner 2026-11-11)
+  expect(await page.getByTestId("intro-carousel").evaluate((e) => e.getBoundingClientRect().top)).toBeGreaterThanOrEqual(
+    await page.locator(".intro-see").evaluate((e) => e.getBoundingClientRect().bottom));
 });
 
 test("a map that cannot load leaves a short note, not an error", async ({ page }) => {
   await page.route("**/geo_counties.json", (r) => r.fulfill({ status: 404, body: "" }));
   await page.goto("#/");
+  await page.getByTestId("intro-carousel").scrollIntoViewIfNeeded();   // it sits under the list now
   const th = page.locator('[data-thumb="map"]');
   await expect(th).toHaveAttribute("data-ready", "note", { timeout: 20_000 });
   await expect(th).toContainText("Preview not available here");

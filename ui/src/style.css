@@ -397,13 +397,13 @@ table.data.intro-range-table tbody tr:last-child > * { border-bottom: 0; }
 
 /* "What you'll see" preview carousel (src/screens/intro_carousel.ts): small thumbnails, each one link to its
    screen. A fixed height, so moving between slides never shifts the page. No slide animation. */
-.intro-carousel { margin: 6px 0 14px; max-width: 560px; }
-.ic-slides { position: relative; height: 150px; }
+.intro-carousel { margin: 16px 0 4px; }
+.ic-slides { position: relative; height: 270px; }
 .ic-slide { position: absolute; inset: 0; visibility: hidden; }
 .ic-slide.is-current { visibility: visible; }
-.ic-link { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 14px; align-items: center; height: 100%; padding: 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: inherit; text-decoration: none; box-sizing: border-box; }
+.ic-link { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 18px; align-items: center; height: 100%; padding: 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: inherit; text-decoration: none; box-sizing: border-box; }
 .ic-link:hover { border-color: var(--accent); background: var(--accent-soft); color: inherit; }
-.ic-thumb { display: block; position: relative; height: 136px; overflow: hidden; border-radius: 5px; background: #fbfcfb; pointer-events: none; }
+.ic-thumb { display: block; position: relative; height: 256px; overflow: hidden; border-radius: 5px; background: #fbfcfb; pointer-events: none; }
 .ic-thumb-in { display: block; width: 100%; height: 100%; }
 .ic-scale { display: block; width: 200%; transform: scale(0.5); transform-origin: 0 0; }
 .ic-scale svg { display: block; width: 100%; height: auto; }
