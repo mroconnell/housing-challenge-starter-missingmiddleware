@@ -405,9 +405,9 @@ table.data.intro-range-table tbody tr:last-child > * { border-bottom: 0; }
 .ic-link:hover { border-color: var(--accent); background: var(--accent-soft); color: inherit; }
 .ic-thumb { display: block; position: relative; height: 256px; overflow: hidden; border-radius: 5px; background: #fbfcfb; pointer-events: none; }
 .ic-thumb-in { display: block; width: 100%; height: 100%; }
-.ic-scale { display: block; width: 200%; transform: scale(0.5); transform-origin: 0 0; }
+.ic-scale { display: block; width: 125%; transform: scale(0.8); transform-origin: 0 0; }
 .ic-scale svg { display: block; width: 100%; height: auto; }
-[data-thumb="sens"] .ic-scale { width: 300%; transform: scale(0.3333); padding: 4px 6px; box-sizing: border-box; }
+[data-thumb="sens"] .ic-scale { width: 200%; transform: scale(0.5); padding: 4px 6px; box-sizing: border-box; }
 [data-thumb="sens"] .vs-band { margin: 0; }
 .ic-map { display: block; width: 100%; height: 100%; }
 .ic-note { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 10px; font-size: 0.84rem; color: var(--muted); text-align: center; }
