@@ -30,7 +30,7 @@ INPUTS = [
     "reference/middle_model_statewide_by_year.csv", "reference/middle_model_lines_2027_2031.csv",
     "reference/middle_model_stronger_band.csv", "reference/middle_model_by_area.csv",
     "reference/middle_test1_summary.csv", "reference/housing_baseline_statewide_by_year.csv",
-    "reference/middle_in_out.csv",
+    "reference/middle_in_out.csv", "reference/middle_test1_states.csv",
 ]
 
 
@@ -169,6 +169,34 @@ def build() -> Path:
     area_rows = [{"area_id": a.area_id, "name": a.name, "sf_homes": int(a.homes),
                   "lower": round(a.add_lower_five_year, 2), "central": round(a.add_central_five_year, 2),
                   "upper": round(a.add_upper_five_year, 2)} for a in areas.itertuples()]
+    # Input what-ifs (Test 1 choices), each as the five-year central for Wisconsin: rate difference x homes x timing.
+    import importlib.util as _ilu
+    _spec = _ilu.spec_from_file_location("rmw", ROOT / "scripts" / "run_middle_wisconsin.py")
+    rmw = _ilu.module_from_spec(_spec); _spec.loader.exec_module(rmw)
+    homes = float(areas["homes"].sum())
+    ra = rmw.ramp()
+    factor = homes * sum(ra.values())                     # homes x (4 full years + the 2027 share)
+    st = pd.read_csv(REF / "middle_test1_states.csv")
+    st = st[(st["mode"] == "real") & (st["measure"] == "M2") & st["data"].str.startswith("reported")]
+    main_d = st[st["version"] == "main"].set_index("state")["diff"]
+    nat = st[st["version"] == "unmatched matched nationally"]["diff"].mean()
+    or_alt = main_d.copy(); or_alt["Oregon"] = st[st["version"] == "Oregon before 2015-2018"]["diff"].iat[0]
+    t1all = pd.read_csv(REF / "middle_test1_summary.csv")
+    filled = t1all[(t1all["data"].str.startswith("Census")) & (t1all["measure"] == "M2") & (t1all["set"] == "four states")]["real_diff_per_1000"].iat[0]
+    loo = {k: main_d.drop(k).mean() for k in main_d.index}
+    lo_k, hi_k = min(loo, key=loo.get), max(loo, key=loo.get)
+    annual = float(t1["real_diff_per_1000"]) * homes / 1000
+    or_share = rmw.FIRST_YEAR["Oregon"][0] / rmw.FIRST_YEAR["Oregon"][1]
+    inputs = [
+        {"id": "match_nationally", "chart": "Inputs", "label": "Match unmatched places nationally (comparison group)", "central": whole(nat * factor / 1000)},
+        {"id": "oregon_before", "chart": "Inputs", "label": "Oregon's before years 2015–2018 instead of 2015–2019", "central": whole(or_alt.mean() * factor / 1000)},
+        {"id": "census_filled", "chart": "Inputs", "label": "Census filled-in permit counts instead of reported only", "central": whole(filled * factor / 1000),
+         "note": "This version failed the fake-years check (it showed a rise before any law), so it is read as partly a trend."},
+        {"id": "leave_one_state", "chart": "Inputs", "label": f"Leave one law state out ({lo_k} out to {hi_k} out)",
+         "low": whole(loo[lo_k] * factor / 1000), "high": whole(loo[hi_k] * factor / 1000)},
+        {"id": "first_year_share", "chart": "Inputs", "label": f"2027 share: Oregon's alone ({or_share:.0%}) to none (0%)",
+         "low": whole(annual * (4 + or_share)), "high": whole(annual * 4)},
+    ]
     howsure = {"bars": [
         {"id": "flat_timing", "label": "Same effect every year (timing toggle off)", "central": L("core_flat_timing")["central"]},
         {"id": "townhouses", "label": "Add townhouses and split-lot homes (×1.5–3)", "central": L("with_addons")["central"]},
@@ -181,6 +209,7 @@ def build() -> Path:
         "Trend-adjusted view (post hoc): projecting each state's pre-law trend forward, the after-law years fall below it.",
         "Weakest point: the West comparison group is thin (85 places reporting every year) and lumpy.",
     ]}
+    howsure["bars"] = howsure["bars"] + inputs
     why = {"evidence": [
         doc("docs/middle/TEST_PLAN_LOCKED.md", "Locked test plan"),
         doc("docs/middle/TEST1_RESULTS.md", "Test 1: four law states vs similar places"),
