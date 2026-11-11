@@ -1684,3 +1684,21 @@ These override the three groups above.
 2. Audit.
 3. Count.
 4. Write-up to the audit and Ryan.
+
+**Test 55 audit fixes (01:06 UTC review, before any fetch or count). These override the text above.**
+1. **Pool size:**
+   - The band widens from ½–2× to a fixed, labelled ¼–4× of 2016 dwellings, in the same province first, then nationwide.
+   - Eligible places are counted from 2016 dwellings after exclusions, before the lock is final.
+   - A repeal city with fewer than 5 eligible places is reported as "not testable". Toronto (about 1.1 million dwellings) may well be.
+   - The placebo uses the same band, with at least 20 stand-ins where they exist. A city that has fewer is reported with its count.
+2. **Housing Accelerator Fund (2023–24):** many cities cut parking or allowed 4 homes per lot mid-window, so the main after-window ends at 2023. Years from 2024 on are shown separately, labelled as overlapping.
+3. **Edmonton's new zoning bylaw (January 2024):** a listed overlap, which the 2023 end also avoids.
+4. **Windows:**
+   - The event year is left out of both windows.
+   - Before: up to 5 years before the event year, from 2015.
+   - After: from the year after the event to 2023. Edmonton gets 2021–2023; Toronto, if its event year is 2022, gets 2023 only, which is too short (below the 2-year minimum), so it is "not testable" on the main window and shown only with 2024+.
+5. **"Consistent" is defined now:** the US average effect (−1.15 homes per 1,000 existing homes a year) lies inside the city's own placebo 90% range. If it lies outside, the result is "not consistent". It is read the same for either sign.
+6. **Small items:**
+   - Toronto's event year is fixed from the by-law check (adoption vs in force) before the lock.
+   - The Statistics Canada Open Licence (attribution) is logged under the licence rule, as for NTM (AQ-045). If the licence rule needs Ryan's OK, it is asked before any use.
+   - The Wisconsin-homes conversion is for display only.
