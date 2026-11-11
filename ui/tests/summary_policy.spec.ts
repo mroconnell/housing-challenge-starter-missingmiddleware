@@ -213,9 +213,9 @@ test("ADU Summary legend: the owner's labels, numbers from the bundle, no Typica
     `With the law: 90% range, ${n(st.range90.low)} to ${n(st.range90.high)} extra ADU permits (on top of current law)`,
     `Median path of the 8 statewide-law states: ${n(v("median8"))}`,
     `Two slowest statewide-law states (Rhode Island and Oregon, averaged): ${n(v("slow2"))}`,
-    `High end of the spread between the 8 statewide-law states (a 90th-percentile state; only California has gone higher): ${n(v("ca_high"))}`,
+    `Like California (the fastest statewide-law state): ${n(v("like_california"))}`,
   ]);
-  expect([n(st.range90.low), n(st.range90.high), n(v("median8")), n(v("slow2")), n(v("ca_high"))]).toEqual(["8,055", "13,666", "10,038", "6,321", "19,784"]);
+  expect([n(st.range90.low), n(st.range90.high), n(v("median8")), n(v("slow2")), n(v("like_california"))]).toEqual(["8,055", "13,666", "10,038", "6,321", "19,790"]);
   await expect(page.locator('#sum-chart svg path[data-series="side-typical"]')).toHaveCount(0);
   // the popups keep the bundle's notes
   const slow = (st.side_lines as { id: string; note: string }[]).find((s) => s.id === "slow2")!;

@@ -287,7 +287,7 @@ function where(b: ParkingBundle, env: ShellEnv, params: URLSearchParams, main: H
   }
   const br = quintiles([...vals.values()].filter((v): v is number => v !== null && v > 0));
   const lab = (i: number) => i === 0 ? `under ${int(br[0])}` : i === 4 ? `${int(br[3])} or more` : `${int(br[i - 1])} to ${int(br[i] - 1)}`;
-  main.querySelector("#pk-legend")!.innerHTML = `<ul class="legend map-legend" aria-label="Map legend: high end of the 90% range, extra homes permitted, five classes with about equal numbers of areas">${RAMP.map((c, i) => `<li><span class="lg-sw" style="background:${c}"></span>${esc(lab(i))}</li>`).join("")}<li><span class="lg-sw" style="background:${WATER}"></span>lakes and outside Wisconsin</li></ul>`;
+  main.querySelector("#pk-legend")!.innerHTML = `<p class="map-legend-title" data-testid="map-legend-title">Extra homes permitted by the law, 2027–2031, high end of the 90% range (per area)</p><ul class="legend map-legend" aria-label="Map legend: high end of the 90% range, extra homes permitted, five classes with about equal numbers of areas">${RAMP.map((c, i) => `<li><span class="lg-sw" style="background:${c}"></span>${esc(lab(i))}</li>`).join("")}<li><span class="lg-sw" style="background:${WATER}"></span>lakes and outside Wisconsin</li></ul>`;
   const mapEl = main.querySelector<HTMLElement>("#pk-map")!;
   const tip = mapEl.querySelector<HTMLElement>(".map-tip")!;
   leaveMap();

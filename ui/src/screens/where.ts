@@ -37,17 +37,21 @@ function ends(ctx: Ctx): { lo: number; hi: number } {
   return { lo: R.low / typ, hi: R.high / typ };
 }
 
-/** The unknown-rules assumption in force on this view: districts exist for the adopted run only. */
+/** The unknown-rules assumption in force on this view (districts follow it too, from districts.json by_unknown). */
 function unk(ctx: Ctx) {
-  return isDistrict(ws.geo) ? unknownVariant(ctx, ctx.b.unknown.default) : unknownVariant(ctx);
+  return unknownVariant(ctx);
+}
+/** A district (or the "unallocated" row) under the assumption in force: base, additions and its own 90% range. */
+function districtFor(ctx: Ctx, lv: "assembly" | "senate", d: District): District {
+  const x = ctx.b.districts.levels[lv].by_unknown?.[unk(ctx).id]?.[d.id];
+  return x ? { ...d, base: x.base, add: x.add, range90: x.range90 } : d;
 }
 
 /**
  * Causal-forest "where" view (owner decision 2026-11-01; bundle file where_forest.json). It only re-spreads the
  * adopted statewide addition across places (the shares behind each area's range), so it is in force only when both hold:
  *  - the viewer chose it (ctx.ui.spread, URL w=forest);
- *  - the adopted unknown-rules assumption is in force (the forest spreads the adopted run's total). Districts always
- *    use the adopted assumption.
+ *  - the adopted unknown-rules assumption is in force (the forest spreads the adopted run's total).
  * Otherwise the toggle is disabled, shows "Our model" and says why; the viewer's choice is kept for later.
  */
 function forestOn(ctx: Ctx): boolean {
@@ -64,7 +68,7 @@ function rows(ctx: Ctx): Row[] {
   const withForest = (add: number[], f: number[] | undefined) => (fo && f ? f : add);
   if (isDistrict(ws.geo)) {
     const lv = ws.geo as "assembly" | "senate";
-    return ctx.b.districts.levels[lv].rows.map((d) => ({ id: d.id, name: d.name, county: "", homes: d.homes, base: d.base, add: withForest(d.add.central, fo?.districts[lv].rows[d.id]?.add), addModel: d.add.central, d }));
+    return ctx.b.districts.levels[lv].rows.map((d0) => { const d = districtFor(ctx, lv, d0); return { id: d.id, name: d.name, county: "", homes: d.homes, base: d.base, add: withForest(d.add.central, fo?.districts[lv].rows[d.id]?.add), addModel: d.add.central, d }; });
   }
   const v = unk(ctx);
   const ov = v.adopted ? undefined : ws.geo === "counties" ? ctx.b.unknown.counties[v.id] : ctx.b.unknown.areas[v.id];
@@ -80,7 +84,7 @@ function rows(ctx: Ctx): Row[] {
 function unallocated(ctx: Ctx): District | null {
   if (!isDistrict(ws.geo)) return null;
   const lv = ws.geo as "assembly" | "senate";
-  const un = ctx.b.districts.levels[lv].unallocated;
+  const un = districtFor(ctx, lv, ctx.b.districts.levels[lv].unallocated);
   return forestOn(ctx) ? { ...un, add: { ...un.add, central: ctx.b.forest.districts[lv].unallocated } } : un;
 }
 
@@ -150,6 +154,14 @@ function stateValue(ctx: Ctx): string {
   return ws.measure === "count" ? int(v) : dec((v / homes / nYears()) * 1000);
 }
 
+/** The map key's title: what is mapped and its unit, from the current Show, Measure and year choices. */
+function legendTitle(ctx: Ctx): string {
+  const y = ws.year === 2027 ? "2027" : `2027–${ws.year}`;
+  if (ws.layer === "homes") return "Existing single-family homes (per area)";
+  const what = ws.layer === "baseline" ? `ADU permits without statewide reform (baseline growth), ${y}` : `ADU permits added by the law, ${y}, low end of the 90% range${forestOn(ctx) ? ", spread by the causal forest pattern" : ""}`;
+  return ws.measure === "rate" ? `${what}, per 1,000 single-family homes per year` : `${what} (per area)`;
+}
+
 function layerTitle(ctx: Ctx): string {
   const y = ws.year === 2027 ? "2027" : `2027–${ws.year}`;
   if (ws.layer === "homes") return isDistrict(ws.geo) ? "Existing single-family homes (ACS 2020–2024, placed in districts with 2020 census blocks)" : "Existing single-family homes (ACS 2020–2024)";
@@ -183,7 +195,7 @@ export function renderWhere(ctx: Ctx, main: HTMLElement): void {
       <div class="year-ticks" aria-hidden="true">${YEARS.map((y) => `<span>${y}</span>`).join("")}</div>
     </div>
     <label class="check"><input type="checkbox" id="lbl" ${ws.labels ? "checked" : ""}> ${isDistrict(ws.geo) ? "Show district numbers" : "Show county names"}</label>
-    <div class="unk-inline">${unknownPicker(ctx, "unk-where", isDistrict(ws.geo), isDistrict(ws.geo) ? ctx.b.unknown.district_note : unknownVariant(ctx).adopted ? "" : "Map and table use this assumption; other screens show the adopted one. See How sure.")}</div>
+    <div class="unk-inline">${unknownPicker(ctx, "unk-where", false, unknownVariant(ctx).adopted ? "" : "Map and table use this assumption; other screens show the adopted one. See How sure.")}</div>
     ${spreadPicker(ctx)}
   </div>
 
@@ -292,7 +304,7 @@ function update(ctx: Ctx, main: HTMLElement): void {
   main.querySelector<HTMLFieldSetElement>("#measure-set")!.disabled = ws.layer === "homes";
   main.querySelector<HTMLInputElement>("#year")!.disabled = ws.layer === "homes";
   const lab = (i: number) => (i === 0 ? `under ${fmtBreak(br[0])}` : i === 4 ? `${fmtBreak(br[3])} or more` : `${fmtBreak(br[i - 1])} to under ${fmtBreak(br[i])}`);
-  main.querySelector("#map-legend")!.innerHTML = `<ul class="legend map-legend" aria-label="Map legend: five classes with equal numbers of areas">${RAMP.map((c, i) => `<li><span class="lg-sw" style="background:${c}"></span>${esc(lab(i))}</li>`).join("")}<li><span class="lg-sw lg-hatch"></span>no single-family homes (no value)</li><li><span class="lg-sw" style="background:${WATER}"></span>lakes and outside Wisconsin</li></ul>`;
+  main.querySelector("#map-legend")!.innerHTML = `<p class="map-legend-title" data-testid="map-legend-title">${esc(legendTitle(ctx))}</p><ul class="legend map-legend" aria-label="Map legend: five classes with equal numbers of areas">${RAMP.map((c, i) => `<li><span class="lg-sw" style="background:${c}"></span>${esc(lab(i))}</li>`).join("")}<li><span class="lg-sw lg-hatch"></span>no single-family homes (no value)</li><li><span class="lg-sw" style="background:${WATER}"></span>lakes and outside Wisconsin</li></ul>`;
   const rateMode = ws.layer !== "homes" && ws.measure === "rate";
   const eligible = rs.filter((r) => vals.get(r.id) !== null && (!rateMode || r.homes >= SMALL_AREA));
   const top = [...eligible].sort((a, b) => (vals.get(b.id) ?? 0) - (vals.get(a.id) ?? 0)).slice(0, 3);
@@ -385,11 +397,12 @@ function districtDetail(ctx: Ctx, el: HTMLElement, r: Row): void {
       <dt>Single-family homes (placed with 2020 census blocks)</dt><dd>${int(r.homes)} ${pill("calculated")}</dd>
       <dt>Without statewide reform (baseline), ${y}</dt><dd>${permitsText(thru(r.base))} ${pill("calculated")}</dd>
       <dt>Added by statewide ADU reform, 90% range, ${y}</dt><dd data-testid="detail-range"><strong>${small(typ * E.lo)} to ${permitsText(typ * E.hi)}</strong> ${pill("calculated")}</dd>
+      ${d.range90 && !forestOn(ctx) ? `<dt>The district's 90% range, 2027–2031</dt><dd data-testid="detail-range90">${small(d.range90.low)} to ${permitsText(d.range90.high)}</dd>` : ""}
       ${forestRows(ctx, r)}
       <dt>Rate with the law</dt><dd>${rate(thru(r.base) + typ * E.lo)} to ${rate(thru(r.base) + typ * E.hi)} per 1,000 homes per year (current law ${rate(thru(r.base))})</dd>
     </dl>
     ${d.places && d.places.length ? `<h3 class="small-h">Largest places in this district</h3><ul class="small" data-testid="district-places">${d.places.map((x) => `<li>${esc(x.name)}: ${int(x.homes)} homes${x.share_of_place !== null && x.share_of_place < 0.995 ? ` (${pct(x.share_of_place)})` : ""}</li>`).join("")}${(d.n_areas ?? 0) > d.places.length ? `<li class="muted">and ${int((d.n_areas ?? 0) - d.places.length)} more</li>` : ""}</ul>` : ""}
-    <p class="muted small">${esc(ctx.b.districts.caveat)} Shown for the adopted assumption about places with uncoded rules.</p>`;
+    <p class="muted small">${esc(ctx.b.districts.caveat)}${unk(ctx).adopted ? "" : ` Places with uncoded rules: ${esc(unk(ctx).label.toLowerCase())}.`}</p>`;
 }
 
 function table(ctx: Ctx, main: HTMLElement): void {

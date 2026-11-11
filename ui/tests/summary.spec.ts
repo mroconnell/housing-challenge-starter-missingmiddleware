@@ -12,7 +12,7 @@ const dec2 = (v: number) => { const r = Math.round(v * 100) / 100; return r < 0 
 const ADU_LABELS: Record<string, string> = {
   median8: "Median path of the 8 statewide-law states",
   slow2: "Two slowest statewide-law states (Rhode Island and Oregon, averaged)",
-  ca_high: "High end of the spread between the 8 statewide-law states (a 90th-percentile state; only California has gone higher)",
+  like_california: "Like California (the fastest statewide-law state)",
 };
 
 interface Side { id: string; label: string; value?: number; note: string; where: string }

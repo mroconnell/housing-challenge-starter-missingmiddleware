@@ -127,10 +127,16 @@ export interface UnknownRules {
 
 export interface District {
   id: string; district: string; name: string; homes: number; base: number[]; add: Record<PathId, number[]>;
+  /** The district's own 90% range of permits added, 2027–2031. */
+  range90?: { low: number; high: number };
   n_areas?: number; places?: { id: string; name: string; homes: number; share_of_place: number | null }[]; assembly?: number[];
 }
 export interface Districts {
-  levels: Record<"assembly" | "senate", { rows: District[]; unallocated: District }>;
+  levels: Record<"assembly" | "senate", {
+    rows: District[]; unallocated: District;
+    /** Each district (and "unallocated") under each unknown-rules assumption, adopted one included. */
+    by_unknown?: Partial<Record<UnknownId, Record<string, { base: number[]; add: Record<PathId, number[]>; range90: { low: number; high: number } }>>>;
+  }>;
   caveat: string; method: string; homes_range: [number, number]; boundaries: string; source: string;
 }
 

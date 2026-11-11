@@ -185,7 +185,7 @@ test("chart key, tables and brief use the bundle's labels", async ({ page }) => 
   const legend = page.getByTestId("summary-legend");
   await expect(legend).toContainText("90% range");
   // the Summary chart's own ADU labels (display only, owner 2026-11-11); "typical" is left off the chart
-  const own: Record<string, string> = { median8: "Median path of the 8 statewide-law states", slow2: "Two slowest statewide-law states (Rhode Island and Oregon, averaged)", ca_high: "High end of the spread between the 8 statewide-law states (a 90th-percentile state; only California has gone higher)" };
+  const own: Record<string, string> = { median8: "Median path of the 8 statewide-law states", slow2: "Two slowest statewide-law states (Rhode Island and Oregon, averaged)", like_california: "Like California (the fastest statewide-law state)" };
   for (const s of b.state.side_lines.filter((x: { where: string; id: string }) => x.where === "chart" && x.id !== "typical")) await expect(legend).toContainText(own[s.id] ?? s.label);
   await expect(legend).not.toContainText("Typical adoption");
   await page.goto("#/how-sure");
@@ -253,32 +253,44 @@ test("unknown-rules switch shows each precomputed run", async ({ page }) => {
   await expect(page.getByTestId("reconcile")).toContainText(fmt(ben.baseline_by_year.reduce((a: number, x: number) => a + x, 0)));
 });
 
-test("districts reconcile to the state and disable the unknown-rules switch", async ({ page }) => {
+test("districts follow the unknown-rules assumption and reconcile to the state", async ({ page }) => {
   const b = await bundle(page);
-  const cen = b.state.scenarios.find((s: { id: string }) => s.id === "central");
+  const D = await (await page.request.get(`runs/${b.run_id}/districts.json`)).json();
+  const sum = (xs: number[]) => xs.reduce((a, x) => a + x, 0);
   await page.goto("#/where?u=like_prohibited");
-  for (const i of await page.getByTestId("unknown-switch").locator("input").all()) await expect(i).toBeEnabled();
-  for (const [name, n] of [["Assembly districts", 99], ["Senate districts", 33]] as const) {
+  for (const [name, n, lv] of [["Assembly districts", 99, "assembly"], ["Senate districts", 33, "senate"]] as const) {
     await page.getByRole("radio", { name }).check();
     const sw = page.getByTestId("unknown-switch");
-    for (const i of await sw.locator("input").all()) await expect(i).toBeDisabled();
-    await expect(sw.locator('input[value="like_restricted"]')).toBeChecked();
-    await expect(page.getByTestId("unknown-note")).toContainText("adopted assumption only");
+    for (const i of await sw.locator("input").all()) await expect(i).toBeEnabled();
+    await expect(sw.locator('input[value="like_prohibited"]')).toBeChecked();
+    await expect(page.locator("main")).not.toContainText("adopted assumption only");
+    const v = b.unknown.variants.find((x: { id: string }) => x.id === "like_prohibited");
+    const cen0 = b.state.scenarios.find((s: { id: string }) => s.id === "central");
     const rec = page.getByTestId("reconcile");
     await expect(rec).toContainText("Checked:");
     await expect(rec).toContainText(`${n} ${name}`);
     await expect(rec).toContainText("not allocated to a district");
-    await expect(rec).toContainText(`${fmt(b.state.range90.low)} to ${fmt(b.state.range90.high)}`);
+    const stAdd = sum(v.additional_by_year.central);
+    await expect(rec).toContainText(`${fmt(stAdd * b.state.range90.low / cen0.additional_total)} to ${fmt(stAdd * b.state.range90.high / cen0.additional_total)}`);
     await expect(page.getByTestId("unallocated-row")).toContainText("Not allocated to a district");
     await expect(page.getByTestId("where-table").locator("tbody tr")).toHaveCount(n);
     await expect(page.getByTestId("district-caveat")).toContainText("2020 census blocks");
+    expect(Object.keys(D.levels[lv].by_unknown).sort()).toEqual(["like_benchmark", "like_prohibited", "like_restricted"]);
   }
-  await page.getByRole("button", { name: "Details for Senate District 26" }).click();
+  // each assumption shows that district's own figures and 90% range from by_unknown
+  const id = "sen:26";
+  for (const u of ["like_restricted", "like_prohibited", "like_benchmark"]) {
+    await page.locator(`input[name="unk-where"][value="${u}"]`).check();
+    await page.getByRole("button", { name: "Details for Senate District 26" }).click();
+    const r = D.levels.senate.by_unknown[u][id].range90;
+    await expect(page.getByTestId("detail-range90")).toHaveText(`${fmt(r.low)} to ${fmt(r.high)} permits`);
+  }
+  const lo = (u: string) => D.levels.senate.by_unknown[u][id].range90.low;
+  expect(new Set(["like_restricted", "like_prohibited", "like_benchmark"].map((u) => Math.round(lo(u)))).size).toBe(3);
   await expect(page.getByTestId("district-places")).toContainText("Madison city");
-  // back to municipalities: the switch is live again with the reader's choice
+  // back to municipalities: the reader's choice is kept
   await page.getByRole("radio", { name: "Cities, villages and towns" }).check();
-  for (const i of await page.getByTestId("unknown-switch").locator("input").all()) await expect(i).toBeEnabled();
-  await expect(page.locator('input[name="unk-where"][value="like_prohibited"]')).toBeChecked();
+  await expect(page.locator('input[name="unk-where"][value="like_benchmark"]')).toBeChecked();
 });
 
 test("causal forest view: same statewide range, counties match the bundle", async ({ page }) => {
@@ -339,7 +351,8 @@ test("keyboard: unknown-rules switch and district view", async ({ page, isMobile
   await page.keyboard.press("ArrowRight");
   await expect(page.locator('input[name="geo"][value="assembly"]')).toBeChecked();
   await expect(page.locator('input[name="geo"][value="assembly"]')).toBeFocused();
-  for (const i of await page.getByTestId("unknown-switch").locator("input").all()) await expect(i).toBeDisabled();
+  // districts follow the assumption now (owner, 2026-11-11), so the switch stays usable
+  for (const i of await page.getByTestId("unknown-switch").locator("input").all()) await expect(i).toBeEnabled();
   await page.locator('button[data-sel="asm:79"]').focus();
   await page.keyboard.press("Enter");
   await expect(page.locator("#detail-h")).toHaveText("Assembly District 79");
@@ -421,4 +434,24 @@ test("ADU How sure and Where carry the 90% range, its coverage note and the How-
   await expect(page.getByTestId("howsure-side-lines")).toContainText("7,517 to 13,318");
   await page.goto("#/where");
   await expect(page.getByTestId("where-range-note")).toContainText(`${fmt(R.low)} to ${fmt(R.high)}`);
+});
+
+test("Where map key: its title states what is mapped and the unit, and follows Show and Measure (owner 2026-11-11)", async ({ page }) => {
+  await page.goto("#/where");
+  const t = page.getByTestId("map-legend-title");
+  await expect(t).toHaveText("ADU permits added by the law, 2027–2031, low end of the 90% range (per area)");
+  await page.getByRole("radio", { name: "Per 1,000 homes per year" }).check();
+  await expect(t).toHaveText("ADU permits added by the law, 2027–2031, low end of the 90% range, per 1,000 single-family homes per year");
+  await page.getByRole("radio", { name: "Permits", exact: true }).check();
+  await expect(t).toContainText("(per area)");
+  await page.getByRole("radio", { name: "Baseline growth" }).check();
+  await expect(t).toHaveText("ADU permits without statewide reform (baseline growth), 2027–2031 (per area)");
+  await page.getByRole("radio", { name: "Existing homes" }).check();
+  await expect(t).toHaveText("Existing single-family homes (per area)");
+  // classes below 1 permit keep one decimal; the title carries the unit
+  await page.getByRole("radio", { name: "Additional from the law" }).check();
+  await page.getByRole("radio", { name: "Cities, villages and towns" }).check();
+  await expect(page.locator(".map-legend li").first()).toHaveText(/^under \d/);
+  await page.goto("#/parking/where");
+  await expect(page.getByTestId("map-legend-title")).toContainText("Extra homes permitted by the law, 2027–2031");
 });

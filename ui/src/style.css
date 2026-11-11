@@ -337,6 +337,7 @@ details.more[open] > summary { margin-bottom: 4px; }
 
 /* the uniform range display (docs/UNIFORM_DISPLAY_SPEC.md): one 90% range, ends labelled, side lines below */
 .range-card { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
+.map-legend-title { margin: 6px 0 2px; font-size: 0.9rem; font-weight: 600; }
 .summary-range .range-lead { margin: 0; font-weight: 600; font-size: 1.05rem; }
 .range-ends { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 14px; margin: 6px 0 2px; }
 .range-end { display: inline-flex; flex-direction: column; }
