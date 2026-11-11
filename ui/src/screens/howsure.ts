@@ -1,7 +1,7 @@
 import { bindUnknownPicker, details, unknownPicker, unknownVariant, type Ctx } from "../app";
 import { stackHTML } from "../charts";
 import { dec, esc, int, pct, pill } from "../format";
-import { againstBandHTML, num, sideLinesHTML } from "../range";
+import { againstBandHTML, num, rangeCaveatHTML, sideLinesHTML } from "../range";
 import { aduRangeCard } from "./compare";
 
 export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
@@ -43,6 +43,7 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
   <section class="card" aria-labelledby="h-hs-lines">
     <h2 id="h-hs-lines">More lines and what-ifs, against the range</h2>
     ${sideLinesHTML(ctx.b.state.side_lines.filter((x) => x.where === "howsure"), "ADU permits over 2027–2031", "howsure-side-lines", "These are shown here only, not on the chart. None changes the 90% range.")}
+    ${rangeCaveatHTML(ctx.b.state.range90)}
   </section>
 
   <section class="card" aria-labelledby="h-trace">

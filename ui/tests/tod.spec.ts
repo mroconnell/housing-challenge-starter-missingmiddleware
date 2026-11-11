@@ -269,7 +269,11 @@ for (const [name, url, root] of [["ADU", "#/compare", "runs/"], ["TOD", "#/tod/c
     await expect(card.getByTestId("range-coverage")).toContainText(R.coverage);
     await expect(card.getByTestId("range-shares")).toContainText(`${(R.low / 124000 * 100).toFixed(1)}% of the 124,000`);
     await expect(card.getByTestId("range-shares")).toContainText(`${(R.high / 124000 * 100).toFixed(1)}% of the 124,000`);
-    if (R.caveat) await expect(card.getByTestId("range-caveat")).toContainText(R.caveat);
+    if (R.caveat) {
+      // the Wisconsin-side caveat sits with the side lines, not in the range card (owner, 2026-11-10)
+      await expect(card.getByTestId("range-caveat")).toHaveCount(0);
+      await expect(page.getByTestId("range-caveat")).toContainText(R.caveat);
+    }
     const chartLines = st.side_lines.filter((s: { where: string }) => s.where === "chart");
     await expect(page.getByTestId("side-lines").locator("li")).toHaveCount(chartLines.length);
     for (const mode of ["Totals", "Extra homes only"]) {

@@ -39,9 +39,14 @@ export function sideValue(s: SideLine): string {
   return s.value !== undefined ? num(s.value) : `${num(s.low!)} to ${num(s.high!)}`;
 }
 
+/** A "Read with care" note for a range's caveat, for screens that show it beside the side lines rather than in the card. */
+export function rangeCaveatHTML(R: Range90): string {
+  return R.caveat ? `<div class="note-box" role="note" data-testid="range-caveat"><p><strong>Read with care.</strong> ${esc(R.caveat)}</p></div>` : "";
+}
+
 /** The headline range card: low and high ends labelled, unit, shares of the all-housing baseline, method and coverage
  *  lines, and an optional caveat and scope note. */
-export function rangeCardHTML(o: { title: string; range: Range90; baselineTotal: number; scopeNote?: string; testid?: string; headingLevel?: 2 | 3 }): string {
+export function rangeCardHTML(o: { title: string; range: Range90; baselineTotal: number; scopeNote?: string; testid?: string; headingLevel?: 2 | 3; caveatInCard?: boolean }): string {
   const R = o.range, h = o.headingLevel ?? 2, id = `${o.testid ?? "range"}-h`;
   const shareOf = (v: number) => `${share1(v / o.baselineTotal)} of the ${int(o.baselineTotal)} homes of all kinds Wisconsin is expected to permit under current law, 2027–2031`;
   return `<section class="card range-card" aria-labelledby="${id}" data-testid="${esc(o.testid ?? "range-card")}">
@@ -57,7 +62,7 @@ export function rangeCardHTML(o: { title: string; range: Range90; baselineTotal:
     </ul>
     <p class="small" data-testid="range-method"><strong>How the range is built.</strong> ${esc(R.method)}</p>
     <p class="small" data-testid="range-coverage"><strong>Coverage check.</strong> ${esc(R.coverage)}</p>
-    ${R.caveat ? `<div class="note-box" role="note" data-testid="range-caveat"><p><strong>Read with care.</strong> ${esc(R.caveat)}</p></div>` : ""}
+    ${R.caveat && o.caveatInCard !== false ? `<div class="note-box" role="note" data-testid="range-caveat"><p><strong>Read with care.</strong> ${esc(R.caveat)}</p></div>` : ""}
   </section>`;
 }
 

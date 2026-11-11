@@ -1,7 +1,7 @@
 import { LAW_TEXT, details, labelScrollers, type Ctx } from "../app";
 import { bindChartMode, chartModeToggleHTML, type ChartMode } from "../charts";
 import { dec, esc, int, pct, YEARS } from "../format";
-import { ALL_HOUSING_BASELINE_2027_2031, drawRangeChart, num, rangeCardHTML, sideLinesHTML } from "../range";
+import { ALL_HOUSING_BASELINE_2027_2031, drawRangeChart, num, rangeCardHTML, rangeCaveatHTML, sideLinesHTML } from "../range";
 
 /** "Why places differ": one plain paragraph, the rural note, and the numbers one click away (docs/gate5/MODEL_CHECKS.md, 3b). */
 function whyDiffer(ctx: Ctx, totalCtx: number, homesCtx: number): string {
@@ -33,7 +33,7 @@ function whyDiffer(ctx: Ctx, totalCtx: number, homesCtx: number): string {
 /** The ADU range card and its chart side lines (shared with the brief and How sure). */
 export const ADU_SCOPE = "These are ADU permits: second homes on single-family lots, not all homes.";
 export function aduRangeCard(ctx: Ctx, headingLevel: 2 | 3 = 2, testid = "range-card"): string {
-  return rangeCardHTML({ title: "Extra ADU permits from the law: the 90% range", range: ctx.b.state.range90, baselineTotal: ALL_HOUSING_BASELINE_2027_2031, scopeNote: ADU_SCOPE, testid, headingLevel });
+  return rangeCardHTML({ title: "Extra ADU permits from the law: the 90% range", range: ctx.b.state.range90, baselineTotal: ALL_HOUSING_BASELINE_2027_2031, scopeNote: ADU_SCOPE, testid, headingLevel, caveatInCard: false });
 }
 
 export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "rate" = "permits"): void {
@@ -54,6 +54,7 @@ export function renderCompare(ctx: Ctx, main: HTMLElement, units: "permits" | "r
   <section class="card" aria-labelledby="h-side">
     <h2 id="h-side">Lines across the range</h2>
     ${sideLinesHTML(chartLines, "ADU permits over 2027–2031", "side-lines", "Each line is drawn on the chart below. Lines can sit outside the range; they do not change it.")}
+    ${rangeCaveatHTML(ctx.b.state.range90)}
     <p class="small"><a href="${ctx.link("/how-sure")}">More lines and what-ifs are on How sure →</a></p>
   </section>
 
