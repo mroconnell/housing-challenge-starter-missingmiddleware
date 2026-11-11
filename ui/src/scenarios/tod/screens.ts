@@ -2,7 +2,8 @@
 // sorts and formats. Plain language first: each screen opens with what the reader is looking at.
 import { legendHTML, xyChart } from "../../charts";
 import { dec, esc, int, pill, small } from "../../format";
-import { againstBandHTML, againstBandScale, num, rangeCardHTML, sideLinesHTML, sideValue } from "../../range";
+import { num, rangeCardHTML, sideLinesHTML, sideValue } from "../../range";
+import { howSureChartsHTML, type InputRow, type OtherRow } from "../../tornado";
 import { flatRange, type SummaryInput, type WiHomes } from "../../summary";
 import type { ShellEnv } from "../types";
 import { mapKey, rapidMapKey, stationMap } from "./map";
@@ -345,6 +346,27 @@ export function where(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
   }));
 }
 
+/** TOD's what-ifs split for How sure's two charts. Inputs: the district share (10% or 25% of land instead of 15%) and
+ *  the timing, stop-rule and current-law what-ifs, which leave the five-year total where it is. Every other row of
+ *  the bundle's tornado (lines, their ranges, leave-one-out ends, the 2x2 readings, earlier methods) is an other way. */
+const TOD_INPUT_IDS = ["district_10:strong", "district_25:strong"];
+export function todWhatIfs(b: TodBundle): { inputs: InputRow[]; others: OtherRow[]; pivot: number } {
+  const H = b.howsure, T = H.tornado, pivot = T.central;
+  const byId = Object.fromEntries(T.rows.map((r) => [r.id, r]));
+  const strong = scen(b, "strong").additional_total;
+  const inputs: InputRow[] = [];
+  if (TOD_INPUT_IDS.every((id) => byId[id])) inputs.push({ ids: TOD_INPUT_IDS, label: "Share of land near stops in the district (15% used)",
+    settings: [{ name: "10% of land", value: byId["district_10:strong"].extra }, { name: "25% of land", value: byId["district_25:strong"].extra }],
+    note: `Run on the upper line only (${int(strong)} at 15%); not yet run on the 11-place average.` });
+  // Timing, stop-rule and current-law what-ifs: the law's extra homes over 2027-2031 at the 11-place average.
+  const flat = H.groups.flatMap((g) => g.rows.filter((r) => (g.id === "law_addition" ? r.id.startsWith("ramp_") : g.id !== "law_addition") && r.add.typical !== undefined)
+    .map((r) => ({ ids: [r.id], label: r.label, settings: [{ name: "with this change", value: r.add.typical! }] })));
+  inputs.push(...flat);
+  const others: OtherRow[] = T.rows.filter((r) => !TOD_INPUT_IDS.includes(r.id)).sort((a, z) => (a.kind === z.kind ? z.extra - a.extra : a.kind === "current" ? -1 : 1))
+    .map((r) => ({ id: r.id, label: r.label, value: r.extra, group: r.kind === "current" ? "Current lines and checks" : "Earlier methods, for comparison" }));
+  return { inputs, others, pivot };
+}
+
 // ---- 4. How sure ---------------------------------------------------------------------------------
 export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
   const H = b.howsure;
@@ -367,25 +389,17 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
   };
   const sb = H.scale_benchmarks;
   const ms = H.madison_share;
-  // Each what-if's own statewide total, drawn against the 90% range band (spec: How sure). Current what-ifs and
-  // earlier methods are two charts on one shared axis.
-  const T = H.tornado;
+  // The two what-if charts (docs/shared/HOWSURE_TORNADO_CLASSIFICATION.md): inputs as a tornado around the 11-place
+  // average, everything else in the former chart as other ways to estimate it.
   const R = s.range90;
-  const tScale = againstBandScale(R, T.rows.map((r) => r.extra));
-  const tUnit = "Each what-if's own extra homes near major transit stops, 2027–2031";
-  const tRows = (kind: string) => T.rows.filter((r) => r.kind === kind).sort((a, b) => b.extra - a.extra).map((r) => ({ label: r.label, value: r.extra }));
-  const blRows = H.groups.filter((g) => g.id !== "law_addition").flatMap((g) => g.rows.map((r) => r.baseline)).concat(H.main_baseline);
-  const tornadoCard = `<section class="card" aria-labelledby="h-tod-tornado"><h2 id="h-tod-tornado">What-ifs against the range</h2>
-    <p>Each row is one what-if: a dot at its own statewide extra homes over 2027–2031, with a bar from zero. The shaded band is the 90% range, ${num(R.low)} to ${num(R.high)}. A hollow dot sits outside the range. No what-if changes the range.</p>
-    <h3>Current what-ifs</h3>
-    ${againstBandHTML(tRows("current"), R, tUnit, "tod-tornado-current", tScale)}
-    <h3>Earlier methods, for comparison</h3>
-    <p class="small muted">Lines the tool used before, or checked beside, its current method. They are not current estimates.</p>
-    ${againstBandHTML(tRows("earlier"), R, tUnit, "tod-tornado-earlier", tScale)}
-    <p class="small muted" data-testid="tod-tornado-note">Not shown: what-ifs about current law, stop rules and timing. Current law near stops ranges from ${int(Math.min(...blRows))} to ${int(Math.max(...blRows))} homes over 2027–2031 across them; they do not change the law's extra homes.</p></section>`;
+  const w = todWhatIfs(b);
+  const tornadoCard = howSureChartsHTML({ prefix: "tod", unit: "Extra homes near major transit stops, 2027–2031", range: R,
+    pivot: w.pivot, pivotName: "as used", pivotLabel: `The number the 90% range is built on: ${int(w.pivot)} (the 11-place average)`,
+    inputs: w.inputs, others: w.others,
+    inputsNote: "Inputs about timing, stop rules and current law are listed under the bars: they leave the five-year total unchanged." });
   main.innerHTML = `
   <h1>How sure are we?</h1>
-  <p class="lede">The law's extra homes are one 90% range, ${num(s.range90.low)} to ${num(s.range90.high)} over 2027–2031. This page puts every what-if against that range, shows whether the results are believable for Milwaukee and Madison, and which parts rest on data and which on judgment. The tables further down still list the three former lines (lower, central, upper), which are now side lines. The range card, the side lines and the yearly table are under Details at the end.</p>
+  <p class="lede">The law's extra homes are one 90% range, ${num(s.range90.low)} to ${num(s.range90.high)} over 2027–2031. This page shows which model inputs move the estimate and how other ways to estimate it compare with that range, whether the results are believable for Milwaukee and Madison, and which parts rest on data and which on judgment. The tables further down still list the three former lines (lower, central, upper), which are now side lines. The range card, the side lines and the yearly table are under Details at the end.</p>
   ${tornadoCard}
   ${H.groups.map(groupTable).join("")}
   <section class="card"><h2>A sizing method that was tested and set aside</h2>

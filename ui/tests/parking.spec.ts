@@ -46,7 +46,8 @@ test("parking screens show the bundle's numbers", async ({ page }) => {
   await expect(page.getByTestId("details")).toBeVisible();
   const hs = b.statewide.side_lines.find((x: { where: string }) => x.where === "howsure");
   await expect(page.getByTestId("howsure-side-lines")).toContainText(`${hs.label}: ${sig(hs.low)} to ${sig(hs.high)}`);
-  await expect(page.getByTestId("pk-tornado")).toBeVisible();
+  await expect(page.getByTestId("pk-inputs")).toBeVisible();
+  await expect(page.getByTestId("pk-other")).toBeVisible();
   await page.goto("#/parking/why");
   await expect(page.locator("main h1")).toBeVisible();
   await page.goto("#/parking/brief");

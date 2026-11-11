@@ -1,7 +1,8 @@
 // The parking requirement reduction reform: six screens over the bundle written by
 // scripts/build_parking_bundle.py. The browser only selects, sums and formats bundle values.
 import { legendHTML, xyChart } from "../../charts";
-import { againstBandHTML, num, rangeCardHTML, sideLinesHTML, sideValue, type Range90, type SideLine } from "../../range";
+import { num, rangeCardHTML, sideLinesHTML, sideValue, type Range90, type SideLine } from "../../range";
+import { howSureChartsHTML, type InputRow, type OtherRow } from "../../tornado";
 import { loadWiHomes, renderSummary, type SummaryInput, type WiHomes } from "../../summary";
 import { createMap, RAMP, WATER, type GeoKind, type MapHandle } from "../../map";
 import { dec, esc, int, pill, YEARS } from "../../format";
@@ -324,6 +325,36 @@ function where(b: ParkingBundle, env: ShellEnv, params: URLSearchParams, main: H
   });
 }
 
+/** Parking's what-ifs split for How sure's two charts (docs/shared/HOWSURE_TORNADO_CLASSIFICATION.md). Inputs: towns
+ *  in or out, and the conditional-repeal places at the full rate. The bundle gives these as high ends only; with one
+ *  rate for every place the total is that rate times the homes it applies to, so the measured average moves by the
+ *  same ratio as the high end. Current-law what-ifs leave the law's extra homes unchanged (the bundle says so). Every
+ *  other case is an other way: other estimators, samples or cleaned-data rounds, each giving its own high end. */
+const PK_SCALED_INPUTS: Record<string, string> = {
+  "High end, with towns left out": "Towns covered or left out",
+  "Near-benchmark places at the full rate": "Places that removed minimums with conditions: part rate or full rate",
+};
+const PK_FLAG: Record<string, string> = {
+  "Cleaned data, undated reforms kept as comparisons (placebo)": "A data fix; only its high end was computed.",
+  "Cleaned data, strict comparison cleaning (placebo)": "A data fix; only its high end was computed.",
+  "Cleaned data, only apartment-scale reforms disqualify comparisons (placebo)": "A data fix; only its high end was computed.",
+  "As above, plus state laws in California, Oregon and Washington (placebo)": "A data fix; only its high end was computed.",
+};
+export function parkingWhatIfs(b: ParkingBundle): { inputs: InputRow[]; others: OtherRow[]; pivot: number } {
+  const R = b.statewide.range90;
+  const pivot = b.statewide.side_lines.find((x) => x.id === "measured_average")!.value!;
+  const cases = b.howsure.sensitivities.filter((x) => !/\(headline\)/.test(x.case));
+  const inputs: InputRow[] = [
+    ...cases.filter((x) => x.case in PK_SCALED_INPUTS).map((x) => ({ ids: [x.case], label: PK_SCALED_INPUTS[x.case],
+      settings: [{ name: x.case === "High end, with towns left out" ? "towns left out" : "full rate", value: pivot * (x.value / R.high) }],
+      note: `Scaled from this what-if's high end (${num(x.value)} against ${num(R.high)}): every place gets the same rate, so the average moves by the same share.` })),
+    ...cases.filter((x) => x.moves === "current law only").map((x) => ({ ids: [x.case], label: x.case, settings: [{ name: "with this change", value: pivot }] })),
+  ];
+  const others: OtherRow[] = cases.filter((x) => !(x.case in PK_SCALED_INPUTS) && x.moves !== "current law only").sort((a, z) => z.value - a.value)
+    .map((x) => ({ id: x.case, label: x.case, value: x.value, note: PK_FLAG[x.case] }));
+  return { inputs, others, pivot };
+}
+
 function howSure(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
   const H = b.howsure;
   const R = b.statewide.range90;
@@ -331,14 +362,14 @@ function howSure(b: ParkingBundle, env: ShellEnv, main: HTMLElement): void {
   // (the measured average) is now a side line.
   const cases = H.sensitivities.filter((x) => !/\(headline\)/.test(x.case));
   const groups = [...new Set(cases.map((x) => x.moves))];
-  const lawCases = cases.filter((x) => x.moves !== "current law only").sort((a, z) => z.value - a.value);
   main.innerHTML = `
   <h1>How sure are we?</h1>
-  <p class="lede">The law's extra homes are one 90% range, ${num(R.low)} to ${num(R.high)} over 2027–2031, and it includes zero: the evidence found no measurable effect. This page puts every what-if against that range, shows how stable the finding is, and which parts rest on data and which on judgment. The range card, the side lines and the yearly table are under Details at the end.</p>
-  <section class="card" aria-labelledby="h-pk-tornado"><h2 id="h-pk-tornado">What-ifs against the range</h2>
-    <p>Each row is one what-if: a dot at its own statewide extra homes over 2027–2031, with a bar from zero. The shaded band is the 90% range, ${num(R.low)} to ${num(R.high)}. A hollow dot sits outside the range. No what-if changes the range.</p>
-    ${againstBandHTML(lawCases.map((x) => ({ label: x.case, value: x.value })), R, "Each what-if's own extra homes permitted in Wisconsin, 2027–2031", "pk-tornado")}
-    <p class="small muted" data-testid="pk-tornado-note">Not repeated here: the former high line (the range's high end, ${num(R.high)}) and the former low line (now the side line "${esc(b.statewide.side_lines.find((x) => x.id === "measured_average")?.label ?? "Measured average")}"). What-ifs about current law alone are in a table below; they do not change the law's extra homes. <a href="${env.link("/summary")}">The range and its side lines on the chart →</a></p></section>
+  <p class="lede">The law's extra homes are one 90% range, ${num(R.low)} to ${num(R.high)} over 2027–2031, and it includes zero: the evidence found no measurable effect. This page shows which model inputs move the estimate and how other ways to estimate it compare with that range, how stable the finding is, and which parts rest on data and which on judgment. The range card, the side lines and the yearly table are under Details at the end.</p>
+  ${(() => { const w = parkingWhatIfs(b); return howSureChartsHTML({ prefix: "pk", unit: "Extra homes permitted in Wisconsin, 2027–2031", range: R,
+    pivot: w.pivot, pivotName: "as used", pivotLabel: `The number the 90% range is built on: ${num(w.pivot)} (the measured average of the 74 repeal places)`,
+    inputs: w.inputs, others: w.others,
+    inputsNote: "The range is the placebo spread placed around this average.",
+    othersNote: `Most rows are another version of the range's high end (${num(R.high)}), not of the average. Not repeated: the range's own high and low ends. What-ifs about current law alone are in a table below.` }); })()}
   ${groups.map((g) => `<section class="card"><h2>Cases that change ${esc(g)}</h2><div class="table-wrap"><table class="data"><caption class="sr-only">${esc(g)}</caption>
     <thead><tr><th scope="col">Case</th><th scope="col" class="num">${g === "current law only" ? "Current-law permits, 2027–2031" : "Extra homes permitted, 2027–2031"}</th><th scope="col">What it means</th></tr></thead>
     <tbody>${cases.filter((x) => x.moves === g).map((x) => `<tr><th scope="row">${esc(x.case)}</th><td class="num">${num(x.value)}</td><td>${esc(x.description)}</td></tr>`).join("")}</tbody></table></div></section>`).join("")}

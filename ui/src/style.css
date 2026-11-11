@@ -362,6 +362,39 @@ ul.side-lines svg { vertical-align: middle; }
   .vs-row { grid-template-columns: minmax(0, 1fr) 7em; }
   .vs-row .vs-track { grid-column: 1 / -1; grid-row: 2; }
 }
+/* How sure: the model-inputs tornado and the other-ways chart (src/tornado.ts) */
+ul.vs-band, ul.tn-rows { list-style: none; padding: 0; }
+.vs-span { position: absolute; top: 5px; height: 8px; border-radius: 4px; background: #17644f; }
+.vs-span.out { background: #fff; border: 2px solid #b0501a; top: 3px; }
+.tn-rows { display: grid; gap: 6px; margin: 10px 0 0; }
+.tn-row { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 3fr) minmax(0, 1.6fr); gap: 8px; align-items: center; font-size: 0.92rem; }
+.tn-track { position: relative; height: 18px; background: #f3f3f1; border-radius: 4px; }
+.tn-band { position: absolute; top: 0; bottom: 0; background: #17644f; opacity: 0.16; }
+.tn-bar { position: absolute; top: 3px; height: 12px; min-width: 2px; }
+.tn-down { background: #2f6db5; }
+.tn-up { background: #b0501a; }
+.tn-pivot { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: #1d2320; }
+.tn-val { font-variant-numeric: tabular-nums; }
+.tn-names { display: block; font-size: 0.8rem; color: var(--muted); }
+.tn-pivot-label { font-weight: 600; margin: 4px 0; }
+.tn-key { display: inline-block; width: 14px; height: 10px; margin: 0 5px 0 0; vertical-align: baseline; }
+.tn-key-pivot { width: 3px; height: 14px; background: #1d2320; margin-right: 8px; }
+.tn-key-band { background: #17644f; opacity: 0.3; }
+.tn-key-down { background: #2f6db5; margin-left: 6px; }
+.tn-key-up { background: #b0501a; margin-left: 6px; }
+.tn-axis { display: flex; justify-content: space-between; margin: 2px 0 8px; }
+.tn-flat li { margin: 2px 0; }
+.ow-group { margin: 12px 0 0; font-size: 1rem; }
+.tn-legend { margin: 2px 0; }
+.tn-h2-second { margin-top: 28px; padding-top: 16px; border-top: 1px solid #ecece8; }
+@media (min-width: 641px) {
+  .tn-axis, .ow .tn-axis { margin-left: calc((100% - 16px) * 2.2 / 6.8 + 8px); margin-right: calc((100% - 16px) * 1.6 / 6.8 + 8px); }
+  .ow .tn-axis { margin-left: calc((100% - 16px - 7.5em) * 2.2 / 5.2 + 8px); margin-right: calc(7.5em + 8px); }
+}
+@media (max-width: 640px) {
+  .tn-row { grid-template-columns: minmax(0, 1fr); gap: 3px; padding-bottom: 6px; border-bottom: 1px solid #ecece8; }
+  .tn-names { display: inline; }
+}
 
 /* Introduction (landing page, src/screens/intro.ts) */
 .intro { max-width: 80ch; }

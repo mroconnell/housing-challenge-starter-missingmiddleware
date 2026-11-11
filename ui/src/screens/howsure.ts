@@ -1,8 +1,51 @@
 import { bindUnknownPicker, details, unknownPicker, unknownVariant, type Ctx } from "../app";
 import { stackHTML } from "../charts";
 import { dec, esc, int, pct, pill } from "../format";
-import { againstBandHTML, num } from "../range";
+import { num } from "../range";
+import { howSureChartsHTML, type InputRow, type OtherRow } from "../tornado";
 import { aduDetailsHTML } from "./compare";
+
+/** How sure's two what-if charts (docs/shared/HOWSURE_TORNADO_CLASSIFICATION.md). Inputs: what-ifs that change one
+ *  input of the main model; several what-ifs that are settings of the same input share a row. Everything else in the
+ *  former chart (the "addition" cases) is an other way to estimate it. Any case not listed below falls to "Other ways". */
+const ADU_INPUT_GROUPS: { label: string; ids: string[]; names: Record<string, string> }[] = [
+  { label: "Places whose local rules we have not coded", ids: ["places-with-uncoded-rules-behave-like-pr", "unknown:like_benchmark"],
+    names: { "places-with-uncoded-rules-behave-like-pr": "like places that prohibit ADUs", "unknown:like_benchmark": "like places with Madison-type rules" } },
+  { label: "Madison's current-law rate", ids: ["madison-s-current-law-rate---its-2026-pa", "madison-s-current-law-rate-from-2024-202", "madison-s-current-law-rate-without-the-t"],
+    names: { "madison-s-current-law-rate---its-2026-pa": "its 2026 pace so far", "madison-s-current-law-rate-from-2024-202": "2024–2025 only", "madison-s-current-law-rate-without-the-t": "without the builder programme" } },
+  { label: "Scaling up states' counts for towns that did not report", ids: ["do-not-scale-up-states--counts-for-towns", "scale-up-for-non-reporting-towns-in-main"],
+    names: { "do-not-scale-up-states--counts-for-towns": "no scaling up", "scale-up-for-non-reporting-towns-in-main": "Maine, Massachusetts, Rhode Island only" } },
+];
+const ADU_INPUT_SINGLE = [
+  "madison-on-the-path-of-similar-cities-in", "leave-california-out-of-the-typical-leve", "a-stricter-correction-for-california-s-a",
+  "count-washington-s-law-years-from-enactm", "leave-out-vermont-s-2024-count--changed-", "every-comparison-year-read-against-2020-",
+  "law-years-coded-as-before-aq-065--vermon", "maine-s-reporting-share-as-a-homes-share", "leave-vermont-out-of-the-comparison-stat",
+  "no-slow-start--full-effect-from-2027", "rural-places-and-small-communities-held-", "let-small-high-value-villages-keep-their",
+  "no-ramp-for-recently-liberalized-places-", "milwaukee-rises-to-madison-s-rate-after-", "wisconsin-s-baseline-rises-like-no-law-p",
+];
+/** Ambiguous cases, kept in "Other ways" and flagged in the classification doc. */
+const ADU_OTHER_NOTE: Record<string, string> = {
+  "lower-scenario-at-the-10th-percentile-of": "Sets the old lower scenario; typical adoption does not move.",
+  "comparison-state-counts-and-coding-as-at": "An earlier set of many inputs at once, not one input.",
+  "count-per-eligible-property--not-per-sin": "Changes what a rate is measured per, across the whole model.",
+};
+
+export function aduWhatIfs(ctx: Ctx): { inputs: InputRow[]; others: OtherRow[]; pivot: number } {
+  const u = ctx.b.uncertainty;
+  const pivot = ctx.scen("central").additional_total;
+  const val: Record<string, number> = Object.fromEntries(u.sensitivity_cases.map((c) => [c.id, c.central]));
+  const lab: Record<string, string> = Object.fromEntries(u.sensitivity_cases.map((c) => [c.id, c.label]));
+  for (const v of ctx.b.unknown.variants) val[`unknown:${v.id}`] = v.additional_total.central;
+  const inputs: InputRow[] = [
+    ...ADU_INPUT_GROUPS.filter((g) => g.ids.every((id) => id in val)).map((g) => ({ ids: g.ids, label: g.label, settings: g.ids.map((id) => ({ name: g.names[id], value: val[id] })) })),
+    ...ADU_INPUT_SINGLE.filter((id) => id in val).map((id) => ({ ids: [id], label: lab[id], settings: [{ name: "with this change", value: val[id] }] })),
+  ];
+  const used = new Set(inputs.flatMap((r) => r.ids));
+  // Every remaining case of the former chart (the addition group, adopted model aside) is an other way.
+  const others: OtherRow[] = u.sensitivity_cases.filter((c) => c.id !== "adopted-model--the-scenarios" && !used.has(c.id) && (c.group === "addition" || c.group === "local"))
+    .sort((a, b) => b.central - a.central).map((c) => ({ id: c.id, label: c.label, value: c.central, note: ADU_OTHER_NOTE[c.id] }));
+  return { inputs, others, pivot };
+}
 
 export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
   const u = ctx.b.uncertainty;
@@ -39,6 +82,10 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
   <h1>How sure are we?</h1>
   <p class="lede">How much of the estimate rests on observed facts, and how much it moves when one assumption changes. Three terms: the <strong>90% range</strong> is how far the model missed states it had not seen; a <strong>sensitivity case</strong> changes one assumption and reruns the model; a <strong>robustness check</strong> tests a method by predicting states the model did not see. Every addition below is a 90% range: the figure at typical adoption (the former central) times the statewide range's ends.</p>
 
+
+  ${(() => { const w = aduWhatIfs(ctx); return howSureChartsHTML({ prefix: "adu", unit: "Added ADU permits, 2027–2031", range: R,
+    pivot: w.pivot, pivotName: "as used", pivotLabel: `The number the 90% range is built on: ${int(w.pivot)} (typical adoption)`, inputs: w.inputs, others: w.others,
+    inputsNote: "Each figure is at typical adoption." }); })()}
 
   <section class="card" aria-labelledby="h-trace">
     <h2 id="h-trace">What the law's addition rests on</h2>
@@ -95,11 +142,10 @@ export function renderHowSure(ctx: Ctx, main: HTMLElement): void {
 
   <section class="card" aria-labelledby="h-sens">
     <h2 id="h-sens">Sensitivity analysis: what moves the estimate</h2>
-    <p class="summary">Each case changes one assumption and reruns the model. The cases are grouped by which number they move: what the law adds statewide, today's rates (the baseline), or only where permits land. The law adds <strong data-testid="sens-range">${num(R.low)} to ${num(R.high)}</strong> permits over 2027–2031 (90% range) on top of a baseline of ${int(ctx.b.state.baseline.total)}. Each case below is its own figure at typical adoption (the former central, ${int(cen.additional_total)}), drawn against that range.</p>
+    <p class="summary">Each case changes one assumption and reruns the model. The cases are grouped by which number they move: what the law adds statewide, today's rates (the baseline), or only where permits land. The law adds <strong data-testid="sens-range">${num(R.low)} to ${num(R.high)}</strong> permits over 2027–2031 (90% range) on top of a baseline of ${int(ctx.b.state.baseline.total)}. Each case below is its own figure at typical adoption (the former central, ${int(cen.additional_total)}). The two charts at the top of this page draw them: inputs as a tornado, other methods against the range.</p>
 
     <h3 data-testid="sens-group-addition">(a) ${esc(G.addition.title)}</h3>
     <p class="muted">${esc(G.addition.intro)} The largest move: ${esc(sorted[0].label.toLowerCase())} (${sign(sorted[0].difference_central)} at typical adoption).</p>
-    ${againstBandHTML(sorted.map((c) => ({ label: c.label, value: c.central })), R, "Added ADU permits over 2027–2031, each case at typical adoption", "sens-vs-band")}
     <div class="table-wrap"><table class="data" data-testid="sens-table"><caption>Cases that change the addition: added permits over 2027–2031, at typical adoption (the former central) and as a 90% range</caption>
       <thead><tr><th scope="col">Case</th><th scope="col">What it means</th><th scope="col" class="num">At typical adoption</th><th scope="col" class="num">Its 90% range</th><th scope="col" class="num">Change at typical adoption</th></tr></thead>
       <tbody>${u.sensitivity_cases.filter((c) => c.group === "addition").map((c) => `<tr class="${c.id === "adopted" ? "hl-row" : ""}"><th scope="row">${esc(c.label)}</th><td class="small">${esc(c.what)}</td><td class="num">${int(c.central)}</td><td class="num">${rng(c.central)}</td><td class="num">${c.difference_central === 0 ? "—" : sign(c.difference_central)}</td></tr>`).join("")}</tbody></table></div>

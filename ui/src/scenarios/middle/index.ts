@@ -1,9 +1,10 @@
 // The middle housing reform (2–6 homes per lot): screens over the bundle written by scripts/build_middle_bundle.py.
 // The browser only selects, sums and formats bundle values.
-import { ALL_HOUSING_BASELINE_2027_2031, againstBandHTML, num, rangeCardHTML, sideLinesHTML, type Range90, type SideLine } from "../../range";
+import { ALL_HOUSING_BASELINE_2027_2031, num, rangeCardHTML, sideLinesHTML, type Range90, type SideLine } from "../../range";
 import { esc, int } from "../../format";
 import { loadWiHomes, renderSummary, type SummaryInput, type WiHomes } from "../../summary";
 import { inOutCardHTML } from "../../inout";
+import { howSureChartsHTML, type InputRow, type OtherRow } from "../../tornado";
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
 
 /** The modeled law, shown on Why and in the Summary's policy box. */
@@ -130,18 +131,37 @@ function where(b: MiddleBundle, main: HTMLElement): void {
     <p class="small muted">${b.areas.length.toLocaleString("en-US")} places in all. Single-family homes from ACS 2020–2024 (detached and attached).</p></section>`;
 }
 
+/** Middle housing's what-ifs split for How sure's two charts (docs/shared/HOWSURE_TORNADO_CLASSIFICATION.md). The
+ *  range is built on the four-state result (core central), so that is the pivot. Input: the timing (measured slow
+ *  start or the same effect every year). The rest change what is counted (add-ons, 5–6 unit buildings, a stronger
+ *  law) or how the result is converted; they are other ways, the first three flagged as ambiguous. */
+const MID_INPUT_IDS = ["flat_timing"];
+const MID_FLAG: Record<string, string> = {
+  townhouses: "Counts more kinds of homes than the range does.",
+  five_six: "Counts 5–6 unit buildings, which the range leaves out.",
+  stronger: "A stronger law than the one measured; counts 5–6 unit buildings.",
+};
+export function middleWhatIfs(b: MiddleBundle): { inputs: InputRow[]; others: OtherRow[]; pivot: number } {
+  const pivot = b.statewide.core.central;
+  const inputs: InputRow[] = b.howsure.bars.filter((x) => MID_INPUT_IDS.includes(x.id) && x.central !== undefined)
+    .map((x) => ({ ids: [x.id], label: x.id === "flat_timing" ? "Timing: measured slow start, or the same effect every year" : x.label,
+      settings: [{ name: x.id === "flat_timing" ? "same effect every year" : "this what-if", value: x.central! }] }));
+  const others: OtherRow[] = b.howsure.bars.filter((x) => !MID_INPUT_IDS.includes(x.id))
+    .map((x) => ({ id: x.id, label: x.label, value: x.central, low: x.low, high: x.high, note: [MID_FLAG[x.id], x.note].filter(Boolean).join(" ") || undefined }))
+    .sort((a, z) => (z.value ?? z.high!) - (a.value ?? a.high!));
+  return { inputs, others, pivot };
+}
+
 function howSure(b: MiddleBundle, main: HTMLElement): void {
   const s = b.statewide, R = s.range90;
-  const rows = b.howsure.bars.filter((x) => x.central !== undefined).map((x) => ({ label: x.label, value: x.central! }));
   const hs = s.side_lines.filter((l) => l.where === "howsure");
+  const w = middleWhatIfs(b);
   main.innerHTML = `
   <h1>How sure we are</h1>
   <p class="lede">90% range for 2–4 unit homes: ${num(R.low)} to ${num(R.high)} extra homes over 2027–2031. ${esc(R.coverage)}</p>
-  <section class="card"><h2>What-ifs against the range</h2>
-    ${againstBandHTML(rows, R, "Extra homes, 2027–2031", "mid-vs-band")}
-    <div class="table-wrap"><table class="data"><caption class="sr-only">What-ifs and their five-year totals</caption>
-    <thead><tr><th scope="col">What-if</th><th scope="col" class="num">Extra homes, 2027–2031</th></tr></thead>
-    <tbody>${b.howsure.bars.map((x) => `<tr><th scope="row">${esc(x.label)}${x.note ? `<br><span class="small muted">${esc(x.note)}</span>` : ""}</th><td class="num">${x.central !== undefined ? num(x.central) : `${num(x.low!)} to ${num(x.high!)}`}</td></tr>`).join("")}</tbody></table></div></section>
+  ${howSureChartsHTML({ prefix: "mid", unit: "Extra homes in 2–4 unit buildings, 2027–2031", range: R,
+    pivot: w.pivot, pivotName: "as used (measured slow start)", pivotLabel: `The number the 90% range is built on: ${num(w.pivot)} (the four-state result)`,
+    inputs: w.inputs, others: w.others })}
   <section class="card"><h2>Possibilities beyond what was measured</h2>${sideLinesHTML(hs, "extra homes, 2027–2031", "howsure-lines")}</section>
   <section class="card"><h2>Notes</h2><ul class="plain"><li data-testid="building-count-note">${esc(BUILDING_COUNT_NOTE)}</li>${b.howsure.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>
   ${details(b)}`;

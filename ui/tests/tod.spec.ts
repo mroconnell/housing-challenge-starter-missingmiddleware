@@ -231,11 +231,11 @@ test("TOD Summary chart toggles between totals and extra homes only", async ({ p
   await expect(page.locator("#sum-chart svg title")).toContainText("Extra homes near major transit stops");
 });
 
-test("TOD How sure draws every what-if's own total against the 90% range", async ({ page }) => {
+test("TOD How sure: the district-share tornado and the other ways against the 90% range", async ({ page }) => {
   const b = await bundle(page);
   const hs = await (await page.request.get(`scenarios/tod/runs/${b.run_id}/howsure.json`)).json();
   const R = b.statewide.range90;
-  const rows = hs.tornado.rows as { kind: string; extra: number; label: string }[];
+  const rows = hs.tornado.rows as { id: string; kind: string; extra: number; label: string }[];
   const current = rows.filter((r) => r.kind === "current");
   const earlier = rows.filter((r) => r.kind === "earlier");
   // AQ-075: the two 2x2 readings join the current what-ifs; the option D upper is now the upper line itself
@@ -245,16 +245,18 @@ test("TOD How sure draws every what-if's own total against the 90% range", async
   await expect(page.getByTestId("range-card").getByTestId("range-low")).toHaveText(fmt(R.low));
   await expect(page.getByTestId("range-card").getByTestId("range-high")).toHaveText(fmt(R.high));
   await expect(page.getByTestId("range-card").getByTestId("range-coverage")).toContainText("84.5%");
-  const cur = page.getByTestId("tod-tornado-current");
-  await expect(cur.locator(".vs-row")).toHaveCount(current.length);
-  await expect(page.getByTestId("tod-tornado-earlier").locator(".vs-row")).toHaveCount(earlier.length);
-  await expect(cur).toHaveAttribute("aria-label", new RegExp(`The 90% range, ${fmt(R.low)} to ${fmt(R.high)}, is shaded`));
-  // each row is the what-if's own total, not a difference from a centre
-  for (const r of current) await expect(cur).toHaveAttribute("aria-label", new RegExp(`${r.label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}: ${fmt(r.extra).replace("-", "−")}`));
-  const outside = current.filter((r) => r.extra < R.low || r.extra > R.high).length;
-  await expect(cur.locator(".vs-dot.out")).toHaveCount(outside);
+  // How sure's two charts: the district share is the one input that moves the total; every other row of the
+  // bundle's tornado is an other way, each its own total against the band (outside ones marked)
+  const inputs = page.getByTestId("tod-inputs"), other = page.getByTestId("tod-other");
+  await expect(inputs.locator(".tn-row")).toHaveCount(1);
+  await expect(inputs.locator(".tn-row")).toContainText(`${fmt(rows.find((r) => r.id === "district_10:strong")!.extra)} to ${fmt(rows.find((r) => r.id === "district_25:strong")!.extra)}`);
+  const others = rows.filter((r) => !r.id.startsWith("district_"));
+  await expect(other.locator(".vs-row")).toHaveCount(others.length);
+  for (const r of others) await expect(other.locator(`[data-whatif="${r.id}"]`)).toContainText(fmt(r.extra).replace("-", "−"));
+  const outside = others.filter((r) => r.extra < R.low || r.extra > R.high).length;
+  await expect(other.locator(".vs-dot.out")).toHaveCount(outside);
   await expect(page.locator("main")).not.toContainText("compared with the central");
-  await expect(page.getByTestId("tod-tornado-note")).toContainText("do not change the law's extra homes");
+  await expect(page.getByTestId("tod-inputs-flat")).toBeVisible();
   await expect(page.locator("main")).toContainText("Homes that would have been built elsewhere in the city anyway");
 });
 
