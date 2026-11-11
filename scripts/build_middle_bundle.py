@@ -93,6 +93,7 @@ def build() -> Path:
          "note": "Possibility, not measured. Assumes new small buildings would split between 2–4 and 5–6 units the way past "
                  "building did in OR, CA, ME and VT."},
     ]
+    b24 = base[base["kind"].isin(["projected", "projected_bridge_year"]) & base["structure_type"].isin(["2units", "3_4units"])].groupby("year")[["low", "central", "high"]].sum()
     base_years = {"central": [round(float(proj.loc[y, "central"]), 1) for y in YEARS],
                   "low": [round(float(proj.loc[y, "low"]), 1) for y in YEARS],
                   "high": [round(float(proj.loc[y, "high"]), 1) for y in YEARS]}
@@ -162,6 +163,8 @@ def build() -> Path:
         "side_lines": side_lines,
         "baseline_by_year": base_years,
         "evidence_scope": scope,
+        "baseline_2_4_by_year": {k: [round(float(b24.loc[y, k]), 1) for y in YEARS] for k in ("central", "low", "high")},
+        "baseline_2_4_note": "Homes in 2–4 unit buildings (2-unit plus 3–4 unit) expected under current law, shared baseline v4.",
     }
     area_rows = [{"area_id": a.area_id, "name": a.name, "sf_homes": int(a.homes),
                   "lower": round(a.add_lower_five_year, 2), "central": round(a.add_central_five_year, 2),
