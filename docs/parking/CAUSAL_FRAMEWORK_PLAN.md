@@ -1650,3 +1650,66 @@ These override the three groups above.
    - A pass gives candidates that would need a new test on unused data. No such data exists now, and the write-up says so.
    - A fail recommends ending the trait search.
 8. **Order:** the code is committed before the run.
+
+## Test 55: Canadian sense check, Edmonton (2020) and Toronto (2021) (DRAFT LOCK 2026-11-11, before any count; Ryan 01:03 UTC: "Talk to the TOD thread about Canadian data and maybe use it to do a quick check of the parking reform")
+
+**Running count: 55.** Sense check only. It is never a tool line, and nothing changes without Ryan's own OK. This plan states no expected direction.
+
+**Places and repeal years:**
+- Edmonton removed minimums citywide in June 2020, so 2020 is its event year.
+- Toronto removed most residential minimums in 2021, in force about 2022, so 2022 is its event year (TOD's dating; to be confirmed against the by-law before any count).
+
+**Data** (open licences only; a fetch script with a download log, and a licence entry before use):
+- **Permits:** Statistics Canada building permits by municipality (census subdivision), residential dwelling units created, by year. The table number and its unit field are confirmed in the fetch step. If no census-subdivision table with dwelling units exists, the test stops and the gap is reported.
+- **Existing homes:** the 2016 Census private dwellings by census subdivision. These come before both repeals.
+
+**Design** (the same as the US main method where it can be):
+- **Outcome:** dwelling units permitted per 1,000 existing homes a year.
+- **Windows:** up to 5 years before (from 2015) and the years after through the last complete year, at least 2.
+- **Comparison places:** Canadian census subdivisions at ½–2× the repeal city's 2016 dwellings, first in the same province, then nationwide, with at least 5 places.
+  - Left out: places known to have removed or cut residential minimums in the window. Vancouver, Calgary, Ottawa, Montreal boroughs, Halifax, Saskatoon, Regina and Kitchener–Waterloo get a check; the list is fixed in the fetch step from public sources, before any outcome is read.
+- **Effect:** each city's change against its pool; also shown in Wisconsin homes (× 13,343.385).
+- **Range:** a placebo spread built like the US one. For each repeal city, at least 20 stand-in census subdivisions get its event year, run the same way; 5,000 sets.
+
+**Reading.**
+- Two cities give little power, so every result is read as a sense check.
+- A city's result "counts" only if it falls outside the middle 90% of its own placebo spread, read the same for either sign.
+- **Known overlaps:**
+  - Edmonton: the 2020 start falls in the Covid year.
+  - Toronto: the 2023 multiplex permissions and other 2022–23 changes.
+- The result is set beside the US average as "consistent" or "not consistent". The US range doesn't change.
+
+**Run order:**
+1. Fetch, licence and the excluded-places list, committed.
+2. Audit.
+3. Count.
+4. Write-up to the audit and Ryan.
+
+**Test 55 audit fixes (01:06 UTC review, before any fetch or count). These override the text above.**
+1. **Pool size:**
+   - The band widens from ½–2× to a fixed, labelled ¼–4× of 2016 dwellings, in the same province first, then nationwide.
+   - Eligible places are counted from 2016 dwellings after exclusions, before the lock is final.
+   - A repeal city with fewer than 5 eligible places is reported as "not testable". Toronto (about 1.1 million dwellings) may well be.
+   - The placebo uses the same band, with at least 20 stand-ins where they exist. A city that has fewer is reported with its count.
+2. **Housing Accelerator Fund (2023–24):** many cities cut parking or allowed 4 homes per lot mid-window, so the main after-window ends at 2023. Years from 2024 on are shown separately, labelled as overlapping.
+3. **Edmonton's new zoning bylaw (January 2024):** a listed overlap, which the 2023 end also avoids.
+4. **Windows:**
+   - The event year is left out of both windows.
+   - Before: up to 5 years before the event year, from 2015.
+   - After: from the year after the event to 2023. Edmonton gets 2021–2023; Toronto, if its event year is 2022, gets 2023 only, which is too short (below the 2-year minimum), so it is "not testable" on the main window and shown only with 2024+.
+5. **"Consistent" is defined now:** the US average effect (−1.15 homes per 1,000 existing homes a year) lies inside the city's own placebo 90% range. If it lies outside, the result is "not consistent". It is read the same for either sign.
+6. **Small items:**
+   - Toronto's event year is fixed from the by-law check (adoption vs in force) before the lock.
+   - The Statistics Canada Open Licence (attribution) is logged under the licence rule, as for NTM (AQ-045). If the licence rule needs Ryan's OK, it is asked before any use.
+   - The Wisconsin-homes conversion is for display only.
+7. **Lock notes (audit re-check 01:07 UTC):**
+   - **Stand-ins:** a placebo range built from fewer than 20 stand-ins is labelled "too few stand-ins; read with care". US big cities with 1–4 stand-ins once leaned falsely toward growth. Fewer than 5 stand-ins means "not testable".
+   - **2023 is only partly clean:** the first Housing Accelerator Fund agreements were signed in late 2023.
+   - **Lock:** final once the eligible-place counts and HAF commitment counts are committed, before any permit value is read.
+8. **Fetch result (6e1d3341, before any permit value was read). Both cities are "not testable" under the locked rules, and the test stops.**
+   - **Permits:** the only open Statistics Canada table with dwelling units by census subdivision is 46-10-0087-01 (2018–2023, archived 2025-03-11). Nothing open at that level goes back before 2018.
+   - **Edmonton:** before-window 2018–2019 only. Its ¼–4× pool after exclusions has 4 places nationwide (Laval, Longueuil, Markham, Windsor), below the 5-place minimum, and 3 if the "check" places are also removed.
+   - **Toronto:** 0 eligible places, and its main after-window would be 2023 only.
+   - **Housing Accelerator Fund:** most large cities have parking or zoning commitments (coded in `reference/parking_t55_excluded_places.csv`).
+   - **Repeal dates** (`reference/parking_t55_repeal_dates.csv`): Toronto by-law 89-2022, enacted 2022-02-03; Edmonton Charter Bylaw 19275, in effect 2020-07-02.
+   - Canada has cut parking widely since 2020, which leaves almost no comparable non-reforming large cities.
