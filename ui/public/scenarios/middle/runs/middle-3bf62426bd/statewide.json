@@ -454,5 +454,29 @@
    }
   ],
   "source": "reference/middle_in_out.csv; docs/middle/TEST_PLAN_LOCKED.md; docs/middle/TEST1_RESULTS.md"
- }
+ },
+ "baseline_2_4_by_year": {
+  "central": [
+   1709.3,
+   1709.3,
+   1709.3,
+   1709.3,
+   1709.3
+  ],
+  "low": [
+   778.8,
+   778.8,
+   778.8,
+   778.8,
+   778.8
+  ],
+  "high": [
+   3017.0,
+   3017.0,
+   3017.0,
+   3017.0,
+   3017.0
+  ]
+ },
+ "baseline_2_4_note": "Homes in 2–4 unit buildings (2-unit plus 3–4 unit) expected under current law, shared baseline v4."
 }

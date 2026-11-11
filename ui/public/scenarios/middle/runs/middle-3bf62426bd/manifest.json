@@ -1,5 +1,5 @@
 {
- "run_id": "middle-dfe1dcbc95",
+ "run_id": "middle-3bf62426bd",
  "scenario_id": "middle",
  "title": "Middle housing (2–6 homes per lot)",
  "outcome": {
@@ -31,7 +31,7 @@
  "inputs": [
   {
    "path": "scripts/build_middle_bundle.py",
-   "sha256": "e5b1356b465b5f04dd3dd44c48ab1464479b632c5e3cc30e50d0a82b6aed98ed"
+   "sha256": "cf6574aa77e4b5d6ea5a447ff9b10c3367268a86842d23a46df59dd6f8e1e1f3"
   },
   {
    "path": "scripts/run_middle_wisconsin.py",
