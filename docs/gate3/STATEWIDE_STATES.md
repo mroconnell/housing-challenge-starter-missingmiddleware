@@ -275,7 +275,7 @@ Ranking: [`reference/statewide_states_ranking.csv`](../../reference/statewide_st
   - Spokane is the closest Washington market to Madison; its state compliance date (2026-12-31) gives a clean future before/after.
 - **Oregon as a four-year post-law check.** Its plateau near 0.9 is the best current evidence on years 2–4 after a strong statewide law outside California.
 - **Vermont/Chittenden, Maine and Rhode Island as low-weight checks** closer to Wisconsin's market or with a true before.
-- **None should become a regression fitting point.** Definitions differ (most include ADUs built with new houses; Utah is internal only), and coverage is partial and self-reported. The same reasoning applies as for the five cities in [OTHER_CITIES.md](OTHER_CITIES.md) §4.
+- **None should become a regression fitting point.** Definitions differ (most include ADUs built with new houses; Utah is internal only), and coverage is partial and self-reported. The same reasoning applies as for the five cities in [OTHER_CITIES.md](OTHER_CITIES.md) §4. *(Superseded: the adopted pooled model fits the 7 non-California states and the five cities as data points, stage 1 within states and stage 2 across them; see [POOLED_MODEL.md](POOLED_MODEL.md). This section records the suggestion made before that model.)*
 - **Re-check later:** Iowa (the Midwest strong-law state, first full year 2026), New Hampshire (first ADU counts about January 2027), Massachusetts (second year) and Arkansas.
 
 ## 6. Reproduce

@@ -339,7 +339,8 @@ def scenario_defs(p: dict) -> list[dict]:
         common = (f" In 2027–2029 the addition reaches {', '.join(f'{x:.2f}' for x in ramp[:3])} of its full size; full "
                   "from 2030. No Wisconsin place goes below a minimum rate set from Madison's own permits "
                   "(0.2345 per 1,000 single-family homes per year: Madison's 2022–2025 rate of 0.1876 divided by 0.8). "
-                  "Madison itself follows the path of similar cities in Washington and Oregon in every scenario.")
+                  "Since AQ-066 Madison follows the statewide estimate like every other place; the path of similar cities in "
+                  "Washington and Oregon is a sensitivity case.")
         out.append({"id": k, "label": SCEN_NAME[k], "name": f"{SCEN_NAME[k].lower()} scenario",
                     "chart_label": LABELS["scenario_chart"].format(name=SCEN_NAME[k].lower()),
                     "title": SCEN_TITLE[k], "description": SCEN_TITLE[k], "text": text[k], "info": method[k] + common,

@@ -31,7 +31,7 @@ Gate 3 add-on, owner request of 2026-10-24. These are out-of-state evidence for 
   - **Denver:** reached about two-thirds of the California restrictive-group level in its first citywide year.
   - **Minneapolis:** about Madison's rate.
 - **Suggested use:**
-  - **Out-of-sample checks:** none of the five cities should become a fitting point in the California regression.
+  - **Out-of-sample checks:** none of the five cities should become a fitting point in the California regression. *(Superseded: the adopted pooled model fits the 7 non-California states and the five cities as data points, stage 1 within states and stage 2 across them; see [POOLED_MODEL.md](POOLED_MODEL.md). This section records the suggestion made before that model.)*
   - **Why not:** none had a state mandate at the same time as California's 2020 wave. The reform types differ (fees in Portland, city rules in Seattle and Austin, zoning coverage in Denver). For Seattle, Austin and Denver, the 2023–2025 window is either incomplete or mixes two regimes.
   - **Good checks:** Seattle and Portland have the strongest data. Minneapolis is the most relevant market for Wisconsin.
 
