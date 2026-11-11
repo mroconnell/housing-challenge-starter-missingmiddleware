@@ -520,6 +520,45 @@ def build_state(p: dict) -> dict:
          "value": r(float(_md("post hoc diagnostic: equal-weighted").central), 0), "where": "howsure",
          "note": "Removes the mismatch between equal-weighted states and a home-weighted national rate; no interval."},
     ]
+    # Evidence scope for the Why card (TOD asked 2026-11-11): which places the pooled model fits and which it leaves out.
+    # Sources: docs/gate3/POOLED_MODEL.md decisions 5, 9 and 13; docs/gate3/STATEWIDE_STATES.md §1-2.
+    SL = "sets the statewide level"
+    LL = "law and local-rules terms only"
+    evidence_scope = {
+        "in": [
+            {"name": "California", "kind": "state", "area": "all cities and counties (HCD reports 2018–2025; compilation 2012–2017)", "role": SL},
+            {"name": "Washington", "kind": "state", "area": "incorporated cities excluding Seattle (OFM)", "role": SL},
+            {"name": "Oregon", "kind": "state", "area": "32 cities over 10,000, excluding Portland (DLCD)", "role": SL},
+            {"name": "Rhode Island", "kind": "state", "area": "statewide, reporting towns (state ADU report)", "role": SL},
+            {"name": "Massachusetts", "kind": "state", "area": "statewide, reporting towns (EOHLC tracker)", "role": SL},
+            {"name": "Maine", "kind": "state", "area": "reporting towns (2025 state housing data)", "role": SL},
+            {"name": "Utah", "kind": "state", "area": "about 90 cities and counties (Moderate Income Housing reports; internal ADUs)", "role": SL},
+            {"name": "Vermont", "kind": "state", "area": "Chittenden County (regional planning inventory)", "role": SL},
+            {"name": "Seattle", "kind": "city", "area": "city permits (in Washington's series)", "role": LL},
+            {"name": "Portland", "kind": "city", "area": "city permits (in Oregon's series; fee-waiver years dropped)", "role": LL},
+            {"name": "Austin", "kind": "city", "area": "city permits", "role": LL},
+            {"name": "Denver", "kind": "city", "area": "city permits", "role": LL},
+            {"name": "Minneapolis", "kind": "city", "area": "city permits", "role": LL},
+        ],
+        "out": [
+            {"name": "Montana", "kind": "state", "reason": "no statewide ADU count; city proxies only"},
+            {"name": "Arizona", "kind": "state", "reason": "no statewide ADU count; news fragments only"},
+            {"name": "Colorado", "kind": "state", "reason": "no statewide ADU count (Denver is used as a city)"},
+            {"name": "Arkansas", "kind": "state", "reason": "no ADU count; law too new"},
+            {"name": "Iowa", "kind": "state", "reason": "no ADU count; law too new"},
+            {"name": "New Hampshire", "kind": "state", "reason": "its survey counts all conversions, not ADUs"},
+            {"name": "Connecticut", "kind": "state", "reason": "no statewide source tracks ADUs"},
+            {"name": "Hawaii", "kind": "state", "reason": "no statewide count; its law takes effect only in 2026"},
+            {"name": "Maryland", "kind": "state", "reason": "no statewide count; its law takes effect only in 2026"},
+            {"name": "Nevada", "kind": "state", "reason": "no ADU count; law too new"},
+            {"name": "Tucson", "kind": "place", "reason": "news figures only (source lead)"},
+            {"name": "Spokane", "kind": "place", "reason": "its own local ADU reforms in the window"},
+            {"name": "Honolulu", "kind": "place", "reason": "a city proxy for Hawaii, before the state law"},
+            {"name": "Montgomery County, MD", "kind": "place", "reason": "rough permit text search; its own 2019 rule change"},
+            {"name": "Bozeman", "kind": "place", "reason": "applications, not permits, and partial years"},
+        ],
+        "source": "docs/gate3/POOLED_MODEL.md (decisions 5, 9 and 13); docs/gate3/STATEWIDE_STATES.md §1–2",
+    }
     ctx = pd.read_csv(REF / "adu_model_by_context.csv")
     contrast = pd.read_csv(REF / "gate5_context_contrast.csv").set_index("context")
     homes_ctx = pd.read_csv(REF / "wi_baseline_by_municipality.csv").groupby("context_group").homes.sum()
@@ -561,7 +600,7 @@ def build_state(p: dict) -> dict:
             "acs_period": "ACS 2020–2024 5-year estimates: an average over the five years 2020–2024, not a 2024 count",
             "pep_note": "Census Population Estimates for 1 July each year; no published margin of error", "acs_total_units": one("total_housing_units_acs"),
             "occupied": one("occupied_units"), "vacant": one("vacant_units"), "vacancy_rate": one("vacancy_rate"),
-            "mix": mix, "bps": bps, "baseline": baseline, "scenarios": scen, "range90": range90, "side_lines": side_lines, "reference_line": ref_line, "contexts": contexts,
+            "mix": mix, "bps": bps, "baseline": baseline, "scenarios": scen, "range90": range90, "side_lines": side_lines, "evidence_scope": evidence_scope, "reference_line": ref_line, "contexts": contexts,
             "context_why": context_why,
             "labels": {"baseline": LABELS["baseline"], "band": LABELS["band"], "reference": ref_line["label"],
                        "added": LABELS["added"]},
