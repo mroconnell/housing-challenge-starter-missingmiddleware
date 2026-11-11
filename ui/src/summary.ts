@@ -12,7 +12,8 @@
 // in a full-window native <dialog>. With "policyBeside", "The policy" and the range card share one row on wide screens
 // and stack on narrow ones (ui/src/style.css, .summary-top-beside).
 //
-// URL parameters: per=1000 (per 1,000 Wisconsin homes), show=extra (extra homes only), timing=flat (the five-year
+// URL parameters: per=1000 (per 1,000 Wisconsin homes), show=totals (totals with current law; extra homes only is the
+// default since 2026-11-11 20:42, and show=extra still works), timing=flat (the five-year
 // total spread evenly; middle housing uses its own flat version), lines=off (side lines hidden; the band, current law
 // and their legend entries stay).
 import type { ChartGeom } from "./charts";
@@ -80,6 +81,10 @@ export interface SummaryInput {
   rangeFlat: Range90 | "none";
   /** Side lines drawn on the chart (each a five-year value). */
   sideLines: SideLine[];
+  /** Words after a side line's value in the chart key, by side-line id (e.g. why it is not in the range). */
+  sideNotes?: Record<string, string>;
+  /** A short note in small text right under the chart key (on the page and in the enlarged chart). */
+  legendNote?: string;
   /** One line on side lines listed elsewhere but not drawn. */
   notDrawn?: string;
   /** Current law, 2027–2031, in the same unit. */
@@ -105,7 +110,7 @@ function dec2(v: number): string {
 
 export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv, params: URLSearchParams): void {
   const per = params.get("per") === "1000";
-  const extra = params.get("show") === "extra";
+  const extra = params.get("show") !== "totals";   // "Extra homes only" is the default (owner, 2026-11-11 20:42)
   const hasRamp = o.rangeFlat !== "none";
   const flat = hasRamp && params.get("timing") === "flat";
   const R = flat ? (o.rangeFlat as Range90) : o.range;
@@ -151,8 +156,9 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
     <ul class="legend sum-legend" aria-label="Chart key" data-testid="summary-legend${sfx}">
       <li><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><line x1="0" x2="36" y1="7" y2="7" stroke="${CURRENT_LAW_COLOR}" stroke-width="2" stroke-dasharray="7 5"/></svg>${esc(extra ? "Current law: the zero line" : o.currentLawLabel ?? `Current law (${o.baseName}; its range shaded grey)`)}</li>
       <li><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><rect x="0" y="2" width="36" height="10" fill="${BAND_COLOR}" opacity="0.28"/></svg>With the law: 90% range, ${esc(fmt(R.low))} to ${esc(fmt(R.high))} ${esc(unitShort)}${extra ? "" : " (on top of current law)"}</li>
-      ${drawn.map((s, i) => { const st = sideStyle(i); return `<li><button type="button" class="sum-side" data-side="${esc(s.id)}" aria-describedby="${popId}"><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><line x1="0" x2="36" y1="7" y2="7" stroke="${st.color}" stroke-width="2" ${st.dash ? `stroke-dasharray="${st.dash}"` : ""}/></svg>${esc(s.label)}: ${esc(fmt(s.value!))}</button></li>`; }).join("")}
+      ${drawn.map((s, i) => { const st = sideStyle(i); return `<li><button type="button" class="sum-side" data-side="${esc(s.id)}" aria-describedby="${popId}"><svg class="key-sw" width="36" height="14" aria-hidden="true" focusable="false"><line x1="0" x2="36" y1="7" y2="7" stroke="${st.color}" stroke-width="2" ${st.dash ? `stroke-dasharray="${st.dash}"` : ""}/></svg>${esc(s.label)}: ${esc(fmt(s.value!))}${o.sideNotes?.[s.id] ? ` ${esc(o.sideNotes[s.id])}` : ""}</button></li>`; }).join("")}
     </ul>
+    ${o.legendNote ? `<p class="small muted sum-legend-note" data-testid="summary-legend-note${sfx}">${esc(o.legendNote)}</p>` : ""}
     <div class="sum-years" role="group" aria-label="Details for one year" data-testid="summary-years${sfx}"><span class="small muted" aria-hidden="true">Year details:</span>${YEARS.map((y) => `<button type="button" class="sum-year" data-year="${y}" aria-describedby="${popId}">${y}</button>`).join("")}</div>`;
   };
 
@@ -240,7 +246,7 @@ export function renderSummary(main: HTMLElement, o: SummaryInput, env: ShellEnv,
       env.announce(say(inp.value));
     }));
   bindRadio("sum-per", "per", "total", (v) => (v === "1000" ? "Numbers per 1,000 Wisconsin homes." : "Numbers as totals."));
-  bindRadio("sum-show", "show", "totals", (v) => (v === "extra" ? "Chart shows only the extra homes from the law. Current law is the zero line." : "Chart shows totals with current law."));
+  bindRadio("sum-show", "show", "extra", (v) => (v === "extra" ? "Chart shows only the extra homes from the law. Current law is the zero line." : "Chart shows totals with current law."));
   bindRadio("sum-lines", "lines", "on", (v) => (v === "off" ? "Side lines hidden. The range and current law stay." : "Side lines shown."));
   bindRadio("sum-timing", "timing", "measured", (v) => (v === "flat" ? "Timing: flat, the five-year total spread evenly." : "Timing: measured."));
 

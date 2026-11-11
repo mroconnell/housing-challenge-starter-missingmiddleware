@@ -1,4 +1,5 @@
 import { COLORS, DASH, LAW_TEXT, docLink, type Ctx } from "../app";
+import { inOutCardHTML } from "../inout";
 import { legendHTML, xyChart, type Series } from "../charts";
 import type { Line } from "../data";
 import { dec, esc, pill } from "../format";
@@ -47,26 +48,17 @@ type Scope = Ctx["b"]["state"]["evidence_scope"];
 /** The "In and out of the model" card: the states and cities the ADU rate is learned from, and those left out. */
 function inOutHTML(sc: Scope): string {
   const states = sc.in.filter((x) => x.kind === "state"), cities = sc.in.filter((x) => x.kind !== "state");
-  const li = (name: string, rest: string) => `<li><strong>${esc(name)}</strong>: ${esc(rest)}</li>`;
-  return `<section class="card in-out" id="${ADU_IN_OUT_ID}" tabindex="-1" aria-labelledby="h-in-out" data-testid="adu-in-out">
-    <h2 id="h-in-out">In and out of the model</h2>
-    <p class="muted">Where the ADU rate with a statewide law is learned from, and the places we looked at but left out.</p>
-    <div class="in-out-cols">
-      <div>
-        <h3>In the model: ${states.length} states</h3>
-        <ul class="plain in-out-list" data-testid="in-states">${states.map((x) => li(x.name, `${x.area}; ${x.role}`)).join("")}</ul>
-        <h3>In the model: ${cities.length} cities</h3>
-        <ul class="plain in-out-list" data-testid="in-cities">${cities.map((x) => li(x.name, `${x.area}; ${x.role}`)).join("")}</ul>
-        <p class="small muted" data-testid="madison-like-check">A check, not used for the rate: 11 cities like Madison in Washington, Oregon and Rhode Island, shown on the chart above.</p>
-      </div>
-      <div>
-        <h3>Left out: ${sc.out.length} places</h3>
-        <ul class="plain in-out-list" data-testid="out-places">${sc.out.map((x) => li(x.name, x.reason)).join("")}</ul>
-      </div>
-    </div>
-    <p class="small muted" data-testid="in-out-source">Source: ${esc(sc.source)}</p>
-    <p class="links">${docLink({ label: "Statewide-law states", path: "docs/gate3/STATEWIDE_STATES.md", url: "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/gate3/STATEWIDE_STATES.md" })} · ${docLink({ label: "Pooled model", path: "docs/gate3/POOLED_MODEL.md", url: "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/gate3/POOLED_MODEL.md" })}</p>
-  </section>`;
+  const item = (x: Scope["in"][number]) => ({ name: x.name, text: `${x.area}; ${x.role}` });
+  return inOutCardHTML({
+    id: ADU_IN_OUT_ID,
+    intro: "Where the ADU rate with a statewide law is learned from, and the places we looked at but left out.",
+    groups: [{ heading: `In the model: ${states.length} states`, testid: "in-states", items: states.map(item) },
+      { heading: `In the model: ${cities.length} cities`, testid: "in-cities", items: cities.map(item) }],
+    afterGroups: `<p class="small muted" data-testid="madison-like-check">A check, not used for the rate: 11 cities like Madison in Washington, Oregon and Rhode Island, shown on the chart above.</p>`,
+    outHeading: `Left out: ${sc.out.length} places`, out: sc.out.map((x) => ({ name: x.name, text: x.reason })),
+    source: sc.source,
+    linksHTML: `${docLink({ label: "Statewide-law states", path: "docs/gate3/STATEWIDE_STATES.md", url: "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/gate3/STATEWIDE_STATES.md" })} · ${docLink({ label: "Pooled model", path: "docs/gate3/POOLED_MODEL.md", url: "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/gate3/POOLED_MODEL.md" })}`,
+  });
 }
 
 export function renderWhy(ctx: Ctx, main: HTMLElement): void {

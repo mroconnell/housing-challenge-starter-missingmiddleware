@@ -3,6 +3,7 @@
 import { ALL_HOUSING_BASELINE_2027_2031, againstBandHTML, num, rangeCardHTML, sideLinesHTML, type Range90, type SideLine } from "../../range";
 import { esc, int } from "../../format";
 import { loadWiHomes, renderSummary, type SummaryInput, type WiHomes } from "../../summary";
+import { inOutCardHTML } from "../../inout";
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
 
 /** The modeled law, shown on Why and in the Summary's policy box. */
@@ -21,8 +22,12 @@ interface Statewide {
   timing: { label: string; toggle_off_label: string; flat: Range; note: string };
   side_measures: Side[]; extra_lines: Extra[];
   range90: Range90; range90_flat: Range90; side_lines: SideLine[]; baseline_by_year: { central: number[]; low: number[]; high: number[] };
+  /** Current law for this reform's own unit: homes in 2–4 unit buildings (2-unit plus 3–4 unit), shared baseline v4. */
+  baseline_2_4_by_year: { central: number[]; low: number[]; high: number[] };
+  evidence_scope: Scope;
   baseline: { version: string; total: number; low_total: number; high_total: number };
 }
+interface Scope { in: { name: string; kind: string; area: string; role: string; note?: string }[]; out: { name: string; kind: string; reason: string }[]; source: string }
 interface Area extends Range { area_id: string; name: string; sf_homes: number }
 interface HowSure { bars: { id: string; label: string; central?: number; low?: number; high?: number; note?: string }[]; notes: string[] }
 interface Why { evidence: { label: string; url: string }[]; cannot_tell: string[] }
@@ -50,18 +55,46 @@ const ROUTES: Route[] = [
 ];
 
 // ---- screens --------------------------------------------------------------------------------
-/** The Summary: the shared component. The all-building-sizes line is far above this scale, so it is listed, not drawn. */
-function summaryInput(b: MiddleBundle): SummaryInput {
+/** The anchor of the in/out card on Why; the Summary's "What we modeled" card links here (?section=middle-in-out). */
+export const MIDDLE_IN_OUT_ID = "middle-in-out";
+
+/** Words after each side line's value in the Summary's chart key (owner, 2026-11-11 20:41). */
+const SIDE_NOTES: Record<string, string> = {
+  "1_4": "(adds 1-unit homes such as split-lot homes and townhouses. Too noisy to include in predicted range because Census mixes them with ordinary single-family homes.)",
+  "1_6": "(the 1–4 unit figure plus our estimate for 5 and 6 unit buildings. Too noisy to include in predicted range because Census mixes 5 and 6 unit projects with all 5+ unit projects.)",
+};
+
+/** The Summary: the shared component. Current law is homes in 2–4 unit buildings, the same unit as the range (owner,
+ *  2026-11-11 20:41). The all-building-sizes line is left off the Summary; it stays on How sure. */
+function summaryInput(b: MiddleBundle, env: ShellEnv): SummaryInput {
   const s = b.statewide;
-  const all = s.side_lines.find((l) => l.id === "all" && l.where === "chart");
   return {
     id: "middle", title: "Missing middle housing", law: "allows 2–6 homes on every lot now limited to one home", modeled: [MIDDLE_LAW_TEXT],
     // owner, 2026-11-11 20:23: the ADU Summary pattern (policy beside the estimate; modeled + benchmark under the chart)
     policy: MIDDLE_POLICY_TEXT, sentence: false, policyBeside: true, unit: "homes in 2–4 unit buildings", chartName: "Homes in 2–4 unit buildings",
-    range: s.range90, rangeFlat: s.range90_flat, sideLines: s.side_lines.filter((l) => l.where === "chart" && l.id !== "all"),
-    notDrawn: all ? `Not drawn: "${all.label}" (${num(all.value ?? 0)} over 2027–2031), far above this scale; it is on How sure.` : undefined,
-    base: s.baseline_by_year, baseName: "homes of all kinds permitted under current law", homes: b.homes,
+    range: s.range90, rangeFlat: s.range90_flat, sideLines: s.side_lines.filter((l) => l.where === "chart" && l.id !== "all"), sideNotes: SIDE_NOTES,
+    // owner, 2026-11-11 20:47: word for word, under the chart key
+    legendNote: "Counts homes by building, as the Census does. A duplex plus a 4-plex on one lot counts as 6 homes here. A single 5- or 6-unit building falls in the Census's 5+ group, so it shows only in the 'Adding 5 and 6 unit buildings' line.",
+    scopeLink: { href: env.link(`/why?section=${MIDDLE_IN_OUT_ID}`), label: "Why → In and out of the model", text: "For the full list of states and places included in or excluded from the model, see" },
+    base: s.baseline_2_4_by_year, baseName: "homes in 2–4 unit buildings without the reform", homes: b.homes,
   };
+}
+
+/** "In and out of the model" on Why: the bundle's evidence_scope (reference/middle_in_out.csv), laid out as ADU's. */
+function inOutHTML(sc: Scope): string {
+  const item = (x: Scope["in"][number]) => ({ name: x.name, text: `${x.area}; ${x.role}`, note: x.note });
+  const test = sc.in.filter((x) => x.role === "test only");
+  const states = sc.in.filter((x) => x.role !== "test only" && x.kind === "state");
+  const comp = sc.in.filter((x) => x.role !== "test only" && x.kind !== "state");
+  return inOutCardHTML({
+    id: MIDDLE_IN_OUT_ID,
+    intro: `Where the measured effect comes from (${sc.in.length} entries), and the places we looked at but left out (${sc.out.length}).`,
+    groups: [{ heading: `In the model: ${states.length} law states`, testid: "in-states", items: states.map(item) },
+      { heading: `In the model: ${comp.length} comparison groups`, testid: "in-comparison", items: comp.map(item) },
+      { heading: `Used only to test the result: ${test.length}`, testid: "in-test", items: test.map(item) }],
+    outHeading: `Left out: ${sc.out.length}`, out: sc.out.map((x) => ({ name: x.name, text: x.reason })),
+    source: sc.source,
+  });
 }
 
 /** The former Statewide comparison, now How sure's Details: the range card, both timings, the yearly table and the side lines. */
@@ -119,6 +152,7 @@ function why(b: MiddleBundle, main: HTMLElement): void {
   <h1>Why these numbers</h1>
   <p class="law" data-testid="law-text"><strong>The law.</strong> ${esc(MIDDLE_LAW_TEXT)}</p>
   <section class="card"><h2>How it works</h2><p>Four states (Oregon, California, Maine and Vermont) passed laws allowing 2–4 homes on single-family lots. We compared their permits for 2–4 unit buildings, per 1,000 single-family homes, with similar places in the same regions, before and after each law. That gap is applied to Wisconsin.</p></section>
+  ${inOutHTML(b.statewide.evidence_scope)}
   <section class="card"><h2>What it cannot tell you</h2><ul class="plain">${b.why.cannot_tell.map((c) => `<li>${esc(c)}</li>`).join("")}</ul></section>
   <section class="card"><h2>Evidence</h2><ul class="plain">${b.why.evidence.map((d) => `<li><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label)}<span class="sr-only"> (opens GitHub in a new tab)</span> ↗</a></li>`).join("")}</ul></section>`;
 }
@@ -141,7 +175,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       if (path.startsWith("/where")) where(b, main);
       else if (path.startsWith("/how-sure")) howSure(b, main);
       else if (path.startsWith("/why")) why(b, main);
-      else renderSummary(main, summaryInput(b), env, params);
+      else renderSummary(main, summaryInput(b, env), env, params);
     },
   };
 }

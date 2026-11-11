@@ -95,9 +95,10 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
     await svg.dispatchEvent("pointerleave");
     await expect(pop).toBeHidden();
 
-    // year popups in the extra-homes view: the band's low and high and every drawn line, with a crosshair
-    await page.getByTestId("toggle-show").getByLabel("Extra homes only").check();
-    await expect(page).toHaveURL(/show=extra/);
+    // year popups in the extra-homes view (the default since 2026-11-11 20:42): the band's low and high and every
+    // drawn line, with a crosshair
+    await expect(page.getByTestId("toggle-show").getByLabel("Extra homes only")).toBeChecked();
+    await expect(page).not.toHaveURL(/show=/);
     const i = 2;   // 2029
     const y = r.R.years[i];
     await svg.locator(`rect.sum-hit-year[data-year="${y.year}"]`).dispatchEvent("pointerover");
@@ -160,13 +161,20 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
     await expect(page).not.toHaveURL(/per=1000/);
     await expect(page.getByTestId("range-low")).toHaveText(num(r.R.low));
 
-    // totals with current law (default) or extra homes only: current law drawn, or the zero line
+    // extra homes only (default since 2026-11-11 20:42) or totals with current law: the zero line, or current law drawn
     const svg = page.locator("#sum-chart svg");
-    await expect(svg.locator('path[data-band="current-law"]')).toHaveCount(1);
-    await page.getByTestId("toggle-show").getByLabel("Extra homes only").check();
-    await expect(page).toHaveURL(/show=extra/);
+    await expect(page.getByTestId("toggle-show").getByLabel("Extra homes only")).toBeChecked();
     await expect(svg.locator('path[data-band="current-law"]')).toHaveCount(0);
     await expect(page.getByTestId("summary-legend")).toContainText("Current law: the zero line");
+    await page.getByTestId("toggle-show").getByLabel("Totals with current law").check();
+    await expect(page).toHaveURL(/show=totals/);
+    await expect(svg.locator('path[data-band="current-law"]')).toHaveCount(1);
+    await page.getByTestId("toggle-show").getByLabel("Extra homes only").check();
+    await expect(page).not.toHaveURL(/show=/);
+    await expect(svg.locator('path[data-band="current-law"]')).toHaveCount(0);
+    // old links with show=extra still work
+    await page.goto(`#${r.pre}/summary?show=extra`);
+    await expect(page.getByTestId("toggle-show").getByLabel("Extra homes only")).toBeChecked();
 
     // timing: measured (default) or flat; parking has no measured ramp, so the toggle is off
     const timing = page.getByTestId("toggle-timing");

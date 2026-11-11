@@ -57,7 +57,8 @@ test("parking screens show the bundle's numbers", async ({ page }) => {
 test("parking Summary: the chart toggles, and the timing toggle is off (no measured ramp)", async ({ page }) => {
   await page.goto("#/parking/summary");
   const toggle = page.getByTestId("toggle-show");
-  await expect(toggle.getByLabel("Totals with current law")).toBeChecked();
+  await expect(toggle.getByLabel("Extra homes only")).toBeChecked();   // the default (owner, 2026-11-11 20:42)
+  await toggle.getByLabel("Totals with current law").check();
   await expect(page.locator("#sum-chart svg title")).toContainText("Homes each year");
   await expect(page.getByTestId("summary-legend")).toContainText("90% range");
   await toggle.getByLabel("Extra homes only").check();

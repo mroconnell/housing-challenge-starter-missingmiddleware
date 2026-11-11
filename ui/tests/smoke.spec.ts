@@ -123,12 +123,13 @@ test("keyboard: skip link, tab navigation and scenario radios", async ({ page, i
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/#\/summary/);
   await expect(page.locator('nav.tabs a[aria-current="page"]')).toHaveText(/Summary/);
-  const totals = page.getByTestId("toggle-show").getByLabel("Totals with current law");
-  await totals.focus();
-  await totals.press("ArrowRight");
-  await expect(page.getByTestId("toggle-show").getByLabel("Extra homes only")).toBeChecked();
-  await expect(page.getByTestId("toggle-show").getByLabel("Extra homes only")).toBeFocused();
-  await expect(page).toHaveURL(/show=extra/);
+  // "Extra homes only" is the default (owner, 2026-11-11 20:42); the arrow key moves to Totals
+  const extraOnly = page.getByTestId("toggle-show").getByLabel("Extra homes only");
+  await extraOnly.focus();
+  await extraOnly.press("ArrowLeft");
+  await expect(page.getByTestId("toggle-show").getByLabel("Totals with current law")).toBeChecked();
+  await expect(page.getByTestId("toggle-show").getByLabel("Totals with current law")).toBeFocused();
+  await expect(page).toHaveURL(/show=totals/);
   // sortable table headers are buttons
   await page.goto("#/where");
   const sortBtn = page.locator('button.sort[data-k="homes"]');
@@ -395,9 +396,13 @@ test("ADU Summary chart toggles between totals and extra homes only", async ({ p
   const R = b.state.range90;
   await page.goto("#/summary");
   const toggle = page.getByTestId("toggle-show");
-  await expect(toggle.getByLabel("Totals with current law")).toBeChecked();
   const title = page.locator("#sum-chart svg title"), desc = page.locator("#sum-chart svg desc");
   const legend = page.getByTestId("summary-legend");
+  // "Extra homes only" is the default (owner, 2026-11-11 20:42)
+  await expect(toggle.getByLabel("Extra homes only")).toBeChecked();
+  await expect(title).toContainText("Extra ADU permits from the law");
+  await toggle.getByLabel("Totals with current law").check();
+  await expect(page).toHaveURL(/show=totals/);
   await expect(title).toContainText("ADU permits each year");
   await expect(legend).toContainText("Current law (ADU permits without statewide reform)");
   await expect(page.locator('#sum-chart svg path[data-band="range90"]')).toHaveCount(1);

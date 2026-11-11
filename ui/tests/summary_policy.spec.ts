@@ -88,7 +88,7 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
     // nothing else visible below the chart but this card and the links (the dialog is closed)
     const after = await page.locator("article.summary-page > .summary-chart-card ~ *").evaluateAll((els) => els.filter((e) => (e as HTMLElement).offsetParent !== null).map((e) => e.getAttribute("data-testid")));
     expect(after).toEqual(["summary-modeled", "summary-links"]);
-    // the link to the list of places: ADU and parking have one on Why; middle housing and TOD do not (yet)
+    // the link to the list of places on Why: every reform has one
     const scope = card.getByTestId("summary-scope-link");
     if (id === "adu") {
       await expect(scope).toHaveText("For the full list of states and cities included in or excluded from the model, see Why → In and out of the model →");
@@ -99,6 +99,9 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
     } else if (id === "tod") {
       await expect(scope).toHaveText("For the 11 places behind the range, and the places left out, see Why → In and out of the model →");
       await expect(scope.locator("a")).toHaveAttribute("href", "#/tod/why?section=tod-in-out");
+    } else if (id === "middle") {
+      await expect(scope).toHaveText("For the full list of states and places included in or excluded from the model, see Why → In and out of the model →");
+      await expect(scope.locator("a")).toHaveAttribute("href", "#/middle/why?section=middle-in-out");
     } else await expect(scope).toHaveCount(0);
   });
 
@@ -316,7 +319,7 @@ const HEADING: Record<string, string> = {
 
 for (const id of ["adu", "middle", "tod", "parking"]) {
   test(`${id} Summary: "Our estimate is between:", the chart heading, and side lines show / hide`, async ({ page }) => {
-    await page.goto(`#${PRE[id]}/summary`);
+    await page.goto(`#${PRE[id]}/summary?show=totals`);
     const card = page.getByTestId("summary-range");
     await expect(card.getByRole("heading")).toHaveCount(0);
     await expect(page.locator("main")).not.toContainText("The 90% range, 2027–2031");
@@ -353,7 +356,7 @@ test("ADU Summary legend: the owner's labels, numbers from the bundle, no Typica
   const st = await json(page, "runs/", "state.json");
   const v = (id: string) => (st.side_lines as { id: string; value: number }[]).find((s) => s.id === id)!.value;
   const n = (x: number) => Math.round(x).toLocaleString("en-US");
-  await page.goto("#/summary");
+  await page.goto("#/summary?show=totals");
   const items = page.getByTestId("summary-legend").locator("li");
   await expect(items).toHaveText([
     "Current law (ADU permits without statewide reform)",
