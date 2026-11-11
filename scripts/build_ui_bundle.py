@@ -477,10 +477,10 @@ def build_state(p: dict) -> dict:
          "note": "Each place rises to the level similar places reached in a typical statewide-law state."},
         {"id": "median8", "label": "Median path of the 8 statewide-law states", "value": r(al.additional.sum(), 0),
          "where": "chart", "note": "The median rate the 8 statewide-law states actually reached each year, applied to Wisconsin's single-family homes."},
-        {"id": "slow2", "label": "Like Rhode Island and Oregon, the 2 slowest statewide-law states",
+        {"id": "slow2", "label": "Like OR & RI (lowest statewide adoption)",
          "value": r(float(st_tot.loc["lower", "additional_units"]), 0), "where": "chart",
          "note": "Wisconsin adopts as slowly as the average of the two slowest statewide-law states."},
-        {"id": "like_california", "label": "Like California (the fastest statewide-law state)",
+        {"id": "like_california", "label": "Like CA (highest statewide adoption)",
          "value": r(float(lca[lca.year.eq("2027-2031")].additional_units.iloc[0]), 0), "where": "chart",
          "years": [r(float(v), 1) for v in lca[lca.year.ne("2027-2031")].sort_values("year").additional_units],
          "note": ("Every place at California's own measured level with the law (typical place, law in force 4+ years), "

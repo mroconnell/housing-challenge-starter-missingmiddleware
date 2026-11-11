@@ -49,7 +49,7 @@ The forecast years are 2027, 2028, 2029, 2030 and 2031. Totals are summed over t
   - Middle housing: −482 to 4,515 extra homes in 2–4 unit buildings. It comes from the four-state result placed against 10,000 sets of fake law states.
   - TOD: 3,922 to 16,335 extra homes near stops. It comes from a bootstrap of 11 district places, widened ×1.1827 after a coverage test.
   - Parking: −46,268 to +19,649 extra homes. It comes from the measured average of 74 repeal places plus the placebo spread; it spans both a loss and a gain.
-  - No single number stands for a reform's result. Labelled side lines give context: the former lower, central and upper scenarios, and the median of real cases. For ADUs these are typical adoption (the former central) 10,492; the 8-state median path 10,038; like Rhode Island and Oregon 6,321; high end, near California 19,784. TOD's are listed in Part C.
+  - No single number stands for a reform's result. Labelled side lines give context: the former lower, central and upper scenarios, and the median of real cases. For ADUs these are typical adoption (the former central) 10,492; the 8-state median path 10,038; Like OR & RI (lowest statewide adoption) 6,321; Like CA (highest statewide adoption) 19,790. TOD's are listed in Part C.
 - **Parking's side lines** are the former lines, named by what they mean: the measured average of 74 repeal places −15,380; the median repeal place −1,557 (−311 a year; no floor at zero, AQ-074); Oregon's state mandate about +16,848.
 - **Sensitivities are grouped by what they move.** Each sensitivity case changes one assumption and is labelled by whether it moves the statewide addition, only where the homes land, or only the current-law baseline.
 - **Observed, calculated or assumed.** Each reform has a trace that says which numbers come from Wisconsin's own records, which are calculated from them, and which are assumed or transferred from elsewhere.
@@ -80,9 +80,10 @@ Written for this document from the final ADU packets: [Gate 3](gate3/README.md) 
 
 | Side line | What it means | Additional permits, 2027–2031 | Total with the 786-permit baseline |
 | --- | --- | ---: | ---: |
-| Like Rhode Island and Oregon (the former lower) | Like the average of the two slowest statewide-law states, Rhode Island and Oregon | **6,321** | 7,107 |
+| Like OR & RI (lowest statewide adoption; the former lower) | Every place at the average of Rhode Island's and Oregon's levels | **6,321** | 7,107 |
 | Typical adoption (the former central) | Like a typical statewide-law state | **10,492** | 11,278 |
-| High end, near California (the former upper) | The high end of what statewide-law states have reached; only California has gone higher | **19,784** | 20,570 |
+| Like CA (highest statewide adoption) | Every place at California's own level (2.07 times the common level), built like the OR & RI line (owner 2026-11-11) | **19,790** | 20,576 |
+| *How sure only:* high end of the spread between the 8 states (the former upper) | A 90th-percentile state, from an 80% prediction interval of the 8 states' levels | 19,784 | 20,570 |
 | Median path of the 8 statewide-law states | The median path the 8 statewide-law states actually took, California included | **10,038** | 10,824 |
 
 - The central's additions by year are 1,602, 1,972, 2,318, 2,306 and 2,294 permits in 2027–2031. The central adds 10,492.0 permits ÷ 1,839.569 thousand single-family homes ÷ 5 years = 1.14 permits per 1,000 single-family homes per year.
