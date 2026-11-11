@@ -184,7 +184,10 @@ test("chart key, tables and brief use the bundle's labels", async ({ page }) => 
   await page.goto("#/summary");
   const legend = page.getByTestId("summary-legend");
   await expect(legend).toContainText("90% range");
-  for (const s of b.state.side_lines.filter((x: { where: string }) => x.where === "chart")) await expect(legend).toContainText(s.label);
+  // the Summary chart's own ADU labels (display only, owner 2026-11-11); "typical" is left off the chart
+  const own: Record<string, string> = { median8: "Median path of the 8 statewide-law states", slow2: "Two slowest statewide-law states (Rhode Island and Oregon, averaged)", ca_high: "High end of the spread between the 8 statewide-law states (a 90th-percentile state; only California has gone higher)" };
+  for (const s of b.state.side_lines.filter((x: { where: string; id: string }) => x.where === "chart" && x.id !== "typical")) await expect(legend).toContainText(own[s.id] ?? s.label);
+  await expect(legend).not.toContainText("Typical adoption");
   await page.goto("#/how-sure");
   await expect(page.getByTestId("compare-table")).toContainText(L.baseline);
   await page.goto("#/brief");
@@ -383,7 +386,7 @@ test("ADU Summary chart toggles between totals and extra homes only", async ({ p
   const title = page.locator("#sum-chart svg title"), desc = page.locator("#sum-chart svg desc");
   const legend = page.getByTestId("summary-legend");
   await expect(title).toContainText("ADU permits each year");
-  await expect(legend).toContainText("range shaded grey");
+  await expect(legend).toContainText("Current law (ADU permits without statewide reform)");
   await expect(page.locator('#sum-chart svg path[data-band="range90"]')).toHaveCount(1);
   await expect(page.locator('#sum-chart svg path[data-band="current-law"]')).toHaveCount(1);
   await toggle.getByLabel("Extra homes only").check();

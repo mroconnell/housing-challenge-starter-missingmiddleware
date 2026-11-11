@@ -9,6 +9,12 @@ const fmt = (v: number) => { const r = Math.round(v); return (r === 0 ? 0 : r).t
 const num = (v: number) => (Math.round(v) < 0 ? `−${fmt(-v)}` : fmt(v));
 const dec2 = (v: number) => { const r = Math.round(v * 100) / 100; return r < 0 ? `−${(-r).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : (r === 0 ? 0 : r).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
 
+const ADU_LABELS: Record<string, string> = {
+  median8: "Median path of the 8 statewide-law states",
+  slow2: "Two slowest statewide-law states (Rhode Island and Oregon, averaged)",
+  ca_high: "High end of the spread between the 8 statewide-law states (a 90th-percentile state; only California has gone higher)",
+};
+
 interface Side { id: string; label: string; value?: number; note: string; where: string }
 interface R90 { low: number; high: number; years: { year: number; low: number; high: number }[] }
 interface Reform { id: string; pre: string; R: R90; flat: R90 | null; lines: Side[] }
@@ -28,7 +34,8 @@ async function reforms(page: Page): Promise<{ list: Reform[]; homes: number }> {
   return {
     homes: adu.acs_total_units.value,
     list: [
-      { id: "adu", pre: "", R: adu.range90, flat: even(adu.range90), lines: chart(adu.side_lines) },
+      // the ADU Summary relabels its lines and leaves "typical" off the chart (owner, 2026-11-11; display only)
+      { id: "adu", pre: "", R: adu.range90, flat: even(adu.range90), lines: chart(adu.side_lines).filter((s) => s.id !== "typical").map((s) => ({ ...s, label: ADU_LABELS[s.id] ?? s.label })) },
       { id: "middle", pre: "/middle", R: mid.range90, flat: mid.range90_flat, lines: chart(mid.side_lines).filter((s) => s.id !== "all") },
       { id: "tod", pre: "/tod", R: tod.range90, flat: even(tod.range90), lines: chart(tod.side_lines) },
       { id: "parking", pre: "/parking", R: pk.range90, flat: null, lines: chart(pk.side_lines) },
@@ -103,6 +110,7 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
 
     // keyboard: the same details from focusable year buttons and side-line legend items
     if (!isMobile) {
+      await page.mouse.move(0, 0);   // keep the resting pointer off the chart, which scrolls under it as focus moves
       await page.locator('.sum-year[data-year="2027"]').focus();
       await expect(pop).toHaveAttribute("data-year", "2027");
       await expect(pop).toContainText(num(Math.min(r.R.years[0].low, r.R.years[0].high)));
@@ -184,6 +192,7 @@ test("a real mouse over a year shows the crosshair and that year's popup", async
   test.skip(isMobile, "mouse test runs on desktop");
   await page.goto("#/summary");
   const rect = page.locator('#sum-chart rect.sum-hit-year[data-year="2030"]');
+  await page.locator("#sum-chart").scrollIntoViewIfNeeded();
   const box = (await rect.boundingBox())!;
   await page.mouse.move(box.x + box.width / 2, box.y + 4);   // the top of the plot, clear of the lines
   await expect(page.getByTestId("summary-popup")).toHaveAttribute("data-year", "2030");

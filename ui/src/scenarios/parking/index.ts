@@ -176,12 +176,21 @@ function pkShare(b: ParkingBundle, addUpper: number): number {
   return up ? addUpper / up : 0;
 }
 
+const PARKING_LAW = "removes minimum parking requirements for all housing";
+/** The bundle's developer-parking assumption, for the Summary's policy box: its first sentence (the assumption) and its
+ *  last (the scenario sets no parking ratio itself). The studies in between are on Why. */
+function developerAssumption(t: string): string[] {
+  const ss = t.split(/(?<=\.)\s+(?=[A-Z])/);
+  return ss.length > 1 ? [ss[0], ss[ss.length - 1]] : [t];
+}
+
 /** The parking Summary: the shared component. Parking's measured effect is the same every year (no ramp), so the
  *  timing toggle is disabled. */
 function summaryInput(b: ParkingBundle): SummaryInput {
   const s = b.statewide, fy = s.years.filter((y) => YEARS.includes(y.year));
   return {
-    id: "parking", title: "Parking requirement reduction", law: "removes minimum parking requirements for all housing", unit: "homes",
+    id: "parking", title: "Parking requirement reduction", law: PARKING_LAW, unit: "homes", chartName: "Homes permitted",
+    modeled: [`${b.manifest.dates.effective}: it ${PARKING_LAW}.`, ...developerAssumption(b.why.developer_parking)],
     range: s.range90, rangeFlat: "none", sideLines: s.side_lines.filter((x) => x.where === "chart"),
     base: { central: fy.map((y) => y.baseline ?? 0), low: fy.map((y) => y.baseline_low ?? 0), high: fy.map((y) => y.baseline_high ?? 0) },
     baseName: "homes of all kinds permitted under current law", homes: b.homes,

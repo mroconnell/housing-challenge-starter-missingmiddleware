@@ -337,6 +337,7 @@ details.more[open] > summary { margin-bottom: 4px; }
 
 /* the uniform range display (docs/UNIFORM_DISPLAY_SPEC.md): one 90% range, ends labelled, side lines below */
 .range-card { border-color: var(--accent); box-shadow: inset 4px 0 0 var(--accent); }
+.summary-range .range-lead { margin: 0; font-weight: 600; font-size: 1.05rem; }
 .range-ends { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 14px; margin: 6px 0 2px; }
 .range-end { display: inline-flex; flex-direction: column; }
 .range-end-label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
@@ -435,7 +436,24 @@ table.data.intro-range-table tbody tr:last-child > * { border-bottom: 0; }
 .head-today[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 /* The shared Summary tab (ui/src/summary.ts) */
-.summary-page { max-width: 80ch; }
+/* Prose keeps a readable measure; the chart card spans the main container (about 1,150 px on desktop). */
+.summary-page > :not(.summary-chart-card):not(.sum-dialog) { max-width: 80ch; }
+.summary-chart-card > p, .summary-chart-card > .summary-toggles { max-width: 80ch; }
+.summary-chart-card .sum-legend { max-width: none; }
+.summary-policy h3 { font-size: 1rem; margin: 12px 0 4px; }
+.summary-policy .policy-part + .policy-part { border-top: 1px solid var(--line); margin-top: 12px; }
+.summary-policy .policy-quote { margin: 0; padding: 6px 12px; border-left: 4px solid var(--line); font-style: italic; }
+.summary-policy .policy-quote p { margin: 0; }
+.summary-policy .policy-source { margin: 6px 0 0; }
+.summary-policy .policy-part p { margin: 0 0 6px; }
+.sum-chart-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
+.sum-enlarge, .sum-dialog-close { font: inherit; font-weight: 600; min-height: 40px; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 8px; background: var(--surface); color: var(--accent-ink); cursor: pointer; }
+.sum-enlarge:hover, .sum-dialog-close:hover { background: var(--accent-soft); }
+dialog.sum-dialog { max-width: none; width: calc(100vw - 32px); height: calc(100vh - 32px); max-height: none; padding: 16px 20px; box-sizing: border-box; overflow: auto; }
+.sum-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.sum-dialog-head h2 { margin: 0; font-size: 1.1rem; }
+.sum-dialog > p { margin: 4px 0 8px; }
+@media (max-width: 640px) { dialog.sum-dialog { width: calc(100vw - 16px); height: calc(100vh - 16px); padding: 12px; } }
 .summary-sentence { max-width: none; color: var(--ink); }
 .summary-how { margin: 8px 0 0; color: var(--ink); }
 .summary-toggles { display: flex; flex-wrap: wrap; gap: 12px 22px; margin: 4px 0 12px; }

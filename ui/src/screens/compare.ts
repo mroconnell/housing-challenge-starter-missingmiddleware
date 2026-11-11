@@ -1,4 +1,4 @@
-import { details, type Ctx } from "../app";
+import { LAW_TEXT, details, type Ctx } from "../app";
 import { dec, esc, int, pct, YEARS } from "../format";
 import { ALL_HOUSING_BASELINE_2027_2031, num, rangeCardHTML, rangeCaveatHTML, sideLinesHTML } from "../range";
 import { flatRange, type SummaryInput, type WiHomes } from "../summary";
@@ -43,7 +43,8 @@ export function aduDetailsHTML(ctx: Ctx): string {
   const R = s.range90;
   const homesK = (s.homes.value ?? 0) / 1000;
   const base = s.baseline;
-  const chartLines = s.side_lines.filter((x) => x.where === "chart");
+  const chartLines = s.side_lines.filter((x) => x.where === "chart" && !ADU_SUMMARY_HIDDEN.has(x.id));
+  const offSummary = s.side_lines.filter((x) => x.where === "chart" && ADU_SUMMARY_HIDDEN.has(x.id));
   const totalCtx = s.contexts.reduce((a, c) => a + c.additional_central, 0);
   const homesCtx = s.contexts.reduce((a, c) => a + c.homes, 0);
   const L = s.labels;
@@ -54,6 +55,7 @@ export function aduDetailsHTML(ctx: Ctx): string {
   <section class="card" aria-labelledby="h-side">
     <h3 id="h-side">Side lines</h3>
     ${sideLinesHTML(chartLines, "ADU permits over 2027–2031", "side-lines", "Drawn on the Summary chart. Lines can sit outside the range; they do not change it.")}
+    ${offSummary.length ? sideLinesHTML(offSummary, "ADU permits over 2027–2031", "summary-hidden-lines", "Listed here, not drawn on the Summary chart (owner, 2026-11-11). The 90% range is built around typical adoption.") : ""}
     ${sideLinesHTML(s.side_lines.filter((x) => x.where === "howsure"), "ADU permits over 2027–2031", "howsure-side-lines", "Shown here only, not on the chart. None changes the 90% range.")}
     ${rangeCaveatHTML(R)}
   </section>
@@ -74,7 +76,7 @@ export function aduDetailsHTML(ctx: Ctx): string {
       <tbody>${YEARS.map((y, i) => `<tr><th scope="row">${y}</th><td class="num">${dec(base.by_year[i] / homesK)}</td><td class="num">${dec(R.years[i].low / homesK)}</td><td class="num">${dec(R.years[i].high / homesK)}</td></tr>`).join("")}</tbody></table></div>`)}
     ${details("How the range and the lines are made", `<ul class="plain small" data-testid="scenario-method">
       <li><strong>The 90% range.</strong> ${esc(R.method)} ${esc(R.coverage)}</li>
-      ${chartLines.map((x) => `<li><strong>${esc(x.label)}.</strong> ${esc(x.note)}</li>`).join("")}
+      ${s.side_lines.filter((x) => x.where === "chart").map((x) => `<li><strong>${esc(x.label)}.</strong> ${esc(x.note)}</li>`).join("")}
       <li><strong>The law never subtracts.</strong> ${esc(ctx.b.manifest.terms.never_subtracts ?? "")}</li>
       <li><strong>Madison.</strong> ${esc(ctx.b.areas.munis.find((a) => a.note)?.note ?? "")} See <a href="${ctx.link("/pilot/madison")}">the Madison pilot</a>.</li></ul>
       <p class="muted small">Source of the range: ${esc(R.source)}.</p>`)}
@@ -92,12 +94,23 @@ export function aduDetailsHTML(ctx: Ctx): string {
   </section>`;
 }
 
+/** The ADU Summary chart's own labels for the side lines, keyed by side-line id (owner, 2026-11-11). Display only: the
+ *  bundle and its builder keep their labels, and the popups keep the bundle's notes. */
+const ADU_SUMMARY_LABELS: Record<string, string> = {
+  median8: "Median path of the 8 statewide-law states",
+  slow2: "Two slowest statewide-law states (Rhode Island and Oregon, averaged)",
+  ca_high: "High end of the spread between the 8 statewide-law states (a 90th-percentile state; only California has gone higher)",
+};
+/** Side lines left off the Summary chart (owner, 2026-11-11); still listed on How sure → Details. */
+const ADU_SUMMARY_HIDDEN = new Set(["typical"]);
+
 /** The ADU Summary: the shared Summary component fed from the ADU bundle. */
 export function aduSummaryInput(ctx: Ctx, homes: WiHomes): SummaryInput {
   const s = ctx.b.state, base = s.baseline;
   return {
-    id: "adu", title: "Accessory dwelling units", law: "allows one ADU on every lot with a single-family home", unit: "ADU permits",
-    range: s.range90, rangeFlat: flatRange(s.range90), sideLines: s.side_lines.filter((x) => x.where === "chart"),
-    base: { central: base.by_year, low: base.low_by_year, high: base.high_by_year }, baseName: "ADU permits", homes,
+    id: "adu", title: "Accessory dwelling units", law: "allows one ADU on every lot with a single-family home", modeled: [LAW_TEXT], unit: "ADU permits",
+    range: s.range90, rangeFlat: flatRange(s.range90), sideLines: s.side_lines.filter((x) => x.where === "chart" && !ADU_SUMMARY_HIDDEN.has(x.id)).map((x) => ({ ...x, label: ADU_SUMMARY_LABELS[x.id] ?? x.label })),
+    base: { central: base.by_year, low: base.low_by_year, high: base.high_by_year }, baseName: "ADU permits without statewide reform",
+    chartName: "ADU permits", currentLawLabel: "Current law (ADU permits without statewide reform)", homes,
   };
 }

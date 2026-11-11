@@ -278,7 +278,8 @@ for (const [name, url, root] of [["ADU", "#/how-sure", "runs/"], ["TOD", "#/tod/
       await expect(card.getByTestId("range-caveat")).toHaveCount(0);
       await expect(page.getByTestId("range-caveat")).toContainText(R.caveat);
     }
-    const chartLines = st.side_lines.filter((s: { where: string }) => s.where === "chart");
+    // the ADU Summary leaves "typical" off its chart; How sure lists it separately (owner, 2026-11-11)
+    const chartLines = st.side_lines.filter((s: { where: string; id: string }) => s.where === "chart" && !(name === "ADU" && s.id === "typical"));
     await expect(page.getByTestId("side-lines").locator("li")).toHaveCount(chartLines.length);
     await page.goto(url.replace("how-sure", "summary"));
     for (const mode of ["Totals with current law", "Extra homes only"]) {

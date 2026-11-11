@@ -9,6 +9,8 @@ import { mapKey, rapidMapKey, stationMap } from "./map";
 import { SCEN_IDS, type AggRow, type DensityBands, type Muni, type Pilot, type ScenId, type TodBundle } from "./types";
 
 const YEARS = [2027, 2028, 2029, 2030, 2031];
+/** The rail and rapid lines whose stops count as major transit stops in the modelled law. */
+const RAPID_LINES = "Rail and rapid transit means The Hop and Kenosha streetcars, CONNECT 1 and Madison's Rapid Route A.";
 const C: Record<string, string> = { baseline: "#4b5450", little: "#2f6db5", typical: "#17644f", strong: "#7b3fb0" };
 const DASH: Record<string, string | undefined> = { baseline: "7 5", little: "2 4", typical: undefined, strong: "9 3 2 3" };
 
@@ -177,7 +179,7 @@ export function today(b: TodBundle, env: ShellEnv, params: URLSearchParams, main
       <li>What: apartments by right, ${int(s.district.min_homes_per_acre)}+ homes per acre.</li>
       <li>Which land: the city picks.</li>
     </ul>
-    <p class="small muted">${esc(s.district.text)} Land beyond ¼ mile counts zero. Rail and rapid transit means The Hop and Kenosha streetcars, CONNECT 1 and Madison's Rapid Route A. The modelled law does not change parking rules (that is the parking reform) and requires no affordable homes. The 15% follows the ${int(s.district.places)} US places the numbers come from, whose districts covered about ${sharePct(s.district.places_mean_share)} of that land on average.</p></section>
+    <p class="small muted">${esc(s.district.text)} Land beyond ¼ mile counts zero. ${esc(RAPID_LINES)} The modelled law does not change parking rules (that is the parking reform) and requires no affordable homes. The 15% follows the ${int(s.district.places)} US places the numbers come from, whose districts covered about ${sharePct(s.district.places_mean_share)} of that land on average.</p></section>
   <section class="card"><h2>The transit lines that qualify</h2>
     <div class="table-wrap"><table class="data" data-testid="agencies-table"><caption>Qualifying stops by transit system (main case unless marked)</caption>
       <thead><tr><th scope="col">Transit system and lines</th><th scope="col" class="num">Rail or rapid stops</th><th scope="col" class="num">15-minute bus stops</th><th scope="col" class="num">20-minute bus stops (wider case only)</th></tr></thead>
@@ -212,7 +214,8 @@ export function todSummaryInput(b: TodBundle, homes: WiHomes): SummaryInput {
   const s = b.statewide, y = s.baseline.years;
   return {
     id: "tod", title: "Transit-oriented density", law: `zones apartments by right on ${sharePct(s.district.share)} of the land within ${s.district.radius} of rail and rapid-bus stops`,
-    unit: "homes near major transit stops", range: s.range90, rangeFlat: flatRange(s.range90),
+    modeled: [s.district.text, `A major transit stop here is a rail or rapid-bus stop, and the proximity threshold is ${s.district.radius}: land beyond it counts zero. ${RAPID_LINES}`],
+    unit: "homes near major transit stops", chartName: "Homes permitted near major transit stops", range: s.range90, rangeFlat: flatRange(s.range90),
     sideLines: s.side_lines.filter((x) => x.where === "chart"),
     base: { central: y.map((r) => r.central), low: y.map((r) => r.low), high: y.map((r) => r.high) },
     baseName: "homes permitted near stops under current law", homes,

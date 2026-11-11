@@ -5,6 +5,9 @@ import { esc, int } from "../../format";
 import { loadWiHomes, renderSummary, type SummaryInput, type WiHomes } from "../../summary";
 import type { MountedReform, ReformEntry, ReformModule, Route, ShellEnv } from "../types";
 
+/** The modeled law, shown on Why and in the Summary's policy box. */
+export const MIDDLE_LAW_TEXT = "From 1 January 2027 (illustrative), any lot now limited to one home could have 2–6 homes, up to 3 stories, without special approval. Setbacks and lot coverage are assumed not to block them.";
+
 // ---- bundle types --------------------------------------------------------------------------
 interface Range { lower: number; central: number; upper: number }
 interface YearRange extends Range { year: number }
@@ -50,7 +53,7 @@ function summaryInput(b: MiddleBundle): SummaryInput {
   const s = b.statewide;
   const all = s.side_lines.find((l) => l.id === "all" && l.where === "chart");
   return {
-    id: "middle", title: "Missing middle housing", law: "allows 2–6 homes on every lot now limited to one home", unit: "homes in 2–4 unit buildings",
+    id: "middle", title: "Missing middle housing", law: "allows 2–6 homes on every lot now limited to one home", modeled: [MIDDLE_LAW_TEXT], unit: "homes in 2–4 unit buildings", chartName: "Homes in 2–4 unit buildings",
     range: s.range90, rangeFlat: s.range90_flat, sideLines: s.side_lines.filter((l) => l.where === "chart" && l.id !== "all"),
     notDrawn: all ? `Not drawn: "${all.label}" (${num(all.value ?? 0)} over 2027–2031), far above this scale; it is on How sure.` : undefined,
     base: s.baseline_by_year, baseName: "homes of all kinds permitted under current law", homes: b.homes,
@@ -110,7 +113,7 @@ function howSure(b: MiddleBundle, main: HTMLElement): void {
 function why(b: MiddleBundle, main: HTMLElement): void {
   main.innerHTML = `
   <h1>Why these numbers</h1>
-  <p class="law" data-testid="law-text"><strong>The law.</strong> From 1 January 2027 (illustrative), any lot now limited to one home could have 2–6 homes, up to 3 stories, without special approval. Setbacks and lot coverage are assumed not to block them.</p>
+  <p class="law" data-testid="law-text"><strong>The law.</strong> ${esc(MIDDLE_LAW_TEXT)}</p>
   <section class="card"><h2>How it works</h2><p>Four states (Oregon, California, Maine and Vermont) passed laws allowing 2–4 homes on single-family lots. We compared their permits for 2–4 unit buildings, per 1,000 single-family homes, with similar places in the same regions, before and after each law. That gap is applied to Wisconsin.</p></section>
   <section class="card"><h2>What it cannot tell you</h2><ul class="plain">${b.why.cannot_tell.map((c) => `<li>${esc(c)}</li>`).join("")}</ul></section>
   <section class="card"><h2>Evidence</h2><ul class="plain">${b.why.evidence.map((d) => `<li><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.label)}<span class="sr-only"> (opens GitHub in a new tab)</span> ↗</a></li>`).join("")}</ul></section>`;
