@@ -216,13 +216,14 @@ export function todPolicyText(d: TodBundle["statewide"]["district"]): string {
   return `Requiring every Wisconsin city with rail or rapid-bus stops to zone ${sharePct(d.share)} of the land within ${d.radius} of those stops for apartments by right, at least ${int(d.min_homes_per_acre)} homes per acre.`;
 }
 
-export function todSummaryInput(b: TodBundle, homes: WiHomes): SummaryInput {
+export function todSummaryInput(b: TodBundle, homes: WiHomes, env: ShellEnv): SummaryInput {
   const s = b.statewide, y = s.baseline.years;
   return {
     id: "tod", title: "Transit-oriented density", law: `zones apartments by right on ${sharePct(s.district.share)} of the land within ${s.district.radius} of rail and rapid-bus stops`,
     modeled: [s.district.text, `A major transit stop here is a rail or rapid-bus stop, and the proximity threshold is ${s.district.radius}: land beyond it counts zero. ${RAPID_LINES}`],
     // owner, 2026-11-11 20:23: the ADU Summary pattern (policy beside the estimate; modeled + benchmark under the chart)
     policy: todPolicyText(s.district), sentence: false, policyBeside: true,
+    scopeLink: { href: env.link(`/why?section=${TOD_IN_OUT_ID}`), label: "Why → In and out of the model", text: `For the ${b.why.in_out.places.length} places behind the range, and the places left out, see` },
     unit: "homes near major transit stops", chartName: "Homes permitted near major transit stops", range: s.range90, rangeFlat: flatRange(s.range90),
     sideLines: s.side_lines.filter((x) => x.where === "chart"),
     base: { central: y.map((r) => r.central), low: y.map((r) => r.low), high: y.map((r) => r.high) },
@@ -413,6 +414,32 @@ function ciChart(rows: { label: string; v: number; lo: number; hi: number; color
   return `<div class="tod-ci" role="img" aria-label="${esc(aria)}">${rows.map((r) => `<div class="tod-ci-row" aria-hidden="true"><span>${esc(r.label)}</span><span class="tod-ci-track"><span class="tod-ci-zero" style="left:${P(0)}%"></span><span class="tod-ci-range" style="left:${P(r.lo)}%;width:${P(r.hi) - P(r.lo)}%;background:${r.color}"></span><span class="tod-ci-pt" style="left:${P(r.v)}%;background:${r.color}"></span></span></div>`).join("")}</div>`;
 }
 
+/** The anchor of the in/out card; the TOD Summary's "What we modeled" card links here (?section=tod-in-out). */
+export const TOD_IN_OUT_ID = "tod-in-out";
+
+/** "In and out of the model": the 11 places behind the central and upper lines, the 5 behind the lower line, and the
+ *  places looked at but left out. Every value and reason comes from the bundle (build_in_out). */
+function inOutHTML(b: TodBundle): string {
+  const io = b.why.in_out;
+  const out = [...io.out_broad, ...io.out_other];
+  return `<section class="card in-out" id="${TOD_IN_OUT_ID}" tabindex="-1" aria-labelledby="h-tod-in-out" data-testid="tod-in-out">
+    <h2 id="h-tod-in-out">In and out of the model</h2>
+    <p class="muted">The places each line is learned from, and the places we looked at but left out.</p>
+    <h3>In the range: ${io.places.length} district places (central and upper lines)</h3>
+    <div class="table-wrap"><table class="data" data-testid="tod-in-places"><caption>Each place's district and its measured effect. Effect: ${esc(io.effect_units)}.</caption>
+      <thead><tr><th scope="col">Place</th><th scope="col" class="num">Share of land within ¼ mile in the district</th><th scope="col" class="num">Measured effect (extra homes per 100 lot acres a year)</th></tr></thead>
+      <tbody>${io.places.map((p) => `<tr><th scope="row">${esc(p.name)}</th><td class="num">${sharePct(p.share)}</td><td class="num">${signed(p.effect, 1)}</td></tr>`).join("")}</tbody>
+      <tfoot><tr><th scope="row">Average of the ${io.places.length} places</th><td class="num">${sharePct(io.mean_share)}</td><td class="num" data-testid="tod-in-mean">${signed(io.mean_effect, 2)}</td></tr></tfoot></table></div>
+    <p class="small muted">The central line is this plain average; the upper line scales it to a district of 15% of the land. New York and Philadelphia made many small rezonings each; each city's are pooled into one effect.</p>
+    <h3>Edge check: ${io.edge.places.length} places (lower line)</h3>
+    <ul class="plain in-out-list" data-testid="tod-edge-places">${io.edge.places.map((p) => `<li><strong>${esc(p.name)}</strong>: ${signed(p.effect, 1)}</li>`).join("")}</ul>
+    <p class="small muted">Effect: ${esc(io.edge.units)}. Average of the ${io.edge.places.length}: ${signed(io.edge.pooled, 1)} (90% range ${signed(io.edge.low, 1)} to ${signed(io.edge.high, 1)}). Only these ${io.edge.places.length} of the 11 passed the balance check: their lots on both sides of the line were alike before the rezoning.</p>
+    <h3>Left out: ${out.length} places</h3>
+    <ul class="plain in-out-list" data-testid="tod-out-places">${out.map((c) => `<li><strong>${esc(c.name)}</strong>: ${esc(c.why)}.</li>`).join("")}</ul>
+    <p class="links">${ext(`${b.manifest.repo_url}/blob/main/` + "docs/tod/OPTION_D_PLAN.md", "Option D plan")} · ${ext(`${b.manifest.repo_url}/blob/main/` + "docs/tod/CAUSAL_FRAMEWORK_PLAN.md", "Causal framework")} · ${ext(`${b.manifest.repo_url}/blob/main/` + "docs/tod/CASE_ANALYSIS_PLAN.md", "Case analysis plan")}</p>
+  </section>`;
+}
+
 export function why(b: TodBundle, main: HTMLElement): void {
   const W = b.why;
   const M = W.madison;
@@ -423,6 +450,7 @@ export function why(b: TodBundle, main: HTMLElement): void {
   <section class="card"><h2>The evidence behind the three scenarios</h2>
     <div class="tod-studies">${W.sources.map((x) => `<div class="card"><h3>${esc(scen(b, x.scenario).label)}: ${esc(x.study)}</h3><p>${esc(x.finding)}</p><p class="small">${pill(x.status)} ${ext(x.url, x.citation)}</p><p class="small muted">Used as ${sharePct(scen(b, x.scenario).share_of_stock)} of the homes near stops over five years.</p></div>`).join("")}</div>
     <p class="small muted">Effects are extra new homes per 100 acres of lots a year, before and after. Those cities chose their district land, often land builders already wanted, so a state mandate may do less. No model beat the plain average on places it had not seen. Growth from new lines alone belongs to current law, not the law. The former lines for a broader law (Auckland, Los Angeles and others) are on How sure.</p></section>
+  ${inOutHTML(b)}
   ${W.city_checks?.length ? `<section class="card" data-testid="city-checks"><h2>Checking the scenarios against our own cities</h2>
     ${W.city_checks.map((c) => `<h3>${esc(c.title)}</h3><p>${esc(c.text)}</p><p class="small">${ext(c.doc.url, c.doc.label)}</p>`).join("")}
   </section>` : ""}

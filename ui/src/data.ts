@@ -55,6 +55,8 @@ export interface StateData {
     bridge_2026: { low: number; central: number; high: number }; rate_per_1000_per_year: number; source: string;
   };
   scenarios: Scenario[];
+  /** The Why tab's "In and out of the model" list: places the ADU rate is learned from, and those left out. */
+  evidence_scope: { in: { name: string; kind: string; area: string; role: string }[]; out: { name: string; kind: string; reason: string }[]; source: string };
   /** The uniform range display (docs/UNIFORM_DISPLAY_SPEC.md): the 90% range and the side lines across it. */
   range90: Range90;
   side_lines: SideLine[];

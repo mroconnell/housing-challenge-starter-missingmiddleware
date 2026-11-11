@@ -90,6 +90,14 @@ export interface Why {
     ramp: { label: string; value: number }[];
   };
   sources: { scenario: ScenId; study: string; citation: string; url: string; finding: string; status: string }[];
+  /** The Why tab's "In and out of the model" card (scripts/build_tod_bundle.py, build_in_out). */
+  in_out: {
+    places: { name: string; share: number; effect: number }[]; mean_effect: number; mean_share: number; effect_units: string;
+    edge: { places: { name: string; effect: number }[]; pooled: number; low: number; high: number; units: string };
+    out_broad: { name: string; share: number; why: string; source: string }[];
+    out_other: { name: string; why: string; source: string }[];
+    check_central: number;
+  };
   city_checks?: { title: string; text: string; doc: { label: string; url: string } }[];
   docs: { label: string; url: string }[];
 }

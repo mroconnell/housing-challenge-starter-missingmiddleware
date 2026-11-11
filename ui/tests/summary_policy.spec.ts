@@ -96,6 +96,9 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
     } else if (id === "parking") {
       await expect(scope).toHaveText("For the full list of the 74 places that removed parking minimums and were studied, see Why → All 74 places →");
       await expect(scope.locator("a")).toHaveAttribute("href", "#/parking/why?section=parking-places");
+    } else if (id === "tod") {
+      await expect(scope).toHaveText("For the 11 places behind the range, and the places left out, see Why → In and out of the model →");
+      await expect(scope.locator("a")).toHaveAttribute("href", "#/tod/why?section=tod-in-out");
     } else await expect(scope).toHaveCount(0);
   });
 
@@ -125,27 +128,32 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
   });
 }
 
-// ADU Why: the in/out list (owner, 2026-11-11 20:21). States in: the bundle's 8 (the evidence card's table); cities in:
-// the 5 in the pooled model (docs/gate3/README.md step 1); left out: the 10 other Mercatus states, the local proxies
-// and the 11 Madison-like cities (docs/gate3/STATEWIDE_STATES.md, POOLED_MODEL.md decision 13).
-test("ADU Why: In and out of the model lists 8 states and 5 cities in, 12 entries out", async ({ page }) => {
+// ADU Why: the in/out list is the bundle's state.json evidence_scope: 13 in (8 states that set the statewide level,
+// 5 cities for the law and local-rules terms only) and 15 out (10 states, then 5 places), each with its reason.
+test("ADU Why: In and out of the model lists 13 places in (8 states, 5 cities) and 15 out, from evidence_scope", async ({ page }) => {
   await page.goto("#/why");
   const box = page.locator("#adu-in-out");
   await expect(box).toBeVisible();
   await expect(box.getByRole("heading", { level: 2 })).toHaveText("In and out of the model");
-  const ev = await json(page, "runs/", "evidence.json");
-  const states = (ev.cards as { kind: string; table?: { state: string }[] }[]).find((c) => c.kind === "evidence" && c.table?.length)!.table!.map((r) => r.state);
-  expect(states).toHaveLength(8);
+  const sc = (await json(page, "runs/", "state.json")).evidence_scope as { in: { name: string; kind: string; role: string }[]; out: { name: string; kind: string }[]; source: string };
+  expect(sc.in).toHaveLength(13);
+  expect(sc.out).toHaveLength(15);
+  const states = sc.in.filter((x) => x.kind === "state");
+  expect(states.map((x) => x.name).sort()).toEqual(["California", "Maine", "Massachusetts", "Oregon", "Rhode Island", "Utah", "Vermont", "Washington"]);
   await expect(box.getByTestId("in-states").locator("li")).toHaveCount(8);
-  for (const s of states) await expect(box.getByTestId("in-states")).toContainText(s);
-  expect([...states].sort()).toEqual(["California", "Maine", "Massachusetts", "Oregon", "Rhode Island", "Utah", "Vermont", "Washington"]);
-  await expect(box.getByTestId("in-cities").locator("li")).toHaveCount(5);
-  for (const c of ["Seattle", "Portland", "Austin", "Denver", "Minneapolis"]) await expect(box.getByTestId("in-cities")).toContainText(c);
+  for (const s of states) await expect(box.getByTestId("in-states")).toContainText(`${s.name}:`);
+  for (const s of states) expect(s.role).toBe("sets the statewide level");
+  const cities = box.getByTestId("in-cities");
+  await expect(cities.locator("li")).toHaveCount(5);
+  for (const c of ["Seattle", "Portland", "Austin", "Denver", "Minneapolis"]) await expect(cities).toContainText(c);
+  for (const t of await cities.locator("li").allInnerTexts()) expect(t).toContain("law and local-rules terms only");
   const out = box.getByTestId("out-places");
-  await expect(out.locator("li")).toHaveCount(12);
-  for (const s of ["Montana", "Arizona", "Colorado", "Arkansas", "Iowa", "New Hampshire", "Connecticut", "Hawaii", "Maryland", "Nevada", "11 cities like Madison"]) await expect(out).toContainText(s);
-  // each left-out entry has a one-line reason
+  await expect(out.locator("li")).toHaveCount(15);
+  expect(sc.out.slice(0, 10).every((x) => x.kind === "state")).toBe(true);
+  for (const s of ["Montana", "Arizona", "Colorado", "Arkansas", "Iowa", "New Hampshire", "Connecticut", "Hawaii", "Maryland", "Nevada", "Tucson", "Spokane", "Honolulu", "Montgomery County", "Bozeman"]) await expect(out).toContainText(s);
   for (const t of await out.locator("li").allInnerTexts()) expect(t).toMatch(/^.+: .+$/);
+  await expect(box.getByTestId("in-out-source")).toHaveText(`Source: ${sc.source}`);
+  await expect(box.getByTestId("madison-like-check")).toContainText("A check, not used for the rate");
 });
 
 test("ADU Summary link opens Why at the in/out list", async ({ page }) => {
@@ -153,6 +161,37 @@ test("ADU Summary link opens Why at the in/out list", async ({ page }) => {
   await page.getByTestId("summary-scope-link").locator("a").click();
   await expect(page).toHaveURL(/#\/why\?section=adu-in-out$/);
   await expect(page.locator("#adu-in-out")).toBeInViewport();
+});
+
+// The TOD Why card: the 11 D-11 places (effects average 33.54 extra homes per 100 lot acres a year, the central's
+// per-acre effect), the 5 edge-check places, and the places left out with a reason each.
+test("TOD Why: In and out of the model lists 11 places averaging 33.54, 5 edge places, and the places left out", async ({ page }) => {
+  await page.goto("#/tod/why");
+  const box = page.locator("#tod-in-out");
+  await expect(box).toBeVisible();
+  await expect(box.getByRole("heading", { level: 2 })).toHaveText("In and out of the model");
+  const why = await json(page, "scenarios/tod/runs/", "why.json");
+  const effects = (why.in_out.places as { effect: number }[]).map((p) => p.effect);
+  expect(effects).toHaveLength(11);
+  expect((effects.reduce((a, b) => a + b, 0) / 11).toFixed(2)).toBe("33.54");
+  await expect(box.getByTestId("tod-in-places").locator("tbody tr")).toHaveCount(11);
+  await expect(box.getByTestId("tod-in-mean")).toHaveText("+33.54");
+  for (const n of ["New York", "Philadelphia", "Austin 2009", "Charlotte 2019", "Chicago 2015", "Denver 2018", "Portland 2020", "Seattle Mount Baker 2014", "Seattle Othello 2012", "Salt Lake City 2010", "Saint Paul 2011"])
+    await expect(box.getByTestId("tod-in-places")).toContainText(n);
+  const edge = box.getByTestId("tod-edge-places").locator("li");
+  await expect(edge).toHaveCount(5);
+  expect((await edge.allInnerTexts()).map((t) => t.split(":")[0])).toEqual(["Philadelphia", "Austin 2009", "Chicago 2015", "Denver 2018", "Saint Paul 2011"]);
+  const out = box.getByTestId("tod-out-places");
+  for (const n of ["Los Angeles TOC 2017", "San Diego 2021", "Chicago 2022", "Bellevue BelRed 2009", "Honolulu 2017", "Seattle Roosevelt 2012", "Madison", "Toronto", "Ottawa"])
+    await expect(out).toContainText(n);
+  for (const t of await out.locator("li").allInnerTexts()) expect(t).toMatch(/^.+: .+$/);
+});
+
+test("TOD Summary link opens Why at the in/out card", async ({ page }) => {
+  await page.goto("#/tod/summary");
+  await page.getByTestId("summary-scope-link").locator("a").click();
+  await expect(page).toHaveURL(/#\/tod\/why\?section=tod-in-out$/);
+  await expect(page.locator("#tod-in-out")).toBeInViewport();
 });
 
 test("parking Summary link opens Why with the list of 74 places open", async ({ page }) => {

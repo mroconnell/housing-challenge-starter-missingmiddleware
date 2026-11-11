@@ -47,7 +47,7 @@ function mount(env: ShellEnv, data: unknown): MountedReform {
       else if (path.startsWith("/why")) why(b, main);
       else if (path.startsWith("/pilot")) pilot(b, env, path.split("/")[2] ?? "", main);
       else if (path.startsWith("/brief")) brief(b, main);
-      else renderSummary(main, todSummaryInput(b, b.homes), env, params);
+      else renderSummary(main, todSummaryInput(b, b.homes, env), env, params);
     },
   };
 }

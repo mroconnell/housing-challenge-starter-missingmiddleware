@@ -215,6 +215,39 @@ class TestTodBundle(unittest.TestCase):
         self.assertNotIn("ramp_year5_alt", ids)   # timing only: the five-year total is unchanged
         self.assertNotIn("ramp_new_york", ids)
 
+    def test_in_out_card(self):
+        """Why's "In and out of the model": the 11 D-11 places average 33.54 (the central's per-acre effect), their
+        shares match the candidate table, and the edge check names the 5 balance-passing places."""
+        io = json.loads((self.d / "why.json").read_text())["in_out"]
+        names = [p["name"] for p in io["places"]]
+        self.assertEqual(len(names), 11)
+        for n in ("New York", "Philadelphia", "Austin 2009", "Charlotte 2019", "Chicago 2015", "Denver 2018", "Portland 2020",
+                  "Seattle Mount Baker 2014", "Seattle Othello 2012", "Salt Lake City 2010", "Saint Paul 2011"):
+            self.assertEqual(sum(x.startswith(n) for x in names), 1, n)
+        mean = sum(p["effect"] for p in io["places"]) / 11
+        self.assertAlmostEqual(mean, 33.54, places=2)
+        self.assertAlmostEqual(mean, io["mean_effect"], places=3)
+        od = pd.read_csv(REF / "tod_optiond_line.csv").set_index("line")
+        self.assertAlmostEqual(round(mean, 2), od.loc["optiond_average", "mean_effect_per_100_acres"], places=2)
+        meta = json.loads((REF / "tod_line_draws_meta.json").read_text())
+        self.assertAlmostEqual(mean, meta["point_values_per100ac"]["central"], places=3)
+        pt = pd.read_csv(REF / "tod_causal_central_pretrend.csv")
+        real = pt[pt["row"] == "place"].set_index("name")["real"]
+        self.assertEqual(sorted(round(v, 4) for v in real), sorted(p["effect"] for p in io["places"]))
+        edge = [p["name"] for p in io["edge"]["places"]]
+        self.assertEqual(edge, ["Philadelphia", "Austin 2009", "Chicago 2015", "Denver 2018", "Saint Paul 2011"])
+        self.assertIn("5 places Philadelphia; Austin 2009; Chicago 2015; Denver 2018; Saint Paul 2011", meta["methods"]["lower"])
+        self.assertAlmostEqual(sum(p["effect"] for p in io["edge"]["places"]) / 5, io["edge"]["pooled"], places=1)
+        self.assertAlmostEqual(io["edge"]["pooled"], meta["point_values_per100ac"]["lower"], places=1)
+        out = [c["name"] for c in io["out_broad"] + io["out_other"]]
+        for n in ("Los Angeles TOC 2017", "San Diego 2021", "Chicago 2022", "Bellevue BelRed 2009", "Honolulu 2017",
+                  "Seattle Roosevelt 2012", "Madison", "Toronto", "Ottawa"):
+            self.assertEqual(sum(x.startswith(n) for x in out), 1, n)
+        for c in io["out_broad"]:
+            self.assertGreaterEqual(c["share"], 0.3, c["name"])
+        for c in io["out_broad"] + io["out_other"]:
+            self.assertTrue(c["why"] and c["source"].startswith("docs/tod/"), c)
+
     def test_rebuild_is_byte_identical(self):
         before = {f.name: f.read_bytes() for f in self.d.iterdir()}
         subprocess.run([sys.executable, str(ROOT / "scripts" / "build_tod_bundle.py")], check=True, capture_output=True)

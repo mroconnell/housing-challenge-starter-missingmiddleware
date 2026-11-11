@@ -71,6 +71,8 @@ INPUTS = [
     "reference/gate5_housing_health.csv", "reference/adu_model_district_crosswalk.csv",
     "reference/tod_today_density.csv",
     "reference/tod_line_draws.csv", "reference/tod_coverage_test.csv",
+    "reference/tod_causal_central_pretrend.csv", "reference/tod_optiond_candidates.csv",
+    "reference/tod_causal_edge_test.csv", "reference/tod_optiond_broad_check.csv",
     GEO_MUNIS,
 ]
 
@@ -782,6 +784,70 @@ def city_checks() -> list[dict]:
     return out
 
 
+# The Why tab's "In and out of the model" card. Names: (display name, row in tod_causal_central_pretrend.csv,
+# row in tod_optiond_candidates.csv). New York and Philadelphia are many rezonings each, pooled into one effect.
+IN_OUT_PLACES = [
+    ("New York (rezonings pooled)", "New York", "New York (pooled)"),
+    ("Philadelphia (rezonings pooled)", "Philadelphia", "Philadelphia (remapping)"),
+    ("Austin 2009", "Austin", "Austin 2009"),
+    ("Charlotte 2019", "Charlotte", "Charlotte 2019"),
+    ("Chicago 2015", "Chicago 2015", "Chicago 2015"),
+    ("Denver 2018", "Denver", "Denver 2018"),
+    ("Portland 2020", "Portland 2020", "Portland 2020"),
+    ("Seattle Mount Baker 2014", "Seattle Mount Baker", "Seattle Mount Baker 2014"),
+    ("Seattle Othello 2012", "Seattle Othello", "Seattle Othello 2012"),
+    ("Salt Lake City 2010", "Salt Lake City", "Salt Lake City 2010"),
+    ("Saint Paul 2011", "Saint Paul", "Saint Paul 2011"),
+]
+BROAD_NAMES = {"la_toc_2017": "Los Angeles TOC 2017", "san_diego_2021": "San Diego 2021", "chicago_2022": "Chicago 2022",
+               "bellevue_belred_2009": "Bellevue BelRed 2009", "honolulu_2017": "Honolulu 2017"}
+# Left-out reasons, each from the doc named beside it (no reason here is new).
+OUT_OTHER = [
+    {"name": "Seattle Roosevelt 2012", "why": "no lot table for the ¼-mile measure, so not in the 11; in the edge test it is extreme and fragile: a few large projects, only 4 boundary segments, and it dominates any pool it enters",
+     "source": "docs/tod/OPTION_D_PLAN.md (evidence sets) and docs/tod/CAUSAL_FRAMEWORK_PLAN.md (E1)"},
+    {"name": "Madison 2023 transit overlay", "why": "too recent: overlay 2023, after years 2023–2025 only; kept as Wisconsin's own test (the Madison test below)",
+     "source": "docs/tod/CAUSAL_FRAMEWORK_PLAN.md (beside, not pooled or scored)"},
+    {"name": "Toronto, Eglinton Connects 2014", "why": "context only: sizeable buildings get their own later rezoning, so the measured lots leave out the lots where the projects stand; no US census values",
+     "source": "docs/tod/CASE_ANALYSIS_PLAN.md (batch 2) and docs/tod/ALLVARS_RESULTS.md"},
+    {"name": "Ottawa, transit zone 2012", "why": "context only: permit files start in July 2011, so at most 2 full years before the reform",
+     "source": "docs/tod/CASE_ANALYSIS_PLAN.md (batch 2)"},
+]
+
+
+def build_in_out() -> dict:
+    """The 11 places behind the central and upper lines (share of ¼-mile land in the district, measured effect), the
+    5 edge-test places behind the lower line, and the places left out, each with its documented reason."""
+    pt = pd.read_csv(REF / "tod_causal_central_pretrend.csv")
+    real = pt[pt["row"] == "place"].set_index("name")["real"]
+    central = float(pt[(pt["version"] == "current") & (pt["row"] == "central")]["value"].iloc[0])
+    cand = pd.read_csv(REF / "tod_optiond_candidates.csv").set_index("place")
+    places = []
+    for name, key, ckey in IN_OUT_PLACES:
+        share = float(str(cand.loc[ckey, "district_share_quarter_mile"]).rstrip("%")) / 100
+        places.append({"name": name, "share": r(share, 3), "effect": r(real[key], 4)})
+    assert len(real) == 11 and len(places) == 11, "the in/out card needs all 11 D-11 places"
+    mean = sum(p["effect"] for p in places) / 11
+    assert abs(mean - central) < 1e-3, (mean, central)
+    od = pd.read_csv(REF / "tod_optiond_line.csv").set_index("line")
+    et = pd.read_csv(REF / "tod_causal_edge_test.csv")
+    main_ = et[et["variant"] == "main (91 m)"]
+    pooled = main_[main_["place"].str.startswith("POOLED")].iloc[0]
+    edge_names = str(pooled["places_in_pool"]).split(";")
+    per = main_.set_index("place")["edge_effect_per_100_acres_per_year"]
+    edge = [{"name": n, "effect": r(per[n], 2)} for n in edge_names]
+    bc = pd.read_csv(REF / "tod_optiond_broad_check.csv")
+    bc = bc[bc["city"].isin(BROAD_NAMES)].sort_values("coverage_diff")
+    broad = [{"name": BROAD_NAMES[x.city], "share": r(x.coverage_diff, 2),
+              "why": f"covered {x.coverage_diff:.0%} of the land within ¼ mile of its stops: a broad upzoning, not a district (the 11 places covered under 30%)",
+              "source": "docs/tod/OPTION_D_PLAN.md (section 2) and reference/tod_optiond_broad_check.csv"} for x in bc.itertuples()]
+    return {"places": places, "mean_effect": r(mean, 4), "mean_share": r(sum(p["share"] for p in places) / 11, 4),
+            "effect_units": "extra new homes per 100 lot acres a year, within ¼ mile of reform stops, against similar stops without reform",
+            "edge": {"places": edge, "pooled": r(pooled["edge_effect_per_100_acres_per_year"], 2), "low": r(pooled["low"], 2), "high": r(pooled["high"], 2),
+                     "units": "extra new homes per 100 acres of district lots a year, lots just inside the district line against lots just outside (within 300 feet)"},
+            "out_broad": broad, "out_other": OUT_OTHER,
+            "check_central": r(float(od.loc["optiond_average", "mean_effect_per_100_acres"]), 2)}
+
+
 def build_why() -> dict:
     ce = pd.read_csv(REF / "tod_case_estimates.csv")
     # Permit-count rows (Raleigh, Phoenix, Ann Arbor; context only, CASE_ANALYSIS_PLAN section 7) count permits, not
@@ -877,7 +943,7 @@ def build_why() -> dict:
          "status": "calculated"},
     ]
     return {"cases": cases, "classification": classification, "strength_counts": {k: int(v) for k, v in counts.items()},
-            "madison": madison, "sources": sources, "city_checks": city_checks(),
+            "madison": madison, "sources": sources, "city_checks": city_checks(), "in_out": build_in_out(),
             "docs": [doc("docs/tod/CAUSAL_FRAMEWORK_PLAN.md", "Causal framework (lower and upper lines)"), doc("docs/tod/OPTION_D_PLAN.md", "Option D plan and log"), doc("docs/tod/GATE3_PACKET.md", "Gate 3 packet"), doc("docs/tod/MODEL.md", "Model"),
                      doc("docs/tod/CASE_RESULTS.md", "Comparison cases"), doc("docs/tod/MADISON_TEST_RESULTS.md", "Madison test"),
                      doc("docs/tod/research/NET_EFFECT_SOURCES.md", "Source check of the three studies")]}
