@@ -1816,3 +1816,36 @@ Ryan, 01:23–01:26 UTC:
 5. **Conventions, and counts first:** "fewer than 10 places" and "25,000 people" are conventions. Before any effect is shown, the write-up reports the number of places with any 2–4 unit permits in the **before** window, overall and in each size group, together with the minimum detectable effect.
 6. **Sign agreement:** a 25,000 gap of exactly 0, or one whose sign differs from the slope's, counts as "does not agree".
 7. **Flag window:** the ±3-year flag window overlaps the 1–3 year after-window. That is acceptable as a with/without split. Any Wisconsin figure is display only, and needs Ryan's OK and the 25% rule.
+
+**Test 56: one reading at lock (01:30 UTC addendum).** This block supersedes every earlier Test 56 block wherever they differ, and it is the version that is locked.
+- **Already seen:** the earlier 2–4 unit result (−0.065, −0.14 to +0.03, 76 places); H2 2–4 buildings; the decomposition; 5+ homes; 2+ homes (−1.09); single-family homes; 52d's 1-unit results; Test 53's all-homes size readings.
+- **New:** 2–4 unit homes by city size (continuous 2010-population slope and the 25,000 split), on the 74-place sample.
+- **Estimand:** the ATT in both weightings, with city size as a moderator (CATE). Applying it to Wisconsin assumes ATU = ATT, and that is stated.
+- **Headline cells (4):** the 2–4 overall effect and the 2–4 size slope, each under the main method and method 2 D, with main weights, estimate columns and all places.
+- **Sensitivity cells (70), counted exactly:**
+
+  | Group | Cells |
+  | --- | --- |
+  | Outcomes 2–4, 1-unit and 5+ × (effect, slope, 25,000 gap) × 2 methods × 2 weightings, minus the 4 headline | 32 |
+  | Reported-only columns: 2–4 effect and slope × 2 methods | 4 |
+  | Flag/drop and no-Oregon: 2–4 effect and slope × 2 methods × 2 variants | 8 |
+  | Poisson: 2–4 effect × 2 methods | 2 |
+  | Long set: 2–4 effect × 2 methods | 2 |
+  | Event study: years −5, −4, −3, −2, 0, 1, 2, 3 (reference −1) × 2 methods | 16 |
+  | Placebo dates −2 and −4 × 2 methods | 4 |
+  | Spillover, out-of-metro (D) | 1 |
+  | Date-aware pools (D) | 1 |
+  | **Total** | **70** |
+
+  - **Chance:** no sensitivity cell can make a result count. Among the 4 headline cells, one range excluding 0 by chance is plausible.
+- **Counts:** a headline cell counts only if its 90% range excludes 0 under both methods, read the same for either sign. For the slope, the 25,000 gap must also agree in sign; a gap of exactly 0 does not agree.
+- **Pre-trend rule:** if any lead (years −5 to −2), or either placebo date (−2 or −4), excludes 0 under both methods, the 2–4 result is labelled "pre-trend, not read as an effect", for either sign. Size alone is not judged.
+- **Scale rule:** Poisson is a check only.
+  - If the levels range includes 0 and Poisson's excludes 0, the result stays "don't know".
+  - If both exclude 0 with opposite signs, it is labelled "scale-dependent".
+- **"Too few to read" (a convention):** fewer than 10 places with any 2–4 unit permits in the **before** window, overall or in a size group. These counts and the minimum detectable effect are reported first. 25,000 is also a convention.
+- **Estimator:**
+  - The stacked never-treated design describes the existing batch estimators (per-place comparison with never-repealing look-alikes in its own window). It changes no estimator code.
+  - Only new outcome columns, the size slope, the event-study years for 2–4, and the Poisson check are new code. That code is committed and audited before the count.
+- **Guards kept from the earlier blocks:** the flag window overlap; Oregon; no post-treatment controls; the collider fix; the regression-to-the-mean report; the 52g spillover rerun; the 52a balance check.
+- **Wisconsin:** display only. Any use needs Ryan's OK and the 25% rule.
