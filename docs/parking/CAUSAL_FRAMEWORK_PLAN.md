@@ -2066,3 +2066,24 @@ Ryan, 01:36–01:39 UTC:
 - **Note:** with the average close to 0, B adds a leave-one-out penalty, so B can score slightly worse than A even with no effect. This is stated beside the result.
 
 **Code:** scripts/run_parking_t59_holdout.py, committed before it runs. Outputs: reference/parking_t59_{drop_one,predict}.csv.
+
+## Test 60: injection (catch-rate) test, 2–4 unit homes (post hoc; plan committed before any Test 60 number)
+
+**Ryan's ask** (14:03:54 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qMdPgwGBcin2KcL9UCJMW9z): "the injection test where we put fake results in to see if we catch the fake?"
+
+**Post hoc.** Test 56's results were seen first. The test reads Test 56's saved stand-in draws (data/processed/t56/units_2_4_ref), with no new pipeline run.
+
+**Design (main method):**
+- Each of the 20,000 fake groups (stand-in sets of no-reform towns, built as in Test 56) is a world where the true effect is 0.
+- Add a known effect δ to that group's weighted average.
+- Apply Test 56's range rule: the group average + δ, plus the placebo spread (p05 − p50, p95 − p50).
+- The fake is **caught** if the range excludes 0 on the side of δ.
+- **Catch rate** = the share of the 20,000 groups where it is caught.
+- **Sizes:** δ = ±1,000, ±2,500, ±4,727 (the MDE) and ±10,000 Wisconsin homes over 5 years. Each is divided by 13,343.385 to get a rate in homes per 1,000 existing homes a year.
+- δ = 0 is also run, as the false-alarm rate. Expected about 10% (5% each side).
+
+**Method 2 D:** not run. D has no stand-in sets, and its bootstrap range shifts one-for-one with δ. The write-up states D's catch threshold instead: δ must exceed the distance from D's estimate to the far end of its range.
+
+**Reading:** descriptive (a power curve). No pass or fail.
+
+**Code:** scripts/run_parking_t60_injection.py, committed before it runs. Output: reference/parking_t60_catch_rate.csv.
