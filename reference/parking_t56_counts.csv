@@ -1,0 +1,6 @@
+sample,places,places_with_any_2_4_before,too_few_to_read,rule
+all 74 places,74,53,False,fewer than 10 places with any 2-4 unit permits in the before window
+"under 25,000",26,14,False,fewer than 10 places with any 2-4 unit permits in the before window
+"25,000 or more",48,39,False,fewer than 10 places with any 2-4 unit permits in the before window
+without flagged places,46,32,False,fewer than 10 places with any 2-4 unit permits in the before window
+without Oregon,58,43,False,fewer than 10 places with any 2-4 unit permits in the before window
