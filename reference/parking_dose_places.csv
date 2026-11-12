@@ -1,0 +1,217 @@
+outcome,reform_id,place,state,event_year,role,role_note,dose,dose_source,assumed_dose,c3_placeholder_50,d_24_source,main_status,main_effect,main_weight,d_effect
+all new homes,rep_san_jose_2023,San Jose,California,2023,74,,44.89,computable,False,False,dose_units_2_4 column,included,2.48282,690132.0,0.7163
+all new homes,rep_san_francisco_2019,San Francisco,California,2019,74,,71.83,computable,False,False,dose_units_2_4 column,included,-3.280162,1243806.0,-5.1776
+all new homes,rep_raleigh_2022,Raleigh,North Carolina,2022,74,,58.88,computable,False,False,dose_units_2_4 column,included,7.037608,674559.0,7.659
+all new homes,rep_minneapolis_2021,Minneapolis,Minnesota,2021,74,,36.31,computable,False,False,dose_units_2_4 column,included,-8.518819,627240.0,-5.7542
+all new homes,rep_lexington_2022,Lexington,Kentucky,2022,74,,99.05,computable,False,False,dose_units_2_4 column,included,-5.07672,446877.0,-1.4295
+all new homes,rep_st_paul_2021,St. Paul,Minnesota,2021,74,,88.84,computable,False,False,dose_units_2_4 column,included,-2.215661,399153.0,0.4489
+all new homes,rep_anchorage_2023,Anchorage,Alaska,2023,74,,99.15,computable,False,False,dose_units_2_4 column,included,-3.159455,240696.0,-4.7474
+all new homes,rep_buffalo_2017,Buffalo,New York,2017,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.477774,410550.0,1.0101
+all new homes,rep_bridgeport_2021,Bridgeport,Connecticut,2021,74,,98.15,computable,False,False,dose_units_2_4 column,included,5.948239,179532.0,4.6054
+all new homes,rep_gainesville_2022,Gainesville,Florida,2022,74,,84.52,computable,False,False,dose_units_2_4 column,included,5.207914,198342.0,16.0581
+all new homes,rep_hartford_2017,Hartford,Connecticut,2017,74,,59.15,computable,False,False,dose_units_2_4 column,included,-0.253974,169305.0,-0.0032
+all new homes,rep_ann_arbor_2022,Ann Arbor,Michigan,2022,74,,95.25,computable,False,False,dose_units_2_4 column,included,4.413186,163197.0,4.6709
+all new homes,rep_cambridge_2022,Cambridge,Massachusetts,2022,74,,98.26,computable,False,False,dose_units_2_4 column,included,-7.078349,164520.0,-4.566
+all new homes,rep_roanoke_2021,Roanoke,Virginia,2021,74,,96.43,partly,False,False,dose_units_2_4 column,included,-1.127302,147318.0,-0.2992
+all new homes,rep_alameda_2021,Alameda,California,2021,74,,98.51,computable,False,False,dose_units_2_4 column,included,-3.128369,96873.0,-1.5551
+all new homes,rep_west_allis_2022,West Allis,Wisconsin,2022,74,,100.0,computable,False,False,dose_units_2_4 column,included,4.338343,90882.0,6.3101
+all new homes,rep_corvallis_2022,Corvallis,Oregon,2022,74,,99.72,computable,False,False,dose_units_2_4 column,included,3.251432,76884.0,2.8388
+all new homes,rep_tigard_2022,Tigard,Oregon,2022,74,,43.23,computable,False,False,dose_units_2_4 column,included,-2.566797,71631.0,2.5619
+all new homes,rep_dunwoody_2019,Dunwoody,Georgia,2019,74,,100.0,computable,False,False,dose_units_2_4 column,included,2.067959,70473.0,7.1251
+all new homes,rep_culver_city_2022,Culver City,California,2022,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.740769,56409.0,0.2509
+all new homes,rep_mount_pleasant_2018,Mount Pleasant,Michigan,2018,74,,100.0,computable,False,False,dose_units_2_4 column,included,-1.410809,25653.0,-1.834
+all new homes,rep_windham_2018,Windham,Maine,2018,74,,100.0,partly,False,False,dose_units_2_4 column,included,8.390351,26127.0,8.5172
+all new homes,rep_cambridge_md_2021,Cambridge,Maryland,2021,74,,77.44,partly,False,False,dose_units_2_4 column,included,-6.679592,19956.0,-6.2164
+all new homes,rep_emeryville_2020,Emeryville,California,2020,74,,83.32,computable,False,False,dose_units_2_4 column,included,-0.052658,25491.0,-7.8086
+all new homes,rep_branson_2018,Branson,Missouri,2018,74,,100.0,partly,False,False,dose_units_2_4 column,included,3.158617,27018.0,-1.0545
+all new homes,rep_canandaigua_2020,Canandaigua,New York,2020,74,,100.0,partly,False,False,dose_units_2_4 column,included,-4.172192,16281.0,-4.2681
+all new homes,rep_ecorse_2020,Ecorse,Michigan,2020,74,,100.0,computable,False,False,dose_units_2_4 column,included,-13.048484,12363.0,-9.0188
+all new homes,rep_bastrop_2019,Bastrop,Texas,2019,74,,100.0,computable,False,False,dose_units_2_4 column,included,30.651581,15300.0,54.0983
+all new homes,rep_river_rouge_2021,River Rouge,Michigan,2021,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.331087,9387.0,-0.0555
+all new homes,rep_hudson_2019,Hudson,New York,2019,74,,100.0,computable,False,False,dose_units_2_4 column,included,-1.596796,10653.0,-1.8206
+all new homes,rep_bandera_2021,Bandera,Texas,2021,74,,100.0,computable,False,False,dose_units_2_4 column,included,3.407727,1101.0,11.1402
+all new homes,rep_austin_2023,Austin,Texas,2023,74,,97.57,computable,False,False,dose_units_2_4 column,included,-12.32893,966142.0,-4.5698
+all new homes,rep_sacramento_2024,Sacramento,California,2024,74,,47.61,computable,False,False,dose_units_2_4 column,included,1.002629,212485.0,2.1284
+all new homes,rep_durham_2023,Durham,North Carolina,2023,74,,89.21,computable,False,False,dose_units_2_4 column,included,0.304581,273674.0,3.5647
+all new homes,rep_richmond_2023,Richmond,Virginia,2023,74,,91.17,computable,False,False,dose_units_2_4 column,included,15.104901,228586.0,14.9929
+all new homes,rep_birmingham_2024,Birmingham,Alabama,2024,74,,97.39,computable,False,False,dose_units_2_4 column,included,0.804649,109349.0,1.0507
+all new homes,rep_newport_news_2024,Newport News,Virginia,2024,74,,99.38,computable,False,False,dose_units_2_4 column,included,2.342032,82052.0,0.8296
+all new homes,rep_salem_2023,Salem,Oregon,2023,74,,79.77,assumed dose (prior unsourced),True,False,dose_units_2_4 column,included,-1.240124,142248.0,1.2545
+all new homes,rep_eugene_2024,Eugene,Oregon,2024,74,,63.59,computable,False,False,dose_units_2_4 column,included,0.927841,80856.0,3.2186
+all new homes,rep_berkeley_2021,Berkeley,California,2021,74,,97.3,partly,False,False,dose_units_2_4 column,included,3.786562,159435.0,3.6329
+all new homes,rep_bend_2023,Bend,Oregon,2023,74,,72.47,computable,False,False,dose_units_2_4 column,included,3.412872,95914.0,5.8125
+all new homes,rep_beaverton_2023,Beaverton,Oregon,2023,74,,39.24,computable,False,False,dose_units_2_4 column,included,-1.963514,85542.0,-1.2593
+all new homes,rep_longmont_2024,Longmont,Colorado,2024,74,,96.92,computable,False,False,dose_units_2_4 column,included,13.758925,43528.0,11.1863
+all new homes,rep_trenton_2023,Trenton,New Jersey,2023,74,,100.0,partly,False,False,dose_units_2_4 column,included,0.780053,69026.0,-1.0106
+all new homes,rep_duluth_2023,Duluth,Minnesota,2023,74,,75.66,partly,False,False,dose_units_2_4 column,included,5.723041,79956.0,3.3024
+all new homes,rep_kalamazoo_2023,Kalamazoo,Michigan,2023,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.180677,64758.0,-1.1573
+all new homes,rep_rogers_2024,Rogers,Arkansas,2024,74,,100.0,computable,False,False,dose_units_2_4 column,included,-7.817879,28579.0,-1.8054
+all new homes,rep_portland_2024,Portland,Maine,2024,74,,100.0,assumed dose (prior unsourced),True,False,dose_units_2_4 column,included,2.648759,36559.0,6.8818
+all new homes,rep_springfield_2024,Springfield,Oregon,2024,74,,31.9,computable,False,False,dose_units_2_4 column,included,9.854602,25905.0,10.4695
+all new homes,rep_albany_2023,Albany,Oregon,2023,74,,10.96,computable,False,False,dose_units_2_4 column,included,-4.613909,45536.0,-7.9895
+all new homes,rep_la_crosse_2024,La Crosse,Wisconsin,2024,74,,100.0,computable,False,False,dose_units_2_4 column,included,-2.028206,24404.0,-2.7663
+all new homes,rep_burlington_2023,Burlington,Vermont,2023,74,,61.22,computable,False,False,dose_units_2_4 column,included,13.718586,36158.0,17.9905
+all new homes,rep_grants_pass_2024,Grants Pass,Oregon,2024,74,,35.58,computable,False,False,dose_units_2_4 column,included,10.316697,17297.0,5.0532
+all new homes,rep_plainfield_2022,Plainfield,Indiana,2022,74,,100.0,partly,False,False,dose_units_2_4 column,included,-10.282429,40077.0,-5.9252
+all new homes,rep_tualatin_2024,Tualatin,Oregon,2024,74,,27.98,computable,False,False,dose_units_2_4 column,included,13.889017,11303.0,10.6595
+all new homes,rep_west_linn_2024,West Linn,Oregon,2024,74,,37.24,computable,False,False,dose_units_2_4 column,included,9.453207,10395.0,1.9334
+all new homes,rep_kingston_2023,Kingston,New York,2023,74,,100.0,partly,False,False,dose_units_2_4 column,included,10.120955,22442.0,9.7002
+all new homes,rep_ashland_2023,Ashland,Oregon,2023,74,,11.61,computable,False,False,dose_units_2_4 column,included,3.598921,22988.0,-2.1812
+all new homes,rep_carrboro_2023,Carrboro,North Carolina,2023,74,,99.86,computable,False,False,dose_units_2_4 column,included,-13.101366,20378.0,-3.9862
+all new homes,rep_milwaukie_2024,Milwaukie,Oregon,2024,74,,17.76,computable,False,False,dose_units_2_4 column,included,-0.289064,9859.0,-1.6687
+all new homes,rep_northfield_2024,Northfield,Minnesota,2024,74,,100.0,computable,False,False,dose_units_2_4 column,included,-1.622143,6771.0,-6.6293
+all new homes,rep_central_point_2023,Central Point,Oregon,2023,74,,22.93,computable,False,False,dose_units_2_4 column,included,-4.656239,15956.0,-7.3658
+all new homes,rep_portsmouth_2022,Portsmouth,Ohio,2022,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.457726,25398.0,-7.6413
+all new homes,rep_taylor_2023,Taylor,Texas,2023,74,,100.0,computable,False,False,dose_units_2_4 column,included,-9.551472,14032.0,-11.1955
+all new homes,rep_hanover_2024,Hanover,New Hampshire,2024,74,,42.71,computable,False,False,dose_units_2_4 column,included,-4.228094,4056.0,-5.6173
+all new homes,rep_lansing_2024,Lansing,Kansas,2024,74,,100.0,computable,False,False,dose_units_2_4 column,included,-7.380714,3723.0,-2.2418
+all new homes,rep_hampden_2022,Hampden,Maine,2022,74,,100.0,computable,False,False,dose_units_2_4 column,included,-2.400749,9885.0,-2.6673
+all new homes,rep_king_city_2024,King City,Oregon,2024,74,,37.64,computable,False,False,dose_units_2_4 column,included,15.560763,2782.0,7.9341
+all new homes,rep_social_circle_2023,Social Circle,Georgia,2023,74,,100.0,computable,False,False,dose_units_2_4 column,included,-10.064094,3592.0,-72.6005
+all new homes,rep_millersburg_2024,Millersburg,Oregon,2024,74,,100.0,computable,False,False,dose_units_2_4 column,included,-33.660737,1187.0,-49.8057
+all new homes,rep_south_bend_2021,South Bend (with unincorporated St. Joseph County),Indiana,2021,74,,90.7,computable,False,False,dose_units_2_4 column,included,-6.1598,143325.0,1.5077
+all new homes,rep_gastonia_2021,Gastonia,North Carolina,2021,74,,100.0,computable,False,False,dose_units_2_4 column,included,7.9959,35337.0,-3.69
+all new homes,rep_avondale_estates_2021,Avondale Estates,Georgia,2021,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.7345,5793.0,0.3713
+all new homes,rep_saranac_lake_2016,Saranac Lake,New York,2016,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.3149,8457.0,-2.3948
+all new homes,oth_central_falls_2022,Central Falls,Rhode Island,2022,pooled,"C8: reversed in 2025, kept and flagged; after-years 2023-2024 only",100.0,computable,False,False,dose_units_2_4 column,included,1.025495,16852.0,2.759892
+all new homes,oth_charlottesville_2024,Charlottesville,Virginia,2024,wait,unsure: only after-year under litigation,100.0,computable,False,False,dose_units_2_4 column,included,34.98379,21610.0,35.58525
+all new homes,oth_spokane_2024,Spokane,Washington,2024,pooled,,8.52,computable,False,False,dose_units_2_4 column,included,1.851869,102834.0,-0.420281
+all new homes,oth_bakersfield_2024,Bakersfield,California,2024,pooled,,84.26,computable,False,False,dose_units_2_4 column,included,4.196818,135724.0,3.090972
+all new homes,oth_maumee_2020,Maumee,Ohio,2020,pooled,,15.0,fallback,True,False,dose_units_2_4 column,included,-1.011645,18651.0,-0.191288
+all new homes,oth_dover_2015,Dover,New Hampshire,2015,pooled,,15.0,fallback,True,False,dose_units_2_4 column,included,0.971113,46299.0,0.5797
+all new homes,oth_jackson_2021,Jackson,Tennessee,2021,pooled,,15.0,fallback,True,False,dose_units_2_4 column,included,-2.635935,90972.0,-3.896297
+all new homes,oth_norman_2021,Norman,Oklahoma,2021,pooled,,27.74,computable,False,False,dose_units_2_4 column,included,-6.674459,169995.0,-8.116698
+all new homes,oth_camden_2021,Camden,Maine,2021,pooled,,1.11,computable,False,False,dose_units_2_4 column,included,-2.481448,9630.0,-1.333768
+all new homes,oth_waukegan_2024,Waukegan,Illinois,2024,pooled,,50.48,computable,False,False,dose_units_2_4 column,included,-0.098598,33229.0,0.387447
+all new homes,oth_watertown_2023,Watertown,New York,2023,pooled,,46.47,partly,False,False,dose_units_2_4 column,included,3.074123,26852.0,1.997711
+all new homes,oth_north_canton_2023,North Canton,Ohio,2023,wait,conditional: Main Street exemption new in 2023?,0.0,fallback,True,False,dose_units_2_4 column,included,-0.145452,17404.0,-1.73806
+all new homes,oth_bloomsburg_2024,Bloomsburg,Pennsylvania,2024,pooled,,1.17,computable,False,False,dose_units_2_4 column,included,0.025506,5380.0,-2.064818
+all new homes,oth_lewisburg_2023,Lewisburg,Pennsylvania,2023,pooled,,24.08,computable,False,False,dose_units_2_4 column,included,1.098744,3934.0,1.368441
+all new homes,oth_pomona_2019,Pomona,California,2019,pooled,,0.82,partly,False,False,dose_units_2_4 column,included,2.027365,133119.0,4.082921
+all new homes,oth_covington_2020,Covington,Kentucky,2020,pooled,,80.11,partly,False,False,dose_units_2_4 column,included,0.132465,63144.0,-3.964116
+all new homes,oth_columbia_2021,Columbia,South Carolina,2021,pooled,,18.25,computable,False,False,dose_units_2_4 column,included,24.743031,186063.0,24.170412
+all new homes,oth_albany_2017,Albany,New York,2017,wait,conditional: exemption date,10.0,fallback,True,False,dose_units_2_4 column,included,-1.030723,151224.0,-0.172515
+all new homes,oth_bangor_2024,Bangor,Maine,2024,wait,conditional: effective date,32.08,computable,False,False,dose_units_2_4 column,included,1.315863,16042.0,0.990428
+all new homes,oth_boise_2023,Boise,Idaho,2023,pooled,,1.24,assumed dose,True,False,dose_units_2_4 column,included,-1.853699,212558.0,-2.027035
+all new homes,oth_tulsa_2024,Tulsa,Oklahoma,2024,pooled,,38.1,computable,False,False,dose_units_2_4 column,included,-1.060832,192797.0,1.205242
+all new homes,oth_binghamton_2024,Binghamton,New York,2024,wait,conditional: effective 2024 or 2025,20.0,computable,False,False,dose_units_2_4 column,included,1.452524,25457.0,0.312898
+all new homes,oth_eureka_2019,Eureka,California,2019,wait,unsure: staged steps,10.0,fallback,True,False,dose_units_2_4 column,included,0.082931,34884.0,-1.150839
+all new homes,oth_seabrook_2019,Seabrook,New Hampshire,2019,alone,dose-0 check (non-residential only),0.0,fallback,True,False,dose_units_2_4 column,included,-1.92077,12453.0,0.513925
+all new homes,oth_brainerd_2023,Brainerd,Minnesota,2023,alone,"C7: added minimums; reported alone, not pooled",0.0,fallback,True,False,dose_units_2_4 column,included,6.478338,13520.0,9.990169
+all new homes,oth_chicago_2015,Chicago,Illinois,2015,pooled,,1.8,partly,False,False,dose_units_2_4 column,included,3.379152,3831162.0,1.158765
+all new homes,oth_san_diego_2019,San Diego,California,2019,pooled,,63.14,computable,False,False,dose_units_2_4 column,included,2.112656,1706004.0,-4.52803
+all new homes,oth_albuquerque_2018,Albuquerque,New Mexico,2018,pooled,,15.12,partly,False,False,dose_units_2_4 column,included,-6.002744,774534.0,-2.638629
+all new homes,oth_penndel_2020,Penndel,Pennsylvania,2020,pooled,,25.0,fallback,True,False,dose_units_2_4 column,included,1.192038,3417.0,-0.995015
+all new homes,oth_somerville_2019,Somerville,Massachusetts,2019,pooled,,72.32,computable,False,False,dose_units_2_4 column,included,-5.047501,113268.0,-2.690446
+all new homes,oth_madison_2023,Madison,Wisconsin,2023,pooled,,24.57,computable,False,False,dose_units_2_4 column,included,5.574644,267060.0,8.265166
+all new homes,oth_denver_2018,Denver,Colorado,2018,pooled,,0.21,computable,False,False,dose_units_2_4 column,included,-4.78249,1078743.0,-0.289716
+all new homes,oth_shoreline_2022,Shoreline,Washington,2022,wait,unsure: may fail the optional-reduction screen,25.0,fallback,True,False,dose_units_2_4 column,included,6.775647,75867.0,13.772132
+all new homes,oth_portland_2018,Portland,Oregon,2018,wait,unsure: parking detail unknown,0.0,fallback,True,False,dose_units_2_4 column,included,-6.78373,923157.0,-6.598448
+2-4 unit homes,rep_san_jose_2023,San Jose,California,2023,74,,44.89,computable,False,False,dose_units_2_4 column,included,-0.355972,690132.0,-0.0799
+2-4 unit homes,rep_san_francisco_2019,San Francisco,California,2019,74,,71.83,computable,False,False,dose_units_2_4 column,included,-0.048542,1243806.0,-0.0752
+2-4 unit homes,rep_raleigh_2022,Raleigh,North Carolina,2022,74,,58.88,computable,False,False,dose_units_2_4 column,included,0.014988,674559.0,0.2438
+2-4 unit homes,rep_minneapolis_2021,Minneapolis,Minnesota,2021,74,,36.31,computable,False,False,dose_units_2_4 column,included,-0.352877,627240.0,0.1426
+2-4 unit homes,rep_lexington_2022,Lexington,Kentucky,2022,74,,99.05,computable,False,False,dose_units_2_4 column,included,-0.223484,446877.0,-0.1054
+2-4 unit homes,rep_st_paul_2021,St. Paul,Minnesota,2021,74,,88.84,computable,False,False,dose_units_2_4 column,included,-0.112906,399153.0,0.2297
+2-4 unit homes,rep_anchorage_2023,Anchorage,Alaska,2023,74,,99.15,computable,False,False,dose_units_2_4 column,included,0.189245,240696.0,0.1964
+2-4 unit homes,rep_buffalo_2017,Buffalo,New York,2017,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.075366,410550.0,-0.0286
+2-4 unit homes,rep_bridgeport_2021,Bridgeport,Connecticut,2021,74,,98.15,computable,False,False,dose_units_2_4 column,included,0.1819,179532.0,0.1213
+2-4 unit homes,rep_gainesville_2022,Gainesville,Florida,2022,74,,84.52,computable,False,False,dose_units_2_4 column,included,0.090409,198342.0,0.0378
+2-4 unit homes,rep_hartford_2017,Hartford,Connecticut,2017,74,,59.15,computable,False,False,dose_units_2_4 column,included,-0.02929,169305.0,-0.0805
+2-4 unit homes,rep_ann_arbor_2022,Ann Arbor,Michigan,2022,74,,95.25,computable,False,False,dose_units_2_4 column,included,-0.483375,163197.0,-0.0571
+2-4 unit homes,rep_cambridge_2022,Cambridge,Massachusetts,2022,74,,98.26,computable,False,False,dose_units_2_4 column,included,0.12538,164520.0,0.073
+2-4 unit homes,rep_roanoke_2021,Roanoke,Virginia,2021,74,,96.43,partly,False,False,dose_units_2_4 column,included,0.093972,147318.0,0.1509
+2-4 unit homes,rep_alameda_2021,Alameda,California,2021,74,,98.51,computable,False,False,dose_units_2_4 column,included,0.013318,96873.0,-0.2378
+2-4 unit homes,rep_west_allis_2022,West Allis,Wisconsin,2022,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.039899,90882.0,-0.0345
+2-4 unit homes,rep_corvallis_2022,Corvallis,Oregon,2022,74,,99.72,computable,False,False,dose_units_2_4 column,included,0.188979,76884.0,0.2353
+2-4 unit homes,rep_tigard_2022,Tigard,Oregon,2022,74,,43.23,computable,False,False,dose_units_2_4 column,included,0.033474,71631.0,0.2566
+2-4 unit homes,rep_dunwoody_2019,Dunwoody,Georgia,2019,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.003436,70473.0,0.0502
+2-4 unit homes,rep_culver_city_2022,Culver City,California,2022,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.091491,56409.0,0.1945
+2-4 unit homes,rep_mount_pleasant_2018,Mount Pleasant,Michigan,2018,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.719143,25653.0,-1.017
+2-4 unit homes,rep_windham_2018,Windham,Maine,2018,74,,100.0,partly,False,False,dose_units_2_4 column,included,1.582136,26127.0,2.1016
+2-4 unit homes,rep_cambridge_md_2021,Cambridge,Maryland,2021,74,,77.44,partly,False,False,dose_units_2_4 column,included,-0.166887,19956.0,-1.0656
+2-4 unit homes,rep_emeryville_2020,Emeryville,California,2020,74,,83.32,computable,False,False,dose_units_2_4 column,included,0.220042,25491.0,0.199
+2-4 unit homes,rep_branson_2018,Branson,Missouri,2018,74,,100.0,partly,False,False,dose_units_2_4 column,included,1.412607,27018.0,1.9619
+2-4 unit homes,rep_canandaigua_2020,Canandaigua,New York,2020,74,,100.0,partly,False,False,dose_units_2_4 column,included,-0.08137,16281.0,-0.4759
+2-4 unit homes,rep_ecorse_2020,Ecorse,Michigan,2020,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.012444,12363.0,-0.0805
+2-4 unit homes,rep_bastrop_2019,Bastrop,Texas,2019,74,,100.0,computable,False,False,dose_units_2_4 column,included,-1.831651,15300.0,-1.2136
+2-4 unit homes,rep_river_rouge_2021,River Rouge,Michigan,2021,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.046041,9387.0,0.008
+2-4 unit homes,rep_hudson_2019,Hudson,New York,2019,74,,100.0,computable,False,False,dose_units_2_4 column,included,-1.337537,10653.0,-0.9648
+2-4 unit homes,rep_bandera_2021,Bandera,Texas,2021,74,,100.0,computable,False,False,dose_units_2_4 column,included,3.55225,1101.0,3.6527
+2-4 unit homes,rep_austin_2023,Austin,Texas,2023,74,,97.57,computable,False,False,dose_units_2_4 column,included,-0.416149,966142.0,-0.0217
+2-4 unit homes,rep_sacramento_2024,Sacramento,California,2024,74,,47.61,computable,False,False,dose_units_2_4 column,included,-0.015667,212485.0,0.1207
+2-4 unit homes,rep_durham_2023,Durham,North Carolina,2023,74,,89.21,computable,False,False,dose_units_2_4 column,included,0.154435,273674.0,0.2494
+2-4 unit homes,rep_richmond_2023,Richmond,Virginia,2023,74,,91.17,computable,False,False,dose_units_2_4 column,included,0.532747,228586.0,0.5292
+2-4 unit homes,rep_birmingham_2024,Birmingham,Alabama,2024,74,,97.39,computable,False,False,dose_units_2_4 column,included,0.001344,109349.0,0.0088
+2-4 unit homes,rep_newport_news_2024,Newport News,Virginia,2024,74,,99.38,computable,False,False,dose_units_2_4 column,included,0.514776,82052.0,0.3883
+2-4 unit homes,rep_salem_2023,Salem,Oregon,2023,74,,79.77,assumed dose (prior unsourced),True,False,dose_units_2_4 column,included,-0.166226,142248.0,0.0995
+2-4 unit homes,rep_eugene_2024,Eugene,Oregon,2024,74,,63.59,computable,False,False,dose_units_2_4 column,included,-0.043509,80856.0,-0.0315
+2-4 unit homes,rep_berkeley_2021,Berkeley,California,2021,74,,97.3,partly,False,False,dose_units_2_4 column,included,0.138146,159435.0,-0.0173
+2-4 unit homes,rep_bend_2023,Bend,Oregon,2023,74,,72.47,computable,False,False,dose_units_2_4 column,included,0.339865,95914.0,0.7405
+2-4 unit homes,rep_beaverton_2023,Beaverton,Oregon,2023,74,,39.24,computable,False,False,dose_units_2_4 column,included,0.116354,85542.0,0.1141
+2-4 unit homes,rep_longmont_2024,Longmont,Colorado,2024,74,,96.92,computable,False,False,dose_units_2_4 column,included,0.972435,43528.0,0.6712
+2-4 unit homes,rep_trenton_2023,Trenton,New Jersey,2023,74,,100.0,partly,False,False,dose_units_2_4 column,included,0.150992,69026.0,0.0736
+2-4 unit homes,rep_duluth_2023,Duluth,Minnesota,2023,74,,75.66,partly,False,False,dose_units_2_4 column,included,0.037129,79956.0,0.0947
+2-4 unit homes,rep_kalamazoo_2023,Kalamazoo,Michigan,2023,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.194094,64758.0,0.1282
+2-4 unit homes,rep_rogers_2024,Rogers,Arkansas,2024,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.17127,28579.0,-3.3377
+2-4 unit homes,rep_portland_2024,Portland,Maine,2024,74,,100.0,assumed dose (prior unsourced),True,False,dose_units_2_4 column,included,-0.094137,36559.0,-0.1316
+2-4 unit homes,rep_springfield_2024,Springfield,Oregon,2024,74,,31.9,computable,False,False,dose_units_2_4 column,included,0.688291,25905.0,0.5509
+2-4 unit homes,rep_albany_2023,Albany,Oregon,2023,74,,10.96,computable,False,False,dose_units_2_4 column,included,0.04395,45536.0,0.0286
+2-4 unit homes,rep_la_crosse_2024,La Crosse,Wisconsin,2024,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.137988,24404.0,-0.3195
+2-4 unit homes,rep_burlington_2023,Burlington,Vermont,2023,74,,61.22,computable,False,False,dose_units_2_4 column,included,-0.954227,36158.0,-0.5242
+2-4 unit homes,rep_grants_pass_2024,Grants Pass,Oregon,2024,74,,35.58,computable,False,False,dose_units_2_4 column,included,-1.294146,17297.0,-0.4734
+2-4 unit homes,rep_plainfield_2022,Plainfield,Indiana,2022,74,,100.0,partly,False,False,dose_units_2_4 column,included,2.139067,40077.0,2.2488
+2-4 unit homes,rep_tualatin_2024,Tualatin,Oregon,2024,74,,27.98,computable,False,False,dose_units_2_4 column,included,0.231398,11303.0,-0.2176
+2-4 unit homes,rep_west_linn_2024,West Linn,Oregon,2024,74,,37.24,computable,False,False,dose_units_2_4 column,included,0.231398,10395.0,0.1046
+2-4 unit homes,rep_kingston_2023,Kingston,New York,2023,74,,100.0,partly,False,False,dose_units_2_4 column,included,1.078338,22442.0,1.0682
+2-4 unit homes,rep_ashland_2023,Ashland,Oregon,2023,74,,11.61,computable,False,False,dose_units_2_4 column,included,-0.751993,22988.0,-0.3853
+2-4 unit homes,rep_carrboro_2023,Carrboro,North Carolina,2023,74,,99.86,computable,False,False,dose_units_2_4 column,included,-0.559687,20378.0,-0.1989
+2-4 unit homes,rep_milwaukie_2024,Milwaukie,Oregon,2024,74,,0.0,computable,False,False,dose_units_2_4 column,included,1.751758,9859.0,1.9244
+2-4 unit homes,rep_northfield_2024,Northfield,Minnesota,2024,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.438131,6771.0,-0.195
+2-4 unit homes,rep_central_point_2023,Central Point,Oregon,2023,74,,22.93,computable,False,False,dose_units_2_4 column,included,0.02749,15956.0,-0.9606
+2-4 unit homes,rep_portsmouth_2022,Portsmouth,Ohio,2022,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.059901,25398.0,0.0399
+2-4 unit homes,rep_taylor_2023,Taylor,Texas,2023,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.128577,14032.0,0.0134
+2-4 unit homes,rep_hanover_2024,Hanover,New Hampshire,2024,74,,42.71,computable,False,False,dose_units_2_4 column,included,-0.062961,4056.0,-1.479
+2-4 unit homes,rep_lansing_2024,Lansing,Kansas,2024,74,,100.0,computable,False,False,dose_units_2_4 column,included,-1.999734,3723.0,-0.5085
+2-4 unit homes,rep_hampden_2022,Hampden,Maine,2022,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.131637,9885.0,1.1603
+2-4 unit homes,rep_king_city_2024,King City,Oregon,2024,74,,37.64,computable,False,False,dose_units_2_4 column,included,4.179914,2782.0,3.1533
+2-4 unit homes,rep_social_circle_2023,Social Circle,Georgia,2023,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.275856,3592.0,-1.0058
+2-4 unit homes,rep_millersburg_2024,Millersburg,Oregon,2024,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.454171,1187.0,-0.8737
+2-4 unit homes,rep_south_bend_2021,South Bend (with unincorporated St. Joseph County),Indiana,2021,74,,90.7,computable,False,False,dose_units_2_4 column,included,-0.2704,143325.0,0.4703
+2-4 unit homes,rep_gastonia_2021,Gastonia,North Carolina,2021,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.1501,35337.0,0.0597
+2-4 unit homes,rep_avondale_estates_2021,Avondale Estates,Georgia,2021,74,,100.0,computable,False,False,dose_units_2_4 column,included,-0.1017,5793.0,-0.5387
+2-4 unit homes,rep_saranac_lake_2016,Saranac Lake,New York,2016,74,,100.0,computable,False,False,dose_units_2_4 column,included,0.0282,8457.0,0.0
+2-4 unit homes,oth_central_falls_2022,Central Falls,Rhode Island,2022,pooled,"C8: reversed in 2025, kept and flagged; after-years 2023-2024 only",100.0,computable,False,False,dose_units_2_4 column,included,-0.173804,16852.0,-0.040018
+2-4 unit homes,oth_charlottesville_2024,Charlottesville,Virginia,2024,wait,unsure: only after-year under litigation,100.0,computable,False,False,dose_units_2_4 column,included,-0.27515,21610.0,-0.147383
+2-4 unit homes,oth_spokane_2024,Spokane,Washington,2024,pooled,,8.52,computable,False,False,dose_units_2_4 column,included,0.764901,102834.0,0.730975
+2-4 unit homes,oth_bakersfield_2024,Bakersfield,California,2024,pooled,,84.26,computable,False,False,dose_units_2_4 column,included,1.223253,135724.0,1.081954
+2-4 unit homes,oth_maumee_2020,Maumee,Ohio,2020,pooled,,15.0,fallback,True,False,dose_units_2_4 column,included,-0.207337,18651.0,-0.385039
+2-4 unit homes,oth_dover_2015,Dover,New Hampshire,2015,pooled,,15.0,fallback,True,False,dose_units_2_4 column,included,0.270668,46299.0,0.129017
+2-4 unit homes,oth_jackson_2021,Jackson,Tennessee,2021,pooled,,15.0,fallback,True,False,dose_units_2_4 column,included,-0.524365,90972.0,-0.443498
+2-4 unit homes,oth_norman_2021,Norman,Oklahoma,2021,pooled,,70.6,computable,False,False,dose_units_2_4 column,included,-0.772881,169995.0,-0.021371
+2-4 unit homes,oth_camden_2021,Camden,Maine,2021,pooled,,1.11,computable,False,False,dose_units_2_4 column,included,-0.217391,9630.0,-0.45896
+2-4 unit homes,oth_waukegan_2024,Waukegan,Illinois,2024,pooled,,50.48,computable,False,False,dose_units_2_4 column,included,0.131261,33229.0,0.028819
+2-4 unit homes,oth_watertown_2023,Watertown,New York,2023,pooled,,46.47,partly,False,False,dose_units_2_4 column,included,0.006281,26852.0,-0.021733
+2-4 unit homes,oth_north_canton_2023,North Canton,Ohio,2023,wait,conditional: Main Street exemption new in 2023?,0.0,fallback,True,False,dose_units_2_4 column,included,0.274452,17404.0,0.07574
+2-4 unit homes,oth_bloomsburg_2024,Bloomsburg,Pennsylvania,2024,pooled,,1.17,computable,False,False,dose_units_2_4 column,included,-0.080964,5380.0,-0.17893
+2-4 unit homes,oth_lewisburg_2023,Lewisburg,Pennsylvania,2023,pooled,,24.08,computable,False,False,dose_units_2_4 column,included,-0.051149,3934.0,-0.020737
+2-4 unit homes,oth_pomona_2019,Pomona,California,2019,pooled,,0.82,partly,False,False,dose_units_2_4 column,included,-0.313101,133119.0,-0.154216
+2-4 unit homes,oth_covington_2020,Covington,Kentucky,2020,pooled,,80.11,partly,False,False,dose_units_2_4 column,included,0.934594,63144.0,1.26683
+2-4 unit homes,oth_columbia_2021,Columbia,South Carolina,2021,pooled,,18.25,computable,False,False,dose_units_2_4 column,included,1.890708,186063.0,2.711733
+2-4 unit homes,oth_albany_2017,Albany,New York,2017,wait,conditional: exemption date,10.0,fallback,True,False,dose_units_2_4 column,included,-0.058549,151224.0,0.018246
+2-4 unit homes,oth_bangor_2024,Bangor,Maine,2024,wait,conditional: effective date,32.08,computable,False,False,dose_units_2_4 column,included,-0.185893,16042.0,0.052711
+2-4 unit homes,oth_boise_2023,Boise,Idaho,2023,pooled,,1.24,assumed dose,True,False,dose_units_2_4 column,included,-0.21698,212558.0,-0.629331
+2-4 unit homes,oth_tulsa_2024,Tulsa,Oklahoma,2024,pooled,,38.1,computable,False,False,dose_units_2_4 column,included,0.167821,192797.0,0.360857
+2-4 unit homes,oth_binghamton_2024,Binghamton,New York,2024,wait,conditional: effective 2024 or 2025,20.0,computable,False,False,dose_units_2_4 column,included,-0.001607,25457.0,-0.133627
+2-4 unit homes,oth_eureka_2019,Eureka,California,2019,wait,unsure: staged steps,10.0,fallback,True,False,dose_units_2_4 column,included,0.245931,34884.0,0.131586
+2-4 unit homes,oth_seabrook_2019,Seabrook,New Hampshire,2019,alone,dose-0 check (non-residential only),0.0,fallback,True,False,dose_units_2_4 column,included,0.490489,12453.0,0.993824
+2-4 unit homes,oth_brainerd_2023,Brainerd,Minnesota,2023,alone,"C7: added minimums; reported alone, not pooled",0.0,fallback,True,False,dose_units_2_4 column,included,-0.246681,13520.0,-0.043248
+2-4 unit homes,oth_chicago_2015,Chicago,Illinois,2015,pooled,,1.8,partly,False,False,dose_units_2_4 column,included,0.296615,3831162.0,0.06447
+2-4 unit homes,oth_san_diego_2019,San Diego,California,2019,pooled,,63.14,computable,False,False,dose_units_2_4 column,included,-0.404312,1706004.0,-0.034594
+2-4 unit homes,oth_albuquerque_2018,Albuquerque,New Mexico,2018,pooled,,15.12,partly,False,False,dose_units_2_4 column,included,-0.087229,774534.0,0.002362
+2-4 unit homes,oth_penndel_2020,Penndel,Pennsylvania,2020,pooled,,25.0,fallback,True,False,dose_units_2_4 column,included,-0.00223,3417.0,0.0
+2-4 unit homes,oth_somerville_2019,Somerville,Massachusetts,2019,pooled,,72.32,computable,False,False,dose_units_2_4 column,included,0.123616,113268.0,0.223964
+2-4 unit homes,oth_madison_2023,Madison,Wisconsin,2023,pooled,,24.57,computable,False,False,dose_units_2_4 column,included,0.101973,267060.0,-0.02543
+2-4 unit homes,oth_denver_2018,Denver,Colorado,2018,pooled,,0.21,computable,False,False,dose_units_2_4 column,included,-0.821718,1078743.0,-0.528943
+2-4 unit homes,oth_shoreline_2022,Shoreline,Washington,2022,wait,unsure: may fail the optional-reduction screen,25.0,fallback,True,False,dose_units_2_4 column,included,-0.089935,75867.0,-0.290356
+2-4 unit homes,oth_portland_2018,Portland,Oregon,2018,wait,unsure: parking detail unknown,0.0,fallback,True,False,dose_units_2_4 column,included,-0.331657,923157.0,0.092111
