@@ -1954,3 +1954,25 @@ Ryan, 01:36–01:39 UTC:
 9. **Placebo:** the placebo date uses the same not-yet-treated rule. With one wave per city, no pooling weight is needed.
 - **GIS files** stay out of git.
 - **Test 57 audit addition (01:42 UTC):** when a 500 m cell is split at the line, both parts are resampled together as one cluster in every bootstrap and placebo draw, so shared local shocks stay together.
+
+**Test 57 audit addendum 2 fixes (02:01 UTC review of d72e345). These override the text above.**
+- **NY boundary rebuild rule:**
+  - The 2016 Transit Zone = today's layer (NYC Open Data dpnc-b2hd) with three amendment sets put back as they were before:
+    - Map 12 (N 220313 ZRK, 2022-11-22);
+    - Key Map and Maps 2–3 (N 240016 ZRX, 2024-08-15);
+    - Maps 13–14 (2024-11-21).
+  - Each amendment's changed area is taken from its own CPC report or zoning-text map.
+  - **Check:** the rebuilt line is compared with the 2016 adopted Appendix I maps (the ZQA CPC report, N 160049 ZRY, and the Council's adopted modifications that dropped Rockaways and Eastchester parts), map by map. A mismatch on any map is fixed from the 2016 source. If it can't be fixed, the cells on that map are dropped.
+  - The zoning-line check then runs, all before any count.
+- **NY pre-trend checks:** Ryan chooses the primary outcome. The plan lists which checks can run:
+  - **HPD affordable units:** before-years 2014–2015 only. Leads −5 to −3 and the −4 placebo cannot run; only lead −2 against −1 runs. 2015 is a 421-a rush year. Only HPD-financed projects are covered, and there is no senior flag.
+  - **All DOB new-building jobs:** full leads −5 to −2 and both placebo dates run, but the result is labelled "possibly diluted toward 0".
+- **NY MIH rule:** the primary run drops lots inside MIH-mapped areas from both arms, from each area's adoption date. A second run keeps them and is labelled "bundled with MIH". Both are reported.
+- **NY DOB gap:** legacy filings count through 2020-12-31 and DOB NOW from 2021-01-01. If whole-city monthly totals (not split by arm) show a hole in January–February 2021, 2021 is treated as 10 months in both arms, with the yearly rate scaled by 12/10, and labelled.
+- **SF treatment layer:** DataSF Zoning Districts (PDDL). The plan-area layer, which has no stated licence, is not used.
+- **SF controls:**
+  - Excelsior and every other RH/RM/NC district are checked against the code history for any residential-minimum change from 2003 to 2018.
+  - A district that can't be verified is dropped from the controls.
+  - Eastern Neighborhoods RH/RM lots are left out of both arms.
+- **SF after-window:** ends 2018, at most, before the citywide rule of 2019-01-21.
+- **SF case label:** Ord. 112-08 (2008-07-31; affordable and senior minimums to 0 citywide) is stated in the case write-up as bundled with wave A's start year.
