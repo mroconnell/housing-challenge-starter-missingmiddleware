@@ -1,7 +1,7 @@
 # Parking doses: built (2026-11-12)
 
 Plan: `docs/parking/DOSE_PLAN.md` (Ryan's choices C1–C11 and the Audit fixes override the text above them).
-Script: `scripts/build_parking_doses.py` (committed before any run: ed456961, fixes b379c827, a1a01d17).
+Script: `scripts/build_parking_doses.py` (committed before any run: ed456961; later changes each committed before their re-run: b379c827, a1a01d17, 17370e1c, 406d4742).
 Table: `reference/parking_doses.csv`, 112 rows. Coding inputs, verbatim: `reference/parking_dose_inputs.json`.
 GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; each has `_sources.json`).
 
@@ -22,8 +22,8 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 | Dose source | The 74 | Other reforms | All |
 |---|---|---|---|
 | computable (both factors from data) | 64 | 19 | 83 |
-| partly (one factor assumed) | 10 | 7 | 17 |
-| fallback (C3 class dose) | 0 | 12 | 12 |
+| partly (one factor assumed) | 10 | 6 | 16 |
+| fallback (C3 class dose) | 0 | 13 | 13 |
 | **All** | **74** | **38** | **112** |
 
 - C3 placeholder 50s: 1 row (Pomona 2024), and it is not the event (C9).
@@ -31,13 +31,13 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 
 | Dose | Places |
 |---|---|
-| 100 | 29 |
-| 75 to under 100 | 24 |
+| 100 | 30 |
+| 75 to under 100 | 25 |
 | 50 to under 75 | 6 |
-| 25 to under 50 | 10 |
-| 0 to 25 | 5 |
+| 25 to under 50 | 9 |
+| 0 to 25 | 4 |
 
-- Lowest of the 74 (C4 increments): Albany OR 10.96, Ashland 11.61, Milwaukie 17.76, Portland ME 18.4, Central Point 22.93. Oregon's state transit rule (OAR 660-012-0440, from 2022-12-31) is the prior for 14 Oregon places.
+- Lowest of the 74 (C4 increments): Albany OR 10.96, Ashland 11.61, Milwaukie 17.76, Central Point 22.93, Tualatin 27.98. Oregon's state transit rule (OAR 660-012-0440, from 2022-12-31) is the prior for 14 Oregon places.
 - 5 of the 74 have an earlier exemption that was found but not mapped, so their 100 is an upper bound: Buffalo, Bastrop, Avondale Estates, Kalamazoo, La Crosse. Lansing KS, Northfield, Saranac Lake and Trenton have similar unconfirmed or PDF-only findings.
 
 ## Eligibility changes found
@@ -50,13 +50,38 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 | Lewisburg 2023 | Not downtown-only: borough-wide cut too. Dose 24.08. |
 | Bloomsburg 2024 | Mostly not new (old C district had no parking). Dose 1.17. |
 | Albany NY 2017 | Date confirmed (USDO effective 2017-06-01). Dose 49.76, all from the small-lot exemption. |
-| Fremont 2015 | Ordinance may be 2014 (Ord. 28-2014). If so, outside 2015–2024. |
-| Portland OR 2018 | Central City already had no minimums: 0. |
+| Fremont 2015 | **Event is 2014** (Ord. 28-2014, 9-9-14; the 2015 Ord. 16-2015 left the parking table unchanged). Not eligible. |
+| Portland OR 2018 | Pre-reform Title 33 ch. 33.510 (7/8/16, Wayback 2017-01-31) shows no minimums in every Central City area: dose 0 kept. |
 | Honolulu 2017 | Parking cut was 2020 (Ord. 20-41), not 2017. |
 | Shoreline 2022 | Likely fails the optional-reduction screen. |
 | Saranac Lake 2016 | A 2024 letter says minimums stayed for new housing. Marked unsure. |
 | Hartford 2017 | Old minimum is 1.5 per home in the code, not the universe's 1.0. |
 | Hampden, Portsmouth OH | PRN dates 2023, universe 2022. Not changed. |
+
+## Audit rulings applied (2026-11-12)
+
+**Wayback captures.** All 69 are listed in `reference/parking_dose_wayback_audit.csv` (URL, capture date, sha256, use, side of the reform date).
+- 58 on the right side, 10 on the wrong side, 1 not available (Berkeley, never read).
+- Changed:
+
+| Reform | Dose before | Dose now | Why |
+|---|---|---|---|
+| Albany NY 2017 | 49.76 | 10 (fallback) | New rule only from a pre-adoption draft; its layer is also "illustrative only" |
+| Portland ME 2024 | 18.4 | 100 | Transit prior used route data captured after the reform |
+| Salem 2023 | 35.87 | 79.77 | Frequent-corridor prior used a feed captured after the repeal; downtown district and the 1-per-home cap kept |
+| Hudson 2019 | 100 | 100 | Schedules captured after the reform; no prior was coded |
+
+- Wrong side but kept, with the reason in the row: Binghamton (file stamped 2023-12-29 and linked from a pre-reform page; switching gives the placeholder 50), Bangor, Avondale Estates, Pomona 2019.
+
+**Full text read** (no longer search extracts): Durham (UDO as amended 2023-10-16), Hanover (Zoning Ordinance 2022 and 2023), Boise (legacy Title 11, 2017 edition). All coded values confirmed. Durham's repeal took effect 2024-01-01; event year kept at 2023 (adoption).
+
+**New columns.**
+- `dose_if_unlicensed_refused`: the row's fallback dose if Ryan refuses layers with no stated licence (citywide repeals fall back to 100). 53 rows would change.
+- `dose_state_law_prior`: state transit laws counted as prior everywhere.
+  - San Jose 99.55 → 44.89 (Caltrans current major stops; the helper's 52.02 used another layer).
+  - Tigard 99.01 → 43.23 (Oregon rule).
+  - Bakersfield 84.85 → 84.26.
+  - Sacramento already counts AB 2097; Corvallis's repeal took effect the same day as the Oregon rule. No other row is affected.
 
 ## Blocked (cited, not worked around)
 
@@ -69,13 +94,16 @@ GIS layers and Census files: `data/raw/parking_dose/<reform_id>/` (git-ignored; 
 ## Needs Ryan's OK
 
 1. **Spokane event year** (above). The freeze waits on it.
-2. **Layers with no licence stated:** 60 of 112 rows use at least one. Listed per row in `licences`. Albany NY's layer also says "illustrative purposes only".
+1a. **Binghamton:** keep 20 (wrong-side capture explained) or use the placeholder 50?
+1b. **Hanover rounding:** building total (35 spaces, as coded) or per home (40; priors 0.625 and 0.75)?
+2. **Layers with no licence stated:** 60 of 112 rows name one; 53 of them would change dose if refused (`dose_if_unlicensed_refused`).
 3. **State laws as prior:** Sacramento counts AB 2097 (47.61). San Jose does not (99.55; 52.02 if it did). Tigard leaves out the state rule (99.01; 43.23 if in).
 4. **Choices with big effects:** Albany OR follows city staff (10.96; strict rule 97.04); Oregon 1-per-home cap counted as prior; Raleigh frequent-transit stand-in (58.88; 81.77 without); Hanover discretion (42.71 or weak repeal 15).
 5. **Assumptions:** Pomona 4 storeys; Berkeley C-DMU 0.75; Boise C-5 for old P-1; Albuquerque downtown prior.
 6. **Hand-digitising:** Trenton downtown parking districts (PDF only), Penndel overlay (only on file at the borough).
-7. **Sources read only through search extracts:** Durham 2021 table rows, Hanover 2023 table, Boise legacy table.
+7. **Boise:** P-1 district still stood in by C-5 zones; the 2017 code map could be traced instead.
+8. **Fremont** now ineligible (2014): the estimator's list of 24 must drop it.
 
 ## Freeze
 
-Not frozen yet. When the Spokane event is chosen: run `uv run python scripts/build_parking_doses.py --spokane-event <2023|2024>`, add the line "reference/parking_doses.csv sha256 <hash>" below, and commit both files together.
+Not frozen yet. When the Spokane event is chosen: run `uv run python scripts/build_parking_doses.py --spokane-event <2023|2024>` (about an hour), then add the hash line for reference/parking_doses.csv here and commit both files together.

@@ -103,7 +103,7 @@
   ],
   "blocks_2010": true,
   "dose_override": null,
-  "dose_source": "partly",
+  "dose_source": "fallback",
   "eligibility": "yes (date confirmed): both exemptions are in the Feb 2017 final consolidated USDO draft (375-4(E)(1)(c)); USDO adopted by Common Council 2017-05-15, effective 2017-06-01 (city zoning layer description). Old code exempted only C-3 (Sec. 375-173.A, per the 2015 ReZone Technical Report), so the small-lot exemption is new in 2017; MU-DT is mostly not new.",
   "event_used": "yes",
   "event_year": 2017,
@@ -119,7 +119,7 @@
    "NYS tax parcels public service: no licence stated (credit 'Contributing counties, NYS ITS Geospatial Services and NYS DTF ORPTS')",
    "Census: public domain"
   ],
-  "notes": "Two exemptions in 375-4(E)(1)(c): (i) any lot < 5,000 sq ft gross site area, citywide; (ii) MU-DT. Removal 1.0 on exempt land (no off-street parking at all). Small lots: 2025 tax parcels, lot area = CALC_ACRES x 43,560; each parcel assigned to a 2020 block by representative point; homes per parcel from PROP_CLASS (210/215/270/283=1, 220/281=2, 230=3); the block's remaining Census homes (HOUSING20 minus 1-3 family units) are spread over its other residential-capable parcels (41x/28x/48x/2xx) by lot area. Block share of homes on small lots is binned to tenths and entered as the area 'removal' (so the engine's coverage/removal split is not meaningful here; the dose is right: homes-weighted share on exempt lots). Unbinned share 0.508; 780 homes in blocks with no assignable parcel units set to 0. Parcels are 2025 (lot splits/merges since 2017 not traced). MU-DT polygon is current (ZMA 0003, 2019 changed it); old C-3 approximated by MU-DT, so MU-DT adds ~0 increment. NOT coded: new 20% reduction within 1/4 mile of 15-min transit (375-4(E)(3)(a), objective, would add a little); any change in the base multifamily rate (new Table 375-4-6: 1 per unit; old Art. XIX table not read); form-based districts (MU-FW/FC/FS/FM) are excluded from Table 375-4-6 by 375-4(E)(2)(a) but 375-4(B)(3) applies 375-4(E) there - ambiguous, left as no change. Interpretive flag: the small-lot exemption mostly covers existing 1-3 family rowhouse lots on which the standard 20-unit building could not be built; MU-DT-only reading gives dose ~0 (prior). Ask Ryan.",
+  "notes": "AUDIT: assumed dose (fallback) either way - the city zoning layer is marked \"illustrative purposes only\". Two exemptions in 375-4(E)(1)(c): (i) any lot < 5,000 sq ft gross site area, citywide; (ii) MU-DT. Removal 1.0 on exempt land (no off-street parking at all). Small lots: 2025 tax parcels, lot area = CALC_ACRES x 43,560; each parcel assigned to a 2020 block by representative point; homes per parcel from PROP_CLASS (210/215/270/283=1, 220/281=2, 230=3); the block's remaining Census homes (HOUSING20 minus 1-3 family units) are spread over its other residential-capable parcels (41x/28x/48x/2xx) by lot area. Block share of homes on small lots is binned to tenths and entered as the area 'removal' (so the engine's coverage/removal split is not meaningful here; the dose is right: homes-weighted share on exempt lots). Unbinned share 0.508; 780 homes in blocks with no assignable parcel units set to 0. Parcels are 2025 (lot splits/merges since 2017 not traced). MU-DT polygon is current (ZMA 0003, 2019 changed it); old C-3 approximated by MU-DT, so MU-DT adds ~0 increment. NOT coded: new 20% reduction within 1/4 mile of 15-min transit (375-4(E)(3)(a), objective, would add a little); any change in the base multifamily rate (new Table 375-4-6: 1 per unit; old Art. XIX table not read); form-based districts (MU-FW/FC/FS/FM) are excluded from Table 375-4-6 by 375-4(E)(2)(a) but 375-4(B)(3) applies 375-4(E) there - ambiguous, left as no change. Interpretive flag: the small-lot exemption mostly covers existing 1-3 family rowhouse lots on which the standard 20-unit building could not be built; MU-DT-only reading gives dose ~0 (prior). Ask Ryan. AUDIT: Wayback capture http://web.archive.org/web/20170326165604id_/http://rezonealbany.com/sites/rezonealbany.com/files/document/pdf/Albany%20USDO%20final%20Consolidated%20Draft%20-%20February%202017.pdf dated 2017-03-26 is on the wrong side of the reform date 2017-05-15 (adoption; effective 2017-06-01); switched to fallback (commercial-only). It was the only source for the new 375-4(E)(1)(c) exemptions; the adoption ordinance 26.31.17 (Wayback 2017-12-05, wb_20171205193754_rezone_adoption_ord.pdf) enacts the USDO 'as amended' without the text. Restore the computed areas if a copy of the adopted 375-4 dated on/after 2017-05-15 is found.",
   "prior": [
    {
     "label": "Old C-3 Central Business District, exempt from off-street parking under old Sec. 375-173.A (approximated by today's MU-DT polygon; the old C-3 footprint on the 2014 'Existing Zoning Map' PDF matches MU-DT closely by eye)",
@@ -141,7 +141,7 @@
    "Census 2020 TABBLOCK20 (block polygons + HOUSING20) and 2020 BAF"
   ],
   "type": "district",
-  "use_fallback": false,
+  "use_fallback": true,
   "zoning_check": {
    "apt_regex": "^(R-M|MU-)",
    "field": "ReZone",
@@ -262,7 +262,7 @@
    "public record (ordinance/code text, D1)",
    "Internet Archive Wayback copy of a public record"
   ],
-  "notes": "Standard 20-unit building: old 17.58.110.E rows 3-4: 1BR 1/unit, 2BR 2/unit, +10% guest on parcels of 5+ units -> (10x1 + 10x2) x 1.1 = 33 spaces = 1.65/DU. New (Ord. 5175): MF <=19 units no minimum; MF 20+ units 0.25/unit -> 20-unit building 0.25/DU. Removal = (1.65-0.25)/1.65 = 0.848485. OLD RATE FOUND (not the 0.75 bound). Text of 17.58.110 is the Jan-2022 version; the official history lists amendments only in 2019 and 2021 before Ord. 5175, so it is the version in force the day before (not re-read for 2023-24 supplements: BLOCKED). Not mapped: Central District / Old Town Kern (17.58.120) where the old MF rule had no guest parking (1.5/DU) and the new rule has no minimum (removal 1.0) - citywide figure slightly understates there. Developer-requested zoning modifications are discretion, ignored. AB 2097 (2023) overlap: areas near major transit stops already had no minimum under state law; not mapped (AB 2097 thread holds the state layer) - flag. Affordable projects already had 25% cut; excluded by rule (market-rate standard building).",
+  "notes": "Standard 20-unit building: old 17.58.110.E rows 3-4: 1BR 1/unit, 2BR 2/unit, +10% guest on parcels of 5+ units -> (10x1 + 10x2) x 1.1 = 33 spaces = 1.65/DU. New (Ord. 5175): MF <=19 units no minimum; MF 20+ units 0.25/unit -> 20-unit building 0.25/DU. Removal = (1.65-0.25)/1.65 = 0.848485. OLD RATE FOUND (not the 0.75 bound). Text of 17.58.110 is the Jan-2022 version; the official history lists amendments only in 2019 and 2021 before Ord. 5175, so it is the version in force the day before (not re-read for 2023-24 supplements: BLOCKED). Not mapped: Central District / Old Town Kern (17.58.120) where the old MF rule had no guest parking (1.5/DU) and the new rule has no minimum (removal 1.0) - citywide figure slightly understates there. Developer-requested zoning modifications are discretion, ignored. AB 2097 (2023) overlap: areas near major transit stops already had no minimum under state law; not mapped (AB 2097 thread holds the state layer) - flag. Affordable projects already had 25% cut; excluded by rule (market-rate standard building). | Variant dose_state_law_prior: AB 2097 areas as prior (Caltrans current major stops).",
   "reform_id": "oth_bakersfield_2024",
   "removal_override": 0.848485,
   "sources": [
@@ -270,6 +270,16 @@
    "Ord. 5175 enactment record (Wayback 20241015230923): adopted 4/10/2024, effective 5/10/2024",
    "BMC Ch. 17.58 (July 2008) PDF, city Laserfiche",
    "BMC 17.58.110 current text (Exa search-index extract; direct = 403 BLOCKED)"
+  ],
+  "state_law_prior": [
+   {
+    "label": "AB 2097 major-transit-stop areas (1/2 mile), in force from 2023-01-01, before Ord. 5175 (2024)",
+    "removal": 1.0,
+    "where": {
+     "near": "data/raw/ab2097/major_transit_stops.geojson",
+     "radius_m": 804.67
+    }
+   }
   ],
   "type": "citywide residential",
   "use_fallback": false
@@ -299,7 +309,7 @@
    "no licence stated (disclaimer only; flag for Ryan) - City of Bangor zoning layer (credits City of Bangor Planning Department)",
    "Census: public domain"
   ],
-  "notes": "165-72.E 'all other dwellings' 1.5 -> 1 space per DU (Ord. 24-099): removal (1.5-1)/1.5 = 0.3333 for the standard 20-unit building. Prior: DDD and Bass Park District exempt from 165-72 before (165-72.R(1)) -> no increment there. Waterfront Development District exempt only conditionally (<25 spaces etc.) - not treated as prior. Ord. 24-099 also lets the Planning Board cut parking further with a parking study (165-72.O(4)) - discretion, ignored (removal floor 33%). Effective date: Bangor ordinances take effect 30 days after passage unless stated (not verified) -> late April 2024, still 2024. Current zoning layer (2026) used; flag. Place GEOID used (Bangor city = its MCD).",
+  "notes": "165-72.E 'all other dwellings' 1.5 -> 1 space per DU (Ord. 24-099): removal (1.5-1)/1.5 = 0.3333 for the standard 20-unit building. Prior: DDD and Bass Park District exempt from 165-72 before (165-72.R(1)) -> no increment there. Waterfront Development District exempt only conditionally (<25 spaces etc.) - not treated as prior. Ord. 24-099 also lets the Planning Board cut parking further with a parking study (165-72.O(4)) - discretion, ignored (removal floor 33%). Effective date: Bangor ordinances take effect 30 days after passage unless stated (not verified) -> late April 2024, still 2024. Current zoning layer (2026) used; flag. Place GEOID used (Bangor city = its MCD). AUDIT: Wayback capture https://web.archive.org/web/20240815112747/https://ecode360.com/6891803 dated 2024-08-15 is after the reform date 2024-03-25, so not usable for the prior DDD/BPD exemption; not switched because the pre-reform capture https://web.archive.org/web/20191021175631/https://ecode360.com/6891803 (wb_20191021175631_165-72.html) has the same 165-72.R(1) text and history, and Ord. 24-099 amends only 165-72.E and .O.",
   "prior": [
    {
     "label": "Downtown Development District and Bass Park District exempt from 165-72 before (165-72.R(1))",
@@ -338,7 +348,7 @@
    "Internet Archive Wayback copy of a public record (city code PDFs, public record)",
    "news: cited only"
   ],
-  "notes": "Old Schedule III (410-53.H): Dwelling 1-5 BR = 1 space for first bedroom + 0.5 per additional bedroom -> 1BR 1.0, 2BR 1.5; standard building (10x1.0+10x1.5)/20 = 1.25/DU. New (code rev 2025-08-25): Dwelling 1-4 BR = 1 per unit; affordable 1-4 BR and senior housing none (excluded by rule). Removal (1.25-1)/1.25 = 0.2. New code PDF carries no Ord. number on 410-53; attributed to O24-120 because its reported content (1/unit, affordable & senior none) matches; no other 2025 parking amendment found (flag). Also 410-48: Planning Commission may cut minimum parking by up to 75% (was 50%) - discretion, ignored. C-2 downtown exemption covers only existing buildings (before and after) - not new construction, so no prior. No GIS needed.",
+  "notes": "Old Schedule III (410-53.H): Dwelling 1-5 BR = 1 space for first bedroom + 0.5 per additional bedroom -> 1BR 1.0, 2BR 1.5; standard building (10x1.0+10x1.5)/20 = 1.25/DU. New (code rev 2025-08-25): Dwelling 1-4 BR = 1 per unit; affordable 1-4 BR and senior housing none (excluded by rule). Removal (1.25-1)/1.25 = 0.2. New code PDF carries no Ord. number on 410-53; attributed to O24-120 because its reported content (1/unit, affordable & senior none) matches; no other 2025 parking amendment found (flag). Also 410-48: Planning Commission may cut minimum parking by up to 75% (was 50%) - discretion, ignored. C-2 downtown exemption covers only existing buildings (before and after) - not new construction, so no prior. No GIS needed. AUDIT: old Schedule III read from Wayback capture https://web.archive.org/web/20250508195411/https://www.binghamton-ny.gov/home/showpublisheddocument/8134/638394345686530000 dated 2025-05-08, after the reform date 2024-12-18 (no earlier capture exists). Not switched (judgement call, flagged): the URL is version-pinned (version 638394345686530000 = 2023-12-29) and the pre-reform capture of the Ch. 410 page (2024-12-07, wb_20241207_ch410_page.html) links to exactly this file.",
   "reform_id": "oth_binghamton_2024",
   "removal_override": 0.2,
   "sources": [
@@ -436,7 +446,7 @@
    "no licence stated (disclaimer only; flag for Ryan) - City of Boise AGOL zoning layers",
    "Census: public domain"
   ],
-  "notes": "Standard 20-unit building (10x1BR, 10x2BR): legacy general = 10x1.0 + 10x1.25 + guest 1 per 10 DU (2) = 24.5 spaces = 1.225/DU; MZC general = 10x1 + 10x1.25 + guest 1 per 10 DU = 24.5 = 1.225/DU -> removal 0 outside MX-5. MX-5: no minimum -> removal 1.0 vs any legacy rate (legacy P-2 0.8/DU+0.08 guest = 0.88; P-3 1.0+0.1 = 1.1; general 1.225). Legacy P-1 district = 0 already (prior). P-1 boundary not found as GIS: legacy C-5 zones used as a proxy for P-1 (ASSUMPTION, flagged). Legacy P-2/P-3 areas outside MX-5 had their minimums RAISED to 1.225 (negative removal, clipped to 0). Studio rate fell 0.75->0.5 (not in the standard building). Adjustments in 11-04-08.6 (applicant-elected, up to 50% by right) and legacy 11-07-03 reductions (10% admin, more by CUP) are discretion/conditional and ignored. Current MX-5 boundary (2026 layer) used; MZC-adoption-day boundary not archived separately.",
+  "notes": "Standard 20-unit building (10x1BR, 10x2BR): legacy general = 10x1.0 + 10x1.25 + guest 1 per 10 DU (2) = 24.5 spaces = 1.225/DU; MZC general = 10x1 + 10x1.25 + guest 1 per 10 DU = 24.5 = 1.225/DU -> removal 0 outside MX-5. MX-5: no minimum -> removal 1.0 vs any legacy rate (legacy P-2 0.8/DU+0.08 guest = 0.88; P-3 1.0+0.1 = 1.1; general 1.225). Legacy P-1 district = 0 already (prior). P-1 boundary not found as GIS: legacy C-5 zones used as a proxy for P-1 (ASSUMPTION, flagged). Legacy P-2/P-3 areas outside MX-5 had their minimums RAISED to 1.225 (negative removal, clipped to 0). Studio rate fell 0.75->0.5 (not in the standard building). Adjustments in 11-04-08.6 (applicant-elected, up to 50% by right) and legacy 11-07-03 reductions (10% admin, more by CUP) are discretion/conditional and ignored. Current MX-5 boundary (2026 layer) used; MZC-adoption-day boundary not archived separately. AUDIT 2026-11-12: legacy Table 11-07.1 now read from FULL text (2017 Supplement 58 and 2016 Title 11 PDFs, Wayback): Multi-Family per DU General studio 0.75 / 1BR 1.0 / 2BR 1.25 / 3BR+ 1.5, guest 1.0 per 10 DU; P-1 0 for all; P-2 0.8 all sizes + 0.8 guest per 10; P-3 1.0 + 1.0 guest per 10; 11-05-05.3 'No off-street parking is required within the P-1 district'. Coded values confirmed, unchanged. Residual gap: the full text read is the 2017 vintage; the July 2023 legacy text (amlegal archived code) could not be fetched in full - flag (search extract of it matched). The 2017 code's 11-05-05.2 map (saved as legacy_parking_districts_map_2017_p137.png) shows P-1 as the central downtown core plus a strip along Broadway/Myrtle; C-5 proxy for P-1 is still an assumption - could be digitised from this map if Ryan wants.",
   "prior": [
    {
     "label": "Legacy C-5 (downtown) zones as proxy for legacy P-1 parking district (0 residential minimum, Table 11-07.1)",
@@ -451,7 +461,7 @@
   "reform_id": "oth_boise_2023",
   "sources": [
    "Boise MZC 11-04-08 Table 11-04.9 as of 2023-12-08 (amlegal S-14 via Wayback 20231208085128; amlegal direct = 403 BLOCKED)",
-   "Legacy Boise Code 11-07-03 Table 11-07.1 (amlegal archived code node 0-0-0-2764; direct = 403 BLOCKED, no Wayback copy; table text read from Exa search-index extract, corroborated by munistandards.com)",
+   "Legacy Boise Development Code Title 11 (Supplement No. 58, PDF created 2017-03-24), Sec. 11-07-03.2 Table 11-07.1 and Sec. 11-05-05 Parking Reduction Overlay Districts (P-1/P-2/P-3 standards and map): Wayback 20170702181227 of cityclerk.cityofboise.org/media/262806/1100.pdf (full PDF saved; same table in the 2016-05-28 capture). Same values in the amlegal archived legacy code (through Ord. 22-23, 2023-07-11; direct = 403 BLOCKED, node 0-0-0-2764 not in Wayback) seen earlier only as a search extract",
    "City of Boise BoiseZoning FeatureServer/191 (current) and Boise_Legacy_Zoning FeatureServer/0 (pre-2023-12-01)",
    "Census 2020 TABBLOCK20 + BAF"
   ],
@@ -942,9 +952,9 @@
   "blocks_2010": true,
   "dose_override": null,
   "dose_source": "computable",
-  "eligibility": "conditional: WSI zoning (Ord. 28-2014, adopted 2014-09-09) carries the 'n/a' residential minimum in today's code; the universe dates the reform to the July 2015 plan adoption. If the minimum was already 'n/a' in Ord. 28-2014 as adopted, the event year is 2014, not 2015 (amendment history of Table 18.49.070 lists 28-2014, 04-2016, 27-2016, 23-2018, 02-2020, 05-2021, 01-2025; no 2015 ordinance)",
-  "event_used": "yes",
-  "event_year": 2015,
+  "eligibility": "no: event 2014, before 2015",
+  "event_used": "no (event 2014, before 2015)",
+  "event_year": 2014,
   "fallback_class": "broad district",
   "geo": {
    "geoid": "0626000",
@@ -954,15 +964,17 @@
   "licences": [
    "City of Fremont Open Data (item licenceInfo says only 'City of Fremont Open Data'; no explicit licence terms stated)",
    "Municipal code: public record",
-   "Census: public domain"
+   "Census: public domain",
+   "Internet Archive Wayback copy of public record"
   ],
-  "notes": "Area = all WSI-1..WSI-10 zoning polygons (18 polygons, about 837 acres; WS/SF Community Plan area is about 879 acres incl. right-of-way). Current zoning layer used (no reform-year archive); WSI boundaries are the plan's planning areas and are not known to have moved, but flagged. Removal 1.0: residential minimum 'n/a' (only maximums). Before the plan the area was industrial zoning where housing was not a permitted use, so no prior housing exemption; prior left empty. Home-share dose understates a greenfield district: most WSI homes were built after 2015 (2020 blocks) and there were almost none in 2010 (see 2010 coverage). Today the whole city also has AB 2097 (2023) / FMC 18.152.070 near-transit exemptions; irrelevant to the 2015 event.",
+  "notes": "Area = all WSI-1..WSI-10 zoning polygons (18 polygons, about 837 acres; WS/SF Community Plan area is about 879 acres incl. right-of-way). Current zoning layer used (no reform-year archive); WSI boundaries are the plan's planning areas and are not known to have moved, but flagged. Removal 1.0: residential minimum 'n/a' (only maximums). Before the plan the area was industrial zoning where housing was not a permitted use, so no prior housing exemption; prior left empty. Home-share dose understates a greenfield district: most WSI homes were built after 2015 (2020 blocks) and there were almost none in 2010 (see 2010 coverage). Today the whole city also has AB 2097 (2023) / FMC 18.152.070 near-transit exemptions; irrelevant to the 2015 event. AUDIT 2026-11-12 (date): Ord. 28-2014 adopted 2014-09-09 (codepublishing ordinance table and section histories \"Ord. 28-2014 s1, 9-9-14\"); effective date not read from the ordinance itself (no copy of the ordinance PDF found: Legistar web API not enabled for Fremont, no Wayback copies of fremont.gov/Legistar documents); under Cal. Gov. Code 36937 an ordinance takes effect 30 days after final passage, i.e. about 2014-10-09 - still 2014. The 2014-11-22 capture (only 28-2014 cited in ch. 18.49) already shows the residential minimum as n/a, so the cut was in place in 2014. Only 2015 ordinance touching ch. 18.49 is Ord. 16-2015 (6-2-15): s33 amends 18.49.040 (use table) and s34 18.49.080(g) (TDM); Table 18.49.070 parking rows identical in the 2015-12-08 capture. No 2015 parking change -> event 2014.",
   "prior": [],
   "reform_id": "oth_fremont_2015",
   "sources": [
    "City of Fremont Open Data, Zoning_Class FeatureServer/0 (services2.arcgis.com/AVso4yDITKsybTJg; item 25db2e74c6254091a6f340cf01f8f092; accessed 2026-11-12; current zoning)",
    "Fremont Municipal Code ch. 18.49 Warm Springs Innovation District, Table 18.49.070 (codepublishing.com/CA/Fremont/html/Fremont18/Fremont1849.html, accessed 2026-11-12)",
-   "Census 2020 TABBLOCK20 + 2020 BAF; TIGER 2010 TABBLOCK + 2010 POPHU + 2010 BAF"
+   "Census 2020 TABBLOCK20 + 2020 BAF; TIGER 2010 TABBLOCK + 2010 POPHU + 2010 BAF",
+   "Wayback capture 2014-11-22 of codepublishing FMC ch. 18.49 (as codified from Ord. 28-2014 only; Table 18.49.070 residential minimum n/a, max 1.5/2 per unit); capture 2015-12-08 (after Ord. 16-2015) has an identical Vehicular Parking table; codepublishing ordinance table: 28-2014 adopted 9-9-14 (chs 18.25, 18.30, 18.49, 18.193)"
   ],
   "type": "district",
   "use_fallback": false,
@@ -1285,7 +1297,7 @@
    "SCAG regional land use data: no licence stated (planning-use disclaimer only)",
    "Census: public domain"
   ],
-  "notes": "Area = 2024 SCAG parcels coded Downtown Pomona Specific Plan with district MU-CBD (132 parcels) or MU-I (44); blocks counted if the internal point is within 10 m of one (catches points in parcel gaps; streets are wider). Boundary vintage: 2024 parcels with current DTSP districts (plan adopted 2019, no amendments to district map recorded in version history to 2020-06-01); not the 2019 map itself, flagged. REMOVAL ASSUMPTION (Ryan): the standard 20-unit building is taken as 4 all-residential stories of 5 units with the 1BR/2BR mix on every floor; floors 1-2 (10 units) need 0, floors 3-4 need 5x1 + 5x1.5 = 12.5 spaces, i.e. 0.625 per unit. Removal is scored against the plan's own upper-floor ratios (1.25 per unit) = 0.5, i.e. only the first-two-floors exemption. Sensitivity: 3 stories (the MU-CBD/MU-I minimum) -> about 0.67; if the pre-2019 rate was the Pomona Corridors SP Downtown Core rate (1.5/1BR, 2/2BR, 1 guest per 4 units = 2.0 per unit) the removal would be (2.0-0.625)/2.0 = 0.69 and the plan's lower ratios would also cut MU-HDR and R-MF by (2.0-1.25)/2.0 = 0.375 - not coded because the 1994 DTSP (amended SPA 05-001) parking table that applied before 2019 was not found. C4/prior check: no earlier housing exemption found in the DTSP area (searched: DTSP 2019 text, PCSP 2014 text, web, Wayback of ci.pomona.ca.us and pomonaca.gov); downtown has a Vehicle Parking District (city lots) whose pre-2019 role in on-site requirements is unknown. The plan also allows reductions by demand study (2.3.C, discretionary) - not coded. Zoning check omitted: the only parcel zoning layer (SCAG Zoning_poly_LA) carries the post-2024 code districts.",
+  "notes": "Area = 2024 SCAG parcels coded Downtown Pomona Specific Plan with district MU-CBD (132 parcels) or MU-I (44); blocks counted if the internal point is within 10 m of one (catches points in parcel gaps; streets are wider). Boundary vintage: 2024 parcels with current DTSP districts (plan adopted 2019, no amendments to district map recorded in version history to 2020-06-01); not the 2019 map itself, flagged. REMOVAL ASSUMPTION (Ryan): the standard 20-unit building is taken as 4 all-residential stories of 5 units with the 1BR/2BR mix on every floor; floors 1-2 (10 units) need 0, floors 3-4 need 5x1 + 5x1.5 = 12.5 spaces, i.e. 0.625 per unit. Removal is scored against the plan's own upper-floor ratios (1.25 per unit) = 0.5, i.e. only the first-two-floors exemption. Sensitivity: 3 stories (the MU-CBD/MU-I minimum) -> about 0.67; if the pre-2019 rate was the Pomona Corridors SP Downtown Core rate (1.5/1BR, 2/2BR, 1 guest per 4 units = 2.0 per unit) the removal would be (2.0-0.625)/2.0 = 0.69 and the plan's lower ratios would also cut MU-HDR and R-MF by (2.0-1.25)/2.0 = 0.375 - not coded because the 1994 DTSP (amended SPA 05-001) parking table that applied before 2019 was not found. C4/prior check: no earlier housing exemption found in the DTSP area (searched: DTSP 2019 text, PCSP 2014 text, web, Wayback of ci.pomona.ca.us and pomonaca.gov); downtown has a Vehicle Parking District (city lots) whose pre-2019 role in on-site requirements is unknown. The plan also allows reductions by demand study (2.3.C, discretionary) - not coded. Zoning check omitted: the only parcel zoning layer (SCAG Zoning_poly_LA) carries the post-2024 code districts. AUDIT: the Pomona Corridors Specific Plan copy (Wayback 2025id_, resolves to 2025-12-11) is after the reform date 2019-08-05; it feeds only the old-rate sensitivity in these notes, not the coded removal, so not switched.",
   "prior": [],
   "reform_id": "oth_pomona_2019",
   "sources": [
@@ -1346,7 +1358,7 @@
  "oth_portland_2018": {
   "dose_override": null,
   "dose_source": "fallback",
-  "eligibility": "changed: probably no change for housing - Central City 2035 'maintains no parking minimums' in the Central City (PSC work-session doc 2016); CC2035 effective 2018-07-09 (appealed, readopted 2020-07-08) added maximums, not a minimum cut; propose drop or dose 0",
+  "eligibility": "changed: no change for housing - pre-reform Title 33 ch. 33.510 (version dated 7/8/16, Wayback 2017-01-31) had no minimum parking anywhere in the Central City plan district (33.510.261.D: sections .261-.267 apply to all parking in the plan district; Core .263.E.2 and .263.G.1, Lloyd .264, Goose Hollow/Lower Albina/Central Eastside/River District .265, South Waterfront .267: 'no minimum parking requirement(s)'); CC2035 (effective 2018-07-09) kept zero minimums (33.510.261.F.2) and added maximums. Propose drop or dose 0",
   "event_used": "yes",
   "event_year": 2018,
   "fallback_class": "no change for housing",
@@ -1356,12 +1368,16 @@
    "state_fips": "41"
   },
   "licences": [
+   "public record (code/ordinance/plan text); Wayback capture of a public record",
    "n/a (no data layer used)"
   ],
-  "notes": "CC2035 kept the Central City's existing zero minimums and added maximums, so it removed no housing minimum (C4: area already exempt the day before). Coded 'no change for housing' (0). Universe fallback was 25 (TOD); revert if Ryan prefers. Source: Portland BPS CC2035 documents and efiles PSC record (search snippets).",
+  "notes": "CC2035 removed no housing minimum: the Central City plan district already had no minimum parking for any use the day before (C4: area already exempt). Pre-reform text (33.510 dated 7/8/16): 33.510.263.E.2 (Core Residential/Hotel Parking) 'There are no minimum parking requirements'; 33.510.263.G.1 'no minimum parking requirements in the Core area'; same in .264 (Lloyd), .265 (Goose Hollow, Lower Albina, Central Eastside, River District 1-2), .267 (South Waterfront). History: the 1995 CCTMP had kept a residential minimum of 1 space per 8 units (>250 sq ft) in Downtown Sectors 1-5 and the University District (CCTMP 33.510.263.E.2); it was gone by the 7/8/16 code (deletion date not traced; irrelevant to 2018). Not checked: whether any 2016-07 to 2018-07 amendment re-added a minimum (none known; CC2035 commentary says no minimums) and small boundary changes to the plan district under CC2035. Coded 'no change for housing' (0). Universe fallback was 25 (TOD).",
   "reform_id": "oth_portland_2018",
   "sources": [
-   "universe row (reference/parking_dose_universe.csv) and its list sources"
+   "Portland Title 33 ch. 33.510 Central City Plan District, version dated 7/8/16 (portlandoregon.gov/bps/article/53363, Wayback capture 20170131074918) - last capture before CC2035",
+   "CC2035 Volume 2A Part 1 Central City Plan District, Re-Adoption Draft April 2020 (portland.gov/sites/default/files/2019-04/cc2035_adopted_v2a1_centralcity.web_.pdf): 33.510.261.F.2 no minimum, commentary 'No minimum parking requirements in the Central City'",
+   "Central City Parking Policy Update, draft recommended Title 33.510 amendments, Rick Williams Consulting, 2015-12-07: 'Maintain no minimum parking requirements in the Central City'",
+   "CCTMP zoning code amendments, Ord. 169535, adopted 1995-12-06, effective 1996-01-08 (efiles record 17509533): origin of the zero minimums"
   ],
   "type": "TOD/transit area",
   "use_fallback": true
@@ -2260,7 +2276,7 @@
    "PRN data: as recorded in data/raw/prn_reform_map/_downloads.json",
    "Decaturish article: cited only, nothing copied"
   ],
-  "notes": "C4 exemption found, not mapped. On 2020-04-27 the City Commission exempted all property zoned General Commercial (GC) from minimum parking stall requirements (and lot landscaping) - an earlier partial removal 15 months before the 2021 citywide repeal. Whether GC permitted apartments under the 2010 ordinance was not confirmed (the downtown CBD subareas, where multifamily was allowed, appear to have kept minimums). No public zoning layer for Avondale Estates (city or DeKalb County) found on ArcGIS Online, and the pre-2021 code text (Municode) was not read, so the GC area is scored as full removal here; if GC allowed housing, the dose overstates the increment there. Old apartment minimum unknown. Searched: PRN entries; parkingreform.org city page BLOCKED (Cloudflare 403); decaturish.com live page 429 (read via Wayback); ArcGIS Online search; web search for 2010 ordinance parking article.",
+  "notes": "C4 exemption found, not mapped. On 2020-04-27 the City Commission exempted all property zoned General Commercial (GC) from minimum parking stall requirements (and lot landscaping) - an earlier partial removal 15 months before the 2021 citywide repeal. Whether GC permitted apartments under the 2010 ordinance was not confirmed (the downtown CBD subareas, where multifamily was allowed, appear to have kept minimums). No public zoning layer for Avondale Estates (city or DeKalb County) found on ArcGIS Online, and the pre-2021 code text (Municode) was not read, so the GC area is scored as full removal here; if GC allowed housing, the dose overstates the increment there. Old apartment minimum unknown. Searched: PRN entries; parkingreform.org city page BLOCKED (Cloudflare 403); decaturish.com live page 429 (read via Wayback); ArcGIS Online search; web search for 2010 ordinance parking article. AUDIT: Wayback capture of the decaturish.com article dated 2024-03-04 is after the reform date 2021-07-28; not switched because the pre-reform capture http://web.archive.org/web/20210615104737/https://decaturish.com/2020/04/avondale-estates-city-commission-approves-zoning-amendment-and-renovation-plan-for-city-hall/ (wb_20210615104737_decaturish.html) states the same 2020 GC exemption. No prior is coded either way.",
   "reform_id": "rep_avondale_estates_2021",
   "sources": [
    "PRN mandates map core/extended (repo copy): rm_min citywide 2021-07-28, Sec. 21-6.2.3; no earlier entry",
@@ -3269,7 +3285,7 @@
  "rep_durham_2023": {
   "areas": [
    {
-    "label": "SCAD, TC2200001 (City Council 2023-11-20): minimum parking removed citywide; UDO 10.3.1B minimum column set to None in every tier/district",
+    "label": "SCAD, TC2200001 (City Council approved 2023-11-20, effective 2024-01-01, Part 15): UDO 10.3.1B.1 and B.7 minimums struck to None in every tier/district",
     "removal": 1.0,
     "where": "all"
    }
@@ -3287,10 +3303,10 @@
   },
   "licences": [
    "Durham Open Data: item licence text cites ODbL 'as a general reference, not as a binding document' + Privacy Notice and Terms of Service - flag for Ryan",
-   "UDO / reports: public record",
+   "UDO / SCAD ordinance / reports: public record (Wayback copies: Internet Archive copy of public record)",
    "Census: public domain"
   ],
-  "notes": "C4 increment. Standard 20-unit building: base rate 10.3.1A.4 'All household living: 2 per unit' = 40 spaces (no bedroom split in Durham's table; same row in the 2021-06-01 and 2021-12-01 UDO hardcopies). Day-before minimums (UDO as amended 2021-06-01; assumed unchanged to Nov 2023 - Omnibus 17 (2022) only dropped change-of-use minimums): Suburban/Rural 100% (no prior); Urban Tier 90% -> 0.10; CI 80% -> 0.20; DD None -> 1.0; Compact Neighborhood Tier household living 1/unit -> 0.5 (B.7; B.9.e(3) 400-ft rule read as applying to the B.1 percentage only, not to the B.7 household-living row - flag); CSD-C/S1 none -> 1.0; CSD-S2 1/unit -> 0.5. Affordable-unit exemptions, shared-parking and other B.9 reductions (conditional) ignored. 2019 Expanding Housing Choices (TC18-07) did not change minimum parking (staff memo). Boundaries: current zoning and current tier layers (2023 vintage not archived; Wayback unreachable from here) - flag. Durham UDO text for 2021 read via search-index extracts because durhamnc.gov and durham.municipal.codes return Cloudflare 403 to the research UA.",
+  "notes": "C4 increment. Standard 20-unit building: base rate 10.3.1A.4 'All household living: 2 per unit' = 40 spaces (no bedroom split in Durham's table; same row in the 2021-06-01 and 2021-12-01 UDO hardcopies). Day-before minimums (UDO hardcopy as amended 2023-10-16, the last vintage before SCAD; full text read): Suburban/Rural 100% (no prior); Urban Tier 90% -> 0.10; CI 80% -> 0.20; DD None -> 1.0; Compact Neighborhood Tier household living 1/unit -> 0.5 (B.7; B.9.e(3) 400-ft rule read as applying to the B.1 percentage only, not to the B.7 household-living row - flag); CSD-C/S1 none -> 1.0; CSD-S2 1/unit -> 0.5. Affordable-unit exemptions, shared-parking and other B.9 reductions (conditional) ignored. 2019 Expanding Housing Choices (TC18-07) did not change minimum parking (staff memo). Boundaries: current zoning and current tier layers (2023 vintage not archived; Wayback unreachable from here) - flag. AUDIT 2026-11-12: all prior values re-read from FULL text, no longer search extracts: UDO hardcopy amended 2023-10-16 (Wayback copy of DocumentCenter 54846) - 10.3.1A.4 'All household living 2 per unit'; 10.3.1B.1 DD None, Suburban/Rural 100%, Urban (except CI) 90%, CI 80%, CN non-CSD 'within 400 feet of the Suburban or Rural Tier boundary: 80%; Otherwise: None' (footnote 1 sends household living to B.7), CSD-C/S1 None, CSD-S2 50%; 10.3.1B.7 CN household living min 1 space/unit, CSD-C/S1 None, CSD-S2 1 space/unit. Coded values confirmed, unchanged. SCAD Council-approved text (2023-11-20) strikes these minimums to None; Part 15 makes it effective 2024-01-01 (event_year kept at the 2023 adoption year; flag if the universe dates by effective date). durhamnc.gov direct = Cloudflare 403 (not circumvented); copies are Wayback captures of the archived hardcopy files.",
   "prior": [
    {
     "label": "Downtown Design (DD-*) districts = Downtown Tier: UDO 10.3.1B.1 minimum None (long-standing)",
@@ -3362,9 +3378,10 @@
   "sources": [
    "City/County of Durham Zoning, services2.arcgis.com/G5vR3cOjh6g2Ed8E Zoning_Features/FeatureServer/0 (current, accessed 2026-11-12)",
    "Durham Development Tiers, Land_Development/FeatureServer/5 (current)",
-   "Durham UDO hardcopy amended 2021-06-01 (durhamnc.gov DocumentCenter/View/54838) and 2021-01-01 (View/54837): Sec 10.3.1A.4 rate table, 10.3.1B.1 tier min/max, 10.3.1B.7 household living, 10.3.1B.9.e",
+   "Durham UDO hardcopy amended 2023-10-16 (durhamnc.gov DocumentCenter/View/54846 'UDO-Hardcopy-2023-10-17', Wayback 20250202212532, full PDF saved): 10.3.1A.4 rate table, 10.3.1B.1 tier min/max, 10.3.1B.7 household living - the rules in force the day before SCAD",
+   "Durham UDO hardcopy amended 2021-12-01 (DocumentCenter/View/54839, Wayback 20250202215216, full PDF saved): same rows (cross-check)",
+   "TC2200001 City Council Approved SCAD Text Amendment, 2023-11-20 (DocumentCenter/View/53662, Wayback 20250208185814, scanned PDF saved, read by OCR): 10.3.1B.1 and B.7 minimums struck to None; Part 15 effective 2024-01-01",
    "Durham SL 2019-144 report to NCGA (webservices.ncleg.gov/ViewDocSiteFile/30309): DD no minimum; Urban Tier 10-20% reduction",
-   "Current UDO Sec 10.3 (udo.durhamnc.gov): all minimums None after SCAD",
    "Census 2020 TABBLOCK20 + 2020 BAF"
   ],
   "type": "citywide residential",
@@ -3719,19 +3736,19 @@
    "state_fips": "33"
   },
   "licences": [
-   "Ordinances / warrants / site plan regs: public record",
+   "Ordinances / warrants / site plan regs: public record (Wayback copies: Internet Archive copy of public record)",
    "NH Zoning Atlas: no licence stated (disclaimer only) - flag for Ryan",
    "Census: public domain"
   ],
-  "notes": "C4 increment. Day before = the day the 2024-11-12 Site Plan standards took effect (zoning repeal was conditional on them). Anchor = pre-May-2023 Sec. 1002 multi-family requirement for the standard 20-unit building: 10x1BR at 1.5 + 10x2BR at (1.5+0.5) = 35 spaces. Prior: whole town 20/35=0.571 (2023 cut to 0.5/1BR, 1/2BR = 15); D-1/D-2 'Downtown residential' 0.5/unit = 10 -> 25/35=0.714 (largest prior applies). MWD (created 2022) already had 0.5/1 = same 0.571 as rest of town, so its absence from the zoning layer does not change the dose. No district had zero minimum before 2024 (D districts had 1/unit pre-2023, 0.5 after). After the repeal the Site Plan table sets maximums only and states the minimum is zero; ZO 1001.6 still lets the Planning Board 'determine' spaces at site plan review (but the regs fix the minimum at zero) - treated as full removal; flag. Not coded: 903.2.F (in current ZO) keeps 1/1BR + 2/2BR for PRDs in GR-4 'in lieu of Section 1002' - may still bind GR-4 PRDs (adoption date unknown); a standard 20-unit multi-family by special exception is not a PRD. Zoning layer = NH Zoning Atlas coding (pre-MWD vintage, c. 2021-22), not the Dec 2024 map; D-1/D-2 boundaries assumed unchanged. Removal shares are rounded to 4 dp.",
+  "notes": "C4 increment. Day before = the day the 2024-11-12 Site Plan standards took effect (zoning repeal was conditional on them). Anchor = pre-May-2023 Sec. 1002 multi-family requirement for the standard 20-unit building: 10x1BR at 1.5 + 10x2BR at (1.5+0.5) = 35 spaces. Prior: whole town 20/35=0.571 (2023 cut to 0.5/1BR, 1/2BR = 15); D-1/D-2 'Downtown residential' 0.5/unit = 10 -> 25/35=0.714 (largest prior applies). MWD (created 2022) already had 0.5/1 = same 0.571 as rest of town, so its absence from the zoning layer does not change the dose. No district had zero minimum before 2024 (D districts had 1/unit pre-2023, 0.5 after). After the repeal the Site Plan table sets maximums only and states the minimum is zero; ZO 1001.6 still lets the Planning Board 'determine' spaces at site plan review (but the regs fix the minimum at zero) - treated as full removal; flag. Not coded: 903.2.F (in current ZO) keeps 1/1BR + 2/2BR for PRDs in GR-4 'in lieu of Section 1002' - may still bind GR-4 PRDs (adoption date unknown); a standard 20-unit multi-family by special exception is not a PRD. Zoning layer = NH Zoning Atlas coding (pre-MWD vintage, c. 2021-22), not the Dec 2024 map; D-1/D-2 boundaries assumed unchanged. Removal shares are rounded to 4 dp. AUDIT 2026-11-12: prior values now read from FULL text (no longer search extracts): anchor from ZO 2022 Sec. 1002.1 ('Multi-family, PRD 1.5 per dwelling unit for the first bedroom and 0.5 spaces for each additional bedroom with total spaces equaling the next highest full space'; 'Downtown residential 1 for each dwelling unit'; 'Multi-family in MWD .5/1'); day-before from ZO 2023 Sec. 1002.1 ('Multi-family, PRD .5 space per efficiency/studio/one bedroom unit; 1 space per two bedroom or larger unit'; 'Downtown residential 0.5 for each dwelling unit'). Coded values confirmed, unchanged. Correction: the file appendixA_2023_amendments.pdf (DocumentCenter 5160) is the 2024 Town Meeting Appendix A (scan dated 2024-04; Article Five = 2024 Art. X rewrite), not the 2023 text; label fixed in _sources. Open: ZO 2022 rounding phrase read as rounding the building total (35); if read per unit (1BR 1.5 -> 2) the anchor is 40 and priors become 25/40=0.625 and 30/40=0.75.",
   "prior": [
    {
-    "label": "Rest of town: 2023 Town Meeting Art. 5 (Amendment No. 4, 2023-05-09) Sec. 1002 'Multi-family, PRD' 1.5/unit for first bedroom + 0.5 per extra bedroom -> 0.5 per studio/1BR, 1 per 2BR+; 20-unit (10x1BR,10x2BR) 35 -> 15 spaces = 20/35",
+    "label": "Rest of town: 2023 Town Meeting Amendment No. 4 (adopted 2023-05-09; ZO 2023 'as amended 2023-05-11') Sec. 1002.1 'Multi-family, PRD' 1.5/unit for first bedroom + 0.5 per extra bedroom (ZO 2022) -> 0.5 per studio/1BR, 1 per 2BR+ (ZO 2023); 20-unit (10x1BR,10x2BR) 35 -> 15 spaces = 20/35",
     "removal": 0.5714,
     "where": "all"
    },
    {
-    "label": "D-1 Downtown Center / D-2 Downtown Edge: Sec. 1002 'Downtown residential' 1 -> 0.5 per unit (2023 Amendment No. 4) = 10 spaces vs town baseline 35 = 25/35",
+    "label": "D-1 Downtown Center / D-2 Downtown Edge: Sec. 1002.1 'Downtown residential' 1 per unit (ZO 2022) -> 0.5 per unit (ZO 2023) = 10 spaces vs town anchor 35 = 25/35",
     "removal": 0.7143,
     "where": {
      "field": "Abbreviated_District_Name",
@@ -3742,10 +3759,14 @@
   ],
   "reform_id": "rep_hanover_2024",
   "sources": [
-   "2023 Town Meeting Appendix A (Amendment No. 4 full text, Sec. 1002 schedule), hanovernh.org DocumentCenter 5160",
-   "2023 Town Meeting results (2023-05-09, Art. 5 passed 742-135), DocumentCenter 2653",
-   "2024 Town Meeting warrant and minutes (2024-05-14, Art. 5 / Amendment No. 4 passed 599-97), DocumentCenter 5158, 5492",
-   "Hanover Site Plan Regulations as amended 2024-11-12, Art. IX.B.4.k-m, DocumentCenter 2967; planning memo 2024-11-20",
+   "Hanover Zoning Ordinance 2022 (through 2022-05-10), Sec. 1002.1 schedule: Wayback 20230109043402 of hanovernh.org/sites/g/files/vyhlif3226/f/uploads/2022_zo_combined.pdf (saved, sha256 d4308300...)",
+   "Hanover Zoning Ordinance 2023 (through 2023-05-11), Sec. 1002.1 schedule: Wayback 20230919190907 of hanovernh.org DocumentCenter/View/2922 (saved, sha256 a3718ae1...)",
+   "Planning memo 'Zoning Ordinance Amendments for Town Meeting 2023' (Amendment No. 4 explanation): Wayback 20230609034948 of DocumentCenter/View/1311 (saved)",
+   "Hanover Zoning Ordinance 2024 (through 2024-05-14; no Sec. 1002 schedule): Wayback 20240712073833 of DocumentCenter/View/5526 (saved)",
+   "2024 Town Meeting Appendix A (full text of 2024 amendments incl. Article Five Amendment No. 4, Art. X), DocumentCenter 5160 (OCR read)",
+   "2023 Town Meeting results (2023-05-09, Art. 5 passed), DocumentCenter 2653",
+   "2024 Town Meeting warrant and minutes (2024-05-14, Art. 5 / Amendment No. 4 passed; deletes 1002.1; effective only on Planning Board adoption of Site Plan parking standards), DocumentCenter 5158, 5492",
+   "Hanover Site Plan Regulations as amended 2024-11-12, Art. IX.B.4.k-m ('minimum for each project being zero spaces'), DocumentCenter 2967",
    "Hanover Zoning Ordinance 2026 (Art. X; 405.2; 903.2.F), DocumentCenter 9662",
    "NH Zoning Atlas Full Districts (Saint Anselm College), Hanover polygons",
    "Census 2020 TABBLOCK20 + 2020 BAF (MCD 33-009-33860 Hanover town)"
@@ -3878,7 +3899,8 @@
    "PRN: MIT",
    "Census: public domain"
   ],
-  "notes": "C4 check: no clear earlier exemption found (searched: PRN entry; Sec. 325-18/325-19 text as of 2015 (Wayback of ecode360 5082514); residential bulk schedule 2012 (1 space/unit in every residential district incl. C-R Core Riverfront); commercial/industrial bulk schedule (C-C Central Commercial: '\u2014' parking for commercial uses); 2024 Planning Board letter). Open question: the schedules give no residential parking figure for the C-C district (Warren St), and Sec. 325-19B leaves unlisted cases to the Planning Board, so upper-floor apartments in C-C may already have had no fixed minimum; not coded (unclear). L.L. 2-2014 also amended 325-19B (content not found).",
+  "notes": "C4 check: no clear earlier exemption found (searched: PRN entry; Sec. 325-18/325-19 text as of 2015 (Wayback of ecode360 5082514); residential bulk schedule 2012 (1 space/unit in every residential district incl. C-R Core Riverfront); commercial/industrial bulk schedule (C-C Central Commercial: '\u2014' parking for commercial uses); 2024 Planning Board letter). Open question: the schedules give no residential parking figure for the C-C district (Warren St), and Sec. 325-19B leaves unlisted cases to the Planning Board, so upper-floor apartments in C-C may already have had no fixed minimum; not coded (unclear). L.L. 2-2014 also amended 325-19B (content not found). AUDIT: Wayback captures https://web.archive.org/web/20210726160806id_/https://ecode360.com/attachment/HU0410/HU0410-325a%20Residential%20Districts.pdf dated 2021-07-26 and https://web.archive.org/web/20231214184152id_/https://ecode360.com/attachment/HU0410/HU0410-325b%20Commercial%20and%20Ind%20Districts.pdf dated 2023-12-14 are on the wrong side of the reform date 2019-06-18 (no earlier capture exists); switched to fallback: C4 prior that relied on them dropped (prior: []). No prior had been coded, so the dose is unchanged (100); the C4 check now rests only on the 2015 Sec. 325-18/19 text.",
+  "prior": [],
   "reform_id": "rep_hudson_2019",
   "sources": [
    "Hudson Code Ch. 325 Sec. 325-18/325-19 (Wayback 2015-07-05 of ecode360.com/5082514)",
@@ -4607,25 +4629,8 @@
    "PRN data: MIT",
    "Census: public domain"
   ],
-  "notes": "C4 exemption found and mapped. Base: Table 19-A 1 space/unit. Prior = 1/4 mile (402.34 m) of METRO bus stops served in the fall-2024 feed (544 of 556 stops; test route 999 dropped) and of Casco Bay Lines ferry landings (ferry counted as fixed-route transit: judgement, flag); removal 1.0 (TDM plan required above 10,000 SF, not a parking number). Stop locations from GTFS valid on the reform date. Not coded: South Portland Bus stops in Portland (only a stale 2021-22 feed archived; its Portland stops are downtown, inside METRO coverage); zone-based exceptions (B-5 none, WCZ none, other waterfront zones -50%, R-6/IS-FBC first three units free = 0.15 for 20 units, IR-3 none) - all but IR-3 lie on the peninsula inside the transit buffer; Table 19-B amendment of 2023-12-18 not read (2021 text used). Caveat: 'Major site plans: the Planning Board shall establish the off-street parking requirement based on a parking study' - large projects outside the buffer had a discretionary requirement before 2024, so the increment there may be smaller than 1.0 (not coded).",
-  "prior": [
-   {
-    "label": "Table 19-B 'Transit proximate development and uses': no off-street parking required within 1/4 mile of fixed route transit service - METRO bus stops (GTFS valid 2024-09-23 to 2024-11-09)",
-    "removal": 1.0,
-    "where": {
-     "near": "gpmetro_stops_2024-09_served.json",
-     "radius_m": 402.34
-    }
-   },
-   {
-    "label": "Same exception - Casco Bay Lines ferry landings (fixed-route ferry; GTFS summer 2024)",
-    "removal": 1.0,
-    "where": {
-     "near": "cascobaylines_landings_2024.json",
-     "radius_m": 402.34
-    }
-   }
-  ],
+  "notes": "C4 exemption found and mapped. Base: Table 19-A 1 space/unit. Prior = 1/4 mile (402.34 m) of METRO bus stops served in the fall-2024 feed (544 of 556 stops; test route 999 dropped) and of Casco Bay Lines ferry landings (ferry counted as fixed-route transit: judgement, flag); removal 1.0 (TDM plan required above 10,000 SF, not a parking number). Stop locations from GTFS valid on the reform date. Not coded: South Portland Bus stops in Portland (only a stale 2021-22 feed archived; its Portland stops are downtown, inside METRO coverage); zone-based exceptions (B-5 none, WCZ none, other waterfront zones -50%, R-6/IS-FBC first three units free = 0.15 for 20 units, IR-3 none) - all but IR-3 lie on the peninsula inside the transit buffer; Table 19-B amendment of 2023-12-18 not read (2021 text used). Caveat: 'Major site plans: the Planning Board shall establish the off-street parking requirement based on a parking study' - large projects outside the buffer had a discretionary requirement before 2024, so the increment there may be smaller than 1.0 (not coded). AUDIT: Wayback captures https://web.archive.org/web/20250406103903id_/http://smttracker.com/downloads/gtfs/greater-portland-me.zip and https://web.archive.org/web/20250406101036id_/http://smttracker.com/downloads/gtfs/cascobaylines-portland-me-usa.zip dated 2025-04-06 are on the wrong side of the reform date 2024-11-04 (no earlier capture exists); switched to fallback: the C4 transit-proximity prior that relied on them (METRO stops and Casco Bay Lines landings, 1/4 mile) is dropped (prior: []), so the dose is the full citywide repeal. The Table 19-B transit exemption itself is real (2021 code); it can be restored with a GTFS copy dated before 2024-11-04 (e.g. Mobility Database mdb-454 history).",
+  "prior": [],
   "reform_id": "rep_portland_2024",
   "sources": [
    "Portland Code Ch. 14 Land Use (ReCode Phase 1), revised 2021-07-19: Sec. 19.1.2, Table 19-A (1 space per dwelling unit), Table 19-B categorical and zone-based exceptions (Wayback copy 2022-03-05 of portlandmaine.gov DocumentCenter/View/1080)",
@@ -5055,16 +5060,8 @@
    "public domain",
    "Salem DPD layer: no licence stated"
   ],
-  "notes": "C4 increment. Prior = areas exempt/reduced the day before the repeal took effect (Ord. Bill 4-23 (CA23-01) adopted 2023-04-24, effective 2023-05-24 (city land-use projects page); after 2022-12-31, so CFEC is prior). GTFS: Cherriots GTFS archived 2023-10-28 (Wayback; only archive found), feed 2023-09-03 to 2024-01-06; service date 2023-09-12 (Tue) - AFTER the 2023-05-24 repeal, flagged. CFEC transit areas derived with the method file cfec_freq_method.py.txt (copy of the helper script; not run from here): OAR 660-012-0440(2) rail: 3/4 mile (1207.01 m, straight line) of stops served by MAX/WES/streetcar trips; (3)(b): 1/2 mile (804.67 m) of corridors where one route+direction has >=4 distinct scheduled trips departing a stop in one clock hour of 7,8,16,17 h on the service date (untimed stops take the previous timepoint time), corridor = straight links between consecutive qualifying stops; (3)(c): only if no (3)(b) corridor in the city (stop within 50 m of the 2020 TIGER place polygon), the route(s) with the highest such count, if >=1/hour, whole route links; 'community' read as the city (broad reading). Straight-line distance per 0440(4). Block internal point in buffer stands in for 'lot that includes lands within' (slight under-count at edges). (3)(b) routes 2, 5, 11, 17, 19, 21 (Cherriots Core Network, 15-minute) from the Sep-2023 feed - after the repeal (only archive found); Core Network frequencies date from 2019-2020 so likely similar on 2023-05-23, flagged. Local 2020 rule (Ord. Bill 1-20) exempting multifamily near the Core Network lies inside the 1/2-mile corridors: not mapped separately. City summary: parking already not required in about 40% of Salem. No zoning layer held (no zoning_check). Not mapped (note only): OAR 660-012-0430(3) from 2022-12-31 also barred minimums for units under 750 sq ft, income-restricted affordable units, SROs, shelters, care facilities etc.; many 1-BR units in the standard building are under 750 sq ft, so the true prior removal is larger than coded. Sensitivity: without the 1/unit cap prior, dose 44.84.",
+  "notes": "C4 increment. Prior = areas exempt/reduced the day before the repeal took effect (Ord. Bill 4-23 (CA23-01) adopted 2023-04-24, effective 2023-05-24 (city land-use projects page); after 2022-12-31, so CFEC is prior). GTFS: Cherriots GTFS archived 2023-10-28 (Wayback; only archive found), feed 2023-09-03 to 2024-01-06; service date 2023-09-12 (Tue) - AFTER the 2023-05-24 repeal, flagged. CFEC transit areas derived with the method file cfec_freq_method.py.txt (copy of the helper script; not run from here): OAR 660-012-0440(2) rail: 3/4 mile (1207.01 m, straight line) of stops served by MAX/WES/streetcar trips; (3)(b): 1/2 mile (804.67 m) of corridors where one route+direction has >=4 distinct scheduled trips departing a stop in one clock hour of 7,8,16,17 h on the service date (untimed stops take the previous timepoint time), corridor = straight links between consecutive qualifying stops; (3)(c): only if no (3)(b) corridor in the city (stop within 50 m of the 2020 TIGER place polygon), the route(s) with the highest such count, if >=1/hour, whole route links; 'community' read as the city (broad reading). Straight-line distance per 0440(4). Block internal point in buffer stands in for 'lot that includes lands within' (slight under-count at edges). (3)(b) routes 2, 5, 11, 17, 19, 21 (Cherriots Core Network, 15-minute) from the Sep-2023 feed - after the repeal (only archive found); Core Network frequencies date from 2019-2020 so likely similar on 2023-05-23, flagged. Local 2020 rule (Ord. Bill 1-20) exempting multifamily near the Core Network lies inside the 1/2-mile corridors: not mapped separately. City summary: parking already not required in about 40% of Salem. No zoning layer held (no zoning_check). Not mapped (note only): OAR 660-012-0430(3) from 2022-12-31 also barred minimums for units under 750 sq ft, income-restricted affordable units, SROs, shelters, care facilities etc.; many 1-BR units in the standard building are under 750 sq ft, so the true prior removal is larger than coded. Sensitivity: without the 1/unit cap prior, dose 44.84. AUDIT: Wayback capture https://web.archive.org/web/20231028221000/https://www.cherriots.org/media/doc/gtfs.zip dated 2023-10-28 is on the wrong side of the reform date 2023-05-24 (no earlier capture exists); switched to fallback: the C4 prior that relied on it (CFEC 0440(3) frequent-transit corridors) is dropped. The Downtown Parking District and the 1/unit-cap prior do not use the capture and are kept.",
   "prior": [
-   {
-    "label": "CFEC OAR 660-012-0440(3): 1/2 mile of frequent transit corridors - (3)(b) routes 02, 05, 11, 17, 19, 21, from 2022-12-31",
-    "removal": 1.0,
-    "where": {
-     "near": "cfec_corridor_cherriots_2023.json",
-     "radius_m": 804.67
-    }
-   },
    {
     "label": "Downtown Parking District: off-street parking not required for any use (SRC 806; district SRC 7.010, 1976)",
     "removal": 1.0,
@@ -5208,7 +5205,7 @@
    "San Jose GIS: no licence stated (as-is disclaimer only)",
    "Census: public domain"
   ],
-  "notes": "C4: two areas already had lower minimums the day before the repeal. Downtown DC/DC-NT1: 1 space per unit (Table 20-140) vs 1.475 citywide (Table 20-210 all-open parking, half 1BR 1.25 / half 2BR 1.7) -> prior removal (1.475-1)/1.475 = 0.322. MS-G/MS-C pedestrian-oriented districts: 1.25/unit (Table 20-211) -> prior removal 0.153. Director reductions (20.70.330, 20.90.220: TDM, mixed use, near transit) are discretionary and not coded as prior. Alum Rock Village exemption covers street-level (non-residential) uses only: not coded. Current zoning boundary used (2022 boundary not archived); (PD) parcels coded by base district. Not coded, open question: AB 2097 (state, effective 2023-01-01) already barred minimums within 1/2 mile of major transit stops before the city ordinance took effect (adopted 2023-01-10 per code history; effective ~Feb-Mar 2023).",
+  "notes": "C4: two areas already had lower minimums the day before the repeal. Downtown DC/DC-NT1: 1 space per unit (Table 20-140) vs 1.475 citywide (Table 20-210 all-open parking, half 1BR 1.25 / half 2BR 1.7) -> prior removal (1.475-1)/1.475 = 0.322. MS-G/MS-C pedestrian-oriented districts: 1.25/unit (Table 20-211) -> prior removal 0.153. Director reductions (20.70.330, 20.90.220: TDM, mixed use, near transit) are discretionary and not coded as prior. Alum Rock Village exemption covers street-level (non-residential) uses only: not coded. Current zoning boundary used (2022 boundary not archived); (PD) parcels coded by base district. Not coded, open question: AB 2097 (state, effective 2023-01-01) already barred minimums within 1/2 mile of major transit stops before the city ordinance took effect (adopted 2023-01-10 per code history; effective ~Feb-Mar 2023). | Variant dose_state_law_prior: AB 2097 areas as prior (repeal adopted 2023-01-10, after AB 2097 took effect). Caltrans layer licence: Public (Caltrans item licence text); current stops, not 2023.",
   "prior": [
    {
     "label": "Downtown zoning districts DC, DC(PD), DC-NT1: multiple dwelling 1 per unit (Table 20-140 Parking column, SJMC 20.70.100 K) vs general Table 20-210 all-open 1.475 for the standard building",
@@ -5234,6 +5231,16 @@
    "Draft repeal ordinance with old text in strikeout, council agenda 11-29-2022 item 8.4 (file 22-1749), sanjose.legistar.com View.ashx?M=F&ID=11483796: Table 20-140 (downtown parking column, multiple dwelling 1 per unit), Table 20-210, Table 20-211 (pedestrian oriented districts 1.25/unit)",
    "City of San Jose Zoning Districts, OPN_OpenDataService/MapServer/401 (current, accessed 2026-11-12)",
    "Census 2020 TABBLOCK20 + 2020 BAF"
+  ],
+  "state_law_prior": [
+   {
+    "label": "AB 2097 (Gov. Code 65863.2, from 2023-01-01): no minimum within 1/2 mile of a major transit stop; Caltrans CA_HQ_Transit_Stops major stops (current service; 20-min bus headway definition)",
+    "removal": 1.0,
+    "where": {
+     "near": "data/raw/ab2097/major_transit_stops.geojson",
+     "radius_m": 804.67
+    }
+   }
   ],
   "type": "citywide residential",
   "use_fallback": false,
@@ -5582,7 +5589,7 @@
    "TriMet developer terms of use (sensitivity files)",
    "Census: public domain"
   ],
-  "notes": "C4 increment. CFEC transit areas NOT coded as prior: Tigard adopted its citywide repeal on 2022-12-13, before OAR 660-012-0440 began to apply (applications after 2022-12-31); the repeal was Tigard's way of complying. If the ordinance took effect about 2023-01-12, the state rule was in force for at most about 11 days first - sensitivity with the CFEC prior (rail 3/4 mile WES Tigard TC; (3)(b) TriMet 12, 76, 94 from the Jan-2023 feed; files cfec_*_trimet_2023-01*.json) is in the helper report, not the headline. Prior = Tigard Triangle TMU zone (Lean Code 2017, no minimums; Metro 2026 zone layer, TMU footprint assumed unchanged). NOT coded (unverified): earlier downtown (MU-CBD) exemptions mentioned in secondary sources; old ratios not found, so no reduction share. Not mapped (note only): OAR 660-012-0430(3) from 2022-12-31 also barred minimums for units under 750 sq ft, income-restricted affordable units, SROs, shelters, care facilities etc.; many 1-BR units in the standard building are under 750 sq ft, so the true prior removal is larger than coded. Sensitivity (2026-11-12): with CFEC rail + (3)(b) prior -> dose 43.23 (prior homes share 0.5677).",
+  "notes": "C4 increment. CFEC transit areas NOT coded as prior: Tigard adopted its citywide repeal on 2022-12-13, before OAR 660-012-0440 began to apply (applications after 2022-12-31); the repeal was Tigard's way of complying. If the ordinance took effect about 2023-01-12, the state rule was in force for at most about 11 days first - sensitivity with the CFEC prior (rail 3/4 mile WES Tigard TC; (3)(b) TriMet 12, 76, 94 from the Jan-2023 feed; files cfec_*_trimet_2023-01*.json) is in the helper report, not the headline. Prior = Tigard Triangle TMU zone (Lean Code 2017, no minimums; Metro 2026 zone layer, TMU footprint assumed unchanged). NOT coded (unverified): earlier downtown (MU-CBD) exemptions mentioned in secondary sources; old ratios not found, so no reduction share. Not mapped (note only): OAR 660-012-0430(3) from 2022-12-31 also barred minimums for units under 750 sq ft, income-restricted affordable units, SROs, shelters, care facilities etc.; many 1-BR units in the standard building are under 750 sq ft, so the true prior removal is larger than coded. Sensitivity (2026-11-12): with CFEC rail + (3)(b) prior -> dose 43.23 (prior homes share 0.5677). | Variant dose_state_law_prior: CFEC transit areas as prior (helper reported 43.23).",
   "prior": [
    {
     "label": "Tigard Triangle (TMU zone): no minimum parking under the 2017 Lean Code",
@@ -5602,6 +5609,24 @@
    "TriMet GTFS archived 2022-12-11 (Wayback), feed 2022-08-14 to 2023-01-21; service date 2023-01-10 (Tue) (sensitivity only)",
    "OAR 660-012-0440 and -0430 (LCDC, adopted 2022-07-21, in force for applications after 2022-12-31; DLCD 0440 guidance v2.0 2023-12-13, on disk at data/raw/parking_dose_exempt/central_point_or/dlcd_guidance_0440_v2_2023-12-13.pdf): public record",
    "Census 2020 TABBLOCK20 + 2020 BAF: public domain"
+  ],
+  "state_law_prior": [
+   {
+    "label": "CFEC OAR 660-012-0440(2): 3/4 mile of rail stops (if the state rule preceded the repeal's effective date)",
+    "removal": 1.0,
+    "where": {
+     "near": "cfec_rail_stops_trimet_2023-01.json",
+     "radius_m": 1207.01
+    }
+   },
+   {
+    "label": "CFEC OAR 660-012-0440(3): 1/2 mile of frequent transit corridors",
+    "removal": 1.0,
+    "where": {
+     "near": "cfec_corridor_trimet_2023-01.json",
+     "radius_m": 804.67
+    }
+   }
   ],
   "type": "citywide residential",
   "use_fallback": false,
