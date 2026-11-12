@@ -1543,3 +1543,42 @@ Units: homes per 1,000 existing homes a year, per 100 dose points (a full repeal
 - **D "dose-0 places alone":** 2 places for all homes and 3 for 2–4 units. Read it as **"too few for a range"**.
 - **Condition 2 label:** the reading CSV still prints "near-automatic". Read it as "not automatic here: only 30 of the 74 are at dose 100" (see above).
 - **Full-only vs low-dose-only:** these point opposite ways in both methods (main +0.762 vs −1.335; D −1.452 vs +0.900). That fits noise.
+
+## Test 61: honest forest with dose, population and city type (post hoc; run 2026-11-12; code 01db1c72 + 7ebdbb66; --first 6e6587f7)
+
+Locked plan: "Test 61" in CAUSAL_FRAMEWORK_PLAN.md, with its audit fixes. Ryan's go was at 20:53 UTC.
+- **Post hoc.** The dose results had already been seen, so a pass would have been optimistic.
+- **Forest:** Test 54's honest forest (500 trees, leaf 5) with fixed traits and no screening:
+  - Judged run: dose, log10 2010 population, and city type (6 classes, one-hot).
+  - Extra run: the same plus the rate before repeal.
+- **Places:** the dose fit set, 98 for all homes and 97 for 2–4 units, with no missing traits.
+- **Scoring:** held-out weighted mean absolute error, 10 folds × 20 repeats.
+- **Gain** = 1 − forest error ÷ benchmark error. Positive means the forest predicts better.
+- **Pass (judged cells only, 2–4 units):** mean gain of at least 5%, and gain above 0 in at least 80% of repeats (a convention). It may pass under main or D.
+
+| Outcome | Method | Traits | Benchmark | Mean gain | Range over repeats | Repeats above 0 |
+|---|---|---|---|---|---|---|
+| **2–4 units (judged)** | main | 3 | one average | **−9.5%** | −25.2% to +8.0% | 15% |
+| **2–4 units (judged)** | D | 3 | one average | **−10.3%** | −21.1% to +6.9% | 10% |
+| 2–4 units | main | 3 | dose-scaled | −18.0% | −38.7% to +0.2% | 5% |
+| 2–4 units | main | 4 | one average | −4.9% | −21.3% to +13.6% | 25% |
+| All homes | main | 3 | one average | −6.3% | −18.3% to +6.5% | 25% |
+| All homes | D | 3 | one average | −1.4% | −9.8% to +4.4% | 35% |
+| All homes | main | 3 | dose-scaled | −9.8% | −31.4% to +3.9% | 20% |
+
+**Shuffle check** (traits shuffled across places, 3 traits against one average): chance alone gives mean gains of:
+- −6.6% (2–4 main) and −12.9% (2–4 D);
+- −1.6% (all main) and −8.0% (all D).
+
+The real traits do no better than shuffled ones: in 60% (2–4 main) and 35% (2–4 D) of shuffles, chance did as well or better.
+
+**Reading: FAIL.**
+- Dose, population and city type do not predict a city's parking effect better than one plain average. Forest predictions are about 10% worse on held-out cities.
+- The dose-scaled average also does a little better than the forest, but it is not the judged benchmark.
+- The trait search stays closed, and the scenario line is unchanged.
+
+**Labels:**
+- With dose-0 places out, the forest says nothing about dose 0.
+- D's winsorising and mix weights use the whole cell (test places included), as in Test 54.
+- Only about 4 exurb and 3 rural places sit in each cell, so those city-type columns carry little.
+- The 4-trait run carries Test 54's caveat on the rate before repeal (it shares the before-window with the effect).
