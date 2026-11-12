@@ -129,7 +129,7 @@ Files:
 **The 2016 file was found.**
 - DCP's own 2016 file (`nyctransitzones_201601`, created 2016-06-30, published 2016-07-07) is on the Internet Archive.
   - Wayback capture 2025-12-22 of the nyc.gov Bytes archive zip.
-  - nyc.gov itself still answers HTTP 403 to non-browser clients. Not worked around.
+  - nyc.gov itself still answers HTTP 403 to non-browser clients. Not worked around. The community-district and borough zips (16A) were taken from Wayback too (nyc.gov not tried for them).
 - **It is now the primary 2016 line.** The rebuild is the check.
 - Area: 212.6 km² (2016 file) vs 212.8 km² (current layer).
 
@@ -310,7 +310,7 @@ Whole-city new-building jobs per month (not split by area):
 | SF NCT-Valencia year | 2008 or 2009: open |
 
 ### Blocked sites (not worked around)
-- nyc.gov: HTTP 403 to non-browser clients for the Transit Zone zip, community district and borough zips, Appendix I PDF and the CPC reports 160049, 180084, 220312, 220313, 230182, 230183, 240016. Wayback copies used where they exist.
+- nyc.gov: HTTP 403 to non-browser clients for the Transit Zone zip, the Appendix I PDF and the CPC reports 160049, 180084, 220312, 220313, 230182, 230183, 240016. Wayback copies used where they exist.
 - codelibrary.amlegal.com: HTTP 403.
 - gocodebook.com Sec. 151 pages: HTTP 404 (section repealed in 2025).
 - No DCP 2016 zoning-district zip on Wayback.
