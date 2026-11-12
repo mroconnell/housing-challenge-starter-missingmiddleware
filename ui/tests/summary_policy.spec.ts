@@ -418,3 +418,10 @@ for (const id of ["adu", "middle", "tod", "parking"]) {
     }
   });
 }
+
+test("ADU Why in/out card cites Mercatus and Pew from the bundle", async ({ page }) => {
+  await page.goto("#/why?section=adu-in-out");
+  const cites = page.getByTestId("in-out-citations");
+  await expect(cites.locator('[data-cite="mercatus_2025"]')).toContainText("Mercatus");
+  await expect(cites.locator('[data-cite="pew_2026"]')).toContainText("Pew");
+});

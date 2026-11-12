@@ -57,6 +57,7 @@ function inOutHTML(sc: Scope): string {
     afterGroups: `<p class="small muted" data-testid="madison-like-check">A check, not used for the rate: 11 cities like Madison in Washington, Oregon and Rhode Island, shown on the chart above.</p>`,
     outHeading: `Left out: ${sc.out.length} places`, out: sc.out.map((x) => ({ name: x.name, text: x.reason })),
     source: sc.source,
+    citations: sc.citations,
     linksHTML: `${docLink({ label: "Statewide-law states", path: "docs/gate3/STATEWIDE_STATES.md", url: "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/gate3/STATEWIDE_STATES.md" })} · ${docLink({ label: "Pooled model", path: "docs/gate3/POOLED_MODEL.md", url: "https://github.com/mroconnell/housing-challenge-starter-missingmiddleware/blob/main/docs/gate3/POOLED_MODEL.md" })}`,
   });
 }

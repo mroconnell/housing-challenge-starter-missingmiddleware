@@ -56,7 +56,7 @@ export interface StateData {
   };
   scenarios: Scenario[];
   /** The Why tab's "In and out of the model" list: places the ADU rate is learned from, and those left out. */
-  evidence_scope: { in: { name: string; kind: string; area: string; role: string }[]; out: { name: string; kind: string; reason: string }[]; source: string };
+  evidence_scope: { in: { name: string; kind: string; area: string; role: string }[]; out: { name: string; kind: string; reason: string }[]; source: string; citations?: { id: string; short: string; text: string; url: string }[] };
   /** The uniform range display (docs/UNIFORM_DISPLAY_SPEC.md): the 90% range and the side lines across it. */
   range90: Range90;
   side_lines: SideLine[];

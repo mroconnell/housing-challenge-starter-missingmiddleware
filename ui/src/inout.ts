@@ -18,6 +18,8 @@ export interface InOutCard {
   outHeading: string;
   outTestid?: string;
   source: string;
+  /** Published studies cited for this list (shown under the source line). */
+  citations?: { id: string; short: string; text: string; url: string }[];
   /** Links row (already-built HTML). */
   linksHTML?: string;
 }
@@ -41,6 +43,7 @@ export function inOutCardHTML(c: InOutCard): string {
       </div>
     </div>
     <p class="small muted" data-testid="in-out-source">Source: ${esc(c.source)}</p>
+    ${c.citations?.length ? `<ul class="plain small in-out-cites" data-testid="in-out-citations">${c.citations.map((x) => `<li data-cite="${esc(x.id)}">${esc(x.text)} <a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.short)}<span class="sr-only"> (opens in a new tab)</span> ↗</a></li>`).join("")}</ul>` : ""}
     ${c.linksHTML ? `<p class="links">${c.linksHTML}</p>` : ""}
   </section>`;
 }
