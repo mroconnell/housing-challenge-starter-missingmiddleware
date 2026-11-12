@@ -207,6 +207,11 @@ class Pipeline(unittest.TestCase):
         lots = LF.synthetic_lots("Milwaukee", n=120, seed=3)
         rows = pd.DataFrame(LF.run_place("Milwaukee", lots, R))
         self.assertEqual(set(rows.version), {"main", "as_if"})
+        self.assertEqual(set(rows.alley_bound), set(LF.ALLEY_BOUNDS))
+        c2 = rows[(rows.variant == "central") & (rows.split == "regular lots")].pivot_table(
+            index=["version", "units"], columns="alley_bound", values="parking_blocks")
+        lo, hi = "lower bound: every lot has an alley", "upper bound: no lot has an alley"
+        self.assertTrue((c2[lo] <= c2[hi]).all())                              # an alley never adds blocking here
         c = rows[(rows.variant == "central") & (rows.split == "regular lots")]
         self.assertTrue(((c.parking_blocks <= c.fit_without_parking) & (c.fit_without_parking <= c.lots)).all())
         two = c[c.units == 2]
@@ -235,7 +240,7 @@ class Pipeline(unittest.TestCase):
     def test_pooled_is_lot_weighted(self):
         rows = []
         for place, (blocks, fit) in {"A": (1, 10), "B": (9, 30)}.items():
-            rows.append({"place": place, "version": "as_if", "units": 2, "split": "regular lots", "variant": "central",
+            rows.append({"place": place, "alley_bound": "b", "version": "as_if", "units": 2, "split": "regular lots", "variant": "central",
                          "lots": fit + 5, "other_rules_block": 5, "fit_without_parking": fit,
                          "parking_blocks": blocks, "share_parking_blocks": blocks / fit, "share_other_rules_block": 0})
         p = LF.pooled(pd.DataFrame(rows))

@@ -60,6 +60,10 @@ ZONED = ("Milwaukee", "Madison")              # choice C6: zoning by lot only he
 # span variants applied in every place even where a place's code states the central value (plan 3.3 / audit fix 2)
 FORCE_ALL = {("setback_parking_rear", "not_allowed"), ("tandem_counts", "no")}
 SANITY_LABEL = "rule model may be too strict"
+# Alleys (audit option b): TIGER barely maps Wisconsin alleys, so every lot is run twice under preset bounds
+ALLEY_BOUNDS = {"upper bound: no lot has an alley": False, "lower bound: every lot has an alley": True}
+BOUND_LABEL = ("alley bounds: preset assumptions (all lots without / all lots with an alley), not a range; TIGER "
+               "alleys are not used")
 SPAN_LABEL = "span of assumptions (low/high across rule variants; not a statistical range)"
 WAIVER_LABEL = ("waivers, reductions and adjustments are ignored, so blocking may be overstated; Milwaukee 2-unit "
                 "blocking is 0 by rule (no minimum)")
@@ -496,9 +500,7 @@ def load_place_lots(place: str, rules: Rules) -> pd.DataFrame:
     keep = (L.attrs.PROPCLASS.astype(str).str.strip() == "1").values
     L = L.subset(keep)
     sh = lot_shapes(L.polys)
-    alleys, streets = read_roads(fips)
-    buf = float(rules.get("*", "*", "alley_buffer_m", 2) or 5)
-    sh["alley"] = alley_flags(L.polys, sh, alleys, streets, buf)
+    sh["alley"] = False                     # set per alley bound in run_place (audit option b); TIGER not used
     lots = pd.concat([L.attrs.reset_index(drop=True), sh], axis=1)
     lots["place"] = place
     lots["corner"] = False
@@ -585,13 +587,12 @@ def classify(lots: pd.DataFrame, R: Rules, place: str, version: str, n: int, var
 
 
 def summarise(lots: pd.DataFrame, cls: pd.Series, keys: dict, fill_min: float) -> list[dict]:
-    """Counts and shares for all lots and the splits: regular / irregular, alley / none, width < 40 / >= 40 ft."""
+    """Counts and shares for all lots and the splits: regular / irregular, width < 40 / >= 40 ft (the alley split
+    is replaced by the two alley bounds)."""
     rows = []
-    df = pd.DataFrame({"cls": cls, "alley": lots.alley.values, "w40": lots.width_ft.values >= 40,
-                       "regular": lots.fill.values >= fill_min})
+    df = pd.DataFrame({"cls": cls, "w40": lots.width_ft.values >= 40, "regular": lots.fill.values >= fill_min})
     df = df[df.cls != ""]
     splits = {"regular lots": df.regular, "irregular lots (fill < 80%)": ~df.regular,
-              "regular, alley": df.regular & df.alley, "regular, no alley": df.regular & ~df.alley,
               "regular, width < 40 ft": df.regular & ~df.w40, "regular, width >= 40 ft": df.regular & df.w40}
     for name, m in splits.items():
         s = df[m]
@@ -609,17 +610,20 @@ def summarise(lots: pd.DataFrame, cls: pd.Series, keys: dict, fill_min: float) -
 def run_place(place: str, lots: pd.DataFrame, R: Rules) -> list[dict]:
     fill_min = float(R.get("*", "*", "rect_fill_min", 2) or 0.8)
     out = []
-    lk = lot_keys(lots, place)
     versions = ["main", "as_if"] if place in ZONED else ["as_if"]
-    for version in versions:
-        for n in UNITS:
-            central = None
-            for rid in [None] + R.variants(place):
-                cls = classify(lots, R, place, version, n, rid, lk, central)
-                if rid is None:
-                    central = cls
-                keys = {"place": place, "version": version, "units": n, "variant": rid or "central"}
-                out += summarise(lots, cls, keys, fill_min)
+    for bound, has_alley in ALLEY_BOUNDS.items():
+        lots = lots.assign(alley=has_alley)
+        lk = lot_keys(lots, place)
+        for version in versions:
+            for n in UNITS:
+                central = None
+                for rid in [None] + R.variants(place):
+                    cls = classify(lots, R, place, version, n, rid, lk, central)
+                    if rid is None:
+                        central = cls
+                    keys = {"place": place, "alley_bound": bound, "version": version, "units": n,
+                            "variant": rid or "central"}
+                    out += summarise(lots, cls, keys, fill_min)
     return out
 
 
@@ -627,14 +631,14 @@ def pooled(rows: pd.DataFrame) -> pd.DataFrame:
     """Lot-weighted 'tested places' rows: sums of numerators over sums of denominators, per version / units /
     split, central and each variant (a variant that cannot apply in a place leaves that place at its central)."""
     out = []
-    for (version, n, split), g in rows.groupby(["version", "units", "split"]):
+    for (bound, version, n, split), g in rows.groupby(["alley_bound", "version", "units", "split"]):
         central = g[g.variant == "central"].set_index("place")
         for rid in sorted(g.variant.unique()):
             v = g[g.variant == rid].set_index("place")
             use = central.copy()
             use.loc[v.index] = v
             s = use[["lots", "other_rules_block", "fit_without_parking", "parking_blocks"]].sum()
-            out.append({"place": "tested places (lot-weighted)", "version": version, "units": n, "split": split,
+            out.append({"place": "tested places (lot-weighted)", "alley_bound": bound, "version": version, "units": n, "split": split,
                         "variant": rid,
                         **s.to_dict(),
                         "share_parking_blocks": s.parking_blocks / s.fit_without_parking if s.fit_without_parking else np.nan,
@@ -645,18 +649,18 @@ def pooled(rows: pd.DataFrame) -> pd.DataFrame:
 def spans(shares: pd.DataFrame) -> pd.DataFrame:
     """Central share with the low / high across variants (each variant alone), labelled as a span of assumptions."""
     out = []
-    for (place, version, n, split), g in shares.groupby(["place", "version", "units", "split"]):
+    for (place, bound, version, n, split), g in shares.groupby(["place", "alley_bound", "version", "units", "split"]):
         c = g[g.variant == "central"].share_parking_blocks
         allv = g.share_parking_blocks.dropna()
         lo = g.loc[allv.idxmin()] if len(allv) else None
         hi = g.loc[allv.idxmax()] if len(allv) else None
-        out.append({"place": place, "version": version, "units": n, "split": split,
+        out.append({"place": place, "alley_bound": bound, "version": version, "units": n, "split": split,
                     "central_share": float(c.iloc[0]) if len(c) else np.nan,
                     "span_low": float(lo.share_parking_blocks) if lo is not None else np.nan,
                     "span_low_variant": lo.variant if lo is not None else "",
                     "span_high": float(hi.share_parking_blocks) if hi is not None else np.nan,
                     "span_high_variant": hi.variant if hi is not None else "",
-                    "span_label": SPAN_LABEL, "waiver_note": WAIVER_LABEL})
+                    "span_label": SPAN_LABEL, "bound_label": BOUND_LABEL, "waiver_note": WAIVER_LABEL})
     return pd.DataFrame(out)
 
 
@@ -728,7 +732,11 @@ def _place_job(place: str, synthetic: bool):
     R = Rules(load_rules())
     lots = synthetic_lots(place) if synthetic else load_place_lots(place, R)
     rows = run_place(place, lots, R)
-    san = sanity_milwaukee(lots, R) if place == "Milwaukee" else None
+    san = None
+    if place == "Milwaukee":
+        san = pd.concat([sanity_milwaukee(lots.assign(alley=a), R).assign(alley_bound=b)
+                         for b, a in ALLEY_BOUNDS.items()], ignore_index=True)
+        san["bound_label"] = BOUND_LABEL
     return place, rows, san
 
 
@@ -762,6 +770,7 @@ def main(argv: list[str] | None = None) -> None:
     shares = pd.DataFrame(rows)
     shares = pd.concat([shares, pooled(shares)], ignore_index=True)
     shares["note"] = WAIVER_LABEL
+    shares["bound_label"] = BOUND_LABEL
     shares.to_csv(out / "parking_lotfit_shares.csv", index=False)
     spans(shares).to_csv(out / "parking_lotfit_spans.csv", index=False)
     if sanity is not None:

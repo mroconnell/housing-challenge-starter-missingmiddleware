@@ -1,6 +1,37 @@
 # Parking lot-fit test: code notes (choices where the plan is silent)
 
-**Status: code only, 2026-11-12. No real shares computed.** The real run (`scripts/run_parking_lotfit.sh --go`) waits for the audit.
+**Status: 2026-11-12. The audit cleared the code with one fix: alley bounds (below). Ryan's go is recorded at 16:33 UTC.** Results: `reference/parking_lotfit_shares.csv`, `reference/parking_lotfit_spans.csv`, `reference/parking_lotfit_sanity_milwaukee.csv`.
+
+## Labels that go with every result
+
+- **Alleys are two preset bounds, not a range.** TIGER alleys are not used (audit option b).
+  - **Upper bound:** no lot has an alley.
+  - **Lower bound:** every lot has an alley.
+- **The low and high across rule variants are a span of assumptions, not a statistical range.**
+- **Waivers are ignored**, so blocking may be overstated. Milwaukee's 2-unit blocking is 0 by rule.
+- **Milwaukee sanity check uses modelled rules only.** MPROP's `PARKING_SPACES` and `CORNER_LOT` are empty in the file on disk. So no recorded-spaces check is possible, and no lot gets the corner-lot rules.
+- **Madison zoning comes from `ZoningAll`.** `Zoning1` is empty in the file on disk.
+- **The Kenosha (RS-3) and Janesville (R1) "as if allowed" districts were judged from the codes' purpose statements.** No zoning map was read.
+- **Kenosha's 70 ft accessory front yard is not modelled.** Blocking there is understated.
+- **Oshkosh rules are cited to §30-175.** They were read from the official pages in a browser, which the audit ruled was not a workaround.
+
+**Code conflicts (how each was resolved).**
+
+| Place | Conflict | Central | Variant |
+|---|---|---|---|
+| Green Bay | Figure 2 gives 5 or 6 stalls; §44-1580(e) gives 6 or 8, with 3 or 4 garages | §44-1580(e) | Figure 2 totals |
+| Green Bay | Storage-room exception (2 garages) | Ignored, as discretionary | — |
+| Janesville | "Two spaces for each dwelling": a dwelling may mean the whole building | 2 per unit | 2 per building |
+| Madison | Lot coverage vs building coverage; the definition was blocked | Buildings only | All impervious surface |
+| Milwaukee | 2 stalls per 3 units gives 2.67 for 4 units; no rounding rule | Rounded up to 3 | — |
+
+**Plan corrections found while coding.**
+- Oshkosh 2 units need 4 stalls, not 2.
+- Oshkosh's parking section is §30-175, not §30-75.
+- Milwaukee RT1–RT3 do not allow new 3–4 unit buildings. Only RT4 and RT5 do, as a limited use.
+- Madison's 2-unit minimum is 1 stall per building, as printed.
+- Eau Claire GR allows 3–4 units only as a limited use (next to certain districts or on a collector road).
+- Germantown's Rm districts allow 3+ units only; 2 units are in Rd-2.
 
 Plan: [LOT_FIT_PLAN.md](LOT_FIT_PLAN.md). Its Choices and Audit fixes blocks override the draft.
 
@@ -119,22 +150,21 @@ Plan: [LOT_FIT_PLAN.md](LOT_FIT_PLAN.md). Its Choices and Audit fixes blocks ove
     - A TIGER S1730 road within 5 m of the lot outline (outline sampled every 1 m).
     - Rear half: the half of the lot's depth axis away from the nearest other TIGER road within 100 m. With no road within 100 m, any alley counts.
     - The depth axis is the long side of the minimum rotated rectangle.
-    - **Blocker for audit: TIGER barely maps Wisconsin alleys.**
-      - Records with MTFCC S1730 in the 2024 county roads files:
+    - **Not used in the run (audit option b).** TIGER barely maps Wisconsin alleys. Records with MTFCC S1730 in the 2024 county roads files:
 
-        | County | FIPS | Alley records |
-        |---|---|---|
-        | Milwaukee | 55079 | 4 |
-        | Dane | 55025 | 14 |
-        | Outagamie | 55087 | 47 |
-        | Brown, Eau Claire, Winnebago | 55009, 55035, 55139 | 0 |
-        | Others in the sample | — | 1–12 |
+      | County | FIPS | Alley records |
+      |---|---|---|
+      | Milwaukee | 55079 | 4 |
+      | Dane | 55025 | 14 |
+      | Outagamie | 55087 | 47 |
+      | Brown, Eau Claire, Winnebago | 55009, 55035, 55139 | 0 |
 
-      - Milwaukee has many alleys, so nearly every lot will test as "no alley". That likely overstates blocking where alleys exist.
-      - Options for the audit:
-        - City alley layers: Milwaukee and Madison open data, licence to check.
-        - OpenStreetMap `service=alley`: ODbL, share-alike. Not fetched; needs Ryan's OK.
-        - Keep TIGER and report the limit.
+    - Every lot is run twice instead, under two preset bounds (not a range):
+      - **upper bound:** no lot has an alley;
+      - **lower bound:** every lot has an alley.
+    - Alley-dependent rules follow the bound, for example Eau Claire's width and Waukesha's lot area.
+    - The alley / no-alley split is dropped.
+    - The TIGER detection code (`alley_flags`) is kept but not called.
 21. **Corner lots** are known only in Milwaukee. Elsewhere every lot is treated as interior.
 
 ### C. Lots, versions, outputs
@@ -177,11 +207,11 @@ Plan: [LOT_FIT_PLAN.md](LOT_FIT_PLAN.md). Its Choices and Audit fixes blocks ove
 ## Process notes
 
 - I ran `run_parking_lotfit.py` once on synthetic lots before its first commit (424a9bf). Every later run followed a commit.
-- Oshkosh rules helper:
+- Oshkosh:
   - curl got only an empty JavaScript page from civiclinQ.
-  - A direct call to the site's data service was denied by the permission system as a work-around.
-  - The official pages were then read in the built-in browser.
-  - Oshkosh's parking rules are in §30-175, not §30-75 as the plan says.
+  - A direct call to the site's data service was denied by the permission system, and was not used.
+  - The official pages were read in the built-in browser. The audit ruled this was not a workaround.
+  - The rules are cited to §30-175.
 - Madison: Municode returned HTTP 403. The rules come from adopted ordinances on Legistar: ORD-25-00066, ORD-23-00013 and ORD-25-00094.
 - No new dependencies. The licence check passed.
 
