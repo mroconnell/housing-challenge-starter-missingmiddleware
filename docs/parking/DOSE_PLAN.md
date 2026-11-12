@@ -453,3 +453,5 @@ These go to the audit before any count.
   4. Its result is not driven by fallback doses: with fallback doses dropped, the estimate keeps the same sign, or keeps a range including 0 if the main result's does.
 - If all four hold, Ryan decides. The tool and the write-up then say that the headline was switched after the result, and why.
 - If any one fails, the dose estimate stays a sensitivity row.
+
+**Ryan go (16:33:27 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qPm2E6o1f1WAc7nHqrxMKSp):** "when you get the okay from audit run these tests". He also wants the result explainable whatever it shows, and notes the benchmark policy could be changed (for example TOD only, or small cities only) and tested separately.
