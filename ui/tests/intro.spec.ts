@@ -21,7 +21,7 @@ async function bundle(page: Page, root: string, file: string) {
 // The approved copy, word for word (rev 180, as changed by the owner on 2026-11-12).
 const COPY = [
   "What would housing reforms mean for new home permits in Wisconsin?",
-  "Missing Middleware estimates how many extra homes different housing reforms could add. We study real places that already adopted each reform and compare them with places that didn’t. We test how well that comparison holds up. Then we carry what we learned to Wisconsin, and give a range of extra home permits for the first five years, assuming a law takes effect on 1 January 2027.",
+  "Missing Middleware estimates how different housing reforms would change the number of homes Wisconsin permits. We study real places that already adopted each reform and compare them to places that didn’t. We use what we learn to build a model and apply it to Wisconsin. The result is a range of extra home permits over the first five years after each reform, assuming the law takes effect on January 1, 2027.",
   "What you'll see",
   "How we got there",
 ];

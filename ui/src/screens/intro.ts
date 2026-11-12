@@ -66,7 +66,7 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
   main.innerHTML = `
   <article class="intro" data-testid="intro">
   <h1 id="intro-h">What would housing reforms mean for new home permits in Wisconsin?</h1>
-  <p class="lede intro-lede">Missing Middleware estimates how many extra homes different housing reforms could add. We study real places that already adopted each reform and compare them with places that didn’t. We test how well that comparison holds up. Then we carry what we learned to Wisconsin, and give a range of extra home permits for the first five years, assuming a law takes effect on 1 January 2027.</p>
+  <p class="lede intro-lede"><i>Missing Middleware</i> estimates how different housing reforms would change the number of homes Wisconsin permits. We study real places that already adopted each reform and compare them to places that didn’t. We use what we learn to build a model and apply it to Wisconsin. The result is a range of extra home permits over the first five years after each reform, assuming the law takes effect on January 1, 2027.</p>
 
   <section class="card" aria-labelledby="intro-see-h">
     <h2 id="intro-see-h">What you'll see</h2>
