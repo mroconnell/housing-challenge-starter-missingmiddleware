@@ -43,3 +43,16 @@ Each row is a package; parking is not separable. Counts are ADU permits per year
 - **Cost.** A parking space costs $4,000–$10,000 (architects, via Sightline 2019).
 - **Owners park off-street anyway.** With no mandate, about 25% (Seattle) to 43% (Portland) of ADUs keep all their residents' cars off-street.
 - **California cross-section.** Cities with frequent ADU applications were more likely to have no parking standard: 31% against 13% (Pfeiffer, Terner Center). The author says this is not causal.
+
+## Possible data for a later test (2026-11-12; nothing run)
+
+- **Pew (October 2026)** coded the ADU rules of all 346 US cities with 100,000+ people.
+  - 81 of the 276 that allow rentable ADUs still require parking in some cases.
+  - Pew also estimated ADU permits by city from building-permit data (its Appendix B).
+  - Pew reports owner-occupancy and parking rules as "associated with" fewer ADU permits; it gives no causal estimate.
+- **Lehigh University's Small Cities Lab** coded 290 cities of 25,000–500,000 people. 58% require parking.
+- **What a test would need.** If either coding is published as data, cities with and without ADU parking rules could be compared within the same state. That would be a new plan, locked before counting, and still associational unless rule changes are dated.
+- **Not available yet.** pew.org refuses automated reads; the report PDF and any data files would need downloading by hand.
+- **Cases named by Pew and the parking thread:**
+  - Ann Arbor dropped ADU parking in 2021, a year before its citywide parking repeal.
+  - Boise eased parking along with other rules; its ADU permits rose about fivefold from 2019 to 2025 (a package, not parking alone).
