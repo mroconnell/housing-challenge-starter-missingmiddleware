@@ -1445,3 +1445,46 @@ Units are homes per 100 eligible lot acres a year, from difference in difference
 - The affordable-units count, which matches the rule best, has too few projects before 2016 to read.
 - San Francisco is a case where parking and upzoning were bundled, and it is too noisy to test.
 - The scenario line is unchanged.
+
+## Tests 59 and 60: hold one place out, and injection catch rate (2–4 units; post hoc; outputs b3502d39)
+
+Both tests are post hoc. They reuse Test 56's saved results, so they cross-check the average on data already seen. They are not a fresh held-out sample, and they cannot narrow Test 56's range. Units are homes per 1,000 existing homes a year; Wisconsin = × 13,343.385.
+
+**Test 59, Part 1: drop one place** (a fragility check, not a finding)
+- **Main:** the 74 leave-one-out averages run from −0.082 (Richmond out) to −0.029 (Austin out), against −0.067 for all 74.
+  - No single drop flips the sign or makes the range exclude 0.
+  - Most influential: Austin, San Jose, Minneapolis, Richmond, Plainfield.
+- **D:** −0.061 to +0.142, against −0.007 for all 74.
+  - 15 drops flip the sign, because the average sits so close to 0. None makes the range exclude 0.
+  - Most influential: Hudson (+0.149 shift), Saranac Lake, Hampden, Plainfield, Windham.
+- Test 56's pre-trend label still applies.
+- For comparison, parking's earlier leave-one-out on all homes ran from −23,518 to +1,054 Wisconsin homes, with a sign flip.
+
+**Test 59, Part 2: predict the hidden place**
+- Model A uses no reform effect. Model B adds the average effect learned from the other 73 places.
+- Weighted root mean square miss:
+
+| Method | A (no effect) | B (learned effect) | A − B | 90% range | B beats A |
+|---|---|---|---|---|---|
+| Main | 0.354 | 0.356 | −0.002 | −0.016 to +0.010 | No |
+| D | 0.887 | 0.930 | −0.043 | −0.084 to −0.008 | No (B is worse) |
+
+- **The learned effect does not improve prediction of a hidden place.** This was expected, because Test 56's averages are near 0. B carries a leave-one-out penalty.
+- For comparison, ADU's held-out test hides each of the 7 non-California statewide-law states in turn, predicts its ADU permit rate from the rest, and scores the root mean square log error (0.130 for the adopted run). That is a prediction model of levels. Parking's test is about one average effect.
+
+**Test 60: injection catch rate** (main method; 20,000 no-effect fake groups)
+
+| Fake effect added (Wisconsin homes, 5 years) | Rate | Caught |
+|---|---|---|
+| 0 (false alarm) | 0 | 11.0% |
+| +1,000 / −1,000 | ±0.075 | 19.4% / 8.0% |
+| +2,500 / −2,500 | ±0.187 | 46.1% / 28.4% |
+| +4,727 / −4,727 (the MDE) | ±0.354 | 86.0% / 71.9% |
+| +10,000 / −10,000 | ±0.749 | 100.0% / 99.96% |
+
+- **Labels:**
+  - δ is added to each set's average. That is the same as a uniform injection. It does not test an effect that differs by place (for example, only small places) or a percentage effect.
+  - The false-alarm rate is about 10% by construction, so it checks the code, not the method.
+  - The test assumes no bias. Test 56's pre-trend label is about bias, and this test cannot see it.
+  - The two sides differ because the fake-group spread is lopsided: its middle is +0.026, with its 5th and 95th percentiles 0.227 below and 0.244 above.
+- **Method 2 D** has no fake groups. Its range shifts one-for-one with δ, so a fake effect is caught if it exceeds +0.237 (above) or −0.383 (below): the distance from D's estimate to the far end of its range.
