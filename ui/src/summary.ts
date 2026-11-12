@@ -1,4 +1,4 @@
-// The Summary tab: one shared component with the same layout for all four reforms (owner, 2026-11-11). It follows
+// The Summary tab: one shared component with the same layout for all three reforms (owner, 2026-11-11). It follows
 // docs/UNIFORM_DISPLAY_SPEC.md: one 90% range with its low and high ends labelled, no centre line, labelled side
 // lines, a unit on every number. Every number comes from the reform's bundle; the browser only scales and formats.
 //

@@ -28,7 +28,7 @@ const COPY = [
 const STEPS = [
   "Pick a state. Wisconsin",
   "Set a baseline in Wisconsin. We estimate what the state would permit under current law. For Wisconsin that is about 124,000 homes over 2027–2031 (90% range 56,500 to 218,865). Wisconsin Today",
-  "Define the proposed policies. ADU reform: the modelled law and what it adds Middle housing reform: what the modelled law adds TOD reform: the modelled law and the homes near transit today Parking reform: the modelled law and what it adds",
+  "Define the proposed policies. ADU reform: the modelled law and what it adds Middle housing reform: what the modelled law adds TOD reform: the modelled law and the homes near transit today",
   "Look at cities and states outside Wisconsin to measure the effect of each proposed policy. Compare places where the reforms passed, and places that did not reform.",
   "Carry the effect to Wisconsin. We apply each measured effect to Wisconsin, producing a range of new permits we expect to see from each policy.",
 ];
@@ -42,7 +42,6 @@ const LINKS: [string, string, RegExp][] = [
   ["intro-link-adu", "ADU reform: the modelled law and what it adds", /#\/summary$/],
   ["intro-link-middle", "Middle housing reform: what the modelled law adds", /#\/middle\/summary$/],
   ["intro-link-tod", "TOD reform: the modelled law and the homes near transit today", /#\/tod\/summary$/],
-  ["intro-link-parking", "Parking reform: the modelled law and what it adds", /#\/parking\/summary$/],
 ];
 
 test("the root address opens the Introduction with the approved copy", async ({ page }) => {
@@ -76,7 +75,6 @@ test("the root address opens the Introduction with the approved copy", async ({ 
 test("the baseline equals its sources (no reform ranges on the Introduction)", async ({ page }) => {
   await page.goto("#/");
   const tod = await bundle(page, "scenarios/tod/runs/", "statewide.json");
-  const pkState = await bundle(page, "scenarios/parking/runs/", "statewide.json");
   const central = csv("housing_baseline_statewide_by_year.csv")
     .filter((r) => r.structure_type === "all" && r.kind === "projected" && Number(r.year) >= 2027 && Number(r.year) <= 2031)
     .reduce((a, r) => a + Number(r.central), 0);
@@ -85,7 +83,6 @@ test("the baseline equals its sources (no reform ranges on the Introduction)", a
   await expect(page.getByTestId("intro-baseline-range")).toHaveText(`${fmt(central * Number(band.low))} to ${fmt(central * Number(band.high))}`);
   expect([Math.round(central), Math.round(central * Number(band.low)), Math.round(central * Number(band.high))]).toEqual([124000, 56500, 218865]);
   expect(Math.round(central)).toBe(Math.round(tod.state_baseline_total));
-  expect(Math.round(central)).toBe(Math.round(pkState.baseline_total));
   for (const id of ["adu", "middle", "tod", "parking"]) await expect(page.getByTestId(`intro-${id}-low`)).toHaveCount(0);
 });
 
@@ -109,7 +106,6 @@ test("step 3's links, in order, word for word, each open that reform's Summary d
     "intro-link-adu": ["Accessory dwelling units", "Allowing one 600+ sq. ft. ADU (detached or semi-detached) on parcels with existing single-family buildings."],
     "intro-link-middle": ["Missing middle housing", "Allowing 2–6 homes, up to three stories, on parcels now limited to one single-family home."],
     "intro-link-tod": ["Transit-oriented density", "for apartments by right"],
-    "intro-link-parking": ["Parking requirement reduction", "Removing minimum parking requirements for all new housing, statewide."],
   };
   for (const [id, name, url] of LINKS) {
     await page.goto("#/");
@@ -122,18 +118,46 @@ test("step 3's links, in order, word for word, each open that reform's Summary d
   }
 });
 
-test("reforms appear in the fixed order: ADUs, Middle housing, TOD, parking (combined is out of the picker)", async ({ page }) => {
+test("reforms appear in the fixed order: ADUs, Middle housing, TOD (parking is off the tool)", async ({ page }) => {
   await page.goto("#/");
-  await expect(page.getByTestId("reform-picker").locator("a[data-reform]")).toHaveCount(4);
+  await expect(page.getByTestId("reform-picker").locator("a[data-reform]")).toHaveCount(3);
   expect(await page.getByTestId("reform-picker").locator("a[data-reform]").evaluateAll((as) => as.map((a) => a.getAttribute("data-reform"))))
-    .toEqual(["adu", "middle", "tod", "parking"]);
+    .toEqual(["adu", "middle", "tod"]);
+  // the three pills stay on one row at desktop width
+  const tops = await page.getByTestId("reform-picker").locator("a[data-reform]").evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().top)));
+  expect(new Set(tops).size).toBe(1);
   expect(await page.locator(".intro-reform-links a").evaluateAll((as) => as.map((a) => a.getAttribute("data-testid"))))
-    .toEqual(["intro-link-adu", "intro-link-middle", "intro-link-tod", "intro-link-parking"]);
+    .toEqual(["intro-link-adu", "intro-link-middle", "intro-link-tod"]);
   await expect(page.getByTestId("intro-link-middle")).toHaveText(/^Middle housing reform/);
   await expect(page.getByTestId("intro")).not.toContainText("in development");
-  // the combined view's routes still work for old links
-  await page.goto("#/combined/compare");
-  await expect(page.locator("main h1")).toBeVisible();
+});
+
+// Parking reform is off the tool (owner, 2026-11-12; last state with it: git tag parking-ui-before-removal-2026-11-12).
+test("no parking or combined pill, tab or link anywhere in the nav or the Introduction", async ({ page }) => {
+  const noParking = async () => {
+    await expect(page.locator('a[data-reform="parking"], a[data-reform="combined"]')).toHaveCount(0);
+    await expect(page.locator('a[href*="parking"], a[href*="combined"]')).toHaveCount(0);
+    await expect(page.getByTestId("intro-link-parking")).toHaveCount(0);
+    expect((await page.locator("header").textContent()) ?? "").not.toMatch(/parking/i);
+  };
+  await page.goto("#/");
+  await expect(page.getByTestId("intro")).toBeVisible();
+  await noParking();
+  expect((await page.getByTestId("intro").textContent()) ?? "").not.toMatch(/parking/i);
+  for (const url of ["#/summary", "#/middle/summary", "#/tod/summary"]) {
+    await page.goto(url);
+    await expect(page.getByTestId("summary")).toBeVisible();
+    await noParking();
+  }
+});
+
+test("old parking and combined addresses open the Introduction", async ({ page }) => {
+  for (const url of ["#/parking", "#/parking/", "#/parking/summary?per=1000", "#/parking/how-sure", "#/combined/compare", "#/combined/where?p=upper"]) {
+    await page.goto(url);
+    await expect(page.getByTestId("intro")).toBeVisible();
+    await expect(page).toHaveURL(/#\/$/);
+    await expect(page).toHaveTitle("Introduction · Missing Middleware");
+  }
 });
 
 test("the Introduction is accessible and fits a phone", async ({ page }) => {
@@ -165,7 +189,7 @@ test("the Introduction fits a 375 px phone with no sideways page scroll", async 
   expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
 });
 
-test("header pills: one even row on a wide screen, a 2×2 grid on a phone, full names as accessible names", async ({ page }) => {
+test("header pills: three in one even row on any screen, full names as accessible names", async ({ page }) => {
   await page.goto("#/");
   const nav = page.getByTestId("reform-picker");
   const geo = () => nav.evaluate((n) => {
@@ -177,14 +201,14 @@ test("header pills: one even row on a wide screen, a 2×2 grid on a phone, full 
   await expect(nav.getByRole("link", { name: "Accessory dwelling units" })).toBeVisible();
   await expect(nav.getByRole("link", { name: "Missing middle housing" })).toBeVisible();
   await expect(nav.getByRole("link", { name: "Transit-oriented density" })).toBeVisible();
-  await expect(nav.getByRole("link", { name: "Parking requirement reduction" })).toBeVisible();
+  await expect(nav.getByRole("link")).toHaveCount(3);
   const g = await geo();
   expect(g.overflow).toBeLessThanOrEqual(0);
   expect(g.share).toBeGreaterThan(0.97);
   expect(g.share).toBeLessThanOrEqual(1);
   const tops = new Set(g.boxes.map((b) => b[0])), widths = g.boxes.map((b) => b[1]);
   expect(Math.max(...widths) - Math.min(...widths)).toBeLessThanOrEqual(1);   // even shares
-  expect(tops.size).toBe((page.viewportSize()?.width ?? 1280) > 640 ? 1 : 2);  // one row, or a 2×2 grid on a phone
+  expect(tops.size).toBe(1);   // three pills, one row, on a phone too (parking off the tool, 2026-11-12)
 });
 
 test("the run status strip sits below the sticky header and scrolls away", async ({ page }) => {

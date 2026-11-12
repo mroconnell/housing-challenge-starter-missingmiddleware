@@ -28,7 +28,6 @@ async function reforms(page: Page): Promise<{ list: Reform[]; homes: number }> {
   const adu = await json(page, "runs/", "state.json");
   const mid = await json(page, "scenarios/middle/runs/", "statewide.json");
   const tod = await json(page, "scenarios/tod/runs/", "statewide.json");
-  const pk = await json(page, "scenarios/parking/runs/", "statewide.json");
   const even = (R: R90): R90 => ({ ...R, years: R.years.map((y) => ({ year: y.year, low: R.low / 5, high: R.high / 5 })) });
   const chart = (xs: Side[]) => xs.filter((s) => s.where === "chart" && s.value !== undefined);
   return {
@@ -38,7 +37,6 @@ async function reforms(page: Page): Promise<{ list: Reform[]; homes: number }> {
       { id: "adu", pre: "", R: adu.range90, flat: even(adu.range90), lines: chart(adu.side_lines).filter((s) => s.id !== "typical").map((s) => ({ ...s, label: ADU_LABELS[s.id] ?? s.label })) },
       { id: "middle", pre: "/middle", R: mid.range90, flat: mid.range90_flat, lines: chart(mid.side_lines).filter((s) => s.id !== "all") },
       { id: "tod", pre: "/tod", R: tod.range90, flat: even(tod.range90), lines: chart(tod.side_lines) },
-      { id: "parking", pre: "/parking", R: pk.range90, flat: null, lines: chart(pk.side_lines) },
     ],
   };
 }
@@ -50,7 +48,7 @@ test("the per-1,000 base is all Wisconsin homes, ACS 2020–2024: 2,778,572, the
   expect(tod.acs_homes).toBe(homes);
 });
 
-for (const id of ["adu", "middle", "tod", "parking"]) {
+for (const id of ["adu", "middle", "tod"]) {
   test(`${id} Summary: ends, How we count, side-line and year popups, keyboard, table and no centre line`, async ({ page, isMobile }) => {
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(String(e)));
@@ -218,7 +216,7 @@ const csv = (name: string) => {
   return lines.map((l) => Object.fromEntries(cols.map((c, i) => [c, l.split(",")[i]])));
 };
 
-test("Wisconsin today shows the baseline, then all housing and the four reforms in order", async ({ page }) => {
+test("Wisconsin today shows the baseline, then all housing and the three reforms in order (parking is off the tool)", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(String(e)));
   page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
@@ -236,7 +234,8 @@ test("Wisconsin today shows the baseline, then all housing and the four reforms 
   await expect(page.getByTestId("wt-baseline-table").locator("tbody tr").last()).toContainText(fmt(central));
   // sections in the fixed order, each with its reform's own content
   const order = await page.locator("[data-testid^=wt-section-]").evaluateAll((els) => els.map((e) => e.getAttribute("data-testid")));
-  expect(order).toEqual(["wt-section-all", "wt-section-adu", "wt-section-middle", "wt-section-tod", "wt-section-parking"]);
+  expect(order).toEqual(["wt-section-all", "wt-section-adu", "wt-section-middle", "wt-section-tod"]);
+  await expect(page.locator('[data-testid="wt-section-parking"], #wt-parking')).toHaveCount(0);
   const adu = await json(page, "runs/", "state.json");
   await expect(page.getByTestId("wt-section-adu").getByTestId("today-baseline")).toHaveText(fmt(adu.baseline.total));
   await expect(page.getByTestId("today-adu-rules").locator("tfoot")).toContainText(fmt(adu.homes.value));
@@ -245,10 +244,9 @@ test("Wisconsin today shows the baseline, then all housing and the four reforms 
   await expect(page.getByTestId("wt-middle-last")).toHaveText(fmt(last["2_4"]));
   await expect(page.getByTestId("wt-middle-table").locator("tbody tr")).toHaveCount(adu.bps.filter((b: { "2_4": number | null }) => b["2_4"] !== null).length);
   await expect(page.getByTestId("wt-section-tod").getByTestId("density-tiles")).toBeVisible();
-  await expect(page.getByTestId("wt-section-parking").getByTestId("parking-checkup")).toBeVisible();
   await expect(page.getByTestId("not-available")).toHaveCount(0);
   // each section links on to that reform's Summary
-  for (const [sec, href] of [["adu", "#/summary"], ["middle", "#/middle/summary"], ["tod", "#/tod/summary"], ["parking", "#/parking/summary"]])
+  for (const [sec, href] of [["adu", "#/summary"], ["middle", "#/middle/summary"], ["tod", "#/tod/summary"]])
     await expect(page.getByTestId(`wt-section-${sec}`).locator(`a[href="${href}"]`)).toHaveCount(1);
   // one h1; each reform's own heading sits under its section heading
   const hs = await page.evaluate(() => [...document.querySelectorAll("main h1, main h2, main h3, main h4, main h5, main h6")].map((h) => Number(h.tagName[1])));

@@ -1,15 +1,16 @@
 // The shared "Wisconsin today" page (route "#/wisconsin-today"), at the shell level like the Introduction (owner,
 // 2026-11-11). Section 1 is the shared all-housing baseline under current law, read from the same reference CSVs as
 // the Introduction; then all housing in Wisconsin; then one section per reform, in the fixed order ADUs, Middle
-// housing, TOD, Parking, each reusing that reform's existing "today" content from its own bundle.
+// housing, TOD, each reusing that reform's existing "today" content from its own bundle.
 //
 // Headings: the page has one h1 and an h2 per section; each reform's content is shifted down so its own h1 becomes
 // an h3 under the section's h2.
+//
+// Parking reform is off the tool for now (owner, 2026-11-12), so it has no section here; the last version with one
+// is the git tag parking-ui-before-removal-2026-11-12.
 import { legendHTML, xyChart } from "../charts";
 import type { Bundle } from "../data";
 import { esc, int, pct, pill } from "../format";
-import type { ParkingBundle } from "../scenarios/parking/index";
-import { today as parkingToday } from "../scenarios/parking/index";
 import { today as todToday } from "../scenarios/tod/screens";
 import type { TodBundle } from "../scenarios/tod/types";
 import type { ShellEnv } from "../scenarios/types";
@@ -17,7 +18,7 @@ import { aduTodayHTML, allHousingHTML, drawAllHousingCharts } from "./today";
 import { baselineFromCsv, baselineYearsFromCsv } from "./intro";
 
 /** Each reform's loaded bundle, or null when it could not load (that section then says "not yet available"). */
-export interface TodayData { adu: Bundle | null; tod: TodBundle | null; parking: ParkingBundle | null }
+export interface TodayData { adu: Bundle | null; tod: TodBundle | null }
 
 /** Shift every heading inside `root` down by `by` levels (h1 → h3 with by = 2), keeping attributes and children. */
 function demote(root: HTMLElement, by: number): void {
@@ -32,11 +33,10 @@ function demote(root: HTMLElement, by: number): void {
 
 const NA = (what: string) => `<p class="muted" data-testid="not-available">${esc(what)}: not yet available.</p>`;
 
-export const SECTIONS: { id: "adu" | "middle" | "tod" | "parking"; title: string }[] = [
+export const SECTIONS: { id: "adu" | "middle" | "tod"; title: string }[] = [
   { id: "adu", title: "Accessory dwelling units (ADUs)" },
   { id: "middle", title: "Middle housing" },
   { id: "tod", title: "Transit-oriented density (TOD)" },
-  { id: "parking", title: "Parking requirements" },
 ];
 
 /** Render the page. `envFor` gives each reform's links and query handling; `params` is the page's query. */
@@ -106,14 +106,6 @@ export function renderWisconsinToday(main: HTMLElement, d: TodayData, envFor: (i
   // TOD: its own Wisconsin today content (density near stops, the stops and lines that qualify)
   const todEl = main.querySelector<HTMLElement>("#wt-tod-body")!;
   if (d.tod) { todToday(d.tod, envFor("tod"), params, todEl); demote(todEl, 2); } else todEl.innerHTML = NA("TOD figures");
-
-  // Parking: today's minimums and where cities already removed them
-  const pkEl = main.querySelector<HTMLElement>("#wt-parking-body")!;
-  if (d.parking) {
-    parkingToday(d.parking, envFor("parking"), pkEl);
-    demote(pkEl, 2);
-    if (!d.parking.statewide.parking_checkup) pkEl.insertAdjacentHTML("afterbegin", NA("Today's parking minimums"));
-  } else pkEl.innerHTML = NA("Today's parking minimums");
 }
 
 /** Middle housing today: homes in 2–4 unit buildings permitted each year (Census Building Permits Survey). */

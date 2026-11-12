@@ -13,10 +13,15 @@ PUBLIC = ROOT / "ui" / "public"
 # first path segments the ADU screens and the shell use (including the old "today" and "compare" addresses, which
 # still redirect, and the shared Wisconsin today page); a reform id must never equal one of them
 ADU_SEGMENTS = {"summary", "today", "compare", "where", "how-sure", "why", "pilot", "brief", "wisconsin-today"}
-# Reforms that are not a challenge benchmark, so their `benchmark` is a short plain description, not spec text.
-# `combined` is TOD and parking together (docs/shared/SCENARIO_CONTRACT.md section 9, AQ-047); it must say so in
-# `benchmark_note`, which the holding page shows in place of "Benchmark text from the challenge specification."
+# Reforms that are not a challenge benchmark, so their `benchmark` is a short plain description, not spec text; such
+# an entry must say so in `benchmark_note`, which the holding page shows in place of "Benchmark text from the challenge
+# specification." None is registered now: `combined` (TOD and parking together) was retired with parking.
 NOT_A_BENCHMARK = {"combined"}
+# The reforms in the tool, in order (owner, 2026-11-12): parking and the combined view are off the tool for now.
+# Their code and bundles stay on disk (ui/src/scenarios/{parking,combined}/, ui/public/scenarios/{parking,combined}/);
+# the last state with them is the git tag parking-ui-before-removal-2026-11-12.
+ORDER = ["adu", "middle", "tod"]
+RETIRED = {"parking", "combined"}
 CORE_MANIFEST_KEYS = {"run_id", "scenario_id", "title", "outcome", "dates", "vintages", "validation", "repo_url", "inputs"}
 
 
@@ -31,6 +36,25 @@ class ReformRegistryTest(unittest.TestCase):
         self.assertIn(self.reg["default"], ids)
         default = next(r for r in self.reg["reforms"] if r["id"] == self.reg["default"])
         self.assertEqual(default["status"], "ready")
+
+    def test_three_reforms_in_order_without_parking(self):
+        ids = [r["id"] for r in self.reg["reforms"]]
+        self.assertEqual(ids, ORDER)
+        self.assertFalse(RETIRED & set(ids))
+        self.assertTrue(all(r.get("in_nav", True) for r in self.reg["reforms"]))
+        self.assertNotIn("parking", json.dumps(self.reg).lower().replace("no additional parking", "").replace("parking requirements are reduced", ""))
+
+    def test_retired_reforms_kept_on_disk_and_unrouted(self):
+        src = ROOT / "ui" / "src"
+        for rid in sorted(RETIRED):
+            with self.subTest(reform=rid):
+                self.assertTrue((src / "scenarios" / rid / "index.ts").is_file())
+                self.assertTrue((PUBLIC / "scenarios" / rid).is_dir())
+        main = (src / "main.ts").read_text()
+        self.assertNotIn("parkingReform", main)
+        self.assertNotIn("combinedReform", main)
+        self.assertNotRegex(main, r'from "\./scenarios/(parking|combined)')
+        self.assertNotIn("scenarios/parking", (src / "screens" / "wisconsin_today.ts").read_text())
 
     def test_entries_follow_the_contract(self):
         for r in self.reg["reforms"]:

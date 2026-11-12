@@ -1,6 +1,11 @@
 // Multi-reform shell: header with the reform picker, status strip, screens navigation, footer, and a hash
-// router. Each reform (ADU, transit-oriented density, parking) fills the strip, tabs, footer and screens through
+// router. Each reform (ADU, middle housing, transit-oriented density) fills the strip, tabs, footer and screens through
 // the contract in ui/src/scenarios/types.ts (docs/shared/SCENARIO_CONTRACT.md).
+//
+// Parking reform is off the tool for now (owner, 2026-11-12; the last state with it is the git tag
+// parking-ui-before-removal-2026-11-12). Its code (ui/src/scenarios/parking/, and the retired "TOD and parking
+// together" view in ui/src/scenarios/combined/) and bundles stay on disk, unregistered and unrouted. Old "#/parking"
+// and "#/combined" addresses open the Introduction.
 //
 // URLs: the bare root ("#/", or no hash) is the Introduction, the landing page above every reform; "#/wisconsin-today"
 // is the shared Wisconsin today page. The default reform has no prefix ("#/summary"), so existing ADU links keep
@@ -17,15 +22,13 @@ import { esc } from "./format";
 import { aduReform } from "./scenarios/adu";
 import { introLoading, loadIntro, renderIntro } from "./screens/intro";
 import { renderWisconsinToday, type TodayData } from "./screens/wisconsin_today";
-import { combinedReform } from "./scenarios/combined/index";
 import { middleReform } from "./scenarios/middle";
-import { parkingReform } from "./scenarios/parking/index";
 import { placeholderReform } from "./scenarios/placeholder";
 import { todReform } from "./scenarios/tod/index";
 import { REGISTRY, reformEntry, type MountedReform, type ReformEntry, type ReformModule, type ShellEnv } from "./scenarios/types";
 
 /** Code for each reform id; a reform without its own module (or not yet "ready") gets the holding page. */
-const MODULES: Record<string, ReformModule> = { adu: aduReform, parking: parkingReform, tod: todReform, combined: combinedReform, middle: middleReform };
+const MODULES: Record<string, ReformModule> = { adu: aduReform, middle: middleReform, tod: todReform };
 
 /** Preview mode lets the owner review a reform that has screens but is not yet "ready" (a Gate 4 pilot).
  *  Turn it on with `?preview=1` in the URL (off with `?preview=0`); it is remembered for this browser tab only. */
@@ -229,11 +232,11 @@ async function wisconsinToday(keepFocus: boolean): Promise<void> {
     if (!e || e.status !== "ready" || !MODULES[id]) return null;
     try { return await dataFor(e, MODULES[id]); } catch { return null; }
   };
-  const [adu, tod, parking] = await Promise.all([load("adu"), load("tod"), load("parking")]);
+  const [adu, tod] = await Promise.all([load("adu"), load("tod")]);
   if (!isWiToday()) return;   // the reader moved on while the bundles loaded
   const d: TodayData = {
     adu: adu ? (adu as { b: TodayData["adu"] }).b : null,
-    tod: tod as TodayData["tod"], parking: parking as TodayData["parking"],
+    tod: tod as TodayData["tod"],
   };
   const main = document.getElementById("main")!;
   const pageEnv = (id: string): ShellEnv => {
@@ -254,7 +257,19 @@ async function wisconsinToday(keepFocus: boolean): Promise<void> {
   lastKey = "wisconsin-today";
 }
 
+/** Reforms taken off the tool (parking, and TOD and parking together): their old addresses open the Introduction. */
+const RETIRED = new Set(["parking", "combined"]);
+
+function isRetired(): boolean {
+  const seg = (location.hash.replace(/^#/, "") || "/").split("?")[0].split("/")[1] ?? "";
+  return RETIRED.has(seg);
+}
+
 async function route(keepFocus = false): Promise<void> {
+  if (isRetired()) {
+    history.replaceState(null, "", "#/");
+    return home();
+  }
   if (isHome()) return home();
   if (isWiToday()) return wisconsinToday(keepFocus);
   const { reform, path: rawPath, params } = parse();

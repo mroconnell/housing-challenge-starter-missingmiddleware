@@ -6,7 +6,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 const SCREENS: [string, string?, ((p: Page) => Promise<void>)?][] = [
   ["summary"], ["summary", "per 1,000 homes, extra only", async (p) => { await p.getByRole("radio", { name: "Per 1,000 Wisconsin homes" }).check(); await p.getByRole("radio", { name: "Extra homes only" }).check(); await p.getByTestId("summary-table-toggle").click(); }],
-  ["middle/summary"], ["tod/summary"], ["parking/summary"], ["middle/how-sure"], ["parking/how-sure"], ["where"],
+  ["middle/summary"], ["tod/summary"], ["middle/how-sure"], ["tod/how-sure"], ["where"],
   ["where", "municipalities", async (p) => { await p.getByRole("radio", { name: "Cities, villages and towns" }).check(); }],
   ["where", "Assembly districts", async (p) => { await p.getByRole("radio", { name: "Assembly districts" }).check(); }],
   ["how-sure"], ["why"], ["pilot/madison"], ["pilot/pleasant-prairie"], ["pilot/sun-prairie"], ["brief"],
@@ -69,8 +69,6 @@ for (const [path, view, act] of SCREENS) {
 test("a11y: switch and slider names are short and describe the choice", async ({ page }) => {
   await page.goto("#/summary");
   for (const g of ["Numbers", "Chart shows", "Timing", "Details for one year"]) await expect(page.getByRole("group", { name: g, exact: true })).toBeVisible();
-  await page.goto("#/parking/summary");
-  for (const r of await page.getByRole("group", { name: "Timing", exact: true }).getByRole("radio").all()) await expect(r).toBeDisabled();
   await page.goto("#/where");
   for (const g of ["Areas", "Show", "Measure", "Spread the law's addition by"]) await expect(page.getByRole("group", { name: g, exact: true })).toBeVisible();
   await expect(page.getByRole("group", { name: /Places whose local ADU rules we have not coded/ })).toBeVisible();
@@ -132,7 +130,7 @@ test("a11y: the brief's district tables are captioned and reconcile", async ({ p
 
 test("a11y structure: Wisconsin today", async ({ page }) => {
   await page.goto("#/wisconsin-today");
-  await expect(page.getByTestId("wt-section-parking")).toBeVisible();
+  await expect(page.getByTestId("wt-section-tod")).toBeVisible();
   await page.evaluate(() => document.querySelectorAll("details").forEach((d) => { d.open = true; }));
   const dom = await page.evaluate(() => {
     const hs = [...document.querySelectorAll("h1,h2,h3,h4,h5,h6")].map((h) => Number(h.tagName[1]));

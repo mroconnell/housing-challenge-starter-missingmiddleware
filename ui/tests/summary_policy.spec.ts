@@ -1,4 +1,4 @@
-// The Summary tab's policy box, full-width chart and "Enlarge chart" overlay (owner, 2026-11-11), for all four reforms.
+// The Summary tab's policy box, full-width chart and "Enlarge chart" overlay (owner, 2026-11-11), for the three reforms (parking is off the tool since 2026-11-12).
 // The benchmark quotes are the handbook's words (Participant Handbook, "Benchmark Policy Scenarios", page 3), typed
 // here as read from the PDF so a change to ui/src/benchmarks.ts fails this test; tests/test_handbook_benchmarks.py
 // checks the same strings against the PDF text itself. "What we modeled" is read from where each reform states it.
@@ -53,7 +53,7 @@ async function policyText(page: Page, id: string): Promise<string> {
   return `Requiring every Wisconsin city with rail or rapid-bus stops to zone ${Math.round(d.share * 100)}% of the land within ${d.radius} of those stops for apartments by right, at least ${d.min_homes_per_acre} homes per acre.`;
 }
 
-for (const id of ["adu", "middle", "tod", "parking"]) {
+for (const id of ["adu", "middle", "tod"]) {
   test(`${id} Summary: the owner's policy text, then range, chart, what we modeled with the benchmark, links`, async ({ page }) => {
     await page.goto(`#${PRE[id]}/summary`);
     const policy = await policyText(page, id);
@@ -197,17 +197,9 @@ test("TOD Summary link opens Why at the in/out card", async ({ page }) => {
   await expect(page.locator("#tod-in-out")).toBeInViewport();
 });
 
-test("parking Summary link opens Why with the list of 74 places open", async ({ page }) => {
-  await page.goto("#/parking/summary");
-  await page.getByTestId("summary-scope-link").locator("a").click();
-  await expect(page).toHaveURL(/#\/parking\/why\?section=parking-places$/);
-  const list = page.locator("details#parking-places");
-  await expect(list).toHaveAttribute("open", "");
-  await expect(list.getByTestId("why-places").locator("tbody tr")).toHaveCount(74);
-  await expect(list).toBeInViewport();
-});
+// The parking Summary checks were removed with parking (owner, 2026-11-12); see git tag parking-ui-before-removal-2026-11-12.
 
-for (const id of ["adu", "middle", "tod", "parking"]) {
+for (const id of ["adu", "middle", "tod"]) {
   test(`${id} Summary: the chart spans the main container, prose stays at a reading measure`, async ({ page, isMobile }) => {
     await page.goto(`#${PRE[id]}/summary`);
     await expect(page.locator("#sum-chart svg")).toBeVisible();
@@ -296,7 +288,7 @@ test("Enlarge chart: a full-window dialog with the same chart, toggles and popup
   expect(errors).toEqual([]);
 });
 
-for (const id of ["adu", "middle", "parking"]) {
+for (const id of ["adu", "middle"]) {
   test(`${id} Enlarge chart opens and closes with Escape`, async ({ page }) => {
     await page.goto(`#${PRE[id]}/summary?per=1000`);
     await page.getByTestId("summary-enlarge").click();
@@ -317,7 +309,7 @@ const HEADING: Record<string, string> = {
   parking: "Homes permitted each year, 2027–2031",
 };
 
-for (const id of ["adu", "middle", "tod", "parking"]) {
+for (const id of ["adu", "middle", "tod"]) {
   test(`${id} Summary: "Our estimate is between:", the chart heading, and comparison scenarios show / hide`, async ({ page }) => {
     await page.goto(`#${PRE[id]}/summary?show=totals`);
     const card = page.getByTestId("summary-range");
@@ -386,7 +378,7 @@ test("ADU Summary legend: the owner's labels, numbers from the bundle, no Typica
 
 // Summary chart key (owner, 2026-11-11 20:37): one item per row at every width, every swatch the same width, so every
 // label starts at the same x; on the page and in the enlarged chart, at 1280 and 375 px.
-for (const id of ["adu", "middle", "tod", "parking"]) {
+for (const id of ["adu", "middle", "tod"]) {
   test(`${id} Summary: chart key has one item per row and its labels line up, page and enlarged, 1280 and 375 px`, async ({ page }) => {
     const measure = (tid: string) => page.evaluate((t) => {
       const items = [...document.querySelectorAll(`[data-testid=${t}] li`)];

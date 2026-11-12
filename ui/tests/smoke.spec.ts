@@ -457,6 +457,4 @@ test("Where map key: its title states what is mapped and the unit, and follows S
   await page.getByRole("radio", { name: "Additional from the law" }).check();
   await page.getByRole("radio", { name: "Cities, villages and towns" }).check();
   await expect(page.locator(".map-legend li").first()).toHaveText(/^under \d/);
-  await page.goto("#/parking/where");
-  await expect(page.getByTestId("map-legend-title")).toContainText("Extra homes permitted by the law, 2027–2031");
 });

@@ -12,8 +12,9 @@ test("the picker lists every registered reform and marks the current one", async
   const inNav = registry.reforms.filter((r) => (r as { in_nav?: boolean }).in_nav !== false);
   await expect(links).toHaveCount(inNav.length);
   for (const r of inNav) await expect(nav.locator(`a[data-reform="${r.id}"]`)).toHaveAccessibleName(r.label + (r.status === "ready" ? "" : " (in development)"));
-  // the combined view is out of the picker (owner, 2026-11-10); its routes still work
-  await expect(nav.locator('a[data-reform="combined"]')).toHaveCount(0);
+  // parking and the combined view are off the tool (owner, 2026-11-12; git tag parking-ui-before-removal-2026-11-12)
+  await expect(links).toHaveCount(3);
+  await expect(nav.locator('a[data-reform="parking"], a[data-reform="combined"]')).toHaveCount(0);
   await expect(nav.locator('a[aria-current="page"]')).toHaveAttribute("data-reform", registry.default);
 });
 
@@ -50,25 +51,9 @@ for (const r of registry.reforms.filter((x) => x.status === "in_development")) {
   });
 }
 
-test("preview mode shows a reform's own screens before it is ready, flagged, and only in this tab", async ({ page }) => {
-  const dev = registry.reforms.filter((x) => x.status === "in_development" && x.id === "parking");
-  test.skip(dev.length === 0, "no in-development reform with its own screens");
-  await page.goto("#/parking/");
-  await expect(page.getByTestId("in-development")).toBeVisible();
-  await expect(page.getByTestId("preview-flag")).toHaveCount(0);
-  await page.goto("#/parking/?preview=1");
-  await expect(page.getByTestId("preview-flag")).toBeVisible();
-  await expect(page.getByTestId("in-development")).toHaveCount(0);
-  // the ADU screens never show the preview flag
-  await page.goto("#/summary");
-  await expect(page.getByTestId("preview-flag")).toHaveCount(0);
-  await page.goto("#/parking/?preview=0");
-  await expect(page.getByTestId("in-development")).toBeVisible();
-});
-
 test("every reform has the same tabs in the same order; a reform without one omits it", async ({ page }) => {
   const ORDER = ["Summary", "Where", "How sure", "Why", "Pilots", "Brief"];
-  for (const [id, pre] of [["adu", ""], ["middle", "/middle"], ["tod", "/tod"], ["parking", "/parking"]]) {
+  for (const [id, pre] of [["adu", ""], ["middle", "/middle"], ["tod", "/tod"]]) {
     await page.goto(`#${pre}/summary`);
     await expect(page.getByTestId("summary")).toHaveAttribute("data-reform", id);
     const tabs = (await page.locator("nav.tabs a").allTextContents()).map((t) => t.replace(/^\s*\d+\s*/, "").trim());
@@ -87,7 +72,7 @@ test("every reform has the same tabs in the same order; a reform without one omi
 });
 
 test("old addresses keep working: /compare opens Summary, /today opens the reform's part of Wisconsin today", async ({ page }) => {
-  for (const [pre, id] of [["", "adu"], ["/middle", "middle"], ["/tod", "tod"], ["/parking", "parking"]]) {
+  for (const [pre, id] of [["", "adu"], ["/middle", "middle"], ["/tod", "tod"]]) {
     await page.goto(`#${pre}/compare?timing=flat`);
     await expect(page).toHaveURL(new RegExp(`#${pre}/summary\\?timing=flat$`));
     await expect(page.getByTestId("summary")).toHaveAttribute("data-reform", id);
@@ -103,7 +88,7 @@ test("old addresses keep working: /compare opens Summary, /today opens the refor
 });
 
 test("the header links to Wisconsin today from every page", async ({ page }) => {
-  for (const url of ["#/", "#/summary", "#/tod/where", "#/parking/how-sure"]) {
+  for (const url of ["#/", "#/summary", "#/tod/where", "#/middle/how-sure"]) {
     await page.goto(url);
     await page.getByTestId("head-today").click();
     await expect(page).toHaveURL(/#\/wisconsin-today$/);

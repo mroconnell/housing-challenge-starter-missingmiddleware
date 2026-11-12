@@ -2,7 +2,7 @@
 
 Written 2026-10-26 by the TOD conductor, who built the multi-reform shell. Status: a starting point, version 1. The owner expects to iterate between tool design and data, so this contract will change; propose changes through the coordinator.
 
-The tool shows one policy reform at a time (ADUs, transit-oriented density, parking requirement reduction). A **reform picker** in the header switches between them. Within a reform, "scenario" keeps its existing meaning: the lower, central and upper (strong adoption) paths. The picker is called the reform picker so the two words never clash.
+The tool shows one policy reform at a time (ADUs, middle housing, transit-oriented density). Parking requirement reduction and the combined "TOD and parking together" view are off the tool for now (owner, 2026-11-12): their code and bundles stay on disk, unregistered and unrouted, and old `#/parking` and `#/combined` addresses open the Introduction. The last state with them is the git tag `parking-ui-before-removal-2026-11-12`. A **reform picker** in the header switches between them. Within a reform, "scenario" keeps its existing meaning: the lower, central and upper (strong adoption) paths. The picker is called the reform picker so the two words never clash.
 
 ## 1. What the shell does
 
@@ -78,9 +78,9 @@ Every reform has the same tabs in the same order (owner, 2026-11-11): **Summary 
 4. **Why:** the evidence, with "observed" and "source lead" marked.
 5. **Pilots** and a **Brief**.
 
-Each reform's current-law "today" content is a section of the shared **Wisconsin today** page, after the shared all-housing baseline, in the fixed order ADUs, Middle housing, TOD, Parking.
+Each reform's current-law "today" content is a section of the shared **Wisconsin today** page, after the shared all-housing baseline, in the fixed order ADUs, Middle housing, TOD.
 
-The outcome may differ by reform but must be stated in the footer (`manifest.outcome.short`). ADUs count second-home permits at issuance; TOD and parking are expected to count all housing units in permits at issuance.
+The outcome may differ by reform but must be stated in the footer (`manifest.outcome.short`). ADUs count second-home permits at issuance; TOD counts all housing units in permits at issuance.
 
 ## 7. Guarantees and tests
 
@@ -94,7 +94,9 @@ The outcome may differ by reform but must be stated in the footer (`manifest.out
 - Whether reforms in development should be hidden from the public build before submission.
 - ~~Whether "Wisconsin today" should become shared across reforms.~~ Done 2026-11-11: `#/wisconsin-today`.
 
-## 9. Combined reforms (adopted 2026-10-27, AQ-048 and AQ-050)
+## 9. Combined reforms (adopted 2026-10-27, AQ-048 and AQ-050; retired from the tool 2026-11-12)
+
+**Status (2026-11-12):** retired from the tool with parking reform. The `combined` registry entry and route are gone; the bundle stays in `ui/public/scenarios/combined/` and the rules below are kept for the record, in case parking comes back.
 
 The owner asked to see each reform alone and the two together (AQ-047). The text below was drafted by the parking conductor, reviewed by the TOD conductor and approved by the owner as part of parking's G3-3.
 

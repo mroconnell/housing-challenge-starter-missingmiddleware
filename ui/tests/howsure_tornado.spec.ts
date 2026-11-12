@@ -21,12 +21,6 @@ const CASES: Case[] = [
     const hs = await get(page, `${d}howsure.json`);
     return { pivot: hs.tornado.central, original: hs.tornado.rows.map((r: { id: string }) => r.id) };
   } },
-  { name: "Parking", url: "#/parking/how-sure", prefix: "pk", pivotWords: "(the measured average of the 74 repeal places)", expected: async (page) => {
-    const d = await run(page, "scenarios/parking/runs/");
-    const st = await get(page, `${d}statewide.json`), hs = await get(page, `${d}howsure.json`);
-    return { pivot: st.side_lines.find((s: { id: string }) => s.id === "measured_average").value,
-      original: hs.sensitivities.filter((x: { case: string; moves: string }) => !/\(headline\)/.test(x.case) && x.moves !== "current law only").map((x: { case: string }) => x.case) };
-  } },
   { name: "Middle housing", url: "#/middle/how-sure", prefix: "mid", pivotWords: "(the four-state result)", expected: async (page) => {
     const d = await run(page, "scenarios/middle/runs/");
     const st = await get(page, `${d}statewide.json`), hs = await get(page, `${d}howsure.json`);
@@ -136,20 +130,4 @@ test("Middle housing How sure: the bundle's input what-ifs are bars around 1,570
   expect(await ids(page, "mid-other", "[data-whatif]")).toHaveLength(4);
 });
 
-test("Parking How sure: measured averages, and the cleaned-data rounds as inputs", async ({ page }) => {
-  await page.goto("#/parking/how-sure");
-  const inputs = page.getByTestId("pk-inputs");
-  await expect(inputs).toBeVisible();
-  await expect(inputs).not.toContainText("Scaled from");
-  const bar = (id: string) => inputs.locator(`.tn-row[data-whatif*="${id}"]`);
-  const want: [string, string][] = [["High end, with towns left out", "−15,380 to −10,760"], ["Near-benchmark places at the full rate", "−15,472 to −15,380"],
-    ["Cleaned data, undated reforms kept as comparisons (placebo)", "−15,380 to −11,035"], ["Cleaned data, strict comparison cleaning (placebo)", "−15,380 to −3,691"],
-    ["Cleaned data, only apartment-scale reforms disqualify comparisons (placebo)", "−15,380 to −5,389"],
-    ["As above, plus state laws in California, Oregon and Washington (placebo)", "−15,380 to −7,073"]];
-  for (const [id, v] of want) await expect(bar(id), id).toContainText(v);
-  // the two strict-cleaning readings share one average and one bar
-  await expect(inputs.locator('.tn-row[data-whatif="Cleaned data, strict comparison cleaning (placebo)|Cleaned data, strict comparison cleaning (resampling)"]')).toHaveCount(1);
-  await expect(inputs.locator(".tn-row").filter({ hasText: "earlier 76-place sample (73 matched)" })).toHaveCount(4);
-  expect(await ids(page, "pk-inputs", ".tn-row")).toHaveLength(7);
-  expect(await ids(page, "pk-other", "[data-whatif]")).toHaveLength(6);
-});
+// Parking's How sure checks were removed with parking (owner, 2026-11-12); see git tag parking-ui-before-removal-2026-11-12.

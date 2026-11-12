@@ -20,14 +20,15 @@ const CASES: { id: string; pre: string; root: string; file: string; unit: string
   { id: "adu", pre: "", root: "runs/", file: "state.json", unit: "extra ADU permits", ends: (b) => [b.range90.low, b.range90.high] },
   { id: "middle", pre: "/middle", root: "scenarios/middle/runs/", file: "statewide.json", unit: "extra homes in 2–4 unit buildings", ends: (b) => [b.core.lower, b.core.upper] },
   { id: "tod", pre: "/tod", root: "scenarios/tod/runs/", file: "statewide.json", unit: "extra homes permitted near transit", ends: (b) => [b.range90.low, b.range90.high] },
-  { id: "parking", pre: "/parking", root: "scenarios/parking/runs/", file: "statewide.json", unit: "extra homes permitted", ends: (b) => [b.range90.low, b.range90.high] },
 ];
 // the owner-approved numbers the cards must show (five-year totals, 2027–2031)
 const EXPECTED: Record<string, [string, string]> = {
-  adu: ["8,055", "13,666"], middle: ["−482", "+4,515"], tod: ["3,922", "16,335"], parking: ["−46,268", "+19,649"],
+  adu: ["8,055", "13,666"], middle: ["−482", "+4,515"], tod: ["3,922", "16,335"],
 };
 
-test("the How we count source has all four lines", () => {
+// Parking is off the tool (owner, 2026-11-12; git tag parking-ui-before-removal-2026-11-12): its line stays in the
+// source only so the unrouted parking module compiles.
+test("the How we count source has the three lines plus parking's kept line", () => {
   expect(Object.keys(HWC)).toEqual(["adu", "middle", "tod", "parking"]);
 });
 

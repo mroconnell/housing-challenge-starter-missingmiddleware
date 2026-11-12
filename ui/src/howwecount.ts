@@ -1,8 +1,9 @@
 // The "How we count" line for each reform: one source for each reform's Brief estimate card (src/estimate.ts) and Summary
 // tab, so the two can never drift apart. Owner-approved copy (Claude Doc rev 180, audit-cleared); the order is fixed:
-// ADUs, Middle housing, TOD, Parking.
+// ADUs, Middle housing, TOD. Parking is off the tool for now (owner, 2026-11-12; git tag
+// parking-ui-before-removal-2026-11-12): its key and line stay so the unrouted parking module still compiles.
 export type ReformKey = "adu" | "middle" | "tod" | "parking";
-export const REFORM_ORDER: ReformKey[] = ["adu", "middle", "tod", "parking"];
+export const REFORM_ORDER: ReformKey[] = ["adu", "middle", "tod"];
 
 export const HOW_WE_COUNT: Record<ReformKey, string> = {
   adu: "ADU permits. We learned the ADU rate once a statewide law is in force from 8 states (plus 5 cities), adjusting for home values and incomes. We hid 7 of the states one at a time and predicted each from the rest: predictions ran from 12% too low to 21% too high. The range is set from the size of those misses.",

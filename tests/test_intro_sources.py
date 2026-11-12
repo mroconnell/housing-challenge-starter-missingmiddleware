@@ -85,6 +85,10 @@ class TestIntroSources(unittest.TestCase):
         b = band[band.structure_type == "1unit"].iloc[0]
         self.assertEqual((round(central), round(central * b.low), round(central * b.high)), (124000, 56500, 218865))
 
+    def test_intro_has_no_parking(self):
+        src = INTRO.read_text()
+        self.assertNotIn("parking", src.lower().replace("parking reform is off the tool", ""))
+
     def test_intro_reads_these_sources(self):
         src = INTRO.read_text()
         for f in ("housing_baseline_band.csv", "housing_baseline_statewide_by_year.csv"):
@@ -106,7 +110,9 @@ class TestSharedSummarySources(unittest.TestCase):
         hwc = (ROOT / "ui" / "src" / "howwecount.ts").read_text()
         for k in ("adu", "middle", "tod", "parking"):
             self.assertRegex(hwc, rf"\n  {k}: \"")
-        self.assertIn('REFORM_ORDER: ReformKey[] = ["adu", "middle", "tod", "parking"]', hwc)
+        # parking is off the tool (owner, 2026-11-12; tag parking-ui-before-removal-2026-11-12): out of the order, its
+        # line kept only so the unrouted parking module still compiles
+        self.assertIn('REFORM_ORDER: ReformKey[] = ["adu", "middle", "tod"]', hwc)
         est, summary = (ROOT / "ui" / "src" / "estimate.ts").read_text(), (ROOT / "ui" / "src" / "summary.ts").read_text()
         self.assertIn('from "./howwecount"', est)
         self.assertIn('from "./howwecount"', summary)

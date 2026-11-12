@@ -1,7 +1,7 @@
 // The Introduction: the tool's landing page (root route "#/"), above the per-reform screens. The words are the
 // owner-approved copy (Claude Doc rev 180, as changed by the owner on 2026-11-12: the ranges table moved to each
 // reform's Brief tab as an estimate card, see ui/src/estimate.ts; "How we got there" is five short steps; "What you'll
-// see" has four new bullets).
+// see" has four new bullets). Parking reform is off the tool for now (owner, 2026-11-12): step 3 lists three reforms.
 //
 // Every number comes from a source, never typed here:
 //   - Baseline: reference/housing_baseline_statewide_by_year.csv ("all" rows, 2027–2031, central) and the v4
@@ -57,7 +57,6 @@ export const INTRO_LINKS = {
   adu: "#/summary",
   middle: "#/middle/summary",
   tod: "#/tod/summary",
-  parking: "#/parking/summary",
 };
 
 export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
@@ -89,7 +88,6 @@ export function renderIntro(main: HTMLElement, n: IntroNumbers): void {
           <li><a href="${L.adu}" data-testid="intro-link-adu">ADU reform<span class="sr-only">: the modelled law and what it adds</span></a></li>
           <li><a href="${L.middle}" data-testid="intro-link-middle">Middle housing reform<span class="sr-only">: what the modelled law adds</span></a></li>
           <li><a href="${L.tod}" data-testid="intro-link-tod">TOD reform<span class="sr-only">: the modelled law and the homes near transit today</span></a></li>
-          <li><a href="${L.parking}" data-testid="intro-link-parking">Parking reform<span class="sr-only">: the modelled law and what it adds</span></a></li>
         </ul></li>
       <li data-testid="intro-step-4"><strong>Look at cities and states outside Wisconsin to measure the effect of each proposed policy.</strong> Compare places where the reforms passed, and places that did not reform.</li>
       <li data-testid="intro-step-5"><strong>Carry the effect to Wisconsin.</strong> We apply each measured effect to Wisconsin, producing a range of new permits we expect to see from each policy.</li>
