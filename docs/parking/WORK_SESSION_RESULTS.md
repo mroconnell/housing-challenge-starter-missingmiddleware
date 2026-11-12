@@ -1427,11 +1427,11 @@ Units are homes per 100 eligible lot acres a year, from difference in difference
 | sf_a (case) | +79.3 | +4.7 to +149.0 | Yes | none | none | mechanically "counts", but a case only (see below) |
 
 **What the NY event study shows:**
-- Relative to 2015 (year −1), the Transit Zone side ran about 40–50 lower than the comparison side in 2010–2012 (leads −5 to −3, all excluding 0). The gap narrowed by 2014 (lead −2: −22.2, range −93.6 to +30.2).
+- Relative to 2015 (year −1), the Transit Zone side ran about 40–50 lower than the comparison side in 2011–2013 (leads −5 to −3, all excluding 0). The gap narrowed by 2014 (lead −2: −22.2, range −93.6 to +30.2).
 - The after-years (0 to +5) sit near 0 relative to 2015 (−24 to +7, none excluding 0).
 - So the "effect" is a rise that happened **before** the 2016 rule and then held. It is not a jump at 2016.
 - 2015 was the 421-a rush year (year −1, the reference year), which may have lifted it.
-- Year +6 (2022, the second 421-a rush) is +39.6 (−2.8 to +91.3); year +7 is −36.7. These are shown only.
+- Year +6 (2022, the second 421-a rush) is +39.6 (−2.8 to +91.3); year +7 (2023) is −36.7 (−66.7 to −8.3, excludes 0). These are shown only.
 - The same-zoning edge, the cleanest comparison, has a smaller effect (+19.1) and its placebo dates also exclude 0. A fake 2013 or 2012 "reform" shows the same rise, which again says the rise was under way before 2016.
 - The two arms also differ in level before 2016 (inside: denser, older, more R6–R10 zoning).
 
