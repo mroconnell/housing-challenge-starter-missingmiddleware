@@ -75,12 +75,15 @@ def main() -> None:
         ok = np.isfinite(y) & (w > 0)
         y, w = y[ok], w[ok]
         sc = scores(y, w)
+        # misses fixed once on the real places (audit: recomputing leave-one-out means inside a resample lets a
+        # duplicated place help predict itself); the resample draws those fixed misses with their weights
+        mA, mB = y, y - loo_means(y, w)
         rng = np.random.default_rng(SEED)
         diff = []
         for _ in range(DRAWS):
             j = rng.integers(0, len(y), len(y))
-            b = scores(y[j], w[j])
-            diff.append(b["rmsA"] - b["rmsB"])
+            wn = w[j] / w[j].sum()
+            diff.append(float(np.sqrt(np.sum(wn * mA[j] ** 2)) - np.sqrt(np.sum(wn * mB[j] ** 2))))
         lo, hi = np.percentile(diff, [5, 95])
         beats = bool(sc["rmsB"] < sc["rmsA"] and (lo > 0 or hi < 0))
         out.append(dict(method=meth, places=int(ok.sum()), rms_miss_A_no_effect=sc["rmsA"], rms_miss_B_learned_effect=sc["rmsB"],
