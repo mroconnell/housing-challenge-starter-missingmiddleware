@@ -543,3 +543,9 @@ ul.sum-legend li > svg.key-sw { flex: 0 0 36px; margin-left: 5px; }
 .in-out-list li { margin: 0 0 4px; }
 /* sections opened by "?section=<id>" land below the sticky header (its height is set on the page by main.ts) */
 .in-out, details#parking-places { scroll-margin-top: calc(var(--head-h, 140px) + 12px); }
+
+/* TOD How sure what-if tables: room for the words, compact number columns (owner 2026-11-12) */
+.sens-table .sens-col-what { width: 20%; }
+.sens-table .sens-col-means { width: 38%; }
+.sens-table th.num, .sens-table td.num { white-space: nowrap; }
+.sens-table thead th.num { white-space: normal; min-width: 7ch; max-width: 12ch; }

@@ -367,6 +367,9 @@ export function todWhatIfs(b: TodBundle): { inputs: InputRow[]; others: OtherRow
   return { inputs, others, pivot };
 }
 
+// short column names for the How sure what-if tables (owner 2026-11-12: the long line names made the number columns too wide)
+const SENS_SHORT: Record<string, string> = { little: "edge test", typical: "11-place average", strong: "scaled to 15%" };
+
 // ---- 4. How sure ---------------------------------------------------------------------------------
 export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
   const H = b.howsure;
@@ -377,8 +380,8 @@ export function howSure(b: TodBundle, env: ShellEnv, main: HTMLElement): void {
     const where_ = g.id === "where_homes_land";
     const mm = b.areas.metros;
     return `<section class="card"><h2>${esc(g.label)}</h2>
-    <div class="table-wrap"><table class="data" data-testid="sens-${esc(g.id)}"><caption>${esc(g.label)}: homes permitted near stops, 2027–2031</caption>
-      <thead><tr><th scope="col">What if</th><th scope="col">What it means</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num">Extra: ${esc(lcFirst(scen(b, id).label))}</th>`).join("")}${where_ ? `<th scope="col" class="num">Milwaukee metro (central)</th><th scope="col" class="num">Madison metro (central)</th>` : ""}</tr></thead>
+    <div class="table-wrap"><table class="data sens-table" data-testid="sens-${esc(g.id)}"><caption>${esc(g.label)}: homes permitted near stops, 2027–2031</caption>
+      <colgroup><col class="sens-col-what"><col class="sens-col-means"></colgroup><thead><tr><th scope="col">What if</th><th scope="col">What it means</th><th scope="col" class="num">Current law</th>${SCEN_IDS.map((id) => `<th scope="col" class="num" title="${esc(scen(b, id).label)}">Extra: ${esc(SENS_SHORT[id] ?? lcFirst(scen(b, id).label))}</th>`).join("")}${where_ ? `<th scope="col" class="num">Milwaukee metro (central)</th><th scope="col" class="num">Madison metro (central)</th>` : ""}</tr></thead>
       <tbody>${where_ ? mainRow.replace("</tr>", `<td class="num">${int(mm[0].add.typical)}</td><td class="num">${int(mm[1].add.typical)}</td></tr>`) : mainRow}${g.rows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td>${esc(r.text)}${r.typical_by_year ? ` Central line by year, 2027–2031: ${r.typical_by_year.map((v) => int(v)).join(" / ")}, instead of ${scen(b, "typical").by_year.map((v) => int(v)).join(" / ")}.` : ""}</td><td class="num">${int(r.baseline)}</td>${r.id === "typical_range"
         ? `<td class="num">—</td><td class="num">${int(r.add.typical_low)} to ${int(r.add.typical_high)}</td><td class="num">—</td>`
         : r.id === "little_range"
