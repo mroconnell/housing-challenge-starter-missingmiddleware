@@ -2036,3 +2036,5 @@ Ryan, 01:36–01:39 UTC:
 - "Counts" only if both overall ranges exclude 0 with the same sign.
 - Wisconsin display = rate × 13,343.385.
 - "Too few to read" is not expected, because 1-unit permits are common. The count of places with any 1–4 permits before is reported first, with the MDE.
+
+**Test 57 GO (Ryan, 13:56:13 UTC 2026-11-12, project chat cmsg_01C3Z6G8h32D4UwCcjcGMM7qPpJSgh1duJJVxs96kYg25h: "Go for it").**
