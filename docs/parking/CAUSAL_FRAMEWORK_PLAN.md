@@ -2013,7 +2013,7 @@ Ryan, 01:36–01:39 UTC:
 - **Audit fixes (06:15 UTC review). These override the lines above and below.**
   - **Cells: exactly 30, in scripts/summarise_parking_t58.py:**
     - **8 read:** overall effect (main, D); size slope (main, D), **descriptive only, with no reading rule**; placebo dates −2 and −4 (main, D).
-    - **16 read for the pre-trend label:** the event study, years −5 to −2 and 0 to +3, reference year −1, main and D.
+    - **16 event-study cells (reference year −1, main and D):** the 8 leads (−5 to −2) are read for the pre-trend label; the 8 after-years (0 to +3) are shown only.
     - **6 shown only:** Poisson check (main, D); long set (main, D); spillover pools (D); date-aware pools (D).
   - **Pre-trend label:** Test 56's rule. It is on if any lead (−5 to −2) or placebo date excludes 0 under both methods.
   - **Order:** `--first` (places with any 1–4 permits before, and the MDE) is committed before any result is opened.
