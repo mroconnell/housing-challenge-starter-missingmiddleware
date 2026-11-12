@@ -212,24 +212,24 @@ Files:
 - 427 cells are split by the line.
 - Both arms are far above the 20-cell "too few" floor. The 30-jobs floor needs outcomes, so it is not checked here.
 
-**Pre-period balance** (16v1 lots by centroid in each band; no outcomes):
+**Pre-period balance** (16v1 lots by centroid in each band; no outcomes). Recomputed 2026-11-12 after the audit code rulings (06:28 UTC): the outside arm leaves out 1,023 lots in Manhattan CDs 101–108 (Manhattan Core, already treated). The panel build drops 1,033: it measures distance to the line exactly, not on the 50 ft raster used here.
 
 | Measure | Inside | Outside |
 | --- | --- | --- |
-| Tax lots | 98,165 | 75,357 |
-| Lot area | 12,202 acres | 9,298 acres |
+| Tax lots | 98,165 | 74,334 |
+| Lot area | 12,202 acres | 9,077 acres |
 | Median lot size | 2,450 sq ft | 2,500 sq ft |
-| Mean lot size | 5,415 sq ft | 5,375 sq ft |
-| R1–R5 zoning (share of lot area) | 40.1% | 56.4% |
-| R6–R10 zoning | 31.4% | 14.5% |
-| Commercial zoning | 3.9% | 4.3% |
-| Manufacturing zoning | 20.1% | 12.9% |
-| Other (parks, blank) | 4.5% | 12.0% |
-| Existing homes (March 2016) | 545,108 | 264,067 |
-| Homes per lot acre | 44.7 | 28.4 |
-| Median homes per lot acre, cell parts with 2.5+ lot acres | 39.7 (602 parts) | 28.6 (445 parts) |
-| Homes in buildings built before 1940 | 53.8% | 43.9% |
-| Median year built (home-weighted) | 1935 | 1948 |
+| Mean lot size | 5,415 sq ft | 5,319 sq ft |
+| R1–R5 zoning (share of lot area) | 40.1% | 57.6% |
+| R6–R10 zoning | 31.4% | 12.9% |
+| Commercial zoning | 3.9% | 4.1% |
+| Manufacturing zoning | 20.1% | 13.2% |
+| Other (parks, blank) | 4.5% | 12.2% |
+| Existing homes (March 2016) | 545,108 | 233,948 |
+| Homes per lot acre | 44.7 | 25.8 |
+| Median homes per lot acre, cell parts with 2.5+ lot acres | 39.7 (602 parts) | 28.5 (435 parts) |
+| Homes in buildings built before 1940 | 53.8% | 43.7% |
+| Median year built (home-weighted) | 1935 | 1947 |
 | Lots with any homes | 88.6% | 92.4% |
 
 - Lot sizes match across the line.

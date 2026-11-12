@@ -137,6 +137,7 @@ cells,band land area,outside,6175.2,ha,
 cells,cells split by the line (a part in each arm),,427,cells,
 cells,500 m cell parts citywide (no band),inside (Transit Zone),1133,cell parts,
 cells,500 m cell parts citywide (no band),outside,2197,cell parts,
+balance,outside lots dropped: Manhattan Core (CDs 101-108),outside,1023,lots,already treated (no minimums since 1982); audit code rulings 06:28 UTC
 balance,tax lots (centroid in band),inside (Transit Zone),98165,lots,
 balance,lot area,inside (Transit Zone),12202.0,acres,
 balance,median lot area,inside (Transit Zone),2450.0,sq ft,
@@ -152,18 +153,18 @@ balance,units in buildings built before 1940,inside (Transit Zone),0.5378,share 
 balance,"median year built (lots with units, unit-weighted)",inside (Transit Zone),1935.0,year,
 balance,lots with any housing,inside (Transit Zone),0.8857,share of lots,
 balance,cell parts with >= 2.5 lot acres: median units per lot acre,inside (Transit Zone),39.7,units per acre (median over cell parts),602 cell parts
-balance,tax lots (centroid in band),outside,75357,lots,
-balance,lot area,outside,9298.0,acres,
+balance,tax lots (centroid in band),outside,74334,lots,
+balance,lot area,outside,9077.0,acres,
 balance,median lot area,outside,2500.0,sq ft,
-balance,mean lot area,outside,5375.0,sq ft,
-balance,zoning mix: C (commercial),outside,0.0431,share of lot area,"ZoneDist1, PLUTO 16v1"
-balance,zoning mix: M (manufacturing),outside,0.1289,share of lot area,"ZoneDist1, PLUTO 16v1"
-balance,zoning mix: R1-R5 (low density residence),outside,0.5636,share of lot area,"ZoneDist1, PLUTO 16v1"
-balance,zoning mix: R6-R10 (higher density residence),outside,0.1447,share of lot area,"ZoneDist1, PLUTO 16v1"
-balance,"zoning mix: other (park, BPC, blank)",outside,0.1196,share of lot area,"ZoneDist1, PLUTO 16v1"
-balance,existing residential units (March 2016 stock),outside,264067,units,
-balance,existing units per lot acre,outside,28.4,units per acre,
-balance,units in buildings built before 1940,outside,0.4392,share of units with a year built,
-balance,"median year built (lots with units, unit-weighted)",outside,1948.0,year,
-balance,lots with any housing,outside,0.9236,share of lots,
-balance,cell parts with >= 2.5 lot acres: median units per lot acre,outside,28.6,units per acre (median over cell parts),445 cell parts
+balance,mean lot area,outside,5319.0,sq ft,
+balance,zoning mix: C (commercial),outside,0.0414,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,zoning mix: M (manufacturing),outside,0.132,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,zoning mix: R1-R5 (low density residence),outside,0.5758,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,zoning mix: R6-R10 (higher density residence),outside,0.1287,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,"zoning mix: other (park, BPC, blank)",outside,0.1222,share of lot area,"ZoneDist1, PLUTO 16v1"
+balance,existing residential units (March 2016 stock),outside,233948,units,
+balance,existing units per lot acre,outside,25.8,units per acre,
+balance,units in buildings built before 1940,outside,0.4372,share of units with a year built,
+balance,"median year built (lots with units, unit-weighted)",outside,1947.0,year,
+balance,lots with any housing,outside,0.9241,share of lots,
+balance,cell parts with >= 2.5 lot acres: median units per lot acre,outside,28.5,units per acre (median over cell parts),435 cell parts

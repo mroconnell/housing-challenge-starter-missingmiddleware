@@ -124,7 +124,7 @@ Original list:
 
 1. **Placebo dates.** Plan: one date "3 years earlier". Addendum 2: "the −4 placebo". Lock: "both placebo dates". Code runs −3 and −4. Test 56 used −2 and −4.
 2. **SF controls: 41 vs Bayview.** The 41 clean rows include NCD-Bayview. The rules block says Bayview is out. Code uses 40.
-3. **Manhattan Core.** Outside the zone on the Manhattan line, there have been no minimums since 1982. Code drops those lots (plan: never use already-treated areas as controls). The committed balance table still includes them.
+3. **Manhattan Core.** Outside the zone on the Manhattan line, there have been no minimums since 1982. Code drops those lots (plan: never use already-treated areas as controls). The balance table now leaves them out too (1,023 on its 50 ft raster).
 4. **SF plan-area mask.** The lock sets aside the unlicensed SF Planning plan-area layer. DataSF has a public-domain copy (bkzf-eahq), which the feasibility step missed. Code uses it as a mask only; treatment comes from zoning.
 5. **SF 2009 zoning licence.** The lock calls it PDDL. The dataset's licence field is blank. Recorded as "PDDL per portal default".
 6. **2026-rezoned SF lots.** There is no lot list for Ord. 244-25. Code drops them with the 2009-district test (item 25) and by zoning name. A lot moved in 2026 from an excluded district into a clean one would still pass. That is rare.

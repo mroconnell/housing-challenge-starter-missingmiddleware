@@ -52,7 +52,7 @@ def balance_label() -> str:
             f"{v('zoning mix: M (manufacturing)', 'inside'):.1%} vs {v('zoning mix: M (manufacturing)', 'outside'):.1%}; median "
             f"year built {v('median year built (lots with units, unit-weighted)', 'inside'):.0f} vs "
             f"{v('median year built (lots with units, unit-weighted)', 'outside'):.0f}; lot size balanced "
-            "(table includes outside lots in Manhattan CDs 101-108, which the panels leave out). The leads are the "
+            "(outside lots in Manhattan CDs 101-108 left out, as in the panels). The leads are the "
             "pre-trend check")
 
 
