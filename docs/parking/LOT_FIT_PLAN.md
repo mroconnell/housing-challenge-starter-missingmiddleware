@@ -158,7 +158,7 @@ Full rows, sections and URLs: helper notes from 2026-11-12, to be moved into a h
 | Garage sizes | Builder guides only | — | Not verified; garage variant optional |
 | Building footprints | Microsoft USBuildingFootprints (817 MiB WI file) | ODbL, share-alike | Not needed for central test; D5 says no samples |
 | Lot width code | `min_rect_widths()` in `missing_middleware/geom_extra_tod.py` | Repo | Reusable |
-| Dependencies | numpy, pandas, shapely already used | — | No new dependency planned; run the licence check if that changes |
+| Dependencies | numpy, pandas, scipy; geometry via missing_middleware/geom.py and geom_extra_tod.py (min_rect_widths). No shapely (removed from the project 2026-11-02) | — | No new dependency planned; run the licence check if that changes |
 
 ## 9. Choices for Ryan
 
@@ -187,3 +187,19 @@ These choices make the draft above the plan for audit.
 - **C5. Existing house:** new building only.
 - **C6. Zoning layers:** Milwaukee (MPROP) and Madison (tax parcels) only.
 - **Use:** supporting evidence beside the 2–4 unit range. It is not a causal effect and does not change the scenario line.
+
+## Audit fixes (16:35 UTC review of 1548251). These override the text above; Ryan's picks are unchanged.
+
+1. **No shapely.** Geometry uses missing_middleware/geom.py and geom_extra_tod.py (min_rect_widths(), on numpy and scipy).
+2. **Tandem follows each code.**
+   - The main run counts tandem or driveway stalls only where that place's code allows it. Green Bay §44-1747(b)(2) says driveways do not count.
+   - The variant counts no tandem anywhere.
+   - Each place's rule, with its citation, is recorded in reference/parking_lotfit_rules.csv before the run.
+3. **Required garages** (Green Bay; Germantown) are modelled as enclosed stalls of 12 × 22 ft each. That size is labelled as an assumption.
+4. **"As if allowed" district.** For Green Bay, Kenosha, Racine and Janesville, the district whose setbacks and coverage apply in the "as if allowed" run is named in reference/parking_lotfit_rules.csv before the run. It is the main single-family district, the one most residential lots carry.
+5. **Milwaukee sanity rule** (set now):
+   - The model is applied to Milwaukee's existing 2–4 unit buildings (MPROP).
+   - If more than 50% of them "could not fit" under the modelled rules, the result is labelled **"rule model may be too strict"**. That 50% cut is a convention.
+   - It is reported beside the result. There is no retuning.
+6. **Spans, not statistical ranges.** The low and high values across rule variants are a span of assumptions, not a statistical range. They are labelled that way and kept apart from any 90% range.
+7. **Waivers are ignored.** For example, Janesville can cut improved spaces by 25%. So blocking may be overstated, and this is stated beside the result. Milwaukee's 2-unit blocking is 0 by rule, because it has no minimum.
