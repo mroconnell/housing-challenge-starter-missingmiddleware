@@ -88,6 +88,7 @@ def lihtc_adjust(d: pd.DataFrame) -> pd.DataFrame:
     last = os.environ.get("MM_BPS_LAST_YEAR")
     if last:
         d = d[d["year"] <= int(last)].copy()
+    d = outcome_swap(d)  # Test 56 hook; does nothing unless MM_BPS_OUTCOME is set
     col = os.environ.get("MM_LIHTC_ADJUST")
     if not col:
         return d
@@ -105,6 +106,38 @@ def lihtc_adjust(d: pd.DataFrame) -> pd.DataFrame:
     log.to_csv(REFERENCE / f"parking_t51_floor_log_{int(d['year'].min())}-{int(d['year'].max())}.csv", index=False)
     d["units_total"] = (d["units_total"] - rem).clip(lower=0)
     d["5plus_units"] = (d["5plus_units"] - rem).clip(lower=0)
+    return d
+
+
+BPS_OUTCOMES = {  # Test 56: MM_BPS_OUTCOME value -> (building-size groups kept, column suffix)
+    "units_2_4": (("2units", "3_4units"), ""), "1unit_units": (("1unit",), ""), "5plus_units": (("5plus",), ""),
+    "units_2_4_rep": (("2units", "3_4units"), "_rep"), "1unit_units_rep": (("1unit",), "_rep"),
+    "5plus_units_rep": (("5plus",), "_rep"),
+    "units_1_4": (("1unit", "2units", "3_4units"), ""),  # Test 58 (post hoc)
+}
+
+
+def outcome_swap(d: pd.DataFrame) -> pd.DataFrame:
+    """Test 56 only (CAUSAL_FRAMEWORK_PLAN.md); returns d itself unless MM_BPS_OUTCOME is set.
+    MM_BPS_OUTCOME=<units_2_4|1unit_units|5plus_units, or the same with _rep> keeps only the chosen building sizes:
+    each kept size's `<size>_units` takes the chosen column (estimate, or reported-only with _rep), every other
+    size's `<size>_units` is set to 0, and `units_total` becomes their sum (missing values count as 0, as in
+    parsers.read_bps). So the "all" outcome is the chosen column and the "2plus" outcome (2-unit + 3-4 unit + 5+)
+    is its part in 2+ unit buildings (0 for 1-unit homes). Nothing else (population, months reported, buildings,
+    values) changes."""
+    import os
+    name = os.environ.get("MM_BPS_OUTCOME")
+    if not name:
+        return d
+    if name not in BPS_OUTCOMES:
+        raise SystemExit(f"MM_BPS_OUTCOME={name!r}: use one of {sorted(BPS_OUTCOMES)}")
+    if os.environ.get("MM_LIHTC_ADJUST"):
+        raise SystemExit("MM_BPS_OUTCOME and MM_LIHTC_ADJUST cannot be combined")
+    keep, suf = BPS_OUTCOMES[name]
+    d = d.copy()
+    for g in ("1unit", "2units", "3_4units", "5plus"):
+        d[f"{g}_units"] = d[f"{g}_units{suf}"].fillna(0) if g in keep else 0
+    d["units_total"] = d[[f"{g}_units" for g in ("1unit", "2units", "3_4units", "5plus")]].sum(axis=1)
     return d
 
 

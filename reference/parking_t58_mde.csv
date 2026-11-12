@@ -1,0 +1,4 @@
+outcome,statistic,weighting,standin_sd,mde,placebo_half_width,draw_rebuild_max_diff,unit,mde_wisconsin_homes_5yr
+units_1_4,overall effect,main weights,0.605407,1.505345,0.999356,2.6e-05,"homes per 1,000 existing homes a year",20086.392809
+units_1_4,size slope,main weights,1.300719,3.234238,2.17008,2.6e-05,"homes per 1,000 existing homes a year per 10x population",43155.679152
+units_1_4,"25,000 gap",main weights,3.330949,8.282405,5.398778,2.6e-05,"homes per 1,000 existing homes a year",110515.312717

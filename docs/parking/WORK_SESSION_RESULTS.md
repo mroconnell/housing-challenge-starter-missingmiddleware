@@ -1331,3 +1331,260 @@ Five helpers coded three places each from public sources, following a written br
 - With 74 places and a very noisy screen, the fail means traits can't be shown to predict held-out cities here. It does not show that no trait matters.
 - Main's best repeat reached +11.7%, but the mean is +0.9%. That one repeat is noise, not a partial pass.
 - As locked, the write-up recommends ending the trait search. The parking estimate stays one average for all places.
+
+## Test 56: small projects (2–4 unit homes), place size, 74 places (run 2026-11-12, commits 068e3648 code, 22bb77d2 outputs)
+
+Locked in CAUSAL_FRAMEWORK_PLAN.md ("Test 56: one reading at lock"). Ryan's go was at 01:40 UTC. The code audit cleared it, with a dry run on all homes. The counts and MDE were committed first (72df2af5) and cleared before any result was opened. The overall cells repeat earlier work on a new outcome; only the size-slope cells are new. Method 2 D has no pace trait, so "matches on pace" applies to the main method only.
+
+Units are homes per 1,000 existing homes a year. 90% ranges. Wisconsin homes = rate × 13,343.385 (2027–2031; display only).
+
+**Can the test see an effect?** Yes. 53 of 74 places had some 2–4 permits before repeal (14 of 26 under 25,000; 39 of 48 at 25,000+). The minimum detectable overall effect is 0.354 (4,727 Wisconsin homes over 5 years).
+
+| Headline cell | Estimate | 90% range | Excludes 0 |
+|---|---|---|---|
+| H1 main, overall 2–4 effect | −0.067 (−899 homes) | −0.295 to +0.177 (−3,930 to +2,360) | No |
+| H7 D, overall 2–4 effect | −0.007 (−91 homes) | −0.230 to +0.376 (−3,065 to +5,016) | No |
+| H2 main, size slope (per 10× population) | −0.278 | −0.440 to −0.104 | Yes |
+| H8 D, size slope | +0.119 | −0.230 to +0.392 | No |
+
+**Reading (mechanical, parking_t56_reading.csv):**
+- **Overall 2–4 effect:** does not count. Neither range excludes 0.
+- **Size slope:** does not count. Main is negative and excludes 0 (smaller places did relatively better on 2–4 homes). D points the other way and includes 0, so the slope does not count. Main's 25,000 gap agrees with its slope (−0.241 vs −0.278); D's does not (gap −0.168, slope +0.119).
+- **Headline cells excluding 0:** 1 of 4, which is plausible by chance.
+- **Pre-trend label: ON.** Lead −4 excludes 0 under both methods (main +0.079, +0.018 to +0.149). Relative to year −1, all of D's event-study years sit about +0.24 to +0.49 higher, the after-years included. The after-years look like the before-years. That fits a low year −1 as well as a pre-repeal trend; the label stays on either way.
+- **Scale rule:**
+  - Main: no flag.
+  - D: "don't know". Its level range includes 0, but the Poisson check excludes 0: ×1.88, range ×1.30 to ×2.64, 64 stacks. Main's Poisson is ×0.97, range ×0.75 to ×1.38, 60 stacks.
+- **"Too few to read":** not triggered for any group.
+
+**Checks:**
+- The main size slope holds without flagged places (−0.308, −0.491 to −0.086), without Oregon (−0.280, −0.451 to −0.096) and on reported-only data (−0.252, −0.411 to −0.081). D's slope includes 0 in all three.
+- Placebo dates (−2 and −4 years) include 0 under both methods.
+- Long set (13 places): main −0.013 (−0.104 to +0.514); D +0.655 (−0.216 to +2.945).
+- Spillover pools (D +0.002) and date-aware pools (D −0.006) leave D's overall effect unchanged.
+- 1-unit and 5+ outcomes: no overall effect excludes 0. Three non-headline 5+ D cells exclude 0: the target-state gap (+3.048) and the equal-weight slope (+1.737) and gap (+4.222). They are not headline and not read.
+
+**Plain reading:**
+- We can't tell whether removing parking minimums changed 2–4 unit building in these 74 places. Both ranges include 0, and a pre-repeal lead failed, so the result is not read as an effect either way.
+- The test could have seen an effect of about 4,700 Wisconsin homes over 5 years or more. The range runs from about 3,900 fewer to 2,400 more (main), or 3,100 fewer to 5,000 more (D).
+- Whether small places gained more depends on the method, so it is not a finding.
+- The scenario line is unchanged.
+
+## Test 58: 1–4 unit homes, 74 places (post hoc; run 2026-11-12, outputs 22f271e5)
+
+**Post hoc.** Planned after the 1-unit and 2–4 results (Test 56) were seen, at Ryan's ask (06:13 UTC). The design and code are Test 56's, with outcome units_1_4. The counts and MDE were committed first (e59eef36) and cleared by the audit.
+
+Units: homes per 1,000 existing homes a year, with 90% ranges. Wisconsin homes = rate × 13,343.385 (2027–2031, display only).
+
+**Can the test see an effect?**
+- 70 of 74 places had some 1–4 permits before repeal (22 of 26 under 25,000; 48 of 48 at 25,000+).
+- MDE 1.505 (20,086 Wisconsin homes over 5 years).
+- The placebo half-width is 0.999, about 4 times the 2–4 width (0.236), because 1-unit permits are much noisier. **So the 1–4 range is wider than Test 56's 2–4 range, not narrower.**
+
+| Cell | Estimate | 90% range | Excludes 0 |
+|---|---|---|---|
+| Main, overall 1–4 effect | −0.047 (−631 homes) | −0.952 to +1.047 (−12,698 to +13,972) | No |
+| D, overall 1–4 effect | −0.219 (−2,928 homes) | −1.781 to +0.564 (−23,770 to +7,528) | No |
+| Main, size slope (descriptive) | −1.251 | −2.911 to +0.494 | No |
+| D, size slope (descriptive) | +0.318 | −0.705 to +2.426 | No |
+
+**Reading:**
+- **The overall effect does not count:** both ranges include 0.
+- **Pre-trend label is ON.**
+  - Lead −4 excludes 0 under both methods (main +0.933, +0.174 to +1.709; D +1.024, +0.065 to +2.275).
+  - Main's lead −5 also excludes 0 (+1.364).
+  - D's placebo dates exclude 0 (−2: −1.325, −2.766 to −0.352; −4: −1.671, −3.138 to −0.389). Main's do not, so the placebo-date rule (both methods) is not met.
+  - Before repeal, these places' 1–4 building ran above their comparison towns 4–5 years out and fell toward them by year −1.
+
+**Shown only:**
+- Poisson: main ×0.98 (×0.79 to ×1.25, theta −0.017); D ×1.15 (×0.99 to ×1.30).
+- Long set (13 places): main −0.008 (−0.526 to +1.436); D +1.787 (−1.765 to +12.738).
+- Spillover pools: D −0.197. Date-aware pools: D −0.219.
+
+**Plain reading:**
+- We can't tell whether removing parking minimums changed 1–4 unit building in these 74 places. Both ranges include 0, and a pre-repeal lead failed.
+- The 1–4 range is about 4 times as wide as the 2–4 range, because single-home building swings a lot from year to year.
+- The scenario line is unchanged.
+
+## Test 57: staggered waves inside cities (NY 2016 Transit Zone; SF 2008–09 case), run 2026-11-12 (outputs 1c132e15, pooled rate 0fa0bbf1)
+
+Locked at c21febf2 and later blocks; Ryan's go at 13:56 UTC. The `--first` counts and MDE were committed first (598875d7) and cleared by the audit. A one-line crash fix (1f52c54e, an array copy, no logic change) came before the full first-step rerun.
+
+Units are homes per 100 eligible lot acres a year, from difference in differences with 90% ranges (2,000 cluster draws of 500 m cells; split cells drawn together).
+
+**Headline: NY 2016, all DOB new-building units, labelled "possibly diluted toward 0".**
+- 637 treated cell parts vs 457 comparison; 888 vs 586 before-window jobs.
+- MDE 27.9. The pooled before-window rate is 41.2 (added after the lock, display only), so the MDE is about 68% of the usual level.
+
+| Run | Main effect | 90% range | Excludes 0 | Leads (−5..−2) excluding 0 | Placebo dates excluding 0 | Reading |
+|---|---|---|---|---|---|---|
+| **ny_dob (headline)** | +26.1 | +8.4 to +45.5 | Yes | −5, −4, −3 (all negative) | none | **pre-trend, not read as an effect** |
+| ny_dob_keepmih | +28.2 | +10.4 to +48.2 | Yes | −5, −4, −3 | none | pre-trend |
+| ny_dob_samezone | +19.1 | +1.1 to +38.3 | Yes | −5 | −3 (+25.7), −4 (+19.0) | pre-trend |
+| ny_dob_legacy2020 | +28.0 | +6.4 to +51.2 | Yes | −5, −4, −3 | none | pre-trend |
+| ny_hpd (alongside) | +6.6 | +1.5 to +11.7 | Yes | (−2 only: no) | cannot run | **too few to read** (14 vs 8 before-window projects; 48–69% of 2014–17 projects not placed) |
+| ny_hpd_keepmih | +7.6 | +2.3 to +13.4 | Yes | (−2 only: no) | cannot run | too few to read |
+| sf_a (case) | +79.3 | +4.7 to +149.0 | Yes | none | none | mechanically "counts", but a case only (see below) |
+
+**What the NY event study shows:**
+- Relative to 2015 (year −1), the Transit Zone side ran about 40–50 lower than the comparison side in 2011–2013 (leads −5 to −3, all excluding 0). The gap narrowed by 2014 (lead −2: −22.2, range −93.6 to +30.2).
+- The after-years (0 to +5) sit near 0 relative to 2015 (−24 to +7, none excluding 0).
+- So the "effect" is a rise that happened **before** the 2016 rule and then held. It is not a jump at 2016.
+- 2015 was the 421-a rush year (year −1, the reference year), which may have lifted it.
+- Year +6 (2022, the second 421-a rush) is +39.6 (−2.8 to +91.3); year +7 (2023) is −36.7 (−66.7 to −8.3, excludes 0). These are shown only.
+- The same-zoning edge, the cleanest comparison, has a smaller effect (+19.1) and its placebo dates also exclude 0. A fake 2013 or 2012 "reform" shows the same rise, which again says the rise was under way before 2016.
+- The two arms also differ in level before 2016 (inside: denser, older, more R6–R10 zoning).
+
+**San Francisco (case only):**
+- +79.3 (+4.7 to +149.0). Parking and upzoning came together in the same plans, so they can't be separated.
+- Ord. 112-08 is bundled with wave A's start year, and the recession falls in the early after-years.
+- The MDE is 111.7 against a pooled rate of 11.6, nearly 10 times the usual level. So the range is wide, the year-by-year pattern swings (+175 at year −4; −61 and −56 at years +1 and +2; +273 at +9), and this is not a test.
+
+**Plain reading:**
+- **New York: we can't tell.** Building on the Transit Zone side was already rising against the other side before the 2016 rule, so the before/after gap isn't read as an effect of parking relief.
+- The affordable-units count, which matches the rule best, has too few projects before 2016 to read.
+- San Francisco is a case where parking and upzoning were bundled, and it is too noisy to test.
+- The scenario line is unchanged.
+
+## Tests 59 and 60: hold one place out, and injection catch rate (2–4 units; post hoc; outputs b3502d39)
+
+Both tests are post hoc. They reuse Test 56's saved results, so they cross-check the average on data already seen. They are not a fresh held-out sample, and they cannot narrow Test 56's range. Units are homes per 1,000 existing homes a year; Wisconsin = × 13,343.385.
+
+**Test 59, Part 1: drop one place** (a fragility check, not a finding)
+- **Main:** the 74 leave-one-out averages run from −0.082 (Richmond out) to −0.029 (Austin out), against −0.067 for all 74.
+  - No single drop flips the sign or makes the range exclude 0.
+  - Most influential: Austin, San Jose, Minneapolis, Richmond, Plainfield.
+- **D:** −0.061 to +0.142, against −0.007 for all 74.
+  - 15 drops flip the sign, because the average sits so close to 0. None makes the range exclude 0.
+  - Most influential: Hudson (+0.149 shift), Saranac Lake, Hampden, Plainfield, Windham.
+- Test 56's pre-trend label still applies.
+- For comparison, parking's earlier leave-one-out on all homes ran from −23,518 to +1,054 Wisconsin homes, with a sign flip.
+
+**Test 59, Part 2: predict the hidden place**
+- Model A uses no reform effect. Model B adds the average effect learned from the other 73 places.
+- Weighted root mean square miss:
+
+| Method | A (no effect) | B (learned effect) | A − B | 90% range | B beats A |
+|---|---|---|---|---|---|
+| Main | 0.354 | 0.356 | −0.002 | −0.016 to +0.010 | No |
+| D | 0.887 | 0.930 | −0.043 | −0.084 to −0.008 | No (B is worse) |
+
+- **The learned effect does not improve prediction of a hidden place.** This was expected, because Test 56's averages are near 0. B carries a leave-one-out penalty.
+- For comparison, ADU's held-out test hides each of the 7 non-California statewide-law states in turn, predicts its ADU permit rate from the rest, and scores the root mean square log error (0.130 for the adopted run). That is a prediction model of levels. Parking's test is about one average effect.
+
+**Test 60: injection catch rate** (main method; 20,000 no-effect fake groups)
+
+| Fake effect added (Wisconsin homes, 5 years) | Rate | Caught |
+|---|---|---|
+| 0 (false alarm) | 0 | 11.0% |
+| +1,000 / −1,000 | ±0.075 | 19.4% / 8.0% |
+| +2,500 / −2,500 | ±0.187 | 46.1% / 28.4% |
+| +4,727 / −4,727 (the MDE) | ±0.354 | 86.0% / 71.9% |
+| +10,000 / −10,000 | ±0.749 | 100.0% / 99.96% |
+
+- **Labels:**
+  - δ is added to each set's average. That is the same as a uniform injection. It does not test an effect that differs by place (for example, only small places) or a percentage effect.
+  - The false-alarm rate is about 10% by construction, so it checks the code, not the method.
+  - The test assumes no bias. Test 56's pre-trend label is about bias, and this test cannot see it.
+  - The two sides differ because the fake-group spread is lopsided: its middle is +0.026, with its 5th and 95th percentiles 0.227 below and 0.244 above.
+- **Method 2 D** has no fake groups. Its range shifts one-for-one with δ, so a fake effect is caught if it exceeds +0.230 (3,065 homes; above) or −0.376 (5,016 homes; below): the distance from D's range ends to 0.
+
+## Dose test: full and partial reforms pooled by dose (run 2026-11-12; frozen doses 2d14cd45, sha256 39a33135…; outputs fbcc6498)
+
+Plan: docs/parking/DOSE_PLAN.md (audited; Ryan's choices C1–C11 plus his 18:44 and 18:47 UTC calls). Doses: reference/parking_doses.csv, frozen before any effect. Identity check: 90 of 90 pass, so the 74 at dose 100 reproduce today's numbers. The `--first` step was committed first (1927b1e6) and cleared by the audit.
+
+Units: homes per 1,000 existing homes a year, per 100 dose points (a full repeal). 90% ranges. Wisconsin homes over 2027–2031 = rate × 13,343.385 (display only).
+
+**Which places:** 98, the 74 plus 24 new partial-reform places (97 for 2–4 units, because Milwaukie's 2–4 dose is 0). After the C4 increments and state-law priors, only 30 of the 74 sit at dose 100.
+
+| Outcome | Method | Dose-pooled estimate | 90% range | Wisconsin homes | Today's 74-place line |
+|---|---|---|---|---|---|
+| All homes | main | −1.000 | −4.059 to +2.098 | −13,342 (−54,166 to +27,988) | −15,380 (−46,268 to +19,649) |
+| All homes | D | −1.504 | −3.242 to +0.053 | −20,063 (−43,258 to +709) | |
+| 2–4 units | main | −0.082 | −0.336 to +0.186 | −1,090 (−4,485 to +2,479) | −899 (−3,930 to +2,360) |
+| 2–4 units | D | +0.066 | −0.216 to +0.415 | +885 (−2,884 to +5,538) | |
+
+**Headline-switch conditions (set before any count):**
+- **All homes:**
+  - Condition 1 passes, low power.
+  - **Condition 2 fails under main:** the range is 6.16 wide against 4.94 for the 74. It passes under D (3.30 against 3.70).
+  - Conditions 3 and 4 pass.
+  - So it **stays a sensitivity row**.
+- **2–4 units:**
+  - Condition 2 fails under both methods (main 0.52 against 0.47; D 0.63 against 0.61).
+  - Condition 3 fails: lead −4 excludes 0 under both methods, the same pre-trend Test 56 found.
+  - **Stays a sensitivity row.**
+- **Correction to the plan's note on condition 2:** the plan called it "near-automatic" (more places narrow a through-origin range). That was wrong here. Only 30 of the 74 are at dose 100, and the low-dose places' noise is scaled up when the fit asks what a full repeal does. The reading file still prints the old label; this paragraph replaces it.
+
+**Do full repeals and partial reforms agree?**
+- Full-repeal-only versus low-dose-only gaps include 0 under both methods and for both outcomes. That is only weak evidence they agree, because the gap's MDE (all homes 7.64; 2–4 0.69) is wider than the full-only range.
+- Main and D point opposite ways on the gap. That fits noise.
+- **Checks:**
+  - Dropping, halving or doubling the fallback doses moves nothing.
+  - The 2010-block and zoned-land doses agree. The one exception is the D zoned-land dose for all homes, at −1.645 (−3.350 to −0.180). It excludes 0, but it is a single check among many and is not read.
+  - Dropping partial-reform places from the comparison pools gives main all homes −1.899 (−4.772 to +1.068) and 2–4 −0.025.
+  - Fits with an intercept: the intercepts include 0. D's all-homes slope with intercept is −2.149 (−5.366 to −0.176). It is not read, because the plan reads the through-origin fit.
+  - The dose-0 places alone (Seabrook, Brainerd, and Milwaukie for 2–4) are 2–3 places and are not interpreted.
+- **Labels:**
+  - Spokane's 2023 transit step had a dose of 91.48, so its 2024 increment (8.52) adds little.
+  - C5: leaving partial-reform places in the pools pulls effects toward 0. The drop-from-pools run is the check.
+  - C10: 2020 blocks are partly post-treatment for 2015–2019 reforms. The 2010-block doses are the check.
+  - Pooled new places' comparison pools leave out the 74, while the 74's pools keep partial-reform places (the C5 note).
+  - D's winsorising clip points move once new places join.
+  - 7 pooled places have assumed or fallback doses.
+
+**Plain reading:**
+- Pooling partial reforms by dose gives the same answer as the 74 full repeals: **we can't tell**, and the middle sits slightly below 0 for all homes.
+- It does **not** narrow the range. The main range is wider, because many partial reforms cover few homes and their noise is magnified.
+- It stays a side row, and the scenario line is unchanged.
+
+**Dose test label fixes (audit, 20:09 UTC). These override the cells and reading CSVs; no re-run.**
+- **D "Brainerd alone":** its range is 9.990 to 9.990, one place with no spread. Read it as **"no range"**, not "excludes 0".
+- **D "dose-0 places alone":** 2 places for all homes and 3 for 2–4 units. Read it as **"too few for a range"**.
+- **Condition 2 label:** the reading CSV still prints "near-automatic". Read it as "not automatic here: only 30 of the 74 are at dose 100" (see above).
+- **Full-only vs low-dose-only:** these point opposite ways in both methods (main +0.762 vs −1.335; D −1.452 vs +0.900). That fits noise.
+
+## Test 61: honest forest with dose, population and city type (post hoc; run 2026-11-12; code 01db1c72 + 7ebdbb66; --first 6e6587f7)
+
+Locked plan: "Test 61" in CAUSAL_FRAMEWORK_PLAN.md, with its audit fixes. Ryan's go was at 20:53 UTC.
+- **Post hoc.** The dose results had already been seen, so a pass would have been optimistic.
+- **Forest:** Test 54's honest forest (500 trees, leaf 5) with fixed traits and no screening:
+  - Judged run: dose, log10 2010 population, and city type (6 classes, one-hot).
+  - Extra run: the same plus the rate before repeal.
+- **Places:** the dose fit set, 98 for all homes and 97 for 2–4 units, with no missing traits.
+- **Scoring:** held-out weighted mean absolute error, 10 folds × 20 repeats.
+- **Gain** = 1 − forest error ÷ benchmark error. Positive means the forest predicts better.
+- **Pass (judged cells only, 2–4 units):** mean gain of at least 5%, and gain above 0 in at least 80% of repeats (a convention). It may pass under main or D.
+
+| Outcome | Method | Traits | Benchmark | Mean gain | Range over repeats | Repeats above 0 |
+|---|---|---|---|---|---|---|
+| **2–4 units (judged)** | main | 3 | one average | **−9.5%** | −25.2% to +8.0% | 15% |
+| **2–4 units (judged)** | D | 3 | one average | **−10.3%** | −21.1% to +6.9% | 10% |
+| 2–4 units | main | 3 | dose-scaled | −18.0% | −38.7% to +0.2% | 5% |
+| 2–4 units | main | 4 | one average | −4.9% | −21.3% to +13.6% | 25% |
+| All homes | main | 3 | one average | −6.3% | −18.3% to +6.5% | 25% |
+| All homes | D | 3 | one average | −1.4% | −9.8% to +4.4% | 35% |
+| All homes | main | 3 | dose-scaled | −9.8% | −31.4% to +3.9% | 20% |
+
+**Shuffle check** (traits shuffled across places, 3 traits against one average): chance alone gives mean gains of:
+- −6.6% (2–4 main) and −12.9% (2–4 D);
+- −1.6% (all main) and −8.0% (all D).
+
+The real traits do no better than chance can explain: in 60% (2–4 main) and 35% (2–4 D) of shuffles, chance did as well or better. (Under D the real traits did a little better than the average shuffle, −10.3% against −12.9%.)
+
+**Reading: FAIL.**
+- Dose, population and city type do not predict a city's parking effect better than one plain average. Forest predictions are about 10% worse on held-out cities.
+- The dose-scaled average also does a little better than the forest, but it is not the judged benchmark.
+- The trait search stays closed, and the scenario line is unchanged.
+
+**Labels:**
+- With dose-0 places out, the forest says nothing about dose 0.
+- D's winsorising and mix weights use the whole cell (test places included), as in Test 54.
+- Only about 4 exurb and 3 rural places sit in each cell, so those city-type columns carry little.
+- The 4-trait run carries two caveats:
+  - Test 54's denominator caveat (ACS 2020–24 homes);
+  - the shared before-window caveat from audit fix 1. Rate before repeal shares its before-window with the effect, so any gain from it could be mechanical.
+- **Dose-scaled average against one average** (shown in the CSV): not a planned comparison, and mixed by method.
+  - Under main the dose-scaled average has lower error: 2–4 units 0.3175 against 0.3421, about 7% lower; all homes 4.731 against 4.886, about 3% lower.
+  - Under 2–4 D it has higher error: 0.5244 against 0.5142.
+  - It is not read as evidence that dose predicts. The dose test's pooled ranges include 0.

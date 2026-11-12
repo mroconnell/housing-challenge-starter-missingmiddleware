@@ -1713,3 +1713,431 @@ These override the three groups above.
    - **Housing Accelerator Fund:** most large cities have parking or zoning commitments (coded in `reference/parking_t55_excluded_places.csv`).
    - **Repeal dates** (`reference/parking_t55_repeal_dates.csv`): Toronto by-law 89-2022, enacted 2022-02-03; Edmonton Charter Bylaw 19275, in effect 2020-07-02.
    - Canada has cut parking widely since 2020, which leaves almost no comparable non-reforming large cities.
+
+## Test 56: small projects (2–4 unit and 1-unit homes), with city size as a continuous variable (DRAFT PLAN 2026-11-12, before any count; Ryan 01:23–01:26 UTC)
+
+Ryan, 01:23–01:26 UTC:
+- "Have we tried to measure the effect of parking reform on small projects in small towns? Only looking at 1 unit or 2-4 unit in census data before and after parking reform?"
+- "should we do small towns and large cities in the same test? to normalize?"
+- "instead of categories of population size, can we use size as a continuous variable?"
+- "okay, develop a draft of that plan"
+
+**Running count: 56.** Evidence only. No tool change without Ryan's own OK.
+- **Expectation:** none. The plan states no expected direction.
+- **Origin:** post hoc. It was prompted by the Sightline and Pew ADU evidence that parking mandates block small projects on tight lots, and by earlier looks at the same 74 places (all homes, 2+ units, and 1-unit homes in 52d).
+
+**Sample and estimators.** The fixed 74-place batch sample, with the same windows, pools, placebo and weights as the batch. Both the main (tool) method and method 2 D (target-state mix) are run.
+
+**Outcomes** (Census BPS estimate columns; permits per 1,000 existing homes a year):
+- **Primary:** homes in 2–4 unit buildings (`units_2_4` = 2-unit + 3–4 unit).
+- **Secondary:** homes in 1-unit buildings (`1unit_units`), and homes in 5+ unit buildings (`5plus_units`), so the three columns add up to the total and shifting between building sizes is visible.
+- **Reported-only rerun:** the same outcomes from the `_rep` columns, which drop Census's estimates for months a place didn't report.
+
+**City size.**
+- **Main reading:** size as a continuous variable. The weighted least-squares slope of each place's effect on log10 of its 2010 census population (as in Test 53), per 10× population, with a 90% place-bootstrap range (2,000 draws, seed 20261105).
+- **Companion reading:** places under vs over 25,000 people (2010 census), fixed now. It shows each group's average and the gap.
+- **Agreement:** the two are read together. Neither "counts" alone if they disagree in sign.
+
+**Confounds and guards.**
+1. **Middle-housing legalization at the same time:**
+   - Flag repeal places with a plex legalization within ±3 years of repeal. Sources: the Test 52b events table (`middle-housing upzoning`, `TOD upzoning`, `state housing law` rows), Oregon's HB 2001 (cities of 10,000+), and the reform-type coding.
+   - The list is committed before any count.
+   - Results are reported with and without flagged places, and with and without all Oregon places (state parking rule and HB 2001 together).
+2. **Whether plexes are legal:** plex legality before repeal is coded only for the 15 long-set places (reform-type coding), so it can't be a split. The limit is stated, and the 15 are listed as cases (plexes legal by right / by review / not allowed).
+3. **Shifting between building sizes:** 1-unit, 2–4 and 5+ are reported side by side with their own ranges.
+4. **Mostly-zero data:**
+   - **Count check:** a Poisson count model (homes counted, existing homes as exposure, as in Tests 38–39) is run as a check.
+   - **Thin cut-off:** set now. A group or slope resting on fewer than 10 places with any 2–4 unit permits in their windows is labelled "too few to read".
+5. **Weighting:** homes × after-years (as in the tool) and equal weight per place, both shown.
+6. **Timing:** the main windows are 1–3 years after repeal. Two checks are added: the long set (5+ years after, Test 49 style) and pre-repeal leads (years −3 to −1).
+7. **Power:** before any count, the minimum detectable effect is computed from the placebo spread of the 2–4 unit outcome. It is stated beside every result, so a blank result is not read as "no effect" when the test could only catch large effects.
+
+**Reading** (the same bar for both signs):
+- **Overall:** for each outcome, the effect "counts" only if its 90% range excludes 0 under both the main method and method 2.
+- **Size:** the size slope "counts" only if its range excludes 0 under both methods and the under/over-25,000 gap agrees in sign.
+- **Chance:** there are about 12 comparisons in all, so 1 or 2 ranges excluding 0 by chance is plausible, and the write-up says so.
+- **Wisconsin translation:** any use in Wisconsin needs Ryan's OK and the 25% rule. Plex legality in Wisconsin ties to the middle-housing scenario.
+
+**Run order:**
+1. The flag list and the minimum-detectable-effect calculation, committed before any count.
+2. The code, committed.
+3. Audit.
+4. Ryan's go.
+5. Count.
+6. Write-up to the audit and Ryan.
+
+**Test 56 design review against *The Effect* (Huntington-Klein; chapters 2, 5–8, 10 and 18 read 2026-11-12 at Ryan's request, 01:27 UTC). Written before any count. These additions override the text above where they differ.**
+1. **Research question and estimand (ch. 2, 10):**
+   - **Question:** did repealing residential parking minimums change how many homes the repeal places permitted in 2–4 unit buildings in the 1–3 years after, compared with what they would have permitted otherwise?
+   - **Estimand:** the average effect on the places that repealed (ATT), in two forms. The homes × after-years weighted form is the tool's; the equal-weight form gives one vote per place. City size enters as a moderator: the effect by size (CATE), via the slope and the 25,000 split.
+   - **Wisconsin:** Wisconsin's places have not repealed, so carrying the result to them assumes their effect equals the repealers' (ATU = ATT). That is stated as an assumption, because places that chose to repeal may differ.
+   - **Data mining (ch. 2):** these outcomes were chosen after earlier looks at the same places. With no fresh places left (Tests 54 and 55), within-sample checks stand in for replication: the reported-only rerun, the long set, and placebo dates. The write-up says so.
+2. **Causal diagram and back doors (ch. 5–8):** the Test 52 diagram is reused, with three additions.
+   - **Plex legalization at the same time** is a confounder or bundled treatment. It is handled by the flag-and-drop runs.
+   - **Whether plexes are legal** and **city size** are moderators. They change the effect's size and are not back doors.
+   - **Market demand** stays a back door. The 52a pre-repeal rent and job growth balance is reported for the 2–4 unit sample.
+   - **Not controlled (post-treatment):** 5+ unit permits, project size, parking actually built.
+   - **Collider fix:** the "too few to read" count uses places with any 2–4 unit permits in the **before** window only. Counting after-window permits would select on the outcome.
+3. **Staggered timing (ch. 18):**
+   - Each repeal place is compared, in its own window, with never-repealing look-alikes. This is a stacked design in the spirit of Callaway and Sant'Anna with never-treated controls, not two-way fixed effects, so already-treated places never act as controls.
+   - Pools exclude reformers. The date-aware rule from 52h.1 is rerun as a check for this outcome.
+4. **Parallel trends (ch. 18):**
+   - **Event study:** years −5 to +3 for the 2–4 unit outcome, with the last pre-year (−1) as reference and 90% ranges, judged by size as well as by whether ranges include 0.
+   - **Placebo dates:** −2 and −4 years, inside the pre-period.
+5. **Functional form (ch. 18):** the main reading is in levels (rate per 1,000 existing homes). The Poisson count model gives the multiplicative reading. Parallel trends may hold in one scale and not the other, so if the two disagree in sign, the result is labelled "scale-dependent".
+6. **Regression to the mean (ch. 18):**
+   - The main pools are matched on state and size, not on pre-repeal 2–4 permit levels.
+   - Method 2 matches on pace (all homes).
+   - The write-up reports each place's pre-repeal 2–4 level against its pool's, so a low-start bounce can be seen.
+7. **Spillovers:** the out-of-metro pool check (52g) is rerun for the 2–4 unit outcome under method 2.
+8. **Inference:** place-level resampling (clustered by place) and the placebo spread, as before.
+9. **Subgroups (ch. 10):** a blank result in small or large places does not mean no effect in the other. Each size group is reported with its own range.
+
+**Test 56 audit fixes (01:29 UTC review of 1d36367, before any count). These override the text above.**
+1. **Already seen.**
+   - The 2–4 unit outcome itself was tested before, on the earlier 76-place sample: −0.065 homes per 1,000 existing homes a year (−0.14 to +0.03), 27th percentile among fake repeals (MECHANISM_RESULTS.md).
+   - Also seen:
+     - the 2–4 unit **building** count in H2: −0.03 buildings per 1,000 (−0.07 to +0.02);
+     - the decomposition (total −1.07, apartments −1.01, about −0.06 left for 2–4);
+     - 5+ unit homes: −1.03 (−2.74 to +0.89);
+     - 2+ unit homes on the expanded sample: −1.09 (−2.89 to +0.94);
+     - single-family homes: +0.00 (−0.83 to +0.76), plus 52d's 1-unit results;
+     - Test 53's size readings for all homes.
+   - My first answer to Ryan said 2–4 unit buildings had never been tested on their own. That was wrong and has been corrected in the thread.
+   - **What is new:** this outcome by city size, as a continuous slope and a size split, on the 74-place sample.
+2. **How it differs from Tests 53 and 54:** those found no robust sorting by city type or size for **all homes**, and no held-out predictor. This test uses a different outcome (2–4 unit homes) and a single pre-set moderator (2010 population) on the same 74 places. It is not a fresh sample.
+3. **Headline cells, named now:** these are the only four cells that can make a result count.
+   - The 2–4 unit overall effect, under the main method and under method 2 D.
+   - The 2–4 unit size slope, under both methods.
+   - All four use the main weights (homes × after-years), the estimate columns and all places.
+   - Every other cell is a sensitivity and cannot make a result count alone. That covers: equal weights; the reported-only (`_rep`) columns; 1-unit and 5+ outcomes; the 25,000 split; flag/drop runs; Oregon; Poisson; the long set; leads; spillover; date-aware pools.
+   - The chance line refers to the 4 headline cells: with 4, one range excluding 0 by chance is plausible.
+4. **Leads:** if the years −3 to −1 lead range for the 2–4 outcome excludes 0 under both methods, the result is read as "pre-trend, not an effect", for either sign.
+5. **Conventions, and counts first:** "fewer than 10 places" and "25,000 people" are conventions. Before any effect is shown, the write-up reports the number of places with any 2–4 unit permits in the **before** window, overall and in each size group, together with the minimum detectable effect.
+6. **Sign agreement:** a 25,000 gap of exactly 0, or one whose sign differs from the slope's, counts as "does not agree".
+7. **Flag window:** the ±3-year flag window overlaps the 1–3 year after-window. That is acceptable as a with/without split. Any Wisconsin figure is display only, and needs Ryan's OK and the 25% rule.
+
+**Test 56: one reading at lock (01:30 UTC addendum).** This block supersedes every earlier Test 56 block wherever they differ, and it is the version that is locked.
+- **Already seen:** the earlier 2–4 unit result (−0.065, −0.14 to +0.03, 76 places); H2 2–4 buildings; the decomposition; 5+ homes; 2+ homes (−1.09); single-family homes; 52d's 1-unit results; Test 53's all-homes size readings.
+- **New:** 2–4 unit homes by city size (continuous 2010-population slope and the 25,000 split), on the 74-place sample.
+- **Estimand:** the ATT in both weightings, with city size as a moderator (CATE). Applying it to Wisconsin assumes ATU = ATT, and that is stated.
+- **Headline cells (4):** the 2–4 overall effect and the 2–4 size slope, each under the main method and method 2 D, with main weights, estimate columns and all places. The two overall-effect cells are a rerun on an overlapping sample, already measured on 76 places; only the two size-slope cells are new. The write-up says so (audit addendum 2).
+- **Sensitivity cells (70), counted exactly:**
+
+  | Group | Cells |
+  | --- | --- |
+  | Outcomes 2–4, 1-unit and 5+ × (effect, slope, 25,000 gap) × 2 methods × 2 weightings, minus the 4 headline | 32 |
+  | Reported-only columns: 2–4 effect and slope × 2 methods | 4 |
+  | Flag/drop and no-Oregon: 2–4 effect and slope × 2 methods × 2 variants | 8 |
+  | Poisson: 2–4 effect × 2 methods | 2 |
+  | Long set: 2–4 effect × 2 methods | 2 |
+  | Event study: years −5, −4, −3, −2, 0, 1, 2, 3 (reference −1) × 2 methods | 16 |
+  | Placebo dates −2 and −4 × 2 methods | 4 |
+  | Spillover, out-of-metro (D) | 1 |
+  | Date-aware pools (D) | 1 |
+  | **Total** | **70** |
+
+  - **Chance:** no sensitivity cell can make a result count. Among the 4 headline cells, one range excluding 0 by chance is plausible.
+- **Counts:** a headline cell counts only if its 90% range excludes 0 under both methods, read the same for either sign. For the slope, the 25,000 gap must also agree in sign; a gap of exactly 0 does not agree.
+- **Pre-trend rule:** if any lead (years −5 to −2), or either placebo date (−2 or −4), excludes 0 under both methods, the 2–4 result is labelled "pre-trend, not read as an effect", for either sign. Size alone is not judged.
+- **Scale rule:** Poisson is a check only.
+  - If the levels range includes 0 and Poisson's excludes 0, the result stays "don't know".
+  - If both exclude 0 with opposite signs, it is labelled "scale-dependent".
+- **"Too few to read" (a convention):** fewer than 10 places with any 2–4 unit permits in the **before** window, overall or in a size group. These counts and the minimum detectable effect are reported first. 25,000 is also a convention.
+- **Estimator:**
+  - The stacked never-treated design describes the existing batch estimators (per-place comparison with never-repealing look-alikes in its own window). It changes no estimator code.
+  - Only new outcome columns, the size slope, the event-study years for 2–4, and the Poisson check are new code. That code is committed and audited before the count.
+- **Guards kept from the earlier blocks:** the flag window overlap; Oregon; no post-treatment controls; the collider fix; the regression-to-the-mean report; the 52g spillover rerun; the 52a balance check.
+- **Wisconsin:** display only. Any use needs Ryan's OK and the 25% rule.
+- **Ryan's go (01:40:51 UTC):** "go on 56 I suppose". The run starts only after the code commit is audited.
+
+## Test 57: staggered waves inside one city: San Francisco and New York (DRAFT PLAN 2026-11-12, before any wave result is read; Ryan 01:36–01:39 UTC)
+
+Ryan, 01:36–01:39 UTC:
+- "is there a version of staggered timing tests we can run with a jx like NY that did waves of reform?"
+- "the data should illustrate or rebuke some of those caveats"
+- "don't we need to lock in the staggered test before lookng at the results for each city?"
+- "k"
+
+**Running count: 57.** Evidence only. No tool change without Ryan's own OK. This plan states no expected direction.
+
+**What has been seen.**
+- **San Francisco:** citywide results (Test 50 project records; the earlier lot work, including "San Francisco absent" in the lot-size test; SF in the 74), but never a wave-by-wave comparison. SF is reported as a case.
+- **New York:** no New York parking result has been looked at. TOD's New York rezoning work used upzonings, not the parking waves.
+
+**Design (ch. 18 of *The Effect*).**
+- **Comparison:** each wave is compared with areas of the same city that are **not yet** treated in its window. Already-treated areas are never used as controls.
+- **Windows:** each wave's after-window ends the year before its comparison areas are treated.
+- **Event study:** each wave's years are shown from −5 to +3 (reference −1).
+- **Pooling:** each city is reported on its own. A wave's results are pooled only within its city, weighted by eligible lot acres.
+
+**San Francisco.**
+- **Waves:**
+
+  | Wave | Areas | Year |
+  | --- | --- | --- |
+  | A | Market–Octavia and Eastern Neighborhoods plan areas (residential minimums replaced by maximums) | 2008 |
+  | B | Central SoMa | about 2018 |
+  | C | Remaining Sec. 151 districts | 2019-01-21 |
+
+  - Downtown C-3, exempt long before, is always treated and left out.
+- **Contrasts:** wave A against wave B+C areas, with after-years from 2009 until the year before wave B. Wave B cannot be separated from C (no clean after-years), so it is reported only as a case. Wave C has no not-yet-treated areas left in SF, so it is not testable here.
+- **Bundling:** wave A came with the 2008 plan-area upzonings. Its result is labelled "parking plus upzoning, not separable", the same limit as the TOD cases. The 2008–09 recession falls in its early after-years.
+
+**New York.**
+- **Wave 2016:** the Zoning for Quality and Affordability Transit Zone (adopted March 2016) removed parking requirements for affordable and senior housing, and cut them for some other housing, inside the Transit Zone.
+  - **Main design:** lots inside vs outside the Transit Zone, before vs after 2016, compared at the Transit Zone edge (bands to be fixed below).
+  - **After-window:** to 2023, the year before City of Yes.
+- **Wave 2024 (City of Yes):** too recent, so not testable.
+- **Outcomes:**
+  - **Primary:** units in new buildings by filing date, from Department of Buildings new-building filings (legacy file plus DOB NOW after 2020).
+  - **Secondary:** affordable and senior units, if a public, dated, located source exists (for example HPD "Housing New York Units by Building"). Because the 2016 change targeted affordable and senior housing, the secondary outcome is the more direct one; its before-years may be short.
+
+**Data checks before the lock (no permit or unit count is read; waves that fail are dropped before any count).**
+1. **San Francisco:**
+   - Wave A, B and C boundaries as GIS (DataSF plan areas and zoning, PDDL).
+   - Adoption and effective dates from ordinances.
+   - Confirmation that each area's residential minimums changed in that wave.
+2. **New York:**
+   - The Transit Zone boundary as a DCP GIS file (Zoning Resolution Appendix I).
+   - The exact 2016 rule: which housing types lost parking, and for which lot sizes.
+   - City of Yes date.
+   - DOB NOW coverage and fields.
+   - HPD affordable-unit data years and licence.
+3. **Licences:** recorded (SF PDDL; NYC Open Data terms).
+4. **Commit:** a feasibility table is committed before the lock is final.
+
+**Measures.**
+- **Outcome:** homes permitted per 100 eligible lot acres a year (TOD's measure). Eligible land is residential, mixed-use and commercial lots, as defined before the change.
+- **Edge bands (New York):** 0–400 m inside vs 0–400 m outside the Transit Zone line, with a 50 m donut either side. This is a convention, fixed now.
+- **Ranges:** resampling 500 m grid cells (2,000 draws, seed 20261105).
+- **Placebo:** a fake wave date 3 years earlier, run the same way.
+
+**Reading** (the same bar for either sign):
+- **Counts:** a wave result counts only if its 90% range excludes 0.
+- **Pre-trend:** if any lead (−5 to −2) or the placebo date excludes 0, the wave reads "pre-trend, not read as an effect".
+- **Caveats** (wave timing tangled with fast-growing areas; bundling): the leads and placebo test them, and the write-up says what they showed.
+- **Chance:** there are 2 headline cells (SF wave A, NY 2016 primary). With 2 cells, one range excluding 0 by chance is possible.
+- **Wisconsin:** any use needs Ryan's OK and the 25% rule.
+
+**Run order:**
+1. Data checks and the feasibility table, committed.
+2. Audit, and the lock made final.
+3. Code, committed and audited.
+4. Ryan's go.
+5. Count.
+6. Write-up.
+
+**Test 57 audit fixes (01:41 UTC review of ea353f2). These override the text above.**
+1. **San Francisco is a case, not a headline cell.** SF citywide results have been seen, and wave A is bundled with upzoning. The only headline cell is New York 2016, and the chance line refers to that one cell.
+2. **Outcome sources:** set in the feasibility table, with file, years and licence.
+   - SF: the DataSF building permits already on disk (`data/raw/parking_lot_cities/sf_permits.json`, PDDL), measured by permits **issued** for new units; years to be confirmed.
+   - NY: Department of Buildings new-building jobs, measured by **filing** date (legacy plus DOB NOW).
+   - The measure ("issued" or "filed") is stated for each city.
+3. **SF controls stay untreated:**
+   - The feasibility step lists every SF parking change from 2003 to 2018 by area, from the ordinances (for example Western SoMa, Transit Center District, commercial districts).
+   - Any B+C area that changed inside wave A's window is dropped from the controls, before any count.
+   - Whether Central SoMa overlaps Eastern Neighborhoods is checked.
+4. **SF wave years:** one effective year per area, taken from its ordinance (for example Market–Octavia 2008, Eastern Neighborhoods about January 2009). Where the date is unclear, the rule is the ordinance's effective date.
+5. **NY primary outcome:** chosen after the exact-rule check and before the lock. If the 2016 change applied mainly to affordable and senior units, the primary outcome is those units (if a dated, located, public source exists); otherwise all new-building units, labelled as possibly diluted toward 0.
+6. **NY changes at the same time, each flagged with how it is treated** (dropped, or labelled as bundled):
+   - Mandatory Inclusionary Housing rezonings inside the Transit Zone (TOD's list);
+   - the 421-a lapse and its filing rushes (before mid-2015, and before June 2022);
+   - ZQA's building-envelope changes.
+   - The 2015 rush falls in the before-window and the 2022 rush in the after-window. Both are shown in the event study and called out.
+7. **The Transit Zone line:** whether it follows zoning or borough lines is reported. Pre-period balance across the line (lot size, zoning, and pre-period trends in existing homes, not permit outcomes) is reported before any count.
+8. **Cells:**
+   - The number of 500 m cells per arm is reported.
+   - A cell that crosses the line is split, and each part goes to its own arm.
+   - **"Too few to read" (a convention):** fewer than 20 cells per arm, or fewer than 30 new-building jobs per arm in the before-window.
+   - The minimum detectable effect is reported first, before any effect, as in Test 56.
+9. **Placebo:** the placebo date uses the same not-yet-treated rule. With one wave per city, no pooling weight is needed.
+- **GIS files** stay out of git.
+- **Test 57 audit addition (01:42 UTC):** when a 500 m cell is split at the line, both parts are resampled together as one cluster in every bootstrap and placebo draw, so shared local shocks stay together.
+
+**Test 57 audit addendum 2 fixes (02:01 UTC review of d72e345). These override the text above.**
+- **NY boundary rebuild rule:**
+  - The 2016 Transit Zone = today's layer (NYC Open Data dpnc-b2hd) with three amendment sets put back as they were before:
+    - Map 12 (N 220313 ZRK, 2022-11-22);
+    - Key Map and Maps 2–3 (N 240016 ZRX, 2024-08-15);
+    - Maps 13–14 (2024-11-21).
+  - Each amendment's changed area is taken from its own CPC report or zoning-text map.
+  - **Check:** the rebuilt line is compared with the 2016 adopted Appendix I maps (the ZQA CPC report, N 160049 ZRY, and the Council's adopted modifications that dropped Rockaways and Eastchester parts), map by map. A mismatch on any map is fixed from the 2016 source. If it can't be fixed, the cells on that map are dropped.
+  - The zoning-line check then runs, all before any count.
+- **NY pre-trend checks:** Ryan chooses the primary outcome. The plan lists which checks can run:
+  - **HPD affordable units:** before-years 2014–2015 only. Leads −5 to −3 and the −4 placebo cannot run; only lead −2 against −1 runs. 2015 is a 421-a rush year. Only HPD-financed projects are covered, and there is no senior flag.
+  - **All DOB new-building jobs:** full leads −5 to −2 and both placebo dates run, but the result is labelled "possibly diluted toward 0".
+- **NY MIH rule:** the primary run drops lots inside MIH-mapped areas from both arms, from each area's adoption date. A second run keeps them and is labelled "bundled with MIH". Both are reported.
+- **NY DOB gap:** legacy filings count through 2020-12-31 and DOB NOW from 2021-01-01. If whole-city monthly totals (not split by arm) show a hole in January–February 2021, 2021 is treated as 10 months in both arms, with the yearly rate scaled by 12/10, and labelled.
+- **SF treatment layer:** DataSF Zoning Districts (PDDL). The plan-area layer, which has no stated licence, is not used.
+- **SF controls:**
+  - Excelsior and every other RH/RM/NC district are checked against the code history for any residential-minimum change from 2003 to 2018.
+  - A district that can't be verified is dropped from the controls.
+  - Eastern Neighborhoods RH/RM lots are left out of both arms.
+- **SF after-window:** ends 2018, at most, before the citywide rule of 2019-01-21.
+- **SF case label:** Ord. 112-08 (2008-07-31; affordable and senior minimums to 0 citywide) is stated in the case write-up as bundled with wave A's start year.
+
+**Test 57 rules after the addendum 2 checks (parking thread, before any count). These override the text above.**
+- **NY 2016 line:** the primary line is DCP's own `nyctransitzones_201601` (Internet Archive capture). The rebuild (today's layer minus four amendments, now including E 241 St, N 180084 ZRX, 2019) is the check. On Map 3 the 2016 file is used.
+- **NY DOB seam:** no seam date. Both files are counted in full, legacy filings at any date plus DOB NOW, because the two systems hold separate jobs and DOB NOW starts on 2021-03-03. The 12/10 scaling is withdrawn. The whole-city level drop at the March 2021 switch affects both arms and is labelled. ALT-CO jobs in DOB NOW are left out, since legacy defines them differently.
+- **NY balance:** zoning, density and building age differ across the line (2016 levels). The event study's leads are the pre-trend check, and the imbalance is stated beside the result.
+- **SF treatment layer:** DataSF Zoning Districts is the 2026 version, so lots rezoned in 2026 are dropped. Wave A treatment is set from DataSF Historic Zoning 2009 (PDDL) where the current layer cannot show 2008/2009 districts. Districts that can't be dated are dropped, including NCT-SoMa, NCT-2, NCT-1 and NCT-Valencia (its year is unclear: 2008 or 2009).
+- **SF controls:** the 41 districts in reference/parking_t57_sf_districts.csv marked clean. Bayview, the Bernal Heights SUD, RCD, Polk/Pacific, Parkmerced and Excelsior are out.
+- **Test 57 pre-set sensitivities (audit, 02:48 UTC), NY 2016 only, reported beside the headline:
+  1. **Same-zoning edge:** only cells on line segments where both sides have the same zoning district. The about 25% of the land line that follows a zoning change is left out.
+  2. **Legacy-only window:** after-window ends 2020, legacy DOB file only, so the March 2021 system switch is not in the window.
+- **Balance** is reported for the 50–400 m bands (lot centroids in band), which is the test area.
+
+**Test 57 LOCK (Ryan, 06:08:24 UTC 2026-11-12, cmsg_01C3Z6G8h32D4UwCcjcGMM7q6F15vyiuiPAxDqhboDsr22: "B and a alongside"). Audit LOCK OK at b13b8912.**
+- **NY primary outcome:** all DOB new-building units (legacy file plus DOB NOW, no seam, ALT-CO left out), labelled "possibly diluted toward 0" because the 2016 rule removed parking only for income-restricted and affordable senior units. All leads (−5 to −2) and both placebo dates run.
+- **NY alongside (not headline):** HPD affordable units (hg8x-zxpr). Before-years 2014–2015 only, so only lead −2 against −1 runs; no −5 to −3 leads and no −4 placebo. 2015 is a 421-a rush year, and only HPD-financed projects are covered.
+- Everything else as set above. No count has been read.
+
+**Test 57 audit code rulings (06:28 UTC, audit review of the code at 3497cecb). These override the text above. No count has been read.**
+- **Placebo dates:** −3 and −4 years (fake waves 2013 and 2012 in New York; 2005 and 2004 in San Francisco). Each placebo's after-window ends the year before the real wave.
+- **MDE:** 2.486 × the standard deviation of the main effect's 2,000 bootstrap draws (90% two-sided test, 80% power). Only the spread is reported in `--first`; no centre or percentile.
+- **SF controls:** NCD-Bayview is out, so 40 of the 41 "clean" districts are used.
+- **Manhattan Core:** lots outside the Transit Zone in Manhattan community districts 101–108 are dropped (1,033 band lots). Residential parking has not been required there since 1982, so they are already treated and cannot be controls.
+- **SF planning-areas mask:** DataSF "Planning Areas" (bkzf-eahq, public domain) is used only as a mask. Eastern Neighborhoods RH/RM lots are out of both arms, and Market–Octavia and Eastern Neighborhoods lots are out of the controls. Treatment is set from zoning, never from this layer.
+- **2026-rezoned SF lots:** there is no lot list for Ord. 244-25. The code drops them by zoning name and by requiring a control-type district in the 2009 layer. A lot moved in 2026 from an excluded district into a clean one would still pass. Labelled in the write-up.
+- **HPD:** 30.9% of new-construction buildings (1,468 of 4,755) cannot be placed on a lot. About 1,000 of these have no BBL and no point. Labelled beside the HPD results. `--first` reports the not-placed share by year for the whole city, not split by arm.
+- **DOB NOW placement:** 5.7% of DOB NOW jobs are not placed, vs 2.9% of legacy jobs. This affects only filings from 2021–2023. Labelled. The legacy-only run (after-window to 2020) is the check.
+- **Event years +4 to +7:** shown only. No reading rule uses them.
+- **Write-up notes:**
+  - New York's reference year −1 is 2015, a 421-a rush year.
+  - San Francisco counts 2009 as an after-year, including for Eastern Neighborhoods, whose own effective year is 2009.
+
+## Test 58: 1–4 unit homes (post hoc; plan committed 2026-11-12 06:14:14 UTC, before any 1–4 count)
+
+**Ryan's ask:** "Can we run it for 1-4 units in parking reform places vs no reform places? And placebo test?" (06:13:44 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qSWuDRfKmUjDj16hfH641Hz)
+
+**This test is post hoc.** The 1-unit and 2–4 results (Test 56) were seen before it was planned. For the main method, the 1–4 effect is close to the sum of the two seen effects (+0.020 and −0.067), so its middle is largely known in advance. The new information is the placebo range for the combined outcome. The result is labelled "post hoc" everywhere and does not change the scenario line.
+
+**Design:** the same as Test 56, with the outcome MM_BPS_OUTCOME=units_1_4 (1-unit + 2-unit + 3–4 unit homes) and the same 74 places, pools, windows and seeds.
+- Runner: `scripts/run_parking_t56.sh units_1_4 extras`.
+
+**Cells (exactly 8):**
+
+| Cells | Count |
+|---|---|
+| Overall effect: main and D | 2 |
+| Size slope (log10 population): main and D | 2 |
+| Placebo dates (repeal moved 2 years and 4 years early): main and D | 4 |
+
+- **Audit fixes (06:15 UTC review). These override the lines above and below.**
+  - **Cells: exactly 30, in scripts/summarise_parking_t58.py:**
+    - **8 read:** overall effect (main, D); size slope (main, D), **descriptive only, with no reading rule**; placebo dates −2 and −4 (main, D).
+    - **16 event-study cells (reference year −1, main and D):** the 8 leads (−5 to −2) are read for the pre-trend label; the 8 after-years (0 to +3) are shown only.
+    - **6 shown only:** Poisson check (main, D); long set (main, D); spillover pools (D); date-aware pools (D).
+  - **Pre-trend label:** Test 56's rule. It is on if any lead (−5 to −2) or placebo date excludes 0 under both methods.
+  - **Order:** `--first` (places with any 1–4 permits before, and the MDE) is committed before any result is opened.
+
+**Reading:**
+- "Counts" only if both overall ranges exclude 0 with the same sign.
+- Wisconsin display = rate × 13,343.385.
+- "Too few to read" is not expected, because 1-unit permits are common. The count of places with any 1–4 permits before is reported first, with the MDE.
+
+**Test 57 GO (Ryan, 13:56:13 UTC 2026-11-12, project chat cmsg_01C3Z6G8h32D4UwCcjcGMM7qPpJSgh1duJJVxs96kYg25h: "Go for it").**
+
+## Test 59: hold one place out, 2–4 unit homes (post hoc; plan committed before any Test 59 number)
+
+**Ryan's ask** (14:03:02 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7q4AFA6iPAZswvJ518p9fc5i): "Can we do the thing where we drop one place at a time and train on the other ones?"
+
+**Post hoc.** Test 56's 2–4 results were seen first. The test reads Test 56's saved per-place outputs (data/processed/t56/units_2_4_ref), with no new run of the pipeline.
+
+**Units:** homes per 1,000 existing homes a year. 90% ranges. Wisconsin = rate × 13,343.385 (display only).
+
+**Part 1, drop one place:**
+- For each of the 74 places, recompute the overall effect without it: main (homes × after-years weights) and D (target-state mix, method 2 D's place effects and weights).
+- Report:
+  - the range of the 74 leave-one-out averages (min and max);
+  - the 5 places whose removal moves each average most;
+  - whether any single drop flips the sign or makes a range exclude 0 (main: the placebo spread rebuilt without that place; D: method 2's bootstrap on the 73).
+
+**Part 2, predict the hidden place:**
+- For each place, predict its after-repeal 2–4 rate, using that method's own comparison towns:
+  - **A (no reform effect):** rate_before + (pool after − pool before). Its miss is the place's own effect.
+  - **B (reform effect learned from the other 73):** A + the other 73 places' average effect (same weights as the headline). Its miss is the effect minus that average.
+- **Score:** weighted root mean square miss over the 74 places (headline weights). A weighted mean absolute miss is shown beside it.
+- **Reading:**
+  - B "beats" A only if B's score is lower **and** the 90% range of (A score − B score) over 2,000 place resamples (seed 20261105) excludes 0. The same rule applies under each method.
+  - Otherwise: "the learned effect does not improve prediction of a hidden place".
+  - Expected direction: none stated. Both outcomes are read the same way.
+- **Note:** with the average close to 0, B adds a leave-one-out penalty, so B can score slightly worse than A even with no effect. This is stated beside the result.
+
+**Code:** scripts/run_parking_t59_holdout.py, committed before it runs. Outputs: reference/parking_t59_{drop_one,predict}.csv.
+
+## Test 60: injection (catch-rate) test, 2–4 unit homes (post hoc; plan committed before any Test 60 number)
+
+**Ryan's ask** (14:03:54 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qMdPgwGBcin2KcL9UCJMW9z): "the injection test where we put fake results in to see if we catch the fake?"
+
+**Post hoc.** Test 56's results were seen first. The test reads Test 56's saved stand-in draws (data/processed/t56/units_2_4_ref), with no new pipeline run.
+
+**Design (main method):**
+- Each of the 20,000 fake groups (stand-in sets of no-reform towns, built as in Test 56) is a world where the true effect is 0.
+- Add a known effect δ to that group's weighted average.
+- Apply Test 56's range rule: the group average + δ, plus the placebo spread (p05 − p50, p95 − p50).
+- The fake is **caught** if the range excludes 0 on the side of δ.
+- **Catch rate** = the share of the 20,000 groups where it is caught.
+- **Sizes:** δ = ±1,000, ±2,500, ±4,727 (the MDE) and ±10,000 Wisconsin homes over 5 years. Each is divided by 13,343.385 to get a rate in homes per 1,000 existing homes a year.
+- δ = 0 is also run, as the false-alarm rate. Expected about 10% (5% each side).
+
+**Method 2 D:** not run. D has no stand-in sets, and its bootstrap range shifts one-for-one with δ. The write-up states D's catch threshold instead: δ must exceed the distance from D's estimate to the far end of its range.
+
+**Reading:** descriptive (a power curve). No pass or fail.
+
+**Code:** scripts/run_parking_t60_injection.py, committed before it runs. Output: reference/parking_t60_catch_rate.csv.
+
+## Test 61: honest forest with dose and population (post hoc; draft plan 2026-11-12 20:55 UTC, before any count)
+
+**Ryan's ask** (20:51:48 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7q6gxgRSNxjrvci2GYjJ96my): "can we try to go back to one of the big models like the causal forest or boosted regression, whichever one did best and use the new variables we've added like dose and population as a continuous variable?"
+
+**Post hoc.**
+- Test 54 recommended ending the trait search. Ryan reopens it here.
+- Test 54's best tool was the honest regression forest: main +0.9% held-out gain (range over repeats −10.2% to +11.7%), against the 5% bar.
+- 2010 population was already one of Test 54's roughly 90 traits. **Dose is new.** The sample grows to the dose test's 98 places (97 for 2–4 units).
+
+**Design: no trait screening.**
+- Test 54's screen of about 4,000 traits was the main source of noise. This test fixes a small trait set in advance instead:
+  1. dose (frozen table, sha256 39a33135…; d_24 for 2–4 units);
+  2. log10 population (2010; ACS fallback as in Test 53);
+  3. area class (Test 53's six classes);
+  4. rate before repeal (each place's own pre-period rate for the outcome).
+- **Tool:** the same honest forest code as Test 54 (run_parking_t54_screen's predict path), with seeds and settings unchanged.
+- **Benchmark:**
+  - Main benchmark: one weighted average.
+  - Second benchmark, also checked: the dose-scaled average (β × dose, from the dose test's fit on the training places).
+- **Outcomes and methods:** all homes and 2–4 units, under main and D (target-state mix). Each place's effect comes from the dose test's working copies (data/processed/dose/*_ref), so no new pipeline run is needed.
+- **Scoring:** held-out weighted mean absolute error, over 10 folds × 20 repeats, the same as Test 54.
+
+**Reading (set now):**
+- The forest "beats" a benchmark only if its mean held-out gain is at least 5% and the gain is above 0 in at least 80% of the repeats. Test 54's bar was the 5% mean; the repeat rule is added because repeats swung ±10% there.
+- That must hold under main or D, for the same outcome. Two chances, as in Test 54.
+- If it passes: report which traits carry the forest (permutation importance). It changes the line only through a new plan and Ryan's call.
+- If it fails: "these traits, dose included, don't predict a city's effect better than one average." The trait search stays closed.
+
+**Cells:** 2 outcomes × 2 methods × 2 benchmarks = 8 gains, each with its repeat range. Places used are reported per cell.
+
+**Test 61 go (Ryan, 20:53:10 UTC, cmsg_01C3Z6G8h32D4UwCcjcGMM7qSH13KatJpkoPYeWYUNRwLF):** "when audit comes back, resolve that and run it".
+
+**Test 61 audit fixes (20:53 UTC review of 26cf1a4). These override the text above; the plan is locked with them.**
+1. **Rate before repeal.** It sits inside both the trait and the effect (the effect is after minus before), so noise can make a false pass.
+   - **The pass is judged on 3 traits only:** dose, log10 population and area class.
+   - The 4-trait run (adding rate_before) is reported as an extra, with Test 54's denominator caveat.
+2. **Chances.**
+   - **2–4 units is primary**, following Ryan's 20:52 UTC follow-up. That gives 2 chances: main and D.
+   - All homes is reported, not judged.
+   - The pass is judged against **one weighted average only**. The dose-scaled benchmark is reported.
+3. **Places, the same list for the forest and both benchmarks.**
+   - **In:** the dose test's fit set for each outcome, meaning the 74 and the pooled new places with a dose above 0 for that outcome (98 for all homes, 97 for 2–4). Assumed-dose and fallback rows stay in, as in the dose fit.
+   - **Out:** dose-0 places (including Milwaukie for 2–4), the "alone" places (Seabrook, Brainerd) and the wait group.
+   - The dose-scaled benchmark refits β through the origin inside each training fold, with the dose test's weights.
+4. **Settings.**
+   - Area class is one-hot coded.
+   - Missing trait values are filled with the training-fold median.
+   - The forest uses Test 54's settings: 500 trees, minimum leaf 5, honest splitting.
+   - The rule "gain above 0 in at least 80% of repeats" is a convention, and it is stricter than Test 54's.
+- **Shuffle check (added):** the traits are shuffled across places 20 times, and the gain from chance alone is reported beside the result.
+- **Notes:**
+  - The dose results were already seen, so a pass would be optimistic.
+  - Boosting is left out, because it would add chances.

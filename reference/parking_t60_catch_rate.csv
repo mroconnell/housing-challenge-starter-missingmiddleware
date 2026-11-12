@@ -1,0 +1,10 @@
+injected_wisconsin_homes_5yr,injected_rate,catch_rate,caught_if,sets,placebo_p05_minus_p50,placebo_p95_minus_p50,draw_rebuild_max_diff,unit
+0,0.0,0.1098,either side (false alarm),20000,-0.227094,0.244331,2.2e-05,"homes per 1,000 existing homes a year"
+1000,0.074944,0.19365,above 0,20000,-0.227094,0.244331,2.2e-05,"homes per 1,000 existing homes a year"
+-1000,-0.074944,0.08,below 0,20000,-0.227094,0.244331,2.2e-05,"homes per 1,000 existing homes a year"
+2500,0.187359,0.4608,above 0,20000,-0.227094,0.244331,2.2e-05,"homes per 1,000 existing homes a year"
+-2500,-0.187359,0.28375,below 0,20000,-0.227094,0.244331,2.2e-05,"homes per 1,000 existing homes a year"
+4727,0.354258,0.8597,above 0,20000,-0.227094,0.244331,2.2e-05,"homes per 1,000 existing homes a year"
+-4727,-0.354258,0.71945,below 0,20000,-0.227094,0.244331,2.2e-05,"homes per 1,000 existing homes a year"
+10000,0.749435,1.0,above 0,20000,-0.227094,0.244331,2.2e-05,"homes per 1,000 existing homes a year"
+-10000,-0.749435,0.99955,below 0,20000,-0.227094,0.244331,2.2e-05,"homes per 1,000 existing homes a year"

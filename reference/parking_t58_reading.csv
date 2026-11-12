@@ -1,0 +1,5 @@
+rule,result,detail
+"overall 1-4 effect counts (both ranges exclude 0, same sign)",False,
+pre-trend label (a lead -5..-2 or a placebo date excludes 0 under both methods),True,leads [-4]; placebo dates []
+size slope,descriptive only (no reading rule),
+label,post hoc: planned after the 1-unit and 2-4 results were seen,

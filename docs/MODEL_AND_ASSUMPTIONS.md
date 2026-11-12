@@ -1,5 +1,7 @@
 # Model & Assumptions Overview
 
+**Parking reform is off the tool (owner, 2026-11-12, AQ-081).** It was studied but is not modelled, because every test reads "we can't tell". See [PARKING_STUDIED_NOT_MODELLED.md](parking/PARKING_STUDIED_NOT_MODELLED.md). The parking material below is kept for the record.
+
 Missing Middleware: what three Wisconsin housing reforms would add to housing production over 2027–2031, how sure we are, and where the homes would go.
 
 Assembled 2026-10-27 from the three reform sessions' adopted work. Part A (ADUs) is written for this document. Part B (parking) and Part C (transit-oriented density) are copied word for word from each reform session's own master copy, with only the heading levels changed, so they can be updated by the people who maintain them. Decision IDs in parentheses (for example AQ-043) point to the [assumptions log](ASSUMPTIONS_AND_QUESTIONS.md). Full source, licence and access details for every dataset are in [DATA_PROVENANCE.md](DATA_PROVENANCE.md) and are not repeated here. The plain-language ranking of the three reforms is in the [Policy Scenario Comparison](POLICY_SCENARIO_COMPARISON.md).

@@ -1,0 +1,8 @@
+run,before_window,pooled_before_rate,mde,mde_share_of_pooled_rate,unit,label
+ny_dob,2011-2015,41.225,27.932,0.678,homes per 100 eligible lot acres a year,"added after the lock, display only; both arms pooled, not split by arm"
+ny_dob_keepmih,2011-2015,41.225,28.67,0.695,homes per 100 eligible lot acres a year,"added after the lock, display only; both arms pooled, not split by arm"
+ny_dob_samezone,2011-2015,22.364,28.489,1.274,homes per 100 eligible lot acres a year,"added after the lock, display only; both arms pooled, not split by arm"
+ny_dob_legacy2020,2011-2015,41.225,33.623,0.816,homes per 100 eligible lot acres a year,"added after the lock, display only; both arms pooled, not split by arm"
+ny_hpd,2014-2015,4.682,7.785,1.663,homes per 100 eligible lot acres a year,"added after the lock, display only; both arms pooled, not split by arm"
+ny_hpd_keepmih,2014-2015,4.682,8.69,1.856,homes per 100 eligible lot acres a year,"added after the lock, display only; both arms pooled, not split by arm"
+sf_a,2003-2007,11.558,111.671,9.662,homes per 100 eligible lot acres a year,"added after the lock, display only; both arms pooled, not split by arm"

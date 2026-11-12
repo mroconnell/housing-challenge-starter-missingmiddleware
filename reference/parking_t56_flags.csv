@@ -1,0 +1,75 @@
+i,place,state,key,prn_key,source,event_year,pop2010,pop2010_source,size_group,oregon,flag_plex,flag_reasons,type15_code
+0,San Jose,California,06|394000,"San Jose, California, United States",first 46,2023,945942.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+1,San Francisco,California,06|389000,"San Francisco, California, United States",first 46,2019,805235.0,2010 census (Gazetteer),"25,000 or more",False,False,,no
+2,Raleigh,North Carolina,37|466000,"Raleigh, North Carolina, United States",first 46,2022,403892.0,2010 census (Gazetteer),"25,000 or more",False,True,"52b middle-housing upzoning: Missing Middle text change TC-5-20 adopted (duplexes/townhouses by right in most residential districts) (2021) | 52b middle-housing upzoning: Follow-up TC-20-21 (adopted 2022-05-10, effective 2022-08-08) (2022) | 52b TOD upzoning: TOD overlay TC-17A-20 (2021) and New Bern Ave rezoning Z-92-22 (2024)",
+3,Minneapolis,Minnesota,27|497800,"Minneapolis, Minnesota, United States",first 46,2021,382578.0,2010 census (Gazetteer),"25,000 or more",False,True,52b TOD upzoning: Minneapolis 2040 plan and built form zoning (2020),
+4,Lexington,Kentucky,21|301000,"Lexington, Kentucky, United States",first 46,2022,295803.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+5,St. Paul,Minnesota,27|712600,"St. Paul, Minnesota, United States",first 46,2021,285068.0,2010 census (Gazetteer),"25,000 or more",False,True,52b middle-housing upzoning: 1-4 unit housing changes (2023-2024) (2023),
+6,Anchorage,Alaska,02|041000,"Anchorage, Alaska, United States",first 46,2023,291826.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+7,Buffalo,New York,36|089500,"Buffalo, New York, United States",first 46,2017,261310.0,2010 census (Gazetteer),"25,000 or more",False,True,reform-type coding: Green Code rewrite: density limits relaxed in residential zones,yes
+8,Bridgeport,Connecticut,09|061000,"Bridgeport, Connecticut, United States",first 46,2021,144229.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+9,Gainesville,Florida,12|271000,"Gainesville, Florida, United States",first 46,2022,124354.0,2010 census (Gazetteer),"25,000 or more",False,True,52b middle-housing upzoning: Neighborhood Residential upzoning ending single-family-only zoning (repealed 2023) (2022),
+10,Hartford,Connecticut,09|285000,"Hartford, Connecticut, United States",first 46,2017,124775.0,2010 census (Gazetteer),"25,000 or more",False,False,,no
+11,Ann Arbor,Michigan,26|026500,"Ann Arbor, Michigan, United States",first 46,2022,113934.0,2010 census (Gazetteer),"25,000 or more",False,True,"52b TOD upzoning: TC1 Transit Corridor district (ORD-21-19) and map rezonings ORD-22-04, ORD-22-16, ORD-24-15 (2021) | 52b TOD upzoning: TC1 Transit Corridor district (ORD-21-19) and map rezonings ORD-22-04, ORD-22-16, ORD-24-15 (2022)",
+12,Cambridge,Massachusetts,25|103000,"Cambridge, Massachusetts, United States",first 46,2022,105162.0,2010 census (Gazetteer),"25,000 or more",False,True,52b TOD upzoning: Alewife Overlay District Quadrangle (AOD-Q) (2023),
+13,Roanoke,Virginia,51|065000,"Roanoke, Virginia, United States",first 46,2021,97032.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+14,Alameda,California,06|003000,"Alameda, California, United States",first 46,2021,73812.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+15,West Allis,Wisconsin,55|932000,"West Allis, Wisconsin, United States",first 46,2022,60411.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+16,Corvallis,Oregon,41|099000,"Corvallis, Oregon, United States",first 46,2022,54462.0,2010 census (Gazetteer),"25,000 or more",True,True,"52b state housing law: HB 2001 (2019) (2020) | Oregon HB 2001 (adopted 2019, compliance 2022)",
+17,Tigard,Oregon,41|505000,"Tigard, Oregon, United States",first 46,2022,48035.0,2010 census (Gazetteer),"25,000 or more",True,True,"52b middle-housing upzoning: Housing-type chapters amended (Ord. 22-06), likely HB 2001 work (not verified) (2022) | 52b state housing law: HB 2001 (2019) (2020) | Oregon HB 2001 (adopted 2019, compliance 2022)",
+18,Dunwoody,Georgia,13|233500,"Dunwoody, Georgia, United States",first 46,2019,46267.0,2010 census (Gazetteer),"25,000 or more",False,False,,no
+19,Culver City,California,06|101000,"Culver City, California, United States",first 46,2022,38883.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+20,Mount Pleasant,Michigan,26|617500,"Mount Pleasant, Michigan, United States",first 46,2018,26016.0,2010 census (Gazetteer),"25,000 or more",False,False,,unclear
+21,Windham,Maine,23|493000,"Windham, Maine, United States",first 46,2018,17001.0,2010 census (Gazetteer),"under 25,000",False,True,reform-type coding: residential uses permitted in C-1; minimum lot size and density removed in C-1/C-2,yes
+22,Cambridge,Maryland,24|093000,"Cambridge, Maryland, United States",first 46,2021,12326.0,2010 census (Gazetteer),"under 25,000",False,False,,
+23,Emeryville,California,06|129000,"Emeryville, California, United States",first 46,2020,10080.0,2010 census (Gazetteer),"under 25,000",False,False,,no
+24,Branson,Missouri,29|068500,"Branson, Missouri, United States",first 46,2018,10520.0,2010 census (Gazetteer),"under 25,000",False,False,,unclear
+25,Canandaigua,New York,36|103500,"Canandaigua, New York, United States",first 46,2020,10020.0,2010 census (Gazetteer),"under 25,000",False,False,,unclear
+26,Ecorse,Michigan,26|266500,"Ecorse, Michigan, United States",first 46,2020,9512.0,2010 census (Gazetteer),"under 25,000",False,True,reform-type coding: new zoning ordinance: 2-4 family by right in MFR/FR/NMU/CC,yes
+27,Bastrop,Texas,48|045500,"Bastrop, Texas, United States",first 46,2019,7218.0,2010 census (Gazetteer),"under 25,000",False,True,"reform-type coding: full code rewrite: duplex P2-P4, triplex/fourplex P4 place types",yes
+28,River Rouge,Michigan,26|748000,"River Rouge, Michigan, United States",first 46,2021,7903.0,2010 census (Gazetteer),"under 25,000",False,False,,
+29,Hudson,New York,36|348000,"Hudson, New York, United States",first 46,2019,6713.0,2010 census (Gazetteer),"under 25,000",False,False,,no
+30,Bandera,Texas,48|041000,"Bandera, Texas, United States",first 46,2021,857.0,2010 census (Gazetteer),"under 25,000",False,False,,
+31,Austin,Texas,48|033000,"Austin, Texas, United States",expanded,2023,790390.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+32,Sacramento,California,06|374000,"Sacramento, California, United States",expanded,2024,466488.0,2010 census (Gazetteer),"25,000 or more",False,True,52b middle-housing upzoning: Missing Middle interim ordinance 2024-0027 (2024),
+33,Durham,North Carolina,37|164000,"Durham, North Carolina, United States",expanded,2023,228330.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+34,Richmond,Virginia,51|063000,"Richmond, Virginia, United States",expanded,2023,204214.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+35,Birmingham,Alabama,01|048000,"Birmingham, Alabama, United States",expanded,2024,212237.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+36,Newport News,Virginia,51|049000,"Newport News, Virginia, United States",expanded,2024,180719.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+37,Salem,Oregon,41|445000,"Salem, Oregon, United States",expanded,2023,154637.0,2010 census (Gazetteer),"25,000 or more",True,True,"52b middle-housing upzoning: Our Salem comprehensive plan/rezoning and HB 2001 middle-housing code (2022) | 52b state housing law: HB 2001 (2019) (2020) | Oregon HB 2001 (adopted 2019, compliance 2022)",
+38,Eugene,Oregon,41|151000,"Eugene, Oregon, United States",expanded,2024,156185.0,2010 census (Gazetteer),"25,000 or more",True,True,"52b middle-housing upzoning: HB 2001 middle-housing code (2022) | Oregon HB 2001 (adopted 2019, compliance 2022)",
+39,Berkeley,California,06|039000,"Berkeley, California, United States",expanded,2021,112580.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+40,Bend,Oregon,41|041000,"Bend, Oregon, United States",expanded,2023,76639.0,2010 census (Gazetteer),"25,000 or more",True,True,"52b middle-housing upzoning: HB 2001 middle-housing code (2022) | 52b state housing law: HB 2001 (2019) (2020) | Oregon HB 2001 (adopted 2019, compliance 2022)",
+41,Beaverton,Oregon,41|039000,"Beaverton, Oregon, United States",expanded,2023,89803.0,2010 census (Gazetteer),"25,000 or more",True,True,"52b middle-housing upzoning: HB 2001 middle-housing code (2022) | 52b state housing law: HB 2001 (2019) (2020) | Oregon HB 2001 (adopted 2019, compliance 2022)",
+42,Longmont,Colorado,08|401000,"Longmont, Colorado, United States",expanded,2024,86270.0,2010 census (Gazetteer),"25,000 or more",False,True,52b state housing law: HB24-1152 (2025),
+43,Trenton,New Jersey,34|516000,"Trenton, New Jersey, United States",expanded,2023,84913.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+44,Duluth,Minnesota,27|196900,"Duluth, Minnesota, United States",expanded,2023,86265.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+45,Kalamazoo,Michigan,26|463500,"Kalamazoo, Michigan, United States",expanded,2023,74262.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+46,Rogers,Arkansas,05|462000,"Rogers, Arkansas, United States",expanded,2024,55964.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+47,Portland,Maine,23|363000,"Portland, Maine, United States",expanded,2024,66194.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+48,Springfield,Oregon,41|481000,"Springfield, Oregon, United States",expanded,2024,59403.0,2010 census (Gazetteer),"25,000 or more",True,True,"Oregon HB 2001 (adopted 2019, compliance 2022)",
+49,Albany,Oregon,41|009000,"Albany, Oregon, United States",expanded,2023,50158.0,2010 census (Gazetteer),"25,000 or more",True,True,"52b state housing law: HB 2001 (2019) (2020) | Oregon HB 2001 (adopted 2019, compliance 2022)",
+50,La Crosse,Wisconsin,55|452000,"La Crosse, Wisconsin, United States",expanded,2024,51320.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+51,Burlington,Vermont,50|085000,"Burlington, Vermont, United States",expanded,2023,42417.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+52,Grants Pass,Oregon,41|191000,"Grants Pass, Oregon, United States",expanded,2024,34533.0,2010 census (Gazetteer),"25,000 or more",True,True,"Oregon HB 2001 (adopted 2019, compliance 2022)",
+53,Plainfield,Indiana,18|584500,"Plainfield , Indiana, United States",expanded,2022,27631.0,2010 census (Gazetteer),"25,000 or more",False,False,,
+54,Tualatin,Oregon,41|517000,"Tualatin, Oregon, United States",expanded,2024,26054.0,2010 census (Gazetteer),"25,000 or more",True,True,"Oregon HB 2001 (adopted 2019, compliance 2022)",
+55,West Linn,Oregon,41|555000,"West Linn, Oregon, United States",expanded,2024,25109.0,2010 census (Gazetteer),"25,000 or more",True,True,"Oregon HB 2001 (adopted 2019, compliance 2022)",
+56,Kingston,New York,36|375000,"Kingston, New York, United States",expanded,2023,23893.0,2010 census (Gazetteer),"under 25,000",False,False,,
+57,Ashland,Oregon,41|017000,"Ashland, Oregon, United States",expanded,2023,20078.0,2010 census (Gazetteer),"under 25,000",True,True,"52b state housing law: HB 2001 (2019) (2020) | Oregon HB 2001 (adopted 2019, compliance 2021)",
+58,Carrboro,North Carolina,37|092000,"Carrboro, North Carolina, United States",expanded,2023,19582.0,2010 census (Gazetteer),"under 25,000",False,False,,
+59,Milwaukie,Oregon,41|339000,"Milwaukie, Oregon, United States",expanded,2024,20291.0,2010 census (Gazetteer),"under 25,000",True,True,"52b middle-housing upzoning: Middle housing code (Ord. 2218; also removed parking for duplex-to-quadplex and ADUs) (2022) | Oregon HB 2001 (adopted 2019, compliance 2021)",
+60,Northfield,Minnesota,27|551800,"Northfield, Minnesota, United States",expanded,2024,20007.0,2010 census (Gazetteer),"under 25,000",False,False,,
+61,Central Point,Oregon,41|071000,"Central Point, Oregon, United States",expanded,2023,17169.0,2010 census (Gazetteer),"under 25,000",True,True,"52b state housing law: HB 2001 (2019) (2020) | Oregon HB 2001 (adopted 2019, compliance 2021)",
+62,Portsmouth,Ohio,39|522700,"Portsmouth, Ohio, United States",expanded,2022,20226.0,2010 census (Gazetteer),"under 25,000",False,False,,
+63,Taylor,Texas,48|688000,"Taylor, Texas, United States",expanded,2023,15191.0,2010 census (Gazetteer),"under 25,000",False,False,,
+64,Hanover,New Hampshire,33|397000,"Hanover, New Hampshire, United States",expanded,2024,11260.0,2010 census (Gazetteer),"under 25,000",False,False,,
+65,Lansing,Kansas,20|296200,"Lansing, Kansas, United States",expanded,2024,11265.0,2010 census (Gazetteer),"under 25,000",False,False,,
+66,Hampden,Maine,23|190000,"Hampden, Maine, United States",expanded,2022,7257.0,2010 census (Gazetteer),"under 25,000",False,False,,
+67,King City,Oregon,41|265000,"King City, Oregon, United States",expanded,2024,3111.0,2010 census (Gazetteer),"under 25,000",True,False,,
+68,Social Circle,Georgia,13|616000,"Social Circle, Georgia, United States",expanded,2023,4262.0,2010 census (Gazetteer),"under 25,000",False,False,,
+69,Millersburg,Oregon,41|335000,"Millersburg, Oregon, United States",expanded,2024,1329.0,2010 census (Gazetteer),"under 25,000",True,False,,
+70,South Bend (with unincorporated St. Joseph County),Indiana,18|687500,"South Bend, Indiana, United States",rescued,2021,103085.0,"ACS 2020-2024 (fallback, as Test 53)","25,000 or more",False,False,,
+71,Gastonia,North Carolina,37|218000,"Gastonia, North Carolina, United States",rescued,2021,71741.0,2010 census (Gazetteer),"25,000 or more",False,True,"52b middle-housing upzoning: UDO amendments to R2D2 Revised Residential Development District (Jun 15 and Oct 19, 2021) (2021) | 52b middle-housing upzoning: Multifamily allowances Ord. 21-742 (2021)",
+72,Avondale Estates,Georgia,13|047000,"Avondale Estates, Georgia, United States",rescued,2021,2960.0,2010 census (Gazetteer),"under 25,000",False,False,,
+73,Saranac Lake,New York,36|648000,"Saranac Lake, New York, United States",partial-reforms search,2016,5406.0,2010 census (Gazetteer),"under 25,000",False,True,"reform-type coding: 2016 code rewrite: administrative permit for two-family, smaller lots",yes

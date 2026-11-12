@@ -1,0 +1,33 @@
+outcome,method,rule,result,label,detail
+all new homes,main,condition 1: dose-proportional check (gap range includes 0),True,"passed, low power","gap 2.0970 [-2.8016, 7.2583]; gap MDE (main placebo) 7.6438 vs full-only range width 6.9965"
+all new homes,main,condition 2: pooled range narrower than the 74-place range,False,near-automatic (audit fix 2): more places narrow a through-origin range even when the doses are wrong,pooled width 6.1569 vs 74-place width 4.9401
+all new homes,main,"condition 3: no pre-trend label (dose-fit leads -5..-2 and placebo dates -2, -4)",True,,excluding 0 under both methods: []
+all new homes,main,condition 4: reading unchanged with fallback doses dropped,True,,pooled: includes 0; fallback dropped: includes 0
+all new homes,main,intercept flag (intercept range excludes 0),False,,"intercept 1.3705 [-4.4034, 4.5593]"
+all new homes,main,C5 label: partial-reform places left in comparison pools,True,"C5: a place can be both treated and a comparison, which pulls effects toward 0; the drop-from-pools run is the check",pooled: includes 0; dropped from pools: includes 0 (-1.8989)
+all new homes,main,C10 label: 2020 blocks for all places,True,"C10: for 2015-2019 reforms, 2020 blocks count homes built after the reform (partly post-treatment); 2010-block doses are the check",pooled: includes 0; 2010-block doses: includes 0 (6 pooled places use the alternative coverage)
+all new homes,D,condition 1: dose-proportional check (gap range includes 0),True,"passed, low power","gap -2.3515 [-7.3784, 3.2663]; gap MDE (main placebo) 7.6438 vs full-only range width 6.3303"
+all new homes,D,condition 2: pooled range narrower than the 74-place range,True,near-automatic (audit fix 2): more places narrow a through-origin range even when the doses are wrong,pooled width 3.2951 vs 74-place width 3.7041
+all new homes,D,"condition 3: no pre-trend label (dose-fit leads -5..-2 and placebo dates -2, -4)",True,,excluding 0 under both methods: []
+all new homes,D,condition 4: reading unchanged with fallback doses dropped,True,,pooled: includes 0; fallback dropped: includes 0
+all new homes,D,intercept flag (intercept range excludes 0),False,,"intercept 0.5876 [-0.5741, 2.8666]"
+all new homes,D,C5 label: partial-reform places left in comparison pools,True,"C5: a place can be both treated and a comparison, which pulls effects toward 0; the drop-from-pools run is the check",pooled: includes 0; dropped from pools: includes 0 (-1.5036)
+all new homes,D,C10 label: 2020 blocks for all places,True,"C10: for 2015-2019 reforms, 2020 blocks count homes built after the reform (partly post-treatment); 2010-block doses are the check",pooled: includes 0; 2010-block doses: includes 0 (6 pooled places use the alternative coverage)
+all new homes,both,all four conditions hold under both main and D (audit fix 3),False,"stays a sensitivity row (dose-pooled, beside the headline)","main: c1=yes, c2=no, c3=yes, c4=yes; D: c1=yes, c2=yes, c3=yes, c4=yes"
+2-4 unit homes,main,condition 1: dose-proportional check (gap range includes 0),True,"passed, low power","gap 0.2194 [-0.1977, 0.6698]; gap MDE (main placebo) 0.6858 vs full-only range width 0.6008"
+2-4 unit homes,main,condition 2: pooled range narrower than the 74-place range,False,near-automatic (audit fix 2): more places narrow a through-origin range even when the doses are wrong,pooled width 0.5219 vs 74-place width 0.4714
+2-4 unit homes,main,"condition 3: no pre-trend label (dose-fit leads -5..-2 and placebo dates -2, -4)",False,"pre-trend, not read as an effect",excluding 0 under both methods: ['lead -4']
+2-4 unit homes,main,condition 4: reading unchanged with fallback doses dropped,True,,pooled: includes 0; fallback dropped: includes 0
+2-4 unit homes,main,intercept flag (intercept range excludes 0),False,,"intercept 0.0091 [-0.2518, 0.2537]"
+2-4 unit homes,main,C5 label: partial-reform places left in comparison pools,True,"C5: a place can be both treated and a comparison, which pulls effects toward 0; the drop-from-pools run is the check",pooled: includes 0; dropped from pools: includes 0 (-0.0254)
+2-4 unit homes,main,C10 label: 2020 blocks for all places,True,"C10: for 2015-2019 reforms, 2020 blocks count homes built after the reform (partly post-treatment); 2010-block doses are the check",pooled: includes 0; 2010-block doses: includes 0 (6 pooled places use the alternative coverage)
+2-4 unit homes,D,condition 1: dose-proportional check (gap range includes 0),True,passed,"gap -0.2142 [-0.7726, 0.6431]; gap MDE (main placebo) 0.6858 vs full-only range width 0.7463"
+2-4 unit homes,D,condition 2: pooled range narrower than the 74-place range,False,near-automatic (audit fix 2): more places narrow a through-origin range even when the doses are wrong,pooled width 0.6312 vs 74-place width 0.6056
+2-4 unit homes,D,"condition 3: no pre-trend label (dose-fit leads -5..-2 and placebo dates -2, -4)",False,"pre-trend, not read as an effect",excluding 0 under both methods: ['lead -4']
+2-4 unit homes,D,condition 4: reading unchanged with fallback doses dropped,True,,pooled: includes 0; fallback dropped: includes 0
+2-4 unit homes,D,intercept flag (intercept range excludes 0),False,,"intercept -0.1317 [-0.3455, 0.1972]"
+2-4 unit homes,D,C5 label: partial-reform places left in comparison pools,True,"C5: a place can be both treated and a comparison, which pulls effects toward 0; the drop-from-pools run is the check",pooled: includes 0; dropped from pools: includes 0 (0.0663)
+2-4 unit homes,D,C10 label: 2020 blocks for all places,True,"C10: for 2015-2019 reforms, 2020 blocks count homes built after the reform (partly post-treatment); 2010-block doses are the check",pooled: includes 0; 2010-block doses: includes 0 (6 pooled places use the alternative coverage)
+2-4 unit homes,both,all four conditions hold under both main and D (audit fix 3),False,"stays a sensitivity row (dose-pooled, beside the headline)","main: c1=yes, c2=no, c3=no, c4=yes; D: c1=yes, c2=no, c3=no, c4=yes"
+both,both,assumed doses in the pooled set (fallback),7,every fallback place is marked 'assumed dose',C3 placeholder 50s: 0
+2-4 unit homes,both,2-4 unit dose source,0,places whose 2-4 dose is the all-homes dose (the table gave no 2-4 dose),
